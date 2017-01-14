@@ -95,8 +95,8 @@ void Settings::setDefaults() {
     mStringMap["VersionFile"] = "/recalbox/recalbox.version";
     mStringMap["SharePartition"] = "/recalbox/share/";
     mStringMap["RecalboxSettingScript"] = "/recalbox/scripts/recalbox-config.sh";
-    mStringMap["LastVersionFile"] = "/recalbox/share/system/update.done";
-    mStringMap["VersionMessage"] = "/recalbox/recalbox.msg";
+    mStringMap["LastChangelog"] = "/recalbox/share/system/recalbox.changelog.done";
+    mStringMap["Changelog"] = "/recalbox/recalbox.changelog";
     mStringMap["MusicDirectory"] = "/recalbox/share/music/";
 
 }

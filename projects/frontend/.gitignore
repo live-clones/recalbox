@@ -40,3 +40,6 @@ CPackSourceConfig.cmake
 
 # po backup
 *.po~
+*.cbp
+*.cmake
+test_exe

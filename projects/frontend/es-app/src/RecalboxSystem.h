@@ -29,13 +29,9 @@ public:
 
     bool setOverclock(std::string mode);
 
-    bool createLastVersionFileIfNotExisting();
+    bool updateLastChangelogFile();
 
-    bool updateLastVersionFile();
-
-    bool needToShowVersionMessage();
-
-    std::string getVersionMessage();
+    std::string getChangelog();
 
     std::pair<std::string, int> updateSystem();
 
@@ -58,7 +54,6 @@ public:
     bool fastShutdown();
 
     std::string getIpAdress();
-
 
     std::vector<std::string> *scanBluetooth();
 
