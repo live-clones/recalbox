@@ -6,24 +6,16 @@
  */
 
 #include "RecalboxSystem.h"
-#include <stdlib.h>
 #include <sys/statvfs.h>
-#include <sstream>
 #include "Settings.h"
-#include <iostream>
-#include <fstream>
 #include "Log.h"
 #include "HttpReq.h"
 
 #include "AudioManager.h"
 #include "VolumeControl.h"
-#include "InputManager.h"
 
-#include <stdio.h>
-#include <sys/types.h>
 #include <ifaddrs.h>
 #include <netinet/in.h>
-#include <string.h>
 #include <arpa/inet.h>
 #include <boost/algorithm/string/replace.hpp>
 
@@ -64,12 +56,11 @@ std::string RecalboxSystem::getFreeSpaceInfo() {
             unsigned long used = total - free;
             unsigned long percent = 0;
             std::ostringstream oss;
-            if (total != 0){  //for small SD card ;) with share < 1GB
-				percent = used * 100 / total;
+            if (total != 0) {  //for small SD card ;) with share < 1GB
+                percent = used * 100 / total;
                 oss << used << "GB/" << total << "GB (" << percent << "%)";
-			}
-			else
-			    oss << "N/A";
+            } else
+                oss << "N/A";
             return oss.str();
         }
     } else {
@@ -101,39 +92,11 @@ std::string RecalboxSystem::getVersion() {
     return "";
 }
 
-bool RecalboxSystem::needToShowVersionMessage() {
-    createLastVersionFileIfNotExisting();
-    std::string versionFile = Settings::getInstance()->getString("LastVersionFile");
-    if (versionFile.size() > 0) {
-        std::ifstream lvifs(versionFile);
-        if (lvifs.good()) {
-            std::string lastVersion;
-            std::getline(lvifs, lastVersion);
-            std::string currentVersion = getVersion();
-            if (lastVersion == currentVersion) {
-                return false;
-            }
-        }
-    }
-    return true;
-}
 
-bool RecalboxSystem::createLastVersionFileIfNotExisting() {
-    std::string versionFile = Settings::getInstance()->getString("LastVersionFile");
-
-    FILE *file;
-    if (file = fopen(versionFile.c_str(), "r")) {
-        fclose(file);
-        return true;
-    }
-    return updateLastVersionFile();
-}
-
-bool RecalboxSystem::updateLastVersionFile() {
-    std::string versionFile = Settings::getInstance()->getString("LastVersionFile");
-    std::string currentVersion = getVersion();
+bool RecalboxSystem::updateLastChangelogFile() {
     std::ostringstream oss;
-    oss << "echo " << currentVersion << " > " << versionFile;
+    oss << "cp  " << Settings::getInstance()->getString("Changelog").c_str() << " " <<
+        Settings::getInstance()->getString("LastChangelog").c_str();
     if (system(oss.str().c_str())) {
         LOG(LogWarning) << "Error executing " << oss.str().c_str();
         return false;
@@ -143,18 +106,32 @@ bool RecalboxSystem::updateLastVersionFile() {
     }
 }
 
-std::string RecalboxSystem::getVersionMessage() {
-    std::string versionMessageFile = Settings::getInstance()->getString("VersionMessage");
-    if (versionMessageFile.size() > 0) {
-        std::ifstream ifs(versionMessageFile);
-
-        if (ifs.good()) {
-            std::string contents((std::istreambuf_iterator<char>(ifs)),
-                                 std::istreambuf_iterator<char>());
-            return contents;
-        }
+std::string RecalboxSystem::getChangelog() {
+    std::ostringstream oss;
+    std::string last = Settings::getInstance()->getString("LastChangelog");
+    std::ifstream f(last);
+    if(!f.good()){
+        std::ofstream outfile (last);
+        outfile << " ";
+        outfile.close();
     }
-    return "";
+    oss << "diff --changed-group-format='%>' --unchanged-group-format='' " <<
+        last.c_str() << " " <<
+        Settings::getInstance()->getString("Changelog").c_str();
+
+    FILE *pipe = popen(oss.str().c_str(), "r");
+    char line[1024];
+
+    if (pipe == NULL) {
+        return "";
+    }
+    std::ostringstream res;
+    while (fgets(line, 1024, pipe)) {
+        res << line;
+    }
+    pclose(pipe);
+
+    return res.str();
 
 }
 
@@ -214,7 +191,7 @@ bool RecalboxSystem::setOverclock(std::string mode) {
     if (mode != "") {
         std::ostringstream oss;
         oss << Settings::getInstance()->getString("RecalboxSettingScript") << " "
-        << "overclock" << " " << mode;
+            << "overclock" << " " << mode;
         std::string command = oss.str();
         LOG(LogInfo) << "Launching " << command;
         if (system(command.c_str())) {
@@ -230,21 +207,21 @@ bool RecalboxSystem::setOverclock(std::string mode) {
 }
 
 
-std::pair<std::string,int> RecalboxSystem::updateSystem() {
+std::pair<std::string, int> RecalboxSystem::updateSystem() {
     std::string updatecommand = Settings::getInstance()->getString("UpdateCommand");
     FILE *pipe = popen(updatecommand.c_str(), "r");
     char line[1024];
     if (pipe == NULL) {
-        return std::pair<std::string,int>(std::string("Cannot call update command"),-1);
+        return std::pair<std::string, int>(std::string("Cannot call update command"), -1);
     }
     if (fgets(line, 1024, pipe)) {
         strtok(line, "\n");
     }
-    int exitCode = pclose(pipe)/256;
-    if(strlen(line) == 0){
-        return std::pair<std::string,int>(std::string("Cannot call update command"), exitCode);
-    }else{
-        return std::pair<std::string,int>(std::string(line), exitCode);
+    int exitCode = pclose(pipe) / 256;
+    if (strlen(line) == 0) {
+        return std::pair<std::string, int>(std::string("Cannot call update command"), exitCode);
+    } else {
+        return std::pair<std::string, int>(std::string(line), exitCode);
     }
 }
 
@@ -313,9 +290,9 @@ bool RecalboxSystem::enableWifi(std::string ssid, std::string key) {
     boost::replace_all(ssid, "\"", "\\\"");
     boost::replace_all(key, "\"", "\\\"");
     oss << Settings::getInstance()->getString("RecalboxSettingScript") << " "
-    << "wifi" << " "
-    << "enable" << " \""
-    << ssid << "\" \"" << key << "\"";
+        << "wifi" << " "
+        << "enable" << " \""
+        << ssid << "\" \"" << key << "\"";
     std::string command = oss.str();
     LOG(LogInfo) << "Launching " << command;
     if (system(command.c_str()) == 0) {
@@ -330,8 +307,8 @@ bool RecalboxSystem::enableWifi(std::string ssid, std::string key) {
 bool RecalboxSystem::disableWifi() {
     std::ostringstream oss;
     oss << Settings::getInstance()->getString("RecalboxSettingScript") << " "
-    << "wifi" << " "
-    << "disable";
+        << "wifi" << " "
+        << "disable";
     std::string command = oss.str();
     LOG(LogInfo) << "Launching " << command;
     if (system(command.c_str()) == 0) {
@@ -351,11 +328,10 @@ bool RecalboxSystem::halt(bool reboot, bool fast) {
             quit->type = SDL_FAST_QUIT | SDL_RB_REBOOT;
         else
             quit->type = SDL_FAST_QUIT | SDL_RB_SHUTDOWN;
+    else if (reboot)
+        quit->type = SDL_QUIT | SDL_RB_REBOOT;
     else
-        if (reboot)
-            quit->type = SDL_QUIT | SDL_RB_REBOOT;
-        else
-            quit->type = SDL_QUIT | SDL_RB_SHUTDOWN;
+        quit->type = SDL_QUIT | SDL_RB_SHUTDOWN;
     SDL_PushEvent(quit);
     return 0;
 }
@@ -516,7 +492,7 @@ std::string RecalboxSystem::getRootPassword() {
         return "";
     }
 
-    if(fgets(line, 1024, pipe)){
+    if (fgets(line, 1024, pipe)) {
         strtok(line, "\n");
         pclose(pipe);
         return std::string(line);

@@ -325,13 +325,17 @@ int main(int argc, char* argv[])
 	}
 	RecalboxSystem::getInstance()->getIpAdress();
 	// UPDATED VERSION MESSAGE
-	if(RecalboxSystem::getInstance()->needToShowVersionMessage()){
-		 window.pushGui(new GuiMsgBoxScroll(&window,
-		RecalboxSystem::getInstance()->getVersionMessage(),
-					      _("OK"), [] {
-					 RecalboxSystem::getInstance()->updateLastVersionFile();
-					},"",nullptr,"",nullptr, ALIGN_LEFT));
-	}
+    std::string changelog = RecalboxSystem::getInstance()->getChangelog();
+    if (changelog != "") {
+		std::string message = _("THE SYSTEM IS UP TO DATE:") + "\n" + changelog;
+        window.pushGui(
+                new GuiMsgBoxScroll(
+                        &window,
+						message, _("OK"),
+                        [] {
+                            RecalboxSystem::getInstance()->updateLastChangelogFile();
+                        }, "", nullptr, "", nullptr, ALIGN_LEFT));
+    }
 
 	// UPDATE CHECK THREAD
 	if(recalboxConf->get("updates.enabled") == "1"){
