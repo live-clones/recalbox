@@ -27,6 +27,7 @@ std::vector<const char *> settings_dont_save = boost::assign::list_of
         ("RecalboxConfigScript")
         ("LastVersionFile")
         ("VersionMessage")
+	("HideSystemView");
         ("MusicDirectory");
 
 Settings::Settings() {
@@ -51,6 +52,7 @@ void Settings::setDefaults() {
     mBoolMap["ShowExit"] = true;
     mBoolMap["Windowed"] = false;
     mBoolMap["UseOSK"] = true;
+    mBoolMap["HideSystemView"] = false;
 
 #ifdef _RPI_
 	// don't enable VSync by default on the Pi, since it already
