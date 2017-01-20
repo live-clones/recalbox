@@ -27,7 +27,7 @@ std::vector<const char *> settings_dont_save = boost::assign::list_of
         ("RecalboxConfigScript")
         ("LastVersionFile")
         ("VersionMessage")
-	("HideSystemView");
+        ("HideSystemView")
         ("MusicDirectory");
 
 Settings::Settings() {
