@@ -105,7 +105,7 @@ std::string strreplace(std::string str, const std::string& replace, const std::s
 	size_t pos;
 	while((pos = str.find(replace)) != std::string::npos)
 		str = str.replace(pos, replace.length(), with.c_str(), with.length());
-	
+
 	return str;
 }
 
@@ -155,7 +155,7 @@ void SystemData::launchGame(Window* window, FileData* game)
 	window->deinit();
 
 
-        
+
 	std::string command = mLaunchCommand;
 
 	const std::string rom = escapePath(game->getPath());
@@ -582,5 +582,16 @@ SystemData* SystemData::getFavoriteSystem() {
 		}
 	}
 	return NULL;
+}
+
+int SystemData::getSystemIndex(std::string name) {
+    int index = 0;
+	for(auto system = sSystemVector.begin(); system != sSystemVector.end(); system ++){
+		if((*system)->mName == name){
+			return index;
+		}
+        index++;
+	}
+	return -1;
 }
 

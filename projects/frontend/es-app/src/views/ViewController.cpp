@@ -51,10 +51,11 @@ void ViewController::goToStart()
 	/* mState.viewing = START_SCREEN;
 	mCurrentView.reset();
 	playViewTransition(); */
-	if (Settings::getInstance()->getBool("HideSystemView"))
-	  goToGameList(SystemData::sSystemVector.at(0));
+	int firstSystemIndex = getFirstSystemIndex();
+	if (Settings::getInstance()->getBool("HideSystemView") || RecalboxConf::getInstance()->get("system.es.bootongamelist") == "1")
+	  goToGameList(SystemData::sSystemVector.at(firstSystemIndex));
 	else
-	  goToSystemView(SystemData::sSystemVector.at(0));
+	  goToSystemView(SystemData::sSystemVector.at(firstSystemIndex));
 }
 
 int ViewController::getSystemId(SystemData* system)
@@ -536,4 +537,19 @@ HelpStyle ViewController::getHelpStyle()
 		return GuiComponent::getHelpStyle();
 
 	return mCurrentView->getHelpStyle();
+}
+
+int ViewController::getFirstSystemIndex() {
+	std::string systemName = RecalboxConf::getInstance()->get("system.es.selectedsystem");
+	if(systemName != ""){
+		int index = SystemData::getSystemIndex(systemName);
+		if (index != -1){
+			LOG(LogInfo) << "system.es.selectedsystem variable set to " << systemName.c_str() << " system found !";
+			return index;
+		}else {
+			LOG(LogWarning) << "system.es.selectedsystem variable set to " << systemName.c_str() << " but unable to find such a system.";
+			return 0;
+		}
+	}
+	return 0;
 }

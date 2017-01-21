@@ -164,7 +164,7 @@ bool ISimpleGameListView::input(InputConfig* config, Input input)
 			}
 		}else if(config->isMappedTo("right", input))
 		{
-			if(Settings::getInstance()->getBool("QuickSystemSelect"))
+			if(Settings::getInstance()->getBool("QuickSystemSelect") && !Settings::getInstance()->getBool("HideSystemView"))
 			{
 				onFocusLost();
 				if (mFavoriteChange)
@@ -177,7 +177,7 @@ bool ISimpleGameListView::input(InputConfig* config, Input input)
 			}
 		}else if(config->isMappedTo("left", input))
 		{
-			if(Settings::getInstance()->getBool("QuickSystemSelect"))
+			if(Settings::getInstance()->getBool("QuickSystemSelect") && !Settings::getInstance()->getBool("HideSystemView"))
 			{
 				onFocusLost();
 				if (mFavoriteChange)
