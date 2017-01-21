@@ -66,6 +66,7 @@ std::vector<HelpPrompt> GridGameListView::getHelpPrompts()
 	std::vector<HelpPrompt> prompts;
 	prompts.push_back(HelpPrompt("up/down/left/right", _("SCROLL")));
 	prompts.push_back(HelpPrompt("b", _("LAUNCH")));
-	prompts.push_back(HelpPrompt("a", _("BACK")));
+	if(!Settings::getInstance()->getBool("HideSystemView"))
+	  prompts.push_back(HelpPrompt("a", _("BACK")));
 	return prompts;
 }

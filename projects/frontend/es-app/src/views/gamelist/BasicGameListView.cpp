@@ -189,7 +189,8 @@ std::vector<HelpPrompt> BasicGameListView::getHelpPrompts()
 	  prompts.push_back(HelpPrompt("left/right", _("SYSTEM")));
 	prompts.push_back(HelpPrompt("up/down", _("CHOOSE")));
 	prompts.push_back(HelpPrompt("b", _("LAUNCH")));
-	prompts.push_back(HelpPrompt("a", _("BACK")));
+	if(!Settings::getInstance()->getBool("HideSystemView"))
+	  prompts.push_back(HelpPrompt("a", _("BACK")));
 	if(getRoot()->getSystem() != SystemData::getFavoriteSystem()) {
 	  prompts.push_back(HelpPrompt("y", _("Favorite")));
 	  prompts.push_back(HelpPrompt("select", _("OPTIONS")));
