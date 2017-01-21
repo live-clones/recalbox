@@ -92,4 +92,6 @@ private:
 	bool mFavoritesOnly;
 
 	State mState;
+
+    int getFirstSystemIndex();
 };

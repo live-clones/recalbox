@@ -51,6 +51,7 @@ public:
 
 	static std::vector<SystemData*> sSystemVector;
 	static SystemData *getFavoriteSystem();
+	static int getSystemIndex(std::string name);
 
 	inline std::vector<SystemData*>::const_iterator getIterator() const { return std::find(sSystemVector.begin(), sSystemVector.end(), this); };
 	inline std::vector<SystemData*>::const_reverse_iterator getRevIterator() const { return std::find(sSystemVector.rbegin(), sSystemVector.rend(), this); };
@@ -96,4 +97,5 @@ private:
 
 	FileData* mRootFolder;
 	std::map<std::string, std::vector<std::string> *> *mEmulators;
+
 };
