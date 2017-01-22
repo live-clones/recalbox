@@ -5,99 +5,101 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: POEditor.com\n"
 "Project-Id-Version: recalbox-emulationstation\n"
-"Language: el\n"
+"Language: no\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: 
 msgid "AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"
-msgstr "Διαθέσιμη αναβάθμιση για το Recalbox"
+msgstr "En oppdatering er tilgjengelig for din Recalbox"
 
 #: 
 msgid "CANCEL"
-msgstr "Ακύρωση"
+msgstr "Avbryt"
 
 #: 
 msgid "Rating"
-msgstr "Βαθμολογία"
+msgstr "Vurdering"
 
 #: 
 msgid "Released"
-msgstr ""
+msgstr "Utgitt"
 
 #: 
 msgid "Developer"
-msgstr ""
+msgstr "Utvikler"
 
 #: 
 msgid "Publisher"
-msgstr ""
+msgstr "Utgiver"
 
 #: 
 msgid "Genre"
-msgstr ""
+msgstr "Sjanger"
 
 #: 
 msgid "Players"
-msgstr ""
+msgstr "Spillere"
 
 #: 
 msgid "NO GAMES FOUND - SKIP"
-msgstr ""
+msgstr "INGEN SPILL FUNNET - HOPP OVER"
 
 #: 
 msgid "RETRY"
-msgstr ""
+msgstr "PRØV IGJEN"
 
 #: 
 msgid "SKIP"
-msgstr ""
+msgstr "HOPP OVER"
 
 #: 
 msgid "SEARCH FOR"
-msgstr ""
+msgstr "SØK ETTER"
 
 #: 
 msgid "SEARCH"
-msgstr ""
+msgstr "SØK"
 
 #: 
 msgid "SCRAPING IN PROGRESS"
-msgstr ""
+msgstr "SØKER ETTER SPILL"
 
 #: 
 msgid "SYSTEM"
-msgstr ""
+msgstr "SYSTEM"
 
 #: 
 msgid "subtitle text"
-msgstr ""
+msgstr "undertekst"
 
 #: 
 msgid "INPUT"
-msgstr ""
+msgstr "INNDATA"
 
 #: 
 msgid "search"
-msgstr ""
+msgstr "søk"
 
 #: 
 msgid "STOP"
-msgstr ""
+msgstr "STOPP"
 
 #: 
 msgid "stop (progress saved)"
-msgstr ""
+msgstr "stop (fremgang lagret)"
 
 #: 
 msgid "GAME %i OF %i"
-msgstr ""
+msgstr "SPILL %i AV %i "
 
 #: 
 msgid "WE CAN'T FIND ANY SYSTEMS!\n"
 "CHECK THAT YOUR PATHS ARE CORRECT IN THE SYSTEMS CONFIGURATION FILE, AND YOUR GAME DIRECTORY HAS AT LEAST ONE GAME WITH THE CORRECT EXTENSION.\n"
 "\n"
 "VISIT RECALBOX.COM FOR MORE INFORMATION."
-msgstr ""
+msgstr "VI KAN IKKE FINNE NOEN PLATTFORMER!\n"
+"SJEKK AT STIENE I KONFIGURASJONSFILEN ER KORREKTE,\n"
+"OG AT SPILLMAPPEN HAR MINST ET SPILL I RIKTIG FILFORMAT."
 
 #: 
 msgid "%i GAME SUCCESSFULLY SCRAPED!"
@@ -113,638 +115,639 @@ msgstr[1] ""
 
 #: 
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: 
 msgid "EDIT METADATA"
-msgstr ""
+msgstr "ENDRE METADATA"
 
 #: 
 msgid "SCRAPE"
-msgstr ""
+msgstr "SØK"
 
 #: 
 msgid "SAVE"
-msgstr ""
+msgstr "LAGRE"
 
 #: 
 msgid "THIS WILL DELETE A FILE!\n"
 "ARE YOU SURE?"
-msgstr ""
+msgstr "DETTE VIL SLETTE EN FIL! ER DU SIKKER?"
 
 #: 
 msgid "YES"
-msgstr ""
+msgstr "JA"
 
 #: 
 msgid "NO"
-msgstr ""
+msgstr "NEI"
 
 #: 
 msgid "DELETE"
-msgstr ""
+msgstr "SLETT"
 
 #: 
 msgid "SAVE CHANGES?"
-msgstr ""
+msgstr "LAGRE ENDRINGER?"
 
 #: 
 msgid "BACK"
-msgstr ""
+msgstr "TILBAKE"
 
 #: 
 msgid "CLOSE"
-msgstr ""
+msgstr "LUKK"
 
 #: 
 msgid "MAIN MENU"
-msgstr ""
+msgstr "HOVED MENY"
 
 #: 
 msgid "KODI MEDIA CENTER"
-msgstr ""
+msgstr "KODI MEDIA CENTER"
 
 #: 
 msgid "SYSTEM SETTINGS"
-msgstr ""
+msgstr "SYSTEM INSTILLINGER"
 
 #: 
 msgid "VERSION"
-msgstr ""
+msgstr "VERSJON"
 
 #: 
 msgid "DISK USAGE"
-msgstr ""
+msgstr "HARDISK BRUK"
 
 #: 
 msgid "STORAGE DEVICE"
-msgstr ""
+msgstr "LAGRINGS ENHET"
 
 #: 
 msgid "LANGUAGE"
-msgstr ""
+msgstr "SPRÅK"
 
 #: 
 msgid "OVERCLOCK"
-msgstr ""
+msgstr "OVERKLOKKING"
 
 #: 
 msgid "EXTREM (1100Mhz)"
-msgstr ""
+msgstr "EKSTREM (1100Mhz)"
 
 #: 
 msgid "TURBO (1000Mhz)"
-msgstr ""
+msgstr "TURBO (1000Mhz)"
 
 #: 
 msgid "HIGH (950Mhz)"
-msgstr ""
+msgstr "HØY (950Mhz)"
 
 #: 
 msgid "NONE (700Mhz)"
-msgstr ""
+msgstr "INGEN (700Mhz)"
 
 #: 
 msgid "TURBO (1050Mhz)+"
-msgstr ""
+msgstr "TURBO (1050Mhz)+"
 
 #: 
 msgid "HIGH (1050Mhz)"
-msgstr ""
+msgstr "HØY (1050Mhz)"
 
 #: 
 msgid "NONE (900Mhz)"
-msgstr ""
+msgstr "INGEN (900Mhz)"
 
 #: 
 msgid "NONE (1200Mhz)"
-msgstr ""
+msgstr "INGEN (1200Mhz)"
 
 #: 
 msgid "NONE"
-msgstr ""
+msgstr "INGEN"
 
 #. NEW SETTINGS ORGANIZATION
 #: 
 msgid "UPDATES"
-msgstr ""
+msgstr "OPPDATERINGER"
 
 #: 
 msgid "AUTO UPDATES"
-msgstr ""
+msgstr "AUTO OPPDATERINGER"
 
 #: 
 msgid "START UPDATE"
-msgstr ""
+msgstr "START OPPDATERING"
 
 #: 
 msgid "KODI SETTINGS"
-msgstr ""
+msgstr "KODI INSTILLINGER"
 
 #: 
 msgid "ENABLE KODI"
-msgstr ""
+msgstr "AKTIVER KODI"
 
 #: 
 msgid "KODI AT START"
-msgstr ""
+msgstr "KODI VED OPPSTART"
 
 #: 
 msgid "START KODI WITH X"
-msgstr ""
+msgstr "START KODI MED X"
 
 #: 
 msgid "SECURITY"
-msgstr ""
+msgstr "SIKKERHET"
 
 #: 
 msgid "ENFORCE SECURITY"
-msgstr ""
+msgstr "TVUNGEN SIKKERHET"
 
 #: 
 msgid "ROOT PASSWORD"
-msgstr ""
+msgstr "ROOT PASSORD"
 
 #: 
 msgid "THE SYSTEM WILL NOW REBOOT"
-msgstr ""
+msgstr "SYSTEMET VIL STARTES PÅ NYTT"
 
 #: 
 msgid "GAMES SETTINGS"
-msgstr ""
+msgstr "SPILL INNSTILLINGER"
 
 #: 
 msgid "GAME RATIO"
-msgstr ""
+msgstr "SPILL FORHOLD"
 
 #: 
 msgid "SMOOTH GAMES"
-msgstr ""
+msgstr "SPILL SOM KJØRER FINT"
 
 #: 
 msgid "REWIND"
-msgstr ""
+msgstr "SPOL TILBAKE"
 
 #: 
 msgid "AUTO SAVE/LOAD"
-msgstr ""
+msgstr "AUTO LAGRE/LASTE"
 
 #: 
 msgid "SHADERS SET"
-msgstr ""
+msgstr "SKYGGELEGGER SETT"
 
 #: 
 msgid "SCANLINES"
-msgstr ""
+msgstr "LINJESKAN"
 
 #: 
 msgid "RETRO"
-msgstr ""
+msgstr "RETRO"
 
 #: 
 msgid "RETROACHIEVEMENTS SETTINGS"
-msgstr ""
+msgstr "RETROUTMERKELSES INNSTILLINGER"
 
 #: 
 msgid "RETROACHIEVEMENTS"
-msgstr ""
+msgstr "RETROUTMERKELSER"
 
 #: 
 msgid "HARDCORE MODE"
-msgstr ""
+msgstr "HARDCORE MODUS"
 
 #: 
 msgid "USERNAME"
-msgstr ""
+msgstr "BRUKERNAVN"
 
 #: 
 msgid "PASSWORD"
-msgstr ""
+msgstr "PASSORD"
 
 #: 
 msgid "ADVANCED"
-msgstr ""
+msgstr "AVANSERT"
 
 #: 
 msgid "REALLY UPDATE GAMES LISTS ?"
-msgstr ""
+msgstr "VIL DU VIRKELIG OPPDATERE SPILLISTENE?"
 
 #: 
 msgid "UPDATE GAMES LISTS"
-msgstr ""
+msgstr "OPPDATER SPILLISTER"
 
 #: 
 msgid "CONTROLLERS SETTINGS"
-msgstr ""
+msgstr "KONTROLL INSTILLINGER"
 
 #: 
 msgid "UI SETTINGS"
-msgstr ""
+msgstr "UI INSTILLINGER"
 
 #: 
 msgid "OVERSCAN"
-msgstr ""
+msgstr "OVERSKANN"
 
 #: 
 msgid "SCREENSAVER AFTER"
-msgstr ""
+msgstr "SKJERMSPARER ETTER"
 
 #: 
 msgid "TRANSITION STYLE"
-msgstr ""
+msgstr "OVERGANGSSTIL"
 
 #: 
 msgid "SCREENSAVER BEHAVIOR"
-msgstr ""
+msgstr "SKJERMSPARER OPPFØRSEL"
 
 #: 
 msgid "SHOW FRAMERATE"
-msgstr ""
+msgstr "VIS BILDEFREKVENS"
 
 #: 
 msgid "ON-SCREEN HELP"
-msgstr ""
+msgstr "OVERLEGGSHJELP"
 
 #: 
 msgid "QUICK SYSTEM SELECT"
-msgstr ""
+msgstr "RASKT PLATTFORM VALG"
 
 #: 
 msgid "THEME SET"
-msgstr ""
+msgstr "TEMA INSTILLINGER"
 
 #: 
 msgid "SOUND SETTINGS"
-msgstr ""
+msgstr "LYDINSTILINGER"
 
 #: 
 msgid "SYSTEM VOLUME"
-msgstr ""
+msgstr "SYSTEM VOLUM"
 
 #: 
 msgid "FRONTEND MUSIC"
-msgstr ""
+msgstr "BAKGRUNNSMUSIKK"
 
 #: 
 msgid "OUTPUT DEVICE"
-msgstr ""
+msgstr "UTENHET"
 
 #: 
 msgid "HDMI"
-msgstr ""
+msgstr "HDMI"
 
 #: 
 msgid "JACK"
-msgstr ""
+msgstr "MINIJACK"
 
 #: 
 msgid "AUTO"
-msgstr ""
+msgstr "AUTO"
 
 #: 
 msgid "NETWORK SETTINGS"
-msgstr ""
+msgstr "NETTVERKSINSTILLINGER"
 
 #: 
 msgid "CONNECTED"
-msgstr ""
+msgstr "TILKOBLET"
 
 #: 
 msgid "NOT CONNECTED"
-msgstr ""
+msgstr "FRAKOBLET"
 
 #: 
 msgid "STATUS"
-msgstr ""
+msgstr "STATUS"
 
 #: 
 msgid "IP ADDRESS"
-msgstr ""
+msgstr "IP ADRESSE"
 
 #: 
 msgid "HOSTNAME"
-msgstr ""
+msgstr "ENHETSNAVN"
 
 #: 
 msgid "ENABLE WIFI"
-msgstr ""
+msgstr "AKTIVER WIFI"
 
 #: 
 msgid "WIFI SSID"
-msgstr ""
+msgstr "NETTVERKSNAVN"
 
 #: 
 msgid "WIFI KEY"
-msgstr ""
+msgstr "NETTVERKSPASSORD"
 
 #: 
 msgid "WIFI ENABLED"
-msgstr ""
+msgstr "WIFI AKTIVERT"
 
 #: 
 msgid "WIFI CONFIGURATION ERROR"
-msgstr ""
+msgstr "WIFI KONFIGURASJONSFEIL"
 
 #: 
 msgid "SCRAPER"
-msgstr ""
+msgstr "INFODATABASE"
 
 #: 
 msgid "SCRAPE FROM"
-msgstr ""
+msgstr "SØK I"
 
 #: 
 msgid "SCRAPE RATINGS"
-msgstr ""
+msgstr "HENT RANGERINGER"
 
 #: 
 msgid "SCRAPE NOW"
-msgstr ""
+msgstr "SØK NÅ"
 
 #: 
 msgid "QUIT"
-msgstr ""
+msgstr "SLUTT"
 
 #: 
 msgid "REALLY RESTART?"
-msgstr ""
+msgstr "VIL DU VIRKELIG STARTE PÅ NYTT?"
 
 #: 
 msgid "RESTART SYSTEM"
-msgstr ""
+msgstr "START PÅ NYTT"
 
 #: 
 msgid "REALLY SHUTDOWN?"
-msgstr ""
+msgstr "VIL DU VIRKELIG SLÅ AV?"
 
 #: 
 msgid "SHUTDOWN SYSTEM"
-msgstr ""
+msgstr "SLÅ AV"
 
 #: 
 msgid "Emulator"
-msgstr ""
+msgstr "Emulator"
 
 #: 
 msgid "Core"
-msgstr ""
+msgstr "Kjerne"
 
 #: 
 msgid "YOU ARE GOING TO CONFIGURE A CONTROLLER. IF YOU HAVE ONLY ONE JOYSTICK, CONFIGURE THE DIRECTIONS KEYS AND SKIP JOYSTICK CONFIG BY HOLDING A BUTTON. IF YOU DO NOT HAVE A SPECIAL KEY FOR HOTKEY, CHOOSE THE SELECT BUTTON. SKIP ALL BUTTONS YOU DO NOT HAVE BY HOLDING A KEY. BUTTONS NAMES ARE BASED ON THE SNES CONTROLLER."
-msgstr ""
+msgstr "DU SKAL KONFIGURERE EN KONTROLLER. HVIS DU BARE HAR EN STYRESPAK, KONFIGUER RETNINGSKNAPPENE OG HOPP OVER KONFIGURASJONEN FOR STYRESPAK VED Å HOLDE EN KNAPP. HVIS DU IKKE HAR EN EGEN KNAPP FOR HURTIGTAST, VELG SELECT KNAPPEN. HOPP OVER ALLE KNAPPENE DU IKKE HAR VED Å HOLDE EN KNAPP. KNAPPENES NAVN ER BASERT PÅ EN SNES KONTROLLER."
 
 #. GUIMENU
 #: 
 msgid "CONFIGURE A CONTROLLER"
-msgstr ""
+msgstr "KONFIGUER EN KONTROLLER"
 
 #. Bluetooth
 #: 
 msgid "CONTROLLER PAIRED"
-msgstr ""
+msgstr "KONTROLLER PARET"
 
 #: 
 msgid "UNABLE TO PAIR CONTROLLER"
-msgstr ""
+msgstr "KAN IKKE PARE KONTROLLER"
 
 #: 
 msgid "AN ERROR OCCURED"
-msgstr ""
+msgstr "DET OPPSTO EN FEIL"
 
 #: 
 msgid "NO CONTROLLERS FOUND"
-msgstr ""
+msgstr "INGEN KONTROLLERE FUNNET"
 
 #: 
 msgid "PAIR A BLUETOOTH CONTROLLER"
-msgstr ""
+msgstr "PAR EN BLUETOOTH KONRTOLLER"
 
 #: 
 msgid "CONTROLLERS LINKS HAVE BEEN DELETED."
-msgstr ""
+msgstr "KONTROLLER PARINGER HAR BLITT SLETTET."
 
 #: 
 msgid "FORGET BLUETOOTH CONTROLLERS"
-msgstr ""
+msgstr "GLEM BLUETOOTH KONTROLLERE"
 
 #: 
 msgid "INPUT P%i"
-msgstr ""
+msgstr "SETT IN P%i"
 
 #: 
 msgid "CHOOSE"
-msgstr ""
+msgstr "VELG"
 
 #: 
 msgid "SELECT"
-msgstr ""
+msgstr "VELG"
 
 #: 
 msgid "OPTIONS"
-msgstr ""
+msgstr "VALG"
 
 #: 
 msgid "JUMP TO LETTER"
-msgstr ""
+msgstr "HOPP TIL"
 
 #: 
 msgid "SORT GAMES BY"
-msgstr ""
+msgstr "SORTER SPILL ETTER"
 
 #. FAVORITES
 #: 
 msgid "FAVORITES ONLY"
-msgstr ""
+msgstr "BARE FAVORITTER"
 
 #: 
 msgid "EDIT THIS GAME'S METADATA"
-msgstr ""
+msgstr "ENDRE DETTE SPILLETS METADATA"
 
 #: 
 msgid "SCRAPE THESE GAMES"
-msgstr ""
+msgstr "LEGG TIL DISSE SPILLENE"
 
 #: 
 msgid "All Games"
-msgstr ""
+msgstr "Alle spill"
 
 #. MISSING SCRAPPER TRANSLATIONS
 #: 
 msgid "Only missing image"
-msgstr ""
+msgstr "Bare manglene bilde"
 
 #: 
 msgid "FILTER"
-msgstr ""
+msgstr "FILTRER"
 
 #: 
 msgid "SCRAPE THESE SYSTEMS"
-msgstr ""
+msgstr "SKANN DISSE KONSOLLENE"
 
 #: 
 msgid "SYSTEMS"
-msgstr ""
+msgstr "KONSOLLER"
 
 #: 
 msgid "USER DECIDES ON CONFLICTS"
-msgstr ""
+msgstr "BRUKER VELGER UNDER KONFLIKTER"
 
 #: 
 msgid "START"
-msgstr ""
+msgstr "START"
 
 #: 
 msgid "WARNING: SOME OF YOUR SELECTED SYSTEMS DO NOT HAVE A PLATFORM SET. RESULTS MAY BE EVEN MORE INACCURATE THAN USUAL!\n"
 "CONTINUE ANYWAY?"
-msgstr ""
+msgstr "ADVARSEL: NOEN AV DE VALGTE KONSOLLENE HAR IKKE EN VALGT PLATTFORM. RESULTATER KAN VÆRE MER UNØYAKTIGE ENN BRUKBARE!\n"
+"FORTSETTE UANSETT?"
 
 #: 
 msgid "NO GAMES FIT THAT CRITERIA."
-msgstr ""
+msgstr "INGEN SPILL MATCHER DISSE KRITERIENE"
 
 #: 
 msgid "REALLY UPDATE?"
-msgstr ""
+msgstr "VIL DU VIRKELIG OPPDATERE?"
 
 #: 
 msgid "NETWORK CONNECTION NEEDED"
-msgstr ""
+msgstr "NETTVERKSTILKOBLING PÅKREVET"
 
 #: 
 msgid "UPDATE DOWNLOADED, THE SYSTEM WILL NOW REBOOT"
-msgstr ""
+msgstr "OPPDATERING NEDLASTET, SYSTEMET VIL STARTES PÅ NYTT"
 
 #: 
 msgid "UPDATE FAILED, THE SYSTEM WILL NOW REBOOT"
-msgstr ""
+msgstr "OPPDATERING FEILET, SYSTEMET VIL STARTES PÅ NYTT"
 
 #: 
 msgid "NO UPDATE AVAILABLE"
-msgstr ""
+msgstr "SYSTEMET ER OPPDATERT"
 
 #: 
 msgid "enter emulator"
-msgstr ""
+msgstr "velg emulator"
 
 #: 
 msgid "enter core"
-msgstr ""
+msgstr "velg kjerne"
 
 #: 
 msgid "Ratio"
-msgstr ""
+msgstr "Forhold"
 
 #: 
 msgid "enter ratio"
-msgstr ""
+msgstr "velg forhold"
 
 #: 
 msgid "Name"
-msgstr ""
+msgstr "Navn"
 
 #: 
 msgid "enter game name"
-msgstr ""
+msgstr "skriv inn spillets navn"
 
 #: 
 msgid "Description"
-msgstr ""
+msgstr "Beskrivelse"
 
 #: 
 msgid "enter description"
-msgstr ""
+msgstr "skriv inn beskrivelse"
 
 #: 
 msgid "Image"
-msgstr ""
+msgstr "Bilde"
 
 #: 
 msgid "enter path to image"
-msgstr ""
+msgstr "skriv inn bildets sti"
 
 #: 
 msgid "Thumbnail"
-msgstr ""
+msgstr "Miniatyrbilde"
 
 #: 
 msgid "enter path to thumbnail"
-msgstr ""
+msgstr "skriv inn miniatyrbildets sti"
 
 #: 
 msgid "enter rating"
-msgstr ""
+msgstr "skriv inn rangering"
 
 #: 
 msgid "Release date"
-msgstr ""
+msgstr "Utgivelsesdato"
 
 #: 
 msgid "enter release date"
-msgstr ""
+msgstr "skriv inn utgivelsesdato"
 
 #: 
 msgid "enter game developer"
-msgstr ""
+msgstr "skriv inn spillutvikler"
 
 #: 
 msgid "enter game publisher"
-msgstr ""
+msgstr "skriv inn spillutgiver"
 
 #: 
 msgid "enter game genre"
-msgstr ""
+msgstr "skriv inn spill sjanger"
 
 #: 
 msgid "enter number of players"
-msgstr ""
+msgstr "skriv inn antall spillere"
 
 #: 
 msgid "Favorite"
-msgstr ""
+msgstr "Favoritt"
 
 #: 
 msgid "enter favorite"
-msgstr ""
+msgstr "skriv inn favoritt"
 
 #: 
 msgid "Region"
-msgstr ""
+msgstr "Region"
 
 #: 
 msgid "enter region"
-msgstr ""
+msgstr "skriv inn region"
 
 #: 
 msgid "Romtype"
-msgstr ""
+msgstr "Romtype"
 
 #: 
 msgid "enter romtype"
-msgstr ""
+msgstr "skriv inn romtype"
 
 #: 
 msgid "Hidden"
-msgstr ""
+msgstr "Skjult"
 
 #: 
 msgid "set hidden"
-msgstr ""
+msgstr "Skjult?"
 
 #: 
 msgid "Play count"
-msgstr ""
+msgstr "Ganger spilt"
 
 #: 
 msgid "enter number of times played"
-msgstr ""
+msgstr "skriv inn antall ganger spilt"
 
 #: 
 msgid "Last played"
-msgstr ""
+msgstr "Sist spilt"
 
 #: 
 msgid "enter last played date"
-msgstr ""
+msgstr "skriv inn siste gang spilt"
 
 #: 
 msgid "%i GAME AVAILABLE"
@@ -760,67 +763,67 @@ msgstr[1] ""
 
 #: 
 msgid "SCROLL"
-msgstr ""
+msgstr "RULL"
 
 #: 
 msgid "LAUNCH"
-msgstr ""
+msgstr "START"
 
 #: 
 msgid "Times played"
-msgstr ""
+msgstr "Ganger spilt"
 
 #: 
 msgid "MENU"
-msgstr ""
+msgstr "MENY"
 
 #: 
 msgid "FILENAME, ASCENDING"
-msgstr ""
+msgstr "FILNAVN, STIGENDE"
 
 #: 
 msgid "FILENAME, DESCENDING"
-msgstr ""
+msgstr "FILNAVN, SYNKENDE"
 
 #: 
 msgid "RATING, ASCENDING"
-msgstr ""
+msgstr "RANGERING, STIGENDE"
 
 #: 
 msgid "RATING, DESCENDING"
-msgstr ""
+msgstr "RANGERING, SYNKENDE"
 
 #: 
 msgid "TIMES PLAYED, ASCENDING"
-msgstr ""
+msgstr "MEST SPILT"
 
 #: 
 msgid "TIMES PLAYED, DESCENDING"
-msgstr ""
+msgstr "MINST SPILT"
 
 #: 
 msgid "LAST PLAYED, ASCENDING"
-msgstr ""
+msgstr "SIST SPILT"
 
 #: 
 msgid "LAST PLAYED, DESCENDING"
-msgstr ""
+msgstr "LENGST SIDEN SPILT"
 
 #: 
 msgid "WORKING..."
-msgstr ""
+msgstr "ARBEIDER..."
 
 #: 
 msgid "CHANGE"
-msgstr ""
+msgstr "ENDRE"
 
 #: 
 msgid "never"
-msgstr ""
+msgstr "aldri"
 
 #: 
 msgid "just now"
-msgstr ""
+msgstr "akkurat nå"
 
 #: 
 msgid "%i sec ago"
@@ -848,15 +851,15 @@ msgstr[1] ""
 
 #: 
 msgid "unknown"
-msgstr ""
+msgstr "ukjent"
 
 #: 
 msgid "SELECT ALL"
-msgstr ""
+msgstr "VELG ALLE"
 
 #: 
 msgid "SELECT NONE"
-msgstr ""
+msgstr "VELG INGEN"
 
 #: 
 msgid "%i SELECTED"
@@ -866,67 +869,67 @@ msgstr[1] ""
 
 #: 
 msgid "UP"
-msgstr ""
+msgstr "OPP"
 
 #: 
 msgid "DOWN"
-msgstr ""
+msgstr "NED"
 
 #: 
 msgid "LEFT"
-msgstr ""
+msgstr "VENSTRE"
 
 #: 
 msgid "RIGHT"
-msgstr ""
+msgstr "HØYRE"
 
 #: 
 msgid "JOYSTICK 1 UP"
-msgstr ""
+msgstr "JOYSTICK 1 OPP"
 
 #: 
 msgid "JOYSTICK 1 LEFT"
-msgstr ""
+msgstr "JOYSTICK 1 VENSTRE"
 
 #: 
 msgid "JOYSTICK 2 UP"
-msgstr ""
+msgstr "JOYSTICK 2 OPP"
 
 #: 
 msgid "JOYSTICK 2 LEFT"
-msgstr ""
+msgstr "JOYSTICK 2 VENSTRE"
 
 #: 
 msgid "PAGE UP"
-msgstr ""
+msgstr "SIDE OPP"
 
 #: 
 msgid "PAGE DOWN"
-msgstr ""
+msgstr "SIDE NED"
 
 #: 
 msgid "HOTKEY"
-msgstr ""
+msgstr "HURTIGTAST"
 
 #: 
 msgid "CONFIGURING"
-msgstr ""
+msgstr "KONFIGUERER"
 
 #: 
 msgid "KEYBOARD"
-msgstr ""
+msgstr "TASTATUR"
 
 #: 
 msgid "GAMEPAD %i"
-msgstr ""
+msgstr "KONTROLLER %i"
 
 #: 
 msgid "HOLD ANY BUTTON TO SKIP"
-msgstr ""
+msgstr "HOLD HVILKEN SOM HELST KNAPP FOR Å HOPPE OVER"
 
 #: 
 msgid "-NOT DEFINED-"
-msgstr ""
+msgstr "-IKKE DEFINERT-"
 
 #: 
 msgid "HOLD FOR %iS TO SKIP"
@@ -937,23 +940,23 @@ msgstr[1] ""
 #. Config controllers missing translation
 #: 
 msgid "PRESS ANYTHING"
-msgstr ""
+msgstr "TRYKK HVA SOM HELST"
 
 #: 
 msgid "ALREADY TAKEN"
-msgstr ""
+msgstr "ALLEREDE OPPTATT"
 
 #: 
 msgid "DISCARD CHANGES"
-msgstr ""
+msgstr "FORKAST ENDRINGER"
 
 #: 
 msgid "WELCOME"
-msgstr ""
+msgstr "VELKOMMEN"
 
 #: 
 msgid "CONFIGURE INPUT"
-msgstr ""
+msgstr "KONFIGUER INNDATA"
 
 #: 
 msgid "%i GAMEPAD DETECTED"
@@ -963,112 +966,115 @@ msgstr[1] ""
 
 #: 
 msgid "NO GAMEPADS DETECTED"
-msgstr ""
+msgstr "INGEN KONTROLLERE OPPDAGET"
 
 #: 
 msgid "HOLD A BUTTON ON YOUR DEVICE TO CONFIGURE IT."
-msgstr ""
+msgstr "HOLD EN KNAPP PÅ ENHETEN DIN FOR Å KONFIGUERE DEN."
 
 #: 
 msgid "PRESS F4 TO QUIT AT ANY TIME."
-msgstr ""
+msgstr "TRYKK F4 FOR Å AVSLTTE NÅR SOM HELST."
 
 #: 
 msgid "PRESS ESC OR THE HOTKEY TO CANCEL."
-msgstr ""
+msgstr "TRYKK ESC ELLER HURTIGTASTEN FOR Å AVBRYTE."
 
 #: 
 msgid "DO YOU WANT TO START KODI MEDIA CENTER ?"
-msgstr ""
+msgstr "VIL DU STARTE KODI?"
 
 #: 
 msgid "LOADING..."
-msgstr ""
+msgstr "LASTER..."
 
 #: 
 msgid "PLEASE WAIT..."
-msgstr ""
+msgstr "VENNLIGST VENT..."
 
 #: 
 msgid "REALLY SHUTDOWN WITHOUT SAVING METADATAS?"
-msgstr ""
+msgstr "VIL DU VIRKELIG SLÅ AV UTEN Å LAGRE METADATA?"
 
 #: 
 msgid "FAST SHUTDOWN SYSTEM"
-msgstr ""
+msgstr "RASK AVSLUTTING"
 
 #: 
 msgid "WE CAN'T FIND ANY SYSTEMS!\n"
 "CHECK THAT YOUR PATHS ARE CORRECT IN THE SYSTEMS CONFIGURATION FILE, AND YOUR GAME DIRECTORY HAS AT LEAST ONE GAME WITH THE CORRECT EXTENSION.\n"
 "\n"
 "VISIT RECALBOX.FR FOR MORE INFORMATION."
-msgstr ""
+msgstr "VI KAN IKKE FINNE NOEN KONSOLLER!\n"
+"SJEKK STIENE I SYSTEMETS KONFIGURASJONSFIL, OG AT DET ER MINST ET SPILL I RIKTIG FILFORMAT I SPILLMAPPA.\n"
+"\n"
+"SE RECALBOX.COM FOR MER INFO."
 
 #: 
 msgid "ON SCREEN KEYBOARD"
-msgstr ""
+msgstr "Tastatur (På Skjermen)"
 
 #: 
 msgid "SHIFTS FOR UPPER,LOWER, AND SPECIAL"
-msgstr ""
+msgstr "SKIFT TEGN"
 
 #: 
 msgid "SPACE"
-msgstr ""
+msgstr "Mellomrom"
 
 #: 
 msgid "DELETE A CHAR"
-msgstr ""
+msgstr "SLETT ET TEGN"
 
 #: 
 msgid "SHIFT"
-msgstr ""
+msgstr "SHIFT"
 
 #: 
 msgid "STOP EDITING"
-msgstr ""
+msgstr "STOPP ENDRING"
 
 #: 
 msgid "MOVE CURSOR"
-msgstr ""
+msgstr "FLYTT MUSEPEKER"
 
 #: 
 msgid "EDIT"
-msgstr ""
+msgstr "ENDRE"
 
 #: 
 msgid "ACCEPT RESULT"
-msgstr ""
+msgstr "AKSEPTER RESULTAT"
 
 #: 
 msgid "FILENAME"
-msgstr ""
+msgstr "FILNAVN"
 
 #: 
 msgid "RATING"
-msgstr ""
+msgstr "RANGERING"
 
 #: 
 msgid "TIMES PLAYED"
-msgstr ""
+msgstr "GANGER SPILLT"
 
 #: 
 msgid "LAST PLAYED"
-msgstr ""
+msgstr "SIST SPILLT"
 
 #: 
 msgid "NUMBER OF PLAYERS"
-msgstr ""
+msgstr "ANTALL SPILLERE"
 
 #: 
 msgid "DEVELOPER"
-msgstr ""
+msgstr "UTVIKLER"
 
 #: 
 msgid "GENRE"
-msgstr ""
+msgstr "SJANGER"
 
 #: 
 msgid "SHOW HIDDEN"
-msgstr ""
+msgstr "VIS SKJULTE"
 
