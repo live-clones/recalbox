@@ -6,6 +6,7 @@
 #include "SystemData.h"
 #include "Settings.h"
 #include "Locale.h"
+#include <boost/assign.hpp>
 
 BasicGameListView::BasicGameListView(Window* window, FileData* root)
 	: ISimpleGameListView(window, root), mList(window)
@@ -36,6 +37,61 @@ void BasicGameListView::onFileChanged(FileData* file, FileChangeType change)
 	}
 
 }
+
+static const std::map<std::string, const char*> favorites_icons_map = boost::assign::map_list_of
+		("snes", "\uF25e ")
+		("c64", "\uF24c ")
+		("nes", "\uF25c ")
+		("n64", "\uF260 ")
+		("gba", "\uF266 ")
+		("gbc", "\uF265 ")
+		("gb", "\uF264 ")
+		("fds", "\uF25d ")
+		("virtualboy", "\uF25f ")
+		("gw", "\uF278 ")
+		("dreamcast", "\uF26e ")
+		("megadrive", "\uF26b ")
+		("segacd", "\uF26d ")
+		("sega32x", "\uF26c ")
+		("mastersystem", "\uF26a ")
+		("gamegear", "\uF26f ")
+		("sg1000", "\uF269 ")
+		("psp", "\uF274 ")
+		("psx", "\uF275 ")
+		("pcengine", "\uF271 ")
+		("pcenginecd", "\uF273 ")
+		("supergrafx", "\uF272 ")
+		("scummvm", "\uF27a ")
+		("dos", "\uF24a ")
+		("fba", "\uF252 ")
+		("fba_libretro", "\uF253 ")
+		("mame", "\uF255 ")
+		("neogeo", "\uF257 ")
+		("colecovision", "\uF23f ")
+		("atari2600", "\uF23c ")
+		("atari7800", "\uF23e ")
+		("lynx", "\uF270 ")
+		("ngp", "\uF258 ")
+		("ngpc", "\uF259 ")
+		("wswan", "\uF25a ")
+		("wswanc", "\uF25b ")
+		("prboom", "\uF277 ")
+		("vectrex", "\uF240 ")
+		("lutro", "\uF27d ")
+		("cavestory", "\uF276 ")
+		("atarist", "\uF248 ")
+		("amstradcpc", "\uF246 ")
+		("msx", "\uF24d ")
+		("msx1", "\uF24e ")
+		("msx2", "\uF24f ")
+		("odyssey2", "\uF241 ")
+		("zx81", "\uF250 ")
+		("zxspectrum", "\uF251 ")
+		("moonlight", "\uF27e ")
+		("apple2", "\uF247 ")
+		("gamecube", "\uF262 ")
+		("wii", "\uF263 ")
+		("imageviewer", "\uF27b ");
 
 void BasicGameListView::populateList(const std::vector<FileData*>& files)
 {
@@ -71,9 +127,17 @@ void BasicGameListView::populateList(const std::vector<FileData*>& files)
 		{
 			if ((*it)->getType() != FOLDER && (*it)->metadata.get("favorite").compare("true") == 0) {
 				if ((*it)->metadata.get("hidden").compare("true") != 0) {
-					mList.add("\uF006 " + (*it)->getName(), *it, ((*it)->getType() == FOLDER)); // FIXME Folder as favorite ?
+					if((favorites_icons_map.find((*it)->getSystem()->getName())) != favorites_icons_map.end()) {
+						mList.add((favorites_icons_map.find((*it)->getSystem()->getName())->second) + (*it)->getName(), *it, ((*it)->getType() == FOLDER));
+					}else {
+						mList.add("\uF006 " + (*it)->getName(), *it, ((*it)->getType() == FOLDER)); // FIXME Folder as favorite ?
+					}
 				}else {
-					mList.add("\uF006 \uF070 " + (*it)->getName(), *it, ((*it)->getType() == FOLDER));
+					if((favorites_icons_map.find((*it)->getSystem()->getName())) != favorites_icons_map.end()) {
+						mList.add((favorites_icons_map.find((*it)->getSystem()->getName())->second) + std::string("\uF070 ") + (*it)->getName(), *it, ((*it)->getType() == FOLDER));
+					}else {
+						mList.add("\uF006 \uF070 " + (*it)->getName(), *it, ((*it)->getType() == FOLDER));
+					}
 				}
 			}
 		}
@@ -105,7 +169,11 @@ void BasicGameListView::populateList(const std::vector<FileData*>& files)
 				if (!showHidden) {
 					if ((*it)->metadata.get("hidden").compare("true") != 0) {
 						if ((*it)->getType() != FOLDER && (*it)->metadata.get("favorite").compare("true") == 0) {
-							mList.add("\uF006 " + (*it)->getName(), *it, ((*it)->getType() == FOLDER));
+							if((favorites_icons_map.find((*it)->getSystem()->getName())) != favorites_icons_map.end()) {
+								mList.add((favorites_icons_map.find((*it)->getSystem()->getName())->second) + (*it)->getName(), *it, ((*it)->getType() == FOLDER));
+							}else {
+								mList.add("\uF006 " + (*it)->getName(), *it, ((*it)->getType() == FOLDER));
+							}
 						}else {
 							mList.add((*it)->getName(), *it, ((*it)->getType() == FOLDER));
 						}
@@ -114,9 +182,17 @@ void BasicGameListView::populateList(const std::vector<FileData*>& files)
 				else {
 					if ((*it)->getType() != FOLDER && (*it)->metadata.get("favorite").compare("true") == 0) {
 						if ((*it)->metadata.get("hidden").compare("true") != 0) {
-							mList.add("\uF006 " + (*it)->getName(), *it, ((*it)->getType() == FOLDER));
+							if((favorites_icons_map.find((*it)->getSystem()->getName())) != favorites_icons_map.end()) {
+								mList.add((favorites_icons_map.find((*it)->getSystem()->getName())->second) + (*it)->getName(), *it, ((*it)->getType() == FOLDER));
+							}else {
+								mList.add("\uF006 " + (*it)->getName(), *it, ((*it)->getType() == FOLDER));
+							}
 						}else {
-							mList.add("\uF006 \uF070 " + (*it)->getName(), *it, ((*it)->getType() == FOLDER));
+							if((favorites_icons_map.find((*it)->getSystem()->getName())) != favorites_icons_map.end()) {
+								mList.add((favorites_icons_map.find((*it)->getSystem()->getName())->second) + std::string("\uF070 ") + (*it)->getName(), *it, ((*it)->getType() == FOLDER));
+							}else {
+								mList.add("\uF006 \uF070 " + (*it)->getName(), *it, ((*it)->getType() == FOLDER));
+							}
 						}
 					}else if ((*it)->metadata.get("hidden").compare("true") == 0) {
 						mList.add("\uF070 " + (*it)->getName(), *it, ((*it)->getType() == FOLDER));

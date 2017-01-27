@@ -13,6 +13,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added an option to show hidden games
 - Fix : Es scraper won't no more gets stuck when screensaver is activated
 - Fix : Background musics are now played randomly
+- Added custom favorites icons for each system
 
 ### Added
 - Favorites as boolean in metadata
