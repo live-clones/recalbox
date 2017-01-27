@@ -8,6 +8,7 @@
 
 #include <functional>
 #include <LibretroRatio.h>
+#include <guis/GuiMsgBoxScroll.h>
 
 #include "EmulationStation.h"
 #include "guis/GuiMenu.h"
@@ -117,7 +118,8 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
         });
     }
     if (RecalboxConf::getInstance()->get("system.es.menu") != "bartop") {
-      addEntry(_("SYSTEM SETTINGS").c_str(), 0x777777FF, true,
+      addEntryWithHelp(_("SYSTEM SETTINGS").c_str(), 0x777777FF, true,
+                       "YOLO HELO",
                  [this] {
                      Window *window = mWindow;
 
@@ -821,6 +823,27 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                      mWindow->pushGui(s);
                  });
     }
+    if (RecalboxConf::getInstance()->get("system.es.menu") != "bartop") {
+        addEntry(_("ADVANCED SETTINGS").c_str(), 0x777777FF, true,
+                 [this] {
+                     Window *window = mWindow;
+
+                     auto s = new GuiSettings(mWindow, _("ADVANCED SETTINGS").c_str());
+
+                     // Gamelists only
+
+                     bool gamelistOnly = Settings::getInstance()->getBool("ParseGamelistOnly");
+
+                     auto gamelistOnlyComp = std::make_shared<SwitchComponent>(mWindow, gamelistOnly);
+                     gamelistOnlyComp->setState(gamelistOnly);
+                     s->addWithLabelAndHelp(_("GAMELIST ONLY"), gamelistOnlyComp, _("HELP_GAMELIST_ONLY"));
+
+                     s->addSaveFunc([gamelistOnlyComp, window] {
+                         Settings::getInstance()->setBool("ParseGamelistOnly", gamelistOnlyComp->getState());
+                     });
+                     mWindow->pushGui(s);
+                 });
+    }
 
     addEntry(_("QUIT").c_str(), 0x777777FF, true,
              [this] {
@@ -1219,8 +1242,7 @@ void GuiMenu::onSizeChanged() {
     mVersion.setSize(mSize.x(), 0);
     mVersion.setPosition(0, mSize.y() - mVersion.getSize().y());
 }
-
-void GuiMenu::addEntry(const char *name, unsigned int color, bool add_arrow, const std::function<void()> &func) {
+void GuiMenu::addEntryWithHelp(const char *name, unsigned int color, bool add_arrow, const std::string help, const std::function<void()> &func) {
     std::shared_ptr<Font> font = Font::get(FONT_SIZE_MEDIUM);
 
     // populate the list
@@ -1233,8 +1255,21 @@ void GuiMenu::addEntry(const char *name, unsigned int color, bool add_arrow, con
     }
 
     row.makeAcceptInputHandler(func);
+    if (help != "") {
+        row.makeHelpInputHandler([this, help] {
+            mWindow->pushGui(new GuiMsgBoxScroll(
+                    mWindow,
+                    help.c_str(), _("OK"),
+                    [] {}, "", nullptr, "", nullptr, ALIGN_LEFT));
+            return true;
+        });
+    }
+
 
     mMenu.addRow(row);
+}
+void GuiMenu::addEntry(const char *name, unsigned int color, bool add_arrow, const std::function<void()> &func) {
+    addEntryWithHelp(name,color, add_arrow, "", func);
 }
 
 bool GuiMenu::input(InputConfig *config, Input input) {
@@ -1250,7 +1285,7 @@ bool GuiMenu::input(InputConfig *config, Input input) {
 }
 
 std::vector<HelpPrompt> GuiMenu::getHelpPrompts() {
-    std::vector<HelpPrompt> prompts;
+    std::vector<HelpPrompt> prompts = mMenu.getHelpPrompts();
     prompts.push_back(HelpPrompt("up/down", _("CHOOSE")));
     prompts.push_back(HelpPrompt("b", _("SELECT")));
     prompts.push_back(HelpPrompt("start", _("CLOSE")));

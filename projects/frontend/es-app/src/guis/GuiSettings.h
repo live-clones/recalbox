@@ -1,5 +1,7 @@
 #pragma once
 
+#include <guis/GuiMsgBoxScroll.h>
+#include <Locale.h>
 #include "GuiComponent.h"
 #include "components/MenuComponent.h"
 
@@ -12,7 +14,18 @@ public:
 
 	void save();
 	inline void addRow(const ComponentListRow& row) { mMenu.addRow(row); };
-	inline void addWithLabel(const std::string& label, const std::shared_ptr<GuiComponent>& comp) { mMenu.addWithLabel(label, comp); };
+	inline void addWithLabel(const std::string& label, const std::shared_ptr<GuiComponent>& comp) {
+		mMenu.addWithLabel(label, comp);
+	};
+	inline void addWithLabelAndHelp(const std::string& label, const std::shared_ptr<GuiComponent>& comp, std::string help = "") {
+		mMenu.addWithLabel(label, comp, false, true, nullptr, [this, help]{
+			mWindow->pushGui(new GuiMsgBoxScroll(
+					mWindow,
+					help.c_str(), _("OK"),
+					[] {}, "", nullptr, "", nullptr, ALIGN_LEFT));
+				return true;
+		});
+	};
 	inline void addSaveFunc(const std::function<void()>& func) { mSaveFuncs.push_back(func); };
         inline void setSave(bool sav) { doSave = sav; };
 

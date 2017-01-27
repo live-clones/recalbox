@@ -1,3 +1,4 @@
+#include <guis/GuiMsgBoxScroll.h>
 #include "components/ComponentList.h"
 #include "Util.h"
 #include "Log.h"
@@ -62,6 +63,10 @@ bool ComponentList::input(InputConfig* config, Input input)
 	if(size() == 0)
 		return false;
 
+	if(mEntries.at(mCursor).data.help_handler){
+		if(mEntries.at(mCursor).data.help_handler(config, input))
+			return true;
+	}
 	// give it to the current row's input handler
 	if(mEntries.at(mCursor).data.input_handler)
 	{
@@ -330,6 +335,9 @@ std::vector<HelpPrompt> ComponentList::getHelpPrompts()
 
 		if(addMovePrompt)
 		  prompts.push_back(HelpPrompt("up/down", _("CHOOSE")));
+	}
+	if(mEntries.at(mCursor).data.help_handler != nullptr){
+		prompts.push_back(HelpPrompt("y", _("HELP")));
 	}
 
 	return prompts;
