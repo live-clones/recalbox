@@ -21,9 +21,9 @@ public:
 		std::string helpLabel(label);
 		mMenu.addWithLabel(label, comp, false, true, nullptr, [this, help, helpLabel]{
 			mWindow->pushGui(new GuiMsgBoxScroll(
-					mWindow, helpLabel,
-					help.c_str(), _("OK"),
-					[] {}, "", nullptr, "", nullptr, ALIGN_LEFT));
+					mWindow, help.c_str(),
+					helpLabel, _("OK"),
+					[] {}, "", nullptr, "", nullptr));
 				return true;
 		});
 	};

@@ -834,20 +834,21 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                      bool gamelistOnly = RecalboxConf::getInstance()->get("emulationstation.gamelistonly") == "1";
                      auto gamelistOnlyComp = std::make_shared<SwitchComponent>(mWindow, gamelistOnly);
                      gamelistOnlyComp->setState(gamelistOnly);
-                     s->addWithLabelAndHelp(_("GAMELIST ONLY"), gamelistOnlyComp, _("HELP_GAMELIST_ONLY"));
+                     s->addWithLabelAndHelp(_("GAMELIST ONLY"), gamelistOnlyComp, _("Only show games contained in the gamelist.xml file (located in your roms directories).\n "
+                                                                                            "This option highly speeds up boot time, but new games are not detected."));
 
                      // Selected System
                      std::string selectedsystem = RecalboxConf::getInstance()->get("emulationstation.selectedsystem");
                      auto system_choices = std::make_shared<OptionListComponent<std::string> >(mWindow, _("BOOT ON SYSTEM"),false);
                      std::string currentSystem = selectedsystem != "" ? selectedsystem : "favorites";
-
                      // For each activated system
                      std::vector<SystemData *> systems = SystemData::sSystemVector;
                      for (auto system = systems.begin(); system != systems.end(); system++) {
                          std::string systemName = (*system)->getName();
                          system_choices->add(systemName, systemName, currentSystem == systemName);
                      }
-                     s->addWithLabel(_("BOOT ON SYSTEM"), system_choices);
+                     s->addWithLabelAndHelp(_("BOOT ON SYSTEM"), system_choices, _("Select the system to show when the recalbox frontend starts. The default value is 'favorites'."));
+
 
                      s->addSaveFunc([gamelistOnlyComp, window, system_choices] {
                          RecalboxConf::getInstance()->set("emulationstation.gamelistonly", gamelistOnlyComp->getState() ? "1" : "0");
@@ -1274,7 +1275,7 @@ void GuiMenu::addEntryWithHelp(const char *name, unsigned int color, bool add_ar
             mWindow->pushGui(new GuiMsgBoxScroll(
                     mWindow,
                     help.c_str(), strname, _("OK"),
-                    [] {}, "", nullptr, "", nullptr, ALIGN_LEFT, 0.3F));
+                    [] {}, "", nullptr, "", nullptr, ALIGN_LEFT));
             return true;
         });
     }
