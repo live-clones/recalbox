@@ -40,6 +40,7 @@
 #include "GuiLoading.h"
 
 #include "RecalboxConf.h"
+#include "MenuMessages.h"
 
 void GuiMenu::createInputTextRow(GuiSettings *gui, std::string title, const char *settingsID, bool password) {
     // LABEL
@@ -119,7 +120,7 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
     }
     if (RecalboxConf::getInstance()->get("emulationstation.menu") != "bartop") {
       addEntryWithHelp(_("SYSTEM SETTINGS").c_str(), 0x777777FF, true,
-                       _("Configure your recalbox language, \nselect an external drive to store your games and configurations, see your current version and free space on drive"),
+                       _(MenuMessages::SYSTEM_HELP_MSG),
                  [this] {
                      Window *window = mWindow;
 
@@ -822,14 +823,13 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
 #else
                      overclock_choice->add(_("NONE"), "none", true);
 #endif
-                     s->addWithLabel(_("OVERCLOCK"), overclock_choice);
+                     s->addWithLabelAndHelp(_("OVERCLOCK"), overclock_choice, _(MenuMessages::OVERCLOCK_HELP_MSG));
 
                      // Gamelists only
                      bool gamelistOnly = RecalboxConf::getInstance()->get("emulationstation.gamelistonly") == "1";
                      auto gamelistOnlyComp = std::make_shared<SwitchComponent>(mWindow, gamelistOnly);
                      gamelistOnlyComp->setState(gamelistOnly);
-                     s->addWithLabelAndHelp(_("GAMELIST ONLY"), gamelistOnlyComp, _("Only show games contained in the gamelist.xml file (located in your roms directories).\n "
-                                                                                            "This option highly speeds up boot time, but new games are not detected."));
+                     s->addWithLabelAndHelp(_("GAMELIST ONLY"), gamelistOnlyComp, _(MenuMessages::GAMELISTONLY_HELP_MSG));
 
                      // Selected System
                      std::string selectedsystem = RecalboxConf::getInstance()->get("emulationstation.selectedsystem");
@@ -841,7 +841,7 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                          std::string systemName = (*system)->getName();
                          system_choices->add(systemName, systemName, currentSystem == systemName);
                      }
-                     s->addWithLabelAndHelp(_("BOOT ON SYSTEM"), system_choices, _("Select the system to show when the recalbox frontend starts. The default value is 'favorites'."));
+                     s->addWithLabelAndHelp(_("BOOT ON SYSTEM"), system_choices, _(MenuMessages::BOOT_ON_SYSTEM_HELP_MSG));
 
 
                      s->addSaveFunc([overclock_choice,gamelistOnlyComp, window, system_choices] {
@@ -1284,9 +1284,9 @@ void GuiMenu::addEntryWithHelp(const char *name, unsigned int color, bool add_ar
     if (help != "") {
         std::string strname(name);
         row.makeHelpInputHandler([this, help, strname] {
-            mWindow->pushGui(new GuiMsgBoxScroll(
-                    mWindow,
-                    help.c_str(), strname, _("OK"),
+           mWindow->pushGui(new GuiMsgBoxScroll(
+                    mWindow, strname,
+                    help.c_str(), _("OK"),
                     [] {}, "", nullptr, "", nullptr, ALIGN_LEFT));
             return true;
         });

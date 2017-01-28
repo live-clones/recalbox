@@ -329,7 +329,8 @@ int main(int argc, char* argv[])
         window.pushGui(
                 new GuiMsgBoxScroll(
                         &window,
-						message, _("THE SYSTEM IS UP TO DATE"), _("OK"),
+						_("THE SYSTEM IS UP TO DATE"),
+						message, _("OK"),
                         [] {
                             RecalboxSystem::getInstance()->updateLastChangelogFile();
                         }, "", nullptr, "", nullptr, ALIGN_LEFT));
