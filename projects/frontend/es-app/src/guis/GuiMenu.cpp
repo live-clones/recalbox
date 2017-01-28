@@ -192,95 +192,6 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                              s->addWithLabel(_("LANGUAGE"), language_choice);
 
 
-
-
-                             //Kodi
-                             {
-                                 ComponentListRow row;
-                                 std::function<void()> openGui = [this] {
-                                     GuiSettings *kodiGui = new GuiSettings(mWindow, _("KODI SETTINGS").c_str());
-                                     auto kodiEnabled = std::make_shared<SwitchComponent>(mWindow);
-                                     kodiEnabled->setState(RecalboxConf::getInstance()->get("kodi.enabled") == "1");
-                                     kodiGui->addWithLabel(_("ENABLE KODI"), kodiEnabled);
-                                     auto kodiAtStart = std::make_shared<SwitchComponent>(mWindow);
-                                     kodiAtStart->setState(
-                                             RecalboxConf::getInstance()->get("kodi.atstartup") == "1");
-                                     kodiGui->addWithLabel(_("KODI AT START"), kodiAtStart);
-                                     auto kodiX = std::make_shared<SwitchComponent>(mWindow);
-                                     kodiX->setState(RecalboxConf::getInstance()->get("kodi.xbutton") == "1");
-                                     kodiGui->addWithLabel(_("START KODI WITH X"), kodiX);
-                                     kodiGui->addSaveFunc([kodiEnabled, kodiAtStart, kodiX] {
-                                         RecalboxConf::getInstance()->set("kodi.enabled",
-                                                                          kodiEnabled->getState() ? "1" : "0");
-                                         RecalboxConf::getInstance()->set("kodi.atstartup",
-                                                                          kodiAtStart->getState() ? "1" : "0");
-                                         RecalboxConf::getInstance()->set("kodi.xbutton",
-                                                                          kodiX->getState() ? "1" : "0");
-                                         RecalboxConf::getInstance()->saveRecalboxConf();
-                                     });
-                                     mWindow->pushGui(kodiGui);
-                                 };
-                                 row.makeAcceptInputHandler(openGui);
-                                 auto kodiSettings = std::make_shared<TextComponent>(mWindow, _("KODI SETTINGS"),
-                                                                                     Font::get(FONT_SIZE_MEDIUM),
-                                                                                     0x777777FF);
-                                 auto bracket = makeArrow(mWindow);
-                                 row.addElement(kodiSettings, true);
-                                 row.addElement(bracket, false);
-                                 s->addRow(row);
-                             }
-
-                             //Security
-                             {
-                                 ComponentListRow row;
-                                 std::function<void()> openGui = [this] {
-                                     GuiSettings *securityGui = new GuiSettings(mWindow, _("SECURITY").c_str());
-                                     auto securityEnabled = std::make_shared<SwitchComponent>(mWindow);
-                                     securityEnabled->setState(
-                                             RecalboxConf::getInstance()->get("system.security.enabled") == "1");
-                                     securityGui->addWithLabel(_("ENFORCE SECURITY"), securityEnabled);
-
-                                     auto rootpassword = std::make_shared<TextComponent>(mWindow,
-                                                                                         RecalboxSystem::getInstance()->getRootPassword(),
-                                                                                         Font::get(FONT_SIZE_MEDIUM),
-                                                                                         0x777777FF);
-                                     securityGui->addWithLabel(_("ROOT PASSWORD"), rootpassword);
-
-                                     securityGui->addSaveFunc([this, securityEnabled] {
-                                         Window *window = this->mWindow;
-                                         bool reboot = false;
-
-                                         if (securityEnabled->changed()) {
-                                             RecalboxConf::getInstance()->set("system.security.enabled",
-                                                                              securityEnabled->getState() ? "1" : "0");
-                                             RecalboxConf::getInstance()->saveRecalboxConf();
-                                             reboot = true;
-                                         }
-
-                                         if (reboot) {
-                                             window->pushGui(
-                                                     new GuiMsgBox(window, _("THE SYSTEM WILL NOW REBOOT"), _("OK"),
-                                                                   [window] {
-                                                                       if (runRestartCommand() != 0) {
-                                                                           LOG(LogWarning)
-                                                                               << "Reboot terminated with non-zero result!";
-                                                                       }
-                                                                   })
-                                             );
-                                         }
-                                     });
-                                     mWindow->pushGui(securityGui);
-                                 };
-                                 row.makeAcceptInputHandler(openGui);
-                                 auto securitySettings = std::make_shared<TextComponent>(mWindow, _("SECURITY"),
-                                                                                         Font::get(FONT_SIZE_MEDIUM),
-                                                                                         0x777777FF);
-                                 auto bracket = makeArrow(mWindow);
-                                 row.addElement(securitySettings, true);
-                                 row.addElement(bracket, false);
-                                 s->addRow(row);
-                             }
-
                              s->addSaveFunc([window, language_choice, language, optionsStorage, selectedStorage] {
                                  bool reboot = false;
                                  if (optionsStorage->changed()) {
@@ -907,6 +818,95 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                          });
                          s->addRow(row);
                      }
+
+
+                     //Kodi
+                     {
+                         ComponentListRow row;
+                         std::function<void()> openGui = [this] {
+                             GuiSettings *kodiGui = new GuiSettings(mWindow, _("KODI SETTINGS").c_str());
+                             auto kodiEnabled = std::make_shared<SwitchComponent>(mWindow);
+                             kodiEnabled->setState(RecalboxConf::getInstance()->get("kodi.enabled") == "1");
+                             kodiGui->addWithLabel(_("ENABLE KODI"), kodiEnabled);
+                             auto kodiAtStart = std::make_shared<SwitchComponent>(mWindow);
+                             kodiAtStart->setState(
+                                     RecalboxConf::getInstance()->get("kodi.atstartup") == "1");
+                             kodiGui->addWithLabel(_("KODI AT START"), kodiAtStart);
+                             auto kodiX = std::make_shared<SwitchComponent>(mWindow);
+                             kodiX->setState(RecalboxConf::getInstance()->get("kodi.xbutton") == "1");
+                             kodiGui->addWithLabel(_("START KODI WITH X"), kodiX);
+                             kodiGui->addSaveFunc([kodiEnabled, kodiAtStart, kodiX] {
+                                 RecalboxConf::getInstance()->set("kodi.enabled",
+                                                                  kodiEnabled->getState() ? "1" : "0");
+                                 RecalboxConf::getInstance()->set("kodi.atstartup",
+                                                                  kodiAtStart->getState() ? "1" : "0");
+                                 RecalboxConf::getInstance()->set("kodi.xbutton",
+                                                                  kodiX->getState() ? "1" : "0");
+                                 RecalboxConf::getInstance()->saveRecalboxConf();
+                             });
+                             mWindow->pushGui(kodiGui);
+                         };
+                         row.makeAcceptInputHandler(openGui);
+                         auto kodiSettings = std::make_shared<TextComponent>(mWindow, _("KODI SETTINGS"),
+                                                                             Font::get(FONT_SIZE_MEDIUM),
+                                                                             0x777777FF);
+                         auto bracket = makeArrow(mWindow);
+                         row.addElement(kodiSettings, true);
+                         row.addElement(bracket, false);
+                         s->addRow(row);
+                     }
+
+                     //Security
+                     {
+                         ComponentListRow row;
+                         std::function<void()> openGui = [this] {
+                             GuiSettings *securityGui = new GuiSettings(mWindow, _("SECURITY").c_str());
+                             auto securityEnabled = std::make_shared<SwitchComponent>(mWindow);
+                             securityEnabled->setState(
+                                     RecalboxConf::getInstance()->get("system.security.enabled") == "1");
+                             securityGui->addWithLabel(_("ENFORCE SECURITY"), securityEnabled);
+
+                             auto rootpassword = std::make_shared<TextComponent>(mWindow,
+                                                                                 RecalboxSystem::getInstance()->getRootPassword(),
+                                                                                 Font::get(FONT_SIZE_MEDIUM),
+                                                                                 0x777777FF);
+                             securityGui->addWithLabel(_("ROOT PASSWORD"), rootpassword);
+
+                             securityGui->addSaveFunc([this, securityEnabled] {
+                                 Window *window = this->mWindow;
+                                 bool reboot = false;
+
+                                 if (securityEnabled->changed()) {
+                                     RecalboxConf::getInstance()->set("system.security.enabled",
+                                                                      securityEnabled->getState() ? "1" : "0");
+                                     RecalboxConf::getInstance()->saveRecalboxConf();
+                                     reboot = true;
+                                 }
+
+                                 if (reboot) {
+                                     window->pushGui(
+                                             new GuiMsgBox(window, _("THE SYSTEM WILL NOW REBOOT"), _("OK"),
+                                                           [window] {
+                                                               if (runRestartCommand() != 0) {
+                                                                   LOG(LogWarning)
+                                                                       << "Reboot terminated with non-zero result!";
+                                                               }
+                                                           })
+                                     );
+                                 }
+                             });
+                             mWindow->pushGui(securityGui);
+                         };
+                         row.makeAcceptInputHandler(openGui);
+                         auto securitySettings = std::make_shared<TextComponent>(mWindow, _("SECURITY"),
+                                                                                 Font::get(FONT_SIZE_MEDIUM),
+                                                                                 0x777777FF);
+                         auto bracket = makeArrow(mWindow);
+                         row.addElement(securitySettings, true);
+                         row.addElement(bracket, false);
+                         s->addRow(row);
+                     }
+
 
                      mWindow->pushGui(s);
                  });
