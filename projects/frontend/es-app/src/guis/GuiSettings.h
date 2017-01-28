@@ -18,9 +18,10 @@ public:
 		mMenu.addWithLabel(label, comp);
 	};
 	inline void addWithLabelAndHelp(const std::string& label, const std::shared_ptr<GuiComponent>& comp, std::string help = "") {
-		mMenu.addWithLabel(label, comp, false, true, nullptr, [this, help]{
+		std::string helpLabel(label);
+		mMenu.addWithLabel(label, comp, false, true, nullptr, [this, help, helpLabel]{
 			mWindow->pushGui(new GuiMsgBoxScroll(
-					mWindow,
+					mWindow, helpLabel,
 					help.c_str(), _("OK"),
 					[] {}, "", nullptr, "", nullptr, ALIGN_LEFT));
 				return true;

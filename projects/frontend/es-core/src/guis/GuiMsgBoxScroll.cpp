@@ -9,15 +9,24 @@
 
 #define HORIZONTAL_PADDING_PX 20
 
-GuiMsgBoxScroll::GuiMsgBoxScroll(Window* window, const std::string& text, 
-	const std::string& name1, const std::function<void()>& func1,
+GuiMsgBoxScroll::GuiMsgBoxScroll(Window* window, const std::string& text,
+								 const std::string& title,
+								 const std::string& name1, const std::function<void()>& func1,
 	const std::string& name2, const std::function<void()>& func2, 
 	const std::string& name3, const std::function<void()>& func3,
-        Alignment align) : GuiComponent(window), 
-	mBackground(window, ":/frame.png"), mGrid(window, Eigen::Vector2i(1, 2))
+        Alignment align, float height) : GuiComponent(window),
+	mBackground(window, ":/frame.png"), mGrid(window, Eigen::Vector2i(1, 3))
 {
 	float width = Renderer::getScreenWidth() * 0.8f; // max width
 	float minWidth = Renderer::getScreenWidth() * 0.3f; // minimum width
+
+
+	mTitle = std::make_shared<TextComponent>(mWindow);
+	mTitle->setAlignment(ALIGN_CENTER);
+	mTitle->setColor(0x555555FF);
+	mTitle->setText(title);
+	mTitle->setFont(Font::get(FONT_SIZE_MEDIUM));
+	mGrid.setEntry(mTitle, Eigen::Vector2i(0, 0), false);
 
 	mMsg = std::make_shared<TextComponent>(mWindow, text, Font::get(FONT_SIZE_SMALL), 0x777777FF);
 
@@ -28,7 +37,7 @@ GuiMsgBoxScroll::GuiMsgBoxScroll(Window* window, const std::string& text,
 	mMsgContainer->mAutoScrollResetAccumulator = 5000; // ms to reset to top after we reach the bottom
 	mMsgContainer->addChild(mMsg.get());
 
-	mGrid.setEntry(mMsgContainer, Eigen::Vector2i(0, 0), false, false);
+	mGrid.setEntry(mMsgContainer, Eigen::Vector2i(0, 1), false, false);
 
 	// create the buttons
 	mButtons.push_back(std::make_shared<ButtonComponent>(mWindow, name1, name1, std::bind(&GuiMsgBoxScroll::deleteMeAndCall, this, func1)));
@@ -54,7 +63,7 @@ GuiMsgBoxScroll::GuiMsgBoxScroll(Window* window, const std::string& text,
 
 	// put the buttons into a ComponentGrid
 	mButtonGrid = makeButtonGrid(mWindow, mButtons);
-	mGrid.setEntry(mButtonGrid, Eigen::Vector2i(0, 1), true, false, Eigen::Vector2i(1, 1), GridFlags::BORDER_TOP);
+	mGrid.setEntry(mButtonGrid, Eigen::Vector2i(0, 2), true, false, Eigen::Vector2i(1, 2), GridFlags::BORDER_TOP);
 
 	// decide final width
 	if(mMsg->getSize().x() < width && mButtonGrid->getSize().x() < width)
@@ -67,7 +76,7 @@ GuiMsgBoxScroll::GuiMsgBoxScroll(Window* window, const std::string& text,
 	const float msgHeight = std::min(Renderer::getScreenHeight() * 0.5f, mMsg->getSize().y());
 
 	mMsgContainer->setSize(width, msgHeight);
-	setSize(width + HORIZONTAL_PADDING_PX*2, mButtonGrid->getSize().y() + msgHeight);
+	setSize(width + HORIZONTAL_PADDING_PX*2, mButtonGrid->getSize().y() + msgHeight + mTitle->getSize().y());
 
 	// center for good measure
 	setPosition((Renderer::getScreenWidth() - mSize.x()) / 2, (Renderer::getScreenHeight() - mSize.y()) / 2);

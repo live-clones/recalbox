@@ -119,7 +119,7 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
     }
     if (RecalboxConf::getInstance()->get("system.es.menu") != "bartop") {
       addEntryWithHelp(_("SYSTEM SETTINGS").c_str(), 0x777777FF, true,
-                       "YOLO HELO",
+                       _("Configure your recalbox language, \nselect an external drive to store your games and configurations, see your current version and free space on drive"),
                  [this] {
                      Window *window = mWindow;
 
@@ -1256,11 +1256,12 @@ void GuiMenu::addEntryWithHelp(const char *name, unsigned int color, bool add_ar
 
     row.makeAcceptInputHandler(func);
     if (help != "") {
-        row.makeHelpInputHandler([this, help] {
+        std::string strname(name);
+        row.makeHelpInputHandler([this, help, strname] {
             mWindow->pushGui(new GuiMsgBoxScroll(
                     mWindow,
-                    help.c_str(), _("OK"),
-                    [] {}, "", nullptr, "", nullptr, ALIGN_LEFT));
+                    help.c_str(), strname, _("OK"),
+                    [] {}, "", nullptr, "", nullptr, ALIGN_LEFT, 0.3F));
             return true;
         });
     }
