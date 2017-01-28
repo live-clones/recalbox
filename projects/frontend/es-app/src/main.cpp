@@ -331,11 +331,11 @@ int main(int argc, char* argv[])
 	// UPDATED VERSION MESSAGE
     std::string changelog = RecalboxSystem::getInstance()->getChangelog();
     if (changelog != "") {
-		std::string message = _("THE SYSTEM IS UP TO DATE:") + "\n" + changelog;
+		std::string message = changelog;
         window.pushGui(
                 new GuiMsgBoxScroll(
                         &window,
-						message, _("OK"),
+						message, _("THE SYSTEM IS UP TO DATE"), _("OK"),
                         [] {
                             RecalboxSystem::getInstance()->updateLastChangelogFile();
                         }, "", nullptr, "", nullptr, ALIGN_LEFT));

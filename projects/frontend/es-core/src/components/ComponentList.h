@@ -23,6 +23,7 @@ struct ComponentListRow
 	// If no input handler is supplied (input_handler == nullptr), the default behavior is to forward the input to 
 	// the rightmost element in the currently selected row.
 	std::function<bool(InputConfig*, Input)> input_handler;
+	std::function<bool(InputConfig*, Input)> help_handler;
 
 	ComponentListRow(const std::string& n = std::string()) : name(n)
 	{}
@@ -32,11 +33,23 @@ struct ComponentListRow
 		elements.push_back(ComponentListElement(component, resize_width, invert_when_selected));
 	}
 
-	// Utility method for making an input handler for "when the users presses A on this, do func."
+	// Utility method for making an input handler for "when the users presses B on this, do func."
 	inline void makeAcceptInputHandler(const std::function<void()>& func)
 	{
 		input_handler = [func](InputConfig* config, Input input) -> bool {
 			if(config->isMappedTo("b", input) && input.value != 0)
+			{
+				func();
+				return true;
+			}
+			return false;
+		};
+	}
+
+	inline void makeHelpInputHandler(const std::function<void()> &func)
+	{
+		help_handler = [func](InputConfig* config, Input input) -> bool {
+			if(config->isMappedTo("y", input) && input.value != 0)
 			{
 				func();
 				return true;
