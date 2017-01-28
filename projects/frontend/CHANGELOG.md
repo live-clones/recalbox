@@ -3,18 +3,14 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
-- Fix Bug with small SHARE partition
-- Add new Traditional Chinese Language
+### Added
 - Added Catalan translation
 - Added a virtual keyboard
 - Added GuiMsgBoxScroll, a scrollable message box
 - Added a Screenscraper DB scraper
 - Added 3 new sort lists : by genre/developer/number of players
 - Added an option to show hidden games
-- Fix : Es scraper won't no more gets stuck when screensaver is activated
-- Fix : Background musics are now played randomly
-
-### Added
+- Add new Traditional Chinese Language
 - Favorites as boolean in metadata
 - Game options for each available systems
 - Emulator and core switch in metadata
@@ -30,3 +26,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added retroachievements hardcore mode in game options
 - Added Creation of READY flag in /tmp directory
 - Added integer scale option in game options
+
+### Fixed
+- Fixed ParseGamelistOnly support
+- Enhanced boot time
+- Fix Bug with small SHARE partition
+- Fix : Es scraper won't no more gets stuck when screensaver is activated
+- Fix : Background musics are now played randomly
