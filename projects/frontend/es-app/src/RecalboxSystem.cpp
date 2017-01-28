@@ -15,6 +15,7 @@
 #include "VolumeControl.h"
 
 #include <ifaddrs.h>
+#include <fstream>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <boost/algorithm/string/replace.hpp>
