@@ -146,8 +146,14 @@ void FileData::addChild(FileData* file)
 	assert(mType == FOLDER);
 	assert(file->getParent() == NULL);
 
-	mChildren.push_back(file);
-	file->mParent = this;
+	const std::string key = file->getPath().filename().string();
+	if (mChildrenByFilename.find(key) == mChildrenByFilename.end())
+	{
+		mChildrenByFilename[key] = file;
+		mChildren.push_back(file);
+		file->mParent = this;
+	}
+
 }
 
 void FileData::addAlreadyExisitingChild(FileData* file)
@@ -177,6 +183,7 @@ void FileData::removeChild(FileData* file)
 	assert(mType == FOLDER);
 	assert(file->getParent() == this);
 
+	mChildrenByFilename.erase(file->getPath().filename().string());
 	for(auto it = mChildren.begin(); it != mChildren.end(); it++)
 	{
 		if(*it == file)
@@ -192,8 +199,7 @@ void FileData::removeChild(FileData* file)
 
 void FileData::clear()
 {
-	while(mChildren.size())
-		delete mChildren.back();
+	mChildren.clear();
 }
 
 void FileData::lazyPopulate(const std::vector<std::string>& searchExtensions, SystemData* systemData)
@@ -331,7 +337,7 @@ void FileData::populateRecursiveFolder(FileData* folder, const std::vector<std::
 			populateRecursiveFolder(newFolder, searchExtensions, systemData);
 
 			//ignore folders that do not contain games
-			if(newFolder->getChildren().size() == 0)
+			if(newFolder->getChildrenByFilename().size() == 0)
 				delete newFolder;
 			else
 				folder->addChild(newFolder);
