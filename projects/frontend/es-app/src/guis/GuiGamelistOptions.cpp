@@ -63,7 +63,7 @@ GuiGamelistOptions::GuiGamelistOptions(Window* window, SystemData* system) : Gui
 	// edit game metadata
 	row.elements.clear();
 
-	if(RecalboxConf::getInstance()->get("system.es.menu") != "none" && RecalboxConf::getInstance()->get("system.es.menu") != "bartop"){
+	if(RecalboxConf::getInstance()->get("emulationstation.menu") != "none" && RecalboxConf::getInstance()->get("emulationstation.menu") != "bartop"){
 	  row.addElement(std::make_shared<TextComponent>(mWindow, _("EDIT THIS GAME'S METADATA"), Font::get(FONT_SIZE_MEDIUM), 0x777777FF), true);
 		row.addElement(makeArrow(mWindow), false);
 		row.makeAcceptInputHandler(std::bind(&GuiGamelistOptions::openMetaDataEd, this));

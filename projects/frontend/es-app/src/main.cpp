@@ -55,9 +55,6 @@ bool parseArgs(int argc, char* argv[], unsigned int* width, unsigned int* height
 			*width = atoi(argv[i + 1]);
 			*height = atoi(argv[i + 2]);
 			i += 2; // skip the argument value
-		}else if(strcmp(argv[i], "--gamelist-only") == 0)
-		{
-			Settings::getInstance()->setBool("ParseGamelistOnly", true);
 		}else if(strcmp(argv[i], "--ignore-gamelist") == 0)
 		{
 			Settings::getInstance()->setBool("IgnoreGamelist", true);
@@ -67,9 +64,6 @@ bool parseArgs(int argc, char* argv[], unsigned int* width, unsigned int* height
 		}else if(strcmp(argv[i], "--no-exit") == 0)
 		{
 			Settings::getInstance()->setBool("ShowExit", false);
-		}else if(strcmp(argv[i], "--hide-systemview") == 0)
-		{
-			Settings::getInstance()->setBool("HideSystemView", true);
 		}else if(strcmp(argv[i], "--debug") == 0)
 		{
 			Settings::getInstance()->setBool("Debug", true);

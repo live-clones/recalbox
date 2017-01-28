@@ -138,7 +138,7 @@ bool SystemView::input(InputConfig* config, Input input)
 			ViewController::get()->goToGameList(getSelected());
 			return true;
 		}
-		if(config->isMappedTo("select", input) && RecalboxConf::getInstance()->get("system.es.menu") != "none")
+		if(config->isMappedTo("select", input) && RecalboxConf::getInstance()->get("emulationstation.menu") != "none")
 		{
 		  auto s = new GuiSettings(mWindow, _("QUIT").c_str());
 

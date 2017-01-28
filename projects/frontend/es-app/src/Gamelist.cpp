@@ -2,9 +2,11 @@
 #include "SystemData.h"
 #include "pugixml/pugixml.hpp"
 #include <boost/filesystem.hpp>
+#include <RecalboxConf.h>
 #include "Log.h"
 #include "Settings.h"
 #include "Util.h"
+#include "RecalboxSystem.h"
 
 namespace fs = boost::filesystem;
 
@@ -83,7 +85,7 @@ FileData* findOrCreateFile(SystemData* system, const boost::filesystem::path& pa
 
 void parseGamelist(SystemData* system)
 {
-	bool trustGamelist = Settings::getInstance()->getBool("ParseGamelistOnly");
+	bool trustGamelist = RecalboxConf::getInstance()->get("emulationstation.gamelistonly") == "1";
 	std::string xmlpath = system->getGamelistPath(false);
 
 	if(!boost::filesystem::exists(xmlpath))

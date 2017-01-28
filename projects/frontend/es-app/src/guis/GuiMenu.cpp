@@ -117,7 +117,7 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
             mWindow->pushGui(new GuiRomsManager(mWindow));
         });
     }
-    if (RecalboxConf::getInstance()->get("system.es.menu") != "bartop") {
+    if (RecalboxConf::getInstance()->get("emulationstation.menu") != "bartop") {
       addEntryWithHelp(_("SYSTEM SETTINGS").c_str(), 0x777777FF, true,
                        _("Configure your recalbox language, \nselect an external drive to store your games and configurations, see your current version and free space on drive"),
                  [this] {
@@ -374,7 +374,7 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
     addEntry(_("GAMES SETTINGS").c_str(), 0x777777FF, true,
              [this] {
                  auto s = new GuiSettings(mWindow, _("GAMES SETTINGS").c_str());
-                 if (RecalboxConf::getInstance()->get("system.es.menu") != "bartop") {
+                 if (RecalboxConf::getInstance()->get("emulationstation.menu") != "bartop") {
 
                      // Screen ratio choice
                      auto ratio_choice = createRatioOptionList(mWindow, "global");
@@ -426,7 +426,7 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                  });
 
 
-                 if (RecalboxConf::getInstance()->get("system.es.menu") != "bartop") {
+                 if (RecalboxConf::getInstance()->get("emulationstation.menu") != "bartop") {
 
                      // Retroachievements
                      {
@@ -551,10 +551,10 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
 
     );
 
-    if (RecalboxConf::getInstance()->get("system.es.menu") != "bartop") {
+    if (RecalboxConf::getInstance()->get("emulationstation.menu") != "bartop") {
       addEntry(_("CONTROLLERS SETTINGS").c_str(), 0x777777FF, true, [this] { this->createConfigInput(); });
     }
-    if (RecalboxConf::getInstance()->get("system.es.menu") != "bartop") {
+    if (RecalboxConf::getInstance()->get("emulationstation.menu") != "bartop") {
 
       addEntry(_("UI SETTINGS").c_str(), 0x777777FF, true,
                  [this] {
@@ -695,7 +695,7 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                  output_list->add(_("JACK"), "jack", "jack" == currentDevice);
                  output_list->add(_("AUTO"), "auto", "auto" == currentDevice);
 
-                 if (RecalboxConf::getInstance()->get("system.es.menu") != "bartop") {
+                 if (RecalboxConf::getInstance()->get("emulationstation.menu") != "bartop") {
 		   s->addWithLabel(_("OUTPUT DEVICE"), output_list);
                  }
                  s->addSaveFunc([output_list, currentDevice, sounds_enabled, volume] {
@@ -718,7 +718,7 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                  mWindow->pushGui(s);
              });
 
-    if (RecalboxConf::getInstance()->get("system.es.menu") != "bartop") {
+    if (RecalboxConf::getInstance()->get("emulationstation.menu") != "bartop") {
       addEntry(_("NETWORK SETTINGS").c_str(), 0x777777FF, true,
                  [this] {
                      Window *window = mWindow;
@@ -777,7 +777,7 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                  });
     }
 
-    if (RecalboxConf::getInstance()->get("system.es.menu") != "bartop") {
+    if (RecalboxConf::getInstance()->get("emulationstation.menu") != "bartop") {
         auto openScrapeNow = [this] { mWindow->pushGui(new GuiScraperStart(mWindow)); };
         addEntry(_("SCRAPER").c_str(), 0x777777FF, true,
                  [this, openScrapeNow] {
@@ -823,7 +823,7 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                      mWindow->pushGui(s);
                  });
     }
-    if (RecalboxConf::getInstance()->get("system.es.menu") != "bartop") {
+    if (RecalboxConf::getInstance()->get("emulationstation.menu") != "bartop") {
         addEntry(_("ADVANCED SETTINGS").c_str(), 0x777777FF, true,
                  [this] {
                      Window *window = mWindow;
@@ -831,15 +831,28 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                      auto s = new GuiSettings(mWindow, _("ADVANCED SETTINGS").c_str());
 
                      // Gamelists only
-
-                     bool gamelistOnly = Settings::getInstance()->getBool("ParseGamelistOnly");
-
+                     bool gamelistOnly = RecalboxConf::getInstance()->get("emulationstation.gamelistonly") == "1";
                      auto gamelistOnlyComp = std::make_shared<SwitchComponent>(mWindow, gamelistOnly);
                      gamelistOnlyComp->setState(gamelistOnly);
                      s->addWithLabelAndHelp(_("GAMELIST ONLY"), gamelistOnlyComp, _("HELP_GAMELIST_ONLY"));
 
-                     s->addSaveFunc([gamelistOnlyComp, window] {
-                         Settings::getInstance()->setBool("ParseGamelistOnly", gamelistOnlyComp->getState());
+                     // Selected System
+                     std::string selectedsystem = RecalboxConf::getInstance()->get("emulationstation.selectedsystem");
+                     auto system_choices = std::make_shared<OptionListComponent<std::string> >(mWindow, _("BOOT ON SYSTEM"),false);
+                     std::string currentSystem = selectedsystem != "" ? selectedsystem : "favorites";
+
+                     // For each activated system
+                     std::vector<SystemData *> systems = SystemData::sSystemVector;
+                     for (auto system = systems.begin(); system != systems.end(); system++) {
+                         std::string systemName = (*system)->getName();
+                         system_choices->add(systemName, systemName, currentSystem == systemName);
+                     }
+                     s->addWithLabel(_("BOOT ON SYSTEM"), system_choices);
+
+                     s->addSaveFunc([gamelistOnlyComp, window, system_choices] {
+                         RecalboxConf::getInstance()->set("emulationstation.gamelistonly", gamelistOnlyComp->getState() ? "1" : "0");
+                         RecalboxConf::getInstance()->set("emulationstation.selectedsystem", system_choices->getSelected());
+                         RecalboxConf::getInstance()->saveRecalboxConf();
                      });
                      mWindow->pushGui(s);
                  });
