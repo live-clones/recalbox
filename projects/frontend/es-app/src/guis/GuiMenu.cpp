@@ -188,30 +188,6 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
 
                      s->addWithLabel(_("LANGUAGE"), language_choice);
 
-                     // Overclock choice
-                     auto overclock_choice = std::make_shared<OptionListComponent<std::string> >(window, _("OVERCLOCK"),
-                                                                                                 false);
-#ifdef RPI_VERSION
-#if RPI_VERSION == 1
-                     std::string currentOverclock = Settings::getInstance()->getString("Overclock");
-                     overclock_choice->add(_("EXTREM (1100Mhz)"), "extrem", currentOverclock == "extrem");
-                     overclock_choice->add(_("TURBO (1000Mhz)"), "turbo", currentOverclock == "turbo");
-                     overclock_choice->add(_("HIGH (950Mhz)"), "high", currentOverclock == "high");
-                     overclock_choice->add(_("NONE"), "none", currentOverclock == "none");
-#elif RPI_VERSION == 2
-                     std::string currentOverclock = Settings::getInstance()->getString("Overclock");
-                     //overclock_choice->add(_("EXTREM (1100Mhz)"), "rpi2-extrem", currentOverclock == "rpi2-extrem");
-                     //overclock_choice->add(_("TURBO (1050Mhz)+"), "rpi2-turbo", currentOverclock == "rpi2-turbo");
-                     overclock_choice->add(_("HIGH (1050Mhz)"), "rpi2-high", currentOverclock == "rpi2-high");
-                     overclock_choice->add(_("NONE (900Mhz)"), "none", currentOverclock == "none");
-#elif RPI_VERSION == 3
-                     overclock_choice->add(_("NONE (1200Mhz)"), "none", true);
-#endif
-#else
-                     overclock_choice->add(_("NONE"), "none", true);
-#endif
-                     s->addWithLabel(_("OVERCLOCK"), overclock_choice);
-
                      // Updates
                      {
                          ComponentListRow row;
@@ -336,18 +312,13 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                          s->addRow(row);
                      }
 
-                     s->addSaveFunc([overclock_choice, window, language_choice, language, optionsStorage, selectedStorage] {
+                     s->addSaveFunc([window, language_choice, language, optionsStorage, selectedStorage] {
                          bool reboot = false;
                          if (optionsStorage->changed()) {
                              RecalboxSystem::getInstance()->setStorage(optionsStorage->getSelected());
                              reboot = true;
                          }
 
-                         if (Settings::getInstance()->getString("Overclock") != overclock_choice->getSelected()) {
-                             Settings::getInstance()->setString("Overclock", overclock_choice->getSelected());
-                             RecalboxSystem::getInstance()->setOverclock(overclock_choice->getSelected());
-                             reboot = true;
-                         }
                          if (language != language_choice->getSelected()) {
                              RecalboxConf::getInstance()->set("system.language",
                                                               language_choice->getSelected());
@@ -829,6 +800,29 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                      Window *window = mWindow;
 
                      auto s = new GuiSettings(mWindow, _("ADVANCED SETTINGS").c_str());
+                     // Overclock choice
+                     auto overclock_choice = std::make_shared<OptionListComponent<std::string> >(window, _("OVERCLOCK"),
+                                                                                                 false);
+#ifdef RPI_VERSION
+                     #if RPI_VERSION == 1
+                     std::string currentOverclock = Settings::getInstance()->getString("Overclock");
+                     overclock_choice->add(_("EXTREM (1100Mhz)"), "extrem", currentOverclock == "extrem");
+                     overclock_choice->add(_("TURBO (1000Mhz)"), "turbo", currentOverclock == "turbo");
+                     overclock_choice->add(_("HIGH (950Mhz)"), "high", currentOverclock == "high");
+                     overclock_choice->add(_("NONE"), "none", currentOverclock == "none");
+#elif RPI_VERSION == 2
+                     std::string currentOverclock = Settings::getInstance()->getString("Overclock");
+                     //overclock_choice->add(_("EXTREM (1100Mhz)"), "rpi2-extrem", currentOverclock == "rpi2-extrem");
+                     //overclock_choice->add(_("TURBO (1050Mhz)+"), "rpi2-turbo", currentOverclock == "rpi2-turbo");
+                     overclock_choice->add(_("HIGH (1050Mhz)"), "rpi2-high", currentOverclock == "rpi2-high");
+                     overclock_choice->add(_("NONE (900Mhz)"), "none", currentOverclock == "none");
+#elif RPI_VERSION == 3
+                     overclock_choice->add(_("NONE (1200Mhz)"), "none", true);
+#endif
+#else
+                     overclock_choice->add(_("NONE"), "none", true);
+#endif
+                     s->addWithLabel(_("OVERCLOCK"), overclock_choice);
 
                      // Gamelists only
                      bool gamelistOnly = RecalboxConf::getInstance()->get("emulationstation.gamelistonly") == "1";
@@ -850,10 +844,28 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                      s->addWithLabelAndHelp(_("BOOT ON SYSTEM"), system_choices, _("Select the system to show when the recalbox frontend starts. The default value is 'favorites'."));
 
 
-                     s->addSaveFunc([gamelistOnlyComp, window, system_choices] {
+                     s->addSaveFunc([overclock_choice,gamelistOnlyComp, window, system_choices] {
+                         bool reboot = false;
+
+                         if (Settings::getInstance()->getString("Overclock") != overclock_choice->getSelected()) {
+                             Settings::getInstance()->setString("Overclock", overclock_choice->getSelected());
+                             RecalboxSystem::getInstance()->setOverclock(overclock_choice->getSelected());
+                             reboot = true;
+                         }
                          RecalboxConf::getInstance()->set("emulationstation.gamelistonly", gamelistOnlyComp->getState() ? "1" : "0");
                          RecalboxConf::getInstance()->set("emulationstation.selectedsystem", system_choices->getSelected());
                          RecalboxConf::getInstance()->saveRecalboxConf();
+
+                         if (reboot) {
+                             window->pushGui(
+                                     new GuiMsgBox(window, _("THE SYSTEM WILL NOW REBOOT"), _("OK"),
+                                                   [window] {
+                                                       if (runRestartCommand() != 0) {
+                                                           LOG(LogWarning) << "Reboot terminated with non-zero result!";
+                                                       }
+                                                   })
+                             );
+                         }
                      });
                      mWindow->pushGui(s);
                  });
