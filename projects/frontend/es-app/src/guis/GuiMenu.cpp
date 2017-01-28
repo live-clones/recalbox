@@ -312,51 +312,53 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                          });
     }
 
-    addEntryWithHelp(_("UPDATES").c_str(),_(MenuMessages::UPDATE_HELP_MSG).c_str(), 0x777777FF, true,
-             [this] {
-                 GuiSettings *updateGui = new GuiSettings(mWindow, _("UPDATES").c_str());
-                 // Enable updates
-                 auto updates_enabled = std::make_shared<SwitchComponent>(mWindow);
-                 updates_enabled->setState(
-                         RecalboxConf::getInstance()->get("updates.enabled") == "1");
-                 updateGui->addWithLabelAndHelp(_("CHECK UPDATES"), updates_enabled,_(MenuMessages::UPDATE_CHECK_HELP_MSG));
+    addEntryWithHelp(_("UPDATES").c_str(), _(MenuMessages::UPDATE_HELP_MSG).c_str(), 0x777777FF, true,
+                     [this] {
+                         GuiSettings *updateGui = new GuiSettings(mWindow, _("UPDATES").c_str());
+                         // Enable updates
+                         auto updates_enabled = std::make_shared<SwitchComponent>(mWindow);
+                         updates_enabled->setState(
+                                 RecalboxConf::getInstance()->get("updates.enabled") == "1");
+                         updateGui->addWithLabelAndHelp(_("CHECK UPDATES"), updates_enabled,
+                                                        _(MenuMessages::UPDATE_CHECK_HELP_MSG));
 
-                 // Start update
-                 ComponentListRow updateRow;
-                 std::function<void()> openGui = [this] {
-                     mWindow->pushGui(new GuiUpdate(mWindow));
-                 };
-                 updateRow.makeAcceptInputHandler(openGui);
-                 auto update = std::make_shared<TextComponent>(mWindow, _("START UPDATE"),
-                                                               Font::get(FONT_SIZE_MEDIUM),
-                                                               0x777777FF);
-                 auto bracket = makeArrow(mWindow);
-                 updateRow.addElement(update, true);
-                 updateRow.addElement(bracket, false);
-                 updateGui->addRow(updateRow);
+                         // Start update
+                         ComponentListRow updateRow;
+                         std::function<void()> openGui = [this] {
+                             mWindow->pushGui(new GuiUpdate(mWindow));
+                         };
+                         updateRow.makeAcceptInputHandler(openGui);
+                         auto update = std::make_shared<TextComponent>(mWindow, _("START UPDATE"),
+                                                                       Font::get(FONT_SIZE_MEDIUM),
+                                                                       0x777777FF);
+                         auto bracket = makeArrow(mWindow);
+                         updateRow.addElement(update, true);
+                         updateRow.addElement(bracket, false);
+                         updateGui->addRow(updateRow);
 
-                 // Enable updates
+                         // Enable updates
 
-                 std::string updatesType = RecalboxConf::getInstance()->get("updates.type");
-                 if (updatesType != "stable" && updatesType != "unstable") {
-                     updatesType = "stable";
-                 }
-                 auto updatesTypeComp = std::make_shared<OptionListComponent<std::string> >(mWindow,
-                                                                                            _("UPDATE TYPE"),
-                                                                                            false);
-                 updatesTypeComp->add("stable", "stable", updatesType == "stable");
-                 updatesTypeComp->add("unstable", "unstable", updatesType == "unstable");
+                         std::string updatesType = RecalboxConf::getInstance()->get("updates.type");
+                         if (updatesType != "stable" && updatesType != "unstable") {
+                             updatesType = "stable";
+                         }
+                         auto updatesTypeComp = std::make_shared<OptionListComponent<std::string> >(mWindow,
+                                                                                                    _("UPDATE TYPE"),
+                                                                                                    false);
+                         updatesTypeComp->add("stable", "stable", updatesType == "stable");
+                         updatesTypeComp->add("unstable", "unstable", updatesType == "unstable");
 
-                 updateGui->addWithLabelAndHelp(_("UPDATE TYPE"), updatesTypeComp, _(MenuMessages::UPDATE_TYPE_HELP_MSG));
-                 updateGui->addSaveFunc([updates_enabled, updatesTypeComp] {
-                     RecalboxConf::getInstance()->set("updates.enabled",
-                                                      updates_enabled->getState() ? "1" : "0");
-                     RecalboxConf::getInstance()->set("updates.type", updatesTypeComp->getSelected());
-                     RecalboxConf::getInstance()->saveRecalboxConf();
-                 });
-                 mWindow->pushGui(updateGui);
+                         updateGui->addWithLabelAndHelp(_("UPDATE TYPE"), updatesTypeComp,
+                                                        _(MenuMessages::UPDATE_TYPE_HELP_MSG));
+                         updateGui->addSaveFunc([updates_enabled, updatesTypeComp] {
+                             RecalboxConf::getInstance()->set("updates.enabled",
+                                                              updates_enabled->getState() ? "1" : "0");
+                             RecalboxConf::getInstance()->set("updates.type", updatesTypeComp->getSelected());
+                             RecalboxConf::getInstance()->saveRecalboxConf();
+                         });
+                         mWindow->pushGui(updateGui);
 
-             });
+                     });
 
     addEntry(_("GAMES SETTINGS").c_str(), 0x777777FF, true,
              [this] {
@@ -463,44 +465,7 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                          row.addElement(bracket, false);
                          s->addRow(row);
                      }
-                     // Custom config for systems
-                     {
-                         ComponentListRow row;
-                         std::function<void()> openGuiD = [this, s] {
-                             s->save();
-                             GuiSettings *configuration = new GuiSettings(mWindow, _("ADVANCED").c_str());
-                             // For each activated system
-                             std::vector<SystemData *> systems = SystemData::sSystemVector;
-                             for (auto system = systems.begin(); system != systems.end(); system++) {
-                                 if ((*system) != SystemData::getFavoriteSystem()) {
-                                     ComponentListRow systemRow;
-                                     auto systemText = std::make_shared<TextComponent>(mWindow,
-                                                                                       (*system)->getFullName(),
-                                                                                       Font::get(FONT_SIZE_MEDIUM),
-                                                                                       0x777777FF);
-                                     auto bracket = makeArrow(mWindow);
-                                     systemRow.addElement(systemText, true);
-                                     systemRow.addElement(bracket, false);
-                                     SystemData *systemData = (*system);
-                                     systemRow.makeAcceptInputHandler([this, systemData] {
-                                         popSystemConfigurationGui(systemData, "");
-                                     });
-                                     configuration->addRow(systemRow);
-                                 }
-                             }
-                             mWindow->pushGui(configuration);
 
-                         };
-                         // Advanced button
-                         row.makeAcceptInputHandler(openGuiD);
-                         auto advanced = std::make_shared<TextComponent>(mWindow, _("ADVANCED"),
-                                                                         Font::get(FONT_SIZE_MEDIUM),
-                                                                         0x777777FF);
-                         auto bracket = makeArrow(mWindow);
-                         row.addElement(advanced, true);
-                         row.addElement(bracket, false);
-                         s->addRow(row);
-                     }
                      // Game List Update
                      {
                          ComponentListRow row;
@@ -896,6 +861,53 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                              );
                          }
                      });
+
+                     // Custom config for systems
+                     {
+                         ComponentListRow row;
+                         std::function<void()> openGuiD = [this, s] {
+                             s->save();
+                             GuiSettings *configuration = new GuiSettings(mWindow, _("EMULATOR ADVANCED CONFIGURATION").c_str());
+                             // For each activated system
+                             std::vector<SystemData *> systems = SystemData::sSystemVector;
+                             for (auto system = systems.begin(); system != systems.end(); system++) {
+                                 if ((*system) != SystemData::getFavoriteSystem()) {
+                                     ComponentListRow systemRow;
+                                     auto systemText = std::make_shared<TextComponent>(mWindow,
+                                                                                       (*system)->getFullName(),
+                                                                                       Font::get(FONT_SIZE_MEDIUM),
+                                                                                       0x777777FF);
+                                     auto bracket = makeArrow(mWindow);
+                                     systemRow.addElement(systemText, true);
+                                     systemRow.addElement(bracket, false);
+                                     SystemData *systemData = (*system);
+                                     systemRow.makeAcceptInputHandler([this, systemData] {
+                                         popSystemConfigurationGui(systemData, "");
+                                     });
+                                     configuration->addRow(systemRow);
+                                 }
+                             }
+                             mWindow->pushGui(configuration);
+
+                         };
+                         // Advanced button
+                         row.makeAcceptInputHandler(openGuiD);
+                         auto advanced = std::make_shared<TextComponent>(mWindow, _("EMULATOR ADVANCED CONFIGURATION"),
+                                                                         Font::get(FONT_SIZE_MEDIUM),
+                                                                         0x777777FF);
+                         auto bracket = makeArrow(mWindow);
+                         row.addElement(advanced, true);
+                         row.addElement(bracket, false);
+                         row.makeHelpInputHandler([this] {
+                             mWindow->pushGui(new GuiMsgBoxScroll(
+                                     mWindow, _("EMULATOR ADVANCED CONFIGURATION"),
+                                     MenuMessages::EMULATOR_ADVANCED_HELP_MSG, _("OK"),
+                                     [] {}, "", nullptr, "", nullptr, ALIGN_LEFT));
+                             return true;
+                         });
+                         s->addRow(row);
+                     }
+
                      mWindow->pushGui(s);
                  });
     }
@@ -950,22 +962,6 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                          std::make_shared<TextComponent>(window, _("FAST SHUTDOWN SYSTEM"), Font::get(FONT_SIZE_MEDIUM),
                                                          0x777777FF), true);
                  s->addRow(row);
-                 /*if(Settings::getInstance()->getBool("ShowExit"))
-                 {
-                     row.elements.clear();
-                     row.makeAcceptInputHandler([window] {
-                         window->pushGui(new GuiMsgBox(window, _("REALLY QUIT?"), _("YES"),
-                         [] {
-                             SDL_Event ev;
-                             ev.type = SDL_QUIT;
-                             SDL_PushEvent(&ev);
-                         }, _("NO"), nullptr));
-                     });
-                     row.addElement(std::make_shared<TextComponent>(window, _("QUIT EMULATIONSTATION"), Font::get(FONT_SIZE_MEDIUM), 0x777777FF), true);
-                     s->addRow(row);
-                 }*/
-                 //ViewController::get()->reloadAll();
-
                  mWindow->pushGui(s);
              });
 
