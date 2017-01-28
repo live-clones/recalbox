@@ -52,7 +52,7 @@ void ViewController::goToStart()
 	mCurrentView.reset();
 	playViewTransition(); */
 	int firstSystemIndex = getFirstSystemIndex();
-	if (Settings::getInstance()->getBool("HideSystemView") || RecalboxConf::getInstance()->get("system.es.bootongamelist") == "1")
+	if (RecalboxConf::getInstance()->get("emulationstation.hidesystemview") == "1" || RecalboxConf::getInstance()->get("emulationstation.bootongamelist") == "1")
 	  goToGameList(SystemData::sSystemVector.at(firstSystemIndex));
 	else
 	  goToSystemView(SystemData::sSystemVector.at(firstSystemIndex));
@@ -349,7 +349,7 @@ bool ViewController::input(InputConfig* config, Input input)
         }
 
 	// open menu
-	if(config->isMappedTo("start", input) && input.value != 0 && RecalboxConf::getInstance()->get("system.es.menu") != "none" )
+	if(config->isMappedTo("start", input) && input.value != 0 && RecalboxConf::getInstance()->get("emulationstation.menu") != "none" )
 	{
 		// open menu
 		mWindow->pushGui(new GuiMenu(mWindow));
@@ -524,7 +524,7 @@ std::vector<HelpPrompt> ViewController::getHelpPrompts()
 		return prompts;
 
 	prompts = mCurrentView->getHelpPrompts();
-	if(RecalboxConf::getInstance()->get("system.es.menu") != "none"){
+	if(RecalboxConf::getInstance()->get("emulationstation.menu") != "none"){
 	  prompts.push_back(HelpPrompt("start", _("MENU")));
 	}
 
@@ -540,14 +540,14 @@ HelpStyle ViewController::getHelpStyle()
 }
 
 int ViewController::getFirstSystemIndex() {
-	std::string systemName = RecalboxConf::getInstance()->get("system.es.selectedsystem");
+	std::string systemName = RecalboxConf::getInstance()->get("emulationstation.selectedsystem");
 	if(systemName != ""){
 		int index = SystemData::getSystemIndex(systemName);
 		if (index != -1){
-			LOG(LogInfo) << "system.es.selectedsystem variable set to " << systemName.c_str() << " system found !";
+			LOG(LogInfo) << "emulationstation.selectedsystem variable set to " << systemName.c_str() << " system found !";
 			return index;
 		}else {
-			LOG(LogWarning) << "system.es.selectedsystem variable set to " << systemName.c_str() << " but unable to find such a system.";
+			LOG(LogWarning) << "emulationstation.selectedsystem variable set to " << systemName.c_str() << " but unable to find such a system.";
 			return 0;
 		}
 	}

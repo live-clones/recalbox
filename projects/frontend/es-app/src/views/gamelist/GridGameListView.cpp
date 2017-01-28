@@ -1,3 +1,4 @@
+#include <RecalboxConf.h>
 #include "views/gamelist/GridGameListView.h"
 #include "ThemeData.h"
 #include "Window.h"
@@ -63,10 +64,12 @@ void GridGameListView::launch(FileData* game)
 
 std::vector<HelpPrompt> GridGameListView::getHelpPrompts()
 {
+	bool hideSystemView = RecalboxConf::getInstance()->get("emulationstation.hidesystemview") == "1";
+
 	std::vector<HelpPrompt> prompts;
 	prompts.push_back(HelpPrompt("up/down/left/right", _("SCROLL")));
 	prompts.push_back(HelpPrompt("b", _("LAUNCH")));
-	if(!Settings::getInstance()->getBool("HideSystemView"))
+	if(!hideSystemView)
 	  prompts.push_back(HelpPrompt("a", _("BACK")));
 	return prompts;
 }

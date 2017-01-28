@@ -17,6 +17,7 @@
 #include <boost/thread.hpp>
 #include <boost/asio/io_service.hpp>
 #include <boost/make_shared.hpp>
+#include <RecalboxConf.h>
 
 std::vector<SystemData*> SystemData::sSystemVector;
 
@@ -50,7 +51,7 @@ SystemData::SystemData(std::string name, std::string fullName, std::string start
 	mRootFolder = new FileData(FOLDER, mStartPath, this);
 	mRootFolder->metadata.set("name", mFullName);
 
-	if(!Settings::getInstance()->getBool("ParseGamelistOnly"))
+	if(RecalboxConf::getInstance()->get("emulationstation.gamelistonly") != "1")
 		populateFolder(mRootFolder);
 
 	if(!Settings::getInstance()->getBool("IgnoreGamelist"))
@@ -376,6 +377,7 @@ bool SystemData::loadConfig()
 	ioService.stop();
 	threadpool.join_all();
 
+	if(sSystemVector.size() == 0) return true;
 	// Favorite system
 	for(pugi::xml_node system = systemList.child("system"); system; system = system.next_sibling("system")) {
 

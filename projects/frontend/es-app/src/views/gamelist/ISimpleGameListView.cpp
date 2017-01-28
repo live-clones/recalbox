@@ -1,4 +1,5 @@
 #include <Log.h>
+#include <RecalboxConf.h>
 #include "views/gamelist/ISimpleGameListView.h"
 #include "ThemeData.h"
 #include "SystemData.h"
@@ -85,6 +86,8 @@ void ISimpleGameListView::onFileChanged(FileData* file, FileChangeType change)
 
 bool ISimpleGameListView::input(InputConfig* config, Input input)
 {
+	bool hideSystemView = RecalboxConf::getInstance()->get("emulationstation.hidesystemview") == "1";
+
 	if(input.value != 0)
 	{
 		if(config->isMappedTo("b", input))
@@ -112,7 +115,7 @@ bool ISimpleGameListView::input(InputConfig* config, Input input)
 				setCursor(mCursorStack.top());
 				mCursorStack.pop();
 				//Sound::getFromTheme(getTheme(), getName(), "back")->play();
-			}else if (!Settings::getInstance()->getBool("HideSystemView")) {
+			}else if (!hideSystemView) {
 				onFocusLost();
 
 				if (mFavoriteChange)
@@ -164,7 +167,7 @@ bool ISimpleGameListView::input(InputConfig* config, Input input)
 			}
 		}else if(config->isMappedTo("right", input))
 		{
-			if(Settings::getInstance()->getBool("QuickSystemSelect") && !Settings::getInstance()->getBool("HideSystemView"))
+			if(Settings::getInstance()->getBool("QuickSystemSelect") && !hideSystemView)
 			{
 				onFocusLost();
 				if (mFavoriteChange)
@@ -177,7 +180,7 @@ bool ISimpleGameListView::input(InputConfig* config, Input input)
 			}
 		}else if(config->isMappedTo("left", input))
 		{
-			if(Settings::getInstance()->getBool("QuickSystemSelect") && !Settings::getInstance()->getBool("HideSystemView"))
+			if(Settings::getInstance()->getBool("QuickSystemSelect") && !hideSystemView)
 			{
 				onFocusLost();
 				if (mFavoriteChange)

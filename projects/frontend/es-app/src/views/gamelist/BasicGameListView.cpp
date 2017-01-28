@@ -1,3 +1,4 @@
+#include <RecalboxConf.h>
 #include "views/gamelist/BasicGameListView.h"
 #include "views/ViewController.h"
 #include "Renderer.h"
@@ -184,12 +185,12 @@ void BasicGameListView::launch(FileData* game)
 std::vector<HelpPrompt> BasicGameListView::getHelpPrompts()
 {
 	std::vector<HelpPrompt> prompts;
-
-	if(Settings::getInstance()->getBool("QuickSystemSelect") && !Settings::getInstance()->getBool("HideSystemView"))
+	bool hideSystemView = RecalboxConf::getInstance()->get("emulationstation.hidesystemview") == "1";
+	if(Settings::getInstance()->getBool("QuickSystemSelect") && !hideSystemView)
 	  prompts.push_back(HelpPrompt("left/right", _("SYSTEM")));
 	prompts.push_back(HelpPrompt("up/down", _("CHOOSE")));
 	prompts.push_back(HelpPrompt("b", _("LAUNCH")));
-	if(!Settings::getInstance()->getBool("HideSystemView"))
+	if(!hideSystemView)
 	  prompts.push_back(HelpPrompt("a", _("BACK")));
 	if(getRoot()->getSystem() != SystemData::getFavoriteSystem()) {
 	  prompts.push_back(HelpPrompt("y", _("Favorite")));

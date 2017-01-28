@@ -4,6 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 ### Added
+- Support of emulationstation.gamelistonly and emulationstation.hidesystemview
 - Added Catalan translation
 - Added a virtual keyboard
 - Added GuiMsgBoxScroll, a scrollable message box
