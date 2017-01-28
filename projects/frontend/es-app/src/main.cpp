@@ -179,15 +179,15 @@ int setLocale(char * argv1)
   	char *p;
 
     if(!(p = strrchr(argv1, '/'))) {
-    		getcwd(abs_exe_path, sizeof(abs_exe_path));
+    		char * res = getcwd(abs_exe_path, sizeof(abs_exe_path));
     }
   	else
   	{
     		*p = '\0';
-    		getcwd(path_save, sizeof(path_save));
-    		chdir(argv1);
-    		getcwd(abs_exe_path, sizeof(abs_exe_path));
-    		chdir(path_save);
+			char * res = getcwd(path_save, sizeof(path_save));
+    		int chdirres = chdir(argv1);
+    		res = getcwd(abs_exe_path, sizeof(abs_exe_path));
+			chdirres = chdir(path_save);
   	}
 	boost::locale::localization_backend_manager my = boost::locale::localization_backend_manager::global(); 
 	// Get global backend
@@ -461,14 +461,15 @@ int main(int argc, char* argv[])
 	SystemData::deleteSystems();
 	window.deinit();
 	LOG(LogInfo) << "EmulationStation cleanly shutting down.";
+	int res;
 	if (doReboot) {
 		LOG(LogInfo) << "Rebooting system";
-		system("touch /tmp/reboot.please");
-		system("shutdown -r now");
+		res = system("touch /tmp/reboot.please");
+		res = system("shutdown -r now");
 	} else if (doShutdown) {
 		LOG(LogInfo) << "Shutting system down";
-		system("touch /tmp/shutdown.please");
-		system("shutdown -h now");
+		res = system("touch /tmp/shutdown.please");
+		res = system("shutdown -h now");
 	}
 
 	return 0;
