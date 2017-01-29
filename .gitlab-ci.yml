@@ -11,10 +11,9 @@ variables:
 .build_template: &build_definition
   stage: build
   script:
-    - rm -rf /recalbox-builds/dl/recalbox-emulationstation2-${ARCH}.tar.gz
     - tar cvzf recalbox-emulationstation2-${ARCH}.tar.gz -C recalbox-emulationstation/ .
-    - docker run --rm -v `pwd`:/work -v /recalbox-builds/dl:/share/dl ubuntu:16.04 rm -rf /recalbox-builds/dl/recalbox-emulationstation2-${ARCH}.tar.gz && mv /work/recalbox-emulationstation2-${ARCH}.tar.gz /recalbox-builds/dl/recalbox-emulationstation2-${ARCH}.tar.gz
-    - sed -i "s/RECALBOX_EMULATIONSTATION2_VERSION.*/RECALBOX_EMULATIONSTATION2_VERSION = ${ARCH}/" package/recalbox-emulationstation2/recalbox-emulationstation2.mk
+    - docker run --rm -e "ARCH=${ARCH}" -v `pwd`:/work -v /recalbox-builds/dl:/share/dl ubuntu:16.04 bash -c 'rm -rf /share/dl/recalbox-emulationstation2-${ARCH}.tar.gz && cp /work/recalbox-emulationstation2-${ARCH}.tar.gz /share/dl/recalbox-emulationstation2-${ARCH}.tar.gz'
+    - sed -i "s/^RECALBOX_EMULATIONSTATION2_VERSION.*/RECALBOX_EMULATIONSTATION2_VERSION = ${ARCH}/" package/recalbox-emulationstation2/recalbox-emulationstation2.mk
     - export RECALBOX_VERSION=${CI_BUILD_TAG:-${CI_BUILD_REF_SLUG}-${ARCH}-build-${CI_BUILD_ID}}
     - docker build -t recalbox-${ARCH} . 
     - docker run --rm -v `pwd`:/work -v /recalbox-builds/dl:/share/dl -v /recalbox-builds/hosts/host-${ARCH}:/share/host -v /recalbox-builds/ccaches/ccache-${ARCH}:/share/ccache -e "ARCH=$ARCH" -e "RECALBOX_VERSION_LABEL=$RECALBOX_VERSION" -e "RECALBOX_CCACHE_DIR=/share/ccache" recalbox-${ARCH} >> build.log 2>&1
