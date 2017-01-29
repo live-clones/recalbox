@@ -17,6 +17,7 @@ public:
     static constexpr const char *UPDATE_CHECK_HELP_MSG = "Automatically check if an update is avaialble. If so, notifies you with a message.";
     static constexpr const char *OVERCLOCK_HELP_MSG = "Overclock your board to increase performance.\nOverclock settings are tested and validated by the community. Keep in mind that overclocking your board can void the warranty.";
     static constexpr const char *BOOT_ON_SYSTEM_HELP_MSG = "Select the system to show when the recalbox frontend starts. The default value is 'favorites'.";
+    static constexpr const char *BOOTGAMELIST_HELP_MSG = "On boot, recalbox will show the list of the games of the selected system rather than the system view.";
     static constexpr const char *GAMELISTONLY_HELP_MSG = "Only show games contained in the gamelist.xml file (located in your roms directories).\nThis option highly speeds up boot time, but new games are not detected.";
     static constexpr const char *EMULATOR_ADVANCED_HELP_MSG = "Override global options like emulator, core, ratio and more for each available system in your recalbox.";
     static constexpr const char *BOOT_HELP_MSG = "Configure boot options that makes your recalbox boot straight on a system or in kodi, lock user to a single system, or show the gamelist.";

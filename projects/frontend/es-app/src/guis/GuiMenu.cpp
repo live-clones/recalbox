@@ -369,7 +369,7 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                                                                                           _("RETROACHIEVEMENTS SETTINGS"),
                                                                                           Font::get(FONT_SIZE_MEDIUM),
                                                                                           0x777777FF);
-                         s->addSubMenu(_("RETROACHIEVEMENTS SETTINGS"),openGui);
+                         s->addSubMenu(_("RETROACHIEVEMENTS SETTINGS"), openGui);
                      }
 
                  }
@@ -718,6 +718,25 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                      overclock_choice->add(_("NONE"), "none", true);
 #endif
                      s->addWithLabelAndHelp(_("OVERCLOCK"), overclock_choice, _(MenuMessages::OVERCLOCK_HELP_MSG));
+                     s->addSaveFunc([overclock_choice, window] {
+                         bool reboot = false;
+                         if (Settings::getInstance()->getString("Overclock") != overclock_choice->getSelected()) {
+                             Settings::getInstance()->setString("Overclock", overclock_choice->getSelected());
+                             RecalboxSystem::getInstance()->setOverclock(overclock_choice->getSelected());
+                             reboot = true;
+                         }
+                         RecalboxConf::getInstance()->saveRecalboxConf();
+                         if (reboot) {
+                             window->pushGui(
+                                     new GuiMsgBox(window, _("THE SYSTEM WILL NOW REBOOT"), _("OK"),
+                                                   [window] {
+                                                       if (runRestartCommand() != 0) {
+                                                           LOG(LogWarning) << "Reboot terminated with non-zero result!";
+                                                       }
+                                                   })
+                             );
+                         }
+                     });
 
                      // BOOT
                      {
@@ -752,15 +771,24 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                              }
                              bootGui->addWithLabelAndHelp(_("BOOT ON SYSTEM"), system_choices,
                                                           _(MenuMessages::BOOT_ON_SYSTEM_HELP_MSG));
+                             // Boot on gamelist
+                             bool bootOnGamelist =
+                                     RecalboxConf::getInstance()->get("emulationstation.bootongamelist") == "1";
+                             auto bootOnGamelistComp = std::make_shared<SwitchComponent>(mWindow, bootOnGamelist);
+                             bootOnGamelistComp->setState(bootOnGamelist);
+                             bootGui->addWithLabelAndHelp(_("BOOT ON GAMELIST"), bootOnGamelistComp,
+                                                          _(MenuMessages::BOOTGAMELIST_HELP_MSG));
 
                              bootGui->addSaveFunc(
-                                     [gamelistOnlyComp, system_choices, kodiAtStart] {
+                                     [gamelistOnlyComp, system_choices, kodiAtStart, bootOnGamelistComp] {
                                          RecalboxConf::getInstance()->set("kodi.atstartup",
                                                                           kodiAtStart->getState() ? "1" : "0");
                                          RecalboxConf::getInstance()->set("emulationstation.gamelistonly",
                                                                           gamelistOnlyComp->getState() ? "1" : "0");
                                          RecalboxConf::getInstance()->set("emulationstation.selectedsystem",
                                                                           system_choices->getSelected());
+                                         RecalboxConf::getInstance()->set("emulationstation.bootongamelist",
+                                                                          bootOnGamelistComp->getState() ? "1" : "0");
                                          RecalboxConf::getInstance()->saveRecalboxConf();
                                      });
                              mWindow->pushGui(bootGui);
@@ -768,30 +796,6 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
 
                          s->addSubMenu(_("BOOT SETTINGS"), openGui, MenuMessages::BOOT_HELP_MSG);
                      }
-
-
-                     s->addSaveFunc([overclock_choice, window] {
-                         bool reboot = false;
-
-                         if (Settings::getInstance()->getString("Overclock") != overclock_choice->getSelected()) {
-                             Settings::getInstance()->setString("Overclock", overclock_choice->getSelected());
-                             RecalboxSystem::getInstance()->setOverclock(overclock_choice->getSelected());
-                             reboot = true;
-                         }
-
-                         RecalboxConf::getInstance()->saveRecalboxConf();
-
-                         if (reboot) {
-                             window->pushGui(
-                                     new GuiMsgBox(window, _("THE SYSTEM WILL NOW REBOOT"), _("OK"),
-                                                   [window] {
-                                                       if (runRestartCommand() != 0) {
-                                                           LOG(LogWarning) << "Reboot terminated with non-zero result!";
-                                                       }
-                                                   })
-                             );
-                         }
-                     });
 
                      // Custom config for systems
                      {
@@ -804,7 +808,7 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                              for (auto system = systems.begin(); system != systems.end(); system++) {
                                  if ((*system) != SystemData::getFavoriteSystem()) {
                                      SystemData *systemData = (*system);
-                                     configuration->addSubMenu((*system)->getFullName(),[this, systemData] {
+                                     configuration->addSubMenu((*system)->getFullName(), [this, systemData] {
                                          popSystemConfigurationGui(systemData, "");
                                      });
                                  }
