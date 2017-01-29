@@ -752,7 +752,6 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                              bool gamelistOnly =
                                      RecalboxConf::getInstance()->get("emulationstation.gamelistonly") == "1";
                              auto gamelistOnlyComp = std::make_shared<SwitchComponent>(mWindow, gamelistOnly);
-                             gamelistOnlyComp->setState(gamelistOnly);
                              bootGui->addWithLabelAndHelp(_("GAMELIST ONLY"), gamelistOnlyComp,
                                                           _(MenuMessages::GAMELISTONLY_HELP_MSG));
 
@@ -775,12 +774,17 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                              bool bootOnGamelist =
                                      RecalboxConf::getInstance()->get("emulationstation.bootongamelist") == "1";
                              auto bootOnGamelistComp = std::make_shared<SwitchComponent>(mWindow, bootOnGamelist);
-                             bootOnGamelistComp->setState(bootOnGamelist);
                              bootGui->addWithLabelAndHelp(_("BOOT ON GAMELIST"), bootOnGamelistComp,
                                                           _(MenuMessages::BOOTGAMELIST_HELP_MSG));
+                             // Hide system view
+                             bool hidesystemview =
+                                     RecalboxConf::getInstance()->get("emulationstation.hidesystemview") == "1";
+                             auto hidesystemviewComp = std::make_shared<SwitchComponent>(mWindow, hidesystemview);
+                             bootGui->addWithLabelAndHelp(_("HIDE SYSTEM VIEW"), hidesystemviewComp,
+                                                          _(MenuMessages::HIDESYSTEMVIEW_HELP_MSG));
 
                              bootGui->addSaveFunc(
-                                     [gamelistOnlyComp, system_choices, kodiAtStart, bootOnGamelistComp] {
+                                     [gamelistOnlyComp, system_choices, kodiAtStart, bootOnGamelistComp, hidesystemviewComp] {
                                          RecalboxConf::getInstance()->set("kodi.atstartup",
                                                                           kodiAtStart->getState() ? "1" : "0");
                                          RecalboxConf::getInstance()->set("emulationstation.gamelistonly",
@@ -789,6 +793,8 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                                                                           system_choices->getSelected());
                                          RecalboxConf::getInstance()->set("emulationstation.bootongamelist",
                                                                           bootOnGamelistComp->getState() ? "1" : "0");
+                                         RecalboxConf::getInstance()->set("emulationstation.hidesystemview",
+                                                                          hidesystemviewComp->getState() ? "1" : "0");
                                          RecalboxConf::getInstance()->saveRecalboxConf();
                                      });
                              mWindow->pushGui(bootGui);
