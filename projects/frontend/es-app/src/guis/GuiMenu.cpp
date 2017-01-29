@@ -234,18 +234,9 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                                                         _(MenuMessages::UPDATE_CHECK_HELP_MSG));
 
                          // Start update
-                         ComponentListRow updateRow;
-                         std::function<void()> openGui = [this] {
+                         updateGui->addSubMenu(_("START UPDATE"),[this] {
                              mWindow->pushGui(new GuiUpdate(mWindow));
-                         };
-                         updateRow.makeAcceptInputHandler(openGui);
-                         auto update = std::make_shared<TextComponent>(mWindow, _("START UPDATE"),
-                                                                       Font::get(FONT_SIZE_MEDIUM),
-                                                                       0x777777FF);
-                         auto bracket = makeArrow(mWindow);
-                         updateRow.addElement(update, true);
-                         updateRow.addElement(bracket, false);
-                         updateGui->addRow(updateRow);
+                         }, MenuMessages::START_UPDATE_HELP_MSG);
 
                          // Enable updates
 
@@ -271,7 +262,7 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
 
                      });
 
-    addEntry(_("GAMES SETTINGS").c_str(), 0x777777FF, true,
+    addEntryWithHelp(_("GAMES SETTINGS").c_str(),_(MenuMessages::GAME_SETTINGS_HELP_MSG), 0x777777FF, true,
              [this] {
                  auto s = new GuiSettings(mWindow, _("GAMES SETTINGS").c_str());
                  if (RecalboxConf::getInstance()->get("emulationstation.menu") != "bartop") {
