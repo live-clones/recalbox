@@ -12,7 +12,8 @@ variables:
   stage: build
   script:
     - rm -rf /recalbox-builds/dl/recalbox-emulationstation2-${ARCH}.tar.gz
-    - tar cvzf /recalbox-builds/dl/recalbox-emulationstation2-${ARCH}.tar.gz -C recalbox-emulationstation/ .
+    - tar cvzf recalbox-emulationstation2-${ARCH}.tar.gz -C recalbox-emulationstation/ .
+    - docker run --rm -v `pwd`:/work -v /recalbox-builds/dl:/share/dl ubuntu:16.04 rm -rf /recalbox-builds/dl/recalbox-emulationstation2-${ARCH}.tar.gz && mv /work/recalbox-emulationstation2-${ARCH}.tar.gz /recalbox-builds/dl/recalbox-emulationstation2-${ARCH}.tar.gz
     - sed -i "s/RECALBOX_EMULATIONSTATION2_VERSION.*/RECALBOX_EMULATIONSTATION2_VERSION = ${ARCH}/" package/recalbox-emulationstation2/recalbox-emulationstation2.mk
     - export RECALBOX_VERSION=${CI_BUILD_TAG:-${CI_BUILD_REF_SLUG}-${ARCH}-build-${CI_BUILD_ID}}
     - docker build -t recalbox-${ARCH} . 
