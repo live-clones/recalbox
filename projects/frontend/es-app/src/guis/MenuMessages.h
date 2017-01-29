@@ -22,6 +22,7 @@ public:
     static constexpr const char *EMULATOR_ADVANCED_HELP_MSG = "Override global options like emulator, core, ratio and more for each available system in your recalbox.";
     static constexpr const char *BOOT_HELP_MSG = "Configure boot options that makes your recalbox boot straight on a system or in kodi, lock user to a single system, or show the gamelist.";
     static constexpr const char *KODI_HELP_MSG = "Enable or disable Kodi, customize Kodi startup, allow X button to start Kodi";
+    static constexpr const char *KODI_AT_START_HELP_MSG = "Automatically start Kodi when the recalbox boots.";
     static constexpr const char *SECURITY_HELP_MSG = "Manage your recalbox security.";
     static constexpr const char *ROOT_PSW_HELP_MSG = "Change the ssh root password.";
     static constexpr const char *ENFORCE_SECURITY_HELP_MSG = "Enforce recalbox security";

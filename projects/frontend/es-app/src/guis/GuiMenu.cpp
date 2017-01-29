@@ -727,11 +727,11 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                          std::function<void()> openGui = [this] {
                              GuiSettings *bootGui = new GuiSettings(mWindow,
                                                                     _("BOOT SETTINGS").c_str());
-                             auto kodiAtStart = std::make_shared<SwitchComponent>(mWindow);
-                             kodiAtStart->setState(
-                                     RecalboxConf::getInstance()->get("kodi.atstartup") == "1");
-                             bootGui->addWithLabelAndHelp(_("GAMELIST ONLY"), kodiAtStart,
-                                                          _(MenuMessages::GAMELISTONLY_HELP_MSG));
+                             auto kodiAtStart = std::make_shared<SwitchComponent>(mWindow,
+                                                                                  RecalboxConf::getInstance()->get(
+                                                                                          "kodi.atstartup") == "1");
+                             bootGui->addWithLabelAndHelp(_("KODI AT START"), kodiAtStart,
+                                                          _(MenuMessages::KODI_AT_START_HELP_MSG));
                              // Gamelists only
                              bool gamelistOnly =
                                      RecalboxConf::getInstance()->get("emulationstation.gamelistonly") == "1";
@@ -819,10 +819,11 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                              auto kodiEnabled = std::make_shared<SwitchComponent>(mWindow);
                              kodiEnabled->setState(RecalboxConf::getInstance()->get("kodi.enabled") == "1");
                              kodiGui->addWithLabel(_("ENABLE KODI"), kodiEnabled);
-                             auto kodiAtStart = std::make_shared<SwitchComponent>(mWindow);
-                             kodiAtStart->setState(
-                                     RecalboxConf::getInstance()->get("kodi.atstartup") == "1");
-                             kodiGui->addWithLabel(_("KODI AT START"), kodiAtStart);
+                             auto kodiAtStart = std::make_shared<SwitchComponent>(mWindow,
+                                                                                  RecalboxConf::getInstance()->get(
+                                                                                          "kodi.atstartup") == "1");
+                             kodiGui->addWithLabelAndHelp(_("KODI AT START"), kodiAtStart,
+                                                          _(MenuMessages::KODI_AT_START_HELP_MSG));
                              auto kodiX = std::make_shared<SwitchComponent>(mWindow);
                              kodiX->setState(RecalboxConf::getInstance()->get("kodi.xbutton") == "1");
                              kodiGui->addWithLabel(_("START KODI WITH X"), kodiX);
