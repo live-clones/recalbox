@@ -394,16 +394,7 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                  [this] {
                      auto s = new GuiSettings(mWindow, _("UI SETTINGS").c_str());
 
-                     // overscan
-                     auto overscan_enabled = std::make_shared<SwitchComponent>(mWindow);
-                     overscan_enabled->setState(Settings::getInstance()->getBool("Overscan"));
-                     s->addWithLabel(_("OVERSCAN"), overscan_enabled);
-                     s->addSaveFunc([overscan_enabled] {
-                         if (Settings::getInstance()->getBool("Overscan") != overscan_enabled->getState()) {
-                             Settings::getInstance()->setBool("Overscan", overscan_enabled->getState());
-                             RecalboxSystem::getInstance()->setOverscan(overscan_enabled->getState());
-                         }
-                     });
+
                      // screensaver time
                      auto screensaver_time = std::make_shared<SliderComponent>(mWindow, 0.f, 30.f, 1.f, "m");
                      screensaver_time->setValue(
@@ -428,13 +419,6 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                      s->addSaveFunc([screensaver_behavior] {
                          Settings::getInstance()->setString("ScreenSaverBehavior", screensaver_behavior->getSelected());
                      });
-
-                     // framerate
-                     auto framerate = std::make_shared<SwitchComponent>(mWindow);
-                     framerate->setState(Settings::getInstance()->getBool("DrawFramerate"));
-                     s->addWithLabel(_("SHOW FRAMERATE"), framerate);
-                     s->addSaveFunc(
-                             [framerate] { Settings::getInstance()->setBool("DrawFramerate", framerate->getState()); });
 
                      // show help
                      auto show_help = std::make_shared<SwitchComponent>(mWindow);
@@ -860,16 +844,19 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                      {
                          std::function<void()> openGui = [this] {
                              GuiSettings *securityGui = new GuiSettings(mWindow, _("SECURITY").c_str());
-                             auto securityEnabled = std::make_shared<SwitchComponent>(mWindow);
-                             securityEnabled->setState(
-                                     RecalboxConf::getInstance()->get("system.security.enabled") == "1");
-                             securityGui->addWithLabel(_("ENFORCE SECURITY"), securityEnabled);
+                             auto securityEnabled = std::make_shared<SwitchComponent>(mWindow,
+                                                                                      RecalboxConf::getInstance()->get(
+                                                                                              "system.security.enabled") ==
+                                                                                      "1");
+                             securityGui->addWithLabelAndHelp(_("ENFORCE SECURITY"), securityEnabled,
+                                                              _(MenuMessages::ENFORCE_SECURITY_HELP_MSG));
 
                              auto rootpassword = std::make_shared<TextComponent>(mWindow,
                                                                                  RecalboxSystem::getInstance()->getRootPassword(),
                                                                                  Font::get(FONT_SIZE_MEDIUM),
                                                                                  0x777777FF);
-                             securityGui->addWithLabel(_("ROOT PASSWORD"), rootpassword);
+                             securityGui->addWithLabelAndHelp(_("ROOT PASSWORD"), rootpassword), _(
+                                     MenuMessages::ROOT_PSW_HELP_MSG);
 
                              securityGui->addSaveFunc([this, securityEnabled] {
                                  Window *window = this->mWindow;
@@ -898,8 +885,42 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                          };
                          s->addSubMenu(_("SECURITY"), openGui, MenuMessages::SECURITY_HELP_MSG);
                      }
+                     // overscan
+                     auto overscan_enabled = std::make_shared<SwitchComponent>(mWindow,
+                                                                               Settings::getInstance()->getBool(
+                                                                                       "Overscan"));
+                     s->addWithLabelAndHelp(_("OVERSCAN"), overscan_enabled, _(MenuMessages::OVERSCAN_HELP_MSG));
+                     s->addSaveFunc([overscan_enabled] {
+                         if (Settings::getInstance()->getBool("Overscan") != overscan_enabled->getState()) {
+                             Settings::getInstance()->setBool("Overscan", overscan_enabled->getState());
+                             RecalboxSystem::getInstance()->setOverscan(overscan_enabled->getState());
+                         }
+                     });
 
+                     // framerate
+                     auto framerate = std::make_shared<SwitchComponent>(mWindow, Settings::getInstance()->getBool(
+                             "DrawFramerate"));
+                     s->addWithLabelAndHelp(_("SHOW FRAMERATE"), framerate, _(MenuMessages::OVERSCAN_HELP_MSG));
+                     s->addSaveFunc([framerate] {
+                         Settings::getInstance()->setBool("DrawFramerate", framerate->getState());
+                     });
 
+                     // Recalbox Manager
+                     auto manager = std::make_shared<SwitchComponent>(mWindow, RecalboxConf::getInstance()->get(
+                             "system.manager.enabled") == "1");
+                     s->addWithLabelAndHelp(_("RECALBOX MANAGER"), manager, _(MenuMessages::MANAGER_HELP_MSG));
+                     s->addSaveFunc([manager] {
+                         RecalboxConf::getInstance()->set("system.manager.enabled", manager->getState() ? "1" : "0");
+                         RecalboxConf::getInstance()->saveRecalboxConf();;
+                     });
+                     // Recalbox API
+                     auto recalboxApi = std::make_shared<SwitchComponent>(mWindow, RecalboxConf::getInstance()->get(
+                             "system.api.enabled") == "1");
+                     s->addWithLabelAndHelp(_("RECALBOX API"), recalboxApi, _(MenuMessages::API_HELP_MSG));
+                     s->addSaveFunc([recalboxApi] {
+                         RecalboxConf::getInstance()->set("system.api.enabled", recalboxApi->getState() ? "1" : "0");
+                         RecalboxConf::getInstance()->saveRecalboxConf();;
+                     });
                      mWindow->pushGui(s);
                  });
     }

@@ -5,7 +5,6 @@
 #ifndef EMULATIONSTATION_ALL_MENUMESSAGES_H
 #define EMULATIONSTATION_ALL_MENUMESSAGES_H
 
-
 #include <string>
 
 class MenuMessages {
@@ -24,6 +23,11 @@ public:
     static constexpr const char *BOOT_HELP_MSG = "Configure boot options that makes your recalbox boot straight on a system or in kodi, lock user to a single system, or show the gamelist.";
     static constexpr const char *KODI_HELP_MSG = "Enable or disable Kodi, customize Kodi startup, allow X button to start Kodi";
     static constexpr const char *SECURITY_HELP_MSG = "Manage your recalbox security.";
+    static constexpr const char *ROOT_PSW_HELP_MSG = "Change the ssh root password.";
+    static constexpr const char *ENFORCE_SECURITY_HELP_MSG = "Enforce recalbox security";
+    static constexpr const char *OVERSCAN_HELP_MSG = "Enable or disable overscan.\nOverscan can help you if you have black boarder or if the image is bigger than your screen. Before setting the overscan, try to configure your TV to have a 1:1 pixel display.\nMore overscan settings can be defined in the boot.txt file, available when you plug your sd card on your computer.";
+    static constexpr const char *MANAGER_HELP_MSG = "Enable or disable the Recalbox Manager.\nThe Recalbox Manager is a web application available on http://recalbox if you are on windows, http://recalbox.local if you are on Linux or mac, or directly with your recalbox IP : http://192.168.1.XX.\nYou can configure many options from the manager, and even manage games, saves, and scrap !";
+    static constexpr const char *API_HELP_MSG = "Enable or disable the Recalbox Api.\nThe Recalbox Api is a REST api exposing endpoints to control your recalbox via http requests.";
 };
 
 #endif //EMULATIONSTATION_ALL_MENUMESSAGES_H
