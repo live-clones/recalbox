@@ -4,6 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 ### Added
+- HTTPS support for screenscraper mirror
 - Support of emulationstation.gamelistonly and emulationstation.hidesystemview
 - Added Catalan translation
 - Added a virtual keyboard
