@@ -128,13 +128,13 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                              auto version = std::make_shared<TextComponent>(mWindow,
                                                                             RecalboxSystem::getInstance()->getVersion(),
                                                                             Font::get(FONT_SIZE_MEDIUM), 0x777777FF);
-                             s->addWithLabel(_("VERSION"), version);
+                             s->addWithLabelAndHelp(_("VERSION"), version, _(MenuMessages::VERSION_HELP_MSG));
                              bool warning = RecalboxSystem::getInstance()->isFreeSpaceLimit();
                              auto space = std::make_shared<TextComponent>(mWindow,
                                                                           RecalboxSystem::getInstance()->getFreeSpaceInfo(),
                                                                           Font::get(FONT_SIZE_MEDIUM),
                                                                           warning ? 0xFF0000FF : 0x777777FF);
-                             s->addWithLabel(_("DISK USAGE"), space);
+                             s->addWithLabelAndHelp(_("DISK USAGE"), space, _(MenuMessages::DISK_USAGE_HELP_MSG));
 
                              std::vector<std::string> availableStorage = RecalboxSystem::getInstance()->getAvailableStorageDevices();
                              std::string selectedStorage = RecalboxSystem::getInstance()->getCurrentStorage();
@@ -157,7 +157,7 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                                      }
                                  }
                              }
-                             s->addWithLabel(_("STORAGE DEVICE"), optionsStorage);
+                             s->addWithLabelAndHelp(_("STORAGE DEVICE"), optionsStorage, _(MenuMessages::STORAGE_DEVICE_HELP_MSG));
 
 
                              // language choice
@@ -189,7 +189,7 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                              language_choice->add("RUSSIAN", "ru_RU", language == "ru_RU");
                              language_choice->add("HUNGARIAN", "hu_HU", language == "hu_HU");
 
-                             s->addWithLabel(_("LANGUAGE"), language_choice);
+                             s->addWithLabelAndHelp(_("LANGUAGE"), language_choice, _(MenuMessages::LANGUAGE_HELP_MSG));
 
 
                              s->addSaveFunc([window, language_choice, language, optionsStorage, selectedStorage] {
