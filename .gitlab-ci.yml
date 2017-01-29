@@ -5,9 +5,15 @@ stages:
   - release
   - clean
 
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+
 .build_template: &build_definition
   stage: build
   script:
+    - rm -rf /recalbox-builds/dl/recalbox-emulationstation2-${ARCH}.tar.gz
+    - tar cvzf /recalbox-builds/dl/recalbox-emulationstation2-${ARCH}.tar.gz -C recalbox-emulationstation/ .
+    - sed -i "s/RECALBOX_EMULATIONSTATION2_VERSION.*/RECALBOX_EMULATIONSTATION2_VERSION = ${ARCH}/" package/recalbox-emulationstation2/recalbox-emulationstation2.mk
     - export RECALBOX_VERSION=${CI_BUILD_TAG:-${CI_BUILD_REF_SLUG}-${ARCH}-build-${CI_BUILD_ID}}
     - docker build -t recalbox-${ARCH} . 
     - docker run --rm -v `pwd`:/work -v /recalbox-builds/dl:/share/dl -v /recalbox-builds/hosts/host-${ARCH}:/share/host -v /recalbox-builds/ccaches/ccache-${ARCH}:/share/ccache -e "ARCH=$ARCH" -e "RECALBOX_VERSION_LABEL=$RECALBOX_VERSION" -e "RECALBOX_CCACHE_DIR=/share/ccache" recalbox-${ARCH} >> build.log 2>&1
@@ -71,7 +77,7 @@ release master:
   only:
     - master
   variables:
-    RELEASE_DIR: "unstable-gh"
+    RELEASE_DIR: "unstable"
   environment:
     name: staging
     url: https://archive.recalbox.com/updates/v1.0/unstable/
@@ -83,7 +89,7 @@ release stable:
   only:
     - tags
   variables:
-    RELEASE_DIR: "stable-gh"
+    RELEASE_DIR: "stable"
   environment:
     name: production
     url: https://archive.recalbox.com/updates/v1.0/stable/
@@ -97,7 +103,7 @@ release for test:
   except:
     - master
   variables:
-    RELEASE_DIR: "gitlab-gh/${CI_BUILD_REF_SLUG}"
+    RELEASE_DIR: "gitlab/${CI_BUILD_REF_SLUG}"
     SKIP_IMAGES: "true"
   environment:
     name: review/${CI_BUILD_REF_SLUG}
