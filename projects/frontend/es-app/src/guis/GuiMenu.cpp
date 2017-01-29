@@ -331,7 +331,6 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
 
                      // Retroachievements
                      {
-                         ComponentListRow row;
                          std::function<void()> openGui = [this] {
                              GuiSettings *retroachievements = new GuiSettings(mWindow,
                                                                               _("RETROACHIEVEMENTS SETTINGS").c_str());
@@ -366,46 +365,13 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                                      });
                              mWindow->pushGui(retroachievements);
                          };
-                         row.makeAcceptInputHandler(openGui);
                          auto retroachievementsSettings = std::make_shared<TextComponent>(mWindow,
                                                                                           _("RETROACHIEVEMENTS SETTINGS"),
                                                                                           Font::get(FONT_SIZE_MEDIUM),
                                                                                           0x777777FF);
-                         auto bracket = makeArrow(mWindow);
-                         row.addElement(retroachievementsSettings, true);
-                         row.addElement(bracket, false);
-                         s->addRow(row);
+                         s->addSubMenu(_("RETROACHIEVEMENTS SETTINGS"),openGui);
                      }
 
-                     // Game List Update
-                     {
-                         ComponentListRow row;
-                         Window *window = mWindow;
-
-                         row.makeAcceptInputHandler([this, window] {
-                             window->pushGui(new GuiMsgBox(window, _("REALLY UPDATE GAMES LISTS ?"), _("YES"),
-                                                           [this, window] {
-                                                               ViewController::get()->goToStart();
-                                                               window->renderShutdownScreen();
-                                                               delete ViewController::get();
-                                                               SystemData::deleteSystems();
-                                                               SystemData::loadConfig();
-                                                               GuiComponent *gui;
-                                                               while ((gui = window->peekGui()) != NULL) {
-                                                                   window->removeGui(gui);
-                                                                   delete gui;
-                                                               }
-                                                               ViewController::init(window);
-                                                               ViewController::get()->reloadAll();
-                                                               window->pushGui(ViewController::get());
-                                                           }, _("NO"), nullptr));
-                         });
-                         row.addElement(
-                                 std::make_shared<TextComponent>(window, _("UPDATE GAMES LISTS"),
-                                                                 Font::get(FONT_SIZE_MEDIUM),
-                                                                 0x777777FF), true);
-                         s->addRow(row);
-                     }
                  }
                  s->addSaveFunc([smoothing_enabled, rewind_enabled, shaders_choices, autosave_enabled] {
                      RecalboxConf::getInstance()->set("global.smooth", smoothing_enabled->getState() ? "1" : "0");
@@ -534,6 +500,35 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                              if (needReload)
                                  ViewController::get()->reloadAll(); // TODO - replace this with some sort of signal-based implementation
                          });
+                     }
+                     // Game List Update
+                     {
+                         ComponentListRow row;
+                         Window *window = mWindow;
+
+                         row.makeAcceptInputHandler([this, window] {
+                             window->pushGui(new GuiMsgBox(window, _("REALLY UPDATE GAMES LISTS ?"), _("YES"),
+                                                           [this, window] {
+                                                               ViewController::get()->goToStart();
+                                                               window->renderShutdownScreen();
+                                                               delete ViewController::get();
+                                                               SystemData::deleteSystems();
+                                                               SystemData::loadConfig();
+                                                               GuiComponent *gui;
+                                                               while ((gui = window->peekGui()) != NULL) {
+                                                                   window->removeGui(gui);
+                                                                   delete gui;
+                                                               }
+                                                               ViewController::init(window);
+                                                               ViewController::get()->reloadAll();
+                                                               window->pushGui(ViewController::get());
+                                                           }, _("NO"), nullptr));
+                         });
+                         row.addElement(
+                                 std::make_shared<TextComponent>(window, _("UPDATE GAMES LISTS"),
+                                                                 Font::get(FONT_SIZE_MEDIUM),
+                                                                 0x777777FF), true);
+                         s->addRow(row);
                      }
 
                      mWindow->pushGui(s);
@@ -724,30 +719,58 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
 #endif
                      s->addWithLabelAndHelp(_("OVERCLOCK"), overclock_choice, _(MenuMessages::OVERCLOCK_HELP_MSG));
 
-                     // Gamelists only
-                     bool gamelistOnly = RecalboxConf::getInstance()->get("emulationstation.gamelistonly") == "1";
-                     auto gamelistOnlyComp = std::make_shared<SwitchComponent>(mWindow, gamelistOnly);
-                     gamelistOnlyComp->setState(gamelistOnly);
-                     s->addWithLabelAndHelp(_("GAMELIST ONLY"), gamelistOnlyComp,
-                                            _(MenuMessages::GAMELISTONLY_HELP_MSG));
+                     // BOOT
+                     {
+                         std::function<void()> openGui = [this] {
+                             GuiSettings *bootGui = new GuiSettings(mWindow,
+                                                                    _("BOOT SETTINGS").c_str());
+                             auto kodiAtStart = std::make_shared<SwitchComponent>(mWindow);
+                             kodiAtStart->setState(
+                                     RecalboxConf::getInstance()->get("kodi.atstartup") == "1");
+                             bootGui->addWithLabelAndHelp(_("GAMELIST ONLY"), kodiAtStart,
+                                                          _(MenuMessages::GAMELISTONLY_HELP_MSG));
+                             // Gamelists only
+                             bool gamelistOnly =
+                                     RecalboxConf::getInstance()->get("emulationstation.gamelistonly") == "1";
+                             auto gamelistOnlyComp = std::make_shared<SwitchComponent>(mWindow, gamelistOnly);
+                             gamelistOnlyComp->setState(gamelistOnly);
+                             bootGui->addWithLabelAndHelp(_("GAMELIST ONLY"), gamelistOnlyComp,
+                                                          _(MenuMessages::GAMELISTONLY_HELP_MSG));
 
-                     // Selected System
-                     std::string selectedsystem = RecalboxConf::getInstance()->get("emulationstation.selectedsystem");
-                     auto system_choices = std::make_shared<OptionListComponent<std::string> >(mWindow,
-                                                                                               _("BOOT ON SYSTEM"),
-                                                                                               false);
-                     std::string currentSystem = selectedsystem != "" ? selectedsystem : "favorites";
-                     // For each activated system
-                     std::vector<SystemData *> systems = SystemData::sSystemVector;
-                     for (auto system = systems.begin(); system != systems.end(); system++) {
-                         std::string systemName = (*system)->getName();
-                         system_choices->add(systemName, systemName, currentSystem == systemName);
+                             // Selected System
+                             std::string selectedsystem = RecalboxConf::getInstance()->get(
+                                     "emulationstation.selectedsystem");
+                             auto system_choices = std::make_shared<OptionListComponent<std::string> >(mWindow,
+                                                                                                       _("BOOT ON SYSTEM"),
+                                                                                                       false);
+                             std::string currentSystem = selectedsystem != "" ? selectedsystem : "favorites";
+                             // For each activated system
+                             std::vector<SystemData *> systems = SystemData::sSystemVector;
+                             for (auto system = systems.begin(); system != systems.end(); system++) {
+                                 std::string systemName = (*system)->getName();
+                                 system_choices->add(systemName, systemName, currentSystem == systemName);
+                             }
+                             bootGui->addWithLabelAndHelp(_("BOOT ON SYSTEM"), system_choices,
+                                                          _(MenuMessages::BOOT_ON_SYSTEM_HELP_MSG));
+
+                             bootGui->addSaveFunc(
+                                     [gamelistOnlyComp, system_choices, kodiAtStart] {
+                                         RecalboxConf::getInstance()->set("kodi.atstartup",
+                                                                          kodiAtStart->getState() ? "1" : "0");
+                                         RecalboxConf::getInstance()->set("emulationstation.gamelistonly",
+                                                                          gamelistOnlyComp->getState() ? "1" : "0");
+                                         RecalboxConf::getInstance()->set("emulationstation.selectedsystem",
+                                                                          system_choices->getSelected());
+                                         RecalboxConf::getInstance()->saveRecalboxConf();
+                                     });
+                             mWindow->pushGui(bootGui);
+                         };
+
+                         s->addSubMenu(_("BOOT SETTINGS"), openGui, MenuMessages::BOOT_HELP_MSG);
                      }
-                     s->addWithLabelAndHelp(_("BOOT ON SYSTEM"), system_choices,
-                                            _(MenuMessages::BOOT_ON_SYSTEM_HELP_MSG));
 
 
-                     s->addSaveFunc([overclock_choice, gamelistOnlyComp, window, system_choices] {
+                     s->addSaveFunc([overclock_choice, window] {
                          bool reboot = false;
 
                          if (Settings::getInstance()->getString("Overclock") != overclock_choice->getSelected()) {
@@ -755,10 +778,7 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                              RecalboxSystem::getInstance()->setOverclock(overclock_choice->getSelected());
                              reboot = true;
                          }
-                         RecalboxConf::getInstance()->set("emulationstation.gamelistonly",
-                                                          gamelistOnlyComp->getState() ? "1" : "0");
-                         RecalboxConf::getInstance()->set("emulationstation.selectedsystem",
-                                                          system_choices->getSelected());
+
                          RecalboxConf::getInstance()->saveRecalboxConf();
 
                          if (reboot) {
@@ -775,54 +795,31 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
 
                      // Custom config for systems
                      {
-                         ComponentListRow row;
                          std::function<void()> openGuiD = [this, s] {
                              s->save();
-                             GuiSettings *configuration = new GuiSettings(mWindow, _("EMULATOR ADVANCED CONFIGURATION").c_str());
+                             GuiSettings *configuration = new GuiSettings(mWindow,
+                                                                          _("EMULATOR ADVANCED CONFIGURATION").c_str());
                              // For each activated system
                              std::vector<SystemData *> systems = SystemData::sSystemVector;
                              for (auto system = systems.begin(); system != systems.end(); system++) {
                                  if ((*system) != SystemData::getFavoriteSystem()) {
-                                     ComponentListRow systemRow;
-                                     auto systemText = std::make_shared<TextComponent>(mWindow,
-                                                                                       (*system)->getFullName(),
-                                                                                       Font::get(FONT_SIZE_MEDIUM),
-                                                                                       0x777777FF);
-                                     auto bracket = makeArrow(mWindow);
-                                     systemRow.addElement(systemText, true);
-                                     systemRow.addElement(bracket, false);
                                      SystemData *systemData = (*system);
-                                     systemRow.makeAcceptInputHandler([this, systemData] {
+                                     configuration->addSubMenu((*system)->getFullName(),[this, systemData] {
                                          popSystemConfigurationGui(systemData, "");
                                      });
-                                     configuration->addRow(systemRow);
                                  }
                              }
                              mWindow->pushGui(configuration);
 
                          };
                          // Advanced button
-                         row.makeAcceptInputHandler(openGuiD);
-                         auto advanced = std::make_shared<TextComponent>(mWindow, _("EMULATOR ADVANCED CONFIGURATION"),
-                                                                         Font::get(FONT_SIZE_MEDIUM),
-                                                                         0x777777FF);
-                         auto bracket = makeArrow(mWindow);
-                         row.addElement(advanced, true);
-                         row.addElement(bracket, false);
-                         row.makeHelpInputHandler([this] {
-                             mWindow->pushGui(new GuiMsgBoxScroll(
-                                     mWindow, _("EMULATOR ADVANCED CONFIGURATION"),
-                                     MenuMessages::EMULATOR_ADVANCED_HELP_MSG, _("OK"),
-                                     [] {}, "", nullptr, "", nullptr, ALIGN_LEFT));
-                             return true;
-                         });
-                         s->addRow(row);
+                         s->addSubMenu(_("ADVANCED EMULATOR CONFIGURATION"), openGuiD,
+                                       MenuMessages::EMULATOR_ADVANCED_HELP_MSG);
                      }
 
 
                      //Kodi
                      {
-                         ComponentListRow row;
                          std::function<void()> openGui = [this] {
                              GuiSettings *kodiGui = new GuiSettings(mWindow, _("KODI SETTINGS").c_str());
                              auto kodiEnabled = std::make_shared<SwitchComponent>(mWindow);
@@ -846,19 +843,11 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                              });
                              mWindow->pushGui(kodiGui);
                          };
-                         row.makeAcceptInputHandler(openGui);
-                         auto kodiSettings = std::make_shared<TextComponent>(mWindow, _("KODI SETTINGS"),
-                                                                             Font::get(FONT_SIZE_MEDIUM),
-                                                                             0x777777FF);
-                         auto bracket = makeArrow(mWindow);
-                         row.addElement(kodiSettings, true);
-                         row.addElement(bracket, false);
-                         s->addRow(row);
+                         s->addSubMenu(_("KODI SETTINGS"), openGui, MenuMessages::KODI_HELP_MSG);
                      }
 
                      //Security
                      {
-                         ComponentListRow row;
                          std::function<void()> openGui = [this] {
                              GuiSettings *securityGui = new GuiSettings(mWindow, _("SECURITY").c_str());
                              auto securityEnabled = std::make_shared<SwitchComponent>(mWindow);
@@ -897,14 +886,7 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                              });
                              mWindow->pushGui(securityGui);
                          };
-                         row.makeAcceptInputHandler(openGui);
-                         auto securitySettings = std::make_shared<TextComponent>(mWindow, _("SECURITY"),
-                                                                                 Font::get(FONT_SIZE_MEDIUM),
-                                                                                 0x777777FF);
-                         auto bracket = makeArrow(mWindow);
-                         row.addElement(securitySettings, true);
-                         row.addElement(bracket, false);
-                         s->addRow(row);
+                         s->addSubMenu(_("SECURITY"), openGui, MenuMessages::SECURITY_HELP_MSG);
                      }
 
 

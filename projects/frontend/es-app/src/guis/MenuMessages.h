@@ -19,6 +19,9 @@ public:
     static constexpr const char *BOOT_ON_SYSTEM_HELP_MSG = "Select the system to show when the recalbox frontend starts. The default value is 'favorites'.";
     static constexpr const char *GAMELISTONLY_HELP_MSG = "Only show games contained in the gamelist.xml file (located in your roms directories).\nThis option highly speeds up boot time, but new games are not detected.";
     static constexpr const char *EMULATOR_ADVANCED_HELP_MSG = "Override global options like emulator, core, ratio and more for each available system in your recalbox.";
+    static constexpr const char *BOOT_HELP_MSG = "Configure boot options that makes your recalbox boot straight on a system or in kodi, lock user to a single system, or show the gamelist.";
+    static constexpr const char *KODI_HELP_MSG = "Enable or disable Kodi, customize Kodi startup, allow X button to start Kodi";
+    static constexpr const char *SECURITY_HELP_MSG = "Manage your recalbox security.";
 };
 
 #endif //EMULATIONSTATION_ALL_MENUMESSAGES_H
