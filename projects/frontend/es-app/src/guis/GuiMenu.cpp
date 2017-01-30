@@ -157,7 +157,8 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                                      }
                                  }
                              }
-                             s->addWithLabelAndHelp(_("STORAGE DEVICE"), optionsStorage, _(MenuMessages::STORAGE_DEVICE_HELP_MSG));
+                             s->addWithLabelAndHelp(_("STORAGE DEVICE"), optionsStorage,
+                                                    _(MenuMessages::STORAGE_DEVICE_HELP_MSG));
 
 
                              // language choice
@@ -234,7 +235,7 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                                                         _(MenuMessages::UPDATE_CHECK_HELP_MSG));
 
                          // Start update
-                         updateGui->addSubMenu(_("START UPDATE"),[this] {
+                         updateGui->addSubMenu(_("START UPDATE"), [this] {
                              mWindow->pushGui(new GuiUpdate(mWindow));
                          }, MenuMessages::START_UPDATE_HELP_MSG);
 
@@ -262,117 +263,129 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
 
                      });
 
-    addEntryWithHelp(_("GAMES SETTINGS").c_str(),_(MenuMessages::GAME_SETTINGS_HELP_MSG), 0x777777FF, true,
-             [this] {
-                 auto s = new GuiSettings(mWindow, _("GAMES SETTINGS").c_str());
-                 if (RecalboxConf::getInstance()->get("emulationstation.menu") != "bartop") {
+    addEntryWithHelp(_("GAMES SETTINGS").c_str(), _(MenuMessages::GAME_SETTINGS_HELP_MSG), 0x777777FF, true,
+                     [this] {
+                         auto s = new GuiSettings(mWindow, _("GAMES SETTINGS").c_str());
+                         if (RecalboxConf::getInstance()->get("emulationstation.menu") != "bartop") {
+                             // Screen ratio choice
+                             auto ratio_choice = createRatioOptionList(mWindow, "global");
+                             s->addWithLabelAndHelp(_("GAME RATIO"), ratio_choice,
+                                                    _(MenuMessages::GAME_RATIO_HELP_MSG));
+                             s->addSaveFunc([ratio_choice] {
+                                 RecalboxConf::getInstance()->set("global.ratio", ratio_choice->getSelected());
+                                 RecalboxConf::getInstance()->saveRecalboxConf();
+                             });
+                         }
+                         // smoothing
+                         auto smoothing_enabled = std::make_shared<SwitchComponent>(mWindow);
+                         smoothing_enabled->setState(RecalboxConf::getInstance()->get("global.smooth") == "1");
+                         s->addWithLabelAndHelp(_("SMOOTH GAMES"), smoothing_enabled,
+                                                _(MenuMessages::GAME_SMOOTH_HELP_MSG));
 
-                     // Screen ratio choice
-                     auto ratio_choice = createRatioOptionList(mWindow, "global");
-                     s->addWithLabel(_("GAME RATIO"), ratio_choice);
-                     s->addSaveFunc([ratio_choice] {
-                         RecalboxConf::getInstance()->set("global.ratio", ratio_choice->getSelected());
-                         RecalboxConf::getInstance()->saveRecalboxConf();
-                     });
-                 }
-                 // smoothing
-                 auto smoothing_enabled = std::make_shared<SwitchComponent>(mWindow);
-                 smoothing_enabled->setState(RecalboxConf::getInstance()->get("global.smooth") == "1");
-                 s->addWithLabel(_("SMOOTH GAMES"), smoothing_enabled);
-
-                 // rewind
-                 auto rewind_enabled = std::make_shared<SwitchComponent>(mWindow);
-                 rewind_enabled->setState(RecalboxConf::getInstance()->get("global.rewind") == "1");
-                 s->addWithLabel(_("REWIND"), rewind_enabled);
-
-                 // autosave/load
-                 auto autosave_enabled = std::make_shared<SwitchComponent>(mWindow);
-                 autosave_enabled->setState(RecalboxConf::getInstance()->get("global.autosave") == "1");
-                 s->addWithLabel(_("AUTO SAVE/LOAD"), autosave_enabled);
-
-                 // Shaders preset
-
-                 auto shaders_choices = std::make_shared<OptionListComponent<std::string> >(mWindow, _("SHADERS SET"),
-                                                                                            false);
-                 std::string currentShader = RecalboxConf::getInstance()->get("global.shaderset");
-                 if (currentShader.empty()) {
-                     currentShader = std::string("none");
-                 }
-
-                 shaders_choices->add(_("NONE"), "none", currentShader == "none");
-                 shaders_choices->add(_("SCANLINES"), "scanlines", currentShader == "scanlines");
-                 shaders_choices->add(_("RETRO"), "retro", currentShader == "retro");
-                 s->addWithLabel(_("SHADERS SET"), shaders_choices);
-                 // Integer scale
-                 auto integerscale_enabled = std::make_shared<SwitchComponent>(mWindow);
-                 integerscale_enabled->setState(RecalboxConf::getInstance()->get("global.integerscale") == "1");
-                 s->addWithLabel(_("INTEGER SCALE (PIXEL PERFECT)"), integerscale_enabled);
-                 s->addSaveFunc([integerscale_enabled] {
-                     RecalboxConf::getInstance()->set("global.integerscale",
-                                                      integerscale_enabled->getState() ? "1" : "0");
-                     RecalboxConf::getInstance()->saveRecalboxConf();
-                 });
-
-                 shaders_choices->setSelectedChangedCallback([integerscale_enabled](std::string selectedShader) {
-                     integerscale_enabled->setState(selectedShader != "none");
-                 });
+                         // rewind
+                         auto rewind_enabled = std::make_shared<SwitchComponent>(mWindow);
+                         rewind_enabled->setState(RecalboxConf::getInstance()->get("global.rewind") == "1");
+                         s->addWithLabelAndHelp(_("REWIND"), rewind_enabled, _(MenuMessages::GAME_REWIND_HELP_MSG));
 
 
-                 if (RecalboxConf::getInstance()->get("emulationstation.menu") != "bartop") {
+                         // autosave/load
+                         auto autosave_enabled = std::make_shared<SwitchComponent>(mWindow);
+                         autosave_enabled->setState(RecalboxConf::getInstance()->get("global.autosave") == "1");
+                         s->addWithLabelAndHelp(_("AUTO SAVE/LOAD"), autosave_enabled, _(MenuMessages::GAME_AUTOSAVELOAD_HELP_MSG));
 
-                     // Retroachievements
-                     {
-                         std::function<void()> openGui = [this] {
-                             GuiSettings *retroachievements = new GuiSettings(mWindow,
-                                                                              _("RETROACHIEVEMENTS SETTINGS").c_str());
-                             // retroachievements_enable
-                             auto retroachievements_enabled = std::make_shared<SwitchComponent>(mWindow);
-                             retroachievements_enabled->setState(
-                                     RecalboxConf::getInstance()->get("global.retroachievements") == "1");
-                             retroachievements->addWithLabel(_("RETROACHIEVEMENTS"), retroachievements_enabled);
+                         // Shaders preset
 
-                             // retroachievements_hardcore_mode
-                             auto retroachievements_hardcore_enabled = std::make_shared<SwitchComponent>(mWindow);
-                             retroachievements_hardcore_enabled->setState(
-                                     RecalboxConf::getInstance()->get("global.retroachievements.hardcore") == "1");
-                             retroachievements->addWithLabel(_("HARDCORE MODE"), retroachievements_hardcore_enabled);
+                         auto shaders_choices = std::make_shared<OptionListComponent<std::string> >(mWindow,
+                                                                                                    _("SHADERS SET"),
+                                                                                                    false);
+                         std::string currentShader = RecalboxConf::getInstance()->get("global.shaderset");
+                         if (currentShader.empty()) {
+                             currentShader = std::string("none");
+                         }
 
-                             // retroachievements, username, password
-                             createInputTextRow(retroachievements, _("USERNAME"), "global.retroachievements.username",
-                                                false);
-                             createInputTextRow(retroachievements, _("PASSWORD"), "global.retroachievements.password",
-                                                true);
+                         shaders_choices->add(_("NONE"), "none", currentShader == "none");
+                         shaders_choices->add(_("SCANLINES"), "scanlines", currentShader == "scanlines");
+                         shaders_choices->add(_("RETRO"), "retro", currentShader == "retro");
+                         s->addWithLabelAndHelp(_("SHADERS SET"), shaders_choices, _(MenuMessages::GAME_SHADERS_HELP_MSG));
+                         // Integer scale
+                         auto integerscale_enabled = std::make_shared<SwitchComponent>(mWindow);
+                         integerscale_enabled->setState(RecalboxConf::getInstance()->get("global.integerscale") == "1");
+                         s->addWithLabelAndHelp(_("INTEGER SCALE (PIXEL PERFECT)"), integerscale_enabled, _(MenuMessages::GAME_INTEGER_SCALE_HELP_MSG));
+                         s->addSaveFunc([integerscale_enabled] {
+                             RecalboxConf::getInstance()->set("global.integerscale",
+                                                              integerscale_enabled->getState() ? "1" : "0");
+                             RecalboxConf::getInstance()->saveRecalboxConf();
+                         });
+
+                         shaders_choices->setSelectedChangedCallback(
+                                 [integerscale_enabled](std::string selectedShader) {
+                                     integerscale_enabled->setState(selectedShader != "none");
+                                 });
+
+                         if (RecalboxConf::getInstance()->get("emulationstation.menu") != "bartop") {
+                             // Retroachievements
+                             {
+                                 std::function<void()> openGui = [this] {
+                                     GuiSettings *retroachievements = new GuiSettings(mWindow,
+                                                                                      _("RETROACHIEVEMENTS SETTINGS").c_str());
+                                     // retroachievements_enable
+                                     auto retroachievements_enabled = std::make_shared<SwitchComponent>(mWindow);
+                                     retroachievements_enabled->setState(
+                                             RecalboxConf::getInstance()->get("global.retroachievements") == "1");
+                                     retroachievements->addWithLabelAndHelp(_("RETROACHIEVEMENTS"), retroachievements_enabled, _(MenuMessages::RA_ONOFF_HELP_MSG));
+
+                                     // retroachievements_hardcore_mode
+                                     auto retroachievements_hardcore_enabled = std::make_shared<SwitchComponent>(
+                                             mWindow);
+                                     retroachievements_hardcore_enabled->setState(
+                                             RecalboxConf::getInstance()->get("global.retroachievements.hardcore") ==
+                                             "1");
+                                     retroachievements->addWithLabelAndHelp(_("HARDCORE MODE"),
+                                                                     retroachievements_hardcore_enabled, _(MenuMessages::RA_HARDCORE_HELP_MSG));
 
 
-                             retroachievements->addSaveFunc(
-                                     [retroachievements_enabled, retroachievements_hardcore_enabled] {
-                                         RecalboxConf::getInstance()->set("global.retroachievements",
-                                                                          retroachievements_enabled->getState() ? "1"
-                                                                                                                : "0");
-                                         RecalboxConf::getInstance()->set("global.retroachievements.hardcore",
-                                                                          retroachievements_hardcore_enabled->getState()
-                                                                          ? "1" : "0");
-                                         RecalboxConf::getInstance()->saveRecalboxConf();
-                                     });
-                             mWindow->pushGui(retroachievements);
-                         };
-                         auto retroachievementsSettings = std::make_shared<TextComponent>(mWindow,
-                                                                                          _("RETROACHIEVEMENTS SETTINGS"),
-                                                                                          Font::get(FONT_SIZE_MEDIUM),
-                                                                                          0x777777FF);
-                         s->addSubMenu(_("RETROACHIEVEMENTS SETTINGS"), openGui);
+                                     // retroachievements, username, password
+                                     createInputTextRow(retroachievements, _("USERNAME"),
+                                                        "global.retroachievements.username",
+                                                        false);
+                                     createInputTextRow(retroachievements, _("PASSWORD"),
+                                                        "global.retroachievements.password",
+                                                        true);
+
+
+                                     retroachievements->addSaveFunc(
+                                             [retroachievements_enabled, retroachievements_hardcore_enabled] {
+                                                 RecalboxConf::getInstance()->set("global.retroachievements",
+                                                                                  retroachievements_enabled->getState()
+                                                                                  ? "1"
+                                                                                  : "0");
+                                                 RecalboxConf::getInstance()->set("global.retroachievements.hardcore",
+                                                                                  retroachievements_hardcore_enabled->getState()
+                                                                                  ? "1" : "0");
+                                                 RecalboxConf::getInstance()->saveRecalboxConf();
+                                             });
+                                     mWindow->pushGui(retroachievements);
+                                 };
+                                 auto retroachievementsSettings = std::make_shared<TextComponent>(mWindow,
+                                                                                                  _("RETROACHIEVEMENTS SETTINGS"),
+                                                                                                  Font::get(
+                                                                                                          FONT_SIZE_MEDIUM),
+                                                                                                  0x777777FF);
+                                 s->addSubMenu(_("RETROACHIEVEMENTS SETTINGS"), openGui, _(MenuMessages::RA_HELP_MSG));
+                             }
+
+                         }
+                         s->addSaveFunc([smoothing_enabled, rewind_enabled, shaders_choices, autosave_enabled] {
+                             RecalboxConf::getInstance()->set("global.smooth",
+                                                              smoothing_enabled->getState() ? "1" : "0");
+                             RecalboxConf::getInstance()->set("global.rewind", rewind_enabled->getState() ? "1" : "0");
+                             RecalboxConf::getInstance()->set("global.shaderset", shaders_choices->getSelected());
+                             RecalboxConf::getInstance()->set("global.autosave",
+                                                              autosave_enabled->getState() ? "1" : "0");
+                             RecalboxConf::getInstance()->saveRecalboxConf();
+                         });
+                         mWindow->pushGui(s);
                      }
-
-                 }
-                 s->addSaveFunc([smoothing_enabled, rewind_enabled, shaders_choices, autosave_enabled] {
-                     RecalboxConf::getInstance()->set("global.smooth", smoothing_enabled->getState() ? "1" : "0");
-                     RecalboxConf::getInstance()->set("global.rewind", rewind_enabled->getState() ? "1" : "0");
-                     RecalboxConf::getInstance()->set("global.shaderset", shaders_choices->getSelected());
-                     RecalboxConf::getInstance()->set("global.autosave", autosave_enabled->getState() ? "1" : "0");
-                     RecalboxConf::getInstance()->saveRecalboxConf();
-                 });
-                 mWindow->pushGui(s);
-             }
 
     );
 

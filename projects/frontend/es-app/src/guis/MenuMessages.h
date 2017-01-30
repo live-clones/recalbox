@@ -21,6 +21,16 @@ public:
     static constexpr const char *UPDATE_CHECK_HELP_MSG = "Automatically check if an update is avaialble. If so, notifies you with a message.";
 
     static constexpr const char *GAME_SETTINGS_HELP_MSG = "Configure games display, ratio, filters (shaders), auto save and load and retroachievement account.";
+    static constexpr const char *GAME_RATIO_HELP_MSG = "The game ratio is the ratio between image width and image height. Use AUTO to let the emulator choose the original game ratio, that will give you the best retrogaming experience.";
+    static constexpr const char *GAME_SMOOTH_HELP_MSG = "Smooth the game image. This option make the image smoother, using bilinear filtering.";
+    static constexpr const char *GAME_REWIND_HELP_MSG = "This option allows you to rewind the game if you are killed by a monster, or if you make any other mistake. Use HOTKEY + LEFT shortcut in game to rewind.";
+    static constexpr const char *GAME_AUTOSAVELOAD_HELP_MSG = "Auto save the state when you quit a game, and auto load last saved state when you load a game.";
+    static constexpr const char *GAME_INTEGER_SCALE_HELP_MSG = "Integer scaling is scaling by a factor of a whole number, such as 2x, 3x, 4x, etc. This option scales the image up to the greatest integer scale below the set resolution. So for instance, if you set your fullscreen resolution to 1920x1080 and enable integer scaling, it will only scale a 320x240 image up to 1280x960, and leave black borders all around. This is to maintain a 1:1 pixel ratio with the original source image, so that pixels are not unevenly duplicated.";
+    static constexpr const char *GAME_SHADERS_HELP_MSG = "Shaders are like filters for the game rendering. You can select a shader set here, that is a collection of shaders selected for each system. You can also change the shader during the game with HOTKEY + L2 or HOTKEY + R2 shortcut.";
+
+    static constexpr const char *RA_ONOFF_HELP_MSG = "Enable or disable retroachievements support in games.";
+    static constexpr const char *RA_HARDCORE_HELP_MSG = "Hardcore mode disables *all* savestate ability in the emulator: you would not be able to save and reload at any time. You would have to complete the game and get the achievements first time, just like it were on the original console. In reward for this, you will earn both the standard and the hardcore achievement, in effect earning double points! A regular game worth 400 points, is now worth 800 if you complete it fully on hardcore! For example: if you complete the game fully for 400 points, you then have the opportunity to earn another 400 on hardcore.";
+    static constexpr const char *RA_HELP_MSG = "The website retroachievements.org proposes challenges/achievements/trophies on platforms like NES, SNES, GB, GBC, GBA, Genesis/Megadrive, TurboGrafx16/PCEngine and more! Create your account on retroachievements.org and start the quest of achivements !";
 
     static constexpr const char *OVERCLOCK_HELP_MSG = "Overclock your board to increase performance.\nOverclock settings are tested and validated by the community. Keep in mind that overclocking your board can void the warranty.";
     static constexpr const char *BOOT_ON_SYSTEM_HELP_MSG = "Select the system to show when the recalbox frontend starts. The default value is 'favorites'.";
