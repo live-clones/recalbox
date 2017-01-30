@@ -5,7 +5,7 @@ systemsetting="python /usr/lib/python2.7/site-packages/configgen/settings/recalb
 arch=$(cat /recalbox/recalbox.arch)
 updatetype="`$systemsetting  -command load -key updates.type`"
 
-if "${updatetype}" = "beta"
+if [ "${updatetype}" = "beta" ]
 then
     # force a default value in case the value is removed or miswritten
     updatetype="stable"
