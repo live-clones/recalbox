@@ -13,6 +13,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added 3 new sort lists : by genre/developer/number of players
 - Added an option to show hidden games
 - Add new Traditional Chinese Language
+- Added custom favorites icons for each system
 - Favorites as boolean in metadata
 - Game options for each available systems
 - Emulator and core switch in metadata
