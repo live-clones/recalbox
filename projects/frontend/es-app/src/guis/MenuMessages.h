@@ -32,6 +32,20 @@ public:
     static constexpr const char *RA_HARDCORE_HELP_MSG = "Hardcore mode disables *all* savestate ability in the emulator: you would not be able to save and reload at any time. You would have to complete the game and get the achievements first time, just like it were on the original console. In reward for this, you will earn both the standard and the hardcore achievement, in effect earning double points! A regular game worth 400 points, is now worth 800 if you complete it fully on hardcore! For example: if you complete the game fully for 400 points, you then have the opportunity to earn another 400 on hardcore.";
     static constexpr const char *RA_HELP_MSG = "The website retroachievements.org proposes challenges/achievements/trophies on platforms like NES, SNES, GB, GBC, GBA, Genesis/Megadrive, TurboGrafx16/PCEngine and more! Create your account on retroachievements.org and start the quest of achivements !";
 
+    static constexpr const char *CONTROLLER_HELP_MSG = "Add and configure up to 5 controllers.";
+    static constexpr const char *CONTROLLER_BT_HELPMSG = "Pair a bluetooth controller with your recalbox. Your controller must be in pairing mode.";
+    static constexpr const char *CONTROLLER_FORGET_HELPMSG = "Forget all paired bluetooth controllers. You will have to pair again your controllers, but this option can help if you have issues reconnected a controller you already paired.";
+
+    static constexpr const char *UI_HELP_MSG = "Configure your emulationstation experience. Select transition types, helps prompts, screensaver behavior. You can also deactivate the onscreen keyboard if you have a real keyboard plugged on your recalbox.\nIf you added games since last boot, you can also refresh the gamelist from this menu.";
+    static constexpr const char *UI_SCREENSAVER_AFTER_HELP_MSG = "Start the screensaver after N minutes.";
+    static constexpr const char *UI_SCREENSAVER_BEHAVIOR_HELP_MSG = "Set the screensaver behavior. DIM will reduce the screen light, and BLACK will turn the screen black.";
+    static constexpr const char *UI_ONSCREENHELP_HELP_MSG = "Show help prompt showing commands you can use on screen bottom.";
+    static constexpr const char *UI_QUICK_HELP_MSG = "When enabled, you can switch between systems while browsing a gamelist by pressing LEFT or RIGHT.";
+    static constexpr const char *UI_KEYBOARD_HELP_MSG = "The onscreen keyboard is necessary to type text if you only have controllers plugged to your recalbox. You can disable it if you have a real keyboard.";
+    static constexpr const char *UI_TRANSITION_HELP_MSG = "Select the type of transition that occurs when you start a game. FADE will fade to dark, and SLIDE will zoom on the game cover (or name if there is no scrap informations)";
+    static constexpr const char *UI_THEME_HELP_MSG = "Select the recalbox theme.";
+    static constexpr const char *UI_UPDATE_GAMELIST_HELP_MSG = "Update the gamelists if you added games since last boot.";
+
     static constexpr const char *OVERCLOCK_HELP_MSG = "Overclock your board to increase performance.\nOverclock settings are tested and validated by the community. Keep in mind that overclocking your board can void the warranty.";
     static constexpr const char *BOOT_ON_SYSTEM_HELP_MSG = "Select the system to show when the recalbox frontend starts. The default value is 'favorites'.";
     static constexpr const char *BOOTGAMELIST_HELP_MSG = "On boot, recalbox will show the list of the games of the selected system rather than the system view.";

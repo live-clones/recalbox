@@ -291,7 +291,8 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                          // autosave/load
                          auto autosave_enabled = std::make_shared<SwitchComponent>(mWindow);
                          autosave_enabled->setState(RecalboxConf::getInstance()->get("global.autosave") == "1");
-                         s->addWithLabelAndHelp(_("AUTO SAVE/LOAD"), autosave_enabled, _(MenuMessages::GAME_AUTOSAVELOAD_HELP_MSG));
+                         s->addWithLabelAndHelp(_("AUTO SAVE/LOAD"), autosave_enabled,
+                                                _(MenuMessages::GAME_AUTOSAVELOAD_HELP_MSG));
 
                          // Shaders preset
 
@@ -306,11 +307,13 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                          shaders_choices->add(_("NONE"), "none", currentShader == "none");
                          shaders_choices->add(_("SCANLINES"), "scanlines", currentShader == "scanlines");
                          shaders_choices->add(_("RETRO"), "retro", currentShader == "retro");
-                         s->addWithLabelAndHelp(_("SHADERS SET"), shaders_choices, _(MenuMessages::GAME_SHADERS_HELP_MSG));
+                         s->addWithLabelAndHelp(_("SHADERS SET"), shaders_choices,
+                                                _(MenuMessages::GAME_SHADERS_HELP_MSG));
                          // Integer scale
                          auto integerscale_enabled = std::make_shared<SwitchComponent>(mWindow);
                          integerscale_enabled->setState(RecalboxConf::getInstance()->get("global.integerscale") == "1");
-                         s->addWithLabelAndHelp(_("INTEGER SCALE (PIXEL PERFECT)"), integerscale_enabled, _(MenuMessages::GAME_INTEGER_SCALE_HELP_MSG));
+                         s->addWithLabelAndHelp(_("INTEGER SCALE (PIXEL PERFECT)"), integerscale_enabled,
+                                                _(MenuMessages::GAME_INTEGER_SCALE_HELP_MSG));
                          s->addSaveFunc([integerscale_enabled] {
                              RecalboxConf::getInstance()->set("global.integerscale",
                                                               integerscale_enabled->getState() ? "1" : "0");
@@ -332,7 +335,9 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                                      auto retroachievements_enabled = std::make_shared<SwitchComponent>(mWindow);
                                      retroachievements_enabled->setState(
                                              RecalboxConf::getInstance()->get("global.retroachievements") == "1");
-                                     retroachievements->addWithLabelAndHelp(_("RETROACHIEVEMENTS"), retroachievements_enabled, _(MenuMessages::RA_ONOFF_HELP_MSG));
+                                     retroachievements->addWithLabelAndHelp(_("RETROACHIEVEMENTS"),
+                                                                            retroachievements_enabled,
+                                                                            _(MenuMessages::RA_ONOFF_HELP_MSG));
 
                                      // retroachievements_hardcore_mode
                                      auto retroachievements_hardcore_enabled = std::make_shared<SwitchComponent>(
@@ -341,7 +346,8 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                                              RecalboxConf::getInstance()->get("global.retroachievements.hardcore") ==
                                              "1");
                                      retroachievements->addWithLabelAndHelp(_("HARDCORE MODE"),
-                                                                     retroachievements_hardcore_enabled, _(MenuMessages::RA_HARDCORE_HELP_MSG));
+                                                                            retroachievements_hardcore_enabled,
+                                                                            _(MenuMessages::RA_HARDCORE_HELP_MSG));
 
 
                                      // retroachievements, username, password
@@ -390,11 +396,12 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
     );
 
     if (RecalboxConf::getInstance()->get("emulationstation.menu") != "bartop") {
-        addEntry(_("CONTROLLERS SETTINGS").c_str(), 0x777777FF, true, [this] { this->createConfigInput(); });
+        addEntryWithHelp(_("CONTROLLERS SETTINGS").c_str(), _(MenuMessages::CONTROLLER_HELP_MSG), 0x777777FF, true,
+                         [this] { this->createConfigInput(); });
     }
     if (RecalboxConf::getInstance()->get("emulationstation.menu") != "bartop") {
 
-        addEntry(_("UI SETTINGS").c_str(), 0x777777FF, true,
+        addEntryWithHelp(_("UI SETTINGS").c_str(), _(MenuMessages::UI_HELP_MSG), 0x777777FF, true,
                  [this] {
                      auto s = new GuiSettings(mWindow, _("UI SETTINGS").c_str());
 
@@ -403,7 +410,7 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                      auto screensaver_time = std::make_shared<SliderComponent>(mWindow, 0.f, 30.f, 1.f, "m");
                      screensaver_time->setValue(
                              (float) (Settings::getInstance()->getInt("ScreenSaverTime") / (1000 * 60)));
-                     s->addWithLabel(_("SCREENSAVER AFTER"), screensaver_time);
+                     s->addWithLabelAndHelp(_("SCREENSAVER AFTER"), screensaver_time,_(MenuMessages::UI_SCREENSAVER_AFTER_HELP_MSG));
                      s->addSaveFunc([screensaver_time] {
                          Settings::getInstance()->setInt("ScreenSaverTime",
                                                          (int) round(screensaver_time->getValue()) * (1000 * 60));
@@ -419,7 +426,7 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                      for (auto it = screensavers.begin(); it != screensavers.end(); it++)
                          screensaver_behavior->add(*it, *it,
                                                    Settings::getInstance()->getString("ScreenSaverBehavior") == *it);
-                     s->addWithLabel(_("SCREENSAVER BEHAVIOR"), screensaver_behavior);
+                     s->addWithLabelAndHelp(_("SCREENSAVER BEHAVIOR"), screensaver_behavior,_(MenuMessages::UI_SCREENSAVER_BEHAVIOR_HELP_MSG));
                      s->addSaveFunc([screensaver_behavior] {
                          Settings::getInstance()->setString("ScreenSaverBehavior", screensaver_behavior->getSelected());
                      });
@@ -427,7 +434,7 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                      // show help
                      auto show_help = std::make_shared<SwitchComponent>(mWindow);
                      show_help->setState(Settings::getInstance()->getBool("ShowHelpPrompts"));
-                     s->addWithLabel(_("ON-SCREEN HELP"), show_help);
+                     s->addWithLabelAndHelp(_("ON-SCREEN HELP"), show_help,_(MenuMessages::UI_ONSCREENHELP_HELP_MSG));
                      s->addSaveFunc(
                              [show_help] {
                                  Settings::getInstance()->setBool("ShowHelpPrompts", show_help->getState());
@@ -436,7 +443,7 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                      // quick system select (left/right in game list view)
                      auto quick_sys_select = std::make_shared<SwitchComponent>(mWindow);
                      quick_sys_select->setState(Settings::getInstance()->getBool("QuickSystemSelect"));
-                     s->addWithLabel(_("QUICK SYSTEM SELECT"), quick_sys_select);
+                     s->addWithLabelAndHelp(_("QUICK SYSTEM SELECT"), quick_sys_select, _(MenuMessages::UI_QUICK_HELP_MSG));
                      s->addSaveFunc([quick_sys_select] {
                          Settings::getInstance()->setBool("QuickSystemSelect", quick_sys_select->getState());
                      });
@@ -444,7 +451,7 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                      // Enable OSK (On-Screen-Keyboard)
                      auto osk_enable = std::make_shared<SwitchComponent>(mWindow);
                      osk_enable->setState(Settings::getInstance()->getBool("UseOSK"));
-                     s->addWithLabel(_("ON SCREEN KEYBOARD"), osk_enable);
+                     s->addWithLabelAndHelp(_("ON SCREEN KEYBOARD"), osk_enable, _(MenuMessages::UI_KEYBOARD_HELP_MSG));
                      s->addSaveFunc([osk_enable] {
                          Settings::getInstance()->setBool("UseOSK", osk_enable->getState());
                      });
@@ -458,7 +465,7 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                      transitions.push_back("slide");
                      for (auto it = transitions.begin(); it != transitions.end(); it++)
                          transition_style->add(*it, *it, Settings::getInstance()->getString("TransitionStyle") == *it);
-                     s->addWithLabel(_("TRANSITION STYLE"), transition_style);
+                     s->addWithLabelAndHelp(_("TRANSITION STYLE"), transition_style, _(MenuMessages::UI_TRANSITION_HELP_MSG));
                      s->addSaveFunc([transition_style] {
                          Settings::getInstance()->setString("TransitionStyle", transition_style->getSelected());
                      });
@@ -475,7 +482,7 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                                                                                               false);
                          for (auto it = themeSets.begin(); it != themeSets.end(); it++)
                              theme_set->add(it->first, it->first, it == selectedSet);
-                         s->addWithLabel(_("THEME SET"), theme_set);
+                         s->addWithLabelAndHelp(_("THEME SET"), theme_set, _(MenuMessages::UI_THEME_HELP_MSG));
 
                          Window *window = mWindow;
                          s->addSaveFunc([window, theme_set] {
@@ -490,34 +497,24 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                          });
                      }
                      // Game List Update
-                     {
-                         ComponentListRow row;
-                         Window *window = mWindow;
-
-                         row.makeAcceptInputHandler([this, window] {
-                             window->pushGui(new GuiMsgBox(window, _("REALLY UPDATE GAMES LISTS ?"), _("YES"),
-                                                           [this, window] {
+                         s->addSubMenu(_("UPDATE GAMES LISTS"),[this] {
+                             mWindow->pushGui(new GuiMsgBox(mWindow, _("REALLY UPDATE GAMES LISTS ?"), _("YES"),
+                                                           [this] {
                                                                ViewController::get()->goToStart();
-                                                               window->renderShutdownScreen();
+                                                               mWindow->renderShutdownScreen();
                                                                delete ViewController::get();
                                                                SystemData::deleteSystems();
                                                                SystemData::loadConfig();
                                                                GuiComponent *gui;
-                                                               while ((gui = window->peekGui()) != NULL) {
-                                                                   window->removeGui(gui);
+                                                               while ((gui = mWindow->peekGui()) != NULL) {
+                                                                   mWindow->removeGui(gui);
                                                                    delete gui;
                                                                }
-                                                               ViewController::init(window);
+                                                               ViewController::init(mWindow);
                                                                ViewController::get()->reloadAll();
-                                                               window->pushGui(ViewController::get());
+                                                               mWindow->pushGui(ViewController::get());
                                                            }, _("NO"), nullptr));
-                         });
-                         row.addElement(
-                                 std::make_shared<TextComponent>(window, _("UPDATE GAMES LISTS"),
-                                                                 Font::get(FONT_SIZE_MEDIUM),
-                                                                 0x777777FF), true);
-                         s->addRow(row);
-                     }
+                         }, _(MenuMessages::UI_UPDATE_GAMELIST_HELP_MSG));
 
                      mWindow->pushGui(s);
                  });
@@ -1178,6 +1175,13 @@ void GuiMenu::createConfigInput() {
             return (void *) s;
         }, showControllerList));
     });
+    row.makeHelpInputHandler([this] {
+        mWindow->pushGui(new GuiMsgBoxScroll(
+                mWindow, _("PAIR A BLUETOOTH CONTROLLER"),
+                _(MenuMessages::CONTROLLER_BT_HELPMSG), _("OK"),
+                [] {}, "", nullptr, "", nullptr, ALIGN_LEFT));
+        return true;
+    });
 
 
     row.addElement(
@@ -1191,6 +1195,13 @@ void GuiMenu::createConfigInput() {
         RecalboxSystem::getInstance()->forgetBluetoothControllers();
         window->pushGui(new GuiMsgBox(window,
                                       _("CONTROLLERS LINKS HAVE BEEN DELETED."), _("OK")));
+    });
+    row.makeHelpInputHandler([this] {
+        mWindow->pushGui(new GuiMsgBoxScroll(
+                mWindow, _("FORGET BLUETOOTH CONTROLLERS"),
+                _(MenuMessages::CONTROLLER_FORGET_HELPMSG), _("OK"),
+                [] {}, "", nullptr, "", nullptr, ALIGN_LEFT));
+        return true;
     });
     row.addElement(
             std::make_shared<TextComponent>(window, _("FORGET BLUETOOTH CONTROLLERS"), Font::get(FONT_SIZE_MEDIUM),
