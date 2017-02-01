@@ -9,6 +9,7 @@
 
 class MenuMessages {
 public:
+    static constexpr const char *START_KODI_HELP_MSG = "Start kodi media player.";
     static constexpr const char *SYSTEM_HELP_MSG = "Configure your recalbox language, select an external drive to store your games and configurations, check your current version and free space on drive";
     static constexpr const char *VERSION_HELP_MSG = "Shows your current recalboxOS version.";
     static constexpr const char *DISK_USAGE_HELP_MSG = "Show how much space is used on your SHARE partition, located either on the SDCARD or on an external drive. The information shows how much GB are used on how much GB your storage has (example 13GB/26GB).";
@@ -46,21 +47,47 @@ public:
     static constexpr const char *UI_THEME_HELP_MSG = "Select the recalbox theme.";
     static constexpr const char *UI_UPDATE_GAMELIST_HELP_MSG = "Update the gamelists if you added games since last boot.";
 
-    static constexpr const char *OVERCLOCK_HELP_MSG = "Overclock your board to increase performance.\nOverclock settings are tested and validated by the community. Keep in mind that overclocking your board can void the warranty.";
-    static constexpr const char *BOOT_ON_SYSTEM_HELP_MSG = "Select the system to show when the recalbox frontend starts. The default value is 'favorites'.";
-    static constexpr const char *BOOTGAMELIST_HELP_MSG = "On boot, recalbox will show the list of the games of the selected system rather than the system view.";
-    static constexpr const char *GAMELISTONLY_HELP_MSG = "Only show games contained in the gamelist.xml file (located in your roms directories).\nThis option highly speeds up boot time, but new games are not detected.";
-    static constexpr const char *HIDESYSTEMVIEW_HELP_MSG = "This option allows you to fix the selected system. The user cannot move to other systems.";
-    static constexpr const char *EMULATOR_ADVANCED_HELP_MSG = "Override global options like emulator, core, ratio and more for each available system in your recalbox.";
-    static constexpr const char *BOOT_HELP_MSG = "Configure boot options that makes your recalbox boot straight on a system or in kodi, lock user to a single system, or show the gamelist.";
-    static constexpr const char *KODI_HELP_MSG = "Enable or disable Kodi, customize Kodi startup, allow X button to start Kodi";
-    static constexpr const char *KODI_AT_START_HELP_MSG = "Automatically start Kodi when the recalbox boots.";
-    static constexpr const char *SECURITY_HELP_MSG = "Manage your recalbox security.";
-    static constexpr const char *ROOT_PSW_HELP_MSG = "Change the ssh root password.";
-    static constexpr const char *ENFORCE_SECURITY_HELP_MSG = "Enforce recalbox security";
-    static constexpr const char *OVERSCAN_HELP_MSG = "Enable or disable overscan.\nOverscan can help you if you have black boarder or if the image is bigger than your screen. Before setting the overscan, try to configure your TV to have a 1:1 pixel display.\nMore overscan settings can be defined in the boot.txt file, available when you plug your sd card on your computer.";
-    static constexpr const char *MANAGER_HELP_MSG = "Enable or disable the Recalbox Manager.\nThe Recalbox Manager is a web application available on http://recalbox if you are on windows, http://recalbox.local if you are on Linux or mac, or directly with your recalbox IP : http://192.168.1.XX.\nYou can configure many options from the manager, and even manage games, saves, and scrap !";
-    static constexpr const char *API_HELP_MSG = "Enable or disable the Recalbox Api.\nThe Recalbox Api is a REST api exposing endpoints to control your recalbox via http requests.";
+    static constexpr const char *SOUND_HELP_MSG = "Configure the sound options of your recalbox.";
+    static constexpr const char *SOUND_VOLUME_HELP_MSG = "Set the volume of the sound output for the frontend and games.";
+    static constexpr const char *SOUND_FRONTEND_MUSIC_HELP_MSG = "Enable or disable frontend music. You can add your own musics in mp3 or ogg format in the 'musics' directory of your recalbox.";
+    static constexpr const char *SOUND_DEVICE_HELP_MSG = "Select your output device. Only HDMI and JACK are supported.";
+
+    static constexpr const char *NETWORK_HELP_MSG = "Configure the network options of your recalbox.\nCheck your network status and IP address, set the hostname and configure the wifi.";
+    static constexpr const char *NETWORK_STATUS_HELP_MSG = "Displays CONNECTED if you are connected, by checking if your recalbox can access the recalbox.com update server.";
+    static constexpr const char *NETWORK_IP_HELP_MSG = "The recalbox IP on the local network.";
+    static constexpr const char *NETWORK_WIFI_HELP_MSG = "Enable or disable the wifi. If you disable the wifi, the SSID and wifi password are saved and can be used when you reenable it.";
+    static constexpr const char *NETWORK_HOST_HELP_MSG = "Name of the recalbox on your local network.";
+    static constexpr const char *NETWORK_SSID_HELP_MSG = "SSID (Access point name) of your wifi network.";
+    static constexpr const char *NETWORK_KEY_HELP_MSG = "Private key of your wifi network.";
+
+    static constexpr const char *SCRAPER_HELP_MSG = "Get informations and visual for your games. The scraper download for different servers the metadatas and visuals for your games, and enhance completly the user experience in emulationstation.";
+    static constexpr const char *SCRAPER_FROM_HELP_MSG = "Select the server to scrape from. The SCREENSCRAPER server is recommanded and is based on www.screenscraper.fr and scraps game data in your language if available.";
+    static constexpr const char *SCRAPER_NOW_HELP_MSG = "Begin the scrape process, taking in account the configuration below.";
+    static constexpr const char *SCRAPER_RATINGS_HELP_MSG = "Scrape and display game ratings.";
+
+    static constexpr const char *ADVANCED_HELP_MSG = "Advanced settings. Please be sure to know what you do before changing any value in this menu.";
+    static constexpr const char *ADVANCED_OVERCLOCK_HELP_MSG = "Overclock your board to increase performance.\nOverclock settings are tested and validated by the community. Keep in mind that overclocking your board can void the warranty.";
+    static constexpr const char *ADVANCED_BOOT_ON_SYSTEM_HELP_MSG = "Select the system to show when the recalbox frontend starts. The default value is 'favorites'.";
+    static constexpr const char *ADVANCED_BOOTGAMELIST_HELP_MSG = "On boot, recalbox will show the list of the games of the selected system rather than the system view.";
+    static constexpr const char *ADVANCED_GAMELISTONLY_HELP_MSG = "Only show games contained in the gamelist.xml file (located in your roms directories).\nThis option highly speeds up boot time, but new games are not detected.";
+    static constexpr const char *ADVANCED_HIDESYSTEMVIEW_HELP_MSG = "This option allows you to fix the selected system. The user cannot move to other systems.";
+    static constexpr const char *ADVANCED_EMULATOR_ADVANCED_HELP_MSG = "Override global options like emulator, core, ratio and more for each available system in your recalbox.";
+    static constexpr const char *ADVANCED_BOOT_HELP_MSG = "Configure boot options that makes your recalbox boot straight on a system or in kodi, lock user to a single system, or show the gamelist.";
+
+    static constexpr const char *ADVANCED_KODI_HELP_MSG = "Enable or disable Kodi, customize Kodi startup, allow X button to start Kodi";
+    static constexpr const char *ADVANCED_KODI_ENABLE_HELP_MSG = "Enable or disable Kodi. If kodi is disabled, you won't be able to start it with X buttonor at boot time and the menu entry will be removed.";
+    static constexpr const char *ADVANCED_KODI_X_HELP_MSG = "Use X button to start Kodi.";
+    static constexpr const char *ADVANCED_KODI_AT_START_HELP_MSG = "Automatically start Kodi when the recalbox boots.";
+
+    static constexpr const char *ADVANCED_SECURITY_HELP_MSG = "Manage your recalbox security.";
+    static constexpr const char *ADVANCED_ROOT_PWD_HELP_MSG = "Change the ssh root password.";
+    static constexpr const char *ADVANCED_ENFORCE_SECURITY_HELP_MSG = "Enforce recalbox security.";
+    static constexpr const char *ADVANCED_OVERSCAN_HELP_MSG = "Enable or disable overscan.\nOverscan can help you if you have black boarder or if the image is bigger than your screen. Before setting the overscan, try to configure your TV to have a 1:1 pixel display.\nMore overscan settings can be defined in the boot.txt file, available when you plug your sd card on your computer.";
+    static constexpr const char *ADVANCED_FRAMERATE_HELP_MSG = "Show framerate in emulationstation in ingame.";
+    static constexpr const char *ADVANCED_MANAGER_HELP_MSG = "Enable or disable the Recalbox Manager.\nThe Recalbox Manager is a web application available on http://recalbox if you are on windows, http://recalbox.local if you are on Linux or mac, or directly with your recalbox IP : http://192.168.1.XX.\nYou can configure many options from the manager, and even manage games, saves, and scrap !";
+    static constexpr const char *ADVANCED_API_HELP_MSG = "Enable or disable the Recalbox Api.\nThe Recalbox Api is a REST api exposing endpoints to control your recalbox via http requests.";
+    static constexpr const char *ADVANCED_EMU_EMU_HELP_MSG = "Select the emulator to use when you start a game in this system.";
+    static constexpr const char *ADVANCED_EMU_CORE_HELP_MSG = "Select the core to use for the selected emulator. For example, the LIBRETRO emulator ha many core to run Super Nintendo games. The default core you choose here can also be overriden in game specific settings.";
 };
 
 #endif //EMULATIONSTATION_ALL_MENUMESSAGES_H

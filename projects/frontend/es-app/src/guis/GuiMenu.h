@@ -34,7 +34,7 @@ private:
 	void addEntry(const char* name, unsigned int color, bool add_arrow, const std::function<void()>& func);
 	void addEntryWithHelp(const char* name, const std::string help, unsigned int color, bool add_arrow, const std::function<void()>& func);
 	void createConfigInput();
-	void createInputTextRow(GuiSettings * gui, std::string title, const char* settingsID, bool password);
+	void createInputTextRow(GuiSettings * gui, std::string title, const char* settingsID, bool password, std::string help);
 	MenuComponent mMenu;
 	TextComponent mVersion;
 
