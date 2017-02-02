@@ -40,7 +40,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Bumped retroarch to v1.3.4
 - Added retroachievements support to fceunext core
 - Reicast : add multiplayer support
-- Update to moonlight-embedded-2.2.1 (but still displays 2.2.0 when running), adds support for GFE 2.11
+- Update to moonlight-embedded-2.2.3, adds support for GFE 3.3
 - Added enet library for moonlight-embedded-2.2.0
 - Solved a bug on xarcade where B and HOTKEY were sending the same event
 - Slide transition by default in ES
