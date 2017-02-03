@@ -89,6 +89,7 @@ void screenscraper_generate_scraper_requests(const ScraperSearchParams& params, 
 {
 	std::string path = "https://screenscraper.recalbox.com/api/thegamedb/GetGame.php?";
 	std::string languageSystem = RecalboxConf::getInstance()->get("system.language");
+	bool MixImages = Settings::getInstance()->getBool("MixImages");
 
 	if((system_language_map.find(languageSystem)) != system_language_map.end())
 	{
@@ -97,7 +98,7 @@ void screenscraper_generate_scraper_requests(const ScraperSearchParams& params, 
 		path += "forcelangue=en&";
 	}
 
-	if(GuiScraperStart::MixImagesState)
+	if(MixImages)
 	{
 		path += "media=mixrbv1&";
 	}

@@ -60,6 +60,7 @@ void Settings::setDefaults() {
 
     mBoolMap["ShowHelpPrompts"] = true;
     mBoolMap["ScrapeRatings"] = true;
+    mBoolMap["MixImages"] = true;
     mBoolMap["IgnoreGamelist"] = false;
     mBoolMap["HideConsole"] = true;
     mBoolMap["QuickSystemSelect"] = true;

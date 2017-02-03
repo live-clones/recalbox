@@ -9,7 +9,6 @@
 #include "Locale.h"
 #include "Settings.h"
 
-bool GuiScraperStart::MixImagesState = true;
 
 GuiScraperStart::GuiScraperStart(Window* window) : GuiComponent(window),
   mMenu(window, _("SCRAPE NOW").c_str())
@@ -39,7 +38,7 @@ GuiScraperStart::GuiScraperStart(Window* window) : GuiComponent(window),
 	if(scraperName == "Screenscraper") {
 		mMixImages = std::make_shared<SwitchComponent>(mWindow);
 		mMixImages->setState(true);
-		mMenu.addWithLabel(_("USE MIX-IMAGES VISUALS"), mMixImages);
+		mMenu.addWithLabel(_("USE COMPOSED VISUALS"), mMixImages);
 	}
 
 	mApproveResults = std::make_shared<SwitchComponent>(mWindow);
@@ -73,7 +72,7 @@ void GuiScraperStart::pressedStart()
 void GuiScraperStart::start()
 {
 	std::queue<ScraperSearchParams> searches = getSearches(mSystems->getSelectedObjects(), mFilters->getSelected());
-	GuiScraperStart::MixImagesState = mMixImages->getState();
+	Settings::getInstance()->setBool("MixImages", mMixImages->getState());
 
 	if(searches.empty())
 	{
