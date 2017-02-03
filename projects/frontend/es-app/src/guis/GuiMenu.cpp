@@ -517,22 +517,24 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                                  });
                              }
                              // Game List Update
-                             s->addSubMenu(_("UPDATE GAMES LISTS"), [this] {
-                                 mWindow->pushGui(new GuiMsgBox(mWindow, _("REALLY UPDATE GAMES LISTS ?"), _("YES"),
-                                                                [this] {
+                             Window *window = mWindow;
+                             s->addSubMenu(_("UPDATE GAMES LISTS"), [this,window] {
+                                 window->pushGui(new GuiMsgBox(window, _("REALLY UPDATE GAMES LISTS ?"), _("YES"),
+                                                                [this,window] {
                                                                     ViewController::get()->goToStart();
-                                                                    mWindow->renderShutdownScreen();
+                                                                    window->renderShutdownScreen();
                                                                     delete ViewController::get();
                                                                     SystemData::deleteSystems();
                                                                     SystemData::loadConfig();
                                                                     GuiComponent *gui;
-                                                                    while ((gui = mWindow->peekGui()) != NULL) {
-                                                                        mWindow->removeGui(gui);
+                                                                    while ((gui = window->peekGui()) != NULL) {
+                                                                        window->removeGui(gui);
                                                                         delete gui;
                                                                     }
-                                                                    ViewController::init(mWindow);
+                                                                    ViewController::init(window);
                                                                     ViewController::get()->reloadAll();
-                                                                    mWindow->pushGui(ViewController::get());
+                                                                    window->pushGui(ViewController::get());
+                                                                    ViewController::get()->goToStart();
                                                                 }, _("NO"), nullptr));
                              }, _(MenuMessages::UI_UPDATE_GAMELIST_HELP_MSG));
 
