@@ -8,6 +8,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added an option to scrape recalbox-mix-images from screenscraper
 ### Fixed
 - Avoid screensaver while updating
+- Fixed update gamelist crash
 
 ## [4.0.0] - 2016-02-02
 ### Added
