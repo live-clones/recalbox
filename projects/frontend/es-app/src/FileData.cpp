@@ -192,9 +192,6 @@ void FileData::removeChild(FileData* file)
 			return;
 		}
 	}
-
-	// File somehow wasn't in our children.
-	assert(false);
 }
 
 void FileData::clear()

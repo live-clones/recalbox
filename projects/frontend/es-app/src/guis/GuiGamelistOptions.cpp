@@ -81,18 +81,34 @@ GuiGamelistOptions::GuiGamelistOptions(Window* window, SystemData* system) : Gui
 
 GuiGamelistOptions::~GuiGamelistOptions()
 {
-	// apply sort
-	FileData* root = getGamelist()->getCursor()->getSystem()->getRootFolder();
-	root->sort(*mListSort->getSelected()); // will also recursively sort children
+    if(getGamelist()->getRoot()->getChildren().size() > 0) {
+        // apply sort
+        FileData *root = getGamelist()->getCursor()->getSystem()->getRootFolder();
+        root->sort(*mListSort->getSelected()); // will also recursively sort children
 
-	// notify that the root folder was sorted
-	getGamelist()->onFileChanged(root, FILE_SORTED);
+        // notify that the root folder was sorted
+        getGamelist()->onFileChanged(root, FILE_SORTED);
 
-	if (Settings::getInstance()->getBool("FavoritesOnly") != mFavoriteState || Settings::getInstance()->getBool("ShowHidden") != mHiddenState)
-	{
-		ViewController::get()->setAllInvalidGamesList(getGamelist()->getCursor()->getSystem());
-		ViewController::get()->reloadGameListView(getGamelist()->getCursor()->getSystem());
-	}
+        if (Settings::getInstance()->getBool("FavoritesOnly") != mFavoriteState ||
+            Settings::getInstance()->getBool("ShowHidden") != mHiddenState) {
+            ViewController::get()->setAllInvalidGamesList(getGamelist()->getCursor()->getSystem());
+            ViewController::get()->reloadGameListView(getGamelist()->getCursor()->getSystem());
+        }
+    }else {
+        Window *window = mWindow;
+        int size = getGamelist()->getRoot()->getChildren().size();
+        if (getGamelist()->getRoot()->getChildren().size() == 0) {
+            ViewController::get()->goToStart();
+            window->renderShutdownScreen();
+            delete ViewController::get();
+            SystemData::deleteSystems();
+            SystemData::loadConfig();
+            ViewController::init(window);
+            ViewController::get()->reloadAll();
+            window->pushGui(ViewController::get());
+            return;
+        }
+    }
 }
 
 void GuiGamelistOptions::openMetaDataEd()
