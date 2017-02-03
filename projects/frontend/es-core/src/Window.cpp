@@ -235,10 +235,10 @@ void Window::render()
 	unsigned int screensaverTime = (unsigned int)Settings::getInstance()->getInt("ScreenSaverTime");
 	if(mTimeSinceLastInput >= screensaverTime && screensaverTime != 0)
 	{
-		renderScreenSaver();
 
 		if (!isProcessing() && mAllowSleep)
 		{
+			renderScreenSaver();
 			// go to sleep
 			mSleeping = true;
 			onSleep();

@@ -8,6 +8,7 @@
 GuiUpdate::GuiUpdate(Window *window) : GuiComponent(window), mBusyAnim(window) {
     setSize((float) Renderer::getScreenWidth(), (float) Renderer::getScreenHeight());
     mLoading = true;
+    mIsProcessing = true;
     mPingHandle = new boost::thread(boost::bind(&GuiUpdate::threadPing, this));
     mBusyAnim.setSize(mSize);
 }
