@@ -6,6 +6,7 @@
 #include "Util.h"
 #include <boost/assign.hpp>
 #include "RecalboxConf.h"
+#include "guis/GuiScraperStart.h"
 
 using namespace PlatformIds;
 const std::map<PlatformId, const char*> gamesdb_platformid_map = boost::assign::map_list_of
@@ -94,6 +95,11 @@ void screenscraper_generate_scraper_requests(const ScraperSearchParams& params, 
 		path += (system_language_map.find(languageSystem)->second);
 	}else{
 		path += "forcelangue=en&";
+	}
+
+	if(GuiScraperStart::MixImagesState)
+	{
+		path += "media=mixrbv1&";
 	}
 
 	std::string cleanName = params.game->getPath().filename().c_str();

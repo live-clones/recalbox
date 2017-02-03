@@ -7,6 +7,9 @@
 #include "components/OptionListComponent.h"
 #include "components/SwitchComponent.h"
 #include "Locale.h"
+#include "Settings.h"
+
+bool GuiScraperStart::MixImagesState = true;
 
 GuiScraperStart::GuiScraperStart(Window* window) : GuiComponent(window),
   mMenu(window, _("SCRAPE NOW").c_str())
@@ -21,7 +24,7 @@ GuiScraperStart::GuiScraperStart(Window* window) : GuiComponent(window),
 		[](SystemData*, FileData* g) -> bool { return g->metadata.get("image").empty(); }, true);
 	mMenu.addWithLabel(_("FILTER"), mFilters);
 
-	//add systems (all with a platformid specified selected)
+	// add systems (all with a platformid specified selected)
 	mSystems = std::make_shared< OptionListComponent<SystemData*> >(mWindow, _("SCRAPE THESE SYSTEMS"), true);
 	for(auto it = SystemData::sSystemVector.begin(); it != SystemData::sSystemVector.end(); it++)
 	{
@@ -30,8 +33,17 @@ GuiScraperStart::GuiScraperStart(Window* window) : GuiComponent(window),
 	}
 	mMenu.addWithLabel(_("SYSTEMS"), mSystems);
 
+	// add mix images option (if scraper = screenscraper)
+	std::string scraperName = Settings::getInstance()->getString("Scraper");
+
+	if(scraperName == "Screenscraper") {
+		mMixImages = std::make_shared<SwitchComponent>(mWindow);
+		mMixImages->setState(true);
+		mMenu.addWithLabel(_("USE MIX-IMAGES VISUALS"), mMixImages);
+	}
+
 	mApproveResults = std::make_shared<SwitchComponent>(mWindow);
-	mApproveResults->setState(true);
+	mApproveResults->setState(false);
 	mMenu.addWithLabel(_("USER DECIDES ON CONFLICTS"), mApproveResults);
 
 	mMenu.addButton(_("START"), "start", std::bind(&GuiScraperStart::pressedStart, this));
@@ -61,6 +73,7 @@ void GuiScraperStart::pressedStart()
 void GuiScraperStart::start()
 {
 	std::queue<ScraperSearchParams> searches = getSearches(mSystems->getSelectedObjects(), mFilters->getSelected());
+	GuiScraperStart::MixImagesState = mMixImages->getState();
 
 	if(searches.empty())
 	{

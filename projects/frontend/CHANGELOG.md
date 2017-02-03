@@ -5,6 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 ### Added
 - Added new version support
+- Added an option to scrape recalbox-mix-images from screenscraper
 ### Fixed
 - Avoid screensaver while updating
 

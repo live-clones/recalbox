@@ -25,6 +25,9 @@ public:
 
 	virtual std::vector<HelpPrompt> getHelpPrompts() override;
 
+	static bool MixImagesState;
+	std::shared_ptr<SwitchComponent> mMixImages;
+
 private:
 	void pressedStart();
 	void start();

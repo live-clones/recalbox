@@ -683,7 +683,7 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                          s->save();
                          openAndSave();
                      };
-                     s->addSubMenu(_("SCRAPE NOW"), openScrapeNow, _(MenuMessages::SCRAPER_NOW_HELP_MSG));
+                     s->addSubMenu(_("SCRAPE NOW"), openAndSave, _(MenuMessages::SCRAPER_NOW_HELP_MSG));
 
                      mWindow->pushGui(s);
                  });
