@@ -56,6 +56,14 @@ void ISimpleGameListView::onFileChanged(FileData* file, FileChangeType change)
 	populateList(getRoot()->getChildren());
 	setCursorIndex(index);
 
+    if(change == FileChangeType::FILE_REMOVED) {
+        bool favorite = file->metadata.get("favorite") == "true";
+        delete file;
+        if (favorite) {
+            ViewController::get()->setInvalidGamesList(SystemData::getFavoriteSystem());
+            ViewController::get()->getSystemListView()->manageFavorite();
+        }
+    }
 	/* Favorite */
 	if(file->getType() == GAME){
 		SystemData * favoriteSystem = SystemData::getFavoriteSystem();
