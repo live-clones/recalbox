@@ -87,7 +87,11 @@ public:
     static constexpr const char *ADVANCED_MANAGER_HELP_MSG = "Enable or disable the Recalbox Manager.\nThe Recalbox Manager is a web application available on http://recalbox if you are on windows, http://recalbox.local if you are on Linux or mac, or directly with your recalbox IP : http://192.168.1.XX.\nYou can configure many options from the manager, and even manage games, saves, and scrap !";
     static constexpr const char *ADVANCED_API_HELP_MSG = "Enable or disable the Recalbox Api.\nThe Recalbox Api is a REST api exposing endpoints to control your recalbox via http requests.";
     static constexpr const char *ADVANCED_EMU_EMU_HELP_MSG = "Select the emulator to use when you start a game in this system.";
-    static constexpr const char *ADVANCED_EMU_CORE_HELP_MSG = "Select the core to use for the selected emulator. For example, the LIBRETRO emulator ha many core to run Super Nintendo games. The default core you choose here can also be overriden in game specific settings.";
+    static const std::string ADVANCED_EMU_CORE_HELP_MSG;
 };
+
+const std::string MenuMessages::ADVANCED_EMU_CORE_HELP_MSG = _("Select the core to use for the selected emulator. For example, the LIBRETRO emulator ha many core to run Super Nintendo games. The default core you choose here can also be overriden in game specific settings.");
+
+
 
 #endif //EMULATIONSTATION_ALL_MENUMESSAGES_H

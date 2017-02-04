@@ -1058,7 +1058,7 @@ void GuiMenu::popSystemConfigurationGui(SystemData *systemData, std::string prev
         }
     }
     core_choice->add("default", "default", !selected);
-    systemConfiguration->addWithLabelAndHelp(_("Core"), core_choice, _(MenuMessages::ADVANCED_EMU_CORE_HELP_MSG));
+    systemConfiguration->addWithLabelAndHelp(_("Core"), core_choice, MenuMessages::ADVANCED_EMU_CORE_HELP_MSG);
 
 
     // Screen ratio choice
