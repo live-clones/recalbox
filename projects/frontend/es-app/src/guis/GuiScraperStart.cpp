@@ -72,7 +72,9 @@ void GuiScraperStart::pressedStart()
 void GuiScraperStart::start()
 {
 	std::queue<ScraperSearchParams> searches = getSearches(mSystems->getSelectedObjects(), mFilters->getSelected());
-	Settings::getInstance()->setBool("MixImages", mMixImages->getState());
+	if(Settings::getInstance()->getString("Scraper") == "Screenscraper") {
+		Settings::getInstance()->setBool("MixImages", mMixImages->getState());
+	}
 
 	if(searches.empty())
 	{
