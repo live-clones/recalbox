@@ -1397,6 +1397,10 @@ msgid ""
 msgstr ""
 
 #
+msgid "Always display the basic gamelist view, even if you have scraped your games."
+msgstr ""
+
+#
 msgid ""
 "Override global options like emulator, core, ratio and more for each "
 "available system in your recalbox."
@@ -1545,4 +1549,8 @@ msgstr ""
 
 #:
 msgid "THE SYSTEM IS UP TO DATE"
+msgstr ""
+
+#:
+msgid "FORCE BASIC GAMELIST VIEW"
 msgstr ""

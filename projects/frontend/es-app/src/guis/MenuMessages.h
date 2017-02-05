@@ -71,6 +71,7 @@ public:
     static const std::string ADVANCED_BOOTGAMELIST_HELP_MSG;
     static const std::string ADVANCED_GAMELISTONLY_HELP_MSG;
     static const std::string ADVANCED_HIDESYSTEMVIEW_HELP_MSG;
+    static const std::string ADVANCED_BASICGAMELISTVIEW_HELP_MSG;
     static const std::string ADVANCED_EMULATOR_ADVANCED_HELP_MSG;
     static const std::string ADVANCED_BOOT_HELP_MSG;
 
@@ -152,6 +153,7 @@ const std::string MenuMessages::ADVANCED_BOOT_ON_SYSTEM_HELP_MSG = _("Select whi
 const std::string MenuMessages::ADVANCED_BOOTGAMELIST_HELP_MSG = _("On boot, recalbox will show the list of games of the selected system rather than the system view.");
 const std::string MenuMessages::ADVANCED_GAMELISTONLY_HELP_MSG = _("Only show games contained in the gamelist.xml file (located in your roms directories).\nThis option highly speeds up boot time, but new games will not be detected.");
 const std::string MenuMessages::ADVANCED_HIDESYSTEMVIEW_HELP_MSG = _("This option allows you to set the selected system to fixed mode. With this option activated, the user cannot access other systems.");
+const std::string MenuMessages::ADVANCED_BASICGAMELISTVIEW_HELP_MSG = _("Always display the basic gamelist view, even if you have scraped your games.");
 const std::string MenuMessages::ADVANCED_EMULATOR_ADVANCED_HELP_MSG = _("Override global options like emulator, core, ratio and more for each available system in your recalbox.");
 const std::string MenuMessages::ADVANCED_BOOT_HELP_MSG = _("Configure boot options that make your recalbox boot straight into a system or into Kodi, lock a user to a single system, or directly show the gamelist.");
 

@@ -784,8 +784,15 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                              bootGui->addWithLabelAndHelp(_("HIDE SYSTEM VIEW"), hidesystemviewComp,
                                                           MenuMessages::ADVANCED_HIDESYSTEMVIEW_HELP_MSG);
 
+                             // Force Basicgamelist View
+                             bool basicgamelistview =
+                                     RecalboxConf::getInstance()->get("emulationstation.forcebasicgamelistview") == "1";
+                             auto basicgamelistviewComp = std::make_shared<SwitchComponent>(mWindow, basicgamelistview);
+                             bootGui->addWithLabelAndHelp(_("FORCE BASIC GAMELIST VIEW"), basicgamelistviewComp,
+                                                           MenuMessages::ADVANCED_BASICGAMELISTVIEW_HELP_MSG);
+
                              bootGui->addSaveFunc(
-                                     [gamelistOnlyComp, system_choices, kodiAtStart, bootOnGamelistComp, hidesystemviewComp] {
+                                     [gamelistOnlyComp, system_choices, kodiAtStart, bootOnGamelistComp, hidesystemviewComp, basicgamelistviewComp] {
                                          RecalboxConf::getInstance()->set("kodi.atstartup",
                                                                           kodiAtStart->getState() ? "1" : "0");
                                          RecalboxConf::getInstance()->set("emulationstation.gamelistonly",
@@ -796,6 +803,8 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                                                                           bootOnGamelistComp->getState() ? "1" : "0");
                                          RecalboxConf::getInstance()->set("emulationstation.hidesystemview",
                                                                           hidesystemviewComp->getState() ? "1" : "0");
+                                         RecalboxConf::getInstance()->set("emulationstation.forcebasicgamelistview",
+                                                                          basicgamelistviewComp->getState() ? "1" : "0");
                                          RecalboxConf::getInstance()->saveRecalboxConf();
                                      });
                              mWindow->pushGui(bootGui);
