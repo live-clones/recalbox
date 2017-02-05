@@ -12,6 +12,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fixed update gamelist crash
 - Fixed SEGFAULT when removing last game of a system
 - Fixed SEGFAULT when hiding the last game of a system
+- Added an option to force the basicgamelist view
 
 ## [4.0.0] - 2016-02-02
 ### Added
