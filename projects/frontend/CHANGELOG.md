@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Added new version support
 - Added an option to scrape recalbox-mix-images from screenscraper
+- Added new mamedb scrapper mirror
 ### Fixed
 - Avoid screensaver while updating
 - Fixed update gamelist crash
