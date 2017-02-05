@@ -10,6 +10,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Avoid screensaver while updating
 - Fixed update gamelist crash
 - Fixed SEGFAULT when removing last game of a system
+- Fixed SEGFAULT when hiding the last game of a system
 
 ## [4.0.0] - 2016-02-02
 ### Added

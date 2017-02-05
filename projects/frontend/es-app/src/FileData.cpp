@@ -341,3 +341,16 @@ void FileData::populateRecursiveFolder(FileData* folder, const std::vector<std::
 		}
 	}
 }
+
+std::vector<FileData *> FileData::getDisplayableRecursive(unsigned int typeMask) const {
+	std::vector<FileData *> out;
+	std::vector<FileData *> files = getFilesRecursive(typeMask);
+
+	for (auto it = files.begin(); it != files.end(); it++) {
+		if ((*it)->metadata.get("hidden").compare("true") != 0) {
+			out.push_back(*it);
+		}
+	}
+
+	return out;
+}

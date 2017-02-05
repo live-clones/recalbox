@@ -299,7 +299,7 @@ SystemData * createSystem(pugi::xml_node * systemsNode, int index ){
 										cmd, platformIds,
 										themeFolder,
 										systemEmulators);
-	if(newSys->getRootFolder()->getChildren().size() == 0)
+	if(newSys->getRootFolder()->getDisplayableRecursive(GAME | FOLDER).size() == 0)
 	{
 		LOG(LogWarning) << "System \"" << name << "\" has no games! Ignoring it.";
 		delete newSys;

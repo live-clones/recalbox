@@ -81,7 +81,7 @@ GuiGamelistOptions::GuiGamelistOptions(Window* window, SystemData* system) : Gui
 
 GuiGamelistOptions::~GuiGamelistOptions()
 {
-    if(getGamelist()->getRoot()->getChildren().size() > 0) {
+    if(getGamelist()->getRoot()->getDisplayableRecursive(GAME | FOLDER).size() > 0) {
         // apply sort
         FileData *root = getGamelist()->getCursor()->getSystem()->getRootFolder();
         root->sort(*mListSort->getSelected()); // will also recursively sort children

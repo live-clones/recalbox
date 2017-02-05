@@ -291,7 +291,7 @@ std::shared_ptr<IGameListView> ViewController::getGameListView(SystemData* syste
 
 	//decide type
 	bool detailed = false;
-	std::vector<FileData*> files = system->getRootFolder()->getFilesRecursive(GAME | FOLDER);
+	std::vector<FileData*> files = system->getRootFolder()->getDisplayableRecursive(GAME | FOLDER);
 	for(auto it = files.begin(); it != files.end(); it++)
 	{
 		if(!(*it)->getThumbnailPath().empty())
@@ -416,33 +416,43 @@ void ViewController::preload()
 
 void ViewController::reloadGameListView(IGameListView* view, bool reloadTheme)
 {
-	for(auto it = mGameListViews.begin(); it != mGameListViews.end(); it++)
-	{
-		if(it->second.get() == view)
-		{
-			bool isCurrent = (mCurrentView == it->second);
-			SystemData* system = it->first;
-			FileData * cursor = NULL;
-			if(system->getGameCount() != 0) {
-				cursor = view->getCursor();
+	if(view->getRoot()->getDisplayableRecursive(GAME | FOLDER).size() > 0) {
+		for (auto it = mGameListViews.begin(); it != mGameListViews.end(); it++) {
+			if (it->second.get() == view) {
+				bool isCurrent = (mCurrentView == it->second);
+				SystemData *system = it->first;
+				FileData *cursor = NULL;
+				if (system->getGameCount() != 0) {
+					cursor = view->getCursor();
+				}
+				mGameListViews.erase(it);
+
+				if (reloadTheme)
+					system->loadTheme();
+
+				std::shared_ptr<IGameListView> newView = getGameListView(system);
+				if (system->getGameCount() > 1) {
+					newView->setCursor(cursor);
+				} else if (system->getGameCount() == 1) {
+					newView->setCursor(system->getRootFolder()->getChildren().at(0));
+				}
+				if (isCurrent)
+					mCurrentView = newView;
+				break;
 			}
-			mGameListViews.erase(it);
-
-			if(reloadTheme)
-				system->loadTheme();
-
-			std::shared_ptr<IGameListView> newView = getGameListView(system);
-			if(system->getGameCount() > 1) {
-				newView->setCursor(cursor);
-			}else if(system->getGameCount() == 1){
-				newView->setCursor(system->getRootFolder()->getChildren().at(0));
-			}
-			if(isCurrent)
-				mCurrentView = newView;
-
-			break;
 		}
-	}
+	}else {
+        Window* window= mWindow;
+        goToStart();
+        window->renderShutdownScreen();
+        delete ViewController::get();
+        SystemData::deleteSystems();
+        SystemData::loadConfig();
+        ViewController::init(window);
+        ViewController::get()->reloadAll();
+        window->pushGui(ViewController::get());
+        return;
+    }
 }
 
 void ViewController::reloadAll()
