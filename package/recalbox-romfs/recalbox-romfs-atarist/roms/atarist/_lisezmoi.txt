@@ -1,0 +1,6 @@
+## RECALBOX - SYSTEM Atari ST ##
+
+Placez ici vos roms atari ST.
+
+Les roms doivent avoir l'extension ".st/.stx/.ipf/.zip"
+

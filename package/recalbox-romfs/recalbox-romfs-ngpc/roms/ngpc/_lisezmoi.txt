@@ -1,0 +1,6 @@
+## RECALBOX - SYSTEM NEOGEO POCKET COLOR ##
+
+Placez ici vos roms neogeo pocket color.
+
+Les roms doivent avoir l'extension ".ngp/.ngc/.zip"
+

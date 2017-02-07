@@ -1,0 +1,6 @@
+## RECALBOX - SYSTEM SG1000 ##
+
+Placez ici vos roms sg1000.
+
+Les roms doivent avoir l'extension ".sg/.zip"
+
