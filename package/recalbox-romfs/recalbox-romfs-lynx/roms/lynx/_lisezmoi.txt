@@ -1,0 +1,6 @@
+## RECALBOX - SYSTEM LYNX ##
+
+Placez ici vos roms lynx.
+
+Les roms doivent avoir l'extension ".lnx/.zip"
+
