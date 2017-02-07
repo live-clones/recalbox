@@ -1,0 +1,6 @@
+## RECALBOX - SYSTEM MASTERSYSTEM ##
+
+Placez ici vos roms mastersystem.
+
+Les roms doivent avoir l'extension ".sms/.zip"
+
