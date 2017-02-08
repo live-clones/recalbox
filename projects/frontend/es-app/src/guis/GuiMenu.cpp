@@ -708,12 +708,16 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                      overclock_choice->add(_("NONE"), "none", currentOverclock == "none");
 #elif RPI_VERSION == 2
                      std::string currentOverclock = Settings::getInstance()->getString("Overclock");
-                     //overclock_choice->add(_("EXTREM (1100Mhz)"), "rpi2-extrem", currentOverclock == "rpi2-extrem");
-                     //overclock_choice->add(_("TURBO (1050Mhz)+"), "rpi2-turbo", currentOverclock == "rpi2-turbo");
+                     overclock_choice->add(_("EXTREM (1100Mhz)"), "rpi2-extrem", currentOverclock == "rpi2-extrem");
+                     overclock_choice->add(_("TURBO (1050Mhz)+"), "rpi2-turbo", currentOverclock == "rpi2-turbo");
                      overclock_choice->add(_("HIGH (1050Mhz)"), "rpi2-high", currentOverclock == "rpi2-high");
                      overclock_choice->add(_("NONE (900Mhz)"), "none", currentOverclock == "none");
 #elif RPI_VERSION == 3
-                     overclock_choice->add(_("NONE (1200Mhz)"), "none", true);
+                     std::string currentOverclock = Settings::getInstance()->getString("Overclock");
+                     overclock_choice->add(_("EXTREM (1400Mhz)"), "rpi3-extrem", currentOverclock == "rpi3-extrem");
+                     overclock_choice->add(_("TURBO (1350Mhz)"), "rpi3-turbo", currentOverclock == "rpi3-turbo");
+                     overclock_choice->add(_("HIGH (1300Mhz)"), "rpi3-high", currentOverclock == "rpi3-high");
+                     overclock_choice->add(_("NONE (1200Mhz)"), "none", currentOverclock == "none");
 #endif
 #else
                      overclock_choice->add(_("NONE"), "none", true);
@@ -728,14 +732,27 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                          }
                          RecalboxConf::getInstance()->saveRecalboxConf();
                          if (reboot) {
-                             window->pushGui(
-                                     new GuiMsgBox(window, _("THE SYSTEM WILL NOW REBOOT"), _("OK"),
-                                                   [window] {
-                                                       if (runRestartCommand() != 0) {
-                                                           LOG(LogWarning) << "Reboot terminated with non-zero result!";
-                                                       }
-                                                   })
-                             );
+                             if (overclock_choice->getSelected() == "turbo" || overclock_choice->getSelected() == "extrem") {
+                                 window->pushGui(
+                                         new GuiMsgBox(window, _("TURBO AND EXTREM OVERCLOCK PRESETS MAY CAUSE SYSTEM INSTABILITIES, SO USE THEM AT YOUR OWN RISK.\nIF YOU CONTINUE, THE SYSTEM WILL REBOOT NOW."), _("YES"),
+                                                       [window] {
+                                                           if (runRestartCommand() != 0) {
+                                                               LOG(LogWarning) << "Reboot terminated with non-zero result!";
+                                                           }
+                                                   }, _("NO"), [] {
+                                                     Settings::getInstance()->setString("Overclock", "none");
+                                                     RecalboxSystem::getInstance()->setOverclock("none");
+                                                     Settings::getInstance()->saveFile();
+                                                 }));
+                             } else {
+                                 window->pushGui(
+                                         new GuiMsgBox(window, _("THE SYSTEM WILL NOW REBOOT"), _("OK"),
+                                                       [window] {
+                                                           if (runRestartCommand() != 0) {
+                                                               LOG(LogWarning) << "Reboot terminated with non-zero result!";
+                                                           }
+                                                       }));
+                             }
                          }
                      });
 

@@ -216,11 +216,30 @@ msgstr ""
 msgid "NONE (900Mhz)"
 msgstr ""
 
-#: 
+#:
+msgid "EXTREM (1400Mhz)"
+msgstr ""
+
+#:
+msgid "TURBO (1350Mhz)"
+msgstr ""
+
+#:
+msgid "HIGH (1300Mhz)"
+msgstr ""
+
+#:
 msgid "NONE (1200Mhz)"
 msgstr ""
 
-#: 
+#:
+msgid ""
+"TURBO AND EXTREM OVERCLOCK PRESETS MAY CAUSE SYSTEM INSTABILITIES, SO USE "
+"THEM AT YOUR OWN RISK.\n"
+"IF YOU CONTINUE, THE SYSTEM WILL REBOOT NOW."
+msgstr ""
+
+#:
 msgid "NONE"
 msgstr ""
 

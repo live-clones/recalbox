@@ -15,6 +15,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fixed SEGFAULT when removing last game of a system
 - Fixed SEGFAULT when hiding the last game of a system
 - Added an option to force the basicgamelist view
+- Added RPI3 overclock presets + Warning popup on TURBO/EXTREM presets
 
 ## [4.0.0] - 2016-02-02
 ### Added
