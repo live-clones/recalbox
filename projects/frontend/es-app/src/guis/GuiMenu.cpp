@@ -734,7 +734,7 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                          if (reboot) {
                              if (overclock_choice->getSelected() == "turbo" || overclock_choice->getSelected() == "extrem") {
                                  window->pushGui(
-                                         new GuiMsgBox(window, _("TURBO AND EXTREM OVERCLOCK PRESETS MAY CAUSE SYSTEM INSTABILITIES, SO USE THEM AT YOUR OWN RISK.\nIF YOU CONTINUE, THE SYSTEM WILL REBOOT NOW."), _("YES"),
+                                         new GuiMsgBox(window, _("TURBO AND EXTREM OVERCLOCK PRESETS MAY CAUSE SYSTEM UNSTABILITIES, SO USE THEM AT YOUR OWN RISK.\nIF YOU CONTINUE, THE SYSTEM WILL REBOOT NOW."), _("YES"),
                                                        [window] {
                                                            if (runRestartCommand() != 0) {
                                                                LOG(LogWarning) << "Reboot terminated with non-zero result!";
