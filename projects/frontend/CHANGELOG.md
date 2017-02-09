@@ -8,6 +8,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added an option to scrape recalbox-mix-images from screenscraper
 - Added new mamedb scrapper mirror
 - Only save changed metadata when saving gamelist.xml (improve shutdown time)
+- Ignore all known bios and devices for arcade/neogeo platform
 ### Fixed
 - Avoid screensaver while updating
 - Fixed update gamelist crash

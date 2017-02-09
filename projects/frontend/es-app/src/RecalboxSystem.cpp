@@ -19,6 +19,7 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <boost/algorithm/string/replace.hpp>
+#include <fstream>
 
 
 RecalboxSystem::RecalboxSystem() {
