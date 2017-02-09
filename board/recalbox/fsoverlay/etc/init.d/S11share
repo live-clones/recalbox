@@ -219,7 +219,7 @@ do_boot_upgrade() {
     done
 
     # upgrade the boot
-    if ! (cd /boot && xz -dc < "${BOOTTAR}" | tar xvf - >> /tmp/upgrade.files)
+    if ! (cd /boot && xz -dc < "${BOOTTAR}" | tar mxvf - >> /tmp/upgrade.files)
     then
 	return 1
     fi
@@ -275,7 +275,7 @@ do_upgrade() {
     then
 	if (cd / && \
 	    cp ./etc/fstab ./etc/fstab.upgrade && \
-	    xz -dc < "${ROOTTAR}" | tar xvf - >> /tmp/upgrade.files && \
+	    xz -dc < "${ROOTTAR}" | tar mxvf - >> /tmp/upgrade.files && \
 	    mv ./etc/fstab.upgrade ./etc/fstab)
 	then
 	    NEW_VERSION=$(sed -rn "s/^\s*([0-9a-zA-Z.]*)\s*.*$/\1/p" /recalbox/recalbox.version)
