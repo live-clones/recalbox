@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<gameList>
+	<game>
+		<path>./Digger Chan (Aypok).sms</path>
+		<name>Digger Chan</name>
+		<desc>
+Digger Chan is a brand new "homebrew" game created exclusively for the classic 8-bit Sega Master System game consoles. It will be the first new game to be released on cartridge for the Master System since 1998!
+Digger Chan Screen Shot 1 Digger Chan Screen Shot 2
+
+You play as Digger Chan working for M.O.O. Milk Co, and it's your job to go around the globe fixing the milk pipelines buried deep beneath the ground. Everyone loves having fresh cool milk available on tap, and the customers get displeased when there are problems with the pipelines, cutting off their supply of milk.
+
+Getting down to the pipelines is not an easy job, digging is exhausting with only sporadic bottles of milk available to collect and quench your thirst. As if that wasn't enough to worry about, rival milk companies have hidden deadly explosives in your path to disrupt your work!
+</desc>
+		<image>./downloaded_images/Digger Chan (Aypok)-image.png</image>
+		<releasedate>20060101T000000</releasedate>
+		<developer>Playgeneration</developer>
+		<publisher>Playgeneration</publisher>
+		<genre>Platform</genre>
+		<players></players>
+	</game>
+	<game>
+		<path>./Pong Master 4k.sms</path>
+		<name>Pong Master 4k</name>
+		<desc>
+An implementation of the classic game of Pong for the Sega Master System. Probably the first game for this console to ever be coded in C.
+</desc>
+		<image>./downloaded_images/Pong Master 4k-image.png</image>
+		<releasedate>20120101T000000</releasedate>
+		<developer>Haroldo Pinheiro</developer>
+		<publisher>homebrew</publisher>
+		<genre>Action</genre>
+		<players></players>
+	</game>
+</gameList>
