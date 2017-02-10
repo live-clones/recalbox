@@ -1,0 +1,138 @@
+<?xml version="1.0"?>
+<gameList>
+	<game>
+		<path>./2048 (tsone).nes</path>
+		<name>2048</name>
+		<desc>2048 est un jeu créé à l'origine par Gabriele Cirulli pour Smartphones où il fallait jouer avec les puissances de 2 et les additionner pour obtenir 2048
+</desc>
+		<image>./downloaded_images/2048 (tsone)-image.png</image>
+		<developer>tsone</developer>
+		<publisher>tsone</publisher>
+		<genre>Puzzle-Game</genre>
+		<players></players>
+	</game>
+	<game>
+		<path>./BladeBuster (High Level Challenge).nes</path>
+		<name>Blade Buster</name>
+		<desc>
+Blade Buster is a new homebrew NES shoot ?em up by the doujin group High Level Challenge. The game is based on the two time attack modes from the 1990 Turbografx-16 vertical shoot ?em up Super Star Soldier, in which you try to achieve the highest possible score in either 2 or 5 minutes. So there are only two short stages in the game, with the boss battles at the end of each one. Aside from the standard enemies, boxes, and gems, there are various hidden bonuses you can get for extra points.
+</desc>
+		<image>./downloaded_images/BladeBuster (High Level Challenge)-image.png</image>
+		<releasedate>20100101T000000</releasedate>
+		<developer>High Level Challenge</developer>
+		<publisher>High Level Challenge</publisher>
+		<genre>Shoot'em up / Vertical</genre>
+		<players></players>
+	</game>
+	<game>
+		<path>./Chase (Shiru).nes</path>
+		<name>Chase</name>
+		<image>./downloaded_images/Chase (Shiru)-image.png</image>
+		<releasedate>20120101T000000</releasedate>
+		<developer>Shiru</developer>
+		<publisher>Shiru</publisher>
+		<genre>Action / Labyrinth</genre>
+		<players></players>
+	</game>
+	<game>
+		<path>./Driar (Stefan Adolfsson - David Eriksson).nes</path>
+		<name>Driar</name>
+		<image>./downloaded_images/Driar (Stefan Adolfsson - David Eriksson)-image.png</image>
+		<releasedate>20120101T000000</releasedate>
+		<developer>Stefan Adolfsson - David Eriks</developer>
+		<publisher>Stefan Adolfsson - David Eriks</publisher>
+		<genre></genre>
+		<players></players>
+	</game>
+	<game>
+		<path>./Lan Master (Shiru).nes</path>
+		<name>Lan Master</name>
+		<image>./downloaded_images/Lan Master (Shiru)-image.png</image>
+		<developer>Shiru</developer>
+		<publisher>Shiru</publisher>
+		<genre>Puzzle-Game</genre>
+		<players></players>
+	</game>
+	<game>
+		<path>./Lawn Mower (Shiru).nes</path>
+		<name>Lawn Mower</name>
+		<desc>
+Lawn Mower is a homebrew, published by The NES Dump, which was released in the United States of America for the Nintendo NES.The goal of this game is to mow all the grass before you run out of gas. Collect gas cans to keep yourself from running on empty.
+</desc>
+		<image>./downloaded_images/Lawn Mower (Shiru)-image.png</image>
+		<releasedate>20110101T000000</releasedate>
+		<developer>Shiru</developer>
+		<publisher>Shiru</publisher>
+		<genre>Action</genre>
+		<players></players>
+	</game>
+	<game>
+		<path>./Sir Ababol (2013)(The Mojon Twins)[!].nes</path>
+		<name>Sir Ababol</name>
+		<desc>
+Sir Ababol controlled through the Monegros for all ababoles. To progress in your adventure you'll have to go find a set of keys that you can use to open doors and access other locations. Once you've gathered 24 ababoles finish your mission.
+
+Jump up the bat, dogs and warriors to kill them, and avoid touching the water is bad. To recover some encouragement, you can eat one of the chicken thighs "monegro's fried chicken" magic they appear scattered around the stage.
+
+Briconsejo: be patient and do not go crazy!
+
+Sir Control Ababol Monegrian accross the fields and gather flowers ababol 24. To be Able to progress in your journey you'll need some keys you will be Able to use to open several doors to gain access to different sections. You can jump on the baddies to get rid of them, too. Be patient, think before you jump, and you'll be successful!
+</desc>
+		<image>./downloaded_images/Sir Ababol (2013)(The Mojon Twins)[!]-image.png</image>
+		<releasedate>20130101T000000</releasedate>
+		<developer>Shiru</developer>
+		<publisher>The Mojon Twins</publisher>
+		<genre>Platform</genre>
+		<players></players>
+	</game>
+	<game>
+		<path>./Steemerz v02 (fauxgame).nes</path>
+		<name>Steemerz</name>
+		<image>./downloaded_images/Steemerz v02 (fauxgame)-image.png</image>
+		<releasedate>20120101T000000</releasedate>
+		<developer>Faux Game</developer>
+		<publisher>Faux Game</publisher>
+		<genre>Platform</genre>
+		<players></players>
+	</game>
+	<game>
+		<path>./Steemerz v02 (fauxgame) (FR).nes</path>
+		<name>Steemerz</name>
+		<image>./downloaded_images/Steemerz v02 (fauxgame) (FR)-image.png</image>
+		<releasedate>20120101T000000</releasedate>
+		<developer>Faux Game</developer>
+		<publisher>Faux Game</publisher>
+		<genre>Platform</genre>
+		<players></players>
+	</game>
+	<game>
+		<path>./Tiger Jenny (Ludosity).nes</path>
+		<name>Tiger Jenny</name>
+		<desc>
+Tiger Jenny is a NES game set in the same universe as "Ittle Dew" it takes place a thousand years before the events of that game.
+Battle your way through the forests to seek vengeance on the Turnip Witch who dwells in her castle.
+
+Note that this game actually runs on the real hardware, it's not just an imitation.
+Therefore the release is in nes rom format so you'll need an emulator to play it.
+</desc>
+		<image>./downloaded_images/Tiger Jenny (Ludosity)-image.png</image>
+		<releasedate>20140101T000000</releasedate>
+		<developer>Ludosity</developer>
+		<publisher>Ludosity</publisher>
+		<genre>Platform</genre>
+		<players></players>
+	</game>
+	<game>
+		<path>./Zooming Secretary (Shiru).nes</path>
+		<name>Zooming Secretary</name>
+		<desc>
+Zooming Secretary is a homebrew game, where you play as a secretary who has to answer phone calls asking trivia information on the subject of history, geography, literature or astronomy. You answer by going to the appropriate file cabinet, remember the to
+</desc>
+		<image>./downloaded_images/Zooming Secretary (Shiru)-image.png</image>
+		<releasedate>20110101T000000</releasedate>
+		<developer>Shiru</developer>
+		<publisher>Shiru</publisher>
+		<genre>Action</genre>
+		<players></players>
+	</game>
+</gameList>
