@@ -782,10 +782,17 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                              std::string currentSystem = selectedsystem != "" ? selectedsystem : "favorites";
                              // For each activated system
                              std::vector<SystemData *> systems = SystemData::sSystemVector;
+                             bool found = false;
                              for (auto system = systems.begin(); system != systems.end(); system++) {
                                  std::string systemName = (*system)->getName();
-                                 system_choices->add(systemName, systemName, currentSystem == systemName);
+                                 if(systemName != "favorites") {
+                                     found = currentSystem == systemName;
+                                     system_choices->add(systemName, systemName, currentSystem == systemName);
+                                 }
                              }
+                             // Always add favorites, and select it if the user never chose another system
+                             system_choices->add("favorites", "favorites", !found);
+
                              bootGui->addWithLabelAndHelp(_("BOOT ON SYSTEM"), system_choices,
                                                           MenuMessages::ADVANCED_BOOT_ON_SYSTEM_HELP_MSG);
                              // Boot on gamelist
