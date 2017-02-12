@@ -786,7 +786,7 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                              for (auto system = systems.begin(); system != systems.end(); system++) {
                                  std::string systemName = (*system)->getName();
                                  if(systemName != "favorites") {
-                                     found = currentSystem == systemName;
+                                     found = found || currentSystem == systemName;
                                      system_choices->add(systemName, systemName, currentSystem == systemName);
                                  }
                              }
