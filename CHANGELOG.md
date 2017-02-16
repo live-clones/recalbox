@@ -107,6 +107,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added "Joe Contre Les Pharaons" Amstrad CPC homebrew
 - Added RPI3 overclock presets + warning popup if TURBO/EXTREM
 - Add support for smb and upnp protocols in Kodi
+- Removed xboxdrv driver - broken since kernel's bump
 
 ## [4.0.0-beta5] - 2016-08-13hs the ratio issue in mame.
 - Improved pads and gpio support for moonlight
