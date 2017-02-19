@@ -198,6 +198,7 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                              language_choice->add("JAPANESE", "jp_JP", language == "jp_JP");
                              language_choice->add("RUSSIAN", "ru_RU", language == "ru_RU");
                              language_choice->add("HUNGARIAN", "hu_HU", language == "hu_HU");
+                             language_choice->add("CZECH", "cs_CZ", language == "cs_CZ");
 
                              s->addWithLabelAndHelp(_("LANGUAGE"), language_choice, MenuMessages::LANGUAGE_HELP_MSG);
 
