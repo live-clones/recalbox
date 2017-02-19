@@ -78,8 +78,7 @@ msgstr "ÉDITER"
 
 #: 
 msgid "search"
-msgstr "rechercher\n"
-""
+msgstr "rechercher"
 
 #: 
 msgid "STOP"
