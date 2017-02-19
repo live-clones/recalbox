@@ -294,14 +294,14 @@ std::shared_ptr<IGameListView> ViewController::getGameListView(SystemData* syste
 	std::vector<FileData*> files = system->getRootFolder()->getDisplayableRecursive(GAME | FOLDER);
 	for(auto it = files.begin(); it != files.end(); it++)
 	{
-		if(!(*it)->getThumbnailPath().empty() && RecalboxConf::getInstance()->get("emulationstation.forcebasicgamelistview") == "0")
+		if(!(*it)->getThumbnailPath().empty())
 		{
 			detailed = true;
 			break;
 		}
 	}
 
-	if(detailed)
+	if(detailed && ! (RecalboxConf::getInstance()->get("emulationstation.forcebasicgamelistview") == "1"))
 		view = std::shared_ptr<IGameListView>(new DetailedGameListView(mWindow, system->getRootFolder(), system));
 	else
 		view = std::shared_ptr<IGameListView>(new BasicGameListView(mWindow, system->getRootFolder()));
