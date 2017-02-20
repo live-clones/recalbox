@@ -107,8 +107,7 @@ msgid "%i GAME SUCCESSFULLY SCRAPED!"
 msgid_plural "%i GAMES SUCCESSFULLY SCRAPED!"
 msgstr[0] "%i HRA BYLA ÚSPĚŠNĚ VYHLEDÁNA"
 msgstr[1] "%i HRY BYLY ÚSPĚŠNĚ VYHLEDÁNY"
-msgstr[2] "\n"
-"%i HER BYLO ÚSPĚŠNĚ VYHLEDÁNO"
+msgstr[2] "%i HER BYLO ÚSPĚŠNĚ VYHLEDÁNO"
 
 #: 
 msgid "%i GAME SKIPPED."
