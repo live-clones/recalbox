@@ -61,7 +61,7 @@ function doRbxConfUpgrade {
     # Check if the property exists or has to be added
     if grep -qE "^[;]?$name=" $cfgIn; then
       recallog "ADDING user defined to $cfgOut : $name=$value"
-      sed -i "s+^[;]\?$name=.*+$name=$value+" $tmpFile || { recallog "ERROR : Couldn't replace $name=$value in $tmpFile" ; return 1 ; }
+      sed -i s$'\001'"^[;]\?$name=.*"$'\001'"$name=$value"$'\001' $tmpFile || { recallog "ERROR : Couldn't replace $name=$value in $tmpFile" ; return 1 ; }
     else
       recallog "ADDING custom property to $cfgOut : $name=$value"
       echo "$name=$value" >> $tmpFile || { recallog "ERROR : Couldn't write $name=$value in $tmpFile" ; return 1 ; }
