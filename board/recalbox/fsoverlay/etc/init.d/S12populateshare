@@ -51,24 +51,19 @@ done
 # the user can't delete any directory, otherwise, it will recreate it, with link inside
 # the user can delete links and add its own files
 # to reset the directory or update it, the user has to remove the directory (we are unable to differenciate new files from recalbox update from a file removed by the user)
-for DIR in roms roms/mame/mame2003
+for DIR in roms roms/mame/mame2003 system/configs
 do
-    if test ! -e "$OUT""/""$DIR"
-    then
-	if mkdir "$OUT""/""$DIR"
-	then
-	    find "$IN""/""$DIR" -mindepth 1 -maxdepth 1 -type d |
-		while read SUBDIR
-		do
-		    BNAME=$(basename "$SUBDIR")
-		    TDIR="$OUT""/""$DIR""/""$BNAME"
-		    if test ! -e "$TDIR" # ASSUME THAT PARENTS ARE LISTED BEFORE CHILDREN
-		    then
-			cp -r "$SUBDIR" "$TDIR"
-		    fi
-		done
-	fi
-    fi
+    [ ! -e "$OUT""/""$DIR" ] && mkdir "$OUT""/""$DIR"
+    find "$IN""/""$DIR" -mindepth 1 -maxdepth 1 -type d |
+        while read SUBDIR
+        do
+            BNAME=$(basename "$SUBDIR")
+            TDIR="$OUT""/""$DIR""/""$BNAME"
+            if test ! -e "$TDIR" # ASSUME THAT PARENTS ARE LISTED BEFORE CHILDREN
+            then
+                cp -r "$SUBDIR" "$TDIR"
+            fi
+        done
 done
 
 # recalbox.conf : upgrade if necessary
