@@ -131,6 +131,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add ipega 9021 rules
 - Added stat in busybox
 - Added integer scale (Pixel Perfect) option
+- Deactivated rumble support in pcsx core - causes endless vibrations problems
+- Bumped pcsx core - added an option to enable bios splashscreeen (may broke some games - disabled by default)
 
 ## [4.0.0-beta3] - 2016-04-19
 - Xarcade2jstick button remapped + better support of IPAC encoders
