@@ -41,7 +41,7 @@ esac
 # try to mount
 case "${FSTYPE}" in
     "vfat")
-	if ! mount "${MOUNTDEVICE}" "${MOUNTPOINT}" -o "${FSMOUNTOPT}"
+	if ! mount "${MOUNTDEVICE}" "${MOUNTPOINT}" -o "${FSMOUNTOPT}" || ! mount "${MOUNTDEVICE}" "${MOUNTPOINT}" -o noatime
 	    then
 	    exit 1
 	fi
