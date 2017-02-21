@@ -478,9 +478,7 @@ EOF
 	fi
 fi
 if [[ "$command" == "hcitoolscan" ]]; then
-	#killall hidd >> /dev/null
-	killall hcitool > /dev/null 2>&1
-	hcitool scan | tail -n +2
+	/recalbox/scripts/bluetooth/test-device list
 	exit 0
 fi
 
@@ -502,7 +500,7 @@ if [[ "$command" == "hiddpair" ]]; then
                         echo "SUBSYSTEM==\"input\", ATTRS{uniq}==\"$macLowerCase\", MODE=\"0666\", ENV{ID_INPUT_JOYSTICK}=\"1\"" >> "/run/udev/rules.d/99-8bitdo.rules"
                 fi
         fi
-        /recalbox/scripts/bluetooth/test-device connect "$mac"
+        /recalbox/scripts/bluetooth/simple-agent hci0 "$mac"
         connected=$?
 	if [ $connected -eq 0 ]; then
                 hcitool con | grep $mac1
