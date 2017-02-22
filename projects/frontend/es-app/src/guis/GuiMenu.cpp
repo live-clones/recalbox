@@ -715,7 +715,7 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                      overclock_choice->add(_("NONE (900Mhz)"), "none", currentOverclock == "none");
 #elif RPI_VERSION == 3
                      std::string currentOverclock = Settings::getInstance()->getString("Overclock");
-                     overclock_choice->add(_("EXTREM (1400Mhz)"), "rpi3-extrem", currentOverclock == "rpi3-extrem");
+                     overclock_choice->add(_("EXTREM (1375Mhz)"), "rpi3-extrem", currentOverclock == "rpi3-extrem");
                      overclock_choice->add(_("TURBO (1350Mhz)"), "rpi3-turbo", currentOverclock == "rpi3-turbo");
                      overclock_choice->add(_("HIGH (1300Mhz)"), "rpi3-high", currentOverclock == "rpi3-high");
                      overclock_choice->add(_("NONE (1200Mhz)"), "none", currentOverclock == "none");
@@ -723,8 +723,18 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
 #else
                      overclock_choice->add(_("NONE"), "none", true);
 #endif
+
+                     std::vector<std::string> overclockWarning = {
+                             "turbo",
+                             "extrem",
+                             "rpi2-turbo",
+                             "rpi2-extrem",
+                             "rpi3-turbo",
+                             "rpi3-extrem"
+                     };
+
                      s->addWithLabelAndHelp(_("OVERCLOCK"), overclock_choice, MenuMessages::ADVANCED_OVERCLOCK_HELP_MSG);
-                     s->addSaveFunc([overclock_choice, window] {
+                     s->addSaveFunc([overclock_choice, overclockWarning, window]  {
                          bool reboot = false;
                          if (Settings::getInstance()->getString("Overclock") != overclock_choice->getSelected()) {
                              Settings::getInstance()->setString("Overclock", overclock_choice->getSelected());
@@ -733,7 +743,7 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                          }
                          RecalboxConf::getInstance()->saveRecalboxConf();
                          if (reboot) {
-                             if (overclock_choice->getSelected() == "turbo" || overclock_choice->getSelected() == "extrem") {
+                             if (std::find(overclockWarning.begin(), overclockWarning.end(), overclock_choice->getSelected()) != overclockWarning.end()) {
                                  window->pushGui(
                                          new GuiMsgBox(window, _("TURBO AND EXTREM OVERCLOCK PRESETS MAY CAUSE SYSTEM UNSTABILITIES, SO USE THEM AT YOUR OWN RISK.\nIF YOU CONTINUE, THE SYSTEM WILL REBOOT NOW."), _("YES"),
                                                        [window] {
