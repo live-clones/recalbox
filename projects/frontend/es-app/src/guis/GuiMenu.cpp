@@ -251,13 +251,15 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
 
                          // Enable updates
 
-                         std::string updatesType = RecalboxConf::getInstance()->get("updates.type");
-                         if (updatesType != "stable" && updatesType != "unstable") {
-                             updatesType = "stable";
-                         }
                          auto updatesTypeComp = std::make_shared<OptionListComponent<std::string> >(mWindow,
                                                                                                     _("UPDATE TYPE"),
                                                                                                     false);
+                         std::string updatesType = RecalboxConf::getInstance()->get("updates.type");
+                         if(updatesType == ""){
+                             updatesType = "stable";
+                         }else if (updatesType != "stable" && updatesType != "unstable") {
+                             updatesTypeComp->add(updatesType, updatesType, true);
+                         }
                          updatesTypeComp->add("stable", "stable", updatesType == "stable");
                          updatesTypeComp->add("unstable", "unstable", updatesType == "unstable");
 
