@@ -11,6 +11,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Ignore all known bios and devices for arcade/neogeo platform
 - Added Czech support
 ### Fixed
+- Fixed custom update.type
+- Fixed bluetooth message when pairing failed
 - Avoid screensaver while updating
 - Fixed update gamelist crash
 - Fixed SEGFAULT when removing last game of a system
