@@ -7,6 +7,7 @@ stages:
 
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
+  RECALBOX_MAIN_VERSION: 4.1.0
 
 .build_template: &build_definition
   stage: build
@@ -14,7 +15,7 @@ variables:
     - tar cvzf recalbox-emulationstation2-${ARCH}.tar.gz -C recalbox-emulationstation/ .
     - docker run --rm -e "ARCH=${ARCH}" -v `pwd`:/work -v /recalbox-builds/dl:/share/dl ubuntu:16.04 bash -c 'rm -rf /share/dl/recalbox-emulationstation2-${ARCH}.tar.gz && cp /work/recalbox-emulationstation2-${ARCH}.tar.gz /share/dl/recalbox-emulationstation2-${ARCH}.tar.gz'
     - sed -i "s/^RECALBOX_EMULATIONSTATION2_VERSION.*/RECALBOX_EMULATIONSTATION2_VERSION = ${ARCH}/" package/recalbox-emulationstation2/recalbox-emulationstation2.mk
-    - export RECALBOX_VERSION=${CI_BUILD_TAG:-${CI_BUILD_REF_SLUG}-${ARCH}-build-${CI_BUILD_ID}}
+    - export RECALBOX_VERSION=${CI_BUILD_TAG:-${RECALBOX_MAIN_VERSION}-${CI_BUILD_REF_SLUG}-${ARCH}-$(date +%Y-%m-%d-%H-%M-%S)-${CI_BUILD_ID}}
     - docker build -t recalbox-${ARCH} . 
     - docker run --rm -v `pwd`:/work -v /recalbox-builds/dl:/share/dl -v /recalbox-builds/hosts/host-${ARCH}:/share/host -v /recalbox-builds/ccaches/ccache-${ARCH}:/share/ccache -e "ARCH=$ARCH" -e "RECALBOX_VERSION_LABEL=$RECALBOX_VERSION" -e "RECALBOX_CCACHE_DIR=/share/ccache" recalbox-${ARCH} >> build.log 2>&1
     - tail -n 200 build.log
@@ -24,6 +25,7 @@ variables:
     - for file in `ls dist/${ARCH}/`;do sha1sum dist/${ARCH}/${file} > dist/${ARCH}/${file}.sha1; done
     - tar tf dist/${ARCH}/root.tar.xz | sort > dist/${ARCH}/root.list
     - echo "$RECALBOX_VERSION" >> dist/${ARCH}/recalbox.version
+    - cp CHANGELOG.md dist/${ARCH}/recalbox.changelog
   artifacts:
     name: dist-${ARCH}-${CI_BUILD_ID}
     when: always
