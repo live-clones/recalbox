@@ -1082,69 +1082,72 @@ msgstr "ZEIGE VERSTECKTE"
 
 #: 
 msgid "EXTREM (1400Mhz)"
-msgstr ""
+msgstr "EXTREM (1400Mhz)"
 
 #: 
 msgid "TURBO (1350Mhz)"
-msgstr ""
+msgstr "TURBO (1350Mhz)"
 
 #: 
 msgid "HIGH (1300Mhz)"
-msgstr ""
+msgstr "HOCH (1300Mhz)"
 
 #: 
 msgid "TURBO AND EXTREM OVERCLOCK PRESETS MAY CAUSE SYSTEM UNSTABILITIES, SO USE THEM AT YOUR OWN RISK.\n"
 "IF YOU CONTINUE, THE SYSTEM WILL REBOOT NOW."
-msgstr ""
+msgstr "TURBO UND EXTREM ÜBERTAKTUNG KÖNNEN ZU SYSTEM INSTABILITÄT FÜHREN. BENUTZUNG DESHALB AUF EIGENE GEFAHR. WENN DU WEITERFÄHRST, WIRD DAS SYSTEM JETZT NEUSTARTEN."
 
 #: 
 msgid "%i GAME HIDDEN"
 msgid_plural "%i GAMES HIDDEN"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%i SPIEL VERSTECKT"
+msgstr[1] "%i SPIELE VERSTECKT"
 
 #: 
 msgid "Start kodi media player."
-msgstr ""
+msgstr "Starte Kodi Media Player"
 
 #: 
 msgid "Select the language for your recalbox, select an external drive to store your games and configurations, check your current version and the free space on your drive"
-msgstr ""
+msgstr "Wähle die Sprache deiner recalbox, wähle ein ext. Speichermedium um deine Spiele und Konfigurationen zu speichern, überprüfe deine recalbox-Version und den freien Speicherplatz."
 
 #: 
 msgid "Shows your current recalboxOS version."
-msgstr ""
+msgstr "Zeigt dir deine aktuelle recalboxOS Version an."
 
 #: 
 msgid "Show how much space is used on your SHARE partition, located either on the SDCARD or on an external drive. The information shows how much GB are used and how much GB your storage has overall (example 13GB/26GB)."
-msgstr ""
+msgstr "Zeigt wie viel Speicher von deiner SHARE Partition verbraucht wird, welche sich entweder auf der SD KARTE oder auf einer externen Quelle befindet. Die Information zeigt wie viele GB genutzt werden und wie viele GB insgesamt nutzbar sind (Beispiel 13GB/26GB)."
 
 #: 
 msgid "Select an external drive to store your roms, saves, configurations etc.\n"
 "Use a FAT32 formatted drive. The system does not format the drive. On first boot, with this option enabled, recalbox will create a '/recalbox' folder with all system files inside."
-msgstr ""
+msgstr "Wähle ein externes Speichermedium um deine ROMs, Speicherstände, Konfigurationen etc. zu speichern.\n"
+"Benutze ein FAT32 formatiertes Medium. Das System formatiert dein Medium nicht. Ist diese Option aktiviert, so erzeugt recalbox beim ersten Start einen '/recalbox'-Ordner mit allen System-Dateien."
 
 #: 
 msgid "Select your language. A reboot is needed to set this configuration active."
-msgstr ""
+msgstr "Wähle deine Sprache. Ein Neustart wird benötigt um die Änderungen vorzunehmen."
 
 #: 
 msgid "Manage your recalbox updates. Select the update type. Activate update check."
-msgstr ""
+msgstr "Verwalte deine recalbox-Updates. Wähle einen Update-Typ und suche nach Updates."
 
 #: 
 msgid "Check if an update is available, and start the update process."
-msgstr ""
+msgstr "Überprüfe ob ein Update vorliegt und starte den Updatevorgang."
 
 #: 
 msgid "Stable updates will check for updates on stable recalbox releases. Stable updates are tested and approved by the recalbox team and their testers.\n"
 "Unstable updates allows you to get the latest recalbox features by checking our unstable repository. You can test and validate with us the very last version of recalbox.\n"
 "If you choose unstable update, be so kind to report issues on the recalbox-os issue board (https://github.com/recalbox/recalbox-os/issues)"
-msgstr ""
+msgstr "Mit Stable-Updates wird nach stabilen recalbox-Versionen gesucht. Stable-Updates wurden getestet und durch das recalbox-Team und Tester bestätigt.\n"
+"Unstable-Updates ermöglichen es dir, die neuesten recalbox-Features zu benutzen. Du kannst mit uns die neueste Version testen und validieren.\n"
+"Falls du die Unstable-Updates gewählt hast, würden wir es schätzen wenn du gefundene Fehler mit uns teilen würdest (https://github.com/recalbox/recalbox-os/issues)."
 
 #: 
 msgid "Automatically check if an update is avaialble. If so, it notifies you with a message."
-msgstr ""
+msgstr "Überprüfe automatisch ob ein Update vorliegt. Falls es Updates gibt, wirst du benachrichtigt."
 
 #: 
 msgid "Configure games display, ratio, filters (shaders), auto save and load and retroachievement account."
@@ -1156,15 +1159,15 @@ msgstr ""
 
 #: 
 msgid "Smooth the game image. This option makes the image smoother, using bilinear filtering."
-msgstr ""
+msgstr "Glättet das Spielbild. Diese Option glättet das Bild mittels bilinearem Filter."
 
 #: 
 msgid "This option allows you to rewind the game if you get killed by a monster, or if you make any other mistake. Use the HOTKEY + LEFT command within the game to rewind."
-msgstr ""
+msgstr "Mit dieser Option kannst du das Spiel zurückspulen, wenn du von einem Monster getötet wirst oder wenn du einen anderen Fehler machst. Benutze den Befehl HOTKEY + LINKS innerhalb des Spiels zum Zurückspulen."
 
 #: 
 msgid "Auto save the state when you quit a game, and auto load last saved state when you start a game."
-msgstr ""
+msgstr "Zustand automatisch speichern wenn du ein Spiel beendest und automatisches Laden des letzten gespeicherten Zustands, wenn du ein Spiel startest."
 
 #: 
 msgid "Integer scaling is scaling by a factor of a whole number, such as 2x, 3x, 4x, etc. This option scales the image up to the greatest integer scale below the set resolution. So for instance, if you set your fullscreen resolution to 1920x1080 and enable integer scaling, it will only scale a 320x240 image up to 1280x960, and leave black borders all around. This is to maintain a 1:1 pixel ratio with the original source image, so that pixels are not unevenly duplicated."
@@ -1176,7 +1179,7 @@ msgstr ""
 
 #: 
 msgid "Enable or disable RetroAchievements in games."
-msgstr ""
+msgstr "Schaltet RetroAchievements in Spielen aus oder an."
 
 #: 
 msgid "Hardcore mode disables *all* savestate and rewind functions within the emulator: you will not be able to save and reload at any time. You will have to complete the game and get the achievements first time, just like on the original console. In reward for this, you will earn both the standard and the hardcore achievement, in effect earning double points! A regular game worth 400 points, is now worth 800 if you complete it on hardcore! For example: if you complete the game for 400 points, you then have the opportunity to earn another 400 on hardcore."
@@ -1188,15 +1191,15 @@ msgstr ""
 
 #: 
 msgid "Add and configure up to 5 controllers."
-msgstr ""
+msgstr "Hinzufügen und Konfigurieren von bis zu 5 Controllern"
 
 #: 
 msgid "Pair a bluetooth controller with your recalbox. Your controller must be in pairing mode."
-msgstr ""
+msgstr "Kopple einen Bluetooth-Controller mit deiner recalbox. Dein Controller muss sich im Pairing-Modus befinden."
 
 #: 
 msgid "Forget all paired bluetooth controllers. You will have to pair your controllers again, but this option can help if you have issues to reconnect a controller, which is already paired."
-msgstr ""
+msgstr "Lösche alle gekoppelten Bluetooth-Controller. Du musst deine Controller danach wieder neu koppeln, jedoch kann das helfen wenn du Probleme mit einem bereits gekoppelten Gerät hast."
 
 #: 
 msgid "Configure your EmulationStation experience. Select transition types, help prompts, screensaver behavior. You can also deactivate the onscreen keyboard if you have a real keyboard plugged into your recalbox.\n"
@@ -1205,15 +1208,15 @@ msgstr ""
 
 #: 
 msgid "Start the screensaver after N minutes."
-msgstr ""
+msgstr "Starte den Bildschirmschoner nach N Minuten."
 
 #: 
 msgid "Set the screensaver behavior. DIM will reduce the screen light, and BLACK will turn the screen black."
-msgstr ""
+msgstr "Verhalten des Bildschirmschoners. DIM reduziert das Licht und BLACK macht den Bildschirm schwarz."
 
 #: 
 msgid "Shows a help at the bottom of the screen which displays commands you can use."
-msgstr ""
+msgstr "Zeigt eine Hilfe am unteren Rand des Bildschirms an, welche Befehle benutzt werden können."
 
 #: 
 msgid "When enabled, you can switch between systems while browsing a gamelist by pressing LEFT or RIGHT."
@@ -1237,7 +1240,7 @@ msgstr ""
 
 #: 
 msgid "Configure the sound options of your recalbox."
-msgstr ""
+msgstr "Verwalte die Audioeinstellungen deiner Recalbox."
 
 #: 
 msgid "Set the volume of the sound output for the frontend and the games."
@@ -1249,7 +1252,7 @@ msgstr ""
 
 #: 
 msgid "Select your output device. Only HDMI and JACK are supported."
-msgstr ""
+msgstr "Wähle dein Ausgabegerät. Es wird nur HDMI und JACK unterstützt."
 
 #: 
 msgid "Configure the network options of your recalbox.\n"
@@ -1262,24 +1265,25 @@ msgstr ""
 
 #: 
 msgid "The IP address of your recalbox within your local network."
-msgstr ""
+msgstr "Die IP Adresse deiner Recalbox innerhalb deines lokalen Netzwerks."
 
 #: 
 msgid "Enable or disable WIFI.\n"
 "If you disable WIFI, the SSID and the WIFI passwords are saved and can be used when you reactivate it"
-msgstr ""
+msgstr "WIFI aktivieren oder deaktivieren.\n"
+"Wenn du das WIFI deaktiviert hast, sind die SSID und das Passwort gespeichert damit du es einfach reaktivieren kannst."
 
 #: 
 msgid "The name of your recalbox in your local network"
-msgstr ""
+msgstr "Der Name deiner recalbox in deinem lokalen Netzwerk."
 
 #: 
 msgid "SSID (WIFI Name) of your network."
-msgstr ""
+msgstr "SSID (WIFI Name) von deinem Netzwerk."
 
 #: 
 msgid "Private key of your WIFI network."
-msgstr ""
+msgstr "Privates Kennwort für dein WIFI Netzwerk"
 
 #: 
 msgid "Get informations and visual for your games. The scraper downloads metadata and visuals for your games from different servers and enhances the user experience in EmulationStation completely."
@@ -1291,7 +1295,7 @@ msgstr ""
 
 #: 
 msgid "Begin the scrape process with the configuration shown below."
-msgstr ""
+msgstr "Beginne den Scrape-Prozess mit der unten gezeigten Konfiguration."
 
 #: 
 msgid "Scrape and display game ratings."
@@ -1325,7 +1329,7 @@ msgstr ""
 
 #: 
 msgid "Always display the basic gamelist view, even if you have scraped your games."
-msgstr ""
+msgstr "Zeige immer die Basis-Spielliste Ansicht an, sogar wenn du gescrapte Spiele hast."
 
 #: 
 msgid "Override global options like emulator, core, ratio and more for each available system in your recalbox."
@@ -1337,7 +1341,7 @@ msgstr ""
 
 #: 
 msgid "Enable or disable Kodi, customize the Kodi startup, enable the X button to start Kodi"
-msgstr ""
+msgstr "Kodi aktivieren / deaktivieren, Kodi Startverhalten ändern, X-Knopf aktivieren um Kodi zu starten."
 
 #: 
 msgid "Enable or disable Kodi. If kodi is disabled, you won't be able to start it with the X button, or start it automatically at boot. The menu entry will be removed as well."
@@ -1345,19 +1349,19 @@ msgstr ""
 
 #: 
 msgid "Use the X button to start Kodi."
-msgstr ""
+msgstr "Benutze den X-Knopf um Kodi zu starten."
 
 #: 
 msgid "Automatically start into Kodi on boot."
-msgstr ""
+msgstr "Kodi starten beim Hochfahren."
 
 #: 
 msgid "Manage your recalbox security."
-msgstr ""
+msgstr "Verwalte deine recalbox-Sicherheit"
 
 #: 
 msgid "Change the SSH root password."
-msgstr ""
+msgstr "Ändere das SSH-Root-Passwort."
 
 #: 
 msgid "Enforce recalbox security."
@@ -1371,7 +1375,7 @@ msgstr ""
 
 #: 
 msgid "Show the framerate in EmulationStation and in game."
-msgstr ""
+msgstr "Zeigt die Framerate in EmulationStation und im Spiel an."
 
 #: 
 msgid "Enable or disable the Recalbox Manager.\n"
@@ -1398,39 +1402,39 @@ msgstr ""
 
 #: 
 msgid "CHECK UPDATES"
-msgstr ""
+msgstr "UPDATES SUCHEN"
 
 #: 
 msgid "UPDATE TYPE"
-msgstr ""
+msgstr "UPDATE TYP"
 
 #: 
 msgid "INTEGER SCALE (PIXEL PERFECT)"
-msgstr ""
+msgstr "INTEGER SCALE (PIXEL PERFECT)"
 
 #: 
 msgid "ADVANCED SETTINGS"
-msgstr ""
+msgstr "ERWEITERTE EINSTELLUNGEN"
 
 #: 
 msgid "BOOT SETTINGS"
-msgstr ""
+msgstr "BOOT EINSTELLUNGEN"
 
 #: 
 msgid "GAMELIST ONLY"
-msgstr ""
+msgstr "NUR SPIELLISTE"
 
 #: 
 msgid "BOOT ON SYSTEM"
-msgstr ""
+msgstr "IN SYSTEM BOOTEN"
 
 #: 
 msgid "BOOT ON GAMELIST"
-msgstr ""
+msgstr "IN SPIELLISTE BOOTEN"
 
 #: 
 msgid "HIDE SYSTEM VIEW"
-msgstr ""
+msgstr "SYSTEMANSICHT VERSTECKEN"
 
 #: 
 msgid "EMULATOR ADVANCED CONFIGURATION"
@@ -1442,13 +1446,13 @@ msgstr ""
 
 #: 
 msgid "HELP"
-msgstr ""
+msgstr "HILFE"
 
 #: 
 msgid "THE SYSTEM IS UP TO DATE"
-msgstr ""
+msgstr "DAS SYSTEM IST AKTUELL"
 
 #: 
 msgid "FORCE BASIC GAMELIST VIEW"
-msgstr ""
+msgstr "SPIELLISTE BASIS-ANSICHT ERZWINGEN"
 
