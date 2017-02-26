@@ -74,7 +74,7 @@ msgstr "podtitul"
 
 #: 
 msgid "INPUT"
-msgstr "VSTUP"
+msgstr "ZADAT"
 
 #: 
 msgid "search"
@@ -86,7 +86,7 @@ msgstr "STOP"
 
 #: 
 msgid "stop (progress saved)"
-msgstr "stop (stav uložen)"
+msgstr "stop (uložení stavu)"
 
 #: 
 msgid "GAME %i OF %i"
@@ -257,7 +257,7 @@ msgstr "SPUSTIT KODI PŘI STARTU"
 
 #: 
 msgid "START KODI WITH X"
-msgstr "START KODI S X SERVEREM"
+msgstr "START KODI TLAČÍTKEM X"
 
 #: 
 msgid "SECURITY"
@@ -281,7 +281,7 @@ msgstr "NASTAVENÍ HER"
 
 #: 
 msgid "GAME RATIO"
-msgstr "POMĚR OBRAZOVKY"
+msgstr "POMĚR STRAN"
 
 #: 
 msgid "SMOOTH GAMES"
@@ -540,7 +540,7 @@ msgstr "VSTUP P%i"
 
 #: 
 msgid "CHOOSE"
-msgstr "VYBRAT"
+msgstr "VÝBĚR"
 
 #: 
 msgid "SELECT"
@@ -578,7 +578,7 @@ msgstr "Všechny hry"
 #. MISSING SCRAPPER TRANSLATIONS
 #: 
 msgid "Only missing image"
-msgstr "Pouze s chybějícími údaji"
+msgstr "Pouze chybějící údaje"
 
 #: 
 msgid "FILTER"
@@ -732,7 +732,7 @@ msgstr "zadejte typ rom"
 
 #: 
 msgid "Hidden"
-msgstr "Skrýté"
+msgstr "Skrýtá"
 
 #: 
 msgid "set hidden"
@@ -786,11 +786,11 @@ msgstr "NABÍDKA"
 
 #: 
 msgid "FILENAME, ASCENDING"
-msgstr "JMÉNO SOUBORU, VZESTUPNĚ"
+msgstr "JMÉNA SOUBORU, VZESTUPNĚ"
 
 #: 
 msgid "FILENAME, DESCENDING"
-msgstr "JMÉNO SOUBORU, SESTUPNĚ"
+msgstr "JMÉNA SOUBORU, SESTUPNĚ"
 
 #: 
 msgid "RATING, ASCENDING"
@@ -875,9 +875,9 @@ msgstr "ZRUŠIT VÝBĚR"
 #: 
 msgid "%i SELECTED"
 msgid_plural "%i SELECTED"
-msgstr[0] "%i VYBRÁNA"
+msgstr[0] "%i VYBRÁN"
 msgstr[1] "%i VYBRÁNY"
-msgstr[2] "%i VYBRÁNY"
+msgstr[2] "%i VYBRÁNO"
 
 #: 
 msgid "UP"
@@ -1091,7 +1091,7 @@ msgstr "ŽÁNR"
 
 #: 
 msgid "SHOW HIDDEN"
-msgstr "UKÁZAT SKRYTÉ"
+msgstr "ZOBRAZOVAT SKRYTÉ"
 
 #: 
 msgid "EXTREM (1400Mhz)"
@@ -1413,9 +1413,10 @@ msgstr "Výběr emulátoru, ve kterém budou spuštěny hry pro tento systém."
 msgid "Select which core to use for the selected emulator. For example, the LIBRETRO emulator has many cores to run Super Nintendo games. The default core you choose here can also be overridden in game specific settings."
 msgstr "Vyberte jaké jádro (core) bude použito pro zvolený emulátor. Kupříkladu emulátor LIBRETRO poskytuje mnoho jader pro spuštění Super Nintendo her. Výchozí jádro, které zde vyberete, může být přepsáno specifickým nastavením některé hry."
 
+#. What is the purpose of this item?
 #: 
 msgid "USE COMPOSED VISUALS"
-msgstr "POUŽÍT COMPOSED VIZUALS"
+msgstr "POUŽÍT SKLÁDANOU GRAFIKU"
 
 #: 
 msgid "CHECK UPDATES"
@@ -1427,7 +1428,7 @@ msgstr "TYP AKTUALIZACÍ"
 
 #: 
 msgid "INTEGER SCALE (PIXEL PERFECT)"
-msgstr "INTEGER ŠKÁLOVÁNÍ (PIXEL PERFECT)"
+msgstr "CELOČÍSELNÉ ŠKÁLOVÁNÍ (SYMETRICKÉ PIXELY)"
 
 #: 
 msgid "ADVANCED SETTINGS"
@@ -1443,7 +1444,7 @@ msgstr "POUZE SEZNAM HER"
 
 #: 
 msgid "BOOT ON SYSTEM"
-msgstr "PO SPUŠTĚNÍ ZOBRAZIT SYSTÉMY"
+msgstr "PO SPUŠTĚNÍ ZOBRAZIT SYSTÉM"
 
 #: 
 msgid "BOOT ON GAMELIST"
@@ -1471,5 +1472,5 @@ msgstr "SYSTÉM JE V AKTUÁLNÍ VERZI"
 
 #: 
 msgid "FORCE BASIC GAMELIST VIEW"
-msgstr "VYNUTIT ZÁKLADNÍ ZOBRAZENÍ SEZNAMU HER"
+msgstr "VYNUTIT ZÁKLADNÍ SEZNAM HER"
 
