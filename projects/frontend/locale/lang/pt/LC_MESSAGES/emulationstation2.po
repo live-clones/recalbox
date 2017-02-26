@@ -1082,59 +1082,61 @@ msgstr "MOSTRAR OCULTOS"
 
 #: 
 msgid "EXTREM (1400Mhz)"
-msgstr ""
+msgstr "EXTREMO (1400Mhz) "
 
 #: 
 msgid "TURBO (1350Mhz)"
-msgstr ""
+msgstr "TURBO (1350Mhz) "
 
 #: 
 msgid "HIGH (1300Mhz)"
-msgstr ""
+msgstr "ALTO (1300Mhz) "
 
 #: 
 msgid "TURBO AND EXTREM OVERCLOCK PRESETS MAY CAUSE SYSTEM UNSTABILITIES, SO USE THEM AT YOUR OWN RISK.\n"
 "IF YOU CONTINUE, THE SYSTEM WILL REBOOT NOW."
-msgstr ""
+msgstr "OVERCLOCK TURBO E EXTREMO PRESENTES PODEM CAUSAR A INSTABILIDADE DO SISTEMA, ASSIM QUE OS UTILIZA POR SEU PRÓPRIO RISCO.\n"
+"SE VOCÊ CONTINUAR, O SISTEMA REINICIARÁ AGORA."
 
 #: 
 msgid "%i GAME HIDDEN"
 msgid_plural "%i GAMES HIDDEN"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%i JOGO ESCONDIDO"
+msgstr[1] "%i JOGOS ESCONDIDOS "
 
 #: 
 msgid "Start kodi media player."
-msgstr ""
+msgstr "Iniciar kodi media player"
 
 #: 
 msgid "Select the language for your recalbox, select an external drive to store your games and configurations, check your current version and the free space on your drive"
-msgstr ""
+msgstr "Selecione o idioma para seu recalbox, selecione uma unidade externa para armazenar seus jogos e configurações, verifique a versão atual eo espaço livre em sua unidade"
 
 #: 
 msgid "Shows your current recalboxOS version."
-msgstr ""
+msgstr "Mostra a sua versão atual do recalboxOS. E na sua unidade"
 
 #: 
 msgid "Show how much space is used on your SHARE partition, located either on the SDCARD or on an external drive. The information shows how much GB are used and how much GB your storage has overall (example 13GB/26GB)."
-msgstr ""
+msgstr "Mostre quanto espaço é usado em sua partição SHARE, localizada no SDCARD ou em uma unidade externa. As informações mostram quantos GB são usadas e quantos GB seu armazenamento tem no geral (exemplo 13GB / 26GB)."
 
 #: 
 msgid "Select an external drive to store your roms, saves, configurations etc.\n"
 "Use a FAT32 formatted drive. The system does not format the drive. On first boot, with this option enabled, recalbox will create a '/recalbox' folder with all system files inside."
-msgstr ""
+msgstr "Selecione uma unidade externa para armazenar suas roms, salva, configurações etc.\n"
+"Use uma unidade formatada FAT32. O sistema não formata a unidade. Na primeira inicialização, com esta opção ativada, o recalbox criará uma pasta '/recalbox' com todos os arquivos do sistema dentro."
 
 #: 
 msgid "Select your language. A reboot is needed to set this configuration active."
-msgstr ""
+msgstr "Selecione seu idioma. É necessária uma reinicialização para ativar esta configuração"
 
 #: 
 msgid "Manage your recalbox updates. Select the update type. Activate update check."
-msgstr ""
+msgstr "Gerencie suas atualizações do recalbox. Selecione o tipo de atualização. Ative a verificação de atualização."
 
 #: 
 msgid "Check if an update is available, and start the update process."
-msgstr ""
+msgstr "Verifique se uma atualização está disponível e inicie o processo de atualização."
 
 #: 
 msgid "Stable updates will check for updates on stable recalbox releases. Stable updates are tested and approved by the recalbox team and their testers.\n"
@@ -1144,19 +1146,19 @@ msgstr ""
 
 #: 
 msgid "Automatically check if an update is avaialble. If so, it notifies you with a message."
-msgstr ""
+msgstr "Verifique automaticamente se uma atualização está disponível. Em caso afirmativo, ele o notifica com uma mensagem."
 
 #: 
 msgid "Configure games display, ratio, filters (shaders), auto save and load and retroachievement account."
-msgstr ""
+msgstr "Configure jogos de exibição, proporção, filtros (shaders), auto salvar e carregar a conta do retroachievement."
 
 #: 
 msgid "The game ratio is the ratio between image width and image height. Use AUTO to let the emulator choose the original game ratio, that will give you the best retrogaming experience."
-msgstr ""
+msgstr "A relação do jogo é a relação entre a largura da imagem e a altura da imagem. Use AUTO para deixar o emulador escolher a proporção do jogo original, que lhe dará a melhor experiência de retrogaming."
 
 #: 
 msgid "Smooth the game image. This option makes the image smoother, using bilinear filtering."
-msgstr ""
+msgstr "Alise a imagem do jogo. Esta opção torna a imagem mais suave, usando a filtragem bilinear."
 
 #: 
 msgid "This option allows you to rewind the game if you get killed by a monster, or if you make any other mistake. Use the HOTKEY + LEFT command within the game to rewind."
@@ -1164,7 +1166,7 @@ msgstr ""
 
 #: 
 msgid "Auto save the state when you quit a game, and auto load last saved state when you start a game."
-msgstr ""
+msgstr "Salve o estado do jogo automaticamente quando você encerrar um jogo e carregue-o automaticamente o último estado salvo quando você iniciá-lo"
 
 #: 
 msgid "Integer scaling is scaling by a factor of a whole number, such as 2x, 3x, 4x, etc. This option scales the image up to the greatest integer scale below the set resolution. So for instance, if you set your fullscreen resolution to 1920x1080 and enable integer scaling, it will only scale a 320x240 image up to 1280x960, and leave black borders all around. This is to maintain a 1:1 pixel ratio with the original source image, so that pixels are not unevenly duplicated."
@@ -1176,7 +1178,7 @@ msgstr ""
 
 #: 
 msgid "Enable or disable RetroAchievements in games."
-msgstr ""
+msgstr "Ativar ou desativar RetroAchievements em jogos."
 
 #: 
 msgid "Hardcore mode disables *all* savestate and rewind functions within the emulator: you will not be able to save and reload at any time. You will have to complete the game and get the achievements first time, just like on the original console. In reward for this, you will earn both the standard and the hardcore achievement, in effect earning double points! A regular game worth 400 points, is now worth 800 if you complete it on hardcore! For example: if you complete the game for 400 points, you then have the opportunity to earn another 400 on hardcore."
@@ -1188,24 +1190,25 @@ msgstr ""
 
 #: 
 msgid "Add and configure up to 5 controllers."
-msgstr ""
+msgstr "Adicione e configure até 5 controles."
 
 #: 
 msgid "Pair a bluetooth controller with your recalbox. Your controller must be in pairing mode."
-msgstr ""
+msgstr "Emparelhe um controle bluetooth com seu recalbox. Seu controle deve estar no modo de emparelhamento."
 
 #: 
 msgid "Forget all paired bluetooth controllers. You will have to pair your controllers again, but this option can help if you have issues to reconnect a controller, which is already paired."
-msgstr ""
+msgstr "Esqueça todos os controles bluetooth emparelhados. Você terá que emparelhar seus controles novamente, mas essa opção pode ajudar se você tiver problemas para reconectar um controle, que esteja emparelhado."
 
 #: 
 msgid "Configure your EmulationStation experience. Select transition types, help prompts, screensaver behavior. You can also deactivate the onscreen keyboard if you have a real keyboard plugged into your recalbox.\n"
 "If you've added games since the last boot, you can also refresh the gamelist from this menu."
-msgstr ""
+msgstr "Configure a experiência do EmulationStation. Selecione tipos de transição, prompts de ajuda, comportamento do protetor de tela. Você também pode desativar o teclado na tela se você tiver um teclado real conectado no seu recalbox.\n"
+"Se adicionou jogos desde a última inicialização, pode também atualizar a lista de jogos a partir deste menu."
 
 #: 
 msgid "Start the screensaver after N minutes."
-msgstr ""
+msgstr "Inicie o protetor de tela após N minutos."
 
 #: 
 msgid "Set the screensaver behavior. DIM will reduce the screen light, and BLACK will turn the screen black."
@@ -1229,7 +1232,7 @@ msgstr ""
 
 #: 
 msgid "Select a theme for your recalbox."
-msgstr ""
+msgstr "Selecione um tema para seu recalbox."
 
 #: 
 msgid "Updates the gamelists, if you added games since the last boot."
@@ -1237,7 +1240,7 @@ msgstr ""
 
 #: 
 msgid "Configure the sound options of your recalbox."
-msgstr ""
+msgstr "Configure as opções de som de seu recalbox."
 
 #: 
 msgid "Set the volume of the sound output for the frontend and the games."
@@ -1262,7 +1265,7 @@ msgstr ""
 
 #: 
 msgid "The IP address of your recalbox within your local network."
-msgstr ""
+msgstr "O endereço IP do seu recalbox dentro da sua rede local."
 
 #: 
 msgid "Enable or disable WIFI.\n"
@@ -1271,15 +1274,15 @@ msgstr ""
 
 #: 
 msgid "The name of your recalbox in your local network"
-msgstr ""
+msgstr "O nome do seu recalbox na sua rede local"
 
 #: 
 msgid "SSID (WIFI Name) of your network."
-msgstr ""
+msgstr "SSID (Nome WIFI) da sua rede."
 
 #: 
 msgid "Private key of your WIFI network."
-msgstr ""
+msgstr "Senha de sua rede WIFI."
 
 #: 
 msgid "Get informations and visual for your games. The scraper downloads metadata and visuals for your games from different servers and enhances the user experience in EmulationStation completely."
@@ -1295,7 +1298,7 @@ msgstr ""
 
 #: 
 msgid "Scrape and display game ratings."
-msgstr ""
+msgstr "scrap e exiba as classificações de jogos."
 
 #: 
 msgid "Advanced settings. Please make sure you really know what you're doing, before changing any values in this menu."
@@ -1312,20 +1315,21 @@ msgstr ""
 
 #: 
 msgid "On boot, recalbox will show the list of games of the selected system rather than the system view."
-msgstr ""
+msgstr "Na inicialização, o recalbox mostrará a lista de jogos do sistema selecionado em vez da visualização do sistema."
 
 #: 
 msgid "Only show games contained in the gamelist.xml file (located in your roms directories).\n"
 "This option highly speeds up boot time, but new games will not be detected."
-msgstr ""
+msgstr "Apenas mostre os jogos contidos no arquivo gamelist.xml (localizado nos diretórios dos roms).\n"
+"Esta opção acelera muito o tempo de inicialização, mas os novos jogos não serão detectados."
 
 #: 
 msgid "This option allows you to set the selected system to fixed mode. With this option activated, the user cannot access other systems."
-msgstr ""
+msgstr "Esta opção permite-lhe configurar o sistema seleccionado para o modo fixo. Com essa opção ativada, o usuário não pode acessar outros sistemas."
 
 #: 
 msgid "Always display the basic gamelist view, even if you have scraped your games."
-msgstr ""
+msgstr "Sempre exibir a visão de lista básica, mesmo se você tiver scrap em seus jogos."
 
 #: 
 msgid "Override global options like emulator, core, ratio and more for each available system in your recalbox."
@@ -1345,23 +1349,23 @@ msgstr ""
 
 #: 
 msgid "Use the X button to start Kodi."
-msgstr ""
+msgstr "Use o botão X para iniciar o Kodi."
 
 #: 
 msgid "Automatically start into Kodi on boot."
-msgstr ""
+msgstr "Iniciar automaticamente no Kodi na inicialização."
 
 #: 
 msgid "Manage your recalbox security."
-msgstr ""
+msgstr "Gerencie a segurança do seu recalbox."
 
 #: 
 msgid "Change the SSH root password."
-msgstr ""
+msgstr "Altere a senha de root do SSH."
 
 #: 
 msgid "Enforce recalbox security."
-msgstr ""
+msgstr "Impor a segurança do recalbox."
 
 #: 
 msgid "Enable or disable overscan.\n"
@@ -1371,7 +1375,7 @@ msgstr ""
 
 #: 
 msgid "Show the framerate in EmulationStation and in game."
-msgstr ""
+msgstr "Mostrar o framerate em EmulationStation e no jogo."
 
 #: 
 msgid "Enable or disable the Recalbox Manager.\n"
@@ -1386,7 +1390,7 @@ msgstr ""
 
 #: 
 msgid "Select which emulator to use when you start a game for this system."
-msgstr ""
+msgstr "Selecione qual emulador usar quando você iniciar um jogo para este sistema."
 
 #: 
 msgid "Select which core to use for the selected emulator. For example, the LIBRETRO emulator has many cores to run Super Nintendo games. The default core you choose here can also be overridden in game specific settings."
@@ -1394,61 +1398,61 @@ msgstr ""
 
 #: 
 msgid "USE COMPOSED VISUALS"
-msgstr ""
+msgstr "UTILIZAR VISORES COMPOSTOS"
 
 #: 
 msgid "CHECK UPDATES"
-msgstr ""
+msgstr "VERIFICAR ATUALIZAÇÕES"
 
 #: 
 msgid "UPDATE TYPE"
-msgstr ""
+msgstr "TIPO DE ATUALIZAÇÃO"
 
 #: 
 msgid "INTEGER SCALE (PIXEL PERFECT)"
-msgstr ""
+msgstr "INTEGRA ESCALA (PIXEL PERFEITO)"
 
 #: 
 msgid "ADVANCED SETTINGS"
-msgstr ""
+msgstr "CONFIGURAÇÕES AVANÇADAS"
 
 #: 
 msgid "BOOT SETTINGS"
-msgstr ""
+msgstr "CONFIGURAÇÕES DE INICIALIZAÇÃO"
 
 #: 
 msgid "GAMELIST ONLY"
-msgstr ""
+msgstr "SOMENTE GAMELIST"
 
 #: 
 msgid "BOOT ON SYSTEM"
-msgstr ""
+msgstr "INICIALIZAÇÃO DO SISTEMA"
 
 #: 
 msgid "BOOT ON GAMELIST"
-msgstr ""
+msgstr "INICIALIZAÇÃO DA GAMELIST"
 
 #: 
 msgid "HIDE SYSTEM VIEW"
-msgstr ""
+msgstr "ESCONDER A VISUALIZAÇÃO DO SISTEMA"
 
 #: 
 msgid "EMULATOR ADVANCED CONFIGURATION"
-msgstr ""
+msgstr "CONFIGURAÇÃO AVANÇADA DO EMULADOR"
 
 #: 
 msgid "ADVANCED EMULATOR CONFIGURATION"
-msgstr ""
+msgstr "CONFIGURAÇÃO EMULADOR AVANÇADA"
 
 #: 
 msgid "HELP"
-msgstr ""
+msgstr "AJUDA"
 
 #: 
 msgid "THE SYSTEM IS UP TO DATE"
-msgstr ""
+msgstr "O SISTEMA ESTÁ ATUALIZADO"
 
 #: 
 msgid "FORCE BASIC GAMELIST VIEW"
-msgstr ""
+msgstr "FORÇAR VISUALIZAÇÃO BÁSICA DO GAMELIST"
 

@@ -279,7 +279,7 @@ msgstr "JÁTÉK BEÁLLÍTÁSOK"
 
 #: 
 msgid "GAME RATIO"
-msgstr "JÁTÉK ÉRTÉKELÉS"
+msgstr "JÁTÉK KÉPARÁNY"
 
 #: 
 msgid "SMOOTH GAMES"
@@ -637,11 +637,11 @@ msgstr "core megadása"
 
 #: 
 msgid "Ratio"
-msgstr "Értékelés"
+msgstr "Képarány"
 
 #: 
 msgid "enter ratio"
-msgstr "értékelés megadása"
+msgstr "képarány megadása"
 
 #: 
 msgid "Name"

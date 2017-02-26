@@ -662,7 +662,7 @@ msgstr "Voeg beschrijving toe"
 
 #: 
 msgid "Image"
-msgstr "Beeld"
+msgstr "Afbeelding"
 
 #: 
 msgid "enter path to image"
@@ -939,7 +939,7 @@ msgstr "Druk willekeurige toets voor overslaan"
 
 #: 
 msgid "-NOT DEFINED-"
-msgstr "-Niet ge"
+msgstr "-Niet gedefinieerd-"
 
 #: 
 msgid "HOLD FOR %iS TO SKIP"
@@ -1025,7 +1025,8 @@ msgstr "We kunnen geen systemen vinden!\n"
 
 #: 
 msgid "ON SCREEN KEYBOARD"
-msgstr ""
+msgstr "Schermtoetsenbord\n"
+""
 
 #: 
 msgid "SHIFTS FOR UPPER,LOWER, AND SPECIAL"
@@ -1033,7 +1034,7 @@ msgstr ""
 
 #: 
 msgid "SPACE"
-msgstr ""
+msgstr "Spatie"
 
 #: 
 msgid "DELETE A CHAR"
@@ -1041,67 +1042,68 @@ msgstr ""
 
 #: 
 msgid "SHIFT"
-msgstr ""
+msgstr "Shift"
 
 #: 
 msgid "STOP EDITING"
-msgstr ""
+msgstr "Stop bewerken"
 
 #: 
 msgid "MOVE CURSOR"
-msgstr ""
+msgstr "Beweeg de cursor"
 
 #: 
 msgid "EDIT"
-msgstr ""
+msgstr "Bewerken"
 
 #: 
 msgid "ACCEPT RESULT"
-msgstr ""
+msgstr "Accepteer resultaat"
 
 #: 
 msgid "FILENAME"
-msgstr ""
+msgstr "Bestandsnaam"
 
 #: 
 msgid "RATING"
-msgstr ""
+msgstr "Beoordeling"
 
 #: 
 msgid "TIMES PLAYED"
-msgstr ""
+msgstr "Keren gespeeld"
 
 #: 
 msgid "LAST PLAYED"
-msgstr ""
+msgstr "Laatst gespeeld"
 
 #: 
 msgid "NUMBER OF PLAYERS"
-msgstr ""
+msgstr "Aantal spelers"
 
 #: 
 msgid "DEVELOPER"
-msgstr ""
+msgstr "Ontwikkelaar"
 
 #: 
 msgid "GENRE"
-msgstr ""
+msgstr "Genre"
 
 #: 
 msgid "SHOW HIDDEN"
-msgstr ""
+msgstr "Toon verborgen items\n"
+""
 
 #: 
 msgid "EXTREM (1400Mhz)"
-msgstr ""
+msgstr "Extreem (1400Mhz)"
 
 #: 
 msgid "TURBO (1350Mhz)"
-msgstr ""
+msgstr "Turbo (1350Mhz)"
 
 #: 
 msgid "HIGH (1300Mhz)"
-msgstr ""
+msgstr "Hoog (1300Mhz)"
 
 #: 
 msgid "TURBO AND EXTREM OVERCLOCK PRESETS MAY CAUSE SYSTEM UNSTABILITIES, SO USE THEM AT YOUR OWN RISK.\n"
@@ -1111,12 +1113,12 @@ msgstr ""
 #: 
 msgid "%i GAME HIDDEN"
 msgid_plural "%i GAMES HIDDEN"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%i spel verborgen"
+msgstr[1] "%i spellen verborgen"
 
 #: 
 msgid "Start kodi media player."
-msgstr ""
+msgstr "Start Kodi Media Speler."
 
 #: 
 msgid "Select the language for your recalbox, select an external drive to store your games and configurations, check your current version and the free space on your drive"
@@ -1124,7 +1126,7 @@ msgstr ""
 
 #: 
 msgid "Shows your current recalboxOS version."
-msgstr ""
+msgstr "Toon uw huidige RecalboxOS versie."
 
 #: 
 msgid "Show how much space is used on your SHARE partition, located either on the SDCARD or on an external drive. The information shows how much GB are used and how much GB your storage has overall (example 13GB/26GB)."
@@ -1137,7 +1139,7 @@ msgstr ""
 
 #: 
 msgid "Select your language. A reboot is needed to set this configuration active."
-msgstr ""
+msgstr "Selecteer je taal. Opnieuw opstarten is vereist om de configuratie op te slaan."
 
 #: 
 msgid "Manage your recalbox updates. Select the update type. Activate update check."
@@ -1145,7 +1147,7 @@ msgstr ""
 
 #: 
 msgid "Check if an update is available, and start the update process."
-msgstr ""
+msgstr "Controleer of er updates zijn, en start het updaten."
 
 #: 
 msgid "Stable updates will check for updates on stable recalbox releases. Stable updates are tested and approved by the recalbox team and their testers.\n"
@@ -1155,7 +1157,7 @@ msgstr ""
 
 #: 
 msgid "Automatically check if an update is avaialble. If so, it notifies you with a message."
-msgstr ""
+msgstr "Controleer automatisch op updates. Als er updates zijn zul je een bericht ontvangen."
 
 #: 
 msgid "Configure games display, ratio, filters (shaders), auto save and load and retroachievement account."
@@ -1187,7 +1189,7 @@ msgstr ""
 
 #: 
 msgid "Enable or disable RetroAchievements in games."
-msgstr ""
+msgstr "Zet RetroAchievements aan of uit in spellen."
 
 #: 
 msgid "Hardcore mode disables *all* savestate and rewind functions within the emulator: you will not be able to save and reload at any time. You will have to complete the game and get the achievements first time, just like on the original console. In reward for this, you will earn both the standard and the hardcore achievement, in effect earning double points! A regular game worth 400 points, is now worth 800 if you complete it on hardcore! For example: if you complete the game for 400 points, you then have the opportunity to earn another 400 on hardcore."
@@ -1199,7 +1201,7 @@ msgstr ""
 
 #: 
 msgid "Add and configure up to 5 controllers."
-msgstr ""
+msgstr "Voeg tot 5 controllers toe."
 
 #: 
 msgid "Pair a bluetooth controller with your recalbox. Your controller must be in pairing mode."
@@ -1216,7 +1218,7 @@ msgstr ""
 
 #: 
 msgid "Start the screensaver after N minutes."
-msgstr ""
+msgstr "Start de screensaver na N minuten."
 
 #: 
 msgid "Set the screensaver behavior. DIM will reduce the screen light, and BLACK will turn the screen black."
@@ -1240,7 +1242,7 @@ msgstr ""
 
 #: 
 msgid "Select a theme for your recalbox."
-msgstr ""
+msgstr "Selecteer een thema voor je recalbox."
 
 #: 
 msgid "Updates the gamelists, if you added games since the last boot."
@@ -1248,7 +1250,7 @@ msgstr ""
 
 #: 
 msgid "Configure the sound options of your recalbox."
-msgstr ""
+msgstr "Configureer de geluidsopties op je Recalbox."
 
 #: 
 msgid "Set the volume of the sound output for the frontend and the games."
@@ -1260,7 +1262,7 @@ msgstr ""
 
 #: 
 msgid "Select your output device. Only HDMI and JACK are supported."
-msgstr ""
+msgstr "Selecteer je geluids output. Enkel HDMI en AUX worden ondersteunt."
 
 #: 
 msgid "Configure the network options of your recalbox.\n"
@@ -1273,7 +1275,7 @@ msgstr ""
 
 #: 
 msgid "The IP address of your recalbox within your local network."
-msgstr ""
+msgstr "Het IP adres van je recalbox binnen je lokale netwerk."
 
 #: 
 msgid "Enable or disable WIFI.\n"
@@ -1282,11 +1284,11 @@ msgstr ""
 
 #: 
 msgid "The name of your recalbox in your local network"
-msgstr ""
+msgstr "De naam van je Recalbox in je lokale netwerk"
 
 #: 
 msgid "SSID (WIFI Name) of your network."
-msgstr ""
+msgstr "SSID (WiFi naam) van je netwerk."
 
 #: 
 msgid "Private key of your WIFI network."
@@ -1356,7 +1358,7 @@ msgstr ""
 
 #: 
 msgid "Use the X button to start Kodi."
-msgstr ""
+msgstr "Gebruik de X knop om Kodi te starten."
 
 #: 
 msgid "Automatically start into Kodi on boot."
@@ -1368,11 +1370,11 @@ msgstr ""
 
 #: 
 msgid "Change the SSH root password."
-msgstr ""
+msgstr "Verander het SSH root wachtwoord."
 
 #: 
 msgid "Enforce recalbox security."
-msgstr ""
+msgstr "Forceer recalbox beveiliging."
 
 #: 
 msgid "Enable or disable overscan.\n"
@@ -1409,11 +1411,11 @@ msgstr ""
 
 #: 
 msgid "CHECK UPDATES"
-msgstr ""
+msgstr "Controleer voor updates"
 
 #: 
 msgid "UPDATE TYPE"
-msgstr ""
+msgstr "Update type"
 
 #: 
 msgid "INTEGER SCALE (PIXEL PERFECT)"
@@ -1421,7 +1423,7 @@ msgstr ""
 
 #: 
 msgid "ADVANCED SETTINGS"
-msgstr ""
+msgstr "geavanceerde instellingen"
 
 #: 
 msgid "BOOT SETTINGS"
@@ -1453,11 +1455,11 @@ msgstr ""
 
 #: 
 msgid "HELP"
-msgstr ""
+msgstr "Help"
 
 #: 
 msgid "THE SYSTEM IS UP TO DATE"
-msgstr ""
+msgstr "Het systeem is bijgewerkt"
 
 #: 
 msgid "FORCE BASIC GAMELIST VIEW"
