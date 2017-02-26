@@ -10,6 +10,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Only save changed metadata when saving gamelist.xml (improve shutdown time)
 - Ignore all known bios and devices for arcade/neogeo platform
 - Added Czech support
+- Added Latvian support
+- Added Luxembourgish support
 ### Fixed
 - Fixed custom update.type
 - Fixed bluetooth message when pairing failed

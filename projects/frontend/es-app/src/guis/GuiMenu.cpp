@@ -199,6 +199,8 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                              language_choice->add("RUSSIAN", "ru_RU", language == "ru_RU");
                              language_choice->add("HUNGARIAN", "hu_HU", language == "hu_HU");
                              language_choice->add("CZECH", "cs_CZ", language == "cs_CZ");
+                             language_choice->add("LATVIAN", "lv_LV", language == "lv_LV");
+                             language_choice->add("LUXEMBOURGISH", "lb_LU", language == "lb_LU");
 
                              s->addWithLabelAndHelp(_("LANGUAGE"), language_choice, MenuMessages::LANGUAGE_HELP_MSG);
 
