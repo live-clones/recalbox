@@ -1087,59 +1087,60 @@ msgstr "MOSTRA NASCOSTI"
 
 #: 
 msgid "EXTREM (1400Mhz)"
-msgstr ""
+msgstr "ESTREMO (1400Mhz)"
 
 #: 
 msgid "TURBO (1350Mhz)"
-msgstr ""
+msgstr "TURBO (1350Mhz)"
 
 #: 
 msgid "HIGH (1300Mhz)"
-msgstr ""
+msgstr "ALTO (1300Mhz)"
 
 #: 
 msgid "TURBO AND EXTREM OVERCLOCK PRESETS MAY CAUSE SYSTEM UNSTABILITIES, SO USE THEM AT YOUR OWN RISK.\n"
 "IF YOU CONTINUE, THE SYSTEM WILL REBOOT NOW."
-msgstr ""
+msgstr "LE IMPOSTAZIONI DI OVERCLOCK TURBO ED ESTREMO POTREBBERO CAUSARE INSTABILITA', QUINDI USALI A TUO RISCHIO E PERICOLO. SE CONTINUI, IL SISTEMA VERRA' RIAVVIATO ADESSO."
 
 #: 
 msgid "%i GAME HIDDEN"
 msgid_plural "%i GAMES HIDDEN"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%i GIOCO NASCOSTO"
+msgstr[1] "%i GIOCHI NASCOSTI"
 
 #: 
 msgid "Start kodi media player."
-msgstr ""
+msgstr "Avvia lettore Kodi"
 
 #: 
 msgid "Select the language for your recalbox, select an external drive to store your games and configurations, check your current version and the free space on your drive"
-msgstr ""
+msgstr "Seleziona la lingua per il tuo recalbox, selezionaun'unità esterna per i tuoi giochi e configurazioni, controlla la versione corrente e lo spazio libero sull'unità"
 
 #: 
 msgid "Shows your current recalboxOS version."
-msgstr ""
+msgstr "Mostra la versione corrente del recalboxOS"
 
 #: 
 msgid "Show how much space is used on your SHARE partition, located either on the SDCARD or on an external drive. The information shows how much GB are used and how much GB your storage has overall (example 13GB/26GB)."
-msgstr ""
+msgstr "Mostra quanto spazio viene usato nella partizione SHARE, che si trova sulla SDCARD o su unità esterna. L'informazione mostra quanti GB vengon usati e la capacità massima. (esempio 13GB/26GB)"
 
 #: 
 msgid "Select an external drive to store your roms, saves, configurations etc.\n"
 "Use a FAT32 formatted drive. The system does not format the drive. On first boot, with this option enabled, recalbox will create a '/recalbox' folder with all system files inside."
-msgstr ""
+msgstr "Seleziona un'unità esterna per salvare le tue rom, salvataggi, configurazioni ecc.\n"
+"Utilizza un'unità formatta in FAT32. Il sistema non formatterà l'unità. Al primo avvio, se questa opzione é abilitata, recalbox creerà una cartella '/recalbox' con al suo interno tutti file di sistema."
 
 #: 
 msgid "Select your language. A reboot is needed to set this configuration active."
-msgstr ""
+msgstr "Seleziona la tua lingua. E' richiesto un riavvio per applicare questa configurazione."
 
 #: 
 msgid "Manage your recalbox updates. Select the update type. Activate update check."
-msgstr ""
+msgstr "Gestisci gli aggiornamenti del tuo recalbox. Seleziona il tipo di aggiornamenti. Attiva il controllo degli aggiornamenti."
 
 #: 
 msgid "Check if an update is available, and start the update process."
-msgstr ""
+msgstr "Controlla se é disponibiloe un aggiornamento, e avvia il processo di aggiornamento."
 
 #: 
 msgid "Stable updates will check for updates on stable recalbox releases. Stable updates are tested and approved by the recalbox team and their testers.\n"
@@ -1149,7 +1150,7 @@ msgstr ""
 
 #: 
 msgid "Automatically check if an update is avaialble. If so, it notifies you with a message."
-msgstr ""
+msgstr "Controlla automaticamente se é disponibile n aggiornamento. Nel caso, ti avvisa con un messaggio."
 
 #: 
 msgid "Configure games display, ratio, filters (shaders), auto save and load and retroachievement account."
@@ -1234,7 +1235,7 @@ msgstr ""
 
 #: 
 msgid "Select a theme for your recalbox."
-msgstr ""
+msgstr "Seleziona un tema per il tuo recalbox"
 
 #: 
 msgid "Updates the gamelists, if you added games since the last boot."
@@ -1242,7 +1243,7 @@ msgstr ""
 
 #: 
 msgid "Configure the sound options of your recalbox."
-msgstr ""
+msgstr "Configura le opzioni audio del tuo recalbox."
 
 #: 
 msgid "Set the volume of the sound output for the frontend and the games."
@@ -1280,11 +1281,11 @@ msgstr ""
 
 #: 
 msgid "SSID (WIFI Name) of your network."
-msgstr ""
+msgstr "SSID (Nome della WiFi) della tua rete."
 
 #: 
 msgid "Private key of your WIFI network."
-msgstr ""
+msgstr "Chiave privata della tua rete WiFi."
 
 #: 
 msgid "Get informations and visual for your games. The scraper downloads metadata and visuals for your games from different servers and enhances the user experience in EmulationStation completely."
@@ -1350,19 +1351,19 @@ msgstr ""
 
 #: 
 msgid "Use the X button to start Kodi."
-msgstr ""
+msgstr "Premi il tasto X per avviare Kodi."
 
 #: 
 msgid "Automatically start into Kodi on boot."
-msgstr ""
+msgstr "Esegui automaticamente Kodi all'avvio."
 
 #: 
 msgid "Manage your recalbox security."
-msgstr ""
+msgstr "Gestisci la sicurezza del tuo recalbox."
 
 #: 
 msgid "Change the SSH root password."
-msgstr ""
+msgstr "Cambia la password SSH per root."
 
 #: 
 msgid "Enforce recalbox security."
@@ -1403,11 +1404,11 @@ msgstr ""
 
 #: 
 msgid "CHECK UPDATES"
-msgstr ""
+msgstr "CONTROLLA AGGIORNAMENTI"
 
 #: 
 msgid "UPDATE TYPE"
-msgstr ""
+msgstr "TIPO DI AGGIORNAMENTO"
 
 #: 
 msgid "INTEGER SCALE (PIXEL PERFECT)"
@@ -1447,11 +1448,11 @@ msgstr ""
 
 #: 
 msgid "HELP"
-msgstr ""
+msgstr "AIUTO"
 
 #: 
 msgid "THE SYSTEM IS UP TO DATE"
-msgstr ""
+msgstr "IL SISTEMA E' AGGIORNATO"
 
 #: 
 msgid "FORCE BASIC GAMELIST VIEW"
