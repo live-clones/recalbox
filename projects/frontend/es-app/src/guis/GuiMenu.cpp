@@ -235,48 +235,49 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
 
                          });
     }
+    if (RecalboxConf::getInstance()->get("emulationstation.menu") != "bartop") {
 
-    addEntryWithHelp(_("UPDATES").c_str(), MenuMessages::UPDATE_HELP_MSG.c_str(), 0x777777FF, true,
-                     [this] {
-                         GuiSettings *updateGui = new GuiSettings(mWindow, _("UPDATES").c_str());
-                         // Enable updates
-                         auto updates_enabled = std::make_shared<SwitchComponent>(mWindow);
-                         updates_enabled->setState(
-                                 RecalboxConf::getInstance()->get("updates.enabled") == "1");
-                         updateGui->addWithLabelAndHelp(_("CHECK UPDATES"), updates_enabled,
-                                                        MenuMessages::UPDATE_CHECK_HELP_MSG);
+        addEntryWithHelp(_("UPDATES").c_str(), MenuMessages::UPDATE_HELP_MSG.c_str(), 0x777777FF, true,
+                         [this] {
+                             GuiSettings *updateGui = new GuiSettings(mWindow, _("UPDATES").c_str());
+                             // Enable updates
+                             auto updates_enabled = std::make_shared<SwitchComponent>(mWindow);
+                             updates_enabled->setState(
+                                     RecalboxConf::getInstance()->get("updates.enabled") == "1");
+                             updateGui->addWithLabelAndHelp(_("CHECK UPDATES"), updates_enabled,
+                                                            MenuMessages::UPDATE_CHECK_HELP_MSG);
 
-                         // Start update
-                         updateGui->addSubMenu(_("START UPDATE"), [this] {
-                             mWindow->pushGui(new GuiUpdate(mWindow));
-                         }, MenuMessages::START_UPDATE_HELP_MSG);
+                             // Start update
+                             updateGui->addSubMenu(_("START UPDATE"), [this] {
+                                 mWindow->pushGui(new GuiUpdate(mWindow));
+                             }, MenuMessages::START_UPDATE_HELP_MSG);
 
-                         // Enable updates
+                             // Enable updates
 
-                         auto updatesTypeComp = std::make_shared<OptionListComponent<std::string> >(mWindow,
-                                                                                                    _("UPDATE TYPE"),
-                                                                                                    false);
-                         std::string updatesType = RecalboxConf::getInstance()->get("updates.type");
-                         if(updatesType == ""){
-                             updatesType = "stable";
-                         }else if (updatesType != "stable" && updatesType != "unstable") {
-                             updatesTypeComp->add(updatesType, updatesType, true);
-                         }
-                         updatesTypeComp->add("stable", "stable", updatesType == "stable");
-                         updatesTypeComp->add("unstable", "unstable", updatesType == "unstable");
+                             auto updatesTypeComp = std::make_shared<OptionListComponent<std::string> >(mWindow,
+                                                                                                        _("UPDATE TYPE"),
+                                                                                                        false);
+                             std::string updatesType = RecalboxConf::getInstance()->get("updates.type");
+                             if (updatesType == "") {
+                                 updatesType = "stable";
+                             } else if (updatesType != "stable" && updatesType != "unstable") {
+                                 updatesTypeComp->add(updatesType, updatesType, true);
+                             }
+                             updatesTypeComp->add("stable", "stable", updatesType == "stable");
+                             updatesTypeComp->add("unstable", "unstable", updatesType == "unstable");
 
-                         updateGui->addWithLabelAndHelp(_("UPDATE TYPE"), updatesTypeComp,
-                                                        MenuMessages::UPDATE_TYPE_HELP_MSG);
-                         updateGui->addSaveFunc([updates_enabled, updatesTypeComp] {
-                             RecalboxConf::getInstance()->set("updates.enabled",
-                                                              updates_enabled->getState() ? "1" : "0");
-                             RecalboxConf::getInstance()->set("updates.type", updatesTypeComp->getSelected());
-                             RecalboxConf::getInstance()->saveRecalboxConf();
+                             updateGui->addWithLabelAndHelp(_("UPDATE TYPE"), updatesTypeComp,
+                                                            MenuMessages::UPDATE_TYPE_HELP_MSG);
+                             updateGui->addSaveFunc([updates_enabled, updatesTypeComp] {
+                                 RecalboxConf::getInstance()->set("updates.enabled",
+                                                                  updates_enabled->getState() ? "1" : "0");
+                                 RecalboxConf::getInstance()->set("updates.type", updatesTypeComp->getSelected());
+                                 RecalboxConf::getInstance()->saveRecalboxConf();
+                             });
+                             mWindow->pushGui(updateGui);
+
                          });
-                         mWindow->pushGui(updateGui);
-
-                     });
-
+    }
     addEntryWithHelp(_("GAMES SETTINGS").c_str(), MenuMessages::GAME_SETTINGS_HELP_MSG, 0x777777FF, true,
                      [this] {
                          auto s = new GuiSettings(mWindow, _("GAMES SETTINGS").c_str());
