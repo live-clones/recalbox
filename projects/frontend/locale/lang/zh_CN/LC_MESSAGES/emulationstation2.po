@@ -9,6 +9,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: 
+#, fuzzy
 msgid "AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"
 msgstr "您的 RECALBOX 现在有新版本了"
 
