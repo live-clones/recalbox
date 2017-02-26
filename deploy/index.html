@@ -15,7 +15,7 @@
     <!--<![endif]-->
     <!--[if lte IE 8]>
     <link rel="stylesheet" href="css/layouts/blog-old-ie.css">
-    <![endif]-->a
+    <![endif]-->
     <!--[if gt IE 8]><!-->
     <link rel="stylesheet" href="css/layouts/blog.css">
     <!--<![endif]-->
@@ -227,6 +227,9 @@
             <nav class="nav">
                 <ul class="nav-list">
                     <li class="nav-item">
+                        <a class="pure-button" href="https://gitlab.com/recalbox">gitlab</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="pure-button" href="https://github.com/recalbox">github</a>
                     </li>
                     <li class="nav-item">
@@ -257,7 +260,7 @@
                     </header>
 
                     <div class="post-description">
-                        <p>Build <a href="https://gitlab.com/recalbox/recalbox-buildroot/builds/${CI_BUILD_ID}">${CI_BUILD_ID}</a>
+                        <p>Build <!--<a href="https://gitlab.com/recalbox/recalbox-buildroot/builds/${CI_BUILD_ID}">-->${CI_BUILD_ID}<!--</a>-->
                             from pipeline ${CI_PIPELINE_ID} based on ${CI_BUILD_REF_NAME}</h1>
                         </p>
                         <p>Use dd on linux or <a
@@ -266,6 +269,9 @@
                         <p>
                             The system image (.img file) will not be available for review builds based on merge requests
                         </p>
+			<p>
+			    See the changelog here : <a href="rpi3/recalbox.changelog">CHANGELOG.md</a>
+			</p>
                         <table class="pure-table pure-table-striped">
                             <thead>
                             <tr>
