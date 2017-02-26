@@ -1025,8 +1025,7 @@ msgstr "We kunnen geen systemen vinden!\n"
 
 #: 
 msgid "ON SCREEN KEYBOARD"
-msgstr "Schermtoetsenbord\n"
-""
+msgstr "Schermtoetsenbord"
 
 #: 
 msgid "SHIFTS FOR UPPER,LOWER, AND SPECIAL"
@@ -1090,8 +1089,7 @@ msgstr "Genre"
 
 #: 
 msgid "SHOW HIDDEN"
-msgstr "Toon verborgen items\n"
-""
+msgstr "Toon verborgen items"
 
 #: 
 msgid "EXTREM (1400Mhz)"

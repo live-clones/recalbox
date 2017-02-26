@@ -568,8 +568,7 @@ msgstr "REDIĢĒT SPĒLES METADATUS"
 
 #: 
 msgid "SCRAPE THESE GAMES"
-msgstr "LEJUPIELĀDĒT DATUS ŠAI SPĒLEI\n"
-""
+msgstr "LEJUPIELĀDĒT DATUS ŠAI SPĒLEI"
 
 #: 
 msgid "All Games"
