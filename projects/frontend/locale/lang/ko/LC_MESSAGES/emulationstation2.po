@@ -1260,8 +1260,7 @@ msgstr ""
 
 #: 
 msgid "The IP address of your recalbox within your local network."
-msgstr "로컬 네트워크에서 표시되는 리콜박스의 IP주소\n"
-""
+msgstr "로컬 네트워크에서 표시되는 리콜박스의 IP주소"
 
 #: 
 msgid "Enable or disable WIFI.\n"
