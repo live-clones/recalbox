@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unrelease][unreleased]
+- Added Latvian support
+- Added Luxembourgish support
 - fix missing roms + configs subfolders creation
 - fixed black screen on systems with new configgen version
 - added Czech language support
