@@ -7,6 +7,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add a generic SNES pad configuration
 - Add Logitech F310 Direct Input mode configuration
 - Add Logitech F310 XInput mode (which is recommended) configuration
+- Bumped recalbox-manager2 to v2.0
 - Added Latvian support
 - Added Luxembourgish support
 - fix missing roms + configs subfolders creation
