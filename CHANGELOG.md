@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unrelease][unreleased]
+- Bumped recalbox-manager2 to v2.0
 - Carefully compare versions to verify if an update is available
 - Add a generic SNES pad configuration
 - Add Logitech F310 Direct Input mode configuration
