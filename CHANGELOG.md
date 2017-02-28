@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unrelease][unreleased]
+- Bumped recalbox-manager2 to v2.0
 - Added Latvian support
 - Added Luxembourgish support
 - fix missing roms + configs subfolders creation

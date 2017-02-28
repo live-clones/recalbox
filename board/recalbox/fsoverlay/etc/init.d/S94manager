@@ -18,10 +18,10 @@ do_start() {
         start-stop-daemon --start --background --user $RUN_AS --pidfile $PIDFILE --make-pidfile --chuid $RUN_AS --startas $CMD -- $OPTS
         ;;
     2)
-        cd /usr/recalbox-manager2/ && PORT=80 node recalbox-manager2.js &
+        cd /usr/recalbox-manager2/ && NODE_ENV=production PORT=80 node dist/server.js &
         ;;
     *)
-        cd /usr/recalbox-manager2/ && PORT=80 node recalbox-manager2.js &
+        cd /usr/recalbox-manager2/ && NODE_ENV=production PORT=80 node dist/server.js &
     esac
 }
 
@@ -32,7 +32,7 @@ do_stop() {
         start-stop-daemon --stop --pidfile $PIDFILE
         ;;
     2)
-        ps -ef | grep node | grep "recalbox-manager2.js" | grep -v grep | awk '{print $1}' | xargs kill
+        ps -ef | grep node | grep "dist/server.js" | grep -v grep | awk '{print $1}' | xargs kill
         ;;
     esac
 }
