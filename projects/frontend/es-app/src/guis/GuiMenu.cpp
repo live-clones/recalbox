@@ -152,6 +152,9 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                              auto optionsStorage = std::make_shared<OptionListComponent<std::string> >(window,
                                                                                                        _("STORAGE DEVICE"),
                                                                                                        false);
+                             if (selectedStorage == "NETWORK") {
+                                 optionsStorage->add("NETWORK", "NETWORK", true);
+                             }
                              for (auto it = availableStorage.begin(); it != availableStorage.end(); it++) {
                                  if ((*it) != "RAM") {
                                      if (boost::starts_with((*it), "DEV")) {
