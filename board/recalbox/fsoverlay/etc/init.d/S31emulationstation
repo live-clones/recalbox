@@ -5,27 +5,44 @@
 log=/recalbox/share/system/logs/recalbox.log
 systemsetting="python /usr/lib/python2.7/site-packages/configgen/settings/recalboxSettings.pyc"
 
+PIDFILE=/var/run/emulationstation.pid
+ESBIN=/usr/bin/emulationstation
+
 case "$1" in
   start)
 	enabled="`$systemsetting -command load -key system.es.atstartup`"
 	videoMode="`$systemsetting -command load -key system.es.videomode`"
-        if [ "$enabled" != "0" ];then
+	if [ "$enabled" != "0" ];then
 		echo $videoMode | grep -qE "(CEA|DMT) [0-9]{1,2} (HDMI|DVI)"
 		[ $? = "0" ] && tvservice -e "$videoMode"
 		settings_lang="`$systemsetting -command load -key system.language`"
-        	recallog "starting emulationstation with lang = $settings_lang"
-                command="HOME=/recalbox/share/system LANG=\"${settings_lang}.UTF-8\" SDL_VIDEO_GL_DRIVER=/usr/lib/libGLESv2.so SDL_VIDEO_EGL_DRIVER=/usr/lib/libGLESv2.so SDL_NOMOUSE=1 /usr/bin/emulationstation"
-        	recallog "Starting emulationstation with command : "
-        	recallog "$command"
-        	eval $command >> $log &
+		recallog "starting emulationstation with lang = $settings_lang"
+		HOME=/recalbox/share/system LANG="${settings_lang}.UTF-8" SDL_VIDEO_GL_DRIVER=/usr/lib/libGLESv2.so SDL_VIDEO_EGL_DRIVER=/usr/lib/libGLESv2.so SDL_NOMOUSE=1 start-stop-daemon -S -q -m -p /var/run/emulationstation.pid  --exec /usr/bin/emulationstation &
 	fi
 	;;
   stop)
-	killall emulationstation
+	recallog "Stopping Emulationstation"
+	start-stop-daemon -K -q -p "${PIDFILE}"
 	;;
   restart|reload)
-        "$0" stop
-        "$0" start
+	"$0" stop
+	if [ -f "${PIDFILE}" ] ; then
+		ESPID=`cat /var/run/emulationstation.pid 2>/dev/null`
+		while `"$0" status > /dev/null` ; do
+			sleep 0.1
+		done
+	fi
+	"$0" start
+	;;
+  status)
+	ESPID=`cat ${PIDFILE} 2>/dev/null`
+	if [ -f "${PIDFILE}" ] && `ps | grep -qE "^[[:space:]]*${ESPID}"` ; then
+		echo "Emulationstation is running (pid `cat /var/run/emulationstation.pid`)"
+		exit 0
+	else
+		echo "Emulationstation is stopped"
+		exit 1
+	fi
 	;;
   *)
 	echo "Usage: $0 {start|stop|restart}"
@@ -33,4 +50,3 @@ case "$1" in
 esac
 
 exit $?
-
