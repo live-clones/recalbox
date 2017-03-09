@@ -55,7 +55,14 @@ EOF
     fi
 }
 
+rb_audio_save() {
+    recallog "Saving ALSA mixers configuration"
+    alsactl -f /recalbox/share/system/configs/asound.state store
+}
+
 rb_audio_configure() {
+    recallog "Restoring ALSA mixers configuration"
+    alsactl -f /recalbox/share/system/configs/asound.state restore
     settingsAudio="`$systemsetting -command load -key audio.device`"
     if [[ "$settingsAudio" == "" ]];then
         settingsAudio="auto"
