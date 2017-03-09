@@ -50,7 +50,9 @@ function doRbxConfUpgrade {
   recallog -e "UPDATE : recalbox.conf to $(cat $rbxVersion)"
   cp $cfgIn $tmpFile || { recallog -e "ERROR : Couldn't copy $cfgIn to $tmpFile" ; return 1 ; }
   
-  while IFS='=' read -r name value ; do
+  while read -r line ; do
+    name=`echo $line | cut -d '=' -f 1`
+    value=`echo $line | cut -d '=' -f 2-`
     # echo "$name => $value"
     # Don't update forced values
     if containsElement $name $forced ; then
