@@ -328,6 +328,11 @@ fi
 
 fi
 
+if [ "$command" == "getaudio" ];then
+    $systemsetting -command load -key audio.device
+    exit 0
+fi
+
 if [ "$command" == "audio" ];then
     # this code is specific to the rpi
     # don't set it on other boards
