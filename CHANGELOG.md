@@ -126,6 +126,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Deactivated rumble support in pcsx core - causes endless vibrations problems
 - Bumped pcsx core - added an option to enable bios splashscreeen (may broke some games - disabled by default)
 - Add usbhid quirk for AJ 2 USB 2.4G sans fil manettes (ShanWan Twin USB Joystick PS3)
+- Added ScummVM on X86, X86_64, odroid c2 and odroid xu4
 
 ## [4.0.0-beta5] - 2016-08-13hs the ratio issue in mame.
 - Improved pads and gpio support for moonlight
