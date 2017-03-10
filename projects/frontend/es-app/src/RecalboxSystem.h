@@ -22,8 +22,10 @@ public:
 
     std::string getVersion();
     std::string getRootPassword();
-    
+
     bool setAudioOutputDevice(std::string device);
+    std::vector<std::string> getAvailableAudioOutputDevices();
+    std::string getCurrentAudioOutputDevice();
 
     bool setOverscan(bool enable);
 
