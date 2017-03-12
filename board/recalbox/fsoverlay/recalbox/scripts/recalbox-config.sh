@@ -401,13 +401,13 @@ if [ "$command" == "volume" ];then
 		# on my pc, the master is turned off at boot
 		# i don't know what are the rules to set here.
 			amixer set Master unmute      || exit 1
-			amixer set Master -- ${mode}% || exit 1
 		fi
 		if ( amixer scontrols | grep -q 'PCM' ); then
 			amixer set PCM    unmute      || exit 1
-			amixer set PCM    -- ${mode}% || exit 1
 		fi
 		# Odroids have no sound controller. Too bad, exit 0 anyway
+		# Force the sound volume to every mixer on the default sound card
+		for param in `amixer controls | cut -d ',' -f 1` ; do echo Setting volume for $param ; amixer -q cset ${param} ${mode}% ; done
 		exit 0
 	fi
 	exit 12
