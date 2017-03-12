@@ -170,6 +170,7 @@ case "$1" in
 	wait
 	;;
   stop)
+        rb_audio_save &
 	;;
   restart|reload)
 	;;
