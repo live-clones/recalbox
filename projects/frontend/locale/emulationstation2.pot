@@ -12,6 +12,10 @@ msgstr ""
 msgid "AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"
 msgstr ""
 
+#:
+msgid "DOWNLOADED"
+msgstr ""
+
 #: 
 msgid "CANCEL"
 msgstr ""
@@ -620,6 +624,10 @@ msgstr ""
 
 #: 
 msgid "NO UPDATE AVAILABLE"
+msgstr ""
+
+#:
+msgid "AN ERROR OCCURED - DOWNLOADED"
 msgstr ""
 
 #: 

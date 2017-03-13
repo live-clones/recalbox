@@ -13,6 +13,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added Latvian support
 - Added Luxembourgish support
 - Improved audio output device selection
+- Added an upgrade progression indicator
 ### Fixed
 - Fixed custom update.type
 - Fixed bluetooth message when pairing failed

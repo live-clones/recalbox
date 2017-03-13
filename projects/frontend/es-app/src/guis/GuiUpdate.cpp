@@ -4,6 +4,7 @@
 #include "Log.h"
 #include "RecalboxSystem.h"
 #include "Locale.h"
+#include <boost/algorithm/string/replace.hpp>
 
 GuiUpdate::GuiUpdate(Window *window) : GuiComponent(window), mBusyAnim(window) {
     setSize((float) Renderer::getScreenWidth(), (float) Renderer::getScreenHeight());
@@ -103,7 +104,7 @@ void GuiUpdate::update(int deltaTime) {
 }
 
 void GuiUpdate::threadUpdate() {
-    std::pair<std::string, int> updateStatus = RecalboxSystem::getInstance()->updateSystem();
+    std::pair<std::string, int> updateStatus = RecalboxSystem::getInstance()->updateSystem(&mBusyAnim);
     if (updateStatus.second == 0) {
         this->onUpdateOk();
     } else {
@@ -146,6 +147,9 @@ void GuiUpdate::onUpdateError(std::pair<std::string, int> result) {
     mLoading = false;
     mState = 5;
     mResult = result;
+    std::string output = mResult.first;
+    boost::replace_all(output, "\e[1A", "");
+    mResult.first = _("AN ERROR OCCURED - DOWNLOADED") + std::string(": ") + std::string(output);
 }
 
 void GuiUpdate::onUpdateOk() {

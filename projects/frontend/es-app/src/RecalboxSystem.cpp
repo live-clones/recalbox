@@ -20,6 +20,7 @@
 #include <arpa/inet.h>
 #include <boost/algorithm/string/replace.hpp>
 #include <fstream>
+#include "Locale.h"
 
 
 RecalboxSystem::RecalboxSystem() {
@@ -234,22 +235,22 @@ bool RecalboxSystem::setOverclock(std::string mode) {
 }
 
 
-std::pair<std::string, int> RecalboxSystem::updateSystem() {
+std::pair<std::string, int> RecalboxSystem::updateSystem(BusyComponent* ui) {
     std::string updatecommand = Settings::getInstance()->getString("UpdateCommand");
     FILE *pipe = popen(updatecommand.c_str(), "r");
-    char line[1024];
+    char line[1024] = "";
     if (pipe == NULL) {
         return std::pair<std::string, int>(std::string("Cannot call update command"), -1);
     }
-    if (fgets(line, 1024, pipe)) {
+    while (fgets(line, 1024, pipe)) {
         strtok(line, "\n");
+        std::string output = line;
+        boost::replace_all(output, "\e[1A", "");
+        ui->setText(_("DOWNLOADED") + std::string(": ") + std::string(output));
     }
-    int exitCode = pclose(pipe) / 256;
-    if (strlen(line) == 0) {
-        return std::pair<std::string, int>(std::string("Cannot call update command"), exitCode);
-    } else {
-        return std::pair<std::string, int>(std::string(line), exitCode);
-    }
+
+    int exitCode = pclose(pipe);
+    return std::pair<std::string, int>(std::string(line), exitCode);
 }
 
 bool RecalboxSystem::ping() {
