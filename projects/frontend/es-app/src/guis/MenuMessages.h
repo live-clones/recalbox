@@ -20,6 +20,7 @@ public:
     static const std::string START_UPDATE_HELP_MSG;
     static const std::string UPDATE_TYPE_HELP_MSG;
     static const std::string UPDATE_CHECK_HELP_MSG;
+    static const std::string UPDATE_VERSION_HELP_MSG;
 
     static const std::string GAME_SETTINGS_HELP_MSG;
     static const std::string GAME_RATIO_HELP_MSG;
@@ -102,6 +103,7 @@ const std::string MenuMessages::UPDATE_HELP_MSG = _("Manage your recalbox update
 const std::string MenuMessages::START_UPDATE_HELP_MSG = _("Check if an update is available, and start the update process.");
 const std::string MenuMessages::UPDATE_TYPE_HELP_MSG = _("Stable updates will check for updates on stable recalbox releases. Stable updates are tested and approved by the recalbox team and their testers.\nUnstable updates allows you to get the latest recalbox features by checking our unstable repository. You can test and validate with us the very last version of recalbox.\nIf you choose unstable update, be so kind to report issues on the recalbox-os issue board (https://github.com/recalbox/recalbox-os/issues)");
 const std::string MenuMessages::UPDATE_CHECK_HELP_MSG = _("Automatically check if an update is avaialble. If so, it notifies you with a message.");
+const std::string MenuMessages::UPDATE_VERSION_HELP_MSG = _("Shows the current available update version.");
 
 const std::string MenuMessages::GAME_SETTINGS_HELP_MSG = _("Configure games display, ratio, filters (shaders), auto save and load and retroachievement account.");
 const std::string MenuMessages::GAME_RATIO_HELP_MSG = _("The game ratio is the ratio between image width and image height. Use AUTO to let the emulator choose the original game ratio, that will give you the best retrogaming experience.");

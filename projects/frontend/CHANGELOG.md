@@ -14,6 +14,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added Luxembourgish support
 - Improved audio output device selection
 - Added an upgrade progression indicator
+- Display update changelog + update version, if update available
 ### Fixed
 - Fixed custom update.type
 - Fixed bluetooth message when pairing failed

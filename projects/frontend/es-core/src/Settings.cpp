@@ -92,9 +92,11 @@ void Settings::setDefaults() {
     mStringMap["UpdateCommand"] = "/recalbox/scripts/recalbox-upgrade.sh";
     mStringMap["UpdateServer"] = "archive.recalbox.com";
     mStringMap["VersionFile"] = "/recalbox/recalbox.version";
+    mStringMap["UpdateVersionFile"] = "/recalbox/share/system/upgrade/recalbox.version.update";
     mStringMap["SharePartition"] = "/recalbox/share/";
     mStringMap["RecalboxSettingScript"] = "/recalbox/scripts/recalbox-config.sh";
     mStringMap["LastChangelog"] = "/recalbox/share/system/recalbox.changelog.done";
+    mStringMap["UpdateChangelog"] = "/recalbox/share/system/upgrade/recalbox.changelog.update";
     mStringMap["Changelog"] = "/recalbox/recalbox.changelog";
     mStringMap["MusicDirectory"] = "/recalbox/share/music/";
 

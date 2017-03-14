@@ -16,6 +16,7 @@ public:
 
 	void pushGui(GuiComponent* gui);
 	void displayMessage(std::string message);
+	void displayScrollMessage(std::string title, std::string message);
 	void removeGui(GuiComponent* gui);
 	GuiComponent* peekGui();
 
@@ -54,6 +55,8 @@ private:
 
 	std::vector<GuiComponent*> mGuiStack;
 	std::vector<std::string> mMessages;
+	std::vector<std::string> mScrollMessages;
+	std::vector<std::string> mScrollTitle;
 
 	std::vector< std::shared_ptr<Font> > mDefaultFonts;
 

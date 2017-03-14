@@ -8,7 +8,6 @@
 #include "NetworkThread.h"
 #include "RecalboxSystem.h"
 #include "RecalboxConf.h"
-#include "guis/GuiMsgBox.h"
 #include "Locale.h"
 
 NetworkThread::NetworkThread(Window* window) : mWindow(window){
@@ -21,7 +20,7 @@ NetworkThread::NetworkThread(Window* window) : mWindow(window){
 }
 
 NetworkThread::~NetworkThread() {
-    	mThreadHandle->join();
+    mThreadHandle->join();
 }
 
 void NetworkThread::run(){
@@ -33,12 +32,19 @@ void NetworkThread::run(){
             boost::this_thread::sleep(boost::posix_time::hours(1));
         }
 
-	if(RecalboxConf::getInstance()->get("updates.enabled") == "1") {
-	  if(RecalboxSystem::getInstance()->canUpdate()){
-	    mWindow->displayMessage(_("AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"));
-	    mRunning = false;
-	  }
-	}
+    if(RecalboxConf::getInstance()->get("updates.enabled") == "1") {
+        if (RecalboxSystem::getInstance()->canUpdate()) {
+            std::string changelog = RecalboxSystem::getInstance()->getUpdateChangelog();
+            if (changelog != "") {
+                std::string message = changelog;
+                mWindow->displayScrollMessage(_("AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"),
+                                              _("UPDATE CHANGELOG:") + "\n" + message);
+            } else {
+                mWindow->displayMessage(_("AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"));
+            }
+        }
+        mRunning = false;
+    }
     }
 }
 

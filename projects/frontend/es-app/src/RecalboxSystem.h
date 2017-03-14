@@ -21,6 +21,7 @@ public:
     bool isFreeSpaceLimit();
 
     std::string getVersion();
+    std::string getUpdateVersion();
     std::string getRootPassword();
 
     bool setAudioOutputDevice(std::string device);
@@ -36,6 +37,8 @@ public:
     std::string getChangelog();
 
     std::pair<std::string, int> updateSystem(BusyComponent* ui);
+
+    std::string getUpdateChangelog();
 
     bool ping();
 

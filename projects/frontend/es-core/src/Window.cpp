@@ -6,6 +6,7 @@
 #include "Settings.h"
 #include <algorithm>
 #include <iomanip>
+#include <guis/GuiMsgBoxScroll.h>
 #include "components/HelpComponent.h"
 #include "components/ImageComponent.h"
 #include "guis/GuiMsgBox.h"
@@ -40,7 +41,13 @@ void Window::pushGui(GuiComponent* gui)
 
 void Window::displayMessage(std::string message)
 {
-    mMessages.push_back(message);
+	mMessages.push_back(message);
+}
+
+void Window::displayScrollMessage(std::string title, std::string message)
+{
+	mScrollTitle.push_back(title);
+	mScrollMessages.push_back(message);
 }
 
 void Window::removeGui(GuiComponent* gui)
@@ -157,11 +164,17 @@ void Window::input(InputConfig* config, Input input)
 
 void Window::update(int deltaTime)
 {
-    
-        if(!mMessages.empty()){
+	if(!mMessages.empty()){
 		std::string message = mMessages.back();
 		mMessages.pop_back();
-                pushGui(new GuiMsgBox(this, message));
+		pushGui(new GuiMsgBox(this, message));
+	}
+	if(!mScrollMessages.empty()){
+		std::string message = mScrollMessages.back();
+		std::string title = mScrollTitle.back();
+		mScrollMessages.pop_back();
+		mScrollTitle.pop_back();
+		pushGui(new GuiMsgBoxScroll(this, title, message, _("OK"), [] {}, "", nullptr, "", nullptr, ALIGN_LEFT));
 	}
 	if(mNormalizeNextUpdate)
 	{

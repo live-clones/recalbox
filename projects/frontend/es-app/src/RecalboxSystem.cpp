@@ -95,6 +95,19 @@ std::string RecalboxSystem::getVersion() {
     return "";
 }
 
+std::string RecalboxSystem::getUpdateVersion() {
+    std::string version = Settings::getInstance()->getString("UpdateVersionFile");
+    if (version.size() > 0) {
+        std::ifstream ifs(version);
+
+        if (ifs.good()) {
+            std::string contents;
+            std::getline(ifs, contents);
+            return contents;
+        }
+    }
+    return "";
+}
 
 bool RecalboxSystem::updateLastChangelogFile() {
     std::ostringstream oss;
@@ -135,7 +148,34 @@ std::string RecalboxSystem::getChangelog() {
     pclose(pipe);
 
     return res.str();
+}
 
+std::string RecalboxSystem::getUpdateChangelog() {
+    std::ostringstream oss;
+    std::string update = Settings::getInstance()->getString("UpdateChangelog");
+    std::string changelog = Settings::getInstance()->getString("Changelog");
+    std::ifstream f(update);
+    if(!f.good()){
+        std::ofstream outfile (update);
+        outfile << " ";
+        outfile.close();
+    }
+    oss << "diff --changed-group-format='%>' --unchanged-group-format='' " <<
+        changelog.c_str() << " " << update.c_str();
+
+    FILE *pipe = popen(oss.str().c_str(), "r");
+    char line[1024];
+
+    if (pipe == NULL) {
+        return "";
+    }
+    std::ostringstream res;
+    while (fgets(line, 1024, pipe)) {
+        res << line;
+    }
+    pclose(pipe);
+
+    return res.str();
 }
 
 std::vector<std::string> RecalboxSystem::getAvailableAudioOutputDevices() {
