@@ -47,6 +47,26 @@ function isNewer () {
 	return 1
 }
 
+function displayUpgradeText() {
+	currentVersion=$1
+	newVersion=$2
+	branch=$3
+	arch=`cat /recalbox/recalbox.arch`
+
+	# Get the changelog
+	wget -qO /recalbox/share/system/upgrade/recalbox.changelog.update ${recalboxupdateurl}/${branch}/${arch}/recalbox.changelog || exit 1
+	wget -qO /recalbox/share/system/upgrade/recalbox.version.update ${recalboxupdateurl}/${branch}/${arch}/recalbox.version || exit 1
+	changes="`diff --changed-group-format='%>' --unchanged-group-format='' /recalbox/share/system/recalbox.changelog.done /recalbox/share/system/upgrade/recalbox.changelog.update`"
+	infoText=`echo -e "Update details:
+Current branch:        ${branch}
+Current version:       ${currentVersion}
+New version available: ${newVersion}
+Changes:
+${changes}"`
+	recallog "${infoText}"
+	echo "${infoText}"
+}
+
 log=/recalbox/share/system/logs/recalbox.log
 systemsetting="python /usr/lib/python2.7/site-packages/configgen/settings/recalboxSettings.pyc"
 
@@ -328,6 +348,7 @@ fi
 
 fi
 
+
 if [ "$command" == "audio" ];then
     # this code is specific to the rpi
     # don't set it on other boards
@@ -396,13 +417,12 @@ if [ "$command" == "volume" ];then
 		# on my pc, the master is turned off at boot
 		# i don't know what are the rules to set here.
 			amixer set Master unmute      || exit 1
-			amixer set Master -- ${mode}% || exit 1
 		fi
 		if ( amixer scontrols | grep -q 'PCM' ); then
 			amixer set PCM    unmute      || exit 1
-			amixer set PCM    -- ${mode}% || exit 1
 		fi
 		# Odroids have no sound controller. Too bad, exit 0 anyway
+		for param in `amixer controls | cut -d ',' -f 1` ; do echo Setting volume for ${param} ; amixer -q cset $param ${mode}% ; done
 		exit 0
 	fi
 	exit 12
@@ -447,10 +467,12 @@ if [ "$command" == "canupdate" ];then
 	if [[ ${updatetype} == "stable" ]] ; then
 		if isNewer $archiveVersion $localVersion ; then
 			echo "update available"
+			displayUpgradeText "${installed}" "${available}" "${updatetype}"
 			exit 0
 		fi
 	elif [[ "$available" != "$installed" ]]; then
 		echo "update available"
+		displayUpgradeText "${installed}" "${available}" "${updatetype}"
 		exit 0
 	fi
 	echo "no update available"
