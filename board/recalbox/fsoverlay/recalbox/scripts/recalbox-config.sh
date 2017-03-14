@@ -47,6 +47,26 @@ function isNewer () {
 	return 1
 }
 
+function displayUpgradeText() {
+	currentVersion=$1
+	newVersion=$2
+	branch=$3
+	arch=`cat /recalbox/recalbox.arch`
+
+	# Get the changelog
+	wget -qO /recalbox/share/system/upgrade/recalbox.changelog.update ${recalboxupdateurl}/${branch}/${arch}/recalbox.changelog || exit 1
+	wget -qO /recalbox/share/system/upgrade/recalbox.version.update ${recalboxupdateurl}/${branch}/${arch}/recalbox.version || exit 1
+	changes="`diff --changed-group-format='%>' --unchanged-group-format='' /recalbox/share/system/recalbox.changelog.done /recalbox/share/system/upgrade/recalbox.changelog.update`"
+	infoText=`echo -e "Update details:
+Current branch:        ${branch}
+Current version:       ${currentVersion}
+New version available: ${newVersion}
+Changes:
+${changes}"`
+	recallog "${infoText}"
+	echo "${infoText}"
+}
+
 log=/recalbox/share/system/logs/recalbox.log
 systemsetting="python /usr/lib/python2.7/site-packages/configgen/settings/recalboxSettings.pyc"
 
@@ -452,10 +472,12 @@ if [ "$command" == "canupdate" ];then
 	if [[ ${updatetype} == "stable" ]] ; then
 		if isNewer $archiveVersion $localVersion ; then
 			echo "update available"
+			displayUpgradeText "${installed}" "${available}" "${updatetype}"
 			exit 0
 		fi
 	elif [[ "$available" != "$installed" ]]; then
 		echo "update available"
+		displayUpgradeText "${installed}" "${available}" "${updatetype}"
 		exit 0
 	fi
 	echo "no update available"
