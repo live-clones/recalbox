@@ -24,6 +24,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added an option to force the basicgamelist view
 - Added RPI3 overclock presets + Warning popup on TURBO/EXTREM presets
 - Display NETWORK in storage devices list once switched on a NAS
+- Jump to letter now moves to the first occurrence of the letter
 
 ## [4.0.0] - 2016-02-02
 ### Added
