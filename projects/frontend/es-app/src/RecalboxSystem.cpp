@@ -81,10 +81,9 @@ bool RecalboxSystem::isFreeSpaceLimit() {
 
 }
 
-std::string RecalboxSystem::getVersion() {
-    std::string version = Settings::getInstance()->getString("VersionFile");
-    if (version.size() > 0) {
-        std::ifstream ifs(version);
+std::string RecalboxSystem::readFile(std::string file) {
+    if (file.size() > 0) {
+        std::ifstream ifs(file);
 
         if (ifs.good()) {
             std::string contents;
@@ -95,18 +94,14 @@ std::string RecalboxSystem::getVersion() {
     return "";
 }
 
+std::string RecalboxSystem::getVersion() {
+    std::string version = Settings::getInstance()->getString("VersionFile");
+    return readFile(version);
+}
+
 std::string RecalboxSystem::getUpdateVersion() {
     std::string version = Settings::getInstance()->getString("UpdateVersionFile");
-    if (version.size() > 0) {
-        std::ifstream ifs(version);
-
-        if (ifs.good()) {
-            std::string contents;
-            std::getline(ifs, contents);
-            return contents;
-        }
-    }
-    return "";
+    return readFile(version);
 }
 
 bool RecalboxSystem::updateLastChangelogFile() {
@@ -122,18 +117,16 @@ bool RecalboxSystem::updateLastChangelogFile() {
     }
 }
 
-std::string RecalboxSystem::getChangelog() {
+std::string RecalboxSystem::getDiffBetween(std::string first, std::string second) {
     std::ostringstream oss;
-    std::string last = Settings::getInstance()->getString("LastChangelog");
-    std::ifstream f(last);
+    std::ifstream f(first);
     if(!f.good()){
-        std::ofstream outfile (last);
+        std::ofstream outfile (first);
         outfile << " ";
         outfile.close();
     }
     oss << "diff --changed-group-format='%>' --unchanged-group-format='' " <<
-        last.c_str() << " " <<
-        Settings::getInstance()->getString("Changelog").c_str();
+        first.c_str() << " " << second.c_str();
 
     FILE *pipe = popen(oss.str().c_str(), "r");
     char line[1024];
@@ -151,31 +144,15 @@ std::string RecalboxSystem::getChangelog() {
 }
 
 std::string RecalboxSystem::getUpdateChangelog() {
-    std::ostringstream oss;
-    std::string update = Settings::getInstance()->getString("UpdateChangelog");
     std::string changelog = Settings::getInstance()->getString("Changelog");
-    std::ifstream f(update);
-    if(!f.good()){
-        std::ofstream outfile (update);
-        outfile << " ";
-        outfile.close();
-    }
-    oss << "diff --changed-group-format='%>' --unchanged-group-format='' " <<
-        changelog.c_str() << " " << update.c_str();
+    std::string update = Settings::getInstance()->getString("UpdateChangelog");
+    return getDiffBetween(changelog, update);
+}
 
-    FILE *pipe = popen(oss.str().c_str(), "r");
-    char line[1024];
-
-    if (pipe == NULL) {
-        return "";
-    }
-    std::ostringstream res;
-    while (fgets(line, 1024, pipe)) {
-        res << line;
-    }
-    pclose(pipe);
-
-    return res.str();
+std::string RecalboxSystem::getChangelog() {
+    std::string last = Settings::getInstance()->getString("LastChangelog");
+    std::string changes = Settings::getInstance()->getString("Changelog");
+    return getDiffBetween(last, changes);
 }
 
 std::vector<std::string> RecalboxSystem::getAvailableAudioOutputDevices() {

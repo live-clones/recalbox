@@ -79,6 +79,9 @@ private:
 
     bool halt(bool reboot, bool fast);
 
+    std::string readFile(std::string file);
+
+    std::string getDiffBetween(std::string first, std::string second);
 };
 
 #endif
