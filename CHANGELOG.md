@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unrelease][unreleased]
+- configgen: scummvm: added fullscreen option
+- configgen: libretroConfig.py: would crash when retroarchcustom.cfg didn't exist
+- configgen: added n64 to systems not supporting rewind
+- configgen: Fix PPSSPP for any pad
 - Solve a bug on .img compression
 - Force a 2GB root size for .img
 - Compress .img in xz
