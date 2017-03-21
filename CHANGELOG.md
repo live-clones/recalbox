@@ -12,6 +12,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - configgen: Fix PPSSPP for any pad
 - recalbox-manager2: add new locales, stop and restart ES works again
 - Solve a bug on .img compression
+- Automatically update XBox360 pads configuration for ES
 - Force a 2GB root size for .img
 - Compress .img in xz
 - Don't forget bluetooth paired devices on upgrade
