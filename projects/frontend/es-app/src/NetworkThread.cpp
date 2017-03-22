@@ -32,8 +32,8 @@ void NetworkThread::run(){
             boost::this_thread::sleep(boost::posix_time::hours(1));
         }
 
-    if(RecalboxConf::getInstance()->get("updates.enabled") == "1") {
-        if (RecalboxSystem::getInstance()->canUpdate()) {
+    if (RecalboxSystem::getInstance()->canUpdate()) {
+        if(RecalboxConf::getInstance()->get("updates.enabled") == "1") {
             std::string changelog = RecalboxSystem::getInstance()->getUpdateChangelog();
             if (changelog != "") {
                 std::string message = changelog;

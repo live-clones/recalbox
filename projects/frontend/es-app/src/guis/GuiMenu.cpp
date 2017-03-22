@@ -253,7 +253,7 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                              auto updateVersion = std::make_shared<TextComponent>(mWindow,
                                                                                   RecalboxSystem::getInstance()->getUpdateVersion(),
                                                                                   Font::get(FONT_SIZE_MEDIUM), 0x777777FF);
-                             updateGui->addWithLabelAndHelp(_("UPDATE VERSION"), updateVersion, MenuMessages::UPDATE_VERSION_HELP_MSG);
+                             updateGui->addWithLabelAndHelp(_("AVAILABLE UPDATE"), updateVersion, MenuMessages::UPDATE_VERSION_HELP_MSG);
                              // Start update
                              updateGui->addSubMenu(_("START UPDATE"), [this] {
                                  mWindow->pushGui(new GuiUpdate(mWindow));

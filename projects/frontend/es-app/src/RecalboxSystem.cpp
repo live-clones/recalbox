@@ -20,7 +20,7 @@
 #include <arpa/inet.h>
 #include <boost/algorithm/string/replace.hpp>
 #include <fstream>
-#include "Locale.h"
+#include <Locale.h>
 
 
 RecalboxSystem::RecalboxSystem() {
@@ -101,7 +101,12 @@ std::string RecalboxSystem::getVersion() {
 
 std::string RecalboxSystem::getUpdateVersion() {
     std::string version = Settings::getInstance()->getString("UpdateVersionFile");
-    return readFile(version);
+    if (readFile(version) == "") {
+        std::string getUpdateVersion = _("NOT CONNECTED");
+        return getUpdateVersion;
+    } else {
+        return readFile(version);
+    }
 }
 
 bool RecalboxSystem::updateLastChangelogFile() {

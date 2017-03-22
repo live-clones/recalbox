@@ -1409,7 +1409,7 @@ msgid "CHECK UPDATES"
 msgstr ""
 
 #:
-msgid "UPDATE VERSION"
+msgid "AVAILABLE UPDATE"
 msgstr ""
 
 #: 

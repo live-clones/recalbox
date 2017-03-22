@@ -337,9 +337,7 @@ int main(int argc, char* argv[])
     }
 
 	// UPDATE CHECK THREAD
-	if(recalboxConf->get("updates.enabled") == "1"){
-		NetworkThread * nthread = new NetworkThread(&window);
-	}
+	NetworkThread * nthread = new NetworkThread(&window);
 
 	//run the command line scraper then quit
 	if(scrape_cmdline)
