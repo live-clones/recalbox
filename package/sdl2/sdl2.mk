@@ -116,6 +116,7 @@ endef
 
 define SDL2_REMOVE_SDL2_CONFIG
 	mv $(TARGET_DIR)/usr/bin/sdl2-config $(HOST_DIR)/usr/bin
+	cp $(STAGING_DIR)/usr/bin/sdl2-config $(HOST_DIR)/usr/bin
 endef
 
 SDL2_POST_INSTALL_TARGET_HOOKS += SDL2_REMOVE_SDL2_CONFIG
