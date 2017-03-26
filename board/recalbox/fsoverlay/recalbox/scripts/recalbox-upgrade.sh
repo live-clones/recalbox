@@ -86,7 +86,7 @@ recallog "Will download ${size}kb of files in ${upgradeDir} where ${freespace}kb
 
 # Downloading files
 function cleanBeforeExit {
-  rm -rf "${upgradeDir}/*"
+  rm -rf "${upgradeDir}"/*
   exit $1
 }
 
