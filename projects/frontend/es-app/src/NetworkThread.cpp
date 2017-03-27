@@ -37,7 +37,9 @@ void NetworkThread::run(){
             std::string changelog = RecalboxSystem::getInstance()->getUpdateChangelog();
             if (changelog != "") {
                 std::string message = changelog;
+                std::string updateVersion = RecalboxSystem::getInstance()->getUpdateVersion();
                 mWindow->displayScrollMessage(_("AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"),
+                                              _("UPDATE VERSION:") + " " + updateVersion + "\n" +
                                               _("UPDATE CHANGELOG:") + "\n" + message);
             } else {
                 mWindow->displayMessage(_("AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"));

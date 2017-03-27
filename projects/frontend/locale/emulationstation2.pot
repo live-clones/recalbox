@@ -16,6 +16,10 @@ msgstr ""
 msgid "DOWNLOADED"
 msgstr ""
 
+#:
+msgid "UPDATE VERSION:"
+msgstr ""
+
 #: 
 msgid "UPDATE CHANGELOG:"
 msgstr ""
@@ -1154,6 +1158,10 @@ msgstr ""
 msgid "Shows the current available update version."
 msgstr ""
 
+#:
+msgid "Shows the current available update changelog."
+msgstr ""
+
 #: 
 msgid "Configure games display, ratio, filters (shaders), auto save and load and retroachievement account."
 msgstr ""
@@ -1410,6 +1418,10 @@ msgstr ""
 
 #:
 msgid "AVAILABLE UPDATE"
+msgstr ""
+
+#:
+msgid "UPDATE CHANGELOG"
 msgstr ""
 
 #: 
