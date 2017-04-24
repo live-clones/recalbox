@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unrelease][unreleased]
+- Bump retroarch to solve pad reordering issue
 - New review upgrade system 
 - New video render for retroarch: dispmanx (pi only)
 - Bumped Mupen64plus-GlideN64 video plugin to the Public Release 2.0
