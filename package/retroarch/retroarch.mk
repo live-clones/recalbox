@@ -3,12 +3,9 @@
 # retroarch
 #
 ################################################################################
-#RETROARCH_VERSION = 2755abc14fe25b9f32e145dcf6ec5c9569640eb8 for rpi1
 
-
-#RETROARCH_VERSION = 6690711ace3fe146d720d8755528bee8d8d87dd8 
-RETROARCH_VERSION = d7e0a9005b27a9d122825713c1d5be44879b8302
-RETROARCH_SITE = https://github.com/libretro/RetroArch.git
+RETROARCH_VERSION = v1.5.0
+RETROARCH_SITE = git://github.com/libretro/RetroArch.git
 RETROARCH_SITE_METHOD = git
 RETROARCH_LICENSE = GPLv3+
 RETROARCH_CONF_OPTS += --disable-oss --enable-zlib
