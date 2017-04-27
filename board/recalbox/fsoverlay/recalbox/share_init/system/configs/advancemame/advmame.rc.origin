@@ -7,6 +7,7 @@ dir_sample /recalbox/share/bios/advance/samples
 dir_snap /recalbox/share/screenshots
 device_video fb
 device_joystick auto
+device_keyboard none
 misc_quiet yes
 misc_safequit no
 display_magnify 1
