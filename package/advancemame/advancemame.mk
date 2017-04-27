@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-ADVANCEMAME_VERSION = v3.2
+ADVANCEMAME_VERSION = v3.4
 ADVANCEMAME_SITE = $(call github,amadvance,advancemame,$(ADVANCEMAME_VERSION))
 ADVANCEMAME_LICENSE = GPLv2
 
