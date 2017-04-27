@@ -29,6 +29,7 @@
 #include "NetworkThread.h"
 #include "recalbox/RecalboxSystem.h"
 #include "FileSorts.h"
+#include "CommandThread.h"
 
 
 #ifdef WIN32
@@ -346,6 +347,9 @@ int main(int argc, char* argv[])
 
 	// UPDATE CHECK THREAD
 	NetworkThread * nthread = new NetworkThread(&window);
+
+	// Start the socket server
+	CommandThread* ct = new CommandThread(&window);
 
 	//run the command line scraper then quit
 	if(scrape_cmdline)

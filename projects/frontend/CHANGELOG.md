@@ -21,6 +21,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added vertical slide transition when carousel is vertical
 - Added theming options for carousel and systeminfo in system view
 - Added "features" tag in theming options
+- Add a UDP sock server on port 1337
 - Added new version support
 - Added an option to scrape recalbox-mix-images from screenscraper
 - Added new mamedb scrapper mirror

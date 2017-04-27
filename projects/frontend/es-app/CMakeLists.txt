@@ -55,6 +55,7 @@ set(ES_HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/src/recalbox/RecalboxSystem.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/recalbox/RecalboxUpgrade.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/LibretroRatio.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/CommandThread.h
 )
 
 set(ES_SOURCES
@@ -108,6 +109,7 @@ set(ES_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/recalbox/RecalboxSystem.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/recalbox/RecalboxUpgrade.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/LibretroRatio.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/CommandThread.cpp
 )
 
 #-------------------------------------------------------------------------------
