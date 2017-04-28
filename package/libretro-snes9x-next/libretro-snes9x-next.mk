@@ -3,7 +3,7 @@
 # SNES9X_NEXT / SNES9X2010
 #
 ################################################################################
-LIBRETRO_SNES9X_NEXT_VERSION = 66ba1235df30d00e018866875bc6fa77643d5663
+LIBRETRO_SNES9X_NEXT_VERSION = b2a69de
 LIBRETRO_SNES9X_NEXT_SITE = $(call github,libretro,snes9x2010,$(LIBRETRO_SNES9X_NEXT_VERSION))
 
 define LIBRETRO_SNES9X_NEXT_BUILD_CMDS
