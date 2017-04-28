@@ -40,6 +40,8 @@ public:
 	void setHelpPrompts(const std::vector<HelpPrompt>& prompts, const HelpStyle& style);
 
 	void renderShutdownScreen();
+	
+	void doWake();
 
 private:
 	void onSleep();

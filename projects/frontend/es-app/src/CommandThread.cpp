@@ -119,6 +119,6 @@ FileData* CommandThread::findRecursive(std::vector<FileData*> gameFolder, std::s
 void CommandThread::runGame (FileData* game) {
 	ViewController *view = ViewController::get();
 	Eigen::Vector3f target(Renderer::getScreenWidth() / 2.0f, Renderer::getScreenHeight() / 2.0f, 0);
-	//mWindow->wakeUp();
+	mWindow->doWake();
 	view->launch(game, target);
 }
