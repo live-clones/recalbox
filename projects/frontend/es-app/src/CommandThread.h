@@ -7,7 +7,7 @@ public:
 	CommandThread(Window* window);
 	~CommandThread();
 	void run();
-	FileData* findRecursive(std::vector<FileData*> gameFolder, std::string gameName);
+	FileData* findRecursive(const std::vector<FileData*> gameFolder, const std::string& gameName, const std::string& relativePath = "");
 	void runGame (FileData* game);
 private:
 	Window* mWindow;

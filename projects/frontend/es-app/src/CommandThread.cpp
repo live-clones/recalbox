@@ -98,17 +98,23 @@ void CommandThread::run() {
 	}
 }
 
-FileData* CommandThread::findRecursive(std::vector<FileData*> gameFolder, std::string gameName) {
+FileData* CommandThread::findRecursive(const std::vector<FileData*> gameFolder, const std::string& gameName, const std::string& relativePath) {
 	for (auto game = gameFolder.begin(); game != gameFolder.end(); ++game) {
-		LOG(LogInfo) << "Checking: " << (*game)->getPath().filename();
+		std::string gameAndPath;
+		if (relativePath.empty()) {
+			gameAndPath = (*game)->getPath().filename().c_str();
+		} else {
+			gameAndPath = relativePath + '/' + (*game)->getPath().filename().c_str();
+		}
+		LOG(LogInfo) << "Checking game " << gameName << " in path: " << gameAndPath;
 		if ((*game)->getType() == FOLDER) {
-			FileData* foundGame = findRecursive((*game)->getChildren(), gameName);
+			FileData* foundGame = findRecursive((*game)->getChildren(), gameName, gameAndPath);
 			if ( foundGame != NULL ) {
 				LOG(LogInfo) << "Game found !";
 				return foundGame;
 			}
 		}
-		if ((*game)->getType() == GAME and (*game)->getPath().filename() == gameName) {
+		if ((*game)->getType() == GAME and gameAndPath == gameName) {
 			LOG(LogInfo) << "Game found !";
 			return *game;
 		}
