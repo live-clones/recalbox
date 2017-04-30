@@ -3,13 +3,9 @@
 # retroarch
 #
 ################################################################################
-#RETROARCH_VERSION = 2755abc14fe25b9f32e145dcf6ec5c9569640eb8 for rpi1
 
-
-#RETROARCH_VERSION = 6690711ace3fe146d720d8755528bee8d8d87dd8 
-RETROARCH_VERSION = 0b05fdf
-RETROARCH_SITE = https://github.com/libretro/RetroArch.git
-RETROARCH_SITE_METHOD = git
+RETROARCH_VERSION = 0b05fdf0b5b696875fc747538ef8d071862e444a
+RETROARCH_SITE = git://github.com/libretro/RetroArch.git
 RETROARCH_LICENSE = GPLv3+
 RETROARCH_CONF_OPTS += --disable-oss --enable-zlib
 RETROARCH_DEPENDENCIES = host-pkgconf recalbox-system
@@ -134,7 +130,7 @@ define RETROARCH_CONFIGURE_CMDS
 	(cd $(@D); rm -rf config.cache; \
 		$(TARGET_CONFIGURE_ARGS) \
 		$(TARGET_CONFIGURE_OPTS) \
-		CFLAGS="$(TARGET_CFLAGS)" \
+		CFLAGS="$(TARGET_CFLAGS)"\
 		LDFLAGS="$(TARGET_LDFLAGS) -lc" \
 		CROSS_COMPILE="$(HOST_DIR)/usr/bin/" \
 		./configure \
@@ -144,7 +140,7 @@ define RETROARCH_CONFIGURE_CMDS
 endef
 
 define RETROARCH_BUILD_CMDS
-	$(MAKE) CXX="$(TARGET_CXX)" CC="$(TARGET_CC)" LD="$(TARGET_LD)" -C $(@D) all
+	$(MAKE) GIT_VERSION="0b05fdf" CXX="$(TARGET_CXX)" CC="$(TARGET_CC)" LD="$(TARGET_LD)" -C $(@D) all
 endef
 
 define RETROARCH_INSTALL_TARGET_CMDS
