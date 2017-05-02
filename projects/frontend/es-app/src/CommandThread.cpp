@@ -70,35 +70,11 @@ void CommandThread::run() {
 		} else {
 			LOG(LogError) << "Couldn't find game " << tokens[2] << " for system " << tokens[1];
 		}
-/*
-		ViewController *view = ViewController::get();
-		bool found = false;
-		Eigen::Vector3f target(Renderer::getScreenWidth() / 2.0f, Renderer::getScreenHeight() / 2.0f, 0);
-		LOG(LogInfo) << "Looking for game: " << tokens[2];
-		std::vector<FileData*> games = system->getRootFolder()->getChildren();
-		for (auto game = games.begin(); game != games.end(); ++game) {
-			LOG(LogError) << "Checking: " << (*game)->getPath().filename();
-			if ((*game)->getType() == FOLDER) {
-				LOG(LogError) << "Skipping folder: " << (*game)->getPath().filename();
-				continue;
-			}
-			if ((*game)->getType() == GAME and (*game)->getPath().filename() == tokens[2]) {
-				LOG(LogInfo) << "Game found !";
-				found = true;
-				//mWindow->wakeUp();
-				view->launch(*game, target);
-				break;
-			}
-		}
-		
-		if (!found) {
-			LOG(LogError) << "Could not find the game";
-		}
-//*/
 	}
 }
 
 FileData* CommandThread::findRecursive(const std::vector<FileData*> gameFolder, const std::string& gameName, const std::string& relativePath) {
+	// Recursively look for the game in subfolders too
 	for (auto game = gameFolder.begin(); game != gameFolder.end(); ++game) {
 		std::string gameAndPath;
 		if (relativePath.empty()) {
