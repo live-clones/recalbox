@@ -16,7 +16,8 @@ for DIR in cheats \
            system/.emulationstation/themes \
            system/bluetooth \
            system/configs \
-           system/logs
+           system/logs \
+           system/upgrade
 do
     if test ! -e "$OUT""/""$DIR"
     then

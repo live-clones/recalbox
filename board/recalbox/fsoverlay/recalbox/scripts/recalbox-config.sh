@@ -54,6 +54,7 @@ function displayUpgradeText() {
 	arch=`cat /recalbox/recalbox.arch`
 
 	# Get the changelog
+	[ ! -d "/recalbox/share/system/upgrade" ] && mkdir -p /recalbox/share/system/upgrade
 	wget -qO /recalbox/share/system/upgrade/recalbox.changelog.update ${recalboxupdateurl}/${branch}/${arch}/recalbox.changelog || exit 1
 	wget -qO /recalbox/share/system/upgrade/recalbox.version.update ${recalboxupdateurl}/${branch}/${arch}/recalbox.version || exit 1
 	changes="`diff --changed-group-format='%>' --unchanged-group-format='' /recalbox/share/system/recalbox.changelog.done /recalbox/share/system/upgrade/recalbox.changelog.update`"
