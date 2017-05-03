@@ -116,8 +116,8 @@ rb_timezone() {
     settings_timezone="`$systemsetting -command load -key system.timezone`"
     if [[ "$settings_timezone" != "" && -f "/usr/share/zoneinfo/$settings_timezone" ]];then
         recallog "setting timezone to $settings_timezone"
-        echo "$settings_timezone" > /etc/timezone
-        ln -sf "/usr/share/zoneinfo/$settings_timezone" /etc/localtime
+        echo "$settings_timezone" > /var/timezone
+        ln -sf "/usr/share/zoneinfo/$settings_timezone" /var/localtime
     fi
 }
 
