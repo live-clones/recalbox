@@ -11,7 +11,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - fix sound regression since handling of multiple cards
 - Fix muted sound on boot
 - samba: definitely remove printer support
-- adding new kernel patch to support natively xinmo 20pins usb encoder
 - improve CI output + better error logging on failed build
 - fix gamecon 1.2
 - configgen: scummvm: added fullscreen option
