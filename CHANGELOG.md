@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unrelease][unreleased]
+- Add support for RPI0-W
 - fix webmanager2's dependencies
 - fix sound regression since handling of multiple cards
 - Fix muted sound on boot
