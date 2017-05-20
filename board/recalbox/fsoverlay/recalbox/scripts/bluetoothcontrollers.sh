@@ -1,12 +1,11 @@
 #!/bin/bash
-#Check if the firmware is alerady loaded
-ps | grep -v grep | grep -q "hciattach /dev/ttyAMA0 bcm43xx 921600"
-btPi3Running=$?
-if [ -f /boot/bcm2710-rpi-3-b.dtb ] && [ $btPi3Running -ne 0 ]; then
-    /usr/bin/hciattach /dev/ttyAMA0 bcm43xx 921600
+
+if [ "$(cat /proc/device-tree/aliases/uart0)" = "$(cat /proc/device-tree/aliases/serial1)" ] ; then
+  if [ "$(wc -c /proc/device-tree/soc/gpio@7e200000/uart0_pins/brcm\,pins | cut -f 1 -d ' ')" = "16" ] ; then
+    /usr/bin/hciattach /dev/serial1 bcm43xx 3000000 flow -
+  else
+    /usr/bin/hciattach /dev/serial1 bcm43xx 921600 noflow -
+  fi
+else
+  /usr/bin/hciattach /dev/serial1 bcm43xx 460800 noflow -
 fi
-
-/usr/bin/hciconfig hci0 up piscan
-/usr/bin/hciconfig hci0 name Recalbox
-exit 0
-
