@@ -103,6 +103,7 @@ build rpi2 for test:
     ARCH: 'rpi2'
 build rpi3 for test:
   <<: *build_definition
+  when: manual
   only:
     - branches
   except:
