@@ -539,7 +539,7 @@ if [[ "$command" == "hiddpair" ]]; then
                         echo "SUBSYSTEM==\"input\", ATTRS{uniq}==\"$macLowerCase\", MODE=\"0666\", ENV{ID_INPUT_JOYSTICK}=\"1\"" >> "/run/udev/rules.d/99-8bitdo.rules"
                 fi
         fi
-        /recalbox/scripts/bluetooth/simple-agent hci0 "$mac"
+        /recalbox/scripts/bluetooth/simple-agent -c NoInputNoOutput -i hci0 "$mac"
         connected=$?
 	if [ $connected -eq 0 ]; then
                 hcitool con | grep $mac1
@@ -603,13 +603,11 @@ if [[ "$command" == "storage" ]]; then
 fi
 
 if [[ "$command" == "forgetBT" ]]; then
-   killall -9 hcitool
-   /etc/init.d/S32bluetooth stop
-   rm -rf /var/lib/bluetooth
-   mkdir /var/lib/bluetooth
-   rm -f /recalbox/share/system/bluetooth/bluetooth.tar
-   /etc/init.d/S32bluetooth start
-   exit 0
+    for mac in $(find /var/lib/bluetooth/ -type d -maxdepth 2 -mindepth 2 | grep -v "/cache$" | cut -d "/" -f 6) ; do 
+        recallog "Unpairing and removing BT device $mac" 
+	/recalbox/scripts/bluetooth/test-device remove "$mac"
+    done
+    exit 0
 fi
 
 exit 10
