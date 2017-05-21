@@ -1,0 +1,2 @@
+# Set bluetooth power up
+ACTION=="add", KERNEL=="hci[0-9]*", RUN+="/usr/bin/hciconfig %k up ; /usr/bin/hciconfig %k name Recalbox"

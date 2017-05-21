@@ -128,6 +128,7 @@ def pair_error(error):
 
 
 	mainloop.quit()
+	exit(1)
 
 if __name__ == '__main__':
 	dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
