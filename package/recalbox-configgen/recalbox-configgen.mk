@@ -4,9 +4,10 @@
 #
 ################################################################################
 
-RECALBOX_CONFIGGEN_VERSION = 1f76a71773b177da4994ecb3076d337c68decf26
+RECALBOX_CONFIGGEN_VERSION = 14b9bc75fcb819d1d3353629fff709f79d74a853
 
-RECALBOX_CONFIGGEN_SITE = $(call github,recalbox,recalbox-configgen,$(RECALBOX_CONFIGGEN_VERSION))
+RECALBOX_CONFIGGEN_SITE = https://gitlab.com/recalbox/recalbox-configgen.git
+RECALBOX_CONFIGGEN_SITE_METHOD = git
 
 RECALBOX_CONFIGGEN_LICENSE = GPL2
 RECALBOX_CONFIGGEN_DEPENDENCIES = python
