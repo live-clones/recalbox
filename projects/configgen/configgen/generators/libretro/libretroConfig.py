@@ -167,6 +167,13 @@ def writeLibretroConfigToFile(config):
 
 
 def updateLibretroConfig(version):
+    returnValue = True
+    returnValue = removeLibretroConfigUnwantedOptions(version) and returnValue
+    returnValue = updateLibretroConfigCustom(version) and returnValue
+    return returnValue
+
+
+def updateLibretroConfigCustom(version):
     # Version is unsued so far, but who knows, one day
     try: 
         # Read files
@@ -190,3 +197,13 @@ def updateLibretroConfig(version):
     except:
         print "Libretro update failed !"
         return False
+
+def removeLibretroConfigUnwantedOptions(version):
+    unwantedOptions = ['extraction_directory']
+    returnValue = True
+
+    for option in unwantedOptions:
+        returnValue = (os.system("sed -i \"/^{} =.*/d\" {}".format(option,recalboxFiles.retroarchCustomOrigin)) ==0 ) and returnValue
+        returnValue = (os.system("sed -i \"/^{} =.*/d\" {}".format(option,recalboxFiles.retroarchCustom)) == 0) and returnValue
+
+    return returnValue 
