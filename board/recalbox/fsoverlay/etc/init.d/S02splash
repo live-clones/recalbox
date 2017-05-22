@@ -24,7 +24,7 @@ do_start ()
 
         # Launch the video
         omx_fnt=""
-        omx_opt="--no-keys --layer=10000 --aspect-mode=fill"
+        omx_opt="--adev both --no-keys --layer=10000 --aspect-mode=fill"
         omx_srt="--no-ghost-box --lines=1 --align=left $omx_fnt --font-size=20 --subtitles=/recalbox/system/resources/splash/recalboxintro.srt"
         /usr/bin/omxplayer.bin $omx_opt $omx_srt $video &
         PID=$!
