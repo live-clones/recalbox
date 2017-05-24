@@ -77,7 +77,7 @@ rb_gpio_configure() {
 	settings_gpio_map="`$systemsetting -command load -key controllers.gpio.args`"
 	[ "$settings_gpio_map" == "" ] && settings_gpio_map="map=1,2"
 	recallog "enabling mk_arcade_joystick_rpi"
-        eval $config_script "module" "load" mk_arcade_joystick_rpi "$settings_gpio_map" >> $log
+        eval $config_script "module" "load" mk_arcade_joystick_rpi "'$settings_gpio_map'" >> $log
     else
 	# mk disabled let's check for db9
 	settings_db9="`$systemsetting -command load -key controllers.db9.enabled`"

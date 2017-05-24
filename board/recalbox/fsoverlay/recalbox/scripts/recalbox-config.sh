@@ -424,7 +424,7 @@ if [ "$command" == "module" ];then
 	modulename="$extra1"
 	map="$extra2"
 	# remove in all cases
-	rmmod /lib/modules/`uname -r`/extra/${modulename}.ko >> $log
+	lsmod | grep -q ${modulename} && rmmod ${modulename} >> $log
 
         if [ "$mode" == "load" ];then
 	        echo "`logtime` : loading module $modulename args = $map" >> $log
