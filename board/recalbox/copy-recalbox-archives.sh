@@ -87,6 +87,11 @@ echo -e "\n----- Generating images/recalbox files -----\n"
 
 case "${RECALBOX_TARGET}" in
     RPI0|RPI1|RPI2|RPI3)
+	# recalbox squashfs
+	cp "${BINARIES_DIR}/rootfs.squashfs" "${RECALBOX_BINARIES_DIR}/recalbox.squashfs" || exit 1
+	ls -l "${RECALBOX_BINARIES_DIR}/recalbox.squashfs" | cut -d " " -f 5 > "${RECALBOX_BINARIES_DIR}/recalbox.squashfs.size"
+	xz --threads=0 "${RECALBOX_BINARIES_DIR}/recalbox.squashfs"
+
 	# root.tar.xz
 	cp "${BINARIES_DIR}/rootfs.tar.xz" "${RECALBOX_BINARIES_DIR}/root.tar.xz" || exit 1
 
