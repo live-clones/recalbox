@@ -6,10 +6,12 @@ recalboxFiles="boot.tar.xz root.tar.xz boot.tar.xz.sha1 root.tar.xz.sha1 root.li
 arch=$(cat /recalbox/recalbox.arch)
 updatetype="`$systemsetting  -command load -key updates.type`"
 upgradeDir="/recalbox/share/system/upgrade"
+updateformat=`grep "^boot=" /boot/recalbox-boot.conf | cut -d "=" -f 2`
+
 
 function calcDownloadedSize() {
     size=0
-    for dlFile in ${recalboxFiles} ; do
+    for dlFile in ${filesToDownload} ; do
 	# Skip unexisting files
         [[ ! -f "${upgradeDir}/${dlFile}" ]] && continue
 	fileSize=`stat ${upgradeDir}/${dlFile} | grep "Size:" | tr -s ' ' | cut -d ' ' -f 3`
@@ -30,6 +32,25 @@ function cyclicProgression() {
     done
 }
 
+function cleanBeforeExit {
+  rm -rf "${upgradeDir}"/*
+  exit $1
+}
+
+
+
+case "${updateformat}" in
+  squashfs)
+    filesForSize="recalbox.squashfs boot.tar.xz"
+    filesToDownload="boot.tar.xz recalbox.squashfs boot.tar.xz.sha1 recalbox.squashfs.sha1 recalbox.squashfs.size"
+    filesToChecksum="boot.tar.xz recalbox.squashfs"
+    ;;
+  *)
+    filesForSize="root.tar.xz boot.tar.xz"
+    filesToDownload="boot.tar.xz root.tar.xz boot.tar.xz.sha1 root.tar.xz.sha1 root.list"
+    filesToChecksum="boot.tar.xz root.tar.xz"
+    ;;
+
 if [[ "${updatetype}" == "beta" ]]
 then
     # force a default value in case the value is removed or miswritten
@@ -44,10 +65,11 @@ then
     exit 1
 fi
 
+#
 # Check sizes from header
-#files="root.tar.xz boot.tar.xz"
+#
 size="0"
-for file in ${recalboxFiles}; do
+for file in $filesForSize; do
   url="${recalboxupdateurl}/${updatetype}/${arch}/${file}"
   headers=`curl -sfI ${url}`
   if [ $? -ne 0 ];then
@@ -84,16 +106,14 @@ if [[ "$diff" -lt "0" ]]; then
 fi
 recallog "Will download ${size}kb of files in ${upgradeDir} where ${freespace}kb is available. Free disk space after operation : ${diff}kb"
 
+#
 # Downloading files
-function cleanBeforeExit {
-  rm -rf "${upgradeDir}"/*
-  exit $1
-}
+#
 
 # Start checking download progression
 cyclicProgression "$sizeInBytes" &
 progressionPid=$!
-for file in ${recalboxFiles}; do
+for file in $filesToDownload; do
   url="${recalboxupdateurl}/${updatetype}/${arch}/${file}"
   if ! curl -fs "${url}" -o "${upgradeDir}/${file}";then
     recallog -e "Unable to download file ${url}"
@@ -103,11 +123,12 @@ for file in ${recalboxFiles}; do
   recallog "${url} downloaded"
 done
 
+#
 # Verify checksums
-filesToCheck="boot.tar.xz root.tar.xz"
-for file in $filesToCheck; do
-  computedSum=`sha1sum "${upgradeDir}/${file}" | cut -d ' ' -f 1`
-  buildSum=`cat "${upgradeDir}/${file}.sha1" | cut -d ' ' -f 1`
+#
+for file in $filesToChecksum; do
+  computedSum=`sha1sum /recalbox/share/system/upgrade/${file} | cut -d ' ' -f 1`
+  buildSum=`cat /recalbox/share/system/upgrade/${file}.sha1 | cut -d ' ' -f 1`
   if [[ $computedSum != $buildSum ]]; then
     recallog -e "Checksums differ for ${file}. Aborting upgrade !"
     kill -9 $progressionPid > /dev/null 2>&1
