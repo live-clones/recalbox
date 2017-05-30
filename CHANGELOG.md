@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unrelease][unreleased]
+- fix upgrade 4.0 -> 4.1 with the share on a FAT32 USB device 
 - increase the number of inodes for .img
 - fix lynx core name
 - appleII: fix known file extensions
