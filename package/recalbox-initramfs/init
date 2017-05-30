@@ -1,6 +1,65 @@
-#!/bin/ash
+#!/bin/busybox ash
+# Check https://github.com/jumperfly/initramfs-overlay/blob/master/src/init
 
+RECALSQUASH=recalbox.squashfs
+
+getRootMethod () {
+    # No other choice than relying on the partition name :/
+    #~ mount -o ro LABEL=BOOT /new_root/boot || return ""
+    mount LABEL=BOOT /new_root/boot || return ""
+    while read param ; do
+        case ${param} in
+            boot=*) boot=${param#boot=};;
+        esac
+    done < /new_root/boot/recalbox-boot.conf
+    echo "${boot}"
+}
+
+checkValidKernel() {
+    # Make sure the the kernel is the one suited for the current boot type
+    # If it differs, replace and reboot
+    
+    # Il manque a tester : si mode squashfs mais que pas de squashfs présent, on boot en SD
+    echo "Checking kernels ..."
+    bootType="$1"
+    if test "${bootType}" == "squashfs" -a -e /new_root/defaultroot/${RECALSQUASH}; then
+        echo "Found a squashfs file + a squashfs specific kernel"
+        origKernel="zImage.squashfs"
+    else
+        echo "Couldn't find a squashfs file or a squashfs specific kernel, defaulting to SD"
+        origKernel="zImage.sd"
+    fi
+    if test -e "/new_root/boot/${origKernel}" && ! diff -q "/new_root/boot/zImage" "/new_root/boot/${origKernel}" ; then
+        echo "Kernels differ from zImage and $origKernel ! Copy the right one and reboot"
+        cp "/new_root/boot/${origKernel}" "/new_root/boot/zImage" || echo "Copying the kernel failed :/"
+        umount -a
+        cp /new_root/boot/boot.log /new_root/boot/boot.log.kernelupdate
+        /sbin/reboot -f
+    else
+        echo "No $origKernel yet"
+    fi
+    echo "Kernels OK (zImage and $origKernel) ! Continuing ..."
+}
+
+checkAndUpgradeSquashfs () {
+    bootType="$1"
+    test "${bootType}" == "squashfs" && echo "UPGRADE: set to squashfs ok !"
+    test -e /new_root/defaultroot/${RECALSQUASH}.upgrade && echo "UPGRADE: found /new_root/defaultroot/${RECALSQUASH}.upgrade" || echo "UPGRADE: couldn't find /new_root/defaultroot/${RECALSQUASH}.upgrade"
+    if test "${bootType}" == "squashfs" -a -e /new_root/defaultroot/${RECALSQUASH}.upgrade ; then
+        echo "Found an update, renaming versions"
+        # The very first upgrade has no .downgrade, so don't fail on the rm
+        test -e /new_root/defaultroot/${RECALSQUASH}.downgrade && rm /new_root/defaultroot/${RECALSQUASH}.downgrade
+        test -e /new_root/defaultroot/${RECALSQUASH} && mv /new_root/defaultroot/${RECALSQUASH} /new_root/defaultroot/${RECALSQUASH}.downgrade
+        mv /new_root/defaultroot/${RECALSQUASH}.upgrade /new_root/defaultroot/${RECALSQUASH} || echo "Renaming failed :(" && return 1
+        echo "Upgrade done"
+    else
+        echo "No upgrade found"
+    fi
+}
 do_root() {
+    max_delay=5
+    
+    mkdir -p /sys /proc /new_root/boot /new_root/defaultroot /new_root/squashfs
     mount -t proc -o nodev,noexec,nosuid proc /proc  || return 1
     mount -t sysfs -o nodev,noexec,nosuid sysfs /sys || return 1
 
@@ -9,28 +68,79 @@ do_root() {
     for param in ${cmdline} ; do
         case ${param} in
             label=*) label=${param#label=};;
+            root=*) root=${param#root=};;
+            ro) mountRO="-r"
         esac
     done
 
     # look for devices
     mount -t devtmpfs none /dev
-    while ! mount -o ro LABEL=${label} /new_root
-    do
+    
+    # PC uses the label, NOOBS uses the root
+    if test -z "${label}" -a ! -z "${root}" ; then
+        # NOOBS case: root=/dev/mmcblk0pn
+        toMount="${root}"
+    elif test -z "${root}" -a ! -z "${label}" ; then
+        # PC case: label=RECALBOX
+        toMount="LABEL=${label}"
+    else
+        # Failsafe mode, if it's ever needed
+        toMount="LABEL=RECALBOX"
+    fi
+    
+    timeout=0
+    #~ while ! mount -r ${toMount} /new_root/defaultroot ; do
+    while ! mount ${toMount} /new_root/defaultroot ; do
         echo "Waiting for the root device"
         sleep 1
+        let "timeout=$timeout + 1"
+        test $timeout -gt "5" && return 1
     done
+    
+    # Find the root method -> /boot is mounted
+    rootMethod=`getRootMethod`
+    
+    echo "Starting new boot log" > /new_root/boot/boot.log
+    #~ rm /new_root/boot/boot.log.kernelupdate
+    exec >> /new_root/boot/boot.log
+    exec 2>&1
+    echo "Mounted: ${mountRO} ${toMount} as root source, booting to $rootMethod"
+    
+    # Update available ?
+    checkAndUpgradeSquashfs "$rootMethod"
+    
+    # The upgrade has to be done before we check the squashfs/sd kernel
+    checkValidKernel "$rootMethod"
+        
+    echo "Trying to use root from: $rootMethod"
 
+    # Mount the squashfs if found
+    if test "${rootMethod}" == "squashfs" -a -e /new_root/defaultroot/${RECALSQUASH} ; then
+        echo "Found /new_root/defaultroot/${RECALSQUASH}"
+        mount -t squashfs -r /new_root/defaultroot/${RECALSQUASH} /new_root/squashfs || return 1
+        echo "mounted /new_root/defaultroot/${RECALSQUASH}"
+        #~ mount none -t overlay -o lowerdir=/new_root/squashfs/,upperdir=/var/recalboxoverlay/root /new_root/squashfs/ || echo "Overlay failed"
+        mount --move /sys  /new_root/squashfs/sys  || return 1
+        mount --move /proc /new_root/squashfs/proc || return 1
+        mount --move /dev  /new_root/squashfs/dev  || return 1
+        mount --move /new_root/boot /new_root/squashfs/boot || echo "Couldn't move /boot"
+        echo "remounted sys proc and dev. Switching root"
+        exec switch_root /new_root/squashfs /sbin/init || return 1
+        return 0
+    fi
+    
     # moving current mounts
-    mount --move /sys  /new_root/sys  || return 1
-    mount --move /proc /new_root/proc || return 1
-    mount --move /dev  /new_root/dev  || return 1
-
+    echo "Remounting to the default root device"
+    mount --move /sys  /new_root/defaultroot/sys  || return 1
+    mount --move /proc /new_root/defaultroot/proc || return 1
+    mount --move /dev  /new_root/defaultroot/dev  || return 1
+    mount --move /new_root/boot /new_root/defaultroot/boot || echo "Couldn't move /boot"
     # switch to the new root
-    exec switch_root /new_root /sbin/init || return 1
+    exec switch_root /new_root/defaultroot /sbin/init || return 1
 }
 
 if ! do_root
 then
-    echo "oooutch !"
+    echo "EPIC BOOT FAIL !"
     /bin/ash
 fi
