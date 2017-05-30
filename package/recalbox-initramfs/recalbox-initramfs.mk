@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-RECALBOX_INITRAMFS_VERSION = 1.24.2
+RECALBOX_INITRAMFS_VERSION = 1.25.1
 RECALBOX_INITRAMFS_SITE = http://www.busybox.net/downloads
 RECALBOX_INITRAMFS_SOURCE = busybox-$(RECALBOX_INITRAMFS_VERSION).tar.bz2
 RECALBOX_INITRAMFS_LICENSE = GPLv2

@@ -4,6 +4,25 @@ systemsetting="python /usr/lib/python2.7/site-packages/configgen/settings/recalb
 
 arch=$(cat /recalbox/recalbox.arch)
 updatetype="`$systemsetting  -command load -key updates.type`"
+updateformat=`grep "^boot=" /boot/recalbox-boot.conf | cut -d "=" -f 2`
+
+function cleanBeforeExit {
+  rm -rf /recalbox/share/system/upgrade/*
+  exit $1
+}
+
+
+case "${updateformat}" in
+  squashfs)
+    filesForSize="recalbox.squashfs boot.tar.xz"
+    filesToDownload="boot.tar.xz recalbox.squashfs boot.tar.xz.sha1 recalbox.squashfs.sha1 recalbox.squashfs.size"
+    filesToChecksum="boot.tar.xz recalbox.squashfs"
+    ;;
+  *)
+    filesForSize="root.tar.xz boot.tar.xz"
+    filesToDownload="boot.tar.xz root.tar.xz boot.tar.xz.sha1 root.tar.xz.sha1 root.list"
+    filesToChecksum="boot.tar.xz root.tar.xz"
+    ;;
 
 if [[ "${updatetype}" == "beta" ]]
 then
@@ -19,10 +38,11 @@ then
     exit 1
 fi
 
+#
 # Check sizes from header
-files="root.tar.xz boot.tar.xz"
+#
 size="0"
-for file in $files; do
+for file in $filesForSize; do
   url="${recalboxupdateurl}/${updatetype}/${arch}/${file}"
   headers=`curl -sfI ${url}`
   if [ $? -ne 0 ];then
@@ -57,14 +77,10 @@ if [[ "$diff" -lt "0" ]]; then
 fi
 recallog "Will download ${size}kb of files in /recalbox/share/system/upgrade where ${freespace}kb is available. Free disk space after operation : ${diff}kb"
 
+#
 # Downloading files
-function cleanBeforeExit {
-  rm -rf /recalbox/share/system/upgrade/*
-  exit $1
-}
-
-files="boot.tar.xz root.tar.xz boot.tar.xz.sha1 root.tar.xz.sha1 root.list"
-for file in $files; do
+#
+for file in $filesToDownload; do
   url="${recalboxupdateurl}/${updatetype}/${arch}/${file}"
   if ! curl -fs "${url}" -o "/recalbox/share/system/upgrade/${file}";then
     recallog -e "Unable to download file ${url}"
@@ -73,9 +89,10 @@ for file in $files; do
   recallog "${url} downloaded"
 done
 
+#
 # Verify checksums
-filesToCheck="boot.tar.xz root.tar.xz"
-for file in $filesToCheck; do
+#
+for file in $filesToChecksum; do
   computedSum=`sha1sum /recalbox/share/system/upgrade/${file} | cut -d ' ' -f 1`
   buildSum=`cat /recalbox/share/system/upgrade/${file}.sha1 | cut -d ' ' -f 1`
   if [[ $computedSum != $buildSum ]]; then
