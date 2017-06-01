@@ -91,6 +91,7 @@ case "${RECALBOX_TARGET}" in
 	cp "${BINARIES_DIR}/rootfs.squashfs" "${RECALBOX_BINARIES_DIR}/recalbox.squashfs" || exit 1
 	ls -l "${RECALBOX_BINARIES_DIR}/recalbox.squashfs" | cut -d " " -f 5 > "${RECALBOX_BINARIES_DIR}/recalbox.squashfs.size"
 	xz --threads=0 "${RECALBOX_BINARIES_DIR}/recalbox.squashfs"
+	cp "${BINARIES_DIR}/initrd.gz" "${BINARIES_DIR}/boot" || exit 1
 
 	# root.tar.xz
 	cp "${BINARIES_DIR}/rootfs.tar.xz" "${RECALBOX_BINARIES_DIR}/root.tar.xz" || exit 1
