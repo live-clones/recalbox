@@ -41,15 +41,16 @@ function cleanBeforeExit {
 
 case "${updateformat}" in
   squashfs)
-    filesForSize="recalbox.squashfs boot.tar.xz"
-    filesToDownload="boot.tar.xz recalbox.squashfs boot.tar.xz.sha1 recalbox.squashfs.sha1 recalbox.squashfs.size"
-    filesToChecksum="boot.tar.xz recalbox.squashfs"
+    filesForSize="recalbox.squashfs.xz boot.tar.xz"
+    filesToDownload="boot.tar.xz recalbox.squashfs.xz boot.tar.xz.sha1 recalbox.squashfs.xz.sha1 recalbox.squashfs.size"
+    filesToChecksum="boot.tar.xz recalbox.squashfs.xz"
     ;;
   *)
     filesForSize="root.tar.xz boot.tar.xz"
     filesToDownload="boot.tar.xz root.tar.xz boot.tar.xz.sha1 root.tar.xz.sha1 root.list"
     filesToChecksum="boot.tar.xz root.tar.xz"
     ;;
+esac
 
 if [[ "${updatetype}" == "beta" ]]
 then
