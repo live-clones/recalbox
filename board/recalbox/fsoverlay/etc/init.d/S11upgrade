@@ -38,10 +38,10 @@ do_boot_upgrade() {
     
     if [ "${bootMethod}" == "squashfs" ] ; then
         recallog "UPGRADE: Overwriting /boot/zImage.squashfs"
-        cp /boot/zImage /boot/zImage.squashfs
+        cp -f /boot/zImage /boot/zImage.squashfs
     else
         recallog "UPGRADE: Overwriting /boot/zImage.sd"
-        cp /boot/zImage /boot/zImage.sd
+        cp -f /boot/zImage /boot/zImage.sd
     fi
 }
 
@@ -155,12 +155,12 @@ do_boot_kernel_trick() {
 	# YES : copy current kernel to kernel.squashfs
 	recallog "UPGRADE: booting from squashfs, backing up kernel to /boot/zImage.squashfs"
 	recallog "UPGRADE: zImage.squashfs md5sum is `md5sum /boot/zImage.squashfs`"
-	cp /boot/zImage /boot/zImage.squashfs || return 1
+	cp -f /boot/zImage /boot/zImage.squashfs || return 1
     else
 	# NO : copy the current kernel as kernel.sd
 	recallog "UPGRADE: booting from SD, backing up kernel to /boot/zImage.sd"
 	recallog "UPGRADE: zImage.sd md5sum is `md5sum /boot/zImage.sd`"
-	cp /boot/zImage /boot/zImage.sd || return 1
+	cp -f /boot/zImage /boot/zImage.sd || return 1
     fi
 }
 
