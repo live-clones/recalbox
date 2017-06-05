@@ -40,6 +40,7 @@ void TextEditComponent::onFocusLost()
 void TextEditComponent::onSizeChanged()
 {
 	mBox.fitTo(mSize, Eigen::Vector3f::Zero(), Eigen::Vector2f(-34, -32 - TEXT_PADDING_VERT));
+	mScrollOffset[0] = 0;
 	onTextChanged(); // wrap point probably changed
 }
 

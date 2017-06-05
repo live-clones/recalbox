@@ -26,6 +26,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added RPI3 overclock presets + Warning popup on TURBO/EXTREM presets
 - Display NETWORK in storage devices list once switched on a NAS
 - Jump to letter now moves to the first occurrence of the letter
+- Fixed displayed names using more than 14 characters in TextEditComponent
 
 ## [4.0.0] - 2016-02-02
 ### Added
