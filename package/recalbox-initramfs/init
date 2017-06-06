@@ -31,24 +31,22 @@ checkValidKernel() {
         log "Found a squashfs file + a squashfs specific kernel"
         origKernel="zImage.squashfs"
     else
-        log "Couldn't find a squashfs file or a squashfs specific kernel, defaulting to SD"
+        log "Couldn't find a squashfs file, or squashfs boot is not set, defaulting to SD"
         origKernel="zImage.sd"
     fi
     if test -e "/new_root/boot/${origKernel}" && ! diff -q "/new_root/boot/zImage" "/new_root/boot/${origKernel}" ; then
-        log "Kernels differ from zImage and $origKernel ! Copy the right one and reboot"
+        log "Kernels differ between zImage and $origKernel ! Copy the right one and reboot"
         cp "/new_root/boot/${origKernel}" "/new_root/boot/zImage" || log "Copying the kernel failed :/"
         umount -a
         cp /new_root/boot/boot.log /new_root/boot/boot.log.kernelupdate
         /sbin/reboot -f
-    else
-        log "Kernel ok for the boot method"
     fi
     log "Kernels OK (zImage and $origKernel) ! Continuing ..."
 }
 
 checkAndUpgradeSquashfs () {
     bootType="$1"
-    test "${bootType}" == "squashfs" && log "UPGRADE: set to squashfs ok !"
+    test "${bootType}" == "squashfs" && log "UPGRADE: set to squashfs ok !" || return 1
     test -e /new_root/defaultroot/${RECALSQUASH}.upgrade && log "UPGRADE: found /new_root/defaultroot/${RECALSQUASH}.upgrade" || log "UPGRADE: no upgrade available"
     if test "${bootType}" == "squashfs" -a -e /new_root/defaultroot/${RECALSQUASH}.upgrade ; then
         log "Found an update, renaming versions"
@@ -87,9 +85,10 @@ mount_overlay () {
     #~ mount -t overlay -o ro,lowerdir=/mnt/overlay/persistent:/mnt/lower,upperdir=/mnt/overlay/root,workdir=/mnt/overlay/work overlay /mnt/root
     log "Initializing the overlay"
     mount -t overlay -o lowerdir=/mnt/lower,upperdir=/new_root/defaultroot/upper,workdir=/new_root/defaultroot/work overlay /mnt/root
-    mount --move /sys  /mnt/root/sys  #|| return 1
-    mount --move /proc /mnt/root/proc #|| return 1
-    mount --move /dev  /mnt/root/dev  #|| return 1
+    mount --move /sys  /mnt/root/sys  || return 1
+    mount --move /proc /mnt/root/proc || return 1
+    mount --move /dev  /mnt/root/dev  || return 1
+    mount --move /new_root/boot /mnt/root/boot
     log "Overlay ok. Switching root ..."
     exec switch_root /mnt/root /sbin/init
 }
@@ -143,9 +142,11 @@ do_root() {
     rm > /new_root/boot/boot.log
     rm /new_root/boot/boot.log.kernelupdate
     if test -z "${mountRO}" ; then
-        exec >> /new_root/boot/boot.log 2>&1
+        exec >> /new_root/boot/boot.log
+        exec 2>&1
     else
-        exec >/dev/kmsg 2>&1
+        exec >/dev/kmsg
+        exec 2>&1
     fi
     log "Starting new boot log" > /new_root/boot/boot.log
     log "Mounted: ${mountRO} ${toMount} as root source, booting to $rootMethod"
@@ -160,7 +161,7 @@ do_root() {
 
     # Mount the squashfs if found
     if test "${rootMethod}" == "squashfs" -a -e /new_root/defaultroot/${RECALSQUASH} ; then
-        #~ mount_overlay && return 0 || return 1
+        mount_overlay && return 0 || return 1
         
         log "Found /new_root/defaultroot/${RECALSQUASH}"
         mount -t squashfs -r /new_root/defaultroot/${RECALSQUASH} /new_root/squashfs || return 1
@@ -181,7 +182,7 @@ do_root() {
 
 if ! do_root
 then
-    log "EPIC BOOT FAIL !"
+    log "EPIC BOOT FAIL ! or defaulting to SD boot"
     log "Remounting to the default root device"
     mount --move /sys  /new_root/defaultroot/sys  || return 1
     mount --move /proc /new_root/defaultroot/proc || return 1
