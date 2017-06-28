@@ -357,6 +357,10 @@ msgstr "OVERSCAN"
 msgid "SCREENSAVER AFTER"
 msgstr "ÉCRAN DE VEILLE APRÈS"
 
+#:
+msgid "CAROUSEL ANIMATION"
+msgstr "ANIMATION DU CAROUSEL"
+
 #: 
 msgid "TRANSITION STYLE"
 msgstr "STYLE DE LA TRANSITION"
@@ -1273,8 +1277,12 @@ msgstr "Si activé, vous pouvez changer de système tout en parcourant les liste
 msgid "The onscreen keyboard is necessary to type text if you only have controllers plugged into your recalbox. You can disable it if you have a real keyboard connected."
 msgstr "Le clavier virtuel est nécessaire pour taper du texte si vous n'avez que des manettes branchées sur votre Recalbox. Vous pouvez désactiver cette option si vous avez un clavier branché."
 
+#:
+msgid "Choose if carousel will be animated or not during transitions"
+msgstr "Choisissez si le carousel est animé ou non pendant les transitions"
+
 #: 
-msgid "Select the type of transition that occurs when you start a game. FADE will fade to dark, and SLIDE will zoom on the game cover (or name if there is no scrape information)"
+msgid "Select the type of transition that occurs when you start a game. INSTANT will do nothing, FADE will fade to dark, and SLIDE will zoom on the game cover (or name if there is no scrape information)"
 msgstr "Sélectionnez le type de transition qui se produit lorsque vous lancez un jeu. FADE fera un fondu au noir et SLIDE zoomera sur l'image du jeu (ou le nom si il n'y a pas de metadatas)."
 
 #: 

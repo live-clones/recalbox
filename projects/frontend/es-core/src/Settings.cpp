@@ -72,7 +72,7 @@ void Settings::setDefaults() {
     mBoolMap["Debug"] = false;
     mBoolMap["DebugGrid"] = false;
     mBoolMap["DebugText"] = false;
-
+    mBoolMap["MoveCarousel"] = true;
     mBoolMap["Overscan"] = false;
 
     mIntMap["ScreenSaverTime"] = 5 * 60 * 1000; // 5 minutes

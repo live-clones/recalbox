@@ -365,6 +365,10 @@ msgstr ""
 msgid "SCREENSAVER AFTER"
 msgstr ""
 
+#:
+msgid "CAROUSEL ANIMATION"
+msgstr ""
+
 #: 
 msgid "TRANSITION STYLE"
 msgstr ""
@@ -1288,8 +1292,12 @@ msgstr ""
 msgid "The onscreen keyboard is necessary to type text if you only have controllers plugged into your recalbox. You can disable it if you have a real keyboard connected."
 msgstr ""
 
+#:
+msgid "Choose if carousel will be animated or not during transitions"
+msgstr ""
+
 #: 
-msgid "Select the type of transition that occurs when you start a game. FADE will fade to dark, and SLIDE will zoom on the game cover (or name if there is no scrape information)"
+msgid "Select the type of transition that occurs when you start a game. INSTANT will do nothing, FADE will fade to dark, and SLIDE will zoom on the game cover (or name if there is no scrape information)"
 msgstr ""
 
 #: 

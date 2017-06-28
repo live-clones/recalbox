@@ -494,6 +494,12 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                                  Settings::getInstance()->setBool("UseOSK", osk_enable->getState());
                              });
 
+                             // carousel transition option
+                             auto move_carousel = std::make_shared<SwitchComponent>(mWindow);
+                             move_carousel->setState(Settings::getInstance()->getBool("MoveCarousel"));
+                             s->addWithLabel(move_carousel, _("CAROUSEL ANIMATION"), MenuMessages::UI_CAROUSEL_HELP_MSG);
+                             s->addSaveFunc([move_carousel] { Settings::getInstance()->setBool("MoveCarousel", move_carousel->getState()); });
+
                              // transition style
                              auto transition_style = std::make_shared<OptionListComponent<std::string> >(mWindow,
                                                                                                          _("TRANSITION STYLE"),

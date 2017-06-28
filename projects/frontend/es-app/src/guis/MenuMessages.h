@@ -46,6 +46,7 @@ public:
     static const std::string UI_ONSCREENHELP_HELP_MSG;
     static const std::string UI_QUICK_HELP_MSG;
     static const std::string UI_KEYBOARD_HELP_MSG;
+	static const std::string UI_CAROUSEL_HELP_MSG;
     static const std::string UI_TRANSITION_HELP_MSG;
     static const std::string UI_THEME_HELP_MSG;
 	static const std::string UI_THEME_COLORSET_MSG;
