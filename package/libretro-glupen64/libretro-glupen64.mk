@@ -3,9 +3,8 @@
 # GLUPEN64
 #
 ################################################################################
-LIBRETRO_GLUPEN64_VERSION = 58ee914cb6795b1aa72e3d31179ce9687089f3da
-LIBRETRO_GLUPEN64_SITE = $(call github,loganmc10,GLupeN64,$(LIBRETRO_GLUPEN64_VERSION))
-LIBRETRO_GLUPEN64_GIT = https://github.com/loganmc10/GLupeN64.git
+LIBRETRO_GLUPEN64_VERSION = 407bcd40b3a42bff6b856a6d6f88a7d5d670bf9e
+LIBRETRO_GLUPEN64_SITE = $(call github,libretro,mupen64plus-libretro,$(LIBRETRO_GLUPEN64_VERSION))
 
 ifeq ($(BR2_PACKAGE_RPI_USERLAND),y)
 	LIBRETRO_GLUPEN64_DEPENDENCIES += rpi-userland
@@ -34,7 +33,7 @@ define LIBRETRO_GLUPEN64_BUILD_CMDS
 endef
 
 define LIBRETRO_GLUPEN64_INSTALL_TARGET_CMDS
-	$(INSTALL) -D $(@D)/glupen64_libretro.so \
+	$(INSTALL) -D $(@D)/mupen64plus_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/glupen64_libretro.so
 endef
 
