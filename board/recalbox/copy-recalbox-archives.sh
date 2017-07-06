@@ -92,7 +92,7 @@ case "${RECALBOX_TARGET}" in
 
 	# boot.tar.xz
 	cp -f "${BINARIES_DIR}/"*.dtb "${BINARIES_DIR}/rpi-firmware"
-	"${HOST_DIR}/usr/bin/mkknlimg" "${BINARIES_DIR}/zImage" "${BINARIES_DIR}/rpi-firmware/zImage"
+	cp "${BINARIES_DIR}/zImage" "${BINARIES_DIR}/rpi-firmware/zImage"
 	tar -cJf "${RECALBOX_BINARIES_DIR}/boot.tar.xz" -C "${BINARIES_DIR}/rpi-firmware" "." ||
 	    { echo "ERROR : unable to create boot.tar.xz" && exit 1 ;}
 
