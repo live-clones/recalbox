@@ -63,7 +63,8 @@ class Controller:
         if not self.inputs:
             return None
             
-        strOut = "{},{},platform:Linux,".format(self.guid, self.configName)
+        # Need to remove commas from the device name
+        strOut = "{},{},platform:Linux,".format(self.guid, self.configName.replace(',', ' '))
         
         for idx, input in self.inputs.iteritems():
             if input.name in nameMapping and input.type in typePrefix and input.type in nameMapping[input.name] :

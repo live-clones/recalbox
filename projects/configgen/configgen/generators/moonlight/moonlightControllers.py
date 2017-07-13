@@ -42,6 +42,7 @@ def writeControllersConfig(system, rom, controllers):
     for controller in controllers:
         playerConfig = generateControllerConfig(controller, controllers[controller])
         confFile = recalboxFiles.moonlightMapping[int(controller)]
+        os.remove(confFile)
         mappingFile = unixSettings.UnixSettings(confFile, ' ')
         mappingFile.save("# Device name", controllers[controller].realName)
         mappingFile.save("# SDL2 GUID  ", controllers[controller].guid)
