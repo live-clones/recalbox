@@ -4,15 +4,19 @@
 #
 ################################################################################
 
-MOONLIGHT_EMBEDDED_VERSION = 2.2.3
-MOONLIGHT_EMBEDDED_SOURCE = moonlight-embedded-$(MOONLIGHT_EMBEDDED_VERSION).tar.xz
-MOONLIGHT_EMBEDDED_SITE = https://github.com/irtimmer/moonlight-embedded/releases/download/v$(MOONLIGHT_EMBEDDED_VERSION)
+MOONLIGHT_EMBEDDED_VERSION = v2.2.3
+MOONLIGHT_EMBEDDED_SITE = git://github.com/irtimmer/moonlight-embedded.git
+MOONLIGHT_EMBEDDED_GIT_SUBMODULES=y
 MOONLIGHT_EMBEDDED_DEPENDENCIES = opus expat libevdev avahi alsa-lib udev libcurl libcec ffmpeg sdl2 libenet
 
-define MOONLIGHT_EMBEDDED_EXTRACT_CMDS
-	$(TAR) -xf $(DL_DIR)/$(MOONLIGHT_EMBEDDED_SOURCE) -C $(BUILD_DIR)
-endef
-
 MOONLIGHT_EMBEDDED_CONF_OPTS = "-DCMAKE_INSTALL_SYSCONFDIR=/etc"
+
+ifeq ($(BR2_PACKAGE_LIBAMCODEC),y)
+	MOONLIGHT_EMBEDDED_DEPENDENCIES += libamcodec
+endif
+
+ifeq ($(BR2_PACKAGE_RPI_FIRMWARE),y)
+	MOONLIGHT_EMBEDDED_DEPENDENCIES += rpi-firmware
+endif
 
 $(eval $(cmake-package))
