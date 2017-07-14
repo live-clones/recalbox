@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unrelease][unreleased]
+- rewrite usb quirks
 - remove unwanted Kodi plugins
 - fix upgrade 4.0 -> 4.1 with the share on a FAT32 USB device 
 - BT : improve startup, pairing and forgetting devices
