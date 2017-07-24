@@ -1,13 +1,17 @@
 image: docker:latest
 
 stages:
+  - purge
   - build
   - release
+  - deploy
   - clean
 
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
   RECALBOX_MAIN_VERSION: 4.1.0
+  STACK_NAME: archive
+  IMAGE: recalbox/archive
 
 .build_template: &build_definition
   stage: build
@@ -15,21 +19,22 @@ variables:
     - tar cvzf recalbox-emulationstation2-${ARCH}.tar.gz -C recalbox-emulationstation/ . > /dev/null
     - docker run --rm -e "ARCH=${ARCH}" -v `pwd`:/work -v /recalbox-builds/dl:/share/dl ubuntu:16.04 bash -c 'rm -rf /share/dl/recalbox-emulationstation2-${ARCH}.tar.gz && cp /work/recalbox-emulationstation2-${ARCH}.tar.gz /share/dl/recalbox-emulationstation2-${ARCH}.tar.gz'
     - sed -i "s/^RECALBOX_EMULATIONSTATION2_VERSION.*/RECALBOX_EMULATIONSTATION2_VERSION = ${ARCH}/" package/recalbox-emulationstation2/recalbox-emulationstation2.mk
-    - export RECALBOX_VERSION=${CI_BUILD_TAG:-${RECALBOX_MAIN_VERSION}-${CI_BUILD_REF_SLUG}-${ARCH}-$(date +%Y-%m-%d-%H-%M-%S)-${CI_BUILD_ID}}
-    - docker build -t recalbox-${ARCH} . 
-    - docker run --rm -v `pwd`:/work -v /recalbox-builds/dl:/share/dl -v /recalbox-builds/hosts/host-${ARCH}:/share/host -v /recalbox-builds/ccaches/ccache-${ARCH}:/share/ccache -e "ARCH=$ARCH" -e "RECALBOX_VERSION_LABEL=$RECALBOX_VERSION" -e "RECALBOX_CCACHE_DIR=/share/ccache" recalbox-${ARCH} 2>&1 | tee build.log | grep '>>>' || tac build.log | grep '>>>' -m 1 -B 9999 | tac
-    - mkdir -p dist/${ARCH}
-    - cp output/images/recalbox/* dist/${ARCH}
+    - export RECALBOX_VERSION=${CI_COMMIT_TAG:-${RECALBOX_MAIN_VERSION}-${CI_COMMIT_REF_SLUG}-${ARCH}-$(date +%Y-%m-%d-%H-%M-%S)-${CI_BUILD_ID}}
+#    - docker build -t recalbox-${ARCH} .
+#    - docker run --rm -v `pwd`:/work -v /recalbox-builds/dl:/share/dl -v /recalbox-builds/hosts/host-${ARCH}:/share/host -v /recalbox-builds/ccaches/ccache-${ARCH}:/share/ccache -e "ARCH=$ARCH" -e "RECALBOX_VERSION_LABEL=$RECALBOX_VERSION" -e "RECALBOX_CCACHE_DIR=/share/ccache" recalbox-${ARCH} 2>&1 | tee build.log | grep '>>>' || tac build.log | grep '>>>' -m 1 -B 9999 | tac
+    - echo remove me && mkdir -p output/images/recalbox/ && echo "ok" > output/images/recalbox/root.tar.xz
+    - mkdir -p updates/dist/${ARCH}
+    - cp output/images/recalbox/* updates/dist/${ARCH}
     - rm -rf output/
-    - for file in `ls dist/${ARCH}/`;do sha1sum dist/${ARCH}/${file} > dist/${ARCH}/${file}.sha1; done
-    - tar tf dist/${ARCH}/root.tar.xz | sort > dist/${ARCH}/root.list
-    - echo "$RECALBOX_VERSION" >> dist/${ARCH}/recalbox.version
-    - cp CHANGELOG.md dist/${ARCH}/recalbox.changelog
+    - for file in `ls updates/dist/${ARCH}/`;do sha1sum updates/dist/${ARCH}/${file} > updates/dist/${ARCH}/${file}.sha1; done
+#   - tar tf updates/dist/${ARCH}/root.tar.xz | sort > updates/dist/${ARCH}/root.list
+    - echo "$RECALBOX_VERSION" >> updates/dist/${ARCH}/recalbox.version
+    - cp CHANGELOG.md updates/dist/${ARCH}/recalbox.changelog
   artifacts:
     name: dist-${ARCH}-${CI_BUILD_ID}
     when: always
     paths:
-      - dist/${ARCH}
+      - updates/dist/${ARCH}
       - build.log
     expire_in: 2 mos
 
@@ -147,57 +152,86 @@ build odroidxu4 for test:
   variables:
     ARCH: 'odroidxu4'
 
+### Release
 .release_template: &release_definition
   stage: release
+  variables:
+    ARCHIVE_IMAGE: the image to build
+    RANCHER_DIRECTORY: type of the deployment (master, review)
   script:
-    - echo "releasing on archive.recalbox.com/updates/v1.0/${RELEASE_DIR}/"
-    - echo "${RECALBOX_ARCHIVE_SSH_KEY}" > recalbox-archive-key && chmod 400 recalbox-archive-key
-    - test -n "$SKIP_IMAGES" && rm dist/*/*.img*
-    - env | grep "CI_\|GITLAB" > envfile
-    - cat deploy/index.html | docker run --rm --env-file envfile -i loicmahieu/alpine-envsubst > dist/index.html
-    - docker run --rm -v `pwd`:/share -w /share digitallumberjack/docker-sshd ssh -p 10022 -o StrictHostKeyChecking=no -i recalbox-archive-key $ARCHIVE_SERVER "mkdir -p /recalbox-archive/updates/v1.0/${RELEASE_DIR}"
-    - docker run --rm -v `pwd`:/share -w /share digitallumberjack/docker-sshd scp -r -P 10022 -o StrictHostKeyChecking=no -i recalbox-archive-key dist/* $ARCHIVE_SERVER:/recalbox-archive/updates/v1.0/${RELEASE_DIR}/
+    - echo "Creating image $ARCHIVE_IMAGE"
+    - env | grep "CI_\|GITLAB" > envfile && cat deploy/index.html | docker run --rm --env-file envfile -i loicmahieu/alpine-envsubst > updates/dist/index.html
+    - test -n "$SKIP_IMAGES" && rm -rf updates/dist/*/*.img*
+    - cd updates
+    - docker build -f "${RANCHER_DIRECTORY}.Dockerfile" -t $ARCHIVE_IMAGE .
+    - docker login -u "${DOCKER_IO_LOGIN}" -p "${DOCKER_IO_PASSWORD}"
+    - docker push $ARCHIVE_IMAGE
 
 release master:
   <<: *release_definition
+  variables:
+    ARCHIVE_IMAGE: "${IMAGE}:unstable"
+    RANCHER_DIRECTORY: master
+    SKIP_IMAGES: 'false'
+  only:
+  - master
+
+release review:
+  <<: *release_definition
+  when: manual
+  variables:
+    ARCHIVE_IMAGE: ${IMAGE}:${CI_COMMIT_REF_SLUG}
+    RANCHER_DIRECTORY: review
+    SKIP_IMAGES: 'true'
+  except:
+    - master
+
+
+### Deploy
+.deploy_template: &deploy_definition
+  stage: deploy
+  image: registry.gitlab.com/recalbox/ops/rancher-cli:0.6.2
+  variables:
+    SERVICENAME: the rancher servicename
+    ARCHIVE_IMAGE: the image to deploy
+    ARCHIVE_FQDN: the fqdn deployed
+    RANCHER_DIRECTORY: type of the deployment (master, review)
+  script:
+    - echo "Deploying image ${ARCHIVE_IMAGE} on ${STACK_NAME}/${SERVICENAME}"
+    - cd updates/rancher/${RANCHER_DIRECTORY}
+    - sed "s/RANCHER_SERVICENAME:/${SERVICENAME}:/" -i docker-compose.yml rancher-compose.yml
+    - rancher up -s $STACK_NAME -u -d
+
+deploy master:
+  <<: *deploy_definition
+  variables:
+    SERVICENAME: archive
+    ARCHIVE_IMAGE: ${IMAGE}-${CI_COMMIT_REF_SLUG}
+    ARCHIVE_FQDN: archive.recalbox.com
+    RANCHER_DIRECTORY: master
   only:
     - master
-  variables:
-    RELEASE_DIR: "unstable"
   environment:
-    name: staging
+    name: archive/unstable
     url: https://archive.recalbox.com/updates/v1.0/unstable/
 
 
-release stable:
-  <<: *release_definition
+deploy review:
+  <<: *deploy_definition
   when: manual
-  only:
-    - tags
   variables:
-    RELEASE_DIR: "stable"
-  environment:
-    name: production
-    url: https://archive.recalbox.com/updates/v1.0/stable/
-
-
-release for test:
-  <<: *release_definition
-  when: manual
-  only:
-    - branches
-    - tags
+    SERVICENAME: ${CI_ENVIRONMENT_SLUG}
+    ARCHIVE_IMAGE: ${IMAGE}-${CI_COMMIT_REF_SLUG}
+    ARCHIVE_FQDN: ${CI_ENVIRONMENT_SLUG}-${STACK_NAME}-prod.recalbox.com
+    RANCHER_DIRECTORY: review
   except:
     - master
-  variables:
-    RELEASE_DIR: "gitlab/${CI_BUILD_REF_SLUG}"
-    SKIP_IMAGES: "true"
   environment:
-    name: review/${CI_BUILD_REF_SLUG}
-    on_stop: clean tests from archive
-    url: https://archive.recalbox.com/updates/v1.0/gitlab/${CI_BUILD_REF_SLUG}/
+    name: review/${CI_COMMIT_REF_SLUG}
+    url: https://${CI_ENVIRONMENT_SLUG}-${STACK_NAME}-prod.recalbox.com/updates/v1.0/unstable/
+    on_stop: clean review
 
-clean tests from archive:
+clean review:
   stage: clean
   when: manual
   dependencies: []
@@ -207,9 +241,8 @@ clean tests from archive:
   except:
     - master
   script:
-    - echo "cleaning archive.recalbox.com/updates/v1.0/gitlab/${CI_BUILD_REF_SLUG}"
-    - echo "${RECALBOX_ARCHIVE_SSH_KEY}" > recalbox-archive-key && chmod 400 recalbox-archive-key
-    - docker run --rm -v `pwd`:/share -w /share digitallumberjack/docker-sshd ssh -p 10022 -o StrictHostKeyChecking=no -i recalbox-archive-key $ARCHIVE_SERVER "rm -rf /recalbox-archive/updates/v1.0/gitlab/${CI_BUILD_REF_SLUG}"
+    - echo "cleaning ${ARCHIVE_IMAGE} from ${STACK_NAME}/${SERVICENAME}"
+    - rancher rm -s ${STACK_NAME}/${CI_ENVIRONMENT_SLUG}
   environment:
-    name: review/${CI_BUILD_REF_SLUG}
+    name: review/${CI_COMMIT_REF_SLUG}
     action: stop
