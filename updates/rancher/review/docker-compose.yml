@@ -1,0 +1,15 @@
+version: '2'
+services:
+  RANCHER_SERVICENAME:
+    image: ${ARCHIVE_IMAGE}
+    logging:
+      driver: json-file
+      options:
+        max-file: '1'
+        max-size: 50m
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.container.hostname_override: container_name
+      traefik.port: 80
+      traefik.enable: true
+      traefik.frontend.rule: Host:${ARCHIVE_FQDN}
