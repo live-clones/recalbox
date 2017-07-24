@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unrelease][unreleased]
+- deploys updates as docker containers
 - fixed a BT scan bug
 - bump configgen : remove moonlight config files before writing them + 5th moonlight player, remove commas in pad name
 - BlueMSX: added F3/F4 buttons on gamepad
