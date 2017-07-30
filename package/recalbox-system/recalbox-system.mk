@@ -37,6 +37,10 @@ else
 	RECALBOX_SYSTEM_SUBDIR=rpi-firmware
 endif
 
+define RECALBOX_SYSTEM_BUILD_CMDS
+    board/recalbox/fsoverlay/recalbox/scripts/test/test_suite.sh
+endef
+
 define RECALBOX_SYSTEM_INSTALL_TARGET_CMDS
 	mkdir -p $(TARGET_DIR)/recalbox/
 	echo -n "$(RECALBOX_SYSTEM_VERSION)" > $(TARGET_DIR)/recalbox/recalbox.arch
