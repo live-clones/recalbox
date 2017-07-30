@@ -1,5 +1,5 @@
 config BR2_PACKAGE_EVWAIT
-	bool "evtest"
+	bool "evwait"
 	help
 	  evwait wait for a specific evdev kernel event
 
