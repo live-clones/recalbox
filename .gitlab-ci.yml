@@ -151,6 +151,7 @@ build odroidxu4 for test:
   variables:
     ARCH: 'odroidxu4'
 
+
 ### Release
 .release_template: &release_definition
   stage: release
@@ -159,7 +160,7 @@ build odroidxu4 for test:
     RANCHER_DIRECTORY: type of the deployment (master, review)
   script:
     - echo "Creating image $ARCHIVE_IMAGE"
-    - env | grep "CI_\|GITLAB" > envfile && cat updates/template.html | docker run --rm --env-file envfile -i loicmahieu/alpine-envsubst > updates/dist/index.html
+    - env | grep "CI_\|GITLAB" > envfile && cat "updates/${RANCHER_DIRECTORY}.template.html" | docker run --rm --env-file envfile -i loicmahieu/alpine-envsubst > updates/dist/index.html
     - test -n "$SKIP_IMAGES" && rm -rf updates/dist/*/*.img*
     - cd updates
     - docker build -f "${RANCHER_DIRECTORY}.Dockerfile" -t $ARCHIVE_IMAGE .
@@ -190,6 +191,7 @@ release review:
 .deploy_template: &deploy_definition
   stage: deploy
   image: registry.gitlab.com/recalbox/ops/rancher-cli:0.6.2
+  dependencies: []
   variables:
     SERVICENAME: the rancher servicename
     ARCHIVE_IMAGE: the image to deploy
@@ -241,7 +243,7 @@ clean review:
     - master
   script:
     - echo "cleaning ${ARCHIVE_IMAGE} from ${STACK_NAME}/${SERVICENAME}"
-    - rancher rm -s ${STACK_NAME}/${CI_ENVIRONMENT_SLUG}
+    - rancher rm ${STACK_NAME}/${CI_ENVIRONMENT_SLUG}
   environment:
     name: review/${CI_COMMIT_REF_SLUG}
     action: stop
