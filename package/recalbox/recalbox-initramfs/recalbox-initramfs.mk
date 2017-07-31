@@ -13,7 +13,7 @@ RECALBOX_INITRAMFS_LICENSE_FILES = LICENSE
 RECALBOX_INITRAMFS_CFLAGS = $(TARGET_CFLAGS)
 RECALBOX_INITRAMFS_LDFLAGS = $(TARGET_LDFLAGS)
 
-RECALBOX_INITRAMFS_KCONFIG_FILE = "package/recalbox-initramfs/busybox.config"
+RECALBOX_INITRAMFS_KCONFIG_FILE = "package/recalbox/recalbox-initramfs/busybox.config"
 
 INITRAMFS_DIR=$(BINARIES_DIR)/initramfs
 
@@ -38,7 +38,7 @@ endef
 
 define RECALBOX_INITRAMFS_INSTALL_TARGET_CMDS
 	mkdir -p $(INITRAMFS_DIR)/{new_root,sys,proc}
-	cp package/recalbox-initramfs/init $(INITRAMFS_DIR)/init
+	cp package/recalbox/recalbox-initramfs/init $(INITRAMFS_DIR)/init
 	$(RECALBOX_INITRAMFS_MAKE_ENV) $(MAKE) $(RECALBOX_INITRAMFS_MAKE_OPTS) -C $(@D) install
 	(cd $(INITRAMFS_DIR) && find . | cpio -H newc -o | gzip -9 > $(BINARIES_DIR)/initrd.gz)
 endef

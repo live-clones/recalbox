@@ -119,8 +119,8 @@ menu "Libretro Cores"
 endmenu
 endif
 menu "Doom packages"
-	source "package/recalbox/prboom/Config.in"
-	source "package/recalbox/doom-wad/Config.in"
+	source "package/prboom/Config.in"
+	source "package/doom-wad/Config.in"
 endmenu
 endmenu
 menu "Kodi addons"
