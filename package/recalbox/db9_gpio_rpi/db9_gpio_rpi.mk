@@ -10,8 +10,9 @@ DB9_GPIO_RPI_SITE = http://www.niksula.hut.fi/~mhiienka/Rpi
 DB9_GPIO_RPI_DEPENDENCIES = linux
 
 define DB9_GPIO_RPI_EXTRACT_CMDS
-	cp package/recalbox/db9_gpio_rpi/db9_gpio_rpi.c $(@D)
-	cp package/recalbox/db9_gpio_rpi/Makefile $(@D)
+	echo $(DB9_GPIO_RPI_PKGDIR)
+	cp $(DB9_GPIO_RPI_PKGDIR)/db9_gpio_rpi.c $(@D)
+	cp $(DB9_GPIO_RPI_PKGDIR)/Makefile $(@D)
 endef
 
 # Needed because can't pass cflags to cc

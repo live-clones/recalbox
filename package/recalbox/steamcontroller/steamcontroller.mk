@@ -13,12 +13,12 @@ STEAMCONTROLLER_LICENSE_FILES = LICENCE
 
 # Install udev rules for usb device
 define STEAMCONTROLLER_POST_INSTALL_TARGET_UDEV_RULES
-    $(INSTALL) -D -m 0755 package/recalbox/steamcontroller/99-steam-controller.rules $(TARGET_DIR)/etc/udev/rules.d/99-steam-controller.rules
+    $(INSTALL) -D -m 0755 $(STEAMCONTROLLER_PKGDIR)/99-steam-controller.rules $(TARGET_DIR)/etc/udev/rules.d/99-steam-controller.rules
 endef
 
 # Install service
 define STEAMCONTROLLER_POST_INSTALL_TARGET_SERVICE
-	$(INSTALL) -m 0755 -D package/recalbox/steamcontroller/S92steamcontroller $(TARGET_DIR)/etc/init.d/S92steamcontroller
+	$(INSTALL) -m 0755 -D $(STEAMCONTROLLER_PKGDIR)/S92steamcontroller $(TARGET_DIR)/etc/init.d/S92steamcontroller
 endef
 
 # Install input headers

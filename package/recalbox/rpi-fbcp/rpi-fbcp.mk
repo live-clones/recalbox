@@ -21,7 +21,7 @@ define RPI_FBCP_INSTALL_TARGET_CMDS
 endef 
 
 define RPI_FBCP_INSTALL_INIT_SYSV
-	$(INSTALL) -m 0755 -D package/recalbox/rpi-fbcp/S13fbcp $(TARGET_DIR)/etc/init.d/S13fbcp
+	$(INSTALL) -m 0755 -D $(RPI_FBCP_PKGDIR)/S13fbcp $(TARGET_DIR)/etc/init.d/S13fbcp
 endef
 
 $(eval $(cmake-package))

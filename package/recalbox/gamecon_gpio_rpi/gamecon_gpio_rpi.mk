@@ -9,8 +9,8 @@ GAMECON_GPIO_RPI_SITE = http://www.niksula.hut.fi/~mhiienka/Rpi
 
 GAMECON_GPIO_RPI_DEPENDENCIES = linux
 define GAMECON_GPIO_RPI_EXTRACT_CMDS
-	cp package/recalbox/gamecon_gpio_rpi/gamecon_gpio_rpi.c $(@D)
-	cp package/recalbox/gamecon_gpio_rpi/Makefile $(@D)
+	cp $(GAMECON_GPIO_RPI_PKGDIR)/gamecon_gpio_rpi.c $(@D)
+	cp $(GAMECON_GPIO_RPI_PKGDIR)/Makefile $(@D)
 endef
 
 define GAMECON_GPIO_RPI_BUILD_CMDS
