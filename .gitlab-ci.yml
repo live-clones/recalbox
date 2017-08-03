@@ -10,7 +10,7 @@ stages:
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
   RECALBOX_MAIN_VERSION: 4.1.0
-  STACK_NAME: archive
+  STACK_NAME: archive-master
   IMAGE: recalbox/archive
 
 .build_template: &build_definition
@@ -163,7 +163,7 @@ build odroidxu4 for test:
     - env | grep "CI_\|GITLAB" > envfile && cat "updates/${RANCHER_DIRECTORY}.template.html" | docker run --rm --env-file envfile -i loicmahieu/alpine-envsubst > updates/dist/index.html
     - test -n "$SKIP_IMAGES" && rm -rf updates/dist/*/*.img*
     - cd updates
-    - docker build -f "${RANCHER_DIRECTORY}.Dockerfile" -t $ARCHIVE_IMAGE .
+    - docker build -t $ARCHIVE_IMAGE .
     - docker login -u "${DOCKER_IO_LOGIN}" -p "${DOCKER_IO_PASSWORD}"
     - docker push $ARCHIVE_IMAGE
 
@@ -193,10 +193,10 @@ release review:
   image: registry.gitlab.com/recalbox/ops/rancher-cli:0.6.2
   dependencies: []
   variables:
-    SERVICENAME: the rancher servicename
-    ARCHIVE_IMAGE: the image to deploy
-    ARCHIVE_FQDN: the fqdn deployed
-    RANCHER_DIRECTORY: type of the deployment (master, review)
+    ARCHIVE_IMAGE: image to deploy
+    ARCHIVE_FQDN: fqdn of the service
+    SERVICENAME: the rancher directory to use
+    RANCHER_DIRECTORY: the rancher directory to use
   script:
     - echo "Deploying image ${ARCHIVE_IMAGE} on ${STACK_NAME}/${SERVICENAME}"
     - cd updates/rancher/${RANCHER_DIRECTORY}
@@ -206,24 +206,23 @@ release review:
 deploy master:
   <<: *deploy_definition
   variables:
-    SERVICENAME: archive
     ARCHIVE_IMAGE: ${IMAGE}:${CI_COMMIT_REF_SLUG}
-    ARCHIVE_FQDN: archive.recalbox.com
+    ARCHIVE_FQDN: ${CI_ENVIRONMENT_SLUG}-${STACK_NAME}-prod.recalbox.com
+    SERVICENAME: ${CI_ENVIRONMENT_SLUG}
     RANCHER_DIRECTORY: master
   only:
     - master
   environment:
-    name: archive/unstable
-    url: https://archive.recalbox.com/updates/v1.0/unstable/
-
+    name: master/${CI_COMMIT_REF_SLUG}
+    url: https://${CI_ENVIRONMENT_SLUG}-${STACK_NAME}-prod.recalbox.com/
 
 deploy review:
   <<: *deploy_definition
   when: manual
   variables:
-    SERVICENAME: ${CI_ENVIRONMENT_SLUG}
     ARCHIVE_IMAGE: ${IMAGE}:${CI_COMMIT_REF_SLUG}
     ARCHIVE_FQDN: ${CI_ENVIRONMENT_SLUG}-${STACK_NAME}-prod.recalbox.com
+    SERVICENAME: ${CI_ENVIRONMENT_SLUG}
     RANCHER_DIRECTORY: review
   except:
     - master
