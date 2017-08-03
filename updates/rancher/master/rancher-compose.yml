@@ -1,7 +1,6 @@
 version: '2'
 services:
-  www:
-    scale: 1
+  RANCHER_SERVICENAME:
     start_on_create: true
     lb_config:
       certs: []
@@ -13,19 +12,12 @@ services:
           option httplog
       default_cert: wildcard.recalbox.com
       port_rules:
-      - backend_name: archive
-        hostname: archive.recalbox.com
-        priority: 1
-        protocol: http
-        service: archive
-        source_port: 80
-        target_port: 80
       - backend_name: archive-ssl
-        hostname: archive.recalbox.com
+        hostname: ${ARCHIVE_FQDN}
         priority: 2
         protocol: https
-        service: archive
-        source_port: 443
+        service: RANCHER_SERVICENAME-data
+        source_port: 8443
         target_port: 80
     health_check:
       healthy_threshold: 2
@@ -36,8 +28,7 @@ services:
       interval: 2000
       strategy: recreate
       reinitializing_timeout: 60000
-  archive:
-    scale: 1
+  RANCHER_SERVICENAME-data:
     start_on_create: true
     health_check:
       healthy_threshold: 2

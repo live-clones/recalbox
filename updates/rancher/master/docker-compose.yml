@@ -1,6 +1,6 @@
 version: '2'
 services:
-  www:
+  RANCHER_SERVICENAME:
     image: rancher/lb-service-haproxy:v0.7.5
     environment:
       HTTPERRORPAGE: |-
@@ -31,13 +31,14 @@ services:
         max-file: '1'
         max-size: 300m
     ports:
-    - 80:80/tcp
-    - 443:443/tcp
+    - 8443:443/tcp
     labels:
       io.rancher.container.agent.role: environmentAdmin
       io.rancher.container.create_agent: 'true'
       io.rancher.container.hostname_override: container_name
-  archive:
+      io.rancher.scheduler.global: 'true'
+      io.rancher.sidekicks: RANCHER_SERVICENAME-data
+  RANCHER_SERVICENAME-data:
     image: ${ARCHIVE_IMAGE}
     logging:
       driver: json-file
