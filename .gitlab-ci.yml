@@ -23,6 +23,7 @@ variables:
     - docker build -t recalbox-${ARCH} .
     - docker run --rm -v `pwd`:/work -v /recalbox-builds/dl:/share/dl -v /recalbox-builds/hosts/host-${ARCH}:/share/host -v /recalbox-builds/ccaches/ccache-${ARCH}:/share/ccache -e "ARCH=$ARCH" -e "RECALBOX_VERSION_LABEL=$RECALBOX_VERSION" -e "RECALBOX_CCACHE_DIR=/share/ccache" recalbox-${ARCH} 2>&1 | tee build.log | grep '>>>' || tac build.log | grep '>>>' -m 1 -B 9999 | tac
     - mkdir -p updates/dist/${ARCH}
+    - touch updates/dist/${ARCH}/file
     - cp output/images/recalbox/* updates/dist/${ARCH}
     - rm -rf output/
     - for file in `ls updates/dist/${ARCH}/`;do sha1sum updates/dist/${ARCH}/${file} > updates/dist/${ARCH}/${file}.sha1; done
@@ -163,7 +164,7 @@ build odroidxu4 for test:
     - env | grep "CI_\|GITLAB" > envfile && cat "updates/${RANCHER_DIRECTORY}.template.html" | docker run --rm --env-file envfile -i loicmahieu/alpine-envsubst > updates/dist/index.html
     - test -n "$SKIP_IMAGES" && rm -rf updates/dist/*/*.img*
     - cd updates
-    - docker build -f "${RANCHER_DIRECTORY}.Dockerfile" -t $ARCHIVE_IMAGE .
+    - docker build -t $ARCHIVE_IMAGE .
     - docker login -u "${DOCKER_IO_LOGIN}" -p "${DOCKER_IO_PASSWORD}"
     - docker push $ARCHIVE_IMAGE
 
@@ -188,15 +189,24 @@ release review:
 
 
 ### Deploy
+purge master:
+  stage: purge
+  only:
+    - master
+  image: registry.gitlab.com/recalbox/ops/rancher-cli:0.6.2
+  script:
+    - echo cleaning master old deployments
+    - rancher rm $(rancher ps | grep "${STACK_NAME}/master-" | awk '{print $1}'
+
 .deploy_template: &deploy_definition
   stage: deploy
   image: registry.gitlab.com/recalbox/ops/rancher-cli:0.6.2
   dependencies: []
   variables:
-    SERVICENAME: the rancher servicename
-    ARCHIVE_IMAGE: the image to deploy
-    ARCHIVE_FQDN: the fqdn deployed
-    RANCHER_DIRECTORY: type of the deployment (master, review)
+    ARCHIVE_IMAGE: image to deploy
+    ARCHIVE_FQDN: fqdn of the service
+    SERVICENAME: the rancher directory to use
+    RANCHER_DIRECTORY: the rancher directory to use
   script:
     - echo "Deploying image ${ARCHIVE_IMAGE} on ${STACK_NAME}/${SERVICENAME}"
     - cd updates/rancher/${RANCHER_DIRECTORY}
@@ -206,24 +216,23 @@ release review:
 deploy master:
   <<: *deploy_definition
   variables:
-    SERVICENAME: archive
     ARCHIVE_IMAGE: ${IMAGE}:${CI_COMMIT_REF_SLUG}
-    ARCHIVE_FQDN: archive.recalbox.com
+    ARCHIVE_FQDN: ${CI_ENVIRONMENT_SLUG}-${STACK_NAME}-prod.recalbox.com
+    SERVICENAME: ${CI_ENVIRONMENT_SLUG}
     RANCHER_DIRECTORY: master
   only:
     - master
   environment:
-    name: archive/unstable
-    url: https://archive.recalbox.com/updates/v1.0/unstable/
-
+    name: master/${CI_COMMIT_REF_SLUG}
+    url: https://${CI_ENVIRONMENT_SLUG}-${STACK_NAME}-prod.recalbox.com/
 
 deploy review:
   <<: *deploy_definition
   when: manual
   variables:
-    SERVICENAME: ${CI_ENVIRONMENT_SLUG}
     ARCHIVE_IMAGE: ${IMAGE}:${CI_COMMIT_REF_SLUG}
     ARCHIVE_FQDN: ${CI_ENVIRONMENT_SLUG}-${STACK_NAME}-prod.recalbox.com
+    SERVICENAME: ${CI_ENVIRONMENT_SLUG}
     RANCHER_DIRECTORY: review
   except:
     - master
