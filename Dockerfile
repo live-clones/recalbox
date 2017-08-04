@@ -22,4 +22,4 @@ RUN locale-gen
 RUN mkdir -p /work
 WORKDIR /work
 
-CMD echo "${RECALBOX_VERSION_LABEL}" > board/recalbox/fsoverlay/recalbox/recalbox.version && make recalbox-${ARCH}_defconfig && sed -i "s|BR2_DL_DIR=.*|BR2_DL_DIR=\"/share/dl\"|g" .config && sed -i "s|BR2_HOST_DIR=.*\"|BR2_HOST_DIR=\"/share/host\"|g" .config && $( [ "$RECALBOX_CCACHE_DIR" != "" ] && echo "BR2_CCACHE=y" >> .config && echo "BR2_CCACHE_DIR=\"$RECALBOX_CCACHE_DIR\"" >> .config && echo "BR2_CCACHE_INITIAL_SETUP=\"--max-size=500G\"" >> .config && echo "BR2_CCACHE_USE_BASEDIR=y" >> .config ) || true && make -s
+CMD echo "${RECALBOX_VERSION_LABEL}" > board/recalbox/fsoverlay/recalbox/recalbox.version ; make recalbox-${ARCH}_defconfig && ( cd buildroot && git reset HEAD --hard ) &&[ "$RECALBOX_CCACHE_DIR" != "" ] && RECALBOX_CCACHE="BR2_CCACHE=\"y\"" ; BR2_DL_DIR="/share/dl" BR2_CCACHE_DIR="$RECALBOX_CCACHE_DIR" make BR2_HOST_DIR=/share/host $RECALBOX_CCACHE BR2_CCACHE_INITIAL_SETUP="--max-size=5G" BR2_CCACHE_USE_BASEDIR=y

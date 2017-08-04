@@ -100,7 +100,7 @@ case "${RECALBOX_TARGET}" in
 	GENIMAGE_TMP="${BUILD_DIR}/genimage.tmp"
 	RECALBOXIMG="${RECALBOX_BINARIES_DIR}/recalbox.img"
 	rm -rf "${GENIMAGE_TMP}" || exit 1
-	cp "board/raspberrypi/genimage.cfg" "${BINARIES_DIR}/genimage.cfg.tmp" || exit 1
+	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/rpi/genimage.cfg" "${BINARIES_DIR}/genimage.cfg.tmp" || exit 1
 	FILES=$(find "${BINARIES_DIR}/rpi-firmware" -type f | sed -e s+"^${BINARIES_DIR}/rpi-firmware/\(.*\)$"+"file \1 \{ image = 'rpi-firmware/\1' }"+ | tr '\n' '@')
 	cat "${BINARIES_DIR}/genimage.cfg.tmp" | sed -e s+'@files'+"${FILES}"+ | tr '@' '\n' > "${BINARIES_DIR}/genimage.cfg" || exit 1
 	rm -f "${BINARIES_DIR}/genimage.cfg.tmp" || exit 1
@@ -117,7 +117,7 @@ case "${RECALBOX_TARGET}" in
 	done
 
 	# /boot
-	cp "board/hardkernel/odroidxu4/boot.ini" ${BINARIES_DIR}/boot.ini || exit 1
+	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/xu4/boot.ini" ${BINARIES_DIR}/boot.ini || exit 1
 
 	# root.tar.xz
 	cp "${BINARIES_DIR}/rootfs.tar.xz" "${RECALBOX_BINARIES_DIR}/root.tar.xz" || exit 1
@@ -129,7 +129,7 @@ case "${RECALBOX_TARGET}" in
 	GENIMAGE_TMP="${BUILD_DIR}/genimage.tmp"
 	RECALBOXIMG="${RECALBOX_BINARIES_DIR}/recalbox.img"
 	rm -rf "${GENIMAGE_TMP}" || exit 1
-	cp "board/hardkernel/odroidxu4/genimage.cfg" "${BINARIES_DIR}" || exit 1
+	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/xu4/genimage.cfg" "${BINARIES_DIR}" || exit 1
 	genimage --rootpath="${TARGET_DIR}" --inputpath="${BINARIES_DIR}" --outputpath="${RECALBOX_BINARIES_DIR}" --config="${BINARIES_DIR}/genimage.cfg" --tmppath="${GENIMAGE_TMP}" || exit 1
 	rm -f "${RECALBOX_BINARIES_DIR}/boot.vfat" || exit 1
 	xu4_fusing "${BINARIES_DIR}" "${RECALBOXIMG}" || exit 1
@@ -142,10 +142,10 @@ case "${RECALBOX_TARGET}" in
 	do
 	    cp "${BUILD_DIR}/uboot-odroidc2-v2015.01/sd_fuse/${F}" "${BINARIES_DIR}" || exit 1
 	done
-	cp board/recalbox/c2/boot-logo.bmp.gz ${BINARIES_DIR} || exit 1
+	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/c2/boot-logo.bmp.gz" ${BINARIES_DIR} || exit 1
 
 	# /boot
-	cp "board/recalbox/c2/boot.ini" ${BINARIES_DIR}/boot.ini || exit 1
+	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/c2/boot.ini" ${BINARIES_DIR}/boot.ini || exit 1
 
 	# root.tar.xz
 	cp "${BINARIES_DIR}/rootfs.tar.xz" "${RECALBOX_BINARIES_DIR}/root.tar.xz" || exit 1
@@ -157,7 +157,7 @@ case "${RECALBOX_TARGET}" in
 	GENIMAGE_TMP="${BUILD_DIR}/genimage.tmp"
 	RECALBOXIMG="${RECALBOX_BINARIES_DIR}/recalbox.img"
 	rm -rf "${GENIMAGE_TMP}" || exit 1
-	cp "board/hardkernel/odroidc2/genimage.cfg" "${BINARIES_DIR}" || exit 1
+	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/c2/genimage.cfg" "${BINARIES_DIR}" || exit 1
 	genimage --rootpath="${TARGET_DIR}" --inputpath="${BINARIES_DIR}" --outputpath="${RECALBOX_BINARIES_DIR}" --config="${BINARIES_DIR}/genimage.cfg" --tmppath="${GENIMAGE_TMP}" || exit 1
 	rm -f "${RECALBOX_BINARIES_DIR}/boot.vfat" || exit 1
 	c2_fusing "${BINARIES_DIR}" "${RECALBOXIMG}" || exit 1
@@ -168,7 +168,7 @@ case "${RECALBOX_TARGET}" in
 	# /boot
 	rm -rf ${BINARIES_DIR}/boot || exit 1
 	mkdir -p ${BINARIES_DIR}/boot/grub || exit 1
-	cp "board/recalbox/grub2/grub.cfg" ${BINARIES_DIR}/boot/grub/grub.cfg || exit 1
+	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/grub2/grub.cfg" ${BINARIES_DIR}/boot/grub/grub.cfg || exit 1
 	cp "${BINARIES_DIR}/bzImage" "${BINARIES_DIR}/boot" || exit 1
 	cp "${BINARIES_DIR}/initrd.gz" "${BINARIES_DIR}/boot" || exit 1
 
@@ -178,7 +178,7 @@ case "${RECALBOX_TARGET}" in
 	# get UEFI files
 	mkdir -p "${BINARIES_DIR}/EFI/BOOT" || exit 1
 	cp "${BINARIES_DIR}/bootx64.efi" "${BINARIES_DIR}/EFI/BOOT" || exit 1
-	cp "board/recalbox/grub2/grub.cfg" "${BINARIES_DIR}/EFI/BOOT" || exit 1
+	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/grub2/grub.cfg" "${BINARIES_DIR}/EFI/BOOT" || exit 1
 
 	# boot.tar.xz
 	(cd "${BINARIES_DIR}" && tar -cJf "${RECALBOX_BINARIES_DIR}/boot.tar.xz" EFI boot recalbox-boot.conf) || exit 1
@@ -187,7 +187,7 @@ case "${RECALBOX_TARGET}" in
 	GENIMAGE_TMP="${BUILD_DIR}/genimage.tmp"
 	RECALBOXIMG="${RECALBOX_BINARIES_DIR}/recalbox.img"
 	rm -rf "${GENIMAGE_TMP}" || exit 1
-	cp "board/recalbox/grub2/genimage.cfg" "${BINARIES_DIR}" || exit 1
+	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/grub2/genimage.cfg" "${BINARIES_DIR}" || exit 1
         cp "${HOST_DIR}/usr/lib/grub/i386-pc/boot.img" "${BINARIES_DIR}" || exit 1
 	genimage --rootpath="${TARGET_DIR}" --inputpath="${BINARIES_DIR}" --outputpath="${RECALBOX_BINARIES_DIR}" --config="${BINARIES_DIR}/genimage.cfg" --tmppath="${GENIMAGE_TMP}" || exit 1
 	rm -f "${RECALBOX_BINARIES_DIR}/boot.vfat" || exit 1

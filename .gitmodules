@@ -1,3 +1,6 @@
 [submodule "recalbox-emulationstation"]
 	path = recalbox-emulationstation
 	url = ../../recalbox/recalbox-emulationstation-prime.git
+[submodule "buildroot"]
+	path = buildroot
+	url = git://git.busybox.net/buildroot
