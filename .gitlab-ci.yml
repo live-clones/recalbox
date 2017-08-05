@@ -17,16 +17,17 @@ variables:
   stage: build
   script:
     - tar cvzf recalbox-emulationstation2-${ARCH}.tar.gz -C recalbox-emulationstation/ . > /dev/null
-    - docker run --rm -e "ARCH=${ARCH}" -v `pwd`:/work -v /recalbox-builds/dl:/share/dl ubuntu:16.04 bash -c 'rm -rf /share/dl/recalbox-emulationstation2-${ARCH}.tar.gz && cp /work/recalbox-emulationstation2-${ARCH}.tar.gz /share/dl/recalbox-emulationstation2-${ARCH}.tar.gz'
-    - sed -i "s/^RECALBOX_EMULATIONSTATION2_VERSION.*/RECALBOX_EMULATIONSTATION2_VERSION = ${ARCH}/" package/recalbox-emulationstation2/recalbox-emulationstation2.mk
-    - export RECALBOX_VERSION=${CI_COMMIT_TAG:-${RECALBOX_MAIN_VERSION}-${CI_COMMIT_REF_SLUG}-${ARCH}-$(date +%Y-%m-%d-%H-%M-%S)-${CI_BUILD_ID}}
-    - docker build -t recalbox-${ARCH} .
-    - docker run --rm -v `pwd`:/work -v /recalbox-builds/dl:/share/dl -v /recalbox-builds/hosts/host-${ARCH}:/share/host -v /recalbox-builds/ccaches/ccache-${ARCH}:/share/ccache -e "ARCH=$ARCH" -e "RECALBOX_VERSION_LABEL=$RECALBOX_VERSION" -e "RECALBOX_CCACHE_DIR=/share/ccache" recalbox-${ARCH} 2>&1 | tee build.log | grep '>>>' || tac build.log | grep '>>>' -m 1 -B 9999 | tac
+#    - docker run --rm -e "ARCH=${ARCH}" -v `pwd`:/work -v /recalbox-builds/dl:/share/dl ubuntu:16.04 bash -c 'rm -rf /share/dl/recalbox-emulationstation2-${ARCH}.tar.gz && cp /work/recalbox-emulationstation2-${ARCH}.tar.gz /share/dl/recalbox-emulationstation2-${ARCH}.tar.gz'
+#    - sed -i "s/^RECALBOX_EMULATIONSTATION2_VERSION.*/RECALBOX_EMULATIONSTATION2_VERSION = ${ARCH}/" package/recalbox-emulationstation2/recalbox-emulationstation2.mk
+#    - export RECALBOX_VERSION=${CI_COMMIT_TAG:-${RECALBOX_MAIN_VERSION}-${CI_COMMIT_REF_SLUG}-${ARCH}-$(date +%Y-%m-%d-%H-%M-%S)-${CI_BUILD_ID}}
+#    - docker build -t recalbox-${ARCH} .
+#    - docker run --rm -v `pwd`:/work -v /recalbox-builds/dl:/share/dl -v /recalbox-builds/hosts/host-${ARCH}:/share/host -v /recalbox-builds/ccaches/ccache-${ARCH}:/share/ccache -e "ARCH=$ARCH" -e "RECALBOX_VERSION_LABEL=$RECALBOX_VERSION" -e "RECALBOX_CCACHE_DIR=/share/ccache" recalbox-${ARCH} 2>&1 | tee build.log | grep '>>>' || tac build.log | grep '>>>' -m 1 -B 9999 | tac
     - mkdir -p updates/dist/${ARCH}
-    - cp output/images/recalbox/* updates/dist/${ARCH}
+    - touch updates/dist/${ARCH}/file
+#    - cp output/images/recalbox/* updates/dist/${ARCH}
     - rm -rf output/
-    - for file in `ls updates/dist/${ARCH}/`;do sha1sum updates/dist/${ARCH}/${file} > updates/dist/${ARCH}/${file}.sha1; done
-    - tar tf updates/dist/${ARCH}/root.tar.xz | sort > updates/dist/${ARCH}/root.list
+#    - for file in `ls updates/dist/${ARCH}/`;do sha1sum updates/dist/${ARCH}/${file} > updates/dist/${ARCH}/${file}.sha1; done
+#    - tar tf updates/dist/${ARCH}/root.tar.xz | sort > updates/dist/${ARCH}/root.list
     - echo "$RECALBOX_VERSION" >> updates/dist/${ARCH}/recalbox.version
     - cp CHANGELOG.md updates/dist/${ARCH}/recalbox.changelog
   artifacts:
