@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unrelease][unreleased]
+- New review upgrade system 
 - Bumped Mupen64plus-GlideN64 video plugin to the Public Release 2.0
 - Fixed joystick sensitivity issue with mupen64plus
 - MAJOR BLUETOOTH CHANGE: users upgrading from 4.0 MUST PAIR AGAIN their controllers

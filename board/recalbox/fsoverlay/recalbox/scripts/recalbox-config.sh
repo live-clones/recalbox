@@ -12,8 +12,6 @@ extra1="$3"
 extra2="$4"
 arch=`cat /recalbox/recalbox.arch`
 
-recalboxupdateurl="http://archive.recalbox.com/updates/v1.0"
-
 preBootConfig() {
     mount -o remount,rw /boot
 }
@@ -47,26 +45,6 @@ function isNewer () {
 	return 1
 }
 
-function displayUpgradeText() {
-	currentVersion=$1
-	newVersion=$2
-	branch=$3
-	arch=`cat /recalbox/recalbox.arch`
-
-	# Get the changelog
-	[ ! -d "/recalbox/share/system/upgrade" ] && mkdir -p /recalbox/share/system/upgrade
-	wget -qO /recalbox/share/system/upgrade/recalbox.changelog.update ${recalboxupdateurl}/${branch}/${arch}/recalbox.changelog || exit 1
-	wget -qO /recalbox/share/system/upgrade/recalbox.version.update ${recalboxupdateurl}/${branch}/${arch}/recalbox.version || exit 1
-	changes="`diff --changed-group-format='%>' --unchanged-group-format='' /recalbox/share/system/recalbox.changelog.done /recalbox/share/system/upgrade/recalbox.changelog.update`"
-	infoText=`echo -e "Update details:
-Current branch:        ${branch}
-Current version:       ${currentVersion}
-New version available: ${newVersion}
-Changes:
-${changes}"`
-	recallog "${infoText}"
-	echo "${infoText}"
-}
 
 log=/recalbox/share/system/logs/recalbox.log
 systemsetting="python /usr/lib/python2.7/site-packages/configgen/settings/recalboxSettings.pyc"
@@ -453,41 +431,6 @@ if [ "$command" == "module" ];then
 		[ "$?" ] || exit 1
         fi
 	exit 0
-fi
-
-if [ "$command" == "canupdate" ];then
-	updatetype="`$systemsetting  -command load -key updates.type`"
-	if test "${updatetype}" = "beta"
-	then
-		updatetype="stable"
-	fi
-	available=`wget -qO- ${recalboxupdateurl}/${updatetype}/${arch}/recalbox.version`
-	if [[ "$?" != "0" ]];then
-		exit 2
-	fi
-	installed=`cat /recalbox/recalbox.version`
-	
-	archiveVersion=`echo ${available} | cut -d '-' -f 1`
-	localVersion=`echo ${installed} | cut -d '-' -f 1`
-	
-	if [[ ${updatetype} == "stable" ]] ; then
-		if isNewer $archiveVersion $localVersion ; then
-			echo "update available"
-			displayUpgradeText "${installed}" "${available}" "${updatetype}"
-			exit 0
-		fi
-	elif [[ "$available" != "$installed" ]]; then
-		echo "update available"
-		displayUpgradeText "${installed}" "${available}" "${updatetype}"
-		exit 0
-	fi
-	echo "no update available"
-	exit 12
-fi
-
-if [ "$command" == "update" ];then
-	/recalbox/scripts/recalbox-upgrade.sh
-	exit $?
 fi
 
 if [[ "$command" == "wifi" ]]; then
