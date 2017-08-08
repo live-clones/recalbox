@@ -2,6 +2,8 @@ version: '2'
 services:
   RANCHER_SERVICENAME:
     image: ${ARCHIVE_IMAGE}
+    environment:
+      LOGSTASH_TAGS: nginx,archivev2
     logging:
       driver: json-file
       options:
