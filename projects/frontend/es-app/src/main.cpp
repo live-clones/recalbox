@@ -16,7 +16,7 @@
 #include "Log.h"
 #include "Window.h"
 #include "EmulationStation.h"
-#include "RecalboxSystem.h"
+#include "recalbox/RecalboxSystem.h"
 #include "Settings.h"
 #include "ScraperCmdLine.h"
 #include "VolumeControl.h"
@@ -24,9 +24,10 @@
 #include "Locale.h"
 #include <boost/algorithm/string.hpp>
 #include <RecalboxConf.h>
+#include <recalbox/RecalboxUpgrade.h>
 #include "resources/Font.h"
 #include "NetworkThread.h"
-#include "RecalboxSystem.h"
+#include "recalbox/RecalboxSystem.h"
 #include "FileSorts.h"
 
 
@@ -323,16 +324,16 @@ int main(int argc, char* argv[])
 	}
 	RecalboxSystem::getInstance()->getIpAdress();
 	// UPDATED VERSION MESSAGE
-    std::string changelog = RecalboxSystem::getInstance()->getChangelog();
+    std::string changelog = RecalboxUpgrade::getInstance()->getChangelog();
     if (changelog != "") {
-		std::string message = changelog;
+		std::string message = "Changes :\n"+changelog;
         window.pushGui(
                 new GuiMsgBoxScroll(
                         &window,
 						_("THE SYSTEM IS UP TO DATE"),
 						message, _("OK"),
                         [] {
-                            RecalboxSystem::getInstance()->updateLastChangelogFile();
+                            RecalboxUpgrade::getInstance()->updateLastChangelogFile();
                         }, "", nullptr, "", nullptr, ALIGN_LEFT));
     }
 

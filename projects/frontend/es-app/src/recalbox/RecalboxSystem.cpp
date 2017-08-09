@@ -94,74 +94,7 @@ std::string RecalboxSystem::readFile(std::string file) {
     return "";
 }
 
-std::string RecalboxSystem::getVersion() {
-    std::string version = Settings::getInstance()->getString("VersionFile");
-    return readFile(version);
-}
-
-std::string RecalboxSystem::getUpdateVersion() {
-    std::string version = Settings::getInstance()->getString("UpdateVersionFile");
-    if (readFile(version) == "") {
-        std::string getUpdateVersion = _("NOT CONNECTED");
-        return getUpdateVersion;
-    } else {
-        return readFile(version);
-    }
-}
-
-bool RecalboxSystem::updateLastChangelogFile() {
-    std::ostringstream oss;
-    oss << "cp  " << Settings::getInstance()->getString("Changelog").c_str() << " " <<
-        Settings::getInstance()->getString("LastChangelog").c_str();
-    if (system(oss.str().c_str())) {
-        LOG(LogWarning) << "Error executing " << oss.str().c_str();
-        return false;
-    } else {
-        LOG(LogError) << "Last version file updated";
-        return true;
-    }
-}
-
-std::string RecalboxSystem::getDiffBetween(std::string first, std::string second) {
-    std::ostringstream oss;
-    std::ifstream f(first);
-    if(!f.good()){
-        std::ofstream outfile (first);
-        outfile << " ";
-        outfile.close();
-    }
-    oss << "diff --changed-group-format='%>' --unchanged-group-format='' " <<
-        first.c_str() << " " << second.c_str();
-
-    FILE *pipe = popen(oss.str().c_str(), "r");
-    char line[1024];
-
-    if (pipe == NULL) {
-        return "";
-    }
-    std::ostringstream res;
-    while (fgets(line, 1024, pipe)) {
-        res << line;
-    }
-    pclose(pipe);
-
-    return res.str();
-}
-
-std::string RecalboxSystem::getUpdateChangelog() {
-    std::string changelog = Settings::getInstance()->getString("Changelog");
-    std::string update = Settings::getInstance()->getString("UpdateChangelog");
-    return getDiffBetween(changelog, update);
-}
-
-std::string RecalboxSystem::getChangelog() {
-    std::string last = Settings::getInstance()->getString("LastChangelog");
-    std::string changes = Settings::getInstance()->getString("Changelog");
-    return getDiffBetween(last, changes);
-}
-
 std::vector<std::string> RecalboxSystem::getAvailableAudioOutputDevices() {
-
 	std::vector<std::string> res;
 	std::ostringstream oss;
 	oss << Settings::getInstance()->getString("RecalboxSettingScript") << " " << "lsaudio";
@@ -254,46 +187,6 @@ bool RecalboxSystem::setOverclock(std::string mode) {
     }
 
     return false;
-}
-
-
-std::pair<std::string, int> RecalboxSystem::updateSystem(BusyComponent* ui) {
-    std::string updatecommand = Settings::getInstance()->getString("UpdateCommand");
-    FILE *pipe = popen(updatecommand.c_str(), "r");
-    char line[1024] = "";
-    if (pipe == NULL) {
-        return std::pair<std::string, int>(std::string("Cannot call update command"), -1);
-    }
-    while (fgets(line, 1024, pipe)) {
-        strtok(line, "\n");
-        std::string output = line;
-        boost::replace_all(output, "\e[1A", "");
-        ui->setText(_("DOWNLOADED") + std::string(": ") + std::string(output));
-    }
-
-    int exitCode = pclose(pipe);
-    return std::pair<std::string, int>(std::string(line), exitCode);
-}
-
-bool RecalboxSystem::ping() {
-    std::string updateserver = Settings::getInstance()->getString("UpdateServer");
-    std::string s("ping -c 1 " + updateserver);
-    int exitcode = system(s.c_str());
-    return exitcode == 0;
-}
-
-bool RecalboxSystem::canUpdate() {
-    std::ostringstream oss;
-    oss << Settings::getInstance()->getString("RecalboxSettingScript") << " " << "canupdate";
-    std::string command = oss.str();
-    LOG(LogInfo) << "Launching " << command;
-    if (system(command.c_str()) == 0) {
-        LOG(LogInfo) << "Can update ";
-        return true;
-    } else {
-        LOG(LogInfo) << "Cannot update ";
-        return false;
-    }
 }
 
 bool RecalboxSystem::launchKodi(Window *window) {
@@ -549,3 +442,29 @@ std::string RecalboxSystem::getRootPassword() {
     }
     return oss.str().c_str();
 }
+
+std::pair<std::string, int> RecalboxSystem::execute(std::string command) {
+    std::ostringstream oss;
+    oss << command;
+
+    FILE *pipe = popen(oss.str().c_str(), "r");
+    char line[1024];
+
+    if (pipe == NULL) {
+        return std::make_pair("", -1);
+    }
+    std::ostringstream res;
+    while (fgets(line, 1024, pipe)) {
+        res << line;
+    }
+    int exitCode = pclose(pipe);
+    return std::make_pair(res.str(), WEXITSTATUS(exitCode));
+}
+
+bool RecalboxSystem::ping() {
+    std::string updateserver = Settings::getInstance()->getString("UpdateServer");
+    std::string s("ping -c 1 " + updateserver);
+    int exitcode = system(s.c_str());
+    return exitcode == 0;
+}
+

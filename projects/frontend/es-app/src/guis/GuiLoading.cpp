@@ -10,7 +10,7 @@
 #include <string>
 #include "Log.h"
 #include "Settings.h"
-#include "RecalboxSystem.h"
+#include "recalbox/RecalboxSystem.h"
 
 GuiLoading::GuiLoading(Window *window, const std::function<void*()> &mFunc) : GuiComponent(window), mBusyAnim(window), mFunc(mFunc),mFunc2(NULL) {
     setSize((float) Renderer::getScreenWidth(), (float) Renderer::getScreenHeight());

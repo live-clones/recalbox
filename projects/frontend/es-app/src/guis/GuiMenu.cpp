@@ -14,11 +14,10 @@
 #include "guis/GuiMenu.h"
 #include "Window.h"
 #include "Sound.h"
-#include "Log.h"
 #include "Settings.h"
-#include "RecalboxSystem.h"
+#include "recalbox/RecalboxSystem.h"
+#include "recalbox/RecalboxUpgrade.h"
 #include "guis/GuiMsgBox.h"
-#include "guis/GuiSettings.h"
 #include "guis/GuiScraperStart.h"
 #include "guis/GuiDetectDevice.h"
 #include "guis/GuiUpdate.h"
@@ -26,14 +25,9 @@
 #include "views/ViewController.h"
 #include "AudioManager.h"
 
-#include "components/ButtonComponent.h"
 #include "components/SwitchComponent.h"
 #include "components/SliderComponent.h"
-#include "components/TextComponent.h"
-#include "components/OptionListComponent.h"
-#include "components/MenuComponent.h"
 #include "VolumeControl.h"
-#include "scrapers/GamesDBScraper.h"
 
 #include "guis/GuiTextEditPopup.h"
 #include "guis/GuiTextEditPopupKeyboard.h"
@@ -135,7 +129,7 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                              auto s = new GuiSettings(mWindow, _("SYSTEM SETTINGS").c_str());
 
                              auto version = std::make_shared<TextComponent>(mWindow,
-                                                                            RecalboxSystem::getInstance()->getVersion(),
+                                                                            RecalboxUpgrade::getInstance()->getVersion(),
                                                                             Font::get(FONT_SIZE_MEDIUM), 0x777777FF);
                              s->addWithLabelAndHelp(_("VERSION"), version, MenuMessages::VERSION_HELP_MSG);
                              bool warning = RecalboxSystem::getInstance()->isFreeSpaceLimit();
@@ -250,30 +244,30 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                              updateGui->addWithLabelAndHelp(_("CHECK UPDATES"), updates_enabled,
                                                             MenuMessages::UPDATE_CHECK_HELP_MSG);
                              // Display available update version
-                             if (RecalboxSystem::getInstance()->canUpdate()) {
+                             if (RecalboxUpgrade::getInstance()->canUpdate()) {
                                  auto updateVersion = std::make_shared<TextComponent>(mWindow,
-                                                                                      RecalboxSystem::getInstance()->getUpdateVersion(),
+                                                                                      _("YES"),
                                                                                       Font::get(FONT_SIZE_MEDIUM),
                                                                                       0x777777FF);
                                  updateGui->addWithLabelAndHelp(_("AVAILABLE UPDATE"), updateVersion,
                                                                 MenuMessages::UPDATE_VERSION_HELP_MSG);
-                                     // Display available update changelog
-                                     updateGui->addSubMenu(_("UPDATE CHANGELOG"), [this] {
-                                         std::string changelog = RecalboxSystem::getInstance()->getUpdateChangelog();
-                                         if (changelog != "") {
-                                             std::string message = changelog;
-                                             std::string updateVersion = RecalboxSystem::getInstance()->getUpdateVersion();
-                                             mWindow->displayScrollMessage(_("AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"),
-                                                                           _("UPDATE VERSION:") + " " + updateVersion + "\n" +
-                                                                           _("UPDATE CHANGELOG:") + "\n" + message);
-                                         } else {
-                                             mWindow->displayMessage(_("AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"));
-                                         }
-                                     }, MenuMessages::UPDATE_CHANGELOG_HELP_MSG);
-                                     // Start update
-                                     updateGui->addSubMenu(_("START UPDATE"), [this] {
-                                         mWindow->pushGui(new GuiUpdate(mWindow));
-                                     }, MenuMessages::START_UPDATE_HELP_MSG);
+                                 // Display available update changelog
+                                 updateGui->addSubMenu(_("UPDATE CHANGELOG"), [this] {
+                                     std::string changelog = RecalboxUpgrade::getInstance()->getUpdateChangelog();
+                                     if (changelog != "") {
+                                         std::string message = changelog;
+                                         std::string updateVersion = RecalboxUpgrade::getInstance()->getUpdateVersion();
+                                         mWindow->displayScrollMessage(_("AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"),
+                                                                       _("UPDATE VERSION:") + " " + updateVersion + "\n" +
+                                                                       _("UPDATE CHANGELOG:") + "\n" + message);
+                                     } else {
+                                         mWindow->displayMessage(_("AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"));
+                                     }
+                                 }, MenuMessages::UPDATE_CHANGELOG_HELP_MSG);
+                                 // Start update
+                                 updateGui->addSubMenu(_("START UPDATE"), [this] {
+                                     mWindow->pushGui(new GuiUpdate(mWindow));
+                                 }, MenuMessages::START_UPDATE_HELP_MSG);
                              };
 
                              // Enable updates
@@ -282,20 +276,21 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                                                                                                         _("UPDATE TYPE"),
                                                                                                         false);
                              std::string updatesType = RecalboxConf::getInstance()->get("updates.type");
-                             if (updatesType == "") {
+                             // Stable or nothing
+                             if (updatesType == "" || updatesType == "beta" || updatesType == "unstable") {
                                  updatesType = "stable";
-                             } else if (updatesType != "stable" && updatesType != "unstable") {
-                                 updatesTypeComp->add(updatesType, updatesType, true);
                              }
                              updatesTypeComp->add("stable", "stable", updatesType == "stable");
-                             updatesTypeComp->add("unstable", "unstable", updatesType == "unstable");
+                             updatesTypeComp->add("custom", "custom", updatesType != "stable");
 
                              updateGui->addWithLabelAndHelp(_("UPDATE TYPE"), updatesTypeComp,
                                                             MenuMessages::UPDATE_TYPE_HELP_MSG);
                              updateGui->addSaveFunc([updates_enabled, updatesTypeComp] {
                                  RecalboxConf::getInstance()->set("updates.enabled",
                                                                   updates_enabled->getState() ? "1" : "0");
-                                 RecalboxConf::getInstance()->set("updates.type", updatesTypeComp->getSelected());
+                                 if(updatesTypeComp->getSelected() == "stable"){
+                                     RecalboxConf::getInstance()->set("updates.type", updatesTypeComp->getSelected());
+                                 }
                                  RecalboxConf::getInstance()->saveRecalboxConf();
                              });
                              mWindow->pushGui(updateGui);

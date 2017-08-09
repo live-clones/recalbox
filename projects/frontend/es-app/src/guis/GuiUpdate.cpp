@@ -2,9 +2,10 @@
 #include "guis/GuiMsgBox.h"
 
 #include "Log.h"
-#include "RecalboxSystem.h"
+#include "recalbox/RecalboxSystem.h"
 #include "Locale.h"
 #include <boost/algorithm/string/replace.hpp>
+#include <recalbox/RecalboxUpgrade.h>
 
 GuiUpdate::GuiUpdate(Window *window) : GuiComponent(window), mBusyAnim(window) {
     setSize((float) Renderer::getScreenWidth(), (float) Renderer::getScreenHeight());
@@ -104,7 +105,7 @@ void GuiUpdate::update(int deltaTime) {
 }
 
 void GuiUpdate::threadUpdate() {
-    std::pair<std::string, int> updateStatus = RecalboxSystem::getInstance()->updateSystem(&mBusyAnim);
+    std::pair<std::string, int> updateStatus = RecalboxUpgrade::getInstance()->updateSystem(&mBusyAnim);
     if (updateStatus.second == 0) {
         this->onUpdateOk();
     } else {
@@ -114,7 +115,7 @@ void GuiUpdate::threadUpdate() {
 
 void GuiUpdate::threadPing() {
     if (RecalboxSystem::getInstance()->ping()) {
-        if (RecalboxSystem::getInstance()->canUpdate()) {
+        if (RecalboxUpgrade::getInstance()->canUpdate()) {
             this->onUpdateAvailable();
         } else {
             this->onNoUpdateAvailable();

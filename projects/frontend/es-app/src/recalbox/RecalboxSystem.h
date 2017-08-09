@@ -20,29 +20,19 @@ public:
 
     bool isFreeSpaceLimit();
 
-    std::string getVersion();
-    std::string getUpdateVersion();
     std::string getRootPassword();
 
     bool setAudioOutputDevice(std::string device);
+
     std::vector<std::string> getAvailableAudioOutputDevices();
+
     std::string getCurrentAudioOutputDevice();
 
     bool setOverscan(bool enable);
 
     bool setOverclock(std::string mode);
 
-    bool updateLastChangelogFile();
-
-    std::string getChangelog();
-
-    std::pair<std::string, int> updateSystem(BusyComponent* ui);
-
-    std::string getUpdateChangelog();
-
     bool ping();
-
-    bool canUpdate();
 
     bool launchKodi(Window *window);
 
@@ -72,6 +62,10 @@ public:
 
     bool forgetBluetoothControllers();
 
+    std::string readFile(std::string file);
+
+    std::pair<std::string, int> execute(std::string command);
+
 private:
     static RecalboxSystem *instance;
 
@@ -79,9 +73,7 @@ private:
 
     bool halt(bool reboot, bool fast);
 
-    std::string readFile(std::string file);
 
-    std::string getDiffBetween(std::string first, std::string second);
 };
 
 #endif

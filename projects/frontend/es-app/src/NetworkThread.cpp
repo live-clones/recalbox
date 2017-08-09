@@ -6,7 +6,8 @@
  */
 
 #include "NetworkThread.h"
-#include "RecalboxSystem.h"
+#include "recalbox/RecalboxSystem.h"
+#include "recalbox/RecalboxUpgrade.h"
 #include "RecalboxConf.h"
 #include "Locale.h"
 
@@ -32,12 +33,12 @@ void NetworkThread::run(){
             boost::this_thread::sleep(boost::posix_time::hours(1));
         }
 
-    if (RecalboxSystem::getInstance()->canUpdate()) {
+    if (RecalboxUpgrade::getInstance()->canUpdate()) {
         if(RecalboxConf::getInstance()->get("updates.enabled") == "1") {
-            std::string changelog = RecalboxSystem::getInstance()->getUpdateChangelog();
+            std::string changelog = RecalboxUpgrade::getInstance()->getUpdateChangelog();
             if (changelog != "") {
                 std::string message = changelog;
-                std::string updateVersion = RecalboxSystem::getInstance()->getUpdateVersion();
+                std::string updateVersion = RecalboxUpgrade::getInstance()->getUpdateVersion();
                 mWindow->displayScrollMessage(_("AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"),
                                               _("UPDATE VERSION:") + " " + updateVersion + "\n" +
                                               _("UPDATE CHANGELOG:") + "\n" + message);

@@ -9,7 +9,7 @@
 #include "Settings.h"
 #include "Util.h"
 #include <guis/GuiMsgBox.h>
-#include <RecalboxSystem.h>
+#include <recalbox/RecalboxSystem.h>
 #include <components/ComponentList.h>
 #include <guis/GuiSettings.h>
 #include <RecalboxConf.h>

@@ -10,7 +10,7 @@
 #include "components/HelpComponent.h"
 #include "components/ImageComponent.h"
 #include "guis/GuiMsgBox.h"
-#include "RecalboxSystem.h"
+#include "recalbox/RecalboxSystem.h"
 #include "RecalboxConf.h"
 #include "Locale.h"
 
