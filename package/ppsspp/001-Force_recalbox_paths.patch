@@ -1,0 +1,21 @@
+diff --git a/UI/NativeApp.cpp b/UI/NativeApp.cpp
+index a94c5ea..c8719ef 100644
+--- a/UI/NativeApp.cpp
++++ b/UI/NativeApp.cpp
+@@ -346,7 +346,15 @@ void NativeInit(int argc, const char *argv[], const char *savegame_dir, const ch
+ 	else // Just in case
+ 		config = "./config";
+ 
+-	g_Config.memStickDirectory = config + "/ppsspp/";
++//	if (getenv("XDG_DATA_HOME") != NULL)
++//	config = getenv("XDG_DATA_HOME") + std::string("/ppsspp");
++//	else
++//		g_Config.memStickDirectory = config + "/ppsspp/";
++	// RECALBOX !
++	config = "/recalbox/share/system/configs/ppsspp/";
++	user_data_path = config;
++	g_Config.memStickDirectory = "/recalbox/share/saves/ppsspp/";
++
+ 	g_Config.flash0Directory = File::GetExeDirectory() + "/flash0/";
+ #endif
+ 

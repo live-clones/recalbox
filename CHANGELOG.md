@@ -4,6 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unrelease][unreleased]
 - New review upgrade system 
+- psp: saves now go to the right folder
 - New video render for retroarch: dispmanx (pi only)
 - Bumped Mupen64plus-GlideN64 video plugin to the Public Release 2.0
 - Fixed joystick sensitivity issue with mupen64plus
