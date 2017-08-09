@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unrelease][unreleased]
+- psp: saves now go to the right folder
 - Enhanced gliden64 video plugin configuration
 - Pad : added FuSa GamePad Version 0.3 (PSP homebrew) default mapping
 - Added noobs integration in archive images
