@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unrelease][unreleased]
+- reicast: bump + fix RTC clock
 - Bump retroarch to solve pad reordering issue
 - psp: saves now go to the right folder
 - Enhanced gliden64 video plugin configuration
