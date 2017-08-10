@@ -2,11 +2,12 @@ diff --git a/shell/linux/Makefile b/shell/linux/Makefile
 index 25cbc8c..68ed7cb 100644
 --- a/shell/linux/Makefile
 +++ b/shell/linux/Makefile
-@@ -7,7 +7,6 @@ USE_ALSA := 1
+@@ -7,7 +7,7 @@ USE_ALSA := 1
  USE_OSS := 1
  #USE_PULSEAUDIO := 1
  USE_EVDEV := 1
 -USE_JOYSTICK := 1
++#USE_JOYSTICK := 1
  
  CXX=${CC_PREFIX}g++
  CC=${CC_PREFIX}gcc
