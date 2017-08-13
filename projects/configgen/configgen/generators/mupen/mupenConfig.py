@@ -8,23 +8,56 @@ import json
 
 mupenSettings = UnixSettings(recalboxFiles.mupenCustom, separator=' ')
 
-def writeMupenConfig(system, controllers):
+GlideN64FBEmulation_whitelist = ["ocarina", "empire", "pokemon", "rayman", "donald", "diddy", "beetle", "tennis", "instinct", "gemini", "twins", "majora", "quake", "ridge"]
+GLideN64LegacyBlending_blacklist = ["empire", "beetle", "donkey", "zelda", "bomberman", "party"]
+GLideN64NativeResolution_blacklist = ["majora"]
+
+def writeMupenConfig(system, controllers, rom):
 	setPaths()
 	writeHotKeyConfig(controllers)
 	if system.config['videomode'] != 'default':
 		group, mode, drive = system.config['videomode'].split()
 		setRealResolution(group, mode, drive)
-	
+
 	#Draw or not FPS
 	if system.config['showFPS'] == 'true':
 		mupenSettings.save('ShowFPS', 'True')
-                # show_fps is used for Video-Glide64mk2
+                # show_fps is used for Video-Glide64mk2 & Video-GlideN64
                 mupenSettings.save('show_fps', '4')
 	else:
 		mupenSettings.save('ShowFPS', 'False')
                 mupenSettings.save('show_fps', '8')
 
-	
+	#Write GlideN64 config
+	romName = os.path.basename(rom)
+
+	#Crop resulted image.
+	mupenSettings.save('CropMode', '1')
+	#Bilinear filtering mode.
+	mupenSettings.save('bilinearMode', '1')
+	#Size of texture cache in megabytes.
+	mupenSettings.save('CacheSize', '100')
+	#Enable color buffer copy to RDRAM.
+	mupenSettings.save('EnableCopyColorToRDRAM', '0')
+	#Enable frame and|or depth buffer emulation.
+	mupenSettings.save('EnableFBEmulation', 'False')
+	#Do not use shaders to emulate N64 blending modes. Works faster on slow GPU. Can cause glitches.
+	mupenSettings.save('EnableLegacyBlending', 'True')
+	#Frame buffer size is the factor of N64 native resolution.
+	mupenSettings.save('UseNativeResolutionFactor', '1')
+
+	for n in GlideN64FBEmulation_whitelist:
+		if n in romName.lower():
+			mupenSettings.save('EnableFBEmulation', 'True')
+
+	for n in GLideN64LegacyBlending_blacklist:
+		if n in romName.lower():
+			mupenSettings.save('EnableLegacyBlending', 'False')
+
+	for n in GLideN64NativeResolution_blacklist:
+		if n in romName.lower():
+			mupenSettings.save('UseNativeResolutionFactor', '0')
+
 def writeHotKeyConfig(controllers):
 	if '1' in controllers:
 		if 'hotkey' in controllers['1'].inputs:
@@ -41,7 +74,7 @@ def writeHotKeyConfig(controllers):
 			if 'right' in controllers['1'].inputs:	
 				mupenSettings.save('Joy Mapping Fast Forward', "\"J{}{}/{}\"".format(controllers['1'].index, createButtonCode(controllers['1'].inputs['hotkey']), createButtonCode(controllers['1'].inputs['right'])))
 
-			
+
 def createButtonCode(button):
 	if(button.type == 'axis'):
 		if button.value == '-1':
@@ -59,7 +92,7 @@ def setRealResolution(group, mode, drive):
 	groups = ['CEA', 'DMT']
 	if group not in groups:
 		sys.exit("{} is an unknown group. Can't switch to {} {} {}".format(group, group, mode, drive))
-		
+
 	drives = ['HDMI', 'DVI']
 	if drive not in drives:
 		sys.exit("{} is an unknown drive. Can't switch to {} {} {}".format(drive, group, mode, drive))
@@ -74,7 +107,7 @@ def setRealResolution(group, mode, drive):
 			mupenSettings.save('ScreenWidth', "{}".format(tvmode["width"]))
 			mupenSettings.save('ScreenHeight', "{}".format(tvmode["height"]))
 			return
-			
+
 	sys.exit("The resolution for '{} {} {}' is not supported by your monitor".format(group, mode, drive))
 
 

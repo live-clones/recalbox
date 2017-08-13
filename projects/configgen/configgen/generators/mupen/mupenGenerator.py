@@ -15,7 +15,7 @@ class MupenGenerator(Generator):
             # Using recalbox config file
             system.config['configfile'] = recalboxFiles.mupenCustom
             # Write configuration file
-            mupenConfig.writeMupenConfig(system, playersControllers)
+            mupenConfig.writeMupenConfig(system, playersControllers, rom)
             #  Write controllers configuration files
             mupenControllers.writeControllersConfig(playersControllers)
 
