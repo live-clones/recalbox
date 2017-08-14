@@ -1,0 +1,64 @@
+{
+    "os_list": [
+	{
+            "description": "Recalbox, the open source retro gaming console for rpi1!",
+            "icon": "https://install.recalbox.com/noobs/v1/recalboxOS.png",
+            "marketing_info": "https://install.recalbox.com/noobs/v1/marketing.tar",
+            "nominal_size": 2048,
+            "os_info": "https://install.recalbox.com/noobs/v1/rpi1/os.json",
+            "os_name": "recalboxOS-rpi1",
+            "partition_setup": "https://install.recalbox.com/noobs/v1/partition_setup.sh",
+            "partitions_info": "https://install.recalbox.com/noobs/v1/partitions.json",
+            "release_date": "2016-11-26",
+            "supported_hex_revisions": "2,3,4,5,6,7,8,9,d,e,f,10,11,12,14,19,0092,0093",
+            "supported_models": [
+                "Pi Model",
+                "Pi Compute Module",
+                "Pi Zero"
+            ],
+            "tarballs": [
+                "https://install.recalbox.com/v1/upgrade/rpi1/boot.tar.xz?source=noobs",
+                "https://install.recalbox.com/v1/upgrade/rpi1/root.tar.xz?source=noobs"
+            ]
+        },
+        {
+            "description": "Recalbox, the open source retro gaming console for rpi2!",
+            "icon": "https://install.recalbox.com/noobs/v1/recalboxOS.png",
+            "marketing_info": "https://install.recalbox.com/noobs/v1/marketing.tar",
+            "nominal_size": 2048,
+            "os_info": "https://install.recalbox.com/noobs/v1/rpi2/os.json",
+            "os_name": "recalboxOS-rpi2",
+            "partition_setup": "https://install.recalbox.com/noobs/v1/partition_setup.sh",
+            "partitions_info": "https://install.recalbox.com/noobs/v1/partitions.json",
+            "release_date": "2016-11-26",
+            "supported_hex_revisions": "1040,1041",
+            "supported_models": [
+                "Pi 2"
+            ],
+            "tarballs": [
+                "https://install.recalbox.com/v1/upgrade/rpi2/boot.tar.xz?source=noobs",
+                "https://install.recalbox.com/v1/upgrade/rpi2/root.tar.xz?source=noobs"
+            ]
+        },
+        {
+            "description": "Recalbox, the open source retro gaming console for rpi3!",
+            "icon": "https://install.recalbox.com/noobs/v1/recalboxOS.png",
+            "marketing_info": "https://install.recalbox.com/noobs/v1/marketing.tar",
+            "nominal_size": 2048,
+            "os_info": "https://install.recalbox.com/noobs/v1/rpi3/os.json",
+            "os_name": "recalboxOS-rpi3",
+            "partition_setup": "https://install.recalbox.com/noobs/v1/partition_setup.sh",
+            "partitions_info": "https://install.recalbox.com/noobs/v1/partitions.json",
+            "release_date": "2016-11-26",
+  	    "supported_hex_revisions": "2082",
+            "supported_models": [
+                "Pi 3"
+            ],
+            "tarballs": [
+                "https://install.recalbox.com/v1/upgrade/rpi3/boot.tar.xz?source=noobs",
+                "https://install.recalbox.com/v1/upgrade/rpi3/root.tar.xz?source=noobs"
+            ]
+        }
+
+    ]
+}
