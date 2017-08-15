@@ -24,7 +24,7 @@ MenuComponent::MenuComponent(Window* window, const char* title, const std::share
 
 	// set up title
 	mTitle = std::make_shared<TextComponent>(mWindow);
-	mTitle->setAlignment(ALIGN_CENTER);
+	mTitle->setHorizontalAlignment(ALIGN_CENTER);
 		
 	setTitle(title, menuTheme->menuTitle.font);
 	mTitle->setColor(menuTheme->menuTitle.color);

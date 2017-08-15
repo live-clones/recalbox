@@ -159,7 +159,7 @@ public:
 			
 		mText.setFont(font);
 		mText.setColor(color);
-		mText.setAlignment(ALIGN_CENTER);
+		mText.setHorizontalAlignment(ALIGN_CENTER);
 		addChild(&mText);
 
 		if(mMultiSelect)

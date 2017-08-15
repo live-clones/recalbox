@@ -125,9 +125,13 @@ std::map< std::string, ElementMapType > ThemeData::sElementMap = boost::assign::
 		("type", STRING)
 		("size", NORMALIZED_PAIR)
 		("pos", NORMALIZED_PAIR)
+		("origin", NORMALIZED_PAIR)
 		("color", COLOR)
 		("logoScale", FLOAT)
+		("logoRotation", FLOAT)
+		("logoRotationOrigin", NORMALIZED_PAIR)
 		("logoSize", NORMALIZED_PAIR)
+		("logoAlignment", STRING)
 		("maxLogoCount", FLOAT)
 		("zIndex", FLOAT)))
 	("menuBackground", makeMap(boost::assign::map_list_of

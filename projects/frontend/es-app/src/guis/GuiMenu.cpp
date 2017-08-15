@@ -1378,7 +1378,7 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
 	mVersion.setColor(menuTheme->menuFooter.color);
 		
     mVersion.setText("RB EMULATIONSTATION V" + strToUpper(PROGRAM_VERSION_STRING));
-    mVersion.setAlignment(ALIGN_CENTER);
+    mVersion.setHorizontalAlignment(ALIGN_CENTER);
 
     addChild(&mMenu);
     addChild(&mVersion);

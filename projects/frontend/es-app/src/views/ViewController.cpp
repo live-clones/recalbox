@@ -74,6 +74,7 @@ void ViewController::goToSystemView(SystemData* system)
 	systemList->setPosition(getSystemId(system) * (float)Renderer::getScreenWidth(), systemList->getPosition().y());
 	systemList->goToSystem(system, false);
 	mCurrentView = systemList;
+	mCurrentView->onShow();
 
 	playViewTransition();
 }
