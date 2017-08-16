@@ -44,8 +44,10 @@ if [ "${COMMAND}" == "upgrade" ];then
   else
     UPGRADE_URL="${UPGRADETYPE}"
   fi
-  "$BINDIR/recalbox-do-upgrade.sh" --upgrade-dir "${RECALBOX_SYSTEM_DIR}/upgrade" --upgrade-url "${UPGRADE_URL}" --arch "${ARCH}"
-  exit $?
+  "$BINDIR/recalbox-do-upgrade.sh" --upgrade-dir "${RECALBOX_SYSTEM_DIR}/upgrade" --upgrade-url "${UPGRADE_URL}" --arch "${ARCH}" 2> "/tmp/recalbox.do.upgrade.log"
+  exitcode="$?"
+  cat "/tmp/recalbox.do.upgrade.log" | recallog
+  exit "${exitcode}"
 fi
 
 if [ "${COMMAND}" == "diffremote" ];then
