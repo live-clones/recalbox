@@ -2,13 +2,12 @@
 
 systemsetting="python /usr/lib/python2.7/site-packages/configgen/settings/recalboxSettings.pyc"
 config_script=/recalbox/scripts/recalbox-config.sh
-log="/recalbox/share/system/logs/recalbox.log"
 
 rb_volume_configure() {
     settingsVolume="`$systemsetting -command load -key audio.volume`"
     if [ "$settingsVolume" != "" ];then
 	recallog "setting audio volume to $settingsVolume"
-        eval $config_script "volume" "$settingsVolume" >> $log
+        eval $config_script "volume" "$settingsVolume" 2>&1 | recallog
     fi
 }
 
@@ -68,7 +67,7 @@ rb_audio_configure() {
         settingsAudio="auto"
     fi
     recallog "setting audio to $settingsAudio"
-    eval $config_script "audio" "$settingsAudio" >> $log
+    eval $config_script "audio" "$settingsAudio" 2>&1 | recallog
 }
 
 rb_gpio_configure() {
@@ -77,21 +76,21 @@ rb_gpio_configure() {
 	settings_gpio_map="`$systemsetting -command load -key controllers.gpio.args`"
 	[ "$settings_gpio_map" == "" ] && settings_gpio_map="map=1,2"
 	recallog "enabling mk_arcade_joystick_rpi"
-        eval $config_script "module" "load" mk_arcade_joystick_rpi "$settings_gpio_map" >> $log
+        eval $config_script "module" "load" mk_arcade_joystick_rpi "$settings_gpio_map" 2>&1 | recallog
     else
 	# mk disabled let's check for db9
 	settings_db9="`$systemsetting -command load -key controllers.db9.enabled`"
 	if [ "$settings_db9" == "1" ];then
             settings_db9_map="`$systemsetting -command load -key controllers.db9.args`"
             recallog "enabling db9"
-            eval $config_script "module" "load" db9_gpio_rpi "$settings_db9_map" >> $log
+            eval $config_script "module" "load" db9_gpio_rpi "$settings_db9_map" 2>&1 | recallog
 	else 
 	    # db9 and mk disabled let's check for gamecon
             settings_gamecon="`$systemsetting -command load -key controllers.gamecon.enabled`"
             if [ "$settings_gamecon" == "1" ];then
                 settings_gamecon_map="`$systemsetting -command load -key controllers.gamecon.args`"
                 recallog "enabling gamecon"
-                eval $config_script "module" "load" gamecon_gpio_rpi "$settings_gamecon_map" >> $log
+                eval $config_script "module" "load" gamecon_gpio_rpi "$settings_gamecon_map" 2>&1 | recallog
 	    fi
 	fi
     fi
@@ -102,12 +101,12 @@ rb_keyboad_lang() {
     settings_kb="`$systemsetting -command load -key system.kblayout`"
     if [[ "$settings_kb" != "" ]];then
         recallog "setting keyboard layout to ${settings_kb}"
-	loadkeys "$settings_kb" >> $log
+	loadkeys "$settings_kb" 2>&1 | recallog
     else
         keyboardmap=`echo "$settings_lang" | cut -c1-2`
 	if [[ "$keyboardmap" != "" ]]; then
             recallog "setting keyboard layout to ${keyboardmap}"
-            loadkeys "$keyboardmap" >> $log
+            loadkeys "$keyboardmap" 2>&1 | recallog
 	fi
     fi
 }
