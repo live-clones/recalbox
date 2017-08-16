@@ -1,8 +1,8 @@
 #!/bin/bash
 
 if [ ! "$1" ];then
-	echo -e "usage : recalbox-config.sh [command] [args]\nWith command in\n\toverscan [enable|disable]\n\toverclock [none|high|turbo|extrem]\n\taudio [hdmi|jack|auto|string]\n\tlsaudio\n\tcanupdate\n\tupdate\n\twifi [enable|disable] ssid key\n\tstorage [current|list|INTERNAL|ANYEXTERNAL|RAM|DEV UUID]\n\tsetRootPassword [password]\n\tgetRootPassword\n updateesinput [deviceName] [deviceGUID]"
-	exit 1
+    echo -e "usage : recalbox-config.sh [command] [args]\nWith command in\n\toverscan [enable|disable]\n\toverclock [none|high|turbo|extrem]\n\taudio [hdmi|jack|auto|string]\n\tlsaudio\n\tcanupdate\n\tupdate\n\twifi [enable|disable] ssid key\n\tstorage [current|list|INTERNAL|ANYEXTERNAL|RAM|DEV UUID]\n\tsetRootPassword [password]\n\tgetRootPassword\n updateesinput [deviceName] [deviceGUID]"
+    exit 1
 fi
 configFile="/boot/config.txt"
 storageFile="/boot/recalbox-boot.conf"
@@ -21,52 +21,52 @@ postBootConfig() {
 }
 
 function getSubNum () {
-	# $1 : version number. ex 4.0.2
-	# $2 : separator. ex : "."
-	# $3 : the position you need. ex : 2
-	result=`echo $1 | cut -d "$2" -f "$3" 2>/dev/null`
-	[[ -z $result ]] && echo "0" || echo $result
+    # $1 : version number. ex 4.0.2
+    # $2 : separator. ex : "."
+    # $3 : the position you need. ex : 2
+    result=`echo $1 | cut -d "$2" -f "$3" 2>/dev/null`
+    [[ -z $result ]] && echo "0" || echo $result
 }
 
 function isNewer () {
-	# compare $1 and $2
-	# if $1 >= $2 return 0
-	# else return 1
-	newVersion="$1"
-	oldVersion="$2"
+    # compare $1 and $2
+    # if $1 >= $2 return 0
+    # else return 1
+    newVersion="$1"
+    oldVersion="$2"
 
-	for i in 1 2 3 ; do
-		oldNum=`getSubNum $oldVersion "." "$i"`
-		newNum=`getSubNum $newVersion "." "$i"`
-		[[ $newNum -eq $oldNum ]] && continue 
-		[[ $newNum -gt $oldNum ]] && return 0
-		[[ $newNum -lt $oldNum ]] && return 1
-	done
-	return 1
+    for i in 1 2 3 ; do
+        oldNum=`getSubNum $oldVersion "." "$i"`
+        newNum=`getSubNum $newVersion "." "$i"`
+        [[ $newNum -eq $oldNum ]] && continue
+        [[ $newNum -gt $oldNum ]] && return 0
+        [[ $newNum -lt $oldNum ]] && return 1
+    done
+    return 1
 }
 
 
 log=/recalbox/share/system/logs/recalbox.log
 systemsetting="python /usr/lib/python2.7/site-packages/configgen/settings/recalboxSettings.pyc"
 
-echo "---- recalbox-config.sh ----" >> $log
+recallog "---- recalbox-config.sh ----"
 
 if [ "$command" == "getRootPassword" ]; then
     # security disabled, force the default one without changing boot configuration
     securityenabled="`$systemsetting  -command load -key system.security.enabled`"
     if [ "$securityenabled" != "1" ];then
-	echo "recalboxroot"
-	exit 0
+        echo "recalboxroot"
+        exit 0
     fi
     
     ENCPASSWD=$(grep -E '^[ \t]*rootshadowpassword[ \t]*=' "${storageFile}" | sed -e s+'^[ \t]*rootshadowpassword[ \t]*='++)
     if test -z "${ENCPASSWD}"
     then
-	exit 1
+        exit 1
     fi
     if ! /recalbox/scripts/recalbox-encode.sh decode "${ENCPASSWD}"
     then
-	exit 1
+        exit 1
     fi
     exit 0
 fi
@@ -77,71 +77,71 @@ if [ "$command" == "setRootPassword" ]; then
     # security disabled, don't change
     securityenabled="`$systemsetting  -command load -key system.security.enabled`"
     if [ "$securityenabled" != "1" ];then
-	exit 0
+        exit 0
     fi
     
     # if no password if provided, generate one
     if test -z "${PASSWD}"
     then
-	PASSWD=$(tr -cd _A-Z-a-z-0-9 < /dev/urandom | fold -w8 | head -n1)
+        PASSWD=$(tr -cd _A-Z-a-z-0-9 < /dev/urandom | fold -w8 | head -n1)
     fi
     PASSWDENC=$(/recalbox/scripts/recalbox-encode.sh encode "${PASSWD}")
     
     preBootConfig
     if grep -qE '^[ \t]*rootshadowpassword[ \t]*=' "${storageFile}"
     then
-	# update it
-	if ! sed -i -e s@'^[ \t]*rootshadowpassword[ \t]*=.*$'@"rootshadowpassword=${PASSWDENC}"@ "${storageFile}"
-	then
-	    postBootConfig
-	    exit 1
-	fi
-	postBootConfig
-	exit 0
+        # update it
+        if ! sed -i -e s@'^[ \t]*rootshadowpassword[ \t]*=.*$'@"rootshadowpassword=${PASSWDENC}"@ "${storageFile}"
+        then
+            postBootConfig
+            exit 1
+        fi
+        postBootConfig
+        exit 0
     else
-	# create it
-	if ! echo "rootshadowpassword=${PASSWDENC}" >> "${storageFile}"
-	then
-	    postBootConfig
-	    exit 1
-	fi
-	postBootConfig
-	exit 0
+        # create it
+        if ! echo "rootshadowpassword=${PASSWDENC}" >> "${storageFile}"
+        then
+            postBootConfig
+            exit 1
+        fi
+        postBootConfig
+        exit 0
     fi    
 fi
 
 if [ "$command" == "overscan" ]; then
 if [ -f "$configFile" ];then
-        preBootConfig
-        cat "$configFile" | grep "disable_overscan"
-	overscanPresent=$?
+    preBootConfig
+    cat "$configFile" | grep "disable_overscan"
+    overscanPresent=$?
 
-	if [ "$overscanPresent" != "0" ];then
-		echo "disable_overscan=1" >> "$configFile"
-	fi
-	cat "$configFile" | grep "overscan_scale"
-	overscanScalePresent=$?
+    if [ "$overscanPresent" != "0" ];then
+        echo "disable_overscan=1" >> "$configFile"
+    fi
+    cat "$configFile" | grep "overscan_scale"
+    overscanScalePresent=$?
 
-	if [ "$overscanScalePresent" != "0" ];then
-		echo "overscan_scale=1" >> "$configFile"
-	fi
+    if [ "$overscanScalePresent" != "0" ];then
+        echo "overscan_scale=1" >> "$configFile"
+    fi
 
-	if [ "$mode" == "enable" ];then
-		echo "`logtime` : enabling overscan" >> $log
-		sed -i "s/#\?disable_overscan=.*/disable_overscan=0/g" "$configFile"
-		sed -i "s/#\?overscan_scale=.*/overscan_scale=1/g" "$configFile"
-	elif [ "$mode" == "disable" ];then
-                echo "`logtime` : disabling overscan" >> $log
-                sed -i "s/#\?disable_overscan=.*/disable_overscan=1/g" "$configFile"
-                sed -i "s/#\?overscan_scale=.*/overscan_scale=0/g" "$configFile"
-	else
-                postBootConfig
-		exit 1
-	fi
-	postBootConfig
-	exit 0
+    if [ "$mode" == "enable" ];then
+        recallog "enabling overscan"
+        sed -i "s/#\?disable_overscan=.*/disable_overscan=0/g" "$configFile"
+        sed -i "s/#\?overscan_scale=.*/overscan_scale=1/g" "$configFile"
+    elif [ "$mode" == "disable" ];then
+        recallog "disabling overscan"
+        sed -i "s/#\?disable_overscan=.*/disable_overscan=1/g" "$configFile"
+        sed -i "s/#\?overscan_scale=.*/overscan_scale=0/g" "$configFile"
+    else
+        postBootConfig
+        exit 1
+    fi
+    postBootConfig
+    exit 0
 else
-	exit 2
+    exit 2
 fi
 fi
 
@@ -258,71 +258,71 @@ sdram_schmoo["turbo"]=0x02000020
 sdram_schmoo["high"]=0x02000020
 
 if [ -f "$configFile" ];then
-        preBootConfig
-        if [[ "$mode" == "none" ]]; then
-          for entry in arm_freq core_freq sdram_freq force_turbo over_voltage over_voltage_sdram_p over_voltage_sdram_i over_voltage_sdram_c gpu_freq sdram_schmoo; do
-	    sed -i "/^${entry}/d" "$configFile"
-          done
-        else
-	cat "$configFile" | grep "arm_freq"
-	if [ "$?" != "0" ];then
-		echo "arm_freq=" >> "$configFile"
-	fi
-	cat "$configFile" | grep "core_freq"
-	if [ "$?" != "0" ];then
-		echo "core_freq=" >> "$configFile"
-	fi
-	cat "$configFile" | grep "sdram_freq"
-	if [ "$?" != "0" ];then
-		echo "sdram_freq=" >> "$configFile"
-	fi
-	cat "$configFile" | grep "force_turbo"
-	if [ "$?" != "0" ];then
-		echo "force_turbo=" >> "$configFile"
-	fi
-	cat "$configFile" | grep "over_voltage"
-	if [ "$?" != "0" ];then
-		echo "over_voltage=" >> "$configFile"
-	fi
-	cat "$configFile" | grep "over_voltage_sdram_p"
-	if [ "$?" != "0" ];then
-		echo "over_voltage_sdram_p=" >> "$configFile"
-	fi
-	cat "$configFile" | grep "over_voltage_sdram_i"
-	if [ "$?" != "0" ];then
-		echo "over_voltage_sdram_i=" >> "$configFile"
-	fi
-	cat "$configFile" | grep "over_voltage_sdram_c"
-	if [ "$?" != "0" ];then
-		echo "over_voltage_sdram_c=" >> "$configFile"
-	fi
-	cat "$configFile" | grep "gpu_freq"
-	if [ "$?" != "0" ];then
-		echo "gpu_freq=" >> "$configFile"
-	fi
-	cat "$configFile" | grep "sdram_schmoo"
-	if [ "$?" != "0" ];then
-		echo "sdram_schmoo=" >> "$configFile"
-	fi
-
-	sed -i "s/#\?arm_freq=.*/arm_freq=${arm_freq[$mode]}/g" "$configFile"
-	sed -i "s/#\?core_freq=.*/core_freq=${core_freq[$mode]}/g" "$configFile"
-	sed -i "s/#\?sdram_freq=.*/sdram_freq=${sdram_freq[$mode]}/g" "$configFile"
-	sed -i "s/#\?force_turbo=.*/force_turbo=${force_turbo[$mode]}/g" "$configFile"
-	sed -i "s/#\?over_voltage=.*/over_voltage=${over_voltage[$mode]}/g" "$configFile"
-	sed -i "s/#\?over_voltage_sdram_p=.*/over_voltage_sdram_p=${over_voltage_sdram_p[$mode]}/g" "$configFile"
-	sed -i "s/#\?over_voltage_sdram_i=.*/over_voltage_sdram_i=${over_voltage_sdram_i[$mode]}/g" "$configFile"
-	sed -i "s/#\?over_voltage_sdram_c=.*/over_voltage_sdram_c=${over_voltage_sdram_c[$mode]}/g" "$configFile"
-	sed -i "s/#\?gpu_freq=.*/gpu_freq=${gpu_freq[$mode]}/g" "$configFile"
-	sed -i "s/#\?sdram_schmoo=.*/sdram_schmoo=${sdram_schmoo[$mode]}/g" "$configFile"
+    preBootConfig
+    if [[ "$mode" == "none" ]]; then
+        for entry in arm_freq core_freq sdram_freq force_turbo over_voltage over_voltage_sdram_p over_voltage_sdram_i over_voltage_sdram_c gpu_freq sdram_schmoo; do
+            sed -i "/^${entry}/d" "$configFile"
+        done
+    else
+        cat "$configFile" | grep "arm_freq"
+        if [ "$?" != "0" ];then
+            echo "arm_freq=" >> "$configFile"
         fi
-        echo "`logtime` : enabled overclock mode : $mode" >> $log
+        cat "$configFile" | grep "core_freq"
+        if [ "$?" != "0" ];then
+            echo "core_freq=" >> "$configFile"
+        fi
+        cat "$configFile" | grep "sdram_freq"
+        if [ "$?" != "0" ];then
+            echo "sdram_freq=" >> "$configFile"
+        fi
+        cat "$configFile" | grep "force_turbo"
+        if [ "$?" != "0" ];then
+            echo "force_turbo=" >> "$configFile"
+        fi
+        cat "$configFile" | grep "over_voltage"
+        if [ "$?" != "0" ];then
+            echo "over_voltage=" >> "$configFile"
+        fi
+        cat "$configFile" | grep "over_voltage_sdram_p"
+        if [ "$?" != "0" ];then
+            echo "over_voltage_sdram_p=" >> "$configFile"
+        fi
+        cat "$configFile" | grep "over_voltage_sdram_i"
+        if [ "$?" != "0" ];then
+            echo "over_voltage_sdram_i=" >> "$configFile"
+        fi
+        cat "$configFile" | grep "over_voltage_sdram_c"
+        if [ "$?" != "0" ];then
+            echo "over_voltage_sdram_c=" >> "$configFile"
+        fi
+        cat "$configFile" | grep "gpu_freq"
+        if [ "$?" != "0" ];then
+            echo "gpu_freq=" >> "$configFile"
+        fi
+        cat "$configFile" | grep "sdram_schmoo"
+        if [ "$?" != "0" ];then
+            echo "sdram_schmoo=" >> "$configFile"
+        fi
 
-	postBootConfig
-	
-	exit 0
+        sed -i "s/#\?arm_freq=.*/arm_freq=${arm_freq[$mode]}/g" "$configFile"
+        sed -i "s/#\?core_freq=.*/core_freq=${core_freq[$mode]}/g" "$configFile"
+        sed -i "s/#\?sdram_freq=.*/sdram_freq=${sdram_freq[$mode]}/g" "$configFile"
+        sed -i "s/#\?force_turbo=.*/force_turbo=${force_turbo[$mode]}/g" "$configFile"
+        sed -i "s/#\?over_voltage=.*/over_voltage=${over_voltage[$mode]}/g" "$configFile"
+        sed -i "s/#\?over_voltage_sdram_p=.*/over_voltage_sdram_p=${over_voltage_sdram_p[$mode]}/g" "$configFile"
+        sed -i "s/#\?over_voltage_sdram_i=.*/over_voltage_sdram_i=${over_voltage_sdram_i[$mode]}/g" "$configFile"
+        sed -i "s/#\?over_voltage_sdram_c=.*/over_voltage_sdram_c=${over_voltage_sdram_c[$mode]}/g" "$configFile"
+        sed -i "s/#\?gpu_freq=.*/gpu_freq=${gpu_freq[$mode]}/g" "$configFile"
+        sed -i "s/#\?sdram_schmoo=.*/sdram_schmoo=${sdram_schmoo[$mode]}/g" "$configFile"
+    fi
+    recallog "enabled overclock mode : $mode"
+
+    postBootConfig
+    
+    exit 0
 else
-	exit 2
+    exit 2
 fi
 
 fi
@@ -339,15 +339,15 @@ if [ "$command" == "audio" ];then
     rm /recalbox/share/system/.asoundrc 2>/dev/null
     if [[ "${arch}" =~ "rpi" && "auto hdmi jack" =~ "${mode}" ]]
     then
-	# this is specific to the rpi
-	cmdVal="0"
-	if [ "$mode" == "hdmi" ];then
-	    cmdVal="2"
-	elif [ "$mode" == "jack" ];then
-	    cmdVal="1"
-	fi
-        echo "`logtime` : setting audio output mode : $mode" >> $log
-	amixer cset numid=3 $cmdVal || exit 1
+        # this is specific to the rpi
+        cmdVal="0"
+        if [ "$mode" == "hdmi" ];then
+            cmdVal="2"
+        elif [ "$mode" == "jack" ];then
+            cmdVal="1"
+        fi
+        recallog "setting audio output mode : $mode"
+        amixer cset numid=3 $cmdVal || exit 1
     elif echo "$mode" | grep -qE "^\[[0-9]:[0-9]\]"
     then
         cardId=`echo $mode | sed "s+^\[\([0-9]\)\:\([0-9]\)\].*+\1+g"`
@@ -393,54 +393,54 @@ if [ "$command" == "lsaudio" ];then
 fi
 
 if [ "$command" == "volume" ];then
-	if [ "$mode" != "" ];then
-		echo "`logtime` : setting audio volume : $mode" >> $log
-		
-		if ( amixer scontrols | grep -q 'Master' ); then
-		# on my pc, the master is turned off at boot
-		# i don't know what are the rules to set here.
-			amixer set Master unmute      || exit 1
-		fi
-		if ( amixer scontrols | grep -q 'PCM' ); then
-			amixer set PCM    unmute      || exit 1
-		fi
-		# Odroids have no sound controller. Too bad, exit 0 anyway
-		# Force the sound volume to every mixer on the default sound card
-		for param in `amixer controls | cut -d ',' -f 1` ; do echo Setting volume for $param ; amixer -q cset ${param} ${mode}% ; done
-		exit 0
-	fi
-	exit 12
+    if [ "$mode" != "" ];then
+        recallog "setting audio volume : $mode"
+
+        if ( amixer scontrols | grep -q 'Master' ); then
+            # on my pc, the master is turned off at boot
+            # i don't know what are the rules to set here.
+            amixer set Master unmute      || exit 1
+        fi
+        if ( amixer scontrols | grep -q 'PCM' ); then
+            amixer set PCM    unmute      || exit 1
+        fi
+        # Odroids have no sound controller. Too bad, exit 0 anyway
+        # Force the sound volume to every mixer on the default sound card
+        for param in `amixer controls | cut -d ',' -f 1` ; do recallog "Setting volume for $param" ; amixer -q cset ${param} ${mode}% ; done
+        exit 0
+    fi
+    exit 12
 fi
 
 if [ "$command" == "gpiocontrollers" ];then
-	command="module"
-	mode="load"
-	extra1="mk_arcade_joystick_rpi"
-	extra2="map=1,2"
+    command="module"
+    mode="load"
+    extra1="mk_arcade_joystick_rpi"
+    extra2="map=1,2"
 fi
 
 if [ "$command" == "module" ];then
-	modulename="$extra1"
-	map="$extra2"
-	# remove in all cases
-	rmmod /lib/modules/`uname -r`/extra/${modulename}.ko >> $log
+    modulename="$extra1"
+    map="$extra2"
+    # remove in all cases
+    rmmod /lib/modules/`uname -r`/extra/${modulename}.ko 2>&1 | recallog
 
-        if [ "$mode" == "load" ];then
-	        echo "`logtime` : loading module $modulename args = $map" >> $log
-		insmod /lib/modules/`uname -r`/extra/${modulename}.ko $map >> $log
-		[ "$?" ] || exit 1
-        fi
-	exit 0
+    if [ "$mode" == "load" ];then
+        echo "`logtime` : loading module $modulename args = $map" 2>&1 | recallog
+        insmod /lib/modules/`uname -r`/extra/${modulename}.ko $map 2>&1 | recallog
+    [ "$?" ] || exit 1
+    fi
+    exit 0
 fi
 
 if [[ "$command" == "wifi" ]]; then
-        ssid="$3"
-        psk="$4"
+    ssid="$3"
+    psk="$4"
 
-        if [[ "$mode" == "enable" ]]; then
-            echo "`logtime` : configure wifi" >> $log
-	    mkdir -p "/var/lib/connman" || exit 1
-	    cat > "/var/lib/connman/recalbox.config" <<EOF
+    if [[ "$mode" == "enable" ]]; then
+        recallog "configure wifi"
+        mkdir -p "/var/lib/connman" || exit 1
+        cat > "/var/lib/connman/recalbox.config" <<EOF
 [global]
 Name=recalbox
 
@@ -448,130 +448,131 @@ Name=recalbox
 Type=wifi
 Name=${ssid}
 EOF
-	    if test "${psk}" != ""
-	    then
-		echo "Passphrase=${psk}" >> "/var/lib/connman/recalbox.config"
-	    fi
+        if test "${psk}" != ""
+        then
+        echo "Passphrase=${psk}" >> "/var/lib/connman/recalbox.config"
+        fi
 
-	    connmanctl enable wifi || exit 1
-	    connmanctl scan   wifi || exit 1
-            exit 0
-        fi
-  	if [[ "$mode" =~ "start" ]]; then
-            if [[ "$mode" != "forcestart" ]]; then
-                settingsWlan="`$systemsetting -command load -key wifi.enabled`"
-                if [ "$settingsWlan" != "1" ];then
-                    exit 1
-                fi
+        connmanctl enable wifi || exit 1
+        connmanctl scan   wifi || exit 1
+        exit 0
+    fi
+    if [[ "$mode" =~ "start" ]]; then
+        if [[ "$mode" != "forcestart" ]]; then
+            settingsWlan="`$systemsetting -command load -key wifi.enabled`"
+            if [ "$settingsWlan" != "1" ];then
+                exit 1
             fi
-	    connmanctl enable wifi || exit 1
-	    connmanctl scan   wifi || exit 1
-	    exit 0
         fi
-        if [[ "$mode" == "disable" ]]; then
-	    connmanctl disable wifi
-            exit $?
+        connmanctl enable wifi || exit 1
+        connmanctl scan   wifi || exit 1
+        exit 0
+    fi
+    if [[ "$mode" == "disable" ]]; then
+        connmanctl disable wifi
+        exit $?
+    fi
+    if [[ "$mode" == "list" ]]; then
+        WAVAILABLE=$(connmanctl services | cut -b 5- | sed -e s+'^\([^ ]*\).*$'+'\1'+ | grep -vE '^Wired$|^<hidden>$')
+        if test -n "${ssid}"
+        then
+            echo "${WAVAILABLE}" | grep -qE '^'"${ssid}"'$' || echo "${ssid}"
         fi
-	if [[ "$mode" == "list" ]]; then
-	    WAVAILABLE=$(connmanctl services | cut -b 5- | sed -e s+'^\([^ ]*\).*$'+'\1'+ | grep -vE '^Wired$|^<hidden>$')
-	    if test -n "${ssid}"
-	    then
-		echo "${WAVAILABLE}" | grep -qE '^'"${ssid}"'$' || echo "${ssid}"
-	    fi
-	    echo "${WAVAILABLE}"
-            exit 0
-	fi
+        echo "${WAVAILABLE}"
+        exit 0
+    fi
 fi
+
 if [[ "$command" == "hcitoolscan" ]]; then
-	PYTHONIOENCODING=UTF-8 /recalbox/scripts/bluetooth/test-device list
-	exit 0
+    PYTHONIOENCODING=UTF-8 /recalbox/scripts/bluetooth/test-device list
+    exit 0
 fi
 
 if [[ "$command" == "hiddpair" ]]; then
-	name="$extra1"
-	mac1="$mode"
-	mac=`echo $mac1 | grep -oEi "([0-9A-F]{2}[:-]){5}([0-9A-F]{2})" | tr '[:lower:]' '[:upper:]'`
-	macLowerCase=`echo $mac | tr '[:upper:]' '[:lower:]'`
-	if [ "$?" != "0" ]; then 
-		exit 1
-	fi
-	echo "pairing $name $mac" >>  $log
-	echo $name | grep "8Bitdo\|other" >> $log
-        if [ "$?" == "0" ]; then
-                echo "8Bitdo detected" >> $log
-                cat "/run/udev/rules.d/99-8bitdo.rules" | grep "$mac" >> /dev/null
-                if [ "$?" != "0" ]; then
-                        echo "adding rule for $mac" >> $log
-                        echo "SUBSYSTEM==\"input\", ATTRS{uniq}==\"$macLowerCase\", MODE=\"0666\", ENV{ID_INPUT_JOYSTICK}=\"1\"" >> "/run/udev/rules.d/99-8bitdo.rules"
-                fi
+    name="$extra1"
+    mac1="$mode"
+    mac=`echo $mac1 | grep -oEi "([0-9A-F]{2}[:-]){5}([0-9A-F]{2})" | tr '[:lower:]' '[:upper:]'`
+    macLowerCase=`echo $mac | tr '[:upper:]' '[:lower:]'`
+    if [ "$?" != "0" ]; then
+        exit 1
+    fi
+    recallog "pairing $name $mac"
+    echo $name | grep "8Bitdo\|other" | recallog
+    if [ "$?" == "0" ]; then
+        recallog "8Bitdo detected"
+        cat "/run/udev/rules.d/99-8bitdo.rules" | grep "$mac" >> /dev/null
+        if [ "$?" != "0" ]; then
+            recallog "adding rule for $mac"
+            echo "SUBSYSTEM==\"input\", ATTRS{uniq}==\"$macLowerCase\", MODE=\"0666\", ENV{ID_INPUT_JOYSTICK}=\"1\"" >> "/run/udev/rules.d/99-8bitdo.rules"
         fi
-        /recalbox/scripts/bluetooth/simple-agent -c NoInputNoOutput -i hci0 "$mac"
-        connected=$?
-	if [ $connected -eq 0 ]; then
-                hcitool con | grep $mac1
-                if [[ $? == "0" ]]; then
-                        echo "bluetooth : $mac1 connected !" >> $log
-                        /recalbox/scripts/bluetooth/test-device trusted "$mac" yes
-                        # Save the configuration
-                        btTar=/recalbox/share/system/bluetooth/bluetooth.tar
-                        rm "$btTar" ; tar cvf "$btTar" /var/lib/bluetooth/
-                else
-                        echo "bluetooth : $mac1 failed connection" >> $log
-                fi
+    fi
+    /recalbox/scripts/bluetooth/simple-agent -c NoInputNoOutput -i hci0 "$mac"
+    connected=$?
+    if [ $connected -eq 0 ]; then
+        hcitool con | grep $mac1
+        if [[ $? == "0" ]]; then
+            recallog "bluetooth : $mac1 connected !"
+            /recalbox/scripts/bluetooth/test-device trusted "$mac" yes
+            # Save the configuration
+            btTar=/recalbox/share/system/bluetooth/bluetooth.tar
+            rm "$btTar" ; tar cvf "$btTar" /var/lib/bluetooth/
         else
-                echo "bluetooth : $mac1 failed connection" >> $log
+            recallog "bluetooth : $mac1 failed connection"
         fi
-        exit $connected
+    else
+        recallog "bluetooth : $mac1 failed connection"
+    fi
+    exit $connected
 fi
 
 if [[ "$command" == "storage" ]]; then
     if [[ "$mode" == "current" ]]; then
-	if test -e $storageFile
-	then
+        if test -e $storageFile
+        then
             SHAREDEVICE=`cat ${storageFile} | grep "sharedevice=" | head -n1 | cut -d'=' -f2`
             [[ "$?" -ne "0" || "$SHAREDEVICE" == "" ]] && SHAREDEVICE=INTERNAL
-	    echo "$SHAREDEVICE"
-	else
-	    echo "INTERNAL"
-	fi
-	exit 0
+            echo "$SHAREDEVICE"
+        else
+            echo "INTERNAL"
+        fi
+        exit 0
     fi
     if [[ "$mode" == "list" ]]; then
-	echo "INTERNAL"
-	echo "ANYEXTERNAL"
-	echo "RAM"
-	(blkid | grep -vE '^/dev/mmcblk' | grep ': LABEL="'
-	 blkid | grep -vE '^/dev/mmcblk' | grep -v ': LABEL="' | sed -e s+':'+': LABEL="NO_NAME"'+
-	) | sed -e s+'^[^:]*: LABEL="\([^"]*\)" UUID="\([^"]*\)" TYPE="[^"]*"$'+'DEV \2 \1'+
-	exit 0
+        echo "INTERNAL"
+        echo "ANYEXTERNAL"
+        echo "RAM"
+        (blkid | grep -vE '^/dev/mmcblk' | grep ': LABEL="'
+         blkid | grep -vE '^/dev/mmcblk' | grep -v ': LABEL="' | sed -e s+':'+': LABEL="NO_NAME"'+
+        ) | sed -e s+'^[^:]*: LABEL="\([^"]*\)" UUID="\([^"]*\)" TYPE="[^"]*"$'+'DEV \2 \1'+
+        exit 0
     fi
     if [[ "${mode}" == "INTERNAL" || "${mode}" == "ANYEXTERNAL" || "${mode}" == "RAM" || "${mode}" == "DEV" ]]; then
-	preBootConfig
-	if [[ "${mode}" == "INTERNAL" || "${mode}" == "ANYEXTERNAL" || "${mode}" == "RAM" ]]; then
+        preBootConfig
+        if [[ "${mode}" == "INTERNAL" || "${mode}" == "ANYEXTERNAL" || "${mode}" == "RAM" ]]; then
             if grep -qE "^sharedevice=" "${storageFile}"
-	    then
-               sed -i "s|sharedevice=.*|sharedevice=${mode}|g" "${storageFile}"
+            then
+                sed -i "s|sharedevice=.*|sharedevice=${mode}|g" "${storageFile}"
             else
-               echo "sharedevice=${mode}" >> "${storageFile}"
+                echo "sharedevice=${mode}" >> "${storageFile}"
             fi
-	fi
-	if [[ "${mode}" == "DEV" ]]; then
+        fi
+        if [[ "${mode}" == "DEV" ]]; then
             if grep -qE "^sharedevice=" "${storageFile}"
-	    then
-               sed -i "s|sharedevice=.*|sharedevice=${mode} $extra1|g" "${storageFile}"
+            then
+                sed -i "s|sharedevice=.*|sharedevice=${mode} $extra1|g" "${storageFile}"
             else
                echo "sharedevice=${mode} ${extra1}" >> "${storageFile}"
             fi
-	fi
-	postBootConfig
-	exit 0
+        fi
+    postBootConfig
+    exit 0
     fi
 fi
 
 if [[ "$command" == "forgetBT" ]]; then
     for mac in $(find /var/lib/bluetooth/ -type d -maxdepth 2 -mindepth 2 | grep -v "/cache$" | cut -d "/" -f 6) ; do 
         recallog "Unpairing and removing BT device $mac" 
-	/recalbox/scripts/bluetooth/test-device remove "$mac"
+        /recalbox/scripts/bluetooth/test-device remove "$mac"
     done
     exit 0
 fi
