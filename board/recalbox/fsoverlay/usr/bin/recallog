@@ -1,9 +1,15 @@
 #!/bin/sh
 log="/recalbox/share/system/logs/recalbox.log"
+
 if [[ "$1" == "-e" ]];then
   shift
-  echo "`logtime` : $@" >> $log
-  echo "$@"
+  customopts="-e"
+fi
+if [[ -z "$1" ]];then
+while read line
+do
+  echo ${customopts} "`logtime` ${line}" >> "${log}"
+done
 else
-  echo "`logtime` : $@" >> $log
+  echo ${customopts} "`logtime` $1" >> "${log}"
 fi
