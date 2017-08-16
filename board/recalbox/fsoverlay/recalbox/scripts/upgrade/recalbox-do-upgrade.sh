@@ -59,6 +59,7 @@ function cyclicProgression() {
 # Clean files
 function clean {
   [[ "${UPGRADE_DIR}" != "" ]] && rm -rf "${UPGRADE_DIR}"/*
+  kill -9 "${progressionPid}" > /dev/null 2>&1
 }
 
 # Clean files and exit
@@ -130,7 +131,6 @@ for file in ${FILES_TO_UPGRADE}; do
   FILE_URL="${UPGRADE_URL}/v1/upgrade/${ARCH}/${file}"
   if ! curl -fs "${FILE_URL}${ADDITIONAL_PARAMETERS}" -o "${UPGRADE_DIR}/${file}";then
     echoerr "Unable to download file ${FILE_URL}"
-    kill -9 "${progressionPid}" > /dev/null 2>&1
     cleanBeforeExit 7
   fi
   echoerr "${FILE_URL} downloaded"
@@ -146,10 +146,11 @@ for file in $FILES_TO_CHECK; do
   buildSum=$(echo $buildSum | cut -d ' ' -f 1)
   if [[ $computedSum != $buildSum ]]; then
     echoerr "Checksums differ for ${file}. Aborting upgrade !"
-    kill -9 $progressionPid > /dev/null 2>&1
     cleanBeforeExit 8
   fi
+  echoerr "${file} checksum verified"
 done
 
+kill -9 "${progressionPid}" > /dev/null 2>&1
 echoerr "All files downloaded and checked, ready for upgrade on next reboot"
 exit 0
