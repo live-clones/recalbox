@@ -1,8 +1,8 @@
 {
   "name": "recalboxOS-rpi3",
   "version": "v4.1.0",
-  "release_date": "2016-11-26",
-  "kernel": "4.1",
+  "release_date": "2017-09-24",
+  "kernel": "4.4",
   "description": "The recalbox operating system for rpi3.",
   "url": "http://www.recalbox.com/",
   "supported_hex_revisions": "2082",
