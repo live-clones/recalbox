@@ -74,7 +74,7 @@ moonlightMapping[5] = moonlightCustom + '/mappingP5.conf'
 reicastCustom = CONF + '/reicast'
 reicastConfig = reicastCustom + '/emu.cfg'
 reicastConfigInit = HOME_INIT + 'configs/reicast/emu.cfg'
-reicastSaves = SAVES
+reicastSaves = SAVES + '/dreamcast'
 reicastBios = BIOS
 
 dolphinConfig = CONF + "/dolphin-emu"
