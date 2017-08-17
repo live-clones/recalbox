@@ -17,8 +17,8 @@
                 "Pi Zero"
             ],
             "tarballs": [
-                "https://install.recalbox.com/v1/upgrade/rpi1/boot.tar.xz?source=noobs",
-                "https://install.recalbox.com/v1/upgrade/rpi1/root.tar.xz?source=noobs"
+                "https://install.recalbox.com/v1/noobs/rpi1/boot.tar.xz",
+                "https://install.recalbox.com/v1/noobs/rpi1/root.tar.xz"
             ]
         },
         {
@@ -36,8 +36,8 @@
                 "Pi 2"
             ],
             "tarballs": [
-                "https://install.recalbox.com/v1/upgrade/rpi2/boot.tar.xz?source=noobs",
-                "https://install.recalbox.com/v1/upgrade/rpi2/root.tar.xz?source=noobs"
+                "https://install.recalbox.com/v1/noobs/rpi2/boot.tar.xz",
+                "https://install.recalbox.com/v1/noobs/rpi2/root.tar.xz"
             ]
         },
         {
@@ -55,8 +55,8 @@
                 "Pi 3"
             ],
             "tarballs": [
-                "https://install.recalbox.com/v1/upgrade/rpi3/boot.tar.xz?source=noobs",
-                "https://install.recalbox.com/v1/upgrade/rpi3/root.tar.xz?source=noobs"
+                "https://install.recalbox.com/v1/noobs/rpi3/boot.tar.xz",
+                "https://install.recalbox.com/v1/noobs/rpi3/root.tar.xz"
             ]
         }
 
