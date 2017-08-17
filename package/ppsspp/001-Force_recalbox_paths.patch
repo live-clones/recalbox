@@ -14,7 +14,7 @@ index a94c5ea..c8719ef 100644
 +	// RECALBOX !
 +	config = "/recalbox/share/system/configs/ppsspp/";
 +	user_data_path = config;
-+	g_Config.memStickDirectory = "/recalbox/share/saves/ppsspp/";
++	g_Config.memStickDirectory = "/recalbox/share/saves/psp/ppsspp/";
 +
  	g_Config.flash0Directory = File::GetExeDirectory() + "/flash0/";
  #endif
