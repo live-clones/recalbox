@@ -7,10 +7,45 @@ import reicastControllers
 import shutil
 import os.path
 import ConfigParser
-
+import glob
+import sys
 
 class ReicastGenerator(Generator):
     # Main entry of the module
+    def config_upgrade(self, version):
+        '''
+        Upgrade the user's configuration file with new values added to the
+        system configuration file upgraded by S11Share:do_upgrade()
+
+        Args:
+            version (str): New Recalbox version
+
+        Returns (bool):
+            Returns True if this Generators sucessfully handled the upgrade.
+        '''
+        # Copy the bios from share_init to share if it doesn't exis
+        try:
+            reicastBiosFileInit = recalboxFiles.BIOS_INIT + '/dc_nvmem.bin'
+            reicastBiosFile = recalboxFiles.BIOS + '/dc_nvmem.bin'
+            if os.path.isfile(reicastBiosFileInit) and not os.path.isfile(reicastBiosFile):
+                shutil.copy2(reicastBiosFileInit, reicastBiosFile)
+
+            # Copy the VMUs
+            if not os.path.exists(recalboxFiles.SAVES + '/dreamcast/reicast/'):
+                    os.makedirs(recalboxFiles.SAVES + '/dreamcast/reicast/')
+            for srcFile in glob.glob(recalboxFiles.SAVES_INIT + '/dreamcast/reicast/vmu_save_*.bin'):
+                destFile = recalboxFiles.SAVES + '/dreamcast/reicast/' + os.path.basename(srcFile)
+                # Don't copy if the destination already exists
+                if os.path.isfile(destFile): continue
+                shutil.copy2(srcFile, destFile)
+
+            print("ReicastGenerator 's configuration successfully upgraded")
+            return True
+        except Exception as e:
+            #print(e)
+            print("ReicastGenerator 's configuration failed!")
+            return False
+
     # Configure fba and return a command
     def generate(self, system, rom, playersControllers):
         if not system.config['configfile']:
