@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 import subprocess
 import os
-import time
 import sys
 
 import videoMode
@@ -12,10 +11,7 @@ proc = None
 def runCommand(command):
     global proc
 
-    if command.videomode != 'default':
-        videoMode.setVideoMode(command.videomode)
-        if command.delay is not None:
-            time.sleep(command.delay)
+    videoMode.setVideoMode(command.videomode, command.delay)
 
     command.env.update(os.environ)
     proc = subprocess.Popen(command.array, env=command.env, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=command.cwdPath)
