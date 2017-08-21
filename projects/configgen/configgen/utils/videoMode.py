@@ -12,6 +12,8 @@ import json
 # Set a specific video mode
 def setVideoMode(videoMode, delay):
     # The user mentionned default for the videomode
+    # video mode can be default, a "CEA 4 HDMI" like, a hdmi_cvt pattern or even a hdmi_timings pattern
+    # Anything else should result in a crash
     if videoMode == "default":
         return
 
@@ -24,8 +26,12 @@ def setVideoMode(videoMode, delay):
     else :
         cmd = createVideoModeLine(videoMode)
 
-    os.system(cmd)
-    time.sleep(delay)
+    if cmd:
+        os.system(cmd)
+        time.sleep(delay)
+    else:
+        recallog("Error: Could not find a suitable video mode")
+        sys.exit(1)
 
 def createVideoModeLine(videoMode):
     # pattern (CEA|DMT) [0-9]{1,2} HDMI
@@ -35,18 +41,20 @@ def createVideoModeLine(videoMode):
         return "vcgencmd {} && tvservice -e 'DMT 87'".format(videoMode)
     if re.match("^hdmi_timings [\d\s]{48,58}$", videoMode):
         return "vcgencmd {} && tvservice -e 'DMT 87'".format(videoMode)
-    recallog('auto mode -> had to set default')
+    recallog("{} is not a valid video mode, abort".format(videoMode))
     return ''
 
 # Set a specific video mode
 def isSupported(group="CEA", mode='', drive="HDMI"):
     groups = ['CEA', 'DMT']
     if group not in groups:
-        sys.exit("{} is an unknown group. Can't switch to {} {} {}".format(group, group, mode, drive))
+        recallog("Error: {} is an unknown group. Can't switch to {} {} {}".format(group, group, mode, drive))
+        sys.exit(1)
 
     drives = ['HDMI', 'DVI']
     if drive not in drives:
-        sys.exit("{} is an unknown drive. Can't switch to {} {} {}".format(drive, group, mode, drive))
+        recallog("Error: {} is an unknown drive. Can't switch to {} {} {}".format(drive, group, mode, drive))
+        sys.exit(1)
         
     proc = subprocess.Popen(["tvservice -j -m {}".format(group)], stdout=subprocess.PIPE, shell=True)
     (out, err) = proc.communicate()
@@ -64,8 +72,14 @@ def isSupported(group="CEA", mode='', drive="HDMI"):
 def setPreffered():
     recalSettings = UnixSettings(recalboxFiles.recalboxConf)
     esVideoMode = recalSettings.load('system.es.videomode')
+    # Scary bug in tvservice : setting preferred mode on composite makes CEA 1 DVI !
+    # See https://github.com/raspberrypi/firmware/issues/901
+    # Once this issue is solved, just tvservice -p
     if esVideoMode is None:
-        os.system("tvservice -p")
+        if autoMode() == "default":
+            return
+        else:
+            os.system("tvservice -p")
     else:
         setVideoMode(esVideoMode)
 
@@ -77,10 +91,10 @@ def autoMode():
     #state 0x400000 [LCD], 800x480 @ 0.00Hz, progressive
     #state 0x400000 [LCD], 320x240 @ 0.00Hz, progressive
     #state 0x120006 [DVI DMT (58) RGB full 16:10], 1680x1050 @ 60.00Hz, progressive
-    
+
     proc = subprocess.Popen(["tvservice -s"], stdout=subprocess.PIPE, shell=True)
     (out, err) = proc.communicate()
-    
+
     # This one does match what i need ! Everything ! Passes the 5 cases listed above
     regex = r".*\[(.*[^0-9:]+) ?([0-9]{1,2})?:?([0-9]{1})?\], ([0-9]{3,4})x([0-9]{3,4}) @ ([0-9.]{,6})Hz, (progressive|interlaced).*"
 
@@ -90,9 +104,9 @@ def autoMode():
         recallog('auto mode -> had to set default')
         return "default"
     details, wRatio, hRatio, width, height, refreshRate, progressiveOrInterlace = matches.groups()
-    
+
     # Now the magic
-    # if the screen supports CEA 4, and its format is at least 16:9, go for CEA 4
+    # if the screen supports CEA 4, and its current format is at least 16:9, go for CEA 4
     if isSupported('CEA', 4, 'HDMI') and wRatio == '16':
         recallog("auto mode -> CEA 4 HDMI is valid")
         return "CEA 4 HDMI"
