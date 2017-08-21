@@ -185,12 +185,16 @@ def updateLibretroConfigCustom(version):
             if not os.path.isfile(file) : continue
             destSettings = UnixSettings(file, separator=' ')
             destConf = destSettings.loadFile()
-            # Compare missing keys
+            missingKeys = {}
+            # Compare missing keysoprint "Compare keys ..."
             for key, value in sourceConf.iteritems():
-                if key not in destConf: destConf[key] = value
+                if key not in destConf:
+                    missingKeys[key] = value
             # Save
-            for key, value in destConf.iteritems():
+            print "Save {}".format(file)
+            for key, value in missingKeys.iteritems():
                 destSettings.save(key, value)
+            missingKeys.clear()
             
         print("LibretroConfig 's configuration successfully upgraded")
         return True
