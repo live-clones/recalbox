@@ -1,7 +1,7 @@
 {
   "partitions": [
     {
-      "label": "boot",
+      "label": "BOOT",
       "filesystem_type": "FAT",
       "partition_size_nominal": 60,
       "want_maximised": false,
@@ -9,7 +9,7 @@
       "mkfs_options": "-F 32"
     },
     {
-      "label": "root",
+      "label": "RECALBOX",
       "filesystem_type": "ext4",
       "partition_size_nominal": 2000,
       "want_maximised": false,
@@ -17,7 +17,7 @@
       "uncompressed_tarball_size": 800
     },
     {
-      "label": "share",
+      "label": "SHARE",
       "filesystem_type": "ext4",
       "want_maximised": true,
       "empty_fs": true
