@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unrelease][unreleased]
+- Added DS4 and NES30 default config in es_inputs.cfg
 - Now able to flash and boot x86 images on internal hard drive
 - Updated libretro-cheats
 - reicast: bump + fix RTC clock
