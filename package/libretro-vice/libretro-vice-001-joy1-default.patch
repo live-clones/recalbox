@@ -1,0 +1,11 @@
+--- /vice/src/arch/libretro/retrostubs.c	2017-07-28 02:11:02.000000000 +0200
++++ /vice/src/arch/libretro/retrostubs.c	2017-09-03 09:39:59.763889114 +0200
+@@ -32,7 +32,7 @@
+ int slowdown=0;
+ int pushi=0; //mouse button
+ int c64mouse_enable=0;
+-unsigned int cur_port = 2;
++unsigned int cur_port = 1; //force joy1 by default
+ bool num_locked = false;
+ 
+ extern bool retro_load_ok;

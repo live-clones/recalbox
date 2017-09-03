@@ -1,0 +1,27 @@
+--- a/Makefile.libretro	2017-07-28 02:11:02.000000000 +0200
++++ b/Makefile.libretro	2017-09-01 06:28:12.566582507 +0200
+@@ -187,6 +187,24 @@
+    COMMONFLAGS += -DHAVE_STRTOUL -DWIIU
+    STATIC_LINKING = 1
+ 
++# ARM
++else ifneq (,$(findstring armv,$(platform)))
++
++   TARGET := $(TARGET_NAME)_libretro.so
++   fpic := -fPIC
++   SHARED := -shared -Wl,--no-undefined 
++   LDFLAGS += -shared -Wl,--version-script=./libretro/link.T
++ifneq (,$(findstring neon,$(platform)))
++   CFLAGS += -mfpu=neon
++   HAVE_NEON = 1
++endif
++ifneq (,$(findstring softfloat,$(platform)))
++   CFLAGS += -mfloat-abi=softfp
++else ifneq (,$(findstring hardfloat,$(platform)))
++   CFLAGS += -mfloat-abi=hard
++endif
++   CFLAGS += -DARM -marm -DALIGN_DWORD -mstructure-size-boundary=32 -mthumb-interwork -falign-functions=16 -pipe -fstack-protector
++
+ else ifeq ($(platform), wincross64)
+    AR = x86_64-w64-mingw32-ar
+    CC = x86_64-w64-mingw32-gcc
