@@ -1,0 +1,21 @@
+diff --git a/ext/native/ui/viewgroup.cpp b/ext/native/ui/viewgroup.cpp
+index 5cfb83f..a554389 100644
+--- a/ext/native/ui/viewgroup.cpp
++++ b/ext/native/ui/viewgroup.cpp
+@@ -1464,6 +1464,16 @@ bool TouchEvent(const TouchInput &touch, ViewGroup *root) {
+ 
+ bool AxisEvent(const AxisInput &axis, ViewGroup *root) {
+ 	root->Axis(axis);
++	if (axis.axisId == 0)
++		if (axis.value >= 0.7f)
++			focusMoves.push_back(NKCODE_DPAD_RIGHT);
++		else if (axis.value <= -0.7f)
++			focusMoves.push_back(NKCODE_DPAD_LEFT);
++	if (axis.axisId == 1)
++		if (axis.value >= 0.7f)
++			focusMoves.push_back(NKCODE_DPAD_DOWN);
++		else if (axis.value <= -0.7f)
++			focusMoves.push_back(NKCODE_DPAD_UP);
+ 	return true;
+ }
+ 

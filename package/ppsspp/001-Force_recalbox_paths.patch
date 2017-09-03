@@ -1,21 +1,13 @@
 diff --git a/UI/NativeApp.cpp b/UI/NativeApp.cpp
-index a94c5ea..c8719ef 100644
+index a94c5ea..c876bd3 100644
 --- a/UI/NativeApp.cpp
 +++ b/UI/NativeApp.cpp
-@@ -346,7 +346,15 @@ void NativeInit(int argc, const char *argv[], const char *savegame_dir, const ch
- 	else // Just in case
- 		config = "./config";
- 
--	g_Config.memStickDirectory = config + "/ppsspp/";
-+//	if (getenv("XDG_DATA_HOME") != NULL)
-+//	config = getenv("XDG_DATA_HOME") + std::string("/ppsspp");
-+//	else
-+//		g_Config.memStickDirectory = config + "/ppsspp/";
-+	// RECALBOX !
-+	config = "/recalbox/share/system/configs/ppsspp/";
-+	user_data_path = config;
-+	g_Config.memStickDirectory = "/recalbox/share/saves/psp/ppsspp/";
-+
- 	g_Config.flash0Directory = File::GetExeDirectory() + "/flash0/";
+@@ -363,7 +363,7 @@ void NativeInit(int argc, const char *argv[], const char *savegame_dir, const ch
+ 	g_Config.AddSearchPath(user_data_path);
+ 	g_Config.AddSearchPath(g_Config.memStickDirectory + "PSP/SYSTEM/");
+ 	g_Config.SetDefaultPath(g_Config.memStickDirectory + "PSP/SYSTEM/");
+-	g_Config.Load();
++	g_Config.Load("/recalbox/share/system/configs/ppsspp/PSP/SYSTEM/ppsspp.ini", "/recalbox/share/system/configs/ppsspp/PSP/SYSTEM/controls.ini");
+ 	g_Config.externalDirectory = external_dir;
  #endif
- 
+ 	LogManager *logman = LogManager::GetInstance();

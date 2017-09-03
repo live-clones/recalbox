@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unrelease][unreleased]
+- PPSSPP: SNES-like pads can navigate in the menu + add retroarch-like combos
 - X86: fixed issue that prevents retroarch shaders to work
 - X86: fixed issue that stucks OpenGL on version 2.1
 - Added DS4 and NES30 default config in es_inputs.cfg
