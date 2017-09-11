@@ -6,3 +6,14 @@ class Command:
         self.array = array
         self.env = env
         self.delay = delay
+        
+    def __str__(self):
+        str = list()
+
+        for varName, varValue in self.env.items():
+            str.append("%s=%s" % (varName, varValue))
+            
+        for value in self.array:
+            str.append(value)
+
+        return " ".join(str)
