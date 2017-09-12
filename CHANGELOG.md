@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unrelease][unreleased]
+- Splash video for Odroid XU4 and C2 + updated recalbox splash logo
 - Commodore 64: added libretro-vice core (by default)
 - X86: fixed issue that prevents retroarch shaders to work
 - X86: fixed issue that stucks OpenGL on version 2.1
