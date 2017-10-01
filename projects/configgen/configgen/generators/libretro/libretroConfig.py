@@ -30,7 +30,7 @@ ratioIndexes = ["4/3", "16/9", "16/10", "16/15", "1/1", "2/1", "3/2", "3/4", "4/
 
 # Define the libretro device type corresponding to the libretro cores, when needed.
 coreToP1Device = {'cap32': '513', '81': '257', 'fuse': '513'};
-coreToP2Device = {'fuse': '513', 'snes9x_next': '257' };
+coreToP2Device = {'fuse': '513'};
 
 # Define systems compatible with retroachievements
 systemToRetroachievements = {'snes', 'nes', 'gba', 'gb', 'gbc', 'megadrive', 'pcengine'};
@@ -48,12 +48,12 @@ systemToP2Device = {'msx': '257', 'msx1': '257', 'msx2': '257', 'colecovision': 
 # Netplay modes
 systemNetplayModes = {'host', 'client'}
 
-def writeLibretroConfig(system):
-    writeLibretroConfigToFile(createLibretroConfig(system))
+def writeLibretroConfig(system, controllers):
+    writeLibretroConfigToFile(createLibretroConfig(system, controllers))
 
 
 # take a system, and returns a dict of retroarch.cfg compatible parameters
-def createLibretroConfig(system):
+def createLibretroConfig(system, controllers):
     retroarchConfig = dict()
     recalboxConfig = system.config
     if enabled('smooth', recalboxConfig):
@@ -109,6 +109,9 @@ def createLibretroConfig(system):
 
     if(system.config['core'] in coreToP2Device):
         retroarchConfig['input_libretro_device_p2'] = coreToP2Device[system.config['core']]
+
+    if len(controllers) > 2 and system.config['core'] == 'snes9x_next':
+        retroarchConfig['input_libretro_device_p2'] = '257'
 
     retroarchConfig['cheevos_enable'] = 'false'
     retroarchConfig['cheevos_hardcore_mode_enable'] = 'false'

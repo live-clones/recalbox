@@ -36,7 +36,7 @@ class LibretroGenerator(Generator):
             #  Write controllers configuration files
             libretroControllers.writeControllersConfig(system, playersControllers)
             # Write configuration to retroarchcustom.cfg
-            libretroConfig.writeLibretroConfig(system)
+            libretroConfig.writeLibretroConfig(system, playersControllers)
 
         # Retroarch core on the filesystem
         retroarchCore = recalboxFiles.retroarchCores + system.config['core'] + recalboxFiles.libretroExt
