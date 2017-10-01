@@ -37,7 +37,7 @@ case "$1" in
     ;;
   stop)
     echo -n "Stoping virtual-gamepads server"
-    ps -ef | grep node | grep virtualgamepads | grep -v grep | awk '{print $1}' | xargs kill
+    ps -efo pgid,args | grep node | grep virtualgamepads | awk '{print -$1}' | xargs kill -s TERM
     ;;
   restart|reload)
     $0 stop
