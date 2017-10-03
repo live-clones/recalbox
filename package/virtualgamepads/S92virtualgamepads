@@ -36,8 +36,13 @@ case "$1" in
     fi
     ;;
   stop)
-    echo -n "Stoping virtual-gamepads server"
-    ps -efo pgid,args | grep node | grep virtualgamepads | awk '{print -$1}' | xargs kill -s TERM
+    echo "Stoping virtual-gamepads server"
+    # if you want to use SIGKILL make sure to kill child processes as well:
+    #serverpids=$(ps -efo pid,args | grep node | grep virtualgamepads | awk '{print $1}')
+    #childpids=$(echo $serverpids | xargs -n 1 pgrep -P)
+    #echo $serverpids | xargs -n 1 kill -s KILL
+    #echo $childpids | xargs -n 1 kill -s KILL
+    ps -ef | grep node | grep virtualgamepads | grep -v grep | awk '{print $1}' | xargs -n 1 kill
     ;;
   restart|reload)
     $0 stop
