@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unrelease][unreleased]
+- fix regression in splash video for pi
 - BT: no more permanent background scan, just powerup hci0
 - Splash video for Odroid XU4 and C2 + updated recalbox splash logo
 - Snes9x_next: added a rule to enable multitap support only if there is at least 3 gamepads connected

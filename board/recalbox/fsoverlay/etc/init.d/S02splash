@@ -94,7 +94,7 @@ show_logo() {
 
 case "$1" in
     start)
-        if [[ `cat /recalbox/recalbox.arch` == "rpi*" ]] ; then
+        if [[ `cat /recalbox/recalbox.arch` == "rpi"* ]] ; then
             ( do_omx_start ; show_logo ) &
         else
             ( wait_for_fb ; do_ffmpeg_start ) &
