@@ -944,10 +944,9 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                      {
                          std::function<void()> openGui = [this] {
                              GuiSettings *securityGui = new GuiSettings(mWindow, _("SECURITY").c_str());
-                             auto securityEnabled = std::make_shared<SwitchComponent>(mWindow,
-                                                                                      RecalboxConf::getInstance()->get(
-                                                                                              "system.security.enabled") ==
-                                                                                      "1");
+                             auto securityEnabled = std::make_shared<SwitchComponent>(mWindow);
+                             securityEnabled->setState(
+                                     RecalboxConf::getInstance()->get("system.security.enabled") == "1");
                              securityGui->addWithLabelAndHelp(_("ENFORCE SECURITY"), securityEnabled,
                                                               MenuMessages::ADVANCED_ENFORCE_SECURITY_HELP_MSG);
 

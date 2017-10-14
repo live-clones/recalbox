@@ -16,6 +16,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added an upgrade progression indicator
 - Display update changelog + update version, if update available
 ### Fixed
+- Fixed security option impossible to disable
 - Fixed display scrape informations if rom is inside a subfolder
 - Fixed custom update.type
 - Fixed bluetooth message when pairing failed
