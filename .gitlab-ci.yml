@@ -11,7 +11,8 @@ stages:
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
   RECALBOX_MAIN_VERSION: 4.1.0
-  STACK_NAME: archive
+  PROD_STACK_NAME: archive
+  REVIEW_STACK_NAME: archive-review
   IMAGE: recalbox/archive
 
 .build_template: &build_definition
@@ -159,7 +160,7 @@ build odroidxu4 for test:
   stage: release
   variables:
     ARCHIVE_IMAGE: the image to build
-    RANCHER_DIRECTORY: type of the deployment (master, review)
+    RANCHER_DIRECTORY: type of the deployment (prod, review)
   script:
     - echo "Creating image $ARCHIVE_IMAGE"
     - test -n "$SKIP_IMAGES" && rm -rf updates/dist/v1/upgrade/*/*.img*
@@ -169,13 +170,13 @@ build odroidxu4 for test:
     - docker login -u "${DOCKER_IO_LOGIN}" -p "${DOCKER_IO_PASSWORD}"
     - docker push $ARCHIVE_IMAGE
 
-release master:
+release prod:
   <<: *release_definition
   variables:
-    ARCHIVE_IMAGE: "${IMAGE}:master"
-    RANCHER_DIRECTORY: master
+    ARCHIVE_IMAGE: ${IMAGE}:${CI_COMMIT_REF_SLUG}
+    RANCHER_DIRECTORY: prod
   only:
-  - master
+  - tags
 
 release review:
   <<: *release_definition
@@ -185,19 +186,19 @@ release review:
     RANCHER_DIRECTORY: review
     SKIP_IMAGES: 'true'
   except:
-    - master
+    - tags
 
 
 ### Deploy
-purge master:
+purge prod:
   stage: purge
   image: registry.gitlab.com/recalbox/ops/rancher-cli:0.6.2
   only:
-    - master
+    - tags
   dependencies: []
   script:
-    - echo cleaning master old deployments
-    - rancher rm "${STACK_NAME}/master" "${STACK_NAME}/master-data"
+    - echo cleaning tag old deployments
+    - rancher rm "${PROD_STACK_NAME}"
 
 .deploy_template: &deploy_definition
   stage: deploy
@@ -207,42 +208,45 @@ purge master:
     ARCHIVE_IMAGE: image to deploy
     ARCHIVE_FQDN: fqdn of the service
     RANCHER_DIRECTORY: the rancher directory to use
+    STACK: the stack to deploy on
   script:
     - cd updates/rancher/${RANCHER_DIRECTORY}
     - sed "s/RANCHER_SERVICENAME/${SERVICENAME}/" -i docker-compose.yml rancher-compose.yml
-    - rancher up -s $STACK_NAME -u --force-upgrade --batch-size 20 -d
+    - rancher up -s $STACK -u --force-upgrade --batch-size 50 -d
 
-deploy master:
+deploy prod:
   <<: *deploy_definition
   variables:
     ARCHIVE_IMAGE: ${IMAGE}:${CI_COMMIT_REF_SLUG}
-    ARCHIVE_FQDN: master-${STACK_NAME}-prod.recalbox.com
-    RANCHER_DIRECTORY: master
+    ARCHIVE_FQDN: lb-${PROD_STACK_NAME}-prod.recalbox.com
+    RANCHER_DIRECTORY: prod
     RECALEUR_CANARY: 15
-    RECALEUR_RESPONSE: https://master-${STACK_NAME}-prod.recalbox.com
+    RECALEUR_RESPONSE: https://lb-${PROD_STACK_NAME}-prod.recalbox.com
     RECALEUR_PATH: "/v1/upgrade"
     RECALEUR_DELTA: ${RECALEUR_DELTA}
+    STACK: ${PROD_STACK_NAME}
   before_script:
     - export RECALEUR_EXPIRE=$(date -u -d "1970.01.01-00:00:$(date +"%s + 6 * 3600"|xargs expr)" +%Y-%m-%d-%H:%M)
   only:
-    - master
+    - tags
   environment:
-    name: master
-    url: https://master-${STACK_NAME}-prod.recalbox.com
+    name: prod
+    url: https://lb-${PROD_STACK_NAME}-prod.recalbox.com
 
 deploy review:
   <<: *deploy_definition
   when: manual
   variables:
     ARCHIVE_IMAGE: ${IMAGE}:${CI_COMMIT_REF_SLUG}
-    ARCHIVE_FQDN: ${CI_ENVIRONMENT_SLUG}-${STACK_NAME}-prod.recalbox.com
+    ARCHIVE_FQDN: ${CI_ENVIRONMENT_SLUG}-${REVIEW_STACK_NAME}-prod.recalbox.com
     SERVICENAME: ${CI_ENVIRONMENT_SLUG}
     RANCHER_DIRECTORY: review
+    STACK: ${REVIEW_STACK_NAME}
   except:
-    - master
+    - tags
   environment:
     name: review/${CI_COMMIT_REF_SLUG}
-    url: https://${CI_ENVIRONMENT_SLUG}-${STACK_NAME}-prod.recalbox.com
+    url: https://${CI_ENVIRONMENT_SLUG}-${REVIEW_STACK_NAME}-prod.recalbox.com
     on_stop: clean review
 
 validate release:
@@ -253,11 +257,11 @@ validate release:
   variables:
     RANCHER_DIRECTORY: recaleur
     RECALEUR_CANARY: 256
-    RECALEUR_RESPONSE: https://master-${STACK_NAME}-prod.recalbox.com
+    RECALEUR_RESPONSE: https://lb-${PROD_STACK_NAME}-prod.recalbox.com
     RECALEUR_PATH: "/v1/upgrade"
     RECALEUR_DELTA: ${RECALEUR_DELTA}
   only:
-    - master
+    - tags
 
 emergency valve:
   <<: *deploy_definition
@@ -267,11 +271,11 @@ emergency valve:
   variables:
     RANCHER_DIRECTORY: recaleur
     RECALEUR_CANARY: 0
-    RECALEUR_RESPONSE: https://master-${STACK_NAME}-prod.recalbox.com
+    RECALEUR_RESPONSE: https://lb-${PROD_STACK_NAME}-prod.recalbox.com
     RECALEUR_PATH: "/v1/upgrade"
     RECALEUR_DELTA: "0ms"
   only:
-    - master
+    - tags
 
 clean review:
   image: registry.gitlab.com/recalbox/ops/rancher-cli:0.6.2
@@ -280,12 +284,9 @@ clean review:
   dependencies: []
   only:
     - branches
-    - tags
-  except:
-    - master
   script:
-    - echo "cleaning ${ARCHIVE_IMAGE} from ${STACK_NAME}/${CI_ENVIRONMENT_SLUG}"
-    - rancher rm ${STACK_NAME}/${CI_ENVIRONMENT_SLUG}
+    - echo "cleaning ${ARCHIVE_IMAGE} from ${REVIEW_STACK_NAME}/${CI_ENVIRONMENT_SLUG}"
+    - rancher rm ${REVIEW_STACK_NAME}/${CI_ENVIRONMENT_SLUG}
   environment:
     name: review/${CI_COMMIT_REF_SLUG}
     action: stop
