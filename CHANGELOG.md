@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## Unreleased
+- Switch to versionning based on YEAR.MONTH.DAY (17.10.21) for the recalbox released on October 21th 2017
+
+
 ## [4.1.0] - 2017-10-13
 - Pad: added Microsoft Xbox One S & Elite default mapping
 - fix regression in splash video for pi
