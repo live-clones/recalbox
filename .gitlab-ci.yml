@@ -10,7 +10,6 @@ stages:
 
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
-  RECALBOX_MAIN_VERSION: 4.1.0
   PROD_STACK_NAME: archive
   REVIEW_STACK_NAME: archive-review
   IMAGE: recalbox/archive
@@ -18,19 +17,19 @@ variables:
 .build_template: &build_definition
   stage: build
   script:
-    - tar cvzf recalbox-emulationstation2-${ARCH}.tar.gz -C recalbox-emulationstation/ . > /dev/null
-    - docker run --rm -e "ARCH=${ARCH}" -v `pwd`:/work -v /recalbox-builds/dl:/share/dl ubuntu:16.04 bash -c 'rm -rf /share/dl/recalbox-emulationstation2-${ARCH}.tar.gz && cp /work/recalbox-emulationstation2-${ARCH}.tar.gz /share/dl/recalbox-emulationstation2-${ARCH}.tar.gz'
+    - tar cvzf "recalbox-emulationstation2-${ARCH}.tar.gz" -C recalbox-emulationstation/ . > /dev/null
+    - docker run --rm -e "ARCH=${ARCH}" -v `pwd`:/work -v /recalbox-builds/dl:/share/dl ubuntu:16.04 bash -c 'rm -rf "/share/dl/recalbox-emulationstation2-${ARCH}.tar.gz" && cp "/work/recalbox-emulationstation2-${ARCH}.tar.gz" "/share/dl/recalbox-emulationstation2-${ARCH}.tar.gz"'
     - sed -i "s/^RECALBOX_EMULATIONSTATION2_VERSION.*/RECALBOX_EMULATIONSTATION2_VERSION = ${ARCH}/" package/recalbox-emulationstation2/recalbox-emulationstation2.mk
-    - export RECALBOX_VERSION=${CI_COMMIT_TAG:-${RECALBOX_MAIN_VERSION}-${CI_COMMIT_REF_SLUG}-${ARCH}-$(date +%Y-%m-%d-%H-%M-%S)-${CI_BUILD_ID}}
-    - docker build -t recalbox-${ARCH} .
-    - docker run --rm -v `pwd`:/work -v /recalbox-builds/dl:/share/dl -v /recalbox-builds/hosts/host-${ARCH}:/share/host -v /recalbox-builds/ccaches/ccache-${ARCH}:/share/ccache -e "ARCH=$ARCH" -e "RECALBOX_VERSION_LABEL=$RECALBOX_VERSION" -e "RECALBOX_CCACHE_DIR=/share/ccache" recalbox-${ARCH} 2>&1 | tee build.log | grep '>>>' || tac build.log | grep '>>>' -m 1 -B 9999 | tac
+    - export RECALBOX_VERSION="${CI_COMMIT_TAG:-${CI_COMMIT_REF_SLUG}-${ARCH}-$(date +%Y-%m-%d-%H-%M-%S)-${CI_BUILD_ID}}"
+    - docker build -t "recalbox-${ARCH}" .
+    - docker run --rm -v `pwd`:/work -v /recalbox-builds/dl:/share/dl -v "/recalbox-builds/hosts/host-${ARCH}:/share/host" -v "/recalbox-builds/ccaches/ccache-${ARCH}:/share/ccache" -e "ARCH=${ARCH}" -e "RECALBOX_VERSION_LABEL=${RECALBOX_VERSION}" -e "RECALBOX_CCACHE_DIR=/share/ccache" "recalbox-${ARCH}" 2>&1 | tee build.log | grep '>>>' || tac build.log | grep '>>>' -m 1 -B 9999 | tac
     - export DIST_DIR="updates/dist/v1/upgrade/${ARCH}"
     - mkdir -p "${DIST_DIR}"
     - cp output/images/recalbox/* "${DIST_DIR}"
     - rm -rf output/
     - for file in `ls "${DIST_DIR}"`;do sha1sum "${DIST_DIR}/${file}" > "${DIST_DIR}/${file}.sha1"; done
     - tar tf "${DIST_DIR}/root.tar.xz" | sort > "${DIST_DIR}/root.list"
-    - echo "$RECALBOX_VERSION" >> "${DIST_DIR}/recalbox.version"
+    - echo "${RECALBOX_VERSION}" >> "${DIST_DIR}/recalbox.version"
     - cp CHANGELOG.md "${DIST_DIR}/recalbox.changelog"
   artifacts:
     name: dist-${ARCH}-${CI_BUILD_ID}
@@ -162,13 +161,13 @@ build odroidxu4 for test:
     ARCHIVE_IMAGE: the image to build
     RANCHER_DIRECTORY: type of the deployment (prod, review)
   script:
-    - echo "Creating image $ARCHIVE_IMAGE"
-    - test -n "$SKIP_IMAGES" && rm -rf updates/dist/v1/upgrade/*/*.img*
+    - echo "Creating image ${ARCHIVE_IMAGE}"
+    - test -n "${SKIP_IMAGES}" && rm -rf updates/dist/v1/upgrade/*/*.img*
     - env | grep "CI_\|GITLAB" > envfile && cat "updates/${RANCHER_DIRECTORY}.template.html" | docker run --rm --env-file envfile -i loicmahieu/alpine-envsubst > updates/dist/index.html
     - cd updates
-    - docker build -t $ARCHIVE_IMAGE .
+    - docker build -t "${ARCHIVE_IMAGE}" .
     - docker login -u "${DOCKER_IO_LOGIN}" -p "${DOCKER_IO_PASSWORD}"
-    - docker push $ARCHIVE_IMAGE
+    - docker push "${ARCHIVE_IMAGE}"
 
 release prod:
   <<: *release_definition
@@ -210,9 +209,9 @@ purge prod:
     RANCHER_DIRECTORY: the rancher directory to use
     STACK: the stack to deploy on
   script:
-    - cd updates/rancher/${RANCHER_DIRECTORY}
+    - cd "updates/rancher/${RANCHER_DIRECTORY}"
     - sed "s/RANCHER_SERVICENAME/${SERVICENAME}/" -i docker-compose.yml rancher-compose.yml
-    - rancher up -s $STACK -u --force-upgrade --batch-size 50 -d
+    - rancher up -s "$STACK" -u --force-upgrade --batch-size 50 -d
 
 deploy prod:
   <<: *deploy_definition
@@ -286,7 +285,7 @@ clean review:
     - branches
   script:
     - echo "cleaning ${ARCHIVE_IMAGE} from ${REVIEW_STACK_NAME}/${CI_ENVIRONMENT_SLUG}"
-    - rancher rm ${REVIEW_STACK_NAME}/${CI_ENVIRONMENT_SLUG}
+    - rancher rm "${REVIEW_STACK_NAME}/${CI_ENVIRONMENT_SLUG}"
   environment:
     name: review/${CI_COMMIT_REF_SLUG}
     action: stop
