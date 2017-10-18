@@ -487,7 +487,7 @@ if [[ "$command" == "hcitoolscan" ]]; then
     scanningDaemon=test-discovery
     alternate="`$systemsetting  -command load -key controllers.bluetooth.alternate`"
     [[ $alternate == 1 ]] && scanningDaemon=btDaemon
-    /recalbox/scripts/bluetooth/"$scanningDaemon" & ( PID=$! ;sleep 10 ; kill -15 $PID)
+    /recalbox/scripts/bluetooth/"$scanningDaemon" & ( PID=$! ; sleep 15 ; kill -15 $PID)
     PYTHONIOENCODING=UTF-8 /recalbox/scripts/bluetooth/test-device list
     exit 0
 fi
@@ -510,7 +510,7 @@ if [[ "$command" == "hiddpair" ]]; then
             echo "SUBSYSTEM==\"input\", ATTRS{uniq}==\"$macLowerCase\", MODE=\"0666\", ENV{ID_INPUT_JOYSTICK}=\"1\"" >> "/run/udev/rules.d/99-8bitdo.rules"
         fi
     fi
-    /recalbox/scripts/bluetooth/simple-agent -c NoInputNoOutput -i hci0 "$mac"
+    ( /recalbox/scripts/bluetooth/simple-agent -c NoInputNoOutput -i hci0 "$mac" ) | recallog
     connected=$?
     if [ $connected -eq 0 ]; then
         hcitool con | grep $mac1
