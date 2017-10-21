@@ -501,7 +501,7 @@ if [[ "$command" == "hiddpair" ]]; then
         exit 1
     fi
     recallog "pairing $name $mac"
-    echo $name | grep "8Bitdo\|other" | recallog
+    echo $name | grep "8Bitdo\|other"
     if [ "$?" == "0" ]; then
         recallog "8Bitdo detected"
         cat "/run/udev/rules.d/99-8bitdo.rules" | grep "$mac" >> /dev/null
