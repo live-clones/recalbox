@@ -50,6 +50,17 @@ AXIS_BIND_NKCODE_START = 4000
 
 # From https://github.com/hrydgard/ppsspp/blob/master/ext/native/input/input_state.h#L26
 DEVICE_ID_PAD_0 = 10
+DEVICE_ID_PAD_1 = 11
+DEVICE_ID_PAD_2 = 12
+DEVICE_ID_PAD_3 = 13
+DEVICE_ID_PAD_4 = 14
+sdlIndexToIdPad = {
+        0: DEVICE_ID_PAD_0,
+        1: DEVICE_ID_PAD_1,
+        2: DEVICE_ID_PAD_2,
+        3: DEVICE_ID_PAD_3,
+        4: DEVICE_ID_PAD_4
+        }
 # SDL 2.0.4 input ids conversion table to NKCodes
 # See https://hg.libsdl.org/SDL/file/e12c38730512/include/SDL_gamecontroller.h#l262
 # See https://github.com/hrydgard/ppsspp/blob/master/SDL/SDLJoystick.h#L91
@@ -134,9 +145,10 @@ def generateControllerConfig(controller):
 		var = ppssppMapping[input.name][input.type]
 		
 		code = input.code
+                deviceIdPad = sdlIndexToIdPad[controller.index]
 		if input.type == 'button':
 			pspcode = sdlNameToNKCode[input.name]
-			val = "{}-{}".format( DEVICE_ID_PAD_0, pspcode )
+			val = "{}-{}".format( deviceIdPad, pspcode )
 			val = optionValue(Config, section, var, val)
 			Config.set(section, var, val)
 			
@@ -145,7 +157,7 @@ def generateControllerConfig(controller):
 			nkAxisId = SDLJoyAxisMap[input.id]
 			# Apply the magic axis formula
 			pspcode = axisToCode(nkAxisId, int(input.value))
-			val = "{}-{}".format( DEVICE_ID_PAD_0, pspcode )
+			val = "{}-{}".format( deviceIdPad, pspcode )
 			val = optionValue(Config, section, var, val)
 			print "Adding {} to {}".format(var, val)
 			Config.set(section, var, val)
@@ -163,14 +175,14 @@ def generateControllerConfig(controller):
 				var = ppssppMapping['joystick2right'][input.type]
 				
 			pspcode = axisToCode(nkAxisId, -int(input.value))
-			val = "{}-{}".format( DEVICE_ID_PAD_0, pspcode )
+			val = "{}-{}".format( deviceIdPad, pspcode )
 			val = optionValue(Config, section, var, val)
 			Config.set(section, var, val)
 		
 		elif input.type == 'hat' and input.name in SDLHatMap:
 			var = ppssppMapping[input.name][input.type]
 			pspcode = SDLHatMap[input.name]
-			val = "{}-{}".format( DEVICE_ID_PAD_0, pspcode )
+			val = "{}-{}".format( deviceIdPad, pspcode )
 			val = optionValue(Config, section, var, val)
 			Config.set(section, var, val)
 		
