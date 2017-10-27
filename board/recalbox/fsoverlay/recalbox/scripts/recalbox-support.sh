@@ -67,6 +67,10 @@ f_cp /recalbox/share/system/.emulationstation/es_input.cfg    "${DSYSTEM}"
 f_cp /boot/recalbox-boot.conf                                 "${DSYSTEM}"
 f_cp /var/log/Xorg.0.log                                      "${DSYSTEM}"
 
+# Update logs
+d_cp /recalbox/share/system/upgrade                           "${DSYSTEM}"
+find "${DSYSTEM}/upgrade" -type f ! -name "*upgrade*" | xargs rm
+
 # Emulators configs
 d_cp /recalbox/share/system/configs                           "${TMPDIR}/configs"
 
