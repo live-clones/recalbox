@@ -3,6 +3,7 @@ import Command
 import recalboxFiles
 from generators.Generator import Generator
 import os.path
+import glob
 
 
 class ScummVMGenerator(Generator):
@@ -16,8 +17,15 @@ class ScummVMGenerator(Generator):
             pass
         
         # Find rom path
-        romPath = os.path.dirname(rom)
-        romName = os.path.splitext(os.path.basename(rom))[0]
+        if os.path.isdir(rom):
+          # rom is a directory: must contains a <game name>.scummvm file
+          romPath = rom
+          romFile = glob.glob(romPath + "/*.scummvm")[0]
+          romName = os.path.splitext(os.path.basename(romFile))[0]
+        else:
+          # rom is a file: split in directory and file name
+          romPath = os.path.dirname(rom)
+          romName = os.path.splitext(os.path.basename(rom))[0]
         # Get rom name without extension
         commandArray = [recalboxFiles.recalboxBins[system.config['emulator']], 
                         "--fullscreen",
