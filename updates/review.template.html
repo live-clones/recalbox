@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="css/layouts/blog.css">
     <!--<![endif]-->
 
-    <title>recalbox build ${CI_BUILD_REF_NAME}</title>
+    <title>recalbox build ${CI_COMMIT_REF_NAME}</title>
     <style>
         * {
             -webkit-box-sizing: border-box;
@@ -252,7 +252,7 @@
                         <img width="48" height="48" alt="recalbox" class="post-avatar"
                              src="https://gitlab.com/uploads/-/system/user/avatar/${GITLAB_USER_ID}/avatar.png">
 
-                        <h2 class="post-title">${CI_BUILD_REF_NAME}</h2>
+                        <h2 class="post-title" data-ci-commit-ref-name="${CI_COMMIT_REF_NAME}">${CI_COMMIT_REF_NAME}</h2>
 
                         <p class="post-meta">
                             By <a href="#" class="post-author">${GITLAB_USER_EMAIL}</a>
@@ -260,8 +260,8 @@
                     </header>
 
                     <div class="post-description">
-                        <p>Build <!--<a href="https://gitlab.com/recalbox/recalbox-buildroot/builds/${CI_BUILD_ID}">-->${CI_BUILD_ID}<!--</a>-->
-                            from pipeline ${CI_PIPELINE_ID} based on ${CI_BUILD_REF_NAME}</h1>
+                        <p>Build <!--<a href="https://gitlab.com/recalbox/recalbox-buildroot/builds/${CI_JOB_ID}">-->${CI_JOB_ID}<!--</a>-->
+                            from pipeline ${CI_PIPELINE_ID} based on ${CI_COMMIT_REF_NAME}</h1>
                         </p>
                         <p>To do a new system installation, please download the system image .img.xz</p>
                         <p>Use <a href="https://etcher.io/">Etcher</a> to burn the .img.xz</p>
