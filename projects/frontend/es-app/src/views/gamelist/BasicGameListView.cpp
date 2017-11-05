@@ -109,17 +109,17 @@ void BasicGameListView::populateList(const std::vector<FileData*>& files)
 	const SystemData* systemData = root->getSystem();
 	mHeaderText.setText(systemData ? systemData->getFullName() : root->getCleanName());
 
+	bool isFavorite = false;
+	bool isGame = false;
+	bool isHidden = false;
 	bool favoritesOnly = false;
 	bool showHidden = Settings::getInstance()->getBool("ShowHidden");
 
-	if (Settings::getInstance()->getBool("FavoritesOnly") && !systemData->isFavorite())
-	{
-		for (auto it = files.begin(); it != files.end(); it++)
-		{
-			if ((*it)->getType() == GAME)
-			{
-				if ((*it)->metadata.get("favorite").compare("true") == 0)
-				{
+	// find at least one favorite, else, show all items
+	if (Settings::getInstance()->getBool("FavoritesOnly") && !systemData->isFavorite()) {
+		for (auto it = files.begin(); it != files.end(); it++) {
+			if ((*it)->getType() == GAME) {
+				if ((*it)->metadata.get("favorite").compare("true") == 0) {
 					favoritesOnly = true;
 					break;
 				}
@@ -130,92 +130,61 @@ void BasicGameListView::populateList(const std::vector<FileData*>& files)
 	// The TextListComponent would be able to insert at a specific position,
 	// but the cost of this operation could be seriously huge.
 	// This naive implemention of doing a first pass in the list is used instead.
-	if(!Settings::getInstance()->getBool("FavoritesOnly") || systemData->isFavorite()){
-		for(auto it = files.begin(); it != files.end(); it++)
-		{
-			if ((*it)->getType() != FOLDER && (*it)->metadata.get("favorite").compare("true") == 0) {
-				if ((*it)->metadata.get("hidden").compare("true") != 0) {
-					if((favorites_icons_map.find((*it)->getSystem()->getName())) != favorites_icons_map.end()) {
-						mList.add((favorites_icons_map.find((*it)->getSystem()->getName())->second) + (*it)->getName(), *it, ((*it)->getType() == FOLDER));
-					}else {
-						mList.add("\uF006 " + (*it)->getName(), *it, ((*it)->getType() == FOLDER)); // FIXME Folder as favorite ?
-					}
-				}else {
-					if((favorites_icons_map.find((*it)->getSystem()->getName())) != favorites_icons_map.end()) {
-						mList.add((favorites_icons_map.find((*it)->getSystem()->getName())->second) + std::string("\uF070 ") + (*it)->getName(), *it, ((*it)->getType() == FOLDER));
-					}else {
-						mList.add("\uF006 \uF070 " + (*it)->getName(), *it, ((*it)->getType() == FOLDER));
-					}
-				}
+	if (!Settings::getInstance()->getBool("FavoritesOnly") || systemData->isFavorite()) {
+		for (auto it = files.begin(); it != files.end(); it++) {
+			isGame = (*it)->getType() == GAME;
+			isFavorite = isGame && ((*it)->metadata.get("favorite").compare("true") == 0);
+			isHidden = (*it)->metadata.get("hidden").compare("true") == 0;
+
+			if (isFavorite && (showHidden || !isHidden)) {
+				addItem(*it);
 			}
 		}
 	}
 	
 	// Do not show double names in favorite system.
-	if(!systemData->isFavorite())
-	{
+	if (!systemData->isFavorite()) {
 		for (auto it = files.begin(); it != files.end(); it++) {
+			isGame = (*it)->getType() == GAME;
+			isFavorite = isGame && ((*it)->metadata.get("favorite").compare("true") == 0);
+			isHidden = (*it)->metadata.get("hidden").compare("true") == 0;
+
 			if (favoritesOnly) {
-				if ((*it)->getType() == GAME) {
-					if ((*it)->metadata.get("favorite").compare("true") == 0) {
-						if (!showHidden) {
-							if ((*it)->metadata.get("hidden").compare("true") != 0) {
-								mList.add((*it)->getName(), *it, ((*it)->getType() == FOLDER));
-							}
-						}
-						else {
-							if ((*it)->metadata.get("hidden").compare("true") == 0) {
-								mList.add("\uF070 " + (*it)->getName(), *it, ((*it)->getType() == FOLDER));
-							}else {
-								mList.add((*it)->getName(), *it, ((*it)->getType() == FOLDER));
-							}
-						}
-					}
+				if (isFavorite && (showHidden || !isHidden)) {
+					addItem(*it);
 				}
-			}
-			else {
-				if (!showHidden) {
-					if ((*it)->metadata.get("hidden").compare("true") != 0) {
-						if ((*it)->getType() != FOLDER && (*it)->metadata.get("favorite").compare("true") == 0) {
-							if((favorites_icons_map.find((*it)->getSystem()->getName())) != favorites_icons_map.end()) {
-								mList.add((favorites_icons_map.find((*it)->getSystem()->getName())->second) + (*it)->getName(), *it, ((*it)->getType() == FOLDER));
-							}else {
-								mList.add("\uF006 " + (*it)->getName(), *it, ((*it)->getType() == FOLDER));
-							}
-						}else {
-							mList.add((*it)->getName(), *it, ((*it)->getType() == FOLDER));
-						}
-					}
-				}
-				else {
-					if ((*it)->getType() != FOLDER && (*it)->metadata.get("favorite").compare("true") == 0) {
-						if ((*it)->metadata.get("hidden").compare("true") != 0) {
-							if((favorites_icons_map.find((*it)->getSystem()->getName())) != favorites_icons_map.end()) {
-								mList.add((favorites_icons_map.find((*it)->getSystem()->getName())->second) + (*it)->getName(), *it, ((*it)->getType() == FOLDER));
-							}else {
-								mList.add("\uF006 " + (*it)->getName(), *it, ((*it)->getType() == FOLDER));
-							}
-						}else {
-							if((favorites_icons_map.find((*it)->getSystem()->getName())) != favorites_icons_map.end()) {
-								mList.add((favorites_icons_map.find((*it)->getSystem()->getName())->second) + std::string("\uF070 ") + (*it)->getName(), *it, ((*it)->getType() == FOLDER));
-							}else {
-								mList.add("\uF006 \uF070 " + (*it)->getName(), *it, ((*it)->getType() == FOLDER));
-							}
-						}
-					}else if ((*it)->metadata.get("hidden").compare("true") == 0) {
-						mList.add("\uF070 " + (*it)->getName(), *it, ((*it)->getType() == FOLDER));
-					}else {
-						mList.add((*it)->getName(), *it, ((*it)->getType() == FOLDER));
-					}
+			} else if (!isFavorite) {
+				if (showHidden || !isHidden) {
+					addItem(*it);
 				}
 			}
 		}
 	}
-	if(files.size() == 0){
-		while(!mCursorStack.empty()){
+
+	if (files.size() == 0) {
+		while (!mCursorStack.empty()) {
 			mCursorStack.pop();
 		}
 	}
+}
+
+void BasicGameListView::addItem(FileData* file) {
+	std::string name = file->getName();
+	bool isGame = file->getType() == GAME;
+	bool isFavorite = isGame && (file->metadata.get("favorite").compare("true") == 0);
+	bool isHidden = file->metadata.get("hidden").compare("true") == 0;
+
+	if (isHidden) {
+		name = "\uF070 " + name;
+	}
+	if (isFavorite) {
+		if ((favorites_icons_map.find(file->getSystem()->getName())) != favorites_icons_map.end()) {
+			name = (favorites_icons_map.find(file->getSystem()->getName())->second) + name;
+		} else {
+			name = "\uF006 " + name;
+		}
+	}
+	mList.add(name, file, !isGame);
 }
 
 FileData* BasicGameListView::getCursor()

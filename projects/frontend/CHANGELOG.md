@@ -3,18 +3,11 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
-### Updated
+### Added
 - Refactored gamepad configuration panel
 - Update Emulator / Core selection process to avoid gui inception and to display default values
 - Update font size on game metadata gui
 - Remove dead code of RomsManager
-
-### Fixed
-- Fixed back button in gamelist (back to parent level, not to root one)
-- Fixed back from game launch, does not reset gamelist to keep cursor position
-
-## [18.03.16]
-### Added
 - Added option for popup position
 - Added help messages in popups
 - Added slider for popups duration
@@ -22,6 +15,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Language names in their own language
 
 ### Fixed
+- Fixed back button in gamelist (back to parent level, not to root one)
+- Fixed back from game launch, does not reset gamelist to keep cursor position
 - Fixed old themes crash
 - Fixed clock not in local time
 - Deactivating battery indicator until better solution found

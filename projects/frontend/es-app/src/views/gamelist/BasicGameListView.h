@@ -28,5 +28,6 @@ public:
 protected:
 	virtual void launch(FileData* game) override;
 
+	void addItem(FileData* file);
 	TextListComponent<FileData*> mList;
 };
