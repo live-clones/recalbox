@@ -1,9 +1,5 @@
 #!/bin/bash
 
-FILES_TO_UPGRADE="boot.tar.xz root.tar.xz boot.tar.xz.sha1 root.tar.xz.sha1 root.list"
-FILES_TO_CHECK="boot.tar.xz root.tar.xz"
-ADDITIONAL_PARAMETERS="?source=recalbox"
-
 while [[ $# -gt 1 ]]
 do
 key="$1"
@@ -73,6 +69,19 @@ function echoerr {
   >&2 echo $@
 }
 
+updateformat=`grep "^boot=" /boot/recalbox-boot.conf | cut -d "=" -f 2`
+case "${updateformat}" in
+  squashfs)
+    FILES_TO_UPGRADE="boot.tar.xz recalbox.squashfs.upgrade.xz boot.tar.xz.sha1 recalbox.squashfs.upgrade.xz.sha1 recalbox.squashfs.size"
+    FILES_TO_CHECK="boot.tar.xz recalbox.squashfs.upgrade.xz"
+    ;;
+  *)
+    FILES_TO_UPGRADE="boot.tar.xz root.tar.xz boot.tar.xz.sha1 root.tar.xz.sha1 root.list"
+    FILES_TO_CHECK="boot.tar.xz root.tar.xz"
+    ;;
+esac
+
+ADDITIONAL_PARAMETERS="?source=recalbox"
 
 echoerr "------------ Will process to the recalbox upgrade from ${UPGRADE_URL} ------------"
 # Create download directory
