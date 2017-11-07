@@ -263,9 +263,14 @@ case "${MODE}" in
     "INTERNAL"|*)
 	if ! /recalbox/scripts/recalbox-mount.sh "${INTERNALDEVICETYPE}" 1 "${INTERNALDEVICE}" /recalbox/share
 	then
-	    # fallback
-	    # the internal partition is no more required in fact
-	    mount -t tmpfs -o size=128M tmpfs /recalbox/share
+	    # last hope : mount LABEL=SHARE
+	    if blkid | grep -q 'LABEL="SHARE" .* TYPE="ext4"' ; then
+	        mount LABEL=SHARE /recalbox/share
+	    else
+		# fallback
+		# the internal partition is no more required in fact
+		mount -t tmpfs -o size=128M tmpfs /recalbox/share
+	    fi
 	fi
 	;;
 esac
