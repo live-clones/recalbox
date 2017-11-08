@@ -4,7 +4,7 @@
 RECALSQUASH=recalbox.squashfs
 
 log () {
-    echo "(RECALBOX-irfs) $1"
+    echo "(RECALBOX-irfs) $1" >/dev/kmsg
     # Manual tee ...
     echo "(RECALBOX-irfs) $1" >> /new_root/boot/boot.log
 }
@@ -59,6 +59,7 @@ checkAndUpgradeSquashfs () {
             log "Upgrade failed :( Restoring previous version"
             rm /new_root/defaultroot/${RECALSQUASH}.upgrade || log "Couldn't delete the upgrade"
             mv /new_root/defaultroot/${RECALSQUASH}.downgrade /new_root/defaultroot/${RECALSQUASH} || log "Couldn't restore the previous version"
+            log "Previous version restored"
             return 1
         fi
         log "Upgrade done"
@@ -130,13 +131,14 @@ do_root() {
     # Clean previous logs, redirect output
     rm /new_root/boot/boot.log
     #rm /new_root/boot/boot.log.kernelupdate
-    exec >/dev/kmsg 2>&1
-    #exec 2>&1
+    #~ exec >/dev/kmsg 2>&1
+    exec >/new_root/boot/boot.log 2>&1
 
     log "Starting new boot log" 
 
     timeout=0
-    while ! mount -r ${toMount} /new_root/defaultroot ; do
+    # Can't mount with -r as we need to work on the filesystem for upgrades
+    while ! mount ${toMount} /new_root/defaultroot ; do
         log "Waiting for the root device"
         sleep 1
         let "timeout=$timeout + 1"
