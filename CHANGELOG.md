@@ -20,6 +20,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [17.11.10] - 2017-11-10
 - New pads : Nintendo Wii U and Switch Pro Controller, 8bitdo FC30 Arcade (BT and USB), Thrustmaster T Mini Wireless
+## Unreleased
+- Pi2/3 + X86: add squashfs
 - Pad: added Orange Controller default mapping
 - scummvm: support the .scummvm extension directories. Still need the .scummvm file inside
 - Added hyperion support

@@ -140,7 +140,7 @@ do_upgrade_squashfs() {
         done
     ) | /recalbox/scripts/shell2fb.py &
     # Copy the file
-    xz -dc --threads=0 < "${ROOTTAR}" > /recalbox.squashfs.upgrade
+    mount -o remount,rw / && xz -dc --threads=0 < "${ROOTTAR}" > /recalbox.squashfs.upgrade
 }
 
 do_boot_kernel_trick() {
