@@ -17,10 +17,14 @@ determine_boot_part() {
     ROOTPART=$(rdev | sed -e s+' /$'++)
     XROOT=$(echo "${ROOTPART}" | sed -e s+'^.*\([0-9]\)$'+'\1'+)
 
-    # check that it is a number
-    if ! echo "${XROOT}" | grep -qE '^[0-9]$'
+    # check that it is a number on a non squashfs /
+    if ! echo "${XROOT}" | grep -qE '^[0-9]$' && ! (mount | grep -q "^overlay on /")
     then
 	return 1
+    # On squashfs, / is an overlay, so we can't find /boot with a partition number
+    elif mount |grep -q "/boot type vfat" ; then
+	mount | grep "/boot type vfat" | cut -d " " -f 1
+	return 0
     fi
 
     XBOOT=$(expr ${XROOT} - 1)
