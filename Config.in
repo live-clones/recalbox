@@ -117,6 +117,7 @@ menu "Libretro Cores"
         source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-glupen64/Config.in"
         source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-snes9x/Config.in"
         source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-vice/Config.in"
+        source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-handy/Config.in"
 endmenu
 endif
 menu "Doom packages"

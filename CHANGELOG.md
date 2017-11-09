@@ -4,6 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 - Pad: added Orange Controller default mapping
+- Lynx: added libretro-handy core (by default)
 
 ## [17.11.02] - 2017-11-02
 - add upgrade logs to the support archive

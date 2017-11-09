@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system lynx --extension '.zip .ZIP .lnx .LNX' --fullname 'Lynx' --platform atarilynx --theme lynx libretro:mednafen_lynx:BR2_PACKAGE_LIBRETRO_BEETLE_LYNX
+# ./scripts/linux/empack.py --system lynx --extension '.zip .ZIP .lnx .LNX' --fullname 'Lynx' --platform atarilynx --theme lynx libretro:handy:BR2_PACKAGE_LIBRETRO_HANDY libretro:mednafen_lynx:BR2_PACKAGE_LIBRETRO_BEETLE_LYNX
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_LYNX_SOURCE = 
@@ -21,17 +21,23 @@ SOURCE_ROMDIR_LYNX = $(RECALBOX_ROMFS_LYNX_PKGDIR)/roms
 # variables are global across buildroot
 
 
-ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_LYNX),)
+ifneq ($(BR2_PACKAGE_LIBRETRO_HANDY)$(BR2_PACKAGE_LIBRETRO_BEETLE_LYNX),)
 define CONFIGURE_MAIN_LYNX_START
 	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_LYNX),Lynx,$(SYSTEM_NAME_LYNX),.zip .ZIP .lnx .LNX,atarilynx,lynx)
 endef
 
-ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_LYNX),)
+ifneq ($(BR2_PACKAGE_LIBRETRO_HANDY)$(BR2_PACKAGE_LIBRETRO_BEETLE_LYNX),)
 define CONFIGURE_LYNX_LIBRETRO_START
 	$(call RECALBOX_ROMFS_CALL_START_EMULATOR,$(SYSTEM_XML_LYNX),libretro)
 endef
+ifeq ($(BR2_PACKAGE_LIBRETRO_HANDY),y)
+define CONFIGURE_LYNX_LIBRETRO_HANDY_DEF
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_LYNX),handy)
+endef
+endif
+
 ifeq ($(BR2_PACKAGE_LIBRETRO_BEETLE_LYNX),y)
-define CONFIGURE_LYNX_LIBRETRO_ATARILYNX_DEF
+define CONFIGURE_LYNX_LIBRETRO_MEDNAFEN_LYNX_DEF
 	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_LYNX),mednafen_lynx)
 endef
 endif
@@ -51,7 +57,8 @@ endif
 define RECALBOX_ROMFS_LYNX_CONFIGURE_CMDS
 	$(CONFIGURE_MAIN_LYNX_START)
 	$(CONFIGURE_LYNX_LIBRETRO_START)
-	$(CONFIGURE_LYNX_LIBRETRO_ATARILYNX_DEF)
+	$(CONFIGURE_LYNX_LIBRETRO_HANDY_DEF)
+	$(CONFIGURE_LYNX_LIBRETRO_MEDNAFEN_LYNX_DEF)
 	$(CONFIGURE_LYNX_LIBRETRO_END)
 	$(CONFIGURE_MAIN_LYNX_END)
 endef
