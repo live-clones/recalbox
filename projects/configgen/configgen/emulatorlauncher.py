@@ -87,7 +87,7 @@ emulators["ngp"] = Emulator(name='ngp', emulator='libretro', core='mednafen_ngp'
 emulators["ngpc"] = Emulator(name='ngpc', emulator='libretro', core='mednafen_ngp')
 emulators["gw"] = Emulator(name='gw', emulator='libretro', core='gw')
 emulators["vectrex"] = Emulator(name='vectrex', emulator='libretro', core='vecx')
-emulators["lynx"] = Emulator(name='lynx', emulator='libretro', core='mednafen_lynx')
+emulators["lynx"] = Emulator(name='lynx', emulator='libretro', core='handy')
 emulators["lutro"] = Emulator(name='lutro', emulator='libretro', core='lutro')
 emulators["wswan"] = Emulator(name='wswan', emulator='libretro', core='mednafen_wswan', ratio='16/10')
 emulators["wswanc"] = Emulator(name='wswanc', emulator='libretro', core='mednafen_wswan', ratio='16/10')
