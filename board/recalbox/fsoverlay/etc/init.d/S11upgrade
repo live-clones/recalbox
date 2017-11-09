@@ -162,6 +162,17 @@ do_boot_kernel_trick() {
     fi
 }
 
+free_space_ok_for_squashfs_copy() {
+  space_required=`cat /recalbox/share/system/upgrade/recalbox.squashfs.size`
+  free_space=`df -k "/" | tail -1 | awk '{print $4}'`
+  # Convert to bytes
+  free_space="$((${free_space}*1024))"
+  space_left="$((${free_space}-${space_required}))"
+  # Let's keep a small overhead of approx. 1MB
+  [[ $space_left < 1000000 ]] && reutrn 1
+  return 0
+}
+
 bootMethod=`grep "^boot=" /boot/recalbox-boot.conf | cut -d '=' -f 2`
 # what about doing an upgrade ?
 if test -e "/recalbox/share/system/upgrade/boot.tar.xz" -a -e "/recalbox/share/system/upgrade/root.tar.xz" -a -z "${bootMethod}"
@@ -178,6 +189,11 @@ then
     recallog "UPGRADE: Done ! Rebooting"
     shutdown -r now
 elif test -e "/recalbox/share/system/upgrade/recalbox.squashfs.xz" -a "${bootMethod}" == "squashfs" ; then
+    if ! free_space_ok_for_squashfs_copy ; then
+        recallog "Not enough space left on / for update. Removing to prevent bootloop"
+        rm "/recalbox/share/system/upgrade/boot.tar.xz" "/recalbox/share/system/upgrade/recalbox.squashfs.xz"
+	return 1
+    fi
     recallog "An upgrade is available (SQUASHFS), proceeding ..."
     do_boot_kernel_trick
     do_upgrade_squashfs > /recalbox/share/system/upgrade/upgrade.out.log 2> /recalbox/share/system/upgrade/upgrade.err.log
