@@ -93,6 +93,7 @@ case "${RECALBOX_TARGET}" in
 	# boot.tar.xz
 	cp -f "${BINARIES_DIR}/"*.dtb "${BINARIES_DIR}/rpi-firmware"
 	cp "${BINARIES_DIR}/zImage" "${BINARIES_DIR}/rpi-firmware/zImage"
+	cp "${BINARIES_DIR}/initrd.gz" "${BINARIES_DIR}/rpi-firmware" || exit 1
 	tar -cJf "${RECALBOX_BINARIES_DIR}/boot.tar.xz" -C "${BINARIES_DIR}/rpi-firmware" "." ||
 	    { echo "ERROR : unable to create boot.tar.xz" && exit 1 ;}
 
@@ -200,11 +201,11 @@ case "${RECALBOX_TARGET}" in
 esac
 
 # recalbox squashfs
-if [[ -f ${RECALBOX_BINARIES_DIR}/rootfs.squashfs ]] ; then
+if [[ -f ${BINARIES_DIR}/rootfs.squashfs ]] ; then
   cp "${BINARIES_DIR}/rootfs.squashfs" "${RECALBOX_BINARIES_DIR}/recalbox.squashfs" || exit 1
   ls -l "${RECALBOX_BINARIES_DIR}/recalbox.squashfs" | cut -d " " -f 5 > "${RECALBOX_BINARIES_DIR}/recalbox.squashfs.size"
+  echo "Compressing ${RECALBOX_BINARIES_DIR}/recalbox.squashfs ..."
   xz --threads=0 "${RECALBOX_BINARIES_DIR}/recalbox.squashfs"
-  cp "${BINARIES_DIR}/initrd.gz" "${BINARIES_DIR}/rpi-firmware" || exit 1
 fi
 
 # Compress the generated .img
