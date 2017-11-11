@@ -1,0 +1,12 @@
+config BR2_PACKAGE_LIBRETRO_BEETLE_PSX_HW
+	bool "libretro-beetle-psx-hw"
+	depends on BR2_PACKAGE_RETROARCH
+	depends on BR2_INSTALL_LIBSTDCPP
+	select BR2_PACKAGE_RECALBOX_ROMFS_PSX
+	help
+	  An Enhanced libretro PSX emulator core for X86.
+
+	  http://www.libretro.com
+
+comment "LIBRETRO_BEETLE_PSX_HW needs a toolchain w/ C++"
+	depends on !BR2_INSTALL_LIBSTDCPP

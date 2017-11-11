@@ -324,8 +324,8 @@ ifeq ($(BR2_PACKAGE_PPSSPP),y)
 endif
 
 # System: psx
-ifneq ($(BR2_PACKAGE_LIBRETRO_PCSX),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-psx
+ifneq ($(BR2_PACKAGE_LIBRETRO_PCSX)$(BR2_PACKAGE_LIBRETRO_BEETLE_PSX)$(BR2_PACKAGE_LIBRETRO_BEETLE_PSX_HW),)
+	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-psx
 endif
 
 # System: prboom
