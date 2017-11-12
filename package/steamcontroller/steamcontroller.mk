@@ -23,8 +23,7 @@ endef
 
 # Install input headers
 define STEAMCONTROLLER_POST_INSTALL_INPUT_HEADERS
-	$(INSTALL) -m 0755 -D $(STAGING_DIR)/usr/include/linux/input-event-codes.h $(TARGET_DIR)/usr/include/linux/input-event-codes.h
-	$(INSTALL) -m 0755 -D $(STAGING_DIR)/usr/include/linux/input.h $(TARGET_DIR)/usr/include/linux/input.h
+	$(INSTALL) -m 0755 -D $(STAGING_DIR)/usr/include/linux/input-event-codes.h $(TARGET_DIR)/usr/inc/input-event-codes.h
 endef
 
 
