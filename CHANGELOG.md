@@ -16,6 +16,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Bluemsx: bumped core to last version + added .cas/.m3u files support
 - X86: added imlib2_grab to take command line screenshots
 - X86: Added boot menu with verbose option
+- Fix steam controller
 
 ## [17.11.10.2] - 2017-11-10
 - Fixed hyperion libraries
