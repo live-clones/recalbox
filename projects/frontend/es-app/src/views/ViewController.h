@@ -66,6 +66,7 @@ public:
 	};
 
 	inline const State& getState() const { return mState; }
+	inline bool isViewing(ViewMode viewing) const { return mState.viewing == viewing; }
 
 	virtual std::vector<HelpPrompt> getHelpPrompts() override;
 	virtual HelpStyle getHelpStyle() override;

@@ -816,6 +816,10 @@ msgid "MENU"
 msgstr "MENU"
 
 #: 
+msgid "START KODI"
+msgstr "LANCER KODI"
+
+#: 
 msgid "FILENAME, ASCENDING"
 msgstr "FICHIER, ASCENDANT"
 

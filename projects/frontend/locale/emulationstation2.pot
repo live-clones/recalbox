@@ -828,6 +828,10 @@ msgid "MENU"
 msgstr ""
 
 #: 
+msgid "START KODI"
+msgstr ""
+
+#: 
 msgid "FILENAME, ASCENDING"
 msgstr ""
 

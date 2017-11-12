@@ -14,6 +14,7 @@
 #include "RecalboxConf.h"
 #include "Locale.h"
 #include "MenuThemeData.h"
+#include "views/ViewController.h"
 
 Window::Window() : mNormalizeNextUpdate(false), mFrameTimeElapsed(0), mFrameCountElapsed(0), mAverageDeltaTime(10), 
 	mAllowSleep(true), mSleeping(false), mTimeSinceLastInput(0), launchKodi(false)
@@ -144,23 +145,30 @@ void Window::input(InputConfig* config, Input input)
 		Settings::getInstance()->setBool("DebugText", !Settings::getInstance()->getBool("DebugText"));
 	}
 	else
-	{
-            if(config->isMappedTo("x", input) && input.value && !launchKodi && RecalboxConf::getInstance()->get("kodi.enabled") == "1" && RecalboxConf::getInstance()->get("kodi.xbutton") == "1"){
-                launchKodi = true;
-                Window * window = this;
-                this->pushGui(new GuiMsgBox(this, _("DO YOU WANT TO START KODI MEDIA CENTER ?"), _("YES"),
-				[window, this] { 
-                                    if( ! RecalboxSystem::getInstance()->launchKodi(window)) {
-                                        LOG(LogWarning) << "Shutdown terminated with non-zero result!";
-                                    }
-                                    launchKodi = false;
-					    }, _("NO"), [this] {
-                                    launchKodi = false;
-                                }));
-            }else {
-		if(peekGui())
+	{	
+		if(	config->isMappedTo("x", input) && input.value 
+			&& !launchKodi && RecalboxConf::getInstance()->get("kodi.enabled") == "1" && RecalboxConf::getInstance()->get("kodi.xbutton") == "1" 
+			&& ViewController::get()->isViewing(ViewController::SYSTEM_SELECT) /* only in the main menu */
+			&& mGuiStack.size() == 1 /* without any popup */ )
+		{
+			launchKodi = true;
+			Window * window = this;
+			this->pushGui(new GuiMsgBox(this, _("DO YOU WANT TO START KODI MEDIA CENTER ?"), 
+				_("YES"), [window, this] { 
+					if( ! RecalboxSystem::getInstance()->launchKodi(window)) {
+						LOG(LogWarning) << "Shutdown terminated with non-zero result!";
+					}
+					launchKodi = false;
+				}, 
+				_("NO"), [this] {
+					launchKodi = false;
+				}
+			));
+		}
+		else if(peekGui()) 
+		{
 			this->peekGui()->input(config, input);
-            }
+		}
 	}
 }
 
