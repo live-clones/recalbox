@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## Unreleased
+- sound: try to fix configuration loss on upgrade
+
 ## [17.11.10.2] - 2017-11-10
 - Fixed hyperion libraries
 

@@ -291,6 +291,11 @@ do_upgrade() {
     return 0
 }
 
+pre_reboot_actions() {
+  # If we don't restore before reboot, default values will be saved at reboot, losing custom ones
+  alsactl -f /recalbox/share/system/configs/asound.state restore
+}
+
 RMODE="$SHAREDEVICE" 
 
 if echo "${RMODE}" | grep -qE '^DEV '
@@ -363,6 +368,9 @@ then
     # remove to not apply it indefinitly, even if it fails
     rm "/recalbox/share/system/upgrade/boot.tar.xz" "/recalbox/share/system/upgrade/root.tar.xz"
     
+    # last commands before reboot
+    pre_reboot_actions
+
     # rebooting now
     shutdown -r now
 fi
