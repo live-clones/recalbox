@@ -3,12 +3,12 @@
 # MAME2003
 #
 ################################################################################
-LIBRETRO_MAME2003_VERSION = 686bda7f8daa95f524dd86ca0d81b3176e3ce2d3
+LIBRETRO_MAME2003_VERSION = e1aa112127755d47b1e7df43a6831a9870c3b987
 LIBRETRO_MAME2003_SITE = $(call github,libretro,mame2003-libretro,$(LIBRETRO_MAME2003_VERSION))
 
 define LIBRETRO_MAME2003_BUILD_CMDS
 	mkdir -p $(@D)/obj/mame/cpu/ccpu
-	CFLAGS="$(TARGET_CFLAGS)" CXXFLAGS="$(TARGET_CXXFLAGS)" $(MAKE) CC="$(TARGET_CC)" LD="$(TARGET_CC)" RANLIB="$(TARGET_RANLIB)" AR="$(TARGET_AR)" -C $(@D)/ -f Makefile platform="$(LIBRETRO_BOARD)"
+	CFLAGS="$(TARGET_CFLAGS)" CXXFLAGS="$(TARGET_CXXFLAGS)" $(MAKE) CC="$(TARGET_CC)" -C $(@D)/ -f Makefile platform="$(LIBRETRO_BOARD)"
 endef
 
 define LIBRETRO_MAME2003_INSTALL_TARGET_CMDS

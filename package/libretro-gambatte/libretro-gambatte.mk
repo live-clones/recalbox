@@ -3,7 +3,7 @@
 # GAMBATTE
 #
 ################################################################################
-LIBRETRO_GAMBATTE_VERSION = 6d976512b3d5be509a8ddeb360e8859bcd48f5e5
+LIBRETRO_GAMBATTE_VERSION = bcfd2df6d946c200fc6e50b0956b209582221492
 LIBRETRO_GAMBATTE_SITE = $(call github,libretro,gambatte-libretro,$(LIBRETRO_GAMBATTE_VERSION))
 
 define LIBRETRO_GAMBATTE_BUILD_CMDS
