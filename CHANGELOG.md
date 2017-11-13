@@ -4,6 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 - X86: Added 2 new PSX cores mednafen_psx and mednafen_psx_hw (enhanced version with OpenGL renderer)
+- Bumped retroarch to v1.6.7
 
 ## [17.11.10.2] - 2017-11-10
 - Fixed hyperion libraries
