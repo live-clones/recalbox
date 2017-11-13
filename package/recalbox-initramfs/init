@@ -73,7 +73,7 @@ mount_overlay () {
     mount -t squashfs -r /new_root/defaultroot/${RECALSQUASH} /mnt/lower
     
     log "Mount the upper overlay FS"
-    mount LABEL=SHARE /mnt/upper || log "Errr ... It failed"
+    mount LABEL=SHARE /mnt/upper || mount LABEL=share /mnt/upper || log "Errr ... It failed"
     
     log "mkdir upper and work"
     for dir in upper work; do
@@ -125,17 +125,18 @@ do_root() {
         toMount="LABEL=RECALBOX"
     fi
     
+    exec >/new_root/boot/boot.log 2>&1
+
     # Find the root method -> /boot is mounted
     rootMethod=`getRootMethod`
-    
+
     # Clean previous logs, redirect output
     rm /new_root/boot/boot.log
     #rm /new_root/boot/boot.log.kernelupdate
     #~ exec >/dev/kmsg 2>&1
-    exec >/new_root/boot/boot.log 2>&1
 
     log "Starting new boot log" 
-
+    
     timeout=0
     # Can't mount with -r as we need to work on the filesystem for upgrades
     while ! mount ${toMount} /new_root/defaultroot ; do

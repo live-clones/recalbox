@@ -266,6 +266,8 @@ case "${MODE}" in
 	    # last hope : mount LABEL=SHARE
 	    if blkid | grep -q 'LABEL="SHARE" .* TYPE="ext4"' ; then
 	        mount LABEL=SHARE /recalbox/share
+	    elif blkid | grep -q 'LABEL="share" .* TYPE="ext4"' ; then
+	        mount LABEL=share /recalbox/share
 	    else
 		# fallback
 		# the internal partition is no more required in fact
