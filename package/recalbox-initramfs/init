@@ -92,81 +92,72 @@ mount_overlay () {
     exec switch_root /mnt/root /sbin/init
 }
 
-do_root() {
-    max_delay=5
-    
-    mkdir -p /sys /proc /new_root/boot /new_root/defaultroot /new_root/squashfs
-    mount -t proc -o nodev,noexec,nosuid proc /proc  || return 1
-    mount -t sysfs -o nodev,noexec,nosuid sysfs /sys || return 1
+max_delay=5
 
-    # read the parameters
-    read -r cmdline < /proc/cmdline
-    for param in ${cmdline} ; do
-        case ${param} in
-            label=*) label=${param#label=};;
-            root=*) root=${param#root=};;
-            #ro) mountRO="-r";;
-        esac
-    done
+mkdir -p /sys /proc /new_root/boot /new_root/defaultroot /new_root/squashfs
+mount -t proc -o nodev,noexec,nosuid proc /proc  || return 1
+mount -t sysfs -o nodev,noexec,nosuid sysfs /sys || return 1
 
-    # look for devices
-    mount -t devtmpfs none /dev
-    
-    # PC uses the label, NOOBS uses the root
-    if test -z "${label}" -a ! -z "${root}" ; then
-        # NOOBS case: root=/dev/mmcblk0pn
-        toMount="${root}"
-    elif test -z "${root}" -a ! -z "${label}" ; then
-        # PC case: label=RECALBOX
-        toMount="LABEL=${label}"
-    else
-        # Failsafe mode, if it's ever needed
-        # maybe give a try to /dev/root rather ?
-        toMount="LABEL=RECALBOX"
-    fi
-    
-    exec >/new_root/boot/boot.log 2>&1
+# read the parameters
+read -r cmdline < /proc/cmdline
+for param in ${cmdline} ; do
+    case ${param} in
+        label=*) label=${param#label=};;
+        root=*) root=${param#root=};;
+        #ro) mountRO="-r";;
+    esac
+done
 
-    # Find the root method -> /boot is mounted
-    rootMethod=`getRootMethod`
+# look for devices
+mount -t devtmpfs none /dev
 
-    # Clean previous logs, redirect output
-    rm /new_root/boot/boot.log
-    #rm /new_root/boot/boot.log.kernelupdate
-    #~ exec >/dev/kmsg 2>&1
+# PC uses the label, NOOBS uses the root
+if test -z "${label}" -a ! -z "${root}" ; then
+    # NOOBS case: root=/dev/mmcblk0pn
+    toMount="${root}"
+elif test -z "${root}" -a ! -z "${label}" ; then
+    # PC case: label=RECALBOX
+    toMount="LABEL=${label}"
+else
+    # Failsafe mode, if it's ever needed
+    # maybe give a try to /dev/root rather ?
+    toMount="LABEL=RECALBOX"
+fi
 
-    log "Starting new boot log" 
+exec >/new_root/boot/boot.log 2>&1
+
+# Find the root method -> /boot is mounted
+rootMethod=`getRootMethod`
+
+# Clean previous logs, redirect output
+rm /new_root/boot/boot.log
+#~ exec >/dev/kmsg 2>&1
+
+log "Starting new boot log" 
+
+timeout=0
+# Can't mount with -r as we need to work on the filesystem for upgrades
+while ! mount ${toMount} /new_root/defaultroot ; do
+    log "Waiting for the root device"
+    sleep 1
+    let "timeout=$timeout + 1"
+    test $timeout -gt "5" && return 1
+done
+log "Mounted: ${toMount} as root source, booting to $rootMethod `[ "$rootMethod" != "squashfs" ] && echo "default"`"
+
+# Update available ?
+
+# The upgrade has to be done before we check the squashfs/sd kernel
+checkValidKernel "$rootMethod"
     
-    timeout=0
-    # Can't mount with -r as we need to work on the filesystem for upgrades
-    while ! mount ${toMount} /new_root/defaultroot ; do
-        log "Waiting for the root device"
-        sleep 1
-        let "timeout=$timeout + 1"
-        test $timeout -gt "5" && return 1
-    done
-    log "Mounted: ${toMount} as root source, booting to $rootMethod `[ "$rootMethod" != "squashfs" ] && echo "default"`"
-    
-    # Update available ?
+log "Trying to use root from: $rootMethod"
+
+# Mount the squashfs if found
+if test "${rootMethod}" == "squashfs" -a -e /new_root/defaultroot/${RECALSQUASH} ; then
     checkAndUpgradeSquashfs "$rootMethod"
-    
-    # The upgrade has to be done before we check the squashfs/sd kernel
-    checkValidKernel "$rootMethod"
-        
-    log "Trying to use root from: $rootMethod"
-
-    # Mount the squashfs if found
-    if test "${rootMethod}" == "squashfs" -a -e /new_root/defaultroot/${RECALSQUASH} ; then
-        mount_overlay && return 0
-    fi
-    
-    # moving current mounts
-    return 1
-}
-
-if ! do_root
-then
-    log "Couldn't mount a squashfs"
+    mount_overlay
+else
+    log "Squashfs not set or squashfs file not found"
     log "Remounting to the default root device"
     mount --move /sys  /new_root/defaultroot/sys  || return 1
     mount --move /proc /new_root/defaultroot/proc || return 1
