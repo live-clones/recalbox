@@ -30,7 +30,7 @@ class ScummVMGenerator(Generator):
         commandArray = [recalboxFiles.recalboxBins[system.config['emulator']], 
                         "--fullscreen",
                         "--joystick=0", 
-                        "--screenshotspath="+recalboxFiles.screenshotsDir, 
+                        "--screenshotpath="+recalboxFiles.screenshotsDir, 
                         "--extrapath=/usr/share/scummvm",
                         "--savepath="+recalboxFiles.scummvmSaves,
                         "--path=""{}""".format(romPath)]
