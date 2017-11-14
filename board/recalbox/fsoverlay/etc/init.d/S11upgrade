@@ -36,12 +36,15 @@ do_boot_upgrade() {
 	fi
     done
     
+    # Firsst: need to find the right kernel
+    [[ -e /boot/zImage ]] && kernelName="zImage"
+    [[ -e /boot/boot/bzImage ]] && kernelName="boot/bzImage"
     if [ "${bootMethod}" == "squashfs" ] ; then
         recallog "UPGRADE: Overwriting /boot/zImage.squashfs"
-        cp -f /boot/zImage /boot/zImage.squashfs
+	cp -f "/boot/${kernelName}" "/boot/${kernelName}.squashfs"
     else
         recallog "UPGRADE: Overwriting /boot/zImage.sd"
-        cp -f /boot/zImage /boot/zImage.sd
+        cp -f "/boot/${kernelName}" "/boot/${kernelName}.sd"
     fi
 }
 
@@ -148,17 +151,21 @@ do_boot_kernel_trick() {
     # booting SD with the squashfs kernel could cause some problems with tools and modules
     # So we make a copy of the kernel, the initramfs will check and swap them, then reboot.
     
+    # Firsst: need to find the right kernel
+    [[ -e /boot/zImage ]] && kernelName="zImage"
+    [[ -e /boot/boot/bzImage ]] && kernelName="boot/bzImage"
+
     # Check if / is mounted on a loop
     if `mount | grep -q "on / type squashfs"` ; then
 	# YES : copy current kernel to kernel.squashfs
 	recallog "UPGRADE: booting from squashfs, backing up kernel to /boot/zImage.squashfs"
-	recallog "UPGRADE: zImage.squashfs md5sum is `md5sum /boot/zImage.squashfs`"
-	cp -f /boot/zImage /boot/zImage.squashfs || return 1
+	recallog "UPGRADE: zImage.squashfs md5sum is `md5sum /boot/${kernelName}.squashfs`"
+	cp -f "/boot/${kernelName}"  "/boot/${kernelName}.squashfs" || return 1
     else
 	# NO : copy the current kernel as kernel.sd
-	recallog "UPGRADE: booting from SD, backing up kernel to /boot/zImage.sd"
-	recallog "UPGRADE: zImage.sd md5sum is `md5sum /boot/zImage.sd`"
-	cp -f /boot/zImage /boot/zImage.sd || return 1
+	recallog "UPGRADE: booting from SD, backing up kernel to /boot/${kernelName}.sd"
+	recallog "UPGRADE: zImage.sd md5sum is `md5sum /boot/${kernelName}.sd`"
+	cp -f "/boot/${kernelName}" "/boot/${kernelName}.sd" || return 1
     fi
 }
 
