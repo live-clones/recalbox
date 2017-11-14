@@ -4,7 +4,7 @@
  	"                           pce, segacd, wii, windows)\n"
  	"  --savepath=PATH          Path to where saved games are stored\n"
  	"  --extrapath=PATH         Extra path to additional game data\n"
-+	"  --screenshots=PATH       Path to where screenshots are saved\n"
++	"  --screenshotpath=PATH    Path to where screenshots are saved\n"
  	"  --soundfont=FILE         Select the SoundFont for MIDI playback (only\n"
  	"                           supported by some MIDI drivers)\n"
  	"  --multi-midi             Enable combination AdLib and native MIDI\n"
@@ -12,7 +12,7 @@
  
  	ConfMan.registerDefault("enable_unsupported_game_warning", true);
  
-+	ConfMan.registerDefault("screenshotspath", ".");
++	ConfMan.registerDefault("screenshotpath", ".");
 +
  	// Game specific
  	ConfMan.registerDefault("path", "");
@@ -21,7 +21,7 @@
  				}
  			END_OPTION
  
-+			DO_LONG_OPTION("screenshotspath")
++			DO_LONG_OPTION("screenshotpath")
 +				Common::FSNode path(option);
 +				if (!path.exists()) {
 +					usage("Non-existent screenshots path '%s'", option);
