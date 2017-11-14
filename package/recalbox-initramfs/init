@@ -13,10 +13,20 @@ getRootMethod () {
     # No other choice than relying on the partition name :/
     # NOOBS sets label boot, .img uses BOOT
     #~ mount -o ro LABEL=BOOT /new_root/boot || return ""
-    mount LABEL=BOOT /new_root/boot || mount LABEL=boot /new_root/boot || return ""
+    #mount LABEL=BOOT /new_root/boot || mount LABEL=boot /new_root/boot || return ""
+    timeout=0
+    # Can't mount with -r as we log to /boot. The inittab will remount it as RO 
+    while ! (mount LABEL=BOOT /new_root/boot || mount LABEL=boot /new_root/boot) ; do
+        log "Waiting for /boot"
+        sleep 1
+        let "timeout=$timeout + 1"
+        test $timeout -gt "5" && log "Couldn't find /boot" && return ""
+    done
+
+    # Time to read who we shall boot
     while read param ; do
         case ${param} in
-            boot=*) boot=${param#boot=};;
+            boot=*) boot=${param#boot=} ;;
         esac
     done < /new_root/boot/recalbox-boot.conf
     echo "${boot}"
@@ -26,24 +36,26 @@ checkValidKernel() {
     # Make sure the the kernel is the one suited for the current boot type
     # If it differs, replace and reboot
     
-    # Il manque a tester : si mode squashfs mais que pas de squashfs présent, on boot en SD
     log "Checking kernels ..."
     bootType="$1"
+    # x86 has its kernel as /boot/boot/bzImage, whereas other boards have it in /boot/zImage
+    test -e /new_root/boot/zImage && kernelName="zImage"
+    test -e /new_root/boot/boot/bzImage && kernelName="boot/bzImage"
     if test "${bootType}" == "squashfs" -a -e /new_root/defaultroot/${RECALSQUASH}; then
         log "Found a squashfs file + a squashfs specific kernel"
-        origKernel="zImage.squashfs"
+        origKernel="${kernelName}.squashfs"
     else
         log "Couldn't find a squashfs file, or squashfs boot is not set, defaulting to SD"
-        origKernel="zImage.sd"
+        origKernel="${kernelName}.sd"
     fi
     if test -e "/new_root/boot/${origKernel}" && ! diff -q "/new_root/boot/zImage" "/new_root/boot/${origKernel}" ; then
         log "Kernels differ between zImage and $origKernel ! Copy the right one and reboot"
-        cp "/new_root/boot/${origKernel}" "/new_root/boot/zImage" || log "Copying the kernel failed :/"
+        cp "/new_root/boot/${origKernel}" "/new_root/boot/${kernelName}" || log "Copying the kernel failed :/"
         umount -a
         cp /new_root/boot/boot.log /new_root/boot/boot.log.kernelupdate
         /sbin/reboot -f
     fi
-    log "Kernels OK (zImage and $origKernel) ! Continuing ..."
+    log "Kernels OK (${kernelName} and $origKernel) ! Continuing ..."
 }
 
 checkAndUpgradeSquashfs () {
