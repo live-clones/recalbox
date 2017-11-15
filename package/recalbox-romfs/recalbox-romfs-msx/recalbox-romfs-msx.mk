@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system msx --extension '.mx1 .MX1 .mx2 .MX2 .rom .ROM .dsk .DSK .zip .ZIP' --fullname 'MSX' --platform msx --theme msx libretro:bluemsx:BR2_PACKAGE_LIBRETRO_BLUEMSX
+# ./scripts/linux/empack.py --system msx --extension '.mx1 .MX1 .mx2 .MX2 .rom .ROM .dsk .DSK .cas .CAS .m3u .M3U .zip .ZIP' --fullname 'MSX' --platform msx --theme msx libretro:bluemsx:BR2_PACKAGE_LIBRETRO_BLUEMSX
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_MSX_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_MSX = $(RECALBOX_ROMFS_MSX_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_BLUEMSX),)
 define CONFIGURE_MAIN_MSX_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_MSX),MSX,$(SYSTEM_NAME_MSX),.mx1 .MX1 .mx2 .MX2 .rom .ROM .dsk .DSK .zip .ZIP,msx,msx)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_MSX),MSX,$(SYSTEM_NAME_MSX),.mx1 .MX1 .mx2 .MX2 .rom .ROM .dsk .DSK .cas .CAS .m3u .M3U .zip .ZIP,msx,msx)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_BLUEMSX),)

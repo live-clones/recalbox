@@ -5,7 +5,7 @@ Put your msx roms in this directory.
 Rom files must have a ".mx1" or ".mx2" extension.
 Rename .rom files to .mx1 or .mx2
 
-BlueMSX emulator can load ".rom/.dsk/.zip" files.
+BlueMSX emulator can load ".rom/.dsk/.cas/.m3u/.zip" files.
 
 This system allows to use compressed roms on .zip.
 But, it is only an archive. Files inside the .zip must match with extensions mentioned above.
