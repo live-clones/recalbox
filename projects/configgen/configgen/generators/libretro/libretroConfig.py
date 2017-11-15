@@ -38,13 +38,6 @@ systemToRetroachievements = {'snes', 'nes', 'gba', 'gb', 'gbc', 'megadrive', 'pc
 # Define systems not compatible with rewind option
 systemNoRewind = {'virtualboy', 'sega32x', 'segacd', 'psx', 'fba_libretro', 'vectrex', 'zxspectrum', 'odyssey2', 'mame', 'n64'};
 
-# Define system emulated by bluemsx core
-systemToBluemsx = {'msx': '"MSX2"', 'msx1': '"MSX2"', 'msx2': '"MSX2"', 'colecovision': '"COL - ColecoVision"' };
-
-# Define the libretro device type corresponding to the libretro cores, when needed.
-systemToP1Device = {'msx': '257', 'msx1': '257', 'msx2': '257', 'colecovision': '513' };
-systemToP2Device = {'msx': '257', 'msx1': '257', 'msx2': '257', 'colecovision': '513' };
-
 # Netplay modes
 systemNetplayModes = {'host', 'client'}
 
@@ -133,11 +126,8 @@ def createLibretroConfig(system, controllers):
     else:
         retroarchConfig['video_scale_integer'] = 'false'
 
-    if(system.name in systemToBluemsx):
-        if system.config['core'] == 'bluemsx':
-            coreSettings.save('bluemsx_msxtype', systemToBluemsx[system.name])
-            retroarchConfig['input_libretro_device_p1'] = systemToP1Device[system.name]
-            retroarchConfig['input_libretro_device_p2'] = systemToP2Device[system.name]
+    if system.config['core'] == 'bluemsx':
+        coreSettings.save('bluemsx_msxtype', '"Auto"')
 
     # Netplay management
     if 'netplaymode' in system.config and system.config['netplaymode'] in systemNetplayModes:
