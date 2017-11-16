@@ -1,7 +1,8 @@
 config BR2_PACKAGE_DOLPHIN_EMU
-        bool "dolphin-emu"
+	bool "dolphin-emu"
 	depends on BR2_x86_64
 	depends on BR2_PACKAGE_XORG7
+	depends on BR2_PACKAGE_LIBGTK2
 	select BR2_PACKAGE_LIBEVDEV
 	select BR2_PACKAGE_FFMPEG
 	select BR2_PACKAGE_ZLIB
@@ -11,7 +12,12 @@ config BR2_PACKAGE_DOLPHIN_EMU
 	select BR2_PACKAGE_LIBCURL
 	select BR2_PACKAGE_SFML
 	select BR2_PACKAGE_BLUEZ5_UTILS
+	select BR2_PACKAGE_CAIRO_SCRIPT
 	select BR2_PACKAGE_RECALBOX_ROMFS_GAMECUBE
 	select BR2_PACKAGE_RECALBOX_ROMFS_WII
-        help
-          A  gamecube/wii emulator
+	help
+	  A  Nintendo GameCube/Wii emulator.
+	  https://github.com/dolphin-emu/dolphin
+
+comment "Dolphin needs x86_64, XORG7, LIBGTK2"	
+	depends on !BR2_x86_64 || !BR2_PACKAGE_XORG7 || !BR2_PACKAGE_LIBGTK2
