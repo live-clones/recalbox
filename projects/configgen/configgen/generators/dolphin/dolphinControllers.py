@@ -2,9 +2,20 @@
 # -*- coding: utf-8 -*-
 
 import recalboxFiles
+import ConfigParser
+
+hotkeysCombo = {
+    "b":      "Toggle Pause",
+    "pageup": "Take Screenshot",
+    "start":  "Exit",
+    "a":      "Reset",
+    "y":      "Save to selected slot",
+    "x":      "Load from selected slot"
+}
 
 # Create the controller configuration file
 def generateControllerConfig(system, playersControllers):
+    generateHotkeys(playersControllers)
     if system.name == "wii":
         if 'emulatedwiimotes' in system.config and system.config['emulatedwiimotes'] == '1':
             generateControllerConfig_emulatedwiimotes(playersControllers)
@@ -126,3 +137,63 @@ def write_key(f, keyname, input_type, input_id, input_value, input_global_id, re
         else:
             f.write("Axis " + str(input_id) + "-")
     f.write("`\n")
+
+
+def generateHotkeys(playersControllers):
+    player1 = None
+    HK = None
+    iniValues = dict()
+
+    # Find player 1
+    for idx, playerController in playersControllers.iteritems():
+        if playerController.player == "1":
+            print "P1 found"
+            player1 = playerController
+            break
+
+    if player1 is None:
+        print "no P1"
+        raise ValueError("Couldn't find Player 1 input config")
+
+    # Read its inputs, get the hotkey
+    for idx, input in player1.inputs.iteritems():
+        if input.name == "hotkey":
+            HK = input.id
+            break
+
+    if HK is None:
+        print "no HK"
+        raise ValueError("Couldn't find Player 1 hotkey")
+
+    # Now generate the hotkeys
+    for idx, inputobj in player1.inputs.iteritems():
+        if inputobj.name in hotkeysCombo:
+            propertyName = "Keys/{}".format(hotkeysCombo[inputobj.name])
+            print propertyName
+            propertyValue = "`Button {}` & `Button {}`".format(HK, inputobj.id)
+            iniValues[propertyName] = propertyValue
+    iniValues["Device"] = "evdev/0/{}".format(player1.realName)
+    # Prepare the ini write
+    iniSections = {"Hotkeys1": iniValues }
+    writeIniFile(recalboxFiles.dolphinHKeys, iniSections)
+
+
+def writeIniFile(filename, sectionsAndValues):
+    # filename: file to write
+    # sectionsAndValues: a dict indexed on sections on the ini. Each section has a dict of propertyName: propertyValue
+
+    Config = ConfigParser.ConfigParser()
+    # To prevent ConfigParser from converting to lower case
+    Config.optionxform = str
+
+
+    # Write dynamic config
+    for section, values in sectionsAndValues.iteritems():
+        Config.add_section(section)
+        for propertyName, propertyValue in values.iteritems():
+            Config.set(section, propertyName, propertyValue)
+
+    # Open file
+    cfgfile = open(filename,'w')
+    Config.write(cfgfile)
+    cfgfile.close()

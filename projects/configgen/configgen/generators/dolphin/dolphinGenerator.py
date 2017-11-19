@@ -12,14 +12,17 @@ class DolphinGenerator(Generator):
     def generate(self, system, rom, playersControllers):
         dolphinControllers.generateControllerConfig(system, playersControllers)
 
-        dolphinSettings = UnixSettings(recalboxFiles.dolphinIni, separator=' ')
-        #Draw or not FPS
-	if system.config['showFPS'] == 'true':
-            dolphinSettings.save("ShowLag", "True")
-            dolphinSettings.save("ShowFrameCount", "True")
-        else:
-            dolphinSettings.save("ShowLag", "False")
-            dolphinSettings.save("ShowFrameCount", "False")
+        if not system.config['configfile']:
+            dolphinSettings = UnixSettings(recalboxFiles.dolphinIni, separator=' ')
+            dolphinGFX = UnixSettings(recalboxFiles.dolphinGFX, separator=' ')
+            #Draw or not FPS
+            showFPS = "True" if system.config['showFPS'] == 'true' else "False"
+            dolphinGFX.save("ShowFPS", showFPS)
+
+            # Disable analytics
+            dolphinSettings.save("PermissionAsked", "True")
+            dolphinSettings.save("Enabled", "True")
+            dolphinSettings.save("AutoHideCursor", "True")
 
         commandArray = [recalboxFiles.recalboxBins[system.config['emulator']], "-e", rom]
         if 'args' in system.config and system.config['args'] is not None:
