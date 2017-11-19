@@ -69,7 +69,11 @@ function echoerr {
   >&2 echo $@
 }
 
-updateformat=`grep "^boot=" /boot/recalbox-boot.conf | cut -d "=" -f 2`
+# I keep it here if reading /boot works reliably in the initramfs
+#updateformat=`grep "^boot=" /boot/recalbox-boot.conf | cut -d "=" -f 2`
+systemsetting="python /usr/lib/python2.7/site-packages/configgen/settings/recalboxSettings.pyc"
+updateformat="`$systemsetting  -command load -key updates.method`"
+
 case "${updateformat}" in
   squashfs)
     FILES_TO_UPGRADE="boot.tar.xz recalbox.squashfs.xz boot.tar.xz.sha1 recalbox.squashfs.xz.sha1 recalbox.squashfs.size"

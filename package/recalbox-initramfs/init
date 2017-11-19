@@ -9,19 +9,13 @@ log () {
     echo "(RECALBOX-irfs) $1" >> /new_root/boot/boot.log
 }
 
+# Sadly some systems don't give details about the boot partition soon enough,
+# so this function is useless to the determine boot method
 getRootMethod () {
     # No other choice than relying on the partition name :/
     # NOOBS sets label boot, .img uses BOOT
-    #~ mount -o ro LABEL=BOOT /new_root/boot || return ""
-    #mount LABEL=BOOT /new_root/boot || mount LABEL=boot /new_root/boot || return ""
-    timeout=0
-    # Can't mount with -r as we log to /boot. The inittab will remount it as RO 
-    while ! (mount LABEL=BOOT /new_root/boot || mount LABEL=boot /new_root/boot) ; do
-        log "Waiting for /boot"
-        sleep 1
-        let "timeout=$timeout + 1"
-        test $timeout -gt "5" && log "Couldn't find /boot" && return ""
-    done
+    # Can't mount with -o ro as we log to /boot. The inittab will remount it as RO 
+    mount LABEL=BOOT /new_root/boot || mount LABEL=boot /new_root/boot || echo "" && return
 
     # Time to read who we shall boot
     while read param ; do
@@ -59,42 +53,51 @@ checkValidKernel() {
 }
 
 checkAndUpgradeSquashfs () {
-    bootType="$1"
-    test -e /new_root/defaultroot/${RECALSQUASH}.upgrade && log "UPGRADE: found /new_root/defaultroot/${RECALSQUASH}.upgrade" || log "UPGRADE: no upgrade available"
-    if test "${bootType}" == "squashfs" -a -e /new_root/defaultroot/${RECALSQUASH}.upgrade ; then
+    sFile=/new_root/defaultroot/${RECALSQUASH}
+    sUpg=${sFile}.upgrade
+    sDowng=${sFile}.downgrade
+    log "Squashfs files: ${sFile} ${sUpg} ${sDowng}"
+    test -e ${sUpg} && log "UPGRADE: found /new_root/defaultroot/${RECALSQUASH}.upgrade" || log "UPGRADE: no upgrade available"
+    if test -e ${sUpg} ; then
         log "Found an update, renaming versions"
         # The very first upgrade has no .downgrade, so don't fail on the rm
-        test -e /new_root/defaultroot/${RECALSQUASH}.downgrade && rm /new_root/defaultroot/${RECALSQUASH}.downgrade
-        test -e /new_root/defaultroot/${RECALSQUASH} && mv /new_root/defaultroot/${RECALSQUASH} /new_root/defaultroot/${RECALSQUASH}.downgrade
-        if ! mv /new_root/defaultroot/${RECALSQUASH}.upgrade /new_root/defaultroot/${RECALSQUASH} ; then
+        test -e ${sDowng} && ${sDowng}
+        test -e ${sFile} && mv ${sFile} ${sDowng}
+        if ! mv ${sUpg} ${sFile} ; then
             # Time to rollback to avoid a boot loop
             log "Upgrade failed :( Restoring previous version"
-            rm /new_root/defaultroot/${RECALSQUASH}.upgrade || log "Couldn't delete the upgrade"
-            mv /new_root/defaultroot/${RECALSQUASH}.downgrade /new_root/defaultroot/${RECALSQUASH} || log "Couldn't restore the previous version"
+            rm ${sUpg} || log "Couldn't delete the upgrade"
+            mv ${sDowng} ${sFile} || log "Couldn't restore the previous version"
             log "Previous version restored"
             return 1
         fi
         log "Upgrade done"
+        return 0
+    elif test -e /new_root/defaultroot/${RECALSQUASH} ; then
+        log "UPGRADE: squashfs found with no upgrade"
+        return 0
     fi
+    return 1
 }
 
 mount_overlay () {
+    upperLayer="$1"
     mkdir -p /mnt/overlay /mnt/lower /mnt/root /mnt/upper
     
     log "Mount squashfs as lower fs"
     mount -t squashfs -r /new_root/defaultroot/${RECALSQUASH} /mnt/lower
     
     log "Mount the upper overlay FS"
-    mount LABEL=SHARE /mnt/upper || mount LABEL=share /mnt/upper || log "Errr ... It failed"
+    mount "$upperLayer" /mnt/upper || log "Errr ... It failed"
     
     log "mkdir upper and work"
     for dir in upper work; do
-        mkdir -p "/mnt/upper/system/.overlay/$dir"
+        mkdir -p "/mnt/upper/root/.overlay/$dir"
     done
 
     # Mount root file system (overlay)
     log "Initializing the overlay"
-    mount -t overlay -o ro,lowerdir=/mnt/lower,upperdir=/mnt/upper/system/.overlay/upper,workdir=/mnt/upper/system/.overlay/work overlay /mnt/root && log "Overlay successfully mounted !" || log "Failed to mount the overlay"
+    mount -t overlay -o ro,lowerdir=/mnt/lower,upperdir=/mnt/upper/root/.overlay/upper,workdir=/mnt/upper/root/.overlay/work overlay /mnt/root && log "Overlay successfully mounted !" || log "Failed to mount the overlay"
     log "Moving sys proc and dev"
     mount --move /sys  /mnt/root/sys  || return 1
     mount --move /proc /mnt/root/proc || return 1
@@ -103,8 +106,6 @@ mount_overlay () {
     log "Overlay ok. Switching root ..."
     exec switch_root /mnt/root /sbin/init
 }
-
-max_delay=5
 
 mkdir -p /sys /proc /new_root/boot /new_root/defaultroot /new_root/squashfs
 mount -t proc -o nodev,noexec,nosuid proc /proc  || return 1
@@ -136,38 +137,32 @@ else
     toMount="LABEL=RECALBOX"
 fi
 
+# Find the root method -> /boot is mounted
+exec >/dev/kmsg 2>&1
+mount LABEL=BOOT /new_root/boot || mount LABEL=boot /new_root/boot
+#~ rootMethod=`getRootMethod`
 exec >/new_root/boot/boot.log 2>&1
 
-# Find the root method -> /boot is mounted
-rootMethod=`getRootMethod`
-
 # Clean previous logs, redirect output
-rm /new_root/boot/boot.log
-#~ exec >/dev/kmsg 2>&1
+#~ rm /new_root/boot/boot.log
 
 log "Starting new boot log" 
 
-timeout=0
 # Can't mount with -r as we need to work on the filesystem for upgrades
-while ! mount ${toMount} /new_root/defaultroot ; do
-    log "Waiting for the root device"
-    sleep 1
-    let "timeout=$timeout + 1"
-    test $timeout -gt "5" && return 1
-done
+# Can't make any tiemoutn let doesn't work, nor does $(( ))
+mount ${toMount} /new_root/defaultroot
+
 log "Mounted: ${toMount} as root source, booting to $rootMethod `[ "$rootMethod" != "squashfs" ] && echo "default"`"
 
-# Update available ?
-
 # The upgrade has to be done before we check the squashfs/sd kernel
-checkValidKernel "$rootMethod"
+# Can't do that since /boot is not mounted :/
+#~ checkValidKernel "$rootMethod"
     
 log "Trying to use root from: $rootMethod"
 
 # Mount the squashfs if found
-if test "${rootMethod}" == "squashfs" -a -e /new_root/defaultroot/${RECALSQUASH} ; then
-    checkAndUpgradeSquashfs "$rootMethod"
-    mount_overlay
+if checkAndUpgradeSquashfs ; then
+    mount_overlay "${toMount}"
 else
     log "Squashfs not set or squashfs file not found"
     log "Remounting to the default root device"
@@ -175,6 +170,7 @@ else
     mount --move /proc /new_root/defaultroot/proc || return 1
     mount --move /dev  /new_root/defaultroot/dev  || return 1
     mount -o remount -r /new_root/boot 2>&1
+    mount -o remount -r /new_root/defaultroot 2>&1
     mount --move /new_root/boot /new_root/defaultroot/boot || log "Couldn't move /boot"
     # switch to the old root
     exec switch_root /new_root/defaultroot /sbin/init || return 1
