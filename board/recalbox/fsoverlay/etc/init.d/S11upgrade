@@ -180,7 +180,10 @@ free_space_ok_for_squashfs_copy() {
   return 0
 }
 
-bootMethod=`grep "^boot=" /boot/recalbox-boot.conf | cut -d '=' -f 2`
+systemsetting="python /usr/lib/python2.7/site-packages/configgen/settings/recalboxSettings.pyc"
+bootMethod="`$systemsetting  -command load -key updates.method`"
+# I keep it here if reading /boot works reliably in the initramfs
+# bootMethod=`grep "^boot=" /boot/recalbox-boot.conf | cut -d '=' -f 2`
 # what about doing an upgrade ?
 if test -e "/recalbox/share/system/upgrade/boot.tar.xz" -a -e "/recalbox/share/system/upgrade/root.tar.xz" -a -z "${bootMethod}"
 then
