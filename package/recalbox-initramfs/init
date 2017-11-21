@@ -2,11 +2,24 @@
 # Check https://github.com/jumperfly/initramfs-overlay/blob/master/src/init
 
 RECALSQUASH=recalbox.squashfs
+SHARE_UUID="2eebe1cc-f5f9-4db4-b7d1-21c876760984"
 
 log () {
     echo "(RECALBOX-irfs) $1" >/dev/kmsg
     # Manual tee ...
     echo "(RECALBOX-irfs) $1" >> /new_root/boot/boot.log
+}
+
+# Works with /dev/sda1, /dev/mmcblk0p4, /dev/hdd12
+# Returns /dev/sda /dev/mmcblk0p /dev/hdd
+getDeviceName() {
+    echo "$1" | grep -oE "[a-z\/]*([0-9]p)?"
+}
+
+# Works with /dev/sda1, /dev/mmcblk0p4, /dev/hdd12
+# returns 1 4 12
+getPartitionNumber() {
+    echo "$1" | grep -oE "[0-9]+$"
 }
 
 # Sadly some systems don't give details about the boot partition soon enough,
@@ -56,7 +69,6 @@ checkAndUpgradeSquashfs () {
     sFile=/new_root/defaultroot/${RECALSQUASH}
     sUpg=${sFile}.upgrade
     sDowng=${sFile}.downgrade
-    log "Squashfs files: ${sFile} ${sUpg} ${sDowng}"
     test -e ${sUpg} && log "UPGRADE: found /new_root/defaultroot/${RECALSQUASH}.upgrade" || log "UPGRADE: no upgrade available"
     if test -e ${sUpg} ; then
         log "Found an update, renaming versions"
@@ -88,16 +100,17 @@ mount_overlay () {
     mount -t squashfs -r /new_root/defaultroot/${RECALSQUASH} /mnt/lower
     
     log "Mount the upper overlay FS"
-    mount "$upperLayer" /mnt/upper || log "Errr ... It failed"
+    #~ mount "$upperLayer" /mnt/upper || log "Errr ... It failed"
+    mount UUID="$SHARE_UUID" /mnt/upper || log "Errr ... It failed"
     
     log "mkdir upper and work"
     for dir in upper work; do
-        mkdir -p "/mnt/upper/root/.overlay/$dir"
+        mkdir -p "/mnt/upper/system/.overlay/$dir"
     done
 
     # Mount root file system (overlay)
     log "Initializing the overlay"
-    mount -t overlay -o ro,lowerdir=/mnt/lower,upperdir=/mnt/upper/root/.overlay/upper,workdir=/mnt/upper/root/.overlay/work overlay /mnt/root && log "Overlay successfully mounted !" || log "Failed to mount the overlay"
+    mount -t overlay -o ro,lowerdir=/mnt/lower,upperdir=/mnt/upper/system/.overlay/upper,workdir=/mnt/upper/system/.overlay/work overlay /mnt/root && log "Overlay successfully mounted !" || log "Failed to mount the overlay"
     log "Moving sys proc and dev"
     mount --move /sys  /mnt/root/sys  || return 1
     mount --move /proc /mnt/root/proc || return 1
@@ -117,7 +130,7 @@ for param in ${cmdline} ; do
     case ${param} in
         label=*) label=${param#label=};;
         root=*) root=${param#root=};;
-        #ro) mountRO="-r";;
+        ro) mountRO="-r";;
     esac
 done
 
@@ -139,29 +152,17 @@ fi
 
 # Find the root method -> /boot is mounted
 exec >/dev/kmsg 2>&1
-mount LABEL=BOOT /new_root/boot || mount LABEL=boot /new_root/boot
+# Log to to /boot only if found
+mount LABEL=BOOT /new_root/boot || mount LABEL=boot /new_root/boot && exec >/new_root/boot/boot.log 2>&1
 #~ rootMethod=`getRootMethod`
-exec >/new_root/boot/boot.log 2>&1
-
-# Clean previous logs, redirect output
-#~ rm /new_root/boot/boot.log
 
 log "Starting new boot log" 
-
-# Can't mount with -r as we need to work on the filesystem for upgrades
-# Can't make any tiemoutn let doesn't work, nor does $(( ))
-mount ${toMount} /new_root/defaultroot
+mount ${mountRO} ${toMount} /new_root/defaultroot
 
 log "Mounted: ${toMount} as root source, booting to $rootMethod `[ "$rootMethod" != "squashfs" ] && echo "default"`"
-
-# The upgrade has to be done before we check the squashfs/sd kernel
-# Can't do that since /boot is not mounted :/
-#~ checkValidKernel "$rootMethod"
-    
-log "Trying to use root from: $rootMethod"
-
+log "`blkid`"
 # Mount the squashfs if found
-if checkAndUpgradeSquashfs ; then
+if test -e /new_root/defaultroot/${RECALSQUASH} ; then
     mount_overlay "${toMount}"
 else
     log "Squashfs not set or squashfs file not found"

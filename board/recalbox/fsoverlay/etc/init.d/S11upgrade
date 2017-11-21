@@ -114,8 +114,12 @@ do_upgrade_squashfs() {
     BOOTTAR="/recalbox/share/system/upgrade/boot.tar.xz"
     ROOTTAR="/recalbox/share/system/upgrade/recalbox.squashfs.xz"
     EXIT_CODE=1
-    date
-    echo "Upgrading /boot"
+
+    recallog "Starting upgrade at `date`"
+    # Make sure we mounted the REAL root file system. Otherwise it's useless to go on
+    realRoot=`mount_tmp_root` || exit 1
+
+    recallog "Upgrading /boot"
     if mount -o remount,rw /boot
     then
         if do_boot_upgrade "${BOOTTAR}"
@@ -126,7 +130,7 @@ do_upgrade_squashfs() {
     fi
     test "${EXIT_CODE}" = 1 && return 1 # don't insist if /boot failed to upgrade
 
-    date
+    recallog "/boot upgrade over at `date`"
 
     # Remove the downgrade file if it exists
     rm /recalbox.squashfs.downgrade 2>/dev/null
@@ -136,14 +140,33 @@ do_upgrade_squashfs() {
         echo "title Upgrading the squashfs"
         while true
         do
-            sizeCopied=`stat /recalbox.squashfs.upgrade | grep "Size:" | tr -s ' ' | cut -d ' ' -f 3 || echo "0"`
+            sizeCopied=`stat "/$realRoot/recalbox.squashfs.upgrade" | grep "Size:" | tr -s ' ' | cut -d ' ' -f 3 || echo "0"`
             let sizePercentage=${sizeCopied}00/${totalSize}
             echo "percent ${sizePercentage}"
             sleep 1
         done
     ) | /recalbox/scripts/shell2fb.py &
     # Copy the file
-    mount -o remount,rw / && xz -dc --threads=0 < "${ROOTTAR}" > /recalbox.squashfs.upgrade
+    xz -dc --threads=0 < "${ROOTTAR}" > "$realRoot/recalbox.squashfs.upgrade" && \
+    mv $realRoot/recalbox.squashfs $realRoot/recalbox.squashfs.downgrade && \
+    mv $realRoot/recalbox.squashfs.upgrade $realRoot/recalbox.squashfs \
+    || return 1
+    umount "$realRoot"
+    recallog "/ upgrade over at `date`"
+}
+
+mount_tmp_root() {
+    realRoot=`/recalbox/scripts/recalbox-part.sh system`
+    [ -z "$realRoot" ] && return 1
+    # There is a trick: mounting / as RW can fail. So try RO + remount RW AND RW
+    rootPath=/tmp/realroot
+    mkdir -p "$rootPath" && \
+    ( mount -r "$realRoot" "$rootPath" 2>/dev/null && mount -o remount, rw "$rootPath" || mount "$realRoot" "$rootPath" ) && \
+    echo "$rootPath" && return 0
+
+    # This block is executed only if the previous commands failed
+    umount "$rootPath" 2>/dev/null
+    return 1
 }
 
 do_boot_kernel_trick() {
@@ -178,6 +201,17 @@ free_space_ok_for_squashfs_copy() {
   # Let's keep a small overhead of approx. 1MB
   [[ $space_left < 1000000 ]] && reutrn 1
   return 0
+}
+
+post_upgrade_pre_reboot() {
+    UUID="2eebe1cc-f5f9-4db4-b7d1-21c876760984"
+    share_internal=`/recalbox/scripts/recalbox-part.sh share_internal`
+    if [ ! -z "${share_internal}" ] ; then
+        currentUUID=`blkid "${share_internal}" | sed 's/.*UUID="\(.*\)" .*/\1/g'`
+        if [ "$currentUUID" != "$UUID"] ; then
+            tune2fs -f -U "$UUID" "$share_internal"
+        fi
+    fi
 }
 
 systemsetting="python /usr/lib/python2.7/site-packages/configgen/settings/recalboxSettings.pyc"
