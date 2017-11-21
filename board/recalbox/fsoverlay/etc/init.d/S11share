@@ -68,7 +68,7 @@ then
 	    then
 		#mkfs.vfat -F 32 -n SHARE /dev/mmcblk0p3 # if you replace this line, please change the INTERNALDEVICETYPE variable too in consequence
 		#fsck.fat /dev/mmcblk0p3 -a
-		mkfs.ext4 "${INTERNALDEVICE}" -q -F -L SHARE
+		mkfs.ext4 "${INTERNALDEVICE}" -q -F -L SHARE -U "2eebe1cc-f5f9-4db4-b7d1-21c876760984"
 		e2fsck -f -p "${INTERNALDEVICE}"
 	    fi
 	fi
