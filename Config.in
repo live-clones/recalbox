@@ -149,6 +149,7 @@ menu "Utils"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/jstest2/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/libcapsimage/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-cheats/Config.in"
+         source "$BR2_EXTERNAL_RECALBOX_PATH/package/hhpc/Config.in"
 endmenu
 menu "Small TFT Screen"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/rpi-fbcp/Config.in"

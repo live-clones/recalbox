@@ -1,6 +1,6 @@
 #!/bin/sh
 
-matchbox-window-manager -use_titlebar no -use_cursor no -use_desktop_mode no -use_lowlight no &
+matchbox-window-manager -use_titlebar no -use_desktop_mode no -use_lowlight no &
 
 # set the keyboard
 systemsetting="python /usr/lib/python2.7/site-packages/configgen/settings/recalboxSettings.pyc"
@@ -17,6 +17,10 @@ xset s off
 # to disable a video output (multi-screen setup) and prevent ES to be stretcht on all screens, 
 # uncomment the line below, and replace output_name by the output that you want disable on ES startup (ex: HDMI-0)
 # xrandr --output output_name --off
+
+
+# auto hide cursor each 5 sec of inactivity
+hhpc -i 5 &
 
 #
 export HOME=/recalbox/share/system
