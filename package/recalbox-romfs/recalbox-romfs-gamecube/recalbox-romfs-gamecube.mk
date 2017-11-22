@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system gamecube --extension '.iso .ISO .gc .GC .gcz .GCZ' --fullname 'GameCube' --platform gc --theme gc BR2_PACKAGE_DOLPHIN_EMU
+# ./scripts/linux/empack.py --system gamecube --extension '.iso .ISO .gc .GC .gcz .GCZ .gcm .GCM' --fullname 'GameCube' --platform gc --theme gc BR2_PACKAGE_DOLPHIN_EMU
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_GAMECUBE_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_GAMECUBE = $(RECALBOX_ROMFS_GAMECUBE_PKGDIR)/roms
 
 ifeq ($(BR2_PACKAGE_DOLPHIN_EMU),y)
 define CONFIGURE_GAMECUBE
-	$(call RECALBOX_ROMFS_CALL_ADD_STANDALONE_SYSTEM,$(SYSTEM_XML_GAMECUBE),GameCube,$(SYSTEM_NAME_GAMECUBE),.iso .ISO .gc .GC .gcz .GCZ,gc,gc,$(SOURCE_ROMDIR_GAMECUBE),$(@D))
+	$(call RECALBOX_ROMFS_CALL_ADD_STANDALONE_SYSTEM,$(SYSTEM_XML_GAMECUBE),GameCube,$(SYSTEM_NAME_GAMECUBE),.iso .ISO .gc .GC .gcz .GCZ .gcm .GCM,gc,gc,$(SOURCE_ROMDIR_GAMECUBE),$(@D))
 endef
 RECALBOX_ROMFS_GAMECUBE_CONFIGURE_CMDS += $(CONFIGURE_GAMECUBE)
 endif
