@@ -123,6 +123,10 @@ msgid "EDIT METADATA"
 msgstr "ÉDITER LES DONNÉES"
 
 #: 
+msgid "MORE DETAILS"
+msgstr "PLUS DE DETAILS"
+
+#: 
 msgid "SCRAPE"
 msgstr "SCRAPPER"
 

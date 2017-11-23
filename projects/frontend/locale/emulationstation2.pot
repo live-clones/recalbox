@@ -132,6 +132,10 @@ msgid "EDIT METADATA"
 msgstr ""
 
 #: 
+msgid "MORE DETAILS"
+msgstr ""
+
+#: 
 msgid "SCRAPE"
 msgstr ""
 

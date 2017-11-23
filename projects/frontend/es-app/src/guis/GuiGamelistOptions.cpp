@@ -130,7 +130,7 @@ void GuiGamelistOptions::openMetaDataEd()
 			file->getParent()->removeChild(file); //unlink it so list repopulations triggered from onFileChanged won't see it
 			getGamelist()->onFileChanged(file, FILE_REMOVED); //tell the view
 
-	},file->getSystem()));
+	},file->getSystem(), true));
 }
 
 void GuiGamelistOptions::jumpToLetter()

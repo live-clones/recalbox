@@ -33,6 +33,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added an upgrade progression indicator
 - Display update changelog + update version, if update available
 - Added help popups for games options
+- Split Game informations into two popup screen
 ### Fixed
 - Fixed systeminfo not populated on startup
 - Fixed all texts resized in vertical mode
