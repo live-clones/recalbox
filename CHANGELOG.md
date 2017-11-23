@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+- Pi2/3 + X86: add squashfs
 - checkPackage: remove test case, new option to select packages to update
 - X86: boot from USB HDD (was ok on x86_64)
 - X86: Added 2 new PSX cores mednafen_psx and mednafen_psx_hw (enhanced version with OpenGL renderer)
@@ -20,8 +21,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [17.11.10] - 2017-11-10
 - New pads : Nintendo Wii U and Switch Pro Controller, 8bitdo FC30 Arcade (BT and USB), Thrustmaster T Mini Wireless
-## Unreleased
-- Pi2/3 + X86: add squashfs
 - Pad: added Orange Controller default mapping
 - scummvm: support the .scummvm extension directories. Still need the .scummvm file inside
 - Added hyperion support
