@@ -475,7 +475,7 @@ EOF
     fi
     if [[ "$mode" == "list" ]]; then
         connmanctl scan wifi &> /dev/null
-        WAVAILABLE=$(connmanctl services | grep wifi_ |  cut -c 5- | sed 's/ \+ /:/g' | cut -d":" -f1)
+        WAVAILABLE=$(connmanctl services | grep "wifi_" | grep -v "_hidden_" | cut -c 5- | sed -e "s/\(.*[^ ]\) *wifi_.*/\1/g")
         if test -n "${ssid}"
         then
             echo "${WAVAILABLE}" | grep -qE '^'"${ssid}"'$' || echo "${ssid}"
