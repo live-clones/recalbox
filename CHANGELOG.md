@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Cores: bumped libretro cores - first step
 - Bumped retroarch to v1.6.7
 - Bumped ScummVM
+- Bumped DosBox to r4063
 - Dreamcast: add a VMU to each connected pad
 - Cores: bumped libretro cores - second step
 - Bluemsx: bumped core to last version + added .cas/.m3u files support
