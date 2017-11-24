@@ -148,6 +148,7 @@ do_upgrade_squashfs() {
     ) | /recalbox/scripts/shell2fb.py &
     # Copy the file
     xz -dc --threads=0 < "${ROOTTAR}" > "$realRoot/recalbox.squashfs.upgrade" && \
+    ( [ -e $realRoot/recalbox.squashfs.downgrade ] && rm $realRoot/recalbox.squashfs.downgrade || true ) &&
     ( [ -e $realRoot/recalbox.squashfs ] && mv $realRoot/recalbox.squashfs $realRoot/recalbox.squashfs.downgrade || true ) &&
     mv $realRoot/recalbox.squashfs.upgrade $realRoot/recalbox.squashfs \
     || return 1
@@ -158,7 +159,7 @@ do_upgrade_squashfs() {
 mount_tmp_root() {
     realRoot=`/recalbox/scripts/recalbox-part.sh system`
     [ -z "$realRoot" ] && return 1
-    # There is a trick: mounting / as RW can fail. So try RO + remount RW AND  simply mount RW
+    # There is a trick: mounting / as RW can fail. So try RO + remount RW AND simply mount RW
     rootPath=/tmp/realroot
     mkdir -p "$rootPath" && \
     ( mount -r "$realRoot" "$rootPath" 2>/dev/null && mount -o remount, rw "$rootPath" || mount "$realRoot" "$rootPath" ) && \
@@ -173,8 +174,10 @@ do_boot_kernel_trick() {
     # If the kernel version changes after several updates of squashfs, but sd hasn't been updated for a while,
     # booting SD with the squashfs kernel could cause some problems with tools and modules
     # So we make a copy of the kernel, the initramfs will check and swap them, then reboot.
-    
-    # Firsst: need to find the right kernel
+
+    mount -o remount,rw /boot || return 1
+
+    # First: need to find the right kernel
     [[ -e /boot/zImage ]] && kernelName="zImage"
     [[ -e /boot/boot/bzImage ]] && kernelName="boot/bzImage"
 
@@ -208,7 +211,7 @@ post_upgrade_pre_reboot() {
     share_internal=`/recalbox/scripts/recalbox-part.sh share_internal`
     if [ ! -z "${share_internal}" ] ; then
         currentUUID=`blkid "${share_internal}" | sed 's/.*UUID="\(.*\)" .*/\1/g'`
-        if [ "$currentUUID" != "$UUID"] ; then
+        if [ "$currentUUID" != "$UUID" ] ; then
             tune2fs -f -U "$UUID" "$share_internal"
         fi
     fi
@@ -228,6 +231,7 @@ then
     
     # remove to not apply it indefinitly, even if it fails
     rm "/recalbox/share/system/upgrade/boot.tar.xz" "/recalbox/share/system/upgrade/root.tar.xz"
+    post_upgrade_pre_reboot
     
     # rebooting now
     recallog "UPGRADE: Done ! Rebooting"
@@ -243,8 +247,10 @@ elif test -e "/recalbox/share/system/upgrade/recalbox.squashfs.xz" -a "${bootMet
     do_upgrade_squashfs > /recalbox/share/system/upgrade/upgrade.out.log 2> /recalbox/share/system/upgrade/upgrade.err.log
     
     rm "/recalbox/share/system/upgrade/boot.tar.xz" "/recalbox/share/system/upgrade/recalbox.squashfs.xz"
-    recallog "UPGRADE: Done ! Rebooting"
+    post_upgrade_pre_reboot
+
     # rebooting now
+    recallog "UPGRADE: Done ! Rebooting"
     shutdown -r now
 fi
 
