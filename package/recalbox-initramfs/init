@@ -29,6 +29,7 @@ getRootMethod () {
     # NOOBS sets label boot, .img uses BOOT
     # Can't mount with -o ro as we log to /boot. The inittab will remount it as RO 
     mount LABEL=BOOT /new_root/boot || mount LABEL=boot /new_root/boot || echo "" && return
+    #blkid | grep -oE '^[[:alnum:]/]*'
 
     # Time to read who we shall boot
     while read param ; do
