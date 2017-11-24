@@ -1,2 +1,2 @@
 #!/bin/sh
-printf "[%12.2f]" `awk '{printf $1}' /proc/uptime`
+/usr/bin/printf "[%12.2f]" `/usr/bin/awk '{/usr/bin/printf $1}' /proc/uptime`

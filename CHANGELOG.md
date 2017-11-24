@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+- solve erroneous logtime in recalbog.log
 - updated recalbox-config.sh for wifi scan
 - checkPackage: remove test case, new option to select packages to update
 - X86: boot from USB HDD (was ok on x86_64)
