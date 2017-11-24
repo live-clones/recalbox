@@ -158,7 +158,7 @@ do_upgrade_squashfs() {
 mount_tmp_root() {
     realRoot=`/recalbox/scripts/recalbox-part.sh system`
     [ -z "$realRoot" ] && return 1
-    # There is a trick: mounting / as RW can fail. So try RO + remount RW AND  simply mount RW
+    # There is a trick: mounting / as RW can fail. So try RO + remount RW AND simply mount RW
     rootPath=/tmp/realroot
     mkdir -p "$rootPath" && \
     ( mount -r "$realRoot" "$rootPath" 2>/dev/null && mount -o remount, rw "$rootPath" || mount "$realRoot" "$rootPath" ) && \
@@ -228,6 +228,7 @@ then
     
     # remove to not apply it indefinitly, even if it fails
     rm "/recalbox/share/system/upgrade/boot.tar.xz" "/recalbox/share/system/upgrade/root.tar.xz"
+    post_upgrade_pre_reboot
     
     # rebooting now
     recallog "UPGRADE: Done ! Rebooting"
@@ -243,8 +244,10 @@ elif test -e "/recalbox/share/system/upgrade/recalbox.squashfs.xz" -a "${bootMet
     do_upgrade_squashfs > /recalbox/share/system/upgrade/upgrade.out.log 2> /recalbox/share/system/upgrade/upgrade.err.log
     
     rm "/recalbox/share/system/upgrade/boot.tar.xz" "/recalbox/share/system/upgrade/recalbox.squashfs.xz"
-    recallog "UPGRADE: Done ! Rebooting"
+    post_upgrade_pre_reboot
+
     # rebooting now
+    recallog "UPGRADE: Done ! Rebooting"
     shutdown -r now
 fi
 
