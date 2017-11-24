@@ -8,7 +8,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - X86: boot from USB HDD (was ok on x86_64)
 - X86: Added 2 new PSX cores mednafen_psx and mednafen_psx_hw (enhanced version with OpenGL renderer)
 - Cores: bumped libretro cores - first step
-- Bumped retroarch to v1.6.7
+- Bumped retroarch to v1.6.9
 - Bumped ScummVM
 - Bumped DosBox to r4063
 - Dreamcast: add a VMU to each connected pad
