@@ -8,8 +8,8 @@ fi
 if [[ -z "$1" ]];then
 while read line
 do
-  echo ${customopts} "`logtime` ${line}" >> "${log}"
+  echo ${customopts} "`/bin/logtime` ${line}" >> "${log}"
 done
 else
-  echo ${customopts} "`logtime` $1" >> "${log}"
+  echo ${customopts} "`/bin/logtime` $1" >> "${log}"
 fi
