@@ -22,6 +22,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - N64: added mupen64plus GLideN64 video plugin on Odroid XU4 and C2
 - On rpi Kodi now boots using the default screen resolution
 - Retroarch: network commands fixed
+- Fix wifi bug when several networks are configured
 
 ## [17.11.10.2] - 2017-11-10
 - Fixed hyperion libraries
