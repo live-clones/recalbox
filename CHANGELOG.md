@@ -17,6 +17,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - X86: added imlib2_grab to take command line screenshots
 - X86: Added boot menu with verbose option
 - Fix steam controller
+- Fix wifi bug when several networks are configured
 
 ## [17.11.10.2] - 2017-11-10
 - Fixed hyperion libraries
