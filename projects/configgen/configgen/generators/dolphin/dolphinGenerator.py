@@ -23,6 +23,8 @@ class DolphinGenerator(Generator):
             dolphinSettings.save("PermissionAsked", "True")
             dolphinSettings.save("Enabled", "True")
             dolphinSettings.save("AutoHideCursor", "True")
+            dolphinSettings.save("WiimoteContinuousScanning", "True")
+            dolphinSettings.save("ConfirmStop", "False")
 
         commandArray = [recalboxFiles.recalboxBins[system.config['emulator']], "-e", rom]
         if 'args' in system.config and system.config['args'] is not None:

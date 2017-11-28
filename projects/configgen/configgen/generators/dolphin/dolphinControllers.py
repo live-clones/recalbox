@@ -10,7 +10,12 @@ hotkeysCombo = {
     "start":  "Exit",
     "a":      "Reset",
     "y":      "Save to selected slot",
-    "x":      "Load from selected slot"
+    "x":      "Load from selected slot",
+    "r2":     "Stop",
+    "up":     "Select State Slot 1",
+    "down":   "Select State Slot 2",
+    "left":   "Decrease Emulation Speed",
+    "right":  "Increase Emulation Speed"
 }
 
 # Create the controller configuration file
@@ -18,23 +23,24 @@ def generateControllerConfig(system, playersControllers):
     generateHotkeys(playersControllers)
     if system.name == "wii":
         if 'emulatedwiimotes' in system.config and system.config['emulatedwiimotes'] == '1':
-            generateControllerConfig_emulatedwiimotes(playersControllers)
+            generateControllerConfig_emulatedwiimotes(playersControllers, system)
         else:
             generateControllerConfig_realwiimotes("WiimoteNew.ini", "Wiimote")
     elif system.name == "gamecube":
-        generateControllerConfig_gamecube(playersControllers)
+        generateControllerConfig_gamecube(playersControllers, system)
     else:
         raise ValueError("Invalid system name : '" + system.name + "'")
 
-def generateControllerConfig_emulatedwiimotes(playersControllers):
+def generateControllerConfig_emulatedwiimotes(playersControllers, system):
     wiiMapping = {
-        'a':      'Buttons/2',  'b':        'Buttons/A',
-        'x':      'Buttons/1',  'y':        'Buttons/B',
-        'pageup': 'Buttons/-',  'pagedown': 'Buttons/+',
-        'select':    'Buttons/Home',
-        'up': 'D-Pad/Up', 'down': 'D-Pad/Down', 'left': 'D-Pad/Left', 'right': 'D-Pad/Right',
-        'joystick1up': 'IR/Up',    'joystick1left': 'IR/Left',
-        'joystick2up': 'Swing/Up', 'joystick2left': 'Swing/Left'
+        'a':           'Buttons/2',         'b':             'Buttons/A',
+        'x':           'Buttons/1',         'y':             'Buttons/B',
+        'pageup':      'Nunchuk/Buttons/Z', 'pagedown':      'Nunchuk/Buttons/C',
+        'select':      'Buttons/-',         'start':         'Buttons/+',
+        'r2':          'Shake/Z',
+        'joystick1up': 'Nunchuk/Stick/Up',  'joystick1left': 'Nunchuk/Stick/Left',
+        'joystick2up': 'IR/Up',             'joystick2left': 'IR/Left',
+        'up': 'D-Pad/Up', 'down': 'D-Pad/Down', 'left': 'D-Pad/Left', 'right': 'D-Pad/Right'
     }
     wiiReverseAxes = {
         'D-Pad/Up':   'D-Pad/Down',
@@ -43,10 +49,12 @@ def generateControllerConfig_emulatedwiimotes(playersControllers):
         'IR/Left':    'IR/Right',
         'Swing/Up':   'Swing/Down',
         'Swing/Left': 'Swing/Right',
+        'Nunchuk/Stick/Up': 'Nunchuk/Stick/Down',
+        'Nunchuk/Stick/Left': 'Nunchuk/Stick/Right'
     }
-    generateControllerConfig_any(playersControllers, "WiimoteNew.ini", "Wiimote", wiiMapping, wiiReverseAxes)
+    generateControllerConfig_any(playersControllers, "WiimoteNew.ini", "Wiimote", wiiMapping, wiiReverseAxes, system)
 
-def generateControllerConfig_gamecube(playersControllers):
+def generateControllerConfig_gamecube(playersControllers, system):
     gamecubeMapping = {
         'a':      'Buttons/X',  'b':        'Buttons/A',
         'x':      'Buttons/Y',  'y':        'Buttons/B',
@@ -64,7 +72,7 @@ def generateControllerConfig_gamecube(playersControllers):
         'C-Stick/Up':      'C-Stick/Down',
         'C-Stick/Left':    'C-Stick/Right'
     }
-    generateControllerConfig_any(playersControllers, "GCPadNew.ini", "GCPad", gamecubeMapping, gamecubeReverseAxes)
+    generateControllerConfig_any(playersControllers, "GCPadNew.ini", "GCPad", gamecubeMapping, gamecubeReverseAxes, system)
 
 def generateControllerConfig_realwiimotes(filename, anyDefKey):
     configFileName = "{}/{}".format(recalboxFiles.dolphinConfig, filename)
@@ -77,7 +85,7 @@ def generateControllerConfig_realwiimotes(filename, anyDefKey):
     f.write
     f.close()
 
-def generateControllerConfig_any(playersControllers, filename, anyDefKey, anyMapping, anyReverseAxes):
+def generateControllerConfig_any(playersControllers, filename, anyDefKey, anyMapping, anyReverseAxes, system):
     configFileName = "{}/{}".format(recalboxFiles.dolphinConfig, filename)
     f = open(configFileName, "w")
     nplayer = 1
@@ -97,6 +105,15 @@ def generateControllerConfig_any(playersControllers, filename, anyDefKey, anyMap
 
         f.write("[" + anyDefKey + str(nplayer) + "]" + "\n")
         f.write("Device = evdev/" + str(nsamepad) + "/" + pad.configName + "\n")
+
+        if system.name == "wii":
+            f.write("Extension = Nunchuk" + "\n")
+            f.write("IR/Center = 15.000000000000000" + "\n")
+            f.write("IR/Height = 85.000000000000000" + "\n")
+            f.write("Nunchuk/Stick/Dead Zone = 25.000000000000000" + "\n")
+        elif system.name == "gamecube":
+            f.write("Main Stick/Dead Zone = 25.000000000000000" + "\n")
+            f.write("C-Stick/Dead Zone = 25.000000000000000" + "\n")
 
         for x in pad.inputs:
             input = pad.inputs[x]
