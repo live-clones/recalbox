@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+- X86: Added Nintendo DS support libretro cores desmume and melonds
+
 ## [17.12.01] - 2017-12-01
 - solve erroneous logtime in recalbog.log
 - updated recalbox-config.sh for wifi scan

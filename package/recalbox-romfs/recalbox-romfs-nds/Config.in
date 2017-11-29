@@ -1,0 +1,7 @@
+config BR2_PACKAGE_RECALBOX_ROMFS_NDS
+	bool "recalbox-romfs-nds"
+	select BR2_PACKAGE_RECALBOX_ROMS
+	depends on BR2_PACKAGE_LIBRETRO_DESMUME \
+	  || BR2_PACKAGE_LIBRETRO_MELONDS
+	help
+	  share_init/roms and xml for nds

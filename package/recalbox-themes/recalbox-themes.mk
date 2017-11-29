@@ -1,17 +1,17 @@
 ################################################################################
 #
-# Recalbox themes for EmulationStation : https://github.com/recalbox/recalbox-themes 
+# Recalbox themes for EmulationStation : https://gitlab.com/recalbox/recalbox-themes
 #
 ################################################################################
 
-RECALBOX_THEMES_VERSION = 4.1.X
-RECALBOX_THEMES_SITE = $(call github,recalbox,recalbox-themes,$(RECALBOX_THEMES_VERSION))
+RECALBOX_THEMES_VERSION = 885a73978effd06ca97a33e5df2ef9f4ec5e606b
+RECALBOX_THEMES_SITE = https://gitlab.com/recalbox/recalbox-themes.git
+RECALBOX_THEMES_SITE_METHOD = git
 
 define RECALBOX_THEMES_INSTALL_TARGET_CMDS
-        mkdir -p $(TARGET_DIR)/recalbox/share_init/system/.emulationstation/themes/
+	mkdir -p $(TARGET_DIR)/recalbox/share_init/system/.emulationstation/themes/
 	cp -r $(@D)/themes/recalbox \
 		$(TARGET_DIR)/recalbox/share_init/system/.emulationstation/themes/
 endef
 
 $(eval $(generic-package))
-

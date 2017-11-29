@@ -1,10 +1,10 @@
 ################################################################################
 #
-# recalbox configgen version https://github.com/digitalLumberjack/recalbox-configgen
+# recalbox configgen version https://gitlab.com/recalbox/recalbox-configgen
 #
 ################################################################################
 
-RECALBOX_CONFIGGEN_VERSION = 97274d7ace1dff9b768db1ddd05e9a7c466fae6a
+RECALBOX_CONFIGGEN_VERSION = cd21982bd204bee98214c45717e394ddee318d00
 
 RECALBOX_CONFIGGEN_SITE = https://gitlab.com/recalbox/recalbox-configgen.git
 RECALBOX_CONFIGGEN_SITE_METHOD = git
