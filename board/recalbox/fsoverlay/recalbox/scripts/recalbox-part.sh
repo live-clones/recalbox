@@ -17,20 +17,29 @@ determine_system_part() {
     read -r cmdline < /proc/cmdline
     for param in $cmdline ; do
         case ${param} in
-	    # Consider adding UUID and PARTUUID someday for
+            # Consider adding UUID and PARTUUID someday for
             label=*) label=${param#label=};;
             root=*) root=${param#root=};;
         esac
     done
     if [ ! -z "$root" ] ; then
-	echo "$root"
-	return 0
+        # Make sure it's a /dev/xxx
+        if echo "$root" | grep -q "^/dev/" ; then
+            echo "$root"
+            return 0
+        # It can sometimes return a PARTUUID=blablabla
+        else
+            property=`echo $root |cut -d '=' -f 1`
+            value=`echo $root |cut -d '=' -f 2`
+            blkid | grep "$property=\"$value\""| cut -d ':' -f 1
+            return 0
+        return 0
     elif [ ! -z "$label" ] ; then
-	blkid | grep "LABEL=\"$label\"" | cut -d ':' -f 1
-	return 0
+        blkid | grep "LABEL=\"$label\"" | cut -d ':' -f 1
+        return 0
     else
-	echo ""
-	return 1
+        echo ""
+        return 1
     fi
 }
 determine_boot_part() {

@@ -74,11 +74,11 @@ do_upgrade() {
     echo "Upgrading /boot"
     if mount -o remount,rw /boot
     then
-	if do_boot_upgrade "${BOOTTAR}"
-	then
-	    EXIT_CODE=0
-	fi
-	sync
+      if do_boot_upgrade "${BOOTTAR}"
+      then
+        EXIT_CODE=0
+      fi
+      sync
     fi
     test "${EXIT_CODE}" = 1 && return 1 # don't insist if /boot failed to upgrade
     recallog "UPGRADE: /boot successfully upgraded"
@@ -92,14 +92,14 @@ do_upgrade() {
     echo "Upgrading /"
     if mount -o remount,rw /
     then
-	if (cd / && \
-	    cp ./etc/fstab ./etc/fstab.upgrade && \
-	    xz -dc < "${ROOTTAR}" | tar mxvf - >> /tmp/upgrade.files && \
-	    mv ./etc/fstab.upgrade ./etc/fstab)
-	then
-	    EXIT_CODE=0
-	fi
-	sync
+      if (cd / && \
+        cp ./etc/fstab ./etc/fstab.upgrade && \
+        xz -dc < "${ROOTTAR}" | tar mxvf - >> /tmp/upgrade.files && \
+        mv ./etc/fstab.upgrade ./etc/fstab)
+      then
+        EXIT_CODE=0
+      fi
+      sync
     fi
     test "${EXIT_CODE}" = 1 && return 1 # don't insist if /root failed to upgrade
 
@@ -110,50 +110,52 @@ do_upgrade() {
 }
 
 do_upgrade_squashfs() {
-    # upgrading /boot
-    BOOTTAR="/recalbox/share/system/upgrade/boot.tar.xz"
-    ROOTTAR="/recalbox/share/system/upgrade/recalbox.squashfs.xz"
-    EXIT_CODE=1
+  # upgrading /boot
+  BOOTTAR="/recalbox/share/system/upgrade/boot.tar.xz"
+  ROOTTAR="/recalbox/share/system/upgrade/recalbox.squashfs.xz"
+  EXIT_CODE=1
 
-    recallog "Starting upgrade at `date`"
-    # Make sure we mounted the REAL root file system. Otherwise it's useless to go on
-    realRoot=`mount_tmp_root` || exit 1
+  recallog "Starting upgrade at `date`"
+  # Make sure we mounted the REAL root file system. Otherwise it's useless to go on
+  realRoot=`/recalbox/scripts/recalbox-overlay.sh mount_real_root` || exit 1
+  recallog "Real file system successfully mounted"
 
-    recallog "Upgrading /boot"
-    if mount -o remount,rw /boot
+  recallog "Upgrading /boot"
+  if mount -o remount,rw /boot
+  then
+    if do_boot_upgrade "${BOOTTAR}"
     then
-        if do_boot_upgrade "${BOOTTAR}"
-        then
-            EXIT_CODE=0
-        fi
-        sync
+      EXIT_CODE=0
     fi
-    test "${EXIT_CODE}" = 1 && return 1 # don't insist if /boot failed to upgrade
+    sync
+  fi
+  [ "${EXIT_CODE}" = 1 ] && return 1 # don't insist if /boot failed to upgrade
 
-    recallog "/boot upgrade over at `date`"
+  recallog "/boot upgrade over at `date`"
 
-    # Remove the downgrade file if it exists
-    rm /recalbox.squashfs.downgrade 2>/dev/null
-    # Start the copy progression
-    totalSize=`cat /recalbox/share/system/upgrade/recalbox.squashfs.size`
-    (
-        echo "title Upgrading the squashfs"
-        while true
-        do
-            sizeCopied=`stat "$realRoot/recalbox.squashfs.upgrade" | grep "Size:" | tr -s ' ' | cut -d ' ' -f 3 || echo "0"`
-            let sizePercentage=${sizeCopied}00/${totalSize}
-            echo "percent ${sizePercentage}"
-            sleep 1
-        done
-    ) | /recalbox/scripts/shell2fb.py &
-    # Copy the file
-    xz -dc --threads=0 < "${ROOTTAR}" > "$realRoot/recalbox.squashfs.upgrade" && \
-    ( [ -e $realRoot/recalbox.squashfs.downgrade ] && rm $realRoot/recalbox.squashfs.downgrade || true ) &&
-    ( [ -e $realRoot/recalbox.squashfs ] && mv $realRoot/recalbox.squashfs $realRoot/recalbox.squashfs.downgrade || true ) &&
-    mv $realRoot/recalbox.squashfs.upgrade $realRoot/recalbox.squashfs \
-    || return 1
-    umount "$realRoot"
-    recallog "/ upgrade over at `date`"
+  # Start the copy progression
+  totalSize=`cat /recalbox/share/system/upgrade/recalbox.squashfs.size`
+  (
+    echo "title Upgrading the squashfs"
+    while true
+    do
+      sizeCopied=`stat "$realRoot/recalbox.squashfs.upgrade" | grep "Size:" | tr -s ' ' | cut -d ' ' -f 3 || echo "0"`
+      let sizePercentage=${sizeCopied}00/${totalSize}
+      echo "percent ${sizePercentage}"
+      sleep 1
+    done
+  ) | /recalbox/scripts/shell2fb.py &
+
+  # Let's remove the downgrade file first, not enough free space on / for 3 squashfs files
+  [ -e "$realRoot/recalbox.squashfs.downgrade" ] && rm $realRoot/recalbox.squashfs.downgrade
+  recallog "Uncompressing the squashfs file ..."
+  # Copy the file
+  xz -dc --threads=0 < "${ROOTTAR}" > "$realRoot/recalbox.squashfs.upgrade" \
+    && ( [ -e "$realRoot/recalbox.squashfs" ] && mv "$realRoot/recalbox.squashfs" "$realRoot/recalbox.squashfs.downgrade" || true ) \
+    && mv $realRoot/recalbox.squashfs.upgrade $realRoot/recalbox.squashfs \
+    || { recallog "Oooops the update failed !" ; return 1 ; }
+  umount "$realRoot"
+  recallog "/ upgrade over at `date`"
 }
 
 mount_tmp_root() {
@@ -171,28 +173,28 @@ mount_tmp_root() {
 }
 
 do_boot_kernel_trick() {
-    # If the kernel version changes after several updates of squashfs, but sd hasn't been updated for a while,
-    # booting SD with the squashfs kernel could cause some problems with tools and modules
-    # So we make a copy of the kernel, the initramfs will check and swap them, then reboot.
+  # If the kernel version changes after several updates of squashfs, but sd hasn't been updated for a while,
+  # booting SD with the squashfs kernel could cause some problems with tools and modules
+  # So we make a copy of the kernel, the initramfs will check and swap them, then reboot.
 
-    mount -o remount,rw /boot || return 1
+  mount -o remount,rw /boot || return 1
 
-    # First: need to find the right kernel
-    [[ -e /boot/zImage ]] && kernelName="zImage"
-    [[ -e /boot/boot/bzImage ]] && kernelName="boot/bzImage"
+  # First: need to find the right kernel
+  [[ -e /boot/zImage ]] && kernelName="zImage"
+  [[ -e /boot/boot/bzImage ]] && kernelName="boot/bzImage"
 
-    # Check if / is mounted on a loop
-    if `mount | grep -q "on / type squashfs"` ; then
-	# YES : copy current kernel to kernel.squashfs
-	recallog "UPGRADE: booting from squashfs, backing up kernel to /boot/zImage.squashfs"
-	recallog "UPGRADE: zImage.squashfs md5sum is `md5sum /boot/${kernelName}.squashfs`"
-	cp -f "/boot/${kernelName}"  "/boot/${kernelName}.squashfs" || return 1
-    else
-	# NO : copy the current kernel as kernel.sd
-	recallog "UPGRADE: booting from SD, backing up kernel to /boot/${kernelName}.sd"
-	recallog "UPGRADE: zImage.sd md5sum is `md5sum /boot/${kernelName}.sd`"
-	cp -f "/boot/${kernelName}" "/boot/${kernelName}.sd" || return 1
-    fi
+  # Check if / is mounted on a loop
+  if `mount | grep -q "on / type squashfs"` ; then
+    #~ YES : copy current kernel to kernel.squashfs
+    recallog "UPGRADE: booting from squashfs, backing up kernel to /boot/zImage.squashfs"
+    recallog "UPGRADE: zImage.squashfs md5sum is `md5sum /boot/${kernelName}.squashfs`"
+    cp -f "/boot/${kernelName}"  "/boot/${kernelName}.squashfs" || return 1
+  else
+    # NO : copy the current kernel as kernel.sd
+    recallog "UPGRADE: booting from SD, backing up kernel to /boot/${kernelName}.sd"
+    recallog "UPGRADE: zImage.sd md5sum is `md5sum /boot/${kernelName}.sd`"
+    cp -f "/boot/${kernelName}" "/boot/${kernelName}.sd" || return 1
+  fi
 }
 
 free_space_ok_for_squashfs_copy() {
@@ -207,14 +209,14 @@ free_space_ok_for_squashfs_copy() {
 }
 
 post_upgrade_pre_reboot() {
-    UUID="2eebe1cc-f5f9-4db4-b7d1-21c876760984"
-    share_internal=`/recalbox/scripts/recalbox-part.sh share_internal`
-    if [ ! -z "${share_internal}" ] ; then
-        currentUUID=`blkid "${share_internal}" | sed 's/.*UUID="\(.*\)" .*/\1/g'`
-        if [ "$currentUUID" != "$UUID" ] ; then
-            tune2fs -f -U "$UUID" "$share_internal"
-        fi
+  UUID="2eebe1cc-f5f9-4db4-b7d1-21c876760984"
+  share_internal=`/recalbox/scripts/recalbox-part.sh share_internal`
+  if [ ! -z "${share_internal}" ] ; then
+    currentUUID=`blkid "${share_internal}" | sed 's/.*UUID="\(.*\)" .*/\1/g'`
+    if [ "$currentUUID" != "$UUID" ] ; then
+      tune2fs -f -U "$UUID" "$share_internal"
     fi
+  fi
 }
 
 systemsetting="python /usr/lib/python2.7/site-packages/configgen/settings/recalboxSettings.pyc"
@@ -224,40 +226,40 @@ bootMethod="`$systemsetting  -command load -key updates.method`"
 # what about doing an upgrade ?
 if test -e "/recalbox/share/system/upgrade/boot.tar.xz" -a -e "/recalbox/share/system/upgrade/root.tar.xz" -a -z "${bootMethod}"
 then
-    # let's go
-    recallog "An upgrade is available (SD), proceeding ..."
-    do_boot_kernel_trick
-    do_upgrade > /recalbox/share/system/upgrade/upgrade.out.log 2> /recalbox/share/system/upgrade/upgrade.err.log
-    
-    # remove to not apply it indefinitly, even if it fails
-    rm "/recalbox/share/system/upgrade/boot.tar.xz" "/recalbox/share/system/upgrade/root.tar.xz"
-    post_upgrade_pre_reboot
-    
-    # rebooting now
-    recallog "UPGRADE: Done ! Rebooting"
-    shutdown -r now
-elif test -e "/recalbox/share/system/upgrade/recalbox.squashfs.xz" -a "${bootMethod}" == "squashfs" ; then
-    if ! free_space_ok_for_squashfs_copy ; then
-        recallog "Not enough space left on / for update. Removing to prevent bootloop"
-        rm "/recalbox/share/system/upgrade/boot.tar.xz" "/recalbox/share/system/upgrade/recalbox.squashfs.xz"
-	return 1
-    fi
-    recallog "An upgrade is available (SQUASHFS), proceeding ..."
-    do_boot_kernel_trick
-    do_upgrade_squashfs > /recalbox/share/system/upgrade/upgrade.out.log 2> /recalbox/share/system/upgrade/upgrade.err.log
-    
-    rm "/recalbox/share/system/upgrade/boot.tar.xz" "/recalbox/share/system/upgrade/recalbox.squashfs.xz"
-    post_upgrade_pre_reboot
+  # let's go
+  recallog "An upgrade is available (SD), proceeding ..."
+  do_boot_kernel_trick
+  do_upgrade > /recalbox/share/system/upgrade/upgrade.out.log 2> /recalbox/share/system/upgrade/upgrade.err.log
 
-    # rebooting now
-    recallog "UPGRADE: Done ! Rebooting"
-    shutdown -r now
+  # remove to not apply it indefinitly, even if it fails
+  rm "/recalbox/share/system/upgrade/boot.tar.xz" "/recalbox/share/system/upgrade/root.tar.xz"
+  post_upgrade_pre_reboot
+
+  # rebooting now
+  recallog "UPGRADE: Done ! Rebooting"
+  shutdown -r now
+elif test -e "/recalbox/share/system/upgrade/recalbox.squashfs.xz" -a "${bootMethod}" == "squashfs" ; then
+  if ! free_space_ok_for_squashfs_copy ; then
+    recallog "Not enough space left on / for update. Removing to prevent bootloop"
+    rm "/recalbox/share/system/upgrade/boot.tar.xz" "/recalbox/share/system/upgrade/recalbox.squashfs.xz"
+    return 1
+  fi
+  recallog "An upgrade is available (SQUASHFS), proceeding ..."
+  do_boot_kernel_trick
+  do_upgrade_squashfs > /recalbox/share/system/upgrade/upgrade.out.log 2> /recalbox/share/system/upgrade/upgrade.err.log
+
+  rm "/recalbox/share/system/upgrade/boot.tar.xz" "/recalbox/share/system/upgrade/recalbox.squashfs.xz"
+  post_upgrade_pre_reboot
+
+  # rebooting now
+  recallog "UPGRADE: Done ! Rebooting"
+  shutdown -r now
 fi
 
 # share upgrade, just unzip share.zip from upgrade, no need to reboot
 if test -e "/recalbox/share/system/upgrade/share.zip"
 then
-    (cd /recalbox/share && unzip -o /recalbox/share/system/upgrade/share.zip) > /recalbox/share/system/upgrade/upgrade.share.out.log 2> /recalbox/share/system/upgrade/upgrade.share.err.log
-    # always remove to not apply indefinitly
-    rm -f /recalbox/share/system/upgrade/share.zip
+  (cd /recalbox/share && unzip -o /recalbox/share/system/upgrade/share.zip) > /recalbox/share/system/upgrade/upgrade.share.out.log 2> /recalbox/share/system/upgrade/upgrade.share.err.log
+  # always remove to not apply indefinitly
+  rm -f /recalbox/share/system/upgrade/share.zip
 fi
