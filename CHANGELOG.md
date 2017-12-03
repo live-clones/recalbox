@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+- Added mame2010 libretro core on all boards excepted rpi0/1
+
 ## [17.12.02] - 2017-12-02
 - fixed steam controller service auto start, fixes lag in ES
 

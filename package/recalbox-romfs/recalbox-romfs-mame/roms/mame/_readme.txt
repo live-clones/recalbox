@@ -8,6 +8,7 @@ Recalbox is using libretro mame2003 as default core. So, compatible roms must co
 
 Are also included in Recalbox:
 - libretro core imame4all: 0.37b5 mame romset
+- libretro core mame2010 (not available on rpi0/1): 0.139 mame romset
 - standalone emulator advancemame: 0.106 mame romset
 
 So, if you want to use a core different of the default one, you must edit your recalbox.conf file following instructions of this page :
