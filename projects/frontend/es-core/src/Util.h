@@ -15,8 +15,6 @@ Eigen::Affine3f roundMatrix(const Eigen::Affine3f& mat);
 Eigen::Vector3f roundVector(const Eigen::Vector3f& vec);
 Eigen::Vector2f roundVector(const Eigen::Vector2f& vec);
 
-float round(float num);
-
 std::string getCanonicalPath(const std::string& str);
 
 std::string getExpandedPath(const std::string& str);

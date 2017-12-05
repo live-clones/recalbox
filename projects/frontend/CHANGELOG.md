@@ -75,6 +75,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fixed busyanim display bug
 - Fixed systeminfo not populated on startup
 - Fixed all texts resized in vertical mode
+- Fixed compilation with gcc7 and libboost1.62
 - Fixed security option impossible to disable
 - Fixed menu width
 - Fixed display scrape informations if rom is inside a subfolder
