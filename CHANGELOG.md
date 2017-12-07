@@ -4,6 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 - Added mame2010 libretro core on all boards excepted rpi0/1
+- Added advancemame emulator on Odroid XU4/C2 and X86/X86_64
 
 ## [17.12.02] - 2017-12-02
 - fixed steam controller service auto start, fixes lag in ES
