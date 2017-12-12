@@ -9,16 +9,7 @@ source /recalbox/scripts/recalbox-includes.sh
 
 IN=/recalbox/share_init
 OUT=/recalbox/share
-
-
-# Function to display on screen messages
-
-scr_msg() {
-	printf "\r%20s%10s" "${1}" " " > /dev/tty0 # with spaces at the begining for screen not displaying the left ; and spaces on right to erase old msg
-}
-
-# Force the creation of some directories
-
+# force the creation of some directories
 for DIR in cheats \
            system/.cache \
            system/.config/lirc \
@@ -26,58 +17,13 @@ for DIR in cheats \
            system/bluetooth \
            system/configs \
            system/logs \
-           system/upgrade \
-           system/ssh
+           system/upgrade
 do
     if test ! -e "$OUT""/""$DIR"
     then
         mkdir -p "$OUT""/""$DIR"
     fi
 done
-
-# Keep configuration from SD card is case of new external share
-
-if [ ! -e "$OUT"/.userdefined ] # This hidden file avoids to overwrite user settings once new share is setup
-then
-	INTERNALDEVICETYPE="ext4" # faster than waiting udev to initialize to get the type
-	SHARECONFFILE="/boot/recalbox-boot.conf"
-	INTERNALDEVICE=$(/recalbox/scripts/recalbox-part.sh "share_internal")	
-	SHAREDEVICE=`cat ${SHARECONFFILE} | grep "sharedevice=" | head -n1 | cut -d'=' -f2`
-	[[ "$?" -ne "0" || "$SHAREDEVICE" == "" ]] && SHAREDEVICE=INTERNAL
-	NBSHARE=`df | grep "/recalbox/share$" | wc -l`
-	# We count NBSHARE because in case of network mount, if mount is SHARE, first /recalbox/share is still mounted, in this case we can copy the configuration.
-	# In other cases, it's just a a partial mount (ROMS, BIOS, etc.)
-
-	TMP=/tmp/localshare
-
-	if [[ ( "$SHAREDEVICE" != "INTERNAL" && "$SHAREDEVICE" != "NETWORK" ) || ( "$SHAREDEVICE" == "NETWORK" && "$NBSHARE" -gt 1 ) ]]
-	then
-		killall S02splash # Let's kill the splash screen to display a message, we'll put it back later
-		clear > /dev/tty0
-		(echo;echo;echo;echo;echo) > /dev/tty0
-		scr_msg "Please wait while your storage is being prepared..."
-		mkdir "$TMP"
-		if /recalbox/scripts/recalbox-mount.sh "${INTERNALDEVICETYPE}" 1 "${INTERNALDEVICE}" "$TMP"
-		then
-			for FILE in system/recalbox.conf system/.bash_history system/.config/lirc/lircd.conf \
-				system/.emulationstation/{es_input.cfg,es_settings.cfg} \
-				system/bluetooth/bluetooth.tar system/ssh/{dropbear_dss_host_key,dropbear_ecdsa_host_key,dropbear_rsa_host_key} \
-				system/configs/{fba,moonlight,mupen64,ppsspp,reicast,retroarch,shadersets,xarcade2jstick,dosbox,dolphin-emu,advancemame} \
-				system/.config/lirc/lircd.conf system/{.hatari,.kodi}
-			do
-				if [ ! -f "$OUT"/"$FILE" ] && [ -f "$TMP"/"$FILE" ]
-				then
-					cp -r "$TMP"/"$FILE" "$OUT"/"$FILE"
-				fi
-			done
-			# We don't copy themes, so we don't want to keep theme setting (otherwise sometimes ES crashes at startup)
-			sed -i 's|<string name="ThemeSet" value=".*" />|<string name="ThemeSet" value="recalbox" />|g' "$OUT"/system/.emulationstation/es_settings.cfg
-			touch "$OUT"/.userdefined
-			umount "$TMP"
-			rmdir "$TMP"
-		fi
-	fi
-fi
 
 # directories / files to copy when initializing the user data
 #
@@ -86,7 +32,6 @@ fi
 # there are almost empty, it's just for the structure
 # the user can delete the directory, it will recreate the structure
 # the user can delete files, files will not be recreated
-
 for FILE in music bios extractions kodi saves screenshots \
             system/.config/lirc/lircd.conf \
             system/.emulationstation/{es_input.cfg,es_settings.cfg} \
@@ -107,7 +52,6 @@ done
 # the user can't delete any directory, otherwise, it will recreate it, with link inside
 # the user can delete links and add its own files
 # to reset the directory or update it, the user has to remove the directory (we are unable to differenciate new files from recalbox update from a file removed by the user)
-
 for DIR in roms roms/mame/mame2003 system/configs
 do
     [ ! -e "$OUT""/""$DIR" ] && mkdir "$OUT""/""$DIR"
@@ -124,11 +68,9 @@ do
 done
 
 # recalbox.conf : upgrade if necessary
-
 doRecalboxUpgrades
 
 # ssh : create the ssh key while the -R option of dropbear try a chown or an operation which is not permitted on fat32
-
 if ! test -e /recalbox/share/system/ssh
 then
     mkdir -p /recalbox/share/system/ssh
@@ -139,16 +81,13 @@ fi
 
 # bluetooth : now gotta tar/untar, the directory structure for bluez5 is more complex
 # once untar, delete the cache folder. The exclude tar option of busybox is dreadful
-
 btTar=/recalbox/share/system/bluetooth/bluetooth.tar
 tar xvf "$btTar" -C / 2>/dev/null 
 
 # udev : create a link for rules persistance
-
 mkdir -p /recalbox/share/system/udev/rules.d
 rm -rf /run/udev/rules.d
 ln -s /recalbox/share/system/udev/rules.d/ /run/udev/
 test ! -e /recalbox/share/system/recalbox.changelog.done && cp /recalbox/recalbox.changelog /recalbox/share/system/recalbox.changelog.done
 
 # END
-
