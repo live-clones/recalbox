@@ -12,29 +12,11 @@ case "$1" in
 	enabled="`$systemsetting -command load -key system.es.atstartup`"
 	videoMode="`$systemsetting -command load -key system.es.videomode`"
 	if [ "$enabled" != "0" ];then
-
-		OUT=/recalbox/share
-		SHARECONFFILE="/boot/recalbox-boot.conf"
-		INTERNALDEVICE=$(/recalbox/scripts/recalbox-part.sh "share_internal")
-		SHAREDEVICE=`cat ${SHARECONFFILE} | grep "sharedevice=" | head -n1 | cut -d'=' -f2`
-		NBSHARE=`df | grep "/recalbox/share$" | wc -l`
-
-		[[ "$?" -ne "0" || "$SHAREDEVICE" == "" ]] && SHAREDEVICE=INTERNAL
-
-		# If we're on an external share and the .userdefined file is not here, let's wait for it before launching ES
-		if [[ ( ! -e "$OUT"/.userdefined ) && ( ( "$SHAREDEVICE" != "INTERNAL" && "$SHAREDEVICE" != "NETWORK" ) || ( "$SHAREDEVICE" == "NETWORK" && "$NBSHARE" -gt 1 ) ) ]]
-		then
-			while [ ! -e "$OUT"/.userdefined ]; do
-				echo "waiting for ${OUT}/.userdefined"
-				sleep 1
-			done
-		fi
-		/recalbox/scripts/showlogo.sh & # In case the logo has been removed, let's put it back again
 		echo $videoMode | grep -qE "(CEA|DMT) [0-9]{1,2} (HDMI|DVI)"
 		[ $? = "0" ] && tvservice -e "$videoMode"
 		settings_lang="`$systemsetting -command load -key system.language`"
 		recallog "starting emulationstation with lang = $settings_lang"
-		HOME=/recalbox/share/system LANG="${settings_lang}.UTF-8" SDL_VIDEO_GL_DRIVER=/usr/lib/libGLESv2.so SDL_VIDEO_EGL_DRIVER=/usr/lib/libGLESv2.so SDL_NOMOUSE=1 start-stop-daemon -S -q -m -p /var/run/emulationstation.pid  --exec /usr/bin/emulationstation -- --debug &
+		HOME=/recalbox/share/system LANG="${settings_lang}.UTF-8" SDL_VIDEO_GL_DRIVER=/usr/lib/libGLESv2.so SDL_VIDEO_EGL_DRIVER=/usr/lib/libGLESv2.so SDL_NOMOUSE=1 start-stop-daemon -S -q -m -p /var/run/emulationstation.pid  --exec /usr/bin/emulationstation &
 	fi
 	;;
   stop)

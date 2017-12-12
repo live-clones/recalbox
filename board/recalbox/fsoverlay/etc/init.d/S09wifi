@@ -40,16 +40,37 @@ case "$1" in
 		mount -o remount,ro /boot
 	fi
 
-	for i in {1..3}; do
-		rb_wifi_boot_configure $i&
-	done
+	# If wifi.conf is empty, don't start wifi
+	if [ -s /tmp/wifi.conf ]
+	then
 
-        sleep 1 # wait a bit, otherwise, connman is not really started
-	/usr/bin/connmanctl enable wifi || exit 1
-	/usr/bin/connmanctl scan   wifi || exit 1
+		for i in {1..3}; do
+			rb_wifi_boot_configure $i&
+		done
+
+		sleep 1 # wait a bit, otherwise, connman is not really started
+		/usr/bin/connmanctl enable wifi || exit 1
+		/usr/bin/connmanctl scan   wifi || exit 1
+	fi
+
 	if [ -f /tmp/wifi.conf ]
 	then
 		rm /tmp/wifi.conf
+	fi
+
+	# Wait a little bit for network if share over network
+	if [ `cat "/boot/recalbox-boot.conf" | grep "sharedevice=" | head -n1 | cut -d'=' -f2` == "NETWORK" ]
+	then
+		try=0
+		until [ ! $try -lt 10 ]
+		do
+			if [ `ifconfig |grep -v "127.0.0.1"|grep "inet addr"|wc -l` -gt 0 ]
+			then
+				break
+			fi
+			sleep 1
+			try=`expr $try + 1`
+		done
 	fi
 	;;
   stop)

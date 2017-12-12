@@ -11,12 +11,6 @@ rb_volume_configure() {
     fi
 }
 
-# Function to display on screen messages
-
-scr_msg() {
-        printf "\r%20s%10s" "${1}" " " > /dev/tty0 # with spaces at the begining for screen not displaying the left ; and spaces on right to erase old msg
-}
-
 # Function to encode wifi password in recalbox.conf if needed
 
 rb_wifi_share_configure() {
@@ -162,17 +156,6 @@ case "$1" in
 	mount -o remount,rw /boot
 	cat /recalbox/share/system/recalbox.conf | awk '/^wifi.?..[se]/' >> /boot/recalbox-boot.conf
 	mount -o remount,ro /boot
-
-	#Display a message on screen to ask users to be patient
-	clear > /dev/tty0
-	(
-		echo
-		echo
-		echo
-		echo
-		echo
-	) > /dev/tty0
-	scr_msg "Shutting down - please do not power off or unplug your Recalbox"
 	;;
   restart|reload)
 	;;
