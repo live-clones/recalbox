@@ -22,15 +22,9 @@ getPartitionNumber() {
     echo "$1" | grep -oE "[0-9]+$"
 }
 
-# Sadly some systems don't give details about the boot partition soon enough,
-# so this function is useless to the determine boot method
 getRootMethod () {
-    # No other choice than relying on the partition name :/
-    # NOOBS sets label boot, .img uses BOOT
-    # Can't mount with -o ro as we log to /boot. The inittab will remount it as RO 
-    mount LABEL=BOOT /new_root/boot || mount LABEL=boot /new_root/boot || echo "" && return
-    #blkid | grep -oE '^[[:alnum:]/]*'
-
+    # Make sure /boot is mounted and the file can be read
+    test -f /new_root/boot/recalbox-boot.conf || return
     # Time to read who we shall boot
     while read param ; do
         case ${param} in
@@ -38,6 +32,17 @@ getRootMethod () {
         esac
     done < /new_root/boot/recalbox-boot.conf
     echo "${boot}"
+}
+
+# findLabelledDevice, which can help when we can't find it with the normal method
+# $1 is part of a regexp. ex : "BOOT|boot"
+findLabelledDevice() {
+  line="$(blkid | grep -E "LABEL=\"($1)\"")"
+  if test ! -z "$line" ; then
+    # This just return any character until : is found
+    # ex: /dev/sdc1: LABEL="Data" UUID="5004-C580" TYPE="exfat" PARTUUID="bfece039-01" -> /dev/sdc1
+    echo "$line" | grep -oE "^[^:]+"
+  fi
 }
 
 checkValidKernel() {
@@ -151,19 +156,26 @@ else
     toMount="LABEL=RECALBOX"
 fi
 
+# findLabelledDevice calls blkid which is slow. But that's the only way 
+# to be safe as mounting labels often fails at this point
+bootDevice=`findLabelledDevice "BOOT|boot"`
+rootDevice=`findLabelledDevice "RECALBOX|root"`
+# If we fail to find /, failback to the kernel commandline
+test -z "$rootDevice" && rootDevice="$toMount"
+
 # Find the root method -> /boot is mounted
 exec >/dev/kmsg 2>&1
 # Log to to /boot only if found
-mount LABEL=BOOT /new_root/boot || mount LABEL=boot /new_root/boot && exec >/new_root/boot/boot.log 2>&1
-#~ rootMethod=`getRootMethod`
+mount "$bootDevice" /new_root/boot && exec >/new_root/boot/boot.log 2>&1
+rootMethod=`getRootMethod`
 
 log "Starting new boot log" 
-mount ${mountRO} ${toMount} /new_root/defaultroot
+mount ${mountRO} ${rootDevice} /new_root/defaultroot
 
-log "Mounted: ${toMount} as root source, booting to $rootMethod `[ "$rootMethod" != "squashfs" ] && echo "default"`"
-log "`blkid`"
+log "Mounted: ${rootDevice} as root source, booting to $rootMethod `[ "$rootMethod" != "squashfs" ] && echo "default"`"
 # Mount the squashfs if found
-if test -e /new_root/defaultroot/${RECALSQUASH} ; then
+#if test -e /new_root/defaultroot/${RECALSQUASH} ; then
+if [ "$rootMethod" == "squashfs" ] ; then
     mount_overlay "${toMount}"
 else
     log "Squashfs not set or squashfs file not found"
