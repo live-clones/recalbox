@@ -1,0 +1,17 @@
+################################################################################
+#
+# guichan
+#
+################################################################################
+
+GUICHAN_VERSION = 3339415f40668409e9485bbcfb4385e630c61727
+GUICHAN_SITE = $(call github,wheybags,guichan,$(GUICHAN_VERSION))
+GUICHAN_LICENSE_FILES = COPYING
+GUICHAN_DEPENDENCIES += sdl2 sdl2_image
+GUICHAN_INSTALL_STAGING = YES
+
+GUICHAN_CONF_OPTS += -DENABLE_ALLEGRO=OFF \
+	-DENABLE_IRRLICHT=OFF \
+	-DENABLE_OPENGL=OFF
+
+$(eval $(cmake-package))

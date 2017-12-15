@@ -1,0 +1,10 @@
+config BR2_PACKAGE_GUICHAN
+	depends on BR2_PACKAGE_SDL
+	select BR2_PACKAGE_SDL_IMAGE
+        bool "guichan"
+        help
+          A tiny GUI library
+
+
+comment "Guichan depends on SDL"
+	depends on !(BR2_PACKAGE_SDL)
