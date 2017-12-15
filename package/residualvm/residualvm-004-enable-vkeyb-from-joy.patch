@@ -1,0 +1,267 @@
+Open virtual keyboard if joystick button 7 is pressed for 1 sec
+Display background screen when virtual keyboard is opened
+
+Signed-off-by: Laurent Merckx <laurent-merckx@skynet.be>
+
+--- a/common/EventMapper.cpp	2017-11-05 18:04:07.000000000 +0100
++++ b/common/EventMapper.cpp	2017-11-15 13:30:33.437179642 +0100
+@@ -25,6 +25,9 @@
+ #include "common/system.h"
+ #include "common/textconsole.h"
+
++// The index of the joystick button associated to virtual keyboard
++#define JOY_BUT_VKEYBOARD 6
++
+ namespace Common {
+ 
+ List<Event> DefaultEventMapper::mapEvent(const Event &ev, EventSource *source) {
+@@ -37,11 +40,13 @@ List<Event> DefaultEventMapper::mapEvent
+ 
+ 	static uint32 vkeybdThen = 0;
+ 
+-	if (ev.type == EVENT_MBUTTONDOWN) {
++	if ((ev.type == EVENT_MBUTTONDOWN) || 
++            ((ev.type == EVENT_JOYBUTTON_DOWN) && (ev.joystick.button == JOY_BUT_VKEYBOARD))) {
+ 		vkeybdThen = g_system->getMillis();
+ 	}
+ 
+-	if (ev.type == EVENT_MBUTTONUP) {
++	if ((ev.type == EVENT_MBUTTONUP) || 
++            ((ev.type == EVENT_JOYBUTTON_UP) && (ev.joystick.button == JOY_BUT_VKEYBOARD))) {
+ 		if ((g_system->getMillis() - vkeybdThen) >= vkeybdTime) {
+ 			mappedEvent.type = EVENT_VIRTUAL_KEYBOARD;
+ 
+--- a/backends/graphics/sdl/resvm-sdl-graphics.cpp	2017-12-06 22:41:24.000000000 +0100
++++ b/backends/graphics/sdl/resvm-sdl-graphics.cpp	2017-12-11 09:08:11.352535280 +0100
+@@ -92,9 +94,11 @@ Math::Rect2d ResVmSdlGraphicsManager::co
+ 	switch (gameRenderTarget) {
+ 		case kScreen:
+ 			// The game occupies the whole screen
++			_eventSource->resetKeyboardEmulation(effectiveWidth - 1, effectiveHeight - 1);
+ 			return Math::Rect2d(Math::Vector2d(0, 0), Math::Vector2d(1, 1));
+ 		case kSubScreen:
+ 			// The game is centered on the screen
++			_eventSource->resetKeyboardEmulation(effectiveWidth - 1, effectiveHeight - 1);
+ 			return Math::Rect2d(
+ 					Math::Vector2d((effectiveWidth - gameWidth) / 2, (effectiveHeight - gameHeight) / 2),
+ 					Math::Vector2d((effectiveWidth + gameWidth) / 2, (effectiveHeight + gameHeight) / 2)
+@@ -105,12 +109,14 @@ Math::Rect2d ResVmSdlGraphicsManager::co
+ 				float scale = MIN(effectiveHeight / float(gameHeight), effectiveWidth / float(gameWidth));
+ 				float scaledW = scale * (gameWidth / float(effectiveWidth));
+ 				float scaledH = scale * (gameHeight / float(effectiveHeight));
++				_eventSource->resetKeyboardEmulation(effectiveWidth - 1, effectiveHeight - 1);
+ 				return Math::Rect2d(
+ 						Math::Vector2d(0.5 - (0.5 * scaledW), 0.5 - (0.5 * scaledH)),
+ 						Math::Vector2d(0.5 + (0.5 * scaledW), 0.5 + (0.5 * scaledH))
+ 				);
+ 			} else {
+ 				// The game occupies the whole screen
++				_eventSource->resetKeyboardEmulation(effectiveWidth - 1, effectiveHeight - 1);
+ 				return Math::Rect2d(Math::Vector2d(0, 0), Math::Vector2d(1, 1));
+ 			}
+ 		default:
+--- a/backends/events/sdl/resvm-sdl-events.cpp	2017-12-10 05:38:31.000000000 +0100
++++ b/backends/events/sdl/resvm-sdl-events.cpp	2017-12-15 09:46:45.895491877 +0100
+@@ -25,24 +25,62 @@
+ #if defined(SDL_BACKEND)
+ 
+ #include "resvm-sdl-events.h"
++#include "graphics/cursorman.h"
++#include "engines/engine.h"
++
++// The maximum index of the joystick button to convert in mouse event
++#define JOY_TO_MOUSE_BUTTONS 1
+ 
+ bool ResVmSdlEventSource::handleJoyButtonDown(SDL_Event &ev, Common::Event &event) {
+-	event.type = Common::EVENT_JOYBUTTON_DOWN;
+-	event.joystick.button = ev.jbutton.button;
+-	return true;
++	// Engine doesn't support joystick -> emulate mouse events
++	if (g_engine)
++		if (!g_engine->hasFeature(Engine::kSupportsJoystick))
++			return SdlEventSource::handleJoyButtonDown(ev, event);
++	
++	// If mouse cursor is visible, emulates standard buttons of joystick as mouse
++	if (CursorMan.isVisible() && (ev.jbutton.button < JOY_TO_MOUSE_BUTTONS)) {
++		return SdlEventSource::handleJoyButtonDown(ev, event);
++	}
++	else {
++		event.type = Common::EVENT_JOYBUTTON_DOWN;
++		event.joystick.button = ev.jbutton.button;
++		return true;
++	}
+ }
+ 
+ bool ResVmSdlEventSource::handleJoyButtonUp(SDL_Event &ev, Common::Event &event) {
+-	event.type = Common::EVENT_JOYBUTTON_UP;
+-	event.joystick.button = ev.jbutton.button;
+-	return true;
++	// Engine doesn't support joystick -> emulate mouse events
++	if (g_engine)
++		if (!g_engine->hasFeature(Engine::kSupportsJoystick))
++			return SdlEventSource::handleJoyButtonUp(ev, event);
++	
++	// If mouse cursor is visible, emulates standard buttons of joystick as mouse
++	if (CursorMan.isVisible() && (ev.jbutton.button < JOY_TO_MOUSE_BUTTONS)) {
++		return SdlEventSource::handleJoyButtonUp(ev, event);
++	}
++	else {
++		event.type = Common::EVENT_JOYBUTTON_UP;
++		event.joystick.button = ev.jbutton.button;
++		return true;
++	}
+ }
+ 
+ bool ResVmSdlEventSource::handleJoyAxisMotion(SDL_Event &ev, Common::Event &event) {
+-	event.type = Common::EVENT_JOYAXIS_MOTION;
+-	event.joystick.axis = ev.jaxis.axis;
+-	event.joystick.position = ev.jaxis.value;
+-	return true;
++	// Engine doesn't support joystick -> emulate mouse events
++	if (g_engine)
++			if (!g_engine->hasFeature(Engine::kSupportsJoystick))
++				return SdlEventSource::handleJoyAxisMotion(ev, event);
++	
++	// If mouse cursor is visible, emulates joystick movements as mouse
++	if (CursorMan.isVisible()) {
++		return SdlEventSource::handleJoyAxisMotion(ev, event);
++	}
++	else {
++		event.type = Common::EVENT_JOYAXIS_MOTION;
++		event.joystick.axis = ev.jaxis.axis;
++		event.joystick.position = ev.jaxis.value;
++		return true;
++	}
+ }
+ 
+ #endif
+--- a/backends/events/sdl/sdl-events.h	2017-12-06 22:41:24.000000000 +0100
++++ b/backends/events/sdl/sdl-events.h	2017-12-11 14:04:24.622704693 +0100
+@@ -118,6 +118,12 @@ protected:
+ 	virtual bool handleKbdMouse(Common::Event &event);
+ 
+ 	//@}
++ 
++	/**
++	 * Checks if mouse is locked or not.
++	 * Avoid to emulate a mouse movement from joystick if locked.
++	 */
++	bool isMouseLocked();
+ 
+ 	/**
+ 	 * Assigns the mouse coords to the mouse event. Furthermore notify the
+--- a/backends/events/sdl/sdl-events.cpp	2017-12-06 22:41:24.000000000 +0100
++++ b/backends/events/sdl/sdl-events.cpp	2017-12-11 14:12:37.268450670 +0100
+@@ -62,6 +62,7 @@
+ #define JOY_BUT_PERIOD 1
+ #define JOY_BUT_SPACE 4
+ #define JOY_BUT_F5 5
++#define JOY_BUT_VKEYBOARD 7
+ 
+ #if SDL_VERSION_ATLEAST(2, 0, 0)
+ static uint32 convUTF8ToUTF32(const char *src) {
+@@ -193,11 +193,19 @@ bool SdlEventSource::processMouseEvent(C
+ 	return true;
+ }
+ 
++
++bool SdlEventSource::isMouseLocked() {
++#if SDL_VERSION_ATLEAST(2, 0, 0)
++	return SDL_GetRelativeMouseMode() == SDL_TRUE;
++#else
++	return SDL_GrabMode() == SDL_GRAB_ON;
++#endif
++}
++
+ bool SdlEventSource::handleKbdMouse(Common::Event &event) {
+ 	// returns true if an event is generated
+ 	// Skip recording of these events
+ 	uint32 curTime = g_system->getMillis(true);
+-
+ 	if (curTime >= _km.last_time + _km.delay_time) {
+ 
+ 		int16 oldKmX = _km.x;
+@@ -288,12 +296,17 @@ bool SdlEventSource::handleKbdMouse(Comm
+ 			// - all velocities were originally chosen
+ 			// at a delay of 25, so that is the reference used here
+ 			// - note: operator order is important to avoid overflow
++			int relx = 0, rely = 0;
+ 			if (_km.modifier) {
+-				_km.x += ((_km.x_vel / 10) * ((int16)_km.delay_time)) / speedFactor;
+-				_km.y += ((_km.y_vel / 10) * ((int16)_km.delay_time)) / speedFactor;
++				relx = ((_km.x_vel / 10) * ((int16)_km.delay_time)) / speedFactor;
++				rely = ((_km.y_vel / 10) * ((int16)_km.delay_time)) / speedFactor;
+ 			} else {
+-				_km.x += (_km.x_vel * ((int16)_km.delay_time)) / speedFactor;
+-				_km.y += (_km.y_vel * ((int16)_km.delay_time)) / speedFactor;
++				relx = (_km.x_vel * ((int16)_km.delay_time)) / speedFactor;
++				rely = (_km.y_vel * ((int16)_km.delay_time)) / speedFactor;
++			}
++			if (!isMouseLocked()) {
++				_km.x += relx;
++				_km.y += rely;
+ 			}
+ 
+ 			if (_km.x < 0) {
+@@ -320,9 +333,9 @@ bool SdlEventSource::handleKbdMouse(Comm
+ 				_graphicsManager->getWindow()->warpMouseInWindow((Uint16)(_km.x / MULTIPLIER), (Uint16)(_km.y / MULTIPLIER));
+ 			}
+ 
+-			if (_km.x != oldKmX || _km.y != oldKmY) {
++			if (_km.x != oldKmX || _km.y != oldKmY || relx != 0 || rely != 0) {
+ 				event.type = Common::EVENT_MOUSEMOVE;
+-				return processMouseEvent(event, _km.x / MULTIPLIER, _km.y / MULTIPLIER);
++				return processMouseEvent(event, _km.x / MULTIPLIER, _km.y / MULTIPLIER, relx / MULTIPLIER, rely / MULTIPLIER);
+ 			}
+ 		}
+ 	}
+@@ -843,6 +844,9 @@ bool SdlEventSource::handleJoyButtonDown
+ 			event.kbd.keycode = Common::KEYCODE_F5;
+ 			event.kbd.ascii = mapKey(SDLK_F5, (SDLMod)ev.key.keysym.mod, 0);
+ 			break;
++		case JOY_BUT_VKEYBOARD: // Toggles virtual keyboard
++			event.type = Common::EVENT_VIRTUAL_KEYBOARD;
++			break;
+ 		}
+ 		return true;
+ 	}
+@@ -874,6 +878,9 @@ bool SdlEventSource::handleJoyButtonUp(S
+ 			event.kbd.keycode = Common::KEYCODE_F5;
+ 			event.kbd.ascii = mapKey(SDLK_F5, (SDLMod)ev.key.keysym.mod, 0);
+ 			break;
++		case JOY_BUT_VKEYBOARD: // Toggles virtual keyboard
++			// Handled in key down
++			break;
+ 		}
+ 		return true;
+ 	}
+--- a/engines/engine.h	2017-12-10 05:38:31.000000000 +0100
++++ b/engines/engine.h	2017-12-14 22:10:00.772939408 +0100
+@@ -139,7 +139,14 @@ public:
+ 		 * The engine will need to read the actual resolution used by the
+ 		 * backend using OSystem::getWidth and OSystem::getHeight.
+ 		 */
+-		kSupportsArbitraryResolutions // ResidualVM specific
++		kSupportsArbitraryResolutions, // ResidualVM specific
++		
++		/**
++		 * Engine must receive joystick events because the game uses them.
++		 * For engines which have not this feature, joystick events are converted
++		 * to mouse events.
++		 */
++		kSupportsJoystick
+ 	};
+ 
+ 
+--- a/engines/grim/grim.cpp	2017-12-10 05:38:31.000000000 +0100
++++ b/engines/grim/grim.cpp	2017-12-14 22:21:49.669599279 +0100
+@@ -1378,7 +1378,8 @@ void GrimEngine::clearEventQueue() {
+ bool GrimEngine::hasFeature(EngineFeature f) const {
+ 	return
+ 		(f == kSupportsRTL) ||
+-		(f == kSupportsLoadingDuringRuntime);
++		(f == kSupportsLoadingDuringRuntime) ||
++		(f == kSupportsJoystick);
+ }
+ 
+ void GrimEngine::pauseEngineIntern(bool pause) {

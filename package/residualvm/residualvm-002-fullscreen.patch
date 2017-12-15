@@ -1,0 +1,83 @@
+Patch sources to support fullscreen on RPI (with hardware acceleration)
+
+Signed-off-by: Laurent Merckx <laurent-merckx@skynet.be>
+
+--- a/graphics/opengl/context.h	2017-12-06 22:41:24.000000000 +0100
++++ b/graphics/opengl/context.h	2017-12-12 09:00:31.736067543 +0100
+@@ -85,6 +85,9 @@ public:
+ 
+ 	/** Whether specifying a pitch when uploading to textures is available or not */
+ 	bool unpackSubImageSupported;
++	
++	/** Whether depth component 24 is supported or not */
++	bool OESDepth24;
+ 
+ 	int getGLSLVersion() const;
+ };
+--- a/graphics/opengl/context.cpp	2017-12-06 22:41:24.000000000 +0100
++++ b/graphics/opengl/context.cpp	2017-12-12 08:59:58.412287019 +0100
+@@ -50,6 +50,7 @@ void Context::reset() {
+ 	packedDepthStencilSupported = false;
+ 	unpackSubImageSupported = false;
+ 	framebufferObjectMultisampleSupported = false;
++	OESDepth24 = false;
+ 	multisampleMaxSamples = -1;
+ }
+ 
+@@ -96,7 +97,10 @@ void Context::initialize(ContextType con
+ 			EXTFramebufferMultisample = true;
+ 		} else if (token == "GL_EXT_framebuffer_blit") {
+ 			EXTFramebufferBlit = true;
++		} else if (token == "GL_OES_depth24") {
++			OESDepth24 = true;
+ 		}
++		
+ 	}
+ 
+ 	int glslVersion = getGLSLVersion();
+--- a/graphics/opengl/framebuffer.cpp	2017-12-06 22:41:24.000000000 +0100
++++ b/graphics/opengl/framebuffer.cpp	2017-12-12 09:02:56.059132087 +0100
+@@ -49,6 +49,7 @@
+ 
+ #ifdef USE_GLES2
+ #define GL_DEPTH24_STENCIL8 GL_DEPTH24_STENCIL8_OES
++#define GL_DEPTH_COMPONENT24 GL_DEPTH_COMPONENT24_OES
+ #endif
+ 
+ namespace OpenGL {
+@@ -115,6 +116,9 @@ static void grabFramebufferObjectPointer
+ static bool usePackedBuffer() {
+ 	return OpenGLContext.packedDepthStencilSupported;
+ }
++static bool useDepthComponent24() {
++	return OpenGLContext.OESDepth24;
++}
+ 
+ FrameBuffer::FrameBuffer(uint width, uint height) :
+ 		Texture(width, height) {
+@@ -154,7 +158,7 @@ void FrameBuffer::init() {
+ 		glBindRenderbuffer(GL_RENDERBUFFER, 0);
+ 	} else {
+ 		glBindRenderbuffer(GL_RENDERBUFFER, _renderBuffers[0]);
+-		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, _texWidth, _texHeight);
++		glRenderbufferStorage(GL_RENDERBUFFER, useDepthComponent24()?GL_DEPTH_COMPONENT24:GL_DEPTH_COMPONENT16, _texWidth, _texHeight);
+ 		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _renderBuffers[0]);
+ 
+ 		glBindRenderbuffer(GL_RENDERBUFFER, _renderBuffers[1]);
+--- a/backends/graphics/openglsdl/openglsdl-graphics.cpp	2017-12-06 22:41:24.000000000 +0100
++++ b/backends/graphics/openglsdl/openglsdl-graphics.cpp	2017-12-12 14:06:19.257529027 +0100
+@@ -476,10 +476,14 @@ void OpenGLSdlGraphicsManager::showOverl
+ 	_overlayBackground = nullptr;
+ 
+ 	if (g_engine) {
++		if (_frameBuffer)
++			_frameBuffer->detach();
+ 		// If there is a game running capture the screen, so that it can be shown "below" the overlay.
+ 		_overlayBackground = new OpenGL::TiledSurface(_overlayWidth, _overlayHeight, _overlayFormat);
+ 		Graphics::Surface *background = _overlayBackground->getBackingSurface();
+ 		glReadPixels(0, 0, background->w, background->h, GL_RGBA, GL_UNSIGNED_BYTE, background->getPixels());
++		if (_frameBuffer)
++			_frameBuffer->attach();
+ 	}
+ }
+ 

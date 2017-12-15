@@ -1,0 +1,104 @@
+Some bug resolution from later versions of SDL2 + own correction:
+* avoid white square cursor when exiting screen limits
+* store mouse location when using SDL_WarpMouse
+* when SDL_ShowCursor(true) after a previous SDL_ShowCursor(false), show at last location
+
+Signed-off-by: Laurent Merckx <laurent-merckx@skynet.be>
+
+--- a/src/video/raspberry/SDL_rpimouse.c	2016-01-02 20:56:31.000000000 +0100
++++ b/src/video/raspberry/SDL_rpimouse.c	2017-12-14 09:02:43.329466045 +0100
+@@ -153,7 +153,7 @@ RPI_ShowCursor(SDL_Cursor * cursor)
+     
+     if (curdata->element == DISPMANX_NO_HANDLE) {
+         vc_dispmanx_rect_set( &src_rect, 0, 0, curdata->w << 16, curdata->h << 16 );
+-        vc_dispmanx_rect_set( &dst_rect, 0, 0, curdata->w, curdata->h);
++        vc_dispmanx_rect_set( &dst_rect, mouse->x, mouse->y, curdata->w, curdata->h);
+         
+         update = vc_dispmanx_update_start( 10 );
+         SDL_assert( update );
+@@ -221,35 +221,60 @@ RPI_WarpMouseGlobal(int x, int y)
+ {
+     RPI_CursorData *curdata;
+     DISPMANX_UPDATE_HANDLE_T update;
++    int ret;
+     VC_RECT_T dst_rect;
++    VC_RECT_T src_rect;
+     SDL_Mouse *mouse = SDL_GetMouse();
+     
+-    if (mouse != NULL && mouse->cur_cursor != NULL && mouse->cur_cursor->driverdata != NULL) {
+-        curdata = (RPI_CursorData *) mouse->cur_cursor->driverdata;
+-        if (curdata->element != DISPMANX_NO_HANDLE) {
+-            int ret;
+-            update = vc_dispmanx_update_start( 10 );
+-            SDL_assert( update );
+-            vc_dispmanx_rect_set( &dst_rect, x, y, curdata->w, curdata->h);
+-            ret = vc_dispmanx_element_change_attributes(
+-                update,
+-                curdata->element,
+-                ELEMENT_CHANGE_DEST_RECT,
+-                0,
+-                0,
+-                &dst_rect,
+-                NULL,
+-                DISPMANX_NO_HANDLE,
+-                DISPMANX_NO_ROTATE);
+-            SDL_assert( ret == DISPMANX_SUCCESS );
+-            /* Submit asynchronously, otherwise the peformance suffers a lot */
+-            ret = vc_dispmanx_update_submit( update, 0, NULL );
+-            SDL_assert( ret == DISPMANX_SUCCESS );
+-            return (ret == DISPMANX_SUCCESS) ? 0 : -1;
+-        }
+-    }    
++    if (mouse == NULL || mouse->cur_cursor == NULL || mouse->cur_cursor->driverdata == NULL) {
++        return 0;
++    }
++
++    /* Update internal mouse position. */
++    mouse->x = x;
++    mouse->y = y;
++    mouse->last_x = x;
++    mouse->last_y = y;
++
++    curdata = (RPI_CursorData *) mouse->cur_cursor->driverdata;
++    if (curdata->element == DISPMANX_NO_HANDLE) {
++        return 0;
++    }
+ 
+-    return -1;  /* !!! FIXME: this should SDL_SetError() somewhere. */
++    update = vc_dispmanx_update_start(10);
++    if (!update) {
++        return 0;
++    }
++
++    src_rect.x = 0;
++    src_rect.y = 0;
++    src_rect.width  = curdata->w << 16;
++    src_rect.height = curdata->h << 16;
++    dst_rect.x = x;
++    dst_rect.y = y;
++    dst_rect.width  = curdata->w;
++    dst_rect.height = curdata->h;
++
++    ret = vc_dispmanx_element_change_attributes(
++        update,
++        curdata->element,
++        0,
++        0,
++        0,
++        &dst_rect,
++        &src_rect,
++        DISPMANX_NO_HANDLE,
++        DISPMANX_NO_ROTATE);
++    if (ret != DISPMANX_SUCCESS) {
++        return SDL_SetError("vc_dispmanx_element_change_attributes() failed");
++    }
++
++    /* Submit asynchronously, otherwise the peformance suffers a lot */
++    ret = vc_dispmanx_update_submit(update, 0, NULL);
++    if (ret != DISPMANX_SUCCESS) {
++        return SDL_SetError("vc_dispmanx_update_submit() failed");
++    }
++    return 0;
+ }
+ 
+ void

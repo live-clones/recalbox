@@ -1,0 +1,25 @@
+Add command-line parameter to disable checking game files at startup
+
+Signed-off-by: Laurent Merckx <laurent-merckx@skynet.be>
+
+--- a/base/commandLine.cpp.old	2017-11-12 22:42:23.000000000 +0100
++++ b/base/commandLine.cpp	2017-11-15 14:52:33.931288116 +0100
+@@ -142,6 +142,8 @@ static const char HELP_STRING[] =
+ #endif
+ 	"  --engine-speed=NUM       Set frame per second limit (0 - 100), 0 = no limit\n"
+ 	"                           (default: 60)\n"
++	"  --check-gamedata         Check game files before starting game\n"
++	"  --no-check-gamedata      Don't check game files before starting game\n"
+ ;
+ #endif
+ 
+@@ -596,6 +598,9 @@ Common::String parseCommandLine(Common::
+ 			END_OPTION
+ #endif
+ 
++			DO_LONG_OPTION_BOOL("check-gamedata")
++			END_OPTION
++
+ unknownOption:
+ 			// If we get till here, the option is unhandled and hence unknown.
+ 			usage("Unrecognized option '%s'", argv[i]);
