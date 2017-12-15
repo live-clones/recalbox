@@ -25,6 +25,7 @@ recalboxBins = {'dosbox'      : '/usr/bin/dosbox'
               , 'ppsspp'      : '/usr/bin/PPSSPPSDL'
               , 'reicast'     : '/usr/bin/reicast.elf'
               , 'scummvm'     : '/usr/bin/scummvm'
+              , 'residualvm'  : '/usr/bin/residualvm'
               , 'vice'        : '/usr/bin/x64'
               , 'dolphin'     : '/usr/bin/dolphin-emu'
               , 'advancemame' : '/usr/bin/advmame'
@@ -95,6 +96,7 @@ dosboxCustom = CONF + '/dosbox'
 dosboxConfig = dosboxCustom + '/dosbox.conf'
 
 scummvmSaves = SAVES + '/scummvm'
+residualvmSaves = SAVES + '/scummvm'
 
 viceConfig = CONF + "/vice/vice.conf"
 

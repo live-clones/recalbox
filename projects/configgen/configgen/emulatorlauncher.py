@@ -16,6 +16,7 @@ from generators.ppsspp.ppssppGenerator import PPSSPPGenerator
 from generators.reicast.reicastGenerator import ReicastGenerator
 from generators.dolphin.dolphinGenerator import DolphinGenerator
 from generators.scummvm.scummvmGenerator import ScummVMGenerator
+from generators.residualvm.residualvmGenerator import ResidualVMGenerator
 from generators.dosbox.dosboxGenerator import DosBoxGenerator
 from generators.vice.viceGenerator import ViceGenerator
 from generators.advancemame.advMameGenerator import AdvMameGenerator
@@ -33,6 +34,7 @@ generators = {
     'libretro': LibretroGenerator(),
     'moonlight': MoonlightGenerator(),
     'scummvm': ScummVMGenerator(),
+    'residualvm': ResidualVMGenerator(),
     'dosbox': DosBoxGenerator(),
     'mupen64plus': MupenGenerator(),
     'vice': ViceGenerator(),
