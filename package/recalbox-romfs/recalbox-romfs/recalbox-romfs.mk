@@ -138,6 +138,16 @@ define RECALBOX_ROMFS_INSTALL_TARGET_CMDS
 endef
 
 # Add necessary dependencies
+# System: amiga600
+ ifeq ($(BR2_PACKAGE_AMIBERRY),y)
+ 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-amiga600
+endif
+ 	
+# System: amiga1200
+ ifeq ($(BR2_PACKAGE_AMIBERRY),y)
+ 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-amiga1200
+endif
+ 	
 # System: amstradcpc
 ifneq ($(BR2_PACKAGE_LIBRETRO_CAP32),)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-amstradcpc
