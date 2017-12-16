@@ -1,0 +1,85 @@
+diff --git a/src/osdep/gui/InGameMessage.cpp b/src/osdep/gui/InGameMessage.cpp
+index d4b7e87..408faa0 100644
+--- a/src/osdep/gui/InGameMessage.cpp
++++ b/src/osdep/gui/InGameMessage.cpp
+@@ -61,7 +61,7 @@ void InGameMessage(const char *msg)
+ 	msg_gui->setTop(msg_top);
+ 
+ 	TTF_Init();
+-	msg_font = new gcn::contrib::SDLTrueTypeFont("data/FreeSans.ttf", 10);
++	msg_font = new gcn::contrib::SDLTrueTypeFont("/usr/bin/data/FreeSans.ttf", 10);
+ 	gcn::Widget::setGlobalFont(msg_font);
+ 
+ 	doneActionListener = new DoneActionListener();
+diff --git a/src/osdep/gui/main_window.cpp b/src/osdep/gui/main_window.cpp
+index 386bb85..55f0496 100644
+--- a/src/osdep/gui/main_window.cpp
++++ b/src/osdep/gui/main_window.cpp
+@@ -20,19 +20,19 @@ static int last_active_panel = 1;
+ 
+ ConfigCategory categories[] =
+ {
+-    { "Paths",            "data/paths.ico",     NULL, NULL, InitPanelPaths,     ExitPanelPaths,   RefreshPanelPaths },
+-    { "Configurations",   "data/file.ico",      NULL, NULL, InitPanelConfig,    ExitPanelConfig,  RefreshPanelConfig },
+-    { "CPU and FPU",      "data/cpu.ico",       NULL, NULL, InitPanelCPU,       ExitPanelCPU,     RefreshPanelCPU },
+-    { "Chipset",          "data/cpu.ico",       NULL, NULL, InitPanelChipset,   ExitPanelChipset, RefreshPanelChipset },
+-    { "ROM",              "data/chip.ico",      NULL, NULL, InitPanelROM,       ExitPanelROM,     RefreshPanelROM },
+-    { "RAM",              "data/chip.ico",      NULL, NULL, InitPanelRAM,       ExitPanelRAM,     RefreshPanelRAM },
+-    { "Floppy drives",    "data/35floppy.ico",  NULL, NULL, InitPanelFloppy,    ExitPanelFloppy,  RefreshPanelFloppy },
+-    { "Hard drives / CD", "data/drive.ico",     NULL, NULL, InitPanelHD,        ExitPanelHD,      RefreshPanelHD },
+-    { "Display",          "data/screen.ico",    NULL, NULL, InitPanelDisplay,   ExitPanelDisplay, RefreshPanelDisplay },
+-    { "Sound",            "data/sound.ico",     NULL, NULL, InitPanelSound,     ExitPanelSound,   RefreshPanelSound },
+-    { "Input",            "data/joystick.ico",  NULL, NULL, InitPanelInput,     ExitPanelInput,   RefreshPanelInput },
+-    { "Miscellaneous",    "data/misc.ico",      NULL, NULL, InitPanelMisc,      ExitPanelMisc,    RefreshPanelMisc },
+-    { "Savestates",       "data/savestate.png", NULL, NULL, InitPanelSavestate, ExitPanelSavestate, RefreshPanelSavestate },
++    { "Paths",            "/usr/bin/data/paths.ico",     NULL, NULL, InitPanelPaths,     ExitPanelPaths,   RefreshPanelPaths },
++    { "Configurations",   "/usr/bin/data/file.ico",      NULL, NULL, InitPanelConfig,    ExitPanelConfig,  RefreshPanelConfig },
++    { "CPU and FPU",      "/usr/bin/data/cpu.ico",       NULL, NULL, InitPanelCPU,       ExitPanelCPU,     RefreshPanelCPU },
++    { "Chipset",          "/usr/bin/data/cpu.ico",       NULL, NULL, InitPanelChipset,   ExitPanelChipset, RefreshPanelChipset },
++    { "ROM",              "/usr/bin/data/chip.ico",      NULL, NULL, InitPanelROM,       ExitPanelROM,     RefreshPanelROM },
++    { "RAM",              "/usr/bin/data/chip.ico",      NULL, NULL, InitPanelRAM,       ExitPanelRAM,     RefreshPanelRAM },
++    { "Floppy drives",    "/usr/bin/data/35floppy.ico",  NULL, NULL, InitPanelFloppy,    ExitPanelFloppy,  RefreshPanelFloppy },
++    { "Hard drives / CD", "/usr/bin/data/drive.ico",     NULL, NULL, InitPanelHD,        ExitPanelHD,      RefreshPanelHD },
++    { "Display",          "/usr/bin/data/screen.ico",    NULL, NULL, InitPanelDisplay,   ExitPanelDisplay, RefreshPanelDisplay },
++    { "Sound",            "/usr/bin/data/sound.ico",     NULL, NULL, InitPanelSound,     ExitPanelSound,   RefreshPanelSound },
++    { "Input",            "/usr/bin/data/joystick.ico",  NULL, NULL, InitPanelInput,     ExitPanelInput,   RefreshPanelInput },
++    { "Miscellaneous",    "/usr/bin/data/misc.ico",      NULL, NULL, InitPanelMisc,      ExitPanelMisc,    RefreshPanelMisc },
++    { "Savestates",       "/usr/bin/data/savestate.png", NULL, NULL, InitPanelSavestate, ExitPanelSavestate, RefreshPanelSavestate },
+     { NULL, NULL, NULL, NULL, NULL, NULL, NULL }
+ };
+ enum { PANEL_PATHS, PANEL_CONFIGURATIONS, PANEL_CPU, PANEL_CHIPSET, PANEL_ROM, PANEL_RAM,
+@@ -432,7 +432,7 @@ void gui_init()
+     // Initialize fonts
+     //-------------------------------------------------
+     TTF_Init();
+-    gui_font = new gcn::contrib::SDLTrueTypeFont("data/FreeSans.ttf", 14);
++    gui_font = new gcn::contrib::SDLTrueTypeFont("/usr/bin/data/FreeSans.ttf", 14);
+     gcn::Widget::setGlobalFont(gui_font);
+ 
+     //--------------------------------------------------
+diff --git a/src/osdep/pandora_gfx.cpp b/src/osdep/pandora_gfx.cpp
+index 00f6894..af7dcea 100644
+--- a/src/osdep/pandora_gfx.cpp
++++ b/src/osdep/pandora_gfx.cpp
+@@ -100,7 +100,7 @@ void ShowLiveInfo(char *msg)
+     if(liveFont == NULL)
+     {
+         TTF_Init();
+-        liveFont = TTF_OpenFont("data/FreeSans.ttf", 12);
++        liveFont = TTF_OpenFont("/usr/bin/data/FreeSans.ttf", 12);
+     }
+     if(liveInfo != NULL)
+         SDL_FreeSurface(liveInfo);
+diff --git a/src/osdep/gui/PanelHD.cpp b/src/osdep/gui/PanelHD.cpp
+index 6e63965..9727ce4 100644
+--- a/src/osdep/gui/PanelHD.cpp
++++ b/src/osdep/gui/PanelHD.cpp
+@@ -343,7 +343,7 @@ void InitPanelHD(const struct _ConfigCategory& category)
+ 		listCmdProps[row]->setId(tmp);
+ 		listCmdProps[row]->addActionListener(hdEditActionListener);
+ 
+-		listCmdDelete[row] = new gcn::ImageButton("data/delete.png");
++		listCmdDelete[row] = new gcn::ImageButton("/usr/bin/data/delete.png");
+ 		listCmdDelete[row]->setBaseColor(gui_baseCol);
+ 		listCmdDelete[row]->setSize(SMALL_BUTTON_HEIGHT, SMALL_BUTTON_HEIGHT);
+ 		snprintf(tmp, 20, "cmdDel%d", row);
