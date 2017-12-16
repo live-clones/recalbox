@@ -5,6 +5,8 @@ config BR2_PACKAGE_AMIBERRY
 	select BR2_PACKAGE_GUICHAN
 	select BR2_PACKAGE_SDL_TTF
 	select BR2_PACKAGE_SDL_GFX
+	select BR2_PACKAGE_RECALBOX_ROMFS_AMIGA600
+	select BR2_PACKAGE_RECALBOX_ROMFS_AMIGA1200
         bool "Amiberry"
         help
           An Amiga emulator
