@@ -20,6 +20,7 @@ from generators.residualvm.residualvmGenerator import ResidualVMGenerator
 from generators.dosbox.dosboxGenerator import DosBoxGenerator
 from generators.vice.viceGenerator import ViceGenerator
 from generators.advancemame.advMameGenerator import AdvMameGenerator
+from generators.amiberry.amiberryGenerator import AmiberryGenerator
 import controllersConfig as controllers
 import utils.runner as runner
 import signal
@@ -41,7 +42,8 @@ generators = {
     'reicast': ReicastGenerator(),
     'dolphin': DolphinGenerator(),
     'ppsspp': PPSSPPGenerator(),
-    'advancemame' : AdvMameGenerator()
+    'advancemame' : AdvMameGenerator(),
+	'amiberry': AmiberryGenerator()
 }
 
 # List emulators with their cores rest mupen64, scummvm
@@ -107,6 +109,9 @@ emulators["imageviewer"] = Emulator(name='imageviewer', emulator='libretro', cor
 emulators["scummvm"] = Emulator(name='scummvm', emulator='scummvm', videomode='default')
 emulators["colecovision"] = Emulator(name='colecovision', emulator='libretro', core='bluemsx')
 emulators["3do"] = Emulator(name='3do', emulator='libretro', core='4do')
+emulators["amiga600"] = Emulator(name='amiga600', emulator='amiberry')
+emulators["amiga1200"] = Emulator(name='amiga1200', emulator='amiberry')
+emulators["amigacd32"] = Emulator(name='amigacd32', emulator='amiberry')
 
 emulators["kodi"] = Emulator(name='kodi', emulator='kodi', videomode='default')
 emulators["moonlight"] = Emulator(name='moonlight', emulator='moonlight')
