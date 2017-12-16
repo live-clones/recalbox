@@ -4,8 +4,8 @@
 
 rb_wifi_boot_configure() {
         [ "$1" = "1" ] && X="" || X="$1"
-        settings_ssid=`cat /tmp/wifi.conf|awk "/wifi${X}.ssid/"|sed "s/wifi${X}.ssid=//g"`
-        settings_key=`cat /tmp/wifi.conf|awk "/wifi${X}.key/"|sed "s/wifi${X}.key=//g"`
+        settings_ssid=`egrep "^wifi${X}.ssid" /tmp/wifi.conf|sed "s/wifi${X}.ssid=//g"`
+        settings_key=`egrep "^wifi${X}.key" /tmp/wifi.conf|sed "s/wifi${X}.key=//g"`
         settings_file="/var/lib/connman/recalbox_wifi${X}.config"
         [ "$1" = "1" ] && settings_name="default" || settings_name="${X}"
 
@@ -33,10 +33,10 @@ case "$1" in
   start)
 	if [ ! -f /tmp/wifi.conf ]
 	then
-		cat /boot/recalbox-boot.conf | awk '!/^;?wifi/' > /tmp/recalbox-boot.conf
-		cat /boot/recalbox-boot.conf | awk '/^;?wifi/' > /tmp/wifi.conf
+		egrep -v '^wifi' /boot/recalbox-boot.conf > /tmp/recalbox-boot.conf # Copy recalbox-boot.conf to a tmp location without wifi information
+		egrep '^wifi' /boot/recalbox-boot.conf > /tmp/wifi.conf # Keep wifi information into another tmp file
 		mount -o remount,rw /boot
-		mv /tmp/recalbox-boot.conf /boot/recalbox-boot.conf
+		mv /tmp/recalbox-boot.conf /boot/recalbox-boot.conf # Replace recalbox-boot.conf to its original location (without wifi information)
 		mount -o remount,ro /boot
 	fi
 
@@ -53,20 +53,21 @@ case "$1" in
 		/usr/bin/connmanctl scan   wifi || exit 1
 	fi
 
+	# We don't need the tmp wifi file anymore
 	if [ -f /tmp/wifi.conf ]
 	then
 		rm /tmp/wifi.conf
 	fi
 
-	# Wait a little bit for network if share over network
-	if [ `cat "/boot/recalbox-boot.conf" | grep "sharedevice=" | head -n1 | cut -d'=' -f2` == "NETWORK" ]
+	# If share over network, let's add a timeout of 10 seconds (max) for slow networks
+	if [ `grep -c "^sharedevice=NETWORK$" /boot/recalbox-boot.conf` -ne 0 ]
 	then
 		try=0
 		until [ ! $try -lt 10 ]
 		do
-			if [ `ifconfig |grep -v "127.0.0.1"|grep "inet addr"|wc -l` -gt 0 ]
+			if [ `ifconfig |grep -v "127.0.0.1"|grep -c "inet addr"` -gt 0 ]
 			then
-				break
+				break # Of course if network is OK, don't wait anymore!
 			fi
 			sleep 1
 			try=`expr $try + 1`
