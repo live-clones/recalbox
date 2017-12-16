@@ -154,7 +154,7 @@ case "$1" in
 
 	#Save wifi informations to /boot/recalbox-boot.conf
 	mount -o remount,rw /boot
-	cat /recalbox/share/system/recalbox.conf | awk '/^wifi.?..[se]/' >> /boot/recalbox-boot.conf
+	egrep '^wifi.?..[se]' /recalbox/share/system/recalbox.conf >> /boot/recalbox-boot.conf
 	mount -o remount,ro /boot
 	;;
   restart|reload)

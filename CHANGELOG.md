@@ -9,6 +9,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added ipega 9055 udev rule
 - Added quirk for micreal arcade dual
 - Added udev rule for the OUYA gamepad
+## Next version unreleased yet
+- Wifi is now started before accessing network shares
 
 ## [17.12.02] - 2017-12-02
 - fixed steam controller service auto start, fixes lag in ES
