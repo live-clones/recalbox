@@ -1,7 +1,0 @@
-config BR2_PACKAGE_KODI_VISUALISATION_WAVEFORM
-    depends on BR2_PACKAGE_KODI
-	bool "kodi-visualisation-waveform"
-	help
-	  Waveform visualiser for Kodi
-
-	  https://github.com/notspiff/visualization.waveform
