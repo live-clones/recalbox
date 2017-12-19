@@ -7,6 +7,7 @@ config BR2_PACKAGE_DOSBOX
         select BR2_PACKAGE_LIBOGG
         select BR2_PACKAGE_LIBVORBIS
         select BR2_PACKAGE_SDL_SOUND
+        select BR2_PACKAGE_SDL2_NET
 	select BR2_PACKAGE_RECALBOX_ROMFS_DOS
 
 	help

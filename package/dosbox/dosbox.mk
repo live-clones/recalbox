@@ -5,12 +5,12 @@
 ################################################################################
 
 DOSBOX_VERSION_TAG = 0.74
-DOSBOX_VERSION = r4063
+DOSBOX_VERSION = r4067
 DOSBOX_SITE =  svn://svn.code.sf.net/p/dosbox/code-0/dosbox/trunk 
 DOSBOX_SITE_METHOD = svn
 DOSBOX_LICENSE = GPL2
 DOSBOX_LICENSE_FILES = COPYING
-DOSBOX_DEPENDENCIES = sdl2 zlib libpng libogg libvorbis sdl_sound
+DOSBOX_DEPENDENCIES = sdl2 zlib libpng libogg libvorbis sdl_sound sdl2_net
 
 DOSBOX_LDFLAGS = -L$(STAGING_DIR)/usr/lib
 DOSBOX_CFLAGS = -I$(STAGING_DIR)/usr/include -I$(STAGING_DIR)/usr/include/SDL2 -I$(STAGING_DIR)/usr/include/SDL
