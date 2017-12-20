@@ -46,7 +46,7 @@ Signed-off-by: Laurent Merckx <laurent-merckx@skynet.be>
  int SdlEventSource::mapKey(SDLKey sdlKey, SDLMod mod, Uint16 unicode) {
  	Common::KeyCode key = SDLToOSystemKeycode(sdlKey);
  
-@@ -802,68 +814,80 @@ bool SdlEventSource::handleMouseButtonUp
+@@ -806,68 +818,80 @@ bool SdlEventSource::handleMouseButtonUp
  }
  
  bool SdlEventSource::handleJoyButtonDown(SDL_Event &ev, Common::Event &event) {

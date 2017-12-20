@@ -9,7 +9,7 @@
  		;;
  	esac;
  done;
-@@ -2911,18 +2911,18 @@
+@@ -2905,18 +2905,18 @@
  			# but Raspbian does.
  			# Be careful as it's the linker (LDFLAGS) which must know about sysroot.
  			# These are needed to build against Raspbian's libSDL.

@@ -1,6 +1,6 @@
---- a/backends/events/sdl/sdl-events.cpp	2016-03-28 12:48:42.559648267 +0200
-+++ b/backends/events/sdl/sdl-events.cpp	2016-03-28 13:17:26.609933552 +0200
-@@ -48,6 +48,7 @@
+--- a/backends/events/sdl/sdl-events.cpp	2017-12-19 20:38:27.269875931 +0100
++++ b/backends/events/sdl/sdl-events.cpp	2017-12-19 20:38:46.537447975 +0100
+@@ -52,6 +52,7 @@
  #define JOY_BUT_PERIOD 1
  #define JOY_BUT_SPACE 4
  #define JOY_BUT_F5 5
@@ -8,7 +8,7 @@
  
  #if SDL_VERSION_ATLEAST(2, 0, 0)
  static uint32 convUTF8ToUTF32(const char *src) {
-@@ -699,6 +700,9 @@
+@@ -830,6 +831,9 @@ bool SdlEventSource::handleJoyButtonDown
  			event.kbd.keycode = Common::KEYCODE_F5;
  			event.kbd.ascii = mapKey(SDLK_F5, (SDLMod)ev.key.keysym.mod, 0);
  			break;
@@ -16,9 +16,9 @@
 +			event.type = Common::EVENT_VIRTUAL_KEYBOARD;
 +			break;
  		}
+ 		return true;
  	}
- 	return true;
-@@ -730,6 +734,9 @@
+@@ -861,6 +865,9 @@ bool SdlEventSource::handleJoyButtonUp(S
  			event.kbd.keycode = Common::KEYCODE_F5;
  			event.kbd.ascii = mapKey(SDLK_F5, (SDLMod)ev.key.keysym.mod, 0);
  			break;
@@ -26,5 +26,6 @@
 +			// Handled in key down
 +			break;
  		}
+ 		return true;
  	}
- 	return true;
+
