@@ -5,9 +5,9 @@ import glob
 import sys
 import shutil
 
-biosPath="/recalbox/share/bios/"
+amiberryPath = "/usr/bin/"
 
-def initMountpoint(mountPoint,amiberryPath) :
+def initMountpoint(mountPoint) :
     # ----- cleaning mountpoint directory ----- 
     if os.path.exists(mountPoint) :
         shutil.rmtree(mountPoint)
@@ -15,13 +15,14 @@ def initMountpoint(mountPoint,amiberryPath) :
     # ----- Create & copy emulator structure -----
     print("Copy amiberry files to %s" % mountPoint)
     os.makedirs(mountPoint+"/amiberry")
-    os.makedirs(mountPoint+"/amiberry/data")
     os.makedirs(mountPoint+"/amiberry/conf")
-    # not anymore
-    # os.popen("cp -R "+amiberryPath+"/* "+mountPoint+"/amiberry")
-    # TODO REDO IN PYTHON (not easily done)
+
+    # Unpatched version
+    # oldAmiberryPath="/recalbox/share/emulateurs/amiga/amiberry"
+    # os.popen("cp -R "+oldAmiberryPath+"/* "+mountPoint+"/amiberry")
+
+    # Patched version
     shutil.copy2(os.path.join(amiberryPath,"amiberry"),os.path.join(mountPoint,"amiberry","amiberry"))
-    os.popen("cp -R "+amiberryPath+"/data/* "+mountPoint+"/amiberry/data")
     
     # ----- Generate adfdir.conf -----
     # ----- Needed for right handling of bios even in whdl case -----
@@ -36,34 +37,32 @@ def initMountpoint(mountPoint,amiberryPath) :
     finally :
         fAdfdir.close()
 
-def hasCD32Kickstarts() : return os.path.exists(os.path.join(biosPath,"CD32ext.rom")) and os.path.exists(os.path.join(biosPath,"kick31CD32.rom"))
+def hasCD32Kickstarts() : return os.path.exists(os.path.join(recalboxFiles.BIOS,"CD32ext.rom")) and os.path.exists(os.path.join(recalboxFiles.BIOS,"kick31CD32.rom"))
         
 def generateAdfdirConf(fAdfdir,mountPoint) :
-    
-    
     fAdfdir.write("path="+mountPoint+"/amiberry/adf/\n")
     fAdfdir.write("config_path="+mountPoint+"/amiberry/conf/\n")
-    fAdfdir.write("rom_path="+biosPath+"\n")
+    fAdfdir.write("rom_path="+recalboxFiles.BIOS+"/\n")
     if (hasCD32Kickstarts()) :
         fAdfdir.write("ROMs=6\n")
         fAdfdir.write("ROMName=CD32 extended ROM rev 40.60 (512k)\n")
-        fAdfdir.write("ROMPath="+os.path.join(biosPath,"CD32ext.rom")+"\n")
+        fAdfdir.write("ROMPath="+os.path.join(recalboxFiles.BIOS,"CD32ext.rom")+"\n")
         fAdfdir.write("ROMType=4\n")
     else :
         fAdfdir.write("ROMs=4\n")
         
     fAdfdir.write("ROMName=KS ROM v1.3 (A500,A1000,A2000) rev 34.5 (256k) [315093-02]\n")    
-    fAdfdir.write("ROMPath="+os.path.join(biosPath,"kick13.rom")+"\n")
+    fAdfdir.write("ROMPath="+os.path.join(recalboxFiles.BIOS,"kick13.rom")+"\n")
     fAdfdir.write("ROMType=1\n")
     fAdfdir.write("ROMName=KS ROM v2.04 (A500+) rev 37.175 (512k) [390979-01]\n")
-    fAdfdir.write("ROMPath="+os.path.join(biosPath,"kick20.rom")+"\n")
+    fAdfdir.write("ROMPath="+os.path.join(recalboxFiles.BIOS,"kick20.rom")+"\n")
     fAdfdir.write("ROMType=1\n")
     fAdfdir.write("ROMName=KS ROM v3.1 (A1200) rev 40.68 (512k) [391773-01/391774-01]\n")    
-    fAdfdir.write("ROMPath="+os.path.join(biosPath,"kick31.rom")+"\n")
+    fAdfdir.write("ROMPath="+os.path.join(recalboxFiles.BIOS,"kick31.rom")+"\n")
     fAdfdir.write("ROMType=1\n")
     if (hasCD32Kickstarts()) :
         fAdfdir.write("ROMName=CD32 KS ROM v3.1 rev 40.60 (512k)\n")
-        fAdfdir.write("ROMPath="+os.path.join(biosPath,"kick31CD32.rom")+"\n")
+        fAdfdir.write("ROMPath="+os.path.join(recalboxFiles.BIOS,"kick31CD32.rom")+"\n")
         fAdfdir.write("ROMType=2\n")
         
     fAdfdir.write("ROMName= AROS KS ROM (built-in) (1024k)\n")
@@ -85,22 +84,22 @@ def generateGUIConf(fUaeConfig,leds='true') :
 
 def generateKickstartPath(fUaeConfig, amigaHardware) :
     if  amigaHardware == "amiga1200" :
-        fUaeConfig.save("kickstart_rom_file",os.path.join(biosPath,"kick31.rom"))
+        fUaeConfig.save("kickstart_rom_file",os.path.join(recalboxFiles.BIOS,"kick31.rom"))
     else :
-        fUaeConfig.save("kickstart_rom_file",os.path.join(biosPath,"kick13.rom"))
+        fUaeConfig.save("kickstart_rom_file",os.path.join(recalboxFiles.BIOS,"kick13.rom"))
         
 def generateKickstartPathWHDL(fUaeConfig, amigaHardware) :
-    fUaeConfig.save("rom_path",biosPath)
+    fUaeConfig.save("rom_path",recalboxFiles.BIOS)
     if  amigaHardware == "amiga1200" :
-        fUaeConfig.save("kickstart_rom_file",os.path.join(biosPath,"kick31.rom"))
+        fUaeConfig.save("kickstart_rom_file",os.path.join(recalboxFiles.BIOS,"kick31.rom"))
     else :
-        fUaeConfig.save("kickstart_rom_file",os.path.join(biosPath,"kick20.rom"))
+        fUaeConfig.save("kickstart_rom_file",os.path.join(recalboxFiles.BIOS,"kick20.rom"))
         
 def generateKickstartPathCD32(fUaeConfig, amigaHardware) :
-    fUaeConfig.save("rom_path",biosPath)
-    fUaeConfig.save("kickstart_rom_file",os.path.join(biosPath,"kick31CD32.rom"))
-    fUaeConfig.save("kickstart_ext_rom_file",os.path.join(biosPath,"CD32ext.rom"))
-    fUaeConfig.save("flash_file",os.path.join(biosPath,"cd32.nvr"))
+    fUaeConfig.save("rom_path",recalboxFiles.BIOS)
+    fUaeConfig.save("kickstart_rom_file",os.path.join(recalboxFiles.BIOS,"kick31CD32.rom"))
+    fUaeConfig.save("kickstart_ext_rom_file",os.path.join(recalboxFiles.BIOS,"CD32ext.rom"))
+    fUaeConfig.save("flash_file",os.path.join(recalboxFiles.BIOS,"cd32.nvr"))
     
 def generateHardwareConf (fUaeConfig,amigaHardware) :
     # ----- Hardware configuration -----

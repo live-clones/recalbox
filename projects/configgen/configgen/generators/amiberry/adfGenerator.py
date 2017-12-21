@@ -8,17 +8,13 @@ import amiberryController
 import amiberryConfig
 from settings.unixSettings import UnixSettings
 
-amiberryPath="/usr/bin/"
-mountPoint="/tmp/amiga"
-biosPath="/recalbox/share/bios/"
-
 def generateAdf(fullName,romPath,uaeName,amigaHardware,controller) :
-    print("execute ADF : <%s> on <%s>" %(amiberryPath+"/amiberry",romPath + "/" + uaeName))
+    print("execute ADF : <%s> on <%s>" %("/amiberry",romPath + "/" + uaeName))
     
-    amiberryConfig.initMountpoint(mountPoint,amiberryPath)
+    amiberryConfig.initMountpoint(recalboxFiles.amiberryMountPoint)
     
     # ----- Create uae configuration file -----
-    uaeconfig = os.path.join(mountPoint,"amiberry","conf","uaeconfig.uae")
+    uaeconfig = os.path.join(recalboxFiles.amiberryMountPoint,"amiberry","conf","uaeconfig.uae")
     
     if os.path.exists(uaeconfig) :
         os.remove(uaeconfig)

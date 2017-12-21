@@ -29,7 +29,7 @@ recalboxBins = {'dosbox'      : '/usr/bin/dosbox'
               , 'vice'        : '/usr/bin/x64'
               , 'dolphin'     : '/usr/bin/dolphin-emu'
               , 'advancemame' : '/usr/bin/advmame'
-              , 'amiberry'    : '/recalbox/share/emulateurs/amiberry'
+              , 'amiberry'    : '/usr/bin/amiberry'
 }
 
 
@@ -103,3 +103,6 @@ viceConfig = CONF + "/vice/vice.conf"
 
 advancemameConfig = CONF + '/advancemame/advmame.rc'
 advancemameConfigOrigin = CONF + '/advancemame/advmame.rc.origin'
+
+amiberryMountPoint = "/tmp/amiga"
+

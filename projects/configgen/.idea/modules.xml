@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/recalbox-configgen.iml" filepath="$PROJECT_DIR$/.idea/recalbox-configgen.iml" />
+      <module fileurl="file://$PROJECT_DIR$/recalbox-configgen.iml" filepath="$PROJECT_DIR$/recalbox-configgen.iml" />
     </modules>
   </component>
 </project>

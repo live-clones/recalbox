@@ -10,16 +10,13 @@ import amiberryConfig
 import binascii
 from settings.unixSettings import UnixSettings
 
-amiberryPath="/usr/bin/"
-mountPoint="/tmp/amiga"
-mountPointWHDL="/tmp/amiga/WHDL"
-biosPath="/recalbox/share/bios/"
-whdFilespath=biosPath+"amiga/whdl"
+mountPointWHDL = recalboxFiles.amiberryMountPoint + "/WHDL"
+whdFilespath = recalboxFiles.BIOS + "/amiga/whdl"
 
 def generateWHDL(fullName,romFolder,gameName,amigaHardware,controller) :
     print("execute WHDLoad : <%s>" % os.path.join(romFolder,gameName))
 
-    amiberryConfig.initMountpoint(mountPoint,amiberryPath)
+    amiberryConfig.initMountpoint(recalboxFiles.amiberryMountPoint)
     os.makedirs(mountPointWHDL)
 
     # ------------ copy WHDL structure Files ------------
@@ -29,21 +26,20 @@ def generateWHDL(fullName,romFolder,gameName,amigaHardware,controller) :
     
     # ---- copy BIOS as equivalent into WHDL structure ----
     whdlKickstarts = os.path.join(mountPointWHDL,"Devs","Kickstarts")
-    print(whdlKickstarts)
-    shutil.copy2(os.path.join(biosPath,"kick13.rom"),os.path.join(whdlKickstarts,"kick33180.A500"))
-    shutil.copy2(os.path.join(biosPath,"kick13.rom"),os.path.join(whdlKickstarts,"kick33192.A500"))
-    shutil.copy2(os.path.join(biosPath,"kick13.rom"),os.path.join(whdlKickstarts,"kick34005.A500"))
-    # shutil.copy2(os.path.join(biosPath,"kick20.rom"),os.path.join(whdlKickstart,))
-    shutil.copy2(os.path.join(biosPath,"kick31.rom"),os.path.join(whdlKickstarts,"kick40068.A1200"))
+    shutil.copy2(os.path.join(recalboxFiles.BIOS,"kick13.rom"),os.path.join(whdlKickstarts,"kick33180.A500"))
+    shutil.copy2(os.path.join(recalboxFiles.BIOS,"kick13.rom"),os.path.join(whdlKickstarts,"kick33192.A500"))
+    shutil.copy2(os.path.join(recalboxFiles.BIOS,"kick13.rom"),os.path.join(whdlKickstarts,"kick34005.A500"))
+    # shutil.copy2(os.path.join(recalboxFiles.BIOS,"kick20.rom"),os.path.join(whdlKickstart,))
+    shutil.copy2(os.path.join(recalboxFiles.BIOS,"kick31.rom"),os.path.join(whdlKickstarts,"kick40068.A1200"))
     
     # ------------ copy game folder & uae ------------
     print("Copy game folder and uae %s" % os.path.join(romFolder,gameName))
     # TODO REDO IN PYTHON (not easily done)
     os.popen('cp -R "'+os.path.join(romFolder,gameName)+'/"* '+mountPointWHDL)
-    shutil.copy2(os.path.join(romFolder,gameName+".uae"),os.path.join(mountPoint,"amiberry","conf","uaeconfig.uae"))
+    shutil.copy2(os.path.join(romFolder,gameName+".uae"),os.path.join(recalboxFiles.amiberryMountPoint,"amiberry","conf","uaeconfig.uae"))
     
     # ------------ Complete UAE ----------------
-    uaeConfig = os.path.join(mountPoint,"amiberry","conf","uaeconfig.uae")
+    uaeConfig = os.path.join(recalboxFiles.amiberryMountPoint,"amiberry","conf","uaeconfig.uae")
     
     fUaeConfig = UnixSettings(uaeConfig, separator='', defaultComment=';')
     uaeConfigIsEmpty = os.path.getsize(uaeConfig) == 0

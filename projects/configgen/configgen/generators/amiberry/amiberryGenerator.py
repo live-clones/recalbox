@@ -9,8 +9,6 @@ import adfGenerator
 import whdlGenerator
 import cdGenerator
 
-mountPoint="/tmp/amiga"
-
 class AmiberryGenerator(Generator):
     # Main entry of the module
     # Return command
@@ -60,7 +58,7 @@ class AmiberryGenerator(Generator):
             cdGenerator.generateCD(rom,romFolder,uaeName,system.name,controller)            
             
         # mandatory change of current working dir to amiberry's one
-        os.chdir(os.path.join(mountPoint,"amiberry"))
+        os.chdir(os.path.join(recalboxFiles.amiberryMountPoint,"amiberry"))
         print("Executing %s in %s" % ("amiberry",os.getcwd()))
         os.popen("./amiberry")
         
@@ -69,6 +67,7 @@ class AmiberryGenerator(Generator):
             whdlGenerator.handleBackup(rom,romFolder,gameName,system.name)
         
         sys.exit()
+
         # Find rom path
 #        gameDir = rom
 #        batFile = gameDir + "/dosbox.bat"
