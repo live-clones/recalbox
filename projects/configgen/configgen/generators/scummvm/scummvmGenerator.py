@@ -2,6 +2,7 @@
 import Command
 import recalboxFiles
 from generators.Generator import Generator
+from generators.residualvm.residualvmGenerator import ResidualVMGenerator 
 import os.path
 import glob
 
@@ -10,6 +11,11 @@ class ScummVMGenerator(Generator):
     # Main entry of the module
     # Return scummvm command
     def generate(self, system, rom, playersControllers):
+        # If ResidualVM extension, redirect to ResidualVM emulator
+        if rom.endswith(".residualvm"):
+            system.config['emulator'] = 'residualvm'
+            return ResidualVMGenerator().generate(system, rom, playersControllers)
+
         # Settings recalbox default config file if no user defined one
         if not system.config['configfile']:
             # Using recalbox config file

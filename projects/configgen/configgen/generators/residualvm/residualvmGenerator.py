@@ -12,9 +12,9 @@ class ResidualVMGenerator(Generator):
     def generate(self, system, rom, playersControllers):
         # Find rom path
         if os.path.isdir(rom):
-          # rom is a directory: must contains a <game name>.scummvm file
+          # rom is a directory: must contains a <game name>.residualvm file
           romPath = rom
-          romFile = glob.glob(romPath + "/*.scummvm")[0]
+          romFile = glob.glob(romPath + "/*.residualvm")[0]
           romName = os.path.splitext(os.path.basename(romFile))[0]
         else:
           # rom is a file: split in directory and file name
