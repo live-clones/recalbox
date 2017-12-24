@@ -11,10 +11,18 @@ HYPERION_LICENSE = MIT
 HYPERION_SITE_METHOD = git
 HYPERION_GIT_SUBMODULES = YES
 
-HYPERION_CONF_OPTS += -DBCM_INCLUDE_DIR="$(STAGING_DIR)/usr/" -DBCM_LIBRARIES="$(STAGING_DIR)/usr/lib/" -DDispmanx_LIBRARIES="bcm_host" -DCMAKE_BUILD_TYPE=Release -DPLATFORM="rpi" -Wno-dev -DUSE_SYSTEM_PROTO_LIBS=ON -DIMPORT_PROTOC="$(@D)/host_compile/protoc_export.cmake" --build "$(@D)/output/" "$(@D)/"
+HYPERION_CONF_OPTS += -DBCM_INCLUDE_DIR="$(STAGING_DIR)/usr/" \
+		      -DBCM_LIBRARIES="$(STAGING_DIR)/usr/lib/" \
+		      -DDispmanx_LIBRARIES="bcm_host" \
+		      -DCMAKE_BUILD_TYPE=Release \
+		      -DPLATFORM="rpi" \
+		      -Wno-dev \
+		      -DUSE_SYSTEM_PROTO_LIBS=ON \
+		      -DPROTOBUF_PROTOC_EXECUTABLE="$(HOST_DIR)/bin/protoc" \
+		      --build "$(@D)/output/" "$(@D)/"
 
 HYPERION_DEPENDENCIES += rpi-firmware
-HYPERION_DEPENDENCIES += libusb qt host-libusb rpi-firmware rpi-userland host-protobuf
+HYPERION_DEPENDENCIES += libusb qt host-libusb rpi-firmware rpi-userland host-protobuf host-cmake
 
 define HYPERION_PROTOBUF_COMPILE
 	mkdir -p "$(@D)/host-compile/"

@@ -1,0 +1,33 @@
+From 76ff1220e9ec590bdae2fb5056fa2a9cf66d20da Mon Sep 17 00:00:00 2001
+From: Conn O'Griofa <connogriofa@gmail.com>
+Date: Mon, 17 Jul 2017 02:40:04 +0100
+Subject: [PATCH] gamecon_gpio_rpi: kernel 4.9 compatibility kludge
+
+---
+ usr/src/gamecon_gpio_rpi-1.2/gamecon_gpio_rpi.c | 6 +++++-
+ 1 files changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/usr/src/gamecon_gpio_rpi-1.2/gamecon_gpio_rpi.c b/usr/src/gamecon_gpio_rpi-1.2/gamecon_gpio_rpi.c
+index 3a217dc..21b205c 100644
+--- a/gamecon_gpio_rpi.c
++++ b/gamecon_gpio_rpi.c
+@@ -36,7 +36,6 @@
+ 
+ #include <linux/ioport.h>
+ #include <asm/io.h>
+-#include <mach/platform.h>
+ 
+ MODULE_AUTHOR("Markus Hiienkari");
+ MODULE_DESCRIPTION("NES, SNES, N64, PSX, GC gamepad driver");
+@@ -44,6 +43,11 @@ MODULE_LICENSE("GPL");
+ 
+ #define GC_MAX_DEVICES		6
+ 
++#ifdef CONFIG_ARCH_MULTI_V7
++#define BCM2708_PERI_BASE 0x3F000000
++#else
++#define BCM2708_PERI_BASE 0x20000000
++#endif
+ #define GPIO_BASE                (BCM2708_PERI_BASE + 0x200000) /* GPIO controller */
+ 
+ #define GPIO_SET *(gpio+7)

@@ -33,7 +33,7 @@ endif
 ifeq ($(BR2_cortex_a7),y)
         RETROARCH_CONF_OPTS += --enable-neon --enable-floathard
 endif
-ifeq ($(BR2_cortex_a8),y)
+ifeq ($(BR2_cortex_a53),y)
         RETROARCH_CONF_OPTS += --enable-neon --enable-floathard
 endif
 
@@ -190,6 +190,10 @@ endif
 
 ifeq ($(BR2_aarch64),y)
         LIBRETRO_PLATFORM += unix
+endif
+
+ifeq ($(BR2_cortex_a53),y)
+        LIBRETRO_PLATFORM += armv8
 endif
 
 #ifeq ($(BR2_GCC_TARGET_FLOAT_ABI),"hard")
