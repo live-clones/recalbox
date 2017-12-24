@@ -1,3 +1,5 @@
+166f3ecd7e6708884b409a70390c59cf  package/bluez5_utils/bluez5_utils.hash
+c3de41854b6568a001ac6a5ad7738e48  package/bluez5_utils/bluez5_utils.mk
 c445390118f5d058dd372a8b2beb25a8  package/dropbear/S50dropbear
 6b31f620c36bb2d6c54cfaf71cc5a086  package/initscripts/init.d/rcK
 76f02a748149f1aa945aa418ea65b2bc  package/initscripts/init.d/rcS
@@ -9,6 +11,7 @@ c445390118f5d058dd372a8b2beb25a8  package/dropbear/S50dropbear
 8a063d22a484dc9d55cc6df6bcd22333  package/omxplayer/omxplayer.mk
 f38548efeaeaaa6515c91bc6ab7d9d54  package/rpi-firmware/cmdline.txt
 f01ea6ba5ccf7e7b094e83301984333d  package/rpi-firmware/config.txt
+e7a440615e0f933be4fd4ca4f576de2e  package/sdl2/sdl2.mk
 76f5941c64fe63d71fdbafde3594ba78  package/sdl_sound/Config.in
 4c240a99b2eef3c2c77f9e7acdc1787d  package/sdl_sound/sdl_sound.mk
 a5ec225b9e4b39e8e92ff80f594ac098  package/skeleton-init-common/skeleton-init-common.mk

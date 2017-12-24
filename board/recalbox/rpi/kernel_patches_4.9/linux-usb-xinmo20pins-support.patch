@@ -1,0 +1,48 @@
+diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
+index ec791e1..968ad55 100644
+--- a/drivers/hid/hid-core.c
++++ b/drivers/hid/hid-core.c
+@@ -2049,6 +2049,7 @@ static const struct hid_device_id hid_have_special_driver[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_WALTOP, USB_DEVICE_ID_WALTOP_SIRIUS_BATTERY_FREE_TABLET) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_X_TENSIONS, USB_DEVICE_ID_SPEEDLINK_VAD_CEZANNE) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_XIN_MO, USB_DEVICE_ID_XIN_MO_DUAL_ARCADE) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_XIN_MO, USB_DEVICE_ID_XIN_MO_DUAL_ARCADE2) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ZEROPLUS, 0x0005) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ZEROPLUS, 0x0030) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ZYDACRON, USB_DEVICE_ID_ZYDACRON_REMOTE_CONTROL) },
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index 909ab01..1b0e1bf 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -1013,6 +1013,7 @@
+ 
+ #define USB_VENDOR_ID_XIN_MO			0x16c0
+ #define USB_DEVICE_ID_XIN_MO_DUAL_ARCADE	0x05e1
++#define USB_DEVICE_ID_XIN_MO_DUAL_ARCADE2	0x75e1
+ 
+ #define USB_VENDOR_ID_XIROKU		0x1477
+ #define USB_DEVICE_ID_XIROKU_SPX	0x1006
+diff --git a/drivers/hid/hid-xinmo.c b/drivers/hid/hid-xinmo.c
+index 7df5227..b3bbf01 100644
+--- a/drivers/hid/hid-xinmo.c
++++ b/drivers/hid/hid-xinmo.c
+@@ -46,6 +46,7 @@ static int xinmo_event(struct hid_device *hdev, struct hid_field *field,
+ 
+ static const struct hid_device_id xinmo_devices[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_XIN_MO, USB_DEVICE_ID_XIN_MO_DUAL_ARCADE) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_XIN_MO, USB_DEVICE_ID_XIN_MO_DUAL_ARCADE2) },
+ 	{ }
+ };
+ 
+diff --git a/drivers/hid/usbhid/hid-quirks.c b/drivers/hid/usbhid/hid-quirks.c
+index a3dc4b2..8adf988 100644
+--- a/drivers/hid/usbhid/hid-quirks.c
++++ b/drivers/hid/usbhid/hid-quirks.c
+@@ -151,6 +151,7 @@ static const struct hid_blacklist {
+ 	{ USB_VENDOR_ID_DRACAL_RAPHNET, USB_DEVICE_ID_RAPHNET_2NES2SNES, HID_QUIRK_MULTI_INPUT },
+ 	{ USB_VENDOR_ID_DRACAL_RAPHNET, USB_DEVICE_ID_RAPHNET_4NES4SNES, HID_QUIRK_MULTI_INPUT },
+ 	{ USB_VENDOR_ID_XIN_MO, USB_DEVICE_ID_XIN_MO_DUAL_ARCADE, HID_QUIRK_NOGET | HID_QUIRK_MULTI_INPUT },
++	{ USB_VENDOR_ID_XIN_MO, USB_DEVICE_ID_XIN_MO_DUAL_ARCADE2, HID_QUIRK_NOGET | HID_QUIRK_MULTI_INPUT },
+ 
+ 	{ 0, 0 }
+ };
