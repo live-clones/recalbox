@@ -16,7 +16,8 @@ endef
 
 ADVANCEMAME_PRE_CONFIGURE_HOOKS += ADVANCEMAME_RUN_AUTOGEN
 
-ADVANCEMAME_CONF_ENV += LDFLAGS=-L$(STAGING_DIR)/usr/lib/
+ADVANCEMAME_CONF_ENV += CFLAGS=-I$(STAGING_DIR)/usr/include/freetype2 \
+			LDFLAGS=-L$(STAGING_DIR)/usr/lib/
 
 ADVANCEMAME_CONF_OPTS += \
 	--prefix=$(TARGET_DIR)/usr \
@@ -52,7 +53,8 @@ endif
 ifeq ($(BR2_PACKAGE_FREETYPE),y)
 	ADVANCEMAME_DEPENDENCIES += freetype
 	ADVANCEMAME_CONF_OPTS += \
-		--enable-freetype --with-freetype-prefix=$(STAGING_DIR)/usr
+		--enable-freetype \
+		--with-freetype-prefix=$(STAGING_DIR)/usr
 else
 	ADVANCEMAME_CONF_OPTS += --disable-freetype
 endif
