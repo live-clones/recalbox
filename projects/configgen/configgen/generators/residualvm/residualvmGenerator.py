@@ -22,7 +22,6 @@ class ResidualVMGenerator(Generator):
           romName = os.path.splitext(os.path.basename(rom))[0]
         commandArray = [recalboxFiles.recalboxBins[system.config['emulator']], 
                         "--fullscreen",
-                        "--no-check-gamedata",
                         "--joystick=0", 
 #                       "--screenshotpath="+recalboxFiles.screenshotsDir, 
                         "--extrapath=/usr/share/residualvm",
