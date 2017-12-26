@@ -38,6 +38,17 @@ def initMountpoint(mountPoint) :
         fAdfdir.close()
 
 def hasCD32Kickstarts() : return os.path.exists(os.path.join(recalboxFiles.BIOS,"CD32ext.rom")) and os.path.exists(os.path.join(recalboxFiles.BIOS,"kick31CD32.rom"))
+
+def hasKickstarts(hardware,whdl) :
+    if hardware == 'amiga1200' and os.path.exists(os.path.join(recalboxFiles.BIOS,"kick31.rom")) :
+        return True
+    elif hardware == 'amiga600' :
+        if whdl :
+            return os.path.exists(os.path.join(recalboxFiles.BIOS,"kick20.rom"))
+        else :
+            return os.path.exists(os.path.join(recalboxFiles.BIOS,"kick13.rom"))
+            
+    return False
         
 def generateAdfdirConf(fAdfdir,mountPoint) :
     fAdfdir.write("path="+mountPoint+"/amiberry/adf/\n")

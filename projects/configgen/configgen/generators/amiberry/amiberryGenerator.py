@@ -18,7 +18,7 @@ class AmiberryGenerator(Generator):
         
         #------------ CHECK entry params ------------
         if not os.path.exists(rom) or os.path.isdir(rom):
-            sys.exit("Please execute this script on full path to an uae adf or cue like /recalbox/share/roms/amiga/gamename.uae\nFor uae file, the game folder should be named exactly alike and be in the same folder : /recalbox/share/roms/amiga/gamename")
+            raise IOError("Please execute this script on full path to an uae adf or cue like /recalbox/share/roms/amiga/gamename.uae\nFor uae file, the game folder should be named exactly alike and be in the same folder : /recalbox/share/roms/amiga/gamename")
         
         #command params
         uaeName = os.path.basename(rom)
@@ -28,7 +28,7 @@ class AmiberryGenerator(Generator):
         
         #detect bad parameters
         if not uaeName or not romFolder or not gameName or not len(romType)==3 or romType.lower() not in ['adf','uae','cue','iso'] :
-            sys.exit("Please execute this script on an uae or adf file only")
+            raise IOError("Please execute this script on an uae or adf file only")
         
         print("Launching game <%s> of type <%s> from <%s>" % (gameName,romType,romFolder))
         
@@ -37,7 +37,7 @@ class AmiberryGenerator(Generator):
         #------------ Launch ADF ------------
         if	romType == "adf" :
             if not os.path.exists(os.path.join(romFolder,uaeName)) :
-                sys.exit("ADF file "+romFolder + "/" + uaeName +"doesn't exist")
+                raise IOError("ADF file "+romFolder + "/" + uaeName +"doesn't exist")
             
             adfGenerator.generateAdf(rom,romFolder,uaeName,system.name,controller)
             
@@ -45,7 +45,7 @@ class AmiberryGenerator(Generator):
         elif romType == "uae" :
             whdlDir = os.path.join(romFolder,gameName)
             if not os.path.exists(whdlDir) or not os.path.isdir(whdlDir):
-                sys.exit("No WHDLoad folder <"+whdlDir+"> corresponding to your uae file "+  romFolder+"/"+uaeName)
+                raise IOError("No WHDLoad folder <"+whdlDir+"> corresponding to your uae file "+  romFolder+"/"+uaeName)
             
             whdlGenerator.generateWHDL(rom,romFolder,gameName,system.name,controller)
             
@@ -53,7 +53,7 @@ class AmiberryGenerator(Generator):
         # ----------- Launch CD32 (and maybe amiga CD in the future) --------------"
         elif romType == "cue" or romType == "iso" :
             if not os.path.exists(os.path.join(romFolder,uaeName)) :
-                sys.exit("CD file "+romFolder + "/" + uaeName +"doesn't exist")
+                raise IOError("CD file "+romFolder + "/" + uaeName +"doesn't exist")
                 
             cdGenerator.generateCD(rom,romFolder,uaeName,system.name,controller)            
             

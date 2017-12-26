@@ -11,6 +11,10 @@ from settings.unixSettings import UnixSettings
 def generateAdf(fullName,romPath,uaeName,amigaHardware,controller) :
     print("execute ADF : <%s> on <%s>" %("/amiberry",romPath + "/" + uaeName))
     
+    # ----- check Bios -----
+    if not amiberryConfig.hasKickstarts(amigaHardware, whdl = False) :
+        raise IOError("No %s kickstarts found" %amigaHardware)
+    
     amiberryConfig.initMountpoint(recalboxFiles.amiberryMountPoint)
     
     # ----- Create uae configuration file -----

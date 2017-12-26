@@ -15,7 +15,11 @@ whdFilespath = recalboxFiles.BIOS + "/amiga/whdl"
 
 def generateWHDL(fullName,romFolder,gameName,amigaHardware,controller) :
     print("execute WHDLoad : <%s>" % os.path.join(romFolder,gameName))
-
+    
+    # ----- check Bios -----
+    if not amiberryConfig.hasKickstarts(amigaHardware, whdl = True) :
+        raise IOError("No %s kickstarts found" %amigaHardware)
+    
     amiberryConfig.initMountpoint(recalboxFiles.amiberryMountPoint)
     os.makedirs(mountPointWHDL)
 
@@ -72,7 +76,7 @@ def generateWHDL(fullName,romFolder,gameName,amigaHardware,controller) :
         slaveFiles = [filename for filename in os.listdir(mountPointWHDL) if filename.endswith(".Slave") or filename.endswith(".slave")]
         print(slaveFiles)
         if len(slaveFiles)==0 :
-            sys.exit("This is not a valid WHD game")
+            raise IOError("This is not a valid WHD game")
         
         for slaveFile in slaveFiles :
             if gotAddedParams :

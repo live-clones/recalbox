@@ -11,8 +11,9 @@ from settings.unixSettings import UnixSettings
 def generateCD(fullName,romPath,uaeName,amigaHardware,controller) :
     # TODO Also allow to use Amiga CD ?
     
+    # ----- check Bios -----
     if not amiberryConfig.hasCD32Kickstarts() :
-        sys.exit("No CD32 kickstarts found")
+        raise IOError("No CD32 kickstarts found")
     
     print("execute CD32 : <%s> on <%s>" %("/amiberry",romPath + "/" + uaeName))
     
