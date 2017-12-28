@@ -184,7 +184,16 @@ case "${RECALBOX_TARGET}" in
 
         # recalbox.img
         cp "${HOST_DIR}/usr/lib/grub/i386-pc/boot.img" "${BINARIES_DIR}" || exit 1
+<<<<<<< HEAD
         support/scripts/genimage.sh -c "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/grub2/genimage.cfg" || exit 1
+=======
+        genimage --rootpath="${TARGET_DIR}" \
+            --inputpath="${BINARIES_DIR}" \
+            --outputpath="${RECALBOX_BINARIES_DIR}" \
+            --config="${BINARIES_DIR}/genimage.cfg" \
+            --tmppath="${GENIMAGE_TMP}" || exit 1
+        rm -f "${RECALBOX_BINARIES_DIR}/boot.vfat" || exit 1
+>>>>>>> 95da68c4a8... x86_64 turn to bump
         sync || exit 1
         ;;
     *)
