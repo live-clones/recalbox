@@ -1,0 +1,7 @@
+config BR2_PACKAGE_RECALBOX_BOOTIA32
+    bool "recalbox-bootia32"
+    depends on BR2_x86_64 && BR2_TARGET_GRUB2
+    help
+      EFI 32 bit precompiled
+
+comment "BOOTIA32 only for x86 64bits woth grub2"
