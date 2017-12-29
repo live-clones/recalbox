@@ -1,0 +1,27 @@
+Patch Makefile to install include file in SDL2 sub-directory.
+Indeed, sources are compiled with SDL2.
+
+Signed-off-by: Laurent Merckx <laurent-merckx@skynet.be>
+
+--- a/Makefile.am	2008-04-17 20:02:22.000000000 +0200
++++ b/Makefile.am	2017-12-29 18:34:00.516931684 +0100
+@@ -2,7 +2,7 @@ lib_LTLIBRARIES = libSDL_sound.la
+ 
+ SUBDIRS = decoders . playsound
+ 
+-libSDL_soundincludedir = $(includedir)/SDL
++libSDL_soundincludedir = $(includedir)/SDL2
+ libSDL_soundinclude_HEADERS =	\
+ 	SDL_sound.h
+ 
+--- a/Makefile.in	2017-12-29 18:38:52.618624973 +0100
++++ b/Makefile.in	2017-12-29 18:43:20.376660362 +0100
+@@ -233,7 +233,7 @@ target_os = @target_os@
+ target_vendor = @target_vendor@
+ lib_LTLIBRARIES = libSDL_sound.la
+ SUBDIRS = decoders . playsound
+-libSDL_soundincludedir = $(includedir)/SDL
++libSDL_soundincludedir = $(includedir)/SDL2
+ libSDL_soundinclude_HEADERS = \
+ 	SDL_sound.h
+ 

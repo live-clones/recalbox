@@ -13,7 +13,7 @@ DOSBOX_LICENSE_FILES = COPYING
 DOSBOX_DEPENDENCIES = sdl2 zlib libpng libogg libvorbis sdl_sound sdl2_net
 
 DOSBOX_LDFLAGS = -L$(STAGING_DIR)/usr/lib
-DOSBOX_CFLAGS = -I$(STAGING_DIR)/usr/include -I$(STAGING_DIR)/usr/include/SDL2 -I$(STAGING_DIR)/usr/include/SDL
+DOSBOX_CFLAGS = -I$(STAGING_DIR)/usr/include -I$(STAGING_DIR)/usr/include/SDL2
 
 define DOSBOX_RUN_AUTOGEN
 	cd $(@D); ./autogen.sh
