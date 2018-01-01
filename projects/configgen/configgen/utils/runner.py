@@ -18,7 +18,7 @@ def runCommand(command):
             time.sleep(command.delay)
 
     command.env.update(os.environ)
-    proc = subprocess.Popen(command.array, env=command.env, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    proc = subprocess.Popen(command.array, env=command.env, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=command.cwdPath)
     exitcode = -1
     try:
         out, err = proc.communicate()

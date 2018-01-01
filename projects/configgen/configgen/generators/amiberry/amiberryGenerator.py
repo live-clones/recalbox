@@ -8,6 +8,7 @@ import sys
 import adfGenerator
 import whdlGenerator
 import cdGenerator
+import utils.runner as runner
 
 class AmiberryGenerator(Generator):
     # Main entry of the module
@@ -58,30 +59,20 @@ class AmiberryGenerator(Generator):
             cdGenerator.generateCD(rom,romFolder,uaeName,system.name,controller)            
             
         # mandatory change of current working dir to amiberry's one
-        os.chdir(os.path.join(recalboxFiles.amiberryMountPoint,"amiberry"))
-        print("Executing %s in %s" % ("amiberry",os.getcwd()))
-        os.popen("./amiberry")
+        # os.chdir(os.path.join(recalboxFiles.amiberryMountPoint,"amiberry"))
+        # print("Executing %s in %s" % ("amiberry",os.getcwd()))
+        # os.popen("./amiberry")
+        
+        commandArray = [os.path.join(recalboxFiles.amiberryMountPoint,"amiberry","amiberry")]
+        command = Command.Command(videomode='default', array=commandArray, env={"SDL_VIDEO_GL_DRIVER":"/usr/lib/libGLESv2.so", "SDL_VIDEO_EGL_DRIVER": "/usr/lib/libGLESv2.so"}, cwdPath=os.path.join(recalboxFiles.amiberryMountPoint,"amiberry"))
+        runner.runCommand(command)
         
         # Handle backup for WHDL
         if romType == "uae" :
             whdlGenerator.handleBackup(rom,romFolder,gameName,system.name)
         
         sys.exit()
-
-        # Find rom path
-#        gameDir = rom
-#        batFile = gameDir + "/dosbox.bat"
-#        gameConfFile = gameDir + "/dosbox.cfg"
-#           
-#        commandArray = ["dosbox", 
-#			"-userconf", 
-#			"-exit", 
-#			"""{}""".format(batFile),
-#			"-c", """set ROOT=""{}""".format(gameDir)]
-#        if os.path.isfile(gameConfFile):
-#            commandArray.append("-conf")
-#            commandArray.append("""{}""".format(gameConfFile))
-#			
-#        return Command.Command(videomode='default', array=commandArray)
+        
+        
         return None
     
