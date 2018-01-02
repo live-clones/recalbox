@@ -27,7 +27,10 @@ def runCommand(command):
         sys.stderr.write(err)
     except:
         print("emulator exited")
-
+    
+    if command.postExec is not None :
+        command.postExec()
+    
     if command.videomode != 'default':
         videoMode.setPreffered()
 

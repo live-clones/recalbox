@@ -9,6 +9,7 @@ import adfGenerator
 import whdlGenerator
 import cdGenerator
 import utils.runner as runner
+from functools import partial
 
 class AmiberryGenerator(Generator):
     # Main entry of the module
@@ -63,13 +64,15 @@ class AmiberryGenerator(Generator):
         # print("Executing %s in %s" % ("amiberry",os.getcwd()))
         # os.popen("./amiberry")
         
+        postExec = partial(whdlGenerator.handleBackup, rom,romFolder,gameName,system.name) if romType == "uae" else None
+        
         commandArray = [os.path.join(recalboxFiles.amiberryMountPoint,"amiberry","amiberry")]
-        command = Command.Command(videomode='default', array=commandArray, env={"SDL_VIDEO_GL_DRIVER":"/usr/lib/libGLESv2.so", "SDL_VIDEO_EGL_DRIVER": "/usr/lib/libGLESv2.so"}, cwdPath=os.path.join(recalboxFiles.amiberryMountPoint,"amiberry"))
+        command = Command.Command(videomode='default', array=commandArray, env={"SDL_VIDEO_GL_DRIVER":"/usr/lib/libGLESv2.so", "SDL_VIDEO_EGL_DRIVER": "/usr/lib/libGLESv2.so"}, cwdPath=os.path.join(recalboxFiles.amiberryMountPoint,"amiberry"), postExec = postExec)
         runner.runCommand(command)
         
         # Handle backup for WHDL
-        if romType == "uae" :
-            whdlGenerator.handleBackup(rom,romFolder,gameName,system.name)
+        # if romType == "uae" :
+            # whdlGenerator.handleBackup(rom,romFolder,gameName,system.name)
         
         sys.exit()
         
