@@ -35,27 +35,29 @@ def generateCD32ControllerConf(fUaeConfig,controller) :
     fUaeConfig.save("input.mouse_speed","100")
     # Custom controls doesn't seem to work at all :)
     fUaeConfig.save("pandora.custom_controls","1")
-    fUaeConfig.save("pandora.custom_up","-"+controller.inputs['up'].id)
-    fUaeConfig.save("pandora.custom_down","-"+controller.inputs['down'].id)
-    fUaeConfig.save("pandora.custom_left","-"+controller.inputs['left'].id)
-    fUaeConfig.save("pandora.custom_right","-"+controller.inputs['right'].id)
-    fUaeConfig.save("pandora.custom_a","-"+controller.inputs['a'].id)
-    fUaeConfig.save("pandora.custom_b","-"+controller.inputs['b'].id)
-    fUaeConfig.save("pandora.custom_x","-"+controller.inputs['x'].id)
-    fUaeConfig.save("pandora.custom_y","-"+controller.inputs['y'].id)
-    fUaeConfig.save("pandora.custom_l","-"+controller.inputs['l2'].id)
-    fUaeConfig.save("pandora.custom_r","-"+controller.inputs['r2'].id)
-    # fUaeConfig.save("pandora.move_x","-"+controller.inputs['pagedown'].id)
-    # fUaeConfig.save("pandora.move_y","-"+controller.inputs['pageup'].id)
-    # ---- Special keys
-    hotkeyId = controller.inputs['hotkey'].id
-    selectId = controller.inputs['select'].id
-    fUaeConfig.save("button_for_menu",selectId)
-    fUaeConfig.save("button_for_quit",hotkeyId)
+    if controller is not None :
+        fUaeConfig.save("pandora.custom_up","-"+controller.inputs['up'].id)
+        fUaeConfig.save("pandora.custom_down","-"+controller.inputs['down'].id)
+        fUaeConfig.save("pandora.custom_left","-"+controller.inputs['left'].id)
+        fUaeConfig.save("pandora.custom_right","-"+controller.inputs['right'].id)
+        fUaeConfig.save("pandora.custom_a","-"+controller.inputs['a'].id)
+        fUaeConfig.save("pandora.custom_b","-"+controller.inputs['b'].id)
+        fUaeConfig.save("pandora.custom_x","-"+controller.inputs['x'].id)
+        fUaeConfig.save("pandora.custom_y","-"+controller.inputs['y'].id)
+        fUaeConfig.save("pandora.custom_l","-"+controller.inputs['l2'].id)
+        fUaeConfig.save("pandora.custom_r","-"+controller.inputs['r2'].id)
+        # fUaeConfig.save("pandora.move_x","-"+controller.inputs['pagedown'].id)
+        # fUaeConfig.save("pandora.move_y","-"+controller.inputs['pageup'].id)
+        # ---- Special keys
+        hotkeyId = controller.inputs['hotkey'].id
+        selectId = controller.inputs['select'].id
+        fUaeConfig.save("button_for_menu",selectId)
+        fUaeConfig.save("button_for_quit",hotkeyId)
     
 def generateSpecialKeys(fUaeConfig,controller) :
-    hotkeyId = controller.inputs['hotkey'].id
-    selectId = controller.inputs['start'].id
-    fUaeConfig.save("button_for_menu",selectId)
-    fUaeConfig.save("button_for_quit",hotkeyId)
+    if controller is not None :
+        hotkeyId = controller.inputs['hotkey'].id
+        selectId = controller.inputs['start'].id
+        fUaeConfig.save("button_for_menu",selectId)
+        fUaeConfig.save("button_for_quit",hotkeyId)
     

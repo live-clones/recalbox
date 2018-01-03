@@ -34,7 +34,11 @@ class AmiberryGenerator(Generator):
         
         print("Launching game <%s> of type <%s> from <%s>" % (gameName,romType,romFolder))
         
-        controller = playersControllers['1']
+        if len(playersControllers) > 0 :
+            controller = playersControllers['1']
+        else :
+            print("No controller found")
+            controller = None
         
         #------------ Launch ADF ------------
         if	romType == "adf" :
@@ -59,23 +63,11 @@ class AmiberryGenerator(Generator):
                 
             cdGenerator.generateCD(rom,romFolder,uaeName,system.name,controller)            
             
-        # mandatory change of current working dir to amiberry's one
-        # os.chdir(os.path.join(recalboxFiles.amiberryMountPoint,"amiberry"))
-        # print("Executing %s in %s" % ("amiberry",os.getcwd()))
-        # os.popen("./amiberry")
-        
         postExec = partial(whdlGenerator.handleBackup, rom,romFolder,gameName,system.name) if romType == "uae" else None
         
+        # mandatory change of current working dir to amiberry's one
+        
         commandArray = [os.path.join(recalboxFiles.amiberryMountPoint,"amiberry","amiberry")]
-        command = Command.Command(videomode='default', array=commandArray, env={"SDL_VIDEO_GL_DRIVER":"/usr/lib/libGLESv2.so", "SDL_VIDEO_EGL_DRIVER": "/usr/lib/libGLESv2.so"}, cwdPath=os.path.join(recalboxFiles.amiberryMountPoint,"amiberry"), postExec = postExec)
-        runner.runCommand(command)
+        return Command.Command(videomode='default', array=commandArray, env={"SDL_VIDEO_GL_DRIVER":"/usr/lib/libGLESv2.so", "SDL_VIDEO_EGL_DRIVER": "/usr/lib/libGLESv2.so"}, cwdPath=os.path.join(recalboxFiles.amiberryMountPoint,"amiberry"), postExec = postExec)        
         
-        # Handle backup for WHDL
-        # if romType == "uae" :
-            # whdlGenerator.handleBackup(rom,romFolder,gameName,system.name)
-        
-        sys.exit()
-        
-        
-        return None
     
