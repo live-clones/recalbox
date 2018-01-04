@@ -1,0 +1,13 @@
+diff --git a/package/kodi-jsonschemabuilder/kodi-jsonschemabuilder.mk b/package/kodi-jsonschemabuilder/kodi-jsonschemabuilder.mk
+index 3bb67d88a1..fcf4888a9c 100644
+--- a/package/kodi-jsonschemabuilder/kodi-jsonschemabuilder.mk
++++ b/package/kodi-jsonschemabuilder/kodi-jsonschemabuilder.mk
+@@ -6,7 +6,7 @@
+ 
+ # Not possible to directly refer to kodi variables, because of
+ # first/second expansion trickery...
+-KODI_JSONSCHEMABUILDER_VERSION = 17.5-Krypton
++KODI_JSONSCHEMABUILDER_VERSION = 17.6-Krypton
+ KODI_JSONSCHEMABUILDER_SITE = $(call github,xbmc,xbmc,$(KODI_JSONSCHEMABUILDER_VERSION))
+ KODI_JSONSCHEMABUILDER_SOURCE = kodi-$(KODI_JSONSCHEMABUILDER_VERSION).tar.gz
+ KODI_JSONSCHEMABUILDER_LICENSE = GPL-2.0
