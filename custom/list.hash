@@ -7,6 +7,10 @@ c445390118f5d058dd372a8b2beb25a8  package/dropbear/S50dropbear
 0ea7196dd64fe170cd98610fd9d7b237  package/eigen/eigen.mk
 67a31e446be2fb1a67bb22828faed0f6  package/ffmpeg/ffmpeg.hash
 548f9fd2b799b03bfbe8a3253c3983d0  package/ffmpeg/ffmpeg.mk
+45fbfa480f2e186cc00e6e0757db715a  package/kodi-jsonschemabuilder/kodi-jsonschemabuilder.mk
+a4d39a4b6d3276ed6ae05bddc201c634  package/kodi-texturepacker/kodi-texturepacker.mk
+f55011c0414fb07462f4f3d072162426  package/kodi/kodi.hash
+f8317226ac9091ba7cf1b1c6f4dea83c  package/kodi/kodi.mk
 48138b23c554c5b7a22a9a478f6cc07d  package/libcec/libcec.mk
 5e097e1d9751c0e15ef1f48a19b6355a  package/linux-firmware/linux-firmware.mk
 2d6b3c999084ca68a26bdeb413ebc533  package/linux-headers/Config.in.host
@@ -23,3 +27,4 @@ e7a440615e0f933be4fd4ca4f576de2e  package/sdl2/sdl2.mk
 a5ec225b9e4b39e8e92ff80f594ac098  package/skeleton-init-common/skeleton-init-common.mk
 00f1333e3129989b007142ee3cb93ddc  support/scripts/mkusers
 2673dc3e7fbc4920c43ad91ad9214d3e  system/device_table.txt
+0a3778d6987ee87c926d51fdaebfbb81  toolchain/toolchain-common.in

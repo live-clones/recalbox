@@ -1,32 +1,13 @@
 diff --git a/package/kodi/kodi.mk b/package/kodi/kodi.mk
-index e0361da..8807202 100644
+index 7da2595ee3..67cbfda6d1 100644
 --- a/package/kodi/kodi.mk
 +++ b/package/kodi/kodi.mk
-@@ -59,6 +59,7 @@ KODI_DEPENDENCIES = \
- 	yajl \
- 	zlib
+@@ -6,7 +6,7 @@
  
-+KODI_DEPENDENCIES += sdl sdl2
- KODI_CONF_ENV = \
- 	PYTHON_VERSION="$(PYTHON_VERSION_MAJOR)" \
- 	PYTHON_LDFLAGS="-lpython$(PYTHON_VERSION_MAJOR) -lpthread -ldl -lutil -lm" \
-@@ -71,7 +72,9 @@ KODI_CONF_ENV = \
- 
- KODI_CONF_OPTS +=  \
- 	--with-ffmpeg=shared \
--	--disable-joystick \
-+	--disable-crystalhd \
-+	--disable-hal \
-+	--enable-joystick \
- 	--disable-openmax \
- 	--disable-pulse \
- 	--disable-vtbdecoder \
-@@ -225,7 +228,7 @@ KODI_CONF_OPTS += --disable-libcec
- endif
- 
- ifeq ($(BR2_PACKAGE_KODI_LIRC),y)
--KODI_CONF_OPTS += --enable-lirc
-+KODI_CONF_OPTS += --with-lirc-device=/var/run/lirc/lircd
- else
- KODI_CONF_OPTS += --disable-lirc
- endif
+ # When updating the version, please also update kodi-jsonschemabuilder
+ # and kodi-texturepacker
+-KODI_VERSION = 17.5-Krypton
++KODI_VERSION = 17.6-Krypton
+ KODI_SITE = $(call github,xbmc,xbmc,$(KODI_VERSION))
+ KODI_LICENSE = GPL-2.0
+ KODI_LICENSE_FILES = LICENSE.GPL
