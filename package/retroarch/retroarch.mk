@@ -33,7 +33,7 @@ endif
 ifeq ($(BR2_cortex_a7),y)
         RETROARCH_CONF_OPTS += --enable-neon --enable-floathard
 endif
-ifeq ($(BR2_cortex_a53),y)
+ifeq ($(BR2_arm)$(BR2_cortex_a53),yy)
         RETROARCH_CONF_OPTS += --enable-neon --enable-floathard
 endif
 
@@ -111,7 +111,7 @@ else
 RETROARCH_CONF_OPTS += --disable-zlib
 endif
 
-ifeq ($(BR2_PACKAGE_UDEV),y)
+ifeq ($(BR2_PACKAGE_HAS_UDEV),y)
 RETROARCH_DEPENDENCIES += udev
 endif
 
@@ -138,7 +138,7 @@ define RETROARCH_CONFIGURE_CMDS
 		$(TARGET_CONFIGURE_OPTS) \
 		CFLAGS="$(TARGET_CFLAGS)" \
 		LDFLAGS="$(TARGET_LDFLAGS) -lc" \
-		CROSS_COMPILE="$(HOST_DIR)/usr/bin/" \
+		CROSS_COMPILE="$(HOST_DIR)/bin/" \
 		PKG_CONFIG_PATH="$(STAGING_DIR)/usr/lib/pkgconfig/" \
 		./configure \
 		--prefix=/usr \
@@ -188,11 +188,11 @@ ifeq ($(BR2_cortex_a15),y)
         LIBRETRO_PLATFORM += armv7
 endif
 
-ifeq ($(BR2_aarch64),y)
+ifeq ($(BR2_aarch64)$(BR2_cortex_a53),yy)
         LIBRETRO_PLATFORM += unix
 endif
 
-ifeq ($(BR2_cortex_a53),y)
+ifeq ($(BR2_arm)$(BR2_cortex_a53),yy)
         LIBRETRO_PLATFORM += armv8
 endif
 

@@ -62,7 +62,7 @@ c2_fusing() {
 
     if [ ! -f "${RECALBOXIMG}" ] ; then
         echo "Can't fuse: missing ${RECALBOXIMG}"
-	exit 1
+        exit 1
     fi
     # fusing
     signed_bl1_position=1
@@ -70,12 +70,6 @@ c2_fusing() {
     uboot_position=97
     BL1="${BINARIES_DIR}/bl1.bin.hardkernel"
     UBOOT="${BINARIES_DIR}/u-boot.bin"
-
-    #echo "BL1 fusing"
-    #dd if="${BINARIES_DIR}/bl1.bin.hardkernel" of="${RECALBOXIMG}" seek=$signed_bl1_position skip=$signed_bl1_skip conv=notrunc || return 1
-
-    #echo "u-boot fusing"
-    #dd if="${BINARIES_DIR}/u-boot.bin"         of="${RECALBOXIMG}" seek=$uboot_position                            conv=notrunc || return 1
 
     echo "fusing c2 image ..."
     dd if=$BL1   of="$RECALBOXIMG" conv=fsync,notrunc bs=1   count=442
@@ -132,19 +126,12 @@ case "${RECALBOX_TARGET}" in
         (cd "${BINARIES_DIR}" && tar -cJf "${RECALBOX_BINARIES_DIR}/boot.tar.xz" boot.ini zImage exynos5422-odroidxu4.dtb recalbox-boot.conf) || exit 1
 
         # recalbox.img
-        support/scripts/genimage.sh -c "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/xu4/genimage.cfg" || exit 1
+	support/scripts/genimage.sh -c "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/xu4/genimage.cfg" || exit 1
         xu4_fusing "${BINARIES_DIR}" "${RECALBOX_IMG}" || exit 1
         sync || exit 1
         ;;
 
     C2)
-        # dirty boot binary files
-        ubootId=`grep "BR2_TARGET_UBOOT_VERSION" "$BR2_CONFIG" | cut -d "=" -f 2- | tr -d '"'`
-        for F in bl1.bin.hardkernel u-boot.bin
-        do
-            #cp "${BUILD_DIR}/uboot-odroidc2-v2015.01/sd_fuse/${F}" "${BINARIES_DIR}" || exit 1
-            cp "${BUILD_DIR}/uboot-${ubootId}/sd_fuse/${F}" "${BINARIES_DIR}" || exit 1
-        done
         cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/c2/boot-logo.bmp.gz" ${BINARIES_DIR} || exit 1
 
         # /boot
@@ -205,4 +192,4 @@ fi
 # Computing hash sums to make have an update that can be dropped on a running Recalbox
 echo "Computing sha1 sums ..."
 for file in "${RECALBOX_BINARIES_DIR}"/* ; do sha1sum "${file}" > "${file}.sha1"; done
-tar tf "${RECALBOX_BINARIES_DIR}/root.tar.xz" | sort > "${RECALBOX_BINARIES_DIR}/root.list"
+[[ -e "${RECALBOX_BINARIES_DIR}/root.tar.xz" ]] && tar tf "${RECALBOX_BINARIES_DIR}/root.tar.xz" | sort > "${RECALBOX_BINARIES_DIR}/root.list"
