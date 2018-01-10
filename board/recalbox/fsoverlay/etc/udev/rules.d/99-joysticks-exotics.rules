@@ -9,3 +9,7 @@ SUBSYSTEM=="input", ATTRS{name}=="GamePad", MODE="0666", ENV{ID_INPUT_JOYSTICK}=
 SUBSYSTEM=="input", ATTRS{name}=="TOMMO NEOGEOX Arcade Stick", MODE="0666", ENV{ID_INPUT_JOYSTICK}="1"
 #Mad Catz C.T.R.L.R gamepad
 SUBSYSTEM=="input", ATTRS{name}=="Mad Catz C.T.R.L.R", MODE="0666", ENV{ID_INPUT_JOYSTICK}="1"
+# iPEGA 9055
+SUBSYSTEM=="input", ATTRS{name}=="ipega media gamepad controller", MODE="0666", ENV{ID_INPUT_JOYSTICK}="1"
+# OUYA gamepad
+SUBSYSTEM=="input", ATTRS{name}=="OUYA Game Controller", MODE="0666", ENV{ID_INPUT_JOYSTICK}="1"

@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+- Added mame2010 libretro core on all boards excepted rpi0/1
+- X86: Added Nintendo DS support libretro cores desmume and melonds
+- Replaced intro video for christmas release
+- Added ipega 9055 udev rule
+- Added quirk for micreal arcade dual
+- Added udev rule for the OUYA gamepad
 ## Next version unreleased yet
 - Wifi is now started before accessing network shares
 

@@ -1,0 +1,12 @@
+config BR2_PACKAGE_LIBRETRO_DESMUME
+	bool "libretro-desmume"
+	depends on BR2_PACKAGE_RETROARCH
+	depends on BR2_INSTALL_LIBSTDCPP
+	select BR2_PACKAGE_RECALBOX_ROMFS_NDS
+	help
+	  A libretro nintendo DS emulator core.
+
+	  http://www.libretro.com
+
+comment "LIBRETRO_DESMUME needs a toolchain w/ C++"
+	depends on !BR2_INSTALL_LIBSTDCPP
