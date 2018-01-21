@@ -82,6 +82,7 @@ emulators["o2em"] = Emulator(name='odyssey2', emulator='libretro', core='o2em')
 emulators["zx81"] = Emulator(name='zx81', emulator='libretro', core='81')
 emulators["dos"] = Emulator(name='dos', emulator='dosbox', videomode='default')
 emulators["c64"] = Emulator(name='c64', emulator='libretro', core='vice_x64')
+emulators["x68000"] = Emulator(name='x68000', emulator='libretro', core='px68k')
 #
 emulators["ngp"] = Emulator(name='ngp', emulator='libretro', core='mednafen_ngp')
 emulators["ngpc"] = Emulator(name='ngpc', emulator='libretro', core='mednafen_ngp')
