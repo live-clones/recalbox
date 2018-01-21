@@ -1,0 +1,9 @@
+## RECALBOX - SYSTEM SHARP X68000 ##
+
+Placez ici vos roms sharp x68000.
+
+Les roms doivent avoir l'extension ".dim/.zip/.img/.d88/.88d/.hdm/.dup/.2hd/.xdf/.hdf/.cmd/.m3u"
+
+Ce système supporte également les roms compressées au format .zip.
+Attention toutefois, il ne s'agit que d'une archive. Les fichiers contenus dans les .zip doivent correspondre aux extensions citées précédemment.
+De plus, chaque fichier .zip ne doit contenir qu'une seule rom compressée.

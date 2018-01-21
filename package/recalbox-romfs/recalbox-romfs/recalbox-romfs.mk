@@ -393,6 +393,11 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_WSWAN),)
         RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-wswanc
 endif
 
+# System: x68000
+ifneq ($(BR2_PACKAGE_LIBRETRO_PX68K),)
+	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-x68000
+endif
+
 # System: zx81
 ifneq ($(BR2_PACKAGE_LIBRETRO_81),)
         RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-zx81
