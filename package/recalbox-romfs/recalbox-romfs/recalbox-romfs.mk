@@ -118,14 +118,14 @@ define RECALBOX_ROMFS_ES_SYSTEMS
 	"</system>\n" \
 	'</systemList>' >>  $(ES_SYSTEMS_TMP)
 	xmllint --format $(ES_SYSTEMS_TMP) > $(ES_SYSTEMS)
-	
+
 endef
 RECALBOX_ROMFS_CONFIGURE_CMDS += $(RECALBOX_ROMFS_ES_SYSTEMS)
 
 # Copy rom dirs
 define RECALBOX_ROMFS_ROM_DIRS
 	cp -R $(@D)/../recalbox-romfs-*/roms $(@D)
-	
+
 endef
 RECALBOX_ROMFS_CONFIGURE_CMDS += $(RECALBOX_ROMFS_ROM_DIRS)
 
@@ -139,7 +139,7 @@ endef
 
 # Add necessary dependencies
 # System: amstradcpc
-ifneq ($(BR2_PACKAGE_LIBRETRO_CAP32),)
+ifneq ($(BR2_PACKAGE_LIBRETRO_CAP32)$(BR2_PACKAGE_LIBRETRO_CROCODS),)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-amstradcpc
 endif
 

@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added ipega 9055 udev rule
 - Added quirk for micreal arcade dual
 - Added udev rule for the OUYA gamepad
+- Added new Amstrad CPC core: crocods
 
 ## [17.12.02] - 2017-12-02
 - fixed steam controller service auto start, fixes lag in ES
