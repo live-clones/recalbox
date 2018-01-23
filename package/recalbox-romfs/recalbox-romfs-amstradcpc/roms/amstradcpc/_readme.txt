@@ -2,7 +2,7 @@
 
 Put your amstrad cpc roms in this directory.
 
-Rom files must have a ".dsk/.zip" extension.
+Rom files must have a ".dsk/.kcr/.zip" extension.
 
 This system allows to use compressed roms on .zip.
 But, it is only an archive. Files inside the .zip must match with extensions mentioned above.

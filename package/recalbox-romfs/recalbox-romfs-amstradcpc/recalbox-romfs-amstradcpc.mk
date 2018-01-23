@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system amstradcpc --extension '.dsk .DSK .zip .ZIP' --fullname 'AmstradCPC' --platform amstradcpc --theme amstradcpc libretro:cap32:BR2_PACKAGE_LIBRETRO_CAP32
+# ./scripts/linux/empack.py --system amstradcpc --extension '.dsk .DSK .zip .ZIP .kcr .KCR' --fullname 'AmstradCPC' --platform amstradcpc --theme amstradcpc libretro:cap32:BR2_PACKAGE_LIBRETRO_CAP32 libretro:crocods:BR2_PACKAGE_LIBRETRO_CROCODS
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_AMSTRADCPC_SOURCE = 
@@ -21,15 +21,21 @@ SOURCE_ROMDIR_AMSTRADCPC = $(RECALBOX_ROMFS_AMSTRADCPC_PKGDIR)/roms
 # variables are global across buildroot
 
 
-ifneq ($(BR2_PACKAGE_LIBRETRO_CAP32),)
+ifneq ($(BR2_PACKAGE_LIBRETRO_CAP32)$(BR2_PACKAGE_LIBRETRO_CROCODS),)
 define CONFIGURE_MAIN_AMSTRADCPC_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_AMSTRADCPC),AmstradCPC,$(SYSTEM_NAME_AMSTRADCPC),.dsk .DSK .zip .ZIP,amstradcpc,amstradcpc)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_AMSTRADCPC),AmstradCPC,$(SYSTEM_NAME_AMSTRADCPC),.dsk .DSK .zip .ZIP .kcr .KCR,amstradcpc,amstradcpc)
 endef
 
-ifneq ($(BR2_PACKAGE_LIBRETRO_CAP32),)
+ifneq ($(BR2_PACKAGE_LIBRETRO_CAP32)$(BR2_PACKAGE_LIBRETRO_CROCODS),)
 define CONFIGURE_AMSTRADCPC_LIBRETRO_START
 	$(call RECALBOX_ROMFS_CALL_START_EMULATOR,$(SYSTEM_XML_AMSTRADCPC),libretro)
 endef
+ifeq ($(BR2_PACKAGE_LIBRETRO_CROCODS),y)
+define CONFIGURE_AMSTRADCPC_LIBRETRO_CROCODS_DEF
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_AMSTRADCPC),crocods)
+endef
+endif
+
 ifeq ($(BR2_PACKAGE_LIBRETRO_CAP32),y)
 define CONFIGURE_AMSTRADCPC_LIBRETRO_CAP32_DEF
 	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_AMSTRADCPC),cap32)
@@ -51,6 +57,7 @@ endif
 define RECALBOX_ROMFS_AMSTRADCPC_CONFIGURE_CMDS
 	$(CONFIGURE_MAIN_AMSTRADCPC_START)
 	$(CONFIGURE_AMSTRADCPC_LIBRETRO_START)
+	$(CONFIGURE_AMSTRADCPC_LIBRETRO_CROCODS_DEF)
 	$(CONFIGURE_AMSTRADCPC_LIBRETRO_CAP32_DEF)
 	$(CONFIGURE_AMSTRADCPC_LIBRETRO_END)
 	$(CONFIGURE_MAIN_AMSTRADCPC_END)
