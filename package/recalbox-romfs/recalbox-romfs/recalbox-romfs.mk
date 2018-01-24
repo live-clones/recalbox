@@ -408,5 +408,9 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_FUSE),)
         RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-zxspectrum
 endif
 
+# System: 3do
+ifneq ($(BR2_PACKAGE_LIBRETRO_4DO),)
+	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-3do
+endif
 
 $(eval $(generic-package))

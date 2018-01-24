@@ -73,7 +73,7 @@ Thanks to read the "readme.txt" file present in the "/roms/colecovision" folder 
 
 - DREAMCAST :
 e10c53c2f8b90bab96ead2d368858623  dc_boot.bin
-d6e11a23f1fa01cddb5dfccf7e4cc8d7  dc_flash.bin
+0a93f7940c455905bea6e392dfde92a4  dc_flash.bin
 
 - Nintendo DS (X86/X86_64 Only) :
 df692a80a5b1bc90728bc3dfc76cd948  bios7.bin
@@ -85,3 +85,10 @@ Bios files must be placed in a subfolder named "keropi"
 
 7fd4caabac1d9169e289f0f7bbf71d8e  keropi/iplrom.dat
 cb0a5cfcf7247a7eab74bb2716260269  keropi/cgrom.dat
+
+- PANASONIC 3DO :
+8639fd5e549bd6238cfee79e3e749114  goldstar.bin
+51f2f43ae2f3508a14d9f56597e2d3ce  panafz10.bin
+f47264dd47fe30f73ab3c010015c155b  panafz1.bin
+35fa1a1ebaaeea286dc5cd15487c13ea  sanyotry.bin
+
