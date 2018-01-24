@@ -2,6 +2,7 @@ config BR2_PACKAGE_LIBRETRO_4DO
         bool "libretro-4do"
 	depends on BR2_PACKAGE_RETROARCH
 	depends on BR2_INSTALL_LIBSTDCPP
+	select BR2_PACKAGE_RECALBOX_ROMFS_3DO
         help
           A libretro 3DO emulator core for ARM.
 
