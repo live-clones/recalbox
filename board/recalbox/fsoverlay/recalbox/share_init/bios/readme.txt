@@ -73,9 +73,16 @@ Thanks to read the "readme.txt" file present in the "/roms/colecovision" folder 
 
 - DREAMCAST :
 e10c53c2f8b90bab96ead2d368858623  dc_boot.bin
-d6e11a23f1fa01cddb5dfccf7e4cc8d7  dc_flash.bin
+0a93f7940c455905bea6e392dfde92a4  dc_flash.bin
 
 - Nintendo DS (X86/X86_64 Only) :
 df692a80a5b1bc90728bc3dfc76cd948  bios7.bin
 a392174eb3e572fed6447e956bde4b25  bios9.bin
 e45033d9b0fa6b0de071292bba7c9d13  firmware.bin
+
+- PANASONIC 3DO :
+8639fd5e549bd6238cfee79e3e749114  goldstar.bin
+51f2f43ae2f3508a14d9f56597e2d3ce  panafz10.bin
+f47264dd47fe30f73ab3c010015c155b  panafz1.bin
+35fa1a1ebaaeea286dc5cd15487c13ea  sanyotry.bin
+

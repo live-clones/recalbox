@@ -123,6 +123,7 @@ menu "Libretro Cores"
         source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-mame2010/Config.in"
         source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-desmume/Config.in"
         source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-melonds/Config.in"
+	source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-4do/Config.in"
 endmenu
 endif
 menu "Doom packages"

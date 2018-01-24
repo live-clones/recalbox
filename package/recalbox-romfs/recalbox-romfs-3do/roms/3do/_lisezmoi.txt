@@ -1,0 +1,5 @@
+## RECALBOX - SYSTEM 3DO ##
+
+Placez ici vos roms Panasonic 3DO.
+
+Les roms doivent avoir l'extension ".iso/.bin/.cue"
