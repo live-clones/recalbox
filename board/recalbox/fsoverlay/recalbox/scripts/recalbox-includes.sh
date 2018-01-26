@@ -116,3 +116,34 @@ function upgradeRetroarchCoreNames {
     echo "$coreName;$rbxsystem;$coreVersion" >> "$OUTPUT"
   done
 }
+
+function fuseC2 {
+  BL1="/boot/bl1.bin.hardkernel"
+  UBOOT="/boot/u-boot.bin"
+
+  # Make sure the required files exist
+  if [[ ! -f $BL1 || ! -f $UBOOT ]] ; then
+    recallog "ERROR: couldn't update U-Boot as some files were missing, aborting"
+    return 1
+  fi
+
+  # Find the device corresponding to the card
+  bootDev=`/recalbox/scripts/recalbox-part.sh boot`
+  diskDevice=`/recalbox/scripts/recalbox-part.sh prefix "$bootDev"`
+  
+  if ! echo "$diskDevice" | grep -q "^/dev/" ; then
+    recallog "ERROR: could not find the device of /boot, aborting"
+    return 1
+  fi
+
+  # We're all set !
+  recallog "Updating U-Boot ..."
+  dd if=$BL1   of="$diskDevice" conv=fsync,notrunc bs=1   count=442 && \
+  dd if=$BL1   of="$diskDevice" conv=fsync,notrunc bs=512 skip=1 seek=1 && \
+  dd if=$UBOOT of="$diskDevice" conv=fsync,notrunc bs=512 seek=97 && \
+  recallog "SUCCESS: U-boot has been updated" && return 0
+
+  # if we're here, something failed in the dd
+  recallog "ERROR: couldn't update U-Boot"
+  return 1
+}

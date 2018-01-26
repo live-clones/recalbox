@@ -194,26 +194,40 @@ index 0000000..083749a
 + private:
 +  bool _GetNativeResolution(RESOLUTION_INFO *res) const;
 +};
+diff --git a/xbmc/windowing/egl/CMakeLists.txt b/xbmc/windowing/egl/CMakeLists.txt
+index 51e13abb86..da19e6aa45 100644
+--- a/xbmc/windowing/egl/CMakeLists.txt
++++ b/xbmc/windowing/egl/CMakeLists.txt
+@@ -35,6 +35,9 @@ if(IMX_FOUND)
+   list(APPEND HEADERS EGLNativeTypeIMX.h)
+ endif()
+ 
++list(APPEND SOURCES EGLNativeTypeMali.cpp)
++list(APPEND HEADERS EGLNativeTypeMali.h)
++
+ if(SOURCES)
+   core_add_library(windowing_egl)
+ endif()
+
 diff --git a/xbmc/windowing/egl/EGLWrapper.cpp b/xbmc/windowing/egl/EGLWrapper.cpp
-index 036d4b9..b060766 100644
+index 30f57577d6..56e9b60b2e 100644
 --- a/xbmc/windowing/egl/EGLWrapper.cpp
 +++ b/xbmc/windowing/egl/EGLWrapper.cpp
-@@ -36,6 +36,9 @@
- #if defined(HAS_IMXVPU)
-   #include "EGLNativeTypeIMX.h"
- #endif
-+
-+#include "EGLNativeTypeMali.h"
-+
+@@ -37,6 +37,7 @@
+ #if defined(TARGET_LINUX) && defined(HAS_LIBAMCODEC)
  #include "EGLNativeTypeAmlogic.h"
+ #endif
++#include "EGLNativeTypeMali.h"
  #include "EGLWrapper.h"
  
-@@ -105,6 +108,7 @@ bool CEGLWrapper::Initialize(const std::string &implementation)
- #if defined(HAS_IMXVPU)
-       (nativeGuess = CreateEGLNativeType<CEGLNativeTypeIMX>(implementation)) ||
- #endif
-+      (nativeGuess = CreateEGLNativeType<CEGLNativeTypeMali>(implementation)) ||
+ #define CheckError() m_result = eglGetError(); if(m_result != EGL_SUCCESS) CLog::Log(LOGERROR, "EGL error in %s: %x",__FUNCTION__, m_result);
+@@ -101,6 +102,8 @@ bool CEGLWrapper::Initialize(const std::string &implementation)
+       (nativeGuess = CreateEGLNativeType<CEGLNativeTypeIMX>(implementation))
+ #elif defined(TARGET_LINUX) && defined(HAS_LIBAMCODEC)
        (nativeGuess = CreateEGLNativeType<CEGLNativeTypeAmlogic>(implementation))
++#else
++      (nativeGuess = CreateEGLNativeType<CEGLNativeTypeMali>(implementation))
+ #endif
        )
    {
 diff --git a/xbmc/windowing/egl/Makefile.in b/xbmc/windowing/egl/Makefile.in

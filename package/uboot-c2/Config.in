@@ -1,5 +1,5 @@
 config BR2_PACKAGE_UBOOT_C2
-	bool "Pre-built IU-Boot for Odroid C2"
+	bool "Pre-built U-Boot for Odroid C2"
 	help
 	  Pre-built uboot binaries for C2 for GCC >= 5.x
 

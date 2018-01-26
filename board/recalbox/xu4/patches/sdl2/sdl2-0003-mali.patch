@@ -2,24 +2,24 @@ diff --git a/CMakeLists.txt b/CMakeLists.txt
 index c13f4e6..735453d 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -246,7 +246,8 @@ endforeach()
+@@ -329,7 +329,8 @@ endforeach()
  set_option(VIDEO_COCOA         "Use Cocoa video driver" ${APPLE})
  set_option(DIRECTX             "Use DirectX for Windows audio/video" ${WINDOWS})
  set_option(RENDER_D3D          "Enable the Direct3D render driver" ${WINDOWS})
  set_option(VIDEO_VIVANTE       "Use Vivante EGL video driver" ${UNIX_SYS})
 +set_option(VIDEO_MALI          "Use Mali EGL video driver" ${UNIX_SYS})
- 
- # TODO: We should (should we?) respect cmake's ${BUILD_SHARED_LIBS} flag here
- # The options below are for compatibility to configure's default behaviour.
-@@ -663,7 +664,8 @@ if(UNIX AND NOT APPLE)
+ dep_option(VIDEO_VULKAN        "Enable Vulkan support" ON "ANDROID OR APPLE OR LINUX OR WINDOWS" OFF)
+ set_option(VIDEO_KMSDRM        "Use KMS DRM video driver" ${UNIX_SYS})
+ dep_option(KMSDRM_SHARED       "Dynamically load KMS DRM support" ON "VIDEO_KMSDRM" OFF)
+@@ -974,7 +974,8 @@ if(UNIX AND NOT APPLE)
      CheckOpenGLX11()
      CheckOpenGLESX11()
      CheckWayland()
      CheckVivante()
 +    CheckMali()
+     CheckKMSDRM()
    endif()
  
-   if(LINUX)
 diff --git a/cmake/sdlchecks.cmake b/cmake/sdlchecks.cmake
 index 2cd09e6..8e36850 100644
 --- a/cmake/sdlchecks.cmake
@@ -133,15 +133,15 @@ index 42d781f..db65b92 100755
  CheckHaikuVideo()
  {
      if test x$enable_video = xyes; then
-@@ -22587,7 +22639,8 @@ case "$host" in
+@@ -22587,7 +23854,8 @@ case "$host" in
          CheckClockGettime
          CheckLinuxVersion
          CheckRPATH
          CheckVivanteVideo
 +        CheckMaliVideo
+ 
          # Set up files for the audio library
          if test x$enable_audio = xyes; then
-           case $ARCH in
 diff --git a/configure.in b/configure.in
 index f0bfd6f..3a356b0 100644
 --- a/configure.in
@@ -182,15 +182,15 @@ index f0bfd6f..3a356b0 100644
  dnl Set up the Haiku video driver if enabled
  CheckHaikuVideo()
  {
-@@ -2685,7 +2714,8 @@ case "$host" in
+@@ -2685,7 +3352,8 @@ case "$host" in
          CheckClockGettime
          CheckLinuxVersion
          CheckRPATH
          CheckVivanteVideo
 +        CheckMaliVideo
+ 
          # Set up files for the audio library
          if test x$enable_audio = xyes; then
-           case $ARCH in
 diff --git a/include/SDL_config.h.cmake b/include/SDL_config.h.cmake
 index 41bc9e1..a080efc 100644
 --- a/include/SDL_config.h.cmake
@@ -207,10 +207,10 @@ diff --git a/include/SDL_config.h.in b/include/SDL_config.h.in
 index 9ad2d3d..1755b02 100644
 --- a/include/SDL_config.h.in
 +++ b/include/SDL_config.h.in
-@@ -272,8 +272,9 @@
- #undef SDL_VIDEO_DRIVER_MIR_DYNAMIC_XKBCOMMON
- #undef SDL_VIDEO_DRIVER_X11
- #undef SDL_VIDEO_DRIVER_RPI
+@@ -308,8 +308,9 @@
+ #undef SDL_VIDEO_DRIVER_KMSDRM
+ #undef SDL_VIDEO_DRIVER_KMSDRM_DYNAMIC
+ #undef SDL_VIDEO_DRIVER_KMSDRM_DYNAMIC_GBM
  #undef SDL_VIDEO_DRIVER_ANDROID
  #undef SDL_VIDEO_DRIVER_EMSCRIPTEN
 +#undef SDL_VIDEO_DRIVER_MALI
@@ -236,16 +236,14 @@ diff --git a/src/video/SDL_sysvideo.h b/src/video/SDL_sysvideo.h
 index 3ff352a..610398b 100644
 --- a/src/video/SDL_sysvideo.h
 +++ b/src/video/SDL_sysvideo.h
-@@ -372,6 +372,9 @@ extern VideoBootStrap PSP_bootstrap;
- #if SDL_VIDEO_DRIVER_RPI
- extern VideoBootStrap RPI_bootstrap;
- #endif
-+#if SDL_VIDEO_DRIVER_MALI
+@@ -408,6 +408,7 @@ extern VideoBootStrap PSP_bootstrap;
+ extern VideoBootStrap HAIKU_bootstrap;
+ extern VideoBootStrap PND_bootstrap;
+ extern VideoBootStrap UIKIT_bootstrap;
 +extern VideoBootStrap MALI_bootstrap;
-+#endif
- #if SDL_VIDEO_DRIVER_DUMMY
- extern VideoBootStrap DUMMY_bootstrap;
- #endif
+ extern VideoBootStrap Android_bootstrap;
+ extern VideoBootStrap PSP_bootstrap;
+ extern VideoBootStrap RPI_bootstrap;
 diff --git a/src/video/SDL_video.c b/src/video/SDL_video.c
 index 7426e2f..e35c5b8 100644
 --- a/src/video/SDL_video.c
@@ -298,7 +296,7 @@ index 0000000..d64231a
 +int
 +MALI_GLES_LoadLibrary(_THIS, const char *path)
 +{
-+    return SDL_EGL_LoadLibrary(_this, path, EGL_DEFAULT_DISPLAY);
++    return SDL_EGL_LoadLibrary(_this, path, EGL_DEFAULT_DISPLAY, 0);
 +}
 +
 +SDL_EGL_CreateContext_impl(MALI)
@@ -355,7 +353,7 @@ index 0000000..e9568e3
 +
 +extern int MALI_GLES_LoadLibrary(_THIS, const char *path);
 +extern SDL_GLContext MALI_GLES_CreateContext(_THIS, SDL_Window * window);
-+extern void MALI_GLES_SwapWindow(_THIS, SDL_Window * window);
++extern int MALI_GLES_SwapWindow(_THIS, SDL_Window * window);
 +extern int MALI_GLES_MakeCurrent(_THIS, SDL_Window * window, SDL_GLContext context);
 +
 +#endif /* SDL_VIDEO_DRIVER_MALI && SDL_VIDEO_OPENGL_EGL */
@@ -368,7 +366,7 @@ new file mode 100644
 index 0000000..9802b51
 --- /dev/null
 +++ b/src/video/mali-fbdev/SDL_malivideo.c
-@@ -0,0 +1,321 @@
+@@ -0,0 +1,329 @@
 +/*
 +  Simple DirectMedia Layer
 +  Copyright (C) 1997-2014 Sam Lantinga <slouken@libsdl.org>
@@ -449,7 +447,8 @@ index 0000000..9802b51
 +    device->VideoQuit = MALI_VideoQuit;
 +    device->GetDisplayModes = MALI_GetDisplayModes;
 +    device->SetDisplayMode = MALI_SetDisplayMode;
-+    device->CreateWindow = MALI_CreateWindow;
++    device->CreateSDLWindow = MALI_CreateSDLWindow;
++    device->CreateSDLWindowFrom = MALI_CreateSDLWindowFrom;
 +    device->SetWindowTitle = MALI_SetWindowTitle;
 +    device->SetWindowPosition = MALI_SetWindowPosition;
 +    device->SetWindowSize = MALI_SetWindowSize;
@@ -474,8 +473,8 @@ index 0000000..9802b51
 +}
 +
 +VideoBootStrap MALI_bootstrap = {
-+    "mali",
-+    "Mali EGL Video Driver",
++    "MALI",
++    "MALI EGL Video Driver",
 +    MALI_Available,
 +    MALI_Create
 +};
@@ -490,17 +489,18 @@ index 0000000..9802b51
 +    SDL_VideoDisplay display;
 +    SDL_DisplayMode current_mode;
 +    SDL_DisplayData *data;
++    int fd;
++    struct fb_var_screeninfo vinfo;
 +
 +    data = (SDL_DisplayData *) SDL_calloc(1, sizeof(SDL_DisplayData));
 +    if (data == NULL) {
 +        return SDL_OutOfMemory();
 +    }
 +
-+    int fd = open("/dev/fb0", O_RDWR, 0);
++    fd = open("/dev/fb0", O_RDWR, 0);
 +    if (fd < 0) {
 +        return SDL_SetError("mali-fbdev: Could not open framebuffer device");
 +    }
-+    struct fb_var_screeninfo vinfo;
 +    if (ioctl(fd, FBIOGET_VSCREENINFO, &vinfo) < 0) {
 +        MALI_VideoQuit(_this);
 +        return SDL_SetError("mali-fbdev: Could not get framebuffer information");
@@ -575,7 +575,7 @@ index 0000000..9802b51
 +}
 +
 +int
-+MALI_CreateWindow(_THIS, SDL_Window * window)
++MALI_CreateSDLWindow(_THIS, SDL_Window * window)
 +{
 +    SDL_WindowData *windowdata;
 +    SDL_DisplayData *displaydata;
@@ -616,6 +616,12 @@ index 0000000..9802b51
 +
 +    /* Window has been successfully created */
 +    return 0;
++}
++
++int
++MALI_CreateSDLWindowFrom(_THIS, SDL_Window * window, const void *data)
++{
++    return -1;
 +}
 +
 +void
@@ -695,7 +701,7 @@ new file mode 100644
 index 0000000..62a2920
 --- /dev/null
 +++ b/src/video/mali-fbdev/SDL_malivideo.h
-@@ -0,0 +1,77 @@
+@@ -0,0 +1,78 @@
 +/*
 +  Simple DirectMedia Layer
 +  Copyright (C) 1997-2014 Sam Lantinga <slouken@libsdl.org>
@@ -754,7 +760,8 @@ index 0000000..62a2920
 +void MALI_VideoQuit(_THIS);
 +void MALI_GetDisplayModes(_THIS, SDL_VideoDisplay * display);
 +int MALI_SetDisplayMode(_THIS, SDL_VideoDisplay * display, SDL_DisplayMode * mode);
-+int MALI_CreateWindow(_THIS, SDL_Window * window);
++int MALI_CreateSDLWindow(_THIS, SDL_Window * window);
++int MALI_CreateSDLWindowFrom(_THIS, SDL_Window * window, const void * data);
 +void MALI_SetWindowTitle(_THIS, SDL_Window * window);
 +void MALI_SetWindowPosition(_THIS, SDL_Window * window);
 +void MALI_SetWindowSize(_THIS, SDL_Window * window);
