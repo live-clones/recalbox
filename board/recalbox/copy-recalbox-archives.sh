@@ -30,16 +30,16 @@ xu4_fusing() {
     env_position=1231
 
     echo "BL1 fusing"
-    dd if="${BINARIES_DIR}/bl1.bin.hardkernel"            of="${RECALBOXIMG}" seek=$signed_bl1_position conv=notrunc || return 1
+    dd if="${BINARIES_DIR}/bl1.bin.hardkernel"    of="${RECALBOXIMG}" seek=$signed_bl1_position conv=notrunc || return 1
 
     echo "BL2 fusing"
-    dd if="${BINARIES_DIR}/bl2.bin.hardkernel.720k_uboot" of="${RECALBOXIMG}" seek=$bl2_position        conv=notrunc || return 1
+    dd if="${BINARIES_DIR}/bl2.bin.hardkernel"    of="${RECALBOXIMG}" seek=$bl2_position        conv=notrunc || return 1
 
     echo "u-boot fusing"
-    dd if="${BINARIES_DIR}/u-boot.bin.hardkernel"         of="${RECALBOXIMG}" seek=$uboot_position      conv=notrunc || return 1
+    dd if="${BINARIES_DIR}/u-boot.bin.hardkernel" of="${RECALBOXIMG}" seek=$uboot_position      conv=notrunc || return 1
 
     echo "TrustZone S/W fusing"
-    dd if="${BINARIES_DIR}/tzsw.bin.hardkernel"           of="${RECALBOXIMG}" seek=$tzsw_position       conv=notrunc || return 1
+    dd if="${BINARIES_DIR}/tzsw.bin.hardkernel"   of="${RECALBOXIMG}" seek=$tzsw_position       conv=notrunc || return 1
 
     echo "u-boot env erase"
     dd if=/dev/zero of="${RECALBOXIMG}" seek=$env_position count=32 bs=512 conv=notrunc || return 1
@@ -109,13 +109,6 @@ case "${RECALBOX_TARGET}" in
         ;;
 
     XU4)
-        ubootId=`grep "BR2_TARGET_UBOOT_VERSION" "$BR2_CONFIG" | cut -d "=" -f 2- | tr -d '"'`
-        # dirty boot binary files
-        for F in bl1.bin.hardkernel bl2.bin.hardkernel.720k_uboot tzsw.bin.hardkernel u-boot.bin.hardkernel
-        do
-            cp "${BUILD_DIR}/uboot-${ubootId}/sd_fuse/${F}" "${BINARIES_DIR}" || exit 1
-        done
-
         # /boot
         cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/xu4/boot.ini" ${BINARIES_DIR}/boot.ini || exit 1
 
@@ -123,11 +116,11 @@ case "${RECALBOX_TARGET}" in
         cp "${BINARIES_DIR}/rootfs.tar.xz" "${RECALBOX_BINARIES_DIR}/root.tar.xz" || exit 1
 
         # boot.tar.xz
-        (cd "${BINARIES_DIR}" && tar -cJf "${RECALBOX_BINARIES_DIR}/boot.tar.xz" boot.ini zImage exynos5422-odroidxu4.dtb recalbox-boot.conf) || exit 1
+        (cd "${BINARIES_DIR}" && tar -cJf "${RECALBOX_BINARIES_DIR}/boot.tar.xz" boot.ini zImage exynos5422-odroidxu3.dtb recalbox-boot.conf) || exit 1
 
         # recalbox.img
-	support/scripts/genimage.sh -c "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/xu4/genimage.cfg" || exit 1
-        xu4_fusing "${BINARIES_DIR}" "${RECALBOX_IMG}" || exit 1
+        support/scripts/genimage.sh -c "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/xu4/genimage.cfg" || exit 1
+        xu4_fusing "${BINARIES_DIR}" "${BINARIES_DIR}/recalbox.img" || exit 1
         sync || exit 1
         ;;
 
