@@ -43,7 +43,7 @@ ifeq ($(BR2_PACKAGE_RPI_FIRMWARE),y)
 endif
 
 # odroid xu4
-ifeq ($(BR2_cortex_a15),y)
+ifeq ($(BR2_cortex_a15)$(BR2_cortex_a15_a7),y)
         RETROARCH_CONF_OPTS += --enable-neon --enable-floathard
 endif
 
@@ -184,8 +184,8 @@ ifeq ($(BR2_x86_64),y)
         LIBRETRO_PLATFORM = unix
 endif
 
-ifeq ($(BR2_cortex_a15),y)
-        LIBRETRO_PLATFORM += armv7
+ifeq ($(BR2_cortex_a15)$(BR2_cortex_a15_a7),y)
+        LIBRETRO_PLATFORM += armv7 odroidxu4
 endif
 
 ifeq ($(BR2_aarch64)$(BR2_cortex_a53),yy)
