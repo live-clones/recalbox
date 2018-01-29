@@ -82,8 +82,5 @@ Les fichiers bios doivent être placés dans un sous dossier nommé "keropi"
 cb0a5cfcf7247a7eab74bb2716260269  keropi/cgrom.dat
 
 - PANASONIC 3DO :
-8639fd5e549bd6238cfee79e3e749114  goldstar.bin
 51f2f43ae2f3508a14d9f56597e2d3ce  panafz10.bin
-f47264dd47fe30f73ab3c010015c155b  panafz1.bin
-35fa1a1ebaaeea286dc5cd15487c13ea  sanyotry.bin
 
