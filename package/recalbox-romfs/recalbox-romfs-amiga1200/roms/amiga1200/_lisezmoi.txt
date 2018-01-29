@@ -1,1 +1,15 @@
-Remplir ce fichier
+## RECALBOX - SYSTEM AMIGA 1200 ##
+
+Placez ici vos roms amiga 1200.
+
+Les roms doivent avoir l'extension ".adf/.uae"
+Les .uae sont utilisées uniquement pour la fonctionnalité whdload.
+
+Ce système ne supporte pas les roms compressées au format .zip.
+Ce système nécessite des bios pour fonctionner.
+
+Pour visualiser le GUI appuyez sur Start
+Pour quitter l'émulateur, appuyez sur Hotkey
+
+Consultez la documentation à cette adresse : 
+https://github.com/recalbox/recalbox-os/wiki/Amiga-sur-Recalbox-(FR)
