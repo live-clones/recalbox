@@ -12,6 +12,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added udev rule for the OUYA gamepad
 - Wifi is now started before accessing network shares
 - Added SHARP X68000 support with libretro core px68k
+- Odroid XU4: HDMI CEC disabled by default
 
 ## [17.12.02] - 2017-12-02
 - fixed steam controller service auto start, fixes lag in ES
