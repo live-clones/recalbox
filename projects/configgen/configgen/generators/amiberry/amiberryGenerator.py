@@ -65,7 +65,15 @@ class AmiberryGenerator(Generator):
             
         postExec = partial(whdlGenerator.handleBackup, rom,romFolder,gameName,system.name) if romType == "uae" else None
         
+        # Kept for future debug purposes on unpatched version
         # mandatory change of current working dir to amiberry's one
+        # os.chdir(os.path.join(recalboxFiles.amiberryMountPoint,"amiberry"))
+        # print("Executing %s in %s" % ("amiberry",os.getcwd()))
+        # os.popen("./amiberry")
+        # Handle backup for WHDL
+        # if romType == "uae" :
+            # whdlGenerator.handleBackup(rom,romFolder,gameName,system.name)
+        # sys.exit()
         
         commandArray = [os.path.join(recalboxFiles.amiberryMountPoint,"amiberry","amiberry")]
         return Command.Command(videomode='default', array=commandArray, env={"SDL_VIDEO_GL_DRIVER":"/usr/lib/libGLESv2.so", "SDL_VIDEO_EGL_DRIVER": "/usr/lib/libGLESv2.so"}, cwdPath=os.path.join(recalboxFiles.amiberryMountPoint,"amiberry"), postExec = postExec)        
