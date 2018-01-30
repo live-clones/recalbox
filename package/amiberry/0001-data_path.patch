@@ -111,7 +111,7 @@ index 2edfa0c..920ce3c 100644
  {
 -	strncpy(out, start_path_data, size);
 -	strncat(out, "/screenshots/", size);
-+	strncpy(out, "/recalbox/share/sicreenshots/amiga", size);
++	strncpy(out, "/recalbox/share/screenshots/amiga", size);
  }
  
  
