@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+- C2: disable picodrive for now until we fix compilation
 - Added mame2010 libretro core on all boards excepted rpi0/1
 - X86: Added Nintendo DS support libretro cores desmume and melonds
 - Replaced intro video for christmas release
