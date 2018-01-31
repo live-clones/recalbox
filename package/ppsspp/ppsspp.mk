@@ -3,7 +3,7 @@
 # PPSSPP
 #
 ################################################################################
-PPSSPP_VERSION = 48934df6787cd9d693779ec1b0915a5c1ce02c72
+PPSSPP_VERSION = v1.5.4
 PPSSPP_SITE = git://github.com/hrydgard/ppsspp.git
 PPSSPP_GIT_SUBMODULES=y
 PPSSPP_DEPENDENCIES = sdl2 zlib libzip linux zip ffmpeg
