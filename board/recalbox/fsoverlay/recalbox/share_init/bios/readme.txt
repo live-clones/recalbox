@@ -73,7 +73,7 @@ Thanks to read the "readme.txt" file present in the "/roms/colecovision" folder 
 
 - DREAMCAST :
 e10c53c2f8b90bab96ead2d368858623  dc_boot.bin
-0a93f7940c455905bea6e392dfde92a4  dc_flash.bin
+d6e11a23f1fa01cddb5dfccf7e4cc8d7  dc_flash.bin
 
 - Nintendo DS (X86/X86_64 Only) :
 df692a80a5b1bc90728bc3dfc76cd948  bios7.bin
