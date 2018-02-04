@@ -89,3 +89,12 @@ cb0a5cfcf7247a7eab74bb2716260269  keropi/cgrom.dat
 - PANASONIC 3DO :
 51f2f43ae2f3508a14d9f56597e2d3ce  panafz10.bin
 
+
+- Amiga 600 ADF :
+82a21c1890cae844b3df741f2762d48d  kick13.rom
+
+- Amiga 600 WHDL :
+dc10d7bdd1b6f450773dfb558477c230  kick20.rom
+
+- Amiga 1200 (both ADF and WHDL) :
+646773759326fbac3b2311fd8c8793ee  kick31.rom
