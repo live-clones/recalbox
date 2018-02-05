@@ -204,3 +204,8 @@ if [[ -f ${RECALBOX_BINARIES_DIR}/recalbox.img ]] ; then
     echo "Compressing ${RECALBOX_BINARIES_DIR}/recalbox.img ... "
     xz "${RECALBOX_BINARIES_DIR}/recalbox.img"
 fi
+
+# Computing hash sums to make have an update that can be dropped on a running Recalbox
+echo "Computing sha1 sums ..."
+for file in "${RECALBOX_BINARIES_DIR}"/* ; do sha1sum "${file}" > "${file}.sha1"; done
+tar tf "${RECALBOX_BINARIES_DIR}/root.tar.xz" | sort > "${RECALBOX_BINARIES_DIR}/root.list"
