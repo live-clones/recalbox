@@ -23,8 +23,6 @@ variables:
     - mkdir -p "${DIST_DIR}"
     - cp output/images/recalbox/* "${DIST_DIR}"
     - rm -rf output/
-    - for file in `ls "${DIST_DIR}"`;do sha1sum "${DIST_DIR}/${file}" > "${DIST_DIR}/${file}.sha1"; done
-    - tar tf "${DIST_DIR}/root.tar.xz" | sort > "${DIST_DIR}/root.list"
     - echo "${RECALBOX_VERSION}" >> "${DIST_DIR}/recalbox.version"
     - cp CHANGELOG.md "${DIST_DIR}/recalbox.changelog"
   artifacts:
