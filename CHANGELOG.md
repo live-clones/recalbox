@@ -12,7 +12,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added quirk for micreal arcade dual
 - Added udev rule for the OUYA gamepad
 - Wifi is now started before accessing network shares
-- Added SHARP X68000 support with libretro core px68k
+- Added SHARP X68000 support with libretro core px68k, including publicly available bios files
 - Added Panasonic 3DO (XU4 / X86) with libretro core 4do
 - Odroid XU4: HDMI CEC disabled by default
 - Add ResidualVM 0.4.0 as a new emulator for ScummVM system (rev. a98cca7)
