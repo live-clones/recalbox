@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-MOONLIGHT_EMBEDDED_VERSION = v2.2.3
+MOONLIGHT_EMBEDDED_VERSION = v2.4.6
 MOONLIGHT_EMBEDDED_SITE = git://github.com/irtimmer/moonlight-embedded.git
 MOONLIGHT_EMBEDDED_GIT_SUBMODULES=y
 MOONLIGHT_EMBEDDED_DEPENDENCIES = opus expat libevdev avahi alsa-lib udev libcurl libcec ffmpeg sdl2 libenet
