@@ -10,10 +10,9 @@ from settings.unixSettings import UnixSettings
 
 class DolphinGenerator(Generator):
     def generate(self, system, rom, playersControllers):
-        dolphinControllers.generateControllerConfig(system, playersControllers)
-
         if not system.config['configfile']:
             dolphinSettings = UnixSettings(recalboxFiles.dolphinIni, separator=' ')
+            dolphinControllers.generateControllerConfig(system, playersControllers)
             dolphinGFX = UnixSettings(recalboxFiles.dolphinGFX, separator=' ')
             #Draw or not FPS
             showFPS = "True" if system.config['showFPS'] == 'true' else "False"
