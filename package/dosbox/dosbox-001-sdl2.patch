@@ -2433,7 +2433,7 @@ Signed-off-by: Laurent Merckx <laurent-merckx@skynet.be>
  fi
  
  AH_TEMPLATE(C_X11_XKB,[define to 1 if you have XKBlib.h and X11 lib])
-@@ -561,6 +633,9 @@ src/misc/Makefile
+@@ -564,6 +636,9 @@ src/misc/Makefile
  src/shell/Makefile
  src/platform/Makefile
  src/platform/visualc/Makefile
@@ -5590,12 +5590,12 @@ Signed-off-by: Laurent Merckx <laurent-merckx@skynet.be>
  
  bin_PROGRAMS = dosbox
  
-@@ -13,7 +13,8 @@ endif
- 
+@@ -14,7 +14,8 @@ endif
  dosbox_SOURCES = dosbox.cpp $(ico_stuff)
  dosbox_LDADD = cpu/libcpu.a debug/libdebug.a dos/libdos.a fpu/libfpu.a  hardware/libhardware.a gui/libgui.a \
--               ints/libints.a misc/libmisc.a shell/libshell.a hardware/serialport/libserial.a libs/gui_tk/libgui_tk.a
-+               ints/libints.a misc/libmisc.a shell/libshell.a hardware/serialport/libserial.a libs/gui_tk/libgui_tk.a \
+                ints/libints.a misc/libmisc.a shell/libshell.a hardware/mame/libmame.a \
+-               hardware/serialport/libserial.a libs/gui_tk/libgui_tk.a
++               hardware/serialport/libserial.a libs/gui_tk/libgui_tk.a \
 +               sdl_cdrom/libcsdlcdrom.a sdl_cdrom/macos/libcsdlcdrommacos.a sdl_cdrom/macosx/libcsdlcdrommacosx.a
  
  EXTRA_DIST = winres.rc dosbox.ico
