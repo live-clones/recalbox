@@ -19,7 +19,8 @@ class DosBoxGenerator(Generator):
 			"-userconf", 
 			"-exit", 
 			"""{}""".format(batFile),
-			"-c", """set ROOT={}""".format(gameDir)]
+			"-c", """set ROOT={}""".format(gameDir),
+			"-vkeybd", "/usr/share/dosbox"]
         if os.path.isfile(gameConfFile):
             commandArray.append("-conf")
             commandArray.append("""{}""".format(gameConfFile))
