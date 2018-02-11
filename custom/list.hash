@@ -4,6 +4,8 @@ c445390118f5d058dd372a8b2beb25a8  package/dropbear/S50dropbear
 6b31f620c36bb2d6c54cfaf71cc5a086  package/initscripts/init.d/rcK
 76f02a748149f1aa945aa418ea65b2bc  package/initscripts/init.d/rcS
 0ea7196dd64fe170cd98610fd9d7b237  package/eigen/eigen.mk
+67a31e446be2fb1a67bb22828faed0f6  package/ffmpeg/ffmpeg.hash
+548f9fd2b799b03bfbe8a3253c3983d0  package/ffmpeg/ffmpeg.mk
 48138b23c554c5b7a22a9a478f6cc07d  package/libcec/libcec.mk
 2c140d524cce2f8ca7b21b3d0951822a  package/linux-firmware/linux-firmware.mk
 9bff5f6d3c9c6de92b5b69491b8cb3db  package/lirc-tools/lirc-tools.mk

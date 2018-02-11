@@ -1,5 +1,5 @@
 diff --git a/package/bluez5_utils/bluez5_utils.hash b/package/bluez5_utils/bluez5_utils.hash
-index 36791c9..cbb3aa3 100644
+index 36791c9e6f..cbb3aa3cad 100644
 --- a/package/bluez5_utils/bluez5_utils.hash
 +++ b/package/bluez5_utils/bluez5_utils.hash
 @@ -1,2 +1,2 @@
