@@ -7,12 +7,14 @@ c445390118f5d058dd372a8b2beb25a8  package/dropbear/S50dropbear
 67a31e446be2fb1a67bb22828faed0f6  package/ffmpeg/ffmpeg.hash
 548f9fd2b799b03bfbe8a3253c3983d0  package/ffmpeg/ffmpeg.mk
 48138b23c554c5b7a22a9a478f6cc07d  package/libcec/libcec.mk
-2c140d524cce2f8ca7b21b3d0951822a  package/linux-firmware/linux-firmware.mk
+5e097e1d9751c0e15ef1f48a19b6355a  package/linux-firmware/linux-firmware.mk
 9bff5f6d3c9c6de92b5b69491b8cb3db  package/lirc-tools/lirc-tools.mk
 61e67a41d6f3ea30867bdabdeb6ef7b6  package/mesa3d/mesa3d.mk
 8a063d22a484dc9d55cc6df6bcd22333  package/omxplayer/omxplayer.mk
 f38548efeaeaaa6515c91bc6ab7d9d54  package/rpi-firmware/cmdline.txt
 f01ea6ba5ccf7e7b094e83301984333d  package/rpi-firmware/config.txt
+e8c005a320789fa3249d29613ba359ee  package/rpi-firmware/rpi-firmware.hash
+236dce96aa73189750ecca1f7f4fb293  package/rpi-firmware/rpi-firmware.mk
 e7a440615e0f933be4fd4ca4f576de2e  package/sdl2/sdl2.mk
 76f5941c64fe63d71fdbafde3594ba78  package/sdl_sound/Config.in
 4c240a99b2eef3c2c77f9e7acdc1787d  package/sdl_sound/sdl_sound.mk
