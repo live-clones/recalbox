@@ -5,6 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## Unreleased
 - ES: new carousel mode ! Check UI Settings > Theme configuration with recalbox-next theme
 - ES: no more whiste screen of death when VRAM is filled
+- segacd: add chd as supported file format
 - sound: only set volume for playback devices
 - psx: fixed typo (mu3 instead of m3u file extension)
 - Moonlight: bump to 2.4.6, supports up to GFE 3.12 + can handle several GFE PC + rewrote scrape
