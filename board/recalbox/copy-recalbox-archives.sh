@@ -1,11 +1,11 @@
 #!/bin/bash -e
 
-# PWD = source dir
-# BASE_DIR = build dir
-# BUILD_DIR = base dir/build
-# HOST_DIR = base dir/host
-# BINARIES_DIR = images dir
-# TARGET_DIR = target dir
+# PWD = buildroot dir
+# BASE_DIR = output/ dir
+# BUILD_DIR = output/build
+# HOST_DIR = output/host
+# BINARIES_DIR = output/images
+# TARGET_DIR = output/target
 
 # XU4 SD/EMMC CARD
 #
@@ -30,16 +30,16 @@ xu4_fusing() {
     env_position=1231
 
     echo "BL1 fusing"
-    dd if="${BINARIES_DIR}/bl1.bin.hardkernel"    of="${RECALBOXIMG}" seek=$signed_bl1_position conv=notrunc || return 1
+    dd if="${BINARIES_DIR}/bl1.bin.hardkernel"            of="${RECALBOXIMG}" seek=$signed_bl1_position conv=notrunc || return 1
 
     echo "BL2 fusing"
-    dd if="${BINARIES_DIR}/bl2.bin.hardkernel"    of="${RECALBOXIMG}" seek=$bl2_position        conv=notrunc || return 1
+    dd if="${BINARIES_DIR}/bl2.bin.hardkernel.720k_uboot" of="${RECALBOXIMG}" seek=$bl2_position        conv=notrunc || return 1
 
     echo "u-boot fusing"
-    dd if="${BINARIES_DIR}/u-boot.bin.hardkernel" of="${RECALBOXIMG}" seek=$uboot_position      conv=notrunc || return 1
+    dd if="${BINARIES_DIR}/u-boot.bin.hardkernel"         of="${RECALBOXIMG}" seek=$uboot_position      conv=notrunc || return 1
 
     echo "TrustZone S/W fusing"
-    dd if="${BINARIES_DIR}/tzsw.bin.hardkernel"   of="${RECALBOXIMG}" seek=$tzsw_position       conv=notrunc || return 1
+    dd if="${BINARIES_DIR}/tzsw.bin.hardkernel"           of="${RECALBOXIMG}" seek=$tzsw_position       conv=notrunc || return 1
 
     echo "u-boot env erase"
     dd if=/dev/zero of="${RECALBOXIMG}" seek=$env_position count=32 bs=512 conv=notrunc || return 1
@@ -54,25 +54,38 @@ xu4_fusing() {
 #      512     48K         640K
 #
 # http://odroid.com/dokuwiki/doku.php?id=en:c2_building_u-boot
+# https://wiki.odroid.com/odroid-c2/software/partition_table#ubuntu_partition_table
 
 c2_fusing() {
     BINARIES_DIR=$1
     RECALBOXIMG=$2
 
+    if [ ! -f "${RECALBOXIMG}" ] ; then
+        echo "Can't fuse: missing ${RECALBOXIMG}"
+	exit 1
+    fi
     # fusing
     signed_bl1_position=1
     signed_bl1_skip=0
     uboot_position=97
+    BL1="${BINARIES_DIR}/bl1.bin.hardkernel"
+    UBOOT="${BINARIES_DIR}/u-boot.bin"
 
-    echo "BL1 fusing"
-    dd if="${BINARIES_DIR}/bl1.bin.hardkernel" of="${RECALBOXIMG}" seek=$signed_bl1_position skip=$signed_bl1_skip conv=notrunc || return 1
+    #echo "BL1 fusing"
+    #dd if="${BINARIES_DIR}/bl1.bin.hardkernel" of="${RECALBOXIMG}" seek=$signed_bl1_position skip=$signed_bl1_skip conv=notrunc || return 1
 
-    echo "u-boot fusing"
-    dd if="${BINARIES_DIR}/u-boot.bin"         of="${RECALBOXIMG}" seek=$uboot_position                            conv=notrunc || return 1
+    #echo "u-boot fusing"
+    #dd if="${BINARIES_DIR}/u-boot.bin"         of="${RECALBOXIMG}" seek=$uboot_position                            conv=notrunc || return 1
+
+    echo "fusing c2 image ..."
+    dd if=$BL1   of="$RECALBOXIMG" conv=fsync,notrunc bs=1   count=442
+    dd if=$BL1   of="$RECALBOXIMG" conv=fsync,notrunc bs=512 skip=1 seek=1
+    dd if=$UBOOT of="$RECALBOXIMG" conv=fsync,notrunc bs=512 seek=97
 }
 
 RECALBOX_BINARIES_DIR="${BINARIES_DIR}/recalbox"
 RECALBOX_TARGET_DIR="${TARGET_DIR}/recalbox"
+RECALBOX_IMG="${RECALBOX_BINARIES_DIR}/recalbox.img"
 
 if [ -d "${RECALBOX_BINARIES_DIR}" ]; then
     rm -rf "${RECALBOX_BINARIES_DIR}"
@@ -97,25 +110,16 @@ case "${RECALBOX_TARGET}" in
             { echo "ERROR : unable to create boot.tar.xz" && exit 1 ;}
 
         # recalbox.img
-        GENIMAGE_TMP="${BUILD_DIR}/genimage.tmp"
-        RECALBOXIMG="${RECALBOX_BINARIES_DIR}/recalbox.img"
-        rm -rf "${GENIMAGE_TMP}" || exit 1
-        cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/rpi/genimage.cfg" "${BINARIES_DIR}/genimage.cfg.tmp" || exit 1
-        rm -f "${BINARIES_DIR}/genimage.cfg.tmp" || exit 1
-        genimage --rootpath="${TARGET_DIR}" \
-                 --inputpath="${BINARIES_DIR}" \
-                 --outputpath="${RECALBOX_BINARIES_DIR}" \
-                 --config="${BINARIES_DIR}/genimage.cfg" \
-                 --tmppath="${GENIMAGE_TMP}" || exit 1
-        rm -f "${RECALBOX_BINARIES_DIR}/boot.vfat" || exit 1
+        support/scripts/genimage.sh -c "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/rpi/genimage.cfg" || exit 1
         sync || exit 1
         ;;
 
     XU4)
+        ubootId=`grep "BR2_TARGET_UBOOT_VERSION" "$BR2_CONFIG" | cut -d "=" -f 2- | tr -d '"'`
         # dirty boot binary files
-        for F in bl1.bin.hardkernel bl2.bin.hardkernel tzsw.bin.hardkernel u-boot.bin.hardkernel
+        for F in bl1.bin.hardkernel bl2.bin.hardkernel.720k_uboot tzsw.bin.hardkernel u-boot.bin.hardkernel
         do
-            cp "${BUILD_DIR}/uboot-odroidxu3-v2012.07/sd_fuse/hardkernel/${F}" "${BINARIES_DIR}" || exit 1
+            cp "${BUILD_DIR}/uboot-${ubootId}/sd_fuse/${F}" "${BINARIES_DIR}" || exit 1
         done
 
         # /boot
@@ -125,28 +129,21 @@ case "${RECALBOX_TARGET}" in
         cp "${BINARIES_DIR}/rootfs.tar.xz" "${RECALBOX_BINARIES_DIR}/root.tar.xz" || exit 1
 
         # boot.tar.xz
-        (cd "${BINARIES_DIR}" && tar -cJf "${RECALBOX_BINARIES_DIR}/boot.tar.xz" boot.ini zImage exynos5422-odroidxu3.dtb recalbox-boot.conf) || exit 1
+        (cd "${BINARIES_DIR}" && tar -cJf "${RECALBOX_BINARIES_DIR}/boot.tar.xz" boot.ini zImage exynos5422-odroidxu4.dtb recalbox-boot.conf) || exit 1
 
         # recalbox.img
-        GENIMAGE_TMP="${BUILD_DIR}/genimage.tmp"
-        RECALBOXIMG="${RECALBOX_BINARIES_DIR}/recalbox.img"
-        rm -rf "${GENIMAGE_TMP}" || exit 1
-        cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/xu4/genimage.cfg" "${BINARIES_DIR}" || exit 1
-        genimage --rootpath="${TARGET_DIR}" \
-            --inputpath="${BINARIES_DIR}" \
-            --outputpath="${RECALBOX_BINARIES_DIR}" \
-            --config="${BINARIES_DIR}/genimage.cfg" \
-            --tmppath="${GENIMAGE_TMP}" || exit 1
-        rm -f "${RECALBOX_BINARIES_DIR}/boot.vfat" || exit 1
-        xu4_fusing "${BINARIES_DIR}" "${RECALBOXIMG}" || exit 1
+        support/scripts/genimage.sh -c "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/xu4/genimage.cfg" || exit 1
+        xu4_fusing "${BINARIES_DIR}" "${RECALBOX_IMG}" || exit 1
         sync || exit 1
         ;;
 
     C2)
         # dirty boot binary files
+        ubootId=`grep "BR2_TARGET_UBOOT_VERSION" "$BR2_CONFIG" | cut -d "=" -f 2- | tr -d '"'`
         for F in bl1.bin.hardkernel u-boot.bin
         do
-            cp "${BUILD_DIR}/uboot-odroidc2-v2015.01/sd_fuse/${F}" "${BINARIES_DIR}" || exit 1
+            #cp "${BUILD_DIR}/uboot-odroidc2-v2015.01/sd_fuse/${F}" "${BINARIES_DIR}" || exit 1
+            cp "${BUILD_DIR}/uboot-${ubootId}/sd_fuse/${F}" "${BINARIES_DIR}" || exit 1
         done
         cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/c2/boot-logo.bmp.gz" ${BINARIES_DIR} || exit 1
 
@@ -157,20 +154,11 @@ case "${RECALBOX_TARGET}" in
         cp "${BINARIES_DIR}/rootfs.tar.xz" "${RECALBOX_BINARIES_DIR}/root.tar.xz" || exit 1
 
         # boot.tar.xz
-        (cd "${BINARIES_DIR}" && tar -cJf "${RECALBOX_BINARIES_DIR}/boot.tar.xz" boot.ini Image meson64_odroidc2.dtb recalbox-boot.conf boot-logo.bmp.gz) || exit 1
+        (cd "${BINARIES_DIR}" && tar -cJf "${RECALBOX_BINARIES_DIR}/boot.tar.xz" boot.ini Image meson64_odroidc2.dtb recalbox-boot.conf boot-logo.bmp.gz bl1.bin.hardkernel u-boot.bin) || exit 1
 
         # recalbox.img
-        GENIMAGE_TMP="${BUILD_DIR}/genimage.tmp"
-        RECALBOXIMG="${RECALBOX_BINARIES_DIR}/recalbox.img"
-        rm -rf "${GENIMAGE_TMP}" || exit 1
-        cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/c2/genimage.cfg" "${BINARIES_DIR}" || exit 1
-        genimage --rootpath="${TARGET_DIR}" \
-            --inputpath="${BINARIES_DIR}" \
-            --outputpath="${RECALBOX_BINARIES_DIR}" \
-            --config="${BINARIES_DIR}/genimage.cfg" \
-            --tmppath="${GENIMAGE_TMP}" || exit 1
-        rm -f "${RECALBOX_BINARIES_DIR}/boot.vfat" || exit 1
-        c2_fusing "${BINARIES_DIR}" "${RECALBOXIMG}" || exit 1
+        support/scripts/genimage.sh -c "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/c2/genimage.cfg" || exit 1
+        c2_fusing "${BINARIES_DIR}" "${BINARIES_DIR}/recalbox.img" || exit 1
         sync || exit 1
         ;;
 
@@ -188,19 +176,15 @@ case "${RECALBOX_TARGET}" in
         # get UEFI files
         mkdir -p "${BINARIES_DIR}/EFI/BOOT" || exit 1
         cp "${BINARIES_DIR}/bootx64.efi" "${BINARIES_DIR}/EFI/BOOT" || exit 1
+        cp "${BINARIES_DIR}/bootia32.efi" "${BINARIES_DIR}/EFI/BOOT" || exit 1
         cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/grub2/grub.cfg" "${BINARIES_DIR}/EFI/BOOT" || exit 1
 
         # boot.tar.xz
         (cd "${BINARIES_DIR}" && tar -cJf "${RECALBOX_BINARIES_DIR}/boot.tar.xz" EFI boot recalbox-boot.conf) || exit 1
 
         # recalbox.img
-        GENIMAGE_TMP="${BUILD_DIR}/genimage.tmp"
-        RECALBOXIMG="${RECALBOX_BINARIES_DIR}/recalbox.img"
-        rm -rf "${GENIMAGE_TMP}" || exit 1
-        cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/grub2/genimage.cfg" "${BINARIES_DIR}" || exit 1
         cp "${HOST_DIR}/usr/lib/grub/i386-pc/boot.img" "${BINARIES_DIR}" || exit 1
-        genimage --rootpath="${TARGET_DIR}" --inputpath="${BINARIES_DIR}" --outputpath="${RECALBOX_BINARIES_DIR}" --config="${BINARIES_DIR}/genimage.cfg" --tmppath="${GENIMAGE_TMP}" || exit 1
-        rm -f "${RECALBOX_BINARIES_DIR}/boot.vfat" || exit 1
+        support/scripts/genimage.sh -c "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/grub2/genimage.cfg" || exit 1
         sync || exit 1
         ;;
     *)
@@ -210,9 +194,12 @@ case "${RECALBOX_TARGET}" in
 esac
 
 # Compress the generated .img
-if [[ -f ${RECALBOX_BINARIES_DIR}/recalbox.img ]] ; then
-    echo "Compressing ${RECALBOX_BINARIES_DIR}/recalbox.img ... "
-    #~ xz "${RECALBOX_BINARIES_DIR}/recalbox.img"
+if mv -f ${BINARIES_DIR}/recalbox.img ${RECALBOX_IMG} ; then
+    echo "Compressing ${RECALBOX_IMG} ... "
+    xz "${RECALBOX_IMG}"
+else
+    echo "Couldn't move recalbox.img or compress it"
+    exit 1
 fi
 
 # Computing hash sums to make have an update that can be dropped on a running Recalbox

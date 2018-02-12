@@ -1,5 +1,5 @@
 diff --git a/package/linux-firmware/linux-firmware.mk b/package/linux-firmware/linux-firmware.mk
-index d238abe..7314c7c 100644
+index 3d18c6fc34..5730714e03 100644
 --- a/package/linux-firmware/linux-firmware.mk
 +++ b/package/linux-firmware/linux-firmware.mk
 @@ -70,7 +70,8 @@ LINUX_FIRMWARE_FILES += \

@@ -1,0 +1,13 @@
+Index: bluez-5.43/tools/hciattach.c
+===================================================================
+--- bluez-5.43.orig/tools/hciattach.c
++++ bluez-5.43/tools/hciattach.c
+@@ -1239,7 +1239,7 @@ int main(int argc, char *argv[])
+ {
+ 	struct uart_t *u = NULL;
+ 	int detach, printpid, raw, opt, i, n, ld, err;
+-	int to = 10;
++	int to = 30;
+ 	int init_speed = 0;
+ 	int send_break = 0;
+ 	pid_t pid;
