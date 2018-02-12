@@ -149,7 +149,7 @@ done
 
 # Patch required files
 echo -e "\e[7m>>> $scriptName 5. Task Patch flagged files ...\e[27m"
-echo $filesToPatch
+applyPatches $filesToPatch
 
 echo -e "\e[7m>>> $scriptName 5. Task completed !\e[27m"
 [[ $foundError == 1 ]] && echo "But there were some errors. Please check and correct them"

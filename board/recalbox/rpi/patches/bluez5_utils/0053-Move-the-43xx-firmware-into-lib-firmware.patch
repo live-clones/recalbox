@@ -1,0 +1,13 @@
+Index: bluez-5.43/tools/hciattach_bcm43xx.c
+===================================================================
+--- bluez-5.43.orig/tools/hciattach_bcm43xx.c
++++ bluez-5.43/tools/hciattach_bcm43xx.c
+@@ -43,7 +43,7 @@
+ #include "hciattach.h"
+ 
+ #ifndef FIRMWARE_DIR
+-#define FIRMWARE_DIR "/etc/firmware"
++#define FIRMWARE_DIR "/lib/firmware"
+ #endif
+ 
+ #define FW_EXT ".hcd"

@@ -1,8 +1,8 @@
 diff --git a/package/bluez5_utils/bluez5_utils.hash b/package/bluez5_utils/bluez5_utils.hash
-index 36791c9e6f..cbb3aa3cad 100644
+index 36791c9e6f..b1e80f6db0 100644
 --- a/package/bluez5_utils/bluez5_utils.hash
 +++ b/package/bluez5_utils/bluez5_utils.hash
 @@ -1,2 +1,2 @@
  # From https://www.kernel.org/pub/linux/bluetooth/sha256sums.asc:
 -sha256 cf75bf7cd5d564f21cc4a2bd01d5c39ce425397335fd47d9bbe43af0a58342c8  bluez-5.47.tar.xz
-+sha256  21d1bc9150d3576296595217efb98a746b592389d25d5637e8bee5da7272593b    bluez-5.39.tar.xz
++sha256 16c9c05d2a1da644ce3570d975ada3643d2e60c007a955bac09c0a0efeb58d15 bluez-5.43.tar.xz
