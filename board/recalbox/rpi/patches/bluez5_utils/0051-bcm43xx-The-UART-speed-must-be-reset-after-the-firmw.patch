@@ -1,0 +1,25 @@
+Index: bluez-5.43/tools/hciattach_bcm43xx.c
+===================================================================
+--- bluez-5.43.orig/tools/hciattach_bcm43xx.c
++++ bluez-5.43/tools/hciattach_bcm43xx.c
+@@ -366,11 +366,8 @@ int bcm43xx_init(int fd, int def_speed,
+ 		return -1;
+ 
+ 	if (bcm43xx_locate_patch(FIRMWARE_DIR, chip_name, fw_path)) {
+-		fprintf(stderr, "Patch not found, continue anyway\n");
++		fprintf(stderr, "Patch not found for %s, continue anyway\n", chip_name);
+ 	} else {
+-		if (bcm43xx_set_speed(fd, ti, speed))
+-			return -1;
+-
+ 		if (bcm43xx_load_firmware(fd, fw_path))
+ 			return -1;
+ 
+@@ -380,6 +377,7 @@ int bcm43xx_init(int fd, int def_speed,
+ 			return -1;
+ 		}
+ 
++		sleep(1);
+ 		if (bcm43xx_reset(fd))
+ 			return -1;
+ 	}
