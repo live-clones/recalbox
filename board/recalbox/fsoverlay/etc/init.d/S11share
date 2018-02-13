@@ -219,7 +219,7 @@ do_boot_upgrade() {
     done
 
     # upgrade the boot
-    if ! (cd /boot && xz -dc < "${BOOTTAR}" | tar mxvf - >> /tmp/upgrade.files)
+    if ! (cd /boot && xz -dc < "${BOOTTAR}" | tar mxvf - --no-same-owner >> /tmp/upgrade.files)
     then
 	return 1
     fi
@@ -277,7 +277,7 @@ do_upgrade() {
     then
 	if (cd / && \
 	    cp ./etc/fstab ./etc/fstab.upgrade && \
-	    xz -dc < "${ROOTTAR}" | tar mxvf - >> /tmp/upgrade.files && \
+	    xz -dc < "${ROOTTAR}" | tar mxvf - --no-same-owner >> /tmp/upgrade.files && \
 	    mv ./etc/fstab.upgrade ./etc/fstab)
 	then
 	    EXIT_CODE=0
