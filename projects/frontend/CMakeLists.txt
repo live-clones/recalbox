@@ -3,6 +3,22 @@ cmake_minimum_required(VERSION 2.8)
 project(emulationstation-all)
 
 #-------------------------------------------------------------------------------
+#set version number
+if (DEFINED ENV{RECALBOX_VERSION})
+    set(PROGRAM_VERSION_STRING $ENV{RECALBOX_VERSION})
+elseif (DEFINED ENV{RECALBOX_VERSION_LABEL})
+    set(PROGRAM_VERSION_STRING $ENV{RECALBOX_VERSION_LABEL})
+else()
+    set(PROGRAM_VERSION_STRING "dev")
+endif()
+
+configure_file(
+        "${CMAKE_CURRENT_SOURCE_DIR}/es-app/src/EmulationStation.h.in"
+        "${CMAKE_CURRENT_SOURCE_DIR}/es-app/src/EmulationStation.h"
+)
+
+
+#-------------------------------------------------------------------------------
 #add local find scripts to CMAKE path
 LIST(APPEND CMAKE_MODULE_PATH
     ${CMAKE_CURRENT_SOURCE_DIR}/CMake/Utils
