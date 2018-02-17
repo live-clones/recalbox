@@ -2,4 +2,6 @@
 
 Placez ici vos roms segacd et segacd 32X.
 
-Les roms doivent avoir l'extension ".cue/.iso"
+Les roms doivent avoir l'extension ".cue/.iso/.chd"
+
+Seul le core GenesisPlusGX supporte le format .chd
