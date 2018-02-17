@@ -49,7 +49,7 @@ std::string toLower(std::string str)
 }
 //end util functions
 
-InputConfig::InputConfig(int deviceId, int deviceIndex, const std::string& deviceName, const std::string& deviceGUID, int deviceNbAxes) : mDeviceId(deviceId), mDeviceIndex(deviceIndex), mDeviceName(deviceName), mDeviceGUID(deviceGUID), mDeviceNbAxes(deviceNbAxes)
+InputConfig::InputConfig(int deviceId, int deviceIndex, const std::string& deviceName, const std::string& deviceGUID, int deviceNbAxes, int deviceNbHats, int deviceNbButtons) : mDeviceId(deviceId), mDeviceIndex(deviceIndex), mDeviceName(deviceName), mDeviceGUID(deviceGUID), mDeviceNbAxes(deviceNbAxes), mDeviceNbHats(deviceNbHats), mDeviceNbButtons(deviceNbButtons)
 {
 }
 
@@ -187,6 +187,9 @@ void InputConfig::writeToXML(pugi::xml_node parent)
 	}
 
 	cfg.append_attribute("deviceGUID") = mDeviceGUID.c_str();
+    cfg.append_attribute("deviceNbAxes") = mDeviceNbAxes;
+    cfg.append_attribute("deviceNbHats") = mDeviceNbHats;
+    cfg.append_attribute("deviceNbButtons") = mDeviceNbButtons;
 
 	typedef std::map<std::string, Input>::iterator it_type;
 	for(it_type iterator = mNameMap.begin(); iterator != mNameMap.end(); iterator++)

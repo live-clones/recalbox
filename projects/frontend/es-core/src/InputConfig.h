@@ -84,7 +84,7 @@ public:
 class InputConfig
 {
 public:
-	InputConfig(int deviceId, int deviceIndex, const std::string& deviceName, const std::string& deviceGUID, int deviceNbAxes);
+	InputConfig(int deviceId, int deviceIndex, const std::string& deviceName, const std::string& deviceGUID, int deviceNbAxes, int deviceNbHats, int deviceNbButtons);
 
 	void clear();
 	void mapInput(const std::string& name, Input input);
@@ -119,6 +119,8 @@ private:
 	const std::string mDeviceName;
 	const std::string mDeviceGUID;
 	const int mDeviceNbAxes; // number of axes of the device
+	const int mDeviceNbHats;
+	const int mDeviceNbButtons;
 };
 
 #endif

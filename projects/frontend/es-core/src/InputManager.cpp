@@ -56,7 +56,7 @@ void InputManager::init()
 	// first, open all currently present joysticks
         this->addAllJoysticks();
 
-	mKeyboardInputConfig = new InputConfig(DEVICE_KEYBOARD, -1, "Keyboard", KEYBOARD_GUID_STRING, 0);
+	mKeyboardInputConfig = new InputConfig(DEVICE_KEYBOARD, -1, "Keyboard", KEYBOARD_GUID_STRING, 0, 0, 120);
 	loadInputConfig(mKeyboardInputConfig);
 }
 
@@ -76,7 +76,7 @@ void InputManager::addJoystickByDeviceIndex(int id)
 	SDL_JoystickGetGUIDString(SDL_JoystickGetGUID(joy), guid, 65);
 
 	// create the InputConfig
-	mInputConfigs[joyId] = new InputConfig(joyId, id, SDL_JoystickName(joy), guid, SDL_JoystickNumAxes(joy));
+	mInputConfigs[joyId] = new InputConfig(joyId, id, SDL_JoystickName(joy), guid, SDL_JoystickNumAxes(joy), SDL_JoystickNumHats(joy), SDL_JoystickNumButtons(joy));
 	if(!loadInputConfig(mInputConfigs[joyId]))
 	{
 		LOG(LogInfo) << "Added unconfigured joystick " << SDL_JoystickName(joy) << " (GUID: " << guid << ", instance ID: " << joyId << ", device index: " << id << ").";
