@@ -291,11 +291,6 @@ do_upgrade() {
     return 0
 }
 
-post_upgrade_pre_reboot() {
-    find /recalbox/share_init/system/.emulationstation/themes/recalbox/ -name theme.xml -mindepth 2 -exec rm {} \;
-}
-
-
 RMODE="$SHAREDEVICE" 
 
 if echo "${RMODE}" | grep -qE '^DEV '
@@ -367,7 +362,6 @@ then
     
     # remove to not apply it indefinitly, even if it fails
     rm "/recalbox/share/system/upgrade/boot.tar.xz" "/recalbox/share/system/upgrade/root.tar.xz"
-    post_upgrade_pre_reboot
     
     # rebooting now
     shutdown -r now
