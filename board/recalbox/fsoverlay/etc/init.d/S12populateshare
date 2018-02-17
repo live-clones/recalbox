@@ -67,9 +67,6 @@ do
         done
 done
 
-# Recalbox theme: since carousel mode, remove old per system theme.xml
-find /recalbox/share_init/system/.emulationstation/themes/recalbox/ -name theme.xml -mindepth 2 -exec rm {}\;
-
 # recalbox.conf : upgrade if necessary
 doRecalboxUpgrades
 
