@@ -37,6 +37,7 @@ function doRecalboxUpgrades {
   doRbxConfUpgrade
   upgradeConfiggen
   upgradeInputs
+  upgradeTheme
 }
 
 # Upgrade the recalbox.conf if necessary
@@ -96,4 +97,8 @@ function upgradeInputs {
   /recalbox/scripts/recalbox-config.sh updateesinput "Microsoft X-Box 360 pad" "030000005e0400008e02000014010000"
   /recalbox/scripts/recalbox-config.sh updateesinput "Xbox 360 Wireless Receiver (XBOX)" "030000005e040000a102000007010000"
   /recalbox/scripts/recalbox-config.sh updateesinput "Xbox 360 Wireless Receiver" "030000005e0400001907000000010000"
+}
+
+function upgradeTheme {
+  /recalbox/scripts/recalbox-themes.sh
 }
