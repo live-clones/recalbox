@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
+- ES: new carousel mode ! Check UI Settings > Theme configuration with recalbox-next theme
 - sound: only set volume for playback devices
 - psx: fixed typo (mu3 instead of m3u file extension)
 
