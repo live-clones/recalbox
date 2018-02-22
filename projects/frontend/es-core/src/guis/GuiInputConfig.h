@@ -47,4 +47,5 @@ private:
 	int mHeldTime;
 	int mHeldInputId;
 	int mHeldInputRowIndex;
+	unsigned int mMainColor;
 };

@@ -8,16 +8,17 @@
 #include "Locale.h"
 
 TextComponent::TextComponent(Window* window) : GuiComponent(window), 
-	mFont(Font::get(FONT_SIZE_MEDIUM)), mUppercase(false), mColor(0x000000FF), mAutoCalcExtent(true, true), mAlignment(ALIGN_LEFT), mLineSpacing(1.5f)
+	mFont(Font::get(FONT_SIZE_MEDIUM)), mUppercase(false), mColor(0x000000FF), mAutoCalcExtent(true, true), mAlignment(ALIGN_LEFT), mLineSpacing(1.5f), mBgColor(0), mRenderBackground(false)
 {
 }
 
 TextComponent::TextComponent(Window* window, const std::string& text, const std::shared_ptr<Font>& font, unsigned int color, Alignment align,
-	Eigen::Vector3f pos, Eigen::Vector2f size) : GuiComponent(window), 
-	mFont(NULL), mUppercase(false), mColor(0x000000FF), mAutoCalcExtent(true, true), mAlignment(align), mLineSpacing(1.5f)
+	Eigen::Vector3f pos, Eigen::Vector2f size, unsigned int bgcolor) : GuiComponent(window), 
+	mFont(NULL), mUppercase(false), mColor(0x000000FF), mAutoCalcExtent(true, true), mAlignment(align), mLineSpacing(1.5f), mBgColor(0), mRenderBackground(false)
 {
 	setFont(font);
 	setColor(color);
+	setBackgroundColor(bgcolor);
 	setText(text);
 	setPosition(pos);
 	setSize(size);
@@ -39,15 +40,37 @@ void TextComponent::setColor(unsigned int color)
 {
 	mColor = color;
 
-	unsigned char opacity = mColor & 0x000000FF;
-	GuiComponent::setOpacity(opacity);
+	mColorOpacity = mColor & 0x000000FF;
 
 	onColorChanged();
 }
 
+//  Set the color of the background box
+void TextComponent::setBackgroundColor(unsigned int color)
+{
+	mBgColor = color;
+	mBgColorOpacity = mBgColor & 0x000000FF;
+}
+
+void TextComponent::setRenderBackground(bool render)
+{
+	mRenderBackground = render;
+}
+
+//  Scale the opacity
+
 void TextComponent::setOpacity(unsigned char opacity)
 {
-	mColor = (mColor & 0xFFFFFF00) | opacity;
+	// This method is mostly called to do fading in-out of the Text component element.
+	// Therefore, we assume here that opacity is a fractional value (expressed as an int 0-255),
+	// of the opacity originally set with setColor() or setBackgroundColor().
+ 
+	unsigned char o = (unsigned char)((float)opacity / 255.f * (float) mColorOpacity);
+	mColor = (mColor & 0xFFFFFF00) | (unsigned char) o;
+
+	unsigned char bgo = (unsigned char)((float)opacity / 255.f * (float)mBgColorOpacity);
+	mBgColor = (mBgColor & 0xFFFFFF00) | (unsigned char)bgo;
+
 	onColorChanged();
 
 	GuiComponent::setOpacity(opacity);
@@ -74,11 +97,11 @@ void TextComponent::render(const Eigen::Affine3f& parentTrans)
 {
 	Eigen::Affine3f trans = parentTrans * getTransform();
 
-	/*Eigen::Vector3f dim(mSize.x(), mSize.y(), 0);
-	dim = trans * dim - trans.translation();
-	Renderer::pushClipRect(Eigen::Vector2i((int)trans.translation().x(), (int)trans.translation().y()), 
-		Eigen::Vector2i((int)(dim.x() + 0.5f), (int)(dim.y() + 0.5f)));
-		*/
+	if (mRenderBackground)
+	{
+		Renderer::setMatrix(trans);
+		Renderer::drawRect(0.f, 0.f, mSize.x(), mSize.y(), mBgColor);
+	}
 
 	if(mTextCache)
 	{
@@ -116,7 +139,6 @@ void TextComponent::render(const Eigen::Affine3f& parentTrans)
 		mFont->renderTextCache(mTextCache.get());
 	}
 
-	//Renderer::popClipRect();
 }
 
 void TextComponent::calculateExtent()
@@ -217,8 +239,14 @@ void TextComponent::applyTheme(const std::shared_ptr<ThemeData>& theme, const st
 	if(!elem)
 		return;
 
-	if(properties & COLOR && elem->has("color"))
-		setColor(elem->get<unsigned int>("color"));
+	if (properties & COLOR && elem->has("color"))
+		setColor(elem->get<unsigned int>("color"));	
+
+	setRenderBackground(false);
+	if (properties & COLOR && elem->has("backgroundColor")) {
+		setBackgroundColor(elem->get<unsigned int>("backgroundColor"));
+		setRenderBackground(true);
+	}
 
 	if(properties & ALIGNMENT && elem->has("alignment"))
 	{

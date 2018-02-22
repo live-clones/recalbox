@@ -104,7 +104,8 @@ public:
 		auto theme = std::make_shared<ThemeData>();
 
 		try {
-			theme->loadFile(themePath.string());
+			std::string empty = "";
+			theme->loadFile(empty, themePath.string());
 		}
 		catch(...) {
 		}

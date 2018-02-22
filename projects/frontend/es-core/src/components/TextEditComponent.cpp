@@ -6,6 +6,7 @@
 
 #include "Util.h"
 #include "Locale.h"
+#include "MenuThemeData.h"
 
 #define TEXT_PADDING_HORIZ 10
 #define TEXT_PADDING_VERT 2
@@ -15,7 +16,7 @@
 
 TextEditComponent::TextEditComponent(Window* window) : GuiComponent(window),
 	mBox(window, ":/textinput_ninepatch.png"), mFocused(false), 
-	mScrollOffset(0.0f, 0.0f), mCursor(0), mEditing(false), mFont(Font::get(FONT_SIZE_MEDIUM, FONT_PATH_LIGHT)), 
+	mScrollOffset(0.0f, 0.0f), mCursor(0), mEditing(false), mFont(MenuThemeData::getInstance()->getCurrentTheme()->menuText.font), 
 	mCursorRepeatDir(0)
 {
 	addChild(&mBox);

@@ -4,11 +4,15 @@
 #include "Log.h"
 #include "Util.h"
 #include "Locale.h"
+#include "MenuThemeData.h"
 
 DateTimeComponent::DateTimeComponent(Window* window, DisplayMode dispMode) : GuiComponent(window), 
 	mEditing(false), mEditIndex(0), mDisplayMode(dispMode), mRelativeUpdateAccumulator(0), 
 	mColor(0x777777FF), mFont(Font::get(FONT_SIZE_SMALL, FONT_PATH_LIGHT)), mUppercase(false), mAutoSize(true)
 {
+	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+	setFont(menuTheme->menuTextSmall.font);
+	setColor(menuTheme->menuText.color);
 	updateTextCache();
 }
 
@@ -271,7 +275,7 @@ void DateTimeComponent::updateTextCache()
 	{
 		mSize = mTextCache->metrics.size;
 
-		mAutoSize = false;
+		//mAutoSize = false;
 		if(getParent())
 			getParent()->onSizeChanged();
 	}

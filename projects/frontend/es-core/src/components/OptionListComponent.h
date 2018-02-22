@@ -10,6 +10,7 @@
 #include <sstream>
 #include "Log.h"
 #include "Locale.h"
+#include "MenuThemeData.h"
 
 using namespace boost::locale;
 
@@ -47,7 +48,9 @@ private:
 		OptionListPopup(Window* window, OptionListComponent<T>* parent, const std::string& title) : GuiComponent(window),
 			mMenu(window, title.c_str()), mParent(parent)
 		{
-			auto font = Font::get(FONT_SIZE_MEDIUM);
+			auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+			auto font = menuTheme->menuText.font;
+			auto color = menuTheme->menuText.color;
 			ComponentListRow row;
 
 			// for select all/none
@@ -56,7 +59,7 @@ private:
 			for(auto it = mParent->mEntries.begin(); it != mParent->mEntries.end(); it++)
 			{
 				row.elements.clear();
-				row.addElement(std::make_shared<TextComponent>(mWindow, strToUpper(it->name), font, 0x777777FF), true);
+				row.addElement(std::make_shared<TextComponent>(mWindow, strToUpper(it->name), font, color), true);
 
 				OptionListData& e = *it;
 
@@ -145,22 +148,33 @@ public:
 	OptionListComponent(Window* window, const std::string& name, bool multiSelect = false, unsigned int font_size = FONT_SIZE_MEDIUM) : GuiComponent(window), mMultiSelect(multiSelect), mName(name),
 		 mText(window), mLeftArrow(window), mRightArrow(window)
 	{
-		auto font = Font::get(font_size, FONT_PATH_LIGHT);
+		std::shared_ptr<Font> font = nullptr;
+		unsigned int color;
+		auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+		if (font_size == FONT_SIZE_SMALL)
+			font = menuTheme->menuTextSmall.font;
+		else
+			font = menuTheme->menuText.font;
+		color = menuTheme->menuText.color;
+			
 		mText.setFont(font);
-		mText.setColor(0x777777FF);
+		mText.setColor(color);
 		mText.setAlignment(ALIGN_CENTER);
 		addChild(&mText);
 
 		if(mMultiSelect)
 		{
-			mRightArrow.setImage(":/arrow.svg");
+			mRightArrow.setImage(menuTheme->iconSet.arrow);
+			mRightArrow.setColorShift(color);
 			addChild(&mRightArrow);
 		}else{
-			mLeftArrow.setImage(":/option_arrow.svg");
+			mLeftArrow.setImage(menuTheme->iconSet.option_arrow);
+			mLeftArrow.setColorShift(color);
 			mLeftArrow.setFlipX(true);
 			addChild(&mLeftArrow);
 
-			mRightArrow.setImage(":/option_arrow.svg");
+			mRightArrow.setImage(menuTheme->iconSet.option_arrow);
+			mRightArrow.setColorShift(color);
 			addChild(&mRightArrow);
 		}
 
@@ -344,6 +358,13 @@ private:
 		
 		prompts.push_back(HelpPrompt("b", _("SELECT")));
 		return prompts;
+	}
+
+	void setColor(unsigned int color)
+	{
+		mText.setColor(color);
+		mRightArrow.setColorShift(color);
+		mLeftArrow.setColorShift(color);
 	}
 
 	bool mMultiSelect;

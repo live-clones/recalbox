@@ -37,6 +37,7 @@ namespace ThemeFlags
 		TEXT = 512,
 		FORCE_UPPERCASE = 1024,
 		LINE_SPACING = 2048,
+		Z_INDEX = 8192,
 
 		ALL = 0xFFFFFFFF
 	};
@@ -69,19 +70,6 @@ ThemeException& operator<<(ThemeException& e, T appendMsg)
 	e.msg = ss.str();
 	return e;
 }
-
-class ThemeExtras : public GuiComponent
-{
-public:
-	ThemeExtras(Window* window) : GuiComponent(window) {};
-	virtual ~ThemeExtras();
-
-	// will take ownership of the components within extras (delete them in destructor or when setExtras is called again)
-	void setExtras(const std::vector<GuiComponent*>& extras);
-
-private:
-	std::vector<GuiComponent*> mExtras;
-};
 
 struct ThemeSet
 {
@@ -122,7 +110,7 @@ public:
 	ThemeData();
 
 	// throws ThemeException
-	void loadFile(const std::string& path);
+	void loadFile(const std::string systemThemeFolder, const std::string& path);
 
 	enum ElementPropertyType
 	{
@@ -140,22 +128,40 @@ public:
 	static std::vector<GuiComponent*> makeExtras(const std::shared_ptr<ThemeData>& theme, const std::string& view, Window* window);
 
 	static const std::shared_ptr<ThemeData>& getDefault();
+	static const std::shared_ptr<ThemeData>& getCurrent();
 
 	static std::map<std::string, ThemeSet> getThemeSets();
+	static std::map<std::string, std::string> getThemeSubSets(const std::string& theme);
+	static std::map<std::string, std::string> sortThemeSubSets(const std::map<std::string, std::string>& subsetmap, const std::string& subset);
 	static boost::filesystem::path getThemeFromCurrentSet(const std::string& system);
 
 	bool getHasFavoritesInTheme();
 
 private:
 	static std::map< std::string, std::map<std::string, ElementPropertyType> > sElementMap;
+	static std::vector<std::string> sSupportedFeatures;
+	static std::vector<std::string> sSupportedViews;
 
 	std::deque<boost::filesystem::path> mPaths;
 	float mVersion;
-
+	std::string mColorset;
+	std::string mIconset;
+	std::string mMenu;
+	std::string mSystemview;
+	std::string mGamelistview;
+	std::string mSystemThemeFolder;
+	
+	void parseFeatures(const pugi::xml_node& themeRoot);
 	void parseIncludes(const pugi::xml_node& themeRoot);
 	void parseViews(const pugi::xml_node& themeRoot);
 	void parseView(const pugi::xml_node& viewNode, ThemeView& view);
 	void parseElement(const pugi::xml_node& elementNode, const std::map<std::string, ElementPropertyType>& typeMap, ThemeElement& element);
+	bool parseRegion(const pugi::xml_node& root);
+	bool parseSubset(const pugi::xml_node& node);
+	static void crawlIncludes(const pugi::xml_node& root, std::map<std::string, std::string>& sets, std::deque<boost::filesystem::path>& dequepath);
+	static void findRegion(const pugi::xml_document& doc, std::map<std::string, std::string>& sets);
+	
+	std::string resolveSystemVariable(const std::string& systemThemeFolder, const std::string& path);
 
 	std::map<std::string, ThemeView> mViews;
 };

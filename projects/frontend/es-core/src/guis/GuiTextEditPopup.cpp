@@ -1,6 +1,7 @@
 #include "guis/GuiTextEditPopup.h"
 #include "components/MenuComponent.h"
 #include "Locale.h"
+#include "MenuThemeData.h"
 
 using namespace Eigen;
 
@@ -8,10 +9,17 @@ GuiTextEditPopup::GuiTextEditPopup(Window* window, const std::string& title, con
 				   const std::function<void(const std::string&)>& okCallback, bool multiLine, const std::string acceptBtnText)
 	: GuiComponent(window), mBackground(window, ":/frame.png"), mGrid(window, Vector2i(1, 3)), mMultiLine(multiLine)
 {
+	
+	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+	
+	mBackground.setImagePath(menuTheme->menuBackground.path);
+	mBackground.setCenterColor(menuTheme->menuBackground.color);
+	mBackground.setEdgeColor(menuTheme->menuBackground.color);
+	
 	addChild(&mBackground);
 	addChild(&mGrid);
 
-	mTitle = std::make_shared<TextComponent>(mWindow, strToUpper(title), Font::get(FONT_SIZE_LARGE), 0x555555FF, ALIGN_CENTER);
+	mTitle = std::make_shared<TextComponent>(mWindow, strToUpper(title), menuTheme->menuTitle.font, menuTheme->menuTitle.color, ALIGN_CENTER);
 
 	mText = std::make_shared<TextEditComponent>(mWindow);
 	mText->setValue(initValue);

@@ -2,16 +2,22 @@
 #include "Renderer.h"
 #include "Window.h"
 #include "Util.h"
-#include "resources/SVGResource.h"
 
-RatingComponent::RatingComponent(Window* window) : GuiComponent(window)
+RatingComponent::RatingComponent(Window* window, unsigned int color) : GuiComponent(window), mColor(0xFFFFFFFF)
 {
 	mFilledTexture = TextureResource::get(":/star_filled.svg", true);
 	mUnfilledTexture = TextureResource::get(":/star_unfilled.svg", true);
 	mValue = 0.5f;
 	mSize << 64 * NUM_RATING_STARS, 64;
+	if (color)
+		mColor = color;
 	updateVertices();
 }
+
+void RatingComponent::setColor(unsigned int color) {
+	mColor=color;
+}
+
 
 void RatingComponent::setValue(const std::string& value)
 {
@@ -45,16 +51,13 @@ void RatingComponent::onSizeChanged()
 	else if(mSize.x() == 0)
 		mSize[0] = mSize.y() * NUM_RATING_STARS;
 
-	auto filledSVG = dynamic_cast<SVGResource*>(mFilledTexture.get());
-	auto unfilledSVG = dynamic_cast<SVGResource*>(mUnfilledTexture.get());
-
 	if(mSize.y() > 0)
 	{
 		size_t heightPx = (size_t)round(mSize.y());
-		if(filledSVG)
-			filledSVG->rasterizeAt(heightPx, heightPx);
-		if(unfilledSVG)
-			unfilledSVG->rasterizeAt(heightPx, heightPx);
+		if (mFilledTexture)
+			mFilledTexture->rasterizeAt(heightPx, heightPx);
+		if(mUnfilledTexture)
+			mUnfilledTexture->rasterizeAt(heightPx, heightPx);
 	}
 
 	updateVertices();
@@ -99,8 +102,14 @@ void RatingComponent::render(const Eigen::Affine3f& parentTrans)
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	
+	
+	int r = ( mColor >> 24 ) & 0xFF;
+	int g = ( mColor >> 16 ) & 0xFF;
+	int b = ( mColor >> 8 ) & 0xFF;
+	int a = mColor & 0xFF;
 
-	glColor4ub(255, 255, 255, getOpacity());
+	glColor4ub(r, g, b, getOpacity());
 
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);

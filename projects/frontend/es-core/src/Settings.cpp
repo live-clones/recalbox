@@ -26,7 +26,9 @@ std::vector<const char *> settings_dont_save = boost::assign::list_of
         ("RecalboxConfigScript")
         ("LastVersionFile")
         ("VersionMessage")
-        ("MusicDirectory");
+        ("MusicDirectory")
+		("ThemeChanged")
+		("ThemeHasMenuView");
 
 Settings::Settings() {
     setDefaults();
@@ -71,16 +73,22 @@ void Settings::setDefaults() {
     mBoolMap["DebugGrid"] = false;
     mBoolMap["DebugText"] = false;
 
-
     mBoolMap["Overscan"] = false;
 
     mIntMap["ScreenSaverTime"] = 5 * 60 * 1000; // 5 minutes
     mIntMap["ScraperResizeWidth"] = 400;
     mIntMap["ScraperResizeHeight"] = 0;
     mIntMap["SystemVolume"] = 96;
+	mIntMap["MaxVRAM"] = 200;
 
     mStringMap["TransitionStyle"] = "fade";
     mStringMap["ThemeSet"] = "";
+	mStringMap["ThemeColorSet"] = "";
+	mStringMap["ThemeIconSet"] = "";
+	mStringMap["ThemeMenu"] = "";
+	mStringMap["ThemeSystemView"] = "";
+	mStringMap["ThemeGamelistView"] = "";
+	mStringMap["ThemeRegionName"] = "eu";
     mStringMap["ScreenSaverBehavior"] = "dim";
     mStringMap["Scraper"] = "Screenscraper";
     mStringMap["Lang"] = "en_US";

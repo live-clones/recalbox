@@ -6,7 +6,11 @@ EmulationStation allows each system to have its own "theme." A theme is a collec
 The first place ES will check for a theme is in the system's `<path>` folder, for a theme.xml file:
 * `[SYSTEM_PATH]/theme.xml`
 
-If that file doesn't exist, ES will try to find the theme in the current **theme set**.  Theme sets are just a collection of individual system themes arranged in the "themes" folder under some name.  Here's an example:
+Then it will check for * `[CURRENT_THEME_PATH]/[SYSTEM]/theme.xml`
+
+and finally in :
+
+* `[CURRENT_THEME_PATH]/theme.xml`
 
 ```
 ...
@@ -33,7 +37,7 @@ The theme set system makes it easy for users to try different themes and allows 
 
 There are two places ES can load theme sets from:
 * `[HOME]/.emulationstation/themes/[CURRENT_THEME_SET]/[SYSTEM_THEME]/theme.xml`
-* `/etc/emulationstation/themes/[CURRENT_THEME_SET]/[SYSTEM_THEME]/theme.xml`
+* `/etc/emulationstation/themes/[CURRENT_THEME_SET]/[SYSTEM_THEME]/theme.xml` (please note that in Recalbox, `/etc/emulationstation/` points to SHARE_INIT that is read only)
 
 `[SYSTEM_THEME]` is the `<theme>` tag for the system, as defined in `es_systems.cfg`.  If the `<theme>` tag is not set, ES will use the system's `<name>`.
 
@@ -68,7 +72,7 @@ How it works
 
 Everything must be inside a `<theme>` tag.
 
-**The `<formatVersion>` tag *must* be specified**.  This is the version of the theming system the theme was designed for.  The current version is 3.
+**The `<formatVersion>` tag *must* be specified**.  This is the version of the theming system the theme was designed for.  The current version is 4.
 
 
 
@@ -161,6 +165,26 @@ Is equivalent to this `snes/theme.xml`:
 
 Notice that properties that were not specified got merged (`<fontPath>`) and the `snes/theme.xml` could overwrite the included files' values (`<color>`).  Also notice the included file still needed the `<formatVersion>` tag.
 
+### Change configurable theme elements within ES
+
+You can add name and subset attributes in `<include>` tag, that way, you can have several different includes that are configurable directly in ES.
+
+`~/.emulationstation/all_themes.xml`:
+```xml
+<theme>
+	<formatVersion>4</formatVersion>
+	<include name="nice colors" subset="colorset">./../nice_colors.xml</include>
+	<include name="other colors" subset="colorset">./../other_colors.xml</include>
+	<include name="nice systemview" subset="systemview">./../nice_sys.xml</include>
+	<include name="new carousel" subset="systemview">./../carousel.xml</include>
+	<include name="nice gamelist" subset="gamelistview">./../game.xml</include>
+	<include name="ugly gamelist" subset="gamelistview">./../ugly.xml</include>
+</theme>
+```
+
+name must be unique among all includes.
+subset must be "colorset", "iconset", "menu", "systemview" or "gamelistview".
+the selected options are stored in es_settings.cfg once selected in the menus.
 
 
 ### Theming multiple views simultaneously
@@ -268,6 +292,97 @@ Which is equivalent to:
 
 Just remember, *this only works if the elements have the same type!*
 
+### Element rendering order with z-index
+ 
+ You can now change the order in which elements are rendered by setting `zIndex` values.  Default values correspond to the default rendering order while allowing elements to easily be shifted without having to set `zIndex` values for every element.  Elements will be rendered in order from smallest z-index to largest.
+ 
+ #### Defaults
+ 
+ ##### system
+ * Extra Elements `extra="true"` - 10
+ * `carousel name="systemcarousel"` - 40
+ * `text name="systemInfo"` - 50
+ 
+ ##### basic, detailed, video
+ * `image name="background"` - 0
+ * Extra Elements `extra="true"` - 10
+ * `textlist name="gamelist"` - 20
+ * Media
+ 	* `image name="md_image"` - 30
+ 	* `video name="md_video"` - 30
+ 	* `image name="md_marquee"` - 35
+ * Metadata - 40
+ 	* Labels
+ 		* `text name="md_lbl_rating"`
+ 		* `text name="md_lbl_releasedate"`
+ 		* `text name="md_lbl_developer"`
+ 		* `text name="md_lbl_publisher"`
+ 		* `text name="md_lbl_genre"`
+ 		* `text name="md_lbl_players"`
+ 		* `text name="md_lbl_lastplayed"`
+ 		* `text name="md_lbl_playcount"`
+ 	* Values
+ 		* `rating name="md_rating"`
+ 		* `datetime name="md_releasedate"`
+ 		* `text name="md_developer"`
+ 		* `text name="md_publisher"`
+ 		* `text name="md_genre"`
+ 		* `text name="md_players"`
+ 		* `datetime name="md_lastplayed"`
+ 		* `text name="md_playcount"`
+ 		* `text name="md_description"`
+ * System Logo/Text - 50
+ 	* `text name="logoText"`
+ 	* `image name="logo"`
+ 
+### Region based elements
+
+you can add a region property in any element so that user can choose in ES which ones will be displayed.
+
+
+```
+<image name="logo" region="eu">
+	<path>./snes_art/snes_eu.png</path>
+</image>
+<image name="logo" region="jp">
+	<path>./snes_art/snes_jp.png</path>
+</image>
+<image name="logo" region="us">
+	<path>./snes_art/snes_us.png</path>
+</image>
+```
+
+in this example, if user set ES option to jp, only the second logo will be used.
+Selected option is stored in es_settings.cfg.
+
+### System variable
+
+You can use a special name (variable) in paths for images, fonts and even <include> tags that ES will replace with the correct path found in es_systems.cfg.
+
+```
+<image name="logo">
+	<path>./$system/logo.png</path>
+</image>
+<include>./$system/myxml.xml</include>
+```
+
+will transform in:
+
+```
+<image name="logo">
+	<path>./nes/logo.png</path>
+</image>
+<include>./nes/myxml.xml</include>
+```
+
+```
+<image name="logo">
+	<path>./mame/logo.png</path>
+</image>
+<include>./mame/myxml.xml</include>
+```
+
+and so on.
 
 Reference
 =========
@@ -315,7 +430,7 @@ Reference
 	* Values
 		* All values will follow to the right of their labels if a position isn't specified.
 
-		* `image name="md_image"` - POSITION | SIZE
+		* `image name="md_image"` - POSITION | SIZE | Z_INDEX
 			- Path is the "image" metadata for the currently selected game.
 		* `rating name="md_rating"` - ALL
 			- The "rating" metadata.
@@ -335,7 +450,7 @@ Reference
 			- The "playcount" metadata (number of times the game has been played).
 		* `text name="md_favorite"` - ALL
 			- The "favorite" metadata (is this game a favorite).
-		* `text name="md_description"` - POSITION | SIZE | FONT_PATH | FONT_SIZE | COLOR
+		* `text name="md_description"` - POSITION | SIZE | FONT_PATH | FONT_SIZE | COLOR | Z_INDEX
 			- Text is the "desc" metadata.  If no `pos`/`size` is specified, will move and resize to fit under the lowest label and reach to the bottom of the screen.
 
 ---
@@ -355,10 +470,38 @@ Reference
 #### system
 * `helpsystem name="help"` - ALL
 	- The help system style for this view.
+* `carousel name="systemcarousel"` -ALL
+	- The system logo carousel
 * `image name="logo"` - PATH
 	- A logo image, to be displayed in the system logo carousel.
+* `text name="systemInfo"` - ALL
+	- Displays details of the system currently selected in the carousel.
 * You can use extra elements (elements with `extra="true"`) to add your own backgrounds, etc.  They will be displayed behind the carousel, and scroll relative to the carousel.
 
+---
+
+#### menu
+* `helpsystem name="help"` - ALL
+	- The help system style for this view. If not defined, menus will have the same helpsystem as defined in system view.
+* `menuBackground name="menubg"` - COLOR | PATH | FADEPATH
+	- The background behind menus. you can set an image and/or change color (alpha supported)
+	
+* `menuSwitch name="menuswitch"` - PATHON | PATHOFF
+	- Images for the on/off switch in menus
+* `menuSlider name="menuslider"` - PATH
+	- Image for the slider knob in menus
+* `menuButton name="menubutton"` - PATH | FILLEDPATH
+	- Images for menu buttons
+* `menuText name="menutext"` - FONTPATH | FONTSIZE | COLOR
+	- text for all menu entries
+* `menuText name="menutitle"` - FONTPATH | FONTSIZE | COLOR
+	- text for menu titles
+* `menuText name="menufooter"` - FONTPATH | FONTSIZE | COLOR
+	- text for menu footers or subtitles
+* `menuTextSmall name="menutextsmall"` - FONTPATH | FONTSIZE | COLOR
+	- text for menu entries in smallerfont
+	
+menu is used to theme helpsystem and ES menus.
 
 ## Types of properties:
 
@@ -395,7 +538,9 @@ Can be created as an extra.
 	- If true, the image will be tiled instead of stretched to fit its size.  Useful for backgrounds.
 * `color` - type: COLOR.
 	- Multiply each pixel's color by this color. For example, an all-white image with `<color>FF0000</color>` would become completely red.  You can also control the transparency of an image with `<color>FFFFFFAA</color>` - keeping all the pixels their normal color and only affecting the alpha channel.
-
+* `zIndex` - type: FLOAT.
+	- z-index value for component.  Components will be rendered in order of z-index value from low to high.
+	
 #### text
 
 Can be created as an extra.
@@ -416,6 +561,8 @@ Can be created as an extra.
 	- Valid values are "left", "center", or "right".  Controls alignment on the X axis.  "center" will also align vertically.
 * `forceUppercase` - type: BOOLEAN.  Draw text in uppercase.
 * `lineSpacing` - type: FLOAT.  Controls the space between lines (as a multiple of font height).  Default is 1.5.
+* `zIndex` - type: FLOAT.
+	- z-index value for component.  Components will be rendered in order of z-index value from low to high.
 
 #### textlist
 
@@ -423,6 +570,14 @@ Can be created as an extra.
 * `size` - type: NORMALIZED_PAIR.
 * `selectorColor` - type: COLOR.
 	- Color of the "selector bar."
+* `selectorImagePath` - type: PATH.
+	- Path to image to render in place of "selector bar."
+* `selectorImageTile` - type: BOOLEAN.
+	- If true, the selector image will be tiled instead of stretched to fit its size.
+* `selectorHeight` - type: FLOAT.
+	- Height of the "selector bar".
+* `selectorOffsetY` - type: FLOAT.
+	- Allows moving of the "selector bar" up or down from its computed position.  Useful for fine tuning the position of the "selector bar" relative to the text.
 * `selectedColor` - type: COLOR.
 	- Color of the highlighted entry text.
 * `primaryColor` - type: COLOR.
@@ -439,12 +594,16 @@ Can be created as an extra.
 	- Horizontal offset for text from the alignment point.  If `alignment` is "left", offsets the text to the right.  If `alignment` is "right", offsets text to the left.  No effect if `alignment` is "center".  Given as a percentage of the element's parent's width (same unit as `size`'s X value).
 * `forceUppercase` - type: BOOLEAN.  Draw text in uppercase.
 * `lineSpacing` - type: FLOAT.  Controls the space between lines (as a multiple of font height).  Default is 1.5.
+* `zIndex` - type: FLOAT.
+	- z-index value for component.  Components will be rendered in order of z-index value from low to high.
 
 #### ninepatch
 
 * `pos` - type: NORMALIZED_PAIR.
 * `size` - type: NORMALIZED_PAIR.
 * `path` - type: PATH.
+* `zIndex` - type: FLOAT.
+	- z-index value for component.  Components will be rendered in order of z-index value from low to high.
 
 EmulationStation borrows the concept of "nine patches" from Android (or "9-Slices"). Currently the implementation is very simple and hard-coded to only use 48x48px images (16x16px for each "patch"). Check the `data/resources` directory for some examples (button.png, frame.png).
 
@@ -457,6 +616,8 @@ EmulationStation borrows the concept of "nine patches" from Android (or "9-Slice
 	- Path to the "filled star" image.  Image must be square (width equals height).
 * `unfilledPath` - type: PATH.
 	- Path to the "unfilled star" image.  Image must be square (width equals height).
+* `zIndex` - type: FLOAT.
+	- z-index value for component.  Components will be rendered in order of z-index value from low to high.
 
 #### datetime
 
@@ -480,6 +641,53 @@ EmulationStation borrows the concept of "nine patches" from Android (or "9-Slice
 * `iconColor` - type: COLOR.  Default is 777777FF.
 * `fontPath` - type: PATH.
 * `fontSize` - type: FLOAT.
+* `iconUpDown` - type: PATH.
+* `iconLeftRight` - type: PATH.
+* `iconUpDownLeftRight` - type: PATH.
+* `iconA` - type: PATH.
+* `iconB` - type: PATH.
+* `iconX` - type: PATH.
+* `iconY` - type: PATH.
+* `iconL` - type: PATH.
+* `iconR` - type: PATH.
+* `iconStart` - type: PATH.
+* `iconSelect` - type: PATH.
+
+#### carousel
+
+* `type` - type: STRING.
+	- Accepted values are "horizontal" or "vertical".  Sets the scoll direction of the carousel.
+ 	- Default is "horizontal".
+* `size` - type: NORMALIZED_PAIR. Default is "1 0.2325"
+* `pos` - type: NORMALIZED_PAIR.  Default is "0 0.38375".
+* `color` - type: COLOR.
+	- Controls the color of the carousel background.
+	- Default is FFFFFFD8
+* `logoSize` - type: NORMALIZED_PAIR.  Default is "0.25 0.155"
+* `logoScale` - type: FLOAT.
+ * Selected logo is increased in size by this scale
+ * Default is 1.2
+* `maxLogoCount` - type: FLOAT.
+	- Sets the number of logos to display in the carousel.
+	- Default is 3
+* `zIndex` - type: FLOAT.
+	- z-index value for component.  Components will be rendered in order of z-index value from low to high.
+	
+#### menuText & menuTextSmall
+
+* `color` - type: COLOR. 
+	- Default is 777777FF
+* `fontPath` - type: PATH.
+	- Path to a truetype font (.ttf).
+* `fontSize` - type: FLOAT.
+	- Size of the font as a percentage of screen height (e.g. for a value of `0.1`, the text's height would be 10% of the screen height). Default is 0.085 for menutitle, 0.045 for menutext and 0.035 for menufooter and menutextsmall.
+* `separatorColor` - type: COLOR. 
+	- Default is C6C7C6FF. Color of lines that separates menu entries.
+* `selectedColor` - type: COLOR. 
+	- Default is FFFFFFFF. Color of text for selected menu entry.
+* `selectorColor` - type: COLOR. 
+	- Default is 878787FF. Color of the selector bar.
+	
 
 The help system is a special element that displays a context-sensitive list of actions the user can take at any time.  You should try and keep the position constant throughout every screen.  Keep in mind the "default" settings (including position) are used whenever the user opens a menu.
 

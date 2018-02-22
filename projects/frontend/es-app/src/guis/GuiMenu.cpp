@@ -27,6 +27,9 @@
 
 #include "components/SwitchComponent.h"
 #include "components/SliderComponent.h"
+#include "components/TextComponent.h"
+#include "components/OptionListComponent.h"
+#include "components/MenuComponent.h"
 #include "VolumeControl.h"
 
 #include "guis/GuiTextEditPopup.h"
@@ -36,12 +39,17 @@
 #include "RecalboxConf.h"
 #include "MenuMessages.h"
 
+#include "MenuThemeData.h"
+#include "animations/LambdaAnimation.h"
+
 void GuiMenu::createInputTextRow(GuiSettings *gui, std::string title, const char *settingsID, bool password, std::string help = "") {
     // LABEL
     Window *window = mWindow;
     ComponentListRow row;
+	
+	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 
-    auto lbl = std::make_shared<TextComponent>(window, title, Font::get(FONT_SIZE_MEDIUM), 0x777777FF);
+    auto lbl = std::make_shared<TextComponent>(window, title, menuTheme->menuText.font, menuTheme->menuText.color);
     row.addElement(lbl, true); // label
 
     std::shared_ptr<GuiComponent> ed;
@@ -49,7 +57,7 @@ void GuiMenu::createInputTextRow(GuiSettings *gui, std::string title, const char
     ed = std::make_shared<TextComponent>(window, ((password &&
                                                    RecalboxConf::getInstance()->get(settingsID) != "")
                                                   ? "*********" : RecalboxConf::getInstance()->get(
-                    settingsID)), Font::get(FONT_SIZE_MEDIUM, FONT_PATH_LIGHT), 0x777777FF, ALIGN_RIGHT);
+                    settingsID)), menuTheme->menuText.font, menuTheme->menuText.color, ALIGN_RIGHT);
     row.addElement(ed, true);
 
     auto spacer = std::make_shared<GuiComponent>(mWindow);
@@ -57,8 +65,15 @@ void GuiMenu::createInputTextRow(GuiSettings *gui, std::string title, const char
     row.addElement(spacer, false);
 
     auto bracket = std::make_shared<ImageComponent>(mWindow);
-    bracket->setImage(":/arrow.svg");
-    bracket->setResize(Eigen::Vector2f(0, lbl->getFont()->getLetterHeight()));
+   
+	
+	
+	
+	bracket->setImage(menuTheme->iconSet.arrow);
+	bracket->setColorShift(menuTheme->menuText.color);
+	bracket->setResize(Eigen::Vector2f(0, round(menuTheme->menuText.font->getLetterHeight())));
+	
+    
     row.addElement(bracket, false);
 
     auto updateVal = [ed, settingsID, password](const std::string &newVal) {
@@ -106,15 +121,18 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
     // NETWORK >
     // SCRAPER >
     // QUIT >
+
+	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+	
     if (RecalboxConf::getInstance()->get("kodi.enabled") == "1") {
-        addEntryWithHelp(_("KODI MEDIA CENTER").c_str(), MenuMessages::START_KODI_HELP_MSG, 0x777777FF, true,
+        addEntryWithHelp(_("KODI MEDIA CENTER").c_str(), MenuMessages::START_KODI_HELP_MSG, menuTheme->menuText.color, true,
                  [this] {
                      Window *window = mWindow;
 
                      if (!RecalboxSystem::getInstance()->launchKodi(window)) {
                          LOG(LogWarning) << "Shutdown terminated with non-zero result!";
                      }
-                 });
+                 }, menuTheme->menuIconSet.kodi);
     }
     if (Settings::getInstance()->getBool("RomsManager")) {
         addEntry("ROMS MANAGER", 0x777777FF, true, [this] {
@@ -122,21 +140,21 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
         });
     }
     if (RecalboxConf::getInstance()->get("emulationstation.menu") != "bartop") {
-        addEntryWithHelp(_("SYSTEM SETTINGS").c_str(), MenuMessages::SYSTEM_HELP_MSG, 0x777777FF, true,
-                         [this] {
+        addEntryWithHelp(_("SYSTEM SETTINGS").c_str(), MenuMessages::SYSTEM_HELP_MSG, menuTheme->menuText.color, true,
+                         [this, menuTheme] {
                              Window *window = mWindow;
 
                              auto s = new GuiSettings(mWindow, _("SYSTEM SETTINGS").c_str());
 
                              auto version = std::make_shared<TextComponent>(mWindow,
                                                                             RecalboxUpgrade::getInstance()->getVersion(),
-                                                                            Font::get(FONT_SIZE_MEDIUM), 0x777777FF);
+                                                                            menuTheme->menuText.font, menuTheme->menuText.color);
                              s->addWithLabelAndHelp(_("VERSION"), version, MenuMessages::VERSION_HELP_MSG);
                              bool warning = RecalboxSystem::getInstance()->isFreeSpaceLimit();
                              auto space = std::make_shared<TextComponent>(mWindow,
                                                                           RecalboxSystem::getInstance()->getFreeSpaceInfo(),
-                                                                          Font::get(FONT_SIZE_MEDIUM),
-                                                                          warning ? 0xFF0000FF : 0x777777FF);
+                                                                          menuTheme->menuText.font,
+                                                                          warning ? 0xFF0000FF : menuTheme->menuText.color);
                              s->addWithLabelAndHelp(_("DISK USAGE"), space, MenuMessages::DISK_USAGE_HELP_MSG);
 
                              std::vector<std::string> availableStorage = RecalboxSystem::getInstance()->getAvailableStorageDevices();
@@ -165,6 +183,14 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                              }
                              s->addWithLabelAndHelp(_("STORAGE DEVICE"), optionsStorage,
                                                     MenuMessages::STORAGE_DEVICE_HELP_MSG);
+													
+							/*
+							// maximum vram
+							auto max_vram = std::make_shared<SliderComponent>(mWindow, 0.f, 1000.f, 10.f, "Mb");
+							max_vram->setValue((float)(Settings::getInstance()->getInt("MaxVRAM")));
+							s->addWithLabel("VRAM LIMIT", max_vram);
+							s->addSaveFunc([max_vram] { Settings::getInstance()->setInt("MaxVRAM", (int)round(max_vram->getValue())); });
+							*/
 
 
                              // language choice
@@ -230,12 +256,12 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                              });
                              mWindow->pushGui(s);
 
-                         });
+                         }, menuTheme->menuIconSet.system);
     }
     if (RecalboxConf::getInstance()->get("emulationstation.menu") != "bartop") {
 
-        addEntryWithHelp(_("UPDATES").c_str(), MenuMessages::UPDATE_HELP_MSG.c_str(), 0x777777FF, true,
-                         [this] {
+        addEntryWithHelp(_("UPDATES").c_str(), MenuMessages::UPDATE_HELP_MSG.c_str(), menuTheme->menuText.color, true,
+                         [this, menuTheme] {
                              GuiSettings *updateGui = new GuiSettings(mWindow, _("UPDATES").c_str());
                              // Enable updates
                              auto updates_enabled = std::make_shared<SwitchComponent>(mWindow);
@@ -247,8 +273,7 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                              if (RecalboxUpgrade::getInstance()->canUpdate()) {
                                  auto updateVersion = std::make_shared<TextComponent>(mWindow,
                                                                                       _("YES"),
-                                                                                      Font::get(FONT_SIZE_MEDIUM),
-                                                                                      0x777777FF);
+                                                                                      menuTheme->menuText.font, menuTheme->menuText.color);
                                  updateGui->addWithLabelAndHelp(_("AVAILABLE UPDATE"), updateVersion,
                                                                 MenuMessages::UPDATE_VERSION_HELP_MSG);
                                  // Display available update changelog
@@ -295,10 +320,10 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                              });
                              mWindow->pushGui(updateGui);
 
-                         });
+                         }, menuTheme->menuIconSet.updates);
     }
-    addEntryWithHelp(_("GAMES SETTINGS").c_str(), MenuMessages::GAME_SETTINGS_HELP_MSG, 0x777777FF, true,
-                     [this] {
+    addEntryWithHelp(_("GAMES SETTINGS").c_str(), MenuMessages::GAME_SETTINGS_HELP_MSG, menuTheme->menuText.color, true,
+                     [this, menuTheme] {
                          auto s = new GuiSettings(mWindow, _("GAMES SETTINGS").c_str());
                          if (RecalboxConf::getInstance()->get("emulationstation.menu") != "bartop") {
                              // Screen ratio choice
@@ -362,7 +387,7 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                          if (RecalboxConf::getInstance()->get("emulationstation.menu") != "bartop") {
                              // Retroachievements
                              {
-                                 std::function<void()> openGui = [this] {
+                                 std::function<void()> openGui = [this, menuTheme] {
                                      GuiSettings *retroachievements = new GuiSettings(mWindow,
                                                                                       _("RETROACHIEVEMENTS SETTINGS").c_str());
                                      // retroachievements_enable
@@ -408,9 +433,7 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                                  };
                                  auto retroachievementsSettings = std::make_shared<TextComponent>(mWindow,
                                                                                                   _("RETROACHIEVEMENTS SETTINGS"),
-                                                                                                  Font::get(
-                                                                                                          FONT_SIZE_MEDIUM),
-                                                                                                  0x777777FF);
+                                                                                                  menuTheme->menuText.font, menuTheme->menuText.color);
                                  s->addSubMenu(_("RETROACHIEVEMENTS SETTINGS"), openGui, MenuMessages::RA_HELP_MSG);
                              }
 
@@ -427,18 +450,18 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                          mWindow->pushGui(s);
                      }
 
-    );
+    , menuTheme->menuIconSet.games);
 
     if (RecalboxConf::getInstance()->get("emulationstation.menu") != "bartop") {
-        addEntryWithHelp(_("CONTROLLERS SETTINGS").c_str(), MenuMessages::CONTROLLER_HELP_MSG, 0x777777FF, true,
-                         [this] { this->createConfigInput(); });
+        addEntryWithHelp(_("CONTROLLERS SETTINGS").c_str(), MenuMessages::CONTROLLER_HELP_MSG, menuTheme->menuText.color, true,
+                         [this] { this->createConfigInput(); }, menuTheme->menuIconSet.controllers);
     }
     if (RecalboxConf::getInstance()->get("emulationstation.menu") != "bartop") {
 
-        addEntryWithHelp(_("UI SETTINGS").c_str(), MenuMessages::UI_HELP_MSG, 0x777777FF, true,
+        addEntryWithHelp(_("UI SETTINGS").c_str(), MenuMessages::UI_HELP_MSG, menuTheme->menuText.color, true,
                          [this] {
                              auto s = new GuiSettings(mWindow, _("UI SETTINGS").c_str());
-
+							Window *window = mWindow;
 
                              // screensaver time
                              auto screensaver_time = std::make_shared<SliderComponent>(mWindow, 0.f, 30.f, 1.f, "m");
@@ -515,9 +538,8 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                              });
 
                              // theme set
-                             auto themeSets = ThemeData::getThemeSets();
-
-                             if (!themeSets.empty()) {
+								auto themeSets = ThemeData::getThemeSets();							
+                             
                                  auto selectedSet = themeSets.find(Settings::getInstance()->getString("ThemeSet"));
                                  if (selectedSet == themeSets.end())
                                      selectedSet = themeSets.begin();
@@ -529,20 +551,230 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                                      theme_set->add(it->first, it->first, it == selectedSet);
                                  s->addWithLabelAndHelp(_("THEME SET"), theme_set, MenuMessages::UI_THEME_HELP_MSG);
 
-                                 Window *window = mWindow;
-                                 s->addSaveFunc([window, theme_set] {
-                                     bool needReload = false;
-                                     if (Settings::getInstance()->getString("ThemeSet") != theme_set->getSelected())
-                                         needReload = true;
+                                 std::function<void()> ReloadAll = [this, window] () {
+									 ViewController::get()->goToStart();
+                                                                    window->renderShutdownScreen();
+                                                                    delete ViewController::get();
+                                                                    SystemData::deleteSystems();
+                                                                    SystemData::loadConfig();
+                                                                    GuiComponent *gui;
+                                                                    while ((gui = window->peekGui()) != NULL) {
+                                                                        window->removeGui(gui);
 
-                                     Settings::getInstance()->setString("ThemeSet", theme_set->getSelected());
+                                                                    }
+                                                                    delete gui;
+                                                                    ViewController::init(window);
+                                                                    ViewController::get()->reloadAll();
+                                                                    window->pushGui(ViewController::get());
+                                                                    ViewController::get()->goToStart();
+																	MenuThemeData::getInstance();
+																	Settings::getInstance()->setBool("ThemeChanged", false);
+								 };
+								 
+								 
+                                 s->addSaveFunc([this, window, theme_set, ReloadAll] {
+                                   
+                                    if (Settings::getInstance()->getString("ThemeSet") != theme_set->getSelected())
+									{
 
-                                     if (needReload)
-                                         ViewController::get()->reloadAll(); // TODO - replace this with some sort of signal-based implementation
+										Settings::getInstance()->setString("ThemeSet", theme_set->getSelected());
+									 
+										auto themeSubSets = ThemeData::getThemeSubSets(theme_set->getSelected());
+										auto themeColorSets = ThemeData::sortThemeSubSets(themeSubSets, "colorset");
+										auto themeIconSets = ThemeData::sortThemeSubSets(themeSubSets, "iconset");
+										auto themeMenus = ThemeData::sortThemeSubSets(themeSubSets, "menu");
+										auto themeSystemviewSets = ThemeData::sortThemeSubSets(themeSubSets, "systemview");
+										auto themeGamelistViewSets = ThemeData::sortThemeSubSets(themeSubSets, "gamelistview");
+										auto themeRegions = ThemeData::sortThemeSubSets(themeSubSets, "region");
+										
+										// theme changed without setting options, forcing options to avoid crash/blank theme
+										if (themeRegions.empty()) 
+											Settings::getInstance()->setString("ThemeRegionName", "");
+										else
+											Settings::getInstance()->setString("ThemeRegionName", themeRegions.begin()->first);
+										
+										if (themeColorSets.empty()) 
+											Settings::getInstance()->setString("ThemeColorSet", "");
+										else
+											Settings::getInstance()->setString("ThemeColorSet", themeColorSets.begin()->first);
+										
+										if (themeIconSets.empty()) 
+											Settings::getInstance()->setString("ThemeIconSet", "");
+										else
+											Settings::getInstance()->setString("ThemeIconSet", themeIconSets.begin()->first);
+										
+										if (themeMenus.empty()) 
+											Settings::getInstance()->setString("ThemeMenu", "");
+										else
+											Settings::getInstance()->setString("ThemeMenu", themeMenus.begin()->first);
+										
+										if (themeSystemviewSets.empty()) 
+											Settings::getInstance()->setString("ThemeSystemView", "");
+										else
+											Settings::getInstance()->setString("ThemeSystemView", themeSystemviewSets.begin()->first);
+										
+										if (themeGamelistViewSets.empty()) 
+											Settings::getInstance()->setString("ThemeGamelistView", "");
+										else
+											Settings::getInstance()->setString("ThemeGamelistView", themeGamelistViewSets.begin()->first);
+										
+										Settings::getInstance()->setBool("ThemeChanged", true);
+									
+										//reload theme:
+
+                                        ReloadAll();
+									}
                                  });
-                             }
+                             
+							 
+							 // theme config
+							 std::function<void()> openGui = [this, theme_set, window, ReloadAll] {
+                                     auto themeconfig = new GuiSettings(mWindow, _("THEME CONFIGURATION").c_str());
+									 
+									 auto SelectedTheme = theme_set->getSelected();
+									
+									auto themeSubSets = ThemeData::getThemeSubSets(SelectedTheme);
+									auto themeColorSets = ThemeData::sortThemeSubSets(themeSubSets, "colorset");
+									auto themeIconSets = ThemeData::sortThemeSubSets(themeSubSets, "iconset");
+									auto themeMenus = ThemeData::sortThemeSubSets(themeSubSets, "menu");
+									auto themeSystemviewSets = ThemeData::sortThemeSubSets(themeSubSets, "systemview");
+									auto themeGamelistViewSets = ThemeData::sortThemeSubSets(themeSubSets, "gamelistview");
+									auto themeRegions = ThemeData::sortThemeSubSets(themeSubSets, "region");
+									 
+									// colorset
+									 
+									auto selectedColorSet = themeColorSets.find(Settings::getInstance()->getString("ThemeColorSet"));
+									if (selectedColorSet == themeColorSets.end())
+											selectedColorSet = themeColorSets.begin();
+									auto theme_colorset = std::make_shared<OptionListComponent<std::string> >(mWindow, _("THEME COLORSET"), false);
+										
+									for (auto it = themeColorSets.begin(); it != themeColorSets.end(); it++)
+										theme_colorset->add(it->first, it->first, it == selectedColorSet);
+									
+									if (!themeColorSets.empty())
+										themeconfig->addWithLabelAndHelp(_("THEME COLORSET"), theme_colorset, MenuMessages::UI_THEME_COLORSET_MSG);
+									
+									// iconset
+									 
+									auto selectedIconSet = themeIconSets.find(Settings::getInstance()->getString("ThemeIconSet"));
+									if (selectedIconSet == themeIconSets.end())
+											selectedIconSet = themeIconSets.begin();
+									auto theme_iconset = std::make_shared<OptionListComponent<std::string> >(mWindow, _("THEME ICONSET"), false);
+										
+									for (auto it = themeIconSets.begin(); it != themeIconSets.end(); it++)
+										theme_iconset->add(it->first, it->first, it == selectedIconSet);
+									
+									if (!themeIconSets.empty())
+										themeconfig->addWithLabelAndHelp(_("THEME ICONSET"), theme_iconset, MenuMessages::UI_THEME_ICONSET_MSG);
+										
+									// menu
+									 
+									auto selectedMenu = themeMenus.find(Settings::getInstance()->getString("ThemeMenu"));
+									if (selectedMenu == themeMenus.end())
+											selectedMenu = themeMenus.begin();
+									auto theme_menu = std::make_shared<OptionListComponent<std::string> >(mWindow, _("THEME MENU"), false);
+										
+									for (auto it = themeMenus.begin(); it != themeMenus.end(); it++)
+										theme_menu->add(it->first, it->first, it == selectedMenu);
+									
+									if (!themeMenus.empty())
+										themeconfig->addWithLabelAndHelp(_("THEME MENU"), theme_menu, MenuMessages::UI_THEME_MENU_MSG);
+							 
+							 
+									// systemview
+									
+									auto selectedSystemviewSet = themeSystemviewSets.find(Settings::getInstance()->getString("ThemeSystemView"));
+									if (selectedSystemviewSet == themeSystemviewSets.end())
+											selectedSystemviewSet = themeSystemviewSets.begin();
+
+									auto theme_systemview = std::make_shared<OptionListComponent<std::string> >(mWindow, _("THEME SYSTEMVIEW"), false);
+										
+									for (auto it = themeSystemviewSets.begin(); it != themeSystemviewSets.end(); it++)
+										theme_systemview->add(it->first, it->first, it == selectedSystemviewSet);
+										
+									if (!themeSystemviewSets.empty())
+										themeconfig->addWithLabelAndHelp(_("THEME SYSTEMVIEW"), theme_systemview, MenuMessages::UI_THEME_SYSTEMVIEW_MSG);
+	
+									// gamelistview
+									
+									auto selectedGamelistViewSet = themeGamelistViewSets.find(Settings::getInstance()->getString("ThemeGamelistView"));
+									if (selectedGamelistViewSet == themeGamelistViewSets.end())
+											selectedGamelistViewSet = themeGamelistViewSets.begin();
+										
+									auto theme_gamelistview = std::make_shared<OptionListComponent<std::string> >(mWindow, _("THEME GAMELISTVIEW"), false);
+									
+									for (auto it = themeGamelistViewSets.begin(); it != themeGamelistViewSets.end(); it++)
+											theme_gamelistview->add(it->first, it->first, it == selectedGamelistViewSet);
+										
+									if (!themeGamelistViewSets.empty())
+											themeconfig->addWithLabelAndHelp(_("THEME GAMELISTVIEW"), theme_gamelistview, MenuMessages::UI_THEME_GAMELISTVIEW_MSG);
+										
+									// themeregion
+									
+									auto selectedRegion = themeRegions.find(Settings::getInstance()->getString("ThemeRegionName"));
+									if (selectedRegion == themeRegions.end())
+											selectedRegion = themeRegions.begin();
+										
+									auto theme_region = std::make_shared<OptionListComponent<std::string> >(mWindow, _("THEME GAMELISTVIEW"), false);
+									
+									for (auto it = themeRegions.begin(); it != themeRegions.end(); it++)
+											theme_region->add(it->first, it->first, it == selectedRegion);
+										
+									if (!themeRegions.empty())
+											themeconfig->addWithLabelAndHelp(_("THEME REGION"), theme_region, MenuMessages::UI_THEME_GAMELISTVIEW_MSG);
+							 
+							 
+									themeconfig->addSaveFunc([this, window, theme_set, theme_colorset, theme_iconset, theme_menu, theme_systemview, theme_gamelistview, theme_region, ReloadAll] {
+											bool needReload = false;
+											if (Settings::getInstance()->getString("ThemeColorSet") != theme_colorset->getSelected() && theme_colorset->getSelected() != "")
+												needReload = true;
+											if (Settings::getInstance()->getString("ThemeIconSet") != theme_iconset->getSelected() && theme_iconset->getSelected() != "")
+												needReload = true;
+											if (Settings::getInstance()->getString("ThemeMenu") != theme_menu->getSelected() && theme_menu->getSelected() != "")
+												needReload = true;
+											if (Settings::getInstance()->getString("ThemeSystemView") != theme_systemview->getSelected() && theme_systemview->getSelected() != "")
+												needReload = true;
+											if (Settings::getInstance()->getString("ThemeGamelistView") != theme_gamelistview->getSelected() && theme_gamelistview->getSelected() != "")
+												needReload = true;
+											if (Settings::getInstance()->getString("ThemeRegionName") != theme_region->getSelected() && theme_region->getSelected() != "")
+												needReload = true;
+
+										
+
+										if (needReload){
+											
+											Settings::getInstance()->setString("ThemeSet", theme_set->getSelected());
+											Settings::getInstance()->setString("ThemeColorSet", theme_colorset->getSelected());
+											Settings::getInstance()->setString("ThemeIconSet", theme_iconset->getSelected());
+											Settings::getInstance()->setString("ThemeMenu", theme_menu->getSelected());
+											Settings::getInstance()->setString("ThemeSystemView", theme_systemview->getSelected());
+											Settings::getInstance()->setString("ThemeGamelistView", theme_gamelistview->getSelected());
+											Settings::getInstance()->setString("ThemeRegionName", theme_region->getSelected());
+											
+											Settings::getInstance()->setBool("ThemeChanged", true);
+											
+											//reload theme
+
+											ReloadAll();
+											
+										}
+											
+											
+										});
+									if (!themeRegions.empty() || !themeGamelistViewSets.empty() || !themeSystemviewSets.empty() || !themeIconSets.empty() || !themeMenus.empty() || !themeColorSets.empty())
+										mWindow->pushGui(themeconfig);
+									else
+										mWindow->pushGui(new GuiMsgBox(window, _("THIS THEME HAS NO OPTION"), _("OK")));
+                                 };
+                                 s->addSubMenu(_("THEME CONFIGURATION"), openGui, MenuMessages::UI_THEME_CONFIGURATION_MSG);
+						 
+							
+							 
+							
+							 
+							 
+							 
                              // Game List Update
-                             Window *window = mWindow;
                              s->addSubMenu(_("UPDATE GAMES LISTS"), [this,window] {
                                  window->pushGui(new GuiMsgBox(window, _("REALLY UPDATE GAMES LISTS ?"), _("YES"),
                                                                 [this,window] {
@@ -564,10 +796,10 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                              }, MenuMessages::UI_UPDATE_GAMELIST_HELP_MSG);
 
                              mWindow->pushGui(s);
-                         });
+                         }, menuTheme->menuIconSet.ui);
     }
 
-    addEntryWithHelp(_("SOUND SETTINGS").c_str(), MenuMessages::SOUND_HELP_MSG, 0x777777FF, true,
+    addEntryWithHelp(_("SOUND SETTINGS").c_str(), MenuMessages::SOUND_HELP_MSG, menuTheme->menuText.color, true,
                      [this] {
                          auto s = new GuiSettings(mWindow, _("SOUND SETTINGS").c_str());
 
@@ -627,11 +859,11 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                          });
 
                          mWindow->pushGui(s);
-                     });
+                     }, menuTheme->menuIconSet.sound);
 
     if (RecalboxConf::getInstance()->get("emulationstation.menu") != "bartop") {
-        addEntryWithHelp(_("NETWORK SETTINGS").c_str(), MenuMessages::NETWORK_HELP_MSG, 0x777777FF, true,
-                 [this] {
+        addEntryWithHelp(_("NETWORK SETTINGS").c_str(), MenuMessages::NETWORK_HELP_MSG, menuTheme->menuText.color, true,
+                 [this, menuTheme] {
                      Window *window = mWindow;
 
                      auto s = new GuiSettings(mWindow, _("NETWORK SETTINGS").c_str());
@@ -640,10 +872,10 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                                                                            "CONNECTED")
                                                                                                          : _(
                                                                            "NOT CONNECTED"),
-                                                                   Font::get(FONT_SIZE_MEDIUM), 0x777777FF);
+                                                                   menuTheme->menuText.font, menuTheme->menuText.color);
                      s->addWithLabelAndHelp(_("STATUS"), status, MenuMessages::NETWORK_STATUS_HELP_MSG);
                      auto ip = std::make_shared<TextComponent>(mWindow, RecalboxSystem::getInstance()->getIpAdress(),
-                                                               Font::get(FONT_SIZE_MEDIUM), 0x777777FF);
+                                                               menuTheme->menuText.font, menuTheme->menuText.color);
                      s->addWithLabelAndHelp(_("IP ADDRESS"), ip, MenuMessages::NETWORK_IP_HELP_MSG);
                      // Hostname
                      createInputTextRow(s, _("HOSTNAME"), "system.hostname", false, MenuMessages::NETWORK_HOST_HELP_MSG);
@@ -687,12 +919,12 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                      mWindow->pushGui(s);
 
 
-                 });
+                 }, menuTheme->menuIconSet.network);
     }
 
     if (RecalboxConf::getInstance()->get("emulationstation.menu") != "bartop") {
         auto openScrapeNow = [this] { mWindow->pushGui(new GuiScraperStart(mWindow)); };
-        addEntryWithHelp(_("SCRAPER").c_str(), MenuMessages::SCRAPER_HELP_MSG, 0x777777FF, true,
+        addEntryWithHelp(_("SCRAPER").c_str(), MenuMessages::SCRAPER_HELP_MSG, menuTheme->menuText.color, true,
                  [this, openScrapeNow] {
                      auto s = new GuiSettings(mWindow, _("SCRAPER").c_str());
 
@@ -725,11 +957,11 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                      s->addSubMenu(_("SCRAPE NOW"), openAndSave, MenuMessages::SCRAPER_NOW_HELP_MSG);
 
                      mWindow->pushGui(s);
-                 });
+                 }, menuTheme->menuIconSet.scraper);
     }
     if (RecalboxConf::getInstance()->get("emulationstation.menu") != "bartop") {
-        addEntryWithHelp(_("ADVANCED SETTINGS").c_str(), MenuMessages::ADVANCED_HELP_MSG, 0x777777FF, true,
-                 [this] {
+        addEntryWithHelp(_("ADVANCED SETTINGS").c_str(), MenuMessages::ADVANCED_HELP_MSG, menuTheme->menuText.color, true,
+                 [this, menuTheme] {
                      Window *window = mWindow;
 
                      auto s = new GuiSettings(mWindow, _("ADVANCED SETTINGS").c_str());
@@ -942,7 +1174,7 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
 
                      //Security
                      {
-                         std::function<void()> openGui = [this] {
+                         std::function<void()> openGui = [this, menuTheme] {
                              GuiSettings *securityGui = new GuiSettings(mWindow, _("SECURITY").c_str());
                              auto securityEnabled = std::make_shared<SwitchComponent>(mWindow);
                              securityEnabled->setState(
@@ -952,8 +1184,7 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
 
                              auto rootpassword = std::make_shared<TextComponent>(mWindow,
                                                                                  RecalboxSystem::getInstance()->getRootPassword(),
-                                                                                 Font::get(FONT_SIZE_MEDIUM),
-                                                                                 0x777777FF);
+                                                                                 menuTheme->menuText.font, menuTheme->menuText.color);
                              securityGui->addWithLabelAndHelp(_("ROOT PASSWORD"), rootpassword,
                                                               MenuMessages::ADVANCED_ROOT_PWD_HELP_MSG);
 
@@ -1021,11 +1252,11 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                          RecalboxConf::getInstance()->saveRecalboxConf();;
                      });
                      mWindow->pushGui(s);
-                 });
+                 }, menuTheme->menuIconSet.advanced);
     }
 
-    addEntry(_("QUIT").c_str(), 0x777777FF, true,
-             [this] {
+    addEntry(_("QUIT").c_str(), menuTheme->menuText.color, true,
+             [this, menuTheme] {
                  auto s = new GuiSettings(mWindow, _("QUIT").c_str());
 
                  Window *window = mWindow;
@@ -1041,8 +1272,7 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                                                    }, _("NO"), nullptr));
                  });
                  row.addElement(
-                         std::make_shared<TextComponent>(window, _("RESTART SYSTEM"), Font::get(FONT_SIZE_MEDIUM),
-                                                         0x777777FF), true);
+                         std::make_shared<TextComponent>(window, _("RESTART SYSTEM"), menuTheme->menuText.font, menuTheme->menuText.color), true);
                  s->addRow(row);
 
                  row.elements.clear();
@@ -1056,8 +1286,7 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                                                    }, _("NO"), nullptr));
                  });
                  row.addElement(
-                         std::make_shared<TextComponent>(window, _("SHUTDOWN SYSTEM"), Font::get(FONT_SIZE_MEDIUM),
-                                                         0x777777FF), true);
+                         std::make_shared<TextComponent>(window, _("SHUTDOWN SYSTEM"), menuTheme->menuText.font, menuTheme->menuText.color), true);
                  s->addRow(row);
 
                  row.elements.clear();
@@ -1071,14 +1300,17 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                                                    }, _("NO"), nullptr));
                  });
                  row.addElement(
-                         std::make_shared<TextComponent>(window, _("FAST SHUTDOWN SYSTEM"), Font::get(FONT_SIZE_MEDIUM),
-                                                         0x777777FF), true);
+                         std::make_shared<TextComponent>(window, _("FAST SHUTDOWN SYSTEM"), menuTheme->menuText.font, menuTheme->menuText.color), true);
                  s->addRow(row);
                  mWindow->pushGui(s);
-             });
+             }, menuTheme->menuIconSet.quit);
 
-    mVersion.setFont(Font::get(FONT_SIZE_SMALL));
-    mVersion.setColor(0xC6C6C6FF);
+    
+	
+	
+	mVersion.setFont(menuTheme->menuFooter.font);
+	mVersion.setColor(menuTheme->menuFooter.color);
+		
     mVersion.setText("RB EMULATIONSTATION V" + strToUpper(PROGRAM_VERSION_STRING));
     mVersion.setAlignment(ALIGN_CENTER);
 
@@ -1086,7 +1318,17 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
     addChild(&mVersion);
 
     setSize(mMenu.getSize());
-    setPosition((Renderer::getScreenWidth() - mSize.x()) / 2, Renderer::getScreenHeight() * 0.15f);
+    setPosition((Renderer::getScreenWidth() - mSize.x()) / 2, Renderer::getScreenHeight() * 0.3f);
+
+	// Animation
+	auto fadeFunc = [this](float t) {
+		setOpacity(lerp<float>(0, 255, t));
+		setPosition(getPosition().x(), lerp<float>(getPosition().y(), Renderer::getScreenHeight() * .15f, t));
+	};
+
+	setOpacity(0);
+
+	setAnimation(new LambdaAnimation(fadeFunc, 200), 0);
 }
 
 GuiMenu::~GuiMenu() {
@@ -1094,6 +1336,9 @@ GuiMenu::~GuiMenu() {
 }
 
 void GuiMenu::popSystemConfigurationGui(SystemData *systemData, std::string previouslySelectedEmulator) const {
+	
+	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+	
     // The system configuration
     GuiSettings *systemConfiguration = new GuiSettings(mWindow,
                                                        systemData->getFullName().c_str());
@@ -1198,6 +1443,8 @@ void GuiMenu::createConfigInput() {
 
     Window *window = mWindow;
 
+	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+	
     ComponentListRow row;
     row.makeAcceptInputHandler([window, this, s] {
         window->pushGui(new GuiMsgBox(window,
@@ -1217,14 +1464,13 @@ void GuiMenu::createConfigInput() {
 
 
     row.addElement(
-            std::make_shared<TextComponent>(window, _("CONFIGURE A CONTROLLER"), Font::get(FONT_SIZE_MEDIUM),
-                                            0x777777FF),
+            std::make_shared<TextComponent>(window, _("CONFIGURE A CONTROLLER"), menuTheme->menuText.font, menuTheme->menuText.color),
             true);
     s->addRow(row);
 
     row.elements.clear();
 
-    std::function<void(void *)> showControllerList = [window, this, s](void *controllers) {
+    std::function<void(void *)> showControllerList = [window, this, s, menuTheme](void *controllers) {
         std::function<void(void *)> deletePairGui = [window](void *pairedPointer) {
             bool paired = *((bool *) pairedPointer);
             window->pushGui(
@@ -1252,8 +1498,7 @@ void GuiMenu::createConfigInput() {
                     };
                     controllerRow.makeAcceptInputHandler(pairController);
                     auto update = std::make_shared<TextComponent>(window, *controllerString,
-                                                                  Font::get(FONT_SIZE_MEDIUM),
-                                                                  0x777777FF);
+                                                                  menuTheme->menuText.font, menuTheme->menuText.color);
                     auto bracket = makeArrow(window);
                     controllerRow.addElement(update, true);
                     controllerRow.addElement(bracket, false);
@@ -1282,8 +1527,7 @@ void GuiMenu::createConfigInput() {
 
 
     row.addElement(
-            std::make_shared<TextComponent>(window, _("PAIR A BLUETOOTH CONTROLLER"), Font::get(FONT_SIZE_MEDIUM),
-                                            0x777777FF),
+            std::make_shared<TextComponent>(window, _("PAIR A BLUETOOTH CONTROLLER"), menuTheme->menuText.font, menuTheme->menuText.color),
             true);
     s->addRow(row);
     row.elements.clear();
@@ -1301,8 +1545,7 @@ void GuiMenu::createConfigInput() {
         return true;
     });
     row.addElement(
-            std::make_shared<TextComponent>(window, _("FORGET BLUETOOTH CONTROLLERS"), Font::get(FONT_SIZE_MEDIUM),
-                                            0x777777FF),
+            std::make_shared<TextComponent>(window, _("FORGET BLUETOOTH CONTROLLERS"), menuTheme->menuText.font, menuTheme->menuText.color),
             true);
     s->addRow(row);
     row.elements.clear();
@@ -1431,11 +1674,29 @@ void GuiMenu::onSizeChanged() {
 }
 
 void GuiMenu::addEntryWithHelp(const char *name, const std::string help, unsigned int color, bool add_arrow,
-                               const std::function<void()> &func) {
-    std::shared_ptr<Font> font = Font::get(FONT_SIZE_MEDIUM);
+                               const std::function<void()> &func, const std::string iconName) {
+								   
 
+	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+	std::shared_ptr<Font> font = menuTheme->menuText.font;
     // populate the list
     ComponentListRow row;
+
+    if (iconName != "")
+    {
+        // icon
+        auto icon = std::make_shared<ImageComponent>(mWindow);
+        icon->setImage(iconName);
+        icon->setColorShift(menuTheme->menuText.color);
+        icon->setResize(0, menuTheme->menuText.font->getLetterHeight() * 1.25f);
+        row.addElement(icon, false);
+
+        // spacer between icon and text
+        auto spacer = std::make_shared<GuiComponent>(mWindow);
+        spacer->setSize(10, 0);
+        row.addElement(spacer, false);
+    }
+
     row.addElement(std::make_shared<TextComponent>(mWindow, name, font, color), true);
 
     if (add_arrow) {
@@ -1459,8 +1720,8 @@ void GuiMenu::addEntryWithHelp(const char *name, const std::string help, unsigne
     mMenu.addRow(row);
 }
 
-void GuiMenu::addEntry(const char *name, unsigned int color, bool add_arrow, const std::function<void()> &func) {
-    addEntryWithHelp(name, "", color, add_arrow, func);
+void GuiMenu::addEntry(const char *name, unsigned int color, bool add_arrow, const std::function<void()> &func, const std::string iconName) {
+    addEntryWithHelp(name, "", color, add_arrow, func, iconName);
 }
 
 bool GuiMenu::input(InputConfig *config, Input input) {

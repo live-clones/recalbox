@@ -15,12 +15,15 @@
 #include "guis/GuiTextEditPopup.h"
 #include "guis/GuiTextEditPopupKeyboard.h"
 #include "Locale.h"
+#include "MenuThemeData.h"
 
 ScraperSearchComponent::ScraperSearchComponent(Window* window, SearchType type) : GuiComponent(window),
 	mGrid(window, Eigen::Vector2i(4, 3)), mBusyAnim(window), 
 	mSearchType(type)
 {
 	addChild(&mGrid);
+	
+	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 
 	mBlockAccept = false;
 
@@ -30,7 +33,7 @@ ScraperSearchComponent::ScraperSearchComponent(Window* window, SearchType type) 
 	mGrid.setEntry(std::make_shared<GuiComponent>(mWindow), Vector2i(0, 0), false, false, Vector2i(1, 3), GridFlags::BORDER_TOP | GridFlags::BORDER_BOTTOM);
 
 	// selected result name
-	mResultName = std::make_shared<TextComponent>(mWindow, "RESULT NAME", Font::get(FONT_SIZE_MEDIUM), 0x777777FF);
+	mResultName = std::make_shared<TextComponent>(mWindow, "RESULT NAME", menuTheme->menuText.font, menuTheme->menuText.color);
 
 	// selected result thumbnail
 	mResultThumbnail = std::make_shared<ImageComponent>(mWindow);
@@ -38,15 +41,15 @@ ScraperSearchComponent::ScraperSearchComponent(Window* window, SearchType type) 
 
 	// selected result desc + container
 	mDescContainer = std::make_shared<ScrollableContainer>(mWindow);
-	mResultDesc = std::make_shared<TextComponent>(mWindow, "RESULT DESC", Font::get(FONT_SIZE_SMALL), 0x777777FF);
+	mResultDesc = std::make_shared<TextComponent>(mWindow, "RESULT DESC", menuTheme->menuText.font, menuTheme->menuText.color);
 	mDescContainer->addChild(mResultDesc.get());
 	mDescContainer->setAutoScroll(true);
 	
 	// metadata
-	auto font = Font::get(FONT_SIZE_SMALL); // this gets replaced in onSizeChanged() so its just a placeholder
-	const unsigned int mdColor = 0x777777FF;
-	const unsigned int mdLblColor = 0x666666FF;
-	mMD_Rating = std::make_shared<RatingComponent>(mWindow);
+	auto font = menuTheme->menuTextSmall.font; // this gets replaced in onSizeChanged() so its just a placeholder
+	const unsigned int mdColor = menuTheme->menuText.color;
+	const unsigned int mdLblColor = menuTheme->menuText.color;
+	mMD_Rating = std::make_shared<RatingComponent>(mWindow, menuTheme->menuText.color);
 	mMD_ReleaseDate = std::make_shared<DateTimeComponent>(mWindow);
 	mMD_ReleaseDate->setColor(mdColor);
 	mMD_Developer = std::make_shared<TextComponent>(mWindow, "", font, mdColor);
@@ -134,9 +137,10 @@ void ScraperSearchComponent::resizeMetadata()
 	mMD_Grid->setSize(mGrid.getColWidth(2), mGrid.getRowHeight(1));
 	if(mMD_Grid->getSize().y() > mMD_Pairs.size())
 	{
+		auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 		const int fontHeight = (int)(mMD_Grid->getSize().y() / mMD_Pairs.size() * 0.8f);
-		auto fontLbl = Font::get(fontHeight, FONT_PATH_REGULAR);
-		auto fontComp = Font::get(fontHeight, FONT_PATH_LIGHT);
+		auto fontLbl = menuTheme->menuTextSmall.font;
+		auto fontComp = menuTheme->menuTextSmall.font;
 
 		// update label fonts
 		float maxLblWidth = 0;
@@ -167,7 +171,7 @@ void ScraperSearchComponent::resizeMetadata()
 		mMD_Grid->onSizeChanged();
 
 		// make result font follow label font
-		mResultDesc->setFont(Font::get(fontHeight, FONT_PATH_REGULAR));
+		mResultDesc->setFont(menuTheme->menuTextSmall.font);
 	}
 }
 
@@ -233,8 +237,9 @@ void ScraperSearchComponent::onSearchDone(const std::vector<ScraperSearchResult>
 
 	const int end = results.size() > MAX_SCRAPER_RESULTS ? MAX_SCRAPER_RESULTS : results.size(); // at max display 5
 
-	auto font = Font::get(FONT_SIZE_MEDIUM);
-	unsigned int color = 0x777777FF;
+	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+	auto font = menuTheme->menuText.font;
+	unsigned int color = menuTheme->menuText.color;
 	if(end == 0)
 	{
 		ComponentListRow row;

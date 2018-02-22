@@ -3,7 +3,7 @@
 #include "GuiComponent.h"
 #include "components/MenuComponent.h"
 #include "components/BusyComponent.h"
-
+#include "components/NinePatchComponent.h"
 
 #include <boost/thread.hpp>
 
@@ -23,6 +23,7 @@ public:
 
 private:
     BusyComponent mBusyAnim;
+    NinePatchComponent mBackground;
     bool mLoading;
     int mState;
     std::pair<std::string, int> mResult;

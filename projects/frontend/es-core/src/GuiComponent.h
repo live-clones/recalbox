@@ -46,12 +46,19 @@ public:
     void setSize(float w, float h);
     virtual void onSizeChanged() {};
 	
+	float getZIndex() const;
+	void setZIndex(float zIndex);
+	
+	float getDefaultZIndex() const;
+	void setDefaultZIndex(float zIndex);
+	
 	void setParent(GuiComponent* parent);
 	GuiComponent* getParent() const;
 
 	void addChild(GuiComponent* cmp);
 	void removeChild(GuiComponent* cmp);
 	void clearChildren();
+	void sortChildren();
 	unsigned int getChildCount() const;
 	GuiComponent* getChild(unsigned int i) const;
 
@@ -74,6 +81,7 @@ public:
 
 	virtual std::string getValue() const;
 	virtual void setValue(const std::string& value);
+	virtual void setColor(unsigned int color);
 
 	virtual void onFocusGained() {};
 	virtual void onFocusLost() {};
@@ -108,6 +116,9 @@ protected:
 
 	Eigen::Vector3f mPosition;
 	Eigen::Vector2f mSize;
+	
+	float mDefaultZIndex = 0;
+	float mZIndex = 0;
 
 	bool mIsProcessing;
 

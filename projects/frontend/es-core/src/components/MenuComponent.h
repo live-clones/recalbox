@@ -6,6 +6,7 @@
 #include "components/ComponentGrid.h"
 #include "Util.h"
 #include "Window.h"
+#include "MenuThemeData.h"
 
 class ButtonComponent;
 class ImageComponent;
@@ -27,7 +28,8 @@ public:
 	inline void addWithLabel(const std::string& label, const std::shared_ptr<GuiComponent>& comp, bool setCursorHere = false, bool invert_when_selected = true, const std::function<void()>& acceptCallback = nullptr, const std::function<void()>& helpCallback = nullptr)
 	{
 		ComponentListRow row;
-		row.addElement(std::make_shared<TextComponent>(mWindow, strToUpper(label), Font::get(FONT_SIZE_MEDIUM), 0x777777FF), true);
+		auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+		row.addElement(std::make_shared<TextComponent>(mWindow, strToUpper(label), menuTheme->menuText.font, menuTheme->menuText.color), true);
 		row.addElement(comp, false, invert_when_selected);
 		if (acceptCallback) {
 			row.makeAcceptInputHandler(acceptCallback);

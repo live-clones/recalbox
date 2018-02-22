@@ -3,6 +3,7 @@
 #include "Util.h"
 #include "Log.h"
 #include "Locale.h"
+#include "MenuThemeData.h"
 
 #define TOTAL_HORIZONTAL_PADDING_PX 20
 
@@ -169,6 +170,13 @@ void ComponentList::render(const Eigen::Affine3f& parentTrans)
 	if(!size())
 		return;
 
+	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+	unsigned int selectorColor = menuTheme->menuText.selectorColor;
+	unsigned int selectedColor = menuTheme->menuText.selectedColor;
+	unsigned int bgColor = menuTheme->menuBackground.color;
+	unsigned int separatorColor = menuTheme->menuText.separatorColor;
+	unsigned int textColor = menuTheme->menuText.color;
+
 	Eigen::Affine3f trans = roundMatrix(parentTrans * getTransform());
 
 	// clip everything to be inside our bounds
@@ -191,6 +199,7 @@ void ComponentList::render(const Eigen::Affine3f& parentTrans)
 		{
 			if(drawAll || it->invert_when_selected)
 			{
+				it->component->setColor(textColor);
 				it->component->render(trans);
 			}else{
 				drawAfterCursor.push_back(it->component.get());
@@ -200,24 +209,28 @@ void ComponentList::render(const Eigen::Affine3f& parentTrans)
 
 	// custom rendering
 	Renderer::setMatrix(trans);
+	
+	
 
-	// draw selector bar
+
+	// draw selector bar	
 	if(mFocused)
-	{
-		// inversion: src * (1 - dst) + dst * 0 = where src = 1
-		// need a function that goes roughly 0x777777 -> 0xFFFFFF
-		// and 0xFFFFFF -> 0x777777
-		// (1 - dst) + 0x77
-	
+	{			
 		const float selectedRowHeight = getRowHeight(mEntries.at(mCursor).data);
-		Renderer::drawRect(0.0f, mSelectorBarOffset, mSize.x(), selectedRowHeight, 0xFFFFFFFF,
-			GL_ONE_MINUS_DST_COLOR, GL_ZERO);
-		Renderer::drawRect(0.0f, mSelectorBarOffset, mSize.x(), selectedRowHeight, 0x777777FF,
-			GL_ONE, GL_ONE);
-	
-		// hack to draw 2px dark on left/right of the bar
-		Renderer::drawRect(0.0f, mSelectorBarOffset, 2.0f, selectedRowHeight, 0x878787FF);
-		Renderer::drawRect(mSize.x() - 2.0f, mSelectorBarOffset, 2.0f, selectedRowHeight, 0x878787FF);
+		
+		//here we draw a bar then redraw the list entry
+				
+		Renderer::drawRect(0.0f, mSelectorBarOffset, mSize.x(), selectedRowHeight, bgColor,
+						   GL_ZERO, GL_ONE_MINUS_SRC_COLOR );
+		Renderer::drawRect(0.0f, mSelectorBarOffset, mSize.x(), selectedRowHeight, selectorColor,
+						   GL_ONE, GL_ONE );
+			
+		auto& entry = mEntries.at(mCursor);
+		for(auto it = entry.data.elements.begin(); it != entry.data.elements.end(); it++) {
+
+			it->component->setColor(selectedColor);
+			drawAfterCursor.push_back(it->component.get());
+		}
 
 		for(auto it = drawAfterCursor.begin(); it != drawAfterCursor.end(); it++)
 			(*it)->render(trans);
@@ -229,12 +242,13 @@ void ComponentList::render(const Eigen::Affine3f& parentTrans)
 
 	// draw separators
 	float y = 0;
+	
 	for(unsigned int i = 0; i < mEntries.size(); i++)
 	{
-		Renderer::drawRect(0.0f, y, mSize.x(), 1.0f, 0xC6C7C6FF);
+		Renderer::drawRect(0.0f, y, mSize.x(), 1.0f, separatorColor);
 		y += getRowHeight(mEntries.at(i).data);
 	}
-	Renderer::drawRect(0.0f, y, mSize.x(), 1.0f, 0xC6C7C6FF);
+	Renderer::drawRect(0.0f, y, mSize.x(), 1.0f, separatorColor);
 
 	Renderer::popClipRect();
 }

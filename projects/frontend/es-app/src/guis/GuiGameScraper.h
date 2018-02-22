@@ -3,6 +3,7 @@
 #include "GuiComponent.h"
 #include "components/ScraperSearchComponent.h"
 #include "components/NinePatchComponent.h"
+#include "components/TextComponent.h"
 
 class GuiGameScraper : public GuiComponent
 {

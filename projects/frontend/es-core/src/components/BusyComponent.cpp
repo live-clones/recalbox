@@ -4,6 +4,7 @@
 #include "components/TextComponent.h"
 #include "Renderer.h"
 #include "Locale.h"
+#include "MenuThemeData.h"
 
 // animation definition
 AnimationFrame BUSY_ANIMATION_FRAMES[] = {
@@ -22,9 +23,15 @@ BusyComponent::BusyComponent(Window* window) : GuiComponent(window),
 	mutex = SDL_CreateMutex();
 
 
+    auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+
+    mBackground.setImagePath(menuTheme->menuBackground.path);
+    mBackground.setCenterColor(menuTheme->menuBackground.color);
+    mBackground.setEdgeColor(menuTheme->menuBackground.color);
+
 	mAnimation = std::make_shared<AnimatedImageComponent>(mWindow);
 	mAnimation->load(&BUSY_ANIMATION_DEF);
-	mText = std::make_shared<TextComponent>(mWindow, _("WORKING..."), Font::get(FONT_SIZE_MEDIUM), 0x777777FF);
+	mText = std::make_shared<TextComponent>(mWindow, _("WORKING..."), menuTheme->menuText.font, menuTheme->menuText.color);
 
 	// col 0 = animation, col 1 = spacer, col 2 = text
 	mGrid.setEntry(mAnimation, Vector2i(1, 1), false, true);

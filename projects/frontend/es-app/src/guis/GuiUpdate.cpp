@@ -7,12 +7,19 @@
 #include <boost/algorithm/string/replace.hpp>
 #include <recalbox/RecalboxUpgrade.h>
 
-GuiUpdate::GuiUpdate(Window *window) : GuiComponent(window), mBusyAnim(window) {
+GuiUpdate::GuiUpdate(Window *window) : GuiComponent(window), mBusyAnim(window), mBackground(window, ":/frame.png") {
     setSize((float) Renderer::getScreenWidth(), (float) Renderer::getScreenHeight());
     mLoading = true;
     mIsProcessing = true;
     mPingHandle = new boost::thread(boost::bind(&GuiUpdate::threadPing, this));
     mBusyAnim.setSize(mSize);
+    auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+
+    mBackground.setImagePath(menuTheme->menuBackground.path);
+    mBackground.setCenterColor(menuTheme->menuBackground.color);
+    mBackground.setEdgeColor(menuTheme->menuBackground.color);
+    addChild(&mBackground);
+
 }
 
 GuiUpdate::~GuiUpdate() {

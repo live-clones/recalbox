@@ -13,13 +13,15 @@
 #include "recalbox/RecalboxSystem.h"
 #include "RecalboxConf.h"
 #include "Locale.h"
+#include "MenuThemeData.h"
 
 Window::Window() : mNormalizeNextUpdate(false), mFrameTimeElapsed(0), mFrameCountElapsed(0), mAverageDeltaTime(10), 
 	mAllowSleep(true), mSleeping(false), mTimeSinceLastInput(0), launchKodi(false)
 {
 	mHelp = new HelpComponent(this);
 	mBackgroundOverlay = new ImageComponent(this);
-	mBackgroundOverlay->setImage(":/scroll_gradient.png");
+	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+	mBackgroundOverlay->setImage(menuTheme->menuBackground.fadePath);
 }
 
 Window::~Window()
@@ -198,10 +200,11 @@ void Window::update(int deltaTime)
 			ss << std::fixed << std::setprecision(2) << ((float)mFrameTimeElapsed / (float)mFrameCountElapsed) << "ms";
 
 			// vram
-			float textureVramUsageMb = TextureResource::getTotalMemUsage() / 1000.0f / 1000.0f;;
+			float textureVramUsageMb = TextureResource::getTotalMemUsage() / 1000.0f / 1000.0f;
+			float textureTotalUsageMb = TextureResource::getTotalTextureSize() / 1000.0f / 1000.0f;
 			float fontVramUsageMb = Font::getTotalMemUsage() / 1000.0f / 1000.0f;;
-			float totalVramUsageMb = textureVramUsageMb + fontVramUsageMb;
-			ss << "\nVRAM: " << totalVramUsageMb << "mb (texs: " << textureVramUsageMb << "mb, fonts: " << fontVramUsageMb << "mb)";
+			ss << "\nFont VRAM: " << fontVramUsageMb << " Tex VRAM: " << textureVramUsageMb <<
+				  " Tex Max: " << textureTotalUsageMb;
 
 			mFrameDataText = std::unique_ptr<TextCache>(mDefaultFonts.at(1)->buildTextCache(ss.str(), 50.f, 50.f, 0xFF00FFFF));
 		}
@@ -211,6 +214,8 @@ void Window::update(int deltaTime)
 	}
 
 	mTimeSinceLastInput += deltaTime;
+    auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+    mBackgroundOverlay->setImage(menuTheme->menuBackground.fadePath);
 
 	if(peekGui())
 		peekGui()->update(deltaTime);
@@ -280,7 +285,7 @@ void Window::renderWaitingScreen(const std::string& text)
 	Renderer::setMatrix(trans);
 	Renderer::drawRect(0, 0, Renderer::getScreenWidth(), Renderer::getScreenHeight(), 0xFFFFFFFF);
 
-	ImageComponent splash(this);
+	ImageComponent splash(this, true);
 	splash.setResize(Renderer::getScreenWidth() * 0.6f, 0.0f);
 	splash.setImage(":/splash.svg");
 	splash.setPosition((Renderer::getScreenWidth() - splash.getSize().x()) / 2, (Renderer::getScreenHeight() - splash.getSize().y()) / 2 * 0.6f);

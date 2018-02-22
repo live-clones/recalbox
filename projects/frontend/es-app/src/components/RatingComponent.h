@@ -13,13 +13,16 @@
 class RatingComponent : public GuiComponent
 {
 public:
-	RatingComponent(Window* window);
+	RatingComponent(Window* window, unsigned int color = 0xFFFFFFFF);
+	
 
 	std::string getValue() const override;
 	void setValue(const std::string& value) override; // Should be a normalized float (in the range [0..1]) - if it's not, it will be clamped.
 
 	bool input(InputConfig* config, Input input) override;
 	void render(const Eigen::Affine3f& parentTrans);
+
+	void setColor(unsigned int color);
 
 	void onSizeChanged() override;
 
@@ -40,5 +43,7 @@ private:
 
 	std::shared_ptr<TextureResource> mFilledTexture;
 	std::shared_ptr<TextureResource> mUnfilledTexture;
+	
+	unsigned int mColor;
 };
 

@@ -378,6 +378,22 @@ msgid "THEME SET"
 msgstr "THÈME"
 
 #: 
+msgid "THEME CONFIGURATION"
+msgstr "CONFIGURATION DU THÈME"
+
+#: 
+msgid "THEME COLORSET"
+msgstr "COLORSET DU THÈME"
+
+#: 
+msgid "THEME SYSTEMVIEW"
+msgstr "VUE SYSTEM DU THÈME"
+
+#: 
+msgid "THEME GAMELISTVIEW"
+msgstr "VUE GAMELIST DU THÈME"
+
+#: 
 msgid "SOUND SETTINGS"
 msgstr "OPTIONS DU SON"
 

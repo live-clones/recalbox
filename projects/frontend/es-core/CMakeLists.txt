@@ -17,6 +17,7 @@ set(CORE_HEADERS
 	${CMAKE_CURRENT_SOURCE_DIR}/src/Settings.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/Sound.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/ThemeData.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/MenuThemeData.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/Util.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/Window.h
 
@@ -56,8 +57,9 @@ set(CORE_HEADERS
 	# Resources
 	${CMAKE_CURRENT_SOURCE_DIR}/src/resources/Font.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/resources/ResourceManager.h
-	${CMAKE_CURRENT_SOURCE_DIR}/src/resources/SVGResource.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/resources/TextureResource.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/resources/TextureData.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/resources/TextureDataManager.h
 
 	# Embedded assets (needed by ResourceManager)
 	${emulationstation-all_SOURCE_DIR}/data/Resources.h
@@ -79,6 +81,7 @@ set(CORE_SOURCES
 	${CMAKE_CURRENT_SOURCE_DIR}/src/Settings.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/Sound.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/ThemeData.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/MenuThemeData.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/Util.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/Window.cpp
 
@@ -113,8 +116,9 @@ set(CORE_SOURCES
 	# Resources
 	${CMAKE_CURRENT_SOURCE_DIR}/src/resources/Font.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/resources/ResourceManager.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/src/resources/SVGResource.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/resources/TextureResource.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/resources/TextureData.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/resources/TextureDataManager.cpp
 )
 
 set(EMBEDDED_ASSET_SOURCES

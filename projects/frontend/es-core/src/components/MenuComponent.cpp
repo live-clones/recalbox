@@ -1,6 +1,7 @@
 #include "components/MenuComponent.h"
 #include "components/ButtonComponent.h"
 #include "Locale.h"
+#include "MenuThemeData.h"
 
 #define BUTTON_GRID_VERT_PADDING 32
 #define BUTTON_GRID_HORIZ_PADDING 10
@@ -14,14 +15,20 @@ MenuComponent::MenuComponent(Window* window, const char* title, const std::share
 {	
 	addChild(&mBackground);
 	addChild(&mGrid);
-
-	mBackground.setImagePath(":/frame.png");
+		
+	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+	
+	mBackground.setImagePath(menuTheme->menuBackground.path);
+	mBackground.setCenterColor(menuTheme->menuBackground.color);
+	mBackground.setEdgeColor(menuTheme->menuBackground.color);
 
 	// set up title
 	mTitle = std::make_shared<TextComponent>(mWindow);
 	mTitle->setAlignment(ALIGN_CENTER);
-	mTitle->setColor(0x555555FF);
-	setTitle(title, titleFont);
+		
+	setTitle(title, menuTheme->menuTitle.font);
+	mTitle->setColor(menuTheme->menuTitle.color);
+	
 	mGrid.setEntry(mTitle, Vector2i(0, 0), false);
 
 	// set up list which will never change (externally, anyway)
@@ -42,7 +49,8 @@ void MenuComponent::setTitle(const char* title, const std::shared_ptr<Font>& fon
 
 float MenuComponent::getButtonGridHeight() const
 {
-	return (mButtonGrid ? mButtonGrid->getSize().y() : Font::get(FONT_SIZE_MEDIUM)->getHeight() + BUTTON_GRID_VERT_PADDING);
+	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+	return (mButtonGrid ? mButtonGrid->getSize().y() : menuTheme->menuText.font->getHeight() + BUTTON_GRID_VERT_PADDING);
 }
 
 void MenuComponent::updateSize()
@@ -64,7 +72,8 @@ void MenuComponent::updateSize()
 		}
 	}
 
-	setSize(Renderer::getScreenWidth() * 0.5f, height);
+	float width = std::min(Renderer::getScreenHeight(), (unsigned int) (Renderer::getScreenWidth() * 0.90f));
+	setSize(width, height);
 }
 
 void MenuComponent::onSizeChanged()
@@ -127,8 +136,11 @@ std::shared_ptr<ComponentGrid> makeButtonGrid(Window* window, const std::vector<
 
 std::shared_ptr<ImageComponent> makeArrow(Window* window)
 {
+	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 	auto bracket = std::make_shared<ImageComponent>(window);
-	bracket->setImage(":/arrow.svg");
-	bracket->setResize(0, round(Font::get(FONT_SIZE_MEDIUM)->getLetterHeight()));
+	bracket->setImage(menuTheme->iconSet.arrow);
+	bracket->setColorShift(menuTheme->menuText.color);
+	bracket->setResize(0, round(menuTheme->menuText.font->getLetterHeight()));
+	
 	return bracket;
 }

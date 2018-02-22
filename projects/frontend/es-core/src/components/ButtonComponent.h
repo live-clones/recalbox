@@ -42,12 +42,15 @@ private:
 	unsigned int mTextColorFocused;
 	unsigned int mTextColorUnfocused;
 	unsigned int mModdedColor;
+	unsigned int mColor;
 	
 	unsigned int getCurTextColor() const;
 	void updateImage();
 
 	std::string mText;
 	std::string mHelpText;
+	std::string mButton = ":/button.png";
+	std::string mButton_filled = ":/button_filled.png";
 	std::unique_ptr<TextCache> mTextCache;
 	NinePatchComponent mBox;
 };

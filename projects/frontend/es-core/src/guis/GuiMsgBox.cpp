@@ -5,6 +5,7 @@
 #include "components/MenuComponent.h" // for makeButtonGrid
 #include "Util.h"
 #include "Log.h"
+#include "MenuThemeData.h"
 
 #define HORIZONTAL_PADDING_PX 20
 
@@ -17,8 +18,14 @@ GuiMsgBox::GuiMsgBox(Window* window, const std::string& text,
 {
 	float width = Renderer::getScreenWidth() * 0.6f; // max width
 	float minWidth = Renderer::getScreenWidth() * 0.3f; // minimum width
+	
+	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+	
+	mBackground.setImagePath(menuTheme->menuBackground.path);
+	mBackground.setCenterColor(menuTheme->menuBackground.color);
+	mBackground.setEdgeColor(menuTheme->menuBackground.color);
 
-	mMsg = std::make_shared<TextComponent>(mWindow, text, Font::get(FONT_SIZE_MEDIUM), 0x777777FF, align);
+	mMsg = std::make_shared<TextComponent>(mWindow, text, menuTheme->menuText.font, menuTheme->menuText.color, align);
 	mGrid.setEntry(mMsg, Eigen::Vector2i(0, 0), false, false);
 
 	// create the buttons

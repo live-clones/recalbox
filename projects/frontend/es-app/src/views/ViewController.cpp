@@ -17,6 +17,7 @@
 
 #include "AudioManager.h"
 
+#include <SDL.h>
 
 ViewController* ViewController::sInstance = NULL;
 
@@ -444,13 +445,17 @@ void ViewController::reloadGameListView(IGameListView* view, bool reloadTheme)
 	}else {
         Window* window= mWindow;
         goToStart();
-        window->renderShutdownScreen();
-        delete ViewController::get();
-        SystemData::deleteSystems();
-        SystemData::loadConfig();
-        ViewController::init(window);
-        ViewController::get()->reloadAll();
-        window->pushGui(ViewController::get());
+		window->renderShutdownScreen();
+		delete ViewController::get();
+		SystemData::deleteSystems();
+		SystemData::loadConfig();
+		GuiComponent *gui;
+		while ((gui = window->peekGui()) != NULL) {
+			window->removeGui(gui);
+		}
+		ViewController::init(window);
+		ViewController::get()->reloadAll();
+		window->pushGui(ViewController::get());
         return;
     }
 }
@@ -479,8 +484,12 @@ void ViewController::reloadAll()
 		mCurrentView = getGameListView(mState.getSystem());
 	}else if(mState.viewing == SYSTEM_SELECT)
 	{
-		mSystemListView->goToSystem(mState.getSystem(), false);
+		
+		SystemData* system = mState.getSystem();
+		goToSystemView(SystemData::sSystemVector.front());
+		mSystemListView->goToSystem(system, false);
 		mCurrentView = mSystemListView;
+		
 	}else{
 		goToSystemView(SystemData::sSystemVector.front());
 	}

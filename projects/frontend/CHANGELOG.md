@@ -4,6 +4,21 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 ### Added
+- Added default subset values for recalbox theme
+- Added new item to menutheme, menus now fully themable 
+- Added new subset for menu styles
+- Added themable menus
+- Redesigned sub-menus for theme and changed region attribute handling
+- Added new subset for helpsystem icons
+- Added system variable in theme
+- Added themable icons in helpsystem
+- Added themable helpsystem in menus
+- Redesigned theme subsets handling to add flexibility
+- Changed theme XML parser to manage themes with subset and regional options (see THEMES.MD)
+- Added UI submenu to manage theme subsets and region
+- Added vertical slide transition when carousel is vertical
+- Added theming options for carousel and systeminfo in system view
+- Added "features" tag in theming options
 - Added new version support
 - Added an option to scrape recalbox-mix-images from screenscraper
 - Added new mamedb scrapper mirror
@@ -17,7 +32,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Display update changelog + update version, if update available
 ### Fixed
 - Fixed security option impossible to disable
+- Fixed menu width
 - Fixed display scrape informations if rom is inside a subfolder
+- Fixed datetime bug in gamelistoptions
+- Fixed gamelist reload after scrap and gamelist change
 - Fixed custom update.type
 - Fixed bluetooth message when pairing failed
 - Avoid screensaver while updating

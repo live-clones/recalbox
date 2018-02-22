@@ -15,6 +15,7 @@ public:
 
 	void setValue(float val);
 	float getValue();
+	void setColor(unsigned int color);
 
 	bool input(InputConfig* config, Input input) override;
 	void update(int deltaTime) override;
@@ -32,6 +33,7 @@ private:
 	float mSingleIncrement;
 	float mMoveRate;
 	int mMoveAccumulator;
+	unsigned int mColor;
 
 	ImageComponent mKnob;
 

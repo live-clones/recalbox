@@ -12,7 +12,7 @@
 class ImageComponent : public GuiComponent
 {
 public:
-	ImageComponent(Window* window);
+	ImageComponent(Window* window, bool forceLoad = false, bool dynamic = true);
 	virtual ~ImageComponent();
 
 	//Loads the image at the given filepath. Will tile if tile is true (retrieves texture as tiling, creates vertices accordingly).
@@ -44,6 +44,7 @@ public:
 
 	// Multiply all pixels in the image by this color when rendering.
 	void setColorShift(unsigned int color);
+	void setColor(unsigned int color);
 
 	void setFlipX(bool flip); // Mirror on the X axis.
 	void setFlipY(bool flip); // Mirror on the Y axis.
@@ -81,10 +82,15 @@ private:
 
 	void updateVertices();
 	void updateColors();
+	void fadeIn(bool textureLoaded);
 
 	unsigned int mColorShift;
 
 	std::shared_ptr<TextureResource> mTexture;
+	unsigned char mFadeOpacity;
+	bool mFading;
+	bool mForceLoad;
+	bool mDynamic;
 };
 
 #endif

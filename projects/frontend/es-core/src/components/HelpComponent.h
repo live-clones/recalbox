@@ -3,6 +3,7 @@
 #include "GuiComponent.h"
 #include "HelpStyle.h"
 
+
 class ImageComponent;
 class TextureResource;
 class ComponentGrid;

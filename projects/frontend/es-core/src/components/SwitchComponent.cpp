@@ -4,17 +4,25 @@
 #include "resources/Font.h"
 #include "Window.h"
 #include "Locale.h"
+#include "MenuThemeData.h"
 
 SwitchComponent::SwitchComponent(Window* window, bool state) : GuiComponent(window), mImage(window), mState(state)
 {
-	mImage.setImage(mState ? ":/on.svg" : ":/off.svg");
+	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+	mImage.setImage(mState ? menuTheme->iconSet.on : menuTheme->iconSet.off);
 	mImage.setResize(0, Font::get(FONT_SIZE_MEDIUM)->getLetterHeight());
+	mImage.setColorShift(menuTheme->menuText.color);
+	
 	mSize = mImage.getSize();
 }
 
 void SwitchComponent::onSizeChanged()
 {
 	mImage.setSize(mSize);
+}
+
+void SwitchComponent::setColor(unsigned int color) {
+	mImage.setColorShift(color);
 }
 
 bool SwitchComponent::input(InputConfig* config, Input input)

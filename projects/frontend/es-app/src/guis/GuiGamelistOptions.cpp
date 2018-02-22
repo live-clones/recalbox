@@ -12,6 +12,7 @@ GuiGamelistOptions::GuiGamelistOptions(Window* window, SystemData* system) : Gui
 	mSystem(system), 
   mMenu(window, _("OPTIONS").c_str())
 {
+	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 	addChild(&mMenu);
 
 	// jump to letter
@@ -24,7 +25,7 @@ GuiGamelistOptions::GuiGamelistOptions(Window* window, SystemData* system) : Gui
 		mJumpToLetterList->add(std::string(1, c), c, c == curChar);
 
 	ComponentListRow row;
-	row.addElement(std::make_shared<TextComponent>(mWindow, _("JUMP TO LETTER"), Font::get(FONT_SIZE_MEDIUM), 0x777777FF), true);
+	row.addElement(std::make_shared<TextComponent>(mWindow, _("JUMP TO LETTER"), menuTheme->menuText.font, menuTheme->menuText.color), true);
 	row.addElement(mJumpToLetterList, false);
 	row.input_handler = [&](InputConfig* config, Input input) {
 		if(config->isMappedTo("b", input) && input.value)
@@ -64,7 +65,7 @@ GuiGamelistOptions::GuiGamelistOptions(Window* window, SystemData* system) : Gui
 	row.elements.clear();
 
 	if(RecalboxConf::getInstance()->get("emulationstation.menu") != "none" && RecalboxConf::getInstance()->get("emulationstation.menu") != "bartop"){
-	  row.addElement(std::make_shared<TextComponent>(mWindow, _("EDIT THIS GAME'S METADATA"), Font::get(FONT_SIZE_MEDIUM), 0x777777FF), true);
+	  row.addElement(std::make_shared<TextComponent>(mWindow, _("EDIT THIS GAME'S METADATA"), menuTheme->menuText.font, menuTheme->menuText.color), true);
 		row.addElement(makeArrow(mWindow), false);
 		row.makeAcceptInputHandler(std::bind(&GuiGamelistOptions::openMetaDataEd, this));
 		mMenu.addRow(row);
@@ -99,13 +100,17 @@ GuiGamelistOptions::~GuiGamelistOptions()
         int size = getGamelist()->getRoot()->getChildren().size();
         if (getGamelist()->getRoot()->getChildren().size() == 0) {
             ViewController::get()->goToStart();
-            window->renderShutdownScreen();
-            delete ViewController::get();
-            SystemData::deleteSystems();
-            SystemData::loadConfig();
-            ViewController::init(window);
-            ViewController::get()->reloadAll();
-            window->pushGui(ViewController::get());
+			window->renderShutdownScreen();
+			delete ViewController::get();
+			SystemData::deleteSystems();
+			SystemData::loadConfig();
+			GuiComponent *gui;
+			while ((gui = window->peekGui()) != NULL) {
+				window->removeGui(gui);
+			}
+			ViewController::init(window);
+			ViewController::get()->reloadAll();
+			window->pushGui(ViewController::get());			
             return;
         }
     }

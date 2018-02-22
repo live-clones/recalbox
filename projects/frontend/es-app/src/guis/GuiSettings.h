@@ -30,6 +30,7 @@ public:
     inline void addSubMenu(const std::string& label, const std::function<void()>& func, std::string help = "") {
 		ComponentListRow row;
 		row.makeAcceptInputHandler(func);
+		auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 		std::string helpLabel(label);
 		if(help != "") {
 			row.makeHelpInputHandler([this, help, helpLabel] {
@@ -42,8 +43,7 @@ public:
 
 		auto entryMenu = std::make_shared<TextComponent>(mWindow,
 															 label,
-															 Font::get(FONT_SIZE_MEDIUM),
-															 0x777777FF);
+															 menuTheme->menuText.font, menuTheme->menuText.color);
 		row.addElement(entryMenu, true);
 		row.addElement(makeArrow(mWindow), false);
         mMenu.addRow(row);

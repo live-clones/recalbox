@@ -1,5 +1,6 @@
 #include "components/AnimatedImageComponent.h"
 #include "Log.h"
+#include "MenuThemeData.h"
 
 AnimatedImageComponent::AnimatedImageComponent(Window* window) : GuiComponent(window), mEnabled(false)
 {
@@ -8,7 +9,7 @@ AnimatedImageComponent::AnimatedImageComponent(Window* window) : GuiComponent(wi
 void AnimatedImageComponent::load(const AnimationDef* def)
 {
 	mFrames.clear();
-
+	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 	assert(def->frameCount >= 1);
 
 	for(size_t i = 0; i < def->frameCount; i++)
@@ -22,7 +23,7 @@ void AnimatedImageComponent::load(const AnimationDef* def)
 		auto img = std::unique_ptr<ImageComponent>(new ImageComponent(mWindow));
 		img->setResize(mSize.x(), mSize.y());
 		img->setImage(std::string(def->frames[i].path), false);
-		
+		img->setColorShift(menuTheme->menuText.color);
 		mFrames.push_back(ImageFrame(std::move(img), def->frames[i].time));
 	}
 

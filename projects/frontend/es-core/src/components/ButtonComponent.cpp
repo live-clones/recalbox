@@ -4,14 +4,23 @@
 #include "Util.h"
 #include "Log.h"
 #include "Locale.h"
+#include "MenuThemeData.h"
 
 ButtonComponent::ButtonComponent(Window* window, const std::string& text, const std::string& helpText, const std::function<void()>& func) : GuiComponent(window),
-	mBox(window, ":/button.png"),
+	mBox(window, mButton),
 	mFont(Font::get(FONT_SIZE_MEDIUM)), 
 	mFocused(false), 
 	mEnabled(true), 
 	mTextColorFocused(0xFFFFFFFF), mTextColorUnfocused(0x777777FF)
 {
+	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+	mFont = menuTheme->menuText.font;
+	mTextColorUnfocused = menuTheme->menuText.color;
+	mTextColorFocused = menuTheme->menuText.selectedColor;
+	mColor = menuTheme->menuText.color;
+	mButton = menuTheme->iconSet.button;
+	mButton_filled = menuTheme->iconSet.button_filled;
+	
 	setPressedFunc(func);
 	setText(text, helpText);
 	updateImage();
@@ -47,7 +56,7 @@ void ButtonComponent::setText(const std::string& text, const std::string& helpTe
 	mTextCache = std::unique_ptr<TextCache>(mFont->buildTextCache(mText, 0, 0, getCurTextColor()));
 
 	float minWidth = mFont->sizeText("DELETE").x() + 12;
-	setSize(std::max(mTextCache->metrics.size.x() + 12, minWidth), mTextCache->metrics.size.y());
+	setSize(std::max(mTextCache->metrics.size.x() + 12, minWidth), mTextCache->metrics.size.y() + 8);
 
 	updateHelpPrompts();
 }
@@ -74,7 +83,7 @@ void ButtonComponent::updateImage()
 {
 	if(!mEnabled || !mPressedFunc)
 	{
-		mBox.setImagePath(":/button_filled.png");
+		mBox.setImagePath(mButton_filled);
 		mBox.setCenterColor(0x770000FF);
 		mBox.setEdgeColor(0x770000FF);
 		return;
@@ -82,15 +91,15 @@ void ButtonComponent::updateImage()
 
 	// If a new color has been set.  
 	if (mNewColor) {
-		mBox.setImagePath(":/button_filled.png");
+		mBox.setImagePath(mButton_filled);
 		mBox.setCenterColor(mModdedColor);
 		mBox.setEdgeColor(mModdedColor);
 		return;
 	}
 
-	mBox.setCenterColor(0xFFFFFFFF);
-	mBox.setEdgeColor(0xFFFFFFFF);
-	mBox.setImagePath(mFocused ? ":/button_filled.png" : ":/button.png");
+	mBox.setCenterColor(mColor);
+	mBox.setEdgeColor(mColor);
+	mBox.setImagePath(mFocused ? mButton_filled : mButton);
 }
 
 void ButtonComponent::render(const Eigen::Affine3f& parentTrans)

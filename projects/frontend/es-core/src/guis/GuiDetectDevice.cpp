@@ -9,6 +9,7 @@
 #include <sstream>
 #include "Util.h"
 #include "Locale.h"
+#include "MenuThemeData.h"
 
 #define HOLD_TIME 1000
 
@@ -20,15 +21,22 @@ GuiDetectDevice::GuiDetectDevice(Window* window, bool firstRun, const std::funct
 	mHoldingConfig = NULL;
 	mHoldTime = 0;
 	mDoneCallback = doneCallback;
-
+	
+	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+	
+	mBackground.setImagePath(menuTheme->menuBackground.path);
+	mBackground.setCenterColor(menuTheme->menuBackground.color);
+	mBackground.setEdgeColor(menuTheme->menuBackground.color);
+	
 	addChild(&mBackground);
 	addChild(&mGrid);
 	
 	// title
 	mTitle = std::make_shared<TextComponent>(mWindow, firstRun ? _("WELCOME") : _("CONFIGURE INPUT"),
-		Font::get(FONT_SIZE_LARGE), 0x555555FF, ALIGN_CENTER);
-	mGrid.setEntry(mTitle, Vector2i(0, 0), false, true, Vector2i(1, 1), GridFlags::BORDER_BOTTOM);
-
+		 menuTheme->menuTitle.font, menuTheme->menuTitle.color, ALIGN_CENTER);
+	//mGrid.setEntry(mTitle, Vector2i(0, 0), false, true, Vector2i(1, 1), GridFlags::BORDER_BOTTOM);
+	mGrid.setEntry(mTitle, Vector2i(0, 0), false, true);
+	
 	// device info
 	std::stringstream deviceInfo;
 	int numDevices = InputManager::getInstance()->getNumJoysticks();
@@ -40,22 +48,22 @@ GuiDetectDevice::GuiDetectDevice(Window* window, bool firstRun, const std::funct
 	}
 	else
 		deviceInfo << _("NO GAMEPADS DETECTED");
-	mDeviceInfo = std::make_shared<TextComponent>(mWindow, deviceInfo.str(), Font::get(FONT_SIZE_SMALL), 0x999999FF, ALIGN_CENTER);
+	mDeviceInfo = std::make_shared<TextComponent>(mWindow, deviceInfo.str(),  menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, ALIGN_CENTER);
 	mGrid.setEntry(mDeviceInfo, Vector2i(0, 1), false, true);
 
 	// message
-	mMsg1 = std::make_shared<TextComponent>(mWindow, _("HOLD A BUTTON ON YOUR DEVICE TO CONFIGURE IT."), Font::get(FONT_SIZE_SMALL), 0x777777FF, ALIGN_CENTER);
+	mMsg1 = std::make_shared<TextComponent>(mWindow, _("HOLD A BUTTON ON YOUR DEVICE TO CONFIGURE IT."), menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, ALIGN_CENTER);
 	mGrid.setEntry(mMsg1, Vector2i(0, 2), false, true);
 
 	const char* msg2str = firstRun ? _("PRESS F4 TO QUIT AT ANY TIME.").c_str() : _("PRESS ESC OR THE HOTKEY TO CANCEL.").c_str();
-	mMsg2 = std::make_shared<TextComponent>(mWindow, msg2str, Font::get(FONT_SIZE_SMALL), 0x777777FF, ALIGN_CENTER);
+	mMsg2 = std::make_shared<TextComponent>(mWindow, msg2str, menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, ALIGN_CENTER);
 	mGrid.setEntry(mMsg2, Vector2i(0, 3), false, true);
 
 	// currently held device
-	mDeviceHeld = std::make_shared<TextComponent>(mWindow, "", Font::get(FONT_SIZE_MEDIUM), 0xFFFFFFFF, ALIGN_CENTER);
+	mDeviceHeld = std::make_shared<TextComponent>(mWindow, "", menuTheme->menuText.font, 0xFFFFFFFF, ALIGN_CENTER);
 	mGrid.setEntry(mDeviceHeld, Vector2i(0, 4), false, true);
 
-	setSize(Renderer::getScreenWidth() * 0.6f, Renderer::getScreenHeight() * 0.5f);
+	setSize(Renderer::getScreenWidth() * 0.6f, Renderer::getScreenHeight() * 0.4f);
 	setPosition((Renderer::getScreenWidth() - mSize.x()) / 2, (Renderer::getScreenHeight() - mSize.y()) / 2);
 }
 
@@ -66,10 +74,10 @@ void GuiDetectDevice::onSizeChanged()
 	// grid
 	mGrid.setSize(mSize);
 	mGrid.setRowHeightPerc(0, mTitle->getFont()->getHeight() / mSize.y());
-	//mGrid.setRowHeightPerc(1, mDeviceInfo->getFont()->getHeight() / mSize.y());
+	mGrid.setRowHeightPerc(1, mDeviceInfo->getFont()->getHeight() / mSize.y());
 	mGrid.setRowHeightPerc(2, mMsg1->getFont()->getHeight() / mSize.y());
 	mGrid.setRowHeightPerc(3, mMsg2->getFont()->getHeight() / mSize.y());
-	//mGrid.setRowHeightPerc(4, mDeviceHeld->getFont()->getHeight() / mSize.y());
+	mGrid.setRowHeightPerc(4, mDeviceHeld->getFont()->getHeight() / mSize.y());
 }
 
 bool GuiDetectDevice::input(InputConfig* config, Input input)

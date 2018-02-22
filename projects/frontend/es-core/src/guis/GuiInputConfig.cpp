@@ -9,6 +9,7 @@
 #include "Util.h"
 #include "Locale.h"
 #include "InputManager.h"
+#include "MenuThemeData.h"
 
 using namespace boost::locale;
 
@@ -31,7 +32,7 @@ using namespace Eigen;
 #define HOLD_TO_SKIP_MS 1000
 
 GuiInputConfig::GuiInputConfig(Window* window, InputConfig* target, bool reconfigureAll, const std::function<void()>& okCallback) : GuiComponent(window), 
-	mBackground(window, ":/frame.png"), mGrid(window, Vector2i(1, 7)), 
+	mBackground(window, ":/frame.png"), mGrid(window, Vector2i(1, 5)), 
 	mTargetConfig(target), mHoldingInput(false)
 {
 	LOG(LogInfo) << "Configuring device " << target->getDeviceId() << " (" << target->getDeviceName() << ").";
@@ -42,6 +43,14 @@ GuiInputConfig::GuiInputConfig(Window* window, InputConfig* target, bool reconfi
 
 	if(reconfigureAll)
 		target->clear();
+	
+	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+	
+	mBackground.setImagePath(menuTheme->menuBackground.path);
+	mBackground.setCenterColor(menuTheme->menuBackground.color);
+	mBackground.setEdgeColor(menuTheme->menuBackground.color);
+	
+	mMainColor = menuTheme->menuText.color;
 
 	mConfiguringAll = reconfigureAll;
 	mConfiguringRow = mConfiguringAll;
@@ -50,10 +59,10 @@ GuiInputConfig::GuiInputConfig(Window* window, InputConfig* target, bool reconfi
 	addChild(&mGrid);
 
 	// 0 is a spacer row
-	mGrid.setEntry(std::make_shared<GuiComponent>(mWindow), Vector2i(0, 0), false);
+	//mGrid.setEntry(std::make_shared<GuiComponent>(mWindow), Vector2i(0, 0), false);
 
-	mTitle = std::make_shared<TextComponent>(mWindow, _("CONFIGURING"), Font::get(FONT_SIZE_LARGE), 0x555555FF, ALIGN_CENTER);
-	mGrid.setEntry(mTitle, Vector2i(0, 1), false, true);
+	mTitle = std::make_shared<TextComponent>(mWindow, _("CONFIGURING"), menuTheme->menuTitle.font, menuTheme->menuTitle.color, ALIGN_CENTER);
+	mGrid.setEntry(mTitle, Vector2i(0, 0), false, true);
 
 	char strbuf[256];
 	if(target->getDeviceId() == DEVICE_KEYBOARD)
@@ -62,16 +71,17 @@ GuiInputConfig::GuiInputConfig(Window* window, InputConfig* target, bool reconfi
 	  snprintf(strbuf, 256, _("GAMEPAD %i").c_str(), target->getDeviceId() + 1);
 	}
 	  
-	mSubtitle1 = std::make_shared<TextComponent>(mWindow, strToUpper(strbuf), Font::get(FONT_SIZE_MEDIUM), 0x555555FF, ALIGN_CENTER);
-	mGrid.setEntry(mSubtitle1, Vector2i(0, 2), false, true);
+	mSubtitle1 = std::make_shared<TextComponent>(mWindow, strToUpper(strbuf), menuTheme->menuText.font, menuTheme->menuFooter.color, ALIGN_CENTER);
+	mGrid.setEntry(mSubtitle1, Vector2i(0, 1), false, true);
 
-	mSubtitle2 = std::make_shared<TextComponent>(mWindow, _("HOLD ANY BUTTON TO SKIP"), Font::get(FONT_SIZE_SMALL), 0x99999900, ALIGN_CENTER);
-	mGrid.setEntry(mSubtitle2, Vector2i(0, 3), false, true);
+	mSubtitle2 = std::make_shared<TextComponent>(mWindow, _("HOLD ANY BUTTON TO SKIP"), menuTheme->menuTextSmall.font, 0xFFFFFF00, ALIGN_CENTER);
+	mGrid.setEntry(mSubtitle2, Vector2i(0, 2), false, true);
 
 	// 4 is a spacer row
+	//mGrid.setEntry(std::make_shared<GuiComponent>(mWindow), Vector2i(0, 4), false);
 
 	mList = std::make_shared<ComponentList>(mWindow);
-	mGrid.setEntry(mList, Vector2i(0, 5), true, true);
+	mGrid.setEntry(mList, Vector2i(0, 3), true, true);
 	bool hasAxis = InputManager::getInstance()->getAxisCountByDevice(target->getDeviceId()) > 0;
 	int inputRowIndex = 0;
 	for(int i = 0; i < inputCount; i++)
@@ -83,8 +93,8 @@ GuiInputConfig::GuiInputConfig(Window* window, InputConfig* target, bool reconfi
 		// icon
 		auto icon = std::make_shared<ImageComponent>(mWindow);
 		icon->setImage(inputIcon[i]);
-		icon->setColorShift(0x777777FF);
-		icon->setResize(0, Font::get(FONT_SIZE_MEDIUM)->getLetterHeight() * 1.25f);
+		icon->setColorShift(menuTheme->menuText.color);
+		icon->setResize(0, menuTheme->menuText.font->getLetterHeight() * 1.25f);
 		row.addElement(icon, false);
 
 		// spacer between icon and text
@@ -92,10 +102,10 @@ GuiInputConfig::GuiInputConfig(Window* window, InputConfig* target, bool reconfi
 		spacer->setSize(16, 0);
 		row.addElement(spacer, false);
 
-		auto text = std::make_shared<TextComponent>(mWindow, inputDispName[i], Font::get(FONT_SIZE_MEDIUM), 0x777777FF);
+		auto text = std::make_shared<TextComponent>(mWindow, inputDispName[i], menuTheme->menuText.font, menuTheme->menuText.color);
 		row.addElement(text, true);
 
-		auto mapping = std::make_shared<TextComponent>(mWindow, _("-NOT DEFINED-"), Font::get(FONT_SIZE_MEDIUM, FONT_PATH_LIGHT), 0x999999FF, ALIGN_RIGHT);
+		auto mapping = std::make_shared<TextComponent>(mWindow, _("-NOT DEFINED-"), menuTheme->menuText.font, 0xFFFFFFFF, ALIGN_RIGHT);
 		setNotDefined(mapping); // overrides text and color set above
 		row.addElement(mapping, true);
 		mMappings.push_back(mapping);
@@ -174,7 +184,7 @@ GuiInputConfig::GuiInputConfig(Window* window, InputConfig* target, bool reconfi
 		delete this; 
 	}));
 	mButtonGrid = makeButtonGrid(mWindow, buttons);
-	mGrid.setEntry(mButtonGrid, Vector2i(0, 6), true, false);
+	mGrid.setEntry(mButtonGrid, Vector2i(0, 4), true, false);
 
 	setSize(Renderer::getScreenWidth() * 0.6f, Renderer::getScreenHeight() * 0.75f);
 	setPosition((Renderer::getScreenWidth() - mSize.x()) / 2, (Renderer::getScreenHeight() - mSize.y()) / 2);
@@ -188,12 +198,12 @@ void GuiInputConfig::onSizeChanged()
 	mGrid.setSize(mSize);
 
 	//mGrid.setRowHeightPerc(0, 0.025f);
-	mGrid.setRowHeightPerc(1, mTitle->getFont()->getHeight()*0.75f / mSize.y());
-	mGrid.setRowHeightPerc(2, mSubtitle1->getFont()->getHeight() / mSize.y());
-	mGrid.setRowHeightPerc(3, mSubtitle2->getFont()->getHeight() / mSize.y());
+	mGrid.setRowHeightPerc(0, mTitle->getFont()->getHeight() / mSize.y());
+	mGrid.setRowHeightPerc(1, mSubtitle1->getFont()->getHeight() / mSize.y());
+	mGrid.setRowHeightPerc(2, mSubtitle2->getFont()->getHeight() / mSize.y());
 	//mGrid.setRowHeightPerc(4, 0.03f);
-	mGrid.setRowHeightPerc(5, (mList->getRowHeight(0) * 5 + 2) / mSize.y());
-	mGrid.setRowHeightPerc(6, mButtonGrid->getSize().y() / mSize.y());
+	//mGrid.setRowHeightPerc(5, (mList->getRowHeight(0) * 5 + 2) / mSize.y());
+	mGrid.setRowHeightPerc(4, mButtonGrid->getSize().y() / mSize.y());
 }
 
 void GuiInputConfig::update(int deltaTime)
@@ -218,7 +228,7 @@ void GuiInputConfig::update(int deltaTime)
 				char strbuf[256];
 				snprintf(strbuf, 256, ngettext("HOLD FOR %iS TO SKIP", "HOLD FOR %iS TO SKIP", HOLD_TO_SKIP_MS/1000 - curSec).c_str(), HOLD_TO_SKIP_MS/1000 - curSec);
 				text->setText(strbuf);
-				text->setColor(0x777777FF);
+				text->setColor(mMainColor);
 			}
 		}
 	}
@@ -249,25 +259,25 @@ void GuiInputConfig::rowDone()
 void GuiInputConfig::setPress(const std::shared_ptr<TextComponent>& text)
 {
   text->setText(_("PRESS ANYTHING"));
-	text->setColor(0x656565FF);
+	text->setColor(mMainColor);
 }
 
 void GuiInputConfig::setNotDefined(const std::shared_ptr<TextComponent>& text)
 {
   text->setText(_("-NOT DEFINED-"));
-	text->setColor(0x999999FF);
+	text->setColor(0xFFFFFFFF);
 }
 
 void GuiInputConfig::setAssignedTo(const std::shared_ptr<TextComponent>& text, Input input)
 {
 	text->setText(strToUpper(input.string()));
-	text->setColor(0x777777FF);
+	text->setColor(mMainColor);
 }
 
 void GuiInputConfig::error(const std::shared_ptr<TextComponent>& text, const std::string& msg)
 {
   text->setText(_("ALREADY TAKEN"));
-	text->setColor(0x656565FF);
+	text->setColor(mMainColor);
 }
 
 bool GuiInputConfig::assign(Input input, int inputId, int inputIndex)

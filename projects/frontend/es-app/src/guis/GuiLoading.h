@@ -9,6 +9,7 @@
 #include "GuiComponent.h"
 #include "components/MenuComponent.h"
 #include "components/BusyComponent.h"
+#include "components/NinePatchComponent.h"
 
 
 #include <boost/thread.hpp>
@@ -30,6 +31,7 @@ public:
 
 private:
     BusyComponent mBusyAnim;
+    NinePatchComponent mBackground;
     boost::thread *mHandle;
     bool mRunning;
     const std::function<void*()>& mFunc;

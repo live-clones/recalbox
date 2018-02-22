@@ -2,6 +2,7 @@
 #include "components/MenuComponent.h"
 #include "Log.h"
 #include "Locale.h"
+#include "MenuThemeData.h"
 
 using namespace Eigen;
 
@@ -9,10 +10,16 @@ GuiTextEditPopupKeyboard::GuiTextEditPopupKeyboard(Window* window, const std::st
 	const std::function<void(const std::string&)>& okCallback, bool multiLine, const std::string acceptBtnText)
 	: GuiComponent(window), mBackground(window, ":/frame.png"), mGrid(window, Vector2i(1, 7)), mMultiLine(multiLine)
 {
+	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+	
+	mBackground.setImagePath(menuTheme->menuBackground.path);
+	mBackground.setCenterColor(menuTheme->menuBackground.color);
+	mBackground.setEdgeColor(menuTheme->menuBackground.color);
+	
 	addChild(&mBackground);
 	addChild(&mGrid);
 
-	mTitle = std::make_shared<TextComponent>(mWindow, strToUpper(title), Font::get(FONT_SIZE_LARGE), 0x555555FF, ALIGN_CENTER);
+	mTitle = std::make_shared<TextComponent>(mWindow, strToUpper(title), menuTheme->menuTitle.font, menuTheme->menuTitle.color, ALIGN_CENTER);
 	mKeyboardGrid = std::make_shared<ComponentGrid>(mWindow, Vector2i(12, 5));
 
 	mText = std::make_shared<TextEditComponent>(mWindow);
@@ -53,7 +60,7 @@ GuiTextEditPopupKeyboard::GuiTextEditPopupKeyboard(Window* window, const std::st
 			}));
 
 			// Send just created button into mGrid
-			digitButtons[k]->setSize((Renderer::getScreenWidth() * 0.95f) / 12, (mText->getFont()->getHeight() + 6));
+			//digitButtons[k]->setSize((Renderer::getScreenWidth() * 0.95f) / 16, (mText->getFont()->getHeight() + 6));
 			mKeyboardGrid->setEntry(digitButtons[k], Vector2i(k, 0), true, false);
 		}
 
@@ -75,7 +82,7 @@ GuiTextEditPopupKeyboard::GuiTextEditPopupKeyboard(Window* window, const std::st
 			}));
 
 			// Send just created button into mGrid
-			sButtons[k]->setSize((Renderer::getScreenWidth() * 0.95f) / 12, (mText->getFont()->getHeight() + 6));
+			//sButtons[k]->setSize((Renderer::getScreenWidth() * 0.95f) / 16, (mText->getFont()->getHeight() + 6));
 			mKeyboardGrid->setEntry(sButtons[k], Vector2i(k, 1), true, false);
 		}
 
@@ -101,7 +108,7 @@ GuiTextEditPopupKeyboard::GuiTextEditPopupKeyboard(Window* window, const std::st
 		}
 
 		for (int k = 0; k < 12; k++) {
-			kButtons[k]->setSize((Renderer::getScreenWidth() * 0.95f) / 12, (mText->getFont()->getHeight() + 6));
+			//kButtons[k]->setSize((Renderer::getScreenWidth() * 0.95f) / 16, (mText->getFont()->getHeight() + 6));
 			mKeyboardGrid->setEntry(kButtons[k], Vector2i(k, 2), true, false);
 		}
 
@@ -127,7 +134,7 @@ GuiTextEditPopupKeyboard::GuiTextEditPopupKeyboard(Window* window, const std::st
 		}
 
 		for (int k = 0; k < 12; k++) {
-			hButtons[k]->setSize((Renderer::getScreenWidth() * 0.95f) / 12, (mText->getFont()->getHeight() + 6));
+			//hButtons[k]->setSize((Renderer::getScreenWidth() * 0.95f) / 16, (mText->getFont()->getHeight() + 6));
 			mKeyboardGrid->setEntry(hButtons[k], Vector2i(k, 3), true, false);
 		}
 
@@ -171,7 +178,8 @@ GuiTextEditPopupKeyboard::GuiTextEditPopupKeyboard(Window* window, const std::st
 
 		// Do a sererate for loop because shift key makes it weird
 		for (int k = 0; k < 12; k++) {
-			bButtons[k]->setSize((Renderer::getScreenWidth() * 0.95f) / 12, (mText->getFont()->getHeight() + 6));
+		    //removed to autosize buttons
+			//bButtons[k]->setSize((Renderer::getScreenWidth() * 0.95f) / 16, (mText->getFont()->getHeight() + 6));
 			mKeyboardGrid->setEntry(bButtons[k], Vector2i(k, 4), true, false);
 		}
 
@@ -214,7 +222,8 @@ GuiTextEditPopupKeyboard::GuiTextEditPopupKeyboard(Window* window, const std::st
 	}
 	else {
 		// Set size based on ScreenHieght * .08f by the amount of keyboard rows there are.
-		setSize(Renderer::getScreenWidth() * 0.99f, mTitle->getFont()->getHeight() + textHeight + 40 + (Renderer::getScreenHeight() * 0.085f) * 6);
+        //set width base on bButtons[0] (the SHIFT key) x 12 as SHIFT key is the widest
+		setSize(std::min(Renderer::getScreenWidth() * 0.99f, bButtons[0]->getSize().x() * 12 + Renderer::getScreenWidth() * 0.1f), mTitle->getFont()->getHeight() + textHeight + 40 + (Renderer::getScreenHeight() * 0.085f) * 6);
 		setPosition((Renderer::getScreenWidth() - mSize.x()) / 2, (Renderer::getScreenHeight() - mSize.y()) / 2);
 	}
 }
@@ -280,7 +289,7 @@ void GuiTextEditPopupKeyboard::shiftKeys() {
 	if (mShift) {
 		// FOR SHIFTING UP
 		// Change Shift button color
-		bButtons[0]->setColorShift(0xEBFD00AA);
+		bButtons[0]->setColorShift(0xFF0000FF);
 		// Change Special chara
 		kButtons[10]->setText("[", "[");
 		kButtons[11]->setText("]", "]");
@@ -292,7 +301,7 @@ void GuiTextEditPopupKeyboard::shiftKeys() {
 		bButtons[10]->setText(">", ">");
 		bButtons[11]->setText("/", "/");
 		// Resize Special chara key
-		kButtons[10]->setSize((Renderer::getScreenWidth() * 0.95f) / 12, (mText->getFont()->getHeight() + 6));
+		/*kButtons[10]->setSize((Renderer::getScreenWidth() * 0.95f) / 12, (mText->getFont()->getHeight() + 6));
 		kButtons[11]->setSize((Renderer::getScreenWidth() * 0.95f) / 12, (mText->getFont()->getHeight() + 6));
 		hButtons[9]->setSize((Renderer::getScreenWidth() * 0.95f) / 12, (mText->getFont()->getHeight() + 6));
 		hButtons[10]->setSize((Renderer::getScreenWidth() * 0.95f) / 12, (mText->getFont()->getHeight() + 6));
@@ -300,7 +309,7 @@ void GuiTextEditPopupKeyboard::shiftKeys() {
 		bButtons[1]->setSize((Renderer::getScreenWidth() * 0.95f) / 12, (mText->getFont()->getHeight() + 6));
 		bButtons[9]->setSize((Renderer::getScreenWidth() * 0.95f) / 12, (mText->getFont()->getHeight() + 6));
 		bButtons[10]->setSize((Renderer::getScreenWidth() * 0.95f) / 12, (mText->getFont()->getHeight() + 6));
-		bButtons[11]->setSize((Renderer::getScreenWidth() * 0.95f) / 12, (mText->getFont()->getHeight() + 6));
+		bButtons[11]->setSize((Renderer::getScreenWidth() * 0.95f) / 12, (mText->getFont()->getHeight() + 6));*/
 	} else {
 		// UNSHIFTING
 		// Remove button color
@@ -316,7 +325,7 @@ void GuiTextEditPopupKeyboard::shiftKeys() {
 		bButtons[10]->setText(".", ".");
 		bButtons[11]->setText("?", "?");
 		// Resize Special chara key
-		kButtons[10]->setSize((Renderer::getScreenWidth() * 0.95f) / 12, (mText->getFont()->getHeight() + 6));
+		/*kButtons[10]->setSize((Renderer::getScreenWidth() * 0.95f) / 12, (mText->getFont()->getHeight() + 6));
 		kButtons[11]->setSize((Renderer::getScreenWidth() * 0.95f) / 12, (mText->getFont()->getHeight() + 6));
 		hButtons[9]->setSize((Renderer::getScreenWidth() * 0.95f) / 12, (mText->getFont()->getHeight() + 6));
 		hButtons[10]->setSize((Renderer::getScreenWidth() * 0.95f) / 12, (mText->getFont()->getHeight() + 6));
@@ -324,7 +333,7 @@ void GuiTextEditPopupKeyboard::shiftKeys() {
 		bButtons[1]->setSize((Renderer::getScreenWidth() * 0.95f) / 12, (mText->getFont()->getHeight() + 6));
 		bButtons[9]->setSize((Renderer::getScreenWidth() * 0.95f) / 12, (mText->getFont()->getHeight() + 6));
 		bButtons[10]->setSize((Renderer::getScreenWidth() * 0.95f) / 12, (mText->getFont()->getHeight() + 6));
-		bButtons[11]->setSize((Renderer::getScreenWidth() * 0.95f) / 12, (mText->getFont()->getHeight() + 6));
+		bButtons[11]->setSize((Renderer::getScreenWidth() * 0.95f) / 12, (mText->getFont()->getHeight() + 6));*/
 	}
 
 }

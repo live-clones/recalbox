@@ -47,6 +47,13 @@ public:
     static const std::string UI_KEYBOARD_HELP_MSG;
     static const std::string UI_TRANSITION_HELP_MSG;
     static const std::string UI_THEME_HELP_MSG;
+	static const std::string UI_THEME_COLORSET_MSG;
+	static const std::string UI_THEME_ICONSET_MSG;
+	static const std::string UI_THEME_MENU_MSG;
+	static const std::string UI_THEME_SYSTEMVIEW_MSG;
+	static const std::string UI_THEME_GAMELISTVIEW_MSG;
+	static const std::string UI_THEME_CONFIGURATION_MSG;
+	static const std::string UI_THEME_REGION_MSG;
     static const std::string UI_UPDATE_GAMELIST_HELP_MSG;
 
     static const std::string SOUND_HELP_MSG;
@@ -131,6 +138,13 @@ const std::string MenuMessages::UI_QUICK_HELP_MSG = _("When enabled, you can swi
 const std::string MenuMessages::UI_KEYBOARD_HELP_MSG = _("The onscreen keyboard is necessary to type text if you only have controllers plugged into your recalbox. You can disable it if you have a real keyboard connected.");
 const std::string MenuMessages::UI_TRANSITION_HELP_MSG = _("Select the type of transition that occurs when you start a game. FADE will fade to dark, and SLIDE will zoom on the game cover (or name if there is no scrape information)");
 const std::string MenuMessages::UI_THEME_HELP_MSG = _("Select a theme for your recalbox.");
+const std::string MenuMessages::UI_THEME_COLORSET_MSG = _("Select exisiting colorset options for this theme.");
+const std::string MenuMessages::UI_THEME_ICONSET_MSG = _("Select exisiting iconset options for this theme.");
+const std::string MenuMessages::UI_THEME_MENU_MSG = _("Select exisiting menu style options for this theme.");
+const std::string MenuMessages::UI_THEME_SYSTEMVIEW_MSG = _("Select exisiting system view options for this theme.");
+const std::string MenuMessages::UI_THEME_GAMELISTVIEW_MSG = _("Select exisiting gamelist view options for this theme.");
+const std::string MenuMessages::UI_THEME_CONFIGURATION_MSG = _("Configure theme options if available.");
+const std::string MenuMessages::UI_THEME_REGION_MSG = _("Select Region of logos, pictures for system that are different for some countries. E.g. Megadrive in EU / Genesis in US");
 const std::string MenuMessages::UI_UPDATE_GAMELIST_HELP_MSG = _("Updates the gamelists, if you added games since the last boot.");
 
 const std::string MenuMessages::SOUND_HELP_MSG = _("Configure the sound options of your recalbox.");
