@@ -21,10 +21,16 @@ GuiMsgBoxScroll::GuiMsgBoxScroll(Window* window,
 	float minWidth = Renderer::getScreenWidth() * 0.3f; // minimum width
 
 
-	mTitle = std::make_shared<TextComponent>(mWindow, title, Font::get(FONT_SIZE_MEDIUM), 0x555555FF, ALIGN_CENTER);
+	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+
+	mBackground.setImagePath(menuTheme->menuBackground.path);
+	mBackground.setCenterColor(menuTheme->menuBackground.color);
+	mBackground.setEdgeColor(menuTheme->menuBackground.color);
+
+	mTitle = std::make_shared<TextComponent>(mWindow, title, menuTheme->menuTitle.font, menuTheme->menuTitle.color, ALIGN_CENTER);
 	mGrid.setEntry(mTitle, Eigen::Vector2i(0, 0), false, true);
 
-	mMsg = std::make_shared<TextComponent>(mWindow, text, Font::get(FONT_SIZE_SMALL), 0x777777FF, align);
+	mMsg = std::make_shared<TextComponent>(mWindow, text, menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, align);
 
 	mMsgContainer = std::make_shared<ScrollableContainer>(mWindow);
 	mMsgContainer->setAutoScroll(true);
