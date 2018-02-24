@@ -2,7 +2,7 @@
  * File:   RecalboxSystem.cpp
  * Author: digitallumberjack
  * 
- * Created on 29 novembre 2014, 03:15
+ * Created on 29 novembre 2014, 03:1
  */
 
 #include "RecalboxSystem.h"
@@ -92,6 +92,26 @@ std::string RecalboxSystem::readFile(std::string file) {
         }
     }
     return "";
+}
+
+std::vector<std::string> RecalboxSystem::getAvailableWiFiSSID() {
+	std::vector<std::string> res;
+	std::ostringstream oss;
+	oss << Settings::getInstance()->getString("RecalboxSettingScript") << " " << "wifi list";
+	FILE *pipe = popen(oss.str().c_str(), "r");
+	char line[1024];
+
+	if (pipe == NULL) {
+		return res;
+	}
+
+	while (fgets(line, 1024, pipe)) {
+		strtok(line, "\n");
+		res.push_back(std::string(line));
+	}
+	pclose(pipe);
+
+	return res;
 }
 
 std::vector<std::string> RecalboxSystem::getAvailableAudioOutputDevices() {

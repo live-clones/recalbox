@@ -67,6 +67,7 @@ public:
     static const std::string NETWORK_WIFI_HELP_MSG;
     static const std::string NETWORK_HOST_HELP_MSG;
     static const std::string NETWORK_SSID_HELP_MSG;
+    static const std::string NETWORK_MANUAL_INPUT_HELP_MSG;
     static const std::string NETWORK_KEY_HELP_MSG;
 
     static const std::string SCRAPER_HELP_MSG;
@@ -158,6 +159,7 @@ const std::string MenuMessages::NETWORK_IP_HELP_MSG = _("The IP address of your 
 const std::string MenuMessages::NETWORK_WIFI_HELP_MSG = _("Enable or disable WIFI.\nIf you disable WIFI, the SSID and the WIFI passwords are saved and can be used when you reactivate it");
 const std::string MenuMessages::NETWORK_HOST_HELP_MSG = _("The name of your recalbox in your local network");
 const std::string MenuMessages::NETWORK_SSID_HELP_MSG = _("SSID (WIFI Name) of your network.");
+const std::string MenuMessages::NETWORK_MANUAL_INPUT_HELP_MSG = _("Type the name of your SSID if it is hidden or not listed");
 const std::string MenuMessages::NETWORK_KEY_HELP_MSG = _("Private key of your WIFI network.");
 
 const std::string MenuMessages::SCRAPER_HELP_MSG = _("Get informations and visual for your games. The scraper downloads metadata and visuals for your games from different servers and enhances the user experience in EmulationStation completely.");

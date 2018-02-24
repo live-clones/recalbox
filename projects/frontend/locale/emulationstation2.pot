@@ -478,6 +478,10 @@ msgstr ""
 msgid "WIFI SSID"
 msgstr ""
 
+#:
+msgid "MANUAL INPUT"
+msgstr ""
+
 #: 
 msgid "WIFI KEY"
 msgstr ""

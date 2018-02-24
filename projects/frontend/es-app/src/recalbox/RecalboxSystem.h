@@ -23,6 +23,8 @@ public:
     std::string getRootPassword();
 
     bool setAudioOutputDevice(std::string device);
+	
+	std::vector<std::string> getAvailableWiFiSSID();
 
     std::vector<std::string> getAvailableAudioOutputDevices();
 
