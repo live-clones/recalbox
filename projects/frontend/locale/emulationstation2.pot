@@ -411,7 +411,7 @@ msgid "THEME GAMELISTVIEW"
 msgstr ""
 
 #: 
-msgid "THEME WILL BE APPLIED"
+msgid "THEME REGION"
 msgstr ""
 
 #: 
@@ -1284,6 +1284,34 @@ msgstr ""
 msgid "Select a theme for your recalbox."
 msgstr ""
 
+#:
+msgid "Select exisiting colorset options for this theme."
+msgstr ""
+
+#:
+msgid "Select exisiting iconset options for this theme."
+msgstr ""
+
+#:
+msgid "Select exisiting menu style options for this theme."
+msgstr ""
+
+#:
+msgid "Select exisiting system view options for this theme."
+msgstr ""
+
+#:
+msgid "Select exisiting gamelist view options for this theme."
+msgstr ""
+
+#:
+msgid "Configure theme options if available."
+msgstr ""
+
+#:
+msgid "Select Region of logos, pictures for system that are different for some countries. E.g. Megadrive in EU / Genesis in US"
+msgstr ""
+
 #: 
 msgid "Updates the gamelists, if you added games since the last boot."
 msgstr ""
@@ -1328,6 +1356,10 @@ msgstr ""
 
 #: 
 msgid "SSID (WIFI Name) of your network."
+msgstr ""
+
+#:
+msgid "Type the name of your SSID if it is hidden or not listed"
 msgstr ""
 
 #: 

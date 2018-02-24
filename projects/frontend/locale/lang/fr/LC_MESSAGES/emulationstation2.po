@@ -385,6 +385,14 @@ msgstr "CONFIGURATION DU THÈME"
 msgid "THEME COLORSET"
 msgstr "COLORSET DU THÈME"
 
+#:
+msgid "THEME ICONSET"
+msgstr "ICONESET DU THÈME"
+
+#:
+msgid "THEME MENU"
+msgstr "MENU DU THÈME"
+
 #: 
 msgid "THEME SYSTEMVIEW"
 msgstr "VUE SYSTEM DU THÈME"
@@ -392,6 +400,14 @@ msgstr "VUE SYSTEM DU THÈME"
 #: 
 msgid "THEME GAMELISTVIEW"
 msgstr "VUE GAMELIST DU THÈME"
+
+#:
+msgid "THEME REGION"
+msgstr "REGION DU THÈME"
+
+#:
+msgid "THIS THEME HAS NO OPTION"
+msgstr "CE THÈME N'A PAS D'OPTION"
 
 #: 
 msgid "SOUND SETTINGS"
@@ -452,6 +468,10 @@ msgstr "ACTIVER LE WIFI"
 #: 
 msgid "WIFI SSID"
 msgstr "SSID WIFI"
+
+#:
+msgid "MANUAL INPUT"
+msgstr "SAISIE MANUELLE"
 
 #: 
 msgid "WIFI KEY"
@@ -1253,6 +1273,34 @@ msgstr "Sélectionnez le type de transition qui se produit lorsque vous lancez u
 msgid "Select a theme for your recalbox."
 msgstr "Sélectionnez un thème pour votre Recalbox."
 
+#:
+msgid "Select exisiting colorset options for this theme."
+msgstr "Sélectionnez un colorset disponible pour votre thème"
+
+#:
+msgid "Select exisiting iconset options for this theme."
+msgstr "Sélectionnez un iconset disponible pour votre thème"
+
+#:
+msgid "Select exisiting menu style options for this theme."
+msgstr "Sélectionnez un style de menu disponible pour votre thème"
+
+#:
+msgid "Select exisiting system view options for this theme."
+msgstr "Sélectionnez une vue système disponible pour votre thème"
+
+#:
+msgid "Select exisiting gamelist view options for this theme."
+msgstr "Sélectionnez une vue gamelist disponible pour votre thème"
+
+#:
+msgid "Configure theme options if available."
+msgstr "Configurez les options du thème si disponibles"
+
+#:
+msgid "Select Region of logos, pictures for system that are different for some countries. E.g. Megadrive in EU / Genesis in US"
+msgstr "Sélectionnez une région des logos et images pour les systèmes qui sont différents selon les pays. Ex: Megadrive en Europe / Genesis aux USA"
+
 #: 
 msgid "Updates the gamelists, if you added games since the last boot."
 msgstr "Mettez à jour les listes de jeux si vous avez ajouté des jeux depuis le dernier démarrage."
@@ -1299,6 +1347,10 @@ msgstr "Le nom de votre Recalbox sur le réseau local."
 #: 
 msgid "SSID (WIFI Name) of your network."
 msgstr "SSID (Nom WIFI) de votre réseau."
+
+#:
+msgid "Type the name of your SSID if it is hidden or not listed"
+msgstr "Saisissez le nom de votre SSID si il n'est pas dans la liste ou caché"
 
 #: 
 msgid "Private key of your WIFI network."

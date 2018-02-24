@@ -721,7 +721,7 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
 											theme_region->add(it->first, it->first, it == selectedRegion);
 										
 									if (!themeRegions.empty())
-											themeconfig->addWithLabelAndHelp(_("THEME REGION"), theme_region, MenuMessages::UI_THEME_GAMELISTVIEW_MSG);
+											themeconfig->addWithLabelAndHelp(_("THEME REGION"), theme_region, MenuMessages::UI_THEME_REGION_MSG);
 							 
 							 
 									themeconfig->addSaveFunc([this, window, theme_set, theme_colorset, theme_iconset, theme_menu, theme_systemview, theme_gamelistview, theme_region, ReloadAll] {
@@ -933,7 +933,7 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                              });
                              row.makeHelpInputHandler([this] {
                                  mWindow->pushGui(new GuiMsgBoxScroll(
-                                         mWindow, "MANUAL INPUT",
+                                         mWindow, _("MANUAL INPUT"),
                                          MenuMessages::NETWORK_MANUAL_INPUT_HELP_MSG,
                                          _("OK"),
                                          [] {}, "", nullptr, "", nullptr, ALIGN_LEFT));
