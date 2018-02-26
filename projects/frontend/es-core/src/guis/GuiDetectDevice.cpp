@@ -23,6 +23,7 @@ GuiDetectDevice::GuiDetectDevice(Window* window, bool firstRun, const std::funct
 	mDoneCallback = doneCallback;
 	
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+	mColor = menuTheme->menuText.color & 0xFFFFFF00;
 	
 	mBackground.setImagePath(menuTheme->menuBackground.path);
 	mBackground.setCenterColor(menuTheme->menuBackground.color);
@@ -62,7 +63,7 @@ GuiDetectDevice::GuiDetectDevice(Window* window, bool firstRun, const std::funct
 	mGrid.setEntry(mMsg2, Vector2i(0, 3), false, true);
 
 	// currently held device
-	mDeviceHeld = std::make_shared<TextComponent>(mWindow, "", menuTheme->menuText.font, 0xFFFFFFFF, ALIGN_CENTER);
+	mDeviceHeld = std::make_shared<TextComponent>(mWindow, "", menuTheme->menuText.font, mColor, ALIGN_CENTER);
 	mGrid.setEntry(mDeviceHeld, Vector2i(0, 4), false, true);
 
 	setSize(Renderer::getScreenWidth() * 0.6f, Renderer::getScreenHeight() * 0.4f);
@@ -116,9 +117,9 @@ void GuiDetectDevice::update(int deltaTime)
 	if(mHoldingConfig)
 	{
 		mHoldTime -= deltaTime;
-		const float t = (float)mHoldTime / HOLD_TIME;
-		unsigned int c = (unsigned char)(t * 255);
-		mDeviceHeld->setColor((c << 24) | (c << 16) | (c << 8) | 0xFF);
+		int t = HOLD_TIME / deltaTime;
+		mAlpha += 255 / t;
+		mDeviceHeld->setColor(mColor | mAlpha);
 		if(mHoldTime <= 0)
 		{
 			// picked one!

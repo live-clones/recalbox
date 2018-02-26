@@ -28,6 +28,8 @@ private:
 	std::shared_ptr<TextComponent> mMsg2;
 	std::shared_ptr<TextComponent> mDeviceInfo;
 	std::shared_ptr<TextComponent> mDeviceHeld;
+	unsigned int mColor;
+	unsigned int mAlpha = 0;
 
 	std::function<void()> mDoneCallback;
 };
