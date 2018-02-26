@@ -14,11 +14,7 @@ public:
 
 	void save();
 	inline void addRow(const ComponentListRow& row) { mMenu.addRow(row); };
-	inline void addWithLabel(const std::string& label, const std::shared_ptr<GuiComponent>& comp) {
-		mMenu.addWithLabel(comp, label);
-	};
-	inline void addWithLabelAndHelp(const std::string& label, const std::shared_ptr<GuiComponent>& comp, std::string help = "") {
-		std::string helpLabel(label);
+	inline void addWithLabel(const std::shared_ptr<GuiComponent>& comp, const std::string& label, const std::string& help = "") {
 		mMenu.addWithLabel(comp, label, help, false, true, nullptr);
 	};
     inline void addSubMenu(const std::string& label, const std::function<void()>& func, std::string help = "") {
