@@ -15,17 +15,11 @@ public:
 	void save();
 	inline void addRow(const ComponentListRow& row) { mMenu.addRow(row); };
 	inline void addWithLabel(const std::string& label, const std::shared_ptr<GuiComponent>& comp) {
-		mMenu.addWithLabel(label, comp);
+		mMenu.addWithLabel(comp, label);
 	};
 	inline void addWithLabelAndHelp(const std::string& label, const std::shared_ptr<GuiComponent>& comp, std::string help = "") {
 		std::string helpLabel(label);
-		mMenu.addWithLabel(label, comp, false, true, nullptr, [this, help, helpLabel]{
-			mWindow->pushGui(new GuiMsgBoxScroll(
-					mWindow, helpLabel, help.c_str()
-					, _("OK"),
-					[] {}, "", nullptr, "", nullptr));
-				return true;
-		});
+		mMenu.addWithLabel(comp, label, help, false, true, nullptr);
 	};
     inline void addSubMenu(const std::string& label, const std::function<void()>& func, std::string help = "") {
 		ComponentListRow row;

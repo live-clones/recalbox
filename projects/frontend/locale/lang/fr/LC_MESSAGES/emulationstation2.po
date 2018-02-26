@@ -1479,6 +1479,30 @@ msgid "Select which core to use for the selected emulator. For example, the LIBR
 msgstr "Selectionnez quel core utiliser pour l'émulateur sélectionné. Par exemple, l'émulateur LIBRETRO a plusieurs core pour les jeux Super Nintendo. Le core par défaut que vous choisissez peut aussi être outrepassé par les réglages spécifiques par jeu."
 
 #: 
+msgid "Select a letter and the listing will go directly on the first game starting with this letter."
+msgstr "Selectionnez une lettre que la liste des jeux y saute directement."
+
+#: 
+msgid "Select the way the game list is sortered (alphabetically, by notation...)."
+msgstr "Choisissez la façon dont la liste de jeux est triée (alphabétiquement, par note...)."
+
+#: 
+msgid "Switch between seing or not only the favorites games. To add a game in the favorite list, select the game and toggle its state using 'Y'."
+msgstr "Sélectionnez cette option pour filtrer la liste des jeux et ne voir que les favoris. Pour ajouter un jeu à la liste des favoris, sélectionnez le et cliquez sur 'Y', cliquez à nouveau sur 'Y' pour l'en enlever."
+
+#: 
+msgid "Switch between seing or not the hidden games. To hide a game, edit its data and select 'Hide'."
+msgstr "Sélectionnez cette option pour voir les jeux cachés. Pour cacher un jeu, sélectionnez le, éditez ses données et sélectionnez 'INVISIBLE'."
+
+#: 
+msgid "Switch between seing folders and folder content in the listing. This is useful when a game is provided as many 'bin' files for example and you keep it a a dedicated folder (ex: roms/psx/tekken 3)."
+msgstr "Sélectionnez cette option pour masquer les répertoires et faire apparaître les jeux qu'ils contiennent directement. Cette option est utile quand un jeu contient plusieurs fichiers et est stocké dans un répertoire dédié (ex: roms/psx/tekken 3)."
+
+#: 
+msgid "This option display a menu which allows to change game data and many others options."
+msgstr "Cette option affiche un menu qui permet de changer les données du jeux et d'accéder à diverses autres options."
+
+#: 
 msgid "USE COMPOSED VISUALS"
 msgstr "UTILISER DES IMAGES COMPOSÉES"
 

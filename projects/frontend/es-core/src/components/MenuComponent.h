@@ -7,6 +7,8 @@
 #include "Util.h"
 #include "Window.h"
 #include "MenuThemeData.h"
+#include "Locale.h"
+#include "guis/GuiMsgBoxScroll.h"
 
 class ButtonComponent;
 class ImageComponent;
@@ -22,20 +24,39 @@ public:
 	MenuComponent(Window* window, const char* title, const std::shared_ptr<Font>& titleFont = Font::get(FONT_SIZE_LARGE));
 
 	void onSizeChanged() override;
+	
+	inline const std::function<void()> buildHelpGui(const std::string& label, const std::string& help) 
+	{
+		std::string title(label);
+		std::string content(help);
+		return [this, title, content] () {
+			mWindow->pushGui(new GuiMsgBoxScroll(
+				mWindow, title, content.c_str()
+					, _("OK"),
+					[] {}, "", nullptr, "", nullptr));
+				return true;
+		};
+	}
 
 	inline void addRow(const ComponentListRow& row, bool setCursorHere = false, bool updateGeometry = true) { mList->addRow(row, setCursorHere, updateGeometry); if (updateGeometry) updateSize(); }
 
-	inline void addWithLabel(const std::string& label, const std::shared_ptr<GuiComponent>& comp, bool setCursorHere = false, bool invert_when_selected = true, const std::function<void()>& acceptCallback = nullptr, const std::function<void()>& helpCallback = nullptr)
+	inline void addRowWithHelp(ComponentListRow& row, const std::string& label, const std::string& help = "", bool setCursorHere = false, bool updateGeometry = true) 
+	{
+		row.makeHelpInputHandler(buildHelpGui(label, help));
+		addRow(row, setCursorHere, updateGeometry);
+	}
+
+	inline void addWithLabel(const std::shared_ptr<GuiComponent>& comp, const std::string& label, const std::string& help = "", bool setCursorHere = false, bool invert_when_selected = true, const std::function<void()>& acceptCallback = nullptr) 
 	{
 		ComponentListRow row;
 		auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
-		row.addElement(std::make_shared<TextComponent>(mWindow, strToUpper(label), menuTheme->menuText.font, menuTheme->menuText.color), true);
+		row.addElement(std::make_shared<TextComponent>(mWindow, strToUpper(_(label.c_str())), menuTheme->menuText.font, menuTheme->menuText.color), true);
 		row.addElement(comp, false, invert_when_selected);
 		if (acceptCallback) {
 			row.makeAcceptInputHandler(acceptCallback);
 		}
-		if (helpCallback) {
-			row.makeHelpInputHandler(helpCallback);
+		if (help.size()) {
+			row.makeHelpInputHandler(buildHelpGui(label, help));
 		}
 		addRow(row, setCursorHere);
 	}

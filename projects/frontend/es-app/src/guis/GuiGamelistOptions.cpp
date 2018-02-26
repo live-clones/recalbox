@@ -39,7 +39,7 @@ GuiGamelistOptions::GuiGamelistOptions(Window* window, SystemData* system) : Gui
 		}
 		return false;
 	};
-	mMenu.addRow(row);
+	mMenu.addRowWithHelp(row, _("JUMP TO LETTER"), _("Select a letter and the listing will go directly on the first game starting with this letter."));
 
 	// sort list by
 	mListSort = std::make_shared<SortList>(mWindow, _("SORT GAMES BY"), false);
@@ -49,16 +49,16 @@ GuiGamelistOptions::GuiGamelistOptions(Window* window, SystemData* system) : Gui
 		mListSort->add(sort.description, &sort, i == 0); // TODO - actually make the sort type persistent
 	}
 
-	mMenu.addWithLabel(_("SORT GAMES BY"), mListSort);
+	mMenu.addWithLabel(mListSort, _("SORT GAMES BY"), _("Select the way the game list is sortered (alphabetically, by notation...)."));
 
 	auto favorite_only = std::make_shared<SwitchComponent>(mWindow);
 	favorite_only->setState(Settings::getInstance()->getBool("FavoritesOnly"));
-	mMenu.addWithLabel(_("FAVORITES ONLY"), favorite_only);
+	mMenu.addWithLabel(favorite_only, _("FAVORITES ONLY"), _("Switch between seing or not only the favorites games. To add a game in the favorite list, select the game and toggle its state using 'Y'."));
 	addSaveFunc([favorite_only] { Settings::getInstance()->setBool("FavoritesOnly", favorite_only->getState()); });
 
 	auto show_hidden = std::make_shared<SwitchComponent>(mWindow);
 	show_hidden->setState(Settings::getInstance()->getBool("ShowHidden"));
-	mMenu.addWithLabel(_("SHOW HIDDEN"), show_hidden);
+	mMenu.addWithLabel(show_hidden, _("SHOW HIDDEN"), _("Switch between seing or not the hidden games. To hide a game, edit its data and select 'Hide'."));
 	addSaveFunc([show_hidden] { Settings::getInstance()->setBool("ShowHidden", show_hidden->getState()); });
 
 	// edit game metadata
@@ -68,7 +68,7 @@ GuiGamelistOptions::GuiGamelistOptions(Window* window, SystemData* system) : Gui
 	  row.addElement(std::make_shared<TextComponent>(mWindow, _("EDIT THIS GAME'S METADATA"), menuTheme->menuText.font, menuTheme->menuText.color), true);
 		row.addElement(makeArrow(mWindow), false);
 		row.makeAcceptInputHandler(std::bind(&GuiGamelistOptions::openMetaDataEd, this));
-		mMenu.addRow(row);
+		mMenu.addRowWithHelp(row, _("EDIT THIS GAME'S METADATA"), _("This option display a menu which allows to change game data and many others options."));
 	}
 
 

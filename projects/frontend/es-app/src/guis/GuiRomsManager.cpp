@@ -265,10 +265,10 @@ GuiRomsManager::GuiRomsManager(Window *window)
 
 	m_platformExternalRomsPath->setText(currentPlatformData().externalRomsPath.string());
 
-	addWithLabel("ROMS", m_defaultRomsPath, true, true, [this](){ editDefaultRomsPath(); });
-	addWithLabel("EXTERNAL ROMS", m_defaultExternalRomsPath, false, true, [this](){ editDefaultExternalRomsPath(); });
-	addWithLabel("PLATFORM", m_platforms);
-	addWithLabel("PLATFORM ROMS", m_platformExternalRomsPath, false, true, [this](){ editCurrentPlatformExternalRomsPath(); });
+	addWithLabel(m_defaultRomsPath, _("ROMS"), "", true, true, [this](){ editDefaultRomsPath(); });
+	addWithLabel(m_defaultExternalRomsPath, _("EXTERNAL ROMS"), "", false, true, [this](){ editDefaultExternalRomsPath(); });
+	addWithLabel(m_platforms, _("PLATFORM"));
+	addWithLabel(m_platformExternalRomsPath, _("PLATFORM ROMS"), "", false, true, [this](){ editCurrentPlatformExternalRomsPath(); });
 
 	m_platforms->setSelectedChangedCallback([this](const PlatformIds::PlatformId&){
 		m_platformExternalRomsPath->setText(currentPlatformData().externalRomsPath.string());

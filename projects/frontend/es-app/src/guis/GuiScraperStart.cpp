@@ -21,7 +21,7 @@ GuiScraperStart::GuiScraperStart(Window* window) : GuiComponent(window),
 		[](SystemData*, FileData*) -> bool { return true; }, false);
 	mFilters->add(_("Only missing image"), 
 		[](SystemData*, FileData* g) -> bool { return g->metadata.get("image").empty(); }, true);
-	mMenu.addWithLabel(_("FILTER"), mFilters);
+	mMenu.addWithLabel(mFilters, _("FILTER"));
 
 	// add systems (all with a platformid specified selected)
 	mSystems = std::make_shared< OptionListComponent<SystemData*> >(mWindow, _("SCRAPE THESE SYSTEMS"), true);
@@ -30,7 +30,7 @@ GuiScraperStart::GuiScraperStart(Window* window) : GuiComponent(window),
 		if(!(*it)->hasPlatformId(PlatformIds::PLATFORM_IGNORE))
 			mSystems->add((*it)->getFullName(), *it, !(*it)->getPlatformIds().empty());
 	}
-	mMenu.addWithLabel(_("SYSTEMS"), mSystems);
+	mMenu.addWithLabel(mSystems, _("SYSTEMS"));
 
 	// add mix images option (if scraper = screenscraper)
 	std::string scraperName = Settings::getInstance()->getString("Scraper");
@@ -38,12 +38,12 @@ GuiScraperStart::GuiScraperStart(Window* window) : GuiComponent(window),
 	if(scraperName == "Screenscraper") {
 		mMixImages = std::make_shared<SwitchComponent>(mWindow);
 		mMixImages->setState(true);
-		mMenu.addWithLabel(_("USE COMPOSED VISUALS"), mMixImages);
+		mMenu.addWithLabel(mMixImages, _("USE COMPOSED VISUALS"));
 	}
 
 	mApproveResults = std::make_shared<SwitchComponent>(mWindow);
 	mApproveResults->setState(false);
-	mMenu.addWithLabel(_("USER DECIDES ON CONFLICTS"), mApproveResults);
+	mMenu.addWithLabel(mApproveResults, _("USER DECIDES ON CONFLICTS"));
 
 	mMenu.addButton(_("START"), "start", std::bind(&GuiScraperStart::pressedStart, this));
 	mMenu.addButton(_("BACK"), "back", [&] { delete this; });
