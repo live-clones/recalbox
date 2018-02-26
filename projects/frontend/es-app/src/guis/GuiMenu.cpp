@@ -96,16 +96,7 @@ void GuiMenu::createInputTextRow(GuiSettings *gui, std::string title, const char
                                          updateVal, false));
         }
     });
-    if (help != "") {
-        row.makeHelpInputHandler([this, help, title] {
-            mWindow->pushGui(new GuiMsgBoxScroll(
-                    mWindow, title,
-                    help.c_str(), _("OK"),
-                    [] {}, "", nullptr, "", nullptr, ALIGN_LEFT));
-            return true;
-        });
-    }
-    gui->addRow(row);
+    gui->addRowWithHelp(row, title, help);
 }
 
 GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN MENU").c_str()), mVersion(window) {
@@ -1534,7 +1525,7 @@ void GuiMenu::createConfigInput() {
     row.addElement(
             std::make_shared<TextComponent>(window, _("CONFIGURE A CONTROLLER"), menuTheme->menuText.font, menuTheme->menuText.color),
             true);
-    s->addRow(row);
+    s->addRowWithHelp(row, _("CONFIGURE A CONTROLLER"), MenuMessages::CONTROLLER_CONF_HELP_MSG);
 
     row.elements.clear();
 
@@ -1579,25 +1570,16 @@ void GuiMenu::createConfigInput() {
     };
 
     row.makeAcceptInputHandler([window, this, s, showControllerList] {
-
         window->pushGui(new GuiLoading(window, [] {
             auto s = RecalboxSystem::getInstance()->scanBluetooth();
             return (void *) s;
         }, showControllerList));
     });
-    row.makeHelpInputHandler([this] {
-        mWindow->pushGui(new GuiMsgBoxScroll(
-                mWindow, _("PAIR A BLUETOOTH CONTROLLER"),
-                MenuMessages::CONTROLLER_BT_HELPMSG, _("OK"),
-                [] {}, "", nullptr, "", nullptr, ALIGN_LEFT));
-        return true;
-    });
-
 
     row.addElement(
             std::make_shared<TextComponent>(window, _("PAIR A BLUETOOTH CONTROLLER"), menuTheme->menuText.font, menuTheme->menuText.color),
             true);
-    s->addRow(row);
+    s->addRowWithHelp(row, _("PAIR A BLUETOOTH CONTROLLER"), MenuMessages::CONTROLLER_BT_HELP_MSG);
     row.elements.clear();
 
     row.makeAcceptInputHandler([window, this, s] {
@@ -1605,17 +1587,10 @@ void GuiMenu::createConfigInput() {
         window->pushGui(new GuiMsgBox(window,
                                       _("CONTROLLERS LINKS HAVE BEEN DELETED."), _("OK")));
     });
-    row.makeHelpInputHandler([this] {
-        mWindow->pushGui(new GuiMsgBoxScroll(
-                mWindow, _("FORGET BLUETOOTH CONTROLLERS"),
-                MenuMessages::CONTROLLER_FORGET_HELPMSG, _("OK"),
-                [] {}, "", nullptr, "", nullptr, ALIGN_LEFT));
-        return true;
-    });
     row.addElement(
             std::make_shared<TextComponent>(window, _("FORGET BLUETOOTH CONTROLLERS"), menuTheme->menuText.font, menuTheme->menuText.color),
             true);
-    s->addRow(row);
+    s->addRowWithHelp(row, _("FORGET BLUETOOTH CONTROLLERS"), MenuMessages::CONTROLLER_FORGET_HELP_MSG);
     row.elements.clear();
 
 
@@ -1773,19 +1748,8 @@ void GuiMenu::addEntryWithHelp(const char *name, const std::string help, unsigne
     }
 
     row.makeAcceptInputHandler(func);
-    if (help != "") {
-        std::string strname(name);
-        row.makeHelpInputHandler([this, help, strname] {
-            mWindow->pushGui(new GuiMsgBoxScroll(
-                    mWindow, strname,
-                    help.c_str(), _("OK"),
-                    [] {}, "", nullptr, "", nullptr, ALIGN_LEFT));
-            return true;
-        });
-    }
 
-
-    mMenu.addRow(row);
+    mMenu.addRowWithHelp(row, name, help);
 }
 
 void GuiMenu::addEntry(const char *name, unsigned int color, bool add_arrow, const std::function<void()> &func, const std::string iconName) {

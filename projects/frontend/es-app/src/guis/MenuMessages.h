@@ -36,8 +36,9 @@ public:
     static const std::string RA_HELP_MSG;
 
     static const std::string CONTROLLER_HELP_MSG;
-    static const std::string CONTROLLER_BT_HELPMSG;
-    static const std::string CONTROLLER_FORGET_HELPMSG;
+    static const std::string CONTROLLER_CONF_HELP_MSG;
+    static const std::string CONTROLLER_BT_HELP_MSG;
+    static const std::string CONTROLLER_FORGET_HELP_MSG;
 
     static const std::string UI_HELP_MSG;
     static const std::string UI_SCREENSAVER_AFTER_HELP_MSG;
@@ -128,8 +129,9 @@ const std::string MenuMessages::RA_HARDCORE_HELP_MSG = _("Hardcore mode disables
 const std::string MenuMessages::RA_HELP_MSG = _("The website retroachievements.org proposes challenges/achievements/trophies on platforms like NES, SNES, GB, GBC, GBA, Genesis/Megadrive, TurboGrafx16/PCEngine and more! Create your account on retroachievements.org and start your quest for achievements!");
 
 const std::string MenuMessages::CONTROLLER_HELP_MSG = _("Add and configure up to 5 controllers.");
-const std::string MenuMessages::CONTROLLER_BT_HELPMSG = _("Pair a bluetooth controller with your recalbox. Your controller must be in pairing mode.");
-const std::string MenuMessages::CONTROLLER_FORGET_HELPMSG = _("Forget all paired bluetooth controllers. You will have to pair your controllers again, but this option can help if you have issues to reconnect a controller, which is already paired.");
+const std::string MenuMessages::CONTROLLER_CONF_HELP_MSG = _("Configure an associated controller. Your controller has to be associated / plugged before.");
+const std::string MenuMessages::CONTROLLER_BT_HELP_MSG = _("Pair a bluetooth controller with your recalbox. Your controller must be in pairing mode.");
+const std::string MenuMessages::CONTROLLER_FORGET_HELP_MSG = _("Forget all paired bluetooth controllers. You will have to pair your controllers again, but this option can help if you have issues to reconnect a controller, which is already paired.");
 
 const std::string MenuMessages::UI_HELP_MSG = _("Configure your EmulationStation experience. Select transition types, help prompts, screensaver behavior. You can also deactivate the onscreen keyboard if you have a real keyboard plugged into your recalbox.\nIf you've added games since the last boot, you can also refresh the gamelist from this menu.");
 const std::string MenuMessages::UI_SCREENSAVER_AFTER_HELP_MSG = _("Start the screensaver after N minutes.");

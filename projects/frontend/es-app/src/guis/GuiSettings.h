@@ -14,6 +14,7 @@ public:
 
 	void save();
 	inline void addRow(const ComponentListRow& row) { mMenu.addRow(row); };
+	inline void addRowWithHelp(ComponentListRow& row, const std::string& label, const std::string& help) { mMenu.addRowWithHelp(row, label, help); };
 	inline void addWithLabel(const std::shared_ptr<GuiComponent>& comp, const std::string& label, const std::string& help = "") {
 		mMenu.addWithLabel(comp, label, help, false, true, nullptr);
 	};
@@ -36,7 +37,7 @@ public:
 															 menuTheme->menuText.font, menuTheme->menuText.color);
 		row.addElement(entryMenu, true);
 		row.addElement(makeArrow(mWindow), false);
-        mMenu.addRow(row);
+        mMenu.addRowWithHelp(row, label, help);
     };
 	inline void addSaveFunc(const std::function<void()>& func) { mSaveFuncs.push_back(func); };
         inline void setSave(bool sav) { doSave = sav; };

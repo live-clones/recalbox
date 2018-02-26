@@ -30,6 +30,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Improved audio output device selection
 - Added an upgrade progression indicator
 - Display update changelog + update version, if update available
+- Added help popups for games options
 ### Fixed
 - Fixed security option impossible to disable
 - Fixed menu width
