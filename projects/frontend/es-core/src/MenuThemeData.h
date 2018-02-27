@@ -39,6 +39,9 @@ struct MenuIconElement {
 	std::string scraper;
 	std::string advanced;
 	std::string quit;
+    	std::string restart;
+    	std::string shutdown;
+    	std::string fastshutdown;
 };
 
 struct MenuTheme {

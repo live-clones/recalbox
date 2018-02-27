@@ -136,7 +136,10 @@ std::map< std::string, ElementMapType > ThemeData::sElementMap = boost::assign::
 		("iconNetwork", PATH)
 		("iconScraper", PATH)
 		("iconAdvanced", PATH)
-		("iconQuit", PATH)))
+		("iconQuit", PATH)
+		("iconRestart", PATH)
+		("iconShutdown", PATH)
+		("iconFastShutdown", PATH)))
 	("menuSwitch", makeMap(boost::assign::map_list_of
 		("pathOn", PATH)
 		("pathOff", PATH)))

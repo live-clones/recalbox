@@ -144,7 +144,16 @@ MenuThemeData::MenuThemeData(){
 			mCurrent->menuIconSet.advanced = elem->get<std::string>("iconAdvanced");
 
 		if (elem->has("iconQuit"))
-			mCurrent->menuIconSet.quit = elem->get<std::string>("iconQuit");
+            		mCurrent->menuIconSet.quit = elem->get<std::string>("iconQuit");
+
+        	if (elem->has("iconRestart"))
+            		mCurrent->menuIconSet.restart = elem->get<std::string>("iconRestart");
+
+        	if (elem->has("iconShutdown"))
+            		mCurrent->menuIconSet.shutdown = elem->get<std::string>("iconShutdown");
+
+        	if (elem->has("iconFastShutdown"))
+            		mCurrent->menuIconSet.fastshutdown = elem->get<std::string>("iconFastShutdown");
 	}
 		
 	

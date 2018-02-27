@@ -177,6 +177,17 @@ bool SystemView::input(InputConfig* config, Input input)
 												  }
 							  }, _("NO"), nullptr));
 			});
+			// icon
+			auto icon1 = std::make_shared<ImageComponent>(mWindow);
+			icon1->setImage(menuTheme->menuIconSet.restart);
+			icon1->setColorShift(menuTheme->menuText.color);
+			icon1->setResize(0, menuTheme->menuText.font->getLetterHeight() * 1.25f);
+			row.addElement(icon1, false);
+
+			// spacer between icon and text
+			auto spacer = std::make_shared<GuiComponent>(mWindow);
+			spacer->setSize(10, 0);
+			row.addElement(spacer, false);
 			row.addElement(std::make_shared<TextComponent>(window, _("RESTART SYSTEM"), menuTheme->menuText.font, menuTheme->menuText.color), true);
 			s->addRow(row);
 
@@ -190,6 +201,13 @@ bool SystemView::input(InputConfig* config, Input input)
 												  }
 							  }, _("NO"), nullptr));
 			});
+			auto icon2 = std::make_shared<ImageComponent>(mWindow);
+			icon2->setImage(menuTheme->menuIconSet.shutdown);
+			icon2->setColorShift(menuTheme->menuText.color);
+			icon2->setResize(0, menuTheme->menuText.font->getLetterHeight() * 1.25f);
+			row.addElement(icon2, false);
+			// spacer between icon and text
+			row.addElement(spacer, false);
 			row.addElement(std::make_shared<TextComponent>(window, _("SHUTDOWN SYSTEM"), menuTheme->menuText.font, menuTheme->menuText.color), true);
 			s->addRow(row);
 			row.elements.clear();
@@ -202,6 +220,13 @@ bool SystemView::input(InputConfig* config, Input input)
 												  }
 											  }, _("NO"), nullptr));
 			});
+			auto icon3 = std::make_shared<ImageComponent>(mWindow);
+			icon3->setImage(menuTheme->menuIconSet.fastshutdown);
+			icon3->setColorShift(menuTheme->menuText.color);
+			icon3->setResize(0, menuTheme->menuText.font->getLetterHeight() * 1.25f);
+			row.addElement(icon3, false);
+			// spacer between icon and text
+			row.addElement(spacer, false);
 			row.addElement(std::make_shared<TextComponent>(window, _("FAST SHUTDOWN SYSTEM"), menuTheme->menuText.font, menuTheme->menuText.color), true);
 			s->addRow(row);
 			mWindow->pushGui(s);
