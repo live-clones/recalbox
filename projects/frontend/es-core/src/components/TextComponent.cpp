@@ -38,11 +38,13 @@ void TextComponent::setFont(const std::shared_ptr<Font>& font)
 
 void TextComponent::setColor(unsigned int color)
 {
-	mColor = color;
+    mColor = color;
+    unsigned char opacity = mColor & 0x000000FF;
+    GuiComponent::setOpacity(opacity);
 
-	mColorOpacity = mColor & 0x000000FF;
+    mColorOpacity = mColor & 0x000000FF;
 
-	onColorChanged();
+    onColorChanged();
 }
 
 //  Set the color of the background box

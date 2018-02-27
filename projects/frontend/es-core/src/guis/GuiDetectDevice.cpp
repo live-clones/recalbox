@@ -106,6 +106,7 @@ bool GuiDetectDevice::input(InputConfig* config, Input input)
 			// cancel
 			mHoldingConfig = NULL;
 			mDeviceHeld->setText("");
+			mAlpha = 0;
 		}
 	}
 
