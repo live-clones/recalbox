@@ -88,6 +88,7 @@ set(ES_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiScraperStart.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiUpdate.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiRomsManager.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/MenuMessages.cpp
 
     # Scrapers
     ${CMAKE_CURRENT_SOURCE_DIR}/src/scrapers/Scraper.cpp

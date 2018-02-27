@@ -7,6 +7,7 @@
 #include "components/SwitchComponent.h"
 #include "guis/GuiSettings.h"
 #include "Locale.h"
+#include "MenuMessages.h"
 
 GuiGamelistOptions::GuiGamelistOptions(Window* window, SystemData* system) : GuiComponent(window), 
 	mSystem(system), 
@@ -39,7 +40,7 @@ GuiGamelistOptions::GuiGamelistOptions(Window* window, SystemData* system) : Gui
 		}
 		return false;
 	};
-	mMenu.addRowWithHelp(row, _("JUMP TO LETTER"), _("Select a letter and the listing will go directly on the first game starting with this letter."));
+	mMenu.addRowWithHelp(row, _("JUMP TO LETTER"), MenuMessages::GAMELISTOPTION_JUMP_LETTER);
 
 	// sort list by
 	mListSort = std::make_shared<SortList>(mWindow, _("SORT GAMES BY"), false);
@@ -49,16 +50,16 @@ GuiGamelistOptions::GuiGamelistOptions(Window* window, SystemData* system) : Gui
 		mListSort->add(sort.description, &sort, i == 0); // TODO - actually make the sort type persistent
 	}
 
-	mMenu.addWithLabel(mListSort, _("SORT GAMES BY"), _("Select the way the game list is sortered (alphabetically, by notation...)."));
+	mMenu.addWithLabel(mListSort, _("SORT GAMES BY"), MenuMessages::GAMELISTOPTION_SORT_GAMES);
 
 	auto favorite_only = std::make_shared<SwitchComponent>(mWindow);
 	favorite_only->setState(Settings::getInstance()->getBool("FavoritesOnly"));
-	mMenu.addWithLabel(favorite_only, _("FAVORITES ONLY"), _("Switch between seing or not only the favorites games. To add a game in the favorite list, select the game and toggle its state using 'Y'."));
+	mMenu.addWithLabel(favorite_only, _("FAVORITES ONLY"), MenuMessages::GAMELISTOPTION_FAVORITES_ONLY);
 	addSaveFunc([favorite_only] { Settings::getInstance()->setBool("FavoritesOnly", favorite_only->getState()); });
 
 	auto show_hidden = std::make_shared<SwitchComponent>(mWindow);
 	show_hidden->setState(Settings::getInstance()->getBool("ShowHidden"));
-	mMenu.addWithLabel(show_hidden, _("SHOW HIDDEN"), _("Switch between seing or not the hidden games. To hide a game, edit its data and select 'Hide'."));
+	mMenu.addWithLabel(show_hidden, _("SHOW HIDDEN"), MenuMessages::GAMELISTOPTION_SHOW_HIDDEN);
 	addSaveFunc([show_hidden] { Settings::getInstance()->setBool("ShowHidden", show_hidden->getState()); });
 
 	// edit game metadata
@@ -68,7 +69,7 @@ GuiGamelistOptions::GuiGamelistOptions(Window* window, SystemData* system) : Gui
 	  row.addElement(std::make_shared<TextComponent>(mWindow, _("EDIT THIS GAME'S METADATA"), menuTheme->menuText.font, menuTheme->menuText.color), true);
 		row.addElement(makeArrow(mWindow), false);
 		row.makeAcceptInputHandler(std::bind(&GuiGamelistOptions::openMetaDataEd, this));
-		mMenu.addRowWithHelp(row, _("EDIT THIS GAME'S METADATA"), _("This option display a menu which allows to change game data and many others options."));
+		mMenu.addRowWithHelp(row, _("EDIT THIS GAME'S METADATA"), MenuMessages::GAMELISTOPTION_EDIT_METADATA);
 	}
 
 
