@@ -4,6 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 ### Added
+- Added scan music subfolders
 - Added icons in quick menu
 - Added default subset values for recalbox theme
 - Added new item to menutheme, menus now fully themable 
