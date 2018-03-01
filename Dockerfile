@@ -27,4 +27,4 @@ CMD echo ">>> Setting recalbox version to ${RECALBOX_VERSION_LABEL}" && echo "${
     echo ">>> Making recalbox-${ARCH}_defconfig" && make recalbox-${ARCH}_defconfig && \
     export RECALBOX_CCACHE=${RECALBOX_CCACHE_DIR:+"BR2_CCACHE=y BR2_CCACHE_DIR=$RECALBOX_CCACHE_DIR BR2_CCACHE_INITIAL_SETUP=--max-size=500G BR2_CCACHE_USE_BASEDIR=y"} && \
     echo ">>> Make with cache : ${RECALBOX_CCACHE}" && \
-    make BR2_DL_DIR="/share/dl" BR2_HOST_DIR=/share/host $RECALBOX_CCACHE
+    RECALBOX_VERSION=${RECALBOX_VERSION} make BR2_DL_DIR="/share/dl" BR2_HOST_DIR=/share/host $RECALBOX_CCACHE
