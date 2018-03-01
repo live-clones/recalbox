@@ -5,6 +5,7 @@ ENV TERM xterm
 ENV ARCH ''
 ENV RECALBOX_VERSION_LABEL ''
 ENV RECALBOX_CCACHE_DIR ''
+ENV RECALBOX_VERSION ''
 
 # Install dependencies
 # needed ? xterm
