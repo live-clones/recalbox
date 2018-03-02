@@ -1252,6 +1252,10 @@ msgid "Add and configure up to 5 controllers."
 msgstr ""
 
 #: 
+msgid "Configure an associated controller. Your controller has to be associated / plugged before."
+msgstr ""
+
+#: 
 msgid "Pair a bluetooth controller with your recalbox. Your controller must be in pairing mode."
 msgstr ""
 
