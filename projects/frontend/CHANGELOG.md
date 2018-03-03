@@ -35,6 +35,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added help popups for games options
 - Split Game informations into two popup screen
 ### Fixed
+- Fixed busyanim display bug
 - Fixed systeminfo not populated on startup
 - Fixed all texts resized in vertical mode
 - Fixed security option impossible to disable

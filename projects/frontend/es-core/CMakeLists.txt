@@ -132,28 +132,28 @@ set(EMBEDDED_ASSET_SOURCES
     ${emulationstation-all_SOURCE_DIR}/data/converted/frame_png.cpp
     ${emulationstation-all_SOURCE_DIR}/data/converted/scroll_gradient_png.cpp
 
-    ${emulationstation-all_SOURCE_DIR}/data/converted/help_button_a_svg.cpp
-    ${emulationstation-all_SOURCE_DIR}/data/converted/help_button_b_svg.cpp
-    ${emulationstation-all_SOURCE_DIR}/data/converted/help_button_x_svg.cpp
-    ${emulationstation-all_SOURCE_DIR}/data/converted/help_button_y_svg.cpp
-    ${emulationstation-all_SOURCE_DIR}/data/converted/help_button_l_svg.cpp
-    ${emulationstation-all_SOURCE_DIR}/data/converted/help_button_r_svg.cpp
-    ${emulationstation-all_SOURCE_DIR}/data/converted/help_button_l2_svg.cpp
-    ${emulationstation-all_SOURCE_DIR}/data/converted/help_button_r2_svg.cpp
-    ${emulationstation-all_SOURCE_DIR}/data/converted/help_button_l3_svg.cpp
-    ${emulationstation-all_SOURCE_DIR}/data/converted/help_button_r3_svg.cpp
-    ${emulationstation-all_SOURCE_DIR}/data/converted/help_button_start_svg.cpp
-    ${emulationstation-all_SOURCE_DIR}/data/converted/help_button_select_svg.cpp
-    ${emulationstation-all_SOURCE_DIR}/data/converted/help_button_hotkey_svg.cpp
-    ${emulationstation-all_SOURCE_DIR}/data/converted/help_dpad_up_svg.cpp
-    ${emulationstation-all_SOURCE_DIR}/data/converted/help_dpad_down_svg.cpp
-    ${emulationstation-all_SOURCE_DIR}/data/converted/help_dpad_left_svg.cpp
-    ${emulationstation-all_SOURCE_DIR}/data/converted/help_dpad_right_svg.cpp
-    ${emulationstation-all_SOURCE_DIR}/data/converted/help_dpad_updown_svg.cpp
-    ${emulationstation-all_SOURCE_DIR}/data/converted/help_dpad_leftright_svg.cpp
-    ${emulationstation-all_SOURCE_DIR}/data/converted/help_dpad_all_svg.cpp
-    ${emulationstation-all_SOURCE_DIR}/data/converted/help_joystick_left_svg.cpp
-    ${emulationstation-all_SOURCE_DIR}/data/converted/help_joystick_up_svg.cpp
+    ${emulationstation-all_SOURCE_DIR}/data/converted/help__button_a_svg.cpp
+    ${emulationstation-all_SOURCE_DIR}/data/converted/help__button_b_svg.cpp
+    ${emulationstation-all_SOURCE_DIR}/data/converted/help__button_x_svg.cpp
+    ${emulationstation-all_SOURCE_DIR}/data/converted/help__button_y_svg.cpp
+    ${emulationstation-all_SOURCE_DIR}/data/converted/help__button_l_svg.cpp
+    ${emulationstation-all_SOURCE_DIR}/data/converted/help__button_r_svg.cpp
+    ${emulationstation-all_SOURCE_DIR}/data/converted/help__button_l2_svg.cpp
+    ${emulationstation-all_SOURCE_DIR}/data/converted/help__button_r2_svg.cpp
+    ${emulationstation-all_SOURCE_DIR}/data/converted/help__button_l3_svg.cpp
+    ${emulationstation-all_SOURCE_DIR}/data/converted/help__button_r3_svg.cpp
+    ${emulationstation-all_SOURCE_DIR}/data/converted/help__button_start_svg.cpp
+    ${emulationstation-all_SOURCE_DIR}/data/converted/help__button_select_svg.cpp
+    ${emulationstation-all_SOURCE_DIR}/data/converted/help__button_hotkey_svg.cpp
+    ${emulationstation-all_SOURCE_DIR}/data/converted/help__dpad_up_svg.cpp
+    ${emulationstation-all_SOURCE_DIR}/data/converted/help__dpad_down_svg.cpp
+    ${emulationstation-all_SOURCE_DIR}/data/converted/help__dpad_left_svg.cpp
+    ${emulationstation-all_SOURCE_DIR}/data/converted/help__dpad_right_svg.cpp
+    ${emulationstation-all_SOURCE_DIR}/data/converted/help__dpad_updown_svg.cpp
+    ${emulationstation-all_SOURCE_DIR}/data/converted/help__dpad_leftright_svg.cpp
+    ${emulationstation-all_SOURCE_DIR}/data/converted/help__dpad_all_svg.cpp
+    ${emulationstation-all_SOURCE_DIR}/data/converted/help__joystick_left_svg.cpp
+    ${emulationstation-all_SOURCE_DIR}/data/converted/help__joystick_up_svg.cpp
 
 
     ${emulationstation-all_SOURCE_DIR}/data/converted/ubuntu_condensed_ttf.cpp
@@ -170,10 +170,10 @@ set(EMBEDDED_ASSET_SOURCES
     ${emulationstation-all_SOURCE_DIR}/data/converted/fav_remove_svg.cpp
     ${emulationstation-all_SOURCE_DIR}/data/converted/slider_knob_svg.cpp
 
-    ${emulationstation-all_SOURCE_DIR}/data/converted/busy_0_svg.cpp
-    ${emulationstation-all_SOURCE_DIR}/data/converted/busy_1_svg.cpp
-    ${emulationstation-all_SOURCE_DIR}/data/converted/busy_2_svg.cpp
-    ${emulationstation-all_SOURCE_DIR}/data/converted/busy_3_svg.cpp
+	${emulationstation-all_SOURCE_DIR}/data/converted/busy_0_png.cpp
+	${emulationstation-all_SOURCE_DIR}/data/converted/busy_1_png.cpp
+	${emulationstation-all_SOURCE_DIR}/data/converted/busy_2_png.cpp
+	${emulationstation-all_SOURCE_DIR}/data/converted/busy_3_png.cpp
 )
 
 list(APPEND CORE_SOURCES ${EMBEDDED_ASSET_SOURCES})
