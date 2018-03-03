@@ -209,22 +209,16 @@ void ComponentList::render(const Eigen::Affine3f& parentTrans)
 
 	// custom rendering
 	Renderer::setMatrix(trans);
-	
-	
-
 
 	// draw selector bar	
 	if(mFocused)
 	{			
 		const float selectedRowHeight = getRowHeight(mEntries.at(mCursor).data);
-		
 		//here we draw a bar then redraw the list entry
-				
-		Renderer::drawRect(0.0f, mSelectorBarOffset, mSize.x(), selectedRowHeight, bgColor,
-						   GL_ZERO, GL_ONE_MINUS_SRC_COLOR );
-		Renderer::drawRect(0.0f, mSelectorBarOffset, mSize.x(), selectedRowHeight, selectorColor,
-						   GL_ONE, GL_ONE );
-			
+		if ((selectorColor != bgColor) && ((selectorColor & 0xFF) != 0x00)) {
+			Renderer::drawRect(0.0f, mSelectorBarOffset, mSize.x(), selectedRowHeight, bgColor, GL_ZERO, GL_ONE_MINUS_SRC_COLOR);
+			Renderer::drawRect(0.0f, mSelectorBarOffset, mSize.x(), selectedRowHeight, selectorColor, GL_ONE, GL_ONE);
+		}
 		auto& entry = mEntries.at(mCursor);
 		for(auto it = entry.data.elements.begin(); it != entry.data.elements.end(); it++) {
 
