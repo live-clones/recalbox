@@ -54,7 +54,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Display NETWORK in storage devices list once switched on a NAS
 - Jump to letter now moves to the first occurrence of the letter
 - Fixed displayed names using more than 14 characters in TextEditComponent
-- Avoid to launch Kodi when not in main interface 
+- Avoid to launch Kodi when not in main interface
+- Fixed black screen when exiting a game and clicking left / right during the animation
 
 ## [4.0.0] - 2016-02-02
 ### Added
