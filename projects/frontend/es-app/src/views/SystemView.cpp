@@ -654,8 +654,8 @@ void  SystemView::getDefaultElements(void)
 	mCarousel.logoRotation = 7.5;
 	mCarousel.logoRotationOrigin.x() = -5;
 	mCarousel.logoRotationOrigin.y() = 0.5;
-	mCarousel.logoSize.x() = 0.25f * mSize.x();
-	mCarousel.logoSize.y() = 0.155f * mSize.y();
+	mCarousel.logoSize.x() = 0.25f * (std::max(mSize.y(), mSize.x()));
+	mCarousel.logoSize.y() = 0.155f * (std::min(mSize.y(), mSize.x()));
 	mCarousel.maxLogoCount = 3;
 	mCarousel.zIndex = 40;
 
@@ -664,8 +664,8 @@ void  SystemView::getDefaultElements(void)
 	mSystemInfo.setPosition(0, (mCarousel.pos.y() + mCarousel.size.y() - 0.2f));
 	mSystemInfo.setBackgroundColor(0xDDDDDDD8);
 	mSystemInfo.setRenderBackground(true);
-	mSystemInfo.setFont(Font::get((int)(0.035f * mSize.y()), Font::getDefaultPath()));
-    mSystemInfo.setHorizontalAlignment(ALIGN_CENTER);
+	mSystemInfo.setFont(Font::get((int)(0.035f * (std::min(mSize.y(), mSize.x()))), Font::getDefaultPath()));
+	mSystemInfo.setHorizontalAlignment(ALIGN_CENTER);
 	mSystemInfo.setColor(0x000000FF);
 	mSystemInfo.setZIndex(50);
 	mSystemInfo.setDefaultZIndex(50);

@@ -66,7 +66,9 @@ GuiDetectDevice::GuiDetectDevice(Window* window, bool firstRun, const std::funct
 	mDeviceHeld = std::make_shared<TextComponent>(mWindow, "", menuTheme->menuText.font, mColor, ALIGN_CENTER);
 	mGrid.setEntry(mDeviceHeld, Vector2i(0, 4), false, true);
 
-	setSize(Renderer::getScreenWidth() * 0.6f, Renderer::getScreenHeight() * 0.4f);
+	float y= ((mMsg1->getFont()->getHeight() *4) + mTitle->getFont()->getHeight() ) / Renderer::getScreenHeight() + 0.08;
+
+	setSize(Renderer::getScreenWidth() * 0.6f, Renderer::getScreenHeight() * y);
 	setPosition((Renderer::getScreenWidth() - mSize.x()) / 2, (Renderer::getScreenHeight() - mSize.y()) / 2);
 }
 
@@ -80,7 +82,7 @@ void GuiDetectDevice::onSizeChanged()
 	mGrid.setRowHeightPerc(1, mDeviceInfo->getFont()->getHeight() / mSize.y());
 	mGrid.setRowHeightPerc(2, mMsg1->getFont()->getHeight() / mSize.y());
 	mGrid.setRowHeightPerc(3, mMsg2->getFont()->getHeight() / mSize.y());
-	mGrid.setRowHeightPerc(4, mDeviceHeld->getFont()->getHeight() / mSize.y());
+	mGrid.setRowHeightPerc(4, mDeviceHeld->getFont()->getHeight() *1.5 / mSize.y());
 }
 
 bool GuiDetectDevice::input(InputConfig* config, Input input)
