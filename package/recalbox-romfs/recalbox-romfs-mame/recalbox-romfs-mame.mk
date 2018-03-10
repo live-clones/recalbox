@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system mame --extension '.zip .ZIP' --fullname 'Mame' --platform mame --theme mame libretro:mame078:BR2_PACKAGE_LIBRETRO_MAME2003 libretro:imame4all:BR2_PACKAGE_LIBRETRO_IMAME advancemame:advancemame:BR2_PACKAGE_ADVANCEMAME libretro:mame2010:BR2_PACKAGE_LIBRETRO_MAME2010
+# ./scripts/linux/empack.py --system mame --extension '.zip .ZIP' --fullname 'Mame' --platform arcade --theme mame libretro:mame078:BR2_PACKAGE_LIBRETRO_MAME2003 libretro:imame4all:BR2_PACKAGE_LIBRETRO_IMAME advancemame:advancemame:BR2_PACKAGE_ADVANCEMAME libretro:mame2010:BR2_PACKAGE_LIBRETRO_MAME2010
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_MAME_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_MAME = $(RECALBOX_ROMFS_MAME_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_MAME2003)$(BR2_PACKAGE_LIBRETRO_IMAME)$(BR2_PACKAGE_ADVANCEMAME)$(BR2_PACKAGE_LIBRETRO_MAME2010),)
 define CONFIGURE_MAIN_MAME_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_MAME),Mame,$(SYSTEM_NAME_MAME),.zip .ZIP,mame,mame)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_MAME),Mame,$(SYSTEM_NAME_MAME),.zip .ZIP,arcade,mame)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_MAME2003)$(BR2_PACKAGE_LIBRETRO_IMAME)$(BR2_PACKAGE_ADVANCEMAME)$(BR2_PACKAGE_LIBRETRO_MAME2010),)
