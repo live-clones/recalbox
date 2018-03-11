@@ -14,7 +14,7 @@ TextComponent::TextComponent(Window* window) : GuiComponent(window),
 
 TextComponent::TextComponent(Window* window, const std::string& text, const std::shared_ptr<Font>& font, unsigned int color, Alignment align,
 	Eigen::Vector3f pos, Eigen::Vector2f size, unsigned int bgcolor) : GuiComponent(window), 
-	mFont(NULL), mUppercase(false), mColor(0x000000FF), mAutoCalcExtent(true, true), mHorizontalAlignment(ALIGN_LEFT), mVerticalAlignment(ALIGN_CENTER), mLineSpacing(1.5f), mBgColor(0), mRenderBackground(false)
+	mFont(NULL), mUppercase(false), mColor(0x000000FF), mAutoCalcExtent(true, true), mHorizontalAlignment(align), mVerticalAlignment(ALIGN_CENTER), mLineSpacing(1.5f), mBgColor(0), mRenderBackground(false)
 {
 	setFont(font);
 	setColor(color);
