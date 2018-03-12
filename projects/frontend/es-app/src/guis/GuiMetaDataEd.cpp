@@ -48,6 +48,8 @@ GuiMetaDataEd::GuiMetaDataEd(Window *window, MetaDataList *md, const std::vector
     mSubtitle = std::make_shared<TextComponent>(mWindow,
                                                 strToUpper(scraperParams.game->getPath().filename().generic_string()),
                                                 menuTheme->menuFooter.font, menuTheme->menuFooter.color, ALIGN_CENTER);
+    float y =0;
+    y += mTitle->getFont()->getHeight() + mSubtitle->getFont()->getHeight();
     mHeaderGrid->setEntry(mTitle, Vector2i(0, 1), false, true);
     mHeaderGrid->setEntry(mSubtitle, Vector2i(0, 3), false, true);
 
@@ -75,6 +77,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window *window, MetaDataList *md, const std::vector
                                                    menuTheme->menuTextSmall.color);
 
         row.addElement(lbl, true); // label
+        y += lbl->getFont()->getHeight();
 
         switch (iter->type) {
             case MD_RATING: {
@@ -122,7 +125,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window *window, MetaDataList *md, const std::vector
                 //UGLY
                 if (iter->key == "emulator") {
                     auto emu_choice = std::make_shared<OptionListComponent<std::string>>(mWindow, "emulator", false,FONT_SIZE_SMALL);
-                    row.addElement(emu_choice, true);
+                    row.addElement(emu_choice, false);
                     bool selected = false;
                     for (auto it = system->getEmulators()->begin(); it != system->getEmulators()->end(); it++) {
                         selected = selected || mMetaData->get("emulator") == it->first;
@@ -139,7 +142,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window *window, MetaDataList *md, const std::vector
 
                 if (iter->key == "core") {
                     auto core_choice = std::make_shared<OptionListComponent<std::string> >(mWindow, "core", false, FONT_SIZE_SMALL);
-                    row.addElement(core_choice, true);
+                    row.addElement(core_choice, false);
                     bool selected = false;
                     for (auto emulator = system->getEmulators()->begin();
                         emulator != system->getEmulators()->end(); emulator++) {
@@ -156,7 +159,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window *window, MetaDataList *md, const std::vector
 
                 if (iter->key == "ratio") {
                     auto ratio_choice = std::make_shared<OptionListComponent<std::string> >(mWindow, "ratio", false, FONT_SIZE_SMALL);
-                    row.addElement(ratio_choice, true);
+                    row.addElement(ratio_choice, false);
                     std::map<std::string, std::string> *ratioMap = LibretroRatio::getInstance()->getRatio();
                     if (mMetaData->get("ratio") == "") {
                         mMetaData->set("ratio", "auto");
@@ -216,6 +219,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window *window, MetaDataList *md, const std::vector
         auto lbl = std::make_shared<TextComponent>(mWindow, _("MORE DETAILS"), menuTheme->menuTextSmall.font,
                                                    menuTheme->menuTextSmall.color);
         row.addElement(lbl, true);
+        y += lbl->getFont()->getHeight();
 
         auto bracket = std::make_shared<ImageComponent>(mWindow);
         bracket->setImage(menuTheme->iconSet.arrow);
@@ -257,7 +261,8 @@ GuiMetaDataEd::GuiMetaDataEd(Window *window, MetaDataList *md, const std::vector
 
     // resize + center
     float width = std::min(Renderer::getScreenHeight(), (unsigned int) (Renderer::getScreenWidth() * 0.90f));
-	setSize(width, Renderer::getScreenHeight() * 0.82f);
+    y /= Renderer::getScreenHeight();
+    setSize(Renderer::getScreenWidth() * 0.6f, Renderer::getScreenHeight() * (y + 0.15f));
     setPosition((Renderer::getScreenWidth() - mSize.x()) / 2, (Renderer::getScreenHeight() - mSize.y()) / 2);
 }
 
