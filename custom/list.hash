@@ -5,8 +5,6 @@ c445390118f5d058dd372a8b2beb25a8  package/dropbear/S50dropbear
 6b31f620c36bb2d6c54cfaf71cc5a086  package/initscripts/init.d/rcK
 76f02a748149f1aa945aa418ea65b2bc  package/initscripts/init.d/rcS
 0ea7196dd64fe170cd98610fd9d7b237  package/eigen/eigen.mk
-67a31e446be2fb1a67bb22828faed0f6  package/ffmpeg/ffmpeg.hash
-548f9fd2b799b03bfbe8a3253c3983d0  package/ffmpeg/ffmpeg.mk
 45fbfa480f2e186cc00e6e0757db715a  package/kodi-jsonschemabuilder/kodi-jsonschemabuilder.mk
 a4d39a4b6d3276ed6ae05bddc201c634  package/kodi-texturepacker/kodi-texturepacker.mk
 f55011c0414fb07462f4f3d072162426  package/kodi/kodi.hash
