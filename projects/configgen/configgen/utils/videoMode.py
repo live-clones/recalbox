@@ -107,7 +107,7 @@ def autoMode():
 
     # Now the magic
     # if the screen supports CEA 4, and its current format is at least 16:9, go for CEA 4
-    if isSupported('CEA', 4, 'HDMI') and wRatio == '16':
+    if isSupported('CEA', 4, 'HDMI'):
         recallog("auto mode -> CEA 4 HDMI is valid")
         return "CEA 4 HDMI"
     # Otherwise (composite output, 5:4 screens, mini DPI screens etc ...) -> default
