@@ -4,6 +4,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 ### Added
+### Fixed
+- Fixed HelpMessages not translated
+
+## [18.03.30] - 2018-03-30
+### Added
 - Added scan music subfolders
 - Added icons in quick menu
 - Added default subset values for recalbox theme
