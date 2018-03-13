@@ -44,6 +44,7 @@ public:
 	static const char* UI_SCREENSAVER_AFTER_HELP_MSG;
 	static const char* UI_SCREENSAVER_BEHAVIOR_HELP_MSG;
 	static const char* UI_ONSCREENHELP_HELP_MSG;
+    static const char* UI_CLOCK_HELP_MSG;
 	static const char* UI_QUICK_HELP_MSG;
 	static const char* UI_KEYBOARD_HELP_MSG;
 	static const char* UI_CAROUSEL_HELP_MSG;
@@ -107,6 +108,7 @@ public:
 	static const char* GAMELISTOPTION_FAVORITES_ONLY_MSG;
 	static const char* GAMELISTOPTION_SHOW_HIDDEN_MSG;
 	static const char* GAMELISTOPTION_EDIT_METADATA_MSG;
+
 };
 
 #endif //EMULATIONSTATION_ALL_MENUMESSAGES_H

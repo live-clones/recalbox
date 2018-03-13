@@ -9,6 +9,7 @@
 #include "MenuThemeData.h"
 #include "Locale.h"
 #include "guis/GuiMsgBoxScroll.h"
+#include "DateTimeComponent.h"
 
 class ButtonComponent;
 class ImageComponent;
@@ -85,6 +86,7 @@ private:
 	ComponentGrid mGrid;
 
 	std::shared_ptr<TextComponent> mTitle;
+	std::shared_ptr<DateTimeComponent> mDateTime;
 	std::shared_ptr<ComponentList> mList;
 	std::shared_ptr<ComponentGrid> mButtonGrid;
 	std::vector< std::shared_ptr<ButtonComponent> > mButtons;

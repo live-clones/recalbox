@@ -36,6 +36,7 @@ const char* MenuMessages::UI_HELP_MSG = "Configure your EmulationStation experie
 const char* MenuMessages::UI_SCREENSAVER_AFTER_HELP_MSG = "Start the screensaver after N minutes.";
 const char* MenuMessages::UI_SCREENSAVER_BEHAVIOR_HELP_MSG = "Set the screensaver behavior. DIM will reduce the screen light, and BLACK will turn the screen black.";
 const char* MenuMessages::UI_ONSCREENHELP_HELP_MSG = "Shows a help at the bottom of the screen which displays commands you can use.";
+const char* MenuMessages::UI_CLOCK_HELP_MSG = "Add a clock in the main menu.";
 const char* MenuMessages::UI_QUICK_HELP_MSG = "When enabled, you can switch between systems while browsing a gamelist by pressing LEFT or RIGHT.";
 const char* MenuMessages::UI_KEYBOARD_HELP_MSG = "The onscreen keyboard is necessary to type text if you only have controllers plugged into your recalbox. You can disable it if you have a real keyboard connected.";
 const char* MenuMessages::UI_CAROUSEL_HELP_MSG = "Choose if carousel will be animated or not during transitions";

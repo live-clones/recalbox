@@ -13,6 +13,7 @@ DateTimeComponent::DateTimeComponent(Window* window, DisplayMode dispMode) : Gui
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 	setFont(menuTheme->menuTextSmall.font);
 	setColor(menuTheme->menuText.color);
+	mFlag = true;
 	updateTextCache();
 }
 
@@ -126,7 +127,7 @@ bool DateTimeComponent::input(InputConfig* config, Input input)
 
 void DateTimeComponent::update(int deltaTime)
 {
-	if(mDisplayMode == DISP_RELATIVE_TO_NOW)
+	if(mDisplayMode == DISP_RELATIVE_TO_NOW || mDisplayMode == DISP_TIME)
 	{
 		mRelativeUpdateAccumulator += deltaTime;
 		if(mRelativeUpdateAccumulator > 1000)
@@ -207,6 +208,22 @@ std::string DateTimeComponent::getDisplayString(DisplayMode mode) const
 	case DISP_DATE_TIME:
 		fmt = "%m/%d/%Y %H:%M:%S";
 		break;
+    //only used for timer in main menu
+	case DISP_TIME: {
+		if (mFlag)
+			fmt = "%H:%M:%S";
+		else
+			fmt = "%H:%M:%S";
+		using namespace boost::posix_time;
+		boost::posix_time::time_facet* facet = new boost::posix_time::time_facet();
+		facet->format(fmt.c_str());
+		std::locale loc(std::locale::classic(), facet);
+
+		std::stringstream ss;
+		ss.imbue(loc);
+		ss << "" << second_clock::universal_time();
+		return ss.str();
+	}
 	case DISP_RELATIVE_TO_NOW:
 		{
 			//relative time
@@ -266,6 +283,7 @@ std::shared_ptr<Font> DateTimeComponent::getFont() const
 
 void DateTimeComponent::updateTextCache()
 {
+	mFlag = !mFlag;
 	DisplayMode mode = getCurrentDisplayMode();
 	const std::string dispString = mUppercase ? strToUpper(getDisplayString(mode)) : getDisplayString(mode);
 	std::shared_ptr<Font> font = getFont();
