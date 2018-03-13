@@ -4,6 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 ### Added
+- Added missing fav icons for Amigas 3DO and X68k
 ### Fixed
 - Fixed HelpMessages not translated
 

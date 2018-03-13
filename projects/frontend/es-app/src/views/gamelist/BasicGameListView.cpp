@@ -43,6 +43,11 @@ void BasicGameListView::onFileChanged(FileData* file, FileChangeType change)
 
 static const std::map<std::string, const char*> favorites_icons_map = boost::assign::map_list_of
 		("snes", "\uF25e ")
+		("3do", "\uF28a")
+		("x68000", "\uF28b")
+		("amiga600", "\uF244")
+		("amiga1200", "\uF245")
+		("nds", "\uF267")
 		("c64", "\uF24c ")
 		("nes", "\uF25c ")
 		("n64", "\uF260 ")
