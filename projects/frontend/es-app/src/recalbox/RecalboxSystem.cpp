@@ -94,7 +94,10 @@ std::string RecalboxSystem::readFile(std::string file) {
     return "";
 }
 
-std::vector<std::string> RecalboxSystem::getAvailableWiFiSSID() {
+std::vector<std::string> RecalboxSystem::getAvailableWiFiSSID(bool activatedWifi) {
+	if (!activatedWifi){
+		enableWifi("","");
+	}
 	std::vector<std::string> res;
 	std::ostringstream oss;
 	oss << Settings::getInstance()->getString("RecalboxSettingScript") << " " << "wifi list";
@@ -110,7 +113,6 @@ std::vector<std::string> RecalboxSystem::getAvailableWiFiSSID() {
 		res.push_back(std::string(line));
 	}
 	pclose(pipe);
-
 	return res;
 }
 

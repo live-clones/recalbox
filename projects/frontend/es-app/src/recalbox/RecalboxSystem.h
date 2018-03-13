@@ -24,7 +24,7 @@ public:
 
     bool setAudioOutputDevice(std::string device);
 	
-	std::vector<std::string> getAvailableWiFiSSID();
+	std::vector<std::string> getAvailableWiFiSSID(bool activateWifi);
 
     std::vector<std::string> getAvailableAudioOutputDevices();
 

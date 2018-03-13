@@ -865,100 +865,115 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                      enable_wifi->setState(baseEnabled);
                      s->addWithLabel(enable_wifi, _("ENABLE WIFI"), MenuMessages::NETWORK_WIFI_HELP_MSG);
 
-                     //SSID
-                     std::string baseSSID = RecalboxConf::getInstance()->get("wifi.ssid");
-                     auto WifiSSID = [this, baseSSID, menuTheme](GuiSettings *gui, std::string title, std::string value,
-                                            std::string help = "") {
-                         ComponentListRow row;
+						//SSID
+						std::string baseSSID = RecalboxConf::getInstance()->get("wifi.ssid");
+	                    auto WifiSSID = [this, baseSSID, menuTheme, enable_wifi, baseEnabled] (GuiSettings *gui, std::string title,
+							                                            std::string value,
+							                                            std::string help = "") {
+						ComponentListRow row;
 
-                         auto lbl = std::make_shared<TextComponent>(mWindow, title, menuTheme->menuText.font, menuTheme->menuText.color);
-                         row.addElement(lbl, true); // label
+						auto lbl = std::make_shared<TextComponent>(mWindow, title, menuTheme->menuText.font,
+						                                           menuTheme->menuText.color);
+						row.addElement(lbl, true); // label
 
-                         std::shared_ptr<GuiComponent> ed;
+						std::shared_ptr<GuiComponent> ed;
 
-                         ed = std::make_shared<TextComponent>(mWindow, value, menuTheme->menuText.font, menuTheme->menuText.color, ALIGN_RIGHT);
-                         row.addElement(ed, true);
+						ed = std::make_shared<TextComponent>(mWindow, value, menuTheme->menuText.font,
+						                                     menuTheme->menuText.color, ALIGN_RIGHT);
+						row.addElement(ed, true);
 
-                         auto spacer = std::make_shared<GuiComponent>(mWindow);
-                         spacer->setSize(Renderer::getScreenWidth() * 0.005f, 0);
-                         row.addElement(spacer, false);
+						auto spacer = std::make_shared<GuiComponent>(mWindow);
+						spacer->setSize(Renderer::getScreenWidth() * 0.005f, 0);
+						row.addElement(spacer, false);
 
-                         auto bracket = std::make_shared<ImageComponent>(mWindow);
-                         bracket->setImage(":/arrow.svg");
-                         bracket->setResize(Eigen::Vector2f(0, lbl->getFont()->getLetterHeight()));
-                         row.addElement(bracket, false);
+						auto bracket = std::make_shared<ImageComponent>(mWindow);
+						bracket->setImage(":/arrow.svg");
+						bracket->setResize(Eigen::Vector2f(0, lbl->getFont()->getLetterHeight()));
+						row.addElement(bracket, false);
 
-                         auto updateVal = [ed](const std::string &newVal) {
-                             ed->setValue(newVal);
-                         };
+						auto updateVal = [ed](const std::string &newVal) {
+							ed->setValue(newVal);
+						};
 
-                         row.makeAcceptInputHandler([this, updateVal, menuTheme] {
+						row.makeAcceptInputHandler([this, updateVal, menuTheme, enable_wifi, baseEnabled] {
 
-                             GuiSettings *SSID = new GuiSettings(mWindow, _("WIFI SSID").c_str());
-                             std::shared_ptr<GuiComponent> ed;
-                             ComponentListRow row;
-                             ed = std::make_shared<TextComponent>(mWindow, _("MANUAL INPUT"), menuTheme->menuText.font, menuTheme->menuText.color, ALIGN_LEFT);
-                             row.addElement(ed, true);
-                             auto updateValue = [this, updateVal, SSID](const std::string &newVal) {
-                                 RecalboxConf::getInstance()->set("wifi.ssid", newVal);
-                                 updateVal(newVal);
-                                 delete SSID;
-                             };
-                             row.makeAcceptInputHandler([this, updateValue, menuTheme] {
-                                 if (Settings::getInstance()->getBool("UseOSK"))
-                                     mWindow->pushGui(new GuiTextEditPopupKeyboard(mWindow, "", "", updateValue, false));
-                                 else
-                                     mWindow->pushGui(new GuiTextEditPopup(mWindow, "", "", updateValue, false));
-                             });
-                             row.makeHelpInputHandler([this] {
-                                 mWindow->pushGui(new GuiMsgBoxScroll(
-                                         mWindow, _("MANUAL INPUT"),
-                                         MenuMessages::NETWORK_MANUAL_INPUT_HELP_MSG,
-                                         _("OK"),
-                                         [] {}, "", nullptr, "", nullptr, ALIGN_LEFT));
-                                 return true;
-                             });
-                             SSID->addRow(row);
-                             std::vector<std::string> availableSSID = RecalboxSystem::getInstance()->getAvailableWiFiSSID();
-                             for (auto it = availableSSID.begin(); it != availableSSID.end(); it++) {
+							GuiSettings *SSID = new GuiSettings(mWindow, _("WIFI SSID").c_str());
+							std::shared_ptr<GuiComponent> ed;
+							ComponentListRow row;
+							ed = std::make_shared<TextComponent>(mWindow, _("MANUAL INPUT"),
+							                                     menuTheme->menuText.font,
+							                                     menuTheme->menuText.color, ALIGN_LEFT);
+							row.addElement(ed, true);
+							auto updateValue = [this, updateVal, SSID](const std::string &newVal) {
+								RecalboxConf::getInstance()->set("wifi.ssid", newVal);
+								updateVal(newVal);
+								delete SSID;
+							};
+							row.makeAcceptInputHandler([this, updateValue, menuTheme] {
+								if (Settings::getInstance()->getBool("UseOSK"))
+									mWindow->pushGui(
+											new GuiTextEditPopupKeyboard(mWindow, "", "", updateValue, false));
+								else
+									mWindow->pushGui(new GuiTextEditPopup(mWindow, "", "", updateValue, false));
+							});
+							row.makeHelpInputHandler([this] {
+								mWindow->pushGui(new GuiMsgBoxScroll(
+										mWindow, _("MANUAL INPUT"),
+										MenuMessages::NETWORK_MANUAL_INPUT_HELP_MSG,
+										_("OK"),
+										[] {}, "", nullptr, "", nullptr, ALIGN_LEFT));
+								return true;
+							});
+							SSID->addRow(row);
+							if (enable_wifi->getState()) {
+								std::vector<std::string> availableSSID = RecalboxSystem::getInstance()->getAvailableWiFiSSID(baseEnabled);
+								RecalboxConf::getInstance()->set("wifi.enabled", "1");
+								for (auto it = availableSSID.begin(); it != availableSSID.end(); it++) {
 
-                                 if ((*it) != "\n") {
+									if ((*it) != "\n") {
 
-                                     row.elements.clear();
-                                     std::vector<std::string> tokens;
-                                     boost::split(tokens, (*it), boost::is_any_of(" "));
+										row.elements.clear();
+										std::vector<std::string> tokens;
+										boost::split(tokens, (*it), boost::is_any_of(" "));
 
-                                     if (tokens.size() >= 8) {
-                                         std::string vname = "";
-                                         for (unsigned int i = 0; i < 8; i++) {
-                                             vname += " ";
-                                             vname += tokens.at(i);
-                                         }
-                                         ed = std::make_shared<TextComponent>(mWindow, vname, menuTheme->menuText.font,
-                                                                              menuTheme->menuText.color, ALIGN_LEFT);
-                                     } else {
-                                         ed = std::make_shared<TextComponent>(mWindow, (*it), menuTheme->menuText.font,
-                                                                              menuTheme->menuText.color, ALIGN_LEFT);
-                                     }
-                                     row.addElement(ed, true);
-                                     row.makeAcceptInputHandler(
-                                             [this, updateValue, ed] { updateValue(ed->getValue()); });
-                                     SSID->addRow(row);
-                                 }
-                             }
-                             mWindow->pushGui(SSID);
-                         });
+										if (tokens.size() >= 8) {
+											std::string vname = "";
+											for (unsigned int i = 0; i < 8; i++) {
+												vname += " ";
+												vname += tokens.at(i);
+											}
+											ed = std::make_shared<TextComponent>(mWindow, vname,
+											                                     menuTheme->menuText.font,
+											                                     menuTheme->menuText.color,
+											                                     ALIGN_LEFT);
+										} else {
+											ed = std::make_shared<TextComponent>(mWindow, (*it),
+											                                     menuTheme->menuText.font,
+											                                     menuTheme->menuText.color,
+											                                     ALIGN_LEFT);
+										}
+										row.addElement(ed, true);
+										row.makeAcceptInputHandler(
+												[this, updateValue, ed] { updateValue(ed->getValue()); });
+										SSID->addRow(row);
+									}
+								}
+							}
+							mWindow->pushGui(SSID);
+						});
 
-                         if (help != "") {
-                             row.makeHelpInputHandler([this, help, title] {
-                                 mWindow->pushGui(new GuiMsgBoxScroll(mWindow, title, help.c_str(), _("OK"),
-                                                                      [] {}, "", nullptr, "", nullptr, ALIGN_LEFT));
-                                 return true;
-                             });
-                         }
-                         gui->addRow(row);
-                     };
-                     WifiSSID(s, _("WIFI SSID"), baseSSID, MenuMessages::NETWORK_SSID_HELP_MSG);
+						if (help != "") {
+							row.makeHelpInputHandler([this, help, title] {
+								mWindow->pushGui(new GuiMsgBoxScroll(mWindow, title, help.c_str(), _("OK"),
+								                                     [] {}, "", nullptr, "", nullptr,
+								                                     ALIGN_LEFT));
+								return true;
+							});
+						}
+						gui->addRow(row);
+	                    };
+
+	                 WifiSSID(s, _("WIFI SSID"), baseSSID, MenuMessages::NETWORK_SSID_HELP_MSG);
 
 
 
@@ -971,10 +986,10 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
 
                      s->addSaveFunc([baseEnabled, baseSSID, baseKEY, enable_wifi, window] {
                          bool wifienabled = enable_wifi->getState();
-                         RecalboxConf::getInstance()->set("wifi.enabled", wifienabled ? "1" : "0");
+
                          std::string newSSID = RecalboxConf::getInstance()->get("wifi.ssid");
                          std::string newKey = RecalboxConf::getInstance()->get("wifi.key");
-                         RecalboxConf::getInstance()->saveRecalboxConf();
+
                          if (wifienabled) {
                              if (baseSSID != newSSID
                                  || baseKEY != newKey
@@ -989,9 +1004,13 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                                      );
                                  }
                              }
-                         } else if (baseEnabled) {
-                             RecalboxSystem::getInstance()->disableWifi();
                          }
+                         else if (baseEnabled || RecalboxConf::getInstance()->get("wifi.enabled") == "1"){
+	                         RecalboxSystem::getInstance()->disableWifi();
+                         }
+
+	                     RecalboxConf::getInstance()->set("wifi.enabled", wifienabled ? "1" : "0");
+	                     RecalboxConf::getInstance()->saveRecalboxConf();
                      });
                      mWindow->pushGui(s);
 
