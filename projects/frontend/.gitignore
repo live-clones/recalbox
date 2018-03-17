@@ -34,6 +34,7 @@ Makefile
 CPackConfig.cmake
 CPackSourceConfig.cmake
 
+.vscode
 .idea/
 *.iml
 *.txt.user*
