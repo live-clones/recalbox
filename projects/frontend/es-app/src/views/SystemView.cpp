@@ -540,7 +540,7 @@ void SystemView::renderCarousel(const Eigen::Affine3f& trans)
 
 	int bufferLeft = logoBuffersLeft[bufferIndex];
 	int bufferRight = logoBuffersRight[bufferIndex];
-	if (mCarousel.maxLogoCount >= logoCount)
+	if (logoCount == 1)
 	{
 		bufferLeft = 0;
 		bufferRight = 0;
