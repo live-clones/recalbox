@@ -10,7 +10,7 @@ import subprocess
 import json
 
 # Set a specific video mode
-def setVideoMode(videoMode, delay):
+def setVideoMode(videoMode, delay=0.5):
     # The user mentionned default for the videomode
     # video mode can be default, a "CEA 4 HDMI" like, a hdmi_cvt pattern or even a hdmi_timings pattern
     # Anything else should result in a crash
@@ -62,6 +62,7 @@ def isSupported(group="CEA", mode='', drive="HDMI"):
     tvmodes = json.loads(out)
 
     for tvmode in tvmodes:
+	print "Testing {} vs {}".format(tvmode["code"], int(mode))
         if tvmode["code"] == int(mode):
             return True
 
@@ -75,11 +76,8 @@ def setPreffered():
     # Scary bug in tvservice : setting preferred mode on composite makes CEA 1 DVI !
     # See https://github.com/raspberrypi/firmware/issues/901
     # Once this issue is solved, just tvservice -p
-    if esVideoMode is None:
-        if autoMode() == "default":
-            return
-        else:
-            os.system("tvservice -p")
+    if esVideoMode is None or esVideoMode == "auto":
+        os.system("tvservice -p")
     else:
         setVideoMode(esVideoMode)
 
@@ -96,11 +94,11 @@ def autoMode():
     (out, err) = proc.communicate()
 
     # This one does match what i need ! Everything ! Passes the 5 cases listed above
-    regex = r".*\[(.*[^0-9:]+) ?([0-9]{1,2})?:?([0-9]{1})?\], ([0-9]{3,4})x([0-9]{3,4}) @ ([0-9.]{,6})Hz, (progressive|interlaced).*"
+    regex = r".*\[(.*[^0-9:]+) ?([0-9]{1,2})?:?([0-9]{1,2})?\], ([0-9]{3,4})x([0-9]{3,4}) @ ([0-9.]{1,6})Hz, (progressive|interlaced).*"
 
     matches = re.match(regex, out)
     if not matches: 
-        # We should log the out var and log that it do'sn't match any known pattern
+        # We should log the out var and log that it doesn't match any known pattern
         recallog('auto mode -> had to set default')
         return "default"
     details, wRatio, hRatio, width, height, refreshRate, progressiveOrInterlace = matches.groups()
@@ -110,6 +108,9 @@ def autoMode():
     if isSupported('CEA', 4, 'HDMI'):
         recallog("auto mode -> CEA 4 HDMI is valid")
         return "CEA 4 HDMI"
+    elif isSupported('DMT', 85, 'HDMI'):
+        recallog("auto mode -> CEA 4 HDMI is valid")
+        return "DMT 85 HDMI"
     # Otherwise (composite output, 5:4 screens, mini DPI screens etc ...) -> default
     else :
         recallog("auto mode -> CEA 4 HDMI not supported, fallback to default")
