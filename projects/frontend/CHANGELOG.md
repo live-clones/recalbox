@@ -7,6 +7,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added clock in main menu
 - Added missing fav icons for Amigas 3DO and X68k
 ### Fixed
+- Fixed reload of theme when gamelistonly=0
 - Fixed HelpMessages not translated
 
 ## [18.03.30] - 2018-03-30

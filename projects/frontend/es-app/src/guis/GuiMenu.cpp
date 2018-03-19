@@ -540,11 +540,11 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                                  s->addWithLabel(theme_set, _("THEME SET"), _(MenuMessages::UI_THEME_HELP_MSG));
 
                                  std::function<void()> ReloadAll = [this, window] () {
-									 ViewController::get()->goToStart();
+								                                    ViewController::get()->goToStart();
                                                                     window->renderShutdownScreen();
                                                                     delete ViewController::get();
-                                                                    SystemData::deleteSystems();
-                                                                    SystemData::loadConfig();
+	                                                                for (auto systems = SystemData::sSystemVector.begin(); systems != SystemData::sSystemVector.end(); systems++)
+		                                                                (*systems)->loadTheme();
                                                                     GuiComponent *gui;
                                                                     while ((gui = window->peekGui()) != NULL) {
                                                                         window->removeGui(gui);
