@@ -58,7 +58,7 @@ void HelpStyle::applyTheme(const std::shared_ptr<ThemeData>& theme, const std::s
 		iconMap["y"] = elem->get<std::string>("iconY");
 	
 	if(elem->has("iconL"))
-		iconMap["l"] = elem->get<std::string>("iconR");
+		iconMap["l"] = elem->get<std::string>("iconL");
 	
 	if(elem->has("iconR"))
 		iconMap["r"] = elem->get<std::string>("iconR");
