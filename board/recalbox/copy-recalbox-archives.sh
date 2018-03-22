@@ -104,7 +104,9 @@ case "${RECALBOX_TARGET}" in
             { echo "ERROR : unable to create boot.tar.xz" && exit 1 ;}
 
         # recalbox.img
-        support/scripts/genimage.sh -c "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/rpi/genimage.cfg" || exit 1
+        FILES=$(find "${BINARIES_DIR}/rpi-firmware" -maxdepth 1 -type f | sed -e s+"^${BINARIES_DIR}/rpi-firmware/\(.*\)$"+"    file \1 \{ image = 'rpi-firmware/\1' }"+ | tr '\n' '@')
+        sed -e s+'@files'+"${FILES}"+ "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/rpi/genimage.cfg" | tr '@' '\n' > "${BINARIES_DIR}/genimage.cfg" || exit 1
+        support/scripts/genimage.sh -c "${BINARIES_DIR}/genimage.cfg" || exit 1
         sync || exit 1
         ;;
 
