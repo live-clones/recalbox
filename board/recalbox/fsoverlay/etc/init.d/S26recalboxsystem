@@ -156,6 +156,7 @@ case "$1" in
 	mount -o remount,rw /boot
 	egrep '^wifi.?..[se]' /recalbox/share/system/recalbox.conf >> /boot/recalbox-boot.conf
 	mount -o remount,ro /boot
+	recallog "Wifi information saved to recalbox-boot.conf on shutdown correctly"
 	;;
   restart|reload)
 	;;

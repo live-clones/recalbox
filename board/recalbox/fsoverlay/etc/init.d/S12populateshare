@@ -5,6 +5,15 @@ then
   exit 0
 fi
 
+# append tmp boot log files to log files in share
+logpath="/recalbox/share/system/logs"
+for bootlogfile in /tmp/logappend-*.*
+do
+        destfile=`echo "$bootlogfile" | sed 's|/tmp/logappend-||'`
+        cat "${bootlogfile}" >> "${logpath}/${destfile}"
+        rm "${bootlogfile}"
+done
+
 source /recalbox/scripts/recalbox-includes.sh
 
 IN=/recalbox/share_init
@@ -90,6 +99,4 @@ rm -rf /run/udev/rules.d
 ln -s /recalbox/share/system/udev/rules.d/ /run/udev/
 test ! -e /recalbox/share/system/recalbox.changelog.done && cp /recalbox/recalbox.changelog /recalbox/share/system/recalbox.changelog.done
 
-# create a uuid if it's missing
-[ ! -e /recalbox/share/system/uuid ] && /recalbox/scripts/system/uuid.sh --uuid-file /recalbox/share/system/uuid
 # END

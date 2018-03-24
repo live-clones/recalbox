@@ -1,15 +1,37 @@
 #!/bin/sh
-log="/recalbox/share/system/logs/recalbox.log"
 
-if [[ "$1" == "-e" ]];then
+filename="recalbox.log"
+
+while [[ $# -gt 0 ]]
+do
+	key="$1"
+	case $key in
+		-f)
+		filename="$2"
+		shift
+		;;
+		*)
+		comment="$1"
+		;;
+	esac
+shift
+done
+
+log="/recalbox/share/system/logs/${filename}"
+
+if ! $(df | grep -q /recalbox/share);then
+  log="/tmp/logappend-${filename}"
+fi
+
+if [[ "$comment" == "-e" ]];then
   shift
   customopts="-e"
 fi
-if [[ -z "$1" ]];then
+if [[ -z "$comment" ]];then
 while read line
 do
   echo ${customopts} "`/bin/logtime` ${line}" >> "${log}"
 done
 else
-  echo ${customopts} "`/bin/logtime` $1" >> "${log}"
+  echo ${customopts} "`/bin/logtime` $comment" >> "${log}"
 fi
