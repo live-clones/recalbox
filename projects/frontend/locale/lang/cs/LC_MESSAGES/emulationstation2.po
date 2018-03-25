@@ -341,7 +341,7 @@ msgstr "AKTUALIZOVAT HERNÍ SEZNAM"
 
 #: 
 msgid "CONTROLLERS SETTINGS"
-msgstr "NASTAVENÍ OVLADAČǓ"
+msgstr "NASTAVENÍ OVLADAČŮ"
 
 #: 
 msgid "UI SETTINGS"
@@ -732,11 +732,11 @@ msgstr "zadejte typ rom"
 
 #: 
 msgid "Hidden"
-msgstr "Skrýtá"
+msgstr "Skryté"
 
 #: 
 msgid "set hidden"
-msgstr "nastavte skyté"
+msgstr "skryj"
 
 #: 
 msgid "Play count"
@@ -786,11 +786,11 @@ msgstr "NABÍDKA"
 
 #: 
 msgid "FILENAME, ASCENDING"
-msgstr "JMÉNA SOUBORU, VZESTUPNĚ"
+msgstr "JMÉNA SOUBORŮ, VZESTUPNĚ"
 
 #: 
 msgid "FILENAME, DESCENDING"
-msgstr "JMÉNA SOUBORU, SESTUPNĚ"
+msgstr "JMÉNA SOUBORŮ, SESTUPNĚ"
 
 #: 
 msgid "RATING, ASCENDING"
@@ -933,7 +933,7 @@ msgstr "KLÁVESNICE"
 
 #: 
 msgid "GAMEPAD %i"
-msgstr "GAMEPAD %I"
+msgstr "GAMEPAD %i"
 
 #: 
 msgid "HOLD ANY BUTTON TO SKIP"
@@ -946,8 +946,8 @@ msgstr "-NEDEFINOVÁNO-"
 #: 
 msgid "HOLD FOR %iS TO SKIP"
 msgid_plural "HOLD FOR %iS TO SKIP"
-msgstr[0] "PODRŽTE %iS PRO PŘESKOČENÍ "
-msgstr[1] "PODRŽTE %iS PRO PŘESKOČENÍ "
+msgstr[0] "PODRŽTE %iS PRO PŘESKOČENÍ"
+msgstr[1] "PODRŽTE %iS PRO PŘESKOČENÍ"
 msgstr[2] "PODRŽTE %iS PRO PŘESKOČENÍ"
 
 #. Config controllers missing translation
@@ -1188,7 +1188,7 @@ msgstr "Integer škálování je změna velikosti obrazu v celých násobcích j
 
 #: 
 msgid "Shaders are like filters for the game rendering. You can select a shader set here, which is a collection of shaders selected for each system. You can also change the shader within the game with HOTKEY + L2 or HOTKEY + R2."
-msgstr "Shadery fungují jako obrazové filtry, které vyvolávají efekt zobrazení na původních obrazovkách a displejích. Zde si můžete vybrat kolekci shaderů pro jednotlivé systémy. Shadery také můžete měnit přímo během hraní pomocí stisku HOTKEY + L2 nebo HOTKEY + R2. "
+msgstr "Shadery fungují jako obrazové filtry, které vyvolávají efekt zobrazení na původních obrazovkách a displejích. Zde si můžete vybrat kolekci shaderů pro jednotlivé systémy. Shadery také můžete měnit přímo během hraní pomocí stisku HOTKEY + L2 nebo HOTKEY + R2."
 
 #: 
 msgid "Enable or disable RetroAchievements in games."
@@ -1473,4 +1473,152 @@ msgstr "SYSTÉM JE V AKTUÁLNÍ VERZI"
 #: 
 msgid "FORCE BASIC GAMELIST VIEW"
 msgstr "VYNUTIT ZÁKLADNÍ SEZNAM HER"
+
+#: 
+msgid "DOWNLOADED"
+msgstr ""
+
+#: 
+msgid "UPDATE VERSION:"
+msgstr ""
+
+#: 
+msgid "UPDATE CHANGELOG:"
+msgstr ""
+
+#: 
+msgid "MORE DETAILS"
+msgstr ""
+
+#: 
+msgid "CAROUSEL ANIMATION"
+msgstr ""
+
+#: 
+msgid "THEME CONFIGURATION"
+msgstr ""
+
+#: 
+msgid "THEME COLORSET"
+msgstr ""
+
+#: 
+msgid "THEME ICONSET"
+msgstr ""
+
+#: 
+msgid "THEME MENU"
+msgstr ""
+
+#: 
+msgid "THEME SYSTEMVIEW"
+msgstr ""
+
+#: 
+msgid "THEME GAMELISTVIEW"
+msgstr ""
+
+#: 
+msgid "THEME REGION"
+msgstr ""
+
+#: 
+msgid "THIS THEME HAS NO OPTION"
+msgstr ""
+
+#: 
+msgid "MANUAL INPUT"
+msgstr ""
+
+#: 
+msgid "AN ERROR OCCURED - DOWNLOADED"
+msgstr ""
+
+#: 
+msgid "START KODI"
+msgstr ""
+
+#: 
+msgid "Shows the current available update version."
+msgstr ""
+
+#: 
+msgid "Shows the current available update changelog."
+msgstr ""
+
+#: 
+msgid "Configure an associated controller. Your controller has to be associated / plugged before."
+msgstr ""
+
+#: 
+msgid "Choose if carousel will be animated or not during transitions"
+msgstr ""
+
+#: 
+msgid "Select the type of transition that occurs when you start a game. INSTANT will do nothing, FADE will fade to dark, and SLIDE will zoom on the game cover (or name if there is no scrape information)"
+msgstr ""
+
+#: 
+msgid "Select exisiting colorset options for this theme."
+msgstr ""
+
+#: 
+msgid "Select exisiting iconset options for this theme."
+msgstr ""
+
+#: 
+msgid "Select exisiting menu style options for this theme."
+msgstr ""
+
+#: 
+msgid "Select exisiting system view options for this theme."
+msgstr ""
+
+#: 
+msgid "Select exisiting gamelist view options for this theme."
+msgstr ""
+
+#: 
+msgid "Configure theme options if available."
+msgstr ""
+
+#: 
+msgid "Select Region of logos, pictures for system that are different for some countries. E.g. Megadrive in EU / Genesis in US"
+msgstr ""
+
+#: 
+msgid "Type the name of your SSID if it is hidden or not listed"
+msgstr ""
+
+#: 
+msgid "Select a letter and the listing will go directly on the first game starting with this letter."
+msgstr ""
+
+#: 
+msgid "Select the way the game list is sortered (alphabetically, by notation...)."
+msgstr ""
+
+#: 
+msgid "Switch between seing or not only the favorites games. To add a game in the favorite list, select the game and toggle its state using 'Y'."
+msgstr ""
+
+#: 
+msgid "Switch between seing or not the hidden games. To hide a game, edit its data and select 'Hide'."
+msgstr ""
+
+#: 
+msgid "Switch between seing folders and folder content in the listing. This is useful when a game is provided as many 'bin' files for example and you keep it a a dedicated folder (ex: roms/psx/tekken 3)."
+msgstr ""
+
+#: 
+msgid "This option display a menu which allows to change game data and many others options."
+msgstr ""
+
+#: 
+msgid "AVAILABLE UPDATE"
+msgstr ""
+
+#: 
+msgid "UPDATE CHANGELOG"
+msgstr ""
 
