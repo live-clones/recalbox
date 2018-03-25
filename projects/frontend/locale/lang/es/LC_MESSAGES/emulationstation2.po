@@ -105,8 +105,8 @@ msgstr "¡NO SE HA ENCONTRADO NINGÚN SISTEMA!\n"
 #: 
 msgid "%i GAME SUCCESSFULLY SCRAPED!"
 msgid_plural "%i GAMES SUCCESSFULLY SCRAPED!"
-msgstr[0] "¡%i JUEGO OBTENIDO CORRECTAMENTE!"
-msgstr[1] "¡%i JUEGOS OBTENIDOS CORRECTAMENTE!"
+msgstr[0] "¡INFORMACIÓN DE %i JUEGO OBTENIDA CORRECTAMENTE!"
+msgstr[1] "¡INFORMACIÓN DE %i JUEGOS OBTENIDA CORRECTAMENTE!"
 
 #: 
 msgid "%i GAME SKIPPED."
@@ -124,7 +124,7 @@ msgstr "EDITAR LOS DATOS"
 
 #: 
 msgid "SCRAPE"
-msgstr "OBTENER"
+msgstr "OBTENER INFORMACIÓN"
 
 #: 
 msgid "SAVE"
@@ -178,7 +178,7 @@ msgstr "VERSIÓN"
 
 #: 
 msgid "DISK USAGE"
-msgstr "ESPACIO DISPONIBLE"
+msgstr "USO DE DISCO"
 
 #: 
 msgid "STORAGE DEVICE"
@@ -275,7 +275,7 @@ msgstr "EL SISTEMA VA A REINICIARSE"
 
 #: 
 msgid "GAMES SETTINGS"
-msgstr "CONFIGURACIÓN DE JUEGO"
+msgstr "CONFIGURACIÓN DE LOS JUEGOS"
 
 #: 
 msgid "GAME RATIO"
@@ -319,7 +319,7 @@ msgstr "MODO HARDCORE"
 
 #: 
 msgid "USERNAME"
-msgstr "USUARIO"
+msgstr "NOMBRE DE USUARIO"
 
 #: 
 msgid "PASSWORD"
@@ -1002,6 +1002,7 @@ msgstr "¿QUIERES APAGAR SIN GUARDAR DATOS?"
 msgid "FAST SHUTDOWN SYSTEM"
 msgstr "APAGAR RÁPIDAMENTE"
 
+#. Please change RECALBOX.FR to RECALBOX.COM on the English version!
 #: 
 msgid "WE CAN'T FIND ANY SYSTEMS!\n"
 "CHECK THAT YOUR PATHS ARE CORRECT IN THE SYSTEMS CONFIGURATION FILE, AND YOUR GAME DIRECTORY HAS AT LEAST ONE GAME WITH THE CORRECT EXTENSION.\n"
@@ -1412,11 +1413,11 @@ msgstr "USA IMÁGENES COMPUESTAS."
 
 #: 
 msgid "CHECK UPDATES"
-msgstr "COMPROBAR ACTUALIZACIONES."
+msgstr "COMPROBAR ACTUALIZACIONES"
 
 #: 
 msgid "UPDATE TYPE"
-msgstr "TIPO DE ACTUALIZACIÓN."
+msgstr "TIPO DE ACTUALIZACIÓN"
 
 #: 
 msgid "INTEGER SCALE (PIXEL PERFECT)"
@@ -1465,4 +1466,152 @@ msgstr "EL SISTEMA ESTÁ ACTUALIZADO"
 #: 
 msgid "FORCE BASIC GAMELIST VIEW"
 msgstr "FORZAR VISTA DE LISTA DE JUEGOS BÁSICA"
+
+#: 
+msgid "DOWNLOADED"
+msgstr ""
+
+#: 
+msgid "UPDATE VERSION:"
+msgstr ""
+
+#: 
+msgid "UPDATE CHANGELOG:"
+msgstr ""
+
+#: 
+msgid "MORE DETAILS"
+msgstr ""
+
+#: 
+msgid "CAROUSEL ANIMATION"
+msgstr ""
+
+#: 
+msgid "THEME CONFIGURATION"
+msgstr ""
+
+#: 
+msgid "THEME COLORSET"
+msgstr ""
+
+#: 
+msgid "THEME ICONSET"
+msgstr ""
+
+#: 
+msgid "THEME MENU"
+msgstr ""
+
+#: 
+msgid "THEME SYSTEMVIEW"
+msgstr ""
+
+#: 
+msgid "THEME GAMELISTVIEW"
+msgstr ""
+
+#: 
+msgid "THEME REGION"
+msgstr ""
+
+#: 
+msgid "THIS THEME HAS NO OPTION"
+msgstr ""
+
+#: 
+msgid "MANUAL INPUT"
+msgstr ""
+
+#: 
+msgid "AN ERROR OCCURED - DOWNLOADED"
+msgstr ""
+
+#: 
+msgid "START KODI"
+msgstr ""
+
+#: 
+msgid "Shows the current available update version."
+msgstr ""
+
+#: 
+msgid "Shows the current available update changelog."
+msgstr ""
+
+#: 
+msgid "Configure an associated controller. Your controller has to be associated / plugged before."
+msgstr ""
+
+#: 
+msgid "Choose if carousel will be animated or not during transitions"
+msgstr ""
+
+#: 
+msgid "Select the type of transition that occurs when you start a game. INSTANT will do nothing, FADE will fade to dark, and SLIDE will zoom on the game cover (or name if there is no scrape information)"
+msgstr ""
+
+#: 
+msgid "Select exisiting colorset options for this theme."
+msgstr ""
+
+#: 
+msgid "Select exisiting iconset options for this theme."
+msgstr ""
+
+#: 
+msgid "Select exisiting menu style options for this theme."
+msgstr ""
+
+#: 
+msgid "Select exisiting system view options for this theme."
+msgstr ""
+
+#: 
+msgid "Select exisiting gamelist view options for this theme."
+msgstr ""
+
+#: 
+msgid "Configure theme options if available."
+msgstr ""
+
+#: 
+msgid "Select Region of logos, pictures for system that are different for some countries. E.g. Megadrive in EU / Genesis in US"
+msgstr ""
+
+#: 
+msgid "Type the name of your SSID if it is hidden or not listed"
+msgstr ""
+
+#: 
+msgid "Select a letter and the listing will go directly on the first game starting with this letter."
+msgstr ""
+
+#: 
+msgid "Select the way the game list is sortered (alphabetically, by notation...)."
+msgstr ""
+
+#: 
+msgid "Switch between seing or not only the favorites games. To add a game in the favorite list, select the game and toggle its state using 'Y'."
+msgstr ""
+
+#: 
+msgid "Switch between seing or not the hidden games. To hide a game, edit its data and select 'Hide'."
+msgstr ""
+
+#: 
+msgid "Switch between seing folders and folder content in the listing. This is useful when a game is provided as many 'bin' files for example and you keep it a a dedicated folder (ex: roms/psx/tekken 3)."
+msgstr ""
+
+#: 
+msgid "This option display a menu which allows to change game data and many others options."
+msgstr ""
+
+#: 
+msgid "AVAILABLE UPDATE"
+msgstr ""
+
+#: 
+msgid "UPDATE CHANGELOG"
+msgstr ""
 
