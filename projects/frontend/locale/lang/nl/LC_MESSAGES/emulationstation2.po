@@ -1029,7 +1029,7 @@ msgstr "Schermtoetsenbord"
 
 #: 
 msgid "SHIFTS FOR UPPER,LOWER, AND SPECIAL"
-msgstr ""
+msgstr "Shift voor Hoofd, laag en speciaal"
 
 #: 
 msgid "SPACE"
@@ -1037,7 +1037,7 @@ msgstr "Spatie"
 
 #: 
 msgid "DELETE A CHAR"
-msgstr ""
+msgstr "WIS KARAKTER"
 
 #: 
 msgid "SHIFT"
@@ -1106,7 +1106,8 @@ msgstr "Hoog (1300Mhz)"
 #: 
 msgid "TURBO AND EXTREM OVERCLOCK PRESETS MAY CAUSE SYSTEM UNSTABILITIES, SO USE THEM AT YOUR OWN RISK.\n"
 "IF YOU CONTINUE, THE SYSTEM WILL REBOOT NOW."
-msgstr ""
+msgstr "TURBO EN EXTREME OVERCLOCK INSTELLINGEN KUNNEN JE SYSTEEM INSTABIEL MAKEN, GEBRUIK OP EIGEN RISIC\n"
+"DOORGAAN ZAL HET SYSTEEM OPNIEUW OPSTARTEN."
 
 #: 
 msgid "%i GAME HIDDEN"
@@ -1120,20 +1121,21 @@ msgstr "Start Kodi Media Speler."
 
 #: 
 msgid "Select the language for your recalbox, select an external drive to store your games and configurations, check your current version and the free space on your drive"
-msgstr ""
+msgstr "Selecteer de taal voor je recalbox, selecteer een externe opslag om je spellen en instellingen op te slaan, check huidige versie, en de vrije ruimte op je schijf"
 
 #: 
 msgid "Shows your current recalboxOS version."
-msgstr "Toon uw huidige RecalboxOS versie."
+msgstr "Toon je huidige RecalboxOS versie."
 
 #: 
 msgid "Show how much space is used on your SHARE partition, located either on the SDCARD or on an external drive. The information shows how much GB are used and how much GB your storage has overall (example 13GB/26GB)."
-msgstr ""
+msgstr "Toon hoeveel ruimte gebruikt is op je SHARE partitie, welke op de SD kaart of externe opslag bevindt. Informatie toont hoeveel GB gebruikt is, en hoeveel deze heeft."
 
 #: 
 msgid "Select an external drive to store your roms, saves, configurations etc.\n"
 "Use a FAT32 formatted drive. The system does not format the drive. On first boot, with this option enabled, recalbox will create a '/recalbox' folder with all system files inside."
-msgstr ""
+msgstr "Selecteer een externe opslag voor het opslaan van je roms, saves, configuratie etc.\n"
+"Gebruik een FAT32 formaat opslag. Het systeem formatteert de opslag niet. Bij de eerste start zal Recalbox een /recalbox map met alle systeembestanden maken."
 
 #: 
 msgid "Select your language. A reboot is needed to set this configuration active."
@@ -1141,7 +1143,7 @@ msgstr "Selecteer je taal. Opnieuw opstarten is vereist om de configuratie op te
 
 #: 
 msgid "Manage your recalbox updates. Select the update type. Activate update check."
-msgstr ""
+msgstr "Beheer Recalbox updates. Selecteer type update. Activeer update controle."
 
 #: 
 msgid "Check if an update is available, and start the update process."
@@ -1151,7 +1153,7 @@ msgstr "Controleer of er updates zijn, en start het updaten."
 msgid "Stable updates will check for updates on stable recalbox releases. Stable updates are tested and approved by the recalbox team and their testers.\n"
 "Unstable updates allows you to get the latest recalbox features by checking our unstable repository. You can test and validate with us the very last version of recalbox.\n"
 "If you choose unstable update, be so kind to report issues on the recalbox-os issue board (https://github.com/recalbox/recalbox-os/issues)"
-msgstr ""
+msgstr "Stabiele updates zal controleren voor updates op stabiele Recalbox releases. Stabiele updates zijn getest en goed bevonden door het Recalbox team en hun testers. Unstabiele updates geven je de laatste Recalbox opties door het checken van de onstabiele repository. Je kan de laatste versie testen. Als je unstabiele updates kiest, wees dan zo vriendelijk om problemen te melden op: https://github.com/recalbox/recalbox-os/issues"
 
 #: 
 msgid "Automatically check if an update is avaialble. If so, it notifies you with a message."
@@ -1159,31 +1161,32 @@ msgstr "Controleer automatisch op updates. Als er updates zijn zul je een berich
 
 #: 
 msgid "Configure games display, ratio, filters (shaders), auto save and load and retroachievement account."
-msgstr ""
+msgstr "Configureer spel display, ratio, filters (shaders), auto-save en laden, en retroarchievement account"
 
 #: 
 msgid "The game ratio is the ratio between image width and image height. Use AUTO to let the emulator choose the original game ratio, that will give you the best retrogaming experience."
-msgstr ""
+msgstr "Het spel ratio is de ratio tussen scherm breedte en hoogte. Gebruik AUTO om de emulator de originele spel ratio te laten selecteren. Dit geeft je de beste retro ervaring."
 
 #: 
 msgid "Smooth the game image. This option makes the image smoother, using bilinear filtering."
-msgstr ""
+msgstr "Verzacht spel scherm. Gebruik de optie om spelscherm te verzachten met bilinear filter"
 
 #: 
 msgid "This option allows you to rewind the game if you get killed by a monster, or if you make any other mistake. Use the HOTKEY + LEFT command within the game to rewind."
-msgstr ""
+msgstr "Deze optie laat je het spel terugspoelen als je dood bent gegaan door een monster, of een andere fout gemaakt hebt. Druk de HOTKEY + Links om terug te spoelen."
 
 #: 
 msgid "Auto save the state when you quit a game, and auto load last saved state when you start a game."
-msgstr ""
+msgstr "Auto save als je een spel stopt, en auto load laad de laatste save state als je het spel start."
 
 #: 
 msgid "Integer scaling is scaling by a factor of a whole number, such as 2x, 3x, 4x, etc. This option scales the image up to the greatest integer scale below the set resolution. So for instance, if you set your fullscreen resolution to 1920x1080 and enable integer scaling, it will only scale a 320x240 image up to 1280x960, and leave black borders all around. This is to maintain a 1:1 pixel ratio with the original source image, so that pixels are not unevenly duplicated."
-msgstr ""
+msgstr "Integer schalen is het schalen door een factor van een heel nummer. zoals 2x,3x,4x,etc. Deze optie schaalt de afbeelding op naar de grootste schaal onder de resolutie. Bijvoorbeeld, als je een fullscreen resolutie tot 1920x1080 hebt, en Integer schalen aan zet zal deze een 320x240 maximaal naar 1280x960 schalen en zwarte randen er om heen laten. Dit is om een 1:1 pixel ratio te behouden."
 
 #: 
 msgid "Shaders are like filters for the game rendering. You can select a shader set here, which is a collection of shaders selected for each system. You can also change the shader within the game with HOTKEY + L2 or HOTKEY + R2."
-msgstr ""
+msgstr "Shaders zijn filters voor de game rendering. Je kan een shader set selecteren, welke bestaat uit een collectie van shaders voor elk systeem. Deze kan je ingame aanpassen met de HOTKEY +L2 of HOTKEY +R2.\n"
+""
 
 #: 
 msgid "Enable or disable RetroAchievements in games."
@@ -1191,11 +1194,11 @@ msgstr "Zet RetroAchievements aan of uit in spellen."
 
 #: 
 msgid "Hardcore mode disables *all* savestate and rewind functions within the emulator: you will not be able to save and reload at any time. You will have to complete the game and get the achievements first time, just like on the original console. In reward for this, you will earn both the standard and the hardcore achievement, in effect earning double points! A regular game worth 400 points, is now worth 800 if you complete it on hardcore! For example: if you complete the game for 400 points, you then have the opportunity to earn another 400 on hardcore."
-msgstr ""
+msgstr "Hardcore mode zal alle savestates en terugspoel opties uitschakelen binnen de emulator. Ook zal je niet kunnen opslaan en herladen ten alle tijden. Je zal het spel de eerste keer moeten uitspelen om de archievements te krijgen, net zoals een origineel console. Als beloning win je zowel de hardcore archievement en dus dubbele punten. Een standaard spel is 400 punten waard, maar met hardcore 800 als je deze haalt. "
 
 #: 
 msgid "The website retroachievements.org proposes challenges/achievements/trophies on platforms like NES, SNES, GB, GBC, GBA, Genesis/Megadrive, TurboGrafx16/PCEngine and more! Create your account on retroachievements.org and start your quest for achievements!"
-msgstr ""
+msgstr "De website retroachievements.org laat je allerlei uitdagingen, archievements en trofeeën behalen op platforms zoals NES, SNES, GB, GBC, GBA, GENESIS/MEGADRIVE, TurboGrafx16/PCEngine, en meer. Maak je account op retroachievements.org!"
 
 #: 
 msgid "Add and configure up to 5 controllers."
@@ -1203,16 +1206,16 @@ msgstr "Voeg tot 5 controllers toe."
 
 #: 
 msgid "Pair a bluetooth controller with your recalbox. Your controller must be in pairing mode."
-msgstr ""
+msgstr "Paar een Bluetooth controller met je recalbox. Je controller moet in paar modus staan."
 
 #: 
 msgid "Forget all paired bluetooth controllers. You will have to pair your controllers again, but this option can help if you have issues to reconnect a controller, which is already paired."
-msgstr ""
+msgstr "Vergeet alle gepaarde Bluetooth controllers. Deze optie kan je gebruiken als je problemen hebt met verbinden."
 
 #: 
 msgid "Configure your EmulationStation experience. Select transition types, help prompts, screensaver behavior. You can also deactivate the onscreen keyboard if you have a real keyboard plugged into your recalbox.\n"
 "If you've added games since the last boot, you can also refresh the gamelist from this menu."
-msgstr ""
+msgstr "Configureer je EmulationStation ervaring. Selecteer transitie types,screensaver gedrag. Hier kan je ook het schermtoetsenbord uitschakelen als je een toetsenbord hebt aangesloten. Als je games hebt toegevoegd sinds de laatste opstart kan je deze hier verversen."
 
 #: 
 msgid "Start the screensaver after N minutes."
@@ -1220,23 +1223,23 @@ msgstr "Start de screensaver na N minuten."
 
 #: 
 msgid "Set the screensaver behavior. DIM will reduce the screen light, and BLACK will turn the screen black."
-msgstr ""
+msgstr "Stel de screensaver in. DIM zal het scherm dimmen, en ZWART maakt je scherm zwart."
 
 #: 
 msgid "Shows a help at the bottom of the screen which displays commands you can use."
-msgstr ""
+msgstr "Toon hulp aan onderzijde van je scherm met commando's welke je kan gebruiken."
 
 #: 
 msgid "When enabled, you can switch between systems while browsing a gamelist by pressing LEFT or RIGHT."
-msgstr ""
+msgstr "Bij ingeschakeld kan je systemen kiezen bij bekijken van spellijsten LINKS of RECHTS te drukken."
 
 #: 
 msgid "The onscreen keyboard is necessary to type text if you only have controllers plugged into your recalbox. You can disable it if you have a real keyboard connected."
-msgstr ""
+msgstr "Het schermtoetsenbord is nodig om tekst in te voeren als je enkel controllers hebt aangesloten. Deze kan je uitschakelen als je een toetsenbord hebt aangesloten."
 
 #: 
 msgid "Select the type of transition that occurs when you start a game. FADE will fade to dark, and SLIDE will zoom on the game cover (or name if there is no scrape information)"
-msgstr ""
+msgstr "Selecteer het type overgang wanneer je een spel start. Vervaag zal vervagen naar donker, en schuif zal zoomen op het spel cover(of de naam als er geen scrapeinfo is)"
 
 #: 
 msgid "Select a theme for your recalbox."
@@ -1244,7 +1247,7 @@ msgstr "Selecteer een thema voor je recalbox."
 
 #: 
 msgid "Updates the gamelists, if you added games since the last boot."
-msgstr ""
+msgstr "Update de spellijsten, als je games hebt toegevoegd."
 
 #: 
 msgid "Configure the sound options of your recalbox."
@@ -1252,11 +1255,11 @@ msgstr "Configureer de geluidsopties op je Recalbox."
 
 #: 
 msgid "Set the volume of the sound output for the frontend and the games."
-msgstr ""
+msgstr "Stel volume van het geluid van games, en systeem in."
 
 #: 
 msgid "Enable or disable the frontend music. You can add your own music as mp3, or ogg format in the 'musics' directory of your recalbox."
-msgstr ""
+msgstr "Schakel de frontend muziek in of uit. Je kan zelf je eigen muziek op mp3 of ogg formaat toevoegen in de music map van je recalbox."
 
 #: 
 msgid "Select your output device. Only HDMI and JACK are supported."
@@ -1265,11 +1268,12 @@ msgstr "Selecteer je geluids output. Enkel HDMI en AUX worden ondersteunt."
 #: 
 msgid "Configure the network options of your recalbox.\n"
 "Check your network status and IP address, set the hostname and configure the WIFI."
-msgstr ""
+msgstr "Configureer de netwerk opties van je recalbox.\n"
+"Check je netwerk status en IP adres, stel hostnaam in en configureer WIFI."
 
 #: 
 msgid "Displays CONNECTED, if you are connected, by checking if your recalbox can access the recalbox.com update server."
-msgstr ""
+msgstr "Toon VERBONDEN, als je verbonden bent, om te checken of je recalbox toegang heeft tot recalbox.com update server."
 
 #: 
 msgid "The IP address of your recalbox within your local network."
@@ -1278,7 +1282,8 @@ msgstr "Het IP adres van je recalbox binnen je lokale netwerk."
 #: 
 msgid "Enable or disable WIFI.\n"
 "If you disable WIFI, the SSID and the WIFI passwords are saved and can be used when you reactivate it"
-msgstr ""
+msgstr "Schakel WIFI in of uit.\n"
+"Als je WIFI uitschakelt wordt de SSID en wachtwoord opgeslagen."
 
 #: 
 msgid "The name of your recalbox in your local network"
@@ -1290,69 +1295,70 @@ msgstr "SSID (WiFi naam) van je netwerk."
 
 #: 
 msgid "Private key of your WIFI network."
-msgstr ""
+msgstr "Privesleutel van je WIFI netwerk."
 
 #: 
 msgid "Get informations and visual for your games. The scraper downloads metadata and visuals for your games from different servers and enhances the user experience in EmulationStation completely."
-msgstr ""
+msgstr "Krijg informatie en coverarts voor je spellen. De scraper download metadata en coverarts voor je spellen van verschillende servers en geeft je een beter ervaring in EmulationStation. "
 
 #: 
 msgid "Select a server to scrape from. The SCREENSCRAPER server is recommended and is based on www.screenscraper.fr and scrapes game data in your language, if available."
-msgstr ""
+msgstr "Selecteer een server om van te scrapen. De SHERMSCRAPER is aanbevolen, en is gebaseerd op www.screenscraper.fr en scraped info in eigen taal indien beschikbaar."
 
 #: 
 msgid "Begin the scrape process with the configuration shown below."
-msgstr ""
+msgstr "Begin scrapen met onderstaande configuratie."
 
 #: 
 msgid "Scrape and display game ratings."
-msgstr ""
+msgstr "Scrape en toon spel ratings."
 
 #: 
 msgid "Advanced settings. Please make sure you really know what you're doing, before changing any values in this menu."
-msgstr ""
+msgstr "Geavanceerde instellingen. Zorg ervoor dat je weet wat je doet voor het wijzigen van deze instellingen."
 
 #: 
 msgid "Overclock your board to increase the performance.\n"
 "Overclock settings are tested and validated by the community. Keep in mind that overclocking your board can void your warranty."
-msgstr ""
+msgstr "Overklok je bord om prestaties te verbeteren.\n"
+"Deze instellingen zijn getest en gecontroleerd door de community. Overkloken kan je garantie beperken."
 
 #: 
 msgid "Select which system to show when the recalbox frontend starts. The default value is 'favorites'."
-msgstr ""
+msgstr "Selecteer welk systeem toont als je recalbox start. De standaard is 'favorieten'."
 
 #: 
 msgid "On boot, recalbox will show the list of games of the selected system rather than the system view."
-msgstr ""
+msgstr "Tijdens starten zal recalbox de spellijst van het geselecteerde systeem tonen"
 
 #: 
 msgid "Only show games contained in the gamelist.xml file (located in your roms directories).\n"
 "This option highly speeds up boot time, but new games will not be detected."
-msgstr ""
+msgstr "Toon enkel spellen welk in de gamelist.xml staan. (Deze staan in je rom map). Deze optie versneld je opstarttijd, maar vindt geen nieuwe spellen."
 
 #: 
 msgid "This option allows you to set the selected system to fixed mode. With this option activated, the user cannot access other systems."
-msgstr ""
+msgstr "Deze optie zet het geselecteerde systeem naar fixed. Met deze optie ingeschakeld kan je geen andere systemen openen."
 
 #: 
 msgid "Always display the basic gamelist view, even if you have scraped your games."
-msgstr ""
+msgstr "Toon altijd de basis spellijst, ook bij geschraapte info."
 
 #: 
 msgid "Override global options like emulator, core, ratio and more for each available system in your recalbox."
-msgstr ""
+msgstr "Forceer globale instellingen zoals emulator, cores, ratio voor beschikbare systemen in je recalbox."
 
 #: 
 msgid "Configure boot options that make your recalbox boot straight into a system or into Kodi, lock a user to a single system, or directly show the gamelist."
-msgstr ""
+msgstr "Configureer opstartopties welke je recalbox direct in een systeem of Kodi zal starten, vastzetten naar systeem, of spellijst."
 
 #: 
 msgid "Enable or disable Kodi, customize the Kodi startup, enable the X button to start Kodi"
-msgstr ""
+msgstr "Schakel Kodi in of uit. pas de Kodi opstart aan, Start Kodi met X knop."
 
 #: 
 msgid "Enable or disable Kodi. If kodi is disabled, you won't be able to start it with the X button, or start it automatically at boot. The menu entry will be removed as well."
-msgstr ""
+msgstr "Schakel Kodi in of uit. Als Kodi uitgeschakeld is kan je deze niet starten met X, en staat deze ook niet in het menu."
 
 #: 
 msgid "Use the X button to start Kodi."
@@ -1360,11 +1366,11 @@ msgstr "Gebruik de X knop om Kodi te starten."
 
 #: 
 msgid "Automatically start into Kodi on boot."
-msgstr ""
+msgstr "Start Kodi tijdens opstarten."
 
 #: 
 msgid "Manage your recalbox security."
-msgstr ""
+msgstr "Check je recalbox beveiliging"
 
 #: 
 msgid "Change the SSH root password."
@@ -1378,34 +1384,38 @@ msgstr "Forceer recalbox beveiliging."
 msgid "Enable or disable overscan.\n"
 "Overscan can help you, if you have a black border, or if the image is bigger than your screen. Before setting the overscan, try to configure your TV to have a 1:1 pixel output.\n"
 "More overscan settings can be defined in the boot.txt file, available when you plug your SD card into your computer."
-msgstr ""
+msgstr "Schakel overscan in of uit, als je een zwarte rand hebt, of of het beeld is groter dan je scherm. Voordat je de overscan gebruikt probeer eerst je TV in te stellen om een 1:1 beeld te krijgen. \n"
+"Meer overscan instellingen vindt je in de boot.txt, beschikbaar als je je SD kaart in je PC steekt."
 
 #: 
 msgid "Show the framerate in EmulationStation and in game."
-msgstr ""
+msgstr "Toon het frameratio in EmulationStation en spel."
 
 #: 
 msgid "Enable or disable the Recalbox Manager.\n"
 "The Recalbox Manager is a web application available on http://recalbox , if you are on windows, http://recalbox.local , if you are on Linux or Mac, or directly with your recalbox IP : http://192.168.1.XX.\n"
 "You can configure many options from within the manager, and even manage games, saves, and scrapes!"
-msgstr ""
+msgstr "Schakel de Recalbox manager in of uit.\n"
+"De Recalbox Manager is een web applicatie beschikbaar op http://recalbox op Windows en voor Linux of Mac op http://recalbox.local, of direct op je IP:  http://192.168.1.XX.\n"
+"Hier kan je veel opties in de beheren, waaronder roms, saves, en scrapes!"
 
 #: 
 msgid "Enable or disable the recalbox API.\n"
 "The Recalbox API is a REST API exposing endpoints to control your recalbox via http requests."
-msgstr ""
+msgstr "Schakel recalbox API in of uit.\n"
+"De recalbox API is een REST API tonend punten om de recalbox via HTTP te bedienen."
 
 #: 
 msgid "Select which emulator to use when you start a game for this system."
-msgstr ""
+msgstr "Selecteer welke emulator te starten voor dit systeem."
 
 #: 
 msgid "Select which core to use for the selected emulator. For example, the LIBRETRO emulator has many cores to run Super Nintendo games. The default core you choose here can also be overridden in game specific settings."
-msgstr ""
+msgstr "Selecteer welke core te gebruiken voor de geselecteerde emulator.Bijv. de LIBRETRO emulator heeft meerdere cores voor SNES spellen. De standaard core kies je hier."
 
 #: 
 msgid "USE COMPOSED VISUALS"
-msgstr ""
+msgstr "COMPOSED VISUELS"
 
 #: 
 msgid "CHECK UPDATES"
@@ -1417,7 +1427,7 @@ msgstr "Update type"
 
 #: 
 msgid "INTEGER SCALE (PIXEL PERFECT)"
-msgstr ""
+msgstr "INTEGER SCHALEN "
 
 #: 
 msgid "ADVANCED SETTINGS"
@@ -1425,31 +1435,31 @@ msgstr "geavanceerde instellingen"
 
 #: 
 msgid "BOOT SETTINGS"
-msgstr ""
+msgstr "STARTOPTIE"
 
 #: 
 msgid "GAMELIST ONLY"
-msgstr ""
+msgstr "SPELLIJST"
 
 #: 
 msgid "BOOT ON SYSTEM"
-msgstr ""
+msgstr "START SYSTEEM"
 
 #: 
 msgid "BOOT ON GAMELIST"
-msgstr ""
+msgstr "START SPELLIJST"
 
 #: 
 msgid "HIDE SYSTEM VIEW"
-msgstr ""
+msgstr "VERBERG SYSTEEM"
 
 #: 
 msgid "EMULATOR ADVANCED CONFIGURATION"
-msgstr ""
+msgstr "EMULATOR GEAVANCEERDE OPTIES"
 
 #: 
 msgid "ADVANCED EMULATOR CONFIGURATION"
-msgstr ""
+msgstr "GEAVANCEERDE EMULATOR OPTIES"
 
 #: 
 msgid "HELP"
@@ -1461,5 +1471,153 @@ msgstr "Het systeem is bijgewerkt"
 
 #: 
 msgid "FORCE BASIC GAMELIST VIEW"
+msgstr "FORCEER BASIS SPELLIJST "
+
+#: 
+msgid "DOWNLOADED"
+msgstr ""
+
+#: 
+msgid "UPDATE VERSION:"
+msgstr ""
+
+#: 
+msgid "UPDATE CHANGELOG:"
+msgstr ""
+
+#: 
+msgid "MORE DETAILS"
+msgstr ""
+
+#: 
+msgid "CAROUSEL ANIMATION"
+msgstr ""
+
+#: 
+msgid "THEME CONFIGURATION"
+msgstr ""
+
+#: 
+msgid "THEME COLORSET"
+msgstr ""
+
+#: 
+msgid "THEME ICONSET"
+msgstr ""
+
+#: 
+msgid "THEME MENU"
+msgstr ""
+
+#: 
+msgid "THEME SYSTEMVIEW"
+msgstr ""
+
+#: 
+msgid "THEME GAMELISTVIEW"
+msgstr ""
+
+#: 
+msgid "THEME REGION"
+msgstr ""
+
+#: 
+msgid "THIS THEME HAS NO OPTION"
+msgstr ""
+
+#: 
+msgid "MANUAL INPUT"
+msgstr ""
+
+#: 
+msgid "AN ERROR OCCURED - DOWNLOADED"
+msgstr ""
+
+#: 
+msgid "START KODI"
+msgstr ""
+
+#: 
+msgid "Shows the current available update version."
+msgstr ""
+
+#: 
+msgid "Shows the current available update changelog."
+msgstr ""
+
+#: 
+msgid "Configure an associated controller. Your controller has to be associated / plugged before."
+msgstr ""
+
+#: 
+msgid "Choose if carousel will be animated or not during transitions"
+msgstr ""
+
+#: 
+msgid "Select the type of transition that occurs when you start a game. INSTANT will do nothing, FADE will fade to dark, and SLIDE will zoom on the game cover (or name if there is no scrape information)"
+msgstr ""
+
+#: 
+msgid "Select exisiting colorset options for this theme."
+msgstr ""
+
+#: 
+msgid "Select exisiting iconset options for this theme."
+msgstr ""
+
+#: 
+msgid "Select exisiting menu style options for this theme."
+msgstr ""
+
+#: 
+msgid "Select exisiting system view options for this theme."
+msgstr ""
+
+#: 
+msgid "Select exisiting gamelist view options for this theme."
+msgstr ""
+
+#: 
+msgid "Configure theme options if available."
+msgstr ""
+
+#: 
+msgid "Select Region of logos, pictures for system that are different for some countries. E.g. Megadrive in EU / Genesis in US"
+msgstr ""
+
+#: 
+msgid "Type the name of your SSID if it is hidden or not listed"
+msgstr ""
+
+#: 
+msgid "Select a letter and the listing will go directly on the first game starting with this letter."
+msgstr ""
+
+#: 
+msgid "Select the way the game list is sortered (alphabetically, by notation...)."
+msgstr ""
+
+#: 
+msgid "Switch between seing or not only the favorites games. To add a game in the favorite list, select the game and toggle its state using 'Y'."
+msgstr ""
+
+#: 
+msgid "Switch between seing or not the hidden games. To hide a game, edit its data and select 'Hide'."
+msgstr ""
+
+#: 
+msgid "Switch between seing folders and folder content in the listing. This is useful when a game is provided as many 'bin' files for example and you keep it a a dedicated folder (ex: roms/psx/tekken 3)."
+msgstr ""
+
+#: 
+msgid "This option display a menu which allows to change game data and many others options."
+msgstr ""
+
+#: 
+msgid "AVAILABLE UPDATE"
+msgstr ""
+
+#: 
+msgid "UPDATE CHANGELOG"
 msgstr ""
 
