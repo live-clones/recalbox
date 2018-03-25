@@ -49,30 +49,14 @@ function cyclicProgression() {
         if [ $sizeDownloaded -gt 0 ];then
             MBDownloaded=$(( sizeDownloaded / 1024 / 1024 ))
             MBTotal=$(( totalSize / 1024 / 1024 ))
-            echo -ne "\e[1A${MBDownloaded} / ${MBTotal} MB ($(( 100 * sizeDownloaded / totalSize ))%)\n"
+            echoES "DOWNLOADED: ${MBDownloaded} / ${MBTotal} MB ($(( 100 * sizeDownloaded / totalSize ))%)"
         fi
         [[ ${sizeDownloaded} -ge $1 ]] && break
         sleep 1
     done
 }
 
-# Clean files
-function clean {
-  [[ "${UPGRADE_DIR}" != "" ]] && rm -rf "${UPGRADE_DIR}"/*
-  kill -9 "${progressionPid}" > /dev/null 2>&1
-}
-
-# Clean files and exit
-function cleanBeforeExit {
-  clean
-  exit $1
-}
-
-# Echo in stderr
-function echoerr {
-  >&2 echo $@
-}
-
+source /recalbox/scripts/upgrade/recalbox-upgrade.inc.sh
 
 echoerr "------------ Will process to the recalbox upgrade from ${UPGRADE_URL} ------------"
 # Create download directory
@@ -87,7 +71,7 @@ clean
 # Check sizes from header
 size="0"
 for file in ${FILES_TO_UPGRADE}; do
-  FILE_URL="${UPGRADE_URL}/v1/upgrade/${ARCH}/${file}"
+  FILE_URL="${UPGRADE_URL}/${RECALBOX_URL}/${ARCH}/${file}"
   headers=$(curl -sfI "${FILE_URL}${ADDITIONAL_PARAMETERS}")
   if [[ "$?" != "0" ]];then
     echoerr "Unable to get headers for ${FILE_URL}"
@@ -128,7 +112,7 @@ echoerr "Will download ${size}kb of files in ${UPGRADE_DIR} where ${freespace}kb
 cyclicProgression "$sizeInBytes" &
 progressionPid=$!
 for file in ${FILES_TO_UPGRADE}; do
-  FILE_URL="${UPGRADE_URL}/v1/upgrade/${ARCH}/${file}"
+  FILE_URL="${UPGRADE_URL}/${RECALBOX_URL}/${ARCH}/${file}"
   if ! curl -fs "${FILE_URL}${ADDITIONAL_PARAMETERS}" -o "${UPGRADE_DIR}/${file}";then
     echoerr "Unable to download file ${FILE_URL}"
     cleanBeforeExit 7
@@ -138,6 +122,7 @@ done
 
 # Verify checksums
 for file in $FILES_TO_CHECK; do
+  echoES "VERIFYING: $file CHECKSUM"
   computedSum=$(sha1sum "${UPGRADE_DIR}/${file}")
   [ $? -ne 0 ] && echoerr "Unable to calculate sha1sum for ${file}" && cleanBeforeExit 8
   computedSum=$(echo $computedSum | cut -d ' ' -f 1)
@@ -152,5 +137,12 @@ for file in $FILES_TO_CHECK; do
 done
 
 kill -9 "${progressionPid}" > /dev/null 2>&1
-echoerr "All files downloaded and checked, ready for upgrade on next reboot"
+/recalbox/scripts/upgrade/recalbox-do-prereboot-upgrade.sh --upgrade-dir "$UPGRADE_DIR"
+if [ $? -ne 0 ];then
+  echoerr "Failed upgrading /boot and /lib/modules"
+  exit 6
+fi
+
+touch "${UPGRADE_DIR}/okforupgrade.go"
+echoES "OK!"
 exit 0

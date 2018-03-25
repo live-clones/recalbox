@@ -57,27 +57,13 @@ do_upgrade() {
 	done
     ) | /recalbox/scripts/shell2fb.py &
     
-    # upgrading /boot
-    EXIT_CODE=1
-    date
-    echo "Upgrading /boot"
-    if mount -o remount,rw /boot
-    then
-	if do_boot_upgrade "${BOOTTAR}"
-	then
-	    EXIT_CODE=0
-	fi
-	sync
-    fi
-    test "${EXIT_CODE}" = 1 && return 1 # don't insist if /boot failed to upgrade
-
-    date
-
+    # /boot is already upgraded
     # upgrading /root
     EXIT_CODE=1
     date
     echo "Upgrading /"
-    if mount -o remount,rw /
+    # root.tar.xz does have a /boot entry, so mount RW /boot to prevent any error
+    if mount -o remount,rw / && mount -o remount,rw /boot
     then
 	if (cd / && \
 	    cp ./etc/fstab ./etc/fstab.upgrade && \
@@ -104,13 +90,15 @@ pre_reboot_actions() {
 }
 
 # what about doing an upgrade ?
-if test -e "/recalbox/share/system/upgrade/boot.tar.xz" -a -e "/recalbox/share/system/upgrade/root.tar.xz"
+if [ -e "/recalbox/share/system/upgrade/okforupgrade.go" ]
 then
     # let's go
-    do_upgrade > /recalbox/share/system/upgrade/upgrade.out.log 2> /recalbox/share/system/upgrade/upgrade.err.log
+    do_upgrade > /recalbox/share/system/upgrade/upgrade.out.log 2> /recalbox/share/system/upgrade/upgrade.err.log && \
+      find /lib/modules/ ! -name "`uname -r`" -maxdepth 1 -mindepth 1 -exec rm -rf {} \;
+    # remove existing previous kernel modules, remember that new /lib/modules was added before reboot
     
     # remove to not apply it indefinitly, even if it fails
-    rm "/recalbox/share/system/upgrade/boot.tar.xz" "/recalbox/share/system/upgrade/root.tar.xz"
+    rm "/recalbox/share/system/upgrade/boot.tar.xz" "/recalbox/share/system/upgrade/root.tar.xz" "/recalbox/share/system/upgrade/okforupgrade.go"
     
     # Last commands before reboot
     pre_reboot_actions

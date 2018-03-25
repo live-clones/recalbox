@@ -22,11 +22,13 @@ esac
 shift
 done
 
+source /recalbox/scripts/upgrade/recalbox-upgrade.inc.sh
+
 if [[ -z ${FROM_VERSION} || -z ${UPGRADE_URL} || -z ${ARCH} ]]; then
     echo -e "Usage:\n$0 --from-version VERSION --upgrade-url https://url-to-use.com --arch [rpi1|rpi2...]" && exit 1
 fi
 
-AVAILABLE_VERSION=$(curl "${UPGRADE_URL}/v1/upgrade/${ARCH}/recalbox.version?source=recalbox")
+AVAILABLE_VERSION=$(curl -s "${UPGRADE_URL}/${RECALBOX_URL}/${ARCH}/recalbox.version?source=recalbox")
 if [[ "$?" != "0" ]];then
   echo "cannot contact ${UPGRADE_URL}"
   exit 2
