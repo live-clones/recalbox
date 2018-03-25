@@ -4,29 +4,27 @@ filename="recalbox.log"
 
 while [[ $# -gt 0 ]]
 do
-	key="$1"
-	case $key in
-		-f)
-		filename="$2"
-		shift
-		;;
-		*)
-		comment="$1"
-		;;
-	esac
+        key="$1"
+        case $key in
+                -f)
+                filename="$2"
+                shift
+                ;;
+                -e)
+                customopts="-e"
+                shift
+                ;;
+                *)
+                comment="$1"
+                ;;
+        esac
 shift
 done
 
 log="/recalbox/share/system/logs/${filename}"
 
-if ! $(df | grep -q /recalbox/share);then
-  log="/tmp/logappend-${filename}"
-fi
+[ ! -d /recalbox/share/system/logs ] && log="/tmp/logappend-${filename}"
 
-if [[ "$comment" == "-e" ]];then
-  shift
-  customopts="-e"
-fi
 if [[ -z "$comment" ]];then
 while read line
 do
