@@ -18,7 +18,7 @@ msgstr "ATCELT"
 
 #: 
 msgid "Rating"
-msgstr "Novērtējums"
+msgstr "Vērtējums"
 
 #: 
 msgid "Released"
@@ -26,7 +26,7 @@ msgstr "Izlaists"
 
 #: 
 msgid "Developer"
-msgstr "Izstrādātājs"
+msgstr "Attīstītājs"
 
 #: 
 msgid "Publisher"
@@ -42,7 +42,7 @@ msgstr "Spēlētāji"
 
 #: 
 msgid "NO GAMES FOUND - SKIP"
-msgstr "NEVARĒJU ATRAST SPĒLI - IZLAIST"
+msgstr "NEVAR ATRAST SPĒLI - IZLAIST"
 
 #: 
 msgid "RETRY"
@@ -62,7 +62,7 @@ msgstr "MEKLĒT"
 
 #: 
 msgid "SCRAPING IN PROGRESS"
-msgstr "DATU IELĀDE IR PROGRESĀ"
+msgstr "IELĀDE IR PROGRESĀ"
 
 #: 
 msgid "SYSTEM"
@@ -74,7 +74,7 @@ msgstr "Subtitri"
 
 #: 
 msgid "INPUT"
-msgstr "IEVADES IERĪCES"
+msgstr "IEVADE"
 
 #: 
 msgid "search"
@@ -126,7 +126,7 @@ msgstr "REDIĢĒT METADATUS"
 
 #: 
 msgid "SCRAPE"
-msgstr "DATU IELĀDE"
+msgstr "IELĀDE"
 
 #: 
 msgid "SAVE"
@@ -180,7 +180,7 @@ msgstr "VERSIJA"
 
 #: 
 msgid "DISK USAGE"
-msgstr "DISKA IZLIETOJUMS"
+msgstr "DISKS"
 
 #: 
 msgid "STORAGE DEVICE"
@@ -208,7 +208,7 @@ msgstr "AUGSTS (950Mhz)"
 
 #: 
 msgid "NONE (700Mhz)"
-msgstr "STANDARTA (700Mhz)"
+msgstr "PAMATA (700Mhz)"
 
 #: 
 msgid "TURBO (1050Mhz)+"
@@ -220,15 +220,15 @@ msgstr "AUGSTS (1050Mhz)"
 
 #: 
 msgid "NONE (900Mhz)"
-msgstr "STANDARTA (900Mhz)"
+msgstr "PAMATA (900Mhz)"
 
 #: 
 msgid "NONE (1200Mhz)"
-msgstr "STANDARTA (1200Mhz)"
+msgstr "PAMATA (1200Mhz)"
 
 #: 
 msgid "NONE"
-msgstr "STANDARTA"
+msgstr "PAMATA"
 
 #. NEW SETTINGS ORGANIZATION
 #: 
@@ -241,7 +241,7 @@ msgstr "AUTOMĀTISKA ATJAUNINĀŠANA"
 
 #: 
 msgid "START UPDATE"
-msgstr "STARTĒT ATJAUNINĀŠANU"
+msgstr "STARTĒT"
 
 #: 
 msgid "KODI SETTINGS"
@@ -257,7 +257,7 @@ msgstr "STARTĒT KODI PIE IELĀDES"
 
 #: 
 msgid "START KODI WITH X"
-msgstr "STARTĒT KODI AR X"
+msgstr "STARTĒT KODI AR POGU X"
 
 #: 
 msgid "SECURITY"
@@ -293,15 +293,15 @@ msgstr "PĀRTĪŠANA"
 
 #: 
 msgid "AUTO SAVE/LOAD"
-msgstr "AUTOMĀTISKA SAGLABĀŠANA UN IELĀDE"
+msgstr "AUTOMĀTISKA SAGLABĀŠANA"
 
 #: 
 msgid "SHADERS SET"
-msgstr "ŠEIDERI"
+msgstr "ĒNOTĀJS"
 
 #: 
 msgid "SCANLINES"
-msgstr "RINDPĀRLECES CAURLAIŠANA"
+msgstr "RINDPĀRLECE"
 
 #: 
 msgid "RETRO"
@@ -309,7 +309,7 @@ msgstr "RETRO"
 
 #: 
 msgid "RETROACHIEVEMENTS SETTINGS"
-msgstr "RETROACHIEVEMENTS IESTATĪJUMI"
+msgstr "RETROACHIEVEMENTS IEST."
 
 #: 
 msgid "RETROACHIEVEMENTS"
@@ -341,7 +341,7 @@ msgstr "ATJAUNINĀT SPĒĻU SARAKSTU"
 
 #: 
 msgid "CONTROLLERS SETTINGS"
-msgstr "kONTROLIERA IESTATĪJUMI"
+msgstr "KONTROLIERA IESTATĪJUMI"
 
 #: 
 msgid "UI SETTINGS"
@@ -349,7 +349,7 @@ msgstr "INTERFEISA IESTATĪJUMI"
 
 #: 
 msgid "OVERSCAN"
-msgstr "PĀRSKENĒŠANA"
+msgstr "IZVĒRSES"
 
 #: 
 msgid "SCREENSAVER AFTER"
@@ -429,11 +429,11 @@ msgstr "IP ADRESE"
 
 #: 
 msgid "HOSTNAME"
-msgstr "TĪKLA NOSAUKUMS"
+msgstr "IERĪCES VĀRDS"
 
 #: 
 msgid "ENABLE WIFI"
-msgstr "IESLĒGT WIFI"
+msgstr "IESPĒJOT WIFI"
 
 #: 
 msgid "WIFI SSID"
@@ -441,27 +441,27 @@ msgstr "WIFI SSID"
 
 #: 
 msgid "WIFI KEY"
-msgstr "WIFI ATSLĒGA"
+msgstr "WIFI PAROLE"
 
 #: 
 msgid "WIFI ENABLED"
-msgstr "WIFI IESLĒGTS"
+msgstr "WIFI IESPĒJOTS"
 
 #: 
 msgid "WIFI CONFIGURATION ERROR"
-msgstr "WI-FI KONFIGURĀCIJAS KĻŪDA"
+msgstr "WIFI KONFIGURĀCIJAS KĻŪDA"
 
 #: 
 msgid "SCRAPER"
-msgstr "DATU IELĀDE"
+msgstr "IELĀDE"
 
 #: 
 msgid "SCRAPE FROM"
-msgstr "DATU IELĀDE NO"
+msgstr "IELĀDE NO"
 
 #: 
 msgid "SCRAPE RATINGS"
-msgstr "LEJUPIELĀDĒT NOVĒRTĒJUMU"
+msgstr "IELĀDĒT VĒRTĒJUMU"
 
 #: 
 msgid "SCRAPE NOW"
@@ -507,7 +507,7 @@ msgstr "KONTROLIERA IESTATĪŠANA"
 #. Bluetooth
 #: 
 msgid "CONTROLLER PAIRED"
-msgstr "PĀRU KONTROLIERIS"
+msgstr "KONTROLIERIS PĀROTS"
 
 #: 
 msgid "UNABLE TO PAIR CONTROLLER"
@@ -531,7 +531,7 @@ msgstr "KONTROLIERA SAIKNE IR DZĒSTA"
 
 #: 
 msgid "FORGET BLUETOOTH CONTROLLERS"
-msgstr "AIZMIRST BLUETOOTH KONTROLIERI"
+msgstr "AIZMIRST BLUETOOTH"
 
 #: 
 msgid "INPUT P%i"
@@ -547,7 +547,7 @@ msgstr "ATLASĪT"
 
 #: 
 msgid "OPTIONS"
-msgstr "OPCIJA"
+msgstr "OPCIJAS"
 
 #: 
 msgid "JUMP TO LETTER"
@@ -555,7 +555,7 @@ msgstr "PĀRLĒKT UZ BURTU"
 
 #: 
 msgid "SORT GAMES BY"
-msgstr "KĀRTOT SPĒLES PĒC"
+msgstr "KĀRTOT"
 
 #. FAVORITES
 #: 
@@ -568,7 +568,7 @@ msgstr "REDIĢĒT SPĒLES METADATUS"
 
 #: 
 msgid "SCRAPE THESE GAMES"
-msgstr "LEJUPIELĀDĒT DATUS ŠAI SPĒLEI"
+msgstr "IELĀDĒT DATUS ŠAI SPĒLEI"
 
 #: 
 msgid "All Games"
@@ -585,15 +585,15 @@ msgstr "FILTRS"
 
 #: 
 msgid "SCRAPE THESE SYSTEMS"
-msgstr "DATUS IELĀDĒT ATLASĪTĀM SISTĒMĀM"
+msgstr "IELĀDĒT ATLASĪTĀM SISTĒMĀM"
 
 #: 
 msgid "SYSTEMS"
-msgstr "SISTĒMA"
+msgstr "SISTĒMAS"
 
 #: 
 msgid "USER DECIDES ON CONFLICTS"
-msgstr "LIETOTĀJS NOLEMJ PAR KONFLIKTIEM"
+msgstr "NOLEMJ PAR KONFLIKTIEM"
 
 #: 
 msgid "START"
@@ -627,7 +627,7 @@ msgstr "ATJAUNINĀŠANAS KĻŪDA, SISTĒMA TIKS RESTARTĒTA"
 
 #: 
 msgid "NO UPDATE AVAILABLE"
-msgstr "NAV PIEEJAMI ATJAUNINĀJUMI"
+msgstr "ATJAUNINĀJUMI NAV PIEEJAMI"
 
 #: 
 msgid "enter emulator"
@@ -667,7 +667,7 @@ msgstr "attēls"
 
 #: 
 msgid "enter path to image"
-msgstr "Ievadīet attēla ceļu"
+msgstr "Ievadiet attēla ceļu"
 
 #: 
 msgid "Thumbnail"
@@ -675,11 +675,11 @@ msgstr "Sīktēls"
 
 #: 
 msgid "enter path to thumbnail"
-msgstr "Ievadīet sīktēla ceļu"
+msgstr "Ievadiet sīktēla ceļu"
 
 #: 
 msgid "enter rating"
-msgstr "ievadiet novērtējumu"
+msgstr "ievadiet vērtējumu"
 
 #: 
 msgid "Release date"
@@ -691,7 +691,7 @@ msgstr "Ievadiet izlaišanas datumu"
 
 #: 
 msgid "enter game developer"
-msgstr "Ievadiet spēles izstrādātāju"
+msgstr "Ievadiet spēles attīstītāju"
 
 #: 
 msgid "enter game publisher"
@@ -707,7 +707,7 @@ msgstr "Ievadiet spēlētāju skaitu"
 
 #: 
 msgid "Favorite"
-msgstr "Iecienītie"
+msgstr "Iecienīts"
 
 #: 
 msgid "enter favorite"
@@ -747,25 +747,25 @@ msgstr "ievadiet atskaņojuma skaitu"
 
 #: 
 msgid "Last played"
-msgstr "Pēdējoreiz palaists"
+msgstr "Spēlēts"
 
 #: 
 msgid "enter last played date"
-msgstr "Ievadiet pēdējoreiz palaišanas datumu"
+msgstr "Ievadiet spēlēšanas datumu"
 
 #: 
 msgid "%i GAME AVAILABLE"
 msgid_plural "%i GAMES AVAILABLE"
-msgstr[0] "%i SPĒLE PIEEJAMA"
-msgstr[1] "%i SPĒLES PIEEJAMAS"
-msgstr[2] "%i SPĒLES PIEEJAMAS"
+msgstr[0] "%i SPĒLE"
+msgstr[1] "%i SPĒLES"
+msgstr[2] "%i SPĒLES"
 
 #: 
 msgid "%i FAVORITE"
 msgid_plural "%i FAVORITES"
-msgstr[0] "%i IECIENĪTA SPĒLE"
-msgstr[1] "%i IECIENĪTAS SPĒLES"
-msgstr[2] "%i IECĪENĪTAS SPĒLES"
+msgstr[0] "%i IECIENĪTA"
+msgstr[1] "%i IECIENĪTAS"
+msgstr[2] "%i IECĪENĪTAS"
 
 #: 
 msgid "SCROLL"
@@ -785,19 +785,19 @@ msgstr "IZVĒLNE"
 
 #: 
 msgid "FILENAME, ASCENDING"
-msgstr "DATNES NOSAUKUMS AUGOŠI"
+msgstr "NOSAUKUMS AUGOŠI"
 
 #: 
 msgid "FILENAME, DESCENDING"
-msgstr "DATNES NOSAUKUMS DILSTOŠI"
+msgstr "NOSAUKUMS DILSTOŠI"
 
 #: 
 msgid "RATING, ASCENDING"
-msgstr "NOVĒRTĒJUMS AUGOŠI"
+msgstr "VĒRTĒJUMS AUGOŠI"
 
 #: 
 msgid "RATING, DESCENDING"
-msgstr "NOVĒRTĒJUMS DILSTOŠI"
+msgstr "VĒRTĒJUMS DILSTOŠI"
 
 #: 
 msgid "TIMES PLAYED, ASCENDING"
@@ -809,11 +809,11 @@ msgstr "SPĒLĒŠANAS REIZES DILSTOŠI"
 
 #: 
 msgid "LAST PLAYED, ASCENDING"
-msgstr "PĒDĒJOREIZ SPĒLĒTS AUGOŠI"
+msgstr "SPĒLĒTS AUGOŠI"
 
 #: 
 msgid "LAST PLAYED, DESCENDING"
-msgstr "PĒDĒJOREIZ SPĒLĒTS DILSTOŠI"
+msgstr "SPĒLĒTS DILSTOŠI"
 
 #: 
 msgid "WORKING..."
@@ -834,30 +834,30 @@ msgstr "Tagad"
 #: 
 msgid "%i sec ago"
 msgid_plural "%i secs ago"
-msgstr[0] "%i sekundi atpakaļ"
-msgstr[1] "%i sekundes atpakaļ"
-msgstr[2] "%i sekundes atpakaļ"
+msgstr[0] "%i sekundes"
+msgstr[1] "%i sekundēm"
+msgstr[2] "%i sekundēm"
 
 #: 
 msgid "%i min ago"
 msgid_plural "%i mins ago"
-msgstr[0] "%i minūti atpakaļ"
-msgstr[1] "%i minūtes atpakaļ"
-msgstr[2] "%i minūtes atpakaļ"
+msgstr[0] "%i minūtes"
+msgstr[1] "%i minūtēm"
+msgstr[2] "%i minūtēm"
 
 #: 
 msgid "%i hour ago"
 msgid_plural "%i hours ago"
-msgstr[0] "%i stundu atpakaļ"
-msgstr[1] "%i stundas atpakaļ"
-msgstr[2] "%i stundas atpakaļ"
+msgstr[0] "%i stundas"
+msgstr[1] "%i stundām"
+msgstr[2] "%i stundām"
 
 #: 
 msgid "%i day ago"
 msgid_plural "%i days ago"
-msgstr[0] "%i dienu atpakaļ"
-msgstr[1] "%i dienas atpakaļ"
-msgstr[2] "%i dienas atpakaļ"
+msgstr[0] "%i dienas"
+msgstr[1] "%i dienām"
+msgstr[2] "%i dienām"
 
 #: 
 msgid "unknown"
@@ -865,18 +865,18 @@ msgstr "Nav zināms"
 
 #: 
 msgid "SELECT ALL"
-msgstr "ATLASĪT VISU"
+msgstr "VISUS"
 
 #: 
 msgid "SELECT NONE"
-msgstr "ATLASĪT NEVIENU"
+msgstr "NEVIENU"
 
 #: 
 msgid "%i SELECTED"
 msgid_plural "%i SELECTED"
-msgstr[0] "%i SPĒLE ATLASĪTA"
-msgstr[1] "%i SPĒLES ATLASĪTAS"
-msgstr[2] "%i SPĒLES ATLASĪTAS"
+msgstr[0] "%i ATLASĪTA"
+msgstr[1] "%i ATLASĪTAS"
+msgstr[2] "%i ATLASĪTAS"
 
 #: 
 msgid "UP"
@@ -999,7 +999,7 @@ msgstr "VAI VĒLATIES STARTĒT KODI MEDIA CENTRU?"
 
 #: 
 msgid "LOADING..."
-msgstr "LEJUPIELĀDE..."
+msgstr "IELĀDE..."
 
 #: 
 msgid "PLEASE WAIT..."
@@ -1061,11 +1061,11 @@ msgstr "AKCEPTĒT IZMAIŅAS"
 
 #: 
 msgid "FILENAME"
-msgstr "DATNES NOSAUKUMS"
+msgstr "NOSAUKUMS"
 
 #: 
 msgid "RATING"
-msgstr "NOVĒRTĒJUMS"
+msgstr "VĒRTĒJUMS"
 
 #: 
 msgid "TIMES PLAYED"
@@ -1073,7 +1073,7 @@ msgstr "LAIKS SPĒLĒ"
 
 #: 
 msgid "LAST PLAYED"
-msgstr "PĒDĒJOREIZ SPĒLĒTS"
+msgstr "SPĒLĒTS"
 
 #: 
 msgid "NUMBER OF PLAYERS"
@@ -1081,7 +1081,7 @@ msgstr "SPĒLĒTĀJU SKAITS"
 
 #: 
 msgid "DEVELOPER"
-msgstr "IZSTRĀDĀTĀJS"
+msgstr "ATTĪSTĪTĀJS"
 
 #: 
 msgid "GENRE"
@@ -1126,7 +1126,7 @@ msgstr "Izvēlieties jūsu valodu, izvēlieties ārējo disku datu un konfigurā
 
 #: 
 msgid "Shows your current recalboxOS version."
-msgstr "Parāda pašreizējo recalboxOS versija."
+msgstr "Parāda pašreizējo recalbox versija."
 
 #: 
 msgid "Show how much space is used on your SHARE partition, located either on the SDCARD or on an external drive. The information shows how much GB are used and how much GB your storage has overall (example 13GB/26GB)."
@@ -1144,7 +1144,7 @@ msgstr "Izvēlieties valodu. Nepieciešama pārstartēšana, lai iestatītu konf
 
 #: 
 msgid "Manage your recalbox updates. Select the update type. Activate update check."
-msgstr "Pārvaldīt recalboxOS atjauninājumus. Izvēlaties atjauninājuma tipu. Aktivizēt atjauninājumu pārbaudi."
+msgstr "Pārvaldīt recalbox atjauninājumus. Izvēlaties atjauninājuma tipu. Aktivizēt atjauninājumu pārbaudi."
 
 #: 
 msgid "Check if an update is available, and start the update process."
@@ -1154,7 +1154,9 @@ msgstr "Pārbaudīt vai ir pieejams atjauninājums un startēt atjaunināšanas 
 msgid "Stable updates will check for updates on stable recalbox releases. Stable updates are tested and approved by the recalbox team and their testers.\n"
 "Unstable updates allows you to get the latest recalbox features by checking our unstable repository. You can test and validate with us the very last version of recalbox.\n"
 "If you choose unstable update, be so kind to report issues on the recalbox-os issue board (https://github.com/recalbox/recalbox-os/issues)"
-msgstr ""
+msgstr "\"Stable\" atjauninājumi meklēs atjauninājumus par stabilām recalbox relīzēm. Stabilie atjauninājumi tiek pārbaudīti un pēc tam recalbox komandas un testētāju apstiprināti.\n"
+"\"Unstable\" atjauninājumi ļauj saņemtu jaunākās recalbox funkcijas, pārbaudot mūsu nestabilo krātuvi. Jūs varat testēt un apstiprināt ar mums jaunāko recalbox versiju.\n"
+"Ja izvēlaties nestabilo atjauninājumu, esiet tik laipns ziņojiet par problēmām recalbox jautājumu padomē (https://github.com/recalbox/recalbox-os/issues)."
 
 #: 
 msgid "Automatically check if an update is avaialble. If so, it notifies you with a message."
@@ -1162,15 +1164,15 @@ msgstr "Automātiski pārbaudīs vai ir pieejams atjauninājums, ja ir paziņos 
 
 #: 
 msgid "Configure games display, ratio, filters (shaders), auto save and load and retroachievement account."
-msgstr ""
+msgstr "Konfigurēt spēles displeju, attiecības, filtrus (ēnotājus), automātiski saglabāšanu, ielādi un retroachievement kontu."
 
 #: 
 msgid "The game ratio is the ratio between image width and image height. Use AUTO to let the emulator choose the original game ratio, that will give you the best retrogaming experience."
-msgstr ""
+msgstr "Spēļu attiecība ir attiecība starp attēla platumu un augstumu. Izmantojiet AUTO, lai ļautu emulatoram izvēlēties oriģinālo spēļu attiecību."
 
 #: 
 msgid "Smooth the game image. This option makes the image smoother, using bilinear filtering."
-msgstr ""
+msgstr "Izlīdzināt spēles attēlu. Šī iespēja padara attēlu gludāka, izmantojot bilineāro filtrēšanu."
 
 #: 
 msgid "This option allows you to rewind the game if you get killed by a monster, or if you make any other mistake. Use the HOTKEY + LEFT command within the game to rewind."
@@ -1178,15 +1180,15 @@ msgstr "Šī opcija ļauj attīt spēli, ja tiki nogalināts vai veicāt kādu c
 
 #: 
 msgid "Auto save the state when you quit a game, and auto load last saved state when you start a game."
-msgstr ""
+msgstr "Automātiski saglabāt, kad izejat no spēles un automātiski ielādē pēdējo saglabāto stāvokli, kad jūs uzsākat spēli."
 
 #: 
 msgid "Integer scaling is scaling by a factor of a whole number, such as 2x, 3x, 4x, etc. This option scales the image up to the greatest integer scale below the set resolution. So for instance, if you set your fullscreen resolution to 1920x1080 and enable integer scaling, it will only scale a 320x240 image up to 1280x960, and leave black borders all around. This is to maintain a 1:1 pixel ratio with the original source image, so that pixels are not unevenly duplicated."
-msgstr ""
+msgstr "Veselu skaitļu mērogošana ir mērogošana ar koeficientu piemēram 2 x, 3 x, 4 x u.c. Šī opcija maina attēlu līdz skalas lielākajam skaitlim zem iestatītās izšķirtspējas. Tā, piemēram, ja iestatāt pilnekrāna izšķirtspēju līdz 1920x1080 un iespējojat veselo skaitļu mērogošana, tiek nodrošināta tikai skala no 320x240 līdz 1280x960 un tiek atstāta melna robeža visapkārt, lai uzturētu 1:1 pikseļa attiecības ar oriģinālo avota attēlu, lai pikseļa dublikāti nav nevienādi."
 
 #: 
 msgid "Shaders are like filters for the game rendering. You can select a shader set here, which is a collection of shaders selected for each system. You can also change the shader within the game with HOTKEY + L2 or HOTKEY + R2."
-msgstr ""
+msgstr "Ēnotājs ir filtrs, priekš spēles renderēšanas. Jūs varat iestatīt šeit vai katrai sistēmai atsevišķi. Varat arī mainīt spēlē ar KARSTO TAUSTIŅU + L2 vai KARSTO TAUSTIŅU + R2."
 
 #: 
 msgid "Enable or disable RetroAchievements in games."
@@ -1194,11 +1196,11 @@ msgstr "Iespējot vai atspējot RetroAchievements spēlē."
 
 #: 
 msgid "Hardcore mode disables *all* savestate and rewind functions within the emulator: you will not be able to save and reload at any time. You will have to complete the game and get the achievements first time, just like on the original console. In reward for this, you will earn both the standard and the hardcore achievement, in effect earning double points! A regular game worth 400 points, is now worth 800 if you complete it on hardcore! For example: if you complete the game for 400 points, you then have the opportunity to earn another 400 on hardcore."
-msgstr ""
+msgstr "Brutālais režīms atspējo visas papildus funkcijas emulatoram. Jūs nevarēsit saglabāt un atjaunot spēli jebkurā laikā. Jums vajadzēs pabeigt spēli ar tās sasniegumiem ar pirmo reizi, tāpat kā spēlētu oriģinālā konsolē. Kā atlīdzību par to varēs nopelnīt, gan standarta, gan lielajiem sasniegumiem, faktiskā pelņa dubulti punkti. Paraksti spēlē 400 punktus vērta, tagad tā ir 800 vērta, ja jūs to papildināsiet par tipiskiem."
 
 #: 
 msgid "The website retroachievements.org proposes challenges/achievements/trophies on platforms like NES, SNES, GB, GBC, GBA, Genesis/Megadrive, TurboGrafx16/PCEngine and more! Create your account on retroachievements.org and start your quest for achievements!"
-msgstr ""
+msgstr "Interneta vietne retroachievements.org piedāvā izaicinājumus, sasniegumus, trofejas platformās, kā NES, SNES, GB, GBC, GBA, Genesis/Megadrive, TurboGrafx16/PCEngine un vairāk! Izveidojiet savu kontu retroachievements.org un sāciet meklējumus sasniegumiem!"
 
 #: 
 msgid "Add and configure up to 5 controllers."
@@ -1206,16 +1208,16 @@ msgstr "Pievienot un konfigurēt līdz 5 kontrolieriem."
 
 #: 
 msgid "Pair a bluetooth controller with your recalbox. Your controller must be in pairing mode."
-msgstr ""
+msgstr "Pārot bluetooth kontrolieri ar jūsu iekārtu. Jūsu kontrolieris ir  pāra režīmā."
 
 #: 
 msgid "Forget all paired bluetooth controllers. You will have to pair your controllers again, but this option can help if you have issues to reconnect a controller, which is already paired."
-msgstr ""
+msgstr "Aizmirst pārī savienotās Bluetooth kontrolierus. Jums būs jāliek atkārtoti pāri kontrolieri, bet šo opciju var palīdzēt, ja ir problēmas ar vadības savienojumu."
 
 #: 
 msgid "Configure your EmulationStation experience. Select transition types, help prompts, screensaver behavior. You can also deactivate the onscreen keyboard if you have a real keyboard plugged into your recalbox.\n"
 "If you've added games since the last boot, you can also refresh the gamelist from this menu."
-msgstr ""
+msgstr "Konfigurēt EmulationStation iestatījumus. Atlasiet pārejas tipu, palīdzību, ekrānsaudzētāja darbību. Varat arī deaktivizēt ekrāna tastatūru, ja jums ir reāla tastatūra iesprausta iekārtā. Ja pievienojāt spēles kopš pēdējās sāknēšanas, nepieciešams atsvaidzināt spēļu sarakstu šajā izvēlnē."
 
 #: 
 msgid "Start the screensaver after N minutes."
@@ -1223,23 +1225,23 @@ msgstr "Startēt ekrānsaudzētāju pēc N minūtēm."
 
 #: 
 msgid "Set the screensaver behavior. DIM will reduce the screen light, and BLACK will turn the screen black."
-msgstr ""
+msgstr "Iestatīt ekrānsaudzētāja darbību. DIM samazinās ekrāna gaismu, bet režīms MELNS izslēdz ekrāna gaismu."
 
 #: 
 msgid "Shows a help at the bottom of the screen which displays commands you can use."
-msgstr ""
+msgstr "Parādīt palīdzības ekrānu apakšā, kad izmantojiet kādu komandu."
 
 #: 
 msgid "When enabled, you can switch between systems while browsing a gamelist by pressing LEFT or RIGHT."
-msgstr ""
+msgstr "Ja ir iespējota, varat pārslēgties starp sistēmām, nospiežot KREISO vai LABO taustiņu."
 
 #: 
 msgid "The onscreen keyboard is necessary to type text if you only have controllers plugged into your recalbox. You can disable it if you have a real keyboard connected."
-msgstr ""
+msgstr "Ekrāna tastatūra ir nepieciešama lai rakstītu tekstu, ja jums ir tikai kontrolieris. Varat atspējot, ja jums ir īsta tastatūra pievienota iekārtai."
 
 #: 
 msgid "Select the type of transition that occurs when you start a game. FADE will fade to dark, and SLIDE will zoom on the game cover (or name if there is no scrape information)"
-msgstr ""
+msgstr "Atlasiet pārejas tipu, kas notiek, kad jūs uzsākat spēli. \"FADE\" izbalēs līdz tumsai vai   \"SLIDE\" tālummaiņa par spēļu vāciņu vai vārdu, ja nav ielādēta informācija"
 
 #: 
 msgid "Select a theme for your recalbox."
@@ -1268,11 +1270,12 @@ msgstr "Izvēlieties izvades ierīci. Tiek atbalstīti tikai HDMI un JACK."
 #: 
 msgid "Configure the network options of your recalbox.\n"
 "Check your network status and IP address, set the hostname and configure the WIFI."
-msgstr ""
+msgstr "Konfigurē tīkla opcijas, jūsu iekārtai.\n"
+"Pārbaudiet tīkla statusu un IP adresi, iestatiet resursdatora nosaukumu un Wifi konfigurāciju."
 
 #: 
 msgid "Displays CONNECTED, if you are connected, by checking if your recalbox can access the recalbox.com update server."
-msgstr ""
+msgstr "Parāda pievienots, ja ir izveidots savienojums, pārbaudiet vai jūsu iekārta var piekļūt recalbox.com atjauninājumu serverim."
 
 #: 
 msgid "The IP address of your recalbox within your local network."
@@ -1298,15 +1301,15 @@ msgstr "Privātā atslēga jūsu WIFI tīklam."
 
 #: 
 msgid "Get informations and visual for your games. The scraper downloads metadata and visuals for your games from different servers and enhances the user experience in EmulationStation completely."
-msgstr ""
+msgstr "Iegūstiet informāciju un vizuālo attēlu jūsu spēlēm. Ielādēt metadatus un vizuālo informāciju jūsu spēlēm no dažādiem serveriem un uzlabo lietotāja pieredzi EmulationStation pilnībā."
 
 #: 
 msgid "Select a server to scrape from. The SCREENSCRAPER server is recommended and is based on www.screenscraper.fr and scrapes game data in your language, if available."
-msgstr ""
+msgstr "Izvēlieties serveri ielādei. Ieteicams SCREENSCRAPER serveris, kas atrodas www.screenscraper.fr un ielādējiet spēļu datus, ja tas ir pieejams jūsu valodā."
 
 #: 
 msgid "Begin the scrape process with the configuration shown below."
-msgstr ""
+msgstr "Sākt ielādes procesu ar konfigurāciju, kā parādīts zemāk."
 
 #: 
 msgid "Scrape and display game ratings."
@@ -1319,36 +1322,38 @@ msgstr "Papildus iestatījumi. Lūdzu, pārliecinieties, vai Tu patiešām zini,
 #: 
 msgid "Overclock your board to increase the performance.\n"
 "Overclock settings are tested and validated by the community. Keep in mind that overclocking your board can void your warranty."
-msgstr ""
+msgstr "Uzdzīt iekārtu, lai palielinātu veiktspēju.\n"
+"Uzdzīšanas iestatījumi ir pārbaudīti un apstiprināti kopienā, bet paturiet prātā, ka uzdzīšana var anulēt garantiju."
 
 #: 
 msgid "Select which system to show when the recalbox frontend starts. The default value is 'favorites'."
-msgstr ""
+msgstr "Atlasīt, kuru sistēmu parādīt, kad recalbox sāknējas. Noklusētā vērtība ir 'iECIENĪTIE'."
 
 #: 
 msgid "On boot, recalbox will show the list of games of the selected system rather than the system view."
-msgstr ""
+msgstr "Sāknējot recalbox parādīs spēļu sarakstu tikai izvēlētai sistēmai, nevis sistēmas skatu."
 
 #: 
 msgid "Only show games contained in the gamelist.xml file (located in your roms directories).\n"
 "This option highly speeds up boot time, but new games will not be detected."
-msgstr ""
+msgstr "Rādīt tikai spēles, kas ir gamelist.xml datnē (kas atrodas roms mapē).\n"
+"Šī opcija ļoti paātrina sāknēšanas laiku, taču jaunās spēles netiks atrastas."
 
 #: 
 msgid "This option allows you to set the selected system to fixed mode. With this option activated, the user cannot access other systems."
-msgstr ""
+msgstr "Šī opcija ļauj iestatīt atlasīto sistēmu fiksētā režīmā. Ja šī iespēja ir aktivizēta, lietotājs nevar piekļūt citām sistēmām."
 
 #: 
 msgid "Always display the basic gamelist view, even if you have scraped your games."
-msgstr ""
+msgstr "Vienmēr rādīt pamata spēļu sarakstu, ja ielādējiet datus."
 
 #: 
 msgid "Override global options like emulator, core, ratio and more for each available system in your recalbox."
-msgstr ""
+msgstr "Ignorēt globālās opcijas, kā emulators, kodoli, attiecības u.c. katrai pieejamai recalbox sistēmai."
 
 #: 
 msgid "Configure boot options that make your recalbox boot straight into a system or into Kodi, lock a user to a single system, or directly show the gamelist."
-msgstr ""
+msgstr "Konfigurēt sāknēšanas opcijas, sāknējiet tieši sistēmā vai KODI, bloķēt lietotāju vienai spēļu sistēmai vai tieši parādīt spēļu sarakstu."
 
 #: 
 msgid "Enable or disable Kodi, customize the Kodi startup, enable the X button to start Kodi"
@@ -1368,7 +1373,7 @@ msgstr "Automātiski startēt KODI pie sāknēšanas."
 
 #: 
 msgid "Manage your recalbox security."
-msgstr "Pārvaldīt recalboxOS drošību."
+msgstr "Pārvaldīt recalbox drošību."
 
 #: 
 msgid "Change the SSH root password."
@@ -1376,13 +1381,15 @@ msgstr "Mainīt SSH root paroli."
 
 #: 
 msgid "Enforce recalbox security."
-msgstr "ieviest recalboxOS drošību."
+msgstr "ieviest recalbox drošību."
 
 #: 
 msgid "Enable or disable overscan.\n"
 "Overscan can help you, if you have a black border, or if the image is bigger than your screen. Before setting the overscan, try to configure your TV to have a 1:1 pixel output.\n"
 "More overscan settings can be defined in the boot.txt file, available when you plug your SD card into your computer."
-msgstr ""
+msgstr "Iespējot vai atspējot izvērses.\n"
+"Izvērses var jums palīdzēt, ja jums ir melna apmale, vai ja attēls ir lielāks nekā jūsu ekrāns. Pirms iestatāt izvērses, mēģiniet konfigurēt TV ar 1:1 pikseļu izvadi.\n"
+"Vairākas izvērses iestatījumus var definēt boot.txt datnē, kad jūs pievienojiet SD karti datorā."
 
 #: 
 msgid "Show the framerate in EmulationStation and in game."
@@ -1416,15 +1423,15 @@ msgstr "IZMANTOT VIZUĀLOS EFEKTUS"
 
 #: 
 msgid "CHECK UPDATES"
-msgstr "PĀRBAUDĪT ATJAUNINĀJUMUS"
+msgstr "PĀRBAUDĪT PIE SĀKNĒŠANAS"
 
 #: 
 msgid "UPDATE TYPE"
-msgstr "ATJAUNINĀJUMA TIPS"
+msgstr "ATJAUNINĀT"
 
 #: 
 msgid "INTEGER SCALE (PIXEL PERFECT)"
-msgstr "INTEGER SCALE (PERFEKTI PIKSEĻI)"
+msgstr "MĒROGOŠANA"
 
 #: 
 msgid "ADVANCED SETTINGS"
@@ -1440,11 +1447,11 @@ msgstr "TIKAI SPĒĻU SARAKSTS"
 
 #: 
 msgid "BOOT ON SYSTEM"
-msgstr "SĀKNĒŠANA UZ SISTĒMU"
+msgstr "SĀKNĒŠANA UZ"
 
 #: 
 msgid "BOOT ON GAMELIST"
-msgstr "SĀKNĒŠANA UZ SPĒĻU SARAKSTU"
+msgstr "SĀKNĒŠANA UZ SARAKSTU"
 
 #: 
 msgid "HIDE SYSTEM VIEW"
@@ -1452,11 +1459,11 @@ msgstr "SLĒPT SISTĒMAS SKATU"
 
 #: 
 msgid "EMULATOR ADVANCED CONFIGURATION"
-msgstr "EMULATORA PAPILDUS KONFIGURĀCIJA"
+msgstr "EMULATORU KONFIGURĀCIJA"
 
 #: 
 msgid "ADVANCED EMULATOR CONFIGURATION"
-msgstr "EMULATORA PAPILDUS KONFIGURĀCIJA"
+msgstr "EMULATORU KONFIGURĀCIJA"
 
 #: 
 msgid "HELP"
@@ -1468,5 +1475,153 @@ msgstr "SISTĒMA IR AKTUĀLA"
 
 #: 
 msgid "FORCE BASIC GAMELIST VIEW"
-msgstr "SPĒKĀ PAMATA SPĒĻU SARAKSTA SKATS"
+msgstr "PAMATA SARAKSTA SKATS"
+
+#: 
+msgid "DOWNLOADED"
+msgstr ""
+
+#: 
+msgid "UPDATE VERSION:"
+msgstr ""
+
+#: 
+msgid "UPDATE CHANGELOG:"
+msgstr ""
+
+#: 
+msgid "MORE DETAILS"
+msgstr ""
+
+#: 
+msgid "CAROUSEL ANIMATION"
+msgstr ""
+
+#: 
+msgid "THEME CONFIGURATION"
+msgstr ""
+
+#: 
+msgid "THEME COLORSET"
+msgstr ""
+
+#: 
+msgid "THEME ICONSET"
+msgstr ""
+
+#: 
+msgid "THEME MENU"
+msgstr ""
+
+#: 
+msgid "THEME SYSTEMVIEW"
+msgstr ""
+
+#: 
+msgid "THEME GAMELISTVIEW"
+msgstr ""
+
+#: 
+msgid "THEME REGION"
+msgstr ""
+
+#: 
+msgid "THIS THEME HAS NO OPTION"
+msgstr ""
+
+#: 
+msgid "MANUAL INPUT"
+msgstr ""
+
+#: 
+msgid "AN ERROR OCCURED - DOWNLOADED"
+msgstr ""
+
+#: 
+msgid "START KODI"
+msgstr ""
+
+#: 
+msgid "Shows the current available update version."
+msgstr ""
+
+#: 
+msgid "Shows the current available update changelog."
+msgstr ""
+
+#: 
+msgid "Configure an associated controller. Your controller has to be associated / plugged before."
+msgstr ""
+
+#: 
+msgid "Choose if carousel will be animated or not during transitions"
+msgstr ""
+
+#: 
+msgid "Select the type of transition that occurs when you start a game. INSTANT will do nothing, FADE will fade to dark, and SLIDE will zoom on the game cover (or name if there is no scrape information)"
+msgstr ""
+
+#: 
+msgid "Select exisiting colorset options for this theme."
+msgstr ""
+
+#: 
+msgid "Select exisiting iconset options for this theme."
+msgstr ""
+
+#: 
+msgid "Select exisiting menu style options for this theme."
+msgstr ""
+
+#: 
+msgid "Select exisiting system view options for this theme."
+msgstr ""
+
+#: 
+msgid "Select exisiting gamelist view options for this theme."
+msgstr ""
+
+#: 
+msgid "Configure theme options if available."
+msgstr ""
+
+#: 
+msgid "Select Region of logos, pictures for system that are different for some countries. E.g. Megadrive in EU / Genesis in US"
+msgstr ""
+
+#: 
+msgid "Type the name of your SSID if it is hidden or not listed"
+msgstr ""
+
+#: 
+msgid "Select a letter and the listing will go directly on the first game starting with this letter."
+msgstr ""
+
+#: 
+msgid "Select the way the game list is sortered (alphabetically, by notation...)."
+msgstr ""
+
+#: 
+msgid "Switch between seing or not only the favorites games. To add a game in the favorite list, select the game and toggle its state using 'Y'."
+msgstr ""
+
+#: 
+msgid "Switch between seing or not the hidden games. To hide a game, edit its data and select 'Hide'."
+msgstr ""
+
+#: 
+msgid "Switch between seing folders and folder content in the listing. This is useful when a game is provided as many 'bin' files for example and you keep it a a dedicated folder (ex: roms/psx/tekken 3)."
+msgstr ""
+
+#: 
+msgid "This option display a menu which allows to change game data and many others options."
+msgstr ""
+
+#: 
+msgid "AVAILABLE UPDATE"
+msgstr ""
+
+#: 
+msgid "UPDATE CHANGELOG"
+msgstr ""
 
