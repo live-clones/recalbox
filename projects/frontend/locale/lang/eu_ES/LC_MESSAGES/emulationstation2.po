@@ -1082,30 +1082,31 @@ msgstr "ERAKUTSI EZKUTUKOA"
 
 #: 
 msgid "EXTREM (1400Mhz)"
-msgstr ""
+msgstr "MUTURREKOA (1400Mhz)"
 
 #: 
 msgid "TURBO (1350Mhz)"
-msgstr ""
+msgstr "TURBOA (1350Mhz)"
 
 #: 
 msgid "HIGH (1300Mhz)"
-msgstr ""
+msgstr "ALTUA (1300Mhz)\n"
+""
 
 #: 
 msgid "TURBO AND EXTREM OVERCLOCK PRESETS MAY CAUSE SYSTEM UNSTABILITIES, SO USE THEM AT YOUR OWN RISK.\n"
 "IF YOU CONTINUE, THE SYSTEM WILL REBOOT NOW."
-msgstr ""
+msgstr "TURBO ETA MUTURREKO OVERCLOCK EZARPENEK SISTEMA EZEGONKORTU DEZAKETE, BERAZ ERABILI ZURE ARDURAPEAN. AURRERA JARRAITZEN BADUZU, SISTEMA BERRABIARAZIKO DA ORAIN."
 
 #: 
 msgid "%i GAME HIDDEN"
 msgid_plural "%i GAMES HIDDEN"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "JOKO %i EZKUTATUTA"
+msgstr[1] "%i JOKO EZKUTATUTA"
 
 #: 
 msgid "Start kodi media player."
-msgstr ""
+msgstr "Hasi Kodi media erreproduzitzailea."
 
 #: 
 msgid "Select the language for your recalbox, select an external drive to store your games and configurations, check your current version and the free space on your drive"
@@ -1113,7 +1114,7 @@ msgstr ""
 
 #: 
 msgid "Shows your current recalboxOS version."
-msgstr ""
+msgstr "Erakutsi momentuko zure recalboxOS bertsioa."
 
 #: 
 msgid "Show how much space is used on your SHARE partition, located either on the SDCARD or on an external drive. The information shows how much GB are used and how much GB your storage has overall (example 13GB/26GB)."
@@ -1126,15 +1127,15 @@ msgstr ""
 
 #: 
 msgid "Select your language. A reboot is needed to set this configuration active."
-msgstr ""
+msgstr "Aukeratu zure hizkuntza. Berrabiaraztea beharrezkoa da konfigurazio hau ezartzeko."
 
 #: 
 msgid "Manage your recalbox updates. Select the update type. Activate update check."
-msgstr ""
+msgstr "Kudeatu zure recalbox eguneraketak. Aukeratu eguneraketa mota. Aktibatu eguneraketa egiaztatzea."
 
 #: 
 msgid "Check if an update is available, and start the update process."
-msgstr ""
+msgstr "Egiaztatu eguneraketarik badagoen, eta hasi eguneraketa prozesua."
 
 #: 
 msgid "Stable updates will check for updates on stable recalbox releases. Stable updates are tested and approved by the recalbox team and their testers.\n"
@@ -1144,11 +1145,11 @@ msgstr ""
 
 #: 
 msgid "Automatically check if an update is avaialble. If so, it notifies you with a message."
-msgstr ""
+msgstr "Automatikoki egiaztatu eguneraketarik badagoen. Hala bada, mezu batez jakinaraziko dizu."
 
 #: 
 msgid "Configure games display, ratio, filters (shaders), auto save and load and retroachievement account."
-msgstr ""
+msgstr "Konfiguratu joko bista, ratioa, filtroak (shaderrak), auto gorde eta kargatu eta retrolorpen kontua."
 
 #: 
 msgid "The game ratio is the ratio between image width and image height. Use AUTO to let the emulator choose the original game ratio, that will give you the best retrogaming experience."
@@ -1164,7 +1165,7 @@ msgstr ""
 
 #: 
 msgid "Auto save the state when you quit a game, and auto load last saved state when you start a game."
-msgstr ""
+msgstr "Auto gorde egoera jokotik irtetean eta auto kargatu azkena gordetako egoera jokoa hasten duzunean."
 
 #: 
 msgid "Integer scaling is scaling by a factor of a whole number, such as 2x, 3x, 4x, etc. This option scales the image up to the greatest integer scale below the set resolution. So for instance, if you set your fullscreen resolution to 1920x1080 and enable integer scaling, it will only scale a 320x240 image up to 1280x960, and leave black borders all around. This is to maintain a 1:1 pixel ratio with the original source image, so that pixels are not unevenly duplicated."
@@ -1176,7 +1177,7 @@ msgstr ""
 
 #: 
 msgid "Enable or disable RetroAchievements in games."
-msgstr ""
+msgstr "Gaitu edo ezgaitu RetroLorpenak jokoetan."
 
 #: 
 msgid "Hardcore mode disables *all* savestate and rewind functions within the emulator: you will not be able to save and reload at any time. You will have to complete the game and get the achievements first time, just like on the original console. In reward for this, you will earn both the standard and the hardcore achievement, in effect earning double points! A regular game worth 400 points, is now worth 800 if you complete it on hardcore! For example: if you complete the game for 400 points, you then have the opportunity to earn another 400 on hardcore."
@@ -1188,15 +1189,15 @@ msgstr ""
 
 #: 
 msgid "Add and configure up to 5 controllers."
-msgstr ""
+msgstr "Gehitu eta konfiguratu 5 aginte arte."
 
 #: 
 msgid "Pair a bluetooth controller with your recalbox. Your controller must be in pairing mode."
-msgstr ""
+msgstr "Parekatu zure bluetooth agintea zure recalboxarekin. Zure aginteak parekatze moduan egon behar du."
 
 #: 
 msgid "Forget all paired bluetooth controllers. You will have to pair your controllers again, but this option can help if you have issues to reconnect a controller, which is already paired."
-msgstr ""
+msgstr "Ahaztu parekatutako bluetooth aginteak. Zure agintea berriz parekatu beharko duzu, baina aukera honek lehendik parekatutako agintea birkonetatzeko arazoak badituzu lagunduko dizu."
 
 #: 
 msgid "Configure your EmulationStation experience. Select transition types, help prompts, screensaver behavior. You can also deactivate the onscreen keyboard if you have a real keyboard plugged into your recalbox.\n"
@@ -1450,5 +1451,153 @@ msgstr ""
 
 #: 
 msgid "FORCE BASIC GAMELIST VIEW"
+msgstr ""
+
+#: 
+msgid "DOWNLOADED"
+msgstr ""
+
+#: 
+msgid "UPDATE VERSION:"
+msgstr ""
+
+#: 
+msgid "UPDATE CHANGELOG:"
+msgstr ""
+
+#: 
+msgid "MORE DETAILS"
+msgstr ""
+
+#: 
+msgid "CAROUSEL ANIMATION"
+msgstr ""
+
+#: 
+msgid "THEME CONFIGURATION"
+msgstr ""
+
+#: 
+msgid "THEME COLORSET"
+msgstr ""
+
+#: 
+msgid "THEME ICONSET"
+msgstr ""
+
+#: 
+msgid "THEME MENU"
+msgstr ""
+
+#: 
+msgid "THEME SYSTEMVIEW"
+msgstr ""
+
+#: 
+msgid "THEME GAMELISTVIEW"
+msgstr ""
+
+#: 
+msgid "THEME REGION"
+msgstr ""
+
+#: 
+msgid "THIS THEME HAS NO OPTION"
+msgstr ""
+
+#: 
+msgid "MANUAL INPUT"
+msgstr ""
+
+#: 
+msgid "AN ERROR OCCURED - DOWNLOADED"
+msgstr ""
+
+#: 
+msgid "START KODI"
+msgstr ""
+
+#: 
+msgid "Shows the current available update version."
+msgstr ""
+
+#: 
+msgid "Shows the current available update changelog."
+msgstr ""
+
+#: 
+msgid "Configure an associated controller. Your controller has to be associated / plugged before."
+msgstr ""
+
+#: 
+msgid "Choose if carousel will be animated or not during transitions"
+msgstr ""
+
+#: 
+msgid "Select the type of transition that occurs when you start a game. INSTANT will do nothing, FADE will fade to dark, and SLIDE will zoom on the game cover (or name if there is no scrape information)"
+msgstr ""
+
+#: 
+msgid "Select exisiting colorset options for this theme."
+msgstr ""
+
+#: 
+msgid "Select exisiting iconset options for this theme."
+msgstr ""
+
+#: 
+msgid "Select exisiting menu style options for this theme."
+msgstr ""
+
+#: 
+msgid "Select exisiting system view options for this theme."
+msgstr ""
+
+#: 
+msgid "Select exisiting gamelist view options for this theme."
+msgstr ""
+
+#: 
+msgid "Configure theme options if available."
+msgstr ""
+
+#: 
+msgid "Select Region of logos, pictures for system that are different for some countries. E.g. Megadrive in EU / Genesis in US"
+msgstr ""
+
+#: 
+msgid "Type the name of your SSID if it is hidden or not listed"
+msgstr ""
+
+#: 
+msgid "Select a letter and the listing will go directly on the first game starting with this letter."
+msgstr ""
+
+#: 
+msgid "Select the way the game list is sortered (alphabetically, by notation...)."
+msgstr ""
+
+#: 
+msgid "Switch between seing or not only the favorites games. To add a game in the favorite list, select the game and toggle its state using 'Y'."
+msgstr ""
+
+#: 
+msgid "Switch between seing or not the hidden games. To hide a game, edit its data and select 'Hide'."
+msgstr ""
+
+#: 
+msgid "Switch between seing folders and folder content in the listing. This is useful when a game is provided as many 'bin' files for example and you keep it a a dedicated folder (ex: roms/psx/tekken 3)."
+msgstr ""
+
+#: 
+msgid "This option display a menu which allows to change game data and many others options."
+msgstr ""
+
+#: 
+msgid "AVAILABLE UPDATE"
+msgstr ""
+
+#: 
+msgid "UPDATE CHANGELOG"
 msgstr ""
 
