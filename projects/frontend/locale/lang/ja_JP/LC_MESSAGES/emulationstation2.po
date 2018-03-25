@@ -55,7 +55,6 @@ msgstr "スキップ"
 
 #. 要画面確認
 #: 
-#, fuzzy
 msgid "SEARCH FOR"
 msgstr "検索"
 
@@ -89,7 +88,6 @@ msgstr "停止"
 
 #. 要画面確認
 #: 
-#, fuzzy
 msgid "stop (progress saved)"
 msgstr "停止 (進行は保存)"
 
@@ -108,13 +106,11 @@ msgstr "システムが見つかりません！\n"
 "RECALBOX.COMに 追加の情報があります。"
 
 #: 
-#, fuzzy
 msgid "%i GAME SUCCESSFULLY SCRAPED!"
 msgid_plural "%i GAMES SUCCESSFULLY SCRAPED!"
 msgstr[0] "%i 個の ゲームの スクレイプに 成功しました！"
 
 #: 
-#, fuzzy
 msgid "%i GAME SKIPPED."
 msgid_plural "%i GAMES SKIPPED."
 msgstr[0] "%i 個の ゲームを スキップしました。"
@@ -259,7 +255,6 @@ msgid "KODI AT START"
 msgstr "開始時に KODI を実行"
 
 #: 
-#, fuzzy
 msgid "START KODI WITH X"
 msgstr "X で KODI を起動する"
 
@@ -268,7 +263,6 @@ msgid "SECURITY"
 msgstr "セキュリティ"
 
 #: 
-#, fuzzy
 msgid "ENFORCE SECURITY"
 msgstr "セキュリティ保護"
 
@@ -277,9 +271,8 @@ msgid "ROOT PASSWORD"
 msgstr "ルートパスワード"
 
 #: 
-#, fuzzy
 msgid "THE SYSTEM WILL NOW REBOOT"
-msgstr "システムは 再起動します"
+msgstr "システムを再起動します"
 
 #: 
 msgid "GAMES SETTINGS"
@@ -299,7 +292,6 @@ msgstr "巻き戻し"
 
 #. セーブ・保存、ロード・読み込みの統一
 #: 
-#, fuzzy
 msgid "AUTO SAVE/LOAD"
 msgstr "自動セーブ/ロード"
 
@@ -337,7 +329,6 @@ msgstr "パスワード"
 
 #. 各システムの設定をする。 選択するとシステム選択画面へ遷移。
 #: 
-#, fuzzy
 msgid "ADVANCED"
 msgstr "アドバンス"
 
@@ -398,7 +389,6 @@ msgid "SYSTEM VOLUME"
 msgstr "システム音量"
 
 #: 
-#, fuzzy
 msgid "FRONTEND MUSIC"
 msgstr "フロントエンド音楽"
 
@@ -463,7 +453,6 @@ msgid "WIFI CONFIGURATION ERROR"
 msgstr "WIFI 設定エラー"
 
 #: 
-#, fuzzy
 msgid "SCRAPER"
 msgstr "スクレイパー"
 
@@ -508,7 +497,6 @@ msgid "Core"
 msgstr "コア"
 
 #: 
-#, fuzzy
 msgid "YOU ARE GOING TO CONFIGURE A CONTROLLER. IF YOU HAVE ONLY ONE JOYSTICK, CONFIGURE THE DIRECTIONS KEYS AND SKIP JOYSTICK CONFIG BY HOLDING A BUTTON. IF YOU DO NOT HAVE A SPECIAL KEY FOR HOTKEY, CHOOSE THE SELECT BUTTON. SKIP ALL BUTTONS YOU DO NOT HAVE BY HOLDING A KEY. BUTTONS NAMES ARE BASED ON THE SNES CONTROLLER."
 msgstr "コントローラーの 設定を行います。 もし 方向キーが 1つのみの場合、 方向キーを 設定したあと、 他の方向キーの設定は ボタンを長押しして スキップできます。 もし ホットキーのための 特別なボタンが ない場合、 セレクトボタンを 設定してください。 すべてのボタンを 長押しで スキップした場合、 ボタン名が スーパーファミコンを ベースとしたものに なります。"
 
@@ -543,7 +531,6 @@ msgid "CONTROLLERS LINKS HAVE BEEN DELETED."
 msgstr "コントローラーのリンクが切れました。"
 
 #: 
-#, fuzzy
 msgid "FORGET BLUETOOTH CONTROLLERS"
 msgstr "ブルートゥースのコントローラーを解除"
 
@@ -615,14 +602,12 @@ msgid "START"
 msgstr "開始"
 
 #: 
-#, fuzzy
 msgid "WARNING: SOME OF YOUR SELECTED SYSTEMS DO NOT HAVE A PLATFORM SET. RESULTS MAY BE EVEN MORE INACCURATE THAN USUAL!\n"
 "CONTINUE ANYWAY?"
 msgstr "警告: 選択された いくつかの システムは プラットフォーム設定が ありません。 正確な 結果と ならない場合が あります！ \n"
 "続けますか？"
 
 #: 
-#, fuzzy
 msgid "NO GAMES FIT THAT CRITERIA."
 msgstr "適合する ゲームが 見つかりませんでした。"
 
@@ -636,33 +621,29 @@ msgstr "ネットワーク接続が必要です"
 
 #: 
 msgid "UPDATE DOWNLOADED, THE SYSTEM WILL NOW REBOOT"
-msgstr "アップデートをダウンロードしました。 システムは再起動が必要です"
+msgstr "アップデートをダウンロードしました。 システムはすぐに再起動します"
 
 #: 
 msgid "UPDATE FAILED, THE SYSTEM WILL NOW REBOOT"
-msgstr "アップデートに失敗しました。 システムは再起動が必要です"
+msgstr "アップデートに失敗しました。 システムはすぐに再起動します"
 
 #: 
 msgid "NO UPDATE AVAILABLE"
 msgstr "アップデートはありません"
 
 #: 
-#, fuzzy
 msgid "enter emulator"
 msgstr "エミュレータ"
 
 #: 
-#, fuzzy
 msgid "enter core"
 msgstr "コア"
 
 #: 
-#, fuzzy
 msgid "Ratio"
 msgstr "比率"
 
 #: 
-#, fuzzy
 msgid "enter ratio"
 msgstr "比率を入力"
 
@@ -699,7 +680,6 @@ msgid "enter path to thumbnail"
 msgstr "サムネイル画像のパスを入力"
 
 #: 
-#, fuzzy
 msgid "enter rating"
 msgstr "評価を入力"
 
@@ -744,22 +724,18 @@ msgid "enter region"
 msgstr "地域を入力"
 
 #: 
-#, fuzzy
 msgid "Romtype"
 msgstr "ROMタイプ"
 
 #: 
-#, fuzzy
 msgid "enter romtype"
 msgstr "ROMタイプを入力"
 
 #: 
-#, fuzzy
 msgid "Hidden"
 msgstr "隠す"
 
 #: 
-#, fuzzy
 msgid "set hidden"
 msgstr "隠す"
 
@@ -780,13 +756,11 @@ msgid "enter last played date"
 msgstr "最後にプレイした日時を入力"
 
 #: 
-#, fuzzy
 msgid "%i GAME AVAILABLE"
 msgid_plural "%i GAMES AVAILABLE"
 msgstr[0] "%i 個のゲームがあります"
 
 #: 
-#, fuzzy
 msgid "%i FAVORITE"
 msgid_plural "%i FAVORITES"
 msgstr[0] "%i 個のお気に入り"
@@ -848,35 +822,29 @@ msgid "CHANGE"
 msgstr "変更"
 
 #: 
-#, fuzzy
 msgid "never"
 msgstr "しない"
 
 #: 
-#, fuzzy
 msgid "just now"
 msgstr "今すぐ"
 
 #: 
-#, fuzzy
 msgid "%i sec ago"
 msgid_plural "%i secs ago"
 msgstr[0] "%i 秒前"
 
 #: 
-#, fuzzy
 msgid "%i min ago"
 msgid_plural "%i mins ago"
 msgstr[0] "%i 分前"
 
 #: 
-#, fuzzy
 msgid "%i hour ago"
 msgid_plural "%i hours ago"
 msgstr[0] "%i 時間前"
 
 #: 
-#, fuzzy
 msgid "%i day ago"
 msgid_plural "%i days ago"
 msgstr[0] "%i 日前"
@@ -894,7 +862,6 @@ msgid "SELECT NONE"
 msgstr "選択解除"
 
 #: 
-#, fuzzy
 msgid "%i SELECTED"
 msgid_plural "%i SELECTED"
 msgstr[0] "%i 選択済み"
@@ -932,12 +899,10 @@ msgid "JOYSTICK 2 LEFT"
 msgstr "方向キー 2 左"
 
 #: 
-#, fuzzy
 msgid "PAGE UP"
 msgstr "PAGE UP"
 
 #: 
-#, fuzzy
 msgid "PAGE DOWN"
 msgstr "PAGE DOWN"
 
@@ -946,7 +911,6 @@ msgid "HOTKEY"
 msgstr "ホットキー"
 
 #: 
-#, fuzzy
 msgid "CONFIGURING"
 msgstr "設定中"
 
@@ -967,7 +931,6 @@ msgid "-NOT DEFINED-"
 msgstr "-未定義-"
 
 #: 
-#, fuzzy
 msgid "HOLD FOR %iS TO SKIP"
 msgid_plural "HOLD FOR %iS TO SKIP"
 msgstr[0] "%iS 長押しでスキップ"
@@ -991,12 +954,10 @@ msgstr "ようこそ"
 
 #. 入力設定でいいかも？
 #: 
-#, fuzzy
 msgid "CONFIGURE INPUT"
 msgstr "入力の設定"
 
 #: 
-#, fuzzy
 msgid "%i GAMEPAD DETECTED"
 msgid_plural "%i GAMEPADS DETECTED"
 msgstr[0] "%i パッドが検出されました"
@@ -1056,7 +1017,6 @@ msgid "SHIFTS FOR UPPER,LOWER, AND SPECIAL"
 msgstr "大文字, 小文字, 特殊記号のための SHIFT"
 
 #: 
-#, fuzzy
 msgid "SPACE"
 msgstr "空白"
 
@@ -1081,7 +1041,6 @@ msgid "EDIT"
 msgstr "編集"
 
 #: 
-#, fuzzy
 msgid "ACCEPT RESULT"
 msgstr "了解"
 
@@ -1114,64 +1073,73 @@ msgid "GENRE"
 msgstr "ジャンル"
 
 #: 
-#, fuzzy
 msgid "SHOW HIDDEN"
 msgstr "隠した項目を表示"
 
 #: 
 msgid "EXTREM (1400Mhz)"
-msgstr ""
+msgstr "極限 (1400Mhz)"
 
 #: 
 msgid "TURBO (1350Mhz)"
-msgstr ""
+msgstr "ターボ (1350Mhz)"
 
 #: 
 msgid "HIGH (1300Mhz)"
-msgstr ""
+msgstr "高 (1300Mhz)"
 
 #: 
 msgid "TURBO AND EXTREM OVERCLOCK PRESETS MAY CAUSE SYSTEM UNSTABILITIES, SO USE THEM AT YOUR OWN RISK.\n"
 "IF YOU CONTINUE, THE SYSTEM WILL REBOOT NOW."
-msgstr ""
+msgstr "ターボ および 極限 のオーバークロックは システムが 不安定になる 要因となることがあります。 使用者の 責任で ご利用ください。 継続する場合、 システムは 今すぐ 再起動します。"
 
 #: 
 msgid "%i GAME HIDDEN"
 msgid_plural "%i GAMES HIDDEN"
-msgstr[0] ""
+msgstr[0] "%i 個のゲームが非表示になっています"
 
 #: 
 msgid "Start kodi media player."
-msgstr ""
+msgstr "Kodi メディアプレイヤーを 開始する"
 
 #: 
 msgid "Select the language for your recalbox, select an external drive to store your games and configurations, check your current version and the free space on your drive"
-msgstr ""
+msgstr "recalboxで使用する言語を選択して下さい\n"
+"ROMと設定を保存する外部ストレージを選択して下さい\n"
+"選択する外部ストレージの空き容量とバージョンは事前に問題ない事を確認して下さい"
 
 #: 
 msgid "Shows your current recalboxOS version."
-msgstr ""
+msgstr "現在の Recalbox OS のバージョンを 表示します。"
 
 #: 
 msgid "Show how much space is used on your SHARE partition, located either on the SDCARD or on an external drive. The information shows how much GB are used and how much GB your storage has overall (example 13GB/26GB)."
-msgstr ""
+msgstr "接続されているストレージの使用容量を表示します\n"
+"SDカードと全ての外部ストレージが対象になります\n"
+"表示形式はの例は以下に記載します\n"
+"(例：13GB/26GB)"
 
 #: 
 msgid "Select an external drive to store your roms, saves, configurations etc.\n"
 "Use a FAT32 formatted drive. The system does not format the drive. On first boot, with this option enabled, recalbox will create a '/recalbox' folder with all system files inside."
-msgstr ""
+msgstr "ROMとセーブデーター及び設定を保存する外部ストレージを選択して下さい。\n"
+"recalboxのシステムはフォーマットを行いませんので事前に外部ストレージはFAT32でフォーマットされている必要があります\n"
+"初回起動でこのオプションはONになりますその後recalboxは各ストレージに\n"
+"/recalbox を構築後に必要なシステムファイルを配置します。\n"
+"\n"
+""
 
 #: 
 msgid "Select your language. A reboot is needed to set this configuration active."
-msgstr ""
+msgstr "言語を 選択してください。 この設定を 反映するには、 再起動が 必要です。"
 
 #: 
 msgid "Manage your recalbox updates. Select the update type. Activate update check."
-msgstr ""
+msgstr "Recalbox の更新を 管理します。 更新の 種別を 選択してください。 更新を 確認します。"
 
 #: 
 msgid "Check if an update is available, and start the update process."
-msgstr ""
+msgstr "アップデートが確認できた場合はアップデートを開始します。"
 
 #: 
 msgid "Stable updates will check for updates on stable recalbox releases. Stable updates are tested and approved by the recalbox team and their testers.\n"
@@ -1181,11 +1149,11 @@ msgstr ""
 
 #: 
 msgid "Automatically check if an update is avaialble. If so, it notifies you with a message."
-msgstr ""
+msgstr "更新が 用意できているか 自動確認します。 用意できている場合、 メッセージで 通知します。"
 
 #: 
 msgid "Configure games display, ratio, filters (shaders), auto save and load and retroachievement account."
-msgstr ""
+msgstr "ゲームの 表示を 設定する。 画面比、 フィルタ、 自動セーブ/ロード、 Retroachivement アカウント。"
 
 #: 
 msgid "The game ratio is the ratio between image width and image height. Use AUTO to let the emulator choose the original game ratio, that will give you the best retrogaming experience."
@@ -1193,7 +1161,7 @@ msgstr ""
 
 #: 
 msgid "Smooth the game image. This option makes the image smoother, using bilinear filtering."
-msgstr ""
+msgstr "ゲーム画面の スムージング。 この設定は 画面を バイリニアフィルタで きれいに 表示します。"
 
 #: 
 msgid "This option allows you to rewind the game if you get killed by a monster, or if you make any other mistake. Use the HOTKEY + LEFT command within the game to rewind."
@@ -1213,7 +1181,7 @@ msgstr ""
 
 #: 
 msgid "Enable or disable RetroAchievements in games."
-msgstr ""
+msgstr "ゲームで RetroAchievements を有効/無効に します。"
 
 #: 
 msgid "Hardcore mode disables *all* savestate and rewind functions within the emulator: you will not be able to save and reload at any time. You will have to complete the game and get the achievements first time, just like on the original console. In reward for this, you will earn both the standard and the hardcore achievement, in effect earning double points! A regular game worth 400 points, is now worth 800 if you complete it on hardcore! For example: if you complete the game for 400 points, you then have the opportunity to earn another 400 on hardcore."
@@ -1225,11 +1193,11 @@ msgstr ""
 
 #: 
 msgid "Add and configure up to 5 controllers."
-msgstr ""
+msgstr "コントローラーを 5個まで 追加・設定します。"
 
 #: 
 msgid "Pair a bluetooth controller with your recalbox. Your controller must be in pairing mode."
-msgstr ""
+msgstr "Bluetooth コントローラーを Recalbox とペアリングします。 コントローラーは ペアリングする 必要があります。"
 
 #: 
 msgid "Forget all paired bluetooth controllers. You will have to pair your controllers again, but this option can help if you have issues to reconnect a controller, which is already paired."
@@ -1242,19 +1210,19 @@ msgstr ""
 
 #: 
 msgid "Start the screensaver after N minutes."
-msgstr ""
+msgstr "N 分後に スクリーンセーバーを 開始します。"
 
 #: 
 msgid "Set the screensaver behavior. DIM will reduce the screen light, and BLACK will turn the screen black."
-msgstr ""
+msgstr "スクリーンセーバーの 効果を 設定します。 DIM： 画面の輝度を 下げます。 BLACK： 画面を 黒くします。"
 
 #: 
 msgid "Shows a help at the bottom of the screen which displays commands you can use."
-msgstr ""
+msgstr "画面の下部に 使える コマンドの ボタンを 表示します。"
 
 #: 
 msgid "When enabled, you can switch between systems while browsing a gamelist by pressing LEFT or RIGHT."
-msgstr ""
+msgstr "有効にした場合、 ゲームリストで LEFT か RIGHT を押すと、 別のシステムの ゲームリストに 移ります。"
 
 #: 
 msgid "The onscreen keyboard is necessary to type text if you only have controllers plugged into your recalbox. You can disable it if you have a real keyboard connected."
@@ -1266,27 +1234,27 @@ msgstr ""
 
 #: 
 msgid "Select a theme for your recalbox."
-msgstr ""
+msgstr "Recalbox のテーマを選択します。"
 
 #: 
 msgid "Updates the gamelists, if you added games since the last boot."
-msgstr ""
+msgstr "起動後に ゲームを 追加してある場合、 ゲームリストを 更新します。"
 
 #: 
 msgid "Configure the sound options of your recalbox."
-msgstr ""
+msgstr "Recalbox の音声を 設定します"
 
 #: 
 msgid "Set the volume of the sound output for the frontend and the games."
-msgstr ""
+msgstr "メニュー画面と ゲーム中の 音量を 設定します。"
 
 #: 
 msgid "Enable or disable the frontend music. You can add your own music as mp3, or ogg format in the 'musics' directory of your recalbox."
-msgstr ""
+msgstr "メニュー画面の 音楽を 有効/無効にします。 Recalbox の 'musics' ディレクトリに MP3と OGG形式の ファイルを 追加することが できます。"
 
 #: 
 msgid "Select your output device. Only HDMI and JACK are supported."
-msgstr ""
+msgstr "出力デバイスを 選択します。 HDMI と JACK のみ サポート しています。"
 
 #: 
 msgid "Configure the network options of your recalbox.\n"
@@ -1299,24 +1267,24 @@ msgstr ""
 
 #: 
 msgid "The IP address of your recalbox within your local network."
-msgstr ""
+msgstr "ローカルネットワーク上の Recalbox の IPアドレス"
 
 #: 
 msgid "Enable or disable WIFI.\n"
 "If you disable WIFI, the SSID and the WIFI passwords are saved and can be used when you reactivate it"
-msgstr ""
+msgstr "WIFI を有効/無効に します。 無効にした場合、 SSID と WIFI パスワードは 保持され、 有効にした時に 使うことが できます。"
 
 #: 
 msgid "The name of your recalbox in your local network"
-msgstr ""
+msgstr "ネットワーク上の Recalbox の名前"
 
 #: 
 msgid "SSID (WIFI Name) of your network."
-msgstr ""
+msgstr "ネットワークの SSID (WIFI名)"
 
 #: 
 msgid "Private key of your WIFI network."
-msgstr ""
+msgstr "WIFIネットワークの プライベートキー"
 
 #: 
 msgid "Get informations and visual for your games. The scraper downloads metadata and visuals for your games from different servers and enhances the user experience in EmulationStation completely."
@@ -1382,19 +1350,19 @@ msgstr ""
 
 #: 
 msgid "Use the X button to start Kodi."
-msgstr ""
+msgstr "Kodi を開始するために X ボタンを使う。"
 
 #: 
 msgid "Automatically start into Kodi on boot."
-msgstr ""
+msgstr "起動時に 自動で Kodi を始める。"
 
 #: 
 msgid "Manage your recalbox security."
-msgstr ""
+msgstr "Recalbox のセキュリティを 管理する。"
 
 #: 
 msgid "Change the SSH root password."
-msgstr ""
+msgstr "SSH の root パスワードを 変更する。"
 
 #: 
 msgid "Enforce recalbox security."
@@ -1408,7 +1376,7 @@ msgstr ""
 
 #: 
 msgid "Show the framerate in EmulationStation and in game."
-msgstr ""
+msgstr "フレームレートを EmulationStation とゲーム中に 表示する。"
 
 #: 
 msgid "Enable or disable the Recalbox Manager.\n"
@@ -1423,7 +1391,7 @@ msgstr ""
 
 #: 
 msgid "Select which emulator to use when you start a game for this system."
-msgstr ""
+msgstr "このシステムで どのエミュレータを使って ゲームを 始めるかを 選択する。"
 
 #: 
 msgid "Select which core to use for the selected emulator. For example, the LIBRETRO emulator has many cores to run Super Nintendo games. The default core you choose here can also be overridden in game specific settings."
@@ -1435,11 +1403,11 @@ msgstr ""
 
 #: 
 msgid "CHECK UPDATES"
-msgstr ""
+msgstr "更新を 確認する"
 
 #: 
 msgid "UPDATE TYPE"
-msgstr ""
+msgstr "更新の 種別"
 
 #: 
 msgid "INTEGER SCALE (PIXEL PERFECT)"
@@ -1447,45 +1415,193 @@ msgstr ""
 
 #: 
 msgid "ADVANCED SETTINGS"
-msgstr ""
+msgstr "詳細設定"
 
 #: 
 msgid "BOOT SETTINGS"
-msgstr ""
+msgstr "起動設定"
 
 #: 
 msgid "GAMELIST ONLY"
-msgstr ""
+msgstr "ゲームリストのみ"
 
 #: 
 msgid "BOOT ON SYSTEM"
-msgstr ""
+msgstr "システム選択を起動"
 
 #: 
 msgid "BOOT ON GAMELIST"
-msgstr ""
+msgstr "ゲームリストを起動"
 
 #: 
 msgid "HIDE SYSTEM VIEW"
-msgstr ""
+msgstr "システム表示を隠す"
 
 #: 
 msgid "EMULATOR ADVANCED CONFIGURATION"
-msgstr ""
+msgstr "エミュレータの詳細設定"
 
 #: 
 msgid "ADVANCED EMULATOR CONFIGURATION"
-msgstr ""
+msgstr "エミュレータの詳細設定"
 
 #: 
 msgid "HELP"
-msgstr ""
+msgstr "ヘルプ"
 
 #: 
 msgid "THE SYSTEM IS UP TO DATE"
-msgstr ""
+msgstr "このシステムは 更新されています"
 
 #: 
 msgid "FORCE BASIC GAMELIST VIEW"
+msgstr "基本の ゲームリスト表示を 強制する"
+
+#: 
+msgid "DOWNLOADED"
+msgstr ""
+
+#: 
+msgid "UPDATE VERSION:"
+msgstr ""
+
+#: 
+msgid "UPDATE CHANGELOG:"
+msgstr ""
+
+#: 
+msgid "MORE DETAILS"
+msgstr ""
+
+#: 
+msgid "CAROUSEL ANIMATION"
+msgstr ""
+
+#: 
+msgid "THEME CONFIGURATION"
+msgstr ""
+
+#: 
+msgid "THEME COLORSET"
+msgstr ""
+
+#: 
+msgid "THEME ICONSET"
+msgstr ""
+
+#: 
+msgid "THEME MENU"
+msgstr ""
+
+#: 
+msgid "THEME SYSTEMVIEW"
+msgstr ""
+
+#: 
+msgid "THEME GAMELISTVIEW"
+msgstr ""
+
+#: 
+msgid "THEME REGION"
+msgstr ""
+
+#: 
+msgid "THIS THEME HAS NO OPTION"
+msgstr ""
+
+#: 
+msgid "MANUAL INPUT"
+msgstr ""
+
+#: 
+msgid "AN ERROR OCCURED - DOWNLOADED"
+msgstr ""
+
+#: 
+msgid "START KODI"
+msgstr ""
+
+#: 
+msgid "Shows the current available update version."
+msgstr ""
+
+#: 
+msgid "Shows the current available update changelog."
+msgstr ""
+
+#: 
+msgid "Configure an associated controller. Your controller has to be associated / plugged before."
+msgstr ""
+
+#: 
+msgid "Choose if carousel will be animated or not during transitions"
+msgstr ""
+
+#: 
+msgid "Select the type of transition that occurs when you start a game. INSTANT will do nothing, FADE will fade to dark, and SLIDE will zoom on the game cover (or name if there is no scrape information)"
+msgstr ""
+
+#: 
+msgid "Select exisiting colorset options for this theme."
+msgstr ""
+
+#: 
+msgid "Select exisiting iconset options for this theme."
+msgstr ""
+
+#: 
+msgid "Select exisiting menu style options for this theme."
+msgstr ""
+
+#: 
+msgid "Select exisiting system view options for this theme."
+msgstr ""
+
+#: 
+msgid "Select exisiting gamelist view options for this theme."
+msgstr ""
+
+#: 
+msgid "Configure theme options if available."
+msgstr ""
+
+#: 
+msgid "Select Region of logos, pictures for system that are different for some countries. E.g. Megadrive in EU / Genesis in US"
+msgstr ""
+
+#: 
+msgid "Type the name of your SSID if it is hidden or not listed"
+msgstr ""
+
+#: 
+msgid "Select a letter and the listing will go directly on the first game starting with this letter."
+msgstr ""
+
+#: 
+msgid "Select the way the game list is sortered (alphabetically, by notation...)."
+msgstr ""
+
+#: 
+msgid "Switch between seing or not only the favorites games. To add a game in the favorite list, select the game and toggle its state using 'Y'."
+msgstr ""
+
+#: 
+msgid "Switch between seing or not the hidden games. To hide a game, edit its data and select 'Hide'."
+msgstr ""
+
+#: 
+msgid "Switch between seing folders and folder content in the listing. This is useful when a game is provided as many 'bin' files for example and you keep it a a dedicated folder (ex: roms/psx/tekken 3)."
+msgstr ""
+
+#: 
+msgid "This option display a menu which allows to change game data and many others options."
+msgstr ""
+
+#: 
+msgid "AVAILABLE UPDATE"
+msgstr ""
+
+#: 
+msgid "UPDATE CHANGELOG"
 msgstr ""
 
