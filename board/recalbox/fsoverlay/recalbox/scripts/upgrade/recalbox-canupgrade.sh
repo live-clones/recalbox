@@ -30,8 +30,9 @@ if [[ -z ${FROM_VERSION} || -z ${UPGRADE_URL} || -z ${ARCH} || -z ${UUID} ]]; th
     echo -e "Usage:\n$0 --uuid UUID --from-version VERSION --service-url https://url-to-use.com --arch [rpi1|rpi2...]" && exit 1
 fi
 
+source /recalbox/scripts/upgrade/recalbox-upgrade.inc.sh
 
-VERSION_URL=$(curl -fG "${UPGRADE_URL}/v1/upgrade" \
+VERSION_URL=$(curl -sfG "${UPGRADE_URL}/${RECALBOX_URL}" \
 	--data-urlencode "arch=${ARCH}" \
 	--data-urlencode "boardversion=${FROM_VERSION}" \
 	--data-urlencode "uuid=${UUID}")
@@ -40,7 +41,7 @@ if [[ "$?" != "0" ]]; then
   exit 2
 fi
 
-AVAILABLE_VERSION=$(curl -fG "${VERSION_URL}/v1/upgrade/${ARCH}/recalbox.version" \
+AVAILABLE_VERSION=$(curl -sfG "${VERSION_URL}/${RECALBOX_URL}/${ARCH}/recalbox.version" \
 	--data-urlencode "arch=${ARCH}" \
 	--data-urlencode "boardversion=${FROM_VERSION}" \
 	--data-urlencode "uuid=${UUID}" \

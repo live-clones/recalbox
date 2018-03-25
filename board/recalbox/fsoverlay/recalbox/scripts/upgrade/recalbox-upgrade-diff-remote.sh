@@ -33,8 +33,10 @@ if [[ -z ${UPGRADE_URL} || -z ${ARCH} || -z ${FROM_VERSION} || -z ${CHANGELOG} ]
   echo -e "Usage:\n$0 --verbose --from-version currentVersion --upgrade-url https://url-to-use.com --arch [rpi1|rpi2...] --changelog /recalbox/existing.changelog" && exit 1
 fi
 
-NEW_CHANGELOG="$(curl -f "${UPGRADE_URL}/v1/upgrade/${ARCH}/recalbox.changelog?source=recalbox" || exit 2)"
-NEW_VERSION="$(curl -f "${UPGRADE_URL}/v1/upgrade/${ARCH}/recalbox.version?source=recalbox" || exit 2)"
+source /recalbox/scripts/upgrade/recalbox-upgrade.inc.sh
+
+NEW_CHANGELOG="$(curl -sf "${UPGRADE_URL}/${RECALBOX_URL}/${ARCH}/recalbox.changelog?source=recalbox" || exit 2)"
+NEW_VERSION="$(curl -sf "${UPGRADE_URL}/${RECALBOX_URL}/${ARCH}/recalbox.version?source=recalbox" || exit 2)"
 OLD_CHANGELOG="$(cat "${CHANGELOG}" || exit 1)"
 
 changes="$(diff --changed-group-format='%>' --unchanged-group-format='' <(echo "${OLD_CHANGELOG}") <(echo "${NEW_CHANGELOG}") || true)"
