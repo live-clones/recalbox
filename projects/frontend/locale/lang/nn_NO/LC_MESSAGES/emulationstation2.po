@@ -86,7 +86,7 @@ msgstr "STOPP"
 
 #: 
 msgid "stop (progress saved)"
-msgstr "stop (fremgang lagret)"
+msgstr "stopp (fremgang lagret)"
 
 #: 
 msgid "GAME %i OF %i"
@@ -104,13 +104,13 @@ msgstr "VI KAN IKKE FINNE NOEN PLATTFORMER!\n"
 #: 
 msgid "%i GAME SUCCESSFULLY SCRAPED!"
 msgid_plural "%i GAMES SUCCESSFULLY SCRAPED!"
-msgstr[0] ""
+msgstr[0] "%i SPILL HAR BLITT LAGT TIL I BIBLIOTEKET. SUKSESS!"
 msgstr[1] ""
 
 #: 
 msgid "%i GAME SKIPPED."
 msgid_plural "%i GAMES SKIPPED."
-msgstr[0] ""
+msgstr[0] "%i SPILL HOPPET OVER."
 msgstr[1] ""
 
 #: 
@@ -752,13 +752,13 @@ msgstr "skriv inn siste gang spilt"
 #: 
 msgid "%i GAME AVAILABLE"
 msgid_plural "%i GAMES AVAILABLE"
-msgstr[0] ""
+msgstr[0] "%i SPILL TILGJENGELIG"
 msgstr[1] ""
 
 #: 
 msgid "%i FAVORITE"
 msgid_plural "%i FAVORITES"
-msgstr[0] ""
+msgstr[0] "%i FAVORITT"
 msgstr[1] ""
 
 #: 
@@ -828,25 +828,25 @@ msgstr "akkurat nå"
 #: 
 msgid "%i sec ago"
 msgid_plural "%i secs ago"
-msgstr[0] ""
+msgstr[0] "%i sekund siden"
 msgstr[1] ""
 
 #: 
 msgid "%i min ago"
 msgid_plural "%i mins ago"
-msgstr[0] ""
+msgstr[0] "%i minutt siden"
 msgstr[1] ""
 
 #: 
 msgid "%i hour ago"
 msgid_plural "%i hours ago"
-msgstr[0] ""
+msgstr[0] "%i time siden"
 msgstr[1] ""
 
 #: 
 msgid "%i day ago"
 msgid_plural "%i days ago"
-msgstr[0] ""
+msgstr[0] "%i en dag siden"
 msgstr[1] ""
 
 #: 
@@ -864,7 +864,7 @@ msgstr "VELG INGEN"
 #: 
 msgid "%i SELECTED"
 msgid_plural "%i SELECTED"
-msgstr[0] ""
+msgstr[0] "%i valgt"
 msgstr[1] ""
 
 #: 
@@ -934,7 +934,7 @@ msgstr "-IKKE DEFINERT-"
 #: 
 msgid "HOLD FOR %iS TO SKIP"
 msgid_plural "HOLD FOR %iS TO SKIP"
-msgstr[0] ""
+msgstr[0] "HOLD I %iS FOR Å HOPPE OVER"
 msgstr[1] ""
 
 #. Config controllers missing translation
@@ -961,7 +961,7 @@ msgstr "KONFIGUER INNDATA"
 #: 
 msgid "%i GAMEPAD DETECTED"
 msgid_plural "%i GAMEPADS DETECTED"
-msgstr[0] ""
+msgstr[0] "%i KONTROLLER OPPDAGET"
 msgstr[1] ""
 
 #: 
@@ -1080,59 +1080,60 @@ msgstr "VIS SKJULTE"
 
 #: 
 msgid "EXTREM (1400Mhz)"
-msgstr ""
+msgstr "EXTREM (1400Mhz)"
 
 #: 
 msgid "TURBO (1350Mhz)"
-msgstr ""
+msgstr "TURBO (1350Mhz)"
 
 #: 
 msgid "HIGH (1300Mhz)"
-msgstr ""
+msgstr "HØY (1300Mhz)"
 
 #: 
 msgid "TURBO AND EXTREM OVERCLOCK PRESETS MAY CAUSE SYSTEM UNSTABILITIES, SO USE THEM AT YOUR OWN RISK.\n"
 "IF YOU CONTINUE, THE SYSTEM WILL REBOOT NOW."
-msgstr ""
+msgstr "TURBO OG EXTREM OVERKLOKKING KAN SKAPE USTABILITEY, BRUK PÅ EGEN RISIKO, SYSTEMET VIL STARTES PÅ NYTT NÅ."
 
 #: 
 msgid "%i GAME HIDDEN"
 msgid_plural "%i GAMES HIDDEN"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%i SPILL GJEMT"
+msgstr[1] "%i SPILL GJEMT"
 
 #: 
 msgid "Start kodi media player."
-msgstr ""
+msgstr "Start KODI"
 
 #: 
 msgid "Select the language for your recalbox, select an external drive to store your games and configurations, check your current version and the free space on your drive"
-msgstr ""
+msgstr "Velg språk for recalboxen din, velg en ekstern lagringsenhet for å oppbevare spillene og konfigurasjonsfilene dine, sjekk din nåværende versjon og ledig lagringsplass."
 
 #: 
 msgid "Shows your current recalboxOS version."
-msgstr ""
+msgstr "Viser din nåværende recalboxOS versjon."
 
 #: 
 msgid "Show how much space is used on your SHARE partition, located either on the SDCARD or on an external drive. The information shows how much GB are used and how much GB your storage has overall (example 13GB/26GB)."
-msgstr ""
+msgstr "Vis hvor mye plass som er brukt på SHARE partisjonen, den er enten på SD kortet eller en ekstern harddisk. Informasjonen viser hvor mye plass som er brukt og hvor mye lagring du har totalt (eksempel 13GiB/26GiB)"
 
 #: 
 msgid "Select an external drive to store your roms, saves, configurations etc.\n"
 "Use a FAT32 formatted drive. The system does not format the drive. On first boot, with this option enabled, recalbox will create a '/recalbox' folder with all system files inside."
-msgstr ""
+msgstr "Velg en ekstern enhet til lagring av dine roms, lagrinspunkt, konfigurasjoner etc.\n"
+"Bruk en FAT32 formatert stasjon. Systemet formaterer ikke stasjonen. På første oppstart, med denne opsjonen aktiv, vil recalbox lage en '/recalbox' mappe med alle system filene."
 
 #: 
 msgid "Select your language. A reboot is needed to set this configuration active."
-msgstr ""
+msgstr "Velg ditt språk. En omstart er nødvendig for å aktivere denne konfigurasjonen."
 
 #: 
 msgid "Manage your recalbox updates. Select the update type. Activate update check."
-msgstr ""
+msgstr "Behandle dine recalbox oppdateringer. Velg oppgraderings type. Velg oppdater haken."
 
 #: 
 msgid "Check if an update is available, and start the update process."
-msgstr ""
+msgstr "Kontroller om en oppdatering er tilgjengelig, og starte oppdaterings prosessen."
 
 #: 
 msgid "Stable updates will check for updates on stable recalbox releases. Stable updates are tested and approved by the recalbox team and their testers.\n"
@@ -1174,7 +1175,7 @@ msgstr ""
 
 #: 
 msgid "Enable or disable RetroAchievements in games."
-msgstr ""
+msgstr "Aktiver eller deaktiver RetroAchievements i spill."
 
 #: 
 msgid "Hardcore mode disables *all* savestate and rewind functions within the emulator: you will not be able to save and reload at any time. You will have to complete the game and get the achievements first time, just like on the original console. In reward for this, you will earn both the standard and the hardcore achievement, in effect earning double points! A regular game worth 400 points, is now worth 800 if you complete it on hardcore! For example: if you complete the game for 400 points, you then have the opportunity to earn another 400 on hardcore."
@@ -1186,15 +1187,15 @@ msgstr ""
 
 #: 
 msgid "Add and configure up to 5 controllers."
-msgstr ""
+msgstr "Legg til og konfigurer opp til 5 kontrollere."
 
 #: 
 msgid "Pair a bluetooth controller with your recalbox. Your controller must be in pairing mode."
-msgstr ""
+msgstr "Par en blåtann kontroller med din recalbox. Din kontroller må være i parings modus."
 
 #: 
 msgid "Forget all paired bluetooth controllers. You will have to pair your controllers again, but this option can help if you have issues to reconnect a controller, which is already paired."
-msgstr ""
+msgstr "Glem alle parede blåtann kontrollere. Du må parre dine kontrollere om igjen, men denne optionen kan hjelpe deg hvis du har problemer med å koble til en kontroller, som allerede er parret."
 
 #: 
 msgid "Configure your EmulationStation experience. Select transition types, help prompts, screensaver behavior. You can also deactivate the onscreen keyboard if you have a real keyboard plugged into your recalbox.\n"
@@ -1396,7 +1397,7 @@ msgstr ""
 
 #: 
 msgid "CHECK UPDATES"
-msgstr ""
+msgstr "SØK ETTER OPPDATERINGER"
 
 #: 
 msgid "UPDATE TYPE"
@@ -1412,7 +1413,7 @@ msgstr ""
 
 #: 
 msgid "BOOT SETTINGS"
-msgstr ""
+msgstr "BOOT INNSTILLINGER"
 
 #: 
 msgid "GAMELIST ONLY"
@@ -1440,13 +1441,161 @@ msgstr ""
 
 #: 
 msgid "HELP"
-msgstr ""
+msgstr "HJELP"
 
 #: 
 msgid "THE SYSTEM IS UP TO DATE"
-msgstr ""
+msgstr "SYSTEMET ER OPPDATERT"
 
 #: 
 msgid "FORCE BASIC GAMELIST VIEW"
+msgstr ""
+
+#: 
+msgid "DOWNLOADED"
+msgstr ""
+
+#: 
+msgid "UPDATE VERSION:"
+msgstr ""
+
+#: 
+msgid "UPDATE CHANGELOG:"
+msgstr ""
+
+#: 
+msgid "MORE DETAILS"
+msgstr ""
+
+#: 
+msgid "CAROUSEL ANIMATION"
+msgstr ""
+
+#: 
+msgid "THEME CONFIGURATION"
+msgstr ""
+
+#: 
+msgid "THEME COLORSET"
+msgstr ""
+
+#: 
+msgid "THEME ICONSET"
+msgstr ""
+
+#: 
+msgid "THEME MENU"
+msgstr ""
+
+#: 
+msgid "THEME SYSTEMVIEW"
+msgstr ""
+
+#: 
+msgid "THEME GAMELISTVIEW"
+msgstr ""
+
+#: 
+msgid "THEME REGION"
+msgstr ""
+
+#: 
+msgid "THIS THEME HAS NO OPTION"
+msgstr ""
+
+#: 
+msgid "MANUAL INPUT"
+msgstr ""
+
+#: 
+msgid "AN ERROR OCCURED - DOWNLOADED"
+msgstr ""
+
+#: 
+msgid "START KODI"
+msgstr ""
+
+#: 
+msgid "Shows the current available update version."
+msgstr ""
+
+#: 
+msgid "Shows the current available update changelog."
+msgstr ""
+
+#: 
+msgid "Configure an associated controller. Your controller has to be associated / plugged before."
+msgstr ""
+
+#: 
+msgid "Choose if carousel will be animated or not during transitions"
+msgstr ""
+
+#: 
+msgid "Select the type of transition that occurs when you start a game. INSTANT will do nothing, FADE will fade to dark, and SLIDE will zoom on the game cover (or name if there is no scrape information)"
+msgstr ""
+
+#: 
+msgid "Select exisiting colorset options for this theme."
+msgstr ""
+
+#: 
+msgid "Select exisiting iconset options for this theme."
+msgstr ""
+
+#: 
+msgid "Select exisiting menu style options for this theme."
+msgstr ""
+
+#: 
+msgid "Select exisiting system view options for this theme."
+msgstr ""
+
+#: 
+msgid "Select exisiting gamelist view options for this theme."
+msgstr ""
+
+#: 
+msgid "Configure theme options if available."
+msgstr ""
+
+#: 
+msgid "Select Region of logos, pictures for system that are different for some countries. E.g. Megadrive in EU / Genesis in US"
+msgstr ""
+
+#: 
+msgid "Type the name of your SSID if it is hidden or not listed"
+msgstr ""
+
+#: 
+msgid "Select a letter and the listing will go directly on the first game starting with this letter."
+msgstr ""
+
+#: 
+msgid "Select the way the game list is sortered (alphabetically, by notation...)."
+msgstr ""
+
+#: 
+msgid "Switch between seing or not only the favorites games. To add a game in the favorite list, select the game and toggle its state using 'Y'."
+msgstr ""
+
+#: 
+msgid "Switch between seing or not the hidden games. To hide a game, edit its data and select 'Hide'."
+msgstr ""
+
+#: 
+msgid "Switch between seing folders and folder content in the listing. This is useful when a game is provided as many 'bin' files for example and you keep it a a dedicated folder (ex: roms/psx/tekken 3)."
+msgstr ""
+
+#: 
+msgid "This option display a menu which allows to change game data and many others options."
+msgstr ""
+
+#: 
+msgid "AVAILABLE UPDATE"
+msgstr ""
+
+#: 
+msgid "UPDATE CHANGELOG"
 msgstr ""
 
