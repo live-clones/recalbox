@@ -16,14 +16,21 @@ def setVideoMode(videoMode, delay=0.5):
     # Anything else should result in a crash
     if videoMode == "default":
         return
-
+    videoMode = videoMode.strip()
     if videoMode == "auto":
         videoSetting = autoMode()
         # autoMode can have replied "default"
         if videoSetting == "default":
             return
         cmd = createVideoModeLine(videoSetting)
-    else :
+    elif "auto" in videoMode:
+	realSetting = videoMode.split(' ', 1)[1]
+	videoSetting = autoMode(realSetting)
+        # autoMode can have replied "default"
+        if videoSetting == "default":
+            return
+        cmd = createVideoModeLine(videoSetting)
+    else:
         cmd = createVideoModeLine(videoMode)
 
     if cmd:
@@ -82,7 +89,7 @@ def setPreffered():
         setVideoMode(esVideoMode)
 
 # Check auto mode, return the expected value
-def autoMode():
+def autoMode(expectedMode=None):
     #Resolutions to handle :
     #state 0x40001 [NTSC 4:3], 720x480 @ 60.00Hz, interlaced
     #state 0x12000a [HDMI CEA (16) RGB lim 16:9], 1920x1080 @ 60.00Hz, progressive
@@ -94,24 +101,32 @@ def autoMode():
     (out, err) = proc.communicate()
 
     # This one does match what i need ! Everything ! Passes the 5 cases listed above
-    regex = r".*\[(.*[^0-9:]+) ?([0-9]{1,2})?:?([0-9]{1,2})?\], ([0-9]{3,4})x([0-9]{3,4}) @ ([0-9.]{1,6})Hz, (progressive|interlaced).*"
+    regex = r".*\[([A-Z]{3,4}) ?(.*[^0-9:]?) ?([0-9]{1,2})?:?([0-9]{1,2})?\], ([0-9]{3,4})x([0-9]{3,4}) @ ([0-9.]{1,6})Hz, (progressive|interlaced).*"
 
     matches = re.match(regex, out)
     if not matches: 
         # We should log the out var and log that it doesn't match any known pattern
         recallog('auto mode -> had to set default')
         return "default"
-    details, wRatio, hRatio, width, height, refreshRate, progressiveOrInterlace = matches.groups()
+    drive, details, wRatio, hRatio, width, height, refreshRate, progressiveOrInterlace = matches.groups()
 
     # Now the magic
     # if the screen supports CEA 4, and its current format is at least 16:9, go for CEA 4
-    if isSupported('CEA', 4, 'HDMI'):
-        recallog("auto mode -> CEA 4 HDMI is valid")
-        return "CEA 4 HDMI"
-    elif isSupported('DMT', 85, 'HDMI'):
-        recallog("auto mode -> CEA 4 HDMI is valid")
-        return "DMT 85 HDMI"
+    if drive not in ["HDMI", "DVI"]:
+	recallog("{} is not among HDMI/DVI, fallback to default".format(drive))
+	return "default"
+    if expectedMode is not None:
+	try:
+	    autoGroup, autoMode, autoDrive = expectedMode.split( )
+	except:
+	    recallog("{} is not a valid format".format(expectedMode))
+	    raise
+    else:
+	autoGroup, autoMode, autoDrive = ['CEA', 4, drive]
+    if isSupported(autoGroup, autoMode, autoDrive):
+        recallog("auto mode -> {} {} {} is valid".format(autoGroup, autoMode, autoDrive))
+        return "{} {} {}".format(autoGroup, autoMode, autoDrive)
     # Otherwise (composite output, 5:4 screens, mini DPI screens etc ...) -> default
     else :
-        recallog("auto mode -> CEA 4 HDMI not supported, fallback to default")
+        recallog("auto mode -> CEA 4 HDMI/DVI not supported, fallback to default")
         return "default"
