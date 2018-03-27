@@ -4,20 +4,19 @@ filename="recalbox.log"
 
 while [[ $# -gt 0 ]]
 do
-        key="$1"
-        case $key in
-                -f)
-                filename="$2"
-                shift
-                ;;
-                -e)
-                customopts="-e"
-                shift
-                ;;
-                *)
-                comment="$1"
-                ;;
-        esac
+	key="$1"
+	case $key in
+		-f)
+		filename="$2"
+		shift
+		;;
+		-e)
+		customopts="-e"
+		;;
+		*)
+		comment="$1"
+		;;
+	esac
 shift
 done
 
@@ -33,3 +32,4 @@ done
 else
   echo ${customopts} "`/bin/logtime` $comment" >> "${log}"
 fi
+
