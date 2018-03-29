@@ -25,6 +25,10 @@ public:
 	
 	virtual std::vector<HelpPrompt> getHelpPrompts() override;
 
+	inline void setSelectedChangedCallback(const std::function<void(const float&)>& callback) {
+		mSelectedChangedCallback = callback;
+	}
+
 private:
 	void onValueChanged();
 
@@ -40,4 +44,6 @@ private:
 	std::string mSuffix;
 	std::shared_ptr<Font> mFont;
 	std::shared_ptr<TextCache> mValueCache;
+
+	std::function<void(const float&)> mSelectedChangedCallback;
 };

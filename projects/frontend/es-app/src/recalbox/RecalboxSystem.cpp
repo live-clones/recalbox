@@ -166,7 +166,7 @@ bool RecalboxSystem::setAudioOutputDevice(std::string selected) {
 
 	VolumeControl::getInstance()->init();
 	AudioManager::getInstance()->resumeMusic();
-	AudioManager::getInstance()->playCheckSound();
+	//AudioManager::getInstance()->playCheckSound();
 
 	return exitcode == 0;
 }

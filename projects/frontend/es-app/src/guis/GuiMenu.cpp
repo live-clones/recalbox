@@ -792,8 +792,12 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                          auto s = new GuiSettings(mWindow, _("SOUND SETTINGS").c_str());
 
                          // volume
+                         auto setVolume = [](const float &newVal) {
+                             VolumeControl::getInstance()->setVolume((int) round(newVal));
+                         };
                          auto volume = std::make_shared<SliderComponent>(mWindow, 0.f, 100.f, 1.f, "%");
                          volume->setValue((float) VolumeControl::getInstance()->getVolume());
+                         volume->setSelectedChangedCallback(setVolume);
                          s->addWithLabel(volume, _("SYSTEM VOLUME"), _(MenuMessages::SOUND_VOLUME_HELP_MSG));
 
                          // disable sounds
@@ -826,11 +830,13 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                                      optionsAudio->add((*it), (*it), selectedAudio == (*it));
                                  }
                              }
+                             auto setAudioDevice = [](const std::string &newVal) {
+                             	RecalboxSystem::getInstance()->setAudioOutputDevice(newVal);
+							 };
+                             optionsAudio->setSelectedChangedCallback(setAudioDevice);
                              s->addWithLabel(optionsAudio, _("OUTPUT DEVICE"));
                          }
                          s->addSaveFunc([optionsAudio, currentDevice, sounds_enabled, volume] {
-
-                             VolumeControl::getInstance()->setVolume((int) round(volume->getValue()));
                              RecalboxConf::getInstance()->set("audio.volume",
                                                               std::to_string((int) round(volume->getValue())));
 
@@ -840,7 +846,6 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                                  AudioManager::getInstance()->stopMusic();
                              if (currentDevice != optionsAudio->getSelected()) {
                                  RecalboxConf::getInstance()->set("audio.device", optionsAudio->getSelected());
-                                 RecalboxSystem::getInstance()->setAudioOutputDevice(optionsAudio->getSelected());
                              }
                              RecalboxConf::getInstance()->saveRecalboxConf();
                          });
