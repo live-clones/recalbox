@@ -20,7 +20,7 @@ enum CarouselType : unsigned int
 struct SystemViewData
 {
 	std::shared_ptr<GuiComponent> logo;
-	std::vector<GuiComponent*> backgroundExtras;
+	std::shared_ptr<ThemeExtras> backgroundExtras;
 };
 
 struct SystemViewCarousel

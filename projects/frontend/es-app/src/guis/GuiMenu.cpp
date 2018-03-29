@@ -174,14 +174,6 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                              }
 
                              s->addWithLabel(optionsStorage, _("STORAGE DEVICE"), _(MenuMessages::STORAGE_DEVICE_HELP_MSG));
-													
-							/*
-							// maximum vram
-							auto max_vram = std::make_shared<SliderComponent>(mWindow, 0.f, 1000.f, 10.f, "Mb");
-							max_vram->setValue((float)(Settings::getInstance()->getInt("MaxVRAM")));
-							s->addWithLabel("VRAM LIMIT", max_vram);
-							s->addSaveFunc([max_vram] { Settings::getInstance()->setInt("MaxVRAM", (int)round(max_vram->getValue())); });
-							*/
 
                              // language choice
                              auto language_choice = std::make_shared<OptionListComponent<std::string> >(window,
@@ -1074,6 +1066,9 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                      Window *window = mWindow;
 
                      auto s = new GuiSettings(mWindow, _("ADVANCED SETTINGS").c_str());
+
+
+
                      // Overclock choice
                      auto overclock_choice = std::make_shared<OptionListComponent<std::string> >(window, _("OVERCLOCK"),
                                                                                                  false);
@@ -1143,6 +1138,12 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                              }
                          }
                      });
+
+	                 // maximum vram
+	                 auto max_vram = std::make_shared<SliderComponent>(mWindow, 0.f, 200.f, 10.f, "Mb");
+	                 max_vram->setValue((float)(Settings::getInstance()->getInt("MaxVRAM")));
+	                 s->addWithLabel(max_vram, "VRAM LIMIT");
+	                 s->addSaveFunc([max_vram] { Settings::getInstance()->setInt("MaxVRAM", (int)round(max_vram->getValue())); });
 
                      // BOOT
                      {

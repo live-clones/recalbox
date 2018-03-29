@@ -5,6 +5,7 @@
 #include "platform.h"
 #include <mutex>
 #include "platform_gl.h"
+#include <nanosvg/nanosvg.h>
 
 class TextureResource;
 
@@ -60,4 +61,5 @@ private:
 	float			mSourceHeight;
 	bool			mScalable;
 	bool			mReloadable;
+	NSVGimage*		mSVGImage;
 };

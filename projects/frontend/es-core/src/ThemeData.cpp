@@ -681,6 +681,24 @@ const std::shared_ptr<ThemeData>& ThemeData::getCurrent()
 	return theme;
 }
 
+void ThemeExtras::setExtras(const std::vector<GuiComponent*>& extras)
+{
+	// delete old extras (if any)
+	for(auto it = mExtras.begin(); it != mExtras.end(); it++)
+		delete *it;
+
+	mExtras = extras;
+	for(auto it = mExtras.begin(); it != mExtras.end(); it++)
+		addChild(*it);
+}
+
+ThemeExtras::~ThemeExtras()
+{
+	for(auto it = mExtras.begin(); it != mExtras.end(); it++)
+		delete *it;
+}
+
+
 std::vector<GuiComponent*> ThemeData::makeExtras(const std::shared_ptr<ThemeData>& theme, const std::string& view, Window* window)
 {
 	std::vector<GuiComponent*> comps;

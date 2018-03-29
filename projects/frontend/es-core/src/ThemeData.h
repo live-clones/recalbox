@@ -72,6 +72,26 @@ ThemeException& operator<<(ThemeException& e, T appendMsg)
 	return e;
 }
 
+class ThemeExtras : public GuiComponent
+{
+public:
+	ThemeExtras(Window* window) : GuiComponent(window) {};
+	virtual ~ThemeExtras();
+
+	// will take ownership of the components within extras (delete them in destructor or when setExtras is called again)
+	void setExtras(const std::vector<GuiComponent*>& extras);
+	inline std::vector<GuiComponent*> getmExtras(){return mExtras;}
+	inline void sortExtrasByZIndex(){
+		std::stable_sort(mExtras.begin(), mExtras.end(),  [](GuiComponent* a, GuiComponent* b) {
+			return b->getZIndex() > a->getZIndex();
+		});
+	}
+
+private:
+	std::vector<GuiComponent*> mExtras;
+};
+
+
 struct ThemeSet
 {
 	boost::filesystem::path path;

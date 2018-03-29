@@ -11,7 +11,7 @@
 #include "Locale.h"
 
 ISimpleGameListView::ISimpleGameListView(Window* window, FileData* root) : IGameListView(window, root),
-mHeaderText(window), mHeaderImage(window), mBackground(window), mFavoriteChange(false)
+mHeaderText(window), mHeaderImage(window), mBackground(window), mThemeExtras(window), mFavoriteChange(false)
 {
 	mHeaderText.setText("Logo Text");
 	mHeaderText.setSize(mSize.x(), 0);
@@ -37,20 +37,24 @@ void ISimpleGameListView::onThemeChanged(const std::shared_ptr<ThemeData>& theme
 	mBackground.applyTheme(theme, getName(), "background", ALL);
 	mHeaderImage.applyTheme(theme, getName(), "logo", ALL);
 	mHeaderText.applyTheme(theme, getName(), "logoText", ALL);
+
 	// Remove old theme extras
-	for (auto extra : mThemeExtras)
+	for (auto extra : mThemeExtras.getmExtras())
 	{
 		removeChild(extra);
-		delete extra;
 	}
-	mThemeExtras.clear();
-	
+	mThemeExtras.getmExtras().clear();
+
+	mThemeExtras.setExtras(ThemeData::makeExtras(theme, getName(), mWindow));
+	mThemeExtras.sortExtrasByZIndex();
+
 	// Add new theme extras
-	mThemeExtras = ThemeData::makeExtras(theme, getName(), mWindow);
-	for (auto extra : mThemeExtras)
+
+	for (auto extra : mThemeExtras.getmExtras())
 	{
 		addChild(extra);
 	}
+
 
 	if(mHeaderImage.hasImage())
 	{

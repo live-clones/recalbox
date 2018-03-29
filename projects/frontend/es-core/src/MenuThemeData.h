@@ -39,9 +39,9 @@ struct MenuIconElement {
 	std::string scraper;
 	std::string advanced;
 	std::string quit;
-    	std::string restart;
-    	std::string shutdown;
-    	std::string fastshutdown;
+	std::string restart;
+	std::string shutdown;
+	std::string fastshutdown;
 };
 
 struct MenuTheme {
@@ -57,11 +57,11 @@ struct MenuTheme {
 class MenuThemeData
 {
 public:
-	static MenuThemeData* getInstance();
-	MenuTheme* getCurrentTheme() { return mCurrent; };
+	static std::shared_ptr<MenuThemeData> getInstance();
+	inline std::shared_ptr<MenuTheme> getCurrentTheme() { return mCurrent; };
 	
 private:
 	MenuThemeData();
-	MenuTheme* mCurrent;
-	static MenuThemeData* sInstance;
+	std::shared_ptr<MenuTheme> mCurrent;
+	static std::shared_ptr<MenuThemeData> sInstance;
 };

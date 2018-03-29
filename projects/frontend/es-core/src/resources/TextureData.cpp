@@ -11,7 +11,7 @@
 #define DPI 96
 
 TextureData::TextureData(bool tile) : mTile(tile), mTextureID(0), mDataRGBA(nullptr), mScalable(false),
-									  mWidth(0), mHeight(0), mSourceWidth(0.0f), mSourceHeight(0.0f)
+									  mWidth(0), mHeight(0), mSourceWidth(0.0f), mSourceHeight(0.0f), mSVGImage(NULL)
 {
 }
 
@@ -19,6 +19,9 @@ TextureData::~TextureData()
 {
 	releaseVRAM();
 	releaseRAM();
+	if (mSVGImage)
+		nsvgDelete(mSVGImage);
+	mSVGImage = NULL;
 }
 
 void TextureData::initFromPath(const std::string& path)
@@ -38,15 +41,19 @@ bool TextureData::initSVGFromMemory(const unsigned char* fileData, size_t length
 			return true;
 	}
 
+	if (mSVGImage)
+		nsvgDelete(mSVGImage);
+	mSVGImage = NULL;
+
 	// nsvgParse excepts a modifiable, null-terminated string
 	char* copy = (char*)malloc(length + 1);
 	assert(copy != NULL);
 	memcpy(copy, fileData, length);
 	copy[length] = '\0';
 
-	NSVGimage* svgImage = nsvgParse(copy, "px", DPI);
+	mSVGImage = nsvgParse(copy, "px", DPI);
 	free(copy);
-	if (!svgImage)
+	if (!mSVGImage)
 	{
 		LOG(LogError) << "Error parsing SVG image.";
 		return false;
@@ -56,8 +63,8 @@ bool TextureData::initSVGFromMemory(const unsigned char* fileData, size_t length
 	// variables are set then use them otherwise set them from the parsed file
 	if ((mSourceWidth == 0.0f) && (mSourceHeight == 0.0f))
 	{
-		mSourceWidth = svgImage->width;
-		mSourceHeight = svgImage->height;
+		mSourceWidth = mSVGImage->width;
+		mSourceHeight = mSVGImage->height;
 	}
 	mWidth = (size_t)round(mSourceWidth);
 	mHeight = (size_t)round(mSourceHeight);
@@ -65,18 +72,18 @@ bool TextureData::initSVGFromMemory(const unsigned char* fileData, size_t length
 	if (mWidth == 0)
 	{
 		// auto scale width to keep aspect
-		mWidth = (size_t)round(((float)mHeight / svgImage->height) * svgImage->width);
+		mWidth = (size_t)round(((float)mHeight / mSVGImage->height) * mSVGImage->width);
 	}
 	else if (mHeight == 0)
 	{
 		// auto scale height to keep aspect
-		mHeight = (size_t)round(((float)mWidth / svgImage->width) * svgImage->height);
+		mHeight = (size_t)round(((float)mWidth / mSVGImage->width) * mSVGImage->height);
 	}
 
 	unsigned char* dataRGBA = new unsigned char[mWidth * mHeight * 4];
 
 	NSVGrasterizer* rast = nsvgCreateRasterizer();
-	nsvgRasterize(rast, svgImage, 0, 0, mHeight / svgImage->height, dataRGBA, mWidth, mHeight, mWidth * 4);
+	nsvgRasterize(rast, mSVGImage, 0, 0, mHeight / mSVGImage->height, dataRGBA, mWidth, mHeight, mWidth * 4);
 	nsvgDeleteRasterizer(rast);
 
 	ImageIO::flipPixelsVert(dataRGBA, mWidth, mHeight);

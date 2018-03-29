@@ -90,19 +90,13 @@ void SystemView::addSystem(SystemData * it){
 
 	Eigen::Vector2f denormalized = mCarousel.logoSize.cwiseProduct(e.data.logo->getOrigin());
 	e.data.logo->setPosition(denormalized.x(), denormalized.y(), 0.0);
-	
-	// delete any existing extras
-		for (auto extra : e.data.backgroundExtras)
-			delete extra;
-		e.data.backgroundExtras.clear();
 
-	// make background extras
-	e.data.backgroundExtras = ThemeData::makeExtras((it)->getTheme(), "system", mWindow);
-	
+	e.data.backgroundExtras = std::shared_ptr<ThemeExtras>(new ThemeExtras(mWindow));
+	e.data.backgroundExtras->setExtras(ThemeData::makeExtras((it)->getTheme(), "system", mWindow));
+
+
 	// sort the extras by z-index
-	std::stable_sort(e.data.backgroundExtras.begin(), e.data.backgroundExtras.end(),  [](GuiComponent* a, GuiComponent* b) {
-		return b->getZIndex() > a->getZIndex();
-	});
+	e.data.backgroundExtras->sortExtrasByZIndex();
 
 	this->add(e);
 }
@@ -615,8 +609,8 @@ void SystemView::renderExtras(const Eigen::Affine3f& trans, float lower, float u
 			Renderer::pushClipRect(Eigen::Vector2i(extrasTrans.translation()[0], extrasTrans.translation()[1]),
 								   mSize.cast<int>());
 			SystemViewData data = mEntries.at(index).data;
-			for (unsigned int j = 0; j < data.backgroundExtras.size(); j++) {
-				GuiComponent *extra = data.backgroundExtras[j];
+			for (unsigned int j = 0; j < data.backgroundExtras->getmExtras().size(); j++) {
+				GuiComponent *extra = data.backgroundExtras->getmExtras()[j];
 				if (extra->getZIndex() >= lower && extra->getZIndex() < upper) {
 					extra->render(extrasTrans);
 				}

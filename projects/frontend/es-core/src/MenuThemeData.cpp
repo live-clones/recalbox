@@ -4,17 +4,17 @@
 #include "Renderer.h"
 #include "resources/Font.h"
 
-MenuThemeData* MenuThemeData::sInstance = NULL;
+std::shared_ptr<MenuThemeData> MenuThemeData::sInstance = NULL;
 
-MenuThemeData* MenuThemeData::getInstance() {
+std::shared_ptr<MenuThemeData> MenuThemeData::getInstance() {
 	if (sInstance == NULL || Settings::getInstance()->getBool("ThemeChanged"))
-		sInstance = new MenuThemeData();
+		sInstance = std::shared_ptr<MenuThemeData>(new MenuThemeData());
 	return sInstance;
 }
 
 MenuThemeData::MenuThemeData(){
 	
-	mCurrent = new MenuTheme;
+	mCurrent = std::shared_ptr<MenuTheme>(new MenuTheme);
 	
 	auto elem = ThemeData::getCurrent()->getElement("menu", "menubg", "menuBackground");
 	

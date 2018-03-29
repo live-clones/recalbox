@@ -333,6 +333,7 @@ void FileData::populateRecursiveFolder(FileData* folder, const std::vector<std::
 				}
 			}
 			folder->addChild(newGame);
+			delete newGame;
 			isGame = true;
 		}
 
