@@ -12,6 +12,7 @@ public:
 	{
 		DISP_DATE,
 		DISP_DATE_TIME,
+		DISP_TIME,
 		DISP_RELATIVE_TO_NOW
 	};
 
@@ -63,4 +64,6 @@ private:
 	bool mUppercase;
 
 	bool mAutoSize;
+
+	bool mFlag;
 };
