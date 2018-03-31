@@ -1,4 +1,3 @@
-#include <Settings.h>
 #include "components/MenuComponent.h"
 #include "components/ButtonComponent.h"
 #include "Locale.h"
@@ -29,23 +28,8 @@ MenuComponent::MenuComponent(Window* window, const char* title, const std::share
 		
 	setTitle(title, menuTheme->menuTitle.font);
 	mTitle->setColor(menuTheme->menuTitle.color);
-
-	mGrid.setEntry(mTitle, Vector2i(0, 0), false);
 	
-
-
-	if (title == _("MAIN MENU") && Settings::getInstance()->getBool("ShowClock")) {
-
-		mDateTime = std::make_shared<DateTimeComponent>(mWindow);
-		mDateTime->setDisplayMode(DateTimeComponent::DISP_TIME);
-		mDateTime->setFont(menuTheme->menuText.font);
-		mDateTime->setColor(menuTheme->menuText.color);
-        auto headerGrid = std::make_shared<ComponentGrid>(mWindow, Vector2i(7, 1));
-		headerGrid->setEntry(mDateTime, Vector2i(6, 0), false);
-        mGrid.setEntry(headerGrid, Vector2i(0, 0), false);
-
-	}
-
+	mGrid.setEntry(mTitle, Vector2i(0, 0), false);
 
 	// set up list which will never change (externally, anyway)
 	mList = std::make_shared<ComponentList>(mWindow);

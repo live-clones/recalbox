@@ -469,15 +469,6 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                                                                     screensaver_behavior->getSelected());
                              });
 
-							 // display clock
-							 auto show_time = std::make_shared<SwitchComponent>(mWindow);
-							 show_time->setState(Settings::getInstance()->getBool("ShowClock"));
-							 s->addWithLabel(show_time, _("CLOCK IN MENU"), MenuMessages::UI_CLOCK_HELP_MSG);
-							 s->addSaveFunc(
-									 [show_time] {
-										 Settings::getInstance()->setBool("ShowClock", show_time->getState());
-									 });
-
                              // show help
                              auto show_help = std::make_shared<SwitchComponent>(mWindow);
                              show_help->setState(Settings::getInstance()->getBool("ShowHelpPrompts"));

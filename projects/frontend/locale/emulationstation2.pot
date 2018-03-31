@@ -381,10 +381,6 @@ msgstr ""
 msgid "SHOW FRAMERATE"
 msgstr ""
 
-#:
-msgid "CLOCK IN MENU"
-msgstr ""
-
 #: 
 msgid "ON-SCREEN HELP"
 msgstr ""
