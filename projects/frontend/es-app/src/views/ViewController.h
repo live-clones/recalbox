@@ -11,6 +11,7 @@ class ViewController : public GuiComponent
 public:
 	static void init(Window* window);
 	static ViewController* get();
+	inline static Window* getWindow(){return sInstance->mWindow;}
 
 	virtual ~ViewController();
 
@@ -95,4 +96,6 @@ private:
 	State mState;
 
     int getFirstSystemIndex();
+
+    Window* mWindow;
 };

@@ -4,6 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 ### Added
+- Added pop-ups
 - Added tag in theme to force transition style
 - Added dynamic change of volume and audio output in menu
 - Added ubuntu_condensed.ttf as fallback font

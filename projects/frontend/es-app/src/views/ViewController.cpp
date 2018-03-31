@@ -34,7 +34,7 @@ void ViewController::init(Window* window)
 }
 
 ViewController::ViewController(Window* window)
-	: GuiComponent(window), mCurrentView(nullptr), mCamera(Eigen::Affine3f::Identity()), mFadeOpacity(0), mLockInput(false)
+	: GuiComponent(window), mCurrentView(nullptr), mCamera(Eigen::Affine3f::Identity()), mFadeOpacity(0), mLockInput(false), mWindow(window)
 {
 	mState.viewing = NOTHING;
 	mFavoritesOnly = Settings::getInstance()->getBool("FavoritesOnly");

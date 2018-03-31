@@ -96,6 +96,8 @@ public:
 	inline const std::string& getDeviceName() { return mDeviceName; }
 	inline const std::string& getDeviceGUIDString() { return mDeviceGUID; }
 	inline int getDeviceNbAxes() const { return mDeviceNbAxes; };
+	std::string getSDLPowerLevel();
+	std::string getSysPowerLevel();
 
 	//Returns true if Input is mapped to this name, false otherwise.
 	bool isMappedTo(const std::string& name, Input input);

@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <iomanip>
 #include <guis/GuiMsgBoxScroll.h>
+#include <guis/GuiInfoPopup.h>
 #include "components/HelpComponent.h"
 #include "components/ImageComponent.h"
 #include "guis/GuiMsgBox.h"
@@ -17,7 +18,7 @@
 #include "views/ViewController.h"
 
 Window::Window() : mNormalizeNextUpdate(false), mFrameTimeElapsed(0), mFrameCountElapsed(0), mAverageDeltaTime(10), 
-	mAllowSleep(true), mSleeping(false), mTimeSinceLastInput(0), launchKodi(false)
+	mAllowSleep(true), mSleeping(false), mTimeSinceLastInput(0), launchKodi(false), mInfoPopup(NULL)
 {
 	mHelp = new HelpComponent(this);
 	mBackgroundOverlay = new ImageComponent(this);
@@ -153,7 +154,7 @@ void Window::input(InputConfig* config, Input input)
 		{
 			launchKodi = true;
 			Window * window = this;
-			this->pushGui(new GuiMsgBox(this, _("DO YOU WANT TO START KODI MEDIA CENTER ?"), 
+			this->pushGui(new GuiMsgBox(this, _("DO YOU WANT TO START KODI MEDIA CENTER ?"),
 				_("YES"), [window, this] { 
 					if( ! RecalboxSystem::getInstance()->launchKodi(window)) {
 						LOG(LogWarning) << "Shutdown terminated with non-zero result!";
@@ -165,7 +166,14 @@ void Window::input(InputConfig* config, Input input)
 				}
 			));
 		}
-		else if(peekGui()) 
+		/*else if(config->isMappedTo("PageDown", input) && input.value
+					&& ViewController::get()->isViewing(ViewController::SYSTEM_SELECT)
+					&& mGuiStack.size() == 1 )
+		{
+			auto s = new GuiInfoPopup(this, "Controller:\n" + config->getDeviceName(), 2);
+			this->setInfoPopup(s);
+		}*/
+		else if(peekGui() && !KonamiCode(config, input, this))
 		{
 			this->peekGui()->input(config, input);
 		}
@@ -270,6 +278,10 @@ void Window::render()
 			onSleep();
 		}
 	}
+	if(mInfoPopup)
+		{
+		mInfoPopup->render(transform);
+		}
 }
 
 void Window::normalizeNextUpdate()
@@ -423,4 +435,34 @@ void Window::doWake()
 	mTimeSinceLastInput = 0;
 	mSleeping = false;
 	onWake();
+}
+
+bool Window::KonamiCode(InputConfig* config, Input input, Window* window)
+{
+	if (!input.value)
+		return false;
+
+	bool codeOk = false;
+
+	for (auto valstring : mInputVals)
+	{
+		if (config->isMappedTo(valstring, input) && (this->mKonami[this->mKonamiCount] == valstring[0]))
+		{
+			this->mKonamiCount ++;
+			codeOk = true;
+		}
+	}
+
+	if (!codeOk)
+	{
+		this->mKonamiCount = 0; // current input is incorrect, reset counter
+	}
+
+	if (this->mKonamiCount == (this->mKonami.length()))
+	{
+		auto s = new GuiInfoPopup(this, "I entered Konami Code and all I get is this lame popup", 4, "\uF200");
+		this->setInfoPopup(s);
+		return true;
+	}
+	return false;
 }

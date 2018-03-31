@@ -90,6 +90,11 @@ void InputManager::addJoystickByDeviceIndex(int id)
 	std::fill(mPrevAxisValues[joyId], mPrevAxisValues[joyId] + numAxes, 0); //initialize array to 0
 }
 
+SDL_Joystick* InputManager::getJoystickByJoystickID(int id)
+{
+	return mJoysticks[id];
+}
+
 void InputManager::removeJoystickByJoystickID(SDL_JoystickID joyId)
 {
 	assert(joyId != -1);

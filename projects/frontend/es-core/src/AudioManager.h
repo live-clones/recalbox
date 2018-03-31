@@ -9,6 +9,8 @@
 #include "Sound.h"
 #include "Music.h"
 
+#include "Window.h"
+
 
 class AudioManager {
     static std::vector<std::shared_ptr<Sound>> sSoundVector;
@@ -51,6 +53,8 @@ public:
 
     virtual ~AudioManager();
 
+    inline std::string getCurrentMusicName(){return currentMusic->getName();}
+
 private:
     bool running;
     int lastTime = 0;
@@ -64,6 +68,8 @@ private:
     std::string currentThemeMusicDirectory;
 
     void playRandomMusic();
+
+    Window* mWindow;
 };
 
 #endif

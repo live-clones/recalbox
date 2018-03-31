@@ -11,6 +11,13 @@ class ImageComponent;
 class Window
 {
 public:
+	class InfoPopup
+	{
+	public:
+		virtual void render(const Eigen::Affine3f& parentTrans) = 0;
+		virtual void stop() = 0;
+		virtual ~InfoPopup() {};
+	};
 	Window();
 	~Window();
 
@@ -39,6 +46,9 @@ public:
 	void renderHelpPromptsEarly(); // used to render HelpPrompts before a fade
 	void setHelpPrompts(const std::vector<HelpPrompt>& prompts, const HelpStyle& style);
 
+	void setInfoPopup(InfoPopup* infoPopup) { delete mInfoPopup; mInfoPopup = infoPopup; }
+	inline void stopInfoPopup() { if (mInfoPopup) mInfoPopup->stop(); };
+
 	void renderShutdownScreen();
 	
 	void doWake();
@@ -52,8 +62,11 @@ private:
 	bool isProcessing();
 	void renderScreenSaver();
 
+	bool KonamiCode(InputConfig* config, Input input, Window* window);
+
 	HelpComponent* mHelp;
 	ImageComponent* mBackgroundOverlay;
+	InfoPopup* mInfoPopup;
 
 	std::vector<GuiComponent*> mGuiStack;
 	std::vector<std::string> mMessages;
@@ -77,4 +90,8 @@ private:
 	bool mRenderedHelpPrompts;
         
 	bool launchKodi;
+
+	std::string mKonami = "uuddlrlrba";
+	int mKonamiCount;
+	const std::vector<std::string> mInputVals = { "up", "down", "left", "right", "a", "b" };
 };

@@ -29,6 +29,7 @@ set(ES_HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiScraperMulti.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiScraperStart.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiUpdate.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiInfoPopup.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiRomsManager.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/MenuMessages.h
 
@@ -88,6 +89,7 @@ set(ES_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiScraperMulti.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiScraperStart.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiUpdate.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiInfoPopup.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiRomsManager.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/MenuMessages.cpp
 

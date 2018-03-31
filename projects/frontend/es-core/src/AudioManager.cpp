@@ -10,6 +10,8 @@
 #include "ThemeData.h"
 #include <unistd.h>
 #include <time.h>
+#include <views/ViewController.h>
+#include <guis/GuiInfoPopup.h>
 
 std::vector<std::shared_ptr<Sound>> AudioManager::sSoundVector;
 std::vector<std::shared_ptr<Music>> AudioManager::sMusicVector;
@@ -19,6 +21,9 @@ std::shared_ptr<AudioManager> AudioManager::sInstance;
 
 
 AudioManager::AudioManager() : currentMusic(NULL), running(0) {
+
+	if (!mWindow)
+		mWindow = ViewController::getWindow();
     init();
 }
 
@@ -107,6 +112,8 @@ void AudioManager::playRandomMusic() {// Find a random song in user directory or
         stopMusic();
         bgsound->play(false, musicEndInternal);
         currentMusic = bgsound;
+        auto s = new GuiInfoPopup(mWindow, "Now playing:\n" + currentMusic->getName(), 2, "\uF1b0");
+        mWindow->setInfoPopup(s);
         return;
     } else {
         // Not running from playlist, and no theme song found

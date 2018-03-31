@@ -63,6 +63,46 @@ bool InputConfig::isConfigured()
 	return mNameMap.size() > 0;
 }
 
+std::string InputConfig::getSDLPowerLevel()
+{
+	SDL_Joystick* joy;
+	//joy = InputManager::getInstance()->getJoystickByJoystickID(getDeviceId());
+	joy = SDL_JoystickOpen(getDeviceId());
+	SDL_JoystickPowerLevel power = SDL_JoystickCurrentPowerLevel(joy);
+	switch(power)
+	{
+		case SDL_JOYSTICK_POWER_EMPTY:
+			return "\uF1b6";
+
+		case SDL_JOYSTICK_POWER_FULL:
+			return "\uF1b7";
+
+		case SDL_JOYSTICK_POWER_LOW:
+			return "\uF1b1";
+
+		case SDL_JOYSTICK_POWER_MAX:
+			return "\uF1ba";
+
+		case SDL_JOYSTICK_POWER_MEDIUM:
+			return "\uF1b8";
+
+		case SDL_JOYSTICK_POWER_UNKNOWN:
+			return "\uF1b9";
+
+		case SDL_JOYSTICK_POWER_WIRED:
+			return "\uF1b4";
+	}
+
+}
+
+std::string InputConfig::getSysPowerLevel()
+{
+	SDL_Joystick* joy;
+	//joy = InputManager::getInstance()->getJoystickByJoystickID(getDeviceId());
+	joy = SDL_JoystickOpen(getDeviceId());
+	return "\uF1be";
+}
+
 void InputConfig::mapInput(const std::string& name, Input input)
 {
 	mNameMap[toLower(name)] = input;

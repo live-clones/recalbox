@@ -43,6 +43,12 @@ Music::~Music()
 	deinitMusic();
 }
 
+std::string Music::getName()
+{
+	boost::filesystem::path p(mPath);
+	return p.stem().string();
+}
+
 
 void Music::initMusic()
 {
