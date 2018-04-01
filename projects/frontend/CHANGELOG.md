@@ -8,6 +8,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added ubuntu_condensed.ttf as fallback font
 - Added clock in main menu
 - Added missing fav icons for Amigas 3DO and X68k
+- Add "QUIT" help message on main menu
 ### Fixed
 - Fixed reload of theme when gamelistonly=0
 - Fixed HelpMessages not translated
