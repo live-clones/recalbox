@@ -1,5 +1,5 @@
 diff --git a/package/kodi-visualisation-fishbmc/Config.in b/package/kodi-visualisation-fishbmc/Config.in
-index 9e2eabbdbc..be638afbbc 100644
+index 9e2eabb..be638af 100644
 --- a/package/kodi-visualisation-fishbmc/Config.in
 +++ b/package/kodi-visualisation-fishbmc/Config.in
 @@ -1,5 +1,6 @@

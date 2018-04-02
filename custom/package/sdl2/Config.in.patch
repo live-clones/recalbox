@@ -1,5 +1,5 @@
 diff --git a/package/sdl2/Config.in b/package/sdl2/Config.in
-index b73611dbb0..18691b43a3 100644
+index b73611d..18691b4 100644
 --- a/package/sdl2/Config.in
 +++ b/package/sdl2/Config.in
 @@ -1,33 +1,9 @@

@@ -1,5 +1,5 @@
 diff --git a/package/bluez_utils/bluez_utils.mk b/package/bluez_utils/bluez_utils.mk
-index 1c93f2e5f5..5e37b81cd2 100644
+index 1c93f2e..5e37b81 100644
 --- a/package/bluez_utils/bluez_utils.mk
 +++ b/package/bluez_utils/bluez_utils.mk
 @@ -27,7 +27,8 @@ endif

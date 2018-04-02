@@ -1,5 +1,5 @@
 diff --git a/package/eigen/eigen.mk b/package/eigen/eigen.mk
-index 730bb5ffd2..59bdf142a8 100644
+index 730bb5f..59bdf14 100644
 --- a/package/eigen/eigen.mk
 +++ b/package/eigen/eigen.mk
 @@ -33,6 +33,7 @@ define EIGEN_INSTALL_STAGING_CMDS

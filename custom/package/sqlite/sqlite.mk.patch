@@ -1,5 +1,5 @@
 diff --git a/package/sqlite/sqlite.mk b/package/sqlite/sqlite.mk
-index 0a5c1bb8f9..ef4843753e 100644
+index 0a5c1bb..ef48437 100644
 --- a/package/sqlite/sqlite.mk
 +++ b/package/sqlite/sqlite.mk
 @@ -6,7 +6,7 @@

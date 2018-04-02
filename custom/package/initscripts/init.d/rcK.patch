@@ -1,0 +1,12 @@
+diff --git a/package/initscripts/init.d/rcK b/package/initscripts/init.d/rcK
+index 59e9c54..6b82cdf 100755
+--- a/package/initscripts/init.d/rcK
++++ b/package/initscripts/init.d/rcK
+@@ -20,6 +20,7 @@ for i in $(ls -r /etc/init.d/S??*) ;do
+ 	    ;;
+ 	*)
+ 	    # No sh extension, so fork subprocess.
++	    recallog -f init.log "stop $i"
+ 	    $i stop
+ 	    ;;
+     esac
