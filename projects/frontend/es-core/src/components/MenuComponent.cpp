@@ -1,4 +1,5 @@
 #include <Settings.h>
+#include <recalbox/RecalboxSystem.h>
 #include "components/MenuComponent.h"
 #include "components/ButtonComponent.h"
 #include "Locale.h"
@@ -34,15 +35,35 @@ MenuComponent::MenuComponent(Window* window, const char* title, const std::share
 	
 
 
-	if (title == _("MAIN MENU") && Settings::getInstance()->getBool("ShowClock")) {
+	if (title == _("MAIN MENU") ) {
 
-		mDateTime = std::make_shared<DateTimeComponent>(mWindow);
-		mDateTime->setDisplayMode(DateTimeComponent::DISP_TIME);
-		mDateTime->setFont(menuTheme->menuText.font);
-		mDateTime->setColor(menuTheme->menuText.color);
-        auto headerGrid = std::make_shared<ComponentGrid>(mWindow, Vector2i(7, 1));
-		headerGrid->setEntry(mDateTime, Vector2i(6, 0), false);
-        mGrid.setEntry(headerGrid, Vector2i(0, 0), false);
+		auto batt = RecalboxSystem::getInstance()->getBatteryInfo();
+
+		auto headerGrid = std::make_shared<ComponentGrid>(mWindow, Vector2i(7, 1));
+
+		if (batt.second != -1){
+			auto batDisplay = std::make_shared<TextComponent>(mWindow);
+			batDisplay->setFont(menuTheme->menuText.font);
+			if (batt.second <= 15)
+				batDisplay->setColor(0xFF0000FF);
+			else
+				batDisplay->setColor(menuTheme->menuText.color);
+			batDisplay->setText(batt.first + " " + std::to_string(batt.second) + "%");
+			batDisplay->setHorizontalAlignment(ALIGN_CENTER);
+			headerGrid->setEntry(batDisplay, Vector2i(0,0), false);
+
+		}
+
+		if (Settings::getInstance()->getBool("ShowClock")) {
+
+			mDateTime = std::make_shared<DateTimeComponent>(mWindow);
+			mDateTime->setDisplayMode(DateTimeComponent::DISP_TIME);
+			mDateTime->setFont(menuTheme->menuText.font);
+			mDateTime->setColor(menuTheme->menuText.color);
+			headerGrid->setEntry(mDateTime, Vector2i(6, 0), false);
+		}
+
+	    mGrid.setEntry(headerGrid, Vector2i(0, 0), false);
 
 	}
 

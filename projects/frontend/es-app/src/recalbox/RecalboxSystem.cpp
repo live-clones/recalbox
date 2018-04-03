@@ -490,3 +490,19 @@ bool RecalboxSystem::ping() {
     return exitcode == 0;
 }
 
+std::pair<std::string, int> RecalboxSystem::getBatteryInfo(){
+    std::pair<std::string, int> result;
+    int percent;
+    SDL_GetPowerInfo(NULL,&percent);
+    result.second = percent;
+    if (percent>66)
+        result.first = "\uF1ba";
+    else if (percent>33)
+        result.first = "\uF1b8";
+    else if (percent>15)
+        result.first = "\uF1b1";
+    else
+        result.first = "\uF1b5";
+    return result;
+}
+
