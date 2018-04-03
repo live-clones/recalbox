@@ -72,7 +72,14 @@ std::pair<std::string, int> RecalboxUpgrade::updateSystem(BusyComponent* ui) {
         strtok(line, "\n");
         std::string output = line;
         boost::replace_all(output, "\e[1A", "");
-        ui->setText(_("DOWNLOADED") + std::string(": ") + std::string(output));
+		if (output.find(':') != std::string::npos) {
+
+			int p1 = output.find(":");
+			std::string i18n = output.substr(0, p1);
+			std::string percent = output.substr(p1 + 1, std::string::npos);
+			ui->setText(_(i18n.c_str()) + ": " + percent);
+		} else
+			ui->setText(_(output.c_str()));
     }
 
     int exitCode = pclose(pipe);
