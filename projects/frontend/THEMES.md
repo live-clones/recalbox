@@ -703,6 +703,9 @@ EmulationStation borrows the concept of "nine patches" from Android (or "9-Slice
 * `maxLogoCount` - type: FLOAT.
 	- Sets the number of logos to display in the carousel.
 	- Default is 3
+* `defaultTransition` - type: STRING.
+    - Force transition style.
+    - Accepted values are "instant", "fade" or "slide".
 * `zIndex` - type: FLOAT.
 	- z-index value for component.  Components will be rendered in order of z-index value from low to high.
 	

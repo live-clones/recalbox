@@ -133,6 +133,7 @@ std::map< std::string, ElementMapType > ThemeData::sElementMap = boost::assign::
 		("logoSize", NORMALIZED_PAIR)
 		("logoAlignment", STRING)
 		("maxLogoCount", FLOAT)
+		("defaultTransition", STRING)
 		("zIndex", FLOAT)))
 	("menuBackground", makeMap(boost::assign::map_list_of
 		("color", COLOR)
@@ -848,6 +849,21 @@ fs::path ThemeData::getThemeFromCurrentSet(const std::string& system)
 	}
 
 	return set->second.getThemePath(system);
+}
+
+std::string ThemeData::getTransition()
+{
+	std::string result = "";
+	auto elem = getElement("system", "systemcarousel", "carousel");
+	if (elem->has("defaultTransition")) {
+		if (!(elem->get<std::string>("defaultTransition").compare("instant")))
+			result = "instant";
+		if (!(elem->get<std::string>("defaultTransition").compare("fade")))
+			result = "fade";
+		if (!(elem->get<std::string>("defaultTransition").compare("slide")))
+			result = "slide";
+	}
+	return result;
 }
 
 bool ThemeData::getHasFavoritesInTheme()

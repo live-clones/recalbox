@@ -135,6 +135,7 @@ public:
 	static std::map<std::string, std::string> getThemeSubSets(const std::string& theme);
 	static std::map<std::string, std::string> sortThemeSubSets(const std::map<std::string, std::string>& subsetmap, const std::string& subset);
 	static boost::filesystem::path getThemeFromCurrentSet(const std::string& system);
+	std::string getTransition();
 
 	bool getHasFavoritesInTheme();
 

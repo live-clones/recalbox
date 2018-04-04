@@ -556,6 +556,9 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                                                                     window->pushGui(ViewController::get());
                                                                     ViewController::get()->goToStart();
 																	MenuThemeData::getInstance();
+									 								auto transi = ThemeData::getCurrent()->getTransition();
+																	if (transi != "")
+																		Settings::getInstance()->setString("TransitionStyle", transi);
 																	Settings::getInstance()->setBool("ThemeChanged", false);
 								 };
 								 
