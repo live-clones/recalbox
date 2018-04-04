@@ -16,6 +16,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - recallog now logs even when share is not mounted
 - fix: wifi always activated on reboot even if disabled in ES
 - split share detection and upgrade process
+- fix: Game&Watch core name not properly displayed
 
 ## [18.03.30] - 2018-03-30
 - moonlight: fix bad SDL2 GUID generation

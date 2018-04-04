@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system gw --extension '.zip .ZIP .mgw .MGW' --fullname 'Game and Watch' --platform gw --theme gw libretro:vb:BR2_PACKAGE_LIBRETRO_GW
+# ./scripts/linux/empack.py --system gw --extension '.zip .ZIP .mgw .MGW' --fullname 'Game and Watch' --platform gw --theme gw libretro:gw:BR2_PACKAGE_LIBRETRO_GW
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_GW_SOURCE = 
@@ -31,8 +31,8 @@ define CONFIGURE_GW_LIBRETRO_START
 	$(call RECALBOX_ROMFS_CALL_START_EMULATOR,$(SYSTEM_XML_GW),libretro)
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_GW),y)
-define CONFIGURE_GW_LIBRETRO_VB_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_GW),vb)
+define CONFIGURE_GW_LIBRETRO_GW_DEF
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_GW),gw)
 endef
 endif
 
@@ -51,7 +51,7 @@ endif
 define RECALBOX_ROMFS_GW_CONFIGURE_CMDS
 	$(CONFIGURE_MAIN_GW_START)
 	$(CONFIGURE_GW_LIBRETRO_START)
-	$(CONFIGURE_GW_LIBRETRO_VB_DEF)
+	$(CONFIGURE_GW_LIBRETRO_GW_DEF)
 	$(CONFIGURE_GW_LIBRETRO_END)
 	$(CONFIGURE_MAIN_GW_END)
 endef
