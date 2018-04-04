@@ -385,9 +385,9 @@ std::vector<std::string> getFallbackFontPaths()
 	// TODO
 	const char* paths[] = {
 	    "/usr/share/fonts/truetype/ubuntu_condensed.ttf",
-		"/usr/share/fonts/truetype/droid/DroidSansFallbackFull.ttf",// japanese, chinese, present on Debian
-		":/fontawesome_webfont.ttf",
-		 "/usr/share/fonts/truetype/fontawesome-webfont.ttf",
+        "/usr/share/fonts/truetype/droid/DroidSansFallbackFull.ttf",// japanese, chinese, present on Debian
+        ":/fontawesome_webfont.ttf",
+        "/usr/share/fonts/truetype/fontawesome-webfont.ttf",
 	};
 
 	std::vector<std::string> fontPaths;
