@@ -1090,7 +1090,7 @@ msgstr "TURBOA (1350Mhz)"
 
 #: 
 msgid "HIGH (1300Mhz)"
-msgstr "ALTUA (1300Mhz)\n"
+msgstr "ALTUA (1300Mhz)"
 ""
 
 #: 
