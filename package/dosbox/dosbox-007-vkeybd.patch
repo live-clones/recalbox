@@ -1,6 +1,6 @@
 --- a/include/vkeybd.h	1970-01-01 01:00:00.000000000 +0100
-+++ b/include/vkeybd.h	2018-01-15 13:38:37.323314700 +0100
-@@ -0,0 +1,31 @@
++++ b/include/vkeybd.h	2018-04-03 21:52:33.500029548 +0200
+@@ -0,0 +1,33 @@
 + /*
 + *  Copyright (C) 2002-2017  The DOSBox Team
 + *
@@ -22,6 +22,8 @@
 +#ifndef DOSBOX_VKEYBD_H
 +#define DOSBOX_VKEYBD_H
 +
++void VKEYBD_Init();
++
 +#if SDL_VERSION_ATLEAST(2,0,0)
 +void VKEYBD_Run(SDL_Window *window, SDL_PixelFormat* pixelFormat);
 +#else
@@ -33,7 +35,7 @@
 +#endif
 +
 --- a/src/gui/Makefile.am	2010-10-29 23:33:50.000000000 +0200
-+++ b/src/gui/Makefile.am	2018-01-15 13:38:37.323314700 +0100
++++ b/src/gui/Makefile.am	2018-04-03 21:51:17.320111403 +0200
 @@ -1,7 +1,7 @@
  AM_CPPFLAGS = -I$(top_srcdir)/include
  
@@ -43,8 +45,8 @@
  	render.cpp render_scalers.cpp render_scalers.h \
  	render_templates.h render_loops.h render_simple.h \
  	render_templates_sai.h render_templates_hq.h \
---- a/src/gui/sdlmain.cpp	2018-01-15 17:14:18.727030041 +0100
-+++ b/src/gui/sdlmain.cpp	2018-01-15 17:11:18.908304460 +0100
+--- a/src/gui/sdlmain.cpp	2018-04-03 21:49:45.564216898 +0200
++++ b/src/gui/sdlmain.cpp	2018-04-06 18:01:07.298937511 +0200
 @@ -50,6 +50,7 @@
  #include "support.h"
  #include "debug.h"
@@ -90,17 +92,18 @@
  #if defined (REDUCE_JOYSTICK_POLLING)
  	static int poll_delay=0;
  	int time=GetTicks();
-@@ -3163,6 +3180,7 @@ int main(int argc, char* argv[]) {
+@@ -3144,6 +3161,8 @@ int main(int argc, char* argv[]) {
+ 		}
+ 	}
  
- 		/* Init the keyMapper */
- 		MAPPER_Init();
-+
- 		if (control->cmdline->FindExist("-startmapper")) MAPPER_RunInternal();
- 		/* Start up main machine */
- 		control->StartUp();
++	/* Init the virtual keyboard */
++	VKEYBD_Init();
+ 
+ #if (ENVIRON_LINKED)
+ 		control->ParseEnv(environ);
 --- a/src/gui/sdl_vkeybd.cpp	1970-01-01 01:00:00.000000000 +0100
-+++ b/src/gui/sdl_vkeybd.cpp	2018-01-24 14:09:46.674561521 +0100
-@@ -0,0 +1,743 @@
++++ b/src/gui/sdl_vkeybd.cpp	2018-04-03 21:59:20.319654109 +0200
+@@ -0,0 +1,747 @@
 +/*
 + *  Copyright (C) 2002-2017  The DOSBox Team
 + *
@@ -283,6 +286,8 @@
 +	}
 +};
 +
++// The directory containing the virtual keyboard configuration
++static std::string vkeybd_dir;
 +// The surface of the virtual keyboard image
 +static SDL_Surface* vkeybd_surface;
 +// The rectangle delimiting the virtual keyboard display
@@ -700,16 +705,6 @@
 +		keyList.clear();
 +	}
 +	
-+	// Get virtual keyboard directory
-+	// 1) use -vkeybd parameter
-+	// 2) use DosBox configuration directory
-+	std::string vkeybd_dir;
-+	if (!control->cmdline->FindString("-vkeybd", vkeybd_dir, true))
-+		Cross::GetPlatformConfigDir(vkeybd_dir);
-+	// Add directory separator (if not)
-+	if (*vkeybd_dir.rbegin() != CROSS_FILESPLIT)
-+		vkeybd_dir += CROSS_FILESPLIT;
-+	
 +	// Load virtual keyoard image
 +	char path[100];
 +	sprintf(path, "%svkeybd_%d.bmp", vkeybd_dir.c_str(), new_format);
@@ -735,6 +730,18 @@
 +	// Store loaded format
 +	vkeybd_format = new_format;
 +	LOG_MSG("VKEYBD: Virtual keyboard successfully loaded");
++}
++
++// Initialize virtual keyboard properties
++void VKEYBD_Init() {
++	// Get virtual keyboard directory
++	// 1) use -vkeybd parameter
++	// 2) use DosBox configuration directory
++	if (!control->cmdline->FindString("-vkeybd", vkeybd_dir, true))
++		Cross::GetPlatformConfigDir(vkeybd_dir);
++	// Add directory separator (if not)
++	if (*vkeybd_dir.rbegin() != CROSS_FILESPLIT)
++		vkeybd_dir += CROSS_FILESPLIT;
 +}
 +
 +// Display virtual keyboard and process events

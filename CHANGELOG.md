@@ -4,6 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [18.04.20] - 2018-04-20
 - more informations in support archives
+- DosBox: resolve lag regression on RPI3 + strange behavior if no dosbox.bat
 
 ## [18.03.30] - 2018-03-30
 - moonlight: fix bad SDL2 GUID generation
