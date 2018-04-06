@@ -111,7 +111,9 @@ msgstr[1] "%i OYUNLAR BAŞARIYLA ÇEKİLDİ!"
 #: 
 msgid "%i GAME SKIPPED."
 msgid_plural "%i GAMES SKIPPED."
-msgstr[0] "%i OYUN ATLANDI."
+msgstr[0] "%i OYUN ATLANDI.\n"
+"\n"
+""
 msgstr[1] "%i OYUNLAR ATLANDI."
 
 #: 
@@ -825,7 +827,7 @@ msgstr "asla"
 
 #: 
 msgid "just now"
-msgstr "az önce"
+msgstr "az önce\n"
 ""
 
 #: 
@@ -1416,7 +1418,7 @@ msgstr "DERLENMİŞ GÖRSELLERİ KULLAN"
 
 #: 
 msgid "CHECK UPDATES"
-msgstr "GÜNCELLİĞİ KONTROL ET"
+msgstr "GÜNCELLİĞİ KONTROL ET\n"
 ""
 
 #: 
@@ -1437,7 +1439,7 @@ msgstr "BAŞLANGIÇ AYARLARI"
 
 #: 
 msgid "GAMELIST ONLY"
-msgstr "Sadece Oyun Listesi"
+msgstr "Sadece Oyun Listesi\n"
 ""
 
 #: 
