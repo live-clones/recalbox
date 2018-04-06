@@ -1472,149 +1472,149 @@ msgstr "FORCER LA VUE LISTE DE JEUX BASIQUE"
 
 #: 
 msgid "DOWNLOADED"
-msgstr ""
+msgstr "TÉLÉCHARGÉ"
 
 #: 
 msgid "UPDATE VERSION:"
-msgstr ""
+msgstr "VERSION MISE ­À JOUR:"
 
 #: 
 msgid "UPDATE CHANGELOG:"
-msgstr ""
+msgstr "CHANGELOG DE LA MISE À JOUR:"
 
 #: 
 msgid "MORE DETAILS"
-msgstr ""
+msgstr "PLUS DE DÉTAILS"
 
 #: 
 msgid "CAROUSEL ANIMATION"
-msgstr ""
+msgstr "ANIMATION DU BANDEAU"
 
 #: 
 msgid "THEME CONFIGURATION"
-msgstr ""
+msgstr "CONFIGURATION DU THÈME"
 
 #: 
 msgid "THEME COLORSET"
-msgstr ""
+msgstr "COLORSET DU THÈME"
 
 #: 
 msgid "THEME ICONSET"
-msgstr ""
+msgstr "ICONSET DU THÈME"
 
 #: 
 msgid "THEME MENU"
-msgstr ""
+msgstr "MENU DU THÈME"
 
 #: 
 msgid "THEME SYSTEMVIEW"
-msgstr ""
+msgstr "SYSTEMVIEW DU THÈME"
 
 #: 
 msgid "THEME GAMELISTVIEW"
-msgstr ""
+msgstr "GAMELISTVIEW DU THÈME"
 
 #: 
 msgid "THEME REGION"
-msgstr ""
+msgstr "RÉGION DU THÈME"
 
 #: 
 msgid "THIS THEME HAS NO OPTION"
-msgstr ""
+msgstr "CE THÈME N'A PAS D'OPTIONS"
 
 #: 
 msgid "MANUAL INPUT"
-msgstr ""
+msgstr "SAISIE MANUELLE"
 
 #: 
 msgid "AN ERROR OCCURED - DOWNLOADED"
-msgstr ""
+msgstr "UNE ERREUR EST SURVENUE - TÉLÉCHARGÉ"
 
 #: 
 msgid "START KODI"
-msgstr ""
+msgstr "DÉMARRER KODI"
 
 #: 
 msgid "Shows the current available update version."
-msgstr ""
+msgstr "Montre les versions disponibles."
 
 #: 
 msgid "Shows the current available update changelog."
-msgstr ""
+msgstr "Montre le changelog de la mise à jour disponible."
 
 #: 
 msgid "Configure an associated controller. Your controller has to be associated / plugged before."
-msgstr ""
+msgstr "Configurer une manette appairée. Votre manette doit être appairée / branchée auparavant."
 
 #: 
 msgid "Choose if carousel will be animated or not during transitions"
-msgstr ""
+msgstr "Choisissez si le bandeau sera animé ou non durant les transitions."
 
 #: 
 msgid "Select the type of transition that occurs when you start a game. INSTANT will do nothing, FADE will fade to dark, and SLIDE will zoom on the game cover (or name if there is no scrape information)"
-msgstr ""
+msgstr "Sélectionnez le type de transition qui se produit lorsque vous lancez un jeu. FADE fera un fondu au noir et SLIDE zoomera sur l'image du jeu (ou le nom si il n'y a pas de metadatas)."
 
 #: 
 msgid "Select exisiting colorset options for this theme."
-msgstr ""
+msgstr "Sélectionnez un colorset disponible pour votre thème"
 
 #: 
 msgid "Select exisiting iconset options for this theme."
-msgstr ""
+msgstr "Sélectionnez un iconset disponible pour votre thème"
 
 #: 
 msgid "Select exisiting menu style options for this theme."
-msgstr ""
+msgstr "Sélectionnez un style de menu disponible pour votre thème"
 
 #: 
 msgid "Select exisiting system view options for this theme."
-msgstr ""
+msgstr "Sélectionnez une vue système disponible pour votre thème"
 
 #: 
 msgid "Select exisiting gamelist view options for this theme."
-msgstr ""
+msgstr "Sélectionnez une vue gamelist disponible pour votre thème"
 
 #: 
 msgid "Configure theme options if available."
-msgstr ""
+msgstr "Configurez les options du thème si disponibles"
 
 #: 
 msgid "Select Region of logos, pictures for system that are different for some countries. E.g. Megadrive in EU / Genesis in US"
-msgstr ""
+msgstr "Sélectionnez une région des logos et images pour les systèmes qui sont différents selon les pays. Ex: Megadrive en Europe / Genesis aux USA"
 
 #: 
 msgid "Type the name of your SSID if it is hidden or not listed"
-msgstr ""
+msgstr "Saisissez le nom de votre SSID si il n'est pas dans la liste ou caché"
 
 #: 
 msgid "Select a letter and the listing will go directly on the first game starting with this letter."
-msgstr ""
+msgstr "Sélectionnez une lettre et le listing ira directement sur le 1er jeu commençant par cette lettre."
 
 #: 
 msgid "Select the way the game list is sortered (alphabetically, by notation...)."
-msgstr ""
+msgstr "Sélectionnez la façon dont la liste de jeux est triée (alphabétique, par note...)."
 
 #: 
 msgid "Switch between seing or not only the favorites games. To add a game in the favorite list, select the game and toggle its state using 'Y'."
-msgstr ""
+msgstr "Changer entre rendre visible ou non les jeux favoris. Pour ajouter un jeu dans les favoris, sélectionnez le jeu et changer son statut en utilisant 'Y'."
 
 #: 
 msgid "Switch between seing or not the hidden games. To hide a game, edit its data and select 'Hide'."
-msgstr ""
+msgstr "Changer entre rendre visible ou non les jeux cachés. pour cacher un jeu, éditez ses données et sélectionnez 'Cacher'."
 
 #: 
 msgid "Switch between seing folders and folder content in the listing. This is useful when a game is provided as many 'bin' files for example and you keep it a a dedicated folder (ex: roms/psx/tekken 3)."
-msgstr ""
+msgstr "Changer entre rendre visible ou non les dossiers et leur contenu dans la liste. C'est utile par exemple lorsqu'un jeu est fourni avec plusieurs fichiers 'bin' et que vous le gardez dans un dossier spécifique (ex: roms/psx/tekken3)."
 
 #: 
 msgid "This option display a menu which allows to change game data and many others options."
-msgstr ""
+msgstr "Cette option affiche un menu qui permet de changer les données du jeu et de nombreuses autres options."
 
 #: 
 msgid "AVAILABLE UPDATE"
-msgstr ""
+msgstr "MISE À JOUR DISPONIBLE"
 
 #: 
 msgid "UPDATE CHANGELOG"
-msgstr ""
+msgstr "CHANGELOG DE LA MISE À JOUR"
 
