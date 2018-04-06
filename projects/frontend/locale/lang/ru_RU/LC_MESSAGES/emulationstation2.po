@@ -1040,7 +1040,7 @@ msgstr "ЭКРАННАЯ КЛАВИАТУРА"
 
 #: 
 msgid "SHIFTS FOR UPPER,LOWER, AND SPECIAL"
-msgstr "ПЕРЕКЛЮЧИТЬ РЕГИСТРТ И СПЕЦСИМВОЛЫ"
+msgstr "ПЕРЕКЛЮЧИТЬ РЕГИСТР И СПЕЦСИМВОЛЫ"
 
 #: 
 msgid "SPACE"
@@ -1452,7 +1452,7 @@ msgstr "ДОПОЛНИТЕЛЬНЫЕ НАСТРОЙКИ"
 
 #: 
 msgid "BOOT SETTINGS"
-msgstr "НАСТРОКИ ЗАГРУЗКИ"
+msgstr "НАСТРОЙКИ ЗАГРУЗКИ"
 
 #: 
 msgid "GAMELIST ONLY"
@@ -1492,149 +1492,149 @@ msgstr "ПРОСТОЙ ВИД СПИСКА ИГР"
 
 #: 
 msgid "DOWNLOADED"
-msgstr ""
+msgstr "ЗАГРУЖЕНО"
 
 #: 
 msgid "UPDATE VERSION:"
-msgstr ""
+msgstr "ВЕРСИЯ ОБНОВЛЕНИЯ"
 
 #: 
 msgid "UPDATE CHANGELOG:"
-msgstr ""
+msgstr "СПИСОК ИЗМЕНЕНИЙ:"
 
 #: 
 msgid "MORE DETAILS"
-msgstr ""
+msgstr "ПОДРОБНЕЕ"
 
 #: 
 msgid "CAROUSEL ANIMATION"
-msgstr ""
+msgstr "АНИМАЦИЯ КАРУСЕЛИ"
 
 #: 
 msgid "THEME CONFIGURATION"
-msgstr ""
+msgstr "НАСТРОЙКА ТЕМЫ"
 
 #: 
 msgid "THEME COLORSET"
-msgstr ""
+msgstr "ЦВЕТОВАЯ СХЕМА"
 
 #: 
 msgid "THEME ICONSET"
-msgstr ""
+msgstr "НАБОР ИКОНОК"
 
 #: 
 msgid "THEME MENU"
-msgstr ""
+msgstr "МЕНЮ"
 
 #: 
 msgid "THEME SYSTEMVIEW"
-msgstr ""
+msgstr "СПИСОК ПЛАТФОРМ"
 
 #: 
 msgid "THEME GAMELISTVIEW"
-msgstr ""
+msgstr "СПИСОК ИГР"
 
 #: 
 msgid "THEME REGION"
-msgstr ""
+msgstr "РЕГИОН"
 
 #: 
 msgid "THIS THEME HAS NO OPTION"
-msgstr ""
+msgstr "У ЭТОЙ ТЕМЫ НЕТ ПАРАМЕТРОВ"
 
 #: 
 msgid "MANUAL INPUT"
-msgstr ""
+msgstr "РУЧНОЙ ВВОД"
 
 #: 
 msgid "AN ERROR OCCURED - DOWNLOADED"
-msgstr ""
+msgstr "ПРОИЗОШЛА ОШИБКА - ЗАГРУЖЕНО"
 
 #: 
 msgid "START KODI"
-msgstr ""
+msgstr "ЗАПУСК KODI"
 
 #: 
 msgid "Shows the current available update version."
-msgstr ""
+msgstr "Показывает текущую версию обновления."
 
 #: 
 msgid "Shows the current available update changelog."
-msgstr ""
+msgstr "Показывает изменения в доступном обновлении."
 
 #: 
 msgid "Configure an associated controller. Your controller has to be associated / plugged before."
-msgstr ""
+msgstr "Настройка связанного контроллера. Ваш контроллер должен быть заранее связан / подключен."
 
 #: 
 msgid "Choose if carousel will be animated or not during transitions"
-msgstr ""
+msgstr "Наличие анимации карусели при переходе"
 
 #: 
 msgid "Select the type of transition that occurs when you start a game. INSTANT will do nothing, FADE will fade to dark, and SLIDE will zoom on the game cover (or name if there is no scrape information)"
-msgstr ""
+msgstr "Выберите тип перехода при старте игры. INSTANT - нет перехода. FADE - затемнение, SLIDE - увеличение масштаба обложки игры (или названия если нет обложки)"
 
 #: 
 msgid "Select exisiting colorset options for this theme."
-msgstr ""
+msgstr "Выбор цветовой схемы для темы."
 
 #: 
 msgid "Select exisiting iconset options for this theme."
-msgstr ""
+msgstr "Выбор набора иконок для темы."
 
 #: 
 msgid "Select exisiting menu style options for this theme."
-msgstr ""
+msgstr "Выбор стиля меню для темы."
 
 #: 
 msgid "Select exisiting system view options for this theme."
-msgstr ""
+msgstr "Выбор вида списка платформ для темы."
 
 #: 
 msgid "Select exisiting gamelist view options for this theme."
-msgstr ""
+msgstr "Выбор вида списка игр для темы."
 
 #: 
 msgid "Configure theme options if available."
-msgstr ""
+msgstr "Настроить тему если это доступно"
 
 #: 
 msgid "Select Region of logos, pictures for system that are different for some countries. E.g. Megadrive in EU / Genesis in US"
-msgstr ""
+msgstr "Выбор региона лого, превью для платформ, которые отличаются в разных странах. Например, Mega Drive в Европе / Genesis в США"
 
 #: 
 msgid "Type the name of your SSID if it is hidden or not listed"
-msgstr ""
+msgstr "Ввод названия SSID, если он скрыт или отсутствует в списке"
 
 #: 
 msgid "Select a letter and the listing will go directly on the first game starting with this letter."
-msgstr ""
+msgstr "Выберите букву, и список перейдет непосредственно к первой игре, начинающейся с этой буквы."
 
 #: 
 msgid "Select the way the game list is sortered (alphabetically, by notation...)."
-msgstr ""
+msgstr "Выберите способ сортировки списка игр (в алфавитном порядке, по описанию...)."
 
 #: 
 msgid "Switch between seing or not only the favorites games. To add a game in the favorite list, select the game and toggle its state using 'Y'."
-msgstr ""
+msgstr "Переключение отображения всего списка или только избранного. Для добавления/удаления игры в избранном используйте 'Y'."
 
 #: 
 msgid "Switch between seing or not the hidden games. To hide a game, edit its data and select 'Hide'."
-msgstr ""
+msgstr "Переключение отображения скрытых игр. Чтобы скрыть игру, отредактируйте ее данные и выберите «Скрыть»."
 
 #: 
 msgid "Switch between seing folders and folder content in the listing. This is useful when a game is provided as many 'bin' files for example and you keep it a a dedicated folder (ex: roms/psx/tekken 3)."
-msgstr ""
+msgstr "Переключение отображения папок/содержимого папок в списке. Это полезно, когда в игре предусмотрено несколько bin-файлов и вы храните их в отдельных папках (например: roms/psx/tekken 3)."
 
 #: 
 msgid "This option display a menu which allows to change game data and many others options."
-msgstr ""
+msgstr "Эта опция отображает меню, которое позволяет изменить данные игры и многие другие опции."
 
 #: 
 msgid "AVAILABLE UPDATE"
-msgstr ""
+msgstr "ДОСТУПНО ОБНОВЛЕНИЕ"
 
 #: 
 msgid "UPDATE CHANGELOG"
-msgstr ""
+msgstr "СПИСОК ИЗМЕНЕНИЙ"
 
