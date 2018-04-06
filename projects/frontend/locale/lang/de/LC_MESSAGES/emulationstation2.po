@@ -1415,7 +1415,7 @@ msgstr "Wähle aus welcher Core für das gewählte System benutzt werden soll. Z
 
 #: 
 msgid "USE COMPOSED VISUALS"
-msgstr "VERWENDE ZUSAMMENGESTELLTE VISUALS"
+msgstr "VERWENDE ZUSAMMENGESTELLTES COVER"
 
 #: 
 msgid "CHECK UPDATES"
@@ -1476,149 +1476,149 @@ msgstr "BASIS-ANSICHT DER SPIELELISTE  ERZWINGEN"
 
 #: 
 msgid "DOWNLOADED"
-msgstr ""
+msgstr "HERUNTERGELADEN"
 
 #: 
 msgid "UPDATE VERSION:"
-msgstr ""
+msgstr "UPDATE VERSION:"
 
 #: 
 msgid "UPDATE CHANGELOG:"
-msgstr ""
+msgstr "CHANGELOG DES UPDATES:"
 
 #: 
 msgid "MORE DETAILS"
-msgstr ""
+msgstr "MEHR DETAILS"
 
 #: 
 msgid "CAROUSEL ANIMATION"
-msgstr ""
+msgstr "KARUSSELL-ANIMATION"
 
 #: 
 msgid "THEME CONFIGURATION"
-msgstr ""
+msgstr "THEME KONFIGURATION"
 
 #: 
 msgid "THEME COLORSET"
-msgstr ""
+msgstr "THEME FARBSET"
 
 #: 
 msgid "THEME ICONSET"
-msgstr ""
+msgstr "THEME ICONSET"
 
 #: 
 msgid "THEME MENU"
-msgstr ""
+msgstr "THEME MENÜ"
 
 #: 
 msgid "THEME SYSTEMVIEW"
-msgstr ""
+msgstr "THEME SYSTEMANSICHT"
 
 #: 
 msgid "THEME GAMELISTVIEW"
-msgstr ""
+msgstr "THEME SPIELELISTE"
 
 #: 
 msgid "THEME REGION"
-msgstr ""
+msgstr "THEME REGION"
 
 #: 
 msgid "THIS THEME HAS NO OPTION"
-msgstr ""
+msgstr "DIESES THEME HAT KEINE OPTIONEN"
 
 #: 
 msgid "MANUAL INPUT"
-msgstr ""
+msgstr "MANUELLE EINGABE"
 
 #: 
 msgid "AN ERROR OCCURED - DOWNLOADED"
-msgstr ""
+msgstr "FEHLER BEIM DOWNLOAD"
 
 #: 
 msgid "START KODI"
-msgstr ""
+msgstr "KODI STARTEN"
 
 #: 
 msgid "Shows the current available update version."
-msgstr ""
+msgstr "Zeige die momentane verfügbare stabile Version"
 
 #: 
 msgid "Shows the current available update changelog."
-msgstr ""
+msgstr "Zeige das aktuelle Changelog"
 
 #: 
 msgid "Configure an associated controller. Your controller has to be associated / plugged before."
-msgstr ""
+msgstr "Konfiguriere einen Controller. Der Controller muss vorher zugeordnet / angeschlossen werden."
 
 #: 
 msgid "Choose if carousel will be animated or not during transitions"
-msgstr ""
+msgstr "Wähle, ob das Karussell bei Übergängen animiert wird, oder nicht"
 
 #: 
 msgid "Select the type of transition that occurs when you start a game. INSTANT will do nothing, FADE will fade to dark, and SLIDE will zoom on the game cover (or name if there is no scrape information)"
-msgstr ""
+msgstr "Wähle die Art des Übergangs, der beim Start eines Spiels auftritt. INSTANT tut nichts, FADE wird abdunkeln und SLIDE zoomt auf das Spielcover (oder den Namen, wenn es keine Scrape-Informationen gibt)."
 
 #: 
 msgid "Select exisiting colorset options for this theme."
-msgstr ""
+msgstr "Wähle Farbset-Optionen für dieses Theme."
 
 #: 
 msgid "Select exisiting iconset options for this theme."
-msgstr ""
+msgstr "Wähle Icon-Optionen für dieses Theme."
 
 #: 
 msgid "Select exisiting menu style options for this theme."
-msgstr ""
+msgstr "Wähle Menüstil-Optionen für dieses Theme."
 
 #: 
 msgid "Select exisiting system view options for this theme."
-msgstr ""
+msgstr "Wähle Farbset-Optionen für dieses Theme"
 
 #: 
 msgid "Select exisiting gamelist view options for this theme."
-msgstr ""
+msgstr "Wähle Spieleliste-Optionen für dieses Theme."
 
 #: 
 msgid "Configure theme options if available."
-msgstr ""
+msgstr "Konfiguriere Theme-Optionen, falls verfügbar."
 
 #: 
 msgid "Select Region of logos, pictures for system that are different for some countries. E.g. Megadrive in EU / Genesis in US"
-msgstr ""
+msgstr "Wähle Region der Logos und Bilder für das System, die für einige Länder unterschiedlich sind. Z.B. Megadrive in der EU / Genesis in den USA"
 
 #: 
 msgid "Type the name of your SSID if it is hidden or not listed"
-msgstr ""
+msgstr "SSID Name eingeben, falls diese versteckt oder nicht gelistet ist."
 
 #: 
 msgid "Select a letter and the listing will go directly on the first game starting with this letter."
-msgstr ""
+msgstr "Wähle einen Buchstaben und die Auswahl springt zum ersten Spiel, dass mit dem Buchstaben anfängt. "
 
 #: 
 msgid "Select the way the game list is sortered (alphabetically, by notation...)."
-msgstr ""
+msgstr "Wähle, wie die Spieleliste sortiert wird (alphabetisch, etc...)."
 
 #: 
 msgid "Switch between seing or not only the favorites games. To add a game in the favorite list, select the game and toggle its state using 'Y'."
-msgstr ""
+msgstr "Wechsle zwischen NUR Favoriten sehen, oder nicht. Ein Spiel wird mit 'Y' favorisiert, wenn es angewählt ist. "
 
 #: 
 msgid "Switch between seing or not the hidden games. To hide a game, edit its data and select 'Hide'."
-msgstr ""
+msgstr "Wechsle zwischen VERSTECKTE Spiele sehen, oder nicht. Um ein Spiel auszublenden, bearbeite Sie dessen Daten und wähle 'Verstecken'."
 
 #: 
 msgid "Switch between seing folders and folder content in the listing. This is useful when a game is provided as many 'bin' files for example and you keep it a a dedicated folder (ex: roms/psx/tekken 3)."
-msgstr ""
+msgstr "Wechsle in der Auflistung zwischen den einzelnen Ordnern und dem Inhalt des Ordners. Dies ist nützlich, wenn ein Spiel z.B. viele 'bin'-Dateien enthält und man es in einem eigenen Ordner ablegt (z.B.: roms/psx/tekken 3)."
 
 #: 
 msgid "This option display a menu which allows to change game data and many others options."
-msgstr ""
+msgstr "Diese Option zeigt ein Menü an, das es erlaubt, Spieldaten und viele andere Optionen zu ändern."
 
 #: 
 msgid "AVAILABLE UPDATE"
-msgstr ""
+msgstr "VERFÜGBARES UPDATE"
 
 #: 
 msgid "UPDATE CHANGELOG"
-msgstr ""
+msgstr "CHANGELOG DES UPDATES"
 
