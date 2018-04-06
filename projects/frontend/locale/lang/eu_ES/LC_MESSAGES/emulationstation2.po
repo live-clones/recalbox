@@ -1090,8 +1090,7 @@ msgstr "TURBOA (1350Mhz)"
 
 #: 
 msgid "HIGH (1300Mhz)"
-msgstr "ALTUA (1300Mhz)\n"
-""
+msgstr "ALTUA (1300Mhz)"
 
 #: 
 msgid "TURBO AND EXTREM OVERCLOCK PRESETS MAY CAUSE SYSTEM UNSTABILITIES, SO USE THEM AT YOUR OWN RISK.\n"
@@ -1599,5 +1598,9 @@ msgstr ""
 
 #: 
 msgid "UPDATE CHANGELOG"
+msgstr ""
+
+#: 
+msgid "CLOCK IN MENU"
 msgstr ""
 
