@@ -163,7 +163,18 @@ bool RecalboxSystem::setAudioOutputDevice(std::string selected) {
 
 	oss << Settings::getInstance()->getString("RecalboxSettingScript") << " " << "audio" << " '" << selected << "'";
 	int exitcode = system(oss.str().c_str());
-
+	if (selected.find('[') != std::string::npos)
+	{
+		std::string hwID = "AUDIODEV=hw:";
+		unsigned first = selected.find('[');
+		unsigned last = selected.find(':');
+		hwID += selected.substr (first + 1, last - first - 1) + ",";
+		first = selected.find(':');
+		last = selected.find(']');
+		hwID += selected.substr (first + 1, last - first - 1);
+		char* cmd = const_cast<char*>(hwID.c_str());
+		putenv(cmd);
+	}
 	VolumeControl::getInstance()->init();
 	AudioManager::getInstance()->resumeMusic();
 	//AudioManager::getInstance()->playCheckSound();
