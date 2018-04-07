@@ -16,6 +16,11 @@ RecalboxConf::RecalboxConf() {
     loadRecalboxConf();
 }
 
+RecalboxConf::~RecalboxConf() {
+	if (sInstance)
+		delete sInstance;
+}
+
 RecalboxConf *RecalboxConf::getInstance() {
     if (sInstance == NULL)
         sInstance = new RecalboxConf();

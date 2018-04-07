@@ -96,8 +96,23 @@ SystemData::~SystemData()
 	{
 		updateGamelist(this);
 	}
+	if (mRootFolder){
+		auto children = mRootFolder->getChildren();
+		for (auto it : children){
 
-	delete mRootFolder;
+			mRootFolder->removeChild(it);
+			delete it;
+		}
+		delete mRootFolder;
+	}
+	if (mEmulators) {
+		for (auto itr = mEmulators->begin(); itr != mEmulators->end(); itr++) {
+			delete (itr->second);
+		}
+		mEmulators->clear();
+
+		delete mEmulators;
+	}
 }
 
 

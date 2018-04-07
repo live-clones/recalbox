@@ -14,6 +14,8 @@ class RecalboxConf {
 public:
     RecalboxConf();
 
+    ~RecalboxConf();
+
     bool loadRecalboxConf();
 
     bool saveRecalboxConf();
