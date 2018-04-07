@@ -126,7 +126,7 @@ void GuiDetectDevice::update(int deltaTime)
 		if(mHoldTime <= 0)
 		{
 			// picked one!
-			mWindow->pushGui(new GuiInputConfig(mWindow, mHoldingConfig, true, mDoneCallback));
+			mWindow->pushGui(new GuiInputConfig(mWindow, mHoldingConfig, mDoneCallback));
 			delete this;
 		}
 	}

@@ -83,6 +83,8 @@ public:
 	inline float getRowHeight(int row) const { return getRowHeight(mEntries.at(row).data); }
 
 	inline void setCursorChangedCallback(const std::function<void(CursorState state)>& callback) { mCursorChangedCallback = callback; };
+	inline void setFocusGainedCallback(const std::function<void()>& callback) { mFocusGainedCallback = callback; };
+	inline void setFocusLostCallback(const std::function<void()>& callback) { mFocusLostCallback = callback; };
 	inline const std::function<void(CursorState state)>& getCursorChangedCallback() const { return mCursorChangedCallback; };
 
 protected:
@@ -101,4 +103,6 @@ private:
 	float mCameraOffset;
 
 	std::function<void(CursorState state)> mCursorChangedCallback;
+	std::function<void()> mFocusGainedCallback;
+	std::function<void()> mFocusLostCallback;
 };

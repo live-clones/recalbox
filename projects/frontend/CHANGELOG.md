@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Updated
+- Refactored gamepad configuration panel
+
+## [18.03.16]
 ### Added
 - Added option for popup position
 - Added help messages in popups

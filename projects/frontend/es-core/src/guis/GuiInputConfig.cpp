@@ -9,40 +9,33 @@
 #include "Util.h"
 #include "Locale.h"
 #include "InputManager.h"
+#include "InputStack.h"
 #include "MenuThemeData.h"
-
+#include <boost/format.hpp>
 using namespace boost::locale;
 
-static const int AXIS = 0;
-static const int BTN = 1;
-static const int HAT = 2;
 static const int inputCount = 21;
 static const char* inputName[inputCount] = {      "Up", "Down", "Left", "Right", "Joystick1Up" , "Joystick1Left", "Joystick2Up" , "Joystick2Left", "A",    "B",   "X",   "Y", "Start", "Select", "PageUp", "PageDown", "L2", "R2", "L3", "R3", "HotKey" };
 static const bool inputSkippable[inputCount] = { false, false,   false,   false,     true,              true,         true,             true,      false,  false,  true,   true, false,    false,     true,      true, true, true, true, true,  false};
-static const int inputTypes[inputCount] = {     HAT,     HAT,   HAT,    HAT ,        AXIS,             AXIS,          AXIS,            AXIS,       BTN,    BTN,   BTN,   BTN,    BTN,    BTN,        BTN,      BTN,     BTN,  BTN, BTN,  BTN,  BTN};
 static const char* inputIcon[inputCount] = { ":/help/dpad_up.svg", ":/help/dpad_down.svg", ":/help/dpad_left.svg", ":/help/dpad_right.svg", ":/help/joystick_up.svg", ":/help/joystick_left.svg", ":/help/joystick_up.svg", ":/help/joystick_left.svg",
 											 ":/help/button_a.svg", ":/help/button_b.svg", ":/help/button_x.svg", ":/help/button_y.svg", ":/help/button_start.svg", ":/help/button_select.svg",
 											":/help/button_l.svg", ":/help/button_r.svg", ":/help/button_l2.svg", ":/help/button_r2.svg",":/help/button_l3.svg", ":/help/button_r3.svg", ":/help/button_hotkey.svg" };
 
-//MasterVolUp and MasterVolDown are also hooked up, but do not appear on this screen.
-//If you want, you can manually add them to es_input.cfg.
-
 using namespace Eigen;
 
-#define HOLD_TO_SKIP_MS 1000
-
-GuiInputConfig::GuiInputConfig(Window* window, InputConfig* target, bool reconfigureAll, const std::function<void()>& okCallback) : GuiComponent(window), 
+GuiInputConfig::GuiInputConfig(Window* window, InputConfig* target, const std::function<void()>& doneCallback) : GuiComponent(window), 
 	mBackground(window, ":/frame.png"), mGrid(window, Vector2i(1, 5)), 
-	mTargetConfig(target), mHoldingInput(false)
+	mTargetConfig(target), mCursorOnList(true)
 {
-	LOG(LogInfo) << "Configuring device " << target->getDeviceId() << " (" << target->getDeviceName() << ").";
+	LOG(LogInfo) << "Configuring device " << mTargetConfig->getDeviceId() << " (" << mTargetConfig->getDeviceName() << ").";
 
 	std::string inputDispName[inputCount] = { _("UP"), _("DOWN"), _("LEFT"), _("RIGHT"),
 						  _("JOYSTICK 1 UP"), _("JOYSTICK 1 LEFT"), _("JOYSTICK 2 UP"), _("JOYSTICK 2 LEFT"),
 						  "A", "B", "X", "Y", "START", "SELECT ", _("PAGE UP"), _("PAGE DOWN"),  "L2", "R2", "L3", "R3", _("HOTKEY") };
 
-	if(reconfigureAll)
-		target->clear();
+
+	InputConfig previousConfig =  new InputConfig(mTargetConfig);
+	mTargetConfig->clear();
 	
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 	
@@ -52,38 +45,28 @@ GuiInputConfig::GuiInputConfig(Window* window, InputConfig* target, bool reconfi
 	
 	mMainColor = menuTheme->menuText.color;
 
-	mConfiguringAll = reconfigureAll;
-	mConfiguringRow = mConfiguringAll;
-
 	addChild(&mBackground);
 	addChild(&mGrid);
-
-	// 0 is a spacer row
-	//mGrid.setEntry(std::make_shared<GuiComponent>(mWindow), Vector2i(0, 0), false);
 
 	mTitle = std::make_shared<TextComponent>(mWindow, _("CONFIGURING"), menuTheme->menuTitle.font, menuTheme->menuTitle.color, ALIGN_CENTER);
 	mGrid.setEntry(mTitle, Vector2i(0, 0), false, true);
 
 	char strbuf[256];
-	if(target->getDeviceId() == DEVICE_KEYBOARD)
+	if(mTargetConfig->getDeviceId() == DEVICE_KEYBOARD)
 	  strncpy(strbuf, _("KEYBOARD").c_str(), 256);
-	else {
-	  snprintf(strbuf, 256, _("GAMEPAD %i").c_str(), target->getDeviceId() + 1);
-	}
+	else
+	  snprintf(strbuf, 256, _("GAMEPAD %i").c_str(), mTargetConfig->getDeviceId() + 1);
 	  
 	mSubtitle1 = std::make_shared<TextComponent>(mWindow, strToUpper(strbuf), menuTheme->menuText.font, menuTheme->menuFooter.color, ALIGN_CENTER);
 	mGrid.setEntry(mSubtitle1, Vector2i(0, 1), false, true);
 
-	mSubtitle2 = std::make_shared<TextComponent>(mWindow, _("HOLD ANY BUTTON TO SKIP"), menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, ALIGN_CENTER);
+	mSubtitle2 = std::make_shared<TextComponent>(mWindow, "", menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, ALIGN_CENTER);
 	mGrid.setEntry(mSubtitle2, Vector2i(0, 2), false, true);
-
-	// 4 is a spacer row
-	//mGrid.setEntry(std::make_shared<GuiComponent>(mWindow), Vector2i(0, 4), false);
 
 	mList = std::make_shared<ComponentList>(mWindow);
 	mGrid.setEntry(mList, Vector2i(0, 3), true, true);
-	for(int i = 0; i < inputCount; i++)
-	{
+	
+	for(int i = 0; i < inputCount; i++) {
 		ComponentListRow row;
 		// icon
 		auto icon = std::make_shared<ImageComponent>(mWindow);
@@ -100,84 +83,113 @@ GuiInputConfig::GuiInputConfig(Window* window, InputConfig* target, bool reconfi
 		auto text = std::make_shared<TextComponent>(mWindow, inputDispName[i], menuTheme->menuText.font, menuTheme->menuText.color);
 		row.addElement(text, true);
 
-		auto mapping = std::make_shared<TextComponent>(mWindow, _("-NOT DEFINED-"), menuTheme->menuText.font, menuTheme->menuText.color, ALIGN_RIGHT);
-		setNotDefined(mapping); // overrides text and color set above
+		auto mapping = std::make_shared<TextComponent>(mWindow, "", menuTheme->menuText.font, menuTheme->menuText.color, ALIGN_RIGHT);
 		row.addElement(mapping, true);
 		mMappings.push_back(mapping);
 
-		row.input_handler = [this, i, mapping](InputConfig* config, Input input) -> bool
-		{
+		row.input_handler = [this, i, mapping](InputConfig* config, Input input) -> bool {
 			// ignore input not from our target device
 			if(config != mTargetConfig)
 				return false;
 
-			// if we're not configuring, start configuring when A is pressed
-			if(!mConfiguringRow)
-			{
-				if(config->isMappedTo("a", input) && input.value)
-				{
-					mList->stopScrolling();
-					mConfiguringRow = true;
-					setPress(mapping);
-					return true;
+			if(input.value != 0) { // pressed (an event is fired when releasing, with value == 0)
+				if(!mInputStack.hasInput(input)) {
+					mInputStack.push(input, [this, i] (const std::list<Input> inputs) {
+						for(auto it = inputs.begin(); it != inputs.end(); it++) {
+							// Key Up
+							if (mTargetConfig->isMappedTo("UP", *it)) {
+								if (i > 0) {
+									restaurePreviousAssignment();
+									if (!isAssigned() && inputSkippable[i]) {
+										setSkipped();
+									}
+									mList->moveCursor(-1);
+									setPress();
+								}
+								return;
+							}
+
+							// Key Down
+							if (mTargetConfig->isMappedTo("DOWN", *it)) {
+								if (!isAssigned() && !inputSkippable[i])
+									return ;
+								restaurePreviousAssignment();
+								if (!isAssigned()) {
+									setSkipped();
+								}
+								rowDone();
+								return;
+							}
+
+							if (isAssigned()) {
+								if (mTargetConfig->isMappedTo("A", *it)) {
+									unAssign();
+								}
+
+								setHelpMessage();
+								setPress();
+								return;
+							}
+						}
+
+						for(auto it = inputs.begin(); it != inputs.end(); it++) {
+							if(assign(*it)) {
+								rowDone(); // if successful, move cursor/stop configuring - if not, we'll just try again
+								return ;
+							}
+						}
+					});
 				}
-				
-				// we're not configuring and they didn't press A to start, so ignore this
-				return false;
 			}
-
-			// we are configuring
-			if(input.value != 0)
-			{
-				// input down
-				// if we're already holding something, ignore this, otherwise plan to map this input
-				if(mHoldingInput)
-					return true;
-
-				mHoldingInput = true;
-				mHeldInput = input;
-				mHeldTime = 0;
-				mHeldInputRowIndex = i;
-				mHeldInputId = i;
-
-				return true;
-			}else{
-				// input up
-				// make sure we were holding something and we let go of what we were previously holding
-				if(!mHoldingInput || mHeldInput.device != input.device || mHeldInput.id != input.id || mHeldInput.type != input.type)
-					return true;
-
-				mHoldingInput = false;
-
-				if(assign(mHeldInput, i, i))
-					rowDone(); // if successful, move cursor/stop configuring - if not, we'll just try again
-
-				return true;
-			}
+			return true;
 		};
 
 		mList->addRow(row);
 	}
 
-	// only show "HOLD TO SKIP" if this input is skippable
-	mSubtitle2->setOpacity(0);
 	mList->setCursorChangedCallback([this](CursorState state) {
-        bool skippable = inputSkippable[mList->getCursorId()];
-		mSubtitle2->setOpacity(skippable * 255);
+		setHelpMessage();
 	});
 
-	// make the first one say "PRESS ANYTHING" if we're re-configuring everything
-	if(mConfiguringAll)
-		setPress(mMappings.front());
+	// when lefting the "OK" button, back to the mList items by clicking the UP on the gamepad, the SDL may send more than one event 
+	// (SDL_JOYBUTTONDOWN and SDL_JOYHATMOTION).
+	// The first one is used by the window manager to get back the focus on the mList items, but the 
+	// other one(s) will be sent to the mList last item handler, so, we have to swallow this kind of "echo"
+	// during a small empiric delay
+	mList->setFocusGainedCallback([this]() {
+		mInputStack.debounce();
+		mCursorOnList = true;
+		auto cursorChange = mList->getCursorChangedCallback();
+		cursorChange(CURSOR_STOPPED);
+		setPress();
+	});
+
+	mList->setFocusLostCallback([this]() {
+		mCursorOnList = false;
+		auto cursorChange = mList->getCursorChangedCallback();
+		cursorChange(CURSOR_STOPPED);
+	});
+
+	setHelpMessage();
+	setPress();
 
 	// buttons
 	std::vector< std::shared_ptr<ButtonComponent> > buttons;
-	buttons.push_back(std::make_shared<ButtonComponent>(mWindow, _("OK"), _("OK"), [this, okCallback] { 
+
+	buttons.push_back(std::make_shared<ButtonComponent>(mWindow, _("OK"), _("OK"), [this, doneCallback] {
 		InputManager::getInstance()->writeDeviceConfig(mTargetConfig); // save
-		if(okCallback)
-			okCallback();
+		if(doneCallback)
+			doneCallback();
 		delete this; 
 	}));
+
+	buttons.push_back(std::make_shared<ButtonComponent>(mWindow, _("CANCEL"), _("CANCEL"), [this, previousConfig, doneCallback] {
+		mTargetConfig->loadFrom(&previousConfig); // restaure previous target configuration
+		if(doneCallback)
+			doneCallback();
+		delete this; 
+	}));
+
 	mButtonGrid = makeButtonGrid(mWindow, buttons);
 	mGrid.setEntry(mButtonGrid, Vector2i(0, 4), true, false);
 
@@ -192,103 +204,82 @@ void GuiInputConfig::onSizeChanged()
 	// update grid
 	mGrid.setSize(mSize);
 
-	//mGrid.setRowHeightPerc(0, 0.025f);
 	mGrid.setRowHeightPerc(0, mTitle->getFont()->getHeight() / mSize.y());
 	mGrid.setRowHeightPerc(1, mSubtitle1->getFont()->getHeight() / mSize.y());
 	mGrid.setRowHeightPerc(2, mSubtitle2->getFont()->getHeight() / mSize.y());
-	//mGrid.setRowHeightPerc(4, 0.03f);
-	//mGrid.setRowHeightPerc(5, (mList->getRowHeight(0) * 5 + 2) / mSize.y());
 	mGrid.setRowHeightPerc(4, mButtonGrid->getSize().y() / mSize.y());
-}
-
-void GuiInputConfig::update(int deltaTime)
-{
-	if(mConfiguringRow && mHoldingInput && inputSkippable[mHeldInputId])
-	{
-		int prevSec = mHeldTime / 1000;
-		mHeldTime += deltaTime;
-		int curSec = mHeldTime / 1000;
-
-		if(mHeldTime >= HOLD_TO_SKIP_MS)
-		{
-			setNotDefined(mMappings.at(mHeldInputRowIndex));
-			clearAssignment(mHeldInputId);
-			mHoldingInput = false;
-			rowDone();
-		}else{
-			if(prevSec != curSec)
-			{
-				// crossed the second boundary, update text
-				const auto& text = mMappings.at(mHeldInputRowIndex);
-				char strbuf[256];
-				snprintf(strbuf, 256, ngettext("HOLD FOR %iS TO SKIP", "HOLD FOR %iS TO SKIP", HOLD_TO_SKIP_MS/1000 - curSec).c_str(), HOLD_TO_SKIP_MS/1000 - curSec);
-				text->setText(strbuf);
-				text->setColor(mMainColor);
-			}
-		}
-	}
 }
 
 // move cursor to the next thing if we're configuring all, 
 // or come out of "configure mode" if we were only configuring one row
-void GuiInputConfig::rowDone()
-{
-	if(mConfiguringAll)
-	{
-		if(!mList->moveCursor(1)) // try to move to the next one
-		{
-			// at bottom of list, done
-			mConfiguringAll = false;
-			mConfiguringRow = false;
-			mGrid.moveCursor(Vector2i(0, 1));
-		}else{
-			// on another one
-			setPress(mMappings.at(mList->getCursorId()));
+void GuiInputConfig::rowDone() {
+	if(!mList->moveCursor(1)) { // try to move to the next one
+		mCursorOnList = false;
+		mGrid.moveCursor(Vector2i(0, 1));
+	}
+	else
+		setPress(); // on another one
+}
+
+void GuiInputConfig::setText(const std::string& msg, unsigned int color) {
+	setText(msg, color, mList->getCursorId());
+}
+
+void GuiInputConfig::setText(const std::string& msg, unsigned int color, const int inputId) {
+	std::shared_ptr<TextComponent>& text = mMappings.at(inputId);
+	text->setText(msg);
+	text->setColor(color);
+}
+
+void GuiInputConfig::setHelpMessage() {
+	std::string msg;
+	Input input;
+	int inputId = mList->getCursorId();
+	bool skippable = inputSkippable[inputId];
+	bool assigned = mTargetConfig->getInputByName(inputName[inputId], &input);
+	std::shared_ptr<TextComponent>& text = mMappings.at(inputId);
+	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+
+	if (assigned) {
+		if (mTargetConfig->isMapped("A")) {
+			msg = msg + _("A TO UNSET");
 		}
-	}else{
-		// only configuring one row, so stop
-		mConfiguringRow = false;
+		if (inputId == 0)
+			msg = (msg.length() ? msg + " - " : "") + str(boost::format(_("DOWN TO KEEP [%1%]")) % strToUpper(input.string()));
+		else 
+			msg = (msg.length() ? msg + " - " : "") + str(boost::format(_("UP/DOWN TO KEEP [%1%]")) % strToUpper(input.string()));
+
+	} else if (skippable)
+		msg = _("UP/DOWN TO SKIP");
+	else 
+		msg = _("INPUT REQUIRED");
+
+	mSubtitle2->setText(msg);
+	mSubtitle2->setColor(skippable || assigned ? menuTheme->menuTextSmall.color : 0xff4141ff);
+}
+
+void GuiInputConfig::setPress() {
+	Input input;
+	int inputId = mList->getCursorId();
+	if (mTargetConfig->getInputByName(inputName[inputId], &input)) {
+		setAssignedTo(input);
+	} else {
+		setText(_("PRESS ANYTHING"), mMainColor); 
 	}
 }
 
-void GuiInputConfig::setPress(const std::shared_ptr<TextComponent>& text)
-{
-  text->setText(_("PRESS ANYTHING"));
-	text->setColor(mMainColor);
-}
+bool GuiInputConfig::assign(Input input) {
+	int inputId = mList->getCursorId();
 
-void GuiInputConfig::setNotDefined(const std::shared_ptr<TextComponent>& text)
-{
-  text->setText(_("-NOT DEFINED-"));
-	text->setColor(mMainColor);
-}
-
-void GuiInputConfig::setAssignedTo(const std::shared_ptr<TextComponent>& text, Input input)
-{
-	text->setText(strToUpper(input.string()));
-	text->setColor(mMainColor);
-}
-
-void GuiInputConfig::error(const std::shared_ptr<TextComponent>& text, const std::string& msg)
-{
-  text->setText(_("ALREADY TAKEN"));
-	text->setColor(mMainColor);
-}
-
-bool GuiInputConfig::assign(Input input, int inputId, int inputIndex)
-{
 	// input is from InputConfig* mTargetConfig
-
 	// if this input is mapped to something other than "nothing" or the current row, error
 	// (if it's the same as what it was before, allow it)
-	if(std::string("HotKey").compare(inputName[inputId]) != 0)
-	if(mTargetConfig->getMappedTo(input).size() > 0 && !mTargetConfig->isMappedTo(inputName[inputId], input))
-	{
-		error(mMappings.at(inputIndex), "Already mapped!");
+	if(std::string("HotKey").compare(inputName[inputId]) != 0 && mTargetConfig->getMappedTo(input).size() > 0 && !mTargetConfig->isMappedTo(inputName[inputId], input)) {
+		setMapped();
 		return false;
 	}
 
-	setAssignedTo(mMappings.at(inputIndex), input);
+	setAssignedTo(input);
 	
 	input.configured = true;
 	mTargetConfig->mapInput(inputName[inputId], input);
@@ -298,7 +289,29 @@ bool GuiInputConfig::assign(Input input, int inputId, int inputIndex)
 	return true;
 }
 
-void GuiInputConfig::clearAssignment(int inputId)
-{
+void GuiInputConfig::unAssign() {
+	Input input;
+	int inputId = mList->getCursorId();
+	mTargetConfig->getInputByName(inputName[inputId], &input);
+
+	setNotDefined();
+	
+	input.configured = false;
 	mTargetConfig->unmapInput(inputName[inputId]);
+
+	LOG(LogInfo) << "  Unmapping [" << input.string() << "] -> " << inputName[inputId];
+}
+
+void GuiInputConfig::restaurePreviousAssignment() {
+	Input input;
+	int inputId = mList->getCursorId();
+	if(mTargetConfig->getInputByName(inputName[inputId], &input))
+		setAssignedTo(input);
+	else
+		setNotDefined();
+}
+
+bool GuiInputConfig::isAssigned() {
+	int inputId = mList->getCursorId();
+	return mTargetConfig->isMapped(inputName[inputId]);
 }

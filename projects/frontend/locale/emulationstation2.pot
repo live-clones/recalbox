@@ -990,18 +990,28 @@ msgid "GAMEPAD %i"
 msgstr ""
 
 #: 
-msgid "HOLD ANY BUTTON TO SKIP"
+msgid "INPUT REQUIRED"
 msgstr ""
 
 #: 
-msgid "-NOT DEFINED-"
+msgid "(skipped)"
 msgstr ""
 
 #: 
-msgid "HOLD FOR %iS TO SKIP"
-msgid_plural "HOLD FOR %iS TO SKIP"
-msgstr[0] ""
-msgstr[1] ""
+msgid "UP/DOWN TO SKIP"
+msgstr ""
+
+#: 
+msgid "A TO UNSET"
+msgstr ""
+
+#: 
+msgid "DOWN TO SKIP AND KEEP [%1%]"
+msgstr ""
+
+#: 
+msgid "UP/DOWN TO SKIP AND KEEP [%1%]"
+msgstr ""
 
 #. Config controllers missing translation
 #: 

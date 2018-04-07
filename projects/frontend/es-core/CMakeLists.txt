@@ -9,6 +9,7 @@ set(CORE_HEADERS
 	${CMAKE_CURRENT_SOURCE_DIR}/src/ImageIO.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/InputConfig.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/InputManager.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/InputStack.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/Log.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/Locale.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/Music.h
@@ -17,6 +18,7 @@ set(CORE_HEADERS
 	${CMAKE_CURRENT_SOURCE_DIR}/src/Settings.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/Sound.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/ThemeData.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/Timer.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/MenuThemeData.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/Util.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/Window.h
@@ -73,6 +75,7 @@ set(CORE_SOURCES
 	${CMAKE_CURRENT_SOURCE_DIR}/src/ImageIO.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/InputConfig.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/InputManager.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/InputStack.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/Log.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/Music.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/platform.cpp
@@ -81,6 +84,7 @@ set(CORE_SOURCES
 	${CMAKE_CURRENT_SOURCE_DIR}/src/Settings.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/Sound.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/ThemeData.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/Timer.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/MenuThemeData.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/Util.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/Window.cpp

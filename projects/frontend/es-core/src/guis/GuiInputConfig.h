@@ -4,27 +4,34 @@
 #include "components/NinePatchComponent.h"
 #include "components/ComponentGrid.h"
 #include "components/ComponentList.h"
+#include "InputStack.h"
+#include "Locale.h"
+#include "Util.h"
 
 class TextComponent;
 
 class GuiInputConfig : public GuiComponent
 {
 public:
-	GuiInputConfig(Window* window, InputConfig* target, bool reconfigureAll, const std::function<void()>& okCallback);
-
-	void update(int deltaTime) override;
-
+	GuiInputConfig(Window* window, InputConfig* target, const std::function<void()>& doneCallback);
 	void onSizeChanged() override;
 
 private:
-	void error(const std::shared_ptr<TextComponent>& text, const std::string& msg); // set text to "msg" + not greyed out
 
-	void setPress(const std::shared_ptr<TextComponent>& text); // set text to "PRESS ANYTHING" + not greyed out
-	void setNotDefined(const std::shared_ptr<TextComponent>& text); // set text to -NOT DEFINED- + greyed out
-	void setAssignedTo(const std::shared_ptr<TextComponent>& text, Input input); // set text to "BUTTON 2"/"AXIS 2+", etc.
+	inline void setMapped() { setText(_("ALREADY TAKEN"), mMainColor); }
+	inline void setSkipped() { setText(_("(skipped)"), mMainColor); }
+	inline void setNotDefined() { setText("", mMainColor); }
+	inline void setAssignedTo(Input input) { setText(strToUpper(input.string()), mMainColor); }
 
-	bool assign(Input input, int inputId, int inputIndex);
-	void clearAssignment(int inputId);
+	void setHelpMessage();
+	void setPress();
+	void setText(const std::string& msg, unsigned int color);
+	void setText(const std::string& msg, unsigned int color, const int inputId);
+
+	bool assign(Input input);
+	void unAssign();
+	void restaurePreviousAssignment();
+	bool isAssigned();
 
 	void rowDone();
 
@@ -39,13 +46,9 @@ private:
 	std::shared_ptr<ComponentGrid> mButtonGrid;
 
 	InputConfig* mTargetConfig;
-	bool mConfiguringRow; // next input captured by mList will be interpretted as a remap
-	bool mConfiguringAll; // move the cursor down after configuring a row and start configuring the next row until we reach the bottom
+	InputStack mInputStack;
 
-	bool mHoldingInput;
-	Input mHeldInput;
-	int mHeldTime;
-	int mHeldInputId;
-	int mHeldInputRowIndex;
+	bool mCursorOnList;
 	unsigned int mMainColor;
+	unsigned int mSelectColor;
 };

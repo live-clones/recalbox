@@ -53,11 +53,17 @@ void ComponentList::onSizeChanged()
 void ComponentList::onFocusLost()
 {
 	mFocused = false;
+
+	if(mFocusLostCallback)
+		mFocusLostCallback();
 }
 
 void ComponentList::onFocusGained()
 {
 	mFocused = true;
+
+	if(mFocusGainedCallback)
+		mFocusGainedCallback();
 }
 
 bool ComponentList::input(InputConfig* config, Input input)

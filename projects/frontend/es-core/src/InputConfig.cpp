@@ -49,6 +49,19 @@ std::string toLower(std::string str)
 }
 //end util functions
 
+InputConfig::InputConfig(const InputConfig* source) : 
+	mDeviceId(source->getDeviceId()), 
+	mDeviceIndex(source->getDeviceIndex()), 
+	mDeviceName(source->getDeviceName()), 
+	mDeviceGUID(source->getDeviceGUIDString()), 
+	mDeviceNbAxes(source->getDeviceNbAxes()), 
+	mDeviceNbHats(source->getDeviceNbHats()), 
+	mDeviceNbButtons(source->getDeviceNbButtons())
+{
+	mNameMap = source->getNameMap();
+}
+
+
 InputConfig::InputConfig(int deviceId, int deviceIndex, const std::string& deviceName, const std::string& deviceGUID, int deviceNbAxes, int deviceNbHats, int deviceNbButtons) : mDeviceId(deviceId), mDeviceIndex(deviceIndex), mDeviceName(deviceName), mDeviceGUID(deviceGUID), mDeviceNbAxes(deviceNbAxes), mDeviceNbHats(deviceNbHats), mDeviceNbButtons(deviceNbButtons)
 {
 }
@@ -56,6 +69,11 @@ InputConfig::InputConfig(int deviceId, int deviceIndex, const std::string& devic
 void InputConfig::clear()
 {
 	mNameMap.clear();
+}
+
+void InputConfig::loadFrom(const InputConfig* source) 
+{
+	mNameMap = source->getNameMap();
 }
 
 bool InputConfig::isConfigured()
@@ -125,6 +143,12 @@ bool InputConfig::getInputByName(const std::string& name, Input* result)
 	}
 
 	return false;
+}
+
+bool InputConfig::isMapped(const std::string& name)
+{
+	auto it = mNameMap.find(toLower(name));
+	return it != mNameMap.end();
 }
 
 bool InputConfig::isMappedTo(const std::string& name, Input input)
