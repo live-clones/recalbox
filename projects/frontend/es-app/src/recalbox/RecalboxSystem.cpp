@@ -165,15 +165,12 @@ bool RecalboxSystem::setAudioOutputDevice(std::string selected) {
 	int exitcode = system(oss.str().c_str());
 	if (selected.find('[') != std::string::npos)
 	{
-		std::string hwID = "AUDIODEV=hw:";
-		unsigned first = selected.find('[');
-		unsigned last = selected.find(':');
-		hwID += selected.substr (first + 1, last - first - 1) + ",";
-		first = selected.find(':');
-		last = selected.find(']');
-		hwID += selected.substr (first + 1, last - first - 1);
-		char* cmd = const_cast<char*>(hwID.c_str());
-		putenv(cmd);
+		int p1 = selected.find(":");
+		int p2 = selected.find("]");
+		std::string acard = selected.substr(1, p1 - 1);
+		std::string adevice = selected.substr(p1 + 1, p2 - p1 - 1);
+		std::string alsaAudioDev = "hw:" + acard + "," + adevice;
+		setenv("AUDIODEV",alsaAudioDev.c_str(),1);
 	}
 	VolumeControl::getInstance()->init();
 	AudioManager::getInstance()->resumeMusic();
