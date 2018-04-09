@@ -172,6 +172,8 @@ bool RecalboxSystem::setAudioOutputDevice(std::string selected) {
 		std::string alsaAudioDev = "hw:" + acard + "," + adevice;
 		setenv("AUDIODEV",alsaAudioDev.c_str(),1);
 	}
+	else
+		setenv("AUDIODEV","hw:0,0",1);
 	VolumeControl::getInstance()->init();
 	AudioManager::getInstance()->resumeMusic();
 	//AudioManager::getInstance()->playCheckSound();

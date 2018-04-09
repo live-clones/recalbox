@@ -11,6 +11,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added missing fav icons for Amigas 3DO and X68k
 - Add "QUIT" help message on main menu
 ### Fixed
+- Fixed change of audio card
 - Fixed reload of theme when gamelistonly=0
 - Fixed HelpMessages not translated
 
