@@ -20,6 +20,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - split share detection and upgrade process
 - mame2010: enable hiscores
 - fix: fmsx could not be selected as a MSX core
+- manager: update translations
 
 ## [18.03.30] - 2018-03-30
 - moonlight: fix bad SDL2 GUID generation
