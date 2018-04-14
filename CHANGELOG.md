@@ -25,6 +25,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - mame2010: enable hiscores
 - fix: fmsx could not be selected as a MSX core
 - DosBox: resolve lag regression on RPI3 + strange behavior if no dosbox.bat
+- SDL2: fix bug on x86 which stucks ScummVM on splash screen
 - Odroid XU4: improved HDMI stability, boot.ini options
 - fix: Game&Watch core name not properly displayed
 
