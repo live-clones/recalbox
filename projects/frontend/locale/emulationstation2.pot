@@ -1593,3 +1593,7 @@ msgstr ""
 msgid "FORCE BASIC GAMELIST VIEW"
 msgstr ""
 
+#:
+msgid "Now playing"
+msgstr ""
+

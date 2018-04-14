@@ -68,8 +68,6 @@ private:
     std::string currentThemeMusicDirectory;
 
     void playRandomMusic();
-
-    Window* mWindow;
 };
 
 #endif
