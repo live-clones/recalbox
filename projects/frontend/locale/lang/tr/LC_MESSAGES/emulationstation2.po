@@ -1132,7 +1132,7 @@ msgstr "Dilinizi seçin. Ayarlamanın aktif olabilmesi için, yeniden başlatmak
 
 #: 
 msgid "Manage your recalbox updates. Select the update type. Activate update check."
-msgstr "Recalbox in güncellemelerini yönetin. Güncelleme tipini seçin. Güncellemeyi aktif edin.\n"
+msgstr "Recalbox in güncellemelerini yönetin. Güncelleme tipini seçin. Güncellemeyi aktif edin."
 ""
 
 #: 
@@ -1383,7 +1383,7 @@ msgstr "Genişletmeyi etkinleştirin veya devre dışı bırakın.\n"
 
 #: 
 msgid "Show the framerate in EmulationStation and in game."
-msgstr "EmulationStation ve oyun içindeyken framerate i göster. \n"
+msgstr "EmulationStation ve oyun içindeyken framerate i göster."
 ""
 
 #: 
