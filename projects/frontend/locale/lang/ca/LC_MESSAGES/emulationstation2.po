@@ -1187,7 +1187,7 @@ msgstr "El mode expert desactiva *totes* les partides desades i funcions de rebo
 
 #: 
 msgid "The website retroachievements.org proposes challenges/achievements/trophies on platforms like NES, SNES, GB, GBC, GBA, Genesis/Megadrive, TurboGrafx16/PCEngine and more! Create your account on retroachievements.org and start your quest for achievements!"
-msgstr "El lloc web retroachievements.org proposa desafiaments / assoliments / trofeus en plataformes com la NES, SNES, GB, GBC, GBA, Genesis / Megadrive, TurboGrafx16 / PCEngine i més! Crea el teu compte a retroachievements.org i comença a assolir els teus d'èxits!\n"
+msgstr "El lloc web retroachievements.org proposa desafiaments / assoliments / trofeus en plataformes com la NES, SNES, GB, GBC, GBA, Genesis / Megadrive, TurboGrafx16 / PCEngine i més! Crea el teu compte a retroachievements.org i comença a assolir els teus d'èxits!"
 ""
 
 #: 
