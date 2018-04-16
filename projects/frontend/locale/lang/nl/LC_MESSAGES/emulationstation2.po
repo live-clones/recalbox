@@ -1185,7 +1185,7 @@ msgstr "Integer schalen is het schalen door een factor van een heel nummer. zoal
 
 #: 
 msgid "Shaders are like filters for the game rendering. You can select a shader set here, which is a collection of shaders selected for each system. You can also change the shader within the game with HOTKEY + L2 or HOTKEY + R2."
-msgstr "Shaders zijn filters voor de game rendering. Je kan een shader set selecteren, welke bestaat uit een collectie van shaders voor elk systeem. Deze kan je ingame aanpassen met de HOTKEY +L2 of HOTKEY +R2.\n"
+msgstr "Shaders zijn filters voor de game rendering. Je kan een shader set selecteren, welke bestaat uit een collectie van shaders voor elk systeem. Deze kan je ingame aanpassen met de HOTKEY +L2 of HOTKEY +R2."
 ""
 
 #: 
