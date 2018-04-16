@@ -1125,9 +1125,7 @@ msgid "Select an external drive to store your roms, saves, configurations etc.\n
 msgstr "ROMとセーブデーター及び設定を保存する外部ストレージを選択して下さい。\n"
 "recalboxのシステムはフォーマットを行いませんので事前に外部ストレージはFAT32でフォーマットされている必要があります\n"
 "初回起動でこのオプションはONになりますその後recalboxは各ストレージに\n"
-"/recalbox を構築後に必要なシステムファイルを配置します。\n"
-"\n"
-""
+"/recalbox を構築後に必要なシステムファイルを配置します。"
 
 #: 
 msgid "Select your language. A reboot is needed to set this configuration active."
