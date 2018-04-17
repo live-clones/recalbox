@@ -4,18 +4,18 @@
 const char* MenuMessages::START_KODI_HELP_MSG = "Start kodi media player.";
 const char* MenuMessages::SYSTEM_HELP_MSG = "Select the language for your recalbox, select an external drive to store your games and configurations, check your current version and the free space on your drive";
 const char* MenuMessages::VERSION_HELP_MSG = "Shows your current recalboxOS version.";
-const char* MenuMessages::DISK_USAGE_HELP_MSG = "Show how much space is used on your SHARE partition, located either on the SDCARD or on an external drive. The information shows how much GB are used and how much GB your storage has overall (example 13GB/26GB.";
+const char* MenuMessages::DISK_USAGE_HELP_MSG = "Show how much space is used on your SHARE partition, located either on the SDCARD or on an external drive. The information shows how much GB are used and how much GB your storage has overall (example 13GB/26GB).";
 const char* MenuMessages::STORAGE_DEVICE_HELP_MSG = "Select an external drive to store your roms, saves, configurations etc.\nUse a FAT32 formatted drive. The system does not format the drive. On first boot, with this option enabled, recalbox will create a '/recalbox' folder with all system files inside.";
 const char* MenuMessages::LANGUAGE_HELP_MSG = "Select your language. A reboot is needed to set this configuration active.";
 
 const char* MenuMessages::UPDATE_HELP_MSG = "Manage your recalbox updates. Select the update type. Activate update check.";
 const char* MenuMessages::START_UPDATE_HELP_MSG = "Check if an update is available, and start the update process.";
-const char* MenuMessages::UPDATE_TYPE_HELP_MSG = "Stable updates will check for updates on stable recalbox releases. Stable updates are tested and approved by the recalbox team and their testers.\nUnstable updates allows you to get the latest recalbox features by checking our unstable repository. You can test and validate with us the very last version of recalbox.\nIf you choose unstable update, be so kind to report issues on the recalbox-os issue board (https://github.com/recalbox/recalbox-os/issues";
+const char* MenuMessages::UPDATE_TYPE_HELP_MSG = "Stable updates will check for updates on stable recalbox releases. Stable updates are tested and approved by the recalbox team and their testers.\nUnstable updates allows you to get the latest recalbox features by checking our unstable repository. You can test and validate with us the very last version of recalbox.\nIf you choose unstable update, be so kind to report issues on the recalbox-os issue board (https://github.com/recalbox/recalbox-os/issues)";
 const char* MenuMessages::UPDATE_CHECK_HELP_MSG = "Automatically check if an update is avaialble. If so, it notifies you with a message.";
 const char* MenuMessages::UPDATE_VERSION_HELP_MSG = "Shows the current available update version.";
 const char* MenuMessages::UPDATE_CHANGELOG_HELP_MSG = "Shows the current available update changelog.";
 
-const char* MenuMessages::GAME_SETTINGS_HELP_MSG = "Configure games display, ratio, filters (shaders, auto save and load and retroachievement account.";
+const char* MenuMessages::GAME_SETTINGS_HELP_MSG = "Configure games display, ratio, filters (shaders), auto save and load and retroachievement account.";
 const char* MenuMessages::GAME_RATIO_HELP_MSG = "The game ratio is the ratio between image width and image height. Use AUTO to let the emulator choose the original game ratio, that will give you the best retrogaming experience.";
 const char* MenuMessages::GAME_SMOOTH_HELP_MSG = "Smooth the game image. This option makes the image smoother, using bilinear filtering.";
 const char* MenuMessages::GAME_REWIND_HELP_MSG = "This option allows you to rewind the game if you get killed by a monster, or if you make any other mistake. Use the HOTKEY + LEFT command within the game to rewind.";
@@ -40,7 +40,7 @@ const char* MenuMessages::UI_CLOCK_HELP_MSG = "Add a clock in the main menu.";
 const char* MenuMessages::UI_QUICK_HELP_MSG = "When enabled, you can switch between systems while browsing a gamelist by pressing LEFT or RIGHT.";
 const char* MenuMessages::UI_KEYBOARD_HELP_MSG = "The onscreen keyboard is necessary to type text if you only have controllers plugged into your recalbox. You can disable it if you have a real keyboard connected.";
 const char* MenuMessages::UI_CAROUSEL_HELP_MSG = "Choose if carousel will be animated or not during transitions";
-const char* MenuMessages::UI_TRANSITION_HELP_MSG = "Select the type of transition that occurs when you start a game. INSTANT will do nothing, FADE will fade to dark, and SLIDE will zoom on the game cover (or name if there is no scrape information";
+const char* MenuMessages::UI_TRANSITION_HELP_MSG = "Select the type of transition that occurs when you start a game. INSTANT will do nothing, FADE will fade to dark, and SLIDE will zoom on the game cover (or name if there is no scrape information)";
 const char* MenuMessages::UI_THEME_HELP_MSG = "Select a theme for your recalbox.";
 const char* MenuMessages::UI_THEME_COLORSET_MSG = "Select exisiting colorset options for this theme.";
 const char* MenuMessages::UI_THEME_ICONSET_MSG = "Select exisiting iconset options for this theme.";
@@ -61,7 +61,7 @@ const char* MenuMessages::NETWORK_STATUS_HELP_MSG = "Displays CONNECTED, if you 
 const char* MenuMessages::NETWORK_IP_HELP_MSG = "The IP address of your recalbox within your local network.";
 const char* MenuMessages::NETWORK_WIFI_HELP_MSG = "Enable or disable WIFI.\nIf you disable WIFI, the SSID and the WIFI passwords are saved and can be used when you reactivate it";
 const char* MenuMessages::NETWORK_HOST_HELP_MSG = "The name of your recalbox in your local network";
-const char* MenuMessages::NETWORK_SSID_HELP_MSG = "SSID (WIFI Name of your network.";
+const char* MenuMessages::NETWORK_SSID_HELP_MSG = "SSID (WIFI Name) of your network.";
 const char* MenuMessages::NETWORK_MANUAL_INPUT_HELP_MSG = "Type the name of your SSID if it is hidden or not listed";
 const char* MenuMessages::NETWORK_KEY_HELP_MSG = "Private key of your WIFI network.";
 
@@ -74,7 +74,7 @@ const char* MenuMessages::ADVANCED_HELP_MSG = "Advanced settings. Please make su
 const char* MenuMessages::ADVANCED_OVERCLOCK_HELP_MSG = "Overclock your board to increase the performance.\nOverclock settings are tested and validated by the community. Keep in mind that overclocking your board can void your warranty.";
 const char* MenuMessages::ADVANCED_BOOT_ON_SYSTEM_HELP_MSG = "Select which system to show when the recalbox frontend starts. The default value is 'favorites'.";
 const char* MenuMessages::ADVANCED_BOOTGAMELIST_HELP_MSG = "On boot, recalbox will show the list of games of the selected system rather than the system view.";
-const char* MenuMessages::ADVANCED_GAMELISTONLY_HELP_MSG = "Only show games contained in the gamelist.xml file (located in your roms directories.\nThis option highly speeds up boot time, but new games will not be detected.";
+const char* MenuMessages::ADVANCED_GAMELISTONLY_HELP_MSG = "Only show games contained in the gamelist.xml file (located in your roms directories).\nThis option highly speeds up boot time, but new games will not be detected.";
 const char* MenuMessages::ADVANCED_HIDESYSTEMVIEW_HELP_MSG = "This option allows you to set the selected system to fixed mode. With this option activated, the user cannot access other systems.";
 const char* MenuMessages::ADVANCED_BASICGAMELISTVIEW_HELP_MSG = "Always display the basic gamelist view, even if you have scraped your games.";
 const char* MenuMessages::ADVANCED_EMULATOR_ADVANCED_HELP_MSG = "Override global options like emulator, core, ratio and more for each available system in your recalbox.";
@@ -96,7 +96,7 @@ const char* MenuMessages::ADVANCED_EMU_EMU_HELP_MSG = "Select which emulator to 
 const char* MenuMessages::ADVANCED_EMU_CORE_HELP_MSG = "Select which core to use for the selected emulator. For example, the LIBRETRO emulator has many cores to run Super Nintendo games. The default core you choose here can also be overridden in game specific settings.";
 
 const char* MenuMessages::GAMELISTOPTION_JUMP_LETTER_MSG = "Select a letter and the listing will go directly on the first game starting with this letter.";
-const char* MenuMessages::GAMELISTOPTION_SORT_GAMES_MSG = "Select the way the game list is sortered (alphabetically, by notation....";
+const char* MenuMessages::GAMELISTOPTION_SORT_GAMES_MSG = "Select the way the game list is sortered (alphabetically, by notation...).";
 const char* MenuMessages::GAMELISTOPTION_FAVORITES_ONLY_MSG = "Switch between seing or not only the favorites games. To add a game in the favorite list, select the game and toggle its state using 'Y'.";
 const char* MenuMessages::GAMELISTOPTION_SHOW_HIDDEN_MSG = "Switch between seing or not the hidden games. To hide a game, edit its data and select 'Hide'.";
 const char* MenuMessages::GAMELISTOPTION_EDIT_METADATA_MSG = "This option display a menu which allows to change game data and many others options.";
