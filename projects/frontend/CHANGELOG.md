@@ -4,6 +4,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 ### Added
+- Added help messages in popups
+
 ### Fixed
 - Fixed old themes crash
 - Fixed clock not in local time
@@ -18,6 +20,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added clock in main menu
 - Added missing fav icons for Amigas 3DO and X68k
 - Add "QUIT" help message on main menu
+
 ### Fixed
 - Fixed change of audio card
 - Fixed reload of theme when gamelistonly=0
@@ -56,6 +59,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Display update changelog + update version, if update available
 - Added help popups for games options
 - Split Game informations into two popup screen
+
 ### Fixed
 - Fixed busyanim display bug
 - Fixed systeminfo not populated on startup

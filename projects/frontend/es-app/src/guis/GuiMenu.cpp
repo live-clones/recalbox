@@ -479,7 +479,18 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                                          Settings::getInstance()->setBool("ShowHelpPrompts", show_help->getState());
                                      });
 
-                             // quick system select (left/right in game list view)
+							 //help popup time 0=no popup
+							 auto help_popup_time = std::make_shared<SliderComponent>(mWindow, 0.f, 10.f, 1.f, "s");
+							 help_popup_time->setValue(
+									 (float) (Settings::getInstance()->getInt("HelpPopupTime")));
+							 s->addWithLabel(help_popup_time, _("HELP POPUP DURATION"), _(MenuMessages::UI_HELP_POPUP_DURATION_HELP_MSG));
+							 s->addSaveFunc([help_popup_time] {
+								 Settings::getInstance()->setInt("HelpPopupTime",
+																 (int) round(help_popup_time->getValue()));
+							 });
+
+
+							 // quick system select (left/right in game list view)
                              auto quick_sys_select = std::make_shared<SwitchComponent>(mWindow);
                              quick_sys_select->setState(Settings::getInstance()->getBool("QuickSystemSelect"));
                              s->addWithLabel(quick_sys_select, _("QUICK SYSTEM SELECT"), _(MenuMessages::UI_QUICK_HELP_MSG));

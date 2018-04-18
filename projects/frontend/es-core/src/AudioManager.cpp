@@ -111,7 +111,7 @@ void AudioManager::playRandomMusic() {// Find a random song in user directory or
         bgsound->play(false, musicEndInternal);
         currentMusic = bgsound;
         Window* win =  ViewController::getWindow();
-        auto s = new GuiInfoPopup(win, _("Now playing") + ":\n" + currentMusic->getName(), 2, "\uF1b0");
+        auto s = std::make_shared<GuiInfoPopup>(win, _("Now playing") + ":\n" + currentMusic->getName(), 2, "\uF1b0");
         win->setInfoPopup(s);
         return;
     } else {

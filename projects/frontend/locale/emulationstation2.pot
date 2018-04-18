@@ -1597,3 +1597,10 @@ msgstr ""
 msgid "Now playing"
 msgstr ""
 
+#:
+msgid "Set duration of help popups, 0 means no popup."
+msgstr ""
+
+#:
+msgid "HELP POPUP DURATION"
+msgstr ""

@@ -46,7 +46,7 @@ public:
 	void renderHelpPromptsEarly(); // used to render HelpPrompts before a fade
 	void setHelpPrompts(const std::vector<HelpPrompt>& prompts, const HelpStyle& style);
 
-	void setInfoPopup(InfoPopup* infoPopup) { delete mInfoPopup; mInfoPopup = infoPopup; }
+	void setInfoPopup(std::shared_ptr<InfoPopup> infoPopup) { mInfoPopup = infoPopup; }
 	inline void stopInfoPopup() { if (mInfoPopup) mInfoPopup->stop(); };
 
 	void renderShutdownScreen();
@@ -66,7 +66,7 @@ private:
 
 	HelpComponent* mHelp;
 	ImageComponent* mBackgroundOverlay;
-	InfoPopup* mInfoPopup;
+	std::shared_ptr<InfoPopup> mInfoPopup;
 
 	std::vector<GuiComponent*> mGuiStack;
 	std::vector<std::string> mMessages;

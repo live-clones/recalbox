@@ -12,9 +12,8 @@
 #include <components/ScrollableContainer.h>
 
 GuiInfoPopup::GuiInfoPopup(Window* window, std::string message, int duration, std::string icon) :
-		GuiComponent(window), mMessage(message), mDuration(duration * 1000), running(true)
+		GuiComponent(window), mDuration(duration * 1000), running(true), mGrid(window, Eigen::Vector2i(2, 1)), mFrame(window, ":/frame.png")
 {
-	mFrame = new NinePatchComponent(window);
 
 	float maxWidth = Renderer::getScreenWidth() * 0.2f;
 	float maxHeight = Renderer::getScreenHeight() * 0.2f;
@@ -27,14 +26,12 @@ GuiInfoPopup::GuiInfoPopup(Window* window, std::string message, int duration, st
 	unsigned int FONT_SIZE_ICON = 0.05f * std::min(Renderer::getScreenHeight(), Renderer::getScreenWidth());
 	unsigned int FONT_SIZE_TEXT = 0.02f * std::min(Renderer::getScreenHeight(), Renderer::getScreenWidth());
 
-	auto iconText = std::make_shared<TextComponent>(mWindow, icon, Font::get(FONT_SIZE_ICON), menuTheme->menuText.color, ALIGN_CENTER);
-	auto text = std::make_shared<TextComponent>(mWindow, message, Font::get(FONT_SIZE_TEXT), menuTheme->menuText.color, ALIGN_LEFT);
+	auto iconText = std::make_shared<TextComponent>(window, icon, Font::get(FONT_SIZE_ICON), menuTheme->menuText.color, ALIGN_CENTER);
+	auto text = std::make_shared<TextComponent>(window, message, Font::get(FONT_SIZE_TEXT), menuTheme->menuText.color, ALIGN_LEFT);
 
-	mGrid = new ComponentGrid(window, Eigen::Vector2i(2, 1));
+	mGrid.setEntry(iconText, Eigen::Vector2i(0, 0), false, false);
 
-	mGrid->setEntry(iconText, Eigen::Vector2i(0, 0), false, false);
-
-	mGrid->setEntry(text, Eigen::Vector2i(1, 0), false, false);
+	mGrid.setEntry(text, Eigen::Vector2i(1, 0), false, false);
 
 
 
@@ -47,40 +44,37 @@ GuiInfoPopup::GuiInfoPopup(Window* window, std::string message, int duration, st
 	int paddingX = (int) (Renderer::getScreenWidth() * 0.02f);
 	int paddingY = (int) (Renderer::getScreenHeight() * 0.02f);
 
-	mGrid->setColWidthPerc(0, (iconText->getFont()->getSize() + paddingX) / maxWidth);
+	mGrid.setColWidthPerc(0, (iconText->getFont()->getSize() + paddingX) / maxWidth);
 
-	mGrid->setSize(maxWidth + paddingX, msgHeight + paddingY);
+	mGrid.setSize(maxWidth + paddingX, msgHeight + paddingY);
 
-	float posX = Renderer::getScreenWidth()*0.98f - mGrid->getSize().x()*0.98f;
+	float posX = Renderer::getScreenWidth()*0.98f - mGrid.getSize().x()*0.98f;
 	float posY = Renderer::getScreenHeight() * 0.02f;
 
 	setPosition(posX, posY, 0);
 
-	mFrame->setImagePath(menuTheme->menuBackground.path);
-	mFrame->setCenterColor(mFrameColor);
-	mFrame->setEdgeColor(mFrameColor);
-	mFrame->fitTo(mGrid->getSize(), Eigen::Vector3f::Zero(), Eigen::Vector2f(-32, -32));
-	addChild(mFrame);
+	mFrame.setImagePath(menuTheme->menuBackground.path);
+	mFrame.setCenterColor(mFrameColor);
+	mFrame.setEdgeColor(mFrameColor);
+	mFrame.fitTo(mGrid.getSize(), Eigen::Vector3f::Zero(), Eigen::Vector2f(-32, -32));
+	addChild(&mFrame);
 
 	// we only init the actual time when we first start to render
 	mStartTime = 0;
 
-	addChild(mGrid);
+	addChild(&mGrid);
 }
 
 GuiInfoPopup::~GuiInfoPopup()
 {
-	delete mGrid;
-	delete mFrame;
 }
 
 GuiInfoPopup::GuiInfoPopup(Window* window, std::string message, int duration) :
-		GuiComponent(window), mMessage(message), mDuration(duration * 1000), running(true)
+		GuiComponent(window), mDuration(duration * 1000), running(true), mGrid(window, Eigen::Vector2i(1, 1)), mFrame(window, ":/frame.png")
 {
-	mFrame = new NinePatchComponent(window);
 
 	float maxWidth = Renderer::getScreenWidth() * 0.2f;
-	float maxHeight = Renderer::getScreenHeight() * 0.2f;
+	float maxHeight = Renderer::getScreenHeight() * 0.4f;
 
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 
@@ -90,40 +84,38 @@ GuiInfoPopup::GuiInfoPopup(Window* window, std::string message, int duration) :
 
 	unsigned int FONT_SIZE_TEXT = 0.02f * std::min(Renderer::getScreenHeight(), Renderer::getScreenWidth());
 
-	auto text = std::make_shared<TextComponent>(mWindow, message, Font::get(FONT_SIZE_TEXT), menuTheme->menuText.color, ALIGN_LEFT);
+	mMsg = std::make_shared<TextComponent>(window, message, Font::get(FONT_SIZE_TEXT), menuTheme->menuText.color, ALIGN_LEFT);
 
-	mGrid = new ComponentGrid(window, Eigen::Vector2i(1, 1));
-
-	mGrid->setEntry(text, Eigen::Vector2i(0, 0), false, false);
+	mGrid.setEntry(mMsg, Eigen::Vector2i(0, 0), false, false);
 
 
 
-	text->setSize(maxWidth, 0);
+	mMsg->setSize(maxWidth, 0);
 
-	const float msgHeight = std::min(maxHeight, text->getSize().y());
-
+	const float msgHeight = std::min(maxHeight, mMsg->getSize().y());
 
 	// add a padding to the box
 	int paddingX = (int) (Renderer::getScreenWidth() * 0.02f);
 	int paddingY = (int) (Renderer::getScreenHeight() * 0.02f);
 
-	mGrid->setSize(maxWidth + paddingX, msgHeight + paddingY);
+	mGrid.setSize(maxWidth + paddingX, msgHeight + paddingY);
 
-	float posX = Renderer::getScreenWidth()*0.98f - mGrid->getSize().x()*0.98f;
+	float posX = Renderer::getScreenWidth()*0.98f - mGrid.getSize().x()*0.98f;
 	float posY = Renderer::getScreenHeight() * 0.02f;
 
+	setSize(maxWidth + paddingX, msgHeight + paddingY);
 	setPosition(posX, posY, 0);
 
-	mFrame->setImagePath(menuTheme->menuBackground.path);
-	mFrame->setCenterColor(mFrameColor);
-	mFrame->setEdgeColor(mFrameColor);
-	mFrame->fitTo(mGrid->getSize(), Eigen::Vector3f::Zero(), Eigen::Vector2f(-32, -32));
-	addChild(mFrame);
+	mFrame.setImagePath(menuTheme->menuBackground.path);
+	mFrame.setCenterColor(mFrameColor);
+	mFrame.setEdgeColor(mFrameColor);
+	mFrame.fitTo(mGrid.getSize(), Eigen::Vector3f::Zero(), Eigen::Vector2f(-32, -32));
+	addChild(&mFrame);
 
 	// we only init the actual time when we first start to render
 	mStartTime = 0;
 
-	addChild(mGrid);
+	addChild(&mGrid);
 }
 
 void GuiInfoPopup::render(const Eigen::Affine3f& parentTrans)
@@ -175,10 +167,10 @@ bool GuiInfoPopup::updateState()
 	if (alpha > maxAlpha)
 		alpha = maxAlpha;
 
-	mGrid->setOpacity(alpha);
+	mGrid.setOpacity(alpha);
 
 	// apply fade in effect to popup frame
-	mFrame->setEdgeColor((mFrameColor & 0xffffff00) | alpha);
-	mFrame->setCenterColor((mFrameColor & 0xffffff00) | alpha);
+	mFrame.setEdgeColor((mFrameColor & 0xffffff00) | alpha);
+	mFrame.setCenterColor((mFrameColor & 0xffffff00) | alpha);
 	return true;
 }

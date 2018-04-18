@@ -82,6 +82,7 @@ void Settings::setDefaults() {
     mIntMap["ScraperResizeHeight"] = 0;
     mIntMap["SystemVolume"] = 96;
 	mIntMap["MaxVRAM"] = 100;
+	mIntMap["HelpPopupTime"] = 4;
 
     mStringMap["TransitionStyle"] = "fade";
     mStringMap["ThemeSet"] = "";

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <guis/GuiInfoPopup.h>
+#include <Settings.h>
 #include "components/NinePatchComponent.h"
 #include "components/ComponentList.h"
 #include "components/TextComponent.h"
@@ -28,14 +30,13 @@ public:
 	
 	inline const std::function<void()> buildHelpGui(const std::string& label, const std::string& help) 
 	{
-		std::string title(label);
-		std::string content(help);
-		return [this, title, content] () {
-			mWindow->pushGui(new GuiMsgBoxScroll(
-				mWindow, title, content.c_str()
-					, _("OK"),
-					[] {}, "", nullptr, "", nullptr));
-				return true;
+		return [this, label, help] () {
+			int dur = Settings::getInstance()->getInt("HelpPopupTime");
+			if (dur != 0) {
+				auto s = std::make_shared<GuiInfoPopup>(mWindow, label + "\n" + help, dur);
+				mWindow->setInfoPopup(s);
+			}
+			return true;
 		};
 	}
 

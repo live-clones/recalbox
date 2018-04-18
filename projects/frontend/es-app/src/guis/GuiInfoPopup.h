@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <components/ScrollableContainer.h>
 #include "GuiComponent.h"
 #include "components/NinePatchComponent.h"
 #include "components/ComponentGrid.h"
@@ -21,14 +22,14 @@ public:
 	void render(const Eigen::Affine3f& parentTrans) override;
 	inline void stop() { running = false; };
 private:
-	std::string mMessage;
 	int mDuration;
 	int alpha;
 	unsigned int maxAlpha;
 	unsigned int mFrameColor;
 	bool updateState();
 	int mStartTime;
-	ComponentGrid* mGrid;
-	NinePatchComponent* mFrame;
+	ComponentGrid mGrid;
+	NinePatchComponent mFrame;
 	bool running;
+	std::shared_ptr<TextComponent> mMsg;
 };

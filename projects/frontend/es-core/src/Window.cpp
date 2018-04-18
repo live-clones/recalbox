@@ -170,7 +170,7 @@ void Window::input(InputConfig* config, Input input)
 					&& ViewController::get()->isViewing(ViewController::SYSTEM_SELECT)
 					&& mGuiStack.size() == 1 )
 		{
-			auto s = new GuiInfoPopup(this, "Controller:\n" + config->getDeviceName(), 2);
+			auto s = std::make_shared<GuiInfoPopup>(this, "Controller:\n" + config->getDeviceName(), 2);
 			this->setInfoPopup(s);
 		}*/
 		else if(peekGui() && !KonamiCode(config, input, this))
@@ -460,7 +460,7 @@ bool Window::KonamiCode(InputConfig* config, Input input, Window* window)
 
 	if (this->mKonamiCount == (this->mKonami.length()))
 	{
-		auto s = new GuiInfoPopup(this, "I entered Konami Code and all I get is this lame popup", 4, "\uF200");
+		auto s = std::make_shared<GuiInfoPopup>(this, "I entered Konami Code and all I get is this lame popup", 4, "\uF200");
 		this->setInfoPopup(s);
 		return true;
 	}
