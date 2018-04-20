@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 ### Fixed
 - Fixed old themes crash
+- Fixed clock not in local time
 
 ## [18.04.20] - 2018-04-20
 ### Added

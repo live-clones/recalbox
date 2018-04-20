@@ -221,7 +221,7 @@ std::string DateTimeComponent::getDisplayString(DisplayMode mode) const
 
 		std::stringstream ss;
 		ss.imbue(loc);
-		ss << "" << second_clock::universal_time();
+		ss << "" << second_clock::local_time();
 		return ss.str();
 	}
 	case DISP_RELATIVE_TO_NOW:
