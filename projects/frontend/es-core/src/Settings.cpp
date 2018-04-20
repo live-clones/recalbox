@@ -28,7 +28,8 @@ std::vector<const char *> settings_dont_save = boost::assign::list_of
         ("VersionMessage")
         ("MusicDirectory")
 		("ThemeChanged")
-		("ThemeHasMenuView");
+		("ThemeHasMenuView")
+		("Arch");
 
 Settings::Settings() {
     setDefaults();

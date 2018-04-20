@@ -277,6 +277,13 @@ int main(int argc, char* argv[])
 	initMetadata(); // require locale
 	Settings::getInstance()->setBool("ThemeChanged", false);
 	Settings::getInstance()->setBool("ThemeHasMenuView", false);
+
+	std::string arch;
+	std::ifstream archFile;
+	archFile.open("/recalbox/recalbox.arch");
+	std::getline(archFile, arch);
+	archFile.close();
+	Settings::getInstance()->setString("Arch", arch);
 	
     Renderer::init(width, height);
 	Window window;

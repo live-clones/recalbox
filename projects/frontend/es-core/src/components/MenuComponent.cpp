@@ -37,21 +37,24 @@ MenuComponent::MenuComponent(Window* window, const char* title, const std::share
 
 	if (title == _("MAIN MENU") ) {
 
-		auto batt = RecalboxSystem::getInstance()->getBatteryInfo();
-
 		auto headerGrid = std::make_shared<ComponentGrid>(mWindow, Vector2i(7, 1));
 
-		if (batt.second != -1){
-			auto batDisplay = std::make_shared<TextComponent>(mWindow);
-			batDisplay->setFont(menuTheme->menuText.font);
-			if (batt.second <= 15)
-				batDisplay->setColor(0xFF0000FF);
-			else
-				batDisplay->setColor(menuTheme->menuText.color);
-			batDisplay->setText(batt.first + " " + std::to_string(batt.second) + "%");
-			batDisplay->setHorizontalAlignment(ALIGN_CENTER);
-			headerGrid->setEntry(batDisplay, Vector2i(0,0), false);
+		std::string arch = Settings::getInstance()->getString("Arch");
+		if (arch == "x86" || arch == "x86_64") {
 
+			auto batt = RecalboxSystem::getInstance()->getSysBatteryInfo();
+			if (batt.second != -1) {
+				auto batDisplay = std::make_shared<TextComponent>(mWindow);
+				batDisplay->setFont(menuTheme->menuText.font);
+				if (batt.second <= 15)
+					batDisplay->setColor(0xFF0000FF);
+				else
+					batDisplay->setColor(menuTheme->menuText.color);
+				batDisplay->setText(batt.first + " " + std::to_string(batt.second) + "%");
+				batDisplay->setHorizontalAlignment(ALIGN_CENTER);
+				headerGrid->setEntry(batDisplay, Vector2i(0, 0), false);
+
+			}
 		}
 
 		if (Settings::getInstance()->getBool("ShowClock")) {

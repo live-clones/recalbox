@@ -68,7 +68,9 @@ public:
 
     std::pair<std::string, int> execute(std::string command);
 
-	std::pair<std::string, int> getBatteryInfo();
+	std::pair<std::string, int> getSDLBatteryInfo();
+
+	std::pair<std::string, int> getSysBatteryInfo();
 
 private:
     static RecalboxSystem *instance;

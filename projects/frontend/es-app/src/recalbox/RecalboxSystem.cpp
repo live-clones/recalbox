@@ -500,19 +500,75 @@ bool RecalboxSystem::ping() {
     return exitcode == 0;
 }
 
-std::pair<std::string, int> RecalboxSystem::getBatteryInfo(){
+std::pair<std::string, int> RecalboxSystem::getSDLBatteryInfo(){
     std::pair<std::string, int> result;
     int percent;
-    SDL_GetPowerInfo(NULL,&percent);
+    auto powerInfo = SDL_GetPowerInfo(NULL,&percent);
+    switch (powerInfo){
+        case SDL_POWERSTATE_UNKNOWN:
+        {
+            percent = -1;
+            break;
+        }
+        case SDL_POWERSTATE_NO_BATTERY:
+        {
+            percent = -1;
+            break;
+        }
+        case SDL_POWERSTATE_ON_BATTERY:
+        {
+            if (percent>66)
+                result.first = "\uF1ba";
+            else if (percent>33)
+                result.first = "\uF1b8";
+            else if (percent>15)
+                result.first = "\uF1b1";
+            else
+                result.first = "\uF1b5";
+            break;
+        }
+        case SDL_POWERSTATE_CHARGING:
+        {
+            result.first = "\uf1b4";
+            break;
+        }
+        case SDL_POWERSTATE_CHARGED:
+        {
+            result.first = "\uf1b4";
+            break;
+        }
+    }
     result.second = percent;
-    if (percent>66)
-        result.first = "\uF1ba";
-    else if (percent>33)
-        result.first = "\uF1b8";
-    else if (percent>15)
-        result.first = "\uF1b1";
-    else
-        result.first = "\uF1b5";
+
     return result;
 }
 
+std::pair<std::string, int> RecalboxSystem::getSysBatteryInfo(){
+	std::pair<std::string, int> result;
+	auto cmdPipe = execute("cat /sys/class/power_supply/BAT0/capacity");
+
+	int cmdStatus = cmdPipe.second;
+
+	if (cmdStatus != 0) {
+		return std::make_pair("", -1);
+	}
+
+	int percent = std::stoi(cmdPipe.first);
+	std::string status = execute("cat /sys/class/power_supply/BAT0/status").first;
+	if (status == "Discharging\n") {
+		if (percent>66)
+			result.first = "\uF1ba";
+		else if (percent>33)
+			result.first = "\uF1b8";
+		else if (percent>15)
+			result.first = "\uF1b1";
+		else
+			result.first = "\uF1b5";
+	}
+	else {
+		result.first = "\uf1b4";
+	}
+	result.second = percent;
+
+	return result;
+}
