@@ -37,6 +37,7 @@ const char* MenuMessages::UI_SCREENSAVER_AFTER_HELP_MSG = "Start the screensaver
 const char* MenuMessages::UI_SCREENSAVER_BEHAVIOR_HELP_MSG = "Set the screensaver behavior. DIM will reduce the screen light, and BLACK will turn the screen black.";
 const char* MenuMessages::UI_ONSCREENHELP_HELP_MSG = "Shows a help at the bottom of the screen which displays commands you can use.";
 const char* MenuMessages::UI_HELP_POPUP_DURATION_HELP_MSG = "Set duration of help popups, 0 means no popup.";
+const char* MenuMessages::UI_MUSIC_POPUP_DURATION_HELP_MSG = "Set duration of music popups, 0 means no popup.";
 const char* MenuMessages::UI_CLOCK_HELP_MSG = "Add a clock in the main menu.";
 const char* MenuMessages::UI_QUICK_HELP_MSG = "When enabled, you can switch between systems while browsing a gamelist by pressing LEFT or RIGHT.";
 const char* MenuMessages::UI_KEYBOARD_HELP_MSG = "The onscreen keyboard is necessary to type text if you only have controllers plugged into your recalbox. You can disable it if you have a real keyboard connected.";

@@ -489,8 +489,17 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
 																 (int) round(help_popup_time->getValue()));
 							 });
 
+                             //popup time 0=no popup
+							 auto music_popup_time = std::make_shared<SliderComponent>(mWindow, 0.f, 10.f, 1.f, "s");
+							 music_popup_time->setValue(
+									 (float) (Settings::getInstance()->getInt("MusicPopupTime")));
+							 s->addWithLabel(music_popup_time, _("MUSIC POPUP DURATION"), _(MenuMessages::UI_MUSIC_POPUP_DURATION_HELP_MSG));
+							 s->addSaveFunc([music_popup_time] {
+								 Settings::getInstance()->setInt("MusicPopupTime",
+																 (int) round(music_popup_time->getValue()));
+							 });
 
-							 // quick system select (left/right in game list view)
+                             // quick system select (left/right in game list view)
                              auto quick_sys_select = std::make_shared<SwitchComponent>(mWindow);
                              quick_sys_select->setState(Settings::getInstance()->getBool("QuickSystemSelect"));
                              s->addWithLabel(quick_sys_select, _("QUICK SYSTEM SELECT"), _(MenuMessages::UI_QUICK_HELP_MSG));
@@ -1151,10 +1160,10 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                      });
 
 	                 // maximum vram
-	                 auto max_vram = std::make_shared<SliderComponent>(mWindow, 0.f, 200.f, 10.f, "Mb");
+	                 /*auto max_vram = std::make_shared<SliderComponent>(mWindow, 0.f, 200.f, 10.f, "Mb");
 	                 max_vram->setValue((float)(Settings::getInstance()->getInt("MaxVRAM")));
 	                 s->addWithLabel(max_vram, "VRAM LIMIT");
-	                 s->addSaveFunc([max_vram] { Settings::getInstance()->setInt("MaxVRAM", (int)round(max_vram->getValue())); });
+	                 s->addSaveFunc([max_vram] { Settings::getInstance()->setInt("MaxVRAM", (int)round(max_vram->getValue())); });*/
 
                      // BOOT
                      {

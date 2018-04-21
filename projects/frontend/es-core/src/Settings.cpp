@@ -78,11 +78,12 @@ void Settings::setDefaults() {
     mBoolMap["Overscan"] = false;
 
     mIntMap["ScreenSaverTime"] = 5 * 60 * 1000; // 5 minutes
+	mIntMap["MusicPopupTime"] = 3;
     mIntMap["ScraperResizeWidth"] = 400;
     mIntMap["ScraperResizeHeight"] = 0;
     mIntMap["SystemVolume"] = 96;
-	mIntMap["MaxVRAM"] = 100;
 	mIntMap["HelpPopupTime"] = 4;
+	mIntMap["MaxVRAM"] = 80;
 
     mStringMap["TransitionStyle"] = "fade";
     mStringMap["ThemeSet"] = "";

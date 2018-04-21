@@ -37,7 +37,6 @@ bool SliderComponent::input(InputConfig* config, Input input)
 
 		mMoveRate = input.value ? -mSingleIncrement : 0;
 		mMoveAccumulator = -MOVE_REPEAT_DELAY;
-		return true;
 	}
 	if(config->isMappedTo("right", input))
 	{
@@ -46,7 +45,6 @@ bool SliderComponent::input(InputConfig* config, Input input)
 
 		mMoveRate = input.value ? mSingleIncrement : 0;
 		mMoveAccumulator = -MOVE_REPEAT_DELAY;
-		return true;
 	}
 
 	return GuiComponent::input(config, input);

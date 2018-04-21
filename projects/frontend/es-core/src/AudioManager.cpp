@@ -110,9 +110,12 @@ void AudioManager::playRandomMusic() {// Find a random song in user directory or
         stopMusic();
         bgsound->play(false, musicEndInternal);
         currentMusic = bgsound;
-        Window* win =  ViewController::getWindow();
-        auto s = std::make_shared<GuiInfoPopup>(win, _("Now playing") + ":\n" + currentMusic->getName(), 2, "\uF1b0");
-        win->setInfoPopup(s);
+        int popupDuration = Settings::getInstance()->getInt("MusicPopupTime");
+		if (popupDuration != 0) {
+			Window *win = ViewController::getWindow();
+			auto s = std::make_shared<GuiInfoPopup>(win, _("Now playing") + ":\n" + currentMusic->getName(), popupDuration, "\uF1b0");
+			win->setInfoPopup(s);
+		}
         return;
     } else {
         // Not running from playlist, and no theme song found

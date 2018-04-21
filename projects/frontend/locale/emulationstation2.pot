@@ -1604,3 +1604,11 @@ msgstr ""
 #:
 msgid "HELP POPUP DURATION"
 msgstr ""
+
+#:
+msgid "Set duration of music popups, 0 means no popup."
+msgstr ""
+
+#:
+msgid "MUSIC POPUP DURATION"
+msgstr ""

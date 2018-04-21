@@ -5,11 +5,13 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 ### Added
 - Added help messages in popups
+- Added slider for popups duration
 
 ### Fixed
 - Fixed old themes crash
 - Fixed clock not in local time
 - Deactivating battery indicator until better solution found
+- Removed slider for max vram (default is now 80)
 
 ## [18.04.20] - 2018-04-20
 ### Added
