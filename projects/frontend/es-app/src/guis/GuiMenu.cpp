@@ -5,6 +5,7 @@
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/classification.hpp>
+#include <boost/format.hpp>
 
 #include <functional>
 #include <LibretroRatio.h>
@@ -1273,7 +1274,7 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                                  if ((*system) != SystemData::getFavoriteSystem()) {
                                      SystemData *systemData = (*system);
                                      configuration->addSubMenu((*system)->getFullName(), [this, systemData] {
-                                         popSystemConfigurationGui(systemData, "");
+                                         popSystemConfigurationGui(systemData);
                                      });
                                  }
                              }
@@ -1475,55 +1476,71 @@ GuiMenu::~GuiMenu() {
     clearLoadedInput();
 }
 
-void GuiMenu::popSystemConfigurationGui(SystemData *systemData, std::string previouslySelectedEmulator) const {
+void GuiMenu::popSystemConfigurationGui(SystemData *systemData) const {
 	
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 	
     // The system configuration
-    GuiSettings *systemConfiguration = new GuiSettings(mWindow,
-                                                       systemData->getFullName().c_str());
+    GuiSettings *systemConfiguration = new GuiSettings(mWindow, systemData->getFullName().c_str());
+
+    EmulatorDefaults emulatorDefaults = RecalboxSystem::getInstance()->getEmulatorDefaults(systemData->getName());
+
     //Emulator choice
-    auto emu_choice = std::make_shared<OptionListComponent<std::string>>(mWindow, "emulator", false);
-    bool selected = false;
-    std::string selectedEmulator = "";
-    for (auto it = systemData->getEmulators()->begin(); it != systemData->getEmulators()->end(); it++) {
-        bool found;
-        std::string curEmulatorName = it->first;
-        if (previouslySelectedEmulator != "") {
-            // We just changed the emulator
-            found = previouslySelectedEmulator == curEmulatorName;
-        } else {
-            found = (RecalboxConf::getInstance()->get(systemData->getName() + ".emulator") == curEmulatorName);
-        }
-        if (found) {
-            selectedEmulator = curEmulatorName;
-        }
-        selected = selected || found;
-        emu_choice->add(curEmulatorName, curEmulatorName, found);
-    }
-    emu_choice->add("default", "default", !selected);
-    emu_choice->setSelectedChangedCallback([this, systemConfiguration, systemData](std::string s) {
-        popSystemConfigurationGui(systemData, s);
-        delete systemConfiguration;
-    });
-    systemConfiguration->addWithLabel(emu_choice, _("Emulator"), _(MenuMessages::ADVANCED_EMU_EMU_HELP_MSG));
+    auto emu_choice = std::make_shared<OptionListComponent<std::string>>(mWindow, _("Emulator"), false);
 
     // Core choice
     auto core_choice = std::make_shared<OptionListComponent<std::string> >(mWindow, _("Core"), false);
-    selected = false;
-    for (auto emulator = systemData->getEmulators()->begin();
-         emulator != systemData->getEmulators()->end(); emulator++) {
-        if (selectedEmulator == emulator->first) {
-            for (auto core = emulator->second->begin(); core != emulator->second->end(); core++) {
-                bool found = (RecalboxConf::getInstance()->get(systemData->getName() + ".core") == *core);
-                selected = selected || found;
-                core_choice->add(*core, *core, found);
+
+    std::string currentEmulator = RecalboxConf::getInstance()->get(systemData->getName() + ".emulator");
+
+    emu_choice->add(str(boost::format(_("DEFAULT (%1%)")) % emulatorDefaults.emulator), "default", true);
+
+    for (auto it = systemData->getEmulators()->begin(); it != systemData->getEmulators()->end(); it++) {
+        emu_choice->add( it->first,  it->first,  it->first == currentEmulator);
+    }
+
+    // when emulator changes, load new core list
+    emu_choice->setSelectedChangedCallback([this, systemData, emulatorDefaults, core_choice](std::string emulatorName) {
+        core_choice->clear();
+
+        if (emulatorName == "default") {
+            core_choice->add(str(boost::format(_("DEFAULT (%1%)")) % emulatorDefaults.core), "default", true);
+            return ;
+        }
+        
+        std::vector<std::string> cores = systemData->getCores(emulatorName);
+        std::string currentCore = RecalboxConf::getInstance()->get(systemData->getName() + ".core");
+
+        if (currentCore == "") {
+            currentCore = "default";
+        }
+
+        // update current core if it is not available in the emulator selected core list
+        if (currentCore != "default" && std::find(cores.begin(), cores.end(), currentCore) == cores.end()) {
+            if (emulatorName == emulatorDefaults.emulator) {
+                currentCore = emulatorDefaults.core;
+            } else {
+                // use first one
+                currentCore = *(cores.begin());
             }
         }
-    }
-    core_choice->add("default", "default", !selected);
+
+        for (auto it = cores.begin(); it != cores.end(); it++) {
+            std::string core = *it;
+            // select at least first one in case of bad entry in config file
+            bool selected = currentCore == core || it == cores.begin();
+            if (currentCore == "default" && emulatorName == emulatorDefaults.emulator) {
+                selected = selected || core == emulatorDefaults.core;
+            }
+            core_choice->add(core, core, selected);
+        }
+    });
+
+    systemConfiguration->addWithLabel(emu_choice, _("Emulator"), _(MenuMessages::ADVANCED_EMU_EMU_HELP_MSG));
     systemConfiguration->addWithLabel(core_choice, _("Core"), _(MenuMessages::ADVANCED_EMU_CORE_HELP_MSG));
 
+    // force change event to load core list
+    emu_choice->invalidate(); 
 
     // Screen ratio choice
     auto ratio_choice = createRatioOptionList(mWindow, systemData->getName());
@@ -1562,10 +1579,10 @@ void GuiMenu::popSystemConfigurationGui(SystemData *systemData, std::string prev
                     RecalboxConf::getInstance()->set(systemData->getName() + ".smooth",
                                                      smoothing_enabled->getState() ? "1" : "0");
                 }
-                if (emu_choice->changed()) {
+                // always save both core and emulator
+                // this is required to distinguish default
+                if (emu_choice->changed() || core_choice->changed()) {
                     RecalboxConf::getInstance()->set(systemData->getName() + ".emulator", emu_choice->getSelected());
-                }
-                if (core_choice->changed()) {
                     RecalboxConf::getInstance()->set(systemData->getName() + ".core", core_choice->getSelected());
                 }
                 if (autosave_enabled->changed()) {

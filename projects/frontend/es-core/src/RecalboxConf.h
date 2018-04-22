@@ -12,11 +12,11 @@
 class RecalboxConf {
 
 public:
-    RecalboxConf();
+    RecalboxConf(bool mainFile = true);
 
     ~RecalboxConf();
 
-    bool loadRecalboxConf();
+    bool loadRecalboxConf(bool mainFile = true);
 
     bool saveRecalboxConf();
 

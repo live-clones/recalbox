@@ -80,6 +80,8 @@ public:
 
 
 	std::map<std::string, std::vector<std::string> *> * getEmulators();
+	std::vector<std::string> getCores(std::string emulatorName);
+
 private:
 	std::string mName;
 	std::string mFullName;

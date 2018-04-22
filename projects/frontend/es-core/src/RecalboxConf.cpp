@@ -10,14 +10,15 @@ boost::regex validLine("^(?<key>[^;|#].*?)=(?<val>.*?)$");
 boost::regex commentLine("^;(?<key>.*?)=(?<val>.*?)$");
 
 std::string recalboxConfFile = "/recalbox/share/system/recalbox.conf";
+std::string recalboxConfFileInit = "/recalbox/share_init/system/recalbox.conf";
 std::string recalboxConfFileTmp = "/recalbox/share/system/recalbox.conf.tmp";
 
-RecalboxConf::RecalboxConf() {
-    loadRecalboxConf();
+RecalboxConf::RecalboxConf(bool mainFile) {
+    loadRecalboxConf(mainFile);
 }
 
 RecalboxConf::~RecalboxConf() {
-	if (sInstance)
+	if (sInstance && sInstance == this)
 		delete sInstance;
 }
 
@@ -28,9 +29,10 @@ RecalboxConf *RecalboxConf::getInstance() {
     return sInstance;
 }
 
-bool RecalboxConf::loadRecalboxConf() {
+bool RecalboxConf::loadRecalboxConf(bool mainFile) {
     std::string line;
-    std::ifstream recalboxConf(recalboxConfFile);
+    std::string filePath = mainFile ? recalboxConfFile : recalboxConfFileInit;
+    std::ifstream recalboxConf(filePath);
     if (recalboxConf && recalboxConf.is_open()) {
         while (std::getline(recalboxConf, line)) {
             boost::smatch lineInfo;
@@ -40,7 +42,7 @@ bool RecalboxConf::loadRecalboxConf() {
         }
         recalboxConf.close();
     } else {
-        LOG(LogError) << "Unable to open " << recalboxConfFile;
+        LOG(LogError) << "Unable to open " << filePath;
         return false;
     }
     return true;

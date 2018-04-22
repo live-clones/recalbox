@@ -7,6 +7,7 @@
 #include "guis/GuiGameScraper.h"
 #include "guis/GuiMsgBox.h"
 #include <boost/filesystem.hpp>
+#include <boost/format.hpp>
 #include <RecalboxConf.h>
 #include <components/SwitchComponent.h>
 #include <LibretroRatio.h>
@@ -14,10 +15,12 @@
 #include "components/TextEditComponent.h"
 #include "components/DateTimeComponent.h"
 #include "components/RatingComponent.h"
-#include "components/OptionListComponent.h"
 #include "guis/GuiTextEditPopup.h"
 #include "guis/GuiTextEditPopupKeyboard.h"
 #include "MenuThemeData.h"
+#include "components/OptionListComponent.h"
+#include "recalbox/RecalboxSystem.h"
+
 
 using namespace Eigen;
 
@@ -57,6 +60,11 @@ GuiMetaDataEd::GuiMetaDataEd(Window *window, MetaDataList *md, const std::vector
 
     mList = std::make_shared<ComponentList>(mWindow);
     mGrid.setEntry(mList, Vector2i(0, 1), true, true);
+
+    EmulatorDefaults emulatorDefaults = RecalboxSystem::getInstance()->getEmulatorDefaults(system->getName());
+
+    auto emu_choice = std::make_shared<OptionListComponent<std::string>>(mWindow, _("Emulator"), false, FONT_SIZE_SMALL);
+    auto core_choice = std::make_shared<OptionListComponent<std::string> >(mWindow, _("core"), false, FONT_SIZE_SMALL);
 
     // populate list
     for (auto iter = mMetaDataDecl.begin(); iter != mMetaDataDecl.end(); iter++) {
@@ -122,39 +130,71 @@ GuiMetaDataEd::GuiMetaDataEd(Window *window, MetaDataList *md, const std::vector
                 break;
             }
             case MD_LIST:
-                //UGLY
                 if (iter->key == "emulator") {
-                    auto emu_choice = std::make_shared<OptionListComponent<std::string>>(mWindow, "emulator", false,FONT_SIZE_SMALL);
                     row.addElement(emu_choice, false);
-                    bool selected = false;
-                    for (auto it = system->getEmulators()->begin(); it != system->getEmulators()->end(); it++) {
-                        selected = selected || mMetaData->get("emulator") == it->first;
-                        emu_choice->add(it->first, it->first, mMetaData->get(iter->key) == it->first);
+                    std::string currentEmulator = mMetaData->get(iter->key);
+                    std::string mainConfigEmulator = RecalboxConf::getInstance()->get(system->getName() + ".emulator");
+
+                    if (mainConfigEmulator == "" || mainConfigEmulator == "default") {
+                        mainConfigEmulator = emulatorDefaults.emulator;
                     }
-                    emu_choice->add("default", "default", !selected);
-                    ed = emu_choice;
-                    emu_choice->setSelectedChangedCallback([this, header, system, main](std::string s) {
-                        mMetaData->set("emulator", s);
-                        mWindow->pushGui(new GuiMetaDataEd(mWindow, mMetaData, mMetaDataDecl, mScraperParams, header, mSavedCallback, mDeleteFunc, system, main));
-                        delete this;
+
+                    emu_choice->add(str(boost::format(_("DEFAULT (%1%)")) % mainConfigEmulator), "default", true);
+
+                    for (auto it = system->getEmulators()->begin(); it != system->getEmulators()->end(); it++) {
+                        emu_choice->add(it->first,  it->first, it->first == currentEmulator);
+                    }
+
+                    // when emulator changes, load new core list
+                    emu_choice->setSelectedChangedCallback([this, system, emulatorDefaults, core_choice](std::string emulatorName) {
+                        core_choice->clear();
+
+                        if (emulatorName == "default") {
+                            std::string mainConfigCore = RecalboxConf::getInstance()->get(system->getName() + ".core");
+                            if (mainConfigCore == "" || mainConfigCore == "default") {
+                                mainConfigCore = emulatorDefaults.core;
+                            }
+                            core_choice->add(str(boost::format(_("DEFAULT (%1%)")) % mainConfigCore), "default", true);
+                            return ;
+                        }
+                        
+                        std::vector<std::string> cores = system->getCores(emulatorName);
+                        std::string currentCore = RecalboxConf::getInstance()->get(system->getName() + ".core");
+
+                        if (currentCore == "") {
+                            currentCore = "default";
+                        }
+
+                        // update current core if it is not available in the emulator selected core list
+                        if (currentCore != "default" && std::find(cores.begin(), cores.end(), currentCore) == cores.end()) {
+                            if (emulatorName == emulatorDefaults.emulator) {
+                                currentCore = emulatorDefaults.core;
+                            } else {
+                                // use first one
+                                currentCore = *(cores.begin());
+                            }
+                        }
+
+                        for (auto it = cores.begin(); it != cores.end(); it++) {
+                            std::string core = *it;
+                            // select at least first one in case of bad entry in config file
+                            bool selected = currentCore == core || it == cores.begin();
+                            if (currentCore == "default" && emulatorName == emulatorDefaults.emulator) {
+                                selected = selected || core == emulatorDefaults.core;
+                            }
+                            core_choice->add(core, core, selected);
+                        }
                     });
+
+                    ed = emu_choice;
                 }
 
                 if (iter->key == "core") {
-                    auto core_choice = std::make_shared<OptionListComponent<std::string> >(mWindow, "core", false, FONT_SIZE_SMALL);
                     row.addElement(core_choice, false);
-                    bool selected = false;
-                    for (auto emulator = system->getEmulators()->begin();
-                        emulator != system->getEmulators()->end(); emulator++) {
-                        if (mMetaData->get("emulator") == emulator->first) {
-                            for (auto core = emulator->second->begin(); core != emulator->second->end(); core++) {
-                                selected = selected || mMetaData->get("core") == *core;
-                                core_choice->add(*core, *core, mMetaData->get("core") == *core);
-                            }
-                        }
-                    }
-                    core_choice->add("default", "default", !selected);
                     ed = core_choice;
+
+                    // force change event to load core list
+                    emu_choice->invalidate(); 
                 }
 
                 if (iter->key == "ratio") {
@@ -287,7 +327,7 @@ void GuiMetaDataEd::save() {
     for (unsigned int i = 0; i < mEditors.size(); i++) {
 
         if (mMetaDataEditable.at(i).type != MD_LIST)
-        mMetaData->set(mMetaDataEditable.at(i).key, mEditors.at(i)->getValue());
+            mMetaData->set(mMetaDataEditable.at(i).key, mEditors.at(i)->getValue());
         else {
             std::shared_ptr<GuiComponent> ed = mEditors.at(i);
             std::shared_ptr<OptionListComponent<std::string>> list = std::static_pointer_cast<OptionListComponent<std::string>>(ed);

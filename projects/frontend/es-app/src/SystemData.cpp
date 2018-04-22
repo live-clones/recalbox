@@ -602,6 +602,17 @@ std::map<std::string, std::vector<std::string>*>* SystemData::getEmulators() {
 	return mEmulators;
 }
 
+std::vector<std::string> SystemData::getCores(std::string emulatorName) {
+	std::vector<std::string> list;
+    for (auto emulator = mEmulators->begin(); emulator != mEmulators->end(); emulator++) {
+        if (emulatorName == emulator->first) {
+			list = *emulator->second;
+			break;
+		}
+	}
+	return list;
+}
+
 SystemData* SystemData::getFavoriteSystem() {
 	for(auto system = sSystemVector.begin(); system != sSystemVector.end(); system ++){
 		if((*system)->isFavorite()){

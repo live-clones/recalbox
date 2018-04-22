@@ -5,6 +5,7 @@
  * Created on 29 novembre 2014, 03:1
  */
 
+#include "RecalboxConf.h"
 #include "RecalboxSystem.h"
 #include <sys/statvfs.h>
 #include "Settings.h"
@@ -571,4 +572,56 @@ std::pair<std::string, int> RecalboxSystem::getSysBatteryInfo(){
 	result.second = percent;
 
 	return result;
+}
+
+std::string RecalboxSystem::getJSONStringValue(std::string json, std::string key) {
+    int startPos = json.find("\"" + key + "\": ");
+
+    if (startPos > 0) {
+        std::string token = json.substr(startPos + key.length() + 4, json.length());
+        if (token.substr(0, 4) != "null") {
+            int endPos = token.find("\"", 1);
+
+            if (endPos > 0) {
+                return token.substr(1, endPos - 1);
+            }
+        }
+
+    }
+    return "";
+}
+
+EmulatorDefaults RecalboxSystem::getEmulatorDefaults(std::string emulatorName) {
+    EmulatorDefaults defaults;
+    auto initConfig = new RecalboxConf(false);
+    std::string json = runCmd("getEmulatorDefaults " + emulatorName);
+    
+    defaults.emulator = initConfig->get(emulatorName + ".emulator");
+    if (defaults.emulator.empty()) {
+        defaults.emulator = getJSONStringValue(json, "emulator");
+    }
+
+    defaults.core = initConfig->get(emulatorName + ".core");
+    if (defaults.core.empty()) {
+        defaults.core = getJSONStringValue(json, "core");
+    }
+
+    return  defaults;
+}
+
+std::string RecalboxSystem::runCmd(std::string options) {
+    std::string cmd = Settings::getInstance()->getString("RecalboxSettingScript") + " " + options;
+    FILE *pipe = popen(cmd.c_str(), "r");
+    char line[1024];
+
+    if (pipe == NULL) {
+        return "";
+    }
+
+    if (fgets(line, 1024, pipe)) {
+        strtok(line, "\n");
+        pclose(pipe);
+        return std::string(line);
+    }
+    return cmd;
 }

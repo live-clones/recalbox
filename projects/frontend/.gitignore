@@ -36,6 +36,7 @@ CPackSourceConfig.cmake
 
 .vscode
 .idea/
+.vscode/
 *.iml
 *.txt.user*
 

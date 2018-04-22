@@ -5,6 +5,11 @@
 #include "Window.h"
 #include "components/BusyComponent.h"
 
+struct EmulatorDefaults {
+    std::string core;
+    std::string emulator;
+};
+
 class RecalboxSystem {
 public:
 
@@ -72,6 +77,8 @@ public:
 
 	std::pair<std::string, int> getSysBatteryInfo();
 
+    EmulatorDefaults getEmulatorDefaults(std::string emulatorName);
+
 private:
     static RecalboxSystem *instance;
 
@@ -79,6 +86,8 @@ private:
 
     bool halt(bool reboot, bool fast);
 
+    std::string runCmd(std::string cmd);
+    std::string getJSONStringValue(std::string json, std::string key);
 
 };
 

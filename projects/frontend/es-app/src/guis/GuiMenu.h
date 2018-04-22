@@ -42,7 +42,7 @@ private:
 	std::shared_ptr<OptionListComponent<std::string>> createRatioOptionList(Window *window,
                                                                         std::string configname) const;
 
-	void popSystemConfigurationGui(SystemData *systemData, std::string previouslySelectedEmulator) const;
+	void popSystemConfigurationGui(SystemData *systemData) const;
 
 	std::vector<StrInputConfig*> mLoadedInput; // used to keep information about loaded devices in case there are unpluged between device window load and save
 	void clearLoadedInput();

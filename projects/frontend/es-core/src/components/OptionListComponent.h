@@ -274,6 +274,9 @@ public:
                 return "";
 	}
         
+	void clear() { 
+		mEntries.clear();
+	}
 
 	void add(const std::string& name, const T& obj, bool selected)
 	{
@@ -281,10 +284,20 @@ public:
 		e.name = name;
 		e.object = obj;
 		e.selected = selected;
-		if(selected)
+		if (selected) {
+			if (!mMultiSelect) {
+				for(auto it = mEntries.begin(); it !=mEntries.end(); it++) {
+					it->selected = false;
+				}
+			}
 			firstSelected = obj;
+		}
 
 		mEntries.push_back(e);
+		onSelectedChanged();
+	}
+
+	inline void invalidate() {
 		onSelectedChanged();
 	}
 

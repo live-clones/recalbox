@@ -543,6 +543,10 @@ msgid "SHUTDOWN SYSTEM"
 msgstr ""
 
 #: 
+msgid "DEFAULT (%1%)"
+msgstr ""
+
+#: 
 msgid "Emulator"
 msgstr ""
 
