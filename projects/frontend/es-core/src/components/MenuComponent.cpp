@@ -39,7 +39,7 @@ MenuComponent::MenuComponent(Window* window, const char* title, const std::share
 
 		auto headerGrid = std::make_shared<ComponentGrid>(mWindow, Vector2i(7, 1));
 
-		std::string arch = Settings::getInstance()->getString("Arch");
+		/*std::string arch = Settings::getInstance()->getString("Arch");
 		if (arch == "x86" || arch == "x86_64") {
 
 			auto batt = RecalboxSystem::getInstance()->getSysBatteryInfo();
@@ -55,7 +55,7 @@ MenuComponent::MenuComponent(Window* window, const char* title, const std::share
 				headerGrid->setEntry(batDisplay, Vector2i(0, 0), false);
 
 			}
-		}
+		}*/
 
 		if (Settings::getInstance()->getBool("ShowClock")) {
 

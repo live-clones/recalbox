@@ -7,6 +7,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 - Fixed old themes crash
 - Fixed clock not in local time
+- Deactivating battery indicator until better solution found
 
 ## [18.04.20] - 2018-04-20
 ### Added
