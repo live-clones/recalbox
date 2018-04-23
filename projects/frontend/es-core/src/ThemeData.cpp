@@ -873,13 +873,21 @@ std::string ThemeData::getTransition()
 {
 	std::string result = "";
 	auto elem = getElement("system", "systemcarousel", "carousel");
-	if (elem->has("defaultTransition")) {
-		if (!(elem->get<std::string>("defaultTransition").compare("instant")))
-			result = "instant";
-		if (!(elem->get<std::string>("defaultTransition").compare("fade")))
-			result = "fade";
-		if (!(elem->get<std::string>("defaultTransition").compare("slide")))
-			result = "slide";
+	if (elem) {
+		if (elem->has("defaultTransition")) {
+			if (!(elem->get<std::string>("defaultTransition").compare("instant"))) {
+				result = "instant";
+				return result;
+			}
+			if (!(elem->get<std::string>("defaultTransition").compare("fade"))) {
+				result = "fade";
+				return result;
+			}
+			if (!(elem->get<std::string>("defaultTransition").compare("slide"))) {
+				result = "slide";
+				return result;
+			}
+		}
 	}
 	return result;
 }

@@ -4,6 +4,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 ### Added
+### Fixed
+- Fixed old themes crash
+
+## [18.04.20] - 2018-04-20
+### Added
 - Added pop-ups
 - Added tag in theme to force transition style
 - Added dynamic change of volume and audio output in menu
