@@ -181,33 +181,34 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                                                                                                         false);
                              std::string language = RecalboxConf::getInstance()->get("system.language");
                              if (language.empty()) language = "en_US";
-                             language_choice->add("BASQUE", "eu_ES", language == "eu_ES");
-                             language_choice->add("正體中文", "zh_TW", language == "zh_TW");
-                             language_choice->add("简体中文", "zh_CN", language == "zh_CN");
-                             language_choice->add("DEUTSCH", "de_DE", language == "de_DE");
-                             language_choice->add("ENGLISH", "en_US", language == "en_US");
-                             language_choice->add("ESPAÑOL", "es_ES", language == "es_ES");
-                             language_choice->add("FRANÇAIS", "fr_FR", language == "fr_FR");
-                             language_choice->add("ITALIANO", "it_IT", language == "it_IT");
-                             language_choice->add("PORTUGUES", "pt_BR", language == "pt_BR");
-                             language_choice->add("SVENSKA", "sv_SE", language == "sv_SE");
-                             language_choice->add("TÜRKÇE", "tr_TR", language == "tr_TR");
-                             language_choice->add("CATALÀ", "ca_ES", language == "ca_ES");
-                             language_choice->add("ARABIC", "ar_YE", language == "ar_YE");
-                             language_choice->add("DUTCH", "nl_NL", language == "nl_NL");
-                             language_choice->add("GREEK", "el_GR", language == "el_GR");
-                             language_choice->add("KOREAN", "ko_KR", language == "ko_KR");
-                             language_choice->add("NORWEGIAN", "nn_NO", language == "nn_NO");
-                             language_choice->add("NORWEGIAN BOKMAL", "nb_NO", language == "nb_NO");
-                             language_choice->add("POLISH", "pl_PL", language == "pl_PL");
-                             language_choice->add("JAPANESE", "ja_JP", language == "ja_JP");
-                             language_choice->add("RUSSIAN", "ru_RU", language == "ru_RU");
-                             language_choice->add("HUNGARIAN", "hu_HU", language == "hu_HU");
-                             language_choice->add("CZECH", "cs_CZ", language == "cs_CZ");
-                             language_choice->add("LATVIAN", "lv_LV", language == "lv_LV");
-                             language_choice->add("LUXEMBOURGISH", "lb_LU", language == "lb_LU");
+							 language_choice->add("EUSKARA", "eu_ES", language == "eu_ES");
+							 language_choice->add("正體中文", "zh_TW", language == "zh_TW");
+							 language_choice->add("简体中文", "zh_CN", language == "zh_CN");
+							 language_choice->add("DEUTSCH", "de_DE", language == "de_DE");
+							 language_choice->add("ENGLISH", "en_US", language == "en_US");
+							 language_choice->add("ESPAÑOL", "es_ES", language == "es_ES");
+							 language_choice->add("FRANÇAIS", "fr_FR", language == "fr_FR");
+							 language_choice->add("ITALIANO", "it_IT", language == "it_IT");
+							 language_choice->add("PORTUGUES", "pt_BR", language == "pt_BR");
+							 language_choice->add("SVENSKA", "sv_SE", language == "sv_SE");
+							 language_choice->add("TÜRKÇE", "tr_TR", language == "tr_TR");
+							 language_choice->add("CATALÀ", "ca_ES", language == "ca_ES");
+							 language_choice->add("اللغة العربية", "ar_YE", language == "ar_YE");
+							 language_choice->add("NEDERLANDS", "nl_NL", language == "nl_NL");
+							 language_choice->add("ελληνικά", "el_GR", language == "el_GR");
+							 language_choice->add("한국어", "ko_KR", language == "ko_KR");
+							 language_choice->add("NORSK", "nn_NO", language == "nn_NO");
+							 language_choice->add("BOKMAL", "nb_NO", language == "nb_NO");
+							 language_choice->add("POLSKI", "pl_PL", language == "pl_PL");
+							 language_choice->add("日本語", "ja_JP", language == "ja_JP");
+							 language_choice->add("Русский", "ru_RU", language == "ru_RU");
+							 language_choice->add("MAGYAR", "hu_HU", language == "hu_HU");
+							 language_choice->add("čeština", "cs_CZ", language == "cs_CZ");
+							 language_choice->add("latviešu", "lv_LV", language == "lv_LV");
+							 language_choice->add("Lëtzebuergesch", "lb_LU", language == "lb_LU");
 
-                             s->addWithLabel(language_choice, _("LANGUAGE"), _(MenuMessages::LANGUAGE_HELP_MSG));
+
+							 s->addWithLabel(language_choice, _("LANGUAGE"), _(MenuMessages::LANGUAGE_HELP_MSG));
 
 
                              s->addSaveFunc([window, language_choice, language, optionsStorage, selectedStorage] {
