@@ -16,8 +16,8 @@
 class GuiInfoPopup : public GuiComponent, public Window::InfoPopup
 {
 public:
-	GuiInfoPopup(Window* window, std::string message, int duration, std::string icon);
-	GuiInfoPopup(Window* window, std::string message, int duration);
+	GuiInfoPopup(Window* window, std::string message, int duration, std::string icon = "");
+	//GuiInfoPopup(Window* window, std::string message, int duration);
 	~GuiInfoPopup();
 	void render(const Eigen::Affine3f& parentTrans) override;
 	inline void stop() { running = false; };
@@ -31,5 +31,6 @@ private:
 	ComponentGrid mGrid;
 	NinePatchComponent mFrame;
 	bool running;
-	std::shared_ptr<TextComponent> mMsg;
+	std::shared_ptr<TextComponent> mMsgText;
+	std::shared_ptr<TextComponent> mMsgIcon;
 };

@@ -92,6 +92,6 @@ private:
 	bool launchKodi;
 
 	std::string mKonami = "uuddlrlrba";
-	int mKonamiCount;
+	int mKonamiCount = 0;
 	const std::vector<std::string> mInputVals = { "up", "down", "left", "right", "a", "b" };
 };
