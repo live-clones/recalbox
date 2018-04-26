@@ -480,25 +480,45 @@ GuiMenu::GuiMenu(Window *window) : GuiComponent(window), mMenu(window, _("MAIN M
                                          Settings::getInstance()->setBool("ShowHelpPrompts", show_help->getState());
                                      });
 
-							 //help popup time 0=no popup
-							 auto help_popup_time = std::make_shared<SliderComponent>(mWindow, 0.f, 10.f, 1.f, "s");
-							 help_popup_time->setValue(
-									 (float) (Settings::getInstance()->getInt("HelpPopupTime")));
-							 s->addWithLabel(help_popup_time, _("HELP POPUP DURATION"), _(MenuMessages::UI_HELP_POPUP_DURATION_HELP_MSG));
-							 s->addSaveFunc([help_popup_time] {
-								 Settings::getInstance()->setInt("HelpPopupTime",
-																 (int) round(help_popup_time->getValue()));
-							 });
+							 std::function<void()> openGuiSub = [this] {
+								 GuiSettings *PopupGui = new GuiSettings(mWindow,
+																		_("POPUP SETTINGS").c_str());
 
-                             //popup time 0=no popup
-							 auto music_popup_time = std::make_shared<SliderComponent>(mWindow, 0.f, 10.f, 1.f, "s");
-							 music_popup_time->setValue(
-									 (float) (Settings::getInstance()->getInt("MusicPopupTime")));
-							 s->addWithLabel(music_popup_time, _("MUSIC POPUP DURATION"), _(MenuMessages::UI_MUSIC_POPUP_DURATION_HELP_MSG));
-							 s->addSaveFunc([music_popup_time] {
-								 Settings::getInstance()->setInt("MusicPopupTime",
-																 (int) round(music_popup_time->getValue()));
-							 });
+								 auto popup_position = std::make_shared<OptionListComponent<std::string> >(mWindow,
+																										   _("POPUP POSITION"),
+																										   false);
+
+								 std::string currentPos = Settings::getInstance()->getString("PopupPosition");
+								 popup_position->add(_("TOP/RIGHT"), "Top/Right", currentPos == "Top/Right");
+								 popup_position->add(_("BOTTOM/RIGHT"), "Bottom/Right", currentPos == "Bottom/Right");
+								 popup_position->add(_("BOTTOM/LEFT"), "Bottom/Left", currentPos == "Bottom/Left");
+								 popup_position->add(_("TOP/LEFT"), "Top/Left", currentPos == "Top/Left");
+								 PopupGui->addWithLabel(popup_position, _("POPUP POSITION"), _(MenuMessages::UI_POPUP_POSITION_HELP_MSG));
+
+								 //help popup time 0=no popup
+								 auto help_popup_time = std::make_shared<SliderComponent>(mWindow, 0.f, 10.f, 1.f, "s");
+								 help_popup_time->setValue(
+										 (float) (Settings::getInstance()->getInt("HelpPopupTime")));
+								 PopupGui->addWithLabel(help_popup_time, _("HELP POPUP DURATION"), _(MenuMessages::UI_HELP_POPUP_DURATION_HELP_MSG));
+
+								 //music popup time 0=no popup
+								 auto music_popup_time = std::make_shared<SliderComponent>(mWindow, 0.f, 10.f, 1.f, "s");
+								 music_popup_time->setValue(
+										 (float) (Settings::getInstance()->getInt("MusicPopupTime")));
+								 PopupGui->addWithLabel(music_popup_time, _("MUSIC POPUP DURATION"), _(MenuMessages::UI_MUSIC_POPUP_DURATION_HELP_MSG));
+
+								 PopupGui->addSaveFunc(
+										 [help_popup_time, music_popup_time, popup_position] {
+											 Settings::getInstance()->setInt("HelpPopupTime",
+																			 (int) round(help_popup_time->getValue()));
+											 Settings::getInstance()->setInt("MusicPopupTime",
+																			 (int) round(music_popup_time->getValue()));
+											 Settings::getInstance()->setString("PopupPosition", popup_position->getSelected());
+										 });
+								 mWindow->pushGui(PopupGui);
+							 };
+							 s->addSubMenu(_("POPUP SETTINGS"), openGuiSub, _(MenuMessages::UI_POPUP_HELP_MSG));
+
 
                              // quick system select (left/right in game list view)
                              auto quick_sys_select = std::make_shared<SwitchComponent>(mWindow);

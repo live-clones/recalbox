@@ -86,6 +86,7 @@ void Settings::setDefaults() {
 	mIntMap["MaxVRAM"] = 80;
 
     mStringMap["TransitionStyle"] = "fade";
+    mStringMap["PopupPosition"] = "Top/Right";
     mStringMap["ThemeSet"] = "";
 	mStringMap["ThemeColorSet"] = "";
 	mStringMap["ThemeIconSet"] = "";

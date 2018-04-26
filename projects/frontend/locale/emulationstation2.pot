@@ -1612,3 +1612,35 @@ msgstr ""
 #:
 msgid "MUSIC POPUP DURATION"
 msgstr ""
+
+#:
+msgid "POPUP SETTINGS"
+msgstr ""
+
+#:
+msgid "POPUP POSITION"
+msgstr ""
+
+#:
+msgid "Select the position of popups on screen."
+msgstr ""
+
+#:
+msgid "Set position and duration of popups."
+msgstr ""
+
+#:
+msgid "TOP/RIGHT"
+msgstr ""
+
+#:
+msgid "BOTTOM/RIGHT"
+msgstr ""
+
+#:
+msgid "BOTTOM/LEFT"
+msgstr ""
+
+#:
+msgid "TOP/LEFT"
+msgstr ""

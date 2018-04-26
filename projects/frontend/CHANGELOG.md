@@ -4,6 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 ### Added
+- Added option for popup position
 - Added help messages in popups
 - Added slider for popups duration
 - Added new fallback fonts to support all languages

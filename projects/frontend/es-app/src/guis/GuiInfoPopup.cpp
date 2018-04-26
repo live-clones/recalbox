@@ -10,6 +10,7 @@
 #include <SDL_timer.h>
 #include <MenuThemeData.h>
 #include <components/ScrollableContainer.h>
+#include <Settings.h>
 
 GuiInfoPopup::GuiInfoPopup(Window* window, std::string message, int duration, std::string icon) :
 		GuiComponent(window), mDuration(duration * 1000), running(true), mGrid(window, Eigen::Vector2i(2, 1)), mFrame(window, ":/frame.png")
@@ -55,8 +56,29 @@ GuiInfoPopup::GuiInfoPopup(Window* window, std::string message, int duration, st
 
 	mGrid.setSize(maxWidth + paddingX, msgHeight + paddingY);
 
-	float posX = Renderer::getScreenWidth()*0.98f - mGrid.getSize().x()*0.98f;
-	float posY = Renderer::getScreenHeight() * 0.02f;
+	float posX, posY;
+
+	std::string posString = Settings::getInstance()->getString("PopupPosition");
+
+	if (posString == "Top/Right"){
+		posX = Renderer::getScreenWidth()*0.98f - mGrid.getSize().x()*0.98f;
+		posY = Renderer::getScreenHeight() * 0.02f;
+	}
+
+	else if (posString == "Bottom/Right"){
+		posX = Renderer::getScreenWidth()*0.98f - mGrid.getSize().x()*0.98f;
+		posY = Renderer::getScreenHeight() * 0.98f - mGrid.getSize().y()*0.98f;
+	}
+
+	else if (posString == "Bottom/Left"){
+		posX = Renderer::getScreenWidth()*0.02f;
+		posY = Renderer::getScreenHeight() * 0.98f - mGrid.getSize().y()*0.98f;
+	}
+
+	else if (posString == "Top/Left"){
+		posX = Renderer::getScreenWidth()*0.02f;
+		posY = Renderer::getScreenHeight() * 0.02f;
+	}
 
 	setPosition(posX, posY, 0);
 
