@@ -83,19 +83,19 @@ class LinappleGenerator(Generator):
         if not self.check_resources(): 
             return
 
-        # Load config file
-        usr_conf = os.path.join(self.path_user, self.filename)
-        filename = usr_conf \
-            if os.path.exists(usr_conf) \
-            else os.path.join(self.path_init, self.filename)
-        config = LinappleConfig(filename=filename)
+        if not system.config['configfile']:
+            # Load config file
+            usr_conf = os.path.join(self.path_user, self.filename)
+            filename = usr_conf \
+                if os.path.exists(usr_conf) \
+                else os.path.join(self.path_init, self.filename)
+            config = LinappleConfig(filename=filename)
+            # Adjust configuration 
+            config.joysticks(playersControllers)
+            config.system(system, rom)
+            # Save changes 
+            config.save(filename=usr_conf)
 
-        # Adjust configuration 
-        config.joysticks(playersControllers)
-        config.system(system, rom)
-
-        # Save changes 
-        config.save(filename=usr_conf)
         commandArray = [ recalboxFiles.recalboxBins[system.config['emulator']] ]
         if 'args' in system.config and system.config['args'] is not None:
             commandArray.extend(system.config['args'])
