@@ -51,7 +51,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window *window, MetaDataList *md, const std::vector
     mSubtitle = std::make_shared<TextComponent>(mWindow,
                                                 strToUpper(scraperParams.game->getPath().filename().generic_string()),
                                                 menuTheme->menuFooter.font, menuTheme->menuFooter.color, ALIGN_CENTER);
-    float y =0;
+    float y = 0;
     y += mTitle->getFont()->getHeight() + mSubtitle->getFont()->getHeight();
     mHeaderGrid->setEntry(mTitle, Vector2i(0, 1), false, true);
     mHeaderGrid->setEntry(mSubtitle, Vector2i(0, 3), false, true);
@@ -63,8 +63,8 @@ GuiMetaDataEd::GuiMetaDataEd(Window *window, MetaDataList *md, const std::vector
 
     EmulatorDefaults emulatorDefaults = RecalboxSystem::getInstance()->getEmulatorDefaults(system->getName());
 
-    auto emu_choice = std::make_shared<OptionListComponent<std::string>>(mWindow, _("Emulator"), false, FONT_SIZE_SMALL);
-    auto core_choice = std::make_shared<OptionListComponent<std::string> >(mWindow, _("core"), false, FONT_SIZE_SMALL);
+    auto emu_choice = std::make_shared<OptionListComponent<std::string>>(mWindow, _("Emulator"), false, FONT_SIZE_MEDIUM);
+    auto core_choice = std::make_shared<OptionListComponent<std::string> >(mWindow, _("core"), false, FONT_SIZE_MEDIUM);
 
     // populate list
     for (auto iter = mMetaDataDecl.begin(); iter != mMetaDataDecl.end(); iter++) {
@@ -81,18 +81,16 @@ GuiMetaDataEd::GuiMetaDataEd(Window *window, MetaDataList *md, const std::vector
         // create ed and add it (and any related components) to mMenu
         // ed's value will be set below
         ComponentListRow row;
-        auto lbl = std::make_shared<TextComponent>(mWindow, strToUpper(iter->displayName), menuTheme->menuTextSmall.font,
-                                                   menuTheme->menuTextSmall.color);
+        auto lbl = std::make_shared<TextComponent>(mWindow, strToUpper(iter->displayName), menuTheme->menuText.font, menuTheme->menuText.color);
 
         row.addElement(lbl, true); // label
         y += lbl->getFont()->getHeight();
 
         switch (iter->type) {
             case MD_RATING: {
-                ed = std::make_shared<RatingComponent>(window, menuTheme->menuTextSmall.color);
+                ed = std::make_shared<RatingComponent>(window, menuTheme->menuText.color);
 
-                const float height = lbl->getSize().y() * 0.71f;
-                ed->setSize(0, height);
+                ed->setSize(0, lbl->getSize().y() * 0.8f);
                 row.addElement(ed, false, true);
 
                 auto spacer = std::make_shared<GuiComponent>(mWindow);
@@ -115,11 +113,6 @@ GuiMetaDataEd::GuiMetaDataEd(Window *window, MetaDataList *md, const std::vector
                 // pass input to the actual DateTimeComponent instead of the spacer
                 row.input_handler = std::bind(&GuiComponent::input, ed.get(), std::placeholders::_1, std::placeholders::_2);
 
-                break;
-            }
-            case MD_TIME: {
-                ed = std::make_shared<DateTimeComponent>(mWindow, DateTimeComponent::DISP_RELATIVE_TO_NOW);
-                row.addElement(ed, false);
                 break;
             }
             case MD_BOOL: {
@@ -198,7 +191,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window *window, MetaDataList *md, const std::vector
                 }
 
                 if (iter->key == "ratio") {
-                    auto ratio_choice = std::make_shared<OptionListComponent<std::string> >(mWindow, "ratio", false, FONT_SIZE_SMALL);
+                    auto ratio_choice = std::make_shared<OptionListComponent<std::string> >(mWindow, "ratio", false, FONT_SIZE_MEDIUM);
                     row.addElement(ratio_choice, false);
                     std::map<std::string, std::string> *ratioMap = LibretroRatio::getInstance()->getRatio();
                     if (mMetaData->get("ratio") == "") {
@@ -213,8 +206,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window *window, MetaDataList *md, const std::vector
             case MD_MULTILINE_STRING:
             default: {
                 // MD_STRING
-                ed = std::make_shared<TextComponent>(window, "", menuTheme->menuTextSmall.font,
-                                                     menuTheme->menuTextSmall.color, ALIGN_RIGHT);
+                ed = std::make_shared<TextComponent>(window, "", menuTheme->menuText.font, menuTheme->menuText.color, ALIGN_RIGHT);
                 row.addElement(ed, true);
 
                 auto spacer = std::make_shared<GuiComponent>(mWindow);
@@ -256,8 +248,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window *window, MetaDataList *md, const std::vector
     {
         // append a shortcut to the secondary menu
         ComponentListRow row;
-        auto lbl = std::make_shared<TextComponent>(mWindow, _("MORE DETAILS"), menuTheme->menuTextSmall.font,
-                                                   menuTheme->menuTextSmall.color);
+        auto lbl = std::make_shared<TextComponent>(mWindow, _("MORE DETAILS"), menuTheme->menuText.font, menuTheme->menuText.color);
         row.addElement(lbl, true);
         y += lbl->getFont()->getHeight();
 
@@ -300,9 +291,8 @@ GuiMetaDataEd::GuiMetaDataEd(Window *window, MetaDataList *md, const std::vector
     mGrid.setEntry(mButtons, Vector2i(0, 2), true, false);
 
     // resize + center
-    float width = std::min(Renderer::getScreenHeight(), (unsigned int) (Renderer::getScreenWidth() * 0.90f));
     y /= Renderer::getScreenHeight();
-    setSize(Renderer::getScreenWidth() * 0.6f, Renderer::getScreenHeight() * (y + 0.15f));
+    setSize(Renderer::getScreenWidth() * 0.7f, Renderer::getScreenHeight() * (y + 0.15f));
     setPosition((Renderer::getScreenWidth() - mSize.x()) / 2, (Renderer::getScreenHeight() - mSize.y()) / 2);
 }
 

@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Updated
 - Refactored gamepad configuration panel
 - Update Emulator / Core selection process to avoid gui inception and to display default values
+- Update font size on game metadata gui
 
 ## [18.03.16]
 ### Added
