@@ -21,6 +21,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fixed clock not in local time
 - Deactivating battery indicator until better solution found
 - Removed slider for max vram (default is now 80)
+- Make "Available update" popup waiting for no popup displayed
 
 ## [18.04.20] - 2018-04-20
 ### Added

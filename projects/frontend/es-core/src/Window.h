@@ -37,6 +37,7 @@ public:
 
 	void normalizeNextUpdate();
 
+	inline bool isShowingPopup() const { return mGuiStack.size() > 1; }
 	inline bool isSleeping() const { return mSleeping; }
 	bool getAllowSleep();
 	void setAllowSleep(bool sleep);

@@ -150,7 +150,7 @@ void Window::input(InputConfig* config, Input input)
 		if(	config->isMappedTo("x", input) && input.value 
 			&& !launchKodi && RecalboxConf::getInstance()->get("kodi.enabled") == "1" && RecalboxConf::getInstance()->get("kodi.xbutton") == "1" 
 			&& ViewController::get()->isViewing(ViewController::SYSTEM_SELECT) /* only in the main menu */
-			&& mGuiStack.size() == 1 /* without any popup */ )
+			&& !isShowingPopup() )
 		{
 			launchKodi = true;
 			Window * window = this;
