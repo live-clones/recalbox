@@ -13,23 +13,28 @@ index 8f323ad..299cb87 100644
  /**
   * input_driver_find_handle:
   * @idx                : index of driver to get handle to.
-@@ -912,9 +916,16 @@ uint64_t input_keys_pressed(
-             && current_input->input_state(
-                current_input_data, joypad_info, &binds, 0,
-                RETRO_DEVICE_JOYPAD, 0, RARCH_ENABLE_HOTKEY))
+@@ -904,13 +904,17 @@ void input_menu_keys_pressed(void *data, retro_bits_t* p_new_state)
+                && current_input->input_state(current_input_data, joypad_info,
+                   &binds[0], port, RETRO_DEVICE_JOYPAD, 0, RARCH_ENABLE_HOTKEY))
+          {
 -            input_driver_block_libretro_input = true;
--         else
--            input_driver_block_hotkey         = true;
-+      {
-+         if (hotkey_counter < HOTKEY_DELAY)
-+            hotkey_counter++;
-+         if (hotkey_counter == HOTKEY_DELAY)
+-            break;
++           if (hotkey_counter < HOTKEY_DELAY)
++              hotkey_counter++;
++           if (hotkey_counter == HOTKEY_DELAY) {
 +             input_driver_block_libretro_input = true;
-+      }
-+      else {
-+         hotkey_counter = 0;
-+         input_driver_block_hotkey = true;
-+      }
++            break;
++          }
+          }
+-         else
+-         {
+-            input_driver_block_hotkey         = true;
+-            break;
++         else {
++            hotkey_counter = 0;
++            input_driver_block_hotkey = true;
++           break;
+          }
+       }
     }
- 
-    game_focus_toggle_valid                      = binds[RARCH_GAME_FOCUS_TOGGLE].valid;
+

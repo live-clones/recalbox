@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-RETROARCH_VERSION = e8b10d342a7c5723bd8ad6a8d5eac830d1259ab4
+RETROARCH_VERSION = 05ea2cff963df70172d8753e756bdf34f74e8e29
 RETROARCH_SITE = git://github.com/libretro/RetroArch.git
 RETROARCH_SITE_METHOD = git
 RETROARCH_LICENSE = GPLv3+
@@ -139,11 +139,18 @@ define RETROARCH_CONFIGURE_CMDS
 		CFLAGS="$(TARGET_CFLAGS)" \
 		LDFLAGS="$(TARGET_LDFLAGS) -lc" \
 		CROSS_COMPILE="$(HOST_DIR)/usr/bin/" \
+		PKG_CONFIG_PATH="$(STAGING_DIR)/usr/lib/pkgconfig/" \
 		./configure \
 		--prefix=/usr \
 		$(RETROARCH_CONF_OPTS) \
 	)
 endef
+
+define RETROARCH_FIX_LIBS
+	$(SED) "s|-\([IL]\)/usr|-\1$(STAGING_DIR)/usr|g" $(@D)/config.mk
+endef
+
+RETROARCH_POST_CONFIGURE_HOOKS += RETROARCH_FIX_LIBS
 
 define RETROARCH_BUILD_CMDS
 	$(MAKE) CXX="$(TARGET_CXX)" CC="$(TARGET_CC)" LD="$(TARGET_LD)" -C $(@D) all

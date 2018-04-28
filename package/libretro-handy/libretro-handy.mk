@@ -3,7 +3,7 @@
 # HANDY_LYNX
 #
 ################################################################################
-LIBRETRO_HANDY_VERSION = a4de67f9a09bb982ae1c50a1a5de9bce8754ced1
+LIBRETRO_HANDY_VERSION = 64e5f90525724032fc7a3f4a4e941e50f169620f
 LIBRETRO_HANDY_SITE = $(call github,libretro,libretro-handy,$(LIBRETRO_HANDY_VERSION))
 
 
