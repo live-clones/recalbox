@@ -8,6 +8,7 @@ SCREENSHOTS = '/recalbox/share/screenshots'
 BIOS = '/recalbox/share/bios'
 BIOS_INIT = '/recalbox/share_init/bios'
 OVERLAYS = '/recalbox/share/overlays'
+ROMS = '/recalbox/share/roms'
 
 esInputs = HOME + '/.emulationstation/es_input.cfg'
 esSettings = HOME + '/.emulationstation/es_settings.cfg'
@@ -30,6 +31,7 @@ recalboxBins = {'dosbox'      : '/usr/bin/dosbox'
               , 'dolphin'     : '/usr/bin/dolphin-emu'
               , 'advancemame' : '/usr/bin/advmame'
               , 'amiberry'    : '/usr/bin/amiberry'
+              , 'daphne'      : '/usr/bin/hypseus'
 }
 
 
@@ -106,3 +108,5 @@ advancemameConfigOrigin = CONF + '/advancemame/advmame.rc.origin'
 
 amiberryMountPoint = "/tmp/amiga"
 
+daphneInputIni = CONF + '/daphne/dapinput.ini'
+daphneHomedir = ROMS + '/daphne'
