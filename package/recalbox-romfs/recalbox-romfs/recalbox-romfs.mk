@@ -188,6 +188,11 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_BLUEMSX),)
         RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-colecovision
 endif
 
+# System: daphne
+ifeq ($(BR2_PACKAGE_HYPSEUS),y)
+	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-daphne
+endif
+
 # System: dos
 ifeq ($(BR2_PACKAGE_DOSBOX),y)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-dos

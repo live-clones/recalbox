@@ -1,0 +1,29 @@
+Support joysticks up to 15 buttons.
+
+Signed-off-by: Laurent Merckx <laurent-merckx@skynet.be>
+
+--- a/src/io/input.cpp	2017-09-14 22:34:54.000000000 +0200
++++ b/src/io/input.cpp	2018-04-27 10:16:19.711719462 +0200
+@@ -113,8 +113,8 @@ int g_key_defs[SWITCH_COUNT][2] = {
+ ////////////
+ 
+ // added by Russ
+-// global button mapping array. just hardcoded room for 10 buttons max
+-int joystick_buttons_map[10] = {
++// global button mapping array. just hardcoded room for 15 buttons max
++int joystick_buttons_map[15] = {
+     SWITCH_BUTTON1, // button 1
+     SWITCH_BUTTON2, // button 2
+     SWITCH_BUTTON3, // button 3
+@@ -125,6 +125,11 @@ int joystick_buttons_map[10] = {
+     SWITCH_BUTTON1, // button 8
+     SWITCH_BUTTON1, // button 9
+     SWITCH_BUTTON1, // button 10
++    SWITCH_BUTTON1, // button 11
++    SWITCH_BUTTON1, // button 12
++    SWITCH_BUTTON1, // button 13
++    SWITCH_BUTTON1, // button 14
++    SWITCH_BUTTON1  // button 15
+ };
+ 
+ // Mouse button to key mappings

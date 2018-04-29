@@ -1,0 +1,17 @@
+config BR2_PACKAGE_HYPSEUS
+	bool "Hypseus (Daphne fork)"
+	depends on BR2_INSTALL_LIBSTDCPP
+	depends on BR2_PACKAGE_SDL2
+	select BR2_PACKAGE_LIBOGG
+	select BR2_PACKAGE_LIBVORBIS
+	select BR2_PACKAGE_ZLIB  
+	select BR2_PACKAGE_SDL2_IMAGE
+	select BR2_PACKAGE_SDL2_TTF
+	select BR2_PACKAGE_LIBMPEG2
+	select BR2_PACKAGE_RECALBOX_ROMFS_DAPHNE
+	help
+	  Hypseus is a fork of Matt Ownby's Daphne. A program that "lets one play the original versions of many laserdisc arcade games on one's PC."
+	  https://github.com/btolab/hypseus
+
+comment "Hypseus  needs a toolchain w/ C++,  SDL2"
+	depends on !BR2_INSTALL_LIBSTDCPP || !BR2_PACKAGE_SDL2

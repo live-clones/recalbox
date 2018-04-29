@@ -1,0 +1,17 @@
+## RECALBOX - DAPHNE ##
+
+Placez ici vos jeux Daphne.
+
+Chaque jeu doit être contenu dans un dossier ayant l'extension ".daphne".
+Ce dossier représente l'image du Laser-Disc à exécuter et doit contenir au moins les fichiers m2v, ogg et txt.
+
+Exemple:
+dle21.daphne/
+dle21.daphne/dle21.txt
+dle21.daphne/dle21.m2v
+dle21.daphne/dle21.ogg
+
+Le fichier ROM correspondant au jeu doit se trouver dans le sous-répertoire roms en dessous du répertoire daphne.
+
+Exemple:
+roms/dle21.zip
