@@ -31,13 +31,20 @@ if [[ -z ${FROM_VERSION} || -z ${UPGRADE_URL} || -z ${ARCH} || -z ${UUID} ]]; th
 fi
 
 
-VERSION_URL=$(curl -f "${UPGRADE_URL}/v1/upgrade?arch=${ARCH}&boardversion=${FROM_VERSION}&uuid=${UUID}")
+VERSION_URL=$(curl -fG "${UPGRADE_URL}/v1/upgrade" \
+	--data-urlencode "arch=${ARCH}" \
+	--data-urlencode "boardversion=${FROM_VERSION}" \
+	--data-urlencode "uuid=${UUID}")
 if [[ "$?" != "0" ]]; then
   echo "no upgrade available"
   exit 2
 fi
 
-AVAILABLE_VERSION=$(curl -f "${VERSION_URL}/v1/upgrade/${ARCH}/recalbox.version?arch=${ARCH}&boardversion=${FROM_VERSION}&uuid=${UUID}&source=recalbox")
+AVAILABLE_VERSION=$(curl -fG "${VERSION_URL}/v1/upgrade/${ARCH}/recalbox.version" \
+	--data-urlencode "arch=${ARCH}" \
+	--data-urlencode "boardversion=${FROM_VERSION}" \
+	--data-urlencode "uuid=${UUID}" \
+	--data-urlencode "source=recalbox")
 if [[ "${AVAILABLE_VERSION}" != "${FROM_VERSION}" ]]; then
   echo "${VERSION_URL}"
   exit 0

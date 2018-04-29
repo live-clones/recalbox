@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-ADVANCEMAME_VERSION = v3.4
+ADVANCEMAME_VERSION = v3.7
 ADVANCEMAME_SITE = $(call github,amadvance,advancemame,$(ADVANCEMAME_VERSION))
 ADVANCEMAME_LICENSE = GPLv2
 
@@ -24,8 +24,8 @@ ADVANCEMAME_CONF_OPTS += \
 	--enable-pthreads \
 	--prefix=$(TARGET_DIR)/usr \
 	--disable-oss \
-	--disable-mraw \
-	--disable-mevent
+	--enable-mraw \
+	--enable-mevent
 	
 ifeq ($(BR2_PACKAGE_SDL2),y)
 	ADVANCEMAME_DEPENDENCIES += sdl2
@@ -34,7 +34,7 @@ ifeq ($(BR2_PACKAGE_SDL2),y)
 		--with-sdl2-prefix=$(STAGING_DIR)/usr \
 		--enable-jsdl \
 		--enable-ksdl \
-		--disable-msdl
+		--enable-msdl
 else
 	ADVANCEMAME_CONF_OPTS += \
 		--disable-jsdl \

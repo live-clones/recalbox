@@ -1,5 +1,5 @@
 diff --git a/package/odroid-scripts/odroid-scripts.mk b/package/odroid-scripts/odroid-scripts.mk
-index 858ec37fe8..fc1940dcef 100644
+index 858ec37..fc1940d 100644
 --- a/package/odroid-scripts/odroid-scripts.mk
 +++ b/package/odroid-scripts/odroid-scripts.mk
 @@ -4,7 +4,7 @@

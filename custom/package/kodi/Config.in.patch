@@ -1,5 +1,5 @@
 diff --git a/package/kodi/Config.in b/package/kodi/Config.in
-index f2a3e2e032..ca52a8c33e 100644
+index f2a3e2e..ca52a8c 100644
 --- a/package/kodi/Config.in
 +++ b/package/kodi/Config.in
 @@ -1,7 +1,7 @@

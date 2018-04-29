@@ -3,8 +3,33 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [18.04.20] - 2018-04-20
+- ES: Added pop-ups
+- ES: Added tag in theme to force transition style
+- Bump kodi-plugin-video-youtube to 5.4.6
+- Bump Advancemame to 3.7 and spinner support added
+- ES: Fixed audio card change
+- fix: default font for ES and RA now in system
+- ES: Added dynamic change of volume and audio output in menu
+- ES: Added ubuntu_condensed.ttf as fallback font
+- ES: Added clock in main menu
+- ES: Added missing fav icons for Amigas 3DO and X68k
+- ES: Fixed reload of theme when gamelistonly=0
+- ES: Fixed HelpMessages not translated
+- ES: Add "QUIT" help message on main menu
+- revert PPSSPP version to previous one
 - more informations in support archives
 - DosBox: resolve lag regression on RPI3 + strange behavior if no dosbox.bat
+- upgrade: fix upgrading from custom branch to stable
+- recallog now logs even when share is not mounted
+- fix: wifi always activated on reboot even if disabled in ES
+- split share detection and upgrade process
+- mame2010: enable hiscores
+- fix: fmsx could not be selected as a MSX core
+- DosBox: resolve lag regression on RPI3 + strange behavior if no dosbox.bat
+- SDL2: fix bug on x86 which stucks ScummVM on splash screen
+- Odroid XU4: improved HDMI stability, boot.ini options
+- fix: Game&Watch core name not properly displayed
+- manager: update translations
 
 ## [18.03.30] - 2018-03-30
 - moonlight: fix bad SDL2 GUID generation

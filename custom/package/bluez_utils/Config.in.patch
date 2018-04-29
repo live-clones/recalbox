@@ -1,5 +1,5 @@
 diff --git a/package/bluez_utils/Config.in b/package/bluez_utils/Config.in
-index 3848162697..8159b83c8f 100644
+index 3848162..8159b83 100644
 --- a/package/bluez_utils/Config.in
 +++ b/package/bluez_utils/Config.in
 @@ -22,6 +22,7 @@ config BR2_PACKAGE_BLUEZ_UTILS_AUDIO

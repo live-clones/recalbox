@@ -3,6 +3,8 @@ dbcf2e213232609fc0995f8227fefc77  package/bluez_utils/bluez_utils.mk
 c445390118f5d058dd372a8b2beb25a8  package/dropbear/S50dropbear
 a0e7437f8dbad464c49fa7ae130d208b  package/eigen/eigen.mk
 f3f851188682cb44a288be89f93e851c  package/ffmpeg/ffmpeg.mk
+6b31f620c36bb2d6c54cfaf71cc5a086  package/initscripts/init.d/rcK
+76f02a748149f1aa945aa418ea65b2bc  package/initscripts/init.d/rcS
 19004a04bf8e71b47de7ba5e6fb6b56d  package/kodi-visualisation-fishbmc/Config.in
 84c52811cfd2d4aa770259f80db39bfc  package/kodi-visualisation-fountain/Config.in
 b41be9eb13ef037bfed5a6abb2fcc973  package/kodi-visualisation-goom/Config.in

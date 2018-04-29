@@ -1,8 +1,6 @@
-diff --git a/configure.ac b/configure.ac
-index 4d99d59..863be71 100644
---- a/configure.ac
-+++ b/configure.ac
-@@ -710,7 +710,7 @@ AC_ARG_ENABLE(
+--- a/configure.ac	2018-02-05 07:49:20.000000000 +0100
++++ b/configure.ac	2018-04-12 14:13:10.607698346 +0200
+@@ -779,7 +779,7 @@
  if test $ac_lib_freetype = auto; then
  	AC_PATH_PROGS(
  		[ac_lib_freetype_config],
@@ -11,7 +9,7 @@ index 4d99d59..863be71 100644
  		[],
  		[${ac_lib_freetype_path}]
  	)
-@@ -741,12 +741,12 @@ if test $ac_lib_freetype = auto; then
+@@ -814,7 +814,7 @@
  elif test $ac_lib_freetype = yes; then
  	AC_PATH_PROGS(
  		[ac_lib_freetype_config],
@@ -20,22 +18,16 @@ index 4d99d59..863be71 100644
  		[],
  		[${ac_lib_freetype_path}]
  	)
- 	if test -z $ac_lib_freetype_config ; then
--		AC_MSG_ERROR([the ${ac_tool_prefix}freetype-config tool is missing])
-+		AC_MSG_ERROR([the freetype-config tool is missing])
+@@ -890,7 +890,7 @@
  	else
- 		ac_save_CFLAGS="$CFLAGS"
- 		ac_save_LIBS="$LIBS"
-@@ -852,7 +852,7 @@ AC_ARG_ENABLE(
- if test $ac_lib_sdl2 = auto; then
- 	AC_PATH_PROGS(
- 		[ac_lib_sdl2_config],
--		[${ac_tool_prefix}sdl2-config],
-+		[sdl2-config],
- 		[],
- 		[${ac_lib_sdl2_path}]
- 	)
-@@ -883,12 +883,12 @@ if test $ac_lib_sdl2 = auto; then
+ 		AC_PATH_PROGS(
+ 			[ac_lib_sdl2_config],
+-			[${ac_tool_prefix}sdl2-config],
++			[sdl2-config],
+ 			[],
+ 			[${ac_lib_sdl2_path}]
+ 		)
+@@ -922,7 +922,7 @@
  elif test $ac_lib_sdl2 = yes; then
  	AC_PATH_PROGS(
  		[ac_lib_sdl2_config],
@@ -44,9 +36,3 @@ index 4d99d59..863be71 100644
  		[],
  		[${ac_lib_sdl2_path}]
  	)
- 	if test -z $ac_lib_sdl2_config ; then
--		AC_MSG_ERROR([the ${ac_tool_prefix}sdl2-config tool is missing])
-+		AC_MSG_ERROR([the sdl2-config tool is missing])
- 	else
- 		ac_save_CFLAGS="$CFLAGS"
- 		ac_save_LIBS="$LIBS"

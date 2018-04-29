@@ -3,7 +3,7 @@
 # MAME2010
 #
 ################################################################################
-LIBRETRO_MAME2010_VERSION = 044c616ad3605fbbe9ed5e839b868229ed176798
+LIBRETRO_MAME2010_VERSION = 917453b5547f921ea7eabe2c6c01421fc24fcbc2
 LIBRETRO_MAME2010_SITE = $(call github,libretro,mame2010-libretro,$(LIBRETRO_MAME2010_VERSION))
 LIBRETRO_MAME2010_LICENSE = MAME
 LIBRETRO_MAME2010_DEPENDENCIES = zlib

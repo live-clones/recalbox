@@ -3,7 +3,7 @@
 # RECALBOX_MANAGER2
 #
 ################################################################################
-RECALBOX_MANAGER2_VERSION = v2.2.1
+RECALBOX_MANAGER2_VERSION = v2.2.2
 RECALBOX_MANAGER2_SITE = git://github.com/DjLeChuck/recalbox-manager
 
 RECALBOX_MANAGER2_DEPENDENCIES = nodejs
@@ -30,6 +30,5 @@ define RECALBOX_MANAGER2_INSTALL_TARGET_CMDS
 	mkdir -p $(TARGET_DIR)/usr/recalbox-manager2
 	cp -r $(@D)/release/* $(TARGET_DIR)/usr/recalbox-manager2
 endef
-
 
 $(eval $(generic-package))

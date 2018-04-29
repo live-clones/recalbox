@@ -434,12 +434,38 @@ if [ "$command" == "module" ];then
     exit 0
 fi
 
+rb_wifi_configure() {
+	[ "$1" = "1" ] && X="" || X="$1"
+	settings_ssid=`egrep "^wifi${X}.ssid" /recalbox/share/system/recalbox.conf|sed "s/wifi${X}.ssid=//g"`
+	settings_key=`egrep "^wifi${X}.key" /recalbox/share/system/recalbox.conf|sed "s/wifi${X}.key=//g"`
+	settings_file="/var/lib/connman/recalbox_wifi${X}.config"
+	[ "$1" = "1" ] && settings_name="default" || settings_name="${X}"
+
+	if [[ "$settings_ssid" != "" ]] ;then
+	mkdir -p "/var/lib/connman"
+	cat > "${settings_file}" <<EOF
+[global]
+Name=recalbox
+
+[service_recalbox_${settings_name}]
+Type=wifi
+Name=${settings_ssid}
+EOF
+	if test "${settings_key}" != ""
+	then
+	settings_key_dec=$(/recalbox/scripts/recalbox-encode.sh decode "${settings_key}")
+	  echo "Passphrase=${settings_key_dec}" >> "${settings_file}"
+	fi
+	fi
+}
+
 if [[ "$command" == "wifi" ]]; then
     ssid="$3"
     psk="$4"
 
     if [[ "$mode" == "enable" ]]; then
         recallog "configure wifi"
+	#Configure with ES settings
         mkdir -p "/var/lib/connman" || exit 1
         cat > "/var/lib/connman/recalbox.config" <<EOF
 [global]
@@ -453,6 +479,10 @@ EOF
         then
         echo "Passphrase=${psk}" >> "/var/lib/connman/recalbox.config"
         fi
+	# Configure with recalbox.conf settings
+	for i in {1..3}; do
+		rb_wifi_configure $i&
+	done
 
         connmanctl enable wifi || exit 1
         connmanctl scan   wifi || exit 1
