@@ -12,3 +12,13 @@ Signed-off-by: Laurent Merckx <laurent-merckx@skynet.be>
      string( REGEX MATCH "([-A-Za-z0-9\\._]+)-(gcc|cc)$" RESULT ${CMAKE_C_COMPILER} )
      string( REGEX REPLACE "-(gcc|cc)$" "" RESULT ${RESULT} )
      set( CONFIGURE_ARGS "--host=${RESULT}" )
+@@ -8,7 +8,8 @@ endif()
+ 
+ externalproject_add( libmpeg2
+ 	PREFIX ${CMAKE_CURRENT_BINARY_DIR}/3rdparty
+-	URL https://github.com/btolab/libmpeg2/archive/master.zip
++	GIT_REPOSITORY https://github.com/btolab/libmpeg2.git
++	GIT_TAG master
+ 	CONFIGURE_COMMAND autoreconf -f -i && <SOURCE_DIR>/configure ${CONFIGURE_ARGS} --prefix=${CMAKE_CURRENT_BINARY_DIR}/3rdparty --disable-shared --enable-static --disable-sdl
+ 	BUILD_IN_SOURCE 1
+ 	BUILD_COMMAND make V=0
