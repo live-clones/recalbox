@@ -21,6 +21,7 @@ setup(name='recalbox-configgen',
         'configgen.generators.dolphin',
         'configgen.generators.advancemame',
         'configgen.generators.amiberry',
+        'configgen.generators.daphne',
         'configgen.settings',
         'configgen.utils']
       )
