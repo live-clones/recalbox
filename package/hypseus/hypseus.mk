@@ -17,7 +17,8 @@ HYPSEUS_CONF_OPTS = ../src -DBUILD_SHARED_LIBS=OFF
 # Post-install: create script for easy launching + link to configuration file
 define HYPSEUS_POST_INSTALL
 	echo '#!/bin/bash' > $(TARGET_DIR)/usr/bin/hypseus
-	echo 'cd /usr/share/hypseus; ./hypseus "$$@"' >> $(TARGET_DIR)/usr/bin/hypseus
+	echo 'cd /usr/share/hypseus; ./hypseus $$@' >> $(TARGET_DIR)/usr/bin/hypseus
+	chmod 755 $(TARGET_DIR)/usr/bin/hypseus
 
         ln -fs /recalbox/share/system/configs/daphne/dapinput.ini $(TARGET_DIR)/usr/share/hypseus
 endef
