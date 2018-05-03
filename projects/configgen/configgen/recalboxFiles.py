@@ -110,3 +110,4 @@ amiberryMountPoint = "/tmp/amiga"
 
 daphneInputIni = CONF + '/daphne/dapinput.ini'
 daphneHomedir = ROMS + '/daphne'
+daphneDatadir = '/usr/share/hypseus'
