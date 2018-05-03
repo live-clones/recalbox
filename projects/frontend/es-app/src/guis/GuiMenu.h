@@ -33,10 +33,21 @@ public:
 private:
 	void addEntry(const char* name, unsigned int color, bool add_arrow, const std::function<void()>& func, const std::string iconName = "");
 	void addEntryWithHelp(const char* name, const std::string help, unsigned int color, bool add_arrow, const std::function<void()>& func, const std::string iconName = "");
-	void createConfigInput();
+
 	void createInputTextRow(GuiSettings * gui, std::string title, const char* settingsID, bool password, std::string help);
+	void menuSystem();
+	void menuUpdates();
+	void menuGameSettings();
+	void menuControllers();
+	void menuUISettings();
+	void menuSoundSettings();
+	void menuNetworkSettings();
+	void menuScrapper();
+	void menuAdvancedSettings();
+	void menuQuit();
 	MenuComponent mMenu;
 	TextComponent mVersion;
+	std::shared_ptr<MenuTheme> mMenuTheme;
 
 
 	std::shared_ptr<OptionListComponent<std::string>> createRatioOptionList(Window *window,
