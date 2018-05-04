@@ -592,12 +592,6 @@ void SystemData::loadTheme()
 	}
 }
 
-void SystemData::refreshRootFolder() {
-  mRootFolder->clear();
-  populateFolder(mRootFolder);
-  mRootFolder->sort(FileSorts::SortTypes.at(0));
-}
-
 std::map<std::string, std::vector<std::string>*>* SystemData::getEmulators() {
 	return mEmulators;
 }

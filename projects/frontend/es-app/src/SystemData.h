@@ -75,10 +75,6 @@ public:
 	// Load or re-load theme.
 	void loadTheme();
 
-	// refresh the roms files
-	void refreshRootFolder();
-
-
 	std::map<std::string, std::vector<std::string> *> * getEmulators();
 	std::vector<std::string> getCores(std::string emulatorName);
 
