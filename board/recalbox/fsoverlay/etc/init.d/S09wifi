@@ -50,6 +50,11 @@ case "$1" in
 		done
 		sleep 1 # wait a bit, otherwise, connman is not really started
 		/usr/bin/connmanctl enable wifi || exit 1
+		settings_region=`egrep "^wifi.region" /tmp/wifi.conf|sed "s/wifi.region=//g"`
+		if [[ "$settings_region" != "" ]] ;then
+			recallog "Wifi region: ${settings_region}"
+			/usr/sbin/iw reg set "${settings_region}"
+		fi
 		/usr/bin/connmanctl scan   wifi || exit 1
 	else
 		recallog "No wifi information found in recalbox-boot.conf"

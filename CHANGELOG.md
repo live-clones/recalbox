@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - ES: Remove dead code of RomsManager
 - recalbox-config.sh: added getEmulatorDefaults
 - Added fonts to support all languages
+- Wifi: option to change region added to recalbox.conf - with wifi.region=FR fixes channel 12 issue for example
 
 ## [18.04.20] - 2018-04-20
 - ES: Added pop-ups
