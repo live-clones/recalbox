@@ -6,6 +6,7 @@ import datetime
 import socket
 import sys
 import argparse
+import subprocess
 from datetime import datetime
 from configgen import recalboxFiles
 # this last one retrieves emulators bin names
@@ -13,7 +14,6 @@ from configgen import recalboxFiles
 parser = argparse.ArgumentParser(description='power manager')
 parser.add_argument("-m", help="mode onoff or push", type=str, required=True)
 args = parser.parse_args()
-
 mode = args.m
 
 IPADDR = "127.0.0.1"
@@ -26,7 +26,7 @@ LED = 14
 
 GPIO.setwarnings(False)		# no warnings
 GPIO.setmode(GPIO.BCM)		# set up BCM GPIO numbering 
- 
+
 GPIO.setup(RESETPLUS, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 # GPIO on pin 3 is the GPIO 2 in BCM mode
 #to Reset+
@@ -40,54 +40,94 @@ GPIO.output(LED, True)
 # GPIO on pin 8 is the GPIO 14 in BCM mode
 #to LED+
 
-  
-# Define a threaded callback function to run in another thread when events are detected  
-def button_pressed(channel):
+# Define a threaded callback function for ONOFF mode
+def onoff_mode(channel):
+	if channel == POWERPLUS:
+		speed=0.15
+		shutdownstring="shutdown -h now"
+		offreset(speed, shutdownstring)
+		print('shutdown')
+	
+	elif channel == RESETPLUS:
+		timer = 0
+		flag = True
+		while flag:
+			if GPIO.input(channel) == False:
+				timer += 1
+				print('Button pressed')
+			elif GPIO.input(channel) == True:
+				print('Button released')
+				print(timer)
+
+				# timer adds 1 each 0.1 seconds if timer = 10, button is pressed for 1s
+				if (timer > 10):
+					nwcommand="QUIT"
+					retroarch(nwcommand)
+					print('game exit')
+				elif (timer > 1):
+					proces=subprocess.Popen(['/bin/sh', '-c', 'ps -ef | grep [e]mulatorlauncher'], stdout=subprocess.PIPE) # Search presence of emulatorlauncher in processes to determmine if in game or in ES menu
+					result=proces.stdout.read()
+					if result:
+						nwcommand="RESET"
+						retroarch(nwcommand)
+						print('game reset')
+						killthatshit(channel)
+					else:
+						speed=0.05
+						shutdownstring="shutdown -r now"
+						offreset(speed, shutdownstring)
+						print('reboot')
+
+				timer = 0
+				flag = False
+			time.sleep(0.1)
+
+# Define a threaded callback function for PUSH mode
+def push_mode(channel):
 	if channel == POWERPLUS:
 		speed=0.15
 		shutdownstring="shutdown -h now"
 		nwcommand="QUIT"
-		
+
 	elif channel == RESETPLUS:
 		speed=0.05
 		shutdownstring="shutdown -r now"
 		nwcommand="RESET"
-		
+
 	timer = 0
 	flag = True
 	while flag:
 		if GPIO.input(channel) == False:
 			timer += 1
-			print "Button pressed"
+			print('Button pressed')
 		elif GPIO.input(channel) == True:
-		
-			print "Button released"
-			print timer
-		
-			#timer adds 1 each 0.1 seconds if timer = 10, button is pressed for 1s
+
+			print('Button released')
+			print(timer)
+
+			# timer adds 1 each 0.1 seconds if timer = 10, button is pressed for 1s
 			if (timer > 10):
 				offreset(speed, shutdownstring)
-				print "shutdown"
+				print('shutdown')
 			elif (timer >1):
 				retroarch(nwcommand)
-				print "retroarch"
+				print('retroarch')
 				killthatshit(channel)
-				
+
 			timer = 0
 			flag = False
 		time.sleep(0.1)
-		
-	
-#	on power short press, trying to kill all listed emus 
+
+# trying to kill all listed emus
 def killthatshit(channel):
 	if channel == POWERPLUS:
 		for bin in recalboxFiles.recalboxBins:
-				print bin
+				print(bin)
 				proc = os.path.basename(bin)
-				print proc
+				print(proc)
 				os.system("killall -9 "+proc)
 
-# 	on long button press clean stop	of ES then shutdown -h or -r		
+# clean stop of ES then shutdown -h or -r
 def offreset(speed, shutdownstring):
 	thread.start_new_thread( blink, (speed, ))
 	flag=True
@@ -105,7 +145,7 @@ def offreset(speed, shutdownstring):
 					continue
 	os.system(shutdownstring)
 
-# threaded blinking function for LED	
+# threaded blinking function for LED
 def blink(speed):
 	while True:  
 			GPIO.output(LED, False)
@@ -113,18 +153,21 @@ def blink(speed):
 			GPIO.output(LED, True)
 			time.sleep(speed)
 
-
-# 	sending network command to retroarch (only exit and reset atm)		
+# sending network command to retroarch (only exit and reset atm)
 def retroarch(nwcommand):
 	try:
 		s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 	except socket.error:
-		print 'Failed to create socket'
+		print('Failed to create socket')
 		sys.exit()
 	s.sendto(nwcommand, (IPADDR, PORTNUM))
-		
 
-GPIO.add_event_detect(RESETPLUS, GPIO.BOTH, callback=button_pressed, bouncetime=2)
-GPIO.add_event_detect(POWERPLUS, GPIO.BOTH, callback=button_pressed, bouncetime=2)
+if mode == "onoff" :
+	GPIO.add_event_detect(POWERPLUS, GPIO.RISING, callback=onoff_mode, bouncetime=2)
+	GPIO.add_event_detect(RESETPLUS, GPIO.BOTH, callback=onoff_mode, bouncetime=2)
+elif mode == "push":
+	GPIO.add_event_detect(POWERPLUS, GPIO.BOTH, callback=push_mode, bouncetime=2)
+	GPIO.add_event_detect(RESETPLUS, GPIO.BOTH, callback=push_mode, bouncetime=2)
+
 while True:
 	time.sleep(0.2)
