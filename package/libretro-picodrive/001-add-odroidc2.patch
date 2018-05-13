@@ -1,0 +1,17 @@
+diff --git a/Makefile.libretro b/Makefile.libretro
+index 26ee1c1..ae4a2aa 100644
+--- a/Makefile.libretro
++++ b/Makefile.libretro
+@@ -377,6 +377,12 @@ else ifeq ($(platform), qnx)
+ 	use_sh2drc = 1
+ 	use_svpdrc = 1
+ 
++# AARCH64 generic
++else ifeq ($(platform), aarch64)
++	TARGET := $(TARGET_NAME)_libretro.so
++	NO_MMAP = 1
++	ARCH = aarch64
++   fpic := -fPIC
+ # ARM
+ else ifneq (,$(findstring armv,$(platform)))
+ 	TARGET := $(TARGET_NAME)_libretro.so

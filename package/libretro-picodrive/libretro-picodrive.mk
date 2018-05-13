@@ -3,15 +3,10 @@
 # PICODRIVE
 #
 ################################################################################
-LIBRETRO_PICODRIVE_VERSION = c3887ce8d37a23c0a84d3c4279b10f80fee319b0
-LIBRETRO_PICODRIVE_SITE = $(call github,libretro,picodrive,$(LIBRETRO_PICODRIVE_VERSION))
-LIBRETRO_PICODRIVE_DEPENDENCIES = libpng sdl
-
-define LIBRETRO_PICODRIVE_CONFIGURE_CMDS
-	rm -rf $(@D)/picodrive
-	git -C $(@D) clone https://github.com/libretro/picodrive
-	git -C $(@D)/picodrive submodule update --init
-endef
+LIBRETRO_PICODRIVE_VERSION = eaac037a9e331e8b26a77239d8dd96b76f86515e
+LIBRETRO_PICODRIVE_SITE = git://github.com/libretro/picodrive.git
+LIBRETRO_PICODRIVE_DEPENDENCIES = libpng
+LIBRETRO_PICODRIVE_GIT_SUBMODULES=y
 
 PICOPLATFORM=$(LIBRETRO_PLATFORM)
 
@@ -29,17 +24,22 @@ ifeq ($(BR2_cortex_a8),y)
 endif
 
 # odroid xu4
-ifeq ($(BR2_cortex_a15),y)
+ifeq ($(BR2_cortex_a15)$(BR2_cortex_a15_a7),y)
   PICOPLATFORM=$(LIBRETRO_PLATFORM) armasm
 endif
 
+#Odroidc2
+ifeq ($(BR2_aarch64),y)
+  PICOPLATFORM=aarch64
+endif
+
 define LIBRETRO_PICODRIVE_BUILD_CMDS
-	$(MAKE) -C $(@D)/picodrive/cpu/cyclone CONFIG_FILE=$(@D)/picodrive/cpu/cyclone_config.h
-	CFLAGS="$(TARGET_CFLAGS)" CXXFLAGS="$(TARGET_CXXFLAGS)" $(MAKE) CC="$(TARGET_CC)" CXX="$(TARGET_CXX)" -C  $(@D)/picodrive -f Makefile.libretro platform="$(PICOPLATFORM)"
+	$(MAKE) -C $(@D)/cpu/cyclone CONFIG_FILE=$(@D)/cpu/cyclone_config.h
+	CFLAGS="$(TARGET_CFLAGS)" CXXFLAGS="$(TARGET_CXXFLAGS)" $(MAKE) CC="$(TARGET_CC)" CXX="$(TARGET_CXX)" -C  $(@D) -f Makefile.libretro platform="$(PICOPLATFORM)"
 endef
 
 define LIBRETRO_PICODRIVE_INSTALL_TARGET_CMDS
-	$(INSTALL) -D $(@D)/picodrive/picodrive_libretro.so \
+	$(INSTALL) -D $(@D)/picodrive_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/picodrive_libretro.so
 endef
 

@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - ES: Remove dead code of RomsManager
 - recalbox-config.sh: added getEmulatorDefaults
 - Added fonts to support all languages
+- picodrive: partially rewrite package + re-enable for odroidc2
 
 ## [18.04.20] - 2018-04-20
 - ES: Added pop-ups
