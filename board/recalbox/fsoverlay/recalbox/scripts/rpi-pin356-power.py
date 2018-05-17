@@ -163,7 +163,7 @@ def retroarch(nwcommand):
 	s.sendto(nwcommand, (IPADDR, PORTNUM))
 
 if mode == "onoff" :
-	GPIO.add_event_detect(POWERPLUS, GPIO.RISING, callback=onoff_mode, bouncetime=2)
+	GPIO.add_event_detect(POWERPLUS, GPIO.FALLING, callback=onoff_mode, bouncetime=2)
 	GPIO.add_event_detect(RESETPLUS, GPIO.BOTH, callback=onoff_mode, bouncetime=2)
 elif mode == "push":
 	GPIO.add_event_detect(POWERPLUS, GPIO.BOTH, callback=push_mode, bouncetime=2)
