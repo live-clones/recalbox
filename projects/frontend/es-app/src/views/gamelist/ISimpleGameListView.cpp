@@ -68,9 +68,18 @@ void ISimpleGameListView::onThemeChanged(const std::shared_ptr<ThemeData>& theme
 
 void ISimpleGameListView::onFileChanged(FileData* file, FileChangeType change)
 {
-	// we could be tricky here to be efficient;
-	// but this shouldn't happen very often so we'll just always repopulate
-	FileData* cursor = getCursor();
+	if (change == FileChangeType::FILE_RUN) {
+		updateInfoPanel();
+		return ;
+	}
+
+	// When sorting, cursor is reset to the root one, so, we need to flush the cursor stack
+	if (change == FileChangeType::FILE_SORTED) {
+		while (!mCursorStack.empty()) {
+			mCursorStack.pop();
+		}
+	}
+
 	int index = getCursorIndex();
 	populateList(getRoot()->getChildren());
 	setCursorIndex(index);

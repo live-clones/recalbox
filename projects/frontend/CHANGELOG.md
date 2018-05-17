@@ -11,6 +11,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 - Fixed back button in gamelist (back to parent level, not to root one)
+- Fixed back from game launch, does not reset gamelist to keep cursor position
 
 ## [18.03.16]
 ### Added

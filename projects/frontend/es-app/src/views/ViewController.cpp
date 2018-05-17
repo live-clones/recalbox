@@ -263,39 +263,35 @@ void ViewController::launch(FileData* game, Eigen::Vector3f center)
 	mLockInput = true;
 
 	std::string transition_style = Settings::getInstance()->getString("TransitionStyle");
+
+	auto launchFactory = [this, game, origCamera] (std::function<void(std::function<void()>)> backAnimation) {
+		return [this, game, origCamera, backAnimation] {
+			game->getSystem()->launchGame(mWindow, game);
+			mCamera = origCamera;
+			backAnimation([this] { mLockInput = false; });
+			this->onFileChanged(game, FILE_RUN);
+		};
+	};
+
 	if(transition_style == "fade")
 	{
 		// fade out, launch game, fade back in
 		auto fadeFunc = [this](float t) {
-			//t -= 1;
-			//mFadeOpacity = lerp<float>(0.0f, 1.0f, t*t*t + 1);
 			mFadeOpacity = lerp<float>(0.0f, 1.0f, t);
 		};
-		setAnimation(new LambdaAnimation(fadeFunc, 800), 0, [this, game, fadeFunc]
-		{
-			game->getSystem()->launchGame(mWindow, game);
-			mLockInput = false;
-			setAnimation(new LambdaAnimation(fadeFunc, 800), 0, nullptr, true);
-			this->onFileChanged(game, FILE_METADATA_CHANGED);
-		});
+		setAnimation(new LambdaAnimation(fadeFunc, 800), 0, launchFactory([this, fadeFunc](std::function<void()> finishedCallback) {
+			setAnimation(new LambdaAnimation(fadeFunc, 800), 0, finishedCallback, true);
+		}));
 	} else if (transition_style == "slide"){
+
 		// move camera to zoom in on center + fade out, launch game, come back in
-		setAnimation(new LaunchAnimation(mCamera, mFadeOpacity, center, 1500), 0, [this, origCamera, center, game]
-		{
-			game->getSystem()->launchGame(mWindow, game);
-			mCamera = origCamera;
-			setAnimation(new LaunchAnimation(mCamera, mFadeOpacity, center, 600), 0, [this] { mLockInput = false; }, true);
-			this->onFileChanged(game, FILE_METADATA_CHANGED); 
-		});
+		setAnimation(new LaunchAnimation(mCamera, mFadeOpacity, center, 1500), 0, launchFactory([this, center](std::function<void()> finishedCallback) {
+			setAnimation(new LaunchAnimation(mCamera, mFadeOpacity, center, 1000), 0, finishedCallback, true);
+		}));
 	} else {
-		setAnimation(new LaunchAnimation(mCamera, mFadeOpacity, center, 10), 0, [this, origCamera, center, game]
-			{
-				game->getSystem()->launchGame(mWindow, game);
-				mCamera = origCamera;
-				mLockInput = false;
-				setAnimation(new LaunchAnimation(mCamera, mFadeOpacity, center, 10), 0, nullptr, true);
-				this->onFileChanged(game, FILE_METADATA_CHANGED);
-			});
+		setAnimation(new LaunchAnimation(mCamera, mFadeOpacity, center, 10), 0, launchFactory([this, center](std::function<void()> finishedCallback) {
+			setAnimation(new LaunchAnimation(mCamera, mFadeOpacity, center, 10), 0, finishedCallback, true);
+		}));
 	}
 }
 

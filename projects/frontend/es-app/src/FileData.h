@@ -17,6 +17,7 @@ enum FileType
 enum FileChangeType
 {
 	FILE_ADDED,
+	FILE_RUN,
 	FILE_METADATA_CHANGED,
 	FILE_REMOVED,
 	FILE_SORTED
