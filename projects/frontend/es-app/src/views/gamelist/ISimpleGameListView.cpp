@@ -139,9 +139,15 @@ bool ISimpleGameListView::input(InputConfig* config, Input input)
 		{
 			if(mCursorStack.size())
 			{
-				populateList(getRoot()->getChildren());
-				setCursor(mCursorStack.top());
+				FileData* selected = mCursorStack.top();
+
+				// remove current folder from stack
 				mCursorStack.pop();
+
+				FileData* cursor = mCursorStack.size() ? mCursorStack.top() : getRoot();
+				populateList(cursor->getChildren());
+
+				setCursor(selected);
 				//Sound::getFromTheme(getTheme(), getName(), "back")->play();
 			}else if (!hideSystemView) {
 				onFocusLost();

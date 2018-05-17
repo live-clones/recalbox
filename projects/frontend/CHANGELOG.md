@@ -9,6 +9,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Update font size on game metadata gui
 - Remove dead code of RomsManager
 
+### Fixed
+- Fixed back button in gamelist (back to parent level, not to root one)
+
 ## [18.03.16]
 ### Added
 - Added option for popup position
