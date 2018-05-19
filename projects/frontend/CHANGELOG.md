@@ -22,6 +22,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Deactivating battery indicator until better solution found
 - Removed slider for max vram (default is now 80)
 - Make "Available update" popup waiting for no popup displayed
+- Fixed detailed panel missing when jumping to letter A
 
 ## [18.04.20] - 2018-04-20
 ### Added

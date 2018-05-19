@@ -139,7 +139,7 @@ public:
 
 	void setCursorIndex(int index)
 	{
-		if(index > 0 && index < mEntries.size()) {
+		if(index >= 0 && index < mEntries.size()) {
 			mCursor = index;
 			onCursorChanged(CURSOR_STOPPED);
 		}
