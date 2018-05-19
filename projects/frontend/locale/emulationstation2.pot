@@ -1156,6 +1156,10 @@ msgid "SHOW HIDDEN"
 msgstr ""
 
 #: 
+msgid "SHOW FOLDERS CONTENT"
+msgstr ""
+
+#: 
 msgid "EXTREM (1400Mhz)"
 msgstr ""
 
@@ -1532,7 +1536,7 @@ msgid "Switch between seing or not the hidden games. To hide a game, edit its da
 msgstr ""
 
 #: 
-msgid "Switch between seing folders and folder content in the listing. This is useful when a game is provided as many 'bin' files for example and you keep it a a dedicated folder (ex: roms/psx/tekken 3)."
+msgid "Switch between seeing the folders structure and seeing all games in a flatten top level."
 msgstr ""
 
 #: 

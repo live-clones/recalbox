@@ -13,6 +13,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added slider for popups duration
 - Added new fallback fonts to support all languages
 - Language names in their own language
+- Added an option to list folder content instead of folder name (flatfolder)
 
 ### Fixed
 - Fixed back button in gamelist (back to parent level, not to root one)
@@ -23,6 +24,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Removed slider for max vram (default is now 80)
 - Make "Available update" popup waiting for no popup displayed
 - Fixed detailed panel missing when jumping to letter A
+- Fixed set a game favorite for the first time (required two switches before)
 
 ## [18.04.20] - 2018-04-20
 ### Added

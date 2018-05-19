@@ -116,6 +116,17 @@ std::string RecalboxConf::get(const std::string &name, const std::string &defaut
     return defaut;
 }
 
+bool RecalboxConf::getBool(const std::string &name, bool defaut) {
+    if (confMap.count(name)) {
+        return confMap[name] == "1";
+    }
+    return defaut;
+}
+
 void RecalboxConf::set(const std::string &name, const std::string &value) {
     confMap[name] = value;
+}
+
+void RecalboxConf::setBool(const std::string &name, bool value) {
+    confMap[name] = value ? "1" : "0";
 }

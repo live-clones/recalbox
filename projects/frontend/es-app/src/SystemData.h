@@ -28,6 +28,7 @@ public:
 	inline bool getHasFavorites() const { return mHasFavorites; }
 	inline bool isFavorite() const { return mIsFavorite; }
 	inline std::vector<FileData*> getFavorites() const { return mRootFolder->getFavoritesRecursive(GAME); }
+	inline int getSortId() const { return mSortId; };
 
 	inline const std::vector<PlatformIds::PlatformId>& getPlatformIds() const { return mPlatformIds; }
 	inline bool hasPlatformId(PlatformIds::PlatformId id) { return std::find(mPlatformIds.begin(), mPlatformIds.end(), id) != mPlatformIds.end(); }
@@ -78,6 +79,8 @@ public:
 	std::map<std::string, std::vector<std::string> *> * getEmulators();
 	std::vector<std::string> getCores(std::string emulatorName);
 
+	void sortByFunctionId(const int sortId = 0);
+
 private:
 	std::string mName;
 	std::string mFullName;
@@ -90,6 +93,7 @@ private:
 
 	bool mHasFavorites;
 	bool mIsFavorite;
+	int mSortId;
 
 	void populateFolder(FileData* folder);
 

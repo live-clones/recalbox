@@ -103,4 +103,5 @@ const char* MenuMessages::GAMELISTOPTION_JUMP_LETTER_MSG = "Select a letter and 
 const char* MenuMessages::GAMELISTOPTION_SORT_GAMES_MSG = "Select the way the game list is sortered (alphabetically, by notation...).";
 const char* MenuMessages::GAMELISTOPTION_FAVORITES_ONLY_MSG = "Switch between seing or not only the favorites games. To add a game in the favorite list, select the game and toggle its state using 'Y'.";
 const char* MenuMessages::GAMELISTOPTION_SHOW_HIDDEN_MSG = "Switch between seing or not the hidden games. To hide a game, edit its data and select 'Hide'.";
+const char* MenuMessages::GAMELISTOPTION_SHOW_FOLDER_CONTENT_MSG = "Switch between seeing the folders structure and seeing all games in a flatten top level.";
 const char* MenuMessages::GAMELISTOPTION_EDIT_METADATA_MSG = "This option display a menu which allows to change game data and many others options.";

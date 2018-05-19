@@ -54,8 +54,8 @@ public:
 	void addChild(FileData* file); // Error if mType != FOLDER
 	void removeChild(FileData* file); //Error if mType != FOLDER
 
-	void addAlreadyExisitingChild(FileData *file);
-	void removeAlreadyExisitingChild(FileData *file);
+	void addAlreadyExistingChild(FileData *file);
+	void removeAlreadyExistingChild(FileData *file);
 
 	void clear();
 
@@ -73,8 +73,7 @@ public:
 			: comparisonFunction(sortFunction), ascending(sortAscending), description(sortDescription) {}
 	};
 
-	void sort(ComparisonFunction& comparator, bool ascending = true);
-	void sort(const SortType& type);
+	void sortByFunctionId(const int sortId = 0);
 
 	static void populateRecursiveFolder(FileData* folder, const std::vector<std::string>& searchExtensions = std::vector<std::string>(), SystemData* systemData = nullptr);
 	MetaDataList metadata;
@@ -86,5 +85,6 @@ private:
 	FileData* mParent;
 	std::unordered_map<std::string,FileData*> mChildrenByFilename;
 	std::vector<FileData*> mChildren;
+	void sort(ComparisonFunction& comparator, bool ascending);
 
 };

@@ -1,17 +1,79 @@
 #include <RecalboxConf.h>
+#include "components/TextListComponent.h"
+#include "components/IList.h"
 #include "views/gamelist/BasicGameListView.h"
 #include "views/ViewController.h"
 #include "Renderer.h"
 #include "Window.h"
 #include "ThemeData.h"
 #include "SystemData.h"
+#include "FileSorts.h"
 #include "Settings.h"
 #include "Locale.h"
 #include <boost/assign.hpp>
 
+static const std::map<std::string, const char*> favorites_icons_map = boost::assign::map_list_of
+        ("snes", "\uF25e ")
+        ("3do", "\uF28a")
+        ("x68000", "\uF28b")
+        ("amiga600", "\uF244")
+        ("amiga1200", "\uF245")
+        ("nds", "\uF267")
+        ("c64", "\uF24c ")
+        ("nes", "\uF25c ")
+        ("n64", "\uF260 ")
+        ("gba", "\uF266 ")
+        ("gbc", "\uF265 ")
+        ("gb", "\uF264 ")
+        ("fds", "\uF25d ")
+        ("virtualboy", "\uF25f ")
+        ("gw", "\uF278 ")
+        ("dreamcast", "\uF26e ")
+        ("megadrive", "\uF26b ")
+        ("segacd", "\uF26d ")
+        ("sega32x", "\uF26c ")
+        ("mastersystem", "\uF26a ")
+        ("gamegear", "\uF26f ")
+        ("sg1000", "\uF269 ")
+        ("psp", "\uF274 ")
+        ("psx", "\uF275 ")
+        ("pcengine", "\uF271 ")
+        ("pcenginecd", "\uF273 ")
+        ("supergrafx", "\uF272 ")
+        ("scummvm", "\uF27a ")
+        ("dos", "\uF24a ")
+        ("fba", "\uF252 ")
+        ("fba_libretro", "\uF253 ")
+        ("mame", "\uF255 ")
+        ("neogeo", "\uF257 ")
+        ("colecovision", "\uF23f ")
+        ("atari2600", "\uF23c ")
+        ("atari7800", "\uF23e ")
+        ("lynx", "\uF270 ")
+        ("ngp", "\uF258 ")
+        ("ngpc", "\uF259 ")
+        ("wswan", "\uF25a ")
+        ("wswanc", "\uF25b ")
+        ("prboom", "\uF277 ")
+        ("vectrex", "\uF240 ")
+        ("lutro", "\uF27d ")
+        ("cavestory", "\uF276 ")
+        ("atarist", "\uF248 ")
+        ("amstradcpc", "\uF246 ")
+        ("msx", "\uF24d ")
+        ("msx1", "\uF24e ")
+        ("msx2", "\uF24f ")
+        ("odyssey2", "\uF241 ")
+        ("zx81", "\uF250 ")
+        ("zxspectrum", "\uF251 ")
+        ("moonlight", "\uF27e ")
+        ("apple2", "\uF247 ")
+        ("gamecube", "\uF262 ")
+        ("wii", "\uF263 ")
+        ("imageviewer", "\uF27b ");
+
 BasicGameListView::BasicGameListView(Window* window, FileData* root)
-	: ISimpleGameListView(window, root), mList(window)
-{
+	: ISimpleGameListView(window, root), mList(window), listingOffset(0) {
 	mList.setSize(mSize.x(), mSize.y() * 0.8f);
 	mList.setPosition(0, mSize.y() * 0.2f);
 	mList.setDefaultZIndex(20);
@@ -20,106 +82,34 @@ BasicGameListView::BasicGameListView(Window* window, FileData* root)
 	populateList(root->getChildren());
 }
 
-void BasicGameListView::onThemeChanged(const std::shared_ptr<ThemeData>& theme)
-{
+void BasicGameListView::onThemeChanged(const std::shared_ptr<ThemeData>& theme) {
 	ISimpleGameListView::onThemeChanged(theme);
 	using namespace ThemeFlags;
 	mList.applyTheme(theme, getName(), "gamelist", ALL);
 	sortChildren();
 }
 
-void BasicGameListView::onFileChanged(FileData* file, FileChangeType change)
-{
+void BasicGameListView::onFileChanged(FileData* file, FileChangeType change) {
 	ISimpleGameListView::onFileChanged(file, change);
 
-	if(change == FILE_METADATA_CHANGED)
-	{
+	if(change == FILE_METADATA_CHANGED) {
 		// might switch to a detailed view
 		ViewController::get()->reloadGameListView(this);
 		return;
 	}
-
 }
 
-static const std::map<std::string, const char*> favorites_icons_map = boost::assign::map_list_of
-		("snes", "\uF25e ")
-		("3do", "\uF28a")
-		("x68000", "\uF28b")
-		("amiga600", "\uF244")
-		("amiga1200", "\uF245")
-		("nds", "\uF267")
-		("c64", "\uF24c ")
-		("nes", "\uF25c ")
-		("n64", "\uF260 ")
-		("gba", "\uF266 ")
-		("gbc", "\uF265 ")
-		("gb", "\uF264 ")
-		("fds", "\uF25d ")
-		("virtualboy", "\uF25f ")
-		("gw", "\uF278 ")
-		("dreamcast", "\uF26e ")
-		("megadrive", "\uF26b ")
-		("segacd", "\uF26d ")
-		("sega32x", "\uF26c ")
-		("mastersystem", "\uF26a ")
-		("gamegear", "\uF26f ")
-		("sg1000", "\uF269 ")
-		("psp", "\uF274 ")
-		("psx", "\uF275 ")
-		("pcengine", "\uF271 ")
-		("pcenginecd", "\uF273 ")
-		("supergrafx", "\uF272 ")
-		("scummvm", "\uF27a ")
-		("dos", "\uF24a ")
-		("fba", "\uF252 ")
-		("fba_libretro", "\uF253 ")
-		("mame", "\uF255 ")
-		("neogeo", "\uF257 ")
-		("colecovision", "\uF23f ")
-		("atari2600", "\uF23c ")
-		("atari7800", "\uF23e ")
-		("lynx", "\uF270 ")
-		("ngp", "\uF258 ")
-		("ngpc", "\uF259 ")
-		("wswan", "\uF25a ")
-		("wswanc", "\uF25b ")
-		("prboom", "\uF277 ")
-		("vectrex", "\uF240 ")
-		("lutro", "\uF27d ")
-		("cavestory", "\uF276 ")
-		("atarist", "\uF248 ")
-		("amstradcpc", "\uF246 ")
-		("msx", "\uF24d ")
-		("msx1", "\uF24e ")
-		("msx2", "\uF24f ")
-		("odyssey2", "\uF241 ")
-		("zx81", "\uF250 ")
-		("zxspectrum", "\uF251 ")
-		("moonlight", "\uF27e ")
-		("apple2", "\uF247 ")
-		("gamecube", "\uF262 ")
-		("wii", "\uF263 ")
-		("imageviewer", "\uF27b ");
-
-void BasicGameListView::populateList(const std::vector<FileData*>& files)
-{
+void BasicGameListView::populateList(const std::vector<FileData*>& files) {
 	mList.clear();
+	mHeaderText.setText(mSystem->getFullName());
 
-	const FileData* root = getRoot();
-	const SystemData* systemData = root->getSystem();
-	mHeaderText.setText(systemData ? systemData->getFullName() : root->getCleanName());
-
-	bool isFavorite = false;
-	bool isGame = false;
-	bool isHidden = false;
 	bool favoritesOnly = false;
-	bool showHidden = Settings::getInstance()->getBool("ShowHidden");
 
 	// find at least one favorite, else, show all items
-	if (Settings::getInstance()->getBool("FavoritesOnly") && !systemData->isFavorite()) {
+	if (Settings::getInstance()->getBool("FavoritesOnly") && !mSystem->isFavorite()) {
 		for (auto it = files.begin(); it != files.end(); it++) {
 			if ((*it)->getType() == GAME) {
-				if ((*it)->metadata.get("favorite").compare("true") == 0) {
+				if ((*it)->metadata.get("favorite") == "true") {
 					favoritesOnly = true;
 					break;
 				}
@@ -127,53 +117,88 @@ void BasicGameListView::populateList(const std::vector<FileData*>& files)
 		}
 	}
 
-	// The TextListComponent would be able to insert at a specific position,
-	// but the cost of this operation could be seriously huge.
-	// This naive implemention of doing a first pass in the list is used instead.
-	if (!Settings::getInstance()->getBool("FavoritesOnly") || systemData->isFavorite()) {
-		for (auto it = files.begin(); it != files.end(); it++) {
-			isGame = (*it)->getType() == GAME;
-			isFavorite = isGame && ((*it)->metadata.get("favorite").compare("true") == 0);
-			isHidden = (*it)->metadata.get("hidden").compare("true") == 0;
+    bool showHidden = Settings::getInstance()->getBool("ShowHidden");
 
-			if (isFavorite && (showHidden || !isHidden)) {
+	// Do not show double names in favorite system.
+	if (!mSystem->isFavorite() && !favoritesOnly) {
+		for (auto it = files.begin(); it != files.end(); it++) {
+            bool isHidden = (*it)->metadata.get("hidden") == "true";
+			if (showHidden || !isHidden) {
 				addItem(*it);
 			}
 		}
-	}
-	
-	// Do not show double names in favorite system.
-	if (!systemData->isFavorite()) {
-		for (auto it = files.begin(); it != files.end(); it++) {
-			isGame = (*it)->getType() == GAME;
-			isFavorite = isGame && ((*it)->metadata.get("favorite").compare("true") == 0);
-			isHidden = (*it)->metadata.get("hidden").compare("true") == 0;
 
-			if (favoritesOnly) {
-				if (isFavorite && (showHidden || !isHidden)) {
-					addItem(*it);
-				}
-			} else if (!isFavorite) {
-				if (showHidden || !isHidden) {
-					addItem(*it);
-				}
-			}
-		}
+        // When folders are flatten, file sort is not handling folders content, so we need to re-sort it
+        if (RecalboxConf::getInstance()->getBool(mSystem->getName() + ".flatfolder")) {
+            const FileData::SortType& sortType = FileSorts::SortTypes.at(mSystem->getSortId());
+            mList.sortByObject(*sortType.comparisonFunction, sortType.ascending);
+        }
 	}
 
-	if (files.size() == 0) {
-		while (!mCursorStack.empty()) {
-			mCursorStack.pop();
-		}
-	}
+    addFavorites(files);
+
+    if (mSystem->isFavorite() || favoritesOnly) {
+        listingOffset = 0;
+    }
 }
 
-void BasicGameListView::addItem(FileData* file) {
+void BasicGameListView::addFavorites(const std::vector<FileData*>& files) {
+    const FileData::SortType& sortType = FileSorts::SortTypes.at((unsigned int) mSystem->getSortId());
+    std::vector<FileData*> favorites;
+    getFavorites(files, favorites);
+
+    std::sort(favorites.begin(), favorites.end(), *sortType.comparisonFunction);
+
+    // Reverse to unshift
+    if (sortType.ascending) {
+        std::reverse(favorites.begin(), favorites.end());
+    }
+
+    listingOffset = favorites.size();
+
+    for (auto it = favorites.begin(); it != favorites.end(); it++) {
+        addItem(*it, true);
+    }
+}
+
+void BasicGameListView::getFavorites(const std::vector<FileData*>& files, std::vector<FileData*>& favorites) {
+    bool showHidden = Settings::getInstance()->getBool("ShowHidden");
+
+    for (auto it = files.begin(); it != files.end(); it++) {
+        bool isGame = (*it)->getType() == GAME;
+        bool isFavorite = isGame && ((*it)->metadata.get("favorite") == "true");
+        bool isHidden = (*it)->metadata.get("hidden") == "true";
+
+        if (isFavorite && (showHidden || !isHidden)) {
+            favorites.push_back(*it);
+        } else if (!isGame) {
+            getFavorites((*it)->getChildren(), favorites);
+        }
+    }
+}
+
+std::vector<FileData*> BasicGameListView::getFileDataList() {
+    std::vector<FileData*> objects = mList.getObjects();
+    std::vector<FileData*> slice;
+    for (auto it = objects.begin() + listingOffset; it != objects.end(); it++) {
+        slice.push_back(*it);
+    }
+    return slice;
+}
+
+void BasicGameListView::addItem(FileData* file, bool toTheBeginning) {
 	std::string name = file->getName();
 	bool isGame = file->getType() == GAME;
-	bool isFavorite = isGame && (file->metadata.get("favorite").compare("true") == 0);
-	bool isHidden = file->metadata.get("hidden").compare("true") == 0;
+	bool isFavorite = isGame && (file->metadata.get("favorite") == "true");
+	bool isHidden = file->metadata.get("hidden") == "true";
 
+	if (!isGame && RecalboxConf::getInstance()->getBool(getRoot()->getSystem()->getName() + ".flatfolder")) {
+		std::vector<FileData*> files = file->getChildren();
+		for (auto it = files.begin(); it != files.end(); it++) {
+			addItem(*it);
+		}
+		return ;
+	}
 	if (isHidden) {
 		name = "\uF070 " + name;
 	}
@@ -184,11 +209,10 @@ void BasicGameListView::addItem(FileData* file) {
 			name = "\uF006 " + name;
 		}
 	}
-	mList.add(name, file, !isGame);
+	mList.add(name, file, !isGame, toTheBeginning);
 }
 
-FileData* BasicGameListView::getCursor()
-{
+FileData* BasicGameListView::getCursor() {
 	return mList.getSelected();
 }
 
@@ -200,28 +224,23 @@ int BasicGameListView::getCursorIndex(){
 	return mList.getCursorIndex();
 }
 
-void BasicGameListView::setCursor(FileData* cursor)
-{
-	if(!mList.setCursor(cursor))
-	{
+void BasicGameListView::setCursor(FileData* cursor) {
+	if(!mList.setCursor(cursor, listingOffset)) {
 		populateList(mRoot->getChildren());
 		mList.setCursor(cursor);
 
 		// update our cursor stack in case our cursor just got set to some folder we weren't in before
-		if(mCursorStack.empty() || mCursorStack.top() != cursor->getParent())
-		{
+		if(mCursorStack.empty() || mCursorStack.top() != cursor->getParent()) {
 			std::stack<FileData*> tmp;
 			FileData* ptr = cursor->getParent();
-			while(ptr && ptr != mRoot)
-			{
+			while(ptr && ptr != mRoot) {
 				tmp.push(ptr);
 				ptr = ptr->getParent();
 			}
 			
 			// flip the stack and put it in mCursorStack
 			mCursorStack = std::stack<FileData*>();
-			while(!tmp.empty())
-			{
+			while(!tmp.empty()) {
 				mCursorStack.push(tmp.top());
 				tmp.pop();
 			}
@@ -229,13 +248,11 @@ void BasicGameListView::setCursor(FileData* cursor)
 	}
 }
 
-void BasicGameListView::launch(FileData* game)
-{
+void BasicGameListView::launch(FileData* game) {
 	ViewController::get()->launch(game);
 }
 
-std::vector<HelpPrompt> BasicGameListView::getHelpPrompts()
-{
+std::vector<HelpPrompt> BasicGameListView::getHelpPrompts() {
 	std::vector<HelpPrompt> prompts;
 	bool hideSystemView = RecalboxConf::getInstance()->get("emulationstation.hidesystemview") == "1";
 	if(Settings::getInstance()->getBool("QuickSystemSelect") && !hideSystemView)

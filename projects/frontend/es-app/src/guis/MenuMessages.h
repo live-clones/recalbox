@@ -111,6 +111,7 @@ public:
 	static const char* GAMELISTOPTION_SORT_GAMES_MSG;
 	static const char* GAMELISTOPTION_FAVORITES_ONLY_MSG;
 	static const char* GAMELISTOPTION_SHOW_HIDDEN_MSG;
+	static const char* GAMELISTOPTION_SHOW_FOLDER_CONTENT_MSG;
 	static const char* GAMELISTOPTION_EDIT_METADATA_MSG;
 
 };

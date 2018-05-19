@@ -29,11 +29,8 @@ private:
 	typedef OptionListComponent<char> LetterList;
 	std::shared_ptr<LetterList> mJumpToLetterList;
 
-	typedef OptionListComponent<const FileData::SortType*> SortList;
+	typedef OptionListComponent<int> SortList;
 	std::shared_ptr<SortList> mListSort;
-
-	std::shared_ptr<SwitchComponent> mFavoriteOption;
-	std::shared_ptr<SwitchComponent> mShowHidden;
 
 	bool mFavoriteState;
 	bool mHiddenState;

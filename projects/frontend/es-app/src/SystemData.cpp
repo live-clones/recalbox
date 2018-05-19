@@ -12,7 +12,6 @@
 #include "InputManager.h"
 #include <iostream>
 #include "Settings.h"
-#include "FileSorts.h"
 #include "Util.h"
 #include <boost/thread.hpp>
 #include <boost/asio/io_service.hpp>
@@ -32,6 +31,7 @@ SystemData::SystemData(std::string name, std::string fullName, std::string start
 	mFullName = fullName;
 	mStartPath = getExpandedPath(startPath);
 	mEmulators = emulators;
+	mSortId = 0;
 
 	// make it absolute if needed
 	{
@@ -57,7 +57,7 @@ SystemData::SystemData(std::string name, std::string fullName, std::string start
 	if(!Settings::getInstance()->getBool("IgnoreGamelist"))
 		parseGamelist(this);
 
-	mRootFolder->sort(FileSorts::SortTypes.at(0));
+	sortByFunctionId(mSortId);
 	mIsFavorite = false;
 	loadTheme();
 }
@@ -78,12 +78,13 @@ SystemData::SystemData(std::string name, std::string fullName, std::string comma
 	for(auto system = systems->begin(); system != systems->end(); system ++){
 		std::vector<FileData*> favorites = (*system)->getFavorites();
 		for(auto favorite = favorites.begin(); favorite != favorites.end(); favorite++){
-			mRootFolder->addAlreadyExisitingChild((*favorite));
+			mRootFolder->addAlreadyExistingChild((*favorite));
 		}
 	}
 
-	if(mRootFolder->getChildren().size())
-		mRootFolder->sort(FileSorts::SortTypes.at(0));
+	if(mRootFolder->getChildren().size()) {
+		sortByFunctionId();
+	}
 	mIsFavorite = true;
 	mPlatformIds.push_back(PlatformIds::PLATFORM_IGNORE);
 	loadTheme();
@@ -627,3 +628,7 @@ int SystemData::getSystemIndex(std::string name) {
 	return -1;
 }
 
+void SystemData::sortByFunctionId(const int sortId) {
+	mSortId = sortId;
+	mRootFolder->sortByFunctionId(mSortId);
+}

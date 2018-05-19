@@ -2,6 +2,7 @@
 
 #include "FileData.h"
 #include "Renderer.h"
+#include "SystemData.h"
 
 class Window;
 class GuiComponent;
@@ -12,7 +13,7 @@ class ThemeData;
 class IGameListView : public GuiComponent
 {
 public:
-	IGameListView(Window* window, FileData* root) : GuiComponent(window), mRoot(root)
+	IGameListView(Window* window, FileData* root) : GuiComponent(window), mRoot(root), mSystem(root->getSystem())
 		{ setSize((float)Renderer::getScreenWidth(), (float)Renderer::getScreenHeight()); }
 
 	virtual ~IGameListView() {}
@@ -42,7 +43,10 @@ public:
 
 	virtual void populateList(const std::vector<FileData*>& files) = 0;
 
+	virtual std::vector<FileData*> getFileDataList() = 0;
+
 protected:
 	FileData* mRoot;
+	SystemData* mSystem;
 	std::shared_ptr<ThemeData> mTheme;
 };

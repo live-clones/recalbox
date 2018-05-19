@@ -45,7 +45,7 @@ public:
 	void render(const Eigen::Affine3f& parentTrans) override;
 	void applyTheme(const std::shared_ptr<ThemeData>& theme, const std::string& view, const std::string& element, unsigned int properties) override;
 
-	void add(const std::string& name, const T& obj, unsigned int colorId);
+	void add(const std::string& name, const T& obj, unsigned int colorId, bool toTheBeginning = false);
 	
 	enum Alignment
 	{
@@ -306,7 +306,7 @@ void TextListComponent<T>::update(int deltaTime)
 
 //list management stuff
 template <typename T>
-void TextListComponent<T>::add(const std::string& name, const T& obj, unsigned int color)
+void TextListComponent<T>::add(const std::string& name, const T& obj, unsigned int color, bool toTheBeginning)
 {
 	assert(color < COLOR_ID_COUNT);
 
@@ -314,7 +314,11 @@ void TextListComponent<T>::add(const std::string& name, const T& obj, unsigned i
 	entry.name = name;
 	entry.object = obj;
 	entry.data.colorId = color;
-	static_cast<IList< TextListData, T >*>(this)->add(entry);
+	if (toTheBeginning) {
+		static_cast<IList< TextListData, T >*>(this)->unshift(entry);
+	} else {
+		static_cast<IList< TextListData, T >*>(this)->add(entry);
+	}
 }
 
 template <typename T>

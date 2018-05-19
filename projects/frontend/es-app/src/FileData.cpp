@@ -1,4 +1,5 @@
 #include "FileData.h"
+#include "FileSorts.h"
 #include "SystemData.h"
 #include "Log.h"
 
@@ -148,14 +149,14 @@ void FileData::addChild(FileData* file)
 
 }
 
-void FileData::addAlreadyExisitingChild(FileData* file)
+void FileData::addAlreadyExistingChild(FileData* file)
 {
 	assert(mType == FOLDER);
 	mChildren.push_back(file);
 }
 
 
-void FileData::removeAlreadyExisitingChild(FileData* file)
+void FileData::removeAlreadyExistingChild(FileData* file)
 {
 	assert(mType == FOLDER);
 	for(auto it = mChildren.begin(); it != mChildren.end(); it++)
@@ -191,6 +192,7 @@ void FileData::clear()
 	mChildren.clear();
 }
 
+// private
 void FileData::sort(ComparisonFunction& comparator, bool ascending)
 {
 	std::sort(mChildren.begin(), mChildren.end(), comparator);
@@ -205,9 +207,10 @@ void FileData::sort(ComparisonFunction& comparator, bool ascending)
 		std::reverse(mChildren.begin(), mChildren.end());
 }
 
-void FileData::sort(const SortType& type)
+void FileData::sortByFunctionId(const int sortId)
 {
-	sort(*type.comparisonFunction, type.ascending);
+	const FileData::SortType& sortType = FileSorts::SortTypes.at(sortId);
+	sort(*sortType.comparisonFunction, sortType.ascending);
 }
 
 void FileData::populateRecursiveFolder(FileData* folder, const std::vector<std::string>& searchExtensions, SystemData* systemData)

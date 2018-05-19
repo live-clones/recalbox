@@ -47,7 +47,7 @@ GuiGamelistOptions::GuiGamelistOptions(Window* window, SystemData* system) : Gui
 	for(unsigned int i = 0; i < FileSorts::SortTypes.size(); i++)
 	{
 		const FileData::SortType& sort = FileSorts::SortTypes.at(i);
-		mListSort->add(sort.description, &sort, i == 0); // TODO - actually make the sort type persistent
+		mListSort->add(sort.description, i, i == 0); // TODO - actually make the sort type persistent
 	}
 
 	mMenu.addWithLabel(mListSort, _("SORT GAMES BY"), _(MenuMessages::GAMELISTOPTION_SORT_GAMES_MSG));
@@ -61,6 +61,12 @@ GuiGamelistOptions::GuiGamelistOptions(Window* window, SystemData* system) : Gui
 	show_hidden->setState(Settings::getInstance()->getBool("ShowHidden"));
 	mMenu.addWithLabel(show_hidden, _("SHOW HIDDEN"), _(MenuMessages::GAMELISTOPTION_SHOW_HIDDEN_MSG));
 	addSaveFunc([show_hidden] { Settings::getInstance()->setBool("ShowHidden", show_hidden->getState()); });
+	
+	auto flat_folders = std::make_shared<SwitchComponent>(mWindow);
+	flat_folders->setState(RecalboxConf::getInstance()->getBool(system->getName() + ".flatfolder"));
+	
+	mMenu.addWithLabel(flat_folders, _("SHOW FOLDERS CONTENT"), _(MenuMessages::GAMELISTOPTION_SHOW_FOLDER_CONTENT_MSG));
+	addSaveFunc([flat_folders, system] { RecalboxConf::getInstance()->setBool(system->getName() + ".flatfolder", flat_folders->getState()); });
 
 	// edit game metadata
 	row.elements.clear();
@@ -83,23 +89,22 @@ GuiGamelistOptions::GuiGamelistOptions(Window* window, SystemData* system) : Gui
 
 GuiGamelistOptions::~GuiGamelistOptions()
 {
-    if(getGamelist()->getRoot()->getDisplayableRecursive(GAME | FOLDER).size() > 0) {
+	FileData* root = getGamelist()->getRoot();
+    if (root->getDisplayableRecursive(GAME | FOLDER).size()) {
         // apply sort
-        FileData *root = getGamelist()->getCursor()->getSystem()->getRootFolder();
-        root->sort(*mListSort->getSelected()); // will also recursively sort children
+		mSystem->sortByFunctionId(mListSort->getSelected());
 
         // notify that the root folder was sorted
-        getGamelist()->onFileChanged(root, FILE_SORTED);
+        getGamelist()->onFileChanged(mSystem->getRootFolder(), FILE_SORTED);
 
-        if (Settings::getInstance()->getBool("FavoritesOnly") != mFavoriteState ||
-            Settings::getInstance()->getBool("ShowHidden") != mHiddenState) {
+		// if states has changed, invalidate and reload game list
+        if (Settings::getInstance()->getBool("FavoritesOnly") != mFavoriteState || Settings::getInstance()->getBool("ShowHidden") != mHiddenState) {
             ViewController::get()->setAllInvalidGamesList(getGamelist()->getCursor()->getSystem());
             ViewController::get()->reloadGameListView(getGamelist()->getCursor()->getSystem());
         }
-    }else {
+    } else {
         Window *window = mWindow;
-        int size = getGamelist()->getRoot()->getChildren().size();
-        if (getGamelist()->getRoot()->getChildren().size() == 0) {
+        if (root->getChildren().size() == 0) {
             ViewController::get()->goToStart();
 			window->renderShutdownScreen();
 			delete ViewController::get();
@@ -138,8 +143,7 @@ void GuiGamelistOptions::jumpToLetter()
 	char letter = mJumpToLetterList->getSelected();
 	IGameListView* gamelist = getGamelist();
 
-	// this is a really shitty way to get a list of files
-	const std::vector<FileData*>& files = gamelist->getCursor()->getParent()->getChildren();
+	const std::vector<FileData*>& files = gamelist->getFileDataList();
 	
 	long min = 0;
 	long max = files.size() - 1;
@@ -201,4 +205,5 @@ void GuiGamelistOptions::save()
 		(*it)();
 
 	Settings::getInstance()->saveFile();
+	RecalboxConf::getInstance()->saveRecalboxConf();
 }

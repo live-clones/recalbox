@@ -25,9 +25,16 @@ public:
 	virtual void populateList(const std::vector<FileData*>& files) override;
 
 	virtual inline void updateInfoPanel() override {}
+
+	virtual std::vector<FileData*> getFileDataList();
+
 protected:
 	virtual void launch(FileData* game) override;
 
-	void addItem(FileData* file);
 	TextListComponent<FileData*> mList;
+private:
+    unsigned long listingOffset;
+	void addFavorites(const std::vector<FileData*>& files);
+	void getFavorites(const std::vector<FileData*>& files, std::vector<FileData*>& favorites);
+	void addItem(FileData* file, bool toTheBeginning = false);
 };
