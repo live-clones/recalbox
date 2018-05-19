@@ -14,13 +14,15 @@ enum FileType
 	FOLDER = 2
 };
 
+// todo: should be moved somewhere else because, it does no longer deals with file list
 enum FileChangeType
 {
 	FILE_ADDED,
 	FILE_RUN,
 	FILE_METADATA_CHANGED,
 	FILE_REMOVED,
-	FILE_SORTED
+	FILE_SORTED,
+	FILE_DISPLAY_UPDATED
 };
 
 // Used for loading/saving gamelist.xml.
@@ -73,8 +75,6 @@ public:
 			: comparisonFunction(sortFunction), ascending(sortAscending), description(sortDescription) {}
 	};
 
-	void sortByFunctionId(const int sortId = 0);
-
 	static void populateRecursiveFolder(FileData* folder, const std::vector<std::string>& searchExtensions = std::vector<std::string>(), SystemData* systemData = nullptr);
 	MetaDataList metadata;
 
@@ -85,6 +85,4 @@ private:
 	FileData* mParent;
 	std::unordered_map<std::string,FileData*> mChildrenByFilename;
 	std::vector<FileData*> mChildren;
-	void sort(ComparisonFunction& comparator, bool ascending);
-
 };

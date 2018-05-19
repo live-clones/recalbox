@@ -34,7 +34,7 @@ protected:
 	TextListComponent<FileData*> mList;
 private:
     unsigned long listingOffset;
-	void addFavorites(const std::vector<FileData*>& files);
+	void addFavorites(const std::vector<FileData*>& files, const FileData::SortType& sortType);
 	void getFavorites(const std::vector<FileData*>& files, std::vector<FileData*>& favorites);
 	void addItem(FileData* file, bool toTheBeginning = false);
 };

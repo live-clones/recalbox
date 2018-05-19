@@ -21,11 +21,13 @@ public:
     bool saveRecalboxConf();
 
     std::string get(const std::string &name);
-    std::string get(const std::string &name, const std::string &defaut);
-    bool getBool(const std::string& name, bool defaut = false);
+    std::string get(const std::string &name, const std::string &defaultValue);
+    bool getBool(const std::string& name, bool defaultValue = false);
+    unsigned int getUInt(const std::string& name, unsigned int defaultValue = 0);
 
     void set(const std::string &name, const std::string &value);
     void setBool(const std::string &name, bool value);
+    void setUInt(const std::string &name, unsigned int value);
 
     static RecalboxConf *sInstance;
 

@@ -118,6 +118,7 @@ void BasicGameListView::populateList(const std::vector<FileData*>& files) {
 	}
 
     bool showHidden = Settings::getInstance()->getBool("ShowHidden");
+    const FileData::SortType& sortType = mSystem->getSortType();
 
 	// Do not show double names in favorite system.
 	if (!mSystem->isFavorite() && !favoritesOnly) {
@@ -128,22 +129,17 @@ void BasicGameListView::populateList(const std::vector<FileData*>& files) {
 			}
 		}
 
-        // When folders are flatten, file sort is not handling folders content, so we need to re-sort it
-        if (RecalboxConf::getInstance()->getBool(mSystem->getName() + ".flatfolder")) {
-            const FileData::SortType& sortType = FileSorts::SortTypes.at(mSystem->getSortId());
-            mList.sortByObject(*sortType.comparisonFunction, sortType.ascending);
-        }
+		mList.sortByObject(*sortType.comparisonFunction, sortType.ascending);
 	}
 
-    addFavorites(files);
+    addFavorites(files, sortType);
 
     if (mSystem->isFavorite() || favoritesOnly) {
         listingOffset = 0;
     }
 }
 
-void BasicGameListView::addFavorites(const std::vector<FileData*>& files) {
-    const FileData::SortType& sortType = FileSorts::SortTypes.at((unsigned int) mSystem->getSortId());
+void BasicGameListView::addFavorites(const std::vector<FileData*>& files, const FileData::SortType& sortType) {
     std::vector<FileData*> favorites;
     getFavorites(files, favorites);
 
@@ -216,8 +212,8 @@ FileData* BasicGameListView::getCursor() {
 	return mList.getSelected();
 }
 
-void BasicGameListView::setCursorIndex(int cursor){
-	mList.setCursorIndex(cursor);
+void BasicGameListView::setCursorIndex(int index){
+	mList.setCursorIndex(index);
 }
 
 int BasicGameListView::getCursorIndex(){

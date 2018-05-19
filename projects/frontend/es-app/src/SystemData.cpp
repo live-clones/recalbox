@@ -31,7 +31,7 @@ SystemData::SystemData(std::string name, std::string fullName, std::string start
 	mFullName = fullName;
 	mStartPath = getExpandedPath(startPath);
 	mEmulators = emulators;
-	mSortId = 0;
+	mSortId = RecalboxConf::getInstance()->getUInt(mName + ".sort");
 
 	// make it absolute if needed
 	{
@@ -57,7 +57,6 @@ SystemData::SystemData(std::string name, std::string fullName, std::string start
 	if(!Settings::getInstance()->getBool("IgnoreGamelist"))
 		parseGamelist(this);
 
-	sortByFunctionId(mSortId);
 	mIsFavorite = false;
 	loadTheme();
 }
@@ -68,6 +67,7 @@ SystemData::SystemData(std::string name, std::string fullName, std::string comma
 	mName = name;
 	mFullName = fullName;
 	mStartPath = "";
+    mSortId = RecalboxConf::getInstance()->getUInt(mName + ".sort");
 
 	mLaunchCommand = command;
 	mThemeFolder = themeFolder;
@@ -82,9 +82,6 @@ SystemData::SystemData(std::string name, std::string fullName, std::string comma
 		}
 	}
 
-	if(mRootFolder->getChildren().size()) {
-		sortByFunctionId();
-	}
 	mIsFavorite = true;
 	mPlatformIds.push_back(PlatformIds::PLATFORM_IGNORE);
 	loadTheme();
@@ -626,9 +623,4 @@ int SystemData::getSystemIndex(std::string name) {
         index++;
 	}
 	return -1;
-}
-
-void SystemData::sortByFunctionId(const int sortId) {
-	mSortId = sortId;
-	mRootFolder->sortByFunctionId(mSortId);
 }

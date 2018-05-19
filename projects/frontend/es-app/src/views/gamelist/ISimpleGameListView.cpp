@@ -67,14 +67,16 @@ void ISimpleGameListView::onFileChanged(FileData* file, FileChangeType change) {
 		return ;
 	}
 
-	// When sorting, cursor is reset to the root one, so, we need to flush the cursor stack
+	int index = getCursorIndex();
+
 	if (change == FileChangeType::FILE_SORTED) {
+        index = 0; // go back to the top level
+    	// When sorting, cursor is reset to the root one, so, we need to flush the cursor stack
 		while (!mCursorStack.empty()) {
 			mCursorStack.pop();
 		}
 	}
 
-	int index = getCursorIndex();
 	populateList(getRoot()->getChildren());
 	setCursorIndex(index);
 
@@ -129,7 +131,7 @@ bool ISimpleGameListView::input(InputConfig* config, Input input) {
 				if (cursor->getChildren().size() > 0) {
 					mCursorStack.push(cursor);
 					populateList(cursor->getChildren());
-					setCursor(getCursor());
+					setCursorIndex(0);
 				}
 			}
 			return true;
@@ -196,7 +198,6 @@ bool ISimpleGameListView::input(InputConfig* config, Input input) {
 						populateList(cursor->getParent()->getChildren());
 					}
 					setCursorIndex(cursorPlace + (removeFavorite ? -1 : 1));
-					updateInfoPanel();
 				}
 			}
             return true;

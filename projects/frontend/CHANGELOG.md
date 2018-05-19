@@ -14,6 +14,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added new fallback fonts to support all languages
 - Language names in their own language
 - Added an option to list folder content instead of folder name (flatfolder)
+- Make gamelist sort persistent
 
 ### Fixed
 - Fixed back button in gamelist (back to parent level, not to root one)

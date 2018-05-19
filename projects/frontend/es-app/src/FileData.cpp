@@ -192,26 +192,6 @@ void FileData::clear()
 	mChildren.clear();
 }
 
-// private
-void FileData::sort(ComparisonFunction& comparator, bool ascending)
-{
-	std::sort(mChildren.begin(), mChildren.end(), comparator);
-
-	for(auto it = mChildren.begin(); it != mChildren.end(); it++)
-	{
-		if((*it)->getChildren().size() > 0)
-			(*it)->sort(comparator, ascending);
-	}
-
-	if(!ascending)
-		std::reverse(mChildren.begin(), mChildren.end());
-}
-
-void FileData::sortByFunctionId(const int sortId)
-{
-	const FileData::SortType& sortType = FileSorts::SortTypes.at(sortId);
-	sort(*sortType.comparisonFunction, sortType.ascending);
-}
 
 void FileData::populateRecursiveFolder(FileData* folder, const std::vector<std::string>& searchExtensions, SystemData* systemData)
 {

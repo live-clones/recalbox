@@ -7,6 +7,7 @@
 #include "MetaData.h"
 #include "PlatformId.h"
 #include "ThemeData.h"
+#include "FileSorts.h"
 
 class SystemData
 {
@@ -28,7 +29,9 @@ public:
 	inline bool getHasFavorites() const { return mHasFavorites; }
 	inline bool isFavorite() const { return mIsFavorite; }
 	inline std::vector<FileData*> getFavorites() const { return mRootFolder->getFavoritesRecursive(GAME); }
-	inline int getSortId() const { return mSortId; };
+	inline unsigned int getSortId() const { return mSortId; };
+	inline FileData::SortType getSortType() const { return FileSorts::SortTypes.at(mSortId); };
+	inline void setSortId(const unsigned int sortId = 0) { mSortId = sortId; };
 
 	inline const std::vector<PlatformIds::PlatformId>& getPlatformIds() const { return mPlatformIds; }
 	inline bool hasPlatformId(PlatformIds::PlatformId id) { return std::find(mPlatformIds.begin(), mPlatformIds.end(), id) != mPlatformIds.end(); }
@@ -79,8 +82,6 @@ public:
 	std::map<std::string, std::vector<std::string> *> * getEmulators();
 	std::vector<std::string> getCores(std::string emulatorName);
 
-	void sortByFunctionId(const int sortId = 0);
-
 private:
 	std::string mName;
 	std::string mFullName;
@@ -93,7 +94,7 @@ private:
 
 	bool mHasFavorites;
 	bool mIsFavorite;
-	int mSortId;
+	unsigned int mSortId;
 
 	void populateFolder(FileData* folder);
 

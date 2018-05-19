@@ -109,18 +109,29 @@ std::string RecalboxConf::get(const std::string &name) {
     }
     return "";
 }
-std::string RecalboxConf::get(const std::string &name, const std::string &defaut) {
+std::string RecalboxConf::get(const std::string &name, const std::string &defaultValue) {
     if (confMap.count(name)) {
         return confMap[name];
     }
-    return defaut;
+    return defaultValue;
 }
 
-bool RecalboxConf::getBool(const std::string &name, bool defaut) {
+bool RecalboxConf::getBool(const std::string &name, bool defaultValue) {
     if (confMap.count(name)) {
         return confMap[name] == "1";
     }
-    return defaut;
+    return defaultValue;
+}
+
+unsigned int RecalboxConf::getUInt(const std::string &name, unsigned int defaultValue) {
+    try {
+        if (confMap.count(name)) {
+            int value = std::stoi(confMap[name]);
+            return value > 0 ? (unsigned int) value : 0;
+        }
+    } catch(std::invalid_argument&) {}
+
+    return defaultValue;
 }
 
 void RecalboxConf::set(const std::string &name, const std::string &value) {
@@ -129,4 +140,8 @@ void RecalboxConf::set(const std::string &name, const std::string &value) {
 
 void RecalboxConf::setBool(const std::string &name, bool value) {
     confMap[name] = value ? "1" : "0";
+}
+
+void RecalboxConf::setUInt(const std::string &name, unsigned int value) {
+    confMap[name] = std::to_string(value).c_str();
 }

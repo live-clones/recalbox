@@ -11,9 +11,7 @@ public:
 	ISimpleGameListView(Window* window, FileData* root);
 	virtual ~ISimpleGameListView() {}
 
-	// Called when a new file is added, a file is removed, a file's metadata changes, or a file's children are sorted.
-	// NOTE: FILE_SORTED is only reported for the topmost FileData, where the sort started.
-	//       Since sorts are recursive, that FileData's children probably changed too.
+	// Called when a new file is added, a file is removed, a file's metadata changes, or when file sort changed
 	virtual void onFileChanged(FileData* file, FileChangeType change);
 
 	// Called whenever the theme changes.

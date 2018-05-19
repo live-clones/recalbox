@@ -273,6 +273,22 @@ public:
 		}
                 return "";
 	}
+
+	void select(T object) {
+	    bool hasChanged = false;
+	    bool selectable = true;
+		for(auto it = mEntries.begin(); it != mEntries.end(); it++) {
+		    const bool previous = it->selected;
+			it->selected = selectable && (it->object == object);
+			if (it->selected && !mMultiSelect) {
+                selectable = false;
+			}
+            hasChanged = hasChanged || (it->selected != previous);
+		}
+		if (hasChanged) {
+            onSelectedChanged();
+		}
+	}
         
 	void clear() { 
 		mEntries.clear();
