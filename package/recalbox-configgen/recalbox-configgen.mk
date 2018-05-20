@@ -4,9 +4,9 @@
 #
 ################################################################################
 
-RECALBOX_CONFIGGEN_VERSION = 0bc27e90248812a62f80de94810434acbf7ac418
+RECALBOX_CONFIGGEN_VERSION = 53328a5b96c05a206e4947822e9c24a03fdd8104
 
-RECALBOX_CONFIGGEN_SITE = https://gitlab.com/recalbox/recalbox-configgen.git
+RECALBOX_CONFIGGEN_SITE = https://gitlab.com/Zlika1/recalbox-configgen.git
 RECALBOX_CONFIGGEN_SITE_METHOD = git
 
 RECALBOX_CONFIGGEN_LICENSE = GPL2
