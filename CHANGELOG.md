@@ -15,6 +15,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Wifi: option to change region added to recalbox.conf - with wifi.region=FR fixes channel 12 issue for example
 - Old deprecated API removed, new API in development
 - more informations in support archives
+- Update version of libretro-o2em
 
 ## [18.04.20] - 2018-04-20
 - ES: Added pop-ups
