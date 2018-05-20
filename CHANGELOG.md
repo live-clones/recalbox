@@ -16,6 +16,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Old deprecated API removed, new API in development
 - more informations in support archives
 - Update version of libretro-o2em
+- Add Thomson TO8 support with libretro core theodore
 
 ## [18.04.20] - 2018-04-20
 - ES: Added pop-ups
