@@ -1469,19 +1469,19 @@ msgstr "ALAP JÁTÉKLISTA NÉZET"
 
 #: 
 msgid "DOWNLOADED"
-msgstr ""
+msgstr "LETÖLTVE"
 
 #: 
 msgid "UPDATE VERSION:"
-msgstr ""
+msgstr "FRISSÍTÉS VERZIÓ:"
 
 #: 
 msgid "UPDATE CHANGELOG:"
-msgstr ""
+msgstr "FRISSÍTÉS VÁLTOZÁSOK:"
 
 #: 
 msgid "MORE DETAILS"
-msgstr ""
+msgstr "TÖBB RÉSZLET"
 
 #: 
 msgid "CAROUSEL ANIMATION"
@@ -1493,19 +1493,19 @@ msgstr ""
 
 #: 
 msgid "THEME COLORSET"
-msgstr ""
+msgstr "TÉMA SZÍNEI"
 
 #: 
 msgid "THEME ICONSET"
-msgstr ""
+msgstr "TÉMA IKONJAI"
 
 #: 
 msgid "THEME MENU"
-msgstr ""
+msgstr "TÉMA MENÜ"
 
 #: 
 msgid "THEME SYSTEMVIEW"
-msgstr ""
+msgstr "TÉMA RENDSZERNÉZET"
 
 #: 
 msgid "THEME GAMELISTVIEW"
@@ -1513,15 +1513,15 @@ msgstr ""
 
 #: 
 msgid "THEME REGION"
-msgstr ""
+msgstr "TÉMA RÉGIÓ"
 
 #: 
 msgid "THIS THEME HAS NO OPTION"
-msgstr ""
+msgstr "EHHEZ A TÉMÁHOZ NINCSENEK BEÁLLÍTÁSOK"
 
 #: 
 msgid "MANUAL INPUT"
-msgstr ""
+msgstr "MANUÁLIS BEVITEL"
 
 #: 
 msgid "AN ERROR OCCURED - DOWNLOADED"
@@ -1529,7 +1529,7 @@ msgstr ""
 
 #: 
 msgid "START KODI"
-msgstr ""
+msgstr "KODI INDÍTÁSA"
 
 #: 
 msgid "Shows the current available update version."
@@ -1609,9 +1609,93 @@ msgstr ""
 
 #: 
 msgid "AVAILABLE UPDATE"
-msgstr ""
+msgstr "ELÉRHETŐ FRISSÍTÉS"
 
 #: 
 msgid "UPDATE CHANGELOG"
+msgstr "VÁLTOZÁSOK FRISSÍTÉSE"
+
+#: 
+msgid "CLOCK IN MENU"
+msgstr "ÓRA A MENÜBEN"
+
+#: 
+msgid "Now playing"
+msgstr ""
+
+#: 
+msgid "DEFAULT (%1%)"
+msgstr ""
+
+#: 
+msgid "INPUT REQUIRED"
+msgstr ""
+
+#: 
+msgid "(skipped)"
+msgstr ""
+
+#: 
+msgid "UP/DOWN TO SKIP"
+msgstr ""
+
+#: 
+msgid "A TO UNSET"
+msgstr ""
+
+#: 
+msgid "DOWN TO SKIP AND KEEP [%1%]"
+msgstr ""
+
+#: 
+msgid "UP/DOWN TO SKIP AND KEEP [%1%]"
+msgstr ""
+
+#: 
+msgid "Set duration of help popups, 0 means no popup."
+msgstr ""
+
+#: 
+msgid "HELP POPUP DURATION"
+msgstr ""
+
+#: 
+msgid "Set duration of music popups, 0 means no popup."
+msgstr ""
+
+#: 
+msgid "MUSIC POPUP DURATION"
+msgstr ""
+
+#: 
+msgid "POPUP SETTINGS"
+msgstr ""
+
+#: 
+msgid "POPUP POSITION"
+msgstr ""
+
+#: 
+msgid "Select the position of popups on screen."
+msgstr ""
+
+#: 
+msgid "Set position and duration of popups."
+msgstr ""
+
+#: 
+msgid "TOP/RIGHT"
+msgstr ""
+
+#: 
+msgid "BOTTOM/RIGHT"
+msgstr ""
+
+#: 
+msgid "BOTTOM/LEFT"
+msgstr ""
+
+#: 
+msgid "TOP/LEFT"
 msgstr ""
 

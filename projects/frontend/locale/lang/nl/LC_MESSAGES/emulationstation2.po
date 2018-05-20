@@ -1186,7 +1186,6 @@ msgstr "Integer schalen is het schalen door een factor van een heel nummer. zoal
 #: 
 msgid "Shaders are like filters for the game rendering. You can select a shader set here, which is a collection of shaders selected for each system. You can also change the shader within the game with HOTKEY + L2 or HOTKEY + R2."
 msgstr "Shaders zijn filters voor de game rendering. Je kan een shader set selecteren, welke bestaat uit een collectie van shaders voor elk systeem. Deze kan je ingame aanpassen met de HOTKEY +L2 of HOTKEY +R2."
-""
 
 #: 
 msgid "Enable or disable RetroAchievements in games."
@@ -1619,5 +1618,89 @@ msgstr ""
 
 #: 
 msgid "UPDATE CHANGELOG"
+msgstr ""
+
+#: 
+msgid "CLOCK IN MENU"
+msgstr ""
+
+#: 
+msgid "Now playing"
+msgstr ""
+
+#: 
+msgid "DEFAULT (%1%)"
+msgstr ""
+
+#: 
+msgid "INPUT REQUIRED"
+msgstr ""
+
+#: 
+msgid "(skipped)"
+msgstr ""
+
+#: 
+msgid "UP/DOWN TO SKIP"
+msgstr ""
+
+#: 
+msgid "A TO UNSET"
+msgstr ""
+
+#: 
+msgid "DOWN TO SKIP AND KEEP [%1%]"
+msgstr ""
+
+#: 
+msgid "UP/DOWN TO SKIP AND KEEP [%1%]"
+msgstr ""
+
+#: 
+msgid "Set duration of help popups, 0 means no popup."
+msgstr ""
+
+#: 
+msgid "HELP POPUP DURATION"
+msgstr ""
+
+#: 
+msgid "Set duration of music popups, 0 means no popup."
+msgstr ""
+
+#: 
+msgid "MUSIC POPUP DURATION"
+msgstr ""
+
+#: 
+msgid "POPUP SETTINGS"
+msgstr ""
+
+#: 
+msgid "POPUP POSITION"
+msgstr ""
+
+#: 
+msgid "Select the position of popups on screen."
+msgstr ""
+
+#: 
+msgid "Set position and duration of popups."
+msgstr ""
+
+#: 
+msgid "TOP/RIGHT"
+msgstr ""
+
+#: 
+msgid "BOTTOM/RIGHT"
+msgstr ""
+
+#: 
+msgid "BOTTOM/LEFT"
+msgstr ""
+
+#: 
+msgid "TOP/LEFT"
 msgstr ""
 

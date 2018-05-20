@@ -1092,91 +1092,92 @@ msgstr "قبول التعديلات"
 
 #: 
 msgid "FILENAME"
-msgstr ""
+msgstr "اسم الملف"
 
 #: 
 msgid "RATING"
-msgstr ""
+msgstr "تقييم"
 
 #: 
 msgid "TIMES PLAYED"
-msgstr ""
+msgstr "مرات اللعب"
 
 #: 
 msgid "LAST PLAYED"
-msgstr ""
+msgstr "اخر لعب"
 
 #: 
 msgid "NUMBER OF PLAYERS"
-msgstr ""
+msgstr "عدد اللاعبين"
 
 #: 
 msgid "DEVELOPER"
-msgstr ""
+msgstr "المطور"
 
 #: 
 msgid "GENRE"
-msgstr ""
+msgstr "نوع"
 
 #: 
 msgid "SHOW HIDDEN"
-msgstr ""
+msgstr "اظهر المخفي"
 
 #: 
 msgid "EXTREM (1400Mhz)"
-msgstr ""
+msgstr "قصوى"
 
 #: 
 msgid "TURBO (1350Mhz)"
-msgstr ""
+msgstr "تربو"
 
 #: 
 msgid "HIGH (1300Mhz)"
-msgstr ""
+msgstr "عالي"
 
 #: 
 msgid "TURBO AND EXTREM OVERCLOCK PRESETS MAY CAUSE SYSTEM UNSTABILITIES, SO USE THEM AT YOUR OWN RISK.\n"
 "IF YOU CONTINUE, THE SYSTEM WILL REBOOT NOW."
-msgstr ""
+msgstr "التعديل لخيار التربو او القصوى قد يجعل النظام غير مستقر. قم باستخدامهم على مسئوليتك. اذا استمريت سيتم اعادة التشغيل."
 
 #: 
 msgid "%i GAME HIDDEN"
 msgid_plural "%i GAMES HIDDEN"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%i لعبة مخفية"
+msgstr[1] "%i لعبة مخفية"
 msgstr[2] ""
 msgstr[3] ""
 msgstr[4] ""
-msgstr[5] ""
+msgstr[5] "%i اللعاب مخفية"
 
 #: 
 msgid "Start kodi media player."
-msgstr ""
+msgstr "بدء تشغيل برنامج kodi"
 
 #: 
 msgid "Select the language for your recalbox, select an external drive to store your games and configurations, check your current version and the free space on your drive"
-msgstr ""
+msgstr "قم باختيار اللغة للواجهات. قم باختيار قرص خارجي لحفظ اللعابك واعداداتك، افحص الاصدار والمساحة المتوفرة في القرص. "
 
 #: 
 msgid "Shows your current recalboxOS version."
-msgstr ""
+msgstr "عرض الاصدار الحالي من النظام"
 
 #: 
 msgid "Show how much space is used on your SHARE partition, located either on the SDCARD or on an external drive. The information shows how much GB are used and how much GB your storage has overall (example 13GB/26GB)."
-msgstr ""
+msgstr "عرض المساحة المتوفرة في جزء المشاركة. موجودة في الذاكرة او في قرص خارجي. البيانات تظهر كمية البيانات المستخدمة والمساحة الاجمالية بالجيجابايت."
 
 #: 
 msgid "Select an external drive to store your roms, saves, configurations etc.\n"
 "Use a FAT32 formatted drive. The system does not format the drive. On first boot, with this option enabled, recalbox will create a '/recalbox' folder with all system files inside."
-msgstr ""
+msgstr "قم باختيار القرص الخارجي لحفظ العابك، ملفات الخزن، الاعدادت...الخ.\n"
+"قم باختيار نظام FAT32. النظام لا يعمل تهيئة للقرص. سيتم فقط انشاء ملف باسم racalbox والذي سيتم استخدامة من النظام."
 
 #: 
 msgid "Select your language. A reboot is needed to set this configuration active."
-msgstr ""
+msgstr "قم باختيار اللغة. يجب اعادة التشغيل لتفعيل هذه الاعدادات."
 
 #: 
 msgid "Manage your recalbox updates. Select the update type. Activate update check."
-msgstr ""
+msgstr "ادارة تحديثات النظام. قم باختيار نوع التحديث. تشغيل فحص التحديثات."
 
 #: 
 msgid "Check if an update is available, and start the update process."
@@ -1644,5 +1645,89 @@ msgstr ""
 
 #: 
 msgid "UPDATE CHANGELOG"
+msgstr ""
+
+#: 
+msgid "CLOCK IN MENU"
+msgstr ""
+
+#: 
+msgid "Now playing"
+msgstr ""
+
+#: 
+msgid "DEFAULT (%1%)"
+msgstr ""
+
+#: 
+msgid "INPUT REQUIRED"
+msgstr ""
+
+#: 
+msgid "(skipped)"
+msgstr ""
+
+#: 
+msgid "UP/DOWN TO SKIP"
+msgstr ""
+
+#: 
+msgid "A TO UNSET"
+msgstr ""
+
+#: 
+msgid "DOWN TO SKIP AND KEEP [%1%]"
+msgstr ""
+
+#: 
+msgid "UP/DOWN TO SKIP AND KEEP [%1%]"
+msgstr ""
+
+#: 
+msgid "Set duration of help popups, 0 means no popup."
+msgstr ""
+
+#: 
+msgid "HELP POPUP DURATION"
+msgstr ""
+
+#: 
+msgid "Set duration of music popups, 0 means no popup."
+msgstr ""
+
+#: 
+msgid "MUSIC POPUP DURATION"
+msgstr ""
+
+#: 
+msgid "POPUP SETTINGS"
+msgstr ""
+
+#: 
+msgid "POPUP POSITION"
+msgstr ""
+
+#: 
+msgid "Select the position of popups on screen."
+msgstr ""
+
+#: 
+msgid "Set position and duration of popups."
+msgstr ""
+
+#: 
+msgid "TOP/RIGHT"
+msgstr ""
+
+#: 
+msgid "BOTTOM/RIGHT"
+msgstr ""
+
+#: 
+msgid "BOTTOM/LEFT"
+msgstr ""
+
+#: 
+msgid "TOP/LEFT"
 msgstr ""
 

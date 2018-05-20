@@ -10,7 +10,7 @@ msgstr ""
 
 #: 
 msgid "AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"
-msgstr "HAY UNA ACTUALIZACIÓN DISPONIBLE PARA TU RECALBOX"
+msgstr "ACTUALIZACIÓN DISPONIBLE PARA RECALBOX"
 
 #: 
 msgid "CANCEL"
@@ -70,7 +70,7 @@ msgstr "SISTEMA"
 
 #: 
 msgid "subtitle text"
-msgstr "Subtítulo"
+msgstr "subtítulo"
 
 #: 
 msgid "INPUT"
@@ -82,11 +82,11 @@ msgstr "buscar"
 
 #: 
 msgid "STOP"
-msgstr "PARAR"
+msgstr "DETENER"
 
 #: 
 msgid "stop (progress saved)"
-msgstr "PARAR (PROGRESO GUARDADO)"
+msgstr "detener (guardar progreso)"
 
 #: 
 msgid "GAME %i OF %i"
@@ -98,9 +98,10 @@ msgid "WE CAN'T FIND ANY SYSTEMS!\n"
 "\n"
 "VISIT RECALBOX.COM FOR MORE INFORMATION."
 msgstr "¡NO SE HA ENCONTRADO NINGÚN SISTEMA!\n"
-"COMPRUEBA QUE LAS RUTAS EN EL ARCHIVO DE CONFIGURACIÓN DE SISTEMAS SON CORRECTAS Y QUE TU DIRECTORIO DE JUEGOS CONTIENE AL MENOS UNO CON LA EXTENSIÓN CORRECTA.\n"
+"COMPROBAR RUTAS EN ARCHIVO DE CONFIGURACIÓN.\n"
+"DIRECTORIO DE JUEGOS DEBE CONTENER AL MENOS UNO, CON LA EXTENSIÓN CORRECTA.\n"
 "\n"
-"VISITA RECALBOX.COM PARA OBTENER MÁS INFORMACIÓN"
+"VISITAR RECALBOX.COM PARA OBTENER MÁS INFORMACIÓN."
 
 #: 
 msgid "%i GAME SUCCESSFULLY SCRAPED!"
@@ -111,8 +112,8 @@ msgstr[1] "¡INFORMACIÓN DE %i JUEGOS OBTENIDA CORRECTAMENTE!"
 #: 
 msgid "%i GAME SKIPPED."
 msgid_plural "%i GAMES SKIPPED."
-msgstr[0] "%i JUEGO IGNORADO"
-msgstr[1] "%i JUEGOS IGNORADOS"
+msgstr[0] "%i JUEGO IGNORADO."
+msgstr[1] "%i JUEGOS IGNORADOS."
 
 #: 
 msgid "OK"
@@ -120,7 +121,7 @@ msgstr "OK"
 
 #: 
 msgid "EDIT METADATA"
-msgstr "EDITAR LOS DATOS"
+msgstr "EDITAR METADATOS"
 
 #: 
 msgid "SCRAPE"
@@ -133,8 +134,8 @@ msgstr "GUARDAR"
 #: 
 msgid "THIS WILL DELETE A FILE!\n"
 "ARE YOU SURE?"
-msgstr "¡SE VA A BORRAR EL ARCHIVO!\n"
-"¿ESTÁS SEGURO?"
+msgstr "¡BORRAR ARCHIVO!\n"
+"¿ACEPTAR?"
 
 #: 
 msgid "YES"
@@ -150,7 +151,7 @@ msgstr "BORRAR"
 
 #: 
 msgid "SAVE CHANGES?"
-msgstr "¿GUARDAR LOS CAMBIOS?"
+msgstr "¿GUARDAR CAMBIOS?"
 
 #: 
 msgid "BACK"
@@ -170,7 +171,7 @@ msgstr "KODI MEDIA CENTER"
 
 #: 
 msgid "SYSTEM SETTINGS"
-msgstr "CONFIGURACIÓN DEL SISTEMA"
+msgstr "CONFIGURACIÓN DE SISTEMA"
 
 #: 
 msgid "VERSION"
@@ -206,7 +207,7 @@ msgstr "ALTO (950Mhz)"
 
 #: 
 msgid "NONE (700Mhz)"
-msgstr "NINGUNO (700Mhz)"
+msgstr "NO (700Mhz)"
 
 #: 
 msgid "TURBO (1050Mhz)+"
@@ -218,15 +219,15 @@ msgstr "ALTO (1050Mhz)"
 
 #: 
 msgid "NONE (900Mhz)"
-msgstr "NINGUNO (900Mhz)"
+msgstr "NO (900Mhz)"
 
 #: 
 msgid "NONE (1200Mhz)"
-msgstr "NINGUNO (1200Mhz)"
+msgstr "NO (1200Mhz)"
 
 #: 
 msgid "NONE"
-msgstr "NINGUNO"
+msgstr "NO"
 
 #. NEW SETTINGS ORGANIZATION
 #: 
@@ -239,7 +240,7 @@ msgstr "ACTUALIZACIONES AUTOMÁTICAS"
 
 #: 
 msgid "START UPDATE"
-msgstr "EMPEZAR LA ACTUALIZACIÓN"
+msgstr "COMENZAR ACTUALIZACIÓN"
 
 #: 
 msgid "KODI SETTINGS"
@@ -271,11 +272,11 @@ msgstr "CONTRASEÑA ROOT"
 
 #: 
 msgid "THE SYSTEM WILL NOW REBOOT"
-msgstr "EL SISTEMA VA A REINICIARSE"
+msgstr "EL SISTEMA SE REINICIARÁ"
 
 #: 
 msgid "GAMES SETTINGS"
-msgstr "CONFIGURACIÓN DE LOS JUEGOS"
+msgstr "CONFIGURACIÓN DE JUEGOS"
 
 #: 
 msgid "GAME RATIO"
@@ -283,7 +284,7 @@ msgstr "RELACIÓN DE ASPECTO"
 
 #: 
 msgid "SMOOTH GAMES"
-msgstr "SUAVIZAR LOS JUEGOS"
+msgstr "SUAVIZAR JUEGOS"
 
 #: 
 msgid "REWIND"
@@ -307,11 +308,11 @@ msgstr "RETRO"
 
 #: 
 msgid "RETROACHIEVEMENTS SETTINGS"
-msgstr "CONFIGURACIÓN DE RETROACHIEVEMENTS"
+msgstr "CONFIGURACIÓN DE RETROLOGROS"
 
 #: 
 msgid "RETROACHIEVEMENTS"
-msgstr "RETROACHIEVEMENTS"
+msgstr "RETROLOGROS"
 
 #: 
 msgid "HARDCORE MODE"
@@ -319,7 +320,7 @@ msgstr "MODO HARDCORE"
 
 #: 
 msgid "USERNAME"
-msgstr "NOMBRE DE USUARIO"
+msgstr "USUARIO"
 
 #: 
 msgid "PASSWORD"
@@ -331,11 +332,11 @@ msgstr "AVANZADO"
 
 #: 
 msgid "REALLY UPDATE GAMES LISTS ?"
-msgstr "¿QUIERES ACTUALIZAR LAS LISTAS DE JUEGOS?"
+msgstr "¿ACTUALIZAR LISTA DE JUEGOS?"
 
 #: 
 msgid "UPDATE GAMES LISTS"
-msgstr "ACTUALIZAR LISTAS DE JUEGOS"
+msgstr "ACTUALIZAR LISTA DE JUEGOS"
 
 #: 
 msgid "CONTROLLERS SETTINGS"
@@ -343,7 +344,7 @@ msgstr "CONFIGURACIÓN DE MANDOS"
 
 #: 
 msgid "UI SETTINGS"
-msgstr "CONFIGURACIÓN DE LA INTERFAZ"
+msgstr "CONFIGURAR INTERFAZ"
 
 #: 
 msgid "OVERSCAN"
@@ -351,7 +352,7 @@ msgstr "SOBREESCANEO"
 
 #: 
 msgid "SCREENSAVER AFTER"
-msgstr "SALVAPANTALLAS A LOS"
+msgstr "SALVAPANTALLA A LOS"
 
 #: 
 msgid "TRANSITION STYLE"
@@ -359,11 +360,11 @@ msgstr "TIPO DE TRANSICIÓN"
 
 #: 
 msgid "SCREENSAVER BEHAVIOR"
-msgstr "COMPORTAMIENTO DEL SALVAPANTALLAS"
+msgstr "COMPORTAMIENTO DE SALVAPANTALLA"
 
 #: 
 msgid "SHOW FRAMERATE"
-msgstr "MOSTRAR LA TASA DE REFRESCO"
+msgstr "MOSTRAR TASA DE REFRESCO"
 
 #: 
 msgid "ON-SCREEN HELP"
@@ -383,7 +384,7 @@ msgstr "CONFIGURACIÓN DE AUDIO"
 
 #: 
 msgid "SYSTEM VOLUME"
-msgstr "VOLUMEN DEL SISTEMA"
+msgstr "VOLUMEN DE SISTEMA"
 
 #: 
 msgid "FRONTEND MUSIC"
@@ -431,7 +432,7 @@ msgstr "NOMBRE DE EQUIPO"
 
 #: 
 msgid "ENABLE WIFI"
-msgstr "ACTIVAR EL WIFI"
+msgstr "ACTIVAR WIFI"
 
 #: 
 msgid "WIFI SSID"
@@ -463,7 +464,7 @@ msgstr "OBTENER CALIFICACIONES"
 
 #: 
 msgid "SCRAPE NOW"
-msgstr "OBTENER DATOS"
+msgstr "OBTENER DATOS AHORA"
 
 #: 
 msgid "QUIT"
@@ -475,7 +476,7 @@ msgstr "¿REINICIAR?"
 
 #: 
 msgid "RESTART SYSTEM"
-msgstr "REINICIAR EL SISTEMA"
+msgstr "REINICIAR SISTEMA"
 
 #: 
 msgid "REALLY SHUTDOWN?"
@@ -483,7 +484,7 @@ msgstr "¿APAGAR?"
 
 #: 
 msgid "SHUTDOWN SYSTEM"
-msgstr "APAGAR EL SISTEMA"
+msgstr "APAGAR SISTEMA"
 
 #: 
 msgid "Emulator"
@@ -495,7 +496,11 @@ msgstr "Núcleo"
 
 #: 
 msgid "YOU ARE GOING TO CONFIGURE A CONTROLLER. IF YOU HAVE ONLY ONE JOYSTICK, CONFIGURE THE DIRECTIONS KEYS AND SKIP JOYSTICK CONFIG BY HOLDING A BUTTON. IF YOU DO NOT HAVE A SPECIAL KEY FOR HOTKEY, CHOOSE THE SELECT BUTTON. SKIP ALL BUTTONS YOU DO NOT HAVE BY HOLDING A KEY. BUTTONS NAMES ARE BASED ON THE SNES CONTROLLER."
-msgstr "VAS A CONFIGURAR UN MANDO. SI SOLO TIENES UN JOYSTICK CONFIGURA LAS DIRECCIONES E IGNORA LA CONFIGURACIÓN DE JOYSTICK MANTENIENDO PRESIONADO UN BOTÓN.  SI NO TIENES UN BOTÓN ESPECIAL PARA LA HOTKEY UTILIZA EL SELECT. IGNORA LOS BOTONES QUE NO EXISTAN EN TU MANDO MANTENIENDO UNA TECLA PULSADA. LOS NOMBRES DE LOS BOTONES SE BASAN EN EL MANDO DE LA SNES."
+msgstr "SE CONFIGURARÁ UN MANDO.\n"
+"SI SÓLO SE DISPONE DE UN MANDO, CONFIGURAR LAS DIRECCIONES E IGNORAR LA CONFIGURACIÓN MANTENIENDO PRESIONADO UN BOTÓN.\n"
+"SI CARECE DE BOTÓN PARA HOTKEY, UTILIZAR BOTON SELECT.\n"
+"IGNORAR LOS BOTONES FALTANTES, MANTENIENDO PRESIONADO ALGÚN OTRO.\n"
+"NOMBRES DE BOTONES SE BASAN EN MANDO DE SNES."
 
 #. GUIMENU
 #: 
@@ -509,27 +514,27 @@ msgstr "MANDO EMPAREJADO"
 
 #: 
 msgid "UNABLE TO PAIR CONTROLLER"
-msgstr "NO SE PUEDE EMPAREJAR EL MANDO"
+msgstr "IMPOSIBLE EMPAREJAR MANDO"
 
 #: 
 msgid "AN ERROR OCCURED"
-msgstr "OCURRIÓ UN ERROR"
+msgstr "ERROR"
 
 #: 
 msgid "NO CONTROLLERS FOUND"
-msgstr "NO SE DETECTÓ NINGUN MANDO"
+msgstr "NINGÚN MANDO DETECTADO"
 
 #: 
 msgid "PAIR A BLUETOOTH CONTROLLER"
-msgstr "EMPAREJAR UN MANDO BLUETOOTH"
+msgstr "EMPAREJAR MANDO BLUETOOTH"
 
 #: 
 msgid "CONTROLLERS LINKS HAVE BEEN DELETED."
-msgstr "LOS EMPAREJAMIENTOS HAN SIDO BORRADOS"
+msgstr "EMPAREJAMIENTOS BORRADOS."
 
 #: 
 msgid "FORGET BLUETOOTH CONTROLLERS"
-msgstr "DESEMPAREJAR MANDOS BLUETOOTH"
+msgstr "DESEMPAREJAR MANDO BLUETOOTH"
 
 #: 
 msgid "INPUT P%i"
@@ -549,11 +554,11 @@ msgstr "OPCIONES"
 
 #: 
 msgid "JUMP TO LETTER"
-msgstr "IR A LA LETRA"
+msgstr "IR A LETRA"
 
 #: 
 msgid "SORT GAMES BY"
-msgstr "ORDENAR LOS JUEGOS POR"
+msgstr "ORDENAR JUEGOS POR"
 
 #. FAVORITES
 #: 
@@ -562,11 +567,11 @@ msgstr "SOLO FAVORITOS"
 
 #: 
 msgid "EDIT THIS GAME'S METADATA"
-msgstr "EDITAR LOS DATOS DE ESTE JUEGO"
+msgstr "EDITAR DATOS DEL JUEGO"
 
 #: 
 msgid "SCRAPE THESE GAMES"
-msgstr "OBTENER DATOS DE ESTOS JUEGOS"
+msgstr "OBTENER DATOS DE JUEGOS"
 
 #: 
 msgid "All Games"
@@ -583,7 +588,7 @@ msgstr "FILTRO"
 
 #: 
 msgid "SCRAPE THESE SYSTEMS"
-msgstr "OBTENER DATOS DE ESTOS SISTEMAS"
+msgstr "OBTENER SISTEMAS"
 
 #: 
 msgid "SYSTEMS"
@@ -595,13 +600,14 @@ msgstr "DECIDIR EN CASO DE CONFLICTO"
 
 #: 
 msgid "START"
-msgstr "INICIO"
+msgstr "INICIAR"
 
 #: 
 msgid "WARNING: SOME OF YOUR SELECTED SYSTEMS DO NOT HAVE A PLATFORM SET. RESULTS MAY BE EVEN MORE INACCURATE THAN USUAL!\n"
 "CONTINUE ANYWAY?"
-msgstr "CUIDADO: ALGUNOS DE LOS SISTEMAS SELECCIONADOS NO TIENE UNA PLATAFORMA DEFINIDA. ¡LOS RESULTADOS PODRÍAN SER MÁS INCORRECTOS DE LO HABITUAL!\n"
-"¿EJECUTAR IGUALMENTE?"
+msgstr "CUIDADO: ALGÚN SISTEMA SELECCIONADOS NO TIENE PLATAFORMA DEFINIDA.\n"
+"¡LOS RESULTADOS PODRÍAN SER MÁS INCORRECTOS DE LO HABITUAL!\n"
+"¿ACEPTAR?"
 
 #: 
 msgid "NO GAMES FIT THAT CRITERIA."
@@ -609,31 +615,31 @@ msgstr "NINGÚN JUEGO SE AJUSTA AL CRITERIO."
 
 #: 
 msgid "REALLY UPDATE?"
-msgstr "¿QUIERES ACTUALIZAR EL SISTEMA?"
+msgstr "¿ACTUALIZAR?"
 
 #: 
 msgid "NETWORK CONNECTION NEEDED"
-msgstr "SE NECESITA UNA CONEXIÓN DE RED"
+msgstr "SE NECESITA CONEXIÓN DE RED"
 
 #: 
 msgid "UPDATE DOWNLOADED, THE SYSTEM WILL NOW REBOOT"
-msgstr "ACTUALIZACIÓN DESCARGADA. EL SISTEMA SE REINICIARÁ"
+msgstr "ACTUALIZACIÓN DESCARGADA, EL SISTEMA REINICIARÁ"
 
 #: 
 msgid "UPDATE FAILED, THE SYSTEM WILL NOW REBOOT"
-msgstr "ACTUALIZACIÓN FALLIDA. EL SISTEMA SE REINICIARÁ"
+msgstr "ACTUALIZACIÓN FALLIDA, EL SISTEMA REINICIARÁ"
 
 #: 
 msgid "NO UPDATE AVAILABLE"
-msgstr "NO HAY ACTUALIZACIONES DISPONIBLES"
+msgstr "SIN ACTUALIZACIONES DISPONIBLES"
 
 #: 
 msgid "enter emulator"
-msgstr "introducir emulador"
+msgstr "ingresar emulador"
 
 #: 
 msgid "enter core"
-msgstr "introducir núcleo"
+msgstr "ingresar núcleo"
 
 #: 
 msgid "Ratio"
@@ -641,7 +647,7 @@ msgstr "Proporción"
 
 #: 
 msgid "enter ratio"
-msgstr "introducir proporción"
+msgstr "ingresar proporción"
 
 #: 
 msgid "Name"
@@ -649,7 +655,7 @@ msgstr "Nombre"
 
 #: 
 msgid "enter game name"
-msgstr "introducir nombre del juego"
+msgstr "ingresar nombre del juego"
 
 #: 
 msgid "Description"
@@ -657,15 +663,15 @@ msgstr "Descripción"
 
 #: 
 msgid "enter description"
-msgstr "introducir descripción"
+msgstr "ingresar descripción"
 
 #: 
 msgid "Image"
-msgstr "Imágen"
+msgstr "Imagen"
 
 #: 
 msgid "enter path to image"
-msgstr "introducir ruta de imágen"
+msgstr "ingresar ruta de imagen"
 
 #: 
 msgid "Thumbnail"
@@ -673,11 +679,11 @@ msgstr "Miniatura"
 
 #: 
 msgid "enter path to thumbnail"
-msgstr "introducir ruta de la miniatura"
+msgstr "ingresar ruta de miniatura"
 
 #: 
 msgid "enter rating"
-msgstr "introducir calificación"
+msgstr "ingresar calificación"
 
 #: 
 msgid "Release date"
@@ -685,23 +691,23 @@ msgstr "Fecha de lanzamiento"
 
 #: 
 msgid "enter release date"
-msgstr "introducir fecha de lanzamiento"
+msgstr "ingresar fecha de lanzamiento"
 
 #: 
 msgid "enter game developer"
-msgstr "introducir desarrollador"
+msgstr "ingresar desarrollador"
 
 #: 
 msgid "enter game publisher"
-msgstr "introducir editor"
+msgstr "ingresar editor"
 
 #: 
 msgid "enter game genre"
-msgstr "introducir género"
+msgstr "ingresar género"
 
 #: 
 msgid "enter number of players"
-msgstr "introducir número de jugadores"
+msgstr "ingresar número de jugadores"
 
 #: 
 msgid "Favorite"
@@ -709,7 +715,7 @@ msgstr "Favorito"
 
 #: 
 msgid "enter favorite"
-msgstr "Añadir favorito"
+msgstr "ingresar favorito"
 
 #: 
 msgid "Region"
@@ -717,15 +723,15 @@ msgstr "Región"
 
 #: 
 msgid "enter region"
-msgstr "introducir región"
+msgstr "ingresar región"
 
 #: 
 msgid "Romtype"
-msgstr "Tipo de Rom"
+msgstr "Tipo de ROM"
 
 #: 
 msgid "enter romtype"
-msgstr "introducir tipo de Rom"
+msgstr "ingresar tipo de ROM"
 
 #: 
 msgid "Hidden"
@@ -733,7 +739,7 @@ msgstr "Oculto"
 
 #: 
 msgid "set hidden"
-msgstr "Ocultar"
+msgstr "ocultar"
 
 #: 
 msgid "Play count"
@@ -741,7 +747,7 @@ msgstr "Partidas jugadas"
 
 #: 
 msgid "enter number of times played"
-msgstr "introducir número de partidas jugadas"
+msgstr "ingresar partidas jugadas"
 
 #: 
 msgid "Last played"
@@ -749,7 +755,7 @@ msgstr "Última partida"
 
 #: 
 msgid "enter last played date"
-msgstr "introducir fecha de la última partida"
+msgstr "ingresar fecha de última partida"
 
 #: 
 msgid "%i GAME AVAILABLE"
@@ -781,11 +787,11 @@ msgstr "MENÚ"
 
 #: 
 msgid "FILENAME, ASCENDING"
-msgstr "NOMBRE DE ARCHIVO, ASCENDENTE"
+msgstr "NOMBRE, ASCENDENTE"
 
 #: 
 msgid "FILENAME, DESCENDING"
-msgstr "NOMBRE DE ARCHIVO, DESCENDENTE"
+msgstr "NOMBRE, DESCENDENTE"
 
 #: 
 msgid "RATING, ASCENDING"
@@ -797,11 +803,11 @@ msgstr "CALIFICACIÓN, DESCENDENTE"
 
 #: 
 msgid "TIMES PLAYED, ASCENDING"
-msgstr "PARTIDAS JUGADAS, ASCENDENTE"
+msgstr "PARTIDAS, ASCENDENTE"
 
 #: 
 msgid "TIMES PLAYED, DESCENDING"
-msgstr "PARTIDAS JUGADAS, DESCENDENTE"
+msgstr "PARTIDAS, DESCENDENTE"
 
 #: 
 msgid "LAST PLAYED, ASCENDING"
@@ -813,7 +819,7 @@ msgstr "ÚLTIMA PARTIDA, DESCENDENTE"
 
 #: 
 msgid "WORKING..."
-msgstr "EN CURSO..."
+msgstr "TRABAJANDO..."
 
 #: 
 msgid "CHANGE"
@@ -857,11 +863,11 @@ msgstr "desconocido"
 
 #: 
 msgid "SELECT ALL"
-msgstr "SELECCIONAR TODOS"
+msgstr "SELECCIONAR TODO"
 
 #: 
 msgid "SELECT NONE"
-msgstr "NINGUNO"
+msgstr "SELECCIONAR NINGUNO"
 
 #: 
 msgid "%i SELECTED"
@@ -887,19 +893,19 @@ msgstr "DERECHA"
 
 #: 
 msgid "JOYSTICK 1 UP"
-msgstr "JOYSTICK 1 ARRIBA"
+msgstr "MANDO 1 ARRIBA"
 
 #: 
 msgid "JOYSTICK 1 LEFT"
-msgstr "JOYSTICK 1 IZQUIERDA"
+msgstr "MANDO 1 IZQUIERDA"
 
 #: 
 msgid "JOYSTICK 2 UP"
-msgstr "JOYSTICK 2 ARRIBA"
+msgstr "MANDO 2 ARRIBA"
 
 #: 
 msgid "JOYSTICK 2 LEFT"
-msgstr "JOYSTICK 2 IZQUIERDA"
+msgstr "MANDO 2 IZQUIERDA"
 
 #: 
 msgid "PAGE UP"
@@ -927,7 +933,7 @@ msgstr "MANDO %i"
 
 #: 
 msgid "HOLD ANY BUTTON TO SKIP"
-msgstr "MANTÉN CUALQUIER BOTÓN PARA SALTAR"
+msgstr "MANTENER CUALQUIER BOTÓN PARA OMITIR"
 
 #: 
 msgid "-NOT DEFINED-"
@@ -936,13 +942,13 @@ msgstr "-SIN CONFIGURAR-"
 #: 
 msgid "HOLD FOR %iS TO SKIP"
 msgid_plural "HOLD FOR %iS TO SKIP"
-msgstr[0] "MANTÉN %iS PARA SALTAR"
-msgstr[1] "MANTÉN %iS PARA SALTAR"
+msgstr[0] "MANTENER %iS PARA OMITIR"
+msgstr[1] "MANTÉN %iS PARA OMITIR"
 
 #. Config controllers missing translation
 #: 
 msgid "PRESS ANYTHING"
-msgstr "PULSA CUALQUIER BOTÓN"
+msgstr "PULSAR CUALQUIER BOTÓN"
 
 #: 
 msgid "ALREADY TAKEN"
@@ -958,7 +964,7 @@ msgstr "BIENVENIDO"
 
 #: 
 msgid "CONFIGURE INPUT"
-msgstr "CONFIGURACIÓN DE MANDOS"
+msgstr "CONFIGURAR MANDOS"
 
 #: 
 msgid "%i GAMEPAD DETECTED"
@@ -968,23 +974,23 @@ msgstr[1] "%i MANDOS DETECTADOS"
 
 #: 
 msgid "NO GAMEPADS DETECTED"
-msgstr "NO SE DETECTARON MANDOS"
+msgstr "SIN MANDOS DETECTADOS"
 
 #: 
 msgid "HOLD A BUTTON ON YOUR DEVICE TO CONFIGURE IT."
-msgstr "MANTÉN PULSADO UN BOTÓN DEL MANDO PARA CONFIGURARLO"
+msgstr "MANTENER PRESIONADO UN BOTÓN DEL MANDO PARA CONFIGURARLO."
 
 #: 
 msgid "PRESS F4 TO QUIT AT ANY TIME."
-msgstr "PULSA F4 PARA SALIR EN CUALQUIER MOMENTO"
+msgstr "PRESIONAR F4 PARA SALIR EN CUALQUIER MOMENTO."
 
 #: 
 msgid "PRESS ESC OR THE HOTKEY TO CANCEL."
-msgstr "PULSA ESC O EL BOTÓN HOTKEY PARA CANCELAR"
+msgstr "PRESIONAR ESC O HOTKEY PARA CANCELAR."
 
 #: 
 msgid "DO YOU WANT TO START KODI MEDIA CENTER ?"
-msgstr "¿QUIERES INICIAR EL CENTRO MULTIMEDIA KODI?"
+msgstr "¿INICIAR EL CENTRO MULTIMEDIA KODI?"
 
 #: 
 msgid "LOADING..."
@@ -992,15 +998,15 @@ msgstr "CARGANDO..."
 
 #: 
 msgid "PLEASE WAIT..."
-msgstr "ESPERA POR FAVOR..."
+msgstr "ESPERAR..."
 
 #: 
 msgid "REALLY SHUTDOWN WITHOUT SAVING METADATAS?"
-msgstr "¿QUIERES APAGAR SIN GUARDAR DATOS?"
+msgstr "¿APAGAR SIN GUARDAR DATOS?"
 
 #: 
 msgid "FAST SHUTDOWN SYSTEM"
-msgstr "APAGAR RÁPIDAMENTE"
+msgstr "APAGAR RÁPIDO"
 
 #. Please change RECALBOX.FR to RECALBOX.COM on the English version!
 #: 
@@ -1009,9 +1015,10 @@ msgid "WE CAN'T FIND ANY SYSTEMS!\n"
 "\n"
 "VISIT RECALBOX.FR FOR MORE INFORMATION."
 msgstr "¡NO SE HA ENCONTRADO NINGÚN SISTEMA!\n"
-"COMPRUEBA QUE LAS RUTAS EN EL ARCHIVO DE CONFIGURACIÓN DE SISTEMAS SON CORRECTAS Y QUE TU DIRECTORIO DE JUEGOS CONTIENE AL MENOS UNO CON LA EXTENSIÓN CORRECTA.\n"
+"COMPROBAR RUTAS EN ARCHIVO DE CONFIGURACIÓN.\n"
+"DIRECTORIO DE JUEGOS DEBE CONTENER AL MENOS UNO, CON LA EXTENSIÓN CORRECTA.\n"
 "\n"
-"VISITA RECALBOX.COM PARA OBTENER MÁS INFORMACIÓN."
+"VISITAR RECALBOX.COM PARA OBTENER MÁS INFORMACIÓN."
 
 #: 
 msgid "ON SCREEN KEYBOARD"
@@ -1019,7 +1026,7 @@ msgstr "TECLADO EN PANTALLA"
 
 #: 
 msgid "SHIFTS FOR UPPER,LOWER, AND SPECIAL"
-msgstr "SHIFTS PARA MAYÚSCULAS, MINÚSCULAS Y ESPECIALES"
+msgstr "SHIFT PARA MAYÚSCULAS, MINÚSCULAS Y ESPECIALES"
 
 #: 
 msgid "SPACE"
@@ -1059,7 +1066,7 @@ msgstr "CLASIFICACIÓN"
 
 #: 
 msgid "TIMES PLAYED"
-msgstr "VECES JUGADO"
+msgstr "JUGADO"
 
 #: 
 msgid "LAST PLAYED"
@@ -1083,15 +1090,15 @@ msgstr "MOSTRAR OCULTOS"
 
 #: 
 msgid "EXTREM (1400Mhz)"
-msgstr "EXTREMO"
+msgstr "EXTREMO (1400Mhz)"
 
 #: 
 msgid "TURBO (1350Mhz)"
-msgstr "TURBO"
+msgstr "TURBO (1350Mhz)"
 
 #: 
 msgid "HIGH (1300Mhz)"
-msgstr "ALTO"
+msgstr "ALTO (1300Mhz)"
 
 #: 
 msgid "TURBO AND EXTREM OVERCLOCK PRESETS MAY CAUSE SYSTEM UNSTABILITIES, SO USE THEM AT YOUR OWN RISK.\n"
@@ -1107,195 +1114,196 @@ msgstr[1] "%i JUEGOS OCULTOS"
 
 #: 
 msgid "Start kodi media player."
-msgstr "Iniciar reproductor multimedia kodi"
+msgstr "Iniciar KODI."
 
 #: 
 msgid "Select the language for your recalbox, select an external drive to store your games and configurations, check your current version and the free space on your drive"
-msgstr "Selecciona el idioma de tu recalbox, selecciona un disco externo para guardar tus juegos y configuraciones, comprueba tu versión actual y el espacio libre de tu disco."
+msgstr "Seleccionar idioma, seleccionar disco externo para guardar juegos y configuraciones, comprobar versión actual y espacio libre en disco"
 
 #: 
 msgid "Shows your current recalboxOS version."
-msgstr "Muestra tu versión actual de recalboxOS."
+msgstr "Mostrar versión actual de recalboxOS."
 
 #: 
 msgid "Show how much space is used on your SHARE partition, located either on the SDCARD or on an external drive. The information shows how much GB are used and how much GB your storage has overall (example 13GB/26GB)."
-msgstr "Muestra el espacio usado en tu partición SHARE, tanto en una SD como en un disco externo. La información muestra cuántos gigas están en uso y el total (ejemplo 13GB/26GB)."
+msgstr "Mostrar espacio usado en partición SHARE, tanto en SD como en disco externo. La información se muestra en GB usados/total (ejemplo 13GB/26GB)."
 
 #: 
 msgid "Select an external drive to store your roms, saves, configurations etc.\n"
 "Use a FAT32 formatted drive. The system does not format the drive. On first boot, with this option enabled, recalbox will create a '/recalbox' folder with all system files inside."
-msgstr "Selecciona un disco externo para guardar tus ROMs, partidas guardadas, configuraciones, etc.\n"
-"Usa un disco en FAT32. El sistema no formatea el disco. En el primer arranque, con esta opción habilitada, recalbox creará una carpeta llamada '/recalbox' con todos los archivos del sistema."
+msgstr "Seleccionar dispositivo externo para guardar juegos, partidas guardadas, configuraciones y otros.\n"
+"Dispositivo requerido en formato FAT32, no considera formateo.\n"
+"En el siguiente arranque, esta opción crea en el dispositivo externo, una carpeta llamada '/recalbox' con todos los archivos requeridos."
 
 #: 
 msgid "Select your language. A reboot is needed to set this configuration active."
-msgstr "Selecciona tu idioma. Es necesario reiniciar para hacer efectivo este cambio."
+msgstr "Seleccionar idioma. Reiniciar para aplicar."
 
 #: 
 msgid "Manage your recalbox updates. Select the update type. Activate update check."
-msgstr "Gestiona tus actualizaciones de recalbox. Selecciona el tipo de actualización. Activa la revisión de actualizaciones."
+msgstr "Gestionar actualizaciones. Seleccionar tipo de actualización. Activar revisión de actualizaciones."
 
 #: 
 msgid "Check if an update is available, and start the update process."
-msgstr "Revisa si hay una actualización disponible, e inicia el proceso de actualización."
+msgstr "Revisar si hay actualización disponible, e iniciar proceso de actualización."
 
 #: 
 msgid "Stable updates will check for updates on stable recalbox releases. Stable updates are tested and approved by the recalbox team and their testers.\n"
 "Unstable updates allows you to get the latest recalbox features by checking our unstable repository. You can test and validate with us the very last version of recalbox.\n"
 "If you choose unstable update, be so kind to report issues on the recalbox-os issue board (https://github.com/recalbox/recalbox-os/issues)"
-msgstr "Actualizaciones estables comprobará las actualizaciones de recalbox que sean estables. Las actualizaciones estables se comprueban y aprueban por el equipo de recalbox y sus testers.\n"
-"Actualizaciones inestables te permite obtener las últimas características de recalbox comprobando nuestro depósito de inestables. Puedes probar y validar con nosotros la última versión de recalbox.\n"
-"Sí eliges una actualización inestable, por favor haznos saber los problemas que haya en el foro de problemas (https://github.com/recalbox/recalbox-os/issues)"
+msgstr "Actualizaciones estables, comprobará actualizaciones de recalbox que sean estables. Las actualizaciones estables se comprueban y aprueban por el equipo de recalbox y sus testers.\n"
+"Actualizaciones inestables, permiten obtener últimas características de recalbox comprobando nuestro depósito de inestables. Puedes probar y validar con nosotros la última versión de recalbox.\n"
+"Sí eliges una actualización inestable, por favor haznos saber los problemas que haya, en el foro de problemas (https://github.com/recalbox/recalbox-os/issues)"
 
 #: 
 msgid "Automatically check if an update is avaialble. If so, it notifies you with a message."
-msgstr "Revisar automáticamente si una actualización está disponible. Si es así, se te notificará con un mensaje."
+msgstr "Revisar actualizaciones automáticamente. Si es así, notificará con mensaje."
 
 #: 
 msgid "Configure games display, ratio, filters (shaders), auto save and load and retroachievement account."
-msgstr "Configura la visualización de juegos, relación de aspecto, filtros (shaders), autoguardado y autocargado, y la cuenta de retroachievement."
+msgstr "Configurar visualización de juegos, relación de aspecto, filtros (shaders), autoguardado y autocargado, y cuenta de RetroLogros."
 
 #: 
 msgid "The game ratio is the ratio between image width and image height. Use AUTO to let the emulator choose the original game ratio, that will give you the best retrogaming experience."
-msgstr "La relación de aspecto de los juegos es la relación entre el ancho y el alto de la imagen. Usa AUTO para dejar que el emulador elija la relación de aspecto original del juego, esto te dará la mejor experiencia de retrojuego."
+msgstr "La relación de aspecto de juegos es la relación entre ancho y alto de imagen. Configurar AUTO para que emulador elija relación de aspecto original del juego, proporcionando la mejor experiencia de retrojuego."
 
 #: 
 msgid "Smooth the game image. This option makes the image smoother, using bilinear filtering."
-msgstr "Suaviza la imagen del juego. Esta opción hace la imagen más suave, usando filtros bilineales."
+msgstr "Suavizar imagen del juego. Esta opción proporciona la imagen más suave, usando filtros bilineales."
 
 #: 
 msgid "This option allows you to rewind the game if you get killed by a monster, or if you make any other mistake. Use the HOTKEY + LEFT command within the game to rewind."
-msgstr "Esta opción te permite rebobinar el juego si te mata un monstruo, o si te pasa alguna otra cosa. Usa el botón HOTKEY + IZQUIERDA dentro del juego para rebobinar."
+msgstr "Esta opción permite rebobinar el juego. Usar el botón HOTKEY+IZQUIERDA en el juego para rebobinar."
 
 #: 
 msgid "Auto save the state when you quit a game, and auto load last saved state when you start a game."
-msgstr "Autoguarda la partida cuando sales del juego, y autocarga la partida cuando empiezas a jugar."
+msgstr "Autoguardar la partida al salir del juego, y autocargar la partida al iniciar el juego."
 
 #: 
 msgid "Integer scaling is scaling by a factor of a whole number, such as 2x, 3x, 4x, etc. This option scales the image up to the greatest integer scale below the set resolution. So for instance, if you set your fullscreen resolution to 1920x1080 and enable integer scaling, it will only scale a 320x240 image up to 1280x960, and leave black borders all around. This is to maintain a 1:1 pixel ratio with the original source image, so that pixels are not unevenly duplicated."
-msgstr "La escala entera se escala por un factor de un número entero, como 2x, 3x, 4x, etc. Esta opción escala la imagen hasta la escala entera más grande por debajo de la resolución establecida. Por ejemplo, si estableces la resolución de pantalla completa en 1920x1080 y habilitas el escalado entero, sólo escalará una imagen de 320x240 hasta 1280x960 y dejará los bordes negros alrededor. Esto es para mantener una relación de aspecto de píxeles de 1:1 con la imagen original, de modo que los píxeles no se dupliquen de manera desigual."
+msgstr "La escala entera, es el escalado por un factor de un número entero, como 2x, 3x, 4x, etc. Esta opción escala la imagen hasta la escala entera más grande por debajo de la resolución establecida. Por ejemplo, al establecer la resolución de pantalla completa en 1920x1080 y se habilita el escalado entero, sólo escalará una imagen de 320x240 hasta 1280x960 y dejará los bordes negros alrededor. Esto es para mantener una relación de aspecto de píxeles de 1:1 con la imagen original, de modo que los píxeles no se dupliquen de manera desigual."
 
 #: 
 msgid "Shaders are like filters for the game rendering. You can select a shader set here, which is a collection of shaders selected for each system. You can also change the shader within the game with HOTKEY + L2 or HOTKEY + R2."
-msgstr "Los shaders son como filtros para el renderizado del juego. Puedes seleccionar un conjunto de shaders aquí, que es una colección de shaders seleccionados para cada sistema. También puedes cambiar el shader dentro del juego con HOTKEY + L2 o HOTKEY + R2."
+msgstr "Los shaders equivalen a filtros para el renderizado del juego. Se puede seleccionar un conjunto de shaders aquí, que es una colección de shaders seleccionados para cada sistema. También se puede cambiar el shader dentro del juego con HOTKEY+L2 o HOTKEY+R2."
 
 #: 
 msgid "Enable or disable RetroAchievements in games."
-msgstr "Activa o desactiva los RetroAchievements en los juegos."
+msgstr "Activar o desactivar los RetroLogros en los juegos."
 
 #: 
 msgid "Hardcore mode disables *all* savestate and rewind functions within the emulator: you will not be able to save and reload at any time. You will have to complete the game and get the achievements first time, just like on the original console. In reward for this, you will earn both the standard and the hardcore achievement, in effect earning double points! A regular game worth 400 points, is now worth 800 if you complete it on hardcore! For example: if you complete the game for 400 points, you then have the opportunity to earn another 400 on hardcore."
-msgstr "El modo hardcore deshabilita *todas* las partidas guardadas y funciones de rebobinado del emulador: no podrás guardar ni cargar en cualquier momento. Tendrás que completar el juego y conseguir los logros de una vez, igual que en la consola original. En compensación, conseguirás tanto los logros estándar y hardcore, ¡y el doble de puntos! ¡Un juego regular de 400 puntos, ahora vale 800 si lo completas en hardcore! Por ejemplo: si completa s el juego por 400 puntos, entonces tienes la oportunidad de ganar otros 400 en hardcore."
+msgstr "El modo hardcore deshabilita todas las partidas guardadas y funciones de rebobinado del emulador: no se puede guardar ni cargar en ningún momento. Se debe completar el juego y conseguir los logros de una sola vez, igual que en la consola original. En compensación, se conseguirá tanto los logros estándar y hardcore, y el doble de puntos. Un juego regular de 400 puntos, generará 800 si se completa en hardcore."
 
 #: 
 msgid "The website retroachievements.org proposes challenges/achievements/trophies on platforms like NES, SNES, GB, GBC, GBA, Genesis/Megadrive, TurboGrafx16/PCEngine and more! Create your account on retroachievements.org and start your quest for achievements!"
-msgstr "¡La página web retroachievements.org propone desafíos/logros/trofeos en plataformas como NES, SNES, GB, GBC, GBA, Genesis/Megadrive, TurboGrafx16/PCEngine y más! ¡Crea tu cuenta en retroachievements.org y empieza tú búsqueda de logros!"
+msgstr "¡La página web retroachievements.org propone desafíos/logros/trofeos en plataformas como NES, SNES, GB, GBC, GBA, Genesis/Megadrive, TurboGrafx16/PCEngine y más! ¡Crear cuenta en retroachievements.org y empezar búsqueda de logros!"
 
 #: 
 msgid "Add and configure up to 5 controllers."
-msgstr "Añade y configura hasta 5 mandos."
+msgstr "Agregar y configurar hasta 5 mandos."
 
 #: 
 msgid "Pair a bluetooth controller with your recalbox. Your controller must be in pairing mode."
-msgstr "Empareja un mando por bluetooth con tu recalbox. Tu mando debe de estar en modo emparejamiento."
+msgstr "Emparejar mando por bluetooth. El mando debe de estar en modo visible."
 
 #: 
 msgid "Forget all paired bluetooth controllers. You will have to pair your controllers again, but this option can help if you have issues to reconnect a controller, which is already paired."
-msgstr "Olvida todos los mandos emparejados por bluetooth. Tendrás que emparejarlos otra vez, pero esta opción puede ayudarte si tienes problemas al reconectar un mando que ya está emparejado."
+msgstr "Olvidar todos los mandos emparejados por bluetooth."
 
 #: 
 msgid "Configure your EmulationStation experience. Select transition types, help prompts, screensaver behavior. You can also deactivate the onscreen keyboard if you have a real keyboard plugged into your recalbox.\n"
 "If you've added games since the last boot, you can also refresh the gamelist from this menu."
-msgstr "Configura tu experiencia sobre EmulationStation. Selecciona tipos de transición, mensajes de ayuda, comportamiento del salvapantallas. También puedes desactivar el teclado virtual si tienes uno de verdad enchufado en tu recalbox.\n"
-"Si has añadido juegos desde el último arranque, también puedes actualizar la lista de juegos desde este menú."
+msgstr "Configurar experiencia sobre EmulationStation. Seleccionar tipos de transición, mensajes de ayuda, comportamiento del salvapantallas. También se puede desactivar el teclado virtual en caso de tener uno de verdad conectado a recalbox.\n"
+"Si se han agregado juegos desde el último arranque, también se puede actualizar la lista de juegos desde este menú."
 
 #: 
 msgid "Start the screensaver after N minutes."
-msgstr "Inicia el salvapantallas tras N minutos."
+msgstr "Iniciar el salvapantallas tras N minutos."
 
 #: 
 msgid "Set the screensaver behavior. DIM will reduce the screen light, and BLACK will turn the screen black."
-msgstr "Define el comportamiento del protector de pantalla. DIM reducirá el brillo de pantalla, y BLACK pondrá  la pantalla de color negro."
+msgstr "Configurar el comportamiento del protector de pantalla. DIM reducirá el brillo de pantalla, y BLACK pondrá la pantalla en negro."
 
 #: 
 msgid "Shows a help at the bottom of the screen which displays commands you can use."
-msgstr "Muestra una ayuda en la parte inferior de la pantalla que enseña comandos que puedes usar."
+msgstr "Desplegar una ayuda en la parte inferior de la pantalla que enseña comandos a usar."
 
 #: 
 msgid "When enabled, you can switch between systems while browsing a gamelist by pressing LEFT or RIGHT."
-msgstr "Cuando está activado, puedes cambiar de sistema pulsando IZQUIERDA o DERECHA mientras estás en la lista de juegos ."
+msgstr "Activado, permite cambiar de sistema pulsando IZQUIERDA o DERECHA en la lista de juegos ."
 
 #: 
 msgid "The onscreen keyboard is necessary to type text if you only have controllers plugged into your recalbox. You can disable it if you have a real keyboard connected."
-msgstr "El teclado virtual es necesario para escribir si sólo tienes mandos conectados en tu recalbox. Puedes desactivarlo si tienes un teclado real conectado."
+msgstr "El teclado virtual es necesario para escribir si existen sólo mandos conectados. Desactivar en caso de tener un teclado real conectado."
 
 #: 
 msgid "Select the type of transition that occurs when you start a game. FADE will fade to dark, and SLIDE will zoom on the game cover (or name if there is no scrape information)"
-msgstr "Selecciona el tipo de transición que ocurre cuando empiezas un juego. FADE hará que se desvanezca hasta negro, y SLIDE hará zoom sobre la carátula del juego (o el nombre si no hay información del juego)"
+msgstr "Seleccionar el tipo de transición al iniciar un juego. FADE desvanecerá hasta negro, y SLIDE acercará la carátula del juego (o el nombre, si no hay información del juego)"
 
 #: 
 msgid "Select a theme for your recalbox."
-msgstr "Selecciona un tema para tu recalbox."
+msgstr "Seleccionar tema para recalbox."
 
 #: 
 msgid "Updates the gamelists, if you added games since the last boot."
-msgstr "Actualiza la lista de juegos en caso de haber añadido juegos desde el último inicio del sistema."
+msgstr "Actualizar lista de juegos, en caso de haber agregado juegos desde el último inicio del sistema."
 
 #: 
 msgid "Configure the sound options of your recalbox."
-msgstr "Configura las opciones de sonido de tu recalbox."
+msgstr "Configuras las opciones de sonido de recalbox."
 
 #: 
 msgid "Set the volume of the sound output for the frontend and the games."
-msgstr "Define el volumen para la salida de audio en la interfaz y los juegos."
+msgstr "Configurar volumen para salida de audio en interfaz y juegos."
 
 #: 
 msgid "Enable or disable the frontend music. You can add your own music as mp3, or ogg format in the 'musics' directory of your recalbox."
-msgstr "Activa o desactiva la música de la interfaz. Puedes añadir tu propia música en formato mp3 u ogg en el directorio 'musics' de tu recalbox."
+msgstr "Activar o desactivar música de interfaz. Permite agregar música propia en formato mp3 u ogg en el directorio 'musics' de recalbox."
 
 #: 
 msgid "Select your output device. Only HDMI and JACK are supported."
-msgstr "Selecciona tu dispositivo de salida. Sólo es compatible con HDMI y JACK."
+msgstr "Seleccionar dispositivo de salida. Sólo compatible con HDMI y JACK."
 
 #: 
 msgid "Configure the network options of your recalbox.\n"
 "Check your network status and IP address, set the hostname and configure the WIFI."
-msgstr "Configura las opciones de red de tu recalbox.\n"
-"Comprueba el estado de la red y la dirección IP, establece un nombre de host y configura el WIFI."
+msgstr "Configurar opciones de red.\n"
+"Comprobar estado de red y dirección IP, establecer nombre de host y configurar WIFI."
 
 #: 
 msgid "Displays CONNECTED, if you are connected, by checking if your recalbox can access the recalbox.com update server."
-msgstr "Muestra CONECTADO, si estás conectado, comprobando si tu recalbox puede acceder al servidor actualizado de recalbox.com"
+msgstr "Mostrar CONECTADO, comprobando si hay acceso al servidor de actualizaciones."
 
 #: 
 msgid "The IP address of your recalbox within your local network."
-msgstr "La dirección IP de tu recalbox en tu red de área local."
+msgstr "Dirección IP de recalbox."
 
 #: 
 msgid "Enable or disable WIFI.\n"
 "If you disable WIFI, the SSID and the WIFI passwords are saved and can be used when you reactivate it"
-msgstr "Activa o desactiva el WIFI.\n"
-"Si desactivas el WIFI, la SSID y las contraseñas del WIFI se guardan y se pueden usar cuando lo reactivas."
+msgstr "Activar o desactivar WIFI.\n"
+"Al desactivar WIFI, SSID y contraseñas son guardadas y utilizadas al reactivar"
 
 #: 
 msgid "The name of your recalbox in your local network"
-msgstr "El nombre de tu recalbox en tu red de área local."
+msgstr "Nombre de recalbox en la red de área local"
 
 #: 
 msgid "SSID (WIFI Name) of your network."
-msgstr "SSID (Nombre del WIFI) de tu red."
+msgstr "SSID (Nombre del WIFI)."
 
 #: 
 msgid "Private key of your WIFI network."
-msgstr "Clave privada de tu red WIFI."
+msgstr "Contraseña WIFI."
 
 #: 
 msgid "Get informations and visual for your games. The scraper downloads metadata and visuals for your games from different servers and enhances the user experience in EmulationStation completely."
-msgstr "Obtiene información e imágenes de tus juegos. El scraper descarga información e imágenes de tus juegos desde diferentes servidores y mejora la experiencia de usuario completamente en EmulationStation."
+msgstr "Obtener información e imágenes de juegos. El scraper descarga información e imágenes de juegos desde diferentes servidores y mejora la experiencia de usuario completamente en EmulationStation."
 
 #: 
 msgid "Select a server to scrape from. The SCREENSCRAPER server is recommended and is based on www.screenscraper.fr and scrapes game data in your language, if available."
-msgstr "Selecciona un servidor desde donde descargar información. Se recomienda el servidor SCREENSCRAPER que está basado en www.screenscraper.fr y descarga datos de juegos en tu idioma, si está disponible."
+msgstr "Seleccionar un servidor desde donde descargar información. Se recomienda el servidor SCREENSCRAPER que está basado en www.screenscraper.fr y descarga datos de juegos en tu idioma, si está disponible."
 
 #: 
 msgid "Begin the scrape process with the configuration shown below."
@@ -1303,7 +1311,7 @@ msgstr "Comienza el proceso de descarga con la configuración mostrada abajo."
 
 #: 
 msgid "Scrape and display game ratings."
-msgstr "Descarga y muestra las puntuaciones del juego."
+msgstr "Descargar y mostrar las puntuaciones del juego."
 
 #: 
 msgid "Advanced settings. Please make sure you really know what you're doing, before changing any values in this menu."
@@ -1317,7 +1325,7 @@ msgstr "Aumenta la velocidad del reloj de tu placa para incrementar el rendimien
 
 #: 
 msgid "Select which system to show when the recalbox frontend starts. The default value is 'favorites'."
-msgstr "Selecciona qué sistema se muestra cuando empieza la interfaz del recalbox. El valor por defecto es 'favoritos'."
+msgstr "Seleccionar qué sistema se muestra cuando empieza la interfaz del recalbox. El valor por defecto es 'favoritos'."
 
 #: 
 msgid "On boot, recalbox will show the list of games of the selected system rather than the system view."
@@ -1326,7 +1334,7 @@ msgstr "En el arranque, recalbox mostrará la lista de juegos del sistema selecc
 #: 
 msgid "Only show games contained in the gamelist.xml file (located in your roms directories).\n"
 "This option highly speeds up boot time, but new games will not be detected."
-msgstr "Muestra sólo los juegos que están en el archivo gamelist.xml (situado en los directorios de tus ROMs).\n"
+msgstr "Mostrar sólo los juegos que están en el archivo gamelist.xml (situado en los directorios de tus ROMs).\n"
 "Esta opción acelera el tiempo de arranque, pero no detectará nuevos juegos."
 
 #: 
@@ -1347,7 +1355,7 @@ msgstr "Configura las opciones de arranque para que tu recalbox comience directa
 
 #: 
 msgid "Enable or disable Kodi, customize the Kodi startup, enable the X button to start Kodi"
-msgstr "Activa o desactiva Kodi, personaliza el arranque de Kodi, activa el botón X para iniciar Kodi."
+msgstr "Activar o desactivar KODI, personalizar el arranque de KODI, activar el botón X para iniciar KODI"
 
 #: 
 msgid "Enable or disable Kodi. If kodi is disabled, you won't be able to start it with the X button, or start it automatically at boot. The menu entry will be removed as well."
@@ -1355,7 +1363,7 @@ msgstr "Activa o desactiva Kodi. Si Kodi está desactivado, no podrás iniciarlo
 
 #: 
 msgid "Use the X button to start Kodi."
-msgstr "Usa el botón X para iniciar Kodi."
+msgstr "Usar el botón X para iniciar Kodi."
 
 #: 
 msgid "Automatically start into Kodi on boot."
@@ -1363,53 +1371,53 @@ msgstr "Iniciar Kodi automáticamente en el arranque."
 
 #: 
 msgid "Manage your recalbox security."
-msgstr "Administra la seguridad de tu recalbox."
+msgstr "Administrar la seguridad de recalbox."
 
 #: 
 msgid "Change the SSH root password."
-msgstr "Cambia la contraseña root SSH."
+msgstr "Cambiar la contraseña root SSH."
 
 #: 
 msgid "Enforce recalbox security."
-msgstr "Refuerza la seguridad de recalbox."
+msgstr "Reforzar la seguridad de recalbox."
 
 #: 
 msgid "Enable or disable overscan.\n"
 "Overscan can help you, if you have a black border, or if the image is bigger than your screen. Before setting the overscan, try to configure your TV to have a 1:1 pixel output.\n"
 "More overscan settings can be defined in the boot.txt file, available when you plug your SD card into your computer."
-msgstr "Activa o desactiva el overscan.\n"
+msgstr "Activar o desactivar el overscan.\n"
 "El overscan puede serte útil si tienes bordes negros, o si la imagen es mayor que tu pantalla. Antes de establecer el overscan, intenta configurar tu tele para tener una salida de píxeles 1:1.\n"
 "Se pueden definir más configuraciones de overscan en el archivo blog.txt, disponible cuando insertas tu tarjeta SD en tu ordenador."
 
 #: 
 msgid "Show the framerate in EmulationStation and in game."
-msgstr "Muestra los frames por segundo en EmulationStation y en el juego."
+msgstr "Mostrar cuadros por segundo en EmulationStation y en el juego."
 
 #: 
 msgid "Enable or disable the Recalbox Manager.\n"
 "The Recalbox Manager is a web application available on http://recalbox , if you are on windows, http://recalbox.local , if you are on Linux or Mac, or directly with your recalbox IP : http://192.168.1.XX.\n"
 "You can configure many options from within the manager, and even manage games, saves, and scrapes!"
-msgstr "Activa o desactiva el Gestor de Recalbox.\n"
+msgstr "Activas o desactivas el Gestor de Recalbox.\n"
 "El Gestor de Recalbox es una aplicación web disponible en http://recalbox, si usas Windows, http://recalbox.local si usas Linux o Mac, o directamente con la IP de tu recalbox: http://192.168.1.XX.\n"
 "¡Puedes configurar muchas opciones del propio gestor, incluso juegos, partidas guardadas e información!"
 
 #: 
 msgid "Enable or disable the recalbox API.\n"
 "The Recalbox API is a REST API exposing endpoints to control your recalbox via http requests."
-msgstr "Activa o desactiva la API de Recalbox.\n"
+msgstr "Activar o desactivar la API de Recalbox.\n"
 "La API de Recalbox es una API REST que expone puntos finales para controlar tu recalbox a través de solicitudes HTTP."
 
 #: 
 msgid "Select which emulator to use when you start a game for this system."
-msgstr "Selecciona qué emulador usar cuando inicias un juego de este sistema."
+msgstr "Seleccionar qué emulador usar cuando se inicia un juego de este sistema."
 
 #: 
 msgid "Select which core to use for the selected emulator. For example, the LIBRETRO emulator has many cores to run Super Nintendo games. The default core you choose here can also be overridden in game specific settings."
-msgstr "Selecciona qué núcleo usar para el emulador seleccionado. Por ejemplo, el emulador LIBRETRO tiene muchos núcleos para ejecutar juegos de Super Nintendo. El núcleo por defecto que elijas, también se puede borrar desde la configuración específica para juegos."
+msgstr "Seleccionar qué núcleo usar para el emulador seleccionado. Por ejemplo, el emulador LIBRETRO tiene muchos núcleos para ejecutar juegos de Super Nintendo. El núcleo por defecto que elijas, también se puede borrar desde la configuración específica para juegos."
 
 #: 
 msgid "USE COMPOSED VISUALS"
-msgstr "USA IMÁGENES COMPUESTAS."
+msgstr "USAR IMÁGENES COMPUESTAS"
 
 #: 
 msgid "CHECK UPDATES"
@@ -1469,149 +1477,234 @@ msgstr "FORZAR VISTA DE LISTA DE JUEGOS BÁSICA"
 
 #: 
 msgid "DOWNLOADED"
-msgstr ""
+msgstr "DESCARGADO"
 
 #: 
 msgid "UPDATE VERSION:"
-msgstr ""
+msgstr "VERSIÓN DE LA ACTUALIZACIÓN:"
 
 #: 
 msgid "UPDATE CHANGELOG:"
-msgstr ""
+msgstr "REGISTRO DE CAMBIOS DE LA ACTUALIZACIÓN:"
 
 #: 
 msgid "MORE DETAILS"
-msgstr ""
+msgstr "MÁS DETALLES"
 
 #: 
 msgid "CAROUSEL ANIMATION"
-msgstr ""
+msgstr "ANIMACIÓN DEL CARRUSEL"
 
 #: 
 msgid "THEME CONFIGURATION"
-msgstr ""
+msgstr "CONFIGURACIÓN DEL TEMA"
 
 #: 
 msgid "THEME COLORSET"
-msgstr ""
+msgstr "CONJUNTO DE COLORES DEL TEMA"
 
 #: 
 msgid "THEME ICONSET"
-msgstr ""
+msgstr "CONJUNTO DE ÍCONOS DEL TEMA"
 
 #: 
 msgid "THEME MENU"
-msgstr ""
+msgstr "MENÚ DEL TEMA"
 
 #: 
 msgid "THEME SYSTEMVIEW"
-msgstr ""
+msgstr "VISTA DE SISTEMAS DEL TEMA"
 
 #: 
 msgid "THEME GAMELISTVIEW"
-msgstr ""
+msgstr "VISTA DE LISTA DE JUEGOS DEL TEMA"
 
 #: 
 msgid "THEME REGION"
-msgstr ""
+msgstr "REGIÓN DEL TEMA"
 
 #: 
 msgid "THIS THEME HAS NO OPTION"
-msgstr ""
+msgstr "ESTE TEMA NO TIENE OPCIONES"
 
 #: 
 msgid "MANUAL INPUT"
-msgstr ""
+msgstr "ENTRADA MANUAL"
 
 #: 
 msgid "AN ERROR OCCURED - DOWNLOADED"
-msgstr ""
+msgstr "HA HABIDO UN ERROR - DESCARGADO"
 
 #: 
 msgid "START KODI"
-msgstr ""
+msgstr "INICIAR KODI"
 
 #: 
 msgid "Shows the current available update version."
-msgstr ""
+msgstr "Mostrar la versión de actualización disponible actualmente."
 
 #: 
 msgid "Shows the current available update changelog."
-msgstr ""
+msgstr "Mostrar el registro de cambios de actualización disponible actualmente."
 
 #: 
 msgid "Configure an associated controller. Your controller has to be associated / plugged before."
-msgstr ""
+msgstr "Configurar mando asociado. El mando debe estar previamente asociado / conectado."
 
 #: 
 msgid "Choose if carousel will be animated or not during transitions"
-msgstr ""
+msgstr "Elegir si el carrusel estará animado o no durante transiciones"
 
 #: 
 msgid "Select the type of transition that occurs when you start a game. INSTANT will do nothing, FADE will fade to dark, and SLIDE will zoom on the game cover (or name if there is no scrape information)"
-msgstr ""
+msgstr "Seleccionar el tipo de transición que ocurre cuando comienza un juego. INSTANT no hará nada, FADE se desvanecerá a oscuro, y SLIDE hará un zoom en la cubierta del juego (o nombre, si no hay metadatos)."
 
 #: 
 msgid "Select exisiting colorset options for this theme."
-msgstr ""
+msgstr "Seleccionar opciones de conjuntos de colores existentes para este tema."
 
 #: 
 msgid "Select exisiting iconset options for this theme."
-msgstr ""
+msgstr "Seleccionar opciones de conjunto de iconos existentes para este tema."
 
 #: 
 msgid "Select exisiting menu style options for this theme."
-msgstr ""
+msgstr "Seleccionar opciones de estilo de menú existentes para este tema."
 
 #: 
 msgid "Select exisiting system view options for this theme."
-msgstr ""
+msgstr "Seleccionar opciones de vista de sistema existentes para este tema."
 
 #: 
 msgid "Select exisiting gamelist view options for this theme."
-msgstr ""
+msgstr "Seleccionar opciones de vista de lista de juegos existentes para este tema."
 
 #: 
 msgid "Configure theme options if available."
-msgstr ""
+msgstr "Configurar opciones del tema si está disponible."
 
 #: 
 msgid "Select Region of logos, pictures for system that are different for some countries. E.g. Megadrive in EU / Genesis in US"
-msgstr ""
+msgstr "Seleccionar región de logotipos, imágenes para sistemas diferentes entre países Ejemplo, Megadrive en EU, Genesis en USA"
 
 #: 
 msgid "Type the name of your SSID if it is hidden or not listed"
-msgstr ""
+msgstr "Ingresar nombre de SSID, si está oculto o no aparece"
 
 #: 
 msgid "Select a letter and the listing will go directly on the first game starting with this letter."
-msgstr ""
+msgstr "Seleccionar una letra y la lista irá directamente al primer juego que comience con esta letra."
 
 #: 
 msgid "Select the way the game list is sortered (alphabetically, by notation...)."
-msgstr ""
+msgstr "Seleccionar la forma en que se ordena la lista de juegos (alfabéticamente, mediante notación...)."
 
 #: 
 msgid "Switch between seing or not only the favorites games. To add a game in the favorite list, select the game and toggle its state using 'Y'."
-msgstr ""
+msgstr "Cambiar entre ver o no solo los juegos favoritos. Para agregar un juego a la lista de favoritos, seleccionar el juego y cambiar su estado con 'Y'."
 
 #: 
 msgid "Switch between seing or not the hidden games. To hide a game, edit its data and select 'Hide'."
-msgstr ""
+msgstr "Cambiar entre ver o no los juegos ocultos. Para ocultar un juego, editar sus datos y seleccionar 'Ocultar'."
 
 #: 
 msgid "Switch between seing folders and folder content in the listing. This is useful when a game is provided as many 'bin' files for example and you keep it a a dedicated folder (ex: roms/psx/tekken 3)."
-msgstr ""
+msgstr "Cambiar entre ver las carpetas y el contenido de la carpeta en la lista. Esto es útil, por ejemplo, cuando se proporciona un juego como muchos archivos 'bin', y se lo mantiene como una carpeta dedicada (por ejemplo, roms/psx/tekken 3)."
 
 #: 
 msgid "This option display a menu which allows to change game data and many others options."
-msgstr ""
+msgstr "Esta opción muestra un menú que permite cambiar los datos del juego y muchas otras opciones."
 
 #: 
 msgid "AVAILABLE UPDATE"
-msgstr ""
+msgstr "ACTUALIZACIÓN DISPONIBLE"
 
 #: 
 msgid "UPDATE CHANGELOG"
-msgstr ""
+msgstr "REGISTRO DE CAMBIOS"
+
+#: 
+msgid "CLOCK IN MENU"
+msgstr "RELOJ EN MENÚ"
+
+#: 
+msgid "Now playing"
+msgstr "Reproduciendo ahora"
+
+#: 
+msgid "DEFAULT (%1%)"
+msgstr "DEFECTO (%1%)"
+
+#: 
+msgid "INPUT REQUIRED"
+msgstr "INGRESO REQUERIDO"
+
+#: 
+msgid "(skipped)"
+msgstr "(saltado)"
+
+#: 
+msgid "UP/DOWN TO SKIP"
+msgstr "ARRIBA/ABAJO PARA SALTAR"
+
+#: 
+#, fuzzy
+msgid "A TO UNSET"
+msgstr "SIN CONFIGURAR"
+
+#: 
+msgid "DOWN TO SKIP AND KEEP [%1%]"
+msgstr "ABAJO PARA SALTAR Y MANTENER [%1%]"
+
+#: 
+msgid "UP/DOWN TO SKIP AND KEEP [%1%]"
+msgstr "ARRIBA/ABAJO PARA SALTAR Y MANTENER [%1%]"
+
+#: 
+msgid "Set duration of help popups, 0 means no popup."
+msgstr "Duración del popups de ayuda, 0 significa sin popup."
+
+#: 
+msgid "HELP POPUP DURATION"
+msgstr "DURACIÓN DE POPUPS DE AYUDA"
+
+#: 
+msgid "Set duration of music popups, 0 means no popup."
+msgstr "Duración de popups de música, 0 significa sin popup."
+
+#: 
+msgid "MUSIC POPUP DURATION"
+msgstr "DURACIÓN DE POPUPS DE MÚSICA"
+
+#: 
+msgid "POPUP SETTINGS"
+msgstr "CONFIGURACIÓN DE POPUPS"
+
+#: 
+msgid "POPUP POSITION"
+msgstr "POSICIÓN DE POPUPS"
+
+#: 
+msgid "Select the position of popups on screen."
+msgstr "Seleccionar posición de popups en pantalla."
+
+#: 
+msgid "Set position and duration of popups."
+msgstr "Posición y duración de popups."
+
+#: 
+msgid "TOP/RIGHT"
+msgstr "ARRIBA/DERECHA"
+
+#: 
+msgid "BOTTOM/RIGHT"
+msgstr "ABAJO/DERECHA"
+
+#: 
+msgid "BOTTOM/LEFT"
+msgstr "ABAJO/IZQUIERDA"
+
+#: 
+msgid "TOP/LEFT"
+msgstr "ARRIBA/IZQUIERDA"
 

@@ -1156,7 +1156,7 @@ msgstr ""
 
 #: 
 msgid "Smooth the game image. This option makes the image smoother, using bilinear filtering."
-msgstr ""
+msgstr "Jokoaren irudia leundu. Aukera honek filtro bilinearra erabiliz irudia leuntzen du."
 
 #: 
 msgid "This option allows you to rewind the game if you get killed by a monster, or if you make any other mistake. Use the HOTKEY + LEFT command within the game to rewind."
@@ -1205,7 +1205,7 @@ msgstr ""
 
 #: 
 msgid "Start the screensaver after N minutes."
-msgstr ""
+msgstr "Hasi pantaila babeslea N minutu ondoren."
 
 #: 
 msgid "Set the screensaver behavior. DIM will reduce the screen light, and BLACK will turn the screen black."
@@ -1213,7 +1213,7 @@ msgstr ""
 
 #: 
 msgid "Shows a help at the bottom of the screen which displays commands you can use."
-msgstr ""
+msgstr "Erakutsi erabil ditzakezun komandoak eraskusten dizkizun laguntza, pantailaren behekaldean."
 
 #: 
 msgid "When enabled, you can switch between systems while browsing a gamelist by pressing LEFT or RIGHT."
@@ -1229,11 +1229,11 @@ msgstr ""
 
 #: 
 msgid "Select a theme for your recalbox."
-msgstr ""
+msgstr "Aukeratu zure recalboxerako gaia."
 
 #: 
 msgid "Updates the gamelists, if you added games since the last boot."
-msgstr ""
+msgstr "Azken abiotik jokoak gehitu badituzu, joko zerrenda eguneratzen du."
 
 #: 
 msgid "Configure the sound options of your recalbox."
@@ -1258,28 +1258,29 @@ msgstr ""
 
 #: 
 msgid "Displays CONNECTED, if you are connected, by checking if your recalbox can access the recalbox.com update server."
-msgstr ""
+msgstr "KONEKTATUTA erakusten du, hau klikatuta recalboxak recalbox.com eguneraketa zerbitzarira sarbide konexioa badu."
 
 #: 
 msgid "The IP address of your recalbox within your local network."
-msgstr ""
+msgstr "Sare lokalean zure recalboxak izango duen IP helbidea."
 
 #: 
 msgid "Enable or disable WIFI.\n"
 "If you disable WIFI, the SSID and the WIFI passwords are saved and can be used when you reactivate it"
-msgstr ""
+msgstr "Gaitu edo ezgaitu WIFIa.\n"
+"WIFIa ezgaitzen baduzu, SSIDa eta WIFI pasahitza gorde egingo dira eta berriz aktibatzean erabili ahalko dituzu"
 
 #: 
 msgid "The name of your recalbox in your local network"
-msgstr ""
+msgstr "Sare lokalean izango duzun recalboxaren izena"
 
 #: 
 msgid "SSID (WIFI Name) of your network."
-msgstr ""
+msgstr "Sareko SSID (WIFI izena)."
 
 #: 
 msgid "Private key of your WIFI network."
-msgstr ""
+msgstr "WIFI sareko gako pribatua."
 
 #: 
 msgid "Get informations and visual for your games. The scraper downloads metadata and visuals for your games from different servers and enhances the user experience in EmulationStation completely."
@@ -1291,11 +1292,11 @@ msgstr ""
 
 #: 
 msgid "Begin the scrape process with the configuration shown below."
-msgstr ""
+msgstr "Hasi erauzketa prozesua beheko konfigurazioarekin."
 
 #: 
 msgid "Scrape and display game ratings."
-msgstr ""
+msgstr "Erauzi eta erakutsi jokoen puntuazioak."
 
 #: 
 msgid "Advanced settings. Please make sure you really know what you're doing, before changing any values in this menu."
@@ -1602,5 +1603,85 @@ msgstr ""
 
 #: 
 msgid "CLOCK IN MENU"
+msgstr ""
+
+#: 
+msgid "Now playing"
+msgstr ""
+
+#: 
+msgid "DEFAULT (%1%)"
+msgstr ""
+
+#: 
+msgid "INPUT REQUIRED"
+msgstr ""
+
+#: 
+msgid "(skipped)"
+msgstr ""
+
+#: 
+msgid "UP/DOWN TO SKIP"
+msgstr ""
+
+#: 
+msgid "A TO UNSET"
+msgstr ""
+
+#: 
+msgid "DOWN TO SKIP AND KEEP [%1%]"
+msgstr ""
+
+#: 
+msgid "UP/DOWN TO SKIP AND KEEP [%1%]"
+msgstr ""
+
+#: 
+msgid "Set duration of help popups, 0 means no popup."
+msgstr ""
+
+#: 
+msgid "HELP POPUP DURATION"
+msgstr ""
+
+#: 
+msgid "Set duration of music popups, 0 means no popup."
+msgstr ""
+
+#: 
+msgid "MUSIC POPUP DURATION"
+msgstr ""
+
+#: 
+msgid "POPUP SETTINGS"
+msgstr ""
+
+#: 
+msgid "POPUP POSITION"
+msgstr ""
+
+#: 
+msgid "Select the position of popups on screen."
+msgstr ""
+
+#: 
+msgid "Set position and duration of popups."
+msgstr ""
+
+#: 
+msgid "TOP/RIGHT"
+msgstr ""
+
+#: 
+msgid "BOTTOM/RIGHT"
+msgstr ""
+
+#: 
+msgid "BOTTOM/LEFT"
+msgstr ""
+
+#: 
+msgid "TOP/LEFT"
 msgstr ""
 

@@ -1592,3 +1592,87 @@ msgstr ""
 msgid "UPDATE CHANGELOG"
 msgstr ""
 
+#: 
+msgid "CLOCK IN MENU"
+msgstr ""
+
+#: 
+msgid "Now playing"
+msgstr ""
+
+#: 
+msgid "DEFAULT (%1%)"
+msgstr ""
+
+#: 
+msgid "INPUT REQUIRED"
+msgstr ""
+
+#: 
+msgid "(skipped)"
+msgstr ""
+
+#: 
+msgid "UP/DOWN TO SKIP"
+msgstr ""
+
+#: 
+msgid "A TO UNSET"
+msgstr ""
+
+#: 
+msgid "DOWN TO SKIP AND KEEP [%1%]"
+msgstr ""
+
+#: 
+msgid "UP/DOWN TO SKIP AND KEEP [%1%]"
+msgstr ""
+
+#: 
+msgid "Set duration of help popups, 0 means no popup."
+msgstr ""
+
+#: 
+msgid "HELP POPUP DURATION"
+msgstr ""
+
+#: 
+msgid "Set duration of music popups, 0 means no popup."
+msgstr ""
+
+#: 
+msgid "MUSIC POPUP DURATION"
+msgstr ""
+
+#: 
+msgid "POPUP SETTINGS"
+msgstr ""
+
+#: 
+msgid "POPUP POSITION"
+msgstr ""
+
+#: 
+msgid "Select the position of popups on screen."
+msgstr ""
+
+#: 
+msgid "Set position and duration of popups."
+msgstr ""
+
+#: 
+msgid "TOP/RIGHT"
+msgstr ""
+
+#: 
+msgid "BOTTOM/RIGHT"
+msgstr ""
+
+#: 
+msgid "BOTTOM/LEFT"
+msgstr ""
+
+#: 
+msgid "TOP/LEFT"
+msgstr ""
+

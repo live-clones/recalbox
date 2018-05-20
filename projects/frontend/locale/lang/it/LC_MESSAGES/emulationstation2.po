@@ -1469,39 +1469,39 @@ msgstr "FORZA VISTA  LISTA GIOCHI SEMPLICE"
 
 #: 
 msgid "DOWNLOADED"
-msgstr ""
+msgstr "SCARICATO"
 
 #: 
 msgid "UPDATE VERSION:"
-msgstr ""
+msgstr "VERSIONE AGGIORNATA"
 
 #: 
 msgid "UPDATE CHANGELOG:"
-msgstr ""
+msgstr "AGGIORNA IL CHANGELOG"
 
 #: 
 msgid "MORE DETAILS"
-msgstr ""
+msgstr "PIÙ DETTAGLI"
 
 #: 
 msgid "CAROUSEL ANIMATION"
-msgstr ""
+msgstr "ANIMAZIONE DI CAROSELLO"
 
 #: 
 msgid "THEME CONFIGURATION"
-msgstr ""
+msgstr "CONFIGURAZIONE DI TEMA"
 
 #: 
 msgid "THEME COLORSET"
-msgstr ""
+msgstr "COLORE DI TEMA"
 
 #: 
 msgid "THEME ICONSET"
-msgstr ""
+msgstr "ICONE DI TEMA"
 
 #: 
 msgid "THEME MENU"
-msgstr ""
+msgstr "MENU DI TEMA"
 
 #: 
 msgid "THEME SYSTEMVIEW"
@@ -1513,31 +1513,31 @@ msgstr ""
 
 #: 
 msgid "THEME REGION"
-msgstr ""
+msgstr "REGIONE DI TEMA"
 
 #: 
 msgid "THIS THEME HAS NO OPTION"
-msgstr ""
+msgstr "QUESTO TEMA NON HA SCELTA"
 
 #: 
 msgid "MANUAL INPUT"
-msgstr ""
+msgstr "INSERIMENTO MANUALE"
 
 #: 
 msgid "AN ERROR OCCURED - DOWNLOADED"
-msgstr ""
+msgstr "ACCADDE UN ERRORE - SCARICÒ"
 
 #: 
 msgid "START KODI"
-msgstr ""
+msgstr "INIZIARE KODI"
 
 #: 
 msgid "Shows the current available update version."
-msgstr ""
+msgstr "Mostra l’attuale versione di aggiornamento disponibile."
 
 #: 
 msgid "Shows the current available update changelog."
-msgstr ""
+msgstr "Mostra l’attuale versione di changelog disponibile"
 
 #: 
 msgid "Configure an associated controller. Your controller has to be associated / plugged before."
@@ -1609,9 +1609,93 @@ msgstr ""
 
 #: 
 msgid "AVAILABLE UPDATE"
-msgstr ""
+msgstr "AGGIORNAMENTO DISPONIBILE"
 
 #: 
 msgid "UPDATE CHANGELOG"
+msgstr "CHANGELOG DI AGGIORNAMENTO "
+
+#: 
+msgid "CLOCK IN MENU"
+msgstr "OROLOGIO NEL MENÙ"
+
+#: 
+msgid "Now playing"
+msgstr "In riproduzione"
+
+#: 
+msgid "DEFAULT (%1%)"
+msgstr ""
+
+#: 
+msgid "INPUT REQUIRED"
+msgstr ""
+
+#: 
+msgid "(skipped)"
+msgstr ""
+
+#: 
+msgid "UP/DOWN TO SKIP"
+msgstr ""
+
+#: 
+msgid "A TO UNSET"
+msgstr ""
+
+#: 
+msgid "DOWN TO SKIP AND KEEP [%1%]"
+msgstr ""
+
+#: 
+msgid "UP/DOWN TO SKIP AND KEEP [%1%]"
+msgstr ""
+
+#: 
+msgid "Set duration of help popups, 0 means no popup."
+msgstr ""
+
+#: 
+msgid "HELP POPUP DURATION"
+msgstr ""
+
+#: 
+msgid "Set duration of music popups, 0 means no popup."
+msgstr ""
+
+#: 
+msgid "MUSIC POPUP DURATION"
+msgstr ""
+
+#: 
+msgid "POPUP SETTINGS"
+msgstr ""
+
+#: 
+msgid "POPUP POSITION"
+msgstr ""
+
+#: 
+msgid "Select the position of popups on screen."
+msgstr ""
+
+#: 
+msgid "Set position and duration of popups."
+msgstr ""
+
+#: 
+msgid "TOP/RIGHT"
+msgstr ""
+
+#: 
+msgid "BOTTOM/RIGHT"
+msgstr ""
+
+#: 
+msgid "BOTTOM/LEFT"
+msgstr ""
+
+#: 
+msgid "TOP/LEFT"
 msgstr ""
 

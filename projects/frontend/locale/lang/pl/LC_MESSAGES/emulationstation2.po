@@ -34,7 +34,7 @@ msgstr "Wydawca"
 
 #: 
 msgid "Genre"
-msgstr "Rodzaj"
+msgstr "Gatunek"
 
 #: 
 msgid "Players"
@@ -42,7 +42,7 @@ msgstr "Graczy"
 
 #: 
 msgid "NO GAMES FOUND - SKIP"
-msgstr "NIE ZNALEZIONO ŻADNYCH GIER - POMIŃ"
+msgstr "NIE ZNALEZIONO GIER - POMIŃ"
 
 #: 
 msgid "RETRY"
@@ -62,7 +62,7 @@ msgstr "SZUKAJ"
 
 #: 
 msgid "SCRAPING IN PROGRESS"
-msgstr "SCRAPE'OWANIE W TOKU"
+msgstr "WYSZUKIWANIE W TOKU"
 
 #: 
 msgid "SYSTEM"
@@ -70,7 +70,7 @@ msgstr "SYSTEM"
 
 #: 
 msgid "subtitle text"
-msgstr "tekst napisów"
+msgstr "podpisy"
 
 #: 
 msgid "INPUT"
@@ -86,7 +86,7 @@ msgstr "STOP"
 
 #: 
 msgid "stop (progress saved)"
-msgstr "stop (postęp zapisany)"
+msgstr "stop (stan gry zapisany)"
 
 #: 
 msgid "GAME %i OF %i"
@@ -105,7 +105,7 @@ msgstr "NIE MOŻNA ZNALEŹĆ ŻADNYCH SYSTEMÓW!\n"
 #: 
 msgid "%i GAME SUCCESSFULLY SCRAPED!"
 msgid_plural "%i GAMES SUCCESSFULLY SCRAPED!"
-msgstr[0] "%i GRA ZOSTAŁA POPRAWNIE SCRAPE'OWANA!"
+msgstr[0] "%i INFORMACJE O GRZE ZOSTAŁY ZNALEZIONE!"
 msgstr[1] "%i GIER ZOSTAŁO POPRAWNIE SCRAPE'OWANYCH!"
 msgstr[2] "%i GIER ZOSTAŁO POPRAWNIE DODANYCH"
 
@@ -126,7 +126,7 @@ msgstr "EDYTUJ METADANE"
 
 #: 
 msgid "SCRAPE"
-msgstr "SCRAPE"
+msgstr "WYSZUKAJ INFORMACJE O GRZE"
 
 #: 
 msgid "SAVE"
@@ -167,7 +167,7 @@ msgstr "MENU GŁÓWNE"
 
 #: 
 msgid "KODI MEDIA CENTER"
-msgstr "CENTRUM MULTIMEDIÓW KODI"
+msgstr "KODI CENTRUM MULTIMEDIALNE"
 
 #: 
 msgid "SYSTEM SETTINGS"
@@ -252,15 +252,15 @@ msgstr "WŁĄCZ KODI"
 
 #: 
 msgid "KODI AT START"
-msgstr "URUCHAMIAJ KODI PRZY STARCIE"
+msgstr "URUCHOMIENIE KODI PRZY STARCIE"
 
 #: 
 msgid "START KODI WITH X"
-msgstr "WŁĄCZ KODI X'EM"
+msgstr "WŁĄCZ KODI Z X'EM"
 
 #: 
 msgid "SECURITY"
-msgstr "BEZPIECZEŃSTWO"
+msgstr "ZABEZPIECZENIE"
 
 #: 
 msgid "ENFORCE SECURITY"
@@ -285,7 +285,7 @@ msgstr "PROPORCJE EKRANU"
 
 #: 
 msgid "SMOOTH GAMES"
-msgstr "WYGŁADZANIE GIER"
+msgstr "PŁYNNOŚĆ GIER"
 
 #: 
 msgid "REWIND"
@@ -313,7 +313,7 @@ msgstr "USTAWIENIA RETROACHIEVEMENTS"
 
 #: 
 msgid "RETROACHIEVEMENTS"
-msgstr "RETROACHIEVEMENTS"
+msgstr "RETRO-OSIĄGNIĘCIA"
 
 #: 
 msgid "HARDCORE MODE"
@@ -385,7 +385,7 @@ msgstr "USTAWIENIA DŹWIĘKU"
 
 #: 
 msgid "SYSTEM VOLUME"
-msgstr "GŁOŚNOŚĆ SYSTEMOWA"
+msgstr "GŁOŚNOŚĆ SYSTEMU"
 
 #: 
 msgid "FRONTEND MUSIC"
@@ -1484,39 +1484,39 @@ msgstr "WYMUŚ PODSTAWOWY WIDOK LISTY GIER"
 
 #: 
 msgid "DOWNLOADED"
-msgstr ""
+msgstr "ŚCIĄGNIĘTE"
 
 #: 
 msgid "UPDATE VERSION:"
-msgstr ""
+msgstr "WERSJA AKTUALIZACJI"
 
 #: 
 msgid "UPDATE CHANGELOG:"
-msgstr ""
+msgstr "LOG Z AKTUALIZACJI"
 
 #: 
 msgid "MORE DETAILS"
-msgstr ""
+msgstr "WIĘCJE INFORMACJI"
 
 #: 
 msgid "CAROUSEL ANIMATION"
-msgstr ""
+msgstr "ANIMIACJA KARUZELA"
 
 #: 
 msgid "THEME CONFIGURATION"
-msgstr ""
+msgstr "CONFIGURACJA SKÓRY"
 
 #: 
 msgid "THEME COLORSET"
-msgstr ""
+msgstr "KOLORY SKÓRY"
 
 #: 
 msgid "THEME ICONSET"
-msgstr ""
+msgstr "IKONY SKÓRY"
 
 #: 
 msgid "THEME MENU"
-msgstr ""
+msgstr "MOTYW MENU"
 
 #: 
 msgid "THEME SYSTEMVIEW"
@@ -1540,27 +1540,27 @@ msgstr ""
 
 #: 
 msgid "AN ERROR OCCURED - DOWNLOADED"
-msgstr ""
+msgstr "WYSTĄPIŁ BŁĄD - ŚCIĄGNIĘTE"
 
 #: 
 msgid "START KODI"
-msgstr ""
+msgstr "WŁĄCZ KODI"
 
 #: 
 msgid "Shows the current available update version."
-msgstr ""
+msgstr "Pokazuje dostępną aktualizację"
 
 #: 
 msgid "Shows the current available update changelog."
-msgstr ""
+msgstr "Polazuje log dostępnej aktualizacji"
 
 #: 
 msgid "Configure an associated controller. Your controller has to be associated / plugged before."
-msgstr ""
+msgstr "Skonfiguruj zapisany kontroler. Kontroler musiałbyć wcześniej podłączony."
 
 #: 
 msgid "Choose if carousel will be animated or not during transitions"
-msgstr ""
+msgstr "Zdecyduj czy motyw karuzeli powinien byc animowany"
 
 #: 
 msgid "Select the type of transition that occurs when you start a game. INSTANT will do nothing, FADE will fade to dark, and SLIDE will zoom on the game cover (or name if there is no scrape information)"
@@ -1628,5 +1628,89 @@ msgstr ""
 
 #: 
 msgid "UPDATE CHANGELOG"
+msgstr ""
+
+#: 
+msgid "CLOCK IN MENU"
+msgstr ""
+
+#: 
+msgid "Now playing"
+msgstr ""
+
+#: 
+msgid "DEFAULT (%1%)"
+msgstr ""
+
+#: 
+msgid "INPUT REQUIRED"
+msgstr ""
+
+#: 
+msgid "(skipped)"
+msgstr ""
+
+#: 
+msgid "UP/DOWN TO SKIP"
+msgstr ""
+
+#: 
+msgid "A TO UNSET"
+msgstr ""
+
+#: 
+msgid "DOWN TO SKIP AND KEEP [%1%]"
+msgstr ""
+
+#: 
+msgid "UP/DOWN TO SKIP AND KEEP [%1%]"
+msgstr ""
+
+#: 
+msgid "Set duration of help popups, 0 means no popup."
+msgstr ""
+
+#: 
+msgid "HELP POPUP DURATION"
+msgstr ""
+
+#: 
+msgid "Set duration of music popups, 0 means no popup."
+msgstr ""
+
+#: 
+msgid "MUSIC POPUP DURATION"
+msgstr ""
+
+#: 
+msgid "POPUP SETTINGS"
+msgstr ""
+
+#: 
+msgid "POPUP POSITION"
+msgstr ""
+
+#: 
+msgid "Select the position of popups on screen."
+msgstr ""
+
+#: 
+msgid "Set position and duration of popups."
+msgstr ""
+
+#: 
+msgid "TOP/RIGHT"
+msgstr ""
+
+#: 
+msgid "BOTTOM/RIGHT"
+msgstr ""
+
+#: 
+msgid "BOTTOM/LEFT"
+msgstr ""
+
+#: 
+msgid "TOP/LEFT"
 msgstr ""
 

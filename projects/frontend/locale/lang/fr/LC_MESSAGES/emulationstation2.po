@@ -1618,3 +1618,87 @@ msgstr "MISE À JOUR DISPONIBLE"
 msgid "UPDATE CHANGELOG"
 msgstr "CHANGELOG DE LA MISE À JOUR"
 
+#: 
+msgid "CLOCK IN MENU"
+msgstr "HORLOGE DANS LE MENU"
+
+#: 
+msgid "Now playing"
+msgstr "Lecture en cours"
+
+#: 
+msgid "DEFAULT (%1%)"
+msgstr "DÉFAUT (%1%)"
+
+#: 
+msgid "INPUT REQUIRED"
+msgstr "ENTRÉE NÉCÉSSAIRE"
+
+#: 
+msgid "(skipped)"
+msgstr "(passé)"
+
+#: 
+msgid "UP/DOWN TO SKIP"
+msgstr "HAUT/BAS POUR PASSER"
+
+#: 
+msgid "A TO UNSET"
+msgstr "A POUR ANNULER"
+
+#: 
+msgid "DOWN TO SKIP AND KEEP [%1%]"
+msgstr "BAS POUR PASSER ET GARDER [%1%]"
+
+#: 
+msgid "UP/DOWN TO SKIP AND KEEP [%1%]"
+msgstr "HAUT/BAS POUR PASSER ET GARDER [%1%]"
+
+#: 
+msgid "Set duration of help popups, 0 means no popup."
+msgstr "Régler la durée des popups d'aide, 0 pour désactiver."
+
+#: 
+msgid "HELP POPUP DURATION"
+msgstr "DURÉE DES POPUPS D'AIDE"
+
+#: 
+msgid "Set duration of music popups, 0 means no popup."
+msgstr "Régler la durée des popups de musique, 0 pour désactiver."
+
+#: 
+msgid "MUSIC POPUP DURATION"
+msgstr "DURÉE DES POPUPS DE MUSIQUE"
+
+#: 
+msgid "POPUP SETTINGS"
+msgstr "RÉGLAGE DES POPUPS"
+
+#: 
+msgid "POPUP POSITION"
+msgstr "POSITION DES POPUPS"
+
+#: 
+msgid "Select the position of popups on screen."
+msgstr "Choisissez la position des popups sur l'écran"
+
+#: 
+msgid "Set position and duration of popups."
+msgstr "Réglez la position et la durée des popups"
+
+#: 
+msgid "TOP/RIGHT"
+msgstr "HAUT/DROITE"
+
+#: 
+msgid "BOTTOM/RIGHT"
+msgstr "BAS/DROITE"
+
+#: 
+msgid "BOTTOM/LEFT"
+msgstr "BAS/GAUCHE"
+
+#: 
+msgid "TOP/LEFT"
+msgstr "HAUT/GAUCHE"
+

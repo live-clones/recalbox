@@ -1638,3 +1638,93 @@ msgstr "ДОСТУПНО ОБНОВЛЕНИЕ"
 msgid "UPDATE CHANGELOG"
 msgstr "СПИСОК ИЗМЕНЕНИЙ"
 
+#: 
+msgid "CLOCK IN MENU"
+msgstr "ЧАСЫ В МЕНЮ"
+
+#: 
+msgid "Now playing"
+msgstr "Сейчас играет"
+
+#: 
+msgid "DEFAULT (%1%)"
+msgstr "ПО УМОЛЧАНИЮ (%1%)"
+
+#: 
+#, fuzzy
+msgid "INPUT REQUIRED"
+msgstr "ТРЕБУЕТСЯ ВВОД"
+
+#: 
+#, fuzzy
+msgid "(skipped)"
+msgstr "(пропущено)"
+
+#: 
+#, fuzzy
+msgid "UP/DOWN TO SKIP"
+msgstr "\"ВВЕРХ/ВНИЗ\" - ПРОПУСТИТЬ"
+
+#: 
+#, fuzzy
+msgid "A TO UNSET"
+msgstr "\"A\" - СБРОСИТЬ"
+
+#: 
+#, fuzzy
+msgid "DOWN TO SKIP AND KEEP [%1%]"
+msgstr "\"ВНИЗ\" - ПРОПУСТИТЬ И ОСТАВИТЬ  [%1%]"
+
+#: 
+#, fuzzy
+msgid "UP/DOWN TO SKIP AND KEEP [%1%]"
+msgstr "\"ВВЕРХ/ВНИЗ\" - ПРОПУСТИТЬ И ОСТАВИТЬ [%1%]"
+
+#: 
+msgid "Set duration of help popups, 0 means no popup."
+msgstr "Настройка задержки справочных pop-up. 0 - popup выключены"
+
+#: 
+msgid "HELP POPUP DURATION"
+msgstr "ЗАДЕРЖКА СПРАВОЧНЫХ POP-UP"
+
+#: 
+msgid "Set duration of music popups, 0 means no popup."
+msgstr "Настройка задержки pop-up музыки. 0 - pop-up выключены"
+
+#: 
+msgid "MUSIC POPUP DURATION"
+msgstr "ЗАДЕРЖКА POP-UP ДЛЯ МУЗЫКИ"
+
+#: 
+msgid "POPUP SETTINGS"
+msgstr "ПАРАМЕТРЫ POP-UP"
+
+#: 
+msgid "POPUP POSITION"
+msgstr "ПОЗИЦИЯ POP-UP"
+
+#: 
+msgid "Select the position of popups on screen."
+msgstr "Выбрать позицию pop-up на экране"
+
+#: 
+msgid "Set position and duration of popups."
+msgstr "Задать позицию и задержку pop-up"
+
+#: 
+msgid "TOP/RIGHT"
+msgstr "ВВЕРХУ СПРАВА"
+
+#: 
+msgid "BOTTOM/RIGHT"
+msgstr "ВНИЗУ СПРАВА"
+
+#: 
+msgid "BOTTOM/LEFT"
+msgstr "ВНИЗУ СЛЕВА"
+
+#: 
+msgid "TOP/LEFT"
+msgstr "ВВЕРХУ СЛЕВА"
+

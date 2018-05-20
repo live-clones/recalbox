@@ -1476,149 +1476,233 @@ msgstr "VYNUTIT ZÁKLADNÍ SEZNAM HER"
 
 #: 
 msgid "DOWNLOADED"
-msgstr ""
+msgstr "STAŽENO"
 
 #: 
 msgid "UPDATE VERSION:"
-msgstr ""
+msgstr "UPDATE VERZE"
 
 #: 
 msgid "UPDATE CHANGELOG:"
-msgstr ""
+msgstr "UPDATE CHANGELOG"
 
 #: 
 msgid "MORE DETAILS"
-msgstr ""
+msgstr "VÍCE DETAILŮ"
 
 #: 
 msgid "CAROUSEL ANIMATION"
-msgstr ""
+msgstr "ANIMACE BĚHEM OTÁČENÍ"
 
 #: 
 msgid "THEME CONFIGURATION"
-msgstr ""
+msgstr "KONFIGURACE TÉMATU"
 
 #: 
 msgid "THEME COLORSET"
-msgstr ""
+msgstr "BARVY TÉMATU"
 
 #: 
 msgid "THEME ICONSET"
-msgstr ""
+msgstr "IKONY TÉMATU"
 
 #: 
 msgid "THEME MENU"
-msgstr ""
+msgstr "MENU TÉMATU"
 
 #: 
 msgid "THEME SYSTEMVIEW"
-msgstr ""
+msgstr "SYSTÉMOVÝ POHLED TÉMATU"
 
 #: 
 msgid "THEME GAMELISTVIEW"
-msgstr ""
+msgstr "LIST HER TÉMATU"
 
 #: 
 msgid "THEME REGION"
-msgstr ""
+msgstr "REGION TÉMATU"
 
 #: 
 msgid "THIS THEME HAS NO OPTION"
-msgstr ""
+msgstr "TOTO TÉMA NEMÁ VOLBY"
 
 #: 
 msgid "MANUAL INPUT"
-msgstr ""
+msgstr "RUČNÍ VSTUP"
 
 #: 
 msgid "AN ERROR OCCURED - DOWNLOADED"
-msgstr ""
+msgstr "VYSKYTLA SE CHYBA - STAŽENÍ"
 
 #: 
 msgid "START KODI"
-msgstr ""
+msgstr "START KODI"
 
 #: 
 msgid "Shows the current available update version."
-msgstr ""
+msgstr "Zobrazení aktuálně dostupné verze aktualizace."
 
 #: 
 msgid "Shows the current available update changelog."
-msgstr ""
+msgstr "Zobrazení změn v aktuálně dostupné aktualizaci."
 
 #: 
 msgid "Configure an associated controller. Your controller has to be associated / plugged before."
-msgstr ""
+msgstr "Konfigurace spárovaného  ovladače. Váš ovladač musí být před tím spárován/připojen."
 
 #: 
 msgid "Choose if carousel will be animated or not during transitions"
-msgstr ""
+msgstr "Volba zda bude otáčení během přechodu animováno, nebo ne."
 
 #: 
 msgid "Select the type of transition that occurs when you start a game. INSTANT will do nothing, FADE will fade to dark, and SLIDE will zoom on the game cover (or name if there is no scrape information)"
-msgstr ""
+msgstr "Vybere typ přechodu, který se použije při startu hry. INSTANT neudělá nic, FADE provede ztmavení a SLIDE přiblíží obal hry."
 
 #: 
 msgid "Select exisiting colorset options for this theme."
-msgstr ""
+msgstr "Vybere existující barevné schéma pro toto téma."
 
 #: 
 msgid "Select exisiting iconset options for this theme."
-msgstr ""
+msgstr "Vybere existující sadu ikon pro toto téma."
 
 #: 
 msgid "Select exisiting menu style options for this theme."
-msgstr ""
+msgstr "Vybere existující styl menu pro toto téma."
 
 #: 
 msgid "Select exisiting system view options for this theme."
-msgstr ""
+msgstr "Vybere existující systémový pohled pro toto téma."
 
 #: 
 msgid "Select exisiting gamelist view options for this theme."
-msgstr ""
+msgstr "Vybere existující list her pro toto téma."
 
 #: 
 msgid "Configure theme options if available."
-msgstr ""
+msgstr "Konfigurace voleb tématu, pokud jsou dostupné."
 
 #: 
 msgid "Select Region of logos, pictures for system that are different for some countries. E.g. Megadrive in EU / Genesis in US"
-msgstr ""
+msgstr "Výběr Regionu log nebo obrázků systémů s odlišnostmi dle zěmě původu. (např. Megadrive v EU / Genesis v US)."
 
 #: 
 msgid "Type the name of your SSID if it is hidden or not listed"
-msgstr ""
+msgstr "Napište jméno vašeho SSID pokud je skryté, nebo není v seznamu."
 
 #: 
 msgid "Select a letter and the listing will go directly on the first game starting with this letter."
-msgstr ""
+msgstr "Výběrem písmena se v seznamu posunete přímo na první hru, která jím začíná."
 
 #: 
 msgid "Select the way the game list is sortered (alphabetically, by notation...)."
-msgstr ""
+msgstr "Výber třídění seznamu her (abecedně, dle poznámek, ...)"
 
 #: 
 msgid "Switch between seing or not only the favorites games. To add a game in the favorite list, select the game and toggle its state using 'Y'."
-msgstr ""
+msgstr "Přepínání mezi zobrazením/skrytím oblíbených her."
 
 #: 
 msgid "Switch between seing or not the hidden games. To hide a game, edit its data and select 'Hide'."
-msgstr ""
+msgstr "Přepínání mezi zobrazením/skrytím skrytých her. Hru skryjete editací jejích metadat a volbou 'Skrýt'."
 
 #: 
 msgid "Switch between seing folders and folder content in the listing. This is useful when a game is provided as many 'bin' files for example and you keep it a a dedicated folder (ex: roms/psx/tekken 3)."
-msgstr ""
+msgstr "Přepínáním mezi zobrazením složek a jejich obsahem. To je vhodné pokud hra obsahuje více 'bin' souborů, které jste ponechali v samostatné složce (např. roms/psx/tekken 3)."
 
 #: 
 msgid "This option display a menu which allows to change game data and many others options."
-msgstr ""
+msgstr "Volba zobrazí menu, ve kterém lze změnit metadata hry a mnoho dalších voleb."
 
 #: 
 msgid "AVAILABLE UPDATE"
-msgstr ""
+msgstr "DOSTUPNÁ AKTUALIZACE"
 
 #: 
 msgid "UPDATE CHANGELOG"
+msgstr "SEZNAM ZMĚN V AKTUALIZACI"
+
+#: 
+msgid "CLOCK IN MENU"
+msgstr "HODINY V MENU"
+
+#: 
+msgid "Now playing"
+msgstr ""
+
+#: 
+msgid "DEFAULT (%1%)"
+msgstr ""
+
+#: 
+msgid "INPUT REQUIRED"
+msgstr ""
+
+#: 
+msgid "(skipped)"
+msgstr ""
+
+#: 
+msgid "UP/DOWN TO SKIP"
+msgstr ""
+
+#: 
+msgid "A TO UNSET"
+msgstr ""
+
+#: 
+msgid "DOWN TO SKIP AND KEEP [%1%]"
+msgstr ""
+
+#: 
+msgid "UP/DOWN TO SKIP AND KEEP [%1%]"
+msgstr ""
+
+#: 
+msgid "Set duration of help popups, 0 means no popup."
+msgstr ""
+
+#: 
+msgid "HELP POPUP DURATION"
+msgstr ""
+
+#: 
+msgid "Set duration of music popups, 0 means no popup."
+msgstr ""
+
+#: 
+msgid "MUSIC POPUP DURATION"
+msgstr ""
+
+#: 
+msgid "POPUP SETTINGS"
+msgstr ""
+
+#: 
+msgid "POPUP POSITION"
+msgstr ""
+
+#: 
+msgid "Select the position of popups on screen."
+msgstr ""
+
+#: 
+msgid "Set position and duration of popups."
+msgstr ""
+
+#: 
+msgid "TOP/RIGHT"
+msgstr ""
+
+#: 
+msgid "BOTTOM/RIGHT"
+msgstr ""
+
+#: 
+msgid "BOTTOM/LEFT"
+msgstr ""
+
+#: 
+msgid "TOP/LEFT"
 msgstr ""
 
