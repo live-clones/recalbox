@@ -378,6 +378,11 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_CATSFC)$(BR2_PACKAGE_LIBRETRO_POCKETSNES)$(BR2_PAC
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-snes
 endif
 
+# System: thomson
+ifneq ($(BR2_PACKAGE_LIBRETRO_THEODORE),)
+	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-thomson
+endif
+
 # System: vectrex
 ifneq ($(BR2_PACKAGE_LIBRETRO_VECX),)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-vectrex

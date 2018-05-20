@@ -1,0 +1,9 @@
+## RECALBOX - SYSTEM THOMSON TO8 ##
+
+Placez ici vos roms Thomson TO8.
+
+Les roms doivent avoir l'extension ".fd/.sap/.k7/.m7/.rom"
+
+Ce système supporte également les roms compressées au format .zip.
+Attention toutefois, il ne s'agit que d'une archive. Les fichiers contenus dans les .zip doivent correspondre aux extensions citées précédemment.
+De plus, chaque fichier .zip ne doit contenir qu'une seule rom compressée.
