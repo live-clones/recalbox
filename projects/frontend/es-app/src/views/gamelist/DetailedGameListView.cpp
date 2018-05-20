@@ -59,8 +59,7 @@ DetailedGameListView::DetailedGameListView(Window* window, FileData* root, Syste
 	mLblPlayCount.setText(_("Times played") + ": ");
 	addChild(&mLblPlayCount);
 	addChild(&mPlayCount);
-	if (system->getHasFavorites())
-	{
+	if (system->getHasFavorites()) {
 	  mLblFavorite.setText(_("Favorite") + ": ");
 		addChild(&mLblFavorite);
 		addChild(&mFavorite);
@@ -82,8 +81,7 @@ DetailedGameListView::DetailedGameListView(Window* window, FileData* root, Syste
 	updateInfoPanel();
 }
 
-void DetailedGameListView::onThemeChanged(const std::shared_ptr<ThemeData>& theme)
-{
+void DetailedGameListView::onThemeChanged(const std::shared_ptr<ThemeData>& theme) {
 	BasicGameListView::onThemeChanged(theme);
 
 	using namespace ThemeFlags;
@@ -92,29 +90,24 @@ void DetailedGameListView::onThemeChanged(const std::shared_ptr<ThemeData>& them
 	initMDLabels();
 	std::vector<TextComponent*> labels = getMDLabels();
 
-	if (mSystem->getHasFavorites())
-	{
+	if (mSystem->getHasFavorites()) {
 		assert(labels.size() == 9);
 		const char* lblElements[9] = {
 			"md_lbl_rating", "md_lbl_releasedate", "md_lbl_developer", "md_lbl_publisher",
 			"md_lbl_genre", "md_lbl_players", "md_lbl_lastplayed", "md_lbl_playcount", "md_lbl_favorite"
 		};
 
-		for (unsigned int i = 0; i < labels.size(); i++)
-		{
+		for (unsigned int i = 0; i < labels.size(); i++) {
 			labels[i]->applyTheme(theme, getName(), lblElements[i], ALL);
 		}
-	}
-	else
-	{
+	} else {
 		assert(labels.size() == 8);
 		const char* lblElements[8] = {
 			"md_lbl_rating", "md_lbl_releasedate", "md_lbl_developer", "md_lbl_publisher", 
 			"md_lbl_genre", "md_lbl_players", "md_lbl_lastplayed", "md_lbl_playcount"
 		};
 
-		for(unsigned int i = 0; i < labels.size(); i++)
-		{
+		for (unsigned int i = 0; i < labels.size(); i++) {
 			labels[i]->applyTheme(theme, getName(), lblElements[i], ALL);
 		}
 	}
@@ -122,29 +115,24 @@ void DetailedGameListView::onThemeChanged(const std::shared_ptr<ThemeData>& them
 	initMDValues();
 	std::vector<GuiComponent*> values = getMDValues();
 
-	if (mSystem->getHasFavorites())
-	{
+	if (mSystem->getHasFavorites()) {
 		assert(values.size() == 9);
 		const char* valElements[9] = {
 			"md_rating", "md_releasedate", "md_developer", "md_publisher",
 			"md_genre", "md_players", "md_lastplayed", "md_playcount", "md_favorite"
 		};
 
-		for (unsigned int i = 0; i < values.size(); i++)
-		{
+		for (unsigned int i = 0; i < values.size(); i++) {
 			values[i]->applyTheme(theme, getName(), valElements[i], ALL ^ ThemeFlags::TEXT);
 		}
-	}
-	else
-	{
+	} else {
 		assert(values.size() == 8);
 		const char* valElements[8] = {
 			"md_rating", "md_releasedate", "md_developer", "md_publisher",
 			"md_genre", "md_players", "md_lastplayed", "md_playcount"
 		};
 
-		for (unsigned int i = 0; i < values.size(); i++)
-		{
+		for (unsigned int i = 0; i < values.size(); i++) {
 			values[i]->applyTheme(theme, getName(), valElements[i], ALL ^ ThemeFlags::TEXT);
 		}
 	}
@@ -155,8 +143,7 @@ void DetailedGameListView::onThemeChanged(const std::shared_ptr<ThemeData>& them
 	sortChildren();
 }
 
-void DetailedGameListView::initMDLabels()
-{
+void DetailedGameListView::initMDLabels() {
 	using namespace Eigen;
 
 	std::vector<TextComponent*> components = getMDLabels();
@@ -169,14 +156,12 @@ void DetailedGameListView::initMDLabels()
 	const float colSize = (mSize.x() * 0.48f) / colCount;
 	const float rowPadding = 0.01f * mSize.y();
 
-	for(unsigned int i = 0; i < components.size(); i++)
-	{
+	for (unsigned int i = 0; i < components.size(); i++) {
 		const unsigned int row = i % rowCount;
 		Vector3f pos(0.0f, 0.0f, 0.0f);
-		if(row == 0)
-		{
+		if (row == 0) {
 			pos = start + Vector3f(colSize * (i / rowCount), 0, 0);
-		}else{
+		} else {
 			// work from the last component
 			GuiComponent* lc = components[i-1];
 			pos = lc->getPosition() + Vector3f(0, lc->getSize().y() + rowPadding, 0);
@@ -188,8 +173,7 @@ void DetailedGameListView::initMDLabels()
 	}
 }
 
-void DetailedGameListView::initMDValues()
-{
+void DetailedGameListView::initMDValues() {
 	using namespace Eigen;
 
 	std::vector<TextComponent*> labels = getMDLabels();
@@ -209,15 +193,14 @@ void DetailedGameListView::initMDValues()
 	float bottom = 0.0f;
 
 	const float colSize = (mSize.x() * 0.48f) / 2;
-	for(unsigned int i = 0; i < labels.size(); i++)
-	{
+	for (unsigned int i = 0; i < labels.size(); i++) {
 		const float heightDiff = (labels[i]->getSize().y() - values[i]->getSize().y()) / 2;
 		values[i]->setPosition(labels[i]->getPosition() + Vector3f(labels[i]->getSize().x(), heightDiff, 0));
 		values[i]->setSize(colSize - labels[i]->getSize().x(), values[i]->getSize().y());
 		values[i]->setDefaultZIndex(40);
 
 		float testBot = values[i]->getPosition().y() + values[i]->getSize().y();
-		if(testBot > bottom)
+		if (testBot > bottom)
 			bottom = testBot;
 	}
 
@@ -225,23 +208,19 @@ void DetailedGameListView::initMDValues()
 	mDescContainer.setSize(mDescContainer.getSize().x(), mSize.y() - mDescContainer.getPosition().y());
 }
 
-void DetailedGameListView::updateInfoPanel()
-{
+void DetailedGameListView::updateInfoPanel() {
 	FileData* file = (mList.size() == 0 || mList.isScrolling()) ? NULL : mList.getSelected();
+    std::vector<GuiComponent*> values = getMDValues();
 
 	bool fadingOut;
-	if(file == NULL)
-	{
-		//mImage.setImage("");
-		//mDescription.setText("");
+	if (file == NULL) {
 		fadingOut = true;
-	}else{
+	} else {
 		mImage.setImage(file->metadata.get("image"));
 		mDescription.setText(file->metadata.get("desc"));
 		mDescContainer.reset();
 
-		if(file->getType() == GAME)
-		{
+		if (file->getType() == GAME) {
 			mRating.setValue(file->metadata.get("rating"));
 			mReleaseDate.setValue(file->metadata.get("releasedate"));
 			mDeveloper.setValue(file->metadata.get("developer"));
@@ -251,29 +230,28 @@ void DetailedGameListView::updateInfoPanel()
 			mLastPlayed.setValue(file->metadata.get("lastplayed"));
 			mPlayCount.setValue(file->metadata.get("playcount"));
 			mFavorite.setValue(file->metadata.get("favorite"));
+		} else {
+            for (GuiComponent* value: values) {
+                value->setValue("");
+            }
 		}
 		
 		fadingOut = false;
 	}
-
-	std::vector<GuiComponent*> comps = getMDValues();
-	comps.push_back(&mImage);
-	comps.push_back(&mDescription);
+	values.push_back(&mImage);
+	values.push_back(&mDescription);
 	std::vector<TextComponent*> labels = getMDLabels();
-	comps.insert(comps.end(), labels.begin(), labels.end());
+	values.insert(values.end(), labels.begin(), labels.end());
 
-	for(auto it = comps.begin(); it != comps.end(); it++)
-	{
+	for (auto it = values.begin(); it != values.end(); it++) {
 		GuiComponent* comp = *it;
 		// an animation is playing
 		//   then animate if reverse != fadingOut
 		// an animation is not playing
 		//   then animate if opacity != our target opacity
-		if((comp->isAnimationPlaying(0) && comp->isAnimationReversed(0) != fadingOut) || 
-			(!comp->isAnimationPlaying(0) && comp->getOpacity() != (fadingOut ? 0 : 255)))
-		{
-			auto func = [comp](float t)
-			{
+		if ((comp->isAnimationPlaying(0) && comp->isAnimationReversed(0) != fadingOut) || 
+			(!comp->isAnimationPlaying(0) && comp->getOpacity() != (fadingOut ? 0 : 255))) {
+			auto func = [comp](float t) {
 				comp->setOpacity((unsigned char)(lerp<float>(0.0f, 1.0f, t)*255));
 			};
 			comp->setAnimation(new LambdaAnimation(func, 150), 0, nullptr, fadingOut);
@@ -281,17 +259,15 @@ void DetailedGameListView::updateInfoPanel()
 	}
 }
 
-void DetailedGameListView::launch(FileData* game)
-{
+void DetailedGameListView::launch(FileData* game) {
 	Eigen::Vector3f target(Renderer::getScreenWidth() / 2.0f, Renderer::getScreenHeight() / 2.0f, 0);
-	if(mImage.hasImage())
+	if (mImage.hasImage())
 		target << mImage.getCenter().x(), mImage.getCenter().y(), 0;
 
 	ViewController::get()->launch(game, target);
 }
 
-std::vector<TextComponent*> DetailedGameListView::getMDLabels()
-{
+std::vector<TextComponent*> DetailedGameListView::getMDLabels() {
 	std::vector<TextComponent*> ret;
 	ret.push_back(&mLblRating);
 	ret.push_back(&mLblReleaseDate);
@@ -301,15 +277,13 @@ std::vector<TextComponent*> DetailedGameListView::getMDLabels()
 	ret.push_back(&mLblPlayers);
 	ret.push_back(&mLblLastPlayed);
 	ret.push_back(&mLblPlayCount);
-	if (mSystem->getHasFavorites())
-	{
+	if (mSystem->getHasFavorites()) {
 		ret.push_back(&mLblFavorite);
 	}
 	return ret;
 }
 
-std::vector<GuiComponent*> DetailedGameListView::getMDValues()
-{
+std::vector<GuiComponent*> DetailedGameListView::getMDValues() {
 	std::vector<GuiComponent*> ret;
 	ret.push_back(&mRating);
 	ret.push_back(&mReleaseDate);
@@ -319,27 +293,24 @@ std::vector<GuiComponent*> DetailedGameListView::getMDValues()
 	ret.push_back(&mPlayers);
 	ret.push_back(&mLastPlayed);
 	ret.push_back(&mPlayCount);
-	if (mSystem->getHasFavorites())
-	{
+	if (mSystem->getHasFavorites()) {
 		ret.push_back(&mFavorite);
 	}
 	return ret;
 }
 
-std::vector<HelpPrompt> DetailedGameListView::getHelpPrompts()
-{
+std::vector<HelpPrompt> DetailedGameListView::getHelpPrompts() {
 	std::vector<HelpPrompt> prompts;
 	bool hideSystemView = RecalboxConf::getInstance()->get("emulationstation.hidesystemview") == "1";
 
-	if (Settings::getInstance()->getBool("QuickSystemSelect") && !hideSystemView)
-	{
+	if (Settings::getInstance()->getBool("QuickSystemSelect") && !hideSystemView) {
 	  prompts.push_back(HelpPrompt("left/right", _("SYSTEM")));
 	}
 	prompts.push_back(HelpPrompt("up/down", _("CHOOSE")));
 	prompts.push_back(HelpPrompt("b", _("LAUNCH")));
-	if(!hideSystemView)
+	if (!hideSystemView)
 	  prompts.push_back(HelpPrompt("a", _("BACK")));
-	if(getRoot()->getSystem() != SystemData::getFavoriteSystem()) {
+	if (getRoot()->getSystem() != SystemData::getFavoriteSystem()) {
 	  prompts.push_back(HelpPrompt("y", _("Favorite")));
 	  prompts.push_back(HelpPrompt("select", _("OPTIONS")));
 	}

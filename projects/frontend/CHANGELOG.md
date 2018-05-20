@@ -15,6 +15,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Language names in their own language
 - Added an option to list folder content instead of folder name (flatfolder)
 - Make gamelist sort persistent
+- Hide previous metadata when focusing on a folder in gamelist
 
 ### Fixed
 - Fixed back button in gamelist (back to parent level, not to root one)
