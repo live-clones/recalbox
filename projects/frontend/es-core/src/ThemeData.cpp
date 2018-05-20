@@ -896,3 +896,8 @@ bool ThemeData::getHasFavoritesInTheme()
 {
 	return (mVersion >= CURRENT_THEME_FORMAT_VERSION);
 }
+
+bool ThemeData::isFolderHandled() const {
+	auto elem = getElement("detailed", "md_folder_name", "text");
+	return elem ? elem->has("pos") : false;
+}

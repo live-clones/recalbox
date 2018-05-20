@@ -25,6 +25,8 @@ public:
 	void onSizeChanged() override;
 	void setOpacity(unsigned char opacity) override;
 
+    Eigen::Vector2f getTargetSize() const { return mTargetSize; }
+
 	// Resize the image to fit this size. If one axis is zero, scale that axis to maintain aspect ratio.
 	// If both are non-zero, potentially break the aspect ratio.  If both are zero, no resizing.
 	// Can be set before or after an image is loaded.
@@ -36,6 +38,7 @@ public:
 	// Can be set before or after an image is loaded.
 	// Never breaks the aspect ratio. setMaxSize() and setResize() are mutually exclusive.
 	void setMaxSize(float width, float height);
+	void setNormalisedMaxSize(float width, float height);
 	inline void setMaxSize(const Eigen::Vector2f& size) { setMaxSize(size.x(), size.y()); }
 
 	// Multiply all pixels in the image by this color when rendering.

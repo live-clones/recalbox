@@ -158,6 +158,7 @@ public:
 	std::string getTransition();
 
 	bool getHasFavoritesInTheme();
+    bool isFolderHandled() const;
 
 private:
 	static std::map< std::string, std::map<std::string, ElementPropertyType> > sElementMap;

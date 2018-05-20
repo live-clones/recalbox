@@ -135,6 +135,12 @@ void ImageComponent::setMaxSize(float width, float height)
 	resize();
 }
 
+void ImageComponent::setNormalisedMaxSize(float width, float height)
+{
+    Eigen::Vector2f pos = denormalise(width, height);
+    setMaxSize(pos.x(), pos.y());
+}
+
 void ImageComponent::setFlipX(bool flip)
 {
 	mFlipX = flip;

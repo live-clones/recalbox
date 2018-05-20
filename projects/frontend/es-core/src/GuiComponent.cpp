@@ -76,6 +76,12 @@ Eigen::Vector3f GuiComponent::getPosition() const
 	return mPosition;
 }
 
+void GuiComponent::setNormalisedPosition(float x, float y, float z)
+{
+    Eigen::Vector2f pos = denormalise(x, y);
+    setPosition(pos.x(), pos.y(), z);
+}
+
 void GuiComponent::setPosition(float x, float y, float z)
 {
 	mPosition << x, y, z;
@@ -389,6 +395,16 @@ int GuiComponent::getAnimationTime(unsigned char slot) const
 {
 	assert(mAnimationMap[slot] != NULL);
 	return mAnimationMap[slot]->getTime();
+}
+
+Eigen::Vector2f GuiComponent::denormalise(float x, float y) {
+    Eigen::Vector2f value(x, y);
+    return denormalise(value);
+}
+
+Eigen::Vector2f GuiComponent::denormalise(Eigen::Vector2f value) {
+    Eigen::Vector2f scale = getParent() ? getParent()->getSize() : Eigen::Vector2f((float)Renderer::getScreenWidth(), (float)Renderer::getScreenHeight());
+    return value.cwiseProduct(scale);
 }
 
 void GuiComponent::applyTheme(const std::shared_ptr<ThemeData>& theme, const std::string& view, const std::string& element, unsigned int properties)

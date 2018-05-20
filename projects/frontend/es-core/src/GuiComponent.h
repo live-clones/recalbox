@@ -37,6 +37,7 @@ public:
 	virtual void render(const Eigen::Affine3f& parentTrans);
 
 	Eigen::Vector3f getPosition() const;
+    void setNormalisedPosition(float x, float y, float z = 0.0f);
 	inline void setPosition(const Eigen::Vector3f& offset) { setPosition(offset.x(), offset.y(), offset.z()); }
 	void setPosition(float x, float y, float z = 0.0f);
 	virtual void onPositionChanged() {};
@@ -132,7 +133,10 @@ protected:
 	void updateSelf(int deltaTime); // updates animations
 	void updateChildren(int deltaTime); // updates animations
 
-	unsigned char mOpacity;
+    Eigen::Vector2f denormalise(float x, float y);
+    Eigen::Vector2f denormalise(Eigen::Vector2f value);
+
+    unsigned char mOpacity;
 	Window* mWindow;
 
 	GuiComponent* mParent;
