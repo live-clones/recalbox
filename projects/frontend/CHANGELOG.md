@@ -17,6 +17,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Make gamelist sort persistent
 - Hide previous metadata when focusing on a folder in gamelist
 - Show folder content in detail panel
+- Refresh detailed panel on favorite system after running a game
 
 ### Fixed
 - Fixed back button in gamelist (back to parent level, not to root one)

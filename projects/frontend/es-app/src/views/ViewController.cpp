@@ -243,8 +243,17 @@ void ViewController::playViewTransition()
 void ViewController::onFileChanged(FileData* file, FileChangeType change)
 {
 	auto it = mGameListViews.find(file->getSystem());
-	if(it != mGameListViews.end())
+	if (it != mGameListViews.end()) {
 		it->second->onFileChanged(file, change);
+	}
+	if (file->metadata.get("favorite") == "true") {
+		for(auto it = mGameListViews.begin(); it != mGameListViews.end(); it++) {
+			if (it->first->getName() == "favorites") {
+				it->second->onFileChanged(file, change);
+				break;
+			}
+		}
+	}
 }
 
 void ViewController::launch(FileData* game, Eigen::Vector3f center)
