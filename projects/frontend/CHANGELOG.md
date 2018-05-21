@@ -19,6 +19,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Show folder content in detail panel
 - Refresh detailed panel on favorite system after running a game
 - Show single folder game as game in parent list
+- Only display available letter in JumpToLetter + Append figures
 
 ### Fixed
 - Fixed back button in gamelist (back to parent level, not to root one)

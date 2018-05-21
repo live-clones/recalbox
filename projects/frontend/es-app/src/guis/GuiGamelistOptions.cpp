@@ -12,33 +12,42 @@
 GuiGamelistOptions::GuiGamelistOptions(Window* window, SystemData* system) : GuiComponent(window), 
 	mSystem(system), 
   mMenu(window, _("OPTIONS").c_str()) {
-	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
-	addChild(&mMenu);
+    ComponentListRow row;
 
-	// jump to letter
-	auto curChar = (char) toupper(getGamelist()->getCursor()->getName()[0]);
-	if (curChar < 'A' || curChar > 'Z') {
-        curChar = 'A';
+    auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+    addChild(&mMenu);
+
+    // jump to letter
+    auto curChar = (char) toupper(getGamelist()->getCursor()->getName()[0]);
+
+    mJumpToLetterList = std::make_shared<LetterList>(mWindow, _("JUMP TO LETTER"), false);
+
+    std::vector<std::string> letters = getAvailableLetters();
+    if (!letters.empty()) { // should not arrive
+
+        // if curChar not found in available letter, take first one
+        if (std::find(letters.begin(), letters.end(), std::string(1, curChar)) == letters.end()) {
+            curChar = letters.at(0)[0];
+        }
+
+        for (auto letter : letters) {
+            mJumpToLetterList->add(letter, letter[0], letter[0] == curChar);
+        }
+
+        row.addElement(std::make_shared<TextComponent>(mWindow, _("JUMP TO LETTER"), menuTheme->menuText.font,
+                                                       menuTheme->menuText.color), true);
+        row.addElement(mJumpToLetterList, false);
+        row.input_handler = [&](InputConfig *config, Input input) {
+            if (config->isMappedTo("b", input) && input.value) {
+                jumpToLetter();
+                return true;
+            } else if (mJumpToLetterList->input(config, input)) {
+                return true;
+            }
+            return false;
+        };
+        mMenu.addRowWithHelp(row, _("JUMP TO LETTER"), _(MenuMessages::GAMELISTOPTION_JUMP_LETTER_MSG));
     }
-
-	mJumpToLetterList = std::make_shared<LetterList>(mWindow, _("JUMP TO LETTER"), false);
-	for (char c = 'A'; c <= 'Z'; c++) {
-		mJumpToLetterList->add(std::string(1, c), c, c == curChar);
-	}
-
-	ComponentListRow row;
-	row.addElement(std::make_shared<TextComponent>(mWindow, _("JUMP TO LETTER"), menuTheme->menuText.font, menuTheme->menuText.color), true);
-	row.addElement(mJumpToLetterList, false);
-	row.input_handler = [&](InputConfig* config, Input input) {
-		if (config->isMappedTo("b", input) && input.value) {
-			jumpToLetter();
-			return true;
-		} else if (mJumpToLetterList->input(config, input)) {
-			return true;
-		}
-		return false;
-	};
-	mMenu.addRowWithHelp(row, _("JUMP TO LETTER"), _(MenuMessages::GAMELISTOPTION_JUMP_LETTER_MSG));
 
 	// sort list by
 	unsigned int currentSortId = mSystem->getSortId();
@@ -81,7 +90,6 @@ GuiGamelistOptions::GuiGamelistOptions(Window* window, SystemData* system) : Gui
 		row.makeAcceptInputHandler(std::bind(&GuiGamelistOptions::openMetaDataEd, this));
 		mMenu.addRowWithHelp(row, _("EDIT THIS GAME'S METADATA"), _(MenuMessages::GAMELISTOPTION_EDIT_METADATA_MSG));
 	}
-
 
 	// center the menu
 	setSize((float)Renderer::getScreenWidth(), (float)Renderer::getScreenHeight());
@@ -148,6 +156,21 @@ void GuiGamelistOptions::openMetaDataEd() {
 	},file->getSystem(), true));
 }
 
+std::vector<std::string> GuiGamelistOptions::getAvailableLetters() {
+    std::vector<std::string> letters;
+    std::vector<FileData*>files = getGamelist()->getFileDataList();
+    for (auto file : files) {
+        std::string letter = std::string(1, toupper(file->getName()[0]));
+        if ( ( (letter[0] >= '0' && letter[0] <= '9') || (letter[0] >= 'A' && letter[0] <= 'Z') ) ) {
+            if (std::find(letters.begin(), letters.end(), letter) == letters.end()) {
+                letters.push_back(letter);
+            }
+        }
+    }
+    std::sort(letters.begin(), letters.end());
+    return letters;
+}
+
 void GuiGamelistOptions::jumpToLetter() {
 	char letter = mJumpToLetterList->getSelected();
 	auto sortId = (unsigned int) mListSort->getSelected();
@@ -164,7 +187,7 @@ void GuiGamelistOptions::jumpToLetter() {
         // apply sort
         mSystem->setSortId(sortId);
         // notify that the root folder has to be sorted
-        getGamelist()->onFileChanged(mSystem->getRootFolder(), FILE_SORTED);
+        gamelist->onFileChanged(mSystem->getRootFolder(), FILE_SORTED);
     }
 
     std::vector<FileData*>files = gamelist->getFileDataList();

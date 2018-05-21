@@ -20,6 +20,7 @@ public:
 
 private:
 	void openMetaDataEd();
+	std::vector<std::string> getAvailableLetters();
 	void jumpToLetter();
 	
 	MenuComponent mMenu;
