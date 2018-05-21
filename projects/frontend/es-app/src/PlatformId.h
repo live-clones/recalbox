@@ -78,6 +78,8 @@ namespace PlatformIds
 		ZX_81,
 		MOONLIGHT,
 		SCUMMVM,
+		THOMSON_MO,
+		THOMSON_TO,
 
 		PLATFORM_IGNORE, // do not allow scraping for this system
 		PLATFORM_COUNT
