@@ -146,7 +146,7 @@ void ViewController::updateFavorite(SystemData* system, FileData* file)
 	if (Settings::getInstance()->getBool("FavoritesOnly"))
 	{
 		const std::vector<FileData*>& files = system->getRootFolder()->getChildren();
-		view->populateList(files);
+		view->populateList(system->getRootFolder());
 		int pos = std::find(files.begin(), files.end(), file) - files.begin();
 		bool found = false;
 		for (auto it = files.begin() + pos; it != files.end(); it++)

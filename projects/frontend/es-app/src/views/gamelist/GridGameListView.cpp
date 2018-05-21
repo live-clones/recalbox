@@ -13,7 +13,7 @@ GridGameListView::GridGameListView(Window* window, FileData* root) : ISimpleGame
 	mGrid.setSize(mSize.x(), mSize.y() * 0.8f);
 	addChild(&mGrid);
 
-	populateList(root->getChildren());
+	populateList(root);
 }
 
 FileData* GridGameListView::getCursor()
@@ -25,7 +25,7 @@ void GridGameListView::setCursor(FileData* file)
 {
 	if(!mGrid.setCursor(file))
 	{
-		populateList(file->getParent()->getChildren());
+		populateList(file->getParent());
 		mGrid.setCursor(file);
 	}
 }
@@ -38,8 +38,9 @@ bool GridGameListView::input(InputConfig* config, Input input)
 	return ISimpleGameListView::input(config, input);
 }
 
-void GridGameListView::populateList(const std::vector<FileData*>& files)
+void GridGameListView::populateList(const FileData* folder)
 {
+	auto files = folder->getChildren();
 	mGrid.clear();
 	for(auto it = files.begin(); it != files.end(); it++)
 	{

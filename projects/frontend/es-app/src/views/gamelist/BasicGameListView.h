@@ -22,7 +22,8 @@ public:
 
 	virtual std::vector<HelpPrompt> getHelpPrompts() override;
 
-	virtual void populateList(const std::vector<FileData*>& files) override;
+	virtual void populateList(const FileData* folder) override;
+    virtual void refreshList() override;
 
 	virtual inline void updateInfoPanel() override {}
 
@@ -33,6 +34,7 @@ protected:
 
 	TextListComponent<FileData*> mList;
 private:
+    const FileData *mPopulatedFolder;
     unsigned long listingOffset;
 	void addFavorites(const std::vector<FileData*>& files, const FileData::SortType& sortType);
 	void getFavorites(const std::vector<FileData*>& files, std::vector<FileData*>& favorites);

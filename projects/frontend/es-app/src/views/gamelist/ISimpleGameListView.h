@@ -26,7 +26,8 @@ public:
 
 	virtual inline void updateInfoPanel() override {}
 
-	virtual inline void populateList(const std::vector<FileData*>& files) override {}
+	virtual inline void populateList(const FileData* folder) override {}
+    virtual inline void refreshList() override {};
 
 protected:
 	virtual void launch(FileData* game) = 0;

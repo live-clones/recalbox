@@ -64,6 +64,8 @@ public:
 	// Returns our best guess at the "real" name for this file (will strip parenthesis and attempt to perform MAME name translation)
 	std::string getCleanName() const;
 
+	bool isSingleGameFolder() const;
+
 	typedef bool ComparisonFunction(const FileData* a, const FileData* b);
 	struct SortType
 	{

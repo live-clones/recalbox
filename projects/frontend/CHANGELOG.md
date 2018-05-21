@@ -18,6 +18,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Hide previous metadata when focusing on a folder in gamelist
 - Show folder content in detail panel
 - Refresh detailed panel on favorite system after running a game
+- Show single folder game as game in parent list
 
 ### Fixed
 - Fixed back button in gamelist (back to parent level, not to root one)
@@ -29,6 +30,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Make "Available update" popup waiting for no popup displayed
 - Fixed detailed panel missing when jumping to letter A
 - Fixed set a game favorite for the first time (required two switches before)
+- Stay is selected sub-folder when changing sort type / order in gamelist
 
 ## [18.04.20] - 2018-04-20
 ### Added

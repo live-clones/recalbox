@@ -22,7 +22,7 @@ public:
 	virtual std::vector<HelpPrompt> getHelpPrompts() override;
 
 protected:
-	virtual void populateList(const std::vector<FileData*>& files) override;
+	virtual void populateList(const FileData* folder) override;
 	virtual void launch(FileData* game) override;
 
 	ImageGridComponent<FileData*> mGrid;

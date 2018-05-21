@@ -273,3 +273,8 @@ std::vector<FileData *> FileData::getDisplayableRecursive(unsigned int typeMask)
 
 	return out;
 }
+
+bool FileData::isSingleGameFolder() const {
+	assert(mType == FOLDER);
+	return (mChildren.size() == 1) && (mChildren.at(0)->getType() == GAME);
+}

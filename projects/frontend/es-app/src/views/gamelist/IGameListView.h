@@ -39,7 +39,8 @@ public:
 
 	virtual void updateInfoPanel() = 0;
 
-	virtual void populateList(const std::vector<FileData*>& files) = 0;
+	virtual void populateList(const FileData* folder) = 0;
+	virtual void refreshList() = 0;
 
 	virtual std::vector<FileData*> getFileDataList() = 0;
 

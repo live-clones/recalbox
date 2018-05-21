@@ -79,7 +79,7 @@ BasicGameListView::BasicGameListView(Window* window, FileData* root)
 	mList.setDefaultZIndex(20);
 	addChild(&mList);
 
-	populateList(root->getChildren());
+	populateList(root);
 }
 
 void BasicGameListView::onThemeChanged(const std::shared_ptr<ThemeData>& theme) {
@@ -99,7 +99,10 @@ void BasicGameListView::onFileChanged(FileData* file, FileChangeType change) {
 	}
 }
 
-void BasicGameListView::populateList(const std::vector<FileData*>& files) {
+void BasicGameListView::populateList(const FileData* folder) {
+    mPopulatedFolder = folder;
+    auto files = folder->getChildren();
+
 	mList.clear();
 	mHeaderText.setText(mSystem->getFullName());
 
@@ -137,6 +140,10 @@ void BasicGameListView::populateList(const std::vector<FileData*>& files) {
     if (mSystem->isFavorite() || favoritesOnly) {
         listingOffset = 0;
     }
+}
+
+void BasicGameListView::refreshList() {
+    populateList(mPopulatedFolder);
 }
 
 void BasicGameListView::addFavorites(const std::vector<FileData*>& files, const FileData::SortType& sortType) {
@@ -188,12 +195,17 @@ void BasicGameListView::addItem(FileData* file, bool toTheBeginning) {
 	bool isFavorite = isGame && (file->metadata.get("favorite") == "true");
 	bool isHidden = file->metadata.get("hidden") == "true";
 
-	if (!isGame && RecalboxConf::getInstance()->getBool(getRoot()->getSystem()->getName() + ".flatfolder")) {
-		std::vector<FileData*> files = file->getChildren();
-		for (auto it = files.begin(); it != files.end(); it++) {
-			addItem(*it);
-		}
-		return ;
+	if (!isGame) {
+		std::vector<FileData *> children = file->getChildren();
+		if (RecalboxConf::getInstance()->getBool(getRoot()->getSystem()->getName() + ".flatfolder")) {
+			for (auto it = children.begin(); it != children.end(); it++) {
+				addItem(*it);
+			}
+			return ;
+		} else if (file->isSingleGameFolder()) {
+            addItem(children.at(0));
+            return ;
+        }
 	}
 	if (isHidden) {
 		name = "\uF070 " + name;
@@ -222,7 +234,7 @@ int BasicGameListView::getCursorIndex(){
 
 void BasicGameListView::setCursor(FileData* cursor) {
 	if(!mList.setCursor(cursor, listingOffset)) {
-		populateList(mRoot->getChildren());
+		populateList(mRoot);
 		mList.setCursor(cursor);
 
 		// update our cursor stack in case our cursor just got set to some folder we weren't in before
