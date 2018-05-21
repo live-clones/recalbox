@@ -1662,3 +1662,43 @@ msgstr ""
 #:
 msgid "TOP/LEFT"
 msgstr ""
+
+#:
+msgid "NETPLAY"
+msgstr ""
+
+#:
+msgid "NETPLAY SETTINGS"
+msgstr ""
+
+#:
+msgid "SERVER"
+msgstr ""
+
+#:
+msgid "CLIENT"
+msgstr ""
+
+#:
+msgid "Enable or disable Netplay in games."
+msgstr ""
+
+#:
+msgid "PORT"
+msgstr ""
+
+#:
+msgid "NICKNAME"
+msgstr ""
+
+#:
+msgid "RELAY SERVER"
+msgstr ""
+
+#:
+msgid "Enable or disable connections throught relay servers."
+msgstr ""
+
+#:
+msgid "Play online on games running throught Retroarch like NES, SNES, GB, GBC, GBA, Genesis/Megadrive, TurboGrafx16/PCEngine and more!"
+msgstr ""

@@ -188,14 +188,10 @@ void SystemData::launchGame(Window* window, FileData* game, std::string netplay)
 	if (netplay != "")
 	{
 		if (netplay == "host"){
-			command = strreplace(command, "%NETPLAY%", "host");
-			command = strreplace(command, "%NETPLAY_IP%", "127.0.0.1");
-			command = strreplace(command, "%NETPLAY_PORT%", "55435");
+			command = strreplace(command, "%NETPLAY%", "-netplay host -netplay_ip 127.0.0.1 -netplay_port 55435");
 		}
 		else{
-			command = strreplace(command, "%NETPLAY%", "client");
-			command = strreplace(command, "%NETPLAY_IP%", "127.0.0.1");
-			command = strreplace(command, "%NETPLAY_PORT%", "55435");
+			command = strreplace(command, "%NETPLAY%", "-netplay client -netplay_ip 127.0.0.1 -netplay_port 55435");
 		}
 	}
 

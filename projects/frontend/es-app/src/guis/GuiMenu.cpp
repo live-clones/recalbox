@@ -447,6 +447,42 @@ void GuiMenu::menuGameSettings(){
 					_("RETROACHIEVEMENTS SETTINGS"), mMenuTheme->menuText.font, mMenuTheme->menuText.color);
 			s->addSubMenu(_("RETROACHIEVEMENTS SETTINGS"), openGui, _(MenuMessages::RA_HELP_MSG));
 		}
+		if (RecalboxConf::getInstance()->get("emulationstation.menu") != "bartop") {
+			// Netplay
+			{
+				std::function<void()> openGui = [this] {
+					GuiSettings *netplay = new GuiSettings(mWindow, _("NETPLAY SETTINGS").c_str());
+					// netplay_enable
+					auto netplay_enabled = std::make_shared<SwitchComponent>(mWindow);
+					netplay_enabled->setState(RecalboxConf::getInstance()->get("global.netplay") == "1");
+					netplay->addWithLabel(netplay_enabled, _("NETPLAY"), _(MenuMessages::NP_ONOFF_HELP_MSG));
+
+					// netplay username
+					createInputTextRow(netplay, _("NICKNAME"), "global.netplay.nickname", false);
+
+					// netplay username
+					createInputTextRow(netplay, _("PORT"), "global.netplay.port", false);
+
+					// netplay_relay server
+					auto netplay_relay = std::make_shared<SwitchComponent>(mWindow);
+					netplay_relay->setState(RecalboxConf::getInstance()->get("global.netplay.relay") == "1");
+					netplay->addWithLabel(netplay_relay, _("RELAY SERVER"), _(MenuMessages::NP_RELAY_HELP_MSG));
+
+					netplay->addSaveFunc(
+							[netplay_enabled, netplay_relay] {
+								RecalboxConf::getInstance()->set("global.netplay", netplay_enabled->getState() ? "1" : "0");
+								RecalboxConf::getInstance()->set("global.netplay.relay", netplay_relay->getState() ? "1" : "0");
+								RecalboxConf::getInstance()->saveRecalboxConf();
+							});
+					mWindow->pushGui(netplay);
+				};
+				auto retroachievementsSettings = std::make_shared<TextComponent>(mWindow,
+				                                                                 _("NETPLAY SETTINGS"),
+				                                                                 mMenuTheme->menuText.font,
+				                                                                 mMenuTheme->menuText.color);
+				s->addSubMenu(_("NETPLAY SETTINGS"), openGui, _(MenuMessages::NP_HELP_MSG));
+			}
+		}
 
 	}
 	s->addSaveFunc([smoothing_enabled, rewind_enabled, shaders_choices, autosave_enabled] {

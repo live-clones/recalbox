@@ -413,7 +413,8 @@ std::vector<HelpPrompt> DetailedGameListView::getHelpPrompts()
 	}
 	prompts.push_back(HelpPrompt("up/down", _("CHOOSE")));
 	prompts.push_back(HelpPrompt("b", _("LAUNCH")));
-	prompts.push_back(HelpPrompt("x", _("NETPLAY")));
+	if (RecalboxConf::getInstance()->get("global.netplay") == "1")
+		prompts.push_back(HelpPrompt("x", _("NETPLAY")));
 	if(!hideSystemView)
 	  prompts.push_back(HelpPrompt("a", _("BACK")));
 	if(getRoot()->getSystem() != SystemData::getFavoriteSystem()) {

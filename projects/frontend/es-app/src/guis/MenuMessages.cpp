@@ -27,6 +27,10 @@ const char* MenuMessages::RA_ONOFF_HELP_MSG = "Enable or disable RetroAchievemen
 const char* MenuMessages::RA_HARDCORE_HELP_MSG = "Hardcore mode disables *all* savestate and rewind functions within the emulator: you will not be able to save and reload at any time. You will have to complete the game and get the achievements first time, just like on the original console. In reward for this, you will earn both the standard and the hardcore achievement, in effect earning double points! A regular game worth 400 points, is now worth 800 if you complete it on hardcore! For example: if you complete the game for 400 points, you then have the opportunity to earn another 400 on hardcore.";
 const char* MenuMessages::RA_HELP_MSG = "The website retroachievements.org proposes challenges/achievements/trophies on platforms like NES, SNES, GB, GBC, GBA, Genesis/Megadrive, TurboGrafx16/PCEngine and more! Create your account on retroachievements.org and start your quest for achievements!";
 
+const char* MenuMessages::NP_ONOFF_HELP_MSG = "Enable or disable Netplay in games.";
+const char* MenuMessages::NP_RELAY_HELP_MSG = "Enable or disable connections throught relay servers.";
+const char* MenuMessages::NP_HELP_MSG = "Play online on games running throught Retroarch like NES, SNES, GB, GBC, GBA, Genesis/Megadrive, TurboGrafx16/PCEngine and more!";
+
 const char* MenuMessages::CONTROLLER_HELP_MSG = "Add and configure up to 5 controllers.";
 const char* MenuMessages::CONTROLLER_CONF_HELP_MSG = "Configure an associated controller. Your controller has to be associated / plugged before.";
 const char* MenuMessages::CONTROLLER_BT_HELP_MSG = "Pair a bluetooth controller with your recalbox. Your controller must be in pairing mode.";

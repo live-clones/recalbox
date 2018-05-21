@@ -223,7 +223,7 @@ bool ISimpleGameListView::input(InputConfig* config, Input input) {
 				ViewController::get()->goToPrevGameList();
 				return true;
 			}
-		}else if (config->isMappedTo("x", input))
+		}else if ((config->isMappedTo("x", input)) && (RecalboxConf::getInstance()->get("global.netplay") == "1"))
 		{
 			FileData* cursor = getCursor();
 			if(cursor->getType() == GAME)

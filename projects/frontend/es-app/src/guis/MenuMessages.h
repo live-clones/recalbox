@@ -35,6 +35,10 @@ public:
 	static const char* RA_HARDCORE_HELP_MSG;
 	static const char* RA_HELP_MSG;
 
+	static const char* NP_ONOFF_HELP_MSG;
+	static const char* NP_RELAY_HELP_MSG;
+	static const char* NP_HELP_MSG;
+
 	static const char* CONTROLLER_HELP_MSG;
 	static const char* CONTROLLER_CONF_HELP_MSG;
 	static const char* CONTROLLER_BT_HELP_MSG;
