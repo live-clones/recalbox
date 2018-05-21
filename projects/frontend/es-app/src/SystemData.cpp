@@ -156,7 +156,7 @@ std::string escapePath(const boost::filesystem::path& path)
 #endif
 }
 
-void SystemData::launchGame(Window* window, FileData* game)
+void SystemData::launchGame(Window* window, FileData* game, std::string netplay)
 {
     LOG(LogInfo) << "Attempting to launch game...";
 
@@ -185,10 +185,24 @@ void SystemData::launchGame(Window* window, FileData* game)
     command = strreplace(command, "%CORE%", game->metadata.get("core"));
     command = strreplace(command, "%RATIO%", game->metadata.get("ratio"));
 
-    LOG(LogInfo) << "    " << command;
-    std::cout << "==============================================\n";
-    int exitCode = runSystemCommand(command);
-    std::cout << "==============================================\n";
+	if (netplay != "")
+	{
+		if (netplay == "host"){
+			command = strreplace(command, "%NETPLAY%", "host");
+			command = strreplace(command, "%NETPLAY_IP%", "127.0.0.1");
+			command = strreplace(command, "%NETPLAY_PORT%", "55435");
+		}
+		else{
+			command = strreplace(command, "%NETPLAY%", "client");
+			command = strreplace(command, "%NETPLAY_IP%", "127.0.0.1");
+			command = strreplace(command, "%NETPLAY_PORT%", "55435");
+		}
+	}
+
+	LOG(LogInfo) << "	" << command;
+	std::cout << "==============================================\n";
+	int exitCode = runSystemCommand(command);
+	std::cout << "==============================================\n";
 
     if(exitCode != 0)
     {

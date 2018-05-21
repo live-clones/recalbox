@@ -267,6 +267,7 @@ std::vector<HelpPrompt> BasicGameListView::getHelpPrompts() {
 	  prompts.push_back(HelpPrompt("left/right", _("SYSTEM")));
 	prompts.push_back(HelpPrompt("up/down", _("CHOOSE")));
 	prompts.push_back(HelpPrompt("b", _("LAUNCH")));
+	prompts.push_back(HelpPrompt("x", _("NETPLAY")));
 	if(!hideSystemView)
 	  prompts.push_back(HelpPrompt("a", _("BACK")));
 	if(getRoot()->getSystem() != SystemData::getFavoriteSystem()) {

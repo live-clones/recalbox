@@ -402,21 +402,24 @@ std::vector<GuiComponent*> DetailedGameListView::getMDValues() {
     return ret;
 }
 
-std::vector<HelpPrompt> DetailedGameListView::getHelpPrompts() {
-    std::vector<HelpPrompt> prompts;
-    bool hideSystemView = RecalboxConf::getInstance()->get("emulationstation.hidesystemview") == "1";
+std::vector<HelpPrompt> DetailedGameListView::getHelpPrompts()
+{
+	std::vector<HelpPrompt> prompts;
+	bool hideSystemView = RecalboxConf::getInstance()->get("emulationstation.hidesystemview") == "1";
 
-    if (Settings::getInstance()->getBool("QuickSystemSelect") && !hideSystemView) {
-      prompts.push_back(HelpPrompt("left/right", _("SYSTEM")));
-    }
-    prompts.push_back(HelpPrompt("up/down", _("CHOOSE")));
-    prompts.push_back(HelpPrompt("b", _("LAUNCH")));
-    if (!hideSystemView)
-      prompts.push_back(HelpPrompt("a", _("BACK")));
-    if (getRoot()->getSystem() != SystemData::getFavoriteSystem()) {
-      prompts.push_back(HelpPrompt("y", _("Favorite")));
-      prompts.push_back(HelpPrompt("select", _("OPTIONS")));
-    }
-    return prompts;
+	if (Settings::getInstance()->getBool("QuickSystemSelect") && !hideSystemView)
+	{
+	  prompts.push_back(HelpPrompt("left/right", _("SYSTEM")));
+	}
+	prompts.push_back(HelpPrompt("up/down", _("CHOOSE")));
+	prompts.push_back(HelpPrompt("b", _("LAUNCH")));
+	prompts.push_back(HelpPrompt("x", _("NETPLAY")));
+	if(!hideSystemView)
+	  prompts.push_back(HelpPrompt("a", _("BACK")));
+	if(getRoot()->getSystem() != SystemData::getFavoriteSystem()) {
+	  prompts.push_back(HelpPrompt("y", _("Favorite")));
+	  prompts.push_back(HelpPrompt("select", _("OPTIONS")));
+	}
+	return prompts;
 }
 

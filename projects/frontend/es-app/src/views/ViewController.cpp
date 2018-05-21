@@ -265,7 +265,7 @@ void ViewController::onFileChanged(FileData* file, FileChangeType change)
 	}
 }
 
-void ViewController::launch(FileData* game, Eigen::Vector3f center)
+void ViewController::launch(FileData* game, Eigen::Vector3f center, std::string netplay)
 {
 	if(game->getType() != GAME)
 	{
@@ -282,9 +282,9 @@ void ViewController::launch(FileData* game, Eigen::Vector3f center)
 
 	std::string transition_style = Settings::getInstance()->getString("TransitionStyle");
 
-	auto launchFactory = [this, game, origCamera] (std::function<void(std::function<void()>)> backAnimation) {
-		return [this, game, origCamera, backAnimation] {
-			game->getSystem()->launchGame(mWindow, game);
+	auto launchFactory = [this, game, origCamera, netplay] (std::function<void(std::function<void()>)> backAnimation) {
+		return [this, game, origCamera, backAnimation, netplay] {
+			game->getSystem()->launchGame(mWindow, game, netplay);
 			mCamera = origCamera;
 			backAnimation([this] { mLockInput = false; });
 			this->onFileChanged(game, FILE_RUN);

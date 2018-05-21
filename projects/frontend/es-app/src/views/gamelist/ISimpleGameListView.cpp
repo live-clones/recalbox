@@ -1,5 +1,7 @@
 #include <Log.h>
 #include <RecalboxConf.h>
+#include <guis/GuiNetPlay.h>
+#include <guis/GuiSettings.h>
 #include "views/gamelist/ISimpleGameListView.h"
 #include "ThemeData.h"
 #include "SystemData.h"
@@ -220,6 +222,48 @@ bool ISimpleGameListView::input(InputConfig* config, Input input) {
 				}
 				ViewController::get()->goToPrevGameList();
 				return true;
+			}
+		}else if (config->isMappedTo("x", input))
+		{
+			FileData* cursor = getCursor();
+			if(cursor->getType() == GAME)
+			{
+				auto s = new GuiSettings(mWindow, _("NETPLAY").c_str());
+				auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+				Window *window = mWindow;
+				ComponentListRow row;
+				row.makeAcceptInputHandler([window, cursor] {
+					Eigen::Vector3f target(Renderer::getScreenWidth() / 2.0f, Renderer::getScreenHeight() / 2.0f, 0);
+					ViewController::get()->launch(cursor, target, "host");
+				});
+				auto lbl = std::make_shared<TextComponent>(mWindow, _("SERVER"), menuTheme->menuText.font, menuTheme->menuText.color);
+				row.addElement(lbl, true); // label
+				// spacer between text and arrow
+				auto spacer = std::make_shared<GuiComponent>(mWindow);
+				spacer->setSize(Renderer::getScreenWidth() * 0.005f, 0);
+				row.addElement(spacer, false);
+				auto bracket = std::make_shared<ImageComponent>(mWindow);
+				bracket->setImage(":/arrow.svg");
+				bracket->setResize(Eigen::Vector2f(0, lbl->getFont()->getLetterHeight()));
+				row.addElement(bracket, false);
+				s->addRow(row);
+
+				row.elements.clear();
+
+				row.makeAcceptInputHandler([window, cursor] {
+					auto netplay = new GuiNetPlay(window, cursor);
+					window->pushGui(netplay);
+				});
+				auto lbl2 = std::make_shared<TextComponent>(mWindow, _("CLIENT"), menuTheme->menuText.font, menuTheme->menuText.color);
+				row.addElement(lbl2, true); // label
+				// spacer between text and arrow
+				row.addElement(spacer, false);
+				auto bracket2 = std::make_shared<ImageComponent>(mWindow);
+				bracket2->setImage(":/arrow.svg");
+				bracket2->setResize(Eigen::Vector2f(0, lbl->getFont()->getLetterHeight()));
+				row.addElement(bracket2, false);
+				s->addRow(row);
+				mWindow->pushGui(s);
 			}
 		}
 	}
