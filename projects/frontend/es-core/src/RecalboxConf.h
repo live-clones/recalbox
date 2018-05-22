@@ -29,6 +29,8 @@ public:
     void setBool(const std::string &name, bool value);
     void setUInt(const std::string &name, unsigned int value);
 
+    bool isInList(const std::string &name, const std::string &value);
+
     static RecalboxConf *sInstance;
 
     static RecalboxConf *getInstance();

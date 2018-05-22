@@ -145,3 +145,23 @@ void RecalboxConf::setBool(const std::string &name, bool value) {
 void RecalboxConf::setUInt(const std::string &name, unsigned int value) {
     confMap[name] = std::to_string(value).c_str();
 }
+
+bool RecalboxConf::isInList(const std::string &name, const std::string &value) {
+    bool result = false;
+    if (confMap.count(name)) {
+        std::string s = confMap[name];
+        std::string delimiter = ",";
+
+        size_t pos = 0;
+        std::string token;
+        while (((pos = s.find(delimiter)) != std::string::npos) ) {
+            token = s.substr(0, pos);
+            if (token == value)
+	            result = true;
+            s.erase(0, pos + delimiter.length());
+        }
+	    if (s == value)
+		    result = true;
+    }
+    return result;
+}

@@ -223,7 +223,8 @@ bool ISimpleGameListView::input(InputConfig* config, Input input) {
 				ViewController::get()->goToPrevGameList();
 				return true;
 			}
-		}else if ((config->isMappedTo("x", input)) && (RecalboxConf::getInstance()->get("global.netplay") == "1"))
+		}else if ((config->isMappedTo("x", input)) && (RecalboxConf::getInstance()->get("global.netplay") == "1")
+		          && (RecalboxConf::getInstance()->isInList("global.netplay.systems", getCursor()->getSystem()->getName())))
 		{
 			FileData* cursor = getCursor();
 			if(cursor->getType() == GAME)
@@ -232,9 +233,10 @@ bool ISimpleGameListView::input(InputConfig* config, Input input) {
 				auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 				Window *window = mWindow;
 				ComponentListRow row;
-				row.makeAcceptInputHandler([window, cursor] {
+				row.makeAcceptInputHandler([window, cursor, s] {
 					Eigen::Vector3f target(Renderer::getScreenWidth() / 2.0f, Renderer::getScreenHeight() / 2.0f, 0);
 					ViewController::get()->launch(cursor, target, "host");
+					delete s;
 				});
 				auto lbl = std::make_shared<TextComponent>(mWindow, _("SERVER"), menuTheme->menuText.font, menuTheme->menuText.color);
 				row.addElement(lbl, true); // label
