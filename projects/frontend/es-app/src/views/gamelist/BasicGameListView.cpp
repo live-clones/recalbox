@@ -267,7 +267,7 @@ std::vector<HelpPrompt> BasicGameListView::getHelpPrompts() {
 	  prompts.push_back(HelpPrompt("left/right", _("SYSTEM")));
 	prompts.push_back(HelpPrompt("up/down", _("CHOOSE")));
 	prompts.push_back(HelpPrompt("b", _("LAUNCH")));
-	if (RecalboxConf::getInstance()->get("global.netplay") == "1")
+	if ((RecalboxConf::getInstance()->get("global.netplay") == "1") && (RecalboxConf::getInstance()->isInList("global.netplay.systems", getCursor()->getSystem()->getName())))
 		prompts.push_back(HelpPrompt("x", _("NETPLAY")));
 	if(!hideSystemView)
 	  prompts.push_back(HelpPrompt("a", _("BACK")));

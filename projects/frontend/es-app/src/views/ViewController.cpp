@@ -577,12 +577,14 @@ std::vector<HelpPrompt> ViewController::getHelpPrompts()
 
 	prompts = mCurrentView->getHelpPrompts();
 	if(RecalboxConf::getInstance()->get("emulationstation.menu") != "none"){
-	  prompts.push_back(HelpPrompt("select", _("QUIT")));
-	  prompts.push_back(HelpPrompt("start", _("MENU")));
+		prompts.push_back(HelpPrompt("select", _("QUIT")));
+		prompts.push_back(HelpPrompt("start", _("MENU")));
 
-	  if (RecalboxConf::getInstance()->get("kodi.enabled") == "1" && RecalboxConf::getInstance()->get("kodi.xbutton") == "1" && isViewing(SYSTEM_SELECT)) {
+		if (RecalboxConf::getInstance()->get("kodi.enabled") == "1" && RecalboxConf::getInstance()->get("kodi.xbutton") == "1" && isViewing(SYSTEM_SELECT)) {
 		prompts.push_back(HelpPrompt("x", _("START KODI")));
-	  }
+		}
+		if (RecalboxConf::getInstance()->get("global.netplay") == "1")
+			prompts.push_back(HelpPrompt("y", _("NETPLAY")));
 	}
 
 	return prompts;

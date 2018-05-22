@@ -13,6 +13,7 @@
 #include <components/ComponentList.h>
 #include <guis/GuiSettings.h>
 #include <RecalboxConf.h>
+#include <guis/GuiNetPlay.h>
 #include "ThemeData.h"
 #include "MenuThemeData.h"
 #include "AudioManager.h"
@@ -165,6 +166,10 @@ bool SystemView::input(InputConfig* config, Input input)
 			stopScrolling();
 			ViewController::get()->goToGameList(getSelected());
 			return true;
+		}
+		if ((config->isMappedTo("y", input)) && (RecalboxConf::getInstance()->get("global.netplay") == "1")) {
+			auto netplay = new GuiNetPlay(mWindow);
+			mWindow->pushGui(netplay);
 		}
 		if(config->isMappedTo("select", input) && RecalboxConf::getInstance()->get("emulationstation.menu") != "none")
 		{
