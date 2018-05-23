@@ -10,6 +10,11 @@
 #include "components/NinePatchComponent.h"
 #include "components/ComponentGrid.h"
 #include "resources/Font.h"
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/json_parser.hpp>
+#include <recalbox/RecalboxSystem.h>
+
+namespace json = boost::property_tree;
 
 class TextComponent;
 class ButtonComponent;
@@ -32,6 +37,12 @@ public:
 
 	std::vector<HelpPrompt> getHelpPrompts() override;
 
+	bool parseLobby();
+
+	void populateGridMeta(int i);
+
+	void launch();
+
 private:
 
 
@@ -41,12 +52,17 @@ private:
 
 	NinePatchComponent mBackground;
 	ComponentGrid mGrid;
+	std::shared_ptr<ComponentGrid> mGridMeta;
 
 
 	std::shared_ptr<TextComponent> mTitle;
 	std::vector< std::shared_ptr<ButtonComponent> > mButtons;
 	std::shared_ptr<ComponentGrid> mButtonGrid;
 	std::shared_ptr<ComponentList> mList;
+
+	std::vector<json::ptree::value_type> mRooms;
+
+	std::shared_ptr<TextComponent> mMetaText;
 };
 
 #endif //EMULATIONSTATION_ALL_GUINETPLAY_H
