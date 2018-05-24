@@ -18,7 +18,7 @@
 #include "views/ViewController.h"
 
 Window::Window() : mNormalizeNextUpdate(false), mFrameTimeElapsed(0), mFrameCountElapsed(0), mAverageDeltaTime(10), 
-	mAllowSleep(true), mSleeping(false), mTimeSinceLastInput(0), launchKodi(false), mInfoPopup(NULL)
+	mAllowSleep(true), mSleeping(false), mTimeSinceLastInput(0), mInfoPopup(NULL)
 {
 	mHelp = new HelpComponent(this);
 	mBackgroundOverlay = new ImageComponent(this);
@@ -148,33 +148,15 @@ void Window::input(InputConfig* config, Input input)
 	}
 	else
 	{	
-		if(	config->isMappedTo("x", input) && input.value 
-			&& !launchKodi && RecalboxConf::getInstance()->get("kodi.enabled") == "1" && RecalboxConf::getInstance()->get("kodi.xbutton") == "1" 
-			&& ViewController::get()->isViewing(ViewController::SYSTEM_SELECT) /* only in the main menu */
-			&& !isShowingPopup() )
-		{
-			launchKodi = true;
-			Window * window = this;
-			this->pushGui(new GuiMsgBox(this, _("DO YOU WANT TO START KODI MEDIA CENTER ?"),
-				_("YES"), [window, this] { 
-					if( ! RecalboxSystem::getInstance()->launchKodi(window)) {
-						LOG(LogWarning) << "Shutdown terminated with non-zero result!";
-					}
-					launchKodi = false;
-				}, 
-				_("NO"), [this] {
-					launchKodi = false;
-				}
-			));
-		}
-		/*else if(config->isMappedTo("PageDown", input) && input.value
+
+		/*if(config->isMappedTo("PageDown", input) && input.value
 					&& ViewController::get()->isViewing(ViewController::SYSTEM_SELECT)
 					&& mGuiStack.size() == 1 )
 		{
 			auto s = std::make_shared<GuiInfoPopup>(this, "Controller:\n" + config->getDeviceName(), 2);
 			this->setInfoPopup(s);
 		}*/
-		else if(peekGui() && !KonamiCode(config, input, this))
+		if(peekGui() && !KonamiCode(config, input, this))
 		{
 			this->peekGui()->input(config, input);
 		}

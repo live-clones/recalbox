@@ -90,8 +90,6 @@ private:
 	unsigned int mTimeSinceLastInput;
 
 	bool mRenderedHelpPrompts;
-        
-	bool launchKodi;
 
 	std::string mKonami = "uuddlrlrba";
 	int mKonamiCount = 0;

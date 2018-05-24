@@ -87,4 +87,5 @@ private:
         SystemData * lastSystem;
 	bool mViewNeedsReload;
 	bool mShowing;
+	bool launchKodi;
 };

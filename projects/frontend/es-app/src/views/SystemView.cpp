@@ -24,8 +24,8 @@ const int logoBuffersLeft[] = { -5, -2, -1 };
 const int logoBuffersRight[] = { 1, 2, 5 };
 
 SystemView::SystemView(Window* window) : IList<SystemViewData, SystemData*>(window, LIST_SCROLL_STYLE_SLOW, LIST_ALWAYS_LOOP),
-																				mViewNeedsReload(true),
-																				mSystemInfo(window, "SYSTEM INFO", Font::get(FONT_SIZE_SMALL), 0x33333300, ALIGN_CENTER)
+																				mViewNeedsReload(true), launchKodi(false),
+                                         mSystemInfo(window, "SYSTEM INFO", Font::get(FONT_SIZE_SMALL), 0x33333300, ALIGN_CENTER)
 {
 	mCamOffset = 0;
 	mExtrasCamOffset = 0;
@@ -167,10 +167,50 @@ bool SystemView::input(InputConfig* config, Input input)
 			ViewController::get()->goToGameList(getSelected());
 			return true;
 		}
-		if ((config->isMappedTo("y", input)) && (RecalboxConf::getInstance()->get("global.netplay") == "1")) {
-			auto netplay = new GuiNetPlay(mWindow);
-			mWindow->pushGui(netplay);
-		}
+        if(	config->isMappedTo("x", input) && input.value) {
+		    bool kodiEnabled = RecalboxConf::getInstance()->get("kodi.enabled") == "1";
+		    bool kodiX = RecalboxConf::getInstance()->get("kodi.xbutton") == "1";
+		    bool netplay = RecalboxConf::getInstance()->get("global.netplay") == "1";
+
+		    if (kodiEnabled && kodiX && !launchKodi && !mWindow->isShowingPopup()) {
+		        if (netplay) {
+                    auto s = new GuiSettings(mWindow, _("KODI/NETPLAY").c_str());
+                    auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+                    ComponentListRow row;
+                    row.makeAcceptInputHandler([this, s] {
+                        launchKodi = true;
+                        if( ! RecalboxSystem::getInstance()->launchKodi(mWindow)) {
+                            LOG(LogWarning) << "Shutdown terminated with non-zero result!";
+                        }
+                        launchKodi = false;
+                        delete s;
+                    });
+                    auto lbl = std::make_shared<TextComponent>(mWindow, _("KODI MEDIA CENTER"), menuTheme->menuText.font, menuTheme->menuText.color);
+                    row.addElement(lbl, true); // label
+                    s->addRow(row);
+                    row.elements.clear();
+                    row.makeAcceptInputHandler([this] {
+                        auto netplay = new GuiNetPlay(mWindow);
+                        mWindow->pushGui(netplay);
+                    });
+                    auto lbl2 = std::make_shared<TextComponent>(mWindow, _("NETPLAY LOBBY"), menuTheme->menuText.font, menuTheme->menuText.color);
+                    row.addElement(lbl2, true); // label
+                    s->addRow(row);
+                    mWindow->pushGui(s);
+                } else {
+                    launchKodi = true;
+                    if( ! RecalboxSystem::getInstance()->launchKodi(mWindow)) {
+                        LOG(LogWarning) << "Shutdown terminated with non-zero result!";
+                    }
+                    launchKodi = false;
+		        }
+		    } else if (netplay && !mWindow->isShowingPopup()) {
+                auto netplay = new GuiNetPlay(mWindow);
+                mWindow->pushGui(netplay);
+		    }
+
+
+        }
 		if(config->isMappedTo("select", input) && RecalboxConf::getInstance()->get("emulationstation.menu") != "none")
 		{
 		  auto s = new GuiSettings(mWindow, _("QUIT").c_str());
@@ -442,6 +482,15 @@ std::vector<HelpPrompt> SystemView::getHelpPrompts()
 	else
 			prompts.push_back(HelpPrompt("left/right", _("CHOOSE")));
 	prompts.push_back(HelpPrompt("b", _("SELECT")));
+	 if (RecalboxConf::getInstance()->get("kodi.enabled") == "1" && RecalboxConf::getInstance()->get("kodi.xbutton") == "1") {
+		 if (RecalboxConf::getInstance()->get("global.netplay") == "1") {
+			 prompts.push_back(HelpPrompt("x", _("KODI/NETPLAY")));
+		 } else {
+			 prompts.push_back(HelpPrompt("x", _("START KODI")));
+		 }
+	 } else if (RecalboxConf::getInstance()->get("global.netplay") == "1") {
+         prompts.push_back(HelpPrompt("x", _("NETPLAY")));
+	 }
 	return prompts;
 }	
 
