@@ -50,5 +50,3 @@ CPackSourceConfig.cmake
 *.cbp
 *.cmake
 test_exe
-
-es-app/src/EmulationStation.h

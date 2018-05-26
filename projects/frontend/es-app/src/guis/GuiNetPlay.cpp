@@ -2,6 +2,9 @@
 // Created by xizor on 20/05/18.
 //
 
+#include <RecalboxConf.h>
+#include <SystemData.h>
+#include <views/ViewController.h>
 #include "GuiNetPlay.h"
 #include "components/TextComponent.h"
 #include "components/ButtonComponent.h"
@@ -38,20 +41,36 @@ GuiNetPlay::GuiNetPlay(Window* window) : GuiComponent(window),
 		mGrid.setEntry(mGridMeta, Vector2i(0, 1), true);
 
 		mMetaText = std::make_shared<TextComponent>(mWindow, "", menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, ALIGN_LEFT);
+		mMetaText->setVerticalAlignment(ALIGN_TOP);
+		mLaunchText = std::make_shared<TextComponent>(mWindow, "", menuTheme->menuText.font, menuTheme->menuTextSmall.color, ALIGN_LEFT);
+		mLaunchText->setVerticalAlignment(ALIGN_BOTTOM);
+		mGridMeta->setEntry(mLaunchText, Vector2i(1, 0), false, true);
 		mGridMeta->setEntry(mMetaText, Vector2i(1, 0), false, true, Eigen::Vector2i(1, 1), GridFlags::BORDER_LEFT);
 
 		ComponentListRow row;
 		std::shared_ptr<GuiComponent> ed;
+		int i = 0;
 		for (auto v : mRooms) {
 			row.elements.clear();
-			ed = std::make_shared<TextComponent>(mWindow, v.second.get<std::string>("fields.game_name"), menuTheme->menuText.font, menuTheme->menuText.color, ALIGN_LEFT);
+			std::string text;
+			if (mGames[i]) {
+				if (mGames[i]->getHash() == v.second.get<std::string>("fields.game_crc")) {
+					text = "\uf1c0 " + v.second.get<std::string>("fields.game_name");
+				} else {
+					text = "\uf1c1 " + v.second.get<std::string>("fields.game_name");
+				}
+			} else {
+				text = "\uf1c2 " + v.second.get<std::string>("fields.game_name");
+			}
+			ed = std::make_shared<TextComponent>(mWindow, text, menuTheme->menuText.font, menuTheme->menuText.color, ALIGN_LEFT);
 			row.addElement(ed, true);
 			row.makeAcceptInputHandler([this] { launch();});
 			addRow(row);
+			i++;
 		}
 		populateGridMeta(0);
 		mList->setCursorChangedCallback([this](CursorState state){populateGridMeta(mList->getCursor());});
-		mList->setFocusLostCallback([this]{mMetaText->setText("");});
+		mList->setFocusLostCallback([this]{mMetaText->setText(""); mLaunchText->setText("");});
         mList->setFocusGainedCallback([this]{populateGridMeta(mList->getCursor());});
 	} else {
 		auto text = std::make_shared<TextComponent>(mWindow, _("NO GAMES OR NO CONNECTION"), menuTheme->menuText.font, menuTheme->menuText.color, ALIGN_CENTER);
@@ -98,16 +117,43 @@ void GuiNetPlay::populateGridMeta(int i)
     text += "\n    " + _("Core ver.") + " : " + mRooms[i].second.get<std::string>("fields.core_version", "N/A");
     text += "\n    " + _("RA ver.") + " : " + mRooms[i].second.get<std::string>("fields.retroarch_version", "N/A");
 	mMetaText->setText(text);
-	mMetaText->setVerticalAlignment(ALIGN_TOP);
+	std::string text2 = "    " + _("Can join") + " : ";
+	if (mGames[i]) {
+		if (mGames[i]->getHash() == mRooms[i].second.get<std::string>("fields.game_crc")) {
+			text2 += "Yes";
+			mLaunchText->setColor(0x26B14AFF);
+		} else {
+			text2 += "Maybe";
+			mLaunchText->setColor(0x36A9E0FF);
+		}
+	} else {
+		text2 += "No";
+		mLaunchText->setColor(0xDC1F26FF);
+	}
+	mLaunchText->setText(text2);
 }
 
 void GuiNetPlay::launch()
 {
-	mWindow->pushGui(new GuiMsgBoxScroll(
-			mWindow, _("NETPLAY"),
-			mRooms[mList->getCursor()].second.get<std::string>("fields.game_name") + "\n" + mRooms[mList->getCursor()].second.get<std::string>("fields.game_crc"),
-			_("OK"),
-			[] {}, "", nullptr, "", nullptr, ALIGN_CENTER));
+	if (mGames[mList->getCursor()]) {
+		mWindow->pushGui(new GuiMsgBoxScroll(
+				mWindow, _("NETPLAY"),
+				mRooms[mList->getCursor()].second.get<std::string>("fields.game_name") + "\n" + mRooms[mList->getCursor()].second.get<std::string>("fields.game_crc"),
+				_("OK"),
+				[] {}, "", nullptr, "", nullptr, ALIGN_CENTER));
+	}
+	/*Eigen::Vector3f target(Renderer::getScreenWidth() / 2.0f, Renderer::getScreenHeight() / 2.0f, 0);
+	int index = mList->getCursor();
+	std::string core = "";
+	std::string ip, port;
+	if (mRooms[index].second.get<std::string>("fields.host_method") == "3") {
+		ip = mRooms[index].second.get<std::string>("fields.mitm_ip");
+		port = mRooms[index].second.get<std::string>("fields.mitm_port");
+	} else {
+		ip = mRooms[index].second.get<std::string>("fields.ip");
+		port = mRooms[index].second.get<std::string>("fields.port");
+	}
+	ViewController::get()->launch(mGames[index], target, "client", core, ip, port);*/
 }
 
 float GuiNetPlay::getButtonGridHeight() const
@@ -128,7 +174,7 @@ bool GuiNetPlay::input(InputConfig* config, Input input)
 void GuiNetPlay::updateSize()
 {
 	const float height = Renderer::getScreenHeight() * 0.7f;
-	const float width = Renderer::getScreenWidth() * 0.7f;
+	const float width = Renderer::getScreenWidth() * 0.8f;
 	setSize(width, height);
 }
 
@@ -154,7 +200,8 @@ std::vector<HelpPrompt> GuiNetPlay::getHelpPrompts()
 bool GuiNetPlay::parseLobby()
 {
 	mRooms.clear();
-	auto json_req = RecalboxSystem::getInstance()->execute("curl -s http://lobby.libretro.com/list/");
+	std::string lobby = RecalboxConf::getInstance()->get("global.netplay.lobby");
+	auto json_req = RecalboxSystem::getInstance()->execute("curl -s " + lobby);
 	if (json_req.second == 0) {
 		json::ptree root;
 		std::stringstream ss;
@@ -167,10 +214,53 @@ bool GuiNetPlay::parseLobby()
 		}
 
 		for (json::ptree::value_type &array_element : root) {
+			if (array_element.second.get<std::string>("fields.game_crc") == "00000000") {
+				mGames.push_back(findGame(array_element.second.get<std::string>("fields.game_name")));
+			} else {
+				mGames.push_back(findGame(array_element.second.get<std::string>("fields.game_crc")));
+			}
 			mRooms.push_back(array_element);
 		}
 		return true;
 	} else {
 		return false;
 	}
+}
+
+FileData* GuiNetPlay::findGame(std::string gameNameOrHash)
+{
+	for (auto tmp : SystemData::sSystemVector) {
+		if (RecalboxConf::getInstance()->isInList("global.netplay.systems", tmp->getName())) {
+			std::vector<FileData*> games = tmp->getRootFolder()->getChildren();
+			FileData* result = findRecursive(games, gameNameOrHash);
+			if (result != NULL) {
+				std::cout << gameNameOrHash << " found : " << result->getName() << "\n";
+				return result;
+			}
+		}
+	}
+	return nullptr;
+}
+
+FileData* GuiNetPlay::findRecursive(const std::vector<FileData*>& gameFolder, const std::string& gameNameOrHash, const std::string& relativePath) {
+	// Recursively look for the game in subfolders too
+	for (auto game = gameFolder.begin(); game != gameFolder.end(); ++game) {
+		std::string gameAndPath;
+		if (relativePath.empty()) {
+			gameAndPath = (*game)->getPath().stem().c_str();
+		} else {
+			gameAndPath = relativePath + '/' + (*game)->getPath().stem().c_str();
+		}
+		//LOG(LogInfo) << "Checking game " << gameNameOrHash << " in path: " << gameAndPath;
+		if ((*game)->getType() == FOLDER) {
+			FileData* foundGame = findRecursive((*game)->getChildren(), gameNameOrHash, gameAndPath);
+			if ( foundGame != NULL ) {
+				return foundGame;
+			}
+		}
+		if ((*game)->getType() == GAME and (gameAndPath == gameNameOrHash or (*game)->getHash() == gameNameOrHash)) {
+			return *game;
+		}
+	}
+	return NULL;
 }

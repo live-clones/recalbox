@@ -265,7 +265,7 @@ void ViewController::onFileChanged(FileData* file, FileChangeType change)
 	}
 }
 
-void ViewController::launch(FileData* game, Eigen::Vector3f center, std::string netplay)
+void ViewController::launch(FileData* game, Eigen::Vector3f center, std::string netplay, std::string core, std::string ip, std::string port)
 {
 	if(game->getType() != GAME)
 	{

@@ -13,6 +13,7 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 #include <recalbox/RecalboxSystem.h>
+#include "FileData.h"
 
 namespace json = boost::property_tree;
 
@@ -33,7 +34,7 @@ public:
 
 	bool input(InputConfig* config, Input input) override;
 
-	inline void clear() { mList->clear(); }
+	inline ~GuiNetPlay() { if (mList) mList->clear(); }
 
 	std::vector<HelpPrompt> getHelpPrompts() override;
 
@@ -42,6 +43,10 @@ public:
 	void populateGridMeta(int i);
 
 	void launch();
+
+	FileData* findGame(std::string game);
+
+	FileData* findRecursive(const std::vector<FileData*>& gameFolder, const std::string& gameName, const std::string& relativePath = "");
 
 private:
 
@@ -60,9 +65,11 @@ private:
 	std::shared_ptr<ComponentGrid> mButtonGrid;
 	std::shared_ptr<ComponentList> mList;
 
+	std::vector<FileData*> mGames;
 	std::vector<json::ptree::value_type> mRooms;
 
 	std::shared_ptr<TextComponent> mMetaText;
+	std::shared_ptr<TextComponent> mLaunchText;
 };
 
 #endif //EMULATIONSTATION_ALL_GUINETPLAY_H

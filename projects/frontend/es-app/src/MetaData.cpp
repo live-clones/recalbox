@@ -12,6 +12,7 @@ std::vector<MetaDataDecl> folderMDD;
 
 void initMetadata() {
   gameMDD.push_back(MetaDataDecl("name",		MD_STRING,				"", 				false,	true,		_("Name"),			_("enter game name")));
+  gameMDD.push_back(MetaDataDecl("hash",		MD_STRING,				"", 				false,	true,		_("hash"),			_("enter game hash")));
   gameMDD.push_back(MetaDataDecl("rating",		MD_RATING,				"0.000000", 		false,	true,		_("Rating"),		_("enter rating")));
   gameMDD.push_back(MetaDataDecl("favorite",	MD_BOOL,				"false",			false,	true,		_("Favorite"),		_("enter favorite")));
   gameMDD.push_back(MetaDataDecl("hidden",		MD_BOOL,				"false",			false,	true,		_("Hidden"),		_("set hidden")));

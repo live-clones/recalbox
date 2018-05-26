@@ -156,7 +156,7 @@ std::string escapePath(const boost::filesystem::path& path)
 #endif
 }
 
-void SystemData::launchGame(Window* window, FileData* game, std::string netplay)
+void SystemData::launchGame(Window* window, FileData* game, std::string netplay, std::string core, std::string ip, std::string port)
 {
     LOG(LogInfo) << "Attempting to launch game...";
 
@@ -176,17 +176,22 @@ void SystemData::launchGame(Window* window, FileData* game, std::string netplay)
     const std::string basename = game->getPath().stem().string();
     const std::string rom_raw = fs::path(game->getPath()).make_preferred().string();
 
-    command = strreplace(command, "%ROM%", rom);
-    command = strreplace(command, "%CONTROLLERSCONFIG%", controlersConfig);
-    command = strreplace(command, "%SYSTEM%", game->metadata.get("system"));
-    command = strreplace(command, "%BASENAME%", basename);
-    command = strreplace(command, "%ROM_RAW%", rom_raw);
-    command = strreplace(command, "%EMULATOR%", game->metadata.get("emulator"));
-    command = strreplace(command, "%CORE%", game->metadata.get("core"));
-    command = strreplace(command, "%RATIO%", game->metadata.get("ratio"));
+	command = strreplace(command, "%ROM%", rom);
+	command = strreplace(command, "%CONTROLLERSCONFIG%", controlersConfig);
+	command = strreplace(command, "%SYSTEM%", game->metadata.get("system"));
+	command = strreplace(command, "%BASENAME%", basename);
+	command = strreplace(command, "%ROM_RAW%", rom_raw);
+	if (core != "") {
+		command = strreplace(command, "%EMULATOR%", "libretro");
+		command = strreplace(command, "%CORE%", core);
+	} else {
+		command = strreplace(command, "%EMULATOR%", game->metadata.get("emulator"));
+		command = strreplace(command, "%CORE%", game->metadata.get("core"));
+	}
+	command = strreplace(command, "%RATIO%", game->metadata.get("ratio"));
 
 	if (netplay == "client") {
-		command = strreplace(command, "%NETPLAY%", "-netplay client -netplay_port " + RecalboxConf::getInstance()->get("global.netplay.port"));
+		command = strreplace(command, "%NETPLAY%", "-netplay client -netplay_port " + port + "netplay_ip " + ip);
 	} else if (netplay == "host") {
 		command = strreplace(command, "%NETPLAY%", "-netplay host -netplay_port " + RecalboxConf::getInstance()->get("global.netplay.port"));
 	} else {

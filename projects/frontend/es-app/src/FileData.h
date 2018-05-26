@@ -40,6 +40,7 @@ public:
 	virtual ~FileData();
 
 	inline const std::string& getName() const { return metadata.get("name"); }
+	inline const std::string& getHash() const { return metadata.get("hash"); }
 	inline FileType getType() const { return mType; }
 	inline const boost::filesystem::path& getPath() const { return mPath; }
 	inline FileData* getParent() const { return mParent; }
