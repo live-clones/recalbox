@@ -460,26 +460,34 @@ void GuiMenu::menuGameSettings(){
 					// netplay username
 					createInputTextRow(netplay, _("NICKNAME"), "global.netplay.nickname", false);
 
-					// netplay username
+					// netplay port
 					createInputTextRow(netplay, _("PORT"), "global.netplay.port", false);
 
-					// netplay_relay server
-					auto netplay_relay = std::make_shared<SwitchComponent>(mWindow);
-					netplay_relay->setState(RecalboxConf::getInstance()->get("global.netplay.relay") == "1");
-					netplay->addWithLabel(netplay_relay, _("RELAY SERVER"), _(MenuMessages::NP_RELAY_HELP_MSG));
+					//mitm
+					auto mitm_choices = std::make_shared<OptionListComponent<std::string> >(mWindow,
+					                                                                        _("NETPLAY MITM"), false);
+					std::string currentMitm = RecalboxConf::getInstance()->get("global.netplay.relay");
+					if (currentMitm.empty()) {
+						currentMitm = std::string("none");
+					}
+
+					mitm_choices->add(_("NONE"), "none", currentMitm == "none");
+					mitm_choices->add(_("NEW YORK"), "nyc", currentMitm == "nyc");
+					mitm_choices->add(_("MADRID"), "madrid", currentMitm == "madrid");
+					netplay->addWithLabel(mitm_choices, _("NETPLAY MITM"), _(MenuMessages::NP_RELAY_HELP_MSG));
 
 					netplay->addSaveFunc(
-							[netplay_enabled, netplay_relay] {
+							[netplay_enabled, mitm_choices] {
+								std::string mitm = mitm_choices->getSelected();
+								if (mitm == "none") {
+									mitm = "";
+								}
 								RecalboxConf::getInstance()->set("global.netplay", netplay_enabled->getState() ? "1" : "0");
-								RecalboxConf::getInstance()->set("global.netplay.relay", netplay_relay->getState() ? "1" : "0");
+								RecalboxConf::getInstance()->set("global.netplay.relay", mitm);
 								RecalboxConf::getInstance()->saveRecalboxConf();
 							});
 					mWindow->pushGui(netplay);
 				};
-				auto retroachievementsSettings = std::make_shared<TextComponent>(mWindow,
-				                                                                 _("NETPLAY SETTINGS"),
-				                                                                 mMenuTheme->menuText.font,
-				                                                                 mMenuTheme->menuText.color);
 				s->addSubMenu(_("NETPLAY SETTINGS"), openGui, _(MenuMessages::NP_HELP_MSG));
 			}
 		}
