@@ -66,12 +66,22 @@ class LibretroGenerator(Generator):
             commandArray.extend(["--appendconfig", "|".join(configToAppend)])
             
          # Netplay mode
-        if 'netplaymode' in system.config:
+        if system.config['netplaymode'] is not None and system.config['netplaymode'] in ('host', 'client'):
             if system.config['netplaymode'] == 'host':
                 commandArray.append("--host")
             elif system.config['netplaymode'] == 'client':
-                commandArray.extend(["--connect", system.config['netplay.server.address']])
-        
+                if system.config['netplay_ip'] is not None:
+                    commandArray.extend(["--connect", system.config['netplay_ip']])
+		else:
+		    raise ValueError("You must specify n IP in client mode")
+	    else:
+		raise ValueError("Netplay mode should be host or client")
+	    port = system.config.get('netplay_port', "55435")
+	    commandArray.extend(["--port", port])
+	    nick = system.config['netplay_nickname'] if system.config['netplay_nickname'] else "Anonymous"
+	    nick += "@RECALBOX"
+	    commandArray.extend(["--nick", nick])
+
         # Optionnal arguments
         if 'args' in system.config and system.config['args'] is not None:
              commandArray.extend(system.config['args'])

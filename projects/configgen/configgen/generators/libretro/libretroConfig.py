@@ -131,19 +131,15 @@ def createLibretroConfig(system, controllers):
 
     # Netplay management
     if 'netplaymode' in system.config and system.config['netplaymode'] in systemNetplayModes:
-        # Security : hardcore mode disables save states, which would kill netplay
-        retroarchConfig['cheevos_hardcore_mode_enable'] = 'false'
-        # Quite strangely, host mode requires netplay_mode to be set to false when launched from command line
-        retroarchConfig['netplay_mode']              = "false"
-        retroarchConfig['netplay_ip_port']           = recalboxConfig.get('netplay.server.port', "")
-        retroarchConfig['netplay_delay_frames']      = recalboxConfig.get('netplay.frames', "")
-        retroarchConfig['netplay_nickname']          = recalboxConfig.get('netplay.nick', "")
-        retroarchConfig['netplay_client_swap_input'] = "false"
+        retroarchConfig['netplay_use_mitm_server']   = "false"
         if system.config['netplaymode'] == 'client':
-            # But client needs netplay_mode = true ... bug ?
-            retroarchConfig['netplay_mode']              = "true"
-            retroarchConfig['netplay_ip_address']        = recalboxConfig.get('netplay.server.ip', "")
-            retroarchConfig['netplay_client_swap_input'] = "true"
+	    pass
+        elif system.config['netplaymode'] == 'host':
+            mitm = recalboxConfig.get('netplay.relay', "")
+	    print "mitm: '{}'".format(mitm)
+            if mitm:
+                retroarchConfig['netplay_use_mitm_server'] = "true"
+                retroarchConfig['netplay_mitm_server'] = mitm
 
     # Display FPS
     if enabled('showFPS', recalboxConfig):

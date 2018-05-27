@@ -137,7 +137,7 @@ def main(args):
     # A generator will configure its emulator, and return a command
     if systemName in emulators:
         system = emulators[systemName]
-        system.configure(args.emulator, args.core, args.ratio, args.netplay)
+        system.configure(args.emulator, args.core, args.ratio, args.netplay, args.netplay_ip, args.netplay_port)
 
         # Save dir
         dirname = os.path.join(recalboxFiles.savesDir, system.name)
@@ -219,6 +219,8 @@ if __name__ == '__main__':
     parser.add_argument("-ratio", help="force game ratio", type=str, required=False)
     parser.add_argument("-demo", help="mode demo", type=bool, required=False)
     parser.add_argument("-netplay", help="host/client", type=str, required=False)
+    parser.add_argument("-netplay_ip", help="host IP", type=str, required=False)
+    parser.add_argument("-netplay_port", help="host port (not used in client mode)", type=str, required=False)
 
     args = parser.parse_args()
     exitcode = main(args)
