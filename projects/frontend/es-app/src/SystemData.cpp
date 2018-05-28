@@ -191,7 +191,7 @@ void SystemData::launchGame(Window* window, FileData* game, std::string netplay,
 	command = strreplace(command, "%RATIO%", game->metadata.get("ratio"));
 
 	if (netplay == "client") {
-		command = strreplace(command, "%NETPLAY%", "-netplay client -netplay_port " + port + "netplay_ip " + ip);
+		command = strreplace(command, "%NETPLAY%", "-netplay client -netplay_port " + port + " -netplay_ip " + ip);
 	} else if (netplay == "host") {
 		command = strreplace(command, "%NETPLAY%", "-netplay host -netplay_port " + RecalboxConf::getInstance()->get("global.netplay.port"));
 	} else {

@@ -282,9 +282,9 @@ void ViewController::launch(FileData* game, Eigen::Vector3f center, std::string 
 
 	std::string transition_style = Settings::getInstance()->getString("TransitionStyle");
 
-	auto launchFactory = [this, game, origCamera, netplay] (std::function<void(std::function<void()>)> backAnimation) {
-		return [this, game, origCamera, backAnimation, netplay] {
-			game->getSystem()->launchGame(mWindow, game, netplay);
+	auto launchFactory = [this, game, origCamera, netplay, core, ip, port] (std::function<void(std::function<void()>)> backAnimation) {
+		return [this, game, origCamera, backAnimation, netplay, core, ip, port] {
+			game->getSystem()->launchGame(mWindow, game, netplay, core, ip, port);
 			mCamera = origCamera;
 			backAnimation([this] { mLockInput = false; });
 			this->onFileChanged(game, FILE_RUN);

@@ -48,6 +48,10 @@ public:
 
 	FileData* findRecursive(const std::vector<FileData*>& gameFolder, const std::string& gameName, const std::string& relativePath = "");
 
+    std::pair<std::string, std::string> getCoreInfo(const std::string &name);
+
+    std::string pingLobbyHost(const std::string& ip);
+
 private:
 
 
@@ -70,6 +74,9 @@ private:
 
 	std::shared_ptr<TextComponent> mMetaText;
 	std::shared_ptr<TextComponent> mLaunchText;
+
+	std::vector<std::string> mPings;
+
 };
 
 #endif //EMULATIONSTATION_ALL_GUINETPLAY_H

@@ -189,9 +189,10 @@ bool SystemView::input(InputConfig* config, Input input)
                     row.addElement(lbl, true); // label
                     s->addRow(row);
                     row.elements.clear();
-                    row.makeAcceptInputHandler([this] {
+                    row.makeAcceptInputHandler([this, s] {
                         auto netplay = new GuiNetPlay(mWindow);
                         mWindow->pushGui(netplay);
+                        delete s;
                     });
                     auto lbl2 = std::make_shared<TextComponent>(mWindow, _("NETPLAY LOBBY"), menuTheme->menuText.font, menuTheme->menuText.color);
                     row.addElement(lbl2, true); // label

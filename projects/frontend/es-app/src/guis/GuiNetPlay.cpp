@@ -9,6 +9,9 @@
 #include "components/TextComponent.h"
 #include "components/ButtonComponent.h"
 #include "components/MenuComponent.h"
+#include <boost/regex.hpp>
+#include <boost/algorithm/string/predicate.hpp>
+#include <regex>
 
 
 #define BUTTON_GRID_VERT_PADDING 32
@@ -42,7 +45,7 @@ GuiNetPlay::GuiNetPlay(Window* window) : GuiComponent(window),
 
 		mMetaText = std::make_shared<TextComponent>(mWindow, "", menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, ALIGN_LEFT);
 		mMetaText->setVerticalAlignment(ALIGN_TOP);
-		mLaunchText = std::make_shared<TextComponent>(mWindow, "", menuTheme->menuText.font, menuTheme->menuTextSmall.color, ALIGN_LEFT);
+		mLaunchText = std::make_shared<TextComponent>(mWindow, "", menuTheme->menuText.font, menuTheme->menuText.color, ALIGN_LEFT);
 		mLaunchText->setVerticalAlignment(ALIGN_BOTTOM);
 		mGridMeta->setEntry(mLaunchText, Vector2i(1, 0), false, true);
 		mGridMeta->setEntry(mMetaText, Vector2i(1, 0), false, true, Eigen::Vector2i(1, 1), GridFlags::BORDER_LEFT);
@@ -108,7 +111,10 @@ void GuiNetPlay::populateGridMeta(int i)
     format[15] = iso8601[15];
     iso8601 = format;
 
-    text += "    " + _("Username") + " : " + mRooms[i].second.get<std::string>("fields.username", "N/A");
+    std::string username = mRooms[i].second.get<std::string>("fields.username", "N/A");
+    username = std::regex_replace(username, std::regex("@RECALBOX"), " \uF200");
+
+    text += "    " + _("Username") + " : " + username;
     text += "\n    " + _("Country") + " : " + mRooms[i].second.get<std::string>("fields.country", "N/A");
     text += "\n    " + _("Created") + " : " + iso8601;
     text += "\n    " + _("Password protected") + " : " + mRooms[i].second.get<std::string>("fields.has_password", "N/A");
@@ -116,18 +122,20 @@ void GuiNetPlay::populateGridMeta(int i)
     text += "\n    " + _("Core") + " : " + mRooms[i].second.get<std::string>("fields.core_name", "N/A");
     text += "\n    " + _("Core ver.") + " : " + mRooms[i].second.get<std::string>("fields.core_version", "N/A");
     text += "\n    " + _("RA ver.") + " : " + mRooms[i].second.get<std::string>("fields.retroarch_version", "N/A");
+    //text += "\n    Latency : " + mPings[i];
 	mMetaText->setText(text);
 	std::string text2 = "    " + _("Can join") + " : ";
 	if (mGames[i]) {
-		if (mGames[i]->getHash() == mRooms[i].second.get<std::string>("fields.game_crc")) {
-			text2 += "Yes";
+		if (mGames[i]->getHash() == mRooms[i].second.get<std::string>("fields.game_crc")
+		        && getCoreInfo(mRooms[i].second.get<std::string>("fields.core_name")).second == mRooms[i].second.get<std::string>("fields.core_version")) {
+			text2 += "\uf1c0 Rom and core match";
 			mLaunchText->setColor(0x26B14AFF);
 		} else {
-			text2 += "Maybe";
+			text2 += "\uf1c1 Rom found";
 			mLaunchText->setColor(0x36A9E0FF);
 		}
 	} else {
-		text2 += "No";
+		text2 += "\uf1c2 No rom match";
 		mLaunchText->setColor(0xDC1F26FF);
 	}
 	mLaunchText->setText(text2);
@@ -136,24 +144,20 @@ void GuiNetPlay::populateGridMeta(int i)
 void GuiNetPlay::launch()
 {
 	if (mGames[mList->getCursor()]) {
-		mWindow->pushGui(new GuiMsgBoxScroll(
-				mWindow, _("NETPLAY"),
-				mRooms[mList->getCursor()].second.get<std::string>("fields.game_name") + "\n" + mRooms[mList->getCursor()].second.get<std::string>("fields.game_crc"),
-				_("OK"),
-				[] {}, "", nullptr, "", nullptr, ALIGN_CENTER));
+        Eigen::Vector3f target(Renderer::getScreenWidth() / 2.0f, Renderer::getScreenHeight() / 2.0f, 0);
+        int index = mList->getCursor();
+        std::string core = getCoreInfo(mRooms[index].second.get<std::string>("fields.core_name")).first;
+        std::string ip, port;
+        if (mRooms[index].second.get<std::string>("fields.host_method") == "3") {
+            ip = mRooms[index].second.get<std::string>("fields.mitm_ip");
+            port = mRooms[index].second.get<std::string>("fields.mitm_port");
+        } else {
+            ip = mRooms[index].second.get<std::string>("fields.ip");
+            port = mRooms[index].second.get<std::string>("fields.port");
+        }
+        ViewController::get()->launch(mGames[index], target, "client", core, ip, port);
+        delete this;
 	}
-	/*Eigen::Vector3f target(Renderer::getScreenWidth() / 2.0f, Renderer::getScreenHeight() / 2.0f, 0);
-	int index = mList->getCursor();
-	std::string core = "";
-	std::string ip, port;
-	if (mRooms[index].second.get<std::string>("fields.host_method") == "3") {
-		ip = mRooms[index].second.get<std::string>("fields.mitm_ip");
-		port = mRooms[index].second.get<std::string>("fields.mitm_port");
-	} else {
-		ip = mRooms[index].second.get<std::string>("fields.ip");
-		port = mRooms[index].second.get<std::string>("fields.port");
-	}
-	ViewController::get()->launch(mGames[index], target, "client", core, ip, port);*/
 }
 
 float GuiNetPlay::getButtonGridHeight() const
@@ -219,6 +223,8 @@ bool GuiNetPlay::parseLobby()
 			} else {
 				mGames.push_back(findGame(array_element.second.get<std::string>("fields.game_crc")));
 			}
+
+            //mPings.push_back(pingLobbyHost(array_element.second.get<std::string>("fields.ip")));
 			mRooms.push_back(array_element);
 		}
 		return true;
@@ -234,7 +240,7 @@ FileData* GuiNetPlay::findGame(std::string gameNameOrHash)
 			std::vector<FileData*> games = tmp->getRootFolder()->getChildren();
 			FileData* result = findRecursive(games, gameNameOrHash);
 			if (result != NULL) {
-				std::cout << gameNameOrHash << " found : " << result->getName() << "\n";
+				//std::cout << gameNameOrHash << " found : " << result->getName() << "\n";
 				return result;
 			}
 		}
@@ -263,4 +269,59 @@ FileData* GuiNetPlay::findRecursive(const std::vector<FileData*>& gameFolder, co
 		}
 	}
 	return NULL;
+}
+
+std::pair<std::string, std::string> GuiNetPlay::getCoreInfo(const std::string &name) {
+    boost::regex validLine("^(?<key>[^;|#].*?);(?<val>.*?)$");
+    std::pair<std::string, std::string> result;
+    result.first = "";
+    result.second = "";
+    std::map<std::string, std::string> coreMap;
+    std::string line;
+    std::string filePath = "/recalbox/system/resources/retroarch.corenames";
+    std::ifstream retroarchCores(filePath);
+    if (retroarchCores && retroarchCores.is_open()) {
+        while (std::getline(retroarchCores, line)) {
+            boost::smatch lineInfo;
+            if (boost::regex_match(line, lineInfo, validLine)) {
+                coreMap[std::string(lineInfo["key"])] = std::string(lineInfo["val"]);
+            }
+        }
+        retroarchCores.close();
+    } else {
+        LOG(LogError) << "Unable to open " << filePath;
+        return result;
+    }
+    if (coreMap.count(name)) {
+        std::string s = coreMap[name];
+        std::string delimiter = ";";
+        size_t pos = 0;
+        std::string token;
+        while (((pos = s.find(delimiter)) != std::string::npos) ) {
+            token = s.substr(0, pos);
+            result.first = token;
+            s.erase(0, pos + delimiter.length());
+        }
+        result.second = s;
+        return result;
+    }
+    return result;
+}
+
+std::string GuiNetPlay::pingLobbyHost(const std::string& ip)
+{
+    std::pair<std::string, int> ping = RecalboxSystem::getInstance()->execute("ping -c 1 -w 1 " + ip + " | grep \"min/avg/max\" | cut -d '/' -f 5");
+    if (ping.first != "") {
+        float latency = strtof(ping.first.c_str(), 0);
+        if (latency <=80) {
+            return "good";
+        } else if (latency <= 150) {
+            return "medium";
+        } else {
+            return "bad";
+        }
+    } else {
+        return "unknown";
+    };
+
 }
