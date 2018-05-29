@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system gb --extension '.gb .GB .zip .ZIP' --fullname 'Game Boy' --platform gb --theme gb libretro:gambatte:BR2_PACKAGE_LIBRETRO_GAMBATTE libretro:tgbdual:BR2_PACKAGE_LIBRETRO_TGBDUAL
+# ./scripts/linux/empack.py --system gb --extension '.gb .GB .zip .ZIP' --fullname 'Game Boy' --platform gb --theme gb libretro:gambatte:BR2_PACKAGE_LIBRETRO_GAMBATTE libretro:tgbdual:BR2_PACKAGE_LIBRETRO_TGBDUAL libretro:mgba:BR2_PACKAGE_LIBRETRO_MGBA
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_GB_SOURCE = 
@@ -21,15 +21,21 @@ SOURCE_ROMDIR_GB = $(RECALBOX_ROMFS_GB_PKGDIR)/roms
 # variables are global across buildroot
 
 
-ifneq ($(BR2_PACKAGE_LIBRETRO_GAMBATTE)$(BR2_PACKAGE_LIBRETRO_TGBDUAL),)
+ifneq ($(BR2_PACKAGE_LIBRETRO_GAMBATTE)$(BR2_PACKAGE_LIBRETRO_TGBDUAL)$(BR2_PACKAGE_LIBRETRO_MGBA),)
 define CONFIGURE_MAIN_GB_START
 	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_GB),Game Boy,$(SYSTEM_NAME_GB),.gb .GB .zip .ZIP,gb,gb)
 endef
 
-ifneq ($(BR2_PACKAGE_LIBRETRO_GAMBATTE)$(BR2_PACKAGE_LIBRETRO_TGBDUAL),)
+ifneq ($(BR2_PACKAGE_LIBRETRO_GAMBATTE)$(BR2_PACKAGE_LIBRETRO_TGBDUAL)$(BR2_PACKAGE_LIBRETRO_MGBA),)
 define CONFIGURE_GB_LIBRETRO_START
 	$(call RECALBOX_ROMFS_CALL_START_EMULATOR,$(SYSTEM_XML_GB),libretro)
 endef
+ifeq ($(BR2_PACKAGE_LIBRETRO_MGBA),y)
+define CONFIGURE_GB_LIBRETRO_MGBA_DEF
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_GB),mgba)
+endef
+endif
+
 ifeq ($(BR2_PACKAGE_LIBRETRO_GAMBATTE),y)
 define CONFIGURE_GB_LIBRETRO_GAMBATTE_DEF
 	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_GB),gambatte)
@@ -57,6 +63,7 @@ endif
 define RECALBOX_ROMFS_GB_CONFIGURE_CMDS
 	$(CONFIGURE_MAIN_GB_START)
 	$(CONFIGURE_GB_LIBRETRO_START)
+	$(CONFIGURE_GB_LIBRETRO_MGBA_DEF)
 	$(CONFIGURE_GB_LIBRETRO_GAMBATTE_DEF)
 	$(CONFIGURE_GB_LIBRETRO_TGBDUAL_DEF)
 	$(CONFIGURE_GB_LIBRETRO_END)
