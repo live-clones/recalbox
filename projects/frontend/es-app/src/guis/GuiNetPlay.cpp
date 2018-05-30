@@ -205,7 +205,7 @@ bool GuiNetPlay::parseLobby()
 {
 	mRooms.clear();
 	std::string lobby = RecalboxConf::getInstance()->get("global.netplay.lobby");
-	auto json_req = RecalboxSystem::getInstance()->execute("curl -s " + lobby);
+	auto json_req = RecalboxSystem::getInstance()->execute("curl -s --connect-timeout 3 -m 3 " + lobby);
 	if (json_req.second == 0) {
 		json::ptree root;
 		std::stringstream ss;

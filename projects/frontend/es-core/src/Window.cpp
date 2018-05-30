@@ -213,8 +213,6 @@ void Window::update(int deltaTime)
 	}
 
 	mTimeSinceLastInput += deltaTime;
-    auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
-    mBackgroundOverlay->setImage(menuTheme->menuBackground.fadePath);
 
 	if(peekGui())
 		peekGui()->update(deltaTime);
