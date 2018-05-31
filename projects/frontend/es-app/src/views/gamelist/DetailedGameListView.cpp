@@ -91,7 +91,6 @@ DetailedGameListView::DetailedGameListView(Window* window, FileData* root, Syste
     mDescription.setSize(mDescContainer.getSize().x(), 0);
     mDescContainer.addChild(&mDescription);
 
-
     initMDLabels();
     initMDValues();
     updateInfoPanel();
@@ -302,8 +301,10 @@ void DetailedGameListView::setFolderInfo(FileData* file) {
     unsigned char idx = 0;
 
     for (FileData* game: games) {
-        if (!game->metadata.get("image").empty()) {
-            mFolderContent.at(idx)->setImage(game->metadata.get("image"));
+        const std::string& thumbnail = game->metadata.get("thumbnail");
+        const std::string& image = game->metadata.get("image");
+        if (!thumbnail.empty() || !image.empty()) {
+            mFolderContent.at(idx)->setImage(thumbnail.empty() ? image : thumbnail);
             idx++;
             if (idx == mFolderContent.size()) {
                 break;
