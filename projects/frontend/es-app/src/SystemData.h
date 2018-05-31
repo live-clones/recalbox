@@ -55,6 +55,7 @@ public:
 
 	static std::vector<SystemData*> sSystemVector;
 	static SystemData *getFavoriteSystem();
+	static SystemData* getSystem(std::string& name);
 	static int getSystemIndex(std::string name);
 
 	inline std::vector<SystemData*>::const_iterator getIterator() const { return std::find(sSystemVector.begin(), sSystemVector.end(), this); };

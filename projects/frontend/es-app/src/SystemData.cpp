@@ -614,6 +614,15 @@ SystemData* SystemData::getFavoriteSystem() {
     return NULL;
 }
 
+SystemData* SystemData::getSystem(std::string& name) {
+	for (auto system: sSystemVector) {
+		if (system->mName == name){
+			return system;
+		}
+	}
+	return NULL;
+}
+
 int SystemData::getSystemIndex(std::string name) {
     int index = 0;
     for(auto system = sSystemVector.begin(); system != sSystemVector.end(); system ++){

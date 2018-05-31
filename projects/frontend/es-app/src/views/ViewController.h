@@ -31,6 +31,7 @@ public:
 	// Navigation.
 	void goToNextGameList();
 	void goToPrevGameList();
+	bool goToGameList(std::string& systemName);
 	void goToGameList(SystemData* system);
 	void goToSystemView(SystemData* system);
 	void goToStart();

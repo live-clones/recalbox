@@ -106,6 +106,15 @@ void ViewController::goToPrevGameList()
 	goToGameList(prev);
 }
 
+bool ViewController::goToGameList(std::string& systemName) {
+	SystemData* system = SystemData::getSystem(systemName);
+	if (system != NULL) {
+		goToGameList(system);
+		return true;
+	}
+	return false;
+}
+
 void ViewController::goToGameList(SystemData* system)
 {
 	if(mState.viewing == SYSTEM_SELECT)

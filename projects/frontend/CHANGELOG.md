@@ -21,6 +21,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Show single folder game as game in parent list
 - Only display available letter in JumpToLetter + Append figures
 - Avoid reload of images if source doesn't changed
+- Update Games lists from GameList menu
 
 ### Fixed
 - Fixed back button in gamelist (back to parent level, not to root one)

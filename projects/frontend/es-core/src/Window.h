@@ -26,6 +26,7 @@ public:
 	void displayScrollMessage(std::string title, std::string message);
 	void removeGui(GuiComponent* gui);
 	GuiComponent* peekGui();
+	void deleteAllGui();
 
 	void textInput(const char* text);
 	void input(InputConfig* config, Input input);

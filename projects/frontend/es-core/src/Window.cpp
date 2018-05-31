@@ -26,14 +26,9 @@ Window::Window() : mNormalizeNextUpdate(false), mFrameTimeElapsed(0), mFrameCoun
 	mBackgroundOverlay->setImage(menuTheme->menuBackground.fadePath);
 }
 
-Window::~Window()
-{
+Window::~Window() {
 	delete mBackgroundOverlay;
-
-	// delete all our GUIs
-	while(peekGui())
-		delete peekGui();
-	
+	deleteAllGui();
 	delete mHelp;
 }
 
@@ -76,6 +71,12 @@ GuiComponent* Window::peekGui()
 		return NULL;
 
 	return mGuiStack.back();
+}
+
+void Window::deleteAllGui() {
+	while (peekGui()) {
+		delete peekGui();
+	}
 }
 
 bool Window::init(unsigned int width, unsigned int height, bool initRenderer)

@@ -35,7 +35,8 @@ private:
 
 	bool mFavoriteState;
 	bool mHiddenState;
-	
+	bool mReloading;
+
 	SystemData* mSystem;
 	IGameListView* getGamelist();
 };
