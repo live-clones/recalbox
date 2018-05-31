@@ -61,6 +61,7 @@ public:
 private:
 	Eigen::Vector2f mTargetSize;
 
+	std::string mPath;
 	bool mFlipX, mFlipY, mTargetIsMax;
 
 	// Calculates the correct mSize from our resizing information (set by setResize/setMaxSize).

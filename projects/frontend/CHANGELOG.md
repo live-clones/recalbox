@@ -20,6 +20,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Refresh detailed panel on favorite system after running a game
 - Show single folder game as game in parent list
 - Only display available letter in JumpToLetter + Append figures
+- Avoid reload of images if source doesn't changed
 
 ### Fixed
 - Fixed back button in gamelist (back to parent level, not to root one)
