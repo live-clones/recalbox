@@ -33,6 +33,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fixed detailed panel missing when jumping to letter A
 - Fixed set a game favorite for the first time (required two switches before)
 - Stay is selected sub-folder when changing sort type / order in gamelist
+- Unify onCursorChanged call in IList
 
 ## [18.04.20] - 2018-04-20
 ### Added

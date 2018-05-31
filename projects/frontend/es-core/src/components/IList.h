@@ -43,6 +43,16 @@ const ScrollTier SLOW_SCROLL_TIERS[] = {
 };
 const ScrollTierList LIST_SCROLL_STYLE_SLOW = { 2, SLOW_SCROLL_TIERS };
 
+
+/*
+    Warn: onCursorChanged was call many times during the scoll process
+    it is done in the final function scroll()
+    It mustn't be done in stopScrolling, clear, or listInput
+    Else, display is updated to much times and ressources (image loading)
+    slow down the whole process
+ */
+
+
 template <typename EntryData, typename UserData>
 class IList : public GuiComponent {
 public:
@@ -95,16 +105,16 @@ public:
 		return mScrollVelocity;
 	}
 
+	// see onCursorChanged warn
 	void stopScrolling() {
 		listInput(0);
-		onCursorChanged(CURSOR_STOPPED);
 	}
 
+	// see onCursorChanged warn
 	void clear() {
 		mEntries.clear();
 		mCursor = 0;
 		listInput(0);
-		onCursorChanged(CURSOR_STOPPED);
 	}
 
 	inline const std::vector<UserData> getObjects() {
@@ -240,12 +250,8 @@ protected:
 		mEntries.erase(it);
 	}
 
-
+    // see onCursorChanged warn
 	bool listInput(int velocity) { // a velocity of 0 = stop scrolling
-		// generate an onCursorChanged event in the stopped state when the user lets go of the key
-		if (velocity == 0 && mScrollVelocity != 0)
-			onCursorChanged(CURSOR_STOPPED);
-
 		mScrollVelocity = velocity;
 		mScrollTier = 0;
 		mScrollTierAccumulator = 0;
@@ -314,8 +320,10 @@ protected:
 	}
 
 	void scroll(int amt) {
-		if (mScrollVelocity == 0 || size() < 2)
-			return;
+		if (mScrollVelocity == 0 || size() < 2) {
+            onCursorChanged(CURSOR_STOPPED);
+            return;
+        }
 
 		int cursor = mCursor + amt;
 		int absAmt = amt < 0 ? -amt : amt;
@@ -341,11 +349,12 @@ protected:
 				cursor -= size();
 		}
 
-		if (cursor != mCursor)
-			onScroll(absAmt);
+		if (cursor != mCursor) {
+            onScroll(absAmt);
+		    mCursor = cursor;
+	    	onCursorChanged((mScrollTier > 0) ? CURSOR_SCROLLING : CURSOR_STOPPED);
+        }
 
-		mCursor = cursor;
-		onCursorChanged((mScrollTier > 0) ? CURSOR_SCROLLING : CURSOR_STOPPED);
 	}
 
 	virtual void onCursorChanged(const CursorState& state) {}
