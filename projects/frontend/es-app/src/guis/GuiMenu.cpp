@@ -41,6 +41,7 @@
 
 #include "MenuThemeData.h"
 #include "animations/LambdaAnimation.h"
+#include "GuiHashStart.h"
 
 GuiMenu::GuiMenu(Window* window) : GuiComponent(window), mMenu(window, _("MAIN MENU").c_str()), mVersion(window) {
     // MAIN MENU
@@ -486,6 +487,8 @@ void GuiMenu::menuGameSettings(){
 								RecalboxConf::getInstance()->set("global.netplay.relay", mitm);
 								RecalboxConf::getInstance()->saveRecalboxConf();
 							});
+                    auto openHashNow = [this] { mWindow->pushGui(new GuiHashStart(mWindow)); };
+                    netplay->addSubMenu(_("HASH ROMS"), openHashNow, _(MenuMessages::NP_HASH_HELP_MSG));
 					mWindow->pushGui(netplay);
 				};
 				s->addSubMenu(_("NETPLAY SETTINGS"), openGui, _(MenuMessages::NP_HELP_MSG));

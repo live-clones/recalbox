@@ -1706,3 +1706,71 @@ msgstr ""
 #:
 msgid "NO GAMES OR NO CONNECTION"
 msgstr ""
+
+#:
+msgid "HASH NOW"
+msgstr ""
+
+#:
+msgid "HASH THESE SYSTEMS"
+msgstr ""
+
+#:
+msgid "Add hash of roms in your gamelists to have more accurate results in Netplay."
+msgstr ""
+
+#:
+msgid "HASH ROMS"
+msgstr ""
+
+#:
+msgid "Only missing hashs"
+msgstr ""
+
+#:
+msgid "Username"
+msgstr ""
+
+#:
+msgid "Country"
+msgstr ""
+
+#:
+msgid "Created"
+msgstr ""
+
+#:
+msgid "Password protected"
+msgstr ""
+
+#:
+msgid "Frontend"
+msgstr ""
+
+#:
+msgid "Core"
+msgstr ""
+
+#:
+msgid "Core ver."
+msgstr ""
+
+#:
+msgid "RA ver."
+msgstr ""
+
+#:
+msgid "Can join"
+msgstr ""
+
+#:
+msgid "Rom and core match"
+msgstr ""
+
+#:
+msgid "Rom found"
+msgstr ""
+
+#:
+msgid "No rom match"
+msgstr ""

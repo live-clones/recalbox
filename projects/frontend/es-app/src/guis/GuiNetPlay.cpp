@@ -128,14 +128,14 @@ void GuiNetPlay::populateGridMeta(int i)
 	if (mGames[i]) {
 		if (mGames[i]->getHash() == mRooms[i].second.get<std::string>("fields.game_crc")
 		        && getCoreInfo(mRooms[i].second.get<std::string>("fields.core_name")).second == mRooms[i].second.get<std::string>("fields.core_version")) {
-			text2 += "\uf1c0 Rom and core match";
+			text2 += "\uf1c0 " + _("Rom and core match");
 			mLaunchText->setColor(0x26B14AFF);
 		} else {
-			text2 += "\uf1c1 Rom found";
+			text2 += "\uf1c1 " + _("Rom found");
 			mLaunchText->setColor(0x36A9E0FF);
 		}
 	} else {
-		text2 += "\uf1c2 No rom match";
+		text2 += "\uf1c2 " + _("No rom match");
 		mLaunchText->setColor(0xDC1F26FF);
 	}
 	mLaunchText->setText(text2);

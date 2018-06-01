@@ -1,0 +1,182 @@
+//
+// Created by xizor on 01/06/18.
+//
+
+#include <RecalboxConf.h>
+#include <boost/filesystem/path.hpp>
+#include <recalbox/RecalboxSystem.h>
+#include <guis/GuiMsgBox.h>
+#include "GuiHashStart.h"
+#include "components/OptionListComponent.h"
+
+
+GuiHashStart::GuiHashStart(Window* window) : GuiComponent(window), mMenu(window, _("HASH NOW").c_str()), mBusyAnim(window)
+{
+    addChild(&mMenu);
+
+
+    mLoading = false;
+
+    mState = 0;
+
+	mBusyAnim.setSize((float) Renderer::getScreenWidth(), (float) Renderer::getScreenHeight());
+
+    mFilter = std::make_shared< OptionListComponent<std::string> >(mWindow, _("FILTER"), false);
+    mFilter->add(_("Only missing hashs"), "missing", true);
+    mFilter->add(_("All games"), "all", false);
+    mMenu.addWithLabel(mFilter, _("FILTER"));
+
+    // add systems (all with a platformid specified selected)
+    mSystems = std::make_shared< OptionListComponent<SystemData*> >(mWindow, _("HASH THESE SYSTEMS"), true);
+    for(auto it = SystemData::sSystemVector.begin(); it != SystemData::sSystemVector.end(); it++)
+    {
+        if(RecalboxConf::getInstance()->isInList("global.netplay.systems", (*it)->getName()))
+            mSystems->add((*it)->getFullName(), *it, true);
+    }
+    mMenu.addWithLabel(mSystems, _("SYSTEMS"));
+
+    mMenu.addButton(_("START"), "start",[this] {mState = 1;});
+    mMenu.addButton(_("BACK"), "back", [&] { delete this; });
+
+    mMenu.setPosition((Renderer::getScreenWidth() - mMenu.getSize().x()) / 2, Renderer::getScreenHeight() * 0.15f);
+}
+
+void GuiHashStart::start()
+{
+    for(auto system : mSystems->getSelectedObjects()) {
+
+        std::string xmlpath = system->getGamelistPath(false);
+
+        if(!boost::filesystem::exists(xmlpath))
+            return;
+
+        LOG(LogInfo) << "Hashing games from XML file \"" << xmlpath << "\"...";
+
+        pugi::xml_document doc;
+        pugi::xml_parse_result result = doc.load_file(xmlpath.c_str());
+
+        if(!result)
+        {
+            LOG(LogError) << "Error parsing XML file \"" << xmlpath << "\"!\n	" << result.description();
+            return;
+        }
+
+        pugi::xml_node root = doc.child("gameList");
+        if(!root)
+        {
+            LOG(LogError) << "Could not find <gameList> node in gamelist \"" << xmlpath << "\"!";
+            return;
+        }
+
+        boost::filesystem::path relativeTo = system->getStartPath();
+
+
+        const char* tag = "game";
+
+        int totalRoms = 0;
+
+	    for(pugi::xml_node fileNode = root.child(tag); fileNode; fileNode = fileNode.next_sibling(tag))
+	    {
+	    	totalRoms++;
+	    }
+
+	    int currentRom = 0;
+
+	    std::string busyText;
+	    std::string systemName = system->getFullName();
+
+        for(pugi::xml_node fileNode = root.child(tag); fileNode; fileNode = fileNode.next_sibling(tag))
+        {
+			currentRom++;
+
+            boost::filesystem::path path = resolvePath(fileNode.child("path").text().get(), relativeTo, false);
+
+            if(!boost::filesystem::exists(path))
+            {
+                LOG(LogWarning) << "File \"" << path << "\" does not exist! Ignoring.";
+                continue;
+            }
+
+	        busyText = systemName + " " + std::to_string(currentRom) + " / " + std::to_string(totalRoms);
+
+	        mBusyAnim.setText(busyText);
+
+            std::string cmd = "/recalbox/scripts/recalbox-hash.sh -f \"" + path.string() + "\"";
+
+	        auto hashResult = RecalboxSystem::getInstance()->execute(cmd);
+
+	        std::string hashString = hashResult.first;
+
+	        hashString.erase(std::remove(hashString.begin(), hashString.end(), '\n'), hashString.end());
+
+            if (fileNode.child("hash") && mFilter->getSelected() == "all") {
+	            fileNode.child("hash").text().set(hashString.c_str());
+            } else {
+                pugi::xml_node hash = fileNode.append_child("hash");
+                hash.append_child(pugi::node_pcdata).set_value(hashString.c_str());
+            }
+        }
+        doc.save_file(xmlpath.c_str());
+
+    }
+    mLoading = false;
+    mState = -1;
+}
+
+bool GuiHashStart::input(InputConfig* config, Input input)
+{
+    bool consumed = GuiComponent::input(config, input);
+    if(consumed)
+        return true;
+
+    if(input.value != 0 && config->isMappedTo("a", input))
+    {
+        delete this;
+        return true;
+    }
+
+
+    return false;
+}
+
+void GuiHashStart::update(int deltaTime) {
+    GuiComponent::update(deltaTime);
+    mBusyAnim.update(deltaTime);
+    Window* window = mWindow;
+	if (mState == 1) {
+		window->pushGui(
+				new GuiMsgBox(window, _("REALLY UPDATE?"), _("YES"), [this, window] {
+					this->mLoading = true;
+					mHandle = new boost::thread(boost::bind(&GuiHashStart::start, this));
+					}, _("NO"), [this] {
+							mState = -1;
+						})
+
+		);
+		mState = 0;
+	}
+	if (mState == -1) {
+		delete this;
+	}
+}
+
+void GuiHashStart::render(const Eigen::Affine3f &parentTrans) {
+    Eigen::Affine3f trans = parentTrans * getTransform();
+
+    renderChildren(trans);
+
+    Renderer::setMatrix(trans);
+    Renderer::drawRect(0.f, 0.f, mSize.x(), mSize.y(), 0x00000011);
+
+    if (mLoading)
+        mBusyAnim.render(trans);
+
+}
+
+
+std::vector<HelpPrompt> GuiHashStart::getHelpPrompts()
+{
+    std::vector<HelpPrompt> prompts = mMenu.getHelpPrompts();
+    prompts.push_back(HelpPrompt("a", _("BACK")));
+    return prompts;
+}

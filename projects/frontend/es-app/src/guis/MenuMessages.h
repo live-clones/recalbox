@@ -38,6 +38,7 @@ public:
 	static const char* NP_ONOFF_HELP_MSG;
 	static const char* NP_RELAY_HELP_MSG;
 	static const char* NP_HELP_MSG;
+	static const char* NP_HASH_HELP_MSG;
 
 	static const char* CONTROLLER_HELP_MSG;
 	static const char* CONTROLLER_CONF_HELP_MSG;
