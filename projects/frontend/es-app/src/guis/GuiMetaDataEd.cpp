@@ -290,6 +290,20 @@ GuiMetaDataEd::GuiMetaDataEd(Window *window, MetaDataList *md, const std::vector
     mButtons = makeButtonGrid(mWindow, buttons);
     mGrid.setEntry(mButtons, Vector2i(0, 2), true, false);
 
+    mGrid.setUnhandledInputCallback([this] (InputConfig* config, Input input) -> bool {
+        if (config->isMappedTo("down", input)) {
+            mGrid.setCursorTo(mList);
+            mList->setCursorIndex(0);
+            return true;
+        }
+        if(config->isMappedTo("up", input)) {
+            mList->setCursorIndex(mList->size() - 1);
+            mGrid.moveCursor(Vector2i(0, 1));
+            return true;
+        }
+        return false;
+    });
+
     // resize + center
     y /= Renderer::getScreenHeight();
     setSize(Renderer::getScreenWidth() * 0.7f, Renderer::getScreenHeight() * (y + 0.15f));

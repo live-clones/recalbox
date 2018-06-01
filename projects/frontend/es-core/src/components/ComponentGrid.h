@@ -52,6 +52,8 @@ public:
 	bool moveCursor(Eigen::Vector2i dir);
 	void setCursorTo(const std::shared_ptr<GuiComponent>& comp);
 
+	inline void setUnhandledInputCallback(const std::function<bool(InputConfig* config, Input input)>& func) { mUnhandledInputCallback = func; }
+
 	inline std::shared_ptr<GuiComponent> getSelectedComponent()
 	{
 		GridEntry* e = getCellAt(mCursor);
@@ -116,4 +118,6 @@ private:
 
 	void onCursorMoved(Eigen::Vector2i from, Eigen::Vector2i to);
 	Eigen::Vector2i mCursor;
+
+	std::function<bool(InputConfig* config, Input input)> mUnhandledInputCallback;
 };

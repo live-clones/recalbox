@@ -22,6 +22,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Only display available letter in JumpToLetter + Append figures
 - Avoid reload of images if source doesn't changed
 - Update Games lists from GameList menu
+- Set Menu list in loop mode
 
 ### Fixed
 - Fixed back button in gamelist (back to parent level, not to root one)
