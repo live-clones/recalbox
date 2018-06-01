@@ -3,7 +3,7 @@
 # BEETLE_SUPERGRAFX
 #
 ################################################################################
-LIBRETRO_BEETLE_SUPERGRAFX_VERSION = c9634b29ca8d038c6fbe0fce69080ce1d852db17
+LIBRETRO_BEETLE_SUPERGRAFX_VERSION = 0d4d96428073f8734e80a2ebc157daa228babe51
 LIBRETRO_BEETLE_SUPERGRAFX_SITE = $(call github,libretro,beetle-supergrafx-libretro,$(LIBRETRO_BEETLE_SUPERGRAFX_VERSION))
 
 define LIBRETRO_BEETLE_SUPERGRAFX_BUILD_CMDS

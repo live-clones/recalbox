@@ -3,7 +3,7 @@
 # VIRTUALJAGUAR
 #
 ################################################################################
-LIBRETRO_VIRTUALJAGUAR_VERSION = d5ddbe08a3afbe2e8e871e1b685f3d4a8d9cee7f
+LIBRETRO_VIRTUALJAGUAR_VERSION = 2ce1ec0a5f3e8d357795a3b5cfeffc8d91cdd52a
 LIBRETRO_VIRTUALJAGUAR_SITE = $(call github,libretro,virtualjaguar-libretro,$(LIBRETRO_VIRTUALJAGUAR_VERSION))
 
 define LIBRETRO_VIRTUALJAGUAR_BUILD_CMDS

@@ -26,6 +26,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - linapple: support apple2.configfile=dummy to avoid overwriting configuration
 - Add Amstrad CPC core: crocods
 - New version of libretro-o2em now supports save states and rewind
+- Bump ell libretro cores
+- Bump Retroarch to 1.7.3
 
 ## [18.04.20] - 2018-04-20
 - ES: Added pop-ups

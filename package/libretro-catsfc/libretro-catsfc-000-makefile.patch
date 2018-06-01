@@ -1,9 +1,11 @@
---- a/Makefile	2017-10-24 03:24:34.000000000 +0200
-+++ b/Makefile	2017-11-13 21:16:43.247293813 +0100
-@@ -58,6 +58,26 @@
- 	SHARED := -shared -Wl,--version-script=link.T
+diff --git a/Makefile b/Makefile
+index e51d126..eb2978b 100644
+--- a/Makefile
++++ b/Makefile
+@@ -60,6 +60,26 @@ ifeq ($(platform), unix)
+ 	fpic := -fPIC
+ 	SHARED := -shared -Wl,--no-undefined -Wl,--version-script=link.T
  	CFLAGS += -fno-builtin -fno-exceptions -ffunction-sections
- 	LIBM :=
 +# ARM
 +else ifneq (,$(findstring armv,$(platform)))
 +       TARGET := $(TARGET_NAME)_libretro.so
@@ -24,6 +26,6 @@
 +       endif
 +       PLATFORM_DEFINES += -DARM
 +
- else ifeq ($(platform), osx)
- 	TARGET := $(TARGET_NAME)_libretro.dylib
- 	fpic := -fPIC
+ else ifeq ($(platform), linux-portable)
+ 	TARGET := $(TARGET_NAME)_libretro.so
+ 	fpic := -fPIC -nostdlib

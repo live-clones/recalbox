@@ -3,7 +3,7 @@
 # ZX81
 #
 ################################################################################
-LIBRETRO_81_VERSION = d972a77a1a9a86725ae90f599fc118e5553f0f06
+LIBRETRO_81_VERSION = 6ae21e0980bb8190fe1fc3cb6c4f00797cc6bf0e
 LIBRETRO_81_SITE = $(call github,libretro,81-libretro,$(LIBRETRO_81_VERSION))
 
 define LIBRETRO_81_BUILD_CMDS

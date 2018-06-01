@@ -3,7 +3,7 @@
 # VICE
 #
 ################################################################################
-LIBRETRO_VICE_VERSION = 8139feb92e5de44f7f5d5b6f9029a5edb52e4334
+LIBRETRO_VICE_VERSION = bd62332c1572444c97325d8c9abaf83668085c07
 LIBRETRO_VICE_SITE = $(call github,libretro,vice-libretro,$(LIBRETRO_VICE_VERSION))
 
 define LIBRETRO_VICE_BUILD_CMDS

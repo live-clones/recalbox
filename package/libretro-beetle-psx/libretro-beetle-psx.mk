@@ -3,7 +3,7 @@
 # BEETLE_PSX
 #
 ################################################################################
-LIBRETRO_BEETLE_PSX_VERSION = 7616e0125984bc07deb6a0526c30c3cac7e4e388
+LIBRETRO_BEETLE_PSX_VERSION = 46df877d5df91a7f5d97093cdce89766d4fd30b7
 LIBRETRO_BEETLE_PSX_SITE = $(call github,libretro,beetle-psx-libretro,$(LIBRETRO_BEETLE_PSX_VERSION))
 
 
