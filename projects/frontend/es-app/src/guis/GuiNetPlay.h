@@ -62,6 +62,7 @@ private:
 	NinePatchComponent mBackground;
 	ComponentGrid mGrid;
 	std::shared_ptr<ComponentGrid> mGridMeta;
+	std::shared_ptr<ComponentGrid> mGridMetaRight;
 
 
 	std::shared_ptr<TextComponent> mTitle;

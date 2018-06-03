@@ -43,7 +43,7 @@ bool compareLowerCase(std::string str1, std::string str2)
 
 GuiNetPlay::GuiNetPlay(Window* window) : GuiComponent(window),
         mBackground(window, ":/frame.png"), mGrid(window, Eigen::Vector2i(1, 3)), mList(NULL),
-        mGridMeta(new ComponentGrid(window, Eigen::Vector2i(2, 1)))
+        mGridMeta(new ComponentGrid(window, Eigen::Vector2i(2, 1))), mGridMetaRight(new ComponentGrid(window, Eigen::Vector2i(1, 2)))
 {
 	addChild(&mBackground);
 	addChild(&mGrid);
@@ -60,15 +60,16 @@ GuiNetPlay::GuiNetPlay(Window* window) : GuiComponent(window),
 	if (parseLobby()) {
 		mList = std::make_shared<ComponentList>(mWindow);
 		mGridMeta->setEntry(mList, Vector2i(0, 0), true);
-		mGridMeta->setColWidthPerc(0, 0.65);
+		mGridMeta->setColWidthPerc(0, 0.62);
 		mGrid.setEntry(mGridMeta, Vector2i(0, 1), true);
 
 		mMetaText = std::make_shared<TextComponent>(mWindow, "", menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, ALIGN_LEFT);
 		mMetaText->setVerticalAlignment(ALIGN_TOP);
 		mLaunchText = std::make_shared<TextComponent>(mWindow, "", menuTheme->menuText.font, menuTheme->menuText.color, ALIGN_LEFT);
 		mLaunchText->setVerticalAlignment(ALIGN_BOTTOM);
-		mGridMeta->setEntry(mLaunchText, Vector2i(1, 0), false, true);
-		mGridMeta->setEntry(mMetaText, Vector2i(1, 0), false, true, Eigen::Vector2i(1, 1), GridFlags::BORDER_LEFT);
+		mGridMetaRight->setEntry(mLaunchText, Vector2i(0, 1), false, true);
+		mGridMetaRight->setEntry(mMetaText, Vector2i(0, 0), false, true);
+		mGridMeta->setEntry(mGridMetaRight, Vector2i(1, 0), false, true, Eigen::Vector2i(1, 1), GridFlags::BORDER_LEFT);
 
 		ComponentListRow row;
 		std::shared_ptr<GuiComponent> ed;

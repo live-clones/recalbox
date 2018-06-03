@@ -101,7 +101,7 @@ void GuiHashStart::start()
 
 	        mBusyAnim.setText(busyText);
 
-            std::string cmd = "/recalbox/scripts/recalbox-hash.sh -f \"" + path.string() + "\"";
+            std::string cmd = "/recalbox/scripts/recalbox-hash.sh -s \"" + system->getName() + "\" -f \"" + path.string() + "\"";
 
 	        auto hashResult = RecalboxSystem::getInstance()->execute(cmd);
 
