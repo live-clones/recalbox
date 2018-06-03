@@ -125,34 +125,22 @@ void GuiHashStart::start()
 
 bool GuiHashStart::input(InputConfig* config, Input input)
 {
-    bool consumed = GuiComponent::input(config, input);
-    if(consumed)
-        return true;
+	if (mLoading)
+		return false;
 
-    if(input.value != 0 && config->isMappedTo("a", input))
-    {
-        delete this;
-        return true;
-    }
-
-
-    return false;
+	if (config->isMappedTo("a", input) && input.value != 0)
+	{
+		delete this;
+	}
+	return GuiComponent::input(config, input);
 }
 
 void GuiHashStart::update(int deltaTime) {
     GuiComponent::update(deltaTime);
     mBusyAnim.update(deltaTime);
-    Window* window = mWindow;
 	if (mState == 1) {
-		window->pushGui(
-				new GuiMsgBox(window, _("REALLY UPDATE?"), _("YES"), [this, window] {
-					this->mLoading = true;
-					mHandle = new boost::thread(boost::bind(&GuiHashStart::start, this));
-					}, _("NO"), [this] {
-							mState = -1;
-						})
-
-		);
+		this->mLoading = true;
+		mHandle = new boost::thread(boost::bind(&GuiHashStart::start, this));
 		mState = 0;
 	}
 	if (mState == -1) {
@@ -163,7 +151,8 @@ void GuiHashStart::update(int deltaTime) {
 void GuiHashStart::render(const Eigen::Affine3f &parentTrans) {
     Eigen::Affine3f trans = parentTrans * getTransform();
 
-    renderChildren(trans);
+    if (!mLoading)
+        renderChildren(trans);
 
     Renderer::setMatrix(trans);
     Renderer::drawRect(0.f, 0.f, mSize.x(), mSize.y(), 0x00000011);

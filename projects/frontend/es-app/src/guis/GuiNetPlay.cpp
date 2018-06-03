@@ -21,6 +21,26 @@
 
 using namespace Eigen;
 
+bool compareLowerCase(std::string str1, std::string str2)
+{
+	for(unsigned int i = 0; i < str1.length(); i++)
+	{
+		str1[i] = tolower(str1[i]);
+	}
+
+	for(unsigned int i = 0; i < str2.length(); i++)
+	{
+		str2[i] = tolower(str2[i]);
+	}
+
+	if (str1 == str2) {
+		return true;
+	} else {
+		return false;
+	};
+}
+//end util functions
+
 GuiNetPlay::GuiNetPlay(Window* window) : GuiComponent(window),
         mBackground(window, ":/frame.png"), mGrid(window, Eigen::Vector2i(1, 3)), mList(NULL),
         mGridMeta(new ComponentGrid(window, Eigen::Vector2i(2, 1)))
@@ -218,11 +238,14 @@ bool GuiNetPlay::parseLobby()
 		}
 
 		for (json::ptree::value_type &array_element : root) {
-			if (array_element.second.get<std::string>("fields.game_crc") == "00000000") {
-				mGames.push_back(findGame(array_element.second.get<std::string>("fields.game_name")));
-			} else {
-				mGames.push_back(findGame(array_element.second.get<std::string>("fields.game_crc")));
+			FileData* tmp = NULL;
+			if (array_element.second.get<std::string>("fields.game_crc") != "00000000") {
+				tmp = findGame(array_element.second.get<std::string>("fields.game_crc"));
 			}
+			if (!tmp) {
+				tmp = findGame(array_element.second.get<std::string>("fields.game_name"));
+			}
+			mGames.push_back(tmp);
 
             //mPings.push_back(pingLobbyHost(array_element.second.get<std::string>("fields.ip")));
 			mRooms.push_back(array_element);
@@ -240,7 +263,6 @@ FileData* GuiNetPlay::findGame(std::string gameNameOrHash)
 			std::vector<FileData*> games = tmp->getRootFolder()->getChildren();
 			FileData* result = findRecursive(games, gameNameOrHash);
 			if (result != NULL) {
-				//std::cout << gameNameOrHash << " found : " << result->getName() << "\n";
 				return result;
 			}
 		}
@@ -264,7 +286,7 @@ FileData* GuiNetPlay::findRecursive(const std::vector<FileData*>& gameFolder, co
 				return foundGame;
 			}
 		}
-		if ((*game)->getType() == GAME and (gameAndPath == gameNameOrHash or (*game)->getHash() == gameNameOrHash)) {
+		if ((*game)->getType() == GAME and (compareLowerCase(gameAndPath, gameNameOrHash) or (*game)->getHash() == gameNameOrHash)) {
 			return *game;
 		}
 	}
