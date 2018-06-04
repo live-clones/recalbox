@@ -13,6 +13,8 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 #include <recalbox/RecalboxSystem.h>
+#include <boost/thread.hpp>
+#include <MenuThemeData.h>
 #include "FileData.h"
 
 namespace json = boost::property_tree;
@@ -34,11 +36,19 @@ public:
 
 	bool input(InputConfig* config, Input input) override;
 
+	void update(int deltaTime) override;
+
+	void render(const Eigen::Affine3f &parentTrans) override;
+
+	void populateGrid();
+
 	inline ~GuiNetPlay() { if (mList) mList->clear(); }
 
 	std::vector<HelpPrompt> getHelpPrompts() override;
 
 	bool parseLobby();
+
+	void checkLobby();
 
 	void populateGridMeta(int i);
 
@@ -77,6 +87,20 @@ private:
 	std::shared_ptr<TextComponent> mLaunchText;
 
 	std::vector<std::string> mPings;
+
+	std::shared_ptr<MenuTheme> mMenuTheme;
+
+	bool mLoading;
+
+	bool mLoaded = false;
+
+	boost::thread *mHandle;
+
+	bool mLobbyLoaded;
+
+	BusyComponent mBusyAnim;
+
+	bool mLobbyChecked;
 
 };
 

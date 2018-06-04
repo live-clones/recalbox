@@ -43,29 +43,55 @@ bool compareLowerCase(std::string str1, std::string str2)
 
 GuiNetPlay::GuiNetPlay(Window* window) : GuiComponent(window),
         mBackground(window, ":/frame.png"), mGrid(window, Eigen::Vector2i(1, 3)), mList(NULL),
-        mGridMeta(new ComponentGrid(window, Eigen::Vector2i(2, 1))), mGridMetaRight(new ComponentGrid(window, Eigen::Vector2i(1, 2)))
+        mGridMeta(new ComponentGrid(window, Eigen::Vector2i(2, 1))),
+        mGridMetaRight(new ComponentGrid(window, Eigen::Vector2i(1, 2))), mBusyAnim(window)
 {
 	addChild(&mBackground);
 	addChild(&mGrid);
 
-	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+	mLoading = false;
+	mLobbyChecked = false;
 
-	mBackground.setImagePath(menuTheme->menuBackground.path);
-	mBackground.setCenterColor(menuTheme->menuBackground.color);
-	mBackground.setEdgeColor(menuTheme->menuBackground.color);
+	mMenuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 
-	mTitle = std::make_shared<TextComponent>(mWindow, _("NETPLAY"), menuTheme->menuTitle.font, menuTheme->menuTitle.color, ALIGN_CENTER);
+	mBackground.setImagePath(mMenuTheme->menuBackground.path);
+	mBackground.setCenterColor(mMenuTheme->menuBackground.color);
+	mBackground.setEdgeColor(mMenuTheme->menuBackground.color);
+
+	mTitle = std::make_shared<TextComponent>(mWindow, _("NETPLAY"), mMenuTheme->menuTitle.font, mMenuTheme->menuTitle.color, ALIGN_CENTER);
 	mGrid.setEntry(mTitle, Eigen::Vector2i(0, 0), false);
 
-	if (parseLobby()) {
+	mButtons.push_back(std::make_shared<ButtonComponent>(mWindow, _("CLOSE"), _("CLOSE"), [this] { delete this; }));
+
+	mButtonGrid = makeButtonGrid(mWindow, mButtons);
+	mGrid.setEntry(mButtonGrid, Eigen::Vector2i(0, 2), true, false);
+
+	updateSize();
+	mBusyAnim.setSize(mSize);
+	setPosition((Renderer::getScreenWidth() - mSize.x()) / 2, (Renderer::getScreenHeight() - mSize.y()) / 2);
+
+}
+
+void GuiNetPlay::checkLobby()
+{
+	mLobbyLoaded = parseLobby();
+
+	mLoading = false;
+
+	mLobbyChecked = true;
+}
+
+void GuiNetPlay::populateGrid()
+{
+	if (mLobbyLoaded) {
 		mList = std::make_shared<ComponentList>(mWindow);
 		mGridMeta->setEntry(mList, Vector2i(0, 0), true);
 		mGridMeta->setColWidthPerc(0, 0.62);
 		mGrid.setEntry(mGridMeta, Vector2i(0, 1), true);
 
-		mMetaText = std::make_shared<TextComponent>(mWindow, "", menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, ALIGN_LEFT);
+		mMetaText = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, ALIGN_LEFT);
 		mMetaText->setVerticalAlignment(ALIGN_TOP);
-		mLaunchText = std::make_shared<TextComponent>(mWindow, "", menuTheme->menuText.font, menuTheme->menuText.color, ALIGN_LEFT);
+		mLaunchText = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuText.font, mMenuTheme->menuText.color, ALIGN_LEFT);
 		mLaunchText->setVerticalAlignment(ALIGN_BOTTOM);
 		mGridMetaRight->setEntry(mLaunchText, Vector2i(0, 1), false, true);
 		mGridMetaRight->setEntry(mMetaText, Vector2i(0, 0), false, true);
@@ -86,7 +112,7 @@ GuiNetPlay::GuiNetPlay(Window* window) : GuiComponent(window),
 			} else {
 				text = "\uf1c2 " + v.second.get<std::string>("fields.game_name");
 			}
-			ed = std::make_shared<TextComponent>(mWindow, text, menuTheme->menuText.font, menuTheme->menuText.color, ALIGN_LEFT);
+			ed = std::make_shared<TextComponent>(mWindow, text, mMenuTheme->menuText.font, mMenuTheme->menuText.color, ALIGN_LEFT);
 			row.addElement(ed, true);
 			row.makeAcceptInputHandler([this] { launch();});
 			addRow(row);
@@ -95,22 +121,14 @@ GuiNetPlay::GuiNetPlay(Window* window) : GuiComponent(window),
 		populateGridMeta(0);
 		mList->setCursorChangedCallback([this](CursorState state){populateGridMeta(mList->getCursor());});
 		mList->setFocusLostCallback([this]{mMetaText->setText(""); mLaunchText->setText("");});
-        mList->setFocusGainedCallback([this]{populateGridMeta(mList->getCursor());});
+		mList->setFocusGainedCallback([this]{populateGridMeta(mList->getCursor());});
+
+		mGrid.moveCursor(Eigen::Vector2i(0, -1));
 	} else {
-		auto text = std::make_shared<TextComponent>(mWindow, _("NO GAMES OR NO CONNECTION"), menuTheme->menuText.font, menuTheme->menuText.color, ALIGN_CENTER);
+		auto text = std::make_shared<TextComponent>(mWindow, _("NO GAMES OR NO CONNECTION"), mMenuTheme->menuText.font, mMenuTheme->menuText.color, ALIGN_CENTER);
 		mGrid.setEntry(text, Vector2i(0, 1), true);
 	}
-
-	mGrid.resetCursor();
-
-	mButtons.push_back(std::make_shared<ButtonComponent>(mWindow, _("CLOSE"), _("CLOSE"), [this] { delete this; }));
-
-	mButtonGrid = makeButtonGrid(mWindow, mButtons);
-	mGrid.setEntry(mButtonGrid, Eigen::Vector2i(0, 2), true, false);
-
-	updateSize();
-	setPosition((Renderer::getScreenWidth() - mSize.x()) / 2, (Renderer::getScreenHeight() - mSize.y()) / 2);
-
+	mLobbyChecked = false;
 }
 
 void GuiNetPlay::populateGridMeta(int i)
@@ -143,7 +161,7 @@ void GuiNetPlay::populateGridMeta(int i)
     text += "\n    " + _("Core") + " : " + mRooms[i].second.get<std::string>("fields.core_name", "N/A");
     text += "\n    " + _("Core ver.") + " : " + mRooms[i].second.get<std::string>("fields.core_version", "N/A");
     text += "\n    " + _("RA ver.") + " : " + mRooms[i].second.get<std::string>("fields.retroarch_version", "N/A");
-    //text += "\n    Latency : " + mPings[i];
+    text += "\n    Latency : " + mPings[i];
 	mMetaText->setText(text);
 	std::string text2 = "    " + _("Can join") + " : ";
 	if (mGames[i]) {
@@ -222,6 +240,34 @@ std::vector<HelpPrompt> GuiNetPlay::getHelpPrompts()
 	return prompts;
 }
 
+void GuiNetPlay::update(int deltaTime) {
+	GuiComponent::update(deltaTime);
+	mBusyAnim.update(deltaTime);
+
+	if (!mLoaded) {
+		mLoading = true;
+		mHandle = new boost::thread(boost::bind(&GuiNetPlay::checkLobby, this));
+		mLoaded = true;
+	}
+
+	if (mLobbyChecked) {
+		populateGrid();
+	}
+}
+
+void GuiNetPlay::render(const Eigen::Affine3f &parentTrans) {
+	Eigen::Affine3f trans = parentTrans * getTransform();
+
+	renderChildren(trans);
+
+	Renderer::setMatrix(trans);
+	Renderer::drawRect(0.f, 0.f, mSize.x(), mSize.y(), 0x00000011);
+
+	if (mLoading)
+		mBusyAnim.render(trans);
+
+}
+
 bool GuiNetPlay::parseLobby()
 {
 	mRooms.clear();
@@ -248,7 +294,7 @@ bool GuiNetPlay::parseLobby()
 			}
 			mGames.push_back(tmp);
 
-            //mPings.push_back(pingLobbyHost(array_element.second.get<std::string>("fields.ip")));
+            mPings.push_back(pingLobbyHost(array_element.second.get<std::string>("fields.ip")));
 			mRooms.push_back(array_element);
 		}
 		return true;
