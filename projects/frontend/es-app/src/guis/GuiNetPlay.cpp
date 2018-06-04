@@ -134,43 +134,58 @@ void GuiNetPlay::populateGrid()
 void GuiNetPlay::populateGridMeta(int i)
 {
 	std::string text = "";
-    std::string iso8601 = mRooms[i].second.get<std::string>("fields.created", "N/A");
-    char format[] = { 0, 0, '/', 0, 0, '/', 0, 0, 0, 0, ' ', 0, 0, ':', 0, 0, 0 };
-    format[ 0] = iso8601[8];
-    format[ 1] = iso8601[9];
-    format[ 3] = iso8601[5];
-    format[ 4] = iso8601[6];
-    format[ 6] = iso8601[0];
-    format[ 7] = iso8601[1];
-    format[ 8] = iso8601[2];
-    format[ 9] = iso8601[3];
-    format[11] = iso8601[11];
-    format[12] = iso8601[12];
-    format[14] = iso8601[14];
-    format[15] = iso8601[15];
-    iso8601 = format;
+
+	bool hashMatch = false;
+	bool coreVerMatch,coreMatch;
+
+	if (mGames[i]) {
+		hashMatch = mGames[i]->getHash() == mRooms[i].second.get<std::string>("fields.game_crc");
+	}
+		coreVerMatch = getCoreInfo(mRooms[i].second.get<std::string>("fields.core_name")).second == mRooms[i].second.get<std::string>("fields.core_version");
+		coreMatch = getCoreInfo(mRooms[i].second.get<std::string>("fields.core_name")).first != "";
 
     std::string username = mRooms[i].second.get<std::string>("fields.username", "N/A");
     username = std::regex_replace(username, std::regex("@RECALBOX"), " \uF200");
 
     text += "    " + _("Username") + " : " + username;
     text += "\n    " + _("Country") + " : " + mRooms[i].second.get<std::string>("fields.country", "N/A");
-    text += "\n    " + _("Created") + " : " + iso8601;
-    text += "\n    " + _("Password protected") + " : " + mRooms[i].second.get<std::string>("fields.has_password", "N/A");
-    text += "\n    " + _("Frontend") + " : " + mRooms[i].second.get<std::string>("fields.frontend", "N/A");
-    text += "\n    " + _("Core") + " : " + mRooms[i].second.get<std::string>("fields.core_name", "N/A");
-    text += "\n    " + _("Core ver.") + " : " + mRooms[i].second.get<std::string>("fields.core_version", "N/A");
+    text += "\n    " + _("Rom hash") + " : ";
+    if (hashMatch) {
+    	text += "\uf1c0 " + _("Match");
+    } else {
+	    text += "\uf1c2 " + _("No match");
+    }
+	text += "\n    " + _("Rom file") + " : ";
+	if (mGames[i]) {
+		text += "\uf1c0 " + _("Match");
+	} else {
+		text += "\uf1c2 " + _("No match");
+	}
+    text += "\n    " + _("Core") + " : ";
+	if (coreMatch) {
+		text += "\uf1c0 ";
+	} else {
+		text += "\uf1c2 ";
+	}
+    text += mRooms[i].second.get<std::string>("fields.core_name", "N/A");
+    text += "\n    " + _("Core ver.") + " : ";
+	if (coreVerMatch) {
+		text += "\uf1c0 ";
+	} else {
+		text += "\uf1c2 ";
+	}
+    text += mRooms[i].second.get<std::string>("fields.core_version", "N/A");
     text += "\n    " + _("RA ver.") + " : " + mRooms[i].second.get<std::string>("fields.retroarch_version", "N/A");
-    text += "\n    Latency : " + mPings[i];
+	text += "\n    " + _("Host arch.") + " : " + mRooms[i].second.get<std::string>("fields.frontend", "N/A");
+    //text += "\n    Latency : " + mPings[i];
 	mMetaText->setText(text);
 	std::string text2 = "    " + _("Can join") + " : ";
 	if (mGames[i]) {
-		if (mGames[i]->getHash() == mRooms[i].second.get<std::string>("fields.game_crc")
-		        && getCoreInfo(mRooms[i].second.get<std::string>("fields.core_name")).second == mRooms[i].second.get<std::string>("fields.core_version")) {
+		if (hashMatch && coreMatch) {
 			text2 += "\uf1c0 " + _("Rom and core match");
 			mLaunchText->setColor(0x26B14AFF);
 		} else {
-			text2 += "\uf1c1 " + _("Rom found");
+			text2 += "\uf1c1 " + _("Rom found w/o hash");
 			mLaunchText->setColor(0x36A9E0FF);
 		}
 	} else {
@@ -294,7 +309,7 @@ bool GuiNetPlay::parseLobby()
 			}
 			mGames.push_back(tmp);
 
-            mPings.push_back(pingLobbyHost(array_element.second.get<std::string>("fields.ip")));
+            //mPings.push_back(pingLobbyHost(array_element.second.get<std::string>("fields.ip")));
 			mRooms.push_back(array_element);
 		}
 		return true;

@@ -1744,7 +1744,7 @@ msgid "Password protected"
 msgstr ""
 
 #:
-msgid "Frontend"
+msgid "Host arch."
 msgstr ""
 
 #:
@@ -1769,4 +1769,20 @@ msgstr ""
 
 #:
 msgid "No rom match"
+msgstr ""
+
+#:
+msgid "Match"
+msgstr ""
+
+#:
+msgid "No Match"
+msgstr ""
+
+#:
+msgid "Rom file"
+msgstr ""
+
+#:
+msgid "Rom hash"
 msgstr ""

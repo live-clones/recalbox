@@ -86,7 +86,7 @@ private:
 	std::shared_ptr<TextComponent> mMetaText;
 	std::shared_ptr<TextComponent> mLaunchText;
 
-	std::vector<std::string> mPings;
+	//std::vector<std::string> mPings;
 
 	std::shared_ptr<MenuTheme> mMenuTheme;
 

@@ -45,6 +45,15 @@ void GuiHashStart::start()
 {
     for(auto system : mSystems->getSelectedObjects()) {
 
+    	std::string command = "/recalbox/scripts/recalbox-hash.sh -s \"" + system->getName() + "\" -t";
+
+	    auto cmdResult = RecalboxSystem::getInstance()->execute(command);
+
+	    if (cmdResult.second == 1) {
+		    LOG(LogInfo) << "system \"" << system->getName() << "\"  can't be hashed";
+		    continue;
+	    }
+
         std::string xmlpath = system->getGamelistPath(false);
 
         if(!boost::filesystem::exists(xmlpath))
@@ -101,7 +110,7 @@ void GuiHashStart::start()
 
 	        mBusyAnim.setText(busyText);
 
-            std::string cmd = "/recalbox/scripts/recalbox-hash.sh -s \"" + system->getName() + "\" -f \"" + path.string() + "\"";
+            std::string cmd = "/recalbox/scripts/recalbox-hash.sh -f \"" + path.string() + "\"";
 
 	        auto hashResult = RecalboxSystem::getInstance()->execute(cmd);
 
