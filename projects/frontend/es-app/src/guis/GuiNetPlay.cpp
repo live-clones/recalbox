@@ -72,6 +72,7 @@ GuiNetPlay::GuiNetPlay(Window* window) : GuiComponent(window),
 
 }
 
+//ugly method to start a new thread THEN populate the grid via update()
 void GuiNetPlay::checkLobby()
 {
 	mLobbyLoaded = parseLobby();
@@ -79,6 +80,42 @@ void GuiNetPlay::checkLobby()
 	mLoading = false;
 
 	mLobbyChecked = true;
+}
+
+bool GuiNetPlay::parseLobby()
+{
+	mRooms.clear();
+	std::string lobby = RecalboxConf::getInstance()->get("global.netplay.lobby");
+	auto json_req = RecalboxSystem::getInstance()->execute("curl -s --connect-timeout 3 -m 3 " + lobby);
+	if (json_req.second == 0) {
+		json::ptree root;
+		std::stringstream ss;
+		ss << json_req.first;
+		try {
+			json::read_json(ss, root);
+		}
+		catch (const boost::property_tree::json_parser_error& e1) {
+			return false;
+		}
+
+		for (json::ptree::value_type &array_element : root) {
+			FileData* tmp = NULL;
+			if (array_element.second.get<std::string>("fields.game_crc") != "00000000") {
+				tmp = findGame(array_element.second.get<std::string>("fields.game_crc"));
+			}
+			if (!tmp) {
+				tmp = findGame(array_element.second.get<std::string>("fields.game_name"));
+			}
+			mGames.push_back(tmp);
+
+			//empty strings for ping on loading
+			mPings.push_back("\uF1c9 " + _("unknown"));
+			mRooms.push_back(array_element);
+		}
+		return true;
+	} else {
+		return false;
+	}
 }
 
 void GuiNetPlay::populateGrid()
@@ -123,6 +160,8 @@ void GuiNetPlay::populateGrid()
 		mList->setFocusLostCallback([this]{mMetaText->setText(""); mLaunchText->setText("");});
 		mList->setFocusGainedCallback([this]{populateGridMeta(mList->getCursor());});
 
+		mHandle = new boost::thread(boost::bind(&GuiNetPlay::pingLobby, this));
+
 		mGrid.moveCursor(Eigen::Vector2i(0, -1));
 	} else {
 		auto text = std::make_shared<TextComponent>(mWindow, _("NO GAMES OR NO CONNECTION"), mMenuTheme->menuText.font, mMenuTheme->menuText.color, ALIGN_CENTER);
@@ -131,6 +170,7 @@ void GuiNetPlay::populateGrid()
 	mLobbyChecked = false;
 }
 
+//called when changing cursor in mList
 void GuiNetPlay::populateGridMeta(int i)
 {
 	std::string text = "";
@@ -175,9 +215,9 @@ void GuiNetPlay::populateGridMeta(int i)
 		text += "\uf1c2 ";
 	}
     text += mRooms[i].second.get<std::string>("fields.core_version", "N/A");
+	text += "\n    Latency : " + mPings[i];
     text += "\n    " + _("RA ver.") + " : " + mRooms[i].second.get<std::string>("fields.retroarch_version", "N/A");
 	text += "\n    " + _("Host arch.") + " : " + mRooms[i].second.get<std::string>("fields.frontend", "N/A");
-    //text += "\n    Latency : " + mPings[i];
 	mMetaText->setText(text);
 	std::string text2 = "    " + _("Can join") + " : ";
 	if (mGames[i]) {
@@ -214,109 +254,7 @@ void GuiNetPlay::launch()
 	}
 }
 
-float GuiNetPlay::getButtonGridHeight() const
-{
-	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
-	return (mButtonGrid ? mButtonGrid->getSize().y() : menuTheme->menuText.font->getHeight() + BUTTON_GRID_VERT_PADDING);
-}
 
-bool GuiNetPlay::input(InputConfig* config, Input input)
-{
-	if (config->isMappedTo("a", input) && input.value != 0)
-	{
-		delete this;
-	}
-	return GuiComponent::input(config, input);
-}
-
-void GuiNetPlay::updateSize()
-{
-	const float height = Renderer::getScreenHeight() * 0.7f;
-	const float width = Renderer::getScreenWidth() * 0.8f;
-	setSize(width, height);
-}
-
-void GuiNetPlay::onSizeChanged()
-{
-	mBackground.fitTo(mSize, Eigen::Vector3f::Zero(), Eigen::Vector2f(-32, -32));
-
-	// update grid row/col sizes
-	mGrid.setRowHeightPerc(0, TITLE_HEIGHT / mSize.y());
-	mGrid.setRowHeightPerc(2, getButtonGridHeight() / mSize.y());
-
-	mGrid.setSize(mSize);
-}
-
-std::vector<HelpPrompt> GuiNetPlay::getHelpPrompts()
-{
-    std::vector<HelpPrompt> prompts = mGrid.getHelpPrompts();
-    prompts.push_back(HelpPrompt("a", _("BACK")));
-    prompts.push_back(HelpPrompt("b", _("LAUNCH")));
-	return prompts;
-}
-
-void GuiNetPlay::update(int deltaTime) {
-	GuiComponent::update(deltaTime);
-	mBusyAnim.update(deltaTime);
-
-	if (!mLoaded) {
-		mLoading = true;
-		mHandle = new boost::thread(boost::bind(&GuiNetPlay::checkLobby, this));
-		mLoaded = true;
-	}
-
-	if (mLobbyChecked) {
-		populateGrid();
-	}
-}
-
-void GuiNetPlay::render(const Eigen::Affine3f &parentTrans) {
-	Eigen::Affine3f trans = parentTrans * getTransform();
-
-	renderChildren(trans);
-
-	Renderer::setMatrix(trans);
-	Renderer::drawRect(0.f, 0.f, mSize.x(), mSize.y(), 0x00000011);
-
-	if (mLoading)
-		mBusyAnim.render(trans);
-
-}
-
-bool GuiNetPlay::parseLobby()
-{
-	mRooms.clear();
-	std::string lobby = RecalboxConf::getInstance()->get("global.netplay.lobby");
-	auto json_req = RecalboxSystem::getInstance()->execute("curl -s --connect-timeout 3 -m 3 " + lobby);
-	if (json_req.second == 0) {
-		json::ptree root;
-		std::stringstream ss;
-		ss << json_req.first;
-		try {
-			json::read_json(ss, root);
-		}
-		catch (const boost::property_tree::json_parser_error& e1) {
-			return false;
-		}
-
-		for (json::ptree::value_type &array_element : root) {
-			FileData* tmp = NULL;
-			if (array_element.second.get<std::string>("fields.game_crc") != "00000000") {
-				tmp = findGame(array_element.second.get<std::string>("fields.game_crc"));
-			}
-			if (!tmp) {
-				tmp = findGame(array_element.second.get<std::string>("fields.game_name"));
-			}
-			mGames.push_back(tmp);
-
-            //mPings.push_back(pingLobbyHost(array_element.second.get<std::string>("fields.ip")));
-			mRooms.push_back(array_element);
-		}
-		return true;
-	} else {
-		return false;
-	}
-}
 
 FileData* GuiNetPlay::findGame(std::string gameNameOrHash)
 {
@@ -392,20 +330,96 @@ std::pair<std::string, std::string> GuiNetPlay::getCoreInfo(const std::string &n
     return result;
 }
 
-std::string GuiNetPlay::pingLobbyHost(const std::string& ip)
+void GuiNetPlay::pingLobby()
+{
+	for (int i=0; i<mRooms.size(); i++ ) {
+		std::string ip = mRooms[i].second.get<std::string>("fields.ip");
+		mPings[i] = pingHost(ip);
+	}
+}
+
+std::string GuiNetPlay::pingHost(const std::string& ip)
 {
     std::pair<std::string, int> ping = RecalboxSystem::getInstance()->execute("ping -c 1 -w 1 " + ip + " | grep \"min/avg/max\" | cut -d '/' -f 5");
     if (ping.first != "") {
         float latency = strtof(ping.first.c_str(), 0);
         if (latency <=80) {
-            return "good";
+            return "\uF1c8 " + _("good");
         } else if (latency <= 150) {
-            return "medium";
+            return "\uF1c7 " + _("medium");
         } else {
-            return "bad";
+            return "\uF1c6 " + _("bad");
         }
     } else {
-        return "unknown";
+        return "\uF1c9 " + _("unknown");
     };
+}
+
+float GuiNetPlay::getButtonGridHeight() const
+{
+	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+	return (mButtonGrid ? mButtonGrid->getSize().y() : menuTheme->menuText.font->getHeight() + BUTTON_GRID_VERT_PADDING);
+}
+
+bool GuiNetPlay::input(InputConfig* config, Input input)
+{
+	if (config->isMappedTo("a", input) && input.value != 0)
+	{
+		delete this;
+	}
+	return GuiComponent::input(config, input);
+}
+
+void GuiNetPlay::updateSize()
+{
+	const float height = Renderer::getScreenHeight() * 0.7f;
+	const float width = Renderer::getScreenWidth() * 0.8f;
+	setSize(width, height);
+}
+
+void GuiNetPlay::onSizeChanged()
+{
+	mBackground.fitTo(mSize, Eigen::Vector3f::Zero(), Eigen::Vector2f(-32, -32));
+
+	// update grid row/col sizes
+	mGrid.setRowHeightPerc(0, TITLE_HEIGHT / mSize.y());
+	mGrid.setRowHeightPerc(2, getButtonGridHeight() / mSize.y());
+
+	mGrid.setSize(mSize);
+}
+
+std::vector<HelpPrompt> GuiNetPlay::getHelpPrompts()
+{
+	std::vector<HelpPrompt> prompts = mGrid.getHelpPrompts();
+	prompts.push_back(HelpPrompt("a", _("BACK")));
+	prompts.push_back(HelpPrompt("b", _("LAUNCH")));
+	return prompts;
+}
+
+void GuiNetPlay::update(int deltaTime) {
+	GuiComponent::update(deltaTime);
+	mBusyAnim.update(deltaTime);
+
+	if (!mLoaded) {
+		mLoading = true;
+		mHandle = new boost::thread(boost::bind(&GuiNetPlay::checkLobby, this));
+		mLoaded = true;
+	}
+
+	if (mLobbyChecked) {
+		populateGrid();
+	}
+}
+
+void GuiNetPlay::render(const Eigen::Affine3f &parentTrans) {
+	Eigen::Affine3f trans = parentTrans * getTransform();
+
+	renderChildren(trans);
+
+	Renderer::setMatrix(trans);
+	Renderer::drawRect(0.f, 0.f, mSize.x(), mSize.y(), 0x00000011);
+
+	if (mLoading)
+		mBusyAnim.render(trans);
 
 }

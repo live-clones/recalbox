@@ -49,6 +49,7 @@ void GuiHashStart::start()
 
 	    auto cmdResult = RecalboxSystem::getInstance()->execute(command);
 
+	    //script output 1 if system is in fobidden list (like fba_libretro) so we skip to next system
 	    if (cmdResult.second == 1) {
 		    LOG(LogInfo) << "system \"" << system->getName() << "\"  can't be hashed";
 		    continue;
@@ -110,14 +111,21 @@ void GuiHashStart::start()
 
 	        mBusyAnim.setText(busyText);
 
+	        // if missing only, don't bother calculating hash if tag is present
+	        if (fileNode.child("hash") && mFilter->getSelected() != "all") {
+	        	continue;
+	        }
+
             std::string cmd = "/recalbox/scripts/recalbox-hash.sh -f \"" + path.string() + "\"";
 
 	        auto hashResult = RecalboxSystem::getInstance()->execute(cmd);
 
 	        std::string hashString = hashResult.first;
 
+	        //script output an endline after hash, need to remove it
 	        hashString.erase(std::remove(hashString.begin(), hashString.end(), '\n'), hashString.end());
 
+	        //if tag exist, update if not, add it
             if (fileNode.child("hash") && mFilter->getSelected() == "all") {
 	            fileNode.child("hash").text().set(hashString.c_str());
             } else {
@@ -147,9 +155,20 @@ bool GuiHashStart::input(InputConfig* config, Input input)
 void GuiHashStart::update(int deltaTime) {
     GuiComponent::update(deltaTime);
     mBusyAnim.update(deltaTime);
+
 	if (mState == 1) {
-		this->mLoading = true;
-		mHandle = new boost::thread(boost::bind(&GuiHashStart::start, this));
+		mWindow->pushGui(
+				new GuiMsgBox(mWindow, _("THIS COULD TAKE A WHILE, CONFIRM?"), _("YES"),
+				              [this] {
+					              this->mLoading = true;
+					              mHandle = new boost::thread(boost::bind(&GuiHashStart::start, this));
+					              mState = 0;
+
+				              }, _("NO"), [this] {
+							mState = -1;
+						})
+
+		);
 		mState = 0;
 	}
 	if (mState == -1) {

@@ -1786,3 +1786,19 @@ msgstr ""
 #:
 msgid "Rom hash"
 msgstr ""
+
+#:
+msgid "THIS COULD TAKE A WHILE, CONFIRM?"
+msgstr ""
+
+#:
+msgid "good"
+msgstr ""
+
+#:
+msgid "bad"
+msgstr ""
+
+#:
+msgid "medium"
+msgstr ""

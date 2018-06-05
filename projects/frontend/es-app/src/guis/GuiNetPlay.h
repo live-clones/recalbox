@@ -29,26 +29,15 @@ class GuiNetPlay : public GuiComponent
 public:
 	GuiNetPlay(Window* window);
 
-	void onSizeChanged() override;
+	inline ~GuiNetPlay() { if (mList) mList->clear(); }
 
 	inline void addRow(const ComponentListRow& row, bool setCursorHere = false, bool updateGeometry = true) { mList->addRow(row, setCursorHere, updateGeometry); if (updateGeometry) updateSize(); }
 
-
-	bool input(InputConfig* config, Input input) override;
-
-	void update(int deltaTime) override;
-
-	void render(const Eigen::Affine3f &parentTrans) override;
-
-	void populateGrid();
-
-	inline ~GuiNetPlay() { if (mList) mList->clear(); }
-
-	std::vector<HelpPrompt> getHelpPrompts() override;
+	void checkLobby();
 
 	bool parseLobby();
 
-	void checkLobby();
+	void populateGrid();
 
 	void populateGridMeta(int i);
 
@@ -60,46 +49,49 @@ public:
 
     std::pair<std::string, std::string> getCoreInfo(const std::string &name);
 
-    std::string pingLobbyHost(const std::string& ip);
+    void pingLobby();
 
-private:
-
-
-	void updateSize();
+	std::string pingHost(const std::string& ip);
 
 	float getButtonGridHeight() const;
 
+	void updateSize();
+
+	bool input(InputConfig* config, Input input) override;
+
+	std::vector<HelpPrompt> getHelpPrompts() override;
+
+	void onSizeChanged() override;
+
+	void update(int deltaTime) override;
+
+	void render(const Eigen::Affine3f &parentTrans) override;
+
+private:
+
 	NinePatchComponent mBackground;
+	BusyComponent mBusyAnim;
 	ComponentGrid mGrid;
+	std::shared_ptr<MenuTheme> mMenuTheme;
+
 	std::shared_ptr<ComponentGrid> mGridMeta;
 	std::shared_ptr<ComponentGrid> mGridMetaRight;
-
-
-	std::shared_ptr<TextComponent> mTitle;
-	std::vector< std::shared_ptr<ButtonComponent> > mButtons;
 	std::shared_ptr<ComponentGrid> mButtonGrid;
+	std::vector< std::shared_ptr<ButtonComponent> > mButtons;
+	std::shared_ptr<TextComponent> mTitle;
 	std::shared_ptr<ComponentList> mList;
-
-	std::vector<FileData*> mGames;
-	std::vector<json::ptree::value_type> mRooms;
-
 	std::shared_ptr<TextComponent> mMetaText;
 	std::shared_ptr<TextComponent> mLaunchText;
 
-	//std::vector<std::string> mPings;
-
-	std::shared_ptr<MenuTheme> mMenuTheme;
-
-	bool mLoading;
-
-	bool mLoaded = false;
+	std::vector<FileData*> mGames;
+	std::vector<json::ptree::value_type> mRooms;
+	std::vector<std::string> mPings;
 
 	boost::thread *mHandle;
 
+	bool mLoading;
+	bool mLoaded = false;
 	bool mLobbyLoaded;
-
-	BusyComponent mBusyAnim;
-
 	bool mLobbyChecked;
 
 };
