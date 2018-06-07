@@ -380,11 +380,11 @@ std::string GuiNetPlay::pingHost(const std::string& ip)
     if (ping.first != "") {
         float latency = strtof(ping.first.c_str(), 0);
         if (latency <=80) {
-            return "\uF1c8 " + _("good") + " " + std::to_string(round(latency)) + "ms";
+            return "\uF1c8 " + _("good") + " (" + std::to_string((int)latency) + "ms)";
         } else if (latency <= 150) {
-            return "\uF1c7 " + _("medium") + " " + std::to_string(round(latency)) + "ms";
+            return "\uF1c7 " + _("medium") + " (" + std::to_string((int)latency) + "ms)";
         } else {
-            return "\uF1c6 " + _("bad") + " " + std::to_string(round(latency)) + "ms";
+            return "\uF1c6 " + _("bad") + " (" + std::to_string((int)latency) + "ms)";
         }
     } else {
         return "\uF1c9 " + _("unknown");

@@ -15,8 +15,6 @@ public:
 	{
 	public:
 		virtual void render(const Eigen::Affine3f& parentTrans) = 0;
-		virtual void stop() = 0;
-		virtual ~InfoPopup() {};
 	};
 	Window();
 	~Window();
@@ -49,7 +47,7 @@ public:
 	void setHelpPrompts(const std::vector<HelpPrompt>& prompts, const HelpStyle& style);
 
 	void setInfoPopup(std::shared_ptr<InfoPopup> infoPopup) { mInfoPopup = infoPopup; }
-	inline void stopInfoPopup() { if (mInfoPopup) mInfoPopup->stop(); };
+	//inline void stopInfoPopup() { if (mInfoPopup) mInfoPopup->~InfoPopup(); };
 
 	void renderShutdownScreen();
 	

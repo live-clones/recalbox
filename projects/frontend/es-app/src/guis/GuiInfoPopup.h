@@ -16,9 +16,8 @@
 class GuiInfoPopup : public GuiComponent, public Window::InfoPopup
 {
 public:
-	GuiInfoPopup(Window* window, std::string message, int duration, std::string icon = "");
-	//GuiInfoPopup(Window* window, std::string message, int duration);
-	~GuiInfoPopup();
+	GuiInfoPopup(Window* window, std::string message, int duration, int icon = 0);
+	~GuiInfoPopup() {}
 	void render(const Eigen::Affine3f& parentTrans) override;
 	inline void stop() { running = false; };
 private:

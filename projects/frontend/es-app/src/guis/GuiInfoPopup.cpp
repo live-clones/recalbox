@@ -12,11 +12,11 @@
 #include <components/ScrollableContainer.h>
 #include <Settings.h>
 
-GuiInfoPopup::GuiInfoPopup(Window* window, std::string message, int duration, std::string icon) :
+GuiInfoPopup::GuiInfoPopup(Window* window, std::string message, int duration, int icon) :
 		GuiComponent(window), mDuration(duration * 1000), running(true), mGrid(window, Eigen::Vector2i(2, 1)), mFrame(window, ":/frame.png")
 {
 
-	bool noIcon = icon == "";
+	bool noIcon = icon == 0;
 
 
 	float maxWidth = Renderer::getScreenWidth() * 0.2f;
@@ -37,7 +37,24 @@ GuiInfoPopup::GuiInfoPopup(Window* window, std::string message, int duration, st
 	float msgHeight;
 
 	mMsgText = std::make_shared<TextComponent>(window, message, Font::get(FONT_SIZE_TEXT), menuTheme->menuText.color, ALIGN_LEFT);
-	mMsgIcon = std::make_shared<TextComponent>(window, icon, Font::get(FONT_SIZE_ICON), menuTheme->menuText.color, ALIGN_LEFT);
+
+
+	mMsgIcon = std::make_shared<TextComponent>(window, "", Font::get(FONT_SIZE_ICON), menuTheme->menuText.color, ALIGN_LEFT);
+
+	switch (icon) {
+		case 0 :
+			mMsgIcon->setText("");
+			break;
+		case 10 :
+			mMsgIcon->setText("\uF1b0"); //icon music
+			break;
+		case 20 :
+			mMsgIcon->setText("\uF1c4"); //icon netplay
+			break;
+		case 50 :
+			mMsgIcon->setText("\uF200"); //icon recalbox
+			break;
+	}
 
 	mGrid.setEntry(mMsgText, Eigen::Vector2i(1, 0), false, false);
 	mGrid.setEntry(mMsgIcon, Eigen::Vector2i(0, 0), false, false);
@@ -92,10 +109,6 @@ GuiInfoPopup::GuiInfoPopup(Window* window, std::string message, int duration, st
 	mStartTime = 0;
 
 	addChild(&mGrid);
-}
-
-GuiInfoPopup::~GuiInfoPopup()
-{
 }
 
 void GuiInfoPopup::render(const Eigen::Affine3f& parentTrans)

@@ -25,11 +25,13 @@
 #include <boost/algorithm/string.hpp>
 #include <RecalboxConf.h>
 #include <recalbox/RecalboxUpgrade.h>
+#include <guis/GuiInfoPopup.h>
 #include "resources/Font.h"
 #include "NetworkThread.h"
 #include "recalbox/RecalboxSystem.h"
 #include "FileSorts.h"
 #include "CommandThread.h"
+#include "NetPlayThread.h"
 
 
 #ifdef WIN32
@@ -357,6 +359,14 @@ int main(int argc, char* argv[])
 
 	// Start the socket server
 	CommandThread* ct = new CommandThread(&window);
+
+
+	if (RecalboxConf::getInstance()->get("global.netplay") == "1") {
+		auto s = std::make_shared<GuiInfoPopup>(&window, "", 0, 20);
+		window.setInfoPopup(s);
+		NetPlayThread* np = new NetPlayThread(&window);
+	}
+
 
 	//run the command line scraper then quit
 	if(scrape_cmdline)

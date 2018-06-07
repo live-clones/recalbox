@@ -113,7 +113,7 @@ void AudioManager::playRandomMusic() {// Find a random song in user directory or
         int popupDuration = Settings::getInstance()->getInt("MusicPopupTime");
 		if (popupDuration != 0) {
 			Window *win = ViewController::getWindow();
-			auto s = std::make_shared<GuiInfoPopup>(win, _("Now playing") + ":\n" + currentMusic->getName(), popupDuration, "\uF1b0");
+			auto s = std::make_shared<GuiInfoPopup>(win, _("Now playing") + ":\n" + currentMusic->getName(), popupDuration, 10);
 			win->setInfoPopup(s);
 		}
         return;

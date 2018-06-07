@@ -1802,3 +1802,11 @@ msgstr ""
 #:
 msgid "medium"
 msgstr ""
+
+#:
+msgid "NETPLAY POPUP DURATION"
+msgstr ""
+
+#:
+msgid "Set duration of netplay popups, 0 means no popup."
+msgstr ""

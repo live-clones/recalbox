@@ -15,6 +15,7 @@
 #include <RecalboxConf.h>
 #include <guis/GuiNetPlay.h>
 #include <guis/GuiLoading.h>
+#include <NetPlayThread.h>
 #include "ThemeData.h"
 #include "MenuThemeData.h"
 #include "AudioManager.h"
@@ -195,16 +196,6 @@ bool SystemView::input(InputConfig* config, Input input)
                         mWindow->pushGui(netplay);
                         delete s;
                     });
-			        /*std::function<void(void *)> showLobby = [this, s](void *guilobby) {
-				        mWindow->pushGui((GuiComponent *)guilobby);
-				        delete s;
-			        };
-			        row.makeAcceptInputHandler([this, s, showLobby] {
-				        mWindow->pushGui(new GuiLoading(mWindow, [this, s, showLobby] {
-					        auto netplay = new GuiNetPlay(mWindow);
-					        return (void *) netplay;
-				        }, showLobby));
-			        });*/
                     auto lbl2 = std::make_shared<TextComponent>(mWindow, "\uF1c4 " + _("NETPLAY LOBBY"), menuTheme->menuText.font, menuTheme->menuText.color);
                     row.addElement(lbl2, true); // label
                     s->addRow(row);

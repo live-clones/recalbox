@@ -53,6 +53,7 @@ public:
 	static const char* UI_POPUP_POSITION_HELP_MSG;
 	static const char* UI_POPUP_HELP_MSG;
 	static const char* UI_MUSIC_POPUP_DURATION_HELP_MSG;
+	static const char* UI_NETPLAY_POPUP_DURATION_HELP_MSG;
 	static const char* UI_CLOCK_HELP_MSG;
 	static const char* UI_QUICK_HELP_MSG;
 	static const char* UI_KEYBOARD_HELP_MSG;

@@ -83,6 +83,7 @@ void Settings::setDefaults() {
     mIntMap["ScraperResizeHeight"] = 0;
     mIntMap["SystemVolume"] = 96;
 	mIntMap["HelpPopupTime"] = 4;
+    mIntMap["NetplayPopupTime"] = 4;
 	mIntMap["MaxVRAM"] = 80;
 
     mStringMap["TransitionStyle"] = "fade";

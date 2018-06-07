@@ -45,6 +45,7 @@ const char* MenuMessages::UI_HELP_POPUP_DURATION_HELP_MSG = "Set duration of hel
 const char* MenuMessages::UI_POPUP_POSITION_HELP_MSG = "Select the position of popups on screen.";
 const char* MenuMessages::UI_POPUP_HELP_MSG = "Set position and duration of popups.";
 const char* MenuMessages::UI_MUSIC_POPUP_DURATION_HELP_MSG = "Set duration of music popups, 0 means no popup.";
+const char* MenuMessages::UI_NETPLAY_POPUP_DURATION_HELP_MSG = "Set duration of netplay popups, 0 means no popup.";
 const char* MenuMessages::UI_CLOCK_HELP_MSG = "Add a clock in the main menu.";
 const char* MenuMessages::UI_QUICK_HELP_MSG = "When enabled, you can switch between systems while browsing a gamelist by pressing LEFT or RIGHT.";
 const char* MenuMessages::UI_KEYBOARD_HELP_MSG = "The onscreen keyboard is necessary to type text if you only have controllers plugged into your recalbox. You can disable it if you have a real keyboard connected.";

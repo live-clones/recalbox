@@ -769,9 +769,15 @@ void GuiMenu::menuUISettings(){
 		music_popup_time->setValue((float) (Settings::getInstance()->getInt("MusicPopupTime")));
 		PopupGui->addWithLabel(music_popup_time, _("MUSIC POPUP DURATION"), _(MenuMessages::UI_MUSIC_POPUP_DURATION_HELP_MSG));
 
-		PopupGui->addSaveFunc([help_popup_time, music_popup_time, popup_position] {
+		//netplay popup time 0=no popup
+		auto netplay_popup_time = std::make_shared<SliderComponent>(mWindow, 0.f, 10.f, 1.f, "s");
+		netplay_popup_time->setValue((float) (Settings::getInstance()->getInt("NetplayPopupTime")));
+		PopupGui->addWithLabel(netplay_popup_time, _("NETPLAY POPUP DURATION"), _(MenuMessages::UI_NETPLAY_POPUP_DURATION_HELP_MSG));
+
+		PopupGui->addSaveFunc([help_popup_time, music_popup_time, popup_position, netplay_popup_time] {
 			Settings::getInstance()->setInt("HelpPopupTime", (int) round(help_popup_time->getValue()));
 			Settings::getInstance()->setInt("MusicPopupTime", (int) round(music_popup_time->getValue()));
+			Settings::getInstance()->setInt("NetplayPopupTime", (int) round(netplay_popup_time->getValue()));
 			Settings::getInstance()->setString("PopupPosition", popup_position->getSelected());
 		});
 		mWindow->pushGui(PopupGui);
