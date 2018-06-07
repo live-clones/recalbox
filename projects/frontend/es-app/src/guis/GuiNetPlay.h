@@ -80,8 +80,26 @@ private:
 	std::vector< std::shared_ptr<ButtonComponent> > mButtons;
 	std::shared_ptr<TextComponent> mTitle;
 	std::shared_ptr<ComponentList> mList;
-	std::shared_ptr<TextComponent> mMetaText;
-	std::shared_ptr<TextComponent> mLaunchText;
+	std::shared_ptr<TextComponent> mMetaTextLblUsername;
+	std::shared_ptr<TextComponent> mMetaTextUsername;
+    std::shared_ptr<TextComponent> mMetaTextLblCountry;
+    std::shared_ptr<TextComponent> mMetaTextCountry;
+    std::shared_ptr<TextComponent> mMetaTextLblRomHash;
+    std::shared_ptr<TextComponent> mMetaTextRomHash;
+    std::shared_ptr<TextComponent> mMetaTextLblRomFile;
+    std::shared_ptr<TextComponent> mMetaTextRomFile;
+    std::shared_ptr<TextComponent> mMetaTextLblCore;
+    std::shared_ptr<TextComponent> mMetaTextCore;
+    std::shared_ptr<TextComponent> mMetaTextLblCoreVer;
+    std::shared_ptr<TextComponent> mMetaTextCoreVer;
+    std::shared_ptr<TextComponent> mMetaTextLblLatency;
+    std::shared_ptr<TextComponent> mMetaTextLatency;
+    std::shared_ptr<TextComponent> mMetaTextLblRAVer;
+    std::shared_ptr<TextComponent> mMetaTextRAVer;
+    std::shared_ptr<TextComponent> mMetaTextLblHostArch;
+    std::shared_ptr<TextComponent> mMetaTextHostArch;
+    std::shared_ptr<TextComponent> mMetaTextLblCanJoin;
+    std::shared_ptr<TextComponent> mMetaTextCanJoin;
 
 	std::vector<FileData*> mGames;
 	std::vector<json::ptree::value_type> mRooms;

@@ -44,7 +44,7 @@ bool compareLowerCase(std::string str1, std::string str2)
 GuiNetPlay::GuiNetPlay(Window* window) : GuiComponent(window),
         mBackground(window, ":/frame.png"), mGrid(window, Eigen::Vector2i(1, 3)), mList(NULL),
         mGridMeta(new ComponentGrid(window, Eigen::Vector2i(2, 1))),
-        mGridMetaRight(new ComponentGrid(window, Eigen::Vector2i(1, 2))), mBusyAnim(window)
+        mGridMetaRight(new ComponentGrid(window, Eigen::Vector2i(2, 11))), mBusyAnim(window)
 {
 	addChild(&mBackground);
 	addChild(&mGrid);
@@ -126,13 +126,48 @@ void GuiNetPlay::populateGrid()
 		mGridMeta->setColWidthPerc(0, 0.62);
 		mGrid.setEntry(mGridMeta, Vector2i(0, 1), true);
 
-		mMetaText = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, ALIGN_LEFT);
-		mMetaText->setVerticalAlignment(ALIGN_TOP);
-		mLaunchText = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuText.font, mMenuTheme->menuText.color, ALIGN_LEFT);
-		mLaunchText->setVerticalAlignment(ALIGN_BOTTOM);
-		mGridMetaRight->setEntry(mLaunchText, Vector2i(0, 1), false, true);
-		mGridMetaRight->setEntry(mMetaText, Vector2i(0, 0), false, true);
+		mMetaTextLblUsername = std::make_shared<TextComponent>(mWindow, "    " +  _("Username") + " : ", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, ALIGN_LEFT);
+		mMetaTextUsername = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, ALIGN_LEFT);
+		mGridMetaRight->setEntry(mMetaTextLblUsername, Vector2i(0, 0), false, true);
+		mGridMetaRight->setEntry(mMetaTextUsername, Vector2i(1, 0), false, true);
+		mMetaTextLblCountry = std::make_shared<TextComponent>(mWindow, "    " +  _("Country") + " : ", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, ALIGN_LEFT);
+		mMetaTextCountry = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, ALIGN_LEFT);
+		mGridMetaRight->setEntry(mMetaTextLblCountry, Vector2i(0, 1), false, true);
+		mGridMetaRight->setEntry(mMetaTextCountry, Vector2i(1, 1), false, true);
+		mMetaTextLblRomHash = std::make_shared<TextComponent>(mWindow, "    " +  _("Rom hash") + " : ", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, ALIGN_LEFT);
+		mMetaTextRomHash = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, ALIGN_LEFT);
+		mGridMetaRight->setEntry(mMetaTextLblRomHash, Vector2i(0, 2), false, true);
+		mGridMetaRight->setEntry(mMetaTextRomHash, Vector2i(1, 2), false, true);
+		mMetaTextLblRomFile = std::make_shared<TextComponent>(mWindow, "    " +  _("Rom file") + " : ", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, ALIGN_LEFT);
+		mMetaTextRomFile = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, ALIGN_LEFT);
+		mGridMetaRight->setEntry(mMetaTextLblRomFile, Vector2i(0, 3), false, true);
+		mGridMetaRight->setEntry(mMetaTextRomFile, Vector2i(1, 3), false, true);
+		mMetaTextLblCore = std::make_shared<TextComponent>(mWindow, "    " +  _("Core") + " : ", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, ALIGN_LEFT);
+		mMetaTextCore = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, ALIGN_LEFT);
+		mGridMetaRight->setEntry(mMetaTextLblCore, Vector2i(0, 4), false, true);
+		mGridMetaRight->setEntry(mMetaTextCore, Vector2i(1, 4), false, true);
+		mMetaTextLblCoreVer = std::make_shared<TextComponent>(mWindow, "    " +  _("Core ver.") + " : ", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, ALIGN_LEFT);
+		mMetaTextCoreVer = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, ALIGN_LEFT);
+		mGridMetaRight->setEntry(mMetaTextLblCoreVer, Vector2i(0, 5), false, true);
+		mGridMetaRight->setEntry(mMetaTextCoreVer, Vector2i(1, 5), false, true);
+		mMetaTextLblLatency = std::make_shared<TextComponent>(mWindow, "    " +  _("Latency") + " : ", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, ALIGN_LEFT);
+		mMetaTextLatency = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, ALIGN_LEFT);
+		mGridMetaRight->setEntry(mMetaTextLblLatency, Vector2i(0, 6), false, true);
+		mGridMetaRight->setEntry(mMetaTextLatency, Vector2i(1, 6), false, true);
+		mMetaTextLblRAVer = std::make_shared<TextComponent>(mWindow, "    " +  _("RA ver.") + " : ", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, ALIGN_LEFT);
+		mMetaTextRAVer = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, ALIGN_LEFT);
+		mGridMetaRight->setEntry(mMetaTextLblRAVer, Vector2i(0, 7), false, true);
+		mGridMetaRight->setEntry(mMetaTextRAVer, Vector2i(1, 7), false, true);
+		mMetaTextLblHostArch = std::make_shared<TextComponent>(mWindow, "    " +  _("Host arch.") + " : ", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, ALIGN_LEFT);
+		mMetaTextHostArch = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, ALIGN_LEFT);
+		mGridMetaRight->setEntry(mMetaTextLblHostArch, Vector2i(0, 8), false, true);
+		mGridMetaRight->setEntry(mMetaTextHostArch, Vector2i(1, 8), false, true);
+		mMetaTextLblCanJoin = std::make_shared<TextComponent>(mWindow, "    " +  _("Can join") + " : ", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, ALIGN_LEFT);
+		mMetaTextCanJoin = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuText.font, mMenuTheme->menuText.color, ALIGN_LEFT);
+		mGridMetaRight->setEntry(mMetaTextLblCanJoin, Vector2i(0, 10), false, true);
+		mGridMetaRight->setEntry(mMetaTextCanJoin, Vector2i(1, 10), false, true);
 		mGridMeta->setEntry(mGridMetaRight, Vector2i(1, 0), false, true, Eigen::Vector2i(1, 1), GridFlags::BORDER_LEFT);
+        mGridMetaRight->setColWidthPerc(1, 0.65, true);
 
 		ComponentListRow row;
 		std::shared_ptr<GuiComponent> ed;
@@ -157,7 +192,18 @@ void GuiNetPlay::populateGrid()
 		}
 		populateGridMeta(0);
 		mList->setCursorChangedCallback([this](CursorState state){populateGridMeta(mList->getCursor());});
-		mList->setFocusLostCallback([this]{mMetaText->setText(""); mLaunchText->setText("");});
+		mList->setFocusLostCallback([this]{
+		    mMetaTextUsername->setText("");
+            mMetaTextCountry->setText("");
+            mMetaTextRomHash->setText("");
+            mMetaTextRomFile->setText("");
+            mMetaTextCore->setText("");
+            mMetaTextCoreVer->setText("");
+            mMetaTextLatency->setText("");
+            mMetaTextRAVer->setText("");
+            mMetaTextHostArch->setText("");
+            mMetaTextCanJoin->setText("");
+		});
 		mList->setFocusGainedCallback([this]{populateGridMeta(mList->getCursor());});
 
 		mHandle = new boost::thread(boost::bind(&GuiNetPlay::pingLobby, this));
@@ -173,7 +219,6 @@ void GuiNetPlay::populateGrid()
 //called when changing cursor in mList
 void GuiNetPlay::populateGridMeta(int i)
 {
-	std::string text = "";
 
 	bool hashMatch = false;
 	bool coreVerMatch,coreMatch;
@@ -187,52 +232,43 @@ void GuiNetPlay::populateGridMeta(int i)
     std::string username = mRooms[i].second.get<std::string>("fields.username", "N/A");
     username = std::regex_replace(username, std::regex("@RECALBOX"), " \uF200");
 
-    text += "    " + _("Username") + " : " + username;
-    text += "\n    " + _("Country") + " : " + mRooms[i].second.get<std::string>("fields.country", "N/A");
-    text += "\n    " + _("Rom hash") + " : ";
+    mMetaTextUsername->setText(username);
+    mMetaTextCountry->setText(mRooms[i].second.get<std::string>("fields.country", "N/A"));
     if (hashMatch) {
-    	text += "\uf1c0 " + _("Match");
+    	mMetaTextRomHash->setText("\uf1c0 " + _("Match"));
     } else {
-	    text += "\uf1c2 " + _("No match");
+        mMetaTextRomHash->setText("\uf1c2 " + _("No match"));
     }
-	text += "\n    " + _("Rom file") + " : ";
 	if (mGames[i]) {
-		text += "\uf1c0 " + _("Match");
+        mMetaTextRomFile->setText("\uf1c0 " + _("Match"));
 	} else {
-		text += "\uf1c2 " + _("No match");
+        mMetaTextRomFile->setText("\uf1c2 " + _("No match"));
 	}
-    text += "\n    " + _("Core") + " : ";
 	if (coreMatch) {
-		text += "\uf1c0 ";
+        mMetaTextCore->setText("\uf1c0 " + mRooms[i].second.get<std::string>("fields.core_name", "N/A"));
 	} else {
-		text += "\uf1c2 ";
+        mMetaTextCore->setText("\uf1c2 " + mRooms[i].second.get<std::string>("fields.core_name", "N/A"));
 	}
-    text += mRooms[i].second.get<std::string>("fields.core_name", "N/A");
-    text += "\n    " + _("Core ver.") + " : ";
 	if (coreVerMatch) {
-		text += "\uf1c0 ";
+        mMetaTextCore->setText("\uf1c0 " + mRooms[i].second.get<std::string>("fields.core_version", "N/A"));
 	} else {
-		text += "\uf1c2 ";
+        mMetaTextCore->setText("\uf1c2 " + mRooms[i].second.get<std::string>("fields.core_version", "N/A"));
 	}
-    text += mRooms[i].second.get<std::string>("fields.core_version", "N/A");
-	text += "\n    Latency : " + mPings[i];
-    text += "\n    " + _("RA ver.") + " : " + mRooms[i].second.get<std::string>("fields.retroarch_version", "N/A");
-	text += "\n    " + _("Host arch.") + " : " + mRooms[i].second.get<std::string>("fields.frontend", "N/A");
-	mMetaText->setText(text);
-	std::string text2 = "    " + _("Can join") + " : ";
+    mMetaTextLatency->setText(mPings[i]);
+    mMetaTextRAVer->setText(mRooms[i].second.get<std::string>("fields.retroarch_version", "N/A"));
+    mMetaTextHostArch->setText(mRooms[i].second.get<std::string>("fields.frontend", "N/A"));
 	if (mGames[i]) {
 		if (hashMatch && coreMatch) {
-			text2 += "\uf1c0 " + _("Rom and core match");
-			mLaunchText->setColor(0x26B14AFF);
+            mMetaTextCanJoin->setText("\uf1c0 " + _("Rom and core match"));
+            mMetaTextCanJoin->setColor(0x26B14AFF);
 		} else {
-			text2 += "\uf1c1 " + _("Rom found w/o hash");
-			mLaunchText->setColor(0x36A9E0FF);
+            mMetaTextCanJoin->setText("\uf1c1 " + _("Rom found w/o hash"));
+            mMetaTextCanJoin->setColor(0x36A9E0FF);
 		}
 	} else {
-		text2 += "\uf1c2 " + _("No rom match");
-		mLaunchText->setColor(0xDC1F26FF);
+        mMetaTextCanJoin->setText("\uf1c2 " + _("No rom match"));
+        mMetaTextCanJoin->setColor(0xDC1F26FF);
 	}
-	mLaunchText->setText(text2);
 }
 
 void GuiNetPlay::launch()
@@ -344,11 +380,11 @@ std::string GuiNetPlay::pingHost(const std::string& ip)
     if (ping.first != "") {
         float latency = strtof(ping.first.c_str(), 0);
         if (latency <=80) {
-            return "\uF1c8 " + _("good");
+            return "\uF1c8 " + _("good") + " " + std::to_string(round(latency)) + "ms";
         } else if (latency <= 150) {
-            return "\uF1c7 " + _("medium");
+            return "\uF1c7 " + _("medium") + " " + std::to_string(round(latency)) + "ms";
         } else {
-            return "\uF1c6 " + _("bad");
+            return "\uF1c6 " + _("bad") + " " + std::to_string(round(latency)) + "ms";
         }
     } else {
         return "\uF1c9 " + _("unknown");
