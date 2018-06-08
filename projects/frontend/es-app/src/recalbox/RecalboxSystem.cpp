@@ -552,11 +552,17 @@ std::pair<std::string, int> RecalboxSystem::getSysBatteryInfo(){
 		return std::make_pair("", -1);
 	}
 
-    auto cmdPipe = execute("cat /sys/class/power_supply/BAT0/capacity");
+	std::ifstream ifs("/sys/class/power_supply/BAT0/capacity");
+	int percent;
+	ifs >> percent;
+	ifs.close();
 
-	int percent = std::stoi(cmdPipe.first);
-	std::string status = execute("cat /sys/class/power_supply/BAT0/status").first;
-	if (status == "Discharging\n") {
+	std::ifstream ifst("/sys/class/power_supply/BAT0/status");
+	std::string status;
+	ifst >> status;
+	ifst.close();
+	
+	if (status == "Discharging") {
 		if (percent>66)
 			result.first = "\uF1ba";
 		else if (percent>33)
