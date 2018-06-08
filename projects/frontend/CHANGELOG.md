@@ -2,12 +2,14 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+
 ## [Unreleased]
 ### Added
 - Refactored gamepad configuration panel
 - Update Emulator / Core selection process to avoid gui inception and to display default values
 - Update font size on game metadata gui
 - Remove dead code of RomsManager, GuiFastSelect, FileSystemSelectorComponent
+- Bring back battery indicator with new process - x86 only
 - Added option for popup position
 - Added help messages in popups
 - Added slider for popups duration

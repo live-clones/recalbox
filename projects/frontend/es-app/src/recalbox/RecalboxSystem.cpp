@@ -546,13 +546,13 @@ std::pair<std::string, int> RecalboxSystem::getSDLBatteryInfo(){
 
 std::pair<std::string, int> RecalboxSystem::getSysBatteryInfo(){
 	std::pair<std::string, int> result;
-	auto cmdPipe = execute("cat /sys/class/power_supply/BAT0/capacity");
 
-	int cmdStatus = cmdPipe.second;
 
-	if (cmdStatus != 0) {
+	if (!boost::filesystem::exists("/sys/class/power_supply/BAT0/capacity")) {
 		return std::make_pair("", -1);
 	}
+
+    auto cmdPipe = execute("cat /sys/class/power_supply/BAT0/capacity");
 
 	int percent = std::stoi(cmdPipe.first);
 	std::string status = execute("cat /sys/class/power_supply/BAT0/status").first;

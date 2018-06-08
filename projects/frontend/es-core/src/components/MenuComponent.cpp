@@ -12,61 +12,63 @@
 
 using namespace Eigen;
 
-MenuComponent::MenuComponent(Window* window, const char* title, const std::shared_ptr<Font>& titleFont) : GuiComponent(window), 
-    mBackground(window), mGrid(window, Vector2i(1, 3))
-{    
-    addChild(&mBackground);
-    addChild(&mGrid);
-        
-    auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
-    
-    mBackground.setImagePath(menuTheme->menuBackground.path);
-    mBackground.setCenterColor(menuTheme->menuBackground.color);
-    mBackground.setEdgeColor(menuTheme->menuBackground.color);
+MenuComponent::MenuComponent(Window* window, const char* title, const std::shared_ptr<Font>& titleFont) : GuiComponent(window),
+                                                                                                          mBackground(window), mGrid(window, Vector2i(1, 3))
+{
+	addChild(&mBackground);
+	addChild(&mGrid);
 
-    // set up title
-    mTitle = std::make_shared<TextComponent>(mWindow);
-    mTitle->setHorizontalAlignment(ALIGN_CENTER);
-        
-    setTitle(title, menuTheme->menuTitle.font);
-    mTitle->setColor(menuTheme->menuTitle.color);
+	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 
-    mGrid.setEntry(mTitle, Vector2i(0, 0), false);
+	mBackground.setImagePath(menuTheme->menuBackground.path);
+	mBackground.setCenterColor(menuTheme->menuBackground.color);
+	mBackground.setEdgeColor(menuTheme->menuBackground.color);
 
-    if (title == _("MAIN MENU") ) {
+	// set up title
+	mTitle = std::make_shared<TextComponent>(mWindow);
+	mTitle->setHorizontalAlignment(ALIGN_CENTER);
 
-        auto headerGrid = std::make_shared<ComponentGrid>(mWindow, Vector2i(7, 1));
+	setTitle(title, menuTheme->menuTitle.font);
+	mTitle->setColor(menuTheme->menuTitle.color);
 
-        /*std::string arch = Settings::getInstance()->getString("Arch");
-        if (arch == "x86" || arch == "x86_64") {
+	mGrid.setEntry(mTitle, Vector2i(0, 0), false);
 
-            auto batt = RecalboxSystem::getInstance()->getSysBatteryInfo();
-            if (batt.second != -1) {
-                auto batDisplay = std::make_shared<TextComponent>(mWindow);
-                batDisplay->setFont(menuTheme->menuText.font);
-                if (batt.second <= 15)
-                    batDisplay->setColor(0xFF0000FF);
-                else
-                    batDisplay->setColor(menuTheme->menuText.color);
-                batDisplay->setText(batt.first + " " + std::to_string(batt.second) + "%");
-                batDisplay->setHorizontalAlignment(ALIGN_CENTER);
-                headerGrid->setEntry(batDisplay, Vector2i(0, 0), false);
 
-            }
-        }*/
 
-        if (Settings::getInstance()->getBool("ShowClock")) {
+	if (title == _("MAIN MENU") ) {
 
-            mDateTime = std::make_shared<DateTimeComponent>(mWindow);
-            mDateTime->setDisplayMode(DateTimeComponent::DISP_TIME);
-            mDateTime->setFont(menuTheme->menuText.font);
-            mDateTime->setColor(menuTheme->menuText.color);
-            headerGrid->setEntry(mDateTime, Vector2i(6, 0), false);
-        }
+		auto headerGrid = std::make_shared<ComponentGrid>(mWindow, Vector2i(7, 1));
 
-        mGrid.setEntry(headerGrid, Vector2i(0, 0), false);
+		std::string arch = Settings::getInstance()->getString("Arch");
+		if (arch == "x86" || arch == "x86_64") {
 
-    }
+			auto batt = RecalboxSystem::getInstance()->getSysBatteryInfo();
+			if (batt.second != -1) {
+				auto batDisplay = std::make_shared<TextComponent>(mWindow);
+				batDisplay->setFont(menuTheme->menuText.font);
+				if (batt.second <= 15)
+					batDisplay->setColor(0xFF0000FF);
+				else
+					batDisplay->setColor(menuTheme->menuText.color);
+				batDisplay->setText(batt.first + " " + std::to_string(batt.second) + "%");
+				batDisplay->setHorizontalAlignment(ALIGN_CENTER);
+				headerGrid->setEntry(batDisplay, Vector2i(0, 0), false);
+
+			}
+		}
+
+		if (Settings::getInstance()->getBool("ShowClock")) {
+
+			mDateTime = std::make_shared<DateTimeComponent>(mWindow);
+			mDateTime->setDisplayMode(DateTimeComponent::DISP_TIME);
+			mDateTime->setFont(menuTheme->menuText.font);
+			mDateTime->setColor(menuTheme->menuText.color);
+			headerGrid->setEntry(mDateTime, Vector2i(6, 0), false);
+		}
+
+		mGrid.setEntry(headerGrid, Vector2i(0, 0), false);
+
+	}
 
 
     // set up list which will never change (externally, anyway)
