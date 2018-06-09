@@ -25,6 +25,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add Thomson TO + MO support with libretro core theodore, thank you zlika
 - linapple: support apple2.configfile=dummy to avoid overwriting configuration
 - Add Amstrad CPC core: crocods
+- New version of libretro-o2em now supports save states and rewind
 
 ## [18.04.20] - 2018-04-20
 - ES: Added pop-ups
