@@ -23,6 +23,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Avoid reload of images if source doesn't changed
 - Update Games lists from GameList menu
 - Set Menu list in loop mode
+- Delete EmulationStation.h from source + add to gitignore
 
 ### Fixed
 - Fixed back button in gamelist (back to parent level, not to root one)
