@@ -25,12 +25,12 @@ NetPlayThread::~NetPlayThread() {
 }
 
 void NetPlayThread::run() {
-	boost::this_thread::sleep(boost::posix_time::seconds(3));
+	boost::this_thread::sleep(boost::posix_time::seconds(5));
 
 	LOG(LogInfo) << "NetPlayThread started";
 
 	if (Settings::getInstance()->getInt("NetplayPopupTime") != 0) {
-		std::vector<std::string> oldGames;
+		std::vector<std::pair<std::string, std::string>> oldGames;
 		std::string lobby = RecalboxConf::getInstance()->get("global.netplay.lobby");
 		auto json_req = RecalboxSystem::getInstance()->execute("curl -s --connect-timeout 3 -m 3 " + lobby);
 		if (json_req.second == 0) {
@@ -45,7 +45,9 @@ void NetPlayThread::run() {
 			}
 
 			for (json::ptree::value_type &array_element : root) {
-				oldGames.push_back(array_element.second.get<std::string>("fields.username"));
+				std::string player = array_element.second.get<std::string>("fields.username");
+				std::string game = array_element.second.get<std::string>("fields.game_name");
+				oldGames.push_back(std::make_pair(player, game));
 			}
 		}
 
@@ -64,20 +66,23 @@ void NetPlayThread::run() {
 					LOG(LogInfo) << "NetPlayThread error";
 				}
 
-				std::vector<std::string> newGames;
+				std::vector<std::pair<std::string, std::string>> newGames;
 
 				for (json::ptree::value_type &array_element : root) {
-					newGames.push_back(array_element.second.get<std::string>("fields.username"));
+					std::string player = array_element.second.get<std::string>("fields.username");
+					std::string game = array_element.second.get<std::string>("fields.game_name");
+					newGames.push_back(std::make_pair(player, game));
 				}
 				for (auto tmp : newGames) {
-					std::vector<std::string>::const_iterator it;
+					std::vector<std::pair<std::string, std::string>>::const_iterator it;
 					it = std::find(oldGames.begin(), oldGames.end(), tmp);
 					if(it == oldGames.end()){
-						if (tmp.find("RECALBOX") != std::string::npos) {
+						if (tmp.first.find("RECALBOX") != std::string::npos) {
 							int popupDuration = Settings::getInstance()->getInt("NetplayPopupTime");
-							auto s = std::make_shared<GuiInfoPopup>(mWindow,
-							                                        _("A Recalbox friend has started a Netplay game!"),
-							                                        popupDuration, 20);
+							std::string text = _("A Recalbox friend has started a Netplay game!");
+							text += "\n " + _("Player:") + " " + tmp.first;
+							text += "\n " + _("Game:") + " " + tmp.second;
+							auto s = std::make_shared<GuiInfoPopup>(mWindow, text, popupDuration, 20);
 							mWindow->setInfoPopup(s);
 							break;
 						}

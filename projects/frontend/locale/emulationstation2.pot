@@ -1810,3 +1810,15 @@ msgstr ""
 #:
 msgid "Set duration of netplay popups, 0 means no popup."
 msgstr ""
+
+#:
+msgid "Player:"
+msgstr ""
+
+#:
+msgid "Game:"
+msgstr ""
+
+#:
+msgid "A Recalbox friend has started a Netplay game!"
+msgstr ""
