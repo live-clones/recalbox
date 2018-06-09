@@ -152,7 +152,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window *window, MetaDataList *md, const std::vector
                         }
                         
                         std::vector<std::string> cores = system->getCores(emulatorName);
-                        std::string currentCore = RecalboxConf::getInstance()->get(system->getName() + ".core");
+                        std::string currentCore = mMetaData->get("core");
 
                         if (currentCore == "") {
                             currentCore = "default";
