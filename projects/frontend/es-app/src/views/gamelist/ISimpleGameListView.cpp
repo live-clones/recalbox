@@ -113,6 +113,8 @@ void ISimpleGameListView::onFileChanged(FileData* file, FileChangeType change) {
 			ViewController::get()->getSystemListView()->manageFavorite();
 		}
 	}
+
+	updateInfoPanel();
 }
 
 bool ISimpleGameListView::input(InputConfig* config, Input input) {
@@ -191,7 +193,7 @@ bool ISimpleGameListView::input(InputConfig* config, Input input) {
 					// Reload to refresh the favorite icon
 					int cursorPlace = getCursorIndex();
                     refreshList();
-					setCursorIndex(cursorPlace + (removeFavorite ? -1 : 1));
+					setCursorIndex(std::max(0, cursorPlace + (removeFavorite ? -1 : 1)));
 				}
 			}
             return true;
