@@ -15,33 +15,22 @@ services:
           capture request header X-Forwarded-For len 500
       default_cert: wildcard.recalbox.com
       port_rules:
-      - path: /updates/v1.0/stable/rpi1/recalbox.version
+      - backend_name: recaleur
+        hostname: recaleur.recalbox.com
         priority: 1
-        protocol: http
-        service: recaleur40
-        source_port: 80
-        target_port: 8080
-      - path: /updates/v1.0/stable/rpi2/recalbox.version
-        priority: 2
-        protocol: http
-        service: recaleur40
-        source_port: 80
-        target_port: 8080
-      - path: /updates/v1.0/stable/rpi3/recalbox.version
-        priority: 3
-        protocol: http
-        service: recaleur40
-        source_port: 80
+        protocol: https
+        service: recaleur-server
+        source_port: 9443
         target_port: 8080
       - path: /
-        priority: 4
+        priority: 2
         protocol: http
         service: data
         source_port: 80
         target_port: 80
       - path: /
         backend_name: archive-ssl
-        priority: 5
+        priority: 3
         protocol: https
         service: data
         source_port: 443
@@ -78,34 +67,3 @@ services:
       interval: 5000
       strategy: recreate
       request_line: GET /v1/healthcheck HTTP/1.0
-  recaleur:
-    start_on_create: true
-    lb_config:
-      certs: []
-      config: |-
-        errorfile 503 /etc/haproxy/errors/503-mycustom.http
-        errorfile 502 /etc/haproxy/errors/503-mycustom.http
-        defaults
-          log 127.0.0.1:8514 local0 debug
-          option httplog
-      default_cert: wildcard.recalbox.com
-      port_rules:
-      - backend_name: recaleur
-        priority: 1
-        protocol: https
-        service: recaleur-server
-        source_port: 9443
-        target_port: 8080
-    health_check:
-      healthy_threshold: 2
-      response_timeout: 2000
-      port: 42
-      unhealthy_threshold: 3
-      initializing_timeout: 60000
-      interval: 2000
-      strategy: recreate
-      reinitializing_timeout: 60000
-  # 4.0 upgrades - to remove after
-  recaleur40:
-    scale: 1
-    start_on_create: true
