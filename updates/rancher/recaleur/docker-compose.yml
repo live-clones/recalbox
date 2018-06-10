@@ -22,5 +22,5 @@ services:
         max-file: '1'
         max-size: 50m
     labels:
-      archive: true
-      io.rancher.scheduler.affinity:host_label: archive=true
+      archive2: true
+      io.rancher.scheduler.affinity:host_label: archive2=true

@@ -20,7 +20,7 @@ services:
         priority: 1
         protocol: https
         service: recaleur-server
-        source_port: 9443
+        source_port: 443
         target_port: 8080
       - path: /
         priority: 2
