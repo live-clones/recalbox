@@ -9,7 +9,7 @@ stages:
 
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
-  PROD_STACK_NAME: archive
+  PROD_STACK_NAME: archive2
   REVIEW_STACK_NAME: archive-review
   IMAGE: recalbox/archive
 
