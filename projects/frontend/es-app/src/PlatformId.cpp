@@ -78,6 +78,7 @@ namespace PlatformIds
 		"zx81",
 		"moonlight",
 		"scummvm",
+		"x68000",
 		"thomsonmo", // Thomson MOx 8bit computers (MO5, MO6)
 		"thomsonto", // Thomson TOx 8bit computers (TO7, TO7/70, TO8, TO8D, TO9, TO9+)
 

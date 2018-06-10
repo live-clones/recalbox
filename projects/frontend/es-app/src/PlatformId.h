@@ -78,6 +78,7 @@ namespace PlatformIds
 		ZX_81,
 		MOONLIGHT,
 		SCUMMVM,
+		X68000,
 		THOMSON_MO,
 		THOMSON_TO,
 
