@@ -80,8 +80,8 @@ void NetPlayThread::run() {
 						if (tmp.first.find("RECALBOX") != std::string::npos) {
 							int popupDuration = Settings::getInstance()->getInt("NetplayPopupTime");
 							std::string text = _("A Recalbox friend has started a Netplay game!");
-							text += "\n " + _("Player:") + " " + tmp.first;
-							text += "\n " + _("Game:") + " " + tmp.second;
+							text += "\n " + _("Player") + ": " + tmp.first;
+							text += "\n " + _("Game") + ": " + tmp.second;
 							auto s = std::make_shared<GuiInfoPopup>(mWindow, text, popupDuration, 20);
 							mWindow->setInfoPopup(s);
 							break;

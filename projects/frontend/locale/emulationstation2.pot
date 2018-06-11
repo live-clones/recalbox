@@ -1696,7 +1696,7 @@ msgid "Enable or disable connections throught relay servers."
 msgstr ""
 
 #:
-msgid "Play online on games running throught Retroarch like NES, SNES, GB, GBC, GBA, Genesis/Megadrive, TurboGrafx16/PCEngine and more!"
+msgid "Play online on games running throught Retroarch like NES, SNES, FBA, Genesis/Megadrive and more!"
 msgstr ""
 
 #:
@@ -1736,11 +1736,7 @@ msgid "Country"
 msgstr ""
 
 #:
-msgid "Created"
-msgstr ""
-
-#:
-msgid "Password protected"
+msgid "Latency"
 msgstr ""
 
 #:
@@ -1812,11 +1808,11 @@ msgid "Set duration of netplay popups, 0 means no popup."
 msgstr ""
 
 #:
-msgid "Player:"
+msgid "Player"
 msgstr ""
 
 #:
-msgid "Game:"
+msgid "Game"
 msgstr ""
 
 #:

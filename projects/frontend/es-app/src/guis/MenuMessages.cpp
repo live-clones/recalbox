@@ -29,7 +29,7 @@ const char* MenuMessages::RA_HELP_MSG = "The website retroachievements.org propo
 
 const char* MenuMessages::NP_ONOFF_HELP_MSG = "Enable or disable Netplay in games.";
 const char* MenuMessages::NP_RELAY_HELP_MSG = "Enable or disable connections throught relay servers.";
-const char* MenuMessages::NP_HELP_MSG = "Play online on games running throught Retroarch like NES, SNES, GB, GBC, GBA, Genesis/Megadrive, TurboGrafx16/PCEngine and more!";
+const char* MenuMessages::NP_HELP_MSG = "Play online on games running throught Retroarch like NES, SNES, FBA, Genesis/Megadrive and more!";
 const char* MenuMessages::NP_HASH_HELP_MSG = "Add hash of roms in your gamelists to have more accurate results in Netplay.";
 
 const char* MenuMessages::CONTROLLER_HELP_MSG = "Add and configure up to 5 controllers.";
