@@ -8,6 +8,7 @@
 #include <boost/thread.hpp>
 #include <boost/property_tree/xml_parser.hpp>
 #include <boost/asio/io_service.hpp>
+#include <boost/make_shared.hpp>
 #include <RecalboxConf.h>
 
 std::vector<SystemData *> SystemData::sSystemVector;
@@ -69,7 +70,7 @@ SystemData::SystemData(const std::string &name, const std::string &fullName, con
   {
     std::vector<FileData *> favorites = system->getFavorites();
     for (auto favorite : favorites)
-      mRootFolder->addAlreadyExisitingChild(favorite);
+      mRootFolder->addAlreadyExistingChild(favorite);
   }
 
   mIsFavorite = true;
