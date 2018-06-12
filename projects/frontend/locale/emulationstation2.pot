@@ -1696,7 +1696,7 @@ msgid "Enable or disable connections throught relay servers."
 msgstr ""
 
 #:
-msgid "Play online on games running throught Retroarch like NES, SNES, FBA, Genesis/Megadrive and more!"
+msgid "Play online on games running through Retroarch like NES, SNES, FBA, Genesis/Megadrive and more!"
 msgstr ""
 
 #:
