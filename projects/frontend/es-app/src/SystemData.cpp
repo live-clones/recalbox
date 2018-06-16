@@ -181,20 +181,34 @@ void SystemData::launchGame(Window* window, FileData* game, std::string netplay,
 	command = strreplace(command, "%SYSTEM%", game->metadata.get("system"));
 	command = strreplace(command, "%BASENAME%", basename);
 	command = strreplace(command, "%ROM_RAW%", rom_raw);
-	if (core != "") {
+	if (core != "")
+	{
 		command = strreplace(command, "%EMULATOR%", "libretro");
 		command = strreplace(command, "%CORE%", core);
-	} else {
+	}
+	else
+	{
 		command = strreplace(command, "%EMULATOR%", game->metadata.get("emulator"));
 		command = strreplace(command, "%CORE%", game->metadata.get("core"));
 	}
 	command = strreplace(command, "%RATIO%", game->metadata.get("ratio"));
 
-	if (netplay == "client") {
+	if (netplay == "client")
+	{
 		command = strreplace(command, "%NETPLAY%", "-netplay client -netplay_port " + port + " -netplay_ip " + ip);
-	} else if (netplay == "host") {
-		command = strreplace(command, "%NETPLAY%", "-netplay host -netplay_port " + RecalboxConf::getInstance()->get("global.netplay.port"));
-	} else {
+	}
+	else if (netplay == "host")
+	{
+	    std::string hash = game->metadata.get("hash");
+	    std::string hashcmd = "";
+	    if (hash != "")
+	    {
+	        hashcmd = " -hash " + hash;
+	    }
+		command = strreplace(command, "%NETPLAY%", "-netplay host -netplay_port " + RecalboxConf::getInstance()->get("global.netplay.port") + hashcmd);
+	}
+	else
+	{
 		command = strreplace(command, "%NETPLAY%", "");
 	}
 

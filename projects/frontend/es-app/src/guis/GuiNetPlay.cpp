@@ -91,6 +91,10 @@ bool GuiNetPlay::parseLobby()
 		json::ptree root;
 		std::stringstream ss;
 		ss << json_req.first;
+		if (ss.str() == "[]")
+        {
+            return false;
+        }
 		try {
 			json::read_json(ss, root);
 		}
@@ -226,8 +230,9 @@ void GuiNetPlay::populateGridMeta(int i)
 	if (mGames[i]) {
 		hashMatch = mGames[i]->getHash() == mRooms[i].second.get<std::string>("fields.game_crc");
 	}
-		coreVerMatch = getCoreInfo(mRooms[i].second.get<std::string>("fields.core_name")).second == mRooms[i].second.get<std::string>("fields.core_version");
-		coreMatch = getCoreInfo(mRooms[i].second.get<std::string>("fields.core_name")).first != "";
+	std::pair<std::string, std::string> CoreInfo = getCoreInfo(mRooms[i].second.get<std::string>("fields.core_name"));
+	coreVerMatch = CoreInfo.second == mRooms[i].second.get<std::string>("fields.core_version");
+	coreMatch = CoreInfo.first != "";
 
     std::string username = mRooms[i].second.get<std::string>("fields.username", "N/A");
     username = std::regex_replace(username, std::regex("@RECALBOX"), " \uF200");
@@ -245,14 +250,14 @@ void GuiNetPlay::populateGridMeta(int i)
         mMetaTextRomFile->setText("\uf1c2 " + _("No match"));
 	}
 	if (coreMatch) {
-        mMetaTextCore->setText("\uf1c0 " + mRooms[i].second.get<std::string>("fields.core_name", "N/A"));
+        mMetaTextCore->setText("\uf1c0 " + mRooms[i].second.get<std::string>("fields.core_name"));
 	} else {
-        mMetaTextCore->setText("\uf1c2 " + mRooms[i].second.get<std::string>("fields.core_name", "N/A"));
+        mMetaTextCore->setText("\uf1c2 " + mRooms[i].second.get<std::string>("fields.core_name"));
 	}
 	if (coreVerMatch) {
-        mMetaTextCore->setText("\uf1c0 " + mRooms[i].second.get<std::string>("fields.core_version", "N/A"));
+        mMetaTextCoreVer->setText("\uf1c0 " + mRooms[i].second.get<std::string>("fields.core_version", "N/A"));
 	} else {
-        mMetaTextCore->setText("\uf1c2 " + mRooms[i].second.get<std::string>("fields.core_version", "N/A"));
+        mMetaTextCoreVer->setText("\uf1c2 " + mRooms[i].second.get<std::string>("fields.core_version", "N/A"));
 	}
     mMetaTextLatency->setText(mPings[i]);
     mMetaTextRAVer->setText(mRooms[i].second.get<std::string>("fields.retroarch_version", "N/A"));
@@ -336,7 +341,7 @@ std::pair<std::string, std::string> GuiNetPlay::getCoreInfo(const std::string &n
     result.second = "";
     std::map<std::string, std::string> coreMap;
     std::string line;
-    std::string filePath = "/recalbox/system/resources/retroarch.corenames";
+    std::string filePath = "/recalbox/share/system/configs/retroarch.corenames";
     std::ifstream retroarchCores(filePath);
     if (retroarchCores && retroarchCores.is_open()) {
         while (std::getline(retroarchCores, line)) {
@@ -360,7 +365,13 @@ std::pair<std::string, std::string> GuiNetPlay::getCoreInfo(const std::string &n
             result.first = token;
             s.erase(0, pos + delimiter.length());
         }
-        result.second = s;
+        if (result.first != "")
+        {
+	        result.second = s;
+        }
+        else {
+        	result.first = s;
+        }
         return result;
     }
     return result;
