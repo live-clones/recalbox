@@ -10,11 +10,11 @@ msgstr ""
 
 #: 
 msgid "AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"
-msgstr "Ein Update für deine Recalbox ist verfügbar"
+msgstr "EIN UPDATE FÜR DEINE RECALBOX IST VERFÜGBAR"
 
 #: 
 msgid "CANCEL"
-msgstr "Abbrechen"
+msgstr "ABBRECHEN"
 
 #: 
 msgid "Rating"
@@ -46,19 +46,19 @@ msgstr "Keine Metadaten gefunden - Überspringen"
 
 #: 
 msgid "RETRY"
-msgstr "Wiederholen"
+msgstr "WIEDERHOLEN"
 
 #: 
 msgid "SKIP"
-msgstr "Überspringen"
+msgstr "ÜBERSPRINGEN"
 
 #: 
 msgid "SEARCH FOR"
-msgstr "Suche nach"
+msgstr "SUCHE NACH"
 
 #: 
 msgid "SEARCH"
-msgstr "Suche"
+msgstr "SUCHE"
 
 #: 
 msgid "SCRAPING IN PROGRESS"
@@ -74,15 +74,15 @@ msgstr "Untertitel"
 
 #: 
 msgid "INPUT"
-msgstr "Eingeben"
+msgstr "EINGEBEN"
 
 #: 
 msgid "search"
-msgstr "Suchen"
+msgstr "suchen"
 
 #: 
 msgid "STOP"
-msgstr "Stoppen"
+msgstr "STOPPEN"
 
 #: 
 msgid "stop (progress saved)"
@@ -930,20 +930,6 @@ msgstr "TASTATUR"
 msgid "GAMEPAD %i"
 msgstr "GAMEPAD %i"
 
-#: 
-msgid "HOLD ANY BUTTON TO SKIP"
-msgstr "BELIEBIGE TASTE ZUM ÜBERSPRINGEN FESTHALTEN "
-
-#: 
-msgid "-NOT DEFINED-"
-msgstr "-NICHT DEFINIERT-"
-
-#: 
-msgid "HOLD FOR %iS TO SKIP"
-msgid_plural "HOLD FOR %iS TO SKIP"
-msgstr[0] "BELIEBIGE TASTE ZUM ÜBERSPRINGEN VON %iS FESTHALTEN "
-msgstr[1] "BELIEBIGE TASTE ZUM ÜBERSPRINGEN VON %iS FESTHALTEN "
-
 #. Config controllers missing translation
 #: 
 msgid "PRESS ANYTHING"
@@ -968,8 +954,8 @@ msgstr "EINGABE KONFIGURIEREN"
 #: 
 msgid "%i GAMEPAD DETECTED"
 msgid_plural "%i GAMEPADS DETECTED"
-msgstr[0] "%i GAMEPAD ERKANNT"
-msgstr[1] "%i GAMEPADS ERKANNT"
+msgstr[0] "%i CONTROLLER ERKANNT"
+msgstr[1] "%i CONTROLLER ERKANNT"
 
 #: 
 msgid "NO GAMEPADS DETECTED"
@@ -1234,10 +1220,6 @@ msgid "The onscreen keyboard is necessary to type text if you only have controll
 msgstr "Die Bildschirmtastatur ist notwendig wenn du an deiner recalbox nur einen Controller angeschlossen hast. Du kannst sie deaktivieren, falls du eine Hardware-Tastatur angeschlossen hast."
 
 #: 
-msgid "Select the type of transition that occurs when you start a game. FADE will fade to dark, and SLIDE will zoom on the game cover (or name if there is no scrape information)"
-msgstr "Wähle den Übergang wenn du ein Spiel startest. Mit FADE verblasst das Bild zu Schwarz und mit SLIDE zoomt das Bild in das Spiel-Cover rein (Oder den Namen wenn keine Scrape-Infos vorliegen)."
-
-#: 
 msgid "Select a theme for your recalbox."
 msgstr "Wähle ein Erscheinungsbild (Theme) für deine recalbox."
 
@@ -1295,8 +1277,7 @@ msgstr "Privates Kennwort für dein WIFI Netzwerk"
 
 #: 
 msgid "Get informations and visual for your games. The scraper downloads metadata and visuals for your games from different servers and enhances the user experience in EmulationStation completely."
-msgstr "Lade Informationen und Darstellungen für deine Spiele.\n"
-"Der Scraper lädt Metadaten und Darstellungen für deine Spiele von verschiedenen Server herunter und bereichert so die User Experience von EmulationStation."
+msgstr "Lade Informationen und Grafiken für deine Spiele. Der Scraper lädt Metadaten und Grafiken für deine Spiele von verschiedenen Servern herunter und verbessert so die Benutzererfahrung in EmulationStation."
 
 #: 
 msgid "Select a server to scrape from. The SCREENSCRAPER server is recommended and is based on www.screenscraper.fr and scrapes game data in your language, if available."
@@ -1607,10 +1588,6 @@ msgid "Switch between seing or not the hidden games. To hide a game, edit its da
 msgstr "Wechsle zwischen VERSTECKTE Spiele sehen, oder nicht. Um ein Spiel auszublenden, bearbeite Sie dessen Daten und wähle 'Verstecken'."
 
 #: 
-msgid "Switch between seing folders and folder content in the listing. This is useful when a game is provided as many 'bin' files for example and you keep it a a dedicated folder (ex: roms/psx/tekken 3)."
-msgstr "Wechsle in der Auflistung zwischen den einzelnen Ordnern und dem Inhalt des Ordners. Dies ist nützlich, wenn ein Spiel z.B. viele 'bin'-Dateien enthält und man es in einem eigenen Ordner ablegt (z.B.: roms/psx/tekken 3)."
-
-#: 
 msgid "This option display a menu which allows to change game data and many others options."
 msgstr "Diese Option zeigt ein Menü an, das es erlaubt, Spieldaten und viele andere Optionen zu ändern."
 
@@ -1624,7 +1601,7 @@ msgstr "CHANGELOG DES UPDATES"
 
 #: 
 msgid "CLOCK IN MENU"
-msgstr "Uhr im Menü"
+msgstr "UHR IM MENÜ"
 
 #: 
 msgid "Now playing"
@@ -1632,77 +1609,241 @@ msgstr "Aktueller Titel"
 
 #: 
 msgid "DEFAULT (%1%)"
-msgstr ""
+msgstr "STANDARD (%1%)"
 
 #: 
 msgid "INPUT REQUIRED"
-msgstr ""
+msgstr "EINGABE ERFORDERLICH"
 
 #: 
 msgid "(skipped)"
-msgstr ""
+msgstr "(übersprungen)"
 
 #: 
 msgid "UP/DOWN TO SKIP"
-msgstr ""
+msgstr "OBEN/UNTEN ZUM ÜBERSPRINGEN"
 
 #: 
 msgid "A TO UNSET"
-msgstr ""
+msgstr "A ZUM AUFHEBEN"
 
 #: 
 msgid "DOWN TO SKIP AND KEEP [%1%]"
-msgstr ""
+msgstr "RUNTER ZUM ÜBERSPRINGEN"
 
 #: 
 msgid "UP/DOWN TO SKIP AND KEEP [%1%]"
-msgstr ""
+msgstr "HOCH/RUNTER ZUM ÜBERSPRINGEN"
 
 #: 
 msgid "Set duration of help popups, 0 means no popup."
-msgstr ""
+msgstr "Dauer der Hilfe-Popups setzen, 0 bedeutet keine Popups"
 
 #: 
 msgid "HELP POPUP DURATION"
-msgstr ""
+msgstr "HILFE-POPUP DAUER"
 
 #: 
 msgid "Set duration of music popups, 0 means no popup."
-msgstr ""
+msgstr "Stelle die Dauer der Musik Popups ein, 0 bedeutet keine Popups."
 
 #: 
 msgid "MUSIC POPUP DURATION"
-msgstr ""
+msgstr "MUSIK-POPUP DAUER"
 
 #: 
 msgid "POPUP SETTINGS"
-msgstr ""
+msgstr "POPUP EINSTELLUNGEN"
 
 #: 
 msgid "POPUP POSITION"
-msgstr ""
+msgstr "POPUP POSITION"
 
 #: 
 msgid "Select the position of popups on screen."
-msgstr ""
+msgstr "Wähle die Position des Popups auf dem Bildschirm"
 
 #: 
 msgid "Set position and duration of popups."
-msgstr ""
+msgstr "Stelle Position und Dauer der Popups ein."
 
 #: 
 msgid "TOP/RIGHT"
-msgstr ""
+msgstr "OBEN/RECHTS"
 
 #: 
 msgid "BOTTOM/RIGHT"
-msgstr ""
+msgstr "UNTEN/RECHTS"
 
 #: 
 msgid "BOTTOM/LEFT"
-msgstr ""
+msgstr "UNTEN/LINKS"
 
 #: 
 msgid "TOP/LEFT"
-msgstr ""
+msgstr "OBEN/LINKS"
+
+#: 
+msgid "SHOW FOLDERS CONTENT"
+msgstr "ORDNERINHALT ANZEIGEN"
+
+#: 
+msgid "Switch between seeing the folders structure and seeing all games in a flatten top level."
+msgstr "Wechsle die Ansicht zwischen Ordnerstruktur und aller Spiele auf einer Ebene."
+
+#: 
+msgid "NETPLAY"
+msgstr "NETPLAY"
+
+#: 
+msgid "NETPLAY SETTINGS"
+msgstr "NETPLAY EINSTELLUNGEN"
+
+#: 
+msgid "NETPLAY LOBBY"
+msgstr "NETPLAY LOBBY"
+
+#: 
+msgid "Enable or disable Netplay in games."
+msgstr "Aktiviere oder deaktiviere Netplay in Spielen"
+
+#: 
+msgid "PORT"
+msgstr "PORT"
+
+#: 
+msgid "NICKNAME"
+msgstr "SPITZNAME"
+
+#: 
+msgid "RELAY SERVER"
+msgstr "RELAY SERVER"
+
+#: 
+msgid "Enable or disable connections throught relay servers."
+msgstr "Aktiviere oder deaktiviere Verbindungen über Relay Server"
+
+#: 
+msgid "KODI/NETPLAY"
+msgstr "KODI/NETPLAY"
+
+#: 
+msgid "NO GAMES OR NO CONNECTION"
+msgstr "KEINE SPIELE ODER KEINE VERBINDUNG"
+
+#: 
+msgid "HASH NOW"
+msgstr "HASH BERECHNEN"
+
+#: 
+msgid "HASH THESE SYSTEMS"
+msgstr "HASH DIESER SYSTEME BERECHNEN"
+
+#: 
+msgid "Add hash of roms in your gamelists to have more accurate results in Netplay."
+msgstr "Füge die Hashwerte deiner Roms hinzu, um genauere Ergebnisse in Netplay zu erhalten."
+
+#: 
+msgid "HASH ROMS"
+msgstr "HASH DER ROMS BERECHNEN"
+
+#: 
+msgid "Only missing hashs"
+msgstr "Nur fehlende Hashwerte"
+
+#: 
+msgid "Username"
+msgstr "Benutzername"
+
+#: 
+msgid "Country"
+msgstr "Land"
+
+#: 
+msgid "Latency"
+msgstr "Latenz"
+
+#: 
+msgid "Host arch."
+msgstr "Host Arch."
+
+#: 
+msgid "Core ver."
+msgstr "Core Ver."
+
+#: 
+msgid "RA ver."
+msgstr "RA Ver."
+
+#: 
+msgid "Can join"
+msgstr "Kann beitreten"
+
+#: 
+msgid "Rom and core match"
+msgstr "Rom und Core Übereinstimmung"
+
+#: 
+msgid "Rom found"
+msgstr "ROM gefunden"
+
+#: 
+msgid "No rom match"
+msgstr "Keine Rom Übereinstimmung"
+
+#: 
+msgid "Match"
+msgstr "Übereinstimmung"
+
+#: 
+msgid "No Match"
+msgstr "Keine Übereinstimmung"
+
+#: 
+msgid "Rom file"
+msgstr "ROM-Datei"
+
+#: 
+msgid "Rom hash"
+msgstr "ROM-Hash"
+
+#: 
+msgid "THIS COULD TAKE A WHILE, CONFIRM?"
+msgstr "DAS KÖNNTE EINE WEILE DAUERN, BESTÄTIGEN?"
+
+#: 
+msgid "good"
+msgstr "gut"
+
+#: 
+msgid "bad"
+msgstr "schlecht"
+
+#: 
+msgid "medium"
+msgstr "mittel"
+
+#: 
+msgid "NETPLAY POPUP DURATION"
+msgstr "NETPLAY POPUP DAUER"
+
+#: 
+msgid "Set duration of netplay popups, 0 means no popup."
+msgstr "Stelle die Dauer des Netplay Popups ein, 0 bedeutet keine Popups."
+
+#: 
+msgid "Player"
+msgstr "Spieler"
+
+#: 
+msgid "Game"
+msgstr "Spiel"
+
+#: 
+msgid "A Recalbox friend has started a Netplay game!"
+msgstr "Ein Recalbox-Freund hat ein Netplay-Spiel gestartet!"
+
+#: 
+msgid "Play online on games running through Retroarch like NES, SNES, FBA, Genesis/Megadrive and more!"
+msgstr "Spiele online mit Spielen die durch Retroarch laufen, wie NES, SNES, FBA, MEGADRIVE und mehr!"
 
