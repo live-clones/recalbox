@@ -925,20 +925,6 @@ msgstr "TEKLATUA"
 msgid "GAMEPAD %i"
 msgstr "%i AGINTEA"
 
-#: 
-msgid "HOLD ANY BUTTON TO SKIP"
-msgstr "MANTENDU EDOZEIN BOTOI TXANDAPASARAKO"
-
-#: 
-msgid "-NOT DEFINED-"
-msgstr "-KONFIGURATU GABE-"
-
-#: 
-msgid "HOLD FOR %iS TO SKIP"
-msgid_plural "HOLD FOR %iS TO SKIP"
-msgstr[0] "MANTENDU %i PASATZEKO"
-msgstr[1] "MANTENDU %i PASATZEKO"
-
 #. Config controllers missing translation
 #: 
 msgid "PRESS ANYTHING"
@@ -1224,10 +1210,6 @@ msgid "The onscreen keyboard is necessary to type text if you only have controll
 msgstr ""
 
 #: 
-msgid "Select the type of transition that occurs when you start a game. FADE will fade to dark, and SLIDE will zoom on the game cover (or name if there is no scrape information)"
-msgstr ""
-
-#: 
 msgid "Select a theme for your recalbox."
 msgstr "Aukeratu zure recalboxerako gaia."
 
@@ -1346,23 +1328,23 @@ msgstr ""
 
 #: 
 msgid "Use the X button to start Kodi."
-msgstr ""
+msgstr "Erabili X botoia Kodi hasteko."
 
 #: 
 msgid "Automatically start into Kodi on boot."
-msgstr ""
+msgstr "Automatikoki hasi Kodi abioan."
 
 #: 
 msgid "Manage your recalbox security."
-msgstr ""
+msgstr "Kudeatu zure recalbox segurtasuna."
 
 #: 
 msgid "Change the SSH root password."
-msgstr ""
+msgstr "Aldatu SSH root pasahitza."
 
 #: 
 msgid "Enforce recalbox security."
-msgstr ""
+msgstr "Betearazi recalbox segurtasuna."
 
 #: 
 msgid "Enable or disable overscan.\n"
@@ -1372,7 +1354,7 @@ msgstr ""
 
 #: 
 msgid "Show the framerate in EmulationStation and in game."
-msgstr ""
+msgstr "Erakutsi frameratea EmulationStationean eta jokoan."
 
 #: 
 msgid "Enable or disable the Recalbox Manager.\n"
@@ -1395,31 +1377,31 @@ msgstr ""
 
 #: 
 msgid "USE COMPOSED VISUALS"
-msgstr ""
+msgstr "ERABILI BISTA KONPOSATUAK"
 
 #: 
 msgid "CHECK UPDATES"
-msgstr ""
+msgstr "EGIAZTATU EGUNERAKETAK"
 
 #: 
 msgid "UPDATE TYPE"
-msgstr ""
+msgstr "EGUNERAKETA MOTA"
 
 #: 
 msgid "INTEGER SCALE (PIXEL PERFECT)"
-msgstr ""
+msgstr "ZENBAKI OSO ESKALA (PIXEL PERFEKTUA)"
 
 #: 
 msgid "ADVANCED SETTINGS"
-msgstr ""
+msgstr "EZARPEN AURRERATUAK"
 
 #: 
 msgid "BOOT SETTINGS"
-msgstr ""
+msgstr "ABIO EZARPENAK"
 
 #: 
 msgid "GAMELIST ONLY"
-msgstr ""
+msgstr "JOKO ZERRENDA BAKARRIK"
 
 #: 
 msgid "BOOT ON SYSTEM"
@@ -1431,91 +1413,91 @@ msgstr ""
 
 #: 
 msgid "HIDE SYSTEM VIEW"
-msgstr ""
+msgstr "EZKUTATU SISTEMA BISTA"
 
 #: 
 msgid "EMULATOR ADVANCED CONFIGURATION"
-msgstr ""
+msgstr "EMULATZAILE KONFIGURAZIO AURRERATUA"
 
 #: 
 msgid "ADVANCED EMULATOR CONFIGURATION"
-msgstr ""
+msgstr "EMULATZAILE AURRERATUAREN KONFIGURAZIOA"
 
 #: 
 msgid "HELP"
-msgstr ""
+msgstr "LAGUNTZA"
 
 #: 
 msgid "THE SYSTEM IS UP TO DATE"
-msgstr ""
+msgstr "SISTEMA EGUNERATUTA DAGO"
 
 #: 
 msgid "FORCE BASIC GAMELIST VIEW"
-msgstr ""
+msgstr "BEHARTU OINARRIZKO JOKO ZERRENDA BISTA"
 
 #: 
 msgid "DOWNLOADED"
-msgstr ""
+msgstr "DESKARGATUTA"
 
 #: 
 msgid "UPDATE VERSION:"
-msgstr ""
+msgstr "EGUNERAKETA BERTSIOA:"
 
 #: 
 msgid "UPDATE CHANGELOG:"
-msgstr ""
+msgstr "EGUNERAKETA ALDAKETAK:"
 
 #: 
 msgid "MORE DETAILS"
-msgstr ""
+msgstr "XEHETASUN GEHIAGO:"
 
 #: 
 msgid "CAROUSEL ANIMATION"
-msgstr ""
+msgstr "KARRUSEL ANIMAZIOA"
 
 #: 
 msgid "THEME CONFIGURATION"
-msgstr ""
+msgstr "GAIAREN KONFIGURAZIOA"
 
 #: 
 msgid "THEME COLORSET"
-msgstr ""
+msgstr "GAIAREN KOLOREAK"
 
 #: 
 msgid "THEME ICONSET"
-msgstr ""
+msgstr "GAIAREN IKONOAK"
 
 #: 
 msgid "THEME MENU"
-msgstr ""
+msgstr "GAIAREN MENUA"
 
 #: 
 msgid "THEME SYSTEMVIEW"
-msgstr ""
+msgstr "GAIAREN SISTEMA BISTA"
 
 #: 
 msgid "THEME GAMELISTVIEW"
-msgstr ""
+msgstr "GAIAREN JOKO ZERRENDA BISTA"
 
 #: 
 msgid "THEME REGION"
-msgstr ""
+msgstr "GAIAREN ESKUALDEA"
 
 #: 
 msgid "THIS THEME HAS NO OPTION"
-msgstr ""
+msgstr "GAI HONEK EZ DU AUKERARIK"
 
 #: 
 msgid "MANUAL INPUT"
-msgstr ""
+msgstr "ESKUZKO SARRERA"
 
 #: 
 msgid "AN ERROR OCCURED - DOWNLOADED"
-msgstr ""
+msgstr "ERROREA GERTATU DA - DESKARGATUTA"
 
 #: 
 msgid "START KODI"
-msgstr ""
+msgstr "HASI KODI"
 
 #: 
 msgid "Shows the current available update version."
@@ -1586,48 +1568,44 @@ msgid "Switch between seing or not the hidden games. To hide a game, edit its da
 msgstr ""
 
 #: 
-msgid "Switch between seing folders and folder content in the listing. This is useful when a game is provided as many 'bin' files for example and you keep it a a dedicated folder (ex: roms/psx/tekken 3)."
-msgstr ""
-
-#: 
 msgid "This option display a menu which allows to change game data and many others options."
 msgstr ""
 
 #: 
 msgid "AVAILABLE UPDATE"
-msgstr ""
+msgstr "EGUNERAKETA ESKURA"
 
 #: 
 msgid "UPDATE CHANGELOG"
-msgstr ""
+msgstr "EGUNERAKETA ALDAKETA"
 
 #: 
 msgid "CLOCK IN MENU"
-msgstr ""
+msgstr "ERLOJUA MENUAN"
 
 #: 
 msgid "Now playing"
-msgstr ""
+msgstr "Orain erreproduzitzen"
 
 #: 
 msgid "DEFAULT (%1%)"
-msgstr ""
+msgstr "LEHENETSIA (%1%)"
 
 #: 
 msgid "INPUT REQUIRED"
-msgstr ""
+msgstr "SARRERA BEHARREZKOA"
 
 #: 
 msgid "(skipped)"
-msgstr ""
+msgstr "(saltatuta)"
 
 #: 
 msgid "UP/DOWN TO SKIP"
-msgstr ""
+msgstr "GORA/BEHERA SALTATZEKO"
 
 #: 
 msgid "A TO UNSET"
-msgstr ""
+msgstr "A KENTZEKO"
 
 #: 
 msgid "DOWN TO SKIP AND KEEP [%1%]"
@@ -1667,21 +1645,185 @@ msgstr ""
 
 #: 
 msgid "Set position and duration of popups."
-msgstr ""
+msgstr "Ezarri popup-en posizio eta iraupena."
 
 #: 
 msgid "TOP/RIGHT"
-msgstr ""
+msgstr "GORA/ESKUINA"
 
 #: 
 msgid "BOTTOM/RIGHT"
-msgstr ""
+msgstr "BEHERA/ESKUINA"
 
 #: 
 msgid "BOTTOM/LEFT"
-msgstr ""
+msgstr "BEHERA/EZKERRA"
 
 #: 
 msgid "TOP/LEFT"
+msgstr "GORA/EZKERRA"
+
+#: 
+msgid "SHOW FOLDERS CONTENT"
+msgstr ""
+
+#: 
+msgid "Switch between seeing the folders structure and seeing all games in a flatten top level."
+msgstr ""
+
+#: 
+msgid "NETPLAY"
+msgstr ""
+
+#: 
+msgid "NETPLAY SETTINGS"
+msgstr ""
+
+#: 
+msgid "NETPLAY LOBBY"
+msgstr ""
+
+#: 
+msgid "Enable or disable Netplay in games."
+msgstr ""
+
+#: 
+msgid "PORT"
+msgstr ""
+
+#: 
+msgid "NICKNAME"
+msgstr ""
+
+#: 
+msgid "RELAY SERVER"
+msgstr ""
+
+#: 
+msgid "Enable or disable connections throught relay servers."
+msgstr ""
+
+#: 
+msgid "KODI/NETPLAY"
+msgstr ""
+
+#: 
+msgid "NO GAMES OR NO CONNECTION"
+msgstr ""
+
+#: 
+msgid "HASH NOW"
+msgstr ""
+
+#: 
+msgid "HASH THESE SYSTEMS"
+msgstr ""
+
+#: 
+msgid "Add hash of roms in your gamelists to have more accurate results in Netplay."
+msgstr ""
+
+#: 
+msgid "HASH ROMS"
+msgstr ""
+
+#: 
+msgid "Only missing hashs"
+msgstr ""
+
+#: 
+msgid "Username"
+msgstr ""
+
+#: 
+msgid "Country"
+msgstr ""
+
+#: 
+msgid "Latency"
+msgstr ""
+
+#: 
+msgid "Host arch."
+msgstr ""
+
+#: 
+msgid "Core ver."
+msgstr ""
+
+#: 
+msgid "RA ver."
+msgstr ""
+
+#: 
+msgid "Can join"
+msgstr ""
+
+#: 
+msgid "Rom and core match"
+msgstr ""
+
+#: 
+msgid "Rom found"
+msgstr ""
+
+#: 
+msgid "No rom match"
+msgstr ""
+
+#: 
+msgid "Match"
+msgstr ""
+
+#: 
+msgid "No Match"
+msgstr ""
+
+#: 
+msgid "Rom file"
+msgstr ""
+
+#: 
+msgid "Rom hash"
+msgstr ""
+
+#: 
+msgid "THIS COULD TAKE A WHILE, CONFIRM?"
+msgstr ""
+
+#: 
+msgid "good"
+msgstr ""
+
+#: 
+msgid "bad"
+msgstr ""
+
+#: 
+msgid "medium"
+msgstr ""
+
+#: 
+msgid "NETPLAY POPUP DURATION"
+msgstr ""
+
+#: 
+msgid "Set duration of netplay popups, 0 means no popup."
+msgstr ""
+
+#: 
+msgid "Player"
+msgstr ""
+
+#: 
+msgid "Game"
+msgstr ""
+
+#: 
+msgid "A Recalbox friend has started a Netplay game!"
+msgstr ""
+
+#: 
+msgid "Play online on games running through Retroarch like NES, SNES, FBA, Genesis/Megadrive and more!"
 msgstr ""
 
