@@ -943,22 +943,6 @@ msgstr "КЛАВИАТУРА"
 msgid "GAMEPAD %i"
 msgstr "КОНТРОЛЛЕР %i"
 
-#: 
-msgid "HOLD ANY BUTTON TO SKIP"
-msgstr "УДЕРЖИВАЙТЕ КНОПКУ ДЛЯ ПРОПУСКА"
-
-#: 
-msgid "-NOT DEFINED-"
-msgstr "-НЕ НАЗНАЧЕНО-"
-
-#: 
-msgid "HOLD FOR %iS TO SKIP"
-msgid_plural "HOLD FOR %iS TO SKIP"
-msgstr[0] "ЗАЖМИТЕ %iS ДЛЯ ПРОПУСКА"
-msgstr[1] "ЗАЖМИТЕ %iS ДЛЯ ПРОПУСКА"
-msgstr[2] "ЗАЖМИТЕ %iS ДЛЯ ПРОПУСКА"
-msgstr[3] "ЗАЖМИТЕ %iS ДЛЯ ПРОПУСКА"
-
 #. Config controllers missing translation
 #: 
 msgid "PRESS ANYTHING"
@@ -1251,10 +1235,6 @@ msgstr "Если параметр включен, вы можете перекл
 #: 
 msgid "The onscreen keyboard is necessary to type text if you only have controllers plugged into your recalbox. You can disable it if you have a real keyboard connected."
 msgstr "Экранная клавиатура необходима для ввода текста, в случае если к recalbox подключены только контроллеры. Вы можете ее отключить, если у вас подключена физическая клавиатура."
-
-#: 
-msgid "Select the type of transition that occurs when you start a game. FADE will fade to dark, and SLIDE will zoom on the game cover (or name if there is no scrape information)"
-msgstr "Выберите тип экранного перехода при запуске игры. FADE — осуществляет переход через темный экран. SLIDE — увеличивает масштаб игровой обложки (или имя, в случае ее отсуствия)."
 
 #: 
 msgid "Select a theme for your recalbox."
@@ -1623,10 +1603,6 @@ msgid "Switch between seing or not the hidden games. To hide a game, edit its da
 msgstr "Переключение отображения скрытых игр. Чтобы скрыть игру, отредактируйте ее данные и выберите «Скрыть»."
 
 #: 
-msgid "Switch between seing folders and folder content in the listing. This is useful when a game is provided as many 'bin' files for example and you keep it a a dedicated folder (ex: roms/psx/tekken 3)."
-msgstr "Переключение отображения папок/содержимого папок в списке. Это полезно, когда в игре предусмотрено несколько bin-файлов и вы храните их в отдельных папках (например: roms/psx/tekken 3)."
-
-#: 
 msgid "This option display a menu which allows to change game data and many others options."
 msgstr "Эта опция отображает меню, которое позволяет изменить данные игры и многие другие опции."
 
@@ -1727,4 +1703,176 @@ msgstr "ВНИЗУ СЛЕВА"
 #: 
 msgid "TOP/LEFT"
 msgstr "ВВЕРХУ СЛЕВА"
+
+#: 
+msgid "SHOW FOLDERS CONTENT"
+msgstr "ПОКАЗЫВАТЬ СОДЕРЖИМОЕ ПАПОК"
+
+#: 
+msgid "Switch between seeing the folders structure and seeing all games in a flatten top level."
+msgstr "Переключение между просмотром в виде структуры папок и простым общим списком игр."
+
+#: 
+msgid "NETPLAY"
+msgstr "СЕТЕВАЯ ИГРА"
+
+#: 
+msgid "NETPLAY SETTINGS"
+msgstr "ПАРАМЕТРЫ СЕТЕВОЙ ИГРЫ"
+
+#: 
+msgid "NETPLAY LOBBY"
+msgstr "ЛОББИ СЕТЕВОЙ ИГРЫ"
+
+#: 
+msgid "Enable or disable Netplay in games."
+msgstr "Вкл/выкл. сетевой игры"
+
+#: 
+msgid "PORT"
+msgstr "ПОРТ"
+
+#: 
+msgid "NICKNAME"
+msgstr "НИКНЕЙМ"
+
+#: 
+msgid "RELAY SERVER"
+msgstr "RELAY-СЕРВЕР"
+
+#: 
+msgid "Enable or disable connections throught relay servers."
+msgstr "Вкл/выкл подключение через relay-сервер"
+
+#: 
+msgid "KODI/NETPLAY"
+msgstr "KODI/СЕТЕВАЯ ИГРА"
+
+#: 
+msgid "NO GAMES OR NO CONNECTION"
+msgstr "НЕТ ИГР ИЛИ НЕТ СОЕДИНЕНИЙ"
+
+#: 
+msgid "HASH NOW"
+msgstr "ХЭШИРОВАТЬ СЕЙЧАС"
+
+#: 
+msgid "HASH THESE SYSTEMS"
+msgstr "ХЭШИРОВАТЬ ЭТИ СИСТЕМЫ"
+
+#: 
+msgid "Add hash of roms in your gamelists to have more accurate results in Netplay."
+msgstr "Добавить хэши ромов в ваш список игр для более точных результатов поиска в сетевой игре."
+
+#: 
+msgid "HASH ROMS"
+msgstr "ХЭШИРОВАТЬ РОМЫ"
+
+#: 
+msgid "Only missing hashs"
+msgstr "Только пропущенные хэши"
+
+#: 
+msgid "Username"
+msgstr "Имя пользователя"
+
+#: 
+msgid "Country"
+msgstr "Страна"
+
+#: 
+msgid "Latency"
+msgstr "Задержка"
+
+#: 
+msgid "Host arch."
+msgstr "Платформа хоста"
+
+#: 
+msgid "Core ver."
+msgstr "Версия ядра"
+
+#: 
+#, fuzzy
+msgid "RA ver."
+msgstr "Версия RA"
+
+#: 
+msgid "Can join"
+msgstr "Можно присоединиться"
+
+#: 
+#, fuzzy
+msgid "Rom and core match"
+msgstr "Ром и ядро совпадают"
+
+#: 
+msgid "Rom found"
+msgstr "Rom найден"
+
+#: 
+#, fuzzy
+msgid "No rom match"
+msgstr "Ром не совпадает"
+
+#: 
+#, fuzzy
+msgid "Match"
+msgstr "Совпадает"
+
+#: 
+#, fuzzy
+msgid "No Match"
+msgstr "Не совпадает"
+
+#: 
+msgid "Rom file"
+msgstr "Rom-файл"
+
+#: 
+msgid "Rom hash"
+msgstr "Хэш рома"
+
+#: 
+msgid "THIS COULD TAKE A WHILE, CONFIRM?"
+msgstr "ЭТО МОЖЕТ ЗАНЯТЬ ВРЕМЯ, ПОДТВЕРЖДАЕТЕ?"
+
+#: 
+#, fuzzy
+msgid "good"
+msgstr "хороший"
+
+#: 
+#, fuzzy
+msgid "bad"
+msgstr "плохой"
+
+#: 
+#, fuzzy
+msgid "medium"
+msgstr "средний"
+
+#: 
+msgid "NETPLAY POPUP DURATION"
+msgstr "ЗАДЕРЖКА POPUP-А СЕТЕВОЙ ИГРЫ"
+
+#: 
+msgid "Set duration of netplay popups, 0 means no popup."
+msgstr "Задать задержку popup-ов сетевой игры. 0 - для отключения."
+
+#: 
+msgid "Player"
+msgstr "Игрок"
+
+#: 
+msgid "Game"
+msgstr "Игра"
+
+#: 
+msgid "A Recalbox friend has started a Netplay game!"
+msgstr "Друг по Recalbox запустил сетевую игру!"
+
+#: 
+msgid "Play online on games running through Retroarch like NES, SNES, FBA, Genesis/Megadrive and more!"
+msgstr "Онлайн-игра "
 
