@@ -934,21 +934,6 @@ msgstr "TASTATŪRA"
 msgid "GAMEPAD %i"
 msgstr "VADĪBAS PULTS %i"
 
-#: 
-msgid "HOLD ANY BUTTON TO SKIP"
-msgstr "NOSPIEDIET UN TURIET POGU, LAI IZLAISTU"
-
-#: 
-msgid "-NOT DEFINED-"
-msgstr "-NAV DIFINĒTS-"
-
-#: 
-msgid "HOLD FOR %iS TO SKIP"
-msgid_plural "HOLD FOR %iS TO SKIP"
-msgstr[0] "NOSPIEDIET %iS LAI IZLAISTU"
-msgstr[1] "NOSPIEDIET %iS LAI IZLAISTU"
-msgstr[2] "NOSPIEDIET %iS LAI IZLAISTU"
-
 #. Config controllers missing translation
 #: 
 msgid "PRESS ANYTHING"
@@ -1238,10 +1223,6 @@ msgstr "Ja ir iespējota, varat pārslēgties starp sistēmām, nospiežot KREIS
 #: 
 msgid "The onscreen keyboard is necessary to type text if you only have controllers plugged into your recalbox. You can disable it if you have a real keyboard connected."
 msgstr "Ekrāna tastatūra ir nepieciešama lai rakstītu tekstu, ja jums ir tikai kontrolieris. Varat atspējot, ja jums ir īsta tastatūra pievienota iekārtai."
-
-#: 
-msgid "Select the type of transition that occurs when you start a game. FADE will fade to dark, and SLIDE will zoom on the game cover (or name if there is no scrape information)"
-msgstr "Atlasiet pārejas tipu, kas notiek, kad jūs uzsākat spēli. \"FADE\" izbalēs līdz tumsai vai   \"SLIDE\" tālummaiņa par spēļu vāciņu vai vārdu, ja nav ielādēta informācija"
 
 #: 
 msgid "Select a theme for your recalbox."
@@ -1610,10 +1591,6 @@ msgid "Switch between seing or not the hidden games. To hide a game, edit its da
 msgstr ""
 
 #: 
-msgid "Switch between seing folders and folder content in the listing. This is useful when a game is provided as many 'bin' files for example and you keep it a a dedicated folder (ex: roms/psx/tekken 3)."
-msgstr ""
-
-#: 
 msgid "This option display a menu which allows to change game data and many others options."
 msgstr ""
 
@@ -1707,5 +1684,169 @@ msgstr ""
 
 #: 
 msgid "TOP/LEFT"
+msgstr ""
+
+#: 
+msgid "SHOW FOLDERS CONTENT"
+msgstr ""
+
+#: 
+msgid "Switch between seeing the folders structure and seeing all games in a flatten top level."
+msgstr ""
+
+#: 
+msgid "NETPLAY"
+msgstr ""
+
+#: 
+msgid "NETPLAY SETTINGS"
+msgstr ""
+
+#: 
+msgid "NETPLAY LOBBY"
+msgstr ""
+
+#: 
+msgid "Enable or disable Netplay in games."
+msgstr ""
+
+#: 
+msgid "PORT"
+msgstr ""
+
+#: 
+msgid "NICKNAME"
+msgstr ""
+
+#: 
+msgid "RELAY SERVER"
+msgstr ""
+
+#: 
+msgid "Enable or disable connections throught relay servers."
+msgstr ""
+
+#: 
+msgid "KODI/NETPLAY"
+msgstr ""
+
+#: 
+msgid "NO GAMES OR NO CONNECTION"
+msgstr ""
+
+#: 
+msgid "HASH NOW"
+msgstr ""
+
+#: 
+msgid "HASH THESE SYSTEMS"
+msgstr ""
+
+#: 
+msgid "Add hash of roms in your gamelists to have more accurate results in Netplay."
+msgstr ""
+
+#: 
+msgid "HASH ROMS"
+msgstr ""
+
+#: 
+msgid "Only missing hashs"
+msgstr ""
+
+#: 
+msgid "Username"
+msgstr ""
+
+#: 
+msgid "Country"
+msgstr ""
+
+#: 
+msgid "Latency"
+msgstr ""
+
+#: 
+msgid "Host arch."
+msgstr ""
+
+#: 
+msgid "Core ver."
+msgstr ""
+
+#: 
+msgid "RA ver."
+msgstr ""
+
+#: 
+msgid "Can join"
+msgstr ""
+
+#: 
+msgid "Rom and core match"
+msgstr ""
+
+#: 
+msgid "Rom found"
+msgstr ""
+
+#: 
+msgid "No rom match"
+msgstr ""
+
+#: 
+msgid "Match"
+msgstr ""
+
+#: 
+msgid "No Match"
+msgstr ""
+
+#: 
+msgid "Rom file"
+msgstr ""
+
+#: 
+msgid "Rom hash"
+msgstr ""
+
+#: 
+msgid "THIS COULD TAKE A WHILE, CONFIRM?"
+msgstr ""
+
+#: 
+msgid "good"
+msgstr ""
+
+#: 
+msgid "bad"
+msgstr ""
+
+#: 
+msgid "medium"
+msgstr ""
+
+#: 
+msgid "NETPLAY POPUP DURATION"
+msgstr ""
+
+#: 
+msgid "Set duration of netplay popups, 0 means no popup."
+msgstr ""
+
+#: 
+msgid "Player"
+msgstr ""
+
+#: 
+msgid "Game"
+msgstr ""
+
+#: 
+msgid "A Recalbox friend has started a Netplay game!"
+msgstr ""
+
+#: 
+msgid "Play online on games running through Retroarch like NES, SNES, FBA, Genesis/Megadrive and more!"
 msgstr ""
 
