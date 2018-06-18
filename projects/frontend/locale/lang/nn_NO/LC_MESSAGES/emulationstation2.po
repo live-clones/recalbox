@@ -923,20 +923,6 @@ msgstr "TASTATUR"
 msgid "GAMEPAD %i"
 msgstr "KONTROLLER %i"
 
-#: 
-msgid "HOLD ANY BUTTON TO SKIP"
-msgstr "HOLD HVILKEN SOM HELST KNAPP FOR Å HOPPE OVER"
-
-#: 
-msgid "-NOT DEFINED-"
-msgstr "-IKKE DEFINERT-"
-
-#: 
-msgid "HOLD FOR %iS TO SKIP"
-msgid_plural "HOLD FOR %iS TO SKIP"
-msgstr[0] "HOLD I %iS FOR Å HOPPE OVER"
-msgstr[1] ""
-
 #. Config controllers missing translation
 #: 
 msgid "PRESS ANYTHING"
@@ -1139,11 +1125,13 @@ msgstr "Kontroller om en oppdatering er tilgjengelig, og starte oppdaterings pro
 msgid "Stable updates will check for updates on stable recalbox releases. Stable updates are tested and approved by the recalbox team and their testers.\n"
 "Unstable updates allows you to get the latest recalbox features by checking our unstable repository. You can test and validate with us the very last version of recalbox.\n"
 "If you choose unstable update, be so kind to report issues on the recalbox-os issue board (https://github.com/recalbox/recalbox-os/issues)"
-msgstr ""
+msgstr "Stabile oppdateringer vil sjekke for oppdateringer av stabile recalbox versjoner. Stabile oppdateringer er testet og godkjent av teamet til recalbox og deres testere. \n"
+"Utabile oppdateringer gir deg de nyeste recalbox funksjonene ved å sjekke etter ustabile versjoner. Du kan teste og validere siste versjon av recalbox med oss.\n"
+"Hvis du velger ustabile oppdateringer, vær så snill å rapportere problemer på recalbox-os feilmeldingstjenesten (https://github.com/recalbox/recalbox-os/issues)."
 
 #: 
 msgid "Automatically check if an update is avaialble. If so, it notifies you with a message."
-msgstr ""
+msgstr "Sjekk automatisk om oppdateringer er tilgjengelig og varsle deg med en melding."
 
 #: 
 msgid "Configure games display, ratio, filters (shaders), auto save and load and retroachievement account."
@@ -1163,7 +1151,7 @@ msgstr ""
 
 #: 
 msgid "Auto save the state when you quit a game, and auto load last saved state when you start a game."
-msgstr ""
+msgstr "Autolagre spillstatus når du avslutter ett spill og last inn lagret status når du starter ett spill."
 
 #: 
 msgid "Integer scaling is scaling by a factor of a whole number, such as 2x, 3x, 4x, etc. This option scales the image up to the greatest integer scale below the set resolution. So for instance, if you set your fullscreen resolution to 1920x1080 and enable integer scaling, it will only scale a 320x240 image up to 1280x960, and leave black borders all around. This is to maintain a 1:1 pixel ratio with the original source image, so that pixels are not unevenly duplicated."
@@ -1204,7 +1192,7 @@ msgstr ""
 
 #: 
 msgid "Start the screensaver after N minutes."
-msgstr ""
+msgstr "Start skjermsparer etter X minutter."
 
 #: 
 msgid "Set the screensaver behavior. DIM will reduce the screen light, and BLACK will turn the screen black."
@@ -1223,20 +1211,16 @@ msgid "The onscreen keyboard is necessary to type text if you only have controll
 msgstr ""
 
 #: 
-msgid "Select the type of transition that occurs when you start a game. FADE will fade to dark, and SLIDE will zoom on the game cover (or name if there is no scrape information)"
-msgstr ""
-
-#: 
 msgid "Select a theme for your recalbox."
-msgstr ""
+msgstr "Velg ett tema for din recalbox."
 
 #: 
 msgid "Updates the gamelists, if you added games since the last boot."
-msgstr ""
+msgstr "Oppdaterer spillelister, hvis du har lagt til spill siden forrige oppstart."
 
 #: 
 msgid "Configure the sound options of your recalbox."
-msgstr ""
+msgstr "Endre lydalternativer for din recalbox."
 
 #: 
 msgid "Set the volume of the sound output for the frontend and the games."
@@ -1248,7 +1232,7 @@ msgstr ""
 
 #: 
 msgid "Select your output device. Only HDMI and JACK are supported."
-msgstr ""
+msgstr "Velg utgang. Kun HDMI og JACK er støttet."
 
 #: 
 msgid "Configure the network options of your recalbox.\n"
@@ -1261,24 +1245,25 @@ msgstr ""
 
 #: 
 msgid "The IP address of your recalbox within your local network."
-msgstr ""
+msgstr "IP-adressen til din recalbox på ditt lokale nettverk."
 
 #: 
 msgid "Enable or disable WIFI.\n"
 "If you disable WIFI, the SSID and the WIFI passwords are saved and can be used when you reactivate it"
-msgstr ""
+msgstr "Slå av eller på WIFI.\n"
+"Hvis du slår av WIFI, vil SSID og WIFI passord bli lagret så de kan gjenbrukes om du slår på igjen."
 
 #: 
 msgid "The name of your recalbox in your local network"
-msgstr ""
+msgstr "Navnet til din recalbox på ditt lokale nettverk."
 
 #: 
 msgid "SSID (WIFI Name) of your network."
-msgstr ""
+msgstr "SSID (WiFi navn) til ditt nettverk."
 
 #: 
 msgid "Private key of your WIFI network."
-msgstr ""
+msgstr "Den private nøkkelen til ditt nettverk."
 
 #: 
 msgid "Get informations and visual for your games. The scraper downloads metadata and visuals for your games from different servers and enhances the user experience in EmulationStation completely."
@@ -1311,7 +1296,7 @@ msgstr ""
 
 #: 
 msgid "On boot, recalbox will show the list of games of the selected system rather than the system view."
-msgstr ""
+msgstr "Ved oppstart vil recalbox vise liste over spill for det valgte systemet istedet for systemoversikten."
 
 #: 
 msgid "Only show games contained in the gamelist.xml file (located in your roms directories).\n"
@@ -1344,23 +1329,23 @@ msgstr ""
 
 #: 
 msgid "Use the X button to start Kodi."
-msgstr ""
+msgstr "Bruk X knappen til å starte Kodi."
 
 #: 
 msgid "Automatically start into Kodi on boot."
-msgstr ""
+msgstr "Automatisk start opp Kodi på oppstart."
 
 #: 
 msgid "Manage your recalbox security."
-msgstr ""
+msgstr "Administrer sikkerhet på din recalbox."
 
 #: 
 msgid "Change the SSH root password."
-msgstr ""
+msgstr "Endre SSH root passord."
 
 #: 
 msgid "Enforce recalbox security."
-msgstr ""
+msgstr "Aktiver recalbox sikkerhet."
 
 #: 
 msgid "Enable or disable overscan.\n"
@@ -1385,7 +1370,7 @@ msgstr ""
 
 #: 
 msgid "Select which emulator to use when you start a game for this system."
-msgstr ""
+msgstr "Velg hvilken emulator som skal brukes når du starter ett spill for dette systemet."
 
 #: 
 msgid "Select which core to use for the selected emulator. For example, the LIBRETRO emulator has many cores to run Super Nintendo games. The default core you choose here can also be overridden in game specific settings."
@@ -1513,7 +1498,7 @@ msgstr ""
 
 #: 
 msgid "START KODI"
-msgstr ""
+msgstr "START KODI"
 
 #: 
 msgid "Shows the current available update version."
@@ -1557,7 +1542,7 @@ msgstr ""
 
 #: 
 msgid "Configure theme options if available."
-msgstr ""
+msgstr "Tema-alternativer er tilgjengelig."
 
 #: 
 msgid "Select Region of logos, pictures for system that are different for some countries. E.g. Megadrive in EU / Genesis in US"
@@ -1565,7 +1550,7 @@ msgstr ""
 
 #: 
 msgid "Type the name of your SSID if it is hidden or not listed"
-msgstr ""
+msgstr "Skriv inn din SSID hvis den er skjult eller ikke finnes i listen"
 
 #: 
 msgid "Select a letter and the listing will go directly on the first game starting with this letter."
@@ -1584,16 +1569,12 @@ msgid "Switch between seing or not the hidden games. To hide a game, edit its da
 msgstr ""
 
 #: 
-msgid "Switch between seing folders and folder content in the listing. This is useful when a game is provided as many 'bin' files for example and you keep it a a dedicated folder (ex: roms/psx/tekken 3)."
-msgstr ""
-
-#: 
 msgid "This option display a menu which allows to change game data and many others options."
 msgstr ""
 
 #: 
 msgid "AVAILABLE UPDATE"
-msgstr ""
+msgstr "OPPDATERING TILGJENGELIG"
 
 #: 
 msgid "UPDATE CHANGELOG"
@@ -1601,11 +1582,11 @@ msgstr ""
 
 #: 
 msgid "CLOCK IN MENU"
-msgstr ""
+msgstr "KLOKKE I MENYEN"
 
 #: 
 msgid "Now playing"
-msgstr ""
+msgstr "Spilles nå"
 
 #: 
 msgid "DEFAULT (%1%)"
@@ -1681,5 +1662,169 @@ msgstr ""
 
 #: 
 msgid "TOP/LEFT"
+msgstr ""
+
+#: 
+msgid "SHOW FOLDERS CONTENT"
+msgstr ""
+
+#: 
+msgid "Switch between seeing the folders structure and seeing all games in a flatten top level."
+msgstr ""
+
+#: 
+msgid "NETPLAY"
+msgstr ""
+
+#: 
+msgid "NETPLAY SETTINGS"
+msgstr ""
+
+#: 
+msgid "NETPLAY LOBBY"
+msgstr ""
+
+#: 
+msgid "Enable or disable Netplay in games."
+msgstr ""
+
+#: 
+msgid "PORT"
+msgstr "PORT"
+
+#: 
+msgid "NICKNAME"
+msgstr "KALLENAVN"
+
+#: 
+msgid "RELAY SERVER"
+msgstr ""
+
+#: 
+msgid "Enable or disable connections throught relay servers."
+msgstr ""
+
+#: 
+msgid "KODI/NETPLAY"
+msgstr ""
+
+#: 
+msgid "NO GAMES OR NO CONNECTION"
+msgstr ""
+
+#: 
+msgid "HASH NOW"
+msgstr ""
+
+#: 
+msgid "HASH THESE SYSTEMS"
+msgstr ""
+
+#: 
+msgid "Add hash of roms in your gamelists to have more accurate results in Netplay."
+msgstr ""
+
+#: 
+msgid "HASH ROMS"
+msgstr ""
+
+#: 
+msgid "Only missing hashs"
+msgstr ""
+
+#: 
+msgid "Username"
+msgstr "Brukernavn"
+
+#: 
+msgid "Country"
+msgstr "Land"
+
+#: 
+msgid "Latency"
+msgstr "Forsinkelse"
+
+#: 
+msgid "Host arch."
+msgstr ""
+
+#: 
+msgid "Core ver."
+msgstr ""
+
+#: 
+msgid "RA ver."
+msgstr ""
+
+#: 
+msgid "Can join"
+msgstr ""
+
+#: 
+msgid "Rom and core match"
+msgstr ""
+
+#: 
+msgid "Rom found"
+msgstr ""
+
+#: 
+msgid "No rom match"
+msgstr ""
+
+#: 
+msgid "Match"
+msgstr ""
+
+#: 
+msgid "No Match"
+msgstr ""
+
+#: 
+msgid "Rom file"
+msgstr ""
+
+#: 
+msgid "Rom hash"
+msgstr ""
+
+#: 
+msgid "THIS COULD TAKE A WHILE, CONFIRM?"
+msgstr ""
+
+#: 
+msgid "good"
+msgstr "Bra"
+
+#: 
+msgid "bad"
+msgstr "Dårlig"
+
+#: 
+msgid "medium"
+msgstr ""
+
+#: 
+msgid "NETPLAY POPUP DURATION"
+msgstr ""
+
+#: 
+msgid "Set duration of netplay popups, 0 means no popup."
+msgstr ""
+
+#: 
+msgid "Player"
+msgstr ""
+
+#: 
+msgid "Game"
+msgstr ""
+
+#: 
+msgid "A Recalbox friend has started a Netplay game!"
+msgstr ""
+
+#: 
+msgid "Play online on games running through Retroarch like NES, SNES, FBA, Genesis/Megadrive and more!"
 msgstr ""
 
