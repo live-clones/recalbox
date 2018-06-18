@@ -930,20 +930,6 @@ msgstr "TECLADO"
 msgid "GAMEPAD %i"
 msgstr "CONTROLE %i"
 
-#: 
-msgid "HOLD ANY BUTTON TO SKIP"
-msgstr "SEGURE QUALQUER BOTÃO PARA IGNORAR"
-
-#: 
-msgid "-NOT DEFINED-"
-msgstr "-NÃO DEFINIDO-"
-
-#: 
-msgid "HOLD FOR %iS TO SKIP"
-msgid_plural "HOLD FOR %iS TO SKIP"
-msgstr[0] "SEGURE POR %i SEG PARA IGNORAR"
-msgstr[1] "SEGURE POR %i SEGS PARA IGNORAR"
-
 #. Config controllers missing translation
 #: 
 msgid "PRESS ANYTHING"
@@ -1235,12 +1221,6 @@ msgstr "Quando ativado, você pode mudar entre os sistemas enquanto navega pela 
 #: 
 msgid "The onscreen keyboard is necessary to type text if you only have controllers plugged into your recalbox. You can disable it if you have a real keyboard connected."
 msgstr "O teclado virtual é necessário para escrever um texto caso você só tenha controles conectados no Recalbox. Você pode desativá-lo se tiver um teclado físico conectado."
-
-#. "vai escurecendo" é errado. 
-#. "Cover" é capa do jogo não imagem.
-#: 
-msgid "Select the type of transition that occurs when you start a game. FADE will fade to dark, and SLIDE will zoom on the game cover (or name if there is no scrape information)"
-msgstr "Selecionar o tipo de transição que ocorre quando um jogo é iniciado. FADE fará com que a tela escureça gradualmente, e SLIDE dará um zoom na capa do jogo selecionado (ou nome caso não haja informações do jogo)"
 
 #: 
 msgid "Select a theme for your recalbox."
@@ -1612,10 +1592,6 @@ msgid "Switch between seing or not the hidden games. To hide a game, edit its da
 msgstr "Alterna entre ver ou não jogos ocultos. Para ocultar um jogo, edite suas informações e selecione 'Ocultar'."
 
 #: 
-msgid "Switch between seing folders and folder content in the listing. This is useful when a game is provided as many 'bin' files for example and you keep it a a dedicated folder (ex: roms/psx/tekken 3)."
-msgstr "Alterna entre ver diretórios e o conteúdo de diretórios na listagem. Útil para situações onde o jogo é composto por exemplo, de diversos arquivos 'bin' e você pode armazená-lo em um diretório dedicado (ex: roms/psx/tekken 3)."
-
-#: 
 msgid "This option display a menu which allows to change game data and many others options."
 msgstr "Esta opção exibe um menu que permite alterações nos dados do jogo e muitas outras opções."
 
@@ -1637,19 +1613,19 @@ msgstr "Jogando agora"
 
 #: 
 msgid "DEFAULT (%1%)"
-msgstr ""
+msgstr "PADRÃO (%1%)"
 
 #: 
 msgid "INPUT REQUIRED"
-msgstr ""
+msgstr "ENTRADA NECESSÁRIA"
 
 #: 
 msgid "(skipped)"
-msgstr ""
+msgstr "(ignorado)"
 
 #: 
 msgid "UP/DOWN TO SKIP"
-msgstr ""
+msgstr "CIMA/BAIXO PARA PULAR"
 
 #: 
 msgid "A TO UNSET"
@@ -1657,57 +1633,221 @@ msgstr ""
 
 #: 
 msgid "DOWN TO SKIP AND KEEP [%1%]"
-msgstr ""
+msgstr "PARA BAIXO PARA PULAR E MANTER [%1%]"
 
 #: 
 msgid "UP/DOWN TO SKIP AND KEEP [%1%]"
-msgstr ""
+msgstr "CIMA/BAIXO PARA PULAR E MANTER [%1%]"
 
 #: 
 msgid "Set duration of help popups, 0 means no popup."
-msgstr ""
+msgstr "Alterar a duração das caixas de diálogos da ajuda, 0 significa sem caixa de diálogo."
 
 #: 
 msgid "HELP POPUP DURATION"
-msgstr ""
+msgstr "DURAÇÃO DA CAIXA DE DIÁLOGO DA AJUDA"
 
 #: 
 msgid "Set duration of music popups, 0 means no popup."
-msgstr ""
+msgstr "Alterar a duração das caixas de diálogos da música, 0 significa sem caixa de diálogo."
 
 #: 
 msgid "MUSIC POPUP DURATION"
-msgstr ""
+msgstr "DURAÇÃO DA CAIXA DE DIÁLOGO DA MÚSICA"
 
 #: 
 msgid "POPUP SETTINGS"
-msgstr ""
+msgstr "CONFIGURAÇÕES DA CAIXA DE DIÁLOGO"
 
 #: 
 msgid "POPUP POSITION"
-msgstr ""
+msgstr "POSIÇÃO DA CAIXA DE DIÁLOGO"
 
 #: 
 msgid "Select the position of popups on screen."
-msgstr ""
+msgstr "Seleciona a posição das caixas de diálogos na tela."
 
 #: 
 msgid "Set position and duration of popups."
-msgstr ""
+msgstr "Modifica a posição e duração das caixas de diálogos."
 
 #: 
 msgid "TOP/RIGHT"
-msgstr ""
+msgstr "CIMA/DIREITA"
 
 #: 
 msgid "BOTTOM/RIGHT"
-msgstr ""
+msgstr "BAIXO/DIREITA"
 
 #: 
 msgid "BOTTOM/LEFT"
-msgstr ""
+msgstr "BAIXO/ESQUERDA"
 
 #: 
 msgid "TOP/LEFT"
+msgstr "CIMA/ESQUERDA"
+
+#: 
+msgid "SHOW FOLDERS CONTENT"
+msgstr "MOSTRAR O CONTEÚDO DOS DIRETÓRIOS"
+
+#: 
+msgid "Switch between seeing the folders structure and seeing all games in a flatten top level."
+msgstr "Alternar entre ver a estrutura dos diretórios e ver todos os jogos em um nível superior."
+
+#: 
+msgid "NETPLAY"
+msgstr "JOGO EM REDE"
+
+#: 
+msgid "NETPLAY SETTINGS"
+msgstr "CONFIGURAÇÕES DE JOGO EM REDE"
+
+#: 
+msgid "NETPLAY LOBBY"
+msgstr "SALA DE JOGO EM REDE"
+
+#: 
+msgid "Enable or disable Netplay in games."
+msgstr "Habilitar ou desabilitar jogar em rede nos jogos."
+
+#: 
+msgid "PORT"
+msgstr "PORTA"
+
+#: 
+msgid "NICKNAME"
+msgstr "APELIDO"
+
+#: 
+msgid "RELAY SERVER"
+msgstr "SERVIDOR RELAY"
+
+#: 
+msgid "Enable or disable connections throught relay servers."
+msgstr "Habilitar ou desabilitar conexões através de servidores relay."
+
+#: 
+msgid "KODI/NETPLAY"
+msgstr "KODI/JOGO EM REDE"
+
+#: 
+msgid "NO GAMES OR NO CONNECTION"
+msgstr "NENHUM JOGO OU CONEXÃO"
+
+#: 
+msgid "HASH NOW"
 msgstr ""
+
+#: 
+msgid "HASH THESE SYSTEMS"
+msgstr ""
+
+#: 
+msgid "Add hash of roms in your gamelists to have more accurate results in Netplay."
+msgstr "Adicionar hash das roms na sua lista de jogos para ter resultados mais precisos em jogo de rede."
+
+#: 
+msgid "HASH ROMS"
+msgstr ""
+
+#: 
+msgid "Only missing hashs"
+msgstr "Apenas hashs faltando"
+
+#: 
+msgid "Username"
+msgstr "Nome de usuário"
+
+#: 
+msgid "Country"
+msgstr "País"
+
+#: 
+msgid "Latency"
+msgstr "Latência"
+
+#: 
+msgid "Host arch."
+msgstr ""
+
+#: 
+msgid "Core ver."
+msgstr "Versão do núcleo."
+
+#: 
+msgid "RA ver."
+msgstr ""
+
+#: 
+msgid "Can join"
+msgstr ""
+
+#: 
+msgid "Rom and core match"
+msgstr ""
+
+#: 
+msgid "Rom found"
+msgstr "Rom encontrada"
+
+#: 
+msgid "No rom match"
+msgstr ""
+
+#: 
+msgid "Match"
+msgstr ""
+
+#: 
+msgid "No Match"
+msgstr "Nenhuma Partida"
+
+#: 
+msgid "Rom file"
+msgstr "Arquivo de rom"
+
+#: 
+msgid "Rom hash"
+msgstr "Hash da rom"
+
+#: 
+msgid "THIS COULD TAKE A WHILE, CONFIRM?"
+msgstr "ISTO PODE LEVAR UM TEMPO, CONFIRMAR?"
+
+#: 
+msgid "good"
+msgstr "bom"
+
+#: 
+msgid "bad"
+msgstr "ruim"
+
+#: 
+msgid "medium"
+msgstr "médio"
+
+#: 
+msgid "NETPLAY POPUP DURATION"
+msgstr "DURAÇÃO DA CAIXA DE DIÁLOGO DO JOGO EM REDE"
+
+#: 
+msgid "Set duration of netplay popups, 0 means no popup."
+msgstr "Alterar a duração das caixas de diálogos do jogo em rede, 0 significa sem caixa de diálogo."
+
+#: 
+msgid "Player"
+msgstr "Jogador"
+
+#: 
+msgid "Game"
+msgstr "Jogo"
+
+#: 
+msgid "A Recalbox friend has started a Netplay game!"
+msgstr "Um amigo do Recalbox iniciou um jogo em rede!"
+
+#: 
+msgid "Play online on games running through Retroarch like NES, SNES, FBA, Genesis/Megadrive and more!"
+msgstr "Jogar online em jogos rodando através do Retroarch como NES, SNES, FBA, Genesis/Megadrive e mais!"
 
