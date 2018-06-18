@@ -933,22 +933,6 @@ msgstr "Toetsenbord"
 msgid "GAMEPAD %i"
 msgstr "Controller"
 
-#: 
-msgid "HOLD ANY BUTTON TO SKIP"
-msgstr "Druk willekeurige toets voor overslaan"
-
-#: 
-msgid "-NOT DEFINED-"
-msgstr "-Niet gedefinieerd-"
-
-#: 
-msgid "HOLD FOR %iS TO SKIP"
-msgid_plural "HOLD FOR %iS TO SKIP"
-msgstr[0] "Houdt voor %i om over te slaan\n"
-"Houdt voor %i om over te slaan"
-msgstr[1] "Houdt voor %i om over te slaan\n"
-"Houdt voor %i om over te slaan "
-
 #. Config controllers missing translation
 #: 
 msgid "PRESS ANYTHING"
@@ -1235,10 +1219,6 @@ msgstr "Bij ingeschakeld kan je systemen kiezen bij bekijken van spellijsten LIN
 #: 
 msgid "The onscreen keyboard is necessary to type text if you only have controllers plugged into your recalbox. You can disable it if you have a real keyboard connected."
 msgstr "Het schermtoetsenbord is nodig om tekst in te voeren als je enkel controllers hebt aangesloten. Deze kan je uitschakelen als je een toetsenbord hebt aangesloten."
-
-#: 
-msgid "Select the type of transition that occurs when you start a game. FADE will fade to dark, and SLIDE will zoom on the game cover (or name if there is no scrape information)"
-msgstr "Selecteer het type overgang wanneer je een spel start. Vervaag zal vervagen naar donker, en schuif zal zoomen op het spel cover(of de naam als er geen scrapeinfo is)"
 
 #: 
 msgid "Select a theme for your recalbox."
@@ -1605,10 +1585,6 @@ msgid "Switch between seing or not the hidden games. To hide a game, edit its da
 msgstr ""
 
 #: 
-msgid "Switch between seing folders and folder content in the listing. This is useful when a game is provided as many 'bin' files for example and you keep it a a dedicated folder (ex: roms/psx/tekken 3)."
-msgstr ""
-
-#: 
 msgid "This option display a menu which allows to change game data and many others options."
 msgstr ""
 
@@ -1702,5 +1678,169 @@ msgstr ""
 
 #: 
 msgid "TOP/LEFT"
+msgstr ""
+
+#: 
+msgid "SHOW FOLDERS CONTENT"
+msgstr ""
+
+#: 
+msgid "Switch between seeing the folders structure and seeing all games in a flatten top level."
+msgstr ""
+
+#: 
+msgid "NETPLAY"
+msgstr ""
+
+#: 
+msgid "NETPLAY SETTINGS"
+msgstr ""
+
+#: 
+msgid "NETPLAY LOBBY"
+msgstr ""
+
+#: 
+msgid "Enable or disable Netplay in games."
+msgstr ""
+
+#: 
+msgid "PORT"
+msgstr ""
+
+#: 
+msgid "NICKNAME"
+msgstr ""
+
+#: 
+msgid "RELAY SERVER"
+msgstr ""
+
+#: 
+msgid "Enable or disable connections throught relay servers."
+msgstr ""
+
+#: 
+msgid "KODI/NETPLAY"
+msgstr ""
+
+#: 
+msgid "NO GAMES OR NO CONNECTION"
+msgstr ""
+
+#: 
+msgid "HASH NOW"
+msgstr ""
+
+#: 
+msgid "HASH THESE SYSTEMS"
+msgstr ""
+
+#: 
+msgid "Add hash of roms in your gamelists to have more accurate results in Netplay."
+msgstr ""
+
+#: 
+msgid "HASH ROMS"
+msgstr ""
+
+#: 
+msgid "Only missing hashs"
+msgstr ""
+
+#: 
+msgid "Username"
+msgstr ""
+
+#: 
+msgid "Country"
+msgstr ""
+
+#: 
+msgid "Latency"
+msgstr ""
+
+#: 
+msgid "Host arch."
+msgstr ""
+
+#: 
+msgid "Core ver."
+msgstr ""
+
+#: 
+msgid "RA ver."
+msgstr ""
+
+#: 
+msgid "Can join"
+msgstr ""
+
+#: 
+msgid "Rom and core match"
+msgstr ""
+
+#: 
+msgid "Rom found"
+msgstr ""
+
+#: 
+msgid "No rom match"
+msgstr ""
+
+#: 
+msgid "Match"
+msgstr ""
+
+#: 
+msgid "No Match"
+msgstr ""
+
+#: 
+msgid "Rom file"
+msgstr ""
+
+#: 
+msgid "Rom hash"
+msgstr ""
+
+#: 
+msgid "THIS COULD TAKE A WHILE, CONFIRM?"
+msgstr ""
+
+#: 
+msgid "good"
+msgstr ""
+
+#: 
+msgid "bad"
+msgstr ""
+
+#: 
+msgid "medium"
+msgstr ""
+
+#: 
+msgid "NETPLAY POPUP DURATION"
+msgstr ""
+
+#: 
+msgid "Set duration of netplay popups, 0 means no popup."
+msgstr ""
+
+#: 
+msgid "Player"
+msgstr ""
+
+#: 
+msgid "Game"
+msgstr ""
+
+#: 
+msgid "A Recalbox friend has started a Netplay game!"
+msgstr ""
+
+#: 
+msgid "Play online on games running through Retroarch like NES, SNES, FBA, Genesis/Megadrive and more!"
 msgstr ""
 
