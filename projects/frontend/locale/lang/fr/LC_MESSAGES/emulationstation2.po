@@ -925,20 +925,6 @@ msgstr "CLAVIER"
 msgid "GAMEPAD %i"
 msgstr "JOYSTICK %i"
 
-#: 
-msgid "HOLD ANY BUTTON TO SKIP"
-msgstr "RESTER APPUYÉ SUR UN BOUTON POUR PASSER"
-
-#: 
-msgid "-NOT DEFINED-"
-msgstr "-NON CONFIGURÉ-"
-
-#: 
-msgid "HOLD FOR %iS TO SKIP"
-msgid_plural "HOLD FOR %iS TO SKIP"
-msgstr[0] "APPUYEZ PENDANT %iS POUR PASSER"
-msgstr[1] "APPUYEZ PENDANT %iS POUR PASSER"
-
 #. Config controllers missing translation
 #: 
 msgid "PRESS ANYTHING"
@@ -1228,10 +1214,6 @@ msgstr "Si activé, vous pouvez changer de système tout en parcourant les liste
 #: 
 msgid "The onscreen keyboard is necessary to type text if you only have controllers plugged into your recalbox. You can disable it if you have a real keyboard connected."
 msgstr "Le clavier virtuel est nécessaire pour taper du texte si vous n'avez que des manettes branchées sur votre Recalbox. Vous pouvez désactiver cette option si vous avez un clavier branché."
-
-#: 
-msgid "Select the type of transition that occurs when you start a game. FADE will fade to dark, and SLIDE will zoom on the game cover (or name if there is no scrape information)"
-msgstr "Sélectionnez le type de transition qui se produit lorsque vous lancez un jeu. FADE fera un fondu au noir et SLIDE zoomera sur l'image du jeu (ou le nom si il n'y a pas de metadatas)."
 
 #: 
 msgid "Select a theme for your recalbox."
@@ -1603,10 +1585,6 @@ msgid "Switch between seing or not the hidden games. To hide a game, edit its da
 msgstr "Changer entre rendre visible ou non les jeux cachés. pour cacher un jeu, éditez ses données et sélectionnez 'Cacher'."
 
 #: 
-msgid "Switch between seing folders and folder content in the listing. This is useful when a game is provided as many 'bin' files for example and you keep it a a dedicated folder (ex: roms/psx/tekken 3)."
-msgstr "Changer entre rendre visible ou non les dossiers et leur contenu dans la liste. C'est utile par exemple lorsqu'un jeu est fourni avec plusieurs fichiers 'bin' et que vous le gardez dans un dossier spécifique (ex: roms/psx/tekken3)."
-
-#: 
 msgid "This option display a menu which allows to change game data and many others options."
 msgstr "Cette option affiche un menu qui permet de changer les données du jeu et de nombreuses autres options."
 
@@ -1701,4 +1679,168 @@ msgstr "BAS/GAUCHE"
 #: 
 msgid "TOP/LEFT"
 msgstr "HAUT/GAUCHE"
+
+#: 
+msgid "SHOW FOLDERS CONTENT"
+msgstr "MONTRER LE CONTENU DES DOSSIERS"
+
+#: 
+msgid "Switch between seeing the folders structure and seeing all games in a flatten top level."
+msgstr "Basculer entre l'affichage classique de répertoires et l'affichage de tous les jeux en une seule liste."
+
+#: 
+msgid "NETPLAY"
+msgstr "NETPLAY"
+
+#: 
+msgid "NETPLAY SETTINGS"
+msgstr "OPTIONS NETPLAY"
+
+#: 
+msgid "NETPLAY LOBBY"
+msgstr "LOBBY NETPLAY"
+
+#: 
+msgid "Enable or disable Netplay in games."
+msgstr "Activer ou désactiver Netplay dans les jeux."
+
+#: 
+msgid "PORT"
+msgstr "PORT"
+
+#: 
+msgid "NICKNAME"
+msgstr "SURNOM"
+
+#: 
+msgid "RELAY SERVER"
+msgstr "SERVEUR DE RELAI"
+
+#: 
+msgid "Enable or disable connections throught relay servers."
+msgstr "Activer ou désactiver les connexions au travers de serveurs de relai."
+
+#: 
+msgid "KODI/NETPLAY"
+msgstr "KODI/NETPLAY"
+
+#: 
+msgid "NO GAMES OR NO CONNECTION"
+msgstr "PAS DE JEUX OU PAS DE CONNEXION"
+
+#: 
+msgid "HASH NOW"
+msgstr "HASHER MAINTENANT"
+
+#: 
+msgid "HASH THESE SYSTEMS"
+msgstr "HASHER CES SYSTÈMES"
+
+#: 
+msgid "Add hash of roms in your gamelists to have more accurate results in Netplay."
+msgstr "Ajoutez les hashs des roms dans vos gamelists pour avoir un résultat plus précis en Netplay."
+
+#: 
+msgid "HASH ROMS"
+msgstr "HASHER LES ROMS"
+
+#: 
+msgid "Only missing hashs"
+msgstr "Seulement hashs manquants"
+
+#: 
+msgid "Username"
+msgstr "Nom"
+
+#: 
+msgid "Country"
+msgstr "Pays"
+
+#: 
+msgid "Latency"
+msgstr "Latence"
+
+#: 
+msgid "Host arch."
+msgstr "Arch. de l'hôte"
+
+#: 
+msgid "Core ver."
+msgstr "Ver. du core"
+
+#: 
+msgid "RA ver."
+msgstr "Ver. de RA"
+
+#: 
+msgid "Can join"
+msgstr "Joignable"
+
+#: 
+msgid "Rom and core match"
+msgstr "Corres. rom et core"
+
+#: 
+msgid "Rom found"
+msgstr "Rom trouvée"
+
+#: 
+msgid "No rom match"
+msgstr "Pas de corres. de rom"
+
+#: 
+msgid "Match"
+msgstr "Correspondance"
+
+#: 
+msgid "No Match"
+msgstr "Pas de corres."
+
+#: 
+msgid "Rom file"
+msgstr "Fichier rom"
+
+#: 
+msgid "Rom hash"
+msgstr "Hash de la rom"
+
+#: 
+msgid "THIS COULD TAKE A WHILE, CONFIRM?"
+msgstr "CELA PEUX PRENDRE LONGTEMPS, CONFIRMER?"
+
+#: 
+msgid "good"
+msgstr "bon"
+
+#: 
+msgid "bad"
+msgstr "mauvais"
+
+#: 
+msgid "medium"
+msgstr "moyen"
+
+#: 
+msgid "NETPLAY POPUP DURATION"
+msgstr "DURÉE DES POPUPS NETPLAY"
+
+#: 
+msgid "Set duration of netplay popups, 0 means no popup."
+msgstr "Régler la durée des popups Netplay, 0 pour désactiver."
+
+#: 
+msgid "Player"
+msgstr "Joueur"
+
+#: 
+msgid "Game"
+msgstr "Jeu"
+
+#: 
+msgid "A Recalbox friend has started a Netplay game!"
+msgstr "Un ami Recalbox a démarré une partie Netplay!"
+
+#: 
+msgid "Play online on games running through Retroarch like NES, SNES, FBA, Genesis/Megadrive and more!"
+msgstr "Jouez en ligne à des jeux tournant sous Retroarch comme NES, SNES, FBA, Megadrive et bien plus!"
 
