@@ -924,20 +924,6 @@ msgstr "키보드"
 msgid "GAMEPAD %i"
 msgstr "게임 패드 %i"
 
-#: 
-msgid "HOLD ANY BUTTON TO SKIP"
-msgstr "건너뛰려면 아무 버튼이나 누르세요."
-
-#: 
-msgid "-NOT DEFINED-"
-msgstr "-정의되지 않음-"
-
-#: 
-msgid "HOLD FOR %iS TO SKIP"
-msgid_plural "HOLD FOR %iS TO SKIP"
-msgstr[0] "%i 초 동안 누르면 건너뛰기\n"
-"%i 초 동안 누르면 건너뛰기"
-
 #. Config controllers missing translation
 #: 
 msgid "PRESS ANYTHING"
@@ -1229,10 +1215,6 @@ msgstr "이 기능을 사용하면 좌우 버튼으로 게임 시스템을 전�
 #: 
 msgid "The onscreen keyboard is necessary to type text if you only have controllers plugged into your recalbox. You can disable it if you have a real keyboard connected."
 msgstr "가상 키보드는 recalbox에 컨트롤러만 연결되어 있을때 사용이 가능합니다. 실제 키보드가 연결되었을 경우 비활성화 됩니다."
-
-#: 
-msgid "Select the type of transition that occurs when you start a game. FADE will fade to dark, and SLIDE will zoom on the game cover (or name if there is no scrape information)"
-msgstr "화면 전환 방식을 선택하십시오. 페이드는 어둡게 변하고 슬라이드는 게임 커버를 확대 할 것입니다(게임 정보가 없을 경우 게임의 이름을 확대합니다)"
 
 #: 
 msgid "Select a theme for your recalbox."
@@ -1601,10 +1583,6 @@ msgid "Switch between seing or not the hidden games. To hide a game, edit its da
 msgstr "숨겨진 게임을 보이거나 보이지 않게 선택합니다. 게임을 숨기려면 데이터를 편집하고' 숨기기'를 선택하십시오."
 
 #: 
-msgid "Switch between seing folders and folder content in the listing. This is useful when a game is provided as many 'bin' files for example and you keep it a a dedicated folder (ex: roms/psx/tekken 3)."
-msgstr "목록에 폴더가 보이게 할 지  폴더 콘텐츠가 보이게 할 지 선택합니다. 예를 들어 게임이 많은 'bin'파일로 제공되고 전용 폴더(예:roms/.psx/tetekken 3)로 유지되는 경우에 이 기능이 유용합니다."
-
-#: 
 msgid "This option display a menu which allows to change game data and many others options."
 msgstr "이 옵션은 게임 데이터 및 기타 많은 옵션을 변경할 수 있는 메뉴를 표시합니다."
 
@@ -1626,77 +1604,241 @@ msgstr "플레이중"
 
 #: 
 msgid "DEFAULT (%1%)"
-msgstr ""
+msgstr "기본값 (%1%)"
 
 #: 
 msgid "INPUT REQUIRED"
-msgstr ""
+msgstr "입력 필요"
 
 #: 
 msgid "(skipped)"
-msgstr ""
+msgstr "(취소됨)"
 
 #: 
 msgid "UP/DOWN TO SKIP"
-msgstr ""
+msgstr "위/아래로 이동"
 
 #: 
 msgid "A TO UNSET"
-msgstr ""
+msgstr "A키로 해제"
 
 #: 
 msgid "DOWN TO SKIP AND KEEP [%1%]"
-msgstr ""
+msgstr "아래로 이동하고 유지"
 
 #: 
 msgid "UP/DOWN TO SKIP AND KEEP [%1%]"
-msgstr ""
+msgstr "위/아래로 이동하고 유지"
 
 #: 
 msgid "Set duration of help popups, 0 means no popup."
-msgstr ""
+msgstr "도움말 알림창 지속시간 설정, 0으로 설정시 알림 해제"
 
 #: 
 msgid "HELP POPUP DURATION"
-msgstr ""
+msgstr "도움말 알림창 지속시간"
 
 #: 
 msgid "Set duration of music popups, 0 means no popup."
-msgstr ""
+msgstr "배경음악 알림창 지속시간 설정, 0으로 설정시 알림 해제"
 
 #: 
 msgid "MUSIC POPUP DURATION"
-msgstr ""
+msgstr "음악 알림창 지속시간"
 
 #: 
 msgid "POPUP SETTINGS"
-msgstr ""
+msgstr "알림창 설정"
 
 #: 
 msgid "POPUP POSITION"
-msgstr ""
+msgstr "알림창 위치"
 
 #: 
 msgid "Select the position of popups on screen."
-msgstr ""
+msgstr "화면상 알림창 위치 선택"
 
 #: 
 msgid "Set position and duration of popups."
-msgstr ""
+msgstr "알림창 위치 지속시간 설정"
 
 #: 
 msgid "TOP/RIGHT"
-msgstr ""
+msgstr "상/우"
 
 #: 
 msgid "BOTTOM/RIGHT"
-msgstr ""
+msgstr "하/우"
 
 #: 
 msgid "BOTTOM/LEFT"
-msgstr ""
+msgstr "하/좌"
 
 #: 
 msgid "TOP/LEFT"
+msgstr "상/좌"
+
+#: 
+msgid "SHOW FOLDERS CONTENT"
+msgstr ""
+
+#: 
+msgid "Switch between seeing the folders structure and seeing all games in a flatten top level."
+msgstr ""
+
+#: 
+msgid "NETPLAY"
+msgstr ""
+
+#: 
+msgid "NETPLAY SETTINGS"
+msgstr ""
+
+#: 
+msgid "NETPLAY LOBBY"
+msgstr ""
+
+#: 
+msgid "Enable or disable Netplay in games."
+msgstr ""
+
+#: 
+msgid "PORT"
+msgstr ""
+
+#: 
+msgid "NICKNAME"
+msgstr ""
+
+#: 
+msgid "RELAY SERVER"
+msgstr ""
+
+#: 
+msgid "Enable or disable connections throught relay servers."
+msgstr ""
+
+#: 
+msgid "KODI/NETPLAY"
+msgstr ""
+
+#: 
+msgid "NO GAMES OR NO CONNECTION"
+msgstr ""
+
+#: 
+msgid "HASH NOW"
+msgstr ""
+
+#: 
+msgid "HASH THESE SYSTEMS"
+msgstr ""
+
+#: 
+msgid "Add hash of roms in your gamelists to have more accurate results in Netplay."
+msgstr ""
+
+#: 
+msgid "HASH ROMS"
+msgstr ""
+
+#: 
+msgid "Only missing hashs"
+msgstr ""
+
+#: 
+msgid "Username"
+msgstr ""
+
+#: 
+msgid "Country"
+msgstr ""
+
+#: 
+msgid "Latency"
+msgstr ""
+
+#: 
+msgid "Host arch."
+msgstr ""
+
+#: 
+msgid "Core ver."
+msgstr ""
+
+#: 
+msgid "RA ver."
+msgstr ""
+
+#: 
+msgid "Can join"
+msgstr ""
+
+#: 
+msgid "Rom and core match"
+msgstr ""
+
+#: 
+msgid "Rom found"
+msgstr ""
+
+#: 
+msgid "No rom match"
+msgstr ""
+
+#: 
+msgid "Match"
+msgstr ""
+
+#: 
+msgid "No Match"
+msgstr ""
+
+#: 
+msgid "Rom file"
+msgstr ""
+
+#: 
+msgid "Rom hash"
+msgstr ""
+
+#: 
+msgid "THIS COULD TAKE A WHILE, CONFIRM?"
+msgstr ""
+
+#: 
+msgid "good"
+msgstr ""
+
+#: 
+msgid "bad"
+msgstr ""
+
+#: 
+msgid "medium"
+msgstr ""
+
+#: 
+msgid "NETPLAY POPUP DURATION"
+msgstr ""
+
+#: 
+msgid "Set duration of netplay popups, 0 means no popup."
+msgstr ""
+
+#: 
+msgid "Player"
+msgstr ""
+
+#: 
+msgid "Game"
+msgstr ""
+
+#: 
+msgid "A Recalbox friend has started a Netplay game!"
+msgstr ""
+
+#: 
+msgid "Play online on games running through Retroarch like NES, SNES, FBA, Genesis/Megadrive and more!"
 msgstr ""
 
