@@ -136,7 +136,6 @@ def createLibretroConfig(system, controllers):
 	    pass
         elif system.config['netplaymode'] == 'host':
             mitm = recalboxConfig.get('netplay.relay', "")
-	    print "mitm: '{}'".format(mitm)
             if mitm:
                 retroarchConfig['netplay_use_mitm_server'] = "true"
                 retroarchConfig['netplay_mitm_server'] = mitm

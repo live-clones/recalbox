@@ -21,8 +21,9 @@ class Emulator():
         self.config['netplay']    = None
         self.config['showFPS']    = showFPS
         self.config['args']       = None
+        self.config['hash']       = None
         
-    def configure(self, emulator='default', core='default', ratio='auto', netplay=None, netplay_ip=None, netplay_port=None):
+    def configure(self, emulator='default', core='default', ratio='auto', netplay=None, netplay_ip=None, netplay_port=None, hash=None):
         recalSettings = UnixSettings(recalboxFiles.recalboxConf)
         globalSettings = recalSettings.loadAll('global')
         self.config['specials'] = recalSettings.load('system.emulators.specialkeys', 'default')
@@ -30,6 +31,7 @@ class Emulator():
         self.config['netplaymode'] = netplay
         self.config['netplay_ip'] = netplay_ip
         self.config['netplay_port'] = netplay_port
+        self.config['hash'] = hash
         self.updateConfiguration(globalSettings)
         self.updateConfiguration(recalSettings.loadAll(self.name))
         self.updateForcedConfig(emulator, core, ratio)

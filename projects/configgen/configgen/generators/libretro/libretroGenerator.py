@@ -69,7 +69,9 @@ class LibretroGenerator(Generator):
         if system.config['netplaymode'] is not None and system.config['netplaymode'] in ('host', 'client'):
             if system.config['netplaymode'] == 'host':
                 commandArray.append("--host")
-            elif system.config['netplaymode'] == 'client':
+		if system.config['hash']:
+		    commandArray.extend(["--hash", system.config['hash']])
+	    elif system.config['netplaymode'] == 'client':
                 if system.config['netplay_ip'] is not None:
                     commandArray.extend(["--connect", system.config['netplay_ip']])
 		else:
