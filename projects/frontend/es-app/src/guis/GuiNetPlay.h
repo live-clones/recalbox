@@ -29,7 +29,7 @@ class GuiNetPlay : public GuiComponent
 public:
 	GuiNetPlay(Window* window);
 
-	inline ~GuiNetPlay() { if (mList) mList->clear(); }
+	~GuiNetPlay();
 
 	inline void addRow(const ComponentListRow& row, bool setCursorHere = false, bool updateGeometry = true) { mList->addRow(row, setCursorHere, updateGeometry); if (updateGeometry) updateSize(); }
 

@@ -72,6 +72,17 @@ GuiNetPlay::GuiNetPlay(Window* window) : GuiComponent(window),
 
 }
 
+GuiNetPlay::~GuiNetPlay()
+{
+	if (mList)
+	{
+		mList->clear();
+	}
+	// kill the ping thread or wait for it to join on close
+	pthread_cancel(mHandle->native_handle());
+	//mHandle->join();
+}
+
 //ugly method to start a new thread THEN populate the grid via update()
 void GuiNetPlay::checkLobby()
 {
