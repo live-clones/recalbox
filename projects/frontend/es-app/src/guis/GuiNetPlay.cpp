@@ -182,7 +182,7 @@ void GuiNetPlay::populateGrid()
 		mGridMetaRight->setEntry(mMetaTextLblCanJoin, Vector2i(0, 10), false, true);
 		mGridMetaRight->setEntry(mMetaTextCanJoin, Vector2i(1, 10), false, true);
 		mGridMeta->setEntry(mGridMetaRight, Vector2i(1, 0), false, true, Eigen::Vector2i(1, 1), GridFlags::BORDER_LEFT);
-        mGridMetaRight->setColWidthPerc(1, 0.65, true);
+        mGridMetaRight->setColWidthPerc(1, 0.60, true);
 
 		ComponentListRow row;
 		std::shared_ptr<GuiComponent> ed;
@@ -258,7 +258,7 @@ void GuiNetPlay::populateGridMeta(int i)
 	if (mGames[i]) {
         mMetaTextRomFile->setText("\uf1c0 " + _("Match"));
 	} else {
-        mMetaTextRomFile->setText("\uf1c2 " + _("No match"));
+        mMetaTextRomFile->setText("\uf1c2 " + _("No Match"));
 	}
 	if (coreMatch) {
         mMetaTextCore->setText("\uf1c0 " + mRooms[i].second.get<std::string>("fields.core_name"));
@@ -278,7 +278,7 @@ void GuiNetPlay::populateGridMeta(int i)
             mMetaTextCanJoin->setText("\uf1c0 " + _("Rom and core match"));
             mMetaTextCanJoin->setColor(0x26B14AFF);
 		} else {
-            mMetaTextCanJoin->setText("\uf1c1 " + _("Rom found w/o hash"));
+            mMetaTextCanJoin->setText("\uf1c1 " + _("Rom found"));
             mMetaTextCanJoin->setColor(0x36A9E0FF);
 		}
 	} else {
