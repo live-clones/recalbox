@@ -23,7 +23,7 @@ GuiHashStart::GuiHashStart(Window* window) : GuiComponent(window), mMenu(window,
 
     mFilter = std::make_shared< OptionListComponent<std::string> >(mWindow, _("FILTER"), false);
     mFilter->add(_("Only missing hashs"), "missing", true);
-    mFilter->add(_("All games"), "all", false);
+    mFilter->add(_("All Games"), "all", false);
     mMenu.addWithLabel(mFilter, _("FILTER"));
 
     // add systems (all with a platformid specified selected)

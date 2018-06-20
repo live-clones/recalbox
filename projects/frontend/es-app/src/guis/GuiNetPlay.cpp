@@ -138,7 +138,7 @@ void GuiNetPlay::populateGrid()
 	if (mLobbyLoaded) {
 		mList = std::make_shared<ComponentList>(mWindow);
 		mGridMeta->setEntry(mList, Vector2i(0, 0), true);
-		mGridMeta->setColWidthPerc(0, 0.62);
+		mGridMeta->setColWidthPerc(0, 0.57);
 		mGrid.setEntry(mGridMeta, Vector2i(0, 1), true);
 
 		mMetaTextLblUsername = std::make_shared<TextComponent>(mWindow, "    " +  _("Username") + " : ", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, ALIGN_LEFT);
@@ -253,7 +253,7 @@ void GuiNetPlay::populateGridMeta(int i)
     if (hashMatch) {
     	mMetaTextRomHash->setText("\uf1c0 " + _("Match"));
     } else {
-        mMetaTextRomHash->setText("\uf1c2 " + _("No match"));
+        mMetaTextRomHash->setText("\uf1c2 " + _("No Match"));
     }
 	if (mGames[i]) {
         mMetaTextRomFile->setText("\uf1c0 " + _("Match"));
