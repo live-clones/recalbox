@@ -227,7 +227,7 @@ void GuiInputConfig::setText(const std::string& msg, unsigned int color) {
 
 void GuiInputConfig::setText(const std::string& msg, unsigned int color, const int inputId) {
 	std::shared_ptr<TextComponent>& text = mMappings.at(inputId);
-	text->setText(msg);
+	text->setText(strToUpper(msg));
 	text->setColor(color);
 }
 
