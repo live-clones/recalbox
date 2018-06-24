@@ -98,7 +98,7 @@ GuiInputConfig::GuiInputConfig(Window* window, InputConfig* target, const std::f
 						for(auto it = inputs.begin(); it != inputs.end(); it++) {
 							// Key Up
 							if (mTargetConfig->isMappedTo("UP", *it)) {
-								if (i > 0) {
+								if (i > 0 && mTargetConfig->isMapped("DOWN")) {
 									restaurePreviousAssignment();
 									if (!isAssigned() && inputSkippable[i]) {
 										setSkipped();
@@ -244,10 +244,14 @@ void GuiInputConfig::setHelpMessage() {
 		if (mTargetConfig->isMapped("A")) {
 			msg = msg + _("A TO UNSET");
 		}
-		if (inputId == 0)
-			msg = (msg.length() ? msg + " - " : "") + str(boost::format(_("DOWN TO KEEP [%1%]")) % strToUpper(input.string()));
-		else 
-			msg = (msg.length() ? msg + " - " : "") + str(boost::format(_("UP/DOWN TO KEEP [%1%]")) % strToUpper(input.string()));
+		if (mTargetConfig->isMapped("DOWN")) {
+			if (inputId == 0)
+				msg = (msg.length() ? msg + " - " : "") +
+					  str(boost::format(_("DOWN TO KEEP [%1%]")) % strToUpper(input.string()));
+			else
+				msg = (msg.length() ? msg + " - " : "") +
+					  str(boost::format(_("UP/DOWN TO KEEP [%1%]")) % strToUpper(input.string()));
+		}
 
 	} else if (skippable)
 		msg = _("UP/DOWN TO SKIP");
