@@ -168,6 +168,7 @@ GuiInputConfig::GuiInputConfig(Window* window, InputConfig* target, const std::f
 		mCursorOnList = false;
 		auto cursorChange = mList->getCursorChangedCallback();
 		cursorChange(CURSOR_STOPPED);
+		mSubtitle2->setText("");
 	});
 
 	setHelpMessage();
