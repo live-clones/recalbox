@@ -1826,3 +1826,14 @@ msgstr ""
 #:
 msgid "Add a clock in the main menu."
 msgstr ""
+
+#. UPGRADE PROCESS
+#: 
+msgid "UPGRADING"
+msgstr ""
+
+msgid "PREPARING"
+msgstr ""
+
+msgid "VERIFYING"
+msgstr ""
