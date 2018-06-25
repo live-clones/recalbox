@@ -144,5 +144,5 @@ if [ $? -ne 0 ];then
 fi
 
 touch "${UPGRADE_DIR}/okforupgrade.go"
-echoES "OK!"
+echoES "THE SYSTEM WILL NOW REBOOT"
 exit 0
