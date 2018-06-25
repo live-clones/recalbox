@@ -37,7 +37,7 @@ function cyclicProgression() {
         [[ "$extractedFiles" -ge  "$totalFiles" ]] && break
         sleep 1
     done
-    echoES "PLEASE WAIT: PROCESSING..."
+    echoES "PLEASE WAIT..."
     #~ kill -9 "$2"
 }
 
