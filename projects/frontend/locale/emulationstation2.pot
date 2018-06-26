@@ -1760,11 +1760,15 @@ msgid "Rom and core match"
 msgstr ""
 
 #:
-msgid "Rom found"
+msgid "Rom, hash and core match"
 msgstr ""
 
 #:
 msgid "No rom match"
+msgstr ""
+
+#:
+msgid "No core match"
 msgstr ""
 
 #:

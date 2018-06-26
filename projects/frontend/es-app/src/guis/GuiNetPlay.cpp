@@ -193,8 +193,12 @@ void GuiNetPlay::populateGrid()
 			if (mGames[i]) {
 				if (mGames[i]->getHash() == v.second.get<std::string>("fields.game_crc")) {
 					text = "\uf1c0 " + v.second.get<std::string>("fields.game_name");
-				} else {
+				}
+				else if (getCoreInfo(v.second.get<std::string>("fields.core_name")).first != "") {
 					text = "\uf1c1 " + v.second.get<std::string>("fields.game_name");
+				} else
+				{
+					text = "\uf1c2 " + v.second.get<std::string>("fields.game_name");
 				}
 			} else {
 				text = "\uf1c2 " + v.second.get<std::string>("fields.game_name");
@@ -275,11 +279,16 @@ void GuiNetPlay::populateGridMeta(int i)
     mMetaTextHostArch->setText(mRooms[i].second.get<std::string>("fields.frontend", "N/A"));
 	if (mGames[i]) {
 		if (hashMatch && coreMatch) {
-            mMetaTextCanJoin->setText("\uf1c0 " + _("Rom and core match"));
+            mMetaTextCanJoin->setText("\uf1c0 " + _("Rom, hash and core match"));
             mMetaTextCanJoin->setColor(0x26B14AFF);
-		} else {
-            mMetaTextCanJoin->setText("\uf1c1 " + _("Rom found"));
+		}
+		else if (coreMatch) {
+            mMetaTextCanJoin->setText("\uf1c1 " + _("Rom and core match"));
             mMetaTextCanJoin->setColor(0x36A9E0FF);
+		} else
+		{
+			mMetaTextCanJoin->setText("\uf1c2 " + _("No core match"));
+			mMetaTextCanJoin->setColor(0xDC1F26FF);
 		}
 	} else {
         mMetaTextCanJoin->setText("\uf1c2 " + _("No rom match"));
@@ -293,16 +302,19 @@ void GuiNetPlay::launch()
         Eigen::Vector3f target(Renderer::getScreenWidth() / 2.0f, Renderer::getScreenHeight() / 2.0f, 0);
         int index = mList->getCursor();
         std::string core = getCoreInfo(mRooms[index].second.get<std::string>("fields.core_name")).first;
-        std::string ip, port;
-        if (mRooms[index].second.get<std::string>("fields.host_method") == "3") {
-            ip = mRooms[index].second.get<std::string>("fields.mitm_ip");
-            port = mRooms[index].second.get<std::string>("fields.mitm_port");
-        } else {
-            ip = mRooms[index].second.get<std::string>("fields.ip");
-            port = mRooms[index].second.get<std::string>("fields.port");
+        if (core != "")
+        {
+	        std::string ip, port;
+	        if (mRooms[index].second.get<std::string>("fields.host_method") == "3") {
+		        ip = mRooms[index].second.get<std::string>("fields.mitm_ip");
+		        port = mRooms[index].second.get<std::string>("fields.mitm_port");
+	        } else {
+		        ip = mRooms[index].second.get<std::string>("fields.ip");
+		        port = mRooms[index].second.get<std::string>("fields.port");
+	        }
+	        ViewController::get()->launch(mGames[index], target, "client", core, ip, port);
+	        delete this;
         }
-        ViewController::get()->launch(mGames[index], target, "client", core, ip, port);
-        delete this;
 	}
 }
 
