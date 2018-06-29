@@ -189,19 +189,27 @@ void GuiNetPlay::populateGrid()
 		int i = 0;
 		for (auto v : mRooms) {
 			row.elements.clear();
-			std::string text;
+			std::string text, gameName;
+			if (v.second.get<std::string>("fields.core_name") == "FB Alpha")
+            {
+                gameName = PlatformIds::getCleanMameName(v.second.get<std::string>("fields.game_name").c_str());
+            }
+            else
+            {
+                gameName = v.second.get<std::string>("fields.game_name");
+            }
 			if (mGames[i]) {
 				if (mGames[i]->getHash() == v.second.get<std::string>("fields.game_crc")) {
-					text = "\uf1c0 " + v.second.get<std::string>("fields.game_name");
+					text = "\uf1c0 " + gameName;
 				}
 				else if (getCoreInfo(v.second.get<std::string>("fields.core_name")).first != "") {
-					text = "\uf1c1 " + v.second.get<std::string>("fields.game_name");
+					text = "\uf1c1 " + gameName;
 				} else
 				{
-					text = "\uf1c2 " + v.second.get<std::string>("fields.game_name");
+					text = "\uf1c2 " + gameName;
 				}
 			} else {
-				text = "\uf1c2 " + v.second.get<std::string>("fields.game_name");
+				text = "\uf1c2 " + gameName;
 			}
 			ed = std::make_shared<TextComponent>(mWindow, text, mMenuTheme->menuText.font, mMenuTheme->menuText.color, ALIGN_LEFT);
 			row.addElement(ed, true);
