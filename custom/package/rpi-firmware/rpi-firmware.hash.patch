@@ -1,5 +1,5 @@
-d4287e1060c8892901baa10333ed29131d4fcdbe5d15c476994biff --git a/package/rpi-firmware/rpi-firmware.hash b/package/rpi-firmware/rpi-firmware.hash
-index 833a7fbe37..01b2181d29 100644
+diff --git a/package/rpi-firmware/rpi-firmware.hash b/package/rpi-firmware/rpi-firmware.hash
+index 833a7fbe37..1511212beb 100644
 --- a/package/rpi-firmware/rpi-firmware.hash
 +++ b/package/rpi-firmware/rpi-firmware.hash
 @@ -1,2 +1,2 @@
