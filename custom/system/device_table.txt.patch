@@ -1,5 +1,5 @@
 diff --git a/system/device_table.txt b/system/device_table.txt
-index dc1af51..0701159 100644
+index dc1af51810..0701159dd8 100644
 --- a/system/device_table.txt
 +++ b/system/device_table.txt
 @@ -11,7 +11,8 @@
