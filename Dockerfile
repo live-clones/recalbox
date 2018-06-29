@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 MAINTAINER digitalLumberjack <digitallumberjack@recalbox.com>
 
 ENV TERM xterm
@@ -21,6 +21,9 @@ RUN locale-gen
 
 RUN mkdir -p /work
 WORKDIR /work
+
+# Clean host folder
+CMD rm -rf /share/host
 
 CMD echo ">>> Setting recalbox version to ${RECALBOX_VERSION_LABEL}" && echo "${RECALBOX_VERSION_LABEL}" > board/recalbox/fsoverlay/recalbox/recalbox.version && \
     echo ">>> Fetching and reseting buildroot submodule" && ( git submodule init; git submodule update; cd buildroot && git reset HEAD --hard && git clean -dfx ) && \
