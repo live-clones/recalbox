@@ -2,9 +2,11 @@ ff902ad0e0c002cec4a601b329893c76  linux/Config.in
 166f3ecd7e6708884b409a70390c59cf  package/bluez5_utils/bluez5_utils.hash
 c3de41854b6568a001ac6a5ad7738e48  package/bluez5_utils/bluez5_utils.mk
 c445390118f5d058dd372a8b2beb25a8  package/dropbear/S50dropbear
+cbcf4b57c4b9a88e4f3aecb3345d6549  package/e2fsprogs/e2fsprogs.hash
+29ff5e99121bd83c38dd91e5b18e685d  package/e2fsprogs/e2fsprogs.mk
+0ea7196dd64fe170cd98610fd9d7b237  package/eigen/eigen.mk
 6b31f620c36bb2d6c54cfaf71cc5a086  package/initscripts/init.d/rcK
 76f02a748149f1aa945aa418ea65b2bc  package/initscripts/init.d/rcS
-0ea7196dd64fe170cd98610fd9d7b237  package/eigen/eigen.mk
 45fbfa480f2e186cc00e6e0757db715a  package/kodi-jsonschemabuilder/kodi-jsonschemabuilder.mk
 a4d39a4b6d3276ed6ae05bddc201c634  package/kodi-texturepacker/kodi-texturepacker.mk
 f55011c0414fb07462f4f3d072162426  package/kodi/kodi.hash
