@@ -10,6 +10,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - ES: remove netplay popup to prevent some crash
 - Wifi: options were not saved with nfs cifs or configurations - fixed
 - Daphne: joystick improvements / bug corrections
+- N64 rice: fix blank screen
+- N64 GlideN64 and other plugins: also fix blank screen
 
 ## [18.06.27] - 2018-06-27
 - Adding introRecalboxEASports.mp4

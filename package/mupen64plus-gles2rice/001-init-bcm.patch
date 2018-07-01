@@ -1,0 +1,12 @@
+diff --git a/src/Config.cpp b/src/Config.cpp
+index 51a6985..0ddc84a 100755
+--- a/src/Config.cpp
++++ b/src/Config.cpp
+@@ -444,6 +444,7 @@ static void ReadConfiguration(void)
+     windowSetting.uDisplayHeight = ConfigGetParamInt(l_ConfigVideoGeneral, "ScreenHeight");
+     windowSetting.uDisplayWidth = ConfigGetParamInt(l_ConfigVideoGeneral, "ScreenWidth");
+ #ifdef VC
++	bcm_host_init();
+ 	if(windowSetting.bDisplayFullscreen==1)
+ 	{
+ 		if (graphics_get_display_size(0 /* LCD */, &g_fb_width, &g_fb_height) < 0)
