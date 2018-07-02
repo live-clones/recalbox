@@ -190,7 +190,9 @@ void GuiNetPlay::populateGrid()
 		for (auto v : mRooms) {
 			row.elements.clear();
 			std::string text, gameName;
-			if (v.second.get<std::string>("fields.core_name") == "FB Alpha")
+			if (v.second.get<std::string>("fields.core_name") == "FB Alpha" ||
+					v.second.get<std::string>("fields.core_name") == "MAME 2000" ||
+					v.second.get<std::string>("fields.core_name") == "MAME 2003")
             {
                 gameName = PlatformIds::getCleanMameName(v.second.get<std::string>("fields.game_name").c_str());
             }
