@@ -2,8 +2,14 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-
 ## [Unreleased]
+### Added
+- Mame roms fullname in Netplay GUI
+
+### Fixed
+- No game launch if core doesn't match
+
+## [18.06.27] - 2018-06-27
 ### Added
 - Refactored gamepad configuration panel
 - Update Emulator / Core selection process to avoid gui inception and to display default values
