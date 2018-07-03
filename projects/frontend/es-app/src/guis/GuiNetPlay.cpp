@@ -114,6 +114,10 @@ bool GuiNetPlay::parseLobby()
 		}
 
 		for (json::ptree::value_type &array_element : root) {
+		    if (array_element.second.get<bool>("fields.has_password"))
+            {
+                continue;
+            }
 			FileData* tmp = NULL;
 			if (array_element.second.get<std::string>("fields.game_crc") != "00000000") {
 				tmp = findGame(array_element.second.get<std::string>("fields.game_crc"));
