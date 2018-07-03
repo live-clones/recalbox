@@ -361,11 +361,11 @@ int main(int argc, char* argv[])
 	CommandThread* ct = new CommandThread(&window);
 
 
-	if (RecalboxConf::getInstance()->get("global.netplay") == "1") {
+	/*if (RecalboxConf::getInstance()->get("global.netplay") == "1") {
 		auto s = std::make_shared<GuiInfoPopup>(&window, "", 0, 20);
 		window.setInfoPopup(s);
 		NetPlayThread* np = new NetPlayThread(&window);
-	}
+	}*/
 
 
 	//run the command line scraper then quit

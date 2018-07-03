@@ -146,8 +146,13 @@ void Window::input(InputConfig* config, Input input)
 		// toggle TextComponent debug view with Ctrl-T
 		Settings::getInstance()->setBool("DebugText", !Settings::getInstance()->getBool("DebugText"));
 	}
-	else
-	{	
+	else if(peekGui())
+	{
+		this->peekGui()->input(config, input);
+	}
+
+	//else
+	//{
 
 		/*if(config->isMappedTo("PageDown", input) && input.value
 					&& ViewController::get()->isViewing(ViewController::SYSTEM_SELECT)
@@ -156,11 +161,11 @@ void Window::input(InputConfig* config, Input input)
 			auto s = std::make_shared<GuiInfoPopup>(this, "Controller:\n" + config->getDeviceName(), 2);
 			this->setInfoPopup(s);
 		}*/
-		if(peekGui() && !KonamiCode(config, input, this))
+	/*	if(peekGui() && !KonamiCode(config, input, this))
 		{
 			this->peekGui()->input(config, input);
 		}
-	}
+	}*/
 }
 
 void Window::update(int deltaTime)
