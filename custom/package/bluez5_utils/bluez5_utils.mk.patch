@@ -1,17 +1,17 @@
 diff --git a/package/bluez5_utils/bluez5_utils.mk b/package/bluez5_utils/bluez5_utils.mk
-index 57e9c264e1..e130ee09b1 100644
+index c608637687..f5be75175f 100644
 --- a/package/bluez5_utils/bluez5_utils.mk
 +++ b/package/bluez5_utils/bluez5_utils.mk
 @@ -4,7 +4,7 @@
  #
  ################################################################################
  
--BLUEZ5_UTILS_VERSION = 5.47
+-BLUEZ5_UTILS_VERSION = 5.48
 +BLUEZ5_UTILS_VERSION = 5.43
  BLUEZ5_UTILS_SOURCE = bluez-$(BLUEZ5_UTILS_VERSION).tar.xz
  BLUEZ5_UTILS_SITE = $(BR2_KERNEL_MIRROR)/linux/bluetooth
  BLUEZ5_UTILS_INSTALL_STAGING = YES
-@@ -120,4 +120,12 @@ define BLUEZ5_UTILS_INSTALL_INIT_SYSTEMD
+@@ -122,4 +122,12 @@ define BLUEZ5_UTILS_INSTALL_INIT_SYSTEMD
  		$(TARGET_DIR)/etc/systemd/system/dbus-org.bluez.service
  endef
  

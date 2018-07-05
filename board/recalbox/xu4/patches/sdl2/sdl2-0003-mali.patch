@@ -58,15 +58,15 @@ diff --git a/configure b/configure
 index 42d781f..db65b92 100755
 --- a/configure
 +++ b/configure
-@@ -832,7 +832,8 @@ enable_video_x11_xrandr
+@@ -844,7 +844,8 @@ enable_video_x11_xrandr
  enable_video_x11_scrnsaver
  enable_video_x11_xshape
  enable_video_x11_vm
  enable_video_vivante
 +enable_video_mali
  enable_video_cocoa
+ enable_render_metal
  enable_video_directfb
- enable_directfb_shared
 @@ -1560,7 +1561,8 @@ Optional Features:
    --enable-video-x11-xshape
                            enable X11 XShape support [[default=yes]]
@@ -74,8 +74,8 @@ index 42d781f..db65b92 100755
    --enable-video-vivante  use Vivante EGL video driver [[default=yes]]
 +  --enable-video-mali     use Mali EGL video driver [[default=yes]]
    --enable-video-cocoa    use Cocoa video driver [[default=yes]]
+   --enable-render-metal   enable the Metal render driver [[default=yes]]
    --enable-video-directfb use DirectFB video driver [[default=no]]
-   --enable-directfb-shared
 @@ -20477,6 +20479,56 @@ $as_echo "#define SDL_VIDEO_DRIVER_X11_XVIDMODE 1" >>confdefs.h
      fi
  }
@@ -248,16 +248,16 @@ diff --git a/src/video/SDL_video.c b/src/video/SDL_video.c
 index 7426e2f..e35c5b8 100644
 --- a/src/video/SDL_video.c
 +++ b/src/video/SDL_video.c
-@@ -85,6 +85,9 @@ static VideoBootStrap *bootstrap[] = {
- #endif
+@@ -103,6 +103,9 @@ static VideoBootStrap *bootstrap[] = {
  #if SDL_VIDEO_DRIVER_RPI
      &RPI_bootstrap,
-+#endif
+ #endif
 +#if SDL_VIDEO_DRIVER_MALI
 +    &MALI_bootstrap,
- #endif 
- #if SDL_VIDEO_DRIVER_WAYLAND
-     &Wayland_bootstrap,
++#endif
+ #if SDL_VIDEO_DRIVER_NACL
+     &NACL_bootstrap,
+ #endif
 diff --git a/src/video/mali-fbdev/SDL_maliopengles.c b/src/video/mali-fbdev/SDL_maliopengles.c
 new file mode 100644
 index 0000000..d64231a

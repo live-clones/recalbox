@@ -1,8 +1,8 @@
 diff --git a/package/omxplayer/omxplayer.mk b/package/omxplayer/omxplayer.mk
-index 9bb58778c2..1ae7ad71ae 100644
+index 6999269161..4857d7f0da 100644
 --- a/package/omxplayer/omxplayer.mk
 +++ b/package/omxplayer/omxplayer.mk
-@@ -40,7 +40,13 @@ define OMXPLAYER_BUILD_CMDS
+@@ -33,7 +33,13 @@ define OMXPLAYER_BUILD_CMDS
  endef
  
  define OMXPLAYER_INSTALL_TARGET_CMDS
