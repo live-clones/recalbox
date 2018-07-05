@@ -1,10 +1,10 @@
 diff --git a/package/e2fsprogs/e2fsprogs.hash b/package/e2fsprogs/e2fsprogs.hash
-index cd839fb680..60498db8e4 100644
+index 3def51f95b..60498db8e4 100644
 --- a/package/e2fsprogs/e2fsprogs.hash
 +++ b/package/e2fsprogs/e2fsprogs.hash
 @@ -1,5 +1,5 @@
--# From https://www.kernel.org/pub/linux/kernel/people/tytso/e2fsprogs/v1.43.7/sha256sums.asc
--sha256 2a6367289047d68d9ba6a46cf89ab9a1efd0556cde02a51ebaf414ff51edded9  e2fsprogs-1.43.7.tar.xz
+-# From https://www.kernel.org/pub/linux/kernel/people/tytso/e2fsprogs/v1.43.9/sha256sums.asc
+-sha256 926f8e8de1ffba55d791f21b71334e8a32b5227257ad370f2bf7e4396629e97f  e2fsprogs-1.43.9.tar.xz
 +# From https://www.kernel.org/pub/linux/kernel/people/tytso/e2fsprogs/v1.44.1/sha256sums.asc
 +sha256 0ca164c1c87724df904c918b2d7051ef989b51de725db66c67514dbe6dd2b9ef  e2fsprogs-1.44.1.tar.xz
  # Locally calculated
