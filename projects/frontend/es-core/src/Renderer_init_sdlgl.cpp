@@ -76,7 +76,7 @@ namespace Renderer
 		//set an icon for the window
 		size_t width = 0;
 		size_t height = 0;
-		std::vector<unsigned char> rawData = ImageIO::loadFromMemoryRGBA32(window_icon_256_png_data, window_icon_256_png_size, width, height);
+		std::vector<unsigned char> rawData = std::move(ImageIO::loadFromMemoryRGBA32(window_icon_256_png_data, window_icon_256_png_size, width, height));
 		if (!rawData.empty())
 		{
 			ImageIO::flipPixelsVert(rawData.data(), width, height);

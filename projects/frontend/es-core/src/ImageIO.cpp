@@ -21,7 +21,6 @@ std::vector<unsigned char> ImageIO::loadFromMemoryRGBA32(const unsigned char * d
 			if (fiBitmap != nullptr)
 			{
 				//loaded. convert to 32bit if necessary
-				FIBITMAP * fiConverted = nullptr;
 				if (FreeImage_GetBPP(fiBitmap) != 32)
 				{
 					FIBITMAP * fiConverted = FreeImage_ConvertTo32Bits(fiBitmap);
@@ -36,11 +35,11 @@ std::vector<unsigned char> ImageIO::loadFromMemoryRGBA32(const unsigned char * d
 				{
 					width = FreeImage_GetWidth(fiBitmap);
 					height = FreeImage_GetHeight(fiBitmap);
-					unsigned int pitch = FreeImage_GetPitch(fiBitmap);
 					//loop through scanlines and add all pixel data to the return vector
 					//this is necessary, because width*height*bpp might not be == pitch
-					unsigned char * tempData = new unsigned char[width * height * 4];
-					for (size_t i = 0; i < height; i++)
+					rawData.resize(width * height *4);
+					unsigned char* tempData = rawData.data();
+					for (int i = (int)height; --i >= 0; )
 					{
 						const BYTE * scanLine = FreeImage_GetScanLine(fiBitmap, i);
 						memcpy(tempData + (i * width * 4), scanLine, width * 4);
@@ -56,10 +55,8 @@ std::vector<unsigned char> ImageIO::loadFromMemoryRGBA32(const unsigned char * d
 						rgba.rgbReserved = bgra.rgbReserved;
 						((RGBQUAD *)tempData)[i] = rgba;
 					}
-					rawData = std::vector<unsigned char>(tempData, tempData + width * height * 4);
 					//free bitmap data
 					FreeImage_Unload(fiBitmap);
-					delete[] tempData;
 				}
 			}
 			else
@@ -74,7 +71,7 @@ std::vector<unsigned char> ImageIO::loadFromMemoryRGBA32(const unsigned char * d
 		//free FIMEMORY again
 		FreeImage_CloseMemory(fiMemory);
 	}
-	return rawData;
+	return std::move(rawData);
 }
 
 void ImageIO::flipPixelsVert(unsigned char* imagePx, const size_t& width, const size_t& height)
