@@ -1,0 +1,12 @@
+diff --git a/src/node_crypto.cc b/src/node_crypto.cc
+index 685e7bb..a5fc3af 100644
+--- a/src/node_crypto.cc
++++ b/src/node_crypto.cc
+@@ -42,6 +42,7 @@
+ #include <stdlib.h>
+ #include <string.h>
+ #include <vector>
++#include <cmath>
+ 
+ #define THROW_AND_RETURN_IF_NOT_STRING_OR_BUFFER(val, prefix)                  \
+   do {                                                                         \
