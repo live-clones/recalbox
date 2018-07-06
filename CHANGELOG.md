@@ -4,7 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Bump desmume to desmume2015
 - fix: SELECT as hotkey sometimes messy with arcade
-- ES: Arcade roms fullbame in Netplay GUID
+- ES: Arcade roms fullname in Netplay GUID
 - ES: No game launch if core doesn't match
 - ES: Game not listed in lobby if password protected
 - ES: remove netplay popup to prevent some crash
