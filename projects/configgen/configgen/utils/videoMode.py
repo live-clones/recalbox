@@ -130,3 +130,26 @@ def autoMode(expectedMode=None):
     else :
         recallog("auto mode -> CEA 4 HDMI/DVI not supported, fallback to default")
         return "default"
+
+# Return the current resolution
+def getCurrentResulution():
+    # This is really dirty, I must admit ...
+    # Call tvservice -s
+    proc = subprocess.Popen(["tvservice -s"], stdout=subprocess.PIPE, shell=True)
+    (out, err) = proc.communicate()
+    #print "program output:", out
+    # If it's a calid json : we're not on pi, so we have the current resolution
+    try:
+	tvmodes = json.loads(out)
+	return tvmodes[0]["width"], tvmodes[0]["height"]
+    except ValueError, e:
+	regex = r".*\[([A-Z]{3,4}) ?(.*[^0-9:]?) ?([0-9]{1,2})?:?([0-9]{1,2})?\], ([0-9]{3,4})x([0-9]{3,4}) @ ([0-9.]{1,6})Hz, (progressive|interlaced).*"
+
+	matches = re.match(regex, out)
+	if not matches: 
+	    # We should log the out var and log that it doesn't match any known pattern
+	    recallog('auto mode -> had to set default')
+	    return "0", "0"
+	    drive, details, wRatio, hRatio, width, height, refreshRate, progressiveOrInterlace = matches.groups()
+	    return width, height
+    # else we're on pi, use parse another way the output

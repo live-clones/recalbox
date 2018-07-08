@@ -5,6 +5,7 @@ import settings
 from settings.unixSettings import UnixSettings
 import subprocess
 import json
+from configgen.utils.videoMode import *
 
 mupenSettings = UnixSettings(recalboxFiles.mupenCustom, separator=' ')
 
@@ -15,12 +16,11 @@ GLideN64NativeResolution_blacklist = ["majora"]
 def writeMupenConfig(system, controllers, rom):
 	setPaths()
 	writeHotKeyConfig(controllers)
-	# ~ if system.config['videomode'] != 'default':
-		# ~ group, mode, drive = system.config['videomode'].split()
-		# ~ setRealResolution(group, mode, drive)
-	mupenSettings.save('Fullscreen', "True")
-	mupenSettings.save('ScreenWidth', "")
-	mupenSettings.save('ScreenHeight', "")
+	if system.config['videomode'] != 'default':
+	        setRealResolution(system.config['videomode'].strip())
+	# ~ mupenSettings.save('Fullscreen', "True")
+	# ~ mupenSettings.save('ScreenWidth', "")
+	# ~ mupenSettings.save('ScreenHeight', "")
 
 	#Draw or not FPS
 	if system.config['showFPS'] == 'true':
@@ -90,16 +90,23 @@ def createButtonCode(button):
 		return 'H'+button.id+'V'+button.value
 
 
-def setRealResolution(group, mode, drive):
-	# Use tvservice to get the real resolution
-	groups = ['CEA', 'DMT']
-	if group not in groups:
-		sys.exit("{} is an unknown group. Can't switch to {} {} {}".format(group, group, mode, drive))
+def setRealResolution(videoConfig):
+	if videoConfig == "auto":
+	    videoSetting = autoMode()
+	elif "auto" in videoConfig:
+	    realSetting = videoConfig.split(' ', 1)[1]
+	    videoSetting = autoMode(realSetting)
+	else:
+	    videoSetting = videoConfig
+	print videoSetting
+	if videoSetting == "default":
+	    wdith, height = getCurrentResulution()
+	    mupenSettings.save('ScreenWidth', "{}".format("width"))
+	    mupenSettings.save('ScreenHeight', "{}".format("height"))
+	    return
+	
+	group, mode, drive = videoSetting.split(' ')
 
-	drives = ['HDMI', 'DVI']
-	if drive not in drives:
-		sys.exit("{} is an unknown drive. Can't switch to {} {} {}".format(drive, group, mode, drive))
-		
 	proc = subprocess.Popen(["tvservice -j -m {}".format(group)], stdout=subprocess.PIPE, shell=True)
 	(out, err) = proc.communicate()
 	#print "program output:", out
