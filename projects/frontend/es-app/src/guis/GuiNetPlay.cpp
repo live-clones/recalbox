@@ -182,7 +182,7 @@ void GuiNetPlay::populateGrid()
 		mGridMetaRight->setEntry(mMetaTextLblHostArch, Vector2i(0, 8), false, true);
 		mGridMetaRight->setEntry(mMetaTextHostArch, Vector2i(1, 8), false, true);
 		mMetaTextLblCanJoin = std::make_shared<TextComponent>(mWindow, "    " +  _("Can join") + " : ", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, ALIGN_LEFT);
-		mMetaTextCanJoin = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuText.font, mMenuTheme->menuText.color, ALIGN_LEFT);
+		mMetaTextCanJoin = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, ALIGN_LEFT);
 		mGridMetaRight->setEntry(mMetaTextLblCanJoin, Vector2i(0, 10), false, true);
 		mGridMetaRight->setEntry(mMetaTextCanJoin, Vector2i(1, 10), false, true);
 		mGridMeta->setEntry(mGridMetaRight, Vector2i(1, 0), false, true, Eigen::Vector2i(1, 1), GridFlags::BORDER_LEFT);
@@ -458,7 +458,7 @@ bool GuiNetPlay::input(InputConfig* config, Input input)
 void GuiNetPlay::updateSize()
 {
 	const float height = Renderer::getScreenHeight() * 0.7f;
-	const float width = Renderer::getScreenWidth() * 0.8f;
+	const float width = Renderer::getScreenWidth() * 0.9f;
 	setSize(width, height);
 }
 
