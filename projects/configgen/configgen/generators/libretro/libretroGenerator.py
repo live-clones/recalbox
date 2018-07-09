@@ -81,7 +81,6 @@ class LibretroGenerator(Generator):
 	    port = system.config.get('netplay_port', "55435")
 	    commandArray.extend(["--port", port])
 	    nick = system.config['netplay_nickname'] if system.config['netplay_nickname'] else "Anonymous"
-	    nick += "@RECALBOX"
 	    commandArray.extend(["--nick", nick])
 
         # Optionnal arguments
