@@ -265,7 +265,15 @@ void GuiNetPlay::populateGridMeta(int i)
 	coreMatch = CoreInfo.first != "";
 
     std::string username = mRooms[i].second.get<std::string>("fields.username", "N/A");
-    username = std::regex_replace(username, std::regex("@RECALBOX"), " \uF200");
+
+    if (std::regex_search(username, std::regex("@RECALBOX")))
+    {
+        username = std::regex_replace(username, std::regex("@RECALBOX"), " \uF200");
+    }
+    else if (std::regex_search(mRooms[i].second.get<std::string>("fields.frontend"), std::regex("@RECALBOX")))
+    {
+        username = username + " \uF200";
+    }
 
     mMetaTextUsername->setText(username);
     mMetaTextCountry->setText(mRooms[i].second.get<std::string>("fields.country", "N/A"));
