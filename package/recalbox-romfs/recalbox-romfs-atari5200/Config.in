@@ -4,3 +4,4 @@ config BR2_PACKAGE_RECALBOX_ROMFS_ATARI5200
         depends on BR2_PACKAGE_LIBRETRO_ATARI800
         help
           share_init/roms and xml for Atari 5200
+          
