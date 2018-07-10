@@ -1194,15 +1194,7 @@ void GuiMenu::menuNetworkSettings(){
 				else
 					mWindow->pushGui(new GuiTextEditPopup(mWindow, "", "", updateValue, false));
 			});
-			row.makeHelpInputHandler([this] {
-				mWindow->pushGui(new GuiMsgBoxScroll(
-						mWindow, _("MANUAL INPUT"),
-						MenuMessages::NETWORK_MANUAL_INPUT_HELP_MSG,
-						_("OK"),
-						[] {}, "", nullptr, "", nullptr, ALIGN_LEFT));
-				return true;
-			});
-			SSID->addRow(row);
+			SSID->addRowWithHelp(row, _("MANUAL INPUT"), MenuMessages::NETWORK_MANUAL_INPUT_HELP_MSG);
 			if (enable_wifi->getState()) {
 				std::vector<std::string> availableSSID = RecalboxSystem::getInstance()->getAvailableWiFiSSID(baseEnabled);
 				RecalboxConf::getInstance()->set("wifi.enabled", "1");
@@ -1232,14 +1224,8 @@ void GuiMenu::menuNetworkSettings(){
 			}
 			mWindow->pushGui(SSID);
 		});
-
-		if (help != "") {
-			row.makeHelpInputHandler([this, help, title] {
-				mWindow->pushGui(new GuiMsgBoxScroll(mWindow, title, help.c_str(), _("OK"), [] {}, "", nullptr, "", nullptr, ALIGN_LEFT));
-				return true;
-			});
-		}
-		gui->addRow(row);
+		
+		gui->addRowWithHelp(row, title, help);
 	};
 	WifiSSID(s, _("WIFI SSID"), baseSSID, _(MenuMessages::NETWORK_SSID_HELP_MSG));
 

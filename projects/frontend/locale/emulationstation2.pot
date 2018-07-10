@@ -1822,3 +1822,7 @@ msgstr ""
 #:
 msgid "A Recalbox friend has started a Netplay game!"
 msgstr ""
+
+#:
+msgid "Add a clock in the main menu."
+msgstr ""
