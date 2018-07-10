@@ -59,9 +59,22 @@ function doModulesUpdate() {
 function doBootUpgrade() {
     # Upgrade /boot (can't be done partially because of dtb and such)
     mount -o remount, rw /boot
+    BOOTFILES="cmdline.txt config.txt recalbox-boot.conf"
+    
+    # backup files to keep
+    for BOOTFILE in ${BOOTFILES} ; do
+	[[ -e "/boot/${BOOTFILE}" ]] && cp "/boot/${BOOTFILE}" "/boot/${BOOTFILE}.upgrade" | recallog -f preupgrade.log
+    done
+    
     echoES "UPGRADING: /BOOT..."
     (cd /boot && tar xf "${UPGRADE_DIR}/boot.tar.xz" --no-same-owner)
     [ $? -ne 0 ] && echoerr "Failed upgrading /boot" && cleanBeforeExit 10
+    
+    # restore backup files
+    for BOOTFILE in ${BOOTFILES} ; do
+	[[ -e "/boot/${BOOTFILE}.upgrade" ]] && mv "/boot/${BOOTFILE}.upgrade" "/boot/${BOOTFILE}"  | recallog -f preupgrade.log
+    done
+    
     mount -o remount, ro /boot
     echoerr "/boot successfully upgraded!"
     return 0
@@ -70,19 +83,12 @@ function doBootUpgrade() {
 doModulesUpdate
 [ $? -ne 0 ] && echoerr "Aborting upgrade" && cleanBeforeExit 10
 
-BOOTFILES="cmdline.txt config.txt recalbox-boot.conf"
-# backup files to keep
-for BOOTFILE in ${BOOTFILES} ; do
-    [[ -e "/boot/${BOOTFILE}" ]] && cp "/boot/${BOOTFILE}" "/boot/${BOOTFILE}.upgrade" | recallog -f preupgrade.log
-done
+
 
 doBootUpgrade
 [ $? -ne 0 ] && echoerr "Aborting upgrade" && cleanBeforeExit 10
 
-# revert backup files
-for BOOTFILE in ${BOOTFILES} ; do
-    [[ -e "/boot/${BOOTFILE}.upgrade" ]] && mv "/boot/${BOOTFILE}.upgrade" "/boot/${BOOTFILE}"  | recallog -f preupgrade.log
-done
+
 
 
 exit 0

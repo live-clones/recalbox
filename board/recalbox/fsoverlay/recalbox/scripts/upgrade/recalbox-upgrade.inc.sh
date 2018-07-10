@@ -20,5 +20,7 @@ function echoerr {
 }
 
 function echoES() {
-    echo -ne "\e[2K\r$@"
+    # move cursor up, erase till the end of the line
+    echo -ne "\e[1A\e[K"
+    echo "$@"
 }
