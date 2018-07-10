@@ -1,0 +1,13 @@
+diff --git a/network/netplay/netplay_frontend.c b/network/netplay/netplay_frontend.c
+index bef3cbbc4b..1fcd0869db 100644
+--- a/network/netplay/netplay_frontend.c
++++ b/network/netplay/netplay_frontend.c
+@@ -748,7 +748,7 @@ void netplay_get_architecture(char *frontend_architecture, size_t size)
+                sizeof(architecture));
+          break;
+    }
+-   snprintf(frontend_architecture, size, "%s %s", frontend->ident, architecture);
++   snprintf(frontend_architecture, size, "%s %s@RECALBOX", frontend->ident, architecture);
+ }
+ 
+ static void netplay_announce(void)
