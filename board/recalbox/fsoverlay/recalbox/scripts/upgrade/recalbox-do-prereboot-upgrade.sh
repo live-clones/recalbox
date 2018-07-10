@@ -70,7 +70,19 @@ function doBootUpgrade() {
 doModulesUpdate
 [ $? -ne 0 ] && echoerr "Aborting upgrade" && cleanBeforeExit 10
 
+BOOTFILES="cmdline.txt config.txt recalbox-boot.conf"
+# backup files to keep
+for BOOTFILE in ${BOOTFILES} ; do
+    [[ -e "/boot/${BOOTFILE}" ]] && cp "/boot/${BOOTFILE}" "/boot/${BOOTFILE}.upgrade" | recallog -f preupgrade.log
+done
+
 doBootUpgrade
 [ $? -ne 0 ] && echoerr "Aborting upgrade" && cleanBeforeExit 10
+
+# revert backup files
+for BOOTFILE in ${BOOTFILES} ; do
+    [[ -e "/boot/${BOOTFILE}.upgrade" ]] && mv "/boot/${BOOTFILE}.upgrade" "/boot/${BOOTFILE}"  | recallog -f preupgrade.log
+done
+
 
 exit 0
