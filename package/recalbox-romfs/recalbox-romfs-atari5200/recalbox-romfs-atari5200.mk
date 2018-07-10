@@ -59,4 +59,3 @@ endef
 
 $(eval $(generic-package))
 
-
