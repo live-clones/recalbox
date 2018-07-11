@@ -71,7 +71,7 @@ std::pair<std::string, int> RecalboxUpgrade::updateSystem(BusyComponent* ui) {
     while (fgets(line, 1024, pipe)) {
         strtok(line, "\n");
         std::string output = line;
-        boost::replace_all(output, "\e[1A", "");
+        boost::replace_all(output, "\e[1A\e[K", "");
 		if (output.find(':') != std::string::npos) {
 
 			int p1 = output.find(":");
