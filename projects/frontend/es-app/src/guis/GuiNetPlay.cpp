@@ -265,14 +265,16 @@ void GuiNetPlay::populateGridMeta(int i)
 	coreMatch = CoreInfo.first != "";
 
     std::string username = mRooms[i].second.get<std::string>("fields.username", "N/A");
+	std::string frontend = mRooms[i].second.get<std::string>("fields.frontend");
 
     if (std::regex_search(username, std::regex("@RECALBOX")))
     {
         username = std::regex_replace(username, std::regex("@RECALBOX"), " \uF200");
     }
-    else if (std::regex_search(mRooms[i].second.get<std::string>("fields.frontend"), std::regex("@RECALBOX")))
+    else if (std::regex_search(frontend, std::regex("@RECALBOX")))
     {
         username = username + " \uF200";
+		frontend = std::regex_replace(frontend, std::regex("@RECALBOX"), "");
     }
 
     mMetaTextUsername->setText(username);
@@ -299,7 +301,7 @@ void GuiNetPlay::populateGridMeta(int i)
 	}
     mMetaTextLatency->setText(mPings[i]);
     mMetaTextRAVer->setText(mRooms[i].second.get<std::string>("fields.retroarch_version", "N/A"));
-    mMetaTextHostArch->setText(mRooms[i].second.get<std::string>("fields.frontend", "N/A"));
+    mMetaTextHostArch->setText(frontend);
 	if (mGames[i]) {
 		if (hashMatch && coreMatch) {
             mMetaTextCanJoin->setText("\uf1c0 " + _("Rom, hash and core match"));
