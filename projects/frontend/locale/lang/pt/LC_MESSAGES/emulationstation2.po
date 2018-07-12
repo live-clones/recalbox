@@ -492,9 +492,10 @@ msgstr "DESLIGAR SISTEMA"
 msgid "Emulator"
 msgstr "Emulador"
 
+#. "Núcleo de emulação" is way to big and it's being cropped at some places(specially netplay). Maybe only "Núcleo" or "Emulador" should be better...
 #: 
 msgid "Core"
-msgstr "Núcleo de emulação"
+msgstr "Núcleo"
 
 #: 
 msgid "YOU ARE GOING TO CONFIGURE A CONTROLLER. IF YOU HAVE ONLY ONE JOYSTICK, CONFIGURE THE DIRECTIONS KEYS AND SKIP JOYSTICK CONFIG BY HOLDING A BUTTON. IF YOU DO NOT HAVE A SPECIAL KEY FOR HOTKEY, CHOOSE THE SELECT BUTTON. SKIP ALL BUTTONS YOU DO NOT HAVE BY HOLDING A KEY. BUTTONS NAMES ARE BASED ON THE SNES CONTROLLER."
@@ -1607,9 +1608,10 @@ msgstr "ALTERAÇÕES DA ATUALIZAÇÃO"
 msgid "CLOCK IN MENU"
 msgstr "Relógio no Menu"
 
+#. No contexto, é sobre a música que está sendo tocada no Recalbox, logo ou é tocando agora ou reproduzindo agora.
 #: 
 msgid "Now playing"
-msgstr "Jogando agora"
+msgstr "Tocando agora"
 
 #: 
 msgid "DEFAULT (%1%)"
@@ -1629,7 +1631,7 @@ msgstr "CIMA/BAIXO PARA PULAR"
 
 #: 
 msgid "A TO UNSET"
-msgstr ""
+msgstr "A PARA DESMARCAR"
 
 #: 
 msgid "DOWN TO SKIP AND KEEP [%1%]"
@@ -1737,11 +1739,11 @@ msgstr "NENHUM JOGO OU CONEXÃO"
 
 #: 
 msgid "HASH NOW"
-msgstr ""
+msgstr "FAÇA HASH AGORA"
 
 #: 
 msgid "HASH THESE SYSTEMS"
-msgstr ""
+msgstr "FAÇA HASH NESTES SISTEMAS"
 
 #: 
 msgid "Add hash of roms in your gamelists to have more accurate results in Netplay."
@@ -1749,7 +1751,7 @@ msgstr "Adicionar hash das roms na sua lista de jogos para ter resultados mais p
 
 #: 
 msgid "HASH ROMS"
-msgstr ""
+msgstr "FAÇA HASH DAS ROMS"
 
 #: 
 msgid "Only missing hashs"
@@ -1769,7 +1771,7 @@ msgstr "Latência"
 
 #: 
 msgid "Host arch."
-msgstr ""
+msgstr "Arquitetura do servidor."
 
 #: 
 msgid "Core ver."
@@ -1777,15 +1779,16 @@ msgstr "Versão do núcleo."
 
 #: 
 msgid "RA ver."
-msgstr ""
+msgstr "Retroarch ver."
 
 #: 
 msgid "Can join"
-msgstr ""
+msgstr "Pode ingressar"
 
+#. Aqui, acho que colocar "Núcleo e rom batem" fica muito informal, e "Núcleo e rom coincidem" fica muito grande para caber no diálogo em questão...
 #: 
 msgid "Rom and core match"
-msgstr ""
+msgstr "Núcleo e rom OK"
 
 #: 
 msgid "Rom found"
@@ -1793,15 +1796,15 @@ msgstr "Rom encontrada"
 
 #: 
 msgid "No rom match"
-msgstr ""
+msgstr "Nenhuma rom coincide"
 
 #: 
 msgid "Match"
-msgstr ""
+msgstr "Ok"
 
 #: 
 msgid "No Match"
-msgstr "Nenhuma Partida"
+msgstr "Não OK"
 
 #: 
 msgid "Rom file"
@@ -1850,4 +1853,16 @@ msgstr "Um amigo do Recalbox iniciou um jogo em rede!"
 #: 
 msgid "Play online on games running through Retroarch like NES, SNES, FBA, Genesis/Megadrive and more!"
 msgstr "Jogar online em jogos rodando através do Retroarch como NES, SNES, FBA, Genesis/Megadrive e mais!"
+
+#: 
+msgid "Rom, hash and core match"
+msgstr "Rom, hash e núcleo OK"
+
+#: 
+msgid "No core match"
+msgstr "Nenhum núcleo coincide"
+
+#: 
+msgid "Add a clock in the main menu."
+msgstr "Adicionar relógio no menu"
 
