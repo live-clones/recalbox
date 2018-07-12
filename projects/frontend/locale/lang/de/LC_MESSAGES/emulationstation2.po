@@ -1326,7 +1326,7 @@ msgstr "Basis-Spielliste anzeigen, sogar wenn du gescrapte Spiele hast."
 
 #: 
 msgid "Override global options like emulator, core, ratio and more for each available system in your recalbox."
-msgstr "Überschreibe globale Opitionen wie Emulator, Core, Ratio und mehr für jedes verfügbare System in deiner recalbox."
+msgstr "Überschreibe globale Optionen wie Emulator, Core, Ratio und mehr für jedes verfügbare System in deiner recalbox."
 
 #: 
 msgid "Configure boot options that make your recalbox boot straight into a system or into Kodi, lock a user to a single system, or directly show the gamelist."
@@ -1845,5 +1845,17 @@ msgstr "Ein Recalbox-Freund hat ein Netplay-Spiel gestartet!"
 
 #: 
 msgid "Play online on games running through Retroarch like NES, SNES, FBA, Genesis/Megadrive and more!"
-msgstr "Spiele online mit Spielen die durch Retroarch laufen, wie NES, SNES, FBA, MEGADRIVE und mehr!"
+msgstr "Spiele online Spiele, die durch Retroarch laufen, wie NES, SNES, FBA, MEGADRIVE und mehr!"
+
+#: 
+msgid "Rom, hash and core match"
+msgstr "Rom, Hashwert und Core Übereinstimmung"
+
+#: 
+msgid "No core match"
+msgstr "Keine Core Übereinstimmung"
+
+#: 
+msgid "Add a clock in the main menu."
+msgstr "Uhr im Hauptmenü hinzufügen."
 
