@@ -120,6 +120,8 @@ for file in ${FILES_TO_UPGRADE}; do
   echoerr "${FILE_URL} downloaded"
 done
 
+kill -9 "${progressionPid}" > /dev/null 2>&1
+
 # Verify checksums
 for file in $FILES_TO_CHECK; do
   echoES "VERIFYING: $file CHECKSUM"
@@ -136,7 +138,6 @@ for file in $FILES_TO_CHECK; do
   echoerr "${file} checksum verified"
 done
 
-kill -9 "${progressionPid}" > /dev/null 2>&1
 /recalbox/scripts/upgrade/recalbox-do-prereboot-upgrade.sh --upgrade-dir "$UPGRADE_DIR"
 if [ $? -ne 0 ];then
   echoerr "Failed upgrading /boot and /lib/modules"

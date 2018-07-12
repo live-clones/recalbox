@@ -83,12 +83,7 @@ function doBootUpgrade() {
 doModulesUpdate
 [ $? -ne 0 ] && echoerr "Aborting upgrade" && cleanBeforeExit 10
 
-
-
 doBootUpgrade
 [ $? -ne 0 ] && echoerr "Aborting upgrade" && cleanBeforeExit 10
-
-
-
 
 exit 0
