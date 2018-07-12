@@ -1876,3 +1876,15 @@ msgstr "Друг по Recalbox запустил сетевую игру!"
 msgid "Play online on games running through Retroarch like NES, SNES, FBA, Genesis/Megadrive and more!"
 msgstr "Онлайн-игра "
 
+#: 
+msgid "Rom, hash and core match"
+msgstr ""
+
+#: 
+msgid "No core match"
+msgstr ""
+
+#: 
+msgid "Add a clock in the main menu."
+msgstr ""
+
