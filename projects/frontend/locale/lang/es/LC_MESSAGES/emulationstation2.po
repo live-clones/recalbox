@@ -1744,7 +1744,7 @@ msgstr "SERVIDOR DE RETRANSMISIÓN"
 
 #: 
 msgid "Enable or disable connections throught relay servers."
-msgstr "Habilitar o deshabilitar las conexiones a través de los servidores de retransmisión"
+msgstr "Habilitar o deshabilitar conexiones mediante servidores de retransmisión"
 
 #: 
 msgid "KODI/NETPLAY"
@@ -1752,7 +1752,7 @@ msgstr "KODI/NETPLAY"
 
 #: 
 msgid "NO GAMES OR NO CONNECTION"
-msgstr "Sin juegos o sin conexión"
+msgstr "SIN JUEGOS O SIN CONEXIÓN"
 
 #: 
 msgid "HASH NOW"
@@ -1764,7 +1764,7 @@ msgstr "CALCULAR HASH PARA ESTOS SISTEMAS"
 
 #: 
 msgid "Add hash of roms in your gamelists to have more accurate results in Netplay."
-msgstr "Agregar el hash de los roms a las listas de juegos para obtener resultados más precisos en Netplay"
+msgstr "Agregar hash de roms a listas de juegos para obtener resultados más precisos en Netplay."
 
 #: 
 msgid "HASH ROMS"
@@ -1772,7 +1772,7 @@ msgstr "CALCULAR HASH DE ROMS"
 
 #: 
 msgid "Only missing hashs"
-msgstr "Solo valores hash faltantes"
+msgstr "Solo hash faltantes"
 
 #: 
 msgid "Username"
@@ -1828,7 +1828,7 @@ msgstr "Archivo rom"
 
 #: 
 msgid "Rom hash"
-msgstr "Valor hash del rom"
+msgstr "Hash del rom"
 
 #: 
 msgid "THIS COULD TAKE A WHILE, CONFIRM?"
@@ -1848,11 +1848,11 @@ msgstr "medio"
 
 #: 
 msgid "NETPLAY POPUP DURATION"
-msgstr "DURACIÓN POPUPS DE NETPLAY"
+msgstr "DURACIÓN POPUPS PARA NETPLAY"
 
 #: 
 msgid "Set duration of netplay popups, 0 means no popup."
-msgstr "Establecer duración de popups de netplay, 0 significa sin popups"
+msgstr "Duración de popups para Netplay, 0 significa sin popups"
 
 #: 
 msgid "Player"
@@ -1864,9 +1864,21 @@ msgstr "Juego"
 
 #: 
 msgid "A Recalbox friend has started a Netplay game!"
-msgstr "!Un amigo de Recalbox ha iniciado un juego en línea!"
+msgstr "!Un amigo de Recalbox ha iniciado un juego en Netplay!"
 
 #: 
 msgid "Play online on games running through Retroarch like NES, SNES, FBA, Genesis/Megadrive and more!"
-msgstr "¡Juega en línea en juegos que funcionan con Retroarch como NES, SNES, FBA, Genesis/Megadrive y más!"
+msgstr "¡Juega en línea en juegos que funcionan con RetroArch como NES, SNES, FBA, Genesis/Megadrive y más!"
+
+#: 
+msgid "Rom, hash and core match"
+msgstr "Rom, hash y núcleo coincidente"
+
+#: 
+msgid "No core match"
+msgstr "Núcleo sin coincidencia"
+
+#: 
+msgid "Add a clock in the main menu."
+msgstr ""
 
