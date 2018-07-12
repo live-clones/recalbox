@@ -1501,7 +1501,7 @@ msgstr "MOTYW MENU"
 
 #: 
 msgid "THEME SYSTEMVIEW"
-msgstr ""
+msgstr "Motyw ekranu wyboru systemów"
 
 #: 
 msgid "THEME GAMELISTVIEW"
@@ -1509,7 +1509,7 @@ msgstr ""
 
 #: 
 msgid "THEME REGION"
-msgstr ""
+msgstr "Region motywu"
 
 #: 
 msgid "THIS THEME HAS NO OPTION"
@@ -1577,7 +1577,7 @@ msgstr ""
 
 #: 
 msgid "Type the name of your SSID if it is hidden or not listed"
-msgstr ""
+msgstr "Wprowadź identyfikator SSID twojej sieci jeżeli jest ona ukryta lub się nie pojawiła na ekranie"
 
 #: 
 msgid "Select a letter and the listing will go directly on the first game starting with this letter."
@@ -1601,7 +1601,7 @@ msgstr ""
 
 #: 
 msgid "AVAILABLE UPDATE"
-msgstr ""
+msgstr "Dostępna aktualizacja"
 
 #: 
 msgid "UPDATE CHANGELOG"
@@ -1625,7 +1625,7 @@ msgstr ""
 
 #: 
 msgid "(skipped)"
-msgstr ""
+msgstr "(pomiń)"
 
 #: 
 msgid "UP/DOWN TO SKIP"
@@ -1853,5 +1853,17 @@ msgstr ""
 
 #: 
 msgid "Play online on games running through Retroarch like NES, SNES, FBA, Genesis/Megadrive and more!"
+msgstr ""
+
+#: 
+msgid "Rom, hash and core match"
+msgstr ""
+
+#: 
+msgid "No core match"
+msgstr ""
+
+#: 
+msgid "Add a clock in the main menu."
 msgstr ""
 
