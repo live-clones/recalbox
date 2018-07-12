@@ -1610,7 +1610,7 @@ msgstr "DÉFAUT (%1%)"
 
 #: 
 msgid "INPUT REQUIRED"
-msgstr "ENTRÉE NÉCÉSSAIRE"
+msgstr "ENTRÉE NÉCESSAIRE"
 
 #: 
 msgid "(skipped)"
@@ -1843,4 +1843,16 @@ msgstr "Un ami Recalbox a démarré une partie Netplay!"
 #: 
 msgid "Play online on games running through Retroarch like NES, SNES, FBA, Genesis/Megadrive and more!"
 msgstr "Jouez en ligne à des jeux tournant sous Retroarch comme NES, SNES, FBA, Megadrive et bien plus!"
+
+#: 
+msgid "Rom, hash and core match"
+msgstr "Corres. rom, hash et core"
+
+#: 
+msgid "No core match"
+msgstr "Pas de corres. du core"
+
+#: 
+msgid "Add a clock in the main menu."
+msgstr "Ajouter une horloge dans le menu principal"
 
