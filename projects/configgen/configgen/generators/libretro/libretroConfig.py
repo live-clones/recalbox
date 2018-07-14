@@ -106,6 +106,10 @@ def createLibretroConfig(system, controllers):
     if len(controllers) > 2 and system.config['core'] == 'snes9x_next':
         retroarchConfig['input_libretro_device_p2'] = '257'
 
+    if system.config['core'] == 'atari800':
+        retroarchConfig['input_libretro_device_p1'] = '513'
+        retroarchConfig['input_libretro_device_p2'] = '513'
+
     retroarchConfig['cheevos_enable'] = 'false'
     retroarchConfig['cheevos_hardcore_mode_enable'] = 'false'
 
