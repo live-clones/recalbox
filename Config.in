@@ -132,6 +132,7 @@ menu "Libretro Cores"
         source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-px68k/Config.in"
         source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-4do/Config.in"
         source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-theodore/Config.in"
+	source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-atari800/Config.in"
 endmenu
 endif
 menu "Doom packages"

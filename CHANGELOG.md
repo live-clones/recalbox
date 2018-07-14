@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [unreleased]
+- add Atari 800 core
+- add Atari 5200 System
+
 ## [18.07.13] - 2018-07-13
 - Bump desmume to desmume2015
 - fix: SELECT as hotkey sometimes messy with arcade
