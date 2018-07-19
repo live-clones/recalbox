@@ -6,17 +6,51 @@
 #define EMULATIONSTATION_ALL_NETPLAYTHREAD_H
 
 #include <Window.h>
+#include <guis/GuiInfoPopup.h>
 #include <boost/thread/thread.hpp>
 
-class NetPlayThread {
-public:
-	NetPlayThread(Window* window);
-	~NetPlayThread();
-	void run();
-private:
-	Window* mWindow;
-	bool mRunning;
-	boost::thread* mThreadHandle;
+class NetPlayThread
+{
+  public:
+    NetPlayThread(Window* window, int event);
+
+    ~NetPlayThread();
+
+    /*!
+     * Start the thread. Initialize the thread handle and set the running glaf to true
+     */
+    void Start();
+    /*!
+     * Stop the thread & wait till it's actually stopped. Reset the running flag
+     */
+    void Stop();
+
+    /*!
+     * Called from the main thread to get the popup to display
+     */
+    std::shared_ptr<GuiInfoPopup> GetLastPopup();
+
+  private:
+    //! Attached wndow
+    Window* mWindow;
+
+    //! Running flag. True when Start() is called
+    bool mRunning;
+
+    //! Thread handle. Null until Start() is called
+    boost::thread* mThreadHandle;
+
+    //! Reserved SDL Event
+    int mEvent;
+
+    //! Lobby server
+    std::string mLobby;
+
+    //! Last created popup
+    std::shared_ptr<GuiInfoPopup> mLastPopup;
+
+    //! Main thread runner
+    void run();
 };
 
 #endif //EMULATIONSTATION_ALL_NETPLAYTHREAD_H

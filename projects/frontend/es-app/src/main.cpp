@@ -360,12 +360,18 @@ int main(int argc, char* argv[])
 	// Start the socket server
 	CommandThread* ct = new CommandThread(&window);
 
+  // Allocate custom event types
+  int NetPlayPopupEvent = SDL_RegisterEvents(2);
+  int MusicStartEvent = NetPlayPopupEvent + 1;
+	AudioManager::getInstance()->SetMusicStartEvent(&window, MusicStartEvent);
 
-	/*if (RecalboxConf::getInstance()->get("global.netplay") == "1") {
+  NetPlayThread netPlayThread(&window, NetPlayPopupEvent);
+	if (RecalboxConf::getInstance()->get("global.netplay") == "1")
+	{
 		auto s = std::make_shared<GuiInfoPopup>(&window, "", 0, 20);
 		window.setInfoPopup(s);
-		NetPlayThread* np = new NetPlayThread(&window);
-	}*/
+		netPlayThread.Start();
+	}
 
 
 	//run the command line scraper then quit
@@ -448,6 +454,18 @@ int main(int argc, char* argv[])
 					running = false;
 					doShutdown = true;
 					break;
+				default:
+				{
+					if (event.type == NetPlayPopupEvent)
+					{
+						window.setInfoPopup(netPlayThread.GetLastPopup());
+					}
+					else if (event.type == MusicStartEvent)
+					{
+						window.setInfoPopup(AudioManager::getInstance()->GetLastPopup());
+					}
+					break;
+				}
 			}
 		}
 

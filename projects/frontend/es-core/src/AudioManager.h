@@ -4,6 +4,8 @@
 #include <vector>
 #include <memory>
 
+#include <guis/GuiInfoPopup.h>
+
 #include "SDL_audio.h"
 
 #include "Sound.h"
@@ -12,22 +14,32 @@
 #include "Window.h"
 
 
-class AudioManager {
+class AudioManager
+{
+  private:
     static std::vector<std::shared_ptr<Sound>> sSoundVector;
     static std::vector<std::shared_ptr<Music>> sMusicVector;
 
     static std::shared_ptr<AudioManager> sInstance;
     std::shared_ptr<Music> currentMusic;
 
-
     AudioManager();
 
-public:
-    static std::shared_ptr<AudioManager> &getInstance();
+    //! Last created popup
+    std::shared_ptr<GuiInfoPopup> mLastPopup;
+
+    //! Window to attach popups to
+    Window* mWindow;
+
+    //! Reserved SDL Event
+    int mEvent;
+
+  public:
+    static std::shared_ptr<AudioManager>& getInstance();
 
     void stopMusic();
 
-    void themeChanged(const std::shared_ptr<ThemeData> &theme);
+    void themeChanged(const std::shared_ptr<ThemeData>& theme);
 
     void resumeMusic();
 
@@ -37,13 +49,13 @@ public:
 
     void deinit();
 
-    void registerMusic(std::shared_ptr<Music> &music);
+    void registerMusic(std::shared_ptr<Music>& music);
 
-    void registerSound(std::shared_ptr<Sound> &sound);
+    void registerSound(std::shared_ptr<Sound>& sound);
 
-    void unregisterMusic(std::shared_ptr<Music> &music);
+    void unregisterMusic(std::shared_ptr<Music>& music);
 
-    void unregisterSound(std::shared_ptr<Sound> &sound);
+    void unregisterSound(std::shared_ptr<Sound>& sound);
 
     void play();
 
@@ -53,9 +65,21 @@ public:
 
     virtual ~AudioManager();
 
-    inline std::string getCurrentMusicName(){return currentMusic->getName();}
+    inline std::string getCurrentMusicName() { return currentMusic->getName(); }
 
-private:
+    /*!
+     * Instruct this class to use this event identifier to push notifications to the main thread
+     * @param window Window class to attach popups to
+     * @param event event identifier to use when pushing events
+     */
+    void SetMusicStartEvent(Window* window, int event) { mWindow = window; mEvent = event; }
+
+    /*!
+     * Called from the main thread to get the popup to display
+     */
+    std::shared_ptr<GuiInfoPopup> GetLastPopup() { return mLastPopup; }
+
+  private:
     bool running;
     int lastTime = 0;
 
