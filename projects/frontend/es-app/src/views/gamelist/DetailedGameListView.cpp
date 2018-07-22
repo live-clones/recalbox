@@ -257,14 +257,26 @@ void DetailedGameListView::updateInfoPanel() {
         fadeOut(getGameComponents(), true);
     } else {
         const bool isGame = file->getType() == GAME;
+        const bool hasImage = !file->metadata.get("image").empty();
 
-        if (isGame) {
-            setGameInfo(file);
+        if (hasImage && !isGame) {
+            setScrappedFolderInfo(file);
+            switchToFolderScrappedDisplay();
         } else {
-            setFolderInfo(file);
+            if (isGame) {
+                setGameInfo(file);
+            } else {
+                setFolderInfo(file);
+            }
+            switchDisplay(isGame);
         }
-        switchDisplay(isGame);
     }
+}
+
+bool DetailedGameListView::switchToFolderScrappedDisplay() {
+    fadeOut(getGameComponents(false), true);
+    fadeOut(getFolderComponents(), true);
+    fadeOut(getScrappedFolderComponents(), false);
 }
 
 bool DetailedGameListView::switchDisplay(bool isGame) {
@@ -281,12 +293,21 @@ std::vector<GuiComponent*> DetailedGameListView::getFolderComponents() {
     return comps;
 }
 
-std::vector<GuiComponent*> DetailedGameListView::getGameComponents() {
+std::vector<GuiComponent*> DetailedGameListView::getGameComponents(bool includeMainComponents) {
     std::vector<GuiComponent*> comps = getMDValues();
-    comps.push_back(&mImage);
-    comps.push_back(&mDescription);
+    if (includeMainComponents) {
+        comps.push_back(&mImage);
+        comps.push_back(&mDescription);
+    }
     std::vector<TextComponent*> labels = getMDLabels();
     comps.insert(comps.end(), labels.begin(), labels.end());
+    return comps;
+}
+
+std::vector<GuiComponent*> DetailedGameListView::getScrappedFolderComponents() {
+    std::vector<GuiComponent*> comps;
+    comps.push_back(&mImage);
+    comps.push_back(&mDescription);
     return comps;
 }
 
@@ -327,6 +348,12 @@ void DetailedGameListView::setGameInfo(FileData* file) {
     mPlayCount.setValue(file->metadata.get("playcount"));
     mFavorite.setValue(file->metadata.get("favorite"));
 
+    mImage.setImage(file->metadata.get("image"));
+    mDescription.setText(file->metadata.get("desc"));
+    mDescContainer.reset();
+}
+
+void DetailedGameListView::setScrappedFolderInfo(FileData* file) {
     mImage.setImage(file->metadata.get("image"));
     mDescription.setText(file->metadata.get("desc"));
     mDescContainer.reset();

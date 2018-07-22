@@ -50,12 +50,14 @@ private:
 
     SystemData* mSystem;
 
-    bool isFolderHandleByTheme();
     bool switchDisplay(bool isGame);
+    bool switchToFolderScrappedDisplay();
     std::vector<GuiComponent*> getFolderComponents();
-    std::vector<GuiComponent*> getGameComponents();
+    std::vector<GuiComponent*> getGameComponents(bool includeMainComponents = true);
+    std::vector<GuiComponent*> getScrappedFolderComponents();
     void setFolderInfo(FileData* file);
     void setGameInfo(FileData* file);
+    void setScrappedFolderInfo(FileData* file);
     void getFolderGames(FileData* folder, std::vector<FileData*> &output);
     void fadeOut(std::vector<GuiComponent*> comps, bool fadingOut);
 };
