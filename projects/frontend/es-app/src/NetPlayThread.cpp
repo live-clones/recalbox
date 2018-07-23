@@ -113,14 +113,13 @@ void NetPlayThread::run()
           {
             if (tmp.first.find("RECALBOX") != std::string::npos)
             {
-              // Create popup
-              std::string text = _("A Recalbox friend has started a Netplay game!");
-              text += "\n " + _("Player") + ": " + tmp.first;
-              text += "\n " + _("Game") + ": " + tmp.second;
-              mLastPopup = std::make_shared<GuiInfoPopup>(mWindow, text, popupDuration, 20);
+              // Create popup text
+              mLastPopupText = _("A Recalbox friend has started a Netplay game!")
+                             + "\n " + _("Player") + ": " + tmp.first;
+                             + "\n " + _("Game") + ": " + tmp.second;
 
               // Create event
-              SDL_Event event = {};
+              SDL_Event event;
               event.user.type = mEvent;
 
               // Push event to the main thread so that all GUI operations are safely run in the main thread.
@@ -140,7 +139,7 @@ void NetPlayThread::run()
   }
 }
 
-std::shared_ptr<GuiInfoPopup> NetPlayThread::GetLastPopup()
+std::string NetPlayThread::GetLastPopupText()
 {
-  return mLastPopup;
+  return mLastPopupText;
 }

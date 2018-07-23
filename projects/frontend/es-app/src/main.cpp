@@ -409,7 +409,8 @@ int main(int argc, char* argv[])
 	//generate joystick events since we're done loading
 	SDL_JoystickEventState(SDL_ENABLE);
 
-	int lastTime = SDL_GetTicks();
+  int popupDuration = Settings::getInstance()->getInt("MusicPopupTime");
+  int lastTime = SDL_GetTicks();
 	bool running = true;
 	bool doReboot = false;
 	bool doShutdown = false;
@@ -458,11 +459,13 @@ int main(int argc, char* argv[])
 				{
 					if (event.type == NetPlayPopupEvent)
 					{
-						window.setInfoPopup(netPlayThread.GetLastPopup());
+						std::shared_ptr<GuiInfoPopup> popup = std::make_shared<GuiInfoPopup>(&window, netPlayThread.GetLastPopupText(), popupDuration, 20);
+						window.setInfoPopup(popup);
 					}
 					else if (event.type == MusicStartEvent)
 					{
-						window.setInfoPopup(AudioManager::getInstance()->GetLastPopup());
+            std::shared_ptr<GuiInfoPopup> popup = std::make_shared<GuiInfoPopup>(&window, AudioManager::getInstance()->GetLastPopupText(), popupDuration, 10);
+            window.setInfoPopup(popup);
 					}
 					break;
 				}

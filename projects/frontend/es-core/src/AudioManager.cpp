@@ -139,7 +139,7 @@ void AudioManager::playRandomMusic()
     if (popupDuration != 0)
     {
       // Create music popup
-      mLastPopup = std::make_shared<GuiInfoPopup>(mWindow, _("Now playing") + ":\n" + currentMusic->getName(), popupDuration, 10);
+      mLastPopupText = _("Now playing") + ":\n" + currentMusic->getName();
 
       // Push event to the main thread
       SDL_Event event;

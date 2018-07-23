@@ -25,8 +25,8 @@ class AudioManager
 
     AudioManager();
 
-    //! Last created popup
-    std::shared_ptr<GuiInfoPopup> mLastPopup;
+    //! Last popup text
+    std::string mLastPopupText;
 
     //! Window to attach popups to
     Window* mWindow;
@@ -77,7 +77,7 @@ class AudioManager
     /*!
      * Called from the main thread to get the popup to display
      */
-    std::shared_ptr<GuiInfoPopup> GetLastPopup() { return mLastPopup; }
+    std::string GetLastPopupText() { return mLastPopupText; }
 
   private:
     bool running;

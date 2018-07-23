@@ -28,7 +28,7 @@ class NetPlayThread
     /*!
      * Called from the main thread to get the popup to display
      */
-    std::shared_ptr<GuiInfoPopup> GetLastPopup();
+    std::string GetLastPopupText();
 
   private:
     //! Attached wndow
@@ -47,7 +47,7 @@ class NetPlayThread
     std::string mLobby;
 
     //! Last created popup
-    std::shared_ptr<GuiInfoPopup> mLastPopup;
+    std::string mLastPopupText;
 
     //! Main thread runner
     void run();
