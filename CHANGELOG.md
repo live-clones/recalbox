@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [YY.MM.DD] - YYYY-MM-DD
+- MSX: Fixed Bluemsx core
+
 ## [18.07.13] - 2018-07-13
 - Bump desmume to desmume2015
 - fix: SELECT as hotkey sometimes messy with arcade
