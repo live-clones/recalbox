@@ -92,6 +92,7 @@ emulators["dos"] = Emulator(name='dos', emulator='dosbox', videomode='default')
 emulators["c64"] = Emulator(name='c64', emulator='libretro', core='vice_x64')
 emulators["x68000"] = Emulator(name='x68000', emulator='libretro', core='px68k')
 emulators["thomson"] = Emulator(name='thomson', emulator='libretro', core='theodore')
+emulators["atari800"] = Emulator(name='atari800', emulator='libretro', core='atari800')
 #
 emulators["ngp"] = Emulator(name='ngp', emulator='libretro', core='mednafen_ngp')
 emulators["ngpc"] = Emulator(name='ngpc', emulator='libretro', core='mednafen_ngp')

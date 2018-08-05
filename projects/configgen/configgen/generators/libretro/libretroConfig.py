@@ -29,8 +29,8 @@ ratioIndexes = ["4/3", "16/9", "16/10", "16/15", "1/1", "2/1", "3/2", "3/4", "4/
 
 
 # Define the libretro device type corresponding to the libretro cores, when needed.
-coreToP1Device = {'cap32': '513', '81': '257', 'fuse': '513'};
-coreToP2Device = {'fuse': '513'};
+coreToP1Device = {'cap32': '513', '81': '257', 'fuse': '513', 'atari800': '513'};
+coreToP2Device = {'fuse': '513', 'atari800': '513'};
 
 # Define systems compatible with retroachievements
 systemToRetroachievements = {'snes', 'nes', 'gba', 'gb', 'gbc', 'megadrive', 'pcengine', 'atari2600', 'fba_libretro', 'neogeo', 'virtualboy', 'ngp', 'ngpc', 'lynx', 'mastersystem', 'gamegear', 'n64'};
@@ -106,10 +106,6 @@ def createLibretroConfig(system, controllers):
     if len(controllers) > 2 and system.config['core'] == 'snes9x_next':
         retroarchConfig['input_libretro_device_p2'] = '257'
 
-    if system.config['core'] == 'atari800':
-        retroarchConfig['input_libretro_device_p1'] = '513'
-        retroarchConfig['input_libretro_device_p2'] = '513'
-
     retroarchConfig['cheevos_enable'] = 'false'
     retroarchConfig['cheevos_hardcore_mode_enable'] = 'false'
 
@@ -132,6 +128,11 @@ def createLibretroConfig(system, controllers):
 
     if system.config['core'] == 'bluemsx':
         coreSettings.save('bluemsx_msxtype', '"Auto"')
+
+    if system.name == 'atari5200':
+        coreSettings.save('atari800_system', '"5200"')
+    else:
+        coreSettings.save('atari800_system', '"800XL (64K)"')
 
     # Netplay management
     if 'netplaymode' in system.config and system.config['netplaymode'] in systemNetplayModes:
