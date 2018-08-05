@@ -1,0 +1,21 @@
+diff --git a/src/api/udev/JoystickUdev.cpp b/src/api/udev/JoystickUdev.cpp
+index 83163af..9d068c9 100644
+--- a/src/api/udev/JoystickUdev.cpp
++++ b/src/api/udev/JoystickUdev.cpp
+@@ -316,6 +316,16 @@ bool CJoystickUdev::GetProperties()
+     if (test_bit(i, keybit))
+       m_button_bind[i] = buttons++;
+   }
++  for (unsigned int i = 0; i < KEY_UP; i++)
++  {
++    if (test_bit(i, keybit))
++      m_button_bind[i] = buttons++;
++  }
++  for (unsigned int i = KEY_DOWN + 1; i < BTN_MISC; i++)
++  {
++    if (test_bit(i, keybit))
++      m_button_bind[i] = buttons++;
++  }
+   SetButtonCount(m_button_bind.size());
+ 
+   unsigned int axes = 0;
