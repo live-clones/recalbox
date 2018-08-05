@@ -63,5 +63,6 @@ menu "Rom dirs and xml"
 	 source "$BR2_EXTERNAL_RECALBOX_PATH/package/recalbox-romfs/recalbox-romfs-3do/Config.in"
 	 source "$BR2_EXTERNAL_RECALBOX_PATH/package/recalbox-romfs/recalbox-romfs-thomson/Config.in"
 	 source "$BR2_EXTERNAL_RECALBOX_PATH/package/recalbox-romfs/recalbox-romfs-atari5200/Config.in"
+	 source "$BR2_EXTERNAL_RECALBOX_PATH/package/recalbox-romfs/recalbox-romfs-atari800/Config.in"
 endmenu
 

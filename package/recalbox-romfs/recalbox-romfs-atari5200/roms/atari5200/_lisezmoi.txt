@@ -1,0 +1,9 @@
+## RECALBOX - SYSTEM ATARI 5200 ##
+
+Placez ici vos roms atari 5200.
+
+Les roms doivent avoir l'extension ".xfd/.atr/.atx/.cdm/.cas/.bin/.a52/.xex/.zip"
+
+Ce système supporte également les roms compressées au format .zip.
+Attention toutefois, il ne s'agit que d'une archive. Les fichiers contenus dans les .zip doivent correspondre aux extensions citées précédemment.
+De plus, chaque fichier .zip ne doit contenir qu'une seule rom compressée.

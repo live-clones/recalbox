@@ -433,4 +433,14 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_4DO),)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-3do
 endif
 
+# System: atari800
+ifneq ($(BR2_PACKAGE_LIBRETRO_ATARI800),)
+	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-atari800
+endif
+
+# System: atari5200
+ifneq ($(BR2_PACKAGE_LIBRETRO_ATARI800),)
+	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-atari5200
+endif
+
 $(eval $(generic-package))
