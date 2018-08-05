@@ -1,0 +1,58 @@
+diff -r 59004900db7f src/joystick/linux/SDL_sysjoystick.c
+--- a/src/joystick/linux/SDL_sysjoystick.c	Sun Aug 05 10:01:01 2018 +0300
++++ b/src/joystick/linux/SDL_sysjoystick.c	Sun Aug 05 23:54:49 2018 +0200
+@@ -631,7 +631,15 @@
+         (ioctl(fd, EVIOCGBIT(EV_REL, sizeof(relbit)), relbit) >= 0)) {
+ 
+         /* Get the number of buttons, axes, and other thingamajigs */
+-        for (i = BTN_JOYSTICK; i < KEY_MAX; ++i) {
++	for (i = KEY_UP; i <= KEY_DOWN; i++)
++            if (test_bit(i, keybit)) {
++#ifdef DEBUG_INPUT_EVENTS
++                printf("Joystick has button: 0x%x\n", i);
++#endif
++                joystick->hwdata->key_map[i] = joystick->nbuttons;
++                ++joystick->nbuttons;
++            }
++        for (i = BTN_MISC; i < KEY_MAX; i++)
+             if (test_bit(i, keybit)) {
+ #ifdef DEBUG_INPUT_EVENTS
+                 printf("Joystick has button: 0x%x\n", i);
+@@ -639,8 +647,7 @@
+                 joystick->hwdata->key_map[i] = joystick->nbuttons;
+                 ++joystick->nbuttons;
+             }
+-        }
+-        for (i = 0; i < BTN_JOYSTICK; ++i) {
++        for (i = 0; i < KEY_UP; i++)
+             if (test_bit(i, keybit)) {
+ #ifdef DEBUG_INPUT_EVENTS
+                 printf("Joystick has button: 0x%x\n", i);
+@@ -648,8 +655,15 @@
+                 joystick->hwdata->key_map[i] = joystick->nbuttons;
+                 ++joystick->nbuttons;
+             }
+-        }
+-        for (i = 0; i < ABS_MAX; ++i) {
++        for (i = KEY_DOWN + 1; i < BTN_MISC; i++)
++            if (test_bit(i, keybit)) {
++#ifdef DEBUG_INPUT_EVENTS
++                printf("Joystick has button: 0x%x\n", i);
++#endif
++                joystick->hwdata->key_map[i] = joystick->nbuttons;
++                ++joystick->nbuttons;
++            }
++        for (i = 0; i < ABS_MISC; ++i) {
+             /* Skip hats */
+             if (i == ABS_HAT0X) {
+                 i = ABS_HAT3Y;
+@@ -913,6 +927,9 @@
+                                           events[i].value);
+                 break;
+             case EV_ABS:
++                if (code >= ABS_MISC) {
++                    break;
++                }
+                 switch (code) {
+                 case ABS_HAT0X:
+                 case ABS_HAT0Y:
