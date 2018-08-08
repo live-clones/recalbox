@@ -176,7 +176,7 @@ ifeq ($(BR2_cortex_a8),y)
         LIBRETRO_PLATFORM += armv8 cortexa8
 endif
 
-ifeq ($(BR2_x86_i586),y)
+ifeq ($(BR2_i386),y)
         LIBRETRO_PLATFORM = unix
 endif
 
