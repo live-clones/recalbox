@@ -158,7 +158,13 @@ case "${RECALBOX_TARGET}" in
         # get UEFI files
         mkdir -p "${BINARIES_DIR}/EFI/BOOT" || exit 1
         cp "${BINARIES_DIR}/bootx64.efi" "${BINARIES_DIR}/EFI/BOOT" || exit 1
-        cp "${BINARIES_DIR}/bootia32.efi" "${BINARIES_DIR}/EFI/BOOT" || exit 1
+        if [[ ${RECALBOX_TARGET} == "X86_64" ]] ; then 
+            cp "${BINARIES_DIR}/bootia32.efi" "${BINARIES_DIR}/EFI/BOOT" || exit 1
+            genimg=genimage-x86-64.cfg
+        else
+            genimg=genimage-x86.cfg
+        fi
+
         cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/grub2/grub.cfg" "${BINARIES_DIR}/EFI/BOOT" || exit 1
 
         # boot.tar.xz
@@ -166,7 +172,7 @@ case "${RECALBOX_TARGET}" in
 
         # recalbox.img
         cp "${HOST_DIR}/usr/lib/grub/i386-pc/boot.img" "${BINARIES_DIR}" || exit 1
-        support/scripts/genimage.sh -c "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/grub2/genimage.cfg" || exit 1
+        support/scripts/genimage.sh -c "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/grub2/${genimg}" || exit 1
         sync || exit 1
         ;;
     *)
