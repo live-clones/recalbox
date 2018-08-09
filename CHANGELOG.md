@@ -2,7 +2,6 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [unreleased]
 - Major system upgrade. See https://github.com/buildroot/buildroot/blob/2018.02.3/CHANGES#L1-L1427 for the full log
 - KODI bumped to 17.6. If it crashes at start, reconfigure your pad
 - Raspberry Pi3b+ and CM3 support
@@ -10,7 +9,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - arcade GPIO driver upgraded: now support I2C and GPIO recopnfiguring from the command line
 - x86 now requires a CPU that can handle at least SSE and SS2
 
-
+## [unreleased]
 - Add support for Mayflash GameCube adapter
 - ES: better cyrillic display
 - Add ipega 9055 udev rule
