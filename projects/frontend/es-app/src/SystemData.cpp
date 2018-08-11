@@ -221,10 +221,16 @@ void SystemData::launchGame(Window* window, FileData* game, std::string netplay,
 	int exitCode = runSystemCommand(command);
 	std::cout << "==============================================\n";
 
-    if(exitCode != 0)
-    {
-        LOG(LogWarning) << "...launch terminated with nonzero exit code " << exitCode << "!";
-    }
+  if( exitCode != 0)
+  {
+    LOG(LogWarning) << "...launch terminated with nonzero exit code " << exitCode << "!";
+  }
+
+  // Reinit
+  window->init();
+  VolumeControl::getInstance()->init();
+  AudioManager::getInstance()->resumeMusic();
+  window->normalizeNextUpdate();
 
   //update number of times the game has been launched
   int timesPlayed = game->metadata.getInt("playcount") + 1;
