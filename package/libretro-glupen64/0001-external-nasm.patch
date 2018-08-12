@@ -1,0 +1,21 @@
+diff --git a/Makefile b/Makefile
+index a1ab7fc..416a4e7 100644
+--- a/Makefile
++++ b/Makefile
+@@ -46,6 +46,7 @@ endif
+ 
+ TARGET_NAME := mupen64plus
+ CC_AS ?= $(CC)
++NASM ?= nasm
+ 
+ GIT_VERSION ?= " $(shell git rev-parse --short HEAD || echo unknown)"
+ ifneq ($(GIT_VERSION)," unknown")
+@@ -305,7 +306,7 @@ else
+ endif
+ 
+ %.o: %.asm
+-	nasm $(ASFLAGS) $< -o $@
++	$(NASM) $(ASFLAGS) $< -o $@
+ 
+ %.o: %.S
+ 	$(CC_AS) $(CFLAGS) -c $< -o $@
