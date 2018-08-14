@@ -21,5 +21,9 @@ e8c005a320789fa3249d29613ba359ee  package/rpi-firmware/rpi-firmware.hash
 76f5941c64fe63d71fdbafde3594ba78  package/sdl_sound/Config.in
 4c240a99b2eef3c2c77f9e7acdc1787d  package/sdl_sound/sdl_sound.mk
 a5ec225b9e4b39e8e92ff80f594ac098  package/skeleton-init-common/skeleton-init-common.mk
+3dea03b60cf0b58d3b5836f0ebcc5bd3  package/x11r7/xdriver_xf86-video-amdgpu/xdriver_xf86-video-amdgpu.hash
+d2ae052f3d85d52977cbc600b647ec43  package/x11r7/xdriver_xf86-video-amdgpu/xdriver_xf86-video-amdgpu.mk
+b641120a4ac84defc59d317264838cba  package/x11r7/xdriver_xf86-video-ati/xdriver_xf86-video-ati.hash
+754817e3552656c2a955e77e88688f66  package/x11r7/xdriver_xf86-video-ati/xdriver_xf86-video-ati.mk
 00f1333e3129989b007142ee3cb93ddc  support/scripts/mkusers
 2673dc3e7fbc4920c43ad91ad9214d3e  system/device_table.txt
