@@ -10,6 +10,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - No game launch if core doesn't match
 - Game not listed in lobby if password protected
 - Restore scrapped folder display
+- Changed popups handling for better stability
 
 ## [18.06.27] - 2018-06-27
 ### Added
