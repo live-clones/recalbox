@@ -33,18 +33,22 @@ set_property(CACHE GLSystem PROPERTY STRINGS "Desktop OpenGL" "OpenGL ES")
 #-------------------------------------------------------------------------------
 # finding GL compatible library
 MESSAGE("Looking for OpenGL or OpenGLES")
-find_package(OpenGL)
-find_package(OpenGLES)
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(OPENGL gl)
+#pkg_check_modules(EGL egl)
+pkg_check_modules(OPENGLES glesv2)
 if(OPENGL_FOUND)
     MESSAGE("OpenGL found")
     find_package(OpenGL REQUIRED)
 elseif(OPENGLES_FOUND)
     MESSAGE("OpenGLES found")
-    find_package(OpenGLES REQUIRED)
+    pkg_check_modules(GLES glesv2 REQUIRED)
     set(GLSystem "OpenGL ES")
 else()
     MESSAGE(FATAL_ERROR "OpenGL or OpenGLES required!")
 endif()
+
+pkg_check_modules(BCMHOST bcm_host)
 
 #-------------------------------------------------------------------------------
 # finding necessary packages
@@ -63,7 +67,7 @@ endif()
 
 #-------------------------------------------------------------------------------
 #set up compiler flags and excutable names
-if(DEFINED BCMHOST)
+if(BCMHOST_FOUND)
     add_definitions(-D_RPI_)
 endif()
 
@@ -126,37 +130,19 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     )
 endif()
 
-if(DEFINED BCMHOST)
+if(${GLSystem} MATCHES "Desktop OpenGL")
     LIST(APPEND COMMON_INCLUDE_DIRS
-        "/opt/vc/include"
-        "/opt/vc/include/interface/vcos"
-        "/opt/vc/include/interface/vmcs_host/linux"
-        "/opt/vc/include/interface/vcos/pthreads"
+	${OPENGL_INCLUDE_DIR}
     )
 else()
-    if(${GLSystem} MATCHES "Desktop OpenGL")
-        LIST(APPEND COMMON_INCLUDE_DIRS
-            ${OPENGL_INCLUDE_DIR}
-        )
-    else()
-        LIST(APPEND COMMON_INCLUDE_DIRS
-            ${OPENGLES_INCLUDE_DIR}
-        )
-    endif()
+    LIST(APPEND COMMON_INCLUDE_DIRS
+	${OPENGLES_INCLUDE_DIR}
+    )
 endif()
 
 #-------------------------------------------------------------------------------
 #define libraries and directories
-if(DEFINED BCMHOST)
-    link_directories(
-        ${Boost_LIBRARY_DIRS}
-        "/opt/vc/lib"
-    )
-else()
-    link_directories(
-        ${Boost_LIBRARY_DIRS}
-    )
-endif()
+link_directories(${Boost_LIBRARY_DIRS})
 
 set(COMMON_LIBRARIES
     ${Boost_LIBRARIES}
@@ -176,28 +162,20 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     )
 endif()
 
-if(DEFINED BCMHOST)
+if(MSVC)
     LIST(APPEND COMMON_LIBRARIES
-        bcm_host
-        EGL
-        ${OPENGLES_LIBRARIES}
+	winmm
+    )
+endif()
+if(${GLSystem} MATCHES "Desktop OpenGL")
+    LIST(APPEND COMMON_LIBRARIES
+	${OPENGL_LIBRARIES}
     )
 else()
-    if(MSVC)
-        LIST(APPEND COMMON_LIBRARIES
-            winmm
-        )
-    endif()
-    if(${GLSystem} MATCHES "Desktop OpenGL")
-        LIST(APPEND COMMON_LIBRARIES
-            ${OPENGL_LIBRARIES}
-        )
-    else()
-        LIST(APPEND COMMON_LIBRARIES
-            EGL
-            ${OPENGLES_LIBRARIES}
-        )
-    endif()
+    LIST(APPEND COMMON_LIBRARIES
+	EGL
+	${OPENGLES_LIBRARIES}
+    )
 endif()
 
 #-------------------------------------------------------------------------------
