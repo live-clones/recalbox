@@ -31,45 +31,23 @@ set(GLSystem "Desktop OpenGL" CACHE STRING "The OpenGL system to be used")
 set_property(CACHE GLSystem PROPERTY STRINGS "Desktop OpenGL" "OpenGL ES")
 
 #-------------------------------------------------------------------------------
-#check if we're running on Raspberry Pi
-MESSAGE("Looking for bcm_host.h")
-if(EXISTS "/opt/vc/include/bcm_host.h")
-    MESSAGE("bcm_host.h found")
-    set(BCMHOST found)
-    set(GLSystem "OpenGL ES")
-else()
-    MESSAGE("bcm_host.h not found")
-endif()
-if(${RPI_VERSION})
-	add_definitions(-DRPI_VERSION=${RPI_VERSION})
-endif()
-
-#-------------------------------------------------------------------------------
-#check if we're running on olinuxino
-MESSAGE("Looking for libMali.so")
-if(EXISTS "/usr/lib/libMali.so")
-    MESSAGE("libMali.so found")
-    set(GLSystem "OpenGL ES")
-else()
-    MESSAGE("libMali.so not found")
-endif()
-
-# on some drivers (the one for xu4 for example), the libmali is lowercase
-MESSAGE("Looking for libmali.so")
-if(EXISTS "/usr/lib/libmali.so")
-    MESSAGE("libmali.so found")
-    set(GLSystem "OpenGL ES")
-else()
-    MESSAGE("libmali.so not found")
-endif()
-
-#finding necessary packages
-#-------------------------------------------------------------------------------
-if(${GLSystem} MATCHES "Desktop OpenGL")
+# finding GL compatible library
+MESSAGE("Looking for OpenGL or OpenGLES")
+find_package(OpenGL)
+find_package(OpenGLES)
+if(OPENGL_FOUND)
+    MESSAGE("OpenGL found")
     find_package(OpenGL REQUIRED)
-else()
+elseif(OPENGLES_FOUND)
+    MESSAGE("OpenGLES found")
     find_package(OpenGLES REQUIRED)
+    set(GLSystem "OpenGL ES")
+else()
+    MESSAGE(FATAL_ERROR "OpenGL or OpenGLES required!")
 endif()
+
+#-------------------------------------------------------------------------------
+# finding necessary packages
 find_package(Freetype REQUIRED)
 find_package(FreeImage REQUIRED)
 find_package(SDL2MIXER REQUIRED)
