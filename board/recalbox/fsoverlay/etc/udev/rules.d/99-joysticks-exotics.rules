@@ -14,3 +14,5 @@ SUBSYSTEM=="input", ATTRS{name}=="ipega media gamepad controller", MODE="0666", 
 SUBSYSTEM=="input", ATTRS{name}=="PG-9055", MODE="0666", ENV{ID_INPUT_JOYSTICK}="1"'
 # OUYA gamepad
 SUBSYSTEM=="input", ATTRS{name}=="OUYA Game Controller", MODE="0666", ENV{ID_INPUT_JOYSTICK}="1"
+# Disable PS3/PS4 pads motion sensors
+SUBSYSTEM=="input", ATTRS{name}=="*Motion Sensors", RUN+="/bin/rm %E{DEVNAME}", ENV{ID_INPUT_JOYSTICK}=""
