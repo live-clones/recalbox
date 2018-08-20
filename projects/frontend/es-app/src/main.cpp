@@ -179,21 +179,29 @@ void onExit()
 
 int setLocale(char * argv1)
 {
- 	char path_save[PATH_MAX];
+ 	  char path_save[PATH_MAX];
   	char abs_exe_path[PATH_MAX];
   	char *p;
 
-    if(!(p = strrchr(argv1, '/'))) {
-    		/*char * res =*/ getcwd(abs_exe_path, sizeof(abs_exe_path));
+  	bool error = false;
+    if(!(p = strrchr(argv1, '/')))
+    {
+    		char * res = getcwd(abs_exe_path, sizeof(abs_exe_path));
+    		error = (res == nullptr);
     }
   	else
   	{
     		*p = '\0';
-			/*char * res =*/ getcwd(path_save, sizeof(path_save));
-    		/*int chdirres =*/ chdir(argv1);
-    		/*res =*/ getcwd(abs_exe_path, sizeof(abs_exe_path));
-			/*chdirres =*/ chdir(path_save);
+			  if (getcwd(path_save, sizeof(path_save)) == nullptr) error = true;
+			  if (chdir(argv1) != 0) error = true;
+    	  if (getcwd(abs_exe_path, sizeof(abs_exe_path)) == nullptr) error = true;
+			  if (chdir(path_save) != 0) error = true;
   	}
+  	if (error)
+		{
+			LOG(LogError) << "Error getting path";
+		}
+
 	boost::locale::localization_backend_manager my = boost::locale::localization_backend_manager::global(); 
 	// Get global backend
 
@@ -505,15 +513,25 @@ int main(int argc, char* argv[])
 	SystemData::deleteSystems();
 	window.deinit();
 	LOG(LogInfo) << "EmulationStation cleanly shutting down.";
-	//int res;
-	if (doReboot) {
+	if (doReboot)
+	{
 		LOG(LogInfo) << "Rebooting system";
-		/*res =*/ system("touch /tmp/reboot.please");
-		/*res =*/ system("shutdown -r now");
-	} else if (doShutdown) {
+		int res1 = system("touch /tmp/reboot.please");
+		int res2 = system("shutdown -r now");
+		if ((res1 | res2) != 0)
+    {
+      LOG(LogError) << "Error rebooting system";
+    }
+	}
+	else if (doShutdown)
+	{
 		LOG(LogInfo) << "Shutting system down";
-		/*res =*/ system("touch /tmp/shutdown.please");
-		/*res =*/ system("shutdown -h now");
+		int res1 = system("touch /tmp/shutdown.please");
+		int res2 = system("shutdown -h now");
+    if ((res1 | res2) != 0)
+    {
+      LOG(LogError) << "Error shutting system down";
+    }
 	}
 
 	return 0;

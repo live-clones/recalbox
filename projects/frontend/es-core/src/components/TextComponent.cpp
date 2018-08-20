@@ -126,7 +126,7 @@ void TextComponent::render(const Eigen::Affine3f& parentTrans)
 	if(mTextCache)
 	{
 		const Eigen::Vector2f& textSize = mTextCache->metrics.size;
-		float yOff;
+		float yOff = 0;
 		switch(mVerticalAlignment)
 			{
 			case ALIGN_TOP:

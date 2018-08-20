@@ -77,7 +77,7 @@ GuiInfoPopup::GuiInfoPopup(Window* window, std::string message, int duration, in
 
 	mGrid.setSize(maxWidth + paddingX, msgHeight + paddingY);
 
-	float posX, posY;
+	float posX = 0.0f, posY = 0.0f;
 
 	std::string posString = Settings::getInstance()->getString("PopupPosition");
 
