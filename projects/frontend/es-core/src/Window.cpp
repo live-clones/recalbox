@@ -17,8 +17,15 @@
 #include "MenuThemeData.h"
 #include "views/ViewController.h"
 
-Window::Window() : mNormalizeNextUpdate(false), mFrameTimeElapsed(0), mFrameCountElapsed(0), mAverageDeltaTime(10), 
-	mAllowSleep(true), mSleeping(false), mTimeSinceLastInput(0), mInfoPopup(NULL)
+Window::Window()
+  : mInfoPopup(NULL),
+    mFrameTimeElapsed(0),
+    mFrameCountElapsed(0),
+    mAverageDeltaTime(10),
+		mNormalizeNextUpdate(false),
+	  mAllowSleep(true),
+	  mSleeping(false),
+	  mTimeSinceLastInput(0)
 {
 	mHelp = new HelpComponent(this);
 	mBackgroundOverlay = new ImageComponent(this);
@@ -425,6 +432,8 @@ void Window::doWake()
 
 bool Window::KonamiCode(InputConfig* config, Input input, Window* window)
 {
+  (void)window;
+
 	if (!input.value)
 		return false;
 
@@ -444,7 +453,7 @@ bool Window::KonamiCode(InputConfig* config, Input input, Window* window)
 		this->mKonamiCount = 0; // current input is incorrect, reset counter
 	}
 
-	if (this->mKonamiCount == (this->mKonami.length()))
+	if (this->mKonamiCount == (int)(this->mKonami.length()))
 	{
 		auto s = std::make_shared<GuiInfoPopup>(this, "I entered Konami Code and all I get is this lame popup", 4, 50);
 		this->setInfoPopup(s);

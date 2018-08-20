@@ -26,7 +26,10 @@ GuiUpdate::~GuiUpdate() {
     mPingHandle->join();
 }
 
-bool GuiUpdate::input(InputConfig *config, Input input) {
+bool GuiUpdate::input(InputConfig *config, Input input)
+{
+    (void)config;
+    (void)input;
     return false;
 }
 

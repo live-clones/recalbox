@@ -107,7 +107,7 @@ void RatingComponent::render(const Eigen::Affine3f& parentTrans)
 	int r = ( mColor >> 24 ) & 0xFF;
 	int g = ( mColor >> 16 ) & 0xFF;
 	int b = ( mColor >> 8 ) & 0xFF;
-	int a = mColor & 0xFF;
+	//int a = mColor & 0xFF;
 
 	glColor4ub(r, g, b, getOpacity());
 

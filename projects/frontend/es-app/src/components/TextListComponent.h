@@ -67,7 +67,8 @@ public:
 
 	inline void setUppercase(bool uppercase) 
 	{
-		mUppercase = true;
+		(void)uppercase;
+		mUppercase = true; // TODO: Check
 		for(auto it = mEntries.begin(); it != mEntries.end(); it++)
 			it->data.textCache.reset();
 	}
@@ -82,7 +83,7 @@ public:
 	inline void setLineSpacing(float lineSpacing) { mLineSpacing = lineSpacing; }
 
 protected:
-	virtual void onScroll(int amt) { if(mScrollSound) mScrollSound->play(); }
+	virtual void onScroll(int amt) { (void)amt; if(mScrollSound) mScrollSound->play(); }
 	virtual void onCursorChanged(const CursorState& state);
 
 private:

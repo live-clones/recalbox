@@ -191,7 +191,7 @@ protected:
 	}
 
 	void setCursorIndex(int index) {
-		if (index >= 0 && index < mEntries.size()) {
+		if (index >= 0 && index < (int)mEntries.size()) {
 			mCursor = index;
 			onCursorChanged(CURSOR_STOPPED);
 		}
@@ -346,7 +346,10 @@ protected:
 			scroll(mScrollVelocity);
 	}
 
-	void listRenderTitleOverlay(const Eigen::Affine3f& trans) {
+	void listRenderTitleOverlay(const Eigen::Affine3f& trans)
+	{
+		(void)trans;
+
 		if (size() == 0 || !mTitleOverlayFont || mTitleOverlayOpacity == 0)
 			return;
 
@@ -405,6 +408,6 @@ protected:
 
 	}
 
-	virtual void onCursorChanged(const CursorState& state) {}
-	virtual void onScroll(int amt) {}
+	virtual void onCursorChanged(const CursorState& state) { (void)state; }
+	virtual void onScroll(int amt) { (void)amt; }
 };

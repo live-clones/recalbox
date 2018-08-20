@@ -41,10 +41,14 @@ bool compareLowerCase(std::string str1, std::string str2)
 }
 //end util functions
 
-GuiNetPlay::GuiNetPlay(Window* window) : GuiComponent(window),
-        mBackground(window, ":/frame.png"), mGrid(window, Eigen::Vector2i(1, 3)), mList(NULL),
-        mGridMeta(new ComponentGrid(window, Eigen::Vector2i(2, 1))),
-        mGridMetaRight(new ComponentGrid(window, Eigen::Vector2i(2, 11))), mBusyAnim(window)
+GuiNetPlay::GuiNetPlay(Window* window)
+  : GuiComponent(window),
+    mBackground(window, ":/frame.png"),
+		mBusyAnim(window),
+    mGrid(window, Eigen::Vector2i(1, 3)),
+    mGridMeta(new ComponentGrid(window, Eigen::Vector2i(2, 1))),
+    mGridMetaRight(new ComponentGrid(window, Eigen::Vector2i(2, 11))),
+    mList(NULL)
 {
 	addChild(&mBackground);
 	addChild(&mGrid);
@@ -225,7 +229,7 @@ void GuiNetPlay::populateGrid()
 			i++;
 		}
 		populateGridMeta(0);
-		mList->setCursorChangedCallback([this](CursorState state){populateGridMeta(mList->getCursor());});
+		mList->setCursorChangedCallback([this](CursorState state) { (void)state; populateGridMeta(mList->getCursor()); });
 		mList->setFocusLostCallback([this]{
 		    mMetaTextUsername->setText("");
             mMetaTextCountry->setText("");
@@ -427,7 +431,8 @@ std::pair<std::string, std::string> GuiNetPlay::getCoreInfo(const std::string &n
 
 void GuiNetPlay::pingLobby()
 {
-	for (int i=0; i<mRooms.size(); i++ ) {
+	for (int i=0; i < (int)mRooms.size(); i++ )
+	{
 		std::string ip = mRooms[i].second.get<std::string>("fields.ip");
 		mPings[i] = pingHost(ip);
 	}

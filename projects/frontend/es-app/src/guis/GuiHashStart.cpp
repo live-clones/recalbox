@@ -10,10 +10,12 @@
 #include "components/OptionListComponent.h"
 
 
-GuiHashStart::GuiHashStart(Window* window) : GuiComponent(window), mMenu(window, _("HASH NOW").c_str()), mBusyAnim(window)
+GuiHashStart::GuiHashStart(Window* window)
+  : GuiComponent(window),
+    mBusyAnim(window),
+    mMenu(window, _("HASH NOW").c_str())
 {
     addChild(&mMenu);
-
 
     mLoading = false;
 

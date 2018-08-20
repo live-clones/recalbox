@@ -17,9 +17,11 @@
 #include "Locale.h"
 #include "MenuThemeData.h"
 
-ScraperSearchComponent::ScraperSearchComponent(Window* window, SearchType type) : GuiComponent(window),
-	mGrid(window, Eigen::Vector2i(4, 3)), mBusyAnim(window), 
-	mSearchType(type)
+ScraperSearchComponent::ScraperSearchComponent(Window* window, SearchType type)
+  : GuiComponent(window),
+	  mGrid(window, Eigen::Vector2i(4, 3)),
+	  mSearchType(type),
+    mBusyAnim(window)
 {
 	addChild(&mGrid);
 	
@@ -138,7 +140,7 @@ void ScraperSearchComponent::resizeMetadata()
 	if(mMD_Grid->getSize().y() > mMD_Pairs.size())
 	{
 		auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
-		const int fontHeight = (int)(mMD_Grid->getSize().y() / mMD_Pairs.size() * 0.8f);
+		//const int fontHeight = (int)(mMD_Grid->getSize().y() / mMD_Pairs.size() * 0.8f);
 		auto fontLbl = menuTheme->menuTextSmall.font;
 		auto fontComp = menuTheme->menuTextSmall.font;
 

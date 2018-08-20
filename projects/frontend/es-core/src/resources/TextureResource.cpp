@@ -207,6 +207,8 @@ size_t TextureResource::getTotalTextureSize()
 
 void TextureResource::unload(std::shared_ptr<ResourceManager>& rm)
 {
+	(void)rm;
+
 	// Release the texture's resources
 	std::shared_ptr<TextureData> data;
 	if (mTextureData == nullptr)
@@ -220,6 +222,8 @@ void TextureResource::unload(std::shared_ptr<ResourceManager>& rm)
 
 void TextureResource::reload(std::shared_ptr<ResourceManager>& rm)
 {
+	(void)rm;
+
 	// For dynamically loaded textures the texture manager will load them on demand.
 	// For manually loaded textures we have to reload them here
 	if (mTextureData)

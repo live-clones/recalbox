@@ -123,7 +123,7 @@ public:
 	
 	virtual HelpStyle getHelpStyle();
 
-	virtual inline void setScrollDir(int dir) {}
+	virtual inline void setScrollDir(int dir) { (void)dir; }
 
 	// Returns true if the component is busy doing background processing (e.g. HTTP downloads)
 	bool isProcessing() const;

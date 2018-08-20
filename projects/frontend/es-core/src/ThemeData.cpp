@@ -433,7 +433,7 @@ void ThemeData::parseView(const pugi::xml_node& root, ThemeView& view)
 	{
 		if(!node.attribute("name"))
 			throw error << "Element of type \"" << node.name() << "\" missing \"name\" attribute!";
-		if (node.name() == "helpsystem")
+		if (std::string(node.name()) == "helpsystem")
 			Settings::getInstance()->setBool("ThemeHasHelpSystem", true);
 
 		auto elemTypeIt = sElementMap.find(node.name());
@@ -784,7 +784,7 @@ std::map<std::string, std::string> ThemeData::getThemeSubSets(const std::string&
 				path = *it / "theme.xml";
 				dequepath.push_back(path);
 				pugi::xml_document doc;
-				pugi::xml_parse_result res = doc.load_file(path.c_str());
+				/*pugi::xml_parse_result res =*/ doc.load_file(path.c_str());
 				pugi::xml_node root = doc.child("theme");
 				crawlIncludes(root, sets, dequepath);
 				dequepath.pop_back();
@@ -795,7 +795,7 @@ std::map<std::string, std::string> ThemeData::getThemeSubSets(const std::string&
 			{
 				dequepath.push_back(path);
 				pugi::xml_document doc;
-				pugi::xml_parse_result res = doc.load_file(path.c_str());
+				/*pugi::xml_parse_result res =*/ doc.load_file(path.c_str());
 				pugi::xml_node root = doc.child("theme");			
 				crawlIncludes(root, sets, dequepath);
 				findRegion(doc, sets);
@@ -817,7 +817,7 @@ void ThemeData::crawlIncludes(const pugi::xml_node& root, std::map<std::string, 
 		std::string path = resolvePath(relPath, dequepath.back());
 		dequepath.push_back(path);
 		pugi::xml_document includeDoc;
-		pugi::xml_parse_result result = includeDoc.load_file(path.c_str());
+		/*pugi::xml_parse_result result =*/ includeDoc.load_file(path.c_str());
 		pugi::xml_node root = includeDoc.child("theme");
 		crawlIncludes(root, sets, dequepath);
 		findRegion(includeDoc, sets);

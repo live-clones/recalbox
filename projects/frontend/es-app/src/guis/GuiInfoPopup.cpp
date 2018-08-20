@@ -12,8 +12,12 @@
 #include <components/ScrollableContainer.h>
 #include <Settings.h>
 
-GuiInfoPopup::GuiInfoPopup(Window* window, std::string message, int duration, int icon) :
-		GuiComponent(window), mDuration(duration * 1000), running(true), mGrid(window, Eigen::Vector2i(2, 1)), mFrame(window, ":/frame.png")
+GuiInfoPopup::GuiInfoPopup(Window* window, std::string message, int duration, int icon)
+  : GuiComponent(window),
+    mDuration(duration * 1000),
+		mGrid(window, Eigen::Vector2i(2, 1)),
+		mFrame(window, ":/frame.png"),
+    running(true)
 {
 
 	bool noIcon = icon == 0;
@@ -113,6 +117,8 @@ GuiInfoPopup::GuiInfoPopup(Window* window, std::string message, int duration, in
 
 void GuiInfoPopup::render(const Eigen::Affine3f& parentTrans)
 {
+  (void)parentTrans;
+
 	// we use identity as we want to render on a specific window position, not on the view
 	Eigen::Affine3f trans = getTransform() * Eigen::Affine3f::Identity();
 	if(running && updateState())

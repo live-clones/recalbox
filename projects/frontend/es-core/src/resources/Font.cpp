@@ -216,11 +216,13 @@ Font::~Font()
 
 void Font::reload(std::shared_ptr<ResourceManager>& rm)
 {
+  (void)rm;
 	rebuildTextures();
 }
 
 void Font::unload(std::shared_ptr<ResourceManager>& rm)
 {
+  (void)rm;
 	unloadTextures();
 }
 
@@ -707,20 +709,20 @@ float Font::getNewlineStartOffset(const std::string& text, const unsigned int& c
 {
 	switch(alignment)
 	{
-	case ALIGN_LEFT:
-		return 0;
-	case ALIGN_CENTER:
+	  case ALIGN_LEFT:
+		  return 0;
+  	case ALIGN_CENTER:
 		{
-            int endChar = text.find('\n', charStart);
+      size_t endChar = text.find('\n', charStart);
 			return (xLen - sizeText(text.substr(charStart, endChar != std::string::npos ? endChar - charStart : endChar)).x()) / 2.0f;
 		}
-	case ALIGN_RIGHT:
+	  case ALIGN_RIGHT:
 		{
-            int endChar = text.find('\n', charStart);
+      size_t endChar = text.find('\n', charStart);
 			return xLen - (sizeText(text.substr(charStart, endChar != std::string::npos ? endChar - charStart : endChar)).x());
 		}
-	default:
-		return 0;
+	  default:
+		  return 0;
 	}
 }
 

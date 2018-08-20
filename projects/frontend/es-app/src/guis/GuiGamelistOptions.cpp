@@ -10,8 +10,12 @@
 #include "MenuMessages.h"
 #include "guis/GuiMsgBox.h"
 
-GuiGamelistOptions::GuiGamelistOptions(Window* window, SystemData* system) :
-		GuiComponent(window), mSystem(system), mReloading(false), mMenu(window, _("OPTIONS").c_str()) {
+GuiGamelistOptions::GuiGamelistOptions(Window* window, SystemData* system)
+  :	GuiComponent(window),
+		mMenu(window, _("OPTIONS").c_str()),
+    mReloading(false),
+    mSystem(system)
+{
 	ComponentListRow row;
 
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
@@ -136,7 +140,7 @@ GuiGamelistOptions::~GuiGamelistOptions() {
 	if (root->getDisplayableRecursive(GAME | FOLDER).size()) {
 
 
-		if (mListSort->getSelected() != mSystem->getSortId()) {
+		if (mListSort->getSelected() != (int)mSystem->getSortId()) {
 			// apply sort
 			mSystem->setSortId(mListSort->getSelected());
 

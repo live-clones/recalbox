@@ -167,8 +167,11 @@ std::unique_ptr<ImageDownloadHandle> downloadImageAsync(const std::string& url, 
 		Settings::getInstance()->getInt("ScraperResizeWidth"), Settings::getInstance()->getInt("ScraperResizeHeight")));
 }
 
-ImageDownloadHandle::ImageDownloadHandle(const std::string& url, const std::string& path, int maxWidth, int maxHeight) : 
-	mSavePath(path), mMaxWidth(maxWidth), mMaxHeight(maxHeight), mReq(new HttpReq(url))
+ImageDownloadHandle::ImageDownloadHandle(const std::string& url, const std::string& path, int maxWidth, int maxHeight)
+  : mReq(new HttpReq(url)),
+	  mSavePath(path),
+	  mMaxWidth(maxWidth),
+	  mMaxHeight(maxHeight)
 {
 }
 

@@ -26,7 +26,7 @@ public:
 
 	virtual inline void updateInfoPanel() override {}
 
-	virtual inline void populateList(const FileData* folder) override {}
+	virtual inline void populateList(const FileData* folder) override { (void)folder; }
     virtual inline void refreshList() override {};
 
 protected:

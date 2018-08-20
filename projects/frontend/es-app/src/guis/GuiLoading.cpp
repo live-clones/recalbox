@@ -12,7 +12,16 @@
 #include "Settings.h"
 #include "recalbox/RecalboxSystem.h"
 
-GuiLoading::GuiLoading(Window *window, const std::function<void*()> &mFunc) : GuiComponent(window), mBusyAnim(window), mFunc(mFunc),mFunc2(NULL), mBackground(window, ":/frame.png") {
+//! Null function used to allow permanent reference
+static const std::function<void(void*)> _NullFunction;
+
+GuiLoading::GuiLoading(Window *window, const std::function<void*()> &mFunc)
+  : GuiComponent(window),
+    mBusyAnim(window),
+    mBackground(window, ":/frame.png"),
+    mFunc(mFunc),
+    mFunc2(_NullFunction)
+{
     setSize((float) Renderer::getScreenWidth(), (float) Renderer::getScreenHeight());
     mRunning = true;
     mHandle = new boost::thread(boost::bind(&GuiLoading::threadLoading, this));
@@ -23,10 +32,15 @@ GuiLoading::GuiLoading(Window *window, const std::function<void*()> &mFunc) : Gu
     mBackground.setCenterColor(menuTheme->menuBackground.color);
     mBackground.setEdgeColor(menuTheme->menuBackground.color);
     addChild(&mBackground);
-
 }
 
-GuiLoading::GuiLoading(Window *window, const std::function<void*()> &mFunc, const std::function<void(void *)> &mFunc2) : GuiComponent(window), mBusyAnim(window), mFunc(mFunc),mFunc2(mFunc2), mBackground(window, ":/frame.png") {
+GuiLoading::GuiLoading(Window *window, const std::function<void*()> &mFunc, const std::function<void(void *)> &mFunc2)
+  : GuiComponent(window),
+    mBusyAnim(window),
+    mBackground(window, ":/frame.png"),
+    mFunc(mFunc),
+    mFunc2(mFunc2)
+{
     setSize((float) Renderer::getScreenWidth(), (float) Renderer::getScreenHeight());
     mRunning = true;
     mHandle = new boost::thread(boost::bind(&GuiLoading::threadLoading, this));
@@ -43,7 +57,10 @@ GuiLoading::~GuiLoading() {
     mHandle->join();
 }
 
-bool GuiLoading::input(InputConfig *config, Input input) {
+bool GuiLoading::input(InputConfig *config, Input input)
+{
+    (void)config;
+    (void)input;
     return false;
 }
 

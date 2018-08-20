@@ -17,6 +17,8 @@ GuiMsgBoxScroll::GuiMsgBoxScroll(Window* window,
         Alignment align, float height) : GuiComponent(window),
 	mBackground(window, ":/frame.png"), mGrid(window, Eigen::Vector2i(1, 3))
 {
+	(void)height;
+
 	float width = Renderer::getScreenWidth() * 0.8f; // max width
 	float minWidth = Renderer::getScreenWidth() * 0.3f; // minimum width
 

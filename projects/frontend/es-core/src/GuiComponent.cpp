@@ -6,8 +6,16 @@
 #include "ThemeData.h"
 #include "Settings.h"
 
-GuiComponent::GuiComponent(Window* window) : mWindow(window), mParent(NULL), mOpacity(255), 
-	mPosition(Eigen::Vector3f::Zero()), mOrigin(Eigen::Vector2f::Zero()), mRotationOrigin(0.5, 0.5), mSize(Eigen::Vector2f::Zero()), mTransform(Eigen::Affine3f::Identity()), mIsProcessing(false)
+GuiComponent::GuiComponent(Window* window)
+  : mOpacity(255),
+		mWindow(window),
+		mParent(NULL),
+	  mPosition(Eigen::Vector3f::Zero()),
+	  mOrigin(Eigen::Vector2f::Zero()),
+	  mRotationOrigin(0.5, 0.5),
+	  mSize(Eigen::Vector2f::Zero()),
+	  mIsProcessing(false),
+    mTransform(Eigen::Affine3f::Identity())
 {
 	for(unsigned char i = 0; i < MAX_ANIMATIONS; i++)
 		mAnimationMap[i] = NULL;
@@ -276,10 +284,12 @@ const Eigen::Affine3f& GuiComponent::getTransform()
 
 void GuiComponent::setValue(const std::string& value)
 {
+	(void)value;
 }
 
 void GuiComponent::setColor(unsigned int color)
 {
+	(void)color;
 }
 
 std::string GuiComponent::getValue() const

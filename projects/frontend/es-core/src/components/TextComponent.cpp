@@ -7,14 +7,32 @@
 #include "Settings.h"
 #include "Locale.h"
 
-TextComponent::TextComponent(Window* window) : GuiComponent(window), 
-	mFont(Font::get(FONT_SIZE_MEDIUM)), mUppercase(false), mColor(0x000000FF), mAutoCalcExtent(true, true), mHorizontalAlignment(ALIGN_LEFT), mVerticalAlignment(ALIGN_CENTER), mLineSpacing(1.5f), mBgColor(0), mRenderBackground(false)
+TextComponent::TextComponent(Window* window)
+	: GuiComponent(window),
+	  mColor(0x000000FF),
+		mBgColor(0),
+		mRenderBackground(false),
+		mFont(Font::get(FONT_SIZE_MEDIUM)),
+		mUppercase(false),
+		mAutoCalcExtent(true, true),
+		mHorizontalAlignment(ALIGN_LEFT),
+		mVerticalAlignment(ALIGN_CENTER),
+		mLineSpacing(1.5f)
 {
 }
 
 TextComponent::TextComponent(Window* window, const std::string& text, const std::shared_ptr<Font>& font, unsigned int color, Alignment align,
-	Eigen::Vector3f pos, Eigen::Vector2f size, unsigned int bgcolor) : GuiComponent(window), 
-	mFont(NULL), mUppercase(false), mColor(0x000000FF), mAutoCalcExtent(true, true), mHorizontalAlignment(align), mVerticalAlignment(ALIGN_CENTER), mLineSpacing(1.5f), mBgColor(0), mRenderBackground(false)
+	                           Eigen::Vector3f pos, Eigen::Vector2f size, unsigned int bgcolor)
+	: GuiComponent(window),
+		mColor(0x000000FF),
+		mBgColor(0),
+		mRenderBackground(false),
+	  mFont(NULL),
+		mUppercase(false),
+		mAutoCalcExtent(true, true),
+		mHorizontalAlignment(align),
+		mVerticalAlignment(ALIGN_CENTER),
+		mLineSpacing(1.5f)
 {
 	setFont(font);
 	setColor(color);
@@ -120,6 +138,8 @@ void TextComponent::render(const Eigen::Affine3f& parentTrans)
 			case ALIGN_CENTER:
 				yOff = (getSize().y() - textSize.y()) / 2.0f;
 				break;
+				case ALIGN_LEFT:break;
+				case ALIGN_RIGHT:break;
 			}
 		Eigen::Vector3f off(0, yOff, 0);
 
@@ -148,7 +168,9 @@ void TextComponent::render(const Eigen::Affine3f& parentTrans)
 			case ALIGN_RIGHT:
 				Renderer::drawRect(mSize.x() - mTextCache->metrics.size.x(), 0.0f, mTextCache->metrics.size.x(), mTextCache->metrics.size.y(), 0x00000033);
 				break;
-			}
+        case ALIGN_TOP:break;
+        case ALIGN_BOTTOM:break;
+      }
 		}
 
 		mFont->renderTextCache(mTextCache.get());

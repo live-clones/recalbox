@@ -184,15 +184,15 @@ int setLocale(char * argv1)
   	char *p;
 
     if(!(p = strrchr(argv1, '/'))) {
-    		char * res = getcwd(abs_exe_path, sizeof(abs_exe_path));
+    		/*char * res =*/ getcwd(abs_exe_path, sizeof(abs_exe_path));
     }
   	else
   	{
     		*p = '\0';
-			char * res = getcwd(path_save, sizeof(path_save));
-    		int chdirres = chdir(argv1);
-    		res = getcwd(abs_exe_path, sizeof(abs_exe_path));
-			chdirres = chdir(path_save);
+			/*char * res =*/ getcwd(path_save, sizeof(path_save));
+    		/*int chdirres =*/ chdir(argv1);
+    		/*res =*/ getcwd(abs_exe_path, sizeof(abs_exe_path));
+			/*chdirres =*/ chdir(path_save);
   	}
 	boost::locale::localization_backend_manager my = boost::locale::localization_backend_manager::global(); 
 	// Get global backend
@@ -356,14 +356,14 @@ int main(int argc, char* argv[])
     }
 
 	// UPDATE CHECK THREAD
-	NetworkThread * nthread = new NetworkThread(&window);
+	NetworkThread networkThread(&window);
 
 	// Start the socket server
-	CommandThread* ct = new CommandThread(&window);
+	CommandThread commandThread(&window);
 
   // Allocate custom event types
-  int NetPlayPopupEvent = SDL_RegisterEvents(2);
-  int MusicStartEvent = NetPlayPopupEvent + 1;
+  unsigned int NetPlayPopupEvent = SDL_RegisterEvents(2);
+  unsigned int MusicStartEvent = NetPlayPopupEvent + 1;
 	AudioManager::getInstance()->SetMusicStartEvent(&window, MusicStartEvent);
 
   NetPlayThread netPlayThread(&window, NetPlayPopupEvent);
@@ -505,15 +505,15 @@ int main(int argc, char* argv[])
 	SystemData::deleteSystems();
 	window.deinit();
 	LOG(LogInfo) << "EmulationStation cleanly shutting down.";
-	int res;
+	//int res;
 	if (doReboot) {
 		LOG(LogInfo) << "Rebooting system";
-		res = system("touch /tmp/reboot.please");
-		res = system("shutdown -r now");
+		/*res =*/ system("touch /tmp/reboot.please");
+		/*res =*/ system("shutdown -r now");
 	} else if (doShutdown) {
 		LOG(LogInfo) << "Shutting system down";
-		res = system("touch /tmp/shutdown.please");
-		res = system("shutdown -h now");
+		/*res =*/ system("touch /tmp/shutdown.please");
+		/*res =*/ system("shutdown -h now");
 	}
 
 	return 0;

@@ -49,7 +49,11 @@ std::string removeParenthesis(const std::string& str)
 
 
 FileData::FileData(FileType type, const fs::path& path, SystemData* system)
-	: mType(type), mPath(path), mSystem(system), mParent(NULL), metadata(getCleanName()) // TODO: Find a better way to move the default name into metadata
+	: metadata(getCleanName()), // TODO: Move clean name into metadata
+	  mType(type),
+	  mPath(path),
+	  mSystem(system),
+	  mParent(NULL)
 {
 }
 

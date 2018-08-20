@@ -69,7 +69,7 @@ bool RecalboxConf::saveRecalboxConf() {
         std::string key = it->first;
         std::string val = it->second;
         bool lineFound = false;
-        for (int i = 0; i < fileLines.size(); i++) {
+        for (int i = 0; i < (int)fileLines.size(); i++) {
             std::string currentLine = fileLines[i];
 
             if (boost::starts_with(currentLine, key+"=") || boost::starts_with(currentLine, ";"+key+"=")){
@@ -86,7 +86,7 @@ bool RecalboxConf::saveRecalboxConf() {
         LOG(LogError) << "Unable to open for saving :  " << recalboxConfFileTmp << "\n";
         return false;
     }
-    for (int i = 0; i < fileLines.size(); i++) {
+    for (int i = 0; i < (int)fileLines.size(); i++) {
         fileout << fileLines[i] << "\n";
     }
 

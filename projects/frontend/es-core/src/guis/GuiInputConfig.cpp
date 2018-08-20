@@ -147,7 +147,9 @@ GuiInputConfig::GuiInputConfig(Window* window, InputConfig* target, const std::f
 		mList->addRow(row);
 	}
 
-	mList->setCursorChangedCallback([this](CursorState state) {
+	mList->setCursorChangedCallback([this](CursorState state)
+	{
+		(void)state;
 		setHelpMessage();
 	});
 
@@ -238,7 +240,7 @@ void GuiInputConfig::setHelpMessage() {
 	int inputId = mList->getCursorId();
 	bool skippable = inputSkippable[inputId];
 	bool assigned = mTargetConfig->getInputByName(inputName[inputId], &input);
-	std::shared_ptr<TextComponent>& text = mMappings.at(inputId);
+	//std::shared_ptr<TextComponent>& text = mMappings.at(inputId);
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 
 	if (assigned) {

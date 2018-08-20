@@ -1797,7 +1797,7 @@ std::shared_ptr<OptionListComponent<std::string>> GuiMenu::createRatioOptionList
 }
 
 void GuiMenu::clearLoadedInput() {
-    for (int i = 0; i < mLoadedInput.size(); i++) {
+    for (int i = 0; i < (int)mLoadedInput.size(); i++) {
         delete mLoadedInput[i];
     }
     mLoadedInput.clear();

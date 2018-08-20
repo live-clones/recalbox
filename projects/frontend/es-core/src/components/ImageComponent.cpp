@@ -15,9 +15,19 @@ Eigen::Vector2i ImageComponent::getTextureSize() const {
     return Eigen::Vector2i::Zero();
 }
 
-ImageComponent::ImageComponent(Window* window, bool forceLoad, bool dynamic) : GuiComponent(window),
-    mTargetIsMax(false), mFlipX(false), mFlipY(false), mTargetSize(0, 0), mColorShift(0xFFFFFFFF),
-    mForceLoad(forceLoad), mDynamic(dynamic), mFadeOpacity(0.0f), mFading(false), mPath("") {
+ImageComponent::ImageComponent(Window* window, bool forceLoad, bool dynamic)
+  : GuiComponent(window),
+    mTargetSize(0, 0),
+    mPath(""),
+    mFlipX(false),
+    mFlipY(false),
+    mTargetIsMax(false),
+    mColorShift(0xFFFFFFFF),
+    mFadeOpacity(0.0f),
+    mFading(false),
+    mForceLoad(forceLoad),
+    mDynamic(dynamic)
+{
     updateColors();
 }
 

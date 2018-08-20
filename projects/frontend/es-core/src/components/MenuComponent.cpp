@@ -12,9 +12,13 @@
 
 using namespace Eigen;
 
-MenuComponent::MenuComponent(Window* window, const char* title, const std::shared_ptr<Font>& titleFont) : GuiComponent(window),
-                                                                                                          mBackground(window), mGrid(window, Vector2i(1, 3))
+MenuComponent::MenuComponent(Window* window, const char* title, const std::shared_ptr<Font>& titleFont)
+  : GuiComponent(window),
+    mBackground(window),
+    mGrid(window, Vector2i(1, 3))
 {
+  (void)titleFont;
+
 	addChild(&mBackground);
 	addChild(&mGrid);
 

@@ -243,7 +243,8 @@ void ViewController::playViewTransition()
 		setAnimation(new LambdaAnimation(
 				[this, target](float t)
 		{
-		this->mCamera.translation() = -target;
+      (void)t;
+		  this->mCamera.translation() = -target;
 		}, 1));
 		updateHelpPrompts();
 	}

@@ -50,7 +50,7 @@ struct MenuTheme {
 	MenuElement menuFooter{ 0xC6C6C6FF, 0xC6C6C6FF, 0xC6C6C6FF, 0xFFFFFFFF, "", "", Font::get(FONT_SIZE_SMALL)};
 	MenuElement menuText{ 0x777777FF, 0xFFFFFFFF, 0x878787FF, 0xC6C7C6FF, "", "", Font::get(FONT_SIZE_MEDIUM)};
 	MenuElement menuTextSmall{ 0x777777FF, 0xFFFFFFFF, 0x878787FF, 0xC6C7C6FF, "", "", Font::get(FONT_SIZE_SMALL)};
-	MenuIconElement menuIconSet{"","","","","","","","","","",""};
+	MenuIconElement menuIconSet{"","","","","","","","","","","","","",""};
 	IconElement iconSet{ ":/button.png", ":/button_filled.png", ":/on.svg", ":/off.svg", ":/option_arrow.svg", ":/arrow.svg", ":/slider_knob.svg" };
 };
 

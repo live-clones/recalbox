@@ -23,7 +23,7 @@ public:
 private:
 	int mDuration;
 	int alpha;
-	unsigned int maxAlpha;
+	int maxAlpha;
 	unsigned int mFrameColor;
 	bool updateState();
 	int mStartTime;

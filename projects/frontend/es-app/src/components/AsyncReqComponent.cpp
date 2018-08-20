@@ -35,6 +35,8 @@ void AsyncReqComponent::update(int deltaTime)
 
 void AsyncReqComponent::render(const Eigen::Affine3f& parentTrans)
 {
+	(void)parentTrans;
+
 	Eigen::Affine3f trans = Eigen::Affine3f::Identity();
 	trans = trans.translate(Eigen::Vector3f(Renderer::getScreenWidth() / 2.0f, Renderer::getScreenHeight() / 2.0f, 0));
 	Renderer::setMatrix(trans);

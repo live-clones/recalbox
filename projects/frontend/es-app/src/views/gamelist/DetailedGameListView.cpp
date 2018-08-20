@@ -6,25 +6,38 @@
 #include "animations/LambdaAnimation.h"
 #include "Locale.h"
 
-DetailedGameListView::DetailedGameListView(Window* window, FileData* root, SystemData* system) :
-    BasicGameListView(window, root), 
-    mDescContainer(window), mDescription(window), 
-    mImage(window), mSystem(system), 
-
-    mLblRating(window), mLblReleaseDate(window), mLblDeveloper(window), mLblPublisher(window), 
-    mLblGenre(window), mLblPlayers(window), mLblLastPlayed(window), mLblPlayCount(window), mLblFavorite(window),
-
-    mRating(window), mReleaseDate(window), mDeveloper(window), mPublisher(window),
-    mGenre(window), mPlayers(window), mLastPlayed(window), mPlayCount(window), mFavorite(window),
-
-    mFolderName(window)
+DetailedGameListView::DetailedGameListView(Window* window, FileData* root, SystemData* system)
+ : BasicGameListView(window, root),
+   mImage(window),
+   mLblRating(window),
+   mLblReleaseDate(window),
+   mLblDeveloper(window),
+   mLblPublisher(window),
+   mLblGenre(window),
+   mLblPlayers(window),
+   mLblLastPlayed(window),
+   mLblPlayCount(window),
+   mLblFavorite(window),
+   mFolderName(window),
+   mRating(window),
+   mReleaseDate(window),
+   mDeveloper(window),
+   mPublisher(window),
+   mGenre(window),
+   mPlayers(window),
+   mLastPlayed(window),
+   mPlayCount(window),
+   mFavorite(window),
+   mDescContainer(window),
+   mDescription(window),
+   mSystem(system)
 {
     const float padding = 0.01f;
 
     mList.setPosition(mSize.x() * (0.50f + padding), mList.getPosition().y());
     mList.setSize(mSize.x() * (0.50f - padding), mList.getSize().y());
     mList.setAlignment(TextListComponent<FileData*>::ALIGN_LEFT);
-    mList.setCursorChangedCallback([&](const CursorState& state) { updateInfoPanel(); });
+    mList.setCursorChangedCallback([&](const CursorState& state) { (void)state; updateInfoPanel(); });
 
     // folder components
     for (int y = 0; y < 3; y++) {
@@ -139,7 +152,8 @@ void DetailedGameListView::onThemeChanged(const std::shared_ptr<ThemeData>& them
     if (theme->isFolderHandled()) {
         char strbuf[256];
         mFolderName.applyTheme(theme, getName(), "md_folder_name", ALL);
-        for (int i = 0; i < mFolderContent.size(); i++) {
+        for (int i = 0; i < (int)mFolderContent.size(); i++)
+        {
             snprintf(strbuf, 256, "md_folder_image_%d", i);
             mFolderContent.at(i)->applyTheme(theme, getName(), strbuf, POSITION | ThemeFlags::SIZE | Z_INDEX | ROTATION);
         }
@@ -273,15 +287,19 @@ void DetailedGameListView::updateInfoPanel() {
     }
 }
 
-bool DetailedGameListView::switchToFolderScrappedDisplay() {
+bool DetailedGameListView::switchToFolderScrappedDisplay()
+{
     fadeOut(getGameComponents(false), true);
     fadeOut(getFolderComponents(), true);
     fadeOut(getScrappedFolderComponents(), false);
+    return true;
 }
 
-bool DetailedGameListView::switchDisplay(bool isGame) {
+bool DetailedGameListView::switchDisplay(bool isGame)
+{
     fadeOut(getGameComponents(), !isGame);
     fadeOut(getFolderComponents(), isGame);
+    return true;
 }
 
 std::vector<GuiComponent*> DetailedGameListView::getFolderComponents() {
@@ -332,7 +350,8 @@ void DetailedGameListView::setFolderInfo(FileData* file) {
             }
         }
     }
-    for (int i = idx; i < mFolderContent.size(); i++) {
+    for (int i = idx; i < (int)mFolderContent.size(); i++)
+    {
         mFolderContent.at(i)->setImage("");
     }
 }

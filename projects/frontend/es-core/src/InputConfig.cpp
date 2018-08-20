@@ -109,8 +109,11 @@ std::string InputConfig::getSDLPowerLevel()
 
 		case SDL_JOYSTICK_POWER_WIRED:
 			return "\uF1b4";
+
+	  default: break;
 	}
 
+	return "";
 }
 
 std::string InputConfig::getSysPowerLevel()
@@ -118,6 +121,7 @@ std::string InputConfig::getSysPowerLevel()
 	SDL_Joystick* joy;
 	//joy = InputManager::getInstance()->getJoystickByJoystickID(getDeviceId());
 	joy = SDL_JoystickOpen(getDeviceId());
+	(void)joy; // TODO: Check usefulness
 	return "\uF1be";
 }
 

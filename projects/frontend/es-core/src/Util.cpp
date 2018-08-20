@@ -90,7 +90,7 @@ fs::path resolvePath(const fs::path& path, const fs::path& relativeTo, bool allo
 		fs::path ret = relativeTo;
 		for(auto it = ++path.begin(); it != path.end(); ++it)
 			ret /= *it;
-		return ret;
+		return std::move(ret);
 	}
 
 	if(allowHome && *path.begin() == "~")
@@ -98,7 +98,7 @@ fs::path resolvePath(const fs::path& path, const fs::path& relativeTo, bool allo
 		fs::path ret = getHomePath();
 		for(auto it = ++path.begin(); it != path.end(); ++it)
 			ret /= *it;
-		return ret;
+		return std::move(ret);
 	}
 
 	return path;
@@ -177,19 +177,17 @@ fs::path makeRelativePath(const fs::path& path, const fs::path& relativeTo, bool
 	{
 		// success
 		ret = "." / ret;
-		return ret;
+		return std::move(ret);
 	}
 
 	if(allowHome)
 	{
-		contains = false;
-		std::string homePath = getHomePath();
-		ret = removeCommonPath(path, homePath, contains);
+		ret = removeCommonPath(path, getHomePath(), contains);
 		if(contains)
 		{
 			// success
 			ret = "~" / ret;
-			return ret;
+			return std::move(ret);
 		}
 	}
 

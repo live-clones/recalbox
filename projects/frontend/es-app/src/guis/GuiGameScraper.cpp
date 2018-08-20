@@ -11,11 +11,12 @@
 #include "Locale.h"
 #include "MenuThemeData.h"
 
-GuiGameScraper::GuiGameScraper(Window* window, ScraperSearchParams params, std::function<void(const ScraperSearchResult&)> doneFunc) : GuiComponent(window), 
-	mGrid(window, Eigen::Vector2i(1, 7)), 
-	mBox(window, ":/frame.png"),
-	mSearchParams(params),
-	mClose(false)
+GuiGameScraper::GuiGameScraper(Window* window, ScraperSearchParams params, std::function<void(const ScraperSearchResult&)> doneFunc)
+  : GuiComponent(window),
+		mClose(false),
+  	mGrid(window, Eigen::Vector2i(1, 7)),
+	  mBox(window, ":/frame.png"),
+	  mSearchParams(params)
 {
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 	

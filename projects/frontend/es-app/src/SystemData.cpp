@@ -23,11 +23,11 @@ SystemData::SystemData(const std::string &name, const std::string &fullName, con
   : mName(name),
     mFullName(fullName),
     mStartPath(getExpandedPath(startPath)),
-    mLaunchCommand(command),
-    mThemeFolder(themeFolder),
-    mEmulators(emulators),
     mSearchExtensions(extensions),
-    mPlatformIds(platformIds)
+    mLaunchCommand(command),
+    mPlatformIds(platformIds),
+    mThemeFolder(themeFolder),
+    mEmulators(emulators)
 {
   mSortId = RecalboxConf::getInstance()->getUInt(mName + ".sort");
   // make it absolute if needed
@@ -526,6 +526,7 @@ void SystemData::writeExampleConfig(const std::string &path)
 bool deleteSystem(SystemData *system)
 {
   delete system;
+  return true;
 }
 
 void SystemData::deleteSystems()

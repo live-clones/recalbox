@@ -7,7 +7,7 @@
 #define AUTO_SCROLL_SPEED 50 // ms between scrolls
 
 ScrollableContainer::ScrollableContainer(Window* window) : GuiComponent(window), 
-	mAutoScrollDelay(0), mAutoScrollSpeed(0), mAutoScrollAccumulator(0), mScrollPos(0, 0), mScrollDir(0, 0), mAutoScrollResetAccumulator(0)
+	mAutoScrollDelay(0), mAutoScrollSpeed(0), mAutoScrollResetAccumulator(0), mAutoScrollAccumulator(0), mScrollPos(0, 0), mScrollDir(0, 0)
 {
 }
 
@@ -63,7 +63,7 @@ void ScrollableContainer::update(int deltaTime)
 		mAutoScrollAccumulator += deltaTime;
 
 		//scale speed by our width! more text per line = slower scrolling
-		const float widthMod = (680.0f / getSize().x());
+		//const float widthMod = (680.0f / getSize().x());
 		while(mAutoScrollAccumulator >= mAutoScrollSpeed)
 		{
 			mScrollPos += mScrollDir;

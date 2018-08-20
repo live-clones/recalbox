@@ -10,8 +10,16 @@
 
 #define DPI 96
 
-TextureData::TextureData(bool tile) : mTile(tile), mTextureID(0), mDataRGBA(nullptr), mScalable(false),
-									  mWidth(0), mHeight(0), mSourceWidth(0.0f), mSourceHeight(0.0f), mSVGImage(NULL)
+TextureData::TextureData(bool tile)
+  : mTile(tile),
+    mTextureID(0),
+    mDataRGBA(nullptr),
+		mWidth(0),
+		mHeight(0),
+		mSourceWidth(0.0f),
+		mSourceHeight(0.0f),
+		mScalable(false),
+		mSVGImage(NULL)
 {
 }
 
