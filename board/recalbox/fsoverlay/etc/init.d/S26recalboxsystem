@@ -146,8 +146,14 @@ case "$1" in
 	( rb_volume_configure ; rb_audio_configure ) &  # 1.0
 	rb_timezone&          # 0.4
 	rb_hostname&          # 0.4
-	wait
-	( sleep 8 ; rb_xarcade2jstick ) &    # 0.1
+	enabled="`$systemsetting  -command load -key controllers.xarcade.enabled`"
+	if [ "$enabled" == "1" ];then
+		recallog "Starting XArcade controller services"
+		wait
+		( sleep 8 ; rb_xarcade2jstick ) &    # 0.1
+	else
+		recallog "XArcade controller services: disabled"
+	fi
 	;;
   stop)
         rb_audio_save &
