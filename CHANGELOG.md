@@ -14,6 +14,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - fix PS3/PS4 pads not working
 - fix kodi configgen
 - bump rpi kernel + firmware
+- gpio arcadedriver works again
 
 ## [unreleased]
 - Add support for Mayflash GameCube adapter

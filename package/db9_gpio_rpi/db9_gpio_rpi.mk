@@ -19,13 +19,9 @@ define DB9_GPIO_RPI_RPI2_HOOK
         $(SED) "s/#define BCM2708_PERI_BASE 0x20000000/#define BCM2708_PERI_BASE 0x3F000000/g" $(@D)/db9_gpio_rpi.c
 endef
 
-ifeq ($(BR2_cortex_a7),y)
+ifeq ($(BR2_cortex_a7)$(BR2_cortex_a53),y)
         DB9_GPIO_RPI_PRE_CONFIGURE_HOOKS += DB9_GPIO_RPI_RPI2_HOOK
 endif
-ifeq ($(BR2_cortex_a8),y)
-        DB9_GPIO_RPI_PRE_CONFIGURE_HOOKS += DB9_GPIO_RPI_RPI2_HOOK
-endif
-
 
 define DB9_GPIO_RPI_BUILD_CMDS
         $(MAKE) -C $(@D) $(LINUX_MAKE_FLAGS) KERNELDIR=$(LINUX_DIR)
