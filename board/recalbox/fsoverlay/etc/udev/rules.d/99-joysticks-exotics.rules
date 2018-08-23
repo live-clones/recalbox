@@ -11,7 +11,7 @@ SUBSYSTEM=="input", ATTRS{name}=="TOMMO NEOGEOX Arcade Stick", MODE="0666", ENV{
 SUBSYSTEM=="input", ATTRS{name}=="Mad Catz C.T.R.L.R", MODE="0666", ENV{ID_INPUT_JOYSTICK}="1"
 # iPEGA 9055
 SUBSYSTEM=="input", ATTRS{name}=="ipega media gamepad controller", MODE="0666", ENV{ID_INPUT_JOYSTICK}="1"
-SUBSYSTEM=="input", ATTRS{name}=="PG-9055", MODE="0666", ENV{ID_INPUT_JOYSTICK}="1"'
+SUBSYSTEM=="input", ATTRS{name}=="PG-9055", MODE="0666", ENV{ID_INPUT_JOYSTICK}="1"
 # OUYA gamepad
 SUBSYSTEM=="input", ATTRS{name}=="OUYA Game Controller", MODE="0666", ENV{ID_INPUT_JOYSTICK}="1"
 # Disable PS3/PS4 pads motion sensors

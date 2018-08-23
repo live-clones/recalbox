@@ -47,6 +47,7 @@ netstat -tuan    	> "${DSYSTEM}/netstat.txt"
 lsusb -v         	> "${DSYSTEM}/lsusb.txt" 2>/dev/null
 tvservice -m CEA 	> "${DSYSTEM}/tvservice-CEA.txt"
 tvservice -m DMT 	> "${DSYSTEM}/tvservice-DMT.txt"
+tvservice -s  		> "${DSYSTEM}/tvservice-status.txt"
 ifconfig -a             > "${DSYSTEM}/ifconfig.txt"
 lspci                   > "${DSYSTEM}/lspci.txt"
 amixer                  > "${DSYSTEM}/amixer.txt"
@@ -109,6 +110,7 @@ DKODI="${TMPDIR}/kodi"
 f_cp "${DHOME}/.kodi/userdata/Lircmap.xml"          "${DKODI}"
 f_cp "${DHOME}/.kodi/userdata/keymaps/recalbox.xml" "${DKODI}"
 d_cp "${DHOME}/.kodi/userdata/remotes"              "${DKODI}"
+d_cp "${DHOME}/.kodi/userdata/addon_data/peripheral.joystick/resources/buttonmaps/xml/linux"              "${DKODI}"
 test -e "${DHOME}/.kodi/temp/kodi.log" && tail -4000 "${DHOME}/.kodi/temp/kodi.log" > "${DKODI}/kodi.log"
 
 if ! (cd "${GTMP}" && tar cf -  "${REPORTNAME}" | gzip -c > "${OUTPUTFILE}")
