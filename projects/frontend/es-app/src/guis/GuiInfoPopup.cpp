@@ -58,6 +58,7 @@ GuiInfoPopup::GuiInfoPopup(Window* window, std::string message, int duration, in
 		case 50 :
 			mMsgIcon->setText("\uF200"); //icon recalbox
 			break;
+		default: break;
 	}
 
 	mGrid.setEntry(mMsgText, Eigen::Vector2i(1, 0), false, false);

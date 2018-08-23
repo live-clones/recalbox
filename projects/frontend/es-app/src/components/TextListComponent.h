@@ -217,6 +217,7 @@ void TextListComponent<T>::render(const Eigen::Affine3f& parentTrans)
 			if(offset[0] < mHorizontalMargin)
 				offset[0] = mHorizontalMargin;
 			break;
+		  default : break;
 		}
 		
 		if(mCursor == i)

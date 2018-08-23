@@ -721,6 +721,8 @@ float Font::getNewlineStartOffset(const std::string& text, const unsigned int& c
       size_t endChar = text.find('\n', charStart);
 			return xLen - (sizeText(text.substr(charStart, endChar != std::string::npos ? endChar - charStart : endChar)).x());
 		}
+	  case ALIGN_TOP:
+	  case ALIGN_BOTTOM:
 	  default:
 		  return 0;
 	}

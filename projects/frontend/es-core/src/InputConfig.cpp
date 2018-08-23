@@ -19,6 +19,7 @@ std::string inputTypeToString(InputType type)
 		return "hat";
 	case TYPE_KEY:
 		return "key";
+		case TYPE_COUNT:
 	default:
 		return "error";
 	}

@@ -72,6 +72,7 @@ public:
 			case TYPE_KEY:
 				stream << "Key " << SDL_GetKeyName((SDL_Keycode)id);
 				break;
+			case TYPE_COUNT:
 			default:
 				stream << "Input to string error";
 				break;
