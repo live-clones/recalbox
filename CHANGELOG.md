@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [unreleased]
+- Fixing Hypseus compilation
 - Add support for Mayflash GameCube adapter
 - ES: better cyrillic display
 - Add ipega 9055 udev rule
