@@ -11,7 +11,7 @@ HYPSEUS_LICENSE = GPL3
 HYPSEUS_DEPENDENCIES = sdl2 sdl2_image sdl2_ttf zlib libogg libvorbis libmpeg2
 
 # Create build directory and build in it
-HYPSEUS_SUBDIR = build
+HYPSEUS_SUBDIR = 
 HYPSEUS_CONF_OPTS = ../src -DBUILD_SHARED_LIBS=OFF
 
 # Post-install: create link to configuration file
