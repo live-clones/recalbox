@@ -62,6 +62,7 @@ emulators["virtualboy"] = Emulator(name='virtualboy', emulator='libretro', core=
 emulators["gamecube"] = Emulator(name='gamecube', emulator='dolphin')
 emulators["wii"] = Emulator(name='wii', emulator='dolphin')
 emulators["nds"] = Emulator(name='nds', emulator='libretro', core='desmume')
+emulators["pokemini"] = Emulator(name='pokemini', emulator='libretro', core='pokemini')
 # Sega
 emulators["sg1000"] = Emulator(name='sg1000', emulator='libretro', core='genesisplusgx')
 emulators["mastersystem"] = Emulator(name='mastersystem', emulator='libretro', core='picodrive')
