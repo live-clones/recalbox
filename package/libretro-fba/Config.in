@@ -4,6 +4,7 @@ config BR2_PACKAGE_LIBRETRO_FBA
 	depends on BR2_INSTALL_LIBSTDCPP
 	select BR2_PACKAGE_RECALBOX_ROMFS_FBA_LIBRETRO
 	select BR2_PACKAGE_RECALBOX_ROMFS_NEOGEO
+	select BR2_PACKAGE_RECALBOX_ROMFS_NEOGEOCD
         help
           A libretro fba emulator core for ARM.
 

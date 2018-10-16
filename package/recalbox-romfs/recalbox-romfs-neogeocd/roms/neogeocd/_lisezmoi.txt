@@ -1,0 +1,5 @@
+## RECALBOX - SYSTEM NEO GEO CD ##
+
+Placez ici vos roms Neo Geo CD.
+
+Les roms doivent avoir l'extension ".cue"
