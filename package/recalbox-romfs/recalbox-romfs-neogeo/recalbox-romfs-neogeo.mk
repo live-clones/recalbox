@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system neogeo --extension '.zip .ZIP' --fullname 'Neo-Geo' --platform neogeo --theme neogeo libretro:mame078:BR2_PACKAGE_LIBRETRO_MAME2003 libretro:imame4all:BR2_PACKAGE_LIBRETRO_IMAME libretro:fba:BR2_PACKAGE_LIBRETRO_FBA fba2x:fba2x:BR2_PACKAGE_PIFBA libretro:mame2010:BR2_PACKAGE_LIBRETRO_MAME2010
+# ./scripts/linux/empack.py --system neogeo --extension '.zip .ZIP .7z .7Z' --fullname 'Neo-Geo' --platform neogeo --theme neogeo libretro:mame078:BR2_PACKAGE_LIBRETRO_MAME2003 libretro:imame4all:BR2_PACKAGE_LIBRETRO_IMAME libretro:fba:BR2_PACKAGE_LIBRETRO_FBA fba2x:fba2x:BR2_PACKAGE_PIFBA libretro:mame2010:BR2_PACKAGE_LIBRETRO_MAME2010
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_NEOGEO_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_NEOGEO = $(RECALBOX_ROMFS_NEOGEO_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_MAME2003)$(BR2_PACKAGE_LIBRETRO_IMAME)$(BR2_PACKAGE_LIBRETRO_FBA)$(BR2_PACKAGE_PIFBA)$(BR2_PACKAGE_LIBRETRO_MAME2010),)
 define CONFIGURE_MAIN_NEOGEO_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_NEOGEO),Neo-Geo,$(SYSTEM_NAME_NEOGEO),.zip .ZIP,neogeo,neogeo)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_NEOGEO),Neo-Geo,$(SYSTEM_NAME_NEOGEO),.zip .ZIP .7z .7Z,neogeo,neogeo)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_MAME2003)$(BR2_PACKAGE_LIBRETRO_IMAME)$(BR2_PACKAGE_LIBRETRO_FBA)$(BR2_PACKAGE_PIFBA)$(BR2_PACKAGE_LIBRETRO_MAME2010),)

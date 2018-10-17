@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system snes --extension '.smc .sfc .SMC .SFC .zip .ZIP .mgd .MGD' --fullname 'Super Nintendo Entertainment System' --platform snes --theme snes libretro:catsfc:BR2_PACKAGE_LIBRETRO_CATSFC libretro:pocketsnes:BR2_PACKAGE_LIBRETRO_POCKETSNES libretro:snes9x_next:BR2_PACKAGE_LIBRETRO_SNES9X_NEXT libretro:snes9x:BR2_PACKAGE_LIBRETRO_SNES9X
+# ./scripts/linux/empack.py --system snes --extension '.smc .sfc .SMC .SFC .mgd .MGD .zip .ZIP .7z .7Z' --fullname 'Super Nintendo Entertainment System' --platform snes --theme snes libretro:catsfc:BR2_PACKAGE_LIBRETRO_CATSFC libretro:pocketsnes:BR2_PACKAGE_LIBRETRO_POCKETSNES libretro:snes9x_next:BR2_PACKAGE_LIBRETRO_SNES9X_NEXT libretro:snes9x:BR2_PACKAGE_LIBRETRO_SNES9X
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_SNES_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_SNES = $(RECALBOX_ROMFS_SNES_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_CATSFC)$(BR2_PACKAGE_LIBRETRO_POCKETSNES)$(BR2_PACKAGE_LIBRETRO_SNES9X_NEXT)$(BR2_PACKAGE_LIBRETRO_SNES9X),)
 define CONFIGURE_MAIN_SNES_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_SNES),Super Nintendo Entertainment System,$(SYSTEM_NAME_SNES),.smc .sfc .SMC .SFC .zip .ZIP .mgd .MGD,snes,snes)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_SNES),Super Nintendo Entertainment System,$(SYSTEM_NAME_SNES),.smc .sfc .SMC .SFC .mgd .MGD .zip .ZIP .7z .7Z,snes,snes)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_CATSFC)$(BR2_PACKAGE_LIBRETRO_POCKETSNES)$(BR2_PACKAGE_LIBRETRO_SNES9X_NEXT)$(BR2_PACKAGE_LIBRETRO_SNES9X),)

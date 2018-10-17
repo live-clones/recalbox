@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system supergrafx --extension '.pce .PCE .sgx .SGX .zip .ZIP' --fullname 'Supergrafx' --platform supergrafx --theme supergrafx libretro:mednafen_supergrafx:BR2_PACKAGE_LIBRETRO_BEETLE_SUPERGRAFX libretro:pce:BR2_PACKAGE_LIBRETRO_BEETLE_PCE
+# ./scripts/linux/empack.py --system supergrafx --extension '.pce .PCE .sgx .SGX .zip .ZIP .7z .7Z' --fullname 'Supergrafx' --platform supergrafx --theme supergrafx libretro:mednafen_supergrafx:BR2_PACKAGE_LIBRETRO_BEETLE_SUPERGRAFX libretro:pce:BR2_PACKAGE_LIBRETRO_BEETLE_PCE
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_SUPERGRAFX_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_SUPERGRAFX = $(RECALBOX_ROMFS_SUPERGRAFX_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_SUPERGRAFX)$(BR2_PACKAGE_LIBRETRO_BEETLE_PCE),)
 define CONFIGURE_MAIN_SUPERGRAFX_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_SUPERGRAFX),Supergrafx,$(SYSTEM_NAME_SUPERGRAFX),.pce .PCE .sgx .SGX .zip .ZIP,supergrafx,supergrafx)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_SUPERGRAFX),Supergrafx,$(SYSTEM_NAME_SUPERGRAFX),.pce .PCE .sgx .SGX .zip .ZIP .7z .7Z,supergrafx,supergrafx)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_SUPERGRAFX)$(BR2_PACKAGE_LIBRETRO_BEETLE_PCE),)

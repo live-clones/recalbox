@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system gbc --extension '.gb .GB .gbc .GBC .zip .ZIP' --fullname 'Game Boy Color' --platform gbc --theme gbc libretro:gambatte:BR2_PACKAGE_LIBRETRO_GAMBATTE libretro:tgbdual:BR2_PACKAGE_LIBRETRO_TGBDUAL libretro:mgba:BR2_PACKAGE_LIBRETRO_MGBA
+# ./scripts/linux/empack.py --system gbc --extension '.gb .GB .gbc .GBC .zip .ZIP .7z .7Z' --fullname 'Game Boy Color' --platform gbc --theme gbc libretro:gambatte:BR2_PACKAGE_LIBRETRO_GAMBATTE libretro:tgbdual:BR2_PACKAGE_LIBRETRO_TGBDUAL libretro:mgba:BR2_PACKAGE_LIBRETRO_MGBA
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_GBC_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_GBC = $(RECALBOX_ROMFS_GBC_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_GAMBATTE)$(BR2_PACKAGE_LIBRETRO_TGBDUAL)$(BR2_PACKAGE_LIBRETRO_MGBA),)
 define CONFIGURE_MAIN_GBC_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_GBC),Game Boy Color,$(SYSTEM_NAME_GBC),.gb .GB .gbc .GBC .zip .ZIP,gbc,gbc)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_GBC),Game Boy Color,$(SYSTEM_NAME_GBC),.gb .GB .gbc .GBC .zip .ZIP .7z .7Z,gbc,gbc)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_GAMBATTE)$(BR2_PACKAGE_LIBRETRO_TGBDUAL)$(BR2_PACKAGE_LIBRETRO_MGBA),)

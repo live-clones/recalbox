@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system wswan --extension '.ws .WS .wsc .WSC .zip .ZIP' --fullname 'WonderSwan' --platform wonderswan --theme wonderswan libretro:mednafen_wswan:BR2_PACKAGE_LIBRETRO_BEETLE_WSWAN
+# ./scripts/linux/empack.py --system wswan --extension '.ws .WS .wsc .WSC .zip .ZIP .7z .7Z' --fullname 'WonderSwan' --platform wonderswan --theme wonderswan libretro:mednafen_wswan:BR2_PACKAGE_LIBRETRO_BEETLE_WSWAN
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_WSWAN_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_WSWAN = $(RECALBOX_ROMFS_WSWAN_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_WSWAN),)
 define CONFIGURE_MAIN_WSWAN_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_WSWAN),WonderSwan,$(SYSTEM_NAME_WSWAN),.ws .WS .wsc .WSC .zip .ZIP,wonderswan,wonderswan)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_WSWAN),WonderSwan,$(SYSTEM_NAME_WSWAN),.ws .WS .wsc .WSC .zip .ZIP .7z .7Z,wonderswan,wonderswan)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_WSWAN),)

@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system lynx --extension '.zip .ZIP .lnx .LNX' --fullname 'Lynx' --platform atarilynx --theme lynx libretro:handy:BR2_PACKAGE_LIBRETRO_HANDY libretro:mednafen_lynx:BR2_PACKAGE_LIBRETRO_BEETLE_LYNX
+# ./scripts/linux/empack.py --system lynx --extension '.lnx .LNX .zip .ZIP .7z .7Z' --fullname 'Lynx' --platform atarilynx --theme lynx libretro:handy:BR2_PACKAGE_LIBRETRO_HANDY libretro:mednafen_lynx:BR2_PACKAGE_LIBRETRO_BEETLE_LYNX
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_LYNX_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_LYNX = $(RECALBOX_ROMFS_LYNX_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_HANDY)$(BR2_PACKAGE_LIBRETRO_BEETLE_LYNX),)
 define CONFIGURE_MAIN_LYNX_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_LYNX),Lynx,$(SYSTEM_NAME_LYNX),.zip .ZIP .lnx .LNX,atarilynx,lynx)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_LYNX),Lynx,$(SYSTEM_NAME_LYNX),.lnx .LNX .zip .ZIP .7z .7Z,atarilynx,lynx)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_HANDY)$(BR2_PACKAGE_LIBRETRO_BEETLE_LYNX),)

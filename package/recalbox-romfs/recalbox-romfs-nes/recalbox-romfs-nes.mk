@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system nes --extension '.nes .NES .zip .ZIP' --fullname 'Nintendo Entertainment System' --platform nes --theme nes libretro:fceumm:BR2_PACKAGE_LIBRETRO_FCEUMM libretro:fceunext:BR2_PACKAGE_LIBRETRO_FCEUNEXT libretro:nestopia:BR2_PACKAGE_LIBRETRO_NESTOPIA libretro:quicknes:BR2_PACKAGE_LIBRETRO_QUICKNES
+# ./scripts/linux/empack.py --system nes --extension '.nes .NES .zip .ZIP .7z .7Z' --fullname 'Nintendo Entertainment System' --platform nes --theme nes libretro:fceumm:BR2_PACKAGE_LIBRETRO_FCEUMM libretro:fceunext:BR2_PACKAGE_LIBRETRO_FCEUNEXT libretro:nestopia:BR2_PACKAGE_LIBRETRO_NESTOPIA libretro:quicknes:BR2_PACKAGE_LIBRETRO_QUICKNES
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_NES_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_NES = $(RECALBOX_ROMFS_NES_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_FCEUMM)$(BR2_PACKAGE_LIBRETRO_FCEUNEXT)$(BR2_PACKAGE_LIBRETRO_NESTOPIA)$(BR2_PACKAGE_LIBRETRO_QUICKNES),)
 define CONFIGURE_MAIN_NES_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_NES),Nintendo Entertainment System,$(SYSTEM_NAME_NES),.nes .NES .zip .ZIP,nes,nes)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_NES),Nintendo Entertainment System,$(SYSTEM_NAME_NES),.nes .NES .zip .ZIP .7z .7Z,nes,nes)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_FCEUMM)$(BR2_PACKAGE_LIBRETRO_FCEUNEXT)$(BR2_PACKAGE_LIBRETRO_NESTOPIA)$(BR2_PACKAGE_LIBRETRO_QUICKNES),)

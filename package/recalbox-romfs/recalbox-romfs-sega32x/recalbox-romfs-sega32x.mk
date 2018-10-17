@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system sega32x --extension '.32x .32X .smd .SMD .bin .BIN .zip .ZIP' --fullname 'Sega 32X' --platform sega32x --theme sega32x libretro:picodrive:BR2_PACKAGE_LIBRETRO_PICODRIVE
+# ./scripts/linux/empack.py --system sega32x --extension '.32x .32X .smd .SMD .bin .BIN .zip .ZIP .7z .7Z' --fullname 'Sega 32X' --platform sega32x --theme sega32x libretro:picodrive:BR2_PACKAGE_LIBRETRO_PICODRIVE
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_SEGA32X_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_SEGA32X = $(RECALBOX_ROMFS_SEGA32X_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_PICODRIVE),)
 define CONFIGURE_MAIN_SEGA32X_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_SEGA32X),Sega 32X,$(SYSTEM_NAME_SEGA32X),.32x .32X .smd .SMD .bin .BIN .zip .ZIP,sega32x,sega32x)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_SEGA32X),Sega 32X,$(SYSTEM_NAME_SEGA32X),.32x .32X .smd .SMD .bin .BIN .zip .ZIP .7z .7Z,sega32x,sega32x)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_PICODRIVE),)

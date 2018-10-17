@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system ngpc --extension '.zip .ZIP .ngc .NGC .ngp .NGP' --fullname 'Neo-Geo Pocket Color' --platform ngpc --theme ngpc libretro:mednafen_ngp:BR2_PACKAGE_LIBRETRO_BEETLE_NGP
+# ./scripts/linux/empack.py --system ngpc --extension '.ngc .NGC .ngp .NGP .zip .ZIP .7z .7Z' --fullname 'Neo-Geo Pocket Color' --platform ngpc --theme ngpc libretro:mednafen_ngp:BR2_PACKAGE_LIBRETRO_BEETLE_NGP
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_NGPC_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_NGPC = $(RECALBOX_ROMFS_NGPC_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_NGP),)
 define CONFIGURE_MAIN_NGPC_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_NGPC),Neo-Geo Pocket Color,$(SYSTEM_NAME_NGPC),.zip .ZIP .ngc .NGC .ngp .NGP,ngpc,ngpc)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_NGPC),Neo-Geo Pocket Color,$(SYSTEM_NAME_NGPC),.ngc .NGC .ngp .NGP .zip .ZIP  .7z .7Z,ngpc,ngpc)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_NGP),)
