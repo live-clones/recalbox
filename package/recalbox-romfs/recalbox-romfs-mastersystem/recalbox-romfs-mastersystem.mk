@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system mastersystem --extension '.sms .SMS .zip .ZIP' --fullname 'Sega Master System / Mark III' --platform mastersystem --theme mastersystem libretro:genesisplusgx:BR2_PACKAGE_LIBRETRO_GENESISPLUSGX libretro:picodrive:BR2_PACKAGE_LIBRETRO_PICODRIVE
+# ./scripts/linux/empack.py --system mastersystem --extension '.sms .SMS .zip .ZIP .7z .7Z' --fullname 'Sega Master System / Mark III' --platform mastersystem --theme mastersystem libretro:genesisplusgx:BR2_PACKAGE_LIBRETRO_GENESISPLUSGX libretro:picodrive:BR2_PACKAGE_LIBRETRO_PICODRIVE
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_MASTERSYSTEM_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_MASTERSYSTEM = $(RECALBOX_ROMFS_MASTERSYSTEM_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_GENESISPLUSGX)$(BR2_PACKAGE_LIBRETRO_PICODRIVE),)
 define CONFIGURE_MAIN_MASTERSYSTEM_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_MASTERSYSTEM),Sega Master System / Mark III,$(SYSTEM_NAME_MASTERSYSTEM),.sms .SMS .zip .ZIP,mastersystem,mastersystem)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_MASTERSYSTEM),Sega Master System / Mark III,$(SYSTEM_NAME_MASTERSYSTEM),.sms .SMS .zip .ZIP .7z .7Z,mastersystem,mastersystem)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_GENESISPLUSGX)$(BR2_PACKAGE_LIBRETRO_PICODRIVE),)

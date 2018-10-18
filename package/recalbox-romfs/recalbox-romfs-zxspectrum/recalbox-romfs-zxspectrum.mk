@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system zxspectrum --extension '.tzx .TZX .tap .TAP .z80 .Z80 .rzx .RZX .scl .SCL .trd .TRD .zip .ZIP' --fullname 'ZXSpectrum' --platform zxspectrum --theme zxspectrum libretro:fuse:BR2_PACKAGE_LIBRETRO_FUSE
+# ./scripts/linux/empack.py --system zxspectrum --extension '.tzx .TZX .tap .TAP .z80 .Z80 .rzx .RZX .scl .SCL .trd .TRD .zip .ZIP .7z .7Z' --fullname 'ZXSpectrum' --platform zxspectrum --theme zxspectrum libretro:fuse:BR2_PACKAGE_LIBRETRO_FUSE
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_ZXSPECTRUM_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_ZXSPECTRUM = $(RECALBOX_ROMFS_ZXSPECTRUM_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_FUSE),)
 define CONFIGURE_MAIN_ZXSPECTRUM_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_ZXSPECTRUM),ZXSpectrum,$(SYSTEM_NAME_ZXSPECTRUM),.tzx .TZX .tap .TAP .z80 .Z80 .rzx .RZX .scl .SCL .trd .TRD .zip .ZIP,zxspectrum,zxspectrum)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_ZXSPECTRUM),ZXSpectrum,$(SYSTEM_NAME_ZXSPECTRUM),.tzx .TZX .tap .TAP .z80 .Z80 .rzx .RZX .scl .SCL .trd .TRD .zip .ZIP .7z .7Z,zxspectrum,zxspectrum)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_FUSE),)

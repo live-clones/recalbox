@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system virtualboy --extension '.vb .VB .zip .ZIP' --fullname 'Virtual Boy' --platform virtualboy --theme virtualboy libretro:mednafen_vb:BR2_PACKAGE_LIBRETRO_BEETLE_VB
+# ./scripts/linux/empack.py --system virtualboy --extension '.vb .VB .zip .ZIP .7z .7Z' --fullname 'Virtual Boy' --platform virtualboy --theme virtualboy libretro:mednafen_vb:BR2_PACKAGE_LIBRETRO_BEETLE_VB
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_VIRTUALBOY_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_VIRTUALBOY = $(RECALBOX_ROMFS_VIRTUALBOY_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_VB),)
 define CONFIGURE_MAIN_VIRTUALBOY_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_VIRTUALBOY),Virtual Boy,$(SYSTEM_NAME_VIRTUALBOY),.vb .VB .zip .ZIP,virtualboy,virtualboy)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_VIRTUALBOY),Virtual Boy,$(SYSTEM_NAME_VIRTUALBOY),.vb .VB .zip .ZIP .7z .7Z,virtualboy,virtualboy)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_VB),)

@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system pcengine --extension '.pce .PCE .cue .CUE .sgx .SGX .zip .ZIP .ccd .CCD' --fullname 'PC Engine' --platform pcengine --theme pcengine libretro:mednafen_supergrafx:BR2_PACKAGE_LIBRETRO_BEETLE_SUPERGRAFX libretro:pce:BR2_PACKAGE_LIBRETRO_BEETLE_PCE
+# ./scripts/linux/empack.py --system pcengine --extension '.pce .PCE .cue .CUE .sgx .SGX .ccd .CCD .zip .ZIP .7z .7Z' --fullname 'PC Engine' --platform pcengine --theme pcengine libretro:mednafen_supergrafx:BR2_PACKAGE_LIBRETRO_BEETLE_SUPERGRAFX libretro:pce:BR2_PACKAGE_LIBRETRO_BEETLE_PCE
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_PCENGINE_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_PCENGINE = $(RECALBOX_ROMFS_PCENGINE_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_SUPERGRAFX)$(BR2_PACKAGE_LIBRETRO_BEETLE_PCE),)
 define CONFIGURE_MAIN_PCENGINE_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_PCENGINE),PC Engine,$(SYSTEM_NAME_PCENGINE),.pce .PCE .cue .CUE .sgx .SGX .zip .ZIP .ccd .CCD,pcengine,pcengine)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_PCENGINE),PC Engine,$(SYSTEM_NAME_PCENGINE),.pce .PCE .cue .CUE .sgx .SGX .ccd .CCD .zip .ZIP .7z .7Z,pcengine,pcengine)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_SUPERGRAFX)$(BR2_PACKAGE_LIBRETRO_BEETLE_PCE),)

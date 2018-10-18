@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system atari2600 --extension '.a26 .A26 .bin .BIN .zip .ZIP' --fullname 'Atari 2600' --platform atari2600 --theme atari2600 libretro:stella:BR2_PACKAGE_LIBRETRO_STELLA
+# ./scripts/linux/empack.py --system atari2600 --extension '.a26 .A26 .bin .BIN .zip .ZIP .7z .7Z' --fullname 'Atari 2600' --platform atari2600 --theme atari2600 libretro:stella:BR2_PACKAGE_LIBRETRO_STELLA
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_ATARI2600_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_ATARI2600 = $(RECALBOX_ROMFS_ATARI2600_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_STELLA),)
 define CONFIGURE_MAIN_ATARI2600_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_ATARI2600),Atari 2600,$(SYSTEM_NAME_ATARI2600),.a26 .A26 .bin .BIN .zip .ZIP,atari2600,atari2600)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_ATARI2600),Atari 2600,$(SYSTEM_NAME_ATARI2600),.a26 .A26 .bin .BIN .zip .ZIP .7z .7Z,atari2600,atari2600)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_STELLA),)

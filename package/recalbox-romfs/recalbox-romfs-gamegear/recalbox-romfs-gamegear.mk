@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system gamegear --extension '.gg .GG .zip .ZIP' --fullname 'Sega Game Gear' --platform gamegear --theme gamegear libretro:genesisplusgx:BR2_PACKAGE_LIBRETRO_GENESISPLUSGX
+# ./scripts/linux/empack.py --system gamegear --extension '.gg .GG .zip .ZIP .7z .7Z' --fullname 'Sega Game Gear' --platform gamegear --theme gamegear libretro:genesisplusgx:BR2_PACKAGE_LIBRETRO_GENESISPLUSGX
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_GAMEGEAR_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_GAMEGEAR = $(RECALBOX_ROMFS_GAMEGEAR_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_GENESISPLUSGX),)
 define CONFIGURE_MAIN_GAMEGEAR_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_GAMEGEAR),Sega Game Gear,$(SYSTEM_NAME_GAMEGEAR),.gg .GG .zip .ZIP,gamegear,gamegear)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_GAMEGEAR),Sega Game Gear,$(SYSTEM_NAME_GAMEGEAR),.gg .GG .zip .ZIP .7z .7Z,gamegear,gamegear)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_GENESISPLUSGX),)

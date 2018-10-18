@@ -1,5 +1,5 @@
 ## RECALBOX - SYSTEM NEOGEO ##
 
-Placez ici vos roms neo-geo.
+Placez ici vos roms Neo-Geo.
 
-Les roms doivent avoir l'extension ".zip"
+Les roms doivent avoir l'extension ".zip/.7z"

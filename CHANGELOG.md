@@ -12,6 +12,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - ES: now automatically reboots once the upgrade is ready
 - Atari 8 Bits: Added Atari 800 and Atari 5200 support - Thanks to dubbows!
 - MSX: Fixed Bluemsx core
+- Add 7z file support for many libretro cores
 
 ## [18.07.13] - 2018-07-13
 - Bump desmume to desmume2015

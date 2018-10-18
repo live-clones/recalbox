@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system megadrive --extension '.md .MD .bin .BIN .zip .ZIP .gen .GEN .smd .SMD' --fullname 'Sega Megadrive' --platform megadrive --theme megadrive libretro:genesisplusgx:BR2_PACKAGE_LIBRETRO_GENESISPLUSGX libretro:picodrive:BR2_PACKAGE_LIBRETRO_PICODRIVE
+# ./scripts/linux/empack.py --system megadrive --extension '.md .MD .bin .BIN .zip .ZIP .gen .GEN .smd .SMD .7z .7Z' --fullname 'Sega Megadrive' --platform megadrive --theme megadrive libretro:genesisplusgx:BR2_PACKAGE_LIBRETRO_GENESISPLUSGX libretro:picodrive:BR2_PACKAGE_LIBRETRO_PICODRIVE
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_MEGADRIVE_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_MEGADRIVE = $(RECALBOX_ROMFS_MEGADRIVE_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_GENESISPLUSGX)$(BR2_PACKAGE_LIBRETRO_PICODRIVE),)
 define CONFIGURE_MAIN_MEGADRIVE_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_MEGADRIVE),Sega Megadrive,$(SYSTEM_NAME_MEGADRIVE),.md .MD .bin .BIN .zip .ZIP .gen .GEN .smd .SMD,megadrive,megadrive)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_MEGADRIVE),Sega Megadrive,$(SYSTEM_NAME_MEGADRIVE),.md .MD .bin .BIN .zip .ZIP .gen .GEN .smd .SMD .7z .7Z,megadrive,megadrive)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_GENESISPLUSGX)$(BR2_PACKAGE_LIBRETRO_PICODRIVE),)

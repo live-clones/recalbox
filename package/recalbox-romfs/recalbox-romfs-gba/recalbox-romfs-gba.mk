@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system gba --extension '.gba .GBA .zip .ZIP' --fullname 'Game Boy Advance' --platform gba --theme gba libretro:gpsp:BR2_PACKAGE_LIBRETRO_GPSP libretro:mgba:BR2_PACKAGE_LIBRETRO_MGBA libretro:meteor:BR2_PACKAGE_LIBRETRO_METEOR
+# ./scripts/linux/empack.py --system gba --extension '.gba .GBA .zip .ZIP .7z .7Z' --fullname 'Game Boy Advance' --platform gba --theme gba libretro:gpsp:BR2_PACKAGE_LIBRETRO_GPSP libretro:mgba:BR2_PACKAGE_LIBRETRO_MGBA libretro:meteor:BR2_PACKAGE_LIBRETRO_METEOR
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_GBA_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_GBA = $(RECALBOX_ROMFS_GBA_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_GPSP)$(BR2_PACKAGE_LIBRETRO_MGBA)$(BR2_PACKAGE_LIBRETRO_METEOR),)
 define CONFIGURE_MAIN_GBA_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_GBA),Game Boy Advance,$(SYSTEM_NAME_GBA),.gba .GBA .zip .ZIP,gba,gba)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_GBA),Game Boy Advance,$(SYSTEM_NAME_GBA),.gba .GBA .zip .ZIP .7z .7Z,gba,gba)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_GPSP)$(BR2_PACKAGE_LIBRETRO_MGBA)$(BR2_PACKAGE_LIBRETRO_METEOR),)

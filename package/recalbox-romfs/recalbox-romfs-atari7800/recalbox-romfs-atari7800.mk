@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system atari7800 --extension '.a78 .A78 .bin .BIN .zip .ZIP' --fullname 'Atari 7800' --platform atari7800 --theme atari7800 libretro:prosystem:BR2_PACKAGE_LIBRETRO_PROSYSTEM
+# ./scripts/linux/empack.py --system atari7800 --extension '.a78 .A78 .bin .BIN .zip .ZIP .7z .7Z' --fullname 'Atari 7800' --platform atari7800 --theme atari7800 libretro:prosystem:BR2_PACKAGE_LIBRETRO_PROSYSTEM
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_ATARI7800_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_ATARI7800 = $(RECALBOX_ROMFS_ATARI7800_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_PROSYSTEM),)
 define CONFIGURE_MAIN_ATARI7800_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_ATARI7800),Atari 7800,$(SYSTEM_NAME_ATARI7800),.a78 .A78 .bin .BIN .zip .ZIP,atari7800,atari7800)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_ATARI7800),Atari 7800,$(SYSTEM_NAME_ATARI7800),.a78 .A78 .bin .BIN .zip .ZIP .7z .7Z,atari7800,atari7800)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_PROSYSTEM),)
