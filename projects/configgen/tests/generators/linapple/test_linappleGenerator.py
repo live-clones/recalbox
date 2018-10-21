@@ -14,6 +14,7 @@ import linapple_fixture
 
 # Import needed configgen modules
 import configgen.emulatorlauncher as emulatorlauncher
+import configgen.generators.linapple.linappleGenerator as linappleGenerator
 from configgen.generators.linapple.linappleConfig import LinappleConfig
 from configgen.generators.linapple.linappleGenerator import LinappleGenerator
 
@@ -27,6 +28,8 @@ class TestLinappleGenerator(runtest.TestCase):
         # Configure test class resources
         cls.path_init_conf = os.path.join(cls.path_init, 'linapple.conf')
         cls.path_user_conf = os.path.join(cls.path_user, 'linapple.conf')
+        linappleGenerator.recalboxFiles.recalboxBins['linapple'] = "/bin/echo"
+
 
     @classmethod
     def tearDownClass(cls):
@@ -44,7 +47,7 @@ class TestLinappleGenerator(runtest.TestCase):
         # Override LinappleGenerator to echo the command instead than really 
         # executing it.
         generator = LinappleGenerator(self.path_init, self.path_user)
-        generator.cmdArray.insert(0, '/bin/echo')
+        #generator.cmdArray.insert(0, '/bin/echo')
         emulatorlauncher.generators['linapple'] = generator
         
         # Load settings from system configuration file and apply 

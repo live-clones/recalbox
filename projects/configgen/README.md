@@ -3,7 +3,14 @@
 
 *WIP*
 
-The purpose of the lib is to automatically configure emulators, using the environment variables available in recalbox.
+The purpose of the lib is to automatically configure emulators, using command line args and environment available in recalbox.
 
-The main program is emulatorlauncher.py, taking 13 parameters, that are the system and 4 controllers configurations.
+How to test:
+```
+python -m runtest discover -p "*test*"
+```
 
+How to start:
+```
+python configgen/emulatorlauncher.py  -system neogeo -rom myrom.zip
+```

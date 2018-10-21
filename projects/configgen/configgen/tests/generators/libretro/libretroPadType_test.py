@@ -19,12 +19,12 @@ shutil.copyfile(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../r
 # Injecting test retroarchroot
 libretroControllers.settingsRoot = os.path.abspath(os.path.join(os.path.dirname(__file__), "tmp"))
 
-onlyBtnsInputs = {'up': controllersConfig.Input("up", "button", "1", "1")}
-onlyHatsInputs = {'up': controllersConfig.Input("up", "hat", "1", "1")}
-onlyAxisInputs = {'up': controllersConfig.Input("up", "axis", "1", "1")}
+onlyBtnsInputs = {'up': controllersConfig.Input("up", "button", "1", "1", "0")}
+onlyHatsInputs = {'up': controllersConfig.Input("up", "hat", "1", "1", "0")}
+onlyAxisInputs = {'up': controllersConfig.Input("up", "axis", "1", "1", "0")}
 
-axisAndBtnsInputs = {'up': controllersConfig.Input("up", "button", "1", "1"),
-                     'joystickup': controllersConfig.Input("up", "axis", "1", "1")}
+axisAndBtnsInputs = {'up': controllersConfig.Input("up", "button", "1", "1", "0"),
+                     'joystickup': controllersConfig.Input("up", "axis", "1", "1", "0")}
 snes = Emulator('snes', 'snes', 'libretro')
 psx = Emulator('psx', 'psx', 'libretro')
 

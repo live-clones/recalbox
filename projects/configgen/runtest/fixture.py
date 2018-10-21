@@ -45,6 +45,7 @@ class FixtureJoystick(object):
             "p{}guid".format(player) : controller.guid,
             "p{}name".format(player) : controller.configName,
             "p{}devicepath".format(player) : '/dev/input/js{}'.format(index),
+            "p{}nbaxes".format(player) : '0',
         }
         return params
     

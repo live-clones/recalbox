@@ -20,12 +20,14 @@ class TestCase(unittest.TestCase):
         
         # Define test needed objects
         lst_args = [
-            "p1index", "p1guid", "p1name", "p1devicepath",
-            "p2index", "p2guid", "p2name", "p2devicepath",
-            "p3index", "p3guid", "p3name", "p3devicepath",
-            "p4index", "p4guid", "p4name", "p4devicepath",
-            "p5index", "p5guid", "p5name", "p5devicepath",
-            "system",  "rom", "emulator", "core", "demo",
+            "p1index", "p1guid", "p1name", "p1devicepath", "p1nbaxes",
+            "p2index", "p2guid", "p2name", "p2devicepath", "p2nbaxes",
+            "p3index", "p3guid", "p3name", "p3devicepath", "p3nbaxes",
+            "p4index", "p4guid", "p4name", "p4devicepath", "p4nbaxes",
+            "p5index", "p5guid", "p5name", "p5devicepath", "p5nbaxes",
+            "system",  "rom", "emulator", "core", "ratio",
+            "demo","netplay","netplay_ip","netplay_port",
+            "hash"
         ]
         lst_values = [None] * len(lst_args)
         cls.args_dict = dict(zip(lst_args, lst_values))
