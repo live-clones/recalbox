@@ -109,6 +109,7 @@ emulators["supergrafx"] = Emulator(name='supergrafx', emulator='libretro', core=
 emulators["atari2600"] = Emulator(name='atari2600', emulator='libretro', core='stella')
 emulators["atari5200"] = Emulator(name='atari5200', emulator='libretro', core='atari800')
 emulators["atari7800"] = Emulator(name='atari7800', emulator='libretro', core='prosystem')
+emulators["jaguar"] = Emulator(name='jaguar', emulator='libretro', core='virtualjaguar')
 emulators["prboom"] = Emulator(name='prboom', emulator='libretro', core='prboom')
 emulators["psx"] = Emulator(name='psx', emulator='libretro', core='pcsx_rearmed')
 emulators["cavestory"] = Emulator(name='cavestory', emulator='libretro', core='nxengine')
