@@ -149,6 +149,9 @@ fi
 if [ "$command" == "overclock" ]; then
 
 declare -A arm_freq
+arm_freq["rpi3plus-extrem"]=1500
+arm_freq["rpi3plus-turbo"]=1450
+arm_freq["rpi3plus-high"]=1425
 arm_freq["rpi3-extrem"]=1375
 arm_freq["rpi3-turbo"]=1350
 arm_freq["rpi3-high"]=1300
@@ -160,9 +163,12 @@ arm_freq["turbo"]=1000
 arm_freq["high"]=950
 
 declare -A core_freq
-core_freq["rpi3-extrem"]=500
-core_freq["rpi3-turbo"]=500
-core_freq["rpi3-high"]=500
+core_freq["rpi3plus-extrem"]=550
+core_freq["rpi3plus-turbo"]=525
+core_freq["rpi3plus-high"]=525
+core_freq["rpi3-extrem"]=550
+core_freq["rpi3-turbo"]=525
+core_freq["rpi3-high"]=525
 core_freq["rpi2-extrem"]=550
 core_freq["rpi2-turbo"]=525
 core_freq["rpi2-high"]=525
@@ -171,6 +177,9 @@ core_freq["turbo"]=500
 core_freq["high"]=250
 
 declare -A sdram_freq
+sdram_freq["rpi3plus-extrem"]=575
+sdram_freq["rpi3plus-turbo"]=575
+sdram_freq["rpi3plus-high"]=575
 sdram_freq["rpi3-extrem"]=575
 sdram_freq["rpi3-turbo"]=575
 sdram_freq["rpi3-high"]=575
@@ -182,7 +191,10 @@ sdram_freq["turbo"]=600
 sdram_freq["high"]=450
 
 declare -A force_turbo
-force_turbo["rpi3-extrem"]=0
+force_turbo["rpi3plus-extrem"]=1
+force_turbo["rpi3plus-turbo"]=0
+force_turbo["rpi3plus-high"]=0
+force_turbo["rpi3-extrem"]=1
 force_turbo["rpi3-turbo"]=0
 force_turbo["rpi3-high"]=0
 force_turbo["rpi2-extrem"]=1
@@ -193,6 +205,9 @@ force_turbo["turbo"]=0
 force_turbo["high"]=0
 
 declare -A over_voltage
+over_voltage["rpi3plus-extrem"]=4
+over_voltage["rpi3plus-turbo"]=4
+over_voltage["rpi3plus-high"]=4
 over_voltage["rpi3-extrem"]=4
 over_voltage["rpi3-turbo"]=4
 over_voltage["rpi3-high"]=4
@@ -204,6 +219,9 @@ over_voltage["turbo"]=6
 over_voltage["high"]=6
 
 declare -A over_voltage_sdram_p
+over_voltage_sdram_p["rpi3plus-extrem"]=6
+over_voltage_sdram_p["rpi3plus-turbo"]=6
+over_voltage_sdram_p["rpi3plus-high"]=6
 over_voltage_sdram_p["rpi3-extrem"]=6
 over_voltage_sdram_p["rpi3-turbo"]=6
 over_voltage_sdram_p["rpi3-high"]=6
@@ -215,6 +233,9 @@ over_voltage_sdram_p["turbo"]=0
 over_voltage_sdram_p["high"]=0
 
 declare -A over_voltage_sdram_i
+over_voltage_sdram_i["rpi3plus-extrem"]=4
+over_voltage_sdram_i["rpi3plus-turbo"]=4
+over_voltage_sdram_i["rpi3plus-high"]=4
 over_voltage_sdram_i["rpi3-extrem"]=4
 over_voltage_sdram_i["rpi3-turbo"]=4
 over_voltage_sdram_i["rpi3-high"]=4
@@ -226,6 +247,9 @@ over_voltage_sdram_i["turbo"]=0
 over_voltage_sdram_i["high"]=0
 
 declare -A over_voltage_sdram_c
+over_voltage_sdram_c["rpi3plus-extrem"]=4
+over_voltage_sdram_c["rpi3plus-turbo"]=4
+over_voltage_sdram_c["rpi3plus-high"]=4
 over_voltage_sdram_c["rpi3-extrem"]=4
 over_voltage_sdram_c["rpi3-turbo"]=4
 over_voltage_sdram_c["rpi3-high"]=4
@@ -237,7 +261,10 @@ over_voltage_sdram_c["turbo"]=0
 over_voltage_sdram_c["high"]=0
 
 declare -A gpu_freq
-gpu_freq["rpi3-extrem"]=500
+gpu_freq["rpi3plus-extrem"]=525
+gpu_freq["rpi3plus-turbo"]=500
+gpu_freq["rpi3plus-high"]=500
+gpu_freq["rpi3-extrem"]=525
 gpu_freq["rpi3-turbo"]=500
 gpu_freq["rpi3-high"]=500
 gpu_freq["rpi2-extrem"]=366
@@ -248,6 +275,9 @@ gpu_freq["turbo"]=250
 gpu_freq["high"]=250
 
 declare -A sdram_schmoo
+sdram_schmoo["rpi3plus-extrem"]=0x02000020
+sdram_schmoo["rpi3plus-turbo"]=0x02000020
+sdram_schmoo["rpi3plus-high"]=0x02000020
 sdram_schmoo["rpi3-extrem"]=0x02000020
 sdram_schmoo["rpi3-turbo"]=0x02000020
 sdram_schmoo["rpi3-high"]=0x02000020
