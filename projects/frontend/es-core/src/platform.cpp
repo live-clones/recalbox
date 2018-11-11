@@ -1,4 +1,5 @@
 #include "platform.h"
+#include <stdio.h>
 #include <stdlib.h>
 #include <boost/filesystem.hpp>
 #include <iostream>
@@ -74,5 +75,26 @@ int runSystemCommand(const std::string& cmd_utf8)
 	return _wsystem(wchar_str.c_str());
 #else
 	return system((cmd_utf8 + " 2> /recalbox/share/system/logs/es_launch_stderr.log | head -300 > /recalbox/share/system/logs/es_launch_stdout.log").c_str());
+#endif
+}
+
+bool isRaspberry3BPlus()
+{
+#if RPI_VERSION == 3
+  FILE *f = fopen("/proc/device-tree/model", "r");
+  if (f == nullptr) return false;
+
+  char line[1024];
+  std::string str;
+  memset(line, 0, sizeof(line));
+  while (fgets(line, sizeof(line) - 1, f))
+  {
+    str += line;
+  }
+  fclose(f);
+
+  return (str.find("Plus") != std::string::npos);
+#else
+  return false;
 #endif
 }

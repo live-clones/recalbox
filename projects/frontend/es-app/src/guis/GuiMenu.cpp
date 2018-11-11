@@ -24,6 +24,7 @@
 #include "guis/GuiUpdate.h"
 #include "views/ViewController.h"
 #include "AudioManager.h"
+#include "platform.h"
 
 #include "components/SwitchComponent.h"
 #include "components/SliderComponent.h"
@@ -1318,10 +1319,20 @@ void GuiMenu::menuAdvancedSettings(){
 	overclock_choice->add(_("NONE (900Mhz)"), "none", currentOverclock == "none");
 #elif RPI_VERSION == 3
 	std::string currentOverclock = Settings::getInstance()->getString("Overclock");
-	overclock_choice->add(_("EXTREM (1375Mhz)"), "rpi3-extrem", currentOverclock == "rpi3-extrem");
-	overclock_choice->add(_("TURBO (1350Mhz)"), "rpi3-turbo", currentOverclock == "rpi3-turbo");
-	overclock_choice->add(_("HIGH (1300Mhz)"), "rpi3-high", currentOverclock == "rpi3-high");
-	overclock_choice->add(_("NONE (1200Mhz)"), "none", currentOverclock == "none");
+	if (isRaspberry3BPlus())
+	{
+    overclock_choice->add(_("EXTREM (1500Mhz)"), "rpi3plus-extrem", currentOverclock == "rpi3plus-extrem");
+    overclock_choice->add(_("TURBO (1450Mhz)"), "rpi3plus-turbo", currentOverclock == "rpi3plus-turbo");
+    overclock_choice->add(_("HIGH (1425Mhz)"), "rpi3plus-high", currentOverclock == "rpi3plus-high");
+    overclock_choice->add(_("NONE (1400Mhz)"), "none", currentOverclock == "none");
+	}
+	else
+	{
+    overclock_choice->add(_("EXTREM (1375Mhz)"), "rpi3-extrem", currentOverclock == "rpi3-extrem");
+    overclock_choice->add(_("TURBO (1350Mhz)"), "rpi3-turbo", currentOverclock == "rpi3-turbo");
+    overclock_choice->add(_("HIGH (1300Mhz)"), "rpi3-high", currentOverclock == "rpi3-high");
+    overclock_choice->add(_("NONE (1200Mhz)"), "none", currentOverclock == "none");
+	}
 #endif
 #else
 	overclock_choice->add(_("NONE"), "none", true);
@@ -1335,6 +1346,8 @@ void GuiMenu::menuAdvancedSettings(){
 		"rpi2-extrem",
 		"rpi3-turbo",
 		"rpi3-extrem"
+    "rpi3plus-turbo",
+    "rpi3plus-extrem"
 	};
 
 	s->addWithLabel(overclock_choice, _("OVERCLOCK"), _(MenuMessages::ADVANCED_OVERCLOCK_HELP_MSG));
