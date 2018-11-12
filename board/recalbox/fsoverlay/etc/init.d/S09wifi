@@ -37,10 +37,10 @@ case "$1" in
 		if [ `egrep "^wifi.enabled" /boot/recalbox-backup.conf|sed "s/wifi.enabled=//g"` -ne 0  ]
 		then
 			recallog "Wifi option enabled, trying to configure"
+			sleep 1 # wait a bit to be sure tmpfs is initialized
 			for i in {1..3}; do
 				rb_wifi_boot_configure $i&
 			done
-			sleep 1 # wait a bit, otherwise, connman is not really started
 			/usr/bin/connmanctl enable wifi || exit 1
 			settings_region=`egrep "^wifi.region" /boot/recalbox-backup.conf|sed "s/wifi.region=//g"`
 			if [[ "$settings_region" != "" ]] ;then
