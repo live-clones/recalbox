@@ -106,7 +106,8 @@ viceConfig = CONF + "/vice/vice.conf"
 advancemameConfig = CONF + '/advancemame/advmame.rc'
 advancemameConfigOrigin = CONF + '/advancemame/advmame.rc.origin'
 
-amiberryMountPoint = "/tmp/amiga"
+amiberryMountPoint = '/tmp/amiga'
+amiberrySaves      = SAVES
 
 daphneInputIni = CONF + '/daphne/dapinput.ini'
 daphneHomedir = ROMS + '/daphne'
