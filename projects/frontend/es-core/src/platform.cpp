@@ -6,6 +6,7 @@
 #include <sys/statvfs.h>
 #include <sstream>
 #include "Settings.h"
+#include "Log.h"
 
 #include <fstream>
 
@@ -78,14 +79,50 @@ int runSystemCommand(const std::string& cmd_utf8)
 #endif
 }
 
+RaspberryGeneration extractGeneration(int revision)
+{
+  // Split - uuuuuuuuFMMMCCCCPPPPTTTTTTTTRRRR
+  bool newGeneration  = (revision >> 23) & 1;
+  int  memorySize     = (revision >> 20) & 0x7;
+  int  manufacturer   = (revision >> 16) & 0xF;
+  int  processor      = (revision >> 12) & 0xF;
+  int  model          = (revision >>  4) & 0xFF;
+  int  revisionNumber = (revision >>  0) & 0xF;
+
+  // Old revision numbering
+  if (!newGeneration)
+    return RaspberryGeneration::Pi0or1;
+
+  // New models
+  switch ((RaspberryModel)model)
+  {
+    case RaspberryModel::OneA:
+    case RaspberryModel::OneAPlus:
+    case RaspberryModel::OneB:
+    case RaspberryModel::OneBPlus:
+    case RaspberryModel::OneCM1:
+    case RaspberryModel::Zero:
+    case RaspberryModel::ZeroW: return RaspberryGeneration::Pi0or1;
+    case RaspberryModel::TwoB: return RaspberryGeneration::Pi2;
+    case RaspberryModel::TreeB:
+    case RaspberryModel::TreeCM3: return RaspberryGeneration::Pi3;
+    case RaspberryModel::TreeBPlus:
+    case RaspberryModel::TreeAPlus: return RaspberryGeneration::Pi3plus;
+    case RaspberryModel::Alpha:
+    default: break;
+  }
+
+  return RaspberryGeneration::NotYetKnown;
+}
+
 #define CPU_INFO_FILE   "/proc/cpuinfo"
 #define REVISION_STRING "Revision"
 
 #define SizeLitteral(x) (sizeof(x) - 1)
 
-RaspberryPiVersion getRaspberryVersion()
+RaspberryGeneration getRaspberryVersion()
 {
-  RaspberryPiVersion version = RaspberryPiVersion::NotRaspberry;
+  RaspberryGeneration version = RaspberryGeneration::NotRaspberry;
 
   FILE *f = fopen(CPU_INFO_FILE, "r");
   if (f != nullptr)
@@ -100,30 +137,9 @@ RaspberryPiVersion getRaspberryVersion()
         if (colon != nullptr)
         {
           int revision = (int)strtol(colon + 2, NULL, 16); // Convert hexa revision
-          revision &= 0x00FFFFFF; // Keep only the least significant 24 bits
-          int highRevision = revision >> 16;
-          int lowRevision = revision & 0xFFFF;
+          LOG(LogError) << "Pi revision" << (colon + 2);
 
-          // The following test are based on the revision table available here:
-          // https://elinux.org/RPi_HardwareHistory
-          if (highRevision == 0) // Pi 1
-          {
-            version = RaspberryPiVersion::Pi1;
-          }
-          else if (highRevision == 0x90) // Pi 1 / Pi 0
-          {
-            version = lowRevision <= 0x32 ? RaspberryPiVersion::Pi1 : RaspberryPiVersion::Pi0;
-          }
-          else if (highRevision >= 0xa0 && highRevision <= 0xa3) // Pi 2 / Pi 3 (+)
-          {
-            if (lowRevision == 0x20d3) version = RaspberryPiVersion::Pi3plus;
-            else version = lowRevision <= 0x2042 ? RaspberryPiVersion::Pi2 : RaspberryPiVersion::Pi3;
-          }
-          else if (highRevision > 0xa3)
-          {
-            version = RaspberryPiVersion::NotYetKnown;
-          }
-          break;
+          version = extractGeneration(revision);
         }
       }
     }

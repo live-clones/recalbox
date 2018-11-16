@@ -1307,8 +1307,7 @@ void GuiMenu::menuAdvancedSettings(){
   std::string currentOverclock = Settings::getInstance()->getString("Overclock");
   switch(getRaspberryVersion())
   {
-    case RaspberryPiVersion::Pi0:
-    case RaspberryPiVersion::Pi1:
+    case RaspberryGeneration::Pi0or1:
     {
       overclock_choice->add(_("EXTREM (1100Mhz)"), "extrem", currentOverclock == "extrem");
       overclock_choice->add(_("TURBO (1000Mhz)"), "turbo", currentOverclock == "turbo");
@@ -1316,7 +1315,7 @@ void GuiMenu::menuAdvancedSettings(){
       overclock_choice->add(_("NONE"), "none", currentOverclock == "none");
       break;
     }
-    case RaspberryPiVersion::Pi2:
+    case RaspberryGeneration::Pi2:
     {
       overclock_choice->add(_("EXTREM (1100Mhz)"), "rpi2-extrem", currentOverclock == "rpi2-extrem");
       overclock_choice->add(_("TURBO (1050Mhz)+"), "rpi2-turbo", currentOverclock == "rpi2-turbo");
@@ -1324,7 +1323,7 @@ void GuiMenu::menuAdvancedSettings(){
       overclock_choice->add(_("NONE (900Mhz)"), "none", currentOverclock == "none");
       break;
     }
-    case RaspberryPiVersion::Pi3:
+    case RaspberryGeneration::Pi3:
     {
       overclock_choice->add(_("EXTREM (1375Mhz)"), "rpi3-extrem", currentOverclock == "rpi3-extrem");
       overclock_choice->add(_("TURBO (1350Mhz)"), "rpi3-turbo", currentOverclock == "rpi3-turbo");
@@ -1332,7 +1331,7 @@ void GuiMenu::menuAdvancedSettings(){
       overclock_choice->add(_("NONE (1200Mhz)"), "none", currentOverclock == "none");
       break;
     }
-    case RaspberryPiVersion::Pi3plus:
+    case RaspberryGeneration::Pi3plus:
     {
       overclock_choice->add(_("EXTREM (1500Mhz)"), "rpi3plus-extrem", currentOverclock == "rpi3plus-extrem");
       overclock_choice->add(_("TURBO (1450Mhz)"), "rpi3plus-turbo", currentOverclock == "rpi3plus-turbo");
@@ -1340,8 +1339,8 @@ void GuiMenu::menuAdvancedSettings(){
       overclock_choice->add(_("NONE (1400Mhz)"), "none", currentOverclock == "none");
       break;
     }
-    case RaspberryPiVersion::NotRaspberry:
-    case RaspberryPiVersion::NotYetKnown:
+    case RaspberryGeneration::NotRaspberry:
+    case RaspberryGeneration::NotYetKnown:
     {
       overclock_choice->add(_("NONE"), "none", true);
       break;
