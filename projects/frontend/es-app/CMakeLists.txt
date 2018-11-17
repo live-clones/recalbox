@@ -5,6 +5,8 @@ set(ES_HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/src/FileData.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/FileSorts.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/MetaData.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/MetadataDescriptor.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/MetadataFieldDescriptor.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/PlatformId.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/ScraperCmdLine.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/SystemData.h
@@ -65,6 +67,8 @@ set(ES_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/MameNameMap.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/MetaData.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/MetadataDescriptor.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/MetadataFieldDescriptor.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/PlatformId.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/ScraperCmdLine.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/SystemData.cpp

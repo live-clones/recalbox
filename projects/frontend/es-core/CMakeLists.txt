@@ -63,6 +63,11 @@ set(CORE_HEADERS
 	${CMAKE_CURRENT_SOURCE_DIR}/src/resources/TextureData.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/resources/TextureDataManager.h
 
+	# Datetime
+	${CMAKE_CURRENT_SOURCE_DIR}/src/datetime/DateTime.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/datetime/ISystemDateTimeInterface.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/datetime/TimeSpan.h
+
 	# Embedded assets (needed by ResourceManager)
 	${emulationstation-all_SOURCE_DIR}/data/Resources.h
 )
@@ -123,6 +128,11 @@ set(CORE_SOURCES
 	${CMAKE_CURRENT_SOURCE_DIR}/src/resources/TextureResource.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/resources/TextureData.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/resources/TextureDataManager.cpp
+
+	# Datetime
+	${CMAKE_CURRENT_SOURCE_DIR}/src/datetime/DateTime.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/datetime/SystemDateTimeInterface.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/datetime/TimeSpan.cpp
 )
 
 set(EMBEDDED_ASSET_SOURCES
