@@ -4,35 +4,37 @@
 #include <SDL.h>
 #include <iostream>
 #include <iomanip>
-#include "Renderer.h"
-#include "views/ViewController.h"
-#include "SystemData.h"
+#include <sstream>
+#include <fstream>
+
+#include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
+
+#include "AudioManager.h"
+#include "CommandThread.h"
+#include "EmulationStation.h"
+#include "FileSorts.h"
+#include "Locale.h"
+#include "Log.h"
+#include "NetPlayThread.h"
+#include "NetworkThread.h"
+#include "platform.h"
+#include "RecalboxConf.h"
+#include "Renderer.h"
+#include "resources/Font.h"
+#include "ScraperCmdLine.h"
+#include "Settings.h"
+#include "SystemData.h"
+#include "views/ViewController.h"
+#include "VolumeControl.h"
+#include "Window.h"
 #include "guis/GuiDetectDevice.h"
+#include "guis/GuiInfoPopup.h"
 #include "guis/GuiMsgBox.h"
 #include "guis/GuiMsgBoxScroll.h"
-#include "AudioManager.h"
-#include "platform.h"
-#include "Log.h"
-#include "Window.h"
-#include "EmulationStation.h"
 #include "recalbox/RecalboxSystem.h"
-#include "Settings.h"
-#include "ScraperCmdLine.h"
-#include "VolumeControl.h"
-#include <sstream>
-#include "Locale.h"
-#include <boost/algorithm/string.hpp>
-#include <RecalboxConf.h>
-#include <recalbox/RecalboxUpgrade.h>
-#include <guis/GuiInfoPopup.h>
-#include "resources/Font.h"
-#include "NetworkThread.h"
+#include "recalbox/RecalboxUpgrade.h"
 #include "recalbox/RecalboxSystem.h"
-#include "FileSorts.h"
-#include "CommandThread.h"
-#include "NetPlayThread.h"
-
 
 #ifdef WIN32
 #include <Windows.h>
@@ -286,7 +288,7 @@ int main(int argc, char* argv[])
 	archFile.close();
 	Settings::getInstance()->setString("Arch", arch);
 	
-    Renderer::init(width, height);
+  Renderer::init(width, height);
 	Window window;
 	ViewController::init(&window);
 	window.pushGui(ViewController::get());
