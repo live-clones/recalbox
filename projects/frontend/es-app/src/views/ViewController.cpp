@@ -162,7 +162,7 @@ void ViewController::updateFavorite(SystemData* system, FileData* file)
 		{
 			if ((*it)->getType() == GAME)
 			{
-				if ((*it)->metadata.get("favorite").compare("true") == 0)
+				if ((*it)->Metadata().Favorite())
 				{
 					view->setCursor(*it);
 					found = true;
@@ -177,7 +177,7 @@ void ViewController::updateFavorite(SystemData* system, FileData* file)
 			{
 				if ((*it)->getType() == GAME)
 				{
-					if ((*it)->metadata.get("favorite").compare("true") == 0)
+					if ((*it)->Metadata().Favorite())
 					{
 						view->setCursor(*it);
 						break;
@@ -255,7 +255,7 @@ void ViewController::onFileChanged(FileData* file, FileChangeType change)
 	if (it != mGameListViews.end()) {
 		it->second->onFileChanged(file, change);
 	}
-	if (file->metadata.get("favorite") == "true") {
+	if (file->Metadata().Favorite()) {
 		for(auto it = mGameListViews.begin(); it != mGameListViews.end(); it++) {
 			if (it->first->getName() == "favorites") {
 				it->second->onFileChanged(file, change);

@@ -4,7 +4,8 @@
 #include <unordered_map>
 #include <string>
 #include <boost/filesystem.hpp>
-#include "MetaData.h"
+#include <components/IList.h>
+#include "MetadataDescriptor.h"
 
 class SystemData;
 
@@ -39,8 +40,8 @@ public:
 	FileData(FileType type, const boost::filesystem::path& path, SystemData* system);
 	virtual ~FileData();
 
-	inline const std::string& getName() const { return metadata.get("name"); }
-	inline const std::string& getHash() const { return metadata.get("hash"); }
+	inline const std::string& getName() const { return metadata.Name(); }
+	inline const std::string getHash() const { return std::move(metadata.RomCrc32AsString()); }
 	inline FileType getType() const { return mType; }
 	inline const boost::filesystem::path& getPath() const { return mPath; }
 	inline FileData* getParent() const { return mParent; }
@@ -67,19 +68,18 @@ public:
 
 	bool isSingleGameFolder() const;
 
-	typedef bool ComparisonFunction(const FileData* a, const FileData* b);
-	struct SortType
-	{
-		ComparisonFunction* comparisonFunction;
-		bool ascending;
-		std::string description;
-
-		SortType(ComparisonFunction* sortFunction, bool sortAscending, const std::string & sortDescription) 
-			: comparisonFunction(sortFunction), ascending(sortAscending), description(sortDescription) {}
-	};
-
 	static void populateRecursiveFolder(FileData* folder, const std::vector<std::string>& searchExtensions = std::vector<std::string>(), SystemData* systemData = nullptr);
-	MetaDataList metadata;
+
+		/*!
+   	 * const Metadata accessor for Read operations
+	   * @return const Metadata object
+	   */
+		const MetadataDescriptor& Metadata() const { return metadata; }
+		/*!
+     * Metadata accessor for Write operations only
+     * @return Writable Metadata object
+     */
+		MetadataDescriptor& Metadata() { return metadata; }
 
 private:
 	FileType mType;
@@ -88,4 +88,6 @@ private:
 	FileData* mParent;
 	std::unordered_map<std::string,FileData*> mChildrenByFilename;
 	std::vector<FileData*> mChildren;
+
+	MetadataDescriptor metadata;
 };

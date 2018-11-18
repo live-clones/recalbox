@@ -112,7 +112,7 @@ void BasicGameListView::populateList(const FileData* folder) {
 	if (Settings::getInstance()->getBool("FavoritesOnly") && !mSystem->isFavorite()) {
 		for (auto it = files.begin(); it != files.end(); it++) {
 			if ((*it)->getType() == GAME) {
-				if ((*it)->metadata.get("favorite") == "true") {
+				if ((*it)->Metadata().Favorite()) {
 					favoritesOnly = true;
 					break;
 				}
@@ -121,18 +121,18 @@ void BasicGameListView::populateList(const FileData* folder) {
 	}
 
     bool showHidden = Settings::getInstance()->getBool("ShowHidden");
-    const FileData::SortType& sortType = mSystem->getSortType();
+    const FileSorts::SortType& sortType = mSystem->getSortType();
 
 	// Do not show double names in favorite system.
 	if (!mSystem->isFavorite() && !favoritesOnly) {
 		for (auto it = files.begin(); it != files.end(); it++) {
-            bool isHidden = (*it)->metadata.get("hidden") == "true";
+            bool isHidden = (*it)->Metadata().Hidden();
 			if (showHidden || !isHidden) {
 				addItem(*it);
 			}
 		}
 
-		mList.sortByObject(*sortType.comparisonFunction, sortType.ascending);
+		mList.sortByObject(sortType.comparisonFunction, sortType.ascending);
 	}
 
     addFavorites(files, sortType);
@@ -146,7 +146,7 @@ void BasicGameListView::refreshList() {
     populateList(mPopulatedFolder);
 }
 
-void BasicGameListView::addFavorites(const std::vector<FileData*>& files, const FileData::SortType& sortType) {
+void BasicGameListView::addFavorites(const std::vector<FileData*>& files, const FileSorts::SortType& sortType) {
     std::vector<FileData*> favorites;
     getFavorites(files, favorites);
 
@@ -169,8 +169,8 @@ void BasicGameListView::getFavorites(const std::vector<FileData*>& files, std::v
 
     for (auto it = files.begin(); it != files.end(); it++) {
         bool isGame = (*it)->getType() == GAME;
-        bool isFavorite = isGame && ((*it)->metadata.get("favorite") == "true");
-        bool isHidden = (*it)->metadata.get("hidden") == "true";
+        bool isFavorite = isGame && ((*it)->Metadata().Favorite());
+        bool isHidden = (*it)->Metadata().Hidden();
 
         if (isFavorite && (showHidden || !isHidden)) {
             favorites.push_back(*it);
@@ -192,8 +192,8 @@ std::vector<FileData*> BasicGameListView::getFileDataList() {
 void BasicGameListView::addItem(FileData* file, bool toTheBeginning) {
 	std::string name = file->getName();
 	bool isGame = file->getType() == GAME;
-	bool isFavorite = isGame && (file->metadata.get("favorite") == "true");
-	bool isHidden = file->metadata.get("hidden") == "true";
+	bool isFavorite = isGame && (file->Metadata().Favorite());
+	bool isHidden = file->Metadata().Favorite();
 
 	if (!isGame) {
 		std::vector<FileData *> children = file->getChildren();

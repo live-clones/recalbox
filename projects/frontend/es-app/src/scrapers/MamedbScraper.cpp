@@ -43,22 +43,22 @@ void MamedbRequest::process(const std::unique_ptr<HttpReq>& req, std::vector<Scr
                 ScraperSearchResult result;
                 
                 // TITLE
-                result.mdl.set("name", std::string(linematches["title"]));
+                result.mdl.SetName(std::string(linematches["title"]));
                 boost::smatch tmatches;
                 if (boost::regex_match(std::string(linematches["title"]), tmatches, cleantitleregex)){
-                    result.mdl.set("name", std::string(tmatches["title"]));
+                    result.mdl.SetName(std::string(tmatches["title"]));
                 }
                 // DATE
-                result.mdl.set("releasedate", std::string(linematches["date"]));
-                
+                result.mdl.SetReleaseDateAsString(std::string(linematches["date"]));
+
                 // DEVELOPPER
                 if(std::string(linematches["developer"]).compare(std::string("<unknown></unknown>")) != 0){
-                    result.mdl.set("developer", std::string(linematches["developer"]));
+                    result.mdl.SetDeveloper(std::string(linematches["developer"]));
                 }
                 //GENRE
                 boost::smatch genrematches;
                 if (boost::regex_match(line, genrematches, genreregex)){
-                    result.mdl.set("genre", std::string(genrematches["genre"]));
+                    result.mdl.SetGenre(std::string(genrematches["genre"]));
                 }
                 
                 //RATING
@@ -67,13 +67,13 @@ void MamedbRequest::process(const std::unique_ptr<HttpReq>& req, std::vector<Scr
                     float score = 0;
                     std::stringstream ( std::string(scorematches["rating"]) ) >> score;
                     score = score / 10.0f;
-                    result.mdl.set("rating", std::to_string(score));
+                    result.mdl.SetRating(score);
                 }
                
                 //PLAYERS
                 boost::smatch playersmatches;
                 if (boost::regex_match(line, playersmatches, playersregex)){
-                    result.mdl.set("players", std::string(playersmatches["players"]));
+                    result.mdl.SetPlayersAsString(std::string(playersmatches["players"]));
                 }
                 
                 // IMAGES

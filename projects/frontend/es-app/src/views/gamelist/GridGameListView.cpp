@@ -46,7 +46,7 @@ void GridGameListView::populateList(const FileData* folder)
 	{
 		if (Settings::getInstance()->getBool("FavoritesOnly"))
 		{
-			if ((*it)->metadata.get("favorite").compare("true") == 0)
+			if ((*it)->Metadata().Favorite())
 			{
 				mGrid.add((*it)->getName(), (*it)->getThumbnailPath(), *it);
 			}

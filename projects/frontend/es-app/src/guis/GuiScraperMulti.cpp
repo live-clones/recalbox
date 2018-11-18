@@ -125,7 +125,7 @@ void GuiScraperMulti::acceptResult(const ScraperSearchResult& result)
 {
 	ScraperSearchParams& search = mSearchQueue.front();
 
-	search.game->metadata.merge(result.mdl);
+	search.game->Metadata().Merge(result.mdl);
 	updateGamelist(search.system);
 
 	mSearchQueue.pop();

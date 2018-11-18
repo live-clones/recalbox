@@ -56,7 +56,7 @@ GuiGamelistOptions::GuiGamelistOptions(Window* window, SystemData* system) :
 	}
 	mListSort = std::make_shared<SortList>(mWindow, _("SORT GAMES BY"), false);
 	for (unsigned int i = 0; i < FileSorts::SortTypes.size(); i++) {
-		const FileData::SortType& sortType = FileSorts::SortTypes.at(i);
+		const FileSorts::SortType& sortType = FileSorts::SortTypes.at(i);
 		mListSort->add(sortType.description, i, i == currentSortId);
 	}
 
@@ -179,7 +179,7 @@ void GuiGamelistOptions::openMetaDataEd() {
 	ScraperSearchParams p;
 	p.game = file;
 	p.system = file->getSystem();
-	mWindow->pushGui(new GuiMetaDataEd(mWindow, &file->metadata, file->metadata.getMDD(), p, file->getPath().filename().string(),
+	mWindow->pushGui(new GuiMetaDataEd(mWindow, file->Metadata(), p, file->getPath().filename().string(),
 									   std::bind(&IGameListView::onFileChanged, getGamelist(), file, FILE_METADATA_CHANGED), [this, file] {
 				boost::filesystem::remove(file->getPath()); //actually delete the file on the filesystem
 				file->getParent()->removeChild(file); //unlink it so list repopulations triggered from onFileChanged won't see it

@@ -4,7 +4,6 @@
 #include <string>
 #include "FileData.h"
 #include "Window.h"
-#include "MetaData.h"
 #include "PlatformId.h"
 #include "ThemeData.h"
 #include "FileSorts.h"
@@ -32,7 +31,7 @@ public:
 	inline bool isFavorite() const { return mIsFavorite; }
 	inline std::vector<FileData*> getFavorites() const { return mRootFolder->getFavoritesRecursive(GAME); }
 	inline unsigned int getSortId() const { return mSortId; };
-	inline FileData::SortType getSortType() const { return FileSorts::SortTypes.at(mSortId); };
+	inline FileSorts::SortType getSortType() const { return FileSorts::SortTypes.at(mSortId); };
 	inline void setSortId(const unsigned int sortId = 0) { mSortId = sortId; };
 
 	inline const std::vector<PlatformIds::PlatformId>& getPlatformIds() const { return mPlatformIds; }

@@ -255,7 +255,7 @@ void ScraperSearchComponent::onSearchDone(const std::vector<ScraperSearchResult>
 		for(int i = 0; i < end; i++)
 		{
 			row.elements.clear();
-			row.addElement(std::make_shared<TextComponent>(mWindow, strToUpper(results.at(i).mdl.get("name")), font, color), true);
+			row.addElement(std::make_shared<TextComponent>(mWindow, strToUpper(results.at(i).mdl.Name()), font, color), true);
 			row.makeAcceptInputHandler([this, i] { returnResult(mScraperResults.at(i)); });
 			mResultList->addRow(row);
 		}
@@ -305,8 +305,8 @@ void ScraperSearchComponent::updateInfoPane()
 	if(i != -1 && (int)mScraperResults.size() > i)
 	{
 		ScraperSearchResult& res = mScraperResults.at(i);
-		mResultName->setText(strToUpper(res.mdl.get("name")));
-		mResultDesc->setText(strToUpper(res.mdl.get("desc")));
+		mResultName->setText(strToUpper(res.mdl.Name()));
+		mResultDesc->setText(strToUpper(res.mdl.Description()));
 		mDescContainer->reset();
 
 		mResultThumbnail->setImage("");
@@ -319,12 +319,12 @@ void ScraperSearchComponent::updateInfoPane()
 		}
 
 		// metadata
-		mMD_Rating->setValue(strToUpper(res.mdl.get("rating")));
-		mMD_ReleaseDate->setValue(strToUpper(res.mdl.get("releasedate")));
-		mMD_Developer->setText(strToUpper(res.mdl.get("developer")));
-		mMD_Publisher->setText(strToUpper(res.mdl.get("publisher")));
-		mMD_Genre->setText(strToUpper(res.mdl.get("genre")));
-		mMD_Players->setText(strToUpper(res.mdl.get("players")));
+		mMD_Rating->setValue(strToUpper(res.mdl.RatingAsString()));
+		mMD_ReleaseDate->setValue(strToUpper(res.mdl.ReleaseDateAsString()));
+		mMD_Developer->setText(strToUpper(res.mdl.Developer()));
+		mMD_Publisher->setText(strToUpper(res.mdl.Publisher()));
+		mMD_Genre->setText(strToUpper(res.mdl.Genre()));
+		mMD_Players->setText(strToUpper(res.mdl.PlayersAsString()));
 		mGrid.onSizeChanged();
 	}else{
 		mResultName->setText("");

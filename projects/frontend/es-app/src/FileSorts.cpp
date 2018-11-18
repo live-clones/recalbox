@@ -3,130 +3,113 @@
 
 namespace FileSorts
 {
-  std::vector<FileData::SortType> SortTypes;
+  std::vector<SortType> SortTypes;
   
   void init() {
-	SortTypes.push_back(FileData::SortType(&compareFileName, true, "\uF15d " + _("FILENAME")));
-	SortTypes.push_back(FileData::SortType(&compareFileName, false, "\uF15e " + _("FILENAME")));
-	SortTypes.push_back(FileData::SortType(&compareRating, true, "\uF165 " + _("RATING")));
-	SortTypes.push_back(FileData::SortType(&compareRating, false, "\uF164 " + _("RATING")));
-	SortTypes.push_back(FileData::SortType(&compareTimesPlayed, true, "\uF160 " + _("TIMES PLAYED")));
-	SortTypes.push_back(FileData::SortType(&compareTimesPlayed, false, "\uF161 " + _("TIMES PLAYED")));
-	SortTypes.push_back(FileData::SortType(&compareLastPlayed, true, "\uF160 " + _("LAST PLAYED")));
-	SortTypes.push_back(FileData::SortType(&compareLastPlayed, false, "\uF161 " + _("LAST PLAYED")));
-	SortTypes.push_back(FileData::SortType(&compareNumberPlayers, true, "\uF162 " + _("NUMBER OF PLAYERS")));
-	SortTypes.push_back(FileData::SortType(&compareNumberPlayers, false, "\uF163 " + _("NUMBER OF PLAYERS")));
-	SortTypes.push_back(FileData::SortType(&compareDevelopper, true, "\uF15d " + _("DEVELOPER")));
-	SortTypes.push_back(FileData::SortType(&compareDevelopper, false, "\uF15e " + _("DEVELOPER")));
-	SortTypes.push_back(FileData::SortType(&compareGenre, true, "\uF15d " + _("GENRE")));
-	SortTypes.push_back(FileData::SortType(&compareGenre, false, "\uF15e " + _("GENRE")));
+	SortTypes.push_back(SortType(&compareFileName, true, "\uF15d " + _("FILENAME")));
+	SortTypes.push_back(SortType(&compareFileName, false, "\uF15e " + _("FILENAME")));
+	SortTypes.push_back(SortType(&compareRating, true, "\uF165 " + _("RATING")));
+	SortTypes.push_back(SortType(&compareRating, false, "\uF164 " + _("RATING")));
+	SortTypes.push_back(SortType(&compareTimesPlayed, true, "\uF160 " + _("TIMES PLAYED")));
+	SortTypes.push_back(SortType(&compareTimesPlayed, false, "\uF161 " + _("TIMES PLAYED")));
+	SortTypes.push_back(SortType(&compareLastPlayed, true, "\uF160 " + _("LAST PLAYED")));
+	SortTypes.push_back(SortType(&compareLastPlayed, false, "\uF161 " + _("LAST PLAYED")));
+	SortTypes.push_back(SortType(&compareNumberPlayers, true, "\uF162 " + _("NUMBER OF PLAYERS")));
+	SortTypes.push_back(SortType(&compareNumberPlayers, false, "\uF163 " + _("NUMBER OF PLAYERS")));
+	SortTypes.push_back(SortType(&compareDevelopper, true, "\uF15d " + _("DEVELOPER")));
+	SortTypes.push_back(SortType(&compareDevelopper, false, "\uF15e " + _("DEVELOPER")));
+	SortTypes.push_back(SortType(&compareGenre, true, "\uF15d " + _("GENRE")));
+	SortTypes.push_back(SortType(&compareGenre, false, "\uF15e " + _("GENRE")));
   }
 
-	//returns if file1 should come before file2
-	bool compareFileName(const FileData* file1, const FileData* file2)
+  static int SimpleCompareUppercase(const std::string& a, const std::string& b)
 	{
-		std::string name1 = file1->getName();
-		std::string name2 = file2->getName();
-
-		//min of name1/name2 .length()s
-		unsigned int count = name1.length() > name2.length() ? name2.length() : name1.length();
-		for(unsigned int i = 0; i < count; i++)
+		for(const char *ap = a.c_str(), *bp = b.c_str();; ap++, bp++)
 		{
-			if(toupper(name1[i]) != toupper(name2[i]))
-			{
-				return toupper(name1[i]) < toupper(name2[i]);
-			}
+		  int c1 = std::toupper(*ap);
+		  int c2 = std::toupper(*bp);
+      if ((c1 | c2) == 0) return 0;
+		  int c = c1 - c2;
+			if (c != 0) return c;
 		}
-
-		return name1.length() < name2.length();
 	}
 
-	bool compareRating(const FileData* file1, const FileData* file2)
+	//returns if file1 should come before file2
+	ImplementSortMethod(compareFileName)
+	{
+  	return SimpleCompareUppercase(file1->getName(), file2->getName());
+	}
+
+	ImplementSortMethod(compareRating)
 	{
 		//only games have rating metadata
-		if(file1->metadata.getType() == GAME_METADATA && file2->metadata.getType() == GAME_METADATA)
+		if (MetadataDescriptor::AreGames(file1->Metadata(), file2->Metadata()))
 		{
-			return file1->metadata.getFloat("rating") < file2->metadata.getFloat("rating");
+			float c = file1->Metadata().Rating() - file2->Metadata().Rating();
+			if (c < 0) return - 1;
+			if (c > 0) return 1;
+			return 0;
 		}
 
-		return false;
+		return 0;
 	}
 
-	bool compareTimesPlayed(const FileData* file1, const FileData* file2)
+	ImplementSortMethod(compareTimesPlayed)
 	{
 		//only games have playcount metadata
-		if(file1->metadata.getType() == GAME_METADATA && file2->metadata.getType() == GAME_METADATA)
+		if (MetadataDescriptor::AreGames(file1->Metadata(), file2->Metadata()))
 		{
-			return (file1)->metadata.getInt("playcount") < (file2)->metadata.getInt("playcount");
+			return (file1)->Metadata().PlayCount() - (file2)->Metadata().PlayCount();
 		}
 
-		return false;
+		return 0;
 	}
 
-	bool compareLastPlayed(const FileData* file1, const FileData* file2)
+	ImplementSortMethod(compareLastPlayed)
 	{
 		//only games have lastplayed metadata
-		if(file1->metadata.getType() == GAME_METADATA && file2->metadata.getType() == GAME_METADATA)
+		if (MetadataDescriptor::AreGames(file1->Metadata(), file2->Metadata()))
 		{
-			return (file1)->metadata.getTime("lastplayed") < (file2)->metadata.getTime("lastplayed");
+			TimeSpan ts = (file1)->Metadata().LastPlayed() - (file2)->Metadata().LastPlayed();
+      if (ts.IsNull()) return 0;
+			if (ts.IsNegative()) return -1;
+      return 1;
 		}
 
-		return false;
+		return 0;
 	}
 
-	bool compareNumberPlayers(const FileData* file1, const FileData* file2)
+	ImplementSortMethod(compareNumberPlayers)
 	{
 		//only games have lastplayed metadata
-		if(file1->metadata.getType() == GAME_METADATA && file2->metadata.getType() == GAME_METADATA)
+		if (MetadataDescriptor::AreGames(file1->Metadata(), file2->Metadata()))
 		{
-			return (file1)->metadata.getInt("players") < (file2)->metadata.getInt("players");
+			return (file1)->Metadata().PlayerRange() - (file2)->Metadata().PlayerRange();
 		}
 
-		return false;
+		return 0;
 	}
 
-	bool compareDevelopper(const FileData* file1, const FileData* file2)
+	ImplementSortMethod(compareDevelopper)
 	{
 		//only games have developper metadata
-		if(file1->metadata.getType() == GAME_METADATA && file2->metadata.getType() == GAME_METADATA)
+		if (MetadataDescriptor::AreGames(file1->Metadata(), file2->Metadata()))
 		{
-			std::string dev1 = file1->metadata.get("developer");
-			std::string dev2 = file2->metadata.get("developer");
-
-		//min of dev1/dev2 .length()s
-		unsigned int count = dev1.length() > dev2.length() ? dev2.length() : dev1.length();
-		for(unsigned int i = 0; i < count; i++)
-		{
-			if(toupper(dev1[i]) != toupper(dev2[i]))
-			{
-				return toupper(dev1[i]) < toupper(dev2[i]);
-			}
-		}
+			return SimpleCompareUppercase(file1->Metadata().Developer(), file2->Metadata().Developer());
 		}
 
-		return false;
+		return 0;
 	}
 
-	bool compareGenre(const FileData* file1, const FileData* file2)
+	ImplementSortMethod(compareGenre)
 	{
 		//only games have genre metadata
-		if(file1->metadata.getType() == GAME_METADATA && file2->metadata.getType() == GAME_METADATA)
+		if (MetadataDescriptor::AreGames(file1->Metadata(), file2->Metadata()))
 		{
-			std::string genre1 = file1->metadata.get("genre");
-			std::string genre2 = file2->metadata.get("genre");
-
-		//min of genre1/genre2 .length()s
-		unsigned int count = genre1.length() > genre2.length() ? genre2.length() : genre1.length();
-		for(unsigned int i = 0; i < count; i++)
-		{
-			if(toupper(genre1[i]) != toupper(genre2[i]))
-			{
-				return toupper(genre1[i]) < toupper(genre2[i]);
-			}
-		}
+			return SimpleCompareUppercase(file1->Metadata().Genre(), file2->Metadata().Genre());
 		}
 
-		return false;
+		return 0;
 	}
 
 };

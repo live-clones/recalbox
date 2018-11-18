@@ -2,7 +2,6 @@
 
 #include "GuiComponent.h"
 #include "components/MenuComponent.h"
-#include "MetaData.h"
 #include "scrapers/Scraper.h"
 
 #include <functional>
@@ -10,7 +9,7 @@
 class GuiMetaDataEd : public GuiComponent
 {
 public:
-	GuiMetaDataEd(Window* window, MetaDataList* md, const std::vector<MetaDataDecl>& mdd, ScraperSearchParams params, 
+		GuiMetaDataEd(Window* window, MetadataDescriptor& md, ScraperSearchParams params,
 		const std::string& header, std::function<void()> savedCallback, std::function<void()> deleteFunc, SystemData* system, bool main);
 	
 	bool input(InputConfig* config, Input input) override;
@@ -35,10 +34,9 @@ private:
 	ScraperSearchParams mScraperParams;
 
 	std::vector< std::shared_ptr<GuiComponent> > mEditors;
-	std::vector< MetaDataDecl > mMetaDataEditable;
+	std::vector< const MetadataFieldDescriptor* > mMetaDataEditable;
 
-	std::vector<MetaDataDecl> mMetaDataDecl;
-	MetaDataList* mMetaData;
+	MetadataDescriptor& mMetaData;
 	std::function<void()> mSavedCallback;
 	std::function<void()> mDeleteFunc;
 };

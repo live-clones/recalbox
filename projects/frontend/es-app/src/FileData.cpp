@@ -49,12 +49,8 @@ std::string removeParenthesis(const std::string& str)
 
 
 FileData::FileData(FileType type, const fs::path& path, SystemData* system)
-	: mType(type), mPath(path), mSystem(system), mParent(NULL), metadata(type == GAME ? GAME_METADATA : FOLDER_METADATA) // metadata is REALLY set in the constructor!
+	: mType(type), mPath(path), mSystem(system), mParent(NULL), metadata(getCleanName()) // TODO: Find a better way to move the default name into metadata
 {
-	// metadata needs at least a name field (since that's what getName() will return)
-	if(metadata.get("name").empty())
-		metadata.set("name", getCleanName());
-	metadata.set("system", system->getName());
 }
 
 FileData::~FileData()
@@ -71,15 +67,13 @@ std::string FileData::getCleanName() const
 	if(mSystem && (mSystem->hasPlatformId(PlatformIds::ARCADE) || mSystem->hasPlatformId(PlatformIds::NEOGEO)))
 		stem = PlatformIds::getCleanMameName(stem.c_str());
         return stem;
-	//return removeParenthesis(stem);
+
+  return removeParenthesis(stem);
 }
 
 const std::string& FileData::getThumbnailPath() const
 {
-	if(!metadata.get("thumbnail").empty())
-		return metadata.get("thumbnail");
-	else
-		return metadata.get("image");
+	return (!metadata.Thumbnail().empty()) ?  metadata.Thumbnail() : metadata.Image();
 }
 
 
@@ -109,7 +103,7 @@ std::vector<FileData*> FileData::getFavoritesRecursive(unsigned int typeMask) co
 
 	for (auto it = files.begin(); it != files.end(); it++)
 	{
-		if ((*it)->metadata.get("favorite").compare("true") == 0)
+		if ((*it)->metadata.Favorite())
 		{
 			out.push_back(*it);
 		}
@@ -125,7 +119,7 @@ std::vector<FileData*> FileData::getHiddenRecursive(unsigned int typeMask) const
 
 	for (auto it = files.begin(); it != files.end(); it++)
 	{
-		if ((*it)->metadata.get("hidden").compare("true") == 0)
+		if ((*it)->metadata.Hidden())
 		{
 			out.push_back(*it);
 		}
@@ -261,12 +255,15 @@ void FileData::populateRecursiveFolder(FileData* folder, const std::vector<std::
 	}
 }
 
-std::vector<FileData *> FileData::getDisplayableRecursive(unsigned int typeMask) const {
+std::vector<FileData *> FileData::getDisplayableRecursive(unsigned int typeMask) const
+{
 	std::vector<FileData *> out;
 	std::vector<FileData *> files = getFilesRecursive(typeMask);
 
-	for (auto it = files.begin(); it != files.end(); it++) {
-		if ((*it)->metadata.get("hidden").compare("true") != 0) {
+	for (auto it = files.begin(); it != files.end(); it++)
+	{
+		if (!(*it)->metadata.Hidden())
+		{
 			out.push_back(*it);
 		}
 	}
@@ -274,7 +271,8 @@ std::vector<FileData *> FileData::getDisplayableRecursive(unsigned int typeMask)
 	return out;
 }
 
-bool FileData::isSingleGameFolder() const {
+bool FileData::isSingleGameFolder() const
+{
 	assert(mType == FOLDER);
 	return (mChildren.size() == 1) && (mChildren.at(0)->getType() == GAME);
 }

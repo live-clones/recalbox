@@ -276,7 +276,6 @@ int main(int argc, char* argv[])
 
 	// other init
 	FileSorts::init(); // require locale
-	initMetadata(); // require locale
 	Settings::getInstance()->setBool("ThemeChanged", false);
 	Settings::getInstance()->setBool("ThemeHasMenuView", false);
 

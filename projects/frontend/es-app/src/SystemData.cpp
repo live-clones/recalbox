@@ -41,7 +41,7 @@ SystemData::SystemData(const std::string &name, const std::string &fullName, con
   }
 
   mRootFolder = new FileData(FOLDER, mStartPath, this);
-  mRootFolder->metadata.set("name", mFullName);
+  mRootFolder->Metadata().SetName(mFullName);
 
   if (RecalboxConf::getInstance()->get("emulationstation.gamelistonly") != "1")
     populateFolder(mRootFolder);
@@ -64,7 +64,7 @@ SystemData::SystemData(const std::string &name, const std::string &fullName, con
 {
   mSortId = RecalboxConf::getInstance()->getUInt(mName + ".sort");
   mRootFolder = new FileData(FOLDER, mStartPath, this);
-  mRootFolder->metadata.set("name", mFullName);
+  mRootFolder->Metadata().SetName(mFullName);
 
   for (auto system : *systems)
   {
@@ -172,16 +172,16 @@ void SystemData::launchGame(Window* window, FileData* game, std::string netplay,
 
   command = strreplace(command, "%ROM%", rom);
   command = strreplace(command, "%CONTROLLERSCONFIG%", controlersConfig);
-  command = strreplace(command, "%SYSTEM%", game->metadata.get("system"));
+  command = strreplace(command, "%SYSTEM%", game->getSystem()->getName());
   command = strreplace(command, "%BASENAME%", basename);
   command = strreplace(command, "%ROM_RAW%", rom_raw);
-  command = strreplace(command, "%EMULATOR%", game->metadata.get("emulator"));
-  command = strreplace(command, "%CORE%", game->metadata.get("core"));
-  command = strreplace(command, "%RATIO%", game->metadata.get("ratio"));
+  command = strreplace(command, "%EMULATOR%", game->Metadata().Emulator());
+  command = strreplace(command, "%CORE%", game->Metadata().Core());
+  command = strreplace(command, "%RATIO%", game->Metadata().RatingAsString());
 
-	command = strreplace(command, "%ROM%", rom);
+	/*command = strreplace(command, "%ROM%", rom);
 	command = strreplace(command, "%CONTROLLERSCONFIG%", controlersConfig);
-	command = strreplace(command, "%SYSTEM%", game->metadata.get("system"));
+	command = strreplace(command, "%SYSTEM%", game->Metadata().get("system"));
 	command = strreplace(command, "%BASENAME%", basename);
 	command = strreplace(command, "%ROM_RAW%", rom_raw);
 	if (core != "")
@@ -191,10 +191,10 @@ void SystemData::launchGame(Window* window, FileData* game, std::string netplay,
 	}
 	else
 	{
-		command = strreplace(command, "%EMULATOR%", game->metadata.get("emulator"));
-		command = strreplace(command, "%CORE%", game->metadata.get("core"));
+		command = strreplace(command, "%EMULATOR%", game->Metadata().get("emulator"));
+		command = strreplace(command, "%CORE%", game->Metadata().get("core"));
 	}
-	command = strreplace(command, "%RATIO%", game->metadata.get("ratio"));
+	command = strreplace(command, "%RATIO%", game->Metadata().get("ratio"));*/
 
 	if (netplay == "client")
 	{
@@ -202,7 +202,7 @@ void SystemData::launchGame(Window* window, FileData* game, std::string netplay,
 	}
 	else if (netplay == "host")
 	{
-	    std::string hash = game->metadata.get("hash");
+	    std::string hash = game->Metadata().RomCrc32AsString();
 	    std::string hashcmd = "";
 	    if (hash != "")
 	    {
@@ -233,12 +233,11 @@ void SystemData::launchGame(Window* window, FileData* game, std::string netplay,
   window->normalizeNextUpdate();
 
   //update number of times the game has been launched
-  int timesPlayed = game->metadata.getInt("playcount") + 1;
-  game->metadata.set("playcount", std::to_string(static_cast<long long>(timesPlayed)));
+  game->Metadata().IncPlaycount();
+  int timesPlayed = game->Metadata().PlayCount();
 
   //update last played time
-  boost::posix_time::ptime time = boost::posix_time::second_clock::universal_time();
-  game->metadata.setTime("lastplayed", time);
+  game->Metadata().SetLastplayedNow();
 }
 
 void SystemData::populateFolder(FileData *folder)

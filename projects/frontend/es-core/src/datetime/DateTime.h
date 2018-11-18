@@ -272,12 +272,74 @@ public:
   static bool ParseFromString(const char* format, const std::string& str, DateTime& destination);
 
   /*!
-  * Return the current DateTime in an ISO8601 string format: YYYY-MM-ddTHH:mm:ss+zzzz
-  * @return
-  */
+   * Parse a string according to the strict ISO6801 representation
+   * @param from String to parse
+   * @param destination DateTime to fill with the parsing result
+   * @return Set to true if the parsing was successful
+   */
+  static bool FromISO6801(const std::string& from, DateTime& destination) { return ParseFromString("%YYYY-%MM-%ddT%HH:%mm:%ss%zzzz", from, destination); }
+
+  /*!
+   * Parse a string according to the short ISO6801 representation
+   * @param from String to parse
+   * @param destination DateTime to fill with the parsing result
+   * @return Set to true if the parsing was successful
+   */
+  static bool FromCompactISO6801(const std::string& from, DateTime& destination) { return ParseFromString("%YYYY%MM%ddT%HH%mm%ss", from, destination); }
+
+  /*!
+   * Parse a string according to the compact representation
+   * @param from String to parse
+   * @param destination DateTime to fill with the parsing result
+   * @return Set to true if the parsing was successful
+   */
+  static bool FromCompactFormat(const std::string& from, DateTime& destination) { return ParseFromString("%YYYY%MM%dd%HH%mm%ss", from, destination); }
+
+  /*!
+   * Parse a string according to the short representation
+   * @param from String to parse
+   * @param destination DateTime to fill with the parsing result
+   * @return Set to true if the parsing was successful
+   */
+  static bool FromShortFormat(const std::string& from, DateTime& destination) { return ParseFromString("%YYYY/%MM/%dd %HH:%mm:%ss%zz", from, destination); }
+
+  /*!
+   * Parse a string according to the precise representation
+   * @param from String to parse
+   * @param destination DateTime to fill with the parsing result
+   * @return Set to true if the parsing was successful
+   */
+  static bool FromPreciseFormat(const std::string& from, DateTime& destination) { return ParseFromString("%YYYY/%MM/%dd %HH:%mm:%ss.%fff", from, destination); }
+
+  /*!
+   * Parse a string according to the long representation
+   * @param from String to parse
+   * @param destination DateTime to fill with the parsing result
+   * @return Set to true if the parsing was successful
+   */
+  static bool FromLongFormat(const std::string& from, DateTime& destination) { return ParseFromString("%YYYY/%MMM/%dd %HH:%mm:%ss%zzzz", from, destination); }
+
+  /*!
+   * Parse a string according to the human readable representation
+   * @param from String to parse
+   * @param destination DateTime to fill with the parsing result
+   * @return Set to true if the parsing was successful
+   */
+  static bool FromHumanFormat(const std::string& from, DateTime& destination) { return ParseFromString("%dddd %dd, %MMMM %YYYY - %HH:%mm:%ss%zzzz", from, destination); }
+
+  /*!
+   * Return the current DateTime in an ISO8601 string format: YYYY-MM-ddTHH:mm:ss+zzzz
+   * @return
+   */
   std::string ToISO8601() const { return std::move(ToStringFormat("%YYYY-%MM-%ddT%HH:%mm:%ss%zzzz")); }
 
   /*!
+   * Return the current DateTime in an ISO8601 string format: YYYY-MM-ddTHH:mm:ss+zzzz
+   * @return
+   */
+  std::string ToCompactISO8601() const { return std::move(ToStringFormat("%YYYY%MM%ddT%HH%mm%ss")); }
+
+    /*!
    * Return very compact 14 digit DateTime representation
    * @return Compact representation of the current DateTime
    */

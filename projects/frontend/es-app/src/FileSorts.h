@@ -5,14 +5,27 @@
 
 namespace FileSorts
 {
-	bool compareFileName(const FileData* file1, const FileData* file2);
-	bool compareRating(const FileData* file1, const FileData* file2);
-	bool compareTimesPlayed(const FileData* file1, const FileData* fil2);
-	bool compareLastPlayed(const FileData* file1, const FileData* file2);
-	bool compareNumberPlayers(const FileData* file1, const FileData* file2);
-	bool compareDevelopper(const FileData* file1, const FileData* file2);
-	bool compareGenre(const FileData* file1, const FileData* file2);
+	struct SortType
+	{
+      int (*comparisonFunction)(FileData* const a, FileData* const b);
+			bool ascending;
+			std::string description;
 
-	extern std::vector<FileData::SortType> SortTypes;
+			SortType(int (*sortFunction)(FileData* const a, FileData* const b), bool sortAscending, const std::string & sortDescription)
+				: comparisonFunction(sortFunction), ascending(sortAscending), description(sortDescription) {}
+	};
+
+	#define DeclareSortMethodPrototype(x) int x(FileData* const file1, FileData* const file2);
+	#define ImplementSortMethod(x) int x(FileData* const file1, FileData* const file2)
+
+	DeclareSortMethodPrototype(compareFileName)
+	DeclareSortMethodPrototype(compareRating)
+	DeclareSortMethodPrototype(compareTimesPlayed)
+	DeclareSortMethodPrototype(compareLastPlayed)
+	DeclareSortMethodPrototype(compareNumberPlayers)
+	DeclareSortMethodPrototype(compareDevelopper)
+	DeclareSortMethodPrototype(compareGenre)
+
+	extern std::vector<SortType> SortTypes;
 	void init();
 };

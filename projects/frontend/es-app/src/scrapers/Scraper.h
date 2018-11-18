@@ -1,6 +1,5 @@
 #pragma once
 
-#include "MetaData.h"
 #include "SystemData.h"
 #include "HttpReq.h"
 #include "AsyncHandle.h"
@@ -20,9 +19,9 @@ struct ScraperSearchParams
 
 struct ScraperSearchResult
 {
-	ScraperSearchResult() : mdl(GAME_METADATA) {};
+	ScraperSearchResult() : mdl("no-name") {};
 
-	MetaDataList mdl;
+	MetadataDescriptor mdl;
 	std::string imageUrl;
 	std::string thumbnailUrl;
 };

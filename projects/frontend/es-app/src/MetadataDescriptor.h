@@ -456,14 +456,14 @@ class MetadataDescriptor
     std::string RegionAsString()      const { return ReadPString(_Region);      }
     //std::string RomTypeAsString()     const { return _RomType;                  }
 
-    std::string RatingAsString()      const { return std::move(FloatToString(_Rating, 4));                     }
-    std::string PlayersAsString()     const { return std::move(IntToRange(_Players));                          }
-    std::string ReleaseDateAsString() const { return std::move(DateTime((long long)_ReleaseDate).ToISO8601()); }
-    std::string PlayCountAsString()   const { return std::move(std::to_string(_Playcount));                    }
-    std::string LastPlayedAsString()  const { return std::move(DateTime((long long)_LastPlayed).ToISO8601());  }
-    std::string FavoriteAsString()    const { return std::move(_Favorite ? "true" : "false");                  }
-    std::string RomCrc32AsString()    const { std::string r; IntToHex(_RomCrc32, r); return std::move(r);      }
-    std::string HiddenAsString()      const { return std::move(_Hidden ? "true" : "false");                    }
+    std::string RatingAsString()      const { return std::move(FloatToString(_Rating, 4));                            }
+    std::string PlayersAsString()     const { return std::move(IntToRange(_Players));                                 }
+    std::string ReleaseDateAsString() const { return _ReleaseDate != 0 ? std::move(DateTime((long long)_ReleaseDate).ToCompactISO8601()) : ""; }
+    std::string PlayCountAsString()   const { return std::move(std::to_string(_Playcount));                           }
+    std::string LastPlayedAsString()  const { return _LastPlayed != 0 ? std::move(DateTime((long long)_LastPlayed).ToCompactISO8601()) : ""; }
+    std::string FavoriteAsString()    const { return std::move(_Favorite ? "true" : "false");                         }
+    std::string RomCrc32AsString()    const { std::string r; IntToHex(_RomCrc32, r); return std::move(r);             }
+    std::string HiddenAsString()      const { return std::move(_Hidden ? "true" : "false");                           }
 
     /*
      * Setters
@@ -492,14 +492,24 @@ class MetadataDescriptor
      * String setters
      */
 
-    void SetReleaseDateAsString(const std::string& releasedate) { _ReleaseDate = (int)DateTime(releasedate).ToEpochTime(); _Dirty = true;       }
+    void SetReleaseDateAsString(const std::string& releasedate)
+    {
+      DateTime st;
+      _ReleaseDate = st.FromCompactISO6801(releasedate, st) ? st.ToEpochTime() : 0;
+      _Dirty = true;
+    }
+    void SetLastPlayedAsString(const std::string& lastplayed)
+    {
+      DateTime st;
+      _LastPlayed = st.FromCompactISO6801(lastplayed, st) ? st.ToEpochTime() : 0;
+      _Dirty = true;
+    }
     void SetRatingAsString(const std::string& rating)           { float f = 0.0f; if (StringToFloat(rating, f)) { _Rating = f; _Dirty = true; } }
     void SetPlayersAsString(const std::string& players)         { int p = 0; if (RangeToInt(players, p)) { _Players = p;_Dirty = true; }        }
     void SetFavoriteAsString(const std::string& favorite)       { _Favorite = (favorite == "true");                                             }
     void SetHiddenAsString(const std::string& hidden)           { _Hidden = (hidden == "true");                                                 }
     void SetRomCrc32AsString(const std::string& romcrc32)       { int c; if (HexToInt(romcrc32, c)) { _RomCrc32 = c; _Dirty = true; }           }
     void SetPlayCountAsString(const std::string& playcount)     { int p; if (StringToInt(playcount, p)) { _Playcount = p; _Dirty = true; }      }
-    void SetLastPlayedAsString(const std::string& lastplayed)   { _LastPlayed = (int)DateTime(lastplayed).ToEpochTime(); _Dirty = true;         }
 
     /*
      * Defaults

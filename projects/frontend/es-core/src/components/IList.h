@@ -52,9 +52,8 @@ const ScrollTierList LIST_SCROLL_STYLE_SLOW = { 2, SLOW_SCROLL_TIERS };
     slow down the whole process
  */
 
-
 template <typename EntryData, typename UserData>
-class IList : public GuiComponent {
+class IList : public GuiComponent/*, public ISorter<UserData>*/ {
 public:
 	struct Entry {
 		std::string name;
@@ -80,8 +79,58 @@ protected:
 	const ListLoopType mLoopType;
 
 	std::vector<Entry> mEntries;
-	
-public:
+
+	/*!
+   * Highly optimized Quicksort, inpired from original Delphi 7 code
+   * @param low Lowest element
+   * @param high Highest element
+   * @param comparer Compare method
+   */
+  void QuickSortAscending(int low, int high, int (*comparer)(UserData const a, UserData const b))
+  {
+    int Low = low, High = high;
+    UserData Pivot = mEntries[(Low + High) >> 1].object;
+    do
+    {
+      while((*comparer)(mEntries[Low].object , Pivot) < 0) Low++;
+      while((*comparer)(mEntries[High].object, Pivot) > 0) High--;
+      if (Low <= High)
+      {
+
+        Entry Tmp = mEntries[Low]; mEntries[Low] = mEntries[High]; mEntries[High] = Tmp;
+        Low++; High--;
+      }
+    }while(Low <= High);
+    if (High > low) QuickSortAscending(low, High, comparer);
+    if (Low < high) QuickSortAscending(Low, high, comparer);
+  }
+
+  /*!
+   * Highly optimized Quicksort, inpired from original Delphi 7 code
+   * @param low Lowest element
+   * @param high Highest element
+   * @param comparer Compare method
+   */
+  void QuickSortDescending(int low, int high, int (*comparer)(UserData const a, UserData const b))
+  {
+    int Low = low, High = high;
+    UserData Pivot = mEntries[(Low + High) >> 1].object;
+    do
+    {
+      while((*comparer)(mEntries[Low].object , Pivot) > 0) Low++;
+      while((*comparer)(mEntries[High].object, Pivot) < 0) High--;
+      if (Low <= High)
+      {
+
+        Entry Tmp = mEntries[Low]; mEntries[Low] = mEntries[High]; mEntries[High] = Tmp;
+        Low++; High--;
+      }
+    }while(Low <= High);
+    if (High > low) QuickSortDescending(low, High, comparer);
+    if (Low < high) QuickSortDescending(Low, high, comparer);
+  }
+
+  public:
 	IList(Window* window, const ScrollTierList& tierList = LIST_SCROLL_STYLE_QUICK, const ListLoopType& loopType = LIST_PAUSE_AT_END) : GuiComponent(window), 
 		mGradient(window), mTierList(tierList), mLoopType(loopType) {
 		mCursor = 0;
@@ -226,13 +275,12 @@ public:
 		return false;
 	}
 
-	void sortByObject(const std::function<bool(const UserData a, const UserData b)>& comparator, bool ascending) {
-		std::sort(mEntries.begin(), mEntries.end(), [comparator](const Entry a, const Entry b) -> bool {
-			return comparator(a.object, b.object);
-		});
-		if (!ascending) {
-			std::reverse(mEntries.begin(), mEntries.end());
-		}
+	void sortByObject(int (*comparator)(UserData const a, UserData const b), bool ascending)
+	{
+    if (ascending)
+      QuickSortAscending(0, mEntries.size() - 1, comparator);
+    else
+      QuickSortDescending(0, mEntries.size() - 1, comparator);
 	}
 
 	inline int size() const { return mEntries.size(); }

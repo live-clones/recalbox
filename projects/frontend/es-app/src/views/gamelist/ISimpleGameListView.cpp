@@ -70,7 +70,7 @@ void ISimpleGameListView::onFileChanged(FileData* file, FileChangeType change) {
 	}
 
     if (change == FileChangeType::FILE_REMOVED) {
-        bool favorite = file->metadata.get("favorite") == "true";
+        bool favorite = file->Metadata().Favorite();
         delete file;
         if (favorite) {
             ViewController::get()->setInvalidGamesList(SystemData::getFavoriteSystem());
@@ -92,7 +92,7 @@ void ISimpleGameListView::onFileChanged(FileData* file, FileChangeType change) {
 	/* Favorite */
 	if (file->getType() == GAME) {
 		SystemData * favoriteSystem = SystemData::getFavoriteSystem();
-		bool isFavorite = file->metadata.get("favorite") == "true";
+		bool isFavorite = file->Metadata().Favorite();
 		bool foundInFavorite = false;
 		/* Removing favorite case : */
 		for (auto gameInFavorite = favoriteSystem->getRootFolder()->getChildren().begin();
@@ -169,19 +169,19 @@ bool ISimpleGameListView::input(InputConfig* config, Input input) {
 			if (!ViewController::get()->getState().getSystem()->isFavorite() && cursor->getSystem()->getHasFavorites()) {
 				if (cursor->getType() == GAME) {
 					mFavoriteChange = true;
-					MetaDataList* md = &cursor->metadata;
-					std::string value = md->get("favorite");
+          MetadataDescriptor& md = cursor->Metadata();
+          bool value = md.Favorite();
 					bool removeFavorite = false;
 					SystemData *favoriteSystem = SystemData::getFavoriteSystem();
 
-					if (value == "true") {
-                        md->set("favorite", "false");
+					if (value) {
+                        md.SetFavorite(false);
                         if (favoriteSystem != NULL) {
                             favoriteSystem->getRootFolder()->removeAlreadyExistingChild(cursor);
                         }
                         removeFavorite = true;
 					} else {
-                        md->set("favorite", "true");
+                        md.SetFavorite(true);
                         if (favoriteSystem != NULL) {
                             favoriteSystem->getRootFolder()->addAlreadyExistingChild(cursor);
                         }

@@ -1,7 +1,6 @@
 #include "scrapers/GamesDBScraper.h"
 #include "Log.h"
 #include "pugixml/pugixml.hpp"
-#include "MetaData.h"
 #include "Settings.h"
 #include "Util.h"
 #include <boost/assign.hpp>
@@ -138,23 +137,22 @@ void TheGamesDBRequest::process(const std::unique_ptr<HttpReq>& req, std::vector
 	{
 		ScraperSearchResult result;
 
-		result.mdl.set("name", game.child("GameTitle").text().get());
-		result.mdl.set("desc", game.child("Overview").text().get());
+		result.mdl.SetName(game.child("GameTitle").text().get());
+		result.mdl.SetDescription(game.child("Overview").text().get());
 
-		boost::posix_time::ptime rd = string_to_ptime(game.child("ReleaseDate").text().get(), "%m/%d/%Y");
-		result.mdl.setTime("releasedate", rd);
+		DateTime rd;
+		DateTime::ParseFromString("%MM/%DD/%YYYY", game.child("ReleaseDate").text().get(), rd);
+		result.mdl.SetReleaseDate(rd);
 
-		result.mdl.set("developer", game.child("Developer").text().get());
-		result.mdl.set("publisher", game.child("Publisher").text().get());
-		result.mdl.set("genre", game.child("Genres").first_child().text().get());
-		result.mdl.set("players", game.child("Players").text().get());
+		result.mdl.SetDeveloper(game.child("Developer").text().get());
+		result.mdl.SetPublisher(game.child("Publisher").text().get());
+		result.mdl.SetGenre(game.child("Genres").first_child().text().get());
+		result.mdl.SetPlayersAsString(game.child("Players").text().get());
 
 		if(Settings::getInstance()->getBool("ScrapeRatings") && game.child("Rating"))
 		{
 			float ratingVal = (game.child("Rating").text().as_int() / 10.0f);
-			std::stringstream ss;
-			ss << ratingVal;
-			result.mdl.set("rating", ss.str());
+			result.mdl.SetRating(ratingVal);
 		}
 
 		pugi::xml_node images = game.child("Images");

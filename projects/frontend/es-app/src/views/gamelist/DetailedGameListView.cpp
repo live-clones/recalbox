@@ -257,7 +257,7 @@ void DetailedGameListView::updateInfoPanel() {
         fadeOut(getGameComponents(), true);
     } else {
         const bool isGame = file->getType() == GAME;
-        const bool hasImage = !file->metadata.get("image").empty();
+        const bool hasImage = !file->Metadata().Image().empty();
 
         if (hasImage && !isGame) {
             setScrappedFolderInfo(file);
@@ -322,8 +322,8 @@ void DetailedGameListView::setFolderInfo(FileData* file) {
     unsigned char idx = 0;
 
     for (FileData* game: games) {
-        const std::string& thumbnail = game->metadata.get("thumbnail");
-        const std::string& image = game->metadata.get("image");
+        const std::string& thumbnail = game->Metadata().Thumbnail();
+        const std::string& image = game->Metadata().Image();
         if (!thumbnail.empty() || !image.empty()) {
             mFolderContent.at(idx)->setImage(thumbnail.empty() ? image : thumbnail);
             idx++;
@@ -338,24 +338,24 @@ void DetailedGameListView::setFolderInfo(FileData* file) {
 }
 
 void DetailedGameListView::setGameInfo(FileData* file) {
-    mRating.setValue(file->metadata.get("rating"));
-    mReleaseDate.setValue(file->metadata.get("releasedate"));
-    mDeveloper.setValue(file->metadata.get("developer"));
-    mPublisher.setValue(file->metadata.get("publisher"));
-    mGenre.setValue(file->metadata.get("genre"));
-    mPlayers.setValue(file->metadata.get("players"));
-    mLastPlayed.setValue(file->metadata.get("lastplayed"));
-    mPlayCount.setValue(file->metadata.get("playcount"));
-    mFavorite.setValue(file->metadata.get("favorite"));
+    mRating.setValue(file->Metadata().RatingAsString());
+    mReleaseDate.setValue(file->Metadata().ReleaseDateAsString());
+    mDeveloper.setValue(file->Metadata().Developer());
+    mPublisher.setValue(file->Metadata().Publisher());
+    mGenre.setValue(file->Metadata().Genre());
+    mPlayers.setValue(file->Metadata().PlayersAsString());
+    mLastPlayed.setValue(file->Metadata().LastPlayedAsString());
+    mPlayCount.setValue(file->Metadata().PlayCountAsString());
+    mFavorite.setValue(file->Metadata().FavoriteAsString());
 
-    mImage.setImage(file->metadata.get("image"));
-    mDescription.setText(file->metadata.get("desc"));
+    mImage.setImage(file->Metadata().Image());
+    mDescription.setText(file->Metadata().Description());
     mDescContainer.reset();
 }
 
 void DetailedGameListView::setScrappedFolderInfo(FileData* file) {
-    mImage.setImage(file->metadata.get("image"));
-    mDescription.setText(file->metadata.get("desc"));
+    mImage.setImage(file->Metadata().Image());
+    mDescription.setText(file->Metadata().Description());
     mDescContainer.reset();
 }
 
