@@ -6,6 +6,7 @@
 #include <vector>
 #include <functional>
 #include <queue>
+#include <fstream>
 
 #define MAX_SCRAPER_RESULTS 7
 
