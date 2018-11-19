@@ -1,8 +1,11 @@
 config BR2_PACKAGE_KODI_PLUGIN_VIDEO_YOUTUBE
     depends on BR2_PACKAGE_KODI
+    select BR2_PACKAGE_PYTHON_HASHLIB
+    select BR2_PACKAGE_PYTHON_SIX
+    select BR2_PACKAGE_PYTHON_REQUESTS
     bool "kodi-plugin-video-youtube"
     default y
     help
       Kodi Youtube Plugin
 
-      https://kodi.tv
+      https://kodi.tv/addon/plugins-video-add-ons/youtube
