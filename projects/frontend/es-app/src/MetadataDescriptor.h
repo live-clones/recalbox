@@ -14,9 +14,9 @@ class MetadataDescriptor
     //! Metadata type
     enum class ObjectType : char
     {
-      None,
-      Game,
-      Folder,
+        None,
+        Game,
+        Folder,
     };
 
   private:
@@ -24,10 +24,10 @@ class MetadataDescriptor
     static MetadataDescriptor _Default;
 
     #ifdef _METADATA_STATS_
-      static int LivingClasses;
-      static int LivingNone;
-      static int LivingFolders;
-      static int LivingGames;
+    static int LivingClasses;
+    static int LivingNone;
+    static int LivingFolders;
+    static int LivingGames;
     #endif
 
     // Static default values
@@ -207,7 +207,6 @@ class MetadataDescriptor
         _Ratio(nullptr),
         _Thumbnail(nullptr),
         _Region(nullptr),
-        //_RomType(),
         _Rating(0.0f),
         _Players((1<<16)+1),
         _ReleaseDate(0),
@@ -220,8 +219,8 @@ class MetadataDescriptor
         _Type(ObjectType::None)
     {
       #ifdef _METADATA_STATS_
-        LivingClasses++;
-        LivingNone++;
+      LivingClasses++;
+      LivingNone++;
       #endif
     }
 
@@ -241,7 +240,6 @@ class MetadataDescriptor
         _Ratio       (source._Ratio      ),
         _Thumbnail   (source._Thumbnail  ),
         _Region      (source._Region     ),
-        //_RomType     (source._RomType    ),
         _Rating      (source._Rating     ),
         _Players     (source._Players    ),
         _ReleaseDate (source._ReleaseDate),
@@ -327,7 +325,6 @@ class MetadataDescriptor
       if (source._Ratio     != nullptr) _Ratio     = new std::string(*source._Ratio    );
       if (source._Thumbnail != nullptr) _Thumbnail = new std::string(*source._Thumbnail);
       if (source._Region    != nullptr) _Region    = new std::string(*source._Region   );
-      //_RomType     = source._RomType  ;
       _Rating      = source._Rating     ;
       _Players     = source._Players    ;
       _ReleaseDate = source._ReleaseDate;
@@ -340,9 +337,9 @@ class MetadataDescriptor
       _Type        = source._Type       ;
 
       #ifdef _METADATA_STATS_
-        if (_Type == ObjectType::None) LivingNone++;
-        if (_Type == ObjectType::Game) LivingGames++;
-        if (_Type == ObjectType::Folder) LivingFolders++;
+      if (_Type == ObjectType::None) LivingNone++;
+      if (_Type == ObjectType::Game) LivingGames++;
+      if (_Type == ObjectType::Folder) LivingFolders++;
       #endif
 
       return *this;
@@ -355,9 +352,9 @@ class MetadataDescriptor
     MetadataDescriptor& operator = (MetadataDescriptor&& source)
     {
       #ifdef _METADATA_STATS_
-        if (_Type == ObjectType::None) LivingNone--;
-        if (_Type == ObjectType::Game) LivingGames--;
-        if (_Type == ObjectType::Folder) LivingFolders--;
+      if (_Type == ObjectType::None) LivingNone--;
+      if (_Type == ObjectType::Game) LivingGames--;
+      if (_Type == ObjectType::Folder) LivingFolders--;
       #endif
 
       FreeAll();
@@ -385,9 +382,9 @@ class MetadataDescriptor
       _Type        = source._Type       ;
 
       #ifdef _METADATA_STATS_
-        if (_Type == ObjectType::None) LivingNone++;
-        if (_Type == ObjectType::Game) LivingGames++;
-        if (_Type == ObjectType::Folder) LivingFolders++;
+      if (_Type == ObjectType::None) LivingNone++;
+      if (_Type == ObjectType::Game) LivingGames++;
+      if (_Type == ObjectType::Folder) LivingFolders++;
       #endif
 
       return *this;
@@ -520,25 +517,25 @@ class MetadataDescriptor
      * Defaults
      */
 
-    bool IsDefaultName()            const { return _Default._Name        == _Name;        }
-    bool IsDefaultEmulator()        const { return _Default._Emulator    == _Emulator;    }
-    bool IsDefaultCore()            const { return _Default._Core        == _Core;        }
-    bool IsDefaultRatio()           const { return _Default._Ratio       == _Ratio;       }
-    bool IsDefaultDescription()     const { return _Default._Description == _Description; }
-    bool IsDefaultImage()           const { return _Default._Image       == _Image;       }
-    bool IsDefaultThumbnail()       const { return _Default._Thumbnail   == _Thumbnail;   }
-    bool IsDefaultDeveloper()       const { return _Default._Developer   == _Developer;   }
-    bool IsDefaultPublisher()       const { return _Default._Publisher   == _Publisher;   }
-    bool IsDefaultGenre()           const { return _Default._Genre       == _Genre;       }
-    bool IsDefaultRegion()          const { return _Default._Region      == _Region;      }
-    bool IsDefaultRating()          const { return _Default._Rating      == _Rating;      }
-    bool IsDefaultPlayerRange()     const { return _Default._Players     == _Players;     }
-    bool IsDefaultReleaseDateEpoc() const { return _Default._ReleaseDate == _ReleaseDate; }
-    bool IsDefaultPlayCount()       const { return _Default._Playcount   == _Playcount;   }
-    bool IsDefaultLastPlayedEpoc()  const { return _Default._LastPlayed  == _LastPlayed;  }
-    bool IsDefaultRomCrc32()        const { return _Default._RomCrc32    == _RomCrc32;    }
-    bool IsDefaultFavorite()        const { return _Default._Favorite    == _Favorite;    }
-    bool IsDefaultHidden()          const { return _Default._Hidden      == _Hidden;      }
+    bool IsDefaultName()            const { return  _Default._Name        ==  _Name;        }
+    bool IsDefaultEmulator()        const { return *_Default._Emulator    == *_Emulator;    }
+    bool IsDefaultCore()            const { return *_Default._Core        == *_Core;        }
+    bool IsDefaultRatio()           const { return *_Default._Ratio       == *_Ratio;       }
+    bool IsDefaultDescription()     const { return  _Default._Description ==  _Description; }
+    bool IsDefaultImage()           const { return  _Default._Image       ==  _Image;       }
+    bool IsDefaultThumbnail()       const { return *_Default._Thumbnail   == *_Thumbnail;   }
+    bool IsDefaultDeveloper()       const { return  _Default._Developer   ==  _Developer;   }
+    bool IsDefaultPublisher()       const { return  _Default._Publisher   ==  _Publisher;   }
+    bool IsDefaultGenre()           const { return  _Default._Genre       ==  _Genre;       }
+    bool IsDefaultRegion()          const { return *_Default._Region      == *_Region;      }
+    bool IsDefaultRating()          const { return  _Default._Rating      ==  _Rating;      }
+    bool IsDefaultPlayerRange()     const { return  _Default._Players     ==  _Players;     }
+    bool IsDefaultReleaseDateEpoc() const { return  _Default._ReleaseDate ==  _ReleaseDate; }
+    bool IsDefaultPlayCount()       const { return  _Default._Playcount   ==  _Playcount;   }
+    bool IsDefaultLastPlayedEpoc()  const { return  _Default._LastPlayed  ==  _LastPlayed;  }
+    bool IsDefaultRomCrc32()        const { return  _Default._RomCrc32    ==  _RomCrc32;    }
+    bool IsDefaultFavorite()        const { return  _Default._Favorite    ==  _Favorite;    }
+    bool IsDefaultHidden()          const { return  _Default._Hidden      ==  _Hidden;      }
 
     /*
      * Convenient Accessors
