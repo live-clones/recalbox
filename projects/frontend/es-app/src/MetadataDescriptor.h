@@ -20,7 +20,7 @@ class MetadataDescriptor
     };
 
   private:
-    //! Default value storage for fast dafault detection
+    //! Default value storage for fast default detection
     static MetadataDescriptor _Default;
 
     #ifdef _METADATA_STATS_
@@ -101,10 +101,8 @@ class MetadataDescriptor
       if (value.empty()) FreePString(string);
       else
       {
-        if (string == nullptr)
-          string = new std::string(value);
-        else
-          *string = value;
+        if (string == nullptr) string = new std::string();
+        *string = value;
       }
     }
 

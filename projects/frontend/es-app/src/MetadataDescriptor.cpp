@@ -90,9 +90,18 @@ MetadataDescriptor MetadataDescriptor::_Default = MetadataDescriptor::BuildDefau
 MetadataDescriptor MetadataDescriptor::BuildDefaultValueMetadataDescriptor()
 {
   MetadataDescriptor defaultData("default");
-  TreeNode emptyGameNode;
-  emptyGameNode.first = GameNodeIdentifier;
-  defaultData.Deserialize(emptyGameNode, "");
+  int count = 0;
+  const MetadataFieldDescriptor* fields = GetMetadataFieldDescriptors(ObjectType::Game, count);
+
+  for(; --count >= 0; )
+  {
+    // Get field descriptor
+    const MetadataFieldDescriptor& field = fields[count];
+
+    // Set default value
+    (defaultData.*field.SetValueMethod())(field.DefaultValue());
+  }
+
   return std::move(defaultData);
 }
 
