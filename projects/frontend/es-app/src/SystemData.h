@@ -47,7 +47,7 @@ public:
 	unsigned int getFavoritesCount() const;
 	unsigned int getHiddenCount() const;
 
-	void launchGame(Window* window, FileData* game, std::string netplay = "", std::string core = "", std::string ip = "", std::string port = "");
+	void launchGame(Window* window, FileData* game, const std::string& netplay, const std::string& core, const std::string& ip, const std::string& port);
 
 	static void deleteSystems();
 	static bool loadConfig(); //Load the system config file at getConfigPath(). Returns true if no errors were encountered. An example will be written if the file doesn't exist.

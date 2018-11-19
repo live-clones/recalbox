@@ -151,10 +151,9 @@ std::string escapePath(const boost::filesystem::path &path)
 #endif
 }
 
-void SystemData::launchGame(Window* window, FileData* game, std::string netplay, std::string core, std::string ip, std::string port)
+void SystemData::launchGame(Window* window, FileData* game, const std::string& netplay, const std::string& core, const std::string& ip, const std::string& port)
 {
   LOG(LogInfo) << "Attempting to launch game...";
-
 
   AudioManager::getInstance()->deinit();
   VolumeControl::getInstance()->deinit();
@@ -177,24 +176,7 @@ void SystemData::launchGame(Window* window, FileData* game, std::string netplay,
   command = strreplace(command, "%ROM_RAW%", rom_raw);
   command = strreplace(command, "%EMULATOR%", game->Metadata().Emulator());
   command = strreplace(command, "%CORE%", game->Metadata().Core());
-  command = strreplace(command, "%RATIO%", game->Metadata().RatingAsString());
-
-	/*command = strreplace(command, "%ROM%", rom);
-	command = strreplace(command, "%CONTROLLERSCONFIG%", controlersConfig);
-	command = strreplace(command, "%SYSTEM%", game->Metadata().get("system"));
-	command = strreplace(command, "%BASENAME%", basename);
-	command = strreplace(command, "%ROM_RAW%", rom_raw);
-	if (core != "")
-	{
-		command = strreplace(command, "%EMULATOR%", "libretro");
-		command = strreplace(command, "%CORE%", core);
-	}
-	else
-	{
-		command = strreplace(command, "%EMULATOR%", game->Metadata().get("emulator"));
-		command = strreplace(command, "%CORE%", game->Metadata().get("core"));
-	}
-	command = strreplace(command, "%RATIO%", game->Metadata().get("ratio"));*/
+  command = strreplace(command, "%RATIO%", game->Metadata().RatioAsString());
 
 	if (netplay == "client")
 	{
@@ -234,7 +216,6 @@ void SystemData::launchGame(Window* window, FileData* game, std::string netplay,
 
   //update number of times the game has been launched
   game->Metadata().IncPlaycount();
-  int timesPlayed = game->Metadata().PlayCount();
 
   //update last played time
   game->Metadata().SetLastplayedNow();
@@ -377,7 +358,9 @@ bool SystemData::loadSystemNodes(XmlNodeCollisionMap &collisionMap, XmlNodeList 
   }
 
   if (!result)
+  {
     LOG(LogError) << "missing or empty <systemList> tag!";
+  }
 
   return result;
 }
@@ -410,7 +393,10 @@ bool SystemData::loadSystemList(Tree &document, XmlNodeCollisionMap &collisionMa
   if (!loadXmlFile(document, filePath)) return false;
 
   bool result = loadSystemNodes(collisionMap, nodeStore, document);
-  if (!result) LOG(LogWarning) << filePath << " has no systems or systemList nodes";
+  if (!result)
+  {
+    LOG(LogWarning) << filePath << " has no systems or systemList nodes";
+  }
 
   return result;
 }

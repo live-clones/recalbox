@@ -30,6 +30,18 @@ class MetadataDescriptor
       static int LivingGames;
     #endif
 
+    // Static default values
+    static const std::string DefaultValueEmulator;
+    static const std::string DefaultValueCore;
+    static const std::string DefaultValueRatio;
+    static const std::string DefaultValueEmpty;
+    static const std::string DefaultValueRating;
+    static const std::string DefaultValuePlayers;
+    static const std::string DefaultValuePlaycount;
+    static const std::string DefaultValueUnknown;
+    static const std::string DefaultValueFavorite;
+    static const std::string DefaultValueHidden;
+
     //! Game node <game></game>
     static const std::string GameNodeIdentifier;
     //! Folder node <folder></folder>
@@ -47,7 +59,6 @@ class MetadataDescriptor
     std::string* _Ratio;        //!< Specific screen ratio
     std::string* _Thumbnail;    //!< Thumbnail path
     std::string* _Region;       //!< Rom/Game Region
-    //std::string _RomType;      //!< Rom Type (???)
     float        _Rating;       //!< Rating from 0.0 to 1.0
     int          _Players;      //!< Players range: LSW:from - MSW:to (allow sorting by max players)
     int          _ReleaseDate;  //!< Release data (epoch)
@@ -102,10 +113,9 @@ class MetadataDescriptor
      * @param string PString to read
      * @return read value
      */
-    static const std::string& ReadPString(const std::string* string)
+    static const std::string& ReadPString(const std::string* string, const std::string& defaultvalue)
     {
-      static std::string emptyString;
-      if (string == nullptr) return emptyString;
+      if (string == nullptr) return defaultvalue;
       return *string;
     }
 
@@ -413,18 +423,17 @@ class MetadataDescriptor
 
     ObjectType Type() const { return _Type; }
 
-    const std::string& Name()        const { return _Name;                     }
-    const std::string& Emulator()    const { return ReadPString(_Emulator);    }
-    const std::string& Core()        const { return ReadPString(_Core);        }
-    const std::string& Ratio()       const { return ReadPString(_Ratio);       }
-    const std::string& Description() const { return _Description;              }
-    const std::string& Image()       const { return _Image;                    }
-    const std::string& Thumbnail()   const { return ReadPString(_Thumbnail);   }
-    const std::string& Developer()   const { return _Developer;                }
-    const std::string& Publisher()   const { return _Publisher;                }
-    const std::string& Genre()       const { return _Genre;                    }
-    const std::string& Region()      const { return ReadPString(_Region);      }
-    //const std::string& RomType()     const { return _RomType;                  }
+    const std::string& Name()        const { return _Name;                                        }
+    const std::string& Emulator()    const { return ReadPString(_Emulator, DefaultValueEmulator); }
+    const std::string& Core()        const { return ReadPString(_Core, DefaultValueCore);         }
+    const std::string& Ratio()       const { return ReadPString(_Ratio, DefaultValueRatio);       }
+    const std::string& Description() const { return _Description;                                 }
+    const std::string& Image()       const { return _Image;                                       }
+    const std::string& Thumbnail()   const { return ReadPString(_Thumbnail, DefaultValueEmpty);   }
+    const std::string& Developer()   const { return _Developer;                                   }
+    const std::string& Publisher()   const { return _Publisher;                                   }
+    const std::string& Genre()       const { return _Genre;                                       }
+    const std::string& Region()      const { return ReadPString(_Region, DefaultValueEmpty);      }
 
     float              Rating()          const { return _Rating; }
     int                PlayerRange()     const { return _Players; }
@@ -443,18 +452,17 @@ class MetadataDescriptor
      * String accessors
      */
 
-    std::string NameAsString()        const { return _Name;                     }
-    std::string EmulatorAsString()    const { return ReadPString(_Emulator);    }
-    std::string CoreAsString()        const { return ReadPString(_Core);        }
-    std::string RatioAsString()       const { return ReadPString(_Ratio);       }
-    std::string DescriptionAsString() const { return _Description;              }
-    std::string ImageAsString()       const { return _Image;                    }
-    std::string ThumbnailAsString()   const { return ReadPString(_Thumbnail);   }
-    std::string DeveloperAsString()   const { return _Developer;                }
-    std::string PublisherAsString()   const { return _Publisher;                }
-    std::string GenreAsString()       const { return _Genre;                    }
-    std::string RegionAsString()      const { return ReadPString(_Region);      }
-    //std::string RomTypeAsString()     const { return _RomType;                  }
+    std::string NameAsString()        const { return _Name;                                        }
+    std::string EmulatorAsString()    const { return ReadPString(_Emulator, DefaultValueEmulator); }
+    std::string CoreAsString()        const { return ReadPString(_Core, DefaultValueCore);         }
+    std::string RatioAsString()       const { return ReadPString(_Ratio, DefaultValueRatio);       }
+    std::string DescriptionAsString() const { return _Description;                                 }
+    std::string ImageAsString()       const { return _Image;                                       }
+    std::string ThumbnailAsString()   const { return ReadPString(_Thumbnail, DefaultValueEmpty);   }
+    std::string DeveloperAsString()   const { return _Developer;                                   }
+    std::string PublisherAsString()   const { return _Publisher;                                   }
+    std::string GenreAsString()       const { return _Genre;                                       }
+    std::string RegionAsString()      const { return ReadPString(_Region, DefaultValueEmpty);      }
 
     std::string RatingAsString()      const { return std::move(FloatToString(_Rating, 4));                            }
     std::string PlayersAsString()     const { return std::move(IntToRange(_Players));                                 }
@@ -483,7 +491,6 @@ class MetadataDescriptor
     void SetRating(float rating) { _Rating = rating; _Dirty = true; }
     void SetPlayers(int min, int max) { _Players = (max << 16) + min; _Dirty = true; }
     void SetRegion(const std::string& region) { AssignPString(_Region, region); _Dirty = true; }
-    //void SetRomType(const std::string& romtype) { _RomType = romtype; _Dirty = true; }
     void SetRomCrc32(int romcrc32) { _RomCrc32 = romcrc32; _Dirty = true; }
     void SetFavorite(bool favorite) { _Favorite = favorite; _Dirty = true; }
     void SetHidden(bool hidden) { _Hidden = hidden; _Dirty = true; }
@@ -526,7 +533,6 @@ class MetadataDescriptor
     bool IsDefaultPublisher()       const { return _Default._Publisher   == _Publisher;   }
     bool IsDefaultGenre()           const { return _Default._Genre       == _Genre;       }
     bool IsDefaultRegion()          const { return _Default._Region      == _Region;      }
-    //bool IsDefaultRomType()         const { return _Default._RomType     == _RomType;     }
     bool IsDefaultRating()          const { return _Default._Rating      == _Rating;      }
     bool IsDefaultPlayerRange()     const { return _Default._Players     == _Players;     }
     bool IsDefaultReleaseDateEpoc() const { return _Default._ReleaseDate == _ReleaseDate; }
@@ -548,8 +554,8 @@ class MetadataDescriptor
      * Convenient Methods
      */
 
-    static bool AreGames(const MetadataDescriptor& md1, const MetadataDescriptor& md2) { return (md1._Type == md2._Type) && (md1._Type == ObjectType::Game); }
-    static bool AreFolders(const MetadataDescriptor& md1, const MetadataDescriptor& md2) { return (md1._Type == md2._Type) && (md1._Type == ObjectType::Folder); }
+    static bool AreGames(const MetadataDescriptor& md1, const MetadataDescriptor& md2) { return (md1._Type == md2._Type) && md1.IsGame(); }
+    static bool AreFolders(const MetadataDescriptor& md1, const MetadataDescriptor& md2) { return (md1._Type == md2._Type) && md1.IsFolder(); }
 
     /*
      * Special modifiers
