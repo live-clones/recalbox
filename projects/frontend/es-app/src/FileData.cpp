@@ -49,11 +49,11 @@ std::string removeParenthesis(const std::string& str)
 
 
 FileData::FileData(FileType type, const fs::path& path, SystemData* system)
-	: metadata(getCleanName()), // TODO: Move clean name into metadata
-	  mType(type),
+	: mType(type),
 	  mPath(path),
 	  mSystem(system),
-	  mParent(NULL)
+	  mParent(NULL),
+    metadata(getCleanName()) // TODO: Move clean name into metadata
 {
 }
 
@@ -70,9 +70,8 @@ std::string FileData::getCleanName() const
 	std::string stem = mPath.stem().generic_string();
 	if(mSystem && (mSystem->hasPlatformId(PlatformIds::ARCADE) || mSystem->hasPlatformId(PlatformIds::NEOGEO)))
 		stem = PlatformIds::getCleanMameName(stem.c_str());
-        return stem;
 
-  return removeParenthesis(stem);
+	return stem;
 }
 
 const std::string& FileData::getThumbnailPath() const

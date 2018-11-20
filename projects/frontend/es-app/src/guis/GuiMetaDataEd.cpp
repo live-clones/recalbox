@@ -246,6 +246,14 @@ GuiMetaDataEd::GuiMetaDataEd(Window* window,
         }
         break;
       case MetadataFieldDescriptor::DataType::Text:
+      case MetadataFieldDescriptor::DataType::String:
+      case MetadataFieldDescriptor::DataType::PString:
+      case MetadataFieldDescriptor::DataType::Int:
+      case MetadataFieldDescriptor::DataType::Float:
+      case MetadataFieldDescriptor::DataType::Path:
+      case MetadataFieldDescriptor::DataType::PPath:
+      case MetadataFieldDescriptor::DataType::Range:
+      case MetadataFieldDescriptor::DataType::Crc32:
       default:
       {
         // MD_STRING

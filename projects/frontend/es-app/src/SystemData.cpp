@@ -153,6 +153,8 @@ std::string escapePath(const boost::filesystem::path &path)
 
 void SystemData::launchGame(Window* window, FileData* game, const std::string& netplay, const std::string& core, const std::string& ip, const std::string& port)
 {
+  (void)core;
+
   LOG(LogInfo) << "Attempting to launch game...";
 
   AudioManager::getInstance()->deinit();
@@ -614,12 +616,22 @@ std::string SystemData::getThemePath() const
   localThemePath = ThemeData::getThemeFromCurrentSet(mThemeFolder);
 
   if (fs::exists(localThemePath))
-    return localThemePath.generic_string();
+      return localThemePath.generic_string();
 
   // not system theme, try default system theme in theme set
   localThemePath = localThemePath.parent_path().parent_path() / "theme.xml";
 
-  return localThemePath.generic_string();
+	if (fs::exists(localThemePath))
+		return localThemePath.generic_string();
+
+	//none of the above, try default
+	localThemePath = localThemePath.parent_path() / "default/theme.xml";
+
+	if (fs::exists(localThemePath))
+		return localThemePath.generic_string();
+
+	// No luck...
+  return "";
 }
 
 unsigned int SystemData::getGameCount() const
@@ -648,14 +660,15 @@ void SystemData::loadTheme()
 
   try
   {
-    //std::cout << "creating theme for: " << getName() << " / " << getFullName() << std::endl;
     mTheme->loadFile(getThemeFolder(), path);
     mHasFavorites = mTheme->getHasFavoritesInTheme();
   }
   catch (ThemeException &e)
   {
-    LOG(LogError) << e.what();
-    mTheme = std::make_shared<ThemeData>(); // reset to empty
+        LOG(LogError) << e.what();
+	    mThemeFolder = "default";
+	    mTheme->loadFile(getThemeFolder(), path);
+        mHasFavorites = mTheme->getHasFavoritesInTheme();
   }
 }
 

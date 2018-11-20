@@ -79,6 +79,7 @@ const MetadataFieldDescriptor* MetadataDescriptor::GetMetadataFieldDescriptors(M
       count = sizeof(_FolderMetadataDescriptors) / sizeof(MetadataFieldDescriptor);
       return &_FolderMetadataDescriptors[0];
     }
+    case ObjectType::None:
     default: break;
   }
   count = 0;
@@ -576,6 +577,16 @@ void MetadataDescriptor::FreeAll()
         FreePString(*((std::string**)source));
         break;
       }
+      case MetadataFieldDescriptor::DataType::Rating:
+      case MetadataFieldDescriptor::DataType::String:
+      case MetadataFieldDescriptor::DataType::Int:
+      case MetadataFieldDescriptor::DataType::Bool:
+      case MetadataFieldDescriptor::DataType::Float:
+      case MetadataFieldDescriptor::DataType::Text:
+      case MetadataFieldDescriptor::DataType::Path:
+      case MetadataFieldDescriptor::DataType::Date:
+      case MetadataFieldDescriptor::DataType::Range:
+      case MetadataFieldDescriptor::DataType::Crc32:
       default: break;
     }
 

@@ -61,6 +61,21 @@ void SystemView::addSystem(SystemData * it){
 		logo->setMaxSize(mCarousel.logoSize * mCarousel.logoScale);
 		logo->applyTheme((it)->getTheme(), "system", "logo", ThemeFlags::PATH);
 		e.data.logo = std::shared_ptr<GuiComponent>(logo);
+		if ((it)->getThemeFolder() == "default")
+		{
+			TextComponent* text = new TextComponent(mWindow,
+			                                        (it)->getName(),
+			                                        Font::get(FONT_SIZE_MEDIUM),
+			                                        0x1A1A1AFF,
+			                                        ALIGN_CENTER);
+			text->setSize(mCarousel.logoSize * mCarousel.logoScale);
+			e.data.logotext = std::shared_ptr<GuiComponent>(text);
+			if (mCarousel.type == VERTICAL || mCarousel.type == VERTICAL_WHEEL)
+				text->setHorizontalAlignment(mCarousel.logoAlignment);
+			else
+				text->setVerticalAlignment(mCarousel.logoAlignment);
+		}
+
 	}else{
 		// no logo in theme; use text
 		TextComponent* text = new TextComponent(mWindow,
@@ -95,6 +110,29 @@ void SystemView::addSystem(SystemData * it){
 
 	Eigen::Vector2f denormalized = mCarousel.logoSize.cwiseProduct(e.data.logo->getOrigin());
 	e.data.logo->setPosition(denormalized.x(), denormalized.y(), 0.0);
+
+	if (e.data.logotext)
+	{
+		if (mCarousel.type == VERTICAL || mCarousel.type == VERTICAL_WHEEL)
+		{
+			if (mCarousel.logoAlignment == ALIGN_LEFT)
+				e.data.logotext->setOrigin(0, 0.5);
+			else if (mCarousel.logoAlignment == ALIGN_RIGHT)
+				e.data.logotext->setOrigin(1.0, 0.5);
+			else
+				e.data.logotext->setOrigin(0.5, 0.5);
+		} else {
+			if (mCarousel.logoAlignment == ALIGN_TOP)
+				e.data.logotext->setOrigin(0.5, 0);
+			else if (mCarousel.logoAlignment == ALIGN_BOTTOM)
+				e.data.logotext->setOrigin(0.5, 1);
+			else
+				e.data.logotext->setOrigin(0.5, 0.5);
+		}
+
+		Eigen::Vector2f denormalized = mCarousel.logoSize.cwiseProduct(e.data.logotext->getOrigin());
+		e.data.logotext->setPosition(denormalized.x(), denormalized.y(), 0.0);
+	}
 
 	e.data.backgroundExtras = std::shared_ptr<ThemeExtras>(new ThemeExtras(mWindow));
 	e.data.backgroundExtras->setExtras(ThemeData::makeExtras((it)->getTheme(), "system", mWindow));
@@ -629,6 +667,18 @@ void SystemView::renderCarousel(const Eigen::Affine3f& trans)
 		comp->setScale(scale);
 		comp->setOpacity(opacity);
 		comp->render(logoTrans);
+
+		if (mEntries.at(index).data.logotext)
+		{
+			const std::shared_ptr<GuiComponent> &comp2 = mEntries.at(index).data.logotext;
+			if (mCarousel.type == VERTICAL_WHEEL) {
+				comp2->setRotationDegrees(mCarousel.logoRotation * distance);
+				comp2->setRotationOrigin(mCarousel.logoRotationOrigin);
+			}
+			comp2->setScale(scale);
+			comp2->setOpacity(opacity);
+			comp2->render(logoTrans);
+		}
 	}
 	Renderer::popClipRect();
 }
