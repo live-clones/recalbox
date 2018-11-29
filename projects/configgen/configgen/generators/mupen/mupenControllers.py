@@ -64,7 +64,6 @@ def defineControllerKeys(controller):
 	# Dirty hack : the input.xml adds 2 directions per joystick, ES handles just 1
 	fakeSticks = { 'joystick2up' : 'joystick2down'
 			, 'joystick2left' : 'joystick2right'}
-	print "Banzaiiiii"
 	# Cheat on the controller
 	for realStick, fakeStick in fakeSticks.iteritems():
 		if realStick in controller.inputs:

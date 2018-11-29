@@ -11,7 +11,7 @@ proc = None
 def runCommand(command):
     global proc
 
-    videoMode.setVideoMode(command.videomode, command.delay)
+    chosenMode = videoMode.setVideoMode(command.videomode, command.delay)
 
     command.env.update(os.environ)
     proc = subprocess.Popen(command.array, env=command.env, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=command.cwdPath)
@@ -26,8 +26,8 @@ def runCommand(command):
     
     if command.postExec is not None :
         command.postExec()
-    
-    if command.videomode != 'default':
+
+    if chosenMode != 'default':
         videoMode.setPreffered()
 
     return exitcode

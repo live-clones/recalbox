@@ -16,8 +16,7 @@ GLideN64NativeResolution_blacklist = ["majora"]
 def writeMupenConfig(system, controllers, rom):
 	setPaths()
 	writeHotKeyConfig(controllers)
-	if system.config['videomode'] != 'default':
-	        setRealResolution(system.config['videomode'].strip())
+	setRealResolution(system.config['videomode'].strip())
 	# ~ mupenSettings.save('Fullscreen', "True")
 	# ~ mupenSettings.save('ScreenWidth', "")
 	# ~ mupenSettings.save('ScreenHeight', "")
@@ -100,9 +99,9 @@ def setRealResolution(videoConfig):
 	    videoSetting = videoConfig
 	print videoSetting
 	if videoSetting == "default":
-	    wdith, height = getCurrentResulution()
-	    mupenSettings.save('ScreenWidth', "{}".format("width"))
-	    mupenSettings.save('ScreenHeight', "{}".format("height"))
+	    width, height = getCurrentResulution()
+	    mupenSettings.save('ScreenWidth', "{}".format(width))
+	    mupenSettings.save('ScreenHeight', "{}".format(height))
 	    return
 	
 	group, mode, drive = videoSetting.split(' ')
@@ -113,10 +112,10 @@ def setRealResolution(videoConfig):
 	tvmodes = json.loads(out)
 	
 	for tvmode in tvmodes:
-		if tvmode["code"] == int(mode):
-			mupenSettings.save('ScreenWidth', "{}".format(tvmode["width"]))
-			mupenSettings.save('ScreenHeight', "{}".format(tvmode["height"]))
-			return
+	    if tvmode["code"] == int(mode):
+		mupenSettings.save('ScreenWidth', "{}".format(tvmode["width"]))
+		mupenSettings.save('ScreenHeight', "{}".format(tvmode["height"]))
+		return
 
 	sys.exit("The resolution for '{} {} {}' is not supported by your monitor".format(group, mode, drive))
 

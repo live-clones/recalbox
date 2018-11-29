@@ -15,20 +15,20 @@ def setVideoMode(videoMode, delay=0.5):
     # video mode can be default, a "CEA 4 HDMI" like, a hdmi_cvt pattern or even a hdmi_timings pattern
     # Anything else should result in a crash
     if videoMode == "default":
-        return
+        return "default"
     videoMode = videoMode.strip()
     if videoMode == "auto":
         videoSetting = autoMode()
         # autoMode can have replied "default"
         if videoSetting == "default":
-            return
+            return "default"
         cmd = createVideoModeLine(videoSetting)
     elif "auto" in videoMode:
-	realSetting = videoMode.split(' ', 1)[1]
-	videoSetting = autoMode(realSetting)
+        realSetting = videoMode.split(' ', 1)[1]
+        videoSetting = autoMode(realSetting)
         # autoMode can have replied "default"
         if videoSetting == "default":
-            return
+            return "default"
         cmd = createVideoModeLine(videoSetting)
     else:
         cmd = createVideoModeLine(videoMode)
@@ -36,6 +36,7 @@ def setVideoMode(videoMode, delay=0.5):
     if cmd:
         os.system(cmd)
         time.sleep(delay)
+        return cmd
     else:
         recallog("Error: Could not find a suitable video mode")
         sys.exit(1)
@@ -137,19 +138,20 @@ def getCurrentResulution():
     # Call tvservice -s
     proc = subprocess.Popen(["tvservice -s"], stdout=subprocess.PIPE, shell=True)
     (out, err) = proc.communicate()
-    #print "program output:", out
-    # If it's a calid json : we're not on pi, so we have the current resolution
+    # print "program output:", out
+    # If it's a valid json : we're not on pi, so we have the current resolution
     try:
 	tvmodes = json.loads(out)
+	print tvmodes
 	return tvmodes[0]["width"], tvmodes[0]["height"]
     except ValueError, e:
+	# else we're on pi, parse the output
 	regex = r".*\[([A-Z]{3,4}) ?(.*[^0-9:]?) ?([0-9]{1,2})?:?([0-9]{1,2})?\], ([0-9]{3,4})x([0-9]{3,4}) @ ([0-9.]{1,6})Hz, (progressive|interlaced).*"
 
 	matches = re.match(regex, out)
 	if not matches: 
 	    # We should log the out var and log that it doesn't match any known pattern
-	    recallog('auto mode -> had to set default')
-	    return "0", "0"
-	    drive, details, wRatio, hRatio, width, height, refreshRate, progressiveOrInterlace = matches.groups()
-	    return width, height
-    # else we're on pi, use parse another way the output
+	    recallog("getCurrentResulution - Couldn't parse output: {}".format(out))
+	    raise ValueError("getCurrentResulution - Couldn't parse output: {}".format(out))
+	drive, details, wRatio, hRatio, width, height, refreshRate, progressiveOrInterlace = matches.groups()
+	return width, height
