@@ -85,7 +85,7 @@ void ViewController::goToNextGameList()
 	SystemData* system = getState().getSystem();
 	assert(system);
 	SystemData* next = system->getNext();
-	while(next->getRootFolder()->getChildren().size() == 0) {
+	while(!next->getRootFolder()->hasChildren()) {
 		next = next->getNext();
 	}
 	AudioManager::getInstance()->themeChanged(system->getNext()->getTheme());
@@ -99,7 +99,7 @@ void ViewController::goToPrevGameList()
 	SystemData* system = getState().getSystem();
 	assert(system);
 	SystemData* prev = system->getPrev();
-	while(prev->getRootFolder()->getChildren().size() == 0) {
+	while(!prev->getRootFolder()->hasChildren()) {
 		prev = prev->getPrev();
 	}
 	AudioManager::getInstance()->themeChanged(prev->getTheme());
@@ -154,42 +154,9 @@ void ViewController::updateFavorite(SystemData* system, FileData* file)
 	IGameListView* view = getGameListView(system).get();
 	if (Settings::getInstance()->getBool("FavoritesOnly"))
 	{
-		const std::vector<FileData*>& files = system->getRootFolder()->getChildren();
 		view->populateList(system->getRootFolder());
-		int pos = std::find(files.begin(), files.end(), file) - files.begin();
-		bool found = false;
-		for (auto it = files.begin() + pos; it != files.end(); it++)
-		{
-			if ((*it)->getType() == GAME)
-			{
-				if ((*it)->Metadata().Favorite())
-				{
-					view->setCursor(*it);
-					found = true;
-					break;
-				}
-			}
-		}
-
-		if (!found)
-		{
-			for (auto it = files.begin() + pos; it != files.begin(); it--)
-			{
-				if ((*it)->getType() == GAME)
-				{
-					if ((*it)->Metadata().Favorite())
-					{
-						view->setCursor(*it);
-						break;
-					}
-				}
-			}
-		}
-
-		if (!found)
-		{
-			view->setCursor(*(files.begin() + pos));
-		}
+		FileData* nextFavorite = system->getRootFolder()->GetNextFavoriteTo(file);
+	  view->setCursor(nextFavorite != nullptr ? nextFavorite : file);
 	}
 
 	view->updateInfoPanel();
@@ -268,7 +235,7 @@ void ViewController::onFileChanged(FileData* file, FileChangeType change)
 
 void ViewController::launch(FileData* game, Eigen::Vector3f center, std::string netplay, std::string core, std::string ip, std::string port)
 {
-	if(game->getType() != GAME)
+	if(!game->isGame())
 	{
 		LOG(LogError) << "tried to launch something that isn't a game";
 		return;
@@ -285,10 +252,10 @@ void ViewController::launch(FileData* game, Eigen::Vector3f center, std::string 
 
 	auto launchFactory = [this, game, origCamera, netplay, core, ip, port] (std::function<void(std::function<void()>)> backAnimation) {
 		return [this, game, origCamera, backAnimation, netplay, core, ip, port] {
-			game->getSystem()->launchGame(mWindow, game, netplay, core, ip, port);
+      game->getSystem()->launchGame(mWindow, game, netplay, core, ip, port);
 			mCamera = origCamera;
 			backAnimation([this] { mLockInput = false; });
-			this->onFileChanged(game, FILE_RUN);
+			this->onFileChanged(game, FileChangeType::Run);
 		};
 	};
 
@@ -325,16 +292,7 @@ std::shared_ptr<IGameListView> ViewController::getGameListView(SystemData* syste
 	std::shared_ptr<IGameListView> view;
 
 	//decide type
-	bool detailed = false;
-	std::vector<FileData*> files = system->getRootFolder()->getDisplayableRecursive(GAME | FOLDER);
-	for(auto it = files.begin(); it != files.end(); it++)
-	{
-		if(!(*it)->getThumbnailPath().empty())
-		{
-			detailed = true;
-			break;
-		}
-	}
+	bool detailed = system->getRootFolder()->hasDetailedData();
 
 	if(detailed && ! (RecalboxConf::getInstance()->get("emulationstation.forcebasicgamelistview") == "1"))
 		view = std::shared_ptr<IGameListView>(new DetailedGameListView(mWindow, system->getRootFolder(), system));
@@ -451,47 +409,53 @@ void ViewController::preload()
 
 void ViewController::reloadGameListView(IGameListView* view, bool reloadTheme)
 {
-	if(view->getRoot()->getDisplayableRecursive(GAME | FOLDER).size() > 0) {
-		for (auto it = mGameListViews.begin(); it != mGameListViews.end(); it++) {
-			if (it->second.get() == view) {
+	if(view->getRoot()->countAll(false) > 0)
+	{
+		for (auto it = mGameListViews.begin(); it != mGameListViews.end(); it++)
+		{
+			if (it->second.get() == view)
+			{
 				bool isCurrent = (mCurrentView == it->second);
 				SystemData *system = it->first;
-				FileData *cursor = NULL;
-				if (system->getGameCount() != 0) {
-					cursor = view->getCursor();
-				}
+				int gameCount = system->getGameCount();
+				FileData *cursor = gameCount != 0 ? view->getCursor() : nullptr;
 				mGameListViews.erase(it);
 
 				if (reloadTheme)
 					system->loadTheme();
 
 				std::shared_ptr<IGameListView> newView = getGameListView(system);
-				if (system->getGameCount() > 1) {
+				if (gameCount != 0)
+					newView->setCursor(cursor);
+				/*if (system->getGameCount() > 1) {
 					newView->setCursor(cursor);
 				} else if (system->getGameCount() == 1) {
 					newView->setCursor(system->getRootFolder()->getChildren().at(0));
-				}
+				}*/
 				if (isCurrent)
 					mCurrentView = newView;
 				break;
 			}
 		}
-	}else {
-        Window* window= mWindow;
-        goToStart();
+	}
+	else
+	{
+    Window* window= mWindow;
+    goToStart();
 		window->renderShutdownScreen();
 		delete ViewController::get();
 		SystemData::deleteSystems();
 		SystemData::loadConfig();
 		GuiComponent *gui;
-		while ((gui = window->peekGui()) != NULL) {
+		while ((gui = window->peekGui()) != NULL)
+		{
 			window->removeGui(gui);
 		}
 		ViewController::init(window);
 		ViewController::get()->reloadAll();
 		window->pushGui(ViewController::get());
-        return;
-    }
+    return;
+  }
 }
 
 void ViewController::reloadAll()

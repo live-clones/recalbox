@@ -9,7 +9,7 @@
 class DetailedGameListView : public BasicGameListView
 {
 public:
-    DetailedGameListView(Window* window, FileData* root, SystemData* system);
+    DetailedGameListView(Window* window, FolderData* root, SystemData* system);
 
     virtual void onThemeChanged(const std::shared_ptr<ThemeData>& theme) override;
 
@@ -55,9 +55,9 @@ private:
     std::vector<GuiComponent*> getFolderComponents();
     std::vector<GuiComponent*> getGameComponents(bool includeMainComponents = true);
     std::vector<GuiComponent*> getScrappedFolderComponents();
-    void setFolderInfo(FileData* file);
+    void setFolderInfo(FolderData* folder);
     void setGameInfo(FileData* file);
     void setScrappedFolderInfo(FileData* file);
-    void getFolderGames(FileData* folder, std::vector<FileData*> &output);
+    //void getFolderGames(FileData* folder, FileData::List &output);
     void fadeOut(std::vector<GuiComponent*> comps, bool fadingOut);
 };

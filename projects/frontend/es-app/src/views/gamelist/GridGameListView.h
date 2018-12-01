@@ -8,7 +8,7 @@
 class GridGameListView : public ISimpleGameListView
 {
 public:
-	GridGameListView(Window* window, FileData* root);
+	GridGameListView(Window* window, FolderData* root);
 
 	//virtual void onThemeChanged(const std::shared_ptr<ThemeData>& theme) override;
 
@@ -22,7 +22,7 @@ public:
 	virtual std::vector<HelpPrompt> getHelpPrompts() override;
 
 protected:
-	virtual void populateList(const FileData* folder) override;
+	virtual void populateList(const FolderData* folder) override;
 	virtual void launch(FileData* game) override;
 
 	ImageGridComponent<FileData*> mGrid;

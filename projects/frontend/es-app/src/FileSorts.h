@@ -7,12 +7,12 @@ namespace FileSorts
 {
 	struct SortType
 	{
-      int (*comparisonFunction)(FileData* const a, FileData* const b);
-			bool ascending;
-			std::string description;
+		int (*comparisonFunction)(FileData* const a, FileData* const b);
+		bool ascending;
+		std::string description;
 
-			SortType(int (*sortFunction)(FileData* const a, FileData* const b), bool sortAscending, const std::string & sortDescription)
-				: comparisonFunction(sortFunction), ascending(sortAscending), description(sortDescription) {}
+		SortType(int (*sortFunction)(FileData* const a, FileData* const b), bool sortAscending, const std::string & sortDescription)
+			: comparisonFunction(sortFunction), ascending(sortAscending), description(sortDescription) {}
 	};
 
 	#define DeclareSortMethodPrototype(x) int x(FileData* const file1, FileData* const file2);

@@ -6,7 +6,7 @@
 class BasicGameListView : public ISimpleGameListView
 {
 public:
-	BasicGameListView(Window* window, FileData* root);
+	BasicGameListView(Window* window, FolderData* root);
 
 	// Called when a FileData* is added, has its metadata changed, or is removed
 	virtual void onFileChanged(FileData* file, FileChangeType change);
@@ -22,21 +22,24 @@ public:
 
 	virtual std::vector<HelpPrompt> getHelpPrompts() override;
 
-	virtual void populateList(const FileData* folder) override;
-    virtual void refreshList() override;
+	virtual void populateList(const FolderData* folder) override;
+  virtual void refreshList() override;
 
 	virtual inline void updateInfoPanel() override {}
 
-	virtual std::vector<FileData*> getFileDataList();
+	virtual FileData::List getFileDataList();
 
 protected:
 	virtual void launch(FileData* game) override;
 
 	TextListComponent<FileData*> mList;
 private:
-    const FileData *mPopulatedFolder;
-    unsigned long listingOffset;
-	void addFavorites(const std::vector<FileData*>& files, const FileSorts::SortType& sortType);
-	void getFavorites(const std::vector<FileData*>& files, std::vector<FileData*>& favorites);
-	void addItem(FileData* file, bool toTheBeginning = false);
+  const FolderData *mPopulatedFolder;
+  unsigned long listingOffset;
+
+	/*void addFavorites(const FileData::List& files, const FileSorts::SortType& sortType);
+	void getFavorites(const FileData::List& files, FileData::List& favorites);
+	void addItem(FileData* file, bool toTheBeginning = false);*/
+
+	const char * getItemIcon(FileData* item);
 };

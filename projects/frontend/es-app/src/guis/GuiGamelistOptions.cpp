@@ -132,43 +132,46 @@ GuiGamelistOptions::GuiGamelistOptions(Window* window, SystemData* system)
 	mHiddenState = Settings::getInstance()->getBool("ShowHidden");
 }
 
-GuiGamelistOptions::~GuiGamelistOptions() {
-	if (mReloading) {
-		return ;
-	}
-	FileData* root = getGamelist()->getRoot();
-	if (root->getDisplayableRecursive(GAME | FOLDER).size()) {
+GuiGamelistOptions::~GuiGamelistOptions()
+{
+	if (mReloading) return;
 
-
-		if (mListSort->getSelected() != (int)mSystem->getSortId()) {
+	FolderData* root = getGamelist()->getRoot();
+	if (root->countAll(false))
+	{
+		if (mListSort->getSelected() != (int)mSystem->getSortId())
+		{
 			// apply sort
-			mSystem->setSortId(mListSort->getSelected());
+			mSystem->setSortId((unsigned int)mListSort->getSelected());
 
 			// notify that the root folder has to be sorted
-			getGamelist()->onFileChanged(mSystem->getRootFolder(), FILE_SORTED);
-		} else {
-
+			getGamelist()->onFileChanged(mSystem->getRootFolder(), FileChangeType::Sorted);
+		}
+		else
+		{
 			// require list refresh
-			getGamelist()->onFileChanged(mSystem->getRootFolder(), FILE_DISPLAY_UPDATED);
+			getGamelist()->onFileChanged(mSystem->getRootFolder(), FileChangeType::DisplayUpdated);
 		}
 
 		// if states has changed, invalidate and reload game list
-		if (Settings::getInstance()->getBool("FavoritesOnly") != mFavoriteState || Settings::getInstance()->getBool("ShowHidden") != mHiddenState) {
+		if (Settings::getInstance()->getBool("FavoritesOnly") != mFavoriteState || Settings::getInstance()->getBool("ShowHidden") != mHiddenState)
+		{
 			ViewController::get()->setAllInvalidGamesList(getGamelist()->getCursor()->getSystem());
 			ViewController::get()->reloadGameListView(getGamelist()->getCursor()->getSystem());
 		}
-	} else {
+	}
+	else
+	{
 		Window *window = mWindow;
-		if (root->getChildren().size() == 0) {
+		if (!root->hasChildren())
+		{
 			ViewController::get()->goToStart();
 			window->renderShutdownScreen();
 			delete ViewController::get();
 			SystemData::deleteSystems();
 			SystemData::loadConfig();
 			GuiComponent *gui;
-			while ((gui = window->peekGui()) != NULL) {
-				window->removeGui(gui);
-			}
+			while ((gui = window->peekGui()) != NULL) window->removeGui(gui);
 			ViewController::init(window);
 			ViewController::get()->reloadAll();
 			window->pushGui(ViewController::get());
@@ -184,17 +187,20 @@ void GuiGamelistOptions::openMetaDataEd() {
 	p.game = file;
 	p.system = file->getSystem();
 	mWindow->pushGui(new GuiMetaDataEd(mWindow, file->Metadata(), p, file->getPath().filename().string(),
-									   std::bind(&IGameListView::onFileChanged, getGamelist(), file, FILE_METADATA_CHANGED), [this, file] {
+									   std::bind(&IGameListView::onFileChanged, getGamelist(), file, FileChangeType::MetadataChanged), [this, file] {
 				boost::filesystem::remove(file->getPath()); //actually delete the file on the filesystem
-				file->getParent()->removeChild(file); //unlink it so list repopulations triggered from onFileChanged won't see it
-				getGamelist()->onFileChanged(file, FILE_REMOVED); //tell the view
+			file->getParent()->removeChild(file); //unlink it so list repopulations triggered from onFileChanged won't see it
+				getGamelist()->onFileChanged(file, FileChangeType::Removed); //tell the view
 
-			},file->getSystem(), true));
+			}, file->getSystem(), true));
 }
 
-std::vector<std::string> GuiGamelistOptions::getAvailableLetters() {
+std::vector<std::string> GuiGamelistOptions::getAvailableLetters()
+{
+	// TODO: Algorithm!!! Use 128 array bitflag - Use better returning type - kill all vectors
+	// TODO: Be consistent! Use gamelist items, not FileData
 	std::vector<std::string> letters;
-	std::vector<FileData*>files = getGamelist()->getFileDataList();
+	FileData::List files = getGamelist()->getFileDataList();
 	for (auto file : files) {
 		std::string letter = std::string(1, toupper(file->getName()[0]));
 		if ( ( (letter[0] >= '0' && letter[0] <= '9') || (letter[0] >= 'A' && letter[0] <= 'Z') ) ) {
@@ -223,10 +229,10 @@ void GuiGamelistOptions::jumpToLetter() {
 		// apply sort
 		mSystem->setSortId(sortId);
 		// notify that the root folder has to be sorted
-		gamelist->onFileChanged(mSystem->getRootFolder(), FILE_SORTED);
+		gamelist->onFileChanged(mSystem->getRootFolder(), FileChangeType::Sorted);
 	}
 
-	std::vector<FileData*>files = gamelist->getFileDataList();
+	FileData::List files = gamelist->getFileDataList();
 
 	long min = 0;
 	long max = files.size() - 1;
@@ -234,7 +240,6 @@ void GuiGamelistOptions::jumpToLetter() {
 
 	if (sortId == 1) {
 		// sort Alpha DESC
-		std::reverse(files.begin(), files.end());
 	}
 
 	while(max >= min) {

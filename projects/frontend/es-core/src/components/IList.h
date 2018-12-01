@@ -86,7 +86,7 @@ protected:
    * @param high Highest element
    * @param comparer Compare method
    */
-  void QuickSortAscending(int low, int high, int (*comparer)(UserData const a, UserData const b))
+  /*void QuickSortAscending(int low, int high, int (*comparer)(UserData const a, UserData const b))
   {
     int Low = low, High = high;
     UserData Pivot = mEntries[(Low + High) >> 1].object;
@@ -103,7 +103,7 @@ protected:
     }while(Low <= High);
     if (High > low) QuickSortAscending(low, High, comparer);
     if (Low < high) QuickSortAscending(Low, high, comparer);
-  }
+  }*/
 
   /*!
    * Highly optimized Quicksort, inpired from original Delphi 7 code
@@ -111,7 +111,7 @@ protected:
    * @param high Highest element
    * @param comparer Compare method
    */
-  void QuickSortDescending(int low, int high, int (*comparer)(UserData const a, UserData const b))
+  /*void QuickSortDescending(int low, int high, int (*comparer)(UserData const a, UserData const b))
   {
     int Low = low, High = high;
     UserData Pivot = mEntries[(Low + High) >> 1].object;
@@ -128,7 +128,7 @@ protected:
     }while(Low <= High);
     if (High > low) QuickSortDescending(low, High, comparer);
     if (Low < high) QuickSortDescending(Low, high, comparer);
-  }
+  }*/
 
   public:
 	IList(Window* window, const ScrollTierList& tierList = LIST_SCROLL_STYLE_QUICK, const ListLoopType& loopType = LIST_PAUSE_AT_END) : GuiComponent(window), 
@@ -275,13 +275,13 @@ protected:
 		return false;
 	}
 
-	void sortByObject(int (*comparator)(UserData const a, UserData const b), bool ascending)
+	/*void sortByObject(int (*comparator)(UserData const a, UserData const b), bool ascending)
 	{
     if (ascending)
       QuickSortAscending(0, mEntries.size() - 1, comparator);
     else
       QuickSortDescending(0, mEntries.size() - 1, comparator);
-	}
+	}*/
 
 	inline int size() const { return mEntries.size(); }
 

@@ -6,8 +6,9 @@
 #include "Settings.h"
 #include "Locale.h"
 
-GridGameListView::GridGameListView(Window* window, FileData* root) : ISimpleGameListView(window, root),
-	mGrid(window)
+GridGameListView::GridGameListView(Window* window, FolderData* root)
+  : ISimpleGameListView(window, root),
+    mGrid(window)
 {
 	mGrid.setPosition(0, mSize.y() * 0.2f);
 	mGrid.setSize(mSize.x(), mSize.y() * 0.8f);
@@ -38,23 +39,14 @@ bool GridGameListView::input(InputConfig* config, Input input)
 	return ISimpleGameListView::input(config, input);
 }
 
-void GridGameListView::populateList(const FileData* folder)
+void GridGameListView::populateList(const FolderData* folder)
 {
-	auto files = folder->getChildren();
 	mGrid.clear();
-	for(auto it = files.begin(); it != files.end(); it++)
+	bool favoritesOnly = Settings::getInstance()->getBool("FavoritesOnly");
+	FileData::List files = favoritesOnly ? folder->getAllFavorites(true) : folder->getAllDisplayableItems(true);
+	for(FileData* fd : files)
 	{
-		if (Settings::getInstance()->getBool("FavoritesOnly"))
-		{
-			if ((*it)->Metadata().Favorite())
-			{
-				mGrid.add((*it)->getName(), (*it)->getThumbnailPath(), *it);
-			}
-		}
-		else
-		{
-			mGrid.add((*it)->getName(), (*it)->getThumbnailPath(), *it);
-		}
+		mGrid.add(fd->getName(), fd->getThumbnailOrImagePath(), fd);
 	}
 }
 

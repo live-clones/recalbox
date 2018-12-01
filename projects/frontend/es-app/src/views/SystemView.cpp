@@ -42,7 +42,7 @@ SystemView::SystemView(Window* window)
 }
 
 void SystemView::addSystem(SystemData * it){
-	if((it)->getRootFolder()->getChildren().size() == 0){
+	if(!(it)->getRootFolder()->hasChildren()){
 		return;
 	}
 	const std::shared_ptr<ThemeData>& theme = (it)->getTheme();

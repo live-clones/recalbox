@@ -45,7 +45,7 @@ public:
 
 	FileData* findGame(std::string game);
 
-	FileData* findRecursive(const std::vector<FileData*>& gameFolder, const std::string& gameName, const std::string& relativePath = "");
+	FileData* findRecursive(const FileData::List& gameFolder, const std::string& gameName, const std::string& relativePath = "");
 
     std::pair<std::string, std::string> getCoreInfo(const std::string &name);
 
@@ -101,7 +101,7 @@ private:
     std::shared_ptr<TextComponent> mMetaTextLblCanJoin;
     std::shared_ptr<TextComponent> mMetaTextCanJoin;
 
-	std::vector<FileData*> mGames;
+	FileData::List mGames;
 	std::vector<json::ptree::value_type> mRooms;
 	std::vector<std::string> mPings;
 

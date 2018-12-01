@@ -3,279 +3,29 @@
 #include "SystemData.h"
 #include "Log.h"
 
-extern std::vector<std::string> mameBioses;
-extern std::vector<std::string> mameDevices;
+#include <string.h>
 
 namespace fs = boost::filesystem;
 
-std::string removeParenthesis(const std::string& str)
-{
-	// remove anything in parenthesis or brackets
-	// should be roughly equivalent to the regex replace "\((.*)\)|\[(.*)\]" with ""
-	// I would love to just use regex, but it's not worth pulling in another boost lib for one function that is used once
-
-	std::string ret = str;
-	size_t start, end;
-
-	static const int NUM_TO_REPLACE = 2;
-	static const char toReplace[NUM_TO_REPLACE*2] = { '(', ')', '[', ']' };
-
-	bool done = false;
-	while(!done)
-	{
-		done = true;
-		for(int i = 0; i < NUM_TO_REPLACE; i++)
-		{
-			end = ret.find_first_of(toReplace[i*2+1]);
-			start = ret.find_last_of(toReplace[i*2], end);
-
-			if(start != std::string::npos && end != std::string::npos)
-			{
-				ret.erase(start, end - start + 1);
-				done = false;
-			}
-		}
-	}
-
-	// also strip whitespace
-	end = ret.find_last_not_of(' ');
-	if(end != std::string::npos)
-		end++;
-
-	ret = ret.substr(0, end);
-
-	return ret;
-}
-
-
-FileData::FileData(FileType type, const fs::path& path, SystemData* system)
-	: mType(type),
-	  mPath(path),
-	  mSystem(system),
-	  mParent(NULL),
-    metadata(getCleanName()) // TODO: Move clean name into metadata
+FileData::FileData(FileData::FileType type, const fs::path& path, SystemData* system)
+	: mSystem(system),
+    mParent(NULL),
+    mType(type),
+    mPath(path),
+    mMetadata(getCleanName()) // TODO: Move clean name into metadata
 {
 }
 
-FileData::~FileData()
+FileData::FileData(const fs::path& path, SystemData* system) : FileData(FileData::FileType::Game, path, system)
 {
-	if(mParent)
-		mParent->removeChild(this);
-
-	clear();
 }
 
 std::string FileData::getCleanName() const
 {
 	std::string stem = mPath.stem().generic_string();
-	if(mSystem && (mSystem->hasPlatformId(PlatformIds::ARCADE) || mSystem->hasPlatformId(PlatformIds::NEOGEO)))
-		stem = PlatformIds::getCleanMameName(stem.c_str());
+	if (mSystem != nullptr)
+	  if ((mSystem->hasPlatformId(PlatformIds::ARCADE) || mSystem->hasPlatformId(PlatformIds::NEOGEO)))
+		  stem = PlatformIds::getCleanMameName(stem.c_str());
 
-	return stem;
-}
-
-const std::string& FileData::getThumbnailPath() const
-{
-	return (!metadata.Thumbnail().empty()) ?  metadata.Thumbnail() : metadata.Image();
-}
-
-
-std::vector<FileData*> FileData::getFilesRecursive(unsigned int typeMask) const
-{
-	std::vector<FileData*> out;
-
-	for(auto it = mChildren.begin(); it != mChildren.end(); it++)
-	{
-		if((*it)->getType() & typeMask)
-			out.push_back(*it);
-		
-		if((*it)->getChildren().size() > 0)
-		{
-			std::vector<FileData*> subchildren = (*it)->getFilesRecursive(typeMask);
-			out.insert(out.end(), subchildren.cbegin(), subchildren.cend());
-		}
-	}
-
-	return out;
-}
-
-std::vector<FileData*> FileData::getFavoritesRecursive(unsigned int typeMask) const
-{
-	std::vector<FileData*> out;
-	std::vector<FileData*> files = getFilesRecursive(typeMask);
-
-	for (auto it = files.begin(); it != files.end(); it++)
-	{
-		if ((*it)->metadata.Favorite())
-		{
-			out.push_back(*it);
-		}
-	}
-
-	return out;
-}
-
-std::vector<FileData*> FileData::getHiddenRecursive(unsigned int typeMask) const
-{
-	std::vector<FileData*> out;
-	std::vector<FileData*> files = getFilesRecursive(typeMask);
-
-	for (auto it = files.begin(); it != files.end(); it++)
-	{
-		if ((*it)->metadata.Hidden())
-		{
-			out.push_back(*it);
-		}
-	}
-
-	return out;
-}
-
-void FileData::addChild(FileData* file)
-{
-	assert(mType == FOLDER);
-	assert(file->getParent() == NULL);
-
-	const std::string key = file->getPath().filename().string();
-	if (mChildrenByFilename.find(key) == mChildrenByFilename.end())
-	{
-		mChildrenByFilename[key] = file;
-		mChildren.push_back(file);
-		file->mParent = this;
-	}
-
-}
-
-void FileData::addAlreadyExistingChild(FileData* file)
-{
-	assert(mType == FOLDER);
-	mChildren.push_back(file);
-}
-
-
-void FileData::removeAlreadyExistingChild(FileData* file)
-{
-	assert(mType == FOLDER);
-	for(auto it = mChildren.begin(); it != mChildren.end(); it++)
-	{
-		if(*it == file)
-		{
-			mChildren.erase(it);
-			return;
-		}
-	}
-	// File somehow wasn't in our children.
-	assert(false);
-}
-
-void FileData::removeChild(FileData* file)
-{
-	assert(mType == FOLDER);
-	assert(file->getParent() == this);
-
-	mChildrenByFilename.erase(file->getPath().filename().string());
-	for(auto it = mChildren.begin(); it != mChildren.end(); it++)
-	{
-		if(*it == file)
-		{
-			mChildren.erase(it);
-			return;
-		}
-	}
-}
-
-void FileData::clear()
-{
-	mChildren.clear();
-}
-
-
-void FileData::populateRecursiveFolder(FileData* folder, const std::vector<std::string>& searchExtensions, SystemData* systemData)
-{
-	const fs::path& folderPath = folder->getPath();
-	if(!fs::is_directory(folderPath))
-	{
-		LOG(LogWarning) << "Error - folder with path \"" << folderPath << "\" is not a directory!";
-		return;
-	}
-
-	const std::string folderStr = folderPath.generic_string();
-
-	//make sure that this isn't a symlink to a thing we already have
-	if(fs::is_symlink(folderPath))
-	{
-		//if this symlink resolves to somewhere that's at the beginning of our path, it's gonna recurse
-		if(folderStr.find(fs::canonical(folderPath).generic_string()) == 0)
-		{
-			LOG(LogWarning) << "Skipping infinitely recursive symlink \"" << folderPath << "\"";
-			return;
-		}
-	}
-
-	fs::path filePath;
-	std::string extension;
-	bool isGame;
-	for(fs::directory_iterator end, dir(folderPath); dir != end; ++dir)
-	{
-		filePath = (*dir).path();
-
-		if(filePath.stem().empty())
-			continue;
-
-		//this is a little complicated because we allow a list of extensions to be defined (delimited with a space)
-		//we first get the extension of the file itself:
-		extension = filePath.extension().string();
-
-		//fyi, folders *can* also match the extension and be added as games - this is mostly just to support higan
-		//see issue #75: https://github.com/Aloshi/EmulationStation/issues/75
-
-		isGame = false;
-		if((searchExtensions.empty() && !fs::is_directory(filePath)) || (std::find(searchExtensions.begin(), searchExtensions.end(), extension) != searchExtensions.end()
-                        && filePath.filename().string().compare(0, 1, ".") != 0)){
-			FileData* newGame = new FileData(GAME, filePath.generic_string(), systemData);
-			if (systemData->hasPlatformId(PlatformIds::ARCADE) || systemData->hasPlatformId(PlatformIds::NEOGEO)) {
-				if (std::find(mameBioses.begin(), mameBioses.end(), filePath.stem().generic_string()) != mameBioses.end()
-					|| std::find(mameDevices.begin(), mameDevices.end(), filePath.stem().generic_string()) != mameDevices.end()) {
-                    continue;
-				}
-			}
-			folder->addChild(newGame);
-			isGame = true;
-		}
-
-		//add directories that also do not match an extension as folders
-		if(!isGame && fs::is_directory(filePath))
-		{
-			FileData* newFolder = new FileData(FOLDER, filePath.generic_string(), systemData);
-			populateRecursiveFolder(newFolder, searchExtensions, systemData);
-
-			//ignore folders that do not contain games
-			if(newFolder->getChildrenByFilename().size() == 0)
-				delete newFolder;
-			else
-				folder->addChild(newFolder);
-		}
-	}
-}
-
-std::vector<FileData *> FileData::getDisplayableRecursive(unsigned int typeMask) const
-{
-	std::vector<FileData *> out;
-	std::vector<FileData *> files = getFilesRecursive(typeMask);
-
-	for (auto it = files.begin(); it != files.end(); it++)
-	{
-		if (!(*it)->metadata.Hidden())
-		{
-			out.push_back(*it);
-		}
-	}
-
-	return out;
-}
-
-bool FileData::isSingleGameFolder() const
-{
-	assert(mType == FOLDER);
-	return (mChildren.size() == 1) && (mChildren.at(0)->getType() == GAME);
+  return stem;
 }

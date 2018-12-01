@@ -6,7 +6,7 @@
 #include "animations/LambdaAnimation.h"
 #include "Locale.h"
 
-DetailedGameListView::DetailedGameListView(Window* window, FileData* root, SystemData* system)
+DetailedGameListView::DetailedGameListView(Window* window, FolderData* root, SystemData* system)
  : BasicGameListView(window, root),
    mImage(window),
    mLblRating(window),
@@ -155,7 +155,7 @@ void DetailedGameListView::onThemeChanged(const std::shared_ptr<ThemeData>& them
         for (int i = 0; i < (int)mFolderContent.size(); i++)
         {
             snprintf(strbuf, 256, "md_folder_image_%d", i);
-            mFolderContent.at(i)->applyTheme(theme, getName(), strbuf, POSITION | ThemeFlags::SIZE | Z_INDEX | ROTATION);
+            mFolderContent.at((unsigned int)i)->applyTheme(theme, getName(), strbuf, POSITION | ThemeFlags::SIZE | Z_INDEX | ROTATION);
         }
     } else {
         // backward compatibility
@@ -204,7 +204,7 @@ void DetailedGameListView::initMDLabels() {
     std::vector<TextComponent*> components = getMDLabels();
 
     const unsigned int colCount = 2;
-    const unsigned int rowCount = components.size() / 2;
+    const unsigned int rowCount = (unsigned int)(components.size() / 2);
 
     Vector3f start(mSize.x() * 0.01f, mSize.y() * 0.625f, 0.0f);
     
@@ -235,7 +235,7 @@ void DetailedGameListView::initMDValues() {
     std::vector<GuiComponent*> values = getMDValues();
 
     std::shared_ptr<Font> defaultFont = Font::get(FONT_SIZE_SMALL);
-    mRating.setSize(defaultFont->getHeight() * 5.0f, (float)defaultFont->getHeight());
+    mRating.setSize(defaultFont->getHeight() * 5.0f, defaultFont->getHeight());
     mReleaseDate.setFont(defaultFont);
     mDeveloper.setFont(defaultFont);
     mPublisher.setFont(defaultFont);
@@ -263,28 +263,32 @@ void DetailedGameListView::initMDValues() {
     mDescContainer.setSize(mDescContainer.getSize().x(), mSize.y() - mDescContainer.getPosition().y());
 }
 
-void DetailedGameListView::updateInfoPanel() {
-    FileData* file = (mList.size() == 0 || mList.isScrolling()) ? NULL : mList.getSelected();
+void DetailedGameListView::updateInfoPanel()
+{
+  FileData* file = (mList.size() == 0 || mList.isScrolling()) ? NULL : mList.getSelected();
 
-    if (file == NULL) {
-        fadeOut(getFolderComponents(), true);
-        fadeOut(getGameComponents(), true);
-    } else {
-        const bool isGame = file->getType() == GAME;
-        const bool hasImage = !file->Metadata().Image().empty();
+  if (file == NULL)
+  {
+    fadeOut(getFolderComponents(), true);
+    fadeOut(getGameComponents(), true);
+  }
+  else
+  {
+    const bool isFolder = file->isFolder();
+    const bool hasImage = !file->Metadata().Image().empty();
 
-        if (hasImage && !isGame) {
-            setScrappedFolderInfo(file);
-            switchToFolderScrappedDisplay();
-        } else {
-            if (isGame) {
-                setGameInfo(file);
-            } else {
-                setFolderInfo(file);
-            }
-            switchDisplay(isGame);
-        }
+    if (hasImage && isFolder)
+    {
+      setScrappedFolderInfo(file);
+      switchToFolderScrappedDisplay();
     }
+    else
+    {
+      if (isFolder) setFolderInfo(static_cast<FolderData*>(file));
+      else          setGameInfo(file);
+      switchDisplay(!isFolder);
+    }
+  }
 }
 
 bool DetailedGameListView::switchToFolderScrappedDisplay()
@@ -329,34 +333,32 @@ std::vector<GuiComponent*> DetailedGameListView::getScrappedFolderComponents() {
     return comps;
 }
 
-void DetailedGameListView::setFolderInfo(FileData* file) {
-    std::vector<FileData*> games;
+void DetailedGameListView::setFolderInfo(FolderData* folder)
+{
     char strbuf[256];
 
-    getFolderGames(file, games);
-    snprintf(strbuf, 256, ngettext("%i GAME AVAILABLE", "%i GAMES AVAILABLE", games.size()).c_str(), games.size());
-    mFolderName.setText(file->getName() + " - " + strbuf);
+    FileData::List games = folder->getAllDisplayableItemsRecursively(false);
+    snprintf(strbuf, 256, ngettext("%i GAME AVAILABLE", "%i GAMES AVAILABLE", (int)games.size()).c_str(), games.size());
+    mFolderName.setText(folder->getName() + " - " + strbuf);
 
     unsigned char idx = 0;
 
-    for (FileData* game: games) {
-        const std::string& thumbnail = game->Metadata().Thumbnail();
-        const std::string& image = game->Metadata().Image();
-        if (!thumbnail.empty() || !image.empty()) {
-            mFolderContent.at(idx)->setImage(thumbnail.empty() ? image : thumbnail);
-            idx++;
-            if (idx == mFolderContent.size()) {
-                break;
-            }
-        }
+    for (FileData* game : games)
+    {
+      if (game->hasThumbnailOrImage())
+      {
+        mFolderContent.at(idx)->setImage(game->getThumbnailOrImagePath());
+        if (++idx == mFolderContent.size()) break;
+      }
     }
     for (int i = idx; i < (int)mFolderContent.size(); i++)
     {
-        mFolderContent.at(i)->setImage("");
+        mFolderContent.at((unsigned int)i)->setImage("");
     }
 }
 
-void DetailedGameListView::setGameInfo(FileData* file) {
+void DetailedGameListView::setGameInfo(FileData* file)
+{
     mRating.setValue(file->Metadata().RatingAsString());
     mReleaseDate.setValue(file->Metadata().ReleaseDateAsString());
     mDeveloper.setValue(file->Metadata().Developer());
@@ -378,8 +380,8 @@ void DetailedGameListView::setScrappedFolderInfo(FileData* file) {
     mDescContainer.reset();
 }
 
-void DetailedGameListView::getFolderGames(FileData* folder, std::vector<FileData*> &output) {
-    std::vector<FileData*> items = folder->getChildren();
+/*void DetailedGameListView::getFolderGames(FileData* folder, FileData::List& output) {
+    FileData::List items = folder->getChildren();
     for (auto it = items.begin(); it != items.end(); it++) {
         if ((*it)->getType() == GAME) {
             output.push_back(*it);
@@ -387,7 +389,7 @@ void DetailedGameListView::getFolderGames(FileData* folder, std::vector<FileData
             getFolderGames(*it, output);
         }
     }
-}
+}*/
 
 void DetailedGameListView::fadeOut(std::vector<GuiComponent*> comps, bool fadingOut) {
     for (auto it = comps.begin(); it != comps.end(); it++) {

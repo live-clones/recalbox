@@ -1,7 +1,3 @@
-//
-// Created by bkg2k on 5/29/18.
-//
-
 #include "MetadataDescriptor.h"
 #include "MetadataFieldDescriptor.h"
 #include "Locale.h"
@@ -103,7 +99,7 @@ MetadataDescriptor MetadataDescriptor::BuildDefaultValueMetadataDescriptor()
     (defaultData.*field.SetValueMethod())(field.DefaultValue());
   }
 
-  return std::move(defaultData);
+  return defaultData;
 }
 
 std::string MetadataDescriptor::FloatToString(float value, int precision)
@@ -145,7 +141,7 @@ std::string MetadataDescriptor::IntToRange(int range)
     value += '-';
     value += std::to_string(min);
   }
-  return std::move(value);
+  return value;
 }
 
 bool MetadataDescriptor::RangeToInt(const std::string& range, int& to)
@@ -310,9 +306,14 @@ bool MetadataDescriptor::Deserialize(const TreeNode& from, const std::string& re
     switch(field.Type())
     {
       case MetadataFieldDescriptor::DataType::PString:
-      case MetadataFieldDescriptor::DataType::PPath:
       case MetadataFieldDescriptor::DataType::PList:
       {
+        AssignPString(*((std::string**)target), value);
+        break;
+      }
+      case MetadataFieldDescriptor::DataType::PPath:
+      {
+        value = resolvePath(value, relativeTo, true).generic_string();
         AssignPString(*((std::string**)target), value);
         break;
       }
@@ -402,7 +403,7 @@ bool MetadataDescriptor::Deserialize(const TreeNode& from, const std::string& re
   return true;
 }
 
-void MetadataDescriptor::Serialize(Tree& parentTree, const std::string filePath, const std::string& relativeTo) const
+void MetadataDescriptor::Serialize(Tree& parentTree, const std::string& filePath, const std::string& relativeTo) const
 {
   int count = 0;
   const MetadataFieldDescriptor* fields = GetMetadataFieldDescriptors(_Type, count);
@@ -427,7 +428,7 @@ void MetadataDescriptor::Serialize(Tree& parentTree, const std::string filePath,
 
     // Convert & store
     // As for Deserialize, we do not use field.GetValues, because we need
-    // to do additional tasks regarding the type
+    // to do additional tasks regarding each different type
     switch(field.Type())
     {
       case MetadataFieldDescriptor::DataType::String:break;
@@ -438,9 +439,13 @@ void MetadataDescriptor::Serialize(Tree& parentTree, const std::string filePath,
       }
       case MetadataFieldDescriptor::DataType::PString:
       case MetadataFieldDescriptor::DataType::PList:
-      case MetadataFieldDescriptor::DataType::PPath:
       {
         tree.put(field.Key(), ReadPString(*((std::string**)source), DefaultValueEmpty));
+        break;
+      }
+      case MetadataFieldDescriptor::DataType::PPath:
+      {
+        tree.put(field.Key(), makeRelativePath(ReadPString(*((std::string**)source), DefaultValueEmpty), relativeTo, true).generic_string());
         break;
       }
       case MetadataFieldDescriptor::DataType::Path:

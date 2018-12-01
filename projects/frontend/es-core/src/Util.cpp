@@ -90,7 +90,7 @@ fs::path resolvePath(const fs::path& path, const fs::path& relativeTo, bool allo
 		fs::path ret = relativeTo;
 		for(auto it = ++path.begin(); it != path.end(); ++it)
 			ret /= *it;
-		return std::move(ret);
+		return ret;
 	}
 
 	if(allowHome && *path.begin() == "~")
@@ -98,7 +98,7 @@ fs::path resolvePath(const fs::path& path, const fs::path& relativeTo, bool allo
 		fs::path ret = getHomePath();
 		for(auto it = ++path.begin(); it != path.end(); ++it)
 			ret /= *it;
-		return std::move(ret);
+		return ret;
 	}
 
 	return path;
@@ -106,13 +106,15 @@ fs::path resolvePath(const fs::path& path, const fs::path& relativeTo, bool allo
 
 fs::path removeCommonPathUsingStrings(const fs::path& path, const fs::path& relativeTo, bool& contains)
 {
-	std::string pathStr = path.c_str();
-	std::string relativeToStr = relativeTo.c_str();
-	if (pathStr.find_first_of(relativeToStr) == 0) {
+	std::string pathStr = path.generic_string();
+	std::string relativeToStr = relativeTo.generic_string();
+	if (pathStr.compare(0, relativeToStr.length(), relativeToStr) == 0)
+	{
 		contains = true;
 		return pathStr.substr(relativeToStr.size() + 1);
 	}
-	else {
+	else
+	{
 		contains = false;
 		return path;
 	}
@@ -142,11 +144,14 @@ fs::path removeCommonPath(const fs::path& path, const fs::path& relativeTo, bool
 	// find point of divergence
 	auto itr_path = p.begin();
 	auto itr_relative_to = r.begin();
-	while(*itr_path == *itr_relative_to && itr_path != p.end() && itr_relative_to != r.end())
-	{
-		++itr_path;
-		++itr_relative_to;
-	}
+	while(itr_path != p.end() && itr_relative_to != r.end())
+		if (*itr_path == *itr_relative_to)
+		{
+			++itr_path;
+			++itr_relative_to;
+		}
+		else
+			break;
 
 	if(itr_relative_to != r.end())
 	{
@@ -177,7 +182,7 @@ fs::path makeRelativePath(const fs::path& path, const fs::path& relativeTo, bool
 	{
 		// success
 		ret = "." / ret;
-		return std::move(ret);
+		return ret;
 	}
 
 	if(allowHome)
@@ -187,7 +192,7 @@ fs::path makeRelativePath(const fs::path& path, const fs::path& relativeTo, bool
 		{
 			// success
 			ret = "~" / ret;
-			return std::move(ret);
+			return ret;
 		}
 	}
 

@@ -80,7 +80,7 @@ void NetPlayThread::run()
 
     while (mRunning)
     {
-      auto json_req = RecalboxSystem::getInstance()->execute("curl -s --connect-timeout 3 -m 3 " + mLobby);
+      json_req = RecalboxSystem::getInstance()->execute("curl -s --connect-timeout 3 -m 3 " + mLobby);
       if (json_req.second == 0)
       {
         json::ptree root;
@@ -120,7 +120,7 @@ void NetPlayThread::run()
 
               // Create event
               SDL_Event event;
-              event.user.type = mEvent;
+              event.user.type = (unsigned int)mEvent;
 
               // Push event to the main thread so that all GUI operations are safely run in the main thread.
               // SDL_PushEvent is synchronized & thread-safe

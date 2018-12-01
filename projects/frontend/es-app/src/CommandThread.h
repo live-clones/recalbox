@@ -1,16 +1,21 @@
 #include <Window.h>
 #include "FileData.h"
 #include <boost/thread/thread.hpp>
+#include <boost/asio.hpp>
 
-class CommandThread {
+class CommandThread
+	{
 public:
-	CommandThread(Window* window);
+	explicit CommandThread(Window* window);
 	~CommandThread();
 	void run();
-	FileData* findRecursive(const std::vector<FileData*> gameFolder, const std::string& gameName, const std::string& relativePath = "");
 	void runGame (FileData* game);
+
 private:
 	Window* mWindow;
 	bool mRunning;
+	boost::asio::io_service mIOService;
+	boost::asio::ip::udp::socket mSocket;
 	boost::thread* mThreadHandle;
+
 };

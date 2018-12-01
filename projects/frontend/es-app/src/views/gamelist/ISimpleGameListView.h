@@ -8,7 +8,7 @@
 class ISimpleGameListView : public IGameListView
 {
 public:
-	ISimpleGameListView(Window* window, FileData* root);
+	ISimpleGameListView(Window* window, FolderData* root);
 	virtual ~ISimpleGameListView() {}
 
 	// Called when a new file is added, a file is removed, a file's metadata changes, or when file sort changed
@@ -26,8 +26,8 @@ public:
 
 	virtual inline void updateInfoPanel() override {}
 
-	virtual inline void populateList(const FileData* folder) override { (void)folder; }
-    virtual inline void refreshList() override {};
+	virtual inline void populateList(const FolderData* folder) override { (void)folder; }
+  virtual inline void refreshList() override {};
 
 protected:
 	virtual void launch(FileData* game) = 0;
@@ -38,7 +38,7 @@ protected:
 
 	ThemeExtras mThemeExtras;
 
-	std::stack<FileData*> mCursorStack;
+	std::stack<FolderData*> mCursorStack;
 
 private:
    bool mFavoriteChange;

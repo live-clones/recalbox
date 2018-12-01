@@ -12,8 +12,14 @@
 #include "Gamelist.h"
 #include "Locale.h"
 
-ISimpleGameListView::ISimpleGameListView(Window* window, FileData* root) : IGameListView(window, root),
-mHeaderText(window), mHeaderImage(window), mBackground(window), mThemeExtras(window), mFavoriteChange(false) {
+ISimpleGameListView::ISimpleGameListView(Window* window, FolderData* root)
+  : IGameListView(window, root),
+    mHeaderText(window),
+    mHeaderImage(window),
+    mBackground(window),
+    mThemeExtras(window),
+    mFavoriteChange(false)
+{
 	mHeaderText.setText("Logo Text");
 	mHeaderText.setSize(mSize.x(), 0);
 	mHeaderText.setPosition(0, 0);
@@ -63,54 +69,47 @@ void ISimpleGameListView::onThemeChanged(const std::shared_ptr<ThemeData>& theme
 	}
 }
 
-void ISimpleGameListView::onFileChanged(FileData* file, FileChangeType change) {
-	if (change == FileChangeType::FILE_RUN) {
+void ISimpleGameListView::onFileChanged(FileData* file, FileChangeType change)
+{
+	if (change == FileChangeType::Run)
+	{
 		updateInfoPanel();
 		return ;
 	}
 
-    if (change == FileChangeType::FILE_REMOVED) {
-        bool favorite = file->Metadata().Favorite();
-        delete file;
-        if (favorite) {
-            ViewController::get()->setInvalidGamesList(SystemData::getFavoriteSystem());
-            ViewController::get()->getSystemListView()->manageFavorite();
-        }
-    }
+	if (change == FileChangeType::Removed)
+	{
+		bool favorite = file->Metadata().Favorite();
+		delete file;
+		if (favorite)
+		{
+			ViewController::get()->setInvalidGamesList(SystemData::getFavoriteSystem());
+			ViewController::get()->getSystemListView()->manageFavorite();
+		}
+	}
 
 	FileData* cursor = getCursor();
-
-	if (RecalboxConf::getInstance()->getBool(getRoot()->getSystem()->getName() + ".flatfolder")) {
+	if (RecalboxConf::getInstance()->getBool(getRoot()->getSystem()->getName() + ".flatfolder"))
+	{
 		populateList(getRoot());
-	} else {
+	}
+	else
+	{
 		refreshList();
 	}
 
 	setCursor(cursor);
 
-
-	/* Favorite */
-	if (file->getType() == GAME) {
-		SystemData * favoriteSystem = SystemData::getFavoriteSystem();
+	if (file->isGame())
+	{
+		SystemData* favoriteSystem = SystemData::getFavoriteSystem();
+		bool isInFavorite = favoriteSystem->getRootFolder()->Contains(file, true);
 		bool isFavorite = file->Metadata().Favorite();
-		bool foundInFavorite = false;
-		/* Removing favorite case : */
-		for (auto gameInFavorite = favoriteSystem->getRootFolder()->getChildren().begin();
-			gameInFavorite != favoriteSystem->getRootFolder()->getChildren().end();
-			gameInFavorite ++){
-				if ((*gameInFavorite) == file) {
-					if (!isFavorite) {
-						favoriteSystem->getRootFolder()->removeAlreadyExistingChild(file);
-						ViewController::get()->setInvalidGamesList(SystemData::getFavoriteSystem());
-						ViewController::get()->getSystemListView()->manageFavorite();
-					}
-					foundInFavorite = true;
-					break;
-				}
-		}
-		/* Adding favorite case : */
-		if (!foundInFavorite && isFavorite) {
-			favoriteSystem->getRootFolder()->addAlreadyExistingChild(file);
+
+		if (isInFavorite != isFavorite)
+		{
+			if (isInFavorite) favoriteSystem->getRootFolder()->removeChild(file);
+			else favoriteSystem->getRootFolder()->addChild(file, false);
 			ViewController::get()->setInvalidGamesList(SystemData::getFavoriteSystem());
 			ViewController::get()->getSystemListView()->manageFavorite();
 		}
@@ -122,39 +121,51 @@ void ISimpleGameListView::onFileChanged(FileData* file, FileChangeType change) {
 bool ISimpleGameListView::input(InputConfig* config, Input input) {
 	bool hideSystemView = RecalboxConf::getInstance()->get("emulationstation.hidesystemview") == "1";
 
-	if (input.value != 0) {
-		if (config->isMappedTo("b", input)) {
+	if (input.value != 0)
+	{
+		if (config->isMappedTo("b", input))
+		{
 			FileData* cursor = getCursor();
-			if (cursor->getType() == GAME) {
+			if (cursor->isGame())
+			{
 				//Sound::getFromTheme(getTheme(), getName(), "launch")->play();
 				launch(cursor);
-			} else {
+			}
+			else
+			{
 				// it's a folder
-				if (cursor->getChildren().size() > 0) {
-					mCursorStack.push(cursor);
-					populateList(cursor);
+				FolderData* folder = static_cast<FolderData*>(cursor);
+				if (folder->hasChildren())
+				{
+					mCursorStack.push(folder);
+					populateList(folder);
 					setCursorIndex(0);
 				}
 			}
 			return true;
 		}
 
-		if(config->isMappedTo("a", input)) {
-			if (mCursorStack.size()) {
-				FileData* selected = mCursorStack.top();
+		if(config->isMappedTo("a", input))
+		{
+			if (mCursorStack.size())
+			{
+				FolderData* selected = mCursorStack.top();
 
 				// remove current folder from stack
 				mCursorStack.pop();
 
-				FileData* cursor = mCursorStack.size() ? mCursorStack.top() : getRoot();
+				FolderData* cursor = mCursorStack.size() ? mCursorStack.top() : getRoot();
 				populateList(cursor);
 
 				setCursor(selected);
 				//Sound::getFromTheme(getTheme(), getName(), "back")->play();
-			} else if (!hideSystemView) {
+			}
+			else if (!hideSystemView)
+			{
 				onFocusLost();
 
-				if (mFavoriteChange) {
+				if (mFavoriteChange)
+				{
 					ViewController::get()->setInvalidGamesList(getRoot()->getSystem());
 					mFavoriteChange = false;
 				}
@@ -167,7 +178,7 @@ bool ISimpleGameListView::input(InputConfig* config, Input input) {
 		if (config->isMappedTo("y", input)) {
 			FileData* cursor = getCursor();
 			if (!ViewController::get()->getState().getSystem()->isFavorite() && cursor->getSystem()->getHasFavorites()) {
-				if (cursor->getType() == GAME) {
+				if (cursor->isGame()) {
 					mFavoriteChange = true;
           MetadataDescriptor& md = cursor->Metadata();
           bool value = md.Favorite();
@@ -177,13 +188,13 @@ bool ISimpleGameListView::input(InputConfig* config, Input input) {
 					if (value) {
                         md.SetFavorite(false);
                         if (favoriteSystem != NULL) {
-                            favoriteSystem->getRootFolder()->removeAlreadyExistingChild(cursor);
+                            favoriteSystem->getRootFolder()->removeChild(cursor);
                         }
                         removeFavorite = true;
 					} else {
                         md.SetFavorite(true);
                         if (favoriteSystem != NULL) {
-                            favoriteSystem->getRootFolder()->addAlreadyExistingChild(cursor);
+                            favoriteSystem->getRootFolder()->addChild(cursor, false);
                         }
 					}
 
@@ -227,7 +238,7 @@ bool ISimpleGameListView::input(InputConfig* config, Input input) {
 		          && (RecalboxConf::getInstance()->isInList("global.netplay.systems", getCursor()->getSystem()->getName())))
 		{
 			FileData* cursor = getCursor();
-			if(cursor->getType() == GAME)
+			if(cursor->isGame())
 			{
 				Eigen::Vector3f target(Renderer::getScreenWidth() / 2.0f, Renderer::getScreenHeight() / 2.0f, 0);
 				ViewController::get()->launch(cursor, target, "host");

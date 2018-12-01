@@ -11,45 +11,52 @@
 #include "RecalboxConf.h"
 #include "Locale.h"
 
-NetworkThread::NetworkThread(Window* window) : mWindow(window){
-    mFirstRun = true;
-    mRunning = true;
-    mThreadHandle = new boost::thread(boost::bind(&NetworkThread::run, this));
+NetworkThread::NetworkThread(Window* window)
+  : mWindow(window)
+{
+  mRunning = true;
+  mThreadHandle = new boost::thread(boost::bind(&NetworkThread::run, this));
 }
 
-NetworkThread::~NetworkThread() {
-    mThreadHandle->join();
+NetworkThread::~NetworkThread()
+{
+  mRunning = false;
+  mThreadHandle->interrupt();
 }
 
-void NetworkThread::run(){
-    while(mRunning){
-        if(mFirstRun){
-            boost::this_thread::sleep(boost::posix_time::seconds(15));
-            mFirstRun = false;
-        } else {
-            boost::this_thread::sleep(boost::posix_time::hours(1));
-        }
+void NetworkThread::run()
+{
+  if (RecalboxConf::getInstance()->get("updates.enabled") != "1")
+    mRunning = false;
 
-        if (RecalboxUpgrade::getInstance()->canUpdate()) {
-            if(RecalboxConf::getInstance()->get("updates.enabled") == "1") {
-                std::string changelog = RecalboxUpgrade::getInstance()->getUpdateChangelog();
+  int waitForSeconds = 15;
+  while (mRunning)
+  {
+    boost::this_thread::sleep(boost::posix_time::seconds(waitForSeconds));
+    waitForSeconds = 3600;
 
-                while (mWindow->isShowingPopup()) {
-                    boost::this_thread::sleep(boost::posix_time::seconds(5));
-                }
+    if (RecalboxUpgrade::getInstance()->canUpdate())
+    {
+      std::string changelog = RecalboxUpgrade::getInstance()->getUpdateChangelog();
 
-                if (changelog != "") {
-                    std::string message = changelog;
-                    std::string updateVersion = RecalboxUpgrade::getInstance()->getUpdateVersion();
-                    mWindow->displayScrollMessage(_("AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"),
-                                                _("UPDATE VERSION:") + " " + updateVersion + "\n" +
-                                                _("UPDATE CHANGELOG:") + "\n" + message);
-                } else {
-                    mWindow->displayMessage(_("AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"));
-                }
-            }
-            mRunning = false;
-        }
+      while (mWindow->isShowingPopup())
+      {
+        boost::this_thread::sleep(boost::posix_time::seconds(5));
+      }
+
+      if (changelog != "")
+      {
+        std::string message = changelog;
+        std::string updateVersion = RecalboxUpgrade::getInstance()->getUpdateVersion();
+        mWindow->displayScrollMessage(_("AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"),
+                                      _("UPDATE VERSION:") + " " + updateVersion + "\n" +
+                                      _("UPDATE CHANGELOG:") + "\n" + message);
+      }
+      else
+      {
+        mWindow->displayMessage(_("AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"));
+      }
     }
+  }
 }
 

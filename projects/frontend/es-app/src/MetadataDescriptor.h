@@ -403,7 +403,7 @@ class MetadataDescriptor
      * @param relativeTo Root path
      * @return Serialized XML node
      */
-    void Serialize(Tree& parentTree, const std::string filePath, const std::string& relativeTo) const;
+    void Serialize(Tree& parentTree, const std::string& filePath, const std::string& relativeTo) const;
 
     /*!
      * Merge value from the source metadata object into the current object
@@ -430,18 +430,18 @@ class MetadataDescriptor
     const std::string& Genre()       const { return _Genre;                                       }
     const std::string& Region()      const { return ReadPString(_Region, DefaultValueEmpty);      }
 
-    float              Rating()          const { return _Rating; }
-    int                PlayerRange()     const { return _Players; }
-    int                PlayerMax()       const { return _Players >> 16; }
-    int                PlayerMin()       const { return _Players & 0xFFFF; }
-    int                ReleaseDateEpoc() const { return _ReleaseDate; }
-    DateTime           ReleaseDate()     const { return std::move(DateTime((long long)_ReleaseDate)); }
-    int                PlayCount()       const { return _Playcount; }
-    int                LastPlayedEpoc()  const { return _LastPlayed; }
-    DateTime           LastPlayed()      const { return std::move(DateTime((long long)_LastPlayed)); }
-    int                RomCrc32()        const { return _RomCrc32; }
-    bool               Favorite()        const { return _Favorite; }
-    bool               Hidden()          const { return _Hidden; }
+    float              Rating()          const { return _Rating;                           }
+    int                PlayerRange()     const { return _Players;                          }
+    int                PlayerMax()       const { return _Players >> 16;                    }
+    int                PlayerMin()       const { return _Players & 0xFFFF;                 }
+    int                ReleaseDateEpoc() const { return _ReleaseDate;                      }
+    DateTime           ReleaseDate()     const { return DateTime((long long)_ReleaseDate); }
+    int                PlayCount()       const { return _Playcount;                        }
+    int                LastPlayedEpoc()  const { return _LastPlayed;                       }
+    DateTime           LastPlayed()      const { return DateTime((long long)_LastPlayed);  }
+    int                RomCrc32()        const { return _RomCrc32;                         }
+    bool               Favorite()        const { return _Favorite;                         }
+    bool               Hidden()          const { return _Hidden;                           }
 
     /*
      * String accessors
@@ -459,14 +459,14 @@ class MetadataDescriptor
     std::string GenreAsString()       const { return _Genre;                                       }
     std::string RegionAsString()      const { return ReadPString(_Region, DefaultValueEmpty);      }
 
-    std::string RatingAsString()      const { return std::move(FloatToString(_Rating, 4));                            }
-    std::string PlayersAsString()     const { return std::move(IntToRange(_Players));                                 }
-    std::string ReleaseDateAsString() const { return _ReleaseDate != 0 ? std::move(DateTime((long long)_ReleaseDate).ToCompactISO8601()) : ""; }
-    std::string PlayCountAsString()   const { return std::move(std::to_string(_Playcount));                           }
-    std::string LastPlayedAsString()  const { return _LastPlayed != 0 ? std::move(DateTime((long long)_LastPlayed).ToCompactISO8601()) : ""; }
-    std::string FavoriteAsString()    const { return std::move(_Favorite ? "true" : "false");                         }
-    std::string RomCrc32AsString()    const { std::string r; IntToHex(_RomCrc32, r); return std::move(r);             }
-    std::string HiddenAsString()      const { return std::move(_Hidden ? "true" : "false");                           }
+    std::string RatingAsString()      const { return FloatToString(_Rating, 4);                            }
+    std::string PlayersAsString()     const { return IntToRange(_Players);                                 }
+    std::string ReleaseDateAsString() const { return _ReleaseDate != 0 ? DateTime((long long)_ReleaseDate).ToCompactISO8601() : ""; }
+    std::string PlayCountAsString()   const { return std::to_string(_Playcount);                           }
+    std::string LastPlayedAsString()  const { return _LastPlayed != 0 ? DateTime((long long)_LastPlayed).ToCompactISO8601() : ""; }
+    std::string FavoriteAsString()    const { return _Favorite ? "true" : "false";                         }
+    std::string RomCrc32AsString()    const { std::string r; IntToHex(_RomCrc32, r); return r;             }
+    std::string HiddenAsString()      const { return _Hidden ? "true" : "false";                           }
 
     /*
      * Setters
@@ -497,60 +497,60 @@ class MetadataDescriptor
     void SetReleaseDateAsString(const std::string& releasedate)
     {
       DateTime st;
-      _ReleaseDate = st.FromCompactISO6801(releasedate, st) ? st.ToEpochTime() : 0;
+      _ReleaseDate = st.FromCompactISO6801(releasedate, st) ? (int)st.ToEpochTime() : 0;
       _Dirty = true;
     }
     void SetLastPlayedAsString(const std::string& lastplayed)
     {
       DateTime st;
-      _LastPlayed = st.FromCompactISO6801(lastplayed, st) ? st.ToEpochTime() : 0;
+      _LastPlayed = st.FromCompactISO6801(lastplayed, st) ? (int)st.ToEpochTime() : 0;
       _Dirty = true;
     }
-    void SetRatingAsString(const std::string& rating)           { float f = 0.0f; if (StringToFloat(rating, f)) { _Rating = f; _Dirty = true; } }
-    void SetPlayersAsString(const std::string& players)         { int p = 0; if (RangeToInt(players, p)) { _Players = p;_Dirty = true; }        }
-    void SetFavoriteAsString(const std::string& favorite)       { _Favorite = (favorite == "true");                                             }
-    void SetHiddenAsString(const std::string& hidden)           { _Hidden = (hidden == "true");                                                 }
-    void SetRomCrc32AsString(const std::string& romcrc32)       { int c; if (HexToInt(romcrc32, c)) { _RomCrc32 = c; _Dirty = true; }           }
-    void SetPlayCountAsString(const std::string& playcount)     { int p; if (StringToInt(playcount, p)) { _Playcount = p; _Dirty = true; }      }
+    void SetRatingAsString(const std::string& rating)           { float f = 0.0f; if (StringToFloat(rating, f)) SetRating(f);              }
+    void SetPlayersAsString(const std::string& players)         { int p = 0; if (RangeToInt(players, p)) SetPlayers(p, p);                 }
+    void SetFavoriteAsString(const std::string& favorite)       { SetFavorite(favorite == "true");                                         }
+    void SetHiddenAsString(const std::string& hidden)           { SetHidden(hidden == "true");                                             }
+    void SetRomCrc32AsString(const std::string& romcrc32)       { int c; if (HexToInt(romcrc32, c)) SetRomCrc32(c);                        }
+    void SetPlayCountAsString(const std::string& playcount)     { int p; if (StringToInt(playcount, p)) { _Playcount = p; _Dirty = true; } }
 
     /*
      * Defaults
      */
 
-    bool IsDefaultName()            const { return  _Default._Name        ==  _Name;        }
-    bool IsDefaultEmulator()        const { return *_Default._Emulator    == *_Emulator;    }
-    bool IsDefaultCore()            const { return *_Default._Core        == *_Core;        }
-    bool IsDefaultRatio()           const { return *_Default._Ratio       == *_Ratio;       }
-    bool IsDefaultDescription()     const { return  _Default._Description ==  _Description; }
-    bool IsDefaultImage()           const { return  _Default._Image       ==  _Image;       }
-    bool IsDefaultThumbnail()       const { return *_Default._Thumbnail   == *_Thumbnail;   }
-    bool IsDefaultDeveloper()       const { return  _Default._Developer   ==  _Developer;   }
-    bool IsDefaultPublisher()       const { return  _Default._Publisher   ==  _Publisher;   }
-    bool IsDefaultGenre()           const { return  _Default._Genre       ==  _Genre;       }
-    bool IsDefaultRegion()          const { return *_Default._Region      == *_Region;      }
-    bool IsDefaultRating()          const { return  _Default._Rating      ==  _Rating;      }
-    bool IsDefaultPlayerRange()     const { return  _Default._Players     ==  _Players;     }
-    bool IsDefaultReleaseDateEpoc() const { return  _Default._ReleaseDate ==  _ReleaseDate; }
-    bool IsDefaultPlayCount()       const { return  _Default._Playcount   ==  _Playcount;   }
-    bool IsDefaultLastPlayedEpoc()  const { return  _Default._LastPlayed  ==  _LastPlayed;  }
-    bool IsDefaultRomCrc32()        const { return  _Default._RomCrc32    ==  _RomCrc32;    }
-    bool IsDefaultFavorite()        const { return  _Default._Favorite    ==  _Favorite;    }
-    bool IsDefaultHidden()          const { return  _Default._Hidden      ==  _Hidden;      }
+    bool IsDefaultName()            const { return _Default._Name        == _Name;        }
+    bool IsDefaultEmulator()        const { return _Default.Emulator()   == Emulator();   }
+    bool IsDefaultCore()            const { return _Default.Core()       == Core();       }
+    bool IsDefaultRatio()           const { return _Default.Ratio()      == Ratio();      }
+    bool IsDefaultDescription()     const { return _Default._Description == _Description; }
+    bool IsDefaultImage()           const { return _Default._Image       == _Image;       }
+    bool IsDefaultThumbnail()       const { return _Default.Thumbnail()  == Thumbnail();  }
+    bool IsDefaultDeveloper()       const { return _Default._Developer   == _Developer;   }
+    bool IsDefaultPublisher()       const { return _Default._Publisher   == _Publisher;   }
+    bool IsDefaultGenre()           const { return _Default._Genre       == _Genre;       }
+    bool IsDefaultRegion()          const { return _Default.Region()     == Region();     }
+    bool IsDefaultRating()          const { return _Default._Rating      == _Rating;      }
+    bool IsDefaultPlayerRange()     const { return _Default._Players     == _Players;     }
+    bool IsDefaultReleaseDateEpoc() const { return _Default._ReleaseDate == _ReleaseDate; }
+    bool IsDefaultPlayCount()       const { return _Default._Playcount   == _Playcount;   }
+    bool IsDefaultLastPlayedEpoc()  const { return _Default._LastPlayed  == _LastPlayed;  }
+    bool IsDefaultRomCrc32()        const { return _Default._RomCrc32    == _RomCrc32;    }
+    bool IsDefaultFavorite()        const { return _Default._Favorite    == _Favorite;    }
+    bool IsDefaultHidden()          const { return _Default._Hidden      == _Hidden;      }
 
     /*
      * Convenient Accessors
      */
 
-    bool IsGame()   const { return _Type == ObjectType::Game;   }
-    bool IsFolder() const { return _Type == ObjectType::Folder; }
+    //bool IsGame()   const { return _Type == ObjectType::Game;   }
+    //bool IsFolder() const { return _Type == ObjectType::Folder; }
     bool IsDirty()  const { return _Dirty;                }
 
     /*
      * Convenient Methods
      */
 
-    static bool AreGames(const MetadataDescriptor& md1, const MetadataDescriptor& md2) { return (md1._Type == md2._Type) && md1.IsGame(); }
-    static bool AreFolders(const MetadataDescriptor& md1, const MetadataDescriptor& md2) { return (md1._Type == md2._Type) && md1.IsFolder(); }
+    //static bool AreGames(const MetadataDescriptor& md1, const MetadataDescriptor& md2) { return (md1._Type == md2._Type) && md1.IsGame(); }
+    //static bool AreFolders(const MetadataDescriptor& md1, const MetadataDescriptor& md2) { return (md1._Type == md2._Type) && md1.IsFolder(); }
 
     /*
      * Special modifiers

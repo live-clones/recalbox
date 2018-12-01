@@ -347,43 +347,20 @@ void GuiNetPlay::launch()
 	}
 }
 
-
-
 FileData* GuiNetPlay::findGame(std::string gameNameOrHash)
 {
-	for (auto tmp : SystemData::sSystemVector) {
-		if (RecalboxConf::getInstance()->isInList("global.netplay.systems", tmp->getName())) {
-			std::vector<FileData*> games = tmp->getRootFolder()->getChildren();
-			FileData* result = findRecursive(games, gameNameOrHash);
-			if (result != NULL) {
+	for (auto tmp : SystemData::sSystemVector)
+	{
+		if (RecalboxConf::getInstance()->isInList("global.netplay.systems", tmp->getName()))
+		{
+			FileData* result = tmp->getRootFolder()->LookupGame(gameNameOrHash, FileData::SearchAttributes::ByName | FileData::SearchAttributes::ByHash);
+			if (result != nullptr)
+			{
 				return result;
 			}
 		}
 	}
 	return nullptr;
-}
-
-FileData* GuiNetPlay::findRecursive(const std::vector<FileData*>& gameFolder, const std::string& gameNameOrHash, const std::string& relativePath) {
-	// Recursively look for the game in subfolders too
-	for (auto game = gameFolder.begin(); game != gameFolder.end(); ++game) {
-		std::string gameAndPath;
-		if (relativePath.empty()) {
-			gameAndPath = (*game)->getPath().stem().c_str();
-		} else {
-			gameAndPath = relativePath + '/' + (*game)->getPath().stem().c_str();
-		}
-		//LOG(LogInfo) << "Checking game " << gameNameOrHash << " in path: " << gameAndPath;
-		if ((*game)->getType() == FOLDER) {
-			FileData* foundGame = findRecursive((*game)->getChildren(), gameNameOrHash, gameAndPath);
-			if ( foundGame != NULL ) {
-				return foundGame;
-			}
-		}
-		if ((*game)->getType() == GAME and (compareLowerCase(gameAndPath, gameNameOrHash) or (*game)->getHash() == gameNameOrHash)) {
-			return *game;
-		}
-	}
-	return NULL;
 }
 
 std::pair<std::string, std::string> GuiNetPlay::getCoreInfo(const std::string &name) {

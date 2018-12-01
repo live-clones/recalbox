@@ -144,7 +144,7 @@ int run_scraper_cmdline()
 	std::shared_ptr<Scraper> scraper = Settings::getInstance()->getScraper();
 	for(auto sysIt = systems.begin(); sysIt != systems.end(); sysIt++)
 	{
-		std::vector<FileData*> files = (*sysIt)->getRootFolder()->getFilesRecursive(GAME);
+		FileData::List files = (*sysIt)->getRootFolder()->getFilesRecursive(GAME);
 
 		ScraperSearchParams params;
 		params.system = (*sysIt);
@@ -241,7 +241,7 @@ int run_scraper_cmdline()
 
 	for(auto sysIt = systems.begin(); sysIt != systems.end(); sysIt++)
 	{
-		std::vector<FileData*> files = (*sysIt)->getRootFolder()->getFilesRecursive(GAME);
+		FileData::List files = (*sysIt)->getRootFolder()->getAllItemsRecursively(GAME);
 
 		for(auto gameIt = files.begin(); gameIt != files.end(); gameIt++)
 		{

@@ -1,8 +1,11 @@
 project("emulationstation")
 
 set(ES_HEADERS
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/MameNameMap.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/EmulationStation.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/FileData.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/FolderData.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/RootFolderData.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/FileSorts.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/MetadataDescriptor.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/MetadataFieldDescriptor.h
@@ -62,6 +65,8 @@ set(ES_HEADERS
 
 set(ES_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/FileData.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/FolderData.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/RootFolderData.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/FileSorts.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/MameNameMap.cpp
