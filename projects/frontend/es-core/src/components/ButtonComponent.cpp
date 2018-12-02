@@ -6,7 +6,7 @@
 #include "Locale.h"
 #include "MenuThemeData.h"
 
-ButtonComponent::ButtonComponent(Window* window, const std::string& text, const std::string& helpText, const std::function<void()>& func) : GuiComponent(window),
+ButtonComponent::ButtonComponent(Window* window, const std::string& text, const std::string& helpText, const std::function<void()>& func, bool upperCase) : GuiComponent(window),
 	mFont(Font::get(FONT_SIZE_MEDIUM)),
 	mFocused(false), 
 	mEnabled(true), 
@@ -22,7 +22,7 @@ ButtonComponent::ButtonComponent(Window* window, const std::string& text, const 
 	mButton_filled = menuTheme->iconSet.button_filled;
 	
 	setPressedFunc(func);
-	setText(text, helpText);
+	setText(text, helpText, upperCase);
 	updateImage();
 }
 
@@ -48,11 +48,11 @@ bool ButtonComponent::input(InputConfig* config, Input input)
 	return GuiComponent::input(config, input);
 }
 
-void ButtonComponent::setText(const std::string& text, const std::string& helpText)
+void ButtonComponent::setText(const std::string& text, const std::string& helpText, bool upperCase)
 {
-        mText = strToUpper(text);
+	mText = upperCase ? strToUpper(text) : text;
 	mHelpText = helpText;
-	
+
 	mTextCache = std::unique_ptr<TextCache>(mFont->buildTextCache(mText, 0, 0, getCurTextColor()));
 
 	float minWidth = mFont->sizeText("DELETE").x() + 12;

@@ -196,6 +196,44 @@ std::shared_ptr<ComponentGrid> makeButtonGrid(Window* window, const std::vector<
     return buttonGrid;
 }
 
+/**
+ * Limitation: same number of button per line, same dimension per cell
+ */
+
+std::shared_ptr<ComponentGrid> makeMultiDimButtonGrid(Window* window, const std::vector< std::vector< std::shared_ptr<ButtonComponent> > >& buttons)
+{
+    int sizeX = (int) buttons.at(0).size();
+    int sizeY = (int) buttons.size();
+    const std::shared_ptr<ButtonComponent>& sampleButton = buttons.at(0).at(0);
+
+    std::shared_ptr<ComponentGrid> buttonGrid = std::make_shared<ComponentGrid>(window, Vector2i(sizeX, sizeY));
+
+    float maxWidth = 0;
+
+    for (int y = 0; y < sizeY; y++)
+    {
+        float currentWidth = 0;
+        for (int x = 0; x < sizeX; x++)
+        {
+            buttonGrid->setEntry(buttons.at(y).at(x), Vector2i(x, y), true, false);
+            currentWidth += buttons.at(y).at(x)->getSize().x();
+        }
+        maxWidth = std::max(maxWidth, currentWidth);
+    }
+
+    float buttonGridWidth = (float)BUTTON_GRID_HORIZ_PADDING * sizeX + maxWidth;
+    float buttonGridHeight =((float)BUTTON_GRID_VERT_PADDING + 2 + sampleButton->getSize().y()) * sizeY;
+
+    buttonGrid->setSize(buttonGridWidth, buttonGridHeight);
+
+    for (int x = 0; x < sizeX; x++)
+    {
+        buttonGrid->setColWidthPerc(x, (float) 1 /sizeX);
+    }
+
+    return buttonGrid;
+}
+
 std::shared_ptr<ImageComponent> makeArrow(Window* window)
 {
     auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
