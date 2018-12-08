@@ -27,6 +27,7 @@ public:
 	InputType type;
 	int id;
 	int value;
+	int code;
 	bool configured;
 
 	Input()
@@ -35,6 +36,7 @@ public:
 		id = -1;
 		value = -999;
 		type = TYPE_COUNT;
+		code = -1;
 		configured = false;
 	}
 
@@ -79,6 +81,31 @@ public:
 		}
 
 		return stream.str();
+	}
+
+	void computeCode() {
+		if(device == DEVICE_KEYBOARD) {
+		  return;
+		}
+		switch(type) {
+			case TYPE_AXIS:
+                #ifdef SDL_JoystickAxisEventCodeById
+                    code = SDL_JoystickAxisEventCodeById(device, id);
+                #endif
+    		    break;
+			case TYPE_BUTTON:
+                #ifdef SDL_JoystickButtonEventCodeById
+			        code = SDL_JoystickButtonEventCodeById(device, id);
+                #endif
+	    	    break;
+			case TYPE_HAT:
+                #ifdef SDL_JoystickHatEventCodeById
+			        code = SDL_JoystickHatEventCodeById(device, id);
+                #endif
+		        break;
+            default:
+                break;
+		}
 	}
 };
 

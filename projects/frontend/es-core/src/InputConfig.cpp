@@ -271,5 +271,8 @@ void InputConfig::writeToXML(pugi::xml_node parent)
 		input.append_attribute("type") = inputTypeToString(iterator->second.type).c_str();
 		input.append_attribute("id").set_value(iterator->second.id);
 		input.append_attribute("value").set_value(iterator->second.value);
+		if(iterator->second.code != -1) {
+			input.append_attribute("code").set_value(iterator->second.code);
+		}
 	}
 }

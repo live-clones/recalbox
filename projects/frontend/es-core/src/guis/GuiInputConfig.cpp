@@ -332,6 +332,10 @@ bool GuiInputConfig::assign(Input input) {
 	setAssignedTo(input);
 	
 	input.configured = true;
+
+	// set a code while the device is still connected
+	input.computeCode();
+
 	mTargetConfig->mapInput(formInput.name, input);
 
 	LOG(LogInfo) << "  Mapping [" << input.string() << "] -> " << formInput.name;
