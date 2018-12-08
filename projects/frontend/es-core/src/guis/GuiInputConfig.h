@@ -25,7 +25,8 @@ private:
 		const std::string label;
 		const std::string icon;
 		const bool skippable;
-		FormInput(std::string inName, std::string inLabel, std::string inIcon, bool inSkippable): name(inName), label(inLabel), icon(inIcon), skippable(inSkippable) {};
+		const InputType preferredType;
+		FormInput(std::string inName, std::string inLabel, std::string inIcon, bool inSkippable, InputType inPreferredType): name(inName), label(inLabel), icon(inIcon), skippable(inSkippable), preferredType(inPreferredType) {};
 	};
 
 	inline void setMapped() { setText(_("ALREADY TAKEN"), mMainColor); }
@@ -34,7 +35,7 @@ private:
 	inline void setAssignedTo(Input input) { setText(strToUpper(input.string()), mMainColor); }
 
 	void initFormInputs();
-	void addFormInput(const char* name, std::string label, const char* icon, bool skippable);
+	void addFormInput(const char* name, std::string label, const char* icon, bool skippable, InputType preferredType);
 
 	void setHelpMessage();
 	void setPress();

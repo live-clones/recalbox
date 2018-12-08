@@ -122,12 +122,18 @@ GuiInputConfig::GuiInputConfig(Window* window, InputConfig* target, const std::f
 							}
 						}
 
-						for(auto it = inputs.begin(); it != inputs.end(); it++) {
-							if(assign(*it)) {
-								rowDone(); // if successful, move cursor/stop configuring - if not, we'll just try again
-								return ;
-							}
-						}
+                        // At first, try to find the preferred type, on the second pass, we ignore the preferred type
+						for (int pass = 0; pass < 2; pass++)
+                        {
+                            for (auto input: inputs)
+                            {
+                                if ( ( (input.type == formInput.preferredType) || (pass == 1) ) && assign(input))
+                                {
+                                    rowDone(); // if successful, move cursor/stop configuring - if not, we'll just try again
+                                    return ;
+                                }
+                            }
+                        }
 					});
 				}
 			}
@@ -192,40 +198,40 @@ GuiInputConfig::GuiInputConfig(Window* window, InputConfig* target, const std::f
 
 void GuiInputConfig::initFormInputs()
 {
-	addFormInput("Up", _("UP"), ":/help/dpad_up.svg", false);
-	addFormInput("Down", _("DOWN"), ":/help/dpad_down.svg", false);
-	addFormInput("Left", _("LEFT"), ":/help/dpad_left.svg", false);
-	addFormInput("Right", _("RIGHT"), ":/help/dpad_right.svg", false);
+	addFormInput("Up", _("UP"), ":/help/dpad_up.svg", false, TYPE_HAT);
+	addFormInput("Down", _("DOWN"), ":/help/dpad_down.svg", false, TYPE_HAT);
+	addFormInput("Left", _("LEFT"), ":/help/dpad_left.svg", false, TYPE_HAT);
+	addFormInput("Right", _("RIGHT"), ":/help/dpad_right.svg", false, TYPE_HAT);
 
-	addFormInput("Joystick1Up", _("JOYSTICK 1 UP"), ":/help/joystick_up.svg", true);
-	addFormInput("Joystick1Left", _("JOYSTICK 1 LEFT"), ":/help/joystick_left.svg", true);
-	addFormInput("Joystick2Up", _("JOYSTICK 2 UP"), ":/help/joystick_up.svg", true);
-	addFormInput("Joystick2Left", _("JOYSTICK 2 LEFT"), ":/help/joystick_left.svg", true);
+	addFormInput("Joystick1Up", _("JOYSTICK 1 UP"), ":/help/joystick_up.svg", true, TYPE_AXIS);
+	addFormInput("Joystick1Left", _("JOYSTICK 1 LEFT"), ":/help/joystick_left.svg", true, TYPE_AXIS);
+	addFormInput("Joystick2Up", _("JOYSTICK 2 UP"), ":/help/joystick_up.svg", true, TYPE_AXIS);
+	addFormInput("Joystick2Left", _("JOYSTICK 2 LEFT"), ":/help/joystick_left.svg", true, TYPE_AXIS);
 	
-	addFormInput("A", _("A"), ":/help/button_a.svg", false);
-	addFormInput("B", _("B"), ":/help/button_b.svg", false);
+	addFormInput("A", _("A"), ":/help/button_a.svg", false, TYPE_BUTTON);
+	addFormInput("B", _("B"), ":/help/button_b.svg", false, TYPE_BUTTON);
 	
-	addFormInput("X", _("X"), ":/help/button_x.svg", true);
-	addFormInput("Y", _("Y"), ":/help/button_y.svg", true);
+	addFormInput("X", _("X"), ":/help/button_x.svg", true, TYPE_BUTTON);
+	addFormInput("Y", _("Y"), ":/help/button_y.svg", true, TYPE_BUTTON);
 	
-	addFormInput("Start", _("START"), ":/help/button_start.svg", false);
-	addFormInput("Select", _("SELECT"), ":/help/button_select.svg", false);
+	addFormInput("Start", _("START"), ":/help/button_start.svg", false, TYPE_BUTTON);
+	addFormInput("Select", _("SELECT"), ":/help/button_select.svg", false, TYPE_BUTTON);
 	
-	addFormInput("PageUp", _("PAGE UP"), ":/help/button_l.svg", true);
-	addFormInput("PageDown", _("PAGE DOWN"), ":/help/button_r.svg", true);
+	addFormInput("PageUp", _("PAGE UP"), ":/help/button_l.svg", true, TYPE_BUTTON);
+	addFormInput("PageDown", _("PAGE DOWN"), ":/help/button_r.svg", true, TYPE_BUTTON);
 	
-	addFormInput("L2", _("L2"), ":/help/button_l2.svg", true);
-	addFormInput("R2", _("R2"), ":/help/button_r2.svg", true);
+	addFormInput("L2", _("L2"), ":/help/button_l2.svg", true, TYPE_BUTTON);
+	addFormInput("R2", _("R2"), ":/help/button_r2.svg", true, TYPE_BUTTON);
 	
-	addFormInput("L3", _("L3"), ":/help/button_l3.svg", true);
-	addFormInput("R3", _("R3"), ":/help/button_r3.svg", true);
+	addFormInput("L3", _("L3"), ":/help/button_l3.svg", true, TYPE_BUTTON);
+	addFormInput("R3", _("R3"), ":/help/button_r3.svg", true, TYPE_BUTTON);
 
-	addFormInput("HotKey", _("HOTKEY"), ":/help/button_hotkey.svg", false);
+	addFormInput("HotKey", _("HOTKEY"), ":/help/button_hotkey.svg", false, TYPE_BUTTON);
 }
 
-void GuiInputConfig::addFormInput(const char* name, std::string label, const char* icon, bool skippable)
+void GuiInputConfig::addFormInput(const char* name, std::string label, const char* icon, bool skippable, InputType preferredType)
 {
-	FormInput formInput(name, label, icon, skippable);
+	FormInput formInput(name, label, icon, skippable, preferredType);
 	mFormInputs.push_back(formInput);
 }
 
