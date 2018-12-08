@@ -82,17 +82,22 @@ GuiInputConfig::GuiInputConfig(Window* window, InputConfig* target, const std::f
 			if(config != mTargetConfig)
 				return false;
 
-			if(input.value != 0) { // pressed (an event is fired when releasing, with value == 0)
-				if(!mInputStack.hasInput(input)) {
-					mInputStack.push(input, [this, formInput] (const std::list<Input> inputs) {
-						for(auto it = inputs.begin(); it != inputs.end(); it++) {
+			if (input.value != 0) // pressed (an event is fired when releasing, with value == 0)
+			{
+				if (!mInputStack.hasInput(input))
+				{
+					mInputStack.push(input, [this, formInput] (const std::list<Input> inputs)
+					{
+
+                        for (auto input: inputs)
+                        {
 							// Key Up
-							if (mTargetConfig->isMappedTo("UP", *it)) {
-								if (mList->getCursorId() > 0 && mTargetConfig->isMapped("DOWN")) {
+							if (mTargetConfig->isMappedTo("UP", input))
+							{
+								if (mList->getCursorId() > 0 && mTargetConfig->isMapped("DOWN"))
+								{
 									restaurePreviousAssignment();
-									if (!isAssigned() && formInput.skippable) {
-										setSkipped();
-									}
+									if (!isAssigned() && formInput.skippable) setSkipped();
 									mList->moveCursor(-1);
 									setPress();
 								}
@@ -100,27 +105,30 @@ GuiInputConfig::GuiInputConfig(Window* window, InputConfig* target, const std::f
 							}
 
 							// Key Down
-							if (mTargetConfig->isMappedTo("DOWN", *it)) {
-								if (!isAssigned() && !formInput.skippable)
-									return ;
+							if (mTargetConfig->isMappedTo("DOWN", input))
+							{
+								if (!isAssigned() && !formInput.skippable) return ;
 								restaurePreviousAssignment();
-								if (!isAssigned()) {
-									setSkipped();
-								}
+								if (!isAssigned()) setSkipped();
 								rowDone();
 								return;
 							}
 
-							if (isAssigned()) {
-								if (mTargetConfig->isMappedTo("A", *it)) {
-									unAssign();
-								}
-
+							if (isAssigned() && mTargetConfig->isMappedTo("A", input))
+							{
+                                unAssign();
 								setHelpMessage();
 								setPress();
 								return;
 							}
 						}
+
+                        if (isAssigned())
+                        {
+                            setHelpMessage();
+                            setPress();
+                            return;
+                        }
 
                         // At first, try to find the preferred type, on the second pass, we ignore the preferred type
 						for (int pass = 0; pass < 2; pass++)
