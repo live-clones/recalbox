@@ -18,10 +18,23 @@ public:
 
 private:
 
+	class FormInput
+	{
+	public:
+		const std::string name;
+		const std::string label;
+		const std::string icon;
+		const bool skippable;
+		FormInput(std::string inName, std::string inLabel, std::string inIcon, bool inSkippable): name(inName), label(inLabel), icon(inIcon), skippable(inSkippable) {};
+	};
+
 	inline void setMapped() { setText(_("ALREADY TAKEN"), mMainColor); }
 	inline void setSkipped() { setText(_("(skipped)"), mMainColor); }
 	inline void setNotDefined() { setText("", mMainColor); }
 	inline void setAssignedTo(Input input) { setText(strToUpper(input.string()), mMainColor); }
+
+	void initFormInputs();
+	void addFormInput(const char* name, std::string label, const char* icon, bool skippable);
 
 	void setHelpMessage();
 	void setPress();
@@ -37,6 +50,8 @@ private:
 
 	NinePatchComponent mBackground;
 	ComponentGrid mGrid;
+	
+	std::vector< FormInput > mFormInputs;
 
 	std::shared_ptr<TextComponent> mTitle;
 	std::shared_ptr<TextComponent> mSubtitle1;

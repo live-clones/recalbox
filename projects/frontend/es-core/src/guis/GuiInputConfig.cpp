@@ -14,13 +14,6 @@
 #include <boost/format.hpp>
 using namespace boost::locale;
 
-static const int inputCount = 21;
-static const char* inputName[inputCount] = {      "Up", "Down", "Left", "Right", "Joystick1Up" , "Joystick1Left", "Joystick2Up" , "Joystick2Left", "A",    "B",   "X",   "Y", "Start", "Select", "PageUp", "PageDown", "L2", "R2", "L3", "R3", "HotKey" };
-static const bool inputSkippable[inputCount] = { false, false,   false,   false,     true,              true,         true,             true,      false,  false,  true,   true, false,    false,     true,      true, true, true, true, true,  false};
-static const char* inputIcon[inputCount] = { ":/help/dpad_up.svg", ":/help/dpad_down.svg", ":/help/dpad_left.svg", ":/help/dpad_right.svg", ":/help/joystick_up.svg", ":/help/joystick_left.svg", ":/help/joystick_up.svg", ":/help/joystick_left.svg",
-											 ":/help/button_a.svg", ":/help/button_b.svg", ":/help/button_x.svg", ":/help/button_y.svg", ":/help/button_start.svg", ":/help/button_select.svg",
-											":/help/button_l.svg", ":/help/button_r.svg", ":/help/button_l2.svg", ":/help/button_r2.svg",":/help/button_l3.svg", ":/help/button_r3.svg", ":/help/button_hotkey.svg" };
-
 using namespace Eigen;
 
 GuiInputConfig::GuiInputConfig(Window* window, InputConfig* target, const std::function<void()>& doneCallback) : GuiComponent(window), 
@@ -29,10 +22,7 @@ GuiInputConfig::GuiInputConfig(Window* window, InputConfig* target, const std::f
 {
 	LOG(LogInfo) << "Configuring device " << mTargetConfig->getDeviceId() << " (" << mTargetConfig->getDeviceName() << ").";
 
-	std::string inputDispName[inputCount] = { _("UP"), _("DOWN"), _("LEFT"), _("RIGHT"),
-						  _("JOYSTICK 1 UP"), _("JOYSTICK 1 LEFT"), _("JOYSTICK 2 UP"), _("JOYSTICK 2 LEFT"),
-						  "A", "B", "X", "Y", "START", "SELECT ", _("PAGE UP"), _("PAGE DOWN"),  "L2", "R2", "L3", "R3", _("HOTKEY") };
-
+	initFormInputs();
 
 	InputConfig previousConfig =  new InputConfig(mTargetConfig);
 	mTargetConfig->clear();
@@ -66,11 +56,11 @@ GuiInputConfig::GuiInputConfig(Window* window, InputConfig* target, const std::f
 	mList = std::make_shared<ComponentList>(mWindow);
 	mGrid.setEntry(mList, Vector2i(0, 3), true, true);
 	
-	for(int i = 0; i < inputCount; i++) {
+	for(auto formInput: mFormInputs) {
 		ComponentListRow row;
 		// icon
 		auto icon = std::make_shared<ImageComponent>(mWindow);
-		icon->setImage(inputIcon[i]);
+		icon->setImage(formInput.icon);
 		icon->setColorShift(menuTheme->menuText.color);
 		icon->setResize(0, menuTheme->menuText.font->getLetterHeight() * 1.25f);
 		row.addElement(icon, false);
@@ -80,27 +70,27 @@ GuiInputConfig::GuiInputConfig(Window* window, InputConfig* target, const std::f
 		spacer->setSize(16, 0);
 		row.addElement(spacer, false);
 
-		auto text = std::make_shared<TextComponent>(mWindow, inputDispName[i], menuTheme->menuText.font, menuTheme->menuText.color);
+		auto text = std::make_shared<TextComponent>(mWindow, formInput.label, menuTheme->menuText.font, menuTheme->menuText.color);
 		row.addElement(text, true);
 
 		auto mapping = std::make_shared<TextComponent>(mWindow, "", menuTheme->menuText.font, menuTheme->menuText.color, ALIGN_RIGHT);
 		row.addElement(mapping, true);
 		mMappings.push_back(mapping);
 
-		row.input_handler = [this, i, mapping](InputConfig* config, Input input) -> bool {
+		row.input_handler = [this, formInput, mapping](InputConfig* config, Input input) -> bool {
 			// ignore input not from our target device
 			if(config != mTargetConfig)
 				return false;
 
 			if(input.value != 0) { // pressed (an event is fired when releasing, with value == 0)
 				if(!mInputStack.hasInput(input)) {
-					mInputStack.push(input, [this, i] (const std::list<Input> inputs) {
+					mInputStack.push(input, [this, formInput] (const std::list<Input> inputs) {
 						for(auto it = inputs.begin(); it != inputs.end(); it++) {
 							// Key Up
 							if (mTargetConfig->isMappedTo("UP", *it)) {
-								if (i > 0 && mTargetConfig->isMapped("DOWN")) {
+								if (mList->getCursorId() > 0 && mTargetConfig->isMapped("DOWN")) {
 									restaurePreviousAssignment();
-									if (!isAssigned() && inputSkippable[i]) {
+									if (!isAssigned() && formInput.skippable) {
 										setSkipped();
 									}
 									mList->moveCursor(-1);
@@ -111,7 +101,7 @@ GuiInputConfig::GuiInputConfig(Window* window, InputConfig* target, const std::f
 
 							// Key Down
 							if (mTargetConfig->isMappedTo("DOWN", *it)) {
-								if (!isAssigned() && !inputSkippable[i])
+								if (!isAssigned() && !formInput.skippable)
 									return ;
 								restaurePreviousAssignment();
 								if (!isAssigned()) {
@@ -200,6 +190,45 @@ GuiInputConfig::GuiInputConfig(Window* window, InputConfig* target, const std::f
 	setPosition((Renderer::getScreenWidth() - mSize.x()) / 2, (Renderer::getScreenHeight() - mSize.y()) / 2);
 }
 
+void GuiInputConfig::initFormInputs()
+{
+	addFormInput("Up", _("UP"), ":/help/dpad_up.svg", false);
+	addFormInput("Down", _("DOWN"), ":/help/dpad_down.svg", false);
+	addFormInput("Left", _("LEFT"), ":/help/dpad_left.svg", false);
+	addFormInput("Right", _("RIGHT"), ":/help/dpad_right.svg", false);
+
+	addFormInput("Joystick1Up", _("JOYSTICK 1 UP"), ":/help/joystick_up.svg", true);
+	addFormInput("Joystick1Left", _("JOYSTICK 1 LEFT"), ":/help/joystick_left.svg", true);
+	addFormInput("Joystick2Up", _("JOYSTICK 2 UP"), ":/help/joystick_up.svg", true);
+	addFormInput("Joystick2Left", _("JOYSTICK 2 LEFT"), ":/help/joystick_left.svg", true);
+	
+	addFormInput("A", _("A"), ":/help/button_a.svg", false);
+	addFormInput("B", _("B"), ":/help/button_b.svg", false);
+	
+	addFormInput("X", _("X"), ":/help/button_x.svg", true);
+	addFormInput("Y", _("Y"), ":/help/button_y.svg", true);
+	
+	addFormInput("Start", _("START"), ":/help/button_start.svg", false);
+	addFormInput("Select", _("SELECT"), ":/help/button_select.svg", false);
+	
+	addFormInput("PageUp", _("PAGE UP"), ":/help/button_l.svg", true);
+	addFormInput("PageDown", _("PAGE DOWN"), ":/help/button_r.svg", true);
+	
+	addFormInput("L2", _("L2"), ":/help/button_l2.svg", true);
+	addFormInput("R2", _("R2"), ":/help/button_r2.svg", true);
+	
+	addFormInput("L3", _("L3"), ":/help/button_l3.svg", true);
+	addFormInput("R3", _("R3"), ":/help/button_r3.svg", true);
+
+	addFormInput("HotKey", _("HOTKEY"), ":/help/button_hotkey.svg", false);
+}
+
+void GuiInputConfig::addFormInput(const char* name, std::string label, const char* icon, bool skippable)
+{
+	FormInput formInput(name, label, icon, skippable);
+	mFormInputs.push_back(formInput);
+}
+
 void GuiInputConfig::onSizeChanged()
 {
 	mBackground.fitTo(mSize, Vector3f::Zero(), Vector2f(-32, -32));
@@ -238,8 +267,8 @@ void GuiInputConfig::setHelpMessage() {
 	std::string msg;
 	Input input;
 	int inputId = mList->getCursorId();
-	bool skippable = inputSkippable[inputId];
-	bool assigned = mTargetConfig->getInputByName(inputName[inputId], &input);
+	FormInput formInput = mFormInputs.at(inputId);
+	bool assigned = mTargetConfig->getInputByName(formInput.name, &input);
 	//std::shared_ptr<TextComponent>& text = mMappings.at(inputId);
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 
@@ -256,19 +285,19 @@ void GuiInputConfig::setHelpMessage() {
 					  str(boost::format(_("UP/DOWN TO KEEP [%1%]")) % strToUpper(input.string()));
 		}
 
-	} else if (skippable)
+	} else if (formInput.skippable)
 		msg = _("UP/DOWN TO SKIP");
 	else 
 		msg = _("INPUT REQUIRED");
 
 	mSubtitle2->setText(msg);
-	mSubtitle2->setColor(skippable || assigned ? menuTheme->menuTextSmall.color : 0xff4141ff);
+	mSubtitle2->setColor(formInput.skippable || assigned ? menuTheme->menuTextSmall.color : 0xff4141ff);
 }
 
 void GuiInputConfig::setPress() {
 	Input input;
-	int inputId = mList->getCursorId();
-	if (mTargetConfig->getInputByName(inputName[inputId], &input)) {
+	FormInput formInput = mFormInputs.at((unsigned int) mList->getCursorId());
+	if (mTargetConfig->getInputByName(formInput.name, &input)) {
 		setAssignedTo(input);
 	} else {
 		setText(_("PRESS ANYTHING"), mMainColor); 
@@ -276,12 +305,12 @@ void GuiInputConfig::setPress() {
 }
 
 bool GuiInputConfig::assign(Input input) {
-	int inputId = mList->getCursorId();
+	FormInput formInput = mFormInputs.at((unsigned int) mList->getCursorId());
 
 	// input is from InputConfig* mTargetConfig
 	// if this input is mapped to something other than "nothing" or the current row, error
 	// (if it's the same as what it was before, allow it)
-	if(std::string("HotKey").compare(inputName[inputId]) != 0 && mTargetConfig->getMappedTo(input).size() > 0 && !mTargetConfig->isMappedTo(inputName[inputId], input)) {
+	if(std::string("HotKey").compare(formInput.name) != 0 && mTargetConfig->getMappedTo(input).size() > 0 && !mTargetConfig->isMappedTo(formInput.name, input)) {
 		setMapped();
 		return false;
 	}
@@ -289,36 +318,37 @@ bool GuiInputConfig::assign(Input input) {
 	setAssignedTo(input);
 	
 	input.configured = true;
-	mTargetConfig->mapInput(inputName[inputId], input);
+	mTargetConfig->mapInput(formInput.name, input);
 
-	LOG(LogInfo) << "  Mapping [" << input.string() << "] -> " << inputName[inputId];
+	LOG(LogInfo) << "  Mapping [" << input.string() << "] -> " << formInput.name;
 
 	return true;
 }
 
 void GuiInputConfig::unAssign() {
+	FormInput formInput = mFormInputs.at((unsigned int) mList->getCursorId());
+
 	Input input;
-	int inputId = mList->getCursorId();
-	mTargetConfig->getInputByName(inputName[inputId], &input);
+	mTargetConfig->getInputByName(formInput.name, &input);
 
 	setNotDefined();
 	
 	input.configured = false;
-	mTargetConfig->unmapInput(inputName[inputId]);
+	mTargetConfig->unmapInput(formInput.name);
 
-	LOG(LogInfo) << "  Unmapping [" << input.string() << "] -> " << inputName[inputId];
+	LOG(LogInfo) << "  Unmapping [" << input.string() << "] -> " << formInput.name;
 }
 
 void GuiInputConfig::restaurePreviousAssignment() {
 	Input input;
-	int inputId = mList->getCursorId();
-	if(mTargetConfig->getInputByName(inputName[inputId], &input))
+	FormInput formInput = mFormInputs.at((unsigned int) mList->getCursorId());
+	if(mTargetConfig->getInputByName(formInput.name, &input))
 		setAssignedTo(input);
 	else
 		setNotDefined();
 }
 
 bool GuiInputConfig::isAssigned() {
-	int inputId = mList->getCursorId();
-	return mTargetConfig->isMapped(inputName[inputId]);
+	FormInput formInput = mFormInputs.at((unsigned int) mList->getCursorId());
+	return mTargetConfig->isMapped(formInput.name);
 }
