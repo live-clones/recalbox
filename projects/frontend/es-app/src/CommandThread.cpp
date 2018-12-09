@@ -38,7 +38,7 @@ void CommandThread::run() {
 		udp::endpoint sender_endpoint;
 		boost::system::error_code ec;
 		size_t length = mSocket.receive_from(boost::asio::buffer(buf, max_length), sender_endpoint, 0, ec);
-		if (ec != 0) break;
+		if (ec.value() != 0) break;
 		if (length <= 0) continue;
 		buf[length + 1] = '\0';
 

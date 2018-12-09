@@ -83,11 +83,11 @@ RaspberryGeneration extractGeneration(int revision)
 {
   // Split - uuuuuuuuFMMMCCCCPPPPTTTTTTTTRRRR
   bool newGeneration  = (revision >> 23) & 1;
-  int  memorySize     = (revision >> 20) & 0x7;
-  int  manufacturer   = (revision >> 16) & 0xF;
-  int  processor      = (revision >> 12) & 0xF;
+  int  memorySize     = (revision >> 20) & 0x7; (void)memorySize;
+  int  manufacturer   = (revision >> 16) & 0xF; (void)manufacturer;
+  int  processor      = (revision >> 12) & 0xF; (void)processor;
   int  model          = (revision >>  4) & 0xFF;
-  int  revisionNumber = (revision >>  0) & 0xF;
+  int  revisionNumber = (revision >>  0) & 0xF; (void)revisionNumber;
 
   // Old revision numbering
   if (!newGeneration)
