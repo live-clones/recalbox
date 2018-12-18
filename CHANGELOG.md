@@ -18,6 +18,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - fix bug on bluetooth discover
 
 ## [unreleased]
+- Add Capcom RB video intro
 - Bump kodi.plugin.video.youtube to 6.2.2 
 - Add support for Mayflash GameCube adapter
 - ES: better cyrillic display
