@@ -83,7 +83,11 @@ class LibretroGenerator(Generator):
 	    nick = system.config['netplay_nickname'] if system.config['netplay_nickname'] else "Anonymous"
 	    commandArray.extend(["--nick", nick])
 
-        # Optionnal arguments
+        # Optionnal arguments from es_systems.cfg
+        if 'extra' in system.config and system.config['extra'] is not None:
+             commandArray.extend(system.config['extra'].split(" "))
+
+        # Optionnal arguments from recalbox.conf
         if 'args' in system.config and system.config['args'] is not None:
              commandArray.extend(system.config['args'])
              

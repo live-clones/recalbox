@@ -5,7 +5,7 @@ import settings
 from settings.unixSettings import UnixSettings
 import subprocess
 import json
-from configgen.utils.videoMode import *
+from utils.videoMode import *
 
 mupenSettings = UnixSettings(recalboxFiles.mupenCustom, separator=' ')
 

@@ -14,6 +14,7 @@ def runCommand(command):
     chosenMode = videoMode.setVideoMode(command.videomode, command.delay)
 
     command.env.update(os.environ)
+    print("running command: "+" ".join(command.array))
     proc = subprocess.Popen(command.array, env=command.env, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=command.cwdPath)
     exitcode = -1
     try:

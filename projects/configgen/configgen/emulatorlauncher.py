@@ -80,6 +80,7 @@ emulators["fba"] = Emulator(name='fba', emulator='fba2x')
 emulators["fba_libretro"] = Emulator(name='fba_libretro', emulator='libretro', core='fba')
 emulators["advancemame"] = Emulator(name='advancemame', emulator='advmame')
 emulators["daphne"] = Emulator(name='daphne', emulator='daphne')
+emulators["neogeocd"] = Emulator(name='neogeocd', emulator='libretro', core='fba')
 # Computers
 emulators["msx"] = Emulator(name='msx', emulator='libretro', core='bluemsx')
 emulators["msx1"] = Emulator(name='msx1', emulator='libretro', core='bluemsx')
@@ -144,7 +145,7 @@ def main(args):
     # A generator will configure its emulator, and return a command
     if systemName in emulators:
         system = emulators[systemName]
-        system.configure(args.emulator, args.core, args.ratio, args.netplay, args.netplay_ip, args.netplay_port, args.hash)
+        system.configure(args.emulator, args.core, args.ratio, args.netplay, args.netplay_ip, args.netplay_port, args.hash, args.extra)
 
         # Save dir
         dirname = os.path.join(recalboxFiles.savesDir, system.name)
@@ -229,6 +230,7 @@ if __name__ == '__main__':
     parser.add_argument("-netplay_ip", help="host IP", type=str, required=False)
     parser.add_argument("-netplay_port", help="host port (not used in client mode)", type=str, required=False)
     parser.add_argument("-hash", help="force rom crc", type=str, required=False)
+    parser.add_argument("-extra", help="pass extra argument", type=str, required=False)
 
     args = parser.parse_args()
     exitcode = main(args)
