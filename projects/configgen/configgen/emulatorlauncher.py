@@ -63,6 +63,8 @@ emulators["gamecube"] = Emulator(name='gamecube', emulator='dolphin')
 emulators["wii"] = Emulator(name='wii', emulator='dolphin')
 emulators["nds"] = Emulator(name='nds', emulator='libretro', core='desmume')
 emulators["pokemini"] = Emulator(name='pokemini', emulator='libretro', core='pokemini')
+emulators["satellaview"] = Emulator(name='satellaview', emulator='libretro', core='snes9x')
+emulators["sufami"] = Emulator(name='sufami', emulator='libretro', core='snes9x')
 # Sega
 emulators["sg1000"] = Emulator(name='sg1000', emulator='libretro', core='genesisplusgx')
 emulators["mastersystem"] = Emulator(name='mastersystem', emulator='libretro', core='picodrive')
