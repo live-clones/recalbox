@@ -1,0 +1,12 @@
+config BR2_PACKAGE_LIBRETRO_FREECHAF
+        bool "libretro-freechaf"
+	depends on BR2_PACKAGE_RETROARCH
+	depends on BR2_INSTALL_LIBSTDCPP
+	select BR2_PACKAGE_RECALBOX_ROMFS_CHANNELF
+        help
+          A libretro Fairchild Channel F emulator core.
+
+	  http://www.libretro.com
+
+comment "LIBRETRO_FREECHAF needs a toolchain w/ C++"
+	depends on !BR2_INSTALL_LIBSTDCPP

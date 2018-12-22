@@ -183,6 +183,11 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_NXENGINE),)
         RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-cavestory
 endif
 
+# System: channelf
+ifneq ($(BR2_PACKAGE_LIBRETRO_FREECHAF),)
+        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-channelf
+endif
+
 # System: colecovision
 ifneq ($(BR2_PACKAGE_LIBRETRO_BLUEMSX),)
         RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-colecovision

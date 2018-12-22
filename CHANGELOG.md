@@ -40,6 +40,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - MAME: Added mame2003-plus libretro core. A MAME078 version with added games support plus many fixes and improvements.
 - PokeMini: Add Pokémon Mini support
 - FreeIntv: Add Mattel Intellivision support
+- FreeChaF: Add Fairchild Channel F support
 - Add Atari Jaguar on x86(_64) platforms
 - SNES9X: Add Satellaview and SuFami Turbo as own systems
 - Neo Geo CD: Added support with fbalpha emulator
