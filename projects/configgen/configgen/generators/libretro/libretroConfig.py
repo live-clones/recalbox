@@ -23,7 +23,7 @@ def defined(key, dict):
 
 
 # Warning the values in the array must be exactly at the same index than
-# https://github.com/libretro/RetroArch/blob/master/gfx/video_driver.c#L132
+# https://github.com/libretro/RetroArch/blob/master/gfx/video_driver.c#L237
 ratioIndexes = ["4/3", "16/9", "16/10", "16/15", "1/1", "2/1", "3/2", "3/4", "4/1", "4/4", "5/4", "6/5", "7/9", "8/3",
                 "8/7", "19/12", "19/14", "30/17", "32/9", "config", "squarepixel"]
 
@@ -36,7 +36,7 @@ coreToP2Device = {'fuse': '513', 'atari800': '513'};
 systemToRetroachievements = {'snes', 'nes', 'gba', 'gb', 'gbc', 'megadrive', 'pcengine', 'atari2600', 'fba_libretro', 'neogeo', 'virtualboy', 'ngp', 'ngpc', 'lynx', 'mastersystem', 'gamegear', 'n64', 'satellaview', 'sufami', 'neogeocd'};
 
 # Define systems not compatible with rewind option
-systemNoRewind = {'virtualboy', 'sega32x', 'segacd', 'psx', 'fba_libretro', 'vectrex', 'zxspectrum', 'mame', 'n64', '3do', 'jaguar', 'intellivision', 'neogeocd'};
+systemNoRewind = {'virtualboy', 'sega32x', 'segacd', 'psx', 'fba_libretro', 'vectrex', 'zxspectrum', 'mame', 'n64', '3do', 'jaguar', 'intellivision', 'channelf', 'neogeocd'};
 
 # Netplay modes
 systemNetplayModes = {'host', 'client'}

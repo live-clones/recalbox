@@ -118,6 +118,7 @@ emulators["psx"] = Emulator(name='psx', emulator='libretro', core='pcsx_rearmed'
 emulators["cavestory"] = Emulator(name='cavestory', emulator='libretro', core='nxengine')
 emulators["imageviewer"] = Emulator(name='imageviewer', emulator='libretro', core='imageviewer')
 emulators["intellivision"] = Emulator(name='intellivision', emulator='libretro', core='freeintv')
+emulators["channelf"] = Emulator(name='channelf', emulator='libretro', core='freechaf')
 emulators["scummvm"] = Emulator(name='scummvm', emulator='scummvm', videomode='default')
 emulators["colecovision"] = Emulator(name='colecovision', emulator='libretro', core='bluemsx')
 emulators["3do"] = Emulator(name='3do', emulator='libretro', core='4do')
