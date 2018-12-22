@@ -1,5 +1,5 @@
 config BR2_PACKAGE_RECALBOX_ROMFS_CHANNELF
-	bool "recalbox-romfs-CHANNELF"
+	bool "recalbox-romfs-channelf"
 	select BR2_PACKAGE_RECALBOX_ROMS
 	depends on BR2_PACKAGE_LIBRETRO_FREECHAF
 	help
