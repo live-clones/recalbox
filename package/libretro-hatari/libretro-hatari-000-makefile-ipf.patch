@@ -1,5 +1,5 @@
---- a/Makefile.libretro	2017-10-24 00:38:54.000000000 +0200
-+++ b/Makefile.libretro	2017-11-13 17:48:34.488555257 +0100
+--- a/Makefile.libretro	2018-12-23 18:44:28.087814142 +0100
++++ b/Makefile.libretro	2018-12-23 18:48:32.266198000 +0100
 @@ -4,6 +4,13 @@
  STATIC_LINKING=0
  STATIC_LINKING_LINK=0
@@ -14,7 +14,7 @@
  ifeq ($(platform),)
  platform = unix
  ifeq ($(shell uname -a),)
-@@ -44,6 +51,28 @@
+@@ -79,6 +86,28 @@
     SHARED := -dynamiclib
     PLATFLAGS := -DLSB_FIRST -DALIGN_DWORD
  
@@ -43,30 +43,32 @@
  # iOS
  else ifneq (,$(findstring ios,$(platform)))
  
-@@ -116,7 +145,7 @@
- ifeq ($(DEBUG), 1)
-    CFLAGS += -O0 -g
- else
--   CFLAGS += -O3
-+   CFLAGS += -O2 -DNDEBUG
+@@ -155,6 +184,10 @@
  endif
+ CFLAGS := -fsigned-char -D__LIBRETRO__ -fno-builtin $(CFLAGS)
  
- CFLAGS += \
-@@ -142,11 +171,16 @@
++ifeq ($(IPFSUPPORT), 1)
++    PLATFLAGS += -DHAVE_CAPSIMAGE=1
++endif
++
+ CFLAGS := $(fpic) $(CFLAGS) $(PLATFLAGS)
+ CXXFLAGS := $(CFLAGS)
+ CPPFLAGS := $(CFLAGS)
+@@ -176,12 +209,16 @@
  
  all: $(TARGET)
  
 +ifeq ($(IPFSUPPORT), 1)
-+INCFLAGS += -I$(STAGING_DIR)/usr/lib/capsimage
-+PLATFLAGS += -DHAVE_CAPSIMAGE=1
++    INCFLAGS += -I$(STAGING_DIR)/usr/lib/capsimage
 +endif
 +
  $(TARGET): $(OBJECTS)
+ 	@echo "** BUILDING $(TARGET) FOR PLATFORM $(platform) **"
  ifeq ($(STATIC_LINKING_LINK),1)
  	$(AR) rcs $@ $(OBJECTS) 
  else
--	$(CC) $(fpic) $(INCLUDES) -o $@ $(OBJECTS)  -lm -lz $(SHARED)
-+	$(CC) $(fpic) $(SHARED) $(INCLUDES) -o $@ $(OBJECTS)  -lm -lz -lpthread $(CAPS_LIB)
+-	$(CC) $(CFLAGS) $(INCFLAGS) -lm -lz $(SHARED) $(LDFLAGS) $(OBJECTS) -o $@
++	$(CC) $(CFLAGS) $(INCFLAGS) -lm -lz $(SHARED) $(LDFLAGS) $(OBJECTS) -o $@ -lpthread $(CAPS_LIB)
  endif
+ 	@echo "** BUILD SUCCESSFUL! GG NO RE **"
  
- %.o: %.c
