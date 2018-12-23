@@ -45,6 +45,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - SNES9X: Add Satellaview and SuFami Turbo as own systems
 - Neo Geo CD: Added support with fbalpha emulator
 - Bump FBA libretro to latest version => Romset 0.2.97.44
+- Bump AtariST emulator to december 2018 version
 
 ## [18.07.13] - 2018-07-13
 - Bump desmume to desmume2015
