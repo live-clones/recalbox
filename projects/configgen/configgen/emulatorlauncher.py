@@ -81,6 +81,8 @@ emulators["fba_libretro"] = Emulator(name='fba_libretro', emulator='libretro', c
 emulators["advancemame"] = Emulator(name='advancemame', emulator='advmame')
 emulators["daphne"] = Emulator(name='daphne', emulator='daphne')
 emulators["neogeocd"] = Emulator(name='neogeocd', emulator='libretro', core='fba')
+emulators["atomiswave"] = Emulator(name='atomiswave', emulator='libretro', core='reicast')
+emulators["naomi"] = Emulator(name='atomiswave', emulator='libretro', core='reicast')
 # Computers
 emulators["msx"] = Emulator(name='msx', emulator='libretro', core='bluemsx')
 emulators["msx1"] = Emulator(name='msx1', emulator='libretro', core='bluemsx')
