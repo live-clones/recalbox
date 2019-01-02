@@ -78,8 +78,7 @@ const std::map<PlatformId, const char*> gamesdb_platformid_map = boost::assign::
 	(ZX_81, "ZX81")
 	(SCUMMVM, "ScummVM")
 	(MOONLIGHT,"PC")
-	(THOMSON_MO,"MO5")
-	(THOMSON_TO,"TO7");
+	(THOMSON_MOTO,"Thomson MO/TO");
 
 static const std::map<std::string, const char*> system_language_map = boost::assign::map_list_of
 	("fr_FR", "")
