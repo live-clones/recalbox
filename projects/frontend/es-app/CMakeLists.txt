@@ -3,6 +3,7 @@ project("emulationstation")
 set(ES_HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/src/MameNameMap.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/EmulationStation.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/ItemType.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/FileData.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/FolderData.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/RootFolderData.h

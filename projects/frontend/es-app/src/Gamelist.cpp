@@ -11,7 +11,7 @@
 namespace fs = boost::filesystem;
 namespace pt = boost::property_tree;
 
-FileData* findOrCreateFile(SystemData* system, const boost::filesystem::path& path, FileData::FileType type, bool trustGamelist, FileData::StringMap& doppelgangerWatcher)
+FileData* findOrCreateFile(SystemData* system, const boost::filesystem::path& path, ItemType type, bool trustGamelist, FileData::StringMap& doppelgangerWatcher)
 {
 	// first, verify that path is within the system's root folder
 	FolderData* root = system->getRootFolder();
@@ -36,7 +36,7 @@ FileData* findOrCreateFile(SystemData* system, const boost::filesystem::path& pa
 	  // Last path component?
     if (path_it == --relative.end())
     {
-      if (type == FileData::FileType::Game) // Final file
+      if (type == ItemType::Game) // Final file
       {
         FileData* game = item;
         if (game == nullptr)
@@ -105,9 +105,9 @@ void parseGamelist(SystemData* system, FileData::StringMap& doppelgangerWatcher)
   fs::path path;
   for (const auto& fileNode : gameList.get_child("gameList"))
   {
-    FileData::FileType type;
-    if (fileNode.first == "game") type = FileData::FileType::Game;
-    else if (fileNode.first == "folder") type = FileData::FileType::Folder;
+    ItemType type;
+    if (fileNode.first == "game") type = ItemType::Game;
+    else if (fileNode.first == "folder") type = ItemType::Folder;
     else continue; // Unknown node
 
     const MetadataDescriptor::Tree& children = fileNode.second;
@@ -149,7 +149,7 @@ void updateGamelist(SystemData* system)
 
     FileData::List fileData = rootFolder->getAllItemsRecursively(true);
     // Nothing to process?
-    if (fileData.size() == 0) return;
+    if (fileData.empty()) return;
 
     /*
      * Create game/folder map for fast seeking using relative path as key
@@ -170,7 +170,7 @@ void updateGamelist(SystemData* system)
     {
       try
       {
-        pt::read_xml(xmlReadPath, document, 0, std::locale("en_US.UTF8"));
+        pt::read_xml(xmlReadPath, document, pt::xml_parser::trim_whitespace, std::locale("en_US.UTF8"));
       }
       catch (std::exception &e)
       {
@@ -206,11 +206,12 @@ void updateGamelist(SystemData* system)
      * Write the list.
      * At this point, we're sure at least one node has been updated (or added and updated).
      */
-    boost::filesystem::path xmlWritePath(system->getGamelistPath(true) + ".xml");
+    boost::filesystem::path xmlWritePath(system->getGamelistPath(true));
     boost::filesystem::create_directories(xmlWritePath.parent_path());
     try
     {
-      pt::write_xml(xmlWritePath.generic_string(), document, std::locale("en_US.UTF8"));
+      pt::xml_writer_settings<std::string> settings(' ', 2);
+      pt::write_xml(xmlWritePath.generic_string(), document, std::locale("en_US.UTF8"), settings);
       LOG(LogInfo) << "Saved gamelist.xml for system " << system->getFullName() << ". Updated items: " << fileLinks.size() << "/" << fileData.size();
     }
     catch (std::exception &e)

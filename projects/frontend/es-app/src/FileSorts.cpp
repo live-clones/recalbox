@@ -37,10 +37,10 @@ namespace FileSorts
 
   static int compareFoldersAndGames(FileData* const fd1, FileData* const fd2)
   {
-    FileData::FileType f1 = fd1->getType();
-    FileData::FileType f2 = fd2->getType();
+    ItemType f1 = fd1->getType();
+    ItemType f2 = fd2->getType();
     if (f1 == f2) return 0;                      // Both are games or folders
-    if (f1 == FileData::FileType::Folder) return -1; // f1 is a folder, f2 is a game
+    if (f1 == ItemType::Folder) return -1; // f1 is a folder, f2 is a game
     return 1;                                    // f2 is a folder
   }
 

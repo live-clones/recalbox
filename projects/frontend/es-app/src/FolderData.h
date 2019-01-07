@@ -75,7 +75,7 @@ class FolderData : public FileData
      * Constructor
      */
     FolderData(const std::string& startpath, SystemData* system)
-      : FileData(FileData::FileType::Folder, startpath, system)
+      : FileData(ItemType::Folder, startpath, system)
     {
     }
 
@@ -100,7 +100,7 @@ class FolderData : public FileData
      * Return true if this FileData is a folder and has at lease one child
      * @return Boolean result
      */
-    bool hasChildren() const { return mChildren.size() != 0; }
+    bool hasChildren() const { return !mChildren.empty(); }
 
     /*!
      * Run through filesystem's folders, seeking for games, and when found, add them into the current tree

@@ -20,7 +20,7 @@ struct ScraperSearchParams
 
 struct ScraperSearchResult
 {
-	ScraperSearchResult() : mdl("no-name") {};
+	ScraperSearchResult() : mdl("no-name", ItemType::Game) {};
 
 	MetadataDescriptor mdl;
 	std::string imageUrl;

@@ -5,6 +5,8 @@
 #include <boost/filesystem.hpp>
 #include <boost/date_time.hpp>
 
+void strFindAndReplace(std::string& source, const std::string& find, const std::string& replace);
+
 std::string strToUpper(const char* from);
 std::string& strToUpper(std::string& str);
 std::string strToUpper(const std::string& str);

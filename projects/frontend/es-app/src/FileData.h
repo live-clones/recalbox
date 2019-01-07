@@ -6,6 +6,7 @@
 #include <boost/filesystem.hpp>
 #include <components/IList.h>
 #include "MetadataDescriptor.h"
+#include "ItemType.h"
 
 // Bitflag operator for use on strongly-typed enums - Pass enum type and underlying cardinal type
 #define DEFINE_BITFLAG_ENUM(enumtype, ut) \
@@ -29,13 +30,6 @@ class FileData
   public:
     typedef std::unordered_map<std::string, FileData*> StringMap;
     typedef std::vector<FileData*> List;
-
-    //! Item types
-    enum class FileType
-    {
-      Game,   //!< Launchable game
-      Folder, //!< Subfolder
-    };
 
     //! Game filters
     enum class Filter
@@ -62,7 +56,7 @@ class FileData
     //! Parent folder
     FolderData* mParent;
     //! Item type - Const ensure mType cannot be modified after being set by the constructor, so that it's alays safe to use c-style cast for FolderData sub-class.
-    const FileType  mType;
+    const ItemType mType;
 
   private:
     //! Item path on the filesystem
@@ -77,7 +71,7 @@ class FileData
      * @param path Item path
      * @param system Parent system
      */
-    FileData(FileType type, const boost::filesystem::path& path, SystemData* system);
+    FileData(ItemType type, const boost::filesystem::path& path, SystemData* system);
 
   public:
     /*!
@@ -93,7 +87,7 @@ class FileData
 
     inline const std::string& getName() const { return mMetadata.Name(); }
     inline const std::string getHash() const { return mMetadata.RomCrc32AsString(); }
-    inline FileType getType() const { return mType; }
+    inline ItemType getType() const { return mType; }
     inline const boost::filesystem::path& getPath() const { return mPath; }
     inline FolderData* getParent() const { return mParent; }
     inline SystemData* getSystem() const { return mSystem; }
@@ -102,8 +96,8 @@ class FileData
      * Booleans
      */
 
-    inline bool isGame() const { return mType == FileType::Game; }
-    inline bool isFolder() const { return mType == FileType::Folder; }
+    inline bool isGame() const { return mType == ItemType::Game; }
+    inline bool isFolder() const { return mType == ItemType::Folder; }
 
     /*
      * Setters

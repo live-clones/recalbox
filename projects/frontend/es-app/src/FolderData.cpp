@@ -68,14 +68,6 @@ void FolderData::populateRecursiveFolder(const std::string& filteredExtensions, 
   // No extension?
   bool noExtensions = filteredExtensions.empty();
 
-  /*std::string filteredExtensions;
-  for(auto x : searchExtensions)
-  {
-    if (!filteredExtensions.empty())
-      filteredExtensions += '|';
-    filteredExtensions += x;
-  }*/
-
   // Keep temporary object outside the loop to avoid construction/destruction and keep memory allocated AMAP
   fs::path filePath;
   std::string extension, key, stem;
@@ -107,6 +99,7 @@ void FolderData::populateRecursiveFolder(const std::string& filteredExtensions, 
         if (doppelgangerWatcher.find(key) == doppelgangerWatcher.end())
         {
           FileData* newGame = new FileData(key, systemData);
+          newGame->Metadata().SetDirty();
           addChild(newGame, true);
           doppelgangerWatcher[key] = newGame;
         }

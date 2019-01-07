@@ -7,16 +7,17 @@
 
 namespace fs = boost::filesystem;
 
-FileData::FileData(FileData::FileType type, const fs::path& path, SystemData* system)
+FileData::FileData(ItemType type, const fs::path& path, SystemData* system)
 	: mSystem(system),
     mParent(NULL),
     mType(type),
     mPath(path),
-    mMetadata(getCleanName()) // TODO: Move clean name into metadata
+    mMetadata(getCleanName(), type) // TODO: Move clean name into metadata
 {
+
 }
 
-FileData::FileData(const fs::path& path, SystemData* system) : FileData(FileData::FileType::Game, path, system)
+FileData::FileData(const fs::path& path, SystemData* system) : FileData(ItemType::Game, path, system)
 {
 }
 

@@ -2,6 +2,7 @@
 
 #include <boost/property_tree/ptree.hpp>
 #include "datetime/DateTime.h"
+#include "ItemType.h"
 
 #define _METADATA_STATS_
 
@@ -10,15 +11,6 @@ class MetadataFieldDescriptor;
 
 class MetadataDescriptor
 {
-  public:
-    //! Metadata type
-    enum class ObjectType : char
-    {
-        None,
-        Game,
-        Folder,
-    };
-
   private:
     //! Default value storage for fast default detection
     static MetadataDescriptor _Default;
@@ -69,7 +61,7 @@ class MetadataDescriptor
     bool         _Hidden;       //!< Hidden game
     bool         _Dirty;        //!< Dirty flag (modified data flag)
 
-    ObjectType  _Type;         //!< Metadata type
+    ItemType     _Type;         //!< Metadata type
 
     /*!
      * Build an empty object filled with default values
@@ -123,7 +115,7 @@ class MetadataDescriptor
      * @param count Number of actual field descriptor available
      * @return first static internal field descriptor reference
      */
-    static const MetadataFieldDescriptor* GetMetadataFieldDescriptors(ObjectType type, int& count);
+    static const MetadataFieldDescriptor* GetMetadataFieldDescriptors(ItemType type, int& count);
 
     static std::string FloatToString(float source, int precision);
     /*!
@@ -195,7 +187,7 @@ class MetadataDescriptor
     /*!
      * Default constructor
      */
-    explicit MetadataDescriptor(const std::string& defaultName)
+    explicit MetadataDescriptor(const std::string& defaultName, ItemType type)
       : _Name(defaultName),
         _Description(),
         _Image(),
@@ -216,11 +208,12 @@ class MetadataDescriptor
         _Favorite(false),
         _Hidden(false),
         _Dirty(false),
-        _Type(ObjectType::None)
+        _Type(type)
     {
       #ifdef _METADATA_STATS_
       LivingClasses++;
-      LivingNone++;
+      if (_Type == ItemType::Game) LivingGames++;
+      if (_Type == ItemType::Folder) LivingFolders++;
       #endif
     }
 
@@ -253,9 +246,8 @@ class MetadataDescriptor
     {
       #ifdef _METADATA_STATS_
       LivingClasses++;
-      if (_Type == ObjectType::None) LivingNone++;
-      if (_Type == ObjectType::Game) LivingGames++;
-      if (_Type == ObjectType::Folder) LivingFolders++;
+      if (_Type == ItemType::Game) LivingGames++;
+      if (_Type == ItemType::Folder) LivingFolders++;
       #endif
     }
 
@@ -263,7 +255,7 @@ class MetadataDescriptor
      * Move constructor
      * @param source  Source to move data from
      */
-    MetadataDescriptor(MetadataDescriptor&& source)
+    MetadataDescriptor(MetadataDescriptor&& source) noexcept
       : _Name        (std::move(source._Name       )),
         _Description (std::move(source._Description)),
         _Image       (std::move(source._Image      )),
@@ -288,9 +280,8 @@ class MetadataDescriptor
     {
       #ifdef _METADATA_STATS_
       LivingClasses++;
-      if (_Type == ObjectType::None) LivingNone++;
-      if (_Type == ObjectType::Game) LivingGames++;
-      if (_Type == ObjectType::Folder) LivingFolders++;
+      if (_Type == ItemType::Game) LivingGames++;
+      if (_Type == ItemType::Folder) LivingFolders++;
       #endif
       source._Emulator  = nullptr;
       source._Core      = nullptr;
@@ -308,9 +299,8 @@ class MetadataDescriptor
       if (&source == this) return *this;
 
       #ifdef _METADATA_STATS_
-      if (_Type == ObjectType::None) LivingNone--;
-      if (_Type == ObjectType::Game) LivingGames--;
-      if (_Type == ObjectType::Folder) LivingFolders--;
+      if (_Type == ItemType::Game) LivingGames--;
+      if (_Type == ItemType::Folder) LivingFolders--;
       #endif
 
       FreeAll();
@@ -337,9 +327,8 @@ class MetadataDescriptor
       _Type        = source._Type       ;
 
       #ifdef _METADATA_STATS_
-      if (_Type == ObjectType::None) LivingNone++;
-      if (_Type == ObjectType::Game) LivingGames++;
-      if (_Type == ObjectType::Folder) LivingFolders++;
+      if (_Type == ItemType::Game) LivingGames++;
+      if (_Type == ItemType::Folder) LivingFolders++;
       #endif
 
       return *this;
@@ -349,12 +338,11 @@ class MetadataDescriptor
      * Move operator
      * @param source Source to move data from
      */
-    MetadataDescriptor& operator = (MetadataDescriptor&& source)
+    MetadataDescriptor& operator = (MetadataDescriptor&& source) noexcept
     {
       #ifdef _METADATA_STATS_
-      if (_Type == ObjectType::None) LivingNone--;
-      if (_Type == ObjectType::Game) LivingGames--;
-      if (_Type == ObjectType::Folder) LivingFolders--;
+      if (_Type == ItemType::Game) LivingGames--;
+      if (_Type == ItemType::Folder) LivingFolders--;
       #endif
 
       FreeAll();
@@ -382,9 +370,8 @@ class MetadataDescriptor
       _Type        = source._Type       ;
 
       #ifdef _METADATA_STATS_
-      if (_Type == ObjectType::None) LivingNone++;
-      if (_Type == ObjectType::Game) LivingGames++;
-      if (_Type == ObjectType::Folder) LivingFolders++;
+      if (_Type == ItemType::Game) LivingGames++;
+      if (_Type == ItemType::Folder) LivingFolders++;
       #endif
 
       return *this;
@@ -416,7 +403,7 @@ class MetadataDescriptor
      * Accessors
      */
 
-    ObjectType Type() const { return _Type; }
+    ItemType Type() const { return _Type; }
 
     const std::string& Name()        const { return _Name;                                        }
     const std::string& Emulator()    const { return ReadPString(_Emulator, DefaultValueEmulator); }
@@ -484,11 +471,18 @@ class MetadataDescriptor
     void SetPublisher(const std::string& publisher) { _Publisher = publisher; _Dirty = true; }
     void SetGenre(const std::string& genre) { _Genre = genre; _Dirty = true; }
     void SetRating(float rating) { _Rating = rating; _Dirty = true; }
-    void SetPlayers(int min, int max) { _Players = (max << 16) + min; _Dirty = true; }
+    void SetPlayers(int min, int max)
+    {
+      _Players = (max << 16) + min;
+      _Dirty = true;
+    }
     void SetRegion(const std::string& region) { AssignPString(_Region, region); _Dirty = true; }
     void SetRomCrc32(int romcrc32) { _RomCrc32 = romcrc32; _Dirty = true; }
     void SetFavorite(bool favorite) { _Favorite = favorite; _Dirty = true; }
     void SetHidden(bool hidden) { _Hidden = hidden; _Dirty = true; }
+
+    // Special setter to force dirty
+    void SetDirty() { _Dirty = true; }
 
     /*
      * String setters
@@ -497,17 +491,17 @@ class MetadataDescriptor
     void SetReleaseDateAsString(const std::string& releasedate)
     {
       DateTime st;
-      _ReleaseDate = st.FromCompactISO6801(releasedate, st) ? (int)st.ToEpochTime() : 0;
+      _ReleaseDate = DateTime::FromCompactISO6801(releasedate, st) ? (int)st.ToEpochTime() : 0;
       _Dirty = true;
     }
     void SetLastPlayedAsString(const std::string& lastplayed)
     {
       DateTime st;
-      _LastPlayed = st.FromCompactISO6801(lastplayed, st) ? (int)st.ToEpochTime() : 0;
+      _LastPlayed = DateTime::FromCompactISO6801(lastplayed, st) ? (int)st.ToEpochTime() : 0;
       _Dirty = true;
     }
     void SetRatingAsString(const std::string& rating)           { float f = 0.0f; if (StringToFloat(rating, f)) SetRating(f);              }
-    void SetPlayersAsString(const std::string& players)         { int p = 0; if (RangeToInt(players, p)) SetPlayers(p, p);                 }
+    void SetPlayersAsString(const std::string& players)         { if (!RangeToInt(players, _Players)) SetPlayers(1, 1);                    }
     void SetFavoriteAsString(const std::string& favorite)       { SetFavorite(favorite == "true");                                         }
     void SetHiddenAsString(const std::string& hidden)           { SetHidden(hidden == "true");                                             }
     void SetRomCrc32AsString(const std::string& romcrc32)       { int c; if (HexToInt(romcrc32, c)) SetRomCrc32(c);                        }

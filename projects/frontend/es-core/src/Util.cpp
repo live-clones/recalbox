@@ -5,6 +5,14 @@
 
 namespace fs = boost::filesystem;
 
+void strFindAndReplace(std::string& source, const std::string& find, const std::string& replace)
+{
+	for(size_t pos = 0; (pos = source.find(find, pos)) != std::string::npos; pos += replace.length())
+	{
+		source.replace(pos, find.length(), replace);
+	}
+}
+
 std::string strToUpper(const char* from)
 {
 	std::string str(from);

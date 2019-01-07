@@ -20,16 +20,15 @@ const std::string MetadataDescriptor::FolderNodeIdentifier = "folder";
 
 #ifdef _METADATA_STATS_
 int MetadataDescriptor::LivingClasses = 0;
-int MetadataDescriptor::LivingNone = 0;
 int MetadataDescriptor::LivingFolders = 0;
 int MetadataDescriptor::LivingGames = 0;
 #endif
 
-const MetadataFieldDescriptor* MetadataDescriptor::GetMetadataFieldDescriptors(MetadataDescriptor::ObjectType type, int& count)
+const MetadataFieldDescriptor* MetadataDescriptor::GetMetadataFieldDescriptors(ItemType type, int& count)
 {
   switch(type)
   {
-    case ObjectType::Game:
+    case ItemType::Game:
     {
       // This static field descriptor array is defined here to allow
       // offsetof accessing private fields
@@ -59,7 +58,7 @@ const MetadataFieldDescriptor* MetadataDescriptor::GetMetadataFieldDescriptors(M
       count = sizeof(_GameMetadataDescriptors) / sizeof(MetadataFieldDescriptor);
       return &_GameMetadataDescriptors[0];
     }
-    case ObjectType::Folder:
+    case ItemType::Folder:
     {
       // This static field descriptor array is defined here to allow
       // offsetof accessing private fields
@@ -75,7 +74,6 @@ const MetadataFieldDescriptor* MetadataDescriptor::GetMetadataFieldDescriptors(M
       count = sizeof(_FolderMetadataDescriptors) / sizeof(MetadataFieldDescriptor);
       return &_FolderMetadataDescriptors[0];
     }
-    case ObjectType::None:
     default: break;
   }
   count = 0;
@@ -86,9 +84,9 @@ MetadataDescriptor MetadataDescriptor::_Default = MetadataDescriptor::BuildDefau
 
 MetadataDescriptor MetadataDescriptor::BuildDefaultValueMetadataDescriptor()
 {
-  MetadataDescriptor defaultData("default");
+  MetadataDescriptor defaultData("default", ItemType::Game);
   int count = 0;
-  const MetadataFieldDescriptor* fields = GetMetadataFieldDescriptors(ObjectType::Game, count);
+  const MetadataFieldDescriptor* fields = GetMetadataFieldDescriptors(ItemType::Game, count);
 
   for(; --count >= 0; )
   {
@@ -138,8 +136,7 @@ std::string MetadataDescriptor::IntToRange(int range)
   else
   {
     // Full range
-    value += '-';
-    value += std::to_string(min);
+    value = std::to_string(min) + '-' + value;
   }
   return value;
 }
@@ -186,7 +183,7 @@ bool MetadataDescriptor::IntToHex(int from, std::string& to)
 
 bool MetadataDescriptor::HexToInt(const std::string& from, int& to)
 {
-  if (from.size() == 0) return false;
+  if (from.empty()) return false;
   const char* src = from.c_str();
 
   int result = 0;
@@ -266,18 +263,17 @@ bool MetadataDescriptor::StringToFloat(const std::string& from, float& to)
 bool MetadataDescriptor::Deserialize(const TreeNode& from, const std::string& relativeTo)
 {
   #ifdef _METADATA_STATS_
-    if (_Type == ObjectType::None) LivingNone--;
-    if (_Type == ObjectType::Game) LivingGames--;
-    if (_Type == ObjectType::Folder) LivingFolders--;
+    if (_Type == ItemType::Game) LivingGames--;
+    if (_Type == ItemType::Folder) LivingFolders--;
   #endif
 
-  if (from.first == GameNodeIdentifier) _Type = ObjectType::Game;
-  else if (from.first == FolderNodeIdentifier) _Type = ObjectType::Folder;
+  if (from.first == GameNodeIdentifier) _Type = ItemType::Game;
+  else if (from.first == FolderNodeIdentifier) _Type = ItemType::Folder;
   else return false; // Unidentified node
 
   #ifdef _METADATA_STATS_
-    if (_Type == ObjectType::Game) LivingGames++;
-    if (_Type == ObjectType::Folder) LivingFolders++;
+    if (_Type == ItemType::Game) LivingGames++;
+    if (_Type == ItemType::Folder) LivingFolders++;
   #endif
 
   int count = 0;
@@ -363,7 +359,7 @@ bool MetadataDescriptor::Deserialize(const TreeNode& from, const std::string& re
         if (value.length() != 0)
         {
           DateTime dt(false); // Unitialized DateTime
-          if (dt.ParseFromString("%yyyy%MM%ddT%hh%mm%ss", value, dt))
+          if (DateTime::ParseFromString("%yyyy%MM%ddT%hh%mm%ss", value, dt))
             epoch = (int) dt.ToEpochTime();
           else
             LOG(LogWarning) << "Invalid DateTime value " << value;
@@ -399,6 +395,7 @@ bool MetadataDescriptor::Deserialize(const TreeNode& from, const std::string& re
     _Name = std::move(defaultName);
     _Dirty = true;
   }
+  else _Dirty = false;
 
   return true;
 }
@@ -409,10 +406,11 @@ void MetadataDescriptor::Serialize(Tree& parentTree, const std::string& filePath
   const MetadataFieldDescriptor* fields = GetMetadataFieldDescriptors(_Type, count);
 
   // Add empty node game/folder
-  Tree& tree = parentTree.add_child(_Type == ObjectType::Game ? GameNodeIdentifier : FolderNodeIdentifier, Tree());
+  Tree& tree = parentTree.add_child(_Type == ItemType::Game ? GameNodeIdentifier : FolderNodeIdentifier, Tree());
 
   // Add path
-  tree.put("path", makeRelativePath(filePath, relativeTo, true));
+  std::string relative = makeRelativePath(filePath, relativeTo, true).generic_string();
+  tree.put("path", relative);
 
   // Metadata
   for(; --count >= 0; )
@@ -431,7 +429,7 @@ void MetadataDescriptor::Serialize(Tree& parentTree, const std::string& filePath
     // to do additional tasks regarding each different type
     switch(field.Type())
     {
-      case MetadataFieldDescriptor::DataType::String:break;
+      case MetadataFieldDescriptor::DataType::String:
       case MetadataFieldDescriptor::DataType::Text:
       {
         tree.put(field.Key(), *((std::string*)source));
@@ -463,7 +461,7 @@ void MetadataDescriptor::Serialize(Tree& parentTree, const std::string& filePath
         tree.put(field.Key(), *((bool*)source) ? "true" : "false");
         break;
       }
-      case MetadataFieldDescriptor::DataType::Float:break;
+      case MetadataFieldDescriptor::DataType::Float:
       case MetadataFieldDescriptor::DataType::Rating:
       {
         tree.put(field.Key(), *((float*)source)); // Autoboxing std::string(float)
@@ -502,7 +500,7 @@ void MetadataDescriptor::Merge(const MetadataDescriptor& sourceMetadata)
     const MetadataFieldDescriptor& field = fields[count];
 
     // Default value?
-    if ((this->*field.IsDefaultValueMethod())()) continue;
+    if ((sourceMetadata.*field.IsDefaultValueMethod())()) continue;
 
     // Get neutral source
     void* source = ((unsigned char*)&sourceMetadata) + field.Offset();
@@ -511,7 +509,7 @@ void MetadataDescriptor::Merge(const MetadataDescriptor& sourceMetadata)
     // Convert & store
     switch(field.Type())
     {
-      case MetadataFieldDescriptor::DataType::String:break;
+      case MetadataFieldDescriptor::DataType::String:
       case MetadataFieldDescriptor::DataType::Text:
       case MetadataFieldDescriptor::DataType::Path:
       {
@@ -538,7 +536,7 @@ void MetadataDescriptor::Merge(const MetadataDescriptor& sourceMetadata)
         *((bool*)destination) = *((bool*)source);
         break;
       }
-      case MetadataFieldDescriptor::DataType::Float:break;
+      case MetadataFieldDescriptor::DataType::Float:
       case MetadataFieldDescriptor::DataType::Rating:
       {
         *((float*)destination) = *((float*)source);
@@ -556,9 +554,8 @@ void MetadataDescriptor::FreeAll()
 {
   #ifdef _METADATA_STATS_
   LivingClasses--;
-  if (_Type == ObjectType::None) LivingNone--;
-  if (_Type == ObjectType::Game) LivingGames--;
-  if (_Type == ObjectType::Folder) LivingFolders--;
+  if (_Type == ItemType::Game) LivingGames--;
+  if (_Type == ItemType::Folder) LivingFolders--;
   #endif
 
   int count = 0;
