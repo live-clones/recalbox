@@ -10,6 +10,7 @@
 #include <boost/asio/io_service.hpp>
 #include <boost/make_shared.hpp>
 #include <RecalboxConf.h>
+#include <RootFolders.h>
 
 std::vector<SystemData *> SystemData::sSystemVector;
 
@@ -406,15 +407,15 @@ bool SystemData::loadConfig()
   pt::ptree userDocument;
 
   // Load user systems
-  bool userValid = loadSystemList(userDocument, systemMap, systemList, getUserConfigPath());
+  bool userValid = loadSystemList(userDocument, systemMap, systemList, getUserConfigurationAbsolutePath());
   // Load template systems
-  bool templateValid = loadSystemList(templateDocument, systemMap, systemList, getTemplateConfigPath());
+  bool templateValid = loadSystemList(templateDocument, systemMap, systemList, getTemplateConfigurationAbsolutePath());
 
   // Is there at least
   if (!templateValid && !userValid)
   {
     LOG(LogError) << "No es_systems.cfg file available!";
-    writeExampleConfig(getUserConfigPath());
+    writeExampleConfig(getUserConfigurationAbsolutePath());
     return false;
   }
 
@@ -498,7 +499,7 @@ void SystemData::writeExampleConfig(const std::string &path)
           "        <fullname>Nintendo Entertainment System</fullname>\n"
           "\n"
           "        <!-- The path to start searching for ROMs in. '~' will be expanded to $HOME on Linux or %HOMEPATH% on Windows. -->\n"
-          "        <path>~/roms/nes</path>\n"
+          "        <path>/recalbox/share/roms/nes</path>\n"
           "\n"
           "        <!-- A list of extensions to search for, delimited by any of the whitespace characters (\", \\r\\n\\t\").\n"
           "        You MUST include the period at the start of the extension! It's also case sensitive. -->\n"
@@ -567,17 +568,6 @@ void SystemData::deleteSystems()
   }
 }
 
-std::string SystemData::getUserConfigPath()
-{
-  fs::path path = getHomePath() + mUserConfigurationRelativePath;
-  return path.generic_string();
-}
-
-std::string SystemData::getTemplateConfigPath()
-{
-  return mTemplateConfigurationAbsolutePath;
-}
-
 std::string SystemData::getGamelistPath(bool forWrite) const
 {
   fs::path filePath;
@@ -596,7 +586,7 @@ std::string SystemData::getGamelistPath(bool forWrite) const
     }
   }
   // Unable to get or create directory in roms, fallback on ~
-  filePath = getHomePath() + "/.emulationstation/gamelists/" + mName + "/gamelist.xml";
+  filePath = RootFolders::DataRootFolder + "/system/.emulationstation/gamelists/" + mName + "/gamelist.xml";
   fs::create_directories(filePath.parent_path());
   return filePath.generic_string();
 }

@@ -4,6 +4,7 @@
 #include <FreeImage.h>
 #include <boost/filesystem.hpp>
 #include <boost/assign.hpp>
+#include <RootFolders.h>
 
 #include "GamesDBScraper.h"
 #include "MamedbScraper.h"
@@ -283,7 +284,7 @@ std::string getSaveAsPath(const ScraperSearchParams& params, const std::string& 
 	std::string path = params.system->getRootFolder()->getPath().generic_string() + "/downloaded_images/";
 	if(!boost::filesystem::exists(path) && !boost::filesystem::create_directory(path)){
 		// Unable to create the directory in system rom dir, fallback on ~
-		path = getHomePath() + "/.emulationstation/downloaded_images/" + subdirectory + "/";
+		path = RootFolders::DataRootFolder + "/system/.emulationstation/downloaded_images/" + subdirectory + "/";
 	}
 
 	if(!boost::filesystem::exists(path))

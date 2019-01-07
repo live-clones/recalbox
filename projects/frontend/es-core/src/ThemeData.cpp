@@ -11,6 +11,7 @@
 
 #include "components/ImageComponent.h"
 #include "components/TextComponent.h"
+#include "RootFolders.h"
 
 
 // This is a work around for some ambiguity that is introduced in C++11 that boost::assign::map_list_of leave open.
@@ -601,7 +602,7 @@ const std::shared_ptr<ThemeData>& ThemeData::getDefault()
 	{
 		theme = std::shared_ptr<ThemeData>(new ThemeData());
 
-		const std::string path = getHomePath() + "/.emulationstation/es_theme_default.xml";
+		const std::string path = RootFolders::DataRootFolder + "/system/.emulationstation/es_theme_default.xml";
 		if(fs::exists(path))
 		{
 			try
@@ -628,9 +629,10 @@ const std::shared_ptr<ThemeData>& ThemeData::getCurrent()
 		fs::path path;
 		std::string currentTheme = Settings::getInstance()->getString("ThemeSet");
 		static const size_t pathCount = 2;
-		fs::path paths[pathCount] = { 
-			"/etc/emulationstation/themes/" + currentTheme, 
-			getHomePath() + "/.emulationstation/themes/" + currentTheme
+		fs::path paths[pathCount] =
+		{
+			RootFolders::TemplateRootFolder + "/system/.emulationstation/themes/" + currentTheme,
+			RootFolders::DataRootFolder     + "/system/.emulationstation/themes/" + currentTheme
 		};
 	
 
@@ -733,9 +735,10 @@ std::map<std::string, ThemeSet> ThemeData::getThemeSets()
 	std::map<std::string, ThemeSet> sets;
 
 	static const size_t pathCount = 2;
-	fs::path paths[pathCount] = { 
-		"/etc/emulationstation/themes", 
-		getHomePath() + "/.emulationstation/themes" 
+	fs::path paths[pathCount] =
+	{
+		RootFolders::TemplateRootFolder + "/system/.emulationstation/themes",
+		RootFolders::DataRootFolder     + "/system/.emulationstation/themes"
 	};
 
 	fs::directory_iterator end;
@@ -764,11 +767,11 @@ std::map<std::string, std::string> ThemeData::getThemeSubSets(const std::string&
 	fs::path path;
 	std::deque<boost::filesystem::path> dequepath;
 	static const size_t pathCount = 2;
-	fs::path paths[pathCount] = { 
-		"/etc/emulationstation/themes/" + theme, 
-		getHomePath() + "/.emulationstation/themes/" + theme
+	fs::path paths[pathCount] =
+	{
+		RootFolders::TemplateRootFolder + "/system/.emulationstation/themes/" + theme,
+		RootFolders::DataRootFolder     + "/system/.emulationstation/themes/" + theme
 	};
-	
 
 	fs::directory_iterator end;
 

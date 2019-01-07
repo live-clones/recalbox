@@ -9,6 +9,7 @@
 #include "FileSorts.h"
 
 #include <boost/property_tree/ptree.hpp>
+#include <RootFolders.h>
 
 class SystemData
 {
@@ -72,9 +73,6 @@ class SystemData
      */
 		static bool loadXmlFile(Tree& document, const std::string& filepath);
 
-		static constexpr const char* mUserConfigurationRelativePath = "/.emulationstation/es_systems.cfg";
-		static constexpr const char* mTemplateConfigurationAbsolutePath = "/etc/emulationstation/es_systems.cfg";
-
 		SystemData(const std::string& name, const std::string& fullName, const std::string& startPath,
 							 const std::string& filteredExtensions, const std::string& command,
 							 const std::vector<PlatformIds::PlatformId>& platformIds, const std::string& themeFolder,
@@ -122,9 +120,6 @@ class SystemData
 	static bool loadConfig(); //Load the system config file at getConfigPath(). Returns true if no errors were encountered. An example will be written if the file doesn't exist.
 	static void writeExampleConfig(const std::string& path);
 
-	static std::string getUserConfigPath();
-	static std::string getTemplateConfigPath();
-
 	static std::vector<SystemData*> sSystemVector;
 	static SystemData *getFavoriteSystem();
 	static SystemData* getSystem(std::string& name);
@@ -154,4 +149,7 @@ class SystemData
 
 	std::map<std::string, std::vector<std::string> *> * getEmulators();
 	std::vector<std::string> getCores(const std::string& emulatorName);
+
+  static std::string getUserConfigurationAbsolutePath()     { return RootFolders::DataRootFolder     + "/system/.emulationstation/es_systems.cfg"; }
+  static std::string getTemplateConfigurationAbsolutePath() { return RootFolders::TemplateRootFolder + "/system/.emulationstation/es_systems.cfg"; }
 };

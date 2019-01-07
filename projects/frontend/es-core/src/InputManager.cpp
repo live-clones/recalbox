@@ -8,6 +8,7 @@
 #include <utility>
 #include "platform.h"
 #include "Settings.h"
+#include "RootFolders.h"
 #include "SDL.h"
 
 #define KEYBOARD_GUID_STRING "-1"
@@ -435,8 +436,7 @@ void InputManager::writeDeviceConfig(InputConfig* config)
 
 std::string InputManager::getConfigPath()
 {
-	std::string path = getHomePath();
-	path += "/.emulationstation/es_input.cfg";
+	std::string path = RootFolders::DataRootFolder + "/system/.emulationstation/es_input.cfg";
 	return path;
 }
 

@@ -2,6 +2,7 @@
 #include "Log.h"
 #include "pugixml/pugixml.hpp"
 #include "platform.h"
+#include "RootFolders.h"
 #include <boost/filesystem.hpp>
 #include <boost/assign.hpp>
 
@@ -130,8 +131,9 @@ void saveMap(pugi::xml_node &node, std::map<K, V> &map, const char *type) {
     }
 }
 
-void Settings::saveFile() {
-    const std::string path = getHomePath() + "/.emulationstation/es_settings.cfg";
+void Settings::saveFile()
+{
+    const std::string path = RootFolders::DataRootFolder + "/system/.emulationstation/es_settings.cfg";
 
     pugi::xml_document doc;
 
@@ -151,8 +153,9 @@ void Settings::saveFile() {
     doc.save_file(path.c_str());
 }
 
-void Settings::loadFile() {
-    const std::string path = getHomePath() + "/.emulationstation/es_settings.cfg";
+void Settings::loadFile()
+{
+    const std::string path = RootFolders::DataRootFolder + "/system/.emulationstation/es_settings.cfg";
 
     if (!boost::filesystem::exists(path))
         return;

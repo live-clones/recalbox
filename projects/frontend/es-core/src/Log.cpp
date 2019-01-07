@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include "platform.h"
+#include "RootFolders.h"
 
 LogLevel Log::reportingLevel = LogInfo;
 FILE* Log::file = NULL; //fopen(getLogPath().c_str(), "w");
@@ -14,8 +15,8 @@ LogLevel Log::getReportingLevel()
 
 std::string Log::getLogPath()
 {
-	std::string home = getHomePath();
-	return home + "/.emulationstation/es_log.txt";
+	std::string home = RootFolders::DataRootFolder + "/system/.emulationstation/es_log.txt";
+	return home;
 }
 
 void Log::setReportingLevel(LogLevel level)

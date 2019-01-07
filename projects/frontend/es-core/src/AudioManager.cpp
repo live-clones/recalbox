@@ -9,6 +9,7 @@
 #include "Settings.h"
 #include "ThemeData.h"
 #include "Locale.h"
+#include "RootFolders.h"
 #include <unistd.h>
 #include <time.h>
 #include <views/ViewController.h>
@@ -294,11 +295,11 @@ void AudioManager::musicEnd()
 void AudioManager::playCheckSound()
 {
   std::string selectedTheme = Settings::getInstance()->getString("ThemeSet");
-  std::string loadingMusic = getHomePath() + "/.emulationstation/themes/" + selectedTheme + "/fx/loading.ogg";
+  std::string loadingMusic = RootFolders::DataRootFolder + "/system/.emulationstation/themes/" + selectedTheme + "/fx/loading.ogg";
 
   if (boost::filesystem::exists(loadingMusic) == false)
   {
-    loadingMusic = "/recalbox/share_init/system/.emulationstation/themes/recalbox/fx/loading.ogg";
+    loadingMusic = RootFolders::TemplateRootFolder + "/system/.emulationstation/themes/recalbox/fx/loading.ogg";
   }
 
   if (boost::filesystem::exists(loadingMusic))
