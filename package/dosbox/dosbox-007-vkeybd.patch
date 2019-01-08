@@ -55,7 +55,7 @@
  #include "vga.h"
  #include "keyboard.h"
  #include "cpu.h"
-@@ -1376,6 +1377,18 @@ bool GFX_LazyFullscreenRequested(void) {
+@@ -1367,6 +1368,18 @@ bool GFX_LazyFullscreenRequested(void) {
  	return false;
  }
  
@@ -71,10 +71,10 @@
 +#endif
 +}
 +
+ #if !SDL_VERSION_ATLEAST(2,0,0) // NOTE: Do we need this?
  void GFX_RestoreMode(void) {
  	GFX_SetSize(sdl.draw.width,sdl.draw.height,sdl.draw.flags,sdl.draw.scalex,sdl.draw.scaley,sdl.draw.callback);
- 	GFX_UpdateSDLCaptureState();
-@@ -2195,6 +2208,7 @@ static void GUI_StartUp(Section * sec) {
+@@ -2192,6 +2205,7 @@ static void GUI_StartUp(Section * sec) {
  	MAPPER_AddHandler(CaptureMouse,MK_f10,MMOD1,"capmouse","Cap Mouse");
  	MAPPER_AddHandler(SwitchFullScreen,MK_return,MMOD2,"fullscr","Fullscreen");
  	MAPPER_AddHandler(Restart,MK_home,MMOD1|MMOD2,"restart","Restart");
@@ -82,17 +82,17 @@
  #if C_DEBUG
  	/* Pause binds with activate-debugger */
  #else
-@@ -2386,6 +2400,9 @@ void GFX_HandleVideoResize(int width, in
- 
- void GFX_Events() {
+@@ -2407,6 +2421,9 @@ void GFX_Events() {
+ #endif
+
  	SDL_Event event;
 +	// If pending keys in virtual keyboard buffer, send next to keyboard
 +	if (VKEYBD_PurgeNext())
 +		return;
  #if defined (REDUCE_JOYSTICK_POLLING)
- 	static int poll_delay=0;
- 	int time=GetTicks();
-@@ -3144,6 +3161,8 @@ int main(int argc, char* argv[]) {
+ 	static int poll_delay = 0;
+ 	int time = GetTicks();
+@@ -3188,6 +3205,8 @@ int main(int argc, char* argv[]) {
  		}
  	}
  

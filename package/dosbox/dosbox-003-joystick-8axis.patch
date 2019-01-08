@@ -5,15 +5,14 @@ Signed-off-by: Laurent Merckx <laurent-merckx@skynet.be>
 
 --- dosbox/src/gui/sdl_mapper.cpp	2016-05-16 17:53:00.780376994 +0200
 +++ dosbox.n/src/gui/sdl_mapper.cpp	2016-05-18 11:08:25.386643370 +0200
-@@ -72,6 +72,7 @@ enum BC_Types {
+@@ -72,5 +72,6 @@ enum BC_Types {
  #define MAXBUTTON 36
- //#define MAXBUTTON 32
  #define MAXBUTTON_CAP 16
 +#define MAXAXIS 8
  
  class CEvent;
  class CHandlerEvent;
-@@ -675,8 +676,8 @@ public:
+@@ -672,8 +673,8 @@ public:
  		if (_dummy) return;
  
  		// initialize binding lists and position data
@@ -24,7 +23,7 @@ Signed-off-by: Laurent Merckx <laurent-merckx@skynet.be>
  		button_lists=new CBindList[MAXBUTTON];
  		hat_lists=new CBindList[4];
  		Bitu i;
-@@ -685,7 +686,7 @@ public:
+@@ -682,7 +683,7 @@ public:
  			old_button_state[i]=0;
  		}
  		for(i=0;i<16;i++) old_hat_state[i]=0;
@@ -33,7 +32,7 @@ Signed-off-by: Laurent Merckx <laurent-merckx@skynet.be>
  			old_pos_axis_state[i]=false;
  			old_neg_axis_state[i]=false;
  		}
-@@ -703,6 +704,7 @@ public:
+@@ -700,6 +701,7 @@ public:
  		}
  
  		axes=SDL_JoystickNumAxes(sdl_joystick);
@@ -41,7 +40,7 @@ Signed-off-by: Laurent Merckx <laurent-merckx@skynet.be>
  		buttons=SDL_JoystickNumButtons(sdl_joystick);
  		hats=SDL_JoystickNumHats(sdl_joystick);
  		button_wrap=buttons;
-@@ -752,7 +754,7 @@ public:
+@@ -749,7 +751,7 @@ public:
  		if (event->type==SDL_JOYAXISMOTION) {
  			if (event->jaxis.which!=stick) return 0;
  #if defined (REDUCE_JOYSTICK_POLLING)
@@ -50,7 +49,7 @@ Signed-off-by: Laurent Merckx <laurent-merckx@skynet.be>
  #endif
  			if (abs(event->jaxis.value)<25000) return 0;
  			return CreateAxisBind(event->jaxis.axis,event->jaxis.value>0);
-@@ -849,7 +851,7 @@ public:
+@@ -841,7 +843,7 @@ public:
  			}
  		}
  
@@ -59,7 +58,7 @@ Signed-off-by: Laurent Merckx <laurent-merckx@skynet.be>
  			Sint16 caxis_pos=SDL_JoystickGetAxis(sdl_joystick,i);
  			/* activate bindings for joystick position */
  			if (caxis_pos>1) {
-@@ -907,7 +909,7 @@ public:
+@@ -899,7 +901,7 @@ public:
  
  private:
  	CBind * CreateAxisBind(Bitu axis,bool positive) {
@@ -68,7 +67,7 @@ Signed-off-by: Laurent Merckx <laurent-merckx@skynet.be>
  			if (positive) return new CJAxisBind(&pos_axis_lists[axis],this,axis,positive);
  			else return new CJAxisBind(&neg_axis_lists[axis],this,axis,positive);
  		}
-@@ -950,8 +952,8 @@ protected:
+@@ -942,8 +944,8 @@ protected:
  	char configname[10];
  	Bitu button_autofire[MAXBUTTON];
  	bool old_button_state[MAXBUTTON];
