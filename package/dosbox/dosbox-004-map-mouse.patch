@@ -20,7 +20,7 @@ Signed-off-by: Laurent Merckx <laurent-merckx@skynet.be>
  
  #define MAXSTICKS 8
  #define MAXACTIVE 16
-@@ -98,7 +100,6 @@ typedef std::vector<CBindGroup *>::itera
+@@ -97,7 +99,6 @@ typedef std::vector<CBindGroup *>::itera
  
  static CBindList holdlist;
  
@@ -28,7 +28,7 @@ Signed-off-by: Laurent Merckx <laurent-merckx@skynet.be>
  class CEvent {
  public:
  	CEvent(char const * const _entry) {
-@@ -1566,6 +1567,35 @@ public:
+@@ -1558,6 +1559,35 @@ public:
  	KBD_KEYS key;
  };
  
@@ -64,7 +64,7 @@ Signed-off-by: Laurent Merckx <laurent-merckx@skynet.be>
  class CJAxisEvent : public CContinuousEvent {
  public:
  	CJAxisEvent(char const * const _entry,Bitu _stick,Bitu _axis,bool _positive,CJAxisEvent * _opposite_axis) : CContinuousEvent(_entry) {
-@@ -1818,6 +1848,24 @@ static CKeyEvent * AddKeyButtonEvent(Bit
+@@ -1810,6 +1840,24 @@ static CKeyEvent * AddKeyButtonEvent(Bit
  	return event;
  }
  
@@ -89,7 +89,7 @@ Signed-off-by: Laurent Merckx <laurent-merckx@skynet.be>
  static CJAxisEvent * AddJAxisButton(Bitu x,Bitu y,Bitu dx,Bitu dy,char const * const title,Bitu stick,Bitu axis,bool positive,CJAxisEvent * opposite_axis) {
  	char buf[64];
  	sprintf(buf,"jaxis_%d_%d%s",stick,axis,positive ? "+" : "-");
-@@ -1976,6 +2024,19 @@ static void CreateLayout(void) {
+@@ -1968,6 +2016,19 @@ static void CreateLayout(void) {
  	AddKeyButtonEvent(PX(XO+2),PY(YO+4),BW,BH,".","kp_period",KBD_kpperiod);
  #undef XO
  #undef YO

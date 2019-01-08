@@ -2,7 +2,7 @@ diff --git a/configure.ac b/configure.ac
 index 92f8606..e9a9fad 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -229,6 +229,13 @@ dnl The target cpu checks for dynamic cores
+@@ -320,6 +320,13 @@ dnl The target cpu checks for dynamic cores
  AH_TEMPLATE(C_TARGETCPU,[The type of cpu this target has])
  AC_MSG_CHECKING(for target cpu type) 
  case "$host_cpu" in

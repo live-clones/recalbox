@@ -49,6 +49,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add Oric/Atmos emulator (Oricutron, standalone)
 - Add MGT Sam Coupé emulator (Simcoupe, standalone)
 - c2/xu4: enable generic quirks for usb encoders like Xin-Mo
+- Bump DosBox to revision 4178 (December 2018)
 
 ## [18.07.13] - 2018-07-13
 - Bump desmume to desmume2015
