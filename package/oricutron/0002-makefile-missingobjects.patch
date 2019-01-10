@@ -1,0 +1,10 @@
+--- a/Makefile	2019-01-10 21:03:42.430201679 +0100
++++ b/Makefile	2019-01-10 21:02:14.617471000 +0100
+@@ -381,6 +381,7 @@
+ CFLAGS += -g -I/share/host/arm-buildroot-linux-gnueabihf/sysroot/usr/include/SDL2 -I/share/host/bin/../arm-buildroot-linux-gnueabihf/sysroot/usr/include -I/share/host/bin/../arm-buildroot-linux-gnueabihf/sysroot/usr/include/interface/vmcs_host/linux -I/share/host/bin/../arm-buildroot-linux-gnueabihf/sysroot/usr/include/interface/vcos/pthreads -DUSE_VCHIQ_ARM -D_REENTRANT
+ LFLAGS += -lm -L/share/host/arm-buildroot-linux-gnueabihf/sysroot/usr/lib -lSDL2 #-lX11
+ CUSTOMOBJS = gui_x11.o
++EXTRAOBJS = oric_ch376_plugin.o ch376.o
+ FILEREQ_OBJ = filereq_sdl.o
+ MSGBOX_OBJ = msgbox_sdl.o
+ TARGET = oricutron
