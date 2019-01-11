@@ -1,0 +1,20 @@
+--- a/machine.c	2018-11-28 12:37:44.000000000 +0100
++++ b/machine.c	2019-01-11 20:05:11.503567235 +0100
+@@ -957,7 +957,7 @@
+   oric->prclose = 0;
+   oric->lasttapefile[0] = 0;
+   oric->keymap = KMAP_QWERTY;
+-  oric->statusbar_mode = STATUSBARMODE_FULL;
++  oric->statusbar_mode = STATUSBARMODE_NONE;
+   oric->popupstr[0] = 0;
+   oric->newpopupstr = SDL_FALSE;
+   oric->popuptime = 0;
+@@ -1264,7 +1264,7 @@
+              break;
+            }
+ 
+-           sprintf( vidcapname, "Capturing to video%02d.avi", vidcapcount );
++           sprintf( vidcapname, "Capturing to /recalbox/share/screenshots/video%02d.avi", vidcapcount );
+            warpspeed = SDL_FALSE;
+            ay_lockaudio( &oric->ay );
+            vidcap = avi_open( &vidcapname[13], oricpalette, soundavailable&&soundon, oric->vid_freq );
