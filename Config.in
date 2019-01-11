@@ -47,6 +47,7 @@ endmenu
 menu "Emulators"
 	 source "$BR2_EXTERNAL_RECALBOX_PATH/package/ppsspp/Config.in"
 	 source "$BR2_EXTERNAL_RECALBOX_PATH/package/linapple-pie/Config.in"
+	 source "$BR2_EXTERNAL_RECALBOX_PATH/package/oricutron/Config.in"
 	 source "$BR2_EXTERNAL_RECALBOX_PATH/package/mupen64plus-core/Config.in"
 	 source "$BR2_EXTERNAL_RECALBOX_PATH/package/mupen64plus-uiconsole/Config.in"
 	 source "$BR2_EXTERNAL_RECALBOX_PATH/package/mupen64plus-gles2/Config.in"

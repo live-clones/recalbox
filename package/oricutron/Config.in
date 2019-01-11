@@ -1,6 +1,7 @@
 config BR2_PACKAGE_ORICUTRON
 	bool "oricutron"
 	select BR2_PACKAGE_SDL2
+	select BR2_PACKAGE_RECALBOX_ROMFS_ORICATMOS
 	help
 	  Portable Oric-1/Atmos/Telestrat and Pravetz 8D emulator http://www.petergordon.org.uk/oricutron/.
 

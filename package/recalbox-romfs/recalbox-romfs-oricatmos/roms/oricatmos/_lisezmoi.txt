@@ -1,0 +1,5 @@
+## RECALBOX - SYSTEM ORIC/ATMOS ##
+
+Placez ici vos roms Oric/Atmos.
+
+Les roms doivent avoir l'extension ".dsk/.tap"
