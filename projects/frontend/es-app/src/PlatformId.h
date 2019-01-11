@@ -26,7 +26,7 @@ namespace PlatformIds
 		COMMODORE_64,
 		FAMILY_COMPUTER_DISK_SYSTEM,
 		INTELLIVISION,
-        	MACOS,
+		MACOS,
 		XBOX,
 		XBOX_360,
 		MSX,
@@ -80,6 +80,12 @@ namespace PlatformIds
 		SCUMMVM,
 		X68000,
 		THOMSON_MOTO,
+		CHANNELF,
+		DAPHNE,
+		ORICATMOS,
+		POKEMINI,
+		SATELLAVIEW,
+		SUFAMI,
 
 		PLATFORM_IGNORE, // do not allow scraping for this system
 		PLATFORM_COUNT

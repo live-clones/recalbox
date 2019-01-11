@@ -80,6 +80,12 @@ namespace PlatformIds
 		"scummvm",
 		"x68000",
 		"thomsonmoto", // Thomson MO/TO 8bit computers
+		"channelf",
+		"daphne",
+		"oricatmos",
+		"pokemini",
+		"satellaview",
+		"sufami",
 
 		"ignore", // do not allow scraping for this system
 		"invalid"
