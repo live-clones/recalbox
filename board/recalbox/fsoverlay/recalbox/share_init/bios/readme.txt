@@ -158,3 +158,9 @@ df864344d2a2091c3f952bd1c5ce1707  microdis.rom
 2324c9cc227c1327a72a667c97ed2990  teleass.rom
 0a814078410353744e2947a8e9342e4e  telmatic.rom
 9a432244d9ee4a49e8ddcde64af94e05  telmon24.rom
+
+
+- MGT SAM COUPE :
+ec1e8290da040307d6b3174b7ace9453  atomlite.rom
+fcb5d837f996efaaece074c3ceec2b55  atom.rom
+ad08ed47b07b0d7047fd3d0b5e7d90b3  samcoupe.rom
