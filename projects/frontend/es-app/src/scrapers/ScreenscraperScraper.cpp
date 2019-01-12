@@ -79,13 +79,13 @@ const std::map<PlatformId, const char*> gamesdb_platformid_map = boost::assign::
 	(SCUMMVM, "ScummVM")
 	(MOONLIGHT,"PC")
 	(THOMSON_MOTO,"Thomson MO/TO")
-  (CHANNELF, "Fairchild Channel-F")
+  (CHANNELF, "Fairchild Channel F")
   (DAPHNE, "Daphne")
   (ORICATMOS, "Oric/Atmos")
   (POKEMINI, "Pokemon Mini")
   (SATELLAVIEW, "Satellaview")
   (SUFAMI, "Sufami Turbo")
-  (SG_1000, "Sega SG1000")
+  (SG_1000, "SEGA SG-1000")
   (X68000, "Sharp X68000");
 
 
