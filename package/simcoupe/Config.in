@@ -1,0 +1,9 @@
+config BR2_PACKAGE_SIMCOUPE
+	bool "oricutron"
+	select BR2_PACKAGE_SDL2
+	select BR2_PACKAGE_RECALBOX_ROMFS_SAMCOUPE
+	help
+	  Portable MGT SAM Coupe emulator http://www.simcoupe.org/
+
+comment "Oricutron needs a toolchain w/ OpenGl, SDL2"
+         depends on BR2_PACKAGE_SDL2
