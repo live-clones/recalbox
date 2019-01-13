@@ -1,0 +1,24 @@
+--- a/Base/CPU.cpp	2018-06-01 09:19:32.000000000 +0200
++++ b/Base/CPU.cpp	2019-01-13 20:16:18.757215000 +0100
+@@ -429,9 +429,21 @@
+ // The main Z80 emulation loop
+ void Run ()
+ {
++    bool NeedCheckAutoRun = true;
++
+     // Loop until told to quit
+     while (UI::CheckEvents())
+     {
++        // Recalbox-Patch - autoboot disk 1
++        if (NeedCheckAutoRun)
++        {
++          if ((GetOption(autoload)) && (IO::IsAtStartupScreen()))
++          {
++              pFloppy1->Insert(GetOption(disk1), true);
++              NeedCheckAutoRun = false;
++          }
++        }
++
+         if (g_fPaused)
+             continue;
+ 
