@@ -1,0 +1,6 @@
+config BR2_PACKAGE_RECALBOX_ROMFS_SAMCOUPE
+	bool "recalbox-romfs-samcoupe"
+	select BR2_PACKAGE_RECALBOX_ROMS
+	depends on BR2_PACKAGE_SIMCOUPE
+	help
+	  share_init/roms and xml for samcoupe
