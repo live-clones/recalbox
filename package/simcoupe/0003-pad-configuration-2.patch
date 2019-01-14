@@ -1,0 +1,36 @@
+--- a/Base/Joystick.cpp	2018-06-01 09:19:32.000000000 +0200
++++ b/Base/Joystick.cpp	2019-01-14 21:22:52.551536524 +0100
+@@ -20,6 +20,8 @@
+ 
+ #include "SimCoupe.h"
+ #include "Joystick.h"
++#include "Options.h"
++#include "SDL.h"
+ 
+ namespace Joystick
+ {
+@@ -92,6 +94,24 @@
+         else
+             adwButtons[nJoystick_] &= ~dwBit;
+     }
++
++    bool quit = false;
++
++    int hotKey = GetOption(joyhkey1);
++    int start = GetOption(joystart1);
++    if ((hotKey | start) >= 0)
++        quit |= (adwButtons[0] & (1 << hotKey)) && (adwButtons[0] & (1 << start));
++
++    hotKey = GetOption(joyhkey2);
++    start = GetOption(joystart2);
++    if ((hotKey | start) >= 0)
++        quit |= (adwButtons[1] & (1 << hotKey)) && (adwButtons[1] & (1 << start));
++
++    if (quit)
++    {
++        SDL_Event event = {SDL_QUIT};
++        SDL_PushEvent(&event);
++    }
+ }
+ 
+ void SetButtons (int nJoystick_, DWORD dwButtons_)

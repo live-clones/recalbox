@@ -16,6 +16,7 @@ endef
 define SIMCOUPE_POST_EXTRACT_FIX_SDL2_PATH
     @echo CHANGING CMakeList.txt
     /bin/sed -i -E -e "s|set\(RESOURCE_DIR \\$$\{CMAKE_INSTALL_PREFIX\}/share/\\$$\{PROJECT_NAME\}\)|set(RESOURCE_DIR /recalbox/share/bios)|g" $(@D)/CMakeLists.txt
+    /bin/sed -i -E -e "s|\r$$||g" $(@D)/Base/Joystick.cpp
 endef
  
 SIMCOUPE_POST_EXTRACT_HOOKS += SIMCOUPE_POST_EXTRACT_FIX_SDL2_PATH
