@@ -1,6 +1,6 @@
---- a/Base/Joystick.cpp	2018-06-01 09:19:32.000000000 +0200
-+++ b/Base/Joystick.cpp	2019-01-14 21:22:52.551536524 +0100
-@@ -20,6 +20,8 @@
+--- a/Base/Joystick.cpp	2019-01-15 10:56:28.747496688 +0100
++++ b/Base/Joystick.cpp	2019-01-15 08:09:07.179665094 +0100
+@@ -20,12 +20,16 @@
  
  #include "SimCoupe.h"
  #include "Joystick.h"
@@ -9,24 +9,67 @@
  
  namespace Joystick
  {
-@@ -92,6 +94,24 @@
+ 
+ static int anPosition[MAX_JOYSTICKS];
+ static DWORD adwButtons[MAX_JOYSTICKS];
++static bool HotKeys[MAX_JOYSTICKS];
++static bool StartKeys[MAX_JOYSTICKS];
+ 
+ 
+ void Init (bool /*fFirstInit_*/)
+@@ -83,6 +87,40 @@
+ 
+ void SetButton (int nJoystick_, int nButton_, bool fPressed_)
+ {
++    int hotKey, start;
++    int a, b, x, y;
++
++    if (nJoystick_ == 0)
++    {
++      a = GetOption(joya1);
++      b = GetOption(joya1);
++      x = GetOption(joya1);
++      y = GetOption(joya1);
++      hotKey = GetOption(joyhkey1);
++      start = GetOption(joystart1);
++    }
++    else
++    {
++      a = GetOption(joya2);
++      b = GetOption(joya2);
++      x = GetOption(joya2);
++      y = GetOption(joya2);
++      hotKey = GetOption(joyhkey2);
++      start = GetOption(joystart2);
++    }
++
++    /*
++     * Button # adjustment
++     */
++    if (nButton_ == a) nButton_ = 1;
++    else if (nButton_ == b) nButton_ = 2;
++    else if (nButton_ == x) nButton_ = 3;
++    else if (nButton_ == y) nButton_ = 4;
++
++    /*
++     * Original press/release code
++     */
++
+     if (nJoystick_ < MAX_JOYSTICKS)
+     {
+         DWORD dwBit = 1 << nButton_;
+@@ -92,6 +130,18 @@
          else
              adwButtons[nJoystick_] &= ~dwBit;
      }
 +
-+    bool quit = false;
++    /*
++     * HotKey + Start = Quit!
++     */
++    if (nButton_ == hotKey) HotKeys[nJoystick_] = fPressed_;
++    else if (nButton_ == start) StartKeys[nJoystick_] = fPressed_;
 +
-+    int hotKey = GetOption(joyhkey1);
-+    int start = GetOption(joystart1);
-+    if ((hotKey | start) >= 0)
-+        quit |= (adwButtons[0] & (1 << hotKey)) && (adwButtons[0] & (1 << start));
-+
-+    hotKey = GetOption(joyhkey2);
-+    start = GetOption(joystart2);
-+    if ((hotKey | start) >= 0)
-+        quit |= (adwButtons[1] & (1 << hotKey)) && (adwButtons[1] & (1 << start));
-+
-+    if (quit)
++    if (HotKeys[nJoystick_] && StartKeys[nJoystick_])
 +    {
 +        SDL_Event event = {SDL_QUIT};
 +        SDL_PushEvent(&event);

@@ -1,7 +1,7 @@
 diff -ru output/build/simcoupe-modified/Base/Options.cpp output/build/simcoupe-3be5b80b14143b608f40cbecc4668da76701b448/Base/Options.cpp
 --- a/Base/Options.cpp	2019-01-14 21:18:45.889660244 +0100
 +++ b/Base/Options.cpp	2018-06-01 09:19:32.000000000 +0200
-@@ -129,6 +129,10 @@
+@@ -129,6 +129,18 @@
      OPT_N("JoyType2",     joytype2,       2),         // Joystick 2 controls SAM joystick 2
      OPT_S("JoyDev1",      joydev1,        ""),        // Joystick 1 device
      OPT_S("JoyDev2",      joydev2,        ""),        // Joystick 2 device
@@ -9,13 +9,21 @@ diff -ru output/build/simcoupe-modified/Base/Options.cpp output/build/simcoupe-3
 +    OPT_N("JoyHKey2",     joyhkey2,       -1),        // Joystick 2 Hot-Key Id
 +    OPT_N("JoyStart1",    joystart1,      -1),        // Joystick 1 Start Id
 +    OPT_N("JoyStart2",    joystart2,      -1),        // Joystick 2 Start Id
++    OPT_N("JoyA1",        joya1,          -1),        // Joystick 1 Button A Id
++    OPT_N("JoyB1",        joyb1,          -1),        // Joystick 1 Button B Id
++    OPT_N("JoyX1",        joyx1,          -1),        // Joystick 1 Button X Id
++    OPT_N("JoyY1",        joyy1,          -1),        // Joystick 1 Button Y Id
++    OPT_N("JoyA2",        joya2,          -1),        // Joystick 2 Button A Id
++    OPT_N("JoyB2",        joyb2,          -1),        // Joystick 2 Button B Id
++    OPT_N("JoyX2",        joyx2,          -1),        // Joystick 2 Button X Id
++    OPT_N("JoyY2",        joyy2,          -1),        // Joystick 2 Button Y Id
      OPT_N("DeadZone1",    deadzone1,      20),        // Joystick 1 deadzone is 20% around central position
      OPT_N("DeadZone2",    deadzone2,      20),        // Joystick 2 deadzone is 20% around central position
  
 diff -ru output/build/simcoupe-modified/Base/Options.h output/build/simcoupe-3be5b80b14143b608f40cbecc4668da76701b448/Base/Options.h
 --- a/Base/Options.h	2019-01-14 20:17:25.292798730 +0100
 +++ b/Base/Options.h	2018-06-01 09:19:32.000000000 +0200
-@@ -97,6 +97,10 @@
+@@ -97,6 +97,18 @@
      int     joytype2;               // Joystick 2 mapping
      int     deadzone1;              // Joystick 1 deadzone
      int     deadzone2;              // Joystick 2 deadzone
@@ -23,6 +31,14 @@ diff -ru output/build/simcoupe-modified/Base/Options.h output/build/simcoupe-3be
 +    int     joyhkey2;               // Joystick 2 Hot-Key Id
 +    int     joystart1;              // Joystick 1 Start Id
 +    int     joystart2;              // Joystick 2 Start Id
++    int     joya1;                  // Joystick 1 Button A Id
++    int     joyb1;                  // Joystick 1 Button B Id
++    int     joyx1;                  // Joystick 1 Button X Id
++    int     joyy1;                  // Joystick 1 Button Y Id
++    int     joya2;                  // Joystick 2 Button A Id
++    int     joyb2;                  // Joystick 2 Button B Id
++    int     joyx2;                  // Joystick 2 Button X Id
++    int     joyy2;                  // Joystick 2 Button Y Id
  
      int     parallel1;              // Parallel port 1 function
      int     parallel2;              // Parallel port 2 function
