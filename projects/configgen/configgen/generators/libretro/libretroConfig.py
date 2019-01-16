@@ -36,7 +36,7 @@ coreToP2Device = {'fuse': '513', 'atari800': '513'};
 systemToRetroachievements = {'snes', 'nes', 'gba', 'gb', 'gbc', 'megadrive', 'pcengine', 'atari2600', 'fba_libretro', 'neogeo', 'virtualboy', 'ngp', 'ngpc', 'lynx', 'mastersystem', 'gamegear', 'n64', 'satellaview', 'sufami', 'neogeocd'};
 
 # Define systems not compatible with rewind option
-systemNoRewind = {'virtualboy', 'sega32x', 'segacd', 'psx', 'fba_libretro', 'vectrex', 'zxspectrum', 'mame', 'n64', '3do', 'jaguar', 'intellivision', 'channelf', 'neogeocd', 'dreamcast', 'atomiswave', 'naomi'};
+systemNoRewind = {'virtualboy', 'sega32x', 'segacd', 'psx', 'fba_libretro', 'vectrex', 'zxspectrum', 'mame', 'n64', '3do', 'jaguar', 'intellivision', 'channelf', 'neogeocd', 'dreamcast', 'atomiswave', 'naomi', 'ngpc'};
 
 # Netplay modes
 systemNetplayModes = {'host', 'client'}
