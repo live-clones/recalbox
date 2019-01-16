@@ -1,0 +1,9 @@
+## RECALBOX - SYSTEM 3DS ##
+
+Placez ici vos roms Nintendo 3DS.
+
+Les roms doivent avoir l'extension ".3ds/.3dsx/.elf/.axf/.cci/.cxi/.app/.zip/.7z"
+
+Ce système supporte également les roms compressées au format .zip/.7z.
+Attention toutefois, il ne s'agit que d'une archive. Les fichiers contenus dans les .zip/.7z doivent correspondre aux extensions citées précédemment.
+De plus, chaque fichier .zip/.7z ne doit contenir qu'une seule rom compressée.

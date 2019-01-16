@@ -71,4 +71,5 @@ menu "Rom dirs and xml"
 	 source "$BR2_EXTERNAL_RECALBOX_PATH/package/recalbox-romfs/recalbox-romfs-intellivision/Config.in"
 	 source "$BR2_EXTERNAL_RECALBOX_PATH/package/recalbox-romfs/recalbox-romfs-jaguar/Config.in"
 	 source "$BR2_EXTERNAL_RECALBOX_PATH/package/recalbox-romfs/recalbox-romfs-neogeocd/Config.in"
+	 source "$BR2_EXTERNAL_RECALBOX_PATH/package/recalbox-romfs/recalbox-romfs-3ds/Config.in"
 endmenu

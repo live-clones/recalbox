@@ -139,6 +139,7 @@ menu "Libretro Cores"
         source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-mame2003-plus/Config.in"
         source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-pokemini/Config.in"
         source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-virtualjaguar/Config.in"
+        source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-citra/Config.in"
 endmenu
 endif
 menu "Doom packages"

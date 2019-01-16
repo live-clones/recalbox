@@ -1,0 +1,12 @@
+config BR2_PACKAGE_LIBRETRO_CITRA
+        bool "libretro-citra"
+	depends on BR2_PACKAGE_RETROARCH
+	depends on BR2_INSTALL_LIBSTDCPP
+	select BR2_PACKAGE_RECALBOX_ROMFS_3DS
+        help
+          A libretro Nintendo 3DS emulator core.
+
+	  http://www.libretro.com
+
+comment "LIBRETRO_FREEINTV needs a toolchain w/ C++"
+	depends on !BR2_INSTALL_LIBSTDCPP

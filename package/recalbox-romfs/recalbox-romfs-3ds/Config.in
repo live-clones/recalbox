@@ -1,0 +1,6 @@
+config BR2_PACKAGE_RECALBOX_ROMFS_3DS
+	bool "recalbox-romfs-3ds"
+	select BR2_PACKAGE_RECALBOX_ROMS
+	depends on BR2_PACKAGE_LIBRETRO_CITRA
+	help
+	  share_init/roms and xml for 3ds

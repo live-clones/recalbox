@@ -461,6 +461,11 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_4DO),)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-3do
 endif
 
+# System: 3ds
+ifneq ($(BR2_PACKAGE_LIBRETRO_CITRA),)
+        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-3ds
+endif
+
 # System: atari800
 ifneq ($(BR2_PACKAGE_LIBRETRO_ATARI800),)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-atari800
