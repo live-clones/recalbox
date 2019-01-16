@@ -14,8 +14,13 @@ endef
 define ORICUTRON_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/oricutron \
 		$(TARGET_DIR)/usr/bin/oricutron/oricutron
-	cp -R $(@D)/roms $(TARGET_DIR)/usr/bin/oricutron/
+	# Copy emulator resources
 	cp -R $(@D)/images $(TARGET_DIR)/usr/bin/oricutron/
+	# Copy rom patch (required to enable turbo-tapes)
+	mkdir -p $(TARGET_DIR)/recalbox/share_init/bios/oricutron
+	cp $(@D)/roms/*.pch $(TARGET_DIR)/recalbox/share_init/bios/oricutron/
+    # Copy rom symbols (for who wants to play with Oric/ATmos debugger!)
+	cp $(@D)/roms/*.pch $(TARGET_DIR)/recalbox/share_init/bios/oricutron/
 endef
 
 define ORICUTRON_POST_EXTRACT_FIX_SDL2_PATH
