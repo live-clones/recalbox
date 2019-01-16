@@ -46,6 +46,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Neo Geo CD: Added support with fbalpha emulator
 - Bump FBA libretro to latest version => Romset 0.2.97.44
 - Bump AtariST emulator to december 2018 version
+- Add Oric/Atmos emulator (Oricutron, standalone)
 
 ## [18.07.13] - 2018-07-13
 - Bump desmume to desmume2015
