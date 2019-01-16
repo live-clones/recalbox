@@ -114,3 +114,5 @@ amiberrySaves      = SAVES
 daphneInputIni = CONF + '/daphne/dapinput.ini'
 daphneHomedir = ROMS + '/daphne'
 daphneDatadir = '/usr/share/daphne'
+
+oricutronConfig = HOME + '/.config/oricutron.cfg'

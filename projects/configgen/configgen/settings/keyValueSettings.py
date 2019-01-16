@@ -21,6 +21,10 @@ class keyValueSettings:
     def setOption(self, key, value):
         self.settings[key] = value
 
+    def setDefaultOption(self, key, defaultvalue):
+        if key not in self.settings:
+            self.settings[key] = defaultvalue
+
     def saveFile(self):
         with open(self.settingsFile, 'w+') as sf:
             for key in sorted(self.settings.iterkeys()):
