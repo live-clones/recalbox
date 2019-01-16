@@ -33,6 +33,7 @@ recalboxBins = {'dosbox'      : '/usr/bin/dosbox'
               , 'amiberry'    : '/usr/bin/amiberry'
               , 'daphne'      : '/usr/bin/hypseus'
               , 'oricutron'   : '/usr/bin/oricutron/oricutron'
+              , 'simcoupe'    : '/usr/bin/simcoupe'
 }
 
 

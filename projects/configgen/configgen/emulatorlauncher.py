@@ -10,6 +10,7 @@ from generators.fba2x.fba2xGenerator import Fba2xGenerator
 from generators.kodi.kodiGenerator import KodiGenerator
 from generators.linapple.linappleGenerator import LinappleGenerator
 from generators.oricutron.oricutronGenerator import OricutronGenerator
+from generators.simcoupe.simcoupeGenerator import SimCoupeGenerator
 from generators.libretro.libretroGenerator import LibretroGenerator
 from generators.moonlight.moonlightGenerator import MoonlightGenerator
 from generators.mupen.mupenGenerator import MupenGenerator
@@ -35,6 +36,7 @@ generators = {
     'linapple': LinappleGenerator(os.path.join(recalboxFiles.HOME_INIT, '.linapple'),
                                   os.path.join(recalboxFiles.HOME, '.linapple')),
     'oricutron': OricutronGenerator(),
+    'simcoupe': SimCoupeGenerator(),
     'libretro': LibretroGenerator(),
     'moonlight': MoonlightGenerator(),
     'scummvm': ScummVMGenerator(),
@@ -102,6 +104,7 @@ emulators["x68000"] = Emulator(name='x68000', emulator='libretro', core='px68k')
 emulators["thomson"] = Emulator(name='thomson', emulator='libretro', core='theodore')
 emulators["atari800"] = Emulator(name='atari800', emulator='libretro', core='atari800')
 emulators["oricatmos"] = Emulator(name='oricatmos', emulator='oricutron', videomode='default')
+emulators["samcoupe"] = Emulator(name='samcoupe', emulator='simcoupe', videomode='default')
 #
 emulators["ngp"] = Emulator(name='ngp', emulator='libretro', core='mednafen_ngp')
 emulators["ngpc"] = Emulator(name='ngpc', emulator='libretro', core='mednafen_ngp')
