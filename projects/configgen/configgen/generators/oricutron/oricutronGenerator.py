@@ -61,12 +61,14 @@ class OricutronGenerator(Generator):
         if romType == ".tap":
             settings.setOption("disktype", "none")  # No drive to boot tapes
             settings.setOption("tapeimage", "'{}'".format(rom))
+            settings.setOption("diskimage", "")
         else:
             drive = settings.getOption("disktype", "microdisc")  # microdisc is the original Oric drive.
             if drive == "none":
                 drive = "microdisc"  # force drive
             settings.setOption("disktype", drive)
             settings.setOption("diskimage", "'{}'".format(rom))
+            settings.setOption("tapeimage", "")
 
         settings.saveFile()
 
