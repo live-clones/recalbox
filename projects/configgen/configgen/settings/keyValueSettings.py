@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-
+import os
 import re
 
 
@@ -26,6 +26,9 @@ class keyValueSettings:
             self.settings[key] = defaultvalue
 
     def saveFile(self):
+        folder = os.path.dirname(self.settingsFile)
+        if not os.path.exists(folder):
+            os.makedirs(folder)
         with open(self.settingsFile, 'w+') as sf:
             for key in sorted(self.settings.iterkeys()):
                 sf.write(key + '=' + self.settings[key] + '\n')
