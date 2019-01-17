@@ -50,6 +50,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add MGT Sam Coupé emulator (Simcoupe, standalone)
 - c2/xu4: enable generic quirks for usb encoders like Xin-Mo
 - Bump DosBox to revision 4178 (December 2018)
+- Beetle PC-FX: Add NEC PC-FX support (x86, x86_64 and xu4)
 
 ## [18.07.13] - 2018-07-13
 - Bump desmume to desmume2015
