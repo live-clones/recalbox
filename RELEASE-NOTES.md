@@ -3,11 +3,13 @@
 ## Work in Progress - Unreleased
 
 ## News
-- Raspberry Pi3b+ & CM3 compatibility
+- Raspberry Pi3b+, Pi3A+ & CM3 compatibility
 - New emulator! Pokemon Mini (RetroArch core: libretro-pokemini)
 - New emulator! Mattel Intellivision (RetroArch core: libretro-freeintv)
 - New emulator! Fairchild Channel-F (RetroArch core: libretro-freechanf)
 - New emulator! Atari Jaguar on x86/64 (RetroArch core: libretro-virtualjaguar)
+- New emulator! Sam Coupé (Standalone simcoupe)
+- New emulator! Oric/Atmos (standalone oricutron)
 - New emulator! Atari 8bits series (800, XL, XE) and Atari 5200 console (RetroArch core: libretro-atari800) - Thanks to Dubbows!
 - New System! SNES extensions Satellaview and SuFami Turbo added as own systems
 - New System! NeoGeo CD with audio track support (via RetroArch core libretro-fba)
