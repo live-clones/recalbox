@@ -1,0 +1,6 @@
+config BR2_PACKAGE_RECALBOX_ROMFS_PCFX
+	bool "recalbox-romfs-pcfx"
+	select BR2_PACKAGE_RECALBOX_ROMS
+	depends on BR2_PACKAGE_LIBRETRO_BEETLE_PCFX
+	help
+	  share_init/roms and xml for pcfx

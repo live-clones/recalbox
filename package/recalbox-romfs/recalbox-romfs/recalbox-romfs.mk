@@ -361,6 +361,11 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_SUPERGRAFX)$(BR2_PACKAGE_LIBRETRO_BEETLE_PC
         RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-pcenginecd
 endif
 
+# System: pcfx
+ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_PCFX),)
+        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-pcfx
+endif
+
 # System: supergrafx
 ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_SUPERGRAFX)$(BR2_PACKAGE_LIBRETRO_BEETLE_PCE),)
         RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-supergrafx

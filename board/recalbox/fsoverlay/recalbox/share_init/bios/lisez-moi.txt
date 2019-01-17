@@ -48,6 +48,10 @@ d3a44ba7d42a74d3ac58cb9c14c6a5ca  STBIOS.bin
 ff1a674273fe3540ccef576376407d1d  syscard3.pce
 
 
+- PCFX : 
+08e36edbea28a017f79f8d4f7ff9b6d7  pcfx.rom
+
+
 - FMSX : 
 d6dedca1112ddfda94cc9b2e426b818b  CARTS.SHA
 85b38e4128bbc300e675f55b278683a8  CYRILLIC.FNT
