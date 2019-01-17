@@ -22,6 +22,8 @@ setup(name='recalbox-configgen',
         'configgen.generators.advancemame',
         'configgen.generators.amiberry',
         'configgen.generators.daphne',
+        'configgen.generators.oricutron',
+        'configgen.generators.simcoupe',
         'configgen.settings',
         'configgen.utils']
       )
