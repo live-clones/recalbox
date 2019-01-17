@@ -41,6 +41,7 @@
 - EmulationStation: fix scraped folders display
 - MSX Emulator: Fixed Bluemsx core
 - PS3/PS4 pads are working now
+- SSH is now working when moving the share on Fat32/exFat partitions
 
 ---
 
