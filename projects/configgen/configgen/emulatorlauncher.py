@@ -116,6 +116,7 @@ emulators["wswan"] = Emulator(name='wswan', emulator='libretro', core='mednafen_
 emulators["wswanc"] = Emulator(name='wswanc', emulator='libretro', core='mednafen_wswan', ratio='16/10')
 emulators["pcengine"] = Emulator(name='pcengine', emulator='libretro', core='mednafen_supergrafx')
 emulators["pcenginecd"] = Emulator(name='pcenginecd', emulator='libretro', core='mednafen_supergrafx')
+emulators["pcfx"] = Emulator(name='pcfx', emulator='libretro', core='mednafen_pcfx')
 emulators["supergrafx"] = Emulator(name='supergrafx', emulator='libretro', core='mednafen_supergrafx')
 emulators["atari2600"] = Emulator(name='atari2600', emulator='libretro', core='stella')
 emulators["atari5200"] = Emulator(name='atari5200', emulator='libretro', core='atari800')
