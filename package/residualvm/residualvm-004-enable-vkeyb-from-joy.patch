@@ -203,9 +203,16 @@ Signed-off-by: Laurent Merckx <laurent-merckx@skynet.be>
  			}
  
  			if (_km.x < 0) {
-@@ -320,9 +333,9 @@ bool SdlEventSource::handleKbdMouse(Comm
- 				_graphicsManager->getWindow()->warpMouseInWindow((Uint16)(_km.x / MULTIPLIER), (Uint16)(_km.y / MULTIPLIER));
+@@ -316,13 +332,13 @@ bool SdlEventSource::handleKbdMouse(Comm
+ 				_km.y_down_count = 1;
  			}
+ 
+-			if (_graphicsManager) {
+-				_graphicsManager->getWindow()->warpMouseInWindow((Uint16)(_km.x / MULTIPLIER), (Uint16)(_km.y / MULTIPLIER));
+-			}
++			if (_km.x != oldKmX || _km.y != oldKmY)
++				if (_graphicsManager)
++					_graphicsManager->getWindow()->warpMouseInWindow((Uint16)(_km.x / MULTIPLIER), (Uint16)(_km.y / MULTIPLIER));
  
 -			if (_km.x != oldKmX || _km.y != oldKmY) {
 +			if (_km.x != oldKmX || _km.y != oldKmY || relx != 0 || rely != 0) {
@@ -255,7 +262,7 @@ Signed-off-by: Laurent Merckx <laurent-merckx@skynet.be>
  
 --- a/engines/grim/grim.cpp	2017-12-10 05:38:31.000000000 +0100
 +++ b/engines/grim/grim.cpp	2017-12-14 22:21:49.669599279 +0100
-@@ -1378,7 +1378,8 @@ void GrimEngine::clearEventQueue() {
+@@ -1384,7 +1384,8 @@ void GrimEngine::clearEventQueue() {
  bool GrimEngine::hasFeature(EngineFeature f) const {
  	return
  		(f == kSupportsRTL) ||
