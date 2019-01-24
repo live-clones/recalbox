@@ -1,0 +1,12 @@
+config BR2_PACKAGE_LIBRETRO_MEOWPC98
+	bool "libretro-meowPC98"
+	depends on BR2_PACKAGE_RETROARCH
+	depends on BR2_INSTALL_LIBSTDCPP
+	select BR2_PACKAGE_RECALBOX_ROMFS_MEOWPC98
+	help
+	  A libretro NEC PC-98 emulator core.
+
+	  http://www.libretro.com
+
+comment "LIBRETRO_MEOWPC98 needs a toolchain w/ C++"
+	depends on !BR2_INSTALL_LIBSTDCPP

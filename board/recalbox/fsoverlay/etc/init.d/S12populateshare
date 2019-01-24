@@ -38,11 +38,12 @@ for FILE in music bios bios/amiga bios/keropi extractions kodi saves saves/amiga
             system/{.hatari,.kodi,.atari800.cfg} \
             system/configs/{advancemame,daphne,dolphin-emu,dosbox,fba,kodi,moonlight,mupen64,ppsspp,reicast,retroarch,shadersets,xarcade2jstick} \
             system/recalbox.conf \
-            bios/mame2003
-            bios/fba
-            bios/imame4all
-            bios/mame2003-plus
-            bios/mame2010
+            bios/mame2003 \
+            bios/fba \
+            bios/imame4all \
+            bios/mame2003-plus \
+            bios/mame2010 \
+            bios/np2kai
 do
     # not wanted for kodi
     test -e "$IN""/""$FILE" && test ! -e "$OUT""/""$FILE" && cp -r "$IN""/""$FILE" "$OUT""/""$FILE"
