@@ -377,7 +377,7 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_PCFX),)
 endif
 
 # System: pc98
-ifneq ($(BR2_PACKAGE_LIBRETRO_MEOWPC98),)
+ifneq ($(BR2_PACKAGE_LIBRETRO_NP2KAI),)
         RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-pc98
 endif
 

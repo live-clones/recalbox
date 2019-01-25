@@ -1,6 +1,6 @@
 config BR2_PACKAGE_RECALBOX_ROMFS_PC98
 	bool "recalbox-romfs-pc98"
 	select BR2_PACKAGE_RECALBOX_ROMS
-	depends on BR2_PACKAGE_LIBRETRO_MEOWPC98
+	depends on BR2_PACKAGE_LIBRETRO_NP2KAI
 	help
 	  share_init/roms and xml for pc98

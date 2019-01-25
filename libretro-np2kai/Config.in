@@ -1,5 +1,5 @@
-config BR2_PACKAGE_LIBRETRO_MEOWPC98
-	bool "libretro-meowPC98"
+config BR2_PACKAGE_LIBRETRO_NP2KAI
+	bool "libretro-np2kai"
 	depends on BR2_PACKAGE_RETROARCH
 	depends on BR2_INSTALL_LIBSTDCPP
 	select BR2_PACKAGE_RECALBOX_ROMFS_PC98
@@ -8,5 +8,5 @@ config BR2_PACKAGE_LIBRETRO_MEOWPC98
 
 	  http://www.libretro.com
 
-comment "LIBRETRO_MEOWPC98 needs a toolchain w/ C++"
+comment "LIBRETRO_NP2KAI needs a toolchain w/ C++"
 	depends on !BR2_INSTALL_LIBSTDCPP
