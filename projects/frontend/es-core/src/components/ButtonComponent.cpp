@@ -48,17 +48,38 @@ bool ButtonComponent::input(InputConfig* config, Input input)
 	return GuiComponent::input(config, input);
 }
 
-void ButtonComponent::setText(const std::string& text, const std::string& helpText, bool upperCase)
+void ButtonComponent::setText(const std::string& text, const std::string& helpText, bool upperCase, bool resize)
 {
 	mText = upperCase ? strToUpper(text) : text;
 	mHelpText = helpText;
 
 	mTextCache = std::unique_ptr<TextCache>(mFont->buildTextCache(mText, 0, 0, getCurTextColor()));
 
-	float minWidth = mFont->sizeText("DELETE").x() + 12;
-	setSize(std::max(mTextCache->metrics.size.x() + 12, minWidth), mTextCache->metrics.size.y() + 8);
+	if (resize)
+	{
+		float minWidth = mFont->sizeText("DELETE").x() + 12;
+		setSize(std::max(mTextCache->metrics.size.x() + 12, minWidth), mTextCache->metrics.size.y() + 8);
+	}
 
 	updateHelpPrompts();
+}
+
+void ButtonComponent::autoSizeFont()
+{
+	if (mFont->sizeText(mText).x() + 6 > getSize().x()) {
+		mFont = Font::get(FONT_SIZE_SMALL);
+		onSizeChanged();
+	}
+	if (mFont->sizeText(mText).x() + 6 > getSize().x()) {
+		mFont = Font::get(FONT_SIZE_EXTRASMALL);
+		onSizeChanged();
+	}
+}
+
+bool ButtonComponent::isTextOverlapping()
+{
+	// + 2 to keep a small space between text and border
+	return mFont->sizeText(mText).x() + 2  > getSize().x();
 }
 
 void ButtonComponent::onFocusGained()

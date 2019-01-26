@@ -11,6 +11,9 @@ GuiTextEditPopupKeyboard::GuiTextEditPopupKeyboard(Window* window, const std::st
 {
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 
+
+	const float gridWidth = Renderer::getScreenWidth() * 0.96f;
+
 	mBackground.setImagePath(menuTheme->menuBackground.path);
 	mBackground.setCenterColor(menuTheme->menuBackground.color);
 	mBackground.setEdgeColor(menuTheme->menuBackground.color);
@@ -30,7 +33,7 @@ GuiTextEditPopupKeyboard::GuiTextEditPopupKeyboard(Window* window, const std::st
 	mGrid.setEntry(mTitle, Vector2i(0, 0), false, true);
 
 	// Text edit add
-	mGrid.setEntry(mText, Vector2i(0, 1), true, false, Vector2i(1, 1), GridFlags::BORDER_TOP | GridFlags::BORDER_BOTTOM);
+	mGrid.setEntry(mText, Vector2i(0, 1), true, false, Vector2i(1, 1));
 
 	std::vector< std::vector< std::shared_ptr<ButtonComponent> > > buttonList;
 
@@ -77,7 +80,12 @@ GuiTextEditPopupKeyboard::GuiTextEditPopupKeyboard(Window* window, const std::st
 	}
 
 	// Add keyboard keys
-	mKeyboardGrid = makeMultiDimButtonGrid(mWindow, buttonList);
+	mKeyboardGrid = makeMultiDimButtonGrid(mWindow, buttonList, gridWidth);
+
+	mShiftButton->autoSizeFont();
+	if (mShiftButton->isTextOverlapping()) {
+		mShiftButton->setText("SH.", _("SHIFTS FOR UPPER,LOWER, AND SPECIAL"), false, false);
+	}
 
 	mGrid.setEntry(mKeyboardGrid, Vector2i(0, 2), true, false);
 
@@ -104,7 +112,7 @@ GuiTextEditPopupKeyboard::GuiTextEditPopupKeyboard(Window* window, const std::st
 	float textHeight = mText->getFont()->getHeight();
 	if (multiLine)
 		textHeight *= 6;
-	mText->setSize(0, textHeight);
+	mText->setSize(gridWidth - 40, textHeight);
 
 	// If multiline, set all size back to default, else draw size for keyboard.
 	if (mMultiLine)
@@ -114,9 +122,7 @@ GuiTextEditPopupKeyboard::GuiTextEditPopupKeyboard(Window* window, const std::st
 	}
 	else
 	{
-		// Set size based on ScreenHeight * .08f by the amount of keyboard rows there are.
-        // set width base on bButtons[0] (the SHIFT key) x 12 as SHIFT key is the widest
-		setSize(std::min(Renderer::getScreenWidth() * 0.99f, mShiftButton->getSize().x() * 12 + Renderer::getScreenWidth() * 0.1f), mTitle->getFont()->getHeight() + textHeight + 40 + (Renderer::getScreenHeight() * 0.085f) * 6);
+		setSize(gridWidth, mTitle->getFont()->getHeight() + textHeight + 40 + mKeyboardGrid->getSize().y() + mButtons->getSize().y());
 		setPosition((Renderer::getScreenWidth() - mSize.x()) / 2, (Renderer::getScreenHeight() - mSize.y()) / 2);
 	}
 }
@@ -206,7 +212,7 @@ void GuiTextEditPopupKeyboard::switchShift()
     for (auto & kb: keyboardButtons)
     {
 		const std::string& text = mShift ? kb.shiftedKey : kb.key;
-    	kb.button->setText(text, text, false);
+    	kb.button->setText(text, text, false, false);
     }
 }
 
