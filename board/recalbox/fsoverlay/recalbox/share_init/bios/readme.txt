@@ -60,8 +60,6 @@ Bios files must be placed in a subfolder named "np2kai"
 cd237e16e7e77c06bb58540e9e9fca68  np2kai/bios.rom
 72ea51443070f0e9212bfc9b793ee28e  np2kai/itf.rom
 524473c1a5a03b17e21d86a0408ff827  np2kai/sound.rom
-00000000000000000000000000000000  np2kai/bios9821.rom
-00000000000000000000000000000000  np2kai/d8000.rom
 d94546e70f17fd899be8df3544ab6cbb  np2kai/2608_bd.wav
 d71004351c8bbfdad53b18222c061d49  np2kai/2608_sd.wav
 593cff6597ab9380d822b8f824fd2c28  np2kai/2608_top.wav
