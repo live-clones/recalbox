@@ -8,6 +8,10 @@ import amiberryController
 import amiberryConfig
 from settings.unixSettings import UnixSettings
 
+def getADFArguments(rom, system):
+
+    return None
+
 def generateAdf(fullName,romPath,uaeName,amigaHardware,controller) :
     print("execute ADF : <%s> on <%s>" %("/amiberry",romPath + "/" + uaeName))
     

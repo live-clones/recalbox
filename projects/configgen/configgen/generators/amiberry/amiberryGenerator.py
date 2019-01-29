@@ -1,93 +1,209 @@
 #!/usr/bin/env python
+import glob
+import os.path
+import subprocess
+
 import Command
 import recalboxFiles
 from generators.Generator import Generator
-import os.path
-import glob
-import sys
-import adfGenerator
-import whdlGenerator
-import cdGenerator
-import utils.runner as runner
-from functools import partial
+from generators.amiberry.amiberryConfig import ConfigGenerator
+from generators.amiberry.amiberryGlobalConfig import AmiberryGlobalConfig
+from generators.amiberry.amiberryRomType import RomType
+from generators.amiberry.amiberrySubSystems import SubSystems
+from settings.keyValueSettings import keyValueSettings
 
 
 class AmiberryGenerator(Generator):
+
+    MultiDiscMap = \
+    {
+        "Disc 1": ["Disc 2", "Disc 3", "Disc 4"],
+        "Disk 1": ["Disk 2", "Disk 3", "Disk 4"],
+        "Disc A": ["Disc B", "Disc C", "Disc D"],
+        "Disk A": ["Disk B", "Disk C", "Disk D"],
+        "disc 1": ["disc 2", "disc 3", "disc 4"],
+        "disk 1": ["disk 2", "disk 3", "disk 4"],
+        "disc A": ["disc B", "disc C", "disc D"],
+        "disk A": ["disk B", "disk C", "disk D"],
+    }
+
+    # Generate ADF Arguments
+    @staticmethod
+    def getRP9Arguments(rom, system, _):
+        if system in SubSystems.COMPUTERS:
+            # Package are self-configured so just return the package AS the config file
+            # Add -G to force amiberry to run immediately. Otherwise the GUI is shown for some reasons
+            return ["-config=" + rom, "-G"]
+        raise Exception("PACKAGE not allowed on non-computer devices")
+
+    # Generate ADF Arguments
+    @staticmethod
+    def getADFArguments(rom, system, configFile):
+        # Set disk #1
+        disks = [rom]
+        _, ext = os.path.splitext(rom)
+
+        # Seek for next disks
+        for first in AmiberryGenerator.MultiDiscMap.keys():
+            pos = rom.find(first)
+            if pos > 0:
+                nextDiskPattern = AmiberryGenerator.MultiDiscMap[first]
+                for i in range(3):
+                    Found = False
+                    nextDisk = rom[:pos] + nextDiskPattern[i] + rom[pos  +len(nextDiskPattern[i]):]
+                    if os.path.exists(nextDisk):
+                        disks.append(nextDisk)
+                        Found = True
+                    else:
+                        # Try to seek for next disk with a different tailing text (TOSEC case)
+                        nextDisk = rom[:pos] + nextDiskPattern[i] + "*" + ext
+                        files = glob.glob(nextDisk)
+                        if files is not None:
+                            files.sort()  # Sort to get shortest name first
+                            if len(files) > 0:
+                                disks.append(files[0])
+                                Found = True
+                    if not Found:
+                        break  # Needless to seek for next file
+
+        configFile.SetFloppies(system, disks)
+        return []
+
+    # Generate WHDL Arguments
+    @staticmethod
+    def getWHDLArguments(rom, system, _):
+        if system in SubSystems.COMPUTERS:
+            # Copy whdl structure
+            subprocess.check_output(["cp", "-r", "/usr/share/amiberry/whdboot", recalboxFiles.amiberryMountPoint])
+            # Do not use ["-autowhdload=" + rom] cause it requires a special game configuration
+            return []
+        raise Exception("WHDL not allowed on non-computer devices")
+
+    # Generate raw WHD config
+    @staticmethod
+    def AddWHDLVolumes(settingFiles, rom):
+        volumes = \
+        [
+            "rw,DH0:DH0:{},10".format(os.path.join(recalboxFiles.amiberryMountPoint, "whdboot/boot-data.zip")),
+            "rw,DH1:games:{},0".format(rom),
+            "rw,DH2:saves:{},0".format(os.path.join(recalboxFiles.amiberryMountPoint, "whdboot/save-data/")),
+        ]
+        with open(settingFiles, "a") as sf:
+            index = 0
+            for volume in volumes:
+                sf.write("filesystem2=" + volume + '\n')
+                sf.write("uaehf{}=dir,".format(index) + volume + '\n')
+                index += 1
+
+    # Generate CDROM Arguments
+    @staticmethod
+    def getCDROMArguments(rom, system, configFile):
+        # Set CD image
+        configFile.SetCD(system, rom)
+        return []
+
+    # Generate HDD Arguments
+    @staticmethod
+    def getHDDArguments(rom, system, configFile):
+        if system in SubSystems.COMPUTERS:
+            # mount an amiga volume DH0 to the mount point given by the rom argument
+            configFile.SetHDD(system, rom)
+            return []
+        raise Exception("HDD not allowed on non-computer devices")
+
+    # Unknown rom processing
+    @staticmethod
+    def unknownRomType(rom, system, configFile):
+        # Force quit
+        raise Exception("Unknown rom type: {}".format(rom))
+
+    # Get keyboard layout
+    @staticmethod
+    def GetKeyboardLayout():
+        conf = keyValueSettings(recalboxFiles.recalboxConf)
+        conf.loadFile(True)
+        # Try to obtain from keyboard layout, then from system language, then fallback to us
+        kl = conf.getOption("system.kblayout", conf.getOption("system.language", "us")[-2:]).lower()
+        return kl
+
     # Main entry of the module
     # Return command
     def generate(self, system, rom, playersControllers):
-        print("Amiga Emulation")
-        print("Params : <%s>, <%s>" % (system.name, rom))
+        # Get rom type and associated configuration file if any
+        rom, romType, romHasUAE = RomType.Identify(rom)
 
-        # ------------ CHECK entry params ------------
-        if not os.path.exists(rom) or os.path.isdir(rom):
-            raise IOError(
-                "Please execute this script on full path to an uae adf or cue like /recalbox/share/roms/amiga/gamename.uae\nFor uae file, the game folder should be named exactly alike and be in the same folder : /recalbox/share/roms/amiga/gamename")
+        # Get subsystem - Force A1200 if WHDL detected (https://github.com/midwan/amiberry/issues/417)
+        subSystem = SubSystems.A1200 if romType == RomType.WHDL else system.name
 
-        # command params
-        uaeName = os.path.basename(rom)
-        romFolder = os.path.dirname(rom)
-        romType = uaeName[-3:].lower()
-        gameName = uaeName[0:len(uaeName) - 4]
+        # Generate global config file
+        globalConfig = AmiberryGlobalConfig(os.path.join(recalboxFiles.HOME, "configs/amiberry", subSystem + ".conf"),
+                                            os.path.join(recalboxFiles.amiberryMountPoint, "conf/amiberry.conf"))
+        globalConfig.createGlobalSettings()
 
-        # detect bad parameters
-        if not uaeName or not romFolder or not gameName or not len(romType) == 3 or romType.lower() not in ['adf',
-                                                                                                            'uae',
-                                                                                                            'cue',
-                                                                                                            'iso']:
-            raise IOError("Please execute this script on an uae or adf file only")
+        # Build default command
+        settingsFullPath = os.path.join(recalboxFiles.amiberryMountPoint, "conf/uaeconfig.uae")
+        commandArray = [recalboxFiles.recalboxBins[system.config['emulator']]]
 
-        print("Launching game <%s> of type <%s> from <%s>" % (gameName, romType, romFolder))
+        # Prepare configuration file
+        romFile, _ = os.path.splitext(rom)
+        userSettings = romFile + ".uae" if romHasUAE else None
+        overridenSettings = os.path.join(recalboxFiles.HOME, "configs/amiberry", subSystem + ".uae")
+        configFile = ConfigGenerator(settingsFullPath)
 
-        if len(playersControllers) > 0:
-            controller = playersControllers['1']
-        else:
-            print("No controller found")
-            controller = None
+        # Load default settings
+        configFile.SetDefaultPath(subSystem)
+        configFile.SetUI(AmiberryGenerator.GetKeyboardLayout())
+        configFile.SetInput(subSystem)
+        configFile.SetJoystick(subSystem, playersControllers)
+        configFile.SetCPU(subSystem)
+        configFile.SetChipset(subSystem)
+        configFile.SetMemory(subSystem)
+        configFile.SetSound(subSystem)
+        configFile.SetNetwork(romType == RomType.WHDL or romType == RomType.HDD)
+        configFile.SetFloppies(subSystem, [])
+        configFile.SetCD(subSystem, None)
+        configFile.SetKickstarts(subSystem, romType)
 
-        # ------------ Prepare WHDL reference dictionary ------------
-        referenceWHDL = {}
+        # Load overriden settings of current system
+        if os.path.exists(overridenSettings):
+            print("LOAD SYSTEM SETTINGS! " + userSettings)
+            configFile.loadConfigFile(overridenSettings)
+        # Load user settings
+        if userSettings is not None:
+            if os.path.exists(userSettings):
+                print("LOAD USER SETTINGS! " + userSettings)
+                configFile.loadConfigFile(userSettings)
 
-        # ------------ Launch ADF ------------
-        if romType == "adf":
-            if not os.path.exists(os.path.join(romFolder, uaeName)):
-                raise IOError("ADF file " + romFolder + "/" + uaeName + "doesn't exist")
+        # Get arguments (and write configuration) regarding the rom type
+        switcher = \
+        {
+            RomType.UNKNOWN: AmiberryGenerator.unknownRomType,
+            RomType.DISK: AmiberryGenerator.getADFArguments,
+            RomType.WHDL: AmiberryGenerator.getWHDLArguments,
+            RomType.CDROM: AmiberryGenerator.getCDROMArguments,
+            RomType.HDD: AmiberryGenerator.getHDDArguments,
+            RomType.PACKAGE: AmiberryGenerator.getRP9Arguments,
+        }
+        # Get the function from switcher dictionary
+        func = switcher.get(romType)
+        # Execute the function and get arguments
+        commandArray.extend(func(rom, subSystem, configFile))
 
-            adfGenerator.generateAdf(rom, romFolder, uaeName, system.name, controller)
+        # Add uae config, if no-one has been set before
+        configExists = len([command for command in commandArray if "-config=" in command]) > 0
+        if not configExists:
+            # Insert the configuration at position #1, right after the amiberry executable
+            # Amiberry ignore the config file after "rom" files
+            commandArray.insert(1, "-config=" + settingsFullPath)
 
-        # ------------ Launch WHD ------------
-        elif romType == "uae":
-            whdlDir = os.path.join(romFolder, gameName)
-            whdlZip = whdlDir + ".zip"
-            if not os.path.exists(whdlZip) or os.path.isdir(whdlZip):
-                if not os.path.exists(whdlDir) or not os.path.isdir(whdlDir):
-                    raise IOError(
-                        "No WHDLoad folder <" + whdlDir + "> corresponding to your uae file " + romFolder + "/" + uaeName)
+        # Save configuration
+        configFile.saveConfigFile()
 
-            referenceWHDL = whdlGenerator.generateWHDL(rom, romFolder, gameName, system.name, controller)
+        # Generate specoal WHDL raw config
+        if romType == RomType.WHDL:
+            AmiberryGenerator.AddWHDLVolumes(settingsFullPath, rom)
 
-        # ----------- Launch CD32 (and maybe amiga CD in the future) --------------"
-        elif romType == "cue" or romType == "iso":
-            if not os.path.exists(os.path.join(romFolder, uaeName)):
-                raise IOError("CD file " + romFolder + "/" + uaeName + "doesn't exist")
-
-            cdGenerator.generateCD(rom, romFolder, uaeName, system.name, controller)
-
-        postExec = partial(whdlGenerator.handleBackupFromGame, rom, romFolder, gameName,
-                           system.name, referenceWHDL) if romType == "uae" else None
-
-        # Kept for future debug purposes on unpatched version
-        # mandatory change of current working dir to amiberry's one
-        # os.chdir(os.path.join(recalboxFiles.amiberryMountPoint,"amiberry"))
-        # print("Executing %s in %s" % ("amiberry",os.getcwd()))
-        # os.popen("./amiberry")
-        # Handle backup for WHDL
-        # if romType == "uae" :
-        # whdlGenerator.handleBackup(rom,romFolder,gameName,system.name)
-        # sys.exit()
-
-        commandArray = [os.path.join(recalboxFiles.amiberryMountPoint, "amiberry", "amiberry")]
-        return Command.Command(videomode='default', array=commandArray,
+        return Command.Command(videomode=system.config['videomode'], array=commandArray,
                                env={"SDL_VIDEO_GL_DRIVER": "/usr/lib/libGLESv2.so",
                                     "SDL_VIDEO_EGL_DRIVER": "/usr/lib/libGLESv2.so"},
-                               cwdPath=os.path.join(recalboxFiles.amiberryMountPoint, "amiberry"), postExec=postExec)
+                               cwdPath=recalboxFiles.amiberryMountPoint, postExec=None)

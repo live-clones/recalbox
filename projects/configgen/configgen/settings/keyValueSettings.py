@@ -4,9 +4,16 @@ import re
 
 
 class keyValueSettings:
-    def __init__(self, settingsFile):
+    def __init__(self, settingsFile, extraSpaces = False):
         self.settingsFile = settingsFile
         self.settings = dict()
+        self.extraSpaces = extraSpaces # Allow 'key = value' instead of 'key=value' on writing.
+
+    def changeSettingsFile(self, newfilename):
+        self.settingsFile = newfilename
+
+    def getSettingsFile(self):
+        return self.settingsFile
 
     def getOption(self, key, default):
         if key in self.settings:
@@ -30,12 +37,17 @@ class keyValueSettings:
         if not os.path.exists(folder):
             os.makedirs(folder)
         with open(self.settingsFile, 'w+') as sf:
-            for key in sorted(self.settings.iterkeys()):
-                sf.write(key + '=' + self.settings[key] + '\n')
+            if self.extraSpaces:
+                for key in sorted(self.settings.iterkeys()):
+                    sf.write(key + " = " + self.settings[key] + '\n')
+            else:
+                for key in sorted(self.settings.iterkeys()):
+                    sf.write(key + "=" + self.settings[key] + '\n')
 
-    def loadFile(self):
+    def loadFile(self, clear):
         try:
-            self.settings.clear()
+            if clear:
+                self.settings.clear()
             with open(self.settingsFile) as lines:
                 for line in lines:
                     m = re.match(r'^(.*)\s?=\s?"?(.+)"?', line)

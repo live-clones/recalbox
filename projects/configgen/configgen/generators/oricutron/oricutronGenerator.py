@@ -14,7 +14,7 @@ class OricutronGenerator(Generator):
         '''
 
         settings = keyValueSettings(recalboxFiles.oricutronConfig)
-        settings.loadFile()
+        settings.loadFile(True)
 
         # Set default joystick interface to "ijk" if not defined
         joyInterface = settings.getOption("joyinterface", "ijk")

@@ -13,6 +13,9 @@ from settings.unixSettings import UnixSettings
 mountPointWHDL = recalboxFiles.amiberryMountPoint + "/WHDL"
 whdFilespath = recalboxFiles.BIOS + "/amiga/whdl"
 
+def getWHDLArguments(rom, system):
+
+    return None
 
 def generateWHDL(fullName, romFolder, gameName, amigaHardware, controller):
     print("execute WHDLoad : <%s>" % os.path.join(romFolder, gameName))

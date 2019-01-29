@@ -1,205 +1,406 @@
+#!/usr/bin/env python
+import os
+
 import recalboxFiles
-from generators.Generator import Generator
-import os.path
-import glob
-import sys
-import shutil
+from generators.amiberry.amiberryKickstarts import KickstartManager
+from generators.amiberry.amiberryRetroarchConfig import AmiberryRetroarchConfig
+from generators.amiberry.amiberrySubSystems import SubSystems
+from settings.keyValueSettings import keyValueSettings
 
-amiberryPath = "/usr/bin/"
 
-def initMountpoint(mountPoint) :
-    # ----- cleaning mountpoint directory ----- 
-    if os.path.exists(mountPoint) :
-        shutil.rmtree(mountPoint)
-    
-    # ----- Create & copy emulator structure -----
-    print("Copy amiberry files to %s" % mountPoint)
-    os.makedirs(mountPoint+"/amiberry")
-    os.makedirs(mountPoint+"/amiberry/conf")
+class ConfigGenerator:
 
-    # Unpatched version
-    # oldAmiberryPath="/recalbox/share/emulateurs/amiga/amiberry"
-    # os.popen("cp -R "+oldAmiberryPath+"/* "+mountPoint+"/amiberry")
+    def __init__(self, targetFileName):
+        self.settingsFileName = targetFileName
+        self.settings = keyValueSettings(None)
 
-    # Patched version
-    shutil.copy2(os.path.join(amiberryPath,"amiberry"),os.path.join(mountPoint,"amiberry","amiberry"))
-    
-    # ----- Generate adfdir.conf -----
-    # ----- Needed for right handling of bios even in whdl case -----
-    adfdir = os.path.join(mountPoint,"amiberry","conf","adfdir.conf")
-    
-    if os.path.exists(adfdir) :
-        os.remove(adfdir)
+    def loadConfigFile(self, filename):
+        self.settings.changeSettingsFile(filename)
+        self.settings.loadFile(False)
+
+    def saveConfigFile(self):
+        self.settings.changeSettingsFile(self.settingsFileName)
+        self.settings.saveFile()
+
+    def SetDefaultPath(self, subsystem):
+        romsPath = os.path.join(recalboxFiles.ROMS, subsystem)
+        self.settings.setOption("config_description", "Recalbox auto-generated configuration for Amiga subsystem: " + subsystem)
+        self.settings.setOption("config_hardware", "true")
+        self.settings.setOption("config_host", "true")
+        self.settings.setOption("config_version", "4.1.0")
+        self.settings.setOption("amiberry.rom_path", romsPath)
+        self.settings.setOption("amiberry.floppy_path", romsPath)
+        self.settings.setOption("amiberry.hardfile_path", romsPath)
+        self.settings.setOption("amiberry.cd_path", romsPath)
+        if subsystem == SubSystems.CD32:
+            self.settings.setOption("flash_file", os.path.join(recalboxFiles.SAVES, "{}/cd32.nvr".format(subsystem)))
+        if subsystem == SubSystems.CDTV:
+            self.settings.setOption("flash_file", os.path.join(recalboxFiles.SAVES, "{}/cdtv.nvr".format(subsystem)))
+        if subsystem in SubSystems.COMPUTERS:
+            self.settings.setOption("pcmcia_mb_rom_file", ":ENABLED")
+            self.settings.setOption("ide_mb_rom_file", ":ENABLED")
+
+    def SetUI(self, keyboardLayout):
+        self.settings.setOption("use_gui", "no")
+        self.settings.setOption("show_leds", "yes")  # Set yes for debug, no for production
+        # Valid for amiberry?
+        if keyboardLayout not in ["us", "fr", "de", "dk", "es", "se", "it"]:
+            keyboardLayout = "us"
+        self.settings.setOption("kbd_lang", keyboardLayout)
+
+    def SetInput(self, subsystem):
+        if subsystem in SubSystems.HAVEMOUSE:
+            self.settings.setOption("input.joymouse_speed_analog", "2")
+            self.settings.setOption("input.joymouse_speed_digital", "10")
+            self.settings.setOption("input.joymouse_deadzone", "33")
+            self.settings.setOption("input.mouse_speed", "100")
+        self.settings.setOption("input.joystick_deadzone", "33")
+        self.settings.setOption("input.analog_joystick_multiplier", "15")
+        self.settings.setOption("input.analog_joystick_offset", "-1")
+        self.settings.setOption("input.autofire_speed", "0")
         
-    fAdfdir = open(adfdir,"a+")
-    try :
-        generateAdfdirConf(fAdfdir,mountPoint)
-    finally :
-        fAdfdir.close()
+    def SetJoystick(self, subsystem, controllers):
+        self.settings.setOption("amiberry.use_analogue_remap", "true")
+        self.settings.setOption("amiberry.use_retroarch_quit", "true")
+        self.settings.setOption("amiberry.use_retroarch_menu", "true")
+        self.settings.setOption("amiberry.use_retroarch_reset", "true")
+        if subsystem in SubSystems.HAVEMOUSE:
+            # Set mouse
+            self.settings.setOption("joyport0", "mouse")
+            self.settings.setOption("joyport0_autofire", "none")
+            self.settings.setOption("joyport0_mousemap", "right")
+            self.settings.setOption("joyport0_friendlyname", "Mouse")
+            self.settings.setOption("joyport0_name", "MOUSE0")
+            # Set joysticks
+            for key in controllers:
+                controller = controllers[key]
+                player = int(controller.player)
+                indexPadSDL = int(controller.index) + 1
+                if 1 <= player <= 3:
+                    self.settings.setOption("joyport{}".format(key), "joy{}".format(indexPadSDL))
+                    self.settings.setOption("joyport{}_autofire".format(key), "none")
+                    if subsystem == SubSystems.CD32:
+                        self.settings.setOption("joyport{}_mode".format(key), "cd32joy")
+                    self.settings.setOption("joyport{}_mousemap".format(key), "right")
+                    self.settings.setOption("joyport{}_friendlyname".format(key), controller.realName)
+                    self.settings.setOption("joyport{}_name".format(key), "JOY{}".format(indexPadSDL))
+                    retroarchConfig = AmiberryRetroarchConfig(controller)
+                    retroarchConfig.generateConfiguration()
+                    retroarchConfig.saveConfigurationFile()
+        else:
+            raise Exception("Unknown subsystem " + subsystem)
 
-def hasCD32Kickstarts() : return os.path.exists(os.path.join(recalboxFiles.BIOS,"CD32ext.rom")) and os.path.exists(os.path.join(recalboxFiles.BIOS,"kick31CD32.rom"))
+    def SetCPU(self, subsystem):
+        if subsystem == SubSystems.A600:
+            self.settings.setOption("cpu_speed", "real")
+            self.settings.setOption("cpu_type", "68000")
+            self.settings.setOption("cpu_model", "68000")
+            self.settings.setOption("cpu_compatible", "true")
+            self.settings.setOption("cpu_24bit_addressing", "true")
+            self.settings.setOption("fpu_no_unimplemented", "true")
+            self.settings.setOption("fpu_strict", "false")
+            self.settings.setOption("compfpu", "false")
+            self.settings.setOption("cachesize", "0")
+        elif subsystem == SubSystems.A1200:
+            self.settings.setOption("finegrain_cpu_speed", "1024")
+            self.settings.setOption("cpu_type", "68ec020")
+            self.settings.setOption("cpu_model", "68020")
+            self.settings.setOption("cpu_compatible", "false")
+            self.settings.setOption("cpu_24bit_addressing", "true")
+            self.settings.setOption("fpu_no_unimplemented", "true")
+            self.settings.setOption("fpu_strict", "false")
+            self.settings.setOption("compfpu", "false")
+            self.settings.setOption("cachesize", "0")
+        elif subsystem == SubSystems.CD32:
+            self.settings.setOption("finegrain_cpu_speed", "1024")
+            self.settings.setOption("cpu_type", "68ec020")
+            self.settings.setOption("cpu_model", "68020")
+            self.settings.setOption("cpu_compatible", "false")
+            self.settings.setOption("cpu_24bit_addressing", "true")
+            self.settings.setOption("fpu_no_unimplemented", "true")
+            self.settings.setOption("fpu_strict", "false")
+            self.settings.setOption("compfpu", "false")
+            self.settings.setOption("cachesize", "0")
+        elif subsystem == SubSystems.CDTV:
+            self.settings.setOption("cpu_speed", "real")
+            self.settings.setOption("cpu_type", "68000")
+            self.settings.setOption("cpu_model", "68000")
+            self.settings.setOption("cpu_compatible", "true")
+            self.settings.setOption("cpu_24bit_addressing", "true")
+            self.settings.setOption("fpu_no_unimplemented", "true")
+            self.settings.setOption("fpu_strict", "false")
+            self.settings.setOption("compfpu", "false")
+            self.settings.setOption("cachesize", "0")
+        else:
+            raise Exception("Unknown subsystem " + subsystem)
 
-def hasKickstarts(hardware,whdl) :
-    if hardware == 'amiga1200' and os.path.exists(os.path.join(recalboxFiles.BIOS,"kick31.rom")) :
-        return True
-    elif hardware == 'amiga600' :
-        if whdl :
-            return os.path.exists(os.path.join(recalboxFiles.BIOS,"kick20.rom"))
-        else :
-            return os.path.exists(os.path.join(recalboxFiles.BIOS,"kick13.rom"))
-            
-    return False
-        
-def generateAdfdirConf(fAdfdir,mountPoint) :
-    fAdfdir.write("path="+mountPoint+"/amiberry/adf/\n")
-    fAdfdir.write("config_path="+mountPoint+"/amiberry/conf/\n")
-    fAdfdir.write("rom_path="+recalboxFiles.BIOS+"/\n")
-    if (hasCD32Kickstarts()) :
-        fAdfdir.write("ROMs=6\n")
-        fAdfdir.write("ROMName=CD32 extended ROM rev 40.60 (512k)\n")
-        fAdfdir.write("ROMPath="+os.path.join(recalboxFiles.BIOS,"CD32ext.rom")+"\n")
-        fAdfdir.write("ROMType=4\n")
-    else :
-        fAdfdir.write("ROMs=4\n")
-        
-    fAdfdir.write("ROMName=KS ROM v1.3 (A500,A1000,A2000) rev 34.5 (256k) [315093-02]\n")    
-    fAdfdir.write("ROMPath="+os.path.join(recalboxFiles.BIOS,"kick13.rom")+"\n")
-    fAdfdir.write("ROMType=1\n")
-    fAdfdir.write("ROMName=KS ROM v2.04 (A500+) rev 37.175 (512k) [390979-01]\n")
-    fAdfdir.write("ROMPath="+os.path.join(recalboxFiles.BIOS,"kick20.rom")+"\n")
-    fAdfdir.write("ROMType=1\n")
-    fAdfdir.write("ROMName=KS ROM v3.1 (A1200) rev 40.68 (512k) [391773-01/391774-01]\n")    
-    fAdfdir.write("ROMPath="+os.path.join(recalboxFiles.BIOS,"kick31.rom")+"\n")
-    fAdfdir.write("ROMType=1\n")
-    if (hasCD32Kickstarts()) :
-        fAdfdir.write("ROMName=CD32 KS ROM v3.1 rev 40.60 (512k)\n")
-        fAdfdir.write("ROMPath="+os.path.join(recalboxFiles.BIOS,"kick31CD32.rom")+"\n")
-        fAdfdir.write("ROMType=2\n")
-        
-    fAdfdir.write("ROMName= AROS KS ROM (built-in) (1024k)\n")
-    fAdfdir.write("ROMPath=:AROS\n")
-    fAdfdir.write("ROMType=1\n")
-    # apparently not needed
-    # MRUDiskList=0
-    # MRUCDList=0
+    def SetChipset(self, subsystem):
+        if subsystem == SubSystems.A600:
+            self.settings.setOption("chipset", "ecs")
+            self.settings.setOption("chipset_refreshrate", "50.000000")
+            self.settings.setOption("collision_level", "playfields")
+            self.settings.setOption("chipset_compatible", "A600")
+            self.settings.setOption("rtc", "none")
+            self.settings.setOption("ksmirror_a8", "true")
+            self.settings.setOption("pcmcia", "true")
+            self.settings.setOption("cia_todbug", "true")
+            self.settings.setOption("immediate_blits", "false")
+            self.settings.setOption("waiting_blits", "automatic")
+            self.settings.setOption("fast_copper", "false")
+        elif subsystem == SubSystems.A1200:
+            self.settings.setOption("chipset", "aga")
+            self.settings.setOption("chipset_refreshrate", "50.000000")
+            self.settings.setOption("collision_level", "playfields")
+            self.settings.setOption("chipset_compatible", "A1200")
+            self.settings.setOption("rtc", "MSM6242B")
+            self.settings.setOption("ksmirror_a8", "true")
+            self.settings.setOption("pcmcia", "true")
+            self.settings.setOption("immediate_blits", "false")
+            self.settings.setOption("waiting_blits", "automatic")
+            self.settings.setOption("fast_copper", "false")
+        elif subsystem == SubSystems.CD32:
+            self.settings.setOption("chipset", "aga")
+            self.settings.setOption("chipset_refreshrate", "50.000000")
+            self.settings.setOption("collision_level", "playfields")
+            self.settings.setOption("chipset_compatible", "CD32")
+            self.settings.setOption("rtc", "none")
+            self.settings.setOption("ksmirror_e0", "false")
+            self.settings.setOption("ksmirror_a8", "true")
+            self.settings.setOption("cd32cd", "true")
+            self.settings.setOption("cd32c2p", "true")
+            self.settings.setOption("cd32nvram", "true")
+            self.settings.setOption("immediate_blits", "false")
+            self.settings.setOption("waiting_blits", "automatic")
+            self.settings.setOption("fast_copper", "false")
+        elif subsystem == SubSystems.CDTV:
+            self.settings.setOption("chipset", "ecs_agnus")
+            self.settings.setOption("chipset_refreshrate", "50.000000")
+            self.settings.setOption("collision_level", "playfields")
+            self.settings.setOption("chipset_compatible", "CDTV")
+            self.settings.setOption("rtc", "MSM6242B")
+            self.settings.setOption("ksmirror_e0", "false")
+            self.settings.setOption("immediate_blits", "false")
+            self.settings.setOption("waiting_blits", "automatic")
+            self.settings.setOption("fast_copper", "false")
+        else:
+            raise Exception("Unknown subsystem " + subsystem)
 
-def generateConfType(fUaeConfig) :
-    fUaeConfig.save("config_hardware","true")
-    fUaeConfig.save("config_host","true")
+    def SetMemory(self, subsystem):
+        if subsystem == SubSystems.A600:
+            self.settings.setOption("chipmem_size", "2")
+            self.settings.setOption("z3mapping", "uae")
+            self.settings.setOption("fastmem_size", "0")
+            self.settings.setOption("a3000mem_size", "0")
+            self.settings.setOption("mbresmem_size", "0")
+            self.settings.setOption("z3mem_size", "0")
+            self.settings.setOption("z3mem_start", "0x0")
+            self.settings.setOption("bogomem_size", "0")
+            self.settings.setOption("gfxcard_hardware_vblank", "false")
+            self.settings.setOption("gfxcard_hardware_sprite", "false")
+            self.settings.setOption("gfxcard_multithread", "false")
+            self.settings.setOption("rtg_modes", "0x112")
+        elif subsystem == SubSystems.A1200:
+            self.settings.setOption("chipmem_size", "4")
+            self.settings.setOption("z3mapping", "real")
+            self.settings.setOption("fastmem_size", "4")
+            self.settings.setOption("a3000mem_size", "0")
+            self.settings.setOption("mbresmem_size", "0")
+            self.settings.setOption("z3mem_size", "0")
+            self.settings.setOption("z3mem_start", "0x40000000")
+            self.settings.setOption("bogomem_size", "0")
+            self.settings.setOption("gfxcard_hardware_vblank", "false")
+            self.settings.setOption("gfxcard_hardware_sprite", "false")
+            self.settings.setOption("gfxcard_multithread", "false")
+            self.settings.setOption("rtg_modes", "0x112")
+        elif subsystem == SubSystems.CD32:
+            self.settings.setOption("chipmem_size", "8")
+            self.settings.setOption("z3mapping", "real")
+            self.settings.setOption("fastmem_size", "0")
+            self.settings.setOption("a3000mem_size", "0")
+            self.settings.setOption("mbresmem_size", "0")
+            self.settings.setOption("z3mem_size", "0")
+            self.settings.setOption("z3mem_start", "0x40000000")
+            self.settings.setOption("bogomem_size", "0")
+            self.settings.setOption("gfxcard_hardware_vblank", "false")
+            self.settings.setOption("gfxcard_hardware_sprite", "false")
+            self.settings.setOption("gfxcard_multithread", "false")
+            self.settings.setOption("rtg_modes", "0x112")
+        elif subsystem == SubSystems.CDTV:
+            self.settings.setOption("chipmem_size", "2")
+            self.settings.setOption("z3mapping", "real")
+            self.settings.setOption("fastmem_size", "0")
+            self.settings.setOption("a3000mem_size", "0")
+            self.settings.setOption("mbresmem_size", "0")
+            self.settings.setOption("z3mem_size", "0")
+            self.settings.setOption("z3mem_start", "0x40000000")
+            self.settings.setOption("bogomem_size", "0")
+            self.settings.setOption("gfxcard_hardware_vblank", "false")
+            self.settings.setOption("gfxcard_hardware_sprite", "false")
+            self.settings.setOption("gfxcard_multithread", "false")
+            self.settings.setOption("rtg_modes", "0x112")
+        else:
+            raise Exception("Unknown subsystem " + subsystem)
 
-def generateGUIConf(fUaeConfig,leds='true') :
-    fUaeConfig.save("use_gui","no")
-    fUaeConfig.save("use_debugger","false")
-    # Show status leds (Status Line)
-    fUaeConfig.save("show_leds",leds)
+    def SetSound(self, subsystem):
+        if subsystem == SubSystems.A600:
+            self.settings.setOption("sound_output", "exact")
+            self.settings.setOption("sound_channels", "stereo")
+            self.settings.setOption("sound_stereo_separation", "7")
+            self.settings.setOption("sound_stereo_mixing_delay", "0")
+            self.settings.setOption("sound_frequency", "44100")
+            self.settings.setOption("sound_interpol", "none")
+            self.settings.setOption("sound_filter", "off")
+            self.settings.setOption("sound_filter_type", "standard")
+            self.settings.setOption("sound_volume_cd", "0")
+        elif subsystem == SubSystems.A1200:
+            self.settings.setOption("sound_output", "exact")
+            self.settings.setOption("sound_channels", "stereo")
+            self.settings.setOption("sound_stereo_separation", "7")
+            self.settings.setOption("sound_stereo_mixing_delay", "0")
+            self.settings.setOption("sound_frequency", "44100")
+            self.settings.setOption("sound_interpol", "none")
+            self.settings.setOption("sound_filter", "off")
+            self.settings.setOption("sound_filter_type", "enhanced")
+            self.settings.setOption("sound_volume_cd", "0")
+        elif subsystem == SubSystems.CD32:
+            self.settings.setOption("sound_output", "normal")
+            self.settings.setOption("sound_channels", "stereo")
+            self.settings.setOption("sound_stereo_separation", "7")
+            self.settings.setOption("sound_stereo_mixing_delay", "0")
+            self.settings.setOption("sound_frequency", "44100")
+            self.settings.setOption("sound_interpol", "none")
+            self.settings.setOption("sound_filter", "off")
+            self.settings.setOption("sound_filter_type", "enhanced")
+            self.settings.setOption("sound_volume_cd", "0")
+        elif subsystem == SubSystems.CDTV:
+            self.settings.setOption("sound_output", "exact")
+            self.settings.setOption("sound_channels", "stereo")
+            self.settings.setOption("sound_stereo_separation", "7")
+            self.settings.setOption("sound_stereo_mixing_delay", "0")
+            self.settings.setOption("sound_frequency", "44100")
+            self.settings.setOption("sound_interpol", "none")
+            self.settings.setOption("sound_filter", "off")
+            self.settings.setOption("sound_filter_type", "standard")
+            self.settings.setOption("sound_volume_cd", "0")
+        else:
+            raise Exception("Unknown subsystem " + subsystem)
 
-def generateKickstartPath(fUaeConfig, amigaHardware) :
-    if  amigaHardware == "amiga1200" :
-        fUaeConfig.save("kickstart_rom_file",os.path.join(recalboxFiles.BIOS,"kick31.rom"))
-    else :
-        fUaeConfig.save("kickstart_rom_file",os.path.join(recalboxFiles.BIOS,"kick13.rom"))
-        
-def generateKickstartPathWHDL(fUaeConfig, amigaHardware) :
-    fUaeConfig.save("rom_path",recalboxFiles.BIOS)
-    if  amigaHardware == "amiga1200" :
-        fUaeConfig.save("kickstart_rom_file",os.path.join(recalboxFiles.BIOS,"kick31.rom"))
-    else :
-        fUaeConfig.save("kickstart_rom_file",os.path.join(recalboxFiles.BIOS,"kick20.rom"))
-        
-def generateKickstartPathCD32(fUaeConfig, amigaHardware) :
-    fUaeConfig.save("rom_path",recalboxFiles.BIOS)
-    fUaeConfig.save("kickstart_rom_file",os.path.join(recalboxFiles.BIOS,"kick31CD32.rom"))
-    fUaeConfig.save("kickstart_ext_rom_file",os.path.join(recalboxFiles.BIOS,"CD32ext.rom"))
-    fUaeConfig.save("flash_file",os.path.join(recalboxFiles.BIOS,"cd32.nvr"))
-    
-def generateHardwareConf (fUaeConfig,amigaHardware) :
-    # ----- Hardware configuration -----
-    if  amigaHardware == "amiga1200" :
-        print ("Amiga Hardware 1200 AGA")
-        # On configure en AGA
-        fUaeConfig.save("chipset","aga")
-        fUaeConfig.save("chipmem_size","4")
-        fUaeConfig.save("cpu_speed","max")
-        fUaeConfig.save("cpu_type","68040")
-        fUaeConfig.save("cpu_model","68040")
-        fUaeConfig.save("fpu_model","68040")
-        fUaeConfig.save("fastmem_size","8")
-    elif amigaHardware == "amiga600" :
-        print("Amiga Hardware 600 ECS")
-        # Nothing much needed for a600, amiberry generates right conf just with the right kickstart
-        fUaeConfig.save("fastmem_size","8")
-    elif amigaHardware == "amigacd32" :
-        print ("Amiga Hardware CD32")
-        fUaeConfig.save("chipset","aga")
-        fUaeConfig.save("chipmem_size","4")
-        fUaeConfig.save("finegrain_cpu_speed","1024")
-        fUaeConfig.save("cpu_type","68ec020")
-        fUaeConfig.save("cpu_model","68020")
-        fUaeConfig.save("fastmem_size","8")
-        fUaeConfig.save("cpu_compatible","false")
-        fUaeConfig.save("cpu_24bit_addressing","true")
-        fUaeConfig.save("cd32cd","true")
-        fUaeConfig.save("cd32c2p","true")
-        fUaeConfig.save("cd32nvram","true")
-        # rtg_modes=0x502
-        
-    # unused stuff 
-    # cpu_compatible=false
-    # cpu_24bit_addressing=false
+    def SetGraphics(self, subsystem):
+        if subsystem == SubSystems.A600:
+            self.settings.setOption("gfx_framerate", "0")
+            self.settings.setOption("gfx_width", "640")
+            self.settings.setOption("gfx_height", "256")
+            self.settings.setOption("gfx_refreshrate", "50")
+            self.settings.setOption("gfx_refreshrate_rtg", "50")
+            self.settings.setOption("gfx_lores", "false")
+            self.settings.setOption("gfx_resolution", "hires")
+            self.settings.setOption("gfx_lores_mode", "normal")
+            self.settings.setOption("gfx_linemode", "none")
+            self.settings.setOption("gfx_fullscreen_amiga", "false")
+            self.settings.setOption("gfx_fullscreen_picasso", "false")
+            self.settings.setOption("ntsc", "false")
+        elif subsystem == SubSystems.A1200:
+            self.settings.setOption("gfx_framerate", "0")
+            self.settings.setOption("gfx_width", "640")
+            self.settings.setOption("gfx_height", "256")
+            self.settings.setOption("gfx_refreshrate", "50")
+            self.settings.setOption("gfx_refreshrate_rtg", "50")
+            self.settings.setOption("gfx_lores", "false")
+            self.settings.setOption("gfx_resolution", "hires")
+            self.settings.setOption("gfx_lores_mode", "normal")
+            self.settings.setOption("gfx_linemode", "none")
+            self.settings.setOption("gfx_fullscreen_amiga", "false")
+            self.settings.setOption("gfx_fullscreen_picasso", "false")
+            self.settings.setOption("ntsc", "false")
+        elif subsystem == SubSystems.CD32:
+            self.settings.setOption("gfx_framerate", "0")
+            self.settings.setOption("gfx_width", "768")
+            self.settings.setOption("gfx_height", "270")
+            self.settings.setOption("gfx_refreshrate", "50")
+            self.settings.setOption("gfx_refreshrate_rtg", "50")
+            self.settings.setOption("gfx_lores", "false")
+            self.settings.setOption("gfx_resolution", "hires")
+            self.settings.setOption("gfx_lores_mode", "normal")
+            self.settings.setOption("gfx_linemode", "none")
+            self.settings.setOption("gfx_fullscreen_amiga", "false")
+            self.settings.setOption("gfx_fullscreen_picasso", "false")
+            self.settings.setOption("ntsc", "false")
+        elif subsystem == SubSystems.CDTV:
+            self.settings.setOption("gfx_framerate", "0")
+            self.settings.setOption("gfx_width", "768")
+            self.settings.setOption("gfx_height", "270")
+            self.settings.setOption("gfx_refreshrate", "50")
+            self.settings.setOption("gfx_refreshrate_rtg", "50")
+            self.settings.setOption("gfx_lores", "false")
+            self.settings.setOption("gfx_resolution", "hires")
+            self.settings.setOption("gfx_lores_mode", "normal")
+            self.settings.setOption("gfx_linemode", "none")
+            self.settings.setOption("gfx_fullscreen_amiga", "false")
+            self.settings.setOption("gfx_fullscreen_picasso", "false")
+            self.settings.setOption("ntsc", "false")
+        else:
+            raise Exception("Unknown subsystem " + subsystem)
 
-def generateZ3Mem(fUaeConfig) :
-    fUaeConfig.save("z3mem_size","64")
-    fUaeConfig.save("z3mem_start","0x1000000")
-        
-def generateGraphicConf(fUaeConfig) :
-    # ----- GFX configuration -----
-    fUaeConfig.save("gfx_width","640")
-    fUaeConfig.save("gfx_height","256")
-    fUaeConfig.save("gfx_correct_aspect","true")
-    fUaeConfig.save("gfx_center_horizontal","simple")
-    fUaeConfig.save("gfx_center_vertical","simple")
-    # extra ? doesn't seem needed
-    # gfx_refreshrate=0
-    # gfx_vsync=true
-    # gfx_lores=false
-    # gfx_resolution=hires
-    # gfx_framerate=0
-    # immediate_blits=false
-    # fast_copper=true
-    # ntsc=false
-    # collision_level=playfields
-    
-    # Old Pandora Stuff for WHDL seems totally useless
-    # pandora.floppy_path=/recalbox/share/emulateurs/amiga/amiberry/disks/
-    # pandora.hardfile_path=/recalbox/share/roms/amiga/
-    # ; host-specific
-    # pandora.blitter_in_partial_mode=0
-    # pandora.cpu_speed=600
-    
-def generateCD32GraphicConf(fUaeConfig) :
-    # ----- CD32 GFX configuration -----
-    fUaeConfig.save("gfx_width","704")
-    fUaeConfig.save("gfx_height","262")
-    fUaeConfig.save("gfx_correct_aspect","true")
-    fUaeConfig.save("gfx_center_horizontal","simple")
-    fUaeConfig.save("gfx_center_vertical","simple")
-    # gfx_lores=true
-    # gfx_resolution=lores
-    
-def generateSoundConf(fUaeConfig) :
-    # ----- Sound configuration -----
-    fUaeConfig.save("sound_output","exact")
-    fUaeConfig.save("sound_bits","16")
-    fUaeConfig.save("sound_channels","stereo")
-    fUaeConfig.save("sound_stereo_separation","7")
-    fUaeConfig.save("sound_stereo_mixing_delay","0")
-    fUaeConfig.save("sound_frequency","44100")
-    fUaeConfig.save("sound_interpol","none")
-    fUaeConfig.save("sound_filter","off")
-    fUaeConfig.save("sound_filter_type","standard")
-    fUaeConfig.save("sound_volume","0")
-    fUaeConfig.save("sound_auto","yes")
-    fUaeConfig.save("cachesize","0")
-    fUaeConfig.save("synchronize_clock","yes")
+    def SetNetwork(self, network):
+        self.settings.setOption("bsdsocket_emu", "true" if network else "false")
 
-    
+    def SetFloppies(self, subsystem, floppyPathList):
+        if subsystem in SubSystems.COMPUTERS:
+            self.settings.setOption("floppy_speed", "100")
+            count = min(len(floppyPathList), 4)
+            self.settings.setOption("nr_floppies", str(count))
+            if count > 0:
+                self.settings.setOption("floppy0", floppyPathList[0])
+                if count > 1:
+                    self.settings.setOption("floppy1", floppyPathList[1])
+                    if count > 2:
+                        self.settings.setOption("floppy2", floppyPathList[2])
+                        self.settings.setOption("floppy2type", "0")
+                        if count > 3:
+                            self.settings.setOption("floppy3", floppyPathList[3])
+                            self.settings.setOption("floppy3type", "0")
+        elif subsystem in SubSystems.CONSOLES:
+            # No drives on CD32/CDTV
+            return
+        else:
+            raise Exception("Unknown subsystem " + subsystem)
+
+    def SetCD(self, subsystem, cdpath):
+        self.settings.setOption("cd_speed", "100")
+        if subsystem in SubSystems.COMPUTERS:
+            # No CD
+            return
+        elif subsystem == SubSystems.CD32:
+            self.settings.setOption("cd32cd", "true")
+            self.settings.setOption("cd32c2p", "true")
+            self.settings.setOption("cd32nvram", "true")
+            if cdpath:
+                self.settings.setOption("cdimage0", cdpath)
+        elif subsystem == SubSystems.CDTV:
+            if cdpath:
+                self.settings.setOption("cdimage0", cdpath + ",image")
+        else:
+            raise Exception("Unknown subsystem " + subsystem)
+
+    def SetHDD(self, subsystem, hdd0mointpoint):
+        if subsystem in SubSystems.COMPUTERS:
+            volume, _ = os.path.splitext(os.path.basename(hdd0mointpoint))
+            self.settings.setOption("filesystem2", "rw,DH0:{}:{},0".format(volume, hdd0mointpoint))
+            self.settings.setOption("uaehf0", "dir,rw,DH0:{}:{},0".format(volume, hdd0mointpoint))
+        elif subsystem in SubSystems.CONSOLES:
+            # No HDD on CD32/CDTV
+            return
+        else:
+            raise Exception("Unknown subsystem " + subsystem)
+
+    def SetKickstarts(self, subsystem, romtype):
+        manager = KickstartManager()
+        manager.GetKickstartsFor(subsystem, romtype)
+        kickstart = manager.GetBIOS()
+        self.settings.setOption("kickstart_rom_file", kickstart)
+        if manager.NeedExtendedBIOS():
+            extended = manager.GetExtendedBIOS()
+            self.settings.setOption("kickstart_ext_rom_file", extended)
+
+
+

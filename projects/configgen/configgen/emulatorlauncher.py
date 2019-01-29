@@ -134,6 +134,7 @@ emulators["3do"] = Emulator(name='3do', emulator='libretro', core='4do')
 emulators["amiga600"] = Emulator(name='amiga600', emulator='amiberry')
 emulators["amiga1200"] = Emulator(name='amiga1200', emulator='amiberry')
 emulators["amigacd32"] = Emulator(name='amigacd32', emulator='amiberry')
+emulators["amigacdtv"] = Emulator(name='amigacdtv', emulator='amiberry')
 
 emulators["kodi"] = Emulator(name='kodi', emulator='kodi', videomode='default')
 emulators["moonlight"] = Emulator(name='moonlight', emulator='moonlight')

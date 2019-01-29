@@ -14,15 +14,15 @@ class SimCoupeGenerator(Generator):
         '''
 
         settings = keyValueSettings('/recalbox/share/system/.simcoupe/SimCoupe.cfg')
-        settings.loadFile()
+        settings.loadFile(True)
 
-        settings.setOption("FilterGui", "1")                            # Nice looking GUI
-        settings.setOption("InPath", "/recalbox/share/roms/samcoupe")   # default input path
-        settings.setOption("OutPath", "/recalbox/share/save/samcoupe")  # default output path
-        settings.setOption("Disk1", rom)                                # rom
-        settings.setOption("Fullscreen", "Yes")                         # Fullscreen
-        settings.setOption("FirstRun", "No")                            # no first-launch nag-screen #1
-        settings.setOption("CfgVersion", "4")                           # no first launch nag-screen #2
+        settings.setOption("FilterGui", "1")                              # Nice looking GUI
+        settings.setOption("InPath", recalboxFiles.ROMS + "/samcoupe")    # default input path
+        settings.setOption("OutPath", recalboxFiles.SAVES + "/samcoupe")  # default output path
+        settings.setOption("Disk1", rom)                                  # rom
+        settings.setOption("Fullscreen", "Yes")                           # Fullscreen
+        settings.setOption("FirstRun", "No")                              # no first-launch nag-screen #1
+        settings.setOption("CfgVersion", "4")                             # no first launch nag-screen #2
 
         for index in playersControllers:
             controller = playersControllers[index]
