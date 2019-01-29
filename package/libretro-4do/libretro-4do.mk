@@ -3,11 +3,28 @@
 # 4DO
 #
 ################################################################################
-LIBRETRO_4DO_VERSION = 2a06cd1f6e4987e021e86c9652f0a7eecc2b1130
+LIBRETRO_4DO_VERSION = fe6e652668cd40fc52f1ab48193bb12920f1bad7
 LIBRETRO_4DO_SITE = $(call github,libretro,4do-libretro,$(LIBRETRO_4DO_VERSION))
 
+ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_RPI3),y)
+	4DO_PLATFORM=rpi3
+	4DO_PLATFORM_CPU=cortex-a53
+	4DA_PLATFORM_OPT=-mfpu=neon-vfpv4 -fdata-sections -ffunction-sections -Wl,--gc-sections -fno-unroll-loops -fmerge-all-constants
+else ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_XU4),y)
+	4DO_PLATFORM=odroidxu4
+	4DO_PLATFORM_CPU=cortex-a5
+	4DA_PLATFORM_OPT=-mfpu=neon-vfpv4 -fdata-sections -ffunction-sections -Wl,--gc-sections -fno-unroll-loops -fmerge-all-constants
+endif
+
+define LIBRETRO_4DO_MAKEFILE_PATCHING
+ 	$(SED) "s|-O2|-O3|g" $(@D)/Makefile
+ 	$(SED) "s|CFLAGS = -mcpu=$(4DO_PLATFORM_CPU)|CFLAGS = -mcpu=$(4DO_PLATFORM_CPU) $(4DA_PLATFORM_OPT)|g" $(@D)/Makefile
+endef
+#-fno-stack-protector -fno-ident -fno-unwind-tables -fno-asynchronous-unwind-tables 
+LIBRETRO_4DO_PRE_CONFIGURE_HOOKS += LIBRETRO_4DO_MAKEFILE_PATCHING
+
 define LIBRETRO_4DO_BUILD_CMDS
-	CFLAGS="$(TARGET_CFLAGS)" CXXFLAGS="$(TARGET_CXXFLAGS)" $(MAKE) CXX="$(TARGET_CXX)" CC="$(TARGET_CC)" -C $(@D) -f Makefile platform="unix $(LIBRETRO_PLATFORM)"
+	CFLAGS="$(TARGET_CFLAGS)" CXXFLAGS="$(TARGET_CXXFLAGS)" $(MAKE) CXX="$(TARGET_CXX)" CC="$(TARGET_CC)" -C $(@D) -f Makefile platform="unix $(4DO_PLATFORM)"
 endef
 
 define LIBRETRO_4DO_INSTALL_TARGET_CMDS
