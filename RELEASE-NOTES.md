@@ -31,6 +31,7 @@
 - Emulator updated! FBA Libretro core updated to latest version. Recommended Romset: 0.2.97.44
 - Emulator updated! Hatari (Atari ST) updated to latest version.
 - Emulator updated! DoxBox updated to December 2018 version.
+- Emulator updated! 4DO updated to lastest revision. Also available on Rpi3.
 - GPIO arcade driver upgraded: now support I2C and GPIO reconfiguring from the command line
 - EmulationStation: Now automatically reboots once the upgrade is ready
 - "overlays" folder and roms subfolders automatically created

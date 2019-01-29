@@ -52,6 +52,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Bump DosBox to revision 4178 (December 2018)
 - Beetle PC-FX: Add NEC PC-FX support (x86, x86_64 and xu4)
 - MAME bios folders: Update hiscore/cheats for all MAME versions (courtesy of olivierdroid92)
+- Bump 4DO to support threaded DSP emulation & lightgun
+- Activate 4DO package on Rpi3
 
 ## [18.07.13] - 2018-07-13
 - Bump desmume to desmume2015
