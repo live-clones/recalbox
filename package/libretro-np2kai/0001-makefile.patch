@@ -10,13 +10,13 @@
 +    CXX= ${CC_PREFIX}g++
 +
 +    TARGET := $(TARGET_NAME)_libretro.so
-+    SHARED := -lpthread -lm -shared -Wl,--no-undefined -Wl,--version-script=link.T
-+
-+	COMMONFLAGS += -DHAVE_MKDIR
-+	COMMONFLAGS += -DDISABLE_EXCEPTIONS
-+	STATIC_LINKING = 1
-+	IS_X86 := 0
-+
++    
++    #SHARED := -lpthread -lm -shared -Wl,--no-undefined -Wl,--version-script=link.T
++	 LDFLAGS += -dynamiclib -ldl -lpthread -lm -shared -Wl,--no-undefined -Wl,--version-script=link.T
++	 COMMONFLAGS += -DDISABLE_EXCEPTIONS -DHAVE_MKDIR
++	 
++	 fpic = -fPIC
++   
 +    # Raspberry Pi
 +    ifneq (,$(findstring rpi,$(platform)))
 +        CFLAGS += -fomit-frame-pointer -ffast-math -DARM -marm -mfloat-abi=hard
