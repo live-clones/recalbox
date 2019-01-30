@@ -7,14 +7,15 @@ import subprocess
 
 class RomType:
 
-    UNKNOWN = 0
-    DISK = 1
-    WHDL = 2
-    CDROM = 3
-    HDD = 4
-    PACKAGE = 5
+    UNKNOWN = 0  # Unknown
+    DISK = 1     # Disk ADF or IPF, file zipped or 7zipped (ADF only)
+    WHDL = 2     # WHDL Folder, zipped-folder, lha'ed-folder
+    CDROM = 3    # Multiple CD formats
+    HDDFS = 4    # HDD FileSystem
+    HDF = 5      # Harddisk file
+    PACKAGE = 6  # RP9 all-in-one package
 
-    VALID_EXTENSIONS = [".iso", ".bin", ".cue", ".ccd", ".nrg", ".mds", ".chd", ".adf", ".ipf", ".lha", ".lzh", ".lzx", ".zip", ".7z", ".rp9"]
+    VALID_EXTENSIONS = [".iso", ".bin", ".cue", ".ccd", ".nrg", ".mds", ".chd", ".adf", ".ipf", ".lha", ".lzh", ".lzx", ".zip", ".7z", ".rp9", ".hdf"]
     VALID_CONFIGURATIONS = [".uae"]
 
     def __init__(self):
@@ -56,7 +57,8 @@ class RomType:
         # Amiberry 2.24 supports:
         # - native WHDL (folder, 7z, zip, lha).
         # - Disk images ADF or IPF using libcapsimage library (file, 7z, zip)
-        # - HDD folder (uncompressed)
+        # - HDDFS folder (uncompressed)
+        # - HD Files
         # - CD images cue/mds/ccd/iso/bin/img/chd (file, 7z, zip)
         # - Package files rp9 (file)
 
@@ -68,6 +70,8 @@ class RomType:
                 romType = RomType.WHDL
             elif romExt in [".iso", ".bin", ".cue", ".ccd", ".nrg", ".mds", ".chd"]:
                 romType = RomType.CDROM
+            elif romExt == ".hdf":
+                romType = RomType.HDF
             # Zip
             elif romExt == ".zip":
                 fileList = subprocess.check_output(['unzip', '-l', rom]).lower()
@@ -80,6 +84,8 @@ class RomType:
                         fileList.find(".nrg") >= 0 or fileList.find(".mds") >= 0 or \
                         fileList.find(".chd") >= 0:
                     romType = RomType.CDROM
+                elif fileList.find(".hdf") >= 0:
+                    romType = RomType.HDF
             # 7z
             elif romExt == ".7z":
                 fileList = subprocess.check_output(['7zr', 'l', rom]).lower()
@@ -92,17 +98,19 @@ class RomType:
                         fileList.find(".nrg") >= 0 or fileList.find(".mds") >= 0 or \
                         fileList.find(".chd") >= 0:
                     romType = RomType.CDROM
+                elif fileList.find(".hdf") >= 0:
+                    romType = RomType.HDF
             elif romExt == ".rp9":
                 romType = RomType.PACKAGE
         else:
             # folder
             _, folderExt = os.path.splitext(rom)
             if folderExt == ".hd":
-                romType = RomType.HDD
+                romType = RomType.HDDFS
             elif RomType.SeekForExtension(rom, "*.Slave"):
                 romType = RomType.WHDL
             else:
-                romType = RomType.HDD
+                romType = RomType.HDDFS
 
         # Check configuration file if required
         if not romHasUAE:

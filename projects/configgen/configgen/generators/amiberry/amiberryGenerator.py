@@ -71,10 +71,21 @@ class AmiberryGenerator(Generator):
 
     # Generate WHDL Arguments
     @staticmethod
-    def getWHDLArguments(rom, system, _):
+    def getWHDLArguments(rom, system, configFile):
+        del rom, configFile
         if system in SubSystems.COMPUTERS:
             # Copy whdl structure
             subprocess.check_output(["cp", "-r", "/usr/share/amiberry/whdboot", recalboxFiles.amiberryMountPoint])
+
+            # Prepare final save folder
+            finalSaveFolder = os.path.join(recalboxFiles.SAVES, system, "whdl")
+            subprocess.check_output(["mkdir", "-p", finalSaveFolder])
+
+            # Delete save-game and redirect to finalSaveFolder
+            sourceSaveFolder = os.path.join(recalboxFiles.amiberryMountPoint, "whdboot/save-data/Savegames")
+            subprocess.check_output(["rm", "-rf", sourceSaveFolder])
+            subprocess.check_output(["ln", "-s", finalSaveFolder, sourceSaveFolder])
+
             # Do not use ["-autowhdload=" + rom] cause it requires a special game configuration
             return []
         raise Exception("WHDL not allowed on non-computer devices")
@@ -102,14 +113,23 @@ class AmiberryGenerator(Generator):
         configFile.SetCD(system, rom)
         return []
 
-    # Generate HDD Arguments
+    # Generate HDFS Arguments
     @staticmethod
-    def getHDDArguments(rom, system, configFile):
+    def getHDFSArguments(rom, system, configFile):
         if system in SubSystems.COMPUTERS:
             # mount an amiga volume DH0 to the mount point given by the rom argument
-            configFile.SetHDD(system, rom)
+            configFile.SetHDFS(system, rom)
             return []
-        raise Exception("HDD not allowed on non-computer devices")
+        raise Exception("HDFS not allowed on non-computer devices")
+
+    # Generate HDF Arguments
+    @staticmethod
+    def getHDFArguments(rom, system, configFile):
+        if system in SubSystems.COMPUTERS:
+            # mount an amiga volume DH0 using the filename given by the rom argument
+            configFile.SetHDF(system, rom)
+            return []
+        raise Exception("HDF not allowed on non-computer devices")
 
     # Unknown rom processing
     @staticmethod
@@ -159,7 +179,7 @@ class AmiberryGenerator(Generator):
         configFile.SetChipset(subSystem)
         configFile.SetMemory(subSystem)
         configFile.SetSound(subSystem)
-        configFile.SetNetwork(romType == RomType.WHDL or romType == RomType.HDD)
+        configFile.SetNetwork(romType in [RomType.WHDL, RomType.HDDFS, RomType.HDF])
         configFile.SetFloppies(subSystem, [])
         configFile.SetCD(subSystem, None)
         configFile.SetKickstarts(subSystem, romType)
@@ -181,7 +201,8 @@ class AmiberryGenerator(Generator):
             RomType.DISK: AmiberryGenerator.getADFArguments,
             RomType.WHDL: AmiberryGenerator.getWHDLArguments,
             RomType.CDROM: AmiberryGenerator.getCDROMArguments,
-            RomType.HDD: AmiberryGenerator.getHDDArguments,
+            RomType.HDDFS: AmiberryGenerator.getHDFSArguments,
+            RomType.HDF: AmiberryGenerator.getHDFArguments,
             RomType.PACKAGE: AmiberryGenerator.getRP9Arguments,
         }
         # Get the function from switcher dictionary

@@ -382,13 +382,23 @@ class ConfigGenerator:
         else:
             raise Exception("Unknown subsystem " + subsystem)
 
-    def SetHDD(self, subsystem, hdd0mointpoint):
+    def SetHDDFS(self, subsystem, hdd0mointpoint):
         if subsystem in SubSystems.COMPUTERS:
             volume, _ = os.path.splitext(os.path.basename(hdd0mointpoint))
             self.settings.setOption("filesystem2", "rw,DH0:{}:{},0".format(volume, hdd0mointpoint))
             self.settings.setOption("uaehf0", "dir,rw,DH0:{}:{},0".format(volume, hdd0mointpoint))
         elif subsystem in SubSystems.CONSOLES:
-            # No HDD on CD32/CDTV
+            # No HDDFS on CD32/CDTV
+            return
+        else:
+            raise Exception("Unknown subsystem " + subsystem)
+
+    def SetHDF(self, subsystem, hdf):
+        if subsystem in SubSystems.COMPUTERS:
+            self.settings.setOption("filesystem2", "rw,DH0:{},32,1,2,512,0,,ide0_mainboard".format(hdf))
+            self.settings.setOption("uaehf0", "hdf,rw,DH0:{},32,1,2,512,0,,ide0_mainboard".format(hdf))
+        elif subsystem in SubSystems.CONSOLES:
+            # No HDF on CD32/CDTV
             return
         else:
             raise Exception("Unknown subsystem " + subsystem)
