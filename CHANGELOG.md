@@ -41,6 +41,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - PokeMini: Add Pokémon Mini support
 - FreeIntv: Add Mattel Intellivision support
 - FreeChaF: Add Fairchild Channel F support
+- pc98: Add PC-98xx series support
 - Add Atari Jaguar on x86(_64) platforms
 - SNES9X: Add Satellaview and SuFami Turbo as own systems
 - Neo Geo CD: Added support with fbalpha emulator

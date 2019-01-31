@@ -12,6 +12,7 @@
 - New emulator! Tangerine Oric/Atmos and later clones on all raspberry (Standalone oricutron)
 - New emulator! Atari 8bits series on all systems (800, XL, XE) and Atari 5200 console (RetroArch core: libretro-atari800) - Thanks to Dubbows!
 - New emulator! PC-FX emulator on x86 and XU4 systems (Retroarch core: libretro-beetle-pcfx)
+- New emulator! PC-98xx series on all systems but odroidC2 (Retroarch core: libretro-np2kai)
 - New System! SNES extensions Satellaview and SuFami Turbo added as own systems
 - New System! NeoGeo CD with audio track support (via RetroArch core libretro-fba)
 - New System! Amiga CD32 with audio track support (via Amiberry)
