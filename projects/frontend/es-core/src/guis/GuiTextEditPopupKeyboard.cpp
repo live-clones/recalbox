@@ -2,6 +2,7 @@
 #include "components/MenuComponent.h"
 #include "Log.h"
 #include "MenuThemeData.h"
+#include <RecalboxConf.h>
 
 using namespace Eigen;
 
@@ -37,28 +38,51 @@ GuiTextEditPopupKeyboard::GuiTextEditPopupKeyboard(Window* window, const std::st
 
 	std::vector< std::vector< std::shared_ptr<ButtonComponent> > > buttonList;
 
-    std::vector<std::array<std::string, 12> > lines;
-
-
-    lines.push_back({ "1","2","3","4","5","6","7","8","9","0","_","+" });
-    lines.push_back({ "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "-", "=" });
-
-    lines.push_back({ "à","ä","è","ë","ì","ï","ò","ö","ù","ü","¨","¿" });
-    lines.push_back({ "á", "â", "é", "ê", "í", "î", "ó", "ô", "ú", "û", "ñ", "¡" });
-
-    lines.push_back({ "q","w","e","r","t","y","u","i","o","p","{","}" });
-    lines.push_back({ "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "[", "]" });
-
-    lines.push_back({ "a","s","d","f","g","h","j","k","l",";","\"","|" });
-    lines.push_back({ "A", "S", "D", "F", "G", "H", "J", "K", "L", ":", "'", "\\" });
-
-    // Special case, SHIFT key at position 0
-    lines.push_back({ "", "~","z","x","c","v","b","n","m",",",".","?" });
-    lines.push_back({ "", "`", "Z", "X", "C", "V", "B", "N", "M", "<", ">", "/" });
-
 	// Keyboard
 	// Case for if multiline is enabled, then don't create the keyboard.
 	if (!mMultiLine) {
+
+		std::vector<std::array<std::string, 12> > lines;
+
+		std::string keyboard = RecalboxConf::getInstance()->get("system.keyboard");
+
+		if (keyboard == "azerty")
+		{
+			lines.push_back({ "&", "é", "\"", "'", "(", "§", "è", "!", "ç", "à", ")", "-" });
+			lines.push_back({ "1", "2", "3",  "4", "5", "6", "7", "8", "9", "0", "°", "_" });
+
+			lines.push_back({ "à", "ä", "ë", "ì", "ï", "ò", "ö", "ü", "\\", "|", "#", "@" });
+			lines.push_back({ "á", "â", "ê", "í", "î", "ó", "ô", "ú",  "û", "ñ", "¡", "¿" });
+
+			lines.push_back({ "a", "z", "e", "r", "t", "y", "u", "i", "o", "p", "^", "$" });
+			lines.push_back({ "A", "Z", "E", "R", "T", "Y", "U", "I", "O", "P", "¨", "*" });
+
+			lines.push_back({ "q", "s", "d", "f", "g", "h", "j", "k", "l", "m", "ù", "`" });
+			lines.push_back({ "Q", "S", "D", "F", "G", "H", "J", "K", "L", "M", "%", "£" });
+
+			// Special case, SHIFT key at position 0
+			lines.push_back({ "", "<", "w", "x", "c", "v", "b", "n", ",", ";", ":", "=" });
+			lines.push_back({ "", ">", "W", "X", "C", "V", "B", "N", "?", ".", "/", "+" });
+		}
+		else
+		{
+			lines.push_back({ "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "_", "+" });
+			lines.push_back({ "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "-", "=" });
+
+			lines.push_back({ "à", "ä", "è", "ë", "ì", "ï", "ò", "ö", "ù", "ü", "¨", "¿" });
+			lines.push_back({ "á", "â", "é", "ê", "í", "î", "ó", "ô", "ú", "û", "ñ", "¡" });
+
+			lines.push_back({ "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "{", "}" });
+			lines.push_back({ "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "[", "]" });
+
+			lines.push_back({ "a", "s", "d", "f", "g", "h", "j", "k", "l", ";", "\"", "|" });
+			lines.push_back({ "A", "S", "D", "F", "G", "H", "J", "K", "L", ":", "'", "\\" });
+
+			// Special case, SHIFT key at position 0
+			lines.push_back({ "", "~", "z", "x", "c", "v", "b", "n", "m", ",", ".", "?" });
+			lines.push_back({ "", "`", "Z", "X", "C", "V", "B", "N", "M", "<", ">", "/" });
+		}
+
 	    for (unsigned int i = 0; i < 5; i++)
 	    {
 			std::vector< std::shared_ptr<ButtonComponent> > buttons;

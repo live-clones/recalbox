@@ -279,7 +279,17 @@ void GuiMenu::menuSystem(){
   s->addWithLabel(language_choice, _("LANGUAGE"), _(MenuMessages::LANGUAGE_HELP_MSG));
 
 
-  s->addSaveFunc([window, language_choice, language, optionsStorage, selectedStorage] {
+  auto keyboard_choice = std::make_shared<OptionListComponent<std::string> >(window, _("KEYBOARD"), false);
+  std::string keyboard = RecalboxConf::getInstance()->get("system.keyboard");
+  if (keyboard.empty()) keyboard = "qwerty";
+
+  keyboard_choice->add("QWERTY", "qwerty", keyboard == "qwerty");
+  keyboard_choice->add("AZERTY", "azerty", keyboard == "azerty");
+
+  s->addWithLabel(keyboard_choice, _("KEYBOARD"), _(MenuMessages::KEYBOARD_HELP_MSG));
+
+
+  s->addSaveFunc([window, language_choice, language, keyboard_choice, keyboard, optionsStorage, selectedStorage] {
     bool reboot = false;
     if (optionsStorage->changed()) {
       RecalboxSystem::getInstance()->setStorage(optionsStorage->getSelected());
@@ -291,6 +301,12 @@ void GuiMenu::menuSystem(){
       RecalboxConf::getInstance()->saveRecalboxConf();
       reboot = true;
     }
+
+    if (keyboard != keyboard_choice->getSelected()) {
+      RecalboxConf::getInstance()->set("system.keyboard", keyboard_choice->getSelected());
+      RecalboxConf::getInstance()->saveRecalboxConf();
+    }
+
     if (reboot) {
       window->pushGui(
           new GuiMsgBox(window, _("THE SYSTEM WILL NOW REBOOT"), _("OK"), [window] {

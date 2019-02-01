@@ -15,6 +15,7 @@ public:
 	static const char* DISK_USAGE_HELP_MSG;
 	static const char* STORAGE_DEVICE_HELP_MSG;
 	static const char* LANGUAGE_HELP_MSG;
+	static const char* KEYBOARD_HELP_MSG;
 
 	static const char* UPDATE_HELP_MSG;
 	static const char* START_UPDATE_HELP_MSG;

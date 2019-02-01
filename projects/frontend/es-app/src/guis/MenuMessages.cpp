@@ -7,6 +7,7 @@ const char* MenuMessages::VERSION_HELP_MSG = "Shows your current recalboxOS vers
 const char* MenuMessages::DISK_USAGE_HELP_MSG = "Show how much space is used on your SHARE partition, located either on the SDCARD or on an external drive. The information shows how much GB are used and how much GB your storage has overall (example 13GB/26GB).";
 const char* MenuMessages::STORAGE_DEVICE_HELP_MSG = "Select an external drive to store your roms, saves, configurations etc.\nUse a FAT32 formatted drive. The system does not format the drive. On first boot, with this option enabled, recalbox will create a '/recalbox' folder with all system files inside.";
 const char* MenuMessages::LANGUAGE_HELP_MSG = "Select your language. A reboot is needed to set this configuration active.";
+const char* MenuMessages::KEYBOARD_HELP_MSG = "Select your keyboard type.";
 
 const char* MenuMessages::UPDATE_HELP_MSG = "Manage your recalbox updates. Select the update type. Activate update check.";
 const char* MenuMessages::START_UPDATE_HELP_MSG = "Check if an update is available, and start the update process.";
