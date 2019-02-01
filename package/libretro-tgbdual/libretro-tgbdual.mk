@@ -3,7 +3,7 @@
 # TGBDUAL
 #
 ################################################################################
-LIBRETRO_TGBDUAL_VERSION = fe5c3ff15f2f6c2a8870a28f5a325f7e9815904e
+LIBRETRO_TGBDUAL_VERSION = c13b9418664dede869362d965cdc8eeb6382e779
 LIBRETRO_TGBDUAL_SITE = $(call github,libretro,tgbdual-libretro,$(LIBRETRO_TGBDUAL_VERSION))
 
 define LIBRETRO_TGBDUAL_BUILD_CMDS

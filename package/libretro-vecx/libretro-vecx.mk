@@ -3,7 +3,7 @@
 # VECX
 #
 ################################################################################
-LIBRETRO_VECX_VERSION = 25bfdd94900dcf5fd3d555ef686d857c0f087c2f
+LIBRETRO_VECX_VERSION = 42366f88249a7fb52b823f53cdc4730f6778afc5
 LIBRETRO_VECX_SITE = $(call github,libretro,libretro-vecx,$(LIBRETRO_VECX_VERSION))
 
 define LIBRETRO_VECX_BUILD_CMDS

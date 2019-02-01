@@ -3,7 +3,7 @@
 # SCUMMVM
 #
 ################################################################################
-LIBRETRO_SCUMMVM_VERSION = c9730958e069155cfbfa3bc519502895044ca8f3
+LIBRETRO_SCUMMVM_VERSION = 602a26cedd55677942648cbf488f52bd951a95d8
 LIBRETRO_SCUMMVM_SITE = $(call github,libretro,scummvm,$(LIBRETRO_SCUMMVM_VERSION))
 
 define LIBRETRO_SCUMMVM_BUILD_CMDS
