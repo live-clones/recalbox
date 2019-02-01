@@ -7,9 +7,9 @@ class SubSystems:
     CDTV = "amigacdtv"
     CD32 = "amigacd32"
 
-    COMPUTERS = { A600, A1200 }
-    CONSOLES = { CDTV, CD32 }
-    HAVEMOUSE = { A600, A1200, CDTV, CD32 }
+    COMPUTERS = ( A600, A1200 )
+    CONSOLES = ( CDTV, CD32 )
+    HAVEMOUSE = ( A600, A1200, CDTV, CD32 )
 
     def __init__(self):
         raise Exception("Use static fields!")

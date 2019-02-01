@@ -8,6 +8,7 @@ import recalboxFiles
 from generators.Generator import Generator
 from generators.amiberry.amiberryConfig import ConfigGenerator
 from generators.amiberry.amiberryGlobalConfig import AmiberryGlobalConfig
+from generators.amiberry.amiberryKickstarts import KickstartManager
 from generators.amiberry.amiberryRomType import RomType
 from generators.amiberry.amiberrySubSystems import SubSystems
 from settings.keyValueSettings import keyValueSettings
@@ -74,17 +75,23 @@ class AmiberryGenerator(Generator):
     def getWHDLArguments(rom, system, configFile):
         del rom, configFile
         if system in SubSystems.COMPUTERS:
-            # Copy whdl structure
-            subprocess.check_output(["cp", "-r", "/usr/share/amiberry/whdboot", recalboxFiles.amiberryMountPoint])
-
             # Prepare final save folder
+            sourceSaveFolder = os.path.join(recalboxFiles.amiberryMountPoint, "whdboot/save-data/Savegames")
             finalSaveFolder = os.path.join(recalboxFiles.SAVES, system, "whdl")
             subprocess.check_output(["mkdir", "-p", finalSaveFolder])
 
+            # Copy whdl structure
+            if os.path.islink(sourceSaveFolder):
+                os.remove(sourceSaveFolder)  # Remove soft link
+            subprocess.check_output(["cp", "-r", "/usr/share/amiberry/whdboot", recalboxFiles.amiberryMountPoint])
+
             # Delete save-game and redirect to finalSaveFolder
-            sourceSaveFolder = os.path.join(recalboxFiles.amiberryMountPoint, "whdboot/save-data/Savegames")
-            subprocess.check_output(["rm", "-rf", sourceSaveFolder])
+            os.removedirs(sourceSaveFolder)  # Remove true directory
+            #subprocess.check_output(["rm", "-rf", sourceSaveFolder])
             subprocess.check_output(["ln", "-s", finalSaveFolder, sourceSaveFolder])
+
+            # Create symlinks
+            KickstartManager.GenerateWHDSymLinks(os.path.join(recalboxFiles.amiberryMountPoint, "whdboot/save-data/Kickstarts"))
 
             # Do not use ["-autowhdload=" + rom] cause it requires a special game configuration
             return []

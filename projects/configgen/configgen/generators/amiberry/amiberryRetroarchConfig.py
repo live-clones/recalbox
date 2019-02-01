@@ -45,6 +45,14 @@ class AmiberryRetroarchConfig:
         "input_r_x_plus_axis" : ( "joystick2left", "+"),
     }
 
+    dpadToJostickAmiberry = \
+    {
+        "input_l_y_minus_axis": "input_up_btn",
+        "input_l_y_plus_axis" : "input_down_btn",
+        "input_l_x_minus_axis": "input_left_btn",
+        "input_l_x_plus_axis" : "input_right_btn",
+    }
+
     HatsRecalboxToAmiberry = \
     {
         '1': 'up',
@@ -68,17 +76,31 @@ class AmiberryRetroarchConfig:
 
     def generateConfiguration(self):
         # generate all controls but joysticks
+        isAxis = False
         for amiberryKey in AmiberryRetroarchConfig.controlsAmiberryToRecalbox:
             recalboxControlKey = AmiberryRetroarchConfig.controlsAmiberryToRecalbox[amiberryKey]
             if recalboxControlKey in self.controller.inputs:
                 recalboxInput = self.controller.inputs[recalboxControlKey]
+                if recalboxInput.type == 'axis':
+                    isAxis = True
                 self.settings.setOption(amiberryKey, '"' + AmiberryRetroarchConfig.getInputValue(recalboxInput) + '"')
+            else:
+                self.settings.setOption(amiberryKey, '"999"')
+
         # generate joysticks
+        hasJoystick = False
         for amiberryKey in AmiberryRetroarchConfig.joysticksAmiberryToRecalbox:
             recalboxControlKey, axisSign = AmiberryRetroarchConfig.joysticksAmiberryToRecalbox[amiberryKey]
             if recalboxControlKey in self.controller.inputs:
+                hasJoystick = True
                 recalboxInput = self.controller.inputs[recalboxControlKey]
-                self.settings.setOption(amiberryKey, '"' + axisSign + str(recalboxInput.id) +'"')
+                self.settings.setOption(amiberryKey, '"' + axisSign + str(recalboxInput.id) + '"')
+
+        # When dpad is axis and there are no other joystick available, remap dpad to joystick
+        if isAxis and not hasJoystick:
+            for destination in AmiberryRetroarchConfig.dpadToJostickAmiberry:
+                source = AmiberryRetroarchConfig.dpadToJostickAmiberry[destination]
+                self.settings.setOption(destination, '"' + self.settings.getOption(source, "") + '"')
 
     def saveConfigurationFile(self):
         self.settings.saveFile()

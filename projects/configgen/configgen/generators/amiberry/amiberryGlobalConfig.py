@@ -1,5 +1,8 @@
 #!/usr/bin/env python
+import os
+
 import recalboxFiles
+from generators.amiberry.amiberryKickstarts import KickstartManager
 from settings.keyValueSettings import keyValueSettings
 
 
@@ -39,20 +42,11 @@ class AmiberryGlobalConfig:
         settings.saveFile()
 
         # Hack the settings to add non-unique key/value tupples
-        roms =[
-            ("CD32 KS ROM v3.1 rev 40.60 (512k)", "/recalbox/share/bios/cd32.rom", "512"),
-            ("CD32 extended ROM rev 40.60 (512k)", "/recalbox/share/bios/cd32ext.rom", "1024"),
-            ("CDTV extended ROM v2.07 (256k)", "/recalbox/share/bios/cdtvext.rom", "2048"),
-            ("KS ROM v1.3 (A500,A1000,A2000) rev 34.5 (256k) [315093-02]", "/recalbox/share/bios/kick13.rom", "256"),
-            ("KS ROM v2.05 (A600HD) rev 37.300 (512k) [391304-01]", "/recalbox/share/bios/kick20.rom", "256"),
-            ("KS ROM v3.1 (A1200) rev 40.68 (512k) [391773-01/391774-01]", "/recalbox/share/bios/kick31.rom", "256"),
-            ("Freezer: HRTMon v2.37 (built-in)", ":HRTMon", "524291"),
-            ("AROS KS ROM (built-in) (1024k)", ":AROS", "256"),
-        ]
         with open(self.globalSettingsFile, "a") as sf:
-            sf.write("ROMs=" + str(len(roms)) + '\n')
-            for t in roms:
-                name, path, itype = t
+            sf.write("ROMs=" + str(len(KickstartManager.BIOS_LIST)) + '\n')
+            for rom in KickstartManager.BIOS_LIST:
+                itype, name = KickstartManager.BIOS_LIST[rom]
+                path = os.path.join(recalboxFiles.BIOS, rom + ".rom")
                 sf.write("ROMName=" + name + '\n')
                 sf.write("ROMPath=" + path + '\n')
-                sf.write("ROMType=" + itype + '\n')
+                sf.write("ROMType=" + str(itype) + '\n')

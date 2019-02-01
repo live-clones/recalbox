@@ -15,8 +15,8 @@ class RomType:
     HDF = 5      # Harddisk file
     PACKAGE = 6  # RP9 all-in-one package
 
-    VALID_EXTENSIONS = [".iso", ".bin", ".cue", ".ccd", ".nrg", ".mds", ".chd", ".adf", ".ipf", ".lha", ".lzh", ".lzx", ".zip", ".7z", ".rp9", ".hdf"]
-    VALID_CONFIGURATIONS = [".uae"]
+    VALID_EXTENSIONS = ( ".iso", ".bin", ".cue", ".ccd", ".nrg", ".mds", ".chd", ".adf", ".ipf", ".lha", ".lzh", ".lzx", ".zip", ".7z", ".rp9", ".hdf" )
+    VALID_CONFIGURATIONS = ( ".uae", )
 
     def __init__(self):
         raise Exception("Use static methods!")
