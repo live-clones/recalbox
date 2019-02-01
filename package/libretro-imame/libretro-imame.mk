@@ -3,7 +3,7 @@
 # IMAME / MAME2000
 #
 ################################################################################
-LIBRETRO_IMAME_VERSION = bd3833c41f6894ba1c5d2f3f35b29190658517a0
+LIBRETRO_IMAME_VERSION = 90d9909ab60dace88d5ab281fa1e9e43e5f25364
 LIBRETRO_IMAME_SITE = $(call github,libretro,mame2000-libretro,$(LIBRETRO_IMAME_VERSION))
 
 define LIBRETRO_IMAME_BUILD_CMDS
