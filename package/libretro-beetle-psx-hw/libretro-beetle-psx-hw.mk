@@ -3,7 +3,7 @@
 # BEETLE_PSX_HW - Enhanced OpenGL Version with OpenGL renderer
 #
 ################################################################################
-LIBRETRO_BEETLE_PSX_HW_VERSION = 46df877d5df91a7f5d97093cdce89766d4fd30b7
+LIBRETRO_BEETLE_PSX_HW_VERSION = 445c9131167654970be5671fcec34464cbfee154
 LIBRETRO_BEETLE_PSX_HW_SITE = $(call github,libretro,beetle-psx-libretro,$(LIBRETRO_BEETLE_PSX_HW_VERSION))
 
 

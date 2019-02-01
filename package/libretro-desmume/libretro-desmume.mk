@@ -3,17 +3,17 @@
 # DESMUME
 #
 ################################################################################
-LIBRETRO_DESMUME_VERSION = f5df1820124ee5cbb57385cd9ae9c5c3a7183a33
-LIBRETRO_DESMUME_SITE = $(call github,libretro,desmume2015,$(LIBRETRO_DESMUME_VERSION))
+LIBRETRO_DESMUME_VERSION = b9b515f57bfd5a6ca73590b6d3de4813789b2a3a
+LIBRETRO_DESMUME_SITE = $(call github,libretro,desmume,$(LIBRETRO_DESMUME_VERSION))
 LIBRETRO_DESMUME_LICENSE = GPLv2
 
 
 define LIBRETRO_DESMUME_BUILD_CMDS
-	CFLAGS="$(TARGET_CFLAGS)" CXXFLAGS="$(TARGET_CXXFLAGS)" $(MAKE) CXX="$(TARGET_CXX)" CC="$(TARGET_CC)" -C $(@D)/desmume/ -f Makefile.libretro platform="$(LIBRETRO_PLATFORM)" LDFLAGS="-lpthread"
+	CFLAGS="$(TARGET_CFLAGS)" CXXFLAGS="$(TARGET_CXXFLAGS)" $(MAKE) CXX="$(TARGET_CXX)" CC="$(TARGET_CC)" LD="$(TARGET_CXX)" AR="$(TARGET_AR)" RANLIB="$(TARGET_RANLIB)" -C $(@D)/desmume/src/frontend/libretro -f Makefile.libretro platform="$(LIBRETRO_PLATFORM)" LDFLAGS="-lpthread"
 endef
 
 define LIBRETRO_DESMUME_INSTALL_TARGET_CMDS
-	$(INSTALL) -D $(@D)/desmume/desmume2015_libretro.so \
+	$(INSTALL) -D $(@D)/desmume/src/frontend/libretro/desmume_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/desmume_libretro.so
 endef
 

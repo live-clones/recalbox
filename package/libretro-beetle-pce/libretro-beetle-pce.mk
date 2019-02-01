@@ -1,9 +1,9 @@
 ################################################################################
 #
-# BEETLE_PCE
+# BEETLE_PCE_FAST
 #
 ################################################################################
-LIBRETRO_BEETLE_PCE_VERSION = 11f7aaaf0271ca150e2ad77b21ead59baf327bbe
+LIBRETRO_BEETLE_PCE_VERSION = 433fb7a36fa26996a37f2107fb5189f243024f7d
 LIBRETRO_BEETLE_PCE_SITE = $(call github,libretro,beetle-pce-fast-libretro,$(LIBRETRO_BEETLE_PCE_VERSION))
 
 define LIBRETRO_BEETLE_PCE_BUILD_CMDS
