@@ -3,7 +3,7 @@
 # O2EM
 #
 ################################################################################
-LIBRETRO_O2EM_VERSION = 8af1aec46fdededc69b58ef6b7e8156078905ab9
+LIBRETRO_O2EM_VERSION = 32182d2b2d2a8c2455db3b06b65aa7e01505c020
 LIBRETRO_O2EM_SITE = $(call github,libretro,libretro-o2em,$(LIBRETRO_O2EM_VERSION))
 
 define LIBRETRO_O2EM_BUILD_CMDS

@@ -1,6 +1,6 @@
---- a/Makefile	2017-01-20 21:00:24.000000000 +0100
-+++ b/Makefile	2017-01-22 15:25:40.988735238 +0100
-@@ -195,6 +195,28 @@
+--- a/Makefile	2018-11-11 19:43:14.000000000 +0100
++++ b/Makefile	2019-02-02 21:39:47.916480992 +0100
+@@ -239,6 +239,28 @@
  	FLAGS += -marm -mcpu=cortex-a53 -mfpu=neon-fp-armv8 -mfloat-abi=hard
  	FLAGS += -fomit-frame-pointer -ffast-math
  
@@ -26,6 +26,6 @@
 +	FLAGS += -mfloat-abi=hard
 +endif
 +
- # emscripten
- else ifeq ($(platform), emscripten)
- 	TARGET := $(TARGET_NAME)_libretro_$(platform).bc
+ # Classic Platforms ####################
+ # Platform affix = classic_<ISA>_<µARCH>
+ # Help at https://modmyclassic.com/comp
