@@ -3,7 +3,7 @@
 # CATSFC / SNES9X2005
 #
 ################################################################################
-LIBRETRO_CATSFC_VERSION = b83a86f02139b7aae9dc22149ebd5cbeac32faf4
+LIBRETRO_CATSFC_VERSION = 09e85e3e49feb9c0f7b95c5f53ca1a72989a94f2
 LIBRETRO_CATSFC_SITE = $(call github,libretro,snes9x2005,$(LIBRETRO_CATSFC_VERSION))
 
 define LIBRETRO_CATSFC_BUILD_CMDS

@@ -67,8 +67,8 @@
  ifeq ($(STATIC_LINKING_LINK),1)
  	$(AR) rcs $@ $(OBJECTS) 
  else
--	$(CC) $(CFLAGS) $(INCFLAGS) -lm -lz $(SHARED) $(LDFLAGS) $(OBJECTS) -o $@
-+	$(CC) $(CFLAGS) $(INCFLAGS) -lm -lz $(SHARED) $(LDFLAGS) $(OBJECTS) -o $@ -lpthread $(CAPS_LIB)
+-	$(CC) $(CFLAGS) $(INCFLAGS) $(LDFLAGS) $(OBJECTS) -o $@ -lm -lz $(SHARED)
++	$(CC) $(CFLAGS) $(INCFLAGS) $(LDFLAGS) $(OBJECTS) -o $@ -lm -lz $(SHARED) -lpthread $(CAPS_LIB)
  endif
  	@echo "** BUILD SUCCESSFUL! GG NO RE **"
  
