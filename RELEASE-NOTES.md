@@ -18,6 +18,7 @@
 - New System! Amiga CD32 with audio track support (via Amiberry)
 - New Core! Added mame2003-plus libretro core. A MAME078 version with added games support plus many fixes and improvements. DAT files available in rom folder
 - New free game! "Mission: Liftoff" for Thomson emulator. 
+- New free game! "Flower" for Amiga emulator. 
 - New Capcom RB video intro
 - Add support for Mayflash GameCube adapter
 - Add 7z file support for many libretro cores
@@ -35,11 +36,12 @@
 - Emulator updated! FBA Libretro core updated to latest version. Recommended Romset: 0.2.97.44
 - Emulator updated! Hatari (Atari ST) updated to latest version.
 - Emulator updated! DoxBox updated to December 2018 version.
-- Emulator updated! 4DO updated to lastest revision. Also available on Rpi3.
+- Emulator updated! 4DO updated to lastest revision. Also available on Rpi3 (3B+ recommended).
 - GPIO arcade driver upgraded: now support I2C and GPIO reconfiguring from the command line
 - EmulationStation: Now automatically reboots once the upgrade is ready
 - "overlays" folder and roms subfolders automatically created
 - Updated all MAME hiscore/cheat files in bios folder - Thanks to olivierdroid92!
+- Static IP configuration available for WIFI connections (in recalbox.conf)
 
 ### Fixes
 - bluetooth detection on Odroid XU4

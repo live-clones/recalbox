@@ -58,6 +58,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Bump Amiberry to 2.24 (SDL2)
 - Bump Amiberry to 2.24 (SDL2). Compatible Rpi1 and Odroid XU4.
 - Add Amige CD32 system
+- Add AROS bios as default Amiga bios (2019 version)
+- Add configuration for static ip addresses on wifi interfaces
 
 ## [18.07.13] - 2018-07-13
 - Bump desmume to desmume2015
@@ -72,7 +74,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - N64 GlideN64 and other plugins: also fix blank screen
 - pifba: make sure it's only available for systems supporting it
 - Set the recalbox tag for netplay elsewhere
-- Add configuration for static ip addresses on wifi interfaces
 
 ## [18.06.27] - 2018-06-27
 - Adding introRecalboxEASports.mp4
