@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-JSTEST2_VERSION = 301a0e8cf3f96de4c5e58d9fe4413e5cd2b4e6d4
+JSTEST2_VERSION = aafbdb1ed3e687583037ba55ae88b1210d6ce98b
 JSTEST2_SITE = $(call github,Grumbel,sdl-jstest,$(JSTEST2_VERSION))
 JSTEST2_DEPENDENCIES = sdl sdl2
 
