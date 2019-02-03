@@ -58,6 +58,7 @@ class TestLinappleGenerator(runtest.TestCase):
         # Run tested function with updated arguments and load settings from
         # user configuration. 
         self.args.update(self.params)
+        self.args["extra"] = ""
 
         # Call main functions with args updated with fixture parameters and
         # outpout redirected into a string.
