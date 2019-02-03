@@ -2,17 +2,15 @@ diff --git a/retroarch.c b/retroarch.c
 index 788ee318af..46cdd73cb2 100644
 --- a/retroarch.c
 +++ b/retroarch.c
-@@ -161,7 +161,8 @@ enum
-    RA_OPT_VERSION,
+@@ -166,6 +166,7 @@ enum
     RA_OPT_EOF_EXIT,
     RA_OPT_LOG_FILE,
--   RA_OPT_MAX_FRAMES
-+   RA_OPT_MAX_FRAMES,
-+   RA_OPT_HASH
+    RA_OPT_MAX_FRAMES,
++   RA_OPT_HASH,
+    RA_OPT_MAX_FRAMES_SCREENSHOT,
+    RA_OPT_MAX_FRAMES_SCREENSHOT_PATH
  };
- 
- enum  runloop_state
-@@ -563,7 +564,8 @@ static void retroarch_print_help(const char *arg0)
+@@ -580,7 +581,8 @@ static void retroarch_print_help(const char *arg0)
  #endif
     puts("      --nick=NICK       Picks a username (for use with netplay). "
           "Not mandatory.");
@@ -23,13 +21,13 @@ index 788ee318af..46cdd73cb2 100644
           "Using .mkv extension is recommended.");
     puts("      --recordconfig    Path to settings used during recording.");
 @@ -650,6 +652,7 @@ static void retroarch_parse_input_and_config(int argc, char *argv[])
-       { "bps",          1, NULL, RA_OPT_BPS },
-       { "ips",          1, NULL, RA_OPT_IPS },
-       { "no-patch",     0, NULL, RA_OPT_NO_PATCH },
-+      { "hash",         1, NULL, RA_OPT_HASH },
-       { "detach",       0, NULL, 'D' },
-       { "features",     0, NULL, RA_OPT_FEATURES },
-       { "subsystem",    1, NULL, RA_OPT_SUBSYSTEM },
+       { "bps",                1, NULL, RA_OPT_BPS },
+       { "ips",                1, NULL, RA_OPT_IPS },
+       { "no-patch",           0, NULL, RA_OPT_NO_PATCH },
++      { "hash",               1, NULL, RA_OPT_HASH },
+       { "detach",             0, NULL, 'D' },
+       { "features",           0, NULL, RA_OPT_FEATURES },
+       { "subsystem",          1, NULL, RA_OPT_SUBSYSTEM },
 @@ -1055,6 +1058,11 @@ static void retroarch_parse_input_and_config(int argc, char *argv[])
              }
              break;
