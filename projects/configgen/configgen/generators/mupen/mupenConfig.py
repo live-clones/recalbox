@@ -75,6 +75,8 @@ def writeHotKeyConfig(controllers):
 				mupenSettings.save('Joy Mapping Increment Slot', "\"J{}{}/{}\"".format(controllers['1'].index, createButtonCode(controllers['1'].inputs['hotkey']), createButtonCode(controllers['1'].inputs['up'])))
 			if 'right' in controllers['1'].inputs:	
 				mupenSettings.save('Joy Mapping Fast Forward', "\"J{}{}/{}\"".format(controllers['1'].index, createButtonCode(controllers['1'].inputs['hotkey']), createButtonCode(controllers['1'].inputs['right'])))
+			if 'a' in controllers['1'].inputs:
+			    mupenSettings.save('Joy Mapping Reset', "\"J{}{}/{}\"".format(controllers['1'].index, createButtonCode(controllers['1'].inputs['hotkey']), createButtonCode(controllers['1'].inputs['a'])))
 
 
 def createButtonCode(button):
