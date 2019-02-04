@@ -2,22 +2,22 @@ diff --git a/input/drivers_joypad/udev_joypad.c b/input/drivers_joypad/udev_joyp
 index 4475c62e5f..d0b457bafd 100644
 --- a/input/drivers_joypad/udev_joypad.c
 +++ b/input/drivers_joypad/udev_joypad.c
-@@ -530,12 +530,12 @@ static void udev_joypad_poll(void)
+@@ -541,12 +541,12 @@ static void udev_joypad_poll(void)
  }
  
  /* Used for sorting devnodes to appear in the correct order */
 -static int sort_devnodes(const void *a, const void *b)
 +/*static int sort_devnodes(const void *a, const void *b)
  {
-    const struct joypad_udev_entry *aa = a;
-    const struct joypad_udev_entry *bb = b;
+    const struct joypad_udev_entry *aa = (const struct joypad_udev_entry*)a;
+    const struct joypad_udev_entry *bb = (const struct joypad_udev_entry*)b;
     return strcmp(aa->devnode, bb->devnode);
 -}
 +}*/
  
  static bool udev_joypad_init(void *data)
  {
-@@ -588,8 +588,8 @@ static bool udev_joypad_init(void *data)
+@@ -599,8 +599,8 @@ static bool udev_joypad_init(void *data)
  
     /* Sort the udev entries by devnode name so that they are
      * created in the proper order */

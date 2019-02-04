@@ -10,7 +10,7 @@ index 788ee318af..46cdd73cb2 100644
     RA_OPT_MAX_FRAMES_SCREENSHOT,
     RA_OPT_MAX_FRAMES_SCREENSHOT_PATH
  };
-@@ -580,7 +581,8 @@ static void retroarch_print_help(const char *arg0)
+@@ -566,7 +567,8 @@ static void retroarch_print_help(const char *arg0)
  #endif
     puts("      --nick=NICK       Picks a username (for use with netplay). "
           "Not mandatory.");
@@ -20,7 +20,7 @@ index 788ee318af..46cdd73cb2 100644
     puts("  -r, --record=FILE     Path to record video file.\n        "
           "Using .mkv extension is recommended.");
     puts("      --recordconfig    Path to settings used during recording.");
-@@ -650,6 +652,7 @@ static void retroarch_parse_input_and_config(int argc, char *argv[])
+@@ -658,6 +660,7 @@ static void retroarch_parse_input_and_config(int argc, char *argv[])
        { "bps",                1, NULL, RA_OPT_BPS },
        { "ips",                1, NULL, RA_OPT_IPS },
        { "no-patch",           0, NULL, RA_OPT_NO_PATCH },
@@ -28,23 +28,23 @@ index 788ee318af..46cdd73cb2 100644
        { "detach",             0, NULL, 'D' },
        { "features",           0, NULL, RA_OPT_FEATURES },
        { "subsystem",          1, NULL, RA_OPT_SUBSYSTEM },
-@@ -1055,6 +1058,11 @@ static void retroarch_parse_input_and_config(int argc, char *argv[])
-             }
-             break;
+@@ -1071,6 +1074,11 @@ static void retroarch_parse_input_and_config(int argc, char *argv[])
+                }
+                break;
  
 +         case RA_OPT_HASH:
 +            sscanf(optarg, "%8X", &global->name.hash);
 +            RARCH_LOG("CRC32: 0x%x .\n", global->name.hash);
 +            break;
 +
-          case RA_OPT_SIZE:
-             if (sscanf(optarg, "%ux%u",
-                      recording_driver_get_width(),
+             case RA_OPT_SIZE:
+                if (sscanf(optarg, "%ux%u",
+                         recording_driver_get_width(),
 diff --git a/retroarch.h b/retroarch.h
 index 02abfae515..bddfc6598a 100644
 --- a/retroarch.h
 +++ b/retroarch.h
-@@ -225,6 +225,7 @@ typedef struct global
+@@ -250,6 +250,7 @@ typedef struct global
        char ips[8192];
        char label[8192];
        char *remapfile;
@@ -56,7 +56,7 @@ diff --git a/tasks/task_content.c b/tasks/task_content.c
 index 3676308d73..cc84eba5f1 100644
 --- a/tasks/task_content.c
 +++ b/tasks/task_content.c
-@@ -327,6 +327,7 @@ static bool load_content_into_memory(
+@@ -332,6 +332,7 @@ static bool load_content_into_memory(
        int64_t *length)
  {
     uint8_t *ret_buf          = NULL;
@@ -64,7 +64,7 @@ index 3676308d73..cc84eba5f1 100644
  
     RARCH_LOG("%s: %s.\n",
           msg_hash_to_str(MSG_LOADING_CONTENT_FILE), path);
-@@ -364,7 +365,13 @@ static bool load_content_into_memory(
+@@ -369,7 +370,13 @@ static bool load_content_into_memory(
           RARCH_LOG("CRC32: 0x%x .\n", (unsigned)content_rom_crc);
        }
        else
@@ -79,26 +79,26 @@ index 3676308d73..cc84eba5f1 100644
     }
  
     *buf = ret_buf;
-@@ -553,6 +560,7 @@ static bool content_file_load(
+@@ -562,6 +569,7 @@ static bool content_file_load(
     retro_ctx_load_content_info_t load_info;
-    size_t msg_size = 1024 * sizeof(char);
-    char *msg       = (char*)malloc(1024 * sizeof(char));
+    size_t msg_size             = 1024 * sizeof(char);
+    char *msg                   = (char*)malloc(msg_size);
 +   global_t *global           = global_get_ptr();
+    bool used_vfs_fallback_copy = false;
+ #ifdef __WINRT__
+    rarch_system_info_t *system = runloop_get_system_info();
+@@ -701,6 +709,10 @@ static bool content_file_load(
  
-    msg[0]          = '\0';
- 
-@@ -604,6 +612,10 @@ static bool content_file_load(
-          RARCH_LOG("%s\n",
-                msg_hash_to_str(
+          RARCH_LOG("%s\n", msg_hash_to_str(
                    MSG_CONTENT_LOADING_SKIPPED_IMPLEMENTATION_WILL_DO_IT));
 +          if(global) {
 +              content_rom_crc = global->name.hash;
 +              RARCH_LOG("OMG !!! We've loaded the command line hash !!! Look: 0x%x .\n", (unsigned)content_rom_crc);
-+          }
++          } else
+          content_rom_crc = file_crc32(0, path);
+          RARCH_LOG("CRC32: 0x%x .\n", (unsigned)content_rom_crc);
  
- #ifdef HAVE_COMPRESSION
-          if (     !content_ctx->block_extract
-@@ -1811,7 +1823,8 @@ void content_unset_does_not_need_content(void)
+@@ -1964,7 +1976,8 @@ void content_unset_does_not_need_content(void)
  
  uint32_t content_get_crc(void)
  {
