@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-RESIDUALVM_VERSION = a98cca7f2263632e82e364fee6edbd983b169a70
+RESIDUALVM_VERSION = 9f7fe9b6c03011d406b46da8be88d86955359d19
 RESIDUALVM_REPO = residualvm
 
 RESIDUALVM_SITE = $(call github,$(RESIDUALVM_REPO),residualvm,$(RESIDUALVM_VERSION))
@@ -23,8 +23,8 @@ endif
 RESIDUALVM_CONF_ENV += RANLIB="$(TARGET_RANLIB)" STRIP="$(TARGET_STRIP)" AR="$(TARGET_AR) cru" AS="$(TARGET_AS)"
 RESIDUALVM_CONF_OPTS += --disable-debug --enable-optimizations --enable-flac --enable-mad --enable-vorbis --disable-tremor \
                 --disable-fluidsynth --disable-taskbar --disable-timidity --disable-alsa --enable-vkeybd --enable-keymapper \
-                --prefix=/usr --with-sdl-prefix="$(STAGING_DIR)/usr/bin/" --with-freetype2-prefix="$(STAGING_DIR)/usr/bin/" --enable-release \
-		--enable-opengl-shaders
+                --prefix=/usr --with-sdl-prefix="$(STAGING_DIR)/usr/bin/" --with-freetype2-prefix="$(STAGING_DIR)/usr/bin/" \
+                --enable-release --enable-opengl-shaders
 
 
 RESIDUALVM_MAKE_OPTS += RANLIB="$(TARGET_RANLIB)" STRIP="$(TARGET_STRIP)" AR="$(TARGET_AR) cru" AS="$(TARGET_AS)" LD="$(TARGET_CXX)"
