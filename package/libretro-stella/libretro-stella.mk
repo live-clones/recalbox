@@ -3,7 +3,7 @@
 # STELLA
 #
 ################################################################################
-LIBRETRO_STELLA_VERSION = 6a8e20909e0a39a4e01f9102dc935113e38cd62b
+LIBRETRO_STELLA_VERSION = b0b63615fc2c7a30470fc1ac31ffdc18fdf4518b
 LIBRETRO_STELLA_SITE = $(call github,libretro,stella-libretro,$(LIBRETRO_STELLA_VERSION))
 
 ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_RPI3),y)
