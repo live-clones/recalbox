@@ -60,6 +60,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add Amige CD32 system
 - Add AROS bios as default Amiga bios (2019 version)
 - Add configuration for static ip addresses on wifi interfaces
+- Bump ScummVM/ResidualVM (January 2019)
 
 ## [18.07.13] - 2018-07-13
 - Bump desmume to desmume2015
