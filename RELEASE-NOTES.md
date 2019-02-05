@@ -37,6 +37,7 @@
 - Emulator updated! Hatari (Atari ST) updated to latest version.
 - Emulator updated! DoxBox updated to December 2018 version.
 - Emulator updated! 4DO updated to lastest revision. Also available on Rpi3 (3B+ recommended).
+- Emulator updated! ScummVM and ResidualVM updated to January 2019 versions.
 - GPIO arcade driver upgraded: now support I2C and GPIO reconfiguring from the command line
 - EmulationStation: Now automatically reboots once the upgrade is ready
 - "overlays" folder and roms subfolders automatically created
