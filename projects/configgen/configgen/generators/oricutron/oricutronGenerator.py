@@ -1,3 +1,5 @@
+import subprocess
+
 import Command
 import recalboxFiles
 from generators.Generator import Generator
@@ -45,7 +47,8 @@ class OricutronGenerator(Generator):
                 settings.setOption("sdljoy2_fire2", controller.inputs["b"].id)
 
         # force values
-        settings.setOption("fullscreen", "yes")
+        cpu = subprocess.check_output(['uname', '-m']).lower()
+        settings.setOption("fullscreen", "no" if "x86" in cpu else "yes")
         settings.setOption("rendermode", "soft")
 
         # default values
