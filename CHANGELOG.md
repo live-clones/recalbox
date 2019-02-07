@@ -44,7 +44,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - pc98: Add PC-98xx series support
 - Add Atari Jaguar on x86(_64) platforms
 - SNES9X: Add Satellaview and SuFami Turbo as own systems
-- Neo Geo CD: Added support with fbalpha emulator
+- Neo Geo CD: Added support with fbalpha emulator (TruRip ccd/sub/img recommended)
 - Bump FBA libretro to latest version => Romset 0.2.97.44
 - Bump AtariST emulator to december 2018 version
 - Add Oric/Atmos emulator (Oricutron, standalone)
