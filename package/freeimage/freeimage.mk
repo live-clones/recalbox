@@ -21,6 +21,10 @@ endef
 ifneq ($(BR2_ARM_CPU_HAS_NEON),y)
 	# NEON assembler is not supported
 	FREEIMAGE_CFLAGS += -DPNG_ARM_NEON_OPT=0
+else
+	# EmulationStation does not compile if this library is not compiled using this flag.
+	# Need further investigations
+	FREEIMAGE_CFLAGS += -DPNG_ARM_NEON_OPT=0
 endif
 
 define FREEIMAGE_BUILD_CMDS
