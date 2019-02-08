@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system amiga1200 --extension '.adf .Adf .ADF .uae .ipf .IPF .Ipf .lha .LHA .lhz .LHZ .lzx .LZX .zip .ZIP .rp9 .RP9' --fullname 'Amiga 1200' --platform amiga --theme amiga1200 BR2_PACKAGE_AMIBERRY
+# ./scripts/linux/empack.py --system amiga1200 --extension '.adf .Adf .ADF .ipf .IPF .Ipf .lha .LHA .lhz .LHZ .lzx .LZX .zip .ZIP .rp9 .RP9' --fullname 'Amiga 1200' --platform amiga --theme amiga1200 BR2_PACKAGE_AMIBERRY
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_AMIGA1200_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_AMIGA1200 = $(RECALBOX_ROMFS_AMIGA1200_PKGDIR)/roms
 
 ifeq ($(BR2_PACKAGE_AMIBERRY),y)
 define CONFIGURE_AMIGA1200
-	$(call RECALBOX_ROMFS_CALL_ADD_STANDALONE_SYSTEM,$(SYSTEM_XML_AMIGA1200),Amiga 1200,$(SYSTEM_NAME_AMIGA1200),.adf .Adf .ADF .uae .ipf .IPF .Ipf .lha .LHA .lhz .LHZ .lzx .LZX .zip .ZIP .rp9 .RP9,amiga,amiga1200,$(SOURCE_ROMDIR_AMIGA1200),$(@D))
+	$(call RECALBOX_ROMFS_CALL_ADD_STANDALONE_SYSTEM,$(SYSTEM_XML_AMIGA1200),Amiga 1200,$(SYSTEM_NAME_AMIGA1200),.adf .Adf .ADF .ipf .IPF .Ipf .lha .LHA .lhz .LHZ .lzx .LZX .zip .ZIP .rp9 .RP9,amiga,amiga1200,$(SOURCE_ROMDIR_AMIGA1200),$(@D))
 endef
 RECALBOX_ROMFS_AMIGA1200_CONFIGURE_CMDS += $(CONFIGURE_AMIGA1200)
 endif
