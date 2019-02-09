@@ -81,53 +81,61 @@ FileData* findOrCreateFile(SystemData* system, const boost::filesystem::path& pa
 
 void parseGamelist(SystemData* system, FileData::StringMap& doppelgangerWatcher)
 {
-  bool trustGamelist = RecalboxConf::getInstance()->get("emulationstation.gamelistonly") == "1";
-  std::string xmlpath = system->getGamelistPath(false);
-
-  if(!boost::filesystem::exists(xmlpath))
-    return;
-
-  LOG(LogInfo) << "Parsing XML file \"" << xmlpath << "\"...";
-
-  MetadataDescriptor::Tree gameList;
   try
   {
-    pt::read_xml(xmlpath, gameList, 0, std::locale("en_US.UTF8"));
-  }
-  catch(std::exception& e)
-  {
-    LOG(LogError) << "Could not parse " << xmlpath <<" file!";
-    LOG(LogError) << e.what();
-    return;
-  }
+    bool trustGamelist = RecalboxConf::getInstance()->get("emulationstation.gamelistonly") == "1";
+    std::string xmlpath = system->getGamelistPath(false);
 
-  fs::path relativeTo = system->getStartPath();
-  fs::path path;
-  for (const auto& fileNode : gameList.get_child("gameList"))
-  {
-    ItemType type;
-    if (fileNode.first == "game") type = ItemType::Game;
-    else if (fileNode.first == "folder") type = ItemType::Folder;
-    else continue; // Unknown node
+    if(!boost::filesystem::exists(xmlpath))
+      return;
 
-    const MetadataDescriptor::Tree& children = fileNode.second;
-    path = resolvePath(children.get("path", ""), relativeTo, false);
+    LOG(LogInfo) << "Parsing XML file \"" << xmlpath << "\"...";
 
-    if(!trustGamelist && !boost::filesystem::exists(path))
+    MetadataDescriptor::Tree gameList;
+    try
     {
-      LOG(LogWarning) << "File \"" << path << "\" does not exist! Ignoring.";
-      continue;
+      pt::read_xml(xmlpath, gameList, 0, std::locale("en_US.UTF8"));
+    }
+    catch(std::exception& e)
+    {
+      LOG(LogError) << "Could not parse " << xmlpath <<" file!";
+      LOG(LogError) << e.what();
+      return;
     }
 
-    FileData* file = findOrCreateFile(system, path, type, trustGamelist, doppelgangerWatcher);
-    if(!file)
+    fs::path relativeTo = system->getStartPath();
+    fs::path path;
+    for (const auto& fileNode : gameList.get_child("gameList"))
     {
-      LOG(LogError) << "Error finding/creating FileData for \"" << path << "\", skipping.";
-      continue;
-    }
+      ItemType type;
+      if (fileNode.first == "game") type = ItemType::Game;
+      else if (fileNode.first == "folder") type = ItemType::Folder;
+      else continue; // Unknown node
 
-    //load the metadata
-    file->Metadata().Deserialize(fileNode, relativeTo.generic_string());
+      const MetadataDescriptor::Tree& children = fileNode.second;
+      path = resolvePath(children.get("path", ""), relativeTo, false);
+
+      if(!trustGamelist && !boost::filesystem::exists(path))
+      {
+        LOG(LogWarning) << "File \"" << path << "\" does not exist! Ignoring.";
+        continue;
+      }
+
+      FileData* file = findOrCreateFile(system, path, type, trustGamelist, doppelgangerWatcher);
+      if(!file)
+      {
+        LOG(LogError) << "Error finding/creating FileData for \"" << path << "\", skipping.";
+        continue;
+      }
+
+      //load the metadata
+      file->Metadata().Deserialize(fileNode, relativeTo.generic_string());
+    }
+  }
+  catch(std::exception& ex)
+  {
+    LOG(LogError) << "System \"" << system->getName() << "\" has raised an error while reading its gamelist.xml!";
+    LOG(LogError) << "Exception: " << ex.what();
   }
 }
 

@@ -56,7 +56,7 @@ SystemData* SystemData::CreateFavoriteSystem(const std::string& name, const std:
   for (auto system : systems)
   {
     FileData::List favs = system->getFavorites();
-    if (favs.size() > 0)
+    if (!favs.empty())
     {
       LOG(LogWarning) << " Get " << favs.size() << " favorites for " << system->getName() << "!";
       for (auto favorite : favs)
@@ -193,8 +193,8 @@ void SystemData::launchGame(Window* window, FileData* game, const std::string& n
 	else if (netplay == "host")
 	{
 	    std::string hash = game->Metadata().RomCrc32AsString();
-	    std::string hashcmd = "";
-	    if (hash != "")
+	    std::string hashcmd;
+	    if (!hash.empty())
 	    {
 	        hashcmd = " -hash " + hash;
 	    }
@@ -231,7 +231,15 @@ void SystemData::launchGame(Window* window, FileData* game, const std::string& n
 
 void SystemData::populateFolder(FolderData *folder, FileData::StringMap& doppelgangerWatcher)
 {
-  folder->populateRecursiveFolder(mSearchExtensions, this, doppelgangerWatcher);
+  try
+  {
+    folder->populateRecursiveFolder(mSearchExtensions, this, doppelgangerWatcher);
+  }
+  catch(std::exception& ex)
+  {
+    LOG(LogError) << "Reading folder \"" << folder->getPath().generic_string() << "\" has raised an error!";
+    LOG(LogError) << "Exception: " << ex.what();
+  }
 }
 
 std::vector<std::string> readList(const std::string &str, const char *delims = " \t\r\n,")
@@ -254,70 +262,78 @@ std::vector<std::string> readList(const std::string &str, const char *delims = "
 SystemData *createSystem(const SystemData::Tree &system)
 {
   std::string name, fullname, path, cmd, themeFolder;
-
-  name = system.get("name", "");
-  fullname = system.get("fullname", "");
-  path = system.get("path", "");
-
-  // convert extensions list from a string into a vector of strings
-  std::string extensions = system.get("extension", "");
-
-  cmd = system.get("command", "");
-
-  // platform id list
-  const std::string platformList = system.get("platform", "");
-  std::vector<std::string> platformStrs = readList(platformList);
-  std::vector<PlatformIds::PlatformId> platformIds;
-  for (const auto &it : platformStrs)
+  try
   {
-    const char *str = it.c_str();
-    PlatformIds::PlatformId platformId = PlatformIds::getPlatformId(str);
+    name = system.get("name", "");
+    fullname = system.get("fullname", "");
+    path = system.get("path", "");
 
-    if (platformId == PlatformIds::PLATFORM_IGNORE)
+    // convert extensions list from a string into a vector of strings
+    std::string extensions = system.get("extension", "");
+
+    cmd = system.get("command", "");
+
+    // platform id list
+    const std::string platformList = system.get("platform", "");
+    std::vector<std::string> platformStrs = readList(platformList);
+    std::vector<PlatformIds::PlatformId> platformIds;
+    for (const auto &it : platformStrs)
     {
-      // when platform is ignore, do not allow other platforms
-      platformIds.clear();
-      platformIds.push_back(platformId);
-      break;
+      const char *str = it.c_str();
+      PlatformIds::PlatformId platformId = PlatformIds::getPlatformId(str);
+
+      if (platformId == PlatformIds::PLATFORM_IGNORE)
+      {
+        // when platform is ignore, do not allow other platforms
+        platformIds.clear();
+        platformIds.push_back(platformId);
+        break;
+      }
+
+      // if there appears to be an actual platform ID supplied but it didn't match the list, warn
+      if (str != nullptr && str[0] != '\0' && platformId == PlatformIds::PLATFORM_UNKNOWN)
+        LOG(LogWarning) << "  Unknown platform for system \"" << name << "\" (platform \"" << str << "\" from list \"" << platformList << "\")";
+      else if (platformId != PlatformIds::PLATFORM_UNKNOWN)
+        platformIds.push_back(platformId);
     }
 
-    // if there appears to be an actual platform ID supplied but it didn't match the list, warn
-    if (str != nullptr && str[0] != '\0' && platformId == PlatformIds::PLATFORM_UNKNOWN)
-      LOG(LogWarning) << "  Unknown platform for system \"" << name << "\" (platform \"" << str << "\" from list \"" << platformList << "\")";
-    else if (platformId != PlatformIds::PLATFORM_UNKNOWN)
-      platformIds.push_back(platformId);
+    // theme folder
+    themeFolder = system.get("theme", "");
+
+    //validate
+    if (name.empty() || path.empty() || extensions.empty() || cmd.empty())
+    {
+      LOG(LogError) << "System \"" << name << "\" is missing name, path, extension, or command!";
+      return nullptr;
+    }
+
+    //convert path to generic directory seperators
+    boost::filesystem::path genericPath(path);
+    path = genericPath.generic_string();
+
+    SystemData* newSys = SystemData::CreateRegularSystem(name, fullname,
+                                                         path, extensions,
+                                                         cmd, platformIds,
+                                                         themeFolder,
+                                                         system.get_child("emulators"));
+    if (newSys->getRootFolder()->countAll(false) == 0)
+    {
+      LOG(LogWarning) << "System \"" << name << "\" has no games! Ignoring it.";
+      delete newSys;
+      return nullptr;
+    }
+    else
+    {
+      LOG(LogWarning) << "Adding \"" << name << "\" in system list.";
+      return newSys;
+    }
   }
-
-  // theme folder
-  themeFolder = system.get("theme", "");
-
-  //validate
-  if (name.empty() || path.empty() || extensions.empty() || cmd.empty())
+  catch(std::exception& ex)
   {
-    LOG(LogError) << "System \"" << name << "\" is missing name, path, extension, or command!";
-    return nullptr;
+    LOG(LogError) << "System \"" << fullname << "\" has raised an error. Ignored.";
+    LOG(LogError) << "Exception: " << ex.what();
   }
-
-  //convert path to generic directory seperators
-  boost::filesystem::path genericPath(path);
-  path = genericPath.generic_string();
-
-  SystemData* newSys = SystemData::CreateRegularSystem(name, fullname,
-                                                       path, extensions,
-                                                       cmd, platformIds,
-                                                       themeFolder,
-                                                       system.get_child("emulators"));
-  if (newSys->getRootFolder()->countAll(false) == 0)
-  {
-    LOG(LogWarning) << "System \"" << name << "\" has no games! Ignoring it.";
-    delete newSys;
-    return nullptr;
-  }
-  else
-  {
-    LOG(LogWarning) << "Adding \"" << name << "\" in system list.";
-    return newSys;
-  }
+  return nullptr;
 }
 
 bool SystemData::loadSystemNodes(XmlNodeCollisionMap &collisionMap, XmlNodeList &nodeStore, const Tree &document)
@@ -600,26 +616,22 @@ std::string SystemData::getThemePath() const
 
   // first, check game folder
   fs::path localThemePath = mRootFolder.getPath() / "theme.xml";
-  if (fs::exists(localThemePath))
-    return localThemePath.generic_string();
+  if (fs::exists(localThemePath)) return localThemePath.generic_string();
 
   // not in game folder, try system theme in theme sets
   localThemePath = ThemeData::getThemeFromCurrentSet(mThemeFolder);
 
-  if (fs::exists(localThemePath))
-      return localThemePath.generic_string();
+  if (fs::exists(localThemePath)) return localThemePath.generic_string();
 
   // not system theme, try default system theme in theme set
   localThemePath = localThemePath.parent_path().parent_path() / "theme.xml";
 
-	if (fs::exists(localThemePath))
-		return localThemePath.generic_string();
+	if (fs::exists(localThemePath)) return localThemePath.generic_string();
 
 	//none of the above, try default
 	localThemePath = localThemePath.parent_path() / "default/theme.xml";
 
-	if (fs::exists(localThemePath))
-		return localThemePath.generic_string();
+	if (fs::exists(localThemePath)) return localThemePath.generic_string();
 
 	// No luck...
   return "";
@@ -656,7 +668,7 @@ std::map<std::string, std::vector<std::string> *> *SystemData::getEmulators()
 std::vector<std::string> SystemData::getCores(const std::string &emulatorName)
 {
   std::vector<std::string> list;
-  for (auto emulator : mEmulators)
+  for (auto& emulator : mEmulators)
   {
     if (emulatorName == emulator.first)
     {

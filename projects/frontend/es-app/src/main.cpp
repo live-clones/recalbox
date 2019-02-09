@@ -291,268 +291,276 @@ int main(int argc, char* argv[])
   }
   #endif
 
-  //if ~/.emulationstation doesn't exist and cannot be created, bail
-  if (!verifyHomeFolderExists())
-    return 1;
-
-  // Set locale
-  setLocale(argv[0]);
-
-  // other init
-  FileSorts::init(); // require locale
-  Settings::getInstance()->setBool("ThemeChanged", false);
-  Settings::getInstance()->setBool("ThemeHasMenuView", false);
-
-  std::string arch;
-  std::ifstream archFile;
-  archFile.open("/recalbox/recalbox.arch");
-  std::getline(archFile, arch);
-  archFile.close();
-  Settings::getInstance()->setString("Arch", arch);
-
-  Renderer::init(width, height);
-  Window window;
-  ViewController::init(&window);
-  window.pushGui(ViewController::get());
-
-  if (!scrape_cmdline)
+  try
   {
-    if (!window.init(width, height, false))
-    {
-      LOG(LogError) << "Window failed to initialize!";
+    //if ~/.emulationstation doesn't exist and cannot be created, bail
+    if (!verifyHomeFolderExists())
       return 1;
+
+    // Set locale
+    setLocale(argv[0]);
+
+    // other init
+    FileSorts::init(); // require locale
+    Settings::getInstance()->setBool("ThemeChanged", false);
+    Settings::getInstance()->setBool("ThemeHasMenuView", false);
+
+    std::string arch;
+    std::ifstream archFile;
+    archFile.open("/recalbox/recalbox.arch");
+    std::getline(archFile, arch);
+    archFile.close();
+    Settings::getInstance()->setString("Arch", arch);
+
+    Renderer::init(width, height);
+    Window window;
+    ViewController::init(&window);
+    window.pushGui(ViewController::get());
+
+    if (!scrape_cmdline)
+    {
+      if (!window.init(width, height, false))
+      {
+        LOG(LogError) << "Window failed to initialize!";
+        return 1;
+      }
+
+      std::string glExts = (const char*) glGetString(GL_EXTENSIONS);
+      LOG(LogInfo) << "Checking available OpenGL extensions...";
+      LOG(LogInfo) << " ARB_texture_non_power_of_two: "
+                   << (glExts.find("ARB_texture_non_power_of_two") != std::string::npos ? "OK" : "MISSING");
+
+      window.renderLoadingScreen();
     }
 
-    std::string glExts = (const char*) glGetString(GL_EXTENSIONS);
-    LOG(LogInfo) << "Checking available OpenGL extensions...";
-    LOG(LogInfo) << " ARB_texture_non_power_of_two: "
-                 << (glExts.find("ARB_texture_non_power_of_two") != std::string::npos ? "OK" : "MISSING");
+    // Initialize audio manager
+    VolumeControl::getInstance()->init();
+    AudioManager::getInstance()->init();
 
-    window.renderLoadingScreen();
-  }
+    playSound("loading");
 
-  // Initialize audio manager
-  VolumeControl::getInstance()->init();
-  AudioManager::getInstance()->init();
+    const char* errorMsg = NULL;
+    if (!loadSystemConfigFile(&errorMsg))
+    {
+      // something went terribly wrong
+      if (errorMsg == NULL)
+      {
+        LOG(LogError) << "Unknown error occured while parsing system config file.";
+        if (!scrape_cmdline)
+          Renderer::deinit();
+        return 1;
+      }
 
-  playSound("loading");
+      // we can't handle es_systems.cfg file problems inside ES itself, so display the error message then quit
+      window.pushGui(new GuiMsgBox(&window, errorMsg, _("QUIT"), []
+      {
+        SDL_Event* quit = new SDL_Event();
+        quit->type = SDL_QUIT;
+        SDL_PushEvent(quit);
+      }));
+    }
 
-  const char* errorMsg = NULL;
-  if (!loadSystemConfigFile(&errorMsg))
-  {
-    // something went terribly wrong
+    RecalboxConf* recalboxConf = RecalboxConf::getInstance();
+    if (recalboxConf->get("kodi.enabled") == "1" && recalboxConf->get("kodi.atstartup") == "1")
+    {
+      RecalboxSystem::getInstance()->launchKodi(&window);
+    }
+    RecalboxSystem::getInstance()->getIpAdress();
+    // UPDATED VERSION MESSAGE
+    std::string changelog = RecalboxUpgrade::getInstance()->getChangelog();
+    if (changelog != "")
+    {
+      std::string message = "Changes :\n" + changelog;
+      window.pushGui(new GuiMsgBoxScroll(&window, _("THE SYSTEM IS UP TO DATE"), message, _("OK"), []
+      {
+        RecalboxUpgrade::getInstance()->updateLastChangelogFile();
+      }, "", nullptr, "", nullptr, ALIGN_LEFT));
+    }
+
+    // UPDATE CHECK THREAD
+    NetworkThread networkThread(&window);
+
+    // Start the socket server
+    CommandThread commandThread(&window);
+
+    // Allocate custom event types
+    unsigned int NetPlayPopupEvent = SDL_RegisterEvents(2);
+    unsigned int MusicStartEvent = NetPlayPopupEvent + 1;
+    AudioManager::getInstance()->SetMusicStartEvent(&window, MusicStartEvent);
+
+    NetPlayThread netPlayThread(&window, NetPlayPopupEvent);
+    /*if (RecalboxConf::getInstance()->get("global.netplay") == "1")
+    {
+      auto s = std::make_shared<GuiInfoPopup>(&window, "", 0, 20);
+      window.setInfoPopup(s);
+      netPlayThread.Start();
+    }*/
+
+
+    //run the command line scraper then quit
+    if (scrape_cmdline)
+    {
+      return run_scraper_cmdline();
+    }
+
+    //dont generate joystick events while we're loading (hopefully fixes "automatically started emulator" bug)
+    SDL_JoystickEventState(SDL_DISABLE);
+
+
+
+    // preload what we can right away instead of waiting for the user to select it
+    // this makes for no delays when accessing content, but a longer startup time
+    //ViewController::get()->preload();
+
+    //choose which GUI to open depending on if an input configuration already exists
     if (errorMsg == NULL)
     {
-      LOG(LogError) << "Unknown error occured while parsing system config file.";
-      if (!scrape_cmdline)
-        Renderer::deinit();
-      return 1;
-    }
-
-    // we can't handle es_systems.cfg file problems inside ES itself, so display the error message then quit
-    window.pushGui(new GuiMsgBox(&window, errorMsg, _("QUIT"), []
-    {
-      SDL_Event* quit = new SDL_Event();
-      quit->type = SDL_QUIT;
-      SDL_PushEvent(quit);
-    }));
-  }
-
-  RecalboxConf* recalboxConf = RecalboxConf::getInstance();
-  if (recalboxConf->get("kodi.enabled") == "1" && recalboxConf->get("kodi.atstartup") == "1")
-  {
-    RecalboxSystem::getInstance()->launchKodi(&window);
-  }
-  RecalboxSystem::getInstance()->getIpAdress();
-  // UPDATED VERSION MESSAGE
-  std::string changelog = RecalboxUpgrade::getInstance()->getChangelog();
-  if (changelog != "")
-  {
-    std::string message = "Changes :\n" + changelog;
-    window.pushGui(new GuiMsgBoxScroll(&window, _("THE SYSTEM IS UP TO DATE"), message, _("OK"), []
-    {
-      RecalboxUpgrade::getInstance()->updateLastChangelogFile();
-    }, "", nullptr, "", nullptr, ALIGN_LEFT));
-  }
-
-  // UPDATE CHECK THREAD
-  NetworkThread networkThread(&window);
-
-  // Start the socket server
-  CommandThread commandThread(&window);
-
-  // Allocate custom event types
-  unsigned int NetPlayPopupEvent = SDL_RegisterEvents(2);
-  unsigned int MusicStartEvent = NetPlayPopupEvent + 1;
-  AudioManager::getInstance()->SetMusicStartEvent(&window, MusicStartEvent);
-
-  NetPlayThread netPlayThread(&window, NetPlayPopupEvent);
-  /*if (RecalboxConf::getInstance()->get("global.netplay") == "1")
-  {
-    auto s = std::make_shared<GuiInfoPopup>(&window, "", 0, 20);
-    window.setInfoPopup(s);
-    netPlayThread.Start();
-  }*/
-
-
-  //run the command line scraper then quit
-  if (scrape_cmdline)
-  {
-    return run_scraper_cmdline();
-  }
-
-  //dont generate joystick events while we're loading (hopefully fixes "automatically started emulator" bug)
-  SDL_JoystickEventState(SDL_DISABLE);
-
-
-
-  // preload what we can right away instead of waiting for the user to select it
-  // this makes for no delays when accessing content, but a longer startup time
-  //ViewController::get()->preload();
-
-  //choose which GUI to open depending on if an input configuration already exists
-  if (errorMsg == NULL)
-  {
-    if (fs::exists(InputManager::getConfigPath()) && InputManager::getInstance()->getNumConfiguredDevices() > 0)
-    {
-      ViewController::get()->goToStart();
-    }
-    else
-    {
-      window.pushGui(new GuiDetectDevice(&window, true, []
-      { ViewController::get()->goToStart(); }));
-    }
-  }
-
-  // Create a flag in  temporary directory to signal READY state
-  fs::path ready_path = fs::temp_directory_path();
-  ready_path /= "emulationstation.ready";
-  FILE* ready_file = fopen(ready_path.c_str(), "w");
-  if (ready_file)
-    fclose(ready_file);
-
-  //generate joystick events since we're done loading
-  SDL_JoystickEventState(SDL_ENABLE);
-
-  int popupDuration = Settings::getInstance()->getInt("MusicPopupTime");
-  int lastTime = SDL_GetTicks();
-  bool running = true;
-  bool doReboot = false;
-  bool doShutdown = false;
-
-  while (running)
-  {
-    SDL_Event event;
-    while (SDL_PollEvent(&event))
-    {
-      switch (event.type)
+      if (fs::exists(InputManager::getConfigPath()) && InputManager::getInstance()->getNumConfiguredDevices() > 0)
       {
-        case SDL_JOYHATMOTION:
-        case SDL_JOYBUTTONDOWN:
-        case SDL_JOYBUTTONUP:
-        case SDL_KEYDOWN:
-        case SDL_KEYUP:
-        case SDL_JOYAXISMOTION:
-        case SDL_TEXTINPUT:
-        case SDL_TEXTEDITING:
-        case SDL_JOYDEVICEADDED:
-        case SDL_JOYDEVICEREMOVED:
-          InputManager::getInstance()->parseEvent(event, &window);
-          break;
-        case SDL_QUIT:
-          running = false;
-          break;
-        case RecalboxSystem::SDL_FAST_QUIT | RecalboxSystem::SDL_RB_REBOOT:
-          running = false;
-          doReboot = true;
-          Settings::getInstance()->setBool("IgnoreGamelist", true);
-          break;
-        case RecalboxSystem::SDL_FAST_QUIT | RecalboxSystem::SDL_RB_SHUTDOWN:
-          running = false;
-          doShutdown = true;
-          Settings::getInstance()->setBool("IgnoreGamelist", true);
-          break;
-        case SDL_QUIT | RecalboxSystem::SDL_RB_REBOOT:
-          running = false;
-          doReboot = true;
-          break;
-        case SDL_QUIT | RecalboxSystem::SDL_RB_SHUTDOWN:
-          running = false;
-          doShutdown = true;
-          break;
-        default:
-        {
-          if (event.type == NetPlayPopupEvent)
-          {
-            std::shared_ptr<GuiInfoPopup> popup = std::make_shared<GuiInfoPopup>(&window,
-                                                                                 netPlayThread.GetLastPopupText(),
-                                                                                 popupDuration, 20);
-            window.setInfoPopup(popup);
-          }
-          else if (event.type == MusicStartEvent)
-          {
-            std::shared_ptr<GuiInfoPopup> popup = std::make_shared<GuiInfoPopup>(&window,
-                                                                                 AudioManager::getInstance()->GetLastPopupText(),
-                                                                                 popupDuration, 10);
-            window.setInfoPopup(popup);
-          }
-          break;
-        }
+        ViewController::get()->goToStart();
+      }
+      else
+      {
+        window.pushGui(new GuiDetectDevice(&window, true, []
+        { ViewController::get()->goToStart(); }));
       }
     }
 
-    if (window.isSleeping())
+    // Create a flag in  temporary directory to signal READY state
+    fs::path ready_path = fs::temp_directory_path();
+    ready_path /= "emulationstation.ready";
+    FILE* ready_file = fopen(ready_path.c_str(), "w");
+    if (ready_file)
+      fclose(ready_file);
+
+    //generate joystick events since we're done loading
+    SDL_JoystickEventState(SDL_ENABLE);
+
+    int popupDuration = Settings::getInstance()->getInt("MusicPopupTime");
+    int lastTime = SDL_GetTicks();
+    bool running = true;
+    bool doReboot = false;
+    bool doShutdown = false;
+
+    while (running)
     {
-      lastTime = SDL_GetTicks();
-      SDL_Delay(1); // this doesn't need to be accurate, we're just giving up our CPU time until something wakes us up
-      continue;
+      SDL_Event event;
+      while (SDL_PollEvent(&event))
+      {
+        switch (event.type)
+        {
+          case SDL_JOYHATMOTION:
+          case SDL_JOYBUTTONDOWN:
+          case SDL_JOYBUTTONUP:
+          case SDL_KEYDOWN:
+          case SDL_KEYUP:
+          case SDL_JOYAXISMOTION:
+          case SDL_TEXTINPUT:
+          case SDL_TEXTEDITING:
+          case SDL_JOYDEVICEADDED:
+          case SDL_JOYDEVICEREMOVED:
+            InputManager::getInstance()->parseEvent(event, &window);
+            break;
+          case SDL_QUIT:
+            running = false;
+            break;
+          case RecalboxSystem::SDL_FAST_QUIT | RecalboxSystem::SDL_RB_REBOOT:
+            running = false;
+            doReboot = true;
+            Settings::getInstance()->setBool("IgnoreGamelist", true);
+            break;
+          case RecalboxSystem::SDL_FAST_QUIT | RecalboxSystem::SDL_RB_SHUTDOWN:
+            running = false;
+            doShutdown = true;
+            Settings::getInstance()->setBool("IgnoreGamelist", true);
+            break;
+          case SDL_QUIT | RecalboxSystem::SDL_RB_REBOOT:
+            running = false;
+            doReboot = true;
+            break;
+          case SDL_QUIT | RecalboxSystem::SDL_RB_SHUTDOWN:
+            running = false;
+            doShutdown = true;
+            break;
+          default:
+          {
+            if (event.type == NetPlayPopupEvent)
+            {
+              std::shared_ptr<GuiInfoPopup> popup = std::make_shared<GuiInfoPopup>(&window,
+                                                                                   netPlayThread.GetLastPopupText(),
+                                                                                   popupDuration, 20);
+              window.setInfoPopup(popup);
+            }
+            else if (event.type == MusicStartEvent)
+            {
+              std::shared_ptr<GuiInfoPopup> popup = std::make_shared<GuiInfoPopup>(&window,
+                                                                                   AudioManager::getInstance()->GetLastPopupText(),
+                                                                                   popupDuration, 10);
+              window.setInfoPopup(popup);
+            }
+            break;
+          }
+        }
+      }
+
+      if (window.isSleeping())
+      {
+        lastTime = SDL_GetTicks();
+        SDL_Delay(1); // this doesn't need to be accurate, we're just giving up our CPU time until something wakes us up
+        continue;
+      }
+
+      int curTime = SDL_GetTicks();
+      int deltaTime = curTime - lastTime;
+      lastTime = curTime;
+
+      // cap deltaTime at 1000
+      if (deltaTime > 1000 || deltaTime < 0)
+        deltaTime = 1000;
+
+      window.update(deltaTime);
+      window.render();
+      Renderer::swapBuffers();
+
+      Log::flush();
     }
 
-    int curTime = SDL_GetTicks();
-    int deltaTime = curTime - lastTime;
-    lastTime = curTime;
+    // Clean ready flag
+    if (fs::exists(ready_path))
+      fs::remove(ready_path);
 
-    // cap deltaTime at 1000
-    if (deltaTime > 1000 || deltaTime < 0)
-      deltaTime = 1000;
+    while (window.peekGui() != ViewController::get())
+      delete window.peekGui();
 
-    window.update(deltaTime);
-    window.render();
-    Renderer::swapBuffers();
-
-    Log::flush();
+    window.renderShutdownScreen();
+    SystemData::deleteSystems();
+    window.deinit();
+    LOG(LogInfo) << "EmulationStation cleanly shutting down.";
+    if (doReboot)
+    {
+      LOG(LogInfo) << "Rebooting system";
+      int res1 = system("touch /tmp/reboot.please");
+      int res2 = system("shutdown -r now");
+      if ((res1 | res2) != 0)
+      {
+        LOG(LogError) << "Error rebooting system";
+      }
+    }
+    else if (doShutdown)
+    {
+      LOG(LogInfo) << "Shutting system down";
+      int res1 = system("touch /tmp/shutdown.please");
+      int res2 = system("shutdown -h now");
+      if ((res1 | res2) != 0)
+      {
+        LOG(LogError) << "Error shutting system down";
+      }
+    }
   }
-
-  // Clean ready flag
-  if (fs::exists(ready_path))
-    fs::remove(ready_path);
-
-  while (window.peekGui() != ViewController::get())
-    delete window.peekGui();
-
-  window.renderShutdownScreen();
-  SystemData::deleteSystems();
-  window.deinit();
-  LOG(LogInfo) << "EmulationStation cleanly shutting down.";
-  if (doReboot)
+  catch(std::exception& ex)
   {
-    LOG(LogInfo) << "Rebooting system";
-    int res1 = system("touch /tmp/reboot.please");
-    int res2 = system("shutdown -r now");
-    if ((res1 | res2) != 0)
-    {
-      LOG(LogError) << "Error rebooting system";
-    }
-  }
-  else if (doShutdown)
-  {
-    LOG(LogInfo) << "Shutting system down";
-    int res1 = system("touch /tmp/shutdown.please");
-    int res2 = system("shutdown -h now");
-    if ((res1 | res2) != 0)
-    {
-      LOG(LogError) << "Error shutting system down";
-    }
+    LOG(LogError) << "Main thread crashed.";
+    LOG(LogError) << "Exception: " << ex.what();
   }
 
   return 0;

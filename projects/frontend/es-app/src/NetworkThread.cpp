@@ -5,6 +5,7 @@
  * Created on 6 février 2015, 11:40
  */
 
+#include <Log.h>
 #include "NetworkThread.h"
 #include "recalbox/RecalboxSystem.h"
 #include "recalbox/RecalboxUpgrade.h"
@@ -26,37 +27,45 @@ NetworkThread::~NetworkThread()
 
 void NetworkThread::run()
 {
-  if (RecalboxConf::getInstance()->get("updates.enabled") != "1")
-    mRunning = false;
-
-  int waitForSeconds = 15;
-  while (mRunning)
+  try
   {
-    boost::this_thread::sleep(boost::posix_time::seconds(waitForSeconds));
-    waitForSeconds = 3600;
+    if (RecalboxConf::getInstance()->get("updates.enabled") != "1")
+      mRunning = false;
 
-    if (RecalboxUpgrade::getInstance()->canUpdate())
+    int waitForSeconds = 15;
+    while (mRunning)
     {
-      std::string changelog = RecalboxUpgrade::getInstance()->getUpdateChangelog();
+      boost::this_thread::sleep(boost::posix_time::seconds(waitForSeconds));
+      waitForSeconds = 3600;
 
-      while (mWindow->isShowingPopup())
+      if (RecalboxUpgrade::getInstance()->canUpdate())
       {
-        boost::this_thread::sleep(boost::posix_time::seconds(5));
-      }
+        std::string changelog = RecalboxUpgrade::getInstance()->getUpdateChangelog();
 
-      if (changelog != "")
-      {
-        std::string message = changelog;
-        std::string updateVersion = RecalboxUpgrade::getInstance()->getUpdateVersion();
-        mWindow->displayScrollMessage(_("AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"),
-                                      _("UPDATE VERSION:") + " " + updateVersion + "\n" +
-                                      _("UPDATE CHANGELOG:") + "\n" + message);
-      }
-      else
-      {
-        mWindow->displayMessage(_("AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"));
+        while (mWindow->isShowingPopup())
+        {
+          boost::this_thread::sleep(boost::posix_time::seconds(5));
+        }
+
+        if (changelog != "")
+        {
+          std::string message = changelog;
+          std::string updateVersion = RecalboxUpgrade::getInstance()->getUpdateVersion();
+          mWindow->displayScrollMessage(_("AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"),
+                                        _("UPDATE VERSION:") + " " + updateVersion + "\n" + _("UPDATE CHANGELOG:") +
+                                        "\n" + message);
+        }
+        else
+        {
+          mWindow->displayMessage(_("AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"));
+        }
       }
     }
+  }
+  catch(std::exception& ex)
+  {
+    LOG(LogError) << "Main thread crashed.";
+    LOG(LogError) << "Exception: " << ex.what();
   }
 }
 
