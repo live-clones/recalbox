@@ -10,13 +10,11 @@ import configgen.settings.unixSettings as unixSettings
 from configgen.Emulator import Emulator
 from configgen.generators.fba2x.fba2xGenerator import Fba2xGenerator
 
-sys.path.append(
-    os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
-
 import configgen.generators.fba2x.fba2xConfig as fba2xConfig
 import configgen.generators.fba2x.fba2xGenerator as fba2xGenerator
 import configgen.generators.fba2x.fba2xControllers as fba2xControllers
 
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
 
 FBA2X_ORIGIN_CFG_FILE = os.path.abspath(os.path.join(os.path.dirname(__file__), 'tmp/fba2x.cfg.origin'))
 FBA2X_CUSTOM_CFG_FILE = os.path.abspath(os.path.join(os.path.dirname(__file__), 'tmp/fba2x.cfg'))

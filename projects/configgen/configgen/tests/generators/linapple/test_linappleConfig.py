@@ -111,7 +111,7 @@ class TestLinappleConfig(runtest.TestCase):
         # Load settings from system configuration file and run
         # tested function with parameters
         config_user = LinappleConfig(self.path_init_conf)
-        controllers = controllersConfig.loadControllerConfig2(**args)
+        controllers = controllersConfig.Controller.loadControllerConfig2(**args)
         config_user.joysticks(controllers)
         
         # Check results

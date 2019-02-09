@@ -24,11 +24,12 @@ from generators.vice.viceGenerator import ViceGenerator
 from generators.advancemame.advMameGenerator import AdvMameGenerator
 from generators.amiberry.amiberryGenerator import AmiberryGenerator
 from generators.daphne.daphneGenerator import DaphneGenerator
-import controllersConfig as controllers
 import utils.runner as runner
 import signal
 import recalboxFiles
 import os
+
+from controllersConfig import Controller
 
 generators = {
     'fba2x': Fba2xGenerator(),
@@ -146,11 +147,11 @@ def main(args):
     playersControllers = dict()
     if not args.demo:
         # Read the controller configuration
-        playersControllers = controllers.loadControllerConfig(args.p1index, args.p1guid, args.p1name, args.p1devicepath, args.p1nbaxes,
-                                                              args.p2index, args.p2guid, args.p2name, args.p2devicepath, args.p2nbaxes,
-                                                              args.p3index, args.p3guid, args.p3name, args.p3devicepath, args.p3nbaxes,
-                                                              args.p4index, args.p4guid, args.p4name, args.p4devicepath, args.p4nbaxes,
-                                                              args.p5index, args.p5guid, args.p5name, args.p5devicepath, args.p5nbaxes)
+        playersControllers = Controller.loadControllerConfig(args.p1index, args.p1guid, args.p1name, args.p1devicepath, args.p1nbaxes,
+                                                             args.p2index, args.p2guid, args.p2name, args.p2devicepath, args.p2nbaxes,
+                                                             args.p3index, args.p3guid, args.p3name, args.p3devicepath, args.p3nbaxes,
+                                                             args.p4index, args.p4guid, args.p4name, args.p4devicepath, args.p4nbaxes,
+                                                             args.p5index, args.p5guid, args.p5name, args.p5devicepath, args.p5nbaxes)
 
     systemName = args.system
     # Main Program
@@ -233,7 +234,7 @@ if __name__ == '__main__':
     parser.add_argument("-p5devicepath", help="player5 controller device", type=str, required=False)
     parser.add_argument("-p5nbaxes", help="player5 controller number of axes", type=str, required=False)
     parser.add_argument("-system", help="select the system to launch", type=str, required=True)
-    parser.add_argument("-rom", help="rom absolute path", type=str, required=True)
+    parser.add_argument("-rom", help="rom absolute path", type=str, required=False)
     parser.add_argument("-emulator", help="force emulator", type=str, required=False)
     parser.add_argument("-core", help="force emulator core", type=str, required=False)
     parser.add_argument("-ratio", help="force game ratio", type=str, required=False)

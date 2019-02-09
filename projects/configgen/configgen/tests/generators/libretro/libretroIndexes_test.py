@@ -30,10 +30,10 @@ libretroControllers.libretroSettings = libretroSettings
 
 # Test objects
 basicInputs1 = {'a': controllersConfig.Input("a", "button", "10", "1", "0"),'start': controllersConfig.Input("start", "button", "11", "1", "0")}
-basicController1 = controllersConfig.Controller("contr1", "joypad", "GUID1", '1', 0, "Joypad1RealName", basicInputs1)
-basicController2 = controllersConfig.Controller("contr2", "joypad", "GUID2", '2', 1, "Joypad2RealName", basicInputs1)
-basicController3 = controllersConfig.Controller("contr3", "joypad", "GUID3", '3', 2, "Joypad3RealName", basicInputs1)
-basicController4 = controllersConfig.Controller("contr4", "joypad", "GUID4", '4', 3, "Joypad4RealName", basicInputs1)
+basicController1 = controllersConfig.Controller("contr1", "joypad", "GUID1", '1', 0, "Joypad1RealName", basicInputs1, nbaxes=6, nbhats=1, nbbuttons=10)
+basicController2 = controllersConfig.Controller("contr2", "joypad", "GUID2", '2', 1, "Joypad2RealName", basicInputs1, nbaxes=6, nbhats=1, nbbuttons=10)
+basicController3 = controllersConfig.Controller("contr3", "joypad", "GUID3", '3', 2, "Joypad3RealName", basicInputs1, nbaxes=6, nbhats=1, nbbuttons=10)
+basicController4 = controllersConfig.Controller("contr4", "joypad", "GUID4", '4', 3, "Joypad4RealName", basicInputs1, nbaxes=6, nbhats=1, nbbuttons=10)
 controllers4 = {"1": basicController1, "2": basicController2, "3": basicController3, "4": basicController4}
 controllers2 = {"1": basicController1, "2": basicController2}
 controllers2weird = {"3": basicController4, "2": basicController3}

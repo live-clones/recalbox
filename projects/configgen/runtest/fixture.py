@@ -8,7 +8,7 @@ import functools
 from unittest import SkipTest
 from loader import TestLoader
 
-from configgen.controllersConfig import loadAllControllersConfig
+from configgen.controllersConfig import Controller
 
 def fixture_joystick(cls_fix, *args_fix, **kwargs_fix):
     def decorator(fn):
@@ -30,7 +30,7 @@ def fixture_joystick(cls_fix, *args_fix, **kwargs_fix):
 class FixtureJoystick(object):
     def __init__(self, players=5):
         # Compute ljust size for display
-        ctrls, max_len = loadAllControllersConfig().values(), 0
+        ctrls, max_len = Controller.loadAllControllersConfig().values(), 0
         for c in ctrls: 
             name = c.configName.strip()
             max_len = max(len(name), max_len)

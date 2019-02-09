@@ -58,10 +58,12 @@ class TestLibretroGenerator(unittest.TestCase):
         # test inputs
         self.basicInputs1 = {'hotkey': controllersConfig.Input("hotkey", "button", "10", "1","")}
         self.basicController1 = controllersConfig.Controller("contr1", "joypad", "GUID1", 1, 0, "Joypad1RealName",
-                                                             self.basicInputs1)
+                                                             self.basicInputs1,
+                                                             nbaxes=6, nbhats=1, nbbuttons=10)
 
         self.sdl2controler = controllersConfig.Controller("contr1", "joypad", "030000003512000012ab000010010000", 2, 1,
-                                                          "Bluetooth Wireless Controller   ", self.basicInputs1)
+                                                          "Bluetooth Wireless Controller   ", self.basicInputs1,
+                                                          nbaxes=6, nbhats=1, nbbuttons=10)
         self.controllers = dict()
         self.controllers['1'] = self.basicController1
 
@@ -109,11 +111,11 @@ class TestLibretroGenerator(unittest.TestCase):
         self.assertEquals(libretroConfig.libretroSettings.load('input_joypad_driver'), 'sdl2')
 
     def test_remove_hotkeys_on_configure_with_es_menu_none(self):
-        controllers = controllersConfig.loadControllerConfig(0, PS3UUID, "p1controller","","0",
-                                                                -1, 0, "p2controller","","0", 
-                                                                -1, 0, "p3controller","","0", 
-                                                                -1, 0, "p4controller","","0", 
-                                                                -1, 0, "p5controller","","0")
+        controllers = controllersConfig.Controller.loadControllerConfig(0, PS3UUID, "p1controller", "", "0",
+                                                                        -1, 0, "p2controller","","0",
+                                                                        -1, 0, "p3controller","","0",
+                                                                        -1, 0, "p4controller","","0",
+                                                                        -1, 0, "p5controller","","0")
 
         command = libretroGen.generate(self.snes, rom, controllers)
         self.assertEquals(libretroConfig.libretroSettings.load('input_menu_toggle_btn'), '14')
