@@ -31,18 +31,68 @@
 - Preconfigured gamepads file rewritten
 - x86: Now requires a CPU that can handle at least SSE and SS2 (Core2duo and higher)
 - x86: Add support for newer AMD GPU
-- Emulator updated! Amiberry (Amiga) - Huge up! Add supports of IPF, RP9, CD, zip, 7z & Retroarch pad configuration - Available also on Rpi1 and Odroid XU4.
-- Emulator updated! Theodore (Thomson) - Supports now TO8, TO8D, TO9, TO9+ & MO5 machines
-- Emulator updated! FBA Libretro core updated to latest version. Recommended Romset: 0.2.97.44
-- Emulator updated! Hatari (Atari ST) updated to latest version.
-- Emulator updated! DoxBox updated to December 2018 version.
+- Retroarch updated to version 1.7.6!
+- Retroarch cheats updated to version 1.7.6!
 - Emulator updated! 4DO updated to lastest revision. Also available on Rpi3 (3B+ recommended).
+- Emulator updated! Amiberry (Amiga) - Huge up! Add supports of IPF, RP9, CD, zip, 7z & Retroarch pad configuration - Available also on Odroid XU4.
+- Emulator updated! DoxBox updated to December 2018 version.
 - Emulator updated! ScummVM and ResidualVM updated to January 2019 versions.
+- Libretro core updated! 81 (EX-81) updated to latest version.
+- Libretro core updated! Atari800 (Atari 5200Atari 8bits) updated to latest version.
+- Libretro core updated! Beetle Lynx (Atari Lynx) updated to latest version. Support Headerless roms.
+- Libretro core updated! Beetle NGP (Neo Geo Pocket/Color) updated to latest version.
+- Libretro core updated! Beetle PCE (PCEngine-CD) updated to latest version.
+- Libretro core updated! Beetle PSX (Playstation 1) updated to latest version.
+- Libretro core updated! Beetle PSX-HW (Playstation 1) updated to latest version.
+- Libretro core updated! Beetle SGX (PCE/PCE-CD/SGX) updated to latest version.
+- Libretro core updated! Beetle VB (Virtual Boy) updated to latest version.
+- Libretro core updated! Beetle Wonderswan (Wonderswan/Color) updated to latest version.
+- Libretro core updated! BlueMSX (MSX) updated to latest version.
+- Libretro core updated! Caprice32 (Amstrad) updated to latest version.
+- Libretro core updated! Crocods (Amstrad) updated to latest version.
+- Libretro core updated! DeSmuME (NDS) updated to latest version.
+- Libretro core updated! FBA Libretro core updated to latest version. Recommended Romset: 0.2.97.44
+- Libretro core updated! FCEUmm (Nintendo NES) updated to latest version.
+- Libretro core updated! fMSX (MSX) updated to latest version.
+- Libretro core updated! FreeIntV (Intellivision) updated to latest version.
+- Libretro core updated! Fuse (ZX Spectrum) updated to latest version.
+- Libretro core updated! Gambatte (Nintendo GB/Color) updated to latest version.
+- Libretro core updated! Genesis Plus GX (Sega MD/GG/MS/CD) updated to latest version.
+- Libretro core updated! GNupeN64 (Nintendo64) updated to latest version.
+- Libretro core updated! GPSP (Nintendo GBA) updated to latest version.
+- Libretro core updated! GW (Game & Watch) updated to latest version.
+- Libretro core updated! Handy (Atari Lynx) updated to latest version.
+- Libretro core updated! Hatari (Atari ST) updated to latest version.
+- Libretro core updated! iMAME (Mame 2000) updated to latest version.
+- Libretro core updated! Lutro (Lua Game Engine) updated to latest version.
+- Libretro core updated! MAME2003 (Mame 2003) updated to latest version.
+- Libretro core updated! MAME2010 (Mame 2010) updated to latest version.
+- Libretro core updated! MelonDS (NDS) updated to latest version.
+- Libretro core updated! mGBA (Nintendo GBA) updated to latest version.
+- Libretro core updated! Nestopia (Nintendo NES) updated to latest version.
+- Libretro core updated! NxEngine (Cave Story) updated to latest version.
+- Libretro core updated! O2EM (Odyssey²) updated to latest version.
+- Libretro core updated! PCSX (Playstation 1) updated to latest version.
+- Libretro core updated! Picodrive (Sega MS/MD/CD/32X) updated to latest version.
+- Libretro core updated! PocketSnes (Nintendo SNES) updated to latest version.
+- Libretro core updated! PrBoom (Doom engine) updated to latest version.
+- Libretro core updated! ProSystem (Atari 7800) updated to latest version.
+- Libretro core updated! Px68k (Sharp X68000) updated to latest version.
+- Libretro core updated! QuickNES (Nintendo NES) updated to latest version.
+- Libretro core updated! Snes9x (Nintendo SNES) updated to latest version.
+- Libretro core updated! Snes9x2005 (Nintendo SNES, formerly CatSFC) updated to latest version.
+- Libretro core updated! Snes9x2010 (Nintendo SNES, formerly Snes9x-Next) updated to latest version.
+- Libretro core updated! Stella (Atari 2600) updated to latest version.
+- Libretro core updated! TGBDual (Nintendo GB/Color) updated to latest version.
+- Libretro core updated! Theodore (Thomson) - Supports now TO8, TO8D, TO9, TO9+ & MO5 machines
+- Libretro core updated! VecX (Vectrex) updated to latest version.
+- Libretro core updated! Vice (Commodores 8bits) updated to latest version.
 - GPIO arcade driver upgraded: now support I2C and GPIO reconfiguring from the command line
 - EmulationStation: Now automatically reboots once the upgrade is ready
 - "overlays" folder and roms subfolders automatically created
 - Updated all MAME hiscore/cheat files in bios folder - Thanks to olivierdroid92!
 - Static IP configuration available for WIFI connections (in recalbox.conf)
+- Add support for AZERTY/QWERTY virtual keyboards
 
 ### Fixes
 - bluetooth detection on Odroid XU4
