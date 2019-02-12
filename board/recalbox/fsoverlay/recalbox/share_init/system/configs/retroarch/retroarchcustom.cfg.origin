@@ -55,3 +55,5 @@ menu_swap_ok_cancel_buttons = "true"
 
 libretro_log_level = 0
 log_verbosity = false
+
+framecount_show = false
