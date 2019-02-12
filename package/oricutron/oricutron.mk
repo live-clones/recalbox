@@ -21,6 +21,7 @@ else ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_C2),y)
 	ORICUTRON_PLATFORM=rpi
 else ifeq ($(BR2_i386),y)
 	ORICUTRON_PLATFORM=linux
+	ORICUTRON_POST_EXTRACT_CUSTOM_FIX=$(SED) "s|-m64|-m32|g" $(@D)/Makefile
 else ifeq ($(BR2_x86_64),y)
 	ORICUTRON_PLATFORM=linux
 else
@@ -47,6 +48,7 @@ define ORICUTRON_POST_EXTRACT_FIX_SDL2_PATH
     @echo CHANGING MAKEFILE
     /bin/sed -i -E -e "s|\\$$\(shell PKG_CONFIG_PATH=/usr/\\$$\(BASELIBDIR\)/pkgconfig pkg-config \\$$\(SDL_LIB\) --cflags\)|`$(STAGING_DIR)/usr/bin/sdl2-config --cflags`|g" $(@D)/Makefile
     /bin/sed -i -E -e "s|-L/usr/\\$$\(BASELIBDIR\)\s\\$$\(shell PKG_CONFIG_PATH=/usr/\\$$\(BASELIBDIR\)/pkgconfig pkg-config \\$$\(SDL_LIB\) --libs\)|`$(STAGING_DIR)/usr/bin/sdl2-config --libs`|g" $(@D)/Makefile
+    $(ORICUTRON_POST_EXTRACT_CUSTOM_FIX)
 endef
  
 ORICUTRON_POST_EXTRACT_HOOKS += ORICUTRON_POST_EXTRACT_FIX_SDL2_PATH
