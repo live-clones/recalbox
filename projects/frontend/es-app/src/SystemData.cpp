@@ -449,7 +449,7 @@ bool SystemData::loadConfig()
     boost::asio::io_service ioService;
     boost::thread_group threadpool;
     boost::asio::io_service::work work(ioService);
-    for (int i = 1; --i >= 0;)
+    for (int i = 4; --i >= 0;)
       threadpool.create_thread(boost::bind(&boost::asio::io_service::run, &ioService));
 
     // Iterate over the map using Iterator till end.
