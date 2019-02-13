@@ -185,6 +185,7 @@ class AmiberryGenerator(Generator):
         configFile.SetCPU(subSystem)
         configFile.SetChipset(subSystem)
         configFile.SetMemory(subSystem)
+        configFile.SetGraphics(sysSystem)
         configFile.SetSound(subSystem)
         configFile.SetNetwork(romType in [RomType.WHDL, RomType.HDDFS, RomType.HDF])
         configFile.SetFloppies(subSystem, [])
