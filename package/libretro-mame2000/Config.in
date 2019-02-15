@@ -5,7 +5,7 @@ config BR2_PACKAGE_LIBRETRO_MAME2000
 	select BR2_PACKAGE_RECALBOX_ROMFS_MAME
 	select BR2_PACKAGE_RECALBOX_ROMFS_NEOGEO
         help
-          A libretro imame4all core for ARM.
+          A libretro mame2000 core for ARM.
 
 	  http://www.libretro.com
 
