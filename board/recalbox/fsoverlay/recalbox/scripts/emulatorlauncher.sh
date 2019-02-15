@@ -69,7 +69,7 @@ if [[ "$emulator" == "snes" ]]; then
         if [[ "$settings_snes" == "snes9x2005" ]];then
                 /recalbox/scripts/runcommand.sh 4 "$retroarchbin -L $retroarchcores/snes9x2005_libretro.so --config /recalbox/configs/retroarch/retroarchcustom.cfg \"$1\""
         elif [[ "$settings_snes" == "snes9x" ]];then
-                /recalbox/scripts/runcommand.sh 4 "$retroarchbin -L $retroarchcores/snes9x_next_libretro.so --config /recalbox/configs/retroarch/retroarchcustom.cfg \"$1\""
+                /recalbox/scripts/runcommand.sh 4 "$retroarchbin -L $retroarchcores/snes9x2010_libretro.so --config /recalbox/configs/retroarch/retroarchcustom.cfg \"$1\""
         else
                 /recalbox/scripts/runcommand.sh 4 "$retroarchbin -L $retroarchcores/snes9x2002_libretro.so --config /recalbox/configs/retroarch/retroarchcustom.cfg \"$1\""
         fi
