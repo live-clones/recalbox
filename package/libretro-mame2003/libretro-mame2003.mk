@@ -13,7 +13,7 @@ endef
 
 define LIBRETRO_MAME2003_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/mame2003_libretro.so \
-		$(TARGET_DIR)/usr/lib/libretro/mame078_libretro.so
+		$(TARGET_DIR)/usr/lib/libretro/mame2003_libretro.so
 endef
 
 $(eval $(generic-package))

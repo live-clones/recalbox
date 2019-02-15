@@ -108,7 +108,7 @@ class EmPack:
         :type typeCmd: string must be START, END or DEF
         :param emulator: optionnal, the emulator name (ex: libretro)
         :type emulator: string
-        :param core: optional, the core name (ex: mame078)
+        :param core: optional, the core name (ex: mame2003)
         :type core: string
         :returns: the define name
         :rtype: string
@@ -367,7 +367,7 @@ if __name__ == '__main__':
     parser.add_argument("-f", "--fullname", help="Sets the nice full name of the system. Defaults to the system name with a first upper case. ex: 'SEGA Master System'", type=str, required=False)
     parser.add_argument("-p", "--platform", help="Sets the system platform. Defaults to the system name. ex: pc", type=str, required=False)
     parser.add_argument("-t", "--theme", help="Sets the theme name. Defaults to the system name. ex: nes", type=str, required=False)
-    parser.add_argument("packageDetails", nargs='+', help="Either specify a BR2_PACKAGE_XXXXX for a standalone emulator (like reicast, ppsspp etc ...)\nOr write it like libretro:mame078:BR2_PACKAGE_LIBRETRO_MAME2003 libretro:mame2000:BR2_PACKAGE_LIBRETRO_MAME2000 advancemame:advancemame:BR2_PACKAGE_ADVANCEMAME for a multiple emulators/cores system. The syntax in that case is emulator:core:BUILDROOT_CORE_PACKAGE", type=str)
+    parser.add_argument("packageDetails", nargs='+', help="Either specify a BR2_PACKAGE_XXXXX for a standalone emulator (like reicast, ppsspp etc ...)\nOr write it like libretro:mame2003:BR2_PACKAGE_LIBRETRO_MAME2003 libretro:mame2000:BR2_PACKAGE_LIBRETRO_MAME2000 advancemame:advancemame:BR2_PACKAGE_ADVANCEMAME for a multiple emulators/cores system. The syntax in that case is emulator:core:BUILDROOT_CORE_PACKAGE", type=str)
 
     args = parser.parse_args()
 

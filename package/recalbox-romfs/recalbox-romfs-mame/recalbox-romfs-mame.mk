@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system mame --extension '.zip .ZIP' --fullname 'Mame' --platform arcade --theme mame libretro:mame078:BR2_PACKAGE_LIBRETRO_MAME2003 libretro:mame2000:BR2_PACKAGE_LIBRETRO_MAME2000 advancemame:advancemame:BR2_PACKAGE_ADVANCEMAME libretro:mame2010:BR2_PACKAGE_LIBRETRO_MAME2010 libretro:mame2003_plus:BR2_PACKAGE_LIBRETRO_MAME2003_PLUS
+# ./scripts/linux/empack.py --system mame --extension '.zip .ZIP' --fullname 'Mame' --platform arcade --theme mame libretro:mame2003:BR2_PACKAGE_LIBRETRO_MAME2003 libretro:mame2000:BR2_PACKAGE_LIBRETRO_MAME2000 advancemame:advancemame:BR2_PACKAGE_ADVANCEMAME libretro:mame2010:BR2_PACKAGE_LIBRETRO_MAME2010 libretro:mame2003_plus:BR2_PACKAGE_LIBRETRO_MAME2003_PLUS
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_MAME_SOURCE = 
@@ -37,8 +37,8 @@ endef
 endif
 
 ifeq ($(BR2_PACKAGE_LIBRETRO_MAME2003),y)
-define CONFIGURE_MAME_LIBRETRO_MAME078_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_MAME),mame078)
+define CONFIGURE_MAME_LIBRETRO_MAME2003_DEF
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_MAME),mame2003)
 endef
 endif
 
@@ -85,7 +85,7 @@ define RECALBOX_ROMFS_MAME_CONFIGURE_CMDS
 	$(CONFIGURE_MAIN_MAME_START)
 	$(CONFIGURE_MAME_LIBRETRO_START)
 	$(CONFIGURE_MAME_LIBRETRO_MAME2010_DEF)
-	$(CONFIGURE_MAME_LIBRETRO_MAME078_DEF)
+	$(CONFIGURE_MAME_LIBRETRO_MAME2003_DEF)
 	$(CONFIGURE_MAME_LIBRETRO_MAME2000_DEF)
 	$(CONFIGURE_MAME_LIBRETRO_MAME2003_PLUS_DEF)
 	$(CONFIGURE_MAME_LIBRETRO_END)

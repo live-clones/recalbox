@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system neogeo --extension '.zip .ZIP .7z .7Z' --fullname 'Neo-Geo' --platform neogeo --theme neogeo libretro:mame078:BR2_PACKAGE_LIBRETRO_MAME2003 libretro:mame2000:BR2_PACKAGE_LIBRETRO_MAME2000 libretro:fba:BR2_PACKAGE_LIBRETRO_FBA fba2x:fba2x:BR2_PACKAGE_PIFBA libretro:mame2010:BR2_PACKAGE_LIBRETRO_MAME2010
+# ./scripts/linux/empack.py --system neogeo --extension '.zip .ZIP .7z .7Z' --fullname 'Neo-Geo' --platform neogeo --theme neogeo libretro:mame2003:BR2_PACKAGE_LIBRETRO_MAME2003 libretro:mame2000:BR2_PACKAGE_LIBRETRO_MAME2000 libretro:fba:BR2_PACKAGE_LIBRETRO_FBA fba2x:fba2x:BR2_PACKAGE_PIFBA libretro:mame2010:BR2_PACKAGE_LIBRETRO_MAME2010
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_NEOGEO_SOURCE = 
@@ -37,8 +37,8 @@ endef
 endif
 
 ifeq ($(BR2_PACKAGE_LIBRETRO_MAME2003),y)
-define CONFIGURE_NEOGEO_LIBRETRO_MAME078_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_NEOGEO),mame078)
+define CONFIGURE_NEOGEO_LIBRETRO_MAME2003_DEF
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_NEOGEO),mame2003)
 endef
 endif
 
@@ -85,7 +85,7 @@ define RECALBOX_ROMFS_NEOGEO_CONFIGURE_CMDS
 	$(CONFIGURE_MAIN_NEOGEO_START)
 	$(CONFIGURE_NEOGEO_LIBRETRO_START)
 	$(CONFIGURE_NEOGEO_LIBRETRO_MAME2010_DEF)
-	$(CONFIGURE_NEOGEO_LIBRETRO_MAME078_DEF)
+	$(CONFIGURE_NEOGEO_LIBRETRO_MAME2003_DEF)
 	$(CONFIGURE_NEOGEO_LIBRETRO_FBA_DEF)
 	$(CONFIGURE_NEOGEO_LIBRETRO_MAME2000_DEF)
 	$(CONFIGURE_NEOGEO_LIBRETRO_END)
