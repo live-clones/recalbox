@@ -2,6 +2,6 @@ config BR2_PACKAGE_RECALBOX_ROMFS_PCENGINECD
 	bool "recalbox-romfs-pcenginecd"
 	select BR2_PACKAGE_RECALBOX_ROMS
 	depends on BR2_PACKAGE_LIBRETRO_BEETLE_SUPERGRAFX \
-	  || BR2_PACKAGE_LIBRETRO_BEETLE_PCE
+	  || BR2_PACKAGE_LIBRETRO_BEETLE_PCE_FAST
 	help
 	  share_init/roms and xml for pcenginecd
