@@ -78,7 +78,7 @@ if BR2_PACKAGE_RETROARCH
 menu "Libretro Cores"
         source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-armsnes/Config.in"
         source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-pocketsnes/Config.in"
-        source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-catsfc/Config.in"
+        source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-snes9x2005/Config.in"
         source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-beetle-vb/Config.in"
         source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-snes9x-next/Config.in"
         source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-picodrive/Config.in"
