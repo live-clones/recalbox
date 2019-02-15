@@ -5,6 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [unreleased]
 - Major system upgrade. See https://github.com/buildroot/buildroot/blob/2018.02.3/CHANGES#L1-L1427 for the full log
 - KODI bumped to 17.6
+- New Kodi addon: EmbyCon
 - Raspberry Pi3b+ and CM3 support
 - Joypads management updated, mostly impacting joypads advertising as a complete keyboard. You have to reconfigure your pad if it is acting strangely
 - Preconfigured gamepads file rewritten

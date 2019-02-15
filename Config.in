@@ -150,6 +150,7 @@ menu "Doom packages"
 endmenu
 endmenu
 menu "Kodi addons"
+	 source "$BR2_EXTERNAL_RECALBOX_PATH/package/kodi-plugin-video-embycon/Config.in"
 	 source "$BR2_EXTERNAL_RECALBOX_PATH/package/kodi-plugin-video-youtube/Config.in"
 	 source "$BR2_EXTERNAL_RECALBOX_PATH/package/kodi-script.module.t0mm0.common/Config.in"
 menu "Languages"
