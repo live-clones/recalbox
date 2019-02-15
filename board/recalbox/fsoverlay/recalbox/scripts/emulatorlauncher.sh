@@ -184,8 +184,8 @@ if [[ "$emulator" == "neogeo" ]]; then
         settings_neogeo="`$systemsetting get neogeo_emulator`"
         if [[ "$settings_neogeo" == "fbalibretro" ]];then
                 /recalbox/scripts/runcommand.sh 4 "$retroarchbin -L $retroarchcores/fba_libretro.so --config /recalbox/configs/retroarch/retroarchcustom.cfg \"$1\""
-        elif [[ "$settings_neogeo" == "imame" ]];then
-                /recalbox/scripts/runcommand.sh 4 "$retroarchbin -L $retroarchcores/imame4all_libretro.so --config /recalbox/configs/retroarch/retroarchcustom.cfg \"$1\""
+        elif [[ "$settings_neogeo" == "mame2000" ]];then
+                /recalbox/scripts/runcommand.sh 4 "$retroarchbin -L $retroarchcores/mame2000_libretro.so --config /recalbox/configs/retroarch/retroarchcustom.cfg \"$1\""
         else
                 runsix=0
                 for game in ${sixBTNgames[*]}; do
@@ -203,11 +203,11 @@ if [[ "$emulator" == "neogeo" ]]; then
         fi
 fi
 
-if [[ "$emulator" == "imame" ]]; then
+if [[ "$emulator" == "mame2000" ]]; then
 	if [[ -n ${ratiomap[$filename]} ]]; then
-        	/recalbox/scripts/runcommand.sh 4 "$retroarchbin -L $retroarchcores/imame4all_libretro.so --config /recalbox/configs/retroarch/retroarchcustom.cfg --appendconfig /recalbox/configs/retroarch/${ratiomap[$filename]}.cfg \"$1\""
+        	/recalbox/scripts/runcommand.sh 4 "$retroarchbin -L $retroarchcores/mame2000_libretro.so --config /recalbox/configs/retroarch/retroarchcustom.cfg --appendconfig /recalbox/configs/retroarch/${ratiomap[$filename]}.cfg \"$1\""
 	else
-        	/recalbox/scripts/runcommand.sh 4 "$retroarchbin -L $retroarchcores/imame4all_libretro.so --config /recalbox/configs/retroarch/retroarchcustom.cfg --appendconfig /recalbox/configs/retroarch/4:3.cfg \"$1\""
+        	/recalbox/scripts/runcommand.sh 4 "$retroarchbin -L $retroarchcores/mame2000_libretro.so --config /recalbox/configs/retroarch/retroarchcustom.cfg --appendconfig /recalbox/configs/retroarch/4:3.cfg \"$1\""
 	fi
 fi
 

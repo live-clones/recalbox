@@ -40,7 +40,7 @@ for FILE in music bios bios/amiga bios/keropi extractions kodi saves saves/amiga
             system/recalbox.conf \
             bios/mame2003 \
             bios/fba \
-            bios/imame4all \
+            bios/mame2000 \
             bios/mame2003-plus \
             bios/mame2010 \
             bios/np2kai

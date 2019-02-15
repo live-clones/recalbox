@@ -93,7 +93,7 @@ class EmPack:
 
     def listpackages(self):
         """ Appends buildroot package variables to be processed by a ifeq/ifneq command
-        :returns: a concatenation of $(VAR1)$(VAR2) etc ... ex: '$(BR2_PACKAGE_LIBRETRO_MAME2003)$(BR2_PACKAGE_LIBRETRO_IMAME)'
+        :returns: a concatenation of $(VAR1)$(VAR2) etc ... ex: '$(BR2_PACKAGE_LIBRETRO_MAME2003)$(BR2_PACKAGE_LIBRETRO_MAME2000)'
         :rtype: string
         """
         cond = '$('
@@ -367,7 +367,7 @@ if __name__ == '__main__':
     parser.add_argument("-f", "--fullname", help="Sets the nice full name of the system. Defaults to the system name with a first upper case. ex: 'SEGA Master System'", type=str, required=False)
     parser.add_argument("-p", "--platform", help="Sets the system platform. Defaults to the system name. ex: pc", type=str, required=False)
     parser.add_argument("-t", "--theme", help="Sets the theme name. Defaults to the system name. ex: nes", type=str, required=False)
-    parser.add_argument("packageDetails", nargs='+', help="Either specify a BR2_PACKAGE_XXXXX for a standalone emulator (like reicast, ppsspp etc ...)\nOr write it like libretro:mame078:BR2_PACKAGE_LIBRETRO_MAME2003 libretro:imame4all:BR2_PACKAGE_LIBRETRO_IMAME advancemame:advancemame:BR2_PACKAGE_ADVANCEMAME for a multiple emulators/cores system. The syntax in that case is emulator:core:BUILDROOT_CORE_PACKAGE", type=str)
+    parser.add_argument("packageDetails", nargs='+', help="Either specify a BR2_PACKAGE_XXXXX for a standalone emulator (like reicast, ppsspp etc ...)\nOr write it like libretro:mame078:BR2_PACKAGE_LIBRETRO_MAME2003 libretro:mame2000:BR2_PACKAGE_LIBRETRO_MAME2000 advancemame:advancemame:BR2_PACKAGE_ADVANCEMAME for a multiple emulators/cores system. The syntax in that case is emulator:core:BUILDROOT_CORE_PACKAGE", type=str)
 
     args = parser.parse_args()
 
