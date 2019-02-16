@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system fba_libretro --extension '.zip .ZIP .fba .FBA .7z .7Z' --fullname 'FBA_LIBRETRO' --platform arcade --theme fba_libretro libretro:fba:BR2_PACKAGE_LIBRETRO_FBA
+# ./scripts/linux/empack.py --system fba_libretro --extension '.zip .ZIP .fba .FBA .7z .7Z' --fullname 'FinalBurn Alpha' --platform arcade --theme fba_libretro libretro:fbalpha:BR2_PACKAGE_LIBRETRO_FBALPHA
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_FBA_LIBRETRO_SOURCE = 
@@ -21,18 +21,18 @@ SOURCE_ROMDIR_FBA_LIBRETRO = $(RECALBOX_ROMFS_FBA_LIBRETRO_PKGDIR)/roms
 # variables are global across buildroot
 
 
-ifneq ($(BR2_PACKAGE_LIBRETRO_FBA),)
+ifneq ($(BR2_PACKAGE_LIBRETRO_FBALPHA),)
 define CONFIGURE_MAIN_FBA_LIBRETRO_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_FBA_LIBRETRO),FBA_LIBRETRO,$(SYSTEM_NAME_FBA_LIBRETRO),.zip .ZIP .fba .FBA .7z .7Z,arcade,fba_libretro)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_FBA_LIBRETRO),FinalBurn Alpha,$(SYSTEM_NAME_FBA_LIBRETRO),.zip .ZIP .fba .FBA .7z .7Z,arcade,fba_libretro)
 endef
 
-ifneq ($(BR2_PACKAGE_LIBRETRO_FBA),)
+ifneq ($(BR2_PACKAGE_LIBRETRO_FBALPHA),)
 define CONFIGURE_FBA_LIBRETRO_LIBRETRO_START
 	$(call RECALBOX_ROMFS_CALL_START_EMULATOR,$(SYSTEM_XML_FBA_LIBRETRO),libretro)
 endef
-ifeq ($(BR2_PACKAGE_LIBRETRO_FBA),y)
-define CONFIGURE_FBA_LIBRETRO_LIBRETRO_FBA_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_FBA_LIBRETRO),fba)
+ifeq ($(BR2_PACKAGE_LIBRETRO_FBALPHA),y)
+define CONFIGURE_FBA_LIBRETRO_LIBRETRO_FBALPHA_DEF
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_FBA_LIBRETRO),fbalpha)
 endef
 endif
 
@@ -51,7 +51,7 @@ endif
 define RECALBOX_ROMFS_FBA_LIBRETRO_CONFIGURE_CMDS
 	$(CONFIGURE_MAIN_FBA_LIBRETRO_START)
 	$(CONFIGURE_FBA_LIBRETRO_LIBRETRO_START)
-	$(CONFIGURE_FBA_LIBRETRO_LIBRETRO_FBA_DEF)
+	$(CONFIGURE_FBA_LIBRETRO_LIBRETRO_FBALPHA_DEF)
 	$(CONFIGURE_FBA_LIBRETRO_LIBRETRO_END)
 	$(CONFIGURE_MAIN_FBA_LIBRETRO_END)
 endef

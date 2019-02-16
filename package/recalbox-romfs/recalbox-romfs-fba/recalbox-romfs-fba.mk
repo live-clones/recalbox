@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system fba --extension '.zip .ZIP .fba .FBA' --fullname 'Final Burn Alpha' --platform arcade --theme fba fba2x:fba2x:BR2_PACKAGE_PIFBA
+# ./scripts/linux/empack.py --system fba --extension '.zip .ZIP .fba .FBA' --fullname 'FinalBurn Alpha 2x' --platform arcade --theme fba fba2x:fba2x:BR2_PACKAGE_PIFBA
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_FBA_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_FBA = $(RECALBOX_ROMFS_FBA_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_PIFBA),)
 define CONFIGURE_MAIN_FBA_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_FBA),Final Burn Alpha,$(SYSTEM_NAME_FBA),.zip .ZIP .fba .FBA,arcade,fba)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_FBA),FinalBurn Alpha 2x,$(SYSTEM_NAME_FBA),.zip .ZIP .fba .FBA,arcade,fba)
 endef
 
 ifneq ($(BR2_PACKAGE_PIFBA),)

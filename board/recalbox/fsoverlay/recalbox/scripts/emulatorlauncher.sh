@@ -182,8 +182,8 @@ fi
 
 if [[ "$emulator" == "neogeo" ]]; then
         settings_neogeo="`$systemsetting get neogeo_emulator`"
-        if [[ "$settings_neogeo" == "fbalibretro" ]];then
-                /recalbox/scripts/runcommand.sh 4 "$retroarchbin -L $retroarchcores/fba_libretro.so --config /recalbox/configs/retroarch/retroarchcustom.cfg \"$1\""
+        if [[ "$settings_neogeo" == "fbalpha" ]];then
+                /recalbox/scripts/runcommand.sh 4 "$retroarchbin -L $retroarchcores/fbalpha_libretro.so --config /recalbox/configs/retroarch/retroarchcustom.cfg \"$1\""
         elif [[ "$settings_neogeo" == "mame2000" ]];then
                 /recalbox/scripts/runcommand.sh 4 "$retroarchbin -L $retroarchcores/mame2000_libretro.so --config /recalbox/configs/retroarch/retroarchcustom.cfg \"$1\""
         else
@@ -211,7 +211,7 @@ if [[ "$emulator" == "mame2000" ]]; then
 	fi
 fi
 
-if [[ "$emulator" == "fba" ]]; then
+if [[ "$emulator" == "fbalpha" ]]; then
                 runsix=0
                 for game in ${sixBTNgames[*]}; do
                         echo "checking if $filename is like $game "
@@ -226,8 +226,8 @@ if [[ "$emulator" == "fba" ]]; then
                         /recalbox/scripts/runcommand.sh 4 "fba2x --configfile /recalbox/configs/fba/fba2x.cfg \"$1\""
                 fi
 fi
-if [[ "$emulator" == "fbalibretro" ]]; then
-	/recalbox/scripts/runcommand.sh 4 "$retroarchbin -L $retroarchcores/fba_libretro.so --config /recalbox/configs/retroarch/retroarchcustom.cfg \"$1\""
+if [[ "$emulator" == "fbalpha" ]]; then
+	/recalbox/scripts/runcommand.sh 4 "$retroarchbin -L $retroarchcores/fbalpha_libretro.so --config /recalbox/configs/retroarch/retroarchcustom.cfg \"$1\""
 fi
 
 if [[ "$emulator" == "scummvm" ]]; then

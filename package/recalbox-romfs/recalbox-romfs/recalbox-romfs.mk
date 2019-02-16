@@ -227,7 +227,7 @@ ifneq ($(BR2_PACKAGE_PIFBA),)
 endif
 
 # System: fba_libretro
-ifneq ($(BR2_PACKAGE_LIBRETRO_FBA),)
+ifneq ($(BR2_PACKAGE_LIBRETRO_FBALPHA),)
         RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-fba_libretro
 endif
 

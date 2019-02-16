@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system neogeocd --extension '.cue .CUE' --fullname 'Neo-Geo CD' --platform neogeocd --theme neogeocd libretro:fba:BR2_PACKAGE_LIBRETRO_FBA
+# ./scripts/linux/empack.py --system neogeocd --extension '.cue .CUE' --fullname 'Neo-Geo CD' --platform neogeocd --theme neogeocd libretro:fbalpha:BR2_PACKAGE_LIBRETRO_FBALPHA
 # [ -extra \"--subsystem neocd\"] added manually afterwards on line 27
 
 # Name the 3 vars as the package requires
@@ -22,18 +22,18 @@ SOURCE_ROMDIR_NEOGEOCD = $(RECALBOX_ROMFS_NEOGEOCD_PKGDIR)/roms
 # variables are global across buildroot
 
 
-ifneq ($(BR2_PACKAGE_LIBRETRO_FBA),)
+ifneq ($(BR2_PACKAGE_LIBRETRO_FBALPHA),)
 define CONFIGURE_MAIN_NEOGEOCD_START
 	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_NEOGEOCD),Neo-Geo CD,$(SYSTEM_NAME_NEOGEOCD),.cue .CUE,neogeocd,neogeocd, -extra \"--subsystem neocd\")
 endef
 
-ifneq ($(BR2_PACKAGE_LIBRETRO_FBA),)
+ifneq ($(BR2_PACKAGE_LIBRETRO_FBALPHA),)
 define CONFIGURE_NEOGEOCD_LIBRETRO_START
 	$(call RECALBOX_ROMFS_CALL_START_EMULATOR,$(SYSTEM_XML_NEOGEOCD),libretro)
 endef
-ifeq ($(BR2_PACKAGE_LIBRETRO_FBA),y)
-define CONFIGURE_NEOGEOCD_LIBRETRO_FBA_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_NEOGEOCD),fba)
+ifeq ($(BR2_PACKAGE_LIBRETRO_FBALPHA),y)
+define CONFIGURE_NEOGEOCD_LIBRETRO_FBALPHA_DEF
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_NEOGEOCD),fbalpha)
 endef
 endif
 
@@ -52,7 +52,7 @@ endif
 define RECALBOX_ROMFS_NEOGEOCD_CONFIGURE_CMDS
 	$(CONFIGURE_MAIN_NEOGEOCD_START)
 	$(CONFIGURE_NEOGEOCD_LIBRETRO_START)
-	$(CONFIGURE_NEOGEOCD_LIBRETRO_FBA_DEF)
+	$(CONFIGURE_NEOGEOCD_LIBRETRO_FBALPHA_DEF)
 	$(CONFIGURE_NEOGEOCD_LIBRETRO_END)
 	$(CONFIGURE_MAIN_NEOGEOCD_END)
 endef
