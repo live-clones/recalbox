@@ -211,7 +211,7 @@ if [[ "$emulator" == "mame2000" ]]; then
 	fi
 fi
 
-if [[ "$emulator" == "fbalpha" ]]; then
+if [[ "$emulator" == "fba" ]]; then
                 runsix=0
                 for game in ${sixBTNgames[*]}; do
                         echo "checking if $filename is like $game "
