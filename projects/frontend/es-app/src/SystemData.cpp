@@ -91,11 +91,11 @@ SystemData::SystemData(const std::string &name, const std::string &fullName, con
   if (emuNodes != nullptr)
   {
     //SystemData::Tree emulatorsNode = system.get("emulators", "");
-    for (const SystemData::TreeNode& emuNode : *emuNodes)
+    for (const auto& emuNode : *emuNodes)
     {
       const std::string& emulatorName = emuNode.second.get_child("<xmlattr>").get("name", "");
       mEmulators[emulatorName] = new std::vector<std::string>();
-      for (const SystemData::TreeNode& coreNode : emuNode.second.get_child("cores"))
+      for (const auto& coreNode : emuNode.second.get_child("cores"))
       {
         const std::string& corename = coreNode.second.data();
         mEmulators[emulatorName]->push_back(corename);
@@ -267,6 +267,7 @@ SystemData *createSystem(const SystemData::Tree &system)
     name = system.get("name", "");
     fullname = system.get("fullname", "");
     path = system.get("path", "");
+    //strFindAndReplace(path, "roms", "romstest");
 
     // convert extensions list from a string into a vector of strings
     std::string extensions = system.get("extension", "");
@@ -340,7 +341,7 @@ bool SystemData::loadSystemNodes(XmlNodeCollisionMap &collisionMap, XmlNodeList 
 {
   deleteSystems();
   bool result = false;
-  for (const TreeNode &systemNode : document.get_child("systemList"))
+  for (const auto& systemNode : document.get_child("systemList"))
   {
     // At least one node found
     result = true;

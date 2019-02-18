@@ -67,6 +67,7 @@ set(CORE_HEADERS
 	# Datetime
 	${CMAKE_CURRENT_SOURCE_DIR}/src/datetime/DateTime.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/datetime/ISystemDateTimeInterface.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/datetime/SystemDateTimeInterface.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/datetime/TimeSpan.h
 
 	# Embedded assets (needed by ResourceManager)

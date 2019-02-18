@@ -360,7 +360,7 @@ bool MetadataDescriptor::Deserialize(const TreeNode& from, const std::string& re
         {
           DateTime dt(false); // Unitialized DateTime
           if (DateTime::ParseFromString("%yyyy%MM%ddT%hh%mm%ss", value, dt))
-            epoch = (int) dt.ToEpochTime();
+            epoch = (int) dt.ToLocal().ToEpochTime();
           else
             LOG(LogWarning) << "Invalid DateTime value " << value;
         }
@@ -469,7 +469,7 @@ void MetadataDescriptor::Serialize(Tree& parentTree, const std::string& filePath
       }
       case MetadataFieldDescriptor::DataType::Date:
       {
-        tree.put(field.Key(), DateTime((long long)*((int*)source)).ToUtc().ToISO8601());
+        tree.put(field.Key(), DateTime((long long)*((int*)source)).ToUtc().ToCompactISO8601());
         break;
       }
       case MetadataFieldDescriptor::DataType::Range:

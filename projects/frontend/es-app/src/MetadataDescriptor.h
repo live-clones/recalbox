@@ -4,7 +4,7 @@
 #include "datetime/DateTime.h"
 #include "ItemType.h"
 
-#define _METADATA_STATS_
+//#define _METADATA_STATS_
 
 // Forward declaration (MetadataFieldDescriptor must indlude MetadataDescriptor)
 class MetadataFieldDescriptor;

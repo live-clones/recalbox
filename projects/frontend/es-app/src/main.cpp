@@ -36,6 +36,7 @@
 #include "recalbox/RecalboxSystem.h"
 #include "recalbox/RecalboxUpgrade.h"
 #include "recalbox/RecalboxSystem.h"
+#include "datetime/SystemDateTimeInterface.h"
 
 #ifdef WIN32
   #include <Windows.h>
@@ -255,8 +256,8 @@ int main(int argc, char* argv[])
   //always close the log on exit
   atexit(&onExit);
 
-  //std::locale::global(boost::locale::generator().generate(""));
-  //boost::filesystem::path::imbue(std::locale());
+  // Initialize system datetime interface
+  SystemDateTimeImplementation::Initialize();
 
   // only show the console on Windows if HideConsole is false
   #ifdef WIN32
