@@ -4,7 +4,7 @@
 
 ## News
 - Raspberry Pi3b+ & CM3 compatibility
-- Updated emulator names! catsfc -> snes9x2005, pocketsnes -> snes9x2002, snes9x_next -> snes9x2010, pce -> mednafen_pce_fast, imame -> mame2000, mame078 -> mame2003, fba -> fbalpha
+- Updated emulator names! catsfc -> snes9x2005, pocketsnes -> snes9x2002, snes9x_next -> snes9x2010, pce -> mednafen_pce_fast, vb -> mednafen_vb, imame -> mame2000, mame078 -> mame2003, fba -> fbalpha
 - New emulator! Pokemon Mini on all systems (RetroArch core: libretro-pokemini)
 - New emulator! Mattel Intellivision on all systems (RetroArch core: libretro-freeintv)
 - New emulator! Fairchild Channel-F on all systems (RetroArch core: libretro-freechanf)
