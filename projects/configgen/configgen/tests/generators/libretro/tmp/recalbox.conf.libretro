@@ -93,8 +93,8 @@ snes_video_mode=SNES_VIDEO_MODE
 
 # ------------ I - EMULATORS CHOICES ----------- #
 ## If two emulators are available for a platform you can switch here
-## SNES : use pocketsnes (recommended for rpi1), catsfc or snes9x
-snes_emulator=catsfc
+## SNES : use snes9x2002 (recommended for rpi1), snes9x2005 or snes9x
+snes_emulator=snes9x2005
 
 default_shader=default.glslp
 gba_shader=not_existing_file.glslp

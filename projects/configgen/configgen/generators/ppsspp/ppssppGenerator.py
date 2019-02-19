@@ -12,7 +12,7 @@ import ConfigParser
 
 class PPSSPPGenerator(Generator):
     # Main entry of the module
-    # Configure fba and return a command
+    # Configure ppsspp and return a command
     def generate(self, system, rom, playersControllers):
         if not system.config['configfile']:
             ppssppConfig.writePPSSPPConfig(system)

@@ -56,14 +56,14 @@ generators = {
 # List emulators with their cores rest mupen64, scummvm
 emulators = dict()
 # Nintendo
-emulators["snes"] = Emulator(name='snes', emulator='libretro', core='pocketsnes')
+emulators["snes"] = Emulator(name='snes', emulator='libretro', core='snes9x2002')
 emulators["nes"] = Emulator(name='nes', emulator='libretro', core='fceunext')
 emulators["n64"] = Emulator(name='n64', emulator='mupen64plus', core='gliden64')
 emulators["gba"] = Emulator(name='gba', emulator='libretro', core='gpsp')
 emulators["gb"] = Emulator(name='gb', emulator='libretro', core='gambatte')
 emulators["gbc"] = Emulator(name='gbc', emulator='libretro', core='gambatte')
 emulators["fds"] = Emulator(name='fds', emulator='libretro', core='nestopia')
-emulators["virtualboy"] = Emulator(name='virtualboy', emulator='libretro', core='vb')
+emulators["virtualboy"] = Emulator(name='virtualboy', emulator='libretro', core='mednafen_vb')
 emulators["gamecube"] = Emulator(name='gamecube', emulator='dolphin')
 emulators["wii"] = Emulator(name='wii', emulator='dolphin')
 emulators["nds"] = Emulator(name='nds', emulator='libretro', core='desmume')
@@ -80,12 +80,12 @@ emulators["segacd"] = Emulator(name='segacd', emulator='libretro', core='picodri
 emulators["dreamcast"] = Emulator(name='dreamcast', emulator='reicast')
 # Arcade
 emulators["neogeo"] = Emulator(name='neogeo', emulator='fba2x')
-emulators["mame"] = Emulator(name='mame', emulator='libretro', core='mame078')
+emulators["mame"] = Emulator(name='mame', emulator='libretro', core='mame2003')
 emulators["fba"] = Emulator(name='fba', emulator='fba2x')
-emulators["fba_libretro"] = Emulator(name='fba_libretro', emulator='libretro', core='fba')
+emulators["fba_libretro"] = Emulator(name='fba_libretro', emulator='libretro', core='fbalpha')
 emulators["advancemame"] = Emulator(name='advancemame', emulator='advmame')
 emulators["daphne"] = Emulator(name='daphne', emulator='daphne')
-emulators["neogeocd"] = Emulator(name='neogeocd', emulator='libretro', core='fba')
+emulators["neogeocd"] = Emulator(name='neogeocd', emulator='libretro', core='fbalpha')
 emulators["atomiswave"] = Emulator(name='atomiswave', emulator='libretro', core='reicast')
 emulators["naomi"] = Emulator(name='atomiswave', emulator='libretro', core='reicast')
 # Computers

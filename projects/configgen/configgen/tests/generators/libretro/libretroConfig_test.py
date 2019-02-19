@@ -32,13 +32,13 @@ class TestLibretroConfig(unittest.TestCase):
         recalSettings.settingsFile = self.recalboxConfFile
 
         # Create configurations
-        self.snes = Emulator(name='snes', videomode='4', core='pocketsnes', shaders='', ratio='auto', smooth='2', rewind='false', emulator='libretro')
+        self.snes = Emulator(name='snes', videomode='4', core='snes9x2002', shaders='', ratio='auto', smooth='2', rewind='false', emulator='libretro')
         self.snes9x = Emulator(name='snes', videomode='4', core='snes9x_next', shaders='', ratio='auto', smooth='2', rewind='false', emulator='libretro')
-        self.nes = Emulator(name='nes', videomode='4', core='pocketsnes', shaders='', ratio='16/9', smooth='1', rewind='false', emulator='libretro')
-        self.nes43 = Emulator(name='nes', videomode='4', core='pocketsnes', shaders='myshaders.gpslp', ratio='4/3', smooth='1', rewind='false', emulator='libretro')
-        self.nesauto = Emulator(name='nes', videomode='4', core='pocketsnes', shaders='myshaders.gpslp', ratio='auto', smooth='1', rewind='true', emulator='libretro')
+        self.nes = Emulator(name='nes', videomode='4', core='snes9x2002', shaders='', ratio='16/9', smooth='1', rewind='false', emulator='libretro')
+        self.nes43 = Emulator(name='nes', videomode='4', core='snes9x2002', shaders='myshaders.gpslp', ratio='4/3', smooth='1', rewind='false', emulator='libretro')
+        self.nesauto = Emulator(name='nes', videomode='4', core='snes9x2002', shaders='myshaders.gpslp', ratio='auto', smooth='1', rewind='true', emulator='libretro')
         self.wswan = Emulator(name='wswan', emulator='libretro', core='mednafen_wswan', ratio='16/10')
-        self.nescustomratio = Emulator(name='nes', videomode='4', core='pocketsnes', shaders='myshaders.gpslp', ratio='custom', smooth='1', rewind='true', emulator='libretro')
+        self.nescustomratio = Emulator(name='nes', videomode='4', core='snes9x2002', shaders='myshaders.gpslp', ratio='custom', smooth='1', rewind='true', emulator='libretro')
 
         # test inputs
         self.basicInputs1 = { 'hotkey': controllersConfig.Input("hotkey", "button", "10", "1","") }

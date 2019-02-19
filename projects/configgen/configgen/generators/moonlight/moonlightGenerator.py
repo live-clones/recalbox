@@ -9,7 +9,7 @@ import os.path
 
 class MoonlightGenerator(Generator):
     # Main entry of the module
-    # Configure fba and return a command
+    # Configure moonlight and return a command
     def generate(self, system, rom, playersControllers):
         outputFile = recalboxFiles.moonlightCustom + '/gamecontrollerdb.txt'
         configFile = controllersConfig.generateSDLGameDBAllControllers(playersControllers, outputFile)

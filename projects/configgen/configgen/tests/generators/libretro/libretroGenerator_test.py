@@ -48,11 +48,11 @@ libretroGen = LibretroGenerator()
 
 class TestLibretroGenerator(unittest.TestCase):
     def setUp(self):
-        self.snes = Emulator(name='snes', videomode='4', core='pocketsnes', shaders='', ratio='auto', smooth='2',
+        self.snes = Emulator(name='snes', videomode='4', core='snes9x2002', shaders='', ratio='auto', smooth='2',
                              rewind='false', emulator='libretro')
-        self.snes2 = Emulator(name='snes', videomode='4', core='pocketsnes', shaders='', ratio='auto', smooth='2',
+        self.snes2 = Emulator(name='snes', videomode='4', core='snes9x2002', shaders='', ratio='auto', smooth='2',
                               rewind='false', emulator='libretro')
-        self.nes = Emulator(name='nes', videomode='6', core='catsfc', shaders='', ratio='16/9', smooth='1',
+        self.nes = Emulator(name='nes', videomode='6', core='snes9x2005', shaders='', ratio='16/9', smooth='1',
                             rewind='false', configfile='/myconfigfile.cfg', emulator='libretro')
 
         # test inputs
@@ -75,21 +75,21 @@ class TestLibretroGenerator(unittest.TestCase):
         command = libretroGen.generate(self.snes, rom, dict())
         self.assertEquals(command.videomode, '4')
         self.assertEquals(command.array,
-                          [recalboxFiles.recalboxBins["libretro"], '-L', '/usr/lib/libretro/pocketsnes_libretro.so', '--config',
+                          [recalboxFiles.recalboxBins["libretro"], '-L', '/usr/lib/libretro/snes9x2002_libretro.so', '--config',
                            RETROARCH_CUSTOM_CFG_FILE, 'MyRom.nes'])
 
     def test_generate_system_custom_settings(self):
         command = libretroGen.generate(self.nes, rom, dict())
         self.assertEquals(command.videomode, '6')
         self.assertEquals(command.array,
-                          [recalboxFiles.recalboxBins["libretro"], '-L', '/usr/lib/libretro/catsfc_libretro.so', '--config', '/myconfigfile.cfg',
+                          [recalboxFiles.recalboxBins["libretro"], '-L', '/usr/lib/libretro/snes9x2005_libretro.so', '--config', '/myconfigfile.cfg',
                            'MyRom.nes'])
 
     def test_generate_forced_input_config(self):
         command = libretroGen.generate(self.nes, rom, dict())
         self.assertEquals(command.videomode, '6')
         self.assertEquals(command.array,
-                          [recalboxFiles.recalboxBins["libretro"], '-L', '/usr/lib/libretro/catsfc_libretro.so', '--config', '/myconfigfile.cfg',
+                          [recalboxFiles.recalboxBins["libretro"], '-L', '/usr/lib/libretro/snes9x2005_libretro.so', '--config', '/myconfigfile.cfg',
                            'MyRom.nes'])
 
     def test_custom_inputdriver_override_choice(self):

@@ -46,7 +46,7 @@ class ReicastGenerator(Generator):
             print("ReicastGenerator 's configuration failed!")
             return False
 
-    # Configure fba and return a command
+    # Configure reicast and return a command
     def generate(self, system, rom, playersControllers):
         if not system.config['configfile']:
             # Write emu.cfg to map joysticks, init with the default emu.cfg

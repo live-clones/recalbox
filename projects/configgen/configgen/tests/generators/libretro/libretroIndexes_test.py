@@ -42,7 +42,7 @@ class TestLibretro4ControllerIndex(unittest.TestCase):
         self.controllers2weird = {"3": basicController4, "2": basicController3}
         self.controllers4reversed = {"1": basicController4, "2": basicController3, "3": basicController2, "4": basicController1}
 
-        self.snes = Emulator(name='snes', videomode='4', core='pocketsnes', shaders='', ratio='auto', smooth='2', rewind='false', emulator='libretro')
+        self.snes = Emulator(name='snes', videomode='4', core='snes9x2002', shaders='', ratio='auto', smooth='2', rewind='false', emulator='libretro')
 
     def test_4_controller(self):
         controllerConfig = libretroControllers.LibretroControllers(self.snes, keyValueSettings(None, True), self.controllers4)
