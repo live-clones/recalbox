@@ -56,7 +56,7 @@ target/
 .idea
 .idea/*
 
-configgen/tests/tmp/*
-configgen/tests/settings/tmp/*
-configgen/tests/generators/libretro/tmp/*
-configgen/tests/generators/fba2x/tmp/*
+configgen/tests/tmp/
+configgen/tests/settings/tmp/
+configgen/tests/generators/fba2x/tmp/
+configgen/tests/generators/libretro/tmp/

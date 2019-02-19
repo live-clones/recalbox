@@ -33,36 +33,36 @@ class TestLibretroAnalogMode(unittest.TestCase):
     def test_padtype_only_btn(self):
         basicControllerBTN = controllersConfig.Controller("contr1", "joypad", "GUID1", '1', "0", "Joypad1RealName",
                                                           onlyBtnsInputs, nbaxes=6, nbhats=1, nbbuttons=10)
-        padtype = libretroControllers.getAnalogMode(basicControllerBTN, snes)
+        padtype = libretroControllers.LibretroControllers.getAnalogMode(basicControllerBTN)
         self.assertEqual("1", padtype)
 
     def test_padtype_only_joystick(self):
         basicController = controllersConfig.Controller("contr1", "joypad", "GUID1", '1', "0", "Joypad1RealName",
                                                        onlyAxisInputs, nbaxes=6, nbhats=1, nbbuttons=10)
-        padtype = libretroControllers.getAnalogMode(basicController, snes)
+        padtype = libretroControllers.LibretroControllers.getAnalogMode(basicController)
         self.assertEqual("0", padtype)
 
     def test_padtype_only_hats(self):
         basicController = controllersConfig.Controller("contr1", "joypad", "GUID1", '1', "0", "Joypad1RealName",
                                                        onlyHatsInputs, nbaxes=6, nbhats=1, nbbuttons=10)
-        padtype = libretroControllers.getAnalogMode(basicController, snes)
+        padtype = libretroControllers.LibretroControllers.getAnalogMode(basicController)
         self.assertEqual("1", padtype)
 
     def test_padtype_dual1(self):
         basicController = controllersConfig.Controller("contr1", "joypad", "GUID1", '1', "0", "Joypad1RealName",
                                                        axisAndBtnsInputs, nbaxes=6, nbhats=1, nbbuttons=10)
-        padtype = libretroControllers.getAnalogMode(basicController, snes)
+        padtype = libretroControllers.LibretroControllers.getAnalogMode(basicController)
         self.assertEqual("1", padtype)
 
 
     def test_padtype_dual2(self):
         basicController = controllersConfig.Controller("contr1", "joypad", "GUID1", '1', "0", "Joypad1RealName",
                                                        axisAndBtnsInputs, nbaxes=6, nbhats=1, nbbuttons=10)
-        padtype = libretroControllers.getAnalogMode(basicController, snes)
+        padtype = libretroControllers.LibretroControllers.getAnalogMode(basicController)
         self.assertEqual("1", padtype)
 
     def test_padtype_psx(self):
         basicController = controllersConfig.Controller("contr1", "joypad", "GUID1", '1', "0", "Joypad1RealName",
                                                        axisAndBtnsInputs, nbaxes=6, nbhats=1, nbbuttons=10)
-        padtype = libretroControllers.getAnalogMode(basicController, psx)
-        # self.assertEqual("0", padtype)
+        padtype = libretroControllers.LibretroControllers.getAnalogMode(basicController)
+        self.assertEqual("1", padtype)

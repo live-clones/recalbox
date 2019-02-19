@@ -14,7 +14,7 @@ from configgen.generators.libretro.libretroGenerator import LibretroGenerator
 sys.path.append(
     os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
 
-import configgen.generators.libretro.libretroConfig as libretroConfig
+import configgen.generators.libretro.libretroConfigurations as libretroConfigurations
 import configgen.generators.libretro.libretroGenerator as libretroGenerator
 
 RETROARCH_ORIGIN_CFG_FILE = os.path.abspath(os.path.join(os.path.dirname(__file__), 'tmp/retroarchcustomorigin.cfg'))
@@ -35,9 +35,9 @@ shutil.copyfile(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../r
 # Injecting test files
 libretroGenerator.recalboxFiles.retroarchCustom = RETROARCH_CUSTOM_CFG_FILE
 libretroGenerator.recalboxFiles.retroarchCustomOrigin = RETROARCH_ORIGIN_CFG_FILE
-libretroConfig.coreSettings = unixSettings.UnixSettings(RETROARCH_CORE_CONFIG, separator=' ')
+libretroConfigurations.coreSettings = unixSettings.UnixSettings(RETROARCH_CORE_CONFIG, separator=' ')
 
-libretroConfig.libretroSettings = unixSettings.UnixSettings(RETROARCH_CUSTOM_CFG_FILE, separator=' ')
+libretroConfigurations.libretroSettings = unixSettings.UnixSettings(RETROARCH_CUSTOM_CFG_FILE, separator=' ')
 
 PS3UUID = "060000004c0500006802000000010000"
 
@@ -94,21 +94,29 @@ class TestLibretroGenerator(unittest.TestCase):
 
     def test_custom_inputdriver_override_choice(self):
         self.snes.config['inputdriver'] = 'sdl2'
-        command = libretroGen.generate(self.snes, rom, self.controllers)
-        self.assertEquals(libretroConfig.libretroSettings.load('input_joypad_driver'), 'sdl2')
+        builder = libretroConfigurations.LibretroConfiguration(self.snes, self.sdl2controllers)
+        builder.overrideLibretroConfigurationFiles(None, RETROARCH_CUSTOM_CFG_FILE)
+        retroconf = builder.createRetroarchConfiguration()
+        self.assertEquals(retroconf['input_joypad_driver'], 'sdl2')
 
     def test_standard_inputdriver(self):
-        command = libretroGen.generate(self.snes, rom, self.controllers)
-        self.assertEquals(libretroConfig.libretroSettings.load('input_joypad_driver'), 'udev')
+        builder = libretroConfigurations.LibretroConfiguration(self.snes, self.controllers)
+        builder.overrideLibretroConfigurationFiles(None, RETROARCH_CUSTOM_CFG_FILE)
+        retroconf = builder.createRetroarchConfiguration()
+        self.assertEquals(retroconf['input_joypad_driver'], 'udev')
 
     def test_inputdriver_none_specified(self):
-        command = libretroGen.generate(self.snes, rom, self.sdl2controllers)
-        self.assertEquals(libretroConfig.libretroSettings.load('input_joypad_driver'), 'sdl2')
+        builder = libretroConfigurations.LibretroConfiguration(self.snes, self.sdl2controllers)
+        builder.overrideLibretroConfigurationFiles(None, RETROARCH_CUSTOM_CFG_FILE)
+        retroconf = builder.createRetroarchConfiguration()
+        self.assertEquals(retroconf['input_joypad_driver'], 'sdl2')
 
     def test_inputdriver_auto(self):
         self.snes.config['inputdriver'] = 'auto'
-        command = libretroGen.generate(self.snes, rom, self.sdl2controllers)
-        self.assertEquals(libretroConfig.libretroSettings.load('input_joypad_driver'), 'sdl2')
+        builder = libretroConfigurations.LibretroConfiguration(self.snes, self.sdl2controllers)
+        builder.overrideLibretroConfigurationFiles(None, RETROARCH_CUSTOM_CFG_FILE)
+        retroconf = builder.createRetroarchConfiguration()
+        self.assertEquals(retroconf['input_joypad_driver'], 'sdl2')
 
     def test_remove_hotkeys_on_configure_with_es_menu_none(self):
         controllers = controllersConfig.Controller.loadControllerConfig(0, PS3UUID, "p1controller", "", "0",
@@ -118,10 +126,10 @@ class TestLibretroGenerator(unittest.TestCase):
                                                                         -1, 0, "p5controller","","0")
 
         command = libretroGen.generate(self.snes, rom, controllers)
-        self.assertEquals(libretroConfig.libretroSettings.load('input_menu_toggle_btn'), '14')
+        self.assertEquals(libretroConfigurations.libretroSettings.load('input_menu_toggle_btn'), '14')
         self.snes2.config['specials'] = "none"
         command = libretroGen.generate(self.snes2, rom, controllers)
-        self.assertEquals(libretroConfig.libretroSettings.load('input_menu_toggle_btn'), None)
+        self.assertEquals(libretroConfigurations.libretroSettings.load('input_menu_toggle_btn'), None)
 
 
 if __name__ == '__main__':

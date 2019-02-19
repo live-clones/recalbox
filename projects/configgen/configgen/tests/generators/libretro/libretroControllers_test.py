@@ -5,6 +5,8 @@ import os.path
 import unittest
 import shutil
 
+from configgen.settings.keyValueSettings import keyValueSettings
+
 sys.path.append(
     os.path.abspath(os.path.join(os.path.dirname(__file__), "../../..")))
 
@@ -35,27 +37,37 @@ controllersConfig.esInputs = os.path.abspath(os.path.join(os.path.dirname(__file
 libretroControllers.coreSettings = UnixSettings(RETROARCH_CORE_CONFIG, separator=' ')
 
 # Test objects
-basicInputs1 = {'a': controllersConfig.Input("a", "button", "10", "1",""),
-                'hotkey': controllersConfig.Input("hotkey", "button", "10", "1",""),
-                'start': controllersConfig.Input("start", "button", "11", "1","")}
-basicController1 = Controller("contr1", "joypad", "GUID1", '1',  "0", "Joypad1RealName", basicInputs1, nbaxes=6, nbhats=1, nbbuttons=10)
-PS3UUID = "060000004c0500006802000000010000"
-GPIOUUID = "15000000010000000100000000010000"
-snes = Emulator('snes', 'snes', 'libretro')
 
 
 class TestLibretroController(unittest.TestCase):
+    def setUp(self):
+        self.PS3UUID = "060000004c0500006802000000010000"
+        self.GPIOUUID = "15000000010000000100000000010000"
+
+        self.snes = Emulator('snes', 'snes', 'libretro')
+        self.system = Emulator("fakesystem", "fakeemulator", "fakecore")
+        basicInputs1 = \
+        {
+            'a': controllersConfig.Input("a", "button", "10", "1", ""),
+            'hotkey': controllersConfig.Input("hotkey", "button", "10", "1", ""),
+            'start': controllersConfig.Input("start", "button", "11", "1", "")
+        }
+        self.basicController1 = Controller("contr1", "joypad", "GUID1", '1', "0", "Joypad1RealName", basicInputs1, nbaxes=6, nbhats=1, nbbuttons=10)
+        self.basicControllers = { "1" : self.basicController1 }
+
     def test_generate_simple_controller(self):
-        config = libretroControllers.generateControllerConfig(basicController1)
+        controllerConfig = libretroControllers.LibretroControllers(self.system, keyValueSettings(None, True), self.basicControllers)
+        config = controllerConfig.fillControllersConfiguration()
         self.assertEquals(config['input_player1_a_btn'], '10')
 
     def test_generate_ps3_controller_buttons(self):
-        controllers = Controller.loadControllerConfig(0, PS3UUID, "p1controller","", "0",
+        controllers = Controller.loadControllerConfig(0, self.PS3UUID, "p1controller","", "0",
                                                       -1, 0, "p2controller","", "0",
                                                       -1, 0, "p3controller","", "0",
                                                       -1, 0, "p4controller","", "0",
                                                       -1, 0, "p5controller","", "0")
-        config = libretroControllers.generateControllerConfig(controllers["1"])
+        controllerConfig = libretroControllers.LibretroControllers(self.system, keyValueSettings(None, True), controllers)
+        config = controllerConfig.fillControllersConfiguration()
         self.assertEquals(config['input_player1_select_btn'], '0')
         self.assertEquals(config['input_player1_a_btn'], '13')
         self.assertEquals(config['input_player1_start_btn'], '3')
@@ -67,12 +79,13 @@ class TestLibretroController(unittest.TestCase):
         self.assertEquals(config['input_player1_l_btn'], '10')
 
     def test_generate_ps3_controller_joysticks(self):
-        controllers = Controller.loadControllerConfig(0, PS3UUID, "p1controller","", "0",
+        controllers = Controller.loadControllerConfig(0, self.PS3UUID, "p1controller","", "0",
                                                             -1, 0, "p2controller","", "0", 
                                                             -1, 0, "p3controller","", "0", 
                                                             -1, 0, "p4controller","", "0", 
                                                             -1, 0, "p5controller","", "0")
-        config = libretroControllers.generateControllerConfig(controllers["1"])
+        controllerConfig = libretroControllers.LibretroControllers(self.system, keyValueSettings(None, True), controllers)
+        config = controllerConfig.fillControllersConfiguration()
         self.assertEquals(config['input_player1_l_y_plus_axis'], '+1')
         self.assertEquals(config['input_player1_l_y_minus_axis'], '-1')
         self.assertEquals(config['input_player1_l_x_plus_axis'], '+0')
@@ -80,122 +93,147 @@ class TestLibretroController(unittest.TestCase):
 
 
     def test_generate_joystick_as_directions(self):
-        controllers = Controller.loadControllerConfig(0, GPIOUUID, "p1controller","", "0",
+        controllers = Controller.loadControllerConfig(0, self.GPIOUUID, "p1controller","", "0",
                                                             -1, 0, "p2controller","", "0", 
                                                             -1, 0, "p3controller","", "0", 
                                                             -1, 0, "p4controller","", "0", 
                                                             -1, 0, "p5controller","", "0")
-        config = libretroControllers.generateControllerConfig(controllers["1"])
+        controllerConfig = libretroControllers.LibretroControllers(self.system, keyValueSettings(None, True), controllers)
+        config = controllerConfig.fillControllersConfiguration()
         self.assertEquals(config['input_player1_up_axis'], '-1')
         self.assertEquals(config['input_player1_down_axis'], '+1')
         self.assertEquals(config['input_player1_right_axis'], '+0')
         self.assertEquals(config['input_player1_left_axis'], '-0')
 
     def test_generate_specials(self):
-        controllers = Controller.loadControllerConfig(0, GPIOUUID, "p1controller","", "0",
+        controllers = Controller.loadControllerConfig(0, self.GPIOUUID, "p1controller","", "0",
                                                             -1, 0, "p2controller","", "0", 
                                                             -1, 0, "p3controller","", "0", 
                                                             -1, 0, "p4controller","", "0", 
                                                             -1, 0, "p5controller","", "0")
-        config = libretroControllers.generateControllerConfig(controllers["1"])
+        controllerConfig = libretroControllers.LibretroControllers(self.system, keyValueSettings(None, True), controllers)
+        config = controllerConfig.fillControllersConfiguration()
         self.assertEquals(config['input_exit_emulator_btn'], '7')
 
 
     def test_write_ps3_controller_joysticks(self):
-        controllers = Controller.loadControllerConfig(0, PS3UUID, "p1controller","", "0",
+        controllers = Controller.loadControllerConfig(0, self.PS3UUID, "p1controller","", "0",
                                                             -1, 0, "p2controller","", "0", 
                                                             -1, 0, "p3controller","", "0", 
                                                             -1, 0, "p4controller","", "0", 
                                                             -1, 0, "p5controller","", "0")
-        config = libretroControllers.writeControllerConfig(controllers["1"], "1", snes)
-        with open(RETROARCH_CONFIG) as controllerFile:
-            lines = []
-            for line in controllerFile:
-                lines.append(line)
-            self.assertTrue('input_player1_l2_btn = 8\n' in lines)
-        self.assertTrue(libretroControllers.libretroSettings.load("input_player1_analog_dpad_mode"), "1")
+        controllerConfig = libretroControllers.LibretroControllers(self.system, keyValueSettings(None, True), controllers)
+        config = controllerConfig.fillControllersConfiguration()
+        self.assertTrue(config["input_player1_l2_btn"], "8")
+        self.assertTrue(config["input_player1_analog_dpad_mode"], "1")
+        #with open(RETROARCH_CONFIG) as controllerFile:
+        #    lines = []
+        #    for line in controllerFile:
+        #        lines.append(line)
+        #    self.assertTrue('input_player1_l2_btn = 8\n' in lines)
+        #self.assertTrue(libretroControllers.LibretroControllers.libretroSettings.load("input_player1_analog_dpad_mode"), "1")
 
     def test_write_only_joystick_controller(self):
-        controllers = Controller.loadControllerConfig(0, GPIOUUID, "p1controller","", "0",
+        controllers = Controller.loadControllerConfig(0, self.GPIOUUID, "p1controller","", "0",
                                                             -1, 0, "p2controller","", "0", 
                                                             -1, 0, "p3controller","", "0", 
                                                             -1, 0, "p4controller","", "0", 
                                                             -1, 0, "p5controller","", "0")
-        config = libretroControllers.writeControllerConfig(controllers["1"], "1", snes)
-        self.assertTrue(libretroControllers.libretroSettings.load("input_player1_analog_dpad_mode"), "0")
+        controllerConfig = libretroControllers.LibretroControllers(self.snes, keyValueSettings(None, True), controllers)
+        config = controllerConfig.fillControllersConfiguration()
+        self.assertTrue(config["input_player1_analog_dpad_mode"], "0")
 
     def test_write_hotkey(self):
-        command = libretroControllers.writeHotKeyConfig({'1': basicController1})
-        self.assertEqual(libretroControllers.libretroSettings.load('input_enable_hotkey_btn'), '10')
+        controllerConfig = libretroControllers.LibretroControllers(self.system, keyValueSettings(None, True), self.basicControllers)
+        controllerConfig.setHotKey()
+        config = controllerConfig.settings
+        self.assertEqual(config['input_enable_hotkey_btn'], '10')
 
     def test_generate_ps3_controller_joysticks_right(self):
-        controllers = Controller.loadControllerConfig(0, PS3UUID, "p1controller","", "0",
+        controllers = Controller.loadControllerConfig(0, self.PS3UUID, "p1controller","", "0",
                                                             -1, 0, "p2controller","", "0", 
                                                             -1, 0, "p3controller","", "0", 
                                                             -1, 0, "p4controller","", "0", 
                                                             -1, 0, "p5controller","", "0")
-        config = libretroControllers.generateControllerConfig(controllers["1"])
+        controllerConfig = libretroControllers.LibretroControllers(self.system, keyValueSettings(None, True), controllers)
+        config = controllerConfig.fillControllersConfiguration()
         self.assertEquals(config['input_player1_r_y_plus_axis'], '+3')
         self.assertEquals(config['input_player1_r_y_minus_axis'], '-3')
         self.assertEquals(config['input_player1_r_x_plus_axis'], '+2')
         self.assertEquals(config['input_player1_r_x_minus_axis'], '-2')
 
     def test_generate_with_recalbox_conf_es_menu_off_doesnt_save_hotkeys(self):
-        controllers = Controller.loadControllerConfig(0, PS3UUID, "p1controller","", "0",
+        controllers = Controller.loadControllerConfig(0, self.PS3UUID, "p1controller","", "0",
                                                             -1, 0, "p2controller","", "0", 
                                                             -1, 0, "p3controller","", "0", 
                                                             -1, 0, "p4controller","", "0", 
                                                             -1, 0, "p5controller","", "0")
-        config = libretroControllers.generateControllerConfig(controllers["1"], True)
-        self.assertFalse('input_load_state_btn' in config)
-        self.assertFalse('input_menu_toggle_btn' in config)
-        self.assertFalse('input_state_slot_increase_axis' in config)
+        self.system.config["specials"] = "ipsumlorem"
+        controllerConfig = libretroControllers.LibretroControllers(self.system, keyValueSettings(None, True), controllers)
+        config = controllerConfig.fillControllersConfiguration()
+        del self.system.config["specials"]
+        self.assertFalse(config.hasOption('input_load_state_btn'))
+        self.assertFalse(config.hasOption('input_menu_toggle_btn'))
+        self.assertFalse(config.hasOption('input_state_slot_increase_axis'))
 
     def test_generate_specialsKeys_off_save_exit_special(self):
-        controllers = Controller.loadControllerConfig(0, PS3UUID, "p1controller","", "0",
+        controllers = Controller.loadControllerConfig(0, self.PS3UUID, "p1controller","", "0",
                                                             -1, 0, "p2controller","", "0", 
                                                             -1, 0, "p3controller","", "0", 
                                                             -1, 0, "p4controller","", "0", 
                                                             -1, 0, "p5controller","", "0")
-        config = libretroControllers.generateControllerConfig(controllers["1"], True)
+        self.system.config["specials"] = "ipsumlorem"
+        controllerConfig = libretroControllers.LibretroControllers(self.system, keyValueSettings(None, True), controllers)
+        config = controllerConfig.fillControllersConfiguration()
+        del self.system.config["specials"]
         self.assertEquals(config['input_exit_emulator_btn'], '3')
 
 class TestLibretroGeneratorGetValue(unittest.TestCase):
     def test_on_button(self):
-        val = libretroControllers.getConfigValue(controllersConfig.Input("a", "button", "10", "1","0"))
+        val = libretroControllers.LibretroControllers.getConfigValue(controllersConfig.Input("a", "button", "10", "1","0"))
         self.assertEquals("10", val)
 
     def test_on_axis(self):
-        val = libretroControllers.getConfigValue(controllersConfig.Input("down", "axis", "10", "1","0"))
+        val = libretroControllers.LibretroControllers.getConfigValue(controllersConfig.Input("down", "axis", "10", "1","0"))
         self.assertEquals("+10", val)
-        val = libretroControllers.getConfigValue(controllersConfig.Input("down", "axis", "10", "-1","0"))
+        val = libretroControllers.LibretroControllers.getConfigValue(controllersConfig.Input("down", "axis", "10", "-1","0"))
         self.assertEquals("-10", val)
 
     def test_on_hat(self):
-        val = libretroControllers.getConfigValue(controllersConfig.Input("down", "hat", "2", "1","0"))
+        val = libretroControllers.LibretroControllers.getConfigValue(controllersConfig.Input("down", "hat", "2", "1","0"))
         self.assertEquals("h2up", val)
-        val = libretroControllers.getConfigValue(controllersConfig.Input("down", "hat", "3", "8","0"))
+        val = libretroControllers.LibretroControllers.getConfigValue(controllersConfig.Input("down", "hat", "3", "8","0"))
         self.assertEquals("h3left", val)
 
     def test_on_key(self):
-        val = libretroControllers.getConfigValue(controllersConfig.Input("down", "key", "2", "1","0"))
+        val = libretroControllers.LibretroControllers.getConfigValue(controllersConfig.Input("down", "key", "2", "1","0"))
         self.assertEquals("2", val)
-        val = libretroControllers.getConfigValue(controllersConfig.Input("down", "key", "3", "8","0"))
+        val = libretroControllers.LibretroControllers.getConfigValue(controllersConfig.Input("down", "key", "3", "8","0"))
         self.assertEquals("3", val)
 
 
 class TestLibretroDualAnalogPSone(unittest.TestCase):
+    def setUp(self):
+        self.PS3UUID = "060000004c0500006802000000010000"
+        basicInputs1 = \
+        {
+            'a': controllersConfig.Input("a", "button", "10", "1", ""),
+            'hotkey': controllersConfig.Input("hotkey", "button", "10", "1", ""),
+            'start': controllersConfig.Input("start", "button", "11", "1", "")
+        }
+        self.basicController1 = Controller("contr1", "joypad", "GUID1", '1', "0", "Joypad1RealName", basicInputs1, nbaxes=6, nbhats=1, nbbuttons=10)
+
     def test_enable_standard_mode_psx(self):
-        val = libretroControllers.getAnalogCoreMode(basicController1)
+        val = libretroControllers.LibretroControllers.getAnalogCoreMode(self.basicController1)
         self.assertEquals("standard", val)
 
     def test_enable_analog_mode_psx(self):
-        controllers = Controller.loadControllerConfig(0, PS3UUID, "p1controller","", "0",
+        controllers = Controller.loadControllerConfig(0, self.PS3UUID, "p1controller","", "0",
                                                             -1, 0, "p2controller","", "0", 
                                                             -1, 0, "p3controller","", "0", 
                                                             -1, 0, "p4controller","", "0", 
                                                             -1, 0, "p5controller","", "0")
-        val = libretroControllers.getAnalogCoreMode(controllers['1'])
+        val = libretroControllers.LibretroControllers.getAnalogCoreMode(controllers['1'])
         self.assertEquals("analog", val)
 
 
@@ -203,21 +241,24 @@ class TestLibretroGeneratorInputDriverTest(unittest.TestCase):
     def test_udev_by_default(self):
         controllers = dict()
         controllers['1'] =  Controller("contr1", "joypad", "GUID1", '1',  "0", "Joypad1RealName", dict(), nbaxes=6, nbhats=1, nbbuttons=10)
-        driver = libretroControllers.getInputDriver(controllers)
+        controllerConfig = libretroControllers.LibretroControllers(None, None, controllers)
+        driver = controllerConfig.getInputDriver()
         self.assertEquals("udev", driver)
 
 
     def test_sdl2_for_nes30pro(self):
         controllers = dict()
         controllers['1'] =  Controller("contr1", "joypad", "030000003512000012ab000010010000", '1',  "0", "Bluetooth Wireless Controller ", dict(), nbaxes=6, nbhats=1, nbbuttons=10)
-        driver = libretroControllers.getInputDriver(controllers)
+        controllerConfig = libretroControllers.LibretroControllers(None, None, controllers)
+        driver = controllerConfig.getInputDriver()
         self.assertEquals("sdl2", driver)
 
 
     def test_sdl2_for_fc30pro(self):
         controllers = dict()
         controllers['1'] =  Controller("contr1", "joypad", "05000000103800000900000000010000", '1',  "0", "szmy-power Ltd. Joypad ", dict(), nbaxes=6, nbhats=1, nbbuttons=10)
-        driver = libretroControllers.getInputDriver(controllers)
+        controllerConfig = libretroControllers.LibretroControllers(None, None, controllers)
+        driver = controllerConfig.getInputDriver()
         self.assertEquals("sdl2", driver)
 
 
