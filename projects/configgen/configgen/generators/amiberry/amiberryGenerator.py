@@ -18,14 +18,18 @@ class AmiberryGenerator(Generator):
 
     MultiDiscMap = \
     {
-        "Disc 1": ["Disc 2", "Disc 3", "Disc 4"],
-        "Disk 1": ["Disk 2", "Disk 3", "Disk 4"],
-        "Disc A": ["Disc B", "Disc C", "Disc D"],
-        "Disk A": ["Disk B", "Disk C", "Disk D"],
-        "disc 1": ["disc 2", "disc 3", "disc 4"],
-        "disk 1": ["disk 2", "disk 3", "disk 4"],
-        "disc A": ["disc B", "disc C", "disc D"],
-        "disk A": ["disk B", "disk C", "disk D"],
+        "Disc 1" : ["Disc 2" , "Disc 3" , "Disc 4" ],
+        "Disk 1" : ["Disk 2" , "Disk 3" , "Disk 4" ],
+        "Disc A" : ["Disc B" , "Disc C" , "Disc D" ],
+        "Disk A" : ["Disk B" , "Disk C" , "Disk D" ],
+        "disc 1" : ["disc 2" , "disc 3" , "disc 4" ],
+        "disk 1" : ["disk 2" , "disk 3" , "disk 4" ],
+        "disc A" : ["disc B" , "disc C" , "disc D" ],
+        "disk A" : ["disk B" , "disk C" , "disk D" ],
+        "Disc 01": ["Disc 02", "Disc 03", "Disc 04"],
+        "Disk 01": ["Disk 02", "Disk 03", "Disk 04"],
+        "disc 01": ["disc 02", "disc 03", "disc 04"],
+        "disk 01": ["disk 02", "disk 03", "disk 04"],
     }
 
     # Generate ADF Arguments
