@@ -8,8 +8,8 @@ class LibretroRetroarch:
 
     IS_TRUE = ("1", "true")
 
-    # Warning the values in the array must be exactly at the same index than
-    # https://github.com/libretro/RetroArch/blob/master/gfx/video_driver.c#L237
+    # Warning: The values in the array must be exactly at the same index than
+    # https://github.com/libretro/RetroArch/blob/master/gfx/video_driver.c#L234
     RATIO_INDEXES = \
     [
         "4/3",
@@ -109,12 +109,12 @@ class LibretroRetroarch:
         self.settings = settings
         self.controllers = controllers
 
-    # return true if the option is considered enabled (for boolean options)
+    # Return true if the option is considered enabled (for boolean options)
     def isEnabled(self, key):
         recalbox = self.system.config
         return key in recalbox and recalbox[key] in self.IS_TRUE
 
-    # return true if the option is considered defined
+    # Return true if the option is considered defined
     def isDefined(self, key):
         recalbox = self.system.config
         return key in recalbox and isinstance(recalbox[key], str) and len(recalbox[key]) > 0

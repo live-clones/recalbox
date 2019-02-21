@@ -87,14 +87,14 @@ class Controller:
         return count
 
     def setAxisNumberList(self):
-        # First let's find and sort all those available axis in the controller
-        # Remember : a pad can have 6 axis and 1 hat, but only 4 axis are mapped
+        # First let's find and sort all those available axes in the controller
+        # Remember : a pad can have 6 axes and 1 hat, but only 4 axes are mapped
         # All those tricks are just to mimic https://github.com/xbmc/peripheral.joystick/blob/master/src/api/udev/JoystickUdev.cpp#L321-L334
         axises = []
         for idx, inp in self.inputs.iteritems():
             if inp.type == 'axis':
                 if inp.type == "hat":
-                    # As of now our patched SDL2 gives the same axis number to up/down and left/right. But it's wrong
+                    # As of now our patched SDL2 gives the same axes number to up/down and left/right. But it's wrong
                     if inp.name in ['up', 'down'] and inp.code == self.inputs["left"].code:
                         code = int(inp.code) + 1
                     else:
@@ -104,16 +104,16 @@ class Controller:
                 if code not in axises:
                     axises.append(code)
         axises.sort()
-        # Complete with existing axis but not in es_input.cfg
-        # In the case of a 6 axis pad, complete with the 2 unassigned axis
+        # Complete with existing axes but not in es_input.cfg
+        # In the case of a 6 axes pad, complete with the 2 unassigned axes
         for i in range(len(axises), int(self.nbaxes)):
             axises.append(None)
 
-        # Now add hats because they are after all axis
+        # Now add hats because they are after all axes
         hats = []
         for idx, inp in self.inputs.iteritems():
             if inp.type == 'hat':
-                # As of now our patched SDL2 gives the same axis number to up/down and left/right. But it's wrong
+                # As of now our patched SDL2 gives the same axes number to up/down and left/right. But it's wrong
                 leftcode = self.inputs["left"].code if "left" in self.inputs else -1
                 if inp.name in ['up', 'down'] and inp.code == leftcode:
                     code = int(inp.code) + 1

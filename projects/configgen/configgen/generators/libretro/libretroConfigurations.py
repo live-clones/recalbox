@@ -12,7 +12,7 @@ from configgen.generators.libretro.libretroControllers import LibretroController
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
 
-# Lib retro configuration
+# Libretro configuration
 class LibretroConfiguration:
 
     # constructor
@@ -106,7 +106,7 @@ class LibretroConfiguration:
             initialSettings.changeSettingsFile(recalboxFiles.retroarchCustomOrigin)
             initialSettings.loadFile(False)
             initialSettings.saveFile()
-            # load custom settings and override previous settings
+            # Load custom settings and override previous settings
             initialSettings.changeSettingsFile(recalboxFiles.retroarchCustom)
             initialSettings.loadFile(False)
             initialSettings.saveFile()
@@ -126,7 +126,7 @@ class LibretroConfiguration:
             # Load template settings
             templateSettings = keyValueSettings(recalboxFiles.retroarchCustomOrigin, True)
             templateSettings.loadFile(False)
-            # load custom settings
+            # Load custom settings
             customSettings = keyValueSettings(recalboxFiles.retroarchCustom, True)
             customSettings.loadFile(False)
 
@@ -137,8 +137,8 @@ class LibretroConfiguration:
             templateSettings.saveFile()
             customSettings.saveFile()
 
-            print("LibretroConfig 's configuration successfully cleaned up")
+            print("LibretroConfig's configuration successfully cleaned up")
             return True
         except IOError:
-            print("Libretro cluean up failed !")
+            print("Libretro's clean up failed!")
             return False

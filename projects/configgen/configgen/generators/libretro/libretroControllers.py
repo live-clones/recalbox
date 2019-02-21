@@ -54,7 +54,7 @@ class LibretroControllers:
         '8': 'left'
     }
 
-    # list of controllers that works only with sdl2 driver
+    # List of controllers that works only with sdl2 driver
     sdl2driverControllers = \
     [
         'Bluetooth Wireless Controller',
@@ -127,7 +127,7 @@ class LibretroControllers:
 
         return self.settings
 
-    # find the best driver for controllers
+    # Find the best driver for controllers
     def getInputDriver(self):
         for controller in self.controllers:
             for controllerName in self.sdl2driverControllers:
@@ -135,7 +135,7 @@ class LibretroControllers:
                     return "sdl2"
         return "udev"
 
-    # remove all controller configurations
+    # Remove all controller configurations
     def cleanUpControllers(self):
         self.settings.removeOptionStartingWith("input_player")
         for specialkey in self.retroarchspecials.itervalues():
@@ -147,7 +147,7 @@ class LibretroControllers:
             if "hotkey" in self.controllers["1"].inputs:
                 self.settings.setOption("input_enable_hotkey_btn", self.controllers["1"].inputs["hotkey"].id)
 
-    # return the retroarch analog_dpad_mode
+    # Return the retroarch analog_dpad_mode
     @staticmethod
     def getAnalogMode(controller):
         # if system.name != 'psx':
@@ -157,7 +157,7 @@ class LibretroControllers:
                     return "1"
         return "0"
 
-    # return the playstation analog mode for a controller
+    # Return the playstation analog mode for a controller
     @staticmethod
     def getAnalogCoreMode(controller):
         for dirkey in LibretroControllers.retroarchdirs:
