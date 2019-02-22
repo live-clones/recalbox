@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system prboom --extension '.wad .WAD' --fullname 'PrBoom' --platform prboom --theme prboom libretro:prboom:BR2_PACKAGE_LIBRETRO_PRBOOM
+# ./scripts/linux/empack.py --system prboom --extension '.wad .WAD .iwad .IWAD .pwad .PWAD' --fullname 'PrBoom' --platform prboom --theme prboom libretro:prboom:BR2_PACKAGE_LIBRETRO_PRBOOM
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_PRBOOM_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_PRBOOM = $(RECALBOX_ROMFS_PRBOOM_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_PRBOOM),)
 define CONFIGURE_MAIN_PRBOOM_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_PRBOOM),PrBoom,$(SYSTEM_NAME_PRBOOM),.wad .WAD,prboom,prboom)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_PRBOOM),PrBoom,$(SYSTEM_NAME_PRBOOM),.wad .WAD .iwad .IWAD .pwad .PWAD,prboom,prboom)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_PRBOOM),)
