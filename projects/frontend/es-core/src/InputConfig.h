@@ -92,17 +92,17 @@ public:
     switch (type)
     {
       case TYPE_AXIS:
-        #ifdef SDL_JoystickAxisEventCodeById
+        #ifdef SDL_JOYSTICK_IS_OVERRIDEN_BY_RECALBOX
         code = SDL_JoystickAxisEventCodeById(device, id);
         #endif
         break;
       case TYPE_BUTTON:
-        #ifdef SDL_JoystickButtonEventCodeById
+        #ifdef SDL_JOYSTICK_IS_OVERRIDEN_BY_RECALBOX
         code = SDL_JoystickButtonEventCodeById(device, id);
         #endif
         break;
       case TYPE_HAT:
-        #ifdef SDL_JoystickHatEventCodeById
+        #ifdef SDL_JOYSTICK_IS_OVERRIDEN_BY_RECALBOX
         code = SDL_JoystickHatEventCodeById(device, id);
         #endif
         break;
