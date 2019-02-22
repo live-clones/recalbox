@@ -94,7 +94,8 @@ class Controller:
         for idx, inp in self.inputs.iteritems():
             if inp.type == 'axis':
                 # As of now our patched SDL2 gives the same axes number to up/down and left/right. But it's wrong
-                if inp.name in ['up', 'down'] and inp.code == self.inputs["left"].code:
+                leftcode = self.inputs["left"].code if "left" in self.inputs else -1
+                if inp.name in ['up', 'down'] and inp.code == leftcode:
                     code = int(inp.code) + 1
                 else:
                     code = int(inp.code)
