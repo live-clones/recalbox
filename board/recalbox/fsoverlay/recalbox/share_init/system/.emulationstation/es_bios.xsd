@@ -1,0 +1,30 @@
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="biosList">
+    <xs:complexType>
+      <xs:sequence>
+	<xs:element name="system" maxOccurs="unbounded" minOccurs="1">
+	  <xs:complexType>
+	    <xs:sequence>
+	      <xs:element name="bios" maxOccurs="unbounded" minOccurs="1">
+		<xs:complexType>
+		  <xs:simpleContent>
+		    <xs:extension base="xs:string">
+		      <xs:attribute type="xs:string" name="path" use="required"/>
+		      <xs:attribute type="xs:string" name="md5" use="required"/>
+		      <xs:attribute type="xs:string" name="core" use="required"/>
+		      <xs:attribute type="xs:boolean" name="mandatory" use="optional"/>
+		      <xs:attribute type="xs:boolean" name="hashMatchMandatory" use="optional"/>
+		      <xs:attribute type="xs:string" name="note" use="optional"/>
+		    </xs:extension>
+		  </xs:simpleContent>
+		</xs:complexType>
+	      </xs:element>
+	    </xs:sequence>
+	    <xs:attribute type="xs:string" name="fullname" use="required"/>
+	    <xs:attribute type="xs:string" name="platform" use="required"/>
+	  </xs:complexType>
+	</xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

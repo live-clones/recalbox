@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<biosList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="es_bios.xsd">
+	<system fullname="Amiga 600 (ECS/OCS)" platform="amiga600">
+		<bios path="kick33180.A500.rom" md5="85ad74194e87c08904327de1a9443b7a" core="amiberry" />    
+		<bios path="kick34005.A500.rom" md5="82a21c1890cae844b3df741f2762d48d" core="amiberry" />    
+		<bios path="kick37175.A500.rom" md5="dc10d7bdd1b6f450773dfb558477c230" core="amiberry" />    
+		<bios path="kick40063.A600.rom" md5="0b839c665635a249c5736118c68a69a7" core="amiberry" />    
+	</system>
+	<system fullname="Amiga 1200 (AGA)" platform="amiga1200">
+		<bios path="kick39106.A1200.rom" md5="b7cc148386aa631136f510cd29e42fc3" core="amiberry" />  
+		<bios path="kick40068.A1200.rom" md5="646773759326fbac3b2311fd8c8793ee" core="amiberry" /> 
+		<bios path="kick40068.A4000.rom" md5="9bdedde6a4f33555b4a270c8ca53297d" core="amiberry" note="This bios is required only for A4000 emulation" /> 
+	</system>
+	<system fullname="Amiga CD32" platform="amigacd32">
+		<bios path="kick40060.CD32.rom"     md5="5f8924d013dd57a89cf349f4cdedc6b1" core="amiberry" />
+		<bios path="kick40060.CD32.ext.rom" md5="bb72565701b1b6faece07d68ea5da639" core="amiberry" />
+	</system>
+	<system fullname="Atari 8Bits" platform="atari800">
+		<bios path="ATARIBAS.ROM" md5="0bac0c6a50104045d902df4503a4c30b" core="atari800" />  
+		<bios path="ATARIOSA.ROM" md5="eb1f32f5d9f382db1bbfb8d7f9cb343a" core="atari800" />  
+		<bios path="ATARIOSB.ROM" md5="a3e8d617c95d08031fe1b20d541434b2" core="atari800" />  
+		<bios path="ATARIXL.ROM"  md5="06daac977823773a3eea3422fd26a703" core="atari800" />  
+	</system>
+	<system fullname="Atari 5200" platform="atari5200">
+		<bios path="5200.rom" md5="281f20ea4320404ec820fb7ec0693b38" core="atari800" />  
+	</system>
+	<system fullname="Atari 7800" platform="atari7800">
+		<bios path="BIOS (U).rom" md5="0763F1FFB006DDBE32E52D497EE848AE" mandatory="false" core="prosystem" note="Display official Atari logo. Run only US games!" />
+	</system>
+	<system fullname="Dreamcast" platform="dreamcast">
+		<bios path="dc_boot.bin"  md5="e10c53c2f8b90bab96ead2d368858623,e10c53c2f8b90bab96ead2d368858623" hashMatchMandatory="false" core="reicast" />	  
+		<bios path="dc_flash.bin" md5="d6e11a23f1fa01cddb5dfccf7e4cc8d7,93a9766f14159b403178ac77417c6b68" hashMatchMandatory="false" core="reicast" />	  
+	</system>
+	<system fullname="PC-9800 Series" platform="pc98">  
+		<bios path="np2kai/bios.rom"       md5="052f5f6010877522f78803498a625727,0c052b1f1bfd0ece11286d2ff45d296f,
+							36293e23fe0c86cb115d59b653c13876,3af0ae018c5710eec6e2891064814138,
+							50274bb5dcb707e4450011b09accffcb,c70ee9df11794bd5cc8aadb3721b4a03,
+							cd237e16e7e77c06bb58540e9e9fca68,e246140dec5124c5e404869a84caefce" core="np2kai" />
+		<bios path="np2kai/font.bmp"       md5="0c8624e9ced7cca8769e5c7b0dd4279b" core="np2kai" />
+		<bios path="np2kai/font.rom"       md5="38d32748ae49d1815b0614970849fd40,38d32748ae49d1815b0614970849fd40,
+							4133b0be0d470920da60b9ed28d2614f,693fd1da3239d4bbeafc77d211718fc5,
+							829b963e21334e0fc2092ebd58f2ab4a,add4a225048c85ca2bc588696c6ecdc5,
+							ca87908a99ea423093f6d497fc367f7d,fd0b856899aec843cbe69d2940df547f" core="np2kai" />
+		<bios path="np2kai/itf.rom"        md5="1d295699ffeab0f0e24e09381299259d,72ea51443070f0e9212bfc9b793ee28e,
+							a13d96da03a28af8418d7f86ab951f1a,b49ea39a1f730f1c966babc11961dc9a,
+							e9fc3890963b12cf15d0a2eea5815b72" core="np2kai" />
+		<bios path="np2kai/sound.rom"      md5="42c271f8b720e796a484cc1165ff4914,42c271f8b720e796a484cc1165ff4914,
+							42c271f8b720e796a484cc1165ff4914,524473c1a5a03b17e21d86a0408ff827,
+							a77fc2bc7c696dd68dba18e02f89d386,caf90f22197aed6f14c471c21e64658d,
+							caf90f22197aed6f14c471c21e64658d" core="np2kai" />
+		<bios path="np2kai/2608_bd.wav"    md5="9c6637930b1779abe00b8b63e4e41f50" mandatory="false" core="np2kai" />
+		<bios path="np2kai/2608_hh.wav"    md5="73548a1391631ff54a1f7c838d67917e" mandatory="false" core="np2kai" />
+		<bios path="np2kai/2608_rim.wav"   md5="43d54b3e05c081fa280c9bace3af1043" mandatory="false" core="np2kai" />
+		<bios path="np2kai/2608_sd.wav"    md5="08124ccb84a9f65e2affc29581e690c9" mandatory="false" core="np2kai" />
+		<bios path="np2kai/2608_tom.wav"   md5="0faed5664a2dd8b1b2308e8a50ac25ea" mandatory="false" core="np2kai" />
+		<bios path="np2kai/2608_top.wav"   md5="3721ace646ffd56439aebbb2154e9263" mandatory="false" core="np2kai" />
+	</system>
+	<system fullname="Sega MEGA CD" platform="segacd">
+		<bios path="bios_CD_E.bin" md5="e66fa1dc5820d254611fdcdba0662372" core="genesisplusgx,picodrive" />  
+		<bios path="bios_CD_U.bin" md5="2efd74e3232ff260e371b99f84024f7f" core="genesisplusgx,picodrive" />  
+		<bios path="bios_CD_J.bin" md5="278a9397d192149e84e820ac621a8edd" core="genesisplusgx,picodrive" />  
+	</system>
+	<system fullname="Family Computer Disk System" platform="fds">
+		<bios path="disksys.rom" md5="ca30b50f880eb660a320674ed365ef7a" core="fceumm,nestopia" />  
+	</system>
+	<system fullname="Game Boy Advance" platform="gba">
+		<bios path="gba_bios.bin" md5="a860e8c0b6d573d191e4ec7db1b1e4f6" core="gpsp,mgba,meteor" />  
+	</system>
+	<system fullname="Super Game Boy" platform="sgb">
+		<bios path="sgb_bios.bin" md5="d574d4f9c12f305074798f54c091a8b4" core="mgba" />  
+	</system>
+	<system fullname="Satellaview" platform="satellaview">
+		<bios path="BS-X.bin" md5="fed4d8242cfbed61343d53d48432aced" core="snes9x" />  
+	</system>
+	<system fullname="Sufami Turbo" platform="sufami">
+		<bios path="STBIOS.bin" md5="d3a44ba7d42a74d3ac58cb9c14c6a5ca" core="snes9x" />  
+	</system>
+	<system fullname="NEC PC-Engine" platform="pcengine">
+		<bios path="gexpress.pce" md5="6d2cb14fc3e1f65ceb135633d1694122" mandatory="false" core="mednafen_supergrafx,mednafen_pce_fast" />  
+	</system>
+	<system fullname="NEC SuperGrafx" platform="supergrafx">
+		<bios path="gexpress.pce" md5="6d2cb14fc3e1f65ceb135633d1694122" mandatory="false" core="mednafen_supergrafx,mednafen_pce_fast" />  
+	</system>
+	<system fullname="NEC PC-Engine CD" platform="pcenginecd">
+		<bios path="syscard3.pce" md5="ff1a674273fe3540ccef576376407d1d,1e47a1780aaa7e277a3896c1ba00e317,38179df8f4ac870017db21ebcbf53114" core="mednafen_supergrafx,mednafen_pce_fast" />  
+		<bios path="syscard1.pce" md5="9f770275393b8627cf9d24e5c56d2ab9" mandatory="false" core="mednafen_supergrafx,mednafen_pce_fast" />  
+		<bios path="syscard2.pce" md5="424f1d6bf93259bf255afa7d1dc9f721" mandatory="false" core="mednafen_supergrafx,mednafen_pce_fast" />  
+		<bios path="gexpress.pce" md5="6d2cb14fc3e1f65ceb135633d1694122" mandatory="false" core="mednafen_supergrafx,mednafen_pce_fast" />  
+	</system>
+	<system fullname="NEC PC-FX" platform="pcfx">
+		<bios path="pcfx.rom" md5="08e36edbea28a017f79f8d4f7ff9b6d7" core="pcfx" />  
+	</system>
+	<system fullname="MSX Familly" platform="msx">
+		<bios path="CARTS.SHA"    md5="d6dedca1112ddfda94cc9b2e426b818b" core="fmsx" />    
+		<bios path="CYRILLIC.FNT" md5="85b38e4128bbc300e675f55b278683a8" core="fmsx" />
+		<bios path="DISK.ROM"     md5="80dcd1ad1a4cf65d64b7ba10504e8190" core="fmsx" />  
+		<bios path="FMPAC16.ROM"  md5="af8537262df8df267072f359399a7635" core="fmsx" />  
+		<bios path="FMPAC.ROM"    md5="6f69cc8b5ed761b03afd78000dfb0e19" core="fmsx" />  
+		<bios path="ITALIC.FNT"   md5="c83e50e9f33b8dd893c414691822740d" core="fmsx" />  
+		<bios path="KANJI.ROM"    md5="febe8782b466d7c3b16de6d104826b34" core="fmsx" />  
+		<bios path="MSX2EXT.ROM"  md5="2183c2aff17cf4297bdb496de78c2e8a" core="fmsx" />  
+		<bios path="MSX2PEXT.ROM" md5="7c8243c71d8f143b2531f01afa6a05dc" core="fmsx" />  
+		<bios path="MSX2P.ROM"    md5="6d8c0ca64e726c82a4b726e9b01cdf1e" core="fmsx" />  
+		<bios path="MSX2.ROM"     md5="ec3a01c91f24fbddcbcab0ad301bc9ef" core="fmsx" />  
+		<bios path="MSXDOS2.ROM"  md5="6418d091cd6907bbcf940324339e43bb" core="fmsx" />  
+		<bios path="MSX.ROM"      md5="aa95aea2563cd5ec0a0919b44cc17d47" core="fmsx" />  
+		<bios path="PAINTER.ROM"  md5="403cdea1cbd2bb24fae506941f8f655e" core="fmsx" />  
+		<bios path="RS232.ROM"    md5="279efd1eae0d358eecd4edc7d9adedf3" core="fmsx" />  
+	</system>
+	<system fullname="Atari Lynx" platform="lynx">
+		<bios path="lynxboot.img" md5="fcd403db69f54290b51035d82f835e7b" core="handy,mednafen_lynx" />  
+	</system>
+	<system fullname="Atari ST/STE/Falcon" platform="atarist">
+		<bios path="tos.img"       md5="27ac71b59d59f65571b972e0f894054a,25789a649faff0a1176dc7d9b98105c0,
+						b9e37f0f0a700fc673049794870bdb85,5491b3755992feaf743ceecaa3b18f34,
+						d0f682ee6237497004339fb02172638b,d0f682ee6237497004339fb02172638b,
+						d6521785627d20c51edc566808a6bf28,091a4d95f6c600231a3f1391a309ac26,
+						696ba04b3bc963aee2ba769298e342de,91ce7c1903006da75c823ff3c938e5d2,
+						b2a8570de2e850c5acf81cb80512d9f6,c1c57ce48e8ee4135885cee9e63a68a2,
+						800d48825be45ec7f39ba7bb2c3f0b59,41b7dae4e24735f330b63ad923a0bfbc,
+						52248cc70ae48b3050e197e270917130,7c040857bdcfcd7d748ca82205463efa,
+						143343f7b8e0b1162af206fe8f46b002,036c5ae4f885cbf62c9bed651c6c58a8,
+						736adb2dc835df4d323191fdc8926cc9,992bac38e01633a529121a2a65f0779e,
+						30f69d70fe7c210300ed83f991b12de9,bc7b224d0dc3f0cc14c8897db89c5787,
+						a0982e760f9807d82667ff5a69e78f6b,f3f92cd4e2c331aef8970a156be03b7c,
+						94a75c1c65408d9f974b0463e15a3b11,ed5fbaabe0219092df74c6c14cea3f8e,
+						6f9471098a521214fad1e2c6f2dd3d08,a4cfd3c7412002dd693f69a15d4d961c,
+						febb00ba8784798293a7ae709a1dafcb,5d65c6a384d847a0b8013d5e22ec0887,
+						7449b131681f1dfe62ebed1392847057,61b620ad951815a25cb37895c81a947c,
+						7e87d8fe7e24e0b4c55ad1b7955beae3,1c92855316a33faee602b8007f22d2cb,
+						7cdd45b6aac66a21bfb357d9334e46db,0604dbb85928f0598d04144a8b554bbe,
+						b2873004a408b8db36321f98daafa251,332fe3803a7e20cd625b27a69f07ae69,
+						a7dc40dc5c1086bce1a8f3d44fd29051,4a0d4f282c3f2a0196681adf88862dd4,
+						e690bec90d902024beed549d22150755,f62bc9777f28bc6876422738758db365,
+						066f39a7ea5789d5afd59dd7b3104fa6,d41ae4efaa2c97f632dbe75d24d51bea,
+						2a8e39c60317b921eabd7e25b5d74395,ed2647936ce4bd283c4d7dfd7ae09d1c,
+						9e880168d0a004f7f5e852be758f39e4,e5ea0f216fb446f1c4a4f476bc5f03d4,
+						941baac767269649f92f7918dd5740b8" core="hatari" />  
+	</system>
+	<system fullname="Magnavox Odyssey²" platform="odyssey2">
+		<bios path="o2rom.bin" md5="562d5ebf9e030a40d6fabfc2f33139fd" core="o2em" />  
+	</system>
+	<system fullname="Panasonic 3DO" platform="3do">
+		<bios path="panafz10.bin"               md5="51f2f43ae2f3508a14d9f56597e2d3ce" core="4do" />  
+		<bios path="panafz1-kanji.bin"          md5="b8dc97f778a6245c58e064b0312e8281" mandatory="false" core="4do" note="Only usefull for some Japaneese games" />  
+		<bios path="panafz10ja-anvil-kanji.bin" md5="428577250f43edc902ea239c50d2240d" mandatory="false" core="4do" note="Only usefull for some Japaneese games" />  
+	</system>
+	<system fullname="Sharp X68000" platform="x68000">
+		<bios path="keropi/iplrom.dat" md5="7fd4caabac1d9169e289f0f7bbf71d8e" core="px68k" />  
+		<bios path="keropi/cgrom.dat"  md5="cb0a5cfcf7247a7eab74bb2716260269" core="px68k" />  
+	</system>
+	<system fullname="Playstation" platform="psx">
+		<bios path="scph5500.bin" md5="8dd7d5296a650fac7319bce665a6a53c" core="pcsx_rearmed,mednafen_psx,mednafen_psx_hw" />  
+		<bios path="scph5501.bin" md5="490f666e1afb15b7362b406ed1cea246" core="pcsx_rearmed,mednafen_psx,mednafen_psx_hw" />  
+		<bios path="scph5502.bin" md5="32736f17079d0b2b7024407c39bd3050" core="pcsx_rearmed,mednafen_psx,mednafen_psx_hw" />  
+	</system>
+	<system fullname="Fairchild Channel-F" platform="channelf">
+		<bios path="sl31254.bin" md5="da98f4bb3242ab80d76629021bb27585" core="freechaf" />  
+		<bios path="sl31253.bin" md5="ac9804d4c0e9d07e33472e3726ed15c3" core="freechaf" />  
+		<bios path="sl90025.bin" md5="95d339631d867c8f1d15a5f2ec26069d" core="freechaf" />  
+	</system>
+	<system fullname="Mattel Intellivision" platform="intellivision">
+		<bios path="exec.bin" md5="62e761035cb657903761800f4437b8af" core="freeintv" />  
+		<bios path="grom.bin" md5="0cd5946c6473e42e8e4c2137785e427f" core="freeintv" />  
+	</system>
+	<system fullname="Pokémon Mini" platform="pokemini">
+		<bios path="bios.min" md5="1e4fb124a3a886865acb574f388c803d" core="pokemini" />  
+	</system>
+	<system fullname="Nintendo DS" platform="nds">
+		<bios path="bios7.bin"    md5="df692a80a5b1bc90728bc3dfc76cd948" core="melonds" />  
+		<bios path="bios9.bin"    md5="a392174eb3e572fed6447e956bde4b25" core="melonds" />  
+		<bios path="firmware.bin" md5="145eaef5bd3037cbc247c213bb3da1b3" core="melonds" />  
+		<bios path="bios7.bin"    md5="df692a80a5b1bc90728bc3dfc76cd948" core="desmume" mandatory="false" />  
+		<bios path="bios9.bin"    md5="a392174eb3e572fed6447e956bde4b25" core="desmume" mandatory="false" />  
+		<bios path="firmware.bin" md5="145eaef5bd3037cbc247c213bb3da1b3" core="desmume" mandatory="false" />  
+	</system>
+	<system fullname="Tangerine Oric/Atmos" platform="oric">
+		<bios path="8dos.rom"     md5="4a1ff5f8719d67dafcf85ac61959cdb6" core="oricutron" />  
+		<bios path="basic10.rom"  md5="ebe418ec8a6c85d5ac32956c9a96c179" core="oricutron" />  
+		<bios path="basic11b.rom" md5="a330779c42ad7d0c4ac6ef9e92788ec6" core="oricutron" />  
+		<bios path="hyperbas.rom" md5="364bf095e0dc4222d75354d50b8cddfc" core="oricutron" />  
+		<bios path="jasmin.rom"   md5="5136f764a7dbd1352519351fbb53a9f3" core="oricutron" />  
+		<bios path="microdis.rom" md5="df864344d2a2091c3f952bd1c5ce1707" core="oricutron" />  
+		<bios path="pravetzt.rom" md5="8712a22e7e078de3343667d9fc1f2390" core="oricutron" />  
+		<bios path="teleass.rom"  md5="2324c9cc227c1327a72a667c97ed2990" core="oricutron" />  
+		<bios path="telmatic.rom" md5="0a814078410353744e2947a8e9342e4e" core="oricutron" />  
+		<bios path="telmon24.rom" md5="9a432244d9ee4a49e8ddcde64af94e05" core="oricutron" />  
+	</system>
+	<system fullname="Colecovision" platform="colecovision">
+		<bios path="Machines/COL - Bit Corporation Dina/czz50-1.rom"                     md5="1de922acdd742d31349c2801e9768c35" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/COL - Bit Corporation Dina/czz50-2.rom"                     md5="72b089dc55b7fe7ffb5028f365e8c045" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/COL - ColecoVision with Opcode Memory Extension/coleco.rom" md5="2c66f5911e5b42b8ebe113403548eee7" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/COL - ColecoVision/coleco.rom"                              md5="2c66f5911e5b42b8ebe113403548eee7" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/COL - Spectravideo SVI-603 Coleco/SVI603.ROM"               md5="c60a2e85572c0ccb69505a7646d5c1b6" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+	</system>
+	<system fullname="MSX and MSX2 Series" platform="msx">
+		<bios path="Machines/Forte II Games - Pesadelo/pesadelo.rom"             md5="ba53d700ec25bcb08020ce693319cd28" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/MSX - C-BIOS/cbios_logo_msx1.rom"                   md5="25b5cdea5040883a206b89845cdf55f1" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/MSX - C-BIOS/cbios_main_msx1.rom"                   md5="87b27f48cc25e2b6f749c019587d5f23" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/MSX2 - C-BIOS/cbios_logo_msx2.rom"                  md5="659db9142e62c51f2f75fd52fac78e44" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/MSX2 - C-BIOS/cbios_main_msx2.rom"                  md5="98b94c2d99066f272bb5de07778f7fd1" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/MSX2 - C-BIOS/cbios_sub.rom"                        md5="9dd9a69432cc116d0f1d4ec7a51053e0" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/MSX2+ - C-BIOS/cbios_logo_msx2+.rom"                md5="462d6ecb52a8c35dd7d48c2d46687f14" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/MSX2+ - C-BIOS/cbios_main_msx2+.rom"                md5="0a34c660614ead31dab78638ce7745e9" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/MSX2+ - C-BIOS/cbios_music.rom"                     md5="e09783c4ec6d4770c5395c42bb0e1d91" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/MSX2+ - C-BIOS/cbios_sub.rom"                       md5="9dd9a69432cc116d0f1d4ec7a51053e0" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/MSX2+ - European/KANJI.rom"                         md5="acf53887c2d2783dc059a9b442c86b90" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/MSX2+ - European/MSX2PMUS.rom"                      md5="f877f32e6d8687474ac5ee83e40de23b" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/MSX2+ - European/MSXKANJI.rom"                      md5="9dfdebfaa6b547222a40aab8bb2e29f8" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/MSX2+ - European/Msx2pe.rom"                        md5="277fd57c13f301fb4b366845a32d673a" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/MSX2+ - European/Msx2pexte.rom"                     md5="f78ab735aaad7045badbda8f4c8ac751" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/MSX2+ - European/PANASONICDISK.rom"                 md5="00aa02b6077de40a0b51d71a3c3e1d5f" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/MSX2+ - European/XBASIC2.rom"                       md5="0b6120f289336538bc564548109f97c6" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/SEGA - SF-7000/sf7000.rom"                          md5="561b362f9aa4cbcb240461abf83c2e0d" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/SVI - Spectravideo SVI-318/svi318.rom"              md5="ee6ad7ea29e791b03a28a9443e622648" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/SVI - Spectravideo SVI-328 80 Column/svi328a.rom"   md5="352f054ab09605070bdff49d73f335cc" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/SVI - Spectravideo SVI-328 80 Column/svi806.rom"    md5="82f7bc9c08f43db1d79bcb565a0de12b" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/SVI - Spectravideo SVI-328 80 Swedish/svi328a.rom"  md5="352f054ab09605070bdff49d73f335cc" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/SVI - Spectravideo SVI-328 80 Swedish/svi806se.rom" md5="6a5536c1eb4f0477c4f76488cd8ca3ad" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/SVI - Spectravideo SVI-328 MK2/svi328a.rom"         md5="352f054ab09605070bdff49d73f335cc" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/SVI - Spectravideo SVI-328 MK2/svi806.rom"          md5="82f7bc9c08f43db1d79bcb565a0de12b" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/SVI - Spectravideo SVI-328/svi328.rom"              md5="2cebd1db9dda475a011b7bce65c984a2" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/ARAB1.ROM"                              md5="7fa0558bcec9dba310579521623d9f6a" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/ARABIC.rom"                             md5="20c4b5d1d9469c201b145f082ec32658" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/BEERIDE.ROM"                            md5="b32279f2700652a5ce0a809318626763" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/FMPAC.rom"                              md5="6f69cc8b5ed761b03afd78000dfb0e19" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/GCVMX80.ROM"                            md5="fd0b8f1766dc6dcc03a43d9c79dc4e37" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/HANGUL.rom"                             md5="9baf17b190f631405b6b0eeeeb162b87" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/KANJI.rom"                              md5="acf53887c2d2783dc059a9b442c86b90" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/MICROSOLDISK.ROM"                       md5="02e8b1f96049f09d6d3a735647cbbb2a" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/MOONSOUND.rom"                          md5="42af93619160ef2116416f74a6cb12f2" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/MSX.rom"                                md5="364a1a579fe5cb8dba54519bcfcdac0d" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/MSX2.rom"                               md5="ec3a01c91f24fbddcbcab0ad301bc9ef" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/MSX2AR.ROM"                             md5="91764e84f977671ac7caa50b36273fd2" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/MSX2AREXT.ROM"                          md5="be5d1ec8001d945ca1432285722e9d16" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/MSX2BR.rom"                             md5="d3df424728a225b301510f5384cae583" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/MSX2BREXT.rom"                          md5="355c6d5ee31da441d485cd89ca906413" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/MSX2EXT.rom"                            md5="2183c2aff17cf4297bdb496de78c2e8a" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/MSX2FR.rom"                             md5="7af9e84da1520a8a7fb82e73703e5075" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/MSX2FREXT.rom"                          md5="6ffe789cca2eca9d2e71ca7b69b97e6b" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/MSX2G.rom"                              md5="b6c33b7b3508d691d7872589c778f808" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/MSX2GEXT.rom"                           md5="4047ce143a8bf391e21991835aa65b59" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/MSX2HAN.rom"                            md5="7b9466546009d419ebd0dc27db90c30e" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/MSX2J.rom"                              md5="53bec1c22b30c0a15263e04b91a7814f" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/MSX2JEXT.rom"                           md5="8aabde714a42256bef36ea9b04f6ef59" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/MSX2KR.rom"                             md5="6819a1533502261bfdd52436b8346073" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/MSX2KREXT.rom"                          md5="30a0b3402a0a13b516af76d39f45a365" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/MSX2P.rom"                              md5="847cc025ffae665487940ff2639540e5" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/MSX2PEXT.rom"                           md5="7c8243c71d8f143b2531f01afa6a05dc" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/MSX2PMUS.rom"                           md5="f877f32e6d8687474ac5ee83e40de23b" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/MSX2R.rom"                              md5="db56360c85ef8410dc4bcf8e8602f61e" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/MSX2R2.ROM"                             md5="96ac231b718e88ce64d5a9b4a5e9ae12" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/MSX2REXT.rom"                           md5="8e4af1124e2b82fbdc74a7bc5f20dc6e" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/MSX2SE.rom"                             md5="fb8f7ab15e32a91147204bd7f7a1b451" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/MSX2SP.rom"                             md5="79caefa20a0d056fb42eaeca856c6f82" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/MSX2SPEXT.rom"                          md5="d71842ce8f559a8aed2721766bc15f2b" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/MSXAR.ROM"                              md5="793e3b833c33be7aaf834beacb8fb926" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/MSXBR.rom"                              md5="d13c1fc9ad4897c322f51aab3ad3b30d" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/MSXDOS23.ROM"                           md5="56bf5b02fed377b7bb9d91f914965431" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/MSXFR.rom"                              md5="6f43d28ac4a69182c860c2db0e18ee6d" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/MSXG.rom"                               md5="4655329d3f37bf1a655d05f2abd1aa62" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/MSXHAN.rom"                             md5="394efbc50fb7df1151130d8c162f85c3" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/MSXJ.rom"                               md5="f005e55c680ba6e7b19f6d4dc8f73ce5" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/MSXKANJI.rom"                           md5="9dfdebfaa6b547222a40aab8bb2e29f8" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/MSXKR.rom"                              md5="c84f362c44192659273d45ae97462362" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/MSXR.rom"                               md5="0db9592930488259fc1a5c127215e784" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/MSXR2.ROM"                              md5="704bdd980fa56c6be5c680358458eeeb" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/MSXSE.ROM"                              md5="161cb768c52a13f5b38ba46e721b68c1" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/MSXSP.rom"                              md5="51af5b19aeccf94eb8e03bce0b5d33c4" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/MSXTR.ROM"                              md5="fd9513736823e470965949f2a3ec6a43" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/MSXTREXT.ROM"                           md5="824b1c4475a3bd3b91c5ae81ea940aa2" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/MSXTRMUS.ROM"                           md5="c688a229f834f95f8c64df7d33188cd8" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/MSXTROPT.ROM"                           md5="2cba0d812ec445cfe63ffa2cac8d42c2" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/NATIONALDISK.rom"                       md5="86269da485e852d9f581ac27f4ba32ff" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/NOVAXIS.rom"                            md5="20989124671593ab04eeb01d52a1e25c" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/PAINT.rom"                              md5="41db0d7b37be479296ffd59fcd6775f0" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/PANASONICDISK.rom"                      md5="00aa02b6077de40a0b51d71a3c3e1d5f" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/PHILIPSDISK.rom"                        md5="01dd1d72ed9bb6afe8a9b441c198a1cd" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/RS232.ROM"                              md5="55cca200bbbdd0a1ec5c9d70966c05c0" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/SUNRISEIDE.rom"                         md5="7b564497beb2c0de0847f107dec00ddf" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/SWP.rom"                                md5="490db04e2a3c1c993a2a9d3611949c76" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/XBASIC2.rom"                            md5="0b6120f289336538bc564548109f97c6" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/nowindDos1.rom"                         md5="8c294a75f14fc30fce0c8642d28ccec1" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+		<bios path="Machines/Shared Roms/nowindDos2.rom"                         md5="1847398c014384b833868c64f149f338" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip - Machines and Databases folders" />
+	</system>
+	<system fullname="Sega GameGear" platform="gamegear">
+		<bios path="bios.gg" md5="672e104c3be3a238301aceffc3b23fd6" mandatory="false" core="genesisplusgx" />
+	</system>
+	<system fullname="Sega MasterSystem" platform="mastersystem">
+		<bios path="bios_E.sms" md5="840481177270d5642a14ca71ee72844c" mandatory="false" core="genesisplusgx" />
+		<bios path="bios_U.sms" md5="840481177270d5642a14ca71ee72844c" mandatory="false" core="genesisplusgx" />
+		<bios path="bios_J.sms" md5="24a519c53f67b00640d0048ef7089105" mandatory="false" core="genesisplusgx" />
+	</system>
+	<system fullname="Sega Megadrive/Genesis" platform="megadrive">
+		<bios path="bios_MD.bin" md5="45e298905a08f9cfb38fd504cd6dbc84" mandatory="false" core="genesisplusgx" />
+	</system>
+	<system fullname="Nintendo Gameboy" platform="gb">
+		<bios path="gb_bios.bin" md5="32fbbd84168d3482956eb3c5051637f5" mandatory="false" core="mgba,gambatte" />
+	</system>
+	<system fullname="Nintendo Gameboy Color" platform="gbc">
+		<bios path="gbc_bios.bin" md5="dbfce9db9deaa2567f6a84fde55f9680" mandatory="false" core="mgba,gambatte" />
+	</system>
+	<system fullname="Nintendo Super Gameboy" platform="gbc">
+		<bios path="sgb_bios.bin" md5="d574d4f9c12f305074798f54c091a8b4" mandatory="false" core="mgba" />
+	</system>
+	<system fullname="Pentagon 128/512/1024 (ZX Spectrum clone)" platform="zxspectrum">
+		<bios path="fuse/128p-0.rom"   md5="a249565f03b98d004ee7f019570069cd" mandatory="false" core="fuse" note="Only required if you want to emulate Pentagon machines" />
+		<bios path="fuse/128p-1.rom"   md5="6e09e5d3c4aef166601669feaaadc01c" mandatory="false" core="fuse" note="Only required if you want to emulate Pentagon machines" />
+		<bios path="fuse/gluck.rom"    md5="d5869034604dbfd2c1d54170e874fd0a" mandatory="false" core="fuse" note="Only required if you want to emulate Pentagon 512/1024 machine" />
+		<bios path="fuse/trdos.rom"    md5="b6d8db853c24621cbd5fef3c892c976c,5c097b0fb75bb7147104d6e77db0300a,
+							dd70541ed6a6e8176e8dace64f9344ad,b08fa49b5de8448e94936a9d061dc0f5,
+							4a3e2b04982ac6c594adb6793be4d6e7,4123fd0b5c218ef704770596dc6533e1,
+							6459c606ff23a610e504d0387383148a,aa9f9acf05382aff569dfdadde4ef8f2,
+							48b5da4079ff8394852429e53cfc607f,14399030d8228ca1b16872ed426a5835,
+							7031f2610845d39c54c97097afa8fa03,4da473775c4badcc83ab5d86dc8231de,
+							3f8a2a239a10b6694ec79148a292cfb4,62cbbdca554c8c23676618d4c83ef40e,
+							c511eaa8fcc968cc13baf7ad80f3aea3,a92db09c9aa3cfda478a9bf1eec7ff90,
+							0da70a5d2a0e733398e005b96b7e4ba6,a701f54355b53fa93fb8599933d518b7,
+							0c42e3b9ab8dd91ea096f1d0c07c55e5,b4c9634312b796063015450daef13dfa,
+							d6f43c70c003f07d0a694f81ff55db95,a3242d31a0624a64a56f3a6cb5484e7c,
+							cc46c7bacbbaf528a864113c76d9b9c9,53e2f417c6996df9af170e147df8e369" mandatory="false" core="fuse" note="Only required if you want to emulate Pentagon machines" />
+	</system>
+	<system fullname="Scorpion 256K (ZX Spectrum clone)" platform="zxspectrum">
+		<bios path="256s-0.rom" md5="b9fda5b6a747ff037365b0e2d8c4379a" mandatory="false" core="fuse" note="Only required if you want to emulate Scorpion 256K machine" />
+		<bios path="256s-1.rom" md5="643861ad34831b255bf2eb64e8b6ecb8" mandatory="false" core="fuse" note="Only required if you want to emulate Scorpion 256K machine" />
+		<bios path="256s-2.rom" md5="d8ad507b1c915a9acfe0d73957082926" mandatory="false" core="fuse" note="Only required if you want to emulate Scorpion 256K machine" />
+		<bios path="256s-3.rom" md5="ce0723f9bc02f4948c15d3b3230ae831" mandatory="false" core="fuse" note="Only required if you want to emulate Scorpion 256K machine" />
+	</system>
+</biosList>
