@@ -3,7 +3,7 @@
 # gpsp
 #
 ################################################################################
-GPSP_VERSION = d884dfcc1bf6951473b28cda5d34cceec093a263
+GPSP_VERSION = eea9d7ffc9e25486a016c6ecfbabc81a6c43232c
 GPSP_SITE = $(call github,gizmo98,gpsp,$(GPSP_VERSION))
 GPSP_DEPENDENCIES = sdl rpi-userland
 SDL_CONFIG=$(STAGING_DIR)/usr/bin/sdl-config
