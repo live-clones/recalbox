@@ -66,14 +66,14 @@ def writeKodiControllersConfig(controllers):
             if inpt.type == 'button':
                 ET.SubElement(controller, "feature", name=kodiMapping[inpt.name][inpt.type], button=str(inpt.id))
 
-            elif inpt.type == "hat":
+            elif inpt.type in ("hat", "axis") and inpt.name in ('up', 'left', 'down', 'right'):
                 direction = "-" if inpt.name in ('up', 'left') else "+"
                 directionId = controllerObj.getAxisNumber(inpt)
                 ET.SubElement(controller, "feature", name=kodiMapping[inpt.name][inpt.type], axis="{}{}".format(direction, directionId))
 
             # special case: sticks
             elif inpt.type == "axis":
-                if inpt.name in ['joystick1left', 'joystick1up']:
+                if inpt.name in ('joystick1left', 'joystick1up'):
                     if leftstick is None:
                         leftstick = ET.SubElement(controller, "feature", name="leftstick")
                     if inpt.name == 'joystick1up':
@@ -84,7 +84,8 @@ def writeKodiControllersConfig(controllers):
                         leftaxis, rightaxis = getFormattedAxis(inpt, controllerObj)
                         ET.SubElement(leftstick, "left", axis=leftaxis)
                         ET.SubElement(leftstick, "right", axis=rightaxis)
-                elif inpt.name in ['joystick2left', 'joystick2up']:
+
+                elif inpt.name in ('joystick2left', 'joystick2up'):
                     if rightstick is None:
                         rightstick = ET.SubElement(controller, "feature", name="rightstick")
                     if inpt.name == 'joystick2up':

@@ -6,17 +6,17 @@ esInputs = recalboxFiles.esInputs
 
 
 class Input:
-    def __init__(self, name, type, id, value, code):
+    def __init__(self, name, type_, id_, value, code):
         self.name = name
-        self.type = type
-        self.id = id
+        self.type = type_
+        self.id = id_
         self.value = value
         self.code = code
 
 
 class Controller:
-    def __init__(self, configName, type, guid, player, index="-1", realName="", inputs=None, dev=None, nbaxes=None, nbhats=None, nbbuttons=None):
-        self.type = type
+    def __init__(self, configName, type_, guid, player, index="-1", realName="", inputs=None, dev=None, nbaxes=None, nbhats=None, nbbuttons=None):
+        self.type = type_
         self.configName = configName
         self.index = index
         self.realName = realName
@@ -93,12 +93,9 @@ class Controller:
         axises = []
         for idx, inp in self.inputs.iteritems():
             if inp.type == 'axis':
-                if inp.type == "hat":
-                    # As of now our patched SDL2 gives the same axes number to up/down and left/right. But it's wrong
-                    if inp.name in ['up', 'down'] and inp.code == self.inputs["left"].code:
-                        code = int(inp.code) + 1
-                    else:
-                        code = int(inp.code)
+                # As of now our patched SDL2 gives the same axes number to up/down and left/right. But it's wrong
+                if inp.name in ['up', 'down'] and inp.code == self.inputs["left"].code:
+                    code = int(inp.code) + 1
                 else:
                     code = int(inp.code)
                 if code not in axises:

@@ -5,7 +5,7 @@ from settings.unixSettings import UnixSettings
 import xml.etree.ElementTree as ET
 import shlex
 
-class Emulator():
+class Emulator:
 
     def __init__(self, name, emulator, core='', videomode='CEA 4 HDMI', shaders='', ratio='auto', smooth='1', rewind='0', configfile=None, showFPS=None):
         self.name = name
