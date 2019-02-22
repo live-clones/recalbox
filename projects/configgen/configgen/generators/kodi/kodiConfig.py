@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
-import controllersConfig as controllers
-import signal
+#import controllersConfig as controllers
 import os
 import recalboxFiles
 from xml.dom import minidom
@@ -33,95 +32,74 @@ kodiMapping = {
     'joystick2left' : {},
 }
 
+def getFormattedAxis(inpt, controllerObj):
+    direction = int(inpt.value)
+    primary = '-' if direction < 0 else '+'
+    secondary = '+' if direction < 0 else '-'
+    axis = controllerObj.getAxisNumber(inpt)
+    return primary + axis, secondary + axis
 
 def writeKodiControllersConfig(controllers):
     leftstick = rightstick = None
     if not os.path.isdir(recalboxFiles.kodiJoystick):
         os.makedirs(recalboxFiles.kodiJoystick)
+
     # For each controller
     for cidx, controllerObj in controllers.iteritems():
-	# Determine XML file name
-	nbButtons = controllerObj.nbbuttons
-	nbAxis = controllerObj.getTotalAxisNumber()
-	xmlFileName = recalboxFiles.kodiJoystick + "/{}_{}b_{}a.xml".format(controllerObj.realName.strip().replace(' ', '_'), nbButtons, nbAxis)
-	print xmlFileName
-	buttonmap = ET.Element("buttonmap")
-	device = ET.SubElement(buttonmap, "device"
-	    , name=controllerObj.realName
-	    , provider="linux"
-	    , buttoncount=str(nbButtons)
-	    , axiscount=str(nbAxis)
-	)
-	ET.SubElement(device, "configuration")
-	controller = ET.SubElement(device, "controller", id="game.controller.default")
-	# Loop through controller inputs
-	inputs = controllerObj.inputs
-	for iidx, input in inputs.iteritems():
-	    # Skip unmapped inputs
-	    if not input.name in kodiMapping: continue
-	    if input.type == 'button':
-		ET.SubElement(controller, "feature"
-		    , name=kodiMapping[input.name][input.type]
-		    , button=str(input.id)
-		)
-	    elif input.type == "hat":
-		if input.name in ['up', 'left']:
-		    direction = "-"
-		else:
-		    direction = "+"
-		directionId = controllerObj.getAxisNumber(input)
-		ET.SubElement(controller, "feature"
-		    , name=kodiMapping[input.name][input.type]
-		    , axis="{}{}".format(direction, directionId)
-		)
-	    # special case: sticks
-	    elif input.type == "axis":
-                if input.name in ['joystick1left', 'joystick1up']:
+        # Determine XML file name
+        nbButtons = controllerObj.nbbuttons
+        nbAxis = controllerObj.getTotalAxisNumber()
+        xmlFileName = recalboxFiles.kodiJoystick + "/{}_{}b_{}a.xml".format(controllerObj.realName.strip().replace(' ', '_'), nbButtons, nbAxis)
+        print(xmlFileName)
+
+        buttonmap = ET.Element("buttonmap")
+        device = ET.SubElement(buttonmap, "device", name=controllerObj.realName, provider="linux", buttoncount=str(nbButtons), axiscount=str(nbAxis))
+        ET.SubElement(device, "configuration")
+        controller = ET.SubElement(device, "controller", id="game.controller.default")
+
+        # Loop through controller inputs
+        inputs = controllerObj.inputs
+        for iidx, inpt in inputs.iteritems():
+            # Skip unmapped inputs
+            if not inpt.name in kodiMapping: continue
+
+            if inpt.type == 'button':
+                ET.SubElement(controller, "feature", name=kodiMapping[inpt.name][inpt.type], button=str(inpt.id))
+
+            elif inpt.type == "hat":
+                direction = "-" if inpt.name in ('up', 'left') else "+"
+                directionId = controllerObj.getAxisNumber(inpt)
+                ET.SubElement(controller, "feature", name=kodiMapping[inpt.name][inpt.type], axis="{}{}".format(direction, directionId))
+
+            # special case: sticks
+            elif inpt.type == "axis":
+                if inpt.name in ['joystick1left', 'joystick1up']:
                     if leftstick is None:
                         leftstick = ET.SubElement(controller, "feature", name="leftstick")
-                    if input.name == 'joystick1up':
-                        if input.value == "-1":
-                            upaxis = "{}{}".format('-', controllerObj.getAxisNumber(input))
-                            downaxis = "{}{}".format('+', controllerObj.getAxisNumber(input))
-                        else:
-                            upaxis = "{}{}".format('+', controllerObj.getAxisNumber(input))
-                            downaxis = "{}{}".format('-', controllerObj.getAxisNumber(input))
+                    if inpt.name == 'joystick1up':
+                        upaxis, downaxis = getFormattedAxis(inpt, controllerObj)
                         ET.SubElement(leftstick, "up", axis=upaxis)
                         ET.SubElement(leftstick, "down", axis=downaxis)
-                    if input.name == 'joystick1left':
-                        if input.value == "-1":
-                            leftaxis = "{}{}".format('-', controllerObj.getAxisNumber(input))
-                            rightaxis = "{}{}".format('+', controllerObj.getAxisNumber(input))
-                        else:
-                            leftaxis = "{}{}".format('+', controllerObj.getAxisNumber(input))
-                            rightaxis = "{}{}".format('-', controllerObj.getAxisNumber(input))
+                    if inpt.name == 'joystick1left':
+                        leftaxis, rightaxis = getFormattedAxis(inpt, controllerObj)
                         ET.SubElement(leftstick, "left", axis=leftaxis)
                         ET.SubElement(leftstick, "right", axis=rightaxis)
-                elif input.name in ['joystick2left', 'joystick2up']:
+                elif inpt.name in ['joystick2left', 'joystick2up']:
                     if rightstick is None:
                         rightstick = ET.SubElement(controller, "feature", name="rightstick")
-                    if input.name == 'joystick2up':
-                        if input.value == "-1":
-                            upaxis = "{}{}".format('-', controllerObj.getAxisNumber(input))
-                            downaxis = "{}{}".format('+', controllerObj.getAxisNumber(input))
-                        else:
-                            upaxis = "{}{}".format('+', controllerObj.getAxisNumber(input))
-                            downaxis = "{}{}".format('-', controllerObj.getAxisNumber(input))
+                    if inpt.name == 'joystick2up':
+                        upaxis, downaxis = getFormattedAxis(inpt, controllerObj)
                         ET.SubElement(rightstick, "up", axis=upaxis)
                         ET.SubElement(rightstick, "down", axis=downaxis)
-                    if input.name == 'joystick2left':
-                        if input.value == "-1":
-                            leftaxis = "{}{}".format('-', controllerObj.getAxisNumber(input))
-                            rightaxis = "{}{}".format('+', controllerObj.getAxisNumber(input))
-                        else:
-                            leftaxis = "{}{}".format('+', controllerObj.getAxisNumber(input))
-                            rightaxis = "{}{}".format('-', controllerObj.getAxisNumber(input))
+                    if inpt.name == 'joystick2left':
+                        leftaxis, rightaxis = getFormattedAxis(inpt, controllerObj)
                         ET.SubElement(rightstick, "left", axis=leftaxis)
                         ET.SubElement(rightstick, "right", axis=rightaxis)
                 else:
-                    print "Unsupportted " + input.type + " " + input.name
+                    print("Unsupportted " + inpt.type + " " + inpt.name)
             else:
-                print "Unsupportted " + input.type + " " + input.name
-	# Need to write this string to a file
+                print("Unsupportted " + inpt.type + " " + inpt.name)
+
+        # Need to write this string to a file
         with open(xmlFileName, "w") as f:
             f.write(minidom.parseString(ET.tostring(buttonmap)).toprettyxml())
