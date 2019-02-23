@@ -19,7 +19,7 @@ variables:
     - export RECALBOX_VERSION="${CI_COMMIT_TAG:-${CI_COMMIT_REF_SLUG:0:12} (${CI_COMMIT_SHA:0:8}) ${CI_PIPELINE_ID} ${ARCH} $(date '+%Y/%m/%d %H:%M:%S')}"
     - docker build -t "recalbox-${ARCH}" .
     - docker run --rm -v `pwd`:/work -v /recalbox-builds/dl:/share/dl -v "/recalbox-builds/hosts/host-${ARCH}:/share/host" -v "/recalbox-builds/ccaches/ccache-${ARCH}:/share/ccache" -e "ARCH=${ARCH}" -e "RECALBOX_VERSION_LABEL=${RECALBOX_VERSION}" -e "RECALBOX_CCACHE_ENABLED=true" "recalbox-${ARCH}" 2>&1 | tee build.log | grep '>>>' || tac build.log | grep '>>>' -m 1 -B 9999 | tac
-    - export DIST_DIR="updates/dist/v1/upgrade/${ARCH}"
+    - export DIST_DIR="dist/${ARCH}"
     - mkdir -p "${DIST_DIR}"
     - cp output/images/recalbox/* "${DIST_DIR}"
     - rm -rf output/
@@ -31,7 +31,7 @@ variables:
     name: dist-${ARCH}-${CI_BUILD_ID}
     when: always
     paths:
-      - updates/dist/v1/upgrade/${ARCH}
+      - dist
       - build.log
     expire_in: 2 mos
 
@@ -152,117 +152,49 @@ build odroidxu4 for test:
 
 ### Release
 .release_template: &release_definition
-  stage: release
+  stage: build
   variables:
-    ARCHIVE_IMAGE: the image to build
-    RANCHER_DIRECTORY: type of the deployment (prod, review)
+    DEPLOY_TYPE: type of the deployment (prod, review)
+    SKIP_IMAGES: Release or without images if true
+    BUCKET: Bucket to deploy to
+    BUCKET_PATH: path in the bucket
   script:
-    - echo "Creating image ${ARCHIVE_IMAGE}"
-    - test -n "${SKIP_IMAGES}" && rm -rf updates/dist/v1/upgrade/*/*.img*
-    - env | grep "CI_\|GITLAB" > envfile && cat "updates/${RANCHER_DIRECTORY}.template.html" | docker run --rm --env-file envfile -i loicmahieu/alpine-envsubst > updates/dist/index.html
-    - cd updates
-    - docker build -t "${ARCHIVE_IMAGE}" .
-    - docker login -u "${DOCKER_IO_LOGIN}" -p "${DOCKER_IO_PASSWORD}"
-    - docker push "${ARCHIVE_IMAGE}"
+    - set -x
+    - mkdir -p dist/rpi3 && touch dist/rpi3/root.tar.xz
+    - cd updatesv2
+    - ./prepare_assets.sh "${DEPLOY_TYPE}" "../dist" release "${SKIP_IMAGES}"
+    - echo "Releasing files"
+    - ./upload_to_bucket.sh "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_KEY}" "${BUCKET}" "release" "${BUCKET_PATH}"
+
 
 release prod:
   <<: *release_definition
+  when: manual
   variables:
-    ARCHIVE_IMAGE: ${IMAGE}:${CI_COMMIT_TAG}
-    RANCHER_DIRECTORY: prod
-  only:
-  - tags
+    DEPLOY_TYPE: prod
+    SKIP_IMAGES: 'false'
+    BUCKET: recalbox-releases
+    BUCKET_PATH: ''
+  # only:
+  #   - master
+  environment:
+    name: prod
+    url: https://recalbox-releases.s3.nl-ams.scw.cloud/index.html
 
 release review:
   <<: *release_definition
   when: manual
   variables:
-    ARCHIVE_IMAGE: ${IMAGE}:${CI_COMMIT_REF_SLUG}
-    RANCHER_DIRECTORY: review
+    DEPLOY_TYPE: review
     SKIP_IMAGES: 'true'
-  except:
-    - tags
-
-
-### Deploy
-.deploy_template: &deploy_definition
-  stage: deploy
-  image: registry.gitlab.com/recalbox/ops/rancher-cli:0.6.2
-  dependencies: []
-  variables:
-    ARCHIVE_IMAGE: image to deploy
-    ARCHIVE_FQDN: fqdn of the service
-    RANCHER_DIRECTORY: the rancher directory to use
-    STACK: the stack to deploy on
-  script:
-    - cd "updates/rancher/${RANCHER_DIRECTORY}"
-    - sed "s/RANCHER_SERVICENAME/${SERVICENAME}/" -i docker-compose.yml rancher-compose.yml
-    - rancher up -s "$STACK" -u --force-upgrade --batch-size 50 -d
-
-deploy prod:
-  <<: *deploy_definition
-  variables:
-    ARCHIVE_IMAGE: ${IMAGE}:${CI_COMMIT_TAG}
-    ARCHIVE_FQDN: lb-${PROD_STACK_NAME}-prod.recalbox.com
-    RANCHER_DIRECTORY: prod
-    RECALEUR_CANARY: ${RECALEUR_CANARY}
-    RECALEUR_RESPONSE: https://lb-${PROD_STACK_NAME}-prod.recalbox.com
-    RECALEUR_PATH: "/v1/upgrade"
-    RECALEUR_DELTA: ${RECALEUR_DELTA}
-    STACK: ${PROD_STACK_NAME}
-  before_script:
-    - export RECALEUR_EXPIRE=$(date -u -d "1970.01.01-00:00:$(date +"%s + 6 * 3600"|xargs expr)" +%Y-%m-%d-%H:%M)
-  only:
-    - tags
-  environment:
-    name: prod
-    url: https://lb-${PROD_STACK_NAME}-prod.recalbox.com
-
-deploy review:
-  <<: *deploy_definition
-  when: manual
-  variables:
-    ARCHIVE_IMAGE: ${IMAGE}:${CI_COMMIT_REF_SLUG}
-    ARCHIVE_FQDN: ${CI_ENVIRONMENT_SLUG}-${REVIEW_STACK_NAME}-prod.recalbox.com
-    SERVICENAME: ${CI_ENVIRONMENT_SLUG}
-    RANCHER_DIRECTORY: review
-    STACK: ${REVIEW_STACK_NAME}
+    BUCKET: recalbox-reviews
+    BUCKET_PATH: $CI_ENVIRONMENT_SLUG
   except:
     - tags
   environment:
     name: review/${CI_COMMIT_REF_SLUG}
-    url: https://${CI_ENVIRONMENT_SLUG}-${REVIEW_STACK_NAME}-prod.recalbox.com
+    url: https://recalbox-reviews.s3.nl-ams.scw.cloud/${CI_ENVIRONMENT_SLUG}/index.html
     on_stop: clean review
-
-validate release:
-  <<: *deploy_definition
-  stage: canary
-  when: manual
-  dependencies: []
-  variables:
-    RANCHER_DIRECTORY: recaleur
-    RECALEUR_CANARY: 256
-    RECALEUR_RESPONSE: https://lb-${PROD_STACK_NAME}-prod.recalbox.com
-    RECALEUR_PATH: "/v1/upgrade"
-    RECALEUR_DELTA: ${RECALEUR_DELTA}
-    STACK: ${PROD_STACK_NAME}
-  only:
-    - tags
-
-emergency valve:
-  <<: *deploy_definition
-  stage: canary
-  when: manual
-  dependencies: []
-  variables:
-    RANCHER_DIRECTORY: recaleur
-    RECALEUR_CANARY: 0
-    RECALEUR_RESPONSE: https://lb-${PROD_STACK_NAME}-prod.recalbox.com
-    RECALEUR_PATH: "/v1/upgrade"
-    RECALEUR_DELTA: "0ms"
-    STACK: ${PROD_STACK_NAME}
-  only:
-    - tags
 
 clean review:
   image: registry.gitlab.com/recalbox/ops/rancher-cli:0.6.2
