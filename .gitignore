@@ -19,3 +19,8 @@ Thumbs.db
 authorized_keys
 /host
 /scripts/linux/.githubAPIToken
+envfile
+updatesv2/release/
+.idea
+.vscode
+dist
