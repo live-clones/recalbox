@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="css/layouts/blog.css">
     <!--<![endif]-->
 
-    <title>recalbox build ${CI_COMMIT_REF_NAME}</title>
+    <title>recalbox build CI_COMMIT_REF_NAME</title>
     <style>
         * {
             -webkit-box-sizing: border-box;
@@ -250,14 +250,14 @@
                 <section class="post">
                     <header class="post-header">
                         <img width="48" height="48" alt="recalbox" class="post-avatar"
-                             src="https://gitlab.com/uploads/-/system/user/avatar/${GITLAB_USER_ID}/avatar.png">
+                             src="https://gitlab.com/uploads/-/system/user/avatar/GITLAB_USER_ID/avatar.png">
 
-                        <h2 class="post-title" data-ci-commit-ref-name="${CI_COMMIT_REF_NAME}">${CI_COMMIT_REF_NAME}</h2>
+                        <h2 class="post-title" data-ci-commit-ref-name="CI_COMMIT_REF_NAME">CI_COMMIT_REF_NAME</h2>
                     </header>
 
                     <div class="post-description">
-                        <p>Build <!--<a href="https://gitlab.com/recalbox/recalbox-buildroot/builds/${CI_JOB_ID}">-->${CI_JOB_ID}<!--</a>-->
-                            from pipeline ${CI_PIPELINE_ID} based on ${CI_COMMIT_REF_NAME}</h1>
+                        <p>Build <!--<a href="https://gitlab.com/recalbox/recalbox-buildroot/builds/CI_JOB_ID">-->CI_JOB_ID<!--</a>-->
+                            from pipeline CI_PIPELINE_ID based on CI_COMMIT_REF_NAME</h1>
                         </p>
                         <p>To do a new system installation, please download the system image .img.xz</p>
                         <p>Use <a href="https://etcher.io/">Etcher</a> to burn the .img.xz</p>
@@ -265,15 +265,14 @@
                             The system image (.img file) will not be available for review builds based on merge requests
                         </p>
                         <p>
-                            See the changelog here : <a href="v1/upgrade/rpi3/recalbox.changelog?source=install">CHANGELOG.md</a>
+                            See the changelog here : <a href="v2/upgrade/rpi3/recalbox.changelog?source=install">CHANGELOG.md</a>
                         </p>
                         <table class="pure-table pure-table-striped">
                             <thead>
                             <tr>
                                 <th>Architecture</th>
                                 <th>Tag</th>
-                                <th>Boot archive</th>
-                                <th>Root archive</th>
+                                <th>Burnable Image</th>
                             </tr>
                             </thead>
 
@@ -281,51 +280,43 @@
                             <tr class="pure-table-odd">
                                 <td>The board or arch you need</td>
                                 <td>arch tag</td>
-                                <td>The boot partition files</td>
-                                <td>The root partition files</td>
+                                <td>The system image</td>
                             </tr>
 
                             <tr>
                                 <td>Raspberry Pi 1 / Pi 0</td>
                                 <td>rpi1/rpi0</td>
-                                <td><a href="v1/upgrade/rpi1/boot.tar.xz?source=install">boot.tar.xz</a> <a href="v1/upgrade/rpi1/boot.tar.xz.sha1?source=install">(sha1)</a></td>
-                                <td><a href="v1/upgrade/rpi1/root.tar.xz?source=install">root.tar.xz</a> <a href="v1/upgrade/rpi1/root.tar.xz.sha1?source=install">(sha1)</a></td>
+                                <td><a href="v2/upgrade/rpi1/recalbox.img.xz?source=install">recalbox.img</a> <a href="v2/upgrade/rpi1/recalbox.img.xz.sha1?source=install">(sha1)</a></td>
                             </tr>
                             <tr>
                                 <td>Raspberry Pi 2</td>
                                 <td>rpi2</td>
-                                <td><a href="v1/upgrade/rpi2/boot.tar.xz?source=install">boot.tar.xz</a> <a href="v1/upgrade/rpi2/boot.tar.xz.sha1?source=install">(sha1)</a></td>
-                                <td><a href="v1/upgrade/rpi2/root.tar.xz?source=install">root.tar.xz</a> <a href="v1/upgrade/rpi2/root.tar.xz.sha1?source=install">(sha1)</a></td>
+                                <td><a href="v2/upgrade/rpi2/recalbox.img.xz?source=install">recalbox.img</a> <a href="v2/upgrade/rpi2/recalbox.img.xz.sha1?source=install">(sha1)</a></td>
                             </tr>
                             <tr>
                                 <td>Raspberry Pi 3</td>
                                 <td>rpi3</td>
-                                <td><a href="v1/upgrade/rpi3/boot.tar.xz?source=install">boot.tar.xz</a> <a href="v1/upgrade/rpi3/boot.tar.xz.sha1?source=install">(sha1)</a></td>
-                                <td><a href="v1/upgrade/rpi3/root.tar.xz?source=install">root.tar.xz</a> <a href="v1/upgrade/rpi3/root.tar.xz.sha1?source=install">(sha1)</a></td>
+                                <td><a href="v2/upgrade/rpi3/recalbox.img.xz?source=install">recalbox.img</a> <a href="v2/upgrade/rpi3/recalbox.img.xz.sha1?source=install">(sha1)</a></td>
                             </tr>
                             <tr>
                                 <td>PC 64 bits</td>
                                 <td>x86_64</td>
-                                <td><a href="v1/upgrade/x86_64/boot.tar.xz?source=install">boot.tar.xz</a> <a href="v1/upgrade/x86_64/boot.tar.xz.sha1?source=install">(sha1)</a></td>
-                                <td><a href="v1/upgrade/x86_64/root.tar.xz?source=install">root.tar.xz</a> <a href="v1/upgrade/x86_64/root.tar.xz.sha1?source=install">(sha1)</a></td>
+                                <td><a href="v2/upgrade/x86_64/recalbox.img.xz?source=install">recalbox.img</a> <a href="v2/upgrade/x86_64/recalbox.img.xz.sha1?source=install">(sha1)</a></td>
                             </tr>
                             <tr>
                                 <td>PC 32 bits</td>
                                 <td>x86</td>
-                                <td><a href="v1/upgrade/x86/boot.tar.xz?source=install">boot.tar.xz</a> <a href="v1/upgrade/x86/boot.tar.xz.sha1?source=install">(sha1)</a></td>
-                                <td><a href="v1/upgrade/x86/root.tar.xz?source=install">root.tar.xz</a> <a href="v1/upgrade/x86/root.tar.xz.sha1?source=install">(sha1)</a></td>
+                                <td><a href="v2/upgrade/x86/recalbox.img.xz?source=install">recalbox.img</a> <a href="v2/upgrade/x86/recalbox.img.xz.sha1?source=install">(sha1)</a></td>
                             </tr>
                             <tr>
                                 <td>Odroid XU4</td>
                                 <td>odroidxu4</td>
-                                <td><a href="v1/upgrade/odroidxu4/boot.tar.xz?source=install">boot.tar.xz</a> <a href="v1/upgrade/odroidxu4/boot.tar.xz.sha1?source=install">(sha1)</a></td>
-                                <td><a href="v1/upgrade/odroidxu4/root.tar.xz?source=install">root.tar.xz</a> <a href="v1/upgrade/odroidxu4/root.tar.xz.sha1?source=install">(sha1)</a></td>
+                                <td><a href="v2/upgrade/odroidxu4/recalbox.img.xz?source=install">recalbox.img</a> <a href="v2/upgrade/odroidxu4/recalbox.img.xz.sha1?source=install">(sha1)</a></td>
                             </tr>
                             <tr>
                                 <td>Odroid C2</td>
                                 <td>odroidc2</td>
-                                <td><a href="v1/upgrade/odroidc2/boot.tar.xz?source=install">boot.tar.xz</a> <a href="v1/upgrade/odroidc2/boot.tar.xz.sha1?source=install">(sha1)</a></td>
-                                <td><a href="v1/upgrade/odroidc2/root.tar.xz?source=install">root.tar.xz</a> <a href="v1/upgrade/odroidc2/root.tar.xz.sha1?source=install">(sha1)</a></td>
+                                <td><a href="v2/upgrade/odroidc2/recalbox.img.xz?source=install">recalbox.img</a> <a href="v2/upgrade/odroidc2/recalbox.img.xz.sha1?source=install">(sha1)</a></td>
                             </tr>
                             </tbody>
                         </table>

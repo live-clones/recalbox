@@ -20,3 +20,8 @@ authorized_keys
 /host
 /scripts/linux/.githubAPIToken
 /local.mk
+envfile
+updatesv2/release/
+.idea
+.vscode
+dist
