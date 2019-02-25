@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system supergrafx --extension '.pce .PCE .sgx .SGX .zip .ZIP .7z .7Z' --fullname 'Supergrafx' --platform supergrafx --theme supergrafx libretro:mednafen_supergrafx:BR2_PACKAGE_LIBRETRO_BEETLE_SUPERGRAFX libretro:mednafen_pce_fast:BR2_PACKAGE_LIBRETRO_BEETLE_PCE_FAST
+# ./scripts/linux/empack.py --system supergrafx --extension '.pce .PCE .sgx .SGX .cue .CUE .ccd .CCD .chd .CHD .zip .ZIP .7z .7Z' --fullname 'Supergrafx' --platform supergrafx --theme supergrafx libretro:mednafen_supergrafx:BR2_PACKAGE_LIBRETRO_BEETLE_SUPERGRAFX
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_SUPERGRAFX_SOURCE = 
@@ -21,24 +21,18 @@ SOURCE_ROMDIR_SUPERGRAFX = $(RECALBOX_ROMFS_SUPERGRAFX_PKGDIR)/roms
 # variables are global across buildroot
 
 
-ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_SUPERGRAFX)$(BR2_PACKAGE_LIBRETRO_BEETLE_PCE_FAST),)
+ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_SUPERGRAFX),)
 define CONFIGURE_MAIN_SUPERGRAFX_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_SUPERGRAFX),Supergrafx,$(SYSTEM_NAME_SUPERGRAFX),.pce .PCE .sgx .SGX .zip .ZIP .7z .7Z,supergrafx,supergrafx)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_SUPERGRAFX),Supergrafx,$(SYSTEM_NAME_SUPERGRAFX),.pce .PCE .sgx .SGX .cue .CUE .ccd .CCD .chd .CHD .zip .ZIP .7z .7Z,supergrafx,supergrafx)
 endef
 
-ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_SUPERGRAFX)$(BR2_PACKAGE_LIBRETRO_BEETLE_PCE_FAST),)
+ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_SUPERGRAFX),)
 define CONFIGURE_SUPERGRAFX_LIBRETRO_START
 	$(call RECALBOX_ROMFS_CALL_START_EMULATOR,$(SYSTEM_XML_SUPERGRAFX),libretro)
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_BEETLE_SUPERGRAFX),y)
 define CONFIGURE_SUPERGRAFX_LIBRETRO_MEDNAFEN_SUPERGRAFX_DEF
 	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_SUPERGRAFX),mednafen_supergrafx)
-endef
-endif
-
-ifeq ($(BR2_PACKAGE_LIBRETRO_BEETLE_PCE_FAST),y)
-define CONFIGURE_SUPERGRAFX_LIBRETRO_MEDNAFEN_PCE_FAST_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_SUPERGRAFX),mednafen_pce_fast)
 endef
 endif
 
@@ -58,7 +52,6 @@ define RECALBOX_ROMFS_SUPERGRAFX_CONFIGURE_CMDS
 	$(CONFIGURE_MAIN_SUPERGRAFX_START)
 	$(CONFIGURE_SUPERGRAFX_LIBRETRO_START)
 	$(CONFIGURE_SUPERGRAFX_LIBRETRO_MEDNAFEN_SUPERGRAFX_DEF)
-	$(CONFIGURE_SUPERGRAFX_LIBRETRO_MEDNAFEN_PCE_FAST_DEF)
 	$(CONFIGURE_SUPERGRAFX_LIBRETRO_END)
 	$(CONFIGURE_MAIN_SUPERGRAFX_END)
 endef
