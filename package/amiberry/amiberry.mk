@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-AMIBERRY_VERSION = 2.24
+AMIBERRY_VERSION = 2.25
 AMIBERRY_SITE = $(call github,midwan,amiberry,v$(AMIBERRY_VERSION))
 AMIBERRY_DEPENDENCIES = sdl2 sdl2_image sdl2_mixer guichan mpg123 host-pkgconf sdl2_ttf libcapsimage libmpeg2
 
