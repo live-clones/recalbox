@@ -63,7 +63,13 @@ class AmiberryRetroarchConfig:
 
     def __init__(self, controller):
         self.controller = controller
-        self.settings = keyValueSettings(os.path.join(recalboxFiles.amiberryMountPoint, "conf", controller.realName + ".cfg"), True)
+        self.settings = keyValueSettings(os.path.join(recalboxFiles.amiberryMountPoint, "conf", self.sanitizeFilename(controller.realName) + ".cfg"), True)
+
+    @staticmethod
+    def sanitizeFilename(filename):
+        for c in ('\\', '/', ':', '?', '"', '<', '>', '|'):
+            filename = filename.replace(c, '')
+        return filename
 
     @staticmethod
     def getInputValue(recalboxInput):
