@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Clean files
-export RECALBOX_URL=v1/upgrade
+export RECALBOX_URL=v2/upgrade
 
 function clean {
     [[ "${UPGRADE_DIR}" != "" ]] && rm -rf "${UPGRADE_DIR}"/*
