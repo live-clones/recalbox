@@ -172,7 +172,8 @@ bool MetadataDescriptor::RangeToInt(const std::string& range, int& to)
 bool MetadataDescriptor::IntToHex(int from, std::string& to)
 {
   static const char* hexa = "0123456789ABCDEF";
-  char result[8];
+  char result[9];
+  result[sizeof(result) - 1] = 0;
 
   for(int i = sizeof(result), p = 0; -- i >= 0;)
     result[p++] = hexa[(from >> (i << 2)) & 0xF];
