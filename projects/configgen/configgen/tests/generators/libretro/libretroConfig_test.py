@@ -52,7 +52,7 @@ class TestLibretroConfig(unittest.TestCase):
     def test_smooth_override_defaut_and_global(self):
         settings = self.snes.config
         settings.update(recalSettings.loadAll('snes'))
-        builder = libretroConfigurations.LibretroConfiguration(self.snes, self.onePlayerController)
+        builder = libretroConfigurations.LibretroConfiguration(self.snes, self.onePlayerController, "/rom.rom")
         builder.overrideLibretroConfigurationFiles(None, self.retroarchcustomFile)
         retroconf = builder.createRetroarchConfiguration()
         self.assertEquals(retroconf['video_smooth'], 'false')
@@ -60,7 +60,7 @@ class TestLibretroConfig(unittest.TestCase):
     def test_create_with_shader_true(self):
         settings = self.snes.config
         settings.update(recalSettings.loadAll('snes'))
-        builder = libretroConfigurations.LibretroConfiguration(self.snes, self.onePlayerController)
+        builder = libretroConfigurations.LibretroConfiguration(self.snes, self.onePlayerController, "/rom.rom")
         builder.overrideLibretroConfigurationFiles(None, self.retroarchcustomFile)
         retroconf = builder.createRetroarchConfiguration()
         self.assertEquals(retroconf['video_shader'], 'myshaderfile.gplsp')
@@ -70,7 +70,7 @@ class TestLibretroConfig(unittest.TestCase):
     def test_create_with_shader_true_and_smooth_true(self):
         settings = self.snes.config
         settings.update(recalSettings.loadAll('snes'))
-        builder = libretroConfigurations.LibretroConfiguration(self.snes, self.onePlayerController)
+        builder = libretroConfigurations.LibretroConfiguration(self.snes, self.onePlayerController, "/rom.rom")
         builder.overrideLibretroConfigurationFiles(None, self.retroarchcustomFile)
         retroconf = builder.createRetroarchConfiguration()
         self.assertEquals(retroconf['video_shader_enable'], 'true')
@@ -78,7 +78,7 @@ class TestLibretroConfig(unittest.TestCase):
 
 
     def test_create_with_ratio_169(self):
-        builder = libretroConfigurations.LibretroConfiguration(self.nes, self.onePlayerController)
+        builder = libretroConfigurations.LibretroConfiguration(self.nes, self.onePlayerController, "/rom.rom")
         builder.overrideLibretroConfigurationFiles(None, self.retroarchcustomFile)
         retroconf = builder.createRetroarchConfiguration()
         self.assertEquals(retroconf['aspect_ratio_index'], 1)
@@ -86,33 +86,33 @@ class TestLibretroConfig(unittest.TestCase):
 
 
     def test_create_with_ratio_43(self):
-        builder = libretroConfigurations.LibretroConfiguration(self.nes43, self.onePlayerController)
+        builder = libretroConfigurations.LibretroConfiguration(self.nes43, self.onePlayerController, "/rom.rom")
         builder.overrideLibretroConfigurationFiles(None, self.retroarchcustomFile)
         retroconf = builder.createRetroarchConfiguration()
         self.assertEquals(retroconf['aspect_ratio_index'], 0)
         self.assertEquals(retroconf['video_aspect_ratio_auto'], 'false')
 
     def test_create_with_ratio_auto(self):
-        builder = libretroConfigurations.LibretroConfiguration(self.nesauto, self.onePlayerController)
+        builder = libretroConfigurations.LibretroConfiguration(self.nesauto, self.onePlayerController, "/rom.rom")
         builder.overrideLibretroConfigurationFiles(None, self.retroarchcustomFile)
         retroconf = builder.createRetroarchConfiguration()
         self.assertEquals(retroconf['video_aspect_ratio_auto'], 'true')
 
     def test_create_rewind_true(self):
-        builder = libretroConfigurations.LibretroConfiguration(self.nesauto, self.onePlayerController)
+        builder = libretroConfigurations.LibretroConfiguration(self.nesauto, self.onePlayerController, "/rom.rom")
         builder.overrideLibretroConfigurationFiles(None, self.retroarchcustomFile)
         retroconf = builder.createRetroarchConfiguration()
         self.assertEquals(retroconf['rewind_enable'], 'true')
 
     def test_create_rewind_false(self):
-        builder = libretroConfigurations.LibretroConfiguration(self.nes, self.onePlayerController)
+        builder = libretroConfigurations.LibretroConfiguration(self.nes, self.onePlayerController, "/rom.rom")
         builder.overrideLibretroConfigurationFiles(None, self.retroarchcustomFile)
         retroconf = builder.createRetroarchConfiguration()
         self.assertEquals(retroconf['rewind_enable'], 'false')
 
 
     def test_write_config_to_file(self):
-        builder = libretroConfigurations.LibretroConfiguration(self.nesauto, self.onePlayerController)
+        builder = libretroConfigurations.LibretroConfiguration(self.nesauto, self.onePlayerController, "/rom.rom")
         builder.overrideLibretroConfigurationFiles(None, self.retroarchcustomFile)
         builder.createRetroarchConfiguration()
         reloaded = keyValueSettings(self.retroarchcustomFile, True)
@@ -120,7 +120,7 @@ class TestLibretroConfig(unittest.TestCase):
         self.assertEquals(reloaded['rewind_enable'], 'true')
 
     def test_write_config_to_file_shaders(self):
-        builder = libretroConfigurations.LibretroConfiguration(self.nes43, self.onePlayerController)
+        builder = libretroConfigurations.LibretroConfiguration(self.nes43, self.onePlayerController, "/rom.rom")
         builder.overrideLibretroConfigurationFiles(None, self.retroarchcustomFile)
         builder.createRetroarchConfiguration()
         reloaded = keyValueSettings(self.retroarchcustomFile, True)
@@ -133,7 +133,7 @@ class TestLibretroConfig(unittest.TestCase):
 
 
     def test_write_config_to_file_new1610(self):
-        builder = libretroConfigurations.LibretroConfiguration(self.wswan, self.onePlayerController)
+        builder = libretroConfigurations.LibretroConfiguration(self.wswan, self.onePlayerController, "/rom.rom")
         builder.overrideLibretroConfigurationFiles(None, self.retroarchcustomFile)
         builder.createRetroarchConfiguration()
         reloaded = keyValueSettings(self.retroarchcustomFile, True)
@@ -143,14 +143,14 @@ class TestLibretroConfig(unittest.TestCase):
 
     def test_driver_udev_default(self):
         self.nes.config['inputdriver'] = None
-        builder = libretroConfigurations.LibretroConfiguration(self.nes, self.onePlayerController)
+        builder = libretroConfigurations.LibretroConfiguration(self.nes, self.onePlayerController, "/rom.rom")
         builder.overrideLibretroConfigurationFiles(None, self.retroarchcustomFile)
         retroconf = builder.createRetroarchConfiguration()
         self.assertEquals(retroconf['input_joypad_driver'], 'udev')
 
     def test_driver_forced_sdl(self):
         self.nes.config['inputdriver'] = 'sdl2'
-        builder = libretroConfigurations.LibretroConfiguration(self.nes, self.onePlayerController)
+        builder = libretroConfigurations.LibretroConfiguration(self.nes, self.onePlayerController, "/rom.rom")
         builder.overrideLibretroConfigurationFiles(None, self.retroarchcustomFile)
         retroconf = builder.createRetroarchConfiguration()
         self.assertEquals(retroconf['input_joypad_driver'], 'sdl2')
@@ -158,13 +158,13 @@ class TestLibretroConfig(unittest.TestCase):
 
 
     def test_create_with_ratio_custom(self):
-        builder = libretroConfigurations.LibretroConfiguration(self.nescustomratio, self.onePlayerController)
+        builder = libretroConfigurations.LibretroConfiguration(self.nescustomratio, self.onePlayerController, "/rom.rom")
         builder.overrideLibretroConfigurationFiles(None, self.retroarchcustomFile)
         retroconf = builder.createRetroarchConfiguration()
         self.assertEquals(retroconf['video_aspect_ratio_auto'], 'false')
 
     def test_snes9x_and_at_least_three_controllers_then_set_device_p2_to_257(self):
-        builder = libretroConfigurations.LibretroConfiguration(self.snes9x, self.threePlayersControllers)
+        builder = libretroConfigurations.LibretroConfiguration(self.snes9x, self.threePlayersControllers, "/rom.rom")
         builder.overrideLibretroConfigurationFiles(None, self.retroarchcustomFile)
         retroconf = builder.createRetroarchConfiguration()
         self.assertTrue(retroconf['input_libretro_device_p2'] is '257')

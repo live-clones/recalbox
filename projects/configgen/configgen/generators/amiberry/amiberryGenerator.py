@@ -167,7 +167,8 @@ class AmiberryGenerator(Generator):
         subSystem = SubSystems.A1200 if romType == RomType.WHDL else system.name
 
         # Generate global config file
-        globalConfig = AmiberryGlobalConfig(os.path.join(recalboxFiles.HOME, "configs/amiberry", subSystem + ".conf"),
+        globalOverride = os.path.join(os.path.dirname(rom), ".amiberry.conf")
+        globalConfig = AmiberryGlobalConfig(globalOverride,
                                             os.path.join(recalboxFiles.amiberryMountPoint, "conf/amiberry.conf"))
         globalConfig.createGlobalSettings()
 
@@ -178,7 +179,7 @@ class AmiberryGenerator(Generator):
         # Prepare configuration file
         romFile, _ = os.path.splitext(rom)
         userSettings = romFile + ".uae" if romHasUAE else None
-        overridenSettings = os.path.join(recalboxFiles.HOME, "configs/amiberry", subSystem + ".uae")
+        overridenSettings = os.path.join(os.path.dirname(rom), ".uaeconfig.uae")
         configFile = ConfigGenerator(settingsFullPath)
 
         # Load default settings

@@ -94,26 +94,26 @@ class TestLibretroGenerator(unittest.TestCase):
 
     def test_custom_inputdriver_override_choice(self):
         self.snes.config['inputdriver'] = 'sdl2'
-        builder = libretroConfigurations.LibretroConfiguration(self.snes, self.sdl2controllers)
+        builder = libretroConfigurations.LibretroConfiguration(self.snes, self.sdl2controllers, "/rom.rom")
         builder.overrideLibretroConfigurationFiles(None, RETROARCH_CUSTOM_CFG_FILE)
         retroconf = builder.createRetroarchConfiguration()
         self.assertEquals(retroconf['input_joypad_driver'], 'sdl2')
 
     def test_standard_inputdriver(self):
-        builder = libretroConfigurations.LibretroConfiguration(self.snes, self.controllers)
+        builder = libretroConfigurations.LibretroConfiguration(self.snes, self.controllers, "/rom.rom")
         builder.overrideLibretroConfigurationFiles(None, RETROARCH_CUSTOM_CFG_FILE)
         retroconf = builder.createRetroarchConfiguration()
         self.assertEquals(retroconf['input_joypad_driver'], 'udev')
 
     def test_inputdriver_none_specified(self):
-        builder = libretroConfigurations.LibretroConfiguration(self.snes, self.sdl2controllers)
+        builder = libretroConfigurations.LibretroConfiguration(self.snes, self.sdl2controllers, "/rom.rom")
         builder.overrideLibretroConfigurationFiles(None, RETROARCH_CUSTOM_CFG_FILE)
         retroconf = builder.createRetroarchConfiguration()
         self.assertEquals(retroconf['input_joypad_driver'], 'sdl2')
 
     def test_inputdriver_auto(self):
         self.snes.config['inputdriver'] = 'auto'
-        builder = libretroConfigurations.LibretroConfiguration(self.snes, self.sdl2controllers)
+        builder = libretroConfigurations.LibretroConfiguration(self.snes, self.sdl2controllers, "/rom.rom")
         builder.overrideLibretroConfigurationFiles(None, RETROARCH_CUSTOM_CFG_FILE)
         retroconf = builder.createRetroarchConfiguration()
         self.assertEquals(retroconf['input_joypad_driver'], 'sdl2')
