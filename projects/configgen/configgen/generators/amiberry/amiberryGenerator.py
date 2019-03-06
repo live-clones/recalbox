@@ -163,8 +163,8 @@ class AmiberryGenerator(Generator):
         # Get rom type and associated configuration file if any
         rom, romType, romHasUAE = RomType.Identify(rom)
 
-        # Get subsystem - Force A1200 if WHDL detected (https://github.com/midwan/amiberry/issues/417)
-        subSystem = SubSystems.A1200 if romType == RomType.WHDL else system.name
+        # Get subsystem
+        subSystem = system.name
 
         # Generate global config file
         globalOverride = os.path.join(os.path.dirname(rom), ".amiberry.conf")
@@ -187,7 +187,7 @@ class AmiberryGenerator(Generator):
         configFile.SetUI(AmiberryGenerator.GetKeyboardLayout())
         configFile.SetInput(subSystem)
         configFile.SetJoystick(subSystem, playersControllers)
-        configFile.SetCPU(subSystem)
+        configFile.SetCPU(subSystem, romType)
         configFile.SetChipset(subSystem)
         configFile.SetMemory(subSystem)
         configFile.SetGraphics(subSystem)

@@ -41,7 +41,7 @@ class KickstartManager:
         [
             (   # Use the highest kickstart with advanced hardware
                 [RomType.WHDL, RomType.HDF, RomType.PACKAGE, RomType.CDROM, RomType.HDDFS],
-                ["kick40063.A600", "kick37175.A500", "kick34005.A500", "kick33180.A500"]
+                ["kick37175.A500", "kick34005.A500", "kick33180.A500"]
             ),
             (   # Use kickstarts 1.3/1.2 to maximize compatibility when using disks
                 [RomType.DISK],
@@ -105,6 +105,8 @@ class KickstartManager:
                         extPath = os.path.join(recalboxFiles.BIOS, ext + ".rom")
                         if os.path.exists(extPath):
                             extFile = extPath
+                    if biosFile is not None:
+                        break
 
         # Fallback to AROS 2019?
         if biosFile is None:

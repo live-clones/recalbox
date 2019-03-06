@@ -4,6 +4,7 @@ import os
 import recalboxFiles
 from generators.amiberry.amiberryKickstarts import KickstartManager
 from generators.amiberry.amiberryRetroarchConfig import AmiberryRetroarchConfig
+from generators.amiberry.amiberryRomType import RomType
 from generators.amiberry.amiberrySubSystems import SubSystems
 from settings.keyValueSettings import keyValueSettings
 
@@ -90,11 +91,18 @@ class ConfigGenerator:
         else:
             raise Exception("Unknown subsystem " + subsystem)
 
-    def SetCPU(self, subsystem):
+    def SetCPU(self, subsystem, romtype):
         if subsystem == SubSystems.A600:
             self.settings.setOption("cpu_speed", "real")
-            self.settings.setOption("cpu_type", "68000")
-            self.settings.setOption("cpu_model", "68000")
+            if romtype == RomType.WHDL:
+                # Tweak the CPU to workaround Amiberry's loader bug on 68000/68010 CPUs
+                # https://github.com/midwan/amiberry/issues/417
+                self.settings.setOption("cpu_type", "68ec020")
+                self.settings.setOption("cpu_model", "68020")
+            else:
+                # Normal amiga 500/600
+                self.settings.setOption("cpu_type", "68000")
+                self.settings.setOption("cpu_model", "68000")
             self.settings.setOption("cpu_compatible", "true")
             self.settings.setOption("cpu_24bit_addressing", "true")
             self.settings.setOption("fpu_no_unimplemented", "true")
