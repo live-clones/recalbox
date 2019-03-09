@@ -189,7 +189,7 @@ def generateHotkeys(playersControllers):
             print propertyName
             propertyValue = "`Button {}` & `Button {}`".format(HK, inputobj.id)
             iniValues[propertyName] = propertyValue
-    iniValues["Device"] = "evdev/0/{}".format(player1.realName)
+    iniValues["Device"] = '"evdev/0/{}"'.format(player1.realName)
     # Prepare the ini write
     iniSections = {"Hotkeys1": iniValues }
     writeIniFile(recalboxFiles.dolphinHKeys, iniSections)
