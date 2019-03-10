@@ -16,8 +16,13 @@ variables:
   script:
     - export RECALBOX_VERSION="${CI_COMMIT_TAG:-${CI_COMMIT_REF_SLUG:0:12} (${CI_COMMIT_SHA:0:8}) ${CI_PIPELINE_ID} ${ARCH} $(date '+%Y/%m/%d %H:%M:%S')}"
     - docker build -t "recalbox-${ARCH}" .
+<<<<<<< HEAD
     - docker run --rm -v `pwd`:/work -v /recalbox-builds/dl:/share/dl -v "/recalbox-builds/hosts/host-${ARCH}:/share/host" -v "/recalbox-builds/ccaches/ccache-${ARCH}:/share/ccache" -e "ARCH=${ARCH}" -e "RECALBOX_VERSION_LABEL=${RECALBOX_VERSION}" -e "RECALBOX_CCACHE_ENABLED=true" "recalbox-${ARCH}" 2>&1 | tee build.log | grep '>>>' || tac build.log | grep '>>>' -m 1 -B 9999 | tac
     - export DIST_DIR="dist/${ARCH}"
+=======
+    - docker run --rm -v `pwd`:/work -v /recalbox-builds/dl:/share/dl -v "/recalbox-builds/ccaches/ccache-${ARCH}:/share/ccache" -e "ARCH=${ARCH}" -e "RECALBOX_VERSION_LABEL=${RECALBOX_VERSION}" -e "RECALBOX_CCACHE_ENABLED=true" "recalbox-${ARCH}" 2>&1 | tee build.log | grep '>>>' || tac build.log | grep '>>>' -m 1 -B 9999 | tac
+    - export DIST_DIR="updates/dist/v1/upgrade/${ARCH}"
+>>>>>>> f5b4ba8572... fix(ci): remove host dir, keep ccache
     - mkdir -p "${DIST_DIR}"
     - cp output/images/recalbox/* "${DIST_DIR}"
     - rm -rf output/
