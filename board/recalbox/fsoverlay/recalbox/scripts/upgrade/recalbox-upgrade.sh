@@ -16,13 +16,14 @@ ARCH=$(cat /recalbox/recalbox.arch)
 UPGRADETYPE="$($SYSTEMSETTINGS  -command load -key updates.type)"
 
 SERVICE_URL="https://recalbox-releases.s3.nl-ams.scw.cloud"
+REVIEW_URL="https://recalbox-reviews.s3.nl-ams.scw.cloud"
 
 UUID=$("$BINDIR/../system/uuid.sh" --uuid-file "${RECALBOX_SYSTEM_DIR}/uuid")
 
 if [[ "${UPGRADETYPE}" == "beta" || "${UPGRADETYPE}" == "unstable" ]]; then
   UPGRADETYPE="stable"
   else
-  SERVICE_URL="https://recalbox-reviews.s3.nl-ams.scw.cloud/$UPGRADETYPE"
+  UPGRADETYPE="${REVIEW_URL}/${UPGRADETYPE}"
 fi
 
 
