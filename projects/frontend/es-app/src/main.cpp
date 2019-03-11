@@ -80,7 +80,7 @@ bool parseArgs(int argc, char* argv[], unsigned int* width, unsigned int* height
     {
       Settings::getInstance()->setBool("Debug", true);
       Settings::getInstance()->setBool("HideConsole", false);
-      Log::setReportingLevel(LogDebug);
+      Log::setReportingLevel(LogLevel::LogDebug);
     }
     else if (strcmp(argv[i], "--windowed") == 0)
     {

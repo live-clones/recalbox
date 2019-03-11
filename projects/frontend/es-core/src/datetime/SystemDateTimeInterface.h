@@ -24,9 +24,11 @@ class SystemDateTimeImplementation : public ISystemDateTimeInterface
 
     bool LoadRTCValues(short &millis, short &year, char &month, char &day, char &hour, char &minute, char &second) override
     {
-      time_t t = time(NULL);
+      timeval tv;
+      gettimeofday(&tv, nullptr);
+      time_t t=tv.tv_sec;
       struct tm* lt = localtime(&t);
-      millis = 0;
+      millis = tv.tv_usec / 1000;
       second = (char)lt->tm_sec;
       minute = (char)lt->tm_min;
       hour   = (char)lt->tm_hour;

@@ -2,37 +2,43 @@
 #define _LOG_H_
 
 #define LOG(level) \
-if(level > Log::getReportingLevel()) ; \
-else Log().get(level)
+if (LogLevel::level <= Log::getReportingLevel()) Log().get(LogLevel::level)
 
 #include <string>
 #include <sstream>
 #include <iostream>
 
-enum LogLevel { LogError, LogWarning, LogInfo, LogDebug };
+enum class LogLevel
+{
+	LogError,
+	LogWarning,
+	LogInfo,
+	LogDebug,
+};
 
 class Log
 {
-public:
-	//Log();
-	~Log();
-	std::ostringstream& get(LogLevel level = LogInfo);
+  public:
+    ~Log();
+    std::ostringstream& get(LogLevel level = LogLevel::LogInfo);
 
-	static LogLevel getReportingLevel();
-	static void setReportingLevel(LogLevel level);
+    static LogLevel getReportingLevel() { return reportingLevel; }
+    static void setReportingLevel(LogLevel level) { reportingLevel = level; }
 
-	static std::string getLogPath();
+    static std::string getLogPath();
 
-	static void flush();
-	static void open();
-	static void close();
-protected:
-	std::ostringstream os;
-	static FILE* file;
-private:
-	static LogLevel reportingLevel;
-	static FILE* getOutput();
-	LogLevel messageLevel;
+    static void flush();
+    static void open();
+    static void close();
+
+  protected:
+    std::ostringstream os;
+    static FILE* file;
+
+  private:
+    static LogLevel reportingLevel;
+    static FILE* getOutput();
+    LogLevel messageLevel;
 };
 
 #endif

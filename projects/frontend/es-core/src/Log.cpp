@@ -1,27 +1,27 @@
 #include "Log.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <map>
 #include <iostream>
 #include "platform.h"
 #include "RootFolders.h"
+#include "datetime/DateTime.h"
 
-LogLevel Log::reportingLevel = LogInfo;
-FILE* Log::file = NULL; //fopen(getLogPath().c_str(), "w");
+LogLevel Log::reportingLevel = LogLevel::LogInfo;
+FILE* Log::file = nullptr;
 
-LogLevel Log::getReportingLevel()
+static std::map<LogLevel, std::string> StringLevel =
 {
-	return reportingLevel;
-}
+	{ LogLevel::LogDebug  , "DEBUG" },
+	{ LogLevel::LogInfo   , "INFO " },
+	{ LogLevel::LogWarning, "WARN!" },
+	{ LogLevel::LogError  , "ERROR" },
+};
 
 std::string Log::getLogPath()
 {
 	std::string home = RootFolders::DataRootFolder + "/system/.emulationstation/es_log.txt";
 	return home;
-}
-
-void Log::setReportingLevel(LogLevel level)
-{
-	reportingLevel = level;
 }
 
 void Log::open()
@@ -31,7 +31,7 @@ void Log::open()
 
 std::ostringstream& Log::get(LogLevel level)
 {
-	os << "lvl" << level << ": \t";
+	os << '[' << DateTime().ToPreciseTimeStamp() << "] (" << StringLevel[level] << ") : ";
 	messageLevel = level;
 
 	return os;
@@ -39,25 +39,20 @@ std::ostringstream& Log::get(LogLevel level)
 
 void Log::flush()
 {
-	fflush(getOutput());
+	fflush(file);
 }
 
 void Log::close()
 {
 	fclose(file);
-	file = NULL;
-}
-
-FILE* Log::getOutput()
-{
-	return file;
+	file = nullptr;
 }
 
 Log::~Log()
 {
 	os << std::endl;
 
-	if(getOutput() == NULL)
+	if(file == nullptr)
 	{
 		// not open yet, print to stdout
 		std::cerr << "ERROR - tried to write to log file before it was open! The following won't be logged:\n";
@@ -65,10 +60,10 @@ Log::~Log()
 		return;
 	}
 
-	fprintf(getOutput(), "%s", os.str().c_str());
+	fprintf(file, "%s", os.str().c_str());
 
 	//if it's an error, also print to console
 	//print all messages if using --debug
-	if(messageLevel == LogError || reportingLevel >= LogDebug)
+	if(messageLevel == LogLevel::LogError || reportingLevel >= LogLevel::LogDebug)
 		fprintf(stderr, "%s", os.str().c_str());
 }
