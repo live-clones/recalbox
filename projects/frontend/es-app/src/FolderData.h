@@ -180,6 +180,12 @@ class FolderData : public FileData
      * @return List of filtered items
      */
     int countFilteredItems(Filter filters, bool includefolders) const { return countItems(filters, includefolders); }
+    /*!
+     * Count displayable items (normal + favorites) recursively starting from the current folder
+     * @param includefolders True to include subfolders in the resulting list
+     * @return Number of displayable items
+     */
+    int countAllDisplayableItemsRecursively(bool includefolders) const { return countItems(Filter::Normal | Filter::Favorite, includefolders); }
 
     /*!
      * Get filtered items recursively starting from the current folder

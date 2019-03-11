@@ -229,6 +229,73 @@ void SystemData::launchGame(Window* window, FileData* game, const std::string& n
   game->Metadata().SetLastplayedNow();
 }
 
+void SystemData::demoInitialize(Window& window)
+{
+  LOG(LogInfo) << "Entering demo mode...";
+
+  AudioManager::getInstance()->deinit();
+  VolumeControl::getInstance()->deinit();
+
+  window.deinit();
+}
+
+void SystemData::demoFinalize(Window& window)
+{
+  // Reinit
+  window.init();
+  VolumeControl::getInstance()->init();
+  AudioManager::getInstance()->resumeMusic();
+  window.normalizeNextUpdate();
+}
+
+bool SystemData::demoLaunchGame(FileData* game, int duration)
+{
+  std::string controlersConfig = InputManager::getInstance()->configureEmulators();
+  LOG(LogInfo) << "Controllers config : " << controlersConfig;
+
+  std::string command = mLaunchCommand;
+
+  const std::string rom = escapePath(game->getPath());
+  const std::string basename = game->getPath().stem().string();
+  const std::string rom_raw = fs::path(game->getPath()).make_preferred().string();
+
+  command = strreplace(command, "%ROM%", rom);
+  command = strreplace(command, "%CONTROLLERSCONFIG%", controlersConfig);
+  command = strreplace(command, "%SYSTEM%", game->getSystem()->getName());
+  command = strreplace(command, "%BASENAME%", basename);
+  command = strreplace(command, "%ROM_RAW%", rom_raw);
+  command = strreplace(command, "%EMULATOR%", game->Metadata().Emulator());
+  command = strreplace(command, "%CORE%", game->Metadata().Core());
+  command = strreplace(command, "%RATIO%", game->Metadata().RatioAsString());
+  command = strreplace(command, "%NETPLAY%", "");
+
+  // Add demo stuff
+  command += " -demo 1";
+  command += " -demoduration ";
+  command += std::to_string(duration);
+
+  LOG(LogInfo) << "Demo command: " << command;
+  //std::cout << "	" << command << "\r\n";
+  int exitCode = runSystemCommand(command);
+  LOG(LogInfo) << "Demo exit code :	" << exitCode;
+  //std::cout << "ExitCode :	" << exitCode << "\r\n";
+
+  // Configgen returns an exitcode 0x33 when the user interact with any pad/mouse
+  // this exitcode returns here byte-swapped or shifted. Need further investigation
+  if( exitCode == 0x3300)
+  {
+    LOG(LogInfo) << "Exiting demo upon user request";
+    return true;
+  }
+
+  if( exitCode != 0)
+  {
+    LOG(LogWarning) << "...launch terminated with nonzero exit code " << exitCode << "!";
+  }
+
+  return false;
+}
+
 void SystemData::populateFolder(FolderData *folder, FileData::StringMap& doppelgangerWatcher)
 {
   try

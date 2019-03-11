@@ -29,6 +29,7 @@
 #include "views/ViewController.h"
 #include "VolumeControl.h"
 #include "Window.h"
+#include "DemoMode.h"
 #include "guis/GuiDetectDevice.h"
 #include "guis/GuiInfoPopup.h"
 #include "guis/GuiMsgBox.h"
@@ -46,7 +47,16 @@ namespace fs = boost::filesystem;
 
 bool scrape_cmdline = false;
 
-void playSound(std::string name);
+void playSound(const std::string& name)
+{
+  std::string selectedTheme = Settings::getInstance()->getString("ThemeSet");
+  std::string loadingMusic = RootFolders::DataRootFolder + "/system/.emulationstation/themes/" + selectedTheme +
+                             "/fx/" + name + ".ogg";
+  if (boost::filesystem::exists(loadingMusic))
+  {
+    Music::get(loadingMusic)->play(false, nullptr);
+  }
+}
 
 bool parseArgs(int argc, char* argv[], unsigned int* width, unsigned int* height)
 {
@@ -60,8 +70,9 @@ bool parseArgs(int argc, char* argv[], unsigned int* width, unsigned int* height
         return false;
       }
 
-      *width = atoi(argv[i + 1]);
-      *height = atoi(argv[i + 2]);
+      char* err;
+      *width = (unsigned int)strtol(argv[i + 1], &err, 10);
+      *height = (unsigned int)strtol(argv[i + 2], &err, 10);
       i += 2; // skip the argument value
     }
     else if (strcmp(argv[i], "--ignore-gamelist") == 0)
@@ -88,7 +99,7 @@ bool parseArgs(int argc, char* argv[], unsigned int* width, unsigned int* height
     }
     else if (strcmp(argv[i], "--vsync") == 0)
     {
-      bool vsync = (strcmp(argv[i + 1], "on") == 0 || strcmp(argv[i + 1], "1") == 0) ? true : false;
+      bool vsync = (strcmp(argv[i + 1], "on") == 0 || strcmp(argv[i + 1], "1") == 0);
       Settings::getInstance()->setBool("VSync", vsync);
       i++; // skip vsync value
     }
@@ -98,7 +109,8 @@ bool parseArgs(int argc, char* argv[], unsigned int* width, unsigned int* height
     }
     else if (strcmp(argv[i], "--max-vram") == 0)
     {
-      int maxVRAM = atoi(argv[i + 1]);
+      char* err;
+      int maxVRAM = (int)strtol(argv[i + 1], &err, 10);
       Settings::getInstance()->setInt("MaxVRAM", maxVRAM);
     }
     else if (strcmp(argv[i], "--help") == 0 || strcmp(argv[i], "-h") == 0)
@@ -157,7 +169,7 @@ bool verifyHomeFolderExists()
 // Returns true if everything is OK, 
 bool loadSystemConfigFile(const char** errorString)
 {
-  *errorString = NULL;
+  *errorString = nullptr;
 
   if (!SystemData::loadConfig())
   {
@@ -167,7 +179,7 @@ bool loadSystemConfigFile(const char** errorString)
     return false;
   }
 
-  if (SystemData::sSystemVector.size() == 0)
+  if (SystemData::sSystemVector.empty())
   {
     LOG(LogError)
       << "No systems found! Does at least one system have a game present? (check that extensions match!)\n(Also, make sure you've updated your es_systems.cfg for XML!)";
@@ -292,6 +304,9 @@ int main(int argc, char* argv[])
   }
   #endif
 
+  // Randomize
+  std::srand(std::time(nullptr));
+
   try
   {
     //if ~/.emulationstation doesn't exist and cannot be created, bail
@@ -340,11 +355,11 @@ int main(int argc, char* argv[])
 
     playSound("loading");
 
-    const char* errorMsg = NULL;
+    const char* errorMsg = nullptr;
     if (!loadSystemConfigFile(&errorMsg))
     {
       // something went terribly wrong
-      if (errorMsg == NULL)
+      if (errorMsg == nullptr)
       {
         LOG(LogError) << "Unknown error occured while parsing system config file.";
         if (!scrape_cmdline)
@@ -355,7 +370,8 @@ int main(int argc, char* argv[])
       // we can't handle es_systems.cfg file problems inside ES itself, so display the error message then quit
       window.pushGui(new GuiMsgBox(&window, errorMsg, _("QUIT"), []
       {
-        SDL_Event* quit = new SDL_Event();
+        SDL_Event* quit = nullptr;
+        quit = new SDL_Event();
         quit->type = SDL_QUIT;
         SDL_PushEvent(quit);
       }));
@@ -369,7 +385,7 @@ int main(int argc, char* argv[])
     RecalboxSystem::getInstance()->getIpAdress();
     // UPDATED VERSION MESSAGE
     std::string changelog = RecalboxUpgrade::getInstance()->getChangelog();
-    if (changelog != "")
+    if (!changelog.empty())
     {
       std::string message = "Changes :\n" + changelog;
       window.pushGui(new GuiMsgBoxScroll(&window, _("THE SYSTEM IS UP TO DATE"), message, _("OK"), []
@@ -414,7 +430,7 @@ int main(int argc, char* argv[])
     //ViewController::get()->preload();
 
     //choose which GUI to open depending on if an input configuration already exists
-    if (errorMsg == NULL)
+    if (errorMsg == nullptr)
     {
       if (fs::exists(InputManager::getConfigPath()) && InputManager::getInstance()->getNumConfiguredDevices() > 0)
       {
@@ -442,6 +458,8 @@ int main(int argc, char* argv[])
     bool running = true;
     bool doReboot = false;
     bool doShutdown = false;
+
+    DemoMode demoMode(window);
 
     while (running)
     {
@@ -506,8 +524,14 @@ int main(int argc, char* argv[])
 
       if (window.isSleeping())
       {
+        if (demoMode.hasDemoMode())
+        {
+          demoMode.runDemo();
+        }
+
         lastTime = SDL_GetTicks();
-        SDL_Delay(1); // this doesn't need to be accurate, we're just giving up our CPU time until something wakes us up
+        // this doesn't need to be accurate, we're just giving up our CPU time until something wakes us up
+        SDL_Delay(1);
         continue;
       }
 
@@ -567,13 +591,3 @@ int main(int argc, char* argv[])
   return 0;
 }
 
-void playSound(std::string name)
-{
-  std::string selectedTheme = Settings::getInstance()->getString("ThemeSet");
-  std::string loadingMusic = RootFolders::DataRootFolder + "/system/.emulationstation/themes/" + selectedTheme +
-                             "/fx/" + name + ".ogg";
-  if (boost::filesystem::exists(loadingMusic))
-  {
-    Music::get(loadingMusic)->play(false, NULL);
-  }
-}

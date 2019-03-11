@@ -121,9 +121,10 @@ class SystemData
 	static void writeExampleConfig(const std::string& path);
 
 	static std::vector<SystemData*> sSystemVector;
-	static SystemData *getFavoriteSystem();
+	static SystemData* getFavoriteSystem();
 	static SystemData* getSystem(std::string& name);
 	static int getSystemIndex(const std::string& name);
+	static const std::vector<SystemData*>& getAllSystems() { return sSystemVector; }
 
 	inline std::vector<SystemData*>::const_iterator getIterator() const { return std::find(sSystemVector.begin(), sSystemVector.end(), this); };
 	inline std::vector<SystemData*>::const_reverse_iterator getRevIterator() const { return std::find(sSystemVector.rbegin(), sSystemVector.rend(), this); };
@@ -152,4 +153,8 @@ class SystemData
 
   static std::string getUserConfigurationAbsolutePath()     { return RootFolders::DataRootFolder     + "/system/.emulationstation/es_systems.cfg"; }
   static std::string getTemplateConfigurationAbsolutePath() { return RootFolders::TemplateRootFolder + "/system/.emulationstation/es_systems.cfg"; }
+
+  void demoInitialize(Window& window);
+  void demoFinalize(Window& window);
+  bool demoLaunchGame(FileData* game, int duration);
 };
