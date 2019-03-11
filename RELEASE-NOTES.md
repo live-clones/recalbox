@@ -24,6 +24,7 @@
 - Add support for Mayflash GameCube adapter
 - Add 7z file support for many libretro cores
 - Add overlay possibility for advmame core
+- Add new Screensaver "DEMO" to play continuously random games
 
 ### Improvements
 - KODI updated to 17.6

@@ -62,6 +62,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Bump ScummVM/ResidualVM (January 2019)
 - Bump almost all libretro cores
 - Package names updated (catsfc -> snes9x2005, pocketsnes -> snes9x2002, snes9x_next -> snes9x2010, pce -> mednafen_pce_fast, vb -> mednafen_vb, imame -> mame2000, mame2003 as core name instead of mame078, fbalpha instead of fba)
+- Improved log formatting 
 
 ## [18.07.13] - 2018-07-13
 - Bump desmume to desmume2015
