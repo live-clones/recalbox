@@ -374,10 +374,9 @@ SystemData *createSystem(const SystemData::Tree &system)
       }
 
       // if there appears to be an actual platform ID supplied but it didn't match the list, warn
-      if (str != nullptr && str[0] != '\0' && platformId == PlatformIds::PLATFORM_UNKNOWN)
+      if ((str != nullptr) && (str[0] != '\0') && (platformId == PlatformIds::PLATFORM_UNKNOWN))
       {
-        LOG(LogWarning) << "  Unknown platform for system \"" << name << "\" (platform \"" << str << "\" from list \""
-                        << platformList << "\")";
+        LOG(LogWarning) << "  Unknown platform for system \"" << name << "\" (platform \"" << str << "\" from list \"" << platformList << "\")";
       }
       else if (platformId != PlatformIds::PLATFORM_UNKNOWN)
         platformIds.push_back(platformId);

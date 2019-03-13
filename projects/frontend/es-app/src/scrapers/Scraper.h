@@ -18,6 +18,12 @@ struct ScraperSearchParams
 	std::string nameOverride;
 };
 
+enum class ScraperImageType
+{
+	Jpeg,
+	Png,
+};
+
 struct ScraperSearchResult
 {
 	ScraperSearchResult() : mdl("no-name", ItemType::Game) {};
@@ -25,6 +31,8 @@ struct ScraperSearchResult
 	MetadataDescriptor mdl;
 	std::string imageUrl;
 	std::string thumbnailUrl;
+	ScraperImageType imageType;
+	ScraperImageType thumbnailType;
 };
 
 // So let me explain why I've abstracted this so heavily.
