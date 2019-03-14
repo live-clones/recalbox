@@ -23,7 +23,8 @@ set(CORE_HEADERS
 	${CMAKE_CURRENT_SOURCE_DIR}/src/MenuThemeData.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/Util.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/VideoEngine.h
-	${CMAKE_CURRENT_SOURCE_DIR}/src/StringUtils.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/utils/StringUtil.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/utils/FileSystemUtil.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/Window.h
 
         # Utils
@@ -104,7 +105,8 @@ set(CORE_SOURCES
 	${CMAKE_CURRENT_SOURCE_DIR}/src/MenuThemeData.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/Util.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/VideoEngine.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/src/StringUtils.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/utils/StringUtil.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/utils/FileSystemUtil.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/Window.cpp
 
         # Utils
