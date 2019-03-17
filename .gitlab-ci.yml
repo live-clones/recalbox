@@ -170,12 +170,12 @@ release prod:
     DEPLOY_TYPE: prod
     SKIP_IMAGES: 'false'
     BUCKET: recalbox-releases
-    BUCKET_PATH: ''
+    BUCKET_PATH: 'stable'
   only:
     - master
   environment:
     name: prod
-    url: https://recalbox-releases.s3.nl-ams.scw.cloud/index.html
+    url: https://recalbox-releases.s3.nl-ams.scw.cloud/stable/index.html
 
 release review:
   <<: *release_definition
