@@ -383,7 +383,7 @@ class ConfigGenerator:
             self.settings.setOption("cd32c2p", "true")
             self.settings.setOption("cd32nvram", "true")
             if cdpath:
-                self.settings.setOption("cdimage0", cdpath)
+                self.settings.setOption("cdimage0", cdpath + ",image")
         elif subsystem == SubSystems.CDTV:
             if cdpath:
                 self.settings.setOption("cdimage0", cdpath + ",image")
