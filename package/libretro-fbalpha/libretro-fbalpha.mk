@@ -3,7 +3,7 @@
 # FBALPHA
 #
 ################################################################################
-LIBRETRO_FBALPHA_VERSION = 5920da6209b78a810a047ead02adcc6905c2bfc5
+LIBRETRO_FBALPHA_VERSION = 976369ea2d866bae5e887f966fa49ebba40bbbdf
 LIBRETRO_FBALPHA_SITE = $(call github,libretro,fbalpha,$(LIBRETRO_FBALPHA_VERSION))
 
 ifeq ($(BR2_ARM_CPU_HAS_NEON),y)
