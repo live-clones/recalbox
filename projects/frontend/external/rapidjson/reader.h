@@ -1775,6 +1775,9 @@ private:
             }
         }
 
+        case IterativeParsingStartState:
+        case IterativeParsingFinishState:
+        case IterativeParsingValueState:
         default:
             // This branch is for IterativeParsingValueState actually.
             // Use `default:` rather than
@@ -1814,6 +1817,11 @@ private:
         case IterativeParsingKeyValueDelimiterState:
         case IterativeParsingArrayInitialState:
         case IterativeParsingElementDelimiterState: RAPIDJSON_PARSE_ERROR(kParseErrorValueInvalid, is.Tell()); return;
+        case IterativeParsingErrorState:
+        case IterativeParsingObjectFinishState:
+        case IterativeParsingElementState:
+        case IterativeParsingArrayFinishState:
+        case IterativeParsingValueState:
         default: RAPIDJSON_ASSERT(src == IterativeParsingElementState); RAPIDJSON_PARSE_ERROR(kParseErrorArrayMissCommaOrSquareBracket, is.Tell()); return;
         }
     }

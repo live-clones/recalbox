@@ -193,8 +193,8 @@ void ScreenScraperRequest::processGame(const pugi::xml_document& xmldoc, std::ve
 		ScraperSearchResult result;
 		ScreenScraperRequest::ScreenScraperConfig ssConfig;
 
-		std::string region = Utils::String::toLower(ssConfig.region);
-		std::string language = Utils::String::toLower(ssConfig.language);
+		std::string region = StringUtil::toLower(ssConfig.region);
+		std::string language = StringUtil::toLower(ssConfig.language);
     std::vector<std::string> regions = { region, "us", "eu", "jp", "wor", "ss" };
 
 		// Name fallback: US, WOR(LD). ( Xpath: Data/jeu[0]/noms/nom[*] ). 
@@ -204,7 +204,7 @@ void ScreenScraperRequest::processGame(const pugi::xml_document& xmldoc, std::ve
 		std::string description = find_child_by_attribute_list(game.child("synopsis"), "synopsis", "langue", { language, "en", "wor" }).text().get();
 
 		if (!description.empty()) {
-			result.mdl.SetDescription(Utils::String::replace(description, "&nbsp;", " "));
+			result.mdl.SetDescription(StringUtil::replace(description, "&nbsp;", " "));
 		}
 
 		// Genre fallback language: EN. ( Xpath: Data/jeu[0]/genres/genre[*] )
@@ -226,12 +226,12 @@ void ScreenScraperRequest::processGame(const pugi::xml_document& xmldoc, std::ve
 		/// Developer for the game( Xpath: Data/jeu[0]/developpeur )
 		std::string developer = game.child("developpeur").text().get();
 		if (!developer.empty())
-			result.mdl.SetDeveloper(Utils::String::replace(developer, "&nbsp;", " "));
+			result.mdl.SetDeveloper(StringUtil::replace(developer, "&nbsp;", " "));
 
 		// Publisher for the game ( Xpath: Data/jeu[0]/editeur )
 		std::string publisher = game.child("editeur").text().get();
 		if (!publisher.empty())
-			result.mdl.SetPublisher(Utils::String::replace(publisher, "&nbsp;", " "));
+			result.mdl.SetPublisher(StringUtil::replace(publisher, "&nbsp;", " "));
 
 		// Players
 		result.mdl.SetPlayCountAsString(game.child("joueurs").text().get());
@@ -275,12 +275,12 @@ void ScreenScraperRequest::processGame(const pugi::xml_document& xmldoc, std::ve
 			{
 				// Sending a 'softname' containing space will make the image URLs returned by the API also contain the space. 
 				//  Escape any spaces in the URL here
-				result.imageUrl = Utils::String::replace(art.text().get(), " ", "%20");
+				result.imageUrl = StringUtil::replace(art.text().get(), " ", "%20");
         // Ask for the same image, but with a smaller size, for the thumbnail displayed during scraping
         result.thumbnailUrl = result.imageUrl + "&maxheight=250";
 
 				// Get the media type returned by ScreenScraper
-				std::string media_type = Utils::String::toLower(art.attribute("format").value());
+				std::string media_type = StringUtil::toLower(art.attribute("format").value());
 				ScraperImageType type = ScraperImageType::Jpeg; // default value
 				if (media_type == "png")
           type = ScraperImageType::Png; // default value
