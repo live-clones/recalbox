@@ -164,7 +164,7 @@ class LibretroRetroarch:
         settings.setOption("input_libretro_device_p1", self.CORE_TO_PLAYER1_DEVICE[core] if core in self.CORE_TO_PLAYER1_DEVICE else "1")
         settings.setOption("input_libretro_device_p2", self.CORE_TO_PLAYER2_DEVICE[core] if core in self.CORE_TO_PLAYER2_DEVICE else "1")
         # Special cases
-        if len(self.controllers) > 2 and self.system.config['core'] == 'snes9x_next':
+        if len(self.controllers) > 2 and self.system.config['core'] == 'snes9x2010':
             settings.setOption("input_libretro_device_p2", "257")
 
         # Retroachievements
