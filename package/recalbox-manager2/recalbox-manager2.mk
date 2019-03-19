@@ -3,8 +3,10 @@
 # RECALBOX_MANAGER2
 #
 ################################################################################
-RECALBOX_MANAGER2_VERSION = v2.2.2
-RECALBOX_MANAGER2_SITE = git://github.com/DjLeChuck/recalbox-manager
+RECALBOX_MANAGER2_VERSION = 21df0a9b02df644cc17a700c913983fc9b2978e5
+#RECALBOX_MANAGER2_SITE = $(call gitlab,recalbox,recalbox-manager,$(RECALBOX_MANAGER2_VERSION))
+RECALBOX_MANAGER2_SITE = https://gitlab.com/recalbox/recalbox-manager.git
+RECALBOX_MANAGER2_SITE_METHOD = git
 
 RECALBOX_MANAGER2_DEPENDENCIES = nodejs
 
