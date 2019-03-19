@@ -140,8 +140,8 @@ private:
 	int mMaxHeight;
 };
 
-//About the same as "~/.emulationstation/downloaded_images/[system_name]/[game_name].[url's extension]".
-//Will create the "downloaded_images" and "subdirectory" directories if they do not exist.
+//About the same as "~/.emulationstation/media/images/[system_name]/[game_name].[url's extension]".
+//Will create the "media/images" and "subdirectory" directories if they do not exist.
 std::string getSaveAsPath(const ScraperSearchParams& params, const std::string& suffix, const std::string& url);
 
 //Will resize according to Settings::getInt("ScraperResizeWidth") and Settings::getInt("ScraperResizeHeight").

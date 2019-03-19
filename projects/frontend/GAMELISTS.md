@@ -15,7 +15,7 @@ An example gamelist.xml:
 		<path>/home/pi/ROMs/nes/mm2.nes</path>
 		<name>Mega Man 2</name>
 		<desc>Mega Man 2 is a classic NES game which follows Mega Man as he murders eight robot masters in cold blood.</desc>
-		<image>~/.emulationstation/downloaded_images/nes/Mega Man 2-image.png</image>
+		<image>~/.emulationstation/media/images/nes/Mega Man 2-image.png</image>
 	</game>
 </gameList>
 ```
@@ -31,7 +31,7 @@ Reference
 There are a few types of metadata:
 
 * `string` - just text.
-* `image_path` - a path to an image. This path should be either the absolute to the image, a path relative to the system games folder that starts with "./" (e.g. `./mm2_image.png`), or a path relative to the home directory that starts with "~/" (e.g. `~/.emulationstation/downloaded_images/nes/mm2-image.png`).  Images will be automatically resized by OpenGL to fit the corresponding `<image>` tag in the current theme.  Smaller images will load faster, so try to keep resolution low!
+* `image_path` - a path to an image. This path should be either the absolute to the image, a path relative to the system games folder that starts with "./" (e.g. `./mm2_image.png`), or a path relative to the home directory that starts with "~/" (e.g. `~/.emulationstation/media/images/nes/mm2-image.png`).  Images will be automatically resized by OpenGL to fit the corresponding `<image>` tag in the current theme.  Smaller images will load faster, so try to keep resolution low!
 * `float` - a floating-point decimal value (written as a string).
 * `integer` - an integer value (written as a string).
 * `datetime` - a date and, potentially, a time.  These are encoded as an ISO string, in the following format: "%Y%m%dT%H%M%S%F%q".  For example, the release date for Chrono Trigger is encoded as "19950311T000000" (no time specified).

@@ -281,10 +281,10 @@ std::string getSaveAsPath(const ScraperSearchParams& params, const std::string& 
 	const std::string name = params.game->getPath().stem().generic_string() + "-" + suffix;
 
 	// default dir in rom directory
-	std::string path = params.system->getRootFolder()->getPath().generic_string() + "/downloaded_images/";
+	std::string path = params.system->getRootFolder()->getPath().generic_string() + "/media/images/";
 	if(!boost::filesystem::exists(path) && !boost::filesystem::create_directory(path)){
 		// Unable to create the directory in system rom dir, fallback on ~
-		path = RootFolders::DataRootFolder + "/system/.emulationstation/downloaded_images/" + subdirectory + "/";
+		path = RootFolders::DataRootFolder + "/system/.emulationstation/media/images/" + subdirectory + "/";
 	}
 
 	if(!boost::filesystem::exists(path))
