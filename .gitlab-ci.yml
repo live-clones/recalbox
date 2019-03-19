@@ -172,7 +172,7 @@ release prod:
     BUCKET: recalbox-releases
     BUCKET_PATH: 'stable'
   only:
-    - master
+    - tags
   environment:
     name: prod
     url: https://recalbox-releases.s3.nl-ams.scw.cloud/stable/index.html
