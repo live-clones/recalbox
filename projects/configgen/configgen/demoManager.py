@@ -1,28 +1,54 @@
 #!/usr/bin/env python
-import pygame
 import threading
 import time
 import os
 import signal
+import fcntl
+import struct
 
-class UserAnyInput:
+class InputEventManager:
+
+    EVENT_FORMAT = "llHHI"
+    EVENT_SIZE   = struct.calcsize(EVENT_FORMAT)
 
     def __init__(self):
-        pygame.init()
-        pygame.joystick.init()
-        joysticks = [pygame.joystick.Joystick(x) for x in range(pygame.joystick.get_count())]
-        for joystick in joysticks:
-            joystick.init()
+        self.inputFiles = []
+        for i in range(0,9):
+            fileName = "/dev/input/event" + str(i)
+            if os.path.exists(fileName):
+                fileDescriptor = open(fileName, "rb")
+                # Configure the NON blocking I/O
+                fcntl.fcntl(fileDescriptor, fcntl.F_SETFL, fcntl.fcntl(fileDescriptor, fcntl.F_GETFL) | os.O_NONBLOCK)
+                self.inputFiles.append(fileDescriptor)
 
-    def __del__(self):
-        pygame.joystick.quit()
-        pygame.quit()
+    def __exit__(self):
+        for f in self.inputFiles:
+            f.close()
 
-    def hasUserInput(self):
-        # return true if any key or any button of any pad/mouse has been released
-        for event in pygame.event.get():
-            if event.type in (pygame.JOYBUTTONUP, pygame.MOUSEBUTTONUP, pygame.MOUSEMOTION, pygame.KEYUP):
-                return True
+    def getEvent(self, fileDescriptor):
+        try:
+            return fileDescriptor.read(self.EVENT_SIZE)
+        except IOError:
+            return None
+
+    def hasUserEvent(self):
+        for fileDescriptor in self.inputFiles:
+            event = self.getEvent(fileDescriptor)
+            while event:
+                (_, _, eventType, eventCode, eventValue) = struct.unpack(self.EVENT_FORMAT, event)
+                # mouse button UP or keyboard's key UP or pad button UP
+                if eventType == 1 and eventValue == 0:
+                    return True
+                # mouse move
+                if eventType == 2 and eventCode in (0, 1):
+                    return True
+                # dpad returned in neutral position
+                if eventType == 3 and eventValue == 0:
+                    return True
+                # do not check analog joysticks since they may generate unexpected micro-moves events
+                #if eventType != 0 or eventCode != 0 or eventValue != 0:
+                #    print("Type {} - Code {} - Value {}".format(eventType, eventCode, eventValue))
+                event = self.getEvent(fileDescriptor)
         return False
 
 
@@ -30,7 +56,7 @@ class DemoTimer(threading.Thread):
 
     def __init__(self, proc, duration):
         threading.Thread.__init__(self)
-        self.inputs = UserAnyInput()
+        self.inputs = InputEventManager()
         self.duration = duration
         self.userQuit = False
         self.proc = proc
@@ -48,7 +74,7 @@ class DemoTimer(threading.Thread):
             duration -= 1
             time.sleep(refresh)
             # User action?
-            if self.inputs.hasUserInput():
+            if self.inputs.hasUserEvent():
                 self.userQuit = True
                 print("Demo mode ends upon user request")
                 break
@@ -57,7 +83,11 @@ class DemoTimer(threading.Thread):
                 print("Emulator quitted prematurely")
                 break
 
-        self.proc.terminate()
+        try:
+            self.proc.terminate()
+        except OSError:
+            pass
+
         # Wait for the process to quit
         if self.proc.poll() is None:
             duration = 10 * int(1.0 / refresh) # 10 seconds waiting for process death
@@ -68,7 +98,10 @@ class DemoTimer(threading.Thread):
                     break
             # Still alive?
             if self.proc.poll() is None:
-                os.kill(self.proc.pid, signal.SIGKILL)
+                try:
+                    os.kill(self.proc.pid, signal.SIGKILL)
+                except OSError:
+                    pass
 
 
 class DemoManager:
