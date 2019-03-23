@@ -23,7 +23,7 @@ std::shared_ptr<AudioManager> AudioManager::sInstance;
 
 
 AudioManager::AudioManager()
-  : currentMusic(NULL),
+  : currentMusic(nullptr),
     running(0)
 {
   init();
@@ -74,7 +74,7 @@ void AudioManager::deinit()
   //stop();
   //completely tear down SDL audio. else SDL hogs audio resources and emulators might fail to start...
   LOG(LogInfo) << "Shutting down SDL AUDIO";
-  Mix_HookMusicFinished(NULL);
+  Mix_HookMusicFinished(nullptr);
   Mix_HaltMusic();
   Mix_CloseAudio();
   SDL_QuitSubSystem(SDL_INIT_AUDIO);
@@ -85,7 +85,7 @@ void AudioManager::stopMusic()
 {
   Mix_FadeOutMusic(1000);
   Mix_HaltMusic();
-  currentMusic = NULL;
+  currentMusic = nullptr;
 }
 
 void musicEndInternal()
@@ -100,7 +100,7 @@ void AudioManager::themeChanged(const std::shared_ptr<ThemeData>& theme)
     const ThemeData::ThemeElement* elem = theme->getElement("system", "directory", "sound");
     if (!elem || !elem->has("path"))
     {
-      currentThemeMusicDirectory = "";
+      currentThemeMusicDirectory.clear();
     }
     else
     {
@@ -114,7 +114,7 @@ void AudioManager::themeChanged(const std::shared_ptr<ThemeData>& theme)
     {
       runningFromPlaylist = false;
       stopMusic();
-      bgsound->play(true, NULL);
+      bgsound->play(true, nullptr);
       currentMusic = bgsound;
       return;
     }
@@ -160,9 +160,9 @@ void AudioManager::playRandomMusic()
 void AudioManager::resumeMusic()
 {
   this->init();
-  if (currentMusic != NULL && RecalboxConf::getInstance()->get("audio.bgmusic") == "1")
+  if (currentMusic != nullptr && RecalboxConf::getInstance()->get("audio.bgmusic") == "1")
   {
-    currentMusic->play(runningFromPlaylist ? false : true, runningFromPlaylist ? musicEndInternal : NULL);
+    currentMusic->play(runningFromPlaylist ? false : true, runningFromPlaylist ? musicEndInternal : nullptr);
   }
 }
 
@@ -270,14 +270,14 @@ std::shared_ptr<Music> AudioManager::getRandomMusic(std::string themeSoundDirect
   if (musics.empty())
   {
     //  Check in theme sound directory
-    if (themeSoundDirectory != "")
+    if (!themeSoundDirectory.empty())
     {
       musics = getMusicIn(themeSoundDirectory);
-      if (musics.empty()) { return NULL; }
+      if (musics.empty()) { return nullptr; }
     }
-    else { return NULL; }
+    else { return nullptr; }
   }
-  srand(time(NULL) % getpid() + getppid());
+  srand(time(nullptr) % getpid() + getppid());
   int randomIndex = rand() % musics.size();
   std::shared_ptr<Music> bgsound = Music::get(musics.at(randomIndex));
   return bgsound;
@@ -304,6 +304,6 @@ void AudioManager::playCheckSound()
 
   if (boost::filesystem::exists(loadingMusic))
   {
-    Music::get(loadingMusic)->play(false, NULL);
+    Music::get(loadingMusic)->play(false, nullptr);
   }
 }

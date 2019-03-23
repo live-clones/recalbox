@@ -4,10 +4,10 @@
 #include "Renderer.h"
 #include "resources/Font.h"
 
-std::shared_ptr<MenuThemeData> MenuThemeData::sInstance = NULL;
+std::shared_ptr<MenuThemeData> MenuThemeData::sInstance = nullptr;
 
 std::shared_ptr<MenuThemeData> MenuThemeData::getInstance() {
-	if (sInstance == NULL || Settings::getInstance()->getBool("ThemeChanged"))
+	if (sInstance == nullptr || Settings::getInstance()->getBool("ThemeChanged"))
 		sInstance = std::shared_ptr<MenuThemeData>(new MenuThemeData());
 	return sInstance;
 }

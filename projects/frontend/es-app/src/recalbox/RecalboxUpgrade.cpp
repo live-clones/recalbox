@@ -5,10 +5,10 @@
 #include <boost/algorithm/string/replace.hpp>
 
 
-RecalboxUpgrade *RecalboxUpgrade::instance = NULL;
+RecalboxUpgrade *RecalboxUpgrade::instance = nullptr;
 
 RecalboxUpgrade *RecalboxUpgrade::getInstance() {
-    if (RecalboxUpgrade::instance == NULL) {
+    if (RecalboxUpgrade::instance == nullptr) {
         RecalboxUpgrade::instance = new RecalboxUpgrade();
     }
     return RecalboxUpgrade::instance;
@@ -65,7 +65,7 @@ std::pair<std::string, int> RecalboxUpgrade::updateSystem(BusyComponent* ui) {
     std::string updatecommand = Settings::getInstance()->getString("RecalboxUpgradeScript") + " upgrade";
     FILE *pipe = popen(updatecommand.c_str(), "r");
     char line[1024] = "";
-    if (pipe == NULL) {
+    if (pipe == nullptr) {
         return std::pair<std::string, int>(std::string("Cannot call upgrade command"), -1);
     }
     while (fgets(line, 1024, pipe)) {

@@ -23,7 +23,7 @@ namespace Renderer {
 	{
 		unsigned int colorGl;
 		setColor4bArray((GLubyte*)&colorGl, color);
-		for(unsigned int i = 0; i < vertCount; i++)
+		for (unsigned int i = 0; i < vertCount; i++)
 		{
 			((GLuint*)ptr)[i] = colorGl;
 		}

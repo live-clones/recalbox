@@ -14,7 +14,7 @@ namespace fs = boost::filesystem;
 
 FolderData::~FolderData()
 {
-  for(FileData* fd : mChildren)
+  for (FileData* fd : mChildren)
   {
     delete fd;
   }
@@ -23,7 +23,7 @@ FolderData::~FolderData()
 
 void FolderData::addChild(FileData* file, bool lukeImYourFather)
 {
-  assert(file->getParent() == NULL || !lukeImYourFather);
+  assert(file->getParent() == nullptr || !lukeImYourFather);
 
   mChildren.push_back(file);
   if (lukeImYourFather)
@@ -32,7 +32,7 @@ void FolderData::addChild(FileData* file, bool lukeImYourFather)
 
 void FolderData::removeChild(FileData* file)
 {
-  for(auto it = mChildren.begin(); it != mChildren.end(); it++)
+  for (auto it = mChildren.begin(); it != mChildren.end(); it++)
     if(*it == file)
     {
       mChildren.erase(it);
@@ -71,7 +71,7 @@ void FolderData::populateRecursiveFolder(const std::string& filteredExtensions, 
   // Keep temporary object outside the loop to avoid construction/destruction and keep memory allocated AMAP
   fs::path filePath;
   std::string extension, key, stem;
-  for(fs::directory_iterator end, dir(folderPath); dir != end; ++dir)
+  for (fs::directory_iterator end, dir(folderPath); dir != end; ++dir)
   {
     filePath = (*dir).path();
     stem = filePath.stem().string();
@@ -131,7 +131,7 @@ void FolderData::populateRecursiveFolder(const std::string& filteredExtensions, 
 int FolderData::getItemsRecursively(FileData::List& to, Filter includes, bool includefolders) const
 {
   int gameCount = 0;
-  for(FileData* fd : mChildren)
+  for (FileData* fd : mChildren)
   {
     if (fd->isFolder())
     {
@@ -159,7 +159,7 @@ int FolderData::getItemsRecursively(FileData::List& to, Filter includes, bool in
 int FolderData::countItemsRecursively(Filter includes, bool includefolders) const
 {
   int result = 0;
-  for(FileData* fd : mChildren)
+  for (FileData* fd : mChildren)
   {
     if (fd->isFolder())
     {
@@ -185,7 +185,7 @@ int FolderData::countItemsRecursively(Filter includes, bool includefolders) cons
 int FolderData::getItems(FileData::List& to, Filter includes, bool includefolders) const
 {
   int gameCount = 0;
-  for(FileData* fd : mChildren)
+  for (FileData* fd : mChildren)
   {
     if (fd->isFolder())
     {
@@ -231,7 +231,7 @@ int FolderData::getItems(FileData::List& to, Filter includes, bool includefolder
 int FolderData::countItems(Filter includes, bool includefolders) const
 {
   int result = 0;
-  for(FileData* fd : mChildren)
+  for (FileData* fd : mChildren)
   {
     if (fd->isFolder())
     {
@@ -273,7 +273,7 @@ int FolderData::countItems(Filter includes, bool includefolders) const
 
 bool FolderData::hasDetailedData() const
 {
-  for(FileData* fd : mChildren)
+  for (FileData* fd : mChildren)
   {
     if (fd->isFolder())
     {
@@ -325,14 +325,14 @@ FileData* FolderData::LookupGame(const std::string& item, SearchAttributes attri
       }
     }
   }
-  return NULL;
+  return nullptr;
 }
 
 FileData* FolderData::GetNextFavoriteTo(FileData* reference)
 {
   // Look for position index. If not found, start from the begining
   int position = 0;
-  for(int i = (int)mChildren.size(); --i >= 0; )
+  for (int i = (int)mChildren.size(); --i >= 0; )
     if (mChildren[i] == reference)
     {
       position = i;
@@ -340,11 +340,11 @@ FileData* FolderData::GetNextFavoriteTo(FileData* reference)
     }
 
   // Look forward
-  for(int i = position; i < (int)mChildren.size(); i++)
+  for (int i = position; i < (int)mChildren.size(); i++)
     if (mChildren[i]->Metadata().Favorite())
       return mChildren[i];
   // Look backward
-  for(int i = position; --i >= 0; )
+  for (int i = position; --i >= 0; )
     if (mChildren[i]->Metadata().Favorite())
       return mChildren[i];
 

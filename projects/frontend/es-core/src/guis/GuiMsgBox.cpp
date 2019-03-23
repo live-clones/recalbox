@@ -40,11 +40,11 @@ GuiMsgBox::GuiMsgBox(Window* window, const std::string& text,
 	{
 		mAcceleratorFunc = mButtons.front()->getPressedFunc();
 	}else{
-		for(auto it = mButtons.begin(); it != mButtons.end(); it++)
+		for (auto& button : mButtons)
 		{
-			if(strToUpper((*it)->getText()) == "OK" || strToUpper((*it)->getText()) == "NO")
+			if(strToUpper(button->getText()) == "OK" || strToUpper(button->getText()) == "NO")
 			{
-				mAcceleratorFunc = (*it)->getPressedFunc();
+				mAcceleratorFunc = button->getPressedFunc();
 				break;
 			}
 		}

@@ -164,7 +164,7 @@ void GuiMenu::createInputTextRow(GuiSettings *gui, std::string title, const char
 
   std::shared_ptr<GuiComponent> ed;
 
-  ed = std::make_shared<TextComponent>(window, ((password && RecalboxConf::getInstance()->get(settingsID) != "") ?
+  ed = std::make_shared<TextComponent>(window, ((password && !RecalboxConf::getInstance()->get(settingsID).empty()) ?
       "*********" : RecalboxConf::getInstance()->get(settingsID)),
       mMenuTheme->menuText.font, mMenuTheme->menuText.color, ALIGN_RIGHT);
   row.addElement(ed, true);
@@ -229,17 +229,18 @@ void GuiMenu::menuSystem(){
   if (selectedStorage == "NETWORK") {
     optionsStorage->add("NETWORK", "NETWORK", true);
   }
-  for (auto it = availableStorage.begin(); it != availableStorage.end(); it++) {
-    if ((*it) != "RAM") {
-      if (boost::starts_with((*it), "DEV")) {
+  for (auto& it : availableStorage)
+  {
+    if (it != "RAM") {
+      if (boost::starts_with(it, "DEV")) {
         std::vector<std::string> tokens;
-        boost::split(tokens, (*it), boost::is_any_of(" "));
+        boost::split(tokens, it, boost::is_any_of(" "));
         if (tokens.size() >= 3) {
-          optionsStorage->add(tokens.at(2), (*it),
+          optionsStorage->add(tokens.at(2), it,
               selectedStorage == std::string("DEV " + tokens.at(1)));
         }
       } else {
-        optionsStorage->add((*it), (*it), selectedStorage == (*it));
+        optionsStorage->add(it, it, selectedStorage == it);
       }
     }
   }
@@ -336,7 +337,7 @@ void GuiMenu::menuUpdates(){
     // Display available update changelog
     updateGui->addSubMenu(_("UPDATE CHANGELOG"), [this] {
       std::string changelog = RecalboxUpgrade::getInstance()->getUpdateChangelog();
-      if (changelog != "") {
+      if (!changelog.empty()) {
         std::string message = changelog;
         std::string updateVersion = RecalboxUpgrade::getInstance()->getUpdateVersion();
         mWindow->displayScrollMessage(_("AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"),
@@ -358,7 +359,7 @@ void GuiMenu::menuUpdates(){
       _("UPDATE TYPE"), false);
   std::string updatesType = RecalboxConf::getInstance()->get("updates.type");
   // Stable or nothing
-  if (updatesType == "" || updatesType == "beta" || updatesType == "unstable") {
+  if (updatesType.empty() || updatesType == "beta" || updatesType == "unstable") {
     updatesType = "stable";
   }
   updatesTypeComp->add("stable", "stable", updatesType == "stable");
@@ -498,7 +499,7 @@ void GuiMenu::menuGameSettings(){
               [netplay_enabled, mitm_choices] {
                 std::string mitm = mitm_choices->getSelected();
                 if (mitm == "none") {
-                  mitm = "";
+                  mitm.clear();
                 }
                 RecalboxConf::getInstance()->set("global.netplay", netplay_enabled->getState() ? "1" : "0");
                 RecalboxConf::getInstance()->set("global.netplay.relay", mitm);
@@ -558,7 +559,7 @@ void GuiMenu::menuControllers() {
       window->pushGui(
           new GuiMsgBox(window, paired ? _("CONTROLLER PAIRED") : _("UNABLE TO PAIR CONTROLLER"), _("OK")));
       };
-      if (controllers == NULL) {
+      if (controllers == nullptr) {
         window->pushGui(new GuiMsgBox(window, _("AN ERROR OCCURED"), _("OK")));
       } else {
         std::vector<std::string> *resolvedControllers = ((std::vector<std::string> *) controllers);
@@ -678,10 +679,10 @@ void GuiMenu::menuControllers() {
     }
     if (configuratedName.compare("") == 0 || !found) {
       LOG(LogWarning) << "adding default entry for player " << player << "(selected : true)";
-      inputOptionList->add("default", NULL, true);
+      inputOptionList->add("default", nullptr, true);
     } else {
       LOG(LogWarning) << "adding default entry for player" << player << "(selected : false)";
-      inputOptionList->add("default", NULL, false);
+      inputOptionList->add("default", nullptr, false);
     }
 
     // ADD default config
@@ -705,7 +706,7 @@ void GuiMenu::menuControllers() {
         Settings::getInstance()->setString(confName, name);
         Settings::getInstance()->setString(confGuid, "");
       } else {
-        if (input_p1->getSelected() != NULL) {
+        if (input_p1->getSelected() != nullptr) {
           LOG(LogWarning) << "Found the selected controller ! : name in list  = " << selectedName;
           LOG(LogWarning) << "Found the selected controller ! : guid  = " << input_p1->getSelected()->deviceGUIDString;
 
@@ -853,10 +854,10 @@ void GuiMenu::menuUISettings(){
     ViewController::get()->goToStart();
     window->renderShutdownScreen();
     delete ViewController::get();
-    for (auto systems = SystemData::sSystemVector.begin(); systems != SystemData::sSystemVector.end(); systems++)
-      (*systems)->loadTheme();
+    for (auto& systems : SystemData::sSystemVector)
+      systems->loadTheme();
     GuiComponent *gui;
-    while ((gui = window->peekGui()) != NULL) {
+    while ((gui = window->peekGui()) != nullptr) {
       window->removeGui(gui);
     }
     delete gui;
@@ -866,7 +867,7 @@ void GuiMenu::menuUISettings(){
     ViewController::get()->goToStart();
     MenuThemeData::getInstance();
     auto transi = ThemeData::getCurrent()->getTransition();
-    if (transi != "")
+    if (!transi.empty())
       Settings::getInstance()->setString("TransitionStyle", transi);
     Settings::getInstance()->setBool("ThemeChanged", false);
   };
@@ -1026,17 +1027,17 @@ void GuiMenu::menuUISettings(){
 
     themeconfig->addSaveFunc([this, window, theme_set, theme_colorset, theme_iconset, theme_menu, theme_systemview, theme_gamelistview, theme_region, ReloadAll] {
       bool needReload = false;
-      if (Settings::getInstance()->getString("ThemeColorSet") != theme_colorset->getSelected() && theme_colorset->getSelected() != "")
+      if (Settings::getInstance()->getString("ThemeColorSet") != theme_colorset->getSelected() && !theme_colorset->getSelected().empty())
         needReload = true;
-      if (Settings::getInstance()->getString("ThemeIconSet") != theme_iconset->getSelected() && theme_iconset->getSelected() != "")
+      if (Settings::getInstance()->getString("ThemeIconSet") != theme_iconset->getSelected() && !theme_iconset->getSelected().empty())
         needReload = true;
-      if (Settings::getInstance()->getString("ThemeMenu") != theme_menu->getSelected() && theme_menu->getSelected() != "")
+      if (Settings::getInstance()->getString("ThemeMenu") != theme_menu->getSelected() && !theme_menu->getSelected().empty())
         needReload = true;
-      if (Settings::getInstance()->getString("ThemeSystemView") != theme_systemview->getSelected() && theme_systemview->getSelected() != "")
+      if (Settings::getInstance()->getString("ThemeSystemView") != theme_systemview->getSelected() && !theme_systemview->getSelected().empty())
         needReload = true;
-      if (Settings::getInstance()->getString("ThemeGamelistView") != theme_gamelistview->getSelected() && theme_gamelistview->getSelected() != "")
+      if (Settings::getInstance()->getString("ThemeGamelistView") != theme_gamelistview->getSelected() && !theme_gamelistview->getSelected().empty())
         needReload = true;
-      if (Settings::getInstance()->getString("ThemeRegionName") != theme_region->getSelected() && theme_region->getSelected() != "")
+      if (Settings::getInstance()->getString("ThemeRegionName") != theme_region->getSelected() && !theme_region->getSelected().empty())
         needReload = true;
 
       if (needReload){
@@ -1069,7 +1070,7 @@ void GuiMenu::menuUISettings(){
         SystemData::deleteSystems();
         SystemData::loadConfig();
         GuiComponent *gui;
-        while ((gui = window->peekGui()) != NULL) {
+        while ((gui = window->peekGui()) != nullptr) {
           window->removeGui(gui);
           delete gui;
           }
@@ -1110,19 +1111,20 @@ void GuiMenu::menuSoundSettings(){
   std::string selectedAudio = RecalboxSystem::getInstance()->getCurrentAudioOutputDevice();
 
   if (RecalboxConf::getInstance()->get("emulationstation.menu") != "bartop") {
-    for(auto it = availableAudio.begin(); it != availableAudio.end(); it++){
+    for (auto& it : availableAudio)
+    {
       std::vector<std::string> tokens;
-      boost::split( tokens, (*it), boost::is_any_of(" ") );
+      boost::split( tokens, it, boost::is_any_of(" ") );
 
       if(tokens.size()>= 8){
-        std::string vname = "";
-        for(unsigned int i=0; i<8; i++) {
+        std::string vname;
+        for (unsigned int i=0; i<8; i++) {
           vname += " ";
           vname += tokens.at(i);
         }
-        optionsAudio->add(vname, (*it), selectedAudio == (*it));
+        optionsAudio->add(vname, it, selectedAudio == it);
       } else {
-        optionsAudio->add((*it), (*it), selectedAudio == (*it));
+        optionsAudio->add(it, it, selectedAudio == it);
       }
     }
     auto setAudioDevice = [](const std::string &newVal) {
@@ -1225,7 +1227,7 @@ void GuiMenu::menuNetworkSettings(){
             boost::split(tokens, (*it), boost::is_any_of(" "));
 
             if (tokens.size() >= 8) {
-              std::string vname = "";
+              std::string vname;
               for (unsigned int i = 0; i < 8; i++) {
                 vname += " ";
                 vname += tokens.at(i);
@@ -1287,8 +1289,8 @@ void GuiMenu::menuScrapper(){
   // scrape from
   auto scraper_list = std::make_shared<OptionListComponent<std::string> >(mWindow, _("SCRAPE FROM"), false);
   std::vector<std::string> scrapers = getScraperList();
-  for (auto it = scrapers.begin(); it != scrapers.end(); it++)
-    scraper_list->add(*it, *it, *it == Settings::getInstance()->getString("Scraper"));
+  for (auto& scraper : scrapers)
+    scraper_list->add(scraper, scraper, scraper == Settings::getInstance()->getString("Scraper"));
 
   s->addWithLabel(scraper_list, _("SCRAPE FROM"), _(MenuMessages::SCRAPER_FROM_HELP_MSG));
   s->addSaveFunc([scraper_list] {
@@ -1370,7 +1372,7 @@ void GuiMenu::menuAdvancedSettings(){
     "rpi2-turbo",
     "rpi2-extrem",
     "rpi3-turbo",
-    "rpi3-extrem"
+    "rpi3-extrem",
     "rpi3plus-turbo",
     "rpi3plus-extrem"
   };
@@ -1423,7 +1425,7 @@ void GuiMenu::menuAdvancedSettings(){
       std::string selectedsystem = RecalboxConf::getInstance()->get(
           "emulationstation.selectedsystem");
       auto system_choices = std::make_shared<OptionListComponent<std::string> >(mWindow, _("BOOT ON SYSTEM"), false);
-      std::string currentSystem = selectedsystem != "" ? selectedsystem : "favorites";
+      std::string currentSystem = !selectedsystem.empty() ? selectedsystem : "favorites";
       // For each activated system
       std::vector<SystemData *> systems = SystemData::sSystemVector;
       bool found = false;
@@ -1478,10 +1480,11 @@ void GuiMenu::menuAdvancedSettings(){
       GuiSettings *configuration = new GuiSettings(mWindow, _("EMULATOR ADVANCED CONFIGURATION").c_str());
       // For each activated system
       std::vector<SystemData *> systems = SystemData::sSystemVector;
-      for (auto system = systems.begin(); system != systems.end(); system++) {
-        if ((*system) != SystemData::getFavoriteSystem()) {
-          SystemData *systemData = (*system);
-          configuration->addSubMenu((*system)->getFullName(), [this, systemData] {
+      for (auto& system : systems)
+      {
+        if (system != SystemData::getFavoriteSystem()) {
+          SystemData *systemData = system;
+          configuration->addSubMenu(system->getFullName(), [this, systemData] {
             popSystemConfigurationGui(systemData);
           });
         }
@@ -1645,8 +1648,9 @@ void GuiMenu::popSystemConfigurationGui(SystemData *systemData) const {
 
     emu_choice->add(str(boost::format(_("DEFAULT (%1%)")) % emulatorDefaults.emulator), "default", true);
 
-    for (auto it = systemData->getEmulators()->begin(); it != systemData->getEmulators()->end(); it++) {
-        emu_choice->add( it->first,  it->first,  it->first == currentEmulator);
+    for (auto& it : *systemData->getEmulators())
+    {
+        emu_choice->add(it.first, it.first, it.first == currentEmulator);
     }
 
     // when emulator changes, load new core list
@@ -1661,7 +1665,7 @@ void GuiMenu::popSystemConfigurationGui(SystemData *systemData) const {
         std::vector<std::string> cores = systemData->getCores(emulatorName);
         std::string currentCore = RecalboxConf::getInstance()->get(systemData->getName() + ".core");
 
-        if (currentCore == "") {
+        if (currentCore.empty()) {
             currentCore = "default";
         }
 
@@ -1746,7 +1750,7 @@ void GuiMenu::addEntryWithHelp(const char *name, const std::string help, unsigne
     // populate the list
     ComponentListRow row;
 
-    if (iconName != "")
+    if (!iconName.empty())
     {
         // icon
         auto icon = std::make_shared<ImageComponent>(mWindow);
@@ -1813,8 +1817,9 @@ std::shared_ptr<OptionListComponent<std::string>> GuiMenu::createRatioOptionList
 }
 
 void GuiMenu::clearLoadedInput() {
-    for (int i = 0; i < (int)mLoadedInput.size(); i++) {
-        delete mLoadedInput[i];
+    for (auto& i : mLoadedInput)
+    {
+        delete i;
     }
     mLoadedInput.clear();
 }

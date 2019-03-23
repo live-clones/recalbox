@@ -18,7 +18,7 @@ DemoMode::DemoMode(Window& window)
   // Build system list filtered by user config
   const std::vector<SystemData*>& allSystems = SystemData::getAllSystems();
   bool systemListExists = !mRecalboxConf.get("global.demo.systemlist").empty();
-  for(int i=(int)allSystems.size(); --i>= 0;)
+  for (int i=(int)allSystems.size(); --i>= 0;)
   {
     const std::string& name = allSystems[i]->getName();
     bool includeSystem = mRecalboxConf.getBool(name + ".demo.include");
@@ -35,7 +35,7 @@ DemoMode::DemoMode(Window& window)
   // Check if there is at least one system.
   // If not, get all system with no filtering
   if (mDemoSystems.empty())
-    for(int i=(int)allSystems.size(); --i>= 0;)
+    for (int i=(int)allSystems.size(); --i>= 0;)
     {
       mDemoSystems.push_back(allSystems[i]);
       mDurations.push_back(mDefaultDuration);
@@ -52,7 +52,7 @@ bool DemoMode::getRandomSystem(SystemData*& outputSystem, int& outputDuration)
   if (mDemoSystems.empty()) return false;
 
   std::uniform_int_distribution<int> random(0, (int)mDemoSystems.size() - 1);
-  for(int i=5; --i>=0; ) // Maximum 5 tries to find a new game to launch
+  for (int i=5; --i>=0; ) // Maximum 5 tries to find a new game to launch
   {
     // Select random system
     int randomPosition = random(mRandomGenerator);
@@ -84,7 +84,7 @@ bool DemoMode::getRandomGame(FileData*& outputGame, int& outputDuration)
   if (gamelist.empty()) return false;
 
   std::uniform_int_distribution<int> random(0, (int)gamelist.size() - 1);
-  for(int i=5; --i>=0; ) // Maximum 5 tries to find a new game to launch
+  for (int i=5; --i>=0; ) // Maximum 5 tries to find a new game to launch
   {
     // Select game
     outputGame = gamelist[random(mRandomGenerator)];

@@ -4,7 +4,7 @@
 
 #include "LibretroRatio.h"
 
-LibretroRatio *LibretroRatio::sInstance = NULL;
+LibretroRatio *LibretroRatio::sInstance = nullptr;
 
 LibretroRatio::LibretroRatio() {
     ratioMap = new std::map<std::string, std::string>
@@ -36,7 +36,7 @@ LibretroRatio::LibretroRatio() {
 }
 
 LibretroRatio *LibretroRatio::getInstance() {
-    if (sInstance == NULL)
+    if (sInstance == nullptr)
         sInstance = new LibretroRatio();
 
     return sInstance;

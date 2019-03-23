@@ -9,7 +9,7 @@ namespace fs = boost::filesystem;
 
 FileData::FileData(ItemType type, const fs::path& path, SystemData* system)
 	: mSystem(system),
-    mParent(NULL),
+    mParent(nullptr),
     mType(type),
     mPath(path),
     mMetadata(getCleanName(), type) // TODO: Move clean name into metadata

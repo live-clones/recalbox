@@ -88,7 +88,7 @@ MetadataDescriptor MetadataDescriptor::BuildDefaultValueMetadataDescriptor()
   int count = 0;
   const MetadataFieldDescriptor* fields = GetMetadataFieldDescriptors(ItemType::Game, count);
 
-  for(; --count >= 0; )
+  for (; --count >= 0; )
   {
     // Get field descriptor
     const MetadataFieldDescriptor& field = fields[count];
@@ -175,7 +175,7 @@ bool MetadataDescriptor::IntToHex(int from, std::string& to)
   char result[9];
   result[sizeof(result) - 1] = 0;
 
-  for(int i = sizeof(result), p = 0; -- i >= 0;)
+  for (int i = sizeof(result), p = 0; -- i >= 0;)
     result[p++] = hexa[(from >> (i << 2)) & 0xF];
 
   to = result;
@@ -283,7 +283,7 @@ bool MetadataDescriptor::Deserialize(const TreeNode& from, const std::string& re
   // Extract default name
   std::string defaultName = std::move(_Name);
 
-  for(; --count >= 0; )
+  for (; --count >= 0; )
   {
     // Get field descriptor
     const MetadataFieldDescriptor& field = fields[count];
@@ -414,7 +414,7 @@ void MetadataDescriptor::Serialize(Tree& parentTree, const std::string& filePath
   tree.put("path", relative);
 
   // Metadata
-  for(; --count >= 0; )
+  for (; --count >= 0; )
   {
     // Get field descriptor
     const MetadataFieldDescriptor& field = fields[count];
@@ -495,7 +495,7 @@ void MetadataDescriptor::Merge(const MetadataDescriptor& sourceMetadata)
   int count = 0;
   const MetadataFieldDescriptor* fields = GetMetadataFieldDescriptors(_Type, count);
 
-  for(; --count >= 0; )
+  for (; --count >= 0; )
   {
     // Get field descriptor
     const MetadataFieldDescriptor& field = fields[count];
@@ -562,7 +562,7 @@ void MetadataDescriptor::FreeAll()
   int count = 0;
   const MetadataFieldDescriptor* fields = GetMetadataFieldDescriptors(_Type, count);
 
-  for(; --count >= 0; )
+  for (; --count >= 0; )
   {
     // Get field descriptor
     const MetadataFieldDescriptor& field = fields[count];

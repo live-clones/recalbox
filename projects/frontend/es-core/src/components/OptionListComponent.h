@@ -56,18 +56,16 @@ private:
 			// for select all/none
 			std::vector<ImageComponent*> checkboxes;
 
-			for(auto it = mParent->mEntries.begin(); it != mParent->mEntries.end(); it++)
+			for (auto& e : mParent->mEntries)
 			{
 				row.elements.clear();
-				row.addElement(std::make_shared<TextComponent>(mWindow, strToUpper(it->name), font, color), true);
-
-				OptionListData& e = *it;
+				row.addElement(std::make_shared<TextComponent>(mWindow, strToUpper(e.name), font, color), true);
 
 				if(mParent->mMultiSelect)
 				{
 					// add checkbox
 					auto checkbox = std::make_shared<ImageComponent>(mWindow);
-					checkbox->setImage(it->selected ? CHECKED_PATH : UNCHECKED_PATH);
+					checkbox->setImage(e.selected ? CHECKED_PATH : UNCHECKED_PATH);
 					checkbox->setResize(0, font->getLetterHeight());
 					row.addElement(checkbox, false);
 
@@ -95,7 +93,7 @@ private:
 				}
 
 				// also set cursor to this row if we're not multi-select and this row is selected
-				mMenu.addRow(row, (!mParent->mMultiSelect && it->selected));
+				mMenu.addRow(row, (!mParent->mMultiSelect && e.selected));
 			}
 
 			mMenu.addButton(_("BACK"), "accept", [this] { delete this; });
@@ -103,7 +101,7 @@ private:
 			if(mParent->mMultiSelect)
 			{
 			  mMenu.addButton(_("SELECT ALL"), "select all", [this, checkboxes] {
-					for(unsigned int i = 0; i < mParent->mEntries.size(); i++)
+					for (unsigned int i = 0; i < mParent->mEntries.size(); i++)
 					{
 						mParent->mEntries.at(i).selected = true;
 						checkboxes.at(i)->setImage(CHECKED_PATH);
@@ -112,7 +110,7 @@ private:
 				});
 
 			  mMenu.addButton(_("SELECT NONE"), "select none", [this, checkboxes] {
-					for(unsigned int i = 0; i < mParent->mEntries.size(); i++)
+					for (unsigned int i = 0; i < mParent->mEntries.size(); i++)
 					{
 						mParent->mEntries.at(i).selected = false;
 						checkboxes.at(i)->setImage(UNCHECKED_PATH);
@@ -242,10 +240,10 @@ public:
 	std::vector<T> getSelectedObjects()
 	{
 		std::vector<T> ret;
-		for(auto it = mEntries.begin(); it != mEntries.end(); it++)
+		for (auto& comp : mEntries)
 		{
-			if(it->selected)
-				ret.push_back(it->object);
+			if(comp.selected)
+				ret.push_back(comp.object);
 		}
 
 		return ret;
@@ -266,10 +264,10 @@ public:
 	std::string getSelectedName()
 	{
                 assert(mMultiSelect == false);
-                for(unsigned int i = 0; i < mEntries.size(); i++)
+		for (auto& entry : mEntries)
 		{
-			if(mEntries.at(i).selected)
-				return mEntries.at(i).name;
+			if(entry.selected)
+				return entry.name;
 		}
                 return "";
 	}
@@ -277,13 +275,13 @@ public:
 	void select(T object) {
 	    bool hasChanged = false;
 	    bool selectable = true;
-		for(auto it = mEntries.begin(); it != mEntries.end(); it++) {
-		    const bool previous = it->selected;
-			it->selected = selectable && (it->object == object);
-			if (it->selected && !mMultiSelect) {
+		for (auto& entry : mEntries) {
+		    const bool previous = entry.selected;
+			entry.selected = selectable && (entry.object == object);
+			if (entry.selected && !mMultiSelect) {
                 selectable = false;
 			}
-            hasChanged = hasChanged || (it->selected != previous);
+            hasChanged = hasChanged || (entry.selected != previous);
 		}
 		if (hasChanged) {
             onSelectedChanged();
@@ -302,8 +300,8 @@ public:
 		e.selected = selected;
 		if (selected) {
 			if (!mMultiSelect) {
-				for(auto it = mEntries.begin(); it !=mEntries.end(); it++) {
-					it->selected = false;
+				for (auto& entry : mEntries) {
+					entry.selected = false;
 				}
 			}
 			firstSelected = obj;
@@ -330,7 +328,7 @@ private:
 	unsigned int getSelectedId()
 	{
 		assert(mMultiSelect == false);
-		for(unsigned int i = 0; i < mEntries.size(); i++)
+		for (unsigned int i = 0; i < mEntries.size(); i++)
 		{
 			if(mEntries.at(i).selected)
 				return i;
@@ -360,11 +358,11 @@ private:
 				mParent->onSizeChanged();
 		}else{
 			// display currently selected + l/r cursors
-			for(auto it = mEntries.begin(); it != mEntries.end(); it++)
+			for (const auto& entry : mEntries)
 			{
-				if(it->selected)
+				if(entry.selected)
 				{
-					mText.setText(strToUpper(it->name));
+					mText.setText(strToUpper(entry.name));
 					mText.setSize(0, mText.getSize().y());
 					setSize(mText.getSize().x() + mLeftArrow.getSize().x() + mRightArrow.getSize().x() + 24, mText.getSize().y());
 					if(mParent) // hack since theres no "on child size changed" callback atm...

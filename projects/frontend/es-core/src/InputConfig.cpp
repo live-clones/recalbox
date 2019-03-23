@@ -41,7 +41,7 @@ InputType stringToInputType(const std::string& type)
 
 std::string toLower(std::string str)
 {
-	for(unsigned int i = 0; i < str.length(); i++)
+	for (unsigned int i = 0; i < str.length(); i++)
 	{
 		str[i] = tolower(str[i]);
 	}
@@ -183,10 +183,9 @@ std::vector<std::string> InputConfig::getMappedTo(Input input)
 {
 	std::vector<std::string> maps;
 
-	typedef std::map<std::string, Input>::iterator it_type;
-	for(it_type iterator = mNameMap.begin(); iterator != mNameMap.end(); iterator++)
+	for (auto& iterator : mNameMap)
 	{
-		Input chk = iterator->second;
+		Input chk = iterator.second;
 
 		if(!chk.configured)
 			continue;
@@ -197,7 +196,7 @@ std::vector<std::string> InputConfig::getMappedTo(Input input)
 			{
 				if(input.value == 0 || input.value & chk.value)
 				{
-					maps.push_back(iterator->first);
+					maps.push_back(iterator.first);
 				}
 				continue;
 			}
@@ -205,9 +204,9 @@ std::vector<std::string> InputConfig::getMappedTo(Input input)
 			if(input.type == TYPE_AXIS)
 			{
 				if(input.value == 0 || chk.value == input.value)
-					maps.push_back(iterator->first);
+					maps.push_back(iterator.first);
 			}else{
-				maps.push_back(iterator->first);
+				maps.push_back(iterator.first);
 			}
 		}
 	}
@@ -219,7 +218,7 @@ void InputConfig::loadFromXML(pugi::xml_node node)
 {
 	clear();
 
-	for(pugi::xml_node input = node.child("input"); input; input = input.next_sibling("input"))
+	for (pugi::xml_node input = node.child("input"); input; input = input.next_sibling("input"))
 	{
 		std::string name = input.attribute("name").as_string();
 		std::string type = input.attribute("type").as_string();
@@ -260,19 +259,18 @@ void InputConfig::writeToXML(pugi::xml_node parent)
     cfg.append_attribute("deviceNbHats") = mDeviceNbHats;
     cfg.append_attribute("deviceNbButtons") = mDeviceNbButtons;
 
-	typedef std::map<std::string, Input>::iterator it_type;
-	for(it_type iterator = mNameMap.begin(); iterator != mNameMap.end(); iterator++)
+	for (auto& iterator : mNameMap)
 	{
-		if(!iterator->second.configured)
+		if(!iterator.second.configured)
 			continue;
 
 		pugi::xml_node input = cfg.append_child("input");
-		input.append_attribute("name") = iterator->first.c_str();
-		input.append_attribute("type") = inputTypeToString(iterator->second.type).c_str();
-		input.append_attribute("id").set_value(iterator->second.id);
-		input.append_attribute("value").set_value(iterator->second.value);
-		if(iterator->second.code != -1) {
-			input.append_attribute("code").set_value(iterator->second.code);
+		input.append_attribute("name") = iterator.first.c_str();
+		input.append_attribute("type") = inputTypeToString(iterator.second.type).c_str();
+		input.append_attribute("id").set_value(iterator.second.id);
+		input.append_attribute("value").set_value(iterator.second.value);
+		if(iterator.second.code != -1) {
+			input.append_attribute("code").set_value(iterator.second.code);
 		}
 	}
 }

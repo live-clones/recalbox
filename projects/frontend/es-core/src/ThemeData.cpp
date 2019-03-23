@@ -244,7 +244,7 @@ ThemeData::ThemeData()
 	mSystemview = Settings::getInstance()->getString("ThemeSystemView");
 	mGamelistview = Settings::getInstance()->getString("ThemeGamelistView");
 	Settings::getInstance()->setBool("ThemeHasMenuView", false);
-	mSystemThemeFolder = "";
+	mSystemThemeFolder.clear();
 }
 
 void ThemeData::loadFile(const std::string systemThemeFolder, const std::string& path)
@@ -293,7 +293,7 @@ void ThemeData::parseIncludes(const pugi::xml_node& root)
 	ThemeException error;
 	error.setFiles(mPaths);
 
-	for(pugi::xml_node node = root.child("include"); node; node = node.next_sibling("include"))
+	for (pugi::xml_node node = root.child("include"); node; node = node.next_sibling("include"))
 	{
 		if (parseSubset(node))
 		{
@@ -378,7 +378,7 @@ void ThemeData::parseFeatures(const pugi::xml_node& root)
 	ThemeException error;
 	error.setFiles(mPaths);
 
-	for(pugi::xml_node node = root.child("feature"); node; node = node.next_sibling("feature"))
+	for (pugi::xml_node node = root.child("feature"); node; node = node.next_sibling("feature"))
 	{
 		if(!node.attribute("supported"))
 			throw error << "Feature missing \"supported\" attribute!";
@@ -398,7 +398,7 @@ void ThemeData::parseViews(const pugi::xml_node& root)
 	error.setFiles(mPaths);
 
 	// parse views
-	for(pugi::xml_node node = root.child("view"); node; node = node.next_sibling("view"))
+	for (pugi::xml_node node = root.child("view"); node; node = node.next_sibling("view"))
 	{
 		if(!node.attribute("name"))
 			throw error << "View missing \"name\" attribute!";
@@ -430,7 +430,7 @@ void ThemeData::parseView(const pugi::xml_node& root, ThemeView& view)
 	ThemeException error;
 	error.setFiles(mPaths);
 
-	for(pugi::xml_node node = root.first_child(); node; node = node.next_sibling())
+	for (pugi::xml_node node = root.first_child(); node; node = node.next_sibling())
 	{
 		if(!node.attribute("name"))
 			throw error << "Element of type \"" << node.name() << "\" missing \"name\" attribute!";
@@ -502,7 +502,7 @@ void ThemeData::parseElement(const pugi::xml_node& root, const std::map<std::str
 	element.type = root.name();
 	element.extra = root.attribute("extra").as_bool(false);
 	
-	for(pugi::xml_node node = root.first_child(); node; node = node.next_sibling())
+	for (pugi::xml_node node = root.first_child(); node; node = node.next_sibling())
 	{
 		auto typeIt = typeMap.find(node.name());
 		if(typeIt == typeMap.end())
@@ -580,16 +580,16 @@ const ThemeData::ThemeElement* ThemeData::getElement(const std::string& view, co
 {
 	auto viewIt = mViews.find(view);
 	if(viewIt == mViews.end())
-		return NULL; // not found
+		return nullptr; // not found
 
 	auto elemIt = viewIt->second.elements.find(element);
-	if(elemIt == viewIt->second.elements.end()) return NULL;
+	if(elemIt == viewIt->second.elements.end()) return nullptr;
 
 	if(elemIt->second.type != expectedType && !expectedType.empty())
 	{
 		LOG(LogWarning) << " requested mismatched theme type for [" << view << "." << element << "] - expected \"" 
 			<< expectedType << "\", got \"" << elemIt->second.type << "\"";
-		return NULL;
+		return nullptr;
 	}
 
 	return &elemIt->second;
@@ -607,7 +607,7 @@ const std::shared_ptr<ThemeData>& ThemeData::getDefault()
 		{
 			try
 			{
-				std::string empty = "";
+				std::string empty;
 				theme->loadFile(empty, path);
 			} catch(ThemeException& e)
 			{
@@ -638,12 +638,12 @@ const std::shared_ptr<ThemeData>& ThemeData::getCurrent()
 
 		fs::directory_iterator end;
 
-		for(size_t i = 0; i < pathCount; i++)
+		for (const auto& i : paths)
 		{
-			if(!fs::is_directory(paths[i]))
+			if(!fs::is_directory(i))
 				continue;
 
-			for(fs::directory_iterator it(paths[i]); it != end; ++it)
+			for (fs::directory_iterator it(i); it != end; ++it)
 			{
 				if(fs::is_directory(*it))
 				{
@@ -652,7 +652,7 @@ const std::shared_ptr<ThemeData>& ThemeData::getCurrent()
 					{
 						try
 						{
-							std::string empty = "";
+							std::string empty;
 							theme->loadFile(empty, path.string());
 							return theme;
 						} catch(ThemeException& e)
@@ -664,12 +664,12 @@ const std::shared_ptr<ThemeData>& ThemeData::getCurrent()
 				
 				}
 			}
-			path = paths[i] / "theme.xml";
+			path = i / "theme.xml";
 			if(fs::exists(path))
 					{
 						try
 						{
-							std::string empty = "";
+							std::string empty;
 							theme->loadFile(empty, path.string());
 							return theme;
 						} catch(ThemeException& e)
@@ -686,18 +686,18 @@ const std::shared_ptr<ThemeData>& ThemeData::getCurrent()
 void ThemeExtras::setExtras(const std::vector<GuiComponent*>& extras)
 {
 	// delete old extras (if any)
-	for(auto it = mExtras.begin(); it != mExtras.end(); it++)
-		delete *it;
+	for (auto& mExtra : mExtras)
+		delete mExtra;
 
 	mExtras = extras;
-	for(auto it = mExtras.begin(); it != mExtras.end(); it++)
-		addChild(*it);
+	for (auto& mExtra : mExtras)
+		addChild(mExtra);
 }
 
 ThemeExtras::~ThemeExtras()
 {
-	for(auto it = mExtras.begin(); it != mExtras.end(); it++)
-		delete *it;
+	for (auto& mExtra : mExtras)
+		delete mExtra;
 }
 
 
@@ -709,12 +709,12 @@ std::vector<GuiComponent*> ThemeData::makeExtras(const std::shared_ptr<ThemeData
 	if(viewIt == theme->mViews.end())
 		return comps;
 	
-	for(auto it = viewIt->second.orderedKeys.begin(); it != viewIt->second.orderedKeys.end(); it++)
+	for (auto& key : viewIt->second.orderedKeys)
 	{
-		ThemeElement& elem = viewIt->second.elements.at(*it);
+		ThemeElement& elem = viewIt->second.elements.at(key);
 		if(elem.extra)
 		{
-			GuiComponent* comp = NULL;
+			GuiComponent* comp = nullptr;
 			const std::string& t = elem.type;
 			if(t == "image")
 				comp = new ImageComponent(window);
@@ -722,7 +722,7 @@ std::vector<GuiComponent*> ThemeData::makeExtras(const std::shared_ptr<ThemeData
 				comp = new TextComponent(window);
 
 			comp->setDefaultZIndex(10);
-			comp->applyTheme(theme, view, *it, ThemeFlags::ALL);
+			comp->applyTheme(theme, view, key, ThemeFlags::ALL);
 			comps.push_back(comp);
 		}
 	}
@@ -743,12 +743,12 @@ std::map<std::string, ThemeSet> ThemeData::getThemeSets()
 
 	fs::directory_iterator end;
 
-	for(size_t i = 0; i < pathCount; i++)
+	for (const auto& path : paths)
 	{
-		if(!fs::is_directory(paths[i]))
+		if(!fs::is_directory(path))
 			continue;
 
-		for(fs::directory_iterator it(paths[i]); it != end; ++it)
+		for (fs::directory_iterator it(path); it != end; ++it)
 		{
 			if(fs::is_directory(*it))
 			{
@@ -775,12 +775,12 @@ std::map<std::string, std::string> ThemeData::getThemeSubSets(const std::string&
 
 	fs::directory_iterator end;
 
-	for(size_t i = 0; i < pathCount; i++)
+	for (const auto& i : paths)
 	{
-		if(!fs::is_directory(paths[i]))
+		if(!fs::is_directory(i))
 			continue;
 
-		for(fs::directory_iterator it(paths[i]); it != end; ++it)
+		for (fs::directory_iterator it(i); it != end; ++it)
 		{
 			if(fs::is_directory(*it))
 			{
@@ -793,7 +793,7 @@ std::map<std::string, std::string> ThemeData::getThemeSubSets(const std::string&
 				dequepath.pop_back();
 			}
 		}
-		path = paths[i] / "theme.xml";
+		path = i / "theme.xml";
 			if(fs::exists(path))
 			{
 				dequepath.push_back(path);
@@ -811,7 +811,7 @@ std::map<std::string, std::string> ThemeData::getThemeSubSets(const std::string&
 
 void ThemeData::crawlIncludes(const pugi::xml_node& root, std::map<std::string, std::string>& sets, std::deque<boost::filesystem::path>& dequepath)
 {
-	for(pugi::xml_node node = root.child("include"); node; node = node.next_sibling("include"))
+	for (pugi::xml_node node = root.child("include"); node; node = node.next_sibling("include"))
 	{
 		
 		sets[node.attribute("name").as_string()] = node.attribute("subset").as_string();
@@ -843,10 +843,10 @@ std::map<std::string, std::string> ThemeData::sortThemeSubSets(const std::map<st
 {
 	std::map<std::string, std::string> sortedsets;
 	
-	for (auto it = subsetmap.begin(); it != subsetmap.end(); it++)
+	for (const auto& it : subsetmap)
 	{
-		if (it->second == subset)
-			sortedsets[it->first] = it->first;
+		if (it.second == subset)
+			sortedsets[it.first] = it.first;
 	}
 	return sortedsets;
 }
@@ -874,7 +874,7 @@ fs::path ThemeData::getThemeFromCurrentSet(const std::string& system)
 
 std::string ThemeData::getTransition()
 {
-	std::string result = "";
+	std::string result;
 	auto elem = getElement("system", "systemcarousel", "carousel");
 	if (elem) {
 		if (elem->has("defaultTransition")) {

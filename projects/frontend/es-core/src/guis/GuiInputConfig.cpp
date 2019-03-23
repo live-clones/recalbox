@@ -56,7 +56,7 @@ GuiInputConfig::GuiInputConfig(Window* window, InputConfig* target, const std::f
 	mList = std::make_shared<ComponentList>(mWindow);
 	mGrid.setEntry(mList, Vector2i(0, 3), true, true);
 	
-	for(auto formInput: mFormInputs) {
+	for (auto formInput: mFormInputs) {
 		ComponentListRow row;
 		// icon
 		auto icon = std::make_shared<ImageComponent>(mWindow);

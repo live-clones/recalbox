@@ -19,7 +19,7 @@ TextureData::TextureData(bool tile)
 		mSourceWidth(0.0f),
 		mSourceHeight(0.0f),
 		mScalable(false),
-		mSVGImage(NULL)
+		mSVGImage(nullptr)
 {
 }
 
@@ -29,7 +29,7 @@ TextureData::~TextureData()
 	releaseRAM();
 	if (mSVGImage)
 		nsvgDelete(mSVGImage);
-	mSVGImage = NULL;
+	mSVGImage = nullptr;
 }
 
 void TextureData::initFromPath(const std::string& path)
@@ -51,11 +51,11 @@ bool TextureData::initSVGFromMemory(const unsigned char* fileData, size_t length
 
 	if (mSVGImage)
 		nsvgDelete(mSVGImage);
-	mSVGImage = NULL;
+	mSVGImage = nullptr;
 
 	// nsvgParse excepts a modifiable, null-terminated string
 	char* copy = (char*)malloc(length + 1);
-	assert(copy != NULL);
+	assert(copy != nullptr);
 	memcpy(copy, fileData, length);
 	copy[length] = '\0';
 

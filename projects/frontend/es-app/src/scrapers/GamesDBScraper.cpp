@@ -95,16 +95,16 @@ void thegamesdb_generate_scraper_requests(const ScraperSearchParams& params, std
 		// because TheGamesDB API either sucks or I don't know how to use it properly...
 		std::string urlBase = path;
 		auto& platforms = params.system->getPlatformIds();
-		for(auto platformIt = platforms.begin(); platformIt != platforms.end(); platformIt++)
+		for (auto& platform : platforms)
 		{
 			path = urlBase;
-			auto mapIt = gamesdb_platformid_map.find(*platformIt);
+			auto mapIt = gamesdb_platformid_map.find(platform);
 			if(mapIt != gamesdb_platformid_map.end())
 			{
 				path += "&platform=";
 				path += HttpReq::urlEncode(mapIt->second);
 			}else{
-				LOG(LogWarning) << "TheGamesDB scraper warning - no support for platform " << getPlatformName(*platformIt);
+				LOG(LogWarning) << "TheGamesDB scraper warning - no support for platform " << getPlatformName(platform);
 			}
 
 			requests.push(std::unique_ptr<ScraperRequest>(new TheGamesDBRequest(results, path)));

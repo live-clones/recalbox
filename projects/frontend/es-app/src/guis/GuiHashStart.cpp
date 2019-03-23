@@ -30,10 +30,10 @@ GuiHashStart::GuiHashStart(Window* window)
 
     // add systems (all with a platformid specified selected)
     mSystems = std::make_shared< OptionListComponent<SystemData*> >(mWindow, _("HASH THESE SYSTEMS"), true);
-    for(auto it = SystemData::sSystemVector.begin(); it != SystemData::sSystemVector.end(); it++)
+    for (auto& it : SystemData::sSystemVector)
     {
-        if(RecalboxConf::getInstance()->isInList("global.netplay.systems", (*it)->getName()))
-            mSystems->add((*it)->getFullName(), *it, true);
+        if(RecalboxConf::getInstance()->isInList("global.netplay.systems", it->getName()))
+            mSystems->add(it->getFullName(), it, true);
     }
     mMenu.addWithLabel(mSystems, _("SYSTEMS"));
 
@@ -45,7 +45,7 @@ GuiHashStart::GuiHashStart(Window* window)
 
 void GuiHashStart::start()
 {
-    for(auto system : mSystems->getSelectedObjects()) {
+    for (auto system : mSystems->getSelectedObjects()) {
 
     	std::string command = "/recalbox/scripts/recalbox-hash.sh -s \"" + system->getName() + "\" -t";
 
@@ -87,7 +87,7 @@ void GuiHashStart::start()
 
         int totalRoms = 0;
 
-	    for(pugi::xml_node fileNode = root.child(tag); fileNode; fileNode = fileNode.next_sibling(tag))
+	    for (pugi::xml_node fileNode = root.child(tag); fileNode; fileNode = fileNode.next_sibling(tag))
 	    {
 	    	totalRoms++;
 	    }
@@ -97,7 +97,7 @@ void GuiHashStart::start()
 	    std::string busyText;
 	    std::string systemName = system->getFullName();
 
-        for(pugi::xml_node fileNode = root.child(tag); fileNode; fileNode = fileNode.next_sibling(tag))
+        for (pugi::xml_node fileNode = root.child(tag); fileNode; fileNode = fileNode.next_sibling(tag))
         {
 			currentRom++;
 

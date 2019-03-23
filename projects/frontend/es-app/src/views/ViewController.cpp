@@ -19,7 +19,7 @@
 
 #include <SDL.h>
 
-ViewController* ViewController::sInstance = NULL;
+ViewController* ViewController::sInstance = nullptr;
 
 ViewController* ViewController::get()
 {
@@ -43,7 +43,7 @@ ViewController::ViewController(Window* window)
 ViewController::~ViewController()
 {
 	assert(sInstance == this);
-	sInstance = NULL;
+	sInstance = nullptr;
 }
 
 void ViewController::goToStart()
@@ -108,7 +108,7 @@ void ViewController::goToPrevGameList()
 
 bool ViewController::goToGameList(std::string& systemName) {
 	SystemData* system = SystemData::getSystem(systemName);
-	if (system != NULL) {
+	if (system != nullptr) {
 		goToGameList(system);
 		return true;
 	}
@@ -224,9 +224,10 @@ void ViewController::onFileChanged(FileData* file, FileChangeType change)
 		it->second->onFileChanged(file, change);
 	}
 	if (file->Metadata().Favorite()) {
-		for(auto it = mGameListViews.begin(); it != mGameListViews.end(); it++) {
-			if (it->first->getName() == "favorites") {
-				it->second->onFileChanged(file, change);
+		for (auto& mGameListView : mGameListViews)
+		{
+			if (mGameListView.first->getName() == "favorites") {
+				mGameListView.second->onFileChanged(file, change);
 				break;
 			}
 		}
@@ -336,7 +337,7 @@ bool ViewController::input(InputConfig* config, Input input)
 	/* if we receive a button pressure for a non configured joystick, suggest the joystick configuration */
         if(config->isConfigured() == false) {
 	  if(input.type == TYPE_BUTTON) {
-	    mWindow->pushGui(new GuiDetectDevice(mWindow, false, NULL));
+	    mWindow->pushGui(new GuiDetectDevice(mWindow, false, nullptr));
 	    return true;
 	  }
         }
@@ -377,15 +378,16 @@ void ViewController::render(const Eigen::Affine3f& parentTrans)
 	getSystemListView()->render(trans);
 
 	// draw gamelists
-	for(auto it = mGameListViews.begin(); it != mGameListViews.end(); it++)
+	for (auto& mGameListView : mGameListViews)
 	{
 		// clipping
-		Eigen::Vector3f guiStart = it->second->getPosition();
-		Eigen::Vector3f guiEnd = it->second->getPosition() + Eigen::Vector3f(it->second->getSize().x(), it->second->getSize().y(), 0);
+		Eigen::Vector3f guiStart = mGameListView.second->getPosition();
+		Eigen::Vector3f guiEnd = mGameListView.second->getPosition() + Eigen::Vector3f(mGameListView.second->getSize().x(),
+																																									 mGameListView.second->getSize().y(), 0);
 
 		if(guiEnd.x() >= viewStart.x() && guiEnd.y() >= viewStart.y() &&
 			guiStart.x() <= viewEnd.x() && guiStart.y() <= viewEnd.y())
-				it->second->render(trans);
+			mGameListView.second->render(trans);
 	}
 
 	if(mWindow->peekGui() == this)
@@ -401,9 +403,9 @@ void ViewController::render(const Eigen::Affine3f& parentTrans)
 
 void ViewController::preload()
 {
-	for(auto it = SystemData::sSystemVector.begin(); it != SystemData::sSystemVector.end(); it++)
+	for (auto& it : SystemData::sSystemVector)
 	{
-		getGameListView(*it);
+		getGameListView(it);
 	}
 }
 
@@ -447,7 +449,7 @@ void ViewController::reloadGameListView(IGameListView* view, bool reloadTheme)
 		SystemData::deleteSystems();
 		SystemData::loadConfig();
 		GuiComponent *gui;
-		while ((gui = window->peekGui()) != NULL)
+		while ((gui = window->peekGui()) != nullptr)
 		{
 			window->removeGui(gui);
 		}
@@ -461,16 +463,16 @@ void ViewController::reloadGameListView(IGameListView* view, bool reloadTheme)
 void ViewController::reloadAll()
 {
 	std::map<SystemData*, FileData*> cursorMap;
-	for(auto it = mGameListViews.begin(); it != mGameListViews.end(); it++)
+	for (auto& mGameListView : mGameListViews)
 	{
-		cursorMap[it->first] = it->second->getCursor();
+		cursorMap[mGameListView.first] = mGameListView.second->getCursor();
 	}
 	mGameListViews.clear();
 
-	for(auto it = cursorMap.begin(); it != cursorMap.end(); it++)
+	for (auto& it : cursorMap)
 	{
-		it->first->loadTheme();
-		getGameListView(it->first)->setCursor(it->second);
+		it.first->loadTheme();
+		getGameListView(it.first)->setCursor(it.second);
 	}
 
 	mSystemListView.reset();
@@ -513,11 +515,11 @@ void ViewController::reloadGamesLists()
 
 void ViewController::setInvalidGamesList(SystemData* system)
 {
-	for (auto it = mGameListViews.begin(); it != mGameListViews.end(); it++)
+	for (auto& mGameListView : mGameListViews)
 	{
-		if (system == (it->first))
+		if (system == (mGameListView.first))
 		{
-			mInvalidGameList[it->first] = true;
+			mInvalidGameList[mGameListView.first] = true;
 			break;
 		}
 	}
@@ -525,11 +527,11 @@ void ViewController::setInvalidGamesList(SystemData* system)
 
 void ViewController::setAllInvalidGamesList(SystemData* systemExclude)
 {
-	for (auto it = mGameListViews.begin(); it != mGameListViews.end(); it++)
+	for (auto& mGameListView : mGameListViews)
 	{
-		if (systemExclude != (it->first))
+		if (systemExclude != (mGameListView.first))
 		{
-			mInvalidGameList[it->first] = true;
+			mInvalidGameList[mGameListView.first] = true;
 		}
 	}
 }
@@ -559,7 +561,7 @@ HelpStyle ViewController::getHelpStyle()
 
 int ViewController::getFirstSystemIndex() {
 	std::string systemName = RecalboxConf::getInstance()->get("emulationstation.selectedsystem");
-	if(systemName != ""){
+	if(!systemName.empty()){
 		int index = SystemData::getSystemIndex(systemName);
 		if (index != -1){
 			LOG(LogInfo) << "emulationstation.selectedsystem variable set to " << systemName.c_str() << " system found !";

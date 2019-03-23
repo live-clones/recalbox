@@ -57,7 +57,7 @@ public:
 	inline void setFiles(const std::deque<boost::filesystem::path>& deque)
 	{
 		*this << "from theme \"" << deque.front().string() << "\"\n";
-		for(auto it = deque.begin() + 1; it != deque.end(); it++)
+		for (auto it = deque.begin() + 1; it != deque.end(); it++)
 			*this << "  (from included file \"" << (*it).string() << "\")\n";
 		*this << "    ";
 	}

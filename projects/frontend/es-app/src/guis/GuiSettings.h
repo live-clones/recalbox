@@ -23,7 +23,7 @@ public:
 		row.makeAcceptInputHandler(func);
 		auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 		std::string helpLabel(label);
-		if(help != "") {
+		if(!help.empty()) {
 			row.makeHelpInputHandler([this, help, helpLabel] {
 				mWindow->pushGui(new GuiMsgBoxScroll(
 						mWindow, helpLabel, help.c_str(), _("OK"),

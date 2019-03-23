@@ -19,13 +19,13 @@ void ComponentList::addRow(const ComponentListRow& row, bool setCursorHere, bool
 {
 	IList<ComponentListRow, void*>::Entry e;
 	e.name = row.name;
-	e.object = NULL;
+	e.object = nullptr;
 	e.data = row;
 
 	this->add(e);
 
-	for(auto it = mEntries.back().data.elements.begin(); it != mEntries.back().data.elements.end(); it++)
-		addChild(it->component.get());
+	for (auto& element : mEntries.back().data.elements)
+		addChild(element.component.get());
 
 	if (updateGeometry) {
 		updateElementSize(mEntries.back().data);
@@ -41,10 +41,10 @@ void ComponentList::addRow(const ComponentListRow& row, bool setCursorHere, bool
 
 void ComponentList::onSizeChanged()
 {
-	for(auto it = mEntries.begin(); it != mEntries.end(); it++)
+	for (auto& mEntrie : mEntries)
 	{
-		updateElementSize(it->data);
-		updateElementPosition(it->data);
+		updateElementSize(mEntrie.data);
+		updateElementPosition(mEntrie.data);
 	}
 
 	updateCameraOffset();
@@ -114,8 +114,8 @@ void ComponentList::update(int deltaTime)
 	if(size())
 	{
 		// update our currently selected row
-		for(auto it = mEntries.at(mCursor).data.elements.begin(); it != mEntries.at(mCursor).data.elements.end(); it++)
-			it->component->update(deltaTime);
+		for (auto& element : mEntries.at(mCursor).data.elements)
+			element.component->update(deltaTime);
 	}
 }
 
@@ -124,7 +124,7 @@ void ComponentList::onCursorChanged(const CursorState& state)
 	// update the selector bar position
 	// in the future this might be animated
 	mSelectorBarOffset = 0;
-	for(int i = 0; i < mCursor; i++)
+	for (int i = 0; i < mCursor; i++)
 	{
 		mSelectorBarOffset += getRowHeight(mEntries.at(i).data);
 	}
@@ -134,8 +134,8 @@ void ComponentList::onCursorChanged(const CursorState& state)
 	// this is terribly inefficient but we don't know what we came from so...
 	if(size())
 	{
-		for(auto it = mEntries.begin(); it != mEntries.end(); it++)
-			it->data.elements.back().component->onFocusLost();
+		for (auto& mEntrie : mEntries)
+			mEntrie.data.elements.back().component->onFocusLost();
 		
 		mEntries.at(mCursor).data.elements.back().component->onFocusGained();
 	}
@@ -198,18 +198,18 @@ void ComponentList::render(const Eigen::Affine3f& parentTrans)
 	// draw our entries
 	std::vector<GuiComponent*> drawAfterCursor;
 	bool drawAll;
-	for(unsigned int i = 0; i < mEntries.size(); i++)
+	for (unsigned int i = 0; i < mEntries.size(); i++)
 	{
 		auto& entry = mEntries.at(i);
 		drawAll = !mFocused || i != (unsigned int)mCursor;
-		for(auto it = entry.data.elements.begin(); it != entry.data.elements.end(); it++)
+		for (auto& element : entry.data.elements)
 		{
-			if(drawAll || it->invert_when_selected)
+			if(drawAll || element.invert_when_selected)
 			{
-				it->component->setColor(textColor);
-				it->component->render(trans);
+				element.component->setColor(textColor);
+				element.component->render(trans);
 			}else{
-				drawAfterCursor.push_back(it->component.get());
+				drawAfterCursor.push_back(element.component.get());
 			}
 		}
 	}
@@ -227,14 +227,15 @@ void ComponentList::render(const Eigen::Affine3f& parentTrans)
 			Renderer::drawRect(0.0f, mSelectorBarOffset, mSize.x(), selectedRowHeight, selectorColor, GL_ONE, GL_ONE);
 		}
 		auto& entry = mEntries.at(mCursor);
-		for(auto it = entry.data.elements.begin(); it != entry.data.elements.end(); it++) {
+		for (auto& element : entry.data.elements)
+		{
 
-			it->component->setColor(selectedColor);
-			drawAfterCursor.push_back(it->component.get());
+			element.component->setColor(selectedColor);
+			drawAfterCursor.push_back(element.component.get());
 		}
 
-		for(auto it = drawAfterCursor.begin(); it != drawAfterCursor.end(); it++)
-			(*it)->render(trans);
+		for (auto& it : drawAfterCursor)
+			it->render(trans);
 		
 		// reset matrix if one of these components changed it
 		if(drawAfterCursor.size())
@@ -244,10 +245,10 @@ void ComponentList::render(const Eigen::Affine3f& parentTrans)
 	// draw separators
 	float y = 0;
 	
-	for(unsigned int i = 0; i < mEntries.size(); i++)
+	for (auto& mEntrie : mEntries)
 	{
 		Renderer::drawRect(0.0f, y, mSize.x(), 1.0f, separatorColor);
-		y += getRowHeight(mEntries.at(i).data);
+		y += getRowHeight(mEntrie.data);
 	}
 	Renderer::drawRect(0.0f, y, mSize.x(), 1.0f, separatorColor);
 
@@ -258,10 +259,10 @@ float ComponentList::getRowHeight(const ComponentListRow& row) const
 {
 	// returns the highest component height found in the row
 	float height = 0;
-	for(unsigned int i = 0; i < row.elements.size(); i++)
+	for (const auto& element : row.elements)
 	{
-		if(row.elements.at(i).component->getSize().y() > height)
-			height = row.elements.at(i).component->getSize().y();
+		if(element.component->getSize().y() > height)
+			height = element.component->getSize().y();
 	}
 
 	return height;
@@ -270,9 +271,9 @@ float ComponentList::getRowHeight(const ComponentListRow& row) const
 float ComponentList::getTotalRowHeight() const
 {
 	float height = 0;
-	for(auto it = mEntries.begin(); it != mEntries.end(); it++)
+	for (const auto& mEntrie : mEntries)
 	{
-		height += getRowHeight(it->data);
+		height += getRowHeight(mEntrie.data);
 	}
 
 	return height;
@@ -281,7 +282,7 @@ float ComponentList::getTotalRowHeight() const
 void ComponentList::updateElementPosition(const ComponentListRow& row)
 {
 	float yOffset = 0;
-	for(auto it = mEntries.begin(); it != mEntries.end() && &it->data != &row; it++)
+	for (auto it = mEntries.begin(); it != mEntries.end() && &it->data != &row; it++)
 	{
 		yOffset += getRowHeight(it->data);
 	}
@@ -290,9 +291,9 @@ void ComponentList::updateElementPosition(const ComponentListRow& row)
 	float rowHeight = getRowHeight(row);
 
 	float x = TOTAL_HORIZONTAL_PADDING_PX / 2;
-	for(unsigned int i = 0; i < row.elements.size(); i++)
+	for (const auto& element : row.elements)
 	{
-		const auto comp = row.elements.at(i).component;
+		const auto comp = element.component;
 
 		// center vertically
 		comp->setPosition(x, (rowHeight - comp->getSize().y()) / 2 + yOffset);
@@ -305,19 +306,19 @@ void ComponentList::updateElementSize(const ComponentListRow& row)
 	float width = mSize.x() - TOTAL_HORIZONTAL_PADDING_PX;
 	std::vector< std::shared_ptr<GuiComponent> > resizeVec;
 
-	for(auto it = row.elements.begin(); it != row.elements.end(); it++)
+	for (const auto& element : row.elements)
 	{
-		if(it->resize_width)
-			resizeVec.push_back(it->component);
+		if(element.resize_width)
+			resizeVec.push_back(element.component);
 		else
-			width -= it->component->getSize().x();
+			width -= element.component->getSize().x();
 	}
 
 	// redistribute the "unused" width equally among the components with resize_width set to true
 	width = width / resizeVec.size();
-	for(auto it = resizeVec.begin(); it != resizeVec.end(); it++)
+	for (auto& it : resizeVec)
 	{
-		(*it)->setSize(width, (*it)->getSize().y());
+		it->setSize(width, it->getSize().y());
 	}
 }
 
@@ -339,9 +340,9 @@ std::vector<HelpPrompt> ComponentList::getHelpPrompts()
 	if(size() > 1)
 	{
 		bool addMovePrompt = true;
-		for(auto it = prompts.begin(); it != prompts.end(); it++)
+		for (auto& prompt : prompts)
 		{
-		  if(strcmp(it->first.c_str(), "up/down") == 0 || strcmp(it->first.c_str(), "up/down/left/right") == 0)
+		  if(strcmp(prompt.first.c_str(), "up/down") == 0 || strcmp(prompt.first.c_str(), "up/down/left/right") == 0)
 			{
 				addMovePrompt = false;
 				break;

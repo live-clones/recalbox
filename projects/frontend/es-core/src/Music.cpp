@@ -27,12 +27,12 @@ std::shared_ptr<Music> Music::getFromTheme(const std::shared_ptr<ThemeData>& the
 	if(!elem || !elem->has("path"))
 	{
 		LOG(LogInfo) << "   (missing)";
-		return NULL;
+		return nullptr;
 	}
 	return get(elem->get<std::string>("path"));
 }
 
-Music::Music(const std::string & path) : music(NULL), playing(false)
+Music::Music(const std::string & path) : music(nullptr), playing(false)
 {
 	mPath = path;
 	initMusic();
@@ -52,16 +52,16 @@ std::string Music::getName()
 
 void Music::initMusic()
 {
-	if(music != NULL)
+	if(music != nullptr)
 		deinitMusic();
 
 	if(mPath.empty())
 		return;
 
 	//load wav file via SDL
-        Mix_Music *gMusic = NULL;
+        Mix_Music *gMusic = nullptr;
         gMusic = Mix_LoadMUS( mPath.c_str() );
-        if(gMusic == NULL){
+        if(gMusic == nullptr){
             LOG(LogError) << "Error loading sound \"" << mPath << "\"!\n" << "	" << SDL_GetError();
             return;
         }else {
@@ -72,15 +72,15 @@ void Music::initMusic()
 void Music::deinitMusic()
 {
 	playing = false;
-        if(music != NULL){
+        if(music != nullptr){
             Mix_FreeMusic( music );
-            music = NULL;
+            music = nullptr;
         }
 }
 
 void Music::play(bool repeat, void (* callback)())
 {
-    if(music == NULL)
+    if(music == nullptr)
 		return;
 	if (!playing)
 	{

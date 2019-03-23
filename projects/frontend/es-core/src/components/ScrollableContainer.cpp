@@ -107,7 +107,7 @@ void ScrollableContainer::update(int deltaTime)
 Eigen::Vector2f ScrollableContainer::getContentSize()
 {
 	Eigen::Vector2f max(0, 0);
-	for(unsigned int i = 0; i < mChildren.size(); i++)
+	for (unsigned int i = 0; i < mChildren.size(); i++)
 	{
 		Eigen::Vector2f pos(mChildren.at(i)->getPosition()[0], mChildren.at(i)->getPosition()[1]);
 		Eigen::Vector2f bottomRight = mChildren.at(i)->getSize() + pos;

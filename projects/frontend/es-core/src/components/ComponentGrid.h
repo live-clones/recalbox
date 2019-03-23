@@ -88,7 +88,7 @@ private:
 
 		operator bool() const
 		{
-			return component != NULL;
+			return component != nullptr;
 		}
 	};
 

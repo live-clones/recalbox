@@ -27,7 +27,7 @@ TextComponent::TextComponent(Window* window, const std::string& text, const std:
 		mColor(0x000000FF),
 		mBgColor(0),
 		mRenderBackground(false),
-	  mFont(NULL),
+	  mFont(nullptr),
 		mUppercase(false),
 		mAutoCalcExtent(true, true),
 		mHorizontalAlignment(align),

@@ -18,7 +18,7 @@
 #include "views/ViewController.h"
 
 Window::Window()
-  : mInfoPopup(NULL),
+  : mInfoPopup(nullptr),
     mFrameTimeElapsed(0),
     mFrameCountElapsed(0),
     mAverageDeltaTime(10),
@@ -58,7 +58,7 @@ void Window::displayScrollMessage(std::string title, std::string message)
 
 void Window::removeGui(GuiComponent* gui)
 {
-	for(auto i = mGuiStack.begin(); i != mGuiStack.end(); i++)
+	for (auto i = mGuiStack.begin(); i != mGuiStack.end(); i++)
 	{
 		if(*i == gui)
 		{
@@ -75,7 +75,7 @@ void Window::removeGui(GuiComponent* gui)
 GuiComponent* Window::peekGui()
 {
 	if(mGuiStack.size() == 0)
-		return NULL;
+		return nullptr;
 
 	return mGuiStack.back();
 }
@@ -334,32 +334,32 @@ void Window::setHelpPrompts(const std::vector<HelpPrompt>& prompts, const HelpSt
 
 	std::map<std::string, bool> inputSeenMap;
 	std::map<std::string, int> mappedToSeenMap;
-	for(auto it = prompts.begin(); it != prompts.end(); it++)
+	for (const auto& prompt : prompts)
 	{
 		// only add it if the same icon hasn't already been added
-	  if(inputSeenMap.insert(std::make_pair<std::string, bool>(it->first.c_str(), true)).second)
+	  if(inputSeenMap.insert(std::make_pair<std::string, bool>(prompt.first.c_str(), true)).second)
 		{
 			// this symbol hasn't been seen yet, what about the action name?
-			auto mappedTo = mappedToSeenMap.find(it->second);
+			auto mappedTo = mappedToSeenMap.find(prompt.second);
 			if(mappedTo != mappedToSeenMap.end())
 			{
 				// yes, it has!
 
 				// can we combine? (dpad only)
-			  if((strcmp(it->first.c_str(), "up/down") == 0 && strcmp(addPrompts.at(mappedTo->second).first.c_str(), "left/right") == 0) ||
-			     (strcmp(it->first.c_str(), "left/right") == 0 && strcmp(addPrompts.at(mappedTo->second).first.c_str(), "up/down") == 0))
+			  if((strcmp(prompt.first.c_str(), "up/down") == 0 && strcmp(addPrompts.at(mappedTo->second).first.c_str(), "left/right") == 0) ||
+			     (strcmp(prompt.first.c_str(), "left/right") == 0 && strcmp(addPrompts.at(mappedTo->second).first.c_str(), "up/down") == 0))
 				{
 					// yes!
 				  addPrompts.at(mappedTo->second).first = "up/down/left/right";
 					// don't need to add this to addPrompts since we just merged
 				}else{
 					// no, we can't combine!
-					addPrompts.push_back(*it);
+					addPrompts.push_back(prompt);
 				}
 			}else{
 				// no, it hasn't!
-				mappedToSeenMap.insert(std::pair<std::string, int>(it->second, addPrompts.size()));
-				addPrompts.push_back(*it);
+				mappedToSeenMap.insert(std::pair<std::string, int>(prompt.second, addPrompts.size()));
+				addPrompts.push_back(prompt);
 			}
 		}
 	}
@@ -373,13 +373,13 @@ void Window::setHelpPrompts(const std::vector<HelpPrompt>& prompts, const HelpSt
 			"left/right",
 			"a", "b", "x", "y", "l", "r", 
 			"start", "select", 
-			NULL
+			nullptr
 		};
 		
 		int i = 0;
 		int aVal = 0;
 		int bVal = 0;
-		while(map[i] != NULL)
+		while(map[i] != nullptr)
 		{
 			if(a.first == map[i])
 				aVal = i;

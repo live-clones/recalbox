@@ -47,7 +47,7 @@ void NetworkThread::run()
           boost::this_thread::sleep(boost::posix_time::seconds(5));
         }
 
-        if (changelog != "")
+        if (!changelog.empty())
         {
           std::string message = changelog;
           std::string updateVersion = RecalboxUpgrade::getInstance()->getUpdateVersion();

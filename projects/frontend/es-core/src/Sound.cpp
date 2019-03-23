@@ -32,7 +32,7 @@ std::shared_ptr<Sound> Sound::getFromTheme(const std::shared_ptr<ThemeData>& the
 	return get(elem->get<std::string>("path"));
 }
 
-Sound::Sound(const std::string & path) : mSampleData(NULL), playing(false)
+Sound::Sound(const std::string & path) : mSampleData(nullptr), playing(false)
 {
 	loadFile(path);
 }
@@ -50,7 +50,7 @@ void Sound::loadFile(const std::string & path)
 
 void Sound::init()
 {
-	if(mSampleData != NULL)
+	if(mSampleData != nullptr)
 		deinit();
 
 	if(mPath.empty())
@@ -58,7 +58,7 @@ void Sound::init()
 
 	//load wav file via SDL
 	mSampleData = Mix_LoadWAV(mPath.c_str());
-	if(mSampleData == NULL) {
+	if(mSampleData == nullptr) {
 		LOG(LogError) << "Error loading sound \"" << mPath << "\"!\n" << "	" << SDL_GetError();
 		return;
 	}
@@ -68,7 +68,7 @@ void Sound::deinit()
 {
 	playing = false;
 
-	if(mSampleData != NULL)
+	if(mSampleData != nullptr)
 	{
             Mix_FreeChunk( mSampleData );
 	}
@@ -76,7 +76,7 @@ void Sound::deinit()
 
 void Sound::play()
 {
-	if(mSampleData == NULL)
+	if(mSampleData == nullptr)
 		return;
 	
 

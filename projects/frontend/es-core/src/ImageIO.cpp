@@ -42,7 +42,7 @@ std::vector<unsigned char> ImageIO::loadFromMemoryRGBA32(const unsigned char * d
         {
           unsigned int* argb = (unsigned int*)FreeImage_GetScanLine(fiBitmap, y);
           unsigned int* abgr = (unsigned int*)(tempData + (y * width * 4));
-          for(int x = w ; --x >= 0;)
+          for (int x = w ; --x >= 0;)
           {
             unsigned int c = argb[x];
             abgr[x] = (c & 0xFF00FF00) | ((c & 0xFF) << 16) | ((c >> 16) & 0xFF);
@@ -70,9 +70,9 @@ void ImageIO::flipPixelsVert(unsigned char* imagePx, const size_t& width, const 
 {
 	unsigned int temp;
 	unsigned int* arr = (unsigned int*)imagePx;
-	for(size_t y = 0; y < height / 2; y++)
+	for (size_t y = 0; y < height / 2; y++)
 	{
-		for(size_t x = 0; x < width; x++)
+		for (size_t x = 0; x < width; x++)
 		{
 			temp = arr[x + (y * width)];
 			arr[x + (y * width)] = arr[x + (height * width) - ((y + 1) * width)];

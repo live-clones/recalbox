@@ -171,7 +171,7 @@ GuiGamelistOptions::~GuiGamelistOptions()
 			SystemData::deleteSystems();
 			SystemData::loadConfig();
 			GuiComponent *gui;
-			while ((gui = window->peekGui()) != NULL) window->removeGui(gui);
+			while ((gui = window->peekGui()) != nullptr) window->removeGui(gui);
 			ViewController::init(window);
 			ViewController::get()->reloadAll();
 			window->pushGui(ViewController::get());

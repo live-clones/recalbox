@@ -27,11 +27,11 @@
 RecalboxSystem::RecalboxSystem() {
 }
 
-RecalboxSystem *RecalboxSystem::instance = NULL;
+RecalboxSystem *RecalboxSystem::instance = nullptr;
 
 
 RecalboxSystem *RecalboxSystem::getInstance() {
-    if (RecalboxSystem::instance == NULL) {
+    if (RecalboxSystem::instance == nullptr) {
         RecalboxSystem::instance = new RecalboxSystem();
     }
     return RecalboxSystem::instance;
@@ -105,7 +105,7 @@ std::vector<std::string> RecalboxSystem::getAvailableWiFiSSID(bool activatedWifi
 	FILE *pipe = popen(oss.str().c_str(), "r");
 	char line[1024];
 
-	if (pipe == NULL) {
+	if (pipe == nullptr) {
 		return res;
 	}
 
@@ -124,7 +124,7 @@ std::vector<std::string> RecalboxSystem::getAvailableAudioOutputDevices() {
 	FILE *pipe = popen(oss.str().c_str(), "r");
 	char line[1024];
 
-	if (pipe == NULL) {
+	if (pipe == nullptr) {
 		return res;
 	}
 
@@ -144,7 +144,7 @@ std::string RecalboxSystem::getCurrentAudioOutputDevice() {
 	FILE *pipe = popen(oss.str().c_str(), "r");
 	char line[1024];
 
-	if (pipe == NULL) {
+	if (pipe == nullptr) {
 		return "";
 	}
 
@@ -204,7 +204,7 @@ bool RecalboxSystem::setOverscan(bool enable) {
 }
 
 bool RecalboxSystem::setOverclock(std::string mode) {
-    if (mode != "") {
+    if (!mode.empty()) {
         std::ostringstream oss;
         oss << Settings::getInstance()->getString("RecalboxSettingScript") << " "
             << "overclock" << " " << mode;
@@ -330,14 +330,14 @@ bool RecalboxSystem::fastShutdown() {
 
 
 std::string RecalboxSystem::getIpAdress() {
-    struct ifaddrs *ifAddrStruct = NULL;
-    struct ifaddrs *ifa = NULL;
-    void *tmpAddrPtr = NULL;
+    struct ifaddrs *ifAddrStruct = nullptr;
+    struct ifaddrs *ifa = nullptr;
+    void *tmpAddrPtr = nullptr;
 
     std::string result = "NOT CONNECTED";
     getifaddrs(&ifAddrStruct);
 
-    for (ifa = ifAddrStruct; ifa != NULL; ifa = ifa->ifa_next) {
+    for (ifa = ifAddrStruct; ifa != nullptr; ifa = ifa->ifa_next) {
         if (!ifa->ifa_addr) {
             continue;
         }
@@ -355,7 +355,7 @@ std::string RecalboxSystem::getIpAdress() {
     }
     // Seeking for ipv6 if no IPV4
     if (result.compare("NOT CONNECTED") == 0) {
-        for (ifa = ifAddrStruct; ifa != NULL; ifa = ifa->ifa_next) {
+        for (ifa = ifAddrStruct; ifa != nullptr; ifa = ifa->ifa_next) {
             if (!ifa->ifa_addr) {
                 continue;
             }
@@ -372,7 +372,7 @@ std::string RecalboxSystem::getIpAdress() {
             }
         }
     }
-    if (ifAddrStruct != NULL) freeifaddrs(ifAddrStruct);
+    if (ifAddrStruct != nullptr) freeifaddrs(ifAddrStruct);
     return result;
 }
 
@@ -383,8 +383,8 @@ std::vector<std::string> *RecalboxSystem::scanBluetooth() {
     FILE *pipe = popen(oss.str().c_str(), "r");
     char line[1024];
 
-    if (pipe == NULL) {
-        return NULL;
+    if (pipe == nullptr) {
+        return nullptr;
     }
 
     while (fgets(line, 1024, pipe)) {
@@ -411,7 +411,7 @@ std::vector<std::string> RecalboxSystem::getAvailableStorageDevices() {
     FILE *pipe = popen(oss.str().c_str(), "r");
     char line[1024];
 
-    if (pipe == NULL) {
+    if (pipe == nullptr) {
         return res;
     }
 
@@ -431,7 +431,7 @@ std::string RecalboxSystem::getCurrentStorage() {
     FILE *pipe = popen(oss.str().c_str(), "r");
     char line[1024];
 
-    if (pipe == NULL) {
+    if (pipe == nullptr) {
         return "";
     }
 
@@ -464,7 +464,7 @@ std::string RecalboxSystem::getRootPassword() {
     FILE *pipe = popen(oss.str().c_str(), "r");
     char line[1024];
 
-    if (pipe == NULL) {
+    if (pipe == nullptr) {
         return "";
     }
 
@@ -483,7 +483,7 @@ std::pair<std::string, int> RecalboxSystem::execute(std::string command) {
     FILE *pipe = popen(oss.str().c_str(), "r");
     char line[1024];
 
-    if (pipe == NULL) {
+    if (pipe == nullptr) {
         return std::make_pair("", -1);
     }
     std::ostringstream res;
@@ -504,7 +504,7 @@ bool RecalboxSystem::ping() {
 std::pair<std::string, int> RecalboxSystem::getSDLBatteryInfo(){
     std::pair<std::string, int> result;
     int percent;
-    auto powerInfo = SDL_GetPowerInfo(NULL,&percent);
+    auto powerInfo = SDL_GetPowerInfo(nullptr,&percent);
     switch (powerInfo){
         case SDL_POWERSTATE_UNKNOWN:
         {
@@ -620,7 +620,7 @@ std::string RecalboxSystem::runCmd(std::string options) {
     FILE *pipe = popen(cmd.c_str(), "r");
     char line[1024];
 
-    if (pipe == NULL) {
+    if (pipe == nullptr) {
         return "";
     }
 

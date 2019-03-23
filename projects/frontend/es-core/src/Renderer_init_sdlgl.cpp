@@ -23,8 +23,8 @@ namespace Renderer
 	unsigned int getScreenWidth() { return display_width; }
 	unsigned int getScreenHeight() { return display_height; }
 
-	SDL_Window* sdlWindow = NULL;
-	SDL_GLContext sdlContext = NULL;
+	SDL_Window* sdlWindow = nullptr;
+	SDL_GLContext sdlContext = nullptr;
 
 	bool createSurface()
 	{
@@ -65,7 +65,7 @@ namespace Renderer
 			display_width, display_height, 
 			SDL_WINDOW_OPENGL | (Settings::getInstance()->getBool("Windowed") ? 0 : SDL_WINDOW_FULLSCREEN));
 
-		if(sdlWindow == NULL)
+		if(sdlWindow == nullptr)
 		{
 			LOG(LogError) << "Error creating SDL window!\n\t" << SDL_GetError();
 			return false;
@@ -89,7 +89,7 @@ namespace Renderer
 			#endif
 			//try creating SDL surface from logo data
 			SDL_Surface * logoSurface = SDL_CreateRGBSurfaceFrom((void *)rawData.data(), width, height, 32, width * 4, rmask, gmask, bmask, amask);
-			if (logoSurface != NULL)
+			if (logoSurface != nullptr)
 			{
 				SDL_SetWindowIcon(sdlWindow, logoSurface);
 				SDL_FreeSurface(logoSurface);
@@ -124,10 +124,10 @@ namespace Renderer
 	void destroySurface()
 	{
 		SDL_GL_DeleteContext(sdlContext);
-		sdlContext = NULL;
+		sdlContext = nullptr;
 
 		SDL_DestroyWindow(sdlWindow);
-		sdlWindow = NULL;
+		sdlWindow = nullptr;
 
 		//show mouse cursor
 		SDL_ShowCursor(initialCursorState);

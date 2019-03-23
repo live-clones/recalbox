@@ -69,27 +69,27 @@ void HelpComponent::updateGrid()
 
 	float width = 0;
 	const float height = round(font->getLetterHeight() * 1.25f);
-	for(auto it = mPrompts.begin(); it != mPrompts.end(); it++)
+	for (auto& mPrompt : mPrompts)
 	{
 		auto icon = std::make_shared<ImageComponent>(mWindow);
 		
-		if (mStyle.iconMap.find(it->first) != mStyle.iconMap.end())
-			icon->setImage(mStyle.iconMap[it->first]);
+		if (mStyle.iconMap.find(mPrompt.first) != mStyle.iconMap.end())
+			icon->setImage(mStyle.iconMap[mPrompt.first]);
 		else
-			icon->setImage(getIconTexture(it->first.c_str()));
+			icon->setImage(getIconTexture(mPrompt.first.c_str()));
 					
 		icon->setColorShift(mStyle.iconColor);
 		icon->setResize(0, height);
 		icons.push_back(icon);
 
-		auto lbl = std::make_shared<TextComponent>(mWindow, strToUpper(it->second), font, mStyle.textColor);
+		auto lbl = std::make_shared<TextComponent>(mWindow, strToUpper(mPrompt.second), font, mStyle.textColor);
 		labels.push_back(lbl);
 
 		width += icon->getSize().x() + lbl->getSize().x() + ICON_TEXT_SPACING + ENTRY_SPACING;
 	}
 
 	mGrid->setSize(width, height);
-	for(unsigned int i = 0; i < icons.size(); i++)
+	for (unsigned int i = 0; i < icons.size(); i++)
 	{
 		const int col = i*4;
 		mGrid->setColWidthPerc(col, icons.at(i)->getSize().x() / width);
@@ -131,7 +131,7 @@ void HelpComponent::setOpacity(unsigned char opacity)
 {
 	GuiComponent::setOpacity(opacity);
 
-	for(unsigned int i = 0; i < mGrid->getChildCount(); i++)
+	for (unsigned int i = 0; i < mGrid->getChildCount(); i++)
 	{
 		mGrid->getChild(i)->setOpacity(opacity);
 	}

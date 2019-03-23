@@ -9,7 +9,7 @@
 GuiComponent::GuiComponent(Window* window)
   : mOpacity(255),
 		mWindow(window),
-		mParent(NULL),
+		mParent(nullptr),
 	  mPosition(Eigen::Vector3f::Zero()),
 	  mOrigin(Eigen::Vector2f::Zero()),
 	  mRotationOrigin(0.5, 0.5),
@@ -17,8 +17,8 @@ GuiComponent::GuiComponent(Window* window)
 	  mIsProcessing(false),
     mTransform(Eigen::Affine3f::Identity())
 {
-	for(unsigned char i = 0; i < MAX_ANIMATIONS; i++)
-		mAnimationMap[i] = NULL;
+	for (auto& i : mAnimationMap)
+		i = nullptr;
 }
 
 GuiComponent::~GuiComponent()
@@ -30,13 +30,13 @@ GuiComponent::~GuiComponent()
 	if(mParent)
 		mParent->removeChild(this);
 
-	for(unsigned int i = 0; i < getChildCount(); i++)
-		getChild(i)->setParent(NULL);
+	for (unsigned int i = 0; i < getChildCount(); i++)
+		getChild(i)->setParent(nullptr);
 }
 
 bool GuiComponent::input(InputConfig* config, Input input)
 {
-	for(unsigned int i = 0; i < getChildCount(); i++)
+	for (unsigned int i = 0; i < getChildCount(); i++)
 	{
 		if(getChild(i)->input(config, input))
 			return true;
@@ -47,13 +47,13 @@ bool GuiComponent::input(InputConfig* config, Input input)
 
 void GuiComponent::updateSelf(int deltaTime)
 {
-	for(unsigned char i = 0; i < MAX_ANIMATIONS; i++)
+	for (unsigned char i = 0; i < MAX_ANIMATIONS; i++)
 		advanceAnimation(i, deltaTime);
 }
 
 void GuiComponent::updateChildren(int deltaTime)
 {
-	for(unsigned int i = 0; i < getChildCount(); i++)
+	for (unsigned int i = 0; i < getChildCount(); i++)
 	{
 		getChild(i)->update(deltaTime);
 	}
@@ -73,7 +73,7 @@ void GuiComponent::render(const Eigen::Affine3f& parentTrans)
 
 void GuiComponent::renderChildren(const Eigen::Affine3f& transform) const
 {
-	for(unsigned int i = 0; i < getChildCount(); i++)
+	for (unsigned int i = 0; i < getChildCount(); i++)
 	{
 		getChild(i)->render(transform);
 	}
@@ -195,9 +195,9 @@ void GuiComponent::removeChild(GuiComponent* cmp)
 		LOG(LogError) << "Tried to remove child from incorrect parent!";
 	}
 
-	cmp->setParent(NULL);
+	cmp->setParent(nullptr);
 
-	for(auto i = mChildren.begin(); i != mChildren.end(); i++)
+	for (auto i = mChildren.begin(); i != mChildren.end(); i++)
 	{
 		if(*i == cmp)
 		{
@@ -247,9 +247,9 @@ unsigned char GuiComponent::getOpacity() const
 void GuiComponent::setOpacity(unsigned char opacity)
 {
 	mOpacity = opacity;
-	for(auto it = mChildren.begin(); it != mChildren.end(); it++)
+	for (auto& it : mChildren)
 	{
-		(*it)->setOpacity(opacity);
+		it->setOpacity(opacity);
 	}
 }
 
@@ -299,9 +299,9 @@ std::string GuiComponent::getValue() const
 
 void GuiComponent::textInput(const char* text)
 {
-	for(auto iter = mChildren.begin(); iter != mChildren.end(); iter++)
+	for (auto& iter : mChildren)
 	{
-		(*iter)->textInput(text);
+		iter->textInput(text);
 	}
 }
 
@@ -322,7 +322,7 @@ bool GuiComponent::stopAnimation(unsigned char slot)
 	if(mAnimationMap[slot])
 	{
 		delete mAnimationMap[slot];
-		mAnimationMap[slot] = NULL;
+		mAnimationMap[slot] = nullptr;
 		return true;
 	}else{
 		return false;
@@ -336,7 +336,7 @@ bool GuiComponent::cancelAnimation(unsigned char slot)
 	{
 		mAnimationMap[slot]->removeFinishedCallback();
 		delete mAnimationMap[slot];
-		mAnimationMap[slot] = NULL;
+		mAnimationMap[slot] = nullptr;
 		return true;
 	}else{
 		return false;
@@ -353,7 +353,7 @@ bool GuiComponent::finishAnimation(unsigned char slot)
 		assert(done);
 
 		delete mAnimationMap[slot]; // will also call finishedCallback
-		mAnimationMap[slot] = NULL;
+		mAnimationMap[slot] = nullptr;
 		return true;
 	}else{
 		return false;
@@ -369,7 +369,7 @@ bool GuiComponent::advanceAnimation(unsigned char slot, unsigned int time)
 		bool done = anim->update(time);
 		if(done)
 		{
-			mAnimationMap[slot] = NULL;
+			mAnimationMap[slot] = nullptr;
 			delete anim;
 		}
 		return true;
@@ -380,30 +380,30 @@ bool GuiComponent::advanceAnimation(unsigned char slot, unsigned int time)
 
 void GuiComponent::stopAllAnimations()
 {
-	for(unsigned char i = 0; i < MAX_ANIMATIONS; i++)
+	for (unsigned char i = 0; i < MAX_ANIMATIONS; i++)
 		stopAnimation(i);
 }
 
 void GuiComponent::cancelAllAnimations()
 {
-	for(unsigned char i = 0; i < MAX_ANIMATIONS; i++)
+	for (unsigned char i = 0; i < MAX_ANIMATIONS; i++)
 		cancelAnimation(i);
 }
 
 bool GuiComponent::isAnimationPlaying(unsigned char slot) const
 {
-	return mAnimationMap[slot] != NULL;
+	return mAnimationMap[slot] != nullptr;
 }
 
 bool GuiComponent::isAnimationReversed(unsigned char slot) const
 {
-	assert(mAnimationMap[slot] != NULL);
+	assert(mAnimationMap[slot] != nullptr);
 	return mAnimationMap[slot]->isReversed();
 }
 
 int GuiComponent::getAnimationTime(unsigned char slot) const
 {
-	assert(mAnimationMap[slot] != NULL);
+	assert(mAnimationMap[slot] != nullptr);
 	return mAnimationMap[slot]->getTime();
 }
 
@@ -483,12 +483,12 @@ bool GuiComponent::isProcessing() const
 
 void GuiComponent::onShow()
 {
-    for(unsigned int i = 0; i < getChildCount(); i++)
+    for (unsigned int i = 0; i < getChildCount(); i++)
         getChild(i)->onShow();
 }
 
 void GuiComponent::onHide()
 {
-    for(unsigned int i = 0; i < getChildCount(); i++)
+	for (unsigned int i = 0; i < getChildCount(); i++)
         getChild(i)->onHide();
 }

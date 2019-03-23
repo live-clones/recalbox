@@ -35,7 +35,7 @@ std::string getHomePath()
       homePath = envDir;
       homePath += envPath;
 
-      for(unsigned int i = 0; i < homePath.length(); i++)
+      for (unsigned int i = 0; i < homePath.length(); i++)
         if(homePath[i] == '\\')
           homePath[i] = '/';
     }
@@ -138,7 +138,7 @@ RaspberryGeneration getRaspberryVersion()
         char* colon = strchr(line, ':');
         if (colon != nullptr)
         {
-          int revision = (int)strtol(colon + 2, NULL, 16); // Convert hexa revision
+          int revision = (int)strtol(colon + 2, nullptr, 16); // Convert hexa revision
           LOG(LogError) << "Pi revision" << (colon + 2);
 
           version = extractGeneration(revision);

@@ -187,18 +187,18 @@ bool ISimpleGameListView::input(InputConfig* config, Input input) {
 
 					if (value) {
                         md.SetFavorite(false);
-                        if (favoriteSystem != NULL) {
+                        if (favoriteSystem != nullptr) {
                             favoriteSystem->getRootFolder()->removeChild(cursor);
                         }
                         removeFavorite = true;
 					} else {
                         md.SetFavorite(true);
-                        if (favoriteSystem != NULL) {
+                        if (favoriteSystem != nullptr) {
                             favoriteSystem->getRootFolder()->addChild(cursor, false);
                         }
 					}
 
-					if (favoriteSystem != NULL) {
+					if (favoriteSystem != nullptr) {
 					  ViewController::get()->setInvalidGamesList(favoriteSystem);
 					  ViewController::get()->getSystemListView()->manageFavorite();
 					}

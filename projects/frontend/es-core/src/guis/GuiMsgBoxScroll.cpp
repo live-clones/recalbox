@@ -55,11 +55,11 @@ GuiMsgBoxScroll::GuiMsgBoxScroll(Window* window,
 	{
 		mAcceleratorFunc = mButtons.front()->getPressedFunc();
 	}else{
-		for(auto it = mButtons.begin(); it != mButtons.end(); it++)
+		for (auto& mButton : mButtons)
 		{
-			if(strToUpper((*it)->getText()) == "OK" || strToUpper((*it)->getText()) == "NO")
+			if(strToUpper(mButton->getText()) == "OK" || strToUpper(mButton->getText()) == "NO")
 			{
-				mAcceleratorFunc = (*it)->getPressedFunc();
+				mAcceleratorFunc = mButton->getPressedFunc();
 				break;
 			}
 		}

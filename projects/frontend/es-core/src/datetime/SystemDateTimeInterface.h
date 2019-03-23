@@ -12,7 +12,7 @@ class SystemDateTimeImplementation : public ISystemDateTimeInterface
 
     char LoadTimeZone() override
     {
-      time_t t = time(NULL);
+      time_t t = time(nullptr);
       struct tm* lt = localtime(&t);
       return (char)((lt->tm_gmtoff / (60* 60)) * 4);
     }

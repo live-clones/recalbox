@@ -153,7 +153,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window* window,
           std::string currentEmulator = mMetaData.Emulator();
           std::string mainConfigEmulator = RecalboxConf::getInstance()->get(system->getName() + ".emulator");
 
-          if (mainConfigEmulator == "" || mainConfigEmulator == "default")
+          if (mainConfigEmulator.empty() || mainConfigEmulator == "default")
           {
             mainConfigEmulator = emulatorDefaults.emulator;
           }
@@ -173,7 +173,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window* window,
                                                    if (emulatorName == "default")
                                                    {
                                                      std::string mainConfigCore = RecalboxConf::getInstance()->get(system->getName() + ".core");
-                                                     if (mainConfigCore == "" || mainConfigCore == "default")
+                                                     if (mainConfigCore.empty() || mainConfigCore == "default")
                                                      {
                                                        mainConfigCore = emulatorDefaults.core;
                                                      }
@@ -184,7 +184,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window* window,
                                                    std::vector<std::string> cores = system->getCores(emulatorName);
                                                    std::string currentCore = mMetaData.Core();
 
-                                                   if (currentCore == "")
+                                                   if (currentCore.empty())
                                                    {
                                                      currentCore = "default";
                                                    }

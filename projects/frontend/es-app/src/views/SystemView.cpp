@@ -147,9 +147,9 @@ void SystemView::populate()
 {
 	mEntries.clear();
 
-	for(auto it = SystemData::sSystemVector.begin(); it != SystemData::sSystemVector.end(); it++)
+	for (auto& it : SystemData::sSystemVector)
 	{
-		addSystem((*it));
+		addSystem(it);
 	}
 }
 
@@ -833,7 +833,7 @@ void SystemView::onHide()
 }
 
 void SystemView::removeFavoriteSystem(){
-	for(auto it = mEntries.begin(); it != mEntries.end(); it++)
+	for (auto it = mEntries.begin(); it != mEntries.end(); it++)
 		if(it->object->isFavorite()){
 			mEntries.erase(it);
 			break;
@@ -842,8 +842,8 @@ void SystemView::removeFavoriteSystem(){
 
 void SystemView::manageFavorite(){
 	bool hasFavorite = false;
-	for(auto it = mEntries.begin(); it != mEntries.end(); it++)
-		if(it->object->isFavorite()){
+	for (auto& mEntrie : mEntries)
+		if(mEntrie.object->isFavorite()){
 			hasFavorite = true;
 		}
 	SystemData *favorite = SystemData::getFavoriteSystem();

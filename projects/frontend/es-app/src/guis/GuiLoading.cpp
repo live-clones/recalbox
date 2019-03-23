@@ -86,7 +86,7 @@ void GuiLoading::update(int deltaTime) {
     mBusyAnim.update(deltaTime);
 
     if (!mRunning) {
-        if(mFunc2 != NULL)
+        if(mFunc2 != nullptr)
             mFunc2(result);
         delete this;
     }

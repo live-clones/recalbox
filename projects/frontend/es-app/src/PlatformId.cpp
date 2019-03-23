@@ -93,10 +93,10 @@ namespace PlatformIds
 
 	PlatformId getPlatformId(const char* str)
 	{
-		if(str == NULL)
+		if(str == nullptr)
 			return PLATFORM_UNKNOWN;
 
-		for(unsigned int i = 1; i < PLATFORM_COUNT; i++)
+		for (unsigned int i = 1; i < PLATFORM_COUNT; i++)
 		{
 			if(strcmp(PlatformNames[i], str) == 0)
 				return (PlatformId)i;
@@ -114,7 +114,7 @@ namespace PlatformIds
 	{
 		const char** mameNames = mameNameToRealName;
 
-		while(*mameNames != NULL && strcmp(from, *mameNames) != 0)
+		while(*mameNames != nullptr && strcmp(from, *mameNames) != 0)
 			mameNames += 2;
 
 		if(*mameNames)

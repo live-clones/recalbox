@@ -23,12 +23,12 @@ using namespace Eigen;
 
 bool compareLowerCase(std::string str1, std::string str2)
 {
-	for(unsigned int i = 0; i < str1.length(); i++)
+	for (unsigned int i = 0; i < str1.length(); i++)
 	{
 		str1[i] = tolower(str1[i]);
 	}
 
-	for(unsigned int i = 0; i < str2.length(); i++)
+	for (unsigned int i = 0; i < str2.length(); i++)
 	{
 		str2[i] = tolower(str2[i]);
 	}
@@ -48,7 +48,7 @@ GuiNetPlay::GuiNetPlay(Window* window)
     mGrid(window, Eigen::Vector2i(1, 3)),
     mGridMeta(new ComponentGrid(window, Eigen::Vector2i(2, 1))),
     mGridMetaRight(new ComponentGrid(window, Eigen::Vector2i(2, 11))),
-    mList(NULL)
+    mList(nullptr)
 {
 	addChild(&mBackground);
 	addChild(&mGrid);
@@ -122,7 +122,7 @@ bool GuiNetPlay::parseLobby()
             {
                 continue;
             }
-			FileData* tmp = NULL;
+			FileData* tmp = nullptr;
 			if (array_element.second.get<std::string>("fields.game_crc") != "00000000") {
 				tmp = findGame(array_element.second.get<std::string>("fields.game_crc"));
 			}
@@ -213,7 +213,7 @@ void GuiNetPlay::populateGrid()
 				if (mGames[i]->getHash() == v.second.get<std::string>("fields.game_crc")) {
 					text = "\uf1c0 " + gameName;
 				}
-				else if (getCoreInfo(v.second.get<std::string>("fields.core_name")).first != "") {
+				else if (!getCoreInfo(v.second.get<std::string>("fields.core_name")).first.empty()) {
 					text = "\uf1c1 " + gameName;
 				} else
 				{
@@ -266,7 +266,7 @@ void GuiNetPlay::populateGridMeta(int i)
 	}
 	std::pair<std::string, std::string> CoreInfo = getCoreInfo(mRooms[i].second.get<std::string>("fields.core_name"));
 	coreVerMatch = CoreInfo.second == mRooms[i].second.get<std::string>("fields.core_version");
-	coreMatch = CoreInfo.first != "";
+	coreMatch = !CoreInfo.first.empty();
 
     std::string username = mRooms[i].second.get<std::string>("fields.username", "N/A");
 	std::string frontend = mRooms[i].second.get<std::string>("fields.frontend");
@@ -331,7 +331,7 @@ void GuiNetPlay::launch()
         Eigen::Vector3f target(Renderer::getScreenWidth() / 2.0f, Renderer::getScreenHeight() / 2.0f, 0);
         int index = mList->getCursor();
         std::string core = getCoreInfo(mRooms[index].second.get<std::string>("fields.core_name")).first;
-        if (core != "")
+        if (!core.empty())
         {
 	        std::string ip, port;
 	        if (mRooms[index].second.get<std::string>("fields.host_method") == "3") {
@@ -366,8 +366,8 @@ FileData* GuiNetPlay::findGame(std::string gameNameOrHash)
 std::pair<std::string, std::string> GuiNetPlay::getCoreInfo(const std::string &name) {
     boost::regex validLine("^(?<key>[^;|#].*?);(?<val>.*?)$");
     std::pair<std::string, std::string> result;
-    result.first = "";
-    result.second = "";
+    result.first.clear();
+    result.second.clear();
     std::map<std::string, std::string> coreMap;
     std::string line;
     std::string filePath = "/recalbox/share/system/configs/retroarch.corenames";
@@ -394,7 +394,7 @@ std::pair<std::string, std::string> GuiNetPlay::getCoreInfo(const std::string &n
             result.first = token;
             s.erase(0, pos + delimiter.length());
         }
-        if (result.first != "")
+        if (!result.first.empty())
         {
 	        result.second = s;
         }
@@ -418,7 +418,7 @@ void GuiNetPlay::pingLobby()
 std::string GuiNetPlay::pingHost(const std::string& ip)
 {
     std::pair<std::string, int> ping = RecalboxSystem::getInstance()->execute("ping -c 1 -w 1 " + ip + " | grep \"min/avg/max\" | cut -d '/' -f 5");
-    if (ping.first != "") {
+    if (!ping.first.empty()) {
         float latency = strtof(ping.first.c_str(), 0);
         if (latency <=80) {
             return "\uF1c8 " + _("good") + " (" + std::to_string((int)latency) + "ms)";

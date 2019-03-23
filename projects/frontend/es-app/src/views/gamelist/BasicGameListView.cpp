@@ -145,7 +145,7 @@ void BasicGameListView::populateList(const FolderData* folder)
 
   // Add to list
   //mList.reserve(items.size()); // TODO: Reserve memory once
-  for(FileData* fd : items)
+  for (FileData* fd : items)
 	{
   	// Get name
   	std::string name = fd->getName();

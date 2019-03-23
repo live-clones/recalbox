@@ -44,7 +44,7 @@ void GridGameListView::populateList(const FolderData* folder)
 	mGrid.clear();
 	bool favoritesOnly = Settings::getInstance()->getBool("FavoritesOnly");
 	FileData::List files = favoritesOnly ? folder->getAllFavorites(true) : folder->getAllDisplayableItems(true);
-	for(FileData* fd : files)
+	for (FileData* fd : files)
 	{
 		mGrid.add(fd->getName(), fd->getThumbnailOrImagePath(), fd);
 	}

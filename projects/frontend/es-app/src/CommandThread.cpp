@@ -52,7 +52,7 @@ void CommandThread::run() {
 			continue;
 		}
 		
-		SystemData *system = NULL;
+		SystemData *system = nullptr;
 		for (auto tmp = SystemData::sSystemVector.begin(); tmp != SystemData::sSystemVector.end(); tmp ++) {
 			if ((*tmp)->getName() == tokens[1]) {
 				system = *tmp;
@@ -61,14 +61,14 @@ void CommandThread::run() {
 		}
 
 		// The system is not a valid one
-		if (system == NULL)
+		if (system == nullptr)
 		{
 			LOG(LogError) << "Invalid system on network command: " << tokens[1];
 			continue;
 		}
 
 		FileData* result = system->getRootFolder()->LookupGame(tokens[2], FileData::SearchAttributes::ByNameWithExt);
-		if (result != NULL)
+		if (result != nullptr)
 		{
 			LOG(LogInfo) << "Starting game " << tokens[2] << " for system " << tokens[1];
 			runGame(result);

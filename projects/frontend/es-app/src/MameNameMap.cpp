@@ -1,4 +1,4 @@
-#define NULL 0
+#define nullptr 0
 
 #include <string>
 #include <vector>
@@ -30451,7 +30451,7 @@ const char* mameNameToRealName[] = {
 	"youkaidk", "Yokai Douchuuki (Japan new version)",
 	"zzyzzyx2", "Zzyzzyxx (set 2)",
 
-	NULL
+	nullptr
 };
 
 std::vector<std::string> mameBioses = {

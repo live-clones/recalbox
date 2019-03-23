@@ -7,7 +7,7 @@
 
 NinePatchComponent::NinePatchComponent(Window* window, const std::string& path, unsigned int edgeColor, unsigned int centerColor)
 	: GuiComponent(window),
-		mVertices(NULL), mColors(NULL),
+		mVertices(nullptr), mColors(nullptr),
     mPath(path),
 	  mEdgeColor(edgeColor), mCenterColor(centerColor)
 {
@@ -17,10 +17,10 @@ NinePatchComponent::NinePatchComponent(Window* window, const std::string& path, 
 
 NinePatchComponent::~NinePatchComponent()
 {
-	if (mVertices != NULL)
+	if (mVertices != nullptr)
 		delete[] mVertices;
 
-	if (mColors != NULL)
+	if (mColors != nullptr)
 		delete[] mColors;
 }
 
@@ -32,18 +32,18 @@ void NinePatchComponent::updateColors()
 
 void NinePatchComponent::buildVertices()
 {
-	if(mVertices != NULL)
+	if(mVertices != nullptr)
 		delete[] mVertices;
 
-	if(mColors != NULL)
+	if(mColors != nullptr)
 		delete[] mColors;
 
 	mTexture = TextureResource::get(mPath);
 
 	if(mTexture->getSize() == Eigen::Vector2i::Zero())
 	{
-		mVertices = NULL;
-		mColors = NULL;
+		mVertices = nullptr;
+		mColors = nullptr;
 		LOG(LogWarning) << "NinePatchComponent missing texture!";
 		return;
 	}
@@ -91,7 +91,7 @@ void NinePatchComponent::buildVertices()
 	mVertices[8 * 6].pos = mVertices[7 * 6].pos + Eigen::Vector2f(borderWidth, 0); //bot right
 
 	int v = 0;
-	for(int slice = 0; slice < 9; slice++)
+	for (int slice = 0; slice < 9; slice++)
 	{
 		Eigen::Vector2f size;
 
@@ -134,7 +134,7 @@ void NinePatchComponent::buildVertices()
 	}
 
 	// round vertices
-	for(int i = 0; i < 6*9; i++)
+	for (int i = 0; i < 6*9; i++)
 	{
 		mVertices[i].pos = roundVector(mVertices[i].pos);
 	}
@@ -144,7 +144,7 @@ void NinePatchComponent::render(const Eigen::Affine3f& parentTrans)
 {
 	Eigen::Affine3f trans = roundMatrix(parentTrans * getTransform());
 	
-	if(mTexture && mVertices != NULL)
+	if(mTexture && mVertices != nullptr)
 	{
 		Renderer::setMatrix(trans);
 

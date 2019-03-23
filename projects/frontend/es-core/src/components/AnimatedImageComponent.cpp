@@ -12,9 +12,9 @@ void AnimatedImageComponent::load(const AnimationDef* def)
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 	assert(def->frameCount >= 1);
 
-	for(size_t i = 0; i < def->frameCount; i++)
+	for (size_t i = 0; i < def->frameCount; i++)
 	{
-		if(def->frames[i].path != NULL && !ResourceManager::getInstance()->fileExists(def->frames[i].path))
+		if(def->frames[i].path != nullptr && !ResourceManager::getInstance()->fileExists(def->frames[i].path))
 		{
 			LOG(LogError) << "Missing animation frame " << i << " (\"" << def->frames[i].path << "\")";
 			continue;
@@ -42,9 +42,9 @@ void AnimatedImageComponent::reset()
 
 void AnimatedImageComponent::onSizeChanged()
 {
-	for(auto it = mFrames.begin(); it != mFrames.end(); it++)
+	for (auto& mFrame : mFrames)
 	{
-		it->first->setResize(mSize.x(), mSize.y());
+		mFrame.first->setResize(mSize.x(), mSize.y());
 	}
 }
 

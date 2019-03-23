@@ -62,9 +62,9 @@ private:
 		Eigen::Vector2f squareSize(32, 32);
 
 		// calc biggest square size
-		for(auto it = mEntries.begin(); it != mEntries.end(); it++)
+		for (auto& entry : mEntries)
 		{
-			Eigen::Vector2f chkSize = getSquareSize(it->data.texture);
+			Eigen::Vector2f chkSize = getSquareSize(entry.data.texture);
 			if(chkSize.x() > squareSize.x())
 				squareSize[0] = chkSize[0];
 			if(chkSize.y() > squareSize.y())
@@ -158,9 +158,9 @@ void ImageGridComponent<T>::render(const Eigen::Affine3f& parentTrans)
 		mEntriesDirty = false;
 	}
 
-	for(auto it = mImages.begin(); it != mImages.end(); it++)
+	for (auto& image : mImages)
 	{
-		it->render(trans);
+		image.render(trans);
 	}
 
 	GuiComponent::renderChildren(trans);
@@ -195,9 +195,9 @@ void ImageGridComponent<T>::buildImages()
 	Eigen::Vector2f offset(mSize.x() - totalSize.x(), mSize.y() - totalSize.y());
 	offset /= 2;
 
-	for(int y = 0; y < gridSize.y(); y++)
+	for (int y = 0; y < gridSize.y(); y++)
 	{
-		for(int x = 0; x < gridSize.x(); x++)
+		for (int x = 0; x < gridSize.x(); x++)
 		{
 			mImages.push_back(ImageComponent(mWindow));
 			ImageComponent& image = mImages.at(y * gridSize.x() + x);
@@ -231,7 +231,7 @@ void ImageGridComponent<T>::updateImages()
 		start = 0;
 
 	unsigned int i = (unsigned int)start;
-	for(unsigned int img = 0; img < mImages.size(); img++)
+	for (unsigned int img = 0; img < mImages.size(); img++)
 	{
 		ImageComponent& image = mImages.at(img);
 		if(i >= (unsigned int)size())

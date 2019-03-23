@@ -61,16 +61,16 @@ public:
 	inline void setFont(const std::shared_ptr<Font>& font)
 	{
 		mFont = font;
-		for(auto it = mEntries.begin(); it != mEntries.end(); it++)
-			it->data.textCache.reset();
+		for (auto& entry : mEntries)
+			entry.data.textCache.reset();
 	}
 
 	inline void setUppercase(bool uppercase) 
 	{
 		(void)uppercase;
 		mUppercase = true; // TODO: Check
-		for(auto it = mEntries.begin(); it != mEntries.end(); it++)
-			it->data.textCache.reset();
+		for (auto& entry : mEntries)
+			entry.data.textCache.reset();
 	}
 
 	inline void setSelectorHeight(float selectorScale) { mSelectorHeight = selectorScale; }
@@ -184,7 +184,7 @@ void TextListComponent<T>::render(const Eigen::Affine3f& parentTrans)
 	Renderer::pushClipRect(Eigen::Vector2i((int)(trans.translation().x() + mHorizontalMargin), (int)trans.translation().y()), 
 		Eigen::Vector2i((int)(dim.x() - mHorizontalMargin*2), (int)dim.y()));
 
-	for(int i = startEntry; i < listCutoff; i++)
+	for (int i = startEntry; i < listCutoff; i++)
 	{
 		typename IList<TextListData, T>::Entry& entry = mEntries.at((unsigned int)i);
 

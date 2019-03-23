@@ -180,12 +180,12 @@ std::shared_ptr<ComponentGrid> makeButtonGrid(Window* window, const std::vector<
     std::shared_ptr<ComponentGrid> grid = std::make_shared<ComponentGrid>(window, Vector2i(buttons.size(), 2));
 
     float gridWidth = (float)BUTTON_GRID_HORIZ_PADDING * buttons.size(); // initialize to padding
-    for(int i = 0; i < (int)buttons.size(); i++)
+    for (int i = 0; i < (int)buttons.size(); i++)
     {
         grid->setEntry(buttons.at(i), Vector2i(i, 0), true, false);
         gridWidth += buttons.at(i)->getSize().x();
     }
-    for(unsigned int i = 0; i < buttons.size(); i++)
+    for (unsigned int i = 0; i < buttons.size(); i++)
     {
         grid->setColWidthPerc(i, (buttons.at(i)->getSize().x() + BUTTON_GRID_HORIZ_PADDING) / gridWidth);
     }

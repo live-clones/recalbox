@@ -5,9 +5,9 @@
 
 bool InputStack::hasInput(const Input input)
 {
-	for(auto it = mInputs.begin(); it != mInputs.end(); it++)
+	for (auto& mInput : mInputs)
 	{
-		if(it->device == input.device && it->type == input.type && it->id == input.id)
+		if(mInput.device == input.device && mInput.type == input.type && mInput.id == input.id)
 		{
 			return true;
 		}

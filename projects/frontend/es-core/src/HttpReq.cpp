@@ -12,7 +12,7 @@ std::string HttpReq::urlEncode(const std::string &s)
     const std::string unreserved = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_.~";
 
     std::string escaped="";
-    for(size_t i=0; i<s.length(); i++)
+    for (size_t i=0; i<s.length(); i++)
     {
         if (unreserved.find_first_of(s[i]) != std::string::npos)
         {
@@ -37,11 +37,11 @@ bool HttpReq::isUrl(const std::string& str)
 }
 
 HttpReq::HttpReq(const std::string& url)
-	: mHandle(NULL), mStatus(REQ_IN_PROGRESS)
+	: mHandle(nullptr), mStatus(REQ_IN_PROGRESS)
 {
 	mHandle = curl_easy_init();
 
-	if(mHandle == NULL)
+	if(mHandle == nullptr)
 	{
 		mStatus = REQ_IO_ERROR;
 		onError("curl_easy_init failed");
@@ -124,7 +124,7 @@ HttpReq::Status HttpReq::status()
 			{
 				HttpReq* req = s_requests[msg->easy_handle];
 				
-				if(req == NULL)
+				if(req == nullptr)
 				{
 					LOG(LogError) << "Cannot find easy handle!";
 					continue;

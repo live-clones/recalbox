@@ -25,10 +25,10 @@ GuiScraperStart::GuiScraperStart(Window* window) : GuiComponent(window),
 
 	// add systems (all with a platformid specified selected)
 	mSystems = std::make_shared< OptionListComponent<SystemData*> >(mWindow, _("SCRAPE THESE SYSTEMS"), true);
-	for(auto it = SystemData::sSystemVector.begin(); it != SystemData::sSystemVector.end(); it++)
+	for (auto& it : SystemData::sSystemVector)
 	{
-		if(!(*it)->hasPlatformId(PlatformIds::PLATFORM_IGNORE))
-			mSystems->add((*it)->getFullName(), *it, !(*it)->getPlatformIds().empty());
+		if(!it->hasPlatformId(PlatformIds::PLATFORM_IGNORE))
+			mSystems->add(it->getFullName(), it, !it->getPlatformIds().empty());
 	}
 	mMenu.addWithLabel(mSystems, _("SYSTEMS"));
 
@@ -54,9 +54,9 @@ GuiScraperStart::GuiScraperStart(Window* window) : GuiComponent(window),
 void GuiScraperStart::pressedStart()
 {
 	std::vector<SystemData*> sys = mSystems->getSelectedObjects();
-	for(auto it = sys.begin(); it != sys.end(); it++)
+	for (auto& sy : sys)
 	{
-		if((*it)->getPlatformIds().empty())
+		if(sy->getPlatformIds().empty())
 		{
 			mWindow->pushGui(new GuiMsgBox(mWindow, 
 				_("WARNING: SOME OF YOUR SELECTED SYSTEMS DO NOT HAVE A PLATFORM SET. RESULTS MAY BE EVEN MORE INACCURATE THAN USUAL!\nCONTINUE ANYWAY?"), 
@@ -90,16 +90,16 @@ void GuiScraperStart::start()
 std::queue<ScraperSearchParams> GuiScraperStart::getSearches(std::vector<SystemData*> systems, GameFilterFunc selector)
 {
 	std::queue<ScraperSearchParams> queue;
-	for(auto sys = systems.begin(); sys != systems.end(); sys++)
+	for (auto& system : systems)
 	{
-		FileData::List games = (*sys)->getRootFolder()->getAllItemsRecursively(false);
-		for(auto game = games.begin(); game != games.end(); game++)
+		FileData::List games = system->getRootFolder()->getAllItemsRecursively(false);
+		for (auto& game : games)
 		{
-			if(selector((*sys), (*game)))
+			if(selector(system, game))
 			{
 				ScraperSearchParams search;
-				search.game = *game;
-				search.system = *sys;
+				search.game = game;
+				search.system = system;
 				
 				queue.push(search);
 			}

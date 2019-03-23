@@ -86,7 +86,7 @@ void VolumeControl::init()
 			{
 				LOG(LogDebug) << "VolumeControl::init() - Attached to default card";
 				//ok. register simple element class
-				if (snd_mixer_selem_register(mixerHandle, NULL, NULL) >= 0)
+				if (snd_mixer_selem_register(mixerHandle, nullptr, nullptr) >= 0)
 				{
 					LOG(LogDebug) << "VolumeControl::init() - Registered simple element class";
 					//ok. load registered elements
@@ -143,7 +143,7 @@ void VolumeControl::init()
 		//Windows older than Vista. use mixer API. open default mixer
 		if (mixerHandle == nullptr)
 		{
-			if (mixerOpen(&mixerHandle, 0, NULL, 0, 0) == MMSYSERR_NOERROR)
+			if (mixerOpen(&mixerHandle, 0, nullptr, 0, 0) == MMSYSERR_NOERROR)
 			{
 				//retrieve info on the volume slider control for the "Speaker Out" line
 				MIXERLINECONTROLS mixerLineControls;

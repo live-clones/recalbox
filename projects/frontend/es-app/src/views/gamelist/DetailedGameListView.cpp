@@ -265,9 +265,9 @@ void DetailedGameListView::initMDValues() {
 
 void DetailedGameListView::updateInfoPanel()
 {
-  FileData* file = (mList.size() == 0 || mList.isScrolling()) ? NULL : mList.getSelected();
+  FileData* file = (mList.size() == 0 || mList.isScrolling()) ? nullptr : mList.getSelected();
 
-  if (file == NULL)
+  if (file == nullptr)
   {
     fadeOut(getFolderComponents(), true);
     fadeOut(getGameComponents(), true);

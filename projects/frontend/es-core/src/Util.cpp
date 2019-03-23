@@ -7,7 +7,7 @@ namespace fs = boost::filesystem;
 
 void strFindAndReplace(std::string& source, const std::string& find, const std::string& replace)
 {
-	for(size_t pos = 0; (pos = source.find(find, pos)) != std::string::npos; pos += replace.length())
+	for (size_t pos = 0; (pos = source.find(find, pos)) != std::string::npos; pos += replace.length())
 	{
 		source.replace(pos, find.length(), replace);
 	}
@@ -96,7 +96,7 @@ fs::path resolvePath(const fs::path& path, const fs::path& relativeTo, bool allo
 	if(*path.begin() == ".")
 	{
 		fs::path ret = relativeTo;
-		for(auto it = ++path.begin(); it != path.end(); ++it)
+		for (auto it = ++path.begin(); it != path.end(); ++it)
 			ret /= *it;
 		return ret;
 	}
@@ -104,7 +104,7 @@ fs::path resolvePath(const fs::path& path, const fs::path& relativeTo, bool allo
 	if(allowHome && *path.begin() == "~")
 	{
 		fs::path ret = getHomePath();
-		for(auto it = ++path.begin(); it != path.end(); ++it)
+		for (auto it = ++path.begin(); it != path.end(); ++it)
 			ret /= *it;
 		return ret;
 	}

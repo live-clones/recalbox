@@ -27,9 +27,9 @@ std::unique_ptr<ScraperSearchHandle> startScraperSearch(const ScraperSearchParam
 std::vector<std::string> getScraperList()
 {
 	std::vector<std::string> list;
-	for(auto it = scraper_request_funcs.begin(); it != scraper_request_funcs.end(); it++)
+	for (const auto& scraper_request_func : scraper_request_funcs)
 	{
-		list.push_back(it->first);
+		list.push_back(scraper_request_func.first);
 	}
 
 	return list;
@@ -132,7 +132,7 @@ MDResolveHandle::MDResolveHandle(const ScraperSearchResult& result, const Scrape
 		mFuncs.push_back(ResolvePair(downloadImageAsync(result.imageUrl, imgPath), [this, imgPath]
 		{
 			mResult.mdl.SetImagePath(imgPath);
-			mResult.imageUrl = "";
+			mResult.imageUrl.clear();
 		}));
 	}
 }
@@ -224,7 +224,7 @@ bool resizeImage(const std::string& path, int maxWidth, int maxHeight)
 		return true;
 
 	FREE_IMAGE_FORMAT format = FIF_UNKNOWN;
-	FIBITMAP* image = NULL;
+	FIBITMAP* image = nullptr;
 	
 	//detect the filetype
 	format = FreeImage_GetFileType(path.c_str(), 0);
@@ -259,7 +259,7 @@ bool resizeImage(const std::string& path, int maxWidth, int maxHeight)
 	FIBITMAP* imageRescaled = FreeImage_Rescale(image, maxWidth, maxHeight, FILTER_BILINEAR);
 	FreeImage_Unload(image);
 
-	if(imageRescaled == NULL)
+	if(imageRescaled == nullptr)
 	{
 		LOG(LogError) << "Could not resize image! (not enough memory? invalid bitdepth?)";
 		return false;

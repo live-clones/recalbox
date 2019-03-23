@@ -68,10 +68,10 @@ ScraperSearchComponent::ScraperSearchComponent(Window* window, SearchType type)
 
 	mMD_Grid = std::make_shared<ComponentGrid>(mWindow, Vector2i(2, mMD_Pairs.size()*2 - 1));
 	unsigned int i = 0;
-	for(auto it = mMD_Pairs.begin(); it != mMD_Pairs.end(); it++)
+	for (auto& mMD_Pair : mMD_Pairs)
 	{
-		mMD_Grid->setEntry(it->first, Vector2i(0, i), false, true);
-		mMD_Grid->setEntry(it->second, Vector2i(1, i), false, it->resize);
+		mMD_Grid->setEntry(mMD_Pair.first, Vector2i(0, i), false, true);
+		mMD_Grid->setEntry(mMD_Pair.second, Vector2i(1, i), false, mMD_Pair.resize);
 		i += 2;
 	}
 
@@ -146,15 +146,15 @@ void ScraperSearchComponent::resizeMetadata()
 
 		// update label fonts
 		float maxLblWidth = 0;
-		for(auto it = mMD_Pairs.begin(); it != mMD_Pairs.end(); it++)
+		for (auto& mMD_Pair : mMD_Pairs)
 		{
-			it->first->setFont(fontLbl);
-			it->first->setSize(0, 0);
-			if(it->first->getSize().x() > maxLblWidth)
-				maxLblWidth = it->first->getSize().x() + 6;
+			mMD_Pair.first->setFont(fontLbl);
+			mMD_Pair.first->setSize(0, 0);
+			if(mMD_Pair.first->getSize().x() > maxLblWidth)
+				maxLblWidth = mMD_Pair.first->getSize().x() + 6;
 		}
 
-		for(unsigned int i = 0; i < mMD_Pairs.size(); i++)
+		for (unsigned int i = 0; i < mMD_Pairs.size(); i++)
 		{
 			mMD_Grid->setRowHeightPerc(i*2, (fontLbl->getLetterHeight() + 2) / mMD_Grid->getSize().y());
 		}
@@ -254,7 +254,7 @@ void ScraperSearchComponent::onSearchDone(const std::vector<ScraperSearchResult>
 		mGrid.resetCursor();
 	}else{
 		ComponentListRow row;
-		for(int i = 0; i < end; i++)
+		for (int i = 0; i < end; i++)
 		{
 			row.elements.clear();
 			row.addElement(std::make_shared<TextComponent>(mWindow, strToUpper(results.at(i).mdl.Name()), font, color), true);
