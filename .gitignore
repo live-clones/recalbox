@@ -25,3 +25,4 @@ updatesv2/release/
 .idea
 .vscode
 dist
+.netlify

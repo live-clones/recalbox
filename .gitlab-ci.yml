@@ -147,7 +147,6 @@ build odroidxu4 for test:
   variables:
     ARCH: 'odroidxu4'
 
-
 ### Release
 .release_template: &release_definition
   stage: release
@@ -158,9 +157,10 @@ build odroidxu4 for test:
     BUCKET_PATH: path in the bucket
   script:
     - cd updatesv2
-    - ./prepare_assets.sh "${DEPLOY_TYPE}" "../dist" release "${SKIP_IMAGES}"
+    - ./prepare_assets.sh "${DEPLOY_TYPE}" "../dist" release netlify "${SKIP_IMAGES}"
     - echo "Releasing files"
     - ./upload_to_bucket.sh "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_KEY}" "${BUCKET}" "release" "${BUCKET_PATH}"
+    - if [ "${DEPLOY_TYPE}" = "prod" ]; then docker run --rm -v $(pwd):/work -w /work node:10 bash -c "./upload_to_netlify.sh '${NETLIFY_AUTH_TOKEN}' 'netlify' '${NETLIFY_PROJECT_ID}'"; fi
 
 
 release prod:
