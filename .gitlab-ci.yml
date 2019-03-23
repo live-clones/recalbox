@@ -33,49 +33,49 @@ variables:
       - build.log
     expire_in: 2 mos
 
-build rpi1:
+.build rpi1:
   <<: *build_definition
   only:
     - master
     - tags
   variables:
     ARCH: 'rpi1'
-build rpi2:
+.build rpi2:
   <<: *build_definition
   only:
     - master
     - tags
   variables:
     ARCH: 'rpi2'
-build rpi3:
+.build rpi3:
   <<: *build_definition
   only:
     - master
     - tags
   variables:
     ARCH: 'rpi3'
-build x86_64:
+.build x86_64:
   <<: *build_definition
   only:
     - master
     - tags
   variables:
     ARCH: 'x86_64'
-build x86:
+.build x86:
   <<: *build_definition
   only:
     - master
     - tags
   variables:
     ARCH: 'x86'
-build odroidc2:
+.build odroidc2:
   <<: *build_definition
   only:
     - master
     - tags
   variables:
     ARCH: 'odroidc2'
-build odroidxu4:
+.build odroidxu4:
   <<: *build_definition
   only:
     - master
@@ -83,7 +83,7 @@ build odroidxu4:
   variables:
     ARCH: 'odroidxu4'
 
-build rpi1 for test:
+.build rpi1 for test:
   <<: *build_definition
   when: manual
   only:
@@ -92,7 +92,7 @@ build rpi1 for test:
     - master
   variables:
     ARCH: 'rpi1'
-build rpi2 for test:
+.build rpi2 for test:
   <<: *build_definition
   when: manual
   only:
@@ -101,7 +101,7 @@ build rpi2 for test:
     - master
   variables:
     ARCH: 'rpi2'
-build rpi3 for test:
+.build rpi3 for test:
   <<: *build_definition
   when: manual
   only:
@@ -110,7 +110,7 @@ build rpi3 for test:
     - master
   variables:
     ARCH: 'rpi3'
-build x86_64 for test:
+.build x86_64 for test:
   <<: *build_definition
   when: manual
   only:
@@ -119,7 +119,7 @@ build x86_64 for test:
     - master
   variables:
     ARCH: 'x86_64'
-build x86 for test:
+.build x86 for test:
   <<: *build_definition
   when: manual
   only:
@@ -128,7 +128,7 @@ build x86 for test:
     - master
   variables:
     ARCH: 'x86'
-build odroidc2 for test:
+.build odroidc2 for test:
   <<: *build_definition
   when: manual
   only:
@@ -137,7 +137,7 @@ build odroidc2 for test:
     - master
   variables:
     ARCH: 'odroidc2'
-build odroidxu4 for test:
+.build odroidxu4 for test:
   <<: *build_definition
   when: manual
   only:
@@ -147,6 +147,24 @@ build odroidxu4 for test:
   variables:
     ARCH: 'odroidxu4'
 
+fake build:
+  stage: build
+  when: manual
+  only:
+    - branches
+  except:
+    - master
+  variables:
+    ARCH: 'odroidxu4'
+  script:
+    - mkdir dist
+    - echo "afile" > dist/afile
+  artifacts:
+    name: dist-${ARCH}-${CI_BUILD_ID}
+    when: always
+    paths:
+      - dist
+      - build.log
 
 ### Release
 .release_template: &release_definition
@@ -158,9 +176,10 @@ build odroidxu4 for test:
     BUCKET_PATH: path in the bucket
   script:
     - cd updatesv2
-    - ./prepare_assets.sh "${DEPLOY_TYPE}" "../dist" release "${SKIP_IMAGES}"
+    - ./prepare_assets.sh "${DEPLOY_TYPE}" "../dist" release netlify "${SKIP_IMAGES}"
     - echo "Releasing files"
     - ./upload_to_bucket.sh "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_KEY}" "${BUCKET}" "release" "${BUCKET_PATH}"
+    - if [ "${DEPLOY_TYPE}" = "review" ]; then docker run --rm -v $(pwd):/work -w /work node:10 bash -c "./upload_to_netlify.sh '${NETLIFY_AUTH_TOKEN}' 'netlify' '${NETLIFY_PROJECT_ID}'"; fi
 
 
 release prod:
