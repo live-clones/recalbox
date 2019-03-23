@@ -36,7 +36,7 @@ def getFormattedAxis(inpt, controllerObj):
     direction = int(inpt.value)
     primary = '-' if direction < 0 else '+'
     secondary = '+' if direction < 0 else '-'
-    axis = controllerObj.getAxisNumber(inpt)
+    axis = str(controllerObj.getAxisNumber(inpt))
     return primary + axis, secondary + axis
 
 def writeKodiControllersConfig(controllers):
