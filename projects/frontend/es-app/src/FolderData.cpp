@@ -394,8 +394,8 @@ void FolderData::QuickSortDescending(FileData::List& items, int low, int high, i
       Low++; High--;
     }
   }while(Low <= High);
-  if (High > low) QuickSortAscending(items, low, High, comparer);
-  if (Low < high) QuickSortAscending(items, Low, high, comparer);
+  if (High > low) QuickSortDescending(items, low, High, comparer);
+  if (Low < high) QuickSortDescending(items, Low, high, comparer);
 }
 
 bool FolderData::Contains(const FileData* item, bool recurse)
