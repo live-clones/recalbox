@@ -85,7 +85,7 @@ class LibretroConfiguration:
         # Override with folder settings
         if self.retroarchCoreCustomOverrideFile is not None:
             coreConfig.changeSettingsFile(self.retroarchCoreCustomOverrideFile)
-            coreConfig.loadFile(True)
+            coreConfig.loadFile(False)
 
         # Configure
         cores = LibretroCores(self.system, coreConfig, self.controllers)
