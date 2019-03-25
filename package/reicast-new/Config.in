@@ -1,0 +1,7 @@
+config BR2_PACKAGE_REICAST_NEW
+	bool "reicast-new"
+	depends on BR2_PACKAGE_SDL2
+	depends on BR2_PACKAGE_LIBPNG
+	select BR2_PACKAGE_RECALBOX_ROMFS_DREAMCAST
+	help
+	  A  Dreamcast emulator (new version)

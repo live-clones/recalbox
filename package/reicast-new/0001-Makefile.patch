@@ -1,0 +1,24 @@
+diff --git a/shell/linux/Makefile b/shell/linux/Makefile
+index 25cbc8c..68ed7cb 100644
+--- a/shell/linux/Makefile
++++ b/shell/linux/Makefile
+@@ -152,13 +152,14 @@
+         USE_SDL := 1
+         USE_GLES := 1
+     else
+-        INCS += -I/opt/vc/include/ -I/opt/vc/include/interface/vmcs_host/linux -I/opt/vc/include/interface/vcos/pthreads
+-        LIBS += -L/opt/vc/lib/ -lbcm_host -ldl
+-        LIBS += -lbrcmEGL -lbrcmGLESv2
++        INCS += -I/opt/vc/include/ -I/opt/vc/include/interface/vmcs_host/linux -I/opt/vc/include/interface/vcos/pthreads -I../linux-deps/include
++        LIBS += -L/opt/vc/lib/ -lbcm_host -ldl -L../linux-deps/lib
++        #LIBS += -lbrcmEGL -lbrcmGLESv2
+         CFLAGS += -D TARGET_VIDEOCORE
+         CXXFLAGS += -DGLES
+-        USE_OMX := 1
+-        USE_DISPMANX := 1
++        USE_GLES := 1
++        #USE_OMX := 1
++        #USE_DISPMANX := 1
+     endif
+     undefine USE_X11
+ 

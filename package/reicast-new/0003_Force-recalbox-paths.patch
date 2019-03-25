@@ -1,0 +1,32 @@
+diff --git a/core/nullDC.cpp b/core/nullDC.cpp
+index 0358c68..150a6fb 100755
+--- a/core/nullDC.cpp
++++ b/core/nullDC.cpp
+@@ -19,6 +19,9 @@
+ 
+ settings_t settings;
+ 
++std::string recalboxBiosPath = "/recalbox/share/bios/";
++std::string recalboxNvmemPath = "/recalbox/share/bios/";
++
+ /*
+ 	libndc
+ 
+@@ -185,7 +185,7 @@
+     #define DATA_PATH "/"
+ #endif
+ 
+-	if (settings.bios.UseReios || !LoadRomFiles(get_readonly_data_path(DATA_PATH)))
++	if (settings.bios.UseReios || !LoadRomFiles(recalboxBiosPath))
+ 	{
+ 		if (!LoadHle(get_readonly_data_path(DATA_PATH)))
+ 		{
+@@ -264,7 +264,7 @@
+ #ifndef _ANDROID
+ 	SaveSettings();
+ #endif
+-	SaveRomFiles(get_writable_data_path("/data/"));
++	SaveRomFiles(recalboxNvmemPath);
+ 
+     TermAudio();
+ }

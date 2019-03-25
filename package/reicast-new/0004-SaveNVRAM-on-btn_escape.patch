@@ -1,0 +1,22 @@
+diff --git a/core/linux-dist/evdev.cpp b/core/linux-dist/evdev.cpp
+index 955e507..fb9a2d6 100644
+--- a/core/linux-dist/evdev.cpp
++++ b/core/linux-dist/evdev.cpp
+@@ -28,6 +28,7 @@
+ 		{ -1, NULL }
+ 	};
+ 
++	void dc_term(void);
+ 	void dc_stop(void);
+ 
+ 	void load_libevdev()
+@@ -545,7 +546,7 @@
+ 					} else if (ie.code == controller->mapping->Btn_Start) {
+ 						SET_FLAG(kcode[port], DC_BTN_START, ie.value);
+ 					} else if (ie.code == controller->mapping->Btn_Escape) {
+-						dc_stop();
++						dc_term();
+ 					} else if (ie.code == controller->mapping->Btn_DPad_Left) {
+ 						SET_FLAG(kcode[port], DC_DPAD_LEFT, ie.value);
+ 					} else if (ie.code == controller->mapping->Btn_DPad_Right) {
+

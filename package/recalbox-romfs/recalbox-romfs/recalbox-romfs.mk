@@ -217,7 +217,10 @@ ifeq ($(BR2_PACKAGE_DOSBOX),y)
 endif
 
 # Sytem: dreamcast
-ifeq ($(BR2_PACKAGE_REICAST),y)
+ifeq ($(BR2_PACKAGE_REICAST_OLD),y)
+	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-dreamcast
+endif
+ifeq ($(BR2_PACKAGE_REICAST_NEW),y)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-dreamcast
 endif
 
