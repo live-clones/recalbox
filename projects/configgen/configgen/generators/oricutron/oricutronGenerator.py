@@ -24,9 +24,9 @@ class OricutronGenerator(Generator):
 
         # default joystick are keyboard 1 & 2
         settings.setOption("joystick_a", "kbjoy1")
-        settings.setOption("joystick_b", "kbjoy2")
+        settings.setOption("joystick_b", "none")
         settings.setOption("telejoy_a", "kbjoy1")
-        settings.setOption("telejoy_b", "kbjoyb")
+        settings.setOption("telejoy_b", "none")
 
         # controller settings
         for index in playersControllers:
