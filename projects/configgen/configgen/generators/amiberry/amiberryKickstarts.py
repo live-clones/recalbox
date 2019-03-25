@@ -108,18 +108,23 @@ class KickstartManager:
                     if biosFile is not None:
                         break
 
-        # Fallback to AROS 2019?
-        if biosFile is None:
-            arosBios = os.path.join(recalboxFiles.BIOS, "kick02019.AROS.rom")
-            arosExt = os.path.join(recalboxFiles.BIOS, "kick02019.AROS.ext.rom")
-            if os.path.exists(arosBios) and os.path.exists(arosExt):
-                biosFile = arosBios
-                extFile = arosExt
-
-        # Last control
+        # Fallbacks
         if subsystem in SubSystems.COMPUTERS:
+            # Fallback to AROS 2019?
+            if biosFile is None:
+                arosBios = os.path.join(recalboxFiles.BIOS, "kick02019.AROS.rom")
+                arosExt = os.path.join(recalboxFiles.BIOS, "kick02019.AROS.ext.rom")
+                if os.path.exists(arosBios) and os.path.exists(arosExt):
+                    biosFile = arosBios
+                    extFile = arosExt
+
+            # Fallback to internal Aros bios
             if biosFile is None:
                 self.rom = ":AROS"
+
+        # Last check
+        if biosFile is None:
+            raise Exception("No BIOS found")
         # If an extened bios is required, it's not worth going further w/o it
         if extFile is None and needExt:
             raise Exception("Extended BIOS not found")
