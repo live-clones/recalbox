@@ -173,6 +173,7 @@ menu "Utils"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-cheats/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/hhpc/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/nanoarch/Config.in"
+         source "$BR2_EXTERNAL_RECALBOX_PATH/package/libpcap-overriden/Config.in"
 endmenu
 menu "Small TFT Screen"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/rpi-fbcp/Config.in"
