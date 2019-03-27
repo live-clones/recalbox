@@ -73,7 +73,7 @@ class AmiberryRetroarchConfig:
 
     @staticmethod
     def getInputValue(recalboxInput):
-        if recalboxInput.type == "button" or recalboxInput.type == "key":
+        if recalboxInput.type in ('button', 'key'):
             return recalboxInput.id
         if recalboxInput.type == 'axis':
             return ("-" if int(recalboxInput.value) < 0 else "+") + str(recalboxInput.id)
@@ -106,7 +106,8 @@ class AmiberryRetroarchConfig:
         if isAxis and not hasJoystick:
             for destination in AmiberryRetroarchConfig.dpadToJostickAmiberry:
                 source = AmiberryRetroarchConfig.dpadToJostickAmiberry[destination]
-                self.settings.setOption(destination, '"' + self.settings.getOption(source, "") + '"')
+                self.settings.setOption(destination, self.settings.getOption(source, ""))
+                self.settings.setOption(source, '"999"')
 
     def saveConfigurationFile(self):
         self.settings.saveFile()

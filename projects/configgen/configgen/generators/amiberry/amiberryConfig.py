@@ -69,6 +69,7 @@ class ConfigGenerator:
             # Set mouse
             self.settings.setOption("joyport0", "mouse")
             self.settings.setOption("joyport0_autofire", "none")
+            self.settings.setOption("joyport0_mode", "mousenowheel")
             self.settings.setOption("joyport0_mousemap", "right")
             self.settings.setOption("joyport0_friendlyname", "Mouse")
             self.settings.setOption("joyport0_name", "MOUSE0")
@@ -80,8 +81,7 @@ class ConfigGenerator:
                 if 1 <= player <= 3:
                     self.settings.setOption("joyport{}".format(key), "joy{}".format(indexPadSDL))
                     self.settings.setOption("joyport{}_autofire".format(key), "none")
-                    if subsystem == SubSystems.CD32:
-                        self.settings.setOption("joyport{}_mode".format(key), "cd32joy")
+                    self.settings.setOption("joyport{}_mode".format(key), "cd32joy" if subsystem == SubSystems.CD32 else "djoy")
                     self.settings.setOption("joyport{}_mousemap".format(key), "right")
                     self.settings.setOption("joyport{}_friendlyname".format(key), controller.realName)
                     self.settings.setOption("joyport{}_name".format(key), "JOY{}".format(indexPadSDL))
