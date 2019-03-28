@@ -185,8 +185,6 @@ release review:
     SKIP_IMAGES: 'true'
     BUCKET: recalbox-reviews
     BUCKET_PATH: $CI_ENVIRONMENT_SLUG
-  except:
-    - tags
   environment:
     name: review/${CI_COMMIT_REF_SLUG}
     url: https://recalbox-reviews.s3.nl-ams.scw.cloud/${CI_ENVIRONMENT_SLUG}/index.html
