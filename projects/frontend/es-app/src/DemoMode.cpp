@@ -10,7 +10,8 @@ DemoMode::DemoMode(Window& window)
   : mWindow(window),
     mSettings(*Settings::getInstance()),
     mRecalboxConf(*RecalboxConf::getInstance()),
-    mRandomGenerator(mRandomRevice())
+    mRandomGenerator(mRandomRevice()),
+    mGameRandomizer(0, 1 << 30)
 {
   // Default duration
   mDefaultDuration = (int)mRecalboxConf.getUInt("global.demo.duration", 90);
@@ -40,6 +41,16 @@ DemoMode::DemoMode(Window& window)
       mDemoSystems.push_back(allSystems[i]);
       mDurations.push_back(mDefaultDuration);
     }
+  // Set system randomizer
+  mSystemRandomizer = std::uniform_int_distribution<int>(0, (int)mDemoSystems.size() - 1);
+
+  // Reset histories
+  for(int s = (int)PlatformIds::PLATFORM_COUNT; --s >= 0; )
+  {
+    mSystemHistory[s] = -1;
+    for (int g = MAX_HISTORY; --g >= 0;)
+      mGameHistories[s][g] = -1;
+  }
 }
 
 bool DemoMode::hasDemoMode()
@@ -47,53 +58,66 @@ bool DemoMode::hasDemoMode()
   return (mSettings.getString("ScreenSaverBehavior") == "demo");
 }
 
-bool DemoMode::getRandomSystem(SystemData*& outputSystem, int& outputDuration)
+bool DemoMode::isInHistory(int item, int history[], int maxitems)
+{
+  int max = MAX_HISTORY < maxitems ? MAX_HISTORY : maxitems;
+  for(int i = max; --i >= 0; )
+    if (history[i] == item)
+      return true;
+
+  return false;
+}
+
+void DemoMode::insertIntoHistory(int item, int history[])
+{
+  memmove(&history[1], &history[0], (MAX_HISTORY - 1) * sizeof(int));
+  history[0] = item;
+}
+
+bool DemoMode::getRandomSystem(int& outputSystemIndex, int& outputDuration)
 {
   if (mDemoSystems.empty()) return false;
 
-  std::uniform_int_distribution<int> random(0, (int)mDemoSystems.size() - 1);
-  for (int i=5; --i>=0; ) // Maximum 5 tries to find a new game to launch
+  for (int i = (int)PlatformIds::PLATFORM_COUNT; --i >= 0; )
   {
     // Select random system
-    int randomPosition = random(mRandomGenerator);
-    outputSystem = mDemoSystems[randomPosition];
-    outputDuration = mDurations[randomPosition];
-    std::string outputName = outputSystem->getName();
+    outputSystemIndex = mSystemRandomizer(mRandomGenerator);
+    outputDuration = mDurations[outputSystemIndex];
 
-    if ((outputName != mLastSystem) || (mDemoSystems.size() == 1))
+    if (!isInHistory(outputSystemIndex, mSystemHistory, (int)mDemoSystems.size()) || (mDemoSystems.size() == 1))
     {
-      // Set new game path
-      mLastSystem = outputName;
+      // Save history
+      insertIntoHistory(outputSystemIndex, mSystemHistory);
       break;
     }
     // No luck, try again
   }
-  LOG(LogInfo) << "Randomly selected system: " << outputSystem->getName();
-  //std::cout << "Randomly selected system: " << outputSystem->getName() << "\r\n";
+  LOG(LogInfo) << "Randomly selected system: " << mDemoSystems[outputSystemIndex]->getName();
+  //std::cout << "Randomly selected system: " << mDemoSystems[outputSystemIndex]->getName() << "\r\n";
 
   return true;
 }
 
 bool DemoMode::getRandomGame(FileData*& outputGame, int& outputDuration)
 {
-  SystemData* system = nullptr;
-  if (!getRandomSystem(system, outputDuration)) return false;
+  int systemIndex = 0;
+  if (!getRandomSystem(systemIndex, outputDuration)) return false;
+  SystemData* system = mDemoSystems[systemIndex];
 
   // Get filelist
-  FileData::List gamelist = system->getRootFolder()->getAllDisplayableItemsRecursively(false);
-  if (gamelist.empty()) return false;
+  FileData::List gameList = system->getRootFolder()->getAllDisplayableItemsRecursively(false);
+  if (gameList.empty()) return false;
 
-  std::uniform_int_distribution<int> random(0, (int)gamelist.size() - 1);
-  for (int i=5; --i>=0; ) // Maximum 5 tries to find a new game to launch
+  for (int i = MAX_HISTORY; --i >= 0; )
   {
     // Select game
-    outputGame = gamelist[random(mRandomGenerator)];
-    std::string outputPath = outputGame->getPath().generic_string();
+    int gamePosition = mGameRandomizer(mRandomGenerator) % (int)gameList.size();
+    outputGame = gameList[gamePosition];
 
-    if ((outputPath != mLastGamePath) || (gamelist.size() == 1))
+    if (!isInHistory(gamePosition, mGameHistories[systemIndex], (int)gameList.size()) || (gameList.size() == 1))
     {
-      // Set new game path
-      mLastGamePath = outputPath;
+      // Save history
+      insertIntoHistory(gamePosition, mGameHistories[systemIndex]);
       break;
     }
     // No luck, try again
