@@ -42,3 +42,6 @@ gpu_mem_1024=384
 avoid_safe_mode=1
 
 kernel=zImage
+
+# Raise the first security limit up to 70° instead of 60°
+temp_soft_limit=70

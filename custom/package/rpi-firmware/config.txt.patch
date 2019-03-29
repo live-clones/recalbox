@@ -2,7 +2,7 @@ diff --git a/package/rpi-firmware/config.txt b/package/rpi-firmware/config.txt
 index 58cc966a87..3ae47e7b4f 100644
 --- a/package/rpi-firmware/config.txt
 +++ b/package/rpi-firmware/config.txt
-@@ -1,20 +1,44 @@
+@@ -1,20 +1,48 @@
 -# Please note that this is only a sample, we recommend you to change it to fit
 -# your needs.
 -# You should override this file using a post-build script.
@@ -63,3 +63,7 @@ index 58cc966a87..3ae47e7b4f 100644
 +avoid_safe_mode=1
 +
 +kernel=zImage
++
++# Raise the first security limit up to 70° instead of 60°
++temp_soft_limit=70
++
