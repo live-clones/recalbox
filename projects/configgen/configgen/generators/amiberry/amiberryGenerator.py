@@ -163,8 +163,9 @@ class AmiberryGenerator(Generator):
         # Get rom type and associated configuration file if any
         rom, romType, romHasUAE = RomType.Identify(rom)
 
-        # Get subsystem
-        subSystem = system.name
+        # Get subsystem - Force A1200 with WHDL
+        subSystem = SubSystems.A1200 if romType == RomType.WHDL else system.name
+        needSlowCPU = system.name != subSystem
 
         # Generate global config file
         globalOverride = os.path.join(os.path.dirname(rom), ".amiberry.conf")
@@ -187,7 +188,7 @@ class AmiberryGenerator(Generator):
         configFile.SetUI(AmiberryGenerator.GetKeyboardLayout())
         configFile.SetInput(subSystem)
         configFile.SetJoystick(subSystem, playersControllers)
-        configFile.SetCPU(subSystem, romType)
+        configFile.SetCPU(subSystem, needSlowCPU)
         configFile.SetChipset(subSystem)
         configFile.SetMemory(subSystem)
         configFile.SetGraphics(subSystem)
@@ -199,12 +200,10 @@ class AmiberryGenerator(Generator):
 
         # Load overriden settings of current system
         if os.path.exists(overridenSettings):
-            print("LOAD SYSTEM SETTINGS! " + userSettings)
             configFile.loadConfigFile(overridenSettings)
         # Load user settings
         if userSettings is not None:
             if os.path.exists(userSettings):
-                print("LOAD USER SETTINGS! " + userSettings)
                 configFile.loadConfigFile(userSettings)
 
         # Get arguments (and write configuration) regarding the rom type
