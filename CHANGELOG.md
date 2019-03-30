@@ -67,6 +67,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add xinmo controller support
 - Add 8BitDo M30 gamepad support
 - Fix virtual gamepad even if user has an existing configuration from previous Recalbox version
+- Wifi: improved storage in case of emergency shutdown
 
 ## [18.07.13] - 2018-07-13
 - Bump desmume to desmume2015

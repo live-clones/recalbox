@@ -700,6 +700,16 @@ if [[ "$command" == "getEmulatorDefaults" ]]; then
     exit 0
 fi
 
+if [[ "$command" == "configbackup" ]]; then
+    #Backup recalbox.conf to /boot partition
+    preBootConfig
+    cp /recalbox/share/system/recalbox.conf /boot/recalbox-backup.conf
+    sed -i '1s/^/#THIS IS A BACKUP OF RECALBOX.CONF\n#PLEASE DO NOT MAKE ANY CHANGE HERE !!!\n\n\n/' /boot/recalbox-backup.conf
+    postBootConfig
+    recallog "recalbox.conf saved to /boot partition"
+    exit 0
+fi
+
 echo "Uknown command $command"
 recallog -e "recalbox-config.sh: unknown command $command"
 
