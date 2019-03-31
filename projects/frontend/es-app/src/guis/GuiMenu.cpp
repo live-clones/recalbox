@@ -1258,6 +1258,7 @@ void GuiMenu::menuNetworkSettings(){
     std::string newSSID = RecalboxConf::getInstance()->get("wifi.ssid");
     std::string newKey = RecalboxConf::getInstance()->get("wifi.key");
 
+    RecalboxConf::getInstance()->saveRecalboxConf();
     if (wifienabled) {
       if (baseSSID != newSSID
         || baseKEY != newKey
@@ -1276,7 +1277,6 @@ void GuiMenu::menuNetworkSettings(){
     }
 
     RecalboxConf::getInstance()->set("wifi.enabled", wifienabled ? "1" : "0");
-    RecalboxConf::getInstance()->saveRecalboxConf();
   });
   mWindow->pushGui(s);
 }

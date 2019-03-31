@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
+## [6.0]
 ### Added
 - Mame roms fullname in Netplay GUI
 
@@ -11,6 +11,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Game not listed in lobby if password protected
 - Restore scrapped folder display
 - Changed popups handling for better stability
+- Wifi options securely saved automatically
 
 ## [18.06.27] - 2018-06-27
 ### Added
