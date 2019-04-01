@@ -4,7 +4,7 @@
 #
 ################################################################################
 ifeq ($(BR2_PACKAGE_MK_ARCADE_JOYSTICK_RPI_HOTKEY),y)
-	MK_ARCADE_JOYSTICK_RPI_VERSION = 44db1c24a7c685b546f98d87369c9247e22dd6bf
+	MK_ARCADE_JOYSTICK_RPI_VERSION = febcb904df9a5c2a40b905c60d6926b9266377b6
 	#v0.1.6-hotkey-custom-gpio
 else
 	MK_ARCADE_JOYSTICK_RPI_VERSION = v0.1.5
