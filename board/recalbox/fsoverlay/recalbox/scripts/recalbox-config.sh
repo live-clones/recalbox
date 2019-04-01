@@ -390,7 +390,7 @@ pcm.!default {
         card ${cardId}
         device ${deviceId}
 }
- 
+
 ctl.!default {
         type hw           
         card ${cardId}
@@ -679,7 +679,7 @@ if [[ "$command" == "updateesinput" ]]; then
 
     deviceName="$mode"
     deviceGUID="$extra1"
-    
+
     recallog "Updating ${inputDstFile} for deviceName=\"${deviceName}\" deviceGUID=\"${deviceGUID}\""
     # Get the node from share_init, then escape \n for sed
     realNode=`sed "/inputConfig type=\"joystick\" deviceName=\"${deviceName}\" deviceGUID=\"${deviceGUID}\"/,/<\/inputConfig>/!d" "${inputSrcFile}"`
