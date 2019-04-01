@@ -1277,6 +1277,7 @@ void GuiMenu::menuNetworkSettings(){
 
     RecalboxConf::getInstance()->set("wifi.enabled", wifienabled ? "1" : "0");
     RecalboxConf::getInstance()->saveRecalboxConf();
+    RecalboxSystem::getInstance()->backupRecalboxConf();
   });
   mWindow->pushGui(s);
 }

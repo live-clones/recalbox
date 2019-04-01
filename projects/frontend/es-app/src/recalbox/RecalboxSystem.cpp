@@ -261,6 +261,25 @@ bool RecalboxSystem::launchKodi(Window *window) {
 
 }
 
+bool RecalboxSystem::backupRecalboxConf()
+{
+  std::ostringstream oss;
+  oss << Settings::getInstance()->getString("RecalboxSettingScript") << " configbackup";
+  std::string command = oss.str();
+
+  LOG(LogInfo) << "Launching " << command;
+  if (system(command.c_str()) == 0)
+  {
+    LOG(LogInfo) << "recalbox.conf backup'ed successfully";
+    return true;
+  }
+  else
+  {
+    LOG(LogInfo) << "recalbox.conf backup failed";
+    return false;
+  }
+}
+
 bool RecalboxSystem::enableWifi(std::string ssid, std::string key) {
     std::ostringstream oss;
     boost::replace_all(ssid, "\"", "\\\"");

@@ -43,6 +43,8 @@ public:
 
     bool launchKodi(Window *window);
 
+    bool backupRecalboxConf();
+
     bool enableWifi(std::string ssid, std::string key);
 
     bool disableWifi();
