@@ -229,14 +229,19 @@ void SystemData::launchGame(Window* window, FileData* game, const std::string& n
   game->Metadata().SetLastplayedNow();
 }
 
-void SystemData::demoInitialize(Window& window)
+std::string SystemData::demoInitialize(Window& window)
 {
   LOG(LogInfo) << "Entering demo mode...";
+
+  std::string controlersConfig = InputManager::getInstance()->configureEmulators();
+  LOG(LogInfo) << "Controllers config : " << controlersConfig;
 
   AudioManager::getInstance()->deinit();
   VolumeControl::getInstance()->deinit();
 
   window.deinit();
+
+  return controlersConfig;
 }
 
 void SystemData::demoFinalize(Window& window)
@@ -248,10 +253,8 @@ void SystemData::demoFinalize(Window& window)
   window.normalizeNextUpdate();
 }
 
-bool SystemData::demoLaunchGame(FileData* game, int duration)
+bool SystemData::demoLaunchGame(FileData* game, int duration, const std::string& controlersConfig)
 {
-  std::string controlersConfig = InputManager::getInstance()->configureEmulators();
-  LOG(LogInfo) << "Controllers config : " << controlersConfig;
 
   std::string command = mLaunchCommand;
 

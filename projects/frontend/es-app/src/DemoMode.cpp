@@ -132,10 +132,11 @@ void DemoMode::runDemo()
 {
   if (!hasDemoMode()) return;
 
+  SystemData* system = nullptr;
   FileData* game = nullptr;
   int duration = 0;
   bool Initialized = false;
-  SystemData* system = nullptr;
+  std::string controllerConfigs;
 
   while(getRandomGame(game, duration))
   {
@@ -144,11 +145,11 @@ void DemoMode::runDemo()
     // Initialize (shutdown ES display)
     if (!Initialized)
     {
-      system->demoInitialize(mWindow);
+      controllerConfigs = system->demoInitialize(mWindow);
       Initialized = true;
     }
     // Run game
-    if (system->demoLaunchGame(game, duration))
+    if (system->demoLaunchGame(game, duration, controllerConfigs))
     {
       mWindow.doWake();
       break;

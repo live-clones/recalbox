@@ -154,7 +154,7 @@ class SystemData
   static std::string getUserConfigurationAbsolutePath()     { return RootFolders::DataRootFolder     + "/system/.emulationstation/es_systems.cfg"; }
   static std::string getTemplateConfigurationAbsolutePath() { return RootFolders::TemplateRootFolder + "/system/.emulationstation/es_systems.cfg"; }
 
-  void demoInitialize(Window& window);
+  std::string demoInitialize(Window& window);
   void demoFinalize(Window& window);
-  bool demoLaunchGame(FileData* game, int duration);
+  bool demoLaunchGame(FileData* game, int duration, const std::string& controlersConfig);
 };
