@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import Command
 import recalboxFiles
+from controllersConfig import Controller
 from generators.Generator import Generator
 from generators.residualvm.residualvmGenerator import ResidualVMGenerator 
 import os.path
@@ -11,6 +12,8 @@ class ScummVMGenerator(Generator):
     # Main entry of the module
     # Return scummvm command
     def generate(self, system, rom, playersControllers):
+        # Create a temporary gamecontrollerdb.txt file with controllers mapping
+        Controller.generateSDLGameDBAllControllers(playersControllers, "/tmp/gamecontrollerdb.txt")
         # If ResidualVM extension, redirect to ResidualVM emulator
         if rom.endswith(".residualvm"):
             system.config['emulator'] = 'residualvm'
