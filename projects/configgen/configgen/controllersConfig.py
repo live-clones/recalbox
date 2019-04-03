@@ -185,6 +185,31 @@ class Controller:
         return controllers
 
 
+    # Get a device/start code map, for demo mode
+    @staticmethod
+    def loadDemoConfig(p1index, p1guid, p1name, p1dev, p1nbaxes, p2index, p2guid, p2name, p2dev, p2nbaxes, p3index, p3guid, p3name, p3dev, p3nbaxes,
+                       p4index, p4guid, p4name, p4dev, p4nbaxes, p5index, p5guid, p5name, p5dev, p5nbaxes):
+        result = dict()
+        controllers = Controller.loadAllControllersConfig()
+
+        newController = Controller.findBestControllerConfig(controllers, '1', p1guid, p1index, p1name, p1dev, p1nbaxes)
+        if newController:
+            result[p1dev] = newController.inputs["start"].code
+        newController = Controller.findBestControllerConfig(controllers, '2', p2guid, p2index, p2name, p2dev, p2nbaxes)
+        if newController:
+            result[p2dev] = newController.inputs["start"].code
+        newController = Controller.findBestControllerConfig(controllers, '3', p3guid, p3index, p3name, p3dev, p3nbaxes)
+        if newController:
+            result[p3dev] = newController.inputs["start"].code
+        newController = Controller.findBestControllerConfig(controllers, '4', p4guid, p4index, p4name, p4dev, p4nbaxes)
+        if newController:
+            result[p4dev] = newController.inputs["start"].code
+        newController = Controller.findBestControllerConfig(controllers, '5', p5guid, p5index, p5name, p5dev, p5nbaxes)
+        if newController:
+            result[p5dev] = newController.inputs["start"].code
+        return result
+
+
     # Create a controller array with the player id as a key
     @staticmethod
     def loadControllerConfig(p1index, p1guid, p1name, p1dev, p1nbaxes, p2index, p2guid, p2name, p2dev, p2nbaxes, p3index, p3guid, p3name, p3dev, p3nbaxes,

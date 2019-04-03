@@ -146,6 +146,7 @@ emulators["psp"] = Emulator(name='psp', emulator='ppsspp')
 
 def main(args):
     playersControllers = dict()
+    demoStartButtons = dict()
     if not args.demo:
         # Read the controller configuration
         playersControllers = Controller.loadControllerConfig(args.p1index, args.p1guid, args.p1name, args.p1devicepath, args.p1nbaxes,
@@ -153,6 +154,12 @@ def main(args):
                                                              args.p3index, args.p3guid, args.p3name, args.p3devicepath, args.p3nbaxes,
                                                              args.p4index, args.p4guid, args.p4name, args.p4devicepath, args.p4nbaxes,
                                                              args.p5index, args.p5guid, args.p5name, args.p5devicepath, args.p5nbaxes)
+    else:
+        demoStartButtons = Controller.loadDemoConfig(args.p1index, args.p1guid, args.p1name, args.p1devicepath, args.p1nbaxes,
+                                                     args.p2index, args.p2guid, args.p2name, args.p2devicepath, args.p2nbaxes,
+                                                     args.p3index, args.p3guid, args.p3name, args.p3devicepath, args.p3nbaxes,
+                                                     args.p4index, args.p4guid, args.p4name, args.p4devicepath, args.p4nbaxes,
+                                                     args.p5index, args.p5guid, args.p5name, args.p5devicepath, args.p5nbaxes)
 
     systemName = args.system
     # Main Program
@@ -177,7 +184,17 @@ def main(args):
         # if we even want the binary to be set from here rather than from the generator
         # command.array.insert(0, recalboxFiles.recalboxBins[system.config['emulator']])
         print(command)
-        return runner.runCommand(command, args)
+        returnCode = runner.runCommand(command, args, demoStartButtons)
+
+        # Reexecute emulator in play mode
+        if returnCode == runner.USERWANNAPLAY:
+            print("User wanna play!")
+            args.demo = None
+            args.demoduration = 0
+            main(args)
+            return runner.USERQUIT
+
+        return returnCode
     
     else:
         sys.stderr.write("Unknown system: {}".format(systemName))

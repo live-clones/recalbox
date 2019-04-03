@@ -10,9 +10,10 @@ proc = None
 
 # return code when demo mode ends upon user request
 USERQUIT = 0x33
+USERWANNAPLAY = 0x77
 
 # Set a specific video mode
-def runCommand(command, args):
+def runCommand(command, args, demoStartButtons):
     global proc
 
     chosenMode = videoMode.setVideoMode(command.videomode, command.delay)
@@ -20,7 +21,7 @@ def runCommand(command, args):
     command.env.update(os.environ)
     print("running command: "+" ".join(command.array))
     proc = subprocess.Popen(command.array, env=command.env, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=command.cwdPath)
-    demo = demoManager.DemoManager(proc, args)
+    demo = demoManager.DemoManager(proc, args, demoStartButtons)
     exitcode = -1
     try:
         out, err = proc.communicate()
@@ -31,6 +32,7 @@ def runCommand(command, args):
         print("emulator exited")
 
     userQuit = demo.userQuitted()
+    userWannaPlay = demo.userWannaPlay()
     del demo
 
     if command.postExec is not None :
@@ -39,4 +41,6 @@ def runCommand(command, args):
     if chosenMode != 'default':
         videoMode.setPreffered()
 
-    return USERQUIT if userQuit else exitcode
+    if userQuit: return USERQUIT
+    if userWannaPlay: return USERWANNAPLAY
+    return exitcode
