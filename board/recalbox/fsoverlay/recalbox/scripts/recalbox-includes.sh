@@ -81,13 +81,29 @@ function doRbxConfUpgrade {
 
   done < <(grep -E "^[[:alnum:]\-]+\.[[:alnum:].\-]+=[[:print:]]+$" $cfgOut)
 
-  # Change cores that have been renamed in bf151a1c2c19462fc4c49df75279d1dc87179e68
+  # Migration: change cores that have been renamed in bf151a1
   declare -A renamedCores
   renamedCores=([catsfc]=snes9x2005 [pocketsnes]=snes9x2002 [snes9x_next]=snes9x2010 [pce]=mednafen_pce_fast [vb]=mednafen_vb [imame]=mame2000 [mame078]=mame2003 [fba]=fbalpha)
   for oldCoreName in ${!renamedCores[@]}; do
     sed -i "s/\.core=${oldCoreName}\s*$/.core=${renamedCores[${oldCoreName}]}/" ${tmpFile} \
+      && recallog "RENAMING '${oldCoreName}' core to '${renamedCores[${oldCoreName}]}' in ${tmpFile}" \
       || { recallog "ERROR: Couldn't replace '${oldCoreName}' by '${renamedCores[${oldCoreName}]}' in ${tmpFile}" ; return 1 ; }
   done
+
+  # Migration: add firmware config added in eb98d67
+  if [[ $(cat /recalbox/recalbox.arch) = "rpi3" ]]; then
+    if ! grep -q temp_soft_limit /boot/config.txt; then
+      mount -o remount,rw /boot
+      {
+        echo
+        echo "# Raise the first security limit up to 70° instead of 60°"
+        echo "temp_soft_limit=70"
+      } >> /boot/config.txt \
+        && recallog "APPENDING 'temp_soft_limit=70' to /boot/config.txt" \
+        || recallog "ERROR : Failed to append 'temp_soft_limit=70' to /boot/config.txt"
+      mount -o remount,ro /boot
+    fi
+  fi
 
   cp $cfgOut $savefile || { recallog -e "ERROR : Couldn't backup $cfgOut to $savefile" ; return 1 ; }
   rm -f $cfgOut
