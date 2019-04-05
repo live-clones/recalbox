@@ -175,7 +175,7 @@ bool MetadataDescriptor::IntToHex(int from, std::string& to)
   char result[9];
   result[sizeof(result) - 1] = 0;
 
-  for (int i = sizeof(result), p = 0; -- i >= 0;)
+  for (int i = sizeof(result) - 1, p = 0; -- i >= 0;)
     result[p++] = hexa[(from >> (i << 2)) & 0xF];
 
   to = result;
