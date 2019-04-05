@@ -3,6 +3,9 @@
 			<!ATTLIST inputConfig type CDATA #REQUIRED>
 			<!ATTLIST inputConfig deviceName CDATA #REQUIRED>
 			<!ATTLIST inputConfig deviceGUID CDATA #REQUIRED>
+			<!ATTLIST inputConfig deviceNbAxes CDATA #IMPLIED>
+			<!ATTLIST inputConfig deviceNbHats CDATA #IMPLIED>
+			<!ATTLIST inputConfig deviceNbButtons CDATA #IMPLIED>
 			<!ELEMENT input EMPTY>
 				<!ATTLIST input name (up|down|left|right|a|b|x|y|start|select|hotkey|pageup|pagedown|l2|r2|l3|r3|joystick1up|joystick1left|joystick2up|joystick2left) #REQUIRED >
 				<!ATTLIST input type (hat|axis|button|key) #REQUIRED>
