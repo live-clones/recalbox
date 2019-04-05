@@ -14,6 +14,7 @@
 
 #include "AudioManager.h"
 #include "VolumeControl.h"
+#include "SystemData.h"
 
 #include <ifaddrs.h>
 #include <fstream>
@@ -36,6 +37,24 @@ RecalboxSystem *RecalboxSystem::getInstance() {
     }
     return RecalboxSystem::instance;
 }
+
+void RecalboxSystem::NotifySystemAndGame(const SystemData* system, const FileData* game, bool play, bool demo)
+{
+  std::string output;
+  output.append("System=").append((system != nullptr) ? system->getFullName() : "").append("\r\n");
+  output.append("SystemId=").append((system != nullptr) ? system->getName() : "").append("\r\n");
+  output.append("Game=").append((game != nullptr) ? game->getName() : "").append("\r\n");
+  output.append("GamePath=").append((game != nullptr) ? game->getPath().generic_string() : "").append("\r\n");
+  output.append("ImagePath=").append((game != nullptr) ? game->Metadata().Image() : "").append("\r\n");
+  output.append("State=").append(play ? (demo ? "demo" : "playing") : "selected").append("\r\n");
+  FILE* f = fopen("/tmp/es_state.inf", "w");
+  if (f != nullptr)
+  {
+    fwrite(output.c_str(), output.size(), 1, f);
+    fclose(f);
+  }
+}
+
 
 unsigned long RecalboxSystem::getFreeSpaceGB(std::string mountpoint) {
     struct statvfs fiData;

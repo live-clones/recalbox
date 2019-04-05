@@ -11,6 +11,7 @@
 #include <boost/make_shared.hpp>
 #include <RecalboxConf.h>
 #include <RootFolders.h>
+#include <recalbox/RecalboxSystem.h>
 
 std::vector<SystemData *> SystemData::sSystemVector;
 
@@ -208,7 +209,9 @@ void SystemData::launchGame(Window* window, FileData* game, const std::string& n
 
 	LOG(LogInfo) << "	" << command;
 	std::cout << "==============================================\n";
+  RecalboxSystem::getInstance()->NotifyGame(*game, true, false);
 	int exitCode = runSystemCommand(command);
+  RecalboxSystem::getInstance()->NotifyGame(*game, false, false);
 	std::cout << "==============================================\n";
 
   if( exitCode != 0)
@@ -278,10 +281,11 @@ bool SystemData::demoLaunchGame(FileData* game, int duration, const std::string&
   command += std::to_string(duration);
 
   LOG(LogInfo) << "Demo command: " << command;
-  //std::cout << "	" << command << "\r\n";
+  RecalboxSystem::getInstance()->NotifyGame(*game, true, true);
   int exitCode = runSystemCommand(command);
+  RecalboxSystem::getInstance()->NotifyGame(*game, false, false);
   LOG(LogInfo) << "Demo exit code :	" << exitCode;
-  //std::cout << "ExitCode :	" << exitCode << "\r\n";
+
 
   // Configgen returns an exitcode 0x33 when the user interact with any pad/mouse
   // this exitcode returns here byte-swapped or shifted. Need further investigation

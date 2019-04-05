@@ -77,6 +77,8 @@ void ViewController::goToSystemView(SystemData* system)
 	mCurrentView->onShow();
 
 	playViewTransition();
+
+	RecalboxSystem::getInstance()->NotifySystem(*system);
 }
 
 void ViewController::goToNextGameList()
@@ -147,6 +149,8 @@ void ViewController::goToGameList(SystemData* system)
 
 	mCurrentView = getGameListView(system);
 	playViewTransition();
+
+  RecalboxSystem::getInstance()->NotifyGame(*getGameListView(system).get()->getCursor(), false, false);
 }
 
 void ViewController::updateFavorite(SystemData* system, FileData* file)

@@ -351,6 +351,9 @@ void SystemView::onCursorChanged(const CursorState& state)
 	// update help style
 	updateHelpPrompts();
 
+	// update externs
+  RecalboxSystem::getInstance()->NotifySystem(*getSelected());
+
 	float startPos = mCamOffset;
 
 	float posMax = (float)mEntries.size();

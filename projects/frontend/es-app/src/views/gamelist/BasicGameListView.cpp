@@ -11,6 +11,7 @@
 #include "Settings.h"
 #include "Locale.h"
 #include <boost/assign.hpp>
+#include <recalbox/RecalboxSystem.h>
 
 static const std::map<std::string, const char*> favorites_icons_map = boost::assign::map_list_of
         ("snes"        , "\uF25e ")
@@ -299,8 +300,10 @@ void BasicGameListView::setCursorIndex(int index){
 	mList.setCursorIndex(index);
 }
 
-int BasicGameListView::getCursorIndex(){
-	return mList.getCursorIndex();
+int BasicGameListView::getCursorIndex()
+{
+  RecalboxSystem::getInstance()->NotifyGame(*getCursor(), false, false);
+  return mList.getCursorIndex();
 }
 
 void BasicGameListView::setCursor(FileData* cursor)
@@ -330,6 +333,7 @@ void BasicGameListView::setCursor(FileData* cursor)
 			}
 		}
 	}
+  RecalboxSystem::getInstance()->NotifyGame(*getCursor(), false, false);
 }
 
 void BasicGameListView::launch(FileData* game) {

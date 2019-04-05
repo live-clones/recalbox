@@ -4,6 +4,7 @@
 #include <string>
 #include "Window.h"
 #include "components/BusyComponent.h"
+#include "FileData.h"
 
 struct EmulatorDefaults {
     std::string core;
@@ -81,6 +82,9 @@ public:
 
     EmulatorDefaults getEmulatorDefaults(std::string emulatorName);
 
+    void NotifyGame(const FileData& game, bool play, bool demo) { NotifySystemAndGame(game.getSystem(), &game, play, demo); }
+    void NotifySystem(const SystemData& system) { NotifySystemAndGame(&system, nullptr, false, false); }
+
 private:
     static RecalboxSystem *instance;
 
@@ -91,6 +95,7 @@ private:
     std::string runCmd(std::string cmd);
     std::string getJSONStringValue(std::string json, std::string key);
 
+    void NotifySystemAndGame(const SystemData* system, const FileData* game, bool play, bool demo);
 };
 
 #endif

@@ -142,7 +142,8 @@ bool ISimpleGameListView::input(InputConfig* config, Input input) {
 					setCursorIndex(0);
 				}
 			}
-			return true;
+      RecalboxSystem::getInstance()->NotifyGame(*getCursor(), false, false);
+      return true;
 		}
 
 		if(config->isMappedTo("a", input))
@@ -159,6 +160,7 @@ bool ISimpleGameListView::input(InputConfig* config, Input input) {
 
 				setCursor(selected);
 				//Sound::getFromTheme(getTheme(), getName(), "back")->play();
+        RecalboxSystem::getInstance()->NotifyGame(*getCursor(), false, false);
 			}
 			else if (!hideSystemView)
 			{
@@ -209,7 +211,8 @@ bool ISimpleGameListView::input(InputConfig* config, Input input) {
 					setCursorIndex(std::max(0, cursorPlace + (removeFavorite ? -1 : 1)));
 				}
 			}
-            return true;
+      RecalboxSystem::getInstance()->NotifyGame(*getCursor(), false, false);
+      return true;
 		}
 
 		if (config->isMappedTo("right", input)) {
@@ -220,7 +223,8 @@ bool ISimpleGameListView::input(InputConfig* config, Input input) {
 					mFavoriteChange = false;
 				}
 				ViewController::get()->goToNextGameList();
-				return true;
+        RecalboxSystem::getInstance()->NotifyGame(*getCursor(), false, false);
+        return true;
 			}
 		}
 
@@ -232,6 +236,7 @@ bool ISimpleGameListView::input(InputConfig* config, Input input) {
 					mFavoriteChange = false;
 				}
 				ViewController::get()->goToPrevGameList();
+        RecalboxSystem::getInstance()->NotifyGame(*getCursor(), false, false);
 				return true;
 			}
 		}else if ((config->isMappedTo("x", input)) && (RecalboxConf::getInstance()->get("global.netplay") == "1")
@@ -246,5 +251,14 @@ bool ISimpleGameListView::input(InputConfig* config, Input input) {
 		}
 	}
 
-	return IGameListView::input(config, input);
+	bool result = IGameListView::input(config, input);
+
+  // TODO: Guess there is a better way to detect a game change
+  if (config->isMappedTo("down", input) ||
+      config->isMappedTo("up", input) ||
+      config->isMappedTo("pagedown", input) ||
+      config->isMappedTo("pageup", input) )
+    RecalboxSystem::getInstance()->NotifyGame(*getCursor(), false, false);
+
+	return result;
 }
