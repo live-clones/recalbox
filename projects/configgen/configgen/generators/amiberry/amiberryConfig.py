@@ -4,7 +4,6 @@ import os
 import recalboxFiles
 from generators.amiberry.amiberryKickstarts import KickstartManager
 from generators.amiberry.amiberryRetroarchConfig import AmiberryRetroarchConfig
-from generators.amiberry.amiberryRomType import RomType
 from generators.amiberry.amiberrySubSystems import SubSystems
 from settings.keyValueSettings import keyValueSettings
 
@@ -61,7 +60,7 @@ class ConfigGenerator:
         self.settings.setOption("input.autofire_speed", "0")
         
     def SetJoystick(self, subsystem, controllers):
-        self.settings.setOption("amiberry.use_analogue_remap", "true")
+        self.settings.setOption("amiberry.use_analogue_remap", "false")
         self.settings.setOption("amiberry.use_retroarch_quit", "true")
         self.settings.setOption("amiberry.use_retroarch_menu", "true")
         self.settings.setOption("amiberry.use_retroarch_reset", "true")
