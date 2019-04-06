@@ -34,7 +34,7 @@ class AmiberryGlobalConfig:
         settings.setOption("path", recalboxFiles.amiberryMountPoint)
         settings.setOption("config_path", recalboxFiles.amiberryMountPoint + "/conf")
         settings.setOption("controllers_path", recalboxFiles.amiberryMountPoint + "/conf")
-        settings.setOption("retroarch_config", recalboxFiles.amiberryMountPoint + "/conf/retroarch.cfg")
+        settings.setOption("retroarch_config", recalboxFiles.retroarchCustom)
         settings.setOption("rom_path", recalboxFiles.BIOS + '/')
 
         # Save file
