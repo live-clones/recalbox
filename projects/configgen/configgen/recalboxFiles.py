@@ -116,3 +116,5 @@ daphneHomedir = ROMS + '/daphne'
 daphneDatadir = '/usr/share/daphne'
 
 oricutronConfig = HOME + '/.config/oricutron.cfg'
+
+atari800CustomConfig = HOME + '/.atari800.cfg'
