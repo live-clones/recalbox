@@ -14,6 +14,10 @@ class LibretroCores:
         coreSettings.setOption("bluemsx_msxtype", '"Auto"')
 
     @staticmethod
+    def configureMAME2003plus(coreSettings):
+        coreSettings.setOption("mame2003-plus_analog", '"digital"')
+
+    @staticmethod
     def configureAtari5200(coreSettings):
         coreSettings.setOption("atari800_system", '"5200"')
 
@@ -58,6 +62,7 @@ class LibretroCores:
         specificCoreHandlers =\
         {
             "bluemsx" : LibretroCores.configureBlueMSX,
+            "mame2003_plus": LibretroCores.configureMAME2003plus,
         }
 
         # Get handler and execute
