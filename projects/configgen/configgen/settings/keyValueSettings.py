@@ -73,7 +73,7 @@ class keyValueSettings:
             if os.path.exists(self.settingsFile):
                 with open(self.settingsFile) as lines:
                     for line in lines:
-                        m = re.match(r'^(.*)\s?=\s?"?(.+)"?', line)
+                        m = re.match(r'^(.*)\s?=\s?"?(.*)"?', line)
                         if m:
                             key, value = line.split('=', 1)
                             key = key.strip()
