@@ -44,9 +44,9 @@ GuiTextEditPopupKeyboard::GuiTextEditPopupKeyboard(Window* window, const std::st
 
 		std::vector<std::array<std::string, 12> > lines;
 
-		std::string keyboard = RecalboxConf::getInstance()->get("system.keyboard");
+		std::string keyboard = RecalboxConf::getInstance()->get("system.kblayout");
 
-		if (keyboard == "azerty")
+		if (keyboard == "fr")
 		{
 			lines.push_back({ "&", "é", "\"", "'", "(", "§", "è", "!", "ç", "à", ")", "-" });
 			lines.push_back({ "1", "2", "3",  "4", "5", "6", "7", "8", "9", "0", "°", "_" });

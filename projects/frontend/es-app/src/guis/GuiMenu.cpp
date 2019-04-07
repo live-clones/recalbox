@@ -281,11 +281,16 @@ void GuiMenu::menuSystem(){
 
 
   auto keyboard_choice = std::make_shared<OptionListComponent<std::string> >(window, _("KEYBOARD"), false);
-  std::string keyboard = RecalboxConf::getInstance()->get("system.keyboard");
-  if (keyboard.empty()) keyboard = "qwerty";
+  std::string keyboard = RecalboxConf::getInstance()->get("system.kblayout");
+  if (keyboard.empty()) keyboard = "us";
 
-  keyboard_choice->add("QWERTY", "qwerty", keyboard == "qwerty");
-  keyboard_choice->add("AZERTY", "azerty", keyboard == "azerty");
+  // linux loadkeys value
+  keyboard_choice->add("DE", "de", keyboard == "de");
+  keyboard_choice->add("DK", "dk", keyboard == "dk");
+  keyboard_choice->add("ES", "es", keyboard == "es");
+  keyboard_choice->add("FR", "fr", keyboard == "fr");
+  keyboard_choice->add("IT", "it", keyboard == "it");
+  keyboard_choice->add("US", "us", keyboard == "us");
 
   s->addWithLabel(keyboard_choice, _("KEYBOARD"), _(MenuMessages::KEYBOARD_HELP_MSG));
 
@@ -304,8 +309,9 @@ void GuiMenu::menuSystem(){
     }
 
     if (keyboard != keyboard_choice->getSelected()) {
-      RecalboxConf::getInstance()->set("system.keyboard", keyboard_choice->getSelected());
+      RecalboxConf::getInstance()->set("system.kblayout", keyboard_choice->getSelected());
       RecalboxConf::getInstance()->saveRecalboxConf();
+      reboot = true;
     }
 
     if (reboot) {
