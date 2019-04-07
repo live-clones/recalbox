@@ -3,7 +3,7 @@
 # MAME2003_PLUS
 #
 ################################################################################
-LIBRETRO_MAME2003_PLUS_VERSION = c59c1f7d0f2281f9ed429b3cd0803799ccf3ba61
+LIBRETRO_MAME2003_PLUS_VERSION = feae837e27ac480dc864c8b03a885a35c4d4d0d2
 LIBRETRO_MAME2003_PLUS_SITE = $(call github,libretro,mame2003-plus-libretro,$(LIBRETRO_MAME2003_PLUS_VERSION))
 
 define LIBRETRO_MAME2003_PLUS_BUILD_CMDS
