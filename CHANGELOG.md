@@ -161,6 +161,15 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Package names updated (catsfc -> snes9x2005, pocketsnes -> snes9x2002, snes9x_next -> snes9x2010, pce -> mednafen_pce_fast, vb -> mednafen_vb, imame -> mame2000, mame2003 as core name instead of mame078, fbalpha instead of fba)
 - Improved log formatting 
 - Add Demo Screensaver
+- Add xinmo controller support
+- Add 8BitDo M30 gamepad support
+- Fix virtual gamepad even if user has an existing configuration from previous Recalbox version
+- Bump Amiberry to 2.24 (SDL2)
+- Bump Amiberry to 2.24 (SDL2). Compatible Rpi1 and Odroid XU4.
+- Add Amiga CD32 system
+- Add AROS bios as default Amiga bios (2019 version)
+- Add configuration for static ip addresses on wifi interfaces
+- Add new n64 emulator (Mupen64Plus-Next)
 
 ## [18.07.13] - 2018-07-13
 - Bump desmume to desmume2015
