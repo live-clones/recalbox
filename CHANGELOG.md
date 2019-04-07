@@ -11,6 +11,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Bluetooth: detection of 8bitdo and other pads asking for "0000" pin code improved
 - Bump mk_arcade_joystick_rpi to hotkeybtn branch to get custom gpio features
 - Sega Mega CD bios updated no handle Genesis plus (picodrive compatible)
+- Add joystick rules for IPega PG-9099 and PG-9021
 
 ## [6.0.0-rc2]
 - Major system upgrade. See https://github.com/buildroot/buildroot/blob/2018.02.3/CHANGES#L1-L1427 for the full log
