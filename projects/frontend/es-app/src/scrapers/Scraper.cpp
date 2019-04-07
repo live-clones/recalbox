@@ -13,7 +13,7 @@
 const std::map<std::string, generate_scraper_requests_func> scraper_request_funcs = boost::assign::map_list_of
 	("TheGamesDB", &thegamesdb_generate_scraper_requests)
 	("Mamedb", &mamedb_generate_scraper_requests)
-	("Screenscraper", &screenscraper_generate_scraper_requests);
+	/*("Screenscraper", &screenscraper_generate_scraper_requests)*/;
 
 std::unique_ptr<ScraperSearchHandle> startScraperSearch(const ScraperSearchParams& params)
 {
