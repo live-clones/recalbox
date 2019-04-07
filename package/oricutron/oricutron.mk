@@ -3,7 +3,7 @@
 # Oric/Atmos Emulation
 #
 ################################################################################
-ORICUTRON_VERSION = a79eec0d49836f24e78575bf05bc706d87ed27dd
+ORICUTRON_VERSION = 992746e35f0f2154a5b59116709c3fd226cf99bb
 ORICUTRON_SITE = $(call github,pete-gordon,oricutron,$(ORICUTRON_VERSION))
 ORICUTRON_DEPENDENCIES = sdl2
 

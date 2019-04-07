@@ -3,7 +3,7 @@
 # PROSYSTEM
 #
 ################################################################################
-LIBRETRO_PROSYSTEM_VERSION = a415cc52f764dbaefd05fbc492c54be700334370
+LIBRETRO_PROSYSTEM_VERSION = d3c4796983d0758c7bb19249b3088f1973332d36
 LIBRETRO_PROSYSTEM_SITE = $(call github,libretro,prosystem-libretro,$(LIBRETRO_PROSYSTEM_VERSION))
 
 define LIBRETRO_PROSYSTEM_BUILD_CMDS

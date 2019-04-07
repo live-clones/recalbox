@@ -1,9 +1,9 @@
 ################################################################################
 #
-# MGT SAM Coupe Emulation
+# MGT SAM Coupé Emulation
 #
 ################################################################################
-SIMCOUPE_VERSION = 3be5b80b14143b608f40cbecc4668da76701b448
+SIMCOUPE_VERSION = 3a2ecdd2ae0d7d55f7682bd777c47afbcd866e96
 SIMCOUPE_SITE = $(call github,simonowen,simcoupe,$(SIMCOUPE_VERSION))
 SIMCOUPE_DEPENDENCIES = sdl2
 
