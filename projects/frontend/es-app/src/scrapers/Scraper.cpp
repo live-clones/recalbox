@@ -128,7 +128,7 @@ MDResolveHandle::MDResolveHandle(const ScraperSearchResult& result, const Scrape
 {
 	if(!result.imageUrl.empty())
 	{
-		std::string imgPath = getSaveAsPath(search, "image", result.imageUrl);
+		std::string imgPath = getSaveAsPath(search, "images", result.imageUrl);
 		mFuncs.push_back(ResolvePair(downloadImageAsync(result.imageUrl, imgPath), [this, imgPath]
 		{
 			mResult.mdl.SetImagePath(imgPath);
@@ -265,7 +265,7 @@ bool resizeImage(const std::string& path, int maxWidth, int maxHeight)
 		return false;
 	}
 
-	bool saved = FreeImage_Save(format, imageRescaled, path.c_str());
+	bool saved =  path.empty() ? false : FreeImage_Save(format, imageRescaled, path.c_str());
 	FreeImage_Unload(imageRescaled);
 
     if(!saved) {
@@ -281,14 +281,14 @@ std::string getSaveAsPath(const ScraperSearchParams& params, const std::string& 
 	const std::string name = params.game->getPath().stem().generic_string() + "-" + suffix;
 
 	// default dir in rom directory
-	std::string path = params.system->getRootFolder()->getPath().generic_string() + "/media/images/";
-	if(!boost::filesystem::exists(path) && !boost::filesystem::create_directory(path)){
-		// Unable to create the directory in system rom dir, fallback on ~
-		path = RootFolders::DataRootFolder + "/system/.emulationstation/media/images/" + subdirectory + "/";
-	}
-
-	if(!boost::filesystem::exists(path))
+	std::string path = params.system->getRootFolder()->getPath().generic_string() + "/media/" + suffix + '/';
+	if (!boost::filesystem::exists(path))
 		boost::filesystem::create_directories(path);
+  if (!boost::filesystem::exists(path))
+  {
+    LOG(LogError) << "Cannot create " << path;
+    return "";
+  }
 
 	size_t dot = url.find_last_of('.');
 	std::string ext;
