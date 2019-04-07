@@ -3,7 +3,7 @@
 # GLUPEN64
 #
 ################################################################################
-LIBRETRO_GLUPEN64_VERSION = 563565dea05b6b205cfadfb1bb3b73522938916b
+LIBRETRO_GLUPEN64_VERSION = 374f8bb31ce8e54c815cf5b38dc645ff6d8637cb
 LIBRETRO_GLUPEN64_SITE = $(call github,libretro,mupen64plus-libretro,$(LIBRETRO_GLUPEN64_VERSION))
 
 ifeq ($(BR2_PACKAGE_RPI_USERLAND),y)

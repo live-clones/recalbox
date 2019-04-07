@@ -3,7 +3,7 @@
 # BEETLE_LYNX
 #
 ################################################################################
-LIBRETRO_BEETLE_LYNX_VERSION = ad4347a58e8334bb351abaf82cb7bcb08d7e3c8c
+LIBRETRO_BEETLE_LYNX_VERSION = c2b75292a2abd794e8a2fb4e38e83edc78d6a6b2
 LIBRETRO_BEETLE_LYNX_SITE = $(call github,libretro,beetle-lynx-libretro,$(LIBRETRO_BEETLE_LYNX_VERSION))
 
 ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_RPI3),y)
