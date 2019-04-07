@@ -1837,3 +1837,7 @@ msgstr ""
 
 msgid "VERIFYING"
 msgstr ""
+
+#:
+msgid "EMPTY LIST"
+msgstr ""

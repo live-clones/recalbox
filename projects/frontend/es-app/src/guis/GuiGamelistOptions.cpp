@@ -9,6 +9,7 @@
 #include "Locale.h"
 #include "MenuMessages.h"
 #include "guis/GuiMsgBox.h"
+#include <stdio.h>
 
 GuiGamelistOptions::GuiGamelistOptions(Window* window, SystemData* system)
   :	GuiComponent(window),
@@ -187,12 +188,13 @@ void GuiGamelistOptions::openMetaDataEd() {
 	p.game = file;
 	p.system = file->getSystem();
 	mWindow->pushGui(new GuiMetaDataEd(mWindow, file->Metadata(), p, file->getPath().filename().string(),
-									   std::bind(&IGameListView::onFileChanged, getGamelist(), file, FileChangeType::MetadataChanged), [this, file] {
-				boost::filesystem::remove(file->getPath()); //actually delete the file on the filesystem
-			file->getParent()->removeChild(file); //unlink it so list repopulations triggered from onFileChanged won't see it
-				getGamelist()->onFileChanged(file, FileChangeType::Removed); //tell the view
-
-			}, file->getSystem(), true));
+									 std::bind(&IGameListView::onFileChanged, getGamelist(), file, FileChangeType::MetadataChanged), [this, file]
+									 {
+				             std::remove(file->getPath().generic_string().c_str()); //actually delete the file on the filesystem
+				             if (file->getParent() != nullptr)
+			                 file->getParent()->removeChild(file); //unlink it so list repopulations triggered from onFileChanged won't see it
+				             getGamelist()->onFileChanged(file, FileChangeType::Removed); //tell the view
+                	 }, file->getSystem(), true));
 }
 
 std::vector<std::string> GuiGamelistOptions::getAvailableLetters()

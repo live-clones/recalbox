@@ -77,7 +77,25 @@ void ISimpleGameListView::onFileChanged(FileData* file, FileChangeType change)
 		return ;
 	}
 
-	if (change == FileChangeType::Removed)
+  if ((change == FileChangeType::Removed) && (file == getEmptyListItem()))
+    return;
+
+  if (file->isGame())
+  {
+    SystemData* favoriteSystem = SystemData::getFavoriteSystem();
+    bool isInFavorite = favoriteSystem->getRootFolder()->Contains(file, true);
+    bool isFavorite = file->Metadata().Favorite();
+
+    if (isInFavorite != isFavorite)
+    {
+      if (isInFavorite) favoriteSystem->getRootFolder()->removeChild(file);
+      else favoriteSystem->getRootFolder()->addChild(file, false);
+      ViewController::get()->setInvalidGamesList(SystemData::getFavoriteSystem());
+      ViewController::get()->getSystemListView()->manageFavorite();
+    }
+  }
+
+  if (change == FileChangeType::Removed)
 	{
 		bool favorite = file->Metadata().Favorite();
 		delete file;
@@ -88,7 +106,7 @@ void ISimpleGameListView::onFileChanged(FileData* file, FileChangeType change)
 		}
 	}
 
-	FileData* cursor = getCursor();
+	int cursor = getCursorIndex();
 	if (RecalboxConf::getInstance()->getBool(getRoot()->getSystem()->getName() + ".flatfolder"))
 	{
 		populateList(getRoot());
@@ -97,23 +115,8 @@ void ISimpleGameListView::onFileChanged(FileData* file, FileChangeType change)
 	{
 		refreshList();
 	}
+	setCursorIndex(cursor);
 
-	setCursor(cursor);
-
-	if (file->isGame())
-	{
-		SystemData* favoriteSystem = SystemData::getFavoriteSystem();
-		bool isInFavorite = favoriteSystem->getRootFolder()->Contains(file, true);
-		bool isFavorite = file->Metadata().Favorite();
-
-		if (isInFavorite != isFavorite)
-		{
-			if (isInFavorite) favoriteSystem->getRootFolder()->removeChild(file);
-			else favoriteSystem->getRootFolder()->addChild(file, false);
-			ViewController::get()->setInvalidGamesList(SystemData::getFavoriteSystem());
-			ViewController::get()->getSystemListView()->manageFavorite();
-		}
-	}
 
 	updateInfoPanel();
 }
@@ -123,6 +126,8 @@ bool ISimpleGameListView::input(InputConfig* config, Input input) {
 
 	if (input.value != 0)
 	{
+
+	  // RUN GAME or ENTER FOLDER
 		if (config->isMappedTo("b", input))
 		{
 			FileData* cursor = getCursor();
@@ -146,6 +151,7 @@ bool ISimpleGameListView::input(InputConfig* config, Input input) {
       return true;
 		}
 
+		// BACK to PARENT FOLDER or PARENT SYSTEM
 		if(config->isMappedTo("a", input))
 		{
 			if (mCursorStack.size())
@@ -177,6 +183,7 @@ bool ISimpleGameListView::input(InputConfig* config, Input input) {
 			return true;
 		}
 
+		// TOGGLE FAVORITES
 		if (config->isMappedTo("y", input)) {
 			FileData* cursor = getCursor();
 			if (!ViewController::get()->getState().getSystem()->isFavorite() && cursor->getSystem()->getHasFavorites()) {
@@ -215,6 +222,7 @@ bool ISimpleGameListView::input(InputConfig* config, Input input) {
       return true;
 		}
 
+		// MOVE to NEXT GAMELIST
 		if (config->isMappedTo("right", input)) {
 			if (Settings::getInstance()->getBool("QuickSystemSelect") && !hideSystemView) {
 				onFocusLost();
@@ -228,6 +236,7 @@ bool ISimpleGameListView::input(InputConfig* config, Input input) {
 			}
 		}
 
+    // MOVE to PREVIOUS GAMELIST
 		if (config->isMappedTo("left", input)) {
 			if (Settings::getInstance()->getBool("QuickSystemSelect") && !hideSystemView) {
 				onFocusLost();
@@ -239,8 +248,11 @@ bool ISimpleGameListView::input(InputConfig* config, Input input) {
         RecalboxSystem::getInstance()->NotifyGame(*getCursor(), false, false);
 				return true;
 			}
-		}else if ((config->isMappedTo("x", input)) && (RecalboxConf::getInstance()->get("global.netplay") == "1")
-		          && (RecalboxConf::getInstance()->isInList("global.netplay.systems", getCursor()->getSystem()->getName())))
+		}
+
+		// NETPLAY
+		if ((config->isMappedTo("x", input)) && (RecalboxConf::getInstance()->get("global.netplay") == "1")
+		     && (RecalboxConf::getInstance()->isInList("global.netplay.systems", getCursor()->getSystem()->getName())))
 		{
 			FileData* cursor = getCursor();
 			if(cursor->isGame())

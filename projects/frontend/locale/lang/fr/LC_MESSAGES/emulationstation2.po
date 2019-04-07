@@ -1856,3 +1856,18 @@ msgstr "Pas de corres. du core"
 msgid "Add a clock in the main menu."
 msgstr "Ajouter une horloge dans le menu principal"
 
+#:
+msgid "UPGRADING"
+msgstr "Mise à jour"
+
+#:
+msgid "PREPARING"
+msgstr "Préparation"
+
+#:
+msgid "VERIFYING"
+msgstr "Verification"
+
+#:
+msgid "EMPTY LIST"
+msgstr "Liste vide"

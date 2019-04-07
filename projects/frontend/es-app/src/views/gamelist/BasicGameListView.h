@@ -32,8 +32,11 @@ public:
 protected:
 	virtual void launch(FileData* game) override;
 
-	TextListComponent<FileData*> mList;
+  virtual FileData* getEmptyListItem() override { return &mEmptyListItem; }
+
+  TextListComponent<FileData*> mList;
 private:
+  FileData mEmptyListItem;
   const FolderData *mPopulatedFolder;
   unsigned long listingOffset;
 

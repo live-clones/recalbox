@@ -76,12 +76,15 @@ static const std::map<std::string, const char*> favorites_icons_map = boost::ass
 BasicGameListView::BasicGameListView(Window* window, FolderData* root)
 	: ISimpleGameListView(window, root),
 	  mList(window),
+    mEmptyListItem("/", root->getSystem()),
 	  listingOffset(0)
 {
 	mList.setSize(mSize.x(), mSize.y() * 0.8f);
 	mList.setPosition(0, mSize.y() * 0.2f);
 	mList.setDefaultZIndex(20);
 	addChild(&mList);
+
+	mEmptyListItem.Metadata().SetName(_("EMPTY LIST"));
 
 	populateList(root);
 }
@@ -138,7 +141,12 @@ void BasicGameListView::populateList(const FolderData* folder)
   int count = flatfolders ? folder->countFilteredItemsRecursively(filter, false) : folder->countFilteredItems(filter, true);
   if (count == 0) filter |= FileData::Filter::Normal;
 	FileData::List items = flatfolders ? folder->getFilteredItemsRecursively(filter, false) : folder->getFilteredItems(filter, true);
-	// TODO: Check empty list here and add default "no game" item
+	// Check emptyness
+	if (items.empty())
+  {
+	  // Insert "EMPTY SYSTEM" item
+    items.push_back(&mEmptyListItem);
+  }
 
   // Sort
 	const FileSorts::SortType& sortType = mSystem->getSortType();
@@ -296,13 +304,17 @@ FileData* BasicGameListView::getCursor() {
 	return mList.getSelected();
 }
 
-void BasicGameListView::setCursorIndex(int index){
+void BasicGameListView::setCursorIndex(int index)
+{
+  if (index >= mList.size()) index = mList.size() - 1;
+  if (index < 0) index = 0;
+
+  RecalboxSystem::getInstance()->NotifyGame(*getCursor(), false, false);
 	mList.setCursorIndex(index);
 }
 
 int BasicGameListView::getCursorIndex()
 {
-  RecalboxSystem::getInstance()->NotifyGame(*getCursor(), false, false);
   return mList.getCursorIndex();
 }
 

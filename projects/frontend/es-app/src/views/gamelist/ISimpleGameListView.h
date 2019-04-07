@@ -32,6 +32,8 @@ public:
 protected:
 	virtual void launch(FileData* game) = 0;
 
+	virtual FileData* getEmptyListItem() = 0;
+
 	TextComponent mHeaderText;
 	ImageComponent mHeaderImage;
 	ImageComponent mBackground;
