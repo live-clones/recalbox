@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fix: Recalbox manager: typo error
 
 ## [6.0] - DragonBlaze
+- Change name from 5.0 to 6.0 DragonBlaze
 - Adding GPIO, Custom GPIO and MCP inputConfig in es_input.cfg
 - Adding Konami RB splash intro video
 - Add joystick rules for IPega PG-9099 and PG-9021
