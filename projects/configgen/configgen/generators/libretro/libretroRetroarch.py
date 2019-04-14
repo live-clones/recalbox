@@ -152,7 +152,7 @@ class LibretroRetroarch:
         settings.setOption("rewind_enable", self.TRUE if hasRewind else self.FALSE)
 
         # Auto-save
-        hasAutoSave = self.isEnabled("autosave")
+        hasAutoSave = self.isEnabled("autosave") and not self.demo
         settings.setOption("savestate_auto_save", self.TRUE if hasAutoSave else self.FALSE)
         settings.setOption("savestate_auto_load", self.TRUE if hasAutoSave else self.FALSE)
 
