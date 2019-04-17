@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system x68000 --extension '.dim .DIM .zip .ZIP .img .IMG .d88 .D88 .88d .88D .hdm .HDM .dup .DUP .2hd .2HD .xdf .XDF .hdf .HDF .cmd .CMD .m3u .M3U' --fullname 'Sharp X68000' --platform x68000 --theme x68000 libretro:px68k:BR2_PACKAGE_LIBRETRO_PX68K
+# ./scripts/linux/empack.py --system x68000 --extension '.dim .DIM .img .IMG .d88 .D88 .88d .88D .hdm .HDM .dup .DUP .2hd .2HD .xdf .XDF .hdf .HDF .cmd .CMD .m3u .M3U .zip .ZIP .7z .7Z' --fullname 'Sharp X68000' --platform x68000 --theme x68000 libretro:px68k:BR2_PACKAGE_LIBRETRO_PX68K
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_X68000_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_X68000 = $(RECALBOX_ROMFS_X68000_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_PX68K),)
 define CONFIGURE_MAIN_X68000_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_X68000),Sharp X68000,$(SYSTEM_NAME_X68000),.dim .DIM .zip .ZIP .img .IMG .d88 .D88 .88d .88D .hdm .HDM .dup .DUP .2hd .2HD .xdf .XDF .hdf .HDF .cmd .CMD .m3u .M3U,x68000,x68000)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_X68000),Sharp X68000,$(SYSTEM_NAME_X68000),.dim .DIM .img .IMG .d88 .D88 .88d .88D .hdm .HDM .dup .DUP .2hd .2HD .xdf .XDF .hdf .HDF .cmd .CMD .m3u .M3U .zip .ZIP .7z .7Z,x68000,x68000)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_PX68K),)

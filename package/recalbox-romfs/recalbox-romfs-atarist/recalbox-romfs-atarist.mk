@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system atarist --extension '.st .ST .stx .STX .ipf .IPF .zip .ZIP' --fullname 'Atari ST' --platform atarist --theme atarist libretro:hatari:BR2_PACKAGE_LIBRETRO_HATARI
+# ./scripts/linux/empack.py --system atarist --extension '.st .ST .stx .STX .ipf .IPF .zip .ZIP .7z .7Z' --fullname 'Atari ST' --platform atarist --theme atarist libretro:hatari:BR2_PACKAGE_LIBRETRO_HATARI
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_ATARIST_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_ATARIST = $(RECALBOX_ROMFS_ATARIST_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_HATARI),)
 define CONFIGURE_MAIN_ATARIST_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_ATARIST),Atari ST,$(SYSTEM_NAME_ATARIST),.st .ST .stx .STX .ipf .IPF .zip .ZIP,atarist,atarist)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_ATARIST),Atari ST,$(SYSTEM_NAME_ATARIST),.st .ST .stx .STX .ipf .IPF .zip .ZIP .7z .7Z,atarist,atarist)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_HATARI),)

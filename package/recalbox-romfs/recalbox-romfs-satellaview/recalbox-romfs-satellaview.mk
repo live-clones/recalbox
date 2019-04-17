@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system satellaview --extension '.bs .BS .smc .SMC .sfc .SFC .zip .ZIP' --fullname 'Satellaview' --platform satellaview --theme satellaview libretro:snes9x:BR2_PACKAGE_LIBRETRO_SNES9X
+# ./scripts/linux/empack.py --system satellaview --extension '.bs .BS .smc .SMC .sfc .SFC .zip .ZIP .7z .7Z' --fullname 'Satellaview' --platform satellaview --theme satellaview libretro:snes9x:BR2_PACKAGE_LIBRETRO_SNES9X
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_SATELLAVIEW_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_SATELLAVIEW = $(RECALBOX_ROMFS_SATELLAVIEW_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_SNES9X),)
 define CONFIGURE_MAIN_SATELLAVIEW_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_SATELLAVIEW),Satellaview,$(SYSTEM_NAME_SATELLAVIEW),.bs .BS .smc .SMC .sfc .SFC .zip .ZIP,satellaview,satellaview)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_SATELLAVIEW),Satellaview,$(SYSTEM_NAME_SATELLAVIEW),.bs .BS .smc .SMC .sfc .SFC .zip .ZIP .7z .7Z,satellaview,satellaview)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_SNES9X),)

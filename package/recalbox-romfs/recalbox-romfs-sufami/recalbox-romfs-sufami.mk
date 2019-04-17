@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system sufami --extension '.st .ST .smc .SMC .sfc .SFC .fig .FIG .zip .ZIP' --fullname 'SuFami Turbo' --platform sufami --theme sufami libretro:snes9x:BR2_PACKAGE_LIBRETRO_SNES9X
+# ./scripts/linux/empack.py --system sufami --extension '.st .ST .smc .SMC .sfc .SFC .fig .FIG .zip .ZIP .7z .7Z' --fullname 'SuFami Turbo' --platform sufami --theme sufami libretro:snes9x:BR2_PACKAGE_LIBRETRO_SNES9X
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_SUFAMI_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_SUFAMI = $(RECALBOX_ROMFS_SUFAMI_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_SNES9X),)
 define CONFIGURE_MAIN_SUFAMI_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_SUFAMI),SuFami Turbo,$(SYSTEM_NAME_SUFAMI),.st .ST .smc .SMC .sfc .SFC .fig .FIG .zip .ZIP,sufami,sufami)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_SUFAMI),SuFami Turbo,$(SYSTEM_NAME_SUFAMI),.st .ST .smc .SMC .sfc .SFC .fig .FIG .zip .ZIP .7z .7Z,sufami,sufami)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_SNES9X),)
