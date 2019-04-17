@@ -15,6 +15,7 @@
 #include <RecalboxConf.h>
 #include <guis/GuiNetPlay.h>
 #include <guis/GuiLoading.h>
+#include "guis/GuiMenu.h"
 #include <NetPlayThread.h>
 #include "ThemeData.h"
 #include "MenuThemeData.h"
@@ -168,7 +169,7 @@ bool SystemView::input(InputConfig* config, Input input)
 {
 	if(input.value != 0)
 	{
-		if(config->getDeviceId() == DEVICE_KEYBOARD && input.value && input.id == SDLK_r && SDL_GetModState() & KMOD_LCTRL && Settings::getInstance()->getBool("Debug"))
+		if(config->getDeviceId() == DEVICE_KEYBOARD && input.id == SDLK_r && SDL_GetModState() & KMOD_LCTRL && Settings::getInstance()->getBool("Debug"))
 		{
 			LOG(LogInfo) << " Reloading all";
 			ViewController::get()->reloadAll();
@@ -203,13 +204,14 @@ bool SystemView::input(InputConfig* config, Input input)
 			}
 			break;	
 		}
-		if(config->isMappedTo("b", input))
+		if (config->isMappedTo("b", input))
 		{
 			stopScrolling();
 			ViewController::get()->goToGameList(getSelected());
 			return true;
 		}
-        if(	config->isMappedTo("x", input) && input.value) {
+        if (config->isMappedTo("x", input))
+        {
 		    bool kodiEnabled = RecalboxConf::getInstance()->get("kodi.enabled") == "1";
 		    bool kodiX = RecalboxConf::getInstance()->get("kodi.xbutton") == "1";
 		    bool netplay = RecalboxConf::getInstance()->get("global.netplay") == "1";
@@ -254,7 +256,7 @@ bool SystemView::input(InputConfig* config, Input input)
 
 
         }
-		if(config->isMappedTo("select", input) && RecalboxConf::getInstance()->get("emulationstation.menu") != "none")
+		if (config->isMappedTo("select", input) && RecalboxConf::getInstance()->get("emulationstation.menu") != "none")
 		{
 		  auto s = new GuiSettings(mWindow, _("QUIT").c_str());
 			auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
@@ -323,8 +325,14 @@ bool SystemView::input(InputConfig* config, Input input)
 			mWindow->pushGui(s);
 		}
 
-	}else{
-		if(config->isMappedTo("left", input) || 
+		if (config->isMappedTo("start", input) && RecalboxConf::getInstance()->get("emulationstation.menu") != "none")
+		{
+			mWindow->pushGui(new GuiMenu(mWindow));
+			return true;
+		}
+
+	} else {
+		if (config->isMappedTo("left", input) ||
 				config->isMappedTo("right", input) ||
 				config->isMappedTo("up", input) || 
 				config->isMappedTo("down", input))
@@ -522,22 +530,27 @@ void SystemView::render(const Eigen::Affine3f& parentTrans)
 }
 
 std::vector<HelpPrompt> SystemView::getHelpPrompts()
- {
+{
 	std::vector<HelpPrompt> prompts;
 	if (mCarousel.type == VERTICAL)
 			prompts.push_back(HelpPrompt("up/down", _("CHOOSE")));
 	else
 			prompts.push_back(HelpPrompt("left/right", _("CHOOSE")));
 	prompts.push_back(HelpPrompt("b", _("SELECT")));
-	 if (RecalboxConf::getInstance()->get("kodi.enabled") == "1" && RecalboxConf::getInstance()->get("kodi.xbutton") == "1") {
-		 if (RecalboxConf::getInstance()->get("global.netplay") == "1") {
-			 prompts.push_back(HelpPrompt("x", _("KODI/NETPLAY")));
-		 } else {
-			 prompts.push_back(HelpPrompt("x", _("START KODI")));
-		 }
-	 } else if (RecalboxConf::getInstance()->get("global.netplay") == "1") {
-         prompts.push_back(HelpPrompt("x", _("NETPLAY")));
-	 }
+
+	if (RecalboxConf::getInstance()->get("kodi.enabled") == "1" && RecalboxConf::getInstance()->get("kodi.xbutton") == "1")
+	{
+	    if (RecalboxConf::getInstance()->get("global.netplay") == "1")
+	        prompts.push_back(HelpPrompt("x", _("KODI/NETPLAY")));
+	    else
+            prompts.push_back(HelpPrompt("x", _("START KODI")));
+
+	} else if (RecalboxConf::getInstance()->get("global.netplay") == "1")
+	    prompts.push_back(HelpPrompt("x", _("NETPLAY")));
+
+	prompts.push_back(HelpPrompt("select", _("QUIT")));
+	prompts.push_back(HelpPrompt("start", _("MENU")));
+
 	return prompts;
 }	
 

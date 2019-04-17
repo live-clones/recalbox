@@ -133,7 +133,7 @@ void BasicGameListView::populateList(const FolderData* folder)
   if (Settings::getInstance()->getBool("ShowHidden"))
     filter |= FileData::Filter::Hidden;
   // Favorites only?
-  if (Settings::getInstance()->getBool("FavoritesOnly"))
+  if (mFavoritesOnly)
     filter = FileData::Filter::Favorite;
 
   // Get items
@@ -167,88 +167,10 @@ void BasicGameListView::populateList(const FolderData* folder)
 	}
 }
 
-/*void BasicGameListView::populateList(const FileData* folder)
-{
-  mPopulatedFolder = folder;
-  auto files = folder->getChildren();
-
-	mList.clear();
-	mHeaderText.setText(mSystem->getFullName());
-
-	bool favoritesOnly = false;
-
-	// find at least one favorite, else, show all items
-	if (Settings::getInstance()->getBool("FavoritesOnly") && !mSystem->isFavorite()) {
-		for (auto it = files.begin(); it != files.end(); it++) {
-			if ((*it)->getType() == GAME) {
-				if ((*it)->Metadata().Favorite()) {
-					favoritesOnly = true;
-					break;
-				}
-			}
-		}
-	}
-
-    bool showHidden = Settings::getInstance()->getBool("ShowHidden");
-    const FileSorts::SortType& sortType = mSystem->getSortType();
-
-	// Do not show double names in favorite system.
-	if (!mSystem->isFavorite() && !favoritesOnly) {
-		for (auto it = files.begin(); it != files.end(); it++) {
-            bool isHidden = (*it)->Metadata().Hidden();
-			if (showHidden || !isHidden) {
-				addItem(*it);
-			}
-		}
-
-		mList.sortByObject(sortType.comparisonFunction, sortType.ascending);
-	}
-
-    addFavorites(files, sortType);
-
-    if (mSystem->isFavorite() || favoritesOnly) {
-        listingOffset = 0;
-    }
-}*/
-
 void BasicGameListView::refreshList()
 {
     populateList(mPopulatedFolder);
 }
-
-/*void BasicGameListView::addFavorites(const FileData::List& files, const FileSorts::SortType& sortType) {
-    FileData::List favorites;
-    getFavorites(files, favorites);
-
-    std::sort(favorites.begin(), favorites.end(), *sortType.comparisonFunction);
-
-    // Reverse to unshift
-    if (sortType.ascending) {
-        std::reverse(favorites.begin(), favorites.end());
-    }
-
-    listingOffset = favorites.size();
-
-    for (auto it = favorites.begin(); it != favorites.end(); it++) {
-        addItem(*it, true);
-    }
-}
-
-void BasicGameListView::getFavorites(const FileData::List& files, FileData::List& favorites) {
-    bool showHidden = Settings::getInstance()->getBool("ShowHidden");
-
-    for (auto it = files.begin(); it != files.end(); it++) {
-        bool isGame = (*it)->getType() == GAME;
-        bool isFavorite = isGame && ((*it)->Metadata().Favorite());
-        bool isHidden = (*it)->Metadata().Hidden();
-
-        if (isFavorite && (showHidden || !isHidden)) {
-            favorites.push_back(*it);
-        } else if (!isGame) {
-            getFavorites((*it)->getChildren(), favorites);
-        }
-    }
-}*/
 
 FileData::List BasicGameListView::getFileDataList()
 {
@@ -260,45 +182,6 @@ FileData::List BasicGameListView::getFileDataList()
   }
   return slice;
 }
-
-/*void BasicGameListView::addItem(FileData* file, bool toTheBeginning)
-{
-	if (file->getType() == FOLDER)
-	{
-		FileData::List children = file->getChildren();
-		if (RecalboxConf::getInstance()->getBool(getRoot()->getSystem()->getName() + ".flatfolder"))
-		{
-			for (auto it = children.begin(); it != children.end(); it++)
-			{
-				addItem(*it);
-			}
-			return ;
-		}
-		else if (file->isSingleGameFolder())
-		{
-      addItem(children.at(0));
-      return ;
-    }
-	}
-
-	std::string name = file->getName();
-	bool isGame = file->getType() == GAME;
-	bool isFavorite = isGame && (file->Metadata().Favorite());
-	bool isHidden = file->Metadata().Hidden();
-
-	if (isHidden)
-	{
-		name = "\uF070 " + name;
-	}
-	if (isFavorite) {
-		if ((favorites_icons_map.find(file->getSystem()->getName())) != favorites_icons_map.end()) {
-			name = (favorites_icons_map.find(file->getSystem()->getName())->second) + name;
-		} else {
-			name = "\uF006 " + name;
-		}
-	}
-	mList.add(name, file, !isGame, toTheBeginning);
-}*/
 
 FileData* BasicGameListView::getCursor() {
 	return mList.getSelected();
@@ -316,6 +199,10 @@ void BasicGameListView::setCursorIndex(int index)
 int BasicGameListView::getCursorIndex()
 {
   return mList.getCursorIndex();
+}
+
+int BasicGameListView::getCursorIndexMax(){
+	return mList.size() - 1;
 }
 
 void BasicGameListView::setCursor(FileData* cursor)
@@ -350,22 +237,4 @@ void BasicGameListView::setCursor(FileData* cursor)
 
 void BasicGameListView::launch(FileData* game) {
 	ViewController::get()->launch(game);
-}
-
-std::vector<HelpPrompt> BasicGameListView::getHelpPrompts() {
-	std::vector<HelpPrompt> prompts;
-	bool hideSystemView = RecalboxConf::getInstance()->get("emulationstation.hidesystemview") == "1";
-	if(Settings::getInstance()->getBool("QuickSystemSelect") && !hideSystemView)
-	  prompts.push_back(HelpPrompt("left/right", _("SYSTEM")));
-	prompts.push_back(HelpPrompt("up/down", _("CHOOSE")));
-	prompts.push_back(HelpPrompt("b", _("LAUNCH")));
-	if ((RecalboxConf::getInstance()->get("global.netplay") == "1") && (RecalboxConf::getInstance()->isInList("global.netplay.systems", getCursor()->getSystem()->getName())))
-		prompts.push_back(HelpPrompt("x", _("NETPLAY")));
-	if(!hideSystemView)
-	  prompts.push_back(HelpPrompt("a", _("BACK")));
-	if(getRoot()->getSystem() != SystemData::getFavoriteSystem()) {
-	  prompts.push_back(HelpPrompt("y", _("Favorite")));
-	  prompts.push_back(HelpPrompt("select", _("OPTIONS")));
-	}
-	return prompts;
 }

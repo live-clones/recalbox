@@ -44,32 +44,18 @@ namespace FileSorts
     return 1;                                    // f2 is a folder
   }
 
-  static int compareFavorites(FileData* const fd1, FileData* const fd2)
-  {
-    bool f1 = fd1->Metadata().Favorite();
-    bool f2 = fd2->Metadata().Favorite();
-    if (f1 == f2) return 0; // Both favorite or not
-    if (f1) return -1;      // f1 is favorite, not f2
-    return 1;               // f2 is favorite
-  }
-
-  #define CheckFavorites(f1, f2) { int favoriteComparison = compareFavorites(f1, f2); if (favoriteComparison != 0) return favoriteComparison; }
   #define CheckFoldersAndGames(f1, f2) { int folderComparison = compareFoldersAndGames(f1, f2); if (folderComparison != 0) return folderComparison; }
 
-  //returns if file1 should come before file2
+    //returns if file1 should come before file2
   ImplementSortMethod(compareFileName)
   {
-    CheckFavorites(file1, file2);
     CheckFoldersAndGames(file1, file2);
-
     return simpleCompareUppercase(file1->getName(), file2->getName());
   }
 
   ImplementSortMethod(compareRating)
   {
-    CheckFavorites(file1, file2);
     CheckFoldersAndGames(file1, file2);
-
     float c = file1->Metadata().Rating() - file2->Metadata().Rating();
     if (c < 0) { return -1; }
     if (c > 0) { return 1; }
@@ -78,9 +64,7 @@ namespace FileSorts
 
   ImplementSortMethod(compareTimesPlayed)
   {
-    CheckFavorites(file1, file2);
     CheckFoldersAndGames(file1, file2);
-
     int playCount = (file1)->Metadata().PlayCount() - (file2)->Metadata().PlayCount();
     if (playCount != 0) return playCount;
     return simpleCompareUppercase(file1->getName(), file2->getName());
@@ -88,20 +72,20 @@ namespace FileSorts
 
   ImplementSortMethod(compareLastPlayed)
   {
-    CheckFavorites(file1, file2);
     CheckFoldersAndGames(file1, file2);
-
-    TimeSpan ts = (file1)->Metadata().LastPlayed() - (file2)->Metadata().LastPlayed();
-    if (ts.IsNull()) { simpleCompareUppercase(file1->getName(), file2->getName()); }
-    if (ts.IsNegative()) { return -1; }
-    return 1;
+    int ep1 = (file1)->Metadata().LastPlayedEpoc();
+    int ep2 = (file2)->Metadata().LastPlayedEpoc();
+    if (!ep1 || !ep2) {
+      if (ep1) return 1;
+      if (ep2) return -1;
+      return  simpleCompareUppercase(file1->getName(), file2->getName());
+    }
+    return ep1 < ep2 ? -1 : 1;
   }
 
   ImplementSortMethod(compareNumberPlayers)
   {
-    CheckFavorites(file1, file2);
     CheckFoldersAndGames(file1, file2);
-
     int players = (file1)->Metadata().PlayerRange() - (file2)->Metadata().PlayerRange();
     if (players != 0) return players;
     return simpleCompareUppercase(file1->getName(), file2->getName());
@@ -109,17 +93,13 @@ namespace FileSorts
 
   ImplementSortMethod(compareDevelopper)
   {
-    CheckFavorites(file1, file2);
     CheckFoldersAndGames(file1, file2);
-
     return simpleCompareUppercase(file1->Metadata().Developer(), file2->Metadata().Developer());
   }
 
   ImplementSortMethod(compareGenre)
   {
-    CheckFavorites(file1, file2);
     CheckFoldersAndGames(file1, file2);
-
     return simpleCompareUppercase(file1->Metadata().Genre(), file2->Metadata().Genre());
   }
 };

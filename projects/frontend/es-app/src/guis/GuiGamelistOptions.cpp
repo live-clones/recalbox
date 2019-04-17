@@ -22,13 +22,13 @@ GuiGamelistOptions::GuiGamelistOptions(Window* window, SystemData* system)
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 	addChild(&mMenu);
 
-	// jump to letter
-	auto curChar = (char) toupper(getGamelist()->getCursor()->getName()[0]);
-
 	mJumpToLetterList = std::make_shared<LetterList>(mWindow, _("JUMP TO LETTER"), false);
 
-	std::vector<std::string> letters = getAvailableLetters();
-	if (!letters.empty()) { // should not arrive
+	std::vector<std::string> letters = getGamelist()->getAvailableLetters();
+	if (!letters.empty()) { // may happen if only contains folders
+
+		// jump to letter
+		auto curChar = (char) toupper(getGamelist()->getCursor()->getName()[0]);
 
 		// if curChar not found in available letter, take first one
 		if (std::find(letters.begin(), letters.end(), std::string(1, curChar)) == letters.end()) {
@@ -197,24 +197,6 @@ void GuiGamelistOptions::openMetaDataEd() {
                 	 }, file->getSystem(), true));
 }
 
-std::vector<std::string> GuiGamelistOptions::getAvailableLetters()
-{
-	// TODO: Algorithm!!! Use 128 array bitflag - Use better returning type - kill all vectors
-	// TODO: Be consistent! Use gamelist items, not FileData
-	std::vector<std::string> letters;
-	FileData::List files = getGamelist()->getFileDataList();
-	for (auto file : files) {
-		std::string letter = std::string(1, toupper(file->getName()[0]));
-		if ( ( (letter[0] >= '0' && letter[0] <= '9') || (letter[0] >= 'A' && letter[0] <= 'Z') ) ) {
-			if (std::find(letters.begin(), letters.end(), letter) == letters.end()) {
-				letters.push_back(letter);
-			}
-		}
-	}
-	std::sort(letters.begin(), letters.end());
-	return letters;
-}
-
 void GuiGamelistOptions::jumpToLetter() {
 	char letter = mJumpToLetterList->getSelected();
 	auto sortId = (unsigned int) mListSort->getSelected();
@@ -234,36 +216,7 @@ void GuiGamelistOptions::jumpToLetter() {
 		gamelist->onFileChanged(mSystem->getRootFolder(), FileChangeType::Sorted);
 	}
 
-	FileData::List files = gamelist->getFileDataList();
-
-	long min = 0;
-	long max = files.size() - 1;
-	long mid = 0;
-
-	if (sortId == 1) {
-		// sort Alpha DESC
-	}
-
-	while(max >= min) {
-		mid = ((max - min) / 2) + min;
-
-		// game somehow has no first character to check
-		if (files.at(mid)->getName().empty()) {
-			continue;
-		}
-
-		char checkLetter = (char) toupper(files.at(mid)->getName()[0]);
-
-		if (checkLetter < letter) {
-			min = mid + 1;
-		} else if (checkLetter > letter || (mid > 0 && (letter == toupper(files.at(mid - 1)->getName()[0])))) {
-			max = mid - 1;
-		} else {
-			break; //exact match found
-		}
-	}
-
-	gamelist->setCursor(files.at(mid));
+	gamelist->jumpToLetter(letter);
 	delete this;
 }
 

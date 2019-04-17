@@ -2,6 +2,7 @@
 #include <RecalboxConf.h>
 #include <guis/GuiNetPlay.h>
 #include <guis/GuiSettings.h>
+#include "guis/GuiGamelistOptions.h"
 #include "views/gamelist/ISimpleGameListView.h"
 #include "ThemeData.h"
 #include "SystemData.h"
@@ -20,6 +21,9 @@ ISimpleGameListView::ISimpleGameListView(Window* window, FolderData* root)
     mThemeExtras(window),
     mFavoriteChange(false)
 {
+	mFavoritesCount = getRoot()->getSystem()->getFavoritesCount();
+	mFavoritesOnly = mFavoritesCount > 0 && Settings::getInstance()->getBool("FavoritesOnly");
+
 	mHeaderText.setText("Logo Text");
 	mHeaderText.setSize(mSize.x(), 0);
 	mHeaderText.setPosition(0, 0);
@@ -77,25 +81,28 @@ void ISimpleGameListView::onFileChanged(FileData* file, FileChangeType change)
 		return ;
 	}
 
-  if ((change == FileChangeType::Removed) && (file == getEmptyListItem()))
-    return;
+	if ((change == FileChangeType::Removed) && (file == getEmptyListItem()))
+		return;
 
-  if (file->isGame())
-  {
-    SystemData* favoriteSystem = SystemData::getFavoriteSystem();
-    bool isInFavorite = favoriteSystem->getRootFolder()->Contains(file, true);
-    bool isFavorite = file->Metadata().Favorite();
+	if (file->isGame())
+	{
+		SystemData* favoriteSystem = SystemData::getFavoriteSystem();
+		bool isInFavorite = favoriteSystem->getRootFolder()->Contains(file, true);
+		bool isFavorite = file->Metadata().Favorite();
 
-    if (isInFavorite != isFavorite)
-    {
-      if (isInFavorite) favoriteSystem->getRootFolder()->removeChild(file);
-      else favoriteSystem->getRootFolder()->addChild(file, false);
-      ViewController::get()->setInvalidGamesList(SystemData::getFavoriteSystem());
-      ViewController::get()->getSystemListView()->manageFavorite();
-    }
-  }
+		if (isInFavorite != isFavorite)
+		{
+			if (isInFavorite) favoriteSystem->getRootFolder()->removeChild(file);
+			else favoriteSystem->getRootFolder()->addChild(file, false);
+			ViewController::get()->setInvalidGamesList(SystemData::getFavoriteSystem());
+			ViewController::get()->getSystemListView()->manageFavorite();
+			mFavoritesCount = mFavoritesCount + (isFavorite ? 1 : -1);
+			if (!mFavoritesCount) { mFavoritesOnly = false; }
+			updateHelpPrompts();
+		}
+	}
 
-  if (change == FileChangeType::Removed)
+	if (change == FileChangeType::Removed)
 	{
 		bool favorite = file->Metadata().Favorite();
 		delete file;
@@ -116,7 +123,6 @@ void ISimpleGameListView::onFileChanged(FileData* file, FileChangeType change)
 		refreshList();
 	}
 	setCursorIndex(cursor);
-
 
 	updateInfoPanel();
 }
@@ -189,17 +195,14 @@ bool ISimpleGameListView::input(InputConfig* config, Input input) {
 			if (!ViewController::get()->getState().getSystem()->isFavorite() && cursor->getSystem()->getHasFavorites()) {
 				if (cursor->isGame()) {
 					mFavoriteChange = true;
-          MetadataDescriptor& md = cursor->Metadata();
-          bool value = md.Favorite();
-					bool removeFavorite = false;
+                    MetadataDescriptor& md = cursor->Metadata();
 					SystemData *favoriteSystem = SystemData::getFavoriteSystem();
 
-					if (value) {
+					if (md.Favorite()) {
                         md.SetFavorite(false);
                         if (favoriteSystem != nullptr) {
                             favoriteSystem->getRootFolder()->removeChild(cursor);
                         }
-                        removeFavorite = true;
 					} else {
                         md.SetFavorite(true);
                         if (favoriteSystem != nullptr) {
@@ -215,7 +218,11 @@ bool ISimpleGameListView::input(InputConfig* config, Input input) {
 					// Reload to refresh the favorite icon
 					int cursorPlace = getCursorIndex();
                     refreshList();
-					setCursorIndex(std::max(0, cursorPlace + (removeFavorite ? -1 : 1)));
+					setCursorIndex(cursorPlace);
+
+					mFavoritesCount = mFavoritesCount + (md.Favorite() ? 1 : -1);
+					if (!mFavoritesCount) { mFavoritesOnly = false; }
+					updateHelpPrompts();
 				}
 			}
       RecalboxSystem::getInstance()->NotifyGame(*getCursor(), false, false);
@@ -250,9 +257,47 @@ bool ISimpleGameListView::input(InputConfig* config, Input input) {
 			}
 		}
 
+
+		// JUMP TO NEXT LETTER
+		if(config->isMappedTo("PageUp", input))
+		{
+			jumpToNextLetter(mSystem->getSortId() == 1 ? 1 : -1);
+			return true;
+		}
+
+		// JUMP TO PREVIOUS LETTER
+        if(config->isMappedTo("PageDown", input))
+        {
+            jumpToNextLetter(mSystem->getSortId() == 1 ? -1 : 1);
+            return true;
+        }
+
+		// JUMP TO -10
+		if(config->isMappedTo("L2", input))
+		{
+			auto index = getCursorIndex();
+			if (index > 0)
+				setCursorIndex(index > 10 ? index - 10 : 0);
+			else
+				setCursorIndex(getCursorIndexMax());
+			return true;
+		}
+
+		// JUMP TO +10
+		if(config->isMappedTo("R2", input))
+		{
+			auto index = getCursorIndex();
+			auto max = getCursorIndexMax();
+			if (index == max)
+				setCursorIndex(0);
+			else
+				setCursorIndex(index > max - 10 ? max : index + 10);
+			return true;
+		}
+
 		// NETPLAY
 		if ((config->isMappedTo("x", input)) && (RecalboxConf::getInstance()->get("global.netplay") == "1")
-		     && (RecalboxConf::getInstance()->isInList("global.netplay.systems", getCursor()->getSystem()->getName())))
+		          && (RecalboxConf::getInstance()->isInList("global.netplay.systems", getCursor()->getSystem()->getName())))
 		{
 			FileData* cursor = getCursor();
 			if(cursor->isGame())
@@ -260,6 +305,25 @@ bool ISimpleGameListView::input(InputConfig* config, Input input) {
 				Eigen::Vector3f target(Renderer::getScreenWidth() / 2.0f, Renderer::getScreenHeight() / 2.0f, 0);
 				ViewController::get()->launch(cursor, target, "host");
 			}
+		}
+
+
+		if(config->isMappedTo("start", input) && input.value && getRoot()->getSystem() != SystemData::getFavoriteSystem())
+		{
+			mWindow->pushGui(new GuiGamelistOptions(mWindow, getRoot()->getSystem()));
+			return true;
+		}
+
+
+		if(config->isMappedTo("select", input) && input.value && getRoot()->getSystem() != SystemData::getFavoriteSystem())
+		{
+			if (mFavoritesCount) {
+				mFavoritesOnly = !mFavoritesOnly;
+				refreshList();
+				updateInfoPanel();
+				updateHelpPrompts();
+			}
+			return true;
 		}
 	}
 
@@ -269,8 +333,137 @@ bool ISimpleGameListView::input(InputConfig* config, Input input) {
   if (config->isMappedTo("down", input) ||
       config->isMappedTo("up", input) ||
       config->isMappedTo("pagedown", input) ||
-      config->isMappedTo("pageup", input) )
+	  config->isMappedTo("pageup", input) ||
+      config->isMappedTo("l2", input) ||
+	  config->isMappedTo("r2", input) )
     RecalboxSystem::getInstance()->NotifyGame(*getCursor(), false, false);
 
 	return result;
+}
+
+std::vector<HelpPrompt> ISimpleGameListView::getHelpPrompts() {
+	bool hideSystemView = RecalboxConf::getInstance()->get("emulationstation.hidesystemview") == "1";
+	bool isFavoriteSystem = getRoot()->getSystem() == SystemData::getFavoriteSystem();
+	std::vector<HelpPrompt> prompts;
+
+	prompts.push_back(HelpPrompt("b", _("LAUNCH")));
+
+	if ((RecalboxConf::getInstance()->get("global.netplay") == "1") && (RecalboxConf::getInstance()->isInList("global.netplay.systems", getCursor()->getSystem()->getName())))
+		prompts.push_back(HelpPrompt("x", _("NETPLAY")));
+
+	if (!isFavoriteSystem)
+		prompts.push_back(HelpPrompt("y", _("Favorite")));
+
+	if (!hideSystemView)
+		prompts.push_back(HelpPrompt("a", _("BACK")));
+
+	prompts.push_back(HelpPrompt("up/down", _("CHOOSE")));
+
+	if (Settings::getInstance()->getBool("QuickSystemSelect") && !hideSystemView)
+		prompts.push_back(HelpPrompt("left/right", _("SYSTEM")));
+
+	if (!isFavoriteSystem)
+	{
+		prompts.push_back(HelpPrompt("start", _("OPTIONS")));
+
+		if (mFavoritesCount)
+		{
+			if (mFavoritesOnly)
+				prompts.push_back(HelpPrompt("select", _("ALL GAMES")));
+			else
+				prompts.push_back(HelpPrompt("select", _("FAVORITES ONLY")));
+		}
+	}
+
+	return prompts;
+}
+
+std::vector<std::string> ISimpleGameListView::getAvailableLetters()
+{
+	// TODO: Algorithm!!! Use 128 array bitflag - Use better returning type - kill all vectors
+	// TODO: Be consistent! Use gamelist items, not FileData
+	std::vector<std::string> letters;
+	FileData::List files = getFileDataList();
+	for (auto file : files) {
+		if (file->getType() == ItemType::Game)
+		{
+			std::string letter = std::string(1, toupper(file->getName()[0]));
+			if ( ( (letter[0] >= '0' && letter[0] <= '9') || (letter[0] >= 'A' && letter[0] <= 'Z') ) ) {
+				if (std::find(letters.begin(), letters.end(), letter) == letters.end()) {
+					letters.push_back(letter);
+				}
+			}
+		}
+	}
+	std::sort(letters.begin(), letters.end());
+	return letters;
+}
+
+
+void ISimpleGameListView::jumpToNextLetter(int increment)
+{
+	std::string letter = std::string(1, toupper(getCursor()->getName()[0]));
+	auto letters = getAvailableLetters();
+	unsigned long size = letters.size();
+	unsigned long pos = std::find(letters.begin(), letters.end(), letter) - letters.begin();
+
+	if (pos < size) {
+		pos = (pos + increment + size) % size;
+		jumpToLetter(letters.at(pos)[0]);
+	}
+}
+
+void ISimpleGameListView::jumpToLetter(char letter)
+{
+	// Jump to letter requires an alpha sort
+	if ( mSystem->getSortId() > 1) {
+		// apply sort
+		mSystem->setSortId(0);
+		// notify that the root folder has to be sorted
+		onFileChanged(mSystem->getRootFolder(), FileChangeType::Sorted);
+	}
+
+	FileData::List files = getFileDataList();
+
+	unsigned long min, max;
+	unsigned long mid = 0;
+
+	bool asc = mSystem->getSortId() == 0;
+
+	// look for first game position
+	for (min = 0; (min < files.size() - 1) && (files.at(min)->getType() != ItemType::Game) ; min++) ;
+
+	// look for last game position
+	for (max = files.size() - 1; max && (files.at(max)->getType() != ItemType::Game) ; max--) ;
+
+	while(max >= min) {
+		mid = ((max - min) / 2) + min;
+
+		// game somehow has no first character to check
+		if (files.at(mid)->getName().empty()) {
+			continue;
+		}
+
+		char checkLetter = (char) toupper(files.at(mid)->getName()[0]);
+
+		if (asc) {
+			if (checkLetter < letter) {
+				min = mid + 1;
+			} else if (checkLetter > letter || (mid > 0 && (letter == toupper(files.at(mid - 1)->getName()[0])))) {
+				max = mid - 1;
+			} else {
+				break; //exact match found
+			}
+		} else {
+			if (checkLetter > letter) {
+				min = mid + 1;
+			} else if (checkLetter < letter || (mid > 0 && (letter == toupper(files.at(mid - 1)->getName()[0])))) {
+				max = mid - 1;
+			} else {
+				break; //exact match found
+			}
+		}
+	}
+
+	setCursor(files.at(mid));
 }

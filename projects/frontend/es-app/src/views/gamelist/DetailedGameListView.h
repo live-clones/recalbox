@@ -20,8 +20,6 @@ public:
 protected:
     virtual void launch(FileData* game) override;
 
-    virtual std::vector<HelpPrompt> getHelpPrompts() override;
-
 private:
     void initMDLabels();
     void initMDValues();

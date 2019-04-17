@@ -19,6 +19,7 @@ public:
 
 	virtual FileData* getCursor() = 0;
 	virtual int getCursorIndex() = 0;
+	virtual int getCursorIndexMax() = 0;
 	virtual void setCursor(FileData*) = 0;
 	virtual void setCursorIndex(int) = 0;
 
@@ -27,7 +28,13 @@ public:
 	virtual inline void updateInfoPanel() override {}
 
 	virtual inline void populateList(const FolderData* folder) override { (void)folder; }
-  virtual inline void refreshList() override {};
+	virtual inline void refreshList() override {};
+
+	virtual std::vector<HelpPrompt> getHelpPrompts() override;
+	virtual std::vector<std::string> getAvailableLetters() override;
+	virtual void jumpToLetter(char letter) override;
+
+	void jumpToNextLetter(int increment);
 
 protected:
 	virtual void launch(FileData* game) = 0;
@@ -41,7 +48,9 @@ protected:
 	ThemeExtras mThemeExtras;
 
 	std::stack<FolderData*> mCursorStack;
+	bool mFavoritesOnly;
 
 private:
    bool mFavoriteChange;
+   int mFavoritesCount;
 };

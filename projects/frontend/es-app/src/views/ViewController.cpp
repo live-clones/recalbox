@@ -130,7 +130,7 @@ void ViewController::goToGameList(SystemData* system)
 		mCamera.translation().x() -= offX;
 	}
 
-	if (mInvalidGameList[system] == true)
+	if (mInvalidGameList[system])
 	{
 		if(!system->isFavorite()) {
 			updateFavorite(system, getGameListView(system).get()->getCursor());
@@ -335,27 +335,16 @@ std::shared_ptr<SystemView> ViewController::getSystemListView()
 
 bool ViewController::input(InputConfig* config, Input input)
 {
-	if(mLockInput)
-		return true;
+	if (mLockInput) return true;
 
 	/* if we receive a button pressure for a non configured joystick, suggest the joystick configuration */
-        if(config->isConfigured() == false) {
-	  if(input.type == TYPE_BUTTON) {
-	    mWindow->pushGui(new GuiDetectDevice(mWindow, false, nullptr));
-	    return true;
-	  }
-        }
-
-	// open menu
-	if(config->isMappedTo("start", input) && input.value != 0 && RecalboxConf::getInstance()->get("emulationstation.menu") != "none" )
+	if (!config->isConfigured() && (input.type == TYPE_BUTTON) )
 	{
-		// open menu
-		mWindow->pushGui(new GuiMenu(mWindow));
+		mWindow->pushGui(new GuiDetectDevice(mWindow, false, nullptr));
 		return true;
 	}
 
-	if(mCurrentView)
-		return mCurrentView->input(config, input);
+	if (mCurrentView) return mCurrentView->input(config, input);
 
 	return false;
 }
@@ -501,22 +490,6 @@ void ViewController::reloadAll()
 	updateHelpPrompts();
 }
 
-void ViewController::reloadGamesLists()
-{
-	mGameListViews.clear();
-
-	if(mState.viewing == GAME_LIST)
-	{
-		mCurrentView = getGameListView(mState.getSystem());
-	}else if(mState.viewing == SYSTEM_SELECT)
-	{
-		mSystemListView->goToSystem(mState.getSystem(), false);
-		mCurrentView = mSystemListView;
-	}else{
-		goToSystemView(SystemData::sSystemVector.front());
-	}
-}
-
 void ViewController::setInvalidGamesList(SystemData* system)
 {
 	for (auto& mGameListView : mGameListViews)
@@ -543,16 +516,7 @@ void ViewController::setAllInvalidGamesList(SystemData* systemExclude)
 std::vector<HelpPrompt> ViewController::getHelpPrompts()
 {
 	std::vector<HelpPrompt> prompts;
-	if(!mCurrentView)
-		return prompts;
-
-	prompts = mCurrentView->getHelpPrompts();
-	if(RecalboxConf::getInstance()->get("emulationstation.menu") != "none"){
-		prompts.push_back(HelpPrompt("select", _("QUIT")));
-		prompts.push_back(HelpPrompt("start", _("MENU")));
-	}
-
-	return prompts;
+	return mCurrentView ? mCurrentView->getHelpPrompts() : prompts;
 }
 
 HelpStyle ViewController::getHelpStyle()

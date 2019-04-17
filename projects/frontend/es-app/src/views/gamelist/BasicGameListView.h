@@ -15,15 +15,14 @@ public:
 
 	virtual FileData* getCursor() override;
 	virtual int getCursorIndex() override;
+	virtual int getCursorIndexMax() override;
 	virtual void setCursor(FileData* file) override;
 	virtual void setCursorIndex(int index) override;
 
 	virtual const char* getName() const override { return "basic"; }
 
-	virtual std::vector<HelpPrompt> getHelpPrompts() override;
-
 	virtual void populateList(const FolderData* folder) override;
-  virtual void refreshList() override;
+    virtual void refreshList() override;
 
 	virtual inline void updateInfoPanel() override {}
 
