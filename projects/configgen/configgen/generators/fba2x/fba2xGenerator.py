@@ -11,7 +11,7 @@ import os.path
 class Fba2xGenerator(Generator):
     # Main entry of the module
     # Configure fba and return a command
-    def generate(self, system, rom, playersControllers):
+    def generate(self, system, rom, playersControllers, demo):
         # Settings recalbox default config file if no user defined one
         if not system.config['configfile']:
             # Using recalbox config file

@@ -159,7 +159,7 @@ class AmiberryGenerator(Generator):
 
     # Main entry of the module
     # Return command
-    def generate(self, system, rom, playersControllers):
+    def generate(self, system, rom, playersControllers, demo):
         # Get rom type and associated configuration file if any
         rom, romType, romHasUAE = RomType.Identify(rom)
 

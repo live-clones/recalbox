@@ -3,7 +3,6 @@ import os.path
 
 import Command
 import libretroConfigurations
-import libretroControllers
 import recalboxFiles
 
 from generators.Generator import Generator
@@ -71,21 +70,21 @@ class LibretroGenerator(Generator):
 
     # Create configuration file
     @staticmethod
-    def createConfigurationFile(system, playersControllers, rom):
+    def createConfigurationFile(system, playersControllers, rom, demo):
         # Setup system configuration
-        configuration = libretroConfigurations.LibretroConfiguration(system, playersControllers, rom)
+        configuration = libretroConfigurations.LibretroConfiguration(system, playersControllers, rom, demo)
         configuration.createRetroarchConfiguration()
         configuration.createCoreConfiguration()
 
         return configuration.getRetroarchConfigurationFileName()
 
     # Configure retroarch and return a command
-    def generate(self, system, rom, playersControllers):
+    def generate(self, system, rom, playersControllers, demo):
         configFileName = system.config.get("configfile", None)
 
         # Set recalbox default config file if no user defined one
         if configFileName is None:
-            configFileName = self.createConfigurationFile(system, playersControllers, rom)
+            configFileName = self.createConfigurationFile(system, playersControllers, rom, demo)
 
         # Retroarch core on the filesystem
         retroarchCore = recalboxFiles.retroarchCores + system.config['core'] + recalboxFiles.libretroExt

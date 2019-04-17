@@ -46,7 +46,7 @@ class TestMupenControllers(unittest.TestCase):
         self.assertEquals(mupenControllers.mupenSettings.load("Joy Mapping Stop"), 'J0B10')
 
     def test_commandline_core_n64(self):
-        command = mupenGen.generate(n64, "rom.n64", basicControllers)
+        command = mupenGen.generate(n64, "rom.n64", basicControllers, False)
         self.assertEquals(command.array,
                           ['mupen64plus', '--corelib', '/usr/lib/libmupen64plus.so.2.0.0', '--gfx',
                            '/usr/lib/mupen64plus/mupen64plus-video-n64.so', '--configdir', '/recalbox/configs/mupen64/',

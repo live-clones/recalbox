@@ -104,10 +104,11 @@ class LibretroRetroarch:
         'atari7800'
     )
 
-    def __init__(self, system, settings, controllers):
+    def __init__(self, system, settings, controllers, demo):
         self.system = system
         self.settings = settings
         self.controllers = controllers
+        self.demo = demo
 
     # Return true if the option is considered enabled (for boolean options)
     def isEnabled(self, key):
@@ -168,7 +169,7 @@ class LibretroRetroarch:
             settings.setOption("input_libretro_device_p2", "257")
 
         # Retroachievements
-        hasRetroAch = self.isEnabled("retroachievements")
+        hasRetroAch = self.isEnabled("retroachievements") and not self.demo
         settings.setOption("cheevos_enable", self.TRUE if hasRetroAch else self.FALSE)
         settings.setOption("cheevos_hardcore_mode_enable", self.FALSE)
         if hasRetroAch and self.system.name in self.SYSTEM_COMPATIBLE_RETROACHIEVEMENTS:

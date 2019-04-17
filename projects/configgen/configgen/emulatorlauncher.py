@@ -180,7 +180,7 @@ def main(args):
             print >> sys.stderr, strErr
             exit(2)
         
-        command = generators[system.config['emulator']].generate(system, args.rom, playersControllers)
+        command = generators[system.config['emulator']].generate(system, args.rom, playersControllers, args.demo)
         # The next line is commented and will eventually be used instead of the previous one
         # if we even want the binary to be set from here rather than from the generator
         # command.array.insert(0, recalboxFiles.recalboxBins[system.config['emulator']])

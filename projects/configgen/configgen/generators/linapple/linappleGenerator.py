@@ -62,7 +62,7 @@ class LinappleGenerator(Generator):
 
         return True
 
-    def generate(self, system, rom, playersControllers):
+    def generate(self, system, rom, playersControllers, demo):
         '''
         Configure linapple inputs and return the command line to run.
         

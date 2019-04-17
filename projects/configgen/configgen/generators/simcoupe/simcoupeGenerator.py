@@ -6,7 +6,7 @@ import recalboxFiles
 
 class SimCoupeGenerator(Generator):
 
-    def generate(self, system, rom, playersControllers):
+    def generate(self, system, rom, playersControllers, demo):
 
         '''
         Load, override keys and save back emulator's configuration file
