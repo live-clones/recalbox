@@ -426,10 +426,10 @@ bool SystemData::loadSystemNodes(XmlNodeCollisionMap &collisionMap, XmlNodeList 
     // Get system
     const Tree &system = systemNode.second;
 
-    // Composite key: short name + platform
-    std::string key = system.get("name", "");
+    // Composite key: fullname + platform
+    std::string key = system.get("fullname", "");
     key += system.get("platform", "");
-    LOG(LogWarning) << "Key: " << key;
+    LOG(LogDebug) << "Key: " << key;
 
     // Already exist in the store ?
     int index = (collisionMap.find(key) != collisionMap.end()) ? collisionMap[key] : -1;
