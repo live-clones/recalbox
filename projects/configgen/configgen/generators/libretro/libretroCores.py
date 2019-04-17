@@ -9,6 +9,10 @@ class LibretroCores:
         self.settings = settings
         self.controllers = controllers
 
+    #
+    # System specific configurations
+    #
+
     @staticmethod
     def configureBlueMSX(coreSettings):
         coreSettings.setOption("bluemsx_msxtype", '"Auto"')
@@ -16,6 +20,18 @@ class LibretroCores:
     @staticmethod
     def configureMAME2003plus(coreSettings):
         coreSettings.setOption("mame2003-plus_analog", '"digital"')
+
+    @staticmethod
+    def configureAmstradCPC(coreSettings):
+        coreSettings.setOption("cap32_model", '"6128"')
+
+    @staticmethod
+    def configureAmstradGX4000(coreSettings):
+        coreSettings.setOption("cap32_model", '"6128+"')
+
+    #
+    # Core specific configurations
+    #
 
     @staticmethod
     def configureAtari5200(coreSettings):
@@ -41,6 +57,7 @@ class LibretroCores:
         a800settings.setOption("BUILTIN_BASIC", "1")
         a800settings.saveFile()
 
+
     # Fill cores configuration
     def fillCoresConfiguration(self):
         recalbox = self.system.config
@@ -49,8 +66,10 @@ class LibretroCores:
         # Specific configuration handlers per system
         specificSystemHandlers =\
         {
-            "atari5200" : LibretroCores.configureAtari5200,
-            "atari800" : LibretroCores.configureAtari800
+            "atari5200"  : LibretroCores.configureAtari5200,
+            "atari800"   : LibretroCores.configureAtari800,
+            "amstradcpc" : LibretroCores.configureAmstradCPC,
+            "gx4000"     : LibretroCores.configureAmstradGX4000,
         }
 
         # Get handler and execute
