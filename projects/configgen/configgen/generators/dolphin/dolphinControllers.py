@@ -104,7 +104,7 @@ def generateControllerConfig_any(playersControllers, filename, anyDefKey, anyMap
         double_pads[pad.configName] = nsamepad+1
 
         f.write("[" + anyDefKey + str(nplayer) + "]" + "\n")
-        f.write("Device = evdev/" + str(nsamepad) + "/" + pad.configName + "\n")
+        f.write('Device = "evdev/' + str(nsamepad) + '/' + pad.configName + '"\n')
 
         if system.name == "wii":
             f.write("Extension = Nunchuk" + "\n")
