@@ -275,7 +275,7 @@ class Controller:
 
     @staticmethod
     def generateSDLGameDBAllControllers(controllers, outputFile = "/tmp/gamecontrollerdb.txt"):
-        finalData = []
+        finalData = ["# Controllers defined in Recalbox"]
         for idx, controller in controllers.iteritems():
             finalData.append(controller.generateSDLGameDBLine())
         sdlData = "\n".join(finalData)
