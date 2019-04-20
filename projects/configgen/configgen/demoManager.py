@@ -19,37 +19,38 @@ class InputEvents:
 
 class InputEventManager:
 
+    EVENT_MAXIMUM = 32
     EVENT_FORMAT = "llHHI"
     EVENT_SIZE   = struct.calcsize(EVENT_FORMAT)
 
     def __init__(self, demoStartButtons):
-        self.fileDescriptors = [None] * 10
+        self.fileDescriptors = [None] * self.EVENT_MAXIMUM
         self.eventFileNameFlags = 0
         self.startMap = demoStartButtons
         self.eventToStart = dict()
         self.updateAvailableEvents()
 
     def __exit__(self):
-        for i in range(0,9):
+        for i in range(0, self.EVENT_MAXIMUM - 1):
             self.closeFileDescriptor(i)
 
     @staticmethod
     def scanAvailableEvents():
         result = 0
-        for i in range(0,9):
+        for i in range(0, InputEventManager.EVENT_MAXIMUM - 1):
             fileName = "/dev/input/event" + str(i)
             if os.path.exists(fileName):
                 result = result | (1 << i)
-        #print("Scan: "+hex(result))
         return result
 
     def updateAvailableEvents(self):
         newFlags = self.scanAvailableEvents()
         if newFlags != self.eventFileNameFlags:
             self.eventFileNameFlags = newFlags
-            for i in range(0,9):
+            for i in range(0, self.EVENT_MAXIMUM - 1):
                 if (newFlags & (1 << i)) != 0:
                     self.openFileDescriptor(i)
+        #print("Scan: "+hex(newFlags))
         return newFlags
 
     def openFileDescriptor(self, index):
@@ -57,7 +58,7 @@ class InputEventManager:
         try:
             name = "/dev/input/event" + str(index)
             self.fileDescriptors[index] = open(name, "rb")
-            # Configure the NON blocking I/O
+            # Configure NON blocking I/O
             fcntl.fcntl(self.fileDescriptors[index], fcntl.F_SETFL, fcntl.fcntl(self.fileDescriptors[index], fcntl.F_GETFL) | os.O_NONBLOCK)
             print("Opened " + name)
             if name in self.startMap:
@@ -83,7 +84,7 @@ class InputEventManager:
 
     def hasUserEvent(self):
         flags = self.updateAvailableEvents()
-        for i in range(0, 9):
+        for i in range(0, self.EVENT_MAXIMUM - 1):
             if (flags & (1 << i)) != 0:
                 event = self.getEvent(i)
                 while event:
