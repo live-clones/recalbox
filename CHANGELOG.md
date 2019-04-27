@@ -18,6 +18,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fix empty controller file for ScummVM
 - Fix x86/x64 scanning too few /dev/input/event
 - Bump ScummVM (new theme)
+- Enable toolchain LTO
 
 ## [6.0] - DragonBlaze
 - Change name from 5.0 to 6.0 DragonBlaze
