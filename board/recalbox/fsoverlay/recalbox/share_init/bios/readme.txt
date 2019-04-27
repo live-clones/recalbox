@@ -48,6 +48,10 @@ d3a44ba7d42a74d3ac58cb9c14c6a5ca  STBIOS.bin
 ff1a674273fe3540ccef576376407d1d  syscard3.pce
 
 
+- MACINTOSH:
+4a89c35e11d0bcb3c174cabfa4b1cd09  vMac.ROM
+
+
 - NEC PC-FX : 
 08e36edbea28a017f79f8d4f7ff9b6d7  pcfx.rom
 
