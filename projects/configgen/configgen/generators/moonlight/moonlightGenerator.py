@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import Command
 import recalboxFiles
-import controllersConfig
+from controllersConfig import Controller
 from generators.Generator import Generator
 import shutil
 import os.path
@@ -12,7 +12,7 @@ class MoonlightGenerator(Generator):
     # Configure moonlight and return a command
     def generate(self, system, rom, playersControllers, demo):
         outputFile = recalboxFiles.moonlightCustom + '/gamecontrollerdb.txt'
-        configFile = controllersConfig.generateSDLGameDBAllControllers(playersControllers, outputFile)
+        configFile = Controller.generateSDLGameDBAllControllers(playersControllers, outputFile)
         gameName,confFile = self.getRealGameNameAndConfigFile(rom)
         commandArray = [recalboxFiles.recalboxBins[system.config['emulator']], 'stream','-config',  confFile]
         if 'args' in system.config and system.config['args'] is not None:
