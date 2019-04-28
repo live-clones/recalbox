@@ -6,6 +6,8 @@ import signal
 import fcntl
 import struct
 
+from demoInfo import demoInformation
+
 
 class InputEvents:
 
@@ -113,10 +115,11 @@ class InputEventManager:
 
 class DemoTimer(threading.Thread):
 
-    def __init__(self, proc, duration, demoStartButtons):
+    def __init__(self, proc, duration, outScreenDuration, demoStartButtons):
         threading.Thread.__init__(self)
         self.inputs = InputEventManager(demoStartButtons)
         self.duration = duration
+        self.outScreenDuration = outScreenDuration
         self.userQuit = False
         self.userWannaPlay = False
         self.proc = proc
@@ -130,27 +133,7 @@ class DemoTimer(threading.Thread):
     def userWantedToPlay(self):
         return self.userWannaPlay
 
-    def run(self):
-        refresh = 0.2  # refresh time in second
-        duration = self.duration * int(1.0 / refresh)
-        while duration > 0:
-            duration -= 1
-            time.sleep(refresh)
-            # User action?
-            event = self.inputs.hasUserEvent()
-            if event == InputEvents.PLAY:
-                self.userWannaPlay = True
-                print("Demo mode ends because the user want to play the current game")
-                break
-            if event == InputEvents.OTHER:
-                self.userQuit = True
-                print("Demo mode ends upon user request")
-                break
-            # Process quitted prematurely?
-            if self.proc.poll() is not None:
-                print("Emulator quitted prematurely")
-                break
-
+    def terminateProcess(self, refresh):
         try:
             self.proc.terminate()
         except OSError:
@@ -171,6 +154,40 @@ class DemoTimer(threading.Thread):
                 except OSError:
                     pass
 
+    def run(self):
+        refresh = 0.2  # refresh time in second
+        outDuration = self.outScreenDuration * int(1.0 / refresh)
+        duration = (self.duration * int(1.0 / refresh)) + outDuration
+        outScreen = None
+        while duration > 0:
+            duration -= 1
+            time.sleep(refresh)
+            # User action?
+            event = self.inputs.hasUserEvent()
+            if event == InputEvents.PLAY:
+                self.userWannaPlay = True
+                print("Demo mode ends because the user want to play the current game")
+                break
+            if event == InputEvents.OTHER:
+                self.userQuit = True
+                print("Demo mode ends upon user request")
+                break
+            # Not yet in outscreen?
+            if outScreen is None:
+                # Process quitted prematurely?
+                if self.proc.poll() is not None and outScreen:
+                    print("Emulator quitted prematurely")
+                    break
+                # Outscreen?
+                if duration < outDuration:
+                    self.terminateProcess(refresh)
+                    outScreen = demoInformation()
+
+        if outScreen is not None:
+            del outScreen
+        else:
+            self.terminateProcess(refresh)
+
 
 class DemoManager:
 
@@ -182,8 +199,13 @@ class DemoManager:
             if duration is None:
                 duration = 120  # 2mn
 
+            # get out-screen duration
+            outScreenDuration = args.demoinfoduration
+            if outScreenDuration is None:
+                outScreenDuration = 6  # 6s
+
             # run thread
-            self.thread = DemoTimer(proc, duration, demoStartButtons)
+            self.thread = DemoTimer(proc, duration, outScreenDuration, demoStartButtons)
             self.thread.start()
 
     def __del__(self):

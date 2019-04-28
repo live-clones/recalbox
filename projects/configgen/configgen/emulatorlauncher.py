@@ -260,6 +260,7 @@ if __name__ == '__main__':
     parser.add_argument("-ratio", help="force game ratio", type=str, required=False)
     parser.add_argument("-demo", help="mode demo", type=bool, required=False)
     parser.add_argument("-demoduration", help="mode demo duration in second", type=int, required=False)
+    parser.add_argument("-demoinfoduration", help="mode demo duration in second", type=int, required=False)
     parser.add_argument("-netplay", help="host/client", type=str, required=False)
     parser.add_argument("-netplay_ip", help="host IP", type=str, required=False)
     parser.add_argument("-netplay_port", help="host port (not used in client mode)", type=str, required=False)
