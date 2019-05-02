@@ -114,6 +114,7 @@ emulators["atari800"] = Emulator(name='atari800', emulator='libretro', core='ata
 emulators["oricatmos"] = Emulator(name='oricatmos', emulator='oricutron', videomode='default')
 emulators["samcoupe"] = Emulator(name='samcoupe', emulator='simcoupe', videomode='default')
 emulators["pc98"] = Emulator(name='pc98', emulator='libretro', core='np2kai')
+emulators["macintosh"] = Emulator(name='macintosh', emulator='libretro', core='minivmac')
 #
 emulators["ngp"] = Emulator(name='ngp', emulator='libretro', core='mednafen_ngp')
 emulators["ngpc"] = Emulator(name='ngpc', emulator='libretro', core='mednafen_ngp')
