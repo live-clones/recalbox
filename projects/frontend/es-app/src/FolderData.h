@@ -185,7 +185,7 @@ class FolderData : public FileData
      * @param includefolders True to include subfolders in the resulting list
      * @return Number of displayable items
      */
-    int countAllDisplayableItemsRecursively(bool includefolders) const { return countItems(Filter::Normal | Filter::Favorite, includefolders); }
+    int countAllDisplayableItemsRecursively(bool includefolders) const { return countItemsRecursively(Filter::Normal | Filter::Favorite, includefolders); }
 
     /*!
      * Get filtered items recursively starting from the current folder

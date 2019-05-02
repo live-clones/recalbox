@@ -24,13 +24,16 @@ DemoMode::DemoMode(Window& window)
     const std::string& name = allSystems[i]->getName();
     bool includeSystem = mRecalboxConf.getBool(name + ".demo.include");
     bool systemIsInIncludeList = !systemListExists || mRecalboxConf.isInList("global.demo.systemlist", name);
-    if ((includeSystem || systemIsInIncludeList) &&
-        (allSystems[i]->getRootFolder()->countAllDisplayableItemsRecursively(false) > 0))
+    int gameCount = allSystems[i]->getRootFolder()->countAllDisplayableItemsRecursively(false);
+    LOG(LogDebug) << "System elligible for Demo : " << allSystems[i]->getName() << " - isSelected: " << (includeSystem | systemIsInIncludeList) << " - gameCount: " << gameCount;
+    if ((includeSystem || systemIsInIncludeList) && (gameCount > 0))
     {
       mDemoSystems.push_back(allSystems[i]);
       int systemDuration = mRecalboxConf.getUInt(name + ".demo.duration", (unsigned int)mDefaultDuration);
       mDurations.push_back(systemDuration);
+      LOG(LogInfo) << "System selected for demo : " << allSystems[i]->getName() << " with session of " << systemDuration << "s";
     }
+    else LOG(LogDebug) << "System NOT selected for demo : " << allSystems[i]->getName();
   }
 
   // Check if there is at least one system.
