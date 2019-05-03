@@ -15,6 +15,7 @@
 - MoonLight updated! Add support for latest GForceExperience softwares
 - New GUI Menu: In gamelist views, START opens game contextual menu. SELECT switch between all games/favorites only
 - Add game information screen in demo mode
+- Mame changes its default emulator to mame2003_plus
 
 ### Fixes
 - Fix boot intro videos on x86 and x64
