@@ -2,6 +2,7 @@
 // Created by bkg2k on 10/03/19.
 //
 
+#include <sys/time.h>
 #include "DemoMode.h"
 #include "Log.h"
 
@@ -10,11 +11,12 @@ DemoMode::DemoMode(Window& window)
   : mWindow(window),
     mSettings(*Settings::getInstance()),
     mRecalboxConf(*RecalboxConf::getInstance()),
-    mRandomGenerator(mRandomRevice()),
-    mGameRandomizer(0, 1 << 30)
+    mRandomGenerator(mRandomDevice()),
+    mGameRandomizer(0, 1U << 30U)
 {
   // Default duration
   mDefaultDuration = (int)mRecalboxConf.getUInt("global.demo.duration", 90);
+  mInfoScreenDuration = (int)mRecalboxConf.getUInt("global.demo.infoscreenduration", 6);
 
   // Build system list filtered by user config
   const std::vector<SystemData*>& allSystems = SystemData::getAllSystems();
@@ -25,7 +27,6 @@ DemoMode::DemoMode(Window& window)
     bool includeSystem = mRecalboxConf.getBool(name + ".demo.include");
     bool systemIsInIncludeList = !systemListExists || mRecalboxConf.isInList("global.demo.systemlist", name);
     int gameCount = allSystems[i]->getRootFolder()->countAllDisplayableItemsRecursively(false);
-    LOG(LogDebug) << "System elligible for Demo : " << allSystems[i]->getName() << " - isSelected: " << (includeSystem | systemIsInIncludeList) << " - gameCount: " << gameCount;
     if ((includeSystem || systemIsInIncludeList) && (gameCount > 0))
     {
       mDemoSystems.push_back(allSystems[i]);
@@ -33,7 +34,7 @@ DemoMode::DemoMode(Window& window)
       mDurations.push_back(systemDuration);
       LOG(LogInfo) << "System selected for demo : " << allSystems[i]->getName() << " with session of " << systemDuration << "s";
     }
-    else LOG(LogDebug) << "System NOT selected for demo : " << allSystems[i]->getName();
+    else LOG(LogDebug) << "System NOT selected for demo : " << allSystems[i]->getName() << " - isSelected: " << (includeSystem | systemIsInIncludeList) << " - gameCount: " << gameCount;
   }
 
   // Check if there is at least one system.
@@ -54,6 +55,11 @@ DemoMode::DemoMode(Window& window)
     for (int g = MAX_HISTORY; --g >= 0;)
       mGameHistories[s][g] = -1;
   }
+
+  // Second seed
+  timeval tv = { 0, 0 };
+  gettimeofday(&tv, nullptr);
+  mSeed = tv.tv_usec;
 }
 
 bool DemoMode::hasDemoMode()
@@ -61,7 +67,7 @@ bool DemoMode::hasDemoMode()
   return (mSettings.getString("ScreenSaverBehavior") == "demo");
 }
 
-bool DemoMode::isInHistory(int item, int history[], int maxitems)
+bool DemoMode::isInHistory(int item, const int history[], int maxitems)
 {
   int max = MAX_HISTORY < maxitems ? MAX_HISTORY : maxitems;
   for(int i = max; --i >= 0; )
@@ -95,7 +101,7 @@ bool DemoMode::getRandomSystem(int& outputSystemIndex, int& outputDuration)
     }
     // No luck, try again
   }
-  LOG(LogInfo) << "Randomly selected system: " << mDemoSystems[outputSystemIndex]->getName();
+  LOG(LogInfo) << "Randomly selected system: " << mDemoSystems[outputSystemIndex]->getName() << " ("  << outputSystemIndex << "/" << (int)mDemoSystems.size() << ")";
   //std::cout << "Randomly selected system: " << mDemoSystems[outputSystemIndex]->getName() << "\r\n";
 
   return true;
@@ -104,17 +110,26 @@ bool DemoMode::getRandomSystem(int& outputSystemIndex, int& outputDuration)
 bool DemoMode::getRandomGame(FileData*& outputGame, int& outputDuration)
 {
   int systemIndex = 0;
-  if (!getRandomSystem(systemIndex, outputDuration)) return false;
+  if (!getRandomSystem(systemIndex, outputDuration))
+  {
+    LOG(LogError) << "NO system available for demo mode!";
+    return false;
+  }
   SystemData* system = mDemoSystems[systemIndex];
 
   // Get filelist
   FileData::List gameList = system->getRootFolder()->getAllDisplayableItemsRecursively(false);
-  if (gameList.empty()) return false;
+  if (gameList.empty())
+  {
+    LOG(LogError) << "NO game available for demo mode in system " << system->getName() << " !";
+    return false;
+  }
 
+  int gamePosition = 0;
   for (int i = MAX_HISTORY; --i >= 0; )
   {
     // Select game
-    int gamePosition = mGameRandomizer(mRandomGenerator) % (int)gameList.size();
+    gamePosition = (mGameRandomizer(mRandomGenerator) + i + mSeed) % (int)gameList.size();
     outputGame = gameList[gamePosition];
 
     if (!isInHistory(gamePosition, mGameHistories[systemIndex], (int)gameList.size()) || (gameList.size() == 1))
@@ -125,9 +140,10 @@ bool DemoMode::getRandomGame(FileData*& outputGame, int& outputDuration)
     }
     // No luck, try again
   }
-  LOG(LogInfo) << "Randomly selected game: " << outputGame->getPath().generic_string();
+  LOG(LogInfo) << "Randomly selected game: " << outputGame->getPath().generic_string() << " ("  << gamePosition << "/" << (int)gameList.size() << ")";
   //std::cout << "Randomly selected game: " << outputGame->getPath().generic_string() << "\r\n";;
 
+  mSeed++;
   return true;
 }
 
@@ -152,7 +168,7 @@ void DemoMode::runDemo()
       Initialized = true;
     }
     // Run game
-    if (system->demoLaunchGame(game, duration, controllerConfigs))
+    if (system->demoLaunchGame(game, duration, mInfoScreenDuration, controllerConfigs))
     {
       mWindow.doWake();
       break;

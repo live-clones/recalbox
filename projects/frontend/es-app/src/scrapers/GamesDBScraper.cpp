@@ -117,7 +117,7 @@ void TheGamesDBRequest::process(const std::unique_ptr<HttpReq>& req, std::vector
 	assert(req->status() == HttpReq::REQ_SUCCESS);
 
 	pugi::xml_document doc;
-	pugi::xml_parse_result parseResult = doc.load(req->getContent().c_str());
+	pugi::xml_parse_result parseResult = doc.load_string(req->getContent().c_str());
 	if(!parseResult)
 	{
 		std::stringstream ss;

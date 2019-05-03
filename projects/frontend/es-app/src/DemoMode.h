@@ -21,7 +21,10 @@ class DemoMode
     RecalboxConf& mRecalboxConf;
 
     //! Game session duration
-    int       mDefaultDuration;
+    int mDefaultDuration;
+
+    //! Out-screen duration
+    int mInfoScreenDuration;
 
     //! List of system from which to get random games
     std::vector<SystemData*> mDemoSystems;
@@ -30,7 +33,7 @@ class DemoMode
     std::vector<int> mDurations;
 
     //! Random device to seed random generator
-    std::random_device mRandomRevice;
+    std::random_device mRandomDevice;
     //! Random generator
     std::mt19937 mRandomGenerator;
     //! Random repartition (system)
@@ -39,13 +42,16 @@ class DemoMode
     std::uniform_int_distribution<int> mGameRandomizer;
 
     //! History deepness
-    static constexpr int MAX_HISTORY = 10;
+    static constexpr int MAX_HISTORY = 32;
 
     //! Game History
-    int mGameHistories[(int)PlatformIds::PLATFORM_COUNT][MAX_HISTORY];
+    int mGameHistories[(int)PlatformIds::PLATFORM_COUNT][MAX_HISTORY] = { { 0 } };
 
     //! Previously selected system
-    int mSystemHistory[MAX_HISTORY];
+    int mSystemHistory[MAX_HISTORY] = { 0 };
+
+    //! Secondary seed
+    int mSeed;
 
     /*!
      * @brief Check if an item is in its history records
@@ -54,14 +60,14 @@ class DemoMode
      * @param maxitems Maximum items
      * @return True if the item is in the history records, false otherwise
      */
-    bool isInHistory(int item, int history[], int maxitems);
+    static bool isInHistory(int item, const int history[], int maxitems);
 
     /*!
      * @brief Insert an item into its history records
      * @param item Item to insert
      * @param history History records
      */
-    void insertIntoHistory(int item, int history[]);
+    static void insertIntoHistory(int item, int history[]);
 
     /*!
      * @brief Get next random game

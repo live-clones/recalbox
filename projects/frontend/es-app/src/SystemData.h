@@ -156,5 +156,5 @@ class SystemData
 
   std::string demoInitialize(Window& window);
   void demoFinalize(Window& window);
-  bool demoLaunchGame(FileData* game, int duration, const std::string& controlersConfig);
+  bool demoLaunchGame(FileData* game, int duration, int infoscreenduration, const std::string& controlersConfig);
 };

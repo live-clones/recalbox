@@ -256,7 +256,7 @@ void SystemData::demoFinalize(Window& window)
   window.normalizeNextUpdate();
 }
 
-bool SystemData::demoLaunchGame(FileData* game, int duration, const std::string& controlersConfig)
+bool SystemData::demoLaunchGame(FileData* game, int duration, int infoscreenduration, const std::string& controlersConfig)
 {
 
   std::string command = mLaunchCommand;
@@ -279,6 +279,8 @@ bool SystemData::demoLaunchGame(FileData* game, int duration, const std::string&
   command += " -demo 1";
   command += " -demoduration ";
   command += std::to_string(duration);
+  command += " -demoinfoduration ";
+  command += std::to_string(infoscreenduration);
 
   LOG(LogInfo) << "Demo command: " << command;
   RecalboxSystem::getInstance()->NotifyGame(*game, true, true);
