@@ -383,18 +383,20 @@ std::vector<std::string> ISimpleGameListView::getAvailableLetters()
 	// TODO: Algorithm!!! Use 128 array bitflag - Use better returning type - kill all vectors
 	// TODO: Be consistent! Use gamelist items, not FileData
 	std::vector<std::string> letters;
+	std::set<std::string> setOfLetters;
 	FileData::List files = getFileDataList();
 	for (auto file : files) {
 		if (file->getType() == ItemType::Game)
 		{
-			std::string letter = std::string(1, toupper(file->getName()[0]));
-			if ( ( (letter[0] >= '0' && letter[0] <= '9') || (letter[0] >= 'A' && letter[0] <= 'Z') ) ) {
-				if (std::find(letters.begin(), letters.end(), letter) == letters.end()) {
-					letters.push_back(letter);
-				}
-			}
+			setOfLetters.insert(std::string(1, toupper(file->getName()[0])));
 		}
 	}
+
+	for (const auto letter : setOfLetters)
+	{
+		letters.push_back(letter);
+	}
+
 	std::sort(letters.begin(), letters.end());
 	return letters;
 }
