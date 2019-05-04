@@ -21,6 +21,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Enable toolchain LTO
 - Add Uzebox emulator (libretro-uzem)
 - Fix wifi issue in case of bad recalbox.conf
+- Add game info screen in demo mode
 
 ## [6.0] - DragonBlaze
 - Change name from 5.0 to 6.0 DragonBlaze

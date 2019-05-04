@@ -4,9 +4,9 @@
 
 ### News
 - New emulator! Uzebox on all systems (RetroArch core: libretro-uzem)
+- New system! Amstrad GX4000 added with libretro’s cap32 emulator
 
 ### Improvements
-- New system! Amstrad GX4000 added with libretro’s cap32 emulator
 - Libretro core updated! FBA Libretro core updated to latest version (Neogeo CDRom Speed fix)
 - Libretro core updated! Picodrive updated to latest version (Fix shifted down screen)
 - Emulator updated! ScummVM updated to April 2019 versions (new theme included)
@@ -14,6 +14,7 @@
 - Add .7z support to more emulators
 - MoonLight updated! Add support for latest GForceExperience softwares
 - New GUI Menu: In gamelist views, START opens game contextual menu. SELECT switch between all games/favorites only
+- Add game information screen in demo mode
 
 ### Fixes
 - Fix boot intro videos on x86 and x64
