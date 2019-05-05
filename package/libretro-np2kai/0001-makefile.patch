@@ -1,9 +1,9 @@
 --- a/sdl2/Makefile.libretro	2019-01-24 11:13:06.000000000 +0100
 +++ b/sdl2/Makefile.libretro	2019-01-29 13:53:49.316821415 +0100
-@@ -168,6 +168,50 @@
- 	LIBS := $(PTHREAD_FLAGS)
- 	STATIC_LINKING = 1
- 
+@@ -49,6 +49,50 @@
+ ifeq ($(shell uname -s), Haiku)
+ 	LDFLAGS += -lroot
+ endif
 +else ifneq (,$(findstring embedded,$(platform)))
 +    AR = ${CC_PREFIX}ar
 +    CC = ${CC_PREFIX}gcc
@@ -23,13 +23,13 @@
 +
 +        # Pi (original)
 +        ifneq (,$(findstring rpi1,$(platform)))
-+            CFLAGS = -mcpu=cortex-a6j
++            CFLAGS += -mcpu=cortex-a6j
 +        # Pi2
 +        else ifneq (,$(findstring rpi2,$(platform)))
-+            CFLAGS = -mcpu=cortex-a7
++            CFLAGS += -mcpu=cortex-a7
 +        # Pi3
 +        else ifneq (,$(findstring rpi3,$(platform)))
-+            CFLAGS = -mcpu=cortex-a53 -mfpu=neon-vfpv4 -fdata-sections -ffunction-sections -Wl,--gc-sections -fno-unroll-loops -fmerge-all-constants
++            CFLAGS += -mcpu=cortex-a53 -mfpu=neon-vfpv4 -fdata-sections -ffunction-sections -Wl,--gc-sections -fmerge-all-constants
 +        endif
 +
 +    # ODROIDs
@@ -48,6 +48,6 @@
 +        endif
 +    endif
 +
- # CTR
- else ifeq ($(platform), ctr)
- 	TARGET := $(TARGET_NAME)_libretro_$(platform).a
+ 
+ # OS X
+ else ifeq ($(platform), osx)
