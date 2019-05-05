@@ -1,0 +1,10 @@
+--- a/lutro.c	2018-08-22 02:57:38.000000000 +0200
++++ b/lutro.c	2019-05-05 18:07:38.646434927 +0200
+@@ -429,6 +429,7 @@
+    {
+       fill_pathname(gamedir, mainfile, "/", sizeof(gamedir));
+       fill_pathname(gamedir, conffile, "/", sizeof(gamedir));
++      strncpy(gamedir, "/tmp/lutro", sizeof(gamedir));
+       lutro_unzip(mainfile, gamedir);
+       fill_pathname_join(mainfile, gamedir, "main.lua", sizeof(mainfile));
+       fill_pathname_join(conffile, gamedir, "conf.lua", sizeof(conffile));
