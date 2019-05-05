@@ -122,6 +122,10 @@ bool GuiNetPlay::parseLobby()
             {
                 continue;
             }
+			if (!(std::regex_search(array_element.second.get<std::string>("fields.frontend"), std::regex("@RECALBOX"))))
+			{
+				continue;
+			}
 			FileData* tmp = nullptr;
 			if (array_element.second.get<std::string>("fields.game_crc") != "00000000") {
 				tmp = findGame(array_element.second.get<std::string>("fields.game_crc"));
