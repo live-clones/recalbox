@@ -2,6 +2,8 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [6.1] Shutdown System option moved at the top of the Quit menu
+
 ## [6.0]
 ### Added
 - Mame roms fullname in Netplay GUI
