@@ -142,6 +142,7 @@ emulators["amigacd32"] = Emulator(name='amigacd32', emulator='amiberry')
 emulators["amigacdtv"] = Emulator(name='amigacdtv', emulator='amiberry')
 emulators["gx4000"] = Emulator(name='gx4000', emulator='libretro', core='cap32')
 emulators["uzebox"] = Emulator(name='uzebox', emulator='libretro', core='uzem')
+emulators["palm"] = Emulator(name='palm', emulator='libretro', core='mu')
 
 emulators["kodi"] = Emulator(name='kodi', emulator='kodi', videomode='default')
 emulators["moonlight"] = Emulator(name='moonlight', emulator='moonlight')
