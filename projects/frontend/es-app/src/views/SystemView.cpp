@@ -262,29 +262,9 @@ bool SystemView::input(InputConfig* config, Input input)
 			auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 			Window *window = mWindow;
 			ComponentListRow row;
-			row.makeAcceptInputHandler([window] {
-			    window->pushGui(new GuiMsgBox(window, _("REALLY RESTART?"), _("YES"),
-											  [] {
-												  if (RecalboxSystem::getInstance()->reboot() != 0)  {
-													  LOG(LogWarning) << "Restart terminated with non-zero result!";
-												  }
-							  }, _("NO"), nullptr));
-			});
-			// icon
-			auto icon1 = std::make_shared<ImageComponent>(mWindow);
-			icon1->setImage(menuTheme->menuIconSet.restart);
-			icon1->setColorShift(menuTheme->menuText.color);
-			icon1->setResize(0, menuTheme->menuText.font->getLetterHeight() * 1.25f);
-			row.addElement(icon1, false);
 
-			// spacer between icon and text
-			auto spacer = std::make_shared<GuiComponent>(mWindow);
-			spacer->setSize(10, 0);
-			row.addElement(spacer, false);
-			row.addElement(std::make_shared<TextComponent>(window, _("RESTART SYSTEM"), menuTheme->menuText.font, menuTheme->menuText.color), true);
-			s->addRow(row);
 
-			row.elements.clear();
+
 			row.makeAcceptInputHandler([window] {
 			    window->pushGui(new GuiMsgBox(window, _("REALLY SHUTDOWN?"), _("YES"),
 											  [] {
@@ -300,6 +280,7 @@ bool SystemView::input(InputConfig* config, Input input)
 			icon2->setResize(0, menuTheme->menuText.font->getLetterHeight() * 1.25f);
 			row.addElement(icon2, false);
 			// spacer between icon and text
+			auto spacer = std::make_shared<GuiComponent>(mWindow);
 			row.addElement(spacer, false);
 			row.addElement(std::make_shared<TextComponent>(window, _("SHUTDOWN SYSTEM"), menuTheme->menuText.font, menuTheme->menuText.color), true);
 			s->addRow(row);
@@ -321,6 +302,27 @@ bool SystemView::input(InputConfig* config, Input input)
 			// spacer between icon and text
 			row.addElement(spacer, false);
 			row.addElement(std::make_shared<TextComponent>(window, _("FAST SHUTDOWN SYSTEM"), menuTheme->menuText.font, menuTheme->menuText.color), true);
+			s->addRow(row);
+			row.elements.clear();
+			row.makeAcceptInputHandler([window] {
+				window->pushGui(new GuiMsgBox(window, _("REALLY RESTART?"), _("YES"),
+				                              [] {
+					                              if (RecalboxSystem::getInstance()->reboot() != 0)  {
+						                              LOG(LogWarning) << "Restart terminated with non-zero result!";
+					                              }
+				                              }, _("NO"), nullptr));
+			});
+			// icon
+			auto icon1 = std::make_shared<ImageComponent>(mWindow);
+			icon1->setImage(menuTheme->menuIconSet.restart);
+			icon1->setColorShift(menuTheme->menuText.color);
+			icon1->setResize(0, menuTheme->menuText.font->getLetterHeight() * 1.25f);
+			row.addElement(icon1, false);
+
+
+			spacer->setSize(10, 0);
+			row.addElement(spacer, false);
+			row.addElement(std::make_shared<TextComponent>(window, _("RESTART SYSTEM"), menuTheme->menuText.font, menuTheme->menuText.color), true);
 			s->addRow(row);
 			mWindow->pushGui(s);
 		}
