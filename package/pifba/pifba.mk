@@ -15,11 +15,11 @@ PIFBA_SDL_FLAGS=`$(PIFBA_SDL_CONFIG) --cflags`
 
 PIFBA_CFLAGS=$(TARGET_CFLAGS) -Wall -W -Wno-write-strings -O3 -DOOPSWARE_FIX -D_T="" -DNEOGEO_HACKS -D__cdecl="" \
 	-D__fastcall="" -DUSE_SPEEDHACKS -DNEO_DISPLAY_OVERSCAN -falign-functions=32 -falign-loops -falign-labels -falign-jumps -fomit-frame-pointer -ffast-math \
-	-fexpensive-optimizations -finline -finline-functions -mstructure-size-boundary=32 -frename-registers
+	-fexpensive-optimizations -finline -finline-functions -mstructure-size-boundary=32 -frename-registers $(COMPILER_COMMONS_CFLAGS_EXE)
 
 PIFBA_CXXFLAGS=$(TARGET_CXXFLAGS) -DQWS -fno-exceptions -fno-rtti -Wall -W -Wno-write-strings -O3 -DOOPSWARE_FIX -D_T="" -DNEOGEO_HACKS \
 	-D__cdecl="" -D__fastcall="" -DUSE_SPEEDHACKS -DNEO_DISPLAY_OVERSCAN -falign-functions=32 -falign-loops -falign-labels -falign-jumps -fomit-frame-pointer -ffast-math \
-	-fexpensive-optimizations -finline -finline-functions -mstructure-size-boundary=32 -frename-registers
+	-fexpensive-optimizations -finline -finline-functions -mstructure-size-boundary=32 -frename-registers $(COMPILER_COMMONS_CXXFLAGS_EXE)
 
 PIFBA_LIBS=-lz -lpthread -lm -lpthread -lSDL2 -L$(STAGING_DIR)/usr/lib -lbcm_host -lGLESv2 -lEGL -lglib-2.0 -lasound -lrt -lvchostif
 
@@ -30,7 +30,7 @@ PIFBA_INCLUDES=-I$(STAGING_DIR)/usr/include -I$(STAGING_DIR)/usr/include/interfa
 		-I$(@D)/cpu/z80 -I$(@D)/cpu/cz80 -I$(@D)/cpu/nec -I$(@D)/cpu/sh2 -I$(@D)/burn/misc
 
 define PIFBA_BUILD_CMDS
-	$(MAKE) CFLAGS="$(PIFBA_CFLAGS)" CXXFLAGS="$(PIFBA_CXXFLAGS)" CXX="$(TARGET_CXX)" CC="$(TARGET_CC)" \
+	$(MAKE) CFLAGS="$(PIFBA_CFLAGS)" CXXFLAGS="$(PIFBA_CXXFLAGS)" LFLAGS="$(COMPILER_COMMONS_LDFLAGS_EXE)" CXX="$(TARGET_CXX)" CC="$(TARGET_CC)" \
 		INCPATH="$(PIFBA_INCLUDES)" LINK="$(TARGET_CXX)" LIBS="$(PIFBA_LIBS)" \
 		-C $(@D)
 endef

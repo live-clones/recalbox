@@ -26,4 +26,4 @@ updatesv2/release/
 .vscode
 dist
 .netlify
-board/recalbox/fsoverlay/recalbox/recalbox.version # this is written by `recaldocker.sh` or `.gitlab-ci.yml`
+board/recalbox/fsoverlay/recalbox/recalbox\.version # this is written by `recaldocker.sh` or `.gitlab-ci.yml`
