@@ -71,6 +71,7 @@ emulators["pokemini"] = Emulator(name='pokemini', emulator='libretro', core='pok
 emulators["satellaview"] = Emulator(name='satellaview', emulator='libretro', core='snes9x')
 emulators["sufami"] = Emulator(name='sufami', emulator='libretro', core='snes9x')
 emulators["gw"] = Emulator(name='gw', emulator='libretro', core='gw')
+emulators["3ds"] = Emulator(name='3ds', emulator='libretro', core='citra')
 # Sega
 emulators["sg1000"] = Emulator(name='sg1000', emulator='libretro', core='genesisplusgx')
 emulators["mastersystem"] = Emulator(name='mastersystem', emulator='libretro', core='picodrive')
