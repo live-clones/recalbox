@@ -145,7 +145,7 @@ def generateControllerConfig(controller):
 		var = ppssppMapping[input.name][input.type]
 		
 		code = input.code
-                deviceIdPad = sdlIndexToIdPad[controller.index]
+		deviceIdPad = sdlIndexToIdPad[controller.index]
 		if input.type == 'button':
 			pspcode = sdlNameToNKCode[input.name]
 			val = "{}-{}".format( deviceIdPad, pspcode )

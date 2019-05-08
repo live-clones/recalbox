@@ -30,6 +30,7 @@ import recalboxFiles
 import os
 
 from controllersConfig import Controller
+from settings.keyValueSettings import keyValueSettings
 
 generators = {
     'fba2x': Fba2xGenerator(),
@@ -148,6 +149,27 @@ emulators["kodi"] = Emulator(name='kodi', emulator='kodi', videomode='default')
 emulators["moonlight"] = Emulator(name='moonlight', emulator='moonlight')
 emulators["psp"] = Emulator(name='psp', emulator='ppsspp')
 
+def loadRecalboxSettings(rom):
+
+    # Load global settings
+    settings = keyValueSettings(recalboxFiles.recalboxConf, False)
+    settings.loadFile(True)
+    
+    if rom is not None:
+        # build file names
+        romPath = os.path.dirname(rom)
+        romFile, romWithoutExt = os.path.splitext(rom)
+        romSettings = "{}{}".format(romFile, ".recalbox.conf")
+        pathSettings = os.path.join(romPath, ".recalbox.conf")
+        # Override with path settings
+        settings.changeSettingsFile(pathSettings)
+        settings.loadFile(False)
+        # Override with rom settings
+        settings.changeSettingsFile(romSettings)
+        settings.loadFile(False)
+
+    return settings
+
 
 def main(args):
     playersControllers = dict()
@@ -170,32 +192,39 @@ def main(args):
     # Main Program
     # A generator will configure its emulator, and return a command
     if systemName in emulators:
+        # Load recalbox.conf
+        recalboxSettings = loadRecalboxSettings(args.rom)
+
+        # Get emulator
         system = emulators[systemName]
-        system.configure(args.emulator, args.core, args.ratio, args.netplay, args.netplay_ip, args.netplay_port, args.hash, args.extra)
+        # Configure attributes
+        system.configure(recalboxSettings, args.emulator, args.core, args.ratio, args.netplay, args.netplay_ip, args.netplay_port, args.hash, args.extra)
+        # Wrong way?
+        if system.config['emulator'] not in recalboxFiles.recalboxBins:
+            strErr = "ERROR : {} is not a known emulator".format(system.config['emulator'])
+            print >> sys.stderr, strErr
+            exit(2)
 
         # Save dir
         dirname = os.path.join(recalboxFiles.savesDir, system.name)
         if not os.path.exists(dirname):
             os.makedirs(dirname)
-        
-        
-        if system.config['emulator'] not in recalboxFiles.recalboxBins:
-            strErr = "ERROR : {} is not a known emulator".format(system.config['emulator'])
-            print >> sys.stderr, strErr
-            exit(2)
-        
+
+        # Generate all the config files required by the selected emulator
         command = generators[system.config['emulator']].generate(system, args.rom, playersControllers, args.demo)
+
         # The next line is commented and will eventually be used instead of the previous one
         # if we even want the binary to be set from here rather than from the generator
         # command.array.insert(0, recalboxFiles.recalboxBins[system.config['emulator']])
         print(command)
-        returnCode = runner.runCommand(command, args, demoStartButtons)
+        returnCode = runner.runCommand(command, args, demoStartButtons, recalboxSettings)
 
-        # Reexecute emulator in play mode
+        # Rerun emulator in play mode
         if returnCode == runner.USERWANNAPLAY:
             print("User wanna play!")
             args.demo = None
             args.demoduration = 0
+            args.demoinfoduration = 0
             main(args)
             return runner.USERQUIT
 
@@ -263,7 +292,7 @@ if __name__ == '__main__':
     parser.add_argument("-ratio", help="force game ratio", type=str, required=False)
     parser.add_argument("-demo", help="mode demo", type=bool, required=False)
     parser.add_argument("-demoduration", help="mode demo duration in second", type=int, required=False)
-    parser.add_argument("-demoinfoduration", help="mode demo duration in second", type=int, required=False)
+    parser.add_argument("-demoinfoduration", help="mode demo outscreen duration in second", type=int, required=False)
     parser.add_argument("-netplay", help="host/client", type=str, required=False)
     parser.add_argument("-netplay_ip", help="host IP", type=str, required=False)
     parser.add_argument("-netplay_port", help="host port (not used in client mode)", type=str, required=False)

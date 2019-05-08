@@ -54,6 +54,14 @@ class keyValueSettings:
         for key in keysToRemove:
             self.settings.pop(key, None)
 
+    def getOptionSubset(self, startWith):
+        result = {}
+        swl = len(startWith)
+        for key in self.settings.iterkeys():
+            if key.startswith(startWith):
+                result[key[swl:]] = self.settings[key]
+        return result;
+
     def saveFile(self):
         folder = os.path.dirname(self.settingsFile)
         if not os.path.exists(folder):

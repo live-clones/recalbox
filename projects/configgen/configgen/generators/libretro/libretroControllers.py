@@ -1,19 +1,8 @@
 #!/usr/bin/env python
 import sys
 import os
-#import recalboxFiles
-#import utils.slugify as slugify
-
-#from settings.unixSettings import UnixSettings
-
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
-
-#libretroSettings = UnixSettings(recalboxFiles.retroarchCustom, separator=' ')
-#coreSettings = UnixSettings(recalboxFiles.retroarchCoreCustom, separator=' ')
-#recalboxConfSettings = UnixSettings(recalboxFiles.recalboxConf)
-
-#settingsRoot = recalboxFiles.retroarchRoot
 
 
 class LibretroControllers:

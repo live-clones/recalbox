@@ -13,7 +13,7 @@ USERQUIT = 0x33
 USERWANNAPLAY = 0x77
 
 # Set a specific video mode
-def runCommand(command, args, demoStartButtons):
+def runCommand(command, args, demoStartButtons, recalboxSettings):
     global proc
 
     chosenMode = videoMode.setVideoMode(command.videomode, command.delay)
@@ -39,7 +39,7 @@ def runCommand(command, args, demoStartButtons):
         command.postExec()
 
     if chosenMode != 'default':
-        videoMode.setPreffered()
+        videoMode.setPreffered(recalboxSettings)
 
     if userQuit: return USERQUIT
     if userWannaPlay: return USERWANNAPLAY

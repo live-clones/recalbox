@@ -1,9 +1,9 @@
-import sys
-import os
 import recalboxFiles
-from settings.unixSettings import UnixSettings
 import xml.etree.ElementTree as ET
 import shlex
+
+from settings.keyValueSettings import keyValueSettings
+
 
 class Emulator:
 
@@ -22,58 +22,61 @@ class Emulator:
         self.config['showFPS']    = showFPS
         self.config['args']       = None
         self.config['hash']       = None
-        
-    def configure(self, emulator='default', core='default', ratio='auto', netplay=None, netplay_ip=None, netplay_port=None, hash=None, extra=None):
-        recalSettings = UnixSettings(recalboxFiles.recalboxConf)
-        globalSettings = recalSettings.loadAll('global')
-        self.config['specials'] = recalSettings.load('system.emulators.specialkeys', 'default')
-        self.config['netplay_nickname'] = recalSettings.load('global.netplay.nickname', 'default')
+
+    def configure(self, recalboxSettings, emulator='default', core='default', ratio='auto', netplay=None, netplay_ip=None, netplay_port=None, hash_=None, extra=None):
+        self.config['specials'] = recalboxSettings.getOption('system.emulators.specialkeys', 'default')
+        self.config['netplay_nickname'] = recalboxSettings.getOption('global.netplay.nickname', 'default')
         self.config['netplaymode'] = netplay
         self.config['netplay_ip'] = netplay_ip
         self.config['netplay_port'] = netplay_port
-        self.config['hash'] = hash
+        self.config['hash'] = hash_
         self.config['extra'] = extra
-        self.updateConfiguration(globalSettings)
-        self.updateConfiguration(recalSettings.loadAll(self.name))
+        self.updateConfiguration(recalboxSettings.getOptionSubset("global."), recalboxSettings)
+        self.updateConfiguration(recalboxSettings.getOptionSubset("{}.".format(self.name)), recalboxSettings)
         self.updateForcedConfig(emulator, core, ratio)
 
-    def updateConfiguration(self, settings):
+    def updateConfiguration(self, settings, recalboxSettings):
         systemSettings = self.config
+
         # Special case of auto ratio
-        if 'ratio' in settings and settings['ratio'] == 'auto':
+        if settings.get('ratio') == 'auto':
             del settings['ratio']
-        if 'emulator' in settings and settings['emulator'] == 'default':
+        if settings.get('emulator') == 'default':
             del settings['emulator']
-        if 'core' in settings and settings['core'] == 'default':
+        if settings.get('core') == 'default':
             del settings['core']
         systemSettings.update(settings)
+
         # ShaderSets
-        if ('shaderset' in settings and settings['shaderset'] != ''):
+        if settings.get('shaderset', '') != '':
             self.updateShaders(settings['shaderset'])
+
         # Draw FPS
-        if self.config['showFPS'] is None or self.config['showFPS'] not in ['false', 'true']:
+        if self.config.get('showFPS') not in ['false', 'true']:
             self.updateDrawFPS()
+
         # Optionnal emulator args ONLY if security is disabled
-        recalSettings = UnixSettings(recalboxFiles.recalboxConf)
-        security = recalSettings.load("system.security.enabled")
-        if (security != "1" and'args' in settings and settings['args'] != ''):
+        security = recalboxSettings.getOption("system.security.enabled", '0')
+        if security != '1' and settings.get('args', '') != '':
             self.config['args'] = shlex.split(settings['args'])
         else:
             self.config['args'] = None
 
     def updateShaders(self, shaderSet):
-        if shaderSet != None and shaderSet != 'none':
-            shaderfile = recalboxFiles.shaderPresetRoot + '/' + shaderSet + '.cfg'
-            systemShader = UnixSettings(shaderfile).load(self.name)
-            if systemShader != None:
+        if shaderSet is not None and shaderSet != 'none':
+            shaderFile = recalboxFiles.shaderPresetRoot + '/' + shaderSet + '.cfg'
+            shaderContent = keyValueSettings(shaderFile, False)
+            shaderContent.loadFile(True)
+            systemShader = shaderContent.getOption(self.name, None)
+            if systemShader is not None:
                 self.config['shaders'] = systemShader
 
     def updateForcedConfig(self, emulator, core, ratio):
-        if emulator != None and emulator != 'default':
+        if emulator is not None and emulator != 'default':
             self.config['emulator'] = emulator
-        if core != None and core != 'default':
+        if core is not None and core != 'default':
             self.config['core'] = core
-        if ratio != None and ratio != 'auto':
+        if ratio is not None and ratio != 'auto':
             self.config['ratio'] = ratio
 
     def updateDrawFPS(self):
