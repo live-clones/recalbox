@@ -151,8 +151,8 @@ class LibretroRetroarch:
         hasRewind = self.isEnabled("rewind") and self.system.name not in self.SYSTEM_WITH_NO_REWIND
         settings.setOption("rewind_enable", self.TRUE if hasRewind else self.FALSE)
 
-        # Auto-save
-        hasAutoSave = self.isEnabled("autosave") and not self.demo
+        # Auto-save (not in demo mode! not in netplay mode!)
+        hasAutoSave = self.isEnabled("autosave") and not self.demo and not self.isDefined("netplaymode")
         settings.setOption("savestate_auto_save", self.TRUE if hasAutoSave else self.FALSE)
         settings.setOption("savestate_auto_load", self.TRUE if hasAutoSave else self.FALSE)
 
@@ -168,7 +168,7 @@ class LibretroRetroarch:
         if len(self.controllers) > 2 and self.system.config['core'] == 'snes9x2010':
             settings.setOption("input_libretro_device_p2", "257")
 
-        # Retroachievements
+        # Retroachievements (not in demo mode!)
         hasRetroAch = self.isEnabled("retroachievements") and not self.demo
         settings.setOption("cheevos_enable", self.TRUE if hasRetroAch else self.FALSE)
         settings.setOption("cheevos_hardcore_mode_enable", self.FALSE)
