@@ -31,6 +31,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add a CI stage for linting
 - Update Theodore core: add emulation of Thomson MO6 and Olivetti Prodest PC128
 - Fix key-based SSH login with NTFS and ExFAT external drives
+- Architecture added to the image name
 
 ## [6.0] - DragonBlaze
 - Change name from 5.0 to 6.0 DragonBlaze
