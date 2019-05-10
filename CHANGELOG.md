@@ -33,6 +33,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fix key-based SSH login with NTFS and ExFAT external drives
 - Fix wifi issue on some boards
 - Architecture added to the image name
+- Bluetooth: Previously configured pads automatically unpaired before pairing again
 
 ## [6.0] - DragonBlaze
 - Change name from 5.0 to 6.0 DragonBlaze

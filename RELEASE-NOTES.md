@@ -19,6 +19,7 @@
 - Add game information screen in demo mode
 - Mame changes its default emulator to mame2003_plus
 - Shutdown System option moved at the top of the Quit menu
+- Bluetooth pads configuration easier than ever: previously configured pads automatically unpaired before pairing again
 
 ### Fixes
 - Fix boot intro videos on x86 and x64

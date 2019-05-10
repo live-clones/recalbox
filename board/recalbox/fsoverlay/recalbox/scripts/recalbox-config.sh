@@ -593,6 +593,11 @@ if [[ "$command" == "hiddpair" ]]; then
     if [ "$?" != "0" ]; then
         exit 1
     fi
+    recallog "Unpairing and removing BT device $mac"
+    /recalbox/scripts/bluetooth/test-device remove "$mac"
+    #Quick scan to force BT discovery and register
+    /recalbox/scripts/bluetooth/btDaemon & ( PID=$! ; sleep 15 ; kill -15 $PID)
+    PYTHONIOENCODING=UTF-8 /recalbox/scripts/bluetooth/test-device list
     recallog "pairing $name $mac"
     echo $name | grep "8Bitdo\|other"
     if [ "$?" == "0" ]; then
