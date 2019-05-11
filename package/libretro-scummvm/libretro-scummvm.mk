@@ -8,9 +8,11 @@ LIBRETRO_SCUMMVM_VERSION = 373756e3663bc5aee0c96fe582fd749a8a95c4c9
 LIBRETRO_SCUMMVM_SITE = $(call github,libretro,scummvm,$(LIBRETRO_SCUMMVM_VERSION))
 
 define LIBRETRO_SCUMMVM_BUILD_CMDS
-	CFLAGS="$(TARGET_CFLAGS)" CXXFLAGS="$(TARGET_CXXFLAGS)" LDFLAGS="-shared -Wl,--no-undefined" \
-		$(MAKE) TOOLSET="$(TARGET_CROSS)" \
-			-C $(@D)/backends/platform/libretro/build platform="$(RETROARCH_LIBRETRO_PLATFORM)"
+	$(SED) "s|-O2|-O3|g" $(@D)/backends/platform/libretro/build/Makefile
+	CFLAGS="$(TARGET_CFLAGS) $(COMPILER_COMMONS_CFLAGS_NOLTO)" \
+		CXXFLAGS="$(TARGET_CXXFLAGS) $(COMPILER_COMMONS_CXXFLAGS_NOLTO)" \
+		LDFLAGS="$(TARGET_LDFLAGS) $(COMPILER_COMMONS_LDFLAGS_NOLTO) -shared -Wl,--no-undefined" \
+		$(MAKE) TOOLSET="$(TARGET_CROSS)" -C $(@D)/backends/platform/libretro/build platform="$(RETROARCH_LIBRETRO_PLATFORM)"
 endef
 
 define LIBRETRO_SCUMMVM_INSTALL_TARGET_CMDS

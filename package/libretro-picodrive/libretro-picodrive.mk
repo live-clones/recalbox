@@ -11,29 +11,22 @@ LIBRETRO_PICODRIVE_GIT_SUBMODULES=y
 
 PICOPLATFORM=$(RETROARCH_LIBRETRO_PLATFORM)
 
-# RPI 0 and 1
-ifeq ($(BR2_arm1176jzf_s),y)
+# All arm 32bits
+ifeq ($(BR2_arm),y)
 PICOPLATFORM=$(RETROARCH_LIBRETRO_PLATFORM) armasm
 endif
 
-# RPI 2 and 3
-ifeq ($(BR2_cortex_a7)$(BR2_cortex_a53),y)
-PICOPLATFORM=$(RETROARCH_LIBRETRO_PLATFORM) armasm
-endif
-
-# odroid xu4
-ifeq ($(BR2_cortex_a15)$(BR2_cortex_a15_a7),y)
-PICOPLATFORM=$(RETROARCH_LIBRETRO_PLATFORM) armasm
-endif
-
-#Odroidc2
+# All arm 64bits
 ifeq ($(BR2_aarch64),y)
 PICOPLATFORM=aarch64
 endif
 
 define LIBRETRO_PICODRIVE_BUILD_CMDS
 	$(MAKE) -C $(@D)/cpu/cyclone CONFIG_FILE=$(@D)/cpu/cyclone_config.h
-	CFLAGS="$(TARGET_CFLAGS)" CXXFLAGS="$(TARGET_CXXFLAGS)" \
+	$(SED) "s|-O2|-O3|g" $(@D)/Makefile.libretro
+	CFLAGS="$(TARGET_CFLAGS) $(COMPILER_COMMONS_CFLAGS_SO)" \
+		CXXFLAGS="$(TARGET_CXXFLAGS) $(COMPILER_COMMONS_CXXFLAGS_SO)" \
+		LDFLAGS="$(TARGET_LDFLAGS) $(COMPILER_COMMONS_LDFLAGS_SO)" \
 		$(MAKE) CC="$(TARGET_CC)" CXX="$(TARGET_CXX)" -C  $(@D) -f Makefile.libretro platform="$(PICOPLATFORM)"
 endef
 
