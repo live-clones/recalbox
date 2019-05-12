@@ -19,6 +19,10 @@
 - Add game information screen in demo mode
 - Mame changes its default emulator to mame2003_plus
 - Shutdown System option moved at the top of the Quit menu
+- Retroarch ratio resynchronized:
+  - "Core provided" and "Retroarch Custom" added to ratio menu
+  - Old "custom" ratio renamed "Do not set" (let the user choose in Retroarch)
+  - Ratio text localized
 
 ### Fixes
 - Fix boot intro videos on x86 and x64
