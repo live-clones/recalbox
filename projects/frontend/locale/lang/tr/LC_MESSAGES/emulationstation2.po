@@ -1,1855 +1,1715 @@
 msgid ""
 msgstr ""
+"Project-Id-Version: recalbox-emulationstation\n"
+"Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: POEditor.com\n"
-"Project-Id-Version: recalbox-emulationstation\n"
-"Language: tr\n"
 "Plural-Forms: nplurals=2; plural=(n>1);\n"
 
-#: 
 msgid "AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"
 msgstr "SİSTEMİNİZE AİT GÜNCELLEME MEVCUT"
 
-#: 
+msgid "DOWNLOADED"
+msgstr ""
+
+msgid "UPDATE VERSION:"
+msgstr ""
+
+msgid "UPDATE CHANGELOG:"
+msgstr ""
+
 msgid "CANCEL"
 msgstr "İPTAL"
 
-#: 
 msgid "Rating"
 msgstr "Derece"
 
-#: 
 msgid "Released"
 msgstr "Yayın"
 
-#: 
 msgid "Developer"
 msgstr "Geliştirici"
 
-#: 
 msgid "Publisher"
 msgstr "Yayıncı"
 
-#: 
 msgid "Genre"
 msgstr "Tür"
 
-#: 
 msgid "Players"
 msgstr "Oyuncu"
 
-#: 
 msgid "NO GAMES FOUND - SKIP"
 msgstr "OYUN BULUNAMADI"
 
-#: 
 msgid "RETRY"
 msgstr "TEKRAR DENE"
 
-#: 
 msgid "SKIP"
 msgstr "GEÇ"
 
-#: 
 msgid "SEARCH FOR"
 msgstr "ARAMA YAP"
 
-#: 
 msgid "SEARCH"
 msgstr "ARA"
 
-#: 
 msgid "SCRAPING IN PROGRESS"
 msgstr "ÇEKME İŞLEMİ SÜRÜYOR"
 
-#: 
 msgid "SYSTEM"
 msgstr "SİSTEM"
 
-#: 
 msgid "subtitle text"
 msgstr "altyazı metni"
 
-#: 
 msgid "INPUT"
 msgstr "GİRDİ"
 
-#: 
 msgid "search"
 msgstr "ara"
 
-#: 
 msgid "STOP"
 msgstr "DUR"
 
-#: 
 msgid "stop (progress saved)"
 msgstr "dur"
 
-#: 
 msgid "GAME %i OF %i"
 msgstr "OYUN %i/%i"
 
-#: 
-msgid "WE CAN'T FIND ANY SYSTEMS!\n"
-"CHECK THAT YOUR PATHS ARE CORRECT IN THE SYSTEMS CONFIGURATION FILE, AND YOUR GAME DIRECTORY HAS AT LEAST ONE GAME WITH THE CORRECT EXTENSION.\n"
+msgid ""
+"WE CAN'T FIND ANY SYSTEMS!\n"
+"CHECK THAT YOUR PATHS ARE CORRECT IN THE SYSTEMS CONFIGURATION FILE, AND "
+"YOUR GAME DIRECTORY HAS AT LEAST ONE GAME WITH THE CORRECT EXTENSION.\n"
 "\n"
 "VISIT RECALBOX.COM FOR MORE INFORMATION."
-msgstr "KURULU BİR SİSTEM BULUNAMADI!\n"
-"SİSTEM YAPILANDIRMA DOSYASINDA TANIMLI SİSTEMLERİN KONUMLARINI ve OYUN KLASÖRÜNDE EN AZ BİR OYUN OLDUĞUNU KONTROL EDİN.\n"
+msgstr ""
+"KURULU BİR SİSTEM BULUNAMADI!\n"
+"SİSTEM YAPILANDIRMA DOSYASINDA TANIMLI SİSTEMLERİN KONUMLARINI ve OYUN "
+"KLASÖRÜNDE EN AZ BİR OYUN OLDUĞUNU KONTROL EDİN.\n"
 "\n"
 "DAHA FAZLA BİLGİ İÇİN RECALBOX.COM U ZİYARET EDİN. "
 
-#: 
 msgid "%i GAME SUCCESSFULLY SCRAPED!"
 msgid_plural "%i GAMES SUCCESSFULLY SCRAPED!"
 msgstr[0] "%i OYUN BAŞARIYLA ÇEKİLDİ!"
 msgstr[1] "%i OYUNLAR BAŞARIYLA ÇEKİLDİ!"
 
-#: 
 msgid "%i GAME SKIPPED."
 msgid_plural "%i GAMES SKIPPED."
 msgstr[0] "%i OYUN ATLANDI."
 msgstr[1] "%i OYUNLAR ATLANDI."
 
-#: 
 msgid "OK"
 msgstr "TAMAM"
 
-#: 
 msgid "EDIT METADATA"
 msgstr "DÜZENLE"
 
-#: 
+msgid "MORE DETAILS"
+msgstr ""
+
 msgid "SCRAPE"
 msgstr "ÇEK"
 
-#: 
 msgid "SAVE"
 msgstr "KAYDET"
 
-#: 
-msgid "THIS WILL DELETE A FILE!\n"
+msgid ""
+"THIS WILL DELETE A FILE!\n"
 "ARE YOU SURE?"
-msgstr "BU İŞLEM BİR DOSYA SİLECEK!\n"
+msgstr ""
+"BU İŞLEM BİR DOSYA SİLECEK!\n"
 "EMİN MİSİNİZ?"
 
-#: 
 msgid "YES"
 msgstr "EVET"
 
-#: 
 msgid "NO"
 msgstr "HAYIR"
 
-#: 
 msgid "DELETE"
 msgstr "SİL"
 
-#: 
 msgid "SAVE CHANGES?"
 msgstr "DEĞİŞİKLİKLERİ KAYDET?"
 
-#: 
 msgid "BACK"
 msgstr "GERİ"
 
-#: 
 msgid "CLOSE"
 msgstr "KAPAT"
 
-#: 
 msgid "MAIN MENU"
 msgstr "ANA MENÜ"
 
-#: 
 msgid "KODI MEDIA CENTER"
 msgstr "KODI MEDIA CENTER"
 
-#: 
 msgid "SYSTEM SETTINGS"
 msgstr "SİSTEM AYARLARI"
 
-#: 
 msgid "VERSION"
 msgstr "SÜRÜM"
 
-#: 
 msgid "DISK USAGE"
 msgstr "KALAN DEPO"
 
-#: 
 msgid "STORAGE DEVICE"
 msgstr "DEPO CİHAZI"
 
-#: 
 msgid "LANGUAGE"
 msgstr "DİL"
 
-#: 
 msgid "OVERCLOCK"
 msgstr "HIZAŞIMI"
 
-#: 
 msgid "EXTREM (1100Mhz)"
 msgstr "EKSTREM (1100Mhz)"
 
-#: 
 msgid "TURBO (1000Mhz)"
 msgstr "TURBO (1000Mhz)"
 
-#: 
 msgid "HIGH (950Mhz)"
 msgstr "YÜKSEK (950Mhz)"
 
-#: 
 msgid "NONE (700Mhz)"
 msgstr "YOK (700Mhz)"
 
-#: 
 msgid "TURBO (1050Mhz)+"
 msgstr "TURBO (1050Mhz)+"
 
-#: 
 msgid "HIGH (1050Mhz)"
 msgstr "YÜKSEK (1050Mhz)"
 
-#: 
 msgid "NONE (900Mhz)"
 msgstr "YOK (900Mhz)"
 
-#: 
 msgid "NONE (1200Mhz)"
 msgstr "YOK (1200Mhz)"
 
-#: 
 msgid "NONE"
 msgstr "YOK"
 
 #. NEW SETTINGS ORGANIZATION
-#: 
 msgid "UPDATES"
 msgstr "GÜNCELLEMELER"
 
-#: 
 msgid "AUTO UPDATES"
 msgstr "OTOMATİK GÜNCELLEME"
 
-#: 
 msgid "START UPDATE"
 msgstr "GÜNCELLE"
 
-#: 
 msgid "KODI SETTINGS"
 msgstr "KODI AYARLARI"
 
-#: 
 msgid "ENABLE KODI"
 msgstr "ETKİNLEŞTİR"
 
-#: 
 msgid "KODI AT START"
 msgstr "AÇILIŞTA BAŞLASIN"
 
-#: 
 msgid "START KODI WITH X"
 msgstr "X İLE BAŞLASIN"
 
-#: 
 msgid "SECURITY"
 msgstr "GÜVENLİK"
 
-#: 
 msgid "ENFORCE SECURITY"
 msgstr "GÜVELİĞE GİRİŞ"
 
-#: 
 msgid "ROOT PASSWORD"
 msgstr "ROOT PAROLASI"
 
-#: 
 msgid "THE SYSTEM WILL NOW REBOOT"
 msgstr "SİSTEM YENİDEN BAŞLATILIYOR"
 
-#: 
 msgid "GAMES SETTINGS"
 msgstr "OYUN AYARLARI"
 
-#: 
 msgid "GAME RATIO"
 msgstr "GÖRÜNTÜ ORANI"
 
-#: 
 msgid "SMOOTH GAMES"
 msgstr "OYUNLARI SMOOTH GÖSTER"
 
-#: 
 msgid "REWIND"
 msgstr "GERİ SAR"
 
-#: 
 msgid "AUTO SAVE/LOAD"
 msgstr "OTOMATİK KAYDET/YÜKLE"
 
-#: 
 msgid "SHADERS SET"
 msgstr "SHADER"
 
-#: 
 msgid "SCANLINES"
 msgstr "SCANLINES"
 
-#: 
 msgid "RETRO"
 msgstr "RETRO"
 
-#: 
 msgid "RETROACHIEVEMENTS SETTINGS"
 msgstr "RETROACHIEVEMENT AYARLARI"
 
-#: 
 msgid "RETROACHIEVEMENTS"
 msgstr "RETROACHIEVEMENT"
 
-#: 
 msgid "HARDCORE MODE"
 msgstr "UZMAN MOD"
 
-#: 
 msgid "USERNAME"
 msgstr "KULLANICI ADI"
 
-#: 
 msgid "PASSWORD"
 msgstr "PAROLA"
 
-#: 
 msgid "ADVANCED"
 msgstr "GELİŞMİŞ"
 
-#: 
 msgid "REALLY UPDATE GAMES LISTS ?"
 msgstr "OYUN LİSTESİ GÜNCELLENSİN Mİ?"
 
-#: 
 msgid "UPDATE GAMES LISTS"
 msgstr "OYUN LİSTESİNİ GÜNCELLE"
 
-#: 
 msgid "CONTROLLERS SETTINGS"
 msgstr "KUMANDA AYARLARI"
 
-#: 
 msgid "UI SETTINGS"
 msgstr "ARABİRİM AYARLARI"
 
-#: 
 msgid "OVERSCAN"
 msgstr "OVERSCAN"
 
-#: 
 msgid "SCREENSAVER AFTER"
 msgstr "EKRAN KORUYUCU"
 
-#: 
+msgid "CAROUSEL ANIMATION"
+msgstr ""
+
 msgid "TRANSITION STYLE"
 msgstr "GEÇİŞ STİLİ"
 
-#: 
 msgid "SCREENSAVER BEHAVIOR"
 msgstr "EKRAN KORUYUCU DAVRANIŞI"
 
-#: 
 msgid "SHOW FRAMERATE"
 msgstr "FRAMERATE GÖSTER"
 
-#: 
+msgid "CLOCK IN MENU"
+msgstr ""
+
 msgid "ON-SCREEN HELP"
 msgstr "YARDIMI GÖSTER"
 
-#: 
 msgid "QUICK SYSTEM SELECT"
 msgstr "HIZLI SİSTEM SEÇİMİ"
 
-#: 
 msgid "THEME SET"
 msgstr "TEMA"
 
-#: 
+msgid "THEME CONFIGURATION"
+msgstr ""
+
+msgid "THEME COLORSET"
+msgstr ""
+
+msgid "THEME ICONSET"
+msgstr ""
+
+msgid "THEME MENU"
+msgstr ""
+
+msgid "THEME SYSTEMVIEW"
+msgstr ""
+
+msgid "THEME GAMELISTVIEW"
+msgstr ""
+
+msgid "THEME REGION"
+msgstr ""
+
+msgid "THIS THEME HAS NO OPTION"
+msgstr ""
+
 msgid "SOUND SETTINGS"
 msgstr "SES AYARLARI"
 
-#: 
 msgid "SYSTEM VOLUME"
 msgstr "SİSTEM SESİ"
 
-#: 
 msgid "FRONTEND MUSIC"
 msgstr "ARABİRİM MÜZİĞİ"
 
-#: 
 msgid "OUTPUT DEVICE"
 msgstr "ÇIKTI AYGITI"
 
-#: 
 msgid "HDMI"
 msgstr "HDMI"
 
-#: 
 msgid "JACK"
 msgstr "JACK"
 
-#: 
 msgid "AUTO"
 msgstr "OTOMATİK"
 
-#: 
 msgid "NETWORK SETTINGS"
 msgstr "AĞ AYARLARI"
 
-#: 
 msgid "CONNECTED"
 msgstr "BAĞLI"
 
-#: 
 msgid "NOT CONNECTED"
 msgstr "BAĞLI DEĞİL"
 
-#: 
 msgid "STATUS"
 msgstr "DURUM"
 
-#: 
 msgid "IP ADDRESS"
 msgstr "IP ADRESİ"
 
-#: 
 msgid "HOSTNAME"
 msgstr "SİSTEM ADI"
 
-#: 
 msgid "ENABLE WIFI"
 msgstr "WIFI ETKİNLEŞTİR"
 
-#: 
 msgid "WIFI SSID"
 msgstr "WIFI SSID"
 
-#: 
+msgid "MANUAL INPUT"
+msgstr ""
+
 msgid "WIFI KEY"
 msgstr "WIFI ANAHTARI"
 
-#: 
 msgid "WIFI ENABLED"
 msgstr "WIFI ETKİN"
 
-#: 
 msgid "WIFI CONFIGURATION ERROR"
 msgstr "WIFI YAPILANDIRMA HATASI"
 
-#: 
 msgid "SCRAPER"
 msgstr "SCRAPER"
 
-#: 
 msgid "SCRAPE FROM"
 msgstr "ŞURADAN ÇEK"
 
-#: 
 msgid "SCRAPE RATINGS"
 msgstr "PUANLARI ÇEK"
 
-#: 
 msgid "SCRAPE NOW"
 msgstr "ŞİMDİ ÇEK"
 
-#: 
 msgid "QUIT"
 msgstr "ÇIKIŞ"
 
-#: 
 msgid "REALLY RESTART?"
 msgstr "YENİDEN BAŞLATILSIN MI?"
 
-#: 
 msgid "RESTART SYSTEM"
 msgstr "YENİDEN BAŞLAT"
 
-#: 
 msgid "REALLY SHUTDOWN?"
 msgstr "KAPAT"
 
-#: 
 msgid "SHUTDOWN SYSTEM"
 msgstr "KAPAT"
 
-#: 
+msgid "DEFAULT (%1%)"
+msgstr ""
+
 msgid "Emulator"
 msgstr "Emulator"
 
-#: 
 msgid "Core"
 msgstr "Core"
 
-#: 
-msgid "YOU ARE GOING TO CONFIGURE A CONTROLLER. IF YOU HAVE ONLY ONE JOYSTICK, CONFIGURE THE DIRECTIONS KEYS AND SKIP JOYSTICK CONFIG BY HOLDING A BUTTON. IF YOU DO NOT HAVE A SPECIAL KEY FOR HOTKEY, CHOOSE THE SELECT BUTTON. SKIP ALL BUTTONS YOU DO NOT HAVE BY HOLDING A KEY. BUTTONS NAMES ARE BASED ON THE SNES CONTROLLER."
-msgstr "KUMANDA YAPILANDIRIRKEN AYARLAMAK İSTEMEDİĞİNİZ TUŞLAR İÇİN HERHANGİ GİR TUŞA BASILI TUTARAK BİR SONRAKİ AŞAMAYA GEÇEBİLİRSİNİZ. HOTKEY, FARKLI TUŞLARLA BİRLİKTE BASILDIĞINDA FARKLI İŞLEMLER YAPMAYI SAĞLAYAN BİR TUŞTUR. HANGİ TUŞU SEÇMENİZ GEREKTİĞİNİ BİLMİYORSANIZ SELECT TUŞUNA ATAYABİLİRSİNİZ."
+msgid ""
+"YOU ARE GOING TO CONFIGURE A CONTROLLER. IF YOU HAVE ONLY ONE JOYSTICK, "
+"CONFIGURE THE DIRECTIONS KEYS AND SKIP JOYSTICK CONFIG BY HOLDING A BUTTON. "
+"IF YOU DO NOT HAVE A SPECIAL KEY FOR HOTKEY, CHOOSE THE SELECT BUTTON. SKIP "
+"ALL BUTTONS YOU DO NOT HAVE BY HOLDING A KEY. BUTTONS NAMES ARE BASED ON THE "
+"SNES CONTROLLER."
+msgstr ""
+"KUMANDA YAPILANDIRIRKEN AYARLAMAK İSTEMEDİĞİNİZ TUŞLAR İÇİN HERHANGİ GİR "
+"TUŞA BASILI TUTARAK BİR SONRAKİ AŞAMAYA GEÇEBİLİRSİNİZ. HOTKEY, FARKLI "
+"TUŞLARLA BİRLİKTE BASILDIĞINDA FARKLI İŞLEMLER YAPMAYI SAĞLAYAN BİR TUŞTUR. "
+"HANGİ TUŞU SEÇMENİZ GEREKTİĞİNİ BİLMİYORSANIZ SELECT TUŞUNA ATAYABİLİRSİNİZ."
 
 #. GUIMENU
-#: 
 msgid "CONFIGURE A CONTROLLER"
 msgstr "KUMANDA YAPILANDIR"
 
 #. Bluetooth
-#: 
 msgid "CONTROLLER PAIRED"
 msgstr "KUMANDA EŞLEŞTİRİLDİ"
 
-#: 
 msgid "UNABLE TO PAIR CONTROLLER"
 msgstr "KUMANDA EŞLEŞTİRİLEMEDİ"
 
-#: 
 msgid "AN ERROR OCCURED"
 msgstr "BİR HATA OLUŞTU"
 
-#: 
 msgid "NO CONTROLLERS FOUND"
 msgstr "KUMANDA BULUNAMADI"
 
-#: 
 msgid "PAIR A BLUETOOTH CONTROLLER"
 msgstr "BLUETOOTH KUMANDA EŞLEŞTİR"
 
-#: 
 msgid "CONTROLLERS LINKS HAVE BEEN DELETED."
 msgstr "KUMANDA BAĞLANTILARI SİLİNDİ."
 
-#: 
 msgid "FORGET BLUETOOTH CONTROLLERS"
 msgstr "BLUETOOTH KUMANDA AYARLARINI UNUT"
 
-#: 
 msgid "INPUT P%i"
 msgstr "GİRDİ P%i"
 
-#: 
 msgid "CHOOSE"
 msgstr "DEĞİŞTİR"
 
-#: 
 msgid "SELECT"
 msgstr "SEÇ"
 
-#: 
 msgid "OPTIONS"
 msgstr "SEÇENEKLER"
 
-#: 
 msgid "JUMP TO LETTER"
 msgstr "ŞU HARFE GİT"
 
-#: 
 msgid "SORT GAMES BY"
 msgstr "SIRALAMA KRİTERİ"
 
 #. FAVORITES
-#: 
 msgid "FAVORITES ONLY"
 msgstr "SADECE FAVORİLER"
 
-#: 
 msgid "EDIT THIS GAME'S METADATA"
 msgstr "OYUN BİLGİLERİNİ DÜZENLE"
 
-#: 
 msgid "SCRAPE THESE GAMES"
 msgstr "ŞU OYUNLARI ÇEK"
 
-#: 
 msgid "All Games"
 msgstr "Tüm Oyunlar"
 
 #. MISSING SCRAPPER TRANSLATIONS
-#: 
 msgid "Only missing image"
 msgstr "Sadece eksik resimler"
 
-#: 
 msgid "FILTER"
 msgstr "FİLTRE"
 
-#: 
 msgid "SCRAPE THESE SYSTEMS"
 msgstr "ŞU SİSTEMLERİ ÇEK"
 
-#: 
 msgid "SYSTEMS"
 msgstr "SİSTEMLER"
 
-#: 
 msgid "USER DECIDES ON CONFLICTS"
 msgstr "ÇAKIŞMALARDA KULLANICI KARAR VERSİN"
 
-#: 
 msgid "START"
 msgstr "BAŞLAT"
 
-#: 
-msgid "WARNING: SOME OF YOUR SELECTED SYSTEMS DO NOT HAVE A PLATFORM SET. RESULTS MAY BE EVEN MORE INACCURATE THAN USUAL!\n"
+msgid ""
+"WARNING: SOME OF YOUR SELECTED SYSTEMS DO NOT HAVE A PLATFORM SET. RESULTS "
+"MAY BE EVEN MORE INACCURATE THAN USUAL!\n"
 "CONTINUE ANYWAY?"
-msgstr "UYARI: SEÇİLİ SİSTEMLERDEN BAZILARININ PLATFORMLARI BULUNAMADI. TARAMA SONUÇLARI TUTARSIZ OLABİLİR!\n"
+msgstr ""
+"UYARI: SEÇİLİ SİSTEMLERDEN BAZILARININ PLATFORMLARI BULUNAMADI. TARAMA "
+"SONUÇLARI TUTARSIZ OLABİLİR!\n"
 "DEVAM EDİLSİN Mİ?"
 
-#: 
 msgid "NO GAMES FIT THAT CRITERIA."
 msgstr "BU KRİTERE UYAN OYUN BULUNAMADI."
 
-#: 
 msgid "REALLY UPDATE?"
 msgstr "GÜNCELLE?"
 
-#: 
 msgid "NETWORK CONNECTION NEEDED"
 msgstr "AĞ BAĞLANTISI GEREKİYOR"
 
-#: 
 msgid "UPDATE DOWNLOADED, THE SYSTEM WILL NOW REBOOT"
 msgstr "GÜNCELLEME İNDİRİLDİ, SİSTEM YENİDEN BAŞLATILACAK"
 
-#: 
 msgid "UPDATE FAILED, THE SYSTEM WILL NOW REBOOT"
 msgstr "GÜNCELLEME BAŞARISIZ, SİSTEM YENİDEN BAŞLATILIYOR"
 
-#: 
 msgid "NO UPDATE AVAILABLE"
 msgstr "YENİ GÜNCELLEME YOK"
 
-#: 
+msgid "AN ERROR OCCURED - DOWNLOADED"
+msgstr ""
+
 msgid "enter emulator"
 msgstr "emulator girin"
 
-#: 
 msgid "enter core"
 msgstr "core girin"
 
-#: 
 msgid "Ratio"
 msgstr "Oran"
 
-#: 
 msgid "enter ratio"
 msgstr "oran girin"
 
-#: 
 msgid "Name"
 msgstr "İsim"
 
-#: 
 msgid "enter game name"
 msgstr "oyun ismi girin"
 
-#: 
 msgid "Description"
 msgstr "Açıklama"
 
-#: 
 msgid "enter description"
 msgstr "açıklama girin"
 
-#: 
 msgid "Image"
 msgstr "Resim"
 
-#: 
 msgid "enter path to image"
 msgstr "resim adresini girin"
 
-#: 
 msgid "Thumbnail"
 msgstr "Mini-resim"
 
-#: 
 msgid "enter path to thumbnail"
 msgstr "mini-resmin adresini girin"
 
-#: 
 msgid "enter rating"
 msgstr "puan girin"
 
-#: 
 msgid "Release date"
 msgstr "Yayın tarihi"
 
-#: 
 msgid "enter release date"
 msgstr "yayınlanma tarihi girin"
 
-#: 
 msgid "enter game developer"
 msgstr "geliştirici ismini girin"
 
-#: 
 msgid "enter game publisher"
 msgstr "yayıncı ismini girin"
 
-#: 
 msgid "enter game genre"
 msgstr "oyun türünü girin"
 
-#: 
 msgid "enter number of players"
 msgstr "oyuncu sayısını girin"
 
-#: 
 msgid "Favorite"
 msgstr "Favori"
 
-#: 
 msgid "enter favorite"
 msgstr "favori girin"
 
-#: 
 msgid "Region"
 msgstr "Bölge"
 
-#: 
 msgid "enter region"
 msgstr "bölge girin"
 
-#: 
 msgid "Romtype"
 msgstr "Rom tipi"
 
-#: 
 msgid "enter romtype"
 msgstr "rom tipi girin"
 
-#: 
 msgid "Hidden"
 msgstr "Gizli"
 
-#: 
 msgid "set hidden"
 msgstr "gizle"
 
-#: 
 msgid "Play count"
 msgstr "Oynama sayısı"
 
-#: 
 msgid "enter number of times played"
 msgstr "kaç kez oynandığını girin"
 
-#: 
 msgid "Last played"
 msgstr "Son oynanma"
 
-#: 
 msgid "enter last played date"
 msgstr "son oynanma tarihini girin"
 
-#: 
 msgid "%i GAME AVAILABLE"
 msgid_plural "%i GAMES AVAILABLE"
 msgstr[0] "%i OYUN"
 msgstr[1] "%i OYUNLAR"
 
-#: 
 msgid "%i FAVORITE"
 msgid_plural "%i FAVORITES"
 msgstr[0] "%i FAVORİ"
 msgstr[1] "%i FAVORİLER"
 
-#: 
 msgid "SCROLL"
 msgstr "KAYDIR"
 
-#: 
 msgid "LAUNCH"
 msgstr "BAŞLAT"
 
-#: 
 msgid "Times played"
 msgstr "Kaç kez oynandı"
 
-#: 
 msgid "MENU"
 msgstr "MENÜ"
 
-#: 
+msgid "START KODI"
+msgstr ""
+
 msgid "FILENAME, ASCENDING"
 msgstr "DOSYA ADI, ARTAN"
 
-#: 
 msgid "FILENAME, DESCENDING"
 msgstr "DOSYA ADI, AZALAN"
 
-#: 
 msgid "RATING, ASCENDING"
 msgstr "PUAN, ARTAN"
 
-#: 
 msgid "RATING, DESCENDING"
 msgstr "PUAN, AZALAN"
 
-#: 
 msgid "TIMES PLAYED, ASCENDING"
 msgstr "OYNANMA SAYISI, ARTAN"
 
-#: 
 msgid "TIMES PLAYED, DESCENDING"
 msgstr "OYNANMA SAYISI, AZALAN"
 
-#: 
 msgid "LAST PLAYED, ASCENDING"
 msgstr "SON OYNANMA, ARTAN"
 
-#: 
 msgid "LAST PLAYED, DESCENDING"
 msgstr "SON OYNANMA, AZALAN"
 
-#: 
 msgid "WORKING..."
 msgstr "DEVAM EDİYOR..."
 
-#: 
 msgid "CHANGE"
 msgstr "DEĞİŞTİR"
 
-#: 
 msgid "never"
 msgstr "asla"
 
-#: 
 msgid "just now"
 msgstr "az önce"
 
-#: 
 msgid "%i sec ago"
 msgid_plural "%i secs ago"
 msgstr[0] "%i saniye önce"
 msgstr[1] "%i saniyeler önce"
 
-#: 
 msgid "%i min ago"
 msgid_plural "%i mins ago"
 msgstr[0] "%i dakika önce"
 msgstr[1] "%i dakika önce"
 
-#: 
 msgid "%i hour ago"
 msgid_plural "%i hours ago"
 msgstr[0] "%i saat önce"
 msgstr[1] "%i saat önce"
 
-#: 
 msgid "%i day ago"
 msgid_plural "%i days ago"
 msgstr[0] "%i gün önce"
 msgstr[1] "%i gün önce"
 
-#: 
 msgid "unknown"
 msgstr "bilinmiyor"
 
-#: 
 msgid "SELECT ALL"
 msgstr "TÜMÜ"
 
-#: 
 msgid "SELECT NONE"
 msgstr "HİÇBİRİ"
 
-#: 
 msgid "%i SELECTED"
 msgid_plural "%i SELECTED"
 msgstr[0] "%i SEÇİLİ"
 msgstr[1] "%i SEÇİLİ"
 
-#: 
 msgid "UP"
 msgstr "YUKARI"
 
-#: 
 msgid "DOWN"
 msgstr "AŞAĞI"
 
-#: 
 msgid "LEFT"
 msgstr "SOL"
 
-#: 
 msgid "RIGHT"
 msgstr "SAĞ"
 
-#: 
 msgid "JOYSTICK 1 UP"
 msgstr "JOYSTICK 1 YUKARI"
 
-#: 
 msgid "JOYSTICK 1 LEFT"
 msgstr "JOYSTICK 1 SOL"
 
-#: 
 msgid "JOYSTICK 2 UP"
 msgstr "JOYSTICK 2 YUKARI"
 
-#: 
 msgid "JOYSTICK 2 LEFT"
 msgstr "JOYSTICK 2 SOL"
 
-#: 
 msgid "PAGE UP"
 msgstr "PAGE UP"
 
-#: 
 msgid "PAGE DOWN"
 msgstr "PAGE DOWN"
 
-#: 
 msgid "HOTKEY"
 msgstr "HOTKEY"
 
-#: 
 msgid "CONFIGURING"
 msgstr "YAPILANDIRILIYOR"
 
-#: 
 msgid "KEYBOARD"
 msgstr "KLAVYE"
 
-#: 
 msgid "GAMEPAD %i"
 msgstr "GAMEPAD %i"
 
+msgid "INPUT REQUIRED"
+msgstr ""
+
+msgid "(skipped)"
+msgstr ""
+
+msgid "UP/DOWN TO SKIP"
+msgstr ""
+
+msgid "A TO UNSET"
+msgstr ""
+
+msgid "DOWN TO SKIP AND KEEP [%1%]"
+msgstr ""
+
+msgid "UP/DOWN TO SKIP AND KEEP [%1%]"
+msgstr ""
+
 #. Config controllers missing translation
-#: 
 msgid "PRESS ANYTHING"
 msgstr "HERHANGİ BİR TUŞA BASIN"
 
-#: 
 msgid "ALREADY TAKEN"
 msgstr "ÖNCEDEN TANIMLANMIŞ"
 
-#: 
 msgid "DISCARD CHANGES"
 msgstr "DEĞİŞİKLİKLERİ KAYDETME"
 
-#: 
 msgid "WELCOME"
 msgstr "HOŞGELDİN"
 
-#: 
 msgid "CONFIGURE INPUT"
 msgstr "GİRDİ YAPILANDIR"
 
-#: 
 msgid "%i GAMEPAD DETECTED"
 msgid_plural "%i GAMEPADS DETECTED"
 msgstr[0] "%i GAMEPAD ALGILANDI"
 msgstr[1] "%i GAMEPAD ALGILANDI"
 
-#: 
 msgid "NO GAMEPADS DETECTED"
 msgstr "GAMEPAD BULUNAMADI"
 
-#: 
 msgid "HOLD A BUTTON ON YOUR DEVICE TO CONFIGURE IT."
 msgstr "CİHAZI YAPILANDIRMAK İÇİN BİR TUŞA BASILI TUT"
 
-#: 
 msgid "PRESS F4 TO QUIT AT ANY TIME."
 msgstr "ÇIKMAK İÇİN F4 TUŞUNA BAŞ"
 
-#: 
 msgid "PRESS ESC OR THE HOTKEY TO CANCEL."
 msgstr "İPTAL İÇİN ESC VEYA HOTKEY TUŞUNA BAS."
 
-#: 
 msgid "DO YOU WANT TO START KODI MEDIA CENTER ?"
 msgstr "KODI SUNUCUSU BAŞLATILSIN MI?"
 
-#: 
 msgid "LOADING..."
 msgstr "YÜKLENİYOR..."
 
-#: 
 msgid "PLEASE WAIT..."
 msgstr "LÜTFEN BEKLEYİN..."
 
-#: 
 msgid "REALLY SHUTDOWN WITHOUT SAVING METADATAS?"
 msgstr "METADATALARI KAYDETMEDEN KAPATMAK İSTİYOR MUSUN?"
 
-#: 
 msgid "FAST SHUTDOWN SYSTEM"
 msgstr "SİSTEMİ HIZLI KAPAT"
 
-#: 
-msgid "WE CAN'T FIND ANY SYSTEMS!\n"
-"CHECK THAT YOUR PATHS ARE CORRECT IN THE SYSTEMS CONFIGURATION FILE, AND YOUR GAME DIRECTORY HAS AT LEAST ONE GAME WITH THE CORRECT EXTENSION.\n"
+msgid ""
+"WE CAN'T FIND ANY SYSTEMS!\n"
+"CHECK THAT YOUR PATHS ARE CORRECT IN THE SYSTEMS CONFIGURATION FILE, AND "
+"YOUR GAME DIRECTORY HAS AT LEAST ONE GAME WITH THE CORRECT EXTENSION.\n"
 "\n"
 "VISIT RECALBOX.FR FOR MORE INFORMATION."
-msgstr "HERHANGİ BİR SİSTEM BULAMADIK!\n"
-"SİSTEM KONFİGÜRASYON DOSYALARININ YOLUNUN DOĞRULUĞUNU VE OYUN KLASÖRLERİNİZİN UYGUNLUĞUNU KONTROL EDIN.\n"
+msgstr ""
+"HERHANGİ BİR SİSTEM BULAMADIK!\n"
+"SİSTEM KONFİGÜRASYON DOSYALARININ YOLUNUN DOĞRULUĞUNU VE OYUN "
+"KLASÖRLERİNİZİN UYGUNLUĞUNU KONTROL EDIN.\n"
 "\n"
 "DAHA FAZLA BİLGİ İÇİN RECALBOX.FR ZİYARET EDİN. "
 
-#: 
 msgid "ON SCREEN KEYBOARD"
 msgstr "EKRAN KLAVYESİ"
 
-#: 
 msgid "SHIFTS FOR UPPER,LOWER, AND SPECIAL"
 msgstr "ÜSTTEKİ, ALTTAKİ VE ÖZELİ DEĞİŞTİR"
 
-#: 
 msgid "SPACE"
 msgstr "BOŞLUK"
 
-#: 
 msgid "DELETE A CHAR"
 msgstr "KARAKTERİ SİL"
 
-#: 
 msgid "SHIFT"
 msgstr "SHIFT"
 
-#: 
 msgid "STOP EDITING"
 msgstr "DÜZENLEMEYİ DURDUR"
 
-#: 
 msgid "MOVE CURSOR"
 msgstr "HAREKET İMLECİ"
 
-#: 
 msgid "EDIT"
 msgstr "DÜZENLE"
 
-#: 
 msgid "ACCEPT RESULT"
 msgstr "ONAYLA"
 
-#: 
 msgid "FILENAME"
 msgstr "DOSYA ADI"
 
-#: 
 msgid "RATING"
 msgstr "PUANLAMA"
 
-#: 
 msgid "TIMES PLAYED"
 msgstr "KAÇ KEZ OYNANDI"
 
-#: 
 msgid "LAST PLAYED"
 msgstr "SON OYNANMA"
 
-#: 
 msgid "NUMBER OF PLAYERS"
 msgstr "OYUNCU SAYISI"
 
-#: 
 msgid "DEVELOPER"
 msgstr "GELİŞTİRİCİ"
 
-#: 
 msgid "GENRE"
 msgstr "TÜR"
 
-#: 
 msgid "SHOW HIDDEN"
 msgstr "GİZLİLERİ GÖSTER"
 
-#: 
+msgid "SHOW FOLDERS CONTENT"
+msgstr ""
+
 msgid "EXTREM (1400Mhz)"
 msgstr "EXTREM (1400Mhz)"
 
-#: 
 msgid "TURBO (1350Mhz)"
 msgstr "TURBO (1350Mhz)"
 
-#: 
 msgid "HIGH (1300Mhz)"
 msgstr "YÜKSEK (1300Mhz)"
 
-#: 
-msgid "TURBO AND EXTREM OVERCLOCK PRESETS MAY CAUSE SYSTEM UNSTABILITIES, SO USE THEM AT YOUR OWN RISK.\n"
+msgid ""
+"TURBO AND EXTREM OVERCLOCK PRESETS MAY CAUSE SYSTEM UNSTABILITIES, SO USE "
+"THEM AT YOUR OWN RISK.\n"
 "IF YOU CONTINUE, THE SYSTEM WILL REBOOT NOW."
-msgstr "TURBO VE EXTREM GEÇİŞLERİ SİSTEMİ KARASIZ YAPABİLİR, RİSK SİZE AİTTİR.\n"
+msgstr ""
+"TURBO VE EXTREM GEÇİŞLERİ SİSTEMİ KARASIZ YAPABİLİR, RİSK SİZE AİTTİR.\n"
 "YİNE DE DEVAM ETMEK İSTİYORSANIZ, SİSTEM YENİDEN BAŞLATILACAKTIR."
 
-#: 
 msgid "%i GAME HIDDEN"
 msgid_plural "%i GAMES HIDDEN"
 msgstr[0] "%İ OYUNU GİZLE"
 msgstr[1] "%İ OYUNLARI GİZLE"
 
-#: 
 msgid "Start kodi media player."
 msgstr "Kodi media player i başlat"
 
-#: 
-msgid "Select the language for your recalbox, select an external drive to store your games and configurations, check your current version and the free space on your drive"
-msgstr "Recolbox ın dilini, harici diskinizdeki oyunları ve ayarları seçin, sistem versiyonu ve boş disk kapasitenizi kontrol edin"
+msgid ""
+"Select the language for your recalbox, select an external drive to store "
+"your games and configurations, check your current version and the free space "
+"on your drive"
+msgstr ""
+"Recolbox ın dilini, harici diskinizdeki oyunları ve ayarları seçin, sistem "
+"versiyonu ve boş disk kapasitenizi kontrol edin"
 
-#: 
 msgid "Shows your current recalboxOS version."
 msgstr "Güncel recalboxOS versiyonunu göster. "
 
-#: 
-msgid "Show how much space is used on your SHARE partition, located either on the SDCARD or on an external drive. The information shows how much GB are used and how much GB your storage has overall (example 13GB/26GB)."
-msgstr "SDCARD'ta veya harici bir sürücüye yerleştirilmiş olan SHARE bölümünüz de ne kadar alanın kullanıldığını gösterir. Bilgiler, ne kadar GB kullanıldığını ve ne kadar GB depolama alanı olduğunu gösterir (örnek 13GB / 26GB)"
+msgid ""
+"Show how much space is used on your SHARE partition, located either on the "
+"SDCARD or on an external drive. The information shows how much GB are used "
+"and how much GB your storage has overall (example 13GB/26GB)."
+msgstr ""
+"SDCARD'ta veya harici bir sürücüye yerleştirilmiş olan SHARE bölümünüz de ne "
+"kadar alanın kullanıldığını gösterir. Bilgiler, ne kadar GB kullanıldığını "
+"ve ne kadar GB depolama alanı olduğunu gösterir (örnek 13GB / 26GB)"
 
-#: 
-msgid "Select an external drive to store your roms, saves, configurations etc.\n"
-"Use a FAT32 formatted drive. The system does not format the drive. On first boot, with this option enabled, recalbox will create a '/recalbox' folder with all system files inside."
-msgstr "Rom'larınızı, kayıtlarınızı, yapılandırmalarınızı vb. Saklamak için harici bir sürücü seçin.\n"
-"FAT32 olarak biçimlendirilmiş sürücü kullanın. Sistem sürücüyü biçimlendirmiyecek. İlk açılışta, bu seçenek seçildiğinde, recalbox içerisindeki tüm sistem dosyaları içeren bir '/ recalbox' klasörü oluşturacak."
+msgid ""
+"Select an external drive to store your roms, saves, configurations etc.\n"
+"Use a FAT32 formatted drive. The system does not format the drive. On first "
+"boot, with this option enabled, recalbox will create a '/recalbox' folder "
+"with all system files inside."
+msgstr ""
+"Rom'larınızı, kayıtlarınızı, yapılandırmalarınızı vb. Saklamak için harici "
+"bir sürücü seçin.\n"
+"FAT32 olarak biçimlendirilmiş sürücü kullanın. Sistem sürücüyü "
+"biçimlendirmiyecek. İlk açılışta, bu seçenek seçildiğinde, recalbox "
+"içerisindeki tüm sistem dosyaları içeren bir '/ recalbox' klasörü "
+"oluşturacak."
 
-#: 
-msgid "Select your language. A reboot is needed to set this configuration active."
-msgstr "Dilinizi seçin. Ayarlamanın aktif olabilmesi için, yeniden başlatmak gerekir."
+msgid ""
+"Select your language. A reboot is needed to set this configuration active."
+msgstr ""
+"Dilinizi seçin. Ayarlamanın aktif olabilmesi için, yeniden başlatmak gerekir."
 
-#: 
-msgid "Manage your recalbox updates. Select the update type. Activate update check."
-msgstr "Recalbox in güncellemelerini yönetin. Güncelleme tipini seçin. Güncellemeyi aktif edin."
+msgid ""
+"Manage your recalbox updates. Select the update type. Activate update check."
+msgstr ""
+"Recalbox in güncellemelerini yönetin. Güncelleme tipini seçin. Güncellemeyi "
+"aktif edin."
 
-#: 
 msgid "Check if an update is available, and start the update process."
-msgstr "Bir güncelleme olup olmadığını kontrol edin ve güncelleme işlemini başlatın."
+msgstr ""
+"Bir güncelleme olup olmadığını kontrol edin ve güncelleme işlemini başlatın."
 
-#: 
-msgid "Stable updates will check for updates on stable recalbox releases. Stable updates are tested and approved by the recalbox team and their testers.\n"
-"Unstable updates allows you to get the latest recalbox features by checking our unstable repository. You can test and validate with us the very last version of recalbox.\n"
-"If you choose unstable update, be so kind to report issues on the recalbox-os issue board (https://github.com/recalbox/recalbox-os/issues)"
-msgstr "Kararlı güncellemeler kontrol edilecektir. \n"
-"Kararlı güncellemeler, recalbox ekibi ve test edenler tarafından test edilmekte ve onaylanmaktadır.\n"
-"Kararsız güncellemeler, dengesiz depomuzu kontrol ederek en son recalbox özelliklerini almanızı sağlar. Sürümün son versiyonunu  test edebilir ve doğrulayabiliriz.\n"
-"Kararsız güncelleme seçerseniz, recalbox-os adresinden ilgili sorunları bildirin.\n"
+msgid ""
+"Stable updates will check for updates on stable recalbox releases. Stable "
+"updates are tested and approved by the recalbox team and their testers.\n"
+"Unstable updates allows you to get the latest recalbox features by checking "
+"our unstable repository. You can test and validate with us the very last "
+"version of recalbox.\n"
+"If you choose unstable update, be so kind to report issues on the recalbox-"
+"os issue board (https://github.com/recalbox/recalbox-os/issues)"
+msgstr ""
+"Kararlı güncellemeler kontrol edilecektir. \n"
+"Kararlı güncellemeler, recalbox ekibi ve test edenler tarafından test "
+"edilmekte ve onaylanmaktadır.\n"
+"Kararsız güncellemeler, dengesiz depomuzu kontrol ederek en son recalbox "
+"özelliklerini almanızı sağlar. Sürümün son versiyonunu  test edebilir ve "
+"doğrulayabiliriz.\n"
+"Kararsız güncelleme seçerseniz, recalbox-os adresinden ilgili sorunları "
+"bildirin.\n"
 "(https://github.com/recalbox/recalbox-os/issues)"
 
-#: 
-msgid "Automatically check if an update is avaialble. If so, it notifies you with a message."
-msgstr "Bir güncelleme olup olmadığını otomatik olarak kontrol edin. Eğer öyleyse, size bir mesajla bildirir."
-
-#: 
-msgid "Configure games display, ratio, filters (shaders), auto save and load and retroachievement account."
-msgstr "Oyun ekranı, oran, filtreleri (gölgelendiricileri), otomatik kaydetmeyi ve yüklemeyi ve retroachievements hesabını ayarla."
-
-#: 
-msgid "The game ratio is the ratio between image width and image height. Use AUTO to let the emulator choose the original game ratio, that will give you the best retrogaming experience."
-msgstr "Oyun oranı, görüntü genişliği ve görüntü yüksekliği arasındaki oranı ifade eder. Emulatörün orijinal oyun oranını seçmenize izin vermek için AUTO kullanın, bu size en iyi retro oyun deneyimini verecektir."
-
-#: 
-msgid "Smooth the game image. This option makes the image smoother, using bilinear filtering."
-msgstr "Oyunun görüntüsünü yumuşatın. Bu seçenek bilinear filtreleme kullanarak görüntüyü daha pürüzsüz hale getirir."
-
-#: 
-msgid "This option allows you to rewind the game if you get killed by a monster, or if you make any other mistake. Use the HOTKEY + LEFT command within the game to rewind."
-msgstr "Bu seçenek bir canavar tarafından öldürüldüğünüz de veya başka bir hata yaptığınızda oyunun geri sarılmasına izin verir. Geri sarma için oyunu sırasında HOTKEY + SOL komutunu kullanın."
-
-#: 
-msgid "Auto save the state when you quit a game, and auto load last saved state when you start a game."
-msgstr "Oyundan çıktığınızda otomatik olarak kaydedin ve oyunu başlattığınızda otomatik olarak son kaydınızı yükleyin."
-
-#: 
-msgid "Integer scaling is scaling by a factor of a whole number, such as 2x, 3x, 4x, etc. This option scales the image up to the greatest integer scale below the set resolution. So for instance, if you set your fullscreen resolution to 1920x1080 and enable integer scaling, it will only scale a 320x240 image up to 1280x960, and leave black borders all around. This is to maintain a 1:1 pixel ratio with the original source image, so that pixels are not unevenly duplicated."
-msgstr "Tamsayı ölçeklendirme, 2x, 3x, 4x gibi tam sayı faktörü ile ölçeklendiriliyor. Bu seçenek, görüntüyü ayarlanmış çözünürlüğün altındaki en büyük tamsayı ölçeğine ölçeklendiriyor. Örneğin, tam ekran çözünürlüğünü 1920x1080 olarak ayarlarsanız ve tam ölçekli ölçeklemeyi etkinleştirirseniz, yalnızca 120x240 boyutundaki bir görüntüyü 1280x960'a kadar ölçekleyecek ve siyah kenarlıkları her yere bırakacaktır. Bu, orijinal kaynak görüntü ile 1: 1 piksel oranını korumaktır; böylece piksel eşitsiz çoğaltılamaz."
-
-#: 
-msgid "Shaders are like filters for the game rendering. You can select a shader set here, which is a collection of shaders selected for each system. You can also change the shader within the game with HOTKEY + L2 or HOTKEY + R2."
-msgstr "Gölgelendiriciler oyun oluşturma filtreleri gibidir. Burada, her sistem için seçilen bir shader koleksiyonu olan bir gölgeleştirici grubu seçebilirsiniz. Oyun içindeki gölgelendiriciyi HOTKEY + L2 veya HOTKEY + R2 ile değiştirebilirsiniz."
-
-#: 
-msgid "Enable or disable RetroAchievements in games."
-msgstr "Oyunda ki RetroAchievement leri Aç yada Kapat. "
-
-#: 
-msgid "Hardcore mode disables *all* savestate and rewind functions within the emulator: you will not be able to save and reload at any time. You will have to complete the game and get the achievements first time, just like on the original console. In reward for this, you will earn both the standard and the hardcore achievement, in effect earning double points! A regular game worth 400 points, is now worth 800 if you complete it on hardcore! For example: if you complete the game for 400 points, you then have the opportunity to earn another 400 on hardcore."
-msgstr "Hardcore modu, emülatör içinde * tüm * kayıt noktaları ve geri sarma işlevlerini devre dışı bırakır: istediğiniz zaman kaydedemez ve yeniden yükleyemezsiniz. Oyunu tamamlamak, başarılarını orijinal oyun konsolundaki gibi ilk kez elde etmek zorunda kalacaksınız. Bunun için ödül olarak, hem standart hem de hardcore başarı kazanacaksınız, sonuçta iki puan kazanıyorsunuz! 400 puana eşit düzenli bir oyun, hardcore'da tamamlarsanız artık 800 değerindedir! Örneğin: Oyunu 400 puan için tamamladıysanız, hardcore'da başka bir 400 kazanma şansınız olur."
-
-#: 
-msgid "The website retroachievements.org proposes challenges/achievements/trophies on platforms like NES, SNES, GB, GBC, GBA, Genesis/Megadrive, TurboGrafx16/PCEngine and more! Create your account on retroachievements.org and start your quest for achievements!"
-msgstr "Retroachievements.org, web sitesi NES, SNES, GB, GBC, GBA, Genesis / Megadrive, TurboGrafx16 / PCEngine ve benzeri platformlarda zorluklar / kazanımlar / kupalar öneriyor! Retroachievements.org'da hesabınızı oluşturun ve başarılarınız için arayışınızı başlatın!"
-
-#: 
-msgid "Add and configure up to 5 controllers."
-msgstr "En fazla 5 denetleyici ekleyin ve yapılandırın."
-
-#: 
-msgid "Pair a bluetooth controller with your recalbox. Your controller must be in pairing mode."
-msgstr "Recalbox u bluetooth kontrolcünüz ile eşleştirin. Kontrolcünüz eşleştirme modunda olmalıdır. "
-
-#: 
-msgid "Forget all paired bluetooth controllers. You will have to pair your controllers again, but this option can help if you have issues to reconnect a controller, which is already paired."
-msgstr "Eşleştirilmiş tüm Bluetooth denetleyicilerini unut. Denetleyicilerinizi tekrar eşleştirmeniz gerekecek, ancak bu seçenek zaten eşleştirilen bir denetleyiciyi yeniden bağlamanız konusunda sorun yaşıyorsanız yardımcı olabilir."
-
-#: 
-msgid "Configure your EmulationStation experience. Select transition types, help prompts, screensaver behavior. You can also deactivate the onscreen keyboard if you have a real keyboard plugged into your recalbox.\n"
-"If you've added games since the last boot, you can also refresh the gamelist from this menu."
-msgstr "EmulationStation deneyiminizi yapılandırın. Geçiş türleri, yardım istemleri, ekran koruyucu davranışını seçin. Geri çağırma kutusuna gerçek bir klavyeniz takılıysa, ekran klavyesini de devre dışı bırakabilirsiniz.\n"
-"Son açılıştan bu yana oyun eklediyseniz, bu menüden gamelisti yenileyebilirsiniz."
-
-#: 
-msgid "Start the screensaver after N minutes."
-msgstr "N dakika sonra ekran koruyucuyu başlat."
-
-#: 
-msgid "Set the screensaver behavior. DIM will reduce the screen light, and BLACK will turn the screen black."
-msgstr "Ekran koruyucu davranışını ayarlayın. DIM ekran ışığını azaltacak ve SİYAH ekran siyahını alacaktır"
-
-#: 
-msgid "Shows a help at the bottom of the screen which displays commands you can use."
-msgstr "Ekranın alt kısmında, kullanabileceğiniz komutları görüntüleyen bir yardım gösterir."
-
-#: 
-msgid "When enabled, you can switch between systems while browsing a gamelist by pressing LEFT or RIGHT."
-msgstr "Etkinleştirildiğinde, bir oyun listesine SOL veya SAĞ'a basarak gezinirken sistem arasında geçiş yapabilirsiniz."
-
-#: 
-msgid "The onscreen keyboard is necessary to type text if you only have controllers plugged into your recalbox. You can disable it if you have a real keyboard connected."
-msgstr "Ekran klavyesi yalnızca recalbox a takılı oyun kolu varsa metin yazmak için gereklidir. Bağlanmış gerçek bir klavyeniz varsa bunu devre dışı bırakabilirsiniz."
-
-#: 
-msgid "Select a theme for your recalbox."
-msgstr "Recalbox için tema seç. "
-
-#: 
-msgid "Updates the gamelists, if you added games since the last boot."
-msgstr "Son boot tan önce oyun eklediysen, oyun listesini güncelle. "
-
-#: 
-msgid "Configure the sound options of your recalbox."
-msgstr "Recalbox un ses ayarlarını düzenle."
-
-#: 
-msgid "Set the volume of the sound output for the frontend and the games."
-msgstr "Son kullanıcı ve oyunlar için ses çıkış seviyesini ayarlayın."
-
-#: 
-msgid "Enable or disable the frontend music. You can add your own music as mp3, or ogg format in the 'musics' directory of your recalbox."
-msgstr "Öndeki müziği açık yada kapatabilirsin. Kendi müziğini eklemek için, \"musics\" klasörüne mp3 yada ogg formatlı ses dosyalarını ekleyin. "
-
-#: 
-msgid "Select your output device. Only HDMI and JACK are supported."
-msgstr "Ses çıkışı cihazını seç. Sadece HDMI ve JACK desteklenmektedir. "
-
-#: 
-msgid "Configure the network options of your recalbox.\n"
-"Check your network status and IP address, set the hostname and configure the WIFI."
-msgstr "Ağ ayarlarını yapılandırın. Ağ durum ve IP adresinizi kontrol edin, hostname ve WIFI bilgilerinizi yapılandırın. "
-
-#: 
-msgid "Displays CONNECTED, if you are connected, by checking if your recalbox can access the recalbox.com update server."
-msgstr "Eğer bağlıysanız, yeniden arama kutunuzun recalbox.com güncelleme sunucusuna erişip erişemeyeceğini kontrol ederek CONNECTED bağlantısını görüntüler."
-
-#: 
-msgid "The IP address of your recalbox within your local network."
-msgstr "Recalbox un ağınızdaki IP adresi. "
-
-#: 
-msgid "Enable or disable WIFI.\n"
-"If you disable WIFI, the SSID and the WIFI passwords are saved and can be used when you reactivate it"
-msgstr "WIFI'yi devre dışı bırakırsanız, SSID ve WIFI şifreleri kaydedilir ve yeniden etkinleştirdiğinizde kullanılabilir"
-
-#: 
-msgid "The name of your recalbox in your local network"
-msgstr "Yerel ağınızdaki Recalbox ınızın adı. "
-
-#: 
-msgid "SSID (WIFI Name) of your network."
-msgstr "Ağınızın SSID i ( WIFI Adı). "
-
-#: 
-msgid "Private key of your WIFI network."
-msgstr "WIFI ağınızın özel anahtarı. "
-
-#: 
-msgid "Get informations and visual for your games. The scraper downloads metadata and visuals for your games from different servers and enhances the user experience in EmulationStation completely."
-msgstr "Oyunlarınız için bilgi edinin ve görsel edinin. Scraper, oyunlarınız için meta veriler ve görseller farklı sunuculardan indirir ve EmulationStation'daki kullanıcı deneyimini tamamen geliştirir."
-
-#: 
-msgid "Select a server to scrape from. The SCREENSCRAPER server is recommended and is based on www.screenscraper.fr and scrapes game data in your language, if available."
-msgstr "Scraper için bir sunucu seçin. SCREENSCRAPER sunucusu için www.screenscraper.fr önerilir, mevcutsa dilinizdeki oyun verilerini alır."
-
-#: 
-msgid "Begin the scrape process with the configuration shown below."
-msgstr "Scrape işlemine aşağıda gösterilen ayarlarla başlayın. "
-
-#: 
-msgid "Scrape and display game ratings."
-msgstr "Oyun derecelerini görüntüleyin ve indirin. "
-
-#: 
-msgid "Advanced settings. Please make sure you really know what you're doing, before changing any values in this menu."
-msgstr "Gelişmiş ayarlar. Bu menüdeki herhangi bir değeri değiştirmeden önce lütfen ne yaptığınızı gerçekten bildiğinizden emin olun."
-
-#: 
-msgid "Overclock your board to increase the performance.\n"
-"Overclock settings are tested and validated by the community. Keep in mind that overclocking your board can void your warranty."
-msgstr "Overclok cihazınızın performansını arttırmak için. \n"
-"Overclock ayarları topluluk tarafından test edilip doğrulanır. Kartınızı hızaşırtmanın garantinizi geçersiz kılabileceğini unutmayın."
-
-#: 
-msgid "Select which system to show when the recalbox frontend starts. The default value is 'favorites'."
-msgstr "Recalbox önbelleği başladığında hangi sistemi göstereceğini seçin. Varsayılan değer 'favorites'."
-
-#: 
-msgid "On boot, recalbox will show the list of games of the selected system rather than the system view."
-msgstr "Önyüklemede, recalbox sistem görünümü yerine seçilen sistemin oyun listesini gösterir."
-
-#: 
-msgid "Only show games contained in the gamelist.xml file (located in your roms directories).\n"
-"This option highly speeds up boot time, but new games will not be detected."
-msgstr "Yalnızca gamelist.xml dosyasında bulunan oyunları gösterin (rom dizinlerinizde bulunur).\n"
-"Bu seçenek önyükleme süresini önemli ölçüde hızlandırır, ancak yeni oyunlar algılanmaz."
-
-#: 
-msgid "This option allows you to set the selected system to fixed mode. With this option activated, the user cannot access other systems."
-msgstr "Bu seçenek, seçilen sistemi sabit moda ayarlamanızı sağlar. Bu seçenek etkinleştirildiğinde, kullanıcı diğer sistemlere erişemez."
-
-#: 
-msgid "Always display the basic gamelist view, even if you have scraped your games."
-msgstr "Oyunlarınızı scrap etmiş olsanız bile, daima temel oyun listesi görünümünü gösterin."
-
-#: 
-msgid "Override global options like emulator, core, ratio and more for each available system in your recalbox."
-msgstr "Recalbox ınızda mevcut her sistem için emulatör, çekirdek, oran ve daha fazlası gibi genel seçenekleri geçersiz kılın."
-
-#: 
-msgid "Configure boot options that make your recalbox boot straight into a system or into Kodi, lock a user to a single system, or directly show the gamelist."
-msgstr "Recalbox, sisteme veya Kodi'ye doğrudan scrap edilmesini sağlayan önyükleme seçeneklerini yapılandırın, bir kullanıcıyı tek bir sistemde kilitleyin veya doğrudan oyun listesini gösterin."
-
-#: 
-msgid "Enable or disable Kodi, customize the Kodi startup, enable the X button to start Kodi"
-msgstr "Kodi'yi etkinleştirir veya devre dışı bırakır, Kodi başlangıcı özelleştirir, Kodi'yi başlatmak için X düğmesini aktif edin."
-
-#: 
-msgid "Enable or disable Kodi. If kodi is disabled, you won't be able to start it with the X button, or start it automatically at boot. The menu entry will be removed as well."
-msgstr "Kodi'yi etkinleştirin veya devre dışı bırakın. Kodi devre dışı bırakıldıysa, X düğmesiyle başlatamaz veya önyüklemede otomatik olarak başlatamazsınız. Menü girişi de kaldırılacaktır."
-
-#: 
-msgid "Use the X button to start Kodi."
-msgstr "Kodi yi başlatmak için X düğmesini kullanın. "
-
-#: 
-msgid "Automatically start into Kodi on boot."
-msgstr "Açılışta Kodi otomatik olarak başlasın. "
-
-#: 
-msgid "Manage your recalbox security."
-msgstr "Recalbox günvenliğini yönet. "
-
-#: 
-msgid "Change the SSH root password."
-msgstr "SSH root şifresini değiştir. "
-
-#: 
-msgid "Enforce recalbox security."
-msgstr "Recalbox güvenliğini uygula."
-
-#: 
-msgid "Enable or disable overscan.\n"
-"Overscan can help you, if you have a black border, or if the image is bigger than your screen. Before setting the overscan, try to configure your TV to have a 1:1 pixel output.\n"
-"More overscan settings can be defined in the boot.txt file, available when you plug your SD card into your computer."
-msgstr "Genişletmeyi etkinleştirin veya devre dışı bırakın.\n"
-"Siyah bir kenarlığınız varsa veya görüntü ekranınızdan daha büyükse, Overscan size yardımcı olabilir. Aşırı taramayı ayarlamadan önce TV'nizi 1: 1'lik bir piksel çıkışı olacak şekilde yapılandırmayı deneyin.\n"
-"SD kartınızı bilgisayarınıza taktığınızda mevcut daha fazla tarama ayarları, boot.txt dosyasında tanımlanabilir."
-
-#: 
-msgid "Show the framerate in EmulationStation and in game."
-msgstr "EmulationStation ve oyun içindeyken framerate i göster."
-
-#: 
-#, fuzzy
-msgid "Enable or disable the Recalbox Manager.\n"
-"The Recalbox Manager is a web application available on http://recalbox , if you are on windows, http://recalbox.local , if you are on Linux or Mac, or directly with your recalbox IP : http://192.168.1.XX.\n"
-"You can configure many options from within the manager, and even manage games, saves, and scrapes!"
-msgstr "Recalbox Manager'ı etkinleştirin veya devre dışı bırakın.\n"
-"Recalbox Yöneticisi, http: //recalbox.local olan Linux'ta veya Mac'te veya doğrudan recalbox IP'inizde olan pencerelerde, http://recalbox üzerinde bulunan bir web uygulamasıdır: http: //192.168. 1.XX.\n"
-"Birçok seçenekleri yönetici içinde yapılandırabilir, hatta oyunları, kaydedmeleri ve çizilmeleri yönetebilirsiniz!"
-
-#: 
-msgid "Enable or disable the recalbox API.\n"
-"The Recalbox API is a REST API exposing endpoints to control your recalbox via http requests."
-msgstr "Recalbox API'sını etkinleştirin veya devre dışı bırakın.\n"
-"Recalbox API, recalbox http istekleri yoluyla denetlemek için bitiş noktalarını gösteren bir REST API'dir."
-
-#: 
-msgid "Select which emulator to use when you start a game for this system."
-msgstr "Bu sistem için bir oyunu başlattığınızda hangi emülatörü kullanacağınızı seçin."
-
-#: 
-msgid "Select which core to use for the selected emulator. For example, the LIBRETRO emulator has many cores to run Super Nintendo games. The default core you choose here can also be overridden in game specific settings."
-msgstr "Seçilen emulatör için hangi çekirdeğin kullanılacağını seçin. Örneğin, LIBRETRO emülatörünün Super Nintendo oyunlarını çalıştırmak için birçok çekirdeği vardır. Burada seçtiğiniz varsayılan çekirdek, oyuna özel ayarlarda geçersiz kılınabilir"
-
-#: 
-msgid "USE COMPOSED VISUALS"
-msgstr "DERLENMİŞ GÖRSELLERİ KULLAN"
-
-#: 
-msgid "CHECK UPDATES"
-msgstr "GÜNCELLİĞİ KONTROL ET"
-
-#: 
-msgid "UPDATE TYPE"
-msgstr "GÜNCELLEME TÜRÜ"
-
-#: 
-msgid "INTEGER SCALE (PIXEL PERFECT)"
-msgstr "DİZİN ÖLÇEĞİ (MÜKEMMEL PİKSEL)"
-
-#: 
-msgid "ADVANCED SETTINGS"
-msgstr "GELİŞMİŞ SEÇENEKLER"
-
-#: 
-msgid "BOOT SETTINGS"
-msgstr "BAŞLANGIÇ AYARLARI"
-
-#: 
-msgid "GAMELIST ONLY"
-msgstr "Sadece Oyun Listesi"
-
-#: 
-msgid "BOOT ON SYSTEM"
-msgstr "Sistemi başlat"
-
-#: 
-msgid "BOOT ON GAMELIST"
-msgstr "OYUN LİSTESİNİ BAŞLAT"
-
-#: 
-msgid "HIDE SYSTEM VIEW"
-msgstr "SİSTEM GÖRÜNÜMÜNÜ SAKLA"
-
-#: 
-msgid "EMULATOR ADVANCED CONFIGURATION"
-msgstr "EMULATOR GELİŞMİŞ AYARLARI"
-
-#: 
-msgid "ADVANCED EMULATOR CONFIGURATION"
-msgstr "GELİŞMİŞ EMULATOR AYARLARI"
-
-#: 
-msgid "HELP"
-msgstr "YARDIM"
-
-#: 
-msgid "THE SYSTEM IS UP TO DATE"
-msgstr "SİSTEMİNİZ GÜNCEL"
-
-#: 
-msgid "FORCE BASIC GAMELIST VIEW"
-msgstr "BASİT OYUN LİSTESİ GÖRÜNÜMÜ KULLAN."
-
-#: 
-msgid "DOWNLOADED"
+msgid ""
+"Automatically check if an update is avaialble. If so, it notifies you with a "
+"message."
 msgstr ""
+"Bir güncelleme olup olmadığını otomatik olarak kontrol edin. Eğer öyleyse, "
+"size bir mesajla bildirir."
 
-#: 
-msgid "UPDATE VERSION:"
-msgstr ""
-
-#: 
-msgid "UPDATE CHANGELOG:"
-msgstr ""
-
-#: 
-msgid "MORE DETAILS"
-msgstr ""
-
-#: 
-msgid "CAROUSEL ANIMATION"
-msgstr ""
-
-#: 
-msgid "THEME CONFIGURATION"
-msgstr ""
-
-#: 
-msgid "THEME COLORSET"
-msgstr ""
-
-#: 
-msgid "THEME ICONSET"
-msgstr ""
-
-#: 
-msgid "THEME MENU"
-msgstr ""
-
-#: 
-msgid "THEME SYSTEMVIEW"
-msgstr ""
-
-#: 
-msgid "THEME GAMELISTVIEW"
-msgstr ""
-
-#: 
-msgid "THEME REGION"
-msgstr ""
-
-#: 
-msgid "THIS THEME HAS NO OPTION"
-msgstr ""
-
-#: 
-msgid "MANUAL INPUT"
-msgstr ""
-
-#: 
-msgid "AN ERROR OCCURED - DOWNLOADED"
-msgstr ""
-
-#: 
-msgid "START KODI"
-msgstr ""
-
-#: 
 msgid "Shows the current available update version."
 msgstr ""
 
-#: 
 msgid "Shows the current available update changelog."
 msgstr ""
 
-#: 
-msgid "Configure an associated controller. Your controller has to be associated / plugged before."
+msgid ""
+"Configure games display, ratio, filters (shaders), auto save and load and "
+"retroachievement account."
+msgstr ""
+"Oyun ekranı, oran, filtreleri (gölgelendiricileri), otomatik kaydetmeyi ve "
+"yüklemeyi ve retroachievements hesabını ayarla."
+
+msgid ""
+"The game ratio is the ratio between image width and image height. Use AUTO "
+"to let the emulator choose the original game ratio, that will give you the "
+"best retrogaming experience."
+msgstr ""
+"Oyun oranı, görüntü genişliği ve görüntü yüksekliği arasındaki oranı ifade "
+"eder. Emulatörün orijinal oyun oranını seçmenize izin vermek için AUTO "
+"kullanın, bu size en iyi retro oyun deneyimini verecektir."
+
+msgid ""
+"Smooth the game image. This option makes the image smoother, using bilinear "
+"filtering."
+msgstr ""
+"Oyunun görüntüsünü yumuşatın. Bu seçenek bilinear filtreleme kullanarak "
+"görüntüyü daha pürüzsüz hale getirir."
+
+msgid ""
+"This option allows you to rewind the game if you get killed by a monster, or "
+"if you make any other mistake. Use the HOTKEY + LEFT command within the game "
+"to rewind."
+msgstr ""
+"Bu seçenek bir canavar tarafından öldürüldüğünüz de veya başka bir hata "
+"yaptığınızda oyunun geri sarılmasına izin verir. Geri sarma için oyunu "
+"sırasında HOTKEY + SOL komutunu kullanın."
+
+msgid ""
+"Auto save the state when you quit a game, and auto load last saved state "
+"when you start a game."
+msgstr ""
+"Oyundan çıktığınızda otomatik olarak kaydedin ve oyunu başlattığınızda "
+"otomatik olarak son kaydınızı yükleyin."
+
+msgid ""
+"Integer scaling is scaling by a factor of a whole number, such as 2x, 3x, "
+"4x, etc. This option scales the image up to the greatest integer scale below "
+"the set resolution. So for instance, if you set your fullscreen resolution "
+"to 1920x1080 and enable integer scaling, it will only scale a 320x240 image "
+"up to 1280x960, and leave black borders all around. This is to maintain a "
+"1:1 pixel ratio with the original source image, so that pixels are not "
+"unevenly duplicated."
+msgstr ""
+"Tamsayı ölçeklendirme, 2x, 3x, 4x gibi tam sayı faktörü ile "
+"ölçeklendiriliyor. Bu seçenek, görüntüyü ayarlanmış çözünürlüğün altındaki "
+"en büyük tamsayı ölçeğine ölçeklendiriyor. Örneğin, tam ekran çözünürlüğünü "
+"1920x1080 olarak ayarlarsanız ve tam ölçekli ölçeklemeyi etkinleştirirseniz, "
+"yalnızca 120x240 boyutundaki bir görüntüyü 1280x960'a kadar ölçekleyecek ve "
+"siyah kenarlıkları her yere bırakacaktır. Bu, orijinal kaynak görüntü ile 1: "
+"1 piksel oranını korumaktır; böylece piksel eşitsiz çoğaltılamaz."
+
+msgid ""
+"Shaders are like filters for the game rendering. You can select a shader set "
+"here, which is a collection of shaders selected for each system. You can "
+"also change the shader within the game with HOTKEY + L2 or HOTKEY + R2."
+msgstr ""
+"Gölgelendiriciler oyun oluşturma filtreleri gibidir. Burada, her sistem için "
+"seçilen bir shader koleksiyonu olan bir gölgeleştirici grubu seçebilirsiniz. "
+"Oyun içindeki gölgelendiriciyi HOTKEY + L2 veya HOTKEY + R2 ile "
+"değiştirebilirsiniz."
+
+msgid "Enable or disable RetroAchievements in games."
+msgstr "Oyunda ki RetroAchievement leri Aç yada Kapat. "
+
+msgid ""
+"Hardcore mode disables *all* savestate and rewind functions within the "
+"emulator: you will not be able to save and reload at any time. You will have "
+"to complete the game and get the achievements first time, just like on the "
+"original console. In reward for this, you will earn both the standard and "
+"the hardcore achievement, in effect earning double points! A regular game "
+"worth 400 points, is now worth 800 if you complete it on hardcore! For "
+"example: if you complete the game for 400 points, you then have the "
+"opportunity to earn another 400 on hardcore."
+msgstr ""
+"Hardcore modu, emülatör içinde * tüm * kayıt noktaları ve geri sarma "
+"işlevlerini devre dışı bırakır: istediğiniz zaman kaydedemez ve yeniden "
+"yükleyemezsiniz. Oyunu tamamlamak, başarılarını orijinal oyun konsolundaki "
+"gibi ilk kez elde etmek zorunda kalacaksınız. Bunun için ödül olarak, hem "
+"standart hem de hardcore başarı kazanacaksınız, sonuçta iki puan "
+"kazanıyorsunuz! 400 puana eşit düzenli bir oyun, hardcore'da tamamlarsanız "
+"artık 800 değerindedir! Örneğin: Oyunu 400 puan için tamamladıysanız, "
+"hardcore'da başka bir 400 kazanma şansınız olur."
+
+msgid ""
+"The website retroachievements.org proposes challenges/achievements/trophies "
+"on platforms like NES, SNES, GB, GBC, GBA, Genesis/Megadrive, TurboGrafx16/"
+"PCEngine and more! Create your account on retroachievements.org and start "
+"your quest for achievements!"
+msgstr ""
+"Retroachievements.org, web sitesi NES, SNES, GB, GBC, GBA, Genesis / "
+"Megadrive, TurboGrafx16 / PCEngine ve benzeri platformlarda zorluklar / "
+"kazanımlar / kupalar öneriyor! Retroachievements.org'da hesabınızı oluşturun "
+"ve başarılarınız için arayışınızı başlatın!"
+
+msgid "Add and configure up to 5 controllers."
+msgstr "En fazla 5 denetleyici ekleyin ve yapılandırın."
+
+msgid ""
+"Configure an associated controller. Your controller has to be associated / "
+"plugged before."
 msgstr ""
 
-#: 
+msgid ""
+"Pair a bluetooth controller with your recalbox. Your controller must be in "
+"pairing mode."
+msgstr ""
+"Recalbox u bluetooth kontrolcünüz ile eşleştirin. Kontrolcünüz eşleştirme "
+"modunda olmalıdır. "
+
+msgid ""
+"Forget all paired bluetooth controllers. You will have to pair your "
+"controllers again, but this option can help if you have issues to reconnect "
+"a controller, which is already paired."
+msgstr ""
+"Eşleştirilmiş tüm Bluetooth denetleyicilerini unut. Denetleyicilerinizi "
+"tekrar eşleştirmeniz gerekecek, ancak bu seçenek zaten eşleştirilen bir "
+"denetleyiciyi yeniden bağlamanız konusunda sorun yaşıyorsanız yardımcı "
+"olabilir."
+
+msgid ""
+"Configure your EmulationStation experience. Select transition types, help "
+"prompts, screensaver behavior. You can also deactivate the onscreen keyboard "
+"if you have a real keyboard plugged into your recalbox.\n"
+"If you've added games since the last boot, you can also refresh the gamelist "
+"from this menu."
+msgstr ""
+"EmulationStation deneyiminizi yapılandırın. Geçiş türleri, yardım istemleri, "
+"ekran koruyucu davranışını seçin. Geri çağırma kutusuna gerçek bir klavyeniz "
+"takılıysa, ekran klavyesini de devre dışı bırakabilirsiniz.\n"
+"Son açılıştan bu yana oyun eklediyseniz, bu menüden gamelisti "
+"yenileyebilirsiniz."
+
+msgid "Start the screensaver after N minutes."
+msgstr "N dakika sonra ekran koruyucuyu başlat."
+
+msgid ""
+"Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
+"will turn the screen black."
+msgstr ""
+"Ekran koruyucu davranışını ayarlayın. DIM ekran ışığını azaltacak ve SİYAH "
+"ekran siyahını alacaktır"
+
+msgid ""
+"Shows a help at the bottom of the screen which displays commands you can use."
+msgstr ""
+"Ekranın alt kısmında, kullanabileceğiniz komutları görüntüleyen bir yardım "
+"gösterir."
+
+msgid ""
+"When enabled, you can switch between systems while browsing a gamelist by "
+"pressing LEFT or RIGHT."
+msgstr ""
+"Etkinleştirildiğinde, bir oyun listesine SOL veya SAĞ'a basarak gezinirken "
+"sistem arasında geçiş yapabilirsiniz."
+
+msgid ""
+"The onscreen keyboard is necessary to type text if you only have controllers "
+"plugged into your recalbox. You can disable it if you have a real keyboard "
+"connected."
+msgstr ""
+"Ekran klavyesi yalnızca recalbox a takılı oyun kolu varsa metin yazmak için "
+"gereklidir. Bağlanmış gerçek bir klavyeniz varsa bunu devre dışı "
+"bırakabilirsiniz."
+
 msgid "Choose if carousel will be animated or not during transitions"
 msgstr ""
 
-#: 
-msgid "Select the type of transition that occurs when you start a game. INSTANT will do nothing, FADE will fade to dark, and SLIDE will zoom on the game cover (or name if there is no scrape information)"
+msgid ""
+"Select the type of transition that occurs when you start a game. INSTANT "
+"will do nothing, FADE will fade to dark, and SLIDE will zoom on the game "
+"cover (or name if there is no scrape information)"
 msgstr ""
 
-#: 
+msgid "Select a theme for your recalbox."
+msgstr "Recalbox için tema seç. "
+
 msgid "Select exisiting colorset options for this theme."
 msgstr ""
 
-#: 
 msgid "Select exisiting iconset options for this theme."
 msgstr ""
 
-#: 
 msgid "Select exisiting menu style options for this theme."
 msgstr ""
 
-#: 
 msgid "Select exisiting system view options for this theme."
 msgstr ""
 
-#: 
 msgid "Select exisiting gamelist view options for this theme."
 msgstr ""
 
-#: 
 msgid "Configure theme options if available."
 msgstr ""
 
-#: 
-msgid "Select Region of logos, pictures for system that are different for some countries. E.g. Megadrive in EU / Genesis in US"
+msgid ""
+"Select Region of logos, pictures for system that are different for some "
+"countries. E.g. Megadrive in EU / Genesis in US"
 msgstr ""
 
-#: 
+msgid "Updates the gamelists, if you added games since the last boot."
+msgstr "Son boot tan önce oyun eklediysen, oyun listesini güncelle. "
+
+msgid "Configure the sound options of your recalbox."
+msgstr "Recalbox un ses ayarlarını düzenle."
+
+msgid "Set the volume of the sound output for the frontend and the games."
+msgstr "Son kullanıcı ve oyunlar için ses çıkış seviyesini ayarlayın."
+
+msgid ""
+"Enable or disable the frontend music. You can add your own music as mp3, or "
+"ogg format in the 'musics' directory of your recalbox."
+msgstr ""
+"Öndeki müziği açık yada kapatabilirsin. Kendi müziğini eklemek için, \"musics"
+"\" klasörüne mp3 yada ogg formatlı ses dosyalarını ekleyin. "
+
+msgid "Select your output device. Only HDMI and JACK are supported."
+msgstr "Ses çıkışı cihazını seç. Sadece HDMI ve JACK desteklenmektedir. "
+
+msgid ""
+"Configure the network options of your recalbox.\n"
+"Check your network status and IP address, set the hostname and configure the "
+"WIFI."
+msgstr ""
+"Ağ ayarlarını yapılandırın. Ağ durum ve IP adresinizi kontrol edin, hostname "
+"ve WIFI bilgilerinizi yapılandırın. "
+
+msgid ""
+"Displays CONNECTED, if you are connected, by checking if your recalbox can "
+"access the recalbox.com update server."
+msgstr ""
+"Eğer bağlıysanız, yeniden arama kutunuzun recalbox.com güncelleme sunucusuna "
+"erişip erişemeyeceğini kontrol ederek CONNECTED bağlantısını görüntüler."
+
+msgid "The IP address of your recalbox within your local network."
+msgstr "Recalbox un ağınızdaki IP adresi. "
+
+msgid ""
+"Enable or disable WIFI.\n"
+"If you disable WIFI, the SSID and the WIFI passwords are saved and can be "
+"used when you reactivate it"
+msgstr ""
+"WIFI'yi devre dışı bırakırsanız, SSID ve WIFI şifreleri kaydedilir ve "
+"yeniden etkinleştirdiğinizde kullanılabilir"
+
+msgid "The name of your recalbox in your local network"
+msgstr "Yerel ağınızdaki Recalbox ınızın adı. "
+
+msgid "SSID (WIFI Name) of your network."
+msgstr "Ağınızın SSID i ( WIFI Adı). "
+
 msgid "Type the name of your SSID if it is hidden or not listed"
 msgstr ""
 
-#: 
-msgid "Select a letter and the listing will go directly on the first game starting with this letter."
+msgid "Private key of your WIFI network."
+msgstr "WIFI ağınızın özel anahtarı. "
+
+msgid ""
+"Get informations and visual for your games. The scraper downloads metadata "
+"and visuals for your games from different servers and enhances the user "
+"experience in EmulationStation completely."
+msgstr ""
+"Oyunlarınız için bilgi edinin ve görsel edinin. Scraper, oyunlarınız için "
+"meta veriler ve görseller farklı sunuculardan indirir ve "
+"EmulationStation'daki kullanıcı deneyimini tamamen geliştirir."
+
+msgid ""
+"Select a server to scrape from. The SCREENSCRAPER server is recommended and "
+"is based on www.screenscraper.fr and scrapes game data in your language, if "
+"available."
+msgstr ""
+"Scraper için bir sunucu seçin. SCREENSCRAPER sunucusu için www.screenscraper."
+"fr önerilir, mevcutsa dilinizdeki oyun verilerini alır."
+
+msgid "Begin the scrape process with the configuration shown below."
+msgstr "Scrape işlemine aşağıda gösterilen ayarlarla başlayın. "
+
+msgid "Scrape and display game ratings."
+msgstr "Oyun derecelerini görüntüleyin ve indirin. "
+
+msgid ""
+"Advanced settings. Please make sure you really know what you're doing, "
+"before changing any values in this menu."
+msgstr ""
+"Gelişmiş ayarlar. Bu menüdeki herhangi bir değeri değiştirmeden önce lütfen "
+"ne yaptığınızı gerçekten bildiğinizden emin olun."
+
+msgid ""
+"Overclock your board to increase the performance.\n"
+"Overclock settings are tested and validated by the community. Keep in mind "
+"that overclocking your board can void your warranty."
+msgstr ""
+"Overclok cihazınızın performansını arttırmak için. \n"
+"Overclock ayarları topluluk tarafından test edilip doğrulanır. Kartınızı "
+"hızaşırtmanın garantinizi geçersiz kılabileceğini unutmayın."
+
+msgid ""
+"Select which system to show when the recalbox frontend starts. The default "
+"value is 'favorites'."
+msgstr ""
+"Recalbox önbelleği başladığında hangi sistemi göstereceğini seçin. "
+"Varsayılan değer 'favorites'."
+
+msgid ""
+"On boot, recalbox will show the list of games of the selected system rather "
+"than the system view."
+msgstr ""
+"Önyüklemede, recalbox sistem görünümü yerine seçilen sistemin oyun listesini "
+"gösterir."
+
+msgid ""
+"Only show games contained in the gamelist.xml file (located in your roms "
+"directories).\n"
+"This option highly speeds up boot time, but new games will not be detected."
+msgstr ""
+"Yalnızca gamelist.xml dosyasında bulunan oyunları gösterin (rom "
+"dizinlerinizde bulunur).\n"
+"Bu seçenek önyükleme süresini önemli ölçüde hızlandırır, ancak yeni oyunlar "
+"algılanmaz."
+
+msgid ""
+"This option allows you to set the selected system to fixed mode. With this "
+"option activated, the user cannot access other systems."
+msgstr ""
+"Bu seçenek, seçilen sistemi sabit moda ayarlamanızı sağlar. Bu seçenek "
+"etkinleştirildiğinde, kullanıcı diğer sistemlere erişemez."
+
+msgid ""
+"Always display the basic gamelist view, even if you have scraped your games."
+msgstr ""
+"Oyunlarınızı scrap etmiş olsanız bile, daima temel oyun listesi görünümünü "
+"gösterin."
+
+msgid ""
+"Override global options like emulator, core, ratio and more for each "
+"available system in your recalbox."
+msgstr ""
+"Recalbox ınızda mevcut her sistem için emulatör, çekirdek, oran ve daha "
+"fazlası gibi genel seçenekleri geçersiz kılın."
+
+msgid ""
+"Configure boot options that make your recalbox boot straight into a system "
+"or into Kodi, lock a user to a single system, or directly show the gamelist."
+msgstr ""
+"Recalbox, sisteme veya Kodi'ye doğrudan scrap edilmesini sağlayan önyükleme "
+"seçeneklerini yapılandırın, bir kullanıcıyı tek bir sistemde kilitleyin veya "
+"doğrudan oyun listesini gösterin."
+
+msgid ""
+"Enable or disable Kodi, customize the Kodi startup, enable the X button to "
+"start Kodi"
+msgstr ""
+"Kodi'yi etkinleştirir veya devre dışı bırakır, Kodi başlangıcı özelleştirir, "
+"Kodi'yi başlatmak için X düğmesini aktif edin."
+
+msgid ""
+"Enable or disable Kodi. If kodi is disabled, you won't be able to start it "
+"with the X button, or start it automatically at boot. The menu entry will be "
+"removed as well."
+msgstr ""
+"Kodi'yi etkinleştirin veya devre dışı bırakın. Kodi devre dışı bırakıldıysa, "
+"X düğmesiyle başlatamaz veya önyüklemede otomatik olarak başlatamazsınız. "
+"Menü girişi de kaldırılacaktır."
+
+msgid "Use the X button to start Kodi."
+msgstr "Kodi yi başlatmak için X düğmesini kullanın. "
+
+msgid "Automatically start into Kodi on boot."
+msgstr "Açılışta Kodi otomatik olarak başlasın. "
+
+msgid "Manage your recalbox security."
+msgstr "Recalbox günvenliğini yönet. "
+
+msgid "Change the SSH root password."
+msgstr "SSH root şifresini değiştir. "
+
+msgid "Enforce recalbox security."
+msgstr "Recalbox güvenliğini uygula."
+
+msgid ""
+"Enable or disable overscan.\n"
+"Overscan can help you, if you have a black border, or if the image is bigger "
+"than your screen. Before setting the overscan, try to configure your TV to "
+"have a 1:1 pixel output.\n"
+"More overscan settings can be defined in the boot.txt file, available when "
+"you plug your SD card into your computer."
+msgstr ""
+"Genişletmeyi etkinleştirin veya devre dışı bırakın.\n"
+"Siyah bir kenarlığınız varsa veya görüntü ekranınızdan daha büyükse, "
+"Overscan size yardımcı olabilir. Aşırı taramayı ayarlamadan önce TV'nizi 1: "
+"1'lik bir piksel çıkışı olacak şekilde yapılandırmayı deneyin.\n"
+"SD kartınızı bilgisayarınıza taktığınızda mevcut daha fazla tarama ayarları, "
+"boot.txt dosyasında tanımlanabilir."
+
+msgid "Show the framerate in EmulationStation and in game."
+msgstr "EmulationStation ve oyun içindeyken framerate i göster."
+
+#, fuzzy
+msgid ""
+"Enable or disable the Recalbox Manager.\n"
+"The Recalbox Manager is a web application available on http://recalbox , if "
+"you are on windows, http://recalbox.local , if you are on Linux or Mac, or "
+"directly with your recalbox IP : http://192.168.1.XX.\n"
+"You can configure many options from within the manager, and even manage "
+"games, saves, and scrapes!"
+msgstr ""
+"Recalbox Manager'ı etkinleştirin veya devre dışı bırakın.\n"
+"Recalbox Yöneticisi, http: //recalbox.local olan Linux'ta veya Mac'te veya "
+"doğrudan recalbox IP'inizde olan pencerelerde, http://recalbox üzerinde "
+"bulunan bir web uygulamasıdır: http: //192.168. 1.XX.\n"
+"Birçok seçenekleri yönetici içinde yapılandırabilir, hatta oyunları, "
+"kaydedmeleri ve çizilmeleri yönetebilirsiniz!"
+
+msgid ""
+"Enable or disable the recalbox API.\n"
+"The Recalbox API is a REST API exposing endpoints to control your recalbox "
+"via http requests."
+msgstr ""
+"Recalbox API'sını etkinleştirin veya devre dışı bırakın.\n"
+"Recalbox API, recalbox http istekleri yoluyla denetlemek için bitiş "
+"noktalarını gösteren bir REST API'dir."
+
+msgid "Select which emulator to use when you start a game for this system."
+msgstr ""
+"Bu sistem için bir oyunu başlattığınızda hangi emülatörü kullanacağınızı "
+"seçin."
+
+msgid ""
+"Select which core to use for the selected emulator. For example, the "
+"LIBRETRO emulator has many cores to run Super Nintendo games. The default "
+"core you choose here can also be overridden in game specific settings."
+msgstr ""
+"Seçilen emulatör için hangi çekirdeğin kullanılacağını seçin. Örneğin, "
+"LIBRETRO emülatörünün Super Nintendo oyunlarını çalıştırmak için birçok "
+"çekirdeği vardır. Burada seçtiğiniz varsayılan çekirdek, oyuna özel "
+"ayarlarda geçersiz kılınabilir"
+
+msgid ""
+"Select a letter and the listing will go directly on the first game starting "
+"with this letter."
 msgstr ""
 
-#: 
-msgid "Select the way the game list is sortered (alphabetically, by notation...)."
+msgid ""
+"Select the way the game list is sortered (alphabetically, by notation...)."
 msgstr ""
 
-#: 
-msgid "Switch between seing or not only the favorites games. To add a game in the favorite list, select the game and toggle its state using 'Y'."
+msgid ""
+"Switch between seing or not only the favorites games. To add a game in the "
+"favorite list, select the game and toggle its state using 'Y'."
 msgstr ""
 
-#: 
-msgid "Switch between seing or not the hidden games. To hide a game, edit its data and select 'Hide'."
+msgid ""
+"Switch between seing or not the hidden games. To hide a game, edit its data "
+"and select 'Hide'."
 msgstr ""
 
-#: 
-msgid "This option display a menu which allows to change game data and many others options."
+msgid ""
+"Switch between seeing the folders structure and seeing all games in a "
+"flatten top level."
 msgstr ""
 
-#: 
+msgid ""
+"This option display a menu which allows to change game data and many others "
+"options."
+msgstr ""
+
+msgid "USE COMPOSED VISUALS"
+msgstr "DERLENMİŞ GÖRSELLERİ KULLAN"
+
+msgid "CHECK UPDATES"
+msgstr "GÜNCELLİĞİ KONTROL ET"
+
 msgid "AVAILABLE UPDATE"
 msgstr ""
 
-#: 
 msgid "UPDATE CHANGELOG"
 msgstr ""
 
-#: 
-msgid "CLOCK IN MENU"
-msgstr ""
+msgid "UPDATE TYPE"
+msgstr "GÜNCELLEME TÜRÜ"
 
-#: 
+msgid "INTEGER SCALE (PIXEL PERFECT)"
+msgstr "DİZİN ÖLÇEĞİ (MÜKEMMEL PİKSEL)"
+
+msgid "ADVANCED SETTINGS"
+msgstr "GELİŞMİŞ SEÇENEKLER"
+
+msgid "BOOT SETTINGS"
+msgstr "BAŞLANGIÇ AYARLARI"
+
+msgid "GAMELIST ONLY"
+msgstr "Sadece Oyun Listesi"
+
+msgid "BOOT ON SYSTEM"
+msgstr "Sistemi başlat"
+
+msgid "BOOT ON GAMELIST"
+msgstr "OYUN LİSTESİNİ BAŞLAT"
+
+msgid "HIDE SYSTEM VIEW"
+msgstr "SİSTEM GÖRÜNÜMÜNÜ SAKLA"
+
+msgid "EMULATOR ADVANCED CONFIGURATION"
+msgstr "EMULATOR GELİŞMİŞ AYARLARI"
+
+msgid "ADVANCED EMULATOR CONFIGURATION"
+msgstr "GELİŞMİŞ EMULATOR AYARLARI"
+
+msgid "HELP"
+msgstr "YARDIM"
+
+msgid "THE SYSTEM IS UP TO DATE"
+msgstr "SİSTEMİNİZ GÜNCEL"
+
+msgid "FORCE BASIC GAMELIST VIEW"
+msgstr "BASİT OYUN LİSTESİ GÖRÜNÜMÜ KULLAN."
+
 msgid "Now playing"
 msgstr ""
 
-#: 
-msgid "DEFAULT (%1%)"
-msgstr ""
-
-#: 
-msgid "INPUT REQUIRED"
-msgstr ""
-
-#: 
-msgid "(skipped)"
-msgstr ""
-
-#: 
-msgid "UP/DOWN TO SKIP"
-msgstr ""
-
-#: 
-msgid "A TO UNSET"
-msgstr ""
-
-#: 
-msgid "DOWN TO SKIP AND KEEP [%1%]"
-msgstr ""
-
-#: 
-msgid "UP/DOWN TO SKIP AND KEEP [%1%]"
-msgstr ""
-
-#: 
 msgid "Set duration of help popups, 0 means no popup."
 msgstr ""
 
-#: 
 msgid "HELP POPUP DURATION"
 msgstr ""
 
-#: 
 msgid "Set duration of music popups, 0 means no popup."
 msgstr ""
 
-#: 
 msgid "MUSIC POPUP DURATION"
 msgstr ""
 
-#: 
 msgid "POPUP SETTINGS"
 msgstr ""
 
-#: 
 msgid "POPUP POSITION"
 msgstr ""
 
-#: 
 msgid "Select the position of popups on screen."
 msgstr ""
 
-#: 
 msgid "Set position and duration of popups."
 msgstr ""
 
-#: 
 msgid "TOP/RIGHT"
 msgstr ""
 
-#: 
 msgid "BOTTOM/RIGHT"
 msgstr ""
 
-#: 
 msgid "BOTTOM/LEFT"
 msgstr ""
 
-#: 
 msgid "TOP/LEFT"
 msgstr ""
 
-#: 
-msgid "SHOW FOLDERS CONTENT"
-msgstr ""
-
-#: 
-msgid "Switch between seeing the folders structure and seeing all games in a flatten top level."
-msgstr ""
-
-#: 
 msgid "NETPLAY"
 msgstr ""
 
-#: 
 msgid "NETPLAY SETTINGS"
 msgstr ""
 
-#: 
 msgid "NETPLAY LOBBY"
 msgstr ""
 
-#: 
 msgid "Enable or disable Netplay in games."
 msgstr ""
 
-#: 
 msgid "PORT"
 msgstr ""
 
-#: 
 msgid "NICKNAME"
 msgstr ""
 
-#: 
 msgid "RELAY SERVER"
 msgstr ""
 
-#: 
 msgid "Enable or disable connections throught relay servers."
 msgstr ""
 
-#: 
+msgid ""
+"Play online on games running through Retroarch like NES, SNES, FBA, Genesis/"
+"Megadrive and more!"
+msgstr ""
+
 msgid "KODI/NETPLAY"
 msgstr ""
 
-#: 
 msgid "NO GAMES OR NO CONNECTION"
 msgstr ""
 
-#: 
 msgid "HASH NOW"
 msgstr ""
 
-#: 
 msgid "HASH THESE SYSTEMS"
 msgstr ""
 
-#: 
-msgid "Add hash of roms in your gamelists to have more accurate results in Netplay."
+msgid ""
+"Add hash of roms in your gamelists to have more accurate results in Netplay."
 msgstr ""
 
-#: 
 msgid "HASH ROMS"
 msgstr ""
 
-#: 
 msgid "Only missing hashs"
 msgstr ""
 
-#: 
 msgid "Username"
 msgstr ""
 
-#: 
 msgid "Country"
 msgstr ""
 
-#: 
 msgid "Latency"
 msgstr ""
 
-#: 
 msgid "Host arch."
 msgstr ""
 
-#: 
 msgid "Core ver."
 msgstr ""
 
-#: 
 msgid "RA ver."
 msgstr ""
 
-#: 
 msgid "Can join"
 msgstr ""
 
-#: 
 msgid "Rom and core match"
 msgstr ""
 
-#: 
-msgid "Rom found"
-msgstr ""
-
-#: 
-msgid "No rom match"
-msgstr ""
-
-#: 
-msgid "Match"
-msgstr ""
-
-#: 
-msgid "No Match"
-msgstr ""
-
-#: 
-msgid "Rom file"
-msgstr ""
-
-#: 
-msgid "Rom hash"
-msgstr ""
-
-#: 
-msgid "THIS COULD TAKE A WHILE, CONFIRM?"
-msgstr ""
-
-#: 
-msgid "good"
-msgstr ""
-
-#: 
-msgid "bad"
-msgstr ""
-
-#: 
-msgid "medium"
-msgstr ""
-
-#: 
-msgid "NETPLAY POPUP DURATION"
-msgstr ""
-
-#: 
-msgid "Set duration of netplay popups, 0 means no popup."
-msgstr ""
-
-#: 
-msgid "Player"
-msgstr ""
-
-#: 
-msgid "Game"
-msgstr ""
-
-#: 
-msgid "A Recalbox friend has started a Netplay game!"
-msgstr ""
-
-#: 
-msgid "Play online on games running through Retroarch like NES, SNES, FBA, Genesis/Megadrive and more!"
-msgstr ""
-
-#: 
 msgid "Rom, hash and core match"
 msgstr ""
 
-#: 
+msgid "No rom match"
+msgstr ""
+
 msgid "No core match"
 msgstr ""
 
-#: 
+msgid "Match"
+msgstr ""
+
+msgid "No Match"
+msgstr ""
+
+msgid "Rom file"
+msgstr ""
+
+msgid "Rom hash"
+msgstr ""
+
+msgid "THIS COULD TAKE A WHILE, CONFIRM?"
+msgstr ""
+
+msgid "good"
+msgstr ""
+
+msgid "bad"
+msgstr ""
+
+msgid "medium"
+msgstr ""
+
+msgid "NETPLAY POPUP DURATION"
+msgstr ""
+
+msgid "Set duration of netplay popups, 0 means no popup."
+msgstr ""
+
+msgid "Player"
+msgstr ""
+
+msgid "Game"
+msgstr ""
+
+msgid "A Recalbox friend has started a Netplay game!"
+msgstr ""
+
 msgid "Add a clock in the main menu."
 msgstr ""
 
+#. UPGRADE PROCESS
+msgid "UPGRADING"
+msgstr ""
+
+msgid "PREPARING"
+msgstr ""
+
+msgid "VERIFYING"
+msgstr ""
+
+msgid "EMPTY LIST"
+msgstr ""

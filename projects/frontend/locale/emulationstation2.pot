@@ -1841,3 +1841,22 @@ msgstr ""
 #:
 msgid "EMPTY LIST"
 msgstr ""
+
+#: Retroarch ratio
+msgid "Auto"
+msgstr ""
+
+msgid "Square pixel"
+msgstr ""
+
+msgid "Retroarch Config"
+msgstr ""
+
+msgid "Retroarch Custom"
+msgstr ""
+
+msgid "Core provided"
+msgstr ""
+
+msgid "Do not set"
+msgstr ""
