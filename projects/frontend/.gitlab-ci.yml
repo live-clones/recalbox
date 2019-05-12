@@ -7,3 +7,5 @@ build:
   stage: build
   script:
     - docker build . 
+  tags:
+    - esbuild
