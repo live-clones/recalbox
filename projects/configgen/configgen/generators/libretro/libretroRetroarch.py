@@ -34,6 +34,8 @@ class LibretroRetroarch:
         "32/9",
         "config",
         "squarepixel",
+        "coreprovided",
+        "custom",
     ]
 
     # Define systems not compatible with rewind option
@@ -141,11 +143,13 @@ class LibretroRetroarch:
             if recalbox["ratio"] in self.RATIO_INDEXES:
                 settings.setOption("aspect_ratio_index", self.RATIO_INDEXES.index(recalbox['ratio']))
                 settings.setOption("video_aspect_ratio_auto", self.FALSE)
-            elif recalbox["ratio"] == "custom":
+            elif recalbox["ratio"] == "none":
+                # Do not fix aspect ratio. Let the user play with RA
                 settings.setOption("video_aspect_ratio_auto", self.FALSE)
             else:
+                # default: auto
                 settings.setOption("video_aspect_ratio_auto", self.TRUE)
-                settings.setOption("aspect_ratio_index", "")
+                settings.removeOption("aspect_ratio_index")
 
         # Rewind enabled?
         hasRewind = self.isEnabled("rewind") and self.system.name not in self.SYSTEM_WITH_NO_REWIND
