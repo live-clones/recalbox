@@ -1,1709 +1,1855 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: recalbox-emulationstation\n"
-"Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: POEditor.com\n"
+"Project-Id-Version: recalbox-emulationstation\n"
+"Language: hu\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: 
 msgid "AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"
 msgstr "RECALBOX FRISSÍTÉS ELÉRHETŐ"
 
-msgid "DOWNLOADED"
-msgstr "LETÖLTVE"
-
-msgid "UPDATE VERSION:"
-msgstr "FRISSÍTÉS VERZIÓ:"
-
-msgid "UPDATE CHANGELOG:"
-msgstr "FRISSÍTÉS VÁLTOZÁSOK:"
-
+#: 
 msgid "CANCEL"
 msgstr "MÉGSE"
 
+#: 
 msgid "Rating"
 msgstr "Értékelés"
 
+#: 
 msgid "Released"
 msgstr "Kiadva"
 
+#: 
 msgid "Developer"
 msgstr "Fejlesztő"
 
+#: 
 msgid "Publisher"
 msgstr "Kiadó"
 
+#: 
 msgid "Genre"
 msgstr "Műfaj"
 
+#: 
 msgid "Players"
 msgstr "Játékosok"
 
+#: 
 msgid "NO GAMES FOUND - SKIP"
 msgstr "NINCS JÁTÉK - KIHAGYÁS"
 
+#: 
 msgid "RETRY"
 msgstr "ÚJRA"
 
+#: 
 msgid "SKIP"
 msgstr "KIHAGY"
 
+#: 
 msgid "SEARCH FOR"
 msgstr "KERESÉS"
 
+#: 
 msgid "SEARCH"
 msgstr "KERESÉS"
 
+#: 
 msgid "SCRAPING IN PROGRESS"
 msgstr "LEKÉRÉS FOLYAMATBAN"
 
+#: 
 msgid "SYSTEM"
 msgstr "RENDSZER"
 
+#: 
 msgid "subtitle text"
 msgstr "alcím szövege"
 
+#: 
 msgid "INPUT"
 msgstr "BEVITEL"
 
+#: 
 msgid "search"
 msgstr "keresés"
 
+#: 
 msgid "STOP"
 msgstr "MEGÁLLÍT"
 
+#: 
 msgid "stop (progress saved)"
 msgstr "megállít (folyamat mentve)"
 
+#: 
 msgid "GAME %i OF %i"
 msgstr "%i. JÁTÉK A(Z) %i-BŐL"
 
-msgid ""
-"WE CAN'T FIND ANY SYSTEMS!\n"
-"CHECK THAT YOUR PATHS ARE CORRECT IN THE SYSTEMS CONFIGURATION FILE, AND "
-"YOUR GAME DIRECTORY HAS AT LEAST ONE GAME WITH THE CORRECT EXTENSION.\n"
+#: 
+msgid "WE CAN'T FIND ANY SYSTEMS!\n"
+"CHECK THAT YOUR PATHS ARE CORRECT IN THE SYSTEMS CONFIGURATION FILE, AND YOUR GAME DIRECTORY HAS AT LEAST ONE GAME WITH THE CORRECT EXTENSION.\n"
 "\n"
 "VISIT RECALBOX.COM FOR MORE INFORMATION."
-msgstr ""
-"NEM TALÁLHATÓ JÁTÉK!\n"
-"ELLENŐRIZD, HOGY AZ ELÉRÉSI UTAK RENDBEN VANNAK-E A RENDSZER KONFIGURÁCIÓS "
-"FÁJLBAN, ÉS A JÁTÉK KÖNYVTÁRÁBAN LEGALÁBB EGY JÁTÉK TALÁLHATÓ A MEGFELELŐ "
-"KITERJESZTÉSSEL.\n"
+msgstr "NEM TALÁLHATÓ JÁTÉK!\n"
+"ELLENŐRIZD, HOGY AZ ELÉRÉSI UTAK RENDBEN VANNAK-E A RENDSZER KONFIGURÁCIÓS FÁJLBAN, ÉS A JÁTÉK KÖNYVTÁRÁBAN LEGALÁBB EGY JÁTÉK TALÁLHATÓ A MEGFELELŐ KITERJESZTÉSSEL.\n"
 "\n"
 "TÖBB INFORMÁCIÓ A RECALBOX.COM OLDALON."
 
+#: 
 msgid "%i GAME SUCCESSFULLY SCRAPED!"
 msgid_plural "%i GAMES SUCCESSFULLY SCRAPED!"
 msgstr[0] "%i JÁTÉK SIKERESEN LEKÉRVE!"
 msgstr[1] "%i JÁTÉK SIKERESEN LEKÉRVE!"
 
+#: 
 msgid "%i GAME SKIPPED."
 msgid_plural "%i GAMES SKIPPED."
 msgstr[0] "%i JÁTÉK KIHAGYVA."
 msgstr[1] "%i JÁTÉK KIHAGYVA."
 
+#: 
 msgid "OK"
 msgstr "OK"
 
+#: 
 msgid "EDIT METADATA"
 msgstr "META SZERKESZTÉSE"
 
-msgid "MORE DETAILS"
-msgstr "TÖBB RÉSZLET"
-
+#: 
 msgid "SCRAPE"
 msgstr "LEKÉRÉS"
 
+#: 
 msgid "SAVE"
 msgstr "MENTÉS"
 
-msgid ""
-"THIS WILL DELETE A FILE!\n"
+#: 
+msgid "THIS WILL DELETE A FILE!\n"
 "ARE YOU SURE?"
-msgstr ""
-"A FÁJL TÖRLÉSÉRE KÉSZÜLSZ!\n"
+msgstr "A FÁJL TÖRLÉSÉRE KÉSZÜLSZ!\n"
 "BIZTOS VAGY BENNE?"
 
+#: 
 msgid "YES"
 msgstr "IGEN"
 
+#: 
 msgid "NO"
 msgstr "NEM"
 
+#: 
 msgid "DELETE"
 msgstr "TÖRLÉS"
 
+#: 
 msgid "SAVE CHANGES?"
 msgstr "MENTI A VÁLTOZÁSOKAT?"
 
+#: 
 msgid "BACK"
 msgstr "VISSZA"
 
+#: 
 msgid "CLOSE"
 msgstr "BEZÁR"
 
+#: 
 msgid "MAIN MENU"
 msgstr "FŐMENÜ"
 
+#: 
 msgid "KODI MEDIA CENTER"
 msgstr "KODI MEDIA CENTER"
 
+#: 
 msgid "SYSTEM SETTINGS"
 msgstr "RENDSZERBEÁLLÍTÁSOK"
 
+#: 
 msgid "VERSION"
 msgstr "VERZIÓ"
 
+#: 
 msgid "DISK USAGE"
 msgstr "LEMEZHASZNÁLAT"
 
+#: 
 msgid "STORAGE DEVICE"
 msgstr "TÁROLÓ"
 
+#: 
 msgid "LANGUAGE"
 msgstr "NYELV"
 
+#: 
 msgid "OVERCLOCK"
 msgstr "OVERCLOCK"
 
+#: 
 msgid "EXTREM (1100Mhz)"
 msgstr "EXTRÉM (1100Mhz)"
 
+#: 
 msgid "TURBO (1000Mhz)"
 msgstr "TURBO (1000Mhz)"
 
+#: 
 msgid "HIGH (950Mhz)"
 msgstr "MAGAS (950Mhz)"
 
+#: 
 msgid "NONE (700Mhz)"
 msgstr "ALAP (700Mhz)"
 
+#: 
 msgid "TURBO (1050Mhz)+"
 msgstr "TURBO (1050Mhz)+"
 
+#: 
 msgid "HIGH (1050Mhz)"
 msgstr "MAGAS (1050Mhz)"
 
+#: 
 msgid "NONE (900Mhz)"
 msgstr "ALAP (900Mhz)"
 
+#: 
 msgid "NONE (1200Mhz)"
 msgstr "ALAP (1200Mhz)"
 
+#: 
 msgid "NONE"
 msgstr "NINCS"
 
 #. NEW SETTINGS ORGANIZATION
+#: 
 msgid "UPDATES"
 msgstr "FRISSÍTÉSEK"
 
+#: 
 msgid "AUTO UPDATES"
 msgstr "AUTO FRISSÍTÉS"
 
+#: 
 msgid "START UPDATE"
 msgstr "FRISSÍTÉS INDÍT"
 
+#: 
 msgid "KODI SETTINGS"
 msgstr "KODI BEÁLLÍTÁSOK"
 
+#: 
 msgid "ENABLE KODI"
 msgstr "KODI ENGEDÉLYEZÉSE"
 
+#: 
 msgid "KODI AT START"
 msgstr "KODI INDULÁSKOR"
 
+#: 
 msgid "START KODI WITH X"
 msgstr "KODI INDÍTÁSA X-EL"
 
+#: 
 msgid "SECURITY"
 msgstr "BIZTONSÁG"
 
+#: 
 msgid "ENFORCE SECURITY"
 msgstr "BIZTONSÁG ÉRVÉNYESÍTÉSE"
 
+#: 
 msgid "ROOT PASSWORD"
 msgstr "ROOT JELSZÓ"
 
+#: 
 msgid "THE SYSTEM WILL NOW REBOOT"
 msgstr "A RENDSZER ÚJRAINDUL"
 
+#: 
 msgid "GAMES SETTINGS"
 msgstr "JÁTÉK BEÁLLÍTÁSOK"
 
+#: 
 msgid "GAME RATIO"
 msgstr "JÁTÉK KÉPARÁNY"
 
+#: 
 msgid "SMOOTH GAMES"
 msgstr "ÉLSIMÍTÁS"
 
+#: 
 msgid "REWIND"
 msgstr "VISSZATEKERÉS"
 
+#: 
 msgid "AUTO SAVE/LOAD"
 msgstr "AUTO MENTÉS/TÖLTÉS"
 
+#: 
 msgid "SHADERS SET"
 msgstr "SHADER VÁLASZTÁS"
 
+#: 
 msgid "SCANLINES"
 msgstr "SCANLINES"
 
+#: 
 msgid "RETRO"
 msgstr "RETRO"
 
+#: 
 msgid "RETROACHIEVEMENTS SETTINGS"
 msgstr "RETROACHIEVEMENTS BEÁLLÍTÁSOK"
 
+#: 
 msgid "RETROACHIEVEMENTS"
 msgstr "RETROACHIEVEMENTS"
 
+#: 
 msgid "HARDCORE MODE"
 msgstr "HARDCORE MÓD"
 
+#: 
 msgid "USERNAME"
 msgstr "FELHASZNÁLÓNÉV"
 
+#: 
 msgid "PASSWORD"
 msgstr "JELSZÓ"
 
+#: 
 msgid "ADVANCED"
 msgstr "HALADÓ"
 
+#: 
 msgid "REALLY UPDATE GAMES LISTS ?"
 msgstr "BIZTOS FRISSÍTED A JÁTÉK LISTÁT?"
 
+#: 
 msgid "UPDATE GAMES LISTS"
 msgstr "JÁTÉKLISTA FRISSÍTÉSE"
 
+#: 
 msgid "CONTROLLERS SETTINGS"
 msgstr "KONTROLLER BEÁLLÍTÁSOK"
 
+#: 
 msgid "UI SETTINGS"
 msgstr "KINÉZET BEÁLLÍTÁSOK"
 
+#: 
 msgid "OVERSCAN"
 msgstr "OVERSCAN"
 
+#: 
 msgid "SCREENSAVER AFTER"
 msgstr "KÉPERNYŐKÍMÉLŐ IDEJE"
 
-msgid "CAROUSEL ANIMATION"
-msgstr ""
-
+#: 
 msgid "TRANSITION STYLE"
 msgstr "ÁTMENET STÍLUSA"
 
+#: 
 msgid "SCREENSAVER BEHAVIOR"
 msgstr "KÉPERNYŐKÍMÉLŐ MÓDJA"
 
+#: 
 msgid "SHOW FRAMERATE"
 msgstr "FPS MUTATÁSA"
 
-msgid "CLOCK IN MENU"
-msgstr "ÓRA A MENÜBEN"
-
+#: 
 msgid "ON-SCREEN HELP"
 msgstr "KÉPERNYŐ SÚGÓ"
 
+#: 
 msgid "QUICK SYSTEM SELECT"
 msgstr "GYORS RENDSZERVÁLTÁS"
 
+#: 
 msgid "THEME SET"
 msgstr "TÉMAVÁLASZTÁS"
 
-msgid "THEME CONFIGURATION"
-msgstr ""
-
-msgid "THEME COLORSET"
-msgstr "TÉMA SZÍNEI"
-
-msgid "THEME ICONSET"
-msgstr "TÉMA IKONJAI"
-
-msgid "THEME MENU"
-msgstr "TÉMA MENÜ"
-
-msgid "THEME SYSTEMVIEW"
-msgstr "TÉMA RENDSZERNÉZET"
-
-msgid "THEME GAMELISTVIEW"
-msgstr ""
-
-msgid "THEME REGION"
-msgstr "TÉMA RÉGIÓ"
-
-msgid "THIS THEME HAS NO OPTION"
-msgstr "EHHEZ A TÉMÁHOZ NINCSENEK BEÁLLÍTÁSOK"
-
+#: 
 msgid "SOUND SETTINGS"
 msgstr "HANGBEÁLLÍTÁSOK"
 
+#: 
 msgid "SYSTEM VOLUME"
 msgstr "HANGERŐ"
 
+#: 
 msgid "FRONTEND MUSIC"
 msgstr "HÁTTÉRZENE"
 
+#: 
 msgid "OUTPUT DEVICE"
 msgstr "KIMENETI ESZKÖZ"
 
+#: 
 msgid "HDMI"
 msgstr "HDMI"
 
+#: 
 msgid "JACK"
 msgstr "JACK"
 
+#: 
 msgid "AUTO"
 msgstr "AUTO"
 
+#: 
 msgid "NETWORK SETTINGS"
 msgstr "HÁLÓZATI BEÁLLÍTÁSOK"
 
+#: 
 msgid "CONNECTED"
 msgstr "CSATLAKOZVA"
 
+#: 
 msgid "NOT CONNECTED"
 msgstr "NINCS CSATLAKOZVA"
 
+#: 
 msgid "STATUS"
 msgstr "STÁTUSZ"
 
+#: 
 msgid "IP ADDRESS"
 msgstr "IP CÍM"
 
+#: 
 msgid "HOSTNAME"
 msgstr "HOSZTNÉV"
 
+#: 
 msgid "ENABLE WIFI"
 msgstr "WIFI ENGEDÉLYEZÉSE"
 
+#: 
 msgid "WIFI SSID"
 msgstr "WIFI SSID"
 
-msgid "MANUAL INPUT"
-msgstr "MANUÁLIS BEVITEL"
-
+#: 
 msgid "WIFI KEY"
 msgstr "WIFI JELSZÓ"
 
+#: 
 msgid "WIFI ENABLED"
 msgstr "WIFI ENGEDÉLYEZVE"
 
+#: 
 msgid "WIFI CONFIGURATION ERROR"
 msgstr "WIFI BEÁLLÍTÁSI HIBA"
 
+#: 
 msgid "SCRAPER"
 msgstr "SCRAPER"
 
+#: 
 msgid "SCRAPE FROM"
 msgstr "LEKÉRÉS INNEN"
 
+#: 
 msgid "SCRAPE RATINGS"
 msgstr "ÉRTÉKELÉSEK LEKÉRÉSE"
 
+#: 
 msgid "SCRAPE NOW"
 msgstr "LEKÉRÉS INDÍTÁSA"
 
+#: 
 msgid "QUIT"
 msgstr "KILÉPÉS"
 
+#: 
 msgid "REALLY RESTART?"
 msgstr "BIZTOS ÚJRAINDÍTOD?"
 
+#: 
 msgid "RESTART SYSTEM"
 msgstr "ÚJRAINDÍTÁS"
 
+#: 
 msgid "REALLY SHUTDOWN?"
 msgstr "BIZTOS, HOGY LEÁLLÍTOD?"
 
+#: 
 msgid "SHUTDOWN SYSTEM"
 msgstr "LEÁLLÍTÁS"
 
-msgid "DEFAULT (%1%)"
-msgstr ""
-
+#: 
 msgid "Emulator"
 msgstr "Emulátor"
 
+#: 
 msgid "Core"
 msgstr "Core"
 
-msgid ""
-"YOU ARE GOING TO CONFIGURE A CONTROLLER. IF YOU HAVE ONLY ONE JOYSTICK, "
-"CONFIGURE THE DIRECTIONS KEYS AND SKIP JOYSTICK CONFIG BY HOLDING A BUTTON. "
-"IF YOU DO NOT HAVE A SPECIAL KEY FOR HOTKEY, CHOOSE THE SELECT BUTTON. SKIP "
-"ALL BUTTONS YOU DO NOT HAVE BY HOLDING A KEY. BUTTONS NAMES ARE BASED ON THE "
-"SNES CONTROLLER."
-msgstr ""
-"ITT TUDOD KONFIGURÁLNI A KONTROLLERED. HA CSAK EGY JOYSTICK-OD VAN, AKKOR "
-"AZT AZ IRÁNY GOMBOKRA KONFIGURÁLD, ÉS A JOYSTICK KONFIGURÁCIÓT UGORD ÁT EGY "
-"GOMB NYOMVATARTÁSÁVAL. HA NINCS KÜLÖN GOMBOD A GYORBILLENTYŰNEK, HASZNÁLD A "
-"SELECT GOMBOT. UGORD ÁT AZOKAT A GOMBOKAT, AMIK HIÁNYOZNAK BÁRMELYIK GOMB "
-"NYOMVATARTÁSÁVAL. A GOMBOK NEVEI MEGEGYEZNEK AZ SNES KONTROLLERÉVEL."
+#: 
+msgid "YOU ARE GOING TO CONFIGURE A CONTROLLER. IF YOU HAVE ONLY ONE JOYSTICK, CONFIGURE THE DIRECTIONS KEYS AND SKIP JOYSTICK CONFIG BY HOLDING A BUTTON. IF YOU DO NOT HAVE A SPECIAL KEY FOR HOTKEY, CHOOSE THE SELECT BUTTON. SKIP ALL BUTTONS YOU DO NOT HAVE BY HOLDING A KEY. BUTTONS NAMES ARE BASED ON THE SNES CONTROLLER."
+msgstr "ITT TUDOD KONFIGURÁLNI A KONTROLLERED. HA CSAK EGY JOYSTICK-OD VAN, AKKOR AZT AZ IRÁNY GOMBOKRA KONFIGURÁLD, ÉS A JOYSTICK KONFIGURÁCIÓT UGORD ÁT EGY GOMB NYOMVATARTÁSÁVAL. HA NINCS KÜLÖN GOMBOD A GYORBILLENTYŰNEK, HASZNÁLD A SELECT GOMBOT. UGORD ÁT AZOKAT A GOMBOKAT, AMIK HIÁNYOZNAK BÁRMELYIK GOMB NYOMVATARTÁSÁVAL. A GOMBOK NEVEI MEGEGYEZNEK AZ SNES KONTROLLERÉVEL."
 
 #. GUIMENU
+#: 
 msgid "CONFIGURE A CONTROLLER"
 msgstr "KONTROLLER KONFIGURÁLÁSA"
 
 #. Bluetooth
+#: 
 msgid "CONTROLLER PAIRED"
 msgstr "KONTROLLER PÁROSÍTVA"
 
+#: 
 msgid "UNABLE TO PAIR CONTROLLER"
 msgstr "NEM PÁROSÍTHATÓ A KONTROLLER"
 
+#: 
 msgid "AN ERROR OCCURED"
 msgstr "HIBA TÖRTÉNT"
 
+#: 
 msgid "NO CONTROLLERS FOUND"
 msgstr "NEM TALÁLHATÓ KONTROLLER"
 
+#: 
 msgid "PAIR A BLUETOOTH CONTROLLER"
 msgstr "BLUETOOTH KONTROLLER PÁROSÍTÁSA"
 
+#: 
 msgid "CONTROLLERS LINKS HAVE BEEN DELETED."
 msgstr "KONTROLLER PÁROSÍTÁSOK TÖRÖLVE."
 
+#: 
 msgid "FORGET BLUETOOTH CONTROLLERS"
 msgstr "BLUETOOTH KONTROLLER ELFELEJTÉSE"
 
+#: 
 msgid "INPUT P%i"
 msgstr "BEMENET P%i"
 
+#: 
 msgid "CHOOSE"
 msgstr "VÁLASZT"
 
+#: 
 msgid "SELECT"
 msgstr "SELECT"
 
+#: 
 msgid "OPTIONS"
 msgstr "BEÁLLÍTÁSOK"
 
+#: 
 msgid "JUMP TO LETTER"
 msgstr "BETŰHÖZ UGRÁS"
 
+#: 
 msgid "SORT GAMES BY"
 msgstr "JÁTÉKOK RENDEZÉSE"
 
 #. FAVORITES
+#: 
 msgid "FAVORITES ONLY"
 msgstr "CSAK KENDVENCEK"
 
+#: 
 msgid "EDIT THIS GAME'S METADATA"
 msgstr "JÁTÉK METAADATAINAK SZERKESZTÉSE"
 
+#: 
 msgid "SCRAPE THESE GAMES"
 msgstr "EZEN JÁTÉKOK LEKÉRÉSE"
 
+#: 
 msgid "All Games"
 msgstr "Minden Játék"
 
 #. MISSING SCRAPPER TRANSLATIONS
+#: 
 msgid "Only missing image"
 msgstr "Csak a hiányzó képek"
 
+#: 
 msgid "FILTER"
 msgstr "SZŰRŐ"
 
+#: 
 msgid "SCRAPE THESE SYSTEMS"
 msgstr "EZEN RENDSZEREK LEKÉRÉSE"
 
+#: 
 msgid "SYSTEMS"
 msgstr "RENDSZEREK"
 
+#: 
 msgid "USER DECIDES ON CONFLICTS"
 msgstr "FELHASZNÁLÓI BEAVATKOZÁS ÜTKÖZÉSKOR"
 
+#: 
 msgid "START"
 msgstr "START"
 
-msgid ""
-"WARNING: SOME OF YOUR SELECTED SYSTEMS DO NOT HAVE A PLATFORM SET. RESULTS "
-"MAY BE EVEN MORE INACCURATE THAN USUAL!\n"
+#: 
+msgid "WARNING: SOME OF YOUR SELECTED SYSTEMS DO NOT HAVE A PLATFORM SET. RESULTS MAY BE EVEN MORE INACCURATE THAN USUAL!\n"
 "CONTINUE ANYWAY?"
-msgstr ""
-"FIGYELEM: NÉHÁNY KIVÁLASZTOTT RENDSZERNEK NINCS PLATFORM BEÁLLÍTVA. AZ "
-"EREDMÉNYEK PONTATLANOK LEHETNEK!\n"
+msgstr "FIGYELEM: NÉHÁNY KIVÁLASZTOTT RENDSZERNEK NINCS PLATFORM BEÁLLÍTVA. AZ EREDMÉNYEK PONTATLANOK LEHETNEK!\n"
 "BIZTOS FOLYTATOD?"
 
+#: 
 msgid "NO GAMES FIT THAT CRITERIA."
 msgstr "NINCS A FELTÉTELEKNEK MEGFELELŐ JÁTÉK."
 
+#: 
 msgid "REALLY UPDATE?"
 msgstr "BIZTOS FRISSÍTESZ?"
 
+#: 
 msgid "NETWORK CONNECTION NEEDED"
 msgstr "HÁLÓZATI CSATLAKOZÁS SZÜKSÉGES"
 
+#: 
 msgid "UPDATE DOWNLOADED, THE SYSTEM WILL NOW REBOOT"
 msgstr "FRISSÍTÉS LETÖLTVE, A RENDSZER ÚJRAINDUL"
 
+#: 
 msgid "UPDATE FAILED, THE SYSTEM WILL NOW REBOOT"
 msgstr "FRISSÍTÉSI HIBA, A RENDSZER ÚJRAINDUL"
 
+#: 
 msgid "NO UPDATE AVAILABLE"
 msgstr "NINCS FRISSÍTÉS"
 
-msgid "AN ERROR OCCURED - DOWNLOADED"
-msgstr ""
-
+#: 
 msgid "enter emulator"
 msgstr "emulátor megadása"
 
+#: 
 msgid "enter core"
 msgstr "core megadása"
 
+#: 
 msgid "Ratio"
 msgstr "Képarány"
 
+#: 
 msgid "enter ratio"
 msgstr "képarány megadása"
 
+#: 
 msgid "Name"
 msgstr "Név"
 
+#: 
 msgid "enter game name"
 msgstr "játéknév megadása"
 
+#: 
 msgid "Description"
 msgstr "Leírás"
 
+#: 
 msgid "enter description"
 msgstr "leírás megadása"
 
+#: 
 msgid "Image"
 msgstr "Kép"
 
+#: 
 msgid "enter path to image"
 msgstr "kép elérésének megadása"
 
+#: 
 msgid "Thumbnail"
 msgstr "Bélyegkép"
 
+#: 
 msgid "enter path to thumbnail"
 msgstr "bélyegkép elérésének megadása"
 
+#: 
 msgid "enter rating"
 msgstr "értékelés megadása"
 
+#: 
 msgid "Release date"
 msgstr "Kiadás dátuma"
 
+#: 
 msgid "enter release date"
 msgstr "kiadás dátumának megadása"
 
+#: 
 msgid "enter game developer"
 msgstr "játék fejlesztőjének megadása"
 
+#: 
 msgid "enter game publisher"
 msgstr "játék kiadójának megadása"
 
+#: 
 msgid "enter game genre"
 msgstr "játék műfajának megadása"
 
+#: 
 msgid "enter number of players"
 msgstr "játékosok számának megadása"
 
+#: 
 msgid "Favorite"
 msgstr "Kedvenc"
 
+#: 
 msgid "enter favorite"
 msgstr "kedvenc megadása"
 
+#: 
 msgid "Region"
 msgstr "Régió"
 
+#: 
 msgid "enter region"
 msgstr "régió megadása"
 
+#: 
 msgid "Romtype"
 msgstr "Romtípus"
 
+#: 
 msgid "enter romtype"
 msgstr "romtípus megadása"
 
+#: 
 msgid "Hidden"
 msgstr "Elrejtve"
 
+#: 
 msgid "set hidden"
 msgstr "rejtettnek beállít"
 
+#: 
 msgid "Play count"
 msgstr "Játszások száma"
 
+#: 
 msgid "enter number of times played"
 msgstr "játszások számának megadása"
 
+#: 
 msgid "Last played"
 msgstr "Utoljára játszva"
 
+#: 
 msgid "enter last played date"
 msgstr "utoljára játszva idejének megadása"
 
+#: 
 msgid "%i GAME AVAILABLE"
 msgid_plural "%i GAMES AVAILABLE"
 msgstr[0] "%i JÁTÉK ELÉRHETŐ"
 msgstr[1] "%i JÁTÉK ELÉRHETŐ"
 
+#: 
 msgid "%i FAVORITE"
 msgid_plural "%i FAVORITES"
 msgstr[0] "%i KEDVENC"
 msgstr[1] "%i KEDVENC"
 
+#: 
 msgid "SCROLL"
 msgstr "GÖRGET"
 
+#: 
 msgid "LAUNCH"
 msgstr "ELINDÍT"
 
+#: 
 msgid "Times played"
 msgstr "Játszott idő"
 
+#: 
 msgid "MENU"
 msgstr "MENÜ"
 
-msgid "START KODI"
-msgstr "KODI INDÍTÁSA"
-
+#: 
 msgid "FILENAME, ASCENDING"
 msgstr "FÁJLNÉV, NÖVEKVŐ"
 
+#: 
 msgid "FILENAME, DESCENDING"
 msgstr "FÁJLNÉV, CSÖKKENŐ"
 
+#: 
 msgid "RATING, ASCENDING"
 msgstr "ÉRTÉKELÉS, NÖVEKVŐ"
 
+#: 
 msgid "RATING, DESCENDING"
 msgstr "ÉRTÉKELÉS, CSÖKKENŐ"
 
+#: 
 msgid "TIMES PLAYED, ASCENDING"
 msgstr "JÁTSZVA, NÖVEKVŐ"
 
+#: 
 msgid "TIMES PLAYED, DESCENDING"
 msgstr "JÁTSZVA, CSÖKKENŐ"
 
+#: 
 msgid "LAST PLAYED, ASCENDING"
 msgstr "UTOLJÁRA JÁTSZVA, NÖVEKVŐ"
 
+#: 
 msgid "LAST PLAYED, DESCENDING"
 msgstr "UTOLJÁRA JÁTSZVA, CSÖKKENŐ"
 
+#: 
 msgid "WORKING..."
 msgstr "DOLGOZOM..."
 
+#: 
 msgid "CHANGE"
 msgstr "VÁLTOZTAT"
 
+#: 
 msgid "never"
 msgstr "soha"
 
+#: 
 msgid "just now"
 msgstr "most"
 
+#: 
 msgid "%i sec ago"
 msgid_plural "%i secs ago"
 msgstr[0] "%i másodperce"
 msgstr[1] "%i másodperce"
 
+#: 
 msgid "%i min ago"
 msgid_plural "%i mins ago"
 msgstr[0] "%i perce"
 msgstr[1] "%i perce"
 
+#: 
 msgid "%i hour ago"
 msgid_plural "%i hours ago"
 msgstr[0] "%i órája"
 msgstr[1] "%i órája"
 
+#: 
 msgid "%i day ago"
 msgid_plural "%i days ago"
 msgstr[0] "%i napja"
 msgstr[1] "%i napja"
 
+#: 
 msgid "unknown"
 msgstr "ismeretlen"
 
+#: 
 msgid "SELECT ALL"
 msgstr "ÖSSZES"
 
+#: 
 msgid "SELECT NONE"
 msgstr "SEMELYIK"
 
+#: 
 msgid "%i SELECTED"
 msgid_plural "%i SELECTED"
 msgstr[0] "%i KIJELÖLVE"
 msgstr[1] "%i KIJELÖLVE"
 
+#: 
 msgid "UP"
 msgstr "FEL"
 
+#: 
 msgid "DOWN"
 msgstr "LE"
 
+#: 
 msgid "LEFT"
 msgstr "BAL"
 
+#: 
 msgid "RIGHT"
 msgstr "JOBB"
 
+#: 
 msgid "JOYSTICK 1 UP"
 msgstr "JOYSTICK 1 FEL"
 
+#: 
 msgid "JOYSTICK 1 LEFT"
 msgstr "JOYSTICK 1 LE"
 
+#: 
 msgid "JOYSTICK 2 UP"
 msgstr "JOYSTICK 2 FEL"
 
+#: 
 msgid "JOYSTICK 2 LEFT"
 msgstr "JOYSTICK 2 BAL"
 
+#: 
 msgid "PAGE UP"
 msgstr "LAPOZÁS FEL"
 
+#: 
 msgid "PAGE DOWN"
 msgstr "LAPOZÁS LE"
 
+#: 
 msgid "HOTKEY"
 msgstr "GYORSBILLENTYŰ"
 
+#: 
 msgid "CONFIGURING"
 msgstr "BEÁLLÍTÁS"
 
+#: 
 msgid "KEYBOARD"
 msgstr "BILLENTYŰZET"
 
+#: 
 msgid "GAMEPAD %i"
 msgstr "GAMEPAD %i"
 
-msgid "INPUT REQUIRED"
-msgstr ""
-
-msgid "(skipped)"
-msgstr ""
-
-msgid "UP/DOWN TO SKIP"
-msgstr ""
-
-msgid "A TO UNSET"
-msgstr ""
-
-msgid "DOWN TO SKIP AND KEEP [%1%]"
-msgstr ""
-
-msgid "UP/DOWN TO SKIP AND KEEP [%1%]"
-msgstr ""
-
 #. Config controllers missing translation
+#: 
 msgid "PRESS ANYTHING"
 msgstr "NYOMJ LE EGY GOMBOT"
 
+#: 
 msgid "ALREADY TAKEN"
 msgstr "MÁR BE VAN ÁLLÍTVA"
 
+#: 
 msgid "DISCARD CHANGES"
 msgstr "MÓDOSÍTÁSOK ELVETÉSE"
 
+#: 
 msgid "WELCOME"
 msgstr "ÜDVÖZÖLLEK"
 
+#: 
 msgid "CONFIGURE INPUT"
 msgstr "BEMENET KONFIGURÁLÁS"
 
+#: 
 msgid "%i GAMEPAD DETECTED"
 msgid_plural "%i GAMEPADS DETECTED"
 msgstr[0] "%i GAMEPAD ÉRZÉKELVE"
 msgstr[1] "%i GAMEPAD ÉRZÉKELVE"
 
+#: 
 msgid "NO GAMEPADS DETECTED"
 msgstr "NINCS GAMEPAD"
 
+#: 
 msgid "HOLD A BUTTON ON YOUR DEVICE TO CONFIGURE IT."
 msgstr "TARTS NYOMVA EGY GOMBOT A KONFIGURÁLÁSHOZ."
 
+#: 
 msgid "PRESS F4 TO QUIT AT ANY TIME."
 msgstr "NYOMJ BÁRHOL F4-ET A KILÉPÉSHEZ."
 
+#: 
 msgid "PRESS ESC OR THE HOTKEY TO CANCEL."
 msgstr "NYOMJ ESC-ET VAGY A GYORSBILLENTYŰT A MEGSZAKÍTÁSHOZ."
 
+#: 
 msgid "DO YOU WANT TO START KODI MEDIA CENTER ?"
 msgstr "ELINDÍTOD A KODI MEDIA CENTERT?"
 
+#: 
 msgid "LOADING..."
 msgstr "BETÖLTÉS..."
 
+#: 
 msgid "PLEASE WAIT..."
 msgstr "KÉRLEK VÁRJ..."
 
+#: 
 msgid "REALLY SHUTDOWN WITHOUT SAVING METADATAS?"
 msgstr "BIZTOS LEÁLLÍTOD A METAADATOK MENTÉSE NÉLKÜL?"
 
+#: 
 msgid "FAST SHUTDOWN SYSTEM"
 msgstr "GYORS LEÁLLÍTÁS"
 
-msgid ""
-"WE CAN'T FIND ANY SYSTEMS!\n"
-"CHECK THAT YOUR PATHS ARE CORRECT IN THE SYSTEMS CONFIGURATION FILE, AND "
-"YOUR GAME DIRECTORY HAS AT LEAST ONE GAME WITH THE CORRECT EXTENSION.\n"
+#: 
+msgid "WE CAN'T FIND ANY SYSTEMS!\n"
+"CHECK THAT YOUR PATHS ARE CORRECT IN THE SYSTEMS CONFIGURATION FILE, AND YOUR GAME DIRECTORY HAS AT LEAST ONE GAME WITH THE CORRECT EXTENSION.\n"
 "\n"
 "VISIT RECALBOX.FR FOR MORE INFORMATION."
-msgstr ""
-"NEM TALÁLHATÓ JÁTÉK!\n"
-"ELLENŐRIZD, HOGY AZ ELÉRÉSI UTAK RENDBEN VANNAK A RENDSZER KONFIGURÁCIÓS "
-"FÁJLBAN, ÉS A JÁTÉK KÖNYVTÁRÁBAN LEGALÁBB EGY JÁTÉK TALÁLHATÓ A MEGFELELŐ "
-"KITERJESZTÉSSEL.\n"
+msgstr "NEM TALÁLHATÓ JÁTÉK!\n"
+"ELLENŐRIZD, HOGY AZ ELÉRÉSI UTAK RENDBEN VANNAK A RENDSZER KONFIGURÁCIÓS FÁJLBAN, ÉS A JÁTÉK KÖNYVTÁRÁBAN LEGALÁBB EGY JÁTÉK TALÁLHATÓ A MEGFELELŐ KITERJESZTÉSSEL.\n"
 "\n"
 "TÖBB INFORMÁCIÓ A RECALBOX.FR OLDALON."
 
+#: 
 msgid "ON SCREEN KEYBOARD"
 msgstr "KÉPERNYŐ BILLENTYŰZET"
 
+#: 
 msgid "SHIFTS FOR UPPER,LOWER, AND SPECIAL"
 msgstr "VÁLTÁS NAGYBETŰ, KISBETŰ, SPECIÁLIS KÖZÖTT"
 
+#: 
 msgid "SPACE"
 msgstr "SZÓKÖZ"
 
+#: 
 msgid "DELETE A CHAR"
 msgstr "KARAKTER TÖRLÉSE"
 
+#: 
 msgid "SHIFT"
 msgstr "SHIFT"
 
+#: 
 msgid "STOP EDITING"
 msgstr "SZERKESZTÉS VÉGE"
 
+#: 
 msgid "MOVE CURSOR"
 msgstr "KURZOR MOZGATÁSA"
 
+#: 
 msgid "EDIT"
 msgstr "SZERKESZT"
 
+#: 
 msgid "ACCEPT RESULT"
 msgstr "EREDMÉNYEK MENTÉSE"
 
+#: 
 msgid "FILENAME"
 msgstr "FÁJLNÉV"
 
+#: 
 msgid "RATING"
 msgstr "ÉRTÉKELÉS"
 
+#: 
 msgid "TIMES PLAYED"
 msgstr "JÁTSZOTT IDŐ"
 
+#: 
 msgid "LAST PLAYED"
 msgstr "UTOLJÁRA JÁTSZVA"
 
+#: 
 msgid "NUMBER OF PLAYERS"
 msgstr "JÁTÉKOSOK SZÁMA"
 
+#: 
 msgid "DEVELOPER"
 msgstr "FEJLESZTŐ"
 
+#: 
 msgid "GENRE"
 msgstr "MŰFAJ"
 
+#: 
 msgid "SHOW HIDDEN"
 msgstr "REJTETT MUTATÁSA"
 
-msgid "SHOW FOLDERS CONTENT"
-msgstr ""
-
+#: 
 msgid "EXTREM (1400Mhz)"
 msgstr "EXTRÉM (1400Mhz)"
 
+#: 
 msgid "TURBO (1350Mhz)"
 msgstr "TURBO (1350Mhz)"
 
+#: 
 msgid "HIGH (1300Mhz)"
 msgstr "HIGH (1300MHz)"
 
-msgid ""
-"TURBO AND EXTREM OVERCLOCK PRESETS MAY CAUSE SYSTEM UNSTABILITIES, SO USE "
-"THEM AT YOUR OWN RISK.\n"
+#: 
+msgid "TURBO AND EXTREM OVERCLOCK PRESETS MAY CAUSE SYSTEM UNSTABILITIES, SO USE THEM AT YOUR OWN RISK.\n"
 "IF YOU CONTINUE, THE SYSTEM WILL REBOOT NOW."
-msgstr ""
-"TURBO ÉS EXTRÉM OVERCLOCK BEÁLLÍTÁSOK RENDSZER INSTABILITÁST OKOZHATHATNAK, "
-"HASZNÁLD ŐKET SAJÁT FELELŐSSÉGEDRE.\n"
+msgstr "TURBO ÉS EXTRÉM OVERCLOCK BEÁLLÍTÁSOK RENDSZER INSTABILITÁST OKOZHATHATNAK, HASZNÁLD ŐKET SAJÁT FELELŐSSÉGEDRE.\n"
 "HA FOLYTATOD, A RENDSZER ÚJRA FOG INDULNI."
 
+#: 
 msgid "%i GAME HIDDEN"
 msgid_plural "%i GAMES HIDDEN"
 msgstr[0] "%I JÁTÉK ELREJTVE"
 msgstr[1] "%I JÁTÉK ELREJTVE"
 
+#: 
 msgid "Start kodi media player."
 msgstr "Kodi médiaplayer elindítása."
 
-msgid ""
-"Select the language for your recalbox, select an external drive to store "
-"your games and configurations, check your current version and the free space "
-"on your drive"
-msgstr ""
-"Válassz nyelvet, válassz egy külső meghajtót a játékok és a beállítások "
-"tárolására, ellenőrizd az aktuális verziót és a szabad helyet a merevlemezen"
+#: 
+msgid "Select the language for your recalbox, select an external drive to store your games and configurations, check your current version and the free space on your drive"
+msgstr "Válassz nyelvet, válassz egy külső meghajtót a játékok és a beállítások tárolására, ellenőrizd az aktuális verziót és a szabad helyet a merevlemezen"
 
+#: 
 msgid "Shows your current recalboxOS version."
 msgstr "Mutasd az aktuális recalboxOS verziót."
 
-msgid ""
-"Show how much space is used on your SHARE partition, located either on the "
-"SDCARD or on an external drive. The information shows how much GB are used "
-"and how much GB your storage has overall (example 13GB/26GB)."
-msgstr ""
-"Ellenőrizhető, mennyi szabad hely van az SD kártyán, vagy a külső meghajtón "
-"található SHARE partíción. A kijelzett informácó megmutatja, mennyi GB "
-"foglalt, és mennyi GB a teljes tárhely (pl.: 13GB/26GB)"
+#: 
+msgid "Show how much space is used on your SHARE partition, located either on the SDCARD or on an external drive. The information shows how much GB are used and how much GB your storage has overall (example 13GB/26GB)."
+msgstr "Ellenőrizhető, mennyi szabad hely van az SD kártyán, vagy a külső meghajtón található SHARE partíción. A kijelzett informácó megmutatja, mennyi GB foglalt, és mennyi GB a teljes tárhely (pl.: 13GB/26GB)"
 
-msgid ""
-"Select an external drive to store your roms, saves, configurations etc.\n"
-"Use a FAT32 formatted drive. The system does not format the drive. On first "
-"boot, with this option enabled, recalbox will create a '/recalbox' folder "
-"with all system files inside."
-msgstr ""
-"Válassz ki egy külső meghajtót a rom-ok, mentések, konfigurációk stb. "
-"tárolásához. Használj FAT32-es formátumot. A rendszer nem formázza a "
-"meghajtót. Első indításkor, ha ez az opció engedélyezve van, a recalbox "
-"létrehoz egy '/recalbox' könyvtárat az összes fájllal együtt."
+#: 
+msgid "Select an external drive to store your roms, saves, configurations etc.\n"
+"Use a FAT32 formatted drive. The system does not format the drive. On first boot, with this option enabled, recalbox will create a '/recalbox' folder with all system files inside."
+msgstr "Válassz ki egy külső meghajtót a rom-ok, mentések, konfigurációk stb. tárolásához. Használj FAT32-es formátumot. A rendszer nem formázza a meghajtót. Első indításkor, ha ez az opció engedélyezve van, a recalbox létrehoz egy '/recalbox' könyvtárat az összes fájllal együtt."
 
-msgid ""
-"Select your language. A reboot is needed to set this configuration active."
+#: 
+msgid "Select your language. A reboot is needed to set this configuration active."
 msgstr "Válassz nyelvet. Újraindítás szükséges az alkalmazásához."
 
-msgid ""
-"Manage your recalbox updates. Select the update type. Activate update check."
-msgstr ""
-"Recalbox frissítések menedzselése. Válaszd ki a frissítés típusát. Aktiváld "
-"a frissítés ellenőrzését."
+#: 
+msgid "Manage your recalbox updates. Select the update type. Activate update check."
+msgstr "Recalbox frissítések menedzselése. Válaszd ki a frissítés típusát. Aktiváld a frissítés ellenőrzését."
 
+#: 
 msgid "Check if an update is available, and start the update process."
 msgstr "Frissítés ellenőrzése, és a frissítési folyamat elindítása."
 
-msgid ""
-"Stable updates will check for updates on stable recalbox releases. Stable "
-"updates are tested and approved by the recalbox team and their testers.\n"
-"Unstable updates allows you to get the latest recalbox features by checking "
-"our unstable repository. You can test and validate with us the very last "
-"version of recalbox.\n"
-"If you choose unstable update, be so kind to report issues on the recalbox-"
-"os issue board (https://github.com/recalbox/recalbox-os/issues)"
-msgstr ""
-"Stabil frissítések csak a stabil recalbox kiadásokat tölti le. A stabil "
-"frissítések tesztelve, és jóváhagyva vannak a recalbox fejlesztői és "
-"tesztelői által.\n"
-"Instabil frissítések választásával lehetőséged van frissíteni a legfrissebb "
-"instabil verzióra. Tesztelheted velünk a legutolsó verzióját a recalboxnak.\n"
-"Ha instabil frissítéseket választod. kérlek jelentsd ha találsz egy hibát a "
-"hibabejelentő oldalon (https://github.com/recalbox/recalbox-os/issues)"
+#: 
+msgid "Stable updates will check for updates on stable recalbox releases. Stable updates are tested and approved by the recalbox team and their testers.\n"
+"Unstable updates allows you to get the latest recalbox features by checking our unstable repository. You can test and validate with us the very last version of recalbox.\n"
+"If you choose unstable update, be so kind to report issues on the recalbox-os issue board (https://github.com/recalbox/recalbox-os/issues)"
+msgstr "Stabil frissítések csak a stabil recalbox kiadásokat tölti le. A stabil frissítések tesztelve, és jóváhagyva vannak a recalbox fejlesztői és tesztelői által.\n"
+"Instabil frissítések választásával lehetőséged van frissíteni a legfrissebb instabil verzióra. Tesztelheted velünk a legutolsó verzióját a recalboxnak.\n"
+"Ha instabil frissítéseket választod. kérlek jelentsd ha találsz egy hibát a hibabejelentő oldalon (https://github.com/recalbox/recalbox-os/issues)"
 
-msgid ""
-"Automatically check if an update is avaialble. If so, it notifies you with a "
-"message."
-msgstr ""
-"Automatikusan ellenőrzi a frissítéseket. Ha van újabb verzió, üzenet jelenít "
-"meg."
+#: 
+msgid "Automatically check if an update is avaialble. If so, it notifies you with a message."
+msgstr "Automatikusan ellenőrzi a frissítéseket. Ha van újabb verzió, üzenet jelenít meg."
 
-msgid "Shows the current available update version."
-msgstr ""
+#: 
+msgid "Configure games display, ratio, filters (shaders), auto save and load and retroachievement account."
+msgstr "Konfiguráld a játékok megjelenését, képarányát, filereket (shaderek), automatikus mentést és visszatöltést, és retroachievement fiókot."
 
-msgid "Shows the current available update changelog."
-msgstr ""
+#: 
+msgid "The game ratio is the ratio between image width and image height. Use AUTO to let the emulator choose the original game ratio, that will give you the best retrogaming experience."
+msgstr "A képarány a kép szélességének és magasságának aránya. Használd az AUTO beállítást, hogy az emulátor a játékhoz állítsa a képarányt, ezzel elérve a legjobb játékélményt."
 
-msgid ""
-"Configure games display, ratio, filters (shaders), auto save and load and "
-"retroachievement account."
-msgstr ""
-"Konfiguráld a játékok megjelenését, képarányát, filereket (shaderek), "
-"automatikus mentést és visszatöltést, és retroachievement fiókot."
+#: 
+msgid "Smooth the game image. This option makes the image smoother, using bilinear filtering."
+msgstr "Játék képének simítása. Ez az opció simává teszi a játék képét bilineáris filter használatával."
 
-msgid ""
-"The game ratio is the ratio between image width and image height. Use AUTO "
-"to let the emulator choose the original game ratio, that will give you the "
-"best retrogaming experience."
-msgstr ""
-"A képarány a kép szélességének és magasságának aránya. Használd az AUTO "
-"beállítást, hogy az emulátor a játékhoz állítsa a képarányt, ezzel elérve a "
-"legjobb játékélményt."
+#: 
+msgid "This option allows you to rewind the game if you get killed by a monster, or if you make any other mistake. Use the HOTKEY + LEFT command within the game to rewind."
+msgstr "Ez az opció lehetővé teszi a visszatekerést a játékban, ha elvesztettél egy életet, vagy hibáztál. Használ a GYORSBILLENTYŰ + BALRA gombot a visszatekeréshez."
 
-msgid ""
-"Smooth the game image. This option makes the image smoother, using bilinear "
-"filtering."
-msgstr ""
-"Játék képének simítása. Ez az opció simává teszi a játék képét bilineáris "
-"filter használatával."
+#: 
+msgid "Auto save the state when you quit a game, and auto load last saved state when you start a game."
+msgstr "Automatikusan elmenti a játékmenetet, és automatikusan visszatölti a következő indításkor."
 
-msgid ""
-"This option allows you to rewind the game if you get killed by a monster, or "
-"if you make any other mistake. Use the HOTKEY + LEFT command within the game "
-"to rewind."
-msgstr ""
-"Ez az opció lehetővé teszi a visszatekerést a játékban, ha elvesztettél egy "
-"életet, vagy hibáztál. Használ a GYORSBILLENTYŰ + BALRA gombot a "
-"visszatekeréshez."
+#: 
+msgid "Integer scaling is scaling by a factor of a whole number, such as 2x, 3x, 4x, etc. This option scales the image up to the greatest integer scale below the set resolution. So for instance, if you set your fullscreen resolution to 1920x1080 and enable integer scaling, it will only scale a 320x240 image up to 1280x960, and leave black borders all around. This is to maintain a 1:1 pixel ratio with the original source image, so that pixels are not unevenly duplicated."
+msgstr "Egész nagyítás egész számú szorzóval, pl.: 2x, 3x, 4x, stb. Ez az opció átméretezi a képet a lehető legnagyobb egész számú szorzóval a kiválasztott felbontásig. Például, ha a felbontás 1920x1080 és engedélyezed az egész nagyítást, a 320x240-es képet 1280x960-ra méretezi, körben egy fekete kerettel. Ezzel azonos lesz a pixelarány az eredeti képpel, és nem lesznek elmosott pixelek."
 
-msgid ""
-"Auto save the state when you quit a game, and auto load last saved state "
-"when you start a game."
-msgstr ""
-"Automatikusan elmenti a játékmenetet, és automatikusan visszatölti a "
-"következő indításkor."
+#: 
+msgid "Shaders are like filters for the game rendering. You can select a shader set here, which is a collection of shaders selected for each system. You can also change the shader within the game with HOTKEY + L2 or HOTKEY + R2."
+msgstr "Itt tudsz választani shader csomagot, ami egy shader gyűjtemény minden egyes rendszerhez. Játék közben az aktuális shader megváltoztatható a GYORSBILLENTYŰ + L2 és GYORSBILLENTYŰ + R2 gombokkal."
 
-msgid ""
-"Integer scaling is scaling by a factor of a whole number, such as 2x, 3x, "
-"4x, etc. This option scales the image up to the greatest integer scale below "
-"the set resolution. So for instance, if you set your fullscreen resolution "
-"to 1920x1080 and enable integer scaling, it will only scale a 320x240 image "
-"up to 1280x960, and leave black borders all around. This is to maintain a "
-"1:1 pixel ratio with the original source image, so that pixels are not "
-"unevenly duplicated."
-msgstr ""
-"Egész nagyítás egész számú szorzóval, pl.: 2x, 3x, 4x, stb. Ez az opció "
-"átméretezi a képet a lehető legnagyobb egész számú szorzóval a kiválasztott "
-"felbontásig. Például, ha a felbontás 1920x1080 és engedélyezed az egész "
-"nagyítást, a 320x240-es képet 1280x960-ra méretezi, körben egy fekete "
-"kerettel. Ezzel azonos lesz a pixelarány az eredeti képpel, és nem lesznek "
-"elmosott pixelek."
-
-msgid ""
-"Shaders are like filters for the game rendering. You can select a shader set "
-"here, which is a collection of shaders selected for each system. You can "
-"also change the shader within the game with HOTKEY + L2 or HOTKEY + R2."
-msgstr ""
-"Itt tudsz választani shader csomagot, ami egy shader gyűjtemény minden egyes "
-"rendszerhez. Játék közben az aktuális shader megváltoztatható a "
-"GYORSBILLENTYŰ + L2 és GYORSBILLENTYŰ + R2 gombokkal."
-
+#: 
 msgid "Enable or disable RetroAchievements in games."
 msgstr "RetroAchievements engedélyezése a játékokban."
 
+#: 
 #, fuzzy
-msgid ""
-"Hardcore mode disables *all* savestate and rewind functions within the "
-"emulator: you will not be able to save and reload at any time. You will have "
-"to complete the game and get the achievements first time, just like on the "
-"original console. In reward for this, you will earn both the standard and "
-"the hardcore achievement, in effect earning double points! A regular game "
-"worth 400 points, is now worth 800 if you complete it on hardcore! For "
-"example: if you complete the game for 400 points, you then have the "
-"opportunity to earn another 400 on hardcore."
-msgstr ""
-"A hardcore mód kikapcsolja a játékmentés és visszatekerés funkciókat az "
-"emulátorban: nem fogod tudni bármikor menteni és visszatölteni a "
-"játékállást. Be kell fejezned a játékot, és teljesíteni a kihívást ugyanúgy, "
-"mint az eredeti konzolnál. Jutalomként ha teljesíted az eredeti és a "
-"hardcore kihívást is, dupla pontot kapsz! A rendszeres játékért 400 pont "
-"kapható, de most 800, ha teljesíted hardcore módban is!  Például ha "
-"befejezted a játékot 400 pontért, kaphatsz mellé még 400-at, ha hardcore "
-"módban is teljesíted."
+msgid "Hardcore mode disables *all* savestate and rewind functions within the emulator: you will not be able to save and reload at any time. You will have to complete the game and get the achievements first time, just like on the original console. In reward for this, you will earn both the standard and the hardcore achievement, in effect earning double points! A regular game worth 400 points, is now worth 800 if you complete it on hardcore! For example: if you complete the game for 400 points, you then have the opportunity to earn another 400 on hardcore."
+msgstr "A hardcore mód kikapcsolja a játékmentés és visszatekerés funkciókat az emulátorban: nem fogod tudni bármikor menteni és visszatölteni a játékállást. Be kell fejezned a játékot, és teljesíteni a kihívást ugyanúgy, mint az eredeti konzolnál. Jutalomként ha teljesíted az eredeti és a hardcore kihívást is, dupla pontot kapsz! A rendszeres játékért 400 pont kapható, de most 800, ha teljesíted hardcore módban is!  Például ha befejezted a játékot 400 pontért, kaphatsz mellé még 400-at, ha hardcore módban is teljesíted."
 
-msgid ""
-"The website retroachievements.org proposes challenges/achievements/trophies "
-"on platforms like NES, SNES, GB, GBC, GBA, Genesis/Megadrive, TurboGrafx16/"
-"PCEngine and more! Create your account on retroachievements.org and start "
-"your quest for achievements!"
-msgstr ""
-"A retroachievements.org tartalmazza a kihívásokat/eredményeket/trófeákat a "
-"platformokhoz, mint a NES, SNES, GB, GBC, GBA, Genesis/Megadrive, "
-"TurboGrafx16/PCEngine és így tovább! Hozz létre fiókot retroachievements.org-"
-"on és indítsd el a kihívásaidat a legjobb eredményekért!"
+#: 
+msgid "The website retroachievements.org proposes challenges/achievements/trophies on platforms like NES, SNES, GB, GBC, GBA, Genesis/Megadrive, TurboGrafx16/PCEngine and more! Create your account on retroachievements.org and start your quest for achievements!"
+msgstr "A retroachievements.org tartalmazza a kihívásokat/eredményeket/trófeákat a platformokhoz, mint a NES, SNES, GB, GBC, GBA, Genesis/Megadrive, TurboGrafx16/PCEngine és így tovább! Hozz létre fiókot retroachievements.org-on és indítsd el a kihívásaidat a legjobb eredményekért!"
 
+#: 
 msgid "Add and configure up to 5 controllers."
 msgstr "Add hozzá és konfigurálj max 5 kontrollert."
 
-msgid ""
-"Configure an associated controller. Your controller has to be associated / "
-"plugged before."
-msgstr ""
+#: 
+msgid "Pair a bluetooth controller with your recalbox. Your controller must be in pairing mode."
+msgstr "Bluetooth kontroller párosítása. A kontrollernek párósítás módban kell lennie."
 
-msgid ""
-"Pair a bluetooth controller with your recalbox. Your controller must be in "
-"pairing mode."
-msgstr ""
-"Bluetooth kontroller párosítása. A kontrollernek párósítás módban kell "
-"lennie."
+#: 
+msgid "Forget all paired bluetooth controllers. You will have to pair your controllers again, but this option can help if you have issues to reconnect a controller, which is already paired."
+msgstr "Az összes párosított bluetooth kontroller elfelejtése. Ezután újra tudod párosítani a kontrollereket. Akkor használd, ha csatlakozási problémáid vannak, pedig a kontroller párosítva van."
 
-msgid ""
-"Forget all paired bluetooth controllers. You will have to pair your "
-"controllers again, but this option can help if you have issues to reconnect "
-"a controller, which is already paired."
-msgstr ""
-"Az összes párosított bluetooth kontroller elfelejtése. Ezután újra tudod "
-"párosítani a kontrollereket. Akkor használd, ha csatlakozási problémáid "
-"vannak, pedig a kontroller párosítva van."
+#: 
+msgid "Configure your EmulationStation experience. Select transition types, help prompts, screensaver behavior. You can also deactivate the onscreen keyboard if you have a real keyboard plugged into your recalbox.\n"
+"If you've added games since the last boot, you can also refresh the gamelist from this menu."
+msgstr "EmulationStation élmény konfigurálása. Válasz ki az átmenet típusát, segítség megjelenítését, képernyőkímélő viselkedését. Ki tudod kapcsolni a képernyő billentyűzetet, ha van csatlakoztatva külső billentyűzet.\n"
+"Ha van hozzáadva új játék az utolsó indítás óta, itt tudod frissíteni a játéklistát."
 
-msgid ""
-"Configure your EmulationStation experience. Select transition types, help "
-"prompts, screensaver behavior. You can also deactivate the onscreen keyboard "
-"if you have a real keyboard plugged into your recalbox.\n"
-"If you've added games since the last boot, you can also refresh the gamelist "
-"from this menu."
-msgstr ""
-"EmulationStation élmény konfigurálása. Válasz ki az átmenet típusát, "
-"segítség megjelenítését, képernyőkímélő viselkedését. Ki tudod kapcsolni a "
-"képernyő billentyűzetet, ha van csatlakoztatva külső billentyűzet.\n"
-"Ha van hozzáadva új játék az utolsó indítás óta, itt tudod frissíteni a "
-"játéklistát."
-
+#: 
 msgid "Start the screensaver after N minutes."
 msgstr "Képernyővédő indítása N perc múlva."
 
-msgid ""
-"Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
-"will turn the screen black."
-msgstr ""
-"Képernyőkímélő viselkedése. DIM csökkenti a fényerőt, a BLACK lekapcsolja a "
-"kijelzőt."
+#: 
+msgid "Set the screensaver behavior. DIM will reduce the screen light, and BLACK will turn the screen black."
+msgstr "Képernyőkímélő viselkedése. DIM csökkenti a fényerőt, a BLACK lekapcsolja a kijelzőt."
 
-msgid ""
-"Shows a help at the bottom of the screen which displays commands you can use."
+#: 
+msgid "Shows a help at the bottom of the screen which displays commands you can use."
 msgstr "Segítség mutatása a képernyő alján, melyik parancsot lehet használni."
 
-msgid ""
-"When enabled, you can switch between systems while browsing a gamelist by "
-"pressing LEFT or RIGHT."
-msgstr ""
-"Ha engedélyezve van, tudsz váltani a rendszerek között a BALRA és JOBBRA "
-"gombokkal."
+#: 
+msgid "When enabled, you can switch between systems while browsing a gamelist by pressing LEFT or RIGHT."
+msgstr "Ha engedélyezve van, tudsz váltani a rendszerek között a BALRA és JOBBRA gombokkal."
 
-msgid ""
-"The onscreen keyboard is necessary to type text if you only have controllers "
-"plugged into your recalbox. You can disable it if you have a real keyboard "
-"connected."
-msgstr ""
-"Képernyő billentyűzet szövegbevitelhez, ha csak kontroller van "
-"csatlakoztatva a recalboxhoz. Kikapcsolható, ha külső billenytűzet is "
-"csatlakoztatva van."
+#: 
+msgid "The onscreen keyboard is necessary to type text if you only have controllers plugged into your recalbox. You can disable it if you have a real keyboard connected."
+msgstr "Képernyő billentyűzet szövegbevitelhez, ha csak kontroller van csatlakoztatva a recalboxhoz. Kikapcsolható, ha külső billenytűzet is csatlakoztatva van."
 
-msgid "Choose if carousel will be animated or not during transitions"
-msgstr ""
-
-msgid ""
-"Select the type of transition that occurs when you start a game. INSTANT "
-"will do nothing, FADE will fade to dark, and SLIDE will zoom on the game "
-"cover (or name if there is no scrape information)"
-msgstr ""
-
+#: 
 msgid "Select a theme for your recalbox."
 msgstr "Válassz egy témát a recalboxhoz."
 
-msgid "Select exisiting colorset options for this theme."
-msgstr ""
-
-msgid "Select exisiting iconset options for this theme."
-msgstr ""
-
-msgid "Select exisiting menu style options for this theme."
-msgstr ""
-
-msgid "Select exisiting system view options for this theme."
-msgstr ""
-
-msgid "Select exisiting gamelist view options for this theme."
-msgstr ""
-
-msgid "Configure theme options if available."
-msgstr ""
-
-msgid ""
-"Select Region of logos, pictures for system that are different for some "
-"countries. E.g. Megadrive in EU / Genesis in US"
-msgstr ""
-
+#: 
 msgid "Updates the gamelists, if you added games since the last boot."
 msgstr "Frissítsd a játéklistát, ha adtál hozzá a legutolsó indítás óta."
 
+#: 
 msgid "Configure the sound options of your recalbox."
 msgstr "Hangbeállítások"
 
+#: 
 msgid "Set the volume of the sound output for the frontend and the games."
 msgstr "Hangerő beállítása a főképernyőn és a játékokban."
 
-msgid ""
-"Enable or disable the frontend music. You can add your own music as mp3, or "
-"ogg format in the 'musics' directory of your recalbox."
-msgstr ""
-"Háttérzene engedélyezése a főképernyőn. Hozzáadhatod saját mp3, vagy ogg "
-"formátumú zenédet a 'musics' könyvtárban."
+#: 
+msgid "Enable or disable the frontend music. You can add your own music as mp3, or ogg format in the 'musics' directory of your recalbox."
+msgstr "Háttérzene engedélyezése a főképernyőn. Hozzáadhatod saját mp3, vagy ogg formátumú zenédet a 'musics' könyvtárban."
 
+#: 
 msgid "Select your output device. Only HDMI and JACK are supported."
 msgstr "Hangkimenet kiválasztása. Csak HDMI és JACK támogatott."
 
-msgid ""
-"Configure the network options of your recalbox.\n"
-"Check your network status and IP address, set the hostname and configure the "
-"WIFI."
-msgstr ""
-"Hálózati beállítások konfigurálása.\n"
-"Ellenőrizd a hálózati kapcsolatot és IP címet, állítsd be a hosztnevet, és "
-"konfiguráld a WIFI-t."
+#: 
+msgid "Configure the network options of your recalbox.\n"
+"Check your network status and IP address, set the hostname and configure the WIFI."
+msgstr "Hálózati beállítások konfigurálása.\n"
+"Ellenőrizd a hálózati kapcsolatot és IP címet, állítsd be a hosztnevet, és konfiguráld a WIFI-t."
 
-msgid ""
-"Displays CONNECTED, if you are connected, by checking if your recalbox can "
-"access the recalbox.com update server."
-msgstr ""
-"CSATLAKOZVA felirat jelenik meg, ha kapcsolatot tud létesíteni a recalbox a "
-"recalbox.com frissítési szerverrel."
+#: 
+msgid "Displays CONNECTED, if you are connected, by checking if your recalbox can access the recalbox.com update server."
+msgstr "CSATLAKOZVA felirat jelenik meg, ha kapcsolatot tud létesíteni a recalbox a recalbox.com frissítési szerverrel."
 
+#: 
 msgid "The IP address of your recalbox within your local network."
 msgstr "A recalbox IP címe a helyi hálózaton."
 
-msgid ""
-"Enable or disable WIFI.\n"
-"If you disable WIFI, the SSID and the WIFI passwords are saved and can be "
-"used when you reactivate it"
-msgstr ""
-"WIFI engedélyezése.\n"
-"Ha kikapcsolod a WIFI-t, az SSID és a WIFI jelszó elmentve marad a következő "
-"engedélyezésig."
+#: 
+msgid "Enable or disable WIFI.\n"
+"If you disable WIFI, the SSID and the WIFI passwords are saved and can be used when you reactivate it"
+msgstr "WIFI engedélyezése.\n"
+"Ha kikapcsolod a WIFI-t, az SSID és a WIFI jelszó elmentve marad a következő engedélyezésig."
 
+#: 
 msgid "The name of your recalbox in your local network"
 msgstr "A recalbox neve a helyi hálózaton."
 
+#: 
 msgid "SSID (WIFI Name) of your network."
 msgstr "Hálózat SSID-je (WIFI név)"
 
-msgid "Type the name of your SSID if it is hidden or not listed"
-msgstr ""
-
+#: 
 msgid "Private key of your WIFI network."
 msgstr "Privát kulcs a WIFI hálózathoz"
 
-msgid ""
-"Get informations and visual for your games. The scraper downloads metadata "
-"and visuals for your games from different servers and enhances the user "
-"experience in EmulationStation completely."
-msgstr ""
-"Kérd le az információkat és a képeket a játékokhoz. A lekérés letölti a "
-"metaadatokat és a képeket a játékokhoz, és növeli a felhasználói élményt az "
-"EmulationStation-ben."
+#: 
+msgid "Get informations and visual for your games. The scraper downloads metadata and visuals for your games from different servers and enhances the user experience in EmulationStation completely."
+msgstr "Kérd le az információkat és a képeket a játékokhoz. A lekérés letölti a metaadatokat és a képeket a játékokhoz, és növeli a felhasználói élményt az EmulationStation-ben."
 
-msgid ""
-"Select a server to scrape from. The SCREENSCRAPER server is recommended and "
-"is based on www.screenscraper.fr and scrapes game data in your language, if "
-"available."
-msgstr ""
-"Válaszd ki a szervert a lekérésekhez. A SCREENSCRAPER szerver ajánlott, "
-"aminek a címe www.screescraper.fr, és a lekért adatok a beállított nyelven "
-"történnek, ha az elérhető."
+#: 
+msgid "Select a server to scrape from. The SCREENSCRAPER server is recommended and is based on www.screenscraper.fr and scrapes game data in your language, if available."
+msgstr "Válaszd ki a szervert a lekérésekhez. A SCREENSCRAPER szerver ajánlott, aminek a címe www.screescraper.fr, és a lekért adatok a beállított nyelven történnek, ha az elérhető."
 
+#: 
 msgid "Begin the scrape process with the configuration shown below."
 msgstr "Lekérés indítása az alábbi beállítások alkalmazásával."
 
+#: 
 msgid "Scrape and display game ratings."
 msgstr "Értékelések lekérése és mutatása."
 
-msgid ""
-"Advanced settings. Please make sure you really know what you're doing, "
-"before changing any values in this menu."
-msgstr ""
-"Haladó beállítások. Csak akkor váltosztass meg egy beállítást, ha tisztában "
-"vagy vele mire való."
+#: 
+msgid "Advanced settings. Please make sure you really know what you're doing, before changing any values in this menu."
+msgstr "Haladó beállítások. Csak akkor váltosztass meg egy beállítást, ha tisztában vagy vele mire való."
 
-msgid ""
-"Overclock your board to increase the performance.\n"
-"Overclock settings are tested and validated by the community. Keep in mind "
-"that overclocking your board can void your warranty."
-msgstr ""
-"Overclock-old az alaplapod a teljesítmény növeléséhez.\n"
+#: 
+msgid "Overclock your board to increase the performance.\n"
+"Overclock settings are tested and validated by the community. Keep in mind that overclocking your board can void your warranty."
+msgstr "Overclock-old az alaplapod a teljesítmény növeléséhez.\n"
 "Az overclock beállítások le vannak tesztelve a közösség által.\n"
 "A beállítások használata az alaplap garanciájának elvesztésével járhat."
 
-msgid ""
-"Select which system to show when the recalbox frontend starts. The default "
-"value is 'favorites'."
-msgstr ""
-"Válaszd ki melyik rendszer jelenjen meg indításkor. Alapértelmezésben a "
-"'kedvencek' jelenik meg."
+#: 
+msgid "Select which system to show when the recalbox frontend starts. The default value is 'favorites'."
+msgstr "Válaszd ki melyik rendszer jelenjen meg indításkor. Alapértelmezésben a 'kedvencek' jelenik meg."
 
-msgid ""
-"On boot, recalbox will show the list of games of the selected system rather "
-"than the system view."
-msgstr ""
-"Indításkor a recalbox a játéklistát mutatja a kiválasztott rendszerhez, nem "
-"pedig a rendszer nézetet."
+#: 
+msgid "On boot, recalbox will show the list of games of the selected system rather than the system view."
+msgstr "Indításkor a recalbox a játéklistát mutatja a kiválasztott rendszerhez, nem pedig a rendszer nézetet."
 
-msgid ""
-"Only show games contained in the gamelist.xml file (located in your roms "
-"directories).\n"
+#: 
+msgid "Only show games contained in the gamelist.xml file (located in your roms directories).\n"
 "This option highly speeds up boot time, but new games will not be detected."
-msgstr ""
-"Csak azokat a játékokat mutatja, amik a gamelist.xml fájlban szerepelnek (a "
-"roms könyvtárban található).\n"
-"Ez az opció gyorsabb indítást tesz lehetővé, de az új játékok nem jelennek "
-"meg."
+msgstr "Csak azokat a játékokat mutatja, amik a gamelist.xml fájlban szerepelnek (a roms könyvtárban található).\n"
+"Ez az opció gyorsabb indítást tesz lehetővé, de az új játékok nem jelennek meg."
 
-msgid ""
-"This option allows you to set the selected system to fixed mode. With this "
-"option activated, the user cannot access other systems."
-msgstr ""
-"Ez az opció csak a kiválasztott rendszert mutatja. Ebben a módban nem lehet "
-"hozzáférni más rendszerekhez."
+#: 
+msgid "This option allows you to set the selected system to fixed mode. With this option activated, the user cannot access other systems."
+msgstr "Ez az opció csak a kiválasztott rendszert mutatja. Ebben a módban nem lehet hozzáférni más rendszerekhez."
 
-msgid ""
-"Always display the basic gamelist view, even if you have scraped your games."
-msgstr ""
-"Mindig az alap játéklistát jeleníti meg, akkor is ha vannak lekért adatok a "
-"játékokhoz."
+#: 
+msgid "Always display the basic gamelist view, even if you have scraped your games."
+msgstr "Mindig az alap játéklistát jeleníti meg, akkor is ha vannak lekért adatok a játékokhoz."
 
-msgid ""
-"Override global options like emulator, core, ratio and more for each "
-"available system in your recalbox."
-msgstr ""
-"Globális beállítások felülírása, mint emulátor, core, képarány és minden, "
-"ami az adott rendszerhez elérhető."
+#: 
+msgid "Override global options like emulator, core, ratio and more for each available system in your recalbox."
+msgstr "Globális beállítások felülírása, mint emulátor, core, képarány és minden, ami az adott rendszerhez elérhető."
 
-msgid ""
-"Configure boot options that make your recalbox boot straight into a system "
-"or into Kodi, lock a user to a single system, or directly show the gamelist."
-msgstr ""
-"Indítási beállítások konfigurálása, hogy a recalbox egy adott rendzserrel, "
-"vagy Kodiban induljon, egy adott rendszerre zárolás, vagy csak a játéklista "
-"mutatása."
+#: 
+msgid "Configure boot options that make your recalbox boot straight into a system or into Kodi, lock a user to a single system, or directly show the gamelist."
+msgstr "Indítási beállítások konfigurálása, hogy a recalbox egy adott rendzserrel, vagy Kodiban induljon, egy adott rendszerre zárolás, vagy csak a játéklista mutatása."
 
-msgid ""
-"Enable or disable Kodi, customize the Kodi startup, enable the X button to "
-"start Kodi"
-msgstr ""
-"Kodi engedélyezése, Kodi indításának konfigurálása, Kodi X gombbal "
-"indulásának engedélyezése."
+#: 
+msgid "Enable or disable Kodi, customize the Kodi startup, enable the X button to start Kodi"
+msgstr "Kodi engedélyezése, Kodi indításának konfigurálása, Kodi X gombbal indulásának engedélyezése."
 
-msgid ""
-"Enable or disable Kodi. If kodi is disabled, you won't be able to start it "
-"with the X button, or start it automatically at boot. The menu entry will be "
-"removed as well."
-msgstr ""
-"Kodi engedélyezése. Ha a Kodi nincs engedélyezve, nem lehet elindítani az X "
-"gombbal, vagy automatikus indítással. A menüből ezek a beállítások el "
-"lesznek távolítva."
+#: 
+msgid "Enable or disable Kodi. If kodi is disabled, you won't be able to start it with the X button, or start it automatically at boot. The menu entry will be removed as well."
+msgstr "Kodi engedélyezése. Ha a Kodi nincs engedélyezve, nem lehet elindítani az X gombbal, vagy automatikus indítással. A menüből ezek a beállítások el lesznek távolítva."
 
+#: 
 msgid "Use the X button to start Kodi."
 msgstr "Használd az X gombot a Kodi indításához."
 
+#: 
 msgid "Automatically start into Kodi on boot."
 msgstr "Kodi automaikus indítása bootoláskor."
 
+#: 
 msgid "Manage your recalbox security."
 msgstr "Recalbox biztonság konfigurálása."
 
+#: 
 msgid "Change the SSH root password."
 msgstr "SSH root jelszó megváltoztatása."
 
+#: 
 msgid "Enforce recalbox security."
 msgstr "Recalbox biztonság érvényesítése."
 
-msgid ""
-"Enable or disable overscan.\n"
-"Overscan can help you, if you have a black border, or if the image is bigger "
-"than your screen. Before setting the overscan, try to configure your TV to "
-"have a 1:1 pixel output.\n"
-"More overscan settings can be defined in the boot.txt file, available when "
-"you plug your SD card into your computer."
-msgstr ""
-"Overscan engedélyezése.\n"
-"Az overscan abban segít, ha fekete keret jelenik meg, vagy a játék kilóg a "
-"képből. Mielőtt engedélyezed az overscan-t, próbáld meg konfigurálni a TV "
-"felbontásához.\n"
-"További overscan beállítások találhatók még a boot.txt fájlban, ami elérhető "
-"az SD kártyán, ami kártyaolvasóban számítógépről szerkeszthető."
+#: 
+msgid "Enable or disable overscan.\n"
+"Overscan can help you, if you have a black border, or if the image is bigger than your screen. Before setting the overscan, try to configure your TV to have a 1:1 pixel output.\n"
+"More overscan settings can be defined in the boot.txt file, available when you plug your SD card into your computer."
+msgstr "Overscan engedélyezése.\n"
+"Az overscan abban segít, ha fekete keret jelenik meg, vagy a játék kilóg a képből. Mielőtt engedélyezed az overscan-t, próbáld meg konfigurálni a TV felbontásához.\n"
+"További overscan beállítások találhatók még a boot.txt fájlban, ami elérhető az SD kártyán, ami kártyaolvasóban számítógépről szerkeszthető."
 
+#: 
 msgid "Show the framerate in EmulationStation and in game."
 msgstr "Képfrissítés megjelenítése az EmulationStation-ban és a játékokban."
 
-msgid ""
-"Enable or disable the Recalbox Manager.\n"
-"The Recalbox Manager is a web application available on http://recalbox , if "
-"you are on windows, http://recalbox.local , if you are on Linux or Mac, or "
-"directly with your recalbox IP : http://192.168.1.XX.\n"
-"You can configure many options from within the manager, and even manage "
-"games, saves, and scrapes!"
-msgstr ""
-"Recalbox Manager engedélyezése.\n"
-"A Recalbox Manager egy webes applikáció, aminek elérése windowson a http://"
-"recalbox, Linuxon és Mac-en http://recalbox.local, vagy a recalbox IP címe: "
-"http://192.168.1.XX.\n"
-"Ezen keresztül konfigurálható a legtöbb beállítás, és menedszelhetőek a "
-"játékok, mentések, és lekérések!"
+#: 
+msgid "Enable or disable the Recalbox Manager.\n"
+"The Recalbox Manager is a web application available on http://recalbox , if you are on windows, http://recalbox.local , if you are on Linux or Mac, or directly with your recalbox IP : http://192.168.1.XX.\n"
+"You can configure many options from within the manager, and even manage games, saves, and scrapes!"
+msgstr "Recalbox Manager engedélyezése.\n"
+"A Recalbox Manager egy webes applikáció, aminek elérése windowson a http://recalbox, Linuxon és Mac-en http://recalbox.local, vagy a recalbox IP címe: http://192.168.1.XX.\n"
+"Ezen keresztül konfigurálható a legtöbb beállítás, és menedszelhetőek a játékok, mentések, és lekérések!"
 
-msgid ""
-"Enable or disable the recalbox API.\n"
-"The Recalbox API is a REST API exposing endpoints to control your recalbox "
-"via http requests."
-msgstr ""
-"Recalbox API engedélyezése.\n"
-"A Recalbox API egy REST API, amivel vezérelhető a recalbox http kéréseken "
-"keresztül."
+#: 
+msgid "Enable or disable the recalbox API.\n"
+"The Recalbox API is a REST API exposing endpoints to control your recalbox via http requests."
+msgstr "Recalbox API engedélyezése.\n"
+"A Recalbox API egy REST API, amivel vezérelhető a recalbox http kéréseken keresztül."
 
+#: 
 msgid "Select which emulator to use when you start a game for this system."
 msgstr "Válaszd ki melyik emulátor használja ehhez a rendszerhez."
 
-msgid ""
-"Select which core to use for the selected emulator. For example, the "
-"LIBRETRO emulator has many cores to run Super Nintendo games. The default "
-"core you choose here can also be overridden in game specific settings."
-msgstr ""
-"Válaszd ki melyik core-t használja a kiválasztott emulátor. Például a "
-"LIBRETRO emulátor több core-t is tartalmaz Super Nintendo játékok "
-"futtatásához. Az itt kiválasztott alapértelmezett core felülírja a "
-"játékspecifikus beállításokat."
+#: 
+msgid "Select which core to use for the selected emulator. For example, the LIBRETRO emulator has many cores to run Super Nintendo games. The default core you choose here can also be overridden in game specific settings."
+msgstr "Válaszd ki melyik core-t használja a kiválasztott emulátor. Például a LIBRETRO emulátor több core-t is tartalmaz Super Nintendo játékok futtatásához. Az itt kiválasztott alapértelmezett core felülírja a játékspecifikus beállításokat."
 
-msgid ""
-"Select a letter and the listing will go directly on the first game starting "
-"with this letter."
-msgstr ""
-
-msgid ""
-"Select the way the game list is sortered (alphabetically, by notation...)."
-msgstr ""
-
-msgid ""
-"Switch between seing or not only the favorites games. To add a game in the "
-"favorite list, select the game and toggle its state using 'Y'."
-msgstr ""
-
-msgid ""
-"Switch between seing or not the hidden games. To hide a game, edit its data "
-"and select 'Hide'."
-msgstr ""
-
-msgid ""
-"Switch between seeing the folders structure and seeing all games in a "
-"flatten top level."
-msgstr ""
-
-msgid ""
-"This option display a menu which allows to change game data and many others "
-"options."
-msgstr ""
-
+#: 
 msgid "USE COMPOSED VISUALS"
 msgstr "ABLAKOS MEGJELENÍTÉS"
 
+#: 
 msgid "CHECK UPDATES"
 msgstr "FRISSÍTÉSEK ELLENŐRZÉSE"
 
-msgid "AVAILABLE UPDATE"
-msgstr "ELÉRHETŐ FRISSÍTÉS"
-
-msgid "UPDATE CHANGELOG"
-msgstr "VÁLTOZÁSOK FRISSÍTÉSE"
-
+#: 
 msgid "UPDATE TYPE"
 msgstr "FRISSÍTÉS TÍPUSA"
 
+#: 
 msgid "INTEGER SCALE (PIXEL PERFECT)"
 msgstr "EGÉSZ NAGYÍTÁS (PIXEL PERFECT)"
 
+#: 
 msgid "ADVANCED SETTINGS"
 msgstr "HALADÓ BEÁLLÍTÁSOK"
 
+#: 
 msgid "BOOT SETTINGS"
 msgstr "INDÍTÁSI BEÁLLÍTÁSOK"
 
+#: 
 msgid "GAMELIST ONLY"
 msgstr "CSAK JÁTÉKLISTA"
 
+#: 
 msgid "BOOT ON SYSTEM"
 msgstr "INDÍTÁS RENDSZERREL"
 
+#: 
 msgid "BOOT ON GAMELIST"
 msgstr "INDÍTÁS JÁTÉKLISTÁVAL"
 
+#: 
 msgid "HIDE SYSTEM VIEW"
 msgstr "RENDSZER NÉZET ELREJTÉSE"
 
+#: 
 msgid "EMULATOR ADVANCED CONFIGURATION"
 msgstr "EMULÁTOR HALADÓ BEÁLLÍTÁSOK"
 
+#: 
 msgid "ADVANCED EMULATOR CONFIGURATION"
 msgstr "HALADÓ EMULÁTOR BEÁLLÍTÁSOK"
 
+#: 
 msgid "HELP"
 msgstr "SEGÍTSÉG"
 
+#: 
 msgid "THE SYSTEM IS UP TO DATE"
 msgstr "A RENDSZER NAPRAKÉSZ"
 
+#: 
 msgid "FORCE BASIC GAMELIST VIEW"
 msgstr "ALAP JÁTÉKLISTA NÉZET"
 
+#: 
+msgid "DOWNLOADED"
+msgstr "LETÖLTVE"
+
+#: 
+msgid "UPDATE VERSION:"
+msgstr "FRISSÍTÉS VERZIÓ:"
+
+#: 
+msgid "UPDATE CHANGELOG:"
+msgstr "FRISSÍTÉS VÁLTOZÁSOK:"
+
+#: 
+msgid "MORE DETAILS"
+msgstr "TÖBB RÉSZLET"
+
+#: 
+msgid "CAROUSEL ANIMATION"
+msgstr ""
+
+#: 
+msgid "THEME CONFIGURATION"
+msgstr ""
+
+#: 
+msgid "THEME COLORSET"
+msgstr "TÉMA SZÍNEI"
+
+#: 
+msgid "THEME ICONSET"
+msgstr "TÉMA IKONJAI"
+
+#: 
+msgid "THEME MENU"
+msgstr "TÉMA MENÜ"
+
+#: 
+msgid "THEME SYSTEMVIEW"
+msgstr "TÉMA RENDSZERNÉZET"
+
+#: 
+msgid "THEME GAMELISTVIEW"
+msgstr ""
+
+#: 
+msgid "THEME REGION"
+msgstr "TÉMA RÉGIÓ"
+
+#: 
+msgid "THIS THEME HAS NO OPTION"
+msgstr "EHHEZ A TÉMÁHOZ NINCSENEK BEÁLLÍTÁSOK"
+
+#: 
+msgid "MANUAL INPUT"
+msgstr "MANUÁLIS BEVITEL"
+
+#: 
+msgid "AN ERROR OCCURED - DOWNLOADED"
+msgstr ""
+
+#: 
+msgid "START KODI"
+msgstr "KODI INDÍTÁSA"
+
+#: 
+msgid "Shows the current available update version."
+msgstr ""
+
+#: 
+msgid "Shows the current available update changelog."
+msgstr ""
+
+#: 
+msgid "Configure an associated controller. Your controller has to be associated / plugged before."
+msgstr ""
+
+#: 
+msgid "Choose if carousel will be animated or not during transitions"
+msgstr ""
+
+#: 
+msgid "Select the type of transition that occurs when you start a game. INSTANT will do nothing, FADE will fade to dark, and SLIDE will zoom on the game cover (or name if there is no scrape information)"
+msgstr ""
+
+#: 
+msgid "Select exisiting colorset options for this theme."
+msgstr ""
+
+#: 
+msgid "Select exisiting iconset options for this theme."
+msgstr ""
+
+#: 
+msgid "Select exisiting menu style options for this theme."
+msgstr ""
+
+#: 
+msgid "Select exisiting system view options for this theme."
+msgstr ""
+
+#: 
+msgid "Select exisiting gamelist view options for this theme."
+msgstr ""
+
+#: 
+msgid "Configure theme options if available."
+msgstr ""
+
+#: 
+msgid "Select Region of logos, pictures for system that are different for some countries. E.g. Megadrive in EU / Genesis in US"
+msgstr ""
+
+#: 
+msgid "Type the name of your SSID if it is hidden or not listed"
+msgstr ""
+
+#: 
+msgid "Select a letter and the listing will go directly on the first game starting with this letter."
+msgstr ""
+
+#: 
+msgid "Select the way the game list is sortered (alphabetically, by notation...)."
+msgstr ""
+
+#: 
+msgid "Switch between seing or not only the favorites games. To add a game in the favorite list, select the game and toggle its state using 'Y'."
+msgstr ""
+
+#: 
+msgid "Switch between seing or not the hidden games. To hide a game, edit its data and select 'Hide'."
+msgstr ""
+
+#: 
+msgid "This option display a menu which allows to change game data and many others options."
+msgstr ""
+
+#: 
+msgid "AVAILABLE UPDATE"
+msgstr "ELÉRHETŐ FRISSÍTÉS"
+
+#: 
+msgid "UPDATE CHANGELOG"
+msgstr "VÁLTOZÁSOK FRISSÍTÉSE"
+
+#: 
+msgid "CLOCK IN MENU"
+msgstr "ÓRA A MENÜBEN"
+
+#: 
 msgid "Now playing"
 msgstr ""
 
+#: 
+msgid "DEFAULT (%1%)"
+msgstr ""
+
+#: 
+msgid "INPUT REQUIRED"
+msgstr ""
+
+#: 
+msgid "(skipped)"
+msgstr ""
+
+#: 
+msgid "UP/DOWN TO SKIP"
+msgstr ""
+
+#: 
+msgid "A TO UNSET"
+msgstr ""
+
+#: 
+msgid "DOWN TO SKIP AND KEEP [%1%]"
+msgstr ""
+
+#: 
+msgid "UP/DOWN TO SKIP AND KEEP [%1%]"
+msgstr ""
+
+#: 
 msgid "Set duration of help popups, 0 means no popup."
 msgstr ""
 
+#: 
 msgid "HELP POPUP DURATION"
 msgstr ""
 
+#: 
 msgid "Set duration of music popups, 0 means no popup."
 msgstr ""
 
+#: 
 msgid "MUSIC POPUP DURATION"
 msgstr ""
 
+#: 
 msgid "POPUP SETTINGS"
 msgstr ""
 
+#: 
 msgid "POPUP POSITION"
 msgstr ""
 
+#: 
 msgid "Select the position of popups on screen."
 msgstr ""
 
+#: 
 msgid "Set position and duration of popups."
 msgstr ""
 
+#: 
 msgid "TOP/RIGHT"
 msgstr ""
 
+#: 
 msgid "BOTTOM/RIGHT"
 msgstr ""
 
+#: 
 msgid "BOTTOM/LEFT"
 msgstr ""
 
+#: 
 msgid "TOP/LEFT"
 msgstr ""
 
+#: 
+msgid "SHOW FOLDERS CONTENT"
+msgstr ""
+
+#: 
+msgid "Switch between seeing the folders structure and seeing all games in a flatten top level."
+msgstr ""
+
+#: 
 msgid "NETPLAY"
 msgstr ""
 
+#: 
 msgid "NETPLAY SETTINGS"
 msgstr ""
 
+#: 
 msgid "NETPLAY LOBBY"
 msgstr ""
 
+#: 
 msgid "Enable or disable Netplay in games."
 msgstr ""
 
+#: 
 msgid "PORT"
 msgstr ""
 
+#: 
 msgid "NICKNAME"
 msgstr ""
 
+#: 
 msgid "RELAY SERVER"
 msgstr ""
 
+#: 
 msgid "Enable or disable connections throught relay servers."
 msgstr ""
 
-msgid ""
-"Play online on games running through Retroarch like NES, SNES, FBA, Genesis/"
-"Megadrive and more!"
-msgstr ""
-
+#: 
 msgid "KODI/NETPLAY"
 msgstr ""
 
+#: 
 msgid "NO GAMES OR NO CONNECTION"
 msgstr ""
 
+#: 
 msgid "HASH NOW"
 msgstr ""
 
+#: 
 msgid "HASH THESE SYSTEMS"
 msgstr ""
 
-msgid ""
-"Add hash of roms in your gamelists to have more accurate results in Netplay."
+#: 
+msgid "Add hash of roms in your gamelists to have more accurate results in Netplay."
 msgstr ""
 
+#: 
 msgid "HASH ROMS"
 msgstr ""
 
+#: 
 msgid "Only missing hashs"
 msgstr ""
 
+#: 
 msgid "Username"
 msgstr ""
 
+#: 
 msgid "Country"
 msgstr ""
 
+#: 
 msgid "Latency"
 msgstr ""
 
+#: 
 msgid "Host arch."
 msgstr ""
 
+#: 
 msgid "Core ver."
 msgstr ""
 
+#: 
 msgid "RA ver."
 msgstr ""
 
+#: 
 msgid "Can join"
 msgstr ""
 
+#: 
 msgid "Rom and core match"
 msgstr ""
 
-msgid "Rom, hash and core match"
+#: 
+msgid "Rom found"
 msgstr ""
 
+#: 
 msgid "No rom match"
 msgstr ""
 
-msgid "No core match"
-msgstr ""
-
+#: 
 msgid "Match"
 msgstr ""
 
+#: 
 msgid "No Match"
 msgstr ""
 
+#: 
 msgid "Rom file"
 msgstr ""
 
+#: 
 msgid "Rom hash"
 msgstr ""
 
+#: 
 msgid "THIS COULD TAKE A WHILE, CONFIRM?"
 msgstr ""
 
+#: 
 msgid "good"
 msgstr ""
 
+#: 
 msgid "bad"
 msgstr ""
 
+#: 
 msgid "medium"
 msgstr ""
 
+#: 
 msgid "NETPLAY POPUP DURATION"
 msgstr ""
 
+#: 
 msgid "Set duration of netplay popups, 0 means no popup."
 msgstr ""
 
+#: 
 msgid "Player"
 msgstr ""
 
+#: 
 msgid "Game"
 msgstr ""
 
+#: 
 msgid "A Recalbox friend has started a Netplay game!"
 msgstr ""
 
+#: 
+msgid "Play online on games running through Retroarch like NES, SNES, FBA, Genesis/Megadrive and more!"
+msgstr ""
+
+#: 
+msgid "Rom, hash and core match"
+msgstr ""
+
+#: 
+msgid "No core match"
+msgstr ""
+
+#: 
 msgid "Add a clock in the main menu."
 msgstr ""
 
-#. UPGRADE PROCESS
-msgid "UPGRADING"
-msgstr ""
-
-msgid "PREPARING"
-msgstr ""
-
-msgid "VERIFYING"
-msgstr ""
-
-msgid "EMPTY LIST"
-msgstr ""

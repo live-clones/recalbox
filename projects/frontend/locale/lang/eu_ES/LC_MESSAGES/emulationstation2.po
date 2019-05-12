@@ -1,1597 +1,1841 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: recalbox-emulationstation\n"
-"Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: POEditor.com\n"
+"Project-Id-Version: recalbox-emulationstation\n"
+"Language: eu\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: 
 msgid "AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"
 msgstr "ZURE RECALBOX-arentzat EGUNERAKETA BAT DAGO"
 
-msgid "DOWNLOADED"
-msgstr "DESKARGATUTA"
-
-msgid "UPDATE VERSION:"
-msgstr "EGUNERAKETA BERTSIOA:"
-
-msgid "UPDATE CHANGELOG:"
-msgstr "EGUNERAKETA ALDAKETAK:"
-
+#: 
 msgid "CANCEL"
 msgstr "EZEZTATU"
 
+#: 
 msgid "Rating"
 msgstr "Puntuazioa"
 
+#: 
 msgid "Released"
 msgstr "Argitaratuta"
 
+#: 
 msgid "Developer"
 msgstr "Garatzailea"
 
+#: 
 msgid "Publisher"
 msgstr "Argitaratzailea"
 
+#: 
 msgid "Genre"
 msgstr "Generoa"
 
+#: 
 msgid "Players"
 msgstr "Jokalariak"
 
+#: 
 msgid "NO GAMES FOUND - SKIP"
 msgstr "EZ DIRA JOKUAK AURKITU - TXANDAPASA"
 
+#: 
 msgid "RETRY"
 msgstr "BERRIRO SAIATU"
 
+#: 
 msgid "SKIP"
 msgstr "TXANDAPASA"
 
+#: 
 msgid "SEARCH FOR"
 msgstr "BILATU:"
 
+#: 
 msgid "SEARCH"
 msgstr "BILATU"
 
+#: 
 msgid "SCRAPING IN PROGRESS"
 msgstr "DATUAK LORTZEN"
 
+#: 
 msgid "SYSTEM"
 msgstr "SISTEMA"
 
+#: 
 msgid "subtitle text"
 msgstr "azpititulu testua"
 
+#: 
 msgid "INPUT"
 msgstr "EDITATU"
 
+#: 
 msgid "search"
 msgstr "bilatu"
 
+#: 
 msgid "STOP"
 msgstr "GELDITU"
 
+#: 
 msgid "stop (progress saved)"
 msgstr "gelditu (orain artekoa gordeta)"
 
+#: 
 msgid "GAME %i OF %i"
 msgstr "%i/%i JOKOA"
 
-msgid ""
-"WE CAN'T FIND ANY SYSTEMS!\n"
-"CHECK THAT YOUR PATHS ARE CORRECT IN THE SYSTEMS CONFIGURATION FILE, AND "
-"YOUR GAME DIRECTORY HAS AT LEAST ONE GAME WITH THE CORRECT EXTENSION.\n"
+#: 
+msgid "WE CAN'T FIND ANY SYSTEMS!\n"
+"CHECK THAT YOUR PATHS ARE CORRECT IN THE SYSTEMS CONFIGURATION FILE, AND YOUR GAME DIRECTORY HAS AT LEAST ONE GAME WITH THE CORRECT EXTENSION.\n"
 "\n"
 "VISIT RECALBOX.COM FOR MORE INFORMATION."
-msgstr ""
-"EZ DA JOKORIK AURKITU SISTEMAN !\n"
+msgstr "EZ DA JOKORIK AURKITU SISTEMAN !\n"
 "MESEDEZ, JARRAITU ARGIBIDEAK JOKOAK GEHITZEKO.\n"
 "\n"
 "RECALBOX.COM-EN BISITA GAITZAZU INFORMAZIO GEHIAGO ESKURATZEKO"
 
+#: 
 msgid "%i GAME SUCCESSFULLY SCRAPED!"
 msgid_plural "%i GAMES SUCCESSFULLY SCRAPED!"
 msgstr[0] "JOKO %iEN DATUAK ONGI LORTUAK!"
 msgstr[1] "%i JOKOREN DATUAK ONGI LORTUAK!"
 
+#: 
 msgid "%i GAME SKIPPED."
 msgid_plural "%i GAMES SKIPPED."
 msgstr[0] "JOKO %i TXANDAPASA EGINDA"
 msgstr[1] "%i JOKO TXANDAPASA EGINDA"
 
+#: 
 msgid "OK"
 msgstr "ADOS"
 
+#: 
 msgid "EDIT METADATA"
 msgstr "DATUAK EDITATU"
 
-msgid "MORE DETAILS"
-msgstr "XEHETASUN GEHIAGO:"
-
+#: 
 msgid "SCRAPE"
 msgstr "DATUAK LORTU"
 
+#: 
 msgid "SAVE"
 msgstr "GORDE"
 
-msgid ""
-"THIS WILL DELETE A FILE!\n"
+#: 
+msgid "THIS WILL DELETE A FILE!\n"
 "ARE YOU SURE?"
-msgstr ""
-"FITXATEGI BAT EZABATZERA ZOAZ!\n"
+msgstr "FITXATEGI BAT EZABATZERA ZOAZ!\n"
 " ZIUR AL ZAUDE?"
 
+#: 
 msgid "YES"
 msgstr "BAI"
 
+#: 
 msgid "NO"
 msgstr "EZ"
 
+#: 
 msgid "DELETE"
 msgstr "EZABATU"
 
+#: 
 msgid "SAVE CHANGES?"
 msgstr "ALDAKETAK GORDE?"
 
+#: 
 msgid "BACK"
 msgstr "ATZERA"
 
+#: 
 msgid "CLOSE"
 msgstr "ITXI"
 
+#: 
 msgid "MAIN MENU"
 msgstr "MENU NAGUSIA"
 
+#: 
 msgid "KODI MEDIA CENTER"
 msgstr "KODI MEDIA CENTER-a"
 
+#: 
 msgid "SYSTEM SETTINGS"
 msgstr "SISTEMAREN KONFIGURAZIOA"
 
+#: 
 msgid "VERSION"
 msgstr "BERTSIOA"
 
+#: 
 msgid "DISK USAGE"
 msgstr "DISKO ERABILERA"
 
+#: 
 msgid "STORAGE DEVICE"
 msgstr "MEMORIA"
 
+#: 
 msgid "LANGUAGE"
 msgstr "HIZKUNTZA"
 
+#: 
 msgid "OVERCLOCK"
 msgstr "OVERCLOCK"
 
+#: 
 msgid "EXTREM (1100Mhz)"
 msgstr "MUTURREKO (1100Mhz)"
 
+#: 
 msgid "TURBO (1000Mhz)"
 msgstr "TURBO (1000MHz)"
 
+#: 
 msgid "HIGH (950Mhz)"
 msgstr "ALTUA (950Mhz)"
 
+#: 
 msgid "NONE (700Mhz)"
 msgstr "BAT ERE EZ (700Mhz)"
 
+#: 
 msgid "TURBO (1050Mhz)+"
 msgstr "TURBO (1050Mhz)+"
 
+#: 
 msgid "HIGH (1050Mhz)"
 msgstr "ALTUA (1050Mhz)"
 
+#: 
 msgid "NONE (900Mhz)"
 msgstr "BAT ERE EZE (900Mhz)"
 
+#: 
 msgid "NONE (1200Mhz)"
 msgstr "BAT ERE EZ (1200Mhz)"
 
+#: 
 msgid "NONE"
 msgstr "BAT ERE EZ"
 
 #. NEW SETTINGS ORGANIZATION
+#: 
 msgid "UPDATES"
 msgstr "EGUNERAKETAK"
 
+#: 
 msgid "AUTO UPDATES"
 msgstr "EGUNERAKETA AUTOMATIKOAK"
 
+#: 
 msgid "START UPDATE"
 msgstr "EGUNERAKETA HASI"
 
+#: 
 msgid "KODI SETTINGS"
 msgstr "KODI-ren KONFIGURAZIOA"
 
+#: 
 msgid "ENABLE KODI"
 msgstr "KODI AKTIBATU"
 
+#: 
 msgid "KODI AT START"
 msgstr "HASI KODI ABIARAZTEAN"
 
+#: 
 msgid "START KODI WITH X"
 msgstr "X SAKATU KODI ABIARAZTEKO"
 
+#: 
 msgid "SECURITY"
 msgstr "SEGURTASUNA"
 
+#: 
 msgid "ENFORCE SECURITY"
 msgstr "ZIURTATU SEGURTASUNA"
 
+#: 
 msgid "ROOT PASSWORD"
 msgstr "ROOT PASAHITZA"
 
+#: 
 msgid "THE SYSTEM WILL NOW REBOOT"
 msgstr "SISTEMA BERRABIARAZIKO DA"
 
+#: 
 msgid "GAMES SETTINGS"
 msgstr "JOKOEN KONFIGURAZIOAK"
 
+#: 
 msgid "GAME RATIO"
 msgstr "JOKOAREN RATIOA"
 
+#: 
 msgid "SMOOTH GAMES"
 msgstr "JOKUAK LEUNDU"
 
+#: 
 msgid "REWIND"
 msgstr "ATZERA ERAMAN"
 
+#: 
 msgid "AUTO SAVE/LOAD"
 msgstr "AUTO GORDE/KARGATU"
 
+#: 
 msgid "SHADERS SET"
 msgstr "EZARRI SHADER-ak"
 
+#: 
 msgid "SCANLINES"
 msgstr "SCANLINE-ak"
 
+#: 
 msgid "RETRO"
 msgstr "RETRO"
 
+#: 
 msgid "RETROACHIEVEMENTS SETTINGS"
 msgstr "RETROACHIVEMENTS EZARPENAK"
 
+#: 
 msgid "RETROACHIEVEMENTS"
 msgstr "RETROACHIVEMENTS"
 
+#: 
 msgid "HARDCORE MODE"
 msgstr "HARDCORE MODUA"
 
+#: 
 msgid "USERNAME"
 msgstr "ERABILTZAILE IZENA"
 
+#: 
 msgid "PASSWORD"
 msgstr "PASAHITZA"
 
+#: 
 msgid "ADVANCED"
 msgstr "AURRERATUA"
 
+#: 
 msgid "REALLY UPDATE GAMES LISTS ?"
 msgstr "ZIUR JOKO ZERRENDAK EGUNERATU NAHI DITUZULA?"
 
+#: 
 msgid "UPDATE GAMES LISTS"
 msgstr "EGUNERATU JOKO ZERRENDAK"
 
+#: 
 msgid "CONTROLLERS SETTINGS"
 msgstr "AGINTEEN KONFIGURAZIOAK"
 
+#: 
 msgid "UI SETTINGS"
 msgstr "INTERFAZEAREN EZARPENAK"
 
+#: 
 msgid "OVERSCAN"
 msgstr "OVERSCAN"
 
+#: 
 msgid "SCREENSAVER AFTER"
 msgstr "PANTAILA BABESLEA ZENBAT SEGUNDU ONDOREN:"
 
-msgid "CAROUSEL ANIMATION"
-msgstr "KARRUSEL ANIMAZIOA"
-
+#: 
 msgid "TRANSITION STYLE"
 msgstr "TRANTSIZIO MOTA"
 
+#: 
 msgid "SCREENSAVER BEHAVIOR"
 msgstr "PANTAILA BABESLEAREN PORTAERA"
 
+#: 
 msgid "SHOW FRAMERATE"
 msgstr "ERAKUTSI FRAMERATEA"
 
-msgid "CLOCK IN MENU"
-msgstr "ERLOJUA MENUAN"
-
+#: 
 msgid "ON-SCREEN HELP"
 msgstr "LAGUNTZA PANTAILAN"
 
+#: 
 msgid "QUICK SYSTEM SELECT"
 msgstr "SISTEMA AUKERATZE AZKARRA"
 
+#: 
 msgid "THEME SET"
 msgstr "GAIA"
 
-msgid "THEME CONFIGURATION"
-msgstr "GAIAREN KONFIGURAZIOA"
-
-msgid "THEME COLORSET"
-msgstr "GAIAREN KOLOREAK"
-
-msgid "THEME ICONSET"
-msgstr "GAIAREN IKONOAK"
-
-msgid "THEME MENU"
-msgstr "GAIAREN MENUA"
-
-msgid "THEME SYSTEMVIEW"
-msgstr "GAIAREN SISTEMA BISTA"
-
-msgid "THEME GAMELISTVIEW"
-msgstr "GAIAREN JOKO ZERRENDA BISTA"
-
-msgid "THEME REGION"
-msgstr "GAIAREN ESKUALDEA"
-
-msgid "THIS THEME HAS NO OPTION"
-msgstr "GAI HONEK EZ DU AUKERARIK"
-
+#: 
 msgid "SOUND SETTINGS"
 msgstr "SOINU EZARPENAK"
 
+#: 
 msgid "SYSTEM VOLUME"
 msgstr "SISTEMAREN BOLUMENA"
 
+#: 
 msgid "FRONTEND MUSIC"
 msgstr "ATZEKO MUSIKA"
 
+#: 
 msgid "OUTPUT DEVICE"
 msgstr "SOINU IRTEERA"
 
+#: 
 msgid "HDMI"
 msgstr "HDMI"
 
+#: 
 msgid "JACK"
 msgstr "JACK"
 
+#: 
 msgid "AUTO"
 msgstr "AUTO"
 
+#: 
 msgid "NETWORK SETTINGS"
 msgstr "SARE KONFIGURAZIOA"
 
+#: 
 msgid "CONNECTED"
 msgstr "KONEKTATUTA"
 
+#: 
 msgid "NOT CONNECTED"
 msgstr "KONEKTATU GABE"
 
+#: 
 msgid "STATUS"
 msgstr "EGOERA"
 
+#: 
 msgid "IP ADDRESS"
 msgstr "IP HELBIDEA"
 
+#: 
 msgid "HOSTNAME"
 msgstr "GAILUAREN IZENA"
 
+#: 
 msgid "ENABLE WIFI"
 msgstr "WIFI-a AKTIBATU"
 
+#: 
 msgid "WIFI SSID"
 msgstr "WIFI SSID-a"
 
-msgid "MANUAL INPUT"
-msgstr "ESKUZKO SARRERA"
-
+#: 
 msgid "WIFI KEY"
 msgstr "WIFI GAKOA"
 
+#: 
 msgid "WIFI ENABLED"
 msgstr "WIFI-a AKTIBATUTA"
 
+#: 
 msgid "WIFI CONFIGURATION ERROR"
 msgstr "WIFI KONFIGURAZIO ERROREA"
 
+#: 
 msgid "SCRAPER"
 msgstr "DATU LORTZAILEA"
 
+#: 
 msgid "SCRAPE FROM"
 msgstr "LORTU DATUAK HEMENDIK:"
 
+#: 
 msgid "SCRAPE RATINGS"
 msgstr "LORTU PUNTUAZIOAK"
 
+#: 
 msgid "SCRAPE NOW"
 msgstr "DATUAK LORTU"
 
+#: 
 msgid "QUIT"
 msgstr "IRTEN"
 
+#: 
 msgid "REALLY RESTART?"
 msgstr "BERRABIARAZI?"
 
+#: 
 msgid "RESTART SYSTEM"
 msgstr "SISTEMA BERRABIARAZI"
 
+#: 
 msgid "REALLY SHUTDOWN?"
 msgstr "ITZALI?"
 
+#: 
 msgid "SHUTDOWN SYSTEM"
 msgstr "ITZALI SISTEMA"
 
-msgid "DEFAULT (%1%)"
-msgstr "LEHENETSIA (%1%)"
-
+#: 
 msgid "Emulator"
 msgstr "Emulatzaile"
 
+#: 
 msgid "Core"
 msgstr "Nukleoa"
 
-msgid ""
-"YOU ARE GOING TO CONFIGURE A CONTROLLER. IF YOU HAVE ONLY ONE JOYSTICK, "
-"CONFIGURE THE DIRECTIONS KEYS AND SKIP JOYSTICK CONFIG BY HOLDING A BUTTON. "
-"IF YOU DO NOT HAVE A SPECIAL KEY FOR HOTKEY, CHOOSE THE SELECT BUTTON. SKIP "
-"ALL BUTTONS YOU DO NOT HAVE BY HOLDING A KEY. BUTTONS NAMES ARE BASED ON THE "
-"SNES CONTROLLER."
-msgstr ""
-"AGINTE BAT KONFIGURATZERA ZOAZ. JOYSTICK BAT SOILIK BADUZU NORABIDEAK "
-"KONFIGURATU ETA AHAZTU BESTE KONFIGURAZIOA BOTO BAT SAKATU ETA MANTENDUZ. EZ "
-"BADUZU BOTOI BEREZIRIK HOTKEY-arentzat ERABILI EZAZU SELECT BOTOIA. ZURE "
-"AGINTEAN EXISTITZEN EZ DIREN BOTOIEI EZ EGIN KASURIK BOTOI BAT SAKATU ETA "
-"MANTENDUZ."
+#: 
+msgid "YOU ARE GOING TO CONFIGURE A CONTROLLER. IF YOU HAVE ONLY ONE JOYSTICK, CONFIGURE THE DIRECTIONS KEYS AND SKIP JOYSTICK CONFIG BY HOLDING A BUTTON. IF YOU DO NOT HAVE A SPECIAL KEY FOR HOTKEY, CHOOSE THE SELECT BUTTON. SKIP ALL BUTTONS YOU DO NOT HAVE BY HOLDING A KEY. BUTTONS NAMES ARE BASED ON THE SNES CONTROLLER."
+msgstr "AGINTE BAT KONFIGURATZERA ZOAZ. JOYSTICK BAT SOILIK BADUZU NORABIDEAK KONFIGURATU ETA AHAZTU BESTE KONFIGURAZIOA BOTO BAT SAKATU ETA MANTENDUZ. EZ BADUZU BOTOI BEREZIRIK HOTKEY-arentzat ERABILI EZAZU SELECT BOTOIA. ZURE AGINTEAN EXISTITZEN EZ DIREN BOTOIEI EZ EGIN KASURIK BOTOI BAT SAKATU ETA MANTENDUZ."
 
 #. GUIMENU
+#: 
 msgid "CONFIGURE A CONTROLLER"
 msgstr "AGINTE BAT KONFIGURATU"
 
 #. Bluetooth
+#: 
 msgid "CONTROLLER PAIRED"
 msgstr "AGINTEA PAREKATUA"
 
+#: 
 msgid "UNABLE TO PAIR CONTROLLER"
 msgstr "AGINTEA PAREKATZEA EZINEZKOA"
 
+#: 
 msgid "AN ERROR OCCURED"
 msgstr "ERRORE BAT GERTATU DA"
 
+#: 
 msgid "NO CONTROLLERS FOUND"
 msgstr "EZ DA AGINTERIK DETEKTATU"
 
+#: 
 msgid "PAIR A BLUETOOTH CONTROLLER"
 msgstr "BLUETOOTH AGINTE BAT PAREKATU"
 
+#: 
 msgid "CONTROLLERS LINKS HAVE BEEN DELETED."
 msgstr "AGINTEEN ESTEKAK EZABATUAK IZAN DIRA"
 
+#: 
 msgid "FORGET BLUETOOTH CONTROLLERS"
 msgstr "AHAZTU BLUETOOTH AGINTEAK"
 
+#: 
 msgid "INPUT P%i"
 msgstr "P%i SARRERA"
 
+#: 
 msgid "CHOOSE"
 msgstr "HAUTATU"
 
+#: 
 msgid "SELECT"
 msgstr "AUKERATU"
 
+#: 
 msgid "OPTIONS"
 msgstr "AUKERAK"
 
+#: 
 msgid "JUMP TO LETTER"
 msgstr "LETRARA JOAN"
 
+#: 
 msgid "SORT GAMES BY"
 msgstr "JOKUAN ORDENATU:"
 
 #. FAVORITES
+#: 
 msgid "FAVORITES ONLY"
 msgstr "GOGOKOAK SOILIK"
 
+#: 
 msgid "EDIT THIS GAME'S METADATA"
 msgstr "JOKU HONEN DATUAK EDITATU"
 
+#: 
 msgid "SCRAPE THESE GAMES"
 msgstr "JOKU HAUEN DATUAK LORTU"
 
+#: 
 msgid "All Games"
 msgstr "Joko guztiak"
 
 #. MISSING SCRAPPER TRANSLATIONS
+#: 
 msgid "Only missing image"
 msgstr "Falta diren irudiak bakarrik"
 
+#: 
 msgid "FILTER"
 msgstr "IRAGAZKIAK"
 
+#: 
 msgid "SCRAPE THESE SYSTEMS"
 msgstr "SISTEMA HAUEN DATUAK LORTU"
 
+#: 
 msgid "SYSTEMS"
 msgstr "SISTEMAK"
 
+#: 
 msgid "USER DECIDES ON CONFLICTS"
 msgstr "ERABILTZAILEAK ERABAKI GATAZKETAN"
 
+#: 
 msgid "START"
 msgstr "HASI"
 
-msgid ""
-"WARNING: SOME OF YOUR SELECTED SYSTEMS DO NOT HAVE A PLATFORM SET. RESULTS "
-"MAY BE EVEN MORE INACCURATE THAN USUAL!\n"
+#: 
+msgid "WARNING: SOME OF YOUR SELECTED SYSTEMS DO NOT HAVE A PLATFORM SET. RESULTS MAY BE EVEN MORE INACCURATE THAN USUAL!\n"
 "CONTINUE ANYWAY?"
-msgstr ""
-"ABISUA: AUKERATU DITUZUN SISTEMA BATZUEK EZ DUTE PLATAFORMARIK EZARRITA. "
-"EMAITZAK NORMALEAN BAINO ZEHAZTASUN GUTXIAGOKOAK IZAN DAITEZKE!\n"
+msgstr "ABISUA: AUKERATU DITUZUN SISTEMA BATZUEK EZ DUTE PLATAFORMARIK EZARRITA. EMAITZAK NORMALEAN BAINO ZEHAZTASUN GUTXIAGOKOAK IZAN DAITEZKE!\n"
 "JARRAITU HALA ERE?"
 
+#: 
 msgid "NO GAMES FIT THAT CRITERIA."
 msgstr "EZ DAGO JOKORIK IRIZPIDE HORI BETETZEN DUENIK"
 
+#: 
 msgid "REALLY UPDATE?"
 msgstr "ZIUR EGUNERATU NAHI DUZULA?"
 
+#: 
 msgid "NETWORK CONNECTION NEEDED"
 msgstr "SARE KONEXIO BAT BEHARREZKOA DA"
 
+#: 
 msgid "UPDATE DOWNLOADED, THE SYSTEM WILL NOW REBOOT"
 msgstr "EGUNERAKETA DESKARGATUA, SISTEMA BERRABIARAZIKO DA ORAIN"
 
+#: 
 msgid "UPDATE FAILED, THE SYSTEM WILL NOW REBOOT"
 msgstr "EGUNERAKETAK HUTS EGIN DU. SISTEMA BERRABIARAZIKO DA ORAIN"
 
+#: 
 msgid "NO UPDATE AVAILABLE"
 msgstr "EZ DAGO EGUNERAKETARIK ERABILGARRI"
 
-msgid "AN ERROR OCCURED - DOWNLOADED"
-msgstr "ERROREA GERTATU DA - DESKARGATUTA"
-
+#: 
 msgid "enter emulator"
 msgstr "sartu emulatzailea"
 
+#: 
 msgid "enter core"
 msgstr "sartu nukleoa"
 
+#: 
 msgid "Ratio"
 msgstr "Ratioa"
 
+#: 
 msgid "enter ratio"
 msgstr "sartu ratioa"
 
+#: 
 msgid "Name"
 msgstr "Izena"
 
+#: 
 msgid "enter game name"
 msgstr "jokoarean izena sartu"
 
+#: 
 msgid "Description"
 msgstr "Deskribapena"
 
+#: 
 msgid "enter description"
 msgstr "Sartu deskribapena"
 
+#: 
 msgid "Image"
 msgstr "Irudia"
 
+#: 
 msgid "enter path to image"
 msgstr "Sartu irudirako bidea"
 
+#: 
 msgid "Thumbnail"
 msgstr "Thumbnail"
 
+#: 
 msgid "enter path to thumbnail"
 msgstr "Sartu Thumbnail-erako bidea"
 
+#: 
 msgid "enter rating"
 msgstr "Sartu puntuazioa"
 
+#: 
 msgid "Release date"
 msgstr "Argitaratze data"
 
+#: 
 msgid "enter release date"
 msgstr "sartu argitaratze data"
 
+#: 
 msgid "enter game developer"
 msgstr "sartu joko garatzailea"
 
+#: 
 msgid "enter game publisher"
 msgstr "sartu joko argitaratzailea"
 
+#: 
 msgid "enter game genre"
 msgstr "sartu jokoaren generoa"
 
+#: 
 msgid "enter number of players"
 msgstr "sartu jokalari zenbatekoa"
 
+#: 
 msgid "Favorite"
 msgstr "Gogokoa"
 
+#: 
 msgid "enter favorite"
 msgstr "gogokoa gehitu"
 
+#: 
 msgid "Region"
 msgstr "Herrialde"
 
+#: 
 msgid "enter region"
 msgstr "Sartu herrialdea"
 
+#: 
 msgid "Romtype"
 msgstr "Rom mota"
 
+#: 
 msgid "enter romtype"
 msgstr "sartu rom mota"
 
+#: 
 msgid "Hidden"
 msgstr "Ezkutatua"
 
+#: 
 msgid "set hidden"
 msgstr "Ezkutatua ezarri"
 
+#: 
 msgid "Play count"
 msgstr "Partida zenbatekoa"
 
+#: 
 msgid "enter number of times played"
 msgstr "sartu jokatutako partida zenbatekoa"
 
+#: 
 msgid "Last played"
 msgstr "Azken jokatutakoa"
 
+#: 
 msgid "enter last played date"
 msgstr "sartu azken jokatutako data"
 
+#: 
 msgid "%i GAME AVAILABLE"
 msgid_plural "%i GAMES AVAILABLE"
 msgstr[0] "JOKO %i ERABILGARRI"
 msgstr[1] "%i JOKO ERABILGARRI"
 
+#: 
 msgid "%i FAVORITE"
 msgid_plural "%i FAVORITES"
 msgstr[0] "%i GOGOKOA"
 msgstr[1] "%i GOGOKOAK"
 
+#: 
 msgid "SCROLL"
 msgstr "SCROLL"
 
+#: 
 msgid "LAUNCH"
 msgstr "ABIARAZI"
 
+#: 
 msgid "Times played"
 msgstr "Zenbat aldiz jokatua"
 
+#: 
 msgid "MENU"
 msgstr "MENUA"
 
-msgid "START KODI"
-msgstr "HASI KODI"
-
+#: 
 msgid "FILENAME, ASCENDING"
 msgstr "FITXATEGI IZENA, IGOTZEN"
 
+#: 
 msgid "FILENAME, DESCENDING"
 msgstr "FITXATEGI IZENA, JAISTEN"
 
+#: 
 msgid "RATING, ASCENDING"
 msgstr "PUNTUAZIOA, IGOTZEN"
 
+#: 
 msgid "RATING, DESCENDING"
 msgstr "PUNTUAZIOA, JAISTEN"
 
+#: 
 msgid "TIMES PLAYED, ASCENDING"
 msgstr "ZENBAT ALDIZ JOKATUA, IGOTZEN"
 
+#: 
 msgid "TIMES PLAYED, DESCENDING"
 msgstr "ZENBAT ALDIZ JOKATUA, JAISTEN"
 
+#: 
 msgid "LAST PLAYED, ASCENDING"
 msgstr "AZKEN ALDIZ JOKATUA, IGOTZEN"
 
+#: 
 msgid "LAST PLAYED, DESCENDING"
 msgstr "AZKEN ALDIZ JOKATUA, JAISTEN"
 
+#: 
 msgid "WORKING..."
 msgstr "LANEAN..."
 
+#: 
 msgid "CHANGE"
 msgstr "ALDATU"
 
+#: 
 msgid "never"
 msgstr "inoiz"
 
+#: 
 msgid "just now"
 msgstr "oraintxe"
 
+#: 
 msgid "%i sec ago"
 msgid_plural "%i secs ago"
 msgstr[0] "orain dela segundu %i"
 msgstr[1] "orain dela %i segundu"
 
+#: 
 msgid "%i min ago"
 msgid_plural "%i mins ago"
 msgstr[0] "orain dela minutu %i"
 msgstr[1] "orain dela %i minutu"
 
+#: 
 msgid "%i hour ago"
 msgid_plural "%i hours ago"
 msgstr[0] "orain dela ordu %i"
 msgstr[1] "orain dela %i ordu"
 
+#: 
 msgid "%i day ago"
 msgid_plural "%i days ago"
 msgstr[0] "orain dela egun %i"
 msgstr[1] "orain dela %i egun"
 
+#: 
 msgid "unknown"
 msgstr "ezezaguna"
 
+#: 
 msgid "SELECT ALL"
 msgstr "DENAK"
 
+#: 
 msgid "SELECT NONE"
 msgstr "BAT ERE EZ"
 
+#: 
 msgid "%i SELECTED"
 msgid_plural "%i SELECTED"
 msgstr[0] "%i AUKERATUA"
 msgstr[1] "%i AUKERATUAK"
 
+#: 
 msgid "UP"
 msgstr "GORA"
 
+#: 
 msgid "DOWN"
 msgstr "BEHERA"
 
+#: 
 msgid "LEFT"
 msgstr "EZKERRA"
 
+#: 
 msgid "RIGHT"
 msgstr "ESKUINA"
 
+#: 
 msgid "JOYSTICK 1 UP"
 msgstr "JOYSTICK 1 GORA"
 
+#: 
 msgid "JOYSTICK 1 LEFT"
 msgstr "JOYSTICK 1 EZKERRA"
 
+#: 
 msgid "JOYSTICK 2 UP"
 msgstr "JOYSTICK 2 GORA"
 
+#: 
 msgid "JOYSTICK 2 LEFT"
 msgstr "JOYSTICK 2 EZKERRA"
 
+#: 
 msgid "PAGE UP"
 msgstr "L1 (HUR. ORRIA)"
 
+#: 
 msgid "PAGE DOWN"
 msgstr "R1 (AUR. ORRIA)"
 
+#: 
 msgid "HOTKEY"
 msgstr "HOTKEY"
 
+#: 
 msgid "CONFIGURING"
 msgstr "KONFIGURATZEN"
 
+#: 
 msgid "KEYBOARD"
 msgstr "TEKLATUA"
 
+#: 
 msgid "GAMEPAD %i"
 msgstr "%i AGINTEA"
 
-msgid "INPUT REQUIRED"
-msgstr "SARRERA BEHARREZKOA"
-
-msgid "(skipped)"
-msgstr "(saltatuta)"
-
-msgid "UP/DOWN TO SKIP"
-msgstr "GORA/BEHERA SALTATZEKO"
-
-msgid "A TO UNSET"
-msgstr "A KENTZEKO"
-
-msgid "DOWN TO SKIP AND KEEP [%1%]"
-msgstr ""
-
-msgid "UP/DOWN TO SKIP AND KEEP [%1%]"
-msgstr ""
-
 #. Config controllers missing translation
+#: 
 msgid "PRESS ANYTHING"
 msgstr "EDOZEIN BOTOI SAKATU"
 
+#: 
 msgid "ALREADY TAKEN"
 msgstr "ERABILITA"
 
+#: 
 msgid "DISCARD CHANGES"
 msgstr "ALDAKETAK BAZTERTU"
 
+#: 
 msgid "WELCOME"
 msgstr "ONGI ETORRI"
 
+#: 
 msgid "CONFIGURE INPUT"
 msgstr "KONTROLEN KONFIGURAZIOA"
 
+#: 
 msgid "%i GAMEPAD DETECTED"
 msgid_plural "%i GAMEPADS DETECTED"
 msgstr[0] "AGINTE %i DETEKTATUA"
 msgstr[1] "%i AGINTE DETEKTATUAK"
 
+#: 
 msgid "NO GAMEPADS DETECTED"
 msgstr "EZ DA AGINTERIK DETEKTATU"
 
+#: 
 msgid "HOLD A BUTTON ON YOUR DEVICE TO CONFIGURE IT."
 msgstr "BOTOI BAT SAKATUA MANTENDU AGINTEAN KONFIGURATZEKO."
 
+#: 
 msgid "PRESS F4 TO QUIT AT ANY TIME."
 msgstr "F4 SAKATU EDOZEIN UNETAN IRTETZEKO."
 
+#: 
 msgid "PRESS ESC OR THE HOTKEY TO CANCEL."
 msgstr "ESC EDO HOTKEY SAKATU EZEZTATZEKO."
 
+#: 
 msgid "DO YOU WANT TO START KODI MEDIA CENTER ?"
 msgstr "KODI MULTIMEDIA GUNEA ABIARAZI NAHI DUZU?"
 
+#: 
 msgid "LOADING..."
 msgstr "KARGATZEN..."
 
+#: 
 msgid "PLEASE WAIT..."
 msgstr "ITXARON MESEDEZ..."
 
+#: 
 msgid "REALLY SHUTDOWN WITHOUT SAVING METADATAS?"
 msgstr "BENETAN METADATUAK GORDE GABE ITZALI?"
 
+#: 
 msgid "FAST SHUTDOWN SYSTEM"
 msgstr "SISTEMAREN ITZALTZE AZKARRA"
 
-msgid ""
-"WE CAN'T FIND ANY SYSTEMS!\n"
-"CHECK THAT YOUR PATHS ARE CORRECT IN THE SYSTEMS CONFIGURATION FILE, AND "
-"YOUR GAME DIRECTORY HAS AT LEAST ONE GAME WITH THE CORRECT EXTENSION.\n"
+#: 
+msgid "WE CAN'T FIND ANY SYSTEMS!\n"
+"CHECK THAT YOUR PATHS ARE CORRECT IN THE SYSTEMS CONFIGURATION FILE, AND YOUR GAME DIRECTORY HAS AT LEAST ONE GAME WITH THE CORRECT EXTENSION.\n"
 "\n"
 "VISIT RECALBOX.FR FOR MORE INFORMATION."
-msgstr ""
-"EZIN DA SISTEMARIK AURKITU!\n"
-"BAIEZTATU SISTEMAKO KONFIGURAZIO FITXATEGIEN HELBIDEAK ZUZENAK DIRELA ETA "
-"ZURE JOKOEN DIREKTORIOAN GUTXIENEZ FORMATU ZUZENEKO JOKO BAT DAGOELA.\n"
+msgstr "EZIN DA SISTEMARIK AURKITU!\n"
+"BAIEZTATU SISTEMAKO KONFIGURAZIO FITXATEGIEN HELBIDEAK ZUZENAK DIRELA ETA ZURE JOKOEN DIREKTORIOAN GUTXIENEZ FORMATU ZUZENEKO JOKO BAT DAGOELA.\n"
 "\n"
 "BISITATU RECALBOX.FR INFORMAZIO GEHIAGORAKO."
 
+#: 
 msgid "ON SCREEN KEYBOARD"
 msgstr "PANTAILAKO TEKLATUA"
 
+#: 
 msgid "SHIFTS FOR UPPER,LOWER, AND SPECIAL"
 msgstr "SHIFT ERABILI MAIUSKULA, MINUSKULA ETA BEREZIENTZAT "
 
+#: 
 msgid "SPACE"
 msgstr "HUTSUNEA"
 
+#: 
 msgid "DELETE A CHAR"
 msgstr "EZABATU HIZKIA"
 
+#: 
 msgid "SHIFT"
 msgstr "MAIUS"
 
+#: 
 msgid "STOP EDITING"
 msgstr "GELDITU EDIZIOA"
 
+#: 
 msgid "MOVE CURSOR"
 msgstr "MUGITU KRUTSOREA"
 
+#: 
 msgid "EDIT"
 msgstr "EDITATU"
 
+#: 
 msgid "ACCEPT RESULT"
 msgstr "ONARTU EMAITZA"
 
+#: 
 msgid "FILENAME"
 msgstr "FITXATEGI IZENA"
 
+#: 
 msgid "RATING"
 msgstr "PUNTUAZIOA"
 
+#: 
 msgid "TIMES PLAYED"
 msgstr "ZENBAT ALDIZ JOLASTUTA"
 
+#: 
 msgid "LAST PLAYED"
 msgstr "AZKEN ALDIZ JOLASTUTA"
 
+#: 
 msgid "NUMBER OF PLAYERS"
 msgstr "JOKALARI KOPURUA"
 
+#: 
 msgid "DEVELOPER"
 msgstr "GARATZAILEA"
 
+#: 
 msgid "GENRE"
 msgstr "GENEROA"
 
+#: 
 msgid "SHOW HIDDEN"
 msgstr "ERAKUTSI EZKUTUKOA"
 
-msgid "SHOW FOLDERS CONTENT"
-msgstr ""
-
+#: 
 msgid "EXTREM (1400Mhz)"
 msgstr "MUTURREKOA (1400Mhz)"
 
+#: 
 msgid "TURBO (1350Mhz)"
 msgstr "TURBOA (1350Mhz)"
 
+#: 
 msgid "HIGH (1300Mhz)"
 msgstr "ALTUA (1300Mhz)"
 
-msgid ""
-"TURBO AND EXTREM OVERCLOCK PRESETS MAY CAUSE SYSTEM UNSTABILITIES, SO USE "
-"THEM AT YOUR OWN RISK.\n"
+#: 
+msgid "TURBO AND EXTREM OVERCLOCK PRESETS MAY CAUSE SYSTEM UNSTABILITIES, SO USE THEM AT YOUR OWN RISK.\n"
 "IF YOU CONTINUE, THE SYSTEM WILL REBOOT NOW."
-msgstr ""
-"TURBO ETA MUTURREKO OVERCLOCK EZARPENEK SISTEMA EZEGONKORTU DEZAKETE, BERAZ "
-"ERABILI ZURE ARDURAPEAN. AURRERA JARRAITZEN BADUZU, SISTEMA BERRABIARAZIKO "
-"DA ORAIN."
+msgstr "TURBO ETA MUTURREKO OVERCLOCK EZARPENEK SISTEMA EZEGONKORTU DEZAKETE, BERAZ ERABILI ZURE ARDURAPEAN. AURRERA JARRAITZEN BADUZU, SISTEMA BERRABIARAZIKO DA ORAIN."
 
+#: 
 msgid "%i GAME HIDDEN"
 msgid_plural "%i GAMES HIDDEN"
 msgstr[0] "JOKO %i EZKUTATUTA"
 msgstr[1] "%i JOKO EZKUTATUTA"
 
+#: 
 msgid "Start kodi media player."
 msgstr "Hasi Kodi media erreproduzitzailea."
 
-msgid ""
-"Select the language for your recalbox, select an external drive to store "
-"your games and configurations, check your current version and the free space "
-"on your drive"
+#: 
+msgid "Select the language for your recalbox, select an external drive to store your games and configurations, check your current version and the free space on your drive"
 msgstr ""
 
+#: 
 msgid "Shows your current recalboxOS version."
 msgstr "Erakutsi momentuko zure recalboxOS bertsioa."
 
-msgid ""
-"Show how much space is used on your SHARE partition, located either on the "
-"SDCARD or on an external drive. The information shows how much GB are used "
-"and how much GB your storage has overall (example 13GB/26GB)."
+#: 
+msgid "Show how much space is used on your SHARE partition, located either on the SDCARD or on an external drive. The information shows how much GB are used and how much GB your storage has overall (example 13GB/26GB)."
 msgstr ""
 
-msgid ""
-"Select an external drive to store your roms, saves, configurations etc.\n"
-"Use a FAT32 formatted drive. The system does not format the drive. On first "
-"boot, with this option enabled, recalbox will create a '/recalbox' folder "
-"with all system files inside."
+#: 
+msgid "Select an external drive to store your roms, saves, configurations etc.\n"
+"Use a FAT32 formatted drive. The system does not format the drive. On first boot, with this option enabled, recalbox will create a '/recalbox' folder with all system files inside."
 msgstr ""
 
-msgid ""
-"Select your language. A reboot is needed to set this configuration active."
-msgstr ""
-"Aukeratu zure hizkuntza. Berrabiaraztea beharrezkoa da konfigurazio hau "
-"ezartzeko."
+#: 
+msgid "Select your language. A reboot is needed to set this configuration active."
+msgstr "Aukeratu zure hizkuntza. Berrabiaraztea beharrezkoa da konfigurazio hau ezartzeko."
 
-msgid ""
-"Manage your recalbox updates. Select the update type. Activate update check."
-msgstr ""
-"Kudeatu zure recalbox eguneraketak. Aukeratu eguneraketa mota. Aktibatu "
-"eguneraketa egiaztatzea."
+#: 
+msgid "Manage your recalbox updates. Select the update type. Activate update check."
+msgstr "Kudeatu zure recalbox eguneraketak. Aukeratu eguneraketa mota. Aktibatu eguneraketa egiaztatzea."
 
+#: 
 msgid "Check if an update is available, and start the update process."
 msgstr "Egiaztatu eguneraketarik badagoen, eta hasi eguneraketa prozesua."
 
-msgid ""
-"Stable updates will check for updates on stable recalbox releases. Stable "
-"updates are tested and approved by the recalbox team and their testers.\n"
-"Unstable updates allows you to get the latest recalbox features by checking "
-"our unstable repository. You can test and validate with us the very last "
-"version of recalbox.\n"
-"If you choose unstable update, be so kind to report issues on the recalbox-"
-"os issue board (https://github.com/recalbox/recalbox-os/issues)"
+#: 
+msgid "Stable updates will check for updates on stable recalbox releases. Stable updates are tested and approved by the recalbox team and their testers.\n"
+"Unstable updates allows you to get the latest recalbox features by checking our unstable repository. You can test and validate with us the very last version of recalbox.\n"
+"If you choose unstable update, be so kind to report issues on the recalbox-os issue board (https://github.com/recalbox/recalbox-os/issues)"
 msgstr ""
 
-msgid ""
-"Automatically check if an update is avaialble. If so, it notifies you with a "
-"message."
-msgstr ""
-"Automatikoki egiaztatu eguneraketarik badagoen. Hala bada, mezu batez "
-"jakinaraziko dizu."
+#: 
+msgid "Automatically check if an update is avaialble. If so, it notifies you with a message."
+msgstr "Automatikoki egiaztatu eguneraketarik badagoen. Hala bada, mezu batez jakinaraziko dizu."
 
-msgid "Shows the current available update version."
-msgstr ""
+#: 
+msgid "Configure games display, ratio, filters (shaders), auto save and load and retroachievement account."
+msgstr "Konfiguratu joko bista, ratioa, filtroak (shaderrak), auto gorde eta kargatu eta retrolorpen kontua."
 
-msgid "Shows the current available update changelog."
-msgstr ""
-
-msgid ""
-"Configure games display, ratio, filters (shaders), auto save and load and "
-"retroachievement account."
-msgstr ""
-"Konfiguratu joko bista, ratioa, filtroak (shaderrak), auto gorde eta kargatu "
-"eta retrolorpen kontua."
-
-msgid ""
-"The game ratio is the ratio between image width and image height. Use AUTO "
-"to let the emulator choose the original game ratio, that will give you the "
-"best retrogaming experience."
+#: 
+msgid "The game ratio is the ratio between image width and image height. Use AUTO to let the emulator choose the original game ratio, that will give you the best retrogaming experience."
 msgstr ""
 
-msgid ""
-"Smooth the game image. This option makes the image smoother, using bilinear "
-"filtering."
-msgstr ""
-"Jokoaren irudia leundu. Aukera honek filtro bilinearra erabiliz irudia "
-"leuntzen du."
+#: 
+msgid "Smooth the game image. This option makes the image smoother, using bilinear filtering."
+msgstr "Jokoaren irudia leundu. Aukera honek filtro bilinearra erabiliz irudia leuntzen du."
 
-msgid ""
-"This option allows you to rewind the game if you get killed by a monster, or "
-"if you make any other mistake. Use the HOTKEY + LEFT command within the game "
-"to rewind."
+#: 
+msgid "This option allows you to rewind the game if you get killed by a monster, or if you make any other mistake. Use the HOTKEY + LEFT command within the game to rewind."
 msgstr ""
 
-msgid ""
-"Auto save the state when you quit a game, and auto load last saved state "
-"when you start a game."
-msgstr ""
-"Auto gorde egoera jokotik irtetean eta auto kargatu azkena gordetako egoera "
-"jokoa hasten duzunean."
+#: 
+msgid "Auto save the state when you quit a game, and auto load last saved state when you start a game."
+msgstr "Auto gorde egoera jokotik irtetean eta auto kargatu azkena gordetako egoera jokoa hasten duzunean."
 
-msgid ""
-"Integer scaling is scaling by a factor of a whole number, such as 2x, 3x, "
-"4x, etc. This option scales the image up to the greatest integer scale below "
-"the set resolution. So for instance, if you set your fullscreen resolution "
-"to 1920x1080 and enable integer scaling, it will only scale a 320x240 image "
-"up to 1280x960, and leave black borders all around. This is to maintain a "
-"1:1 pixel ratio with the original source image, so that pixels are not "
-"unevenly duplicated."
+#: 
+msgid "Integer scaling is scaling by a factor of a whole number, such as 2x, 3x, 4x, etc. This option scales the image up to the greatest integer scale below the set resolution. So for instance, if you set your fullscreen resolution to 1920x1080 and enable integer scaling, it will only scale a 320x240 image up to 1280x960, and leave black borders all around. This is to maintain a 1:1 pixel ratio with the original source image, so that pixels are not unevenly duplicated."
 msgstr ""
 
-msgid ""
-"Shaders are like filters for the game rendering. You can select a shader set "
-"here, which is a collection of shaders selected for each system. You can "
-"also change the shader within the game with HOTKEY + L2 or HOTKEY + R2."
+#: 
+msgid "Shaders are like filters for the game rendering. You can select a shader set here, which is a collection of shaders selected for each system. You can also change the shader within the game with HOTKEY + L2 or HOTKEY + R2."
 msgstr ""
 
+#: 
 msgid "Enable or disable RetroAchievements in games."
 msgstr "Gaitu edo ezgaitu RetroLorpenak jokoetan."
 
-msgid ""
-"Hardcore mode disables *all* savestate and rewind functions within the "
-"emulator: you will not be able to save and reload at any time. You will have "
-"to complete the game and get the achievements first time, just like on the "
-"original console. In reward for this, you will earn both the standard and "
-"the hardcore achievement, in effect earning double points! A regular game "
-"worth 400 points, is now worth 800 if you complete it on hardcore! For "
-"example: if you complete the game for 400 points, you then have the "
-"opportunity to earn another 400 on hardcore."
+#: 
+msgid "Hardcore mode disables *all* savestate and rewind functions within the emulator: you will not be able to save and reload at any time. You will have to complete the game and get the achievements first time, just like on the original console. In reward for this, you will earn both the standard and the hardcore achievement, in effect earning double points! A regular game worth 400 points, is now worth 800 if you complete it on hardcore! For example: if you complete the game for 400 points, you then have the opportunity to earn another 400 on hardcore."
 msgstr ""
 
-msgid ""
-"The website retroachievements.org proposes challenges/achievements/trophies "
-"on platforms like NES, SNES, GB, GBC, GBA, Genesis/Megadrive, TurboGrafx16/"
-"PCEngine and more! Create your account on retroachievements.org and start "
-"your quest for achievements!"
+#: 
+msgid "The website retroachievements.org proposes challenges/achievements/trophies on platforms like NES, SNES, GB, GBC, GBA, Genesis/Megadrive, TurboGrafx16/PCEngine and more! Create your account on retroachievements.org and start your quest for achievements!"
 msgstr ""
 
+#: 
 msgid "Add and configure up to 5 controllers."
 msgstr "Gehitu eta konfiguratu 5 aginte arte."
 
-msgid ""
-"Configure an associated controller. Your controller has to be associated / "
-"plugged before."
+#: 
+msgid "Pair a bluetooth controller with your recalbox. Your controller must be in pairing mode."
+msgstr "Parekatu zure bluetooth agintea zure recalboxarekin. Zure aginteak parekatze moduan egon behar du."
+
+#: 
+msgid "Forget all paired bluetooth controllers. You will have to pair your controllers again, but this option can help if you have issues to reconnect a controller, which is already paired."
+msgstr "Ahaztu parekatutako bluetooth aginteak. Zure agintea berriz parekatu beharko duzu, baina aukera honek lehendik parekatutako agintea birkonetatzeko arazoak badituzu lagunduko dizu."
+
+#: 
+msgid "Configure your EmulationStation experience. Select transition types, help prompts, screensaver behavior. You can also deactivate the onscreen keyboard if you have a real keyboard plugged into your recalbox.\n"
+"If you've added games since the last boot, you can also refresh the gamelist from this menu."
 msgstr ""
 
-msgid ""
-"Pair a bluetooth controller with your recalbox. Your controller must be in "
-"pairing mode."
-msgstr ""
-"Parekatu zure bluetooth agintea zure recalboxarekin. Zure aginteak parekatze "
-"moduan egon behar du."
-
-msgid ""
-"Forget all paired bluetooth controllers. You will have to pair your "
-"controllers again, but this option can help if you have issues to reconnect "
-"a controller, which is already paired."
-msgstr ""
-"Ahaztu parekatutako bluetooth aginteak. Zure agintea berriz parekatu beharko "
-"duzu, baina aukera honek lehendik parekatutako agintea birkonetatzeko "
-"arazoak badituzu lagunduko dizu."
-
-msgid ""
-"Configure your EmulationStation experience. Select transition types, help "
-"prompts, screensaver behavior. You can also deactivate the onscreen keyboard "
-"if you have a real keyboard plugged into your recalbox.\n"
-"If you've added games since the last boot, you can also refresh the gamelist "
-"from this menu."
-msgstr ""
-
+#: 
 msgid "Start the screensaver after N minutes."
 msgstr "Hasi pantaila babeslea N minutu ondoren."
 
-msgid ""
-"Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
-"will turn the screen black."
+#: 
+msgid "Set the screensaver behavior. DIM will reduce the screen light, and BLACK will turn the screen black."
 msgstr ""
 
-msgid ""
-"Shows a help at the bottom of the screen which displays commands you can use."
-msgstr ""
-"Erakutsi erabil ditzakezun komandoak eraskusten dizkizun laguntza, "
-"pantailaren behekaldean."
+#: 
+msgid "Shows a help at the bottom of the screen which displays commands you can use."
+msgstr "Erakutsi erabil ditzakezun komandoak eraskusten dizkizun laguntza, pantailaren behekaldean."
 
-msgid ""
-"When enabled, you can switch between systems while browsing a gamelist by "
-"pressing LEFT or RIGHT."
+#: 
+msgid "When enabled, you can switch between systems while browsing a gamelist by pressing LEFT or RIGHT."
 msgstr ""
 
-msgid ""
-"The onscreen keyboard is necessary to type text if you only have controllers "
-"plugged into your recalbox. You can disable it if you have a real keyboard "
-"connected."
+#: 
+msgid "The onscreen keyboard is necessary to type text if you only have controllers plugged into your recalbox. You can disable it if you have a real keyboard connected."
 msgstr ""
 
-msgid "Choose if carousel will be animated or not during transitions"
-msgstr ""
-
-msgid ""
-"Select the type of transition that occurs when you start a game. INSTANT "
-"will do nothing, FADE will fade to dark, and SLIDE will zoom on the game "
-"cover (or name if there is no scrape information)"
-msgstr ""
-
+#: 
 msgid "Select a theme for your recalbox."
 msgstr "Aukeratu zure recalboxerako gaia."
 
-msgid "Select exisiting colorset options for this theme."
-msgstr ""
-
-msgid "Select exisiting iconset options for this theme."
-msgstr ""
-
-msgid "Select exisiting menu style options for this theme."
-msgstr ""
-
-msgid "Select exisiting system view options for this theme."
-msgstr ""
-
-msgid "Select exisiting gamelist view options for this theme."
-msgstr ""
-
-msgid "Configure theme options if available."
-msgstr ""
-
-msgid ""
-"Select Region of logos, pictures for system that are different for some "
-"countries. E.g. Megadrive in EU / Genesis in US"
-msgstr ""
-
+#: 
 msgid "Updates the gamelists, if you added games since the last boot."
 msgstr "Azken abiotik jokoak gehitu badituzu, joko zerrenda eguneratzen du."
 
+#: 
 msgid "Configure the sound options of your recalbox."
 msgstr ""
 
+#: 
 msgid "Set the volume of the sound output for the frontend and the games."
 msgstr ""
 
-msgid ""
-"Enable or disable the frontend music. You can add your own music as mp3, or "
-"ogg format in the 'musics' directory of your recalbox."
+#: 
+msgid "Enable or disable the frontend music. You can add your own music as mp3, or ogg format in the 'musics' directory of your recalbox."
 msgstr ""
 
+#: 
 msgid "Select your output device. Only HDMI and JACK are supported."
 msgstr ""
 
-msgid ""
-"Configure the network options of your recalbox.\n"
-"Check your network status and IP address, set the hostname and configure the "
-"WIFI."
+#: 
+msgid "Configure the network options of your recalbox.\n"
+"Check your network status and IP address, set the hostname and configure the WIFI."
 msgstr ""
 
-msgid ""
-"Displays CONNECTED, if you are connected, by checking if your recalbox can "
-"access the recalbox.com update server."
-msgstr ""
-"KONEKTATUTA erakusten du, hau klikatuta recalboxak recalbox.com eguneraketa "
-"zerbitzarira sarbide konexioa badu."
+#: 
+msgid "Displays CONNECTED, if you are connected, by checking if your recalbox can access the recalbox.com update server."
+msgstr "KONEKTATUTA erakusten du, hau klikatuta recalboxak recalbox.com eguneraketa zerbitzarira sarbide konexioa badu."
 
+#: 
 msgid "The IP address of your recalbox within your local network."
 msgstr "Sare lokalean zure recalboxak izango duen IP helbidea."
 
-msgid ""
-"Enable or disable WIFI.\n"
-"If you disable WIFI, the SSID and the WIFI passwords are saved and can be "
-"used when you reactivate it"
-msgstr ""
-"Gaitu edo ezgaitu WIFIa.\n"
-"WIFIa ezgaitzen baduzu, SSIDa eta WIFI pasahitza gorde egingo dira eta "
-"berriz aktibatzean erabili ahalko dituzu"
+#: 
+msgid "Enable or disable WIFI.\n"
+"If you disable WIFI, the SSID and the WIFI passwords are saved and can be used when you reactivate it"
+msgstr "Gaitu edo ezgaitu WIFIa.\n"
+"WIFIa ezgaitzen baduzu, SSIDa eta WIFI pasahitza gorde egingo dira eta berriz aktibatzean erabili ahalko dituzu"
 
+#: 
 msgid "The name of your recalbox in your local network"
 msgstr "Sare lokalean izango duzun recalboxaren izena"
 
+#: 
 msgid "SSID (WIFI Name) of your network."
 msgstr "Sareko SSID (WIFI izena)."
 
-msgid "Type the name of your SSID if it is hidden or not listed"
-msgstr ""
-
+#: 
 msgid "Private key of your WIFI network."
 msgstr "WIFI sareko gako pribatua."
 
-msgid ""
-"Get informations and visual for your games. The scraper downloads metadata "
-"and visuals for your games from different servers and enhances the user "
-"experience in EmulationStation completely."
+#: 
+msgid "Get informations and visual for your games. The scraper downloads metadata and visuals for your games from different servers and enhances the user experience in EmulationStation completely."
 msgstr ""
 
-msgid ""
-"Select a server to scrape from. The SCREENSCRAPER server is recommended and "
-"is based on www.screenscraper.fr and scrapes game data in your language, if "
-"available."
+#: 
+msgid "Select a server to scrape from. The SCREENSCRAPER server is recommended and is based on www.screenscraper.fr and scrapes game data in your language, if available."
 msgstr ""
 
+#: 
 msgid "Begin the scrape process with the configuration shown below."
 msgstr "Hasi erauzketa prozesua beheko konfigurazioarekin."
 
+#: 
 msgid "Scrape and display game ratings."
 msgstr "Erauzi eta erakutsi jokoen puntuazioak."
 
-msgid ""
-"Advanced settings. Please make sure you really know what you're doing, "
-"before changing any values in this menu."
+#: 
+msgid "Advanced settings. Please make sure you really know what you're doing, before changing any values in this menu."
 msgstr ""
 
-msgid ""
-"Overclock your board to increase the performance.\n"
-"Overclock settings are tested and validated by the community. Keep in mind "
-"that overclocking your board can void your warranty."
+#: 
+msgid "Overclock your board to increase the performance.\n"
+"Overclock settings are tested and validated by the community. Keep in mind that overclocking your board can void your warranty."
 msgstr ""
 
-msgid ""
-"Select which system to show when the recalbox frontend starts. The default "
-"value is 'favorites'."
+#: 
+msgid "Select which system to show when the recalbox frontend starts. The default value is 'favorites'."
 msgstr ""
 
-msgid ""
-"On boot, recalbox will show the list of games of the selected system rather "
-"than the system view."
+#: 
+msgid "On boot, recalbox will show the list of games of the selected system rather than the system view."
 msgstr ""
 
-msgid ""
-"Only show games contained in the gamelist.xml file (located in your roms "
-"directories).\n"
+#: 
+msgid "Only show games contained in the gamelist.xml file (located in your roms directories).\n"
 "This option highly speeds up boot time, but new games will not be detected."
 msgstr ""
 
-msgid ""
-"This option allows you to set the selected system to fixed mode. With this "
-"option activated, the user cannot access other systems."
+#: 
+msgid "This option allows you to set the selected system to fixed mode. With this option activated, the user cannot access other systems."
 msgstr ""
 
-msgid ""
-"Always display the basic gamelist view, even if you have scraped your games."
+#: 
+msgid "Always display the basic gamelist view, even if you have scraped your games."
 msgstr ""
 
-msgid ""
-"Override global options like emulator, core, ratio and more for each "
-"available system in your recalbox."
+#: 
+msgid "Override global options like emulator, core, ratio and more for each available system in your recalbox."
 msgstr ""
 
-msgid ""
-"Configure boot options that make your recalbox boot straight into a system "
-"or into Kodi, lock a user to a single system, or directly show the gamelist."
+#: 
+msgid "Configure boot options that make your recalbox boot straight into a system or into Kodi, lock a user to a single system, or directly show the gamelist."
 msgstr ""
 
-msgid ""
-"Enable or disable Kodi, customize the Kodi startup, enable the X button to "
-"start Kodi"
+#: 
+msgid "Enable or disable Kodi, customize the Kodi startup, enable the X button to start Kodi"
 msgstr ""
 
-msgid ""
-"Enable or disable Kodi. If kodi is disabled, you won't be able to start it "
-"with the X button, or start it automatically at boot. The menu entry will be "
-"removed as well."
+#: 
+msgid "Enable or disable Kodi. If kodi is disabled, you won't be able to start it with the X button, or start it automatically at boot. The menu entry will be removed as well."
 msgstr ""
 
+#: 
 msgid "Use the X button to start Kodi."
 msgstr "Erabili X botoia Kodi hasteko."
 
+#: 
 msgid "Automatically start into Kodi on boot."
 msgstr "Automatikoki hasi Kodi abioan."
 
+#: 
 msgid "Manage your recalbox security."
 msgstr "Kudeatu zure recalbox segurtasuna."
 
+#: 
 msgid "Change the SSH root password."
 msgstr "Aldatu SSH root pasahitza."
 
+#: 
 msgid "Enforce recalbox security."
 msgstr "Betearazi recalbox segurtasuna."
 
-msgid ""
-"Enable or disable overscan.\n"
-"Overscan can help you, if you have a black border, or if the image is bigger "
-"than your screen. Before setting the overscan, try to configure your TV to "
-"have a 1:1 pixel output.\n"
-"More overscan settings can be defined in the boot.txt file, available when "
-"you plug your SD card into your computer."
+#: 
+msgid "Enable or disable overscan.\n"
+"Overscan can help you, if you have a black border, or if the image is bigger than your screen. Before setting the overscan, try to configure your TV to have a 1:1 pixel output.\n"
+"More overscan settings can be defined in the boot.txt file, available when you plug your SD card into your computer."
 msgstr ""
 
+#: 
 msgid "Show the framerate in EmulationStation and in game."
 msgstr "Erakutsi frameratea EmulationStationean eta jokoan."
 
-msgid ""
-"Enable or disable the Recalbox Manager.\n"
-"The Recalbox Manager is a web application available on http://recalbox , if "
-"you are on windows, http://recalbox.local , if you are on Linux or Mac, or "
-"directly with your recalbox IP : http://192.168.1.XX.\n"
-"You can configure many options from within the manager, and even manage "
-"games, saves, and scrapes!"
+#: 
+msgid "Enable or disable the Recalbox Manager.\n"
+"The Recalbox Manager is a web application available on http://recalbox , if you are on windows, http://recalbox.local , if you are on Linux or Mac, or directly with your recalbox IP : http://192.168.1.XX.\n"
+"You can configure many options from within the manager, and even manage games, saves, and scrapes!"
 msgstr ""
 
-msgid ""
-"Enable or disable the recalbox API.\n"
-"The Recalbox API is a REST API exposing endpoints to control your recalbox "
-"via http requests."
+#: 
+msgid "Enable or disable the recalbox API.\n"
+"The Recalbox API is a REST API exposing endpoints to control your recalbox via http requests."
 msgstr ""
 
+#: 
 msgid "Select which emulator to use when you start a game for this system."
 msgstr ""
 
-msgid ""
-"Select which core to use for the selected emulator. For example, the "
-"LIBRETRO emulator has many cores to run Super Nintendo games. The default "
-"core you choose here can also be overridden in game specific settings."
+#: 
+msgid "Select which core to use for the selected emulator. For example, the LIBRETRO emulator has many cores to run Super Nintendo games. The default core you choose here can also be overridden in game specific settings."
 msgstr ""
 
-msgid ""
-"Select a letter and the listing will go directly on the first game starting "
-"with this letter."
-msgstr ""
-
-msgid ""
-"Select the way the game list is sortered (alphabetically, by notation...)."
-msgstr ""
-
-msgid ""
-"Switch between seing or not only the favorites games. To add a game in the "
-"favorite list, select the game and toggle its state using 'Y'."
-msgstr ""
-
-msgid ""
-"Switch between seing or not the hidden games. To hide a game, edit its data "
-"and select 'Hide'."
-msgstr ""
-
-msgid ""
-"Switch between seeing the folders structure and seeing all games in a "
-"flatten top level."
-msgstr ""
-
-msgid ""
-"This option display a menu which allows to change game data and many others "
-"options."
-msgstr ""
-
+#: 
 msgid "USE COMPOSED VISUALS"
 msgstr "ERABILI BISTA KONPOSATUAK"
 
+#: 
 msgid "CHECK UPDATES"
 msgstr "EGIAZTATU EGUNERAKETAK"
 
-msgid "AVAILABLE UPDATE"
-msgstr "EGUNERAKETA ESKURA"
-
-msgid "UPDATE CHANGELOG"
-msgstr "EGUNERAKETA ALDAKETA"
-
+#: 
 msgid "UPDATE TYPE"
 msgstr "EGUNERAKETA MOTA"
 
+#: 
 msgid "INTEGER SCALE (PIXEL PERFECT)"
 msgstr "ZENBAKI OSO ESKALA (PIXEL PERFEKTUA)"
 
+#: 
 msgid "ADVANCED SETTINGS"
 msgstr "EZARPEN AURRERATUAK"
 
+#: 
 msgid "BOOT SETTINGS"
 msgstr "ABIO EZARPENAK"
 
+#: 
 msgid "GAMELIST ONLY"
 msgstr "JOKO ZERRENDA BAKARRIK"
 
+#: 
 msgid "BOOT ON SYSTEM"
 msgstr ""
 
+#: 
 msgid "BOOT ON GAMELIST"
 msgstr ""
 
+#: 
 msgid "HIDE SYSTEM VIEW"
 msgstr "EZKUTATU SISTEMA BISTA"
 
+#: 
 msgid "EMULATOR ADVANCED CONFIGURATION"
 msgstr "EMULATZAILE KONFIGURAZIO AURRERATUA"
 
+#: 
 msgid "ADVANCED EMULATOR CONFIGURATION"
 msgstr "EMULATZAILE AURRERATUAREN KONFIGURAZIOA"
 
+#: 
 msgid "HELP"
 msgstr "LAGUNTZA"
 
+#: 
 msgid "THE SYSTEM IS UP TO DATE"
 msgstr "SISTEMA EGUNERATUTA DAGO"
 
+#: 
 msgid "FORCE BASIC GAMELIST VIEW"
 msgstr "BEHARTU OINARRIZKO JOKO ZERRENDA BISTA"
 
+#: 
+msgid "DOWNLOADED"
+msgstr "DESKARGATUTA"
+
+#: 
+msgid "UPDATE VERSION:"
+msgstr "EGUNERAKETA BERTSIOA:"
+
+#: 
+msgid "UPDATE CHANGELOG:"
+msgstr "EGUNERAKETA ALDAKETAK:"
+
+#: 
+msgid "MORE DETAILS"
+msgstr "XEHETASUN GEHIAGO:"
+
+#: 
+msgid "CAROUSEL ANIMATION"
+msgstr "KARRUSEL ANIMAZIOA"
+
+#: 
+msgid "THEME CONFIGURATION"
+msgstr "GAIAREN KONFIGURAZIOA"
+
+#: 
+msgid "THEME COLORSET"
+msgstr "GAIAREN KOLOREAK"
+
+#: 
+msgid "THEME ICONSET"
+msgstr "GAIAREN IKONOAK"
+
+#: 
+msgid "THEME MENU"
+msgstr "GAIAREN MENUA"
+
+#: 
+msgid "THEME SYSTEMVIEW"
+msgstr "GAIAREN SISTEMA BISTA"
+
+#: 
+msgid "THEME GAMELISTVIEW"
+msgstr "GAIAREN JOKO ZERRENDA BISTA"
+
+#: 
+msgid "THEME REGION"
+msgstr "GAIAREN ESKUALDEA"
+
+#: 
+msgid "THIS THEME HAS NO OPTION"
+msgstr "GAI HONEK EZ DU AUKERARIK"
+
+#: 
+msgid "MANUAL INPUT"
+msgstr "ESKUZKO SARRERA"
+
+#: 
+msgid "AN ERROR OCCURED - DOWNLOADED"
+msgstr "ERROREA GERTATU DA - DESKARGATUTA"
+
+#: 
+msgid "START KODI"
+msgstr "HASI KODI"
+
+#: 
+msgid "Shows the current available update version."
+msgstr ""
+
+#: 
+msgid "Shows the current available update changelog."
+msgstr ""
+
+#: 
+msgid "Configure an associated controller. Your controller has to be associated / plugged before."
+msgstr ""
+
+#: 
+msgid "Choose if carousel will be animated or not during transitions"
+msgstr ""
+
+#: 
+msgid "Select the type of transition that occurs when you start a game. INSTANT will do nothing, FADE will fade to dark, and SLIDE will zoom on the game cover (or name if there is no scrape information)"
+msgstr ""
+
+#: 
+msgid "Select exisiting colorset options for this theme."
+msgstr ""
+
+#: 
+msgid "Select exisiting iconset options for this theme."
+msgstr ""
+
+#: 
+msgid "Select exisiting menu style options for this theme."
+msgstr ""
+
+#: 
+msgid "Select exisiting system view options for this theme."
+msgstr ""
+
+#: 
+msgid "Select exisiting gamelist view options for this theme."
+msgstr ""
+
+#: 
+msgid "Configure theme options if available."
+msgstr ""
+
+#: 
+msgid "Select Region of logos, pictures for system that are different for some countries. E.g. Megadrive in EU / Genesis in US"
+msgstr ""
+
+#: 
+msgid "Type the name of your SSID if it is hidden or not listed"
+msgstr ""
+
+#: 
+msgid "Select a letter and the listing will go directly on the first game starting with this letter."
+msgstr ""
+
+#: 
+msgid "Select the way the game list is sortered (alphabetically, by notation...)."
+msgstr ""
+
+#: 
+msgid "Switch between seing or not only the favorites games. To add a game in the favorite list, select the game and toggle its state using 'Y'."
+msgstr ""
+
+#: 
+msgid "Switch between seing or not the hidden games. To hide a game, edit its data and select 'Hide'."
+msgstr ""
+
+#: 
+msgid "This option display a menu which allows to change game data and many others options."
+msgstr ""
+
+#: 
+msgid "AVAILABLE UPDATE"
+msgstr "EGUNERAKETA ESKURA"
+
+#: 
+msgid "UPDATE CHANGELOG"
+msgstr "EGUNERAKETA ALDAKETA"
+
+#: 
+msgid "CLOCK IN MENU"
+msgstr "ERLOJUA MENUAN"
+
+#: 
 msgid "Now playing"
 msgstr "Orain erreproduzitzen"
 
+#: 
+msgid "DEFAULT (%1%)"
+msgstr "LEHENETSIA (%1%)"
+
+#: 
+msgid "INPUT REQUIRED"
+msgstr "SARRERA BEHARREZKOA"
+
+#: 
+msgid "(skipped)"
+msgstr "(saltatuta)"
+
+#: 
+msgid "UP/DOWN TO SKIP"
+msgstr "GORA/BEHERA SALTATZEKO"
+
+#: 
+msgid "A TO UNSET"
+msgstr "A KENTZEKO"
+
+#: 
+msgid "DOWN TO SKIP AND KEEP [%1%]"
+msgstr ""
+
+#: 
+msgid "UP/DOWN TO SKIP AND KEEP [%1%]"
+msgstr ""
+
+#: 
 msgid "Set duration of help popups, 0 means no popup."
 msgstr ""
 
+#: 
 msgid "HELP POPUP DURATION"
 msgstr ""
 
+#: 
 msgid "Set duration of music popups, 0 means no popup."
 msgstr ""
 
+#: 
 msgid "MUSIC POPUP DURATION"
 msgstr ""
 
+#: 
 msgid "POPUP SETTINGS"
 msgstr ""
 
+#: 
 msgid "POPUP POSITION"
 msgstr ""
 
+#: 
 msgid "Select the position of popups on screen."
 msgstr ""
 
+#: 
 msgid "Set position and duration of popups."
 msgstr "Ezarri popup-en posizio eta iraupena."
 
+#: 
 msgid "TOP/RIGHT"
 msgstr "GORA/ESKUINA"
 
+#: 
 msgid "BOTTOM/RIGHT"
 msgstr "BEHERA/ESKUINA"
 
+#: 
 msgid "BOTTOM/LEFT"
 msgstr "BEHERA/EZKERRA"
 
+#: 
 msgid "TOP/LEFT"
 msgstr "GORA/EZKERRA"
 
+#: 
+msgid "SHOW FOLDERS CONTENT"
+msgstr ""
+
+#: 
+msgid "Switch between seeing the folders structure and seeing all games in a flatten top level."
+msgstr ""
+
+#: 
 msgid "NETPLAY"
 msgstr ""
 
+#: 
 msgid "NETPLAY SETTINGS"
 msgstr ""
 
+#: 
 msgid "NETPLAY LOBBY"
 msgstr ""
 
+#: 
 msgid "Enable or disable Netplay in games."
 msgstr ""
 
+#: 
 msgid "PORT"
 msgstr ""
 
+#: 
 msgid "NICKNAME"
 msgstr ""
 
+#: 
 msgid "RELAY SERVER"
 msgstr ""
 
+#: 
 msgid "Enable or disable connections throught relay servers."
 msgstr ""
 
-msgid ""
-"Play online on games running through Retroarch like NES, SNES, FBA, Genesis/"
-"Megadrive and more!"
-msgstr ""
-
+#: 
 msgid "KODI/NETPLAY"
 msgstr ""
 
+#: 
 msgid "NO GAMES OR NO CONNECTION"
 msgstr ""
 
+#: 
 msgid "HASH NOW"
 msgstr ""
 
+#: 
 msgid "HASH THESE SYSTEMS"
 msgstr ""
 
-msgid ""
-"Add hash of roms in your gamelists to have more accurate results in Netplay."
+#: 
+msgid "Add hash of roms in your gamelists to have more accurate results in Netplay."
 msgstr ""
 
+#: 
 msgid "HASH ROMS"
 msgstr ""
 
+#: 
 msgid "Only missing hashs"
 msgstr ""
 
+#: 
 msgid "Username"
 msgstr ""
 
+#: 
 msgid "Country"
 msgstr ""
 
+#: 
 msgid "Latency"
 msgstr ""
 
+#: 
 msgid "Host arch."
 msgstr ""
 
+#: 
 msgid "Core ver."
 msgstr ""
 
+#: 
 msgid "RA ver."
 msgstr ""
 
+#: 
 msgid "Can join"
 msgstr ""
 
+#: 
 msgid "Rom and core match"
 msgstr ""
 
-msgid "Rom, hash and core match"
+#: 
+msgid "Rom found"
 msgstr ""
 
+#: 
 msgid "No rom match"
 msgstr ""
 
-msgid "No core match"
-msgstr ""
-
+#: 
 msgid "Match"
 msgstr ""
 
+#: 
 msgid "No Match"
 msgstr ""
 
+#: 
 msgid "Rom file"
 msgstr ""
 
+#: 
 msgid "Rom hash"
 msgstr ""
 
+#: 
 msgid "THIS COULD TAKE A WHILE, CONFIRM?"
 msgstr ""
 
+#: 
 msgid "good"
 msgstr ""
 
+#: 
 msgid "bad"
 msgstr ""
 
+#: 
 msgid "medium"
 msgstr ""
 
+#: 
 msgid "NETPLAY POPUP DURATION"
 msgstr ""
 
+#: 
 msgid "Set duration of netplay popups, 0 means no popup."
 msgstr ""
 
+#: 
 msgid "Player"
 msgstr ""
 
+#: 
 msgid "Game"
 msgstr ""
 
+#: 
 msgid "A Recalbox friend has started a Netplay game!"
 msgstr ""
 
+#: 
+msgid "Play online on games running through Retroarch like NES, SNES, FBA, Genesis/Megadrive and more!"
+msgstr ""
+
+#: 
+msgid "Rom, hash and core match"
+msgstr ""
+
+#: 
+msgid "No core match"
+msgstr ""
+
+#: 
 msgid "Add a clock in the main menu."
 msgstr ""
 
-#. UPGRADE PROCESS
-msgid "UPGRADING"
-msgstr ""
-
-msgid "PREPARING"
-msgstr ""
-
-msgid "VERIFYING"
-msgstr ""
-
-msgid "EMPTY LIST"
-msgstr ""
