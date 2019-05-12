@@ -29,6 +29,10 @@ class LibretroCores:
     def configureAmstradGX4000(coreSettings):
         coreSettings.setOption("cap32_model", '"6128+"')
 
+    @staticmethod
+    def configure4DO(coreSettings):
+        coreSettings.setOption("4do_dsp_threaded", '"enabled"')
+
     #
     # Core specific configurations
     #
@@ -82,6 +86,7 @@ class LibretroCores:
         {
             "bluemsx" : LibretroCores.configureBlueMSX,
             "mame2003_plus": LibretroCores.configureMAME2003plus,
+            "4do": LibretroCores.configure4DO,
         }
 
         # Get handler and execute
