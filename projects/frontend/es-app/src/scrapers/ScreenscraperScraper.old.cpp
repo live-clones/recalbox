@@ -1,9 +1,11 @@
-#include "scrapers/GamesDBScraper.h"
+#include "scrapers/ScreenscraperScraper.old.h"
 #include "Log.h"
 #include "pugixml/pugixml.hpp"
 #include "Settings.h"
 #include "Util.h"
 #include <boost/assign.hpp>
+#include "RecalboxConf.h"
+#include "guis/GuiScraperStart.h"
 
 using namespace PlatformIds;
 const std::map<PlatformId, const char*> gamesdb_platformid_map = boost::assign::map_list_of
@@ -28,6 +30,8 @@ const std::map<PlatformId, const char*> gamesdb_platformid_map = boost::assign::
 	(MICROSOFT_XBOX, "Microsoft Xbox")
 	(MICROSOFT_XBOX_360, "Microsoft Xbox 360")
 	(MICROSOFT_MSX, "MSX")
+	(MICROSOFT_MSX1, "MSX")
+	(MICROSOFT_MSX2, "MSX2")
 	(NEOGEO, "NeoGeo")
 	(NEOGEO_POCKET, "Neo Geo Pocket")
 	(NEOGEO_POCKET_COLOR, "Neo Geo Pocket Color")
@@ -64,31 +68,63 @@ const std::map<PlatformId, const char*> gamesdb_platformid_map = boost::assign::
 	(NINTENDO_VIRTUAL_BOY, "Nintendo Virtual Boy")
 	(NINTENDO_GAME_AND_WATCH, "game-and-watch")
 	(NEC_PCENGINE_CD, "TurboGrafx CD")
-	(NEC_SUPERGRAFX, "TurboGrafx 16")
+	(NEC_SUPERGRAFX, "SuperGrafx")
 	(PORT_PRBOOM, "PC")
 	(GCE_VECTREX, "Vectrex")
 	(GAMEENGINE_LUTRO, "PC")
 	(PORT_CAVE_STORY, "PC")
 	(MAGNAVOX_ODYSSEY2, "Magnavox Odyssey 2")
-	(SINCLAIR_ZX_81, "Sinclair ZX Spectrum")
-	(STREAM_MOONLIGHT,"PC");
+	(SINCLAIR_ZX_81, "ZX81")
+	(GAMEENGINE_SCUMMVM, "ScummVM")
+	(STREAM_MOONLIGHT,"PC")
+	(THOMSON_MOTO,"Thomson MO/TO")
+  (FAIRCHILD_CHANNELF, "Fairchild Channel F")
+  (GAMEENGINE_DAPHNE, "Daphne")
+  (TANDERINE_ORICATMOS, "Oric/Atmos")
+  (NINTENDO_POKEMINI, "Pokemon Mini")
+  (NINTENDO_SATELLAVIEW, "Satellaview")
+  (NINTENDO_SUFAMITURBO, "Sufami Turbo")
+  (SEGA_SG1000, "SEGA SG-1000")
+  (SHARP_X68000, "Sharp X68000");
 
 
-void thegamesdb_generate_scraper_requests(const ScraperSearchParams& params, std::queue< std::unique_ptr<ScraperRequest> >& requests, 
+static const std::map<std::string, const char*> system_language_map = boost::assign::map_list_of
+	("fr_FR", "")
+	("de_DE", "forcelangue=de&")
+	("es_ES", "forcelangue=es&")
+	("en_US", "forcelangue=en&")
+	("pt_BR", "forcelangue=pt&");
+
+void screenscraper_generate_scraper_requests(const ScraperSearchParams& params, std::queue< std::unique_ptr<ScraperRequest> >& requests, 
 	std::vector<ScraperSearchResult>& results)
 {
-	std::string path = "thegamesdb.net/api/GetGame.php?";
+	std::string path = "https://screenscraper.recalbox.com/api/thegamedb/GetGame.php?";
+	std::string languageSystem = RecalboxConf::getInstance()->get("system.language");
+	bool MixImages = Settings::getInstance()->getBool("MixImages");
+
+	if((system_language_map.find(languageSystem)) != system_language_map.end())
+	{
+		path += (system_language_map.find(languageSystem)->second);
+	}else{
+		path += "forcelangue=en&";
+	}
+
+	if(MixImages)
+	{
+		path += "media=mixrbv1&";
+	}
 
 	std::string cleanName = params.nameOverride;
+
 	if(cleanName.empty())
-		cleanName = params.game->getCleanName();
+		cleanName = params.game->getPath().filename().c_str();
 
 	path += "name=" + HttpReq::urlEncode(cleanName);
 
 	if(params.system->getPlatformIds().empty())
 	{
 		// no platform specified, we're done
-		requests.push(std::unique_ptr<ScraperRequest>(new TheGamesDBRequest(results, path)));
+		requests.push(std::unique_ptr<ScraperRequest>(new ScreenscraperRequest(results, path)));
 	}else{
 		// go through the list, we need to split this into multiple requests 
 		// because TheGamesDB API either sucks or I don't know how to use it properly...
@@ -103,15 +139,15 @@ void thegamesdb_generate_scraper_requests(const ScraperSearchParams& params, std
 				path += "&platform=";
 				path += HttpReq::urlEncode(mapIt->second);
 			}else{
-				LOG(LogWarning) << "TheGamesDB scraper warning - no support for platform " << getPlatformName(platform);
+				LOG(LogWarning) << "Screenscraper scraper warning - no support for platform " << getPlatformName(platform);
 			}
 
-			requests.push(std::unique_ptr<ScraperRequest>(new TheGamesDBRequest(results, path)));
+			requests.push(std::unique_ptr<ScraperRequest>(new ScreenscraperRequest(results, path)));
 		}
 	}
 }
 
-void TheGamesDBRequest::process(const std::unique_ptr<HttpReq>& req, std::vector<ScraperSearchResult>& results)
+void ScreenscraperRequest::process(const std::unique_ptr<HttpReq>& req, std::vector<ScraperSearchResult>& results)
 {
 	assert(req->status() == HttpReq::REQ_SUCCESS);
 
@@ -120,7 +156,7 @@ void TheGamesDBRequest::process(const std::unique_ptr<HttpReq>& req, std::vector
 	if(!parseResult)
 	{
 		std::stringstream ss;
-		ss << "GamesDBRequest - Error parsing XML. \n\t" << parseResult.description() << "";
+		ss << "ScreenscraperRequest - Error parsing XML. \n\t" << parseResult.description() << "";
 		std::string err = ss.str();
 		setError(err);
 		LOG(LogError) << err;
@@ -140,8 +176,8 @@ void TheGamesDBRequest::process(const std::unique_ptr<HttpReq>& req, std::vector
 		result.mdl.SetDescription(game.child("Overview").text().get());
 
 		DateTime rd;
-		DateTime::ParseFromString("%MM/%DD/%YYYY", game.child("ReleaseDate").text().get(), rd);
-		result.mdl.SetReleaseDate(rd);
+		if (rd.ParseFromString("%yyyy-%MM-%dd", game.child("ReleaseDate").text().get(), rd))
+			result.mdl.SetReleaseDate(rd);
 
 		result.mdl.SetDeveloper(game.child("Developer").text().get());
 		result.mdl.SetPublisher(game.child("Publisher").text().get());
@@ -150,8 +186,7 @@ void TheGamesDBRequest::process(const std::unique_ptr<HttpReq>& req, std::vector
 
 		if(Settings::getInstance()->getBool("ScrapeRatings") && game.child("Rating"))
 		{
-			float ratingVal = (game.child("Rating").text().as_int() / 10.0f);
-			result.mdl.SetRating(ratingVal);
+			result.mdl.SetRatingAsString(game.child("Rating").text().get());
 		}
 
 		pugi::xml_node images = game.child("Images");

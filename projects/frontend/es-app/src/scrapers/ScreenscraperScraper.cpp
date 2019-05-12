@@ -1,208 +1,371 @@
 #include "scrapers/ScreenscraperScraper.h"
+
+#include "datetime/DateTime.h"
+#include "utils/StringUtil.h"
+#include "FileData.h"
 #include "Log.h"
-#include "pugixml/pugixml.hpp"
+#include "PlatformId.h"
 #include "Settings.h"
-#include "Util.h"
-#include <boost/assign.hpp>
-#include "RecalboxConf.h"
-#include "guis/GuiScraperStart.h"
+#include "SystemData.h"
+#include "pugixml/pugixml.hpp"
+#include <cstring>
 
 using namespace PlatformIds;
-const std::map<PlatformId, const char*> gamesdb_platformid_map = boost::assign::map_list_of
-	(PANASONIC_3DO, "3DO")
-	(COMMODORE_AMIGA, "Amiga")
-	(AMSTRAD_CPC, "Amstrad CPC")
-	(APPLE_II, "Apple II")
-	(ARCADE, "Arcade")
-	(ATARI_8BITS, "Atari 800")
-	(ATARI_2600, "Atari 2600")
-	(ATARI_5200, "Atari 5200")
-	(ATARI_7800, "Atari 7800")
-	(ATARI_LYNX, "Atari Lynx")
-	(ATARI_ST, "Atari ST")
-	(ATARI_JAGUAR, "Atari Jaguar")
-	(ATARI_JAGUAR_CD, "Atari Jaguar CD")
-	(COLECOVISION, "Colecovision")
-	(COMMODORE_64, "Commodore 64")
-	(NINTENDO_FDS, "Famicom Disk System")
-	(MATTEL_INTELLIVISION, "Intellivision")
-	(APPLE_MACOS, "Mac OS")
-	(MICROSOFT_XBOX, "Microsoft Xbox")
-	(MICROSOFT_XBOX_360, "Microsoft Xbox 360")
-	(MICROSOFT_MSX, "MSX")
-	(MICROSOFT_MSX1, "MSX")
-	(MICROSOFT_MSX2, "MSX2")
-	(NEOGEO, "NeoGeo")
-	(NEOGEO_POCKET, "Neo Geo Pocket")
-	(NEOGEO_POCKET_COLOR, "Neo Geo Pocket Color")
-	(NINTENDO_3DS, "Nintendo 3DS")
-	(NINTENDO_64, "Nintendo 64")
-	(NINTENDO_DS, "Nintendo DS")
-	(NINTENDO_NES, "Nintendo Entertainment System (NES)")
-	(NINTENDO_GAMEBOY, "Nintendo Game Boy")
-	(NINTENDO_GAMEBOY_ADVANCE, "Nintendo Game Boy Advance")
-	(NINTENDO_GAMEBOY_COLOR, "Nintendo Game Boy Color")
-	(NINTENDO_GAMECUBE, "Nintendo GameCube")
-	(NINTENDO_WII, "Nintendo Wii")
-	(NINTENDO_WII_U, "Nintendo Wii U")
-	(IBM_PC, "PC")
-	(SEGA_32X, "Sega 32X")
-	(SEGA_CD, "Sega CD")
-	(SEGA_DREAMCAST, "Sega Dreamcast")
-	(SEGA_GAME_GEAR, "Sega Game Gear")
-	(SEGA_GENESIS, "Sega Genesis")
-	(SEGA_MASTER_SYSTEM, "Sega Master System")
-	(SEGA_MEGA_DRIVE, "Sega Mega Drive")
-	(SEGA_SATURN, "Sega Saturn")
-	(SONY_PLAYSTATION, "Sony Playstation")
-	(SONY_PLAYSTATION_2, "Sony Playstation 2")
-	(SONY_PLAYSTATION_3, "Sony Playstation 3")
-	(SONY_PLAYSTATION_4, "Sony Playstation 4")
-	(SONY_PLAYSTATION_VITA, "Sony Playstation Vita")
-	(SONY_PLAYSTATION_PORTABLE, "Sony PSP")
-	(NINTENDO_SNES, "Super Nintendo (SNES)")
-	(NEC_PCENGINE, "TurboGrafx 16")
-	(BANDAI_WONDERSWAN, "WonderSwan")
-	(BANDAI_WONDERSWAN_COLOR, "WonderSwan Color")
-	(SINCLAIR_ZX_SPECTRUM, "Sinclair ZX Spectrum")
-	(NINTENDO_VIRTUAL_BOY, "Nintendo Virtual Boy")
-	(NINTENDO_GAME_AND_WATCH, "game-and-watch")
-	(NEC_PCENGINE_CD, "TurboGrafx CD")
-	(NEC_SUPERGRAFX, "SuperGrafx")
-	(PORT_PRBOOM, "PC")
-	(GCE_VECTREX, "Vectrex")
-	(GAMEENGINE_LUTRO, "PC")
-	(PORT_CAVE_STORY, "PC")
-	(MAGNAVOX_ODYSSEY2, "Magnavox Odyssey 2")
-	(SINCLAIR_ZX_81, "ZX81")
-	(GAMEENGINE_SCUMMVM, "ScummVM")
-	(STREAM_MOONLIGHT,"PC")
-	(THOMSON_MOTO,"Thomson MO/TO")
-  (FAIRCHILD_CHANNELF, "Fairchild Channel F")
-  (GAMEENGINE_DAPHNE, "Daphne")
-  (TANDERINE_ORICATMOS, "Oric/Atmos")
-  (NINTENDO_POKEMINI, "Pokemon Mini")
-  (NINTENDO_SATELLAVIEW, "Satellaview")
-  (NINTENDO_SUFAMITURBO, "Sufami Turbo")
-  (SEGA_SG1000, "SEGA SG-1000")
-  (SHARP_X68000, "Sharp X68000");
 
-
-static const std::map<std::string, const char*> system_language_map = boost::assign::map_list_of
-	("fr_FR", "")
-	("de_DE", "forcelangue=de&")
-	("es_ES", "forcelangue=es&")
-	("en_US", "forcelangue=en&")
-	("pt_BR", "forcelangue=pt&");
-
-void screenscraper_generate_scraper_requests(const ScraperSearchParams& params, std::queue< std::unique_ptr<ScraperRequest> >& requests, 
-	std::vector<ScraperSearchResult>& results)
+/**
+	List of systems and their IDs from
+	https://www.screenscraper.fr/api/systemesListe.php?devid=xxx&devpassword=yyy&softname=zzz&output=XML
+**/
+static const std::map<PlatformId, unsigned short>& getPlatformIDs()
 {
-	std::string path = "https://screenscraper.recalbox.com/api/thegamedb/GetGame.php?";
-	std::string languageSystem = RecalboxConf::getInstance()->get("system.language");
-	bool MixImages = Settings::getInstance()->getBool("MixImages");
+  static const std::map<PlatformId, unsigned short> screenscraperPlatformidMap
+  {
+    {AMSTRAD_CPC,               65},
+    {APPLE_II,                  86},
+    {APPLE_MACOS,               146},
+    {ARCADE,                    75},
+    {ATARI_8BITS,               43},
+    {ATARI_2600,                26},
+    {ATARI_5200,                40},
+    {ATARI_7800,                41},
+    {ATARI_JAGUAR,              27},
+    {ATARI_JAGUAR_CD,           171},
+    {ATARI_LYNX,                28},
+    {ATARI_ST,                  42},
+    {BANDAI_WONDERSWAN,         45},
+    {BANDAI_WONDERSWAN_COLOR,   46},
+    {COLECOVISION,              48},
+    {COMMODORE_64,              66},
+    {COMMODORE_AMIGA,           64},
+    {FAIRCHILD_CHANNELF,        80},
+    {GAMEENGINE_DAPHNE,         49},
+    {GAMEENGINE_LUTRO,          206},
+    {GAMEENGINE_OPENBOR,        214},
+    {GAMEENGINE_SCUMMVM,        123},
+    {GCE_VECTREX,               102},
+    {IBM_PC,                    135},
+    {MAGNAVOX_ODYSSEY2,         104},
+    {MATTEL_INTELLIVISION,      115},
+    {MGT_SAMCOUPE,              213},
+    {MICROSOFT_MSX,             113},
+    {MICROSOFT_MSX1,            113},
+    {MICROSOFT_MSX2,            113},
+    {MICROSOFT_XBOX,            32},
+    {MICROSOFT_XBOX_360,        33},
+    {NEC_PCENGINE,              31},
+    {NEC_PCENGINE_CD,           114},
+    {NEC_SUPERGRAFX,            31},
+    {NEOGEO,                    142},
+    {NEOGEO_CD,                 142},
+    {NEOGEO_POCKET,             25},
+    {NEOGEO_POCKET_COLOR,       82},
+    {NINTENDO_3DS,              17},
+    {NINTENDO_64,               14},
+    {NINTENDO_DS,               15},
+    {NINTENDO_FDS,              106},
+    {NINTENDO_GAME_AND_WATCH,   52},
+    {NINTENDO_GAMEBOY,          9},
+    {NINTENDO_GAMEBOY_ADVANCE,  12},
+    {NINTENDO_GAMEBOY_COLOR,    10},
+    {NINTENDO_GAMECUBE,         13},
+    {NINTENDO_NES,              3},
+    {NINTENDO_POKEMINI,         211},
+    {NINTENDO_SATELLAVIEW,      107},
+    {NINTENDO_SNES,             4},
+    {NINTENDO_SUFAMITURBO,      108},
+    {NINTENDO_WII,              16},
+    {NINTENDO_WII_U,            18},
+    {NINTENDO_VIRTUAL_BOY,      11},
+    {OSH_UZEBOX,                216},
+    {PANASONIC_3DO,             29},
+    {SEGA_32X,                  19},
+    {SEGA_CD,                   20},
+    {SEGA_DREAMCAST,            23},
+    {SEGA_GAME_GEAR,            21},
+    {SEGA_GENESIS,              1},
+    {SEGA_MASTER_SYSTEM,        2},
+    {SEGA_MEGA_DRIVE,           1},
+    {SEGA_SATURN,               22},
+    {SEGA_SG1000,               109},
+    {SHARP_X68000,              79},
+    {SINCLAIR_ZX_SPECTRUM,      76},
+    {SINCLAIR_ZX_81,            77},
+    {SONY_PLAYSTATION,          57},
+    {SONY_PLAYSTATION_2,        58},
+    {SONY_PLAYSTATION_3,        59},
+    {SONY_PLAYSTATION_VITA,     62},
+    {SONY_PLAYSTATION_PORTABLE, 61},
+    {TANDERINE_ORICATMOS,       131},
+    {THOMSON_MOTO,              141},
+  };
 
-	if((system_language_map.find(languageSystem)) != system_language_map.end())
-	{
-		path += (system_language_map.find(languageSystem)->second);
-	}else{
-		path += "forcelangue=en&";
-	}
-
-	if(MixImages)
-	{
-		path += "media=mixrbv1&";
-	}
-
-	std::string cleanName = params.nameOverride;
-
-	if(cleanName.empty())
-		cleanName = params.game->getPath().filename().c_str();
-
-	path += "name=" + HttpReq::urlEncode(cleanName);
-
-	if(params.system->getPlatformIds().empty())
-	{
-		// no platform specified, we're done
-		requests.push(std::unique_ptr<ScraperRequest>(new ScreenscraperRequest(results, path)));
-	}else{
-		// go through the list, we need to split this into multiple requests 
-		// because TheGamesDB API either sucks or I don't know how to use it properly...
-		std::string urlBase = path;
-		auto& platforms = params.system->getPlatformIds();
-		for (auto& platform : platforms)
-		{
-			path = urlBase;
-			auto mapIt = gamesdb_platformid_map.find(platform);
-			if(mapIt != gamesdb_platformid_map.end())
-			{
-				path += "&platform=";
-				path += HttpReq::urlEncode(mapIt->second);
-			}else{
-				LOG(LogWarning) << "Screenscraper scraper warning - no support for platform " << getPlatformName(platform);
-			}
-
-			requests.push(std::unique_ptr<ScraperRequest>(new ScreenscraperRequest(results, path)));
-		}
-	}
+  return screenscraperPlatformidMap;
 }
 
-void ScreenscraperRequest::process(const std::unique_ptr<HttpReq>& req, std::vector<ScraperSearchResult>& results)
+// Helper XML parsing method, finding a node-by-name recursively.
+/*pugi::xml_node find_node_by_name_re(const pugi::xml_node& node, const std::vector<std::string> node_names) {
+
+	for (const std::string& _val : node_names)
+	{
+		pugi::xpath_query query_node_name((static_cast<std::string>("//") + _val).c_str());
+		pugi::xpath_node_set results = node.select_nodes(query_node_name);
+
+		if (!results.empty())
+			return results.first().node();
+	}
+
+	pugi::xml_node emptyNode;
+	return emptyNode;
+}*/
+
+// Help XML parsing method, finding an direct child XML node starting from the parent and filtering by an attribute value list.
+pugi::xml_node find_child_by_attribute_list(const pugi::xml_node& node_parent, const std::string& node_name,
+                                            const std::string& attribute_name,
+                                            const std::vector<std::string> attribute_values)
 {
-	assert(req->status() == HttpReq::REQ_SUCCESS);
+  for (const auto& _val : attribute_values)
+  {
+    for (pugi::xml_node node : node_parent.children(node_name.c_str()))
+    {
 
-	pugi::xml_document doc;
-	pugi::xml_parse_result parseResult = doc.load_string(req->getContent().c_str());
-	if(!parseResult)
+      if (strcmp(node.attribute(attribute_name.c_str()).value(), _val.c_str()) == 0)
+        return node;
+    }
+  }
+
+  return pugi::xml_node(nullptr);
+
+}
+
+void screenscraper_generate_scraper_requests(const ScraperSearchParams& params,
+                                             std::queue<std::unique_ptr<ScraperRequest> >& requests,
+                                             std::vector<ScraperSearchResult>& results)
+{
+  std::string path;
+
+  ScreenScraperRequest::ScreenScraperConfig ssConfig;
+
+  path = ssConfig.getGameSearchUrl(params.game->getPath().filename().generic_string());
+  auto& platforms = params.system->getPlatformIds();
+
+  for (auto platform : platforms)
+  {
+    auto mapIt = getPlatformIDs().find(platform);
+    if (mapIt != getPlatformIDs().cend())
+    {
+      path += "&systemeid=";
+      path += HttpReq::urlEncode(std::to_string(mapIt->second));
+    }
+    else
+    {
+      LOG(LogWarning) << "ScreenScraper: no support for platform " << getPlatformName(platform);
+    }
+
+    requests.push(std::unique_ptr<ScraperRequest>(new ScreenScraperRequest(requests, results, path)));
+  }
+
+}
+
+void ScreenScraperRequest::process(const std::unique_ptr<HttpReq>& req, std::vector<ScraperSearchResult>& results)
+{
+  assert(req->status() == HttpReq::REQ_SUCCESS);
+
+  pugi::xml_document doc;
+  pugi::xml_parse_result parseResult = doc.load_string(req->getContent().c_str());
+
+  if (!parseResult)
+  {
+    std::stringstream ss;
+    ss << "ScreenScraperRequest - Error parsing XML." << std::endl << parseResult.description() << "";
+
+    std::string err = ss.str();
+    setError(err);
+    LOG(LogError) << err;
+
+    return;
+  }
+
+  processGame(doc, results);
+}
+
+void ScreenScraperRequest::processGame(const pugi::xml_document& xmldoc, std::vector<ScraperSearchResult>& out_results)
+{
+  pugi::xml_node data = xmldoc.child("Data");
+  pugi::xml_node game = data.child("jeu");
+
+  if (game)
+  {
+    ScraperSearchResult result;
+    ScreenScraperRequest::ScreenScraperConfig ssConfig;
+
+    std::string region = StringUtil::toLower(ssConfig.region);
+    std::string language = StringUtil::toLower(ssConfig.language);
+    std::vector<std::string> regions = {
+      region,
+      "us",
+      "eu",
+      "jp",
+      "wor",
+      "ss"
+    };
+
+    // Name fallback: US, WOR(LD). ( Xpath: Data/jeu[0]/noms/nom[*] ).
+    result.mdl.SetName(find_child_by_attribute_list(game.child("noms"), "nom", "region", regions).text().get());
+
+    // Description fallback language: EN, WOR(LD)
+    std::string description = find_child_by_attribute_list(game.child("synopsis"), "synopsis", "langue", {
+      language,
+      "en",
+      "wor"
+    }).text().get();
+
+    if (!description.empty())
+    {
+      result.mdl.SetDescription(StringUtil::replace(description, "&nbsp;", " "));
+    }
+
+    // Genre fallback language: EN. ( Xpath: Data/jeu[0]/genres/genre[*] )
+    result.mdl.SetGenre(find_child_by_attribute_list(game.child("genres"), "genre", "langue", {
+      language,
+      "en",
+      "wor"
+    }).text().get());
+    LOG(LogDebug) << "Genre: " << result.mdl.Genre();
+
+    // Get the date proper. The API returns multiple 'date' children nodes to the 'dates' main child of 'jeu'.
+    // Date fallback: WOR(LD), US, SS, JP, EU
+    std::string _date = find_child_by_attribute_list(game.child("dates"), "date", "region", regions).text().get();
+    LOG(LogDebug) << "Release Date (unparsed): " << _date;
+
+    // Date can be YYYY-MM-DD or just YYYY.
+    DateTime dt(false);
+    if (DateTime::ParseFromString("%yyyy-%MM-%dd", _date, dt))
+      result.mdl.SetReleaseDate(dt);
+    else if (DateTime::ParseFromString("%yyyy", _date, dt))
+      result.mdl.SetReleaseDate(dt);
+
+    LOG(LogDebug) << "Release Date (parsed): " << result.mdl.ReleaseDateAsString();
+
+    /// Developer for the game( Xpath: Data/jeu[0]/developpeur )
+    std::string developer = game.child("developpeur").text().get();
+    if (!developer.empty())
+      result.mdl.SetDeveloper(StringUtil::replace(developer, "&nbsp;", " "));
+
+    // Publisher for the game ( Xpath: Data/jeu[0]/editeur )
+    std::string publisher = game.child("editeur").text().get();
+    if (!publisher.empty())
+      result.mdl.SetPublisher(StringUtil::replace(publisher, "&nbsp;", " "));
+
+    // Players
+    result.mdl.SetPlayCountAsString(game.child("joueurs").text().get());
+
+    if (Settings::getInstance()->getBool("ScrapeRatings") && game.child("note"))
+    {
+      float ratingVal = (game.child("note").text().as_int() / 20.0f);
+      result.mdl.SetRating(ratingVal);
+    }
+
+    // Media super-node
+    pugi::xml_node media_list = game.child("medias");
+
+    if (media_list)
+    {
+      pugi::xml_node art = pugi::xml_node(nullptr);
+
+      // Do an XPath query for media[type='$media_type'], then filter by region
+      // We need to do this because any child of 'medias' has the form
+      // <media type="..." region="..." format="...">
+      // and we need to find the right media for the region.
+      pugi::xpath_node_set results = media_list.select_nodes(
+        (static_cast<std::string>("media[@type='") + ssConfig.media_name + "']").c_str());
+      if (!results.empty())
+      {
+        // Region fallback: WOR(LD), US, CUS(TOM?), JP, EU
+        for (const auto& _region : regions)
+        {
+          if (art)
+            break;
+          for (auto node : results)
+          {
+            if (node.node().attribute("region").value() == _region)
+            {
+              art = node.node();
+              break;
+            }
+          }
+        }
+      } // results
+
+      if (art)
+      {
+        // Sending a 'softname' containing space will make the image URLs returned by the API also contain the space.
+        //  Escape any spaces in the URL here
+        result.imageUrl = StringUtil::replace(art.text().get(), " ", "%20");
+        // Ask for the same image, but with a smaller size, for the thumbnail displayed during scraping
+        result.thumbnailUrl = result.imageUrl + "&maxheight=250";
+
+        // Get the media type returned by ScreenScraper
+        std::string media_type = StringUtil::toLower(art.attribute("format").value());
+        ScraperImageType type = ScraperImageType::Jpeg; // default value
+        if (media_type == "png")
+          type = ScraperImageType::Png; // default value
+
+        result.imageType = result.thumbnailType = type;
+      }
+      else LOG(LogDebug) << "Failed to find media XML node with name=" << ssConfig.media_name;
+    }
+
+    out_results.push_back(result);
+  } // game
+}
+
+// Currently not used in this module
+/*void ScreenScraperRequest::processList(const pugi::xml_document& xmldoc, std::vector<ScraperSearchResult>& results)
+{
+	assert(mRequestQueue != nullptr);
+
+	LOG(LogDebug) << "Processing a list of results";
+
+	pugi::xml_node data = xmldoc.child("Data");
+	pugi::xml_node game = data.child("jeu");
+
+	if (!game)
+		LOG(LogDebug) << "Found nothing";
+
+	ScreenScraperRequest::ScreenScraperConfig ssConfig;
+
+	// limit the number of results per platform, not in total.
+	// otherwise if the first platform returns >= 7 games
+	// but the second platform contains the relevant game,
+	// the relevant result would not be shown.
+	for (int i = 0; game && i < MAX_SCRAPER_RESULTS; i++)
 	{
-		std::stringstream ss;
-		ss << "ScreenscraperRequest - Error parsing XML. \n\t" << parseResult.description() << "";
-		std::string err = ss.str();
-		setError(err);
-		LOG(LogError) << err;
-		return;
+		std::string id = game.child("id").text().get();
+		std::string name = game.child("nom").text().get();
+		std::string platformId = game.child("systemeid").text().get();
+		std::string path = ssConfig.getGameSearchUrl(name).append("&systemeid=").append(platformId).append("&gameid=").append(id);
+
+		mRequestQueue->push(std::unique_ptr<ScraperRequest>(new ScreenScraperRequest(results, path)));
+
+		game = game.next_sibling("jeu");
 	}
+}*/
 
-	pugi::xml_node data = doc.child("Data");
+// Scrambling
+std::string ScreenScraperRequest::ScreenScraperConfig::scramble(const std::string& _input, const std::string& key) const
+{
+  std::string buffer = _input;
 
-	std::string baseImageUrl = data.child("baseImgUrl").text().get();
+  for (int i = (int) _input.size(); --i >= 0;)
+    buffer[i] = (char) (_input[i] ^ (key[i % key.size()] + (i * 17)));
 
-	pugi::xml_node game = data.child("Game");
-	while(game && results.size() < MAX_SCRAPER_RESULTS)
-	{
-		ScraperSearchResult result;
+  return buffer;
+}
 
-		result.mdl.SetName(game.child("GameTitle").text().get());
-		result.mdl.SetDescription(game.child("Overview").text().get());
+std::string ScreenScraperRequest::ScreenScraperConfig::getGameSearchUrl(const std::string& gameName) const
+{
+  return API_URL_BASE + "/jeuInfos.php?devid=" + scramble(API_DEV_U, API_DEV_KEY) + "&devpassword=" +
+         scramble(API_DEV_P, API_DEV_KEY) + "&softname=" + HttpReq::urlEncode(API_SOFT_NAME) + "&output=xml" +
+         "&romnom=" + HttpReq::urlEncode(gameName);
 
-		DateTime rd;
-		if (rd.ParseFromString("%yyyy-%MM-%dd", game.child("ReleaseDate").text().get(), rd))
-			result.mdl.SetReleaseDate(rd);
-
-		result.mdl.SetDeveloper(game.child("Developer").text().get());
-		result.mdl.SetPublisher(game.child("Publisher").text().get());
-		result.mdl.SetGenre(game.child("Genres").first_child().text().get());
-		result.mdl.SetPlayersAsString(game.child("Players").text().get());
-
-		if(Settings::getInstance()->getBool("ScrapeRatings") && game.child("Rating"))
-		{
-			result.mdl.SetRatingAsString(game.child("Rating").text().get());
-		}
-
-		pugi::xml_node images = game.child("Images");
-
-		if(images)
-		{
-			pugi::xml_node art = images.find_child_by_attribute("boxart", "side", "front");
-
-			if(art)
-			{
-				result.thumbnailUrl = baseImageUrl + art.attribute("thumb").as_string();
-				result.imageUrl = baseImageUrl + art.text().get();
-			}
-		}
-
-		results.push_back(result);
-		game = game.next_sibling("Game");
-	}
 }

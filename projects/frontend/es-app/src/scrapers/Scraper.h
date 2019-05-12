@@ -12,27 +12,28 @@
 
 struct ScraperSearchParams
 {
-	SystemData* system;
-	FileData* game;
+  SystemData* system;
+  FileData* game;
 
-	std::string nameOverride;
+  std::string nameOverride;
 };
 
 enum class ScraperImageType
 {
-	Jpeg,
-	Png,
+    Jpeg,
+    Png,
 };
 
 struct ScraperSearchResult
 {
-	ScraperSearchResult() : mdl("no-name", ItemType::Game) {};
+  ScraperSearchResult() : mdl("no-name", ItemType::Game)
+  {};
 
-	MetadataDescriptor mdl;
-	std::string imageUrl;
-	std::string thumbnailUrl;
-	ScraperImageType imageType;
-	ScraperImageType thumbnailType;
+  MetadataDescriptor mdl;
+  std::string imageUrl;
+  std::string thumbnailUrl;
+  ScraperImageType imageType;
+  ScraperImageType thumbnailType;
 };
 
 // So let me explain why I've abstracted this so heavily.
@@ -65,45 +66,51 @@ struct ScraperSearchResult
 // a scraper search gathers results from (potentially multiple) ScraperRequests
 class ScraperRequest : public AsyncHandle
 {
-public:
-	ScraperRequest(std::vector<ScraperSearchResult>& resultsWrite);
+  public:
+    ScraperRequest(std::vector<ScraperSearchResult>& resultsWrite);
 
-	// returns "true" once we're done
-	virtual void update() = 0;
-	
-protected:
-	std::vector<ScraperSearchResult>& mResults;
+    // returns "true" once we're done
+    virtual void update() = 0;
+
+  protected:
+    std::vector<ScraperSearchResult>& mResults;
 };
 
 
 // a single HTTP request that needs to be processed to get the results
 class ScraperHttpRequest : public ScraperRequest
 {
-public:
-	ScraperHttpRequest(std::vector<ScraperSearchResult>& resultsWrite, const std::string& url);
-	virtual void update() override;
+  public:
+    ScraperHttpRequest(std::vector<ScraperSearchResult>& resultsWrite, const std::string& url);
 
-protected:
-	virtual void process(const std::unique_ptr<HttpReq>& req, std::vector<ScraperSearchResult>& results) = 0;
+    virtual void update() override;
 
-private:
-	std::unique_ptr<HttpReq> mReq;
+  protected:
+    virtual void process(const std::unique_ptr<HttpReq>& req, std::vector<ScraperSearchResult>& results) = 0;
+
+  private:
+    std::unique_ptr<HttpReq> mReq;
 };
 
 // a request to get a list of results
 class ScraperSearchHandle : public AsyncHandle
 {
-public:
-	ScraperSearchHandle();
+  public:
+    ScraperSearchHandle();
 
-	void update();
-	inline const std::vector<ScraperSearchResult>& getResults() const { assert(mStatus != ASYNC_IN_PROGRESS); return mResults; }
+    void update();
 
-protected:
-	friend std::unique_ptr<ScraperSearchHandle> startScraperSearch(const ScraperSearchParams& params);
+    inline const std::vector<ScraperSearchResult>& getResults() const
+    {
+      assert(mStatus != ASYNC_IN_PROGRESS);
+      return mResults;
+    }
 
-	std::queue< std::unique_ptr<ScraperRequest> > mRequestQueue;
-	std::vector<ScraperSearchResult> mResults;
+  protected:
+    friend std::unique_ptr<ScraperSearchHandle> startScraperSearch(const ScraperSearchParams& params);
+
+    std::queue<std::unique_ptr<ScraperRequest> > mRequestQueue;
+    std::vector<ScraperSearchResult> mResults;
 };
 
 // will use the current scraper settings to pick the result source
@@ -112,7 +119,9 @@ std::unique_ptr<ScraperSearchHandle> startScraperSearch(const ScraperSearchParam
 // returns a list of valid scraper names
 std::vector<std::string> getScraperList();
 
-typedef void (*generate_scraper_requests_func)(const ScraperSearchParams& params, std::queue< std::unique_ptr<ScraperRequest> >& requests, std::vector<ScraperSearchResult>& results);
+typedef void (* generate_scraper_requests_func)(const ScraperSearchParams& params,
+                                                std::queue<std::unique_ptr<ScraperRequest> >& requests,
+                                                std::vector<ScraperSearchResult>& results);
 
 // -------------------------------------------------------------------------
 
@@ -121,31 +130,36 @@ typedef void (*generate_scraper_requests_func)(const ScraperSearchParams& params
 // Meta data asset downloading stuff.
 class MDResolveHandle : public AsyncHandle
 {
-public:
-	MDResolveHandle(const ScraperSearchResult& result, const ScraperSearchParams& search);
+  public:
+    MDResolveHandle(const ScraperSearchResult& result, const ScraperSearchParams& search);
 
-	void update() override;
-	inline const ScraperSearchResult& getResult() const { assert(mStatus == ASYNC_DONE); return mResult; }
+    void update() override;
 
-private:
-	ScraperSearchResult mResult;
+    inline const ScraperSearchResult& getResult() const
+    {
+      assert(mStatus == ASYNC_DONE);
+      return mResult;
+    }
 
-	typedef std::pair< std::unique_ptr<AsyncHandle>, std::function<void()> > ResolvePair;
-	std::vector<ResolvePair> mFuncs;
+  private:
+    ScraperSearchResult mResult;
+
+    typedef std::pair<std::unique_ptr<AsyncHandle>, std::function<void()> > ResolvePair;
+    std::vector<ResolvePair> mFuncs;
 };
 
 class ImageDownloadHandle : public AsyncHandle
 {
-public:
-	ImageDownloadHandle(const std::string& url, const std::string& path, int maxWidth, int maxHeight);
+  public:
+    ImageDownloadHandle(const std::string& url, const std::string& path, int maxWidth, int maxHeight);
 
-	void update() override;
+    void update() override;
 
-private:
-	std::unique_ptr<HttpReq> mReq;
-	std::string mSavePath;
-	int mMaxWidth;
-	int mMaxHeight;
+  private:
+    std::unique_ptr<HttpReq> mReq;
+    std::string mSavePath;
+    int mMaxWidth;
+    int mMaxHeight;
 };
 
 //About the same as "~/.emulationstation/media/images/[system_name]/[game_name].[url's extension]".
@@ -156,7 +170,8 @@ std::string getSaveAsPath(const ScraperSearchParams& params, const std::string& 
 std::unique_ptr<ImageDownloadHandle> downloadImageAsync(const std::string& url, const std::string& saveAs);
 
 // Resolves all metadata assets that need to be downloaded.
-std::unique_ptr<MDResolveHandle> resolveMetaDataAssets(const ScraperSearchResult& result, const ScraperSearchParams& search);
+std::unique_ptr<MDResolveHandle>
+resolveMetaDataAssets(const ScraperSearchResult& result, const ScraperSearchParams& search);
 
 //You can pass 0 for maxWidth or maxHeight to automatically keep the aspect ratio.
 //Will overwrite the image at [path] with the new resized one.

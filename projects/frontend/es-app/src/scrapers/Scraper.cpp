@@ -6,14 +6,14 @@
 #include <boost/assign.hpp>
 #include <RootFolders.h>
 
-#include "GamesDBScraper.h"
+#include "GamesDBJSONScraper.h"
 #include "MamedbScraper.h"
-#include "ScreenscraperScraper.h"
+#include "ScreenscraperScraper.old.h"
 
 const std::map<std::string, generate_scraper_requests_func> scraper_request_funcs = boost::assign::map_list_of
-	("TheGamesDB", &thegamesdb_generate_scraper_requests)
+	("TheGamesDB", &thegamesdb_generate_json_scraper_requests)
 	("Mamedb", &mamedb_generate_scraper_requests)
-	/*("Screenscraper", &screenscraper_generate_scraper_requests)*/;
+	("Screenscraper", &screenscraper_generate_scraper_requests);
 
 std::unique_ptr<ScraperSearchHandle> startScraperSearch(const ScraperSearchParams& params)
 {
