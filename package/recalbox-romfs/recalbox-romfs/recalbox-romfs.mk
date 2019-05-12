@@ -7,6 +7,7 @@
 RECALBOX_ROMFS_SOURCE =
 RECALBOX_ROMFS_SITE =
 RECALBOX_ROMFS_INSTALL_STAGING = NO
+RECALBOX_ROMFS_DEPENDENCIES = host-libxml2
 
 ES_SYSTEMS = $(@D)/es_systems.cfg
 ES_SYSTEMS_TMP = $(ES_SYSTEMS).tmp
@@ -120,7 +121,7 @@ define RECALBOX_ROMFS_ES_SYSTEMS
 		"\t<theme>favorites</theme>\n" \
 	"</system>\n" \
 	'</systemList>' >>  $(ES_SYSTEMS_TMP)
-	xmllint --format $(ES_SYSTEMS_TMP) > $(ES_SYSTEMS)
+	$(HOST_DIR)/bin/xmllint --format $(ES_SYSTEMS_TMP) > $(ES_SYSTEMS)
 
 endef
 RECALBOX_ROMFS_CONFIGURE_CMDS += $(RECALBOX_ROMFS_ES_SYSTEMS)

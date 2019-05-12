@@ -6,7 +6,7 @@
 
 GSPLUS_VERSION = 480572054518112647c8fae5d7ea7046a6d6ecfb
 GSPLUS_SITE = $(call github,digarok,gsplus,$(GSPLUS_VERSION))
-GSPLUS_DEPENDENCIES = sdl2 sdl2_image freetype libpcap
+GSPLUS_DEPENDENCIES = sdl2 sdl2_image freetype libpcap host-re2c
 
 define GSPLUS_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/bin/GSplus \

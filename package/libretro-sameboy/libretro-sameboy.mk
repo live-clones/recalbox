@@ -6,26 +6,22 @@
 
 LIBRETRO_SAMEBOY_VERSION = fc754112163a2f6157c56092ea6e1fd64500c4cc
 LIBRETRO_SAMEBOY_SITE = $(call github,libretro,SameBoy,$(LIBRETRO_SAMEBOY_VERSION))
-LIBRETRO_SAMEBOY_DEPENDENCIES = rgbds
-
-#define LIBRETRO_SAMEBOY_PATH_TO_RGBDS
-#	# Missing variable definition to  rgb* tools - Use a brutal SED for now
-#	$(SED) "s|rgbasm|$(HOST_DIR)/usr/bin/rgbasm|g" $(@D)/Makefile
-#	$(SED) "s|rgblink|$(HOST_DIR)/usr/bin/rgblink|g" $(@D)/Makefile
-#	$(SED) "s|rgbgfx|$(HOST_DIR)/usr/bin/rgbgfx|g" $(@D)/Makefile
-#endef
-#LIBRETRO_SAMEBOY_POST_EXTRACT_HOOKS += LIBRETRO_SAMEBOY_PATH_TO_RGBDS
+# host-util-linux is required because sameboy's makefile uses hexdump
+LIBRETRO_SAMEBOY_DEPENDENCIES = host-rgbds host-util-linux
 
 define LIBRETRO_SAMEBOY_BUILD_CMDS
 	$(SED) "s|-O2|-O3|g" $(@D)/Makefile
 	# Haha... when using -Werror you should ensure there are actually *NO* warning at all :)
 	$(SED) "s|-Werror||g" $(@D)/Makefile
-	$(MAKE) HOST_CC="gcc" -C $(@D) logo-compress
-	CFLAGS="$(TARGET_CFLAGS) $(COMPILER_COMMONS_CFLAGS_SO)" \
+	$(MAKE) CC="$(HOSTCC)" -C $(@D) build/logo-compress
+	$(TARGET_MAKE_ENV) CFLAGS="$(TARGET_CFLAGS) $(COMPILER_COMMONS_CFLAGS_SO)" \
 		CXXFLAGS="$(TARGET_CXXFLAGS) $(COMPILER_COMMONS_CXXFLAGS_SO)" \
 		LDFLAGS="$(TARGET_LDFLAGS) $(COMPILER_COMMONS_LDFLAGS_SO)" \
-		RGBDS_DIR="$(STAGING_DIR)/usr/bin" \
-		$(MAKE) CC="$(TARGET_CC)" CXX="$(TARGET_CXX)" -C $(@D) platform="unix" libretro bootroms
+		$(MAKE) CC="$(TARGET_CC)" CXX="$(TARGET_CXX)" -C $(@D) platform="unix" libretro
+	$(TARGET_MAKE_ENV) CFLAGS="$(TARGET_CFLAGS) $(COMPILER_COMMONS_CFLAGS_SO)" \
+		CXXFLAGS="$(TARGET_CXXFLAGS) $(COMPILER_COMMONS_CXXFLAGS_SO)" \
+		LDFLAGS="$(TARGET_LDFLAGS) $(COMPILER_COMMONS_LDFLAGS_SO)" \
+		$(MAKE) CC="$(TARGET_CC)" CXX="$(TARGET_CXX)" -C $(@D) platform="unix" bootroms
 endef
 
 define LIBRETRO_SAMEBOY_INSTALL_TARGET_CMDS

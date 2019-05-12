@@ -11,26 +11,16 @@ DOSBOX_SITE_METHOD = svn
 DOSBOX_LICENSE = GPL2
 DOSBOX_LICENSE_FILES = COPYING
 DOSBOX_DEPENDENCIES = sdl2 zlib libpng libogg libvorbis sdl_sound sdl2_net
+DOSBOX_AUTORECONF = YES
+DOSBOX_AUTORECONF_OPTS = -i
+DOSBOX_CONF_OPTS += --host="$(GNU_TARGET_NAME)" --enable-core-inline --prefix=/usr \
+					--enable-dynrec --enable-unaligned_memory --disable-opengl \
+					--with-sdl=sdl2 --with-sdl-prefix="$(STAGING_DIR)/usr"
+DOSBOX_CONF_OPTS += LIBS="-lvorbisfile -lvorbis -logg"
 
-DOSBOX_LDFLAGS = -L$(STAGING_DIR)/usr/lib
-DOSBOX_CFLAGS = -I$(STAGING_DIR)/usr/include -I$(STAGING_DIR)/usr/include/SDL2
-
-define DOSBOX_CONFIGURE_CMDS
-	(cd $(@D); \
-		./autogen.sh; \
-		$(TARGET_CONFIGURE_ARGS) $(TARGET_CONFIGURE_OPTS) \
-			CFLAGS="$(TARGET_CFLAGS) $(DOSBOX_CFLAGS) $(COMPILER_COMMONS_CFLAGS_NOLTO)" \
-			CXXFLAGS="$(TARGET_CXXFLAGS) $(DOSBOX_CFLAGS) $(COMPILER_COMMONS_CXXFLAGS_NOLTO)" \
-			CPPFLAGS="$(TARGET_CPPFLAGS) $(DOSBOX_CFLAGS) $(COMPILER_COMMONS_CXXFLAGS_NOLTO)" \
-			LDFLAGS="$(TARGET_LDFLAGS) $(DOSBOX_LDFLAGS) $(COMPILER_COMMONS_LDFLAGS_NOLTO)" \
-			CROSS_COMPILE="$(HOST_DIR)/usr/bin/" \
-			LIBS="-lvorbisfile -lvorbis -logg" \
-			./configure --host="$(GNU_TARGET_NAME)" \
-				--enable-core-inline --prefix=/usr \
-				--enable-dynrec --enable-unaligned_memory \
-				--disable-opengl --with-sdl=sdl2 \
-				--with-sdl-prefix="$(STAGING_DIR)/usr"; \
-	)
-endef
+DOSBOX_CFLAGS = -I$(STAGING_DIR)/usr/include -I$(STAGING_DIR)/usr/include/SDL2 $(COMPILER_COMMONS_CFLAGS_NOLTO)
+DOSBOX_CXXFLAGS = -I$(STAGING_DIR)/usr/include -I$(STAGING_DIR)/usr/include/SDL2 $(COMPILER_COMMONS_CXXFLAGS_NOLTO)
+DOSBOX_CPPFLAGS = -I$(STAGING_DIR)/usr/include -I$(STAGING_DIR)/usr/include/SDL2 $(COMPILER_COMMONS_CXXFLAGS_NOLTO)
+DOSBOX_LDFLAGS = -L$(STAGING_DIR)/usr/lib $(COMPILER_COMMONS_LDFLAGS_NOLTO)
 
 $(eval $(autotools-package))
