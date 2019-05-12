@@ -68,23 +68,25 @@ GuiGamelistOptions::GuiGamelistOptions(Window* window, SystemData* system)
 	mMenu.addWithLabel(mListSort, _("SORT GAMES BY"), _(MenuMessages::GAMELISTOPTION_SORT_GAMES_MSG));
 	addSaveFunc([this, system] { RecalboxConf::getInstance()->setUInt(system->getName() + ".sort", (unsigned int) mListSort->getSelected()); });
 
-	// favorite only
-	auto favorite_only = std::make_shared<SwitchComponent>(mWindow);
-	favorite_only->setState(Settings::getInstance()->getBool("FavoritesOnly"));
-	mMenu.addWithLabel(favorite_only, _("FAVORITES ONLY"), _(MenuMessages::GAMELISTOPTION_FAVORITES_ONLY_MSG));
-	addSaveFunc([favorite_only] { Settings::getInstance()->setBool("FavoritesOnly", favorite_only->getState()); });
+	if (!system->isFavorite()) {
+	    // favorite only
+        auto favorite_only = std::make_shared<SwitchComponent>(mWindow);
+        favorite_only->setState(Settings::getInstance()->getBool("FavoritesOnly"));
+        mMenu.addWithLabel(favorite_only, _("FAVORITES ONLY"), _(MenuMessages::GAMELISTOPTION_FAVORITES_ONLY_MSG));
+        addSaveFunc([favorite_only] { Settings::getInstance()->setBool("FavoritesOnly", favorite_only->getState()); });
 
-	// show hidden
-	auto show_hidden = std::make_shared<SwitchComponent>(mWindow);
-	show_hidden->setState(Settings::getInstance()->getBool("ShowHidden"));
-	mMenu.addWithLabel(show_hidden, _("SHOW HIDDEN"), _(MenuMessages::GAMELISTOPTION_SHOW_HIDDEN_MSG));
-	addSaveFunc([show_hidden] { Settings::getInstance()->setBool("ShowHidden", show_hidden->getState()); });
+        // show hidden
+        auto show_hidden = std::make_shared<SwitchComponent>(mWindow);
+        show_hidden->setState(Settings::getInstance()->getBool("ShowHidden"));
+        mMenu.addWithLabel(show_hidden, _("SHOW HIDDEN"), _(MenuMessages::GAMELISTOPTION_SHOW_HIDDEN_MSG));
+        addSaveFunc([show_hidden] { Settings::getInstance()->setBool("ShowHidden", show_hidden->getState()); });
 
-	// flat folders
-	auto flat_folders = std::make_shared<SwitchComponent>(mWindow);
-	flat_folders->setState(RecalboxConf::getInstance()->getBool(system->getName() + ".flatfolder"));
-	mMenu.addWithLabel(flat_folders, _("SHOW FOLDERS CONTENT"), _(MenuMessages::GAMELISTOPTION_SHOW_FOLDER_CONTENT_MSG));
-	addSaveFunc([flat_folders, system] { RecalboxConf::getInstance()->setBool(system->getName() + ".flatfolder", flat_folders->getState()); });
+    	// flat folders
+        auto flat_folders = std::make_shared<SwitchComponent>(mWindow);
+        flat_folders->setState(RecalboxConf::getInstance()->getBool(system->getName() + ".flatfolder"));
+        mMenu.addWithLabel(flat_folders, _("SHOW FOLDERS CONTENT"), _(MenuMessages::GAMELISTOPTION_SHOW_FOLDER_CONTENT_MSG));
+        addSaveFunc([flat_folders, system] { RecalboxConf::getInstance()->setBool(system->getName() + ".flatfolder", flat_folders->getState()); });
+    }
 
 	// edit game metadata
 	row.elements.clear();
@@ -96,34 +98,37 @@ GuiGamelistOptions::GuiGamelistOptions(Window* window, SystemData* system)
 		mMenu.addRowWithHelp(row, _("EDIT THIS GAME'S METADATA"), _(MenuMessages::GAMELISTOPTION_EDIT_METADATA_MSG));
 	}
 
-	// update game list
-	row.elements.clear();
-	row.addElement(std::make_shared<TextComponent>(mWindow, _("UPDATE GAMES LISTS"), menuTheme->menuText.font, menuTheme->menuText.color), true);
-	row.addElement(makeArrow(mWindow), false);
-	row.makeAcceptInputHandler([this, system, window] {
-		mReloading = true;
-		window->pushGui(new GuiMsgBox(window, _("REALLY UPDATE GAMES LISTS ?"),
-									  _("YES"), [system, window] {
-					std::string systemName = system->getName();
-					ViewController::get()->goToStart();
-					window->renderShutdownScreen();
-					delete ViewController::get();
-					SystemData::deleteSystems();
-					SystemData::loadConfig();
-					window->deleteAllGui();
-					ViewController::init(window);
-					ViewController::get()->reloadAll();
-					window->pushGui(ViewController::get());
-					if (!ViewController::get()->goToGameList(systemName)) {
-						ViewController::get()->goToStart();
-					}
-				},
-									  _("NO"), [this] {
-					mReloading = false;
-				}
-		));
-	});
-	mMenu.addRowWithHelp(row, _("UPDATE GAMES LISTS"), _(MenuMessages::UI_UPDATE_GAMELIST_HELP_MSG));
+	if (!system->isFavorite()) {
+        // update game list
+        row.elements.clear();
+        row.addElement(std::make_shared<TextComponent>(mWindow, _("UPDATE GAMES LISTS"), menuTheme->menuText.font,
+                                                       menuTheme->menuText.color), true);
+        row.addElement(makeArrow(mWindow), false);
+        row.makeAcceptInputHandler([this, system, window] {
+            mReloading = true;
+            window->pushGui(new GuiMsgBox(window, _("REALLY UPDATE GAMES LISTS ?"),
+                                          _("YES"), [system, window] {
+                        std::string systemName = system->getName();
+                        ViewController::get()->goToStart();
+                        window->renderShutdownScreen();
+                        delete ViewController::get();
+                        SystemData::deleteSystems();
+                        SystemData::loadConfig();
+                        window->deleteAllGui();
+                        ViewController::init(window);
+                        ViewController::get()->reloadAll();
+                        window->pushGui(ViewController::get());
+                        if (!ViewController::get()->goToGameList(systemName)) {
+                            ViewController::get()->goToStart();
+                        }
+                    },
+                                          _("NO"), [this] {
+                        mReloading = false;
+                    }
+            ));
+        });
+        mMenu.addRowWithHelp(row, _("UPDATE GAMES LISTS"), _(MenuMessages::UI_UPDATE_GAMELIST_HELP_MSG));
+    }
 
 	// center the menu
 	setSize((float)Renderer::getScreenWidth(), (float)Renderer::getScreenHeight());

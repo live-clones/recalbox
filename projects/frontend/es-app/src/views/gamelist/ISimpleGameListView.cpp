@@ -308,7 +308,7 @@ bool ISimpleGameListView::input(InputConfig* config, Input input) {
 		}
 
 
-		if(config->isMappedTo("start", input) && input.value && getRoot()->getSystem() != SystemData::getFavoriteSystem())
+		if(config->isMappedTo("start", input) && input.value)
 		{
 			mWindow->pushGui(new GuiGamelistOptions(mWindow, getRoot()->getSystem()));
 			return true;
