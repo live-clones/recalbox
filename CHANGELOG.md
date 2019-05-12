@@ -34,6 +34,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fix wifi issue on some boards
 - Architecture added to the image name
 - Retroarch ratio recynch'ed ('custom' and 'core-provided' added, old 'custom' renamed 'none')
+- New theme folder in /recalbox/share/themes
 
 ## [6.0] - DragonBlaze
 - Change name from 5.0 to 6.0 DragonBlaze

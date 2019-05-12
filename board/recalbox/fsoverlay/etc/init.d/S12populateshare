@@ -11,6 +11,7 @@ IN=/recalbox/share_init
 OUT=/recalbox/share
 # force the creation of some directories
 for DIR in cheats \
+           themes \
            system/.cache \
            system/.config/lirc \
            system/.emulationstation/themes \
