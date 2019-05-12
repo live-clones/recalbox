@@ -734,10 +734,11 @@ std::map<std::string, ThemeSet> ThemeData::getThemeSets()
 {
 	std::map<std::string, ThemeSet> sets;
 
-	static const size_t pathCount = 2;
+	static const size_t pathCount = 3;
 	fs::path paths[pathCount] =
 	{
 		RootFolders::TemplateRootFolder + "/system/.emulationstation/themes",
+		RootFolders::DataRootFolder     + "/themes",
 		RootFolders::DataRootFolder     + "/system/.emulationstation/themes"
 	};
 
@@ -766,10 +767,11 @@ std::map<std::string, std::string> ThemeData::getThemeSubSets(const std::string&
 	std::map<std::string, std::string> sets;
 	fs::path path;
 	std::deque<boost::filesystem::path> dequepath;
-	static const size_t pathCount = 2;
+	static const size_t pathCount = 3;
 	fs::path paths[pathCount] =
 	{
 		RootFolders::TemplateRootFolder + "/system/.emulationstation/themes/" + theme,
+		RootFolders::DataRootFolder     + "/themes",
 		RootFolders::DataRootFolder     + "/system/.emulationstation/themes/" + theme
 	};
 
