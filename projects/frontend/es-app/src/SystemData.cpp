@@ -735,14 +735,12 @@ void SystemData::loadTheme()
   try
   {
     mTheme->loadFile(getThemeFolder(), path);
-    mHasFavorites = mTheme->getHasFavoritesInTheme();
   }
   catch (ThemeException &e)
   {
         LOG(LogError) << e.what();
 	    mThemeFolder = "default";
 	    mTheme->loadFile(getThemeFolder(), path);
-        mHasFavorites = mTheme->getHasFavoritesInTheme();
   }
 }
 

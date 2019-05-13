@@ -33,7 +33,6 @@ class SystemData
 		std::string mThemeFolder;
 		std::shared_ptr<ThemeData> mTheme;
 
-		bool mHasFavorites;
 		bool mIsFavorite;
 		unsigned int mSortId;
 
@@ -94,7 +93,7 @@ class SystemData
 	inline const std::string& getStartPath() const { return mStartPath; }
 	//inline const std::vector<std::string>& getExtensions() const { return mSearchExtensions; }
 	inline const std::string& getThemeFolder() const { return mThemeFolder; }
-	inline bool getHasFavorites() const { return mHasFavorites; }
+	inline bool getHasFavoritesInTheme() const { return mTheme->getHasFavoritesInTheme(); }
 	inline bool isFavorite() const { return mIsFavorite; }
 	inline FileData::List getFavorites() const { return mRootFolder.getAllFavoritesRecursively(false); }
 	inline unsigned int getSortId() const { return mSortId; };

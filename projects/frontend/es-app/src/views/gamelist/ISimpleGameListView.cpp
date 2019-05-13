@@ -192,7 +192,7 @@ bool ISimpleGameListView::input(InputConfig* config, Input input) {
 		// TOGGLE FAVORITES
 		if (config->isMappedTo("y", input)) {
 			FileData* cursor = getCursor();
-			if (!ViewController::get()->getState().getSystem()->isFavorite() && cursor->getSystem()->getHasFavorites()) {
+			if (!ViewController::get()->getState().getSystem()->isFavorite() && cursor->getSystem()->getHasFavoritesInTheme()) {
 				if (cursor->isGame()) {
 					mFavoriteChange = true;
                     MetadataDescriptor& md = cursor->Metadata();
