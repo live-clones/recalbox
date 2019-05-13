@@ -72,6 +72,9 @@ rm -f "${TARGET_DIR}/etc/shadow"                         || exit 1
 ln -sf "/run/recalbox.shadow" "${TARGET_DIR}/etc/shadow" || exit 1
 
 # Add the date while the version can be nightly or unstable
+if [ ! -f "${TARGET_DIR}/recalbox/recalbox.version" ]; then
+	echo "development" > "${TARGET_DIR}/recalbox/recalbox.version"
+fi
 RVERSION=$(cat "${TARGET_DIR}/recalbox/recalbox.version")
 
 # bootsplash
