@@ -1,4 +1,4 @@
-from configgen import recalboxFiles
+import recalboxFiles
 
 
 class LibretroRetroarch:
@@ -126,6 +126,12 @@ class LibretroRetroarch:
     def fillRetroarchConfiguration(self):
         settings = self.settings
         recalbox = self.system.config
+
+        # Control new RA 1.7.7 key: do not allow upscaling higher than x4
+        if int(settings.getOption("rgui_internal_upscale_level", "1")) > 4:
+            settings.setOption("rgui_internal_upscale_level", "4")
+        # Allow extended ASCII
+        settings.setOption("rgui_extended_ascii", "true")
 
         # Smoothing?
         settings.setOption("video_smooth", self.TRUE if self.isEnabled("smooth") else self.FALSE)
