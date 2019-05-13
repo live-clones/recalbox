@@ -18,6 +18,7 @@ namespace FileSorts
 	#define DeclareSortMethodPrototype(x) int x(FileData* const file1, FileData* const file2);
 	#define ImplementSortMethod(x) int x(FileData* const file1, FileData* const file2)
 
+	DeclareSortMethodPrototype(compareSystemName)
 	DeclareSortMethodPrototype(compareFileName)
 	DeclareSortMethodPrototype(compareRating)
 	DeclareSortMethodPrototype(compareTimesPlayed)
@@ -27,5 +28,6 @@ namespace FileSorts
 	DeclareSortMethodPrototype(compareGenre)
 
 	extern std::vector<SortType> SortTypes;
+	extern std::vector<SortType> SortTypesForFavorites;
 	void init();
 };

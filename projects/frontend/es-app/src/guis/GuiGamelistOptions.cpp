@@ -24,6 +24,8 @@ GuiGamelistOptions::GuiGamelistOptions(Window* window, SystemData* system)
 
 	mJumpToLetterList = std::make_shared<LetterList>(mWindow, _("JUMP TO LETTER"), false);
 
+    std::vector<FileSorts::SortType> & sortTypes = system->isFavorite() ? FileSorts::SortTypesForFavorites : FileSorts::SortTypes;
+
 	std::vector<std::string> letters = getGamelist()->getAvailableLetters();
 	if (!letters.empty()) { // may happen if only contains folders
 
@@ -56,12 +58,12 @@ GuiGamelistOptions::GuiGamelistOptions(Window* window, SystemData* system)
 
 	// sort list by
 	unsigned int currentSortId = mSystem->getSortId();
-	if (currentSortId > FileSorts::SortTypes.size()) {
+	if (currentSortId > sortTypes.size()) {
 		currentSortId = 0;
 	}
 	mListSort = std::make_shared<SortList>(mWindow, _("SORT GAMES BY"), false);
-	for (unsigned int i = 0; i < FileSorts::SortTypes.size(); i++) {
-		const FileSorts::SortType& sortType = FileSorts::SortTypes.at(i);
+	for (unsigned int i = 0; i < sortTypes.size(); i++) {
+		const FileSorts::SortType& sortType = sortTypes.at(i);
 		mListSort->add(sortType.description, i, i == currentSortId);
 	}
 

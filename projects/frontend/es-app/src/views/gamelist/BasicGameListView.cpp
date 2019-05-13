@@ -149,7 +149,7 @@ void BasicGameListView::populateList(const FolderData* folder)
   }
 
   // Sort
-	const FileSorts::SortType& sortType = mSystem->getSortType();
+  const FileSorts::SortType& sortType = mSystem->getSortType(mSystem->isFavorite());
   FolderData::Sort(items, sortType.comparisonFunction, sortType.ascending);
 
   // Add to list

@@ -98,7 +98,7 @@ class SystemData
 	inline bool isFavorite() const { return mIsFavorite; }
 	inline FileData::List getFavorites() const { return mRootFolder.getAllFavoritesRecursively(false); }
 	inline unsigned int getSortId() const { return mSortId; };
-	inline FileSorts::SortType getSortType() const { return FileSorts::SortTypes.at(mSortId); };
+	inline FileSorts::SortType getSortType(bool forFavorites) const { return forFavorites ? FileSorts::SortTypesForFavorites.at(mSortId) : FileSorts::SortTypes.at(mSortId); };
 	inline void setSortId(const unsigned int sortId = 0) { mSortId = sortId; };
 
 	inline const std::vector<PlatformIds::PlatformId>& getPlatformIds() const { return mPlatformIds; }

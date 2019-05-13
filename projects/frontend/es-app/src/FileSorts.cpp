@@ -1,26 +1,34 @@
 #include "FileSorts.h"
 #include "Locale.h"
+#include "SystemData.h"
 
 namespace FileSorts
 {
   std::vector<SortType> SortTypes;
+  std::vector<SortType> SortTypesForFavorites;
 
-  void init()
-  {
-    SortTypes.push_back(SortType(&compareFileName, true, "\uF15d " + _("FILENAME")));
-    SortTypes.push_back(SortType(&compareFileName, false, "\uF15e " + _("FILENAME")));
-    SortTypes.push_back(SortType(&compareRating, true, "\uF165 " + _("RATING")));
-    SortTypes.push_back(SortType(&compareRating, false, "\uF164 " + _("RATING")));
-    SortTypes.push_back(SortType(&compareTimesPlayed, true, "\uF160 " + _("TIMES PLAYED")));
-    SortTypes.push_back(SortType(&compareTimesPlayed, false, "\uF161 " + _("TIMES PLAYED")));
-    SortTypes.push_back(SortType(&compareLastPlayed, true, "\uF160 " + _("LAST PLAYED")));
-    SortTypes.push_back(SortType(&compareLastPlayed, false, "\uF161 " + _("LAST PLAYED")));
-    SortTypes.push_back(SortType(&compareNumberPlayers, true, "\uF162 " + _("NUMBER OF PLAYERS")));
-    SortTypes.push_back(SortType(&compareNumberPlayers, false, "\uF163 " + _("NUMBER OF PLAYERS")));
-    SortTypes.push_back(SortType(&compareDevelopper, true, "\uF15d " + _("DEVELOPER")));
-    SortTypes.push_back(SortType(&compareDevelopper, false, "\uF15e " + _("DEVELOPER")));
-    SortTypes.push_back(SortType(&compareGenre, true, "\uF15d " + _("GENRE")));
-    SortTypes.push_back(SortType(&compareGenre, false, "\uF15e " + _("GENRE")));
+  void init() {
+      SortTypes.push_back(SortType(&compareFileName, true, "\uF15d " + _("FILENAME")));
+      SortTypes.push_back(SortType(&compareFileName, false, "\uF15e " + _("FILENAME")));
+      SortTypes.push_back(SortType(&compareRating, true, "\uF165 " + _("RATING")));
+      SortTypes.push_back(SortType(&compareRating, false, "\uF164 " + _("RATING")));
+      SortTypes.push_back(SortType(&compareTimesPlayed, true, "\uF160 " + _("TIMES PLAYED")));
+      SortTypes.push_back(SortType(&compareTimesPlayed, false, "\uF161 " + _("TIMES PLAYED")));
+      SortTypes.push_back(SortType(&compareLastPlayed, true, "\uF160 " + _("LAST PLAYED")));
+      SortTypes.push_back(SortType(&compareLastPlayed, false, "\uF161 " + _("LAST PLAYED")));
+      SortTypes.push_back(SortType(&compareNumberPlayers, true, "\uF162 " + _("NUMBER OF PLAYERS")));
+      SortTypes.push_back(SortType(&compareNumberPlayers, false, "\uF163 " + _("NUMBER OF PLAYERS")));
+      SortTypes.push_back(SortType(&compareDevelopper, true, "\uF15d " + _("DEVELOPER")));
+      SortTypes.push_back(SortType(&compareDevelopper, false, "\uF15e " + _("DEVELOPER")));
+      SortTypes.push_back(SortType(&compareGenre, true, "\uF15d " + _("GENRE")));
+      SortTypes.push_back(SortType(&compareGenre, false, "\uF15e " + _("GENRE")));
+
+
+      // Keep FILENAME sort at the begining to keep the Jump to next / previous letter working the same way
+      SortTypesForFavorites.insert(SortTypesForFavorites.end(), SortTypes.begin(), SortTypes.begin() + 2);
+      SortTypesForFavorites.push_back(SortType(&compareSystemName, true, "\uF166 " + _("SYSTEM NAME")));
+      SortTypesForFavorites.push_back(SortType(&compareSystemName, false, "\uF167 " + _("SYSTEM NAME")));
+      SortTypesForFavorites.insert(SortTypesForFavorites.end(), SortTypes.begin() + 2, SortTypes.end());
   }
 
   static int simpleCompareUppercase(const std::string& a, const std::string& b)
@@ -46,7 +54,17 @@ namespace FileSorts
 
   #define CheckFoldersAndGames(f1, f2) { int folderComparison = compareFoldersAndGames(f1, f2); if (folderComparison != 0) return folderComparison; }
 
-    //returns if file1 should come before file2
+  //returns if file1 should come before file2
+
+  ImplementSortMethod(compareSystemName)
+  {
+    const SystemData * system1 = file1->getSystem();
+    const SystemData * system2 = file2->getSystem();
+    const int result = simpleCompareUppercase(system1->getName(), system2->getName());
+    if (result) { return result; }
+    return simpleCompareUppercase(file1->getName(), file2->getName());
+  }
+
   ImplementSortMethod(compareFileName)
   {
     CheckFoldersAndGames(file1, file2);
