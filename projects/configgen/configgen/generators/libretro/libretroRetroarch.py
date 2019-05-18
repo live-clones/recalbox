@@ -128,8 +128,10 @@ class LibretroRetroarch:
         recalbox = self.system.config
 
         # Control new RA 1.7.7 key: do not allow upscaling higher than x4
-        if int(settings.getOption("rgui_internal_upscale_level", "1")) > 4:
-            settings.setOption("rgui_internal_upscale_level", "4")
+        rguiUpscaling = settings.getOption("rgui_internal_upscale_level", "1").strip('"')
+        if rguiUpscaling.isdigit():
+            if int(rguiUpscaling) > 4:
+                settings.setOption("rgui_internal_upscale_level", "4")
         # Allow extended ASCII
         settings.setOption("rgui_extended_ascii", "true")
 
