@@ -170,21 +170,7 @@ GuiGamelistOptions::~GuiGamelistOptions()
 	}
 	else
 	{
-		Window *window = mWindow;
-		if (!root->hasChildren())
-		{
-			ViewController::get()->goToStart();
-			window->renderShutdownScreen();
-			delete ViewController::get();
-			SystemData::deleteSystems();
-			SystemData::loadConfig();
-			GuiComponent *gui;
-			while ((gui = window->peekGui()) != nullptr) window->removeGui(gui);
-			ViewController::init(window);
-			ViewController::get()->reloadAll();
-			window->pushGui(ViewController::get());
-			ViewController::get()->goToStart();
-		}
+    ViewController::get()->deleteAndReloadAll();
 	}
 }
 

@@ -435,22 +435,24 @@ void ViewController::reloadGameListView(IGameListView* view, bool reloadTheme)
 	}
 	else
 	{
-    Window* window= mWindow;
-    goToStart();
-		window->renderShutdownScreen();
-		delete ViewController::get();
-		SystemData::deleteSystems();
-		SystemData::loadConfig();
-		GuiComponent *gui;
-		while ((gui = window->peekGui()) != nullptr)
-		{
-			window->removeGui(gui);
-		}
-		ViewController::init(window);
-		ViewController::get()->reloadAll();
-		window->pushGui(ViewController::get());
-    return;
+    deleteAndReloadAll();
   }
+}
+
+void ViewController::deleteAndReloadAll()
+{
+  Window *window = mWindow;
+  window->renderShutdownScreen();
+  delete ViewController::get();
+  SystemData::deleteSystems();
+  SystemData::loadConfig();
+  GuiComponent *gui;
+  while ((gui = window->peekGui()) != nullptr)
+    window->removeGui(gui);
+  ViewController::init(window);
+  ViewController::get()->reloadAll();
+  window->pushGui(ViewController::get());
+  ViewController::get()->goToStart();
 }
 
 void ViewController::reloadAll()
