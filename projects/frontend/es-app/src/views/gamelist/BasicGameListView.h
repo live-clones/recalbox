@@ -2,6 +2,7 @@
 
 #include "views/gamelist/ISimpleGameListView.h"
 #include "components/TextListComponent.h"
+#include "EmptyData.h"
 
 class BasicGameListView : public ISimpleGameListView
 {
@@ -35,7 +36,7 @@ protected:
 
   TextListComponent<FileData*> mList;
 private:
-  FileData mEmptyListItem;
+  EmptyData mEmptyListItem;
   const FolderData *mPopulatedFolder;
   unsigned long listingOffset;
 

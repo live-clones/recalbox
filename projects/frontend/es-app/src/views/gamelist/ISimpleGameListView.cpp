@@ -142,9 +142,8 @@ bool ISimpleGameListView::input(InputConfig* config, Input input) {
 				//Sound::getFromTheme(getTheme(), getName(), "launch")->play();
 				launch(cursor);
 			}
-			else
+			else if (cursor->isFolder())
 			{
-				// it's a folder
 				FolderData* folder = static_cast<FolderData*>(cursor);
 				if (folder->hasChildren())
 				{

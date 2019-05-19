@@ -7,6 +7,7 @@ set(ES_HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/src/ItemType.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/FileData.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/FolderData.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/EmptyData.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/RootFolderData.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/FileSorts.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/MetadataDescriptor.h

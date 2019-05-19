@@ -76,7 +76,7 @@ static const std::map<std::string, const char*> favorites_icons_map = boost::ass
 BasicGameListView::BasicGameListView(Window* window, FolderData* root)
 	: ISimpleGameListView(window, root),
 	  mList(window),
-    mEmptyListItem("/", root->getSystem()),
+    mEmptyListItem(root->getSystem()),
 	  listingOffset(0)
 {
 	mList.setSize(mSize.x(), mSize.y() * 0.8f);

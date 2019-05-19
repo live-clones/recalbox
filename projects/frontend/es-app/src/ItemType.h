@@ -5,4 +5,5 @@ enum class ItemType : char
 {
   Game,
   Folder,
+  Empty,
 };

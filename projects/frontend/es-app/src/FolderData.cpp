@@ -140,7 +140,7 @@ int FolderData::getItemsRecursively(FileData::List& to, Filter includes, bool in
         if (includefolders)
           to.insert(to.begin() + position, fd); // Include folders iif it contains more than one game.
     }
-    else
+    else if (fd->isGame())
     {
       Filter current = Filter::None;
       if (fd->Metadata().Hidden()) current |= Filter::Hidden;
@@ -169,7 +169,7 @@ int FolderData::countItemsRecursively(Filter includes, bool includefolders) cons
         if (includefolders)
           result++; // Include folders iif it contains more than one game.
     }
-    else
+    else if (fd->isGame())
     {
       Filter current = Filter::None;
       if (fd->Metadata().Hidden()) current |= Filter::Hidden;
@@ -258,7 +258,7 @@ int FolderData::countItems(Filter includes, bool includefolders) const
         if (folder->countItems(includes, includefolders) > 0) // Only add if it contains at leas one game
           result++;
     }
-    else
+    else if (fd->isGame())
     {
       Filter current = Filter::None;
       if (fd->Metadata().Hidden()) current |= Filter::Hidden;
