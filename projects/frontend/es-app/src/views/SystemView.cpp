@@ -862,6 +862,7 @@ void SystemView::manageFavorite(){
 	for (auto& mEntrie : mEntries)
 		if(mEntrie.object->isFavorite()){
 			hasFavorite = true;
+			break;
 		}
 	SystemData *favorite = SystemData::getFavoriteSystem();
 	if(hasFavorite) {
