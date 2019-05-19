@@ -182,6 +182,16 @@ int FolderData::countItemsRecursively(Filter includes, bool includefolders) cons
   return result;
 }
 
+bool FolderData::hasGame() const 
+{
+  for (FileData* fd : mChildren)
+  {
+    if (fd->isGame() || (fd->isFolder() && CastFolder(fd)->hasGame()))
+      return true;
+  }
+  return false;
+}
+
 int FolderData::getItems(FileData::List& to, Filter includes, bool includefolders) const
 {
   int gameCount = 0;

@@ -127,6 +127,11 @@ class FolderData : public FileData
     FileData* LookupGame(const std::string& item, SearchAttributes attributes) { return LookupGame(item, attributes, std::string()); }
 
     /*!
+     * Return true if contain at least one game
+     */
+    bool hasGame() const;
+
+    /*!
      * Get total games in all folders, incuding hidden
      * @return Game count
      */

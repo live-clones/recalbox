@@ -51,6 +51,6 @@ protected:
 	bool mFavoritesOnly;
 
 private:
-   bool mFavoriteChange;
-   int mFavoritesCount;
+  bool mIsFavoriteSystem;
+  int mFavoritesCount;
 };

@@ -52,11 +52,23 @@ void ViewController::goToStart()
 	/* mState.viewing = START_SCREEN;
 	mCurrentView.reset();
 	playViewTransition(); */
-	int firstSystemIndex = getFirstSystemIndex();
-	if (RecalboxConf::getInstance()->get("emulationstation.hidesystemview") == "1" || RecalboxConf::getInstance()->get("emulationstation.bootongamelist") == "1")
-	  goToGameList(SystemData::sSystemVector.at(firstSystemIndex));
-	else
-	  goToSystemView(SystemData::sSystemVector.at(firstSystemIndex));
+
+  std::string systemName = RecalboxConf::getInstance()->get("emulationstation.selectedsystem");
+  int index = systemName.empty() ? -1 : SystemData::getSystemIndex(systemName);
+  SystemData* selectedSystem = index < 0 ? nullptr : SystemData::sSystemVector.at(index);
+
+  if (!selectedSystem || !selectedSystem->hasGame())
+    selectedSystem = SystemData::getFirstSystemWithGame();
+
+  if (RecalboxConf::getInstance()->get("emulationstation.hidesystemview") == "1")
+    goToGameList(selectedSystem);
+  else
+  {
+    if (RecalboxConf::getInstance()->get("emulationstation.bootongamelist") == "1")
+      goToGameList(selectedSystem);
+    else
+      goToSystemView(selectedSystem);
+  }
 }
 
 int ViewController::getSystemId(SystemData* system)
@@ -67,11 +79,16 @@ int ViewController::getSystemId(SystemData* system)
 
 void ViewController::goToSystemView(SystemData* system)
 {
+  auto systemList = getSystemListView();
+  systemList->setPosition(getSystemId(system) * (float)Renderer::getScreenWidth(), systemList->getPosition().y());
+
+  if (!system->hasGame()) {
+    system = SystemData::getFirstSystemWithGame();
+  }
+
 	mState.viewing = SYSTEM_SELECT;
 	mState.system = system;
 
-	auto systemList = getSystemListView();
-	systemList->setPosition(getSystemId(system) * (float)Renderer::getScreenWidth(), systemList->getPosition().y());
 	systemList->goToSystem(system, false);
 	mCurrentView = systemList;
 	mCurrentView->onShow();
@@ -119,7 +136,7 @@ bool ViewController::goToGameList(std::string& systemName) {
 
 void ViewController::goToGameList(SystemData* system)
 {
-	if(mState.viewing == SYSTEM_SELECT)
+	if (mState.viewing == SYSTEM_SELECT)
 	{
 		// move system list
 		auto sysList = getSystemListView();
@@ -132,16 +149,19 @@ void ViewController::goToGameList(SystemData* system)
 
 	if (mInvalidGameList[system])
 	{
-		if(!system->isFavorite()) {
-			updateFavorite(system, getGameListView(system).get()->getCursor());
-			if (mFavoritesOnly != Settings::getInstance()->getBool("FavoritesOnly")) {
-				reloadGameListView(system);
-				mFavoritesOnly = Settings::getInstance()->getBool("FavoritesOnly");
-			}
-		}else {
-			reloadGameListView(system);
-		}
 		mInvalidGameList[system] = false;
+    if (!reloadGameListView(system))
+    {
+      // if listview has been reload due to last game has been deleted,
+      // we have to stop the previous goToGameList process because current
+      // system will no longer exists in the available list
+      return;
+    }
+		if (!system->isFavorite())
+		{
+			updateFavorite(system, getGameListView(system).get()->getCursor());
+			mFavoritesOnly = Settings::getInstance()->getBool("FavoritesOnly");
+		}
 	}
 
 	mState.viewing = GAME_LIST;
@@ -402,9 +422,9 @@ void ViewController::preload()
 	}
 }
 
-void ViewController::reloadGameListView(IGameListView* view, bool reloadTheme)
+bool ViewController::reloadGameListView(IGameListView* view, bool reloadTheme)
 {
-	if(view->getRoot()->countAll(false) > 0)
+	if (view->getRoot()->countAll(false) > 0)
 	{
 		for (auto it = mGameListViews.begin(); it != mGameListViews.end(); it++)
 		{
@@ -412,30 +432,27 @@ void ViewController::reloadGameListView(IGameListView* view, bool reloadTheme)
 			{
 				bool isCurrent = (mCurrentView == it->second);
 				SystemData *system = it->first;
-				int gameCount = system->getGameCount();
-				FileData *cursor = gameCount != 0 ? view->getCursor() : nullptr;
+				bool hasGame = system->hasGame();
+				FileData *cursor = hasGame ? view->getCursor() : nullptr;
 				mGameListViews.erase(it);
 
 				if (reloadTheme)
 					system->loadTheme();
 
 				std::shared_ptr<IGameListView> newView = getGameListView(system);
-				if (gameCount != 0)
+				if (hasGame)
 					newView->setCursor(cursor);
-				/*if (system->getGameCount() > 1) {
-					newView->setCursor(cursor);
-				} else if (system->getGameCount() == 1) {
-					newView->setCursor(system->getRootFolder()->getChildren().at(0));
-				}*/
 				if (isCurrent)
 					mCurrentView = newView;
 				break;
 			}
 		}
+		return true;
 	}
 	else
 	{
     deleteAndReloadAll();
+    return false;
   }
 }
 
@@ -527,19 +544,4 @@ HelpStyle ViewController::getHelpStyle()
 		return GuiComponent::getHelpStyle();
 
 	return mCurrentView->getHelpStyle();
-}
-
-int ViewController::getFirstSystemIndex() {
-	std::string systemName = RecalboxConf::getInstance()->get("emulationstation.selectedsystem");
-	if(!systemName.empty()){
-		int index = SystemData::getSystemIndex(systemName);
-		if (index != -1){
-			LOG(LogInfo) << "emulationstation.selectedsystem variable set to " << systemName.c_str() << " system found !";
-			return index;
-		}else {
-			LOG(LogWarning) << "emulationstation.selectedsystem variable set to " << systemName.c_str() << " but unable to find such a system.";
-			return 0;
-		}
-	}
-	return 0;
 }

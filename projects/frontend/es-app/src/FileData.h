@@ -96,6 +96,7 @@ class FileData
      * Booleans
      */
 
+    inline bool isEmpty() const { return mType == ItemType::Empty; }
     inline bool isGame() const { return mType == ItemType::Game; }
     inline bool isFolder() const { return mType == ItemType::Folder; }
 

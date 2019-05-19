@@ -156,9 +156,8 @@ void SystemView::populate()
 
 void SystemView::goToSystem(SystemData* system, bool animate)
 {
-
-        
-	setCursor(system);
+	if (!setCursor(system)) // When deleting last favorite from favorite view, favorite system is no longer available
+	  setCursor(SystemData::getFirstSystemWithGame());
 
 	if(!animate)
 		finishAnimation(0);

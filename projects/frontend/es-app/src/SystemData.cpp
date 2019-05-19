@@ -791,3 +791,12 @@ int SystemData::getSystemIndex(const std::string &name)
       return i;
   return -1;
 }
+
+SystemData* SystemData::getFirstSystemWithGame()
+{
+  for (auto &system : sSystemVector)
+    if (system->hasGame())
+      return system;
+
+  return nullptr;
+}

@@ -18,8 +18,7 @@ ISimpleGameListView::ISimpleGameListView(Window* window, FolderData* root)
     mHeaderText(window),
     mHeaderImage(window),
     mBackground(window),
-    mThemeExtras(window),
-    mFavoriteChange(false)
+    mThemeExtras(window)
 {
 	mFavoritesCount = getRoot()->getSystem()->getFavoritesCount();
 	mFavoritesOnly = mFavoritesCount > 0 && Settings::getInstance()->getBool("FavoritesOnly");
@@ -37,6 +36,8 @@ ISimpleGameListView::ISimpleGameListView(Window* window, FolderData* root)
 
 	mBackground.setResize(mSize.x(), mSize.y());
 	mBackground.setDefaultZIndex(0);
+
+  mIsFavoriteSystem = getRoot()->getSystem() == SystemData::getFavoriteSystem();
 
 	addChild(&mHeaderText);
 	addChild(&mBackground);
@@ -176,13 +177,6 @@ bool ISimpleGameListView::input(InputConfig* config, Input input) {
 			else if (!hideSystemView)
 			{
 				onFocusLost();
-
-				if (mFavoriteChange)
-				{
-					ViewController::get()->setInvalidGamesList(getRoot()->getSystem());
-					mFavoriteChange = false;
-				}
-
 				ViewController::get()->goToSystemView(getRoot()->getSystem());
 			}
 			return true;
@@ -191,38 +185,35 @@ bool ISimpleGameListView::input(InputConfig* config, Input input) {
 		// TOGGLE FAVORITES
 		if (config->isMappedTo("y", input)) {
 			FileData* cursor = getCursor();
-			if (!ViewController::get()->getState().getSystem()->isFavorite() && cursor->getSystem()->getHasFavoritesInTheme()) {
-				if (cursor->isGame()) {
-					mFavoriteChange = true;
-                    MetadataDescriptor& md = cursor->Metadata();
-					SystemData *favoriteSystem = SystemData::getFavoriteSystem();
+			if (cursor->isGame() && cursor->getSystem()->getHasFavoritesInTheme()) {
+        MetadataDescriptor& md = cursor->Metadata();
+        SystemData *favoriteSystem = SystemData::getFavoriteSystem();
 
-					if (md.Favorite()) {
-                        md.SetFavorite(false);
-                        if (favoriteSystem != nullptr) {
-                            favoriteSystem->getRootFolder()->removeChild(cursor);
-                        }
-					} else {
-                        md.SetFavorite(true);
-                        if (favoriteSystem != nullptr) {
-                            favoriteSystem->getRootFolder()->addChild(cursor, false);
-                        }
-					}
+        md.SetFavorite(!md.Favorite());
 
-					if (favoriteSystem != nullptr) {
-					  ViewController::get()->setInvalidGamesList(favoriteSystem);
-					  ViewController::get()->getSystemListView()->manageFavorite();
-					}
+        if (favoriteSystem != nullptr) {
+          if (md.Favorite()) {
+            favoriteSystem->getRootFolder()->addChild(cursor, false);
+          } else {
+            favoriteSystem->getRootFolder()->removeChild(cursor);
+          }
 
-					// Reload to refresh the favorite icon
-					int cursorPlace = getCursorIndex();
-                    refreshList();
-					setCursorIndex(cursorPlace);
+          if (mIsFavoriteSystem) {
+            ViewController::get()->setInvalidGamesList(cursor->getSystem());
+          } else {
+            ViewController::get()->setInvalidGamesList(favoriteSystem);
+          }
+          ViewController::get()->getSystemListView()->manageFavorite();
+        }
 
-					mFavoritesCount = mFavoritesCount + (md.Favorite() ? 1 : -1);
-					if (!mFavoritesCount) { mFavoritesOnly = false; }
-					updateHelpPrompts();
-				}
+        // Reload to refresh the favorite icon
+        int cursorPlace = getCursorIndex();
+        refreshList();
+        setCursorIndex(cursorPlace);
+
+        mFavoritesCount = mFavoritesCount + (md.Favorite() ? 1 : -1);
+        if (!mFavoritesCount) { mFavoritesOnly = false; }
+        updateHelpPrompts();
 			}
       RecalboxSystem::getInstance()->NotifyGame(*getCursor(), false, false);
       return true;
@@ -232,10 +223,6 @@ bool ISimpleGameListView::input(InputConfig* config, Input input) {
 		if (config->isMappedTo("right", input)) {
 			if (Settings::getInstance()->getBool("QuickSystemSelect") && !hideSystemView) {
 				onFocusLost();
-				if (mFavoriteChange) {
-					ViewController::get()->setInvalidGamesList(getCursor()->getSystem());
-					mFavoriteChange = false;
-				}
 				ViewController::get()->goToNextGameList();
         RecalboxSystem::getInstance()->NotifyGame(*getCursor(), false, false);
         return true;
@@ -246,10 +233,6 @@ bool ISimpleGameListView::input(InputConfig* config, Input input) {
 		if (config->isMappedTo("left", input)) {
 			if (Settings::getInstance()->getBool("QuickSystemSelect") && !hideSystemView) {
 				onFocusLost();
-				if (mFavoriteChange) {
-					ViewController::get()->setInvalidGamesList(getCursor()->getSystem());
-					mFavoriteChange = false;
-				}
 				ViewController::get()->goToPrevGameList();
         RecalboxSystem::getInstance()->NotifyGame(*getCursor(), false, false);
 				return true;
@@ -314,7 +297,7 @@ bool ISimpleGameListView::input(InputConfig* config, Input input) {
 		}
 
 
-		if(config->isMappedTo("select", input) && input.value && getRoot()->getSystem() != SystemData::getFavoriteSystem())
+		if(config->isMappedTo("select", input) && input.value && !mIsFavoriteSystem)
 		{
 			if (mFavoritesCount) {
 				mFavoritesOnly = !mFavoritesOnly;
@@ -342,7 +325,6 @@ bool ISimpleGameListView::input(InputConfig* config, Input input) {
 
 std::vector<HelpPrompt> ISimpleGameListView::getHelpPrompts() {
 	bool hideSystemView = RecalboxConf::getInstance()->get("emulationstation.hidesystemview") == "1";
-	bool isFavoriteSystem = getRoot()->getSystem() == SystemData::getFavoriteSystem();
 	std::vector<HelpPrompt> prompts;
 
 	prompts.push_back(HelpPrompt("b", _("LAUNCH")));
@@ -350,7 +332,9 @@ std::vector<HelpPrompt> ISimpleGameListView::getHelpPrompts() {
 	if ((RecalboxConf::getInstance()->get("global.netplay") == "1") && (RecalboxConf::getInstance()->isInList("global.netplay.systems", getCursor()->getSystem()->getName())))
 		prompts.push_back(HelpPrompt("x", _("NETPLAY")));
 
-	if (!isFavoriteSystem)
+	if (mIsFavoriteSystem)
+		prompts.push_back(HelpPrompt("y", _("Remove from favorite")));
+	else
 		prompts.push_back(HelpPrompt("y", _("Favorite")));
 
 	if (!hideSystemView)
@@ -361,7 +345,7 @@ std::vector<HelpPrompt> ISimpleGameListView::getHelpPrompts() {
 	if (Settings::getInstance()->getBool("QuickSystemSelect") && !hideSystemView)
 		prompts.push_back(HelpPrompt("left/right", _("SYSTEM")));
 
-	if (!isFavoriteSystem)
+	if (!mIsFavoriteSystem)
 	{
 		prompts.push_back(HelpPrompt("start", _("OPTIONS")));
 

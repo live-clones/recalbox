@@ -108,7 +108,8 @@ class SystemData
 	std::string getGamelistPath(bool forWrite) const;
 	//bool hasGamelist() const;
 	std::string getThemePath() const;
-	
+
+	bool hasGame() const { return mRootFolder.hasGame(); }
 	int getGameCount() const { return mRootFolder.countAll(false); };
 	int getFavoritesCount() const{ return mRootFolder.countAllFavorites(false); };
 	int getHiddenCount() const{ return mRootFolder.countAllHidden(false); };
@@ -122,6 +123,7 @@ class SystemData
 	static std::vector<SystemData*> sSystemVector;
 	static SystemData* getFavoriteSystem();
 	static SystemData* getSystem(std::string& name);
+	static SystemData* getFirstSystemWithGame();
 	static int getSystemIndex(const std::string& name);
 	static const std::vector<SystemData*>& getAllSystems() { return sSystemVector; }
 
