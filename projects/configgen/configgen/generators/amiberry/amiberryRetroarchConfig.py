@@ -67,7 +67,7 @@ class AmiberryRetroarchConfig:
 
     @staticmethod
     def sanitizeFilename(filename):
-        for c in (' ', '\\', '/', ':', '?', '"', '<', '>', '|'):
+        for c in ('\\', '/', ':', '?', '"', '<', '>', '|'):
             filename = filename.replace(c, '')
         return filename
 
