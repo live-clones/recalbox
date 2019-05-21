@@ -41,6 +41,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Bump retroarch to 1.7.7
 - Bump Odroid XU4 kernel to 4.14
 - More firmwares and drivers added
+- Bump libretro pcsx_rearmed to support .chd files
 
 ## [6.0] - DragonBlaze
 - Change name from 5.0 to 6.0 DragonBlaze

@@ -1,5 +1,5 @@
-config BR2_PACKAGE_LIBRETRO_PCSX
-	bool "libretro-pcsx"
+config BR2_PACKAGE_LIBRETRO_PCSX_REARMED
+	bool "libretro-pcsx_rearmed"
 	depends on BR2_PACKAGE_RETROARCH
 	depends on BR2_INSTALL_LIBSTDCPP
 	select BR2_PACKAGE_RECALBOX_ROMFS_PSX
@@ -8,5 +8,5 @@ config BR2_PACKAGE_LIBRETRO_PCSX
 
 	  http://www.libretro.com
 
-comment "LIBRETRO_PCSX needs a toolchain w/ C++"
+comment "LIBRETRO_PCSX_REARMED needs a toolchain w/ C++"
 	depends on !BR2_INSTALL_LIBSTDCPP

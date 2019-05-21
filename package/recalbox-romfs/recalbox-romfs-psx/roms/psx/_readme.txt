@@ -2,13 +2,8 @@
 
 Put your playstation roms in this directory.
 
-Rom files must have a ".iso/.img/.pbp/.cue/.ccd/.cbn/.m3u"  extension.
-.bin files need a .cue file to be started
-
-
-## Recalbox X86/X86_64 ##
-The libretro cores mednafen_psx and menafen_psx_hw are now available.
-These one can start games with ".chd" extension.
+Rom files must have a ".iso/.img/.pbp/.cue/.ccd/.cbn/.m3u/.chd" extension.
+.bin files need a .cue file to be started.
 
 These cores needs 3 new BIOS (names are case sensitive) :
 

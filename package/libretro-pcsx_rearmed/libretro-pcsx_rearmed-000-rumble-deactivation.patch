@@ -1,0 +1,11 @@
+--- a/libpcsxcore/plugins.c	Tue Feb 21 09:13:50 2017
++++ b/libpcsxcore/plugins.c	Tue Feb 21 09:19:30 2017
+@@ -718,7 +718,7 @@
+ 				//mem the vibration value for Large motor;
+ 				pad[port].Vib[1] = value;
+ 				//vibration
+-				vibrate(port);
++				//vibrate(port);
+ 				break;
+ 			}
+ 		break;

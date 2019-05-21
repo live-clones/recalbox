@@ -2,13 +2,8 @@
 
 Placez ici vos roms playstation.
 
-Les roms doivent avoir l'extension ".iso/.img/.pbp/.cue/.ccd/.cbn/.m3u"
+Les roms doivent avoir l'extension ".iso/.img/.pbp/.cue/.ccd/.cbn/.m3u/.chd"
 Les fichiers .bin nécessitent un fichier .cue pour être démarrés.
-
-
-## Versions X86/X86_64 de Recalbox ##
-Les cores mednafen_psx et mednafen_psx_hw sont disponibles.
-Ces derniers acceptent, en plus des extensions précédement citées, les jeux au format ".chd".
 
 De plus ils nécessitent l'ajout de ces 3 BIOS (veuillez respecter les miniscules dans les noms de fichier) :
 

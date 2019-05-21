@@ -30,6 +30,7 @@
 - Bluetooth pads configuration easier than ever: previously configured pads automatically unpaired before pairing again
 - Enable "Threaded DSP" option in 4DO by default (improve emulation speed)
 - Odroid XU4 linux kernel upgraded to version 4.14
+- pcsx_rearmed supports .chd files now too
 
 ### Fixes
 - Fix boot intro videos on x86 and x64
