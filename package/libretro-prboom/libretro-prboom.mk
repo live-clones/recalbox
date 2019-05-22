@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_PRBOOM_VERSION = 5371c885f195b60448207f2a8f27861a34a0d287
+LIBRETRO_PRBOOM_VERSION = 43716f784506aeeef80f054685c471f1508a46f9
 LIBRETRO_PRBOOM_SITE = $(call github,libretro,libretro-prboom,$(LIBRETRO_PRBOOM_VERSION))
 
 define LIBRETRO_PRBOOM_BUILD_CMDS
@@ -19,6 +19,7 @@ endef
 define LIBRETRO_PRBOOM_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/prboom_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/prboom_libretro.so
+	cp "prboom.wad" $(TARGET_DIR)/recalbox/share_init/bios
 endef
 
 $(eval $(generic-package))

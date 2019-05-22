@@ -15,10 +15,4 @@ Responding to a frantic distress call from the overrun scientists, the Martian m
 		<genre>Shooter / 1st person</genre>
 		<players>1-4</players>
 	</game>
-	<game>
-		<path>./prboom.wad</path>
-		<name>prboom</name>
-		<rating>0</rating>
-		<hidden>true</hidden>
-	</game>
 </gameList>
