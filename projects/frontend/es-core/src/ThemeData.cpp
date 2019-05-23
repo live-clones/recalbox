@@ -628,10 +628,11 @@ const std::shared_ptr<ThemeData>& ThemeData::getCurrent()
 		theme = std::shared_ptr<ThemeData>(new ThemeData());
 		fs::path path;
 		std::string currentTheme = Settings::getInstance()->getString("ThemeSet");
-		static const size_t pathCount = 2;
+		static const size_t pathCount = 3;
 		fs::path paths[pathCount] =
 		{
 			RootFolders::TemplateRootFolder + "/system/.emulationstation/themes/" + currentTheme,
+			RootFolders::DataRootFolder     + "/themes/" + currentTheme,
 			RootFolders::DataRootFolder     + "/system/.emulationstation/themes/" + currentTheme
 		};
 	
@@ -771,7 +772,7 @@ std::map<std::string, std::string> ThemeData::getThemeSubSets(const std::string&
 	fs::path paths[pathCount] =
 	{
 		RootFolders::TemplateRootFolder + "/system/.emulationstation/themes/" + theme,
-		RootFolders::DataRootFolder     + "/themes",
+		RootFolders::DataRootFolder     + "/themes/" + theme,
 		RootFolders::DataRootFolder     + "/system/.emulationstation/themes/" + theme
 	};
 
