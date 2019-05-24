@@ -6,6 +6,7 @@
 - New emulator! Uzebox on all systems (RetroArch core: libretro-uzem)
 - New system! Amstrad GX4000 added with libretro’s cap32 emulator
 - Pi 3A+ compatibility (Firmware bump)
+- New video snaps! Now see short videos of games before launching them
 
 ### Improvements
 - Retroarch updated to version 1.7.7!

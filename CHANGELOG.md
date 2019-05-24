@@ -44,6 +44,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Bump libretro pcsx_rearmed to support .chd files
 - Wifi password encryption removed
 - Bump raspberry pi firmware - Compatible Pi 3A+
+- New video snaps
 
 ## [6.0] - DragonBlaze
 - Change name from 5.0 to 6.0 DragonBlaze
