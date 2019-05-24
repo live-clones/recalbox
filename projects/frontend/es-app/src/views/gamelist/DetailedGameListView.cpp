@@ -42,7 +42,7 @@ DetailedGameListView::DetailedGameListView(Window* window, FolderData* root, Sys
     // folder components
     for (int y = 0; y < 3; y++) {
         for (int x = 0; x < 3; x++) {
-            ImageComponent *img = new ImageComponent(window);
+            auto *img = new ImageComponent(window);
             addChild(img); // normalised functions required to be added first
             img->setOrigin(0.5f, 0.5f);
             img->setNormalisedMaxSize(0.4f, 0.4f);
@@ -370,6 +370,8 @@ void DetailedGameListView::setGameInfo(FileData* file)
     mFavorite.setValue(file->Metadata().FavoriteAsString());
 
     mImage.setImage(file->Metadata().Image());
+    mImage.setVideo(file->Metadata().Video());
+    mImage.ResetAnimations();
     mDescription.setText(file->Metadata().Description());
     mDescContainer.reset();
 }

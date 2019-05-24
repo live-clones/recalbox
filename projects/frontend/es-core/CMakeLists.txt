@@ -22,7 +22,13 @@ set(CORE_HEADERS
 	${CMAKE_CURRENT_SOURCE_DIR}/src/RootFolders.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/MenuThemeData.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/Util.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/VideoEngine.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/Window.h
+
+	# Utils
+	${CMAKE_CURRENT_SOURCE_DIR}/src/util/Thread.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/util/Mutex.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/util/HighResolutionTimer.h
 
 	# Animations
 	${CMAKE_CURRENT_SOURCE_DIR}/src/animations/Animation.h
@@ -39,6 +45,7 @@ set(CORE_HEADERS
 	${CMAKE_CURRENT_SOURCE_DIR}/src/components/HelpComponent.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/components/IList.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/components/ImageComponent.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/components/ImageVideoComponent.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/components/ImageGridComponent.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/components/MenuComponent.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/components/NinePatchComponent.h
@@ -95,7 +102,12 @@ set(CORE_SOURCES
 	${CMAKE_CURRENT_SOURCE_DIR}/src/RootFolders.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/MenuThemeData.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/Util.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/VideoEngine.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/Window.cpp
+
+	# Utils
+	${CMAKE_CURRENT_SOURCE_DIR}/src/util/Thread.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/util/Mutex.cpp
 
 	# Animations
 	${CMAKE_CURRENT_SOURCE_DIR}/src/animations/AnimationController.cpp
@@ -109,6 +121,7 @@ set(CORE_SOURCES
 	${CMAKE_CURRENT_SOURCE_DIR}/src/components/DateTimeComponent.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/components/HelpComponent.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/components/ImageComponent.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/components/ImageVideoComponent.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/components/MenuComponent.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/components/NinePatchComponent.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/components/ScrollableContainer.cpp
@@ -195,6 +208,9 @@ set(EMBEDDED_ASSET_SOURCES
 
 list(APPEND CORE_SOURCES ${EMBEDDED_ASSET_SOURCES})
 
+set(FFMPEGLIBS avcodec avformat swresample avutil swscale avdevice)
+
 include_directories(${COMMON_INCLUDE_DIRS})
 add_library(es-core STATIC ${CORE_SOURCES} ${CORE_HEADERS} src/RecalboxConf.cpp src/RecalboxConf.h)
-target_link_libraries(es-core ${COMMON_LIBRARIES})
+target_link_libraries(es-core ${COMMON_LIBRARIES} ${FFMPEGLIBS})
+

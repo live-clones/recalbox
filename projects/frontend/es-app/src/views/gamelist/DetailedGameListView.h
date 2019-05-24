@@ -4,6 +4,7 @@
 #include "components/ScrollableContainer.h"
 #include "components/RatingComponent.h"
 #include "components/DateTimeComponent.h"
+#include "components/ImageVideoComponent.h"
 #include "SystemData.h"
 
 class DetailedGameListView : public BasicGameListView
@@ -24,7 +25,7 @@ private:
     void initMDLabels();
     void initMDValues();
 
-    ImageComponent mImage;
+    ImageVideoComponent mImage;
     std::vector<ImageComponent *> mFolderContent;
 
     TextComponent mLblRating, mLblReleaseDate, mLblDeveloper, mLblPublisher, mLblGenre, mLblPlayers, mLblLastPlayed, mLblPlayCount, mLblFavorite;

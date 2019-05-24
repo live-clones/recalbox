@@ -23,6 +23,7 @@
 #include <boost/algorithm/string/replace.hpp>
 #include <fstream>
 #include <Locale.h>
+#include <VideoEngine.h>
 
 
 RecalboxSystem::RecalboxSystem() {
@@ -53,6 +54,7 @@ void RecalboxSystem::NotifySystemAndGame(const SystemData* system, const FileDat
     fwrite(output.c_str(), output.size(), 1, f);
     fclose(f);
   }
+  VideoEngine::This().StopVideo();
 }
 
 

@@ -13,6 +13,7 @@ class TextureData
 {
 public:
 	TextureData(bool tile);
+  TextureData();
 	~TextureData();
 
 	// These functions populate mDataRGBA but do not upload the texture to VRAM
@@ -23,7 +24,9 @@ public:
 	bool initImageFromMemory(const unsigned char* fileData, size_t length);
 	bool initFromRGBA(const unsigned char* dataRGBA, size_t width, size_t height);
 
-	// Read the data into memory if necessary
+  bool updateFromRGBA(const unsigned char* dataRGBA, size_t width, size_t height);
+
+    // Read the data into memory if necessary
 	bool load();
 
 	bool isLoaded();
@@ -37,6 +40,9 @@ public:
 
 	// Release the texture from conventional RAM
 	void releaseRAM();
+
+	// Reset texture
+	void reset();
 
 	// Get the amount of VRAM currenty used by this texture
 	size_t getVRAMUsage();

@@ -10,6 +10,19 @@
 
 #define DPI 96
 
+TextureData::TextureData()
+  : mTile(false),
+    mTextureID(0),
+    mDataRGBA(nullptr),
+    mWidth(0),
+    mHeight(0),
+    mSourceWidth(0.0f),
+    mSourceHeight(0.0f),
+    mScalable(false),
+    mSVGImage(nullptr)
+{
+}
+
 TextureData::TextureData(bool tile)
   : mTile(tile),
     mTextureID(0),
@@ -25,11 +38,19 @@ TextureData::TextureData(bool tile)
 
 TextureData::~TextureData()
 {
-	releaseVRAM();
-	releaseRAM();
-	if (mSVGImage)
-		nsvgDelete(mSVGImage);
-	mSVGImage = nullptr;
+  reset();
+}
+
+void TextureData::reset()
+{
+  releaseVRAM();
+  releaseRAM();
+  if (mSVGImage)
+    nsvgDelete(mSVGImage);
+
+  mWidth = mHeight = 0;
+  mDataRGBA = nullptr;
+  mSVGImage = nullptr;
 }
 
 void TextureData::initFromPath(const std::string& path)
@@ -130,7 +151,7 @@ bool TextureData::initImageFromMemory(const unsigned char* fileData, size_t leng
 bool TextureData::initFromRGBA(const unsigned char* dataRGBA, size_t width, size_t height)
 {
 	// If already initialised then don't read again
-	std::unique_lock<std::mutex> lock(mMutex);
+	//std::unique_lock<std::mutex> lock(mMutex);
 	if (mDataRGBA)
 		return true;
 
@@ -194,7 +215,7 @@ bool TextureData::uploadAndBind()
 		glGenTextures(1, &mTextureID);
 		glBindTexture(GL_TEXTURE_2D, mTextureID);
 
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, mWidth, mHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, mDataRGBA);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, mWidth, mHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, mDataRGBA);
 
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -204,6 +225,28 @@ bool TextureData::uploadAndBind()
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapMode);
 	}
 	return true;
+}
+
+bool TextureData::updateFromRGBA(const unsigned char* dataRGBA, size_t width, size_t height)
+{
+  // First time init
+  if (mWidth * mHeight == 0)
+  {
+    // First time
+    if (initFromRGBA(dataRGBA, width, height))
+      if (uploadAndBind()) return true;
+    return false;
+  }
+
+  {
+    // Update only
+    std::unique_lock <std::mutex> lock(mMutex);
+    if (width != mWidth) return false;
+    if (height != mHeight) return false;
+    glBindTexture(GL_TEXTURE_2D, mTextureID);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, dataRGBA);
+  }
+  return true;
 }
 
 void TextureData::releaseVRAM()
@@ -219,8 +262,9 @@ void TextureData::releaseVRAM()
 void TextureData::releaseRAM()
 {
 	std::unique_lock<std::mutex> lock(mMutex);
-	delete[] mDataRGBA;
-	mDataRGBA = 0;
+	if (mDataRGBA != nullptr)
+  	delete[] mDataRGBA;
+	mDataRGBA = nullptr;
 }
 
 size_t TextureData::width()

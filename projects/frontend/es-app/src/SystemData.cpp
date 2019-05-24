@@ -12,6 +12,7 @@
 #include <RecalboxConf.h>
 #include <RootFolders.h>
 #include <recalbox/RecalboxSystem.h>
+#include <VideoEngine.h>
 
 std::vector<SystemData *> SystemData::sSystemVector;
 
@@ -164,6 +165,7 @@ void SystemData::launchGame(Window* window, FileData* game, const std::string& n
 
   LOG(LogInfo) << "Attempting to launch game...";
 
+  VideoEngine::This().StopVideo();
   AudioManager::getInstance()->deinit();
   VolumeControl::getInstance()->deinit();
 
@@ -239,6 +241,7 @@ std::string SystemData::demoInitialize(Window& window)
   std::string controlersConfig = InputManager::getInstance()->configureEmulators();
   LOG(LogInfo) << "Controllers config : " << controlersConfig;
 
+  VideoEngine::This().StopVideo();
   AudioManager::getInstance()->deinit();
   VolumeControl::getInstance()->deinit();
 
@@ -343,7 +346,10 @@ SystemData *createSystem(const SystemData::Tree &system)
     name = system.get("name", "");
     fullname = system.get("fullname", "");
     path = system.get("path", "");
+
+//#ifdef DEBUG
     //strFindAndReplace(path, "roms", "romstest");
+//#endif
 
     // convert extensions list from a string into a vector of strings
     std::string extensions = system.get("extension", "");

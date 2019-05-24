@@ -11,7 +11,7 @@ const std::string MetadataDescriptor::DefaultValueEmpty = "";
 const std::string MetadataDescriptor::DefaultValueRating = "0.0";
 const std::string MetadataDescriptor::DefaultValuePlayers = "1";
 const std::string MetadataDescriptor::DefaultValuePlaycount = "0";
-const std::string MetadataDescriptor::DefaultValueUnknown = "unknown";
+//const std::string MetadataDescriptor::DefaultValueUnknown = "unknown";
 const std::string MetadataDescriptor::DefaultValueFavorite = "false";
 const std::string MetadataDescriptor::DefaultValueHidden = "false";
 
@@ -44,6 +44,7 @@ const MetadataFieldDescriptor* MetadataDescriptor::GetMetadataFieldDescriptors(I
         MetadataFieldDescriptor("desc"       , DefaultValueEmpty    , _("Description") , _("enter description")           , (int)offsetof(MetadataDescriptor, _Description), MetadataFieldDescriptor::DataType::Text   , &MetadataDescriptor::IsDefaultDescription    , &MetadataDescriptor::DescriptionAsString , &MetadataDescriptor::SetDescription         , false, false),
         MetadataFieldDescriptor("image"      , DefaultValueEmpty    , _("Image")       , _("enter path to image")         , (int)offsetof(MetadataDescriptor, _Image)      , MetadataFieldDescriptor::DataType::Path   , &MetadataDescriptor::IsDefaultImage          , &MetadataDescriptor::ImageAsString       , &MetadataDescriptor::SetImagePath           , false, false),
         MetadataFieldDescriptor("thumbnail"  , DefaultValueEmpty    , _("Thumbnail")   , _("enter path to thumbnail")     , (int)offsetof(MetadataDescriptor, _Thumbnail)  , MetadataFieldDescriptor::DataType::PPath  , &MetadataDescriptor::IsDefaultThumbnail      , &MetadataDescriptor::ThumbnailAsString   , &MetadataDescriptor::SetThumbnailPath       , false, false),
+        MetadataFieldDescriptor("video"      , DefaultValueEmpty    , _("Video")       , _("enter path to video")         , (int)offsetof(MetadataDescriptor, _Video)      , MetadataFieldDescriptor::DataType::PPath  , &MetadataDescriptor::IsDefaultVideo          , &MetadataDescriptor::VideoAsString       , &MetadataDescriptor::SetVideoPath           , false, false),
         MetadataFieldDescriptor("releasedate", DefaultValueEmpty    , _("Release date"), _("enter release date")          , (int)offsetof(MetadataDescriptor, _ReleaseDate), MetadataFieldDescriptor::DataType::Date   , &MetadataDescriptor::IsDefaultReleaseDateEpoc, &MetadataDescriptor::ReleaseDateAsString , &MetadataDescriptor::SetReleaseDateAsString , false, false),
         MetadataFieldDescriptor("developer"  , DefaultValueEmpty    , _("Developer")   , _("enter game developer")        , (int)offsetof(MetadataDescriptor, _Developer)  , MetadataFieldDescriptor::DataType::String , &MetadataDescriptor::IsDefaultDeveloper      , &MetadataDescriptor::DeveloperAsString   , &MetadataDescriptor::SetDeveloper           , false, false),
         MetadataFieldDescriptor("publisher"  , DefaultValueEmpty    , _("Publisher")   , _("enter game publisher")        , (int)offsetof(MetadataDescriptor, _Publisher)  , MetadataFieldDescriptor::DataType::String , &MetadataDescriptor::IsDefaultPublisher      , &MetadataDescriptor::PublisherAsString   , &MetadataDescriptor::SetPublisher           , false, false),

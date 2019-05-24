@@ -10,6 +10,7 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
 #include <RootFolders.h>
+#include <VideoEngine.h>
 
 #include "AudioManager.h"
 #include "CommandThread.h"
@@ -399,6 +400,9 @@ int main(int argc, char* argv[])
 
     // Start the socket server
     CommandThread commandThread(&window);
+
+    // Starts Video engine
+    VideoEngine::This().StartEngine();
 
     // Allocate custom event types
     unsigned int NetPlayPopupEvent = SDL_RegisterEvents(2);

@@ -30,7 +30,7 @@ class MetadataDescriptor
     static const std::string DefaultValueRating;
     static const std::string DefaultValuePlayers;
     static const std::string DefaultValuePlaycount;
-    static const std::string DefaultValueUnknown;
+    //static const std::string DefaultValueUnknown;
     static const std::string DefaultValueFavorite;
     static const std::string DefaultValueHidden;
 
@@ -50,6 +50,7 @@ class MetadataDescriptor
     std::string* _Core;         //!< Specific core
     std::string* _Ratio;        //!< Specific screen ratio
     std::string* _Thumbnail;    //!< Thumbnail path
+    std::string* _Video;        //!< Video path
     std::string* _Region;       //!< Rom/Game Region
     float        _Rating;       //!< Rating from 0.0 to 1.0
     int          _Players;      //!< Players range: LSW:from - MSW:to (allow sorting by max players)
@@ -198,6 +199,7 @@ class MetadataDescriptor
         _Core(nullptr),
         _Ratio(nullptr),
         _Thumbnail(nullptr),
+        _Video(nullptr),
         _Region(nullptr),
         _Rating(0.0f),
         _Players((1<<16)+1),
@@ -232,6 +234,7 @@ class MetadataDescriptor
         _Core        (source._Core       ),
         _Ratio       (source._Ratio      ),
         _Thumbnail   (source._Thumbnail  ),
+        _Video       (source._Video      ),
         _Region      (source._Region     ),
         _Rating      (source._Rating     ),
         _Players     (source._Players    ),
@@ -266,6 +269,7 @@ class MetadataDescriptor
         _Core        (          source._Core       ),
         _Ratio       (          source._Ratio      ),
         _Thumbnail   (          source._Thumbnail  ),
+        _Video       (          source._Video      ),
         _Region      (          source._Region     ),
         _Rating      (          source._Rating     ),
         _Players     (          source._Players    ),
@@ -314,6 +318,7 @@ class MetadataDescriptor
       if (source._Core      != nullptr) _Core      = new std::string(*source._Core     );
       if (source._Ratio     != nullptr) _Ratio     = new std::string(*source._Ratio    );
       if (source._Thumbnail != nullptr) _Thumbnail = new std::string(*source._Thumbnail);
+      if (source._Video     != nullptr) _Video     = new std::string(*source._Video    );
       if (source._Region    != nullptr) _Region    = new std::string(*source._Region   );
       _Rating      = source._Rating     ;
       _Players     = source._Players    ;
@@ -353,6 +358,7 @@ class MetadataDescriptor
       _Description = std::move(source._Description);
       _Image       = std::move(source._Image      );
       _Thumbnail   = source._Thumbnail  ; source._Thumbnail = nullptr;
+      _Video       = source._Video      ; source._Video     = nullptr;
       _Developer   = std::move(source._Developer  );
       _Publisher   = std::move(source._Publisher  );
       _Genre       = std::move(source._Genre      );
@@ -412,6 +418,7 @@ class MetadataDescriptor
     const std::string& Description() const { return _Description;                                 }
     const std::string& Image()       const { return _Image;                                       }
     const std::string& Thumbnail()   const { return ReadPString(_Thumbnail, DefaultValueEmpty);   }
+    const std::string& Video()       const { return ReadPString(_Video, DefaultValueEmpty);       }
     const std::string& Developer()   const { return _Developer;                                   }
     const std::string& Publisher()   const { return _Publisher;                                   }
     const std::string& Genre()       const { return _Genre;                                       }
@@ -441,6 +448,7 @@ class MetadataDescriptor
     std::string DescriptionAsString() const { return _Description;                                 }
     std::string ImageAsString()       const { return _Image;                                       }
     std::string ThumbnailAsString()   const { return ReadPString(_Thumbnail, DefaultValueEmpty);   }
+    std::string VideoAsString()       const { return ReadPString(_Video, DefaultValueEmpty);       }
     std::string DeveloperAsString()   const { return _Developer;                                   }
     std::string PublisherAsString()   const { return _Publisher;                                   }
     std::string GenreAsString()       const { return _Genre;                                       }
@@ -466,6 +474,7 @@ class MetadataDescriptor
     void SetDescription(const std::string& description) { _Description = description; _Dirty = true; }
     void SetImagePath(const std::string& image) { _Image = image; _Dirty = true; }
     void SetThumbnailPath(const std::string& thumbnail) { AssignPString(_Thumbnail, thumbnail); _Dirty = true; }
+    void SetVideoPath(const std::string& video) { AssignPString(_Video, video); _Dirty = true; }
     void SetReleaseDate(const DateTime& releasedate) { _ReleaseDate = (int)releasedate.ToEpochTime(); _Dirty = true; }
     void SetDeveloper(const std::string& developer) { _Developer = developer; _Dirty = true; }
     void SetPublisher(const std::string& publisher) { _Publisher = publisher; _Dirty = true; }
@@ -518,6 +527,7 @@ class MetadataDescriptor
     bool IsDefaultDescription()     const { return _Default._Description == _Description; }
     bool IsDefaultImage()           const { return _Default._Image       == _Image;       }
     bool IsDefaultThumbnail()       const { return _Default.Thumbnail()  == Thumbnail();  }
+    bool IsDefaultVideo()           const { return _Default.Video()      == Video();      }
     bool IsDefaultDeveloper()       const { return _Default._Developer   == _Developer;   }
     bool IsDefaultPublisher()       const { return _Default._Publisher   == _Publisher;   }
     bool IsDefaultGenre()           const { return _Default._Genre       == _Genre;       }
