@@ -18,8 +18,8 @@ class demoInformation:
     FONT_PATH = "/recalbox/share_init/system/.emulationstation/themes/recalbox-next/data/arts/ubuntu_bold.ttf"
 
     # Forced resolution - use 0,0 to use current screen resolution
-    FORCE_WIDTH = 1280
-    FORCE_HEIGHT = 800
+    FORCE_WIDTH = 0
+    FORCE_HEIGHT = 0
 
     def __init__(self):
         pygame.init()
