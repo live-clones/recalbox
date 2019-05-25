@@ -7,6 +7,7 @@ from sys import exit
 from Emulator import Emulator
 import generators
 from generators.fba2x.fba2xGenerator import Fba2xGenerator
+from generators.gsplus.gsplusGenerator import GSplusGenerator
 from generators.kodi.kodiGenerator import KodiGenerator
 from generators.linapple.linappleGenerator import LinappleGenerator
 from generators.oricutron.oricutronGenerator import OricutronGenerator
@@ -38,6 +39,7 @@ generators = {
     'linapple': LinappleGenerator(os.path.join(recalboxFiles.HOME_INIT, '.linapple'),
                                   os.path.join(recalboxFiles.HOME, '.linapple')),
     'oricutron': OricutronGenerator(),
+    'gsplus': GSplusGenerator(),
     'simcoupe': SimCoupeGenerator(),
     'libretro': LibretroGenerator(),
     'moonlight': MoonlightGenerator(),
@@ -104,6 +106,7 @@ emulators["msx2"] = Emulator(name='msx2', emulator='libretro', core='bluemsx')
 emulators["amiga"] = Emulator(name='amiga', emulator='libretro', core='puae')
 emulators["amstradcpc"] = Emulator(name='amstradcpc', emulator='libretro', core='cap32')
 emulators["apple2"] = Emulator(name='apple2', emulator='linapple', videomode='default')
+emulators["apple2gs"] = Emulator(name='apple2gs', emulator='gsplus', videomode='default')
 emulators["atarist"] = Emulator(name='atarist', emulator='libretro', core='hatari')
 emulators["zxspectrum"] = Emulator(name='zxspectrum', emulator='libretro', core='fuse')
 emulators["o2em"] = Emulator(name='odyssey2', emulator='libretro', core='o2em')

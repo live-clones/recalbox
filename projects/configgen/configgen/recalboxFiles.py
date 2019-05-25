@@ -21,6 +21,7 @@ recalboxBins = {'dosbox'      : '/usr/bin/dosbox'
               , 'kodi'        : '/recalbox/scripts/kodilauncher.sh'
               , 'libretro'    : '/usr/bin/retroarch'
               , 'linapple'    : '/usr/bin/linapple'
+              , 'gsplus'      : '/usr/bin/GSplus'
               , 'moonlight'   : '/usr/bin/moonlight'
               , 'mupen64plus' : '/usr/bin/mupen64plus'
               , 'ppsspp'      : '/usr/bin/PPSSPPSDL'
@@ -116,5 +117,7 @@ daphneHomedir = ROMS + '/daphne'
 daphneDatadir = '/usr/share/daphne'
 
 oricutronConfig = HOME + '/.config/oricutron.cfg'
+
+gsplusConfig = HOME + '/.config/gsplus.cfg'
 
 atari800CustomConfig = HOME + '/.atari800.cfg'
