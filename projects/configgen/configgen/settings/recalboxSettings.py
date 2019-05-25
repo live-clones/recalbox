@@ -46,13 +46,14 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='recalbox-config script')
     parser.add_argument("-command", help="load, save or disable", type=str, required=True)
     parser.add_argument("-key", help="key to load", type=str, required=True)
-    parser.add_argument("-value", help="if command = save value to save", type=str, required=False)
+    parser.add_argument("-value", help="if command = save, value to save", type=str, required=False)
+    parser.add_argument("-default", help="if command = load, default value to return if key is not found", type=str, required=False)
     args = parser.parse_args()
 
     if args.command == "save" :
         save(args.key, args.value)
     if args.command == "load" :
-        loaded = load(args.key)
+        loaded = load(args.key, args.default)
         if loaded is not None:
             sys.stdout.write(loaded)
     if args.command == "disable" :

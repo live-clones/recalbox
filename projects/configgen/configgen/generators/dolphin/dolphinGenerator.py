@@ -9,7 +9,7 @@ import ConfigParser
 from settings.unixSettings import UnixSettings
 
 class DolphinGenerator(Generator):
-    def generate(self, system, rom, playersControllers, demo):
+    def generate(self, system, rom, playersControllers, demo, recalboxSettings):
         if not system.config['configfile']:
             dolphinSettings = UnixSettings(recalboxFiles.dolphinIni, separator=' ')
             dolphinControllers.generateControllerConfig(system, playersControllers)

@@ -8,7 +8,7 @@ import daphneControllers
 class DaphneGenerator(Generator):
     # Main entry of the module
     # Configure daphne and return a command
-    def generate(self, system, rom, controllers, demo):
+    def generate(self, system, rom, controllers, demo, recalboxSettings):
         if not system.config['configfile']:
             daphneControllers.generateControllerConfig(system, controllers)
 

@@ -9,7 +9,7 @@ from generators.Generator import Generator
 class MupenGenerator(Generator):
     # Main entry of the module
     # Configure mupen and return a command
-    def generate(self, system, rom, playersControllers, demo):
+    def generate(self, system, rom, playersControllers, demo, recalboxSettings):
         # Settings recalbox default config file if no user defined one
         if not system.config['configfile']:
             # Using recalbox config file

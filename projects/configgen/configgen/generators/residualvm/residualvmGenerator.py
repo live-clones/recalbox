@@ -10,7 +10,7 @@ import glob
 class ResidualVMGenerator(Generator):
     # Main entry of the module
     # Return residualvm command
-    def generate(self, system, rom, playersControllers, demo):
+    def generate(self, system, rom, playersControllers, demo, recalboxSettings):
         # Create a temporary gamecontrollerdb.txt file with controllers mapping
         Controller.generateSDLGameDBAllControllers(playersControllers, "/tmp/gamecontrollerdb.txt")
         # Find rom path

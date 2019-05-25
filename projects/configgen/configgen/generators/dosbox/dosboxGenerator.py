@@ -9,7 +9,7 @@ import glob
 class DosBoxGenerator(Generator):
     # Main entry of the module
     # Return command
-    def generate(self, system, rom, playersControllers, demo):
+    def generate(self, system, rom, playersControllers, demo, recalboxSettings):
         # Find rom path
         gameDir = rom
         batFile = gameDir + "/dosbox.bat"

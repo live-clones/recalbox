@@ -106,7 +106,8 @@ class LibretroRetroarch:
         'atari7800'
     )
 
-    def __init__(self, system, settings, controllers, demo):
+    def __init__(self, system, settings, controllers, demo, recalboxSettings):
+        self.recalboxSettings = recalboxSettings
         self.system = system
         self.settings = settings
         self.controllers = controllers
@@ -126,6 +127,11 @@ class LibretroRetroarch:
     def fillRetroarchConfiguration(self):
         settings = self.settings
         recalbox = self.system.config
+
+        # Enable RetroArch option "quit_press_twice"
+        quit_press_twice = self.recalboxSettings.getOption("global.quitpresstwice", "0")
+        if quit_press_twice == "1":
+            settings.setOption("quit_press_twice", "true");
 
         # Control new RA 1.7.7 key: do not allow upscaling higher than x4
         rguiUpscaling = settings.getOption("rgui_internal_upscale_level", "1").strip('"')

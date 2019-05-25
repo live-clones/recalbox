@@ -14,6 +14,8 @@ import configgen.generators.fba2x.fba2xConfig as fba2xConfig
 import configgen.generators.fba2x.fba2xGenerator as fba2xGenerator
 import configgen.generators.fba2x.fba2xControllers as fba2xControllers
 
+from settings.keyValueSettings import keyValueSettings
+
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
 
 FBA2X_ORIGIN_CFG_FILE = os.path.abspath(os.path.join(os.path.dirname(__file__), 'tmp/fba2x.cfg.origin'))
@@ -49,12 +51,12 @@ fba2xGen = Fba2xGenerator()
 
 class TestLibretroGenerator(unittest.TestCase):
     def test_generate_system_no_custom_settings(self):
-        command = fba2xGen.generate(fbaSystem, rom, dict(), False)
+        command = fba2xGen.generate(fbaSystem, rom, dict(), False, keyValueSettings("", False))
         self.assertEquals(command.videomode, '4')
         self.assertEquals(command.array,['/usr/bin/fba2x', '--configfile', FBA2X_CUSTOM_CFG_FILE,'--logfile','/recalbox/share/system/logs//fba2x.log','MyRom.zip'])
 
     def test_generate_system_custom_settings(self):
-        command = fba2xGen.generate(fbaSystemCustom, rom, dict(), False)
+        command = fba2xGen.generate(fbaSystemCustom, rom, dict(), False, keyValueSettings("", False))
         self.assertEquals(command.videomode, '6')
         self.assertEquals(command.array, ['/usr/bin/fba2x', '--configfile', 'lol','--logfile','/recalbox/share/system/logs//fba2x.log', 'MyRom.zip'])
 

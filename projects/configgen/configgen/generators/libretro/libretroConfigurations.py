@@ -15,7 +15,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')
 class LibretroConfiguration:
 
     # constructor
-    def __init__(self, system, controllers, rom, demo):
+    def __init__(self, system, controllers, rom, demo, recalboxSettings):
         # Rom folder
         romFolder = os.path.dirname(rom)
         # Default files
@@ -25,6 +25,7 @@ class LibretroConfiguration:
         self.retroarchCoreCustomFile = recalboxFiles.retroarchCoreCustom
         self.retroarchCoreCustomOverrideFile = os.path.join(romFolder, ".core.cfg")
         # Default settings
+        self.recalboxSettings = recalboxSettings
         self.retroarchSettings = keyValueSettings(None, True)
         self.coreSettings = keyValueSettings(None, True)
         self.system = system
@@ -63,7 +64,7 @@ class LibretroConfiguration:
         retroarchConfig = self.loadRetroarchConfigurations()
 
         # Configure options
-        retroarch = LibretroRetroarch(self.system, retroarchConfig, self.controllers, self.demo)
+        retroarch = LibretroRetroarch(self.system, retroarchConfig, self.controllers, self.demo, self.recalboxSettings)
         retroarch.fillRetroarchConfiguration()
         # Configure controllers
         controllers = LibretroControllers(self.system, retroarchConfig, self.controllers)

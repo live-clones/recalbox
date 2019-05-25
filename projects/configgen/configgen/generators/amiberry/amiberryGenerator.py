@@ -150,16 +150,14 @@ class AmiberryGenerator(Generator):
 
     # Get keyboard layout
     @staticmethod
-    def GetKeyboardLayout():
-        conf = keyValueSettings(recalboxFiles.recalboxConf)
-        conf.loadFile(True)
+    def GetKeyboardLayout(recalboxSettings):
         # Try to obtain from keyboard layout, then from system language, then fallback to us
-        kl = conf.getOption("system.kblayout", conf.getOption("system.language", "us")[-2:]).lower()
+        kl = recalboxSettings.getOption("system.kblayout", recalboxSettings.getOption("system.language", "us")[-2:]).lower()
         return kl
 
     # Main entry of the module
     # Return command
-    def generate(self, system, rom, playersControllers, demo):
+    def generate(self, system, rom, playersControllers, demo, recalboxSettings):
         # Get rom type and associated configuration file if any
         rom, romType, romHasUAE = RomType.Identify(rom)
 
@@ -185,7 +183,7 @@ class AmiberryGenerator(Generator):
 
         # Load default settings
         configFile.SetDefaultPath(subSystem)
-        configFile.SetUI(AmiberryGenerator.GetKeyboardLayout())
+        configFile.SetUI(AmiberryGenerator.GetKeyboardLayout(recalboxSettings))
         configFile.SetInput(subSystem)
         configFile.SetJoystick(subSystem, playersControllers)
         configFile.SetCPU(subSystem, needSlowCPU)

@@ -9,7 +9,7 @@ import glob
 class ViceGenerator(Generator):
     # Main entry of the module
     # Return command
-    def generate(self, system, rom, playersControllers, demo):
+    def generate(self, system, rom, playersControllers, demo, recalboxSettings):
         # Settings recalbox default config file if no user defined one
         if not system.config['configfile']:
             # Using recalbox config file

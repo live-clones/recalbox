@@ -9,7 +9,7 @@ import os.path
 
 class AdvMameGenerator(Generator):
     # Main entry of the module
-    def generate(self, system, rom, playersControllers, demo):
+    def generate(self, system, rom, playersControllers, demo, recalboxSettings):
         romName = os.path.basename(os.path.splitext(rom)[0])
         commandArray = [recalboxFiles.recalboxBins[system.config['emulator']]]
         

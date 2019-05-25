@@ -13,7 +13,7 @@ import ConfigParser
 class PPSSPPGenerator(Generator):
     # Main entry of the module
     # Configure ppsspp and return a command
-    def generate(self, system, rom, playersControllers, demo):
+    def generate(self, system, rom, playersControllers, demo, recalboxSettings):
         if not system.config['configfile']:
             ppssppConfig.writePPSSPPConfig(system)
             # For each pad detected

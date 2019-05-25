@@ -214,7 +214,7 @@ def main(args):
             os.makedirs(dirname)
 
         # Generate all the config files required by the selected emulator
-        command = generators[system.config['emulator']].generate(system, args.rom, playersControllers, args.demo)
+        command = generators[system.config['emulator']].generate(system, args.rom, playersControllers, args.demo, recalboxSettings)
 
         # The next line is commented and will eventually be used instead of the previous one
         # if we even want the binary to be set from here rather than from the generator

@@ -13,6 +13,7 @@ from generators.libretro.libretroGenerator import LibretroGenerator
 
 import generators.libretro.libretroConfigurations as libretroConfigurations
 import generators.libretro.libretroGenerator as libretroGenerator
+from settings.keyValueSettings import keyValueSettings
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
 
@@ -71,21 +72,21 @@ class TestLibretroGenerator(unittest.TestCase):
         self.sdl2controllers['2'] = self.sdl2controler
 
     def test_generate_system_no_custom_settings(self):
-        command = libretroGen.generate(self.snes, rom, dict(), False)
+        command = libretroGen.generate(self.snes, rom, dict(), False, keyValueSettings("", False))
         self.assertEquals(command.videomode, '4')
         self.assertEquals(command.array,
                           [recalboxFiles.recalboxBins["libretro"], '-L', '/usr/lib/libretro/snes9x2002_libretro.so', '--config',
                            RETROARCH_CUSTOM_CFG_FILE, 'MyRom.nes'])
 
     def test_generate_system_custom_settings(self):
-        command = libretroGen.generate(self.nes, rom, dict(), False)
+        command = libretroGen.generate(self.nes, rom, dict(), False, keyValueSettings("", False))
         self.assertEquals(command.videomode, '6')
         self.assertEquals(command.array,
                           [recalboxFiles.recalboxBins["libretro"], '-L', '/usr/lib/libretro/snes9x2005_libretro.so', '--config', '/myconfigfile.cfg',
                            'MyRom.nes'])
 
     def test_generate_forced_input_config(self):
-        command = libretroGen.generate(self.nes, rom, dict(), False)
+        command = libretroGen.generate(self.nes, rom, dict(), False, keyValueSettings("", False))
         self.assertEquals(command.videomode, '6')
         self.assertEquals(command.array,
                           [recalboxFiles.recalboxBins["libretro"], '-L', '/usr/lib/libretro/snes9x2005_libretro.so', '--config', '/myconfigfile.cfg',
@@ -93,26 +94,26 @@ class TestLibretroGenerator(unittest.TestCase):
 
     def test_custom_inputdriver_override_choice(self):
         self.snes.config['inputdriver'] = 'sdl2'
-        builder = libretroConfigurations.LibretroConfiguration(self.snes, self.sdl2controllers, "/rom.rom", False)
+        builder = libretroConfigurations.LibretroConfiguration(self.snes, self.sdl2controllers, "/rom.rom", False, keyValueSettings("", False))
         builder.overrideLibretroConfigurationFiles(None, RETROARCH_CUSTOM_CFG_FILE)
         retroconf = builder.createRetroarchConfiguration()
         self.assertEquals(retroconf['input_joypad_driver'], 'sdl2')
 
     def test_standard_inputdriver(self):
-        builder = libretroConfigurations.LibretroConfiguration(self.snes, self.controllers, "/rom.rom", False)
+        builder = libretroConfigurations.LibretroConfiguration(self.snes, self.controllers, "/rom.rom", False, keyValueSettings("", False))
         builder.overrideLibretroConfigurationFiles(None, RETROARCH_CUSTOM_CFG_FILE)
         retroconf = builder.createRetroarchConfiguration()
         self.assertEquals(retroconf['input_joypad_driver'], 'udev')
 
     def test_inputdriver_none_specified(self):
-        builder = libretroConfigurations.LibretroConfiguration(self.snes, self.sdl2controllers, "/rom.rom", False)
+        builder = libretroConfigurations.LibretroConfiguration(self.snes, self.sdl2controllers, "/rom.rom", False, keyValueSettings("", False))
         builder.overrideLibretroConfigurationFiles(None, RETROARCH_CUSTOM_CFG_FILE)
         retroconf = builder.createRetroarchConfiguration()
         self.assertEquals(retroconf['input_joypad_driver'], 'sdl2')
 
     def test_inputdriver_auto(self):
         self.snes.config['inputdriver'] = 'auto'
-        builder = libretroConfigurations.LibretroConfiguration(self.snes, self.sdl2controllers, "/rom.rom", False)
+        builder = libretroConfigurations.LibretroConfiguration(self.snes, self.sdl2controllers, "/rom.rom", False, keyValueSettings("", False))
         builder.overrideLibretroConfigurationFiles(None, RETROARCH_CUSTOM_CFG_FILE)
         retroconf = builder.createRetroarchConfiguration()
         self.assertEquals(retroconf['input_joypad_driver'], 'sdl2')
@@ -126,10 +127,10 @@ class TestLibretroGenerator(unittest.TestCase):
                                                                         -1, 0, "p4controller","","0",
                                                                         -1, 0, "p5controller","","0")
 
-        command = libretroGen.generate(self.snes, rom, controllers, False)
+        command = libretroGen.generate(self.snes, rom, controllers, False, keyValueSettings("", False))
         self.assertEquals(libretroConfigurations.libretroSettings.load('input_menu_toggle_btn'), '14')
         self.snes2.config['specials'] = "none"
-        command = libretroGen.generate(self.snes2, rom, controllers, False)
+        command = libretroGen.generate(self.snes2, rom, controllers, False, keyValueSettings("", False))
         self.assertEquals(libretroConfigurations.libretroSettings.load('input_menu_toggle_btn'), None)
 
 
