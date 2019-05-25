@@ -29,6 +29,7 @@ public:
 	static const char* GAME_SMOOTH_HELP_MSG;
 	static const char* GAME_REWIND_HELP_MSG;
 	static const char* GAME_AUTOSAVELOAD_HELP_MSG;
+	static const char* GAME_PRESS_TWICE_QUIT_HELP_MSG;
 	static const char* GAME_INTEGER_SCALE_HELP_MSG;
 	static const char* GAME_SHADERS_HELP_MSG;
 

@@ -39,6 +39,11 @@ Makefile
 CPackConfig.cmake
 CPackSourceConfig.cmake
 
+# Eclipse generated files
+.cproject
+.project
+.settings/
+
 .vscode
 .idea/
 .vscode/

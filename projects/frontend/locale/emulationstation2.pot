@@ -306,6 +306,10 @@ msgid "AUTO SAVE/LOAD"
 msgstr ""
 
 #: 
+msgid "PRESS TWICE TO QUIT GAME"
+msgstr ""
+
+#: 
 msgid "SHADERS SET"
 msgstr ""
 
@@ -1251,6 +1255,10 @@ msgstr ""
 
 #: 
 msgid "Auto save the state when you quit a game, and auto load last saved state when you start a game."
+msgstr ""
+
+#: 
+msgid "Press twice the buttons to end the game and go back to main menu."
 msgstr ""
 
 #: 

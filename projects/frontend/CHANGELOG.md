@@ -2,7 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [6.1] Shutdown System option moved at the top of the Quit menu
+## [6.1]
+### Added
+- Shutdown System option moved at the top of the Quit menu
+- Add option to press Hotkey+Start twice to quit the game
 
 ## [6.0]
 ### Added

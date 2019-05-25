@@ -294,6 +294,10 @@ msgid "AUTO SAVE/LOAD"
 msgstr "SAUVEGARDE/CHARGEMENT AUTOMATIQUE"
 
 #: 
+msgid "PRESS TWICE TO QUIT GAME"
+msgstr "CONFIRMATION POUR QUITTER LE JEU"
+
+#: 
 msgid "SHADERS SET"
 msgstr "SHADERS SET"
 
@@ -1155,6 +1159,10 @@ msgstr "Cette option vous permet de rembobiner le jeu si vous êtes tué par un 
 #: 
 msgid "Auto save the state when you quit a game, and auto load last saved state when you start a game."
 msgstr "Sauvegardez automatiquement l'état actuel quand vous quittez un jeu et lancez automatiquement la dernière sauvegarde quand vous lancez un jeu."
+
+#: 
+msgid "Press twice the buttons to end the game and go back to main menu."
+msgstr "Appuyer deux fois sur Hotkey+Start pour terminer le jeu et revenir au menu principal."
 
 #: 
 msgid "Integer scaling is scaling by a factor of a whole number, such as 2x, 3x, 4x, etc. This option scales the image up to the greatest integer scale below the set resolution. So for instance, if you set your fullscreen resolution to 1920x1080 and enable integer scaling, it will only scale a 320x240 image up to 1280x960, and leave black borders all around. This is to maintain a 1:1 pixel ratio with the original source image, so that pixels are not unevenly duplicated."
