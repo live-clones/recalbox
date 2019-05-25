@@ -53,8 +53,8 @@ class demoInformation:
             iw = w / 3
             # ratio = iw / image.get_width()
             ih = (image.get_height() * iw ) / image.get_width()
-            print("W / H = {}/{}".format(w,h))
-            print("iW/iH = {}/{}".format(iw,ih))
+            #print("W / H = {}/{}".format(w,h))
+            #print("iW/iH = {}/{}".format(iw,ih))
             image = pygame.transform.smoothscale(image, (iw, ih))
             # Display centered
             x = (w - iw) / 2
@@ -76,7 +76,12 @@ class demoInformation:
 
     def displayBackground(self, screen, w, h):
         # display background
-        screen.fill((32, 32, 32))
+        image = self.loadImage("/recalbox/system/resources/splash/demo.png")
+        if image is not None:
+            image = pygame.transform.smoothscale(image, (w, h))
+            screen.blit(image, (0, 0))
+        else:
+            screen.fill((32, 32, 32))
 
     def getResolution(self):
         # get real screen info
