@@ -35,4 +35,6 @@ void* Thread::StartThread(void* thread_)
   thread.Run();
   thread.AfterRun();
   thread.mIsDone = true;
+
+  return nullptr;
 }

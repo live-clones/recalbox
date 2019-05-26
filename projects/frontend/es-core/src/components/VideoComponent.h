@@ -1,7 +1,3 @@
-//
-// Created by bkg2k on 16/05/19.
-//
-
 #pragma once
 
 #include "platform.h"
@@ -11,25 +7,37 @@
 #include <string>
 #include <memory>
 #include <util/HighResolutionTimer.h>
+#include <RecalboxConf.h>
 #include "resources/TextureResource.h"
 
-class ImageVideoComponent : public GuiComponent
+class VideoComponent : public GuiComponent
 {
   private:
     enum State
     {
-      DisplayImage,
+      Uninitialized,
       InitializeVideo,
-      BumpVideo,
+      StartVideo,
       DisplayVideo,
-      FinalizeVideo,
+      StopVideo,
     };
 
+    enum Effect
+    {
+      Bump,
+      Fade,
+      BreakingNews,
+      _LastItem,
+    };
+
+    //! Video state
     State mState;
+
+    //! Video effect
+    Effect mEffect;
 
     Eigen::Vector2f mTargetSize;
 
-    std::string mPath;
     std::string mVideoPath;
     bool mTargetIsMax;
 
@@ -37,63 +45,70 @@ class ImageVideoComponent : public GuiComponent
     // Used internally whenever the resizing parameters or texture change.
     void resize();
 
-    typedef struct Vertex
+    struct Vertex
     {
       Eigen::Vector2f pos;
       Eigen::Vector2f tex;
-    } RectangleVertexes[6];
-
-    RectangleVertexes mVertices;
+    } mVertices[6];
 
     GLubyte mColors[6*4];
 
-    void updateVertices();
+    void updateVertices(double bump);
     void updateColors();
 
     unsigned int mColorShift;
 
-    std::shared_ptr<TextureResource> mTexture;
     unsigned char mFadeOpacity;
     bool mFading;
+    bool mForceLoad;
     bool mDynamic;
 
-    HighResolutionTimer mTimer;
+    //! Time to vidéo
+    int mVideoDelay;
+    //! Effect timeing
+    int mVideoEffect;
+    //! Video loop (0 for infinite loop)
+    int mVideoLoop;
 
-    static constexpr int IMAGE_TIMING = 5000;
-    static constexpr int IMAGE_TO_VIDEO_TIMING = 500;
+    //! High reolution timer for time computations
+    HighResolutionTimer mTimer;
 
     /*!
      * @brief Decide what to display
-     * @param video [out] Set if we must display the video
-     * @param image [out] Set if we must display the image
-     * @param bumpEffect [out] Set to the video bump value
+     * @param effect [out] Set to the video bump value
+     * @return bool if the video frame has to be displayed
      */
-    void ProcessDisplay(bool& video, bool&image, double& bumpEffect);
+    bool ProcessDisplay(double& effect);
 
     /*!
-     * @brief Calculate new bumped vertexes
-     * @param bump
+     * @brief Stop video and reset component context
      */
-    void CalculateVideoVextexes(RectangleVertexes& destinationVertexes, double bump);
+    void ResetAnimations();
+
+    /*!
+     * @brief Process effect and return a double from 0.0 to 1.0
+     * @param elapsedms elapsed time in millisecond
+     * @param in True if the effect is used in starting video phase. False in stopping video phase
+     * @return 0.0 to 1.0 value.
+     */
+    double ProcessEffect(int elapsedms, bool in);
+
+    //! Pi constant
+    static constexpr double Pi = 3.1415926535;
 
   public:
-    explicit ImageVideoComponent(Window* window, bool dynamic = true);
-    ~ImageVideoComponent() override;
+    explicit VideoComponent(Window* window, bool forceLoad = false, bool dynamic = true);
+    ~VideoComponent() override = default;
 
-    // Loads the image at the given filepath. Will tile if tile is true (retrieves texture as tiling, creates vertices accordingly).
-    void setImage(const std::string& path, bool tile = false);
-    // Loads an image from memory.
-    void setImage(const char* image, size_t length, bool tile = false);
-    // Use an already existing texture.
-    void setImage(const std::shared_ptr<TextureResource>& texture);
+    /*!
+     * @brief Set video
+     * @param path Path to video file
+     * @param delay Delay before actually playing the video in milliseconds
+     * @param loops Number of loops (0 = infinite loops)
+     */
+    void setVideo(const std::string& path, int delay, int loops);
 
-    // Set video file path
-    void setVideo(const std::string& path);
-
-    void onSizeChanged() override;
     void setOpacity(unsigned char opacity) override;
-
-    Eigen::Vector2f getTargetSize() const { return mTargetSize; }
 
     // Resize the image to fit this size. If one axis is zero, scale that axis to maintain aspect ratio.
     // If both are non-zero, potentially break the aspect ratio.  If both are zero, no resizing.
@@ -106,17 +121,11 @@ class ImageVideoComponent : public GuiComponent
     // Can be set before or after an image is loaded.
     // Never breaks the aspect ratio. setMaxSize() and setResize() are mutually exclusive.
     void setMaxSize(float width, float height);
-    void setNormalisedMaxSize(float width, float height);
     inline void setMaxSize(const Eigen::Vector2f& size) { setMaxSize(size.x(), size.y()); }
 
     // Multiply all pixels in the image by this color when rendering.
     void setColorShift(unsigned int color);
     void setColor(unsigned int color) override;
-
-    // Returns the size of the current texture, or (0, 0) if none is loaded.  May be different than drawn size (use getSize() for that).
-    Eigen::Vector2i getTextureSize() const;
-
-    bool hasImage();
 
     void render(const Eigen::Affine3f& parentTrans) override;
 
@@ -124,5 +133,7 @@ class ImageVideoComponent : public GuiComponent
 
     std::vector<HelpPrompt> getHelpPrompts() override;
 
-    void ResetAnimations();
+    static constexpr int DEFAULT_VIDEODELAY = 2000;
+    static constexpr int DEFAULT_VIDEOEFFET = 500;
+    static constexpr int DEFAULT_VIDEOLOOP  = 1;
 };

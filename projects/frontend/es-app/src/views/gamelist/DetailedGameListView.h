@@ -4,7 +4,8 @@
 #include "components/ScrollableContainer.h"
 #include "components/RatingComponent.h"
 #include "components/DateTimeComponent.h"
-#include "components/ImageVideoComponent.h"
+#include "components/ImageComponent.h"
+#include "components/VideoComponent.h"
 #include "SystemData.h"
 
 class DetailedGameListView : public BasicGameListView
@@ -25,7 +26,8 @@ private:
     void initMDLabels();
     void initMDValues();
 
-    ImageVideoComponent mImage;
+    ImageComponent mImage;
+    VideoComponent mVideo;
     std::vector<ImageComponent *> mFolderContent;
 
     TextComponent mLblRating, mLblReleaseDate, mLblDeveloper, mLblPublisher, mLblGenre, mLblPlayers, mLblLastPlayed, mLblPlayCount, mLblFavorite;
@@ -48,6 +50,8 @@ private:
     TextComponent mDescription;
 
     SystemData* mSystem;
+
+    RecalboxConf& mSettings;
 
     bool switchDisplay(bool isGame);
     bool switchToFolderScrappedDisplay();
