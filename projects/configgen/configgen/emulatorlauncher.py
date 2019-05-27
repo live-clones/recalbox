@@ -103,6 +103,7 @@ emulators["jaguar"] = Emulator(name='jaguar', emulator='libretro', core='virtual
 emulators["msx"] = Emulator(name='msx', emulator='libretro', core='bluemsx')
 emulators["msx1"] = Emulator(name='msx1', emulator='libretro', core='bluemsx')
 emulators["msx2"] = Emulator(name='msx2', emulator='libretro', core='bluemsx')
+emulators["spectravideo"] = Emulator(name='spectravideo', emulator='libretro', core='bluemsx')
 emulators["amiga"] = Emulator(name='amiga', emulator='libretro', core='puae')
 emulators["amstradcpc"] = Emulator(name='amstradcpc', emulator='libretro', core='cap32')
 emulators["apple2"] = Emulator(name='apple2', emulator='linapple', videomode='default')
