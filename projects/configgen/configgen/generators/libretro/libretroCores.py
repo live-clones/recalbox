@@ -10,7 +10,7 @@ class LibretroCores:
         self.controllers = controllers
 
     #
-    # System specific configurations
+    # Core specific configurations
     #
 
     @staticmethod
@@ -22,24 +22,24 @@ class LibretroCores:
         coreSettings.setOption("mame2003-plus_analog", '"digital"')
 
     @staticmethod
+    def configure4DO(coreSettings):
+        coreSettings.setOption("4do_dsp_threaded", '"enabled"')
+
+    #
+    # System specific configurations
+    #
+
+    @staticmethod
+    def configureSpectravideo(coreSettings):
+        coreSettings.setOption("bluemsx_msxtype", '"SVI - Spectravideo SVI-328 MK2"')
+
+    @staticmethod
     def configureAmstradCPC(coreSettings):
         coreSettings.setOption("cap32_model", '"6128"')
 
     @staticmethod
     def configureAmstradGX4000(coreSettings):
         coreSettings.setOption("cap32_model", '"6128+"')
-
-    @staticmethod
-    def configure4DO(coreSettings):
-        coreSettings.setOption("4do_dsp_threaded", '"enabled"')
-
-    @staticmethod
-    def configureSpectravideo(coreSettings):
-        coreSettings.setOption("bluemsx_msxtype", '"SVI - Spectravideo SVI-328 MK2"')
-
-    #
-    # Core specific configurations
-    #
 
     @staticmethod
     def configureAtari5200(coreSettings):
@@ -65,26 +65,10 @@ class LibretroCores:
         a800settings.setOption("BUILTIN_BASIC", "1")
         a800settings.saveFile()
 
-
     # Fill cores configuration
     def fillCoresConfiguration(self):
         recalbox = self.system.config
         settings = self.settings
-
-        # Specific configuration handlers per system
-        specificSystemHandlers =\
-        {
-            "atari5200"    : LibretroCores.configureAtari5200,
-            "atari800"     : LibretroCores.configureAtari800,
-            "amstradcpc"   : LibretroCores.configureAmstradCPC,
-            "gx4000"       : LibretroCores.configureAmstradGX4000,
-            "spectravideo" : LibretroCores.configureSpectravideo,
-        }
-
-        # Get handler and execute
-        if self.system.name in specificSystemHandlers:
-            function = specificSystemHandlers.get(self.system.name)
-            function(settings)
 
         # Specific configuration handlers per core
         specificCoreHandlers =\
@@ -100,3 +84,17 @@ class LibretroCores:
             function = specificCoreHandlers.get(core)
             function(settings)
 
+        # Specific configuration handlers per system
+        specificSystemHandlers =\
+        {
+            "atari5200"    : LibretroCores.configureAtari5200,
+            "atari800"     : LibretroCores.configureAtari800,
+            "amstradcpc"   : LibretroCores.configureAmstradCPC,
+            "gx4000"       : LibretroCores.configureAmstradGX4000,
+            "spectravideo" : LibretroCores.configureSpectravideo,
+        }
+
+        # Get handler and execute
+        if self.system.name in specificSystemHandlers:
+            function = specificSystemHandlers.get(self.system.name)
+            function(settings)
