@@ -33,6 +33,10 @@ class LibretroCores:
     def configure4DO(coreSettings):
         coreSettings.setOption("4do_dsp_threaded", '"enabled"')
 
+    @staticmethod
+    def configureSpectravideo(coreSettings):
+        coreSettings.setOption("bluemsx_msxtype", '"SVI - Spectravideo SVI-328 MK2"')
+
     #
     # Core specific configurations
     #
@@ -70,10 +74,11 @@ class LibretroCores:
         # Specific configuration handlers per system
         specificSystemHandlers =\
         {
-            "atari5200"  : LibretroCores.configureAtari5200,
-            "atari800"   : LibretroCores.configureAtari800,
-            "amstradcpc" : LibretroCores.configureAmstradCPC,
-            "gx4000"     : LibretroCores.configureAmstradGX4000,
+            "atari5200"    : LibretroCores.configureAtari5200,
+            "atari800"     : LibretroCores.configureAtari800,
+            "amstradcpc"   : LibretroCores.configureAmstradCPC,
+            "gx4000"       : LibretroCores.configureAmstradGX4000,
+            "spectravideo" : LibretroCores.configureSpectravideo,
         }
 
         # Get handler and execute
