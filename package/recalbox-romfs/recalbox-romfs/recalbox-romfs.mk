@@ -449,6 +449,11 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_SNES9X),)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-satellaview
 endif
 
+# System: spectravideo
+ifneq ($(BR2_PACKAGE_LIBRETRO_BLUEMSX),)
+        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-spectravideo
+endif
+
 # System: sufami
 ifneq ($(BR2_PACKAGE_LIBRETRO_SNES9X),)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-sufami

@@ -15,7 +15,7 @@ Each .zip file must contain only one compressed rom.
 ## BIOS ##
 
 - BlueMSX (EMULATOR MSX BY DEFAULT) :
-You must download the BlueMSX standalone version, available to this adresse : http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip
+You must download the BlueMSX standalone version, available to this adress : http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip
 Then extract the "Databases" and "Machines" folders and add them to the bios folder of your recalbox.
 
 - FMSX :

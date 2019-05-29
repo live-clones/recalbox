@@ -90,6 +90,14 @@ aa95aea2563cd5ec0a0919b44cc17d47  MSX.ROM
 Merci de lire le fichier "lisezmoi.txt" présent dans le répertoire "/roms/msx" de votre recalbox.
 
 
+- COLECOVISION :
+Merci de lire le fichier "lisezmoi.txt" présent dans le répertoire "/roms/colecovision" de votre recalbox.
+
+
+- SPECTRAVIDEO :
+Merci de lire le fichier "lisezmoi.txt" présent dans le répertoire "/roms/spectravideo" de votre recalbox.
+
+
 - LYNX :
 fcd403db69f54290b51035d82f835e7b  lynxboot.img
 
@@ -104,10 +112,6 @@ b2a8570de2e850c5acf81cb80512d9f6  tos.img
 
 - ODYSSEY2/VIDEOPAC :
 562d5ebf9e030a40d6fabfc2f33139fd  o2rom.bin
-
-
-- COLECOVISION :
-Merci de lire le fichier "lisezmoi.txt" présent dans le répertoire "/roms/colecovision" de votre recalbox.
 
 
 - DREAMCAST :

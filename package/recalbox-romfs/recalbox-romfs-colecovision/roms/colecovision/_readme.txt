@@ -11,7 +11,7 @@ Each .zip file must contain only one compressed rom.
 ## BIOS ##
 
 - BlueMSX :
-You must download the BlueMSX standalone version, available to this adresse : http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip
+You must download the BlueMSX standalone version, available to this address : http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip
 Then extract the "Databases" and "Machines" folders and add them to the bios folder of your recalbox.
 
 You must now download the coleco.rom file (md5sum = 2c66f5911e5b42b8ebe113403548eee7) and add it inside the folder /bios/Machines/COL - ColecoVision/

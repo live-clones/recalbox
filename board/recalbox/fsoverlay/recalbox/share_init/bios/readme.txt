@@ -90,6 +90,14 @@ aa95aea2563cd5ec0a0919b44cc17d47  MSX.ROM
 Thanks to read the "readme.txt" file present in the "/roms/msx" folder of your recalbox.
 
 
+- COLECOVISION :
+Thanks to read the "readme.txt" file present in the "/roms/colecovision" folder of your recalbox.
+
+
+- SPECTRAVIDEO :
+Thanks to read the "readme.txt" file present in the "/roms/spectravideo" folder of your recalbox.
+
+
 - LYNX :
 fcd403db69f54290b51035d82f835e7b  lynxboot.img
 
@@ -104,10 +112,6 @@ b2a8570de2e850c5acf81cb80512d9f6  tos.img
 
 - ODYSSEY2/VIDEOPAC :
 562d5ebf9e030a40d6fabfc2f33139fd  o2rom.bin
-
-
-- COLECOVISION :
-Thanks to read the "readme.txt" file present in the "/roms/colecovision" folder of your recalbox.
 
 
 - DREAMCAST :
