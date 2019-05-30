@@ -1,54 +1,154 @@
 #!/bin/bash
 
-customDir=custom.generate
-tmpDir=/tmp/customMake
-hashList="$customDir/list.hash"
-foundError=0
+### Global variables ###
 
-[[ -z $BUILDROOT_DIR && ! -d ./buildroot ]] && echo "You must set the env var BUILDROOT_DIR to the location of the buildroot dir to use this script" && exit 1
-[[ -z $BUILDROOT_DIR && -d ./buildroot ]] && BUILDROOT_DIR="./buildroot"
+BUILDROOT_DIR=${BUILDROOT_DIR:-"./buildroot"}
+CUSTOM_DIR=${CUSTOM_DIR:-"custom"}
 
-mkdir -p "$customDir"
-rm -rf "$tmpDir" ; mkdir -p "$tmpDir"
-# Get modified files
-for file in `cd "$BUILDROOT_DIR" ; git status -s | cut -c 4-` ; do 
-  patchDest="$customDir/$(dirname $file)"
-  patchName="$(basename $file).patch"
-  echo "$file: $patchDest/$patchName"
-  mkdir -p "$patchDest"
-  # Create the patch
-  if ! ( cd "$BUILDROOT_DIR" ; git diff $file 2>/dev/null ) > "$patchDest/$patchName" ; then
-    if [[ ! -f "$BUILDROOT_DIR/$file" ]] ; then
-      # This file was forcefully removed
-      rm "$patchDest/$patchName"
-      echo "--------------------------------  $file" >> "$hashList" || foundError=1
-      continue
-    fi
-  fi
+hashFile="${CUSTOM_DIR}/list.hash"
 
-  # Copy the expected file
-  cp "$BUILDROOT_DIR/$file" "$customDir/$file"
-  # Get the original file hash -> unapply the patch 1st, then md5sum
-  origDest="$tmpDir/$(dirname $file)"
-  mkdir -p "$origDest"
-  ( cd "$BUILDROOT_DIR" ; patch -p0 -R -o "$tmpDir/$file" $file < "$OLDPWD/$patchDest/$patchName" ) || foundError=1
-  if [[ -s $patchDest/$patchName ]] ; then
-    ( cd $tmpDir && md5sum $file ) >> "$hashList" || foundError=1
-  else
-    # The patch file is empty because the file is new to buildroot
-    rm "$patchDest/$patchName"
-    echo "++++++++++++++++++++++++++++++++  $file" >> "$hashList" || foundError=1
-  fi
-done
+### Colours ###
 
-if [[ $foundError != 0 ]] ; then
-  echo "Some errors were found in the process, can't switch the new custom tree"
-  exit 1
+if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+  c_reset='\033[0m'
+  c_white='\033[0;1m'
+  c_title='\033[7;1m'
+  c_invert='\033[7m'
+  c_gray='\033[1;30m'
+  c_red='\033[1;31m'
+  c_green='\033[1;32m'
+  c_yellow='\033[1;33m'
 fi
 
-branchName=`( cd $BUILDROOT_DIR && git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* .* \([a-z0-9\.]\+\))/\1/' )`
-echo $branchName
-[[ -d ./custom ]] && mv custom "custom.pre-${branchName}"
-mv "$customDir" custom || exit 1
-echo "custom has been renamed to custom.pre-${branchName}"
-echo "Your new custom dir is ready"
+### Functions ###
+
+# printUsage
+#   → outputs the help message
+function printUsage() {
+  echo -e "${c_yellow}Usage${c_reset}
+    $(basename $0) [-h|--help]
+
+${c_yellow}Parameters${c_reset}
+  -h, --help   display this message
+
+${c_yellow}Overview${c_reset}
+  This script analyses a dirty/modified Buildroot tree and builds a 'custom' directory out of it.
+  The generated 'custom' directory reproduces the Buildroot tree file hierarchy, but with patches.
+  It can then be used by 'mergeToBR.sh' script to reproduce the dirty/modified Buildroot tree from
+  a clean/unmodified Buildroot tree (usually, on another developer computer or a CI server).
+
+  Beside the 'custom' directory, this script also generates a specially-crafted 'list.hash' file
+  that indicates, for each file modified, if it has been:
+    • added to the Buildroot tree
+    • removed from the Buildroot tree
+    • patched
+
+  See header comments in '${hashSource}' for details about its content.
+
+  This script expects:
+    • a valid Buildroot tree (usually a dirty/modified one)
+
+${c_yellow}Environment variables${c_reset}
+  BUILDROOT_DIR      indicates the dirty/modified Buildroot tree (default: './buildroot')
+  CUSTOM_DIR         indicates where to save the customizations (default: './custom')"
+}
+
+# checkPrerequisites
+#   → checks pre-requirements and initializes what needs to be
+function checkPrerequisites {
+  if [[ ! -d ${BUILDROOT_DIR} ]]; then
+    echo "Error: BUILDROOT_DIR (${BUILDROOT_DIR}) does not exist or is not a directory."
+    exit 1
+  fi
+  rm -rf "${CUSTOM_DIR}"
+  mkdir -p "${CUSTOM_DIR}"
+}
+
+# writeHashFileHeader
+#   → (over-)writes some documenting header comments to the hashFile
+function writeHashFileHeader {
+  echo "\
+# This is the list of patches to apply to the Buildroot external tree
+# First column is either:
+#   * a MD5 sum of the file to patch (i.e. the target file)
+#   * a line of minus signs ('-') indicates a file that we remove from Buildroot external tree
+#   * a line of plus signs ('+') indicates a file that we add to the Buildroot external tree
+" > "${hashFile}"
+}
+
+# checkStagedChanges
+#   → ensures that nothing has been staged (or unmerged) in the Buildroot tree
+#     see 'man git-status' for details about its short/porcelain output format.
+#     (TL;DR: first character of a line is the index status, second one is the worktree status)
+function checkStagedChanges {
+  if (cd "${BUILDROOT_DIR}"; git status --porcelain) | grep --silent '^[^? ]'; then
+    echo "Error: Buildroot tree (${BUILDROOT_DIR}) has staged or unmerged changes. Exiting."
+    exit 1
+  fi
+}
+
+# listGitChanges [pattern]
+#   → list changed files in the Buildroot tree
+#     if 'pattern' is specified, it matches the git-status short/porcelain output format
+function listGitChanges {
+  local pattern=${1:-.*}
+  (cd "${BUILDROOT_DIR}"; git status --porcelain) | grep "${pattern}" | cut -c 4-
+}
+
+# git [args]
+#   → overrides and wraps the 'git' command to isolate it from system-wide settings,
+#     because we don't want diffs to be impacted by developer settings (e.g. 'diff.noprefix')
+function git {
+  GIT_CONFIG_NOSYSTEM=1 GIT_ATTR_NO_SYSTEM=1 HOME=/does/not/exist XDG_CONFIG_HOME=/does/not/exist \
+  command git $@
+}
+
+### Parameters parsing ###
+
+while [[ -n $1 ]]; do
+  case $1 in
+    "-h"|"--help"|*)
+      printUsage
+      exit 64 # EX_USAGE
+      ;;
+  esac
+  shift
+done
+
+### MAIN ###
+
+checkPrerequisites
+checkStagedChanges
+writeHashFileHeader
+
+# Process added files
+listGitChanges '^??' | while read -r filePath; do
+  echo -e "${c_green}[added]${c_reset}    ${BUILDROOT_DIR}/${filePath}"
+  cp "${BUILDROOT_DIR}/${filePath}" "${CUSTOM_DIR}/${filePath}"
+  echo "++++++++++++++++++++++++++++++++  ${filePath}" >> "${hashFile}"
+done
+
+# Process removed files
+listGitChanges '^ D' | while read -r filePath; do
+  echo -e "${c_red}[deleted]${c_reset}  ${BUILDROOT_DIR}/${filePath}"
+  echo "--------------------------------  ${filePath}" >> "${hashFile}"
+done
+
+# Process modified files
+listGitChanges '^ M' | while read -r filePath; do
+  echo -e "${c_yellow}[modified]${c_reset} ${BUILDROOT_DIR}/${filePath}"
+
+  modifiedFile="${BUILDROOT_DIR}/${filePath}"
+  originalFile="${CUSTOM_DIR}/${filePath}"
+  patchFile="${originalFile}.patch"
+
+  # Create directory in 'custom' tree
+  mkdir -p "$(dirname "${originalFile}")"
+  # Save patch file to 'custom' tree
+  (cd "${BUILDROOT_DIR}"; git diff "${filePath}") > "${patchFile}"
+  # Reverse-apply the patch to the modified file to obtain the original file,
+  # and save it to the 'custom' tree
+  patch -p0 --reverse --silent "${modifiedFile}" --input "${patchFile}" --output "${originalFile}"
+  # Add original file MD5 sum to hashFile
+  (cd "${CUSTOM_DIR}"; md5sum "${filePath}") >> "${hashFile}"
+done
