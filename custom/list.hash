@@ -1,3 +1,9 @@
+# This is the list of patches to apply to the Buildroot external tree
+# First column is either:
+#   * a MD5 sum of the file to patch (i.e. the target file)
+#   * a line of minus signs ('-') indicates a file that we remove from Buildroot external tree
+#   * a line of plus signs ('+') indicates a file that we add to the Buildroot external tree
+
 8fc8a6339c14a1fe72ac2a84b5812f11  boot/syslinux/syslinux.mk
 20cad3977b0ee4cc96821e8e7d2e6a7f  package/bluez5_utils/bluez5_utils.mk
 92048d2d2185b48c1e2097b9685c92f8  package/binutils/binutils.mk
