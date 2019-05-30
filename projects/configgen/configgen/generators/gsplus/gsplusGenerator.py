@@ -1,6 +1,5 @@
 import glob
 import os
-import subprocess
 
 import Command
 import recalboxFiles
@@ -58,7 +57,7 @@ class GSplusGenerator(Generator):
 
         return disks
 
-    def generate(self, system, rom, playersControllers, demo):
+    def generate(self, system, rom, playersControllers, demo, recalboxSettings):
 
         '''
         Load, override keys and save back emulator's configuration file

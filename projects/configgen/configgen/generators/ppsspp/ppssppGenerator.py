@@ -1,13 +1,9 @@
 #!/usr/bin/env python
 import Command
-#~ import reicastControllers
 import recalboxFiles
 from generators.Generator import Generator
 import ppssppConfig
 import ppssppControllers
-import shutil
-import os.path
-import ConfigParser
 
 
 class PPSSPPGenerator(Generator):

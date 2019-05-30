@@ -8,13 +8,11 @@ import recalboxFiles
 sys.path.append(
     os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
-import settings.unixSettings as unixSettings
-import recalboxFiles
 
 # This configgen is based on PPSSPP 1.2.2. Therefore, all code/github references are valid at this version, and may not be valid with later updates
 
-# PPSSPP internal "NKCodes" https://github.com/hrydgard/ppsspp/blob/master/ext/native/input/keycodes.h#L198
-# Will later be used to convert SDL input ids
+# PPSSPP internal "NKCodes" https://github.com/hrydgard/ppsspp/blob/master/ext/native/inp/keycodes.h#L198
+# Will later be used to convert SDL inp ids
 NKCODE_BUTTON_1 = 188
 NKCODE_BUTTON_2 = 189
 NKCODE_BUTTON_3 = 190
@@ -48,7 +46,7 @@ NKCODE_DPAD_RIGHT = 22
 # PPSSPP defined an offset for axis, see https://github.com/hrydgard/ppsspp/blob/eaeddc6c23cf86514f45199659ecc7396c91a3c0/Common/KeyMap.cpp#L694
 AXIS_BIND_NKCODE_START = 4000
 
-# From https://github.com/hrydgard/ppsspp/blob/master/ext/native/input/input_state.h#L26
+# From https://github.com/hrydgard/ppsspp/blob/master/ext/native/inp/input_state.h#L26
 DEVICE_ID_PAD_0 = 10
 DEVICE_ID_PAD_1 = 11
 DEVICE_ID_PAD_2 = 12
@@ -61,7 +59,7 @@ sdlIndexToIdPad = {
         3: DEVICE_ID_PAD_3,
         4: DEVICE_ID_PAD_4
         }
-# SDL 2.0.4 input ids conversion table to NKCodes
+# SDL 2.0.4 inp ids conversion table to NKCodes
 # See https://hg.libsdl.org/SDL/file/e12c38730512/include/SDL_gamecontroller.h#l262
 # See https://github.com/hrydgard/ppsspp/blob/master/SDL/SDLJoystick.h#L91
 sdlNameToNKCode = {
@@ -138,50 +136,50 @@ def generateControllerConfig(controller):
 
 	# Parse controller inputs
 	for index in controller.inputs:
-		input = controller.inputs[index]
-		if input.name not in ppssppMapping or input.type not in ppssppMapping[input.name]:
+		inp = controller.inputs[index]
+		if inp.name not in ppssppMapping or inp.type not in ppssppMapping[inp.name]:
 			continue
 		
-		var = ppssppMapping[input.name][input.type]
+		var = ppssppMapping[inp.name][inp.type]
 		
-		code = input.code
+		#code = inp.code
 		deviceIdPad = sdlIndexToIdPad[controller.index]
-		if input.type == 'button':
-			pspcode = sdlNameToNKCode[input.name]
+		if inp.type == 'button':
+			pspcode = sdlNameToNKCode[inp.name]
 			val = "{}-{}".format( deviceIdPad, pspcode )
 			val = optionValue(Config, section, var, val)
 			Config.set(section, var, val)
 			
-		elif input.type == 'axis':
+		elif inp.type == 'axis':
 			# Get the axis code
-			nkAxisId = SDLJoyAxisMap[input.id]
+			nkAxisId = SDLJoyAxisMap[inp.id]
 			# Apply the magic axis formula
-			pspcode = axisToCode(nkAxisId, int(input.value))
+			pspcode = axisToCode(nkAxisId, int(inp.value))
 			val = "{}-{}".format( deviceIdPad, pspcode )
 			val = optionValue(Config, section, var, val)
 			print "Adding {} to {}".format(var, val)
 			Config.set(section, var, val)
 			
 			# Skip the rest if it's an axis dpad
-			if input.name in [ 'up', 'down', 'left', 'right' ] : continue
-			# Also need to do the opposite direction manually. The input.id is the same as up/left, but the direction is opposite
-			if input.name == 'joystick1up':
-				var = ppssppMapping['joystick1down'][input.type]
-			elif input.name == 'joystick1left':
-				var = ppssppMapping['joystick1right'][input.type]
-			elif input.name == 'joystick2up':
-				var = ppssppMapping['joystick2down'][input.type]
-			elif input.name == 'joystick2left':
-				var = ppssppMapping['joystick2right'][input.type]
+			if inp.name in [ 'up', 'down', 'left', 'right' ] : continue
+			# Also need to do the opposite direction manually. The inp.id is the same as up/left, but the direction is opposite
+			if inp.name == 'joystick1up':
+				var = ppssppMapping['joystick1down'][inp.type]
+			elif inp.name == 'joystick1left':
+				var = ppssppMapping['joystick1right'][inp.type]
+			elif inp.name == 'joystick2up':
+				var = ppssppMapping['joystick2down'][inp.type]
+			elif inp.name == 'joystick2left':
+				var = ppssppMapping['joystick2right'][inp.type]
 				
-			pspcode = axisToCode(nkAxisId, -int(input.value))
+			pspcode = axisToCode(nkAxisId, -int(inp.value))
 			val = "{}-{}".format( deviceIdPad, pspcode )
 			val = optionValue(Config, section, var, val)
 			Config.set(section, var, val)
 		
-		elif input.type == 'hat' and input.name in SDLHatMap:
-			var = ppssppMapping[input.name][input.type]
-			pspcode = SDLHatMap[input.name]
+		elif inp.type == 'hat' and inp.name in SDLHatMap:
+			var = ppssppMapping[inp.name][inp.type]
+			pspcode = SDLHatMap[inp.name]
 			val = "{}-{}".format( deviceIdPad, pspcode )
 			val = optionValue(Config, section, var, val)
 			Config.set(section, var, val)

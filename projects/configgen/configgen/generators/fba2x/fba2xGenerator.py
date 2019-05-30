@@ -5,7 +5,6 @@ import recalboxFiles
 import fba2xConfig
 import shutil
 from generators.Generator import Generator
-import os.path
 
 
 class Fba2xGenerator(Generator):

@@ -69,7 +69,7 @@ joystick_axis = {
 }
 
 # Create the controller configuration file
-def generateControllerConfig(system, controllers):
+def generateControllerConfig(_, controllers):
     Config = ConfigParser.ConfigParser()
     # To prevent ConfigParser from converting to lower case
     Config.optionxform = str
@@ -91,8 +91,8 @@ def generateControllerConfig(system, controllers):
         input_quit = controller.inputs[joystick_keys["KEY_QUIT"]]
         for propertyName, propertyValue in joystick_keys.iteritems():
             if propertyName != "KEY_QUIT" and propertyValue is not None:
-                input = controller.inputs[propertyValue]
-                if input.type == input_quit.type and input.id == input_quit.id:
+                inp = controller.inputs[propertyValue]
+                if inp.type == input_quit.type and inp.id == input_quit.id:
                     joystick_keys["KEY_QUIT"] = "pagedown"
                     break
 
@@ -102,9 +102,9 @@ def generateControllerConfig(system, controllers):
             if joystick_keys[propertyName] is not None:
                 joystickButtonName = joystick_keys[propertyName]
                 if joystickButtonName in controller.inputs:
-                    input = controller.inputs[joystickButtonName]
-                    if input.type == 'button':
-                        joystickButtonValue = (int(index)-1)*100 + int(input.id) + 1
+                    inp = controller.inputs[joystickButtonName]
+                    if inp.type == 'button':
+                        joystickButtonValue = (int(index)-1)*100 + int(inp.id) + 1
 
             # Map axis
             joystickAxisValue = 0
@@ -116,9 +116,9 @@ def generateControllerConfig(system, controllers):
                        axis_dir = -1
                        joystickAxisName = joystickAxisName[1:]
                     if joystickAxisName in controller.inputs:
-                        input = controller.inputs[joystickAxisName]
-                        if input.type == 'axis':
-                            joystickAxisValue = ((int(index)-1)*100 + int(input.id) + 1) * int(input.value) * axis_dir
+                        inp = controller.inputs[joystickAxisName]
+                        if inp.type == 'axis':
+                            joystickAxisValue = ((int(index)-1)*100 + int(inp.id) + 1) * int(inp.value) * axis_dir
                             break
 
             Config.set(section, propertyName, keyboardValue+" "+str(joystickButtonValue)+" "+str(joystickAxisValue))

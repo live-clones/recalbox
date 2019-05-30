@@ -1,10 +1,7 @@
 #!/usr/bin/env python
-import sys
-import os
-from settings.unixSettings import UnixSettings
+
 import recalboxFiles
 from controllersConfig import Input
-from shutil import copyfile
 
 advanceMapping = {
 	'a' :              'p{}_button2',
@@ -52,7 +49,7 @@ advanceCombo = {
 	'l2' :'ui_mode_pred'
 }
 
-def writeControllersConfig(system, controllers):
+def writeControllersConfig(_, controllers):
 	finalConfig = getDefaultConfig()
 	
 	# Looks like advmame sets the joystick order on the eventId from /dev/input/eventX or /dev/input/jsX, not using SDL. So we should reorder that

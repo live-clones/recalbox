@@ -37,7 +37,7 @@ mlMapping = {   'a' :             {'button': 'btn_east'},
 # Returns an array
 # Index = mapping configuration file for player X
 # Value = device path associated to the index
-def writeControllersConfig(system, rom, controllers):
+def writeControllersConfig(_, __, controllers):
     config = dict()
     for controller in controllers:
         playerConfig = generateControllerConfig(controller, controllers[controller])
@@ -49,8 +49,8 @@ def writeControllersConfig(system, rom, controllers):
         mappingFile.save("# Device name", controllers[controller].realName)
         mappingFile.save("# SDL2 GUID  ", controllers[controller].guid)
         mappingFile.save("# Event path ", controllers[controller].dev)
-        for input in playerConfig:
-            mappingFile.save(input, playerConfig[input])
+        for inp in playerConfig:
+            mappingFile.save(inp, playerConfig[inp])
             config[confFile] = controllers[controller].dev
     return config
 
@@ -60,23 +60,23 @@ def writeControllersConfig(system, rom, controllers):
 # Index = Moonlight configuration parameter
 # Value = the code extracted from es_input.cfg corresponding to the index
 # ex : ['btn_select'] = 296
-def generateControllerConfig(player, controller):
+def generateControllerConfig(_, controller):
     config = dict()
    
     for index in controller.inputs:
-        input = controller.inputs[index]
-        if input.name not in mlMapping:
+        inp = controller.inputs[index]
+        if inp.name not in mlMapping:
             continue
-        if input.type not in mlMapping[input.name]:
+        if inp.type not in mlMapping[inp.name]:
             continue
-        var = mlMapping[input.name][input.type]
+        var = mlMapping[inp.name][inp.type]
         # Hats ids are not right, Y=X+1
-        code = input.code
-        if input.type == 'hat':
-            if input.name == 'up':
-                code = int(input.code) + 1
+        code = inp.code
+        if inp.type == 'hat':
+            if inp.name == 'up':
+                code = int(inp.code) + 1
             else:
-                code = input.code
+                code = inp.code
         config[var] = code
     
     # Add unhandled params

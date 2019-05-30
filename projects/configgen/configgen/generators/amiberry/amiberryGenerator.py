@@ -11,7 +11,6 @@ from generators.amiberry.amiberryGlobalConfig import AmiberryGlobalConfig
 from generators.amiberry.amiberryKickstarts import KickstartManager
 from generators.amiberry.amiberryRomType import RomType
 from generators.amiberry.amiberrySubSystems import SubSystems
-from settings.keyValueSettings import keyValueSettings
 
 
 class AmiberryGenerator(Generator):

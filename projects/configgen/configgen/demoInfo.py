@@ -70,7 +70,8 @@ class demoInformation:
         self.displayText(screen, gameName, (h / 4) + height + margin, font2, (255,255,196))
         self.displayText(screen, systemName, (h / 4) + (height + margin) * 2, font1, (255,255,128))
 
-    def displayText(self, screen, text, yoffset, font, color):
+    @staticmethod
+    def displayText(screen, text, yoffset, font, color):
         textRendering = font.render(text, 1, color)
         screen.blit(textRendering, ((screen.get_width() - textRendering.get_width()) / 2, yoffset))
 
@@ -105,7 +106,8 @@ class demoInformation:
 
         return w, h
 
-    def loadImage(self, path):
+    @staticmethod
+    def loadImage(path):
         try:
             return pygame.image.load(path)
         except pygame.error:

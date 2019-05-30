@@ -17,7 +17,7 @@ class ScummVMGenerator(Generator):
         # If ResidualVM extension, redirect to ResidualVM emulator
         if rom.endswith(".residualvm"):
             system.config['emulator'] = 'residualvm'
-            return ResidualVMGenerator().generate(system, rom, playersControllers)
+            return ResidualVMGenerator().generate(system, rom, playersControllers, demo, recalboxSettings)
 
         # Settings recalbox default config file if no user defined one
         if not system.config['configfile']:

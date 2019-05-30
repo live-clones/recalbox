@@ -38,7 +38,7 @@ class AmiberryWHDConfig:
                 whdlConfig.setOption("PORT1", "JOY")
 
         # CPU
-        cpu = self.sourceConfig.getOption("cpu_model", "68000").upper();
+        cpu = self.sourceConfig.getOption("cpu_model", "68000").upper()
         whdlConfig.setOption("CPU", cpu)
         whdlConfig.setOption("CPU_COMPATIBLE", self.sourceConfig.getOption("cpu_compatible", "true").upper())
         whdlConfig.setOption("JIT", self.sourceConfig.getOption("compfpu", "false").upper())
@@ -66,4 +66,4 @@ class AmiberryWHDConfig:
         whdlConfig.setOption("Z3_RAM", self.sourceConfig.getOption("z3mem_size", "0").upper())
 
         # Save at last!
-        whdlConfig.saveFile();
+        whdlConfig.saveFile()

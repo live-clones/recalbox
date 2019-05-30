@@ -6,7 +6,6 @@ import libretroConfigurations
 import recalboxFiles
 
 from generators.Generator import Generator
-import settings.recalboxSettings as recalSettings
 
 
 class LibretroGenerator(Generator):

@@ -11,13 +11,13 @@ sys.path.append(
 fbaSettings = UnixSettings(recalboxFiles.fbaCustom)
 
 # return true if the option is considered enabled (for boolean options)
-def enabled(key, dict):
-    return key in dict and (dict[key] == '1' or dict[key] == 'true')
+def enabled(key, dictio):
+    return key in dictio and (dictio[key] == '1' or dictio[key] == 'true')
 
 
 # return true if the option is considered defined
-def defined(key, dict):
-    return key in dict and isinstance(dict[key], str) and len(dict[key]) > 0
+def defined(key, dictio):
+    return key in dictio and isinstance(dictio[key], str) and len(dictio[key]) > 0
 
 
 ratioIndexes = {'16/9': '0', '4/3': '1'}

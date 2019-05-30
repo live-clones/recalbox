@@ -8,10 +8,10 @@ class SimCoupeGenerator(Generator):
 
     def generate(self, system, rom, playersControllers, demo, recalboxSettings):
 
-        '''
+        """
         Load, override keys and save back emulator's configuration file
         This way, any modification is kept accross emulator launhes
-        '''
+        """
 
         settings = keyValueSettings('/recalbox/share/system/.simcoupe/SimCoupe.cfg')
         settings.loadFile(True)

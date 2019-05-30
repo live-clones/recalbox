@@ -1,8 +1,8 @@
-'''
+"""
 Created on Mar 6, 2016
 
 @author: Laurent Marchelli
-'''
+"""
 
 import os
 import shutil
@@ -12,7 +12,7 @@ from generators.linapple.linappleConfig import LinappleConfig
 import recalboxFiles
 
 class LinappleGenerator(Generator):
-    '''
+    """
     Command line generator for linapple-pie emulator
     
     Ensure the user's configuration directory has all needed files to run
@@ -28,7 +28,7 @@ class LinappleGenerator(Generator):
             Full path name where user settings are stored.
             ('/recalbox/share/system/.linapple')
             
-    '''
+    """
     def __init__(self, path_init, path_user):
         self.path_init = path_init
         self.path_user = path_user
@@ -36,12 +36,12 @@ class LinappleGenerator(Generator):
         self.filename = 'linapple.conf'
 
     def check_resources(self):
-        '''
+        """
         Check system needed resources
         
         Returns (bool:
             Returns True if the check suceeded, False otherwise.
-        '''
+        """
         # Create user setting path, if it does not exists
         if not os.path.exists(self.path_user):
             os.makedirs(self.path_user)
@@ -63,7 +63,7 @@ class LinappleGenerator(Generator):
         return True
 
     def generate(self, system, rom, playersControllers, demo, recalboxSettings):
-        '''
+        """
         Configure linapple inputs and return the command line to run.
         
         Args:
@@ -73,12 +73,14 @@ class LinappleGenerator(Generator):
             rom (str) :
                 Path and filename of the rom to run.
             playerControllers (dict):
-                Dictionary of controllers connected (1 to 5). 
+                Dictionary of controllers connected (1 to 5).
+            recalboxSettings (keyValueSettings):
+                recalbox.conf settings
             
         Returns (configgen.Command, None) :
             Returns Command object containing needed parameter to launch the 
             emulator or None if an error occured.
-        '''
+        """
         # Check resources
         if not self.check_resources(): 
             return
@@ -103,7 +105,7 @@ class LinappleGenerator(Generator):
         return Command.Command(videomode=system.config['videomode'], array=commandArray)
 
     def config_upgrade(self, version):
-        '''
+        """
         Upgrade the user's configuration file with new values added to the
         system configuration file upgraded by S11Share:do_upgrade()
         
@@ -112,7 +114,7 @@ class LinappleGenerator(Generator):
             
         Returns (bool):
             Returns True if this Generators sucessfully handled the upgrade.
-        '''
+        """
         # Check resources
         if not self.check_resources(): 
             return False
@@ -134,9 +136,3 @@ class LinappleGenerator(Generator):
         config.save(filename=usr_conf)
         print("{} 's configuration successfully upgraded".format(self.__class__.__name__))
         return True
-
-# Local Variables:
-# tab-width:4
-# indent-tabs-mode:nil
-# End:
-# vim: set expandtab tabstop=4 shiftwidth=4:

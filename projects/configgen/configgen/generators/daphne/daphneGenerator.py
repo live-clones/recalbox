@@ -26,5 +26,5 @@ class DaphneGenerator(Generator):
         if 'args' in system.config and system.config['args'] is not None:
             commandArray.extend(system.config['args'])
         if os.path.isfile(commandsFile):
-            commandArray.extend(open(commandsFile,'r').read().split());
+            commandArray.extend(open(commandsFile,'r').read().split())
         return Command.Command(videomode=system.config['videomode'], array=commandArray, env={"SDL_VIDEO_GL_DRIVER": "/usr/lib/libGLESv2.so", "SDL_VIDEO_EGL_DRIVER": "/usr/lib/libGLESv2.so"})

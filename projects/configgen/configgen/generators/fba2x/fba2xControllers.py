@@ -12,11 +12,11 @@ fbaSettings = unixSettings.UnixSettings(recalboxFiles.fbaCustom)
 
 
 # Map an emulationstation button name to the corresponding fba2x name
-fba4bnts = {'a': 'Y', 'b': 'X', 'x': 'B', 'y': 'A', \
-            'pageup': 'L', 'pagedown': 'R', \
+fba4bnts = {'a': 'Y', 'b': 'X', 'x': 'B', 'y': 'A',
+            'pageup': 'L', 'pagedown': 'R',
             'start': 'START', 'select': 'SELECT'}
-fba6bnts = {'a': 'L', 'b': 'Y', 'x': 'X', 'y': 'A', \
-            'pageup': 'B', 'pagedown': 'R', \
+fba6bnts = {'a': 'L', 'b': 'Y', 'x': 'X', 'y': 'A',
+            'pageup': 'B', 'pagedown': 'R',
             'start': 'START', 'select': 'SELECT'}
 
 # Map an emulationstation direction to the corresponding fba2x
@@ -28,13 +28,13 @@ fbaHatToAxis = {'1': 'UP', '2': 'LR', '4': 'UD', '8': 'LR'}
 fbaspecials = {'start': 'QUIT', 'hotkey': 'HOTKEY'}
 
 
-def writeControllersConfig(system, rom, controllers):
+def writeControllersConfig(_, rom, controllers):
     writeIndexes(controllers)
     sixBtnConfig = is6btn(rom)
     for controller in controllers:
         playerConfig = generateControllerConfig(controller, controllers[controller], sixBtnConfig)
-        for input in playerConfig:
-            fbaSettings.save(input, playerConfig[input])
+        for inp in playerConfig:
+            fbaSettings.save(inp, playerConfig[inp])
 
 
 # Create a configuration file for a given controller
@@ -47,28 +47,28 @@ def generateControllerConfig(player, controller, special6=False):
     for dirkey in fbadirs:
         dirvalue = fbadirs[dirkey]
         if dirkey in controller.inputs:
-            input = controller.inputs[dirkey]
-            if input.type == 'button':
-                config['{}_{}'.format(dirvalue, player)] = input.id
+            inp = controller.inputs[dirkey]
+            if inp.type == 'button':
+                config['{}_{}'.format(dirvalue, player)] = inp.id
 
     for axis in fbaaxis:
         axisvalue = fbaaxis[axis]
         if axis in controller.inputs:
-            input = controller.inputs[axis]
-            config['{}_{}'.format(axisvalue, player)] = input.id
+            inp = controller.inputs[axis]
+            config['{}_{}'.format(axisvalue, player)] = inp.id
 
     for btnkey in fbaBtns:
         btnvalue = fbaBtns[btnkey]
         if btnkey in controller.inputs:
-            input = controller.inputs[btnkey]
-            config['{}_{}'.format(btnvalue, player)] = input.id
+            inp = controller.inputs[btnkey]
+            config['{}_{}'.format(btnvalue, player)] = inp.id
 
     if player == '1':
         for btnkey in fbaspecials:
             btnvalue = fbaspecials[btnkey]
             if btnkey in controller.inputs:
-                input = controller.inputs[btnkey]
-                config['{}'.format(btnvalue)] = input.id
+                inp = controller.inputs[btnkey]
+                config['{}'.format(btnvalue)] = inp.id
 
     return config
 

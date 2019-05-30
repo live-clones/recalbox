@@ -3,7 +3,6 @@ import Command
 import recalboxFiles
 from controllersConfig import Controller
 from generators.Generator import Generator
-import shutil
 import os.path
 
 
@@ -21,11 +20,13 @@ class MoonlightGenerator(Generator):
         commandArray.append(gameName)
         return Command.Command(videomode='default', array=commandArray, env={"XDG_DATA_DIRS": recalboxFiles.CONF})
 
-    def getRealGameNameAndConfigFile(self, rom):
+    @staticmethod
+    def getRealGameNameAndConfigFile(rom):
         # Rom's basename without extension
         romName = os.path.splitext(os.path.basename(rom))[0]
         # find the real game name
         f = open(recalboxFiles.moonlightGamelist, 'r')
+        gfeGame = None
         for line in f:
             try:
                 gfeRom, gfeGame, confFile = line.rstrip().split(';')

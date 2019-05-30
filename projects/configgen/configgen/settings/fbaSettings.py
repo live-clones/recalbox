@@ -2,7 +2,7 @@
 
 import re
 import os
-import configgen.recalboxFiles as recalboxFiles
+import recalboxFiles
 import shutil
 settingsFile = recalboxFiles.retroarchCustom
 settingsFileOriginal = recalboxFiles.retroarchCustomOrigin

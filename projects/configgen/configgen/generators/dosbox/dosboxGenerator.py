@@ -3,7 +3,6 @@ import Command
 import recalboxFiles
 from generators.Generator import Generator
 import os.path
-import glob
 
 
 class DosBoxGenerator(Generator):

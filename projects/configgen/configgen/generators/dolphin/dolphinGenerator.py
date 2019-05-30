@@ -3,9 +3,6 @@ import Command
 import recalboxFiles
 from generators.Generator import Generator
 import dolphinControllers
-import shutil
-import os.path
-import ConfigParser
 from settings.unixSettings import UnixSettings
 
 class DolphinGenerator(Generator):

@@ -82,14 +82,14 @@ def generateControllerConfig_realwiimotes(filename, anyDefKey):
         f.write("[" + anyDefKey + str(nplayer) + "]" + "\n")
         f.write("Source = 2\n")
         nplayer += 1
-    f.write
+    #f.write
     f.close()
 
 def generateControllerConfig_any(playersControllers, filename, anyDefKey, anyMapping, anyReverseAxes, system):
     configFileName = "{}/{}".format(recalboxFiles.dolphinConfig, filename)
     f = open(configFileName, "w")
     nplayer = 1
-    nsamepad = 0
+    #nsamepad = 0
 
     # in case of two pads having the same name, dolphin wants a number to handle this
     double_pads = dict()
@@ -116,23 +116,23 @@ def generateControllerConfig_any(playersControllers, filename, anyDefKey, anyMap
             f.write("C-Stick/Dead Zone = 25.000000000000000" + "\n")
 
         for x in pad.inputs:
-            input = pad.inputs[x]
+            inp = pad.inputs[x]
 
             keyname = None
-            if input.name in anyMapping:
-                keyname = anyMapping[input.name]
+            if inp.name in anyMapping:
+                keyname = anyMapping[inp.name]
             #else:
             #    f.write("# undefined key: name="+input.name+", type="+input.type+", id="+str(input.id)+", value="+str(input.value)+"\n")
 
             # write the configuration for this key
             if keyname is not None:
-                write_key(f, keyname, input.type, input.id, input.value, pad.nbaxes, False)
+                write_key(f, keyname, inp.type, inp.id, inp.value, pad.nbaxes, False)
             # write the 2nd part
-            if input.name in { "joystick1up", "joystick1left", "joystick2up", "joystick2left"} and keyname is not None:
-                write_key(f, anyReverseAxes[keyname], input.type, input.id, input.value, pad.nbaxes, True)
+            if inp.name in { "joystick1up", "joystick1left", "joystick2up", "joystick2left"} and keyname is not None:
+                write_key(f, anyReverseAxes[keyname], inp.type, inp.id, inp.value, pad.nbaxes, True)
 
         nplayer += 1
-    f.write
+    #f.write
     f.close()
 
 def write_key(f, keyname, input_type, input_id, input_value, input_global_id, reverse):
@@ -173,9 +173,9 @@ def generateHotkeys(playersControllers):
         raise ValueError("Couldn't find Player 1 input config")
 
     # Read its inputs, get the hotkey
-    for idx, input in player1.inputs.iteritems():
-        if input.name == "hotkey":
-            HK = input.id
+    for idx, inp in player1.inputs.iteritems():
+        if inp.name == "hotkey":
+            HK = inp.id
             break
 
     if HK is None:

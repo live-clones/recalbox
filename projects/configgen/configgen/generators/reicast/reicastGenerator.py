@@ -8,12 +8,11 @@ import shutil
 import os.path
 import ConfigParser
 import glob
-import sys
 
 class ReicastGenerator(Generator):
     # Main entry of the module
     def config_upgrade(self, version):
-        '''
+        """
         Upgrade the user's configuration file with new values added to the
         system configuration file upgraded by S11Share:do_upgrade()
 
@@ -22,7 +21,7 @@ class ReicastGenerator(Generator):
 
         Returns (bool):
             Returns True if this Generators sucessfully handled the upgrade.
-        '''
+        """
         # Copy the bios from share_init to share if it doesn't exis
         try:
             reicastBiosFileInit = recalboxFiles.BIOS_INIT + '/dc_nvmem.bin'
@@ -42,7 +41,7 @@ class ReicastGenerator(Generator):
             print("ReicastGenerator 's configuration successfully upgraded")
             return True
         except Exception as e:
-            #print(e)
+            print(e)
             print("ReicastGenerator 's configuration failed!")
             return False
 
