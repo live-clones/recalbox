@@ -387,27 +387,54 @@ void ViewController::render(const Eigen::Affine3f& parentTrans)
 	Eigen::Vector3f viewStart = trans.inverse().translation();
 	Eigen::Vector3f viewEnd = trans.inverse() * Eigen::Vector3f((float)Renderer::getScreenWidth(), (float)Renderer::getScreenHeight(), 0);
 
+	int vpl = (int)viewStart.x();
+  int vpu = (int)viewStart.y();
+  int vpr = (int)viewEnd.x() - 1;
+  int vpb = (int)viewEnd.y() - 1;
+
 	// draw systemview
-	getSystemListView()->render(trans);
+  do
+  {
+    auto systemView = getSystemListView();
+
+    // clipping - only y
+    const Eigen::Vector3f& position = systemView->getPosition();
+    const Eigen::Vector2f& size = systemView->getSize();
+
+    int gu = (int)position.y();
+    int gb = (int)position.y() + (int)size.y() - 1;
+
+    if (gb < vpu) break;
+    if (gu > vpb) break;
+
+    systemView->render(trans);
+  }while(false);
 
 	// draw gamelists
 	for (auto& mGameListView : mGameListViews)
 	{
-		// clipping
-		Eigen::Vector3f guiStart = mGameListView.second->getPosition();
-		Eigen::Vector3f guiEnd = mGameListView.second->getPosition() + Eigen::Vector3f(mGameListView.second->getSize().x(),
-																																									 mGameListView.second->getSize().y(), 0);
+    // clipping
+    const Eigen::Vector3f& position = mGameListView.second->getPosition();
+    const Eigen::Vector2f& size = mGameListView.second->getSize();
 
-		if(guiEnd.x() >= viewStart.x() && guiEnd.y() >= viewStart.y() &&
-			guiStart.x() <= viewEnd.x() && guiStart.y() <= viewEnd.y())
-			mGameListView.second->render(trans);
+    int gl = (int)position.x();
+    int gu = (int)position.y();
+    int gr = (int)position.x() + (int)size.x() - 1;
+    int gb = (int)position.y() + (int)size.y() - 1;
+
+    if (gr < vpl) continue;
+    if (gl > vpr) continue;
+    if (gb < vpu) continue;
+    if (gu > vpb) continue;
+
+		mGameListView.second->render(trans);
 	}
 
 	if(mWindow->peekGui() == this)
 		mWindow->renderHelpPromptsEarly();
 
 	// fade out
-	if(mFadeOpacity)
+	if(mFadeOpacity != 0.0)
 	{
 		Renderer::setMatrix(parentTrans);
 		Renderer::drawRect(0, 0, Renderer::getScreenWidth(), Renderer::getScreenHeight(), 0x00000000 | (unsigned char)(mFadeOpacity * 255));
