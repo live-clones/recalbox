@@ -79,7 +79,7 @@ void GuiComponent::renderChildren(const Eigen::Affine3f& transform) const
 	}
 }
 
-Eigen::Vector3f GuiComponent::getPosition() const
+const Eigen::Vector3f& GuiComponent::getPosition() const
 {
 	return mPosition;
 }
@@ -96,7 +96,7 @@ void GuiComponent::setPosition(float x, float y, float z)
 	onPositionChanged();
 }
 
-Eigen::Vector2f GuiComponent::getOrigin() const
+const Eigen::Vector2f& GuiComponent::getOrigin() const
 {
 	return mOrigin;
 }
@@ -107,7 +107,7 @@ void GuiComponent::setOrigin(float x, float y)
 	onOriginChanged();
 }
 
-Eigen::Vector2f GuiComponent::getRotationOrigin() const
+const Eigen::Vector2f& GuiComponent::getRotationOrigin() const
 {
 	return mRotationOrigin;
 }
@@ -117,7 +117,7 @@ void GuiComponent::setRotationOrigin(float x, float y)
 	mRotationOrigin << x, y;;
 }
 
-Eigen::Vector2f GuiComponent::getSize() const
+const Eigen::Vector2f& GuiComponent::getSize() const
 {
 	return mSize;
 }
@@ -417,7 +417,7 @@ Eigen::Vector2f GuiComponent::denormalise(float x, float y) {
     return denormalise(value);
 }
 
-Eigen::Vector2f GuiComponent::denormalise(Eigen::Vector2f value) {
+Eigen::Vector2f GuiComponent::denormalise(const Eigen::Vector2f& value) {
     Eigen::Vector2f scale = getParent() ? getParent()->getSize() : Eigen::Vector2f((float)Renderer::getScreenWidth(), (float)Renderer::getScreenHeight());
     return value.cwiseProduct(scale);
 }

@@ -36,27 +36,27 @@ public:
 	//4. Tell your children to render, based on your component's transform - renderChildren(t).
 	virtual void render(const Eigen::Affine3f& parentTrans);
 
-	Eigen::Vector3f getPosition() const;
-    void setNormalisedPosition(float x, float y, float z = 0.0f);
+	const Eigen::Vector3f& getPosition() const;
+	void setNormalisedPosition(float x, float y, float z = 0.0f);
 	inline void setPosition(const Eigen::Vector3f& offset) { setPosition(offset.x(), offset.y(), offset.z()); }
 	void setPosition(float x, float y, float z = 0.0f);
 	virtual void onPositionChanged() {};
 
 	//Sets the origin as a percentage of this image (e.g. (0, 0) is top left, (0.5, 0.5) is the center)
-	Eigen::Vector2f getOrigin() const;
+	const Eigen::Vector2f& getOrigin() const;
 	void setOrigin(float originX, float originY);
-	inline void setOrigin(Eigen::Vector2f origin) { setOrigin(origin.x(), origin.y()); }
+	inline void setOrigin(const Eigen::Vector2f& origin) { setOrigin(origin.x(), origin.y()); }
 	virtual void onOriginChanged() {};
 
 	//Sets the rotation origin as a percentage of this image (e.g. (0, 0) is top left, (0.5, 0.5) is the center)
-	Eigen::Vector2f getRotationOrigin() const;
+	const Eigen::Vector2f& getRotationOrigin() const;
 	void setRotationOrigin(float originX, float originY);
-	inline void setRotationOrigin(Eigen::Vector2f origin) { setRotationOrigin(origin.x(), origin.y()); }
+	inline void setRotationOrigin(const Eigen::Vector2f& origin) { setRotationOrigin(origin.x(), origin.y()); }
 
-	Eigen::Vector2f getSize() const;
+	const Eigen::Vector2f& getSize() const;
 	inline void setSize(const Eigen::Vector2f& size) { setSize(size.x(), size.y()); }
-    void setSize(float w, float h);
-    virtual void onSizeChanged() {};
+  void setSize(float w, float h);
+  virtual void onSizeChanged() {};
 
 	float getRotation() const;
 	void setRotation(float rotation);
@@ -135,7 +135,7 @@ protected:
 	void updateChildren(int deltaTime); // updates animations
 
     Eigen::Vector2f denormalise(float x, float y);
-    Eigen::Vector2f denormalise(Eigen::Vector2f value);
+    Eigen::Vector2f denormalise(const Eigen::Vector2f& value);
 
     unsigned char mOpacity;
 	Window* mWindow;
