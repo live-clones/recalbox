@@ -222,6 +222,8 @@ double VideoComponent::ProcessEffect(int elapsedms, bool in)
     }
     case Effect::_LastItem: break;
   }
+
+  return 1.0;
 }
 
 bool VideoComponent::ProcessDisplay(double& effect)
