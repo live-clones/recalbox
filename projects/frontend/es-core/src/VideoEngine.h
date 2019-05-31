@@ -140,12 +140,38 @@ class VideoEngine : Thread
         int TotalTime;
 
         PlayerContext()
+          : AudioVideoContext(nullptr),
+            AudioStreamIndex(-1),
+            VideoStreamIndex(-1),
+            AudioCodec(nullptr),
+            VideoCodec(nullptr),
+            AudioCodecContext(nullptr),
+            VideoCodecContext(nullptr),
+            ResamplerContext(nullptr),
+            ColorsSpaceContext(nullptr),
+            FrameBuffer(nullptr),
+            Frame(nullptr),
+            FrameRGB(),
+            FrameInUse(0),
+            Width(0),
+            Height(0),
+            FrameTime(0),
+            TotalTime(0)
         {
-          Reset();
         }
 
-        void Reset()
+        void Dispose()
         {
+          if (AudioVideoContext ) avformat_close_input(&AudioVideoContext);
+          if (AudioCodecContext ) avcodec_close(AudioCodecContext);
+          if (VideoCodecContext ) avcodec_close(VideoCodecContext);
+          if (ResamplerContext  ) swr_free(&ResamplerContext);
+          if (ColorsSpaceContext) sws_freeContext(ColorsSpaceContext);
+          if (Frame             ) av_frame_free(&Frame);
+          if (FrameRGB[0]       ) av_frame_free(&FrameRGB[0]);
+          if (FrameRGB[1]       ) av_frame_free(&FrameRGB[1]);
+          if (FrameBuffer       ) av_free(FrameBuffer);
+
           AudioVideoContext = nullptr;
           AudioCodec = VideoCodec = nullptr;
           AudioCodecContext = VideoCodecContext = nullptr;
@@ -157,6 +183,7 @@ class VideoEngine : Thread
           Width = Height = 0;
           FrameInUse = 0;
           FrameTime = 0;
+
           AudioQueue.Reset();
         }
     };

@@ -130,8 +130,11 @@ void VideoEngine::PlayVideo(const std::string& videopath)
   StopVideo(true);
 
   // Start the new video
-  mFileName = videopath;
-  mSignal.Signal();
+  if (!videopath.empty())
+  {
+    mFileName = videopath;
+    mSignal.Signal();
+  }
 }
 
 void VideoEngine::StopVideo(bool waitforstop)
@@ -438,16 +441,6 @@ void VideoEngine::DecodeFrames()
 
 void VideoEngine::FinalizeDecoder()
 {
-  if (mContext.AudioVideoContext ) avformat_close_input(&mContext.AudioVideoContext);
-  if (mContext.AudioCodecContext ) avcodec_close(mContext.AudioCodecContext);
-  if (mContext.VideoCodecContext ) avcodec_close(mContext.VideoCodecContext);
-  if (mContext.ResamplerContext  ) swr_free(&mContext.ResamplerContext);
-  if (mContext.ColorsSpaceContext) sws_freeContext(mContext.ColorsSpaceContext);
-  if (mContext.Frame             ) av_frame_free(&mContext.Frame);
-  if (mContext.FrameRGB[0]       ) av_frame_free(&mContext.FrameRGB[0]);
-  if (mContext.FrameRGB[1]       ) av_frame_free(&mContext.FrameRGB[1]);
-  if (mContext.FrameBuffer       ) av_free(mContext.FrameBuffer);
-
-  mContext.Reset();
+  mContext.Dispose();
   mTexture.reset();
 }
