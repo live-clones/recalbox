@@ -40,6 +40,15 @@ std::map< std::string, ElementMapType > ThemeData::sElementMap = boost::assign::
 		("tile", BOOLEAN)
 		("color", COLOR)
 		("zIndex", FLOAT)))
+	("video", makeMap(boost::assign::map_list_of
+	    ("pos", NORMALIZED_PAIR)
+	    ("size", NORMALIZED_PAIR)
+	    ("maxSize", NORMALIZED_PAIR)
+	    ("origin", NORMALIZED_PAIR)
+	    ("rotation", FLOAT)
+	    ("rotationOrigin", NORMALIZED_PAIR)
+	    ("path", PATH)
+	    ("zIndex", FLOAT)))
 	("text", makeMap(boost::assign::map_list_of
 		("pos", NORMALIZED_PAIR)
 		("size", NORMALIZED_PAIR)

@@ -400,7 +400,7 @@ void VideoComponent::applyTheme(const std::shared_ptr<ThemeData>& theme, const s
 {
   using namespace ThemeFlags;
 
-  const ThemeData::ThemeElement* elem = theme->getElement(view, element, "image");
+  const ThemeData::ThemeElement* elem = theme->getElement(view, element, "video");
   if (!elem)
   {
     return;
