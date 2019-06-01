@@ -8,6 +8,8 @@ Ce système supporte également les roms compressées au format .zip.
 Attention toutefois, il ne s'agit que d'une archive. Les fichiers contenus dans les .zip doivent correspondre aux extensions citées précédemment.
 De plus, chaque fichier .zip ne doit contenir qu'une seule rom compressée.
 
+## LANCEMENT D'UN JEU ##
+Assurez-vous d’utiliser CLOAD + RUN ou BLOAD "CAS:",R selon le programme que vous souhaitez charger.
 
 ## BIOS ##
 
