@@ -2,7 +2,7 @@
 
 Put your spectravideo roms in this directory.
 
-Rom files must have a ".cas/.dsk/.zip" extension.
+Rom files must have a ".cas/.bin/.zip" extension.
 
 This system allows to use compressed roms on .zip.
 But, it is only an archive. Files inside the .zip must match with extensions mentioned above.

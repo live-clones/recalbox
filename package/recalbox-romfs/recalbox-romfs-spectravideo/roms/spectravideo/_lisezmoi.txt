@@ -2,7 +2,7 @@
 
 Placez ici vos roms spectravideo.
 
-Les roms doivent avoir l'extension ".cas/.dsk/.zip"
+Les roms doivent avoir l'extension ".cas/.bin/.zip"
 
 Ce système supporte également les roms compressées au format .zip.
 Attention toutefois, il ne s'agit que d'une archive. Les fichiers contenus dans les .zip doivent correspondre aux extensions citées précédemment.

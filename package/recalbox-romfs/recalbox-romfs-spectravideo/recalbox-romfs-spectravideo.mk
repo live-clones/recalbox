@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system spectravideo --extension '.cas .CAS .dsk .DSK .zip .ZIP' --fullname 'Spectravideo' --platform spectravideo --theme spectravideo libretro:bluemsx:BR2_PACKAGE_LIBRETRO_BLUEMSX
+# ./scripts/linux/empack.py --system spectravideo --extension '.cas .CAS .bin .BIN .zip .ZIP' --fullname 'Spectravideo' --platform spectravideo --theme spectravideo libretro:bluemsx:BR2_PACKAGE_LIBRETRO_BLUEMSX
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_SPECTRAVIDEO_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_SPECTRAVIDEO = $(RECALBOX_ROMFS_SPECTRAVIDEO_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_BLUEMSX),)
 define CONFIGURE_MAIN_SPECTRAVIDEO_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_SPECTRAVIDEO),Spectravideo,$(SYSTEM_NAME_SPECTRAVIDEO),.cas .CAS .dsk .DSK .zip .ZIP,spectravideo,spectravideo)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_SPECTRAVIDEO),Spectravideo,$(SYSTEM_NAME_SPECTRAVIDEO),.cas .CAS .bin .BIN .zip .ZIP,spectravideo,spectravideo)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_BLUEMSX),)
