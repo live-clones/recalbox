@@ -13,6 +13,7 @@ DateTimeComponent::DateTimeComponent(Window* window, DisplayMode dispMode) : Gui
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 	setFont(menuTheme->menuTextSmall.font);
 	setColor(menuTheme->menuText.color);
+	setOriginColor(mColor);
 	mFlag = true;
 	updateTextCache();
 }
@@ -155,7 +156,7 @@ void DateTimeComponent::render(const Eigen::Affine3f& parentTrans)
 
 		std::shared_ptr<Font> font = getFont();
 
-		mTextCache->setColor((mColor & 0xFFFFFF00) | getOpacity());
+		mTextCache->setColor(mColor);
 		font->renderTextCache(mTextCache.get());
 
 		if(mEditing)

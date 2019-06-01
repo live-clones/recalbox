@@ -12,7 +12,7 @@ SwitchComponent::SwitchComponent(Window* window, bool state) : GuiComponent(wind
 	mImage.setImage(mState ? menuTheme->iconSet.on : menuTheme->iconSet.off);
 	mImage.setResize(0, Font::get(FONT_SIZE_MEDIUM)->getLetterHeight());
 	mImage.setColorShift(menuTheme->menuText.color);
-	
+	mOriginColor = menuTheme->menuText.color;
 	mSize = mImage.getSize();
 }
 

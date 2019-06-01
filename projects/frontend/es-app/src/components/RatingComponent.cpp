@@ -11,6 +11,7 @@ RatingComponent::RatingComponent(Window* window, unsigned int color) : GuiCompon
 	mSize << 64 * NUM_RATING_STARS, 64;
 	if (color)
 		mColor = color;
+	setOriginColor(mColor);
 	updateVertices();
 }
 

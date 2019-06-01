@@ -23,6 +23,8 @@ public:
 	void onSizeChanged() override;
 	void setText(const std::string& text);
 	void setColor(unsigned int color);
+	inline void setOriginColor(unsigned int color){mOriginColor = color;};
+	unsigned int getOriginColor() override;
 	void setHorizontalAlignment(Alignment align);
 	void setVerticalAlignment(Alignment align);
 	void setLineSpacing(float spacing);
@@ -48,6 +50,7 @@ private:
 	void onColorChanged();
 
 	unsigned int mColor;
+	unsigned int mOriginColor;
 	unsigned int mBgColor;
 	unsigned char mColorOpacity;
 	unsigned char mBgColorOpacity;

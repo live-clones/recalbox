@@ -34,6 +34,8 @@ public:
 	void setDisplayMode(DisplayMode mode);
 
 	void setColor(unsigned int color); // Text color.
+	inline void setOriginColor(unsigned int color){mOriginColor = color;};
+	inline unsigned int getOriginColor() override{return mOriginColor;};
 	void setFont(std::shared_ptr<Font> font); // Font to display with. Default is Font::get(FONT_SIZE_MEDIUM).
 	void setUppercase(bool uppercase); // Force text to be uppercase when in DISP_RELATIVE_TO_NOW mode.
 
@@ -60,6 +62,7 @@ private:
 	std::vector<Eigen::Vector4f> mCursorBoxes;
 
 	unsigned int mColor;
+	unsigned int mOriginColor;
 	std::shared_ptr<Font> mFont;
 	bool mUppercase;
 

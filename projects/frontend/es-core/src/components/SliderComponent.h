@@ -16,6 +16,8 @@ public:
 	void setValue(float val);
 	float getValue();
 	void setColor(unsigned int color);
+	inline void setOriginColor(unsigned int color){mOriginColor = color;};
+	inline unsigned int getOriginColor() override{return mOriginColor;};
 
 	bool input(InputConfig* config, Input input) override;
 	void update(int deltaTime) override;
@@ -38,6 +40,7 @@ private:
 	float mMoveRate;
 	int mMoveAccumulator;
 	unsigned int mColor;
+	unsigned int mOriginColor;
 
 	ImageComponent mKnob;
 

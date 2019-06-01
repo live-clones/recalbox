@@ -28,6 +28,7 @@ ImageComponent::ImageComponent(Window* window, bool forceLoad, bool dynamic)
     mForceLoad(forceLoad),
     mDynamic(dynamic)
 {
+	mColorNotSet = true;
     updateColors();
 }
 
@@ -160,6 +161,11 @@ void ImageComponent::setColorShift(unsigned int color) {
     // Grab the opacity from the color shift because we may need to apply it if
     // fading textures in
     mOpacity = color & 0xff;
+
+	if (mColorNotSet) {
+		setOriginColor(mColorShift);
+		mColorNotSet = false;
+	}
     updateColors();
 }
 

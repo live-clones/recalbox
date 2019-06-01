@@ -67,14 +67,16 @@ private:
 					auto checkbox = std::make_shared<ImageComponent>(mWindow);
 					checkbox->setImage(e.selected ? CHECKED_PATH : UNCHECKED_PATH);
 					checkbox->setResize(0, font->getLetterHeight());
+					checkbox->setColor(color);
 					row.addElement(checkbox, false);
 
 					// input handler
 					// update checkbox state & selected value
-					row.makeAcceptInputHandler([this, &e, checkbox]
+					row.makeAcceptInputHandler([this, &e, checkbox, color]
 					{
 						e.selected = !e.selected;
 						checkbox->setImage(e.selected ? CHECKED_PATH : UNCHECKED_PATH);
+						checkbox->setColor(color);
 						mParent->onSelectedChanged();
 					});
 
@@ -100,20 +102,22 @@ private:
 
 			if(mParent->mMultiSelect)
 			{
-			  mMenu.addButton(_("SELECT ALL"), "select all", [this, checkboxes] {
+			  mMenu.addButton(_("SELECT ALL"), "select all", [this, checkboxes, color] {
 					for (unsigned int i = 0; i < mParent->mEntries.size(); i++)
 					{
 						mParent->mEntries.at(i).selected = true;
 						checkboxes.at(i)->setImage(CHECKED_PATH);
+						checkboxes.at(i)->setColor(color);
 					}
 					mParent->onSelectedChanged();
 				});
 
-			  mMenu.addButton(_("SELECT NONE"), "select none", [this, checkboxes] {
+			  mMenu.addButton(_("SELECT NONE"), "select none", [this, checkboxes, color] {
 					for (unsigned int i = 0; i < mParent->mEntries.size(); i++)
 					{
 						mParent->mEntries.at(i).selected = false;
 						checkboxes.at(i)->setImage(UNCHECKED_PATH);
+						checkboxes.at(i)->setColor(color);
 					}
 					mParent->onSelectedChanged();
 				});
@@ -154,6 +158,7 @@ public:
 		else
 			font = menuTheme->menuText.font;
 		color = menuTheme->menuText.color;
+		mOriginColor = color;
 			
 		mText.setFont(font);
 		mText.setColor(color);
@@ -394,6 +399,10 @@ private:
 		mLeftArrow.setColorShift(color);
 	}
 
+
+	inline void setOriginColor(unsigned int color){mOriginColor = color;};
+	inline unsigned int getOriginColor() override{return mOriginColor;};
+
 	bool mMultiSelect;
 
 	std::string mName;
@@ -401,6 +410,7 @@ private:
 	TextComponent mText;
 	ImageComponent mLeftArrow;
 	ImageComponent mRightArrow;
+	unsigned int mOriginColor;
 
 	std::vector<OptionListData> mEntries;
 	std::function<void(const T&)> mSelectedChangedCallback;

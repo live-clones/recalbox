@@ -20,6 +20,7 @@ SliderComponent::SliderComponent(Window* window, float min, float max, float inc
 	
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 	mColor = menuTheme->menuText.color;
+	setOriginColor(mColor);
 
 	mKnob.setOrigin(0.5f, 0.5f);
 	mKnob.setImage(menuTheme->iconSet.knob);

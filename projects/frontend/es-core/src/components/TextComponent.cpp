@@ -10,6 +10,7 @@
 TextComponent::TextComponent(Window* window)
 	: GuiComponent(window),
 	  mColor(0x000000FF),
+	  mOriginColor(0x000000FF),
 		mBgColor(0),
 		mRenderBackground(false),
 		mFont(Font::get(FONT_SIZE_MEDIUM)),
@@ -25,6 +26,7 @@ TextComponent::TextComponent(Window* window, const std::string& text, const std:
 	                           Eigen::Vector3f pos, Eigen::Vector2f size, unsigned int bgcolor)
 	: GuiComponent(window),
 		mColor(0x000000FF),
+      mOriginColor(0x000000FF),
 		mBgColor(0),
 		mRenderBackground(false),
 	  mFont(nullptr),
@@ -36,6 +38,7 @@ TextComponent::TextComponent(Window* window, const std::string& text, const std:
 {
 	setFont(font);
 	setColor(color);
+	setOriginColor(color);
 	setBackgroundColor(bgcolor);
 	setText(text);
 	setPosition(pos);
@@ -63,6 +66,11 @@ void TextComponent::setColor(unsigned int color)
     mColorOpacity = mColor & 0x000000FF;
 
     onColorChanged();
+}
+
+unsigned int TextComponent::getOriginColor()
+{
+	return mOriginColor;
 }
 
 //  Set the color of the background box

@@ -182,7 +182,6 @@ void ComponentList::render(const Eigen::Affine3f& parentTrans)
 	unsigned int selectedColor = menuTheme->menuText.selectedColor;
 	unsigned int bgColor = menuTheme->menuBackground.color;
 	unsigned int separatorColor = menuTheme->menuText.separatorColor;
-	unsigned int textColor = menuTheme->menuText.color;
 
 	Eigen::Affine3f trans = roundMatrix(parentTrans * getTransform());
 
@@ -206,7 +205,7 @@ void ComponentList::render(const Eigen::Affine3f& parentTrans)
 		{
 			if(drawAll || element.invert_when_selected)
 			{
-				element.component->setColor(textColor);
+				element.component->setColor(element.component->getOriginColor());
 				element.component->render(trans);
 			}else{
 				drawAfterCursor.push_back(element.component.get());

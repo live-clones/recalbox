@@ -14,6 +14,8 @@ public:
 	void render(const Eigen::Affine3f& parentTrans) override;
 	void onSizeChanged() override;
 	void setColor(unsigned int color);
+	inline void setOriginColor(unsigned int color){mOriginColor = color;};
+	inline unsigned int getOriginColor() override{return mOriginColor;};
 
 	bool getState() const;
 	void setState(bool state);
@@ -28,4 +30,5 @@ private:
 	ImageComponent mImage;
 	bool mState;
 	bool mInitialState;
+	unsigned int mOriginColor;
 };

@@ -44,6 +44,8 @@ public:
 	// Multiply all pixels in the image by this color when rendering.
 	void setColorShift(unsigned int color);
 	void setColor(unsigned int color);
+	inline void setOriginColor(unsigned int color){mOriginColor = color;};
+	inline unsigned int getOriginColor() override{return mOriginColor;};
 
 	void setFlipX(bool flip); // Mirror on the X axis.
 	void setFlipY(bool flip); // Mirror on the Y axis.
@@ -81,6 +83,8 @@ private:
 	void fadeIn(bool textureLoaded);
 
 	unsigned int mColorShift;
+	unsigned int mOriginColor;
+	bool mColorNotSet;
 
 	std::shared_ptr<TextureResource> mTexture;
 	unsigned char mFadeOpacity;

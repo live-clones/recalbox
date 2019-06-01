@@ -104,6 +104,7 @@ public:
 	virtual std::string getValue() const;
 	virtual void setValue(const std::string& value);
 	virtual void setColor(unsigned int color);
+	virtual unsigned int getOriginColor();
 
 	virtual void onFocusGained() {};
 	virtual void onFocusLost() {};

@@ -292,6 +292,11 @@ void GuiComponent::setColor(unsigned int color)
 	(void)color;
 }
 
+unsigned int GuiComponent::getOriginColor()
+{
+	return 0;
+}
+
 std::string GuiComponent::getValue() const
 {
 	return "";

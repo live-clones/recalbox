@@ -23,6 +23,8 @@ public:
 	void render(const Eigen::Affine3f& parentTrans);
 
 	void setColor(unsigned int color);
+	inline void setOriginColor(unsigned int color){mOriginColor = color;};
+	inline unsigned int getOriginColor() override{return mOriginColor;};
 
 	void onSizeChanged() override;
 
@@ -45,5 +47,6 @@ private:
 	std::shared_ptr<TextureResource> mUnfilledTexture;
 	
 	unsigned int mColor;
+	unsigned int mOriginColor;
 };
 
