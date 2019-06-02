@@ -8,6 +8,7 @@
 #include "pugixml/pugixml.hpp"
 #include <boost/assign.hpp>
 #include <boost/algorithm/string/replace.hpp>
+#include <components/VideoComponent.h>
 
 #include "components/ImageComponent.h"
 #include "components/TextComponent.h"
@@ -728,6 +729,10 @@ std::vector<GuiComponent*> ThemeData::makeExtras(const std::shared_ptr<ThemeData
 			const std::string& t = elem.type;
 			if(t == "image")
 				comp = new ImageComponent(window);
+
+			else if (t == "video")
+				comp = new VideoComponent(window);
+
 			else if(t == "text")
 				comp = new TextComponent(window);
 
