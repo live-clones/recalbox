@@ -435,6 +435,9 @@ void DetailedGameListView::setGameInfo(FileData* file)
 
   mImage.setImage(file->Metadata().Image());
   mVideo.setVideo(file->Metadata().Video(), videoDelay, videoLoop);
+
+  LOG(LogDebug) << "Set " << file->Metadata().Video() << " for " << file->Metadata().Name() << " => " << file->getPath().generic_string();
+
   mDescription.setText(file->Metadata().Description());
   mDescContainer.reset();
 }
@@ -442,6 +445,7 @@ void DetailedGameListView::setGameInfo(FileData* file)
 void DetailedGameListView::setScrappedFolderInfo(FileData* file)
 {
   mImage.setImage(file->Metadata().Image());
+  mVideo.setVideo("", 0, 0);
   mDescription.setText(file->Metadata().Description());
   mDescContainer.reset();
 }
