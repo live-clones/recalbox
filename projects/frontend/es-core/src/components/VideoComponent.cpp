@@ -195,7 +195,7 @@ void VideoComponent::ResetAnimations()
 
   mTimer.Initialize(0);
   mState = State::Uninitialized;
-  LOG(LogDebug) << "Timer reseted: State::Uninitialized " + DateTime().ToPreciseTimeStamp();
+  // LOG(LogDebug) << "Timer reseted: State::Uninitialized " + DateTime().ToPreciseTimeStamp();
 
   // Stop the video
   if (VideoEngine::This().IsPlaying())
@@ -241,8 +241,7 @@ bool VideoComponent::ProcessDisplay(double& effect)
         mEffect = (Effect)(((int)mEffect + 1) % (int)Effect::_LastItem);
         mState = State::InitializeVideo;
         mTimer.Initialize(0);
-        LOG(LogDebug) << "Timer reseted: State::InitializeVideo " << DateTime().ToPreciseTimeStamp() << " elapsed: "
-                      << elapsed;
+        // LOG(LogDebug) << "Timer reseted: State::InitializeVideo " << DateTime().ToPreciseTimeStamp() << " elapsed: "  << elapsed;
       }
       break;
     }
@@ -257,8 +256,7 @@ bool VideoComponent::ProcessDisplay(double& effect)
         resize();
         mState = State::StartVideo;
         mTimer.Initialize(0);
-        LOG(LogDebug) << "Timer reseted: State::BumpVideo " + DateTime().ToPreciseTimeStamp() << " elapsed: "
-                      << elapsed;
+        // LOG(LogDebug) << "Timer reseted: State::BumpVideo " + DateTime().ToPreciseTimeStamp() << " elapsed: " << elapsed;
       }
       break;
     }
@@ -266,13 +264,11 @@ bool VideoComponent::ProcessDisplay(double& effect)
     {
       video = true;
       effect = ProcessEffect(elapsed, true);
-      LOG(LogDebug) << "Bump: " << effect;
       if (elapsed >= mVideoEffect)
       {
         mState = State::DisplayVideo;
         mTimer.Initialize(0);
-        LOG(LogDebug) << "Timer reseted: State::DisplayVideo " + DateTime().ToPreciseTimeStamp() << " elapsed: "
-                      << elapsed;
+        // LOG(LogDebug) << "Timer reseted: State::DisplayVideo " + DateTime().ToPreciseTimeStamp() << " elapsed: " << elapsed;
       }
       break;
     }
@@ -285,8 +281,7 @@ bool VideoComponent::ProcessDisplay(double& effect)
       {
         mState = State::StopVideo;
         mTimer.Initialize(0);
-        LOG(LogDebug) << "Timer reseted: State::FinalizeVideo " + DateTime().ToPreciseTimeStamp() << " elapsed: "
-                      << elapsed;
+        //LOG(LogDebug) << "Timer reseted: State::FinalizeVideo " + DateTime().ToPreciseTimeStamp() << " elapsed: " << elapsed;
       }
       break;
     }
@@ -294,14 +289,12 @@ bool VideoComponent::ProcessDisplay(double& effect)
     {
       video = true;
       effect = ProcessEffect(elapsed, false);
-      LOG(LogDebug) << "Bump: " << effect;
       if (elapsed >= mVideoEffect)
       {
         mState = State::Uninitialized;
         VideoEngine::This().StopVideo();
         mTimer.Initialize(0);
-        LOG(LogDebug) << "Timer reseted: State::DisplayImage " + DateTime().ToPreciseTimeStamp() << " elapsed: "
-                      << elapsed;
+        //LOG(LogDebug) << "Timer reseted: State::DisplayImage " + DateTime().ToPreciseTimeStamp() << " elapsed: " << elapsed;
       }
       break;
     }
