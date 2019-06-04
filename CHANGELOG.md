@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [6.1]
+- Fix: non working GPIO and Custom GPIO on Pi0 and Pi1
 - Fix: Recalbox manager: typo error
 - Cap32: Add gx4000 (Amstrad CPC+ series) as own system
 - Fix keyboard configuration specification for `es_input.cfg`
