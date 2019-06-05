@@ -125,6 +125,11 @@ a392174eb3e572fed6447e956bde4b25  bios9.bin
 e45033d9b0fa6b0de071292bba7c9d13  firmware.bin
 
 
+- SHARP X1 :
+eeeea1cd29c6e0e8b094790ae969bfa7  IPLROM.X1
+00000000000000000000000000000000  IPLROM.X1T
+
+
 - SHARP X68000 :
 Bios files must be placed in a subfolder named "keropi"
 
