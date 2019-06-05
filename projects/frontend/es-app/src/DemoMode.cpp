@@ -93,7 +93,7 @@ bool DemoMode::getRandomSystem(int& outputSystemIndex, int& outputDuration)
     outputSystemIndex = mSystemRandomizer(mRandomGenerator);
     outputDuration = mDurations[outputSystemIndex];
 
-    if (!isInHistory(outputSystemIndex, mSystemHistory, (int)mDemoSystems.size()) || (mDemoSystems.size() == 1))
+    if (!isInHistory(outputSystemIndex, mSystemHistory, (int)mDemoSystems.size() / 2) || (mDemoSystems.size() == 1))
     {
       // Save history
       insertIntoHistory(outputSystemIndex, mSystemHistory);
@@ -132,7 +132,7 @@ bool DemoMode::getRandomGame(FileData*& outputGame, int& outputDuration)
     gamePosition = (mGameRandomizer(mRandomGenerator) + i + mSeed) % (int)gameList.size();
     outputGame = gameList[gamePosition];
 
-    if (!isInHistory(gamePosition, mGameHistories[systemIndex], (int)gameList.size()) || (gameList.size() == 1))
+    if (!isInHistory(gamePosition, mGameHistories[systemIndex], (int)gameList.size() / 2) || (gameList.size() == 1))
     {
       // Save history
       insertIntoHistory(gamePosition, mGameHistories[systemIndex]);
