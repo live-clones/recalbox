@@ -8,7 +8,7 @@ LIBRETRO_XMIL_VERSION = b07506c0cae31d260db28cb079148857d6ca2e93
 LIBRETRO_XMIL_SITE = $(call github,r-type,xmil-libretro,$(LIBRETRO_XMIL_VERSION))
 
 define LIBRETRO_XMIL_BUILD_CMDS
-	$(SED) "s|--export-all-symbols||g"
+	$(SED) "s|--export-all-symbols||g" $(@D)/libretro/Makefile.libretro
 	$(SED) "s|-O2|-O3|g" $(@D)/libretro/Makefile.libretro
 	CFLAGS="$(TARGET_CFLAGS) $(COMPILER_COMMONS_CFLAGS_SO)" \
 		CXXFLAGS="$(TARGET_CXXFLAGS) $(COMPILER_COMMONS_CXXFLAGS_SO)" \
