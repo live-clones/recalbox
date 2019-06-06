@@ -91,8 +91,8 @@ emulators["fba_libretro"] = Emulator(name='fba_libretro', emulator='libretro', c
 emulators["advancemame"] = Emulator(name='advancemame', emulator='advmame')
 emulators["daphne"] = Emulator(name='daphne', emulator='daphne')
 emulators["neogeocd"] = Emulator(name='neogeocd', emulator='libretro', core='fbalpha')
-emulators["atomiswave"] = Emulator(name='atomiswave', emulator='libretro', core='reicast')
-emulators["naomi"] = Emulator(name='atomiswave', emulator='libretro', core='reicast')
+emulators["atomiswave"] = Emulator(name='atomiswave', emulator='libretro', core='flycast')
+emulators["naomi"] = Emulator(name='naomi', emulator='libretro', core='flycast')
 # Atari
 emulators["atari2600"] = Emulator(name='atari2600', emulator='libretro', core='stella')
 emulators["atari5200"] = Emulator(name='atari5200', emulator='libretro', core='atari800')
