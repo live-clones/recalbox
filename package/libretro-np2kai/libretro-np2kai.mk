@@ -29,6 +29,7 @@ endef
 define LIBRETRO_NP2KAI_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/sdl2/np2kai_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/np2kai_libretro.so
+	mkdir -p $(TARGET_DIR)/recalbox/share_init/bios/np2kai
 endef
 
 define LIBRETRO_NP2KAI_LINE_ENDINGS_FIXUP

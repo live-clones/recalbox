@@ -126,8 +126,8 @@ e45033d9b0fa6b0de071292bba7c9d13  firmware.bin
 
 
 - SHARP X1 :
-eeeea1cd29c6e0e8b094790ae969bfa7  IPLROM.X1
-56c28adcf1f3a2f87cf3d57c378013f5  IPLROM.X1T
+eeeea1cd29c6e0e8b094790ae969bfa7  xmil/IPLROM.X1
+56c28adcf1f3a2f87cf3d57c378013f5  xmil/IPLROM.X1T
 
 
 - SHARP X68000 :
