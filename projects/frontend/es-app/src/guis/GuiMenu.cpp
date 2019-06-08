@@ -137,12 +137,12 @@ GuiMenu::GuiMenu(Window* window) : GuiComponent(window), mMenu(window, _("MAIN M
     addChild(&mVersion);
 
     setSize(mMenu.getSize());
-    setPosition((Renderer::getScreenWidth() - mSize.x()) / 2, Renderer::getScreenHeight() * 0.3f);
+    setPosition((Renderer::getScreenWidth() - mSize.x()) / 2, (Renderer::getScreenHeight() - mSize.y()) / 2);
 
   // Animation
   auto fadeFunc = [this](float t) {
     setOpacity(lerp<float>(0, 255, t));
-    setPosition(getPosition().x(), lerp<float>(getPosition().y(), Renderer::getScreenHeight() * .15f, t));
+    setPosition(getPosition().x(), lerp<float>(getPosition().y(), (Renderer::getScreenHeight() - mSize.y()) / 2, t));
   };
 
   setOpacity(0);

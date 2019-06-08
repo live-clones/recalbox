@@ -222,7 +222,7 @@ std::string DateTimeComponent::getDisplayString(DisplayMode mode) const
 
 		std::stringstream ss;
 		ss.imbue(loc);
-		ss << "" << second_clock::local_time();
+		ss << "" << second_clock::local_time() << " ";
 		return ss.str();
 	}
 	case DISP_RELATIVE_TO_NOW:
@@ -288,7 +288,7 @@ void DateTimeComponent::updateTextCache()
 	DisplayMode mode = getCurrentDisplayMode();
 	const std::string dispString = mUppercase ? strToUpper(getDisplayString(mode)) : getDisplayString(mode);
 	std::shared_ptr<Font> font = getFont();
-	mTextCache = std::unique_ptr<TextCache>(font->buildTextCache(dispString, 0, 0, mColor));
+	mTextCache = std::unique_ptr<TextCache>(font->buildTextCache(dispString, Eigen::Vector2f(0, 0), mColor, mSize.x(), mHorizontalAlignment));
 
 	if(mAutoSize)
 	{
@@ -339,6 +339,12 @@ void DateTimeComponent::setFont(std::shared_ptr<Font> font)
 	updateTextCache();
 }
 
+void DateTimeComponent::setHorizontalAlignment(Alignment align)
+{
+	mHorizontalAlignment = align;
+	updateTextCache();
+}
+
 void DateTimeComponent::onSizeChanged()
 {
 	mAutoSize = false;
@@ -369,6 +375,19 @@ void DateTimeComponent::applyTheme(const std::shared_ptr<ThemeData>& theme, cons
 
 	if(properties & COLOR && elem->has("color"))
 		setColor(elem->get<unsigned int>("color"));
+
+	if(properties & ALIGNMENT && elem->has("alignment"))
+	{
+		std::string str = elem->get<std::string>("alignment");
+		if(str == "left")
+			setHorizontalAlignment(ALIGN_LEFT);
+		else if(str == "center")
+			setHorizontalAlignment(ALIGN_CENTER);
+		else if(str == "right")
+			setHorizontalAlignment(ALIGN_RIGHT);
+		else
+		LOG(LogError) << "Unknown text alignment string: " << str;
+	}
 
 	if(properties & FORCE_UPPERCASE && elem->has("forceUppercase"))
 		setUppercase(elem->get<bool>("forceUppercase"));

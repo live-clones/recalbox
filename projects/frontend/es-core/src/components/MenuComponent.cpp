@@ -41,7 +41,7 @@ MenuComponent::MenuComponent(Window* window, const char* title, const std::share
 
 	if (title == _("MAIN MENU") ) {
 
-		auto headerGrid = std::make_shared<ComponentGrid>(mWindow, Vector2i(7, 1));
+		auto headerGrid = std::make_shared<ComponentGrid>(mWindow, Vector2i(3, 1));
 
 		std::string arch = Settings::getInstance()->getString("Arch");
 		if (arch == "x86" || arch == "x86_64") {
@@ -54,8 +54,8 @@ MenuComponent::MenuComponent(Window* window, const char* title, const std::share
 					batDisplay->setColor(0xFF0000FF);
 				else
 					batDisplay->setColor(menuTheme->menuText.color);
-				batDisplay->setText(batt.first + " " + std::to_string(batt.second) + "%");
-				batDisplay->setHorizontalAlignment(ALIGN_CENTER);
+				batDisplay->setText(" " + batt.first + " " + std::to_string(batt.second) + "%");
+				batDisplay->setHorizontalAlignment(ALIGN_LEFT);
 				headerGrid->setEntry(batDisplay, Vector2i(0, 0), false);
 
 			}
@@ -65,9 +65,10 @@ MenuComponent::MenuComponent(Window* window, const char* title, const std::share
 
 			mDateTime = std::make_shared<DateTimeComponent>(mWindow);
 			mDateTime->setDisplayMode(DateTimeComponent::DISP_TIME);
+			mDateTime->setHorizontalAlignment(ALIGN_RIGHT);
 			mDateTime->setFont(menuTheme->menuText.font);
 			mDateTime->setColor(menuTheme->menuText.color);
-			headerGrid->setEntry(mDateTime, Vector2i(6, 0), false);
+			headerGrid->setEntry(mDateTime, Vector2i(2, 0), false);
 		}
 
 		mGrid.setEntry(headerGrid, Vector2i(0, 0), false);
@@ -117,7 +118,7 @@ float MenuComponent::getButtonGridHeight() const
 
 void MenuComponent::updateSize()
 {
-    const float maxHeight = Renderer::getScreenHeight() * 0.7f;
+    const float maxHeight = Renderer::getScreenHeight() * 0.85f;
     float height = TITLE_HEIGHT + mList->getTotalRowHeight() + getButtonGridHeight() + 2;
     if(height > maxHeight)
     {
