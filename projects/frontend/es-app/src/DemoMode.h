@@ -53,6 +53,8 @@ class DemoMode
     //! Secondary seed
     int mSeed;
 
+    void init();
+
     /*!
      * @brief Check if an item is in its history records
      * @param item item to seek for

@@ -132,7 +132,12 @@ class FolderData : public FileData
     bool hasGame() const;
 
     /*!
-     * Get total games in all folders, incuding hidden
+     * Return true if contain at least one visible game
+     */
+    bool hasVisibleGame() const;
+
+    /*!
+     * Get total games in all folders, including hidden
      * @return Game count
      */
     int countAll(bool includefolders) const { return countItemsRecursively(Filter::All, includefolders); }

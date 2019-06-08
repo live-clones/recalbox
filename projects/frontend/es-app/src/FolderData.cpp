@@ -192,6 +192,16 @@ bool FolderData::hasGame() const
   return false;
 }
 
+bool FolderData::hasVisibleGame() const
+{
+  for (FileData* fd : mChildren)
+  {
+    if ( (fd->isGame() && !fd->Metadata().Hidden()) || (fd->isFolder() && CastFolder(fd)->hasVisibleGame()))
+      return true;
+  }
+  return false;
+}
+
 int FolderData::getItems(FileData::List& to, Filter includes, bool includefolders) const
 {
   int gameCount = 0;

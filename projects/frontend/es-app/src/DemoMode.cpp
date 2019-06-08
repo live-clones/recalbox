@@ -14,9 +14,17 @@ DemoMode::DemoMode(Window& window)
     mRandomGenerator(mRandomDevice()),
     mGameRandomizer(0, 1U << 30U)
 {
+}
+
+void DemoMode::init()
+{
   // Default duration
   mDefaultDuration = (int)mRecalboxConf.getUInt("global.demo.duration", 90);
   mInfoScreenDuration = (int)mRecalboxConf.getUInt("global.demo.infoscreenduration", 6);
+
+  // flush previous init
+  mDemoSystems.clear();
+  mDurations.clear();
 
   // Build system list filtered by user config
   const std::vector<SystemData*>& allSystems = SystemData::getAllSystems();
@@ -26,15 +34,16 @@ DemoMode::DemoMode(Window& window)
     const std::string& name = allSystems[i]->getName();
     bool includeSystem = mRecalboxConf.getBool(name + ".demo.include");
     bool systemIsInIncludeList = !systemListExists || mRecalboxConf.isInList("global.demo.systemlist", name);
-    int gameCount = allSystems[i]->getRootFolder()->countAllDisplayableItemsRecursively(false);
-    if ((includeSystem || systemIsInIncludeList) && (gameCount > 0))
+    bool hasVisibleGame = allSystems[i]->getRootFolder()->hasVisibleGame();
+    if ((includeSystem || systemIsInIncludeList) && hasVisibleGame)
     {
       mDemoSystems.push_back(allSystems[i]);
       int systemDuration = mRecalboxConf.getUInt(name + ".demo.duration", (unsigned int)mDefaultDuration);
       mDurations.push_back(systemDuration);
       LOG(LogInfo) << "System selected for demo : " << allSystems[i]->getName() << " with session of " << systemDuration << "s";
     }
-    else LOG(LogDebug) << "System NOT selected for demo : " << allSystems[i]->getName() << " - isSelected: " << (includeSystem | systemIsInIncludeList) << " - gameCount: " << gameCount;
+    else
+      LOG(LogDebug) << "System NOT selected for demo : " << allSystems[i]->getName() << " - isSelected: " << (includeSystem | systemIsInIncludeList) << " - hasVisibleGame: " << hasVisibleGame ? 1 : 0;
   }
 
   // Check if there is at least one system.
@@ -156,6 +165,8 @@ void DemoMode::runDemo()
   int duration = 0;
   bool Initialized = false;
   std::string controllerConfigs;
+
+  init();
 
   while(getRandomGame(game, duration))
   {
