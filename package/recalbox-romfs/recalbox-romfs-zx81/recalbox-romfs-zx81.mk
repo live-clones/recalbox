@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system zx81 --extension '.tzx .TZX .p .P .zip .ZIP' --fullname 'ZX81' --platform zx81 --theme zx81 libretro:81:BR2_PACKAGE_LIBRETRO_81
+# ./scripts/linux/empack.py --system zx81 --extension '.tzx .TZX .p .P .zip .ZIP .7z .7Z' --fullname 'ZX81' --platform zx81 --theme zx81 libretro:81:BR2_PACKAGE_LIBRETRO_81
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_ZX81_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_ZX81 = $(RECALBOX_ROMFS_ZX81_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_81),)
 define CONFIGURE_MAIN_ZX81_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_ZX81),ZX81,$(SYSTEM_NAME_ZX81),.tzx .TZX .p .P .zip .ZIP,zx81,zx81)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_ZX81),ZX81,$(SYSTEM_NAME_ZX81),.tzx .TZX .p .P .zip .ZIP .7z .7Z,zx81,zx81)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_81),)

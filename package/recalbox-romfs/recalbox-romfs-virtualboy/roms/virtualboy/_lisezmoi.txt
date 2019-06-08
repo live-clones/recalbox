@@ -2,7 +2,7 @@
 
 Placez ici vos roms nintendo virtual boy.
 
-Les roms doivent avoir l'extension ".vb/.zip/.7z"
+Les roms doivent avoir l'extension ".vb/.vboy/.bin/.zip/.7z"
 
 Ce système supporte également les roms compressées au format .zip/.7z.
 Attention toutefois, il ne s'agit que d'une archive. Les fichiers contenus dans les .zip/.7z doivent correspondre aux extensions citées précédemment.

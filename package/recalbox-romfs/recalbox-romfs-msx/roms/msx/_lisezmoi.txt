@@ -2,14 +2,11 @@
 
 Placez ici vos roms msx.
 
-Les roms doivent avoir l'extension ".mx1" pour les roms MSX1 ou ".mx2" pour les roms MSX2. 
-Renommez donc vos .rom en .mx1 ou .mx2
+L'émulateur BlueMSX gére également les fichiers ".rom/.mx1/.mx2/.dsk/.cas/.m3u/.zip/.7z"
 
-L'émulateur BlueMSX gére également les fichiers ".rom/.dsk/.cas/.m3u/.zip"
-
-Ce système supporte également les roms compressées au format .zip.
-Attention toutefois, il ne s'agit que d'une archive. Les fichiers contenus dans les .zip doivent correspondre aux extensions citées précédemment.
-De plus, chaque fichier .zip ne doit contenir qu'une seule rom compressée.
+Ce système supporte également les roms compressées au format .zip/.7z.
+Attention toutefois, il ne s'agit que d'une archive. Les fichiers contenus dans les .zip/.7z doivent correspondre aux extensions citées précédemment.
+De plus, chaque fichier .zip/.7z ne doit contenir qu'une seule rom compressée.
 
 
 ## BIOS ##

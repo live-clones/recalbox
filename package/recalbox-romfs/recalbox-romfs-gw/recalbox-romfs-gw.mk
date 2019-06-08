@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system gw --extension '.zip .ZIP .mgw .MGW' --fullname 'Game and Watch' --platform gw --theme gw libretro:gw:BR2_PACKAGE_LIBRETRO_GW
+# ./scripts/linux/empack.py --system gw --extension '.mgw .MGW .zip .ZIP .7z .7Z' --fullname 'Game and Watch' --platform gw --theme gw libretro:gw:BR2_PACKAGE_LIBRETRO_GW
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_GW_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_GW = $(RECALBOX_ROMFS_GW_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_GW),)
 define CONFIGURE_MAIN_GW_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_GW),Game and Watch,$(SYSTEM_NAME_GW),.zip .ZIP .mgw .MGW,gw,gw)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_GW),Game and Watch,$(SYSTEM_NAME_GW),.mgw .MGW .zip .ZIP .7z .7Z,gw,gw)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_GW),)

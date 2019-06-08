@@ -2,7 +2,7 @@
 
 Placez ici vos roms amstrad cpc.
 
-Les roms doivent avoir l'extension ".dsk/.sna/.tap/.cdt/.voc/.m3u/.zip/.kcr"
+Les roms doivent avoir l'extension ".dsk/.sna/.tap/.cdt/.voc/.m3u/.zip/.7z/.kcr"
 
 Ce système supporte également les roms compressées au format .zip.
 Attention toutefois, il ne s'agit que d'une archive. Les fichiers contenus dans les .zip doivent correspondre aux extensions citées précédemment.
