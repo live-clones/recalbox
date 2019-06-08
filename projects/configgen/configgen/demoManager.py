@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 import threading
-import time
 import os
-import signal
-import fcntl
 import struct
 
 from demoInfo import demoInformation
@@ -61,6 +58,7 @@ class InputEventManager:
             name = "/dev/input/event" + str(index)
             self.fileDescriptors[index] = open(name, "rb")
             # Configure NON blocking I/O
+            fcntl = __import__("fcntl")
             fcntl.fcntl(self.fileDescriptors[index], fcntl.F_SETFL, fcntl.fcntl(self.fileDescriptors[index], fcntl.F_GETFL) | os.O_NONBLOCK)
             print("Opened " + name)
             if name in self.startMap:
@@ -133,7 +131,7 @@ class DemoTimer(threading.Thread):
     def userWantedToPlay(self):
         return self.userWannaPlay
 
-    def terminateProcess(self, refresh):
+    def terminateProcess(self, refresh, time):
         try:
             self.proc.terminate()
         except OSError:
@@ -150,11 +148,13 @@ class DemoTimer(threading.Thread):
             # Still alive?
             if self.proc.poll() is None:
                 try:
+                    signal = __import__("signal")
                     os.kill(self.proc.pid, signal.SIGKILL)
                 except OSError:
                     pass
 
     def run(self):
+        time = __import__("time")
         refresh = 0.2  # refresh time in second
         outDuration = self.outScreenDuration * int(1.0 / refresh)
         duration = (self.duration * int(1.0 / refresh)) + outDuration
@@ -180,13 +180,13 @@ class DemoTimer(threading.Thread):
                     break
                 # Outscreen?
                 if duration < outDuration:
-                    self.terminateProcess(refresh)
+                    self.terminateProcess(refresh, time)
                     outScreen = demoInformation()
 
         if outScreen is not None:
             del outScreen
         else:
-            self.terminateProcess(refresh)
+            self.terminateProcess(refresh, time)
 
 
 class DemoManager:

@@ -1,6 +1,4 @@
 #!/usr/bin/env python
-import os
-import re
 
 
 class keyValueSettings:
@@ -60,9 +58,10 @@ class keyValueSettings:
         for key in self.settings.iterkeys():
             if key.startswith(startWith):
                 result[key[swl:]] = self.settings[key]
-        return result;
+        return result
 
     def saveFile(self):
+        os = __import__("os")
         folder = os.path.dirname(self.settingsFile)
         if not os.path.exists(folder):
             os.makedirs(folder)
@@ -78,14 +77,11 @@ class keyValueSettings:
         try:
             if clear:
                 self.settings.clear()
-            if os.path.exists(self.settingsFile):
-                with open(self.settingsFile) as lines:
-                    for line in lines:
-                        m = re.match(r'^(.*)\s?=\s?"?(.*)"?', line)
-                        if m:
-                            key, value = line.split('=', 1)
-                            key = key.strip()
-                            value = value.strip()
-                            self.settings[key] = value
+            with open(self.settingsFile) as lines:
+                for line in lines:
+                    if '=' in line:
+                        key, value = line.split('=', 1)
+                        if key is not None and value is not None:
+                            self.settings[key.strip()] = value.strip()
         finally:
             return self.settings

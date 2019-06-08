@@ -48,7 +48,7 @@ class TestLinappleGenerator(runtest.TestCase):
         # executing it.
         generator = LinappleGenerator(self.path_init, self.path_user)
         #generator.cmdArray.insert(0, '/bin/echo')
-        emulatorlauncher.generators['linapple'] = generator
+        emulatorlauncher.lineAppleGeneratorOverride = generator
         
         # Load settings from system configuration file and apply 
         # expected results
@@ -79,11 +79,7 @@ class TestLinappleGenerator(runtest.TestCase):
         generator.config_upgrade('v4.0.0 2016/03/20 01:19')
         
     def test_config_upgrade_all(self):
-        result = True
-        generators = emulatorlauncher.generators
-        for _,g in generators.items():
-            result &= g.config_upgrade('v4.0.0 2016/03/20 01:19')
-            
+        result = emulatorlauncher.config_upgrade('v4.0.0 2016/03/20 01:19')
         #self.assertTrue(result)
 
 if __name__ == "__main__":

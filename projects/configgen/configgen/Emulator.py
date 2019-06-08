@@ -1,7 +1,4 @@
 import recalboxFiles
-import xml.etree.ElementTree as ET
-import shlex
-
 from settings.keyValueSettings import keyValueSettings
 
 
@@ -53,11 +50,13 @@ class Emulator:
 
         # Draw FPS
         if self.config.get('showFPS') not in ['false', 'true']:
-            self.updateDrawFPS()
+            self.config['showFPS'] = False
+            #self.updateDrawFPS()
 
         # Optionnal emulator args ONLY if security is disabled
         security = recalboxSettings.getOption("system.security.enabled", '0')
         if security != '1' and settings.get('args', '') != '':
+            shlex = __import__("shlex")
             self.config['args'] = shlex.split(settings['args'])
         else:
             self.config['args'] = None
@@ -79,12 +78,3 @@ class Emulator:
         if ratio is not None and ratio != 'auto':
             self.config['ratio'] = ratio
 
-    def updateDrawFPS(self):
-        try:
-            esConfig = ET.parse(recalboxFiles.esSettings)
-            value = esConfig.find("./bool[@name='DrawFramerate']").attrib["value"]
-        except:
-            value = 'false'
-        if value not in ['false', 'true']:
-            value = 'false'
-        self.config['showFPS'] = value
