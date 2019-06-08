@@ -146,6 +146,28 @@ void RecalboxConf::setUInt(const std::string &name, unsigned int value) {
     confMap[name] = std::to_string(value).c_str();
 }
 
+/**
+ * Join a list using the , as delimiter, removing all empty values
+ */
+void RecalboxConf::setList(const std::string &name, const std::vector<std::string> &values) {
+
+  std::stringstream ss;
+  std::string delimiter = ",";
+  bool addDelimiter = false;
+
+  for (auto & value: values)
+  {
+    if (value.length())
+    {
+      if (addDelimiter)
+        ss << delimiter;
+      ss << value;
+      addDelimiter = true;
+    }
+  }
+  confMap[name] = ss.str();
+}
+
 bool RecalboxConf::isInList(const std::string &name, const std::string &value) {
     bool result = false;
     if (confMap.count(name)) {

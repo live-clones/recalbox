@@ -765,6 +765,20 @@ void GuiMenu::menuUISettings(){
     Settings::getInstance()->setString("ScreenSaverBehavior", screensaver_behavior->getSelected());
   });
 
+  // add systems (all with a platformid specified selected)
+  auto  systems = std::make_shared< OptionListComponent<std::string> >(mWindow, _("SYSTEMS TO SHOW IN DEMO"), true);
+  for (auto& it : SystemData::sSystemVector)
+  {
+    if (!it->hasPlatformId(PlatformIds::PLATFORM_IGNORE))
+      systems->add(it->getFullName(), it->getName(), RecalboxConf::getInstance()->isInList("global.demo.systemlist", it->getName()) && !it->getPlatformIds().empty());
+  }
+  s->addWithLabel(systems, _("SYSTEMS FOR DEMO"));
+  s->addSaveFunc([systems] {
+    std::vector<std::string> names = systems->getSelectedObjects();
+    RecalboxConf::getInstance()->setList("global.demo.systemlist", names);
+  });
+
+
   // display clock
   auto show_time = std::make_shared<SwitchComponent>(mWindow);
   show_time->setState(Settings::getInstance()->getBool("ShowClock"));
@@ -1095,6 +1109,10 @@ void GuiMenu::menuUISettings(){
         ViewController::get()->goToStart();
         }, _("NO"), nullptr));
   }, _(MenuMessages::UI_UPDATE_GAMELIST_HELP_MSG));
+
+  s->addSaveFunc([] {
+    RecalboxConf::getInstance()->saveRecalboxConf();
+  });
 
   mWindow->pushGui(s);
 }

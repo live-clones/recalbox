@@ -7,6 +7,7 @@
 
 
 #include <string>
+#include <vector>
 #include <map>
 
 class RecalboxConf {
@@ -28,6 +29,7 @@ public:
     void set(const std::string &name, const std::string &value);
     void setBool(const std::string &name, bool value);
     void setUInt(const std::string &name, unsigned int value);
+    void setList(const std::string &name, const std::vector<std::string> &values);
 
     bool isInList(const std::string &name, const std::string &value);
 
