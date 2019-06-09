@@ -1,6 +1,6 @@
 # Release notes
 
-## Version 6.1
+## Version 6.1 - Test version 2019-06-09
 
 ### News
 - New system! Uzebox on all systems (RetroArch core: libretro-uzem)
