@@ -156,7 +156,7 @@ void DateTimeComponent::render(const Eigen::Affine3f& parentTrans)
 
 		std::shared_ptr<Font> font = getFont();
 
-		mTextCache->setColor(mColor);
+    mTextCache->setColor((mColor & 0xFFFFFF00) | getOpacity());
 		font->renderTextCache(mTextCache.get());
 
 		if(mEditing)
