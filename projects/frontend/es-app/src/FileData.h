@@ -116,7 +116,7 @@ class FileData
      * Return true if at least one image is available (thumbnail or regular image)
      * @return Boolean result
      */
-    inline bool hasThumbnailOrImage() const { return !(mMetadata.Thumbnail().empty() | mMetadata.Image().empty()); }
+    inline bool hasThumbnailOrImage() const { return !(mMetadata.Thumbnail().empty() & mMetadata.Image().empty()); }
 
     /*!
      * const Metadata accessor for Read operations
