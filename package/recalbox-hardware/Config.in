@@ -1,0 +1,7 @@
+config BR2_PACKAGE_RECALBOX_HARDWARE
+	bool "recalbox hardware"
+	depends on BR2_PACKAGE_RECALBOX_THEMES
+	help
+	  Hardware management.
+
+	  https://gitlab.com/recalbox/recalbox-hardware
