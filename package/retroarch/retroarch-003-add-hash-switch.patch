@@ -56,7 +56,7 @@ diff --git a/tasks/task_content.c b/tasks/task_content.c
 index 3676308d73..cc84eba5f1 100644
 --- a/tasks/task_content.c
 +++ b/tasks/task_content.c
-@@ -332,6 +332,7 @@ static bool load_content_into_memory(
+@@ -335,6 +335,7 @@ static bool load_content_into_memory(
        int64_t *length)
  {
     uint8_t *ret_buf          = NULL;
@@ -64,7 +64,7 @@ index 3676308d73..cc84eba5f1 100644
  
     RARCH_LOG("%s: %s.\n",
           msg_hash_to_str(MSG_LOADING_CONTENT_FILE), path);
-@@ -369,7 +370,13 @@ static bool load_content_into_memory(
+@@ -382,7 +383,13 @@ static bool load_content_into_memory(
           RARCH_LOG("CRC32: 0x%x .\n", (unsigned)content_rom_crc);
        }
        else
@@ -79,15 +79,15 @@ index 3676308d73..cc84eba5f1 100644
     }
  
     *buf = ret_buf;
-@@ -562,6 +569,7 @@ static bool content_file_load(
+@@ -569,6 +576,7 @@ static bool content_file_load(
+ {
+    unsigned i;
     retro_ctx_load_content_info_t load_info;
-    size_t msg_size             = 1024 * sizeof(char);
-    char *msg                   = (char*)malloc(msg_size);
 +   global_t *global           = global_get_ptr();
     bool used_vfs_fallback_copy = false;
  #ifdef __WINRT__
     rarch_system_info_t *system = runloop_get_system_info();
-@@ -701,6 +709,10 @@ static bool content_file_load(
+@@ -717,6 +725,10 @@ static bool content_file_load(
  
           RARCH_LOG("%s\n", msg_hash_to_str(
                    MSG_CONTENT_LOADING_SKIPPED_IMPLEMENTATION_WILL_DO_IT));
@@ -95,16 +95,13 @@ index 3676308d73..cc84eba5f1 100644
 +              content_rom_crc = global->name.hash;
 +              RARCH_LOG("OMG !!! We've loaded the command line hash !!! Look: 0x%x .\n", (unsigned)content_rom_crc);
 +          } else
-          content_rom_crc = file_crc32(0, path);
-          RARCH_LOG("CRC32: 0x%x .\n", (unsigned)content_rom_crc);
- 
+          pending_content_rom_crc      = true;
+          strlcpy(pending_content_rom_crc_path,
+                path, sizeof(pending_content_rom_crc_path));
 @@ -1964,7 +1976,8 @@ void content_unset_does_not_need_content(void)
- 
- uint32_t content_get_crc(void)
- {
--   return content_rom_crc;
-+    RARCH_LOG("Called get_content_crc\n");
-+    return content_rom_crc;
+             (const char*)pending_content_rom_crc_path);
+       RARCH_LOG("CRC32: 0x%x .\n", (unsigned)content_rom_crc);
+    }
++   RARCH_LOG("Called get_content_crc\n");
+    return content_rom_crc;
  }
- 
- bool content_is_inited(void)
