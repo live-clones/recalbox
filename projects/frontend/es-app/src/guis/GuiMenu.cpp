@@ -744,39 +744,50 @@ void GuiMenu::menuUISettings(){
   auto s = new GuiSettings(mWindow, _("UI SETTINGS").c_str());
   Window *window = mWindow;
 
-  // screensaver time
-  auto screensaver_time = std::make_shared<SliderComponent>(mWindow, 0.f, 30.f, 1.f, "m");
-  screensaver_time->setValue((float) (Settings::getInstance()->getInt("ScreenSaverTime") / (1000 * 60)));
-  s->addWithLabel(screensaver_time, _("SCREENSAVER AFTER"), _(MenuMessages::UI_SCREENSAVER_AFTER_HELP_MSG));
-  s->addSaveFunc([screensaver_time] {
-    Settings::getInstance()->setInt("ScreenSaverTime", (int) round(screensaver_time->getValue()) * (1000 * 60));
-  });
 
-  // screensaver behavior
-  auto screensaver_behavior = std::make_shared<OptionListComponent<std::string> >(mWindow, _("TRANSITION STYLE"), false);
-  std::vector<std::string> screensavers;
-  screensavers.push_back("dim");
-  screensavers.push_back("black");
-  screensavers.push_back("demo");
-  for (auto it = screensavers.begin(); it != screensavers.end(); it++)
-    screensaver_behavior->add(*it, *it, Settings::getInstance()->getString("ScreenSaverBehavior") == *it);
-  s->addWithLabel(screensaver_behavior, _("SCREENSAVER BEHAVIOR"), _(MenuMessages::UI_SCREENSAVER_BEHAVIOR_HELP_MSG));
-  s->addSaveFunc([screensaver_behavior] {
-    Settings::getInstance()->setString("ScreenSaverBehavior", screensaver_behavior->getSelected());
-  });
+  std::function<void()> openGuiSS = [this] {
+	  auto ss = new GuiSettings(mWindow, _("SCREENSAVER").c_str());
 
-  // add systems (all with a platformid specified selected)
-  auto  systems = std::make_shared< OptionListComponent<std::string> >(mWindow, _("SYSTEMS TO SHOW IN DEMO"), true);
-  for (auto& it : SystemData::sSystemVector)
-  {
-    if (!it->hasPlatformId(PlatformIds::PLATFORM_IGNORE))
-      systems->add(it->getFullName(), it->getName(), RecalboxConf::getInstance()->isInList("global.demo.systemlist", it->getName()) && !it->getPlatformIds().empty());
-  }
-  s->addWithLabel(systems, _("SYSTEMS FOR DEMO"));
-  s->addSaveFunc([systems] {
-    std::vector<std::string> names = systems->getSelectedObjects();
-    RecalboxConf::getInstance()->setList("global.demo.systemlist", names);
-  });
+	  // screensaver time
+	  auto screensaver_time = std::make_shared<SliderComponent>(mWindow, 0.f, 30.f, 1.f, "m");
+	  screensaver_time->setValue((float) (Settings::getInstance()->getInt("ScreenSaverTime") / (1000 * 60)));
+	  ss->addWithLabel(screensaver_time, _("SCREENSAVER AFTER"), _(MenuMessages::UI_SCREENSAVER_AFTER_HELP_MSG));
+	  ss->addSaveFunc([screensaver_time] {
+		  Settings::getInstance()->setInt("ScreenSaverTime", (int) round(screensaver_time->getValue()) * (1000 * 60));
+	  });
+
+	  // screensaver behavior
+	  auto screensaver_behavior = std::make_shared<OptionListComponent<std::string> >(mWindow, _("TRANSITION STYLE"),
+	                                                                                  false);
+	  std::vector<std::string> screensavers;
+	  screensavers.push_back("dim");
+	  screensavers.push_back("black");
+	  screensavers.push_back("demo");
+	  for (auto it = screensavers.begin(); it != screensavers.end(); it++)
+		  screensaver_behavior->add(*it, *it, Settings::getInstance()->getString("ScreenSaverBehavior") == *it);
+	  ss->addWithLabel(screensaver_behavior, _("SCREENSAVER BEHAVIOR"),
+	                   _(MenuMessages::UI_SCREENSAVER_BEHAVIOR_HELP_MSG));
+	  ss->addSaveFunc([screensaver_behavior] {
+		  Settings::getInstance()->setString("ScreenSaverBehavior", screensaver_behavior->getSelected());
+	  });
+
+	  // add systems (all with a platformid specified selected)
+	  auto systems = std::make_shared<OptionListComponent<std::string> >(mWindow, _("SYSTEMS TO SHOW IN DEMO"), true);
+	  for (auto &it : SystemData::sSystemVector) {
+		  if (!it->hasPlatformId(PlatformIds::PLATFORM_IGNORE))
+			  systems->add(it->getFullName(), it->getName(),
+			               RecalboxConf::getInstance()->isInList("global.demo.systemlist", it->getName()) &&
+			               !it->getPlatformIds().empty());
+	  }
+	  ss->addWithLabel(systems, _("SYSTEMS FOR DEMO"));
+	  ss->addSaveFunc([systems] {
+		  std::vector<std::string> names = systems->getSelectedObjects();
+		  RecalboxConf::getInstance()->setList("global.demo.systemlist", names);
+	  });
+	  mWindow->pushGui(ss);
+  };
+
+  s->addSubMenu(_("SCREENSAVER"), openGuiSS, _(MenuMessages::UI_SCREENSAVER_HELP_MSG));
 
 
   // display clock
@@ -848,11 +859,14 @@ void GuiMenu::menuUISettings(){
     Settings::getInstance()->setBool("UseOSK", osk_enable->getState());
   });
 
+  std::function<void()> openGuiTheme = [this, window] {
+		auto st = new GuiSettings(mWindow, _("THEME").c_str());
+
   // carousel transition option
   auto move_carousel = std::make_shared<SwitchComponent>(mWindow);
   move_carousel->setState(Settings::getInstance()->getBool("MoveCarousel"));
-  s->addWithLabel(move_carousel, _("CAROUSEL ANIMATION"), _(MenuMessages::UI_CAROUSEL_HELP_MSG));
-  s->addSaveFunc([move_carousel] { Settings::getInstance()->setBool("MoveCarousel", move_carousel->getState()); });
+  st->addWithLabel(move_carousel, _("CAROUSEL ANIMATION"), _(MenuMessages::UI_CAROUSEL_HELP_MSG));
+  st->addSaveFunc([move_carousel] { Settings::getInstance()->setBool("MoveCarousel", move_carousel->getState()); });
 
   // transition style
   auto transition_style = std::make_shared<OptionListComponent<std::string> >(mWindow, _("TRANSITION STYLE"), false);
@@ -862,8 +876,8 @@ void GuiMenu::menuUISettings(){
   transitions.push_back("instant");
   for (auto it = transitions.begin(); it != transitions.end(); it++)
     transition_style->add(*it, *it, Settings::getInstance()->getString("TransitionStyle") == *it);
-  s->addWithLabel(transition_style, _("TRANSITION STYLE"), _(MenuMessages::UI_TRANSITION_HELP_MSG));
-  s->addSaveFunc([transition_style] {
+  st->addWithLabel(transition_style, _("TRANSITION STYLE"), _(MenuMessages::UI_TRANSITION_HELP_MSG));
+  st->addSaveFunc([transition_style] {
     Settings::getInstance()->setString("TransitionStyle", transition_style->getSelected());
   });
 
@@ -877,7 +891,7 @@ void GuiMenu::menuUISettings(){
   auto theme_set = std::make_shared<OptionListComponent<std::string> >(mWindow, _("THEME SET"), false);
   for (auto it = themeSets.begin(); it != themeSets.end(); it++)
     theme_set->add(it->first, it->first, it == selectedSet);
-  s->addWithLabel(theme_set, _("THEME SET"), _(MenuMessages::UI_THEME_HELP_MSG));
+  st->addWithLabel(theme_set, _("THEME SET"), _(MenuMessages::UI_THEME_HELP_MSG));
 
   std::function<void()> ReloadAll = [this, window] () {
     ViewController::get()->goToStart();
@@ -902,7 +916,7 @@ void GuiMenu::menuUISettings(){
   };
 
 
-  s->addSaveFunc([this, window, theme_set, ReloadAll] {
+  st->addSaveFunc([this, window, theme_set, ReloadAll] {
 
     if (Settings::getInstance()->getString("ThemeSet") != theme_set->getSelected())
     {
@@ -1088,10 +1102,10 @@ void GuiMenu::menuUISettings(){
     else
       mWindow->pushGui(new GuiMsgBox(window, _("THIS THEME HAS NO OPTION"), _("OK")));
   };
-  s->addSubMenu(_("THEME CONFIGURATION"), openGui, _(MenuMessages::UI_THEME_CONFIGURATION_MSG));
+  st->addSubMenu(_("THEME CONFIGURATION"), openGui, _(MenuMessages::UI_THEME_CONFIGURATION_MSG));
 
   // Game List Update
-  s->addSubMenu(_("UPDATE GAMES LISTS"), [this,window] {
+  st->addSubMenu(_("UPDATE GAMES LISTS"), [this,window] {
     window->pushGui(new GuiMsgBox(window, _("REALLY UPDATE GAMES LISTS ?"), _("YES"), [this,window] {
         ViewController::get()->goToStart();
         window->renderShutdownScreen();
@@ -1110,9 +1124,13 @@ void GuiMenu::menuUISettings(){
         }, _("NO"), nullptr));
   }, _(MenuMessages::UI_UPDATE_GAMELIST_HELP_MSG));
 
-  s->addSaveFunc([] {
+  st->addSaveFunc([] {
     RecalboxConf::getInstance()->saveRecalboxConf();
   });
+		mWindow->pushGui(st);
+	};
+
+	s->addSubMenu(_("THEME"), openGuiTheme, _(MenuMessages::UI_THEME_HELP_MSG));
 
   mWindow->pushGui(s);
 }

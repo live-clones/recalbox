@@ -1302,12 +1302,16 @@ msgid "Configure your EmulationStation experience. Select transition types, help
 "If you've added games since the last boot, you can also refresh the gamelist from this menu."
 msgstr ""
 
+#:
+msgid "Configure screensaver"
+msgstr ""
+
 #: 
 msgid "Start the screensaver after N minutes."
 msgstr ""
 
 #: 
-msgid "Set the screensaver behavior. DIM will reduce the screen light, and BLACK will turn the screen black."
+msgid "Set the screensaver behavior. DIM will reduce the screen light, BLACK will turn the screen black, DEMO will launch demo mode."
 msgstr ""
 
 #: 

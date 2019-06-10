@@ -122,7 +122,7 @@ void MenuComponent::updateSize()
     float height = TITLE_HEIGHT + mList->getTotalRowHeight() + getButtonGridHeight() + 2;
     if(height > maxHeight)
     {
-        height = TITLE_HEIGHT + getButtonGridHeight();
+        height = TITLE_HEIGHT + getButtonGridHeight() + 2;
         int i = 0;
         while(i < mList->size())
         {

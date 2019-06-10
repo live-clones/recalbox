@@ -13,10 +13,12 @@ public:
 	virtual ~GuiSettings(); // just calls save();
 
 	void save();
-	inline void addRow(const ComponentListRow& row) { mMenu.addRow(row); };
-	inline void addRowWithHelp(ComponentListRow& row, const std::string& label, const std::string& help) { mMenu.addRowWithHelp(row, label, help); };
+	inline void updatePosition() {mMenu.setPosition((Renderer::getScreenWidth() - mMenu.getSize().x()) / 2, (Renderer::getScreenHeight() - mMenu.getSize().y()) / 2);};
+	inline void addRow(const ComponentListRow& row) { mMenu.addRow(row); updatePosition();};
+	inline void addRowWithHelp(ComponentListRow& row, const std::string& label, const std::string& help) { mMenu.addRowWithHelp(row, label, help); updatePosition();};
 	inline void addWithLabel(const std::shared_ptr<GuiComponent>& comp, const std::string& label, const std::string& help = "") {
 		mMenu.addWithLabel(comp, label, help, false, true, nullptr);
+		updatePosition();
 	};
     inline void addSubMenu(const std::string& label, const std::function<void()>& func, std::string help = "") {
 		ComponentListRow row;

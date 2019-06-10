@@ -40,8 +40,9 @@ const char* MenuMessages::CONTROLLER_BT_HELP_MSG = "Pair a bluetooth controller 
 const char* MenuMessages::CONTROLLER_FORGET_HELP_MSG = "Forget all paired bluetooth controllers. You will have to pair your controllers again, but this option can help if you have issues to reconnect a controller, which is already paired.";
 
 const char* MenuMessages::UI_HELP_MSG = "Configure your EmulationStation experience. Select transition types, help prompts, screensaver behavior. You can also deactivate the onscreen keyboard if you have a real keyboard plugged into your recalbox.\nIf you've added games since the last boot, you can also refresh the gamelist from this menu.";
-const char* MenuMessages::UI_SCREENSAVER_AFTER_HELP_MSG = "Start the screensaver after N minutes.";
-const char* MenuMessages::UI_SCREENSAVER_BEHAVIOR_HELP_MSG = "Set the screensaver behavior. DIM will reduce the screen light, and BLACK will turn the screen black.";
+const char* MenuMessages::UI_SCREENSAVER_AFTER_HELP_MSG = "Configure screensaver";
+const char* MenuMessages::UI_SCREENSAVER_HELP_MSG = "Start the screensaver after N minutes.";
+const char* MenuMessages::UI_SCREENSAVER_BEHAVIOR_HELP_MSG = "Set the screensaver behavior. DIM will reduce the screen light, BLACK will turn the screen black, DEMO will launch demo mode.";
 const char* MenuMessages::UI_ONSCREENHELP_HELP_MSG = "Shows a help at the bottom of the screen which displays commands you can use.";
 const char* MenuMessages::UI_HELP_POPUP_DURATION_HELP_MSG = "Set duration of help popups, 0 means no popup.";
 const char* MenuMessages::UI_POPUP_POSITION_HELP_MSG = "Select the position of popups on screen.";

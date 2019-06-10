@@ -48,6 +48,7 @@ public:
 	static const char* CONTROLLER_FORGET_HELP_MSG;
 
 	static const char* UI_HELP_MSG;
+	static const char* UI_SCREENSAVER_HELP_MSG;
 	static const char* UI_SCREENSAVER_AFTER_HELP_MSG;
 	static const char* UI_SCREENSAVER_BEHAVIOR_HELP_MSG;
 	static const char* UI_ONSCREENHELP_HELP_MSG;

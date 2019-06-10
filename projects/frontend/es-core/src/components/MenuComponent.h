@@ -63,7 +63,7 @@ public:
 		if (help.size()) {
 			row.makeHelpInputHandler(buildHelpGui(label, help));
 		}
-		addRow(row, setCursorHere);
+		addRow(row, setCursorHere, true);
 	}
 
 	void addButton(const std::string& label, const std::string& helpText, const std::function<void()>& callback);
