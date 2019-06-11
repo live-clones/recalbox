@@ -1,0 +1,7 @@
+config BR2_PACKAGE_PWM_AUDIO_PIZERO_GPICASE
+	bool "pwm-audio-pizero-gpicase"
+	depends on BR2_PACKAGE_RPI_FIRMWARE
+	help
+	  pwm-audio-pizero-gpicase overlay to get audio thanks to PWMs
+	  through GPIO Pins 18 and 19 on an Pi Zero equivalent
+	  to dtoverlay=pwm-2chan,pin=18,func=2,pin2=19,func2=2
