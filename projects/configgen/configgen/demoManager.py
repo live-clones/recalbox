@@ -175,13 +175,14 @@ class DemoTimer(threading.Thread):
             # Not yet in outscreen?
             if outScreen is None:
                 # Process quitted prematurely?
-                if self.proc.poll() is not None and outScreen:
+                if self.proc.poll() is not None:
                     print("Emulator quitted prematurely")
                     break
                 # Outscreen?
                 if duration < outDuration:
-                    self.terminateProcess(refresh, time)
                     outScreen = demoInformation()
+                    outScreen.display()
+                    self.terminateProcess(refresh, time)
 
         if outScreen is not None:
             del outScreen
