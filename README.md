@@ -16,10 +16,10 @@ python -m compilall .
 
 How to start:
 ```
-python case/manage.pyc <board> "<casename>" <install> <machine>
+python case/manage.pyc "<casename>" <install> <machine> <phase>
 with:
-- board : Board shortname (rpi0, x86, odroidxu4, ...)
 - casename : Case to install/uninstall. Empty to autodetect.
-- install : 1 = install, 0 = uninstall
-- machine : 1 = machine request, 0 = user request
+- install  : 1 = install, 0 = uninstall
+- machine  : 1 = machine request, 0 = user request
+- phase    : 0 = install hardware, 1 = install software
 ```
