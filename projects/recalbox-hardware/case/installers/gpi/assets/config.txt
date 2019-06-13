@@ -3,7 +3,7 @@
 #
 
 # if you plug your tv at the same time as your rpi and that the rpi switches from the hdmi or give a low resolution because tv had no enough time to initialize it
-boot_delay=3
+boot_delay=1
 
 # uncomment if you don't want the rainbow at startup
 disable_splash=1
