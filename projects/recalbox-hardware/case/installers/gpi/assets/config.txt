@@ -1,0 +1,48 @@
+#
+# Retroflag GPi Case - Config.txt template
+#
+
+# if you plug your tv at the same time as your rpi and that the rpi switches from the hdmi or give a low resolution because tv had no enough time to initialize it
+boot_delay=3
+
+# uncomment if you don't want the rainbow at startup
+disable_splash=1
+
+# default CEC name
+cec_osd_name=recalbox
+
+# Overclock
+gpu_mem_256=128
+gpu_mem_512=256
+gpu_mem_1024=448
+
+avoid_safe_mode=1
+
+kernel=zImage
+
+# Raise the first security limit up to 70° instead of 60°
+temp_soft_limit=70
+
+# Video
+dtoverlay=dpi-pizero-gpicase
+display_rotate=1
+overscan_left=0
+overscan_right=0
+overscan_top=0
+overscan_bottom=0
+framebuffer_width=320
+framebuffer_height=240
+enable_dpi_lcd=1
+display_default_lcd=1
+dpi_group=2
+dpi_mode=87
+dpi_output_format=0x6016
+hdmi_timings=240 1 38 10 20 320 1 20 4 4 0 0 0 60 0 6400000 1
+
+# Audio
+#dtoverlay=pwm-2chan,pin=18,func=2,pin2=19,func2=2
+dtoverlay=pwm-audio-pizero-gpicase
+disable_pvt=1
+dtparam=audio=on
+disable_audio_dither=1
+audio_pwm_mode=0 
