@@ -523,6 +523,7 @@ bool SystemData::loadConfig()
 
   // Change the 0 into 1 to enable non-threaded system loading
   // and thus enable debugging of the loading process
+  DateTime start;
   #if 0
     for (const Tree &system : systemList)
     {
@@ -561,6 +562,8 @@ bool SystemData::loadConfig()
     ioService.stop();
     threadpool.join_all();
   #endif
+  DateTime stop;
+  LOG(LogInfo) << "Gamelist load time: " << (stop-start).ToStringFormat("%ss.%fff");
 
   if (sSystemVector.empty()) return true;
   // Favorite system

@@ -552,6 +552,10 @@ int main(int argc, char* argv[])
       Renderer::swapBuffers();
 
       Log::flush();
+
+      // Immediate exit required?
+      if(fs::exists("/tmp/emulationstation.quitnow"))
+        break;
     }
 
     // Clean ready flag

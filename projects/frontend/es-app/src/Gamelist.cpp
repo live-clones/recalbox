@@ -115,11 +115,12 @@ void parseGamelist(SystemData* system, FileData::StringMap& doppelgangerWatcher)
       const MetadataDescriptor::Tree& children = fileNode.second;
       path = resolvePath(children.get("path", ""), relativeTo, false);
 
-      if(!trustGamelist && !boost::filesystem::exists(path))
-      {
-        LOG(LogWarning) << "File \"" << path << "\" does not exist! Ignoring.";
-        continue;
-      }
+      if(!trustGamelist)
+        if (!boost::filesystem::exists(path))
+        {
+          LOG(LogWarning) << "File \"" << path << "\" does not exist! Ignoring.";
+          continue;
+        }
 
       FileData* file = findOrCreateFile(system, path, type, trustGamelist, doppelgangerWatcher);
       if(!file)

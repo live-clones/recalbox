@@ -184,6 +184,9 @@ void DemoMode::runDemo()
       mWindow.doWake();
       break;
     }
+    // Exit required?
+    if(boost::filesystem::exists("/tmp/emulationstation.quitnow"))
+      break;
   }
   // Finalize (remount ES display)
   if (Initialized)
