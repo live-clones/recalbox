@@ -40,7 +40,7 @@ GuiHashStart::GuiHashStart(Window* window)
     mMenu.addButton(_("START"), "start",[this] {mState = 1;});
     mMenu.addButton(_("BACK"), "back", [&] { delete this; });
 
-    mMenu.setPosition((Renderer::getScreenWidth() - mMenu.getSize().x()) / 2, Renderer::getScreenHeight() * 0.15f);
+    mMenu.setPosition((Renderer::getScreenWidth() - mMenu.getSize().x()) / 2, (Renderer::getScreenHeight() - mMenu.getSize().y()) / 2);
 }
 
 void GuiHashStart::start()

@@ -40,6 +40,7 @@ public:
 		row.addElement(entryMenu, true);
 		row.addElement(makeArrow(mWindow), false);
         mMenu.addRowWithHelp(row, label, help);
+		updatePosition();
     };
 	inline void addSaveFunc(const std::function<void()>& func) { mSaveFuncs.push_back(func); };
         inline void setSave(bool sav) { doSave = sav; };
