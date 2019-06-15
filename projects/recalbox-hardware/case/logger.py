@@ -4,7 +4,8 @@ import inspect
 def hardlog(message):
 
     frame,filename,lineNumber,functionName,lines,index = inspect.stack()[1]
-    filename = filename.replace("/recalbox/system/hardware", ".")
+    idx = filename.index("case")
+    filename = filename[idx:]
     finalText = "{}({}:{}): {}".format(filename, functionName, lineNumber, message)
 
     print(finalText)

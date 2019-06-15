@@ -22,7 +22,7 @@ class Install(InstallBase):
                 # Install /boot/config.txt - most important change first
                 sourceConfig = self.BASE_SOURCE_FOLDER + "assets/config.txt"
                 os.system("cp /boot/config.txt /boot/config.txt.backup")
-                if os.system("cp {} /boot/overlays".format(sourceConfig)) != 0:
+                if os.system("cp {} /boot".format(sourceConfig)) != 0:
                     logger.hardlog("GPi: Error installing config.txt")
                     return False
                 logger.hardlog("GPi: config.txt installed")
@@ -68,8 +68,12 @@ class Install(InstallBase):
                     logger.hardlog("GPi: error installing safe shutdown ({})".format(e.message))
 
                 # Switch default resolution
-                os.system("sed -i -E 's/([a-z\.]*)videomode=.*/\1videomode=default/g' /recalbox/share/system/recalbox.conf")
+                os.system("sed -i -E 's/([a-z\.]*)videomode=.*/\\1videomode=default/g' /recalbox/share/system/recalbox.conf")
                 logger.hardlog("GPi: set default resolution")
+
+                # Set new hostname
+                os.system("sed -i -E 's/system.hostname=.*/system.hostname=RECALBOXGPI/g' /recalbox/share/system/recalbox.conf")
+                logger.hardlog("GPi: set RECALBOXGPI hostname")
 
                 # Install GPi XBOX360 config
                 srcTree = XmlTree.parse(self.BASE_SOURCE_FOLDER + "assets/es_input.fragment.xml")

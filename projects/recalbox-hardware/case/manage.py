@@ -120,7 +120,7 @@ def mainInstall():
             exit(0)
 
     # No reboot after phase 0, make install image available
-    if phase == 0:
+    if previousPhase == 0:
 
         installers = __import__("installer")
         picture = installers.getInstallPicture(previousCase)
