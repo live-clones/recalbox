@@ -118,7 +118,7 @@ def getDefaultEmulator(targetSystem):
         "satellaview"   : Emulator(name='satellaview', emulator='libretro', core='snes9x'),
         "sufami"        : Emulator(name='sufami', emulator='libretro', core='snes9x'),
         "gw"            : Emulator(name='gw', emulator='libretro', core='gw'),
-        "3ds"           : Emulator(name='3ds', emulator='libretro', core='citra'),
+        "3ds"           : Emulator(name='3ds', emulator='libretro', core='citra_canary'),
 
         # Sega
         "sg1000"        : Emulator(name='sg1000', emulator='libretro', core='genesisplusgx'),
