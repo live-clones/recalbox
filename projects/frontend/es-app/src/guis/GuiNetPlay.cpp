@@ -14,7 +14,7 @@
 #include <regex>
 
 
-#define BUTTON_GRID_VERT_PADDING 32
+#define BUTTON_GRID_VERT_PADDING Renderer::getScreenHeight() * 0.025f
 #define BUTTON_GRID_HORIZ_PADDING 10
 
 #define TITLE_HEIGHT (mTitle->getFont()->getLetterHeight() + TITLE_VERT_PADDING)
