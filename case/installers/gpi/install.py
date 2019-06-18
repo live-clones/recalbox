@@ -9,7 +9,8 @@ class Install(InstallBase):
     #BASE_SOURCE_FOLDER = "/home/bkg2k/Development/Recalbox/recalbox-hardware/case/installers/" + "gpi/"
 
     def __init__(self):
-        pass
+        InstallBase.__init__(self)
+
 
     def InstallHardware(self, case):
 
@@ -75,6 +76,27 @@ class Install(InstallBase):
                 os.system("sed -i -E 's/system.hostname=.*/system.hostname=RECALBOXGPI/g' /recalbox/share/system/recalbox.conf")
                 logger.hardlog("GPi: set RECALBOXGPI hostname")
 
+                # Disable kodi
+                os.system("sed -i -E 's/kodi.enabled=.*/kodi.enabled=0/g' /recalbox/share/system/recalbox.conf")
+                os.system("sed -i -E 's/kodi.xbutton=.*/kodi.xbutton=0/g' /recalbox/share/system/recalbox.conf")
+                logger.hardlog("GPi: KODI disabled")
+
+                # Disable virtual gamepad
+                os.system("sed -i -E 's/system.virtual-gamepads.enabled=.*/system.virtual-gamepads.enabled=0/g' /recalbox/share/system/recalbox.conf")
+                logger.hardlog("GPi: Virtual Gamepad disabled")
+
+                # Disable updates
+                os.system("sed -i -E 's/updates.enabled=.*/updates.enabled=0/g' /recalbox/share/system/recalbox.conf")
+                logger.hardlog("GPi: Updates disabled")
+
+                # Disable netplay
+                os.system("sed -i -E 's/netplay.enabled=.*/netplay.enabled=0/g' /recalbox/share/system/recalbox.conf")
+                logger.hardlog("GPi: Netplay disabled")
+
+                # Disable music popups
+                os.system("sed -i -E 's/name=|MusicPopupTime| value=|.*|/name=|MusicPopupTime| value=|0|/g' /recalbox/share/system/.emulationstation/es_settings.cfg".replace('|', '"'))
+                logger.hardlog("GPi: Music popup disabled")
+
                 # Install GPi XBOX360 config
                 srcTree = XmlTree.parse(self.BASE_SOURCE_FOLDER + "assets/es_input.fragment.xml")
                 srcRoot = srcTree.getroot()
@@ -86,7 +108,9 @@ class Install(InstallBase):
                             controller.get("deviceGUID") == sourceController.get("deviceGUID"):
                             dstRoot.remove(controller)
                             dstRoot.append(sourceController)
-                dstTree.write("/recalbox/share/system/.emulationstation/es_input.xml", "UTF-8", True, None, "xml")
+                os.remove("/recalbox/share/system/.emulationstation/es_input.cfg.org")
+                os.rename("/recalbox/share/system/.emulationstation/es_input.cfg", "/recalbox/share/system/.emulationstation/es_input.cfg.org")
+                dstTree.write("/recalbox/share/system/.emulationstation/es_input.cfg", "UTF-8", True, None, "xml")
                 logger.hardlog("GPi: controller updated")
 
                 # Install Theme
@@ -137,6 +161,37 @@ class Install(InstallBase):
             # Switch back to default theme
             os.system("sed -E 's/name=|ThemeSet| value=|.*|/name=|ThemeSet| value=|recalbox-next|/g' /recalbox/share/system/.emulationstation/es_settings.cfg".replace('|', '"'))
             logger.hardlog("GPi: GPi-case theme uninstalled")
+
+            # Uninstall GPi pad
+            os.remove("/recalbox/share/system/.emulationstation/es_input.cfg.gpi")
+            os.rename("/recalbox/share/system/.emulationstation/es_input.cfg", "/recalbox/share/system/.emulationstation/es_input.cfg.gpi")
+            os.rename("/recalbox/share/system/.emulationstation/es_input.cfg.org", "/recalbox/share/system/.emulationstation/es_input.cfg")
+            logger.hardlog("GPi: Controller  uninstalled")
+
+            # Re-enable kodi
+            os.system("sed -i -E 's/kodi.enabled=.*/kodi.enabled=1/g' /recalbox/share/system/recalbox.conf")
+            os.system("sed -i -E 's/kodi.xbutton=.*/kodi.xbutton=1/g' /recalbox/share/system/recalbox.conf")
+            logger.hardlog("GPi: KODI enabled")
+
+            # Re-enable virtual gamepad
+            os.system("sed -i -E 's/system.virtual-gamepads.enabled=.*/system.virtual-gamepads.enabled=1/g' /recalbox/share/system/recalbox.conf")
+            logger.hardlog("GPi: Virtual Gamepad enabled")
+
+            # Re-enable updates
+            os.system("sed -i -E 's/updates.enabled=.*/updates.enabled=1/g' /recalbox/share/system/recalbox.conf")
+            logger.hardlog("GPi: Updates enabled")
+
+            # Re-enable netplay
+            os.system("sed -i -E 's/netplay.enabled=.*/netplay.enabled=1/g' /recalbox/share/system/recalbox.conf")
+            logger.hardlog("GPi: Netplay enabled")
+
+            # Reset hostname
+            os.system("sed -i -E 's/system.hostname=.*/system.hostname=RECALBOX/g' /recalbox/share/system/recalbox.conf")
+            logger.hardlog("GPi: Reset RECALBOX hostname")
+
+            # Enable music popups
+            os.system("sed -i -E 's/name=|MusicPopupTime| value=|.*|/name=|MusicPopupTime| value=|3|/g' /recalbox/share/system/.emulationstation/es_settings.cfg".replace('|', '"'))
+            logger.hardlog("GPi: Music popup enabled")
 
         except Exception as e:
             logger.hardlog("GPi: Exception = {}".format(e))
