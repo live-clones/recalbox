@@ -93,6 +93,12 @@ class Install(InstallBase):
                 os.system("sed -i -E 's/netplay.enabled=.*/netplay.enabled=0/g' /recalbox/share/system/recalbox.conf")
                 logger.hardlog("GPi: Netplay disabled")
 
+                # Disable other controllers
+                os.system("sed -i -E 's/controllers.xarcade.enabled=.*/controllers.xarcade.enabled=0/g' /recalbox/share/system/recalbox.conf")
+                os.system("sed -i -E 's/controllers.bluetooth.enabled=.*/controllers.bluetooth.enabled=0/g' /recalbox/share/system/recalbox.conf")
+                os.system("sed -i -E 's/controllers.ps3.enabled=.*/controllers.ps3.enabled=0/g' /recalbox/share/system/recalbox.conf")
+                logger.hardlog("GPi: Other controllers disabled")
+
                 # Disable music popups
                 os.system("sed -i -E 's/name=|MusicPopupTime| value=|.*|/name=|MusicPopupTime| value=|0|/g' /recalbox/share/system/.emulationstation/es_settings.cfg".replace('|', '"'))
                 logger.hardlog("GPi: Music popup disabled")
@@ -184,6 +190,12 @@ class Install(InstallBase):
             # Re-enable netplay
             os.system("sed -i -E 's/netplay.enabled=.*/netplay.enabled=1/g' /recalbox/share/system/recalbox.conf")
             logger.hardlog("GPi: Netplay enabled")
+
+            # Re-enable other controller
+            os.system("sed -i -E 's/controllers.xarcade.enabled=.*/controllers.xarcade.enabled=1/g' /recalbox/share/system/recalbox.conf")
+            os.system("sed -i -E 's/controllers.bluetooth.enabled=.*/controllers.bluetooth.enabled=1/g' /recalbox/share/system/recalbox.conf")
+            os.system("sed -i -E 's/controllers.ps3.enabled=.*/controllers.ps3.enabled=1/g' /recalbox/share/system/recalbox.conf")
+            logger.hardlog("GPi: Other controllers enabled")
 
             # Reset hostname
             os.system("sed -i -E 's/system.hostname=.*/system.hostname=RECALBOX/g' /recalbox/share/system/recalbox.conf")
