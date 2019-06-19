@@ -114,8 +114,8 @@ class Install(InstallBase):
                             controller.get("deviceGUID") == sourceController.get("deviceGUID"):
                             dstRoot.remove(controller)
                             dstRoot.append(sourceController)
-                os.remove("/recalbox/share/system/.emulationstation/es_input.cfg.org")
-                os.rename("/recalbox/share/system/.emulationstation/es_input.cfg", "/recalbox/share/system/.emulationstation/es_input.cfg.org")
+                os.system("rm -f /recalbox/share/system/.emulationstation/es_input.cfg.org")
+                os.system("mv /recalbox/share/system/.emulationstation/es_input.cfg /recalbox/share/system/.emulationstation/es_input.cfg.org")
                 dstTree.write("/recalbox/share/system/.emulationstation/es_input.cfg", "UTF-8", True, None, "xml")
                 logger.hardlog("GPi: controller updated")
 
@@ -169,9 +169,9 @@ class Install(InstallBase):
             logger.hardlog("GPi: GPi-case theme uninstalled")
 
             # Uninstall GPi pad
-            os.remove("/recalbox/share/system/.emulationstation/es_input.cfg.gpi")
-            os.rename("/recalbox/share/system/.emulationstation/es_input.cfg", "/recalbox/share/system/.emulationstation/es_input.cfg.gpi")
-            os.rename("/recalbox/share/system/.emulationstation/es_input.cfg.org", "/recalbox/share/system/.emulationstation/es_input.cfg")
+            os.system("rm -f /recalbox/share/system/.emulationstation/es_input.cfg.gpi")
+            os.system("mv /recalbox/share/system/.emulationstation/es_input.cfg /recalbox/share/system/.emulationstation/es_input.cfg.gpi")
+            os.system("mv /recalbox/share/system/.emulationstation/es_input.cfg.org /recalbox/share/system/.emulationstation/es_input.cfg")
             logger.hardlog("GPi: Controller  uninstalled")
 
             # Re-enable kodi
