@@ -378,7 +378,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window* window,
 
   // resize + center
   y /= Renderer::getScreenHeight();
-  setSize(Renderer::getScreenWidth() * 0.7f, Renderer::getScreenHeight() * (y + 0.15f));
+  setSize(Renderer::getScreenWidth() * 0.95f, Renderer::getScreenHeight() * (y + 0.15f));
   setPosition((Renderer::getScreenWidth() - mSize.x()) / 2, (Renderer::getScreenHeight() - mSize.y()) / 2);
 }
 
