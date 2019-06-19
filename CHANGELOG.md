@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [6.1]
+- Enable Vsync on retroarch (x86, x86_64)
 - Fix: adding gpicase specific video dpi overlay
 - Fix: adding gpicase specific audio pwm overlay
 - Fix: non working GPIO and Custom GPIO on Pi0 and Pi1
