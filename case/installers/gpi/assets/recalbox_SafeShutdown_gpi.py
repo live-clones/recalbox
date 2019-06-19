@@ -72,19 +72,13 @@ def killEmulationStationTree():
 		pass
 
 
-# Stop all
-def stopApplications():
-	# Kill subprocess
-	killEmulationStationTree()
-
-
 # Waits for user to hold button up to 1 second before issuing poweroff command
 def poweroff():
 	while True:
 		GPIO.wait_for_edge(powerPin, GPIO.FALLING)
 
-		# Stop
-		stopApplications()
+		# Stop all
+		killEmulationStationTree()
 
 		# Fast stop
 		import os
