@@ -59,3 +59,4 @@ video_driver = "gl"
 # avoid blinking borders coming sometimes - to use only with sdl2 video driver
 video_black_frame_insertion = false
 video_fullscreen = true
+video_vsync = "true"
