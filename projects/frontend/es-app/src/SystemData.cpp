@@ -521,47 +521,67 @@ bool SystemData::loadConfig()
     return false;
   }
 
-  // Change the 0 into 1 to enable non-threaded system loading
-  // and thus enable debugging of the loading process
+  // Dont try to run multi-threading loading on old mono-core platforms
+  // Would be waste of CPU cycles
+  RaspberryGeneration hardware = getRaspberryVersion();
   DateTime start;
-  #if 0
-    for (const Tree &system : systemList)
+  switch(hardware)
+  {
+    case RaspberryGeneration::Pi0or1:
     {
-      SystemData* sys = createSystem(system);
-      if (sys != nullptr)
-        sSystemVector.push_back(sys);
-    }
-  #else
-    // THE CREATION OF EACH SYSTEM
-    boost::asio::io_service ioService;
-    boost::thread_group threadpool;
-    boost::asio::io_service::work work(ioService);
-    for (int i = 4; --i >= 0;)
-      threadpool.create_thread(boost::bind(&boost::asio::io_service::run, &ioService));
+      for (const Tree& system : systemList)
+      {
+        DateTime startSystem;
+        SystemData* sys = createSystem(system);
+        DateTime stopSystem;
 
-    // Iterate over the map using Iterator till end.
-    std::vector<boost::unique_future<SystemData *>> pending_data;
-    for (const Tree &system : systemList)
-    {
-      LOG(LogInfo) << "creating thread for system " << system.get("name", "???");
-      typedef boost::packaged_task<SystemData *> task_t;
-      boost::shared_ptr<task_t> task = boost::make_shared<task_t>(
-        boost::bind(&createSystem, system));
-      boost::unique_future<SystemData *> fut = task->get_future();
-      pending_data.push_back(std::move(fut));
-      ioService.post(boost::bind(&task_t::operator(), task));
+        if (sys != nullptr)
+        {
+          LOG(LogDebug) << sys->getName() << " load time: " << (stopSystem - startSystem).ToStringFormat("%ss.%fff");
+          sSystemVector.push_back(sys);
+        }
+      }
+      break;
     }
-    boost::wait_for_all(pending_data.begin(), pending_data.end());
+    case RaspberryGeneration::NotRaspberry:
+    case RaspberryGeneration::Pi2:
+    case RaspberryGeneration::Pi3:
+    case RaspberryGeneration::Pi3plus:
+    case RaspberryGeneration::NotYetKnown:
+    case RaspberryGeneration::UndetectedYet:;
+    default:
+    {
+      // THE CREATION OF EACH SYSTEM
+      boost::asio::io_service ioService;
+      boost::thread_group threadpool;
+      boost::asio::io_service::work work(ioService);
+      for (int i = 4; --i >= 0;)
+        threadpool.create_thread(boost::bind(&boost::asio::io_service::run, &ioService));
 
-    for (auto &pending : pending_data)
-    {
-      SystemData *result = pending.get();
-      if (result != nullptr)
-        sSystemVector.push_back(result);
+      // Iterate over the map using Iterator till end.
+      std::vector <boost::unique_future<SystemData*>> pending_data;
+      for (const Tree& system : systemList)
+      {
+        LOG(LogInfo) << "creating thread for system " << system.get("name", "???");
+        typedef boost::packaged_task<SystemData*> task_t;
+        boost::shared_ptr<task_t> task = boost::make_shared<task_t>(boost::bind(&createSystem, system));
+        boost::unique_future<SystemData*> fut = task->get_future();
+        pending_data.push_back(std::move(fut));
+        ioService.post(boost::bind(&task_t::operator(), task));
+      }
+      boost::wait_for_all(pending_data.begin(), pending_data.end());
+
+      for (auto& pending : pending_data)
+      {
+        SystemData* result = pending.get();
+        if (result != nullptr)
+          sSystemVector.push_back(result);
+      }
+      ioService.stop();
+      threadpool.join_all();
+      break;
     }
-    ioService.stop();
-    threadpool.join_all();
-  #endif
+  }
   DateTime stop;
   LOG(LogInfo) << "Gamelist load time: " << (stop-start).ToStringFormat("%ss.%fff");
 

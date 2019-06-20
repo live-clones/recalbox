@@ -7,12 +7,13 @@
  */
 enum class RaspberryGeneration
 {
-    NotRaspberry, // Hardware is not a raspberry
-    Pi0or1,       // Pi 0, 0W, 1, A, B, A+, B+
-    Pi2,          // Pi 2B
-    Pi3,          // Pi 3B
-    Pi3plus,      // Pi 3B+
-    NotYetKnown,  // Unknown Pi with higher revisions
+    UndetectedYet, // Not yet detected
+    NotRaspberry,  // Hardware is not a raspberry
+    Pi0or1,        // Pi 0, 0W, 1, A, B, A+, B+
+    Pi2,           // Pi 2B
+    Pi3,           // Pi 3B
+    Pi3plus,       // Pi 3B+
+    NotYetKnown,   // Unknown Pi with higher revisions
 };
 
 /*!

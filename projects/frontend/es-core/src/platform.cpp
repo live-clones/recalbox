@@ -119,33 +119,54 @@ RaspberryGeneration extractGeneration(int revision)
 
 #define CPU_INFO_FILE   "/proc/cpuinfo"
 #define REVISION_STRING "Revision"
+#define HARDWARE_STRING "Hardware"
 
 #define SizeLitteral(x) (sizeof(x) - 1)
 
 RaspberryGeneration getRaspberryVersion()
 {
-  RaspberryGeneration version = RaspberryGeneration::NotRaspberry;
+  static RaspberryGeneration version = RaspberryGeneration::UndetectedYet;
+  std::string hardware;
 
-  FILE *f = fopen(CPU_INFO_FILE, "r");
-  if (f != nullptr)
+  if (version == RaspberryGeneration::UndetectedYet)
   {
-    char line[1024];
-    std::string str; // Declared before loop to keep memory allocated
-    while (fgets(line, sizeof(line) - 1, f))
-    {
-      if (strncmp(line, REVISION_STRING, SizeLitteral(REVISION_STRING)) == 0)
-      {
-        char* colon = strchr(line, ':');
-        if (colon != nullptr)
-        {
-          int revision = (int)strtol(colon + 2, nullptr, 16); // Convert hexa revision
-          LOG(LogError) << "Pi revision" << (colon + 2);
+    version = RaspberryGeneration::NotRaspberry;
 
-          version = extractGeneration(revision);
+    FILE* f = fopen(CPU_INFO_FILE, "r");
+    if (f != nullptr)
+    {
+      char line[1024];
+      std::string str; // Declared before loop to keep memory allocated
+      while (fgets(line, sizeof(line) - 1, f))
+      {
+        if (strncmp(line, HARDWARE_STRING, SizeLitteral(HARDWARE_STRING)) == 0)
+        {
+          char* colon = strchr(line, ':');
+          if (colon != nullptr)
+          {
+            hardware = colon + 2;
+            hardware.erase(hardware.find_last_not_of(" \t\r\n") + 1);
+            LOG(LogInfo) << "Hardware " << hardware;
+          }
+        }
+
+        if (strncmp(line, REVISION_STRING, SizeLitteral(REVISION_STRING)) == 0)
+        {
+          char* colon = strchr(line, ':');
+          if (colon != nullptr)
+          {
+            int revision = (int) strtol(colon + 2, nullptr, 16); // Convert hexa revision
+
+            if (hardware == "BCM2835")
+            {
+              LOG(LogInfo) << "Pi revision " << (colon + 2);
+              version = extractGeneration(revision);
+            }
+          }
         }
       }
+      fclose(f);
     }
-    fclose(f);
   }
 
   return version;

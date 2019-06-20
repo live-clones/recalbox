@@ -396,12 +396,15 @@ int main(int argc, char* argv[])
     }
 
     // UPDATE CHECK THREAD
+    LOG(LogDebug) << "Launching Network thread";
     NetworkThread networkThread(&window);
 
     // Start the socket server
+    LOG(LogDebug) << "Launching Command thread";
     CommandThread commandThread(&window);
 
     // Starts Video engine
+    LOG(LogDebug) << "Launching Video engine";
     VideoEngine::This().StartEngine();
 
     // Allocate custom event types
@@ -409,14 +412,8 @@ int main(int argc, char* argv[])
     unsigned int MusicStartEvent = NetPlayPopupEvent + 1;
     AudioManager::getInstance()->SetMusicStartEvent(&window, MusicStartEvent);
 
+    LOG(LogDebug) << "Launching Netplay thread";
     NetPlayThread netPlayThread(&window, NetPlayPopupEvent);
-    /*if (RecalboxConf::getInstance()->get("global.netplay") == "1")
-    {
-      auto s = std::make_shared<GuiInfoPopup>(&window, "", 0, 20);
-      window.setInfoPopup(s);
-      netPlayThread.Start();
-    }*/
-
 
     //run the command line scraper then quit
     if (scrape_cmdline)
@@ -428,12 +425,12 @@ int main(int argc, char* argv[])
     SDL_JoystickEventState(SDL_DISABLE);
 
 
-
     // preload what we can right away instead of waiting for the user to select it
     // this makes for no delays when accessing content, but a longer startup time
     //ViewController::get()->preload();
 
     //choose which GUI to open depending on if an input configuration already exists
+    LOG(LogDebug) << "Preparing GUI";
     if (errorMsg == nullptr)
     {
       if (fs::exists(InputManager::getConfigPath()) && InputManager::getInstance()->getNumConfiguredDevices() > 0)
@@ -465,6 +462,7 @@ int main(int argc, char* argv[])
 
     DemoMode demoMode(window);
 
+    LOG(LogDebug) << "Entering main loop";
     while (running)
     {
       SDL_Event event;

@@ -75,6 +75,7 @@ const MetadataFieldDescriptor* MetadataDescriptor::GetMetadataFieldDescriptors(I
       count = sizeof(_FolderMetadataDescriptors) / sizeof(MetadataFieldDescriptor);
       return &_FolderMetadataDescriptors[0];
     }
+    case ItemType::Empty:
     default: break;
   }
   count = 0;
