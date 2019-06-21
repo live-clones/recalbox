@@ -5,8 +5,8 @@
 #include "Locale.h"
 #include "MenuThemeData.h"
 
-#define BUTTON_GRID_VERT_PADDING std::max(Renderer::getScreenHeight() * 0.025f, 4.0f)
-#define BUTTON_GRID_HORIZ_PADDING std::max(Renderer::getScreenWidth() * 0.001f, 4.0f)
+#define BUTTON_GRID_VERT_PADDING std::max(Renderer::getScreenHeight() * 0.008f, 2.0f)
+#define BUTTON_GRID_HORIZ_PADDING std::max(Renderer::getScreenWidth() * 0.01f, 3.0f)
 
 #define TITLE_HEIGHT (mTitle->getFont()->getLetterHeight() + TITLE_VERT_PADDING)
 

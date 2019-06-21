@@ -11,8 +11,8 @@
 #define OFFSET_X 12 // move the entire thing right by this amount (px)
 #define OFFSET_Y 12 // move the entire thing up by this amount (px)
 
-#define ICON_TEXT_SPACING std::max(Renderer::getScreenWidth() * 0.004f, 4.0f) // space between [icon] and [text] (px)
-#define ENTRY_SPACING std::max(Renderer::getScreenWidth() * 0.008f, 4.0f) // space between [text] and next [icon] (px)
+#define ICON_TEXT_SPACING std::max(Renderer::getScreenWidth() * 0.004f, 2.0f) // space between [icon] and [text] (px)
+#define ENTRY_SPACING std::max(Renderer::getScreenWidth() * 0.008f, 2.0f) // space between [text] and next [icon] (px)
 
 using namespace Eigen;
 
