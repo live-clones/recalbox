@@ -8,5 +8,5 @@ config BR2_PACKAGE_OPENBOR
 	  for beat em' ups, shooters, and more!
 	  http://www.chronocrash.com
 
-comment "Openbor needs a toolchain w/ OpenGl, SDL2"
+comment "OPENBOR needs a toolchain w/ OpenGl, SDL2"
 	depends on BR2_PACKAGE_SDL2

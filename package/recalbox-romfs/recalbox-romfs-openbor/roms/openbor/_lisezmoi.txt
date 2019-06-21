@@ -1,0 +1,5 @@
+## RECALBOX - SYSTEM OPEBOR ##
+
+Placez ici vos roms OpenBOR.
+
+Les roms doivent avoir l'extension ".pak"

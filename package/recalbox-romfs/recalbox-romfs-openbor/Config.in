@@ -1,0 +1,6 @@
+config BR2_PACKAGE_RECALBOX_ROMFS_OPENBOR
+	bool "recalbox-romfs-openbor"
+	select BR2_PACKAGE_RECALBOX_ROMS
+	depends on BR2_PACKAGE_OPENBOR
+	help
+	  share_init/roms and xml for openbor

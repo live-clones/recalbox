@@ -424,6 +424,11 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_O2EM),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-o2em
 endif
 
+# System: openbor
+ifeq ($(BR2_PACKAGE_OPENBOR),y)
+        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-openbor
+endif
+
 # System: oricatmos
 ifneq ($(BR2_PACKAGE_ORICUTRON),)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-oricatmos
