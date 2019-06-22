@@ -129,9 +129,8 @@ class LibretroRetroarch:
         recalbox = self.system.config
 
         # Enable RetroArch option "quit_press_twice"
-        quit_press_twice = self.recalboxSettings.getOption("global.quitpresstwice", "0")
-        if quit_press_twice == "1":
-            settings.setOption("quit_press_twice", "true");
+        quitPressTwice = self.recalboxSettings.getOption("global.quitpresstwice", "0")
+        settings.setOption("quit_press_twice", self.TRUE if quitPressTwice == "1" else self.FALSE)
 
         # Control new RA 1.7.7 key: do not allow upscaling higher than x4
         rguiUpscaling = settings.getOption("rgui_internal_upscale_level", "1").strip('"')
@@ -139,7 +138,7 @@ class LibretroRetroarch:
             if int(rguiUpscaling) > 4:
                 settings.setOption("rgui_internal_upscale_level", "4")
         # Allow extended ASCII
-        settings.setOption("rgui_extended_ascii", "true")
+        settings.setOption("rgui_extended_ascii", self.TRUE)
 
         # Smoothing?
         settings.setOption("video_smooth", self.TRUE if self.isEnabled("smooth") else self.FALSE)
