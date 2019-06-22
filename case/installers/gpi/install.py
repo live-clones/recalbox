@@ -64,6 +64,7 @@ class Install(InstallBase):
                     with open("/etc/init.d/S99RetroFlag", 'w+') as sf:
                         sf.write("python {} &".format(script))
                     os.chmod("/etc/init.d/S99RetroFlag", 0o755)
+                    os.system("/etc/init.d/S99RetroFlag")
                     logger.hardlog("GPi: safe shutdown installed")
                 except Exception as e:
                     logger.hardlog("GPi: error installing safe shutdown ({})".format(e.message))
