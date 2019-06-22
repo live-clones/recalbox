@@ -1219,11 +1219,11 @@ msgstr "Azken abiotik jokoak gehitu badituzu, joko zerrenda eguneratzen du."
 
 #: 
 msgid "Configure the sound options of your recalbox."
-msgstr ""
+msgstr "Konfiguratu zure recalboxaren soinu aukerak."
 
 #: 
 msgid "Set the volume of the sound output for the frontend and the games."
-msgstr ""
+msgstr "Ezarri menu nagusiaren eta jokoen soinu irteeraren bolumena."
 
 #: 
 msgid "Enable or disable the frontend music. You can add your own music as mp3, or ogg format in the 'musics' directory of your recalbox."
@@ -1231,7 +1231,7 @@ msgstr ""
 
 #: 
 msgid "Select your output device. Only HDMI and JACK are supported."
-msgstr ""
+msgstr "Aukeratu irteerako gailua. HDMI eta JACKa bakarrik onartzen dira."
 
 #: 
 msgid "Configure the network options of your recalbox.\n"
@@ -1405,11 +1405,11 @@ msgstr "JOKO ZERRENDA BAKARRIK"
 
 #: 
 msgid "BOOT ON SYSTEM"
-msgstr ""
+msgstr "ABIARAZI SISTEMAREKIN"
 
 #: 
 msgid "BOOT ON GAMELIST"
-msgstr ""
+msgstr "ABIARAZI JOKO ZERRENDAREKIN"
 
 #: 
 msgid "HIDE SYSTEM VIEW"
@@ -1837,5 +1837,67 @@ msgstr ""
 
 #: 
 msgid "Add a clock in the main menu."
+msgstr "Gehitu erlojua menu nagusira."
+
+#. UPGRADE PROCESS
+#: 
+msgid "UPGRADING"
+msgstr "EGUNERATZEN"
+
+#: 
+msgid "PREPARING"
+msgstr "PRESTATZEN"
+
+#: 
+msgid "VERIFYING"
+msgstr "BAIEZTATZEN"
+
+#: 
+msgid "PRESS TWICE TO QUIT GAME"
+msgstr ""
+
+#: 
+msgid "Press twice the buttons to end the game and go back to main menu."
+msgstr ""
+
+#: 
+msgid "Configure screensaver"
+msgstr ""
+
+#: 
+msgid "Set the screensaver behavior. DIM will reduce the screen light, BLACK will turn the screen black, DEMO will launch demo mode."
+msgstr ""
+
+#: 
+msgid "EMPTY LIST"
+msgstr ""
+
+#: Retroarch ratio
+msgid "Auto"
+msgstr ""
+
+#: 
+msgid "Square pixel"
+msgstr ""
+
+#: 
+msgid "Retroarch Config"
+msgstr ""
+
+#: 
+msgid "Retroarch Custom"
+msgstr ""
+
+#: 
+msgid "Core provided"
+msgstr ""
+
+#: 
+msgid "Do not set"
+msgstr ""
+
+#: 
+msgid "Copy current system on another device.\n"
+"Warning ! It will erase all data on target device."
 msgstr ""
 

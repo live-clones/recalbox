@@ -105,7 +105,7 @@ msgstr "لايمكن العثور على اي نظام!\n"
 #: 
 msgid "%i GAME SUCCESSFULLY SCRAPED!"
 msgid_plural "%i GAMES SUCCESSFULLY SCRAPED!"
-msgstr[0] "%i لعبة تم اضافة بياناتها"
+msgstr[0] ""
 msgstr[1] "%i لعبة تم اضافة بياناتها"
 msgstr[2] ""
 msgstr[3] ""
@@ -115,7 +115,7 @@ msgstr[5] "%i العاب تم اضافة بياناتها"
 #: 
 msgid "%i GAME SKIPPED."
 msgid_plural "%i GAMES SKIPPED."
-msgstr[0] "%i لعبة تم تجاهلها"
+msgstr[0] ""
 msgstr[1] "%i لعبة تم تجاهلها"
 msgstr[2] ""
 msgstr[3] ""
@@ -1124,7 +1124,7 @@ msgstr "التعديل لخيار التربو او القصوى قد يجعل �
 #: 
 msgid "%i GAME HIDDEN"
 msgid_plural "%i GAMES HIDDEN"
-msgstr[0] "%i لعبة مخفية"
+msgstr[0] ""
 msgstr[1] "%i لعبة مخفية"
 msgstr[2] ""
 msgstr[3] ""
@@ -1879,5 +1879,67 @@ msgstr ""
 
 #: 
 msgid "Add a clock in the main menu."
+msgstr ""
+
+#. UPGRADE PROCESS
+#: 
+msgid "UPGRADING"
+msgstr ""
+
+#: 
+msgid "PREPARING"
+msgstr ""
+
+#: 
+msgid "VERIFYING"
+msgstr ""
+
+#: 
+msgid "PRESS TWICE TO QUIT GAME"
+msgstr ""
+
+#: 
+msgid "Press twice the buttons to end the game and go back to main menu."
+msgstr ""
+
+#: 
+msgid "Configure screensaver"
+msgstr ""
+
+#: 
+msgid "Set the screensaver behavior. DIM will reduce the screen light, BLACK will turn the screen black, DEMO will launch demo mode."
+msgstr ""
+
+#: 
+msgid "EMPTY LIST"
+msgstr ""
+
+#: Retroarch ratio
+msgid "Auto"
+msgstr ""
+
+#: 
+msgid "Square pixel"
+msgstr ""
+
+#: 
+msgid "Retroarch Config"
+msgstr ""
+
+#: 
+msgid "Retroarch Custom"
+msgstr ""
+
+#: 
+msgid "Core provided"
+msgstr ""
+
+#: 
+msgid "Do not set"
+msgstr ""
+
+#: 
+msgid "Copy current system on another device.\n"
+"Warning ! It will erase all data on target device."
 msgstr ""
 

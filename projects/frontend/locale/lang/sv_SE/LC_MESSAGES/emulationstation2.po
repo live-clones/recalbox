@@ -18,27 +18,27 @@ msgstr "AVBRYT"
 
 #: 
 msgid "Rating"
-msgstr ""
+msgstr "Betyg"
 
 #: 
 msgid "Released"
-msgstr ""
+msgstr "Utgiven"
 
 #: 
 msgid "Developer"
-msgstr ""
+msgstr "Utvecklare"
 
 #: 
 msgid "Publisher"
-msgstr ""
+msgstr "Utgivare"
 
 #: 
 msgid "Genre"
-msgstr ""
+msgstr "Genre"
 
 #: 
 msgid "Players"
-msgstr ""
+msgstr "Spelare"
 
 #: 
 msgid "NO GAMES FOUND - SKIP"
@@ -46,7 +46,7 @@ msgstr "INGA SPEL HITTADES - HOPPA ÖVER"
 
 #: 
 msgid "RETRY"
-msgstr ""
+msgstr "PROVA IGEN"
 
 #: 
 msgid "SKIP"
@@ -54,11 +54,11 @@ msgstr "HOPPA ÖVER"
 
 #: 
 msgid "SEARCH FOR"
-msgstr ""
+msgstr "SÖK EFTER"
 
 #: 
 msgid "SEARCH"
-msgstr ""
+msgstr "SÖK"
 
 #: 
 msgid "SCRAPING IN PROGRESS"
@@ -70,7 +70,7 @@ msgstr "SYSTEM"
 
 #: 
 msgid "subtitle text"
-msgstr ""
+msgstr "undertext"
 
 #: 
 msgid "INPUT"
@@ -82,7 +82,7 @@ msgstr "sök"
 
 #: 
 msgid "STOP"
-msgstr ""
+msgstr "STOPP"
 
 #: 
 msgid "stop (progress saved)"
@@ -90,30 +90,33 @@ msgstr "stop (framgång sparad)"
 
 #: 
 msgid "GAME %i OF %i"
-msgstr ""
+msgstr "SPEL %i AV %i"
 
 #: 
 msgid "WE CAN'T FIND ANY SYSTEMS!\n"
 "CHECK THAT YOUR PATHS ARE CORRECT IN THE SYSTEMS CONFIGURATION FILE, AND YOUR GAME DIRECTORY HAS AT LEAST ONE GAME WITH THE CORRECT EXTENSION.\n"
 "\n"
 "VISIT RECALBOX.COM FOR MORE INFORMATION."
-msgstr ""
+msgstr "KAN INTE HITTA NÅGRA SPEL!\n"
+"KONTROLLERA ATT SÖKVÄGARNA I KONFIGURATIONEN ÄR KORREKTA OCH ATT SPELMAPPARNA HAR MINST ETT SPEL MED RÄTT ÄNDELSE.\n"
+"\n"
+"BESÖK RECALBOX.COM FÖR MER DETALJERAD INFORMATION."
 
 #: 
 msgid "%i GAME SUCCESSFULLY SCRAPED!"
 msgid_plural "%i GAMES SUCCESSFULLY SCRAPED!"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%i HAR FRAMGÅNGSRIKT SKRAPATS!"
+msgstr[1] "%i HAR FRAMGÅNGSRIKT SKAPATS!"
 
 #: 
 msgid "%i GAME SKIPPED."
 msgid_plural "%i GAMES SKIPPED."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%i HAR HAR INTE SKRAPATS."
+msgstr[1] "%i HAR INTE SKRAPATS."
 
 #: 
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: 
 msgid "EDIT METADATA"
@@ -121,7 +124,7 @@ msgstr "ÄNDRA INFORMATION (METADATA)"
 
 #: 
 msgid "SCRAPE"
-msgstr ""
+msgstr "SKRAPA"
 
 #: 
 msgid "SAVE"
@@ -174,11 +177,11 @@ msgstr "VERSION"
 
 #: 
 msgid "DISK USAGE"
-msgstr ""
+msgstr "DISKANVÄNDNING"
 
 #: 
 msgid "STORAGE DEVICE"
-msgstr ""
+msgstr "LAGRINGSPLATS"
 
 #: 
 msgid "LANGUAGE"
@@ -186,7 +189,7 @@ msgstr "SPRÅK"
 
 #: 
 msgid "OVERCLOCK"
-msgstr ""
+msgstr "ÖVERKLOCKA"
 
 #: 
 msgid "EXTREM (1100Mhz)"
@@ -255,15 +258,15 @@ msgstr "STARTA KODI MED X"
 
 #: 
 msgid "SECURITY"
-msgstr ""
+msgstr "SÄKERHET"
 
 #: 
 msgid "ENFORCE SECURITY"
-msgstr ""
+msgstr "UPPHÖJD SÄKERHET"
 
 #: 
 msgid "ROOT PASSWORD"
-msgstr ""
+msgstr "HUVUDLÖSENORD"
 
 #: 
 msgid "THE SYSTEM WILL NOW REBOOT"
@@ -271,7 +274,7 @@ msgstr "SYSTEMET STARTAR NU OM"
 
 #: 
 msgid "GAMES SETTINGS"
-msgstr "SPEL INSTÄLLNINGAR"
+msgstr "SPELINSTÄLLNINGAR"
 
 #: 
 msgid "GAME RATIO"
@@ -287,7 +290,7 @@ msgstr "SPOLA TILLBAKA"
 
 #: 
 msgid "AUTO SAVE/LOAD"
-msgstr ""
+msgstr "AUTOMATISK SPARA/LADDA"
 
 #: 
 msgid "SHADERS SET"
@@ -315,31 +318,31 @@ msgstr ""
 
 #: 
 msgid "USERNAME"
-msgstr ""
+msgstr "ANVÄNDARNAMN"
 
 #: 
 msgid "PASSWORD"
-msgstr ""
+msgstr "LÖSENORD"
 
 #: 
 msgid "ADVANCED"
-msgstr ""
+msgstr "AVANCERAT"
 
 #: 
 msgid "REALLY UPDATE GAMES LISTS ?"
-msgstr ""
+msgstr "UPPDATERA SPELLISTAN (gameslist.xml)?"
 
 #: 
 msgid "UPDATE GAMES LISTS"
-msgstr ""
+msgstr "UPPDATERAR SPELLISTAN (gameslist.xml)"
 
 #: 
 msgid "CONTROLLERS SETTINGS"
-msgstr "KONTROLLER INSTÄLLNINGAR"
+msgstr "INSTÄLLNINGAR FÖR HANDKONTROLL"
 
 #: 
 msgid "UI SETTINGS"
-msgstr "GRÄNSNITTS INSTÄLLNINGAR"
+msgstr "INSTÄLLNINGAR ANVÄNDARE"
 
 #: 
 msgid "OVERSCAN"
@@ -351,7 +354,7 @@ msgstr "SKÄRMSLÄCKAREN AKTIVERAS EFTER"
 
 #: 
 msgid "TRANSITION STYLE"
-msgstr "ÖVERGÅNGS STIL"
+msgstr "ÖVERGÅNGSSTIL"
 
 #: 
 msgid "SCREENSAVER BEHAVIOR"
@@ -363,11 +366,11 @@ msgstr "VISA BILDHASTIGHET"
 
 #: 
 msgid "ON-SCREEN HELP"
-msgstr "SKÄRM HJÄLP (OSD)"
+msgstr "SKÄRMHJÄLP (OSD)"
 
 #: 
 msgid "QUICK SYSTEM SELECT"
-msgstr "SNABBVÄLJ SYSTEM"
+msgstr "SNABBVALSSYSTEM"
 
 #: 
 msgid "THEME SET"
@@ -375,11 +378,11 @@ msgstr "SÄTT TEMA"
 
 #: 
 msgid "SOUND SETTINGS"
-msgstr "LJUD INSTÄLLNINGAR"
+msgstr "LJUDINSTÄLLNINGAR"
 
 #: 
 msgid "SYSTEM VOLUME"
-msgstr "SYSTEM VOLYM"
+msgstr "SYSTEMVOLYM"
 
 #: 
 msgid "FRONTEND MUSIC"
@@ -395,11 +398,11 @@ msgstr ""
 
 #: 
 msgid "JACK"
-msgstr ""
+msgstr "UTTAG"
 
 #: 
 msgid "AUTO"
-msgstr ""
+msgstr "AUTOMATISK"
 
 #: 
 msgid "NETWORK SETTINGS"
@@ -419,7 +422,7 @@ msgstr ""
 
 #: 
 msgid "IP ADDRESS"
-msgstr ""
+msgstr "IP-ADRESS"
 
 #: 
 msgid "HOSTNAME"
@@ -447,7 +450,7 @@ msgstr "WIFI FELINSTÄLLD"
 
 #: 
 msgid "SCRAPER"
-msgstr ""
+msgstr "SKRAPNING"
 
 #: 
 msgid "SCRAPE FROM"
@@ -455,7 +458,7 @@ msgstr "SKRAPA INFO FRÅN"
 
 #: 
 msgid "SCRAPE RATINGS"
-msgstr "SKRAPAR OMDÖMME"
+msgstr "SKRAPAR OMDÖME"
 
 #: 
 msgid "SCRAPE NOW"
@@ -491,21 +494,21 @@ msgstr ""
 
 #: 
 msgid "YOU ARE GOING TO CONFIGURE A CONTROLLER. IF YOU HAVE ONLY ONE JOYSTICK, CONFIGURE THE DIRECTIONS KEYS AND SKIP JOYSTICK CONFIG BY HOLDING A BUTTON. IF YOU DO NOT HAVE A SPECIAL KEY FOR HOTKEY, CHOOSE THE SELECT BUTTON. SKIP ALL BUTTONS YOU DO NOT HAVE BY HOLDING A KEY. BUTTONS NAMES ARE BASED ON THE SNES CONTROLLER."
-msgstr ""
+msgstr "KONFIGURATION AV HANDKONTROLLER! OM DU ENBART HAR EN JOYSTICK, KONFIGURERA DE FÖRSTA RIKTNINGARNA OCH HOPPA ÖVER RESTEN MED A KNAPPEN. OM DU INTE HAR EN SPECIELL KNAPP FÖR HOTKEY, VÄLJ DÅ KNAPPEN SELECT. ORIENTERING OCH NAMN PÅ KNAPPARNA BYGGER PÅ SNES HANDKONTROLL."
 
 #. GUIMENU
 #: 
 msgid "CONFIGURE A CONTROLLER"
-msgstr "KONFIGURERA KONTROLL"
+msgstr "KONFIGURERA HANDKONTROLL"
 
 #. Bluetooth
 #: 
 msgid "CONTROLLER PAIRED"
-msgstr "KONTROLLER PARAD"
+msgstr "HANDKONTROLL IHOPPARAD"
 
 #: 
 msgid "UNABLE TO PAIR CONTROLLER"
-msgstr "KAN INTE PARA KONTROLLER"
+msgstr "KAN INTE PARA IHOP HANDKONTROLLER"
 
 #: 
 msgid "AN ERROR OCCURED"
@@ -513,19 +516,19 @@ msgstr "ETT FEL INTRÄFFADE"
 
 #: 
 msgid "NO CONTROLLERS FOUND"
-msgstr "INGA KONTROLLER FUNNA"
+msgstr "INGA HANDKONTROLLER FUNNA"
 
 #: 
 msgid "PAIR A BLUETOOTH CONTROLLER"
-msgstr "PARA EN BLUETOOTH KONTROLLER"
+msgstr "PARA IHOP EN BLUETOOTH-HANDKONTROLLER"
 
 #: 
 msgid "CONTROLLERS LINKS HAVE BEEN DELETED."
-msgstr ""
+msgstr "LÄNK TILL HANDKONTROLLER BORTTAGEN"
 
 #: 
 msgid "FORGET BLUETOOTH CONTROLLERS"
-msgstr ""
+msgstr "SPARA INTE BLUETOOTH-HANDKONTROLLER"
 
 #: 
 msgid "INPUT P%i"
@@ -571,7 +574,7 @@ msgstr "Alla spel"
 #. MISSING SCRAPPER TRANSLATIONS
 #: 
 msgid "Only missing image"
-msgstr "Saknar image fil"
+msgstr "Endast saknade bilder"
 
 #: 
 msgid "FILTER"
@@ -587,7 +590,7 @@ msgstr "SYSTEM"
 
 #: 
 msgid "USER DECIDES ON CONFLICTS"
-msgstr "ANVÄNDAREN BESTÄMMER OM FLERVAL"
+msgstr "MÖJLIG KONFLIKT/DUPLIKAT, VÄLJ VILKET"
 
 #: 
 msgid "START"
@@ -596,11 +599,12 @@ msgstr ""
 #: 
 msgid "WARNING: SOME OF YOUR SELECTED SYSTEMS DO NOT HAVE A PLATFORM SET. RESULTS MAY BE EVEN MORE INACCURATE THAN USUAL!\n"
 "CONTINUE ANYWAY?"
-msgstr ""
+msgstr "OBSERVERA! NÅGRA AV VALDA SYSTEM HAR INTE EN EMULATOR VALD ÄN. RESULTATEN KAN BLI MER FELAKTIGA ÄN VID VANLIG ANVÄNDNING!\n"
+"FORTSÄTTA ÄNDÅ?"
 
 #: 
 msgid "NO GAMES FIT THAT CRITERIA."
-msgstr ""
+msgstr "INGA SPEL STÄMMER IN PÅ KRITERIER."
 
 #: 
 msgid "REALLY UPDATE?"
@@ -612,7 +616,7 @@ msgstr "NÄTVERKSKOPPLING KRÄVS"
 
 #: 
 msgid "UPDATE DOWNLOADED, THE SYSTEM WILL NOW REBOOT"
-msgstr ""
+msgstr "UPPDATERING NEDLADDAD. SYSTEMET KOMMER NU STARTAS OM"
 
 #: 
 msgid "UPDATE FAILED, THE SYSTEM WILL NOW REBOOT"
@@ -640,7 +644,7 @@ msgstr ""
 
 #: 
 msgid "Name"
-msgstr ""
+msgstr "Namn"
 
 #: 
 msgid "enter game name"
@@ -648,19 +652,19 @@ msgstr "Ange speltitel"
 
 #: 
 msgid "Description"
-msgstr ""
+msgstr "Beskrivning"
 
 #: 
 msgid "enter description"
-msgstr ""
+msgstr "ange beskrivning"
 
 #: 
 msgid "Image"
-msgstr ""
+msgstr "Bild"
 
 #: 
 msgid "enter path to image"
-msgstr ""
+msgstr "ange sökväg till bild"
 
 #: 
 msgid "Thumbnail"
@@ -668,39 +672,39 @@ msgstr ""
 
 #: 
 msgid "enter path to thumbnail"
-msgstr ""
+msgstr "ange sökväg till Thumbnail"
 
 #: 
 msgid "enter rating"
-msgstr ""
+msgstr "ange betyg"
 
 #: 
 msgid "Release date"
-msgstr ""
+msgstr "Lanseringsdatum"
 
 #: 
 msgid "enter release date"
-msgstr ""
+msgstr "ange lanseringsdatum"
 
 #: 
 msgid "enter game developer"
-msgstr ""
+msgstr "ange utvecklaren av spelet"
 
 #: 
 msgid "enter game publisher"
-msgstr ""
+msgstr "ange utgivaren av spelet"
 
 #: 
 msgid "enter game genre"
-msgstr ""
+msgstr "ange spelgenre"
 
 #: 
 msgid "enter number of players"
-msgstr ""
+msgstr "ange antal spelare"
 
 #: 
 msgid "Favorite"
-msgstr ""
+msgstr "Favorit"
 
 #: 
 msgid "enter favorite"
@@ -712,55 +716,55 @@ msgstr ""
 
 #: 
 msgid "enter region"
-msgstr ""
+msgstr "ange region"
 
 #: 
 msgid "Romtype"
-msgstr ""
+msgstr "Typ av spelrom"
 
 #: 
 msgid "enter romtype"
-msgstr ""
+msgstr "ange typ av spelrom"
 
 #: 
 msgid "Hidden"
-msgstr ""
+msgstr "Dold"
 
 #: 
 msgid "set hidden"
-msgstr ""
+msgstr "ange dold"
 
 #: 
 msgid "Play count"
-msgstr ""
+msgstr "Spelat"
 
 #: 
 msgid "enter number of times played"
-msgstr ""
+msgstr "ange antal gånger spelat"
 
 #: 
 msgid "Last played"
-msgstr ""
+msgstr "Senast spelat"
 
 #: 
 msgid "enter last played date"
-msgstr ""
+msgstr "ange senast spelat, datum"
 
 #: 
 msgid "%i GAME AVAILABLE"
 msgid_plural "%i GAMES AVAILABLE"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%i SPELET NU TILLGÄNGLIGT"
+msgstr[1] "%i SPELEN NU TILLGÄNGLIGA"
 
 #: 
 msgid "%i FAVORITE"
 msgid_plural "%i FAVORITES"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%i FAVORIT"
+msgstr[1] "%i FAVORITER"
 
 #: 
 msgid "SCROLL"
-msgstr ""
+msgstr "SKROLLA"
 
 #: 
 msgid "LAUNCH"
@@ -768,43 +772,43 @@ msgstr "STARTA"
 
 #: 
 msgid "Times played"
-msgstr ""
+msgstr "Spelat antal gånger"
 
 #: 
 msgid "MENU"
-msgstr ""
+msgstr "MENY"
 
 #: 
 msgid "FILENAME, ASCENDING"
-msgstr ""
+msgstr "FILNAMN, STIGANDE"
 
 #: 
 msgid "FILENAME, DESCENDING"
-msgstr ""
+msgstr "FILNAMN, FALLANDE"
 
 #: 
 msgid "RATING, ASCENDING"
-msgstr ""
+msgstr "BETYG, STIGANDE"
 
 #: 
 msgid "RATING, DESCENDING"
-msgstr ""
+msgstr "BETYG, FALLANDE"
 
 #: 
 msgid "TIMES PLAYED, ASCENDING"
-msgstr ""
+msgstr "SPELAT ANTAL GÅNGER, STIGANDE"
 
 #: 
 msgid "TIMES PLAYED, DESCENDING"
-msgstr ""
+msgstr "SPELAT ANTAL GÅNGER, FALLANDE"
 
 #: 
 msgid "LAST PLAYED, ASCENDING"
-msgstr ""
+msgstr "SENAST SPELAT, STIGANDE"
 
 #: 
 msgid "LAST PLAYED, DESCENDING"
-msgstr ""
+msgstr "SENAST SPELAT, FALLANDE"
 
 #: 
 msgid "WORKING..."
@@ -816,39 +820,39 @@ msgstr "ÄNDRA"
 
 #: 
 msgid "never"
-msgstr ""
+msgstr "aldrig"
 
 #: 
 msgid "just now"
-msgstr ""
+msgstr "nyligen"
 
 #: 
 msgid "%i sec ago"
 msgid_plural "%i secs ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%i sek sedan"
+msgstr[1] "%i sek sedan"
 
 #: 
 msgid "%i min ago"
 msgid_plural "%i mins ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%i minut sedan"
+msgstr[1] "%i minuter sedan"
 
 #: 
 msgid "%i hour ago"
 msgid_plural "%i hours ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%i timme sedan"
+msgstr[1] "%i timmar sedan"
 
 #: 
 msgid "%i day ago"
 msgid_plural "%i days ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%i dag sedan"
+msgstr[1] "% dagar sedan"
 
 #: 
 msgid "unknown"
-msgstr ""
+msgstr "okänd"
 
 #: 
 msgid "SELECT ALL"
@@ -861,8 +865,8 @@ msgstr "VÄLJ INGA"
 #: 
 msgid "%i SELECTED"
 msgid_plural "%i SELECTED"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%i VALD"
+msgstr[1] "%i VALDA"
 
 #: 
 msgid "UP"
@@ -914,7 +918,7 @@ msgstr "KONFIGURERAR"
 
 #: 
 msgid "KEYBOARD"
-msgstr ""
+msgstr "TANGENTBORD"
 
 #: 
 msgid "GAMEPAD %i"
@@ -944,8 +948,8 @@ msgstr "KONFIGURERA INPUT"
 #: 
 msgid "%i GAMEPAD DETECTED"
 msgid_plural "%i GAMEPADS DETECTED"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%i SPELKONTROLL FUNNEN"
+msgstr[1] "%i SPELKONTROLLER FUNNA"
 
 #: 
 msgid "NO GAMEPADS DETECTED"
@@ -957,11 +961,11 @@ msgstr "HÅLL INNE VALFRI KNAPP PÅ KONTROLLEN FÖR ATT KONFIGURERA"
 
 #: 
 msgid "PRESS F4 TO QUIT AT ANY TIME."
-msgstr "TRYCK PÅ F4 FÖR ATT SLUTA"
+msgstr "TRYCK PÅ F4 NÄRSOM FÖR ATT AVSLUTA"
 
 #: 
 msgid "PRESS ESC OR THE HOTKEY TO CANCEL."
-msgstr ""
+msgstr "TRYCK ESC ELLER HOTKEY FÖR ATT AVSLUTA"
 
 #: 
 msgid "DO YOU WANT TO START KODI MEDIA CENTER ?"
@@ -977,11 +981,11 @@ msgstr "VÄNLIGEN VÄNTA…"
 
 #: 
 msgid "REALLY SHUTDOWN WITHOUT SAVING METADATAS?"
-msgstr ""
+msgstr "STÄNGA AV UTAN ATT SPARA METADATA?"
 
 #: 
 msgid "FAST SHUTDOWN SYSTEM"
-msgstr ""
+msgstr "STÄNGA AV SNABBT?"
 
 #: 
 msgid "WE CAN'T FIND ANY SYSTEMS!\n"
@@ -992,71 +996,71 @@ msgstr ""
 
 #: 
 msgid "ON SCREEN KEYBOARD"
-msgstr ""
+msgstr "SKÄRMTANGENTBORD"
 
 #: 
 msgid "SHIFTS FOR UPPER,LOWER, AND SPECIAL"
-msgstr ""
+msgstr "SKIFTTANGENTEN FÖR STORA, SMÅ OCH SPECIALTECKEN"
 
 #: 
 msgid "SPACE"
-msgstr ""
+msgstr "MELLANSLAG"
 
 #: 
 msgid "DELETE A CHAR"
-msgstr ""
+msgstr "TA BORT TECKEN"
 
 #: 
 msgid "SHIFT"
-msgstr ""
+msgstr "SKIFT"
 
 #: 
 msgid "STOP EDITING"
-msgstr ""
+msgstr "SLUTA REDIGERA"
 
 #: 
 msgid "MOVE CURSOR"
-msgstr ""
+msgstr "FLYTTA MARKÖREN"
 
 #: 
 msgid "EDIT"
-msgstr ""
+msgstr "REDIGERA"
 
 #: 
 msgid "ACCEPT RESULT"
-msgstr ""
+msgstr "ACCEPTERA RESULTAT"
 
 #: 
 msgid "FILENAME"
-msgstr ""
+msgstr "FILNAMN"
 
 #: 
 msgid "RATING"
-msgstr ""
+msgstr "BETYG"
 
 #: 
 msgid "TIMES PLAYED"
-msgstr ""
+msgstr "SPELAT ANTAL GÅNGER"
 
 #: 
 msgid "LAST PLAYED"
-msgstr ""
+msgstr "SENAST SPELAT"
 
 #: 
 msgid "NUMBER OF PLAYERS"
-msgstr ""
+msgstr "ANTAL SPELARE"
 
 #: 
 msgid "DEVELOPER"
-msgstr ""
+msgstr "UTVECKLARE"
 
 #: 
 msgid "GENRE"
-msgstr ""
+msgstr "GENRE"
 
 #: 
 msgid "SHOW HIDDEN"
-msgstr ""
+msgstr "VISA DOLDA"
 
 #: 
 msgid "EXTREM (1400Mhz)"
@@ -1073,56 +1077,59 @@ msgstr ""
 #: 
 msgid "TURBO AND EXTREM OVERCLOCK PRESETS MAY CAUSE SYSTEM UNSTABILITIES, SO USE THEM AT YOUR OWN RISK.\n"
 "IF YOU CONTINUE, THE SYSTEM WILL REBOOT NOW."
-msgstr ""
+msgstr "TURBO OCH EXTREM ÖVERKLOCKNING KAN RESULTERA I OSTABILT SYSTEM, SÅ ANVÄND PÅ EGEN RISK.\n"
+"OM DU VILL FORTSÄTTA KOMMER SYSTEMET NU STARTAS OM."
 
 #: 
 msgid "%i GAME HIDDEN"
 msgid_plural "%i GAMES HIDDEN"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%i DOLT SPEL"
+msgstr[1] "%i DOLDA SPEL"
 
 #: 
 msgid "Start kodi media player."
-msgstr ""
+msgstr "Starta Kodi Mediaspelare"
 
 #: 
 msgid "Select the language for your recalbox, select an external drive to store your games and configurations, check your current version and the free space on your drive"
-msgstr ""
+msgstr "Välj språk för din Recalbox, vilken extern enhet där du vill spara spel och konfigurationer, se nuvarande version och ledigt lagringsutrymme."
 
 #: 
 msgid "Shows your current recalboxOS version."
-msgstr ""
+msgstr "Visa nuvarande version av Recalbox OS"
 
 #: 
 msgid "Show how much space is used on your SHARE partition, located either on the SDCARD or on an external drive. The information shows how much GB are used and how much GB your storage has overall (example 13GB/26GB)."
-msgstr ""
+msgstr "Visa ledigt utrymme på SHARE partitionen som finns på ett minneskort eller intern/extern hårddisk. Informationen visar hur många GB använt respektive hur stor lagringen är totalt, exempelvis 13GB/26GB."
 
 #: 
 msgid "Select an external drive to store your roms, saves, configurations etc.\n"
 "Use a FAT32 formatted drive. The system does not format the drive. On first boot, with this option enabled, recalbox will create a '/recalbox' folder with all system files inside."
-msgstr ""
+msgstr "Välj extern enhet att spara dina spelroms, sparade spelomgångar, konfigurationer etc.\n"
+"Använd en färdig FAT32 formaterad disk då systemet inte kan formatera. Efter omstart kommer Recalbox OS skapa en mapp med namnet recalbox och undermappar för varje system."
 
 #: 
 msgid "Select your language. A reboot is needed to set this configuration active."
-msgstr ""
+msgstr "Välj språk. Omstart krävs för att göra detta val aktivt."
 
 #: 
 msgid "Manage your recalbox updates. Select the update type. Activate update check."
-msgstr ""
+msgstr "Hantera uppdateringar. Välja typ av uppdatering. Aktivera automatisk eller manuell uppdatering."
 
 #: 
 msgid "Check if an update is available, and start the update process."
-msgstr ""
+msgstr "Kontrollera om uppdatering finns och isf starta nedladdning."
 
 #: 
 msgid "Stable updates will check for updates on stable recalbox releases. Stable updates are tested and approved by the recalbox team and their testers.\n"
 "Unstable updates allows you to get the latest recalbox features by checking our unstable repository. You can test and validate with us the very last version of recalbox.\n"
 "If you choose unstable update, be so kind to report issues on the recalbox-os issue board (https://github.com/recalbox/recalbox-os/issues)"
-msgstr ""
+msgstr "Stabila uppdateringar kontrollerar om det finns versioner som är testade och kontrollerade av Recalbox teamet.\n"
+"Ostabila uppdateringar/versioner är sådana som har nya funktioner som är under test. I och med dessa varianter vill vi gärna se att du delger oss med information om dina intryck på följande webplats: https://github.com/recalbox/recalbox-os/issues"
 
 #: 
 msgid "Automatically check if an update is avaialble. If so, it notifies you with a message."
-msgstr ""
+msgstr "Automatiskt kontroll om ny uppdatering finns och meddelar dig om så är fallet."
 
 #: 
 msgid "Configure games display, ratio, filters (shaders), auto save and load and retroachievement account."
@@ -1828,5 +1835,67 @@ msgstr ""
 
 #: 
 msgid "Add a clock in the main menu."
+msgstr ""
+
+#. UPGRADE PROCESS
+#: 
+msgid "UPGRADING"
+msgstr ""
+
+#: 
+msgid "PREPARING"
+msgstr ""
+
+#: 
+msgid "VERIFYING"
+msgstr ""
+
+#: 
+msgid "PRESS TWICE TO QUIT GAME"
+msgstr ""
+
+#: 
+msgid "Press twice the buttons to end the game and go back to main menu."
+msgstr ""
+
+#: 
+msgid "Configure screensaver"
+msgstr ""
+
+#: 
+msgid "Set the screensaver behavior. DIM will reduce the screen light, BLACK will turn the screen black, DEMO will launch demo mode."
+msgstr ""
+
+#: 
+msgid "EMPTY LIST"
+msgstr ""
+
+#: Retroarch ratio
+msgid "Auto"
+msgstr ""
+
+#: 
+msgid "Square pixel"
+msgstr ""
+
+#: 
+msgid "Retroarch Config"
+msgstr ""
+
+#: 
+msgid "Retroarch Custom"
+msgstr ""
+
+#: 
+msgid "Core provided"
+msgstr ""
+
+#: 
+msgid "Do not set"
+msgstr ""
+
+#: 
+msgid "Copy current system on another device.\n"
+"Warning ! It will erase all data on target device."
 msgstr ""
 

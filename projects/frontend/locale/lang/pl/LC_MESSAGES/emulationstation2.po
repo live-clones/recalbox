@@ -38,7 +38,7 @@ msgstr "Gatunek"
 
 #: 
 msgid "Players"
-msgstr "Graczy"
+msgstr "L. Graczy"
 
 #: 
 msgid "NO GAMES FOUND - SKIP"
@@ -74,7 +74,7 @@ msgstr "podpisy"
 
 #: 
 msgid "INPUT"
-msgstr "WEJŚCIE"
+msgstr "KONTROLER"
 
 #: 
 msgid "search"
@@ -105,9 +105,9 @@ msgstr "NIE MOŻNA ZNALEŹĆ ŻADNYCH SYSTEMÓW!\n"
 #: 
 msgid "%i GAME SUCCESSFULLY SCRAPED!"
 msgid_plural "%i GAMES SUCCESSFULLY SCRAPED!"
-msgstr[0] "%i INFORMACJE O GRZE ZOSTAŁY ZNALEZIONE!"
-msgstr[1] "%i GIER ZOSTAŁO POPRAWNIE SCRAPE'OWANYCH!"
-msgstr[2] "%i GIER ZOSTAŁO POPRAWNIE DODANYCH"
+msgstr[0] "DANE %i GRY ZOSTAŁY POPRAWNIE UZUPEŁNIONE!"
+msgstr[1] "DANE %i GIER ZOSTAŁY POPRAWNIE UZUPEŁNIONE!"
+msgstr[2] "DANE %i GIER ZOSTAŁY POPRAWNIE UZUPEŁNIONE!"
 
 #: 
 msgid "%i GAME SKIPPED."
@@ -256,7 +256,7 @@ msgstr "URUCHOMIENIE KODI PRZY STARCIE"
 
 #: 
 msgid "START KODI WITH X"
-msgstr "WŁĄCZ KODI Z X'EM"
+msgstr "WŁĄCZ KODI UŻYWAJĄC \"X\""
 
 #: 
 msgid "SECURITY"
@@ -285,7 +285,7 @@ msgstr "PROPORCJE EKRANU"
 
 #: 
 msgid "SMOOTH GAMES"
-msgstr "PŁYNNOŚĆ GIER"
+msgstr "WYGŁADZANIE GIER"
 
 #: 
 msgid "REWIND"
@@ -385,7 +385,7 @@ msgstr "USTAWIENIA DŹWIĘKU"
 
 #: 
 msgid "SYSTEM VOLUME"
-msgstr "GŁOŚNOŚĆ SYSTEMU"
+msgstr "GŁOŚNOŚĆ SYSTEMOWA"
 
 #: 
 msgid "FRONTEND MUSIC"
@@ -497,7 +497,7 @@ msgstr "Rdzeń"
 
 #: 
 msgid "YOU ARE GOING TO CONFIGURE A CONTROLLER. IF YOU HAVE ONLY ONE JOYSTICK, CONFIGURE THE DIRECTIONS KEYS AND SKIP JOYSTICK CONFIG BY HOLDING A BUTTON. IF YOU DO NOT HAVE A SPECIAL KEY FOR HOTKEY, CHOOSE THE SELECT BUTTON. SKIP ALL BUTTONS YOU DO NOT HAVE BY HOLDING A KEY. BUTTONS NAMES ARE BASED ON THE SNES CONTROLLER."
-msgstr "ZA CHWILĘ SKONFIGURUJESZ KONTROLER. JEŻELI POSIADASZ TYLKO JEDEN KONTROLER, SKONFIGURUJ TYLKO PRZYCISKI KIERUNKOWE. JEŻELI NIE POSIADASZ SPECJALNEGO PRZYCISKU DO SKRÓTÓW WYBIERZ PRZYCISK \"SELECT\". POMIŃ WSZYSTKIE PRZYCISKI KTÓRYCH NIE MASZ PRZYTRZYMUJĄC DOWOLNY PRZYCISK. NAZWY PRZYCISKÓW BAZUJĄ NA KONTROLERZE OD KONSOLI SNES."
+msgstr "ZA CHWILĘ SKONFIGURUJESZ KONTROLER. JEŻELI POSIADASZ JEDEN JOYSTICK USTAW GO JAKO PRZYCISKI KIERUNKOWE A USTAWIENIA JOYSTICK'A POMIŃ PRZYTRZYMUJĄC PRZYCISK \"A\". JEŻELI NIE POSIADASZ SPECJALNEGO PRZYCISKU DO SKRÓTÓW WYBIERZ PRZYCISK \"SELECT\". POMIŃ WSZYSTKIE PRZYCISKI KTÓRYCH NIE MASZ PRZYTRZYMUJĄC PRZYCISK \"A\". NAZWY PRZYCISKÓW BAZUJĄ NA KONTROLERZE OD KONSOLI SNES."
 
 #. GUIMENU
 #: 
@@ -535,15 +535,15 @@ msgstr "USUŃ KONTROLER BLUETOOTH Z LISTY ZAPISANYCH"
 
 #: 
 msgid "INPUT P%i"
-msgstr "WEJSCIE P%i"
+msgstr "KONTROLER P%i"
 
 #: 
 msgid "CHOOSE"
-msgstr "WYBIERZ"
+msgstr "WYBIERAJ"
 
 #: 
 msgid "SELECT"
-msgstr "ZAZNACZ"
+msgstr "WYBIERZ"
 
 #: 
 msgid "OPTIONS"
@@ -732,7 +732,7 @@ msgstr "wpisz typ romu"
 
 #: 
 msgid "Hidden"
-msgstr "Ukryte"
+msgstr "Ukryta"
 
 #: 
 msgid "set hidden"
@@ -897,31 +897,32 @@ msgstr "PRAWO"
 
 #: 
 msgid "JOYSTICK 1 UP"
-msgstr "KONTROLER 1 GÓRA"
+msgstr "GAŁKA 1 GÓRA"
 
 #: 
 msgid "JOYSTICK 1 LEFT"
-msgstr "KONTROLER 1 LEWO"
+msgstr "GAŁKA 1 LEWO"
 
 #: 
 msgid "JOYSTICK 2 UP"
-msgstr "KONTROLER 2 GÓRA"
+msgstr "GAŁKA 2 GÓRA"
 
 #: 
 msgid "JOYSTICK 2 LEFT"
-msgstr "KONTROLER 2 LEWO"
+msgstr "GAŁKA 2 LEWO"
 
 #: 
 msgid "PAGE UP"
-msgstr "DO GÓRY"
+msgstr "L1"
 
+#. Nie wiadomo czemu ale chodzi o przycisk R na padzie ¯_(ツ)_/¯
 #: 
 msgid "PAGE DOWN"
-msgstr "NA DÓŁ"
+msgstr "R1"
 
 #: 
 msgid "HOTKEY"
-msgstr "SKRÓT KLAWISZOWY"
+msgstr "PRZYCISK SKRÓTU"
 
 #: 
 msgid "CONFIGURING"
@@ -946,7 +947,7 @@ msgstr "JUŻ ZAJĘTE"
 
 #: 
 msgid "DISCARD CHANGES"
-msgstr "COFNIJ ZMIANY"
+msgstr "ODRZUĆ ZMIANY"
 
 #: 
 msgid "WELCOME"
@@ -954,7 +955,7 @@ msgstr "WITAJ"
 
 #: 
 msgid "CONFIGURE INPUT"
-msgstr "KONFIGURUJ WEJŚCIE"
+msgstr "SKONFIGURUJ KONTROLER"
 
 #: 
 msgid "%i GAMEPAD DETECTED"
@@ -1005,7 +1006,7 @@ msgid "WE CAN'T FIND ANY SYSTEMS!\n"
 "\n"
 "VISIT RECALBOX.FR FOR MORE INFORMATION."
 msgstr "NIE MOŻNA ZNALEŹĆ ŻADNYCH SYSTEMÓW!\n"
-"UPEWNIJ SIĘ ŻE W PLIKU KONFIGURACYJNYM SĄ PODANE WŁAŚCIWE ŚCIEŻKI I ŻE KATALOG Z GRAMI ZAWIERA PRZYNAJMNIEJ JEDNĄ GRĘ Z WŁAŚCIWYM ROZSZERZENIEM PLIKU.\n"
+"UPEWNIJ SIĘ, ŻE W PLIKU KONFIGURACYJNYM SĄ PODANE WŁAŚCIWE ŚCIEŻKI I ŻE KATALOG Z GRAMI ZAWIERA PRZYNAJMNIEJ JEDNĄ GRĘ Z WŁAŚCIWYM ROZSZERZENIEM PLIKU.\n"
 "\n"
 "ODWIEDŹ RECALBOX.COM PO WIĘCEJ INFORMACJI."
 
@@ -1317,7 +1318,7 @@ msgstr "Wybierz jaki system pokazać gdy uruchomi się nakładka recalbox. Domy�
 
 #: 
 msgid "On boot, recalbox will show the list of games of the selected system rather than the system view."
-msgstr "Przy starcie recalbox pokaże listę gier wybranego systemu zamiast widoku systemowego."
+msgstr "Przy starcie recalbox pokaże listę gier wybranego systemu zamiast ekranu wyboru systemów."
 
 #: 
 msgid "Only show games contained in the gamelist.xml file (located in your roms directories).\n"
@@ -1367,7 +1368,7 @@ msgstr "Zmień hasło roota SSH."
 
 #: 
 msgid "Enforce recalbox security."
-msgstr "Wymuś zabezpieczenia recalbox."
+msgstr "Wzmocnij zabezpieczenia recalbox."
 
 #: 
 msgid "Enable or disable overscan.\n"
@@ -1401,7 +1402,7 @@ msgstr "Wybierz który emulator użyć, gdy uruchomisz grę z tego systemu. "
 
 #: 
 msgid "Select which core to use for the selected emulator. For example, the LIBRETRO emulator has many cores to run Super Nintendo games. The default core you choose here can also be overridden in game specific settings."
-msgstr "Wybierz który rdzeń użyć do wybranego emulatora. Dla przykładu emulator LIBRETRO obsługuje wiele rdzeni do uruchomienia gier z Super Nintendo. Domyślny rdzeń który wybierzesz może być także nadpisany w konkretnych ustawieniach gry."
+msgstr "Wybierz który rdzeń użyć do wybranego emulatora. Dla przykładu emulator LIBRETRO obsługuje wiele rdzeni do uruchomienia gier z Super Nintendo. Domyślny rdzeń który wybierzesz może być także nadpisany w ustawieniach konkretnej gry."
 
 #: 
 msgid "USE COMPOSED VISUALS"
@@ -1469,23 +1470,24 @@ msgstr "ŚCIĄGNIĘTE"
 
 #: 
 msgid "UPDATE VERSION:"
-msgstr "WERSJA AKTUALIZACJI"
+msgstr "WERSJA AKTUALIZACJI:"
 
 #: 
 msgid "UPDATE CHANGELOG:"
-msgstr "LOG Z AKTUALIZACJI"
+msgstr "LOG Z AKTUALIZACJI:"
 
 #: 
 msgid "MORE DETAILS"
 msgstr "WIĘCJE INFORMACJI"
 
+#. literówka
 #: 
 msgid "CAROUSEL ANIMATION"
-msgstr "ANIMIACJA KARUZELA"
+msgstr "ANIMACJA KARUZELA"
 
 #: 
 msgid "THEME CONFIGURATION"
-msgstr "CONFIGURACJA SKÓRY"
+msgstr "KONFIGURACJA MOTYWU"
 
 #: 
 msgid "THEME COLORSET"
@@ -1505,7 +1507,7 @@ msgstr "Motyw ekranu wyboru systemów"
 
 #: 
 msgid "THEME GAMELISTVIEW"
-msgstr ""
+msgstr "MOTYW WIDOKU LISTY GIER"
 
 #: 
 msgid "THEME REGION"
@@ -1513,11 +1515,11 @@ msgstr "Region motywu"
 
 #: 
 msgid "THIS THEME HAS NO OPTION"
-msgstr ""
+msgstr "TEN MOTYW NIE MA OPCJI"
 
 #: 
 msgid "MANUAL INPUT"
-msgstr ""
+msgstr "WPROWADŹ RĘCZNIE"
 
 #: 
 msgid "AN ERROR OCCURED - DOWNLOADED"
@@ -1533,47 +1535,47 @@ msgstr "Pokazuje dostępną aktualizację"
 
 #: 
 msgid "Shows the current available update changelog."
-msgstr "Polazuje log dostępnej aktualizacji"
+msgstr "Pokazuje log dostępnej aktualizacji"
 
 #: 
 msgid "Configure an associated controller. Your controller has to be associated / plugged before."
-msgstr "Skonfiguruj zapisany kontroler. Kontroler musiałbyć wcześniej podłączony."
+msgstr "Skonfiguruj zapisany kontroler. Kontroler musiał być wcześniej podłączony."
 
 #: 
 msgid "Choose if carousel will be animated or not during transitions"
-msgstr "Zdecyduj czy motyw karuzeli powinien byc animowany"
+msgstr "Zdecyduj czy karuzela wyboru ma być animowana podczas przejścia między pozycjami"
 
 #: 
 msgid "Select the type of transition that occurs when you start a game. INSTANT will do nothing, FADE will fade to dark, and SLIDE will zoom on the game cover (or name if there is no scrape information)"
-msgstr ""
+msgstr "Wybierz rodzaj animacji przejścia podczas uruchamiania gry. INSTANT to brak animacji, FADE to stopniowe wygaszanie, a SLIDE to zbliżenie na okładkę gry (lub jej tytuł jeśli nie ma pobranych informacji)"
 
 #: 
 msgid "Select exisiting colorset options for this theme."
-msgstr ""
+msgstr "Wybierz z pośród dostępnych zestawów kolorów dla tego motywu."
 
 #: 
 msgid "Select exisiting iconset options for this theme."
-msgstr ""
+msgstr "Wybierz z pośród dostępnych zestawów ikon dla tego motywu."
 
 #: 
 msgid "Select exisiting menu style options for this theme."
-msgstr ""
+msgstr "Wybierz z pośród dostępnych stylów menu dla tego motywu."
 
 #: 
 msgid "Select exisiting system view options for this theme."
-msgstr ""
+msgstr "Wybierz  z pośród dostępnych wersji ekranu wyboru platform dla tego motywu."
 
 #: 
 msgid "Select exisiting gamelist view options for this theme."
-msgstr ""
+msgstr "Wybierz  z pośród dostępnych wersji ekranu listy gier dla tego motywu."
 
 #: 
 msgid "Configure theme options if available."
-msgstr ""
+msgstr "Konfiguracja wyglądu (jeżeli możliwa)"
 
 #: 
 msgid "Select Region of logos, pictures for system that are different for some countries. E.g. Megadrive in EU / Genesis in US"
-msgstr ""
+msgstr "Wybierz Region dla Logo, zdjęć platform które różnią się w niektórych krajach.Np. Megadrive w Europie / Genesis w USA."
 
 #: 
 msgid "Type the name of your SSID if it is hidden or not listed"
@@ -1581,23 +1583,23 @@ msgstr "Wprowadź identyfikator SSID twojej sieci jeżeli jest ona ukryta lub si
 
 #: 
 msgid "Select a letter and the listing will go directly on the first game starting with this letter."
-msgstr ""
+msgstr "Wybierz literę a lista przewinie się do pierwszej gry zaczynającej się na tą literę."
 
 #: 
 msgid "Select the way the game list is sortered (alphabetically, by notation...)."
-msgstr ""
+msgstr "Wybierz jak ma być sortowana lista gier (alfabetycznie, po kraju...)"
 
 #: 
 msgid "Switch between seing or not only the favorites games. To add a game in the favorite list, select the game and toggle its state using 'Y'."
-msgstr ""
+msgstr "Przełącz między pokazywaniem lub nie tylko ulubionych gier. Aby dodać grę do listy ulubionych, zaznacz grę i przełącz jej stan używając 'Y'"
 
 #: 
 msgid "Switch between seing or not the hidden games. To hide a game, edit its data and select 'Hide'."
-msgstr ""
+msgstr "Przełącz między pokazywaniem lub nie ukrytych gier. By ukryć grę, edytuj jej dane i wybierz 'Ukryta'"
 
 #: 
 msgid "This option display a menu which allows to change game data and many others options."
-msgstr ""
+msgstr "Ta opcja wyświetla menu, które pozawala na zmianę danych gry i wiele innych opcji."
 
 #: 
 msgid "AVAILABLE UPDATE"
@@ -1605,265 +1607,327 @@ msgstr "Dostępna aktualizacja"
 
 #: 
 msgid "UPDATE CHANGELOG"
-msgstr ""
+msgstr "DZIENNIK ZMIAN AKTUALIZACJI"
 
 #: 
 msgid "CLOCK IN MENU"
-msgstr ""
+msgstr "ZEGAR W MENU"
 
 #: 
 msgid "Now playing"
-msgstr ""
+msgstr "Teraz odtwarzane"
 
 #: 
 msgid "DEFAULT (%1%)"
-msgstr ""
+msgstr "DOMYŚLNY (%1%)"
 
 #: 
 msgid "INPUT REQUIRED"
-msgstr ""
+msgstr "WARTOŚĆ WYMAGANA"
 
 #: 
 msgid "(skipped)"
-msgstr "(pomiń)"
+msgstr "(pominięte)"
 
 #: 
 msgid "UP/DOWN TO SKIP"
-msgstr ""
+msgstr "W GÓRĘ/W DÓŁ BY POMINĄĆ"
 
 #: 
 msgid "A TO UNSET"
-msgstr ""
+msgstr "A BY ANULOWAĆ USTAWIENIE"
 
 #: 
 msgid "DOWN TO SKIP AND KEEP [%1%]"
-msgstr ""
+msgstr "W DÓŁ BY POMINĄĆ I ZACHOWAĆ [%1%]"
 
 #: 
 msgid "UP/DOWN TO SKIP AND KEEP [%1%]"
-msgstr ""
+msgstr "W GÓRĘ/W DÓŁ BY POMINĄĆ I ZACHOWAĆ [%1%]"
 
 #: 
 msgid "Set duration of help popups, 0 means no popup."
-msgstr ""
+msgstr "Ustaw długość wyświetlania okienek pomocy, ustaw 0 by je wyłączyć"
 
 #: 
 msgid "HELP POPUP DURATION"
-msgstr ""
+msgstr "DŁUGOŚĆ WYŚWIETLANIA OKIENEK  POMOCY"
 
 #: 
 msgid "Set duration of music popups, 0 means no popup."
-msgstr ""
+msgstr "Ustaw długość wyświetlania okienka muzyki, ustaw 0 by je wyłączyć."
 
 #: 
 msgid "MUSIC POPUP DURATION"
-msgstr ""
+msgstr "DŁUGOŚĆ WYŚWIETLANIA OKIENKA MUZYKI"
 
 #: 
 msgid "POPUP SETTINGS"
-msgstr ""
+msgstr "USTAWIENIA  WYSKAKUJĄCYCH OKIENEK"
 
 #: 
 msgid "POPUP POSITION"
-msgstr ""
+msgstr "POZYCJA WYSKAKUJĄCYCH OKIENEK"
 
 #: 
 msgid "Select the position of popups on screen."
-msgstr ""
+msgstr "Wybierz pozycję wyskakujących okienek na ekranie."
 
 #: 
 msgid "Set position and duration of popups."
-msgstr ""
+msgstr "Ustaw pozycje i czas wyświetlania wyskakujących okienek."
 
 #: 
 msgid "TOP/RIGHT"
-msgstr ""
+msgstr "GÓRNY PRAWY RÓG"
 
 #: 
 msgid "BOTTOM/RIGHT"
-msgstr ""
+msgstr "DOLNY PRAWY RÓG"
 
 #: 
 msgid "BOTTOM/LEFT"
-msgstr ""
+msgstr "DOLNY LEWY RÓG"
 
 #: 
 msgid "TOP/LEFT"
-msgstr ""
+msgstr "GÓRNY LEWY RÓG"
 
 #: 
 msgid "SHOW FOLDERS CONTENT"
-msgstr ""
+msgstr "POKAŻ ZAWARTOŚĆ FOLDERÓW"
 
 #: 
 msgid "Switch between seeing the folders structure and seeing all games in a flatten top level."
-msgstr ""
+msgstr "Przełącz między pokazywaniem struktury folderów a pokazywanie wszystkich gier bez folderów w spłaszczonym widoku."
 
 #: 
 msgid "NETPLAY"
-msgstr ""
+msgstr "Gra sieciowa"
 
 #: 
 msgid "NETPLAY SETTINGS"
-msgstr ""
+msgstr "Ustawienia gry sieciowej"
 
 #: 
 msgid "NETPLAY LOBBY"
-msgstr ""
+msgstr "POCZEKALNIA GRY SIECIOWEJ"
 
 #: 
 msgid "Enable or disable Netplay in games."
-msgstr ""
+msgstr "Włącz/Wyłącz grę sieciową"
 
 #: 
 msgid "PORT"
-msgstr ""
+msgstr "Port"
 
 #: 
 msgid "NICKNAME"
-msgstr ""
+msgstr "Twoja nazwa"
 
 #: 
 msgid "RELAY SERVER"
-msgstr ""
+msgstr "SERWER PRZEKAŹNIKOWY"
 
 #: 
 msgid "Enable or disable connections throught relay servers."
-msgstr ""
+msgstr "Włącz lub wyłącz połączenie przez serwer przekaźnikowy."
 
 #: 
 msgid "KODI/NETPLAY"
-msgstr ""
+msgstr "KODI/GRA SIECIOWA"
 
 #: 
 msgid "NO GAMES OR NO CONNECTION"
-msgstr ""
+msgstr "Brak aktywnych gier lub brak połączenia"
 
 #: 
 msgid "HASH NOW"
-msgstr ""
+msgstr "HASHUJ TERAZ"
 
 #: 
 msgid "HASH THESE SYSTEMS"
-msgstr ""
+msgstr "HASHUJ TE PLATRORMY"
 
 #: 
 msgid "Add hash of roms in your gamelists to have more accurate results in Netplay."
-msgstr ""
+msgstr "Dodaj hash romów w twoich listach gier by mieć precyzyjniejsze wyniki w grze sieciowej."
 
 #: 
 msgid "HASH ROMS"
-msgstr ""
+msgstr "HASHUJ ROMY"
 
 #: 
 msgid "Only missing hashs"
-msgstr ""
+msgstr "Tylko brakujące hashe"
 
 #: 
 msgid "Username"
-msgstr ""
+msgstr "Nazwa użytkownika"
 
 #: 
 msgid "Country"
-msgstr ""
+msgstr "Państwo"
 
 #: 
 msgid "Latency"
-msgstr ""
+msgstr "Opóźnienie"
 
 #: 
 msgid "Host arch."
-msgstr ""
+msgstr "arch. Hosta"
 
 #: 
 msgid "Core ver."
-msgstr ""
+msgstr "wer. Core"
 
 #: 
 msgid "RA ver."
-msgstr ""
+msgstr "wer. RA"
 
 #: 
 msgid "Can join"
-msgstr ""
+msgstr "Można dołączyć"
 
 #: 
 msgid "Rom and core match"
-msgstr ""
+msgstr "Rom i rdzeń (core) zgodne"
 
 #: 
 msgid "Rom found"
-msgstr ""
+msgstr "Rom znaleziony"
 
 #: 
 msgid "No rom match"
-msgstr ""
+msgstr "Brak zgodnych romów"
 
 #: 
 msgid "Match"
-msgstr ""
+msgstr "Zgodne"
 
 #: 
 msgid "No Match"
-msgstr ""
+msgstr "Niezgodne"
 
 #: 
 msgid "Rom file"
-msgstr ""
+msgstr "Plik romu"
 
 #: 
 msgid "Rom hash"
-msgstr ""
+msgstr "Hash romu"
 
 #: 
 msgid "THIS COULD TAKE A WHILE, CONFIRM?"
-msgstr ""
+msgstr "TO MOŻE CHWILĘ POTRWAĆ, POTWIERDZASZ?"
 
 #: 
 msgid "good"
-msgstr ""
+msgstr "Dobry"
 
 #: 
 msgid "bad"
-msgstr ""
+msgstr "Zły"
 
 #: 
 msgid "medium"
-msgstr ""
+msgstr "średni"
 
 #: 
 msgid "NETPLAY POPUP DURATION"
-msgstr ""
+msgstr "DŁUGOŚĆ WYŚWIETLANIA OKIENKA GRY SIECIOWEJ"
 
 #: 
 msgid "Set duration of netplay popups, 0 means no popup."
-msgstr ""
+msgstr "Ustaw długość wyświetlania okienka gry sieciowej, ustaw 0 by je wyłączyć."
 
 #: 
 msgid "Player"
-msgstr ""
+msgstr "Gracz"
 
 #: 
 msgid "Game"
-msgstr ""
+msgstr "Gra"
 
 #: 
 msgid "A Recalbox friend has started a Netplay game!"
-msgstr ""
+msgstr "Znajomy z Recalboxa rozpoczął grę sieciową!"
 
 #: 
 msgid "Play online on games running through Retroarch like NES, SNES, FBA, Genesis/Megadrive and more!"
-msgstr ""
+msgstr "Graj online w gry uruchamiane przez Retroarch z NESa, SNESa, FBA, Genesis/Megadrive i więcej!"
 
 #: 
 msgid "Rom, hash and core match"
-msgstr ""
+msgstr "Rom, hash i core zgodne"
 
 #: 
 msgid "No core match"
-msgstr ""
+msgstr "Brak zgodnych rdzeni (core)"
 
 #: 
 msgid "Add a clock in the main menu."
+msgstr "Dodaj zegar w głównym menu."
+
+#. UPGRADE PROCESS
+#: 
+msgid "UPGRADING"
+msgstr "AKTUALIZACJA"
+
+#: 
+msgid "PREPARING"
+msgstr "PRZYGOTOWANIE"
+
+#: 
+msgid "VERIFYING"
+msgstr "WERYFIKACJA"
+
+#: 
+msgid "PRESS TWICE TO QUIT GAME"
+msgstr ""
+
+#: 
+msgid "Press twice the buttons to end the game and go back to main menu."
+msgstr ""
+
+#: 
+msgid "Configure screensaver"
+msgstr ""
+
+#: 
+msgid "Set the screensaver behavior. DIM will reduce the screen light, BLACK will turn the screen black, DEMO will launch demo mode."
+msgstr ""
+
+#: 
+msgid "EMPTY LIST"
+msgstr ""
+
+#: Retroarch ratio
+msgid "Auto"
+msgstr ""
+
+#: 
+msgid "Square pixel"
+msgstr ""
+
+#: 
+msgid "Retroarch Config"
+msgstr ""
+
+#: 
+msgid "Retroarch Custom"
+msgstr ""
+
+#: 
+msgid "Core provided"
+msgstr ""
+
+#: 
+msgid "Do not set"
+msgstr ""
+
+#: 
+msgid "Copy current system on another device.\n"
+"Warning ! It will erase all data on target device."
 msgstr ""
 

@@ -40,9 +40,10 @@ msgstr "Genre"
 msgid "Players"
 msgstr "Spieler"
 
+#. It should be a "Keine Spiele gefunden - Überspringen" Oder??
 #: 
 msgid "NO GAMES FOUND - SKIP"
-msgstr "Keine Metadaten gefunden - Überspringen"
+msgstr "Keine Spiele gefunden - Überspringen"
 
 #: 
 msgid "RETRY"
@@ -1858,4 +1859,66 @@ msgstr "Keine Core Übereinstimmung"
 #: 
 msgid "Add a clock in the main menu."
 msgstr "Uhr im Hauptmenü hinzufügen."
+
+#. UPGRADE PROCESS
+#: 
+msgid "UPGRADING"
+msgstr "AKTUALISIERT"
+
+#: 
+msgid "PREPARING"
+msgstr "BEREITET VOR"
+
+#: 
+msgid "VERIFYING"
+msgstr "VERIFIZIERT"
+
+#: 
+msgid "PRESS TWICE TO QUIT GAME"
+msgstr ""
+
+#: 
+msgid "Press twice the buttons to end the game and go back to main menu."
+msgstr ""
+
+#: 
+msgid "Configure screensaver"
+msgstr ""
+
+#: 
+msgid "Set the screensaver behavior. DIM will reduce the screen light, BLACK will turn the screen black, DEMO will launch demo mode."
+msgstr ""
+
+#: 
+msgid "EMPTY LIST"
+msgstr ""
+
+#: Retroarch ratio
+msgid "Auto"
+msgstr ""
+
+#: 
+msgid "Square pixel"
+msgstr ""
+
+#: 
+msgid "Retroarch Config"
+msgstr ""
+
+#: 
+msgid "Retroarch Custom"
+msgstr ""
+
+#: 
+msgid "Core provided"
+msgstr ""
+
+#: 
+msgid "Do not set"
+msgstr ""
+
+#: 
+msgid "Copy current system on another device.\n"
+"Warning ! It will erase all data on target device."
+msgstr ""
 

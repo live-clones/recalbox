@@ -22,7 +22,7 @@ msgstr "Рейтинг"
 
 #: 
 msgid "Released"
-msgstr "Выход"
+msgstr "Дата выхода"
 
 #: 
 msgid "Developer"
@@ -38,7 +38,7 @@ msgstr "Жанр"
 
 #: 
 msgid "Players"
-msgstr "Игроки"
+msgstr "Игроков"
 
 #: 
 msgid "NO GAMES FOUND - SKIP"
@@ -174,7 +174,7 @@ msgstr "МЕДИАЦЕНТР KODI"
 
 #: 
 msgid "SYSTEM SETTINGS"
-msgstr "НАСТРОЙКИ СИСТЕМЫ"
+msgstr "СИСТЕМНЫЕ НАСТРОЙКИ"
 
 #: 
 msgid "VERSION"
@@ -186,7 +186,7 @@ msgstr "ИСПОЛЬЗОВАНИЕ ДИСКА"
 
 #: 
 msgid "STORAGE DEVICE"
-msgstr "УСТРОЙСТВА ХРАНЕНИЯ"
+msgstr "УСТРОЙСТВО ХРАНЕНИЯ"
 
 #: 
 msgid "LANGUAGE"
@@ -230,7 +230,7 @@ msgstr "НЕТ (1200Mhz)"
 
 #: 
 msgid "NONE"
-msgstr "ПУСТО"
+msgstr "НЕТ"
 
 #. NEW SETTINGS ORGANIZATION
 #: 
@@ -275,7 +275,7 @@ msgstr "ПАРОЛЬ АДМИНИСТРАТОРА"
 
 #: 
 msgid "THE SYSTEM WILL NOW REBOOT"
-msgstr "СИСТЕМА БУДЕТ СЕЙЧАС ПЕРЕЗАГРУЖЕНА"
+msgstr "СЕЙЧАС СИСТЕМА БУДЕТ ПЕРЕЗАГРУЖЕНА"
 
 #: 
 msgid "GAMES SETTINGS"
@@ -283,11 +283,11 @@ msgstr "ИГРОВЫЕ НАСТРОЙКИ"
 
 #: 
 msgid "GAME RATIO"
-msgstr "ИГРОВОЕ СООТНОШЕНИЕ СТОРОН"
+msgstr "СООТНОШЕНИЕ СТОРОН"
 
 #: 
 msgid "SMOOTH GAMES"
-msgstr "ИГРОВОЕ СГЛАЖИВАНИЕ"
+msgstr "СГЛАЖИВАНИЕ"
 
 #: 
 msgid "REWIND"
@@ -295,7 +295,7 @@ msgstr "ПЕРЕМОТКА"
 
 #: 
 msgid "AUTO SAVE/LOAD"
-msgstr "АВТО СОХРАНЕНИЕ/ЗАГРУЗКА"
+msgstr "АВТОСОХРАНЕНИЕ/ЗАГРУЗКА"
 
 #: 
 msgid "SHADERS SET"
@@ -431,7 +431,7 @@ msgstr "IP АДРЕС"
 
 #: 
 msgid "HOSTNAME"
-msgstr "ХОСТ"
+msgstr "ИМЯ ХОСТА"
 
 #: 
 msgid "ENABLE WIFI"
@@ -459,7 +459,7 @@ msgstr "ЗАГРУЗКА ДАННЫХ"
 
 #: 
 msgid "SCRAPE FROM"
-msgstr "ЗАГРУЗКА ИЗ"
+msgstr "ИСТОЧНИК"
 
 #: 
 msgid "SCRAPE RATINGS"
@@ -529,7 +529,7 @@ msgstr "СОПРЯЖЕНИЕ BLUETOOTH КОНТРОЛЛЕРА"
 
 #: 
 msgid "CONTROLLERS LINKS HAVE BEEN DELETED."
-msgstr "ССЫЛКИ КОНТРОЛЛЕРА БЫЛИ УДАЛЕНЫ"
+msgstr "СОПРЯЖЕНИЯ КОНТРОЛЛЕРОВ УДАЛЕНЫ"
 
 #: 
 msgid "FORGET BLUETOOTH CONTROLLERS"
@@ -537,11 +537,11 @@ msgstr "УДАЛЕНИЕ BLUETOOTH КОНТРОЛЛЕРОВ"
 
 #: 
 msgid "INPUT P%i"
-msgstr "ВВОД P%i"
+msgstr "КОНТРОЛЛЕР P%i"
 
 #: 
 msgid "CHOOSE"
-msgstr "ВЫБЕРИТЕ"
+msgstr "НАВИГАЦИЯ"
 
 #: 
 msgid "SELECT"
@@ -579,7 +579,7 @@ msgstr "Все игры"
 #. MISSING SCRAPPER TRANSLATIONS
 #: 
 msgid "Only missing image"
-msgstr "Только отсутствующие изображения"
+msgstr "Только отсутствующие данные"
 
 #: 
 msgid "FILTER"
@@ -821,7 +821,7 @@ msgstr "ПОСЛЕДНИЙ ЗАПУСК, ПО УБЫВАНИЮ"
 
 #: 
 msgid "WORKING..."
-msgstr "ОБРАБОТКА..."
+msgstr "ПОДОЖДИТЕ..."
 
 #: 
 msgid "CHANGE"
@@ -950,7 +950,7 @@ msgstr "НАЖМИТЕ ЛЮБУЮ КНОПКУ"
 
 #: 
 msgid "ALREADY TAKEN"
-msgstr "ЗАНЯТО"
+msgstr "УЖЕ ЗАНЯТО"
 
 #: 
 msgid "DISCARD CHANGES"
@@ -1101,7 +1101,7 @@ msgstr "ВЫСОКИЙ (1300 мГц)"
 #: 
 msgid "TURBO AND EXTREM OVERCLOCK PRESETS MAY CAUSE SYSTEM UNSTABILITIES, SO USE THEM AT YOUR OWN RISK.\n"
 "IF YOU CONTINUE, THE SYSTEM WILL REBOOT NOW."
-msgstr "ПРЕДУСТАНОВКИ РАЗГОНА ТУРБО И ЭКСТРИМ МОГУТ ВЫЗВАТЬ НЕСТАБИЛЬНОСТЬ СИСТЕМЫ, ИСПОЛЬЗУЙТЕ ИХ НА СВОЙ СТРАХ И РИСК.\n"
+msgstr "ПРЕДУСТАНОВКИ РАЗГОНА \"ТУРБО\" И \"ЭКСТРИМ\" МОГУТ ВЫЗВАТЬ НЕСТАБИЛЬНОСТЬ СИСТЕМЫ, ИСПОЛЬЗУЙТЕ ИХ НА СВОЙ СТРАХ И РИСК.\n"
 "ЕСЛИ ВЫ ПРОДОЛЖИТЕ, СИСТЕМА БУДЕТ СЕЙЧАС ПЕРЕЗАГРУЖЕНА."
 
 #: 
@@ -1180,7 +1180,7 @@ msgstr "Автосохранение игры игры при выключени
 
 #: 
 msgid "Integer scaling is scaling by a factor of a whole number, such as 2x, 3x, 4x, etc. This option scales the image up to the greatest integer scale below the set resolution. So for instance, if you set your fullscreen resolution to 1920x1080 and enable integer scaling, it will only scale a 320x240 image up to 1280x960, and leave black borders all around. This is to maintain a 1:1 pixel ratio with the original source image, so that pixels are not unevenly duplicated."
-msgstr "Целочисленное масштабирование является масштабированием с коэффициентом в виде целого числа, таким как 2x, 3x, 4x и т.д. Этот параметр масштабирует изображение до наибольшего целочисленного масштаба не превышающего установленного разрешения. Так, например, если вы установите полноэкранное разрешение в 1920x1080 и включите целочисленное масштабирование, то оно будет масштабировать изображение 320x240 до 1280x960 и оставит вокруг черные поля. Это необходимо для сохранения соотношения 1:1 с исходным исходным изображением, чтобы пиксели не дублировались неравномерно."
+msgstr "Целочисленное масштабирование является масштабированием с коэффициентом в виде целого числа, таким как 2x, 3x, 4x и т. д. Этот параметр масштабирует изображение до наибольшего целочисленного масштаба не превышающего установленного разрешения. Так, например, если вы установите полноэкранное разрешение в 1920x1080 и включите целочисленное масштабирование, то оно будет масштабировать изображение 320x240 до 1280x960 и оставит вокруг черные поля. Это необходимо для сохранения соотношения 1:1 с оригинальным исходным изображением, чтобы пиксели не дублировались неравномерно."
 
 #: 
 msgid "Shaders are like filters for the game rendering. You can select a shader set here, which is a collection of shaders selected for each system. You can also change the shader within the game with HOTKEY + L2 or HOTKEY + R2."
@@ -1204,11 +1204,11 @@ msgstr "Добавить и настроить до 5 контроллеров."
 
 #: 
 msgid "Pair a bluetooth controller with your recalbox. Your controller must be in pairing mode."
-msgstr "Сопряжение bluetooth котроллера с recalbox. Ваш контроллер должен находиться в режиме сопряжения."
+msgstr "Сопряжение bluetooth-котроллера с recalbox. Ваш контроллер должен находиться в режиме сопряжения."
 
 #: 
 msgid "Forget all paired bluetooth controllers. You will have to pair your controllers again, but this option can help if you have issues to reconnect a controller, which is already paired."
-msgstr "Удаление всех сопряженных bluetooth контроллеров. В результате вам будет необходимо заново выполнить сопряжение ваших контроллеров, но данная опция может помочь при возникновении проблем с подключением уже сопряженного контроллера."
+msgstr "Удаление всех сопряженных bluetooth-контроллеров. В результате вам будет необходимо заново выполнить сопряжение ваших контроллеров, но данная опция может помочь при возникновении проблем с подключением уже сопряженного контроллера."
 
 #: 
 msgid "Configure your EmulationStation experience. Select transition types, help prompts, screensaver behavior. You can also deactivate the onscreen keyboard if you have a real keyboard plugged into your recalbox.\n"
@@ -1254,7 +1254,7 @@ msgstr "Установка громкости звуков интерфейса 
 
 #: 
 msgid "Enable or disable the frontend music. You can add your own music as mp3, or ogg format in the 'musics' directory of your recalbox."
-msgstr "Включение и выключение музыки интерфейса. Вы можете добавить собственную музыку в каталог «musics» (в формате MP3 или OGG)."
+msgstr "Включение и выключение музыки интерфейса. Вы можете добавить собственную музыку в каталог «music» (в формате MP3 или OGG)."
 
 #: 
 msgid "Select your output device. Only HDMI and JACK are supported."
@@ -1400,7 +1400,7 @@ msgstr "Включить или отключить менеджер recalbox.\n"
 msgid "Enable or disable the recalbox API.\n"
 "The Recalbox API is a REST API exposing endpoints to control your recalbox via http requests."
 msgstr "Включение и выключение recalbox API.\n"
-"Recalbox API это REST API позволяющее контролировать вашу систему при помощи http запросов."
+"Recalbox API это REST API позволяющее контролировать вашу систему при помощи http-запросов."
 
 #: 
 msgid "Select which emulator to use when you start a game for this system."
@@ -1456,7 +1456,7 @@ msgstr "РАСШИРЕННАЯ КОНФИГУРАЦИЯ ЭМУЛЯТОРА"
 
 #: 
 msgid "ADVANCED EMULATOR CONFIGURATION"
-msgstr "КОНФИГУРАЦИИ ДОПОЛНИТЕЛЬНОГО ЭМУЛЯТОРА"
+msgstr "РАСШИРЕННАЯ КОНФИГУРАЦИЯ ЭМУЛЯТОРА"
 
 #: 
 msgid "HELP"
@@ -1658,7 +1658,7 @@ msgstr "\"ВВЕРХ/ВНИЗ\" - ПРОПУСТИТЬ И ОСТАВИТЬ [%1%]
 
 #: 
 msgid "Set duration of help popups, 0 means no popup."
-msgstr "Настройка задержки справочных pop-up. 0 - popup выключены"
+msgstr "Настройка задержки справочных pop-up. 0 - pop-up выключены"
 
 #: 
 msgid "HELP POPUP DURATION"
@@ -1774,7 +1774,7 @@ msgstr "Только пропущенные хэши"
 
 #: 
 msgid "Username"
-msgstr "Имя пользователя"
+msgstr "Никнейм"
 
 #: 
 msgid "Country"
@@ -1782,11 +1782,11 @@ msgstr "Страна"
 
 #: 
 msgid "Latency"
-msgstr "Задержка"
+msgstr "Пинг"
 
 #: 
 msgid "Host arch."
-msgstr "Платформа хоста"
+msgstr "Платформа"
 
 #: 
 msgid "Core ver."
@@ -1799,7 +1799,7 @@ msgstr "Версия RA"
 
 #: 
 msgid "Can join"
-msgstr "Можно присоединиться"
+msgstr "Можно играть"
 
 #: 
 #, fuzzy
@@ -1808,7 +1808,7 @@ msgstr "Ром и ядро совпадают"
 
 #: 
 msgid "Rom found"
-msgstr "Rom найден"
+msgstr "Ром найден"
 
 #: 
 #, fuzzy
@@ -1827,7 +1827,7 @@ msgstr "Не совпадает"
 
 #: 
 msgid "Rom file"
-msgstr "Rom-файл"
+msgstr "Ром-файл"
 
 #: 
 msgid "Rom hash"
@@ -1835,17 +1835,17 @@ msgstr "Хэш рома"
 
 #: 
 msgid "THIS COULD TAKE A WHILE, CONFIRM?"
-msgstr "ЭТО МОЖЕТ ЗАНЯТЬ ВРЕМЯ, ПОДТВЕРЖДАЕТЕ?"
+msgstr "ЭТО МОЖЕТ ЗАНЯТЬ ВРЕМЯ, ВЫ УВЕРЕНЫ?"
 
 #: 
 #, fuzzy
 msgid "good"
-msgstr "хороший"
+msgstr "низкий"
 
 #: 
 #, fuzzy
 msgid "bad"
-msgstr "плохой"
+msgstr "высокий"
 
 #: 
 #, fuzzy
@@ -1854,11 +1854,11 @@ msgstr "средний"
 
 #: 
 msgid "NETPLAY POPUP DURATION"
-msgstr "ЗАДЕРЖКА POPUP-А СЕТЕВОЙ ИГРЫ"
+msgstr "ЗАДЕРЖКА POP-UP СЕТЕВОЙ ИГРЫ"
 
 #: 
 msgid "Set duration of netplay popups, 0 means no popup."
-msgstr "Задать задержку popup-ов сетевой игры. 0 - для отключения."
+msgstr "Задать задержку pop-up сетевой игры. 0 - для отключения."
 
 #: 
 msgid "Player"
@@ -1874,17 +1874,82 @@ msgstr "Друг по Recalbox запустил сетевую игру!"
 
 #: 
 msgid "Play online on games running through Retroarch like NES, SNES, FBA, Genesis/Megadrive and more!"
-msgstr "Онлайн-игра "
+msgstr "Играйте онлайн в игры от консолей NES, SNES, FBA, Genesis/Megadrive и других, запускаемых на Retroarch!"
 
 #: 
+#, fuzzy
 msgid "Rom, hash and core match"
-msgstr ""
+msgstr "Ром, хэш и ядро совпадают"
 
 #: 
+#, fuzzy
 msgid "No core match"
-msgstr ""
+msgstr "Ядро не совпадает"
 
 #: 
 msgid "Add a clock in the main menu."
-msgstr ""
+msgstr "Добавить часы в главное меню"
+
+#. UPGRADE PROCESS
+#: 
+msgid "UPGRADING"
+msgstr "ОБНОВЛЕНИЕ"
+
+#: 
+msgid "PREPARING"
+msgstr "ПОДГОТОВКА"
+
+#: 
+msgid "VERIFYING"
+msgstr "ПРОВЕРКА"
+
+#: 
+msgid "PRESS TWICE TO QUIT GAME"
+msgstr "НАЖМИТЕ ДВАЖДЫ ДЛЯ ВЫХОДА ИЗ ИГРЫ"
+
+#: 
+msgid "Press twice the buttons to end the game and go back to main menu."
+msgstr "Нажмите кнопку дважды, чтобы завершить игру и вернуться в главное меню."
+
+#: 
+msgid "Configure screensaver"
+msgstr "Настроить заставку"
+
+#: 
+msgid "Set the screensaver behavior. DIM will reduce the screen light, BLACK will turn the screen black, DEMO will launch demo mode."
+msgstr "Установите поведение заставки. DIM затеняет экран, BLACK делает экран черным, DEMO запускает демо-режим."
+
+#: 
+msgid "EMPTY LIST"
+msgstr "ПУСТОЙ СПИСОК"
+
+#: Retroarch ratio
+msgid "Auto"
+msgstr "Авто"
+
+#: 
+msgid "Square pixel"
+msgstr "Квадратный пиксель"
+
+#: 
+msgid "Retroarch Config"
+msgstr "Конфигурация Retroarch"
+
+#: 
+msgid "Retroarch Custom"
+msgstr "Кастомизация Retroarch"
+
+#: 
+msgid "Core provided"
+msgstr "Ядро предоставлено"
+
+#: 
+msgid "Do not set"
+msgstr "Не устанавливать"
+
+#: 
+msgid "Copy current system on another device.\n"
+"Warning ! It will erase all data on target device."
+msgstr "Скопируйте текущую систему на другое устройство.\n"
+"Внимание! Это сотрет все данные на целевом устройстве."
 

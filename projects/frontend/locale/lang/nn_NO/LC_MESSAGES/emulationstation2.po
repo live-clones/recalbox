@@ -1143,11 +1143,11 @@ msgstr ""
 
 #: 
 msgid "Smooth the game image. This option makes the image smoother, using bilinear filtering."
-msgstr ""
+msgstr "Jevne ut spill bildet. Dette alternativet jevner ut bildet ved å bruke binære filtrere."
 
 #: 
 msgid "This option allows you to rewind the game if you get killed by a monster, or if you make any other mistake. Use the HOTKEY + LEFT command within the game to rewind."
-msgstr ""
+msgstr "Dette alternativet lar deg spole tilbake spillet hvis du blir drept av et monster, eller du har gjort noen feil. Bruk HURTIGTAST + VENSTRE kommando i spillet for å spole tilbake."
 
 #: 
 msgid "Auto save the state when you quit a game, and auto load last saved state when you start a game."
@@ -1196,15 +1196,15 @@ msgstr "Start skjermsparer etter X minutter."
 
 #: 
 msgid "Set the screensaver behavior. DIM will reduce the screen light, and BLACK will turn the screen black."
-msgstr ""
+msgstr "Sett skjermsparer oppførsel. DIM vil redusere skjermens lys, og SVART vil gjøre skjermen svart."
 
 #: 
 msgid "Shows a help at the bottom of the screen which displays commands you can use."
-msgstr ""
+msgstr "Viser hjelp på bunnen av skjermen med kommandoer du kan bruke."
 
 #: 
 msgid "When enabled, you can switch between systems while browsing a gamelist by pressing LEFT or RIGHT."
-msgstr ""
+msgstr "Når aktivert, da kan du bytte mellom systemer mens man leter gjennom en spilleliste ved å trykke VENSTRE eller HØYRE."
 
 #: 
 msgid "The onscreen keyboard is necessary to type text if you only have controllers plugged into your recalbox. You can disable it if you have a real keyboard connected."
@@ -1838,5 +1838,67 @@ msgstr ""
 
 #: 
 msgid "Add a clock in the main menu."
+msgstr ""
+
+#. UPGRADE PROCESS
+#: 
+msgid "UPGRADING"
+msgstr ""
+
+#: 
+msgid "PREPARING"
+msgstr ""
+
+#: 
+msgid "VERIFYING"
+msgstr ""
+
+#: 
+msgid "PRESS TWICE TO QUIT GAME"
+msgstr ""
+
+#: 
+msgid "Press twice the buttons to end the game and go back to main menu."
+msgstr ""
+
+#: 
+msgid "Configure screensaver"
+msgstr ""
+
+#: 
+msgid "Set the screensaver behavior. DIM will reduce the screen light, BLACK will turn the screen black, DEMO will launch demo mode."
+msgstr ""
+
+#: 
+msgid "EMPTY LIST"
+msgstr ""
+
+#: Retroarch ratio
+msgid "Auto"
+msgstr ""
+
+#: 
+msgid "Square pixel"
+msgstr ""
+
+#: 
+msgid "Retroarch Config"
+msgstr ""
+
+#: 
+msgid "Retroarch Custom"
+msgstr ""
+
+#: 
+msgid "Core provided"
+msgstr ""
+
+#: 
+msgid "Do not set"
+msgstr ""
+
+#: 
+msgid "Copy current system on another device.\n"
+"Warning ! It will erase all data on target device."
 msgstr ""
 

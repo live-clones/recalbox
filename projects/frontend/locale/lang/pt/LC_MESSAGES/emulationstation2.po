@@ -168,9 +168,10 @@ msgstr "MENU PRINCIPAL"
 msgid "KODI MEDIA CENTER"
 msgstr "KODI MEDIA CENTER"
 
+#. "SETTINGS" have 2 different translations here. Let's make a standard to "Configurações", and not "Opções". "Opções" translate better to Options than Settings.
 #: 
 msgid "SYSTEM SETTINGS"
-msgstr "OPÇÕES DE SISTEMA"
+msgstr "CONFIGURAÇÕES DE SISTEMA"
 
 #: 
 msgid "VERSION"
@@ -241,9 +242,10 @@ msgstr "ATUALIZAÇÕES AUTOMÁTICAS"
 msgid "START UPDATE"
 msgstr "INICIAR ATUALIZAÇÃO"
 
+#. "SETTINGS" have 2 different translations here. Let's make a standard to "Configurações", and not "Opções". "Opções" translate better to Options than Settings.
 #: 
 msgid "KODI SETTINGS"
-msgstr "OPÇÕES DO KODI"
+msgstr "CONFIGURAÇÕES DO KODI"
 
 #: 
 msgid "ENABLE KODI"
@@ -273,9 +275,10 @@ msgstr "SENHA ROOT"
 msgid "THE SYSTEM WILL NOW REBOOT"
 msgstr "O SISTEMA SERÁ REINICIADO"
 
+#. "SETTINGS" have 2 different translations here. Let's make a standard to "Configurações", and not "Opções". "Opções" translate better to Options than Settings.
 #: 
 msgid "GAMES SETTINGS"
-msgstr "OPÇÕES DE JOGOS"
+msgstr "CONFIGURAÇÕES DOS JOGOS"
 
 #: 
 msgid "GAME RATIO"
@@ -306,9 +309,10 @@ msgstr "SCANLINES"
 msgid "RETRO"
 msgstr "RETRO"
 
+#. "SETTINGS" have 2 different translations here. Let's make a standard to "Configurações", and not "Opções". "Opções" translate better to Options than Settings.
 #: 
 msgid "RETROACHIEVEMENTS SETTINGS"
-msgstr "OPÇÕES DE RETROACHIEVEMENTS"
+msgstr "CONFIGURAÇÕES DO RETROACHIEVEMENTS"
 
 #: 
 msgid "RETROACHIEVEMENTS"
@@ -338,13 +342,15 @@ msgstr "DESEJA ATUALIZAR AS LISTAS DE JOGOS?"
 msgid "UPDATE GAMES LISTS"
 msgstr "ATUALIZAR LISTAS DE JOGOS"
 
+#. "SETTINGS" have 2 different translations here. Let's make a standard to "Configurações", and not "Opções". "Opções" translate better to Options than Settings.
 #: 
 msgid "CONTROLLERS SETTINGS"
-msgstr "OPÇÕES DE CONTROLES"
+msgstr "CONFIGURAÇÕES DOS CONTROLES"
 
+#. "SETTINGS" have 2 different translations here. Let's make a standard to "Configurações", and not "Opções". "Opções" translate better to Options than Settings.
 #: 
 msgid "UI SETTINGS"
-msgstr "OPÇÕES DA INTERFACE"
+msgstr "CONFIGURAÇÕES DA INTERFACE"
 
 #: 
 msgid "OVERSCAN"
@@ -378,9 +384,10 @@ msgstr "SELEÇÃO RÁPIDA DE SISTEMA"
 msgid "THEME SET"
 msgstr "TEMA"
 
+#. "SETTINGS" have 2 different translations here. Let's make a standard to "Configurações", and not "Opções". "Opções" translate better to Options than Settings.
 #: 
 msgid "SOUND SETTINGS"
-msgstr "OPÇÕES DE ÁUDIO"
+msgstr "CONFIGURAÇÕES DE ÁUDIO"
 
 #: 
 msgid "SYSTEM VOLUME"
@@ -406,9 +413,10 @@ msgstr "P2 / RCA"
 msgid "AUTO"
 msgstr "AUTOMÁTICO"
 
+#. "SETTINGS" have 2 different translations here. Let's make a standard to "Configurações", and not "Opções". "Opções" translate better to Options than Settings.
 #: 
 msgid "NETWORK SETTINGS"
-msgstr "OPÇÕES DE REDE"
+msgstr "CONFIGURAÇÕES DE REDE"
 
 #: 
 msgid "CONNECTED"
@@ -566,9 +574,10 @@ msgstr "ORDENAR JOGOS POR"
 msgid "FAVORITES ONLY"
 msgstr "SOMENTE FAVORITOS"
 
+#. "DESTE JOGO" parece melhor do que "do jogo" de forma genérica, já que estamos referenciando um objeto/jogo que está selecionado no momento.
 #: 
 msgid "EDIT THIS GAME'S METADATA"
-msgstr "EDITAR AS INFORMAÇÕES DO JOGO"
+msgstr "EDITAR INFORMAÇÕES DESTE JOGO"
 
 #: 
 msgid "SCRAPE THESE GAMES"
@@ -581,7 +590,7 @@ msgstr "Todos os jogos"
 #. MISSING SCRAPPER TRANSLATIONS
 #: 
 msgid "Only missing image"
-msgstr "Somente imagens faltantes"
+msgstr "Somente imagens ausentes"
 
 #: 
 msgid "FILTER"
@@ -1255,7 +1264,7 @@ msgstr "Configura as opções de rede do seu recalbox. Verifica o estado da sua 
 
 #: 
 msgid "Displays CONNECTED, if you are connected, by checking if your recalbox can access the recalbox.com update server."
-msgstr "Exibi CONECTADO, caso você esteja conectado, verificando se seu recalbox consegue acessar o servidor de atualização recalbox.com."
+msgstr "Exibe CONECTADO, caso você esteja conectado, verificando se seu recalbox consegue acessar o servidor de atualização recalbox.com."
 
 #: 
 msgid "The IP address of your recalbox within your local network."
@@ -1284,9 +1293,10 @@ msgstr "Senha da sua rede WIFI."
 msgid "Get informations and visual for your games. The scraper downloads metadata and visuals for your games from different servers and enhances the user experience in EmulationStation completely."
 msgstr "Obtém informações e imagens para seus jogos. O banco de dados baixa metadados e imagens para seus jogos de diferentes servidores melhorando completamente a experiência do usuário no EmulationStation."
 
+#. Pequenas correções: "Um servidor"(artigo definido), e "language" foi editado para idioma e não língua, já que usamos idioma no restante das traduções :) "Selecione" também foi usado para manter o padrão da tradução.
 #: 
 msgid "Select a server to scrape from. The SCREENSCRAPER server is recommended and is based on www.screenscraper.fr and scrapes game data in your language, if available."
-msgstr "Seleciona o servidor para encontrar os dados dos jogos. O servidor SCREENSCRAPER é recomendado e está hospedado no site www.screenscraper.fr. Os dados dos jogos serão obtidos na sua língua, caso esteja disponível."
+msgstr "Selecione um servidor para buscar dados dos jogos. O servidor SCREENSCRAPER é recomendado e está hospedado em www.screenscraper.fr. Os dados dos jogos serão obtidos no seu idioma caso esteja disponível."
 
 #: 
 msgid "Begin the scrape process with the configuration shown below."
@@ -1600,9 +1610,10 @@ msgstr "Esta opção exibe um menu que permite alterações nos dados do jogo e 
 msgid "AVAILABLE UPDATE"
 msgstr "ATUALIZAÇÃO DISPONÍVEL"
 
+#. Mantendo as strings "UPDATE CHANGELOG" alinhadas e com o mesmo texto.
 #: 
 msgid "UPDATE CHANGELOG"
-msgstr "ALTERAÇÕES DA ATUALIZAÇÃO"
+msgstr "MUDANÇAS DA ATUALIZAÇÃO"
 
 #: 
 msgid "CLOCK IN MENU"
@@ -1865,4 +1876,66 @@ msgstr "Nenhum núcleo coincide"
 #: 
 msgid "Add a clock in the main menu."
 msgstr "Adicionar relógio no menu"
+
+#. UPGRADE PROCESS
+#: 
+msgid "UPGRADING"
+msgstr "ATUALIZANDO"
+
+#: 
+msgid "PREPARING"
+msgstr "PREPARANDO"
+
+#: 
+msgid "VERIFYING"
+msgstr "VERIFICANDO"
+
+#: 
+msgid "PRESS TWICE TO QUIT GAME"
+msgstr ""
+
+#: 
+msgid "Press twice the buttons to end the game and go back to main menu."
+msgstr ""
+
+#: 
+msgid "Configure screensaver"
+msgstr ""
+
+#: 
+msgid "Set the screensaver behavior. DIM will reduce the screen light, BLACK will turn the screen black, DEMO will launch demo mode."
+msgstr ""
+
+#: 
+msgid "EMPTY LIST"
+msgstr ""
+
+#: Retroarch ratio
+msgid "Auto"
+msgstr ""
+
+#: 
+msgid "Square pixel"
+msgstr ""
+
+#: 
+msgid "Retroarch Config"
+msgstr ""
+
+#: 
+msgid "Retroarch Custom"
+msgstr ""
+
+#: 
+msgid "Core provided"
+msgstr ""
+
+#: 
+msgid "Do not set"
+msgstr ""
+
+#: 
+msgid "Copy current system on another device.\n"
+"Warning ! It will erase all data on target device."
+msgstr ""
 

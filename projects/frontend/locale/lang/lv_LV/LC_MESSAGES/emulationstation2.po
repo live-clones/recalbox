@@ -723,11 +723,11 @@ msgstr "Ievadiet reģionu"
 
 #: 
 msgid "Romtype"
-msgstr "Lasāmatmiņas tips"
+msgstr "Lasāmatmiņas datnes tips"
 
 #: 
 msgid "enter romtype"
-msgstr "Ievadiet lasāmatmiņas tipu"
+msgstr "Ievadiet lasāmatmiņas datnes tipu"
 
 #: 
 msgid "Hidden"
@@ -1460,405 +1460,467 @@ msgstr "PAMATA SARAKSTA SKATS"
 
 #: 
 msgid "DOWNLOADED"
-msgstr ""
+msgstr "LEJUPIELĀDĒT"
 
 #: 
 msgid "UPDATE VERSION:"
-msgstr ""
+msgstr "ATJAUNINĀT VERSIJU:"
 
 #: 
 msgid "UPDATE CHANGELOG:"
-msgstr ""
+msgstr "ATJAUNINĀT IZMAIŅU SARAKSTU:"
 
 #: 
 msgid "MORE DETAILS"
-msgstr ""
+msgstr "SĪKĀKA INFORMĀCIJA"
 
 #: 
 msgid "CAROUSEL ANIMATION"
-msgstr ""
+msgstr "KARUSEĻU ANIMĀCIJA"
 
 #: 
 msgid "THEME CONFIGURATION"
-msgstr ""
+msgstr "DIZAINA KONFIGURĀCIJA"
 
 #: 
 msgid "THEME COLORSET"
-msgstr ""
+msgstr "DIZAINA KRĀSAS"
 
 #: 
 msgid "THEME ICONSET"
-msgstr ""
+msgstr "DIZAINA IKONAS"
 
 #: 
 msgid "THEME MENU"
-msgstr ""
+msgstr "DIZAINA IZVĒLNE"
 
 #: 
 msgid "THEME SYSTEMVIEW"
-msgstr ""
+msgstr "PLATFORMU SARAKSTS"
 
 #: 
 msgid "THEME GAMELISTVIEW"
-msgstr ""
+msgstr "SPĒĻU SARAKSTS"
 
 #: 
 msgid "THEME REGION"
-msgstr ""
+msgstr "REĢIONS"
 
 #: 
 msgid "THIS THEME HAS NO OPTION"
-msgstr ""
+msgstr "ŠAI TĒMAI NAV PARAMETRU"
 
 #: 
 msgid "MANUAL INPUT"
-msgstr ""
+msgstr "MANUĀLA IEVADE"
 
 #: 
 msgid "AN ERROR OCCURED - DOWNLOADED"
-msgstr ""
+msgstr "NOTIKUSI KĻŪDA - LEJUPIELĀDĒTS"
 
 #: 
 msgid "START KODI"
-msgstr ""
+msgstr "SĀKT KODI"
 
 #: 
 msgid "Shows the current available update version."
-msgstr ""
+msgstr "Parāda pašreizējo pieejamo atjaunināšanas versiju."
 
 #: 
 msgid "Shows the current available update changelog."
-msgstr ""
+msgstr "Parāda pašreizējo pieejamo atjaunināšanas izmaiņu žurnālu."
 
 #: 
 msgid "Configure an associated controller. Your controller has to be associated / plugged before."
-msgstr ""
+msgstr "Konfigurēt saistītu kontrolleri. Kontrolleris ir jāsaista/jāpievieno iepriekš."
 
 #: 
 msgid "Choose if carousel will be animated or not during transitions"
-msgstr ""
+msgstr "Izvēlieties, vai karuselis pārejas laikā tiks vai netiks animēts"
 
 #: 
 msgid "Select the type of transition that occurs when you start a game. INSTANT will do nothing, FADE will fade to dark, and SLIDE will zoom on the game cover (or name if there is no scrape information)"
-msgstr ""
+msgstr "Atlasiet pārejas tipu, kad tiek startēta spēle. INSTANT nav pārejas. FADE - aptumšošana, SLIDE - spēles vāka tālummaiņa (vai virsraksts, ja nav vāka)"
 
 #: 
 msgid "Select exisiting colorset options for this theme."
-msgstr ""
+msgstr "Izvēlēties dizaina krāsu shēmu."
 
 #: 
 msgid "Select exisiting iconset options for this theme."
-msgstr ""
+msgstr "Atlasiet tēmas ikonu kopu."
 
 #: 
 msgid "Select exisiting menu style options for this theme."
-msgstr ""
+msgstr "Izvēlēties tēmas izvēlnes stilu."
 
 #: 
 msgid "Select exisiting system view options for this theme."
-msgstr ""
+msgstr "Izvēlēties dizaina platformu saraksta veidu."
 
 #: 
 msgid "Select exisiting gamelist view options for this theme."
-msgstr ""
+msgstr "Izvēlēties, kāda veida spēļu saraksts tiek izmantots tēmai."
 
 #: 
 msgid "Configure theme options if available."
-msgstr ""
+msgstr "Iestatīt dizainu, ja tas ir pieejams"
 
 #: 
 msgid "Select Region of logos, pictures for system that are different for some countries. E.g. Megadrive in EU / Genesis in US"
-msgstr ""
+msgstr "Izvēlieties reģiona logo pirmkārt platformām, kuras atšķiras dažādās valstīs. Piemēram Mega Drive Eiropā, bet Genesis US."
 
 #: 
 msgid "Type the name of your SSID if it is hidden or not listed"
-msgstr ""
+msgstr "Ievadiet SSID, ja tas ir paslēpts vai nav sarakstā"
 
 #: 
 msgid "Select a letter and the listing will go directly on the first game starting with this letter."
-msgstr ""
+msgstr "Atlasiet burtu un saraksts tiks pārvietots tieši uz pirmo spēli, kas sākas ar šo burtu."
 
 #: 
 msgid "Select the way the game list is sortered (alphabetically, by notation...)."
-msgstr ""
+msgstr "Izvēlieties, kā sakārtot spēļu sarakstu (alfabētiskajā secībā, pēc apraksta...)."
 
 #: 
 msgid "Switch between seing or not only the favorites games. To add a game in the favorite list, select the game and toggle its state using 'Y'."
-msgstr ""
+msgstr "Pārslēgt visu sarakstu vai tikai izlasi. Lai pievienotu/noņemtu spēli, izmantojiet 'Y'."
 
 #: 
 msgid "Switch between seing or not the hidden games. To hide a game, edit its data and select 'Hide'."
-msgstr ""
+msgstr "Pārslēgt slēptās spēles. Lai paslēptu spēli, rediģējiet tās datus un noklikšķiniet uz Paslēpt."
 
 #: 
 msgid "This option display a menu which allows to change game data and many others options."
-msgstr ""
+msgstr "Šī opcija parāda izvēlni, kas ļauj mainīt spēles datus un daudzas citas opcijas."
 
 #: 
 msgid "AVAILABLE UPDATE"
-msgstr ""
+msgstr "PIEEJAMS ATJAUNINĀJUMS"
 
 #: 
 msgid "UPDATE CHANGELOG"
-msgstr ""
+msgstr "ATJAUNINĀJUMA IZMAIŅU SARAKSTU"
 
 #: 
 msgid "CLOCK IN MENU"
-msgstr ""
+msgstr "PULKSTENIS IZVĒLNĒ"
 
 #: 
 msgid "Now playing"
-msgstr ""
+msgstr "Tagad spēlēt"
 
 #: 
 msgid "DEFAULT (%1%)"
-msgstr ""
+msgstr "NOKLUSĒJUMS (%1%)"
 
 #: 
 msgid "INPUT REQUIRED"
-msgstr ""
+msgstr "NEPIECIEŠAMA IEVADE"
 
 #: 
 msgid "(skipped)"
-msgstr ""
+msgstr "(izlaist)"
 
 #: 
 msgid "UP/DOWN TO SKIP"
-msgstr ""
+msgstr "\"LEJĀ/AUGŠĀ\" - LAI IZLAISTU"
 
 #: 
 msgid "A TO UNSET"
-msgstr ""
+msgstr "\"A\" - ATMEST"
 
 #: 
 msgid "DOWN TO SKIP AND KEEP [%1%]"
-msgstr ""
+msgstr "\"LEJĀ\" - LAI IZLAISTU UN APSTĀDINĀTU [%1%]"
 
 #: 
 msgid "UP/DOWN TO SKIP AND KEEP [%1%]"
-msgstr ""
+msgstr "\"LEJĀ/AUGŠĀ\" - LAI IZLAISTU UN APSTĀDINĀTU [%1%]"
 
 #: 
 msgid "Set duration of help popups, 0 means no popup."
-msgstr ""
+msgstr "Iestatīt palīdzības uznirstošā loga aizkavi. 0 - uznirstošais logs ir izslēgts"
 
 #: 
 msgid "HELP POPUP DURATION"
-msgstr ""
+msgstr "AIZKAVE PALĪDZĪBAS UZNIRSTOŠAM LOGAM"
 
 #: 
 msgid "Set duration of music popups, 0 means no popup."
-msgstr ""
+msgstr "Iestatīt mūzikas uznirstošā loga aizkavi. 0 - uznirstošais logs ir izslēgts"
 
 #: 
 msgid "MUSIC POPUP DURATION"
-msgstr ""
+msgstr "MŪZIKAS UZNIRSTOŠĀ LOGA AIZKAVE"
 
 #: 
 msgid "POPUP SETTINGS"
-msgstr ""
+msgstr "UZNIRSTOŠĀ LOGA PARAMETRI"
 
 #: 
 msgid "POPUP POSITION"
-msgstr ""
+msgstr "UZNIRSTOŠĀ LOGA POZĪCIJA"
 
 #: 
 msgid "Select the position of popups on screen."
-msgstr ""
+msgstr "izvēlēties uznirstošā loga pozīciju uz ekrāna"
 
 #: 
 msgid "Set position and duration of popups."
-msgstr ""
+msgstr "Iestatīt pozīciju un aizkavi uznirstošam logam"
 
 #: 
 msgid "TOP/RIGHT"
-msgstr ""
+msgstr "AUGŠĀ PA LABI"
 
 #: 
 msgid "BOTTOM/RIGHT"
-msgstr ""
+msgstr "APAKŠĀ PA LABI"
 
 #: 
 msgid "BOTTOM/LEFT"
-msgstr ""
+msgstr "APAKŠĀ PA KREISI"
 
 #: 
 msgid "TOP/LEFT"
-msgstr ""
+msgstr "AUGŠĀ PA KREISI"
 
 #: 
 msgid "SHOW FOLDERS CONTENT"
-msgstr ""
+msgstr "RĀDĪT MAPJU SATURU"
 
 #: 
 msgid "Switch between seeing the folders structure and seeing all games in a flatten top level."
-msgstr ""
+msgstr "Pārslēgties starp priekšskatījumu kā mapju struktūras un vienkāršu koplietojamu spēļu sarakstu."
 
 #: 
 msgid "NETPLAY"
-msgstr ""
+msgstr "TĪKLA SPĒLE"
 
 #: 
 msgid "NETPLAY SETTINGS"
-msgstr ""
+msgstr "TĪKLA SPĒLES PARAMETRI"
 
 #: 
 msgid "NETPLAY LOBBY"
-msgstr ""
+msgstr "TĪKLA SPĒĻU LOBIJS"
 
 #: 
 msgid "Enable or disable Netplay in games."
-msgstr ""
+msgstr "Ieslēgt/izslēgt tīkla spēli"
 
 #: 
 msgid "PORT"
-msgstr ""
+msgstr "PORTS"
 
 #: 
 msgid "NICKNAME"
-msgstr ""
+msgstr "IESAUKA"
 
 #: 
 msgid "RELAY SERVER"
-msgstr ""
+msgstr "STARPNIEKSERVERIS"
 
 #: 
 msgid "Enable or disable connections throught relay servers."
-msgstr ""
+msgstr "Ieslēgt/Izslēgt savienojumu ar starpniekserveri"
 
 #: 
 msgid "KODI/NETPLAY"
-msgstr ""
+msgstr "KODI/TĪKLA SPĒLE"
 
 #: 
 msgid "NO GAMES OR NO CONNECTION"
-msgstr ""
+msgstr "NAV SPĒLES VAI SAVIENOJUMS"
 
 #: 
 msgid "HASH NOW"
-msgstr ""
+msgstr "LEJUPIELĀDĒT TŪLĪT"
 
 #: 
 msgid "HASH THESE SYSTEMS"
-msgstr ""
+msgstr "LEJUPIELĀDĒT ŠĪS SISTĒMAS"
 
 #: 
 msgid "Add hash of roms in your gamelists to have more accurate results in Netplay."
-msgstr ""
+msgstr "Pievienojiet spēļu jaucējsummas savam spēļu sarakstam, lai iegūtu precīzākus meklēšanas rezultātus tīkla spēlēm."
 
 #: 
 msgid "HASH ROMS"
-msgstr ""
+msgstr "LEJUPIELĀDĒT LASĀMATMIŅAS DATNES"
 
 #: 
 msgid "Only missing hashs"
-msgstr ""
+msgstr "Tikai izlaistās jaucējsummas."
 
 #: 
 msgid "Username"
-msgstr ""
+msgstr "Lietotājvārds"
 
 #: 
 msgid "Country"
-msgstr ""
+msgstr "Valsts"
 
 #: 
 msgid "Latency"
-msgstr ""
+msgstr "Latentums"
 
 #: 
 msgid "Host arch."
-msgstr ""
+msgstr "Platforma"
 
 #: 
 msgid "Core ver."
-msgstr ""
+msgstr "Kodola versija"
 
 #: 
 msgid "RA ver."
-msgstr ""
+msgstr "RA versija"
 
 #: 
 msgid "Can join"
-msgstr ""
+msgstr "Var spēlēt"
 
 #: 
 msgid "Rom and core match"
-msgstr ""
+msgstr "Lasāmatmiņas datne un kodols sakrīt"
 
 #: 
 msgid "Rom found"
-msgstr ""
+msgstr "Lasāmatmiņas datne atrasta"
 
 #: 
 msgid "No rom match"
-msgstr ""
+msgstr "Lasāmatmiņas datne nesakrīt"
 
 #: 
 msgid "Match"
-msgstr ""
+msgstr "Sakrīt"
 
 #: 
 msgid "No Match"
-msgstr ""
+msgstr "Nesakrīt"
 
 #: 
 msgid "Rom file"
-msgstr ""
+msgstr "Lasāmatmiņas datne"
 
 #: 
 msgid "Rom hash"
-msgstr ""
+msgstr "Lasāmatmiņas datnes jaucējsumma"
 
 #: 
 msgid "THIS COULD TAKE A WHILE, CONFIRM?"
-msgstr ""
+msgstr "APSTIPRINIET JO TAS VAR AIZŅEMT LAIKU!"
 
 #: 
 msgid "good"
-msgstr ""
+msgstr "labi"
 
 #: 
 msgid "bad"
-msgstr ""
+msgstr "slikti"
 
 #: 
 msgid "medium"
-msgstr ""
+msgstr "vidēji"
 
 #: 
 msgid "NETPLAY POPUP DURATION"
-msgstr ""
+msgstr "AIZKAVE TĪKLA SPĒLES UZNIRSTOŠAM LOGAM"
 
 #: 
 msgid "Set duration of netplay popups, 0 means no popup."
-msgstr ""
+msgstr "Iestatīt tīkla spēles uznirstošā loga aizkavi. 0 - uznirstošais logs ir izslēgts"
 
 #: 
 msgid "Player"
-msgstr ""
+msgstr "Spēlētājs"
 
 #: 
 msgid "Game"
-msgstr ""
+msgstr "Spēle"
 
 #: 
 msgid "A Recalbox friend has started a Netplay game!"
-msgstr ""
+msgstr "Draugs uzsāka tīkla spēli!"
 
 #: 
 msgid "Play online on games running through Retroarch like NES, SNES, FBA, Genesis/Megadrive and more!"
-msgstr ""
+msgstr "Spēlējiet  NES, SNES, FBA, Genesis / Megadrive tiešsaistes spēles ar citām konsolēm uz kurām palaists Retroarch!"
 
 #: 
 msgid "Rom, hash and core match"
-msgstr ""
+msgstr "Lasāmatmiņas datne, jaucējsumma un kodols sakrīt"
 
 #: 
 msgid "No core match"
-msgstr ""
+msgstr "Kodoli nesakrīt"
 
 #: 
 msgid "Add a clock in the main menu."
+msgstr "Pievienojiet pulksteni galvenajā izvēlnē"
+
+#. UPGRADE PROCESS
+#: 
+msgid "UPGRADING"
+msgstr "JAUNINĀT"
+
+#: 
+msgid "PREPARING"
+msgstr "SAGATAVOT"
+
+#: 
+msgid "VERIFYING"
+msgstr "PĀRBAUDĪT"
+
+#: 
+msgid "PRESS TWICE TO QUIT GAME"
+msgstr ""
+
+#: 
+msgid "Press twice the buttons to end the game and go back to main menu."
+msgstr ""
+
+#: 
+msgid "Configure screensaver"
+msgstr ""
+
+#: 
+msgid "Set the screensaver behavior. DIM will reduce the screen light, BLACK will turn the screen black, DEMO will launch demo mode."
+msgstr ""
+
+#: 
+msgid "EMPTY LIST"
+msgstr ""
+
+#: Retroarch ratio
+msgid "Auto"
+msgstr ""
+
+#: 
+msgid "Square pixel"
+msgstr ""
+
+#: 
+msgid "Retroarch Config"
+msgstr ""
+
+#: 
+msgid "Retroarch Custom"
+msgstr ""
+
+#: 
+msgid "Core provided"
+msgstr ""
+
+#: 
+msgid "Do not set"
+msgstr ""
+
+#: 
+msgid "Copy current system on another device.\n"
+"Warning ! It will erase all data on target device."
 msgstr ""
 

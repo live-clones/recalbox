@@ -1372,8 +1372,8 @@ msgid "Enable or disable the Recalbox Manager.\n"
 "The Recalbox Manager is a web application available on http://recalbox , if you are on windows, http://recalbox.local , if you are on Linux or Mac, or directly with your recalbox IP : http://192.168.1.XX.\n"
 "You can configure many options from within the manager, and even manage games, saves, and scrapes!"
 msgstr "Recalbox Manager'ı etkinleştirin veya devre dışı bırakın.\n"
-"Recalbox Yöneticisi, http: //recalbox.local olan Linux'ta veya Mac'te veya doğrudan recalbox IP'inizde olan pencerelerde, http://recalbox üzerinde bulunan bir web uygulamasıdır: http: //192.168. 1.XX.\n"
-"Birçok seçenekleri yönetici içinde yapılandırabilir, hatta oyunları, kaydedmeleri ve çizilmeleri yönetebilirsiniz!"
+"Recalbox Yöneticisi, http://recalbox.local olan Linux'ta veya Mac'te veya doğrudan recalbox IP'inizde olan pencerelerde, http://recalbox üzerinde bulunan bir web uygulamasıdır: http: //192.168. 1.XX.\n"
+"Birçok seçenekleri yönetici içinde yapılandırabilir, hatta oyunları, kaydetmeleri ve scrap leri yönetebilirsiniz!"
 
 #: 
 msgid "Enable or disable the recalbox API.\n"
@@ -1451,19 +1451,19 @@ msgstr "BASİT OYUN LİSTESİ GÖRÜNÜMÜ KULLAN."
 
 #: 
 msgid "DOWNLOADED"
-msgstr ""
+msgstr "İNDİRİLMİŞ"
 
 #: 
 msgid "UPDATE VERSION:"
-msgstr ""
+msgstr "GÜNCELLEME VERSİYONU:"
 
 #: 
 msgid "UPDATE CHANGELOG:"
-msgstr ""
+msgstr "GÜNCELLEME DEĞİŞENLERİ:"
 
 #: 
 msgid "MORE DETAILS"
-msgstr ""
+msgstr "DAHA FAZLA DETAY"
 
 #: 
 msgid "CAROUSEL ANIMATION"
@@ -1471,39 +1471,39 @@ msgstr ""
 
 #: 
 msgid "THEME CONFIGURATION"
-msgstr ""
+msgstr "TEMA AYARLARI"
 
 #: 
 msgid "THEME COLORSET"
-msgstr ""
+msgstr "TEMA RENKLERİ"
 
 #: 
 msgid "THEME ICONSET"
-msgstr ""
+msgstr "TEMA İKONLARI"
 
 #: 
 msgid "THEME MENU"
-msgstr ""
+msgstr "TEMA MENÜ"
 
 #: 
 msgid "THEME SYSTEMVIEW"
-msgstr ""
+msgstr "TEMA SİSTEM GÖRÜNTÜMÜ"
 
 #: 
 msgid "THEME GAMELISTVIEW"
-msgstr ""
+msgstr "TEMA OYUN LİSTESİ GÖRÜNÜMÜ"
 
 #: 
 msgid "THEME REGION"
-msgstr ""
+msgstr "TEMA BÖLGESİ"
 
 #: 
 msgid "THIS THEME HAS NO OPTION"
-msgstr ""
+msgstr "BU TEMADA AYAR SEÇENEĞİ YOK"
 
 #: 
 msgid "MANUAL INPUT"
-msgstr ""
+msgstr "ELLE GİRİŞ"
 
 #: 
 msgid "AN ERROR OCCURED - DOWNLOADED"
@@ -1511,15 +1511,15 @@ msgstr ""
 
 #: 
 msgid "START KODI"
-msgstr ""
+msgstr "KODI Yİ BAŞLAT"
 
 #: 
 msgid "Shows the current available update version."
-msgstr ""
+msgstr "Mevcut güncelleme sürümünü gösterir."
 
 #: 
 msgid "Shows the current available update changelog."
-msgstr ""
+msgstr "Mevcut güncelleme sürümü ile değişenleri gösterir."
 
 #: 
 msgid "Configure an associated controller. Your controller has to be associated / plugged before."
@@ -1535,27 +1535,27 @@ msgstr ""
 
 #: 
 msgid "Select exisiting colorset options for this theme."
-msgstr ""
+msgstr "Bu tema için mevcut renk kümesi seçeneklerini seçin."
 
 #: 
 msgid "Select exisiting iconset options for this theme."
-msgstr ""
+msgstr "Bu tema için mevcut İkon kümesi seçeneklerini seçin."
 
 #: 
 msgid "Select exisiting menu style options for this theme."
-msgstr ""
+msgstr "Bu tema için mevcut menü stili seçeneklerini seçin."
 
 #: 
 msgid "Select exisiting system view options for this theme."
-msgstr ""
+msgstr "Bu tema için mevcut sistem görünümü seçeneklerini seçin."
 
 #: 
 msgid "Select exisiting gamelist view options for this theme."
-msgstr ""
+msgstr "Bu tema için mevcut oyun listesi görünümü seçeneklerini seçin."
 
 #: 
 msgid "Configure theme options if available."
-msgstr ""
+msgstr "Varsa tema şeçeneklerini yapılandırın."
 
 #: 
 msgid "Select Region of logos, pictures for system that are different for some countries. E.g. Megadrive in EU / Genesis in US"
@@ -1587,23 +1587,23 @@ msgstr ""
 
 #: 
 msgid "AVAILABLE UPDATE"
-msgstr ""
+msgstr "GÜNCELLEME MEVCUT"
 
 #: 
 msgid "UPDATE CHANGELOG"
-msgstr ""
+msgstr "GÜNCELLEME DEĞİŞENLERİ"
 
 #: 
 msgid "CLOCK IN MENU"
-msgstr ""
+msgstr "MENUDEKİ SAAT"
 
 #: 
 msgid "Now playing"
-msgstr ""
+msgstr "Oynanıyor"
 
 #: 
 msgid "DEFAULT (%1%)"
-msgstr ""
+msgstr "VARSAYILAN (%1%)"
 
 #: 
 msgid "INPUT REQUIRED"
@@ -1647,15 +1647,15 @@ msgstr ""
 
 #: 
 msgid "POPUP SETTINGS"
-msgstr ""
+msgstr "POPUP AYARLARI"
 
 #: 
 msgid "POPUP POSITION"
-msgstr ""
+msgstr "POPUP POZISYONU"
 
 #: 
 msgid "Select the position of popups on screen."
-msgstr ""
+msgstr "Popup penceresinin ekrandaki yerini seç."
 
 #: 
 msgid "Set position and duration of popups."
@@ -1663,23 +1663,23 @@ msgstr ""
 
 #: 
 msgid "TOP/RIGHT"
-msgstr ""
+msgstr "YUKARI/SAĞ"
 
 #: 
 msgid "BOTTOM/RIGHT"
-msgstr ""
+msgstr "AŞAĞI/SAĞ"
 
 #: 
 msgid "BOTTOM/LEFT"
-msgstr ""
+msgstr "AŞAĞI/SOL"
 
 #: 
 msgid "TOP/LEFT"
-msgstr ""
+msgstr "YUKARI/SOL"
 
 #: 
 msgid "SHOW FOLDERS CONTENT"
-msgstr ""
+msgstr "KLASÖR İÇERİĞİNİ GÖSTER"
 
 #: 
 msgid "Switch between seeing the folders structure and seeing all games in a flatten top level."
@@ -1687,15 +1687,15 @@ msgstr ""
 
 #: 
 msgid "NETPLAY"
-msgstr ""
+msgstr "NETPLAY"
 
 #: 
 msgid "NETPLAY SETTINGS"
-msgstr ""
+msgstr "NETPLAY AYARLARI"
 
 #: 
 msgid "NETPLAY LOBBY"
-msgstr ""
+msgstr "NETPLAY LOBİ"
 
 #: 
 msgid "Enable or disable Netplay in games."
@@ -1703,11 +1703,11 @@ msgstr ""
 
 #: 
 msgid "PORT"
-msgstr ""
+msgstr "PORT"
 
 #: 
 msgid "NICKNAME"
-msgstr ""
+msgstr "TAKMA AD"
 
 #: 
 msgid "RELAY SERVER"
@@ -1719,11 +1719,11 @@ msgstr ""
 
 #: 
 msgid "KODI/NETPLAY"
-msgstr ""
+msgstr "KODI/NETPLAY"
 
 #: 
 msgid "NO GAMES OR NO CONNECTION"
-msgstr ""
+msgstr "OYUN YOK VEYA BAĞLANTI YOK"
 
 #: 
 msgid "HASH NOW"
@@ -1747,15 +1747,15 @@ msgstr ""
 
 #: 
 msgid "Username"
-msgstr ""
+msgstr "Kullanıcı adı"
 
 #: 
 msgid "Country"
-msgstr ""
+msgstr "Ülke"
 
 #: 
 msgid "Latency"
-msgstr ""
+msgstr "Geçikme"
 
 #: 
 msgid "Host arch."
@@ -1763,7 +1763,7 @@ msgstr ""
 
 #: 
 msgid "Core ver."
-msgstr ""
+msgstr "Çekirdek Ver."
 
 #: 
 msgid "RA ver."
@@ -1787,15 +1787,15 @@ msgstr ""
 
 #: 
 msgid "Match"
-msgstr ""
+msgstr "Eşleşme"
 
 #: 
 msgid "No Match"
-msgstr ""
+msgstr "Eşleşme Yok."
 
 #: 
 msgid "Rom file"
-msgstr ""
+msgstr "Rom dosyası"
 
 #: 
 msgid "Rom hash"
@@ -1807,15 +1807,15 @@ msgstr ""
 
 #: 
 msgid "good"
-msgstr ""
+msgstr "iyi"
 
 #: 
 msgid "bad"
-msgstr ""
+msgstr "kötü"
 
 #: 
 msgid "medium"
-msgstr ""
+msgstr "ortalama"
 
 #: 
 msgid "NETPLAY POPUP DURATION"
@@ -1827,11 +1827,11 @@ msgstr ""
 
 #: 
 msgid "Player"
-msgstr ""
+msgstr "Oyuncu"
 
 #: 
 msgid "Game"
-msgstr ""
+msgstr "Oyun"
 
 #: 
 msgid "A Recalbox friend has started a Netplay game!"
@@ -1851,5 +1851,67 @@ msgstr ""
 
 #: 
 msgid "Add a clock in the main menu."
+msgstr ""
+
+#. UPGRADE PROCESS
+#: 
+msgid "UPGRADING"
+msgstr ""
+
+#: 
+msgid "PREPARING"
+msgstr ""
+
+#: 
+msgid "VERIFYING"
+msgstr ""
+
+#: 
+msgid "PRESS TWICE TO QUIT GAME"
+msgstr ""
+
+#: 
+msgid "Press twice the buttons to end the game and go back to main menu."
+msgstr ""
+
+#: 
+msgid "Configure screensaver"
+msgstr ""
+
+#: 
+msgid "Set the screensaver behavior. DIM will reduce the screen light, BLACK will turn the screen black, DEMO will launch demo mode."
+msgstr ""
+
+#: 
+msgid "EMPTY LIST"
+msgstr ""
+
+#: Retroarch ratio
+msgid "Auto"
+msgstr ""
+
+#: 
+msgid "Square pixel"
+msgstr ""
+
+#: 
+msgid "Retroarch Config"
+msgstr ""
+
+#: 
+msgid "Retroarch Custom"
+msgstr ""
+
+#: 
+msgid "Core provided"
+msgstr ""
+
+#: 
+msgid "Do not set"
+msgstr ""
+
+#: 
+msgid "Copy current system on another device.\n"
+"Warning ! It will erase all data on target device."
 msgstr ""
 

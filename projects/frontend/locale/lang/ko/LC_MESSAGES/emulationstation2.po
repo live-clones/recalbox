@@ -270,7 +270,7 @@ msgstr "관리자 비밀번호"
 
 #: 
 msgid "THE SYSTEM WILL NOW REBOOT"
-msgstr "시스템이 지금 다시 시작됩니다."
+msgstr "시스템이 지금 다시 시작됩니다"
 
 #: 
 msgid "GAMES SETTINGS"
@@ -948,8 +948,7 @@ msgstr "입력 설정"
 #: 
 msgid "%i GAMEPAD DETECTED"
 msgid_plural "%i GAMEPADS DETECTED"
-msgstr[0] "%i 개의 게임패드를 찾았습니다\n"
-"%i 개의 게임패드를 찾았습니다"
+msgstr[0] "%i 개의 게임패드를 찾았습니다."
 
 #: 
 msgid "NO GAMEPADS DETECTED"
@@ -1132,7 +1131,7 @@ msgid "Stable updates will check for updates on stable recalbox releases. Stable
 msgstr "Stable 업데이트는 recalbox의 정식버전의 업데이트를 확인합니다. Stable 업데이트는 recalbox 팀과 테스터의 점검 후 이뤄집니다.\n"
 "Unstable 업데이트를 사용하면 unstable 저장소에서 최신 버전을 가져올 수 있습니다. Recalbox의 최신 버전을 테스트하고 유효성을 검사 할 수 있습니다.\n"
 "\n"
-"Unstable 업데이트를 선택하는 경우 리콜 박스 발행 게시판(https://github.com/recalbox/recalbox-os/issues)에서 문제사항을 알려주세요."
+"Unstable 업데이트를 선택하는 경우 recalbox-os 이슈 게시판(https://github.com/recalbox/recalbox-os/issues)에서 문제사항을 알려주세요."
 
 #: 
 msgid "Automatically check if an update is avaialble. If so, it notifies you with a message."
@@ -1444,7 +1443,7 @@ msgstr "도움말"
 
 #: 
 msgid "THE SYSTEM IS UP TO DATE"
-msgstr "시스템이 오래 되었습니다."
+msgstr "최신 시스템입니다."
 
 #: 
 msgid "FORCE BASIC GAMELIST VIEW"
@@ -1452,7 +1451,7 @@ msgstr "강제로 기본 게임목록 보기"
 
 #: 
 msgid "DOWNLOADED"
-msgstr "다운로드됨"
+msgstr "다운로드 완료"
 
 #: 
 msgid "UPDATE VERSION:"
@@ -1532,7 +1531,7 @@ msgstr "전환 중에 슬라이드 애니메이션으로 표시될지 여부를 
 
 #: 
 msgid "Select the type of transition that occurs when you start a game. INSTANT will do nothing, FADE will fade to dark, and SLIDE will zoom on the game cover (or name if there is no scrape information)"
-msgstr "게임을 시작할 때 발생하는 화면전환 유형을 선택합니다. INSTANT는 아무 것도 하지 않으며, FADE는 어두워지고, SLID는 게임 커버를 확대한다(또는 스크래치 정보가 없는 경우 이름)."
+msgstr "게임을 시작할 때 발생하는 화면전환 유형을 선택합니다. INSTANT는 아무 것도 하지 않으며, FADE는 어두워지고, SLIDE는 게임 커버를 확대한다(또는 스크랩 정보가 없는 경우 이름)."
 
 #: 
 msgid "Select exisiting colorset options for this theme."
@@ -1624,11 +1623,11 @@ msgstr "A키로 해제"
 
 #: 
 msgid "DOWN TO SKIP AND KEEP [%1%]"
-msgstr "아래로 이동하고 유지"
+msgstr "아래로 이동하고 유지 [%1%]"
 
 #: 
 msgid "UP/DOWN TO SKIP AND KEEP [%1%]"
-msgstr "위/아래로 이동하고 유지"
+msgstr "위/아래로 이동하고 유지[%1%]"
 
 #: 
 msgid "Set duration of help popups, 0 means no popup."
@@ -1680,177 +1679,239 @@ msgstr "상/좌"
 
 #: 
 msgid "SHOW FOLDERS CONTENT"
-msgstr ""
+msgstr "폴더 콘텐츠 보여주기"
 
 #: 
 msgid "Switch between seeing the folders structure and seeing all games in a flatten top level."
-msgstr ""
+msgstr "폴더 구조 보는것과 모든 게임 보는 방법 변경"
 
 #: 
 msgid "NETPLAY"
-msgstr ""
+msgstr "넷플레이"
 
 #: 
 msgid "NETPLAY SETTINGS"
-msgstr ""
+msgstr "넷플레이 설정"
 
 #: 
 msgid "NETPLAY LOBBY"
-msgstr ""
+msgstr "넷플레이 로비"
 
 #: 
 msgid "Enable or disable Netplay in games."
-msgstr ""
+msgstr "게임에서 넷플레이 활성/비활성 여부"
 
 #: 
 msgid "PORT"
-msgstr ""
+msgstr "포트"
 
 #: 
 msgid "NICKNAME"
-msgstr ""
+msgstr "닉네임"
 
 #: 
 msgid "RELAY SERVER"
-msgstr ""
+msgstr "릴레이 서버"
 
 #: 
 msgid "Enable or disable connections throught relay servers."
-msgstr ""
+msgstr "릴레이 서버를 통한 연결 사용 또는 사용 안 함."
 
 #: 
 msgid "KODI/NETPLAY"
-msgstr ""
+msgstr "코디/넷플레이"
 
 #: 
 msgid "NO GAMES OR NO CONNECTION"
-msgstr ""
+msgstr "게임이 없거나 연결이 되지 않음"
 
 #: 
 msgid "HASH NOW"
-msgstr ""
+msgstr "지금 해시함"
 
 #: 
 msgid "HASH THESE SYSTEMS"
-msgstr ""
+msgstr "이 시스템을 해시함"
 
 #: 
 msgid "Add hash of roms in your gamelists to have more accurate results in Netplay."
-msgstr ""
+msgstr "Netplay에서 보다 정확한 결과를 얻으려면 게임리스트에 Roms의 해시를 추가하십시오."
 
 #: 
 msgid "HASH ROMS"
-msgstr ""
+msgstr "해시된 롬들"
 
 #: 
 msgid "Only missing hashs"
-msgstr ""
+msgstr "해시만 없음"
 
 #: 
 msgid "Username"
-msgstr ""
+msgstr "사용자이름"
 
 #: 
 msgid "Country"
-msgstr ""
+msgstr "지역"
 
 #: 
 msgid "Latency"
-msgstr ""
+msgstr "응답속도"
 
 #: 
 msgid "Host arch."
-msgstr ""
+msgstr "호스트 아치"
 
 #: 
 msgid "Core ver."
-msgstr ""
+msgstr "코어 버전."
 
 #: 
 msgid "RA ver."
-msgstr ""
+msgstr "RA 버전."
 
 #: 
 msgid "Can join"
-msgstr ""
+msgstr "조인 가능"
 
 #: 
 msgid "Rom and core match"
-msgstr ""
+msgstr "롬과 코어 매치"
 
 #: 
 msgid "Rom found"
-msgstr ""
+msgstr "롬 확인됨."
 
 #: 
 msgid "No rom match"
-msgstr ""
+msgstr "일치하는 롬 없음"
 
 #: 
 msgid "Match"
-msgstr ""
+msgstr "매치"
 
 #: 
 msgid "No Match"
-msgstr ""
+msgstr "일치하는것 없음"
 
 #: 
 msgid "Rom file"
-msgstr ""
+msgstr "롬 파일"
 
 #: 
 msgid "Rom hash"
-msgstr ""
+msgstr "롬 해시"
 
 #: 
 msgid "THIS COULD TAKE A WHILE, CONFIRM?"
-msgstr ""
+msgstr "시간이 좀 걸릴 수 있습니다.. 진행 하시겠습니까?"
 
 #: 
 msgid "good"
-msgstr ""
+msgstr "좋음"
 
 #: 
 msgid "bad"
-msgstr ""
+msgstr "나쁨"
 
 #: 
 msgid "medium"
-msgstr ""
+msgstr "중간"
 
 #: 
 msgid "NETPLAY POPUP DURATION"
-msgstr ""
+msgstr "넷플레이 팝업 지속시간"
 
 #: 
 msgid "Set duration of netplay popups, 0 means no popup."
-msgstr ""
+msgstr "넷플레이 팝업 지속시간을 설정합니다. 값이 0 이면 팝업하지 않습니다."
 
 #: 
 msgid "Player"
-msgstr ""
+msgstr "사용자"
 
 #: 
 msgid "Game"
-msgstr ""
+msgstr "게임"
 
 #: 
 msgid "A Recalbox friend has started a Netplay game!"
-msgstr ""
+msgstr "리콜박스 친구가 넷플레이 게임을 시작했습니다!"
 
 #: 
 msgid "Play online on games running through Retroarch like NES, SNES, FBA, Genesis/Megadrive and more!"
-msgstr ""
+msgstr "패미컴, 슈퍼패미컴, 파이널번알파, 메가드라이브 등의 에뮬을 네트워크에 연결하여 온라인으로 같이 게임을 할 수 있습니다."
 
 #: 
 msgid "Rom, hash and core match"
-msgstr ""
+msgstr "롬, 해시와 코어가 일치"
 
 #: 
 msgid "No core match"
-msgstr ""
+msgstr "일치하는 코어 없음"
 
 #: 
 msgid "Add a clock in the main menu."
+msgstr "메인 메뉴에 시계 추가"
+
+#. UPGRADE PROCESS
+#: 
+msgid "UPGRADING"
+msgstr "업그레이드 중"
+
+#: 
+msgid "PREPARING"
+msgstr "준비 중"
+
+#: 
+msgid "VERIFYING"
+msgstr "검증 중"
+
+#: 
+msgid "PRESS TWICE TO QUIT GAME"
+msgstr ""
+
+#: 
+msgid "Press twice the buttons to end the game and go back to main menu."
+msgstr ""
+
+#: 
+msgid "Configure screensaver"
+msgstr ""
+
+#: 
+msgid "Set the screensaver behavior. DIM will reduce the screen light, BLACK will turn the screen black, DEMO will launch demo mode."
+msgstr ""
+
+#: 
+msgid "EMPTY LIST"
+msgstr ""
+
+#: Retroarch ratio
+msgid "Auto"
+msgstr ""
+
+#: 
+msgid "Square pixel"
+msgstr ""
+
+#: 
+msgid "Retroarch Config"
+msgstr ""
+
+#: 
+msgid "Retroarch Custom"
+msgstr ""
+
+#: 
+msgid "Core provided"
+msgstr ""
+
+#: 
+msgid "Do not set"
+msgstr ""
+
+#: 
+msgid "Copy current system on another device.\n"
+"Warning ! It will erase all data on target device."
 msgstr ""
 

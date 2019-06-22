@@ -1487,11 +1487,11 @@ msgstr "MENU DI TEMA"
 
 #: 
 msgid "THEME SYSTEMVIEW"
-msgstr ""
+msgstr "TEMA DI SISTEMA"
 
 #: 
 msgid "THEME GAMELISTVIEW"
-msgstr ""
+msgstr "TEMA DELLA GAMELIST"
 
 #: 
 msgid "THEME REGION"
@@ -1523,11 +1523,11 @@ msgstr "Mostra l’attuale versione di changelog disponibile"
 
 #: 
 msgid "Configure an associated controller. Your controller has to be associated / plugged before."
-msgstr ""
+msgstr "Configura un controller. Il tuo controller deve essere stato associato precedentemente."
 
 #: 
 msgid "Choose if carousel will be animated or not during transitions"
-msgstr ""
+msgstr "Scegli se il carosello sarà animato durante le transizioni"
 
 #: 
 msgid "Select the type of transition that occurs when you start a game. INSTANT will do nothing, FADE will fade to dark, and SLIDE will zoom on the game cover (or name if there is no scrape information)"
@@ -1535,35 +1535,35 @@ msgstr ""
 
 #: 
 msgid "Select exisiting colorset options for this theme."
-msgstr ""
+msgstr "Seleziona una palette di colori esistente per questo tema."
 
 #: 
 msgid "Select exisiting iconset options for this theme."
-msgstr ""
+msgstr "Seleziona un set di icone esistente per questo tema."
 
 #: 
 msgid "Select exisiting menu style options for this theme."
-msgstr ""
+msgstr "Seleziona uno stile di menu esistente per questo tema."
 
 #: 
 msgid "Select exisiting system view options for this theme."
-msgstr ""
+msgstr "Seleziona una bista per il sistema per questo tema."
 
 #: 
 msgid "Select exisiting gamelist view options for this theme."
-msgstr ""
+msgstr "Seleziona una vista per la gamelist per questo tema."
 
 #: 
 msgid "Configure theme options if available."
-msgstr ""
+msgstr "Configura le opzioni del tema, se disponibili."
 
 #: 
 msgid "Select Region of logos, pictures for system that are different for some countries. E.g. Megadrive in EU / Genesis in US"
-msgstr ""
+msgstr "Seleziona la Regione dei loghi e delle immagini per i sistemi che sono differenti per certe Nazioni, come Megadrive in Europa / Genesis in USA"
 
 #: 
 msgid "Type the name of your SSID if it is hidden or not listed"
-msgstr ""
+msgstr "Scrivi il nome del tuo SSID se è nascosto o non in elenco."
 
 #: 
 msgid "Select a letter and the listing will go directly on the first game starting with this letter."
@@ -1571,7 +1571,7 @@ msgstr ""
 
 #: 
 msgid "Select the way the game list is sortered (alphabetically, by notation...)."
-msgstr ""
+msgstr "Seleziona in quale modo la gamelist è ordinata (in ordine alfabetico, per notazione...)."
 
 #: 
 msgid "Switch between seing or not only the favorites games. To add a game in the favorite list, select the game and toggle its state using 'Y'."
@@ -1603,19 +1603,19 @@ msgstr "In riproduzione"
 
 #: 
 msgid "DEFAULT (%1%)"
-msgstr ""
+msgstr "DEFAULT (%1%)"
 
 #: 
 msgid "INPUT REQUIRED"
-msgstr ""
+msgstr "INPUT RICHIESTO"
 
 #: 
 msgid "(skipped)"
-msgstr ""
+msgstr "(saltato)"
 
 #: 
 msgid "UP/DOWN TO SKIP"
-msgstr ""
+msgstr "SU/GIÙ PER SALTARE"
 
 #: 
 msgid "A TO UNSET"
@@ -1623,11 +1623,11 @@ msgstr ""
 
 #: 
 msgid "DOWN TO SKIP AND KEEP [%1%]"
-msgstr ""
+msgstr "GIÙ PER SALTARE E TENERE [%1%]"
 
 #: 
 msgid "UP/DOWN TO SKIP AND KEEP [%1%]"
-msgstr ""
+msgstr "SU/GIÙ PER SALTARE E TENERE [%1%]"
 
 #: 
 msgid "Set duration of help popups, 0 means no popup."
@@ -1635,7 +1635,7 @@ msgstr ""
 
 #: 
 msgid "HELP POPUP DURATION"
-msgstr ""
+msgstr "DURATA DEL POPUP DI AIUTO"
 
 #: 
 msgid "Set duration of music popups, 0 means no popup."
@@ -1687,27 +1687,27 @@ msgstr ""
 
 #: 
 msgid "NETPLAY"
-msgstr ""
+msgstr "NETPLAY"
 
 #: 
 msgid "NETPLAY SETTINGS"
-msgstr ""
+msgstr "IMPOSTAZIONI DI NETPLAY"
 
 #: 
 msgid "NETPLAY LOBBY"
-msgstr ""
+msgstr "GRUPPO DI NETPLAY"
 
 #: 
 msgid "Enable or disable Netplay in games."
-msgstr ""
+msgstr "Abilita o disabilita il Netplay nei giochi."
 
 #: 
 msgid "PORT"
-msgstr ""
+msgstr "PORTA"
 
 #: 
 msgid "NICKNAME"
-msgstr ""
+msgstr "NICKNAME"
 
 #: 
 msgid "RELAY SERVER"
@@ -1719,11 +1719,11 @@ msgstr ""
 
 #: 
 msgid "KODI/NETPLAY"
-msgstr ""
+msgstr "KODI/NETPLAY"
 
 #: 
 msgid "NO GAMES OR NO CONNECTION"
-msgstr ""
+msgstr "NESSUN GIOCO O NESSUNA CONNESSIONE"
 
 #: 
 msgid "HASH NOW"
@@ -1747,23 +1747,23 @@ msgstr ""
 
 #: 
 msgid "Username"
-msgstr ""
+msgstr "Nome utente"
 
 #: 
 msgid "Country"
-msgstr ""
+msgstr "Paese"
 
 #: 
 msgid "Latency"
-msgstr ""
+msgstr "Latenza"
 
 #: 
 msgid "Host arch."
-msgstr ""
+msgstr "Architettura host"
 
 #: 
 msgid "Core ver."
-msgstr ""
+msgstr "Versione di core"
 
 #: 
 msgid "RA ver."
@@ -1779,7 +1779,7 @@ msgstr ""
 
 #: 
 msgid "Rom found"
-msgstr ""
+msgstr "ROM trovata"
 
 #: 
 msgid "No rom match"
@@ -1795,7 +1795,7 @@ msgstr ""
 
 #: 
 msgid "Rom file"
-msgstr ""
+msgstr "File della ROM"
 
 #: 
 msgid "Rom hash"
@@ -1807,11 +1807,11 @@ msgstr ""
 
 #: 
 msgid "good"
-msgstr ""
+msgstr "bene"
 
 #: 
 msgid "bad"
-msgstr ""
+msgstr "male"
 
 #: 
 msgid "medium"
@@ -1819,23 +1819,23 @@ msgstr ""
 
 #: 
 msgid "NETPLAY POPUP DURATION"
-msgstr ""
+msgstr "DURATA DEL POPUP DI NETPLAY"
 
 #: 
 msgid "Set duration of netplay popups, 0 means no popup."
-msgstr ""
+msgstr "Imposta la durata dei popup del Netplay, 0 significa nessun popup."
 
 #: 
 msgid "Player"
-msgstr ""
+msgstr "Giocatore"
 
 #: 
 msgid "Game"
-msgstr ""
+msgstr "Gioco"
 
 #: 
 msgid "A Recalbox friend has started a Netplay game!"
-msgstr ""
+msgstr "Un amico ha iniziato un gioco Netplay!"
 
 #: 
 msgid "Play online on games running through Retroarch like NES, SNES, FBA, Genesis/Megadrive and more!"
@@ -1851,5 +1851,67 @@ msgstr ""
 
 #: 
 msgid "Add a clock in the main menu."
+msgstr "Aggiungi l'orologio nel menu principale."
+
+#. UPGRADE PROCESS
+#: 
+msgid "UPGRADING"
+msgstr ""
+
+#: 
+msgid "PREPARING"
+msgstr ""
+
+#: 
+msgid "VERIFYING"
+msgstr ""
+
+#: 
+msgid "PRESS TWICE TO QUIT GAME"
+msgstr ""
+
+#: 
+msgid "Press twice the buttons to end the game and go back to main menu."
+msgstr ""
+
+#: 
+msgid "Configure screensaver"
+msgstr ""
+
+#: 
+msgid "Set the screensaver behavior. DIM will reduce the screen light, BLACK will turn the screen black, DEMO will launch demo mode."
+msgstr ""
+
+#: 
+msgid "EMPTY LIST"
+msgstr ""
+
+#: Retroarch ratio
+msgid "Auto"
+msgstr ""
+
+#: 
+msgid "Square pixel"
+msgstr ""
+
+#: 
+msgid "Retroarch Config"
+msgstr ""
+
+#: 
+msgid "Retroarch Custom"
+msgstr ""
+
+#: 
+msgid "Core provided"
+msgstr ""
+
+#: 
+msgid "Do not set"
+msgstr ""
+
+#: 
+msgid "Copy current system on another device.\n"
+"Warning ! It will erase all data on target device."
 msgstr ""
 

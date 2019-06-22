@@ -333,11 +333,11 @@ msgstr "ROZŠÍŘENÉ"
 
 #: 
 msgid "REALLY UPDATE GAMES LISTS ?"
-msgstr "OPRAVDU CHCETE AKTUALIZOVAT HERNÍ SEZNAM?"
+msgstr "OPRAVDU CHCETE AKTUALIZOVAT SEZNAM HER?"
 
 #: 
 msgid "UPDATE GAMES LISTS"
-msgstr "AKTUALIZOVAT HERNÍ SEZNAM"
+msgstr "AKTUALIZOVAT SEZNAM HER"
 
 #: 
 msgid "CONTROLLERS SETTINGS"
@@ -349,7 +349,7 @@ msgstr "NASTAVENÍ UŽIVATELSKÉHO ROZHRANÍ"
 
 #: 
 msgid "OVERSCAN"
-msgstr "OŘÍZNUTÍ"
+msgstr "OVERSCAN"
 
 #: 
 msgid "SCREENSAVER AFTER"
@@ -377,7 +377,7 @@ msgstr "RYCHLÝ VÝBĚR SYSTÉMU"
 
 #: 
 msgid "THEME SET"
-msgstr "NASTAVENÍ VZHLEDU"
+msgstr "NASTAVENÍ TÉMATU"
 
 #: 
 msgid "SOUND SETTINGS"
@@ -461,7 +461,7 @@ msgstr "PROHLEDÁVAT NA"
 
 #: 
 msgid "SCRAPE RATINGS"
-msgstr "PROHLEDÁVAT HODNOCENÍ"
+msgstr "PROHLEDÁVAT HODNOCENÍ HER"
 
 #: 
 msgid "SCRAPE NOW"
@@ -497,8 +497,7 @@ msgstr "Jádro"
 
 #: 
 msgid "YOU ARE GOING TO CONFIGURE A CONTROLLER. IF YOU HAVE ONLY ONE JOYSTICK, CONFIGURE THE DIRECTIONS KEYS AND SKIP JOYSTICK CONFIG BY HOLDING A BUTTON. IF YOU DO NOT HAVE A SPECIAL KEY FOR HOTKEY, CHOOSE THE SELECT BUTTON. SKIP ALL BUTTONS YOU DO NOT HAVE BY HOLDING A KEY. BUTTONS NAMES ARE BASED ON THE SNES CONTROLLER."
-msgstr "CHYSTÁTE SE ZMĚNIT NASTAVENÍ OVLADAČE. POKUD MÁTE POUZE JEDEN OVLADAČ, NASTAVTE TLAČÍTKA A SMĚROVÝ OVLADAČ A PŘESKOČTE NASTAVENÍ DRŽENÍM TLAČÍTKA A.\n"
-"JESTLIŽE NEMÁTE SPECIÁLNÍ KLÁVESU PRO FUNKCI HOTKEY, POUŽIJTE TLAČÍTKO VÝBĚRU NA VAŠEM OVLADAČI. POUŽITÁ JMÉNA TLAČÍTEK JSOU ZALOŽENA NA ORIGINÁLNÍM OVLADAČI PRO KONZOLE SNES."
+msgstr "CHYSTÁTE SE ZMĚNIT NASTAVENÍ OVLADAČE. POKUD MÁTE POUZE JEDEN OVLADAČ, NASTAVTE TLAČÍTKA A SMĚROVÝ OVLADAČ A PŘESKOČTE NASTAVENÍ DRŽENÍM TLAČÍTKA A. JESTLIŽE NEMÁTE SPECIÁLNÍ KLÁVESU PRO FUNKCI HOTKEY, POUŽIJTE TLAČÍTKO VÝBĚRU NA VAŠEM OVLADAČI. POUŽITÁ JMÉNA TLAČÍTEK JSOU ZALOŽENA NA ORIGINÁLNÍM OVLADAČI PRO KONZOLE SNES."
 
 #. GUIMENU
 #: 
@@ -997,7 +996,7 @@ msgstr "OPRAVDU CHCETE SKONČIT BEZ ULOŽENÍ METADAT?"
 
 #: 
 msgid "FAST SHUTDOWN SYSTEM"
-msgstr "RYCHLÉ VYPNUTÍ SYSTÉMU"
+msgstr "VYPNOUT SYSTÉM RYCHLE"
 
 #: 
 msgid "WE CAN'T FIND ANY SYSTEMS!\n"
@@ -1005,7 +1004,6 @@ msgid "WE CAN'T FIND ANY SYSTEMS!\n"
 "\n"
 "VISIT RECALBOX.FR FOR MORE INFORMATION."
 msgstr "NEMŮŽEME NALÉZT ŽÁDNÉ SYSTÉMY.\n"
-"\n"
 "ZKONTROLUJTE, ZDA JSOU SPRÁVNĚ NASTAVENÉ CESTY V KONFIGURAČNÍM SOUBORU A ŽE SLOŽKA S HRAMI OBSAHUJE ALESPOŇ JEDNU HRU SE SPRÁVNOU PŘÍPONOU.\n"
 "\n"
 "NAVŠTIVTE RECALBOX.COM PRO VÍCE INFORMACÍ"
@@ -1093,7 +1091,8 @@ msgstr "VYSOKÉ (1300 MHz)"
 #: 
 msgid "TURBO AND EXTREM OVERCLOCK PRESETS MAY CAUSE SYSTEM UNSTABILITIES, SO USE THEM AT YOUR OWN RISK.\n"
 "IF YOU CONTINUE, THE SYSTEM WILL REBOOT NOW."
-msgstr "HODNOTY TURBO A EXTREM MOHOU ZPŮSOBIT NESTABILITU SYSTÉMU. POUŽIJTE JE TEDY NA VLASTNÍ RIZIKO. POKUD BUDETE POKRAČOVAT, SYSTÉM SE RESTARTUJE."
+msgstr "HODNOTY TURBO A EXTREM MOHOU ZPŮSOBIT NESTABILITU SYSTÉMU. POUŽIJTE JE TEDY NA VLASTNÍ RIZIKO.\n"
+"POKUD BUDETE POKRAČOVAT, SYSTÉM SE RESTARTUJE."
 
 #: 
 msgid "%i GAME HIDDEN"
@@ -1141,7 +1140,8 @@ msgid "Stable updates will check for updates on stable recalbox releases. Stable
 "Unstable updates allows you to get the latest recalbox features by checking our unstable repository. You can test and validate with us the very last version of recalbox.\n"
 "If you choose unstable update, be so kind to report issues on the recalbox-os issue board (https://github.com/recalbox/recalbox-os/issues)"
 msgstr "Stabilní aktualizace. Kontrola dostupnosti stabilních aktualizací, které jsou otestovány a schváleny recalbox týmem.\n"
-"Nestabilní aktualizace vám dovolují použít poslední verzi funkcí recalboxu pomocí přístupu k nestabilnímu repozitáři. Můžete s námi testovat a ověřit funkci každé poslední verze recalboxu."
+"Nestabilní aktualizace vám dovolují použít poslední verzi funkcí recalboxu pomocí přístupu k nestabilnímu repozitáři.\n"
+"Můžete s námi testovat a ověřit funkci každé poslední verze recalboxu."
 
 #: 
 msgid "Automatically check if an update is avaialble. If so, it notifies you with a message."
@@ -1303,7 +1303,8 @@ msgstr "Rozšířená nastavení. Prosím ujistěte se, že opravdu víte co dě
 #: 
 msgid "Overclock your board to increase the performance.\n"
 "Overclock settings are tested and validated by the community. Keep in mind that overclocking your board can void your warranty."
-msgstr "Přetaktování vaší desky pro zvýšení výkonu. Nastavení přetaktování jsou testována a ověřena komunitou. Mějte na paměti, že přetaktováním můžete porušit záruku."
+msgstr "Přetaktování vaší desky pro zvýšení výkonu.\n"
+"Nastavení přetaktování jsou testována a ověřena komunitou. Mějte na paměti, že přetaktováním můžete porušit záruku."
 
 #: 
 msgid "Select which system to show when the recalbox frontend starts. The default value is 'favorites'."
@@ -1401,7 +1402,7 @@ msgstr "POUŽÍT SKLÁDANOU GRAFIKU"
 
 #: 
 msgid "CHECK UPDATES"
-msgstr "KONTROLA AKTUALIZACÍ"
+msgstr "VYHLEDÁVAT AKTUALIZACE"
 
 #: 
 msgid "UPDATE TYPE"
@@ -1473,7 +1474,7 @@ msgstr "VÍCE DETAILŮ"
 
 #: 
 msgid "CAROUSEL ANIMATION"
-msgstr "ANIMACE BĚHEM OTÁČENÍ"
+msgstr "ANIMACE BĚHEM PŘEPÍNÁNÍ"
 
 #: 
 msgid "THEME CONFIGURATION"
@@ -1481,23 +1482,23 @@ msgstr "KONFIGURACE TÉMATU"
 
 #: 
 msgid "THEME COLORSET"
-msgstr "BARVY TÉMATU"
+msgstr "TÉMA BAREV"
 
 #: 
 msgid "THEME ICONSET"
-msgstr "IKONY TÉMATU"
+msgstr "TÉMA IKON"
 
 #: 
 msgid "THEME MENU"
-msgstr "MENU TÉMATU"
+msgstr "TÉMA MENU"
 
 #: 
 msgid "THEME SYSTEMVIEW"
-msgstr "SYSTÉMOVÝ POHLED TÉMATU"
+msgstr "TÉMA PŘEHLEDU SYSTÉMŮ"
 
 #: 
 msgid "THEME GAMELISTVIEW"
-msgstr "LIST HER TÉMATU"
+msgstr "TÉMA SEZNAMU HER"
 
 #: 
 msgid "THEME REGION"
@@ -1605,257 +1606,319 @@ msgstr "HODINY V MENU"
 
 #: 
 msgid "Now playing"
-msgstr ""
+msgstr "Nyní hraje"
 
 #: 
 msgid "DEFAULT (%1%)"
-msgstr ""
+msgstr "VÝCHOZÍ (%1%)"
 
 #: 
 msgid "INPUT REQUIRED"
-msgstr ""
+msgstr "VYŽADOVÁN VSTUP"
 
 #: 
 msgid "(skipped)"
-msgstr ""
+msgstr "(přeskočeno)"
 
 #: 
 msgid "UP/DOWN TO SKIP"
-msgstr ""
+msgstr "NAHORU/DOLŮ PRO PŘESKOČENÍ"
 
 #: 
 msgid "A TO UNSET"
-msgstr ""
+msgstr "A PRO ZRUŠENÍ"
 
 #: 
 msgid "DOWN TO SKIP AND KEEP [%1%]"
-msgstr ""
+msgstr "DOLŮ PRO PŘESKOČENÍ A ULOŽENÍ"
 
 #: 
 msgid "UP/DOWN TO SKIP AND KEEP [%1%]"
-msgstr ""
+msgstr "NAHORU/DOLŮ PRO PŘESKOČENÍ A ULOŽENÍ"
 
 #: 
 msgid "Set duration of help popups, 0 means no popup."
-msgstr ""
+msgstr "Nastavení trvání pro vyskakovací okna s nápovědou. 0 znamená žádné okno."
 
 #: 
 msgid "HELP POPUP DURATION"
-msgstr ""
+msgstr "TRVÁNÍ VYSKAKOVACÍHO OKNA NÁPOVĚDY"
 
 #: 
 msgid "Set duration of music popups, 0 means no popup."
-msgstr ""
+msgstr "Nastavení trvání pro hudební vyskakovací okna. 0 znamená žádné okno."
 
 #: 
 msgid "MUSIC POPUP DURATION"
-msgstr ""
+msgstr "TRVÁNÍ VYSKAKOVACÍHO OKNA HUDBY"
 
 #: 
 msgid "POPUP SETTINGS"
-msgstr ""
+msgstr "NASTAVENÍ VYSKAKOVACÍCH OKEN"
 
 #: 
 msgid "POPUP POSITION"
-msgstr ""
+msgstr "POZICE OKNA"
 
 #: 
 msgid "Select the position of popups on screen."
-msgstr ""
+msgstr "Vyber pozici okna na obrazovce."
 
 #: 
 msgid "Set position and duration of popups."
-msgstr ""
+msgstr "Nastav pozici a dobu trvání vyskakovacího okna."
 
 #: 
 msgid "TOP/RIGHT"
-msgstr ""
+msgstr "NAHOŘE/VPRAVO"
 
 #: 
 msgid "BOTTOM/RIGHT"
-msgstr ""
+msgstr "DOLE/VPRAVO"
 
 #: 
 msgid "BOTTOM/LEFT"
-msgstr ""
+msgstr "DOLE/VLEVO"
 
 #: 
 msgid "TOP/LEFT"
-msgstr ""
+msgstr "NAHOŘE/VLEVO"
 
 #: 
 msgid "SHOW FOLDERS CONTENT"
-msgstr ""
+msgstr "ZOBRAZIT OBSAH SLOŽEK"
 
 #: 
 msgid "Switch between seeing the folders structure and seeing all games in a flatten top level."
-msgstr ""
+msgstr "Přepínání mezi pohledem na strukturu složek a pohledem na všechny hry v rozbalené úrovni."
 
 #: 
 msgid "NETPLAY"
-msgstr ""
+msgstr "NETPLAY"
 
 #: 
 msgid "NETPLAY SETTINGS"
-msgstr ""
+msgstr "NASTAVENÍ NETPLAY"
 
 #: 
 msgid "NETPLAY LOBBY"
-msgstr ""
+msgstr "NETPLAY PŘEDSÁLÍ"
 
 #: 
 msgid "Enable or disable Netplay in games."
-msgstr ""
+msgstr "Zapnout nebo vypnout netplay v hrách."
 
 #: 
 msgid "PORT"
-msgstr ""
+msgstr "PORT"
 
 #: 
 msgid "NICKNAME"
-msgstr ""
+msgstr "PŘEZDÍVKA"
 
 #: 
 msgid "RELAY SERVER"
-msgstr ""
+msgstr "RELAY SERVER"
 
 #: 
 msgid "Enable or disable connections throught relay servers."
-msgstr ""
+msgstr "Zapnout nebo vypnout spojení pomocí relay serverů."
 
 #: 
 msgid "KODI/NETPLAY"
-msgstr ""
+msgstr "KODI/NETPLAY"
 
 #: 
 msgid "NO GAMES OR NO CONNECTION"
-msgstr ""
+msgstr "ŽÁDNÉ HRY NEBO NEDOSTUPNÉ PŘIPOJENÍ"
 
 #: 
 msgid "HASH NOW"
-msgstr ""
+msgstr "HASH NYNÍ"
 
 #: 
 msgid "HASH THESE SYSTEMS"
-msgstr ""
+msgstr "HASH TĚCHTO SYSTÉMŮ"
 
 #: 
 msgid "Add hash of roms in your gamelists to have more accurate results in Netplay."
-msgstr ""
+msgstr "Přidat hash rom do vašeho seznamu her pro získání přesnějších výsledků pro Netplay."
 
 #: 
 msgid "HASH ROMS"
-msgstr ""
+msgstr "HASH ROM"
 
 #: 
 msgid "Only missing hashs"
-msgstr ""
+msgstr "Pouze chybějící hashe"
 
 #: 
 msgid "Username"
-msgstr ""
+msgstr "Uživatelské jméno"
 
 #: 
 msgid "Country"
-msgstr ""
+msgstr "Zěmě"
 
 #: 
 msgid "Latency"
-msgstr ""
+msgstr "Latence"
 
 #: 
 msgid "Host arch."
-msgstr ""
+msgstr "Host arch."
 
 #: 
 msgid "Core ver."
-msgstr ""
+msgstr "Verze jádra:"
 
 #: 
 msgid "RA ver."
-msgstr ""
+msgstr "RA ver."
 
 #: 
 msgid "Can join"
-msgstr ""
+msgstr "Možné připojení"
 
 #: 
 msgid "Rom and core match"
-msgstr ""
+msgstr "Rom a jádro souhlasí"
 
 #: 
 msgid "Rom found"
-msgstr ""
+msgstr "Rom nalezena"
 
 #: 
 msgid "No rom match"
-msgstr ""
+msgstr "Rom nesouhlasí"
 
 #: 
 msgid "Match"
-msgstr ""
+msgstr "Souhlasí"
 
 #: 
 msgid "No Match"
-msgstr ""
+msgstr "Nesouhlasí"
 
 #: 
 msgid "Rom file"
-msgstr ""
+msgstr "Rom soubor"
 
 #: 
 msgid "Rom hash"
-msgstr ""
+msgstr "Rom hash"
 
 #: 
 msgid "THIS COULD TAKE A WHILE, CONFIRM?"
-msgstr ""
+msgstr "MŮŽE TO CHVILI TRVAT. POTVRDIT?"
 
 #: 
 msgid "good"
-msgstr ""
+msgstr "dobrý"
 
 #: 
 msgid "bad"
-msgstr ""
+msgstr "špatný"
 
 #: 
 msgid "medium"
-msgstr ""
+msgstr "střední"
 
 #: 
 msgid "NETPLAY POPUP DURATION"
-msgstr ""
+msgstr "TRVÁNÍ VYSKAKOVACÍHO OKNA NETPLAY"
 
 #: 
 msgid "Set duration of netplay popups, 0 means no popup."
-msgstr ""
+msgstr "Nastav trvání vyskakovacího okna netplay. 0 znamená žádné okno."
 
 #: 
 msgid "Player"
-msgstr ""
+msgstr "Hráč"
 
 #: 
 msgid "Game"
-msgstr ""
+msgstr "Hra"
 
 #: 
 msgid "A Recalbox friend has started a Netplay game!"
-msgstr ""
+msgstr "Recalbox kamarád odstartvoval Netplay hru!"
 
 #: 
 msgid "Play online on games running through Retroarch like NES, SNES, FBA, Genesis/Megadrive and more!"
-msgstr ""
+msgstr "Hraj online hry pomocí Retroarch na NES, SNES, FBA, Genesis/Megadrive a dalších."
 
 #: 
 msgid "Rom, hash and core match"
-msgstr ""
+msgstr "Rom, hash a jádro souhlasí"
 
 #: 
 msgid "No core match"
-msgstr ""
+msgstr "Nesouhlasí jádro"
 
 #: 
 msgid "Add a clock in the main menu."
+msgstr "Přidat hodiny do hlavního menu."
+
+#. UPGRADE PROCESS
+#: 
+msgid "UPGRADING"
+msgstr "AKTUALIZOVÁNÍ"
+
+#: 
+msgid "PREPARING"
+msgstr "PŘÍPRAVA"
+
+#: 
+msgid "VERIFYING"
+msgstr "OVĚŘOVÁNÍ"
+
+#: 
+msgid "PRESS TWICE TO QUIT GAME"
+msgstr ""
+
+#: 
+msgid "Press twice the buttons to end the game and go back to main menu."
+msgstr ""
+
+#: 
+msgid "Configure screensaver"
+msgstr ""
+
+#: 
+msgid "Set the screensaver behavior. DIM will reduce the screen light, BLACK will turn the screen black, DEMO will launch demo mode."
+msgstr ""
+
+#: 
+msgid "EMPTY LIST"
+msgstr ""
+
+#: Retroarch ratio
+msgid "Auto"
+msgstr ""
+
+#: 
+msgid "Square pixel"
+msgstr ""
+
+#: 
+msgid "Retroarch Config"
+msgstr ""
+
+#: 
+msgid "Retroarch Custom"
+msgstr ""
+
+#: 
+msgid "Core provided"
+msgstr ""
+
+#: 
+msgid "Do not set"
+msgstr ""
+
+#: 
+msgid "Copy current system on another device.\n"
+"Warning ! It will erase all data on target device."
 msgstr ""
 
