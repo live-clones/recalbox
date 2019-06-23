@@ -91,8 +91,12 @@ class Install(InstallBase):
                 logger.hardlog("GPi: Updates disabled")
 
                 # Disable netplay
-                os.system("sed -i -E 's/netplay.enabled=.*/netplay.enabled=0/g' /recalbox/share/system/recalbox.conf")
+                os.system("sed -i -E 's/global.netplay=.*/global.netplay=0/g' /recalbox/share/system/recalbox.conf")
                 logger.hardlog("GPi: Netplay disabled")
+
+                # Disable webmanager
+                os.system("sed -i -E 's/system.manager.enabled=.*/system.manager.enabled=0/g' /recalbox/share/system/recalbox.conf")
+                logger.hardlog("GPi: Webmanager disabled")
 
                 # Disable other controllers
                 os.system("sed -i -E 's/controllers.xarcade.enabled=.*/controllers.xarcade.enabled=0/g' /recalbox/share/system/recalbox.conf")
@@ -191,6 +195,10 @@ class Install(InstallBase):
             # Re-enable netplay
             os.system("sed -i -E 's/netplay.enabled=.*/netplay.enabled=1/g' /recalbox/share/system/recalbox.conf")
             logger.hardlog("GPi: Netplay enabled")
+
+            # Re-enable webmanager
+            os.system("sed -i -E 's/system.manager.enabled=.*/system.manager.enabled=1/g' /recalbox/share/system/recalbox.conf")
+            logger.hardlog("GPi: Webmanager enabled")
 
             # Re-enable other controller
             os.system("sed -i -E 's/controllers.xarcade.enabled=.*/controllers.xarcade.enabled=1/g' /recalbox/share/system/recalbox.conf")
