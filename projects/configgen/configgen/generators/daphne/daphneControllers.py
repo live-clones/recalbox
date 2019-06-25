@@ -5,25 +5,28 @@ import recalboxFiles
 import ConfigParser
 
 keyboard_keys = {
-    "KEY_UP":         "273 114",
-    "KEY_DOWN":       "274 102",
-    "KEY_LEFT":       "276 100",
-    "KEY_RIGHT":      "275 103",
-    "KEY_BUTTON1":    "306 97",
-    "KEY_BUTTON2":    "308 115",
-    "KEY_BUTTON3":    "32 113",
+    "KEY_UP":         "1073741906 0",
+    "KEY_DOWN":       "1073741905 0",
+    "KEY_LEFT":       "1073741904 0",
+    "KEY_RIGHT":      "1073741903 0",
+    "KEY_BUTTON1":    "1073742048 0",
+    "KEY_BUTTON2":    "1073742050 0",
+    "KEY_BUTTON3":    "32 0",
     "KEY_START1":     "49 0",
     "KEY_START2":     "50 0",
-    "KEY_COIN1":      "53 0",
-    "KEY_COIN2":      "54 0",
-    "KEY_SKILL1":     "304 119",
-    "KEY_SKILL2":     "122 105",
-    "KEY_SKILL3":     "120 107",
+    "KEY_COIN1":      "53 54",
+    "KEY_COIN2":      "54 53",
+    "KEY_SKILL1":     "1073742049 0",
+    "KEY_SKILL2":     "122 0",
+    "KEY_SKILL3":     "120 0",
     "KEY_SERVICE":    "57 0",
-    "KEY_TEST":       "283 0",
-    "KEY_RESET":      "284 0",
-    "KEY_SCREENSHOT": "293 0",
-    "KEY_QUIT":       "27 113"
+    "KEY_TEST":       "1073741883 0",
+    "KEY_RESET":      "48 0",
+    "KEY_SCREENSHOT": "1073741893 0",
+    "KEY_QUIT":       "27 0",
+    "KEY_PAUSE":      "112 0",
+    "KEY_CONSOLE":    "92 0",
+    "KEY_TILT":       "116 0"
 }
 joystick_keys = {
     "KEY_UP":         "up",
@@ -44,7 +47,10 @@ joystick_keys = {
     "KEY_TEST":       None,
     "KEY_RESET":      None,
     "KEY_SCREENSHOT": None,
-    "KEY_QUIT":       "hotkey"
+    "KEY_QUIT":       "hotkey",
+    "KEY_PAUSE":      None,
+    "KEY_CONSOLE":    None,
+    "KEY_TILT":       None
 }
 joystick_axis = {
     "KEY_UP":         ["joystick1up","up"],
@@ -65,7 +71,10 @@ joystick_axis = {
     "KEY_TEST":       None,
     "KEY_RESET":      None,
     "KEY_SCREENSHOT": None,
-    "KEY_QUIT":       None
+    "KEY_QUIT":       None,
+    "KEY_PAUSE":      None,
+    "KEY_CONSOLE":    None,
+    "KEY_TILT":       None
 }
 
 # Create the controller configuration file
