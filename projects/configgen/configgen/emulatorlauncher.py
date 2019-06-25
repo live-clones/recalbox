@@ -171,6 +171,7 @@ def getDefaultEmulator(targetSystem):
         "atari800"      : Emulator(name='atari800', emulator='libretro', core='atari800'),
         "oricatmos"     : Emulator(name='oricatmos', emulator='oricutron', videomode='default'),
         "samcoupe"      : Emulator(name='samcoupe', emulator='simcoupe', videomode='default'),
+        "pc88"          : Emulator(name='pc88', emulator='libretro', core='quasi88'),
         "pc98"          : Emulator(name='pc98', emulator='libretro', core='np2kai'),
         "macintosh"     : Emulator(name='macintosh', emulator='libretro', core='minivmac'),
 
