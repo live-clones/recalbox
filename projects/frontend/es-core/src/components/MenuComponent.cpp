@@ -201,7 +201,7 @@ std::shared_ptr<ComponentGrid> makeButtonGrid(Window* window, const std::vector<
  * Limitation: same number of button per line, same dimension per cell
  */
 
-std::shared_ptr<ComponentGrid> makeMultiDimButtonGrid(Window* window, const std::vector< std::vector< std::shared_ptr<ButtonComponent> > >& buttons,  float outerWidth)
+std::shared_ptr<ComponentGrid> makeMultiDimButtonGrid(Window* window, const std::vector< std::vector< std::shared_ptr<ButtonComponent> > >& buttons, const float outerWidth, const float outerHeight)
 {
 
     const int sizeX = (int) buttons.at(0).size();
@@ -221,7 +221,7 @@ std::shared_ptr<ComponentGrid> makeMultiDimButtonGrid(Window* window, const std:
 
     std::shared_ptr<ComponentGrid> grid = std::make_shared<ComponentGrid>(window, Vector2i(sizeX, sizeY));
 
-    grid->setSize(gridWidth, gridHeight);
+    grid->setSize(gridWidth, gridHeight < outerHeight ? gridHeight : outerHeight);
 
     for (int x = 0; x < sizeX; x++)
         grid->setColWidthPerc(x, (float) 1 / sizeX);

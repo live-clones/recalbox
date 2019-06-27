@@ -12,9 +12,6 @@ GuiTextEditPopupKeyboard::GuiTextEditPopupKeyboard(Window* window, const std::st
 {
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 
-
-	const float gridWidth = Renderer::getScreenWidth() * 0.96f;
-
 	mBackground.setImagePath(menuTheme->menuBackground.path);
 	mBackground.setCenterColor(menuTheme->menuBackground.color);
 	mBackground.setEdgeColor(menuTheme->menuBackground.color);
@@ -27,7 +24,7 @@ GuiTextEditPopupKeyboard::GuiTextEditPopupKeyboard(Window* window, const std::st
 	mText = std::make_shared<TextEditComponent>(mWindow);
 	mText->setValue(initValue);
 
-	if (!multiLine)
+	if (!mMultiLine)
 		mText->setCursor(initValue.size());
 
 	// Header
@@ -85,26 +82,29 @@ GuiTextEditPopupKeyboard::GuiTextEditPopupKeyboard(Window* window, const std::st
 
 	    for (unsigned int i = 0; i < 5; i++)
 	    {
-			std::vector< std::shared_ptr<ButtonComponent> > buttons;
-	        for (unsigned int j = 0; j < 12; j++)
-            {
-	        	if (i == 4 && j == 0)
-	        	{
-					// Special case for shift key
-					mShiftButton = std::make_shared<ButtonComponent>(mWindow, "SHIFT", _("SHIFTS FOR UPPER,LOWER, AND SPECIAL"), [this] {
-						switchShift();
-					});
-					buttons.push_back(mShiftButton);
-
-	        	}
-	        	else buttons.push_back(makeButton(lines.at(2 * i).at(j), lines.at(2 * i + 1).at(j)));
-            }
-			buttonList.push_back(buttons);
+	      std::vector< std::shared_ptr<ButtonComponent> > buttons;
+        for (unsigned int j = 0; j < 12; j++)
+        {
+          if (i == 4 && j == 0)
+          {
+            // Special case for shift key
+            mShiftButton = std::make_shared<ButtonComponent>(mWindow, "SHIFT", _("SHIFTS FOR UPPER,LOWER, AND SPECIAL"), [this] {
+              switchShift();
+            });
+            buttons.push_back(mShiftButton);
+          }
+          else buttons.push_back(makeButton(lines.at(2 * i).at(j), lines.at(2 * i + 1).at(j)));
+        }
+			  buttonList.push_back(buttons);
 	    }
 	}
 
+	const float screenHeightAvailable = Renderer::getScreenHeight() - getHelpStyle().font->getHeight(); // Height - Help Height
+  const float gridWidth = Renderer::getScreenWidth() * 0.98f;
+  const float gridHeight = screenHeightAvailable * ((float) buttonList.size() / (float) (buttonList.size() + 3) ); // 3 => share space with mTitle + mText + buttons
+
 	// Add keyboard keys
-	mKeyboardGrid = makeMultiDimButtonGrid(mWindow, buttonList, gridWidth);
+	mKeyboardGrid = makeMultiDimButtonGrid(mWindow, buttonList, gridWidth, gridHeight);
 
 	mShiftButton->autoSizeFont();
 	if (mShiftButton->isTextOverlapping()) {
@@ -138,17 +138,17 @@ GuiTextEditPopupKeyboard::GuiTextEditPopupKeyboard(Window* window, const std::st
 		textHeight *= 6;
 	mText->setSize(gridWidth - 40, textHeight);
 
+	// Determine available free space to get a more airy grid
+	float height = mTitle->getFont()->getHeight() + textHeight + mKeyboardGrid->getSize().y() + (mMultiLine ? 0 : mButtons->getSize().y());
+	float padding = std::min(40.0f, (screenHeightAvailable - height) * 0.75f);
+
 	// If multiline, set all size back to default, else draw size for keyboard.
 	if (mMultiLine)
-	{
-		setSize(Renderer::getScreenWidth() * 0.5f, mTitle->getFont()->getHeight() + textHeight + mKeyboardGrid->getSize().y() + 40);
-		setPosition((Renderer::getScreenWidth() - mSize.x()) / 2, (Renderer::getScreenHeight() - mSize.y()) / 2);
-	}
+		setSize(Renderer::getScreenWidth() * 0.75f, height + padding);
 	else
-	{
-		setSize(gridWidth, mTitle->getFont()->getHeight() + textHeight + 40 + mKeyboardGrid->getSize().y() + mButtons->getSize().y());
-		setPosition((Renderer::getScreenWidth() - mSize.x()) / 2, (Renderer::getScreenHeight() - mSize.y()) / 2);
-	}
+		setSize(gridWidth, height + padding);
+
+	setPosition((Renderer::getScreenWidth() - mSize.x()) / 2, (screenHeightAvailable - mSize.y()) / 2);
 }
 
 std::shared_ptr<ButtonComponent> GuiTextEditPopupKeyboard::makeButton(const std::string& key, const std::string& shiftedKey)
@@ -172,13 +172,13 @@ void GuiTextEditPopupKeyboard::onSizeChanged()
 
 	mText->setSize(mSize.x() - 40, mText->getSize().y());
 
-	float fullHeight = mTitle->getFont()->getHeight() + mText->getSize().y() + mKeyboardGrid->getSize().y() + mButtons->getSize().y();
+	float fullHeight = mTitle->getFont()->getHeight() + mText->getSize().y() + mKeyboardGrid->getSize().y() + (mMultiLine ? 0 : mButtons->getSize().y());
 
 	// update grid
 	mGrid.setRowHeightPerc(0, mTitle->getFont()->getHeight() / fullHeight);
 	mGrid.setRowHeightPerc(1, mText->getSize().y() / fullHeight);
 	mGrid.setRowHeightPerc(2, mKeyboardGrid->getSize().y() / fullHeight);
-	mGrid.setRowHeightPerc(3, mButtons->getSize().y() / fullHeight);
+	mGrid.setRowHeightPerc(3, mMultiLine ? 0 : mButtons->getSize().y() / fullHeight);
 
 	mGrid.setSize(mSize);
 
@@ -233,11 +233,12 @@ void GuiTextEditPopupKeyboard::switchShift()
 	else
 		mShiftButton->removeColorShift();
 
-    for (auto & kb: keyboardButtons)
-    {
-		const std::string& text = mShift ? kb.shiftedKey : kb.key;
-    	kb.button->setText(text, text, false, false);
-    }
+
+  for (auto & kb: keyboardButtons)
+  {
+    const std::string& text = mShift ? kb.shiftedKey : kb.key;
+    kb.button->setText(text, text, false, false);
+  }
 }
 
 std::vector<HelpPrompt> GuiTextEditPopupKeyboard::getHelpPrompts()
