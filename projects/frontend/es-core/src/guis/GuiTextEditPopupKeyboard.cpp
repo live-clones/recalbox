@@ -237,8 +237,10 @@ void GuiTextEditPopupKeyboard::switchShift()
   for (auto & kb: keyboardButtons)
   {
     const std::string& text = mShift ? kb.shiftedKey : kb.key;
-    kb.button->setText(text, text, false, false);
+    kb.button->setText(text, text, false, false, false);
   }
+
+  updateHelpPrompts();
 }
 
 std::vector<HelpPrompt> GuiTextEditPopupKeyboard::getHelpPrompts()

@@ -18,7 +18,7 @@ public:
 	bool input(InputConfig* config, Input input) override;
 	void render(const Eigen::Affine3f& parentTrans) override;
 
-	void setText(const std::string& text, const std::string& helpText, bool upperCase = true, bool resize = true);
+	void setText(const std::string& text, const std::string& helpText, bool upperCase = true, bool resize = true, bool doUpdateHelpPrompts = true);
 	void autoSizeFont();
 	bool isTextOverlapping();
 

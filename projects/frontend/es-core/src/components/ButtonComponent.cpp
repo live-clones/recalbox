@@ -48,7 +48,7 @@ bool ButtonComponent::input(InputConfig* config, Input input)
 	return GuiComponent::input(config, input);
 }
 
-void ButtonComponent::setText(const std::string& text, const std::string& helpText, bool upperCase, bool resize)
+void ButtonComponent::setText(const std::string& text, const std::string& helpText, bool upperCase, bool resize, bool doUpdateHelpPrompts)
 {
 	mText = upperCase ? strToUpper(text) : text;
 	mHelpText = helpText;
@@ -61,7 +61,8 @@ void ButtonComponent::setText(const std::string& text, const std::string& helpTe
 		setSize(std::max(mTextCache->metrics.size.x() + 12, minWidth), mTextCache->metrics.size.y() + 8);
 	}
 
-	updateHelpPrompts();
+	if (doUpdateHelpPrompts)
+  	updateHelpPrompts();
 }
 
 void ButtonComponent::autoSizeFont()
