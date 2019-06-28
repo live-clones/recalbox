@@ -31,7 +31,7 @@ class AmiberryGenerator(Generator):
         "disk 01": ["disk 02", "disk 03", "disk 04"],
     }
 
-    # Generate ADF Arguments
+    # Generate RP9 Arguments
     @staticmethod
     def getRP9Arguments(rom, system, _):
         if system in SubSystems.COMPUTERS:
@@ -61,6 +61,7 @@ class AmiberryGenerator(Generator):
                     else:
                         # Try to seek for next disk with a different tailing text (TOSEC case)
                         nextDisk = rom[:pos] + nextDiskPattern[i] + "*" + ext
+                        nextDisk = nextDisk.replace("[", "[[]").replace("]", "[]]")
                         files = glob.glob(nextDisk)
                         if files is not None:
                             files.sort()  # Sort to get shortest name first
@@ -75,8 +76,7 @@ class AmiberryGenerator(Generator):
 
     # Generate WHDL Arguments
     @staticmethod
-    def getWHDLArguments(rom, system, configFile):
-        del rom, configFile
+    def getWHDLArguments(_, system, __):
         if system in SubSystems.COMPUTERS:
             # Prepare final save folder
             sourceSaveFolder = os.path.join(recalboxFiles.amiberryMountPoint, "whdboot/save-data/Savegames")
