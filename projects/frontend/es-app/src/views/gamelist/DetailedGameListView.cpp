@@ -1,4 +1,5 @@
 #include <RecalboxConf.h>
+#include <VideoEngine.h>
 #include "views/gamelist/DetailedGameListView.h"
 #include "views/ViewController.h"
 #include "Window.h"
@@ -320,6 +321,7 @@ void DetailedGameListView::updateInfoPanel()
 
   if (file == nullptr)
   {
+    VideoEngine::This().StopVideo(false);
     fadeOut(getFolderComponents(), true);
     fadeOut(getGameComponents(), true);
   }

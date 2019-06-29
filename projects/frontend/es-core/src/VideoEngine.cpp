@@ -139,14 +139,17 @@ void VideoEngine::PlayVideo(const std::string& videopath)
 
 void VideoEngine::StopVideo(bool waitforstop)
 {
-  LOG(LogDebug) << "Video Engine requested to stop playing " << mFileName;
-
   switch(mState)
   {
     case PlayerState::Idle: break;
     case PlayerState::StartPending:
     case PlayerState::Paused:
-    case PlayerState::Playing: mState = PlayerState::StopPending; break;
+    case PlayerState::Playing:
+    {
+      LOG(LogDebug) << "Video Engine requested to stop playing " << mFileName;
+      mState = PlayerState::StopPending;
+      break;
+    }
     case PlayerState::StopPending: break;
   }
   // Paused?

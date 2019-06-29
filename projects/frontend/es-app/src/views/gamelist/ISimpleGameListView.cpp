@@ -315,10 +315,10 @@ bool ISimpleGameListView::input(InputConfig* config, Input input) {
   if (config->isMappedTo("down", input) ||
       config->isMappedTo("up", input) ||
       config->isMappedTo("pagedown", input) ||
-	  config->isMappedTo("pageup", input) ||
+	    config->isMappedTo("pageup", input) ||
       config->isMappedTo("l2", input) ||
-	  config->isMappedTo("r2", input) )
-    RecalboxSystem::getInstance()->NotifyGame(*getCursor(), false, false);
+	    config->isMappedTo("r2", input) )
+      RecalboxSystem::getInstance()->NotifyGame(*getCursor(), false, false);
 
 	return result;
 }
