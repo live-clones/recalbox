@@ -527,7 +527,8 @@ bool SystemData::loadConfig()
   DateTime start;
   switch(hardware)
   {
-    case RaspberryGeneration::Pi0or1:
+    case RaspberryGeneration::Pi0:
+    case RaspberryGeneration::Pi1:
     {
       for (const Tree& system : systemList)
       {
@@ -547,6 +548,7 @@ bool SystemData::loadConfig()
     case RaspberryGeneration::Pi2:
     case RaspberryGeneration::Pi3:
     case RaspberryGeneration::Pi3plus:
+    case RaspberryGeneration::Pi4:
     case RaspberryGeneration::NotYetKnown:
     case RaspberryGeneration::UndetectedYet:;
     default:

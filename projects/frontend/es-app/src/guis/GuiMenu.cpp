@@ -1380,7 +1380,7 @@ void GuiMenu::menuAdvancedSettings(){
   std::string currentOverclock = Settings::getInstance()->getString("Overclock");
   switch(getRaspberryVersion())
   {
-    case RaspberryGeneration::Pi0or1:
+    case RaspberryGeneration::Pi1:
     {
       overclock_choice->add(_("EXTREM (1100Mhz)"), "extrem", currentOverclock == "extrem");
       overclock_choice->add(_("TURBO (1000Mhz)"), "turbo", currentOverclock == "turbo");
@@ -1412,8 +1412,12 @@ void GuiMenu::menuAdvancedSettings(){
       overclock_choice->add(_("NONE (1400Mhz)"), "none", currentOverclock == "none");
       break;
     }
+    case RaspberryGeneration::Pi0:
+    case RaspberryGeneration::Pi4:
     case RaspberryGeneration::NotRaspberry:
     case RaspberryGeneration::NotYetKnown:
+    case RaspberryGeneration::UndetectedYet:
+    default:
     {
       overclock_choice->add(_("NONE"), "none", true);
       break;

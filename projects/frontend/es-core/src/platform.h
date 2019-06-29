@@ -9,10 +9,12 @@ enum class RaspberryGeneration
 {
     UndetectedYet, // Not yet detected
     NotRaspberry,  // Hardware is not a raspberry
-    Pi0or1,        // Pi 0, 0W, 1, A, B, A+, B+
+    Pi0,           // Pi 0, 0W
+    Pi1,           // Pi 1, A, B, A+, B+
     Pi2,           // Pi 2B
     Pi3,           // Pi 3B
     Pi3plus,       // Pi 3B+
+    Pi4,           // Pi 4B
     NotYetKnown,   // Unknown Pi with higher revisions
 };
 
@@ -22,19 +24,21 @@ enum class RaspberryGeneration
  */
 enum class RaspberryModel
 {
-  OneA      = 0x0,
-  OneB      = 0x1,
-  OneAPlus  = 0x2,
-  OneBPlus  = 0x3,
-  TwoB      = 0x4,
-  Alpha     = 0x5,
-  OneCM1    = 0x6,
-  TreeB     = 0x8,
-  Zero      = 0x9,
-  TreeCM3   = 0xA,
-  ZeroW     = 0xC,
-  TreeBPlus = 0xD,
-  TreeAPlus = 0xE,
+  OneA        = 0x00,
+  OneB        = 0x01,
+  OneAPlus    = 0x02,
+  OneBPlus    = 0x03,
+  TwoB        = 0x04,
+  Alpha       = 0x05,
+  OneCM1      = 0x06,
+  TreeB       = 0x08,
+  Zero        = 0x09,
+  TreeCM3     = 0x0A,
+  ZeroW       = 0x0C,
+  TreeBPlus   = 0x0D,
+  TreeAPlus   = 0x0E,
+  TreeCM3Plus = 0x10,
+  FourB       = 0x11,
 };
 
 std::string getHomePath();

@@ -81,35 +81,37 @@ int runSystemCommand(const std::string& cmd_utf8)
 #endif
 }
 
-RaspberryGeneration extractGeneration(int revision)
+RaspberryGeneration extractGeneration(unsigned int revision)
 {
   // Split - uuuuuuuuFMMMCCCCPPPPTTTTTTTTRRRR
-  bool newGeneration  = (revision >> 23) & 1;
-  int  memorySize     = (revision >> 20) & 0x7; (void)memorySize;
-  int  manufacturer   = (revision >> 16) & 0xF; (void)manufacturer;
-  int  processor      = (revision >> 12) & 0xF; (void)processor;
-  int  model          = (revision >>  4) & 0xFF;
-  int  revisionNumber = (revision >>  0) & 0xF; (void)revisionNumber;
+  bool newGeneration  = (revision >> 23u) & 1u;
+  int  memorySize     = (revision >> 20u) & 0x7u; (void)memorySize;
+  int  manufacturer   = (revision >> 16u) & 0xFu; (void)manufacturer;
+  int  processor      = (revision >> 12u) & 0xFu; (void)processor;
+  int  model          = (revision >>  4u) & 0xFFu;
+  int  revisionNumber = (revision >>  0u) & 0xFu; (void)revisionNumber;
 
   // Old revision numbering
   if (!newGeneration)
-    return RaspberryGeneration::Pi0or1;
+    return RaspberryGeneration::Pi1;
 
   // New models
   switch ((RaspberryModel)model)
   {
+    case RaspberryModel::Zero:
+    case RaspberryModel::ZeroW: return RaspberryGeneration::Pi0;
     case RaspberryModel::OneA:
     case RaspberryModel::OneAPlus:
     case RaspberryModel::OneB:
     case RaspberryModel::OneBPlus:
-    case RaspberryModel::OneCM1:
-    case RaspberryModel::Zero:
-    case RaspberryModel::ZeroW: return RaspberryGeneration::Pi0or1;
+    case RaspberryModel::OneCM1: return RaspberryGeneration::Pi1;
     case RaspberryModel::TwoB: return RaspberryGeneration::Pi2;
     case RaspberryModel::TreeB:
     case RaspberryModel::TreeCM3: return RaspberryGeneration::Pi3;
     case RaspberryModel::TreeBPlus:
+    case RaspberryModel::TreeCM3Plus:
     case RaspberryModel::TreeAPlus: return RaspberryGeneration::Pi3plus;
+    case RaspberryModel::FourB: return RaspberryGeneration::Pi4;
     case RaspberryModel::Alpha:
     default: break;
   }
@@ -155,7 +157,7 @@ RaspberryGeneration getRaspberryVersion()
           char* colon = strchr(line, ':');
           if (colon != nullptr)
           {
-            int revision = (int) strtol(colon + 2, nullptr, 16); // Convert hexa revision
+            unsigned int revision = (int) strtol(colon + 2, nullptr, 16); // Convert hexa revision
 
             if (hardware == "BCM2835")
             {
