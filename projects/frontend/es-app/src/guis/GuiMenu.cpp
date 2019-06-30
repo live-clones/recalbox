@@ -1104,25 +1104,7 @@ void GuiMenu::menuUISettings(){
   };
   st->addSubMenu(_("THEME CONFIGURATION"), openGui, _(MenuMessages::UI_THEME_CONFIGURATION_MSG));
 
-  // Game List Update
-  st->addSubMenu(_("UPDATE GAMES LISTS"), [this,window] {
-    window->pushGui(new GuiMsgBox(window, _("REALLY UPDATE GAMES LISTS ?"), _("YES"), [this,window] {
-        ViewController::get()->goToStart();
-        window->renderShutdownScreen();
-        delete ViewController::get();
-        SystemData::deleteSystems();
-        SystemData::loadConfig();
-        GuiComponent *gui;
-        while ((gui = window->peekGui()) != nullptr) {
-          window->removeGui(gui);
-          delete gui;
-          }
-        ViewController::init(window);
-        ViewController::get()->reloadAll();
-        window->pushGui(ViewController::get());
-        ViewController::get()->goToStart();
-        }, _("NO"), nullptr));
-  }, _(MenuMessages::UI_UPDATE_GAMELIST_HELP_MSG));
+
 
   st->addSaveFunc([] {
     RecalboxConf::getInstance()->saveRecalboxConf();
@@ -1131,6 +1113,26 @@ void GuiMenu::menuUISettings(){
 	};
 
 	s->addSubMenu(_("THEME"), openGuiTheme, _(MenuMessages::UI_THEME_HELP_MSG));
+
+	// Game List Update
+	s->addSubMenu(_("UPDATE GAMES LISTS"), [this,window] {
+		window->pushGui(new GuiMsgBox(window, _("REALLY UPDATE GAMES LISTS ?"), _("YES"), [this,window] {
+			ViewController::get()->goToStart();
+			window->renderShutdownScreen();
+			delete ViewController::get();
+			SystemData::deleteSystems();
+			SystemData::loadConfig();
+			GuiComponent *gui;
+			while ((gui = window->peekGui()) != nullptr) {
+				window->removeGui(gui);
+				delete gui;
+			}
+			ViewController::init(window);
+			ViewController::get()->reloadAll();
+			window->pushGui(ViewController::get());
+			ViewController::get()->goToStart();
+		}, _("NO"), nullptr));
+	}, _(MenuMessages::UI_UPDATE_GAMELIST_HELP_MSG));
 
   mWindow->pushGui(s);
 }
