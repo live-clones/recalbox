@@ -46,3 +46,7 @@ disable_pvt=1
 dtparam=audio=on
 disable_audio_dither=1
 audio_pwm_mode=0 
+
+#disable activity leds
+dtparam=act_led_trigger=none
+dtparam=act_led_activelow=on
