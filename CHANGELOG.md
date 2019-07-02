@@ -65,6 +65,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Bump Retroarch
 
 ## [6.1]
+- add support mmc and sdhci (x86, x86_64)
 - Replacement of the neogeo intro video
 - Fix : bug introrecaboxsms.mp4 is not playing fixed with reencoding
 - Enable Vsync in dolphin-emu
