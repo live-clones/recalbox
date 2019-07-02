@@ -6,7 +6,6 @@ from installers.base.install import InstallBase
 class Install(InstallBase):
 
     BASE_SOURCE_FOLDER = InstallBase.BASE_SOURCE_FOLDER + "gpi/"
-    #BASE_SOURCE_FOLDER = "/home/bkg2k/Development/Recalbox/recalbox-hardware/case/installers/" + "gpi/"
 
     def __init__(self):
         InstallBase.__init__(self)
@@ -130,6 +129,15 @@ class Install(InstallBase):
                     # Switch Theme
                     os.system("sed -i -E 's/name=|ThemeSet| value=|.*|/name=|ThemeSet| value=|recalbox-gpicase|/g' /recalbox/share/system/.emulationstation/es_settings.cfg".replace('|', '"'))
                     logger.hardlog("GPi: GPi-case theme installed")
+                else:
+                    logger.hardlog("GPi: GPi-case theme NOT installed")
+
+                # Copy sound configuration
+                soundConfiguration = self.BASE_SOURCE_FOLDER + "assets/asound.conf"
+                if os.system("cp {} /etc/".format(soundConfiguration)) == 0:
+                    logger.hardlog("GPi: Sound configuration installed")
+                else:
+                    logger.hardlog("GPi: Sound configuration NOT installed")
 
             except Exception as e:
                 logger.hardlog("GPi: Exception = {}".format(e))
