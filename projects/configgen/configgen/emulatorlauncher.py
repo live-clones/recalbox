@@ -93,7 +93,12 @@ def getGenerator(emulator):
         module = __import__("generators.vice.viceGenerator", fromlist=["ViceGenerator"])
         generatorClass = getattr(module, "ViceGenerator")
         return generatorClass()
+    elif emulator == "pcsx_rearmed":
+        module = __import__("generators.pcsx.pcsxGenerator", fromlist=["PcsxGenerator"])
+        generatorClass = getattr(module, "PcsxGenerator")
+        return generatorClass()
     else:
+        print("Missing generator for {}".format(emulator))
         raise ValueError
         pass
 
@@ -343,7 +348,8 @@ def config_upgrade(version):
      "kodi",
      "fba2x",
      "moonlight",
-     "vice"
+     "vice",
+     "pcsx_rearmed"
     )
 
     res = True

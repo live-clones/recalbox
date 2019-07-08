@@ -16,25 +16,28 @@ recalboxConf = HOME + '/recalbox.conf'
 logdir = HOME + '/logs/'
 
 # This dict is indexed on the emulator name, not on the system
-recalboxBins = {'dosbox'      : '/usr/bin/dosbox'
-              , 'fba2x'       : '/usr/bin/fba2x'
-              , 'kodi'        : '/recalbox/scripts/kodilauncher.sh'
-              , 'libretro'    : '/usr/bin/retroarch'
-              , 'linapple'    : '/usr/bin/linapple'
-              , 'gsplus'      : '/usr/bin/GSplus'
-              , 'moonlight'   : '/usr/bin/moonlight'
-              , 'mupen64plus' : '/usr/bin/mupen64plus'
-              , 'ppsspp'      : '/usr/bin/PPSSPPSDL'
-              , 'reicast'     : '/usr/bin/reicast.elf'
-              , 'scummvm'     : '/usr/bin/scummvm'
-              , 'residualvm'  : '/usr/bin/residualvm'
-              , 'vice'        : '/usr/bin/x64'
-              , 'dolphin'     : '/usr/bin/dolphin-emu'
-              , 'advancemame' : '/usr/bin/advmame'
-              , 'amiberry'    : '/usr/bin/amiberry'
-              , 'daphne'      : '/usr/bin/hypseus'
-              , 'oricutron'   : '/usr/bin/oricutron/oricutron'
-              , 'simcoupe'    : '/usr/bin/simcoupe'
+recalboxBins =\
+{
+    'dosbox'      : '/usr/bin/dosbox',
+    'fba2x'       : '/usr/bin/fba2x',
+    'kodi'        : '/recalbox/scripts/kodilauncher.sh',
+    'libretro'    : '/usr/bin/retroarch',
+    'linapple'    : '/usr/bin/linapple',
+    'gsplus'      : '/usr/bin/GSplus',
+    'moonlight'   : '/usr/bin/moonlight',
+    'mupen64plus' : '/usr/bin/mupen64plus',
+    'ppsspp'      : '/usr/bin/PPSSPPSDL',
+    'reicast'     : '/usr/bin/reicast.elf',
+    'scummvm'     : '/usr/bin/scummvm',
+    'residualvm'  : '/usr/bin/residualvm',
+    'vice'        : '/usr/bin/x64',
+    'dolphin'     : '/usr/bin/dolphin-emu',
+    'advancemame' : '/usr/bin/advmame',
+    'amiberry'    : '/usr/bin/amiberry',
+    'daphne'      : '/usr/bin/hypseus',
+    'oricutron'   : '/usr/bin/oricutron/oricutron',
+    'simcoupe'    : '/usr/bin/simcoupe',
+    'pcsx_rearmed': '/usr/bin/pcsx_rearmed',
 }
 
 
@@ -121,3 +124,6 @@ oricutronConfig = HOME + '/.config/oricutron.cfg'
 gsplusConfig = HOME + '/.config/gsplus.cfg'
 
 atari800CustomConfig = HOME + '/.atari800.cfg'
+
+pcsxRootFolder = '/recalbox/share/system/configs/pcsx'
+pcsxConfigFile = pcsxRootFolder + '/pcsx.cfg'
