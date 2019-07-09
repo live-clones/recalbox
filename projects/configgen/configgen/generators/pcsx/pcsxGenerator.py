@@ -1,3 +1,4 @@
+import os
 import Command
 import recalboxFiles
 from generators.Generator import Generator
@@ -5,7 +6,7 @@ from generators.Generator import Generator
 
 class PcsxGenerator(Generator):
 
-    RECALBOX_TO_PBCS_BUTTON_MAPPING = \
+    RECALBOX_TO_PCSX_BUTTON_MAPPING = \
     {
         "a": "CROSS",
         "b": "CIRCLE",
@@ -15,6 +16,8 @@ class PcsxGenerator(Generator):
         "pagedown": "R1",
         "l2": "L2",
         "r2": "R2",
+        "start": "START",
+        "select": "SELECT",
     }
 
 
@@ -35,6 +38,11 @@ class PcsxGenerator(Generator):
 
     @staticmethod
     def SaveConfiguration(config):
+        # Force path creation
+        configPath = os.path.dirname(recalboxFiles.pcsxConfigFile)
+        if not os.path.exists(configPath):
+            os.makedirs(configPath)
+
         # Save configuration back
         with open(recalboxFiles.pcsxConfigFile, "w+") as lines:
             for line in config:
@@ -60,7 +68,7 @@ class PcsxGenerator(Generator):
                 config.append("bind down =  player{} DOWN".format(player))
                 config.append("bind left =  player{} LEFT".format(player))
                 config.append("bind right =  player{} RIGHT".format(player))
-                for k,v in self.RECALBOX_TO_PBCS_BUTTON_MAPPING.iteritems():
+                for k,v in self.RECALBOX_TO_PCSX_BUTTON_MAPPING.iteritems():
                     if k in controller.inputs:
                         config.append("bind {} =  player{} {}".format(PcsxGenerator.ButtonChar(controller.inputs[k].id), player, v))
 
