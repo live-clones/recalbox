@@ -61,7 +61,7 @@ class keyValueSettings:
         return result
 
     def saveFile(self):
-        os = __import__("os")
+        import os
         folder = os.path.dirname(self.settingsFile)
         if not os.path.exists(folder):
             os.makedirs(folder)
@@ -74,14 +74,16 @@ class keyValueSettings:
                     sf.write(key + "=" + str(self.settings[key]) + '\n')
 
     def loadFile(self, clear = False):
+        import re
         try:
             if clear:
                 self.settings.clear()
             with open(self.settingsFile) as lines:
                 for line in lines:
-                    if '=' in line:
-                        key, value = line.split('=', 1)
-                        if key is not None and value is not None:
-                            self.settings[key.strip()] = value.strip()
+                    m = re.match(r'^([^#;].*)\s?=\s?(.+)$', line)
+                    if m:
+                        key = m.group(1).strip()
+                        value = m.group(2).strip()
+                        self.settings[key] = value
         finally:
             return self.settings
