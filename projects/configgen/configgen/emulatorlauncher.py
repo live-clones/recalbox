@@ -97,6 +97,10 @@ def getGenerator(emulator):
         module = __import__("generators.pcsx.pcsxGenerator", fromlist=["PcsxGenerator"])
         generatorClass = getattr(module, "PcsxGenerator")
         return generatorClass()
+    elif emulator == "pisnes":
+        module = __import__("generators.pisnes.pisnesGenerator", fromlist=["PisnesGenerator"])
+        generatorClass = getattr(module, "PisnesGenerator")
+        return generatorClass()
     else:
         print("Missing generator for {}".format(emulator))
         raise ValueError
@@ -349,7 +353,8 @@ def config_upgrade(version):
      "fba2x",
      "moonlight",
      "vice",
-     "pcsx_rearmed"
+     "pcsx_rearmed",
+     "pisnes"
     )
 
     res = True

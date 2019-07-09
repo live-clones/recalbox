@@ -38,6 +38,7 @@ recalboxBins =\
     'oricutron'   : '/usr/bin/oricutron/oricutron',
     'simcoupe'    : '/usr/bin/simcoupe',
     'pcsx_rearmed': '/usr/bin/pcsx_rearmed',
+    'pisnes'      : '/usr/bin/pisnes',
 }
 
 
@@ -127,3 +128,6 @@ atari800CustomConfig = HOME + '/.atari800.cfg'
 
 pcsxRootFolder = '/recalbox/share/system/configs/pcsx'
 pcsxConfigFile = pcsxRootFolder + '/pcsx.cfg'
+
+pisnesRootFolder = '/recalbox/share/system/configs/pisnes'
+pisnesConfigFile = pisnesRootFolder + '/snes9x.cfg'
