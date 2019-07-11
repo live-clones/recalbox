@@ -9,8 +9,8 @@ class PisnesGenerator(Generator):
 
     RECALBOX_TO_PBCS_BUTTON_MAPPING = \
     {
-        "up": "A",
-        "down": "B",
+        "up": "UP",
+        "down": "DOWN",
         "left": "LEFT",
         "right": "RIGHT",
         "a": "A",
