@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_FCEUMM_VERSION = 4e1bdaaed021b0f6587c61f18de081bc3876f887
+LIBRETRO_FCEUMM_VERSION = bb8aef82c11b6d9eb21a0e902e770c75924ff96e
 LIBRETRO_FCEUMM_SITE = $(call github,libretro,libretro-fceumm,$(LIBRETRO_FCEUMM_VERSION))
 
 ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_RPI2),y)
