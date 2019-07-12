@@ -6,6 +6,7 @@
 
 LIBRETRO_SAMEBOY_VERSION = 9ab7f4f1d98006d57d7f058d33792598972f27d0
 LIBRETRO_SAMEBOY_SITE = $(call github,libretro,SameBoy,$(LIBRETRO_SAMEBOY_VERSION))
+LIBRETRO_SAMEBOY_DEPENDENCIES = rgbds
 
 #define LIBRETRO_SAMEBOY_PATH_TO_RGBDS
 #	# Missing variable definition to  rgb* tools - Use a brutal SED for now
