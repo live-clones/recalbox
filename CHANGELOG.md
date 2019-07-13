@@ -32,7 +32,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Change default mame emulator to mame2003_plus core (0.78 romset with improvements and additions)
 - Web interface: IRC link replaced by Discord link in help section
 - Shutdown System option moved at the top of the Quit menu
-- Bump np2kai core
 - Fix lutro zipped games unzipping in the .lutro folder
 - Support archive: switch to transfer.sh Temp File Hosting
 - Add a CI stage for linting
@@ -45,7 +44,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Moga Pro Power, Wiimote, Logitech RumblePad added to es_input.cfg
 - Enable threaded-dsp option in 4do core
 - Bluetooth: Previously configured pads automatically unpaired before pairing again
-- Bump retroarch to 1.7.7+ (01/07/2019 version)
+- Bump retroarch to 1.7.7+
 - Bump Odroid XU4 kernel to 4.14
 - More firmwares and drivers added
 - Bump libretro pcsx_rearmed to support .chd files

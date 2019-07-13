@@ -24,7 +24,7 @@
 - Libretro core updated! Theodore updated to latest version (add emulation of Thomson MO6 and Olivetti Prodest PC128)
 - Libretro core updated! Migrate Glupen64 to Mupen64Plus
 - Libretro core split! Rebrand stella to stella2014 and add upstream stella core
-- Emulator updated! ScummVM updated to April 2019 versions (new theme included)
+- Emulator updated! ScummVM updated to July 2019 version (new theme included)
 - Emulator updated! Linapple-Pie now uses upstream repository
 - Enable both hotkeys and I2C on RasberryPi GPIO
 - Add .7z support to more emulators
