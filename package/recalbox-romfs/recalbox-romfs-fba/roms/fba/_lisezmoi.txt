@@ -4,7 +4,7 @@ Placez ici vos roms final burn alpha.
 
 Les roms doivent avoir l'extension ".zip/.fba"
 
-Le fichier clrmamepro/piFBA_gamelist.txt liste les jeux compatibles.
+Le fichier bios/fba/piFBA_gamelist.txt liste les jeux compatibles.
 
 Vous pouvez utiliser clrmamepro disponible sur http://mamedev.emulab.it/clrmamepro/ 
 et utiliser le fichier .dat dans le repertoire clrmamepro pour verifier la version de vos roms.
