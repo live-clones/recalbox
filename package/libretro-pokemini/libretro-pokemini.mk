@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_POKEMINI_VERSION = 2bb8846b01b77fa5902358df29159eae1010ea98
+LIBRETRO_POKEMINI_VERSION = 279bbfd7aa30639503c69f38c3b954ddad393035
 LIBRETRO_POKEMINI_SITE = $(call github,libretro,PokeMini,$(LIBRETRO_POKEMINI_VERSION))
 
 define LIBRETRO_POKEMINI_BUILD_CMDS
