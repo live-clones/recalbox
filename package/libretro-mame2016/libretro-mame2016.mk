@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_MAME2016_VERSION = e06d731644217f46bf5a7613222632d41a327f93
+LIBRETRO_MAME2016_VERSION = efc37c9968fe24af8d91d9ce6022e080a1fd90c3
 LIBRETRO_MAME2016_SITE = $(call github,libretro,mame2016-libretro,$(LIBRETRO_MAME2016_VERSION))
 LIBRETRO_MAME2016_LICENSE = MAME
 

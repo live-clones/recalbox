@@ -1,54 +1,53 @@
 --- a/retroarch.c
 +++ b/retroarch.c
-@@ -2272,6 +2272,10 @@
- static const void *hid_data                       = NULL;
- #endif
+@@ -6969,6 +6969,9 @@
+    pad_connection_listener->connected(port, driver);
+ }
  
 +/* number of frames required to trigger the hotkey */
 +#define HOTKEY_DELAY 5
 +static unsigned hotkey_counter = 0;
-+
+ 
  /**
   * check_input_driver_block_hotkey:
-  *
-@@ -3806,12 +3810,17 @@
+@@ -8674,11 +8677,17 @@
                 && current_input->input_state(current_input_data, joypad_info,
                    &binds[0], port, RETRO_DEVICE_JOYPAD, 0, RARCH_ENABLE_HOTKEY))
           {
 -            input_driver_block_libretro_input = true;
+-            break;
 +            if (hotkey_counter < HOTKEY_DELAY)
 +               hotkey_counter++;
-+            if (hotkey_counter >= HOTKEY_DELAY) {
-+              input_driver_block_libretro_input = true;
-             break;
-+          }
++            if (hotkey_counter >= HOTKEY_DELAY)
++            {
++               input_driver_block_libretro_input = true;
++               break;
++            }
           }
           else
           {
--            input_driver_block_hotkey         = true;
 +            hotkey_counter = 0;
-+            input_driver_block_hotkey = true;
+             input_driver_block_hotkey         = true;
              break;
           }
-       }
-@@ -3925,9 +3934,17 @@
+@@ -8793,9 +8802,19 @@
              && current_input->input_state(
                 current_input_data, joypad_info, &binds, 0,
                 RETRO_DEVICE_JOYPAD, 0, RARCH_ENABLE_HOTKEY))
 -         input_driver_block_libretro_input = true;
--      else
--         input_driver_block_hotkey         = true;
++      {
++         if (hotkey_counter < HOTKEY_DELAY)
++            hotkey_counter++;
++         if (hotkey_counter >= HOTKEY_DELAY)
 +         {
-+           if (hotkey_counter < HOTKEY_DELAY)
-+              hotkey_counter++;
-+           if (hotkey_counter >= HOTKEY_DELAY) {
-+             input_driver_block_libretro_input = true;
-+          }
++            input_driver_block_libretro_input = true;
 +         }
-+         else {
-+            hotkey_counter = 0;
-+            input_driver_block_hotkey = true;
-+         }
++      }
+       else
++      {
++         hotkey_counter = 0;
+          input_driver_block_hotkey         = true;
++      }
     }
  
     if (binds[RARCH_GAME_FOCUS_TOGGLE].valid)
