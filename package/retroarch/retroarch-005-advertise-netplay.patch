@@ -1,8 +1,6 @@
-diff --git a/network/netplay/netplay_frontend.c b/network/netplay/netplay_frontend.c
-index bef3cbbc4b..1fcd0869db 100644
 --- a/network/netplay/netplay_frontend.c
 +++ b/network/netplay/netplay_frontend.c
-@@ -748,7 +748,7 @@ void netplay_get_architecture(char *frontend_architecture, size_t size)
+@@ -845,7 +845,7 @@
                 sizeof(architecture));
           break;
     }
