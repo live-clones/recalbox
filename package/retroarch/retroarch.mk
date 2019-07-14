@@ -64,13 +64,6 @@ RETROARCH_CONF_OPTS += --enable-networking
 
 # Package dependant
 
-ifeq ($(BR2_PACKAGE_PYTHON3),y)
-RETROARCH_CONF_OPTS += --enable-python
-RETROARCH_DEPENDENCIES += python
-else
-RETROARCH_CONF_OPTS += --disable-python
-endif
-
 ifeq ($(BR2_PACKAGE_XORG7),y)
 RETROARCH_CONF_OPTS += --enable-x11
 RETROARCH_DEPENDENCIES += xserver_xorg-server
