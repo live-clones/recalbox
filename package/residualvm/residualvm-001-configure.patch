@@ -1,6 +1,6 @@
---- a/configure	2017-11-05 18:04:07.000000000 +0100
-+++ b/configure	2017-11-06 18:53:51.087831396 +0100
-@@ -1450,7 +1450,7 @@ for ac_option in $@; do
+--- a/configure
++++ b/configure
+@@ -1451,7 +1451,7 @@
  		done
  		;;
  	*)
@@ -9,7 +9,7 @@
  		;;
  	esac;
  done;
-@@ -3040,14 +3040,14 @@ if test -n "$_host"; then
+@@ -3015,14 +3015,14 @@
  			# but Raspbian does.
  			# Be careful as it's the linker (LDFLAGS) which must know about sysroot.
  			# These are needed to build against Raspbian's libSDL.
