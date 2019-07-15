@@ -14,7 +14,7 @@
             }
  
 -           sprintf( vidcapname, "Capturing to video%02d.avi", vidcapcount );
-+           sprintf( vidcapname, "Capturing to /recalbox/share/screenshots/video%02d.avi", vidcapcount );
++           sprintf( vidcapname, "Capturing to /recalbox/share/screenshots/video%02d.avi",
             warpspeed = SDL_FALSE;
             ay_lockaudio( &oric->ay );
             vidcap = avi_open( &vidcapname[13], oricpalette, soundavailable&&soundon, oric->vid_freq );
