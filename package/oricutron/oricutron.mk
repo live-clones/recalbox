@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-ORICUTRON_VERSION = 992746e35f0f2154a5b59116709c3fd226cf99bb
+ORICUTRON_VERSION = 6fcbf778e9b78537b3be45fba22f540f36acd4e2
 ORICUTRON_SITE = $(call github,pete-gordon,oricutron,$(ORICUTRON_VERSION))
 ORICUTRON_DEPENDENCIES = sdl2
 

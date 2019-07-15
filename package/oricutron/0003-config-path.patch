@@ -1,11 +1,11 @@
---- a/main.c	2018-11-28 12:37:44.000000000 +0100
-+++ b/main.c	2019-01-11 17:41:28.561711266 +0100
+--- a/main.c
+--- b/main.c
 @@ -382,7 +382,7 @@
    char tbtmp[32];
    char keymap_file[4096];
  
--            f = fopen( FILEPREFIX"oricutron.cfg", "r" );
-+            f = fopen( "/recalbox/share/system/.config/oricutron.cfg", "r" );
+-  f = fopen( FILEPREFIX"oricutron.cfg", "r" );
++  f = fopen( "/recalbox/share/system/.config/oricutron.cfg", "r" );
    if( !f ) return;
  
    while( !feof( f ) )

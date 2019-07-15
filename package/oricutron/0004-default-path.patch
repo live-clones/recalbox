@@ -1,5 +1,5 @@
---- a/gui.c	2018-11-28 12:37:44.000000000 +0100
-+++ b/gui.c	2019-01-11 19:30:20.848882000 +0100
+--- a/gui.c
+--- b/gui.c
 @@ -95,21 +95,21 @@
  #define GIMG_W_AVIR 16
  
@@ -58,13 +58,13 @@
 -  strcpy( mdiscromfile, ROMPREFIX"microdis" );
 -  strcpy( jasmnromfile, ROMPREFIX"jasmin" );
 -  strcpy( pravetzromfile[0], ROMPREFIX"pravetzt" );
--  strcpy( pravetzromfile[1], ROMPREFIX"8dos" );
+-  strcpy( pravetzromfile[1], ROMPREFIX"8dos2" );
 +  strcpy( atmosromfile, "/recalbox/share/bios/basic11b" );
 +  strcpy( oric1romfile, "/recalbox/share/bios/basic10" );
 +  strcpy( mdiscromfile, "/recalbox/share/bios/microdis" );
 +  strcpy( jasmnromfile, "/recalbox/share/bios/jasmin" );
 +  strcpy( pravetzromfile[0], "/recalbox/share/bios/pravetzt" );
-+  strcpy( pravetzromfile[1], "/recalbox/share/bios/8dos" );
++  strcpy( pravetzromfile[1], "/recalbox/share/bios/8dos2" );
    telebankfiles[0][0] = 0;
    telebankfiles[1][0] = 0;
    telebankfiles[2][0] = 0;

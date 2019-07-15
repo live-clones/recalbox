@@ -1,21 +1,21 @@
---- a/machine.c	2019-01-16 21:16:55.193946742 +0100
-+++ b/machine.c	2019-01-16 21:04:41.175906669 +0100
-@@ -1439,6 +1439,8 @@
-   return SDL_FALSE;
- }
+--- a/machine.c
++++ b/machine.c
+@@ -1453,6 +1453,8 @@
+  return SDL_FALSE;
+}
  
 +#define RECALBOX_STATIC_BIOS_ZONE "/recalbox/share_init/bios/oricutron"
 +
- void load_patches( struct machine *oric, char *fname )
- {
-   FILE *f;
-@@ -1446,10 +1448,14 @@
-   char *tmpname;
- 
-   // MinGW doesn't have asprintf :-(
+void load_patches( struct machine *oric, char *fname )
+{
+  FILE *f;
+@@ -1460,10 +1462,14 @@
+  char *tmpname;
+
+  // MinGW doesn't have asprintf :-(
 -  tmpname = malloc( strlen( fname ) + 10 );
 +  tmpname = malloc( strlen( fname ) + sizeof(RECALBOX_STATIC_BIOS_ZONE) + 10 );
-   if( !tmpname ) return;
+  if( !tmpname ) return;
  
 -  sprintf( tmpname, "%s.pch", fname );
 +  char *ffilename = fname + strlen(fname);
@@ -24,5 +24,5 @@
 +
 +  sprintf( tmpname, "%s/%s.pch", RECALBOX_STATIC_BIOS_ZONE, ffilename );
  
-   f = fopen( tmpname, "r" );
-   free( tmpname );
+  f = fopen( tmpname, "r" );
+  free( tmpname );

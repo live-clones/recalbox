@@ -196,7 +196,7 @@ ac9804d4c0e9d07e33472e3726ed15c3  sl31253.bin
 
 
 - TANGERINE ORIC/ATMOS :
-4a1ff5f8719d67dafcf85ac61959cdb6  8dos.rom
+4a1ff5f8719d67dafcf85ac61959cdb6  8dos2.rom
 ebe418ec8a6c85d5ac32956c9a96c179  basic10.rom
 a330779c42ad7d0c4ac6ef9e92788ec6  basic11b.rom
 364bf095e0dc4222d75354d50b8cddfc  hyperbas.rom
