@@ -72,6 +72,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fix amiga multi-disks files bugs with []
 - Document `/boot/recalbox-boot.conf` (in-file comments)
 - Add PC-88 emulator (libretro-quasi88)
+- Bump oricutron
 
 ## [6.0] - DragonBlaze
 - Change name from 5.0 to 6.0 DragonBlaze

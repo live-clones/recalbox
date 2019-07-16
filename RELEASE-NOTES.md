@@ -19,7 +19,6 @@
 ### Improvements
 - Retroarch updated to version 1.7.7+!
 - Retroarch cheats updated to version 1.7.7!
-- Libretro core updated! Np2kai updated to latest revision
 - Libretro core updated! FBA Libretro core updated to latest version (Neogeo CDRom Speed fix)
 - Libretro core updated! Picodrive updated to latest version (Fix shifted down screen)
 - Libretro core updated! Theodore updated to latest version (add emulation of Thomson MO6 and Olivetti Prodest PC128)
@@ -27,6 +26,7 @@
 - Libretro core split! Rebrand stella to stella2014 and add upstream stella core
 - Emulator updated! ScummVM updated to July 2019 version (new theme included)
 - Emulator updated! Linapple-Pie now uses upstream repository
+- Emulator updated! Oricutron updated
 - Enable both hotkeys and I2C on RasberryPi GPIO
 - Add .7z support to more emulators
 - MoonLight updated! Add support for latest GForceExperience softwares
