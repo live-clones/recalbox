@@ -10,7 +10,7 @@
 - New system! Spectravideo added with libretro's bluemsx emulator
 - New system! Sharp X1 added with libretro's xmil emulator
 - New system! Palm added with libretro's mu emulator
-- New core! Added Gearsystem libretro core. An optimized GG/SMS core working better on some games.
+- New core! Added Gearsystem libretro core. An optimized GG/SMS/SG core working better on some games.
 - New core! Added SameBoy libretro core. Game link support for GB/GBC
 - New video snaps! Now see short videos of games before launching them
 - GPi Case Plug & Play: Autodetect and install drivers & appropriate themes and settings
