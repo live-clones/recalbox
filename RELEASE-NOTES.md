@@ -25,6 +25,7 @@
 - Libretro core updated! Migrate Glupen64 to Mupen64Plus
 - Libretro core split! Rebrand stella to stella2014 and add upstream stella core
 - Emulator updated! ScummVM updated to July 2019 version (new theme included)
+- Emulator updated! ResidualVM updated to July 2019 Version
 - Emulator updated! Linapple-Pie now uses upstream repository
 - Emulator updated! Oricutron updated
 - Enable both hotkeys and I2C on RasberryPi GPIO
