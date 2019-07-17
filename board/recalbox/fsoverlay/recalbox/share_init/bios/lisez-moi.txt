@@ -133,8 +133,8 @@ e844534dfe5744b381444dbe61ef1b66  quasi88/n88_1.rom
 fc4b76a402ba501e6ba6de4b3e8b4273  quasi88/n88_3.rom
 5d6854624dd01cd791f58727fc43a525  quasi88/n88n.rom
 793f86784e5608352a5d7f03f03e0858  quasi88/disk.rom
-d81c6d5d7ad1a4bbbd6ae22a01257603  quasi88/n88knji1.rom
-41d2e2c0c0edfccf76fa1c3e38bc1cf2  quasi88/n88knji2.rom
+d81c6d5d7ad1a4bbbd6ae22a01257603  quasi88/n88knj1.rom
+41d2e2c0c0edfccf76fa1c3e38bc1cf2  quasi88/n88knj2.rom
 2e548679423370262f36cbde38a22789  quasi88/n88jisho.rom
 
 
