@@ -183,6 +183,7 @@ def getDefaultEmulator(targetSystem):
         "pc88"          : Emulator(name='pc88', emulator='libretro', core='quasi88'),
         "pc98"          : Emulator(name='pc98', emulator='libretro', core='np2kai'),
         "macintosh"     : Emulator(name='macintosh', emulator='libretro', core='minivmac'),
+        "tic80"         : Emulator(name='tic80', emulator='libretro', core='tic80'),
 
         # Game engines
         "scummvm"       : Emulator(name='scummvm', emulator='scummvm', videomode='default'),
