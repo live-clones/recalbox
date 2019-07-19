@@ -9,8 +9,8 @@ LIBRETRO_TIC80_SITE = $(call github,nesbox,TIC-80,$(LIBRETRO_TIC80_VERSION))
 LIBRETRO_TIC80_LICENSE = MIT
 
 LIBRETRO_TIC80_CONF_OPTS=-DBUILD_SDL=0 \
-						-DBUILD_SOKOL=0 \
-						-DBUILD_DEMO_CARTS=0 \
+                        -DBUILD_SOKOL=0 \
+                        -DBUILD_DEMO_CARTS=0 \
                         -DBUILD_LIBRETRO=1 \
                         -DBUILD_PRO=1
 
