@@ -479,6 +479,11 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_THEODORE),)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-thomson
 endif
 
+# System: tic80
+ifneq ($(BR2_PACKAGE_LIBRETRO_TIC80),)
+        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-tic80
+endif
+
 # System: vectrex
 ifneq ($(BR2_PACKAGE_LIBRETRO_VECX),)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-vectrex

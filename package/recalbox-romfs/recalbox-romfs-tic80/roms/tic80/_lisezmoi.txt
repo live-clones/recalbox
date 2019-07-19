@@ -1,6 +1,6 @@
-## RECALBOX - SYSTEM THOMSON TO8 ##
+## RECALBOX - SYSTEM TIC-80 ##
 
-Placez ici vos roms Thomson TO8.
+Placez ici vos roms TIC-80.
 
 Les roms doivent avoir l'extension ".fd/.sap/.k7/.m7/.rom/.zip/.7z"
 
