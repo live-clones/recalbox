@@ -76,8 +76,9 @@ f_cp /recalbox/share/system/.emulationstation/es_systems.cfg "${DSYSTEM}/share_e
 find /recalbox/share/roms/ -type f \( ! -iname "*.txt" ! -iname "*.xml" ! -iname "*.png" ! -iname "*.jpg" ! -iname "*.dat" \) ! -path "*/data/*" | wc -l > "${DSYSTEM}/approxnbroms.txt"
 
 # Themes
-ls -1 /recalbox/share/system/.emulationstation/themes > "${DSYSTEM}/share_themes.txt"
-ls -1 /recalbox/share_init/system/.emulationstation/themes > "${DSYSTEM}/share_init_themes.txt"
+ls -1 /recalbox/share/themes > "${DSYSTEM}/share_themes.txt"
+ls -1 /recalbox/share/system/.emulationstation/themes > "${DSYSTEM}/share_es_themes.txt"
+ls -1 /recalbox/share_init/system/.emulationstation/themes > "${DSYSTEM}/share_init_es_themes.txt"
 
 # Recalbox intros
 ls -l /recalbox/system/resources/splash/ | tail -n +2 | awk '{print $9, "-", $5}' > "${DSYSTEM}/recalbox_intros.txt"
