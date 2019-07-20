@@ -5,7 +5,7 @@
 ################################################################################
 
 LIBRETRO_TIC80_VERSION = 35d8e98e959f847481c47ad8e50adc70ef15bb66
-LIBRETRO_TIC80_SITE = $(call github,nesbox,TIC-80,$(LIBRETRO_TIC80_VERSION))
+LIBRETRO_TIC80_SITE = git://github.com/nesbox/TIC-80.git
 LIBRETRO_TIC80_LICENSE = MIT
 LIBRETRO_TIC80_GIT_SUBMODULES=y
 
