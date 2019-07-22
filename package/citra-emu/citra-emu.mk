@@ -20,8 +20,8 @@ CITRA_EMU_CONF_OPTS += -DCMAKE_BUILD_TYPE=Release
 CITRA_EMU_CONF_ENV += LDFLAGS=-lpthread
 
 define CITRA_EMU_INSTALL_TARGET_CMDS
-    mkdir -p $(TARGET_DIR)/usr/bin
-    mkdir -p $(TARGET_DIR)/usr/lib
+	mkdir -p $(TARGET_DIR)/usr/bin
+	mkdir -p $(TARGET_DIR)/usr/lib
 	$(INSTALL) -D $(@D)/buildroot-build/bin/citra \
 		$(TARGET_DIR)/usr/bin/citra
 	$(INSTALL) -D $(@D)/buildroot-build/bin/citra-room \
@@ -31,7 +31,7 @@ define CITRA_EMU_INSTALL_TARGET_CMDS
 	cp -pr $(@D)/buildroot-build/externals/cubeb/*.so \
 		$(TARGET_DIR)/usr/lib/
 	cp -pr $(@D)/buildroot-build/externals/dynarmic/src/*.so \
-		$(TARGET_DIR)/usr/lib/	
+		$(TARGET_DIR)/usr/lib/
 	cp -pr $(@D)/buildroot-build/externals/teakra/src/*.so \
 		$(TARGET_DIR)/usr/lib/
 endef
