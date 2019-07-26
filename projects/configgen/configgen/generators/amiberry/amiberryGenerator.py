@@ -222,14 +222,17 @@ class AmiberryGenerator(Generator):
         # Add uae config, if no-one has been set before
         configExists = len([command for command in commandArray if "-config=" in command]) > 0
         if not configExists:
-            # Insert the configuration at position #1, right after the amiberry executable
-            # Amiberry ignore the config file after "rom" files
-            commandArray.insert(1, "-config=" + settingsFullPath)
+            if romType == RomType.WHDL :
+                commandArray.insert(1, "-autowhdload=" + rom)
+            else :
+                # Insert the configuration at position #1, right after the amiberry executable
+                # Amiberry ignore the config file after "rom" files
+                commandArray.insert(1, "-config=" + settingsFullPath)
 
         # Save configuration
         configFile.saveConfigFile()
 
-        # Generate specoal WHDL raw config
+        # Generate special WHDL raw config
         if romType == RomType.WHDL:
             AmiberryGenerator.AddWHDLVolumes(settingsFullPath, rom)
 
