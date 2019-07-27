@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_VICE_VERSION = cf0226f0a484cef02ff5125ae0849a32b2129b25
+LIBRETRO_VICE_VERSION = 490f5e7b332a95aa91a505c3fc0f40c8f376822c
 LIBRETRO_VICE_SITE = $(call github,libretro,vice-libretro,$(LIBRETRO_VICE_VERSION))
 
 define LIBRETRO_VICE_BUILD_CMDS
