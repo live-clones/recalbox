@@ -192,7 +192,7 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_HATARI),)
 endif
 
 # System: c64
-ifneq ($(BR2_PACKAGE_LIBRETRO_VICE),)
+ifneq ($(BR2_PACKAGE_LIBRETRO_VICE_x64),)
         RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-c64
 endif
 
