@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_VICE_X64_VERSION = b8871f282ab7542a1caffef6f79b96b9fecb9314
+LIBRETRO_VICE_X64_VERSION = df6e5f45cd88035317107d5a33e483cd551351d5
 LIBRETRO_VICE_X64_SITE = $(call github,libretro,vice-libretro,$(LIBRETRO_VICE_X64_VERSION))
 
 define LIBRETRO_VICE_X64_BUILD_CMDS
