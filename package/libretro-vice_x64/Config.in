@@ -8,5 +8,5 @@ config BR2_PACKAGE_LIBRETRO_VICE_X64
 
 	  http://www.libretro.com
 
-comment "LIBRETRO_VICE_x64 needs a toolchain w/ C++"
+comment "LIBRETRO_VICE_X64 needs a toolchain w/ C++"
 	depends on !BR2_INSTALL_LIBSTDCPP
