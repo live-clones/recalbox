@@ -2,7 +2,7 @@
 
 Placez ici vos roms Commodore 64.
 
-Les roms doivent avoir l'extension ".d64/.d71/.d80/.d81/.d82/.g41/.g64/.t64/.x64/.tap/.prg/.p00/.crt/.zip/.7z"
+Les roms doivent avoir l'extension ".d64/.d71/.d80/.d81/.d82/.g64/.g41/.x64/.t64/.tap/.prg/.p00/.crt/.bin/.gz/.d6z/.d7z/.d8z/.g6z/.g4z/.x6z/.cmd/.m3u/.zip/.7z"
 
 Ce système supporte également les roms compressées au format .zip/.7z.
 Attention toutefois, il ne s'agit que d'une archive. Les fichiers contenus dans les .zip/.7z doivent correspondre aux extensions citées précédemment.
@@ -11,7 +11,8 @@ De plus, chaque fichier .zip/.7z ne doit contenir qu'une seule rom compressée.
 
 Mapping manette :
 
-Start = gui menu
-Select = switch souris/joystick
-Y = clavier virtuel
-L2 = switch Joy1/Joy2
+L = Toggle Virtual Keyboard
+R = Toggle Statusbar
+L2 = Swap Joyports
+R2 = Reset
+Hotkey = Warp Mode (hold)
