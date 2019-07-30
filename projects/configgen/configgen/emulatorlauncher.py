@@ -212,6 +212,7 @@ def getDefaultEmulator(targetSystem):
         "gx4000"        : Emulator(name='gx4000', emulator='libretro', core='cap32'),
         "uzebox"        : Emulator(name='uzebox', emulator='libretro', core='uzem'),
         "palm"          : Emulator(name='palm', emulator='libretro', core='mu'),
+        "multivision"   : Emulator(name='multivision', emulator='libretro', core='gearsystem'),
 
         # Miscellaneous
         "imageviewer"   : Emulator(name='imageviewer', emulator='libretro', core='imageviewer'),
