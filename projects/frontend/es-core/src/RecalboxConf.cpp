@@ -5,7 +5,6 @@
 #include "Log.h"
 #include <boost/algorithm/string/predicate.hpp>
 
-RecalboxConf *RecalboxConf::sInstance = nullptr;
 boost::regex validLine("^(?<key>[^;|#].*?)=(?<val>.*?)$");
 boost::regex commentLine("^;(?<key>.*?)=(?<val>.*?)$");
 
@@ -17,16 +16,10 @@ RecalboxConf::RecalboxConf(bool mainFile) {
     loadRecalboxConf(mainFile);
 }
 
-RecalboxConf::~RecalboxConf() {
-	if (sInstance && sInstance == this)
-		delete sInstance;
-}
-
-RecalboxConf *RecalboxConf::getInstance() {
-    if (sInstance == nullptr)
-        sInstance = new RecalboxConf();
-
-    return sInstance;
+RecalboxConf& RecalboxConf::Instance()
+{
+  static RecalboxConf _Instance; // Initialized the first time this is called - destroyed on program exit
+  return _Instance;
 }
 
 bool RecalboxConf::loadRecalboxConf(bool mainFile) {

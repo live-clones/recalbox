@@ -355,6 +355,7 @@ bool GuiComponent::finishAnimation(unsigned char slot)
 	{
 		// skip to animation's end
 		const bool done = mAnimationMap[slot]->update(mAnimationMap[slot]->getAnimation()->getDuration() - mAnimationMap[slot]->getTime());
+    (void)done;
 		assert(done);
 
 		delete mAnimationMap[slot]; // will also call finishedCallback

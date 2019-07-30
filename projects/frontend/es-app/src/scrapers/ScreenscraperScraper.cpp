@@ -142,7 +142,7 @@ void screenscraper_generate_scraper_requests(const ScraperSearchParams& params,
 {
   std::string path;
 
-  ScreenScraperRequest::ScreenScraperConfig ssConfig;
+  const ScreenScraperRequest::ScreenScraperConfiguration& ssConfig = ScreenScraperRequest::Configuration();
 
   path = ssConfig.getGameSearchUrl(params.game->getPath().filename().generic_string());
   auto& platforms = params.system->getPlatformIds();
@@ -195,28 +195,17 @@ void ScreenScraperRequest::processGame(const pugi::xml_document& xmldoc, std::ve
   if (game)
   {
     ScraperSearchResult result;
-    ScreenScraperRequest::ScreenScraperConfig ssConfig;
 
-    std::string region = StringUtil::toLower(ssConfig.region);
-    std::string language = StringUtil::toLower(ssConfig.language);
-    std::vector<std::string> regions = {
-      region,
-      "us",
-      "eu",
-      "jp",
-      "wor",
-      "ss"
-    };
+    std::string region = StringUtil::toLower(Configuration().region);
+    std::string language = StringUtil::toLower(Configuration().language);
+    std::vector<std::string> regions = { region, "us", "eu", "jp", "wor", "ss" };
+    std::vector<std::string> languages = { language, "en", "jp", "wor", "ss" };
 
     // Name fallback: US, WOR(LD). ( Xpath: Data/jeu[0]/noms/nom[*] ).
     result.mdl.SetName(find_child_by_attribute_list(game.child("noms"), "nom", "region", regions).text().get());
 
     // Description fallback language: EN, WOR(LD)
-    std::string description = find_child_by_attribute_list(game.child("synopsis"), "synopsis", "langue", {
-      language,
-      "en",
-      "wor"
-    }).text().get();
+    std::string description = find_child_by_attribute_list(game.child("synopsis"), "synopsis", "langue", languages).text().get();
 
     if (!description.empty())
     {
@@ -224,11 +213,7 @@ void ScreenScraperRequest::processGame(const pugi::xml_document& xmldoc, std::ve
     }
 
     // Genre fallback language: EN. ( Xpath: Data/jeu[0]/genres/genre[*] )
-    result.mdl.SetGenre(find_child_by_attribute_list(game.child("genres"), "genre", "langue", {
-      language,
-      "en",
-      "wor"
-    }).text().get());
+    result.mdl.SetGenre(find_child_by_attribute_list(game.child("genres"), "genre", "langue", languages).text().get());
     LOG(LogDebug) << "Genre: " << result.mdl.Genre();
 
     // Get the date proper. The API returns multiple 'date' children nodes to the 'dates' main child of 'jeu'.
@@ -276,22 +261,19 @@ void ScreenScraperRequest::processGame(const pugi::xml_document& xmldoc, std::ve
       // <media type="..." region="..." format="...">
       // and we need to find the right media for the region.
       pugi::xpath_node_set results = media_list.select_nodes(
-        (static_cast<std::string>("media[@type='") + ssConfig.media_name + "']").c_str());
+        (static_cast<std::string>("media[@type='") + Configuration().media_name + "']").c_str());
       if (!results.empty())
       {
         // Region fallback: WOR(LD), US, CUS(TOM?), JP, EU
         for (const auto& _region : regions)
         {
-          if (art)
-            break;
+          if (art) break;
           for (auto node : results)
-          {
             if (node.node().attribute("region").value() == _region)
             {
               art = node.node();
               break;
             }
-          }
         }
       } // results
 
@@ -311,7 +293,7 @@ void ScreenScraperRequest::processGame(const pugi::xml_document& xmldoc, std::ve
 
         result.imageType = result.thumbnailType = type;
       }
-      else LOG(LogDebug) << "Failed to find media XML node with name=" << ssConfig.media_name;
+      else LOG(LogDebug) << "Failed to find media XML node with name=" << Configuration().media_name;
     }
 
     out_results.push_back(result);
@@ -350,20 +332,3 @@ void ScreenScraperRequest::processGame(const pugi::xml_document& xmldoc, std::ve
 	}
 }*/
 
-// Scrambling
-std::string ScreenScraperRequest::ScreenScraperConfig::scramble(const std::string& _input, const std::string& key) const
-{
-  std::string buffer = _input;
-
-  for (int i = (int) _input.size(); --i >= 0;)
-    buffer[i] = (char) ((unsigned char)_input[i] ^ (unsigned char)(key[i % key.size()] + (i * 17)));
-
-  return buffer;
-}
-
-std::string ScreenScraperRequest::ScreenScraperConfig::getGameSearchUrl(const std::string& gameName) const
-{
-  return API_URL_BASE + "/jeuInfos.php?devid=" + scramble(API_DEV_U, API_DEV_KEY) + "&devpassword=" +
-         scramble(API_DEV_P, API_DEV_KEY) + "&softname=" + HttpReq::urlEncode(API_SOFT_NAME) + "&output=xml" +
-         "&romnom=" + HttpReq::urlEncode(gameName);
-}

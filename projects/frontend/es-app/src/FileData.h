@@ -131,11 +131,17 @@ class FileData
     MetadataDescriptor& Metadata() { return mMetadata; }
 
     /*!
+     * Get clean default name, by reoving parenthesis and braqueted words
+     * @return Clean name
+     */
+    std::string getScrappableName() const;
+
+    /*!
      * Get smart default name, when available, depending of the file/folder name
      * Mainly used to get smart naming from arcade zipped roms
      * @return Smart name of the current item, or file/folder name
      */
-    std::string getCleanName() const;
+    std::string getDisplayName() const;
 };
 
 DEFINE_BITFLAG_ENUM(FileData::Filter, int)

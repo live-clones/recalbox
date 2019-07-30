@@ -4,6 +4,7 @@
 #include "Log.h"
 
 #include <string.h>
+#include <utils/StringUtil.h>
 
 namespace fs = boost::filesystem;
 
@@ -12,7 +13,7 @@ FileData::FileData(ItemType type, const fs::path& path, SystemData* system)
     mParent(nullptr),
     mType(type),
     mPath(path),
-    mMetadata(getCleanName(), type) // TODO: Move clean name into metadata
+    mMetadata(getDisplayName(), type) // TODO: Move clean name into metadata
 {
 
 }
@@ -21,7 +22,7 @@ FileData::FileData(const fs::path& path, SystemData* system) : FileData(ItemType
 {
 }
 
-std::string FileData::getCleanName() const
+std::string FileData::getDisplayName() const
 {
 	std::string stem = mPath.stem().generic_string();
 	if (mSystem != nullptr)
@@ -29,4 +30,9 @@ std::string FileData::getCleanName() const
 		  stem = PlatformIds::getCleanMameName(stem.c_str());
 
   return stem;
+}
+
+std::string FileData::getScrappableName() const
+{
+  return StringUtil::removeParenthesis(getDisplayName());
 }

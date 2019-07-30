@@ -140,6 +140,7 @@ UnicodeChar Font::readUnicodeChar(const std::string& str, size_t& cursor)
 Font::FontFace::FontFace(ResourceData&& d, int size) : data(d)
 {
 	int err = FT_New_Memory_Face(sLibrary, data.ptr.get(), data.length, 0, &face);
+  (void)err;
 	assert(!err);
 	
 	FT_Set_Pixel_Sizes(face, 0, size);

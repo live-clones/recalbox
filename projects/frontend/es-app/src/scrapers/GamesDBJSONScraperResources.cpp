@@ -17,7 +17,7 @@ using namespace rapidjson;
 
 namespace
 {
-  constexpr char GamesDBAPIKey[] = "445fcbc3f32bb2474bc27016b99eb963d318ee3a608212c543b9a79de1041600";
+  constexpr char GamesDBAPIKey[] = "23dc9e31bfe06da1e949753dae6304b83f50ad6ab7e4c2e43eae57b4756f8c66";
 
   constexpr int MAX_WAIT_MS = 90000;
   constexpr int POLL_TIME_MS = 500;

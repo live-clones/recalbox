@@ -139,7 +139,7 @@ void thegamesdb_generate_json_scraper_requests(const ScraperSearchParams& params
   else
   {
     if (cleanName.empty())
-      cleanName = params.game->getCleanName();
+      cleanName = params.game->getScrappableName();
     path += "/Games/ByGameName?" + apiKey + "&fields=players,publishers,genres,overview,last_updated,rating,"
                                             "platform,coop,youtube,os,processor,ram,hdd,video,sound,alternates&"
                                             "include=boxart&name=" + HttpReq::urlEncode(cleanName);

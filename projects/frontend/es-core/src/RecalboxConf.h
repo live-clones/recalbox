@@ -15,8 +15,6 @@ class RecalboxConf {
 public:
     RecalboxConf(bool mainFile = true);
 
-    ~RecalboxConf();
-
     bool loadRecalboxConf(bool mainFile = true);
 
     bool saveRecalboxConf();
@@ -33,9 +31,8 @@ public:
 
     bool isInList(const std::string &name, const std::string &value);
 
-    static RecalboxConf *sInstance;
-
-    static RecalboxConf *getInstance();
+    static RecalboxConf& Instance();
+    static RecalboxConf *getInstance() { return &Instance(); } ; // Remove me ASAP
 private:
     std::map<std::string, std::string> confMap;
 
