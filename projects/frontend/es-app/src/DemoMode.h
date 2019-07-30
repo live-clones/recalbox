@@ -45,10 +45,10 @@ class DemoMode
     static constexpr int MAX_HISTORY = 32;
 
     //! Game History
-    int mGameHistories[(int)PlatformIds::PLATFORM_COUNT][MAX_HISTORY] = { { 0 } };
+    int mGameHistories[(int)PlatformIds::PlatformId::PLATFORM_COUNT][MAX_HISTORY] = { { 0 } };
 
     //! Previously selected system
-    int mSystemHistory[(int)PlatformIds::PLATFORM_COUNT] = { 0 };
+    int mSystemHistory[(int)PlatformIds::PlatformId::PLATFORM_COUNT] = { 0 };
 
     //! Secondary seed
     int mSeed;

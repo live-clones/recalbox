@@ -6,7 +6,6 @@
 #include "Log.h"
 #include "PlatformId.h"
 #include "Settings.h"
-#include "SystemData.h"
 #include "pugixml/pugixml.hpp"
 #include <cstring>
 
@@ -20,83 +19,83 @@ static const std::map<PlatformId, unsigned short>& getPlatformIDs()
 {
   static const std::map<PlatformId, unsigned short> screenscraperPlatformidMap
   {
-    {AMSTRAD_CPC,               65},
-    {APPLE_II,                  86},
-    {APPLE_MACOS,               146},
-    {ARCADE,                    75},
-    {ATARI_8BITS,               43},
-    {ATARI_2600,                26},
-    {ATARI_5200,                40},
-    {ATARI_7800,                41},
-    {ATARI_JAGUAR,              27},
-    {ATARI_JAGUAR_CD,           171},
-    {ATARI_LYNX,                28},
-    {ATARI_ST,                  42},
-    {BANDAI_WONDERSWAN,         45},
-    {BANDAI_WONDERSWAN_COLOR,   46},
-    {COLECOVISION,              48},
-    {COMMODORE_64,              66},
-    {COMMODORE_AMIGA,           64},
-    {FAIRCHILD_CHANNELF,        80},
-    {GAMEENGINE_DAPHNE,         49},
-    {GAMEENGINE_LUTRO,          206},
-    {GAMEENGINE_OPENBOR,        214},
-    {GAMEENGINE_SCUMMVM,        123},
-    {GCE_VECTREX,               102},
-    {IBM_PC,                    135},
-    {MAGNAVOX_ODYSSEY2,         104},
-    {MATTEL_INTELLIVISION,      115},
-    {MGT_SAMCOUPE,              213},
-    {MICROSOFT_MSX,             113},
-    {MICROSOFT_MSX1,            113},
-    {MICROSOFT_MSX2,            113},
-    {MICROSOFT_XBOX,            32},
-    {MICROSOFT_XBOX_360,        33},
-    {NEC_PCENGINE,              31},
-    {NEC_PCENGINE_CD,           114},
-    {NEC_SUPERGRAFX,            31},
-    {NEOGEO,                    142},
-    {NEOGEO_CD,                 142},
-    {NEOGEO_POCKET,             25},
-    {NEOGEO_POCKET_COLOR,       82},
-    {NINTENDO_3DS,              17},
-    {NINTENDO_64,               14},
-    {NINTENDO_DS,               15},
-    {NINTENDO_FDS,              106},
-    {NINTENDO_GAME_AND_WATCH,   52},
-    {NINTENDO_GAMEBOY,          9},
-    {NINTENDO_GAMEBOY_ADVANCE,  12},
-    {NINTENDO_GAMEBOY_COLOR,    10},
-    {NINTENDO_GAMECUBE,         13},
-    {NINTENDO_NES,              3},
-    {NINTENDO_POKEMINI,         211},
-    {NINTENDO_SATELLAVIEW,      107},
-    {NINTENDO_SNES,             4},
-    {NINTENDO_SUFAMITURBO,      108},
-    {NINTENDO_WII,              16},
-    {NINTENDO_WII_U,            18},
-    {NINTENDO_VIRTUAL_BOY,      11},
-    {OSH_UZEBOX,                216},
-    {PANASONIC_3DO,             29},
-    {SEGA_32X,                  19},
-    {SEGA_CD,                   20},
-    {SEGA_DREAMCAST,            23},
-    {SEGA_GAME_GEAR,            21},
-    {SEGA_GENESIS,              1},
-    {SEGA_MASTER_SYSTEM,        2},
-    {SEGA_MEGA_DRIVE,           1},
-    {SEGA_SATURN,               22},
-    {SEGA_SG1000,               109},
-    {SHARP_X68000,              79},
-    {SINCLAIR_ZX_SPECTRUM,      76},
-    {SINCLAIR_ZX_81,            77},
-    {SONY_PLAYSTATION,          57},
-    {SONY_PLAYSTATION_2,        58},
-    {SONY_PLAYSTATION_3,        59},
-    {SONY_PLAYSTATION_VITA,     62},
-    {SONY_PLAYSTATION_PORTABLE, 61},
-    {TANDERINE_ORICATMOS,       131},
-    {THOMSON_MOTO,              141},
+    { PlatformId::AMSTRAD_CPC,               65},
+    { PlatformId::APPLE_II,                  86},
+    { PlatformId::APPLE_MACOS,               146},
+    { PlatformId::ARCADE,                    75},
+    { PlatformId::ATARI_8BITS,               43},
+    { PlatformId::ATARI_2600,                26},
+    { PlatformId::ATARI_5200,                40},
+    { PlatformId::ATARI_7800,                41},
+    { PlatformId::ATARI_JAGUAR,              27},
+    { PlatformId::ATARI_JAGUAR_CD,           171},
+    { PlatformId::ATARI_LYNX,                28},
+    { PlatformId::ATARI_ST,                  42},
+    { PlatformId::BANDAI_WONDERSWAN,         45},
+    { PlatformId::BANDAI_WONDERSWAN_COLOR,   46},
+    { PlatformId::COLECOVISION,              48},
+    { PlatformId::COMMODORE_64,              66},
+    { PlatformId::COMMODORE_AMIGA,           64},
+    { PlatformId::FAIRCHILD_CHANNELF,        80},
+    { PlatformId::GAMEENGINE_DAPHNE,         49},
+    { PlatformId::GAMEENGINE_LUTRO,          206},
+    { PlatformId::GAMEENGINE_OPENBOR,        214},
+    { PlatformId::GAMEENGINE_SCUMMVM,        123},
+    { PlatformId::GCE_VECTREX,               102},
+    { PlatformId::IBM_PC,                    135},
+    { PlatformId::MAGNAVOX_ODYSSEY2,         104},
+    { PlatformId::MATTEL_INTELLIVISION,      115},
+    { PlatformId::MGT_SAMCOUPE,              213},
+    { PlatformId::MICROSOFT_MSX,             113},
+    { PlatformId::MICROSOFT_MSX1,            113},
+    { PlatformId::MICROSOFT_MSX2,            113},
+    { PlatformId::MICROSOFT_XBOX,            32},
+    { PlatformId::MICROSOFT_XBOX_360,        33},
+    { PlatformId::NEC_PCENGINE,              31},
+    { PlatformId::NEC_PCENGINE_CD,           114},
+    { PlatformId::NEC_SUPERGRAFX,            31},
+    { PlatformId::NEOGEO,                    142},
+    { PlatformId::NEOGEO_CD,                 142},
+    { PlatformId::NEOGEO_POCKET,             25},
+    { PlatformId::NEOGEO_POCKET_COLOR,       82},
+    { PlatformId::NINTENDO_3DS,              17},
+    { PlatformId::NINTENDO_64,               14},
+    { PlatformId::NINTENDO_DS,               15},
+    { PlatformId::NINTENDO_FDS,              106},
+    { PlatformId::NINTENDO_GAME_AND_WATCH,   52},
+    { PlatformId::NINTENDO_GAMEBOY,          9},
+    { PlatformId::NINTENDO_GAMEBOY_ADVANCE,  12},
+    { PlatformId::NINTENDO_GAMEBOY_COLOR,    10},
+    { PlatformId::NINTENDO_GAMECUBE,         13},
+    { PlatformId::NINTENDO_NES,              3},
+    { PlatformId::NINTENDO_POKEMINI,         211},
+    { PlatformId::NINTENDO_SATELLAVIEW,      107},
+    { PlatformId::NINTENDO_SNES,             4},
+    { PlatformId::NINTENDO_SUFAMITURBO,      108},
+    { PlatformId::NINTENDO_WII,              16},
+    { PlatformId::NINTENDO_WII_U,            18},
+    { PlatformId::NINTENDO_VIRTUAL_BOY,      11},
+    { PlatformId::OSH_UZEBOX,                216},
+    { PlatformId::PANASONIC_3DO,             29},
+    { PlatformId::SEGA_32X,                  19},
+    { PlatformId::SEGA_CD,                   20},
+    { PlatformId::SEGA_DREAMCAST,            23},
+    { PlatformId::SEGA_GAME_GEAR,            21},
+    { PlatformId::SEGA_GENESIS,              1},
+    { PlatformId::SEGA_MASTER_SYSTEM,        2},
+    { PlatformId::SEGA_MEGA_DRIVE,           1},
+    { PlatformId::SEGA_SATURN,               22},
+    { PlatformId::SEGA_SG1000,               109},
+    { PlatformId::SHARP_X68000,              79},
+    { PlatformId::SINCLAIR_ZX_SPECTRUM,      76},
+    { PlatformId::SINCLAIR_ZX_81,            77},
+    { PlatformId::SONY_PLAYSTATION,          57},
+    { PlatformId::SONY_PLAYSTATION_2,        58},
+    { PlatformId::SONY_PLAYSTATION_3,        59},
+    { PlatformId::SONY_PLAYSTATION_VITA,     62},
+    { PlatformId::SONY_PLAYSTATION_PORTABLE, 61},
+    { PlatformId::TANDERINE_ORICATMOS,       131},
+    { PlatformId::THOMSON_MOTO,              141},
   };
 
   return screenscraperPlatformidMap;
@@ -121,7 +120,7 @@ static const std::map<PlatformId, unsigned short>& getPlatformIDs()
 // Help XML parsing method, finding an direct child XML node starting from the parent and filtering by an attribute value list.
 pugi::xml_node find_child_by_attribute_list(const pugi::xml_node& node_parent, const std::string& node_name,
                                             const std::string& attribute_name,
-                                            const std::vector<std::string> attribute_values)
+                                            const std::vector<std::string>& attribute_values)
 {
   for (const auto& _val : attribute_values)
   {
@@ -261,7 +260,7 @@ void ScreenScraperRequest::processGame(const pugi::xml_document& xmldoc, std::ve
 
     if (Settings::getInstance()->getBool("ScrapeRatings") && game.child("note"))
     {
-      float ratingVal = (game.child("note").text().as_int() / 20.0f);
+      float ratingVal = (game.child("note").text().as_float() / 20.0f);
       result.mdl.SetRating(ratingVal);
     }
 
@@ -357,7 +356,7 @@ std::string ScreenScraperRequest::ScreenScraperConfig::scramble(const std::strin
   std::string buffer = _input;
 
   for (int i = (int) _input.size(); --i >= 0;)
-    buffer[i] = (char) (_input[i] ^ (key[i % key.size()] + (i * 17)));
+    buffer[i] = (char) ((unsigned char)_input[i] ^ (unsigned char)(key[i % key.size()] + (i * 17)));
 
   return buffer;
 }
@@ -367,5 +366,4 @@ std::string ScreenScraperRequest::ScreenScraperConfig::getGameSearchUrl(const st
   return API_URL_BASE + "/jeuInfos.php?devid=" + scramble(API_DEV_U, API_DEV_KEY) + "&devpassword=" +
          scramble(API_DEV_P, API_DEV_KEY) + "&softname=" + HttpReq::urlEncode(API_SOFT_NAME) + "&output=xml" +
          "&romnom=" + HttpReq::urlEncode(gameName);
-
 }

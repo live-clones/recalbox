@@ -43,7 +43,7 @@ void DemoMode::init()
       LOG(LogInfo) << "System selected for demo : " << allSystems[i]->getName() << " with session of " << systemDuration << "s";
     }
     else
-      LOG(LogDebug) << "System NOT selected for demo : " << allSystems[i]->getName() << " - isSelected: " << (includeSystem | systemIsInIncludeList) << " - hasVisibleGame: " << hasVisibleGame ? 1 : 0;
+      LOG(LogDebug) << "System NOT selected for demo : " << allSystems[i]->getName() << " - isSelected: " << (includeSystem | systemIsInIncludeList) << " - hasVisibleGame: " << (hasVisibleGame ? 1 : 0);
   }
 
   // Check if there is at least one system.
@@ -58,7 +58,7 @@ void DemoMode::init()
   mSystemRandomizer = std::uniform_int_distribution<int>(0, (int)mDemoSystems.size() - 1);
 
   // Reset histories
-  for(int s = (int)PlatformIds::PLATFORM_COUNT; --s >= 0; )
+  for(int s = (int)PlatformIds::PlatformId::PLATFORM_COUNT; --s >= 0; )
   {
     mSystemHistory[s] = -1;
     for (int g = MAX_HISTORY; --g >= 0;)
@@ -96,7 +96,7 @@ bool DemoMode::getRandomSystem(int& outputSystemIndex, int& outputDuration)
 {
   if (mDemoSystems.empty()) return false;
 
-  for (int i = (int)PlatformIds::PLATFORM_COUNT; --i >= 0; )
+  for (int i = (int)PlatformIds::PlatformId::PLATFORM_COUNT; --i >= 0; )
   {
     // Select random system
     outputSystemIndex = mSystemRandomizer(mRandomGenerator);

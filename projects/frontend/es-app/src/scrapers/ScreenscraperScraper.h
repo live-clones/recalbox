@@ -72,7 +72,7 @@ class ScreenScraperRequest : public ScraperHttpRequest
 
     void processList(const pugi::xml_document& xmldoc, std::vector<ScraperSearchResult>& results);
 
-    void processGame(const pugi::xml_document& xmldoc, std::vector<ScraperSearchResult>& results);
+    static void processGame(const pugi::xml_document& xmldoc, std::vector<ScraperSearchResult>& results);
 
     bool isGameRequest() { return !mRequestQueue; }
 

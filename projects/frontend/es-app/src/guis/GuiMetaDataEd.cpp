@@ -327,7 +327,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window* window,
   }
 
 
-  if (main && !scraperParams.system->hasPlatformId(PlatformIds::PLATFORM_IGNORE))
+  if (main && !scraperParams.system->hasPlatformId(PlatformIds::PlatformId::PLATFORM_IGNORE))
   {
     buttons.push_back(std::make_shared<ButtonComponent>(mWindow, _("SCRAPE"), _("SCRAPE"), std::bind(&GuiMetaDataEd::fetch, this)));
   }

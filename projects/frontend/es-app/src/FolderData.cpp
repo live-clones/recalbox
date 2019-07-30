@@ -64,7 +64,7 @@ void FolderData::populateRecursiveFolder(const std::string& filteredExtensions, 
   }
 
   // Arcade system?
-  bool isArcade = systemData->hasPlatformId(PlatformIds::ARCADE) || systemData->hasPlatformId(PlatformIds::NEOGEO);
+  bool isArcade = systemData->hasPlatformId(PlatformIds::PlatformId::ARCADE) || systemData->hasPlatformId(PlatformIds::PlatformId::NEOGEO);
   // No extension?
   bool noExtensions = filteredExtensions.empty();
 

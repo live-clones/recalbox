@@ -774,7 +774,7 @@ void GuiMenu::menuUISettings(){
 	  // add systems (all with a platformid specified selected)
 	  auto systems = std::make_shared<OptionListComponent<std::string> >(mWindow, _("SYSTEMS TO SHOW IN DEMO"), true);
 	  for (auto &it : SystemData::sSystemVector) {
-		  if (!it->hasPlatformId(PlatformIds::PLATFORM_IGNORE))
+		  if (!it->hasPlatformId(PlatformIds::PlatformId::PLATFORM_IGNORE))
 			  systems->add(it->getFullName(), it->getName(),
 			               RecalboxConf::getInstance()->isInList("global.demo.systemlist", it->getName()) &&
 			               !it->getPlatformIds().empty());

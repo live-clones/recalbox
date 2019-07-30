@@ -25,7 +25,7 @@ std::string FileData::getCleanName() const
 {
 	std::string stem = mPath.stem().generic_string();
 	if (mSystem != nullptr)
-	  if ((mSystem->hasPlatformId(PlatformIds::ARCADE) || mSystem->hasPlatformId(PlatformIds::NEOGEO)))
+	  if ((mSystem->hasPlatformId(PlatformIds::PlatformId::ARCADE) || mSystem->hasPlatformId(PlatformIds::PlatformId::NEOGEO)))
 		  stem = PlatformIds::getCleanMameName(stem.c_str());
 
   return stem;

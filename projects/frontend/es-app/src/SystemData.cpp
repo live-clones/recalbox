@@ -50,7 +50,7 @@ SystemData* SystemData::CreateFavoriteSystem(const std::string& name, const std:
                                              const std::string& themeFolder, const std::vector<SystemData*>& systems)
 {
   std::vector<PlatformIds::PlatformId> platformIds;
-  platformIds.push_back(PlatformIds::PLATFORM_IGNORE);
+  platformIds.push_back(PlatformIds::PlatformId::PLATFORM_IGNORE);
 
   SystemData* result = new SystemData(name, fullName, "", "", command, platformIds, themeFolder, nullptr, false);
   result->mIsFavorite = true;
@@ -347,9 +347,9 @@ SystemData *createSystem(const SystemData::Tree &system)
     fullname = system.get("fullname", "");
     path = system.get("path", "");
 
-//#ifdef DEBUG
-    //strFindAndReplace(path, "roms", "romstest");
-//#endif
+#ifdef DEBUG
+    strFindAndReplace(path, "roms", "romstest");
+#endif
 
     // convert extensions list from a string into a vector of strings
     std::string extensions = system.get("extension", "");
@@ -365,7 +365,7 @@ SystemData *createSystem(const SystemData::Tree &system)
       const char *str = it.c_str();
       PlatformIds::PlatformId platformId = PlatformIds::getPlatformId(str);
 
-      if (platformId == PlatformIds::PLATFORM_IGNORE)
+      if (platformId == PlatformIds::PlatformId::PLATFORM_IGNORE)
       {
         // when platform is ignore, do not allow other platforms
         platformIds.clear();
@@ -374,11 +374,11 @@ SystemData *createSystem(const SystemData::Tree &system)
       }
 
       // if there appears to be an actual platform ID supplied but it didn't match the list, warn
-      if ((str != nullptr) && (str[0] != '\0') && (platformId == PlatformIds::PLATFORM_UNKNOWN))
+      if ((str != nullptr) && (str[0] != '\0') && (platformId == PlatformIds::PlatformId::PLATFORM_UNKNOWN))
       {
         LOG(LogWarning) << "  Unknown platform for system \"" << name << "\" (platform \"" << str << "\" from list \"" << platformList << "\")";
       }
-      else if (platformId != PlatformIds::PLATFORM_UNKNOWN)
+      else if (platformId != PlatformIds::PlatformId::PLATFORM_UNKNOWN)
         platformIds.push_back(platformId);
     }
 
