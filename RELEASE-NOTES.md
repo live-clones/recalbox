@@ -1,6 +1,6 @@
 # Release notes
 
-## Version 6.1
+## Version 6.1 - Test 2019-07-31
 
 ### News
 - Pi 3A+ compatibility (Firmware bump)
