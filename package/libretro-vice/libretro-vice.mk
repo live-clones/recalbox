@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_VICE_VERSION = f509264e85dd18488d85612e70c1417b512345b6
+LIBRETRO_VICE_VERSION = dc70ed29e98f5e740999a0e2acd37df7f0acad4e
 LIBRETRO_VICE_SITE = $(call github,libretro,vice-libretro,$(LIBRETRO_VICE_VERSION))
 
 LIBRETRO_VICE_SUBEMULATORS = x64 x64sc x128 xpet xplus4 xvic
@@ -32,7 +32,6 @@ endef
 define LIBRETRO_VICE_INSTALL_TARGET_CMDS
 	$(foreach emulator, $(LIBRETRO_VICE_SUBEMULATORS), $(call LIBRETRO_VICE_INSTALL_EMULATOR, $(emulator)))
 endef
-
 
 define LIBRETRO_VICE_PRE_PATCH_FIXUP
 	$(SED) "s|-O2|-O3|g" $(@D)/Makefile.libretro
