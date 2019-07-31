@@ -1,5 +1,5 @@
-config BR2_PACKAGE_LIBRETRO_VICE_X64
-	bool "libretro-vice_x64"
+config BR2_PACKAGE_LIBRETRO_VICE
+	bool "libretro-vice"
 	depends on BR2_PACKAGE_RETROARCH
 	depends on BR2_INSTALL_LIBSTDCPP
 	select BR2_PACKAGE_RECALBOX_ROMFS_C64
@@ -8,5 +8,5 @@ config BR2_PACKAGE_LIBRETRO_VICE_X64
 
 	  http://www.libretro.com
 
-comment "LIBRETRO_VICE_X64 needs a toolchain w/ C++"
+comment "LIBRETRO_VICE needs a toolchain w/ C++"
 	depends on !BR2_INSTALL_LIBSTDCPP
