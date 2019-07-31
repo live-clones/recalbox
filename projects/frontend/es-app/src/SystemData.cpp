@@ -347,9 +347,9 @@ SystemData *createSystem(const SystemData::Tree &system)
     fullname = system.get("fullname", "");
     path = system.get("path", "");
 
-#ifdef DEBUG
-    strFindAndReplace(path, "roms", "romstest");
-#endif
+//#ifdef DEBUG
+//    strFindAndReplace(path, "roms", "romstest");
+//#endif
 
     // convert extensions list from a string into a vector of strings
     std::string extensions = system.get("extension", "");

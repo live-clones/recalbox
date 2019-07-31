@@ -30,6 +30,8 @@ namespace PlatformIds
       { "colecovision"    , PlatformId::COLECOVISION              },
       { "c64"             , PlatformId::COMMODORE_64              }, // commodore 64,
       { "amiga"           , PlatformId::COMMODORE_AMIGA           },
+      { "amigacd32"       , PlatformId::COMMODORE_CD32            },
+      { "amigacdtv"       , PlatformId::COMMODORE_CDTV            },
       { "channelf"        , PlatformId::FAIRCHILD_CHANNELF        },
       { "daphne"          , PlatformId::GAMEENGINE_DAPHNE         },
       { "lutro"           , PlatformId::GAMEENGINE_LUTRO          },
@@ -47,6 +49,7 @@ namespace PlatformIds
       { "msx"             , PlatformId::MICROSOFT_MSX             },
       { "msx1"            , PlatformId::MICROSOFT_MSX1            },
       { "msx2"            , PlatformId::MICROSOFT_MSX2            },
+      { "msxturbor"       , PlatformId::MICROSOFT_MSXTURBOR       },
       { "pc88"            , PlatformId::NEC_PC88                  },
       { "pc98"            , PlatformId::NEC_PC98                  },
       { "pcengine"        , PlatformId::NEC_PCENGINE              }, // turbografx-16/pcengine
@@ -75,9 +78,11 @@ namespace PlatformIds
       { "wii"             , PlatformId::NINTENDO_WII              },
       { "wiiu"            , PlatformId::NINTENDO_WII_U            },
       { "uzebox"          , PlatformId::OSH_UZEBOX                },
+      { "palm"            , PlatformId::PALM_PDA                  },
       { "3do"             , PlatformId::PANASONIC_3DO             },
       { "prboom"          , PlatformId::PORT_PRBOOM               },
       { "cavestory"       , PlatformId::PORT_CAVE_STORY           },
+      { "atomiswave"      , PlatformId::SAMMY_ATOMISWAVE          },
       { "sega32x"         , PlatformId::SEGA_32X                  },
       { "segacd"          , PlatformId::SEGA_CD                   },
       { "dreamcast"       , PlatformId::SEGA_DREAMCAST            },
@@ -85,6 +90,7 @@ namespace PlatformIds
       { "genesis"         , PlatformId::SEGA_GENESIS              }, // sega genesis
       { "mastersystem"    , PlatformId::SEGA_MASTER_SYSTEM        }, // sega master system
       { "megadrive"       , PlatformId::SEGA_MEGA_DRIVE           }, // sega megadrive
+      { "naomi"           , PlatformId::SEGA_NAOMI                }, // sega arcade
       { "saturn"          , PlatformId::SEGA_SATURN               }, // sega saturn
       { "sg1000"          , PlatformId::SEGA_SG1000               }, // Sega SG1000
       { "x1"              , PlatformId::SHARP_X1                  },
@@ -97,6 +103,7 @@ namespace PlatformIds
       { "psp"             , PlatformId::SONY_PLAYSTATION_PORTABLE }, // Playstation portable
       { "zxspectrum"      , PlatformId::SINCLAIR_ZX_SPECTRUM      },
       { "zx81"            , PlatformId::SINCLAIR_ZX_81            },
+      { "spectravideo"    , PlatformId::SPECTRAVISION_SPECTRAVIDEO},
       { "moonlight"       , PlatformId::STREAM_MOONLIGHT          },
       { "oricatmos"       , PlatformId::TANDERINE_ORICATMOS       },
       { "thomsonmoto"     , PlatformId::THOMSON_MOTO              },

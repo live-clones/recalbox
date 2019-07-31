@@ -12,15 +12,17 @@
 using namespace PlatformIds;
 
 /**
-	List of systems and their IDs from
-	https://www.screenscraper.fr/api/systemesListe.php?devid=xxx&devpassword=yyy&softname=zzz&output=XML
+  List of systems and their IDs from
+  https://www.screenscraper.fr/api/systemesListe.php?devid=xxx&devpassword=yyy&softname=zzz&output=XML
 **/
 static const std::map<PlatformId, unsigned short>& getPlatformIDs()
 {
   static const std::map<PlatformId, unsigned short> screenscraperPlatformidMap
   {
     { PlatformId::AMSTRAD_CPC,               65},
+    { PlatformId::AMSTRAD_GX4000,            87},
     { PlatformId::APPLE_II,                  86},
+    { PlatformId::APPLE_IIGS,                217},
     { PlatformId::APPLE_MACOS,               146},
     { PlatformId::ARCADE,                    75},
     { PlatformId::ATARI_8BITS,               43},
@@ -36,11 +38,15 @@ static const std::map<PlatformId, unsigned short>& getPlatformIDs()
     { PlatformId::COLECOVISION,              48},
     { PlatformId::COMMODORE_64,              66},
     { PlatformId::COMMODORE_AMIGA,           64},
+    { PlatformId::COMMODORE_CD32,            130},
+    { PlatformId::COMMODORE_CDTV,            129},
     { PlatformId::FAIRCHILD_CHANNELF,        80},
     { PlatformId::GAMEENGINE_DAPHNE,         49},
     { PlatformId::GAMEENGINE_LUTRO,          206},
     { PlatformId::GAMEENGINE_OPENBOR,        214},
     { PlatformId::GAMEENGINE_SCUMMVM,        123},
+    { PlatformId::GAMEENGINE_SOLARUS,        223},
+    { PlatformId::GAMEENGINE_TIC80,          222},
     { PlatformId::GCE_VECTREX,               102},
     { PlatformId::IBM_PC,                    135},
     { PlatformId::MAGNAVOX_ODYSSEY2,         104},
@@ -48,11 +54,15 @@ static const std::map<PlatformId, unsigned short>& getPlatformIDs()
     { PlatformId::MGT_SAMCOUPE,              213},
     { PlatformId::MICROSOFT_MSX,             113},
     { PlatformId::MICROSOFT_MSX1,            113},
-    { PlatformId::MICROSOFT_MSX2,            113},
+    { PlatformId::MICROSOFT_MSX2,            116},
+    { PlatformId::MICROSOFT_MSXTURBOR,       118},
     { PlatformId::MICROSOFT_XBOX,            32},
     { PlatformId::MICROSOFT_XBOX_360,        33},
+    { PlatformId::NEC_PC88,                  221},
+    { PlatformId::NEC_PC98,                  208},
     { PlatformId::NEC_PCENGINE,              31},
     { PlatformId::NEC_PCENGINE_CD,           114},
+    { PlatformId::NEC_PCFX,                  72},
     { PlatformId::NEC_SUPERGRAFX,            31},
     { PlatformId::NEOGEO,                    142},
     { PlatformId::NEOGEO_CD,                 142},
@@ -72,11 +82,15 @@ static const std::map<PlatformId, unsigned short>& getPlatformIDs()
     { PlatformId::NINTENDO_SATELLAVIEW,      107},
     { PlatformId::NINTENDO_SNES,             4},
     { PlatformId::NINTENDO_SUFAMITURBO,      108},
+    { PlatformId::NINTENDO_VIRTUAL_BOY,      11},
     { PlatformId::NINTENDO_WII,              16},
     { PlatformId::NINTENDO_WII_U,            18},
-    { PlatformId::NINTENDO_VIRTUAL_BOY,      11},
     { PlatformId::OSH_UZEBOX,                216},
+    { PlatformId::PALM_PDA,                  219},
     { PlatformId::PANASONIC_3DO,             29},
+    { PlatformId::PORT_CAVE_STORY,           135},
+    { PlatformId::PORT_PRBOOM,               135},
+    { PlatformId::SAMMY_ATOMISWAVE,          53},
     { PlatformId::SEGA_32X,                  19},
     { PlatformId::SEGA_CD,                   20},
     { PlatformId::SEGA_DREAMCAST,            23},
@@ -84,8 +98,10 @@ static const std::map<PlatformId, unsigned short>& getPlatformIDs()
     { PlatformId::SEGA_GENESIS,              1},
     { PlatformId::SEGA_MASTER_SYSTEM,        2},
     { PlatformId::SEGA_MEGA_DRIVE,           1},
+    { PlatformId::SEGA_NAOMI,                56},
     { PlatformId::SEGA_SATURN,               22},
     { PlatformId::SEGA_SG1000,               109},
+    { PlatformId::SHARP_X1,                  220},
     { PlatformId::SHARP_X68000,              79},
     { PlatformId::SINCLAIR_ZX_SPECTRUM,      76},
     { PlatformId::SINCLAIR_ZX_81,            77},
@@ -94,6 +110,7 @@ static const std::map<PlatformId, unsigned short>& getPlatformIDs()
     { PlatformId::SONY_PLAYSTATION_3,        59},
     { PlatformId::SONY_PLAYSTATION_VITA,     62},
     { PlatformId::SONY_PLAYSTATION_PORTABLE, 61},
+    { PlatformId::SPECTRAVISION_SPECTRAVIDEO,218},
     { PlatformId::TANDERINE_ORICATMOS,       131},
     { PlatformId::THOMSON_MOTO,              141},
   };
@@ -104,17 +121,17 @@ static const std::map<PlatformId, unsigned short>& getPlatformIDs()
 // Helper XML parsing method, finding a node-by-name recursively.
 /*pugi::xml_node find_node_by_name_re(const pugi::xml_node& node, const std::vector<std::string> node_names) {
 
-	for (const std::string& _val : node_names)
-	{
-		pugi::xpath_query query_node_name((static_cast<std::string>("//") + _val).c_str());
-		pugi::xpath_node_set results = node.select_nodes(query_node_name);
+  for (const std::string& _val : node_names)
+  {
+    pugi::xpath_query query_node_name((static_cast<std::string>("//") + _val).c_str());
+    pugi::xpath_node_set results = node.select_nodes(query_node_name);
 
-		if (!results.empty())
-			return results.first().node();
-	}
+    if (!results.empty())
+      return results.first().node();
+  }
 
-	pugi::xml_node emptyNode;
-	return emptyNode;
+  pugi::xml_node emptyNode;
+  return emptyNode;
 }*/
 
 // Help XML parsing method, finding an direct child XML node starting from the parent and filtering by an attribute value list.
@@ -303,32 +320,32 @@ void ScreenScraperRequest::processGame(const pugi::xml_document& xmldoc, std::ve
 // Currently not used in this module
 /*void ScreenScraperRequest::processList(const pugi::xml_document& xmldoc, std::vector<ScraperSearchResult>& results)
 {
-	assert(mRequestQueue != nullptr);
+  assert(mRequestQueue != nullptr);
 
-	LOG(LogDebug) << "Processing a list of results";
+  LOG(LogDebug) << "Processing a list of results";
 
-	pugi::xml_node data = xmldoc.child("Data");
-	pugi::xml_node game = data.child("jeu");
+  pugi::xml_node data = xmldoc.child("Data");
+  pugi::xml_node game = data.child("jeu");
 
-	if (!game)
-		LOG(LogDebug) << "Found nothing";
+  if (!game)
+    LOG(LogDebug) << "Found nothing";
 
-	ScreenScraperRequest::ScreenScraperConfig ssConfig;
+  ScreenScraperRequest::ScreenScraperConfig ssConfig;
 
-	// limit the number of results per platform, not in total.
-	// otherwise if the first platform returns >= 7 games
-	// but the second platform contains the relevant game,
-	// the relevant result would not be shown.
-	for (int i = 0; game && i < MAX_SCRAPER_RESULTS; i++)
-	{
-		std::string id = game.child("id").text().get();
-		std::string name = game.child("nom").text().get();
-		std::string platformId = game.child("systemeid").text().get();
-		std::string path = ssConfig.getGameSearchUrl(name).append("&systemeid=").append(platformId).append("&gameid=").append(id);
+  // limit the number of results per platform, not in total.
+  // otherwise if the first platform returns >= 7 games
+  // but the second platform contains the relevant game,
+  // the relevant result would not be shown.
+  for (int i = 0; game && i < MAX_SCRAPER_RESULTS; i++)
+  {
+    std::string id = game.child("id").text().get();
+    std::string name = game.child("nom").text().get();
+    std::string platformId = game.child("systemeid").text().get();
+    std::string path = ssConfig.getGameSearchUrl(name).append("&systemeid=").append(platformId).append("&gameid=").append(id);
 
-		mRequestQueue->push(std::unique_ptr<ScraperRequest>(new ScreenScraperRequest(results, path)));
+    mRequestQueue->push(std::unique_ptr<ScraperRequest>(new ScreenScraperRequest(results, path)));
 
-		game = game.next_sibling("jeu");
-	}
+    game = game.next_sibling("jeu");
+  }
 }*/
 
