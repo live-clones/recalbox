@@ -55,6 +55,7 @@
   - Use your ScreenScraper account to get higher per day limitations
   - Choose your favorite region/language to get appropriate images and texts
 - TheGameDB internal scraper is back using newest APIs 
+- Commodore 64 has now two emulators: x64 and the newer x64sc (slower, but more accurate)
 
 ### Fixes
 - Fix boot intro videos on x86 and x64
