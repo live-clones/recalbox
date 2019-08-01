@@ -4,10 +4,10 @@
 #
 ################################################################################
 
-LIBRETRO_VICE_VERSION = dc70ed29e98f5e740999a0e2acd37df7f0acad4e
+LIBRETRO_VICE_VERSION = 152446626ceeb415b4cd952c4d26d3b5f9e75e9c
 LIBRETRO_VICE_SITE = $(call github,libretro,vice-libretro,$(LIBRETRO_VICE_VERSION))
 
-LIBRETRO_VICE_SUBEMULATORS = x64 x64sc x128 xpet xplus4 xvic
+LIBRETRO_VICE_SUBEMULATORS = x64 x64sc x128 xpet xplus4 xvic xcbm2
 
 define LIBRETRO_VICE_BUILD_EMULATOR
 	find $(@D) -name *.o -delete; \
