@@ -13,6 +13,4 @@ Mapping gamepad :
 
 L = Toggle Virtual Keyboard
 R = Toggle Statusbar
-L2 = Swap Joyports
-R2 = Reset
 Hotkey = Warp Mode (hold)
