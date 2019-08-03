@@ -204,7 +204,7 @@ define NVIDIA_DRIVER_RECALBOX_INSTALL_TARGET_CMDS
 	$(NVIDIA_DRIVER_RECALBOX_INSTALL_KERNEL_MODULE)
 
 # recalbox install more needed
-    $(INSTALL) -D -m 0644 $(@D)/10_nvidia.json \
+	$(INSTALL) -D -m 0644 $(@D)/10_nvidia.json \
 	    $(TARGET_DIR)/usr/share/glvnd/egl_vendor.d/10_nvidia.json
 	$(INSTALL) -D -m 0644 $(@D)/nvidia-drm-outputclass.conf \
 		$(TARGET_DIR)/usr/share/X11/xorg.conf.d/10-nvidia-drm.conf
