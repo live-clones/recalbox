@@ -29,7 +29,7 @@ endif
 
 # recalbox - enable both mesa and nvidia
 ifneq ($(BR2_PACKAGE_MESA3D),y)
-  NVIDIA_DRIVER_RECALBOX_DEPENDENCIES += mesa3d-headers 
+  NVIDIA_DRIVER_RECALBOX_DEPENDENCIES += mesa3d-headers
 endif
 
 # libGL.so.$(NVIDIA_DRIVER_RECALBOX_VERSION) is the legacy libGL.so library; it
@@ -171,7 +171,7 @@ define NVIDIA_DRIVER_RECALBOX_INSTALL_LIBS
 		$(INSTALL) -D -m 0644 $(@D)/$(lib) $(1)/usr/lib/extra/$(notdir $(lib))
 		libsoname="$$( $(TARGET_READELF) -d "$(@D)/extra/$(lib)" \
 			|sed -r -e '/.*\(SONAME\).*\[(.*)\]$$/!d; s//\1/;' )"; \
-## Recalbox 			
+## Recalbox
 ## Uncomment for cohabit nvidia-driver libraries and mesa-nouveau libraries
 #		if [ -n "$${libsoname}" -a "$${libsoname}" != "$(notdir $(lib))" ]; then \
 #			ln -sf $(notdir $(lib)) \
@@ -207,15 +207,14 @@ define NVIDIA_DRIVER_RECALBOX_INSTALL_TARGET_CMDS
     $(INSTALL) -D -m 0644 $(@D)/10_nvidia.json \
 	    $(TARGET_DIR)/usr/share/glvnd/egl_vendor.d/10_nvidia.json
 	$(INSTALL) -D -m 0644 $(@D)/nvidia-drm-outputclass.conf \
-        $(TARGET_DIR)/usr/share/X11/xorg.conf.d/10-nvidia-drm.conf
-    $(INSTALL) -D -m 0755 $(@D)/nvidia-settings \
-        $(TARGET_DIR)/usr/bin/nvidia-settings
+		$(TARGET_DIR)/usr/share/X11/xorg.conf.d/10-nvidia-drm.conf
+	$(INSTALL) -D -m 0755 $(@D)/nvidia-settings \
+		$(TARGET_DIR)/usr/bin/nvidia-settings
 	$(INSTALL) -D -m 0644 $(@D)/libnvidia-gtk2.so.$(NVIDIA_DRIVER_RECALBOX_VERSION) \
-		$(TARGET_DIR)/usr/lib/libnvidia-gtk2.so.$(NVIDIA_DRIVER_RECALBOX_VERSION)    
-        ln -snf libnvidia-gtk2.so.$(NVIDIA_DRIVER_RECALBOX_VERSION) $(TARGET_DIR)/usr/lib/liblibnvidia-gtk2.so
+		$(TARGET_DIR)/usr/lib/libnvidia-gtk2.so.$(NVIDIA_DRIVER_RECALBOX_VERSION)
+		ln -snf libnvidia-gtk2.so.$(NVIDIA_DRIVER_RECALBOX_VERSION) $(TARGET_DIR)/usr/lib/liblibnvidia-gtk2.so
 	$(INSTALL) -D -m 0755 $(@D)/nvidia-smi \
-        $(TARGET_DIR)/usr/bin/nvidia-smi
+		$(TARGET_DIR)/usr/bin/nvidia-smi
 endef
-
 
 $(eval $(generic-package))
