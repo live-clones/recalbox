@@ -160,9 +160,9 @@ def getDefaultEmulator(targetSystem):
         # Computers
         "amiga600"      : Emulator(name='amiga600', emulator='amiberry'),
         "amiga1200"     : Emulator(name='amiga1200', emulator='amiberry'),
-        "msx"           : Emulator(name='msx', emulator='libretro', core='bluemsx'),
         "msx1"          : Emulator(name='msx1', emulator='libretro', core='bluemsx'),
         "msx2"          : Emulator(name='msx2', emulator='libretro', core='bluemsx'),
+        "msxturbor"     : Emulator(name='msxturbor', emulator='libretro', core='bluemsx'),
         "spectravideo"  : Emulator(name='spectravideo', emulator='libretro', core='bluemsx'),
         "amiga"         : Emulator(name='amiga', emulator='libretro', core='puae'),
         "amstradcpc"    : Emulator(name='amstradcpc', emulator='libretro', core='cap32'),
