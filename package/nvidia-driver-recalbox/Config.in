@@ -1,10 +1,10 @@
 comment "nvidia-driver needs a glibc toolchain"
-	depends on BR2_x86_64
+	depends on BR2_i386 || BR2_x86_64
 	depends on !BR2_TOOLCHAIN_USES_GLIBC
 
 config BR2_PACKAGE_NVIDIA_DRIVER_RECALBOX
 	bool "nvidia-driver-recalbox"
-	depends on BR2_x86_64
+	depends on BR2_i386 || BR2_x86_64
 	depends on BR2_TOOLCHAIN_USES_GLIBC
 	help
 	  The binary-only driver blob for NVidia cards.
@@ -21,27 +21,28 @@ config BR2_PACKAGE_NVIDIA_DRIVER_RECALBOX_XORG
 	bool "X.org drivers"
 	default y
 	depends on BR2_PACKAGE_XSERVER_XORG_SERVER_MODULAR
-# recalbox - enable both mesa and nvidia
-	select BR2_PACKAGE_MESA3D
+	# recalbox - enable both mesa and nvidia
+	select BR2_PACKAGE_MESA3D_HEADERS if !BR2_PACKAGE_MESA3D
 	select BR2_PACKAGE_XLIB_LIBX11
 	select BR2_PACKAGE_XLIB_LIBXEXT
-	select BR2_PACKAGE_HAS_LIBGL
-	select BR2_PACKAGE_HAS_LIBEGL
-	select BR2_PACKAGE_HAS_LIBEGL_WAYLAND
-	select BR2_PACKAGE_HAS_LIBGLES
-	select BR2_PACKAGE_LIBGLVND
+	select BR2_PACKAGE_HAS_LIBGL if !BR2_PACKAGE_MESA3D
+	select BR2_PACKAGE_HAS_LIBEGL if !BR2_PACKAGE_MESA3D
+	select BR2_PACKAGE_HAS_LIBEGL_WAYLAND if !BR2_PACKAGE_MESA3D
+	select BR2_PACKAGE_HAS_LIBGLES if !BR2_PACKAGE_MESA3D
 
 if BR2_PACKAGE_NVIDIA_DRIVER_RECALBOX_XORG
 
 # recalbox - enable both mesa and nvidia
-#config BR2_PACKAGE_PROVIDES_LIBGL
-#	default "nvidia-driver"
+if !BR2_PACKAGE_MESA3D
+config BR2_PACKAGE_PROVIDES_LIBGL
+	default "nvidia-driver"
 
-#config BR2_PACKAGE_PROVIDES_LIBEGL
-#	default "nvidia-driver"
+config BR2_PACKAGE_PROVIDES_LIBEGL
+	default "nvidia-driver"
 
-#config BR2_PACKAGE_PROVIDES_LIBGLES
-#	default "nvidia-driver"
+config BR2_PACKAGE_PROVIDES_LIBGLES
+	default "nvidia-driver"
+endif
 
 config BR2_PACKAGE_NVIDIA_DRIVER_RECALBOX_PRIVATE_LIBS
 	bool "Install private libraries"
@@ -63,11 +64,6 @@ if BR2_PACKAGE_NVIDIA_DRIVER_RECALBOX_CUDA
 
 config BR2_PACKAGE_NVIDIA_DRIVER_RECALBOX_OPENCL
 	bool "OpenCL support"
-	select BR2_PACKAGE_MESA3D_HEADERS
-	select BR2_PACKAGE_HAS_LIBOPENCL
-
-config BR2_PACKAGE_PROVIDES_LIBOPENCL
-	default "nvidia-driver" if BR2_PACKAGE_NVIDIA_DRIVER_RECALBOX_OPENCL
 
 config BR2_PACKAGE_NVIDIA_DRIVER_RECALBOX_CUDA_PROGS
 	bool "CUDA MPS server and control"

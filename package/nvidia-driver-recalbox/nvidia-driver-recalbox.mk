@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-NVIDIA_DRIVER_RECALBOX_VERSION = 430.26
+NVIDIA_DRIVER_RECALBOX_VERSION = 390.116
 NVIDIA_DRIVER_RECALBOX_SUFFIX = $(if $(BR2_x86_64),_64)
 NVIDIA_DRIVER_RECALBOX_SITE = http://download.nvidia.com/XFree86/Linux-x86$(NVIDIA_DRIVER_RECALBOX_SUFFIX)/$(NVIDIA_DRIVER_RECALBOX_VERSION)
 NVIDIA_DRIVER_RECALBOX_SOURCE = NVIDIA-Linux-x86$(NVIDIA_DRIVER_RECALBOX_SUFFIX)-$(NVIDIA_DRIVER_RECALBOX_VERSION).run
@@ -20,8 +20,17 @@ ifeq ($(BR2_PACKAGE_NVIDIA_DRIVER_RECALBOX_XORG),y)
 # are build dependencies of packages that depend on nvidia-driver, so
 # they should be built prior to those packages, and the only simple
 # way to do so is to make nvidia-driver depend on them.
-NVIDIA_DRIVER_RECALBOX_DEPENDENCIES = mesa3d xlib_libX11 xlib_libXext libglvnd
-#NVIDIA_DRIVER_RECALBOX_PROVIDES = libgl libegl libgles
+NVIDIA_DRIVER_RECALBOX_DEPENDENCIES = xlib_libX11 xlib_libXext
+
+# recalbox - enable both mesa and nvidia
+ifneq ($(BR2_PACKAGE_MESA3D),y)
+NVIDIA_DRIVER_RECALBOX_PROVIDES = libgl libegl libgles
+endif
+
+# recalbox - enable both mesa and nvidia
+ifneq ($(BR2_PACKAGE_MESA3D),y)
+  NVIDIA_DRIVER_RECALBOX_DEPENDENCIES += mesa3d-headers 
+endif
 
 # libGL.so.$(NVIDIA_DRIVER_RECALBOX_VERSION) is the legacy libGL.so library; it
 # has been replaced with libGL.so.1.0.0. Installing both is technically
@@ -41,21 +50,27 @@ NVIDIA_DRIVER_RECALBOX_DEPENDENCIES = mesa3d xlib_libX11 xlib_libXext libglvnd
 #
 # So we only install the legacy library for now.
 NVIDIA_DRIVER_RECALBOX_LIBS_GL = \
+	libGLX.so.0 \
+	libGL.so.$(NVIDIA_DRIVER_RECALBOX_VERSION) \
 	libGLX_nvidia.so.$(NVIDIA_DRIVER_RECALBOX_VERSION)
 
 NVIDIA_DRIVER_RECALBOX_LIBS_EGL = \
+	libEGL.so.1.1.0 \
+	libGLdispatch.so.0 \
 	libEGL_nvidia.so.$(NVIDIA_DRIVER_RECALBOX_VERSION)
 
 NVIDIA_DRIVER_RECALBOX_LIBS_GLES = \
+	libGLESv1_CM.so.1.2.0 \
+	libGLESv2.so.2.1.0 \
 	libGLESv1_CM_nvidia.so.$(NVIDIA_DRIVER_RECALBOX_VERSION) \
 	libGLESv2_nvidia.so.$(NVIDIA_DRIVER_RECALBOX_VERSION)
 
 NVIDIA_DRIVER_RECALBOX_LIBS_MISC = \
 	libnvidia-eglcore.so.$(NVIDIA_DRIVER_RECALBOX_VERSION) \
-	libnvidia-egl-wayland.so.1.1.2 \
+	libnvidia-egl-wayland.so.1.0.2 \
 	libnvidia-glcore.so.$(NVIDIA_DRIVER_RECALBOX_VERSION) \
 	libnvidia-glsi.so.$(NVIDIA_DRIVER_RECALBOX_VERSION) \
-	libnvidia-tls.so.$(NVIDIA_DRIVER_RECALBOX_VERSION) \
+	tls/libnvidia-tls.so.$(NVIDIA_DRIVER_RECALBOX_VERSION) \
 	libvdpau_nvidia.so.$(NVIDIA_DRIVER_RECALBOX_VERSION) \
 	libnvidia-ml.so.$(NVIDIA_DRIVER_RECALBOX_VERSION)
 
@@ -87,7 +102,9 @@ endif
 
 # We refer to the destination path; the origin file has no directory component
 NVIDIA_DRIVER_RECALBOX_X_MODS = \
-	drivers/nvidia_drv.so
+	drivers/nvidia_drv.so \
+	extensions/libglx.so.$(NVIDIA_DRIVER_RECALBOX_VERSION) \
+	libnvidia-wfb.so.$(NVIDIA_DRIVER_RECALBOX_VERSION)
 
 endif # X drivers
 
@@ -98,9 +115,7 @@ NVIDIA_DRIVER_RECALBOX_LIBS += \
 	libnvcuvid.so.$(NVIDIA_DRIVER_RECALBOX_VERSION) \
 	libnvidia-fatbinaryloader.so.$(NVIDIA_DRIVER_RECALBOX_VERSION) \
 	libnvidia-ptxjitcompiler.so.$(NVIDIA_DRIVER_RECALBOX_VERSION) \
-	libnvidia-encode.so.$(NVIDIA_DRIVER_RECALBOX_VERSION) \
-	libnvoptix.so.$(NVIDIA_DRIVER_RECALBOX_VERSION) \
-	libnvidia-opticalflow.so.$(NVIDIA_DRIVER_RECALBOX_VERSION)
+	libnvidia-encode.so.$(NVIDIA_DRIVER_RECALBOX_VERSION)
 ifeq ($(BR2_PACKAGE_NVIDIA_DRIVER_RECALBOX_CUDA_PROGS),y)
 NVIDIA_DRIVER_RECALBOX_PROGS = nvidia-cuda-mps-control nvidia-cuda-mps-server
 endif
@@ -110,8 +125,6 @@ ifeq ($(BR2_PACKAGE_NVIDIA_DRIVER_RECALBOX_OPENCL),y)
 NVIDIA_DRIVER_RECALBOX_LIBS += \
 	libOpenCL.so.1.0.0 \
 	libnvidia-opencl.so.$(NVIDIA_DRIVER_RECALBOX_VERSION)
-NVIDIA_DRIVER_RECALBOX_DEPENDENCIES += mesa3d-headers
-NVIDIA_DRIVER_RECALBOX_PROVIDES += libopencl
 endif
 
 # Build and install the kernel modules if needed
@@ -155,32 +168,34 @@ endef
 # the no-version symlink, so we can link to them at build time.
 define NVIDIA_DRIVER_RECALBOX_INSTALL_LIBS
 	$(foreach lib,$(NVIDIA_DRIVER_RECALBOX_LIBS),\
-		$(INSTALL) -D -m 0644 $(@D)/$(lib) $(1)/usr/lib/$(notdir $(lib))
-		libsoname="$$( $(TARGET_READELF) -d "$(@D)/$(lib)" \
+		$(INSTALL) -D -m 0644 $(@D)/$(lib) $(1)/usr/lib/extra/$(notdir $(lib))
+		libsoname="$$( $(TARGET_READELF) -d "$(@D)/extra/$(lib)" \
 			|sed -r -e '/.*\(SONAME\).*\[(.*)\]$$/!d; s//\1/;' )"; \
-		if [ -n "$${libsoname}" -a "$${libsoname}" != "$(notdir $(lib))" ]; then \
-			ln -sf $(notdir $(lib)) \
-				$(1)/usr/lib/$${libsoname}; \
-		fi
-		baseso=$(firstword $(subst .,$(space),$(notdir $(lib)))).so; \
-		if [ -n "$${baseso}" -a "$${baseso}" != "$(notdir $(lib))" ]; then \
-			ln -sf $(notdir $(lib)) $(1)/usr/lib/$${baseso}; \
-		fi
+## Recalbox 			
+## Uncomment for cohabit nvidia-driver libraries and mesa-nouveau libraries
+#		if [ -n "$${libsoname}" -a "$${libsoname}" != "$(notdir $(lib))" ]; then \
+#			ln -sf $(notdir $(lib)) \
+#				$(1)/usr/lib/extra/$${libsoname}; \
+#		fi
+#		baseso=$(firstword $(subst .,$(space),$(notdir $(lib)))).so; \
+#		if [ -n "$${baseso}" -a "$${baseso}" != "$(notdir $(lib))" ]; then \
+#			ln -sf $(notdir $(lib)) $(1)/usr/lib/extra/$${baseso}; \
+#		fi
 	)
 endef
 
-# use libglvnd
-#define NVIDIA_DRIVER_RECALBOX_INSTALL_STAGING_CMDS
-#	$(call NVIDIA_DRIVER_RECALBOX_INSTALL_LIBS,$(STAGING_DIR))
-#	$(NVIDIA_DRIVER_RECALBOX_INSTALL_GL_DEV)
-#endef
+# For staging, install libraries and development files
+define NVIDIA_DRIVER_RECALBOX_INSTALL_STAGING_CMDS
+	$(call NVIDIA_DRIVER_RECALBOX_INSTALL_LIBS,$(STAGING_DIR))
+	$(NVIDIA_DRIVER_RECALBOX_INSTALL_GL_DEV)
+endef
 
 # For target, install libraries and X.org modules
 define NVIDIA_DRIVER_RECALBOX_INSTALL_TARGET_CMDS
 	$(call NVIDIA_DRIVER_RECALBOX_INSTALL_LIBS,$(TARGET_DIR))
 	$(foreach m,$(NVIDIA_DRIVER_RECALBOX_X_MODS), \
 		$(INSTALL) -D -m 0644 $(@D)/$(notdir $(m)) \
-			$(TARGET_DIR)/usr/lib/xorg/modules/$(m)
+			$(TARGET_DIR)/usr/lib/xorg/modules/extra/$(m)
 	)
 	$(foreach p,$(NVIDIA_DRIVER_RECALBOX_PROGS), \
 		$(INSTALL) -D -m 0755 $(@D)/$(p) \
@@ -188,17 +203,19 @@ define NVIDIA_DRIVER_RECALBOX_INSTALL_TARGET_CMDS
 	)
 	$(NVIDIA_DRIVER_RECALBOX_INSTALL_KERNEL_MODULE)
 
-	$(INSTALL) -D -m 0644 $(@D)/10_nvidia.json \
-	    	$(TARGET_DIR)/usr/share/glvnd/egl_vendor.d/10_nvidia.json
-
+# recalbox install more needed
+    $(INSTALL) -D -m 0644 $(@D)/10_nvidia.json \
+	    $(TARGET_DIR)/usr/share/glvnd/egl_vendor.d/10_nvidia.json
 	$(INSTALL) -D -m 0644 $(@D)/nvidia-drm-outputclass.conf \
-			$(TARGET_DIR)/usr/share/X11/xorg.conf.d/10-nvidia-drm-outputclass.conf
-	$(INSTALL) -D -m 0644 $(@D)/libglxserver_nvidia.so.$(NVIDIA_DRIVER_RECALBOX_VERSION) \
-			$(TARGET_DIR)/usr/lib/xorg/modules/extensions/libglxserver_nvidia.so.$(NVIDIA_DRIVER_RECALBOX_VERSION)
-	ln -snf libglxserver_nvidia.so.$(NVIDIA_DRIVER_RECALBOX_VERSION) \
-			$(TARGET_DIR)/usr/lib/xorg/modules/extensions/libglxserver_nvidia.so
-	ln -snf libglxserver_nvidia.so.$(NVIDIA_DRIVER_RECALBOX_VERSION) \
-			$(TARGET_DIR)/usr/lib/xorg/modules/extensions/libglxserver_nvidia.so.1
+        $(TARGET_DIR)/usr/share/X11/xorg.conf.d/10-nvidia-drm.conf
+    $(INSTALL) -D -m 0755 $(@D)/nvidia-settings \
+        $(TARGET_DIR)/usr/bin/nvidia-settings
+	$(INSTALL) -D -m 0644 $(@D)/libnvidia-gtk2.so.$(NVIDIA_DRIVER_RECALBOX_VERSION) \
+		$(TARGET_DIR)/usr/lib/libnvidia-gtk2.so.$(NVIDIA_DRIVER_RECALBOX_VERSION)    
+        ln -snf libnvidia-gtk2.so.$(NVIDIA_DRIVER_RECALBOX_VERSION) $(TARGET_DIR)/usr/lib/liblibnvidia-gtk2.so
+	$(INSTALL) -D -m 0755 $(@D)/nvidia-smi \
+        $(TARGET_DIR)/usr/bin/nvidia-smi
 endef
+
 
 $(eval $(generic-package))
