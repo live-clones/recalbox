@@ -1,0 +1,20 @@
+--- a/src/pc88main.c	2019-07-30 16:52:03.000000000 +0200
++++ b/src/pc88main.c	2019-08-02 19:45:08.975340983 +0200
+@@ -433,7 +433,7 @@
+ /*		jisho_rom_ctrl, jisho_rom_bank, 	*/
+ /*		misc_ctrl により変化			*/
+ /*------------------------------------------------------*/
+-INLINE	void	main_memory_mapping_c000_ffff( void )
++static INLINE	void	main_memory_mapping_c000_ffff( void )
+ {
+   mem_wait_highram = FALSE;
+ 
+@@ -473,7 +473,7 @@
+   EndofVramAcc
+ };
+ 
+-INLINE	void	main_memory_vram_mapping( void )
++static INLINE	void	main_memory_vram_mapping( void )
+ {
+   if( misc_ctrl & MISC_CTRL_EVRAM ){		/* 拡張アクセスモード */
+ 

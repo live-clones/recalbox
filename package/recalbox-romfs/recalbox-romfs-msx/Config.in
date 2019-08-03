@@ -1,7 +1,0 @@
-config BR2_PACKAGE_RECALBOX_ROMFS_MSX
-	bool "recalbox-romfs-msx"
-	select BR2_PACKAGE_RECALBOX_ROMS
-	depends on BR2_PACKAGE_LIBRETRO_BLUEMSX \
-	  || BR2_PACKAGE_LIBRETRO_FMSX
-	help
-	  share_init/roms and xml for msx

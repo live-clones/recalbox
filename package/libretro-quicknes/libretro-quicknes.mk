@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_QUICKNES_VERSION = 3c93d063470722c3f2c9a4212aac36e8c19537e1
+LIBRETRO_QUICKNES_VERSION = 8bab972ca9f92ec838abd646eee1c46a696d8708
 LIBRETRO_QUICKNES_SITE = $(call github,libretro,QuickNES_Core,$(LIBRETRO_QUICKNES_VERSION))
 
 define LIBRETRO_QUICKNES_BUILD_CMDS

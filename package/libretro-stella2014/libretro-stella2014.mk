@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_STELLA2014_VERSION = 7cc0c44b08542d8e0efcd5361c680959b39f29a6
+LIBRETRO_STELLA2014_VERSION = a181878b283fc02c26c0474c41bde418c052c853
 LIBRETRO_STELLA2014_SITE = $(call github,libretro,stella2014-libretro,$(LIBRETRO_STELLA2014_VERSION))
 
 ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_RPI3),y)

@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_SNES9X_VERSION = c4b1d677f3e848433ae43b7a4e92086a66aa28b6
+LIBRETRO_SNES9X_VERSION = 3945edfc2fbd7ffd40d4eb383b2ef1c9f745c8d6
 LIBRETRO_SNES9X_SITE = $(call github,libretro,snes9x,$(LIBRETRO_SNES9X_VERSION))
 
 define LIBRETRO_SNES9X_BUILD_CMDS
