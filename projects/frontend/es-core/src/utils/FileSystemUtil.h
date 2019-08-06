@@ -34,7 +34,7 @@ class FileSystemUtil
     static std::string removeCommonPath   (const std::string& _path, const std::string& _common, bool& _contains);
     static std::string resolveSymlink     (const std::string& _path);
     static bool        removeFile         (const std::string& _path);
-    static bool        createDirectory    (const std::string& _path);
+    static bool        createDirectories  (const std::string& _path);
     static bool        exists             (const std::string& _path);
     static bool        isAbsolute         (const std::string& _path);
     static bool        isRegularFile      (const std::string& _path);

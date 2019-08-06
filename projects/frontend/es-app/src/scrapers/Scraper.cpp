@@ -5,6 +5,7 @@
 #include <boost/filesystem.hpp>
 #include <boost/assign.hpp>
 #include <RootFolders.h>
+#include <utils/FileSystemUtil.h>
 
 #include "GamesDBJSONScraper.h"
 #include "MamedbScraper.h"
@@ -145,7 +146,7 @@ MDResolveHandle::MDResolveHandle(const ScraperSearchResult& result, const Scrape
 {
 	if(!result.imageUrl.empty())
 	{
-		std::string imgPath = getSaveAsPath(search, "images", result.imageUrl);
+		std::string imgPath = getSaveAsPath(search, "images", result.imageType);
 		mFuncs.push_back(ResolvePair(downloadImageAsync(result.imageUrl, imgPath), [this, imgPath]
 		{
 			mResult.mdl.SetImagePath(imgPath);
@@ -262,15 +263,15 @@ bool resizeImage(const std::string& path, int maxWidth, int maxHeight)
 		return false;
 	}
 
-	float width = (float)FreeImage_GetWidth(image);
-	float height = (float)FreeImage_GetHeight(image);
+	unsigned int width = FreeImage_GetWidth(image);
+	unsigned int height = FreeImage_GetHeight(image);
 
 	if(maxWidth == 0)
 	{
-		maxWidth = (int)(((float)maxHeight / height) * width);
+		maxWidth = (int)(((double)maxHeight / height) * width);
 	}else if(maxHeight == 0)
 	{
-		maxHeight = (int)(((float)maxWidth / width) * height);
+		maxHeight = (int)(((double)maxWidth / width) * height);
 	}
 
 	FIBITMAP* imageRescaled = FreeImage_Rescale(image, maxWidth, maxHeight, FILTER_BILINEAR);
@@ -292,28 +293,36 @@ bool resizeImage(const std::string& path, int maxWidth, int maxHeight)
 	return saved;
 }
 
-std::string getSaveAsPath(const ScraperSearchParams& params, const std::string& suffix, const std::string& url)
+std::string getSaveAsPath(const ScraperSearchParams& params, const std::string& suffix, const ScraperImageType type)
 {
-	const std::string subdirectory = params.system->getName();
-	const std::string name = params.game->getPath().stem().generic_string() + "-" + suffix;
+	const std::string rootFolder = params.system->getRootFolder()->getPath().generic_string();
+  const std::string gameFolder = params.game->getPath().parent_path().generic_string();
+	const std::string gameName = params.game->getPath().stem().generic_string();
+
+	bool dummy;
+	std::string subPath = FileSystemUtil::removeCommonPath(gameFolder, rootFolder, dummy);
 
 	// default dir in rom directory
 	std::string path = params.system->getRootFolder()->getPath().generic_string() + "/media/" + suffix + '/';
-	if (!boost::filesystem::exists(path))
+	if (subPath.length() != 0) path += subPath + '/';
+	if (!FileSystemUtil::exists(path))
   {
-    boost::filesystem::create_directories(path);
-    if (!boost::filesystem::exists(path))
+	  FileSystemUtil::createDirectories(path);
+    if (!FileSystemUtil::exists(path))
     {
       LOG(LogError) << "Cannot create " << path;
       return "";
     }
   }
 
-	size_t dot = url.find_last_of('.');
-	std::string ext;
-	if(dot != std::string::npos)
-		ext = url.substr(dot, std::string::npos);
+	std::string gameExt = ".png"; // Default
+	switch(type)
+  {
+    case ScraperImageType::Jpeg: gameExt = ".jpg";
+    case ScraperImageType::Png:
+    default: break;
+  }
 
-	path += name + ext;
+	path += gameName + gameExt;
 	return path;
 }

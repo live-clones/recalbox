@@ -485,7 +485,7 @@ std::string FileSystemUtil::removeCommonPath(const std::string& _path, const std
   if(path.find(common) == 0)
   {
     _contains = true;
-    return path.substr(common.length() + 1);
+    return path.length() != common.length() ? path.substr(common.length() + 1) : "";
   }
 
   // it didn't
@@ -542,29 +542,57 @@ bool FileSystemUtil::removeFile(const std::string& _path)
 
 } // removeFile
 
-bool FileSystemUtil::createDirectory(const std::string& _path)
+#include <string.h>
+#include <limits.h>     /* PATH_MAX */
+#include <sys/stat.h>   /* mkdir(2) */
+#include <errno.h>
+
+static int createAllDirectories(const char *path)
 {
-  std::string path = getGenericPath(_path);
+  errno = 0;
 
-  // don't create if it already exists
-  if(exists(path))
-    return true;
+  /* Copy string so its mutable */
+  const size_t len = strlen(path);
+  if (len > PATH_MAX - 1)
+  {
+    errno = ENAMETOOLONG;
+    return -1;
+  }
+  if (len == 0) return 0;
+  char _path[PATH_MAX];
+  strcpy(_path, path);
 
-  // try to create directory
-  if(mkdir(path.c_str(), 0755) == 0)
-    return true;
+  /* Iterate the string */
+  for (char* p = _path + 1; *p; p++)
+  {
+    if (*p == '/')
+    {
+      /* Temporarily truncate */
+      *p = '\0';
 
-  // failed to create directory, try to create the parent
-  std::string parent = getParent(path);
+      if (mkdir(_path, S_IRWXU) != 0)
+      {
+        if (errno != EEXIST)
+          return -1;
+      }
 
-  // only try to create parent if it's not identical to path
-  if(parent != path)
-    createDirectory(parent);
+      *p = '/';
+    }
+  }
 
-  // try to create directory again now that the parent should exist
-  return (mkdir(path.c_str(), 0755) == 0);
+  if (mkdir(_path, S_IRWXU) != 0)
+  {
+    if (errno != EEXIST)
+      return -1;
+  }
 
-} // createDirectory
+  return 0;
+}
+
+bool FileSystemUtil::createDirectories(const std::string& _path)
+{
+  return (createAllDirectories(_path.c_str()) == 0);
+}
 
 bool FileSystemUtil::exists(const std::string& _path)
 {

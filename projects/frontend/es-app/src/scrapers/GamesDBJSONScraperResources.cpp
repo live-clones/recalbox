@@ -40,7 +40,7 @@ namespace
   {
     std::string path = getScrapersResouceDir();
     if (!FileSystemUtil::exists(path))
-      FileSystemUtil::createDirectory(path);
+      FileSystemUtil::createDirectories(path);
   }
 
 } // namespace
