@@ -10,24 +10,41 @@
 #include "MamedbScraper.h"
 #include "ScreenscraperScraper.old.h"
 
-const std::map<std::string, generate_scraper_requests_func> scraper_request_funcs = boost::assign::map_list_of
-	("TheGamesDB", &thegamesdb_generate_json_scraper_requests)
-	("Mamedb", &mamedb_generate_scraper_requests)
-	("Screenscraper", &screenscraper_generate_scraper_requests);
+#define SCRAPER_THEGAMEDB     "TheGamesDB"
+#define SCRAPER_MAMEDB        "Mamedb"
+#define SCRAPER_SCREENSCRAPER "Screenscraper"
+
+static const std::map<std::string, generate_scraper_requests_func>& getScraperGeneratorList()
+{
+  static const std::map<std::string, generate_scraper_requests_func> scraperRequestFunction =
+  {
+    {SCRAPER_THEGAMEDB,     &thegamesdb_generate_json_scraper_requests},
+    {SCRAPER_MAMEDB,        &mamedb_generate_scraper_requests},
+    {SCRAPER_SCREENSCRAPER, &screenscraper_generate_scraper_requests},
+  };
+  return scraperRequestFunction;
+}
 
 std::unique_ptr<ScraperSearchHandle> startScraperSearch(const ScraperSearchParams& params)
 {
-	const std::string& name = Settings::getInstance()->getString("Scraper");
+  // Get prefered scrapper
+	std::string name = Settings::getInstance()->getString("Scraper");
 
+	// Control invalid scraper
+	if (getScraperGeneratorList().find(name) == getScraperGeneratorList().end())
+	  name = SCRAPER_SCREENSCRAPER;
+
+	// Create the scraper
 	std::unique_ptr<ScraperSearchHandle> handle(new ScraperSearchHandle());
-	scraper_request_funcs.at(name)(params, handle->mRequestQueue, handle->mResults);
+  getScraperGeneratorList().at(name)(params, handle->mRequestQueue, handle->mResults);
+
 	return handle;
 }
 
 std::vector<std::string> getScraperList()
 {
 	std::vector<std::string> list;
-	for (const auto& scraper_request_func : scraper_request_funcs)
+	for (const auto& scraper_request_func : getScraperGeneratorList())
 	{
 		list.push_back(scraper_request_func.first);
 	}
@@ -250,10 +267,10 @@ bool resizeImage(const std::string& path, int maxWidth, int maxHeight)
 
 	if(maxWidth == 0)
 	{
-		maxWidth = (int)((maxHeight / height) * width);
+		maxWidth = (int)(((float)maxHeight / height) * width);
 	}else if(maxHeight == 0)
 	{
-		maxHeight = (int)((maxWidth / width) * height);
+		maxHeight = (int)(((float)maxWidth / width) * height);
 	}
 
 	FIBITMAP* imageRescaled = FreeImage_Rescale(image, maxWidth, maxHeight, FILTER_BILINEAR);
@@ -283,11 +300,13 @@ std::string getSaveAsPath(const ScraperSearchParams& params, const std::string& 
 	// default dir in rom directory
 	std::string path = params.system->getRootFolder()->getPath().generic_string() + "/media/" + suffix + '/';
 	if (!boost::filesystem::exists(path))
-		boost::filesystem::create_directories(path);
-  if (!boost::filesystem::exists(path))
   {
-    LOG(LogError) << "Cannot create " << path;
-    return "";
+    boost::filesystem::create_directories(path);
+    if (!boost::filesystem::exists(path))
+    {
+      LOG(LogError) << "Cannot create " << path;
+      return "";
+    }
   }
 
 	size_t dot = url.find_last_of('.');
