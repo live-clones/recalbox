@@ -105,13 +105,14 @@ class ScreenScraperRequest : public ScraperHttpRequest
         language = conf.get("scraper.screenscraper.language", region);
 
         // Choose media
-        media_name = StringUtil::toLower(conf.get("scraper.screenscraper.media", "mixv2"));
+        media_name = StringUtil::toLower(conf.get("scraper.screenscraper.media", "mixv1"));
         if (media_name == "screenshot") media_name = "ss";
         else if (media_name == "title") media_name = "sstitle";
         else if (media_name == "box2d") media_name = "box-2D";
         else if (media_name == "box3d") media_name = "box-3D";
         else if (media_name == "mixv1") media_name = "mixrbv1";
         else if (media_name == "mixv2") media_name = "mixrbv2";
+        else media_name = "mixrbv1";
 
         user = conf.get("scraper.screenscraper.user", "");
         password = conf.get("scraper.screenscraper.password", "");
