@@ -38,7 +38,7 @@
 #include "recalbox/RecalboxSystem.h"
 #include "recalbox/RecalboxUpgrade.h"
 #include "recalbox/RecalboxSystem.h"
-#include "datetime/SystemDateTimeInterface.h"
+#include "utils/datetime/SystemDateTimeInterface.h"
 
 #ifdef WIN32
   #include <Windows.h>

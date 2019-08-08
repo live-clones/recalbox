@@ -3,7 +3,7 @@
 //
 
 #include <SDL_audio.h>
-#include <util/HighResolutionTimer.h>
+#include <utils/datetime/HighResolutionTimer.h>
 #include "VideoEngine.h"
 #include "Log.h"
 

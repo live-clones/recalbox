@@ -3,7 +3,7 @@
 #include <boost/filesystem.hpp>
 #include <math.h>
 #include <VideoEngine.h>
-#include <datetime/DateTime.h>
+#include <utils/datetime/DateTime.h>
 #include "Log.h"
 #include "Renderer.h"
 #include "ThemeData.h"

@@ -5,7 +5,7 @@
 #include <boost/filesystem.hpp>
 #include <boost/assign.hpp>
 #include <RootFolders.h>
-#include <utils/FileSystemUtil.h>
+#include <utils/os/fs/FileSystemUtil.h>
 
 #include "GamesDBJSONScraper.h"
 #include "MamedbScraper.h"

@@ -24,13 +24,13 @@ set(CORE_HEADERS
 	${CMAKE_CURRENT_SOURCE_DIR}/src/Util.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/VideoEngine.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/utils/StringUtil.h
-	${CMAKE_CURRENT_SOURCE_DIR}/src/utils/FileSystemUtil.h
+		src/utils/os/fs/FileSystemUtil.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/Window.h
 
         # Utils
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/util/Thread.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/util/Mutex.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/util/HighResolutionTimer.h
+		src/utils/os/system/Thread.h
+		src/utils/os/system/Mutex.h
+		src/utils/datetime/HighResolutionTimer.h
 
         # Animations
         ${CMAKE_CURRENT_SOURCE_DIR}/src/animations/Animation.h
@@ -74,10 +74,10 @@ set(CORE_HEADERS
         ${CMAKE_CURRENT_SOURCE_DIR}/src/resources/TextureDataManager.h
 
         # Datetime
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/datetime/DateTime.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/datetime/ISystemDateTimeInterface.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/datetime/SystemDateTimeInterface.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/datetime/TimeSpan.h
+		src/utils/datetime/DateTime.h
+		src/utils/datetime/ISystemDateTimeInterface.h
+		src/utils/datetime/SystemDateTimeInterface.h
+		src/utils/datetime/TimeSpan.h
 
         # Embedded assets (needed by ResourceManager)
         ${emulationstation-all_SOURCE_DIR}/data/Resources.h
@@ -106,12 +106,12 @@ set(CORE_SOURCES
 	${CMAKE_CURRENT_SOURCE_DIR}/src/Util.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/VideoEngine.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/utils/StringUtil.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/src/utils/FileSystemUtil.cpp
+		src/utils/os/fs/FileSystemUtil.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/Window.cpp
 
         # Utils
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/util/Thread.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/util/Mutex.cpp
+		src/utils/os/system/Thread.cpp
+		src/utils/os/system/Mutex.cpp
 
         # Animations
         ${CMAKE_CURRENT_SOURCE_DIR}/src/animations/AnimationController.cpp
@@ -150,9 +150,9 @@ set(CORE_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/src/resources/TextureDataManager.cpp
 
         # Datetime
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/datetime/DateTime.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/datetime/SystemDateTimeInterface.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/datetime/TimeSpan.cpp
+		src/utils/datetime/DateTime.cpp
+		src/utils/datetime/SystemDateTimeInterface.cpp
+		src/utils/datetime/TimeSpan.cpp
         )
 
 set(EMBEDDED_ASSET_SOURCES

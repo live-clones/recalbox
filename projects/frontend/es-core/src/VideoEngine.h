@@ -4,8 +4,8 @@
 #pragma once
 
 #include <string>
-#include <util/Thread.h>
-#include <util/Mutex.h>
+#include <utils/os/system/Thread.h>
+#include <utils/os/system/Mutex.h>
 #include <SDL_system.h>
 #include <resources/TextureData.h>
 

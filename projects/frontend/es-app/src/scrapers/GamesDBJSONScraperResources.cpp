@@ -6,7 +6,7 @@
 #include "Log.h"
 
 #include "scrapers/GamesDBJSONScraperResources.h"
-#include "utils/FileSystemUtil.h"
+#include "utils/os/fs/FileSystemUtil.h"
 
 
 #include <rapidjson/document.h>
