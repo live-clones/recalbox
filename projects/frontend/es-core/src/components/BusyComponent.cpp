@@ -15,10 +15,11 @@ AnimationFrame BUSY_ANIMATION_FRAMES[] = {
 };
 const AnimationDef BUSY_ANIMATION_DEF = { BUSY_ANIMATION_FRAMES, 4, true };
 
-using namespace Eigen;
-
-BusyComponent::BusyComponent(Window* window) : GuiComponent(window),
-	mBackground(window, ":/frame.png"), mGrid(window, Vector2i(5, 3))
+BusyComponent::BusyComponent(Window* window)
+: GuiComponent(window),
+  mBackground(window, ":/frame.png"),
+  mGrid(window,Vector2i(5, 3)),
+  mThreadMessagechanged(false)
 {
 	mutex = SDL_CreateMutex();
 
@@ -45,18 +46,19 @@ BusyComponent::~BusyComponent() {
 	SDL_DestroyMutex(mutex);
 }
 
-void BusyComponent::setText(std::string txt) {
+void BusyComponent::setText(std::string txt)
+{
 	if (SDL_LockMutex(mutex) == 0) {
-		threadMessage = txt;
-		threadMessagechanged = true;
+		threadMessage = std::move(txt);
+    mThreadMessagechanged = true;
 		SDL_UnlockMutex(mutex);
 	}
 }
 
-void BusyComponent::render(const Eigen::Affine3f& parentTrans) {
+void BusyComponent::render(const Transform4x4f& parentTrans) {
 	if (SDL_LockMutex(mutex) == 0) {
-		if(threadMessagechanged) {
-			threadMessagechanged = false;
+		if(mThreadMessagechanged) {
+      mThreadMessagechanged = false;
 			mText->setText(threadMessage);
 			onSizeChanged();
 		}
@@ -72,7 +74,7 @@ void BusyComponent::onSizeChanged()
 	if(mSize.x() == 0 || mSize.y() == 0)
 		return;
 
-	const float middleSpacerWidth = 0.01f * Renderer::getScreenWidth();
+	const float middleSpacerWidth = 0.01f * (float)Renderer::getScreenWidth();
 	const float textHeight = mText->getFont()->getLetterHeight();
 	mText->setSize(0, textHeight);
 	const float textWidth = mText->getSize().x() + 4;
@@ -87,7 +89,3 @@ void BusyComponent::onSizeChanged()
 		mAnimation->getPosition(), Vector2f(0, 0));
 }
 
-void BusyComponent::reset()
-{
-	//mAnimation->reset();
-}

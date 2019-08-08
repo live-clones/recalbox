@@ -7,7 +7,31 @@
 
 #include "DateTime.h"
 
-ISystemDateTimeInterface* DateTime::_SystemDateTimeInterface = nullptr;
+#include <sys/time.h>
+
+char LoadTimeZone()
+{
+  time_t t = time(nullptr);
+  struct tm* lt = localtime(&t);
+  return (char)((lt->tm_gmtoff / (60* 60)) * 4);
+}
+
+bool LoadRTCValues(short &millis, short &year, char &month, char &day, char &hour, char &minute, char &second)
+{
+  timeval tv;
+  gettimeofday(&tv, nullptr);
+  time_t t=tv.tv_sec;
+  struct tm* lt = localtime(&t);
+  millis = tv.tv_usec / 1000;
+  second = (char)lt->tm_sec;
+  minute = (char)lt->tm_min;
+  hour   = (char)lt->tm_hour;
+  day    = (char)lt->tm_mday;
+  month  = (char)(lt->tm_mon + 1);
+  year   = (short)(lt->tm_year + 1900);
+  return true;
+}
+
 char DateTime::_DefaultTimeZone = 0;
 
 //! Day of week of the epoch day
@@ -72,13 +96,7 @@ void DateTime::FillFromRtc()
   char  minute;
   char  second;
 
-  // Uninitialized => return zero-ed values
-  if (_SystemDateTimeInterface == nullptr)
-  {
-    FillFromStartOfEra();
-    return;
-  }
-  if (!_SystemDateTimeInterface->LoadRTCValues(millis, year, month, day, hour, minute, second))
+  if (!LoadRTCValues(millis, year, month, day, hour, minute, second))
   {
     FillFromStartOfEra();
     return;
@@ -571,10 +589,4 @@ long long DateTime::ToEpochTime() const
   int days = ElapsedDayFromEpoch(_Year, _Month, _Day) - Reference;
   // Convert to seconds
   return ((long long) SECONDS_PER_DAY * (long long) days) + (long long) _Hour * 3600LL + (long long) _Minute * 60LL + (long long) _Second;
-}
-
-void DateTime::SaveToRtc()
-{
-  if (_SystemDateTimeInterface != nullptr)
-    _SystemDateTimeInterface->SaveRTCValues(_Millis, _Year, _Month, _Day, _Hour, _Minute, _Second);
 }

@@ -8,9 +8,9 @@
 #include <string>
 #include <boost/filesystem.hpp>
 #include <boost/variant.hpp>
-#include <Eigen/Dense>
 #include "pugixml/pugixml.hpp"
 #include "GuiComponent.h"
+#include "utils/math/Vectors.h"
 
 template<typename T>
 class TextListComponent;
@@ -49,7 +49,7 @@ class ThemeException : public std::exception
 public:
 	std::string msg;
 
-	virtual const char* what() const throw() { return msg.c_str(); }
+	const char* what() const noexcept override { return msg.c_str(); }
 
 	template<typename T>
 	friend ThemeException& operator<<(ThemeException& e, T msg);
@@ -75,8 +75,8 @@ ThemeException& operator<<(ThemeException& e, T appendMsg)
 class ThemeExtras : public GuiComponent
 {
 public:
-	ThemeExtras(Window* window) : GuiComponent(window) {};
-	virtual ~ThemeExtras();
+	explicit ThemeExtras(Window* window) : GuiComponent(window) {};
+	~ThemeExtras() override;
 
 	// will take ownership of the components within extras (delete them in destructor or when setExtras is called again)
 	void setExtras(const std::vector<GuiComponent*>& extras);
@@ -110,7 +110,7 @@ public:
 		bool extra;
 		std::string type;
 
-		std::map< std::string, boost::variant<Eigen::Vector2f, std::string, unsigned int, float, bool> > properties;
+		std::map< std::string, boost::variant<Vector2f, std::string, unsigned int, float, bool> > properties;
 
 		template<typename T>
 		T get(const std::string& prop) const { return boost::get<T>(properties.at(prop)); }
@@ -131,7 +131,7 @@ public:
 	ThemeData();
 
 	// throws ThemeException
-	void loadFile(const std::string systemThemeFolder, const std::string& path);
+	void loadFile(const std::string& systemThemeFolder, const std::string& path);
 
 	enum ElementPropertyType
 	{

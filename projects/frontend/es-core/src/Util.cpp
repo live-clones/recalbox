@@ -1,17 +1,8 @@
 #include "Util.h"
-#include "resources/ResourceManager.h"
 #include "platform.h"
 #include "Locale.h"
 
 namespace fs = boost::filesystem;
-
-void strFindAndReplace(std::string& source, const std::string& find, const std::string& replace)
-{
-	for (size_t pos = 0; (pos = source.find(find, pos)) != std::string::npos; pos += replace.length())
-	{
-		source.replace(pos, find.length(), replace);
-	}
-}
 
 std::string strToUpper(const char* from)
 {
@@ -27,36 +18,35 @@ std::string& strToUpper(std::string& from)
 
 std::string strToUpper(const std::string& from)
 {
-	std::string str(from);
-    return boost::locale::to_upper(str);
+  return boost::locale::to_upper(from);
 }
 
-Eigen::Affine3f& roundMatrix(Eigen::Affine3f& mat)
+::Transform4x4f& roundMatrix(::Transform4x4f& mat)
 {
 	mat.translation()[0] = round(mat.translation()[0]);
 	mat.translation()[1] = round(mat.translation()[1]);
 	return mat;
 }
 
-Eigen::Affine3f roundMatrix(const Eigen::Affine3f& mat)
+::Transform4x4f roundMatrix(const ::Transform4x4f& mat)
 {
-	Eigen::Affine3f ret = mat;
+	::Transform4x4f ret = mat;
 	roundMatrix(ret);
 	return ret;
 }
 
-Eigen::Vector3f roundVector(const Eigen::Vector3f& vec)
+::Vector3f roundVector(const ::Vector3f& vec)
 {
-	Eigen::Vector3f ret = vec;
+	::Vector3f ret = vec;
 	ret[0] = round(ret[0]);
 	ret[1] = round(ret[1]);
 	ret[2] = round(ret[2]);
 	return ret;
 }
 
-Eigen::Vector2f roundVector(const Eigen::Vector2f& vec)
+::Vector2f roundVector(const ::Vector2f& vec)
 {
-	Eigen::Vector2f ret = vec;
+	::Vector2f ret = vec;
 	ret[0] = round(ret[0]);
 	ret[1] = round(ret[1]);
 	return ret;
@@ -114,8 +104,8 @@ fs::path resolvePath(const fs::path& path, const fs::path& relativeTo, bool allo
 
 fs::path removeCommonPathUsingStrings(const fs::path& path, const fs::path& relativeTo, bool& contains)
 {
-	std::string pathStr = path.generic_string();
-	std::string relativeToStr = relativeTo.generic_string();
+	const std::string& pathStr = path.generic_string();
+	const std::string& relativeToStr = relativeTo.generic_string();
 	if (pathStr.compare(0, relativeToStr.length(), relativeToStr) == 0)
 	{
 		contains = true;

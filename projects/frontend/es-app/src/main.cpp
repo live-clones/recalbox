@@ -37,8 +37,6 @@
 #include "guis/GuiMsgBoxScroll.h"
 #include "recalbox/RecalboxSystem.h"
 #include "recalbox/RecalboxUpgrade.h"
-#include "recalbox/RecalboxSystem.h"
-#include "utils/datetime/SystemDateTimeInterface.h"
 
 #ifdef WIN32
   #include <Windows.h>
@@ -268,9 +266,6 @@ int main(int argc, char* argv[])
 
   //always close the log on exit
   atexit(&onExit);
-
-  // Initialize system datetime interface
-  SystemDateTimeImplementation::Initialize();
 
   // only show the console on Windows if HideConsole is false
   #ifdef WIN32

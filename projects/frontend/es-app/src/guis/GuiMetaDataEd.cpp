@@ -24,8 +24,6 @@
 #include "MetadataDescriptor.h"
 #include "MetadataFieldDescriptor.h"
 
-using namespace Eigen;
-
 GuiMetaDataEd::GuiMetaDataEd(Window* window,
                              MetadataDescriptor& md,
                              ScraperSearchParams scraperParams,
@@ -39,8 +37,8 @@ GuiMetaDataEd::GuiMetaDataEd(Window* window,
     mGrid(window, Vector2i(1, 3)),
     mScraperParams(scraperParams),
     mMetaData(md),
-    mSavedCallback(saveCallback),
-    mDeleteFunc(deleteFunc)
+    mSavedCallback(std::move(saveCallback)),
+    mDeleteFunc(std::move(deleteFunc))
 {
   addChild(&mBackground);
   addChild(&mGrid);
@@ -115,7 +113,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window* window,
         row.addElement(ed, false, true);
 
         auto spacer = std::make_shared<GuiComponent>(mWindow);
-        spacer->setSize(Renderer::getScreenWidth() * 0.0025f, 0);
+        spacer->setSize((float)Renderer::getScreenWidth() * 0.0025f, 0);
         row.addElement(spacer, false);
 
         // pass input to the actual RatingComponent instead of the spacer
@@ -129,7 +127,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window* window,
         row.addElement(ed, false);
 
         auto spacer = std::make_shared<GuiComponent>(mWindow);
-        spacer->setSize(Renderer::getScreenWidth() * 0.0025f, 0);
+        spacer->setSize((float)Renderer::getScreenWidth() * 0.0025f, 0);
         row.addElement(spacer, false);
 
         // pass input to the actual DateTimeComponent instead of the spacer
@@ -160,13 +158,13 @@ GuiMetaDataEd::GuiMetaDataEd(Window* window,
 
           emu_choice->add(str(boost::format(_("DEFAULT (%1%)")) % mainConfigEmulator), "default", true);
 
-          for (auto it = system->getEmulators()->begin(); it != system->getEmulators()->end(); it++)
+          for (auto & it : *system->getEmulators())
           {
-            emu_choice->add(it->first, it->first, it->first == currentEmulator);
+            emu_choice->add(it.first, it.first, it.first == currentEmulator);
           }
 
           // when emulator changes, load new core list
-          emu_choice->setSelectedChangedCallback([this, system, emulatorDefaults, core_choice](std::string emulatorName)
+          emu_choice->setSelectedChangedCallback([this, system, emulatorDefaults, core_choice](const std::string& emulatorName)
                                                  {
                                                    core_choice->clear();
 
@@ -238,9 +236,9 @@ GuiMetaDataEd::GuiMetaDataEd(Window* window,
           {
             mMetaData.SetRatio("auto");
           }
-          for (auto ratio = ratioMap->begin(); ratio != ratioMap->end(); ratio++)
+          for (auto & ratio : *ratioMap)
           {
-            ratio_choice->add(ratio->first, ratio->second, mMetaData.Ratio() == ratio->second);;
+            ratio_choice->add(ratio.first, ratio.second, mMetaData.Ratio() == ratio.second);
           }
           ed = ratio_choice;
         }
@@ -261,14 +259,14 @@ GuiMetaDataEd::GuiMetaDataEd(Window* window,
         row.addElement(ed, true);
 
         auto spacer = std::make_shared<GuiComponent>(mWindow);
-        spacer->setSize(Renderer::getScreenWidth() * 0.005f, 0);
+        spacer->setSize((float)Renderer::getScreenWidth() * 0.005f, 0);
         row.addElement(spacer, false);
 
         auto bracket = std::make_shared<ImageComponent>(mWindow);
 
         bracket->setImage(menuTheme->iconSet.arrow);
         bracket->setColorShift(menuTheme->menuText.color);
-        bracket->setResize(Eigen::Vector2f(0, lbl->getFont()->getLetterHeight()));
+        bracket->setResize(Vector2f(0, lbl->getFont()->getLetterHeight()));
         row.addElement(bracket, false);
 
         bool multiLine = field.Type() == MetadataFieldDescriptor::DataType::Text;
@@ -295,7 +293,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window* window,
     assert(ed);
     mList->addRow(row);
     GetValueMethodType method = field.GetValueMethod();
-    ed->setValue((mMetaData.*method)());;
+    ed->setValue((mMetaData.*method)());
     mEditors.push_back(ed);
     mMetaDataEditable.push_back(&field);
   }
@@ -314,7 +312,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window* window,
     bracket->setImage(menuTheme->iconSet.arrow);
     bracket->setColorShift(menuTheme->menuText.color);
 
-    bracket->setResize(Eigen::Vector2f(0, lbl->getFont()->getLetterHeight()));
+    bracket->setResize(Vector2f(0, lbl->getFont()->getLetterHeight()));
     row.addElement(bracket, false);
 
     row.makeAcceptInputHandler([this, header, system]
@@ -377,9 +375,9 @@ GuiMetaDataEd::GuiMetaDataEd(Window* window,
                                   });
 
   // resize + center
-  y /= Renderer::getScreenHeight();
-  setSize(Renderer::getScreenWidth() * 0.95f, Renderer::getScreenHeight() * (y + 0.15f));
-  setPosition((Renderer::getScreenWidth() - mSize.x()) / 2, (Renderer::getScreenHeight() - mSize.y()) / 2);
+  y /= (float)Renderer::getScreenHeight();
+  setSize((float)Renderer::getScreenWidth() * 0.95f, (float)Renderer::getScreenHeight() * (y + 0.15f));
+  setPosition(((float)Renderer::getScreenWidth() - mSize.x()) / 2, ((float)Renderer::getScreenHeight() - mSize.y()) / 2);
 }
 
 void GuiMetaDataEd::onSizeChanged()
@@ -402,7 +400,7 @@ void GuiMetaDataEd::onSizeChanged()
 
 void GuiMetaDataEd::save()
 {
-  for (unsigned int i = 0; i < mEditors.size(); i++)
+  for (int i = 0; i < (int)mEditors.size(); i++)
   {
     if (mMetaDataEditable.at(i)->Type() != MetadataFieldDescriptor::DataType::PList)
     {
@@ -424,15 +422,14 @@ void GuiMetaDataEd::save()
 
 void GuiMetaDataEd::fetch()
 {
-  GuiGameScraper* scr = new GuiGameScraper(mWindow, mScraperParams,
-                                           std::bind(&GuiMetaDataEd::fetchDone, this, std::placeholders::_1));
-  mWindow->pushGui(scr);
+  mWindow->pushGui(new GuiGameScraper(mWindow, mScraperParams,
+                                      std::bind(&GuiMetaDataEd::fetchDone, this, std::placeholders::_1)));
 }
 
 void GuiMetaDataEd::fetchDone(const ScraperSearchResult& result)
 {
   mMetaData.Merge(result.mdl);
-  for (unsigned int i = 0; i < mEditors.size(); i++)
+  for (int i = 0; i < (int)mEditors.size(); i++)
   {
     GetValueMethodType method = mMetaDataEditable[i]->GetValueMethod();
     mEditors.at(i)->setValue((mMetaData.*method)());
@@ -443,7 +440,7 @@ void GuiMetaDataEd::close(bool closeAllWindows)
 {
   // find out if the user made any changes
   bool dirty = false;
-  for (unsigned int i = 0; i < mEditors.size(); i++)
+  for (int i = 0; i < (int)mEditors.size(); i++)
   {
     GetValueMethodType method = mMetaDataEditable[i]->GetValueMethod();
     if ((mMetaData.*method)() != mEditors.at(i)->getValue())
@@ -461,7 +458,7 @@ void GuiMetaDataEd::close(bool closeAllWindows)
   else
   {
     Window* window = mWindow;
-    closeFunc = [window, this]
+    closeFunc = [window]
     {
       while (window->peekGui() != ViewController::get())
       {

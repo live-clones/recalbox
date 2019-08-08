@@ -10,8 +10,6 @@
 
 #define TITLE_HEIGHT (mTitle->getFont()->getLetterHeight() + TITLE_VERT_PADDING)
 
-using namespace Eigen;
-
 MenuComponent::MenuComponent(Window* window, const char* title, const std::shared_ptr<Font>& titleFont)
   : GuiComponent(window),
     mBackground(window),
@@ -135,13 +133,13 @@ void MenuComponent::updateSize()
         }
     }
 
-    float width = std::min(Renderer::getScreenHeight(), (unsigned int) (Renderer::getScreenWidth() * 0.90f));
+    float width = std::min(Renderer::getScreenHeight(), (int)((float)Renderer::getScreenWidth() * 0.90f));
     setSize(width, height);
 }
 
 void MenuComponent::onSizeChanged()
 {
-    mBackground.fitTo(mSize, Eigen::Vector3f::Zero(), Eigen::Vector2f(-32, -32));
+    mBackground.fitTo(mSize, Vector3f::Zero(), Vector2f(-32, -32));
 
     // update grid row/col sizes
     mGrid.setRowHeightPerc(0, TITLE_HEIGHT / mSize.y());

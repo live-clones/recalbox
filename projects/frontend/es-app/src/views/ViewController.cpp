@@ -34,7 +34,7 @@ void ViewController::init(Window* window)
 }
 
 ViewController::ViewController(Window* window)
-	: GuiComponent(window), mCurrentView(nullptr), mCamera(Eigen::Affine3f::Identity()), mFadeOpacity(0), mLockInput(false), mWindow(window)
+	: GuiComponent(window), mCurrentView(nullptr), mCamera(Transform4x4f::Identity()), mFadeOpacity(0), mLockInput(false), mWindow(window)
 {
 	mState.viewing = NOTHING;
 	mFavoritesOnly = Settings::getInstance()->getBool("FavoritesOnly");
@@ -188,7 +188,7 @@ void ViewController::updateFavorite(SystemData* system, FileData* file)
 
 void ViewController::playViewTransition()
 {
-	Eigen::Vector3f target(Eigen::Vector3f::Identity());
+	Vector3f target(Vector3f::Zero());
 	if(mCurrentView)
 		target = mCurrentView->getPosition();
 
@@ -258,7 +258,7 @@ void ViewController::onFileChanged(FileData* file, FileChangeType change)
 	}
 }
 
-void ViewController::launch(FileData* game, Eigen::Vector3f center, std::string netplay, std::string core, std::string ip, std::string port)
+void ViewController::launch(FileData* game, Vector3f center, std::string netplay, std::string core, std::string ip, std::string port)
 {
 	if(!game->isGame())
 	{
@@ -266,7 +266,7 @@ void ViewController::launch(FileData* game, Eigen::Vector3f center, std::string 
 		return;
 	}
 
-	Eigen::Affine3f origCamera = mCamera;
+	Transform4x4f origCamera = mCamera;
 	origCamera.translation() = -mCurrentView->getPosition();
 
 	center += mCurrentView->getPosition();
@@ -379,13 +379,15 @@ void ViewController::update(int deltaTime)
 	updateSelf(deltaTime);
 }
 
-void ViewController::render(const Eigen::Affine3f& parentTrans)
+void ViewController::render(const Transform4x4f& parentTrans)
 {
-	Eigen::Affine3f trans = mCamera * parentTrans;
+	Transform4x4f trans = mCamera * parentTrans;
+  Transform4x4f transInverse;
+  transInverse.invert(trans);
 
 	// camera position, position + size
-	Eigen::Vector3f viewStart = trans.inverse().translation();
-	Eigen::Vector3f viewEnd = trans.inverse() * Eigen::Vector3f((float)Renderer::getScreenWidth(), (float)Renderer::getScreenHeight(), 0);
+	Vector3f viewStart = transInverse.translation();
+	Vector3f viewEnd = transInverse * Vector3f((float)Renderer::getScreenWidth(), (float)Renderer::getScreenHeight(), 0);
 
 	int vpl = (int)viewStart.x();
   int vpu = (int)viewStart.y();
@@ -398,8 +400,8 @@ void ViewController::render(const Eigen::Affine3f& parentTrans)
     auto systemView = getSystemListView();
 
     // clipping - only y
-    const Eigen::Vector3f& position = systemView->getPosition();
-    const Eigen::Vector2f& size = systemView->getSize();
+    const Vector3f& position = systemView->getPosition();
+    const Vector2f& size = systemView->getSize();
 
     int gu = (int)position.y();
     int gb = (int)position.y() + (int)size.y() - 1;
@@ -414,8 +416,8 @@ void ViewController::render(const Eigen::Affine3f& parentTrans)
 	for (auto& mGameListView : mGameListViews)
 	{
     // clipping
-    const Eigen::Vector3f& position = mGameListView.second->getPosition();
-    const Eigen::Vector2f& size = mGameListView.second->getSize();
+    const Vector3f& position = mGameListView.second->getPosition();
+    const Vector2f& size = mGameListView.second->getSize();
 
     int gl = (int)position.x();
     int gu = (int)position.y();

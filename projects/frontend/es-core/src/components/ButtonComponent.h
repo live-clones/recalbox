@@ -9,14 +9,14 @@
 class ButtonComponent : public GuiComponent
 {
 public:
-	ButtonComponent(Window* window, const std::string& text = "", const std::string& helpText = "", const std::function<void()>& func = nullptr, bool upperCase = true);
+	explicit ButtonComponent(Window* window, const std::string& text = "", const std::string& helpText = "", const std::function<void()>& func = nullptr, bool upperCase = true);
 
 	void setPressedFunc(std::function<void()> f);
 
 	void setEnabled(bool enable);
 
 	bool input(InputConfig* config, Input input) override;
-	void render(const Eigen::Affine3f& parentTrans) override;
+	void render(const Transform4x4f& parentTrans) override;
 
 	void setText(const std::string& text, const std::string& helpText, bool upperCase = true, bool resize = true, bool doUpdateHelpPrompts = true);
 	void autoSizeFont();
@@ -32,7 +32,7 @@ public:
 	void setColorShift(unsigned int color) { mModdedColor = color; mNewColor = true; updateImage(); }
 	void removeColorShift() { mNewColor = false; updateImage(); }
 
-	virtual std::vector<HelpPrompt> getHelpPrompts() override;
+	std::vector<HelpPrompt> getHelpPrompts() override;
 
 private:
 	std::shared_ptr<Font> mFont;

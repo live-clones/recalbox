@@ -5,8 +5,8 @@
 
 struct ComponentListElement
 {
-	ComponentListElement(const std::shared_ptr<GuiComponent>& cmp = nullptr, bool resize_w = true, bool inv = true)
-		: component(cmp), resize_width(resize_w), invert_when_selected(inv) { };
+	explicit ComponentListElement(std::shared_ptr<GuiComponent> cmp = nullptr, bool resize_w = true, bool inv = true)
+		: component(std::move(cmp)), resize_width(resize_w), invert_when_selected(inv) { };
 
 	std::shared_ptr<GuiComponent> component;
 	bool resize_width;
@@ -25,7 +25,7 @@ struct ComponentListRow
 	std::function<bool(InputConfig*, Input)> input_handler;
 	std::function<bool(InputConfig*, Input)> help_handler;
 
-	ComponentListRow(const std::string& n = std::string()) : name(n)
+	explicit ComponentListRow(std::string n = std::string()) : name(std::move(n))
 	{}
 	
 	inline void addElement(const std::shared_ptr<GuiComponent>& component, bool resize_width, bool invert_when_selected = true)
@@ -62,15 +62,15 @@ struct ComponentListRow
 class ComponentList : public IList<ComponentListRow, void*>
 {
 public:
-	ComponentList(Window* window);
+	explicit ComponentList(Window* window);
 
 	void addRow(const ComponentListRow& row, bool setCursorHere = false, bool updateGeometry = true);
 
 	void textInput(const char* text) override;
 	bool input(InputConfig* config, Input input) override;
 	void update(int deltaTime) override;
-	void render(const Eigen::Affine3f& parentTrans) override;
-	virtual std::vector<HelpPrompt> getHelpPrompts() override;
+	void render(const Transform4x4f& parentTrans) override;
+	std::vector<HelpPrompt> getHelpPrompts() override;
 
 	void onSizeChanged() override;
 	void onFocusGained() override;

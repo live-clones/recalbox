@@ -245,8 +245,6 @@ void DetailedGameListView::onThemeChanged(const std::shared_ptr<ThemeData>& them
 
 void DetailedGameListView::initMDLabels()
 {
-  using namespace Eigen;
-
   std::vector<TextComponent*> components = getMDLabels();
 
   const unsigned int colCount = 2;
@@ -280,8 +278,6 @@ void DetailedGameListView::initMDLabels()
 
 void DetailedGameListView::initMDValues()
 {
-  using namespace Eigen;
-
   std::vector<TextComponent*> labels = getMDLabels();
   std::vector<GuiComponent*> values = getMDValues();
 
@@ -486,9 +482,9 @@ void DetailedGameListView::fadeOut(std::vector<GuiComponent*> comps, bool fading
 
 void DetailedGameListView::launch(FileData* game)
 {
-  Eigen::Vector3f target(Renderer::getScreenWidth() / 2.0f, Renderer::getScreenHeight() / 2.0f, 0);
+  Vector3f target((float)Renderer::getScreenWidth() / 2.0f, (float)Renderer::getScreenHeight() / 2.0f, 0);
   if (mImage.hasImage())
-    target << mImage.getCenter().x(), mImage.getCenter().y(), 0;
+    target.Set(mImage.getCenter().x(), mImage.getCenter().y(), 0);
 
   ViewController::get()->launch(game, target);
 }

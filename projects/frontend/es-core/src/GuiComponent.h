@@ -2,7 +2,8 @@
 
 #include "InputConfig.h"
 #include <memory>
-#include <Eigen/Dense>
+#include <functional>
+#include "utils/math/Vectors.h"
 #include "HelpStyle.h"
 
 class Window;
@@ -16,7 +17,7 @@ typedef std::pair<std::string, std::string> HelpPrompt;
 class GuiComponent
 {
 public:
-	GuiComponent(Window* window);
+	explicit GuiComponent(Window* window);
 	virtual ~GuiComponent();
 
 	virtual void textInput(const char* text);
@@ -34,33 +35,33 @@ public:
 	//2. Set the renderer to use that new transform as the model matrix - Renderer::setMatrix(t);
 	//3. Draw your component.
 	//4. Tell your children to render, based on your component's transform - renderChildren(t).
-	virtual void render(const Eigen::Affine3f& parentTrans);
+	virtual void render(const Transform4x4f& parentTrans);
 
-	const Eigen::Vector3f& getPosition() const;
+	const Vector3f& getPosition() const;
 	void setNormalisedPosition(float x, float y, float z = 0.0f);
-	inline void setPosition(const Eigen::Vector3f& offset) { setPosition(offset.x(), offset.y(), offset.z()); }
+	inline void setPosition(const Vector3f& offset) { setPosition(offset.x(), offset.y(), offset.z()); }
 	void setPosition(float x, float y, float z = 0.0f);
 	virtual void onPositionChanged() {};
 
 	//Sets the origin as a percentage of this image (e.g. (0, 0) is top left, (0.5, 0.5) is the center)
-	const Eigen::Vector2f& getOrigin() const;
+	const Vector2f& getOrigin() const;
 	void setOrigin(float originX, float originY);
-	inline void setOrigin(const Eigen::Vector2f& origin) { setOrigin(origin.x(), origin.y()); }
+	inline void setOrigin(const Vector2f& origin) { setOrigin(origin.x(), origin.y()); }
 	virtual void onOriginChanged() {};
 
 	//Sets the rotation origin as a percentage of this image (e.g. (0, 0) is top left, (0.5, 0.5) is the center)
-	const Eigen::Vector2f& getRotationOrigin() const;
+	const Vector2f& getRotationOrigin() const;
 	void setRotationOrigin(float originX, float originY);
-	inline void setRotationOrigin(const Eigen::Vector2f& origin) { setRotationOrigin(origin.x(), origin.y()); }
+	inline void setRotationOrigin(const Vector2f& origin) { setRotationOrigin(origin.x(), origin.y()); }
 
-	const Eigen::Vector2f& getSize() const;
-	inline void setSize(const Eigen::Vector2f& size) { setSize(size.x(), size.y()); }
+	const Vector2f& getSize() const;
+	inline void setSize(const Vector2f& size) { setSize(size.x(), size.y()); }
   void setSize(float w, float h);
   virtual void onSizeChanged() {};
 
 	float getRotation() const;
 	void setRotation(float rotation);
-	inline void setRotationDegrees(float rotation) { setRotation(rotation * M_PI / 180); }
+	inline void setRotationDegrees(float rotation) { setRotation(rotation * (float)M_PI / 180.0f); }
 
 	float getScale() const;
 	void setScale(float scale);
@@ -72,7 +73,7 @@ public:
 	void setDefaultZIndex(float zIndex);
 
 	// Returns the center point of the image (takes origin into account).
-	Eigen::Vector2f getCenter() const;
+	Vector2f getCenter() const;
 	
 	void setParent(GuiComponent* parent);
 	GuiComponent* getParent() const;
@@ -99,7 +100,7 @@ public:
 	virtual unsigned char getOpacity() const;
 	virtual void setOpacity(unsigned char opacity);
 
-	const Eigen::Affine3f& getTransform();
+	const Transform4x4f& getTransform();
 
 	virtual std::string getValue() const;
 	virtual void setValue(const std::string& value);
@@ -130,23 +131,23 @@ public:
 	bool isProcessing() const;
 
 protected:
-	void renderChildren(const Eigen::Affine3f& transform) const;
+	void renderChildren(const Transform4x4f& transform) const;
 	void updateSelf(int deltaTime); // updates animations
 	void updateChildren(int deltaTime); // updates animations
 
-    Eigen::Vector2f denormalise(float x, float y);
-    Eigen::Vector2f denormalise(const Eigen::Vector2f& value);
+  Vector2f denormalise(float x, float y);
+  Vector2f denormalise(const Vector2f& value);
 
-    unsigned char mOpacity;
+  unsigned char mOpacity;
 	Window* mWindow;
 
 	GuiComponent* mParent;
 	std::vector<GuiComponent*> mChildren;
 
-	Eigen::Vector3f mPosition;
-	Eigen::Vector2f mOrigin;
-	Eigen::Vector2f mRotationOrigin;
-	Eigen::Vector2f mSize;
+	Vector3f mPosition;
+	Vector2f mOrigin;
+	Vector2f mRotationOrigin;
+	Vector2f mSize;
 
 	float mRotation = 0.0;
 	float mScale = 1.0;
@@ -160,6 +161,6 @@ public:
 	const static unsigned char MAX_ANIMATIONS = 4;
 
 private:
-	Eigen::Affine3f mTransform; //Don't access this directly! Use getTransform()!
+	Transform4x4f mTransform; //Don't access this directly! Use getTransform()!
 	AnimationController* mAnimationMap[MAX_ANIMATIONS];
 };

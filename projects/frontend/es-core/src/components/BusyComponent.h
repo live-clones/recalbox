@@ -9,14 +9,14 @@ class TextComponent;
 class BusyComponent : public GuiComponent
 {
 public:
-	BusyComponent(Window* window);
-	~BusyComponent();
+	explicit BusyComponent(Window* window);
+	~BusyComponent() override;
 
 	void onSizeChanged() override;
 	void setText(std::string txt);
 
-	void reset(); // reset to frame 0
-	virtual void render(const Eigen::Affine3f& parentTrans);
+	void render(const Transform4x4f& parentTrans) override;
+
 private:
 	NinePatchComponent mBackground;
 	ComponentGrid mGrid;
@@ -25,6 +25,6 @@ private:
 	std::shared_ptr<TextComponent> mText;
 
 	SDL_mutex *mutex;
-	bool threadMessagechanged;
+	bool mThreadMessagechanged;
 	std::string threadMessage;
 };

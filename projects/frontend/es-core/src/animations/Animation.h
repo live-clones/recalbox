@@ -1,11 +1,11 @@
 #pragma once
 
-#include <Eigen/Dense>
+#include "utils/math/Vectors.h"
 
 class Animation
 {
 public:
-    virtual ~Animation() { }
+  virtual ~Animation() = default;
 	virtual int getDuration() const = 0;
 	virtual void apply(float t) = 0;
 };

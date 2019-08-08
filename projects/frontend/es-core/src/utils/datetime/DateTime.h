@@ -9,7 +9,9 @@
 #endif
 
 #include "TimeSpan.h"
-#include "ISystemDateTimeInterface.h"
+
+char LoadTimeZone();
+bool LoadRTCValues(short &millis, short &year, char &month, char &day, char &hour, char &minute, char &second);
 
 /*!
  * Pure Date/Time holder. Packed to keep size contained on 10 bytes
@@ -17,8 +19,6 @@
 class DateTime
 {
 private:
-  //! Interface to system datetime/timezone persistence
-  static ISystemDateTimeInterface* _SystemDateTimeInterface;
   //! Default timezone
   static char _DefaultTimeZone;
 
@@ -134,13 +134,6 @@ private:
   static bool FetchStringIndex(const char*& str, const char* strs[], int count, int& result, bool zerobased);
 
 public:
-  static void SetSystemInterface(ISystemDateTimeInterface* interface)
-  {
-    _SystemDateTimeInterface = interface;
-    if (interface != nullptr)
-      _DefaultTimeZone = interface->LoadTimeZone();
-  }
-
   /*!
    * Default constructor. Initialized using RTC
    */
@@ -375,11 +368,6 @@ public:
    */
   long long ToEpochTime() const;
 
-  /*!
-   * Set the RTC using current DateTime
-   */
-  void SaveToRtc();
-
   //! Return the Year part of the current DateTime
   int Year() const { return _Year; }
   //! Return the Month part of the current DateTime
@@ -418,7 +406,7 @@ public:
    */
   DateTime ToLocal() const
   {
-    int localtz = (_SystemDateTimeInterface != nullptr) ? _SystemDateTimeInterface->LoadTimeZone() : 0;
+    int localtz = LoadTimeZone();
     DateTime result(*this);
     result += TimeSpan((localtz - _TimeZone) * 15, 0, 0);
     result._TimeZone = localtz;

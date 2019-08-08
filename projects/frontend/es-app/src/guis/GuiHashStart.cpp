@@ -40,7 +40,7 @@ GuiHashStart::GuiHashStart(Window* window)
     mMenu.addButton(_("START"), "start",[this] {mState = 1;});
     mMenu.addButton(_("BACK"), "back", [&] { delete this; });
 
-    mMenu.setPosition((Renderer::getScreenWidth() - mMenu.getSize().x()) / 2, (Renderer::getScreenHeight() - mMenu.getSize().y()) / 2);
+    mMenu.setPosition(((float)Renderer::getScreenWidth() - mMenu.getSize().x()) / 2, ((float)Renderer::getScreenHeight() - mMenu.getSize().y()) / 2);
 }
 
 void GuiHashStart::start()
@@ -95,7 +95,7 @@ void GuiHashStart::start()
 	    int currentRom = 0;
 
 	    std::string busyText;
-	    std::string systemName = system->getFullName();
+	    const std::string& systemName = system->getFullName();
 
         for (pugi::xml_node fileNode = root.child(tag); fileNode; fileNode = fileNode.next_sibling(tag))
         {
@@ -178,8 +178,9 @@ void GuiHashStart::update(int deltaTime) {
 	}
 }
 
-void GuiHashStart::render(const Eigen::Affine3f &parentTrans) {
-    Eigen::Affine3f trans = parentTrans * getTransform();
+void GuiHashStart::render(const Transform4x4f& parentTrans)
+{
+    Transform4x4f trans = parentTrans * getTransform();
 
     if (!mLoading)
         renderChildren(trans);

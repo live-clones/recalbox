@@ -13,7 +13,7 @@ public:
 	static ViewController* get();
 	inline static Window* getWindow(){return sInstance->mWindow;}
 
-	virtual ~ViewController();
+	~ViewController() override;
 
 	// Try to completely populate the GameListView map.
 	// Caches things so there's no pauses during transitions.
@@ -42,12 +42,12 @@ public:
 
 	// Plays a nice launch effect and launches the game at the end of it.
 	// Once the game terminates, plays a return effect.
-	void launch(FileData* game, Eigen::Vector3f centerCameraOn = Eigen::Vector3f(Renderer::getScreenWidth() / 2.0f, Renderer::getScreenHeight() / 2.0f, 0),
+	void launch(FileData* game, Vector3f centerCameraOn = Vector3f((float)Renderer::getScreenWidth() / 2.0f, (float)Renderer::getScreenHeight() / 2.0f, 0),
 			std::string netplay = "", std::string core = "", std::string ip = "", std::string port = "");
 
 	bool input(InputConfig* config, Input input) override;
 	void update(int deltaTime) override;
-	void render(const Eigen::Affine3f& parentTrans) override;
+	void render(const Transform4x4f& parentTrans) override;
 
 	enum ViewMode
 	{
@@ -71,14 +71,14 @@ public:
 	inline const State& getState() const { return mState; }
 	inline bool isViewing(ViewMode viewing) const { return mState.viewing == viewing; }
 
-	virtual std::vector<HelpPrompt> getHelpPrompts() override;
-	virtual HelpStyle getHelpStyle() override;
+	std::vector<HelpPrompt> getHelpPrompts() override;
+	HelpStyle getHelpStyle() override;
 
 	std::shared_ptr<IGameListView> getGameListView(SystemData* system);
 	std::shared_ptr<SystemView> getSystemListView();
 
 private:
-	ViewController(Window* window);
+	explicit ViewController(Window* window);
 	static ViewController* sInstance;
 
 	void playViewTransition();
@@ -90,7 +90,7 @@ private:
 
 	std::map<SystemData*, bool> mInvalidGameList;
 	
-	Eigen::Affine3f mCamera;
+	Transform4x4f mCamera;
 	float mFadeOpacity;
 	bool mLockInput;
 	bool mFavoritesOnly;

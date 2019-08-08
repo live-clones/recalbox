@@ -12,10 +12,10 @@
 #include <components/ScrollableContainer.h>
 #include <Settings.h>
 
-GuiInfoPopup::GuiInfoPopup(Window* window, std::string message, int duration, int icon)
+GuiInfoPopup::GuiInfoPopup(Window* window, const std::string& message, int duration, int icon)
   : GuiComponent(window),
     mDuration(duration * 1000),
-		mGrid(window, Eigen::Vector2i(2, 1)),
+		mGrid(window, Vector2i(2, 1)),
 		mFrame(window, ":/frame.png"),
     running(true)
 {
@@ -23,27 +23,27 @@ GuiInfoPopup::GuiInfoPopup(Window* window, std::string message, int duration, in
 	bool noIcon = icon == 0;
 
 
-	float maxWidth = Renderer::getScreenWidth() * 0.2f;
-	float maxHeight = Renderer::getScreenHeight() * 0.4f;
+	float maxWidth = (float)Renderer::getScreenWidth() * 0.2f;
+	float maxHeight = (float)Renderer::getScreenHeight() * 0.4f;
 
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 
-	maxAlpha = menuTheme->menuBackground.color & 0xFF;
+	maxAlpha = (int)menuTheme->menuBackground.color & 0xFF;
 	mFrameColor = menuTheme->menuBackground.color;
 
-	unsigned int FONT_SIZE_ICON = 0.04f * std::min(Renderer::getScreenHeight(), Renderer::getScreenWidth());
-	unsigned int FONT_SIZE_TEXT = 0.02f * std::min(Renderer::getScreenHeight(), Renderer::getScreenWidth());
+	unsigned int FONT_SIZE_ICON = (unsigned int)(0.04f * (float)std::min(Renderer::getScreenHeight(), Renderer::getScreenWidth()));
+	unsigned int FONT_SIZE_TEXT = (unsigned int)(0.02f * (float)std::min(Renderer::getScreenHeight(), Renderer::getScreenWidth()));
 
 	// add a padding to the box
-	int paddingX = (int) (Renderer::getScreenWidth() * 0.02f);
-	int paddingY = (int) (Renderer::getScreenHeight() * 0.02f);
+	int paddingX = (int) ((float)Renderer::getScreenWidth() * 0.02f);
+	int paddingY = (int) ((float)Renderer::getScreenHeight() * 0.02f);
 
 	float msgHeight;
 
-	mMsgText = std::make_shared<TextComponent>(window, message, Font::get(FONT_SIZE_TEXT), menuTheme->menuText.color, ALIGN_LEFT);
+	mMsgText = std::make_shared<TextComponent>(window, message, Font::get((int)FONT_SIZE_TEXT), menuTheme->menuText.color, ALIGN_LEFT);
 
 
-	mMsgIcon = std::make_shared<TextComponent>(window, "", Font::get(FONT_SIZE_ICON), menuTheme->menuText.color, ALIGN_LEFT);
+	mMsgIcon = std::make_shared<TextComponent>(window, "", Font::get((int)FONT_SIZE_ICON), menuTheme->menuText.color, ALIGN_LEFT);
 
 	switch (icon) {
 		case 0 :
@@ -61,8 +61,8 @@ GuiInfoPopup::GuiInfoPopup(Window* window, std::string message, int duration, in
 		default: break;
 	}
 
-	mGrid.setEntry(mMsgText, Eigen::Vector2i(1, 0), false, false);
-	mGrid.setEntry(mMsgIcon, Eigen::Vector2i(0, 0), false, false);
+	mGrid.setEntry(mMsgText, Vector2i(1, 0), false, false);
+	mGrid.setEntry(mMsgIcon, Vector2i(0, 0), false, false);
 
 	if (noIcon){
 		mMsgText->setSize(maxWidth, 0);
@@ -73,33 +73,33 @@ GuiInfoPopup::GuiInfoPopup(Window* window, std::string message, int duration, in
 	else {
 		mMsgText->setSize(maxWidth - mMsgIcon->getSize().y(), 0);
 		msgHeight = std::min(maxHeight, std::max(mMsgText->getSize().y(), mMsgIcon->getSize().y()));
-		mGrid.setColWidthPerc(0, (mMsgIcon->getFont()->getSize() + paddingX) / maxWidth);
+		mGrid.setColWidthPerc(0, (float)(mMsgIcon->getFont()->getSize() + paddingX) / maxWidth);
 	}
 
-	mGrid.setSize(maxWidth + paddingX, msgHeight + paddingY);
+	mGrid.setSize(maxWidth + (float)paddingX, msgHeight + (float)paddingY);
 
 	float posX = 0.0f, posY = 0.0f;
 
 	std::string posString = Settings::getInstance()->getString("PopupPosition");
 
 	if (posString == "Top/Right"){
-		posX = Renderer::getScreenWidth()*0.98f - mGrid.getSize().x()*0.98f;
-		posY = Renderer::getScreenHeight() * 0.02f;
+		posX = (float)Renderer::getScreenWidth()*0.98f - mGrid.getSize().x()*0.98f;
+		posY = (float)Renderer::getScreenHeight() * 0.02f;
 	}
 
 	else if (posString == "Bottom/Right"){
-		posX = Renderer::getScreenWidth()*0.98f - mGrid.getSize().x()*0.98f;
-		posY = Renderer::getScreenHeight() * 0.98f - mGrid.getSize().y()*0.98f;
+		posX = (float)Renderer::getScreenWidth()*0.98f - mGrid.getSize().x()*0.98f;
+		posY = (float)Renderer::getScreenHeight() * 0.98f - mGrid.getSize().y()*0.98f;
 	}
 
 	else if (posString == "Bottom/Left"){
-		posX = Renderer::getScreenWidth()*0.02f;
-		posY = Renderer::getScreenHeight() * 0.98f - mGrid.getSize().y()*0.98f;
+		posX = (float)Renderer::getScreenWidth()*0.02f;
+		posY = (float)Renderer::getScreenHeight() * 0.98f - mGrid.getSize().y()*0.98f;
 	}
 
 	else if (posString == "Top/Left"){
-		posX = Renderer::getScreenWidth()*0.02f;
-		posY = Renderer::getScreenHeight() * 0.02f;
+		posX = (float)Renderer::getScreenWidth()*0.02f;
+		posY = (float)Renderer::getScreenHeight() * 0.02f;
 	}
 
 	setPosition(posX, posY, 0);
@@ -107,7 +107,7 @@ GuiInfoPopup::GuiInfoPopup(Window* window, std::string message, int duration, in
 	mFrame.setImagePath(menuTheme->menuBackground.path);
 	mFrame.setCenterColor(mFrameColor);
 	mFrame.setEdgeColor(mFrameColor);
-	mFrame.fitTo(mGrid.getSize(), Eigen::Vector3f::Zero(), Eigen::Vector2f(-32, -32));
+	mFrame.fitTo(mGrid.getSize(), Vector3f::Zero(), Vector2f(-32, -32));
 	addChild(&mFrame);
 
 	// we only init the actual time when we first start to render
@@ -116,12 +116,12 @@ GuiInfoPopup::GuiInfoPopup(Window* window, std::string message, int duration, in
 	addChild(&mGrid);
 }
 
-void GuiInfoPopup::render(const Eigen::Affine3f& parentTrans)
+void GuiInfoPopup::render(const Transform4x4f& parentTrans)
 {
   (void)parentTrans;
 
 	// we use identity as we want to render on a specific window position, not on the view
-	Eigen::Affine3f trans = getTransform() * Eigen::Affine3f::Identity();
+	Transform4x4f trans = getTransform() * Transform4x4f::Identity();
 	if(running && updateState())
 	{
 		// if we're still supposed to be rendering it

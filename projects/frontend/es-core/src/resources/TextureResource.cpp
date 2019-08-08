@@ -1,4 +1,6 @@
 #include "resources/TextureResource.h"
+
+#include <memory>
 #include "Log.h"
 #include "platform.h"
 #include "platform_gl.h"
@@ -11,7 +13,9 @@ TextureDataManager		TextureResource::sTextureDataManager;
 std::map< TextureResource::TextureKeyType, std::weak_ptr<TextureResource> > TextureResource::sTextureMap;
 std::set<TextureResource*> 	TextureResource::sAllTextures;
 
-TextureResource::TextureResource(const std::string& path, bool tile, bool dynamic) : mTextureData(nullptr), mForceLoad(false)
+TextureResource::TextureResource(const std::string& path, bool tile, bool dynamic)
+  : mTextureData(nullptr),
+    mForceLoad(false)
 {
 // Create a texture data object for this texture
 	if (!path.empty())
@@ -28,20 +32,20 @@ TextureResource::TextureResource(const std::string& path, bool tile, bool dynami
 		}
 		else
 		{
-			mTextureData = std::shared_ptr<TextureData>(new TextureData(tile));
+			mTextureData = std::make_shared<TextureData>(tile);
 			data = mTextureData;
 			data->initFromPath(path);
 			// Load it so we can read the width/height
 			data->load();
 		}
 
-		mSize << data->width(), data->height();
-		mSourceSize << data->sourceWidth(), data->sourceHeight();
+		mSize.Set(data->width(), data->height());
+		mSourceSize.Set(data->sourceWidth(), data->sourceHeight());
 	}
 	else
 	{
 		// Create a texture managed by this class because it cannot be dynamically loaded and unloaded
-		mTextureData = std::shared_ptr<TextureData>(new TextureData(tile));
+		mTextureData = std::make_shared<TextureData>(tile);
 	}
 	sAllTextures.insert(this);
 }
@@ -61,8 +65,8 @@ void TextureResource::initFromPixels(const unsigned char* dataRGBA, size_t width
 	mTextureData->releaseRAM();
 	mTextureData->initFromRGBA(dataRGBA, width, height);
 	// Cache the image dimensions
-	mSize << width, height;
-	mSourceSize << mTextureData->sourceWidth(), mTextureData->sourceHeight();
+	mSize.Set(width, height);
+	mSourceSize.Set(mTextureData->sourceWidth(), mTextureData->sourceHeight());
 }
 
 void TextureResource::initFromMemory(const char* data, size_t length)
@@ -73,11 +77,11 @@ void TextureResource::initFromMemory(const char* data, size_t length)
 	mTextureData->releaseRAM();
 	mTextureData->initImageFromMemory((const unsigned char*)data, length);
 	// Get the size from the texture data
-	mSize << mTextureData->width(), mTextureData->height();
-	mSourceSize << mTextureData->sourceWidth(), mTextureData->sourceHeight();
+	mSize.Set(mTextureData->width(), mTextureData->height());
+	mSourceSize.Set(mTextureData->sourceWidth(), mTextureData->sourceHeight());
 }
 
-const Eigen::Vector2i TextureResource::getSize() const
+Vector2i TextureResource::getSize() const
 {
 	return mSize;
 }
@@ -158,13 +162,13 @@ void TextureResource::rasterizeAt(size_t width, size_t height)
 		data = mTextureData;
 	else
 		data = sTextureDataManager.get(this);
-	mSourceSize << (float)width, (float)height;
+	mSourceSize.Set((float)width, (float)height);
 	data->setSourceSize((float)width, (float)height);
 	if (mForceLoad || (mTextureData != nullptr))
 		data->load();
 }
 
-Eigen::Vector2f TextureResource::getSourceImageSize() const
+Vector2f TextureResource::getSourceImageSize() const
 {
 	return mSourceSize;
 }

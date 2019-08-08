@@ -2,7 +2,8 @@
 #include "Log.h"
 #include "MenuThemeData.h"
 
-AnimatedImageComponent::AnimatedImageComponent(Window* window) : GuiComponent(window), mEnabled(false)
+AnimatedImageComponent::AnimatedImageComponent(Window* window)
+  : GuiComponent(window), mLoop(false), mEnabled(false), mFrameAccumulator(0), mCurrentFrame(0)
 {
 }
 
@@ -50,7 +51,7 @@ void AnimatedImageComponent::onSizeChanged()
 
 void AnimatedImageComponent::update(int deltaTime)
 {
-	if(!mEnabled || mFrames.size() == 0)
+	if(!mEnabled || mFrames.empty())
 		return;
 
 	mFrameAccumulator += deltaTime;
@@ -77,8 +78,8 @@ void AnimatedImageComponent::update(int deltaTime)
 	}
 }
 
-void AnimatedImageComponent::render(const Eigen::Affine3f& trans)
+void AnimatedImageComponent::render(const Transform4x4f& trans)
 {
-	if(mFrames.size())
+	if (!mFrames.empty())
 		mFrames.at(mCurrentFrame).first->render(getTransform() * trans);
 }

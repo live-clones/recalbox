@@ -53,7 +53,8 @@ const ScrollTierList LIST_SCROLL_STYLE_SLOW = { 2, SLOW_SCROLL_TIERS };
  */
 
 template <typename EntryData, typename UserData>
-class IList : public GuiComponent/*, public ISorter<UserData>*/ {
+class IList : public GuiComponent/*, public ISorter<UserData>*/
+{
 public:
 	struct Entry {
 		std::string name;
@@ -131,7 +132,7 @@ protected:
   }*/
 
   public:
-	IList(Window* window, const ScrollTierList& tierList = LIST_SCROLL_STYLE_QUICK, const ListLoopType& loopType = LIST_PAUSE_AT_END) : GuiComponent(window), 
+	explicit IList(Window* window, const ScrollTierList& tierList = LIST_SCROLL_STYLE_QUICK, const ListLoopType& loopType = LIST_PAUSE_AT_END) : GuiComponent(window),
 		mGradient(window), mTierList(tierList), mLoopType(loopType) {
 		mCursor = 0;
 		mScrollTier = 0;
@@ -346,7 +347,7 @@ protected:
 			scroll(mScrollVelocity);
 	}
 
-	void listRenderTitleOverlay(const Eigen::Affine3f& trans)
+	void listRenderTitleOverlay(const Transform4x4f& trans)
 	{
 		(void)trans;
 
@@ -356,11 +357,11 @@ protected:
 		// we don't bother caching this because it's only two letters and will change pretty much every frame if we're scrolling
 		const std::string text = getSelectedName().size() >= 2 ? getSelectedName().substr(0, 2) : "??";
 
-		Eigen::Vector2f off = mTitleOverlayFont->sizeText(text);
-		off[0] = (Renderer::getScreenWidth() - off.x()) * 0.5f;
-		off[1] = (Renderer::getScreenHeight() - off.y()) * 0.5f;
+		Vector2f off = mTitleOverlayFont->sizeText(text);
+		off[0] = ((float)Renderer::getScreenWidth() - off.x()) * 0.5f;
+		off[1] = ((float)Renderer::getScreenHeight() - off.y()) * 0.5f;
 		
-		Eigen::Affine3f identTrans = Eigen::Affine3f::Identity();
+		Transform4x4f identTrans = Transform4x4f::Identity();
 
 		mGradient.setOpacity(mTitleOverlayOpacity);
 		mGradient.render(identTrans);

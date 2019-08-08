@@ -19,8 +19,6 @@
 
 #define TITLE_HEIGHT (mTitle->getFont()->getLetterHeight() + TITLE_VERT_PADDING)
 
-using namespace Eigen;
-
 bool compareLowerCase(std::string str1, std::string str2)
 {
 	for (unsigned int i = 0; i < str1.length(); i++)
@@ -45,9 +43,9 @@ GuiNetPlay::GuiNetPlay(Window* window)
   : GuiComponent(window),
     mBackground(window, ":/frame.png"),
 		mBusyAnim(window),
-    mGrid(window, Eigen::Vector2i(1, 3)),
-    mGridMeta(new ComponentGrid(window, Eigen::Vector2i(2, 1))),
-    mGridMetaRight(new ComponentGrid(window, Eigen::Vector2i(2, 11))),
+    mGrid(window, Vector2i(1, 3)),
+    mGridMeta(new ComponentGrid(window, Vector2i(2, 1))),
+    mGridMetaRight(new ComponentGrid(window, Vector2i(2, 11))),
     mList(nullptr)
 {
 	addChild(&mBackground);
@@ -63,12 +61,12 @@ GuiNetPlay::GuiNetPlay(Window* window)
 	mBackground.setEdgeColor(mMenuTheme->menuBackground.color);
 
 	mTitle = std::make_shared<TextComponent>(mWindow, _("NETPLAY"), mMenuTheme->menuTitle.font, mMenuTheme->menuTitle.color, ALIGN_CENTER);
-	mGrid.setEntry(mTitle, Eigen::Vector2i(0, 0), false);
+	mGrid.setEntry(mTitle, Vector2i(0, 0), false);
 
 	mButtons.push_back(std::make_shared<ButtonComponent>(mWindow, _("CLOSE"), _("CLOSE"), [this] { delete this; }));
 
 	mButtonGrid = makeButtonGrid(mWindow, mButtons);
-	mGrid.setEntry(mButtonGrid, Eigen::Vector2i(0, 2), true, false);
+	mGrid.setEntry(mButtonGrid, Vector2i(0, 2), true, false);
 
 	updateSize();
 	mBusyAnim.setSize(mSize);
@@ -193,7 +191,7 @@ void GuiNetPlay::populateGrid()
 		mMetaTextCanJoin = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, ALIGN_LEFT);
 		mGridMetaRight->setEntry(mMetaTextLblCanJoin, Vector2i(0, 10), false, true);
 		mGridMetaRight->setEntry(mMetaTextCanJoin, Vector2i(1, 10), false, true);
-		mGridMeta->setEntry(mGridMetaRight, Vector2i(1, 0), false, true, Eigen::Vector2i(1, 1), GridFlags::BORDER_LEFT);
+		mGridMeta->setEntry(mGridMetaRight, Vector2i(1, 0), false, true, Vector2i(1, 1), GridFlags::BORDER_LEFT);
         mGridMetaRight->setColWidthPerc(1, 0.60, true);
 
 		ComponentListRow row;
@@ -250,7 +248,7 @@ void GuiNetPlay::populateGrid()
 
 		mHandle = new boost::thread(boost::bind(&GuiNetPlay::pingLobby, this));
 
-		mGrid.moveCursor(Eigen::Vector2i(0, -1));
+		mGrid.moveCursor(Vector2i(0, -1));
 	} else {
 		auto text = std::make_shared<TextComponent>(mWindow, _("NO GAMES OR NO CONNECTION"), mMenuTheme->menuText.font, mMenuTheme->menuText.color, ALIGN_CENTER);
 		mGrid.setEntry(text, Vector2i(0, 1), true);
@@ -332,7 +330,7 @@ void GuiNetPlay::populateGridMeta(int i)
 void GuiNetPlay::launch()
 {
 	if (mGames[mList->getCursor()]) {
-        Eigen::Vector3f target(Renderer::getScreenWidth() / 2.0f, Renderer::getScreenHeight() / 2.0f, 0);
+        Vector3f target(Renderer::getScreenWidth() / 2.0f, Renderer::getScreenHeight() / 2.0f, 0);
         int index = mList->getCursor();
         std::string core = getCoreInfo(mRooms[index].second.get<std::string>("fields.core_name")).first;
         if (!core.empty())
@@ -460,7 +458,7 @@ void GuiNetPlay::updateSize()
 
 void GuiNetPlay::onSizeChanged()
 {
-	mBackground.fitTo(mSize, Eigen::Vector3f::Zero(), Eigen::Vector2f(-32, -32));
+	mBackground.fitTo(mSize, Vector3f::Zero(), Vector2f(-32, -32));
 
 	// update grid row/col sizes
 	mGrid.setRowHeightPerc(0, TITLE_HEIGHT / mSize.y());
@@ -492,8 +490,9 @@ void GuiNetPlay::update(int deltaTime) {
 	}
 }
 
-void GuiNetPlay::render(const Eigen::Affine3f &parentTrans) {
-	Eigen::Affine3f trans = parentTrans * getTransform();
+void GuiNetPlay::render(const Transform4x4f &parentTrans)
+{
+	Transform4x4f trans = parentTrans * getTransform();
 
 	renderChildren(trans);
 

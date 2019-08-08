@@ -1,10 +1,7 @@
 //
 // Created by matthieu on 03/08/15.
 //
-
-#ifndef EMULATIONSTATION_ALL_GUILOADING_H
-#define EMULATIONSTATION_ALL_GUILOADING_H
-
+#pragma once
 
 #include "GuiComponent.h"
 #include "components/MenuComponent.h"
@@ -19,9 +16,9 @@ public:
     GuiLoading(Window *window, const std::function<void *()> &mFunc, const std::function<void(void *)> &mFunc2);
     GuiLoading(Window *window, const std::function<void *()> &mFunc);
 
-    virtual ~GuiLoading();
+    ~GuiLoading() override;
 
-    void render(const Eigen::Affine3f &parentTrans) override;
+    void render(const Transform4x4f& parentTrans) override;
 
     bool input(InputConfig *config, Input input) override;
 
@@ -39,6 +36,3 @@ private:
     void threadLoading();
     void * result;
 };
-
-
-#endif //EMULATIONSTATION_ALL_GUILOADING_H

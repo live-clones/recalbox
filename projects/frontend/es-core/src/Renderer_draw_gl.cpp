@@ -8,10 +8,15 @@
 #include <stack>
 #include "Util.h"
 
-namespace Renderer {
-	std::stack<Eigen::Vector4i> clipStack;
+namespace Renderer
+{
+  static std::stack<Vector4i>& ClipStack()
+  {
+    static std::stack<Vector4i> _ClippingStack;
+    return _ClippingStack;
+  }
 
-	void setColor4bArray(GLubyte* array, unsigned int color)
+  void setColor4bArray(GLubyte* array, unsigned int color)
 	{
 		array[0] = (color & 0xff000000) >> 24;
 		array[1] = (color & 0x00ff0000) >> 16;
@@ -29,9 +34,9 @@ namespace Renderer {
 		}
 	}
 
-	void pushClipRect(Eigen::Vector2i pos, Eigen::Vector2i dim)
+	void pushClipRect(Vector2i pos, Vector2i dim)
 	{
-		Eigen::Vector4i box(pos.x(), pos.y(), dim.x(), dim.y());
+		Vector4i box(pos.x(), pos.y(), dim.x(), dim.y());
 		if(box[2] == 0)
 			box[2] = Renderer::getScreenWidth() - box.x();
 		if(box[3] == 0)
@@ -44,9 +49,9 @@ namespace Renderer {
 		box[1] = Renderer::getScreenHeight() - box.y() - box[3];
 
 		//make sure the box fits within clipStack.top(), and clip further accordingly
-		if(clipStack.size())
+		if (!ClipStack().empty())
 		{
-			Eigen::Vector4i& top = clipStack.top();
+			Vector4i& top = ClipStack().top();
 			if(top[0] > box[0])
 				box[0] = top[0];
 			if(top[1] > box[1])
@@ -62,25 +67,27 @@ namespace Renderer {
 		if(box[3] < 0)
 			box[3] = 0;
 
-		clipStack.push(box);
+    ClipStack().push(box);
 		glScissor(box[0], box[1], box[2], box[3]);
 		glEnable(GL_SCISSOR_TEST);
 	}
 
 	void popClipRect()
 	{
-		if(clipStack.empty())
+		if(ClipStack().empty())
 		{
 			LOG(LogError) << "Tried to popClipRect while the stack was empty!";
 			return;
 		}
 
-		clipStack.pop();
-		if(clipStack.empty())
+    ClipStack().pop();
+		if(ClipStack().empty())
 		{
 			glDisable(GL_SCISSOR_TEST);
-		}else{
-			Eigen::Vector4i top = clipStack.top();
+		}
+		else
+	  {
+			Vector4i top = ClipStack().top();
 			glScissor(top[0], top[1], top[2], top[3]);
 		}
 	}
@@ -128,13 +135,8 @@ namespace Renderer {
 		glDisableClientState(GL_COLOR_ARRAY);
 	}
 
-	void setMatrix(float* matrix)
+	void setMatrix(const Transform4x4f& matrix)
 	{
-		glLoadMatrixf(matrix);
-	}
-
-	void setMatrix(const Eigen::Affine3f& matrix)
-	{
-		setMatrix((float*)matrix.data());
+		glLoadMatrixf((float*)&matrix);
 	}
 };

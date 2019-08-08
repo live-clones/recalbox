@@ -17,14 +17,14 @@ struct AnimationDef
 class AnimatedImageComponent : public GuiComponent
 {
 public:
-	AnimatedImageComponent(Window* window);
+	explicit AnimatedImageComponent(Window* window);
 	
 	void load(const AnimationDef* def); // no reference to def is kept after loading is complete
 
 	void reset(); // set to frame 0
 
 	void update(int deltaTime) override;
-	void render(const Eigen::Affine3f& trans) override;
+	void render(const Transform4x4f& trans) override;
 
 	void onSizeChanged() override;
 

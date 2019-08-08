@@ -27,9 +27,9 @@ class ButtonComponent;
 class GuiNetPlay : public GuiComponent
 {
 public:
-	GuiNetPlay(Window* window);
+	explicit GuiNetPlay(Window* window);
 
-	~GuiNetPlay();
+	~GuiNetPlay() override;
 
 	inline void addRow(const ComponentListRow& row, bool setCursorHere = false, bool updateGeometry = true) { mList->addRow(row, setCursorHere, updateGeometry); if (updateGeometry) updateSize(); }
 
@@ -45,11 +45,9 @@ public:
 
 	FileData* findGame(std::string game);
 
-	FileData* findRecursive(const FileData::List& gameFolder, const std::string& gameName, const std::string& relativePath = "");
+  std::pair<std::string, std::string> getCoreInfo(const std::string &name);
 
-    std::pair<std::string, std::string> getCoreInfo(const std::string &name);
-
-    void pingLobby();
+  void pingLobby();
 
 	std::string pingHost(const std::string& ip);
 
@@ -65,7 +63,7 @@ public:
 
 	void update(int deltaTime) override;
 
-	void render(const Eigen::Affine3f &parentTrans) override;
+	void render(const Transform4x4f &parentTrans) override;
 
 private:
 

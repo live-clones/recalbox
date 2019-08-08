@@ -17,11 +17,11 @@ namespace Renderer
 {
 	static bool initialCursorState;
 
-	unsigned int display_width = 0;
-	unsigned int display_height = 0;
+	int display_width = 0;
+	int display_height = 0;
 
-	unsigned int getScreenWidth() { return display_width; }
-	unsigned int getScreenHeight() { return display_height; }
+	int getScreenWidth() { return display_width; }
+	int getScreenHeight() { return display_height; }
 
 	SDL_Window* sdlWindow = nullptr;
 	SDL_GLContext sdlContext = nullptr;

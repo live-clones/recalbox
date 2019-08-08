@@ -104,8 +104,6 @@ else()
     add_definitions(-DUSE_OPENGL_ES)
 endif()
 
-add_definitions(-DEIGEN_DONT_ALIGN)
-
 #-------------------------------------------------------------------------------
 #add include directories
 set(COMMON_INCLUDE_DIRS
@@ -118,9 +116,7 @@ set(COMMON_INCLUDE_DIRS
     ${FreeImage_INCLUDE_DIRS}
     ${SDL2_INCLUDE_DIR}
     ${Boost_INCLUDE_DIRS}
-    ${EIGEN3_INCLUDE_DIR}
     ${CURL_INCLUDE_DIR}
-
 )
 
 #add ALSA for Linux

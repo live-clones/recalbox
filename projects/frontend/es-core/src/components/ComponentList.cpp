@@ -34,7 +34,7 @@ void ComponentList::addRow(const ComponentListRow& row, bool setCursorHere, bool
 
 	if(setCursorHere)
 	{
-		mCursor = mEntries.size() - 1;
+		mCursor = (int)mEntries.size() - 1;
 		onCursorChanged(CURSOR_STOPPED);
 	}
 }
@@ -83,7 +83,7 @@ bool ComponentList::input(InputConfig* config, Input input)
 	}else{
 		// no input handler assigned, do the default, which is to give it to the rightmost element in the row
 		auto& row = mEntries.at(mCursor).data;
-		if(row.elements.size())
+		if(!row.elements.empty())
 		{
 			if(row.elements.back().component->input(config, input))
 				return true;
@@ -172,7 +172,7 @@ void ComponentList::updateCameraOffset()
 	}
 }
 
-void ComponentList::render(const Eigen::Affine3f& parentTrans)
+void ComponentList::render(const Transform4x4f& parentTrans)
 {
 	if(!size())
 		return;
@@ -183,24 +183,24 @@ void ComponentList::render(const Eigen::Affine3f& parentTrans)
 	unsigned int bgColor = menuTheme->menuBackground.color;
 	unsigned int separatorColor = menuTheme->menuText.separatorColor;
 
-	Eigen::Affine3f trans = roundMatrix(parentTrans * getTransform());
+	Transform4x4f trans = roundMatrix(parentTrans * getTransform());
 
 	// clip everything to be inside our bounds
-	Eigen::Vector3f dim(mSize.x(), mSize.y(), 0);
+	Vector3f dim(mSize.x(), mSize.y(), 0);
 	dim = trans * dim - trans.translation();
-	Renderer::pushClipRect(Eigen::Vector2i((int)trans.translation().x(), (int)trans.translation().y()), 
-		Eigen::Vector2i((int)round(dim.x()), (int)round(dim.y() + 1)));
+	Renderer::pushClipRect(Vector2i((int)trans.translation().x(), (int)trans.translation().y()), 
+		Vector2i((int)round(dim.x()), (int)round(dim.y() + 1)));
 
 	// scroll the camera
-	trans.translate(Eigen::Vector3f(0, -round(mCameraOffset), 0));
+	trans.translate(Vector3f(0, -round(mCameraOffset), 0));
 
 	// draw our entries
 	std::vector<GuiComponent*> drawAfterCursor;
 	bool drawAll;
-	for (unsigned int i = 0; i < mEntries.size(); i++)
+	for (int i = 0; i < (int)mEntries.size(); i++)
 	{
 		auto& entry = mEntries.at(i);
-		drawAll = !mFocused || i != (unsigned int)mCursor;
+		drawAll = !mFocused || i != mCursor;
 		for (auto& element : entry.data.elements)
 		{
 			if(drawAll || element.invert_when_selected)
@@ -237,7 +237,7 @@ void ComponentList::render(const Eigen::Affine3f& parentTrans)
 			it->render(trans);
 		
 		// reset matrix if one of these components changed it
-		if(drawAfterCursor.size())
+		if (!drawAfterCursor.empty())
 			Renderer::setMatrix(trans);
 	}
 
@@ -289,7 +289,7 @@ void ComponentList::updateElementPosition(const ComponentListRow& row)
 	// assumes updateElementSize has already been called
 	float rowHeight = getRowHeight(row);
 
-	float x = TOTAL_HORIZONTAL_PADDING_PX / 2;
+	float x = (float)TOTAL_HORIZONTAL_PADDING_PX / 2;
 	for (const auto& element : row.elements)
 	{
 		const auto comp = element.component;

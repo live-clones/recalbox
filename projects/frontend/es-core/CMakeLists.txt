@@ -31,8 +31,16 @@ set(CORE_HEADERS
 	${CMAKE_CURRENT_SOURCE_DIR}/src/utils/os/system/Thread.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/utils/os/system/Mutex.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/utils/datetime/HighResolutionTimer.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/utils/math/Vectors.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/utils/math/Vector2i.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/utils/math/Vector2f.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/utils/math/Vector3f.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/utils/math/Vector4i.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/utils/math/Vector4f.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/utils/math/Misc.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/utils/math/Transform4x4f.h
 
-	# Animations
+		# Animations
 	${CMAKE_CURRENT_SOURCE_DIR}/src/animations/Animation.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/animations/AnimationController.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/animations/LambdaAnimation.h
@@ -75,8 +83,6 @@ set(CORE_HEADERS
 
 	# Datetime
 	${CMAKE_CURRENT_SOURCE_DIR}/src/utils/datetime/DateTime.h
-	${CMAKE_CURRENT_SOURCE_DIR}/src/utils/datetime/ISystemDateTimeInterface.h
-	${CMAKE_CURRENT_SOURCE_DIR}/src/utils/datetime/SystemDateTimeInterface.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/utils/datetime/TimeSpan.h
 
 	# Embedded assets (needed by ResourceManager)
@@ -112,6 +118,13 @@ set(CORE_SOURCES
 	${CMAKE_CURRENT_SOURCE_DIR}/src/utils/os/system/Mutex.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/utils/os/fs/FileSystemUtil.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/utils/StringUtil.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/utils/math/Vector2i.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/utils/math/Vector2f.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/utils/math/Vector3f.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/utils/math/Vector4i.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/utils/math/Vector4f.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/utils/math/Misc.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/utils/math/Transform4x4f.cpp
 
 	# Animations
 	${CMAKE_CURRENT_SOURCE_DIR}/src/animations/AnimationController.cpp
@@ -151,7 +164,6 @@ set(CORE_SOURCES
 
 	# Datetime
 	${CMAKE_CURRENT_SOURCE_DIR}/src/utils/datetime/DateTime.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/src/utils/datetime/SystemDateTimeInterface.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/utils/datetime/TimeSpan.cpp
 )
 

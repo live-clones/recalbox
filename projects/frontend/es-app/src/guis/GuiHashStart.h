@@ -1,9 +1,7 @@
 //
 // Created by xizor on 01/06/18.
 //
-
-#ifndef EMULATIONSTATION_ALL_GUIHASHSTART_H
-#define EMULATIONSTATION_ALL_GUIHASHSTART_H
+#pragma once
 
 #include <boost/thread.hpp>
 #include "GuiComponent.h"
@@ -18,15 +16,15 @@ class OptionListComponent;
 class GuiHashStart : public GuiComponent
 {
 public:
-    GuiHashStart(Window* window);
+    explicit GuiHashStart(Window* window);
 
     bool input(InputConfig* config, Input input) override;
 
-    virtual std::vector<HelpPrompt> getHelpPrompts() override;
+    std::vector<HelpPrompt> getHelpPrompts() override;
 
     void update(int deltaTime) override;
 
-    void render(const Eigen::Affine3f &parentTrans) override;
+    void render(const Transform4x4f &parentTrans) override;
 
 private:
     void start();
@@ -45,5 +43,3 @@ private:
 
 	int mState;
 };
-
-#endif //EMULATIONSTATION_ALL_GUIHASHSTART_H

@@ -1,13 +1,11 @@
 #include "components/VideoComponent.h"
 #include <iostream>
-#include <boost/filesystem.hpp>
 #include <math.h>
 #include <VideoEngine.h>
 #include <utils/datetime/DateTime.h>
 #include "Log.h"
 #include "Renderer.h"
 #include "ThemeData.h"
-#include "Util.h"
 #include "Locale.h"
 
 VideoComponent::VideoComponent(Window* window, bool forceLoad, bool dynamic)
@@ -33,7 +31,7 @@ void VideoComponent::resize()
 {
   TextureData& texture = VideoEngine::This().GetDisplayableFrame();
 
-  const Eigen::Vector2f textureSize(texture.width(), texture.height());
+  const Vector2f textureSize(texture.width(), texture.height());
   if (textureSize.isZero()) return;
 
   if (texture.tiled())
@@ -52,7 +50,7 @@ void VideoComponent::resize()
     {
       mSize = textureSize;
 
-      Eigen::Vector2f resizeScale((mTargetSize.x() / mSize.x()), (mTargetSize.y() / mSize.y()));
+      Vector2f resizeScale((mTargetSize.x() / mSize.x()), (mTargetSize.y() / mSize.y()));
 
       if (resizeScale.x() < resizeScale.y())
       {
@@ -102,14 +100,14 @@ void VideoComponent::setVideo(const std::string& path, int delay, int loops)
 
 void VideoComponent::setResize(float width, float height)
 {
-  mTargetSize << width, height;
+  mTargetSize.Set(width, height);
   mTargetIsMax = false;
   resize();
 }
 
 void VideoComponent::setMaxSize(float width, float height)
 {
-  mTargetSize << width, height;
+  mTargetSize.Set(width, height);
   mTargetIsMax = true;
   resize();
 }
@@ -147,41 +145,41 @@ void VideoComponent::updateVertices(double bump)
       double centerX = mSize.x() / 2.0;
       double centerY = mSize.y() / 2.0;
 
-      Eigen::Vector2f topLeft(round(centerX - bumpedWidth / 2.0), round(centerY - bumpedHeight / 2.0));
-      Eigen::Vector2f bottomRight(round(centerX + bumpedWidth / 2.0), round(centerY + bumpedHeight / 2.0));
+      Vector2f topLeft(round(centerX - bumpedWidth / 2.0), round(centerY - bumpedHeight / 2.0));
+      Vector2f bottomRight(round(centerX + bumpedWidth / 2.0), round(centerY + bumpedHeight / 2.0));
 
-      mVertices[0].pos << topLeft.x(), topLeft.y();
-      mVertices[1].pos << topLeft.x(), bottomRight.y();
-      mVertices[2].pos << bottomRight.x(), topLeft.y();
+      mVertices[0].pos.Set(topLeft.x(), topLeft.y());
+      mVertices[1].pos.Set(topLeft.x(), bottomRight.y());
+      mVertices[2].pos.Set(bottomRight.x(), topLeft.y());
 
-      mVertices[3].pos << bottomRight.x(), topLeft.y();
-      mVertices[4].pos << topLeft.x(), bottomRight.y();
-      mVertices[5].pos << bottomRight.x(), bottomRight.y();
+      mVertices[3].pos.Set(bottomRight.x(), topLeft.y());
+      mVertices[4].pos.Set(topLeft.x(), bottomRight.y());
+      mVertices[5].pos.Set(bottomRight.x(), bottomRight.y());
       break;
     }
     case Effect::Fade:
     {
-      Eigen::Vector2f topLeft(0.0, 0.0);
-      Eigen::Vector2f bottomRight(round(mSize.x()), round(mSize.y()));
+      Vector2f topLeft(0.0, 0.0);
+      Vector2f bottomRight(round(mSize.x()), round(mSize.y()));
 
-      mVertices[0].pos << topLeft.x(), topLeft.y();
-      mVertices[1].pos << topLeft.x(), bottomRight.y();
-      mVertices[2].pos << bottomRight.x(), topLeft.y();
+      mVertices[0].pos.Set(topLeft.x(), topLeft.y());
+      mVertices[1].pos.Set(topLeft.x(), bottomRight.y());
+      mVertices[2].pos.Set(bottomRight.x(), topLeft.y());
 
-      mVertices[3].pos << bottomRight.x(), topLeft.y();
-      mVertices[4].pos << topLeft.x(), bottomRight.y();
-      mVertices[5].pos << bottomRight.x(), bottomRight.y();
+      mVertices[3].pos.Set(bottomRight.x(), topLeft.y());
+      mVertices[4].pos.Set(topLeft.x(), bottomRight.y());
+      mVertices[5].pos.Set(bottomRight.x(), bottomRight.y());
     }
     case Effect::_LastItem: break;
   }
 
-  mVertices[0].tex << 0.0f, 0.0f;
-  mVertices[1].tex << 0.0f, 1.0f;
-  mVertices[2].tex << 1.0f, 0.0f;
+  mVertices[0].tex.Set(0.0f, 0.0f);
+  mVertices[1].tex.Set(0.0f, 1.0f);
+  mVertices[2].tex.Set(1.0f, 0.0f);
 
-  mVertices[3].tex << 1.0f, 0.0f;
-  mVertices[4].tex << 0.0f, 1.0f;
-  mVertices[5].tex << 1.0f, 1.0f;
+  mVertices[3].tex.Set(1.0f, 0.0f);
+  mVertices[4].tex.Set(0.0f, 1.0f);
+  mVertices[5].tex.Set(1.0f, 1.0f);
 }
 
 void VideoComponent::updateColors()
@@ -303,9 +301,9 @@ bool VideoComponent::ProcessDisplay(double& effect)
   return video;
 }
 
-void VideoComponent::render(const Eigen::Affine3f& parentTrans)
+void VideoComponent::render(const Transform4x4f& parentTrans)
 {
-  Eigen::Affine3f trans = parentTrans * getTransform();
+  Transform4x4f trans = parentTrans * getTransform();
   Renderer::setMatrix(trans);
 
   double effect = 0.0;
@@ -321,7 +319,7 @@ void VideoComponent::render(const Eigen::Affine3f& parentTrans)
     setOpacity((mEffect == Effect::Fade) ? (int)(effect * 255.0) : 255);
     updateColors();
     // Rotation
-    setRotation(mEffect == Effect::BreakingNews ? (Pi * 4) * effect : 0.0);
+    setRotation(mEffect == Effect::BreakingNews ? ((float)(Pi * 4)) * (float)effect : 0.0);
     setRotationOrigin(0.5f, 0.5f);
 
     glEnable(GL_TEXTURE_2D);
@@ -401,31 +399,31 @@ void VideoComponent::applyTheme(const std::shared_ptr<ThemeData>& theme, const s
     return;
   }
 
-  Eigen::Vector2f scale = getParent() ? getParent()->getSize() : Eigen::Vector2f((float) Renderer::getScreenWidth(),
+  Vector2f scale = getParent() ? getParent()->getSize() : Vector2f((float) Renderer::getScreenWidth(),
                                                                                  (float) Renderer::getScreenHeight());
 
   if (properties & POSITION && elem->has("pos"))
   {
-    Eigen::Vector2f denormalized = elem->get<Eigen::Vector2f>("pos").cwiseProduct(scale);
-    setPosition(Eigen::Vector3f(denormalized.x(), denormalized.y(), 0));
+    Vector2f denormalized = elem->get<Vector2f>("pos") * scale;
+    setPosition(Vector3f(denormalized.x(), denormalized.y(), 0));
   }
 
   if (properties & ThemeFlags::SIZE)
   {
     if (elem->has("size"))
     {
-      setResize(elem->get<Eigen::Vector2f>("size").cwiseProduct(scale));
+      setResize(elem->get<Vector2f>("size") * scale);
     }
     else if (elem->has("maxSize"))
     {
-      setMaxSize(elem->get<Eigen::Vector2f>("maxSize").cwiseProduct(scale));
+      setMaxSize(elem->get<Vector2f>("maxSize") * scale);
     }
   }
 
   // position + size also implies origin
   if ((properties & ORIGIN || (properties & POSITION && properties & ThemeFlags::SIZE)) && elem->has("origin"))
   {
-    setOrigin(elem->get<Eigen::Vector2f>("origin"));
+    setOrigin(elem->get<Vector2f>("origin"));
   }
 
   if (properties & PATH && elem->has("path"))
@@ -446,7 +444,7 @@ void VideoComponent::applyTheme(const std::shared_ptr<ThemeData>& theme, const s
     }
     if (elem->has("rotationOrigin"))
     {
-      setRotationOrigin(elem->get<Eigen::Vector2f>("rotationOrigin"));
+      setRotationOrigin(elem->get<Vector2f>("rotationOrigin"));
     }
   }
 

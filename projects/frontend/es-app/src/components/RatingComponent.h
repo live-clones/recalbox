@@ -13,24 +13,24 @@
 class RatingComponent : public GuiComponent
 {
 public:
-	RatingComponent(Window* window, unsigned int color = 0xFFFFFFFF);
+	explicit RatingComponent(Window* window, unsigned int color = 0xFFFFFFFF);
 	
 
 	std::string getValue() const override;
 	void setValue(const std::string& value) override; // Should be a normalized float (in the range [0..1]) - if it's not, it will be clamped.
 
 	bool input(InputConfig* config, Input input) override;
-	void render(const Eigen::Affine3f& parentTrans);
+	void render(const Transform4x4f& parentTrans);
 
-	void setColor(unsigned int color);
+	void setColor(unsigned int color) override;
 	inline void setOriginColor(unsigned int color){mOriginColor = color;};
 	inline unsigned int getOriginColor() override{return mOriginColor;};
 
 	void onSizeChanged() override;
 
-	virtual void applyTheme(const std::shared_ptr<ThemeData>& theme, const std::string& view, const std::string& element, unsigned int properties) override;
+	void applyTheme(const std::shared_ptr<ThemeData>& theme, const std::string& view, const std::string& element, unsigned int properties) override;
 
-	virtual std::vector<HelpPrompt> getHelpPrompts() override;
+	std::vector<HelpPrompt> getHelpPrompts() override;
 
 private:
 	void updateVertices();
@@ -39,8 +39,8 @@ private:
 
 	struct Vertex
 	{
-		Eigen::Vector2f pos;
-		Eigen::Vector2f tex;
+		Vector2f pos;
+		Vector2f tex;
 	} mVertices[12];
 
 	std::shared_ptr<TextureResource> mFilledTexture;

@@ -176,7 +176,7 @@ void GuiMenu::createInputTextRow(GuiSettings *gui, std::string title, const char
   auto bracket = std::make_shared<ImageComponent>(mWindow);
   bracket->setImage(mMenuTheme->iconSet.arrow);
   bracket->setColorShift(mMenuTheme->menuText.color);
-  bracket->setResize(Eigen::Vector2f(0, round(mMenuTheme->menuText.font->getLetterHeight())));
+  bracket->setResize(Vector2f(0, round(mMenuTheme->menuText.font->getLetterHeight())));
 
 
   row.addElement(bracket, false);
@@ -316,7 +316,7 @@ void GuiMenu::menuSystem(){
 
     if (reboot) {
       window->pushGui(
-          new GuiMsgBox(window, _("THE SYSTEM WILL NOW REBOOT"), _("OK"), [window] {
+          new GuiMsgBox(window, _("THE SYSTEM WILL NOW REBOOT"), _("OK"), [] {
             if (runRestartCommand() != 0) {
               LOG(LogWarning) << "Reboot terminated with non-zero result!";
             }
@@ -357,7 +357,7 @@ void GuiMenu::menuUpdates(){
     updateGui->addSubMenu(_("START UPDATE"), [this] {
       mWindow->pushGui(new GuiUpdate(mWindow));
     }, _(MenuMessages::START_UPDATE_HELP_MSG));
-  };
+  }
 
   // Enable updates
 
@@ -1242,7 +1242,7 @@ void GuiMenu::menuNetworkSettings(){
 
     auto bracket = std::make_shared<ImageComponent>(mWindow);
     bracket->setImage(":/arrow.svg");
-    bracket->setResize(Eigen::Vector2f(0, lbl->getFont()->getLetterHeight()));
+    bracket->setResize(Vector2f(0, lbl->getFont()->getLetterHeight()));
     row.addElement(bracket, false);
 
     auto updateVal = [ed](const std::string &newVal) {

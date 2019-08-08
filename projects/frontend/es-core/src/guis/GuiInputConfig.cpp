@@ -14,9 +14,7 @@
 #include <boost/format.hpp>
 using namespace boost::locale;
 
-using namespace Eigen;
-
-GuiInputConfig::GuiInputConfig(Window* window, InputConfig* target, const std::function<void()>& doneCallback) : GuiComponent(window), 
+GuiInputConfig::GuiInputConfig(Window* window, InputConfig* target, const std::function<void()>& doneCallback) : GuiComponent(window),
 	mBackground(window, ":/frame.png"), mGrid(window, Vector2i(1, 5)), 
 	mTargetConfig(target), mCursorOnList(true)
 {

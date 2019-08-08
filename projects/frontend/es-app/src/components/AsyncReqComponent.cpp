@@ -3,7 +3,7 @@
 
 AsyncReqComponent::AsyncReqComponent(Window* window, std::shared_ptr<HttpReq> req, std::function<void(std::shared_ptr<HttpReq>)> onSuccess, std::function<void()> onCancel) 
 	: GuiComponent(window), 
-	mSuccessFunc(onSuccess), mCancelFunc(onCancel), mTime(0), mRequest(req)
+	mSuccessFunc(std::move(onSuccess)), mCancelFunc(std::move(onCancel)), mTime(0), mRequest(std::move(req))
 {
 	
 }
@@ -33,15 +33,15 @@ void AsyncReqComponent::update(int deltaTime)
 	mTime += deltaTime;
 }
 
-void AsyncReqComponent::render(const Eigen::Affine3f& parentTrans)
+void AsyncReqComponent::render(const Transform4x4f& parentTrans)
 {
 	(void)parentTrans;
 
-	Eigen::Affine3f trans = Eigen::Affine3f::Identity();
-	trans = trans.translate(Eigen::Vector3f(Renderer::getScreenWidth() / 2.0f, Renderer::getScreenHeight() / 2.0f, 0));
+	Transform4x4f trans = Transform4x4f::Identity();
+	trans = trans.translate(Vector3f((float)Renderer::getScreenWidth() / 2.0f, (float)Renderer::getScreenHeight() / 2.0f, 0));
 	Renderer::setMatrix(trans);
 
-	Eigen::Vector3f point(cos(mTime * 0.01f) * 12, sin(mTime * 0.01f) * 12, 0);
+	Vector3f point(cos((float)mTime * 0.01f) * 12, sin((float)mTime * 0.01f) * 12, 0);
 	Renderer::drawRect((int)point.x(), (int)point.y(), 8, 8, 0x0000FFFF);
 }
 

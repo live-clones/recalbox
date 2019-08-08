@@ -10,12 +10,12 @@ class TextCache;
 class TextEditComponent : public GuiComponent
 {
 public:
-	TextEditComponent(Window* window);
+	explicit TextEditComponent(Window* window);
 	
 	void textInput(const char* text) override;
 	bool input(InputConfig* config, Input input) override;
 	void update(int deltaTime) override;
-	void render(const Eigen::Affine3f& parentTrans) override;
+	void render(const Transform4x4f& parentTrans) override;
 
 	void onFocusGained() override;
 	void onFocusLost() override;
@@ -30,7 +30,7 @@ public:
 
 	void setCursor(size_t pos);
 
-	virtual std::vector<HelpPrompt> getHelpPrompts() override;
+	std::vector<HelpPrompt> getHelpPrompts() override;
 
 	void startEditing();
 	void stopEditing();
@@ -43,8 +43,8 @@ private:
 	void moveCursor(int amt);
 
 	bool isMultiline();
-	Eigen::Vector2f getTextAreaPos() const;
-	Eigen::Vector2f getTextAreaSize() const;
+	Vector2f getTextAreaPos() const;
+	Vector2f getTextAreaSize() const;
 
 	std::string mText;
 	bool mFocused;
@@ -54,7 +54,7 @@ private:
 	int mCursorRepeatTimer;
 	int mCursorRepeatDir;
 
-	Eigen::Vector2f mScrollOffset;
+	Vector2f mScrollOffset;
 
 	NinePatchComponent mBox;
 

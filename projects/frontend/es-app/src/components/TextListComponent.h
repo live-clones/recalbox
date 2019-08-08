@@ -38,11 +38,11 @@ public:
 	using IList<TextListData, T>::isScrolling;
 	using IList<TextListData, T>::stopScrolling;
 
-	TextListComponent(Window* window);
+	explicit TextListComponent(Window* window);
 	
 	bool input(InputConfig* config, Input input) override;
 	void update(int deltaTime) override;
-	void render(const Eigen::Affine3f& parentTrans) override;
+	void render(const Transform4x4f& parentTrans) override;
 	void applyTheme(const std::shared_ptr<ThemeData>& theme, const std::string& view, const std::string& element, unsigned int properties) override;
 
 	void add(const std::string& name, const T& obj, unsigned int colorId, bool toTheBeginning = false);
@@ -135,9 +135,9 @@ TextListComponent<T>::TextListComponent(Window* window) :
 }
 
 template <typename T>
-void TextListComponent<T>::render(const Eigen::Affine3f& parentTrans)
+void TextListComponent<T>::render(const Transform4x4f& parentTrans)
 {
-	Eigen::Affine3f trans = parentTrans * getTransform();
+	Transform4x4f trans = parentTrans * getTransform();
 	
 	std::shared_ptr<Font>& font = mFont;
 
@@ -179,10 +179,10 @@ void TextListComponent<T>::render(const Eigen::Affine3f& parentTrans)
 	}
 
 	// clip to inside margins
-	Eigen::Vector3f dim(mSize.x(), mSize.y(), 0);
+	Vector3f dim(mSize.x(), mSize.y(), 0);
 	dim = trans * dim - trans.translation();
-	Renderer::pushClipRect(Eigen::Vector2i((int)(trans.translation().x() + mHorizontalMargin), (int)trans.translation().y()), 
-		Eigen::Vector2i((int)(dim.x() - mHorizontalMargin*2), (int)dim.y()));
+	Renderer::pushClipRect(Vector2i((int)(trans.translation().x() + mHorizontalMargin), (int)trans.translation().y()),
+		Vector2i((int)(dim.x() - mHorizontalMargin*2), (int)dim.y()));
 
 	for (int i = startEntry; i < listCutoff; i++)
 	{
@@ -199,7 +199,7 @@ void TextListComponent<T>::render(const Eigen::Affine3f& parentTrans)
 
 		entry.data.textCache->setColor(color);
 
-		Eigen::Vector3f offset(0, y, 0);
+		Vector3f offset(0, y, 0);
 
 		switch(mAlignment)
 		{
@@ -223,7 +223,7 @@ void TextListComponent<T>::render(const Eigen::Affine3f& parentTrans)
 		if(mCursor == i)
 			offset[0] -= mMarqueeOffset;
 		
-		Eigen::Affine3f drawTrans = trans;
+		Transform4x4f drawTrans = trans;
 		drawTrans.translate(offset);
 		Renderer::setMatrix(drawTrans);
 
@@ -289,7 +289,7 @@ void TextListComponent<T>::update(int deltaTime)
 		//if we're not scrolling and this object's text goes outside our size, marquee it!
 		const std::string& text = mEntries.at((unsigned int)mCursor).name;
 
-		Eigen::Vector2f textSize = mFont->sizeText(text);
+		Vector2f textSize = mFont->sizeText(text);
 
 		//it's long enough to marquee
 		if(textSize.x() - mMarqueeOffset > mSize.x() - 12 - mHorizontalMargin * 2)
@@ -389,7 +389,7 @@ void TextListComponent<T>::applyTheme(const std::shared_ptr<ThemeData>& theme, c
 			setLineSpacing(elem->get<float>("lineSpacing"));
 		if(elem->has("selectorHeight"))
 		{
-			setSelectorHeight(elem->get<float>("selectorHeight") * Renderer::getScreenHeight());
+			setSelectorHeight(elem->get<float>("selectorHeight") * (float)Renderer::getScreenHeight());
 		} else {
 			setSelectorHeight(mFont->getSize() * 1.5);
 		}

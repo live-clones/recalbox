@@ -13,7 +13,6 @@
 #include "MenuThemeData.h"
 
 using namespace boost::locale;
-using namespace Eigen;
 
 GuiScraperMulti::GuiScraperMulti(Window* window, const std::queue<ScraperSearchParams>& searches, bool approveResults)
   :	GuiComponent(window),
@@ -27,7 +26,7 @@ GuiScraperMulti::GuiScraperMulti(Window* window, const std::queue<ScraperSearchP
 	mBackground.setCenterColor(menuTheme->menuBackground.color);
 	mBackground.setEdgeColor(menuTheme->menuBackground.color);
 	
-	assert(mSearchQueue.size());
+	assert(!mSearchQueue.empty());
 
 	addChild(&mBackground);
 	addChild(&mGrid);
@@ -76,8 +75,8 @@ GuiScraperMulti::GuiScraperMulti(Window* window, const std::queue<ScraperSearchP
 	mButtonGrid = makeButtonGrid(mWindow, buttons);
 	mGrid.setEntry(mButtonGrid, Vector2i(0, 4), true, false);
 
-	setSize(Renderer::getScreenWidth() * 0.95f, Renderer::getScreenHeight() * 0.849f);
-	setPosition((Renderer::getScreenWidth() - mSize.x()) / 2, (Renderer::getScreenHeight() - mSize.y()) / 2);
+	setSize((float)Renderer::getScreenWidth() * 0.95f, (float)Renderer::getScreenHeight() * 0.849f);
+	setPosition(((float)Renderer::getScreenWidth() - mSize.x()) / 2, ((float)Renderer::getScreenHeight() - mSize.y()) / 2);
 
 	doNextSearch();
 }

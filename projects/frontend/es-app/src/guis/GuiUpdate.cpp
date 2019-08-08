@@ -37,8 +37,9 @@ std::vector<HelpPrompt> GuiUpdate::getHelpPrompts() {
     return std::vector<HelpPrompt>();
 }
 
-void GuiUpdate::render(const Eigen::Affine3f &parentTrans) {
-    Eigen::Affine3f trans = parentTrans * getTransform();
+void GuiUpdate::render(const Transform4x4f &parentTrans)
+{
+  Transform4x4f trans = parentTrans * getTransform();
 
     renderChildren(trans);
 
@@ -149,7 +150,7 @@ void GuiUpdate::onPingError() {
     mState = 3;
 }
 
-void GuiUpdate::onUpdateError(std::pair<std::string, int> result) {
+void GuiUpdate::onUpdateError(const std::pair<std::string, int>& result) {
     mLoading = false;
     mState = 5;
     mResult = result;

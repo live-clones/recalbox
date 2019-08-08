@@ -1,7 +1,6 @@
 #include "Window.h"
 #include <iostream>
 #include "Renderer.h"
-#include "AudioManager.h"
 #include "Log.h"
 #include "Settings.h"
 #include <algorithm>
@@ -11,7 +10,6 @@
 #include "components/HelpComponent.h"
 #include "components/ImageComponent.h"
 #include "guis/GuiMsgBox.h"
-#include "recalbox/RecalboxSystem.h"
 #include "RecalboxConf.h"
 #include "Locale.h"
 #include "MenuThemeData.h"
@@ -25,7 +23,8 @@ Window::Window()
 		mNormalizeNextUpdate(false),
 	  mAllowSleep(true),
 	  mSleeping(false),
-	  mTimeSinceLastInput(0)
+	  mTimeSinceLastInput(0),
+	  mRenderedHelpPrompts(false)
 {
 	mHelp = new HelpComponent(this);
 	mBackgroundOverlay = new ImageComponent(this);
@@ -45,12 +44,12 @@ void Window::pushGui(GuiComponent* gui)
 	gui->updateHelpPrompts();
 }
 
-void Window::displayMessage(std::string message)
+void Window::displayMessage(const std::string& message)
 {
 	mMessages.push_back(message);
 }
 
-void Window::displayScrollMessage(std::string title, std::string message)
+void Window::displayScrollMessage(const std::string& title, const std::string& message)
 {
 	mScrollTitle.push_back(title);
 	mScrollMessages.push_back(message);
@@ -64,7 +63,7 @@ void Window::removeGui(GuiComponent* gui)
 		{
 			i = mGuiStack.erase(i);
 
-			if(i == mGuiStack.end() && mGuiStack.size()) // we just popped the stack and the stack is not empty
+			if(i == mGuiStack.end() && !mGuiStack.empty()) // we just popped the stack and the stack is not empty
 				mGuiStack.back()->updateHelpPrompts();
 
 			return;
@@ -74,7 +73,7 @@ void Window::removeGui(GuiComponent* gui)
 
 GuiComponent* Window::peekGui()
 {
-	if(mGuiStack.size() == 0)
+	if(mGuiStack.empty())
 		return nullptr;
 
 	return mGuiStack.back();
@@ -89,7 +88,7 @@ void Window::deleteAllGui() {
 bool Window::init(unsigned int width, unsigned int height, bool initRenderer)
 {
     if (initRenderer) {
-        if(!Renderer::init(width, height))
+        if(!Renderer::init((int)width, (int)height))
         {
             LOG(LogError) << "Renderer failed to initialize!";
             return false;
@@ -211,9 +210,9 @@ void Window::update(int deltaTime)
 			ss << std::fixed << std::setprecision(2) << ((float)mFrameTimeElapsed / (float)mFrameCountElapsed) << "ms";
 
 			// vram
-			float textureVramUsageMb = TextureResource::getTotalMemUsage() / 1000.0f / 1000.0f;
-			float textureTotalUsageMb = TextureResource::getTotalTextureSize() / 1000.0f / 1000.0f;
-			float fontVramUsageMb = Font::getTotalMemUsage() / 1000.0f / 1000.0f;;
+			float textureVramUsageMb = TextureResource::getTotalMemUsage() / (1024.0f * 1024.0f);
+			float textureTotalUsageMb = TextureResource::getTotalTextureSize() / (1024.0f * 1024.0f);
+			float fontVramUsageMb = Font::getTotalMemUsage() / (1024.0f * 1024.0f);
 			ss << "\nFont VRAM: " << fontVramUsageMb << " Tex VRAM: " << textureVramUsageMb <<
 				  " Tex Max: " << textureTotalUsageMb;
 
@@ -232,12 +231,12 @@ void Window::update(int deltaTime)
 
 void Window::render()
 {
-	Eigen::Affine3f transform = Eigen::Affine3f::Identity();
+	Transform4x4f transform = Transform4x4f::Identity();
 
 	mRenderedHelpPrompts = false;
 
 	// draw only bottom and top of GuiStack (if they are different)
-	if(mGuiStack.size())
+	if (!mGuiStack.empty())
 	{
 		auto& bottom = mGuiStack.front();
 		auto& top = mGuiStack.back();
@@ -255,7 +254,7 @@ void Window::render()
 
 	if(Settings::getInstance()->getBool("DrawFramerate") && mFrameDataText)
 	{
-		Renderer::setMatrix(Eigen::Affine3f::Identity());
+		Renderer::setMatrix(Transform4x4f::Identity());
 		mDefaultFonts.at(1)->renderTextCache(mFrameDataText.get());
 	}
 
@@ -294,20 +293,20 @@ void Window::setAllowSleep(bool sleep)
 
 void Window::renderWaitingScreen(const std::string& text)
 {
-	Eigen::Affine3f trans = Eigen::Affine3f::Identity();
+	Transform4x4f trans = Transform4x4f::Identity();
 	Renderer::setMatrix(trans);
-	Renderer::drawRect(0, 0, Renderer::getScreenWidth(), Renderer::getScreenHeight(), 0xFFFFFFFF);
+	Renderer::drawRect(0, 0, (int)Renderer::getScreenWidth(), (int)Renderer::getScreenHeight(), 0xFFFFFFFF);
 
 	ImageComponent splash(this, true);
-	splash.setResize(Renderer::getScreenWidth() * 0.6f, 0.0f);
+	splash.setResize((float)Renderer::getScreenWidth() * 0.6f, 0.0f);
 	splash.setImage(":/splash.svg");
-	splash.setPosition((Renderer::getScreenWidth() - splash.getSize().x()) / 2, (Renderer::getScreenHeight() - splash.getSize().y()) / 2 * 0.6f);
+	splash.setPosition(((float)Renderer::getScreenWidth() - splash.getSize().x()) / 2, ((float)Renderer::getScreenHeight() - splash.getSize().y()) / 2 * 0.6f);
 	splash.render(trans);
 
 	auto& font = mDefaultFonts.at(1);
 	TextCache* cache = font->buildTextCache(text, 0, 0, 0x656565FF);
-	trans = trans.translate(Eigen::Vector3f(round((Renderer::getScreenWidth() - cache->metrics.size.x()) / 2.0f),
-											round(Renderer::getScreenHeight() * 0.835f), 0.0f));
+	trans = trans.translate(Vector3f(round(((float)Renderer::getScreenWidth() - cache->metrics.size.x()) / 2.0f),
+											round((float)Renderer::getScreenHeight() * 0.835f), 0.0f));
 	Renderer::setMatrix(trans);
 	font->renderTextCache(cache);
 	delete cache;
@@ -321,7 +320,7 @@ void Window::renderLoadingScreen()
 
 void Window::renderHelpPromptsEarly()
 {
-	mHelp->render(Eigen::Affine3f::Identity());
+	mHelp->render(Transform4x4f::Identity());
 	mRenderedHelpPrompts = true;
 }
 
@@ -337,7 +336,7 @@ void Window::setHelpPrompts(const std::vector<HelpPrompt>& prompts, const HelpSt
 	for (const auto& prompt : prompts)
 	{
 		// only add it if the same icon hasn't already been added
-	  if(inputSeenMap.insert(std::make_pair<std::string, bool>(prompt.first.c_str(), true)).second)
+	  if (inputSeenMap.insert(std::make_pair<std::string, bool>(prompt.first.c_str(), true)).second)
 		{
 			// this symbol hasn't been seen yet, what about the action name?
 			auto mappedTo = mappedToSeenMap.find(prompt.second);
@@ -397,18 +396,16 @@ void Window::setHelpPrompts(const std::vector<HelpPrompt>& prompts, const HelpSt
 
 void Window::onSleep()
 {
-
 }
 
 
 void Window::onWake()
 {
-
 }
 
-void Window::renderShutdownScreen() {
+void Window::renderShutdownScreen()
+{
   renderWaitingScreen(_("PLEASE WAIT..."));
-
 }
 
 bool Window::isProcessing()
@@ -418,9 +415,9 @@ bool Window::isProcessing()
 
 void Window::renderScreenSaver()
 {
-	Renderer::setMatrix(Eigen::Affine3f::Identity());
+	Renderer::setMatrix(Transform4x4f::Identity());
 	unsigned char opacity = Settings::getInstance()->getString("ScreenSaverBehavior") == "dim" ? 0xA0 : 0xFF;
-	Renderer::drawRect(0, 0, Renderer::getScreenWidth(), Renderer::getScreenHeight(), 0x00000000 | opacity);
+	Renderer::drawRect(0, 0, (int)Renderer::getScreenWidth(), (int)Renderer::getScreenHeight(), 0x00000000 | opacity);
 }
 
 void Window::doWake()

@@ -26,7 +26,7 @@ SliderComponent::SliderComponent(Window* window, float min, float max, float inc
 	mKnob.setImage(menuTheme->iconSet.knob);
 	
 	mKnob.setColorShift(mColor);
-	setSize(Renderer::getScreenWidth() * 0.15f, menuTheme->menuText.font->getLetterHeight());
+	setSize((float)Renderer::getScreenWidth() * 0.15f, menuTheme->menuText.font->getLetterHeight());
 }
 
 bool SliderComponent::input(InputConfig* config, Input input)
@@ -66,9 +66,9 @@ void SliderComponent::update(int deltaTime)
 	GuiComponent::update(deltaTime);
 }
 
-void SliderComponent::render(const Eigen::Affine3f& parentTrans)
+void SliderComponent::render(const Transform4x4f& parentTrans)
 {
-	Eigen::Affine3f trans = roundMatrix(parentTrans * getTransform());
+  Transform4x4f trans = roundMatrix(parentTrans * getTransform());
 	Renderer::setMatrix(trans);
 
 	// render suffix
@@ -138,7 +138,7 @@ void SliderComponent::onValueChanged()
 		ss << mSuffix;
 		const std::string max = ss.str();
 
-		Eigen::Vector2f textSize = mFont->sizeText(max);
+		Vector2f textSize = mFont->sizeText(max);
 
 		mValueCache = std::shared_ptr<TextCache>(mFont->buildTextCache(val, mSize.x() - textSize.x(), (mSize.y() - textSize.y()) / 2, mColor));
 		mValueCache->metrics.size[0] = textSize.x(); // fudge the width

@@ -13,9 +13,7 @@
 
 #define HOLD_TIME 1000
 
-using namespace Eigen;
-
-GuiDetectDevice::GuiDetectDevice(Window* window, bool firstRun, const std::function<void()>& doneCallback) : GuiComponent(window), mFirstRun(firstRun), 
+GuiDetectDevice::GuiDetectDevice(Window* window, bool firstRun, const std::function<void()>& doneCallback) : GuiComponent(window), mFirstRun(firstRun),
 	mBackground(window, ":/frame.png"), mGrid(window, Vector2i(1, 5))
 {
 	mHoldingConfig = nullptr;

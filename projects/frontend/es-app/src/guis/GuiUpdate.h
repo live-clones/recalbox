@@ -9,11 +9,11 @@
 
 class GuiUpdate : public GuiComponent {
 public:
-    GuiUpdate(Window *window);
+    explicit GuiUpdate(Window *window);
 
-    virtual ~GuiUpdate();
+    ~GuiUpdate() override;
 
-    void render(const Eigen::Affine3f &parentTrans) override;
+    void render(const Transform4x4f& parentTrans) override;
 
     bool input(InputConfig *config, Input input) override;
 
@@ -31,7 +31,7 @@ private:
     boost::thread *mHandle;
     boost::thread *mPingHandle;
 
-    void onUpdateError(std::pair<std::string, int>);
+    void onUpdateError(const std::pair<std::string, int>&);
 
     void onUpdateOk();
 

@@ -25,7 +25,7 @@ public:
 		NEVER_AUTO_ACCEPT
 	};
 
-	ScraperSearchComponent(Window* window, SearchType searchType = NEVER_AUTO_ACCEPT);
+	explicit ScraperSearchComponent(Window* window, SearchType searchType = NEVER_AUTO_ACCEPT);
 
 	void search(const ScraperSearchParams& params);
 	void openInputScreen(ScraperSearchParams& from);
@@ -39,7 +39,7 @@ public:
 
 	bool input(InputConfig* config, Input input) override;
 	void update(int deltaTime) override;
-	void render(const Eigen::Affine3f& parentTrans) override;
+	void render(const Transform4x4f& parentTrans) override;
 	std::vector<HelpPrompt> getHelpPrompts() override;
 	void onSizeChanged() override;	
 	void onFocusGained() override;
@@ -58,7 +58,7 @@ private:
 	int getSelectedIndex();
 
 	// resolve any metadata assets that need to be downloaded and return
-	void returnResult(ScraperSearchResult result);
+	void returnResult(const ScraperSearchResult& result);
 
 	ComponentGrid mGrid;
 
@@ -83,7 +83,7 @@ private:
 		std::shared_ptr<GuiComponent> second;
 		bool resize;
 
-		MetaDataPair(const std::shared_ptr<TextComponent>& f, const std::shared_ptr<GuiComponent>& s, bool r = true) : first(f), second(s), resize(r) {};
+		MetaDataPair(std::shared_ptr<TextComponent> f, std::shared_ptr<GuiComponent> s, bool r = true) : first(std::move(f)), second(std::move(s)), resize(r) {};
 	};
 	
 	std::vector<MetaDataPair> mMD_Pairs;

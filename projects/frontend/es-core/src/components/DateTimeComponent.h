@@ -16,14 +16,14 @@ public:
 		DISP_RELATIVE_TO_NOW
 	};
 
-	DateTimeComponent(Window* window, DisplayMode dispMode = DISP_DATE);
+	explicit DateTimeComponent(Window* window, DisplayMode dispMode = DISP_DATE);
 
 	void setValue(const std::string& val) override;
 	std::string getValue() const override;
 
 	bool input(InputConfig* config, Input input) override;
 	void update(int deltaTime) override;
-	void render(const Eigen::Affine3f& parentTrans) override;
+	void render(const Transform4x4f& parentTrans) override;
 	void onSizeChanged() override;
 
 	// Set how the point in time will be displayed:
@@ -40,7 +40,7 @@ public:
 	void setUppercase(bool uppercase); // Force text to be uppercase when in DISP_RELATIVE_TO_NOW mode.
 	void setHorizontalAlignment(Alignment align);
 
-	virtual void applyTheme(const std::shared_ptr<ThemeData>& theme, const std::string& view, const std::string& element, unsigned int properties) override;
+	void applyTheme(const std::shared_ptr<ThemeData>& theme, const std::string& view, const std::string& element, unsigned int properties) override;
 
 private:
 	std::shared_ptr<Font> getFont() const;
@@ -60,7 +60,7 @@ private:
 	int mRelativeUpdateAccumulator;
 
 	std::unique_ptr<TextCache> mTextCache;
-	std::vector<Eigen::Vector4f> mCursorBoxes;
+	std::vector<Vector4f> mCursorBoxes;
 
 	unsigned int mColor;
 	unsigned int mOriginColor;

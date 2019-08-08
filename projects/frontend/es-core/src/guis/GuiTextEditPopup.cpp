@@ -3,10 +3,8 @@
 #include "Locale.h"
 #include "MenuThemeData.h"
 
-using namespace Eigen;
-
-GuiTextEditPopup::GuiTextEditPopup(Window* window, const std::string& title, const std::string& initValue, 
-				   const std::function<void(const std::string&)>& okCallback, bool multiLine, const std::string acceptBtnText)
+GuiTextEditPopup::GuiTextEditPopup(Window* window, const std::string& title, const std::string& initValue,
+				   const std::function<void(const std::string&)>& okCallback, bool multiLine, const std::string& acceptBtnText)
 	: GuiComponent(window), mBackground(window, ":/frame.png"), mGrid(window, Vector2i(1, 3)), mMultiLine(multiLine)
 {
 	
@@ -42,13 +40,13 @@ GuiTextEditPopup::GuiTextEditPopup(Window* window, const std::string& title, con
 		textHeight *= 6;
 	mText->setSize(0, textHeight);
 
-	setSize(Renderer::getScreenWidth() * 0.5f, mTitle->getFont()->getHeight() + textHeight + mButtonGrid->getSize().y() + 40);
-	setPosition((Renderer::getScreenWidth() - mSize.x()) / 2, (Renderer::getScreenHeight() - mSize.y()) / 2);
+	setSize((float)Renderer::getScreenWidth() * 0.5f, mTitle->getFont()->getHeight() + textHeight + mButtonGrid->getSize().y() + 40);
+	setPosition(((float)Renderer::getScreenWidth() - mSize.x()) / 2, ((float)Renderer::getScreenHeight() - mSize.y()) / 2);
 }
 
 void GuiTextEditPopup::onSizeChanged()
 {
-	mBackground.fitTo(mSize, Eigen::Vector3f::Zero(), Eigen::Vector2f(-32, -32));
+	mBackground.fitTo(mSize, Vector3f::Zero(), Vector2f(-32, -32));
 
 	mText->setSize(mSize.x() - 40, mText->getSize().y());
 

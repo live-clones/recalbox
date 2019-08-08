@@ -14,10 +14,10 @@ GuiMsgBox::GuiMsgBox(Window* window, const std::string& text,
 	const std::string& name2, const std::function<void()>& func2, 
 	const std::string& name3, const std::function<void()>& func3,
         Alignment align) : GuiComponent(window), 
-	mBackground(window, ":/frame.png"), mGrid(window, Eigen::Vector2i(1, 2))
+	mBackground(window, ":/frame.png"), mGrid(window, Vector2i(1, 2))
 {
-	float width = Renderer::getScreenWidth() * 0.6f; // max width
-	float minWidth = Renderer::getScreenWidth() * 0.3f; // minimum width
+	float width = (float)Renderer::getScreenWidth() * 0.6f; // max width
+	float minWidth = (float)Renderer::getScreenWidth() * 0.3f; // minimum width
 	
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 	
@@ -26,7 +26,7 @@ GuiMsgBox::GuiMsgBox(Window* window, const std::string& text,
 	mBackground.setEdgeColor(menuTheme->menuBackground.color);
 
 	mMsg = std::make_shared<TextComponent>(mWindow, text, menuTheme->menuText.font, menuTheme->menuText.color, align);
-	mGrid.setEntry(mMsg, Eigen::Vector2i(0, 0), false, false);
+	mGrid.setEntry(mMsg, Vector2i(0, 0), false, false);
 
 	// create the buttons
 	mButtons.push_back(std::make_shared<ButtonComponent>(mWindow, name1, name1, std::bind(&GuiMsgBox::deleteMeAndCall, this, func1)));
@@ -52,7 +52,7 @@ GuiMsgBox::GuiMsgBox(Window* window, const std::string& text,
 
 	// put the buttons into a ComponentGrid
 	mButtonGrid = makeButtonGrid(mWindow, mButtons);
-	mGrid.setEntry(mButtonGrid, Eigen::Vector2i(0, 1), true, false, Eigen::Vector2i(1, 1), GridFlags::BORDER_TOP);
+	mGrid.setEntry(mButtonGrid, Vector2i(0, 1), true, false, Vector2i(1, 1), GridFlags::BORDER_TOP);
 
 	// decide final width
 	if(mMsg->getSize().x() < width && mButtonGrid->getSize().x() < width)
@@ -68,7 +68,7 @@ GuiMsgBox::GuiMsgBox(Window* window, const std::string& text,
 	setSize(width + HORIZONTAL_PADDING_PX*2, msgHeight + mButtonGrid->getSize().y());
 
 	// center for good measure
-	setPosition((Renderer::getScreenWidth() - mSize.x()) / 2.0f, (Renderer::getScreenHeight() - mSize.y()) / 2.0f);
+	setPosition(((float)Renderer::getScreenWidth() - mSize.x()) / 2.0f, ((float)Renderer::getScreenHeight() - mSize.y()) / 2.0f);
 
 	addChild(&mBackground);
 	addChild(&mGrid);
@@ -85,7 +85,7 @@ bool GuiMsgBox::input(InputConfig* config, Input input)
 	}
 
 	/* when it's not configured, allow to remove the message box too to allow the configdevice window a chance */
-	if(mAcceleratorFunc && ((config->isMappedTo("a", input) && input.value != 0) || (config->isConfigured() == false && input.type == TYPE_BUTTON)))
+	if(mAcceleratorFunc && ((config->isMappedTo("a", input) && input.value != 0) || (!config->isConfigured() && input.type == TYPE_BUTTON)))
 	{
 		mAcceleratorFunc();
 		return true;
@@ -103,7 +103,7 @@ void GuiMsgBox::onSizeChanged()
 	mMsg->setSize(mSize.x() - HORIZONTAL_PADDING_PX*2, mGrid.getRowHeight(0));
 	mGrid.onSizeChanged();
 
-	mBackground.fitTo(mSize, Eigen::Vector3f::Zero(), Eigen::Vector2f(-32, -32));
+	mBackground.fitTo(mSize, Vector3f::Zero(), Vector2f(-32, -32));
 }
 
 void GuiMsgBox::deleteMeAndCall(const std::function<void()>& func)

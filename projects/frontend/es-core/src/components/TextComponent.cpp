@@ -15,7 +15,8 @@ TextComponent::TextComponent(Window* window)
 		mRenderBackground(false),
 		mFont(Font::get(FONT_SIZE_MEDIUM)),
 		mUppercase(false),
-		mAutoCalcExtent(true, true),
+		mAutoCalcExtentX(true),
+		mAutoCalcExtentY(true),
 		mHorizontalAlignment(ALIGN_LEFT),
 		mVerticalAlignment(ALIGN_CENTER),
 		mLineSpacing(1.5f)
@@ -23,7 +24,7 @@ TextComponent::TextComponent(Window* window)
 }
 
 TextComponent::TextComponent(Window* window, const std::string& text, const std::shared_ptr<Font>& font, unsigned int color, Alignment align,
-	                           Eigen::Vector3f pos, Eigen::Vector2f size, unsigned int bgcolor)
+	                           Vector3f pos, Vector2f size, unsigned int bgcolor)
 	: GuiComponent(window),
 		mColor(0x000000FF),
       mOriginColor(0x000000FF),
@@ -31,7 +32,8 @@ TextComponent::TextComponent(Window* window, const std::string& text, const std:
 		mRenderBackground(false),
 	  mFont(nullptr),
 		mUppercase(false),
-		mAutoCalcExtent(true, true),
+    mAutoCalcExtentX(true),
+    mAutoCalcExtentY(true),
 		mHorizontalAlignment(align),
 		mVerticalAlignment(ALIGN_CENTER),
 		mLineSpacing(1.5f)
@@ -47,7 +49,8 @@ TextComponent::TextComponent(Window* window, const std::string& text, const std:
 
 void TextComponent::onSizeChanged()
 {
-	mAutoCalcExtent << (getSize().x() == 0), (getSize().y() == 0);
+	mAutoCalcExtentX = (getSize().x() == 0);
+	mAutoCalcExtentY = (getSize().y() == 0);
 	onTextChanged();
 }
 
@@ -121,9 +124,9 @@ void TextComponent::setUppercase(bool uppercase)
 	onTextChanged();
 }
 
-void TextComponent::render(const Eigen::Affine3f& parentTrans)
+void TextComponent::render(const Transform4x4f& parentTrans)
 {
-	Eigen::Affine3f trans = parentTrans * getTransform();
+	Transform4x4f trans = parentTrans * getTransform();
 
 	if (mRenderBackground)
 	{
@@ -133,7 +136,7 @@ void TextComponent::render(const Eigen::Affine3f& parentTrans)
 
 	if(mTextCache)
 	{
-		const Eigen::Vector2f& textSize = mTextCache->metrics.size;
+		const Vector2f& textSize = mTextCache->metrics.size;
 		float yOff = 0;
 		switch(mVerticalAlignment)
 			{
@@ -149,7 +152,7 @@ void TextComponent::render(const Eigen::Affine3f& parentTrans)
 				case ALIGN_LEFT:break;
 				case ALIGN_RIGHT:break;
 			}
-		Eigen::Vector3f off(0, yOff, 0);
+		Vector3f off(0, yOff, 0);
 
 		if(Settings::getInstance()->getBool("DebugText"))
 		{
@@ -188,11 +191,11 @@ void TextComponent::render(const Eigen::Affine3f& parentTrans)
 
 void TextComponent::calculateExtent()
 {
-	if(mAutoCalcExtent.x())
+	if(mAutoCalcExtentX)
 	{
 		mSize = mFont->sizeText(mUppercase ? strToUpper(mText) : mText, mLineSpacing);
 	}else{
-		if(mAutoCalcExtent.y())
+		if(mAutoCalcExtentY)
 		{
 			mSize[1] = mFont->sizeWrappedText(mUppercase ? strToUpper(mText) : mText, getSize().x(), mLineSpacing).y();
 		}
@@ -222,14 +225,14 @@ void TextComponent::onTextChanged()
 		addAbbrev = newline != std::string::npos;
 	}
 
-	Eigen::Vector2f size = f->sizeText(text);
-	if(!isMultiline && mSize.x() && text.size() && (size.x() > mSize.x() || addAbbrev))
+	Vector2f size = f->sizeText(text);
+	if(!isMultiline && (mSize.x() != 0) && !text.empty() && (size.x() > mSize.x() || addAbbrev))
 	{
 		// abbreviate text
 		const std::string abbrev = "...";
-		Eigen::Vector2f abbrevSize = f->sizeText(abbrev);
+		Vector2f abbrevSize = f->sizeText(abbrev);
 
-		while(text.size() && size.x() + abbrevSize.x() > mSize.x())
+		while(!text.empty() && size.x() + abbrevSize.x() > mSize.x())
 		{
 			size_t newSize = Font::getPrevCursor(text, text.size());
 			text.erase(newSize, text.size() - newSize);
@@ -238,9 +241,9 @@ void TextComponent::onTextChanged()
 
 		text.append(abbrev);
 
-		mTextCache = std::shared_ptr<TextCache>(f->buildTextCache(text, Eigen::Vector2f(0, 0), (mColor >> 8 << 8) | mOpacity, mSize.x(), mHorizontalAlignment, mLineSpacing));
+		mTextCache = std::shared_ptr<TextCache>(f->buildTextCache(text, Vector2f(0, 0), (mColor >> 8 << 8) | mOpacity, mSize.x(), mHorizontalAlignment, mLineSpacing));
 	}else{
-		mTextCache = std::shared_ptr<TextCache>(f->buildTextCache(f->wrapText(text, mSize.x()), Eigen::Vector2f(0, 0), (mColor >> 8 << 8) | mOpacity, mSize.x(), mHorizontalAlignment, mLineSpacing));
+		mTextCache = std::shared_ptr<TextCache>(f->buildTextCache(f->wrapText(text, mSize.x()), Vector2f(0, 0), (mColor >> 8 << 8) | mOpacity, mSize.x(), mHorizontalAlignment, mLineSpacing));
 	}
 }
 

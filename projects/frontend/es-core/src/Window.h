@@ -14,14 +14,14 @@ public:
 	class InfoPopup
 	{
 	public:
-		virtual void render(const Eigen::Affine3f& parentTrans) = 0;
+		virtual void render(const Transform4x4f& parentTrans) = 0;
 	};
 	Window();
 	~Window();
 
 	void pushGui(GuiComponent* gui);
-	void displayMessage(std::string message);
-	void displayScrollMessage(std::string title, std::string message);
+	void displayMessage(const std::string& message);
+	void displayScrollMessage(const std::string& title, const std::string& message);
 	void removeGui(GuiComponent* gui);
 	GuiComponent* peekGui();
 	void deleteAllGui();
