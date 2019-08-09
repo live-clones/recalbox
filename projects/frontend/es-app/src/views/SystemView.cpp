@@ -36,7 +36,7 @@ SystemView::SystemView(Window* window)
 	mExtrasCamOffset = 0;
 	mExtrasFadeOpacity = 0.0f;
 
-	setSize((float)Renderer::getScreenWidth(), (float)Renderer::getScreenHeight());
+	setSize(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
 
 
 	populate();

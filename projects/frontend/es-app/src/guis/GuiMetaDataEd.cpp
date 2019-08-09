@@ -113,7 +113,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window* window,
         row.addElement(ed, false, true);
 
         auto spacer = std::make_shared<GuiComponent>(mWindow);
-        spacer->setSize((float)Renderer::getScreenWidth() * 0.0025f, 0);
+        spacer->setSize(Renderer::getDisplayWidthAsFloat() * 0.0025f, 0);
         row.addElement(spacer, false);
 
         // pass input to the actual RatingComponent instead of the spacer
@@ -127,7 +127,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window* window,
         row.addElement(ed, false);
 
         auto spacer = std::make_shared<GuiComponent>(mWindow);
-        spacer->setSize((float)Renderer::getScreenWidth() * 0.0025f, 0);
+        spacer->setSize(Renderer::getDisplayWidthAsFloat() * 0.0025f, 0);
         row.addElement(spacer, false);
 
         // pass input to the actual DateTimeComponent instead of the spacer
@@ -228,7 +228,8 @@ GuiMetaDataEd::GuiMetaDataEd(Window* window,
 
         if (field.Key() == "ratio")
         {
-          auto ratio_choice = std::make_shared<OptionListComponent<std::string> >(mWindow, "ratio", false, FONT_SIZE_MEDIUM);
+          auto ratio_choice = std::make_shared<OptionListComponent<std::string> >(mWindow, "ratio", false,
+                                                                                  FONT_SIZE_MEDIUM);
           row.addElement(ratio_choice, false);
           std::map<std::string,
                    std::string>* ratioMap = LibretroRatio::getInstance()->getRatio();
@@ -259,7 +260,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window* window,
         row.addElement(ed, true);
 
         auto spacer = std::make_shared<GuiComponent>(mWindow);
-        spacer->setSize((float)Renderer::getScreenWidth() * 0.005f, 0);
+        spacer->setSize(Renderer::getDisplayWidthAsFloat() * 0.005f, 0);
         row.addElement(spacer, false);
 
         auto bracket = std::make_shared<ImageComponent>(mWindow);
@@ -375,9 +376,9 @@ GuiMetaDataEd::GuiMetaDataEd(Window* window,
                                   });
 
   // resize + center
-  y /= (float)Renderer::getScreenHeight();
-  setSize((float)Renderer::getScreenWidth() * 0.95f, (float)Renderer::getScreenHeight() * (y + 0.15f));
-  setPosition(((float)Renderer::getScreenWidth() - mSize.x()) / 2, ((float)Renderer::getScreenHeight() - mSize.y()) / 2);
+  y /= Renderer::getDisplayHeightAsFloat();
+  setSize(Renderer::getDisplayWidthAsFloat() * 0.95f, Renderer::getDisplayHeightAsFloat() * (y + 0.15f));
+  setPosition((Renderer::getDisplayWidthAsFloat() - mSize.x()) / 2, (Renderer::getDisplayHeightAsFloat() - mSize.y()) / 2);
 }
 
 void GuiMetaDataEd::onSizeChanged()

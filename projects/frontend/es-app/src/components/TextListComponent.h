@@ -376,7 +376,7 @@ void TextListComponent<T>::applyTheme(const std::shared_ptr<ThemeData>& theme, c
 		}
 		if(elem->has("horizontalMargin"))
 		{
-			mHorizontalMargin = elem->get<float>("horizontalMargin") * (this->mParent ? this->mParent->getSize().x() : (float)Renderer::getScreenWidth());
+			mHorizontalMargin = elem->get<float>("horizontalMargin") * (this->mParent ? this->mParent->getSize().x() : Renderer::getDisplayWidthAsFloat());
 		}
 	}
 
@@ -389,13 +389,13 @@ void TextListComponent<T>::applyTheme(const std::shared_ptr<ThemeData>& theme, c
 			setLineSpacing(elem->get<float>("lineSpacing"));
 		if(elem->has("selectorHeight"))
 		{
-			setSelectorHeight(elem->get<float>("selectorHeight") * (float)Renderer::getScreenHeight());
+			setSelectorHeight(elem->get<float>("selectorHeight") * Renderer::getDisplayHeightAsFloat());
 		} else {
 			setSelectorHeight(mFont->getSize() * 1.5);
 		}
 		if(elem->has("selectorOffsetY"))
 		{
-			float scale = this->mParent ? this->mParent->getSize().y() : (float)Renderer::getScreenHeight();
+			float scale = this->mParent ? this->mParent->getSize().y() : Renderer::getDisplayHeightAsFloat();
 			setSelectorOffsetY(elem->get<float>("selectorOffsetY") * scale);
 		} else {
 			setSelectorOffsetY(0.0);

@@ -16,8 +16,8 @@ GuiMsgBox::GuiMsgBox(Window* window, const std::string& text,
         Alignment align) : GuiComponent(window), 
 	mBackground(window, ":/frame.png"), mGrid(window, Vector2i(1, 2))
 {
-	float width = (float)Renderer::getScreenWidth() * 0.6f; // max width
-	float minWidth = (float)Renderer::getScreenWidth() * 0.3f; // minimum width
+	float width = Renderer::getDisplayWidthAsFloat() * 0.6f; // max width
+	float minWidth = Renderer::getDisplayWidthAsFloat() * 0.3f; // minimum width
 	
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 	
@@ -64,11 +64,11 @@ GuiMsgBox::GuiMsgBox(Window* window, const std::string& text,
 
 	// now that we know width, we can find height
 	mMsg->setSize(width, 0); // mMsg->getSize.y() now returns the proper length
-	const float msgHeight = std::max(Font::get(FONT_SIZE_LARGE)->getHeight(), mMsg->getSize().y()*1.225f);
+	const float msgHeight = std::max(Font::get(FONT_SIZE_LARGE)->getHeight(), mMsg->getSize().y() * 1.225f);
 	setSize(width + HORIZONTAL_PADDING_PX*2, msgHeight + mButtonGrid->getSize().y());
 
 	// center for good measure
-	setPosition(((float)Renderer::getScreenWidth() - mSize.x()) / 2.0f, ((float)Renderer::getScreenHeight() - mSize.y()) / 2.0f);
+	setPosition((Renderer::getDisplayWidthAsFloat() - mSize.x()) / 2.0f, (Renderer::getDisplayHeightAsFloat() - mSize.y()) / 2.0f);
 
 	addChild(&mBackground);
 	addChild(&mGrid);

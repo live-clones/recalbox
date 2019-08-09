@@ -80,7 +80,7 @@ int ViewController::getSystemId(SystemData* system)
 void ViewController::goToSystemView(SystemData* system)
 {
   auto systemList = getSystemListView();
-  systemList->setPosition(getSystemId(system) * (float)Renderer::getScreenWidth(), systemList->getPosition().y());
+  systemList->setPosition(getSystemId(system) * Renderer::getDisplayWidthAsFloat(), systemList->getPosition().y());
 
   if (!system->hasGame()) {
     system = SystemData::getFirstSystemWithGame();
@@ -142,7 +142,7 @@ void ViewController::goToGameList(SystemData* system)
 		auto sysList = getSystemListView();
 		float offX = sysList->getPosition().x();
 		int sysId = getSystemId(system);
-		sysList->setPosition(sysId * (float)Renderer::getScreenWidth(), sysList->getPosition().y());
+		sysList->setPosition(sysId * Renderer::getDisplayWidthAsFloat(), sysList->getPosition().y());
 		offX = sysList->getPosition().x() - offX;
 		mCamera.translation().x() -= offX;
 	}
@@ -331,7 +331,7 @@ std::shared_ptr<IGameListView> ViewController::getGameListView(SystemData* syste
 
 	std::vector<SystemData*>& sysVec = SystemData::sSystemVector;
 	int id = std::find(sysVec.begin(), sysVec.end(), system) - sysVec.begin();
-	view->setPosition(id * (float)Renderer::getScreenWidth(), (float)Renderer::getScreenHeight() * 2);
+	view->setPosition(id * Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat() * 2);
 
 	addChild(view.get());
 
@@ -348,7 +348,7 @@ std::shared_ptr<SystemView> ViewController::getSystemListView()
 
 	mSystemListView = std::shared_ptr<SystemView>(new SystemView(mWindow));
 	addChild(mSystemListView.get());
-	mSystemListView->setPosition(0, (float)Renderer::getScreenHeight());
+	mSystemListView->setPosition(0, Renderer::getDisplayHeightAsFloat());
 	return mSystemListView;
 }
 
@@ -387,7 +387,7 @@ void ViewController::render(const Transform4x4f& parentTrans)
 
 	// camera position, position + size
 	Vector3f viewStart = transInverse.translation();
-	Vector3f viewEnd = transInverse * Vector3f((float)Renderer::getScreenWidth(), (float)Renderer::getScreenHeight(), 0);
+	Vector3f viewEnd = transInverse * Vector3f(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat(), 0);
 
 	int vpl = (int)viewStart.x();
   int vpu = (int)viewStart.y();
@@ -439,7 +439,7 @@ void ViewController::render(const Transform4x4f& parentTrans)
 	if(mFadeOpacity != 0.0)
 	{
 		Renderer::setMatrix(parentTrans);
-		Renderer::drawRect(0, 0, Renderer::getScreenWidth(), Renderer::getScreenHeight(), 0x00000000 | (unsigned char)(mFadeOpacity * 255));
+		Renderer::drawRect(0, 0, Renderer::getDisplayWidthAsInt(), Renderer::getDisplayHeightAsInt(), 0x00000000 | (unsigned char)(mFadeOpacity * 255));
 	}
 }
 

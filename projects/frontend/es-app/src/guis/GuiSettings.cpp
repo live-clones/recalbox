@@ -10,7 +10,7 @@ GuiSettings::GuiSettings(Window* window, const char* title) : GuiComponent(windo
 
 	mMenu.addButton(_("CLOSE"), _("CLOSE"), [this] { delete this; });
 
-	setSize((float)Renderer::getScreenWidth(), (float)Renderer::getScreenHeight());
+	setSize(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
 }
 
 GuiSettings::~GuiSettings()

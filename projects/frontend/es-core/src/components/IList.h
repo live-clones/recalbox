@@ -142,7 +142,7 @@ protected:
 		
 		mTitleOverlayOpacity = 0x00;
 		mTitleOverlayColor = 0xFFFFFF00;
-		mGradient.setResize((float)Renderer::getScreenWidth(), (float)Renderer::getScreenHeight());
+		mGradient.setResize(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
 		mGradient.setImage(":/scroll_gradient.png");
 		mTitleOverlayFont = Font::get(FONT_SIZE_LARGE);
 	}
@@ -358,8 +358,8 @@ protected:
 		const std::string text = getSelectedName().size() >= 2 ? getSelectedName().substr(0, 2) : "??";
 
 		Vector2f off = mTitleOverlayFont->sizeText(text);
-		off[0] = ((float)Renderer::getScreenWidth() - off.x()) * 0.5f;
-		off[1] = ((float)Renderer::getScreenHeight() - off.y()) * 0.5f;
+		off[0] = (Renderer::getDisplayWidthAsFloat() - off.x()) * 0.5f;
+		off[1] = (Renderer::getDisplayHeightAsFloat() - off.y()) * 0.5f;
 		
 		Transform4x4f identTrans = Transform4x4f::Identity();
 

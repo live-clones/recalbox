@@ -74,7 +74,7 @@ void BusyComponent::onSizeChanged()
 	if(mSize.x() == 0 || mSize.y() == 0)
 		return;
 
-	const float middleSpacerWidth = 0.01f * (float)Renderer::getScreenWidth();
+	const float middleSpacerWidth = 0.01f * Renderer::getDisplayWidthAsFloat();
 	const float textHeight = mText->getFont()->getLetterHeight();
 	mText->setSize(0, textHeight);
 	const float textWidth = mText->getSize().x() + 4;

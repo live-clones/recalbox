@@ -21,7 +21,7 @@ GuiHashStart::GuiHashStart(Window* window)
 
     mState = 0;
 
-	mBusyAnim.setSize((float) Renderer::getScreenWidth(), (float) Renderer::getScreenHeight());
+	mBusyAnim.setSize(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
 
     mFilter = std::make_shared< OptionListComponent<std::string> >(mWindow, _("FILTER"), false);
     mFilter->add(_("Only missing hashs"), "missing", true);
@@ -40,7 +40,7 @@ GuiHashStart::GuiHashStart(Window* window)
     mMenu.addButton(_("START"), "start",[this] {mState = 1;});
     mMenu.addButton(_("BACK"), "back", [&] { delete this; });
 
-    mMenu.setPosition(((float)Renderer::getScreenWidth() - mMenu.getSize().x()) / 2, ((float)Renderer::getScreenHeight() - mMenu.getSize().y()) / 2);
+    mMenu.setPosition((Renderer::getDisplayWidthAsFloat() - mMenu.getSize().x()) / 2, (Renderer::getDisplayHeightAsFloat() - mMenu.getSize().y()) / 2);
 }
 
 void GuiHashStart::start()

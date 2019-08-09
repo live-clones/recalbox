@@ -324,7 +324,7 @@ int main(int argc, char* argv[])
     archFile.close();
     Settings::getInstance()->setString("Arch", arch);
 
-    Renderer::init(width, height);
+    Renderer::initialize(width, height);
     Window window;
     ViewController::init(&window);
     window.pushGui(ViewController::get());
@@ -359,7 +359,7 @@ int main(int argc, char* argv[])
       {
         LOG(LogError) << "Unknown error occured while parsing system config file.";
         if (!scrape_cmdline)
-          Renderer::deinit();
+          Renderer::finalize();
         return 1;
       }
 

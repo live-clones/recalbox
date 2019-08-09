@@ -11,10 +11,10 @@
 
 class TextCache;
 
-#define FONT_SIZE_EXTRASMALL ((unsigned int)(0.030f * std::min(Renderer::getScreenHeight(), Renderer::getScreenWidth())))
-#define FONT_SIZE_SMALL ((unsigned int)(0.035f * std::min(Renderer::getScreenHeight(), Renderer::getScreenWidth())))
-#define FONT_SIZE_MEDIUM ((unsigned int)(0.045f * std::min(Renderer::getScreenHeight(), Renderer::getScreenWidth())))
-#define FONT_SIZE_LARGE ((unsigned int)(0.085f * std::min(Renderer::getScreenHeight(), Renderer::getScreenWidth())))
+#define FONT_SIZE_EXTRASMALL ((unsigned int)(0.030f * std::min(Renderer::getDisplayHeightAsFloat(), Renderer::getDisplayWidthAsFloat())))
+#define FONT_SIZE_SMALL ((unsigned int)(0.035f * std::min(Renderer::getDisplayHeightAsFloat(), Renderer::getDisplayWidthAsFloat())))
+#define FONT_SIZE_MEDIUM ((unsigned int)(0.045f * std::min(Renderer::getDisplayHeightAsFloat(), Renderer::getDisplayWidthAsFloat())))
+#define FONT_SIZE_LARGE ((unsigned int)(0.085f * std::min(Renderer::getDisplayHeightAsFloat(), Renderer::getDisplayWidthAsFloat())))
 
 #define FONT_PATH_LIGHT ":/ubuntu_condensed.ttf"
 #define FONT_PATH_REGULAR ":/ubuntu_condensed.ttf"

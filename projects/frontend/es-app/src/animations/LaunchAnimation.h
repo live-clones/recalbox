@@ -43,10 +43,11 @@ public:
 		float zoom = lerp<float>(1.0, 4.25f, t*t);
 		cameraOut.scale(Vector3f(zoom, zoom, 1));
 
-		const float sw = (float)Renderer::getScreenWidth() / zoom;
-		const float sh = (float)Renderer::getScreenHeight() / zoom;
+		const float sw = Renderer::getDisplayWidthAsFloat() / zoom;
+		const float sh = Renderer::getDisplayHeightAsFloat() / zoom;
 
-		Vector3f centerPoint = lerp<Vector3f>(-mCameraStart.translation() + Vector3f(Renderer::getScreenWidth() / 2.0f, Renderer::getScreenHeight() / 2.0f, 0),
+		Vector3f centerPoint = lerp<Vector3f>(-mCameraStart.translation() + Vector3f(
+      Renderer::getDisplayWidthAsFloat() / 2.0f, Renderer::getDisplayHeightAsFloat() / 2.0f, 0),
 			mTarget, smoothStep(0.0, 1.0, t));
 
 		cameraOut.translate(Vector3f((sw / 2) - centerPoint.x(), (sh / 2) - centerPoint.y(), 0));

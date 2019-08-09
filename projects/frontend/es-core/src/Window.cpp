@@ -88,7 +88,7 @@ void Window::deleteAllGui() {
 bool Window::init(unsigned int width, unsigned int height, bool initRenderer)
 {
     if (initRenderer) {
-        if(!Renderer::init((int)width, (int)height))
+        if(!Renderer::initialize((int)width, (int)height))
         {
             LOG(LogError) << "Renderer failed to initialize!";
             return false;
@@ -107,7 +107,7 @@ bool Window::init(unsigned int width, unsigned int height, bool initRenderer)
 		mDefaultFonts.push_back(Font::get(FONT_SIZE_LARGE));
 	}
 
-	mBackgroundOverlay->setResize((float)Renderer::getScreenWidth(), (float)Renderer::getScreenHeight());
+	mBackgroundOverlay->setResize(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
 
 	// update our help because font sizes probably changed
 	if(peekGui())
@@ -120,7 +120,7 @@ void Window::deinit()
 {
 	InputManager::getInstance()->deinit();
 	ResourceManager::getInstance()->unloadAll();
-	Renderer::deinit();
+	Renderer::finalize();
 }
 
 void Window::textInput(const char* text)
@@ -295,18 +295,18 @@ void Window::renderWaitingScreen(const std::string& text)
 {
 	Transform4x4f trans = Transform4x4f::Identity();
 	Renderer::setMatrix(trans);
-	Renderer::drawRect(0, 0, (int)Renderer::getScreenWidth(), (int)Renderer::getScreenHeight(), 0xFFFFFFFF);
+	Renderer::drawRect(0, 0, Renderer::getDisplayWidthAsInt(), Renderer::getDisplayHeightAsInt(), 0xFFFFFFFF);
 
 	ImageComponent splash(this, true);
-	splash.setResize((float)Renderer::getScreenWidth() * 0.6f, 0.0f);
+	splash.setResize(Renderer::getDisplayWidthAsFloat() * 0.6f, 0.0f);
 	splash.setImage(":/splash.svg");
-	splash.setPosition(((float)Renderer::getScreenWidth() - splash.getSize().x()) / 2, ((float)Renderer::getScreenHeight() - splash.getSize().y()) / 2 * 0.6f);
+	splash.setPosition((Renderer::getDisplayWidthAsFloat() - splash.getSize().x()) / 2, (Renderer::getDisplayHeightAsFloat() - splash.getSize().y()) / 2 * 0.6f);
 	splash.render(trans);
 
 	auto& font = mDefaultFonts.at(1);
 	TextCache* cache = font->buildTextCache(text, 0, 0, 0x656565FF);
-	trans = trans.translate(Vector3f(round(((float)Renderer::getScreenWidth() - cache->metrics.size.x()) / 2.0f),
-											round((float)Renderer::getScreenHeight() * 0.835f), 0.0f));
+	trans = trans.translate(Vector3f(round((Renderer::getDisplayWidthAsFloat() - cache->metrics.size.x()) / 2.0f),
+											round(Renderer::getDisplayHeightAsFloat() * 0.835f), 0.0f));
 	Renderer::setMatrix(trans);
 	font->renderTextCache(cache);
 	delete cache;
@@ -417,7 +417,7 @@ void Window::renderScreenSaver()
 {
 	Renderer::setMatrix(Transform4x4f::Identity());
 	unsigned char opacity = Settings::getInstance()->getString("ScreenSaverBehavior") == "dim" ? 0xA0 : 0xFF;
-	Renderer::drawRect(0, 0, (int)Renderer::getScreenWidth(), (int)Renderer::getScreenHeight(), 0x00000000 | opacity);
+	Renderer::drawRect(0, 0, Renderer::getDisplayWidthAsInt(), Renderer::getDisplayHeightAsInt(), 0x00000000 | opacity);
 }
 
 void Window::doWake()

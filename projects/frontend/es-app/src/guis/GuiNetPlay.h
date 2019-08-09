@@ -22,7 +22,7 @@ namespace json = boost::property_tree;
 class TextComponent;
 class ButtonComponent;
 
-#define TITLE_VERT_PADDING (Renderer::getScreenHeight()*0.0637f)
+#define TITLE_VERT_PADDING (Renderer::getDisplayHeightAsFloat()*0.0637f)
 
 class GuiNetPlay : public GuiComponent
 {

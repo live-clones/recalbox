@@ -38,7 +38,7 @@ void AsyncReqComponent::render(const Transform4x4f& parentTrans)
 	(void)parentTrans;
 
 	Transform4x4f trans = Transform4x4f::Identity();
-	trans = trans.translate(Vector3f((float)Renderer::getScreenWidth() / 2.0f, (float)Renderer::getScreenHeight() / 2.0f, 0));
+	trans = trans.translate(Vector3f(Renderer::getDisplayWidthAsFloat() / 2.0f, Renderer::getDisplayHeightAsFloat() / 2.0f, 0));
 	Renderer::setMatrix(trans);
 
 	Vector3f point(cos((float)mTime * 0.01f) * 12, sin((float)mTime * 0.01f) * 12, 0);

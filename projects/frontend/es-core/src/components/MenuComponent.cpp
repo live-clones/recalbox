@@ -5,8 +5,8 @@
 #include "Locale.h"
 #include "MenuThemeData.h"
 
-#define BUTTON_GRID_VERT_PADDING std::max(Renderer::getScreenHeight() * 0.008f, 2.0f)
-#define BUTTON_GRID_HORIZ_PADDING std::max(Renderer::getScreenWidth() * 0.01f, 3.0f)
+#define BUTTON_GRID_VERT_PADDING std::max(Renderer::getDisplayHeightAsFloat() * 0.008f, 2.0f)
+#define BUTTON_GRID_HORIZ_PADDING std::max(Renderer::getDisplayWidthAsFloat() * 0.01f, 3.0f)
 
 #define TITLE_HEIGHT (mTitle->getFont()->getLetterHeight() + TITLE_VERT_PADDING)
 
@@ -116,7 +116,7 @@ float MenuComponent::getButtonGridHeight() const
 
 void MenuComponent::updateSize()
 {
-    const float maxHeight = Renderer::getScreenHeight() * 0.8f;
+    const float maxHeight = Renderer::getDisplayHeightAsFloat() * 0.8f;
     float height = TITLE_HEIGHT + mList->getTotalRowHeight() + getButtonGridHeight() + 2;
     if(height > maxHeight)
     {
@@ -133,7 +133,7 @@ void MenuComponent::updateSize()
         }
     }
 
-    float width = std::min(Renderer::getScreenHeight(), (int)((float)Renderer::getScreenWidth() * 0.90f));
+    float width = std::min(Renderer::getDisplayHeightAsFloat(), Renderer::getDisplayWidthAsFloat() * 0.90f);
     setSize(width, height);
 }
 
@@ -178,7 +178,7 @@ std::shared_ptr<ComponentGrid> makeButtonGrid(Window* window, const std::vector<
 {
     std::shared_ptr<ComponentGrid> grid = std::make_shared<ComponentGrid>(window, Vector2i(buttons.size(), 2));
 
-    float gridWidth = (float)BUTTON_GRID_HORIZ_PADDING * buttons.size(); // initialize to padding
+    float gridWidth = (float) BUTTON_GRID_HORIZ_PADDING * buttons.size(); // initialize to padding
     for (int i = 0; i < (int)buttons.size(); i++)
     {
         grid->setEntry(buttons.at(i), Vector2i(i, 0), true, false);

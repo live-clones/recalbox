@@ -133,7 +133,7 @@ GuiGamelistOptions::GuiGamelistOptions(Window* window, SystemData* system)
     }
 
 	// center the menu
-	setSize((float)Renderer::getScreenWidth(), (float)Renderer::getScreenHeight());
+	setSize(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
 	mMenu.setPosition((mSize.x() - mMenu.getSize().x()) / 2, (mSize.y() - mMenu.getSize().y()) / 2);
 
 	mFavoriteState = Settings::getInstance()->getBool("FavoritesOnly");

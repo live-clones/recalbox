@@ -26,7 +26,7 @@ SliderComponent::SliderComponent(Window* window, float min, float max, float inc
 	mKnob.setImage(menuTheme->iconSet.knob);
 	
 	mKnob.setColorShift(mColor);
-	setSize((float)Renderer::getScreenWidth() * 0.15f, menuTheme->menuText.font->getLetterHeight());
+	setSize(Renderer::getDisplayWidthAsFloat() * 0.15f, menuTheme->menuText.font->getLetterHeight());
 }
 
 bool SliderComponent::input(InputConfig* config, Input input)

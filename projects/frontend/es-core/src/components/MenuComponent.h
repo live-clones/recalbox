@@ -20,7 +20,7 @@ std::shared_ptr<ComponentGrid> makeButtonGrid(Window* window, const std::vector<
 std::shared_ptr<ComponentGrid> makeMultiDimButtonGrid(Window* window, const std::vector< std::vector< std::shared_ptr<ButtonComponent> > >& buttons, const float outerWidth, const float outerHeight);
 std::shared_ptr<ImageComponent> makeArrow(Window* window);
 
-#define TITLE_VERT_PADDING (Renderer::getScreenHeight()*0.0637f)
+#define TITLE_VERT_PADDING (Renderer::getDisplayHeightAsFloat()*0.0637f)
 
 class MenuComponent : public GuiComponent
 {

@@ -838,10 +838,10 @@ std::shared_ptr<Font> Font::getFromTheme(const ThemeData::ThemeElement* elem, un
 		return orig;
 	
 	std::shared_ptr<Font> font;
-	int size = (orig ? orig->mSize : FONT_SIZE_MEDIUM);
+	int size = (orig ? orig->mSize : (int) FONT_SIZE_MEDIUM);
 	std::string path = (orig ? orig->mPath : getDefaultPath());
 
-	float sh = (float)std::min(Renderer::getScreenHeight(), Renderer::getScreenWidth());
+	float sh = std::min(Renderer::getDisplayHeightAsFloat(), Renderer::getDisplayWidthAsFloat());
 	if(properties & FONT_SIZE && elem->has("fontSize")) 
 		size = (int)(sh * elem->get<float>("fontSize"));
 	if(properties & FONT_PATH && elem->has("fontPath"))

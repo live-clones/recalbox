@@ -36,7 +36,7 @@ class IGameListView : public GuiComponent
         mRoot(root),
         mSystem(root->getSystem())
     {
-      setSize((float) Renderer::getScreenWidth(), (float) Renderer::getScreenHeight());
+      setSize(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
     }
 
     virtual ~IGameListView() {}

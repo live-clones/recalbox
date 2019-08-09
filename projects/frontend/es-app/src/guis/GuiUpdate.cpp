@@ -7,8 +7,9 @@
 #include <boost/algorithm/string/replace.hpp>
 #include <recalbox/RecalboxUpgrade.h>
 
-GuiUpdate::GuiUpdate(Window *window) : GuiComponent(window), mBusyAnim(window), mBackground(window, ":/frame.png") {
-    setSize((float) Renderer::getScreenWidth(), (float) Renderer::getScreenHeight());
+GuiUpdate::GuiUpdate(Window *window) : GuiComponent(window), mBusyAnim(window), mBackground(window, ":/frame.png")
+{
+    setSize(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
     mLoading = true;
     mIsProcessing = true;
     mPingHandle = new boost::thread(boost::bind(&GuiUpdate::threadPing, this));

@@ -137,12 +137,12 @@ GuiMenu::GuiMenu(Window* window) : GuiComponent(window), mMenu(window, _("MAIN M
     addChild(&mVersion);
 
     setSize(mMenu.getSize());
-    setPosition((Renderer::getScreenWidth() - mSize.x()) / 2, (Renderer::getScreenHeight() - mSize.y()) / 2);
+    setPosition((Renderer::getDisplayWidthAsFloat() - mSize.x()) / 2, (Renderer::getDisplayHeightAsFloat() - mSize.y()) / 2);
 
   // Animation
   auto fadeFunc = [this](float t) {
     setOpacity(lerp<float>(0, 255, t));
-    setPosition(getPosition().x(), lerp<float>(getPosition().y(), (Renderer::getScreenHeight() - mSize.y()) / 2, t));
+    setPosition(getPosition().x(), lerp<float>(getPosition().y(), (Renderer::getDisplayHeightAsFloat() - mSize.y()) / 2, t));
   };
 
   setOpacity(0);
@@ -170,7 +170,7 @@ void GuiMenu::createInputTextRow(GuiSettings *gui, std::string title, const char
   row.addElement(ed, true);
 
   auto spacer = std::make_shared<GuiComponent>(mWindow);
-  spacer->setSize(Renderer::getScreenWidth() * 0.005f, 0);
+  spacer->setSize(Renderer::getDisplayWidthAsFloat() * 0.005f, 0);
   row.addElement(spacer, false);
 
   auto bracket = std::make_shared<ImageComponent>(mWindow);
@@ -1237,7 +1237,7 @@ void GuiMenu::menuNetworkSettings(){
     row.addElement(ed, true);
 
     auto spacer = std::make_shared<GuiComponent>(mWindow);
-    spacer->setSize(Renderer::getScreenWidth() * 0.005f, 0);
+    spacer->setSize(Renderer::getDisplayWidthAsFloat() * 0.005f, 0);
     row.addElement(spacer, false);
 
     auto bracket = std::make_shared<ImageComponent>(mWindow);

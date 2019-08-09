@@ -83,7 +83,7 @@ void CommandThread::run() {
 void CommandThread::runGame (FileData* game)
 {
 	ViewController *view = ViewController::get();
-	Vector3f target((float)Renderer::getScreenWidth() / 2.0f, (float)Renderer::getScreenHeight() / 2.0f, 0);
+	Vector3f target(Renderer::getDisplayWidthAsFloat() / 2.0f, Renderer::getDisplayHeightAsFloat() / 2.0f, 0);
 	mWindow->doWake();
 	view->launch(game, target);
 }

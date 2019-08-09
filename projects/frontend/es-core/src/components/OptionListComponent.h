@@ -123,7 +123,7 @@ private:
 				});
 			}
 
-			mMenu.setPosition((Renderer::getScreenWidth() - mMenu.getSize().x()) / 2, (Renderer::getScreenHeight() - mMenu.getSize().y()) / 2);
+			mMenu.setPosition((Renderer::getDisplayWidthAsFloat() - mMenu.getSize().x()) / 2, (Renderer::getDisplayHeightAsFloat() - mMenu.getSize().y()) / 2);
 			addChild(&mMenu);
 		}
 
@@ -148,7 +148,7 @@ private:
 
 public:
 	OptionListComponent(Window* window, const std::string& name, bool multiSelect = false, unsigned int font_size = FONT_SIZE_MEDIUM) : GuiComponent(window), mMultiSelect(multiSelect), mName(name),
-		 mText(window), mLeftArrow(window), mRightArrow(window)
+                                                                                                                                      mText(window), mLeftArrow(window), mRightArrow(window)
 	{
 		std::shared_ptr<Font> font = nullptr;
 		unsigned int color;

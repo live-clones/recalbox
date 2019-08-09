@@ -399,8 +399,9 @@ void VideoComponent::applyTheme(const std::shared_ptr<ThemeData>& theme, const s
     return;
   }
 
-  Vector2f scale = getParent() ? getParent()->getSize() : Vector2f((float) Renderer::getScreenWidth(),
-                                                                                 (float) Renderer::getScreenHeight());
+  Vector2f scale = getParent() ?
+                   getParent()->getSize() :
+                   Vector2f(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
 
   if (properties & POSITION && elem->has("pos"))
   {

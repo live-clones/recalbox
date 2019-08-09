@@ -7,11 +7,10 @@
 #include "components/MenuComponent.h"
 #include "components/ButtonComponent.h"
 #include "Util.h"
-#include "Locale.h"
 #include "InputManager.h"
-#include "InputStack.h"
 #include "MenuThemeData.h"
 #include <boost/format.hpp>
+
 using namespace boost::locale;
 
 GuiInputConfig::GuiInputConfig(Window* window, InputConfig* target, const std::function<void()>& doneCallback) : GuiComponent(window),
@@ -198,8 +197,8 @@ GuiInputConfig::GuiInputConfig(Window* window, InputConfig* target, const std::f
 	mButtonGrid = makeButtonGrid(mWindow, buttons);
 	mGrid.setEntry(mButtonGrid, Vector2i(0, 4), true, false);
 
-	setSize(Renderer::getScreenWidth() * 0.6f, Renderer::getScreenHeight() * 0.85f);
-	setPosition((Renderer::getScreenWidth() - mSize.x()) / 2, (Renderer::getScreenHeight() - mSize.y()) / 2);
+	setSize(Renderer::getDisplayWidthAsFloat() * 0.6f, Renderer::getDisplayHeightAsFloat() * 0.85f);
+	setPosition((Renderer::getDisplayWidthAsFloat() - mSize.x()) / 2, (Renderer::getDisplayHeightAsFloat() - mSize.y()) / 2);
 }
 
 void GuiInputConfig::initFormInputs()

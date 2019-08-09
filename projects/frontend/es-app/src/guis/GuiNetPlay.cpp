@@ -14,7 +14,7 @@
 #include <regex>
 
 
-#define BUTTON_GRID_VERT_PADDING Renderer::getScreenHeight() * 0.025f
+#define BUTTON_GRID_VERT_PADDING Renderer::getDisplayHeightAsFloat() * 0.025f
 #define BUTTON_GRID_HORIZ_PADDING 10
 
 #define TITLE_HEIGHT (mTitle->getFont()->getLetterHeight() + TITLE_VERT_PADDING)
@@ -70,7 +70,7 @@ GuiNetPlay::GuiNetPlay(Window* window)
 
 	updateSize();
 	mBusyAnim.setSize(mSize);
-	setPosition((Renderer::getScreenWidth() - mSize.x()) / 2, (Renderer::getScreenHeight() - mSize.y()) / 2);
+	setPosition((Renderer::getDisplayWidthAsFloat() - mSize.x()) / 2, (Renderer::getDisplayHeightAsFloat() - mSize.y()) / 2);
 
 }
 
@@ -330,7 +330,7 @@ void GuiNetPlay::populateGridMeta(int i)
 void GuiNetPlay::launch()
 {
 	if (mGames[mList->getCursor()]) {
-        Vector3f target(Renderer::getScreenWidth() / 2.0f, Renderer::getScreenHeight() / 2.0f, 0);
+        Vector3f target(Renderer::getDisplayWidthAsFloat() / 2.0f, Renderer::getDisplayHeightAsFloat() / 2.0f, 0);
         int index = mList->getCursor();
         std::string core = getCoreInfo(mRooms[index].second.get<std::string>("fields.core_name")).first;
         if (!core.empty())
@@ -451,8 +451,8 @@ bool GuiNetPlay::input(InputConfig* config, Input input)
 
 void GuiNetPlay::updateSize()
 {
-	const float height = Renderer::getScreenHeight() * 0.7f;
-	const float width = Renderer::getScreenWidth() * 0.9f;
+	const float height = Renderer::getDisplayHeightAsFloat() * 0.7f;
+	const float width = Renderer::getDisplayWidthAsFloat() * 0.9f;
 	setSize(width, height);
 }
 

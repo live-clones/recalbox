@@ -284,7 +284,7 @@ bool ISimpleGameListView::input(InputConfig* config, Input input) {
 			FileData* cursor = getCursor();
 			if(cursor->isGame())
 			{
-				Vector3f target(Renderer::getScreenWidth() / 2.0f, Renderer::getScreenHeight() / 2.0f, 0);
+				Vector3f target(Renderer::getDisplayWidthAsFloat() / 2.0f, Renderer::getDisplayHeightAsFloat() / 2.0f, 0);
 				ViewController::get()->launch(cursor, target, "host");
 			}
 		}

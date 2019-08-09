@@ -23,20 +23,22 @@ GuiInfoPopup::GuiInfoPopup(Window* window, const std::string& message, int durat
 	bool noIcon = icon == 0;
 
 
-	float maxWidth = (float)Renderer::getScreenWidth() * 0.2f;
-	float maxHeight = (float)Renderer::getScreenHeight() * 0.4f;
+	float maxWidth = Renderer::getDisplayWidthAsFloat() * 0.2f;
+	float maxHeight = Renderer::getDisplayHeightAsFloat() * 0.4f;
 
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 
 	maxAlpha = (int)menuTheme->menuBackground.color & 0xFF;
 	mFrameColor = menuTheme->menuBackground.color;
 
-	unsigned int FONT_SIZE_ICON = (unsigned int)(0.04f * (float)std::min(Renderer::getScreenHeight(), Renderer::getScreenWidth()));
-	unsigned int FONT_SIZE_TEXT = (unsigned int)(0.02f * (float)std::min(Renderer::getScreenHeight(), Renderer::getScreenWidth()));
+	unsigned int FONT_SIZE_ICON = (unsigned int)(0.04f * std::min(Renderer::getDisplayHeightAsFloat(),
+                                                                Renderer::getDisplayWidthAsFloat()));
+	unsigned int FONT_SIZE_TEXT = (unsigned int)(0.02f * std::min(Renderer::getDisplayHeightAsFloat(),
+                                                                Renderer::getDisplayWidthAsFloat()));
 
 	// add a padding to the box
-	int paddingX = (int) ((float)Renderer::getScreenWidth() * 0.02f);
-	int paddingY = (int) ((float)Renderer::getScreenHeight() * 0.02f);
+	int paddingX = (int) (Renderer::getDisplayWidthAsFloat() * 0.02f);
+	int paddingY = (int) (Renderer::getDisplayHeightAsFloat() * 0.02f);
 
 	float msgHeight;
 
@@ -83,23 +85,23 @@ GuiInfoPopup::GuiInfoPopup(Window* window, const std::string& message, int durat
 	std::string posString = Settings::getInstance()->getString("PopupPosition");
 
 	if (posString == "Top/Right"){
-		posX = (float)Renderer::getScreenWidth()*0.98f - mGrid.getSize().x()*0.98f;
-		posY = (float)Renderer::getScreenHeight() * 0.02f;
+		posX = Renderer::getDisplayWidthAsFloat() * 0.98f - mGrid.getSize().x() * 0.98f;
+		posY = Renderer::getDisplayHeightAsFloat() * 0.02f;
 	}
 
 	else if (posString == "Bottom/Right"){
-		posX = (float)Renderer::getScreenWidth()*0.98f - mGrid.getSize().x()*0.98f;
-		posY = (float)Renderer::getScreenHeight() * 0.98f - mGrid.getSize().y()*0.98f;
+		posX = Renderer::getDisplayWidthAsFloat() * 0.98f - mGrid.getSize().x() * 0.98f;
+		posY = Renderer::getDisplayHeightAsFloat() * 0.98f - mGrid.getSize().y()*0.98f;
 	}
 
 	else if (posString == "Bottom/Left"){
-		posX = (float)Renderer::getScreenWidth()*0.02f;
-		posY = (float)Renderer::getScreenHeight() * 0.98f - mGrid.getSize().y()*0.98f;
+		posX = Renderer::getDisplayWidthAsFloat() * 0.02f;
+		posY = Renderer::getDisplayHeightAsFloat() * 0.98f - mGrid.getSize().y()*0.98f;
 	}
 
 	else if (posString == "Top/Left"){
-		posX = (float)Renderer::getScreenWidth()*0.02f;
-		posY = (float)Renderer::getScreenHeight() * 0.02f;
+		posX = Renderer::getDisplayWidthAsFloat() * 0.02f;
+		posY = Renderer::getDisplayHeightAsFloat() * 0.02f;
 	}
 
 	setPosition(posX, posY, 0);
