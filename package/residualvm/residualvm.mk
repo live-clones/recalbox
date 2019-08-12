@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-RESIDUALVM_VERSION = ea90258819dc8915d47110c7cf5361e1d7fdb77b
+RESIDUALVM_VERSION = a436f7951a8c481f9a8594e39a4ba7956f9c77b7
 RESIDUALVM_REPO = residualvm
 
 RESIDUALVM_SITE = $(call github,$(RESIDUALVM_REPO),residualvm,$(RESIDUALVM_VERSION))
