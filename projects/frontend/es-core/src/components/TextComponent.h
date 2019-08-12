@@ -48,19 +48,19 @@ private:
 	void onTextChanged();
 	void onColorChanged();
 
+  std::shared_ptr<Font> mFont;
+  std::shared_ptr<TextCache> mTextCache;
+  std::string mText;
 	unsigned int mColor;
 	unsigned int mOriginColor;
 	unsigned int mBgColor;
 	unsigned char mColorOpacity;
 	unsigned char mBgColorOpacity;
+  TextAlignment mHorizontalAlignment;
+  TextAlignment mVerticalAlignment;
+  float mLineSpacing;
 	bool mRenderBackground;
-	std::shared_ptr<Font> mFont;
 	bool mUppercase;
 	bool mAutoCalcExtentX;
   bool mAutoCalcExtentY;
-	std::string mText;
-	std::shared_ptr<TextCache> mTextCache;
-  TextAlignment mHorizontalAlignment;
-  TextAlignment mVerticalAlignment;
-	float mLineSpacing;
 };

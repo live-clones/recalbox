@@ -17,12 +17,12 @@ static int NanoSleep(long long nanoseconds)
   if (nanoseconds < 1000000000LL)
   {
     if (nanoseconds < 0) return 0;
-    timespec delay = { 0, nanoseconds };
+    timespec delay = { 0, (int)nanoseconds };
     nanosleep(&delay, &remaining);
   }
   else
   {
-    timespec delay = { nanoseconds / 1000000000LL, nanoseconds % 1000000000LL};
+    timespec delay = { (int)(nanoseconds / 1000000000LL), (int)(nanoseconds % 1000000000LL) };
     nanosleep(&delay, &remaining);
   }
   // Return factionnal or remaining time

@@ -7,13 +7,13 @@
 #include "Settings.h"
 
 GuiComponent::GuiComponent(Window* window)
-  : mOpacity(255),
-		mWindow(window),
-		mParent(nullptr),
+  : mWindow(window),
+    mParent(nullptr),
 	  mPosition(Vector3f::Zero()),
 	  mOrigin(Vector2f::Zero()),
 	  mRotationOrigin(0.5, 0.5),
 	  mSize(Vector2f::Zero()),
+    mOpacity(255),
 	  mIsProcessing(false),
     mTransform(Transform4x4f::Identity())
 {

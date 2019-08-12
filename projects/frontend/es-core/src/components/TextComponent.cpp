@@ -9,34 +9,34 @@
 
 TextComponent::TextComponent(Window* window)
 	: GuiComponent(window),
-	  mColor(0x000000FF),
-	  mOriginColor(0x000000FF),
-		mBgColor(0),
-		mRenderBackground(false),
 		mFont(Font::get(FONT_SIZE_MEDIUM)),
-		mUppercase(false),
-		mAutoCalcExtentX(true),
-		mAutoCalcExtentY(true),
+    mColor(0x000000FF),
+    mOriginColor(0x000000FF),
+    mBgColor(0),
 		mHorizontalAlignment(TextAlignment::Left),
 		mVerticalAlignment(TextAlignment::Center),
-		mLineSpacing(1.5f)
+		mLineSpacing(1.5f),
+    mRenderBackground(false),
+    mUppercase(false),
+    mAutoCalcExtentX(true),
+    mAutoCalcExtentY(true)
 {
 }
 
 TextComponent::TextComponent(Window* window, const std::string& text, const std::shared_ptr<Font>& font, unsigned int color, TextAlignment align,
                              Vector3f pos, Vector2f size, unsigned int bgcolor)
 	: GuiComponent(window),
-		mColor(0x000000FF),
-      mOriginColor(0x000000FF),
-		mBgColor(0),
-		mRenderBackground(false),
 	  mFont(nullptr),
-		mUppercase(false),
-    mAutoCalcExtentX(true),
-    mAutoCalcExtentY(true),
+    mColor(0x000000FF),
+    mOriginColor(0x000000FF),
+    mBgColor(0),
 		mHorizontalAlignment(align),
 		mVerticalAlignment(TextAlignment::Center),
-		mLineSpacing(1.5f)
+		mLineSpacing(1.5f),
+    mRenderBackground(false),
+    mUppercase(false),
+    mAutoCalcExtentX(true),
+    mAutoCalcExtentY(true)
 {
 	setFont(font);
 	setColor(color);
