@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_VICE_VERSION = 2ce07099c3dd84ff7174b3c7238b750f02f91048
+LIBRETRO_VICE_VERSION = 23ed67df6f90069b7188170d1abae0433bd73ba6
 LIBRETRO_VICE_SITE = $(call github,libretro,vice-libretro,$(LIBRETRO_VICE_VERSION))
 
 LIBRETRO_VICE_SUBEMULATORS = x64 x64sc x128 xpet xplus4 xvic xcbm2

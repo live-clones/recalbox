@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_MELONDS_VERSION = 6a12f612b7ce78aa28420a875a6de2bb8425f085
+LIBRETRO_MELONDS_VERSION = ae21a92cf24f070464bdb2719366acca5a9cda50
 LIBRETRO_MELONDS_SITE = $(call github,libretro,melonds,$(LIBRETRO_MELONDS_VERSION))
 LIBRETRO_MELONDS_LICENSE = GPLv3
 
