@@ -54,11 +54,11 @@ private:
 	unsigned int mColor;
 	unsigned int mOriginColor;
 	unsigned int mBgColor;
+  float mLineSpacing;
 	unsigned char mColorOpacity;
 	unsigned char mBgColorOpacity;
   TextAlignment mHorizontalAlignment;
   TextAlignment mVerticalAlignment;
-  float mLineSpacing;
 	bool mRenderBackground;
 	bool mUppercase;
 	bool mAutoCalcExtentX;

@@ -21,7 +21,7 @@ class TextCache;
 
 typedef unsigned long UnicodeChar;
 
-enum class TextAlignment
+enum class TextAlignment : unsigned char
 {
 	Left,
 	Center, // centers both horizontally and vertically

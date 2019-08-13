@@ -61,24 +61,24 @@ class GuiComponent
     void setSize(float w, float h);
     virtual void onSizeChanged() {};
 
-    float getRotation() const;
-    void setRotation(float rotation);
+    float getRotation() const { return mRotation; }
+    void setRotation(float rotation) { mRotation = rotation; }
     inline void setRotationDegrees(float rotation) { setRotation(rotation * (float)M_PI / 180.0f); }
 
-    float getScale() const;
-    void setScale(float scale);
+    inline float getScale() const { return mScale; }
+    inline void setScale(float scale) { mScale = scale; }
 
-    float getZIndex() const;
-    void setZIndex(float zIndex);
+    inline float getZIndex() const { return mZIndex; }
+    inline void setZIndex(float zIndex) { mZIndex = zIndex; }
 
-    float getDefaultZIndex() const;
-    void setDefaultZIndex(float zIndex);
+    inline float getDefaultZIndex() const { return mDefaultZIndex; }
+    inline void setDefaultZIndex(float zIndex) { mDefaultZIndex = zIndex; }
 
     // Returns the center point of the image (takes origin into account).
     Vector2f getCenter() const;
 
-    void setParent(GuiComponent* parent);
-    GuiComponent* getParent() const;
+    void setParent(GuiComponent* parent) { mParent = parent; }
+    GuiComponent* getParent() const { return mParent; }
 
     void addChild(GuiComponent* cmp);
     void removeChild(GuiComponent* cmp);
@@ -99,7 +99,7 @@ class GuiComponent
     void stopAllAnimations();
     void cancelAllAnimations();
 
-    virtual unsigned char getOpacity() const;
+    virtual unsigned char getOpacity() const { return mOpacity; }
     virtual void setOpacity(unsigned char opacity);
 
     const Transform4x4f& getTransform();
@@ -138,6 +138,9 @@ class GuiComponent
   private:
     Transform4x4f mTransform; //Don't access this directly! Use getTransform()!
     AnimationController* mAnimationMap[MAX_ANIMATIONS];
+    // mChildren has been moved from value to reference, because most component instances do not have any child.
+    // Doing this saves 20 octets by instance
+    std::vector<GuiComponent*>* mChildren;
 
   protected:
     void renderChildren(const Transform4x4f& transform) const;
@@ -150,7 +153,6 @@ class GuiComponent
     Window* mWindow;
 
     GuiComponent* mParent;
-    std::vector<GuiComponent*> mChildren;
 
     Vector3f mPosition;
     Vector2f mOrigin;

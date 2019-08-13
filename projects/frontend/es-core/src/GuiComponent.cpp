@@ -7,18 +7,18 @@
 #include "Settings.h"
 
 GuiComponent::GuiComponent(Window* window)
-  : mWindow(window),
+  : mTransform(Transform4x4f::Identity()),
+    mChildren(nullptr),
+    mWindow(window),
     mParent(nullptr),
-	  mPosition(Vector3f::Zero()),
-	  mOrigin(Vector2f::Zero()),
-	  mRotationOrigin(0.5, 0.5),
-	  mSize(Vector2f::Zero()),
+    mPosition(Vector3f::Zero()),
+    mOrigin(Vector2f::Zero()),
+    mRotationOrigin(0.5, 0.5),
+    mSize(Vector2f::Zero()),
     mOpacity(255),
-	  mIsProcessing(false),
-    mTransform(Transform4x4f::Identity())
+    mIsProcessing(false)
 {
-	for (auto& i : mAnimationMap)
-		i = nullptr;
+  memset(mAnimationMap, 0, sizeof(mAnimationMap));
 }
 
 GuiComponent::~GuiComponent()
@@ -30,7 +30,7 @@ GuiComponent::~GuiComponent()
 	if(mParent)
 		mParent->removeChild(this);
 
-	for (unsigned int i = 0; i < getChildCount(); i++)
+	for (int i = getChildCount(); --i >= 0; )
 		getChild(i)->setParent(nullptr);
 }
 
@@ -47,7 +47,7 @@ bool GuiComponent::input(InputConfig* config, Input input)
 
 void GuiComponent::updateSelf(int deltaTime)
 {
-	for (unsigned char i = 0; i < MAX_ANIMATIONS; i++)
+	for (int i = MAX_ANIMATIONS; --i >= 0; )
 		advanceAnimation(i, deltaTime);
 }
 
@@ -128,46 +128,6 @@ void GuiComponent::setSize(float w, float h)
     onSizeChanged();
 }
 
-float GuiComponent::getRotation() const
-{
-	return mRotation;
-}
-
-void GuiComponent::setRotation(float rotation)
-{
-	mRotation = rotation;
-}
-
-float GuiComponent::getScale() const
-{
-	return mScale;
-}
-
-void GuiComponent::setScale(float scale)
-{
-	mScale = scale;
-}
-
-float GuiComponent::getZIndex() const
- {
- 	return mZIndex;
- }
- 
- void GuiComponent::setZIndex(float z)
- {
- 	mZIndex = z;
- }
- 
- float GuiComponent::getDefaultZIndex() const
- {
- 	return mDefaultZIndex;
- }
- 
- void GuiComponent::setDefaultZIndex(float z)
- {
- 	mDefaultZIndex = z;
- }
-
 Vector2f GuiComponent::getCenter() const
 {
 	return Vector2f(mPosition.x() - (getSize().x() * mOrigin.x()) + getSize().x() / 2,
@@ -177,7 +137,8 @@ Vector2f GuiComponent::getCenter() const
 //Children stuff.
 void GuiComponent::addChild(GuiComponent* cmp)
 {
-	mChildren.push_back(cmp);
+  if (mChildren == nullptr) mChildren = new std::vector<GuiComponent*>();
+  mChildren->push_back(cmp);
 
 	if(cmp->getParent())
 		cmp->getParent()->removeChild(cmp);
@@ -197,60 +158,50 @@ void GuiComponent::removeChild(GuiComponent* cmp)
 
 	cmp->setParent(nullptr);
 
-	for (auto i = mChildren.begin(); i != mChildren.end(); i++)
-	{
-		if(*i == cmp)
-		{
-			mChildren.erase(i);
-			return;
-		}
-	}
+	if (mChildren != nullptr)
+    for (auto i = mChildren->begin(); i != mChildren->end(); i++)
+      if (*i == cmp)
+      {
+        mChildren->erase(i);
+        break;
+      }
 }
 
 void GuiComponent::clearChildren()
 {
-	mChildren.clear();
+  if (mChildren != nullptr)
+    mChildren->clear();
 }
 
 void GuiComponent::sortChildren()
 {
-	std::stable_sort(mChildren.begin(), mChildren.end(),  [](GuiComponent* a, GuiComponent* b) {
-		return b->getZIndex() > a->getZIndex();
-	});
+  if (mChildren != nullptr)
+    std::stable_sort(mChildren->begin(), mChildren->end(),  [](GuiComponent* a, GuiComponent* b)
+    {
+      return b->getZIndex() > a->getZIndex();
+    });
 }
 
 unsigned int GuiComponent::getChildCount() const
 {
-	return mChildren.size();
+  if (mChildren == nullptr) return 0;
+	return mChildren->size();
 }
 
 GuiComponent* GuiComponent::getChild(unsigned int i) const
 {
-	return mChildren.at(i);
-}
-
-void GuiComponent::setParent(GuiComponent* parent)
-{
-	mParent = parent;
-}
-
-GuiComponent* GuiComponent::getParent() const
-{
-	return mParent;
-}
-
-unsigned char GuiComponent::getOpacity() const
-{
-	return mOpacity;
+  if (mChildren == nullptr) return nullptr;
+  return mChildren->at(i);
 }
 
 void GuiComponent::setOpacity(unsigned char opacity)
 {
 	mOpacity = opacity;
-	for (auto& it : mChildren)
-	{
-		it->setOpacity(opacity);
-	}
+	if (mChildren != nullptr)
+    for (auto it : *mChildren)
+    {
+      it->setOpacity(opacity);
+    }
 }
 
 const Transform4x4f& GuiComponent::getTransform()
@@ -304,10 +255,11 @@ std::string GuiComponent::getValue() const
 
 void GuiComponent::textInput(const char* text)
 {
-	for (auto& iter : mChildren)
-	{
-		iter->textInput(text);
-	}
+  if (mChildren != nullptr)
+    for (auto iter : *mChildren)
+    {
+      iter->textInput(text);
+    }
 }
 
 void GuiComponent::setAnimation(Animation* anim, int delay, std::function<void()> finishedCallback, bool reverse, unsigned char slot)

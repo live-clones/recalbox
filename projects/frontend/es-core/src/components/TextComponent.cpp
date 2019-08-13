@@ -38,7 +38,7 @@ TextComponent::TextComponent(Window* window, const std::string& text, const std:
     mAutoCalcExtentX(true),
     mAutoCalcExtentY(true)
 {
-	setFont(font);
+  setFont(font);
 	setColor(color);
 	setOriginColor(color);
 	setBackgroundColor(bgcolor);
