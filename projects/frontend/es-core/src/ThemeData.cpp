@@ -1,12 +1,10 @@
 #include "ThemeData.h"
 #include "Renderer.h"
-#include "resources/Font.h"
 #include "Sound.h"
 #include "resources/TextureResource.h"
 #include "Log.h"
 #include "Settings.h"
 #include "pugixml/pugixml.hpp"
-#include <boost/assign.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <components/VideoComponent.h>
 
@@ -14,180 +12,247 @@
 #include "components/TextComponent.h"
 #include "RootFolders.h"
 
-
-// This is a work around for some ambiguity that is introduced in C++11 that boost::assign::map_list_of leave open.
-// We use makeMap(actualmap) to implicitly convert the boost::assign::map_list_of's return type to ElementMapType.
-// Problem exists with gcc 4.7 and Boost 1.51.  Works fine with MSVC2010 without this hack.
-typedef std::map<std::string, ThemeData::ElementPropertyType> ElementMapType;
-template<typename T>
-ElementMapType makeMap(const T& mapInit)
+std::vector<std::string>& ThemeData::SupportedViews()
 {
-	ElementMapType m = mapInit;
-	return m;
+  static std::vector<std::string> _SupportedViews =
+  {
+    { "system"  },
+    { "basic"   },
+    { "detailed"},
+    { "menu"    },
+  };
+  return _SupportedViews;
 }
 
-std::vector<std::string> ThemeData::sSupportedViews = boost::assign::list_of("system")("basic")("detailed")("menu");
-std::vector<std::string> ThemeData::sSupportedFeatures = boost::assign::list_of("carousel")("z-index");
+std::vector<std::string>& ThemeData::SupportedFeatures()
+{
+  static std::vector<std::string> _SupportedFeatures =
+  {
+    {"carousel" },
+    {"z-index"  },
+  };
+  return _SupportedFeatures;
+}
 
-std::map< std::string, ElementMapType > ThemeData::sElementMap = boost::assign::map_list_of
-	("image", makeMap(boost::assign::map_list_of
-		("pos", NORMALIZED_PAIR)
-		("size", NORMALIZED_PAIR)
-		("maxSize", NORMALIZED_PAIR)
-		("origin", NORMALIZED_PAIR)
-		("rotation", FLOAT)
-		("rotationOrigin", NORMALIZED_PAIR)
-		("path", PATH)
-		("tile", BOOLEAN)
-		("color", COLOR)
-		("zIndex", FLOAT)))
-	("video", makeMap(boost::assign::map_list_of
-	    ("pos", NORMALIZED_PAIR)
-	    ("size", NORMALIZED_PAIR)
-	    ("maxSize", NORMALIZED_PAIR)
-	    ("origin", NORMALIZED_PAIR)
-	    ("rotation", FLOAT)
-	    ("rotationOrigin", NORMALIZED_PAIR)
-	    ("path", PATH)
-	    ("zIndex", FLOAT)))
-	("text", makeMap(boost::assign::map_list_of
-		("pos", NORMALIZED_PAIR)
-		("size", NORMALIZED_PAIR)
-		("origin", NORMALIZED_PAIR)
-		("rotation", FLOAT)
-		("rotationOrigin", NORMALIZED_PAIR)
-		("text", STRING)
-		("backgroundColor", COLOR)
-		("fontPath", PATH)
-		("fontSize", FLOAT)
-		("color", COLOR)
-		("alignment", STRING)
-		("forceUppercase", BOOLEAN)
-		("lineSpacing", FLOAT)
-		("value", STRING)
-		("zIndex", FLOAT)))
-	("textlist", makeMap(boost::assign::map_list_of
-		("pos", NORMALIZED_PAIR)
-		("size", NORMALIZED_PAIR)
-		("origin", NORMALIZED_PAIR)
-		("selectorHeight", FLOAT)
-		("selectorOffsetY", FLOAT)
-		("selectorColor", COLOR)
-		("selectorImagePath", PATH)
-		("selectorImageTile", BOOLEAN)
-		("selectedColor", COLOR)
-		("primaryColor", COLOR)
-		("secondaryColor", COLOR)
-		("fontPath", PATH)
-		("fontSize", FLOAT)
-		("scrollSound", PATH)
-		("alignment", STRING)
-		("horizontalMargin", FLOAT)
-		("forceUppercase", BOOLEAN)
-		("lineSpacing", FLOAT)
-		("zIndex", FLOAT)))
-	("container", makeMap(boost::assign::map_list_of
-		("pos", NORMALIZED_PAIR)
-		("size", NORMALIZED_PAIR)
-		("origin", NORMALIZED_PAIR)
-		("zIndex", FLOAT)))
-	("ninepatch", makeMap(boost::assign::map_list_of
-		("pos", NORMALIZED_PAIR)
-		("size", NORMALIZED_PAIR)
-		("path", PATH)
-		("zIndex", FLOAT)))
-	("datetime", makeMap(boost::assign::map_list_of
-		("pos", NORMALIZED_PAIR)
-		("size", NORMALIZED_PAIR)
-		("color", COLOR)
-		("fontPath", PATH)
-		("fontSize", FLOAT)
-		("alignment", STRING)
-		("forceUppercase", BOOLEAN)
-		("zIndex", FLOAT)))
-	("rating", makeMap(boost::assign::map_list_of
-		("pos", NORMALIZED_PAIR)
-		("size", NORMALIZED_PAIR)
-		("origin", NORMALIZED_PAIR)
-		("rotation", FLOAT)
-		("rotationOrigin", NORMALIZED_PAIR)
-		("filledPath", PATH)
-		("unfilledPath", PATH)
-		("zIndex", FLOAT)))
-	("sound", makeMap(boost::assign::map_list_of
-		("path", PATH)))
-	("helpsystem", makeMap(boost::assign::map_list_of
-		("pos", NORMALIZED_PAIR)
-		("textColor", COLOR)
-		("iconColor", COLOR)
-		("fontPath", PATH)
-		("fontSize", FLOAT)
-		("iconUpDown", PATH)
-		("iconLeftRight", PATH)
-		("iconUpDownLeftRight", PATH)
-		("iconA", PATH)
-		("iconB", PATH)
-		("iconX", PATH)
-		("iconY", PATH)
-		("iconL", PATH)
-		("iconR", PATH)
-		("iconStart", PATH)
-		("iconSelect", PATH)))
-	("carousel", makeMap(boost::assign::map_list_of
-		("type", STRING)
-		("size", NORMALIZED_PAIR)
-		("pos", NORMALIZED_PAIR)
-		("origin", NORMALIZED_PAIR)
-		("color", COLOR)
-		("logoScale", FLOAT)
-		("logoRotation", FLOAT)
-		("logoRotationOrigin", NORMALIZED_PAIR)
-		("logoSize", NORMALIZED_PAIR)
-		("logoAlignment", STRING)
-		("maxLogoCount", FLOAT)
-		("defaultTransition", STRING)
-		("zIndex", FLOAT)))
-	("menuBackground", makeMap(boost::assign::map_list_of
-		("color", COLOR)
-		("path", PATH)
-		("fadePath", PATH)))
-	("menuIcons", makeMap(boost::assign::map_list_of
-		("iconKodi", PATH)
-		("iconSystem", PATH)
-		("iconSystem", PATH)
-		("iconUpdates", PATH)
-		("iconControllers", PATH)
-		("iconGames", PATH)
-		("iconUI", PATH)
-		("iconSound", PATH)
-		("iconNetwork", PATH)
-		("iconScraper", PATH)
-		("iconAdvanced", PATH)
-		("iconQuit", PATH)
-		("iconRestart", PATH)
-		("iconShutdown", PATH)
-		("iconFastShutdown", PATH)))
-	("menuSwitch", makeMap(boost::assign::map_list_of
-		("pathOn", PATH)
-		("pathOff", PATH)))
-	("menuSlider", makeMap(boost::assign::map_list_of
-		("path", PATH)))
-	("menuButton", makeMap(boost::assign::map_list_of
-		("path", PATH)
-		("filledPath", PATH)))
-	("menuText", makeMap(boost::assign::map_list_of
-		("fontPath", PATH)
-		("fontSize", FLOAT)
-		("color", COLOR)
-		("separatorColor", COLOR)
-		("selectedColor", COLOR)
-		("selectorColor", COLOR)))
-	("menuTextSmall", makeMap(boost::assign::map_list_of
-		("fontPath", PATH)
-		("fontSize", FLOAT)
-		("color", COLOR)
-		("selectedColor", COLOR)
-		("selectorColor", COLOR)));
+std::map< std::string, std::map<std::string, ThemeData::ElementPropertyType> >& ThemeData::ElementMap()
+{
+  static std::map< std::string, std::map<std::string, ThemeData::ElementPropertyType> > _ElementMap =
+  {
+    { "image",
+      {
+        { "pos", NORMALIZED_PAIR },
+        { "size", NORMALIZED_PAIR },
+        { "maxSize", NORMALIZED_PAIR },
+        { "origin", NORMALIZED_PAIR },
+        { "rotation", FLOAT },
+        { "rotationOrigin", NORMALIZED_PAIR },
+        { "path", PATH },
+        { "tile", BOOLEAN },
+        { "color", COLOR },
+        { "zIndex", FLOAT },
+      },
+    },
+    { "video",
+      {
+        { "pos", NORMALIZED_PAIR },
+        { "size", NORMALIZED_PAIR },
+        { "maxSize", NORMALIZED_PAIR },
+        { "origin", NORMALIZED_PAIR },
+        { "rotation", FLOAT },
+        { "rotationOrigin", NORMALIZED_PAIR },
+        { "path", PATH },
+        { "zIndex", FLOAT },
+      },
+    },
+    { "text",
+      {
+        { "pos", NORMALIZED_PAIR },
+        { "size", NORMALIZED_PAIR },
+        { "origin", NORMALIZED_PAIR },
+        { "rotation", FLOAT },
+        { "rotationOrigin", NORMALIZED_PAIR },
+        { "text", STRING },
+        { "backgroundColor", COLOR },
+        { "fontPath", PATH },
+        { "fontSize", FLOAT },
+        { "color", COLOR },
+        { "alignment", STRING },
+        { "forceUppercase", BOOLEAN },
+        { "lineSpacing", FLOAT },
+        { "value", STRING },
+        { "zIndex", FLOAT },
+      },
+    },
+    { "textlist",
+      {
+        { "pos", NORMALIZED_PAIR },
+        { "size", NORMALIZED_PAIR },
+        { "origin", NORMALIZED_PAIR },
+        { "selectorHeight", FLOAT },
+        { "selectorOffsetY", FLOAT },
+        { "selectorColor", COLOR },
+        { "selectorImagePath", PATH },
+        { "selectorImageTile", BOOLEAN },
+        { "selectedColor", COLOR },
+        { "primaryColor", COLOR },
+        { "secondaryColor", COLOR },
+        { "fontPath", PATH },
+        { "fontSize", FLOAT },
+        { "scrollSound", PATH },
+        { "alignment", STRING },
+        { "horizontalMargin", FLOAT },
+        { "forceUppercase", BOOLEAN },
+        { "lineSpacing", FLOAT },
+        { "zIndex", FLOAT },
+      },
+    },
+    { "container",
+      {
+        { "pos", NORMALIZED_PAIR },
+        { "size", NORMALIZED_PAIR },
+        { "origin", NORMALIZED_PAIR },
+        { "zIndex", FLOAT },
+      },
+    },
+    { "ninepatch",
+      {
+        { "pos", NORMALIZED_PAIR },
+        { "size", NORMALIZED_PAIR },
+        { "path", PATH },
+        { "zIndex", FLOAT },
+      },
+    },
+    { "datetime",
+      {
+        { "pos", NORMALIZED_PAIR },
+        { "size", NORMALIZED_PAIR },
+        { "color", COLOR },
+        { "fontPath", PATH },
+        { "fontSize", FLOAT },
+        { "alignment", STRING },
+        { "forceUppercase", BOOLEAN },
+        { "zIndex", FLOAT },
+      },
+    },
+    { "rating",
+      {
+        { "pos", NORMALIZED_PAIR },
+        { "size", NORMALIZED_PAIR },
+        { "origin", NORMALIZED_PAIR },
+        { "rotation", FLOAT },
+        { "rotationOrigin", NORMALIZED_PAIR },
+        { "filledPath", PATH },
+        { "unfilledPath", PATH },
+        { "zIndex", FLOAT },
+      },
+    },
+    { "sound",
+      {
+        { "path", PATH },
+      },
+    },
+    { "helpsystem",
+      {
+        { "pos", NORMALIZED_PAIR },
+        { "textColor", COLOR },
+        { "iconColor", COLOR },
+        { "fontPath", PATH },
+        { "fontSize", FLOAT },
+        { "iconUpDown", PATH },
+        { "iconLeftRight", PATH },
+        { "iconUpDownLeftRight", PATH },
+        { "iconA", PATH },
+        { "iconB", PATH },
+        { "iconX", PATH },
+        { "iconY", PATH },
+        { "iconL", PATH },
+        { "iconR", PATH },
+        { "iconStart", PATH },
+        { "iconSelect", PATH },
+      },
+    },
+    { "carousel",
+      {
+        { "type", STRING },
+        { "size", NORMALIZED_PAIR },
+        { "pos", NORMALIZED_PAIR },
+        { "origin", NORMALIZED_PAIR },
+        { "color", COLOR },
+        { "logoScale", FLOAT },
+        { "logoRotation", FLOAT },
+        { "logoRotationOrigin", NORMALIZED_PAIR },
+        { "logoSize", NORMALIZED_PAIR },
+        { "logoAlignment", STRING },
+        { "maxLogoCount", FLOAT },
+        { "defaultTransition", STRING },
+        { "zIndex", FLOAT },
+      },
+    },
+    { "menuBackground",
+      {
+        { "color", COLOR },
+        { "path", PATH },
+        { "fadePath", PATH },
+      },
+    },
+    { "menuIcons",
+      {
+        { "iconKodi", PATH },
+        { "iconSystem", PATH },
+        { "iconSystem", PATH },
+        { "iconUpdates", PATH },
+        { "iconControllers", PATH },
+        { "iconGames", PATH },
+        { "iconUI", PATH },
+        { "iconSound", PATH },
+        { "iconNetwork", PATH },
+        { "iconScraper", PATH },
+        { "iconAdvanced", PATH },
+        { "iconQuit", PATH },
+        { "iconRestart", PATH },
+        { "iconShutdown", PATH },
+        { "iconFastShutdown", PATH },
+      },
+    },
+    { "menuSwitch",
+      {
+        { "pathOn", PATH },
+        { "pathOff", PATH },
+      },
+    },
+    { "menuSlider",
+      {
+        { "path", PATH },
+      },
+    },
+    { "menuButton",
+      {
+        { "path", PATH },
+        { "filledPath", PATH },
+      },
+    },
+    { "menuText",
+      {
+        { "fontPath", PATH },
+        { "fontSize", FLOAT },
+        { "color", COLOR },
+        { "separatorColor", COLOR },
+        { "selectedColor", COLOR },
+        { "selectorColor", COLOR },
+      },
+    },
+    { "menuTextSmall",
+      {
+        { "fontPath", PATH },
+        { "fontSize", FLOAT },
+        { "color", COLOR },
+        { "selectedColor", COLOR },
+        { "selectorColor", COLOR },
+      },
+    }
+  };
+  return _ElementMap;
+}
 
 namespace fs = boost::filesystem;
 
@@ -396,7 +461,7 @@ void ThemeData::parseFeatures(const pugi::xml_node& root)
 
 		const std::string supportedAttr = node.attribute("supported").as_string();
 
-		if (std::find(sSupportedFeatures.begin(), sSupportedFeatures.end(), supportedAttr) != sSupportedFeatures.end())
+		if (std::find(SupportedFeatures().begin(), SupportedFeatures().end(), supportedAttr) != SupportedFeatures().end())
 		{
 			parseViews(node);
 		}
@@ -427,7 +492,7 @@ void ThemeData::parseViews(const pugi::xml_node& root)
 			prevOff = nameAttr.find_first_not_of(delim, off);
 			off = nameAttr.find_first_of(delim, prevOff);
 			
-			if (std::find(sSupportedViews.begin(), sSupportedViews.end(), viewKey) != sSupportedViews.end())
+			if (std::find(SupportedViews().begin(), SupportedViews().end(), viewKey) != SupportedViews().end())
 			{
 				ThemeView& view = mViews.insert(std::pair<std::string, ThemeView>(viewKey, ThemeView())).first->second;
 				parseView(node, view);
@@ -448,13 +513,15 @@ void ThemeData::parseView(const pugi::xml_node& root, ThemeView& view)
 		if (std::string(node.name()) == "helpsystem")
 			Settings::getInstance()->setBool("ThemeHasHelpSystem", true);
 
-		auto elemTypeIt = sElementMap.find(node.name());
-		if(elemTypeIt == sElementMap.end())
+    const std::map< std::string, std::map<std::string, ThemeData::ElementPropertyType> >& elementMap = ElementMap();
+
+		auto elemTypeIt = elementMap.find(node.name());
+		if(elemTypeIt == elementMap.end())
 			throw error << "Unknown element of type \"" << node.name() << "\"!";
-		
+    auto& subElementMap = elemTypeIt->second;
+
 		if (parseRegion(node))
 		{
-
 			const char* delim = " \t\r\n,";
 			const std::string nameAttr = node.attribute("name").as_string();
 			size_t prevOff = nameAttr.find_first_not_of(delim, 0);
@@ -464,8 +531,8 @@ void ThemeData::parseView(const pugi::xml_node& root, ThemeView& view)
 				std::string elemKey = nameAttr.substr(prevOff, off - prevOff);
 				prevOff = nameAttr.find_first_not_of(delim, off);
 				off = nameAttr.find_first_of(delim, prevOff);
-			
-				parseElement(node, elemTypeIt->second, 
+
+				parseElement(node, subElementMap,
 					view.elements.insert(std::pair<std::string, ThemeElement>(elemKey, ThemeElement())).first->second);
 
 				if(std::find(view.orderedKeys.begin(), view.orderedKeys.end(), elemKey) == view.orderedKeys.end())

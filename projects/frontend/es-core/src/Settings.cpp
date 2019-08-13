@@ -8,29 +8,33 @@
 
 Settings *Settings::sInstance = nullptr;
 
-// these values are NOT saved to es_settings.xml
-// since they're set through command-line arguments, and not the in-program settings menu
-std::vector<const char *> settings_dont_save = boost::assign::list_of
-        ("Debug")
-        ("DebugGrid")
-        ("DebugText")
-        ("ShowExit")
-        ("Windowed")
-        ("VSync")
-        ("HideConsole")
-        ("IgnoreGamelist")
-        ("UpdateCommand")
-        ("UpdateServer")
-        ("VersionFile")
-        ("SharePartition")
-        ("RecalboxSettingScript")
-        ("RecalboxConfigScript")
-        ("LastVersionFile")
-        ("VersionMessage")
-        ("MusicDirectory")
-		("ThemeChanged")
-		("ThemeHasMenuView")
-		("Arch");
+static std::vector<const char *>& SettingsNotToSave()
+{
+  static std::vector<const char*> _SettingsNotToSave
+  {
+    "Debug",
+    "DebugGrid",
+    "DebugText",
+    "ShowExit",
+    "Windowed",
+    "VSync",
+    "HideConsole",
+    "IgnoreGamelist",
+    "UpdateCommand",
+    "UpdateServer",
+    "VersionFile",
+    "SharePartition",
+    "RecalboxSettingScript",
+    "RecalboxConfigScript",
+    "LastVersionFile",
+    "VersionMessage",
+    "MusicDirectory",
+    "ThemeChanged",
+    "ThemeHasMenuView",
+    "Arch",
+  };
+  return _SettingsNotToSave;
+}
 
 Settings::Settings() {
     setDefaults();
@@ -122,7 +126,7 @@ template<typename K, typename V>
 void saveMap(pugi::xml_node &node, std::map<K, V> &map, const char *type) {
     for (auto iter = map.begin(); iter != map.end(); iter++) {
         // key is on the "don't save" list, so don't save it
-        if (std::find(settings_dont_save.begin(), settings_dont_save.end(), iter->first) != settings_dont_save.end())
+        if (std::find(SettingsNotToSave().begin(), SettingsNotToSave().end(), iter->first) != SettingsNotToSave().end())
             continue;
 
         pugi::xml_node parent_node = node.append_child(type);
@@ -144,10 +148,10 @@ void Settings::saveFile()
     saveMap<std::string, float>(config, mFloatMap, "float");
 
     //saveMap<std::string, std::string>(config, mStringMap, "string");
-    for (auto iter = mStringMap.begin(); iter != mStringMap.end(); iter++) {
+    for (auto & iter : mStringMap) {
         pugi::xml_node node = config.append_child("string");
-        node.append_attribute("name").set_value(iter->first.c_str());
-        node.append_attribute("value").set_value(iter->second.c_str());
+        node.append_attribute("name").set_value(iter.first.c_str());
+        node.append_attribute("value").set_value(iter.second.c_str());
     }
 
     doc.save_file(path.c_str());
@@ -203,10 +207,10 @@ void Settings::setMethodName(const std::string& name, type value) \
     mapName[name] = value; \
 }
 
-SETTINGS_GETSET(bool, mBoolMap, getBool, setBool);
+SETTINGS_GETSET(bool, mBoolMap, getBool, setBool)
 
-SETTINGS_GETSET(int, mIntMap, getInt, setInt);
+SETTINGS_GETSET(int, mIntMap, getInt, setInt)
 
-SETTINGS_GETSET(float, mFloatMap, getFloat, setFloat);
+SETTINGS_GETSET(float, mFloatMap, getFloat, setFloat)
 
-SETTINGS_GETSET(const std::string&, mStringMap, getString, setString);
+SETTINGS_GETSET(const std::string&, mStringMap, getString, setString)

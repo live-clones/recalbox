@@ -9,7 +9,7 @@
 
 #include "GamesDBJSONScraper.h"
 #include "MamedbScraper.h"
-#include "ScreenscraperScraper.old.h"
+#include "ScreenscraperScraper.h"
 
 #define SCRAPER_THEGAMEDB     "TheGamesDB"
 #define SCRAPER_MAMEDB        "Mamedb"

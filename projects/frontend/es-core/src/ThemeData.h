@@ -161,9 +161,9 @@ public:
     bool isFolderHandled() const;
 
 private:
-	static std::map< std::string, std::map<std::string, ElementPropertyType> > sElementMap;
-	static std::vector<std::string> sSupportedFeatures;
-	static std::vector<std::string> sSupportedViews;
+	static std::map<std::string, std::map<std::string, ElementPropertyType>>& ElementMap();
+	static std::vector<std::string>& SupportedFeatures();
+	static std::vector<std::string>& SupportedViews();
 
 	std::deque<boost::filesystem::path> mPaths;
 	float mVersion;
