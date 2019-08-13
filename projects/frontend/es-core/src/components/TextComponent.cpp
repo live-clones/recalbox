@@ -2,7 +2,7 @@
 #include "Renderer.h"
 #include "Log.h"
 #include "Window.h"
-#include "ThemeData.h"
+#include "themes/ThemeData.h"
 #include "Util.h"
 #include "Settings.h"
 #include "Locale.h"
@@ -17,14 +17,14 @@ TextComponent::TextComponent(Window* window)
 		mUppercase(false),
 		mAutoCalcExtentX(true),
 		mAutoCalcExtentY(true),
-		mHorizontalAlignment(ALIGN_LEFT),
-		mVerticalAlignment(ALIGN_CENTER),
+		mHorizontalAlignment(TextAlignment::Left),
+		mVerticalAlignment(TextAlignment::Center),
 		mLineSpacing(1.5f)
 {
 }
 
-TextComponent::TextComponent(Window* window, const std::string& text, const std::shared_ptr<Font>& font, unsigned int color, Alignment align,
-	                           Vector3f pos, Vector2f size, unsigned int bgcolor)
+TextComponent::TextComponent(Window* window, const std::string& text, const std::shared_ptr<Font>& font, unsigned int color, TextAlignment align,
+                             Vector3f pos, Vector2f size, unsigned int bgcolor)
 	: GuiComponent(window),
 		mColor(0x000000FF),
       mOriginColor(0x000000FF),
@@ -35,7 +35,7 @@ TextComponent::TextComponent(Window* window, const std::string& text, const std:
     mAutoCalcExtentX(true),
     mAutoCalcExtentY(true),
 		mHorizontalAlignment(align),
-		mVerticalAlignment(ALIGN_CENTER),
+		mVerticalAlignment(TextAlignment::Center),
 		mLineSpacing(1.5f)
 {
 	setFont(font);
@@ -140,17 +140,17 @@ void TextComponent::render(const Transform4x4f& parentTrans)
 		float yOff = 0;
 		switch(mVerticalAlignment)
 			{
-			case ALIGN_TOP:
+			case TextAlignment::Top:
 				yOff = 0;
 				break;
-			case ALIGN_BOTTOM:
+			case TextAlignment::Bottom:
 				yOff = (getSize().y() - textSize.y());
 				break;
-			case ALIGN_CENTER:
+			case TextAlignment::Center:
 				yOff = (getSize().y() - textSize.y()) / 2.0f;
 				break;
-				case ALIGN_LEFT:break;
-				case ALIGN_RIGHT:break;
+				case TextAlignment::Left: break;
+				case TextAlignment::Right: break;
 			}
 		Vector3f off(0, yOff, 0);
 
@@ -170,17 +170,17 @@ void TextComponent::render(const Transform4x4f& parentTrans)
 		{
 			switch(mHorizontalAlignment)
 			{
-			case ALIGN_LEFT:
+			case TextAlignment::Left:
 				Renderer::drawRect(0.0f, 0.0f, mTextCache->metrics.size.x(), mTextCache->metrics.size.y(), 0x00000033);
 				break;
-			case ALIGN_CENTER:
+			case TextAlignment::Center:
 				Renderer::drawRect((mSize.x() - mTextCache->metrics.size.x()) / 2.0f, 0.0f, mTextCache->metrics.size.x(), mTextCache->metrics.size.y(), 0x00000033);
 				break;
-			case ALIGN_RIGHT:
+			case TextAlignment::Right:
 				Renderer::drawRect(mSize.x() - mTextCache->metrics.size.x(), 0.0f, mTextCache->metrics.size.x(), mTextCache->metrics.size.y(), 0x00000033);
 				break;
-        case ALIGN_TOP:break;
-        case ALIGN_BOTTOM:break;
+        case TextAlignment::Top:break;
+        case TextAlignment::Bottom:break;
       }
 		}
 
@@ -255,13 +255,13 @@ void TextComponent::onColorChanged()
 	}
 }
 
-void TextComponent::setHorizontalAlignment(Alignment align)
+void TextComponent::setHorizontalAlignment(TextAlignment align)
 {
 	mHorizontalAlignment = align;
 	onTextChanged();
 }
 
-void TextComponent::setVerticalAlignment(Alignment align)
+void TextComponent::setVerticalAlignment(TextAlignment align)
 {
 	mVerticalAlignment = align;
 }
@@ -282,45 +282,43 @@ std::string TextComponent::getValue() const
 	return mText;
 }
 
-void TextComponent::applyTheme(const std::shared_ptr<ThemeData>& theme, const std::string& view, const std::string& element, unsigned int properties)
+void TextComponent::applyTheme(const std::shared_ptr<ThemeData>& theme, const std::string& view, const std::string& element, ThemeProperties properties)
 {
 	GuiComponent::applyTheme(theme, view, element, properties);
-
-	using namespace ThemeFlags;
 
 	const ThemeData::ThemeElement* elem = theme->getElement(view, element, "text");
 	if(!elem)
 		return;
 
-	if (properties & COLOR && elem->has("color"))
+	if (hasFlag(properties, ThemeProperties::Color) && elem->has("color"))
 		setColor(elem->get<unsigned int>("color"));	
 
 	setRenderBackground(false);
-	if (properties & COLOR && elem->has("backgroundColor")) {
+	if (hasFlag(properties, ThemeProperties::Color) && elem->has("backgroundColor")) {
 		setBackgroundColor(elem->get<unsigned int>("backgroundColor"));
 		setRenderBackground(true);
 	}
 
-	if(properties & ALIGNMENT && elem->has("alignment"))
+	if(hasFlag(properties, ThemeProperties::Alignment) && elem->has("alignment"))
 	{
 		std::string str = elem->get<std::string>("alignment");
 		if(str == "left")
-			setHorizontalAlignment(ALIGN_LEFT);
+			setHorizontalAlignment(TextAlignment::Left);
 		else if(str == "center")
-			setHorizontalAlignment(ALIGN_CENTER);
+			setHorizontalAlignment(TextAlignment::Center);
 		else if(str == "right")
-			setHorizontalAlignment(ALIGN_RIGHT);
+			setHorizontalAlignment(TextAlignment::Right);
 		else
 			LOG(LogError) << "Unknown text alignment string: " << str;
 	}
 
-	if(properties & TEXT && elem->has("text"))
+	if (hasFlag(properties, ThemeProperties::Text) && elem->has("text"))
 		setText(elem->get<std::string>("text"));
 
-	if(properties & FORCE_UPPERCASE && elem->has("forceUppercase"))
+	if (hasFlag(properties, ThemeProperties::ForceUppercase) && elem->has("forceUppercase"))
 		setUppercase(elem->get<bool>("forceUppercase"));
 
-	if(properties & LINE_SPACING && elem->has("lineSpacing"))
+	if (hasFlag(properties, ThemeProperties::LineSpacing) && elem->has("lineSpacing"))
 		setLineSpacing(elem->get<float>("lineSpacing"));
 
 	setFont(Font::getFromTheme(elem, properties, mFont));

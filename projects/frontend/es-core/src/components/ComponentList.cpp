@@ -8,7 +8,7 @@
 
 #define TOTAL_HORIZONTAL_PADDING_PX 20
 
-ComponentList::ComponentList(Window* window) : IList<ComponentListRow, void*>(window, LIST_SCROLL_STYLE_SLOW, LIST_NEVER_LOOP)
+ComponentList::ComponentList(Window* window) : IList<ComponentListRow, void*>(window, LIST_SCROLL_STYLE_SLOW, LoopType::NeverLoop)
 {
 	mSelectorBarOffset = 0;
 	mCameraOffset = 0;
@@ -35,7 +35,7 @@ void ComponentList::addRow(const ComponentListRow& row, bool setCursorHere, bool
 	if(setCursorHere)
 	{
 		mCursor = (int)mEntries.size() - 1;
-		onCursorChanged(CURSOR_STOPPED);
+		onCursorChanged(CursorState::Stopped);
 	}
 }
 

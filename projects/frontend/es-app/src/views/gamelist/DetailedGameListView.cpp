@@ -39,7 +39,7 @@ DetailedGameListView::DetailedGameListView(Window* window, FolderData* root, Sys
 
   mList.setPosition(mSize.x() * (0.50f + padding), mList.getPosition().y());
   mList.setSize(mSize.x() * (0.50f - padding), mList.getSize().y());
-  mList.setAlignment(TextListComponent<FileData*>::ALIGN_LEFT);
+  mList.setAlignment(TextListComponent<FileData*>::Alignment::Left);
   mList.setCursorChangedCallback([&](const CursorState& state)
                                  {
                                    (void) state;
@@ -99,7 +99,7 @@ DetailedGameListView::DetailedGameListView(Window* window, FolderData* root, Sys
   addChild(&mPlayers);
   mLblLastPlayed.setText(_("Last played") + ": ");
   addChild(&mLblLastPlayed);
-  mLastPlayed.setDisplayMode(DateTimeComponent::DISP_RELATIVE_TO_NOW);
+  mLastPlayed.setDisplayMode(DateTimeComponent::Display::RelativeToNow);
   addChild(&mLastPlayed);
   mLblPlayCount.setText(_("Times played") + ": ");
   addChild(&mLblPlayCount);
@@ -130,9 +130,8 @@ void DetailedGameListView::onThemeChanged(const std::shared_ptr<ThemeData>& them
 {
   BasicGameListView::onThemeChanged(theme);
 
-  using namespace ThemeFlags;
-  mImage.applyTheme(theme, getName(), "md_image", POSITION | ThemeFlags::SIZE | Z_INDEX | ROTATION);
-  mVideo.applyTheme(theme, getName(), "md_video", POSITION | ThemeFlags::SIZE | Z_INDEX | ROTATION);
+  mImage.applyTheme(theme, getName(), "md_image", ThemeProperties::Position | ThemeProperties::Size | ThemeProperties::ZIndex | ThemeProperties::Rotation);
+  mVideo.applyTheme(theme, getName(), "md_video", ThemeProperties::Position | ThemeProperties::Size | ThemeProperties::ZIndex | ThemeProperties::Rotation);
 
   initMDLabels();
   std::vector<TextComponent*> labels = getMDLabels();
@@ -155,7 +154,7 @@ void DetailedGameListView::onThemeChanged(const std::shared_ptr<ThemeData>& them
   assert(names.size() == labels.size());
   for (unsigned int i = 0; i < labels.size(); i++)
   {
-    labels[i]->applyTheme(theme, getName(), names[i], ALL);
+    labels[i]->applyTheme(theme, getName(), names[i], ThemeProperties::All);
   }
 
   initMDValues();
@@ -182,23 +181,23 @@ void DetailedGameListView::onThemeChanged(const std::shared_ptr<ThemeData>& them
   assert(names.size() == values.size());
   for (unsigned int i = 0; i < values.size(); i++)
   {
-    values[i]->applyTheme(theme, getName(), names.at(i), ALL ^ ThemeFlags::TEXT);
+    values[i]->applyTheme(theme, getName(), names.at(i), ThemeProperties::All ^ ThemeProperties::Text);
   }
 
-  mDescContainer.applyTheme(theme, getName(), "md_description", POSITION | ThemeFlags::SIZE | Z_INDEX);
+  mDescContainer.applyTheme(theme, getName(), "md_description", ThemeProperties::Position | ThemeProperties::Size | ThemeProperties::ZIndex);
   mDescription.setSize(mDescContainer.getSize().x(), 0);
   mDescription.applyTheme(theme, getName(), "md_description",
-                          ALL ^ (POSITION | ThemeFlags::SIZE | ThemeFlags::ORIGIN | TEXT));
+                          ThemeProperties::All ^ (ThemeProperties::Position | ThemeProperties::Size | ThemeProperties::Origin | ThemeProperties::Text));
 
   if (theme->isFolderHandled())
   {
     char strbuf[256];
-    mFolderName.applyTheme(theme, getName(), "md_folder_name", ALL);
+    mFolderName.applyTheme(theme, getName(), "md_folder_name", ThemeProperties::All);
     for (int i = 0; i < (int) mFolderContent.size(); i++)
     {
       snprintf(strbuf, 256, "md_folder_image_%d", i);
       mFolderContent.at((unsigned int) i)->applyTheme(theme, getName(), strbuf,
-                                                      POSITION | ThemeFlags::SIZE | Z_INDEX | ROTATION);
+                                                      ThemeProperties::Position | ThemeProperties::Size | ThemeProperties::ZIndex | ThemeProperties::Rotation);
     }
   }
   else

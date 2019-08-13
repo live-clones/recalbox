@@ -28,7 +28,7 @@ MenuComponent::MenuComponent(Window* window, const char* title, const std::share
 
 	// set up title
 	mTitle = std::make_shared<TextComponent>(mWindow);
-	mTitle->setHorizontalAlignment(ALIGN_CENTER);
+	mTitle->setHorizontalAlignment(TextAlignment::Center);
 
 	setTitle(title, menuTheme->menuTitle.font);
 	mTitle->setColor(menuTheme->menuTitle.color);
@@ -53,7 +53,7 @@ MenuComponent::MenuComponent(Window* window, const char* title, const std::share
 				else
 					batDisplay->setColor(menuTheme->menuText.color);
 				batDisplay->setText(" " + batt.first + " " + std::to_string(batt.second) + "%");
-				batDisplay->setHorizontalAlignment(ALIGN_LEFT);
+				batDisplay->setHorizontalAlignment(TextAlignment::Left);
 				headerGrid->setEntry(batDisplay, Vector2i(0, 0), false);
 
 			}
@@ -62,8 +62,8 @@ MenuComponent::MenuComponent(Window* window, const char* title, const std::share
 		if (Settings::getInstance()->getBool("ShowClock")) {
 
 			mDateTime = std::make_shared<DateTimeComponent>(mWindow);
-			mDateTime->setDisplayMode(DateTimeComponent::DISP_TIME);
-			mDateTime->setHorizontalAlignment(ALIGN_RIGHT);
+			mDateTime->setDisplayMode(DateTimeComponent::Display::Time);
+			mDateTime->setHorizontalAlignment(TextAlignment::Right);
 			mDateTime->setFont(menuTheme->menuText.font);
 			mDateTime->setColor(menuTheme->menuText.color);
 			headerGrid->setEntry(mDateTime, Vector2i(2, 0), false);

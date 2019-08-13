@@ -1,7 +1,7 @@
 #include "Music.h"
 #include "Log.h"
 #include "Settings.h"
-#include "ThemeData.h"
+#include "themes/ThemeData.h"
 #include "AudioManager.h"
 #include "RecalboxConf.h"
 

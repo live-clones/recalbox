@@ -23,7 +23,7 @@ bool AsyncReqComponent::input(InputConfig* config, Input input)
 
 void AsyncReqComponent::update(int deltaTime)
 {
-	if(mRequest->status() != HttpReq::REQ_IN_PROGRESS)
+	if(mRequest->status() != HttpReq::Status::InProgress)
 	{
 		mSuccessFunc(mRequest);
 		delete this;

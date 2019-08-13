@@ -359,7 +359,7 @@ namespace
 
 void TheGamesDBJSONRequest::process(const std::unique_ptr<HttpReq>& req, std::vector<ScraperSearchResult>& results)
 {
-  assert(req->status() == HttpReq::REQ_SUCCESS);
+  assert(req->status() == HttpReq::Status::Success);
 
   Document doc;
   doc.Parse(req->getContent().c_str());

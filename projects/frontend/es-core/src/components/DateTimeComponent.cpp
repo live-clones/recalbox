@@ -6,7 +6,7 @@
 #include "Locale.h"
 #include "MenuThemeData.h"
 
-DateTimeComponent::DateTimeComponent(Window* window, DisplayMode dispMode) : GuiComponent(window),
+DateTimeComponent::DateTimeComponent(Window* window, Display dispMode) : GuiComponent(window),
                                                                              mEditing(false), mEditIndex(0), mDisplayMode(dispMode), mRelativeUpdateAccumulator(0),
                                                                              mColor(0x777777FF), mFont(Font::get(
     FONT_SIZE_SMALL, FONT_PATH_LIGHT)), mUppercase(false), mAutoSize(true)
@@ -19,7 +19,7 @@ DateTimeComponent::DateTimeComponent(Window* window, DisplayMode dispMode) : Gui
 	updateTextCache();
 }
 
-void DateTimeComponent::setDisplayMode(DisplayMode mode)
+void DateTimeComponent::setDisplayMode(Display mode)
 {
 	mDisplayMode = mode;
 	updateTextCache();
@@ -32,7 +32,7 @@ bool DateTimeComponent::input(InputConfig* config, Input input)
 
 	if(config->isMappedTo("b", input))
 	{
-		if(mDisplayMode != DISP_RELATIVE_TO_NOW) //don't allow editing for relative times
+		if(mDisplayMode != Display::RelativeToNow) //don't allow editing for relative times
 			mEditing = !mEditing;
 
 		if(mEditing)
@@ -129,7 +129,7 @@ bool DateTimeComponent::input(InputConfig* config, Input input)
 
 void DateTimeComponent::update(int deltaTime)
 {
-	if(mDisplayMode == DISP_RELATIVE_TO_NOW || mDisplayMode == DISP_TIME)
+	if(mDisplayMode == Display::RelativeToNow || mDisplayMode == Display::Time)
 	{
 		mRelativeUpdateAccumulator += deltaTime;
 		if(mRelativeUpdateAccumulator > 1000)
@@ -182,7 +182,7 @@ std::string DateTimeComponent::getValue() const
 	return boost::posix_time::to_iso_string(mTime);
 }
 
-DateTimeComponent::DisplayMode DateTimeComponent::getCurrentDisplayMode() const
+DateTimeComponent::Display DateTimeComponent::getCurrentDisplayMode() const
 {
 	/*if(mEditing)
 	{
@@ -196,7 +196,7 @@ DateTimeComponent::DisplayMode DateTimeComponent::getCurrentDisplayMode() const
 	return mDisplayMode;
 }
 
-std::string DateTimeComponent::getDisplayString(DisplayMode mode) const
+std::string DateTimeComponent::getDisplayString(Display mode) const
 {
 	std::string fmt;
 	char strbuf[256];
@@ -204,14 +204,14 @@ std::string DateTimeComponent::getDisplayString(DisplayMode mode) const
 
 	switch(mode)
 	{
-	case DISP_DATE:
+	  case Display::Date:
 		fmt = "%m/%d/%Y";
 		break;
-	case DISP_DATE_TIME:
+	case Display::DateTime:
 		fmt = "%m/%d/%Y %H:%M:%S";
 		break;
     //only used for timer in main menu
-	case DISP_TIME: {
+	case Display::Time: {
   	fmt = "%H:%M:%S";
 		using namespace boost::posix_time;
 		boost::posix_time::time_facet* facet = new boost::posix_time::time_facet();
@@ -223,7 +223,7 @@ std::string DateTimeComponent::getDisplayString(DisplayMode mode) const
 		ss << "" << second_clock::local_time() << " ";
 		return ss.str();
 	}
-	case DISP_RELATIVE_TO_NOW:
+	case Display::RelativeToNow:
 		{
 			//relative time
 			using namespace boost::posix_time;
@@ -283,7 +283,7 @@ std::shared_ptr<Font> DateTimeComponent::getFont() const
 void DateTimeComponent::updateTextCache()
 {
 	mFlag = !mFlag;
-	DisplayMode mode = getCurrentDisplayMode();
+	Display mode = getCurrentDisplayMode();
 	const std::string dispString = mUppercase ? strToUpper(getDisplayString(mode)) : getDisplayString(mode);
 	std::shared_ptr<Font> font = getFont();
 	mTextCache = std::unique_ptr<TextCache>(font->buildTextCache(dispString, Vector2f(0, 0), mColor, mSize.x(), mHorizontalAlignment));
@@ -300,7 +300,7 @@ void DateTimeComponent::updateTextCache()
 	//set up cursor positions
 	mCursorBoxes.clear();
 
-	if(dispString.empty() || mode == DISP_RELATIVE_TO_NOW)
+	if(dispString.empty() || mode == Display::RelativeToNow)
 		return;
 
 	//month
@@ -337,7 +337,7 @@ void DateTimeComponent::setFont(std::shared_ptr<Font> font)
 	updateTextCache();
 }
 
-void DateTimeComponent::setHorizontalAlignment(Alignment align)
+void DateTimeComponent::setHorizontalAlignment(TextAlignment align)
 {
 	mHorizontalAlignment = align;
 	updateTextCache();
@@ -355,7 +355,7 @@ void DateTimeComponent::setUppercase(bool uppercase)
 	updateTextCache();
 }
 
-void DateTimeComponent::applyTheme(const std::shared_ptr<ThemeData>& theme, const std::string& view, const std::string& element, unsigned int properties)
+void DateTimeComponent::applyTheme(const std::shared_ptr<ThemeData>& theme, const std::string& view, const std::string& element, ThemeProperties properties)
 {
 	const ThemeData::ThemeElement* elem = theme->getElement(view, element, "datetime");
 	if(!elem)
@@ -364,30 +364,28 @@ void DateTimeComponent::applyTheme(const std::shared_ptr<ThemeData>& theme, cons
 	// We set mAutoSize BEFORE calling GuiComponent::applyTheme because it calls
 	// setSize(), which will call updateTextCache(), which will reset mSize if 
 	// mAutoSize == true, ignoring the theme's value.
-	if(properties & ThemeFlags::SIZE)
+	if (hasFlag(properties, ThemeProperties::Size))
 		mAutoSize = !elem->has("size");
 
 	GuiComponent::applyTheme(theme, view, element, properties);
 
-	using namespace ThemeFlags;
-
-	if(properties & COLOR && elem->has("color"))
+	if (hasFlag(properties, ThemeProperties::Color) && elem->has("color"))
 		setColor(elem->get<unsigned int>("color"));
 
-	if(properties & ALIGNMENT && elem->has("alignment"))
+	if (hasFlag(properties, ThemeProperties::Alignment) && elem->has("alignment"))
 	{
 		std::string str = elem->get<std::string>("alignment");
 		if(str == "left")
-			setHorizontalAlignment(ALIGN_LEFT);
+			setHorizontalAlignment(TextAlignment::Left);
 		else if(str == "center")
-			setHorizontalAlignment(ALIGN_CENTER);
+			setHorizontalAlignment(TextAlignment::Center);
 		else if(str == "right")
-			setHorizontalAlignment(ALIGN_RIGHT);
+			setHorizontalAlignment(TextAlignment::Right);
 		else
 		LOG(LogError) << "Unknown text alignment string: " << str;
 	}
 
-	if(properties & FORCE_UPPERCASE && elem->has("forceUppercase"))
+	if (hasFlag(properties, ThemeProperties::ForceUppercase) && elem->has("forceUppercase"))
 		setUppercase(elem->get<bool>("forceUppercase"));
 
 	setFont(Font::getFromTheme(elem, properties, mFont));

@@ -13,11 +13,11 @@ class GuiMsgBoxScroll : public GuiComponent
 {
 public:
 	GuiMsgBoxScroll(Window* window, const std::string& title, const std::string& text,
-		const std::string& name1 = "OK", const std::function<void()>& func1 = nullptr,
-		const std::string& name2 = "", const std::function<void()>& func2 = nullptr, 
-		const std::string& name3 = "", const std::function<void()>& func3 = nullptr,
-					Alignment align = ALIGN_CENTER,
-					float size = 0);
+                  const std::string& name1 = "OK", const std::function<void()>& func1 = nullptr,
+                  const std::string& name2 = "", const std::function<void()>& func2 = nullptr,
+                  const std::string& name3 = "", const std::function<void()>& func3 = nullptr,
+                  TextAlignment align = TextAlignment::Center,
+                  float size = 0);
 
 	bool input(InputConfig* config, Input input) override;
 	void onSizeChanged() override;

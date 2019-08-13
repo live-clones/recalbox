@@ -43,27 +43,27 @@ private:
   } __PACKED__;
 
   //! Bit size of every single item - Total must be 64 - Unqualified private naming for implicit int casting
-  enum CompactBitSize
+  enum class CompactBitSize
   {
-    cbsYear = 28,  //!< cbsYear
-    cbsMonth = 4,  //!< cbsMonth
-    cbsDay = 5,    //!< cbsDay
-    cbsHour = 5,   //!< cbsHour
-    cbsMinute = 6, //!< cbsMinute
-    cbsSecond = 6, //!< cbsSecond
-    cbsMillis = 10,//!< cbsMillis
+    Year = 28,  //!< cbsYear
+    Month = 4,  //!< cbsMonth
+    Day = 5,    //!< cbsDay
+    Hour = 5,   //!< cbsHour
+    Minute = 6, //!< cbsMinute
+    Second = 6, //!< cbsSecond
+    Millis = 10,//!< cbsMillis
   };
 
   //! Position of every item in the 64bits compacted value - Unqualified private naming for implicit int casting
-  enum CompactPosition
+  enum class CompactPosition
   {
-    cpYear = cbsMonth + cbsDay + cbsHour + cbsMinute + cbsSecond + cbsMillis,
-    cpMonth = cbsDay + cbsHour + cbsMinute + cbsSecond + cbsMillis,
-    cpDay = cbsHour + cbsMinute + cbsSecond + cbsMillis,
-    cpHour = cbsMinute + cbsSecond + cbsMillis,
-    cpMinute = cbsSecond + cbsMillis,
-    cpSecond = cbsMillis,
-    cpMillis = 0,
+    Year = (int)CompactBitSize::Month + (int)CompactBitSize::Day + (int)CompactBitSize::Hour + (int)CompactBitSize::Minute + (int)CompactBitSize::Second + (int)CompactBitSize::Millis,
+    Month = (int)CompactBitSize::Day + (int)CompactBitSize::Hour + (int)CompactBitSize::Minute + (int)CompactBitSize::Second + (int)CompactBitSize::Millis,
+    Day = (int)CompactBitSize::Hour + (int)CompactBitSize::Minute + (int)CompactBitSize::Second + (int)CompactBitSize::Millis,
+    Hour = (int)CompactBitSize::Minute + (int)CompactBitSize::Second + (int)CompactBitSize::Millis,
+    Minute = (int)CompactBitSize::Second + (int)CompactBitSize::Millis,
+    Second = (int)CompactBitSize::Millis,
+    Millis = 0,
   };
 
   /*!
@@ -74,12 +74,12 @@ private:
   {
     DateTime utc = ToUtc();
     long long r = (long long)(utc._Year);
-    r <<= cbsMonth;  r |= (long long)(utc._Month);
-    r <<= cbsDay;    r |= (long long)(utc._Day);
-    r <<= cbsHour;   r |= (long long)(utc._Hour);
-    r <<= cbsMinute; r |= (long long)(utc._Minute);
-    r <<= cbsSecond; r |= (long long)(utc._Second);
-    r <<= cbsMillis; r |= (long long)(utc._Millis);
+    r <<= (long long)CompactBitSize::Month;  r |= (long long)(utc._Month);
+    r <<= (long long)CompactBitSize::Day;    r |= (long long)(utc._Day);
+    r <<= (long long)CompactBitSize::Hour;   r |= (long long)(utc._Hour);
+    r <<= (long long)CompactBitSize::Minute; r |= (long long)(utc._Minute);
+    r <<= (long long)CompactBitSize::Second; r |= (long long)(utc._Second);
+    r <<= (long long)CompactBitSize::Millis; r |= (long long)(utc._Millis);
     return r;
   }
 
@@ -503,7 +503,16 @@ public:
   int Compare(const DateTime& to, Item precision) const
   {
     // Static precision mask shift.
-    static int MaskPositionShift[] = { cpYear, cpMonth, cpDay, cpHour, cpMinute, cpSecond, cpMillis };
+    static int MaskPositionShift[] =
+    {
+      (int)CompactPosition::Year,
+      (int)CompactPosition::Month,
+      (int)CompactPosition::Day,
+      (int)CompactPosition::Hour,
+      (int)CompactPosition::Minute,
+      (int)CompactPosition::Second,
+      (int)CompactPosition::Millis,
+    };
     long long difference = (Compact() >> MaskPositionShift[(int)precision]) - (to.Compact() >> MaskPositionShift[(int)precision]);
     return (difference < 0 ? -1 : (difference > 0 ? 1 : 0));
   }

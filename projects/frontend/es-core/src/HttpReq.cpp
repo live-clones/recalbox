@@ -37,13 +37,13 @@ bool HttpReq::isUrl(const std::string& str)
 }
 
 HttpReq::HttpReq(const std::string& url)
-	: mHandle(nullptr), mStatus(REQ_IN_PROGRESS)
+	: mHandle(nullptr), mStatus(Status::InProgress)
 {
 	mHandle = curl_easy_init();
 
 	if(mHandle == nullptr)
 	{
-		mStatus = REQ_IO_ERROR;
+		mStatus = Status::IOError;
 		onError("curl_easy_init failed");
 		return;
 	}
@@ -52,8 +52,8 @@ HttpReq::HttpReq(const std::string& url)
 	CURLcode err = curl_easy_setopt(mHandle, CURLOPT_URL, url.c_str());
 	if(err != CURLE_OK)
 	{
-		mStatus = REQ_IO_ERROR;
-		onError(curl_easy_strerror(err));
+    mStatus = Status::IOError;
+    onError(curl_easy_strerror(err));
 		return;
 	}
 
@@ -61,7 +61,7 @@ HttpReq::HttpReq(const std::string& url)
 	err = curl_easy_setopt(mHandle, CURLOPT_WRITEFUNCTION, &HttpReq::write_content);
 	if(err != CURLE_OK)
 	{
-		mStatus = REQ_IO_ERROR;
+		mStatus = Status::IOError;
 		onError(curl_easy_strerror(err));
 		return;
 	}
@@ -70,7 +70,7 @@ HttpReq::HttpReq(const std::string& url)
 	err = curl_easy_setopt(mHandle, CURLOPT_WRITEDATA, this);
 	if(err != CURLE_OK)
 	{
-		mStatus = REQ_IO_ERROR;
+		mStatus = Status::IOError;
 		onError(curl_easy_strerror(err));
 		return;
 	}
@@ -79,7 +79,7 @@ HttpReq::HttpReq(const std::string& url)
 	CURLMcode merr = curl_multi_add_handle(s_multi_handle, mHandle);
 	if(merr != CURLM_OK)
 	{
-		mStatus = REQ_IO_ERROR;
+		mStatus = Status::IOError;
 		onError(curl_multi_strerror(merr));
 		return;
 	}
@@ -105,13 +105,13 @@ HttpReq::~HttpReq()
 
 HttpReq::Status HttpReq::status()
 {
-	if(mStatus == REQ_IN_PROGRESS)
+	if(mStatus == Status::InProgress)
 	{
 		int handle_count;
 		CURLMcode merr = curl_multi_perform(s_multi_handle, &handle_count);
 		if(merr != CURLM_OK && merr != CURLM_CALL_MULTI_PERFORM)
 		{
-			mStatus = REQ_IO_ERROR;
+			mStatus = Status::IOError;
 			onError(curl_multi_strerror(merr));
 			return mStatus;
 		}
@@ -132,9 +132,9 @@ HttpReq::Status HttpReq::status()
 
 				if(msg->data.result == CURLE_OK)
 				{
-					req->mStatus = REQ_SUCCESS;
+					req->mStatus = Status::Success;
 				}else{
-					req->mStatus = REQ_IO_ERROR;
+					req->mStatus = Status::IOError;
 					req->onError(curl_easy_strerror(msg->data.result));
 				}
 			}
@@ -146,7 +146,7 @@ HttpReq::Status HttpReq::status()
 
 std::string HttpReq::getContent() const
 {
-	assert(mStatus == REQ_SUCCESS);
+	assert(mStatus == Status::Success);
 	return mContent.str();
 }
 

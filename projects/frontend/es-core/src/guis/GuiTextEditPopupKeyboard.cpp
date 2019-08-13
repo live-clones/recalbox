@@ -16,7 +16,7 @@ GuiTextEditPopupKeyboard::GuiTextEditPopupKeyboard(Window* window, const std::st
 	addChild(&mBackground);
 	addChild(&mGrid);
 
-	mTitle = std::make_shared<TextComponent>(mWindow, strToUpper(title), menuTheme->menuTitle.font, menuTheme->menuTitle.color, ALIGN_CENTER);
+	mTitle = std::make_shared<TextComponent>(mWindow, strToUpper(title), menuTheme->menuTitle.font, menuTheme->menuTitle.color, TextAlignment::Center);
 
 	mText = std::make_shared<TextEditComponent>(mWindow);
 	mText->setValue(initValue);

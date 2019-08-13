@@ -1,5 +1,6 @@
 #include "HelpStyle.h"
-#include "ThemeData.h"
+#include "themes/ThemeData.h"
+#include "themes/Properties.h"
 #include "Renderer.h"
 #include "resources/Font.h"
 
@@ -34,7 +35,7 @@ void HelpStyle::applyTheme(const std::shared_ptr<ThemeData>& theme, const std::s
 		iconColor = elem->get<unsigned int>("iconColor");
 
 	if(elem->has("fontPath") || elem->has("fontSize"))
-		font = Font::getFromTheme(elem, ThemeFlags::ALL, font);
+		font = Font::getFromTheme(elem, ThemeProperties::All, font);
 	
 	if(elem->has("iconUpDown"))
 		iconMap["up/down"] = elem->get<std::string>("iconUpDown");

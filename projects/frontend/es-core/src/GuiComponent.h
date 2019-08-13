@@ -5,6 +5,8 @@
 #include <functional>
 #include "utils/math/Vectors.h"
 #include "HelpStyle.h"
+#include "themes/ThemeData.h"
+#include "themes/Properties.h"
 
 class Window;
 class Animation;
@@ -115,7 +117,7 @@ public:
 
 	// Default implementation just handles <pos> and <size> tags as normalized float pairs.
 	// You probably want to keep this behavior for any derived classes as well as add your own.
-	virtual void applyTheme(const std::shared_ptr<ThemeData>& theme, const std::string& view, const std::string& element, unsigned int properties);
+	virtual void applyTheme(const std::shared_ptr<ThemeData>& theme, const std::string& view, const std::string& element, ThemeProperties properties);
 
 	// Returns a list of help prompts.
 	virtual std::vector<HelpPrompt> getHelpPrompts() { return std::vector<HelpPrompt>(); };

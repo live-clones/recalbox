@@ -7,18 +7,7 @@
 #include <components/IList.h>
 #include "MetadataDescriptor.h"
 #include "ItemType.h"
-
-// Bitflag operator for use on strongly-typed enums - Pass enum type and underlying cardinal type
-#define DEFINE_BITFLAG_ENUM(enumtype, ut) \
-    inline enumtype operator  |  (enumtype lhs, enumtype rhs)  { return (enumtype)((ut)lhs | (ut)rhs); } \
-    inline enumtype operator  &  (enumtype lhs, enumtype rhs)  { return (enumtype)((ut)lhs & (ut)rhs); } \
-    inline enumtype operator  ^  (enumtype lhs, enumtype rhs)  { return (enumtype)((ut)lhs ^ (ut)rhs); } \
-    inline enumtype operator  ~  (enumtype lhs)                { return (enumtype)(~(ut)lhs); } \
-    inline enumtype& operator |= (enumtype& lhs, enumtype rhs) { lhs = (enumtype)((ut)lhs | (ut)rhs); return lhs; } \
-    inline enumtype& operator &= (enumtype& lhs, enumtype rhs) { lhs = (enumtype)((ut)lhs & (ut)rhs); return lhs; } \
-    inline enumtype& operator ^= (enumtype& lhs, enumtype rhs) { lhs = (enumtype)((ut)lhs ^ (ut)rhs); return lhs; } \
-    inline bool operator      == (enumtype lhs, ut rhs)        { return (ut)lhs == rhs; } \
-    inline bool operator      != (enumtype lhs, ut rhs)        { return (ut)lhs != rhs; }
+#include "utils/cplusplus/Bitflags.h"
 
 // Forward declarations
 class SystemData;

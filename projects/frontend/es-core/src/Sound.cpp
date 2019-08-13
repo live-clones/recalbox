@@ -2,7 +2,7 @@
 #include "AudioManager.h"
 #include "Log.h"
 #include "Settings.h"
-#include "ThemeData.h"
+#include "themes/ThemeData.h"
 
 std::map< std::string, std::shared_ptr<Sound> > Sound::sMap;
 

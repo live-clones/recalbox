@@ -1,5 +1,4 @@
-#ifndef _INPUTCONFIG_H_
-#define _INPUTCONFIG_H_
+#pragma once
 
 #include <map>
 #include <vector>
@@ -11,13 +10,13 @@
 #define DEVICE_KEYBOARD -1
 #define MAX_PLAYERS 5
 
-enum InputType
+enum class InputType
 {
-  TYPE_AXIS,
-  TYPE_BUTTON,
-  TYPE_HAT,
-  TYPE_KEY,
-  TYPE_COUNT
+  Axis,
+  Button,
+  Hat,
+  Key,
+  Count,
 };
 
 struct Input
@@ -31,29 +30,31 @@ public:
   bool configured;
 
   Input()
-  {
-    device = DEVICE_KEYBOARD;
-    id = -1;
-    value = -999;
-    type = TYPE_COUNT;
-    code = -1;
-    configured = false;
-  }
-
-  Input(int dev, InputType t, int i, int val, bool conf) : device(dev), type(t), id(i), value(val), configured(conf)
+    : device(DEVICE_KEYBOARD),
+      type(InputType::Count),
+      id(-1),
+      value(-999),
+      code(-1),
+      configured(false)
   {
   }
 
-  std::string getHatDir(int val)
+  Input(int dev, InputType t, int i, int val, bool conf)
+    : device(dev),
+      type(t),
+      id(i),
+      value(val),
+      code(-1),
+      configured(conf)
   {
-    if (val & SDL_HAT_UP)
-      return "up";
-    else if (val & SDL_HAT_DOWN)
-      return "down";
-    else if (val & SDL_HAT_LEFT)
-      return "left";
-    else if (val & SDL_HAT_RIGHT)
-      return "right";
+  }
+
+  static const char* getHatDir(int val)
+  {
+    if (val & SDL_HAT_UP)    return "up";
+    if (val & SDL_HAT_DOWN)  return "down";
+    if (val & SDL_HAT_LEFT)  return "left";
+    if (val & SDL_HAT_RIGHT) return "right";
     return "neutral?";
   }
 
@@ -62,24 +63,13 @@ public:
     std::stringstream stream;
     switch (type)
     {
-      case TYPE_BUTTON:
-        stream << "Button " << id;
-        break;
-      case TYPE_AXIS:
-        stream << "Axis " << id << (value > 0 ? "+" : "-");
-        break;
-      case TYPE_HAT:
-        stream << "Hat " << id << " " << getHatDir(value);
-        break;
-      case TYPE_KEY:
-        stream << "Key " << SDL_GetKeyName((SDL_Keycode) id);
-        break;
-      case TYPE_COUNT:
-      default:
-        stream << "Input to string error";
-        break;
+      case InputType::Button:  stream << "Button " << id; break;
+      case InputType::Axis:    stream << "Axis " << id << (value > 0 ? "+" : "-"); break;
+      case InputType::Hat:     stream << "Hat " << id << " " << getHatDir(value);  break;
+      case InputType::Key:     stream << "Key " << SDL_GetKeyName((SDL_Keycode) id); break;
+      case InputType::Count:
+      default:                 stream << "Input to string error"; break;
     }
-
     return stream.str();
   }
 
@@ -91,26 +81,26 @@ public:
     }
     switch (type)
     {
-      case TYPE_AXIS:
+      case InputType::Axis:
         #ifdef SDL_JOYSTICK_IS_OVERRIDEN_BY_RECALBOX
         code = SDL_JoystickAxisEventCodeById(device, id);
         #endif
         break;
-      case TYPE_BUTTON:
+      case InputType::Button:
         #ifdef SDL_JOYSTICK_IS_OVERRIDEN_BY_RECALBOX
         code = SDL_JoystickButtonEventCodeById(device, id);
         #endif
         break;
-      case TYPE_HAT:
+      case InputType::Hat:
         #ifdef SDL_JOYSTICK_IS_OVERRIDEN_BY_RECALBOX
         code = SDL_JoystickHatEventCodeById(device, id);
         #endif
         break;
       default:
         break;
-      case TYPE_KEY:
+      case InputType::Key:
         break;
-      case TYPE_COUNT:
+      case InputType::Count:
         break;
     }
   }
@@ -118,67 +108,65 @@ public:
 
 class InputConfig
 {
-public:
-  InputConfig(const InputConfig* source);
+  private:
+    const int mDeviceId;
+    const int mDeviceIndex;
+    const std::string mDeviceName;
+    const std::string mDeviceGUID;
+    const int mDeviceNbAxes; // number of axes of the device
+    const int mDeviceNbHats;
+    const int mDeviceNbButtons;
+    std::map<std::string, Input> mNameMap;
 
-  InputConfig(int deviceId, int deviceIndex, const std::string& deviceName, const std::string& deviceGUID,
-              int deviceNbAxes, int deviceNbHats, int deviceNbButtons);
+  public:
+    explicit InputConfig(const InputConfig* source);
 
-  void clear();
+    InputConfig(int deviceId, int deviceIndex, const std::string& deviceName, const std::string& deviceGUID,
+                int deviceNbAxes, int deviceNbHats, int deviceNbButtons);
 
-  void loadFrom(const InputConfig* source);
+    void clear();
 
-  void mapInput(const std::string& name, Input input);
+    void loadFrom(const InputConfig* source);
 
-  void unmapInput(const std::string& name); // unmap all Inputs mapped to this name
+    void mapInput(const std::string& name, Input input);
 
-  inline int getDeviceId() const { return mDeviceId; };
+    void unmapInput(const std::string& name); // unmap all Inputs mapped to this name
 
-  inline int getDeviceIndex() const { return mDeviceIndex; };
+    inline int getDeviceId() const { return mDeviceId; };
 
-  inline const std::string& getDeviceName() const { return mDeviceName; }
+    inline int getDeviceIndex() const { return mDeviceIndex; };
 
-  inline const std::string& getDeviceGUIDString() const { return mDeviceGUID; }
+    inline const std::string& getDeviceName() const { return mDeviceName; }
 
-  inline int getDeviceNbAxes() const { return mDeviceNbAxes; };
+    inline const std::string& getDeviceGUIDString() const { return mDeviceGUID; }
 
-  inline int getDeviceNbHats() const { return mDeviceNbHats; };
+    inline int getDeviceNbAxes() const { return mDeviceNbAxes; };
 
-  inline int getDeviceNbButtons() const { return mDeviceNbButtons; };
+    inline int getDeviceNbHats() const { return mDeviceNbHats; };
 
-  inline const std::map<std::string, Input> getNameMap() const { return mNameMap; };
+    inline int getDeviceNbButtons() const { return mDeviceNbButtons; };
 
-  std::string getSDLPowerLevel();
+    inline const std::map<std::string, Input>& getNameMap() const { return mNameMap; };
 
-  std::string getSysPowerLevel();
+    std::string getSDLPowerLevel();
 
-  //Returns true if Input is mapped to this name, false otherwise.
-  bool isMappedTo(const std::string& name, Input input);
+    std::string getSysPowerLevel();
 
-  bool isMapped(const std::string& name);
+    //Returns true if Input is mapped to this name, false otherwise.
+    bool isMappedTo(const std::string& name, Input input);
 
-  //Returns a list of names this input is mapped to.
-  std::vector<std::string> getMappedTo(Input input);
+    bool isMapped(const std::string& name);
 
-  void loadFromXML(pugi::xml_node root);
+    //Returns a list of names this input is mapped to.
+    std::vector<std::string> getMappedTo(Input input);
 
-  void writeToXML(pugi::xml_node parent);
+    void loadFromXML(pugi::xml_node root);
 
-  bool isConfigured();
+    void writeToXML(pugi::xml_node parent);
 
-  // Returns true if there is an Input mapped to this name, false otherwise.
-  // Writes Input mapped to this name to result if true.
-  bool getInputByName(const std::string& name, Input* result);
+    bool isConfigured();
 
-private:
-  const int mDeviceId;
-  const int mDeviceIndex;
-  const std::string mDeviceName;
-  const std::string mDeviceGUID;
-  const int mDeviceNbAxes; // number of axes of the device
-  const int mDeviceNbHats;
-  const int mDeviceNbButtons;
-  std::map<std::string, Input> mNameMap;
+    // Returns true if there is an Input mapped to this name, false otherwise.
+    // Writes Input mapped to this name to result if true.
+    bool getInputByName(const std::string& name, Input* result);
 };
-
-#endif

@@ -28,18 +28,18 @@ GuiGameScraper::GuiGameScraper(Window* window, const ScraperSearchParams& params
 
 	// row 0 is a spacer
 
-	mGameName = std::make_shared<TextComponent>(mWindow, strToUpper(mSearchParams.game->getPath().filename().generic_string()), menuTheme->menuText.font, menuTheme->menuText.color, ALIGN_CENTER);
+	mGameName = std::make_shared<TextComponent>(mWindow, strToUpper(mSearchParams.game->getPath().filename().generic_string()), menuTheme->menuText.font, menuTheme->menuText.color, TextAlignment::Center);
 	mGrid.setEntry(mGameName, Vector2i(0, 1), false, true);
 
 	// row 2 is a spacer
 
-	mSystemName = std::make_shared<TextComponent>(mWindow, strToUpper(mSearchParams.system->getFullName()), menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, ALIGN_CENTER);
+	mSystemName = std::make_shared<TextComponent>(mWindow, strToUpper(mSearchParams.system->getFullName()), menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Center);
 	mGrid.setEntry(mSystemName, Vector2i(0, 3), false, true);
 
 	// row 4 is a spacer
 
 	// ScraperSearchComponent
-	mSearch = std::make_shared<ScraperSearchComponent>(window, ScraperSearchComponent::NEVER_AUTO_ACCEPT);
+	mSearch = std::make_shared<ScraperSearchComponent>(window, ScraperSearchComponent::SearchType::NeverAutoAccept);
 	mGrid.setEntry(mSearch, Vector2i(0, 5), true);
 
 	// buttons

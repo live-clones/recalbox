@@ -225,7 +225,7 @@ bool InputManager::parseEvent(const SDL_Event& ev, Window* window)
           normValue = -1;
 
         window->input(getInputConfigByDevice(ev.jaxis.which),
-                      Input(ev.jaxis.which, TYPE_AXIS, ev.jaxis.axis, normValue, false));
+                      Input(ev.jaxis.which, InputType::Axis, ev.jaxis.axis, normValue, false));
         causedEvent = true;
       }
 
@@ -235,12 +235,12 @@ bool InputManager::parseEvent(const SDL_Event& ev, Window* window)
     case SDL_JOYBUTTONDOWN:
     case SDL_JOYBUTTONUP:
       window->input(getInputConfigByDevice(ev.jbutton.which),
-                    Input(ev.jbutton.which, TYPE_BUTTON, ev.jbutton.button, ev.jbutton.state == SDL_PRESSED, false));
+                    Input(ev.jbutton.which, InputType::Button, ev.jbutton.button, ev.jbutton.state == SDL_PRESSED, false));
       return true;
 
     case SDL_JOYHATMOTION:
       window->input(getInputConfigByDevice(ev.jhat.which),
-                    Input(ev.jhat.which, TYPE_HAT, ev.jhat.hat, ev.jhat.value, false));
+                    Input(ev.jhat.which, InputType::Hat, ev.jhat.hat, ev.jhat.value, false));
       return true;
 
     case SDL_KEYDOWN:
@@ -261,12 +261,12 @@ bool InputManager::parseEvent(const SDL_Event& ev, Window* window)
       }
 
       window->input(getInputConfigByDevice(DEVICE_KEYBOARD),
-                    Input(DEVICE_KEYBOARD, TYPE_KEY, ev.key.keysym.sym, 1, false));
+                    Input(DEVICE_KEYBOARD, InputType::Key, ev.key.keysym.sym, 1, false));
       return true;
 
     case SDL_KEYUP:
       window->input(getInputConfigByDevice(DEVICE_KEYBOARD),
-                    Input(DEVICE_KEYBOARD, TYPE_KEY, ev.key.keysym.sym, 0, false));
+                    Input(DEVICE_KEYBOARD, InputType::Key, ev.key.keysym.sym, 0, false));
       return true;
 
     case SDL_TEXTINPUT:
@@ -370,18 +370,18 @@ void InputManager::loadDefaultKBConfig()
   InputConfig* cfg = getInputConfigByDevice(DEVICE_KEYBOARD);
 
   cfg->clear();
-  cfg->mapInput("up", Input(DEVICE_KEYBOARD, TYPE_KEY, SDLK_UP, 1, true));
-  cfg->mapInput("down", Input(DEVICE_KEYBOARD, TYPE_KEY, SDLK_DOWN, 1, true));
-  cfg->mapInput("left", Input(DEVICE_KEYBOARD, TYPE_KEY, SDLK_LEFT, 1, true));
-  cfg->mapInput("right", Input(DEVICE_KEYBOARD, TYPE_KEY, SDLK_RIGHT, 1, true));
+  cfg->mapInput("up", Input(DEVICE_KEYBOARD, InputType::Key, SDLK_UP, 1, true));
+  cfg->mapInput("down", Input(DEVICE_KEYBOARD, InputType::Key, SDLK_DOWN, 1, true));
+  cfg->mapInput("left", Input(DEVICE_KEYBOARD, InputType::Key, SDLK_LEFT, 1, true));
+  cfg->mapInput("right", Input(DEVICE_KEYBOARD, InputType::Key, SDLK_RIGHT, 1, true));
 
-  cfg->mapInput("a", Input(DEVICE_KEYBOARD, TYPE_KEY, SDLK_RETURN, 1, true));
-  cfg->mapInput("b", Input(DEVICE_KEYBOARD, TYPE_KEY, SDLK_ESCAPE, 1, true));
-  cfg->mapInput("start", Input(DEVICE_KEYBOARD, TYPE_KEY, SDLK_F1, 1, true));
-  cfg->mapInput("select", Input(DEVICE_KEYBOARD, TYPE_KEY, SDLK_F2, 1, true));
+  cfg->mapInput("a", Input(DEVICE_KEYBOARD, InputType::Key, SDLK_RETURN, 1, true));
+  cfg->mapInput("b", Input(DEVICE_KEYBOARD, InputType::Key, SDLK_ESCAPE, 1, true));
+  cfg->mapInput("start", Input(DEVICE_KEYBOARD, InputType::Key, SDLK_F1, 1, true));
+  cfg->mapInput("select", Input(DEVICE_KEYBOARD, InputType::Key, SDLK_F2, 1, true));
 
-  cfg->mapInput("pageup", Input(DEVICE_KEYBOARD, TYPE_KEY, SDLK_RIGHTBRACKET, 1, true));
-  cfg->mapInput("pagedown", Input(DEVICE_KEYBOARD, TYPE_KEY, SDLK_LEFTBRACKET, 1, true));
+  cfg->mapInput("pageup", Input(DEVICE_KEYBOARD, InputType::Key, SDLK_RIGHTBRACKET, 1, true));
+  cfg->mapInput("pagedown", Input(DEVICE_KEYBOARD, InputType::Key, SDLK_LEFTBRACKET, 1, true));
 }
 
 void InputManager::writeDeviceConfig(InputConfig* config)

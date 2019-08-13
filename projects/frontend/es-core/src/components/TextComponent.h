@@ -14,18 +14,18 @@ class TextComponent : public GuiComponent
 {
 public:
 	explicit TextComponent(Window* window);
-	TextComponent(Window* window, const std::string& text, const std::shared_ptr<Font>& font, unsigned int color = 0x000000FF, Alignment align = ALIGN_LEFT,
-		Vector3f pos = Vector3f::Zero(), Vector2f size = Vector2f::Zero(), unsigned int bgcolor = 0x00000000);
+	TextComponent(Window* window, const std::string& text, const std::shared_ptr<Font>& font, unsigned int color = 0x000000FF, TextAlignment align = TextAlignment::Left,
+                Vector3f pos = Vector3f::Zero(), Vector2f size = Vector2f::Zero(), unsigned int bgcolor = 0x00000000);
 
 	void setFont(const std::shared_ptr<Font>& font);
 	void setUppercase(bool uppercase);
 	void onSizeChanged() override;
 	void setText(const std::string& text);
-	void setColor(unsigned int color);
+	void setColor(unsigned int color) override;
 	inline void setOriginColor(unsigned int color){mOriginColor = color;};
 	unsigned int getOriginColor() override;
-	void setHorizontalAlignment(Alignment align);
-	void setVerticalAlignment(Alignment align);
+	void setHorizontalAlignment(TextAlignment align);
+	void setVerticalAlignment(TextAlignment align);
 	void setLineSpacing(float spacing);
 	void setBackgroundColor(unsigned int color);
 	void setRenderBackground(bool render);
@@ -40,7 +40,7 @@ public:
 	
 	inline std::shared_ptr<Font> getFont() const { return mFont; }
 
-	void applyTheme(const std::shared_ptr<ThemeData>& theme, const std::string& view, const std::string& element, unsigned int properties) override;
+	void applyTheme(const std::shared_ptr<ThemeData>& theme, const std::string& view, const std::string& element, ThemeProperties properties) override;
 
 private:
 	void calculateExtent();
@@ -60,7 +60,7 @@ private:
   bool mAutoCalcExtentY;
 	std::string mText;
 	std::shared_ptr<TextCache> mTextCache;
-	Alignment mHorizontalAlignment;
-	Alignment mVerticalAlignment;
+  TextAlignment mHorizontalAlignment;
+  TextAlignment mVerticalAlignment;
 	float mLineSpacing;
 };

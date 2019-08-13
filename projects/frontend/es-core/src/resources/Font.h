@@ -7,7 +7,7 @@
 #include FT_FREETYPE_H
 #include "utils/math/Vectors.h"
 #include "resources/ResourceManager.h"
-#include "ThemeData.h"
+#include "themes/ThemeData.h"
 
 class TextCache;
 
@@ -21,13 +21,13 @@ class TextCache;
 
 typedef unsigned long UnicodeChar;
 
-enum Alignment
+enum class TextAlignment
 {
-	ALIGN_LEFT,
-	ALIGN_CENTER, // centers both horizontally and vertically
-	ALIGN_RIGHT,
-	ALIGN_TOP,
-	ALIGN_BOTTOM
+	Left,
+	Center, // centers both horizontally and vertically
+	Right,
+	Top,
+	Bottom
 };
 
 //A TrueType Font renderer that uses FreeType and OpenGL.
@@ -43,7 +43,7 @@ public:
 
 	Vector2f sizeText(std::string text, float lineSpacing = 1.5f); // Returns the expected size of a string when rendered.  Extra spacing is applied to the Y axis.
 	TextCache* buildTextCache(const std::string& text, float offsetX, float offsetY, unsigned int color);
-	TextCache* buildTextCache(const std::string& text, Vector2f offset, unsigned int color, float xLen, Alignment alignment = ALIGN_LEFT, float lineSpacing = 1.5f);
+	TextCache* buildTextCache(const std::string& text, Vector2f offset, unsigned int color, float xLen, TextAlignment alignment = TextAlignment::Left, float lineSpacing = 1.5f);
 	void renderTextCache(TextCache* cache);
 	
 	std::string wrapText(std::string text, float xLen); // Inserts newlines into text to make it wrap properly.
@@ -61,7 +61,7 @@ public:
 
 	inline static const char* getDefaultPath() { return FONT_PATH_REGULAR; }
 
-	static std::shared_ptr<Font> getFromTheme(const ThemeData::ThemeElement* elem, unsigned int properties, const std::shared_ptr<Font>& orig);
+	static std::shared_ptr<Font> getFromTheme(const ThemeData::ThemeElement* elem, ThemeProperties properties, const std::shared_ptr<Font>& orig);
 
 	size_t getMemUsage() const; // returns an approximation of VRAM used by this font's texture (in bytes)
 	static size_t getTotalMemUsage(); // returns an approximation of total VRAM used by font textures (in bytes)
@@ -135,7 +135,7 @@ private:
 	const int mSize;
 	const std::string mPath;
 
-	float getNewlineStartOffset(const std::string& text, const unsigned int& charStart, const float& xLen, const Alignment& alignment);
+	float getNewlineStartOffset(const std::string& text, unsigned int charStart, float xLen, TextAlignment alignment);
 
 	friend TextCache;
 };

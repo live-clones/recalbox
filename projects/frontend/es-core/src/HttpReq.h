@@ -28,14 +28,14 @@ public:
 
 	~HttpReq();
 
-	enum Status
+	enum class Status
 	{
-		REQ_IN_PROGRESS,		//request is in progress
-		REQ_SUCCESS,			//request completed successfully, get it with getContent()
+		InProgress,      //request is in progress
+		Success,         //request completed successfully, get it with getContent()
 
-		REQ_IO_ERROR,			//some boost::asio error happened, get it with getErrorMsg()
-		REQ_BAD_STATUS_CODE,	//some invalid HTTP response status code happened (non-200)
-		REQ_INVALID_RESPONSE	//the HTTP response was invalid
+		IOError,         //some boost::asio error happened, get it with getErrorMsg()
+		BadStatus,       //some invalid HTTP response status code happened (non-200)
+		InvalidResponse, //the HTTP response was invalid
 	};
 
 	Status status(); //process any received data and return the status afterwards

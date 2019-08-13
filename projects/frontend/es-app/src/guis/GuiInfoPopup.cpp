@@ -42,10 +42,10 @@ GuiInfoPopup::GuiInfoPopup(Window* window, const std::string& message, int durat
 
 	float msgHeight;
 
-	mMsgText = std::make_shared<TextComponent>(window, message, Font::get((int)FONT_SIZE_TEXT), menuTheme->menuText.color, ALIGN_LEFT);
+	mMsgText = std::make_shared<TextComponent>(window, message, Font::get((int)FONT_SIZE_TEXT), menuTheme->menuText.color, TextAlignment::Left);
 
 
-	mMsgIcon = std::make_shared<TextComponent>(window, "", Font::get((int)FONT_SIZE_ICON), menuTheme->menuText.color, ALIGN_LEFT);
+	mMsgIcon = std::make_shared<TextComponent>(window, "", Font::get((int)FONT_SIZE_ICON), menuTheme->menuText.color, TextAlignment::Left);
 
 	switch (icon) {
 		case 0 :

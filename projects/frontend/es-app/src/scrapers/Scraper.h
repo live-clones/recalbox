@@ -102,7 +102,7 @@ class ScraperSearchHandle : public AsyncHandle
 
     inline const std::vector<ScraperSearchResult>& getResults() const
     {
-      assert(mStatus != ASYNC_IN_PROGRESS);
+      assert(mStatus != AsyncStatus::InProgress);
       return mResults;
     }
 
@@ -137,7 +137,7 @@ class MDResolveHandle : public AsyncHandle
 
     inline const ScraperSearchResult& getResult() const
     {
-      assert(mStatus == ASYNC_DONE);
+      assert(mStatus == AsyncStatus::Done);
       return mResult;
     }
 

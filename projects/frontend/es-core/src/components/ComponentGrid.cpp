@@ -4,9 +4,7 @@
 #include "Settings.h"
 #include "Locale.h"
 
-using namespace GridFlags;
-
-ComponentGrid::ComponentGrid(Window* window, const Vector2i& gridDimensions) : GuiComponent(window), 
+ComponentGrid::ComponentGrid(Window* window, const Vector2i& gridDimensions) : GuiComponent(window),
     mGridSize(gridDimensions), mCursor(0, 0), mUnhandledInputCallback(nullptr)
 {
     assert(gridDimensions.x() > 0 && gridDimensions.y() > 0);
@@ -84,7 +82,7 @@ void ComponentGrid::setRowHeightPerc(int row, float height, bool update)
 }
 
 void ComponentGrid::setEntry(const std::shared_ptr<GuiComponent>& comp, const Vector2i& pos, bool canFocus, bool resize, const Vector2i& size,
-    unsigned int border, GridFlags::UpdateType updateType)
+    Borders border, UpdateType updateType)
 {
     assert(pos.x() >= 0 && pos.x() < mGridSize.x() && pos.y() >= 0 && pos.y() < mGridSize.y());
     assert(comp != nullptr);
@@ -158,7 +156,7 @@ void ComponentGrid::updateSeparators()
     Vector2f size(0, 0);
     for (auto& mCell : mCells)
     {
-        if(!mCell.border && !drawAll)
+        if((mCell.border == 0) && !drawAll)
             continue;
 
         // find component position + size
@@ -171,22 +169,22 @@ void ComponentGrid::updateSeparators()
         for (int y = mCell.pos.y(); y < mCell.pos.y() + mCell.dim.y(); y++)
             size[1] += getRowHeight(y);
 
-        if(mCell.border & BORDER_TOP || drawAll)
+        if (hasFlag(mCell.border, Borders::Top) || drawAll)
         {
             mLines.push_back(Vert(pos.x(), pos.y()));
             mLines.push_back(Vert(pos.x() + size.x(), pos.y()));
         }
-        if(mCell.border & BORDER_BOTTOM || drawAll)
+        if (hasFlag(mCell.border, Borders::Bottom) || drawAll)
         {
             mLines.push_back(Vert(pos.x(), pos.y() + size.y()));
             mLines.push_back(Vert(pos.x() + size.x(), mLines.back().y));
         }
-        if(mCell.border & BORDER_LEFT || drawAll)
+        if (hasFlag(mCell.border, Borders::Left) || drawAll)
         {
             mLines.push_back(Vert(pos.x(), pos.y()));
             mLines.push_back(Vert(pos.x(), pos.y() + size.y()));
         }
-        if(mCell.border & BORDER_RIGHT || drawAll)
+        if (hasFlag(mCell.border, Borders::Right) || drawAll)
         {
             mLines.push_back(Vert(pos.x() + size.x(), pos.y()));
             mLines.push_back(Vert(mLines.back().x, pos.y() + size.y()));
@@ -350,7 +348,7 @@ void ComponentGrid::update(int deltaTime)
     GridEntry* cursorEntry = getCellAt(mCursor);
     for (auto& mCell : mCells)
     {
-        if(mCell.updateType == UPDATE_ALWAYS || (mCell.updateType == UPDATE_WHEN_SELECTED && cursorEntry == &mCell))
+        if(mCell.updateType == UpdateType::Always || (mCell.updateType == UpdateType::WhenSelected && cursorEntry == &mCell))
             mCell.component->update(deltaTime);
     }
 }

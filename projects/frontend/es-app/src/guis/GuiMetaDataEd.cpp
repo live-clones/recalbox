@@ -52,10 +52,10 @@ GuiMetaDataEd::GuiMetaDataEd(Window* window,
   mBackground.setEdgeColor(menuTheme->menuBackground.color);
 
   mTitle = std::make_shared<TextComponent>(mWindow, _("EDIT METADATA"), menuTheme->menuTitle.font, menuTheme->menuTitle.color,
-                                           ALIGN_CENTER);
+                                           TextAlignment::Center);
   mSubtitle = std::make_shared<TextComponent>(mWindow,
                                               strToUpper(scraperParams.game->getPath().filename().generic_string()),
-                                              menuTheme->menuFooter.font, menuTheme->menuFooter.color, ALIGN_CENTER);
+                                              menuTheme->menuFooter.font, menuTheme->menuFooter.color, TextAlignment::Center);
   float y = 0;
   y += mTitle->getFont()->getHeight() + mSubtitle->getFont()->getHeight();
   mHeaderGrid->setEntry(mTitle, Vector2i(0, 1), false, true);
@@ -256,7 +256,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window* window,
       default:
       {
         // MD_STRING
-        ed = std::make_shared<TextComponent>(window, "", menuTheme->menuText.font, menuTheme->menuText.color, ALIGN_RIGHT);
+        ed = std::make_shared<TextComponent>(window, "", menuTheme->menuText.font, menuTheme->menuText.color, TextAlignment::Right);
         row.addElement(ed, true);
 
         auto spacer = std::make_shared<GuiComponent>(mWindow);

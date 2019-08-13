@@ -1,10 +1,8 @@
-#include <Log.h>
 #include <RecalboxConf.h>
 #include <guis/GuiNetPlay.h>
-#include <guis/GuiSettings.h>
 #include "guis/GuiGamelistOptions.h"
 #include "views/gamelist/ISimpleGameListView.h"
-#include "ThemeData.h"
+#include "themes/ThemeData.h"
 #include "SystemData.h"
 #include "Window.h"
 #include "views/ViewController.h"
@@ -26,7 +24,7 @@ ISimpleGameListView::ISimpleGameListView(Window* window, FolderData* root)
 	mHeaderText.setText("Logo Text");
 	mHeaderText.setSize(mSize.x(), 0);
 	mHeaderText.setPosition(0, 0);
-	mHeaderText.setHorizontalAlignment(ALIGN_CENTER);
+	mHeaderText.setHorizontalAlignment(TextAlignment::Center);
 	mHeaderText.setDefaultZIndex(50);
 	
 	mHeaderImage.setResize(0, mSize.y() * 0.185f);
@@ -43,11 +41,11 @@ ISimpleGameListView::ISimpleGameListView(Window* window, FolderData* root)
 	addChild(&mBackground);
 }
 
-void ISimpleGameListView::onThemeChanged(const std::shared_ptr<ThemeData>& theme) {
-	using namespace ThemeFlags;
-	mBackground.applyTheme(theme, getName(), "background", ALL);
-	mHeaderImage.applyTheme(theme, getName(), "logo", ALL);
-	mHeaderText.applyTheme(theme, getName(), "logoText", ALL);
+void ISimpleGameListView::onThemeChanged(const std::shared_ptr<ThemeData>& theme)
+{
+	mBackground.applyTheme(theme, getName(), "background", ThemeProperties::All);
+	mHeaderImage.applyTheme(theme, getName(), "logo", ThemeProperties::All);
+	mHeaderText.applyTheme(theme, getName(), "logoText", ThemeProperties::All);
 
 	// Remove old theme extras
 	for (auto extra : mThemeExtras.getmExtras()) {

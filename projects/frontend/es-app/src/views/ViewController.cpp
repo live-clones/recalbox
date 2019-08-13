@@ -36,7 +36,7 @@ void ViewController::init(Window* window)
 ViewController::ViewController(Window* window)
 	: GuiComponent(window), mCurrentView(nullptr), mCamera(Transform4x4f::Identity()), mFadeOpacity(0), mLockInput(false), mWindow(window)
 {
-	mState.viewing = NOTHING;
+	mState.viewing = ViewMode::None;
 	mFavoritesOnly = Settings::getInstance()->getBool("FavoritesOnly");
 }
 
@@ -86,7 +86,7 @@ void ViewController::goToSystemView(SystemData* system)
     system = SystemData::getFirstSystemWithGame();
   }
 
-	mState.viewing = SYSTEM_SELECT;
+	mState.viewing = ViewMode::SystemList;
 	mState.system = system;
 
 	systemList->goToSystem(system, false);
@@ -100,7 +100,7 @@ void ViewController::goToSystemView(SystemData* system)
 
 void ViewController::goToNextGameList()
 {
-	assert(mState.viewing == GAME_LIST);
+	assert(mState.viewing == ViewMode::GameList);
 	SystemData* system = getState().getSystem();
 	assert(system);
 	SystemData* next = system->getNext();
@@ -114,7 +114,7 @@ void ViewController::goToNextGameList()
 
 void ViewController::goToPrevGameList()
 {
-	assert(mState.viewing == GAME_LIST);
+	assert(mState.viewing == ViewMode::GameList);
 	SystemData* system = getState().getSystem();
 	assert(system);
 	SystemData* prev = system->getPrev();
@@ -136,7 +136,7 @@ bool ViewController::goToGameList(std::string& systemName) {
 
 void ViewController::goToGameList(SystemData* system)
 {
-	if (mState.viewing == SYSTEM_SELECT)
+	if (mState.viewing == ViewMode::SystemList)
 	{
 		// move system list
 		auto sysList = getSystemListView();
@@ -164,7 +164,7 @@ void ViewController::goToGameList(SystemData* system)
 		}
 	}
 
-	mState.viewing = GAME_LIST;
+	mState.viewing = ViewMode::GameList;
 	mState.system = system;
 
 	mCurrentView = getGameListView(system);
@@ -358,7 +358,7 @@ bool ViewController::input(InputConfig* config, Input input)
 	if (mLockInput) return true;
 
 	/* if we receive a button pressure for a non configured joystick, suggest the joystick configuration */
-	if (!config->isConfigured() && (input.type == TYPE_BUTTON) )
+	if (!config->isConfigured() && (input.type == InputType::Button) )
 	{
 		mWindow->pushGui(new GuiDetectDevice(mWindow, false, nullptr));
 		return true;
@@ -520,10 +520,10 @@ void ViewController::reloadAll()
 	getSystemListView();
 
 	// update mCurrentView since the pointers changed
-	if(mState.viewing == GAME_LIST)
+	if(mState.viewing == ViewMode::GameList)
 	{
 		mCurrentView = getGameListView(mState.getSystem());
-	}else if(mState.viewing == SYSTEM_SELECT)
+	}else if(mState.viewing == ViewMode::SystemList)
 	{
 		
 		SystemData* system = mState.getSystem();

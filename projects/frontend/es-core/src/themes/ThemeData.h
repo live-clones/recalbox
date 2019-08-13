@@ -11,38 +11,17 @@
 #include "pugixml/pugixml.hpp"
 #include "GuiComponent.h"
 #include "utils/math/Vectors.h"
+#include "utils/cplusplus/Bitflags.h"
 
 template<typename T>
 class TextListComponent;
 
+class GuiComponent;
 class Sound;
 class ImageComponent;
 class NinePatchComponent;
 class TextComponent;
 class Window;
-
-namespace ThemeFlags
-{
-	enum PropertyFlags : unsigned int
-	{
-		PATH = 1,
-		POSITION = 2,
-		SIZE = 4,
-		ORIGIN = 8,
-		COLOR = 16,
-		FONT_PATH = 32,
-		FONT_SIZE = 64,
-		SOUND = 128,
-		ALIGNMENT = 256,
-		TEXT = 512,
-		FORCE_UPPERCASE = 1024,
-		LINE_SPACING = 2048,
-		Z_INDEX = 8192,
-		ROTATION = 16384,
-
-		ALL = 0xFFFFFFFF
-	};
-}
 
 class ThemeException : public std::exception
 {
@@ -71,26 +50,6 @@ ThemeException& operator<<(ThemeException& e, T appendMsg)
 	e.msg = ss.str();
 	return e;
 }
-
-class ThemeExtras : public GuiComponent
-{
-public:
-	explicit ThemeExtras(Window* window) : GuiComponent(window) {};
-	~ThemeExtras() override;
-
-	// will take ownership of the components within extras (delete them in destructor or when setExtras is called again)
-	void setExtras(const std::vector<GuiComponent*>& extras);
-	inline std::vector<GuiComponent*> getmExtras(){return mExtras;}
-	inline void sortExtrasByZIndex(){
-		std::stable_sort(mExtras.begin(), mExtras.end(),  [](GuiComponent* a, GuiComponent* b) {
-			return b->getZIndex() > a->getZIndex();
-		});
-	}
-
-private:
-	std::vector<GuiComponent*> mExtras;
-};
-
 
 struct ThemeSet
 {
@@ -133,14 +92,14 @@ public:
 	// throws ThemeException
 	void loadFile(const std::string& systemThemeFolder, const std::string& path);
 
-	enum ElementPropertyType
+	enum class ElementProperty
 	{
-		NORMALIZED_PAIR,
-		PATH,
-		STRING,
-		COLOR,
-		FLOAT,
-		BOOLEAN
+		NormalizedPair,
+		Path,
+		String,
+		Color,
+		Float,
+		Boolean
 	};
 
 	// If expectedType is an empty string, will do no type checking.
@@ -158,10 +117,10 @@ public:
 	std::string getTransition();
 
 	bool getHasFavoritesInTheme();
-    bool isFolderHandled() const;
+  bool isFolderHandled() const;
 
 private:
-	static std::map<std::string, std::map<std::string, ElementPropertyType>>& ElementMap();
+	static std::map<std::string, std::map<std::string, ElementProperty>>& ElementMap();
 	static std::vector<std::string>& SupportedFeatures();
 	static std::vector<std::string>& SupportedViews();
 
@@ -178,7 +137,7 @@ private:
 	void parseIncludes(const pugi::xml_node& themeRoot);
 	void parseViews(const pugi::xml_node& themeRoot);
 	void parseView(const pugi::xml_node& viewNode, ThemeView& view);
-	void parseElement(const pugi::xml_node& elementNode, const std::map<std::string, ElementPropertyType>& typeMap, ThemeElement& element);
+	void parseElement(const pugi::xml_node& elementNode, const std::map<std::string, ElementProperty>& typeMap, ThemeElement& element);
 	bool parseRegion(const pugi::xml_node& root);
 	bool parseSubset(const pugi::xml_node& node);
 	static void crawlIncludes(const pugi::xml_node& root, std::map<std::string, std::string>& sets, std::deque<boost::filesystem::path>& dequepath);

@@ -1,6 +1,6 @@
 #include <RecalboxConf.h>
 #include "views/gamelist/GridGameListView.h"
-#include "ThemeData.h"
+#include "themes/ThemeData.h"
 #include "Window.h"
 #include "views/ViewController.h"
 #include "Settings.h"

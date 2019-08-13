@@ -28,7 +28,7 @@ public:
 
 	void onSizeChanged() override;
 
-	void applyTheme(const std::shared_ptr<ThemeData>& theme, const std::string& view, const std::string& element, unsigned int properties) override;
+	void applyTheme(const std::shared_ptr<ThemeData>& theme, const std::string& view, const std::string& element, ThemeProperties properties) override;
 
 	std::vector<HelpPrompt> getHelpPrompts() override;
 

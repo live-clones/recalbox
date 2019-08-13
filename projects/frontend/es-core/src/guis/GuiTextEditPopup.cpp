@@ -17,7 +17,7 @@ GuiTextEditPopup::GuiTextEditPopup(Window* window, const std::string& title, con
 	addChild(&mBackground);
 	addChild(&mGrid);
 
-	mTitle = std::make_shared<TextComponent>(mWindow, strToUpper(title), menuTheme->menuTitle.font, menuTheme->menuTitle.color, ALIGN_CENTER);
+	mTitle = std::make_shared<TextComponent>(mWindow, strToUpper(title), menuTheme->menuTitle.font, menuTheme->menuTitle.color, TextAlignment::Center);
 
 	mText = std::make_shared<TextEditComponent>(mWindow);
 	mText->setValue(initValue);
@@ -32,7 +32,7 @@ GuiTextEditPopup::GuiTextEditPopup(Window* window, const std::string& title, con
 	mButtonGrid = makeButtonGrid(mWindow, buttons);
 
 	mGrid.setEntry(mTitle, Vector2i(0, 0), false, true);
-	mGrid.setEntry(mText, Vector2i(0, 1), true, false, Vector2i(1, 1), GridFlags::BORDER_TOP | GridFlags::BORDER_BOTTOM);
+	mGrid.setEntry(mText, Vector2i(0, 1), true, false, Vector2i(1, 1), Borders::Top | Borders::Bottom);
 	mGrid.setEntry(mButtonGrid, Vector2i(0, 2), true, false);
 
 	float textHeight = mText->getFont()->getHeight();

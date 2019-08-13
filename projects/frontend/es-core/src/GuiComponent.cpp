@@ -3,7 +3,7 @@
 #include "Log.h"
 #include "Renderer.h"
 #include "animations/AnimationController.h"
-#include "ThemeData.h"
+#include "themes/ThemeData.h"
 #include "Settings.h"
 
 GuiComponent::GuiComponent(Window* window)
@@ -422,7 +422,7 @@ Vector2f GuiComponent::denormalise(const Vector2f& value) {
     return value * scale;
 }
 
-void GuiComponent::applyTheme(const std::shared_ptr<ThemeData>& theme, const std::string& view, const std::string& element, unsigned int properties)
+void GuiComponent::applyTheme(const std::shared_ptr<ThemeData>& theme, const std::string& view, const std::string& element, ThemeProperties properties)
 {
 	Vector2f scale = getParent() ? getParent()->getSize() : Vector2f(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
 
@@ -430,28 +430,28 @@ void GuiComponent::applyTheme(const std::shared_ptr<ThemeData>& theme, const std
 	if(!elem)
 		return;
 
-	using namespace ThemeFlags;
-	if(properties & POSITION && elem->has("pos"))
+	if (hasFlag(properties, ThemeProperties::Position) && elem->has("pos"))
 	{
 		Vector2f denormalized = elem->get<Vector2f>("pos") * scale;
 		setPosition(Vector3f(denormalized.x(), denormalized.y(), 0));
 	}
 
-	if(properties & ThemeFlags::SIZE && elem->has("size"))
+	if(hasFlag(properties, ThemeProperties::Size) && elem->has("size"))
 		setSize(elem->get<Vector2f>("size") * scale);
 
 	// position + size also implies origin
-	if((properties & ORIGIN || (properties & POSITION && properties & ThemeFlags::SIZE)) && elem->has("origin"))
+	if ((hasFlag(properties, ThemeProperties::Origin) || hasFlags(properties, ThemeProperties::Position, ThemeProperties::Size)) && elem->has("origin"))
 		setOrigin(elem->get<Vector2f>("origin"));
 
-	if(properties & ThemeFlags::ROTATION) {
+	if (hasFlag(properties, ThemeProperties::Rotation))
+	{
 		if(elem->has("rotation"))
 			setRotationDegrees(elem->get<float>("rotation"));
 		if(elem->has("rotationOrigin"))
 			setRotationOrigin(elem->get<Vector2f>("rotationOrigin"));
 	}
 	
-	if(properties & ThemeFlags::Z_INDEX && elem->has("zIndex"))
+	if (hasFlag(properties, ThemeProperties::ZIndex) && elem->has("zIndex"))
 		setZIndex(elem->get<float>("zIndex"));
 	else
 		setZIndex(getDefaultZIndex());

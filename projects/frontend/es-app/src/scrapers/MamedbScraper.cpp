@@ -31,7 +31,7 @@ boost::regex snapregex("^.*?<img src='/snap/(?<img>.*?)\\.png'.*$");
 
 void MamedbRequest::process(const std::unique_ptr<HttpReq>& req, std::vector<ScraperSearchResult>& results)
 {
-  assert(req->status() == HttpReq::REQ_SUCCESS);
+  assert(req->status() == HttpReq::Status::Success);
 
 
   boost::smatch infolinematches;

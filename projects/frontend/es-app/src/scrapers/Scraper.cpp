@@ -56,20 +56,20 @@ std::vector<std::string> getScraperList()
 // ScraperSearchHandle
 ScraperSearchHandle::ScraperSearchHandle()
 {
-	setStatus(ASYNC_IN_PROGRESS);
+	setStatus(AsyncStatus::InProgress);
 }
 
 void ScraperSearchHandle::update()
 {
-	if(mStatus == ASYNC_DONE)
+	if(mStatus == AsyncStatus::Done)
 		return;
 
 	while(!mRequestQueue.empty())
 	{
 		auto& req = mRequestQueue.front();
-		AsyncHandleStatus status = req->status();
+    AsyncStatus status = req->status();
 
-		if(status == ASYNC_ERROR)
+		if(status == AsyncStatus::Error)
 		{
 			// propegate error
 			setError(req->getStatusString());
@@ -82,7 +82,7 @@ void ScraperSearchHandle::update()
 		}
 
 		// finished this one, see if we have any more
-		if(status == ASYNC_DONE)
+		if(status == AsyncStatus::Done)
 		{
 			mRequestQueue.pop();
 			continue;
@@ -94,7 +94,7 @@ void ScraperSearchHandle::update()
 	// we finished without any errors!
 	if(mRequestQueue.empty())
 	{
-		setStatus(ASYNC_DONE);
+		setStatus(AsyncStatus::Done);
 		return;
 	}
 }
@@ -111,26 +111,26 @@ ScraperRequest::ScraperRequest(std::vector<ScraperSearchResult>& resultsWrite) :
 ScraperHttpRequest::ScraperHttpRequest(std::vector<ScraperSearchResult>& resultsWrite, const std::string& url) 
 	: ScraperRequest(resultsWrite)
 {
-	setStatus(ASYNC_IN_PROGRESS);
+	setStatus(AsyncStatus::InProgress);
 	mReq = std::unique_ptr<HttpReq>(new HttpReq(url));
 }
 
 void ScraperHttpRequest::update()
 {
 	HttpReq::Status status = mReq->status();
-	if(status == HttpReq::REQ_SUCCESS)
+	if(status == HttpReq::Status::Success)
 	{
-		setStatus(ASYNC_DONE); // if process() has an error, status will be changed to ASYNC_ERROR
+		setStatus(AsyncStatus::Done); // if process() has an error, status will be changed to ASYNC_ERROR
 		process(mReq, mResults);
 		return;
 	}
 
 	// not ready yet
-	if(status == HttpReq::REQ_IN_PROGRESS)
+	if(status == HttpReq::Status::InProgress)
 		return;
 
 	// everything else is some sort of error
-	LOG(LogError) << "ScraperHttpRequest network error (status: " << status << ") - " << mReq->getErrorMsg();
+	LOG(LogError) << "ScraperHttpRequest network error (status: " << (int)status << ") - " << mReq->getErrorMsg();
 	setError(mReq->getErrorMsg());
 }
 
@@ -157,17 +157,17 @@ MDResolveHandle::MDResolveHandle(const ScraperSearchResult& result, const Scrape
 
 void MDResolveHandle::update()
 {
-	if(mStatus == ASYNC_DONE || mStatus == ASYNC_ERROR)
+	if(mStatus == AsyncStatus::Done || mStatus == AsyncStatus::Error)
 		return;
 	
 	auto it = mFuncs.begin();
 	while(it != mFuncs.end())
 	{
-		if(it->first->status() == ASYNC_ERROR)
+		if(it->first->status() == AsyncStatus::Error)
 		{
 			setError(it->first->getStatusString());
 			return;
-		}else if(it->first->status() == ASYNC_DONE)
+		}else if(it->first->status() == AsyncStatus::Done)
 		{
 			it->second();
 			it = mFuncs.erase(it);
@@ -177,7 +177,7 @@ void MDResolveHandle::update()
 	}
 
 	if(mFuncs.empty())
-		setStatus(ASYNC_DONE);
+		setStatus(AsyncStatus::Done);
 }
 
 std::unique_ptr<ImageDownloadHandle> downloadImageAsync(const std::string& url, const std::string& saveAs)
@@ -196,10 +196,10 @@ ImageDownloadHandle::ImageDownloadHandle(const std::string& url, const std::stri
 
 void ImageDownloadHandle::update()
 {
-	if(mReq->status() == HttpReq::REQ_IN_PROGRESS)
+	if(mReq->status() == HttpReq::Status::InProgress)
 		return;
 
-	if(mReq->status() != HttpReq::REQ_SUCCESS)
+	if(mReq->status() != HttpReq::Status::Success)
 	{
 		std::stringstream ss;
 		ss << "Network error: " << mReq->getErrorMsg();
@@ -231,7 +231,7 @@ void ImageDownloadHandle::update()
 		return;
 	}
 
-	setStatus(ASYNC_DONE);
+	setStatus(AsyncStatus::Done);
 }
 
 //you can pass 0 for width or height to keep aspect ratio

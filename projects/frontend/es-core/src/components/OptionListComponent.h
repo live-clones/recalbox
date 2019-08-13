@@ -162,7 +162,7 @@ public:
 			
 		mText.setFont(font);
 		mText.setColor(color);
-		mText.setHorizontalAlignment(ALIGN_CENTER);
+		mText.setHorizontalAlignment(TextAlignment::Center);
 		addChild(&mText);
 
 		if(mMultiSelect)

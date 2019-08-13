@@ -6,7 +6,7 @@
 #include "InputManager.h"
 #include "Sound.h"
 #include "Log.h"
-#include "ThemeData.h"
+#include "themes/ThemeData.h"
 #include "Util.h"
 #include <vector>
 #include <string>
@@ -43,15 +43,15 @@ public:
 	bool input(InputConfig* config, Input input) override;
 	void update(int deltaTime) override;
 	void render(const Transform4x4f& parentTrans) override;
-	void applyTheme(const std::shared_ptr<ThemeData>& theme, const std::string& view, const std::string& element, unsigned int properties) override;
+	void applyTheme(const std::shared_ptr<ThemeData>& theme, const std::string& view, const std::string& element, ThemeProperties properties) override;
 
 	void add(const std::string& name, const T& obj, unsigned int colorId, bool toTheBeginning = false);
 	
-	enum Alignment
+	enum class Alignment
 	{
-		ALIGN_LEFT,
-		ALIGN_CENTER,
-		ALIGN_RIGHT
+		Left,
+		Center,
+		Right
 	};
 
 	inline void setAlignment(Alignment align) { mAlignment = align; }
@@ -121,7 +121,7 @@ TextListComponent<T>::TextListComponent(Window* window) :
 	mMarqueeTime = -MARQUEE_DELAY;
 
 	mHorizontalMargin = 0;
-	mAlignment = ALIGN_CENTER;
+	mAlignment = Alignment::Center;
 
 	mFont = Font::get(FONT_SIZE_MEDIUM);
 	mUppercase = false;
@@ -203,15 +203,15 @@ void TextListComponent<T>::render(const Transform4x4f& parentTrans)
 
 		switch(mAlignment)
 		{
-		case ALIGN_LEFT:
+		case Alignment::Left:
 			offset[0] = mHorizontalMargin;
 			break;
-		case ALIGN_CENTER:
+		case Alignment::Center:
 			offset[0] = (mSize.x() - entry.data.textCache->metrics.size.x()) / 2;
 			if(offset[0] < mHorizontalMargin)
 				offset[0] = mHorizontalMargin;
 			break;
-		case ALIGN_RIGHT:
+		case Alignment::Right:
 			offset[0] = (mSize.x() - entry.data.textCache->metrics.size.x());
 			offset[0] -= mHorizontalMargin;
 			if(offset[0] < mHorizontalMargin)
@@ -334,7 +334,7 @@ void TextListComponent<T>::onCursorChanged(const CursorState& state)
 }
 
 template <typename T>
-void TextListComponent<T>::applyTheme(const std::shared_ptr<ThemeData>& theme, const std::string& view, const std::string& element, unsigned int properties)
+void TextListComponent<T>::applyTheme(const std::shared_ptr<ThemeData>& theme, const std::string& view, const std::string& element, ThemeProperties properties)
 {
 	GuiComponent::applyTheme(theme, view, element, properties);
 
@@ -342,8 +342,7 @@ void TextListComponent<T>::applyTheme(const std::shared_ptr<ThemeData>& theme, c
 	if(!elem)
 		return;
 
-	using namespace ThemeFlags;
-	if(properties & COLOR)
+	if (hasFlag(properties, ThemeProperties::Color))
 	{
 		if(elem->has("selectorColor"))
 			setSelectorColor(elem->get<unsigned int>("selectorColor"));
@@ -357,20 +356,20 @@ void TextListComponent<T>::applyTheme(const std::shared_ptr<ThemeData>& theme, c
 
 	setFont(Font::getFromTheme(elem, properties, mFont));
 	
-	if(properties & SOUND && elem->has("scrollSound"))
+	if (hasFlag(properties, ThemeProperties::Sound) && elem->has("scrollSound"))
 		setSound(Sound::get(elem->get<std::string>("scrollSound")));
 
-	if(properties & ALIGNMENT)
+	if (hasFlag(properties, ThemeProperties::Alignment))
 	{
 		if(elem->has("alignment"))
 		{
 			const std::string& str = elem->get<std::string>("alignment");
 			if(str == "left")
-				setAlignment(ALIGN_LEFT);
+				setAlignment(Alignment::Left);
 			else if(str == "center")
-				setAlignment(ALIGN_CENTER);
+				setAlignment(Alignment::Center);
 			else if(str == "right")
-				setAlignment(ALIGN_RIGHT);
+				setAlignment(Alignment::Right);
 			else
 				LOG(LogError) << "Unknown TextListComponent alignment \"" << str << "\"!";
 		}
@@ -380,10 +379,10 @@ void TextListComponent<T>::applyTheme(const std::shared_ptr<ThemeData>& theme, c
 		}
 	}
 
-	if(properties & FORCE_UPPERCASE && elem->has("forceUppercase"))
+	if (hasFlag(properties, ThemeProperties::ForceUppercase) && elem->has("forceUppercase"))
 		setUppercase(elem->get<bool>("forceUppercase"));
 
-	if(properties & LINE_SPACING)
+	if (hasFlag(properties, ThemeProperties::LineSpacing))
 	{
 		if(elem->has("lineSpacing"))
 			setLineSpacing(elem->get<float>("lineSpacing"));

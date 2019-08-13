@@ -130,11 +130,11 @@ bool TheGamesDBJSONRequestResources::saveResource(HttpReq* req, std::unordered_m
     LOG(LogError) << "Http request pointer was null\n";
     return true;
   }
-  if (req->status() == HttpReq::REQ_IN_PROGRESS)
+  if (req->status() == HttpReq::Status::InProgress)
   {
     return false; // Not ready: wait some more
   }
-  if (req->status() != HttpReq::REQ_SUCCESS)
+  if (req->status() != HttpReq::Status::Success)
   {
     LOG(LogError) << "Resource request for " << file_name << " failed:\n\t" << req->getErrorMsg();
     return true; // Request failed, resetting request.

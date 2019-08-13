@@ -34,220 +34,220 @@ std::vector<std::string>& ThemeData::SupportedFeatures()
   return _SupportedFeatures;
 }
 
-std::map< std::string, std::map<std::string, ThemeData::ElementPropertyType> >& ThemeData::ElementMap()
+std::map< std::string, std::map<std::string, ThemeData::ElementProperty> >& ThemeData::ElementMap()
 {
-  static std::map< std::string, std::map<std::string, ThemeData::ElementPropertyType> > _ElementMap =
+  static std::map< std::string, std::map<std::string, ThemeData::ElementProperty> > _ElementMap =
   {
     { "image",
       {
-        { "pos", NORMALIZED_PAIR },
-        { "size", NORMALIZED_PAIR },
-        { "maxSize", NORMALIZED_PAIR },
-        { "origin", NORMALIZED_PAIR },
-        { "rotation", FLOAT },
-        { "rotationOrigin", NORMALIZED_PAIR },
-        { "path", PATH },
-        { "tile", BOOLEAN },
-        { "color", COLOR },
-        { "zIndex", FLOAT },
+        { "pos", ElementProperty::NormalizedPair },
+        { "size", ElementProperty::NormalizedPair },
+        { "maxSize", ElementProperty::NormalizedPair },
+        { "origin", ElementProperty::NormalizedPair },
+        { "rotation", ElementProperty::Float },
+        { "rotationOrigin", ElementProperty::NormalizedPair },
+        { "path", ElementProperty::Path },
+        { "tile", ElementProperty::Boolean },
+        { "color", ElementProperty::Color },
+        { "zIndex", ElementProperty::Float },
       },
     },
     { "video",
       {
-        { "pos", NORMALIZED_PAIR },
-        { "size", NORMALIZED_PAIR },
-        { "maxSize", NORMALIZED_PAIR },
-        { "origin", NORMALIZED_PAIR },
-        { "rotation", FLOAT },
-        { "rotationOrigin", NORMALIZED_PAIR },
-        { "path", PATH },
-        { "zIndex", FLOAT },
+        { "pos", ElementProperty::NormalizedPair },
+        { "size", ElementProperty::NormalizedPair },
+        { "maxSize", ElementProperty::NormalizedPair },
+        { "origin", ElementProperty::NormalizedPair },
+        { "rotation", ElementProperty::Float },
+        { "rotationOrigin", ElementProperty::NormalizedPair },
+        { "path", ElementProperty::Path },
+        { "zIndex", ElementProperty::Float },
       },
     },
     { "text",
       {
-        { "pos", NORMALIZED_PAIR },
-        { "size", NORMALIZED_PAIR },
-        { "origin", NORMALIZED_PAIR },
-        { "rotation", FLOAT },
-        { "rotationOrigin", NORMALIZED_PAIR },
-        { "text", STRING },
-        { "backgroundColor", COLOR },
-        { "fontPath", PATH },
-        { "fontSize", FLOAT },
-        { "color", COLOR },
-        { "alignment", STRING },
-        { "forceUppercase", BOOLEAN },
-        { "lineSpacing", FLOAT },
-        { "value", STRING },
-        { "zIndex", FLOAT },
+        { "pos", ElementProperty::NormalizedPair },
+        { "size", ElementProperty::NormalizedPair },
+        { "origin", ElementProperty::NormalizedPair },
+        { "rotation", ElementProperty::Float },
+        { "rotationOrigin", ElementProperty::NormalizedPair },
+        { "text", ElementProperty::String },
+        { "backgroundColor", ElementProperty::Color },
+        { "fontPath", ElementProperty::Path },
+        { "fontSize", ElementProperty::Float },
+        { "color", ElementProperty::Color },
+        { "alignment", ElementProperty::String },
+        { "forceUppercase", ElementProperty::Boolean },
+        { "lineSpacing", ElementProperty::Float },
+        { "value", ElementProperty::String },
+        { "zIndex", ElementProperty::Float },
       },
     },
     { "textlist",
       {
-        { "pos", NORMALIZED_PAIR },
-        { "size", NORMALIZED_PAIR },
-        { "origin", NORMALIZED_PAIR },
-        { "selectorHeight", FLOAT },
-        { "selectorOffsetY", FLOAT },
-        { "selectorColor", COLOR },
-        { "selectorImagePath", PATH },
-        { "selectorImageTile", BOOLEAN },
-        { "selectedColor", COLOR },
-        { "primaryColor", COLOR },
-        { "secondaryColor", COLOR },
-        { "fontPath", PATH },
-        { "fontSize", FLOAT },
-        { "scrollSound", PATH },
-        { "alignment", STRING },
-        { "horizontalMargin", FLOAT },
-        { "forceUppercase", BOOLEAN },
-        { "lineSpacing", FLOAT },
-        { "zIndex", FLOAT },
+        { "pos", ElementProperty::NormalizedPair },
+        { "size", ElementProperty::NormalizedPair },
+        { "origin", ElementProperty::NormalizedPair },
+        { "selectorHeight", ElementProperty::Float },
+        { "selectorOffsetY", ElementProperty::Float },
+        { "selectorColor", ElementProperty::Color },
+        { "selectorImagePath", ElementProperty::Path },
+        { "selectorImageTile", ElementProperty::Boolean },
+        { "selectedColor", ElementProperty::Color },
+        { "primaryColor", ElementProperty::Color },
+        { "secondaryColor", ElementProperty::Color },
+        { "fontPath", ElementProperty::Path },
+        { "fontSize", ElementProperty::Float },
+        { "scrollSound", ElementProperty::Path },
+        { "alignment", ElementProperty::String },
+        { "horizontalMargin", ElementProperty::Float },
+        { "forceUppercase", ElementProperty::Boolean },
+        { "lineSpacing", ElementProperty::Float },
+        { "zIndex", ElementProperty::Float },
       },
     },
     { "container",
       {
-        { "pos", NORMALIZED_PAIR },
-        { "size", NORMALIZED_PAIR },
-        { "origin", NORMALIZED_PAIR },
-        { "zIndex", FLOAT },
+        { "pos", ElementProperty::NormalizedPair },
+        { "size", ElementProperty::NormalizedPair },
+        { "origin", ElementProperty::NormalizedPair },
+        { "zIndex", ElementProperty::Float },
       },
     },
     { "ninepatch",
       {
-        { "pos", NORMALIZED_PAIR },
-        { "size", NORMALIZED_PAIR },
-        { "path", PATH },
-        { "zIndex", FLOAT },
+        { "pos", ElementProperty::NormalizedPair },
+        { "size", ElementProperty::NormalizedPair },
+        { "path", ElementProperty::Path },
+        { "zIndex", ElementProperty::Float },
       },
     },
     { "datetime",
       {
-        { "pos", NORMALIZED_PAIR },
-        { "size", NORMALIZED_PAIR },
-        { "color", COLOR },
-        { "fontPath", PATH },
-        { "fontSize", FLOAT },
-        { "alignment", STRING },
-        { "forceUppercase", BOOLEAN },
-        { "zIndex", FLOAT },
+        { "pos", ElementProperty::NormalizedPair },
+        { "size", ElementProperty::NormalizedPair },
+        { "color", ElementProperty::Color },
+        { "fontPath", ElementProperty::Path },
+        { "fontSize", ElementProperty::Float },
+        { "alignment", ElementProperty::String },
+        { "forceUppercase", ElementProperty::Boolean },
+        { "zIndex", ElementProperty::Float },
       },
     },
     { "rating",
       {
-        { "pos", NORMALIZED_PAIR },
-        { "size", NORMALIZED_PAIR },
-        { "origin", NORMALIZED_PAIR },
-        { "rotation", FLOAT },
-        { "rotationOrigin", NORMALIZED_PAIR },
-        { "filledPath", PATH },
-        { "unfilledPath", PATH },
-        { "zIndex", FLOAT },
+        { "pos", ElementProperty::NormalizedPair },
+        { "size", ElementProperty::NormalizedPair },
+        { "origin", ElementProperty::NormalizedPair },
+        { "rotation", ElementProperty::Float },
+        { "rotationOrigin", ElementProperty::NormalizedPair },
+        { "filledPath", ElementProperty::Path },
+        { "unfilledPath", ElementProperty::Path },
+        { "zIndex", ElementProperty::Float },
       },
     },
     { "sound",
       {
-        { "path", PATH },
+        { "path", ElementProperty::Path },
       },
     },
     { "helpsystem",
       {
-        { "pos", NORMALIZED_PAIR },
-        { "textColor", COLOR },
-        { "iconColor", COLOR },
-        { "fontPath", PATH },
-        { "fontSize", FLOAT },
-        { "iconUpDown", PATH },
-        { "iconLeftRight", PATH },
-        { "iconUpDownLeftRight", PATH },
-        { "iconA", PATH },
-        { "iconB", PATH },
-        { "iconX", PATH },
-        { "iconY", PATH },
-        { "iconL", PATH },
-        { "iconR", PATH },
-        { "iconStart", PATH },
-        { "iconSelect", PATH },
+        { "pos", ElementProperty::NormalizedPair },
+        { "textColor", ElementProperty::Color },
+        { "iconColor", ElementProperty::Color },
+        { "fontPath", ElementProperty::Path },
+        { "fontSize", ElementProperty::Float },
+        { "iconUpDown", ElementProperty::Path },
+        { "iconLeftRight", ElementProperty::Path },
+        { "iconUpDownLeftRight", ElementProperty::Path },
+        { "iconA", ElementProperty::Path },
+        { "iconB", ElementProperty::Path },
+        { "iconX", ElementProperty::Path },
+        { "iconY", ElementProperty::Path },
+        { "iconL", ElementProperty::Path },
+        { "iconR", ElementProperty::Path },
+        { "iconStart", ElementProperty::Path },
+        { "iconSelect", ElementProperty::Path },
       },
     },
     { "carousel",
       {
-        { "type", STRING },
-        { "size", NORMALIZED_PAIR },
-        { "pos", NORMALIZED_PAIR },
-        { "origin", NORMALIZED_PAIR },
-        { "color", COLOR },
-        { "logoScale", FLOAT },
-        { "logoRotation", FLOAT },
-        { "logoRotationOrigin", NORMALIZED_PAIR },
-        { "logoSize", NORMALIZED_PAIR },
-        { "logoAlignment", STRING },
-        { "maxLogoCount", FLOAT },
-        { "defaultTransition", STRING },
-        { "zIndex", FLOAT },
+        { "type", ElementProperty::String },
+        { "size", ElementProperty::NormalizedPair },
+        { "pos", ElementProperty::NormalizedPair },
+        { "origin", ElementProperty::NormalizedPair },
+        { "color", ElementProperty::Color },
+        { "logoScale", ElementProperty::Float },
+        { "logoRotation", ElementProperty::Float },
+        { "logoRotationOrigin", ElementProperty::NormalizedPair },
+        { "logoSize", ElementProperty::NormalizedPair },
+        { "logoAlignment", ElementProperty::String },
+        { "maxLogoCount", ElementProperty::Float },
+        { "defaultTransition", ElementProperty::String },
+        { "zIndex", ElementProperty::Float },
       },
     },
     { "menuBackground",
       {
-        { "color", COLOR },
-        { "path", PATH },
-        { "fadePath", PATH },
+        { "color", ElementProperty::Color },
+        { "path", ElementProperty::Path },
+        { "fadePath", ElementProperty::Path },
       },
     },
     { "menuIcons",
       {
-        { "iconKodi", PATH },
-        { "iconSystem", PATH },
-        { "iconSystem", PATH },
-        { "iconUpdates", PATH },
-        { "iconControllers", PATH },
-        { "iconGames", PATH },
-        { "iconUI", PATH },
-        { "iconSound", PATH },
-        { "iconNetwork", PATH },
-        { "iconScraper", PATH },
-        { "iconAdvanced", PATH },
-        { "iconQuit", PATH },
-        { "iconRestart", PATH },
-        { "iconShutdown", PATH },
-        { "iconFastShutdown", PATH },
+        { "iconKodi", ElementProperty::Path },
+        { "iconSystem", ElementProperty::Path },
+        { "iconSystem", ElementProperty::Path },
+        { "iconUpdates", ElementProperty::Path },
+        { "iconControllers", ElementProperty::Path },
+        { "iconGames", ElementProperty::Path },
+        { "iconUI", ElementProperty::Path },
+        { "iconSound", ElementProperty::Path },
+        { "iconNetwork", ElementProperty::Path },
+        { "iconScraper", ElementProperty::Path },
+        { "iconAdvanced", ElementProperty::Path },
+        { "iconQuit", ElementProperty::Path },
+        { "iconRestart", ElementProperty::Path },
+        { "iconShutdown", ElementProperty::Path },
+        { "iconFastShutdown", ElementProperty::Path },
       },
     },
     { "menuSwitch",
       {
-        { "pathOn", PATH },
-        { "pathOff", PATH },
+        { "pathOn", ElementProperty::Path },
+        { "pathOff", ElementProperty::Path },
       },
     },
     { "menuSlider",
       {
-        { "path", PATH },
+        { "path", ElementProperty::Path },
       },
     },
     { "menuButton",
       {
-        { "path", PATH },
-        { "filledPath", PATH },
+        { "path", ElementProperty::Path },
+        { "filledPath", ElementProperty::Path },
       },
     },
     { "menuText",
       {
-        { "fontPath", PATH },
-        { "fontSize", FLOAT },
-        { "color", COLOR },
-        { "separatorColor", COLOR },
-        { "selectedColor", COLOR },
-        { "selectorColor", COLOR },
+        { "fontPath", ElementProperty::Path },
+        { "fontSize", ElementProperty::Float },
+        { "color", ElementProperty::Color },
+        { "separatorColor", ElementProperty::Color },
+        { "selectedColor", ElementProperty::Color },
+        { "selectorColor", ElementProperty::Color },
       },
     },
     { "menuTextSmall",
       {
-        { "fontPath", PATH },
-        { "fontSize", FLOAT },
-        { "color", COLOR },
-        { "selectedColor", COLOR },
-        { "selectorColor", COLOR },
+        { "fontPath", ElementProperty::Path },
+        { "fontSize", ElementProperty::Float },
+        { "color", ElementProperty::Color },
+        { "selectedColor", ElementProperty::Color },
+        { "selectorColor", ElementProperty::Color },
       },
     }
   };
@@ -513,7 +513,7 @@ void ThemeData::parseView(const pugi::xml_node& root, ThemeView& view)
 		if (std::string(node.name()) == "helpsystem")
 			Settings::getInstance()->setBool("ThemeHasHelpSystem", true);
 
-    const std::map< std::string, std::map<std::string, ThemeData::ElementPropertyType> >& elementMap = ElementMap();
+    const std::map< std::string, std::map<std::string, ThemeData::ElementProperty> >& elementMap = ElementMap();
 
 		auto elemTypeIt = elementMap.find(node.name());
 		if(elemTypeIt == elementMap.end())
@@ -572,7 +572,7 @@ bool ThemeData::parseRegion(const pugi::xml_node& node)
 }
 
 
-void ThemeData::parseElement(const pugi::xml_node& root, const std::map<std::string, ElementPropertyType>& typeMap, ThemeElement& element)
+void ThemeData::parseElement(const pugi::xml_node& root, const std::map<std::string, ElementProperty>& typeMap, ThemeElement& element)
 {
 	ThemeException error;
 	error.setFiles(mPaths);
@@ -590,7 +590,7 @@ void ThemeData::parseElement(const pugi::xml_node& root, const std::map<std::str
 
 		switch(typeIt->second)
 		{
-		case NORMALIZED_PAIR:
+		case ElementProperty::NormalizedPair:
 		{
 
 			size_t divider = str.find(' ');
@@ -605,10 +605,10 @@ void ThemeData::parseElement(const pugi::xml_node& root, const std::map<std::str
 			element.properties[node.name()] = val;
 			break;
 		}
-		case STRING:
+		case ElementProperty::String:
 			element.properties[node.name()] = str;
 			break;
-		case PATH:
+		case ElementProperty::Path:
 		{
 			std::string path = resolvePath(str.c_str(), mPaths.back().string());
 			std::string variable = node.text().get();
@@ -629,16 +629,16 @@ void ThemeData::parseElement(const pugi::xml_node& root, const std::map<std::str
 			element.properties[node.name()] = path;
 			break;
 		}
-		case COLOR:
+		case ElementProperty::Color:
 			element.properties[node.name()] = getHexColor(str.c_str());
 			break;
-		case FLOAT:
+		case ElementProperty::Float:
 			{
-			float floatVal = static_cast<float>(strtod(str.c_str(), 0));
+			float floatVal = static_cast<float>(strtod(str.c_str(), nullptr));
 			element.properties[node.name()] = floatVal;
   			break;
 			}
-		case BOOLEAN:
+		case ElementProperty::Boolean:
 			{
 			// only look at first char
 			char first = str[0];
@@ -762,24 +762,6 @@ const std::shared_ptr<ThemeData>& ThemeData::getCurrent()
 	return theme;
 }
 
-void ThemeExtras::setExtras(const std::vector<GuiComponent*>& extras)
-{
-	// delete old extras (if any)
-	for (auto& mExtra : mExtras)
-		delete mExtra;
-
-	mExtras = extras;
-	for (auto& mExtra : mExtras)
-		addChild(mExtra);
-}
-
-ThemeExtras::~ThemeExtras()
-{
-	for (auto& mExtra : mExtras)
-		delete mExtra;
-}
-
-
 std::vector<GuiComponent*> ThemeData::makeExtras(const std::shared_ptr<ThemeData>& theme, const std::string& view, Window* window)
 {
 	std::vector<GuiComponent*> comps;
@@ -805,7 +787,7 @@ std::vector<GuiComponent*> ThemeData::makeExtras(const std::shared_ptr<ThemeData
 				comp = new TextComponent(window);
 
 			comp->setDefaultZIndex(10);
-			comp->applyTheme(theme, view, key, ThemeFlags::ALL);
+			comp->applyTheme(theme, view, key, ThemeProperties::All);
 			comps.push_back(comp);
 		}
 	}

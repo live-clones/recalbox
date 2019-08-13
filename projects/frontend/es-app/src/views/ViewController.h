@@ -49,19 +49,19 @@ public:
 	void update(int deltaTime) override;
 	void render(const Transform4x4f& parentTrans) override;
 
-	enum ViewMode
+	enum class ViewMode
 	{
-		NOTHING,
-		START_SCREEN,
-		SYSTEM_SELECT,
-		GAME_LIST
+		None,
+		SplashScreen,
+		SystemList,
+		GameList,
 	};
 
 	struct State
 	{
 		ViewMode viewing;
 
-		inline SystemData* getSystem() const { assert(viewing == GAME_LIST || viewing == SYSTEM_SELECT); return system; }
+		inline SystemData* getSystem() const { assert(viewing == ViewMode::GameList || viewing == ViewMode::SystemList); return system; }
 
 	private:
 		friend ViewController;

@@ -9,12 +9,12 @@
 #define HORIZONTAL_PADDING_PX 20
 
 GuiMsgBoxScroll::GuiMsgBoxScroll(Window* window,
-								 const std::string& title, const std::string& text,
-								 const std::string& name1, const std::function<void()>& func1,
-	const std::string& name2, const std::function<void()>& func2, 
-	const std::string& name3, const std::function<void()>& func3,
-        Alignment align, float height) : GuiComponent(window),
-	mBackground(window, ":/frame.png"), mGrid(window, Vector2i(1, 3))
+                                 const std::string& title, const std::string& text,
+                                 const std::string& name1, const std::function<void()>& func1,
+                                 const std::string& name2, const std::function<void()>& func2,
+                                 const std::string& name3, const std::function<void()>& func3,
+                                 TextAlignment align, float height) : GuiComponent(window),
+                                                                      mBackground(window, ":/frame.png"), mGrid(window, Vector2i(1, 3))
 {
 	(void)height;
 
@@ -28,7 +28,7 @@ GuiMsgBoxScroll::GuiMsgBoxScroll(Window* window,
 	mBackground.setCenterColor(menuTheme->menuBackground.color);
 	mBackground.setEdgeColor(menuTheme->menuBackground.color);
 
-	mTitle = std::make_shared<TextComponent>(mWindow, title, menuTheme->menuTitle.font, menuTheme->menuTitle.color, ALIGN_CENTER);
+	mTitle = std::make_shared<TextComponent>(mWindow, title, menuTheme->menuTitle.font, menuTheme->menuTitle.color, TextAlignment::Center);
 	mGrid.setEntry(mTitle, Vector2i(0, 0), false, true);
 
 	mMsg = std::make_shared<TextComponent>(mWindow, text, menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, align);
@@ -99,7 +99,7 @@ bool GuiMsgBoxScroll::input(InputConfig* config, Input input)
 	}
 
 	/* when it's not configured, allow to remove the message box too to allow the configdevice window a chance */
-	if(mAcceleratorFunc && ((config->isMappedTo("a", input) && input.value != 0) || (!config->isConfigured() && input.type == TYPE_BUTTON)))
+	if(mAcceleratorFunc && ((config->isMappedTo("a", input) && input.value != 0) || (!config->isConfigured() && input.type == InputType::Button)))
 	{
 		mAcceleratorFunc();
 		return true;

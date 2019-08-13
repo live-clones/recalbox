@@ -5,19 +5,15 @@
 #include "Window.h"
 #include "views/ViewController.h"
 #include "animations/LambdaAnimation.h"
-#include "SystemData.h"
 #include "Settings.h"
-#include "Util.h"
 #include <guis/GuiMsgBox.h>
 #include <recalbox/RecalboxSystem.h>
 #include <components/ComponentList.h>
 #include <guis/GuiSettings.h>
 #include <RecalboxConf.h>
 #include <guis/GuiNetPlay.h>
-#include <guis/GuiLoading.h>
 #include "guis/GuiMenu.h"
-#include <NetPlayThread.h>
-#include "ThemeData.h"
+#include "themes/ThemeData.h"
 #include "MenuThemeData.h"
 #include "AudioManager.h"
 #include "Locale.h"
@@ -27,8 +23,8 @@ const int logoBuffersLeft[] = { -5, -2, -1 };
 const int logoBuffersRight[] = { 1, 2, 5 };
 
 SystemView::SystemView(Window* window)
-  : IList<SystemViewData, SystemData*>(window, LIST_SCROLL_STYLE_SLOW, LIST_ALWAYS_LOOP),
-		mSystemInfo(window, "SYSTEM INFO", Font::get(FONT_SIZE_SMALL), 0x33333300, ALIGN_CENTER),
+  : IList<SystemViewData, SystemData*>(window, LIST_SCROLL_STYLE_SLOW, LoopType::Always),
+		mSystemInfo(window, "SYSTEM INFO", Font::get(FONT_SIZE_SMALL), 0x33333300, TextAlignment::Center),
 		mViewNeedsReload(true),
 		launchKodi(false)
 {
@@ -60,18 +56,18 @@ void SystemView::addSystem(SystemData * it){
 	{
 		ImageComponent* logo = new ImageComponent(mWindow, false, false);
 		logo->setMaxSize(mCarousel.logoSize * mCarousel.logoScale);
-		logo->applyTheme((it)->getTheme(), "system", "logo", ThemeFlags::PATH);
+		logo->applyTheme((it)->getTheme(), "system", "logo", ThemeProperties::Path);
 		e.data.logo = std::shared_ptr<GuiComponent>(logo);
 		if ((it)->getThemeFolder() == "default")
 		{
 			TextComponent* text = new TextComponent(mWindow,
-			                                        (it)->getName(),
-			                                        Font::get(FONT_SIZE_MEDIUM),
-			                                        0x1A1A1AFF,
-			                                        ALIGN_CENTER);
+                                              (it)->getName(),
+                                              Font::get(FONT_SIZE_MEDIUM),
+                                              0x1A1A1AFF,
+                                              TextAlignment::Center);
 			text->setSize(mCarousel.logoSize * mCarousel.logoScale);
 			e.data.logotext = std::shared_ptr<GuiComponent>(text);
-			if (mCarousel.type == VERTICAL || mCarousel.type == VERTICAL_WHEEL)
+			if (mCarousel.type == CarouselType::Vertical || mCarousel.type == CarouselType::VerticalWheel)
 				text->setHorizontalAlignment(mCarousel.logoAlignment);
 			else
 				text->setVerticalAlignment(mCarousel.logoAlignment);
@@ -80,30 +76,30 @@ void SystemView::addSystem(SystemData * it){
 	}else{
 		// no logo in theme; use text
 		TextComponent* text = new TextComponent(mWindow,
-												(it)->getName(),
-												Font::get(FONT_SIZE_LARGE),
-												0x000000FF,
-												ALIGN_CENTER);
+                                            (it)->getName(),
+                                            Font::get(FONT_SIZE_LARGE),
+                                            0x000000FF,
+                                            TextAlignment::Center);
 		text->setSize(mCarousel.logoSize * mCarousel.logoScale);
 		e.data.logo = std::shared_ptr<GuiComponent>(text);
-		if (mCarousel.type == VERTICAL || mCarousel.type == VERTICAL_WHEEL)
+    if (mCarousel.type == CarouselType::Vertical || mCarousel.type == CarouselType::VerticalWheel)
 			text->setHorizontalAlignment(mCarousel.logoAlignment);
 		else
 			text->setVerticalAlignment(mCarousel.logoAlignment);
 	}
 
-	if (mCarousel.type == VERTICAL || mCarousel.type == VERTICAL_WHEEL)
+  if (mCarousel.type == CarouselType::Vertical || mCarousel.type == CarouselType::VerticalWheel)
 	{
-		if (mCarousel.logoAlignment == ALIGN_LEFT)
+		if (mCarousel.logoAlignment == TextAlignment::Left)
 			e.data.logo->setOrigin(0, 0.5);
-		else if (mCarousel.logoAlignment == ALIGN_RIGHT)
+		else if (mCarousel.logoAlignment == TextAlignment::Right)
 			e.data.logo->setOrigin(1.0, 0.5);
 		else
 			e.data.logo->setOrigin(0.5, 0.5);
 	} else {
-		if (mCarousel.logoAlignment == ALIGN_TOP)
+		if (mCarousel.logoAlignment == TextAlignment::Top)
 			e.data.logo->setOrigin(0.5, 0);
-		else if (mCarousel.logoAlignment == ALIGN_BOTTOM)
+		else if (mCarousel.logoAlignment == TextAlignment::Bottom)
 			e.data.logo->setOrigin(0.5, 1);
 		else
 			e.data.logo->setOrigin(0.5, 0.5);
@@ -114,18 +110,18 @@ void SystemView::addSystem(SystemData * it){
 
 	if (e.data.logotext)
 	{
-		if (mCarousel.type == VERTICAL || mCarousel.type == VERTICAL_WHEEL)
+    if (mCarousel.type == CarouselType::Vertical || mCarousel.type == CarouselType::VerticalWheel)
 		{
-			if (mCarousel.logoAlignment == ALIGN_LEFT)
+			if (mCarousel.logoAlignment == TextAlignment::Left)
 				e.data.logotext->setOrigin(0, 0.5);
-			else if (mCarousel.logoAlignment == ALIGN_RIGHT)
+			else if (mCarousel.logoAlignment == TextAlignment::Right)
 				e.data.logotext->setOrigin(1.0, 0.5);
 			else
 				e.data.logotext->setOrigin(0.5, 0.5);
 		} else {
-			if (mCarousel.logoAlignment == ALIGN_TOP)
+			if (mCarousel.logoAlignment == TextAlignment::Top)
 				e.data.logotext->setOrigin(0.5, 0);
-			else if (mCarousel.logoAlignment == ALIGN_BOTTOM)
+			else if (mCarousel.logoAlignment == TextAlignment::Bottom)
 				e.data.logotext->setOrigin(0.5, 1);
 			else
 				e.data.logotext->setOrigin(0.5, 0.5);
@@ -161,7 +157,7 @@ void SystemView::goToSystem(SystemData* system, bool animate)
 
 	if(!animate)
 		finishAnimation(0);
-	onCursorChanged(CURSOR_STOPPED);
+	onCursorChanged(CursorState::Stopped);
 }
 
 bool SystemView::input(InputConfig* config, Input input)
@@ -176,8 +172,8 @@ bool SystemView::input(InputConfig* config, Input input)
 		}
 		switch (mCarousel.type)
 		{
-		case VERTICAL:
-		case VERTICAL_WHEEL:
+		case CarouselType::Vertical:
+		case CarouselType::VerticalWheel:
 			if (config->isMappedTo("up", input))
 			{
 				listInput(-1);
@@ -189,7 +185,7 @@ bool SystemView::input(InputConfig* config, Input input)
 				return true;
 			}
 			break;
-		case HORIZONTAL:
+		case CarouselType::Horizontal:
 		default:
 			if (config->isMappedTo("left", input))
 			{
@@ -533,7 +529,7 @@ void SystemView::render(const Transform4x4f& parentTrans)
 std::vector<HelpPrompt> SystemView::getHelpPrompts()
 {
 	std::vector<HelpPrompt> prompts;
-	if (mCarousel.type == VERTICAL)
+	if (mCarousel.type == CarouselType::Vertical)
 			prompts.push_back(HelpPrompt("up/down", _("CHOOSE")));
 	else
 			prompts.push_back(HelpPrompt("left/right", _("CHOOSE")));
@@ -582,7 +578,7 @@ void  SystemView::getViewElements(const std::shared_ptr<ThemeData>& theme)
 		
 		const ThemeData::ThemeElement* sysInfoElem = theme->getElement("system", "systemInfo", "text");
 		if (sysInfoElem)
-			mSystemInfo.applyTheme(theme, "system", "systemInfo", ThemeFlags::ALL);
+			mSystemInfo.applyTheme(theme, "system", "systemInfo", ThemeProperties::All);
 		
 		mViewNeedsReload = false;
 		}
@@ -608,34 +604,34 @@ void SystemView::renderCarousel(const Transform4x4f& trans)
 	
 	switch (mCarousel.type)
 	{
-		case VERTICAL_WHEEL:
+		case CarouselType::VerticalWheel:
 			yOff = (mCarousel.size.y() - mCarousel.logoSize.y()) / 2 - (mCamOffset * logoSpacing[1]);
-			if (mCarousel.logoAlignment == ALIGN_LEFT)
+			if (mCarousel.logoAlignment == TextAlignment::Left)
 				xOff = mCarousel.logoSize.x() / 10;
-			else if (mCarousel.logoAlignment == ALIGN_RIGHT)
+			else if (mCarousel.logoAlignment == TextAlignment::Right)
 				xOff = mCarousel.size.x() - (mCarousel.logoSize.x() * 1.1);
 			else
 				xOff = (mCarousel.size.x() - mCarousel.logoSize.x()) / 2;
 			break;
-		case VERTICAL:
+		case CarouselType::Vertical:
 			logoSpacing[1] = ((mCarousel.size.y() - (mCarousel.logoSize.y() * mCarousel.maxLogoCount)) / (mCarousel.maxLogoCount)) + mCarousel.logoSize.y();
 			yOff = (mCarousel.size.y() - mCarousel.logoSize.y()) / 2 - (mCamOffset * logoSpacing[1]);
 
-			if (mCarousel.logoAlignment == ALIGN_LEFT)
+			if (mCarousel.logoAlignment == TextAlignment::Left)
 				xOff = mCarousel.logoSize.x() / 10;
-			else if (mCarousel.logoAlignment == ALIGN_RIGHT)
+			else if (mCarousel.logoAlignment == TextAlignment::Right)
 				xOff = mCarousel.size.x() - (mCarousel.logoSize.x() * 1.1);
 			else
 				xOff = (mCarousel.size.x() - mCarousel.logoSize.x()) / 2;
 			break;
-		case HORIZONTAL:
+		case CarouselType::Horizontal:
 		default:
 			logoSpacing[0] = ((mCarousel.size.x() - (mCarousel.logoSize.x() * mCarousel.maxLogoCount)) / (mCarousel.maxLogoCount)) + mCarousel.logoSize.x();
 			xOff = (mCarousel.size.x() - mCarousel.logoSize.x()) / 2 - (mCamOffset * logoSpacing[0]);
 
-			if (mCarousel.logoAlignment == ALIGN_TOP)
+			if (mCarousel.logoAlignment == TextAlignment::Top)
 				yOff = mCarousel.logoSize.y() / 10;
-			else if (mCarousel.logoAlignment == ALIGN_BOTTOM)
+			else if (mCarousel.logoAlignment == TextAlignment::Bottom)
 				yOff = mCarousel.size.y() - (mCarousel.logoSize.y() * 1.1);
 			else
 				yOff = (mCarousel.size.y() - mCarousel.logoSize.y()) / 2;
@@ -677,7 +673,7 @@ void SystemView::renderCarousel(const Transform4x4f& trans)
 		opacity = std::max((int) 0x80, opacity);
 
 		const std::shared_ptr<GuiComponent> &comp = mEntries.at(index).data.logo;
-		if (mCarousel.type == VERTICAL_WHEEL) {
+		if (mCarousel.type == CarouselType::VerticalWheel) {
 			comp->setRotationDegrees(mCarousel.logoRotation * distance);
 			comp->setRotationOrigin(mCarousel.logoRotationOrigin);
 		}
@@ -688,7 +684,7 @@ void SystemView::renderCarousel(const Transform4x4f& trans)
 		if (mEntries.at(index).data.logotext)
 		{
 			const std::shared_ptr<GuiComponent> &comp2 = mEntries.at(index).data.logotext;
-			if (mCarousel.type == VERTICAL_WHEEL) {
+			if (mCarousel.type == CarouselType::VerticalWheel) {
 				comp2->setRotationDegrees(mCarousel.logoRotation * distance);
 				comp2->setRotationOrigin(mCarousel.logoRotationOrigin);
 			}
@@ -729,7 +725,7 @@ void SystemView::renderExtras(const Transform4x4f& trans, float lower, float upp
 		if (mShowing || index == mCursor)
 		{
 			Transform4x4f extrasTrans = trans;
-			if (mCarousel.type == HORIZONTAL)
+			if (mCarousel.type == CarouselType::Horizontal)
 				extrasTrans.translate(Vector3f((i - mExtrasCamOffset) * mSize.x(), 0, 0));
 			else
 				extrasTrans.translate(Vector3f(0, (i - mExtrasCamOffset) * mSize.y(), 0));
@@ -763,8 +759,8 @@ void SystemView::renderFade(const Transform4x4f& trans)
 void  SystemView::getDefaultElements(void)
 {
 	// Carousel
-	mCarousel.type = HORIZONTAL;
-	mCarousel.logoAlignment = ALIGN_CENTER;
+	mCarousel.type = CarouselType::Horizontal;
+	mCarousel.logoAlignment = TextAlignment::Center;
 	mCarousel.size.x() = mSize.x();
 	mCarousel.size.y() = 0.2325f * mSize.y();
 	mCarousel.pos.x() = 0.0f;
@@ -787,7 +783,7 @@ void  SystemView::getDefaultElements(void)
 	mSystemInfo.setBackgroundColor(0xDDDDDDD8);
 	mSystemInfo.setRenderBackground(true);
 	mSystemInfo.setFont(Font::get((int)(0.035f * (std::min(mSize.y(), mSize.x()))), Font::getDefaultPath()));
-	mSystemInfo.setHorizontalAlignment(ALIGN_CENTER);
+	mSystemInfo.setHorizontalAlignment(TextAlignment::Center);
 	mSystemInfo.setColor(0x000000FF);
 	mSystemInfo.setZIndex(50);
 	mSystemInfo.setDefaultZIndex(50);
@@ -798,11 +794,11 @@ void SystemView::getCarouselFromTheme(const ThemeData::ThemeElement* elem)
 	if (elem->has("type"))
 	{
 		if (!(elem->get<std::string>("type").compare("vertical")))
-			mCarousel.type = VERTICAL;
+			mCarousel.type = CarouselType::Vertical;
 		else if (!(elem->get<std::string>("type").compare("vertical_wheel")))
-			mCarousel.type = VERTICAL_WHEEL;
+			mCarousel.type = CarouselType::VerticalWheel;
 		else
-			mCarousel.type = HORIZONTAL;
+			mCarousel.type = CarouselType::Horizontal;
 	}
 	if (elem->has("size"))
 		mCarousel.size = elem->get<Vector2f>("size") * mSize;
@@ -827,15 +823,15 @@ void SystemView::getCarouselFromTheme(const ThemeData::ThemeElement* elem)
 	if (elem->has("logoAlignment"))
 	{
 		if (!(elem->get<std::string>("logoAlignment").compare("left")))
-			mCarousel.logoAlignment = ALIGN_LEFT;
+			mCarousel.logoAlignment = TextAlignment::Left;
 		else if (!(elem->get<std::string>("logoAlignment").compare("right")))
-			mCarousel.logoAlignment = ALIGN_RIGHT;
+			mCarousel.logoAlignment = TextAlignment::Right;
 		else if (!(elem->get<std::string>("logoAlignment").compare("top")))
-			mCarousel.logoAlignment = ALIGN_TOP;
+			mCarousel.logoAlignment = TextAlignment::Top;
 		else if (!(elem->get<std::string>("logoAlignment").compare("bottom")))
-			mCarousel.logoAlignment = ALIGN_BOTTOM;
+			mCarousel.logoAlignment = TextAlignment::Bottom;
 		else
-			mCarousel.logoAlignment = ALIGN_CENTER;
+			mCarousel.logoAlignment = TextAlignment::Center;
 	}
 }
 

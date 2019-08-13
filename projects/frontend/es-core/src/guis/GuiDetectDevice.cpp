@@ -31,7 +31,7 @@ GuiDetectDevice::GuiDetectDevice(Window* window, bool firstRun, const std::funct
 	
 	// title
 	mTitle = std::make_shared<TextComponent>(mWindow, firstRun ? _("WELCOME") : _("CONFIGURE INPUT"),
-		 menuTheme->menuTitle.font, menuTheme->menuTitle.color, ALIGN_CENTER);
+                                           menuTheme->menuTitle.font, menuTheme->menuTitle.color, TextAlignment::Center);
 	//mGrid.setEntry(mTitle, Vector2i(0, 0), false, true, Vector2i(1, 1), GridFlags::BORDER_BOTTOM);
 	mGrid.setEntry(mTitle, Vector2i(0, 0), false, true);
 	
@@ -46,21 +46,21 @@ GuiDetectDevice::GuiDetectDevice(Window* window, bool firstRun, const std::funct
 	}
 	else
 		deviceInfo << _("NO GAMEPADS DETECTED");
-	mDeviceInfo = std::make_shared<TextComponent>(mWindow, deviceInfo.str(),  menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, ALIGN_CENTER);
+	mDeviceInfo = std::make_shared<TextComponent>(mWindow, deviceInfo.str(), menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Center);
 	mGrid.setEntry(mDeviceInfo, Vector2i(0, 1), false, true);
 
 	// message
-	mMsg1 = std::make_shared<TextComponent>(mWindow, _("HOLD A BUTTON ON YOUR DEVICE TO CONFIGURE IT."), menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, ALIGN_CENTER);
+	mMsg1 = std::make_shared<TextComponent>(mWindow, _("HOLD A BUTTON ON YOUR DEVICE TO CONFIGURE IT."), menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Center);
 	mGrid.setEntry(mMsg1, Vector2i(0, 2), false, true);
 
 	if (firstRun)
-		mMsg2 = std::make_shared<TextComponent>(mWindow, _("PRESS F4 TO QUIT AT ANY TIME.").c_str(), menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, ALIGN_CENTER);
+		mMsg2 = std::make_shared<TextComponent>(mWindow, _("PRESS F4 TO QUIT AT ANY TIME.").c_str(), menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Center);
 	else
-		mMsg2 = std::make_shared<TextComponent>(mWindow, _("PRESS ESC OR THE HOTKEY TO CANCEL.").c_str(), menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, ALIGN_CENTER);
+		mMsg2 = std::make_shared<TextComponent>(mWindow, _("PRESS ESC OR THE HOTKEY TO CANCEL.").c_str(), menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Center);
 	mGrid.setEntry(mMsg2, Vector2i(0, 3), false, true);
 
 	// currently held device
-	mDeviceHeld = std::make_shared<TextComponent>(mWindow, "", menuTheme->menuText.font, mColor, ALIGN_CENTER);
+	mDeviceHeld = std::make_shared<TextComponent>(mWindow, "", menuTheme->menuText.font, mColor, TextAlignment::Center);
 	mGrid.setEntry(mDeviceHeld, Vector2i(0, 4), false, true);
 
 	float y= ((mMsg1->getFont()->getHeight() * 4.0f) + mTitle->getFont()->getHeight() ) / Renderer::getDisplayHeightAsFloat() + 0.08f;
@@ -84,7 +84,7 @@ void GuiDetectDevice::onSizeChanged()
 
 bool GuiDetectDevice::input(InputConfig* config, Input input)
 {
-	if(!mFirstRun && ((input.device == DEVICE_KEYBOARD && input.type == TYPE_KEY && input.value && input.id == SDLK_ESCAPE) ||
+	if(!mFirstRun && ((input.device == DEVICE_KEYBOARD && input.type == InputType::Key && input.value && input.id == SDLK_ESCAPE) ||
 	                  (input.device != DEVICE_KEYBOARD && config->isMappedTo("hotkey", input))))
 	{
 		// cancel configuring
@@ -92,7 +92,7 @@ bool GuiDetectDevice::input(InputConfig* config, Input input)
 		return true;
 	}
 
-	if(input.type == TYPE_BUTTON || input.type == TYPE_KEY)
+	if(input.type == InputType::Button || input.type == InputType::Key)
 	{
 		if(input.value && mHoldingConfig == nullptr)
 		{

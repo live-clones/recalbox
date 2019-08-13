@@ -5,7 +5,7 @@
 #include "views/ViewController.h"
 #include "Renderer.h"
 #include "Window.h"
-#include "ThemeData.h"
+#include "themes/ThemeData.h"
 #include "SystemData.h"
 #include "FileSorts.h"
 #include "Settings.h"
@@ -98,8 +98,7 @@ BasicGameListView::BasicGameListView(Window* window, FolderData* root)
 void BasicGameListView::onThemeChanged(const std::shared_ptr<ThemeData>& theme)
 {
 	ISimpleGameListView::onThemeChanged(theme);
-	using namespace ThemeFlags;
-	mList.applyTheme(theme, getName(), "gamelist", ALL);
+	mList.applyTheme(theme, getName(), "gamelist", ThemeProperties::All);
 	sortChildren();
 }
 

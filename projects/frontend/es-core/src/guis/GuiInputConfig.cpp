@@ -21,7 +21,7 @@ GuiInputConfig::GuiInputConfig(Window* window, InputConfig* target, const std::f
 
 	initFormInputs();
 
-	InputConfig previousConfig =  new InputConfig(mTargetConfig);
+	InputConfig previousConfig(mTargetConfig);
 	mTargetConfig->clear();
 	
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
@@ -35,7 +35,7 @@ GuiInputConfig::GuiInputConfig(Window* window, InputConfig* target, const std::f
 	addChild(&mBackground);
 	addChild(&mGrid);
 
-	mTitle = std::make_shared<TextComponent>(mWindow, _("CONFIGURING"), menuTheme->menuTitle.font, menuTheme->menuTitle.color, ALIGN_CENTER);
+	mTitle = std::make_shared<TextComponent>(mWindow, _("CONFIGURING"), menuTheme->menuTitle.font, menuTheme->menuTitle.color, TextAlignment::Center);
 	mGrid.setEntry(mTitle, Vector2i(0, 0), false, true);
 
 	char strbuf[256];
@@ -44,16 +44,16 @@ GuiInputConfig::GuiInputConfig(Window* window, InputConfig* target, const std::f
 	else
 	  snprintf(strbuf, 256, _("GAMEPAD %i").c_str(), mTargetConfig->getDeviceId() + 1);
 	  
-	mSubtitle1 = std::make_shared<TextComponent>(mWindow, strToUpper(strbuf), menuTheme->menuText.font, menuTheme->menuFooter.color, ALIGN_CENTER);
+	mSubtitle1 = std::make_shared<TextComponent>(mWindow, strToUpper(strbuf), menuTheme->menuText.font, menuTheme->menuFooter.color, TextAlignment::Center);
 	mGrid.setEntry(mSubtitle1, Vector2i(0, 1), false, true);
 
-	mSubtitle2 = std::make_shared<TextComponent>(mWindow, "", menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, ALIGN_CENTER);
+	mSubtitle2 = std::make_shared<TextComponent>(mWindow, "", menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Center);
 	mGrid.setEntry(mSubtitle2, Vector2i(0, 2), false, true);
 
 	mList = std::make_shared<ComponentList>(mWindow);
 	mGrid.setEntry(mList, Vector2i(0, 3), true, true);
 	
-	for (auto formInput: mFormInputs) {
+	for (auto& formInput: mFormInputs) {
 		ComponentListRow row;
 		// icon
 		auto icon = std::make_shared<ImageComponent>(mWindow);
@@ -70,7 +70,7 @@ GuiInputConfig::GuiInputConfig(Window* window, InputConfig* target, const std::f
 		auto text = std::make_shared<TextComponent>(mWindow, formInput.label, menuTheme->menuText.font, menuTheme->menuText.color);
 		row.addElement(text, true);
 
-		auto mapping = std::make_shared<TextComponent>(mWindow, "", menuTheme->menuText.font, menuTheme->menuText.color, ALIGN_RIGHT);
+		auto mapping = std::make_shared<TextComponent>(mWindow, "", menuTheme->menuText.font, menuTheme->menuText.color, TextAlignment::Right);
 		row.addElement(mapping, true);
 		mMappings.push_back(mapping);
 
@@ -83,11 +83,11 @@ GuiInputConfig::GuiInputConfig(Window* window, InputConfig* target, const std::f
 			{
 				if (!mInputStack.hasInput(input))
 				{
-					mInputStack.push(input, [this, formInput] (const std::list<Input> inputs)
+					mInputStack.push(input, [this, formInput] (const std::list<Input>& inputs)
 					{
 
-                        for (auto input: inputs)
-                        {
+            for (auto input: inputs)
+            {
 							// Key Up
 							if (mTargetConfig->isMappedTo("UP", input))
 							{
@@ -163,14 +163,14 @@ GuiInputConfig::GuiInputConfig(Window* window, InputConfig* target, const std::f
 		mInputStack.debounce();
 		mCursorOnList = true;
 		auto cursorChange = mList->getCursorChangedCallback();
-		cursorChange(CURSOR_STOPPED);
+		cursorChange(CursorState::Stopped);
 		setPress();
 	});
 
 	mList->setFocusLostCallback([this]() {
 		mCursorOnList = false;
 		auto cursorChange = mList->getCursorChangedCallback();
-		cursorChange(CURSOR_STOPPED);
+		cursorChange(CursorState::Stopped);
 		mSubtitle2->setText("");
 	});
 
@@ -203,35 +203,35 @@ GuiInputConfig::GuiInputConfig(Window* window, InputConfig* target, const std::f
 
 void GuiInputConfig::initFormInputs()
 {
-	addFormInput("Up", _("UP"), ":/help/dpad_up.svg", false, TYPE_HAT);
-	addFormInput("Down", _("DOWN"), ":/help/dpad_down.svg", false, TYPE_HAT);
-	addFormInput("Left", _("LEFT"), ":/help/dpad_left.svg", false, TYPE_HAT);
-	addFormInput("Right", _("RIGHT"), ":/help/dpad_right.svg", false, TYPE_HAT);
+	addFormInput("Up", _("UP"), ":/help/dpad_up.svg", false, InputType::Hat);
+	addFormInput("Down", _("DOWN"), ":/help/dpad_down.svg", false, InputType::Hat);
+	addFormInput("Left", _("LEFT"), ":/help/dpad_left.svg", false, InputType::Hat);
+	addFormInput("Right", _("RIGHT"), ":/help/dpad_right.svg", false, InputType::Hat);
 
-	addFormInput("Joystick1Up", _("JOYSTICK 1 UP"), ":/help/joystick_up.svg", true, TYPE_AXIS);
-	addFormInput("Joystick1Left", _("JOYSTICK 1 LEFT"), ":/help/joystick_left.svg", true, TYPE_AXIS);
-	addFormInput("Joystick2Up", _("JOYSTICK 2 UP"), ":/help/joystick_up.svg", true, TYPE_AXIS);
-	addFormInput("Joystick2Left", _("JOYSTICK 2 LEFT"), ":/help/joystick_left.svg", true, TYPE_AXIS);
+	addFormInput("Joystick1Up", _("JOYSTICK 1 UP"), ":/help/joystick_up.svg", true, InputType::Axis);
+	addFormInput("Joystick1Left", _("JOYSTICK 1 LEFT"), ":/help/joystick_left.svg", true, InputType::Axis);
+	addFormInput("Joystick2Up", _("JOYSTICK 2 UP"), ":/help/joystick_up.svg", true, InputType::Axis);
+	addFormInput("Joystick2Left", _("JOYSTICK 2 LEFT"), ":/help/joystick_left.svg", true, InputType::Axis);
 	
-	addFormInput("A", _("A"), ":/help/button_a.svg", false, TYPE_BUTTON);
-	addFormInput("B", _("B"), ":/help/button_b.svg", false, TYPE_BUTTON);
+	addFormInput("A", _("A"), ":/help/button_a.svg", false, InputType::Button);
+	addFormInput("B", _("B"), ":/help/button_b.svg", false, InputType::Button);
 	
-	addFormInput("X", _("X"), ":/help/button_x.svg", true, TYPE_BUTTON);
-	addFormInput("Y", _("Y"), ":/help/button_y.svg", true, TYPE_BUTTON);
+	addFormInput("X", _("X"), ":/help/button_x.svg", true, InputType::Button);
+	addFormInput("Y", _("Y"), ":/help/button_y.svg", true, InputType::Button);
 	
-	addFormInput("Start", _("START"), ":/help/button_start.svg", false, TYPE_BUTTON);
-	addFormInput("Select", _("SELECT"), ":/help/button_select.svg", false, TYPE_BUTTON);
+	addFormInput("Start", _("START"), ":/help/button_start.svg", false, InputType::Button);
+	addFormInput("Select", _("SELECT"), ":/help/button_select.svg", false, InputType::Button);
 	
-	addFormInput("PageUp", _("PAGE UP"), ":/help/button_l.svg", true, TYPE_BUTTON);
-	addFormInput("PageDown", _("PAGE DOWN"), ":/help/button_r.svg", true, TYPE_BUTTON);
+	addFormInput("PageUp", _("PAGE UP"), ":/help/button_l.svg", true, InputType::Button);
+	addFormInput("PageDown", _("PAGE DOWN"), ":/help/button_r.svg", true, InputType::Button);
 	
-	addFormInput("L2", _("L2"), ":/help/button_l2.svg", true, TYPE_BUTTON);
-	addFormInput("R2", _("R2"), ":/help/button_r2.svg", true, TYPE_BUTTON);
+	addFormInput("L2", _("L2"), ":/help/button_l2.svg", true, InputType::Button);
+	addFormInput("R2", _("R2"), ":/help/button_r2.svg", true, InputType::Button);
 	
-	addFormInput("L3", _("L3"), ":/help/button_l3.svg", true, TYPE_BUTTON);
-	addFormInput("R3", _("R3"), ":/help/button_r3.svg", true, TYPE_BUTTON);
+	addFormInput("L3", _("L3"), ":/help/button_l3.svg", true, InputType::Button);
+	addFormInput("R3", _("R3"), ":/help/button_r3.svg", true, InputType::Button);
 
-	addFormInput("HotKey", _("HOTKEY"), ":/help/button_hotkey.svg", false, TYPE_BUTTON);
+	addFormInput("HotKey", _("HOTKEY"), ":/help/button_hotkey.svg", false, InputType::Button);
 }
 
 void GuiInputConfig::addFormInput(const char* name, std::string label, const char* icon, bool skippable, InputType preferredType)

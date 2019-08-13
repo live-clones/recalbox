@@ -6,15 +6,16 @@
 #include "components/ScrollableContainer.h"
 #include "components/IList.h"
 #include "resources/TextureResource.h"
+#include "themes/ThemeExtras.h"
 
 class SystemData;
 class AnimatedImageComponent;
 
-enum CarouselType : unsigned int
+enum class CarouselType : unsigned int
 {
-	HORIZONTAL = 0,
-	VERTICAL = 1,
-	VERTICAL_WHEEL = 2
+	Horizontal    = 0,
+	Vertical      = 1,
+	VerticalWheel = 2
 };
 
 struct SystemViewData
@@ -33,7 +34,7 @@ struct SystemViewCarousel
 	float logoScale;
 	float logoRotation;
 	Vector2f logoRotationOrigin;
-	Alignment logoAlignment;
+  TextAlignment logoAlignment;
 	unsigned int color;
 	int maxLogoCount; // number of logos shown on the carousel
 	Vector2f logoSize;

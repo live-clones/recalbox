@@ -131,7 +131,7 @@ GuiMenu::GuiMenu(Window* window) : GuiComponent(window), mMenu(window, _("MAIN M
   mVersion.setColor(mMenuTheme->menuFooter.color);
 
     mVersion.setText("RB EMULATIONSTATION V" + strToUpper(PROGRAM_VERSION_STRING));
-    mVersion.setHorizontalAlignment(ALIGN_CENTER);
+    mVersion.setHorizontalAlignment(TextAlignment::Center);
 
     addChild(&mMenu);
     addChild(&mVersion);
@@ -166,7 +166,7 @@ void GuiMenu::createInputTextRow(GuiSettings *gui, std::string title, const char
 
   ed = std::make_shared<TextComponent>(window, ((password && !RecalboxConf::getInstance()->get(settingsID).empty()) ?
       "*********" : RecalboxConf::getInstance()->get(settingsID)),
-      mMenuTheme->menuText.font, mMenuTheme->menuText.color, ALIGN_RIGHT);
+                                       mMenuTheme->menuText.font, mMenuTheme->menuText.color, TextAlignment::Right);
   row.addElement(ed, true);
 
   auto spacer = std::make_shared<GuiComponent>(mWindow);
@@ -1233,7 +1233,7 @@ void GuiMenu::menuNetworkSettings(){
 
     std::shared_ptr<GuiComponent> ed;
 
-    ed = std::make_shared<TextComponent>(mWindow, value, mMenuTheme->menuText.font, mMenuTheme->menuText.color, ALIGN_RIGHT);
+    ed = std::make_shared<TextComponent>(mWindow, value, mMenuTheme->menuText.font, mMenuTheme->menuText.color, TextAlignment::Right);
     row.addElement(ed, true);
 
     auto spacer = std::make_shared<GuiComponent>(mWindow);
@@ -1254,7 +1254,7 @@ void GuiMenu::menuNetworkSettings(){
       GuiSettings *SSID = new GuiSettings(mWindow, _("WIFI SSID").c_str());
       std::shared_ptr<GuiComponent> ed;
       ComponentListRow row;
-      ed = std::make_shared<TextComponent>(mWindow, _("MANUAL INPUT"), mMenuTheme->menuText.font, mMenuTheme->menuText.color, ALIGN_LEFT);
+      ed = std::make_shared<TextComponent>(mWindow, _("MANUAL INPUT"), mMenuTheme->menuText.font, mMenuTheme->menuText.color, TextAlignment::Left);
       row.addElement(ed, true);
       auto updateValue = [this, updateVal, SSID](const std::string &newVal) {
         RecalboxConf::getInstance()->set("wifi.ssid", newVal);
@@ -1285,9 +1285,9 @@ void GuiMenu::menuNetworkSettings(){
                 vname += " ";
                 vname += tokens.at(i);
               }
-              ed = std::make_shared<TextComponent>(mWindow, vname, mMenuTheme->menuText.font, mMenuTheme->menuText.color, ALIGN_LEFT);
+              ed = std::make_shared<TextComponent>(mWindow, vname, mMenuTheme->menuText.font, mMenuTheme->menuText.color, TextAlignment::Left);
             } else {
-              ed = std::make_shared<TextComponent>(mWindow, (*it), mMenuTheme->menuText.font, mMenuTheme->menuText.color, ALIGN_LEFT);
+              ed = std::make_shared<TextComponent>(mWindow, (*it), mMenuTheme->menuText.font, mMenuTheme->menuText.color, TextAlignment::Left);
             }
             row.addElement(ed, true);
             row.makeAcceptInputHandler([this, updateValue, ed] { updateValue(ed->getValue()); });

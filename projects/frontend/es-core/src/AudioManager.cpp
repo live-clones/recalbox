@@ -7,7 +7,7 @@
 #include "Log.h"
 #include "RecalboxConf.h"
 #include "Settings.h"
-#include "ThemeData.h"
+#include "themes/ThemeData.h"
 #include "Locale.h"
 #include "RootFolders.h"
 #include <unistd.h>

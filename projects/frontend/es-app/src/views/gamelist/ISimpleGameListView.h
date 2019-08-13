@@ -4,6 +4,7 @@
 
 #include "components/TextComponent.h"
 #include "components/ImageComponent.h"
+#include "themes/ThemeExtras.h"
 
 class ISimpleGameListView : public IGameListView
 {

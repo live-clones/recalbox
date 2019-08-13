@@ -186,7 +186,7 @@ void Window::update(int deltaTime)
 		std::string title = mScrollTitle.back();
 		mScrollMessages.pop_back();
 		mScrollTitle.pop_back();
-		pushGui(new GuiMsgBoxScroll(this, title, message, _("OK"), [] {}, "", nullptr, "", nullptr, ALIGN_LEFT));
+		pushGui(new GuiMsgBoxScroll(this, title, message, _("OK"), [] {}, "", nullptr, "", nullptr, TextAlignment::Left));
 	}
 	if(mNormalizeNextUpdate)
 	{

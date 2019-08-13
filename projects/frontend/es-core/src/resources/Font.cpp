@@ -704,24 +704,24 @@ Vector2f Font::getWrappedTextCursorOffset(std::string text, float xLen, size_t s
 //TextCache
 //=============================================================================================================
 
-float Font::getNewlineStartOffset(const std::string& text, const unsigned int& charStart, const float& xLen, const Alignment& alignment)
+float Font::getNewlineStartOffset(const std::string& text, unsigned int charStart, float xLen, TextAlignment alignment)
 {
 	switch(alignment)
 	{
-	  case ALIGN_LEFT:
+	  case TextAlignment::Left:
 		  return 0;
-  	case ALIGN_CENTER:
+  	case TextAlignment::Center:
 		{
       size_t endChar = text.find('\n', charStart);
 			return (xLen - sizeText(text.substr(charStart, endChar != std::string::npos ? endChar - charStart : endChar)).x()) / 2.0f;
 		}
-	  case ALIGN_RIGHT:
+	  case TextAlignment::Right:
 		{
       size_t endChar = text.find('\n', charStart);
 			return xLen - (sizeText(text.substr(charStart, endChar != std::string::npos ? endChar - charStart : endChar)).x());
 		}
-	  case ALIGN_TOP:
-	  case ALIGN_BOTTOM:
+	  case TextAlignment::Top:
+	  case TextAlignment::Bottom:
 	  default:
 		  return 0;
 	}
@@ -732,7 +732,7 @@ inline float font_round(float v)
 	return round(v);
 }
 
-TextCache* Font::buildTextCache(const std::string& text, Vector2f offset, unsigned int color, float xLen, Alignment alignment, float lineSpacing)
+TextCache* Font::buildTextCache(const std::string& text, Vector2f offset, unsigned int color, float xLen, TextAlignment alignment, float lineSpacing)
 {
 	float x = offset[0] + (xLen != 0 ? getNewlineStartOffset(text, 0, xLen, alignment) : 0);
 	
@@ -831,10 +831,9 @@ void TextCache::setColor(unsigned int color)
 		Renderer::buildGLColorArray(vertexList.colors.data(), color, vertexList.verts.size());
 }
 
-std::shared_ptr<Font> Font::getFromTheme(const ThemeData::ThemeElement* elem, unsigned int properties, const std::shared_ptr<Font>& orig)
+std::shared_ptr<Font> Font::getFromTheme(const ThemeData::ThemeElement* elem, ThemeProperties properties, const std::shared_ptr<Font>& orig)
 {
-	using namespace ThemeFlags;
-	if(!(properties & FONT_PATH) && !(properties & FONT_SIZE))
+	if (!hasFlags(properties, ThemeProperties::FontPath, ThemeProperties::FontSize))
 		return orig;
 	
 	std::shared_ptr<Font> font;
@@ -842,9 +841,9 @@ std::shared_ptr<Font> Font::getFromTheme(const ThemeData::ThemeElement* elem, un
 	std::string path = (orig ? orig->mPath : getDefaultPath());
 
 	float sh = std::min(Renderer::getDisplayHeightAsFloat(), Renderer::getDisplayWidthAsFloat());
-	if(properties & FONT_SIZE && elem->has("fontSize")) 
+	if (hasFlag(properties, ThemeProperties::FontSize) && elem->has("fontSize"))
 		size = (int)(sh * elem->get<float>("fontSize"));
-	if(properties & FONT_PATH && elem->has("fontPath"))
+	if (hasFlag(properties, ThemeProperties::FontPath) && elem->has("fontPath"))
 		path = elem->get<std::string>("fontPath");
 
 	return get(size, path);

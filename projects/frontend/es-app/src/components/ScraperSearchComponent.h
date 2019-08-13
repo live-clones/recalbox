@@ -18,14 +18,14 @@ class AnimatedImageComponent;
 class ScraperSearchComponent : public GuiComponent
 {
 public:
-	enum SearchType
+	enum class SearchType
 	{
-		ALWAYS_ACCEPT_FIRST_RESULT,
-		ALWAYS_ACCEPT_MATCHING_CRC,
-		NEVER_AUTO_ACCEPT
+		AutoAcceptFirst,
+		AutoAcceptMatchingCRC,
+		NeverAutoAccept,
 	};
 
-	explicit ScraperSearchComponent(Window* window, SearchType searchType = NEVER_AUTO_ACCEPT);
+	explicit ScraperSearchComponent(Window* window, SearchType searchType = SearchType::NeverAutoAccept);
 
 	void search(const ScraperSearchParams& params);
 	void openInputScreen(ScraperSearchParams& from);

@@ -9,12 +9,12 @@
 
 #define HORIZONTAL_PADDING_PX 20
 
-GuiMsgBox::GuiMsgBox(Window* window, const std::string& text, 
-	const std::string& name1, const std::function<void()>& func1,
-	const std::string& name2, const std::function<void()>& func2, 
-	const std::string& name3, const std::function<void()>& func3,
-        Alignment align) : GuiComponent(window), 
-	mBackground(window, ":/frame.png"), mGrid(window, Vector2i(1, 2))
+GuiMsgBox::GuiMsgBox(Window* window, const std::string& text,
+                     const std::string& name1, const std::function<void()>& func1,
+                     const std::string& name2, const std::function<void()>& func2,
+                     const std::string& name3, const std::function<void()>& func3,
+                     TextAlignment align) : GuiComponent(window),
+                                            mBackground(window, ":/frame.png"), mGrid(window, Vector2i(1, 2))
 {
 	float width = Renderer::getDisplayWidthAsFloat() * 0.6f; // max width
 	float minWidth = Renderer::getDisplayWidthAsFloat() * 0.3f; // minimum width
@@ -52,7 +52,7 @@ GuiMsgBox::GuiMsgBox(Window* window, const std::string& text,
 
 	// put the buttons into a ComponentGrid
 	mButtonGrid = makeButtonGrid(mWindow, mButtons);
-	mGrid.setEntry(mButtonGrid, Vector2i(0, 1), true, false, Vector2i(1, 1), GridFlags::BORDER_TOP);
+	mGrid.setEntry(mButtonGrid, Vector2i(0, 1), true, false, Vector2i(1, 1), Borders::Top);
 
 	// decide final width
 	if(mMsg->getSize().x() < width && mButtonGrid->getSize().x() < width)
@@ -85,7 +85,7 @@ bool GuiMsgBox::input(InputConfig* config, Input input)
 	}
 
 	/* when it's not configured, allow to remove the message box too to allow the configdevice window a chance */
-	if(mAcceleratorFunc && ((config->isMappedTo("a", input) && input.value != 0) || (!config->isConfigured() && input.type == TYPE_BUTTON)))
+	if(mAcceleratorFunc && ((config->isMappedTo("a", input) && input.value != 0) || (!config->isConfigured() && input.type == InputType::Button)))
 	{
 		mAcceleratorFunc();
 		return true;

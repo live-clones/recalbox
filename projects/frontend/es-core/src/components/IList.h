@@ -8,15 +8,17 @@
 #include "resources/Font.h"
 #include "Renderer.h"
 
-enum CursorState {
-	CURSOR_STOPPED,
-	CURSOR_SCROLLING
+enum class CursorState
+{
+	Stopped,
+	Scrolling,
 };
 
-enum ListLoopType {
-	LIST_ALWAYS_LOOP,
-	LIST_PAUSE_AT_END,
-	LIST_NEVER_LOOP
+enum class LoopType
+{
+	Always,
+	PauseAtEnd,
+	NeverLoop,
 };
 
 struct ScrollTier {
@@ -77,7 +79,7 @@ protected:
 	std::shared_ptr<Font> mTitleOverlayFont;
 
 	const ScrollTierList& mTierList;
-	const ListLoopType mLoopType;
+	const LoopType mLoopType;
 
 	std::vector<Entry> mEntries;
 
@@ -132,7 +134,7 @@ protected:
   }*/
 
   public:
-	explicit IList(Window* window, const ScrollTierList& tierList = LIST_SCROLL_STYLE_QUICK, const ListLoopType& loopType = LIST_PAUSE_AT_END) : GuiComponent(window),
+	explicit IList(Window* window, const ScrollTierList& tierList = LIST_SCROLL_STYLE_QUICK, LoopType loopType = LoopType::PauseAtEnd) : GuiComponent(window),
 		mGradient(window), mTierList(tierList), mLoopType(loopType) {
 		mCursor = 0;
 		mScrollTier = 0;
@@ -188,13 +190,13 @@ protected:
 	void setCursor(typename std::vector<Entry>::iterator& it) {
 		assert(it != mEntries.end());
 		mCursor = it - mEntries.begin();
-		onCursorChanged(CURSOR_STOPPED);
+		onCursorChanged(CursorState::Stopped);
 	}
 
 	void setCursorIndex(int index) {
 		if (index >= 0 && index < (int)mEntries.size()) {
 			mCursor = index;
-			onCursorChanged(CURSOR_STOPPED);
+			onCursorChanged(CursorState::Stopped);
 		}
 	}
 
@@ -207,7 +209,7 @@ protected:
 		for (auto it = mEntries.begin() + offset; it != mEntries.end(); it++) {
 			if ((*it).object == obj) {
 				mCursor = it - mEntries.begin();
-				onCursorChanged(CURSOR_STOPPED);
+				onCursorChanged(CursorState::Stopped);
 				return true;
 			}
 		}
@@ -219,7 +221,7 @@ protected:
 		for (auto it = mEntries.begin(); it != mEntries.end(); it++) {
 			if ((*it).name == name) {
 				mCursor = it - mEntries.begin();
-				onCursorChanged(CURSOR_STOPPED);
+				onCursorChanged(CursorState::Stopped);
 				return true;
 			}
 		}
@@ -293,7 +295,7 @@ protected:
 	void remove(typename std::vector<Entry>::iterator& it) {
 		if (mCursor > 0 && it - mEntries.begin() <= mCursor) {
 			mCursor--;
-			onCursorChanged(CURSOR_STOPPED);
+			onCursorChanged(CursorState::Stopped);
 		}
 
 		mEntries.erase(it);
@@ -373,7 +375,7 @@ protected:
 
 	void scroll(int amt) {
 		if (mScrollVelocity == 0 || size() < 2) {
-            onCursorChanged(CURSOR_STOPPED);
+            onCursorChanged(CursorState::Stopped);
             return;
         }
 
@@ -383,8 +385,8 @@ protected:
 		// stop at the end if we've been holding down the button for a long time or
 		// we're scrolling faster than one item at a time (e.g. page up/down)
 		// otherwise, loop around
-		if ((mLoopType == LIST_PAUSE_AT_END && (mScrollTier > 0 || absAmt > 1)) ||
-			mLoopType == LIST_NEVER_LOOP) {
+		if ((mLoopType == LoopType::PauseAtEnd && (mScrollTier > 0 || absAmt > 1)) ||
+			mLoopType == LoopType::NeverLoop) {
 			if (cursor < 0) {
 				cursor = 0;
 				mScrollVelocity = 0;
@@ -404,7 +406,7 @@ protected:
 		if (cursor != mCursor) {
             onScroll(absAmt);
 		    mCursor = cursor;
-	    	onCursorChanged((mScrollTier > 0) ? CURSOR_SCROLLING : CURSOR_STOPPED);
+	    	onCursorChanged((mScrollTier > 0) ? CursorState::Scrolling : CursorState::Stopped);
         }
 
 	}

@@ -184,7 +184,7 @@ void screenscraper_generate_scraper_requests(const ScraperSearchParams& params,
 
 void ScreenScraperRequest::process(const std::unique_ptr<HttpReq>& req, std::vector<ScraperSearchResult>& results)
 {
-  assert(req->status() == HttpReq::REQ_SUCCESS);
+  assert(req->status() == HttpReq::Status::Success);
 
   pugi::xml_document doc;
   pugi::xml_parse_result parseResult = doc.load_string(req->getContent().c_str());

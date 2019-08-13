@@ -1,6 +1,6 @@
 #include "MenuThemeData.h"
 #include "Settings.h"
-#include "ThemeData.h"
+#include "themes/ThemeData.h"
 #include "Renderer.h"
 #include "resources/Font.h"
 
@@ -33,7 +33,7 @@ MenuThemeData::MenuThemeData(){
 	if (elem)
 	{
 		if(elem->has("fontPath") || elem->has("fontSize"))
-			mCurrent->menuTitle.font = Font::getFromTheme(elem, ThemeFlags::ALL, Font::get(FONT_SIZE_LARGE));
+			mCurrent->menuTitle.font = Font::getFromTheme(elem, ThemeProperties::All, Font::get(FONT_SIZE_LARGE));
 		if(elem->has("color"))
 			mCurrent->menuTitle.color = elem->get<unsigned int>("color");
 	}
@@ -43,7 +43,7 @@ MenuThemeData::MenuThemeData(){
 	if (elem)
 	{
 		if(elem->has("fontPath") || elem->has("fontSize"))
-			mCurrent->menuFooter.font = Font::getFromTheme(elem, ThemeFlags::ALL, Font::get(FONT_SIZE_SMALL));
+			mCurrent->menuFooter.font = Font::getFromTheme(elem, ThemeProperties::All, Font::get(FONT_SIZE_SMALL));
 		if(elem->has("color"))
 			mCurrent->menuFooter.color = elem->get<unsigned int>("color");
 	}
@@ -54,7 +54,7 @@ MenuThemeData::MenuThemeData(){
 	{
 		if(elem->has("fontPath") || elem->has("fontSize"))
 		{
-			mCurrent->menuText.font = Font::getFromTheme(elem, ThemeFlags::ALL, Font::get(FONT_SIZE_MEDIUM));
+			mCurrent->menuText.font = Font::getFromTheme(elem, ThemeProperties::All, Font::get(FONT_SIZE_MEDIUM));
 		}
 			
 		if(elem->has("color"))
@@ -73,7 +73,7 @@ MenuThemeData::MenuThemeData(){
 	{
 		if(elem->has("fontPath") || elem->has("fontSize"))
 		{
-			mCurrent->menuTextSmall.font = Font::getFromTheme(elem, ThemeFlags::ALL, Font::get(FONT_SIZE_SMALL));
+			mCurrent->menuTextSmall.font = Font::getFromTheme(elem, ThemeProperties::All, Font::get(FONT_SIZE_SMALL));
 		}
 			
 		if(elem->has("color"))

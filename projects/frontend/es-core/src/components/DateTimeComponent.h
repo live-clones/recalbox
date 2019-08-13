@@ -8,15 +8,15 @@
 class DateTimeComponent : public GuiComponent
 {
 public:
-	enum DisplayMode
+	enum class Display
 	{
-		DISP_DATE,
-		DISP_DATE_TIME,
-		DISP_TIME,
-		DISP_RELATIVE_TO_NOW
+		Date,
+		DateTime,
+		Time,
+		RelativeToNow,
 	};
 
-	explicit DateTimeComponent(Window* window, DisplayMode dispMode = DISP_DATE);
+	explicit DateTimeComponent(Window* window, Display dispMode = Display::Date);
 
 	void setValue(const std::string& val) override;
 	std::string getValue() const override;
@@ -31,22 +31,22 @@ public:
 	//  * DISP_DATE_TIME - display both the date and the time on that date.
 	//  * DISP_RELATIVE_TO_NOW - intelligently display the point in time relative to right now (e.g. "5 secs ago", "3 minutes ago", "1 day ago".  Automatically updates as time marches on.
 	// The initial value is DISP_DATE.
-	void setDisplayMode(DisplayMode mode);
+	void setDisplayMode(Display mode);
 
-	void setColor(unsigned int color); // Text color.
+	void setColor(unsigned int color) override; // Text color.
 	inline void setOriginColor(unsigned int color){mOriginColor = color;};
 	inline unsigned int getOriginColor() override{return mOriginColor;};
 	void setFont(std::shared_ptr<Font> font); // Font to display with. Default is Font::get(FONT_SIZE_MEDIUM).
 	void setUppercase(bool uppercase); // Force text to be uppercase when in DISP_RELATIVE_TO_NOW mode.
-	void setHorizontalAlignment(Alignment align);
+	void setHorizontalAlignment(TextAlignment align);
 
-	void applyTheme(const std::shared_ptr<ThemeData>& theme, const std::string& view, const std::string& element, unsigned int properties) override;
+	void applyTheme(const std::shared_ptr<ThemeData>& theme, const std::string& view, const std::string& element, ThemeProperties properties) override;
 
 private:
 	std::shared_ptr<Font> getFont() const;
 
-	std::string getDisplayString(DisplayMode mode) const;
-	DisplayMode getCurrentDisplayMode() const;
+	std::string getDisplayString(Display mode) const;
+	Display getCurrentDisplayMode() const;
 	
 	void updateTextCache();
 
@@ -55,7 +55,7 @@ private:
 
 	bool mEditing;
 	int mEditIndex;
-	DisplayMode mDisplayMode;
+	Display mDisplayMode;
 
 	int mRelativeUpdateAccumulator;
 
@@ -65,7 +65,7 @@ private:
 	unsigned int mColor;
 	unsigned int mOriginColor;
 	std::shared_ptr<Font> mFont;
-	Alignment mHorizontalAlignment = ALIGN_RIGHT;
+  TextAlignment mHorizontalAlignment = TextAlignment::Right;
 	bool mUppercase;
 
 	bool mAutoSize;

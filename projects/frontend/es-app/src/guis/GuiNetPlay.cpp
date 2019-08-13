@@ -60,7 +60,7 @@ GuiNetPlay::GuiNetPlay(Window* window)
 	mBackground.setCenterColor(mMenuTheme->menuBackground.color);
 	mBackground.setEdgeColor(mMenuTheme->menuBackground.color);
 
-	mTitle = std::make_shared<TextComponent>(mWindow, _("NETPLAY"), mMenuTheme->menuTitle.font, mMenuTheme->menuTitle.color, ALIGN_CENTER);
+	mTitle = std::make_shared<TextComponent>(mWindow, _("NETPLAY"), mMenuTheme->menuTitle.font, mMenuTheme->menuTitle.color, TextAlignment::Center);
 	mGrid.setEntry(mTitle, Vector2i(0, 0), false);
 
 	mButtons.push_back(std::make_shared<ButtonComponent>(mWindow, _("CLOSE"), _("CLOSE"), [this] { delete this; }));
@@ -151,66 +151,66 @@ void GuiNetPlay::populateGrid()
 		mGridMeta->setColWidthPerc(0, 0.57);
 		mGrid.setEntry(mGridMeta, Vector2i(0, 1), true);
 
-		mMetaTextLblUsername = std::make_shared<TextComponent>(mWindow, "    " +  _("Username") + " : ", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, ALIGN_LEFT);
-		mMetaTextUsername = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, ALIGN_LEFT);
+		mMetaTextLblUsername = std::make_shared<TextComponent>(mWindow, "    " +  _("Username") + " : ", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, TextAlignment::Left);
+		mMetaTextUsername = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, TextAlignment::Left);
 		mGridMetaRight->setEntry(mMetaTextLblUsername, Vector2i(0, 0), false, true);
 		mGridMetaRight->setEntry(mMetaTextUsername, Vector2i(1, 0), false, true);
-		mMetaTextLblCountry = std::make_shared<TextComponent>(mWindow, "    " +  _("Country") + " : ", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, ALIGN_LEFT);
-		mMetaTextCountry = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, ALIGN_LEFT);
+		mMetaTextLblCountry = std::make_shared<TextComponent>(mWindow, "    " +  _("Country") + " : ", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, TextAlignment::Left);
+		mMetaTextCountry = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, TextAlignment::Left);
 		mGridMetaRight->setEntry(mMetaTextLblCountry, Vector2i(0, 1), false, true);
 		mGridMetaRight->setEntry(mMetaTextCountry, Vector2i(1, 1), false, true);
-		mMetaTextLblRomHash = std::make_shared<TextComponent>(mWindow, "    " +  _("Rom hash") + " : ", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, ALIGN_LEFT);
-		mMetaTextRomHash = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, ALIGN_LEFT);
+		mMetaTextLblRomHash = std::make_shared<TextComponent>(mWindow, "    " +  _("Rom hash") + " : ", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, TextAlignment::Left);
+		mMetaTextRomHash = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, TextAlignment::Left);
 		mGridMetaRight->setEntry(mMetaTextLblRomHash, Vector2i(0, 2), false, true);
 		mGridMetaRight->setEntry(mMetaTextRomHash, Vector2i(1, 2), false, true);
-		mMetaTextLblRomFile = std::make_shared<TextComponent>(mWindow, "    " +  _("Rom file") + " : ", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, ALIGN_LEFT);
-		mMetaTextRomFile = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, ALIGN_LEFT);
+		mMetaTextLblRomFile = std::make_shared<TextComponent>(mWindow, "    " +  _("Rom file") + " : ", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, TextAlignment::Left);
+		mMetaTextRomFile = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, TextAlignment::Left);
 		mGridMetaRight->setEntry(mMetaTextLblRomFile, Vector2i(0, 3), false, true);
 		mGridMetaRight->setEntry(mMetaTextRomFile, Vector2i(1, 3), false, true);
-		mMetaTextLblCore = std::make_shared<TextComponent>(mWindow, "    " +  _("Core") + " : ", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, ALIGN_LEFT);
-		mMetaTextCore = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, ALIGN_LEFT);
+		mMetaTextLblCore = std::make_shared<TextComponent>(mWindow, "    " +  _("Core") + " : ", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, TextAlignment::Left);
+		mMetaTextCore = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, TextAlignment::Left);
 		mGridMetaRight->setEntry(mMetaTextLblCore, Vector2i(0, 4), false, true);
 		mGridMetaRight->setEntry(mMetaTextCore, Vector2i(1, 4), false, true);
-		mMetaTextLblCoreVer = std::make_shared<TextComponent>(mWindow, "    " +  _("Core ver.") + " : ", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, ALIGN_LEFT);
-		mMetaTextCoreVer = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, ALIGN_LEFT);
+		mMetaTextLblCoreVer = std::make_shared<TextComponent>(mWindow, "    " +  _("Core ver.") + " : ", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, TextAlignment::Left);
+		mMetaTextCoreVer = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, TextAlignment::Left);
 		mGridMetaRight->setEntry(mMetaTextLblCoreVer, Vector2i(0, 5), false, true);
 		mGridMetaRight->setEntry(mMetaTextCoreVer, Vector2i(1, 5), false, true);
-		mMetaTextLblLatency = std::make_shared<TextComponent>(mWindow, "    " +  _("Latency") + " : ", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, ALIGN_LEFT);
-		mMetaTextLatency = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, ALIGN_LEFT);
+		mMetaTextLblLatency = std::make_shared<TextComponent>(mWindow, "    " +  _("Latency") + " : ", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, TextAlignment::Left);
+		mMetaTextLatency = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, TextAlignment::Left);
 		mGridMetaRight->setEntry(mMetaTextLblLatency, Vector2i(0, 6), false, true);
 		mGridMetaRight->setEntry(mMetaTextLatency, Vector2i(1, 6), false, true);
-		mMetaTextLblRAVer = std::make_shared<TextComponent>(mWindow, "    " +  _("RA ver.") + " : ", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, ALIGN_LEFT);
-		mMetaTextRAVer = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, ALIGN_LEFT);
+		mMetaTextLblRAVer = std::make_shared<TextComponent>(mWindow, "    " +  _("RA ver.") + " : ", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, TextAlignment::Left);
+		mMetaTextRAVer = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, TextAlignment::Left);
 		mGridMetaRight->setEntry(mMetaTextLblRAVer, Vector2i(0, 7), false, true);
 		mGridMetaRight->setEntry(mMetaTextRAVer, Vector2i(1, 7), false, true);
-		mMetaTextLblHostArch = std::make_shared<TextComponent>(mWindow, "    " +  _("Host arch.") + " : ", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, ALIGN_LEFT);
-		mMetaTextHostArch = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, ALIGN_LEFT);
+		mMetaTextLblHostArch = std::make_shared<TextComponent>(mWindow, "    " +  _("Host arch.") + " : ", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, TextAlignment::Left);
+		mMetaTextHostArch = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, TextAlignment::Left);
 		mGridMetaRight->setEntry(mMetaTextLblHostArch, Vector2i(0, 8), false, true);
 		mGridMetaRight->setEntry(mMetaTextHostArch, Vector2i(1, 8), false, true);
-		mMetaTextLblCanJoin = std::make_shared<TextComponent>(mWindow, "    " +  _("Can join") + " : ", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, ALIGN_LEFT);
-		mMetaTextCanJoin = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, ALIGN_LEFT);
+		mMetaTextLblCanJoin = std::make_shared<TextComponent>(mWindow, "    " +  _("Can join") + " : ", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, TextAlignment::Left);
+		mMetaTextCanJoin = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color, TextAlignment::Left);
 		mGridMetaRight->setEntry(mMetaTextLblCanJoin, Vector2i(0, 10), false, true);
 		mGridMetaRight->setEntry(mMetaTextCanJoin, Vector2i(1, 10), false, true);
-		mGridMeta->setEntry(mGridMetaRight, Vector2i(1, 0), false, true, Vector2i(1, 1), GridFlags::BORDER_LEFT);
+		mGridMeta->setEntry(mGridMetaRight, Vector2i(1, 0), false, true, Vector2i(1, 1), Borders::Left);
         mGridMetaRight->setColWidthPerc(1, 0.60, true);
 
 		ComponentListRow row;
 		std::shared_ptr<GuiComponent> ed;
 		int i = 0;
-		for (auto v : mRooms) {
+		for (auto& v : mRooms) {
 			row.elements.clear();
 			std::string text, gameName;
 			if (v.second.get<std::string>("fields.core_name") == "FB Alpha" ||
 					v.second.get<std::string>("fields.core_name") == "MAME 2000" ||
 					v.second.get<std::string>("fields.core_name") == "MAME 2010" ||
 					v.second.get<std::string>("fields.core_name") == "MAME 2003")
-            {
-                gameName = PlatformIds::getCleanMameName(v.second.get<std::string>("fields.game_name").c_str());
-            }
-            else
-            {
-                gameName = v.second.get<std::string>("fields.game_name");
-            }
+      {
+          gameName = PlatformIds::getCleanMameName(v.second.get<std::string>("fields.game_name").c_str());
+      }
+      else
+      {
+          gameName = v.second.get<std::string>("fields.game_name");
+      }
 			if (mGames[i]) {
 				if (mGames[i]->getHash() == v.second.get<std::string>("fields.game_crc")) {
 					text = "\uf1c0 " + gameName;
@@ -224,7 +224,7 @@ void GuiNetPlay::populateGrid()
 			} else {
 				text = "\uf1c2 " + gameName;
 			}
-			ed = std::make_shared<TextComponent>(mWindow, text, mMenuTheme->menuText.font, mMenuTheme->menuText.color, ALIGN_LEFT);
+			ed = std::make_shared<TextComponent>(mWindow, text, mMenuTheme->menuText.font, mMenuTheme->menuText.color, TextAlignment::Left);
 			row.addElement(ed, true);
 			row.makeAcceptInputHandler([this] { launch();});
 			addRow(row);
@@ -250,7 +250,7 @@ void GuiNetPlay::populateGrid()
 
 		mGrid.moveCursor(Vector2i(0, -1));
 	} else {
-		auto text = std::make_shared<TextComponent>(mWindow, _("NO GAMES OR NO CONNECTION"), mMenuTheme->menuText.font, mMenuTheme->menuText.color, ALIGN_CENTER);
+		auto text = std::make_shared<TextComponent>(mWindow, _("NO GAMES OR NO CONNECTION"), mMenuTheme->menuText.font, mMenuTheme->menuText.color, TextAlignment::Center);
 		mGrid.setEntry(text, Vector2i(0, 1), true);
 	}
 	mLobbyChecked = false;

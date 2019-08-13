@@ -5,7 +5,7 @@
 #include "RootFolderData.h"
 #include "Window.h"
 #include "PlatformId.h"
-#include "ThemeData.h"
+#include "themes/ThemeData.h"
 #include "FileSorts.h"
 
 #include <boost/property_tree/ptree.hpp>

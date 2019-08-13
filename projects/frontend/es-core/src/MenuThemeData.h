@@ -3,7 +3,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
-#include "ThemeData.h"
+#include "themes/ThemeData.h"
 #include "resources/Font.h"
 #include "Renderer.h"
 

@@ -1,9 +1,9 @@
 #include "components/ImageComponent.h"
 #include <iostream>
-#include <math.h>
+#include <cmath>
 #include "Log.h"
 #include "Renderer.h"
-#include "ThemeData.h"
+#include "themes/ThemeData.h"
 #include "Locale.h"
 
 Vector2i ImageComponent::getTextureSize() const {
@@ -303,9 +303,8 @@ bool ImageComponent::hasImage() {
     return (bool)mTexture;
 }
 
-void ImageComponent::applyTheme(const std::shared_ptr<ThemeData>& theme, const std::string& view, const std::string& element, unsigned int properties) {
-    using namespace ThemeFlags;
-
+void ImageComponent::applyTheme(const std::shared_ptr<ThemeData>& theme, const std::string& view, const std::string& element, ThemeProperties properties)
+{
     const ThemeData::ThemeElement* elem = theme->getElement(view, element, "image");
     if (!elem) {
         return;
@@ -313,12 +312,12 @@ void ImageComponent::applyTheme(const std::shared_ptr<ThemeData>& theme, const s
 
     Vector2f scale = getParent() ? getParent()->getSize() : Vector2f(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
     
-    if (properties & POSITION && elem->has("pos")) {
+    if (hasFlag(properties, ThemeProperties::Position) && elem->has("pos")) {
         Vector2f denormalized = elem->get<Vector2f>("pos") * scale;
         setPosition(Vector3f(denormalized.x(), denormalized.y(), 0));
     }
 
-    if (properties & ThemeFlags::SIZE) {
+    if (hasFlag(properties,ThemeProperties::Size)) {
         if (elem->has("size")) {
             setResize(elem->get<Vector2f>("size") * scale);
         } else if (elem->has("maxSize")) {
@@ -327,20 +326,20 @@ void ImageComponent::applyTheme(const std::shared_ptr<ThemeData>& theme, const s
     }
 
     // position + size also implies origin
-    if ((properties & ORIGIN || (properties & POSITION && properties & ThemeFlags::SIZE)) && elem->has("origin")) {
+    if ((hasFlag(properties, ThemeProperties::Origin) || (hasFlags(properties, ThemeProperties::Position, ThemeProperties::Size))) && elem->has("origin")) {
         setOrigin(elem->get<Vector2f>("origin"));
     }
 
-    if (properties & PATH && elem->has("path")) {
+    if (hasFlag(properties, ThemeProperties::Path) && elem->has("path")) {
         bool tile = (elem->has("tile") && elem->get<bool>("tile"));
         setImage(elem->get<std::string>("path"), tile);
     }
 
-    if (properties & COLOR && elem->has("color")) {
+    if (hasFlag(properties, ThemeProperties::Color) && elem->has("color")) {
         setColorShift(elem->get<unsigned int>("color"));
     }
 
-    if (properties & ThemeFlags::ROTATION) {
+    if (hasFlag(properties, ThemeProperties::Rotation)) {
         if (elem->has("rotation")) {
             setRotationDegrees(elem->get<float>("rotation"));
         }
@@ -349,7 +348,7 @@ void ImageComponent::applyTheme(const std::shared_ptr<ThemeData>& theme, const s
         }
     }
     
-    if (properties & ThemeFlags::Z_INDEX && elem->has("zIndex")) {
+    if (hasFlag(properties, ThemeProperties::ZIndex) && elem->has("zIndex")) {
         setZIndex(elem->get<float>("zIndex"));
     } else {
         setZIndex(getDefaultZIndex());

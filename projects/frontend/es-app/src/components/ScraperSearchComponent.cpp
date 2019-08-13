@@ -30,7 +30,7 @@ ScraperSearchComponent::ScraperSearchComponent(Window* window, SearchType type)
 	mBlockAccept = false;
 
 	// left spacer (empty component, needed for borders)
-	mGrid.setEntry(std::make_shared<GuiComponent>(mWindow), Vector2i(0, 0), false, false, Vector2i(1, 3), GridFlags::BORDER_TOP | GridFlags::BORDER_BOTTOM);
+	mGrid.setEntry(std::make_shared<GuiComponent>(mWindow), Vector2i(0, 0), false, false, Vector2i(1, 3), Borders::Top | Borders::Bottom);
 
 	// selected result name
 	mResultName = std::make_shared<TextComponent>(mWindow, "RESULT NAME", menuTheme->menuText.font, menuTheme->menuText.color);
@@ -77,7 +77,7 @@ ScraperSearchComponent::ScraperSearchComponent(Window* window, SearchType type)
 
 	// result list
 	mResultList = std::make_shared<ComponentList>(mWindow);
-	mResultList->setCursorChangedCallback([this](CursorState state) { if(state == CURSOR_STOPPED) updateInfoPane(); });
+	mResultList->setCursorChangedCallback([this](CursorState state) { if(state == CursorState::Stopped) updateInfoPane(); });
 
 	updateViewStyle();
 }
@@ -90,7 +90,7 @@ void ScraperSearchComponent::onSizeChanged()
 		return;
 
 	// column widths
-	if(mSearchType == ALWAYS_ACCEPT_FIRST_RESULT)
+	if(mSearchType == SearchType::AutoAcceptFirst)
 		mGrid.setColWidthPerc(0, 0.02f); // looks better when this is higher in auto mode
 	else
 		mGrid.setColWidthPerc(0, 0.01f);
@@ -99,12 +99,12 @@ void ScraperSearchComponent::onSizeChanged()
 	mGrid.setColWidthPerc(2, 0.25f);
 	
 	// row heights
-	if(mSearchType == ALWAYS_ACCEPT_FIRST_RESULT) // show name
+	if(mSearchType == SearchType::AutoAcceptFirst) // show name
 		mGrid.setRowHeightPerc(0, (mResultName->getFont()->getHeight() * 1.6f) / mGrid.getSize().y()); // result name
 	else
 		mGrid.setRowHeightPerc(0, 0.0825f); // hide name but do padding
 
-	if(mSearchType == ALWAYS_ACCEPT_FIRST_RESULT)
+	if(mSearchType == SearchType::AutoAcceptFirst)
 	{
 		mGrid.setRowHeightPerc(2, 0.2f);
 	}else{
@@ -120,7 +120,7 @@ void ScraperSearchComponent::onSizeChanged()
 	// metadata
 	resizeMetadata();
 	
-	if(mSearchType != ALWAYS_ACCEPT_FIRST_RESULT)
+	if(mSearchType != SearchType::AutoAcceptFirst)
 		mDescContainer->setSize(mGrid.getColWidth(1)*boxartCellScale + mGrid.getColWidth(2), mResultDesc->getFont()->getHeight() * 3);
 	else
 		mDescContainer->setSize(mGrid.getColWidth(3)*boxartCellScale, mResultDesc->getFont()->getHeight() * 8);
@@ -183,26 +183,26 @@ void ScraperSearchComponent::updateViewStyle()
 	mGrid.removeEntry(mResultList);
 
 	// add them back depending on search type
-	if(mSearchType == ALWAYS_ACCEPT_FIRST_RESULT)
+	if(mSearchType == SearchType::AutoAcceptFirst)
 	{
 		// show name
-		mGrid.setEntry(mResultName, Vector2i(1, 0), false, true, Vector2i(2, 1), GridFlags::BORDER_TOP);
+		mGrid.setEntry(mResultName, Vector2i(1, 0), false, true, Vector2i(2, 1), Borders::Top);
 
 		// need a border on the bottom left
-		mGrid.setEntry(std::make_shared<GuiComponent>(mWindow), Vector2i(0, 2), false, false, Vector2i(3, 1), GridFlags::BORDER_BOTTOM);
+		mGrid.setEntry(std::make_shared<GuiComponent>(mWindow), Vector2i(0, 2), false, false, Vector2i(3, 1), Borders::Bottom);
 
 		// show description on the right
-		mGrid.setEntry(mDescContainer, Vector2i(3, 0), false, false, Vector2i(1, 3), GridFlags::BORDER_TOP | GridFlags::BORDER_BOTTOM);
+		mGrid.setEntry(mDescContainer, Vector2i(3, 0), false, false, Vector2i(1, 3), Borders::Top | Borders::Bottom);
 		mResultDesc->setSize(mDescContainer->getSize().x(), 0); // make desc text wrap at edge of container
 	}else{
 		// fake row where name would be
-		mGrid.setEntry(std::make_shared<GuiComponent>(mWindow), Vector2i(1, 0), false, true, Vector2i(2, 1), GridFlags::BORDER_TOP);
+		mGrid.setEntry(std::make_shared<GuiComponent>(mWindow), Vector2i(1, 0), false, true, Vector2i(2, 1), Borders::Top);
 
 		// show result list on the right
-		mGrid.setEntry(mResultList, Vector2i(3, 0), true, true, Vector2i(1, 3), GridFlags::BORDER_LEFT | GridFlags::BORDER_TOP | GridFlags::BORDER_BOTTOM);
+		mGrid.setEntry(mResultList, Vector2i(3, 0), true, true, Vector2i(1, 3), Borders::Left | Borders::Top | Borders::Bottom);
 
 		// show description under image/info
-		mGrid.setEntry(mDescContainer, Vector2i(1, 2), false, false, Vector2i(2, 1), GridFlags::BORDER_BOTTOM);
+		mGrid.setEntry(mDescContainer, Vector2i(1, 2), false, false, Vector2i(2, 1), Borders::Bottom);
 		mResultDesc->setSize(mDescContainer->getSize().x(), 0); // make desc text wrap at edge of container
 	}
 }
@@ -263,13 +263,13 @@ void ScraperSearchComponent::onSearchDone(const std::vector<ScraperSearchResult>
 	mBlockAccept = false;
 	updateInfoPane();
 
-	if(mSearchType == ALWAYS_ACCEPT_FIRST_RESULT)
+	if(mSearchType == SearchType::AutoAcceptFirst)
 	{
 		if(mScraperResults.size() == 0)
 			mSkipCallback();
 		else
 			returnResult(mScraperResults.front());
-	}else if(mSearchType == ALWAYS_ACCEPT_MATCHING_CRC)
+	}else if(mSearchType == SearchType::AutoAcceptMatchingCRC)
 	{
 		// TODO
 	}
@@ -295,7 +295,7 @@ int ScraperSearchComponent::getSelectedIndex()
 void ScraperSearchComponent::updateInfoPane()
 {
 	int i = getSelectedIndex();
-	if(mSearchType == ALWAYS_ACCEPT_FIRST_RESULT && mScraperResults.size())
+	if(mSearchType == SearchType::AutoAcceptFirst && mScraperResults.size())
 	{
 		i = 0;
 	}
@@ -390,12 +390,12 @@ void ScraperSearchComponent::update(int deltaTime)
 		mBusyAnim.update(deltaTime);
 	}
 
-	if(mThumbnailReq && mThumbnailReq->status() != HttpReq::REQ_IN_PROGRESS)
+	if(mThumbnailReq && mThumbnailReq->status() != HttpReq::Status::InProgress)
 	{
 		updateThumbnail();
 	}
 
-	if(mSearchHandle && mSearchHandle->status() != ASYNC_IN_PROGRESS)
+	if(mSearchHandle && mSearchHandle->status() != AsyncStatus::InProgress)
 	{
 		auto status = mSearchHandle->status();
 		auto results = mSearchHandle->getResults();
@@ -405,25 +405,25 @@ void ScraperSearchComponent::update(int deltaTime)
 		// another search() which will set our mSearchHandle to something important
 		mSearchHandle.reset();
 
-		if(status == ASYNC_DONE)
+		if(status == AsyncStatus::Done)
 		{
 			onSearchDone(results);
-		}else if(status == ASYNC_ERROR)
+		}else if(status == AsyncStatus::Error)
 		{
 			onSearchError(statusString);
 		}
 	}
 
-	if(mMDResolveHandle && mMDResolveHandle->status() != ASYNC_IN_PROGRESS)
+	if(mMDResolveHandle && mMDResolveHandle->status() != AsyncStatus::InProgress)
 	{
-		if(mMDResolveHandle->status() == ASYNC_DONE)
+		if(mMDResolveHandle->status() == AsyncStatus::Done)
 		{
 			ScraperSearchResult result = mMDResolveHandle->getResult();
 			mMDResolveHandle.reset();
 
 			// this might end in us being deleted, depending on mAcceptCallback - so make sure this is the last thing we do in update()
 			returnResult(result);
-		}else if(mMDResolveHandle->status() == ASYNC_ERROR)
+		}else if(mMDResolveHandle->status() == AsyncStatus::Error)
 		{
 			onSearchError(mMDResolveHandle->getStatusString());
 			mMDResolveHandle.reset();
@@ -433,7 +433,7 @@ void ScraperSearchComponent::update(int deltaTime)
 
 void ScraperSearchComponent::updateThumbnail()
 {
-	if(mThumbnailReq && mThumbnailReq->status() == HttpReq::REQ_SUCCESS)
+	if(mThumbnailReq && mThumbnailReq->status() == HttpReq::Status::Success)
 	{
 		std::string content = mThumbnailReq->getContent();
 		mResultThumbnail->setImage(content.data(), content.length());
