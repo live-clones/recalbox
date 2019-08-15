@@ -24,7 +24,7 @@
 class HttpReq
 {
 public:
-	HttpReq(const std::string& url);
+	explicit HttpReq(const std::string& url);
 
 	~HttpReq();
 

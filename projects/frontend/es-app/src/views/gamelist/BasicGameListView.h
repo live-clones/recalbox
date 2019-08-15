@@ -10,29 +10,29 @@ public:
 	BasicGameListView(Window* window, FolderData* root);
 
 	// Called when a FileData* is added, has its metadata changed, or is removed
-	virtual void onFileChanged(FileData* file, FileChangeType change);
+	void onFileChanged(FileData* file, FileChangeType change) override;
 
-	virtual void onThemeChanged(const std::shared_ptr<ThemeData>& theme);
+	void onThemeChanged(const std::shared_ptr<ThemeData>& theme) override;
 
-	virtual FileData* getCursor() override;
-	virtual int getCursorIndex() override;
-	virtual int getCursorIndexMax() override;
-	virtual void setCursor(FileData* file) override;
-	virtual void setCursorIndex(int index) override;
+	FileData* getCursor() override;
+	int getCursorIndex() override;
+	int getCursorIndexMax() override;
+	void setCursor(FileData* file) override;
+	void setCursorIndex(int index) override;
 
-	virtual const char* getName() const override { return "basic"; }
+	const char* getName() const override { return "basic"; }
 
-	virtual void populateList(const FolderData* folder) override;
-    virtual void refreshList() override;
+	void populateList(const FolderData* folder) override;
+	void refreshList() override;
 
-	virtual inline void updateInfoPanel() override {}
+	inline void updateInfoPanel() override {}
 
-	virtual FileData::List getFileDataList();
+	FileData::List getFileDataList() override;
 
 protected:
-	virtual void launch(FileData* game) override;
+	void launch(FileData* game) override;
 
-  virtual FileData* getEmptyListItem() override { return &mEmptyListItem; }
+  FileData* getEmptyListItem() override { return &mEmptyListItem; }
 
   TextListComponent<FileData*> mList;
 private:

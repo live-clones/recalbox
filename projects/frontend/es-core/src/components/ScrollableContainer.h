@@ -5,7 +5,7 @@
 class ScrollableContainer : public GuiComponent
 {
 public:
-	ScrollableContainer(Window* window);
+	explicit ScrollableContainer(Window* window);
 
 	Vector2f getScrollPos() const;
 	void setScrollPos(const Vector2f& pos);

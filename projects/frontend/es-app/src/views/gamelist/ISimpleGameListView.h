@@ -10,30 +10,30 @@ class ISimpleGameListView : public IGameListView
 {
 public:
 	ISimpleGameListView(Window* window, FolderData* root);
-	virtual ~ISimpleGameListView() {}
+	~ISimpleGameListView() override = default;
 
 	// Called when a new file is added, a file is removed, a file's metadata changes, or when file sort changed
-	virtual void onFileChanged(FileData* file, FileChangeType change);
+	void onFileChanged(FileData* file, FileChangeType change) override;
 
 	// Called whenever the theme changes.
-	virtual void onThemeChanged(const std::shared_ptr<ThemeData>& theme);
+	void onThemeChanged(const std::shared_ptr<ThemeData>& theme) override;
 
-	virtual FileData* getCursor() = 0;
+	FileData* getCursor() override = 0;
 	virtual int getCursorIndex() = 0;
 	virtual int getCursorIndexMax() = 0;
-	virtual void setCursor(FileData*) = 0;
+	void setCursor(FileData*) override = 0;
 	virtual void setCursorIndex(int) = 0;
 
-	virtual bool input(InputConfig* config, Input input) override;
+	bool input(InputConfig* config, Input input) override;
 
-	virtual inline void updateInfoPanel() override {}
+	inline void updateInfoPanel() override {}
 
-	virtual inline void populateList(const FolderData* folder) override { (void)folder; }
-	virtual inline void refreshList() override {};
+	inline void populateList(const FolderData* folder) override { (void)folder; }
+	inline void refreshList() override {};
 
-	virtual std::vector<HelpPrompt> getHelpPrompts() override;
-	virtual std::vector<std::string> getAvailableLetters() override;
-	virtual void jumpToLetter(char letter) override;
+	std::vector<HelpPrompt> getHelpPrompts() override;
+	std::vector<std::string> getAvailableLetters() override;
+	void jumpToLetter(char letter) override;
 
 	void jumpToNextLetter(int increment);
 

@@ -12,18 +12,18 @@ public:
 
 	//virtual void onThemeChanged(const std::shared_ptr<ThemeData>& theme) override;
 
-	virtual FileData* getCursor() override;
-	virtual void setCursor(FileData*) override;
+	FileData* getCursor() override;
+	void setCursor(FileData*) override;
 
-	virtual bool input(InputConfig* config, Input input) override;
+	bool input(InputConfig* config, Input input) override;
 
-	virtual const char* getName() const override { return "grid"; }
+	const char* getName() const override { return "grid"; }
 
-	virtual std::vector<HelpPrompt> getHelpPrompts() override;
+	std::vector<HelpPrompt> getHelpPrompts() override;
 
 protected:
-	virtual void populateList(const FolderData* folder) override;
-	virtual void launch(FileData* game) override;
+	void populateList(const FolderData* folder) override;
+	void launch(FileData* game) override;
 
 	ImageGridComponent<FileData*> mGrid;
 };

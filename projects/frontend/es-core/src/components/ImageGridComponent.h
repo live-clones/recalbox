@@ -29,7 +29,7 @@ public:
 	using IList<ImageGridData, T>::isScrolling;
 	using IList<ImageGridData, T>::stopScrolling;
 
-	ImageGridComponent(Window* window);
+	explicit ImageGridComponent(Window* window);
 
 	void add(const std::string& name, const std::string& imagePath, const T& obj);
 	

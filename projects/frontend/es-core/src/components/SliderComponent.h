@@ -15,7 +15,7 @@ public:
 
 	void setValue(float val);
 	float getValue();
-	void setColor(unsigned int color);
+	void setColor(unsigned int color) override;
 	inline void setOriginColor(unsigned int color){mOriginColor = color;};
 	inline unsigned int getOriginColor() override{return mOriginColor;};
 

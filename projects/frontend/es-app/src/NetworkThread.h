@@ -5,7 +5,7 @@
 
 class NetworkThread {
 public:
-    NetworkThread(Window * window);
+    explicit NetworkThread(Window * window);
     virtual ~NetworkThread();
 
 private:

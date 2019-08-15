@@ -392,7 +392,7 @@ private:
 		return prompts;
 	}
 
-	void setColor(unsigned int color)
+	void setColor(unsigned int color) override
 	{
 		mText.setColor(color);
 		mRightArrow.setColorShift(color);

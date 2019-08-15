@@ -12,7 +12,7 @@ class TextureResource;
 class TextureData
 {
 public:
-	TextureData(bool tile);
+	explicit TextureData(bool tile);
   TextureData();
 	~TextureData();
 

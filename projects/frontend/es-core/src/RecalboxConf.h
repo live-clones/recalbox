@@ -13,7 +13,7 @@
 class RecalboxConf {
 
 public:
-    RecalboxConf(bool mainFile = true);
+    explicit RecalboxConf(bool mainFile = true);
 
     bool loadRecalboxConf(bool mainFile = true);
 

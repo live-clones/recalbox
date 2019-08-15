@@ -10,13 +10,13 @@ class GuiGamelistOptions : public GuiComponent
 {
 public:
 	GuiGamelistOptions(Window* window, SystemData* system);
-	virtual ~GuiGamelistOptions();
+	~GuiGamelistOptions() override;
 
 	void save();
 	inline void addSaveFunc(const std::function<void()>& func) { mSaveFuncs.push_back(func); };
 
-	virtual bool input(InputConfig* config, Input input) override;
-	virtual std::vector<HelpPrompt> getHelpPrompts() override;
+	bool input(InputConfig* config, Input input) override;
+	std::vector<HelpPrompt> getHelpPrompts() override;
 
 private:
 	void openMetaDataEd();

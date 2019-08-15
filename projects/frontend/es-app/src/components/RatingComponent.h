@@ -20,7 +20,7 @@ public:
 	void setValue(const std::string& value) override; // Should be a normalized float (in the range [0..1]) - if it's not, it will be clamped.
 
 	bool input(InputConfig* config, Input input) override;
-	void render(const Transform4x4f& parentTrans);
+	void render(const Transform4x4f& parentTrans) override;
 
 	void setColor(unsigned int color) override;
 	inline void setOriginColor(unsigned int color){mOriginColor = color;};

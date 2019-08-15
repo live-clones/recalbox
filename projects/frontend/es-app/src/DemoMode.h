@@ -89,7 +89,7 @@ class DemoMode
 
 public:
     //! Default constructor
-    DemoMode(Window& window);
+    explicit DemoMode(Window& window);
 
     /*!
      * @brief Return true is the uer set the screensaver to "demo"

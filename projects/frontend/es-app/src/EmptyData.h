@@ -5,7 +5,7 @@
 class EmptyData : public FileData
 {
   public:
-    EmptyData(SystemData* system): FileData(ItemType::Empty, "/", system) {}
+    explicit EmptyData(SystemData* system): FileData(ItemType::Empty, "/", system) {}
 };
 
 

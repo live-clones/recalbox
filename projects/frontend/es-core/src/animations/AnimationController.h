@@ -8,7 +8,7 @@ class AnimationController
 {
 public:
 	// Takes ownership of anim (will delete in destructor).
-	AnimationController(Animation* anim, int delay = 0, std::function<void()> finishedCallback = nullptr, bool reverse = false);
+	explicit AnimationController(Animation* anim, int delay = 0, std::function<void()> finishedCallback = nullptr, bool reverse = false);
 	virtual ~AnimationController();
 
 	// Returns true if the animation is complete.

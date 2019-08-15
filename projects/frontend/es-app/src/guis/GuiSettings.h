@@ -10,7 +10,7 @@ class GuiSettings : public GuiComponent
 {
 public:
 	GuiSettings(Window* window, const char* title);
-	virtual ~GuiSettings(); // just calls save();
+	~GuiSettings() override; // just calls save();
 
 	void save();
 	inline void updatePosition() {mMenu.setPosition((Renderer::getDisplayWidthAsFloat() - mMenu.getSize().x()) / 2, (Renderer::getDisplayHeightAsFloat() - mMenu.getSize().y()) / 2);};

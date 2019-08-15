@@ -23,8 +23,8 @@ class StrInputConfig
 class GuiMenu : public GuiComponent
 {
 public:
-	GuiMenu(Window* window);
-	~GuiMenu();
+	explicit GuiMenu(Window* window);
+	~GuiMenu() override;
 
 	bool input(InputConfig* config, Input input) override;
 	void onSizeChanged() override;

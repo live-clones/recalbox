@@ -39,7 +39,7 @@ class IGameListView : public GuiComponent
       setSize(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
     }
 
-    virtual ~IGameListView() {}
+    ~IGameListView() override = default;
 
     // Called when a new file is added, a file is removed, a file's metadata changes, or when file sort changed
     virtual void onFileChanged(FileData* file, FileChangeType change) = 0;
@@ -56,11 +56,11 @@ class IGameListView : public GuiComponent
     virtual FileData* getCursor() = 0;
     virtual void setCursor(FileData*) = 0;
 
-    virtual bool input(InputConfig* config, Input input) override;
+    bool input(InputConfig* config, Input input) override;
 
     virtual const char* getName() const = 0;
 
-    virtual HelpStyle getHelpStyle() override;
+    HelpStyle getHelpStyle() override;
 
     virtual void updateInfoPanel() = 0;
 
