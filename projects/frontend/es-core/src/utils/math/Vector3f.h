@@ -44,15 +44,15 @@ class Vector3f
     Vector3f& operator*=(const float& _other)          { *this = *this * _other; return *this; }
     Vector3f& operator/=(const float& _other)          { *this = *this / _other; return *this; }
 
-          float&   operator[](const int _index)             { assert(_index < 3 && "index out of range"); return (&mX)[_index]; }
-    const float&   operator[](const int _index) const       { assert(_index < 3 && "index out of range"); return (&mX)[_index]; }
+    float&    operator[](const int _index)             { assert(_index < 3 && "index out of range"); return (&mX)[_index]; }
+    float     operator[](const int _index) const       { assert(_index < 3 && "index out of range"); return (&mX)[_index]; }
 
-    inline       float& x()       { return mX; }
-    inline       float& y()       { return mY; }
-    inline       float& z()       { return mZ; }
-    inline const float& x() const { return mX; }
-    inline const float& y() const { return mY; }
-    inline const float& z() const { return mZ; }
+    inline float& x()       { return mX; }
+    inline float& y()       { return mY; }
+    inline float& z()       { return mZ; }
+    inline float  x() const { return mX; }
+    inline float  y() const { return mY; }
+    inline float  z() const { return mZ; }
 
     inline       Vector2f& v2()       { return *(Vector2f*)this; }
     inline const Vector2f& v2() const { return *(Vector2f*)this; }

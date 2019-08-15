@@ -44,15 +44,15 @@ public:
 	Vector2f& operator*=(const float& _other)          { *this = *this * _other; return *this; }
 	Vector2f& operator/=(const float& _other)          { *this = *this / _other; return *this; }
 
-	      float&   operator[](const int _index)             { assert(_index < 2 && "index out of range"); return (&mX)[_index]; }
-	const float&   operator[](const int _index) const       { assert(_index < 2 && "index out of range"); return (&mX)[_index]; }
+	float&    operator[](const int _index)             { assert(_index < 2 && "index out of range"); return (&mX)[_index]; }
+	float     operator[](const int _index) const       { assert(_index < 2 && "index out of range"); return (&mX)[_index]; }
 
 	inline void Set(float x, float y) { mX = x; mY =y; }
 
-	inline       float& x()       { return mX; }
-	inline       float& y()       { return mY; }
-	inline const float& x() const { return mX; }
-	inline const float& y() const { return mY; }
+	inline float& x()       { return mX; }
+	inline float& y()       { return mY; }
+	inline float  x() const { return mX; }
+	inline float  y() const { return mY; }
 
 	Vector2f& round();
 	Vector2f& lerp (const Vector2f& _start, const Vector2f& _end, const float _fraction);

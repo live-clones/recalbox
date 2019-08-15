@@ -37,15 +37,15 @@ class Vector2i
     Vector2i& operator*=(const int& _other)            { *this = *this * _other; return *this; }
     Vector2i& operator/=(const int& _other)            { *this = *this / _other; return *this; }
 
-          int&     operator[](const int _index)             { assert(_index < 2 && "index out of range"); return (&mX)[_index]; }
-    const int&     operator[](const int _index) const       { assert(_index < 2 && "index out of range"); return (&mX)[_index]; }
+    int&      operator[](const int _index)             { assert(_index < 2 && "index out of range"); return (&mX)[_index]; }
+    int       operator[](const int _index) const       { assert(_index < 2 && "index out of range"); return (&mX)[_index]; }
 
     inline void Set(int x, int y) { mX = x; mY =y; }
 
-    inline       int& x()       { return mX; }
-    inline       int& y()       { return mY; }
-    inline const int& x() const { return mX; }
-    inline const int& y() const { return mY; }
+    inline int& x()       { return mX; }
+    inline int& y()       { return mY; }
+    inline int  x() const { return mX; }
+    inline int  y() const { return mY; }
 
     static Vector2i Zero () { return { 0, 0 }; }
     static Vector2i UnitX() { return { 1, 0 }; }

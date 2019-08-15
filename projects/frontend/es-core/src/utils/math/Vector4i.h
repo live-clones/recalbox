@@ -41,17 +41,17 @@ class Vector4i
     Vector4i& operator*=(const int& _other)          { *this = *this * _other; return *this; }
     Vector4i& operator/=(const int& _other)          { *this = *this / _other; return *this; }
 
-          int&   operator[](const int _index)             { assert(_index < 4 && "index out of range"); return (&mX)[_index]; }
-    const int&   operator[](const int _index) const       { assert(_index < 4 && "index out of range"); return (&mX)[_index]; }
+    int&      operator[](const int _index)             { assert(_index < 4 && "index out of range"); return (&mX)[_index]; }
+    int       operator[](const int _index) const       { assert(_index < 4 && "index out of range"); return (&mX)[_index]; }
 
-    inline       int& x()       { return mX; }
-    inline       int& y()       { return mY; }
-    inline       int& z()       { return mZ; }
-    inline       int& w()       { return mW; }
-    inline const int& x() const { return mX; }
-    inline const int& y() const { return mY; }
-    inline const int& z() const { return mZ; }
-    inline const int& w() const { return mW; }
+    inline int& x()       { return mX; }
+    inline int& y()       { return mY; }
+    inline int& z()       { return mZ; }
+    inline int& w()       { return mW; }
+    inline int  x() const { return mX; }
+    inline int  y() const { return mY; }
+    inline int  z() const { return mZ; }
+    inline int  w() const { return mW; }
 
     inline       Vector2i& v2()       { return *(Vector2i*)this; }
     inline const Vector2i& v2() const { return *(Vector2i*)this; }
