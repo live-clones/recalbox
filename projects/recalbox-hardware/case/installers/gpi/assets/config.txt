@@ -47,6 +47,15 @@ dtparam=audio=on
 disable_audio_dither=1
 audio_pwm_mode=0 
 
-#disable activity leds
+# disable activity leds
 dtparam=act_led_trigger=none
 dtparam=act_led_activelow=on
+
+# Pi0 stabilization
+arm_freq=1000
+gpu_freq=500
+core_freq=500
+sdram_freq=500
+sdram_schmoo=0x02000020
+over_voltage=6 (default)
+sdram_over_voltage=2
