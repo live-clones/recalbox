@@ -23,7 +23,7 @@ public:
 	void onSizeChanged() override;
 
 	void setValue(const std::string& val) override;
-	std::string getValue() const override;
+	std::string getValue() const override { return mText; }
 
 	inline bool isEditing() const { return mEditing; };
 	inline const std::shared_ptr<Font>& getFont() const { return mFont; }

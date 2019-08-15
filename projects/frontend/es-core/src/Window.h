@@ -31,17 +31,17 @@ public:
 	void update(int deltaTime);
 	void render();
 
-    bool init(unsigned int width = 0, unsigned int height = 0, bool initRenderer = true);
+  bool init(unsigned int width = 0, unsigned int height = 0, bool initRenderer = true);
 	void deinit();
 
-	void normalizeNextUpdate();
+  void normalizeNextUpdate() { mNormalizeNextUpdate = true; }
 
 	inline bool isShowingPopup() const { return mGuiStack.size() > 1; }
 	inline bool isSleeping() const { return mSleeping; }
-	bool getAllowSleep();
-	void setAllowSleep(bool sleep);
-	
-	void renderLoadingScreen();
+  bool getAllowSleep() { return mAllowSleep; }
+  void setAllowSleep(bool sleep) { mAllowSleep = sleep; }
+
+  void renderLoadingScreen();
 
 	void renderHelpPromptsEarly(); // used to render HelpPrompts before a fade
 	void setHelpPrompts(const std::vector<HelpPrompt>& prompts, const HelpStyle& style);

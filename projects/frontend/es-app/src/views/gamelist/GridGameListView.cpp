@@ -2,7 +2,6 @@
 #include "views/gamelist/GridGameListView.h"
 #include "themes/ThemeData.h"
 #include "Window.h"
-#include "views/ViewController.h"
 #include "Settings.h"
 #include "Locale.h"
 
@@ -15,11 +14,6 @@ GridGameListView::GridGameListView(Window* window, FolderData* root)
 	addChild(&mGrid);
 
 	populateList(root);
-}
-
-FileData* GridGameListView::getCursor()
-{
-	return mGrid.getSelected();
 }
 
 void GridGameListView::setCursor(FileData* file)
@@ -48,11 +42,6 @@ void GridGameListView::populateList(const FolderData* folder)
 	{
 		mGrid.add(fd->getName(), fd->getThumbnailOrImagePath(), fd);
 	}
-}
-
-void GridGameListView::launch(FileData* game)
-{
-	ViewController::get()->launch(game);
 }
 
 std::vector<HelpPrompt> GridGameListView::getHelpPrompts()

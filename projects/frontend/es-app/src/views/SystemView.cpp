@@ -492,8 +492,6 @@ void SystemView::onCursorChanged(const CursorState& state)
 	}
 
 	setAnimation(anim, 0, nullptr, false, 0);
-
-
 }
 
 void SystemView::render(const Transform4x4f& parentTrans)
@@ -833,16 +831,6 @@ void SystemView::getCarouselFromTheme(const ThemeData::ThemeElement* elem)
 		else
 			mCarousel.logoAlignment = TextAlignment::Center;
 	}
-}
-
-void SystemView::onShow()
-{
-	mShowing = true;
-}
-
-void SystemView::onHide()
-{
-	mShowing = false;
 }
 
 void SystemView::removeFavoriteSystem(){

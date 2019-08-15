@@ -17,8 +17,9 @@ public:
 	inline void setOriginColor(unsigned int color){mOriginColor = color;};
 	inline unsigned int getOriginColor() override{return mOriginColor;};
 
-	bool getState() const;
-	void setState(bool state);
+	bool getState() const  { return mState; }
+
+  void setState(bool state);
 	std::string getValue() const override;
 	bool changed();
 

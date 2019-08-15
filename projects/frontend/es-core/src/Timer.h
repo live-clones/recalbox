@@ -14,9 +14,9 @@ class Timer
 public:
 	Timer(int duration_in_ms, const std::function<void()>& callback);
 	~Timer();
-	void clearTimeout();
+	void clearTimeout() { mCancelled = true; }
 private:
-    boost::thread *mHandle;
+  boost::thread *mHandle;
 	void proceed();
 	std::atomic<int> mDuration {0};
 	std::atomic<bool> mCancelled {false};

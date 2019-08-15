@@ -170,11 +170,6 @@ void BasicGameListView::populateList(const FolderData* folder)
 	}
 }
 
-void BasicGameListView::refreshList()
-{
-    populateList(mPopulatedFolder);
-}
-
 FileData::List BasicGameListView::getFileDataList()
 {
 	FileData::List objects = mList.getObjects();
@@ -186,10 +181,6 @@ FileData::List BasicGameListView::getFileDataList()
   return slice;
 }
 
-FileData* BasicGameListView::getCursor() {
-	return mList.getSelected();
-}
-
 void BasicGameListView::setCursorIndex(int index)
 {
   if (index >= mList.size()) index = mList.size() - 1;
@@ -197,15 +188,6 @@ void BasicGameListView::setCursorIndex(int index)
 
   RecalboxSystem::getInstance()->NotifyGame(*getCursor(), false, false);
 	mList.setCursorIndex(index);
-}
-
-int BasicGameListView::getCursorIndex()
-{
-  return mList.getCursorIndex();
-}
-
-int BasicGameListView::getCursorIndexMax(){
-	return mList.size() - 1;
 }
 
 void BasicGameListView::setCursor(FileData* cursor)
@@ -236,8 +218,4 @@ void BasicGameListView::setCursor(FileData* cursor)
 		}
 	}
   RecalboxSystem::getInstance()->NotifyGame(*getCursor(), false, false);
-}
-
-void BasicGameListView::launch(FileData* game) {
-	ViewController::get()->launch(game);
 }

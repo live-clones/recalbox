@@ -768,11 +768,6 @@ void SystemData::loadTheme()
   }
 }
 
-std::map<std::string, std::vector<std::string> *> *SystemData::getEmulators()
-{
-  return &mEmulators;
-}
-
 std::vector<std::string> SystemData::getCores(const std::string &emulatorName)
 {
   std::vector<std::string> list;

@@ -27,7 +27,7 @@ private:
 
 	std::map<SDL_JoystickID, int*> mPrevAxisValues;
 
-	bool initialized() const;
+  bool initialized() const { return mKeyboardInputConfig != nullptr; }
 
 	void addJoystickByDeviceIndex(int id);
 	void removeJoystickByJoystickID(SDL_JoystickID id);
@@ -51,7 +51,7 @@ public:
 	int getButtonCountByDevice(int deviceId);
 	int getAxisCountByDevice(int deviceId);
 
-	SDL_Joystick* getJoystickByJoystickID(int id);
+  SDL_Joystick* getJoystickByJoystickID(int id) { return mJoysticks[id]; }
 
 	int getNumConfiguredDevices();
 

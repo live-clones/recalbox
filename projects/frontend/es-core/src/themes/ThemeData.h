@@ -116,8 +116,11 @@ public:
 	static boost::filesystem::path getThemeFromCurrentSet(const std::string& system);
 	std::string getTransition();
 
-	bool getHasFavoritesInTheme();
+  bool getHasFavoritesInTheme() { return (mVersion >= CURRENT_THEME_FORMAT_VERSION); }
   bool isFolderHandled() const;
+
+  static constexpr int MINIMUM_THEME_FORMAT_VERSION = 3;
+  static constexpr int CURRENT_THEME_FORMAT_VERSION = 4;
 
 private:
 	static std::map<std::string, std::map<std::string, ElementProperty>>& ElementMap();

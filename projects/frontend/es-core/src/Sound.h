@@ -26,9 +26,9 @@ public:
 	void loadFile(const std::string & path);
 
 	void play();
-	bool isPlaying() const;
-	void stop();
+	bool isPlaying() const {	return playing; }
 
+  void stop();
 
 private:
 	explicit Sound(const std::string & path = "");

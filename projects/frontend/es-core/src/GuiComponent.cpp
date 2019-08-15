@@ -79,11 +79,6 @@ void GuiComponent::renderChildren(const Transform4x4f& transform) const
 	}
 }
 
-const Vector3f& GuiComponent::getPosition() const
-{
-	return mPosition;
-}
-
 void GuiComponent::setNormalisedPosition(float x, float y, float z)
 {
     Vector2f pos = denormalise(x, y);
@@ -96,30 +91,15 @@ void GuiComponent::setPosition(float x, float y, float z)
 	onPositionChanged();
 }
 
-const Vector2f& GuiComponent::getOrigin() const
-{
-	return mOrigin;
-}
-
 void GuiComponent::setOrigin(float x, float y)
 {
 	mOrigin.Set(x, y);
 	onOriginChanged();
 }
 
-const Vector2f& GuiComponent::getRotationOrigin() const
-{
-	return mRotationOrigin;
-}
-
 void GuiComponent::setRotationOrigin(float x, float y)
 {
 	mRotationOrigin.Set(x, y);
-}
-
-const Vector2f& GuiComponent::getSize() const
-{
-	return mSize;
 }
 
 void GuiComponent::setSize(float w, float h)
@@ -231,26 +211,6 @@ const Transform4x4f& GuiComponent::getTransform()
 	}
 	mTransform.translate(Vector3f(mOrigin.x() * mSize.x() * -1, mOrigin.y() * mSize.y() * -1, 0.0f));
 	return mTransform;
-}
-
-void GuiComponent::setValue(const std::string& value)
-{
-	(void)value;
-}
-
-void GuiComponent::setColor(unsigned int color)
-{
-	(void)color;
-}
-
-unsigned int GuiComponent::getOriginColor()
-{
-	return 0;
-}
-
-std::string GuiComponent::getValue() const
-{
-	return "";
 }
 
 void GuiComponent::textInput(const char* text)
@@ -431,11 +391,6 @@ HelpStyle GuiComponent::getHelpStyle()
 	else
 		style.applyTheme(ThemeData::getCurrent(), "system");
 	return style;
-}
-
-bool GuiComponent::isProcessing() const
-{
-	return mIsProcessing;
 }
 
 void GuiComponent::onShow()

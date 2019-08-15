@@ -46,10 +46,10 @@ class SystemView : public IList<SystemViewData, SystemData*>
 public:
 	explicit SystemView(Window* window);
 
-	void onShow() override ;
-	void onHide() override ;
+	void onShow() override {	mShowing = true; }
+	void onHide() override {	mShowing = false; }
 
-	void goToSystem(SystemData* system, bool animate);
+    void goToSystem(SystemData* system, bool animate);
 
 	bool input(InputConfig* config, Input input) override;
 	void update(int deltaTime) override;

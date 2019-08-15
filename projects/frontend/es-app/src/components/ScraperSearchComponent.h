@@ -42,8 +42,8 @@ public:
 	void render(const Transform4x4f& parentTrans) override;
 	std::vector<HelpPrompt> getHelpPrompts() override;
 	void onSizeChanged() override;	
-	void onFocusGained() override;
-	void onFocusLost() override;
+  void onFocusGained() override { mGrid.onFocusGained(); }
+  void onFocusLost() override { mGrid.onFocusLost(); }
 
 private:
 	void updateViewStyle();

@@ -45,11 +45,6 @@ void SwitchComponent::render(const Transform4x4f& parentTrans)
 	renderChildren(trans);
 }
 
-bool SwitchComponent::getState() const
-{
-	return mState;
-}
-
 void SwitchComponent::setState(bool state)
 {
 	mState = state;

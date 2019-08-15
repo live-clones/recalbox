@@ -52,7 +52,7 @@ public:
 	// Returns the size of the current texture, or (0, 0) if none is loaded.  May be different than drawn size (use getSize() for that).
 	Vector2i getTextureSize() const;
 
-	bool hasImage();
+	bool hasImage() { return mTexture != 0; }
 
 	void render(const Transform4x4f& parentTrans) override;
 

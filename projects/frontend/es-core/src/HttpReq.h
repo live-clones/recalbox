@@ -40,7 +40,7 @@ public:
 
 	Status status(); //process any received data and return the status afterwards
 
-	std::string getErrorMsg();
+  std::string getErrorMsg() { return mErrorMsg; }
 
 	std::string getContent() const; // mStatus must be REQ_SUCCESS
 
@@ -57,7 +57,7 @@ private:
 
 	static CURLM* s_multi_handle;
 
-	void onError(const char* msg);
+  void onError(const char* msg) { mErrorMsg = msg; }
 
 	CURL* mHandle;
 

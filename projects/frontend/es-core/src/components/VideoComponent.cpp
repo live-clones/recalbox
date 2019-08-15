@@ -121,11 +121,6 @@ void VideoComponent::setColorShift(unsigned int color)
   updateColors();
 }
 
-void VideoComponent::setColor(unsigned int color)
-{
-  setColorShift(color);
-}
-
 void VideoComponent::setOpacity(unsigned char opacity)
 {
   mOpacity = opacity;

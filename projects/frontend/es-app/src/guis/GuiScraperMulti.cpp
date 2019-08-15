@@ -171,7 +171,3 @@ void GuiScraperMulti::finish()
 	mIsProcessing = false;
 }
 
-std::vector<HelpPrompt> GuiScraperMulti::getHelpPrompts()
-{
-	return mGrid.getHelpPrompts();
-}

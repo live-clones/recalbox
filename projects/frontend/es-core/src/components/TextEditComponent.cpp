@@ -52,13 +52,8 @@ void TextEditComponent::onSizeChanged()
 
 void TextEditComponent::setValue(const std::string& val)
 {
-        mText = val;
+  mText = val;
 	onTextChanged();
-}
-
-std::string TextEditComponent::getValue() const
-{
-	return mText;
 }
 
 void TextEditComponent::textInput(const char* text)

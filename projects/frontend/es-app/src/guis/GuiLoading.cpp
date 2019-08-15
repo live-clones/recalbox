@@ -64,10 +64,6 @@ bool GuiLoading::input(InputConfig *config, Input input)
     return false;
 }
 
-std::vector<HelpPrompt> GuiLoading::getHelpPrompts() {
-    return std::vector<HelpPrompt>();
-}
-
 void GuiLoading::render(const Transform4x4f& parentTrans)
 {
     Transform4x4f trans = parentTrans * getTransform();

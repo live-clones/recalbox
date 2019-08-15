@@ -149,8 +149,9 @@ class SystemData
 	// Load or re-load theme.
 	void loadTheme();
 
-	std::map<std::string, std::vector<std::string> *> * getEmulators();
-	std::vector<std::string> getCores(const std::string& emulatorName);
+	std::map<std::string, std::vector<std::string> *> * getEmulators() { return &mEmulators; }
+
+  std::vector<std::string> getCores(const std::string& emulatorName);
 
   static std::string getUserConfigurationAbsolutePath()     { return RootFolders::DataRootFolder     + "/system/.emulationstation/es_systems.cfg"; }
   static std::string getTemplateConfigurationAbsolutePath() { return RootFolders::TemplateRootFolder + "/system/.emulationstation/es_systems.cfg"; }

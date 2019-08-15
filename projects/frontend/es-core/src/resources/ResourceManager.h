@@ -38,7 +38,7 @@ public:
 	bool fileExists(const std::string& path) const;
 
 private:
-	ResourceManager();
+	ResourceManager() = default;
 
 	static std::shared_ptr<ResourceManager> sInstance;
 

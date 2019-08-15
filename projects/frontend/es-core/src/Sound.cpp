@@ -88,11 +88,6 @@ void Sound::play()
 	Mix_PlayChannel( -1, mSampleData, 0 );
 }
 
-bool Sound::isPlaying() const
-{
-	return playing;
-}
-
 void Sound::stop()
 {
 	playing = false;

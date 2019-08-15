@@ -14,8 +14,9 @@ public:
 	SliderComponent(Window* window, float min, float max, float increment, const std::string& suffix = "");
 
 	void setValue(float val);
-	float getValue();
-	void setColor(unsigned int color) override;
+	float getValue() {	return mValue; }
+
+  void setColor(unsigned int color) override;
 	inline void setOriginColor(unsigned int color){mOriginColor = color;};
 	inline unsigned int getOriginColor() override{return mOriginColor;};
 

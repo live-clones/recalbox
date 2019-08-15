@@ -72,11 +72,6 @@ void TextComponent::setColor(unsigned int color)
     onColorChanged();
 }
 
-unsigned int TextComponent::getOriginColor()
-{
-	return mOriginColor;
-}
-
 //  Set the color of the background box
 void TextComponent::setBackgroundColor(unsigned int color)
 {
@@ -84,13 +79,8 @@ void TextComponent::setBackgroundColor(unsigned int color)
 	mBgColorOpacity = mBgColor & 0x000000FF;
 }
 
-void TextComponent::setRenderBackground(bool render)
-{
-	mRenderBackground = render;
-}
 
 //  Scale the opacity
-
 void TextComponent::setOpacity(unsigned char opacity)
 {
 	// This method is mostly called to do fading in-out of the Text component element.
@@ -108,14 +98,9 @@ void TextComponent::setOpacity(unsigned char opacity)
 	GuiComponent::setOpacity(opacity);
 }
 
-unsigned char TextComponent::getOpacity() const
-{
-	return mColor & 0x000000FF;
-}
-
 void TextComponent::setText(const std::string& text)
 {
-        mText = text;
+  mText = text;
 	onTextChanged();
 }
 
@@ -262,25 +247,10 @@ void TextComponent::setHorizontalAlignment(TextAlignment align)
 	onTextChanged();
 }
 
-void TextComponent::setVerticalAlignment(TextAlignment align)
-{
-	mVerticalAlignment = align;
-}
-
 void TextComponent::setLineSpacing(float spacing)
 {
 	mLineSpacing = spacing;
 	onTextChanged();
-}
-
-void TextComponent::setValue(const std::string& value)
-{
-	setText(value);
-}
-
-std::string TextComponent::getValue() const
-{
-	return mText;
 }
 
 void TextComponent::applyTheme(const std::shared_ptr<ThemeData>& theme, const std::string& view, const std::string& element, ThemeProperties properties)

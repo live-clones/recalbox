@@ -150,16 +150,6 @@ std::string HttpReq::getContent() const
 	return mContent.str();
 }
 
-void HttpReq::onError(const char* msg)
-{
-	mErrorMsg = msg;
-}
-
-std::string HttpReq::getErrorMsg()
-{
-	return mErrorMsg;
-}
-
 //used as a curl callback
 //size = size of an element, nmemb = number of elements
 //return value is number of elements successfully read

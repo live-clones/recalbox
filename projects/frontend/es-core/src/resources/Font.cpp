@@ -215,18 +215,6 @@ Font::~Font()
 	unload(ResourceManager::getInstance());
 }
 
-void Font::reload(std::shared_ptr<ResourceManager>& rm)
-{
-  (void)rm;
-	rebuildTextures();
-}
-
-void Font::unload(std::shared_ptr<ResourceManager>& rm)
-{
-  (void)rm;
-	unloadTextures();
-}
-
 std::shared_ptr<Font> Font::get(int size, const std::string& path)
 {
 	const std::string canonicalPath = getCanonicalPath(path);
@@ -727,11 +715,6 @@ float Font::getNewlineStartOffset(const std::string& text, unsigned int charStar
 	}
 }
 
-inline float font_round(float v)
-{
-	return round(v);
-}
-
 TextCache* Font::buildTextCache(const std::string& text, Vector2f offset, unsigned int color, float xLen, TextAlignment alignment, float lineSpacing)
 {
 	float x = offset[0] + (xLen != 0 ? getNewlineStartOffset(text, 0, xLen, alignment) : 0);
@@ -776,8 +759,8 @@ TextCache* Font::buildTextCache(const std::string& text, Vector2f offset, unsign
 
 		// triangle 1
 		// round to fix some weird "cut off" text bugs
-		tri[0].pos.Set(font_round(glyphStartX), font_round(y + (glyph->texSize.y() * textureSize.y() - glyph->bearing.y())));
-		tri[1].pos.Set(font_round(glyphStartX + glyph->texSize.x() * textureSize.x()), font_round(y - glyph->bearing.y()));
+		tri[0].pos.Set(round(glyphStartX), round(y + (glyph->texSize.y() * textureSize.y() - glyph->bearing.y())));
+		tri[1].pos.Set(round(glyphStartX + glyph->texSize.x() * textureSize.x()), round(y - glyph->bearing.y()));
 		tri[2].pos.Set(tri[0].pos.x(), tri[1].pos.y());
 
 		tri[0].tex.Set(glyph->texPos.x(), glyph->texPos.y() + glyph->texSize.y());

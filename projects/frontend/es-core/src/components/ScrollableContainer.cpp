@@ -46,16 +46,6 @@ void ScrollableContainer::setAutoScroll(bool autoScroll)
 	}
 }
 
-Vector2f ScrollableContainer::getScrollPos() const
-{
-	return mScrollPos;
-}
-
-void ScrollableContainer::setScrollPos(const Vector2f& pos)
-{
-	mScrollPos = pos;
-}
-
 void ScrollableContainer::update(int deltaTime)
 {
 	if(mAutoScrollSpeed != 0)

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <views/ViewController.h>
 #include "views/gamelist/ISimpleGameListView.h"
 #include "components/TextListComponent.h"
 #include "EmptyData.h"
@@ -14,23 +15,23 @@ public:
 
 	void onThemeChanged(const std::shared_ptr<ThemeData>& theme) override;
 
-	FileData* getCursor() override;
-	int getCursorIndex() override;
-	int getCursorIndexMax() override;
+	FileData* getCursor() override { return mList.getSelected(); }
+	int getCursorIndex() override { return mList.getCursorIndex(); }
+	int getCursorIndexMax() override {	return mList.size() - 1; }
 	void setCursor(FileData* file) override;
 	void setCursorIndex(int index) override;
 
 	const char* getName() const override { return "basic"; }
 
 	void populateList(const FolderData* folder) override;
-	void refreshList() override;
+	void refreshList() override { populateList(mPopulatedFolder); }
 
 	inline void updateInfoPanel() override {}
 
 	FileData::List getFileDataList() override;
 
 protected:
-	void launch(FileData* game) override;
+	void launch(FileData* game) override { ViewController::get()->launch(game); }
 
   FileData* getEmptyListItem() override { return &mEmptyListItem; }
 

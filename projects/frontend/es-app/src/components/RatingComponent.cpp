@@ -15,11 +15,6 @@ RatingComponent::RatingComponent(Window* window, unsigned int color) : GuiCompon
 	updateVertices();
 }
 
-void RatingComponent::setColor(unsigned int color) {
-	mColor=color;
-}
-
-
 void RatingComponent::setValue(const std::string& value)
 {
 	if(value.empty())

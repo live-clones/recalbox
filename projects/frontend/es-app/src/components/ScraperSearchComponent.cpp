@@ -479,13 +479,3 @@ std::vector<HelpPrompt> ScraperSearchComponent::getHelpPrompts()
 	
 	return prompts;
 }
-
-void ScraperSearchComponent::onFocusGained()
-{
-	mGrid.onFocusGained();
-}
-
-void ScraperSearchComponent::onFocusLost()
-{
-	mGrid.onFocusLost();
-}

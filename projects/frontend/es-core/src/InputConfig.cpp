@@ -63,11 +63,6 @@ void InputConfig::loadFrom(const InputConfig* source)
   mNameMap = source->getNameMap();
 }
 
-bool InputConfig::isConfigured()
-{
-  return !mNameMap.empty();
-}
-
 std::string InputConfig::getSDLPowerLevel()
 {
   SDL_Joystick* joy;

@@ -23,8 +23,3 @@ void Timer::proceed()
 	if (!mCancelled)
 		mCallback();
 }
-
-void Timer::clearTimeout()
-{
-	mCancelled = true;
-}

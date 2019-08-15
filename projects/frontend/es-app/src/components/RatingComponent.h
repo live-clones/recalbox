@@ -22,8 +22,9 @@ public:
 	bool input(InputConfig* config, Input input) override;
 	void render(const Transform4x4f& parentTrans) override;
 
-	void setColor(unsigned int color) override;
-	inline void setOriginColor(unsigned int color){mOriginColor = color;};
+  void setColor(unsigned int color) override { mColor=color; }
+
+    inline void setOriginColor(unsigned int color){mOriginColor = color;};
 	inline unsigned int getOriginColor() override{return mOriginColor;};
 
 	void onSizeChanged() override;

@@ -276,21 +276,6 @@ void Window::render()
 		}
 }
 
-void Window::normalizeNextUpdate()
-{
-	mNormalizeNextUpdate = true;
-}
-
-bool Window::getAllowSleep()
-{
-	return mAllowSleep;
-}
-
-void Window::setAllowSleep(bool sleep)
-{
-	mAllowSleep = sleep;
-}
-
 void Window::renderWaitingScreen(const std::string& text)
 {
 	Transform4x4f trans = Transform4x4f::Identity();

@@ -19,26 +19,6 @@
 
 #define TITLE_HEIGHT (mTitle->getFont()->getLetterHeight() + TITLE_VERT_PADDING)
 
-bool compareLowerCase(std::string str1, std::string str2)
-{
-	for (unsigned int i = 0; i < str1.length(); i++)
-	{
-		str1[i] = tolower(str1[i]);
-	}
-
-	for (unsigned int i = 0; i < str2.length(); i++)
-	{
-		str2[i] = tolower(str2[i]);
-	}
-
-	if (str1 == str2) {
-		return true;
-	} else {
-		return false;
-	};
-}
-//end util functions
-
 GuiNetPlay::GuiNetPlay(Window* window)
   : GuiComponent(window),
     mBackground(window, ":/frame.png"),

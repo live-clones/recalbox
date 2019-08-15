@@ -125,7 +125,7 @@ class VideoComponent : public GuiComponent
 
     // Multiply all pixels in the image by this color when rendering.
     void setColorShift(unsigned int color);
-    void setColor(unsigned int color) override;
+    void setColor(unsigned int color) override { setColorShift(color); }
 
     void render(const Transform4x4f& parentTrans) override;
 

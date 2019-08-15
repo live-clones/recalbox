@@ -7,9 +7,10 @@ class ScrollableContainer : public GuiComponent
 public:
 	explicit ScrollableContainer(Window* window);
 
-	Vector2f getScrollPos() const;
-	void setScrollPos(const Vector2f& pos);
-	void setAutoScroll(bool autoScroll);
+	Vector2f getScrollPos() const { return mScrollPos; }
+	void setScrollPos(const Vector2f& pos) { mScrollPos = pos; }
+
+  void setAutoScroll(bool autoScroll);
 	void reset();
 
 	void update(int deltaTime) override;

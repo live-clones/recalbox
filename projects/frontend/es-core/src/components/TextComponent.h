@@ -23,20 +23,23 @@ public:
 	void setText(const std::string& text);
 	void setColor(unsigned int color) override;
 	inline void setOriginColor(unsigned int color){mOriginColor = color;};
-	unsigned int getOriginColor() override;
-	void setHorizontalAlignment(TextAlignment align);
-	void setVerticalAlignment(TextAlignment align);
+	unsigned int getOriginColor() override { return mOriginColor; }
+
+  void setHorizontalAlignment(TextAlignment align);
+	void setVerticalAlignment(TextAlignment align) { mVerticalAlignment = align; }
+
 	void setLineSpacing(float spacing);
 	void setBackgroundColor(unsigned int color);
-	void setRenderBackground(bool render);
+	void setRenderBackground(bool render) { mRenderBackground = render; }
 
 	void render(const Transform4x4f& parentTrans) override;
 
-	std::string getValue() const override;
-	void setValue(const std::string& value) override;
+	std::string getValue() const override { return mText; }
+	void setValue(const std::string& value) override { setText(value); }
 
-	unsigned char getOpacity() const override;
-	void setOpacity(unsigned char opacity) override;
+	unsigned char getOpacity() const override {	return (unsigned char)(mColor & 0xFF); }
+
+  void setOpacity(unsigned char opacity) override;
 	
 	inline std::shared_ptr<Font> getFont() const { return mFont; }
 

@@ -131,7 +131,3 @@ void GuiMsgBoxScroll::deleteMeAndCall(const std::function<void()>& func)
 
 }
 
-std::vector<HelpPrompt> GuiMsgBoxScroll::getHelpPrompts()
-{
-	return mGrid.getHelpPrompts();
-}

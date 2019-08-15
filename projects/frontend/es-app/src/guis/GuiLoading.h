@@ -22,7 +22,7 @@ public:
 
     bool input(InputConfig *config, Input input) override;
 
-    std::vector<HelpPrompt> getHelpPrompts() override;
+    std::vector<HelpPrompt> getHelpPrompts() override { return std::vector<HelpPrompt>(); }
 
     void update(int deltaTime) override;
 

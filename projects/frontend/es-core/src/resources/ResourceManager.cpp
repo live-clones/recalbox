@@ -11,10 +11,6 @@ auto nop_deleter = [](unsigned char* p) { (void)p; };
 
 std::shared_ptr<ResourceManager> ResourceManager::sInstance = nullptr;
 
-ResourceManager::ResourceManager()
-{
-}
-
 std::shared_ptr<ResourceManager>& ResourceManager::getInstance()
 {
 	if(!sInstance)

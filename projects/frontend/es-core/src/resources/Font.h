@@ -53,8 +53,8 @@ public:
 	float getHeight(float lineSpacing = 1.5f) const;
 	float getLetterHeight();
 
-	void unload(std::shared_ptr<ResourceManager>& rm) override;
-	void reload(std::shared_ptr<ResourceManager>& rm) override;
+  void reload(std::shared_ptr<ResourceManager>& ) override { rebuildTextures(); }
+  void unload(std::shared_ptr<ResourceManager>& ) override { unloadTextures(); }
 
 	int getSize() const;
 	inline const std::string& getPath() const { return mPath; }

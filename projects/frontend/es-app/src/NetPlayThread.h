@@ -28,7 +28,7 @@ class NetPlayThread
     /*!
      * Called from the main thread to get the popup to display
      */
-    std::string GetLastPopupText();
+    std::string GetLastPopupText() { return mLastPopupText; }
 
   private:
     //! Attached wndow

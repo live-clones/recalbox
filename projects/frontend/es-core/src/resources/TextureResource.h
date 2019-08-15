@@ -22,14 +22,14 @@ public:
 
 	// For scalable source images in textures we want to set the resolution to rasterize at
 	void rasterizeAt(size_t width, size_t height);
-	Vector2f getSourceImageSize() const;
+  Vector2f getSourceImageSize() const { return mSourceSize; }
 
 	virtual ~TextureResource();
 	
-	bool isInitialized() const;
+  bool isInitialized() const { return true; }
 	bool isTiled() const;
 	
-	Vector2i getSize() const;
+  Vector2i getSize() const { return mSize; }
 	bool bind();
 
 	static size_t getTotalMemUsage(); // returns an approximation of total VRAM used by textures (in bytes)

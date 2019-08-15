@@ -164,7 +164,7 @@ class InputConfig
 
     void writeToXML(pugi::xml_node parent);
 
-    bool isConfigured();
+    bool isConfigured() { return !mNameMap.empty(); }
 
     // Returns true if there is an Input mapped to this name, false otherwise.
     // Writes Input mapped to this name to result if true.

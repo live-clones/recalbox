@@ -144,8 +144,3 @@ void NetPlayThread::run()
     LOG(LogError) << "Exception: " << ex.what();
   }
 }
-
-std::string NetPlayThread::GetLastPopupText()
-{
-  return mLastPopupText;
-}

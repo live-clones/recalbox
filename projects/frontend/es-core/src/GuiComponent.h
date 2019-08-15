@@ -39,24 +39,24 @@ class GuiComponent
     //4. Tell your children to render, based on your component's transform - renderChildren(t).
     virtual void render(const Transform4x4f& parentTrans);
 
-    const Vector3f& getPosition() const;
+    const Vector3f& getPosition() const { return mPosition; }
     void setNormalisedPosition(float x, float y, float z = 0.0f);
     inline void setPosition(const Vector3f& offset) { setPosition(offset.x(), offset.y(), offset.z()); }
     void setPosition(float x, float y, float z = 0.0f);
     virtual void onPositionChanged() {};
 
     //Sets the origin as a percentage of this image (e.g. (0, 0) is top left, (0.5, 0.5) is the center)
-    const Vector2f& getOrigin() const;
+    const Vector2f& getOrigin() const { return mOrigin; }
     void setOrigin(float originX, float originY);
     inline void setOrigin(const Vector2f& origin) { setOrigin(origin.x(), origin.y()); }
     virtual void onOriginChanged() {};
 
     //Sets the rotation origin as a percentage of this image (e.g. (0, 0) is top left, (0.5, 0.5) is the center)
-    const Vector2f& getRotationOrigin() const;
+    const Vector2f& getRotationOrigin() const { return mRotationOrigin; }
     void setRotationOrigin(float originX, float originY);
     inline void setRotationOrigin(const Vector2f& origin) { setRotationOrigin(origin.x(), origin.y()); }
 
-    const Vector2f& getSize() const;
+    const Vector2f& getSize() const {	return mSize; }
     inline void setSize(const Vector2f& size) { setSize(size.x(), size.y()); }
     void setSize(float w, float h);
     virtual void onSizeChanged() {};
@@ -104,16 +104,17 @@ class GuiComponent
 
     const Transform4x4f& getTransform();
 
-    virtual std::string getValue() const;
-    virtual void setValue(const std::string& value);
-    virtual void setColor(unsigned int color);
-    virtual unsigned int getOriginColor();
+    virtual std::string getValue() const { return ""; }
+    virtual void setValue(const std::string& ) { }
+    virtual void setColor(unsigned int ) { }
+    virtual unsigned int getOriginColor() {	return 0; }
 
     virtual void onFocusGained() {};
     virtual void onFocusLost() {};
 
     virtual void onShow();
     virtual void onHide();
+
 
     // Default implementation just handles <pos> and <size> tags as normalized float pairs.
     // You probably want to keep this behavior for any derived classes as well as add your own.
@@ -130,7 +131,7 @@ class GuiComponent
     virtual inline void setScrollDir(int dir) { (void)dir; }
 
     // Returns true if the component is busy doing background processing (e.g. HTTP downloads)
-    bool isProcessing() const;
+    bool isProcessing() const { return mIsProcessing; }
 
   public:
     const static unsigned char MAX_ANIMATIONS = 4;

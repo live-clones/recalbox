@@ -115,8 +115,3 @@ void GuiMsgBox::deleteMeAndCall(const std::function<void()>& func)
 		funcCopy();
 
 }
-
-std::vector<HelpPrompt> GuiMsgBox::getHelpPrompts()
-{
-	return mGrid.getHelpPrompts();
-}

@@ -299,10 +299,6 @@ void ImageComponent::fadeIn(bool textureLoaded) {
     }
 }
 
-bool ImageComponent::hasImage() {
-    return (bool)mTexture;
-}
-
 void ImageComponent::applyTheme(const std::shared_ptr<ThemeData>& theme, const std::string& view, const std::string& element, ThemeProperties properties)
 {
     const ThemeData::ThemeElement* elem = theme->getElement(view, element, "image");

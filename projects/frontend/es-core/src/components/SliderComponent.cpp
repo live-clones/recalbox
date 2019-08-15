@@ -99,11 +99,6 @@ void SliderComponent::setValue(float value)
 	onValueChanged();
 }
 
-float SliderComponent::getValue()
-{
-	return mValue;
-}
-
 void SliderComponent::setColor(unsigned int color) {
 	mColor = color;
 	mKnob.setColorShift(mColor);

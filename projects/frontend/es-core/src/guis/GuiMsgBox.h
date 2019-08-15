@@ -19,7 +19,7 @@ public:
 
 	bool input(InputConfig* config, Input input) override;
 	void onSizeChanged() override;
-	std::vector<HelpPrompt> getHelpPrompts() override;
+	std::vector<HelpPrompt> getHelpPrompts() override { return mGrid.getHelpPrompts(); }
 
 private:
 	void deleteMeAndCall(const std::function<void()>& func);

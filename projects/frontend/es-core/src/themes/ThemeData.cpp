@@ -256,9 +256,6 @@ std::map< std::string, std::map<std::string, ThemeData::ElementProperty> >& Them
 
 namespace fs = boost::filesystem;
 
-#define MINIMUM_THEME_FORMAT_VERSION 3
-#define CURRENT_THEME_FORMAT_VERSION 4
-
 // helper
 unsigned int getHexColor(const char* str)
 {
@@ -960,11 +957,6 @@ std::string ThemeData::getTransition()
 		}
 	}
 	return result;
-}
-
-bool ThemeData::getHasFavoritesInTheme()
-{
-	return (mVersion >= CURRENT_THEME_FORMAT_VERSION);
 }
 
 bool ThemeData::isFolderHandled() const {

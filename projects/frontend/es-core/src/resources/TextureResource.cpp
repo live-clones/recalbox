@@ -81,11 +81,6 @@ void TextureResource::initFromMemory(const char* data, size_t length)
 	mSourceSize.Set(mTextureData->sourceWidth(), mTextureData->sourceHeight());
 }
 
-Vector2i TextureResource::getSize() const
-{
-	return mSize;
-}
-
 bool TextureResource::isTiled() const
 {
 	if (mTextureData != nullptr)
@@ -166,16 +161,6 @@ void TextureResource::rasterizeAt(size_t width, size_t height)
 	data->setSourceSize((float)width, (float)height);
 	if (mForceLoad || (mTextureData != nullptr))
 		data->load();
-}
-
-Vector2f TextureResource::getSourceImageSize() const
-{
-	return mSourceSize;
-}
-
-bool TextureResource::isInitialized() const
-{
-	return true;
 }
 
 size_t TextureResource::getTotalMemUsage()
