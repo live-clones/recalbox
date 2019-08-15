@@ -4,7 +4,7 @@
 
 namespace fs = boost::filesystem;
 
-std::string strToUpper(const char* from)
+/*std::string strToUpper(const char* from)
 {
 	std::string str(from);
     return boost::locale::to_upper(str);
@@ -19,7 +19,7 @@ std::string& strToUpper(std::string& from)
 std::string strToUpper(const std::string& from)
 {
   return boost::locale::to_upper(from);
-}
+}*/
 
 ::Transform4x4f& roundMatrix(::Transform4x4f& mat)
 {

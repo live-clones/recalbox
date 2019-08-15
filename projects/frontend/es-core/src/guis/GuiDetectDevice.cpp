@@ -6,7 +6,6 @@
 #include "components/TextComponent.h"
 #include <iostream>
 #include <string>
-#include "Util.h"
 #include "Locale.h"
 #include "MenuThemeData.h"
 
@@ -99,7 +98,7 @@ bool GuiDetectDevice::input(InputConfig* config, Input input)
 			// started holding
 			mHoldingConfig = config;
 			mHoldTime = HOLD_TIME;
-			mDeviceHeld->setText(strToUpper(config->getDeviceName()));
+			mDeviceHeld->setText(StringUtil::toUpper(config->getDeviceName()));
 		}else if(!input.value && mHoldingConfig == config)
 		{
 			// cancel

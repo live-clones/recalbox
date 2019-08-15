@@ -1,3 +1,4 @@
+#include <utils/StringUtil.h>
 #include "components/DateTimeComponent.h"
 #include "Renderer.h"
 #include "Window.h"
@@ -284,7 +285,7 @@ void DateTimeComponent::updateTextCache()
 {
 	mFlag = !mFlag;
 	Display mode = getCurrentDisplayMode();
-	const std::string dispString = mUppercase ? strToUpper(getDisplayString(mode)) : getDisplayString(mode);
+	const std::string dispString = mUppercase ? StringUtil::toUpper(getDisplayString(mode)) : getDisplayString(mode);
 	std::shared_ptr<Font> font = getFont();
 	mTextCache = std::unique_ptr<TextCache>(font->buildTextCache(dispString, Vector2f(0, 0), mColor, mSize.x(), mHorizontalAlignment));
 

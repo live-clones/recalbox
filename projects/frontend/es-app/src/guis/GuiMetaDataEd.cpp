@@ -54,7 +54,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window* window,
   mTitle = std::make_shared<TextComponent>(mWindow, _("EDIT METADATA"), menuTheme->menuTitle.font, menuTheme->menuTitle.color,
                                            TextAlignment::Center);
   mSubtitle = std::make_shared<TextComponent>(mWindow,
-                                              strToUpper(scraperParams.game->getPath().filename().generic_string()),
+                                              StringUtil::toUpper(scraperParams.game->getPath().filename().generic_string()),
                                               menuTheme->menuFooter.font, menuTheme->menuFooter.color, TextAlignment::Center);
   float y = 0;
   y += mTitle->getFont()->getHeight() + mSubtitle->getFont()->getHeight();
@@ -98,7 +98,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window* window,
     // create ed and add it (and any related components) to mMenu
     // ed's value will be set below
     ComponentListRow row;
-    auto lbl = std::make_shared<TextComponent>(mWindow, strToUpper(field.DisplayName()), menuTheme->menuText.font, menuTheme->menuText.color);
+    auto lbl = std::make_shared<TextComponent>(mWindow, StringUtil::toUpper(field.DisplayName()), menuTheme->menuText.font, menuTheme->menuText.color);
 
     row.addElement(lbl, true); // label
     y += lbl->getFont()->getHeight();

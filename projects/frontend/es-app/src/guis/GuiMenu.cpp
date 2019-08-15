@@ -130,7 +130,7 @@ GuiMenu::GuiMenu(Window* window) : GuiComponent(window), mMenu(window, _("MAIN M
   mVersion.setFont(mMenuTheme->menuFooter.font);
   mVersion.setColor(mMenuTheme->menuFooter.color);
 
-    mVersion.setText("RB EMULATIONSTATION V" + strToUpper(PROGRAM_VERSION_STRING));
+    mVersion.setText("RB EMULATIONSTATION V" + StringUtil::toUpper(PROGRAM_VERSION_STRING));
     mVersion.setHorizontalAlignment(TextAlignment::Center);
 
     addChild(&mMenu);
@@ -716,7 +716,7 @@ void GuiMenu::menuControllers() {
       std::string name;
       std::string selectedName = input_p1->getSelectedName();
 
-      if (selectedName.compare(strToUpper("default")) == 0) {
+      if (selectedName.compare(StringUtil::toUpper("default")) == 0) {
         name = "DEFAULT";
         Settings::getInstance()->setString(confName, name);
         Settings::getInstance()->setString(confGuid, "");

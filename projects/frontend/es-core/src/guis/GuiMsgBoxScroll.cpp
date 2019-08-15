@@ -56,7 +56,7 @@ GuiMsgBoxScroll::GuiMsgBoxScroll(Window* window,
 	}else{
 		for (auto& mButton : mButtons)
 		{
-			if(strToUpper(mButton->getText()) == "OK" || strToUpper(mButton->getText()) == "NO")
+			if(StringUtil::toUpper(mButton->getText()) == "OK" || StringUtil::toUpper(mButton->getText()) == "NO")
 			{
 				mAcceleratorFunc = mButton->getPressedFunc();
 				break;

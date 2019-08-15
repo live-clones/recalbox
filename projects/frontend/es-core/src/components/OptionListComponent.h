@@ -59,7 +59,7 @@ private:
 			for (auto& e : mParent->mEntries)
 			{
 				row.elements.clear();
-				row.addElement(std::make_shared<TextComponent>(mWindow, strToUpper(e.name), font, color), true);
+				row.addElement(std::make_shared<TextComponent>(mWindow, StringUtil::toUpper(e.name), font, color), true);
 
 				if(mParent->mMultiSelect)
 				{
@@ -367,7 +367,7 @@ private:
 			{
 				if(entry.selected)
 				{
-					mText.setText(strToUpper(entry.name));
+					mText.setText(StringUtil::toUpper(entry.name));
 					mText.setSize(0, mText.getSize().y());
 					setSize(mText.getSize().x() + mLeftArrow.getSize().x() + mRightArrow.getSize().x() + 24, mText.getSize().y());
 					if(mParent) // hack since theres no "on child size changed" callback atm...

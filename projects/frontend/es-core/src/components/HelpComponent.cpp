@@ -1,3 +1,4 @@
+#include <utils/StringUtil.h>
 #include "components/HelpComponent.h"
 #include "Renderer.h"
 #include "Settings.h"
@@ -82,7 +83,7 @@ void HelpComponent::updateGrid()
 		icon->setResize(0, height);
 		icons.push_back(icon);
 
-		auto lbl = std::make_shared<TextComponent>(mWindow, strToUpper(mPrompt.second), font, mStyle.textColor);
+		auto lbl = std::make_shared<TextComponent>(mWindow, StringUtil::toUpper(mPrompt.second), font, mStyle.textColor);
 		labels.push_back(lbl);
 
 		width += icon->getSize().x() + lbl->getSize().x() + ICON_TEXT_SPACING + ENTRY_SPACING;

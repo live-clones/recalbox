@@ -42,7 +42,7 @@ GuiMsgBox::GuiMsgBox(Window* window, const std::string& text,
 	}else{
 		for (auto& button : mButtons)
 		{
-			if(strToUpper(button->getText()) == "OK" || strToUpper(button->getText()) == "NO")
+			if(StringUtil::toUpper(button->getText()) == "OK" || StringUtil::toUpper(button->getText()) == "NO")
 			{
 				mAcceleratorFunc = button->getPressedFunc();
 				break;

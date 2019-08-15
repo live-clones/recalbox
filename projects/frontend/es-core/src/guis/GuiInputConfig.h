@@ -1,5 +1,6 @@
 #pragma once
 
+#include <utils/StringUtil.h>
 #include "GuiComponent.h"
 #include "components/NinePatchComponent.h"
 #include "components/ComponentGrid.h"
@@ -32,7 +33,7 @@ private:
 	inline void setMapped() { setText(_("ALREADY TAKEN"), mMainColor); }
 	inline void setSkipped() { setText(_("(skipped)"), mMainColor); }
 	inline void setNotDefined() { setText("", mMainColor); }
-	inline void setAssignedTo(Input input) { setText(strToUpper(input.string()), mMainColor); }
+	inline void setAssignedTo(Input input) { setText(StringUtil::toUpper(input.string()), mMainColor); }
 
 	void initFormInputs();
 	void addFormInput(const char* name, std::string label, const char* icon, bool skippable, InputType preferredType);

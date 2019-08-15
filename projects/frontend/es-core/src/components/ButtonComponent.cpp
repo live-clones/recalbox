@@ -1,8 +1,8 @@
+#include <utils/StringUtil.h>
 #include "components/ButtonComponent.h"
 #include "Renderer.h"
 #include "Window.h"
 #include "Util.h"
-#include "Log.h"
 #include "Locale.h"
 #include "MenuThemeData.h"
 
@@ -51,7 +51,7 @@ bool ButtonComponent::input(InputConfig* config, Input input)
 
 void ButtonComponent::setText(const std::string& text, const std::string& helpText, bool upperCase, bool resize, bool doUpdateHelpPrompts)
 {
-	mText = upperCase ? strToUpper(text) : text;
+	mText = upperCase ? StringUtil::toUpper(text) : text;
 	mHelpText = helpText;
 
 	mTextCache = std::unique_ptr<TextCache>(mFont->buildTextCache(mText, 0, 0, getCurTextColor()));

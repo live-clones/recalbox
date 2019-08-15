@@ -5,9 +5,9 @@
 #include <boost/date_time.hpp>
 #include "utils/math/Vectors.h"
 
-std::string strToUpper(const char* from);
+/*std::string strToUpper(const char* from);
 std::string& strToUpper(std::string& str);
-std::string strToUpper(const std::string& str);
+std::string strToUpper(const std::string& str);*/
 
 Transform4x4f& roundMatrix(Transform4x4f& mat);
 Transform4x4f roundMatrix(const Transform4x4f& mat);
