@@ -37,8 +37,9 @@ class Log
 
   private:
     static LogLevel reportingLevel;
-    static FILE* getOutput();
     LogLevel messageLevel;
+
+    static void doClose();
 };
 
 #endif

@@ -44,26 +44,38 @@ void Log::flush()
 
 void Log::close()
 {
-	fclose(file);
-	file = nullptr;
+  {
+    // *DO NOT REMOVE* the enclosing block as it allow the destructor to be called immediately
+    // before calling doClose()
+    // Generate an immediate log.
+    Log().get(LogLevel::LogInfo) << "Closing logger...";
+  }
+  doClose();
+}
+
+void Log::doClose()
+{
+  fclose(file);
+  file = nullptr;
 }
 
 Log::~Log()
 {
-	os << std::endl;
+	bool loggerClosed = (file == nullptr);
+	// Reopen temporarily
+	if (loggerClosed)
+  {
+	  open();
+	  os << " [closed!]";
+  }
 
-	if(file == nullptr)
-	{
-		// not open yet, print to stdout
-		std::cerr << "ERROR - tried to write to log file before it was open! The following won't be logged:\n";
-		std::cerr << os.str();
-		return;
-	}
+  os << std::endl;
+	fputs(os.str().c_str(), file);
+	if (!loggerClosed) flush();
+	else doClose();
 
-	fprintf(file, "%s", os.str().c_str());
-
-	//if it's an error, also print to console
-	//print all messages if using --debug
-	if(messageLevel == LogLevel::LogError || reportingLevel >= LogLevel::LogDebug)
-		fprintf(stderr, "%s", os.str().c_str());
+  // if it's an error, also print to console
+  // print all messages if using --debug
+  if(messageLevel == LogLevel::LogError || reportingLevel >= LogLevel::LogDebug)
+    fputs(os.str().c_str(), stderr);
 }
