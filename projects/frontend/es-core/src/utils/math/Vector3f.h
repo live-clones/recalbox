@@ -1,9 +1,6 @@
 #pragma once
-#ifndef ES_CORE_MATH_VECTOR3F_H
-#define ES_CORE_MATH_VECTOR3F_H
 
 #include <cassert>
-#include "utils/math/Misc.h"
 
 class Vector2f;
 class Vector4f;
@@ -79,4 +76,3 @@ class Vector3f
 
 }; // Vector3f
 
-#endif // ES_CORE_MATH_VECTOR3F_H

@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Misc.h"
 #include <cassert>
 
 class Vector2i;
@@ -58,14 +57,11 @@ class Vector4i
 
     inline void Set(int x, int y, int z, int w) { mX = x; mY =y; mZ = z; mW = w; }
 
-    Vector4i& round();
-    Vector4i& lerp (const Vector4i& _start, const Vector4i& _end, const int _fraction);
-
-    static const Vector4i Zero () { return { 0, 0, 0, 0 }; }
-    static const Vector4i UnitX() { return { 1, 0, 0, 0 }; }
-    static const Vector4i UnitY() { return { 0, 1, 0, 0 }; }
-    static const Vector4i UnitZ() { return { 0, 0, 1, 0 }; }
-    static const Vector4i UnitW() { return { 0, 0, 0, 1 }; }
+    static Vector4i Zero () { return { 0, 0, 0, 0 }; }
+    static Vector4i UnitX() { return { 1, 0, 0, 0 }; }
+    static Vector4i UnitY() { return { 0, 1, 0, 0 }; }
+    static Vector4i UnitZ() { return { 0, 0, 1, 0 }; }
+    static Vector4i UnitW() { return { 0, 0, 0, 1 }; }
 
     bool isZero() const { return mX == 0 && mY == 0 && mZ == 0 && mW == 0; }
 

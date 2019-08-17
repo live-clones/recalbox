@@ -12,9 +12,9 @@ public:
 	Transform4x4f() = default;
 	Transform4x4f(const Vector4f& _r0, const Vector4f& _r1, const Vector4f& _r2, const Vector4f& _r3) : mR0(_r0), mR1(_r1), mR2(_r2), mR3(_r3) { }
 
-	const Transform4x4f operator* (const Transform4x4f& _other) const;
-	const Vector3f      operator* (const Vector3f& _other) const;
-	Transform4x4f&      operator*=(const Transform4x4f& _other) { *this = *this * _other; return *this; }
+	Transform4x4f  operator* (const Transform4x4f& _other) const;
+	Vector3f operator* (const Vector3f& _other) const;
+	Transform4x4f& operator*=(const Transform4x4f& _other) { *this = *this * _other; return *this; }
 
 	inline       Vector4f& r0()       { return mR0; }
 	inline       Vector4f& r1()       { return mR1; }
@@ -37,7 +37,7 @@ public:
 	inline       Vector3f& translation()       { return mR3.v3(); }
 	inline const Vector3f& translation() const { return mR3.v3(); }
 
-	static const Transform4x4f Identity() { return { { 1, 0, 0, 0 }, { 0, 1, 0, 0 }, { 0, 0, 1, 0 }, { 0, 0, 0, 1 } }; }
+	static       Transform4x4f Identity() { return { { 1, 0, 0, 0 }, { 0, 1, 0, 0 }, { 0, 0, 1, 0 }, { 0, 0, 0, 1 } }; }
 
 protected:
 

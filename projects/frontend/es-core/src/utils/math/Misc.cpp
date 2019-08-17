@@ -49,7 +49,9 @@ float Math::clamp(float _min, float _max, float _num)
 
 float Math::round(float _num)
 {
-  return (float)(int)(_num + 0.5);
+  _num += 0.5f;
+  int num = (int)_num;
+  return (float)num;
 }
 
 float Math::lerp(float _start, float _end, float _fraction)

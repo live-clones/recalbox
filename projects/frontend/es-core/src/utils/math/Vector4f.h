@@ -2,7 +2,6 @@
 #ifndef ES_CORE_MATH_VECTOR4F_H
 #define ES_CORE_MATH_VECTOR4F_H
 
-#include "Misc.h"
 #include <cassert>
 
 class Vector2f;
@@ -67,13 +66,13 @@ class Vector4f
     inline void Set(float x, float y, float z, float w) { mX = x; mY =y; mZ = z; mW = w; }
 
     Vector4f& round();
-    Vector4f& lerp (const Vector4f& _start, const Vector4f& _end, const float _fraction);
+    Vector4f& lerp (const Vector4f& _start, const Vector4f& _end, float _fraction);
 
-    static const Vector4f Zero () { return { 0, 0, 0, 0 }; }
-    static const Vector4f UnitX() { return { 1, 0, 0, 0 }; }
-    static const Vector4f UnitY() { return { 0, 1, 0, 0 }; }
-    static const Vector4f UnitZ() { return { 0, 0, 1, 0 }; }
-    static const Vector4f UnitW() { return { 0, 0, 0, 1 }; }
+    static Vector4f Zero () { return { 0, 0, 0, 0 }; }
+    static Vector4f UnitX() { return { 1, 0, 0, 0 }; }
+    static Vector4f UnitY() { return { 0, 1, 0, 0 }; }
+    static Vector4f UnitZ() { return { 0, 0, 1, 0 }; }
+    static Vector4f UnitW() { return { 0, 0, 0, 1 }; }
 
     bool isZero() const { return mX == 0 && mY == 0 && mZ == 0 && mW == 0; }
 

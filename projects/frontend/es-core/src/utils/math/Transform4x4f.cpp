@@ -1,6 +1,7 @@
 #include "Transform4x4f.h"
+#include "Misc.h"
 
-const Transform4x4f Transform4x4f::operator*(const Transform4x4f& _other) const
+Transform4x4f Transform4x4f::operator*(const Transform4x4f& _other) const
 {
 	const float* tm = (float*)this;
 	const float* om = (float*)&_other;
@@ -35,7 +36,7 @@ const Transform4x4f Transform4x4f::operator*(const Transform4x4f& _other) const
 
 } // operator*
 
-const Vector3f Transform4x4f::operator*(const Vector3f& _other) const
+Vector3f Transform4x4f::operator*(const Vector3f& _other) const
 {
 	const float* tm = (float*)this;
 	const float* ov = (float*)&_other;
@@ -181,7 +182,7 @@ Transform4x4f& Transform4x4f::rotate(const float _angle, const Vector3f& _axis)
 
 	return *this;
 
-}; // rotate
+} // rotate
 
 Transform4x4f& Transform4x4f::rotateX(const float _angle)
 {
@@ -204,7 +205,7 @@ Transform4x4f& Transform4x4f::rotateX(const float _angle)
 
 	return *this;
 
-}; // rotateX
+} // rotateX
 
 Transform4x4f& Transform4x4f::rotateY(const float _angle)
 {
@@ -227,7 +228,7 @@ Transform4x4f& Transform4x4f::rotateY(const float _angle)
 
 	return *this;
 
-}; // rotateY
+} // rotateY
 
 Transform4x4f& Transform4x4f::rotateZ(const float _angle)
 {
@@ -250,7 +251,7 @@ Transform4x4f& Transform4x4f::rotateZ(const float _angle)
 
 	return *this;
 
-}; // rotateZ
+} // rotateZ
 
 Transform4x4f& Transform4x4f::translate(const Vector3f& _translation)
 {
@@ -269,9 +270,9 @@ Transform4x4f& Transform4x4f::round()
 {
 	float* tm = (float*)this;
 
-	tm[12] = (float)(int)(tm[12] + 0.5f);
-	tm[13] = (float)(int)(tm[13] + 0.5f);
-	tm[14] = (float)(int)(tm[14] + 0.5f);
+	tm[12] = Math::round(tm[12]);
+	tm[13] = Math::round(tm[13]);
+	tm[14] = Math::round(tm[14]);
 
 	return *this;
 

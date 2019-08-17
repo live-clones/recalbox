@@ -3,5 +3,5 @@
 
 Vector2f Vector2i::toFloat() const
 {
-  return Vector2f((float)mX, (float)mY);
+  return { (float)mX, (float)mY };
 }

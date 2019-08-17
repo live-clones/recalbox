@@ -1,15 +1,16 @@
 #include "Vector2f.h"
 #include "Vector2i.h"
+#include "Misc.h"
 
 Vector2i Vector2f::toInt() const
 {
-  return Vector2i((int)mX, (int)mY);
+  return { (int)mX, (int)mY };
 }
 
 Vector2f& Vector2f::round()
 {
-	mX = (float)(int)(mX + 0.5f);
-	mY = (float)(int)(mY + 0.5f);
+	mX = Math::round(mX);
+	mY = Math::round(mY);
 
 	return *this;
 

@@ -1,9 +1,6 @@
 #pragma once
-#ifndef ES_CORE_MATH_VECTOR2F_H
-#define ES_CORE_MATH_VECTOR2F_H
 
 #include <cassert>
-#include "Misc.h"
 
 class Vector2i;
 class Vector3f;
@@ -55,7 +52,7 @@ public:
 	inline float  y() const { return mY; }
 
 	Vector2f& round();
-	Vector2f& lerp (const Vector2f& _start, const Vector2f& _end, const float _fraction);
+	Vector2f& lerp (const Vector2f& _start, const Vector2f& _end, float _fraction);
 
 	static Vector2f Zero () { return { 0, 0 }; }
 	static Vector2f UnitX() { return { 1, 0 }; }
@@ -72,6 +69,4 @@ public:
 	float mX;
 	float mY;
 
-}; // Vector2f
-
-#endif // ES_CORE_MATH_VECTOR2F_H
+};

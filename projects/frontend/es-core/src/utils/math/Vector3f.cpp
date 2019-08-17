@@ -1,10 +1,11 @@
 #include "Vector3f.h"
+#include "Misc.h"
 
 Vector3f& Vector3f::round()
 {
-	mX = (float)(int)(mX + 0.5f);
-	mY = (float)(int)(mY + 0.5f);
-	mZ = (float)(int)(mZ + 0.5f);
+	mX = Math::round(mX);
+	mY = Math::round(mY);
+	mZ = Math::round(mZ);
 
 	return *this;
 
