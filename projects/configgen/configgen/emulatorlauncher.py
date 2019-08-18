@@ -143,10 +143,10 @@ def getDefaultEmulator(targetSystem):
         "neogeo"        : Emulator(name='neogeo', emulator='fba2x'),
         "mame"          : Emulator(name='mame', emulator='libretro', core='mame2003_plus'),
         "fba"           : Emulator(name='fba', emulator='fba2x'),
-        "fba_libretro"  : Emulator(name='fba_libretro', emulator='libretro', core='fbalpha'),
+        "fba_libretro"  : Emulator(name='fbneo_libretro', emulator='libretro', core='fbneo'),
         "advancemame"   : Emulator(name='advancemame', emulator='advmame'),
         "daphne"        : Emulator(name='daphne', emulator='daphne'),
-        "neogeocd"      : Emulator(name='neogeocd', emulator='libretro', core='fbalpha'),
+        "neogeocd"      : Emulator(name='neogeocd', emulator='libretro', core='fbneo'),
         "atomiswave"    : Emulator(name='atomiswave', emulator='libretro', core='flycast'),
         "naomi"         : Emulator(name='naomi', emulator='libretro', core='flycast'),
 
