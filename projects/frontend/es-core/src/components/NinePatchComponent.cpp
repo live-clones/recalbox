@@ -5,13 +5,21 @@
 #include "themes/ThemeData.h"
 #include "Util.h"
 
-NinePatchComponent::NinePatchComponent(Window* window, const std::string& path, unsigned int edgeColor, unsigned int centerColor)
-	: GuiComponent(window),
-		mVertices(nullptr), mColors(nullptr),
-    mPath(path),
-	  mEdgeColor(edgeColor), mCenterColor(centerColor)
+NinePatchComponent::NinePatchComponent(Window* window)
+  : GuiComponent(window),
+    mVertices(nullptr),
+    mColors(nullptr),
+    mPath(),
+    mEdgeColor(0xFFFFFFFF),
+    mCenterColor(0xFFFFFFFF)
 {
-	if(!mPath.empty())
+}
+
+NinePatchComponent::NinePatchComponent(Window* window, const std::string& path)
+	: NinePatchComponent(window)
+{
+  mPath = path;
+	if (!mPath.empty())
 		buildVertices();
 }
 

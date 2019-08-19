@@ -5,18 +5,12 @@
 #include "resources/Font.h"
 
 HelpStyle::HelpStyle()
+  : position(Renderer::getDisplayWidthAsFloat() * 0.012f, Renderer::getDisplayHeightAsFloat() * 0.9515f),
+    iconColor(0x777777FF),
+    textColor(0x777777FF),
+    font(Font::get(FONT_SIZE_SMALL))
 {
-	position = Vector2f(Renderer::getDisplayWidthAsFloat() * 0.012f, Renderer::getDisplayHeightAsFloat() * 0.9515f);
-	iconColor = 0x777777FF;
-	textColor = 0x777777FF;
-
-	if(FONT_SIZE_SMALL != 0)
-		font = Font::get(FONT_SIZE_SMALL);
-	else
-		font = nullptr;
-	
 	iconMap.clear();
-	
 }
 
 void HelpStyle::applyTheme(const std::shared_ptr<ThemeData>& theme, const std::string& view)

@@ -10,8 +10,9 @@
 #include "Settings.h"
 
 
-GuiScraperStart::GuiScraperStart(Window* window) : GuiComponent(window),
-  mMenu(window, _("SCRAPE NOW").c_str())
+GuiScraperStart::GuiScraperStart(Window* window)
+  : GuiComponent(window),
+    mMenu(window, _("SCRAPE NOW").c_str())
 {
 	addChild(&mMenu);
 

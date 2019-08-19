@@ -7,7 +7,10 @@
 #include <boost/algorithm/string/replace.hpp>
 #include <recalbox/RecalboxUpgrade.h>
 
-GuiUpdate::GuiUpdate(Window *window) : GuiComponent(window), mBusyAnim(window), mBackground(window, ":/frame.png")
+GuiUpdate::GuiUpdate(Window *window)
+  : GuiComponent(window),
+    mBusyAnim(window),
+    mBackground(window, ":/frame.png")
 {
     setSize(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
     mLoading = true;

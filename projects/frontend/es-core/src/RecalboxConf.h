@@ -13,9 +13,9 @@
 class RecalboxConf {
 
 public:
-    explicit RecalboxConf(bool mainFile = true);
+    explicit RecalboxConf(bool mainFile);
 
-    bool loadRecalboxConf(bool mainFile = true);
+    bool loadRecalboxConf(bool mainFile);
 
     bool saveRecalboxConf();
 

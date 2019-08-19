@@ -18,7 +18,7 @@ RecalboxConf::RecalboxConf(bool mainFile) {
 
 RecalboxConf& RecalboxConf::Instance()
 {
-  static RecalboxConf _Instance; // Initialized the first time this is called - destroyed on program exit
+  static RecalboxConf _Instance(true); // Initialized the first time this is called - destroyed on program exit
   return _Instance;
 }
 

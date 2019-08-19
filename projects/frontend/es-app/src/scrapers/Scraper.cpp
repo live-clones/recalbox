@@ -102,7 +102,8 @@ void ScraperSearchHandle::update()
 
 
 // ScraperRequest
-ScraperRequest::ScraperRequest(std::vector<ScraperSearchResult>& resultsWrite) : mResults(resultsWrite)
+ScraperRequest::ScraperRequest(std::vector<ScraperSearchResult>& resultsWrite)
+  : mResults(resultsWrite)
 {
 }
 

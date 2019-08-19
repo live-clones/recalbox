@@ -37,7 +37,8 @@ bool HttpReq::isUrl(const std::string& str)
 }
 
 HttpReq::HttpReq(const std::string& url)
-	: mHandle(nullptr), mStatus(Status::InProgress)
+	: mHandle(nullptr),
+	  mStatus(Status::InProgress)
 {
 	mHandle = curl_easy_init();
 

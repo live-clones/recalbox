@@ -1,7 +1,11 @@
 #include "animations/AnimationController.h"
 
-AnimationController::AnimationController(Animation* anim, int delay, std::function<void()> finishedCallback, bool reverse)
-	: mAnimation(anim), mFinishedCallback(finishedCallback), mReverse(reverse), mTime(-delay), mDelay(delay)
+AnimationController::AnimationController(Animation* anim, int delay, const std::function<void()>& finishedCallback, bool reverse)
+	: mAnimation(anim),
+	  mFinishedCallback(finishedCallback),
+	  mReverse(reverse),
+	  mTime(-delay),
+	  mDelay(delay)
 {
 }
 

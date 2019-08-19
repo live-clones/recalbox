@@ -15,12 +15,13 @@
 //! Null function used to allow permanent reference
 static const std::function<void(void*)> _NullFunction;
 
-GuiLoading::GuiLoading(Window *window, const std::function<void*()> &mFunc)
+GuiLoading::GuiLoading(Window *window, const std::function<void*()>& mFunc)
   : GuiComponent(window),
     mBusyAnim(window),
     mBackground(window, ":/frame.png"),
     mFunc(mFunc),
-    mFunc2(_NullFunction)
+    mFunc2(_NullFunction),
+    result(nullptr)
 {
     setSize(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
     mRunning = true;
@@ -39,7 +40,8 @@ GuiLoading::GuiLoading(Window *window, const std::function<void*()> &mFunc, cons
     mBusyAnim(window),
     mBackground(window, ":/frame.png"),
     mFunc(mFunc),
-    mFunc2(mFunc2)
+    mFunc2(mFunc2),
+    result(nullptr)
 {
     setSize(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
     mRunning = true;

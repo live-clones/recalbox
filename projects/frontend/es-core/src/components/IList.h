@@ -134,22 +134,33 @@ protected:
   }*/
 
   public:
-	explicit IList(Window* window, const ScrollTierList& tierList = LIST_SCROLL_STYLE_QUICK, LoopType loopType = LoopType::PauseAtEnd) : GuiComponent(window),
-		mGradient(window), mTierList(tierList), mLoopType(loopType) {
-		mCursor = 0;
-		mScrollTier = 0;
-		mScrollVelocity = 0;
-		mScrollTierAccumulator = 0;
-		mScrollCursorAccumulator = 0;
-		
-		mTitleOverlayOpacity = 0x00;
-		mTitleOverlayColor = 0xFFFFFF00;
-		mGradient.setResize(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
-		mGradient.setImage(":/scroll_gradient.png");
-		mTitleOverlayFont = Font::get(FONT_SIZE_LARGE);
-	}
+    IList(Window* window, const ScrollTierList& tierList, LoopType loopType)
+      : GuiComponent(window),
+        mCursor(0),
+        mScrollTier(0),
+        mScrollVelocity(0),
+        mScrollTierAccumulator(0),
+        mScrollCursorAccumulator(0),
+        mTitleOverlayOpacity(0x00),
+        mTitleOverlayColor(0xFFFFFF00),
+        mGradient(window),
+        mTierList(tierList),
+        mLoopType(loopType)
+    {
+      mGradient.setResize(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
+      mGradient.setImage(":/scroll_gradient.png");
+      mTitleOverlayFont = Font::get(FONT_SIZE_LARGE);
+    }
+    IList(Window* window, const ScrollTierList& tierList)
+      : IList(window, tierList, LoopType::PauseAtEnd)
+    {
+    }
+    explicit IList(Window* window)
+      : IList(window, LIST_SCROLL_STYLE_QUICK, LoopType::PauseAtEnd)
+    {
+    }
 
-	bool isScrolling() const {
+    bool isScrolling() const {
 		return (mScrollVelocity != 0 && mScrollTier > 0);
 	}
 	

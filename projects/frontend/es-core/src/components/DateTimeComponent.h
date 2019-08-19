@@ -16,7 +16,11 @@ public:
 		RelativeToNow,
 	};
 
-	explicit DateTimeComponent(Window* window, Display dispMode = Display::Date);
+           DateTimeComponent(Window* window, Display dispMode);
+  explicit DateTimeComponent(Window* window)
+    : DateTimeComponent(window, Display::Date)
+  {
+  }
 
 	void setValue(const std::string& val) override;
 	std::string getValue() const override;

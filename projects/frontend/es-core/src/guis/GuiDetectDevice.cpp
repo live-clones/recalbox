@@ -11,8 +11,11 @@
 
 #define HOLD_TIME 1000
 
-GuiDetectDevice::GuiDetectDevice(Window* window, bool firstRun, const std::function<void()>& doneCallback) : GuiComponent(window), mFirstRun(firstRun),
-	mBackground(window, ":/frame.png"), mGrid(window, Vector2i(1, 5))
+GuiDetectDevice::GuiDetectDevice(Window* window, bool firstRun, const std::function<void()>& doneCallback)
+  : GuiComponent(window),
+    mFirstRun(firstRun),
+	  mBackground(window, ":/frame.png"),
+	  mGrid(window, Vector2i(1, 5))
 {
 	mHoldingConfig = nullptr;
 	mHoldTime = 0;

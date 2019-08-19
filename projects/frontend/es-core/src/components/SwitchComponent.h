@@ -8,7 +8,12 @@
 class SwitchComponent : public GuiComponent
 {
 public:
-	explicit SwitchComponent(Window* window, bool state = false);
+	explicit SwitchComponent(Window* window);
+  SwitchComponent(Window* window, bool state)
+    : SwitchComponent(window)
+  {
+    mState = state;
+  }
 
 	bool input(InputConfig* config, Input input) override;
 	void render(const Transform4x4f& parentTrans) override;

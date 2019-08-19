@@ -16,8 +16,9 @@ class TheGamesDBJSONRequest : public ScraperHttpRequest
   public:
     // ctor for a GetGameList request
     TheGamesDBJSONRequest(std::queue<std::unique_ptr<ScraperRequest>>& requestsWrite,
-                          std::vector<ScraperSearchResult>& resultsWrite, const std::string& url) : ScraperHttpRequest(
-      resultsWrite, url), mRequestQueue(&requestsWrite)
+                          std::vector<ScraperSearchResult>& resultsWrite, const std::string& url)
+      : ScraperHttpRequest(resultsWrite, url),
+        mRequestQueue(&requestsWrite)
     {
     }
 

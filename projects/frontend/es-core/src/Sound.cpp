@@ -32,7 +32,9 @@ std::shared_ptr<Sound> Sound::getFromTheme(const std::shared_ptr<ThemeData>& the
 	return get(elem->get<std::string>("path"));
 }
 
-Sound::Sound(const std::string & path) : mSampleData(nullptr), playing(false)
+Sound::Sound(const std::string & path)
+  : mSampleData(nullptr),
+    playing(false)
 {
 	loadFile(path);
 }

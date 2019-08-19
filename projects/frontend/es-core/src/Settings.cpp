@@ -36,7 +36,8 @@ static std::vector<const char *>& SettingsNotToSave()
   return _SettingsNotToSave;
 }
 
-Settings::Settings() {
+Settings::Settings()
+{
     setDefaults();
     loadFile();
 }

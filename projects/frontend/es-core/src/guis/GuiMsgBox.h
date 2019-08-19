@@ -12,17 +12,32 @@ class GuiMsgBox : public GuiComponent
 {
 public:
 	GuiMsgBox(Window* window, const std::string& text,
-            const std::string& name1 = "OK", const std::function<void()>& func1 = nullptr,
-            const std::string& name2 = "", const std::function<void()>& func2 = nullptr,
-            const std::string& name3 = "", const std::function<void()>& func3 = nullptr,
+            const std::string& name1, const std::function<void()>& func1,
+            const std::string& name2, const std::function<void()>& func2,
+            const std::string& name3, const std::function<void()>& func3,
             TextAlignment align = TextAlignment::Center);
+  GuiMsgBox(Window* window, const std::string& text,
+            const std::string& name1, const std::function<void()>& func1,
+            const std::string& name2, const std::function<void()>& func2);
+  GuiMsgBox(Window* window, const std::string& text,
+            const std::string& name1, const std::function<void()>& func1);
+  GuiMsgBox(Window* window, const std::string& text,
+            const std::string& name1);
+  GuiMsgBox(Window* window, const std::string& text);
 
 	bool input(InputConfig* config, Input input) override;
 	void onSizeChanged() override;
 	std::vector<HelpPrompt> getHelpPrompts() override { return mGrid.getHelpPrompts(); }
 
 private:
+  GuiMsgBox(Window* window);
+
 	void deleteMeAndCall(const std::function<void()>& func);
+
+  void build(const std::string& text, TextAlignment align,
+             const std::string& name1, const std::function<void()>& func1,
+             const std::string& name2, const std::function<void()>& func2,
+             const std::string& name3, const std::function<void()>& func3);
 
 	NinePatchComponent mBackground;
 	ComponentGrid mGrid;

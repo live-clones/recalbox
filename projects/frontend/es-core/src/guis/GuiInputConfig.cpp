@@ -13,9 +13,12 @@
 
 using namespace boost::locale;
 
-GuiInputConfig::GuiInputConfig(Window* window, InputConfig* target, const std::function<void()>& doneCallback) : GuiComponent(window),
-	mBackground(window, ":/frame.png"), mGrid(window, Vector2i(1, 5)), 
-	mTargetConfig(target), mCursorOnList(true)
+GuiInputConfig::GuiInputConfig(Window* window, InputConfig* target, const std::function<void()>& doneCallback)
+  : GuiComponent(window),
+	  mBackground(window, ":/frame.png"),
+	  mGrid(window, Vector2i(1, 5)),
+	  mTargetConfig(target),
+	  mCursorOnList(true)
 {
 	LOG(LogInfo) << "Configuring device " << mTargetConfig->getDeviceId() << " (" << mTargetConfig->getDeviceName() << ").";
 

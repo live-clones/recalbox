@@ -142,6 +142,8 @@ bool GuiInfoPopup::updateState()
 		mStartTime = curTime;
 	}
 
+	int alpha = 0;
+
 	// compute fade in effect
 	if (curTime - mStartTime > mDuration)
 	{

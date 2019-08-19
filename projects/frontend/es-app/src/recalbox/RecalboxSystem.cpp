@@ -25,12 +25,7 @@
 #include <Locale.h>
 #include <VideoEngine.h>
 
-
-RecalboxSystem::RecalboxSystem() {
-}
-
 RecalboxSystem *RecalboxSystem::instance = nullptr;
-
 
 RecalboxSystem *RecalboxSystem::getInstance() {
     if (RecalboxSystem::instance == nullptr) {

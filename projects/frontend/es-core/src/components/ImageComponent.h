@@ -12,7 +12,15 @@
 class ImageComponent : public GuiComponent
 {
 public:
-	explicit ImageComponent(Window* window, bool forceLoad = false, bool dynamic = true);
+  ImageComponent(Window* window, bool forceLoad, bool dynamic);
+  ImageComponent(Window* window, bool forceLoad)
+    : ImageComponent(window, forceLoad, true)
+  {
+  }
+  explicit ImageComponent(Window* window)
+    : ImageComponent(window, false, true)
+  {
+  }
 
 	//Loads the image at the given filepath. Will tile if tile is true (retrieves texture as tiling, creates vertices accordingly).
     void setImage(const std::string& path, bool tile = false);

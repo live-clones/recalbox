@@ -11,7 +11,10 @@ enum class AsyncStatus
 class AsyncHandle
 {
 public:
-	AsyncHandle() : mStatus(AsyncStatus::InProgress) {};
+	AsyncHandle()
+	  : mStatus(AsyncStatus::InProgress)
+	{
+	}
 	virtual ~AsyncHandle() = default;
 
 	virtual void update() = 0;

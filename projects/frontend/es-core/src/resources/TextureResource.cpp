@@ -15,6 +15,8 @@ std::set<TextureResource*> 	TextureResource::sAllTextures;
 
 TextureResource::TextureResource(const std::string& path, bool tile, bool dynamic)
   : mTextureData(nullptr),
+    mSize(0),
+    mSourceSize(0.0f),
     mForceLoad(false)
 {
 // Create a texture data object for this texture

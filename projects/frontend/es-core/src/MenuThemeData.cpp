@@ -12,8 +12,8 @@ std::shared_ptr<MenuThemeData> MenuThemeData::getInstance() {
 	return sInstance;
 }
 
-MenuThemeData::MenuThemeData(){
-	
+MenuThemeData::MenuThemeData()
+{
 	mCurrent = std::shared_ptr<MenuTheme>(new MenuTheme);
 	
 	auto elem = ThemeData::getCurrent()->getElement("menu", "menubg", "menuBackground");

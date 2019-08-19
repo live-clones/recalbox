@@ -26,14 +26,16 @@ enum class ScraperImageType
 
 struct ScraperSearchResult
 {
-  ScraperSearchResult() : mdl("no-name", ItemType::Game)
-  {};
+  ScraperSearchResult()
+    : mdl("no-name", ItemType::Game),
+      imageType(ScraperImageType::Jpeg)
+  {
+  }
 
   MetadataDescriptor mdl;
   std::string imageUrl;
   std::string thumbnailUrl;
   ScraperImageType imageType;
-  ScraperImageType thumbnailType;
 };
 
 // So let me explain why I've abstracted this so heavily.

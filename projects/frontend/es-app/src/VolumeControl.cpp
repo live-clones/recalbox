@@ -31,7 +31,7 @@ VolumeControl::VolumeControl()
 	originalVolume = getVolume();
 }
 
-VolumeControl::VolumeControl(const VolumeControl & right)
+/*VolumeControl::VolumeControl(const VolumeControl& right)
 {
 	sInstance = right.sInstance;
 }
@@ -43,7 +43,7 @@ VolumeControl & VolumeControl::operator=(const VolumeControl & right)
 	}
 
 	return *this;
-}
+}*/
 
 VolumeControl::~VolumeControl()
 {

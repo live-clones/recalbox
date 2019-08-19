@@ -31,7 +31,7 @@ public:
   void stop();
 
 private:
-	explicit Sound(const std::string & path = "");
+	explicit Sound(const std::string & path);
 	static std::map< std::string, std::shared_ptr<Sound> > sMap;
 };
 

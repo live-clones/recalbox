@@ -30,7 +30,8 @@ static const std::map<std::string, const char*>& IconPathMap()
   return _IconPathMap;
 }
 
-HelpComponent::HelpComponent(Window* window) : GuiComponent(window)
+HelpComponent::HelpComponent(Window* window)
+  : GuiComponent(window)
 {
 }
 

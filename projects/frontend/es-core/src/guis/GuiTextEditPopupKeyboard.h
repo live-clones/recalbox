@@ -10,7 +10,13 @@ class GuiTextEditPopupKeyboard : public GuiComponent
 {
 public:
 	GuiTextEditPopupKeyboard(Window* window, const std::string& title, const std::string& initValue,
-		const std::function<void(const std::string&)>& okCallback, bool multiLine, const std::string& acceptBtnText = "OK");
+		                       const std::function<void(const std::string&)>& okCallback, bool multiLine,
+		                       const std::string& acceptBtnText);
+  GuiTextEditPopupKeyboard(Window* window, const std::string& title, const std::string& initValue,
+                           const std::function<void(const std::string&)>& okCallback, bool multiLine)
+    : GuiTextEditPopupKeyboard(window, title, initValue, okCallback, multiLine, "OK")
+  {
+  }
 
 	bool input(InputConfig* config, Input input) override;
 	void update(int) override {}
@@ -23,9 +29,14 @@ private:
     {
     public:
         std::shared_ptr<ButtonComponent> button;
-		const std::string key;
-		const std::string shiftedKey;
-        KeyboardButton(const std::shared_ptr<ButtonComponent> b, const std::string& k, const std::string& sk): button(b), key(k), shiftedKey(sk) {};
+		    const std::string key;
+		    const std::string shiftedKey;
+        KeyboardButton(const std::shared_ptr<ButtonComponent> b, const std::string& k, const std::string& sk)
+          : button(b),
+            key(k),
+            shiftedKey(sk)
+        {
+        };
     };
 
 	void switchShift();

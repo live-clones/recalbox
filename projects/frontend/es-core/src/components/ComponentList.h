@@ -5,8 +5,12 @@
 
 struct ComponentListElement
 {
-	explicit ComponentListElement(std::shared_ptr<GuiComponent> cmp = nullptr, bool resize_w = true, bool inv = true)
-		: component(std::move(cmp)), resize_width(resize_w), invert_when_selected(inv) { };
+	explicit ComponentListElement(std::shared_ptr<GuiComponent> cmp, bool resize_w, bool inv)
+		: component(std::move(cmp)),
+		  resize_width(resize_w),
+		  invert_when_selected(inv)
+  {
+  };
 
 	std::shared_ptr<GuiComponent> component;
 	bool resize_width;

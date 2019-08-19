@@ -4,8 +4,11 @@
 #include "Settings.h"
 #include "Locale.h"
 
-ComponentGrid::ComponentGrid(Window* window, const Vector2i& gridDimensions) : GuiComponent(window),
-    mGridSize(gridDimensions), mCursor(0, 0), mUnhandledInputCallback(nullptr)
+ComponentGrid::ComponentGrid(Window* window, const Vector2i& gridDimensions)
+  : GuiComponent(window),
+    mGridSize(gridDimensions),
+    mCursor(0, 0),
+    mUnhandledInputCallback(nullptr)
 {
     assert(gridDimensions.x() > 0 && gridDimensions.y() > 0);
 

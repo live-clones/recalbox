@@ -4,7 +4,9 @@
 #include "views/ViewController.h"
 #include "Locale.h"
 
-GuiSettings::GuiSettings(Window* window, const char* title) : GuiComponent(window), mMenu(window, title)
+GuiSettings::GuiSettings(Window* window, const char* title)
+  : GuiComponent(window),
+    mMenu(window, title)
 {
 	addChild(&mMenu);
 

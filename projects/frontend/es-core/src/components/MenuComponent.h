@@ -26,7 +26,11 @@ std::shared_ptr<ImageComponent> makeArrow(Window* window);
 class MenuComponent : public GuiComponent
 {
 public:
-	MenuComponent(Window* window, const char* title, const std::shared_ptr<Font>& titleFont = Font::get(FONT_SIZE_LARGE));
+	MenuComponent(Window* window, const char* title, const std::shared_ptr<Font>& titleFont);
+  MenuComponent(Window* window, const char* title)
+    : MenuComponent(window, title, Font::get(FONT_SIZE_LARGE))
+  {
+  }
 
 	void onSizeChanged() override;
 	

@@ -13,7 +13,6 @@ struct EmulatorDefaults {
 
 class RecalboxSystem {
 public:
-
     static RecalboxSystem *getInstance();
 
     const static Uint32 SDL_FAST_QUIT = 0x800F;
@@ -88,7 +87,7 @@ public:
 private:
     static RecalboxSystem *instance;
 
-    RecalboxSystem();
+    RecalboxSystem() = default;
 
     bool halt(bool reboot, bool fast);
 

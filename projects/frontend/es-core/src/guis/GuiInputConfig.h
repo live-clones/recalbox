@@ -27,7 +27,14 @@ private:
 		const std::string icon;
 		const bool skippable;
 		const InputType preferredType;
-		FormInput(std::string inName, std::string inLabel, std::string inIcon, bool inSkippable, InputType inPreferredType): name(inName), label(inLabel), icon(inIcon), skippable(inSkippable), preferredType(inPreferredType) {};
+		FormInput(const std::string& inName, const std::string& inLabel, const std::string& inIcon, bool inSkippable, InputType inPreferredType)
+		  : name(inName),
+		    label(inLabel),
+		    icon(inIcon),
+		    skippable(inSkippable),
+		    preferredType(inPreferredType)
+		{
+		};
 	};
 
 	inline void setMapped() { setText(_("ALREADY TAKEN"), mMainColor); }
@@ -67,5 +74,4 @@ private:
 
 	bool mCursorOnList;
 	unsigned int mMainColor;
-	unsigned int mSelectColor;
 };

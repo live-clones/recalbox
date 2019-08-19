@@ -14,38 +14,44 @@ TextComponent::TextComponent(Window* window)
     mColor(0x000000FF),
     mOriginColor(0x000000FF),
     mBgColor(0),
+    mLineSpacing(1.5f),
+    mColorOpacity(0xFF),
+    mBgColorOpacity(0),
 		mHorizontalAlignment(TextAlignment::Left),
 		mVerticalAlignment(TextAlignment::Center),
-		mLineSpacing(1.5f),
     mRenderBackground(false),
     mUppercase(false),
     mAutoCalcExtentX(true),
     mAutoCalcExtentY(true)
 {
+  mPosition = Vector3f::Zero();
+  mSize = Vector2f::Zero();
+}
+TextComponent::TextComponent(Window* window, const std::string& text, const std::shared_ptr<Font>& font, unsigned int color)
+  : TextComponent(window)
+{
+  mFont = font;
+  mText = text;
+  mColor = color;
+  mColorOpacity = (unsigned char)(color & 0xFF);
+  mOriginColor = color;
+  onTextChanged();
+}
+
+TextComponent::TextComponent(Window* window, const std::string& text, const std::shared_ptr<Font>& font, unsigned int color, TextAlignment align)
+  : TextComponent(window, text, font, color)
+{
+  mHorizontalAlignment = align;
 }
 
 TextComponent::TextComponent(Window* window, const std::string& text, const std::shared_ptr<Font>& font, unsigned int color, TextAlignment align,
                              Vector3f pos, Vector2f size, unsigned int bgcolor)
-	: GuiComponent(window),
-	  mFont(nullptr),
-    mColor(0x000000FF),
-    mOriginColor(0x000000FF),
-    mBgColor(0),
-		mHorizontalAlignment(align),
-		mVerticalAlignment(TextAlignment::Center),
-		mLineSpacing(1.5f),
-    mRenderBackground(false),
-    mUppercase(false),
-    mAutoCalcExtentX(true),
-    mAutoCalcExtentY(true)
+	: TextComponent(window, text, font, color, align)
 {
-  setFont(font);
-	setColor(color);
-	setOriginColor(color);
-	setBackgroundColor(bgcolor);
-	setText(text);
-	setPosition(pos);
-	setSize(size);
+  mBgColor = bgcolor;
+  mBgColorOpacity = (unsigned char)(bgcolor & 0xFF);
+  mPosition = pos;
+  mSize = size;
 }
 
 void TextComponent::onSizeChanged()

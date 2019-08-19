@@ -44,19 +44,22 @@
 #include "animations/LambdaAnimation.h"
 #include "GuiHashStart.h"
 
-GuiMenu::GuiMenu(Window* window) : GuiComponent(window), mMenu(window, _("MAIN MENU").c_str()), mVersion(window) {
-    // MAIN MENU
-
-    // KODI >
-    // SYSTEM >
-    // GAMES >
-    // CONTROLLERS >
-    // UI SETTINGS >
-    // SOUND SETTINGS >
-    // NETWORK >
-    // SCRAPER >
+GuiMenu::GuiMenu(Window* window)
+  : GuiComponent(window),
+    mMenu(window, _("MAIN MENU").c_str()),
+    mVersion(window)
+{
+  // MAIN MENU
+  // KODI >
+  // SYSTEM >
+  // GAMES >
+  // CONTROLLERS >
+  // UI SETTINGS >
+  // SOUND SETTINGS >
+  // NETWORK >
+  // SCRAPER >
   // ADVANCED SETTINGS >
-    // QUIT >
+  // QUIT >
 
   mMenuTheme = MenuThemeData::getInstance()->getCurrentTheme();
   bool bartop =  RecalboxConf::getInstance()->get("emulationstation.menu") == "bartop";

@@ -21,7 +21,6 @@ class GuiInfoPopup : public GuiComponent, public Window::InfoPopup
 
   private:
     int mDuration;
-    int alpha;
     int maxAlpha;
     unsigned int mFrameColor;
     bool updateState();

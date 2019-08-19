@@ -59,9 +59,6 @@ class VideoComponent : public GuiComponent
     unsigned int mColorShift;
 
     unsigned char mFadeOpacity;
-    bool mFading;
-    bool mForceLoad;
-    bool mDynamic;
 
     //! Time to vidéo
     int mVideoDelay;
@@ -97,7 +94,7 @@ class VideoComponent : public GuiComponent
     static constexpr double Pi = 3.1415926535;
 
   public:
-    explicit VideoComponent(Window* window, bool forceLoad = false, bool dynamic = true);
+    explicit VideoComponent(Window* window);
     ~VideoComponent() override = default;
 
     /*!

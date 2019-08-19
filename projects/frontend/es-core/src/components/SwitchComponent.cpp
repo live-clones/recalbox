@@ -5,7 +5,10 @@
 #include "Locale.h"
 #include "MenuThemeData.h"
 
-SwitchComponent::SwitchComponent(Window* window, bool state) : GuiComponent(window), mImage(window), mState(state)
+SwitchComponent::SwitchComponent(Window* window)
+  : GuiComponent(window),
+    mImage(window),
+    mState(false)
 {
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 	mImage.setImage(mState ? menuTheme->iconSet.on : menuTheme->iconSet.off);

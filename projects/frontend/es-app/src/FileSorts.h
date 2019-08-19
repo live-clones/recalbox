@@ -12,7 +12,11 @@ namespace FileSorts
 		std::string description;
 
 		SortType(int (*sortFunction)(FileData* const a, FileData* const b), bool sortAscending, const std::string & sortDescription)
-			: comparisonFunction(sortFunction), ascending(sortAscending), description(sortDescription) {}
+			: comparisonFunction(sortFunction),
+			  ascending(sortAscending),
+			  description(sortDescription)
+		{
+		}
 	};
 
 	#define DeclareSortMethodPrototype(x) int x(FileData* const file1, FileData* const file2);

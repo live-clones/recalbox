@@ -9,7 +9,10 @@
 class ThemeExtras : public GuiComponent
 {
   public:
-    explicit ThemeExtras(Window* window) : GuiComponent(window) {};
+    explicit ThemeExtras(Window* window)
+      : GuiComponent(window)
+    {
+    }
     ~ThemeExtras() override;
 
     // will take ownership of the components within extras (delete them in destructor or when setExtras is called again)

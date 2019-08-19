@@ -31,8 +31,14 @@ class LaunchAnimation : public Animation
 {
 public:
 	//Target is a centerpoint
-	LaunchAnimation(Transform4x4f& camera, float& fade, const Vector3f& target, int duration) :
-	  mCameraStart(camera), mTarget(target), mDuration(duration), cameraOut(camera), fadeOut(fade) {}
+	LaunchAnimation(Transform4x4f& camera, float& fade, const Vector3f& target, int duration)
+	  : mCameraStart(camera),
+	    mTarget(target),
+	    mDuration(duration),
+	    cameraOut(camera),
+	    fadeOut(fade)
+	{
+	}
 
 	int getDuration() const override { return mDuration; }
 
@@ -56,7 +62,7 @@ public:
 	}
 
 private:
-    Transform4x4f mCameraStart;
+  Transform4x4f mCameraStart;
 	Vector3f mTarget;
 	int mDuration;
 

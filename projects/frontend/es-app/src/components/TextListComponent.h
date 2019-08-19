@@ -29,7 +29,7 @@ protected:
 	using IList<TextListData, T>::getTransform;
 	using IList<TextListData, T>::mSize;
 	using IList<TextListData, T>::mCursor;
-    using typename IList<TextListData, T>::Entry;
+  using typename IList<TextListData, T>::Entry;
 
 public:
 	using IList<TextListData, T>::size;
@@ -112,8 +112,9 @@ private:
 };
 
 template <typename T>
-TextListComponent<T>::TextListComponent(Window* window) : 
-	IList<TextListData, T>(window), mSelectorImage(window)
+TextListComponent<T>::TextListComponent(Window* window)
+  :	IList<TextListData, T>(window),
+    mSelectorImage(window)
 {
 	mMarqueeOffset = 0;
 	mMarqueeTime = -MARQUEE_DELAY;

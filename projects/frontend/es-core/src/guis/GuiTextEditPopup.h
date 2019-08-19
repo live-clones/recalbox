@@ -10,7 +10,13 @@ class GuiTextEditPopup : public GuiComponent
 {
 public:
 	GuiTextEditPopup(Window* window, const std::string& title, const std::string& initValue, 
-			 const std::function<void(const std::string&)>& okCallback, bool multiLine, const std::string& acceptBtnText = "OK");
+			             const std::function<void(const std::string&)>& okCallback, bool multiLine,
+			             const std::string& acceptBtnText);
+  GuiTextEditPopup(Window* window, const std::string& title, const std::string& initValue,
+                   const std::function<void(const std::string&)>& okCallback, bool multiLine)
+    : GuiTextEditPopup(window, title, initValue, okCallback, multiLine, "OK")
+  {
+  }
 
 	bool input(InputConfig* config, Input input) override;
 	void onSizeChanged() override;

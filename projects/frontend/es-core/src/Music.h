@@ -25,7 +25,7 @@ public:
 
 
 private:
-	explicit Music(const std::string & path = "");
+	explicit Music(const std::string & path);
 	static std::map< std::string, std::shared_ptr<Music> > sMap;
 
 

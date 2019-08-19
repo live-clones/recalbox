@@ -45,8 +45,10 @@ private:
 		OptionListComponent<T>* mParent;
 
 	public:
-		OptionListPopup(Window* window, OptionListComponent<T>* parent, const std::string& title) : GuiComponent(window),
-			mMenu(window, title.c_str()), mParent(parent)
+		OptionListPopup(Window* window, OptionListComponent<T>* parent, const std::string& title)
+		  : GuiComponent(window),
+			  mMenu(window, title.c_str()),
+			  mParent(parent)
 		{
 			auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 			auto font = menuTheme->menuText.font;
@@ -147,8 +149,13 @@ private:
 	};
 
 public:
-	OptionListComponent(Window* window, const std::string& name, bool multiSelect = false, unsigned int font_size = FONT_SIZE_MEDIUM) : GuiComponent(window), mMultiSelect(multiSelect), mName(name),
-                                                                                                                                      mText(window), mLeftArrow(window), mRightArrow(window)
+	OptionListComponent(Window* window, const std::string& name, bool multiSelect, unsigned int font_size)
+	  : GuiComponent(window),
+	    mMultiSelect(multiSelect),
+	    mName(name),
+      mText(window),
+      mLeftArrow(window),
+      mRightArrow(window)
 	{
 		std::shared_ptr<Font> font = nullptr;
 		unsigned int color;
@@ -183,6 +190,10 @@ public:
 
 		setSize(mLeftArrow.getSize().x() + mRightArrow.getSize().x(), font->getHeight());
 	}
+  OptionListComponent(Window* window, const std::string& name, bool multiSelect)
+    : OptionListComponent(window, name, multiSelect, FONT_SIZE_MEDIUM)
+  {
+  }
 
 	// handles positioning/resizing of text and arrows
 	void onSizeChanged() override

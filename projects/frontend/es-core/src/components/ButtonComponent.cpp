@@ -6,13 +6,14 @@
 #include "Locale.h"
 #include "MenuThemeData.h"
 
-ButtonComponent::ButtonComponent(Window* window, const std::string& text, const std::string& helpText, const std::function<void()>& func, bool upperCase) : GuiComponent(window),
-	mFont(Font::get(FONT_SIZE_MEDIUM)),
-	mFocused(false), 
-	mEnabled(true), 
-	mTextColorFocused(0xFFFFFFFF), mTextColorUnfocused(0x777777FF),
-  mModdedColor(0),
-  mBox(window, mButton)
+ButtonComponent::ButtonComponent(Window* window, const std::string& text, const std::string& helpText, const std::function<void()>& func, bool upperCase)
+  : GuiComponent(window),
+    mFont(Font::get(FONT_SIZE_MEDIUM)),
+    mFocused(false),
+    mEnabled(true),
+    mTextColorFocused(0xFFFFFFFF), mTextColorUnfocused(0x777777FF),
+    mModdedColor(0),
+    mBox(window, mButton)
 {
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 	mFont = menuTheme->menuText.font;

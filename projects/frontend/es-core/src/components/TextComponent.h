@@ -14,15 +14,17 @@ class TextComponent : public GuiComponent
 {
 public:
 	explicit TextComponent(Window* window);
-	TextComponent(Window* window, const std::string& text, const std::shared_ptr<Font>& font, unsigned int color = 0x000000FF, TextAlignment align = TextAlignment::Left,
-                Vector3f pos = Vector3f::Zero(), Vector2f size = Vector2f::Zero(), unsigned int bgcolor = 0x00000000);
+  TextComponent(Window* window, const std::string& text, const std::shared_ptr<Font>& font, unsigned int color);
+  TextComponent(Window* window, const std::string& text, const std::shared_ptr<Font>& font, unsigned int color, TextAlignment align);
+	TextComponent(Window* window, const std::string& text, const std::shared_ptr<Font>& font, unsigned int color, TextAlignment align,
+                Vector3f pos, Vector2f size, unsigned int bgcolor);
 
 	void setFont(const std::shared_ptr<Font>& font);
 	void setUppercase(bool uppercase);
 	void onSizeChanged() override;
 	void setText(const std::string& text);
 	void setColor(unsigned int color) override;
-	inline void setOriginColor(unsigned int color){mOriginColor = color;};
+	inline void setOriginColor(unsigned int color) { mOriginColor = color; }
 	unsigned int getOriginColor() override { return mOriginColor; }
 
   void setHorizontalAlignment(TextAlignment align);

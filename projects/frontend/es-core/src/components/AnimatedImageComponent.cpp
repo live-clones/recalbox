@@ -3,7 +3,11 @@
 #include "MenuThemeData.h"
 
 AnimatedImageComponent::AnimatedImageComponent(Window* window)
-  : GuiComponent(window), mLoop(false), mEnabled(false), mFrameAccumulator(0), mCurrentFrame(0)
+  : GuiComponent(window),
+    mLoop(false),
+    mEnabled(false),
+    mFrameAccumulator(0),
+    mCurrentFrame(0)
 {
 }
 

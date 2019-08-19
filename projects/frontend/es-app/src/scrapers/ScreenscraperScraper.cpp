@@ -308,7 +308,7 @@ void ScreenScraperRequest::processGame(const pugi::xml_document& xmldoc, std::ve
         if (media_type == "png")
           type = ScraperImageType::Png; // default value
 
-        result.imageType = result.thumbnailType = type;
+        result.imageType = type;
       }
       else LOG(LogDebug) << "Failed to find media XML node with name=" << Configuration().media_name;
     }

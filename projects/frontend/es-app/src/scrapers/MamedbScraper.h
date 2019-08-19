@@ -11,9 +11,10 @@ void mamedb_process_httpreq(const std::unique_ptr<HttpReq>& req, std::vector<Scr
 class MamedbRequest : public ScraperHttpRequest
 {
   public:
-    MamedbRequest(std::vector<ScraperSearchResult>& resultsWrite, const std::string& url) : ScraperHttpRequest(
-      resultsWrite, url)
-    {}
+    MamedbRequest(std::vector<ScraperSearchResult>& resultsWrite, const std::string& url)
+      : ScraperHttpRequest(resultsWrite, url)
+    {
+    }
 
   protected:
     void process(const std::unique_ptr<HttpReq>& req, std::vector<ScraperSearchResult>& results) override;

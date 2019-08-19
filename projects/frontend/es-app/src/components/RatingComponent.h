@@ -13,8 +13,8 @@
 class RatingComponent : public GuiComponent
 {
 public:
-	explicit RatingComponent(Window* window, unsigned int color = 0xFFFFFFFF);
-	
+	explicit RatingComponent(Window* window);
+  explicit RatingComponent(Window* window, unsigned int color);
 
 	std::string getValue() const override;
 	void setValue(const std::string& value) override; // Should be a normalized float (in the range [0..1]) - if it's not, it will be clamped.

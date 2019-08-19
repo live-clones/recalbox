@@ -18,7 +18,7 @@ public:
 private:
   boost::thread *mHandle;
 	void proceed();
-	std::atomic<int> mDuration {0};
-	std::atomic<bool> mCancelled {false};
+	std::atomic<int> mDuration;
+	std::atomic<bool> mCancelled;
 	std::function<void()> mCallback;
 };

@@ -10,8 +10,16 @@
 #define MOVE_REPEAT_DELAY 500
 #define MOVE_REPEAT_RATE 40
 
-SliderComponent::SliderComponent(Window* window, float min, float max, float increment, const std::string& suffix) : GuiComponent(window),
-	mMin(min), mMax(max), mSingleIncrement(increment), mMoveRate(0), mKnob(window), mSuffix(suffix)
+SliderComponent::SliderComponent(Window* window, float min, float max, float increment, const std::string& suffix)
+  : GuiComponent(window),
+	  mMin(min),
+	  mMax(max),
+	  mSingleIncrement(increment),
+	  mMoveRate(0),
+	  mMoveAccumulator(0),
+	  mOriginColor(0),
+    mKnob(window),
+	  mSuffix(suffix)
 {
 	assert((min - max) != 0);
 
@@ -19,8 +27,7 @@ SliderComponent::SliderComponent(Window* window, float min, float max, float inc
 	mValue = (max + min) / 2;
 	
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
-	mColor = menuTheme->menuText.color;
-	setOriginColor(mColor);
+	mColor = mOriginColor = menuTheme->menuText.color;
 
 	mKnob.setOrigin(0.5f, 0.5f);
 	mKnob.setImage(menuTheme->iconSet.knob);

@@ -3,18 +3,60 @@
 #include "components/TextComponent.h"
 #include "components/ButtonComponent.h"
 #include "components/MenuComponent.h" // for makeButtonGrid
-#include "Util.h"
 #include "Log.h"
 #include "MenuThemeData.h"
 
 #define HORIZONTAL_PADDING_PX 20
 
+GuiMsgBox::GuiMsgBox(Window* window)
+  : GuiComponent(window),
+    mBackground(window, ":/frame.png"),
+    mGrid(window, Vector2i(1, 2))
+{
+}
+
 GuiMsgBox::GuiMsgBox(Window* window, const std::string& text,
                      const std::string& name1, const std::function<void()>& func1,
                      const std::string& name2, const std::function<void()>& func2,
                      const std::string& name3, const std::function<void()>& func3,
-                     TextAlignment align) : GuiComponent(window),
-                                            mBackground(window, ":/frame.png"), mGrid(window, Vector2i(1, 2))
+                     TextAlignment align)
+  : GuiMsgBox(window)
+{
+  build(text, align, name1, func1, name2, func2, name3, func3);
+}
+
+GuiMsgBox::GuiMsgBox(Window* window, const std::string& text,
+                     const std::string& name1, const std::function<void()>& func1,
+                     const std::string& name2, const std::function<void()>& func2)
+  : GuiMsgBox(window)
+{
+  build(text, TextAlignment::Center, name1, func1, name2, func2, std::string(), nullptr);
+}
+
+GuiMsgBox::GuiMsgBox(Window* window, const std::string& text,
+                     const std::string& name1, const std::function<void()>& func1)
+  : GuiMsgBox(window)
+{
+  build(text, TextAlignment::Center, name1, func1, std::string(), nullptr, std::string(), nullptr);
+}
+
+GuiMsgBox::GuiMsgBox(Window* window, const std::string& text,
+                     const std::string& name1)
+  : GuiMsgBox(window)
+{
+  build(text, TextAlignment::Center, name1, nullptr, std::string(), nullptr, std::string(), nullptr);
+}
+
+GuiMsgBox::GuiMsgBox(Window* window, const std::string& text)
+  : GuiMsgBox(window)
+{
+  build(text, TextAlignment::Center, "OK", nullptr, std::string(), nullptr, std::string(), nullptr);
+}
+
+void GuiMsgBox::build(const std::string& text, TextAlignment align,
+                 const std::string& name1, const std::function<void()>& func1,
+                 const std::string& name2, const std::function<void()>& func2,
+                 const std::string& name3, const std::function<void()>& func3)
 {
 	float width = Renderer::getDisplayWidthAsFloat() * 0.6f; // max width
 	float minWidth = Renderer::getDisplayWidthAsFloat() * 0.3f; // minimum width

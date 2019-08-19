@@ -8,7 +8,7 @@
 #include "themes/ThemeData.h"
 #include "Locale.h"
 
-VideoComponent::VideoComponent(Window* window, bool forceLoad, bool dynamic)
+VideoComponent::VideoComponent(Window* window)
 : GuiComponent(window),
   mState(State::Uninitialized),
   mEffect(Effect::BreakingNews),
@@ -17,9 +17,6 @@ VideoComponent::VideoComponent(Window* window, bool forceLoad, bool dynamic)
   mColors(),
   mColorShift(0xFFFFFFFF),
   mFadeOpacity(0),
-  mFading(false),
-  mForceLoad(forceLoad),
-  mDynamic(dynamic),
   mVideoDelay(DEFAULT_VIDEODELAY),
   mVideoEffect(DEFAULT_VIDEOEFFET),
   mVideoLoop(DEFAULT_VIDEOLOOP)
@@ -341,47 +338,6 @@ void VideoComponent::render(const Transform4x4f& parentTrans)
 
   GuiComponent::renderChildren(trans);
 }
-
-/*void VideoComponent::fadeIn(bool textureLoaded)
-{
-  if (!mForceLoad)
-  {
-    if (!textureLoaded)
-    {
-      // Start the fade if this is the first time we've encountered the unloaded texture
-      if (!mFading)
-      {
-        // Start with a zero opacity and flag it as fading
-        mFadeOpacity = 0;
-        mFading = true;
-        // Set the colours to be translucent
-        mColorShift = ((mColorShift >> 8U) << 8U) | 0U;
-        updateColors();
-      }
-    }
-    else if (mFading)
-    {
-      // The texture is loaded and we need to fade it in. The fade is based on the frame rate
-      // and is 1/4 second if running at 60 frames per second although the actual value is not
-      // that important
-      int opacity = mFadeOpacity + 255 / 15;
-      // See if we've finished fading
-      if (opacity >= 255)
-      {
-        mFadeOpacity = 255;
-        mFading = false;
-      }
-      else
-      {
-        mFadeOpacity = (unsigned char) opacity;
-      }
-      // Apply the combination of the target opacity and current fade
-      float newOpacity = (float) mOpacity * ((float) mFadeOpacity / 255.0f);
-      mColorShift = ((mColorShift >> 8U) << 8U) | (unsigned char) newOpacity;
-      updateColors();
-    }
-  }
-}*/
 
 void VideoComponent::applyTheme(const std::shared_ptr<ThemeData>& theme, const std::string& view, const std::string& element,
                                 ThemeProperties properties)

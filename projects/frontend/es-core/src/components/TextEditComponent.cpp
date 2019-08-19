@@ -19,7 +19,8 @@ TextEditComponent::TextEditComponent(Window* window)
 		mFocused(false),
 		mEditing(false),
 		mCursor(0),
-		mCursorRepeatDir(0),
+		mCursorRepeatTimer(0),
+    mCursorRepeatDir(0),
 	  mScrollOffset(0.0f, 0.0f),
 		mBox(window, ":/textinput_ninepatch.png"),
 		mFont(MenuThemeData::getInstance()->getCurrentTheme()->menuText.font)
