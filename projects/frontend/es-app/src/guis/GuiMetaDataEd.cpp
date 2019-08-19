@@ -66,7 +66,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window* window,
   mList = std::make_shared<ComponentList>(mWindow);
   mGrid.setEntry(mList, Vector2i(0, 1), true, true);
 
-  EmulatorDefaults emulatorDefaults = RecalboxSystem::getInstance()->getEmulatorDefaults(system->getName());
+  EmulatorDefaults emulatorDefaults = RecalboxSystem::getEmulatorDefaults(system->getName());
 
   auto emu_choice = std::make_shared<OptionListComponent<std::string>>(mWindow, _("Emulator"), false, FONT_SIZE_MEDIUM);
   auto core_choice = std::make_shared<OptionListComponent<std::string> >(mWindow, _("core"), false, FONT_SIZE_MEDIUM);

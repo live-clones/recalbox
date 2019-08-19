@@ -151,7 +151,7 @@ bool ISimpleGameListView::input(InputConfig* config, Input input) {
 					setCursorIndex(0);
 				}
 			}
-      RecalboxSystem::getInstance()->NotifyGame(*getCursor(), false, false);
+      RecalboxSystem::NotifyGame(*getCursor(), false, false);
       return true;
 		}
 
@@ -170,7 +170,7 @@ bool ISimpleGameListView::input(InputConfig* config, Input input) {
 
 				setCursor(selected);
 				//Sound::getFromTheme(getTheme(), getName(), "back")->play();
-        RecalboxSystem::getInstance()->NotifyGame(*getCursor(), false, false);
+        RecalboxSystem::NotifyGame(*getCursor(), false, false);
 			}
 			else if (!hideSystemView)
 			{
@@ -213,7 +213,7 @@ bool ISimpleGameListView::input(InputConfig* config, Input input) {
         if (!mFavoritesCount) { mFavoritesOnly = false; }
         updateHelpPrompts();
 			}
-      RecalboxSystem::getInstance()->NotifyGame(*getCursor(), false, false);
+      RecalboxSystem::NotifyGame(*getCursor(), false, false);
       return true;
 		}
 
@@ -222,7 +222,7 @@ bool ISimpleGameListView::input(InputConfig* config, Input input) {
 			if (Settings::getInstance()->getBool("QuickSystemSelect") && !hideSystemView) {
 				onFocusLost();
 				ViewController::get()->goToNextGameList();
-        RecalboxSystem::getInstance()->NotifyGame(*getCursor(), false, false);
+        RecalboxSystem::NotifyGame(*getCursor(), false, false);
         return true;
 			}
 		}
@@ -232,7 +232,7 @@ bool ISimpleGameListView::input(InputConfig* config, Input input) {
 			if (Settings::getInstance()->getBool("QuickSystemSelect") && !hideSystemView) {
 				onFocusLost();
 				ViewController::get()->goToPrevGameList();
-        RecalboxSystem::getInstance()->NotifyGame(*getCursor(), false, false);
+        RecalboxSystem::NotifyGame(*getCursor(), false, false);
 				return true;
 			}
 		}
@@ -316,7 +316,7 @@ bool ISimpleGameListView::input(InputConfig* config, Input input) {
 	    config->isMappedTo("pageup", input) ||
       config->isMappedTo("l2", input) ||
 	    config->isMappedTo("r2", input) )
-      RecalboxSystem::getInstance()->NotifyGame(*getCursor(), false, false);
+      RecalboxSystem::NotifyGame(*getCursor(), false, false);
 
 	return result;
 }

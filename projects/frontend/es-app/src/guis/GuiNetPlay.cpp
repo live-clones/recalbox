@@ -79,7 +79,7 @@ bool GuiNetPlay::parseLobby()
 {
 	mRooms.clear();
 	std::string lobby = RecalboxConf::getInstance()->get("global.netplay.lobby");
-	auto json_req = RecalboxSystem::getInstance()->execute("curl -s --connect-timeout 3 -m 3 " + lobby);
+	auto json_req = RecalboxSystem::execute("curl -s --connect-timeout 3 -m 3 " + lobby);
 	if (json_req.second == 0) {
 		json::ptree root;
 		std::stringstream ss;
@@ -399,7 +399,7 @@ void GuiNetPlay::pingLobby()
 
 std::string GuiNetPlay::pingHost(const std::string& ip)
 {
-    std::pair<std::string, int> ping = RecalboxSystem::getInstance()->execute("ping -c 1 -w 1 " + ip + " | grep \"min/avg/max\" | cut -d '/' -f 5");
+    std::pair<std::string, int> ping = RecalboxSystem::execute("ping -c 1 -w 1 " + ip + " | grep \"min/avg/max\" | cut -d '/' -f 5");
     if (!ping.first.empty()) {
         float latency = strtof(ping.first.c_str(), 0);
         if (latency <=80) {

@@ -57,7 +57,7 @@ void NetPlayThread::run()
       std::vector<std::pair<std::string, std::string>> oldGames;
       std::string lobby = RecalboxConf::getInstance()->get("global.netplay.lobby");
 
-      auto json_req = RecalboxSystem::getInstance()->execute("curl -s --connect-timeout 3 -m 3 " + lobby);
+      auto json_req = RecalboxSystem::execute("curl -s --connect-timeout 3 -m 3 " + lobby);
       if (json_req.second == 0)
       {
         json::ptree root;
@@ -82,7 +82,7 @@ void NetPlayThread::run()
 
       while (mRunning)
       {
-        json_req = RecalboxSystem::getInstance()->execute("curl -s --connect-timeout 3 -m 3 " + mLobby);
+        json_req = RecalboxSystem::execute("curl -s --connect-timeout 3 -m 3 " + mLobby);
         if (json_req.second == 0)
         {
           json::ptree root;

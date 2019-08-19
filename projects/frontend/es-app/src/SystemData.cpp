@@ -211,9 +211,9 @@ void SystemData::launchGame(Window* window, FileData* game, const std::string& n
 
 	LOG(LogInfo) << "	" << command;
 	std::cout << "==============================================\n";
-  RecalboxSystem::getInstance()->NotifyGame(*game, true, false);
+  RecalboxSystem::NotifyGame(*game, true, false);
 	int exitCode = runSystemCommand(command);
-  RecalboxSystem::getInstance()->NotifyGame(*game, false, false);
+  RecalboxSystem::NotifyGame(*game, false, false);
 	std::cout << "==============================================\n";
 
   if( exitCode != 0)
@@ -286,9 +286,9 @@ bool SystemData::demoLaunchGame(FileData* game, int duration, int infoscreendura
   command += std::to_string(infoscreenduration);
 
   LOG(LogInfo) << "Demo command: " << command;
-  RecalboxSystem::getInstance()->NotifyGame(*game, true, true);
+  RecalboxSystem::NotifyGame(*game, true, true);
   int exitCode = runSystemCommand(command);
-  RecalboxSystem::getInstance()->NotifyGame(*game, false, false);
+  RecalboxSystem::NotifyGame(*game, false, false);
   LOG(LogInfo) << "Demo exit code :	" << exitCode;
 
 

@@ -44,7 +44,7 @@ MenuComponent::MenuComponent(Window* window, const char* title, const std::share
 		std::string arch = Settings::getInstance()->getString("Arch");
 		if (arch == "x86" || arch == "x86_64") {
 
-			auto batt = RecalboxSystem::getInstance()->getSysBatteryInfo();
+			auto batt = RecalboxSystem::getSysBatteryInfo(); // TODO: Remove ascending core=>app
 			if (batt.second != -1) {
 				auto batDisplay = std::make_shared<TextComponent>(mWindow);
 				batDisplay->setFont(menuTheme->menuText.font);

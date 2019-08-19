@@ -376,17 +376,17 @@ int main(int argc, char* argv[])
     RecalboxConf* recalboxConf = RecalboxConf::getInstance();
     if (recalboxConf->get("kodi.enabled") == "1" && recalboxConf->get("kodi.atstartup") == "1")
     {
-      RecalboxSystem::getInstance()->launchKodi(&window);
+      RecalboxSystem::launchKodi(&window);
     }
-    RecalboxSystem::getInstance()->getIpAdress();
+    RecalboxSystem::getIpAdress();
     // UPDATED VERSION MESSAGE
-    std::string changelog = RecalboxUpgrade::getInstance()->getChangelog();
+    std::string changelog = RecalboxUpgrade::getChangelog();
     if (!changelog.empty())
     {
       std::string message = "Changes :\n" + changelog;
       window.pushGui(new GuiMsgBoxScroll(&window, _("THE SYSTEM IS UP TO DATE"), message, _("OK"), []
       {
-        RecalboxUpgrade::getInstance()->updateLastChangelogFile();
+        RecalboxUpgrade::updateLastChangelogFile();
       }, "", nullptr, "", nullptr, TextAlignment::Left));
     }
 

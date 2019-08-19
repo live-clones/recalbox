@@ -1,32 +1,21 @@
-#ifndef EMULATIONSTATION_ALL_RecalboxUpgrade_H
-#define EMULATIONSTATION_ALL_RecalboxUpgrade_H
+#pragma once
 
 #include "RecalboxSystem.h"
 
-class RecalboxUpgrade {
+class RecalboxUpgrade
+{
+  public:
+    static std::string getVersion();
 
-public:
-    static RecalboxUpgrade *getInstance();
+    static std::string getUpdateVersion();
 
-    std::string getVersion();
+    static bool updateLastChangelogFile();
 
-    std::string getUpdateVersion();
+    static std::string getChangelog();
 
-    bool updateLastChangelogFile();
+    static std::pair<std::string, int> updateSystem(BusyComponent* ui);
 
-    std::string getChangelog();
+    static std::string getUpdateChangelog();
 
-    std::pair<std::string, int> updateSystem(BusyComponent *ui);
-
-    std::string getUpdateChangelog();
-
-    bool canUpdate();
-
-private:
-    RecalboxSystem *system = RecalboxSystem::getInstance();
-    static RecalboxUpgrade *instance;
-
+    static bool canUpdate();
 };
-
-
-#endif //EMULATIONSTATION_ALL_RecalboxUpgrade_H

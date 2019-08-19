@@ -186,7 +186,7 @@ void BasicGameListView::setCursorIndex(int index)
   if (index >= mList.size()) index = mList.size() - 1;
   if (index < 0) index = 0;
 
-  RecalboxSystem::getInstance()->NotifyGame(*getCursor(), false, false);
+  RecalboxSystem::NotifyGame(*getCursor(), false, false);
 	mList.setCursorIndex(index);
 }
 
@@ -217,5 +217,5 @@ void BasicGameListView::setCursor(FileData* cursor)
 			}
 		}
 	}
-  RecalboxSystem::getInstance()->NotifyGame(*getCursor(), false, false);
+  RecalboxSystem::NotifyGame(*getCursor(), false, false);
 }

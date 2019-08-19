@@ -38,9 +38,9 @@ void NetworkThread::run()
       boost::this_thread::sleep(boost::posix_time::seconds(waitForSeconds));
       waitForSeconds = 3600;
 
-      if (RecalboxUpgrade::getInstance()->canUpdate())
+      if (RecalboxUpgrade::canUpdate())
       {
-        std::string changelog = RecalboxUpgrade::getInstance()->getUpdateChangelog();
+        std::string changelog = RecalboxUpgrade::getUpdateChangelog();
 
         while (mWindow->isShowingPopup())
         {
@@ -50,7 +50,7 @@ void NetworkThread::run()
         if (!changelog.empty())
         {
           std::string message = changelog;
-          std::string updateVersion = RecalboxUpgrade::getInstance()->getUpdateVersion();
+          std::string updateVersion = RecalboxUpgrade::getUpdateVersion();
           mWindow->displayScrollMessage(_("AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"),
                                         _("UPDATE VERSION:") + " " + updateVersion + "\n" + _("UPDATE CHANGELOG:") +
                                         "\n" + message);

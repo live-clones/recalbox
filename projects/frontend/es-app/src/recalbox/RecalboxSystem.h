@@ -1,101 +1,100 @@
-#ifndef RECALBOX_SYSTEM
-#define    RECALBOX_SYSTEM
+#pragma once
 
 #include <string>
 #include "Window.h"
 #include "components/BusyComponent.h"
 #include "FileData.h"
 
-struct EmulatorDefaults {
-    std::string core;
-    std::string emulator;
+struct EmulatorDefaults
+{
+  std::string core;
+  std::string emulator;
 };
 
-class RecalboxSystem {
-public:
-    static RecalboxSystem *getInstance();
-
+/*!
+ * @brief Interface between EmulationStation and the Recalbox System
+ */
+class RecalboxSystem
+{
+  public:
+    // TODO: use dynamic values from SDL APIs
     const static Uint32 SDL_FAST_QUIT = 0x800F;
     const static Uint32 SDL_RB_SHUTDOWN = 0X4000;
     const static Uint32 SDL_RB_REBOOT = 0x2000;
 
-    unsigned long getFreeSpaceGB(std::string mountpoint);
+    static unsigned long getFreeSpaceGB(std::string mountpoint);
 
-    std::string getFreeSpaceInfo();
+    static std::string getFreeSpaceInfo();
 
-    bool isFreeSpaceLimit();
+    static bool isFreeSpaceLimit();
 
-    std::string getRootPassword();
+    static std::string getRootPassword();
 
-    bool setAudioOutputDevice(std::string device);
-	
-	std::vector<std::string> getAvailableWiFiSSID(bool activateWifi);
+    static bool setAudioOutputDevice(std::string device);
 
-    std::vector<std::string> getAvailableAudioOutputDevices();
+    static std::vector<std::string> getAvailableWiFiSSID(bool activateWifi);
 
-    std::string getCurrentAudioOutputDevice();
+    static std::vector<std::string> getAvailableAudioOutputDevices();
 
-    bool setOverscan(bool enable);
+    static std::string getCurrentAudioOutputDevice();
 
-    bool setOverclock(std::string mode);
+    static bool setOverscan(bool enable);
 
-    bool ping();
+    static bool setOverclock(std::string mode);
 
-    bool launchKodi(Window *window);
+    static bool ping();
 
-    bool backupRecalboxConf();
+    static bool launchKodi(Window* window);
 
-    bool enableWifi(std::string ssid, std::string key);
+    static bool backupRecalboxConf();
 
-    bool disableWifi();
+    static bool enableWifi(std::string ssid, std::string key);
 
-    bool reboot();
+    static bool disableWifi();
 
-    bool shutdown();
+    static bool reboot();
 
-    bool fastReboot();
+    static bool shutdown();
 
-    bool fastShutdown();
+    static bool fastReboot();
 
-    std::string getIpAdress();
+    static bool fastShutdown();
 
-    std::vector<std::string> *scanBluetooth();
+    static std::string getIpAdress();
 
-    bool pairBluetooth(std::string &basic_string);
+    static std::vector<std::string>* scanBluetooth();
 
-    std::vector<std::string> getAvailableStorageDevices();
+    static bool pairBluetooth(std::string& basic_string);
 
-    std::string getCurrentStorage();
+    static std::vector<std::string> getAvailableStorageDevices();
 
-    bool setStorage(std::string basic_string);
+    static std::string getCurrentStorage();
 
-    bool forgetBluetoothControllers();
+    static bool setStorage(std::string basic_string);
 
-    std::string readFile(std::string file);
+    static bool forgetBluetoothControllers();
 
-    std::pair<std::string, int> execute(std::string command);
+    static std::string readFile(std::string file);
 
-	std::pair<std::string, int> getSDLBatteryInfo();
+    static std::pair<std::string, int> execute(std::string command);
 
-	std::pair<std::string, int> getSysBatteryInfo();
+    static std::pair<std::string, int> getSDLBatteryInfo();
 
-    EmulatorDefaults getEmulatorDefaults(std::string emulatorName);
+    static std::pair<std::string, int> getSysBatteryInfo();
 
-    void NotifyGame(const FileData& game, bool play, bool demo) { NotifySystemAndGame(game.getSystem(), &game, play, demo); }
-    void NotifySystem(const SystemData& system) { NotifySystemAndGame(&system, nullptr, false, false); }
+    static EmulatorDefaults getEmulatorDefaults(std::string emulatorName);
 
-private:
-    static RecalboxSystem *instance;
+    static void NotifyGame(const FileData& game, bool play, bool demo) { NotifySystemAndGame(game.getSystem(), &game, play, demo); }
 
-    RecalboxSystem() = default;
+    static void NotifySystem(const SystemData& system) { NotifySystemAndGame(&system, nullptr, false, false); }
 
-    bool halt(bool reboot, bool fast);
+  private:
+    static bool halt(bool reboot, bool fast);
 
-    std::string runCmd(std::string cmd);
-    std::string getJSONStringValue(std::string json, std::string key);
+    static std::string runCmd(std::string cmd);
 
-    void NotifySystemAndGame(const SystemData* system, const FileData* game, bool play, bool demo);
+    static std::string getJSONStringValue(std::string json, std::string key);
+
+    static void NotifySystemAndGame(const SystemData* system, const FileData* game, bool play, bool demo);
 };
-
-#endif
 

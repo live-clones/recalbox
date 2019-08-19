@@ -218,7 +218,7 @@ bool SystemView::input(InputConfig* config, Input input)
                     ComponentListRow row;
                     row.makeAcceptInputHandler([this, s] {
                         launchKodi = true;
-                        if( ! RecalboxSystem::getInstance()->launchKodi(mWindow)) {
+                        if( ! RecalboxSystem::launchKodi(mWindow)) {
                             LOG(LogWarning) << "Shutdown terminated with non-zero result!";
                         }
                         launchKodi = false;
@@ -239,7 +239,7 @@ bool SystemView::input(InputConfig* config, Input input)
                     mWindow->pushGui(s);
                 } else {
                     launchKodi = true;
-                    if( ! RecalboxSystem::getInstance()->launchKodi(mWindow)) {
+                    if( ! RecalboxSystem::launchKodi(mWindow)) {
                         LOG(LogWarning) << "Shutdown terminated with non-zero result!";
                     }
                     launchKodi = false;
@@ -263,7 +263,7 @@ bool SystemView::input(InputConfig* config, Input input)
 			row.makeAcceptInputHandler([window] {
 			    window->pushGui(new GuiMsgBox(window, _("REALLY SHUTDOWN?"), _("YES"),
 											  [] {
-												  if (RecalboxSystem::getInstance()->shutdown() != 0)  {
+												  if (RecalboxSystem::shutdown() != 0)  {
 													  LOG(LogWarning) <<
 																	  "Shutdown terminated with non-zero result!";
 												  }
@@ -283,7 +283,7 @@ bool SystemView::input(InputConfig* config, Input input)
 			row.makeAcceptInputHandler([window] {
 				window->pushGui(new GuiMsgBox(window, _("REALLY SHUTDOWN WITHOUT SAVING METADATAS?"), _("YES"),
 											  [] {
-												  if (RecalboxSystem::getInstance()->fastShutdown() != 0)  {
+												  if (RecalboxSystem::fastShutdown() != 0)  {
 													  LOG(LogWarning) <<
 																	  "Shutdown terminated with non-zero result!";
 												  }
@@ -302,7 +302,7 @@ bool SystemView::input(InputConfig* config, Input input)
 			row.makeAcceptInputHandler([window] {
 				window->pushGui(new GuiMsgBox(window, _("REALLY RESTART?"), _("YES"),
 				                              [] {
-					                              if (RecalboxSystem::getInstance()->reboot() != 0)  {
+					                              if (RecalboxSystem::reboot() != 0)  {
 						                              LOG(LogWarning) << "Restart terminated with non-zero result!";
 					                              }
 				                              }, _("NO"), nullptr));
@@ -357,7 +357,7 @@ void SystemView::onCursorChanged(const CursorState& state)
 	updateHelpPrompts();
 
 	// update externs
-  RecalboxSystem::getInstance()->NotifySystem(*getSelected());
+  RecalboxSystem::NotifySystem(*getSelected());
 
 	float startPos = mCamOffset;
 

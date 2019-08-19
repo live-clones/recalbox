@@ -115,7 +115,7 @@ void GuiUpdate::update(int deltaTime) {
 }
 
 void GuiUpdate::threadUpdate() {
-    std::pair<std::string, int> updateStatus = RecalboxUpgrade::getInstance()->updateSystem(&mBusyAnim);
+    std::pair<std::string, int> updateStatus = RecalboxUpgrade::updateSystem(&mBusyAnim);
     if (updateStatus.second == 0) {
         this->onUpdateOk();
     } else {
@@ -124,8 +124,8 @@ void GuiUpdate::threadUpdate() {
 }
 
 void GuiUpdate::threadPing() {
-    if (RecalboxSystem::getInstance()->ping()) {
-        if (RecalboxUpgrade::getInstance()->canUpdate()) {
+    if (RecalboxSystem::ping()) {
+        if (RecalboxUpgrade::canUpdate()) {
             this->onUpdateAvailable();
         } else {
             this->onNoUpdateAvailable();

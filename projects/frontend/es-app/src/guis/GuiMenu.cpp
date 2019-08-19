@@ -69,7 +69,7 @@ GuiMenu::GuiMenu(Window* window)
         addEntryWithHelp(_("KODI MEDIA CENTER").c_str(), _(MenuMessages::START_KODI_HELP_MSG), mMenuTheme->menuText.color, true,
                  [this] {
                      Window* window = mWindow;
-                     if (!RecalboxSystem::getInstance()->launchKodi(window)) {
+                     if (!RecalboxSystem::launchKodi(window)) {
                          LOG(LogWarning) << "Shutdown terminated with non-zero result!";
                      }
                  }, mMenuTheme->menuIconSet.kodi);
@@ -213,18 +213,18 @@ void GuiMenu::menuSystem(){
   auto s = new GuiSettings(mWindow, _("SYSTEM SETTINGS").c_str());
 
   auto version = std::make_shared<TextComponent>(mWindow,
-      RecalboxUpgrade::getInstance()->getVersion(),
+      RecalboxUpgrade::getVersion(),
       mMenuTheme->menuText.font, mMenuTheme->menuText.color);
   s->addWithLabel(version, _("VERSION"), _(MenuMessages::VERSION_HELP_MSG));
-  bool warning = RecalboxSystem::getInstance()->isFreeSpaceLimit();
+  bool warning = RecalboxSystem::isFreeSpaceLimit();
   auto space = std::make_shared<TextComponent>(mWindow,
-      RecalboxSystem::getInstance()->getFreeSpaceInfo(),
+      RecalboxSystem::getFreeSpaceInfo(),
       mMenuTheme->menuText.font,
       warning ? 0xFF0000FF : mMenuTheme->menuText.color);
   s->addWithLabel(space, _("DISK USAGE"), _(MenuMessages::DISK_USAGE_HELP_MSG));
 
-  std::vector<std::string> availableStorage = RecalboxSystem::getInstance()->getAvailableStorageDevices();
-  std::string selectedStorage = RecalboxSystem::getInstance()->getCurrentStorage();
+  std::vector<std::string> availableStorage = RecalboxSystem::getAvailableStorageDevices();
+  std::string selectedStorage = RecalboxSystem::getCurrentStorage();
 
   // Storage device
   auto optionsStorage = std::make_shared<OptionListComponent<std::string> >(window,
@@ -301,7 +301,7 @@ void GuiMenu::menuSystem(){
   s->addSaveFunc([window, language_choice, language, keyboard_choice, keyboard, optionsStorage, selectedStorage] {
     bool reboot = false;
     if (optionsStorage->changed()) {
-      RecalboxSystem::getInstance()->setStorage(optionsStorage->getSelected());
+      RecalboxSystem::setStorage(optionsStorage->getSelected());
       reboot = true;
     }
 
@@ -338,17 +338,17 @@ void GuiMenu::menuUpdates(){
   updates_enabled->setState(RecalboxConf::getInstance()->get("updates.enabled") == "1");
   updateGui->addWithLabel(updates_enabled, _("CHECK UPDATES"), _(MenuMessages::UPDATE_CHECK_HELP_MSG));
   // Display available update version
-  if (RecalboxUpgrade::getInstance()->canUpdate()) {
+  if (RecalboxUpgrade::canUpdate()) {
     auto updateVersion = std::make_shared<TextComponent>(mWindow,
         _("YES"), mMenuTheme->menuText.font, mMenuTheme->menuText.color);
     updateGui->addWithLabel(updateVersion, _("AVAILABLE UPDATE"), _(MenuMessages::UPDATE_VERSION_HELP_MSG));
 
     // Display available update changelog
     updateGui->addSubMenu(_("UPDATE CHANGELOG"), [this] {
-      std::string changelog = RecalboxUpgrade::getInstance()->getUpdateChangelog();
+      std::string changelog = RecalboxUpgrade::getUpdateChangelog();
       if (!changelog.empty()) {
         std::string message = changelog;
-        std::string updateVersion = RecalboxUpgrade::getInstance()->getUpdateVersion();
+        std::string updateVersion = RecalboxUpgrade::getUpdateVersion();
         mWindow->displayScrollMessage(_("AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"),
             _("UPDATE VERSION:") + " " + updateVersion + "\n" +
             _("UPDATE CHANGELOG:") + "\n" + message);
@@ -591,7 +591,7 @@ void GuiMenu::menuControllers() {
             ComponentListRow controllerRow;
             std::function<void()> pairController = [this, window, pairGui, controllerString, deletePairGui] {
               window->pushGui(new GuiLoading(window, [controllerString] {
-                bool paired = RecalboxSystem::getInstance()->pairBluetooth(*controllerString);
+                bool paired = RecalboxSystem::pairBluetooth(*controllerString);
 
                 return (void *) new bool(paired);
               }, deletePairGui));
@@ -613,7 +613,7 @@ void GuiMenu::menuControllers() {
 
   row.makeAcceptInputHandler([window, this, s, showControllerList] {
     window->pushGui(new GuiLoading(window, [] {
-      auto s = RecalboxSystem::getInstance()->scanBluetooth();
+      auto s = RecalboxSystem::scanBluetooth();
       return (void *) s;
     }, showControllerList));
   });
@@ -623,7 +623,7 @@ void GuiMenu::menuControllers() {
   row.elements.clear();
 
   row.makeAcceptInputHandler([window, this, s] {
-    RecalboxSystem::getInstance()->forgetBluetoothControllers();
+    RecalboxSystem::forgetBluetoothControllers();
     window->pushGui(new GuiMsgBox(window, _("CONTROLLERS LINKS HAVE BEEN DELETED."), _("OK")));
   });
   row.addElement(std::make_shared<TextComponent>(window, _("FORGET BLUETOOTH CONTROLLERS"), mMenuTheme->menuText.font, mMenuTheme->menuText.color), true);
@@ -1163,8 +1163,8 @@ void GuiMenu::menuSoundSettings(){
   std::string currentDevice = RecalboxConf::getInstance()->get("audio.device");
   if (currentDevice.empty()) currentDevice = "auto";
 
-  std::vector<std::string> availableAudio = RecalboxSystem::getInstance()->getAvailableAudioOutputDevices();
-  std::string selectedAudio = RecalboxSystem::getInstance()->getCurrentAudioOutputDevice();
+  std::vector<std::string> availableAudio = RecalboxSystem::getAvailableAudioOutputDevices();
+  std::string selectedAudio = RecalboxSystem::getCurrentAudioOutputDevice();
 
   if (RecalboxConf::getInstance()->get("emulationstation.menu") != "bartop") {
     for (auto& it : availableAudio)
@@ -1184,7 +1184,7 @@ void GuiMenu::menuSoundSettings(){
       }
     }
     auto setAudioDevice = [](const std::string &newVal) {
-      RecalboxSystem::getInstance()->setAudioOutputDevice(newVal);
+      RecalboxSystem::setAudioOutputDevice(newVal);
     };
     optionsAudio->setSelectedChangedCallback(setAudioDevice);
     s->addWithLabel(optionsAudio, _("OUTPUT DEVICE"));
@@ -1208,10 +1208,10 @@ void GuiMenu::menuNetworkSettings(){
   Window *window = mWindow;
 
   auto s = new GuiSettings(mWindow, _("NETWORK SETTINGS").c_str());
-  auto status = std::make_shared<TextComponent>(mWindow, RecalboxSystem::getInstance()->ping() ? _( "CONNECTED")
+  auto status = std::make_shared<TextComponent>(mWindow, RecalboxSystem::ping() ? _( "CONNECTED")
       : _("NOT CONNECTED"), mMenuTheme->menuText.font, mMenuTheme->menuText.color);
   s->addWithLabel(status, _("STATUS"), _(MenuMessages::NETWORK_STATUS_HELP_MSG));
-  auto ip = std::make_shared<TextComponent>(mWindow, RecalboxSystem::getInstance()->getIpAdress(),
+  auto ip = std::make_shared<TextComponent>(mWindow, RecalboxSystem::getIpAdress(),
       mMenuTheme->menuText.font, mMenuTheme->menuText.color);
   s->addWithLabel(ip, _("IP ADDRESS"), _(MenuMessages::NETWORK_IP_HELP_MSG));
 
@@ -1272,7 +1272,7 @@ void GuiMenu::menuNetworkSettings(){
       });
       SSID->addRowWithHelp(row, _("MANUAL INPUT"), MenuMessages::NETWORK_MANUAL_INPUT_HELP_MSG);
       if (enable_wifi->getState()) {
-        std::vector<std::string> availableSSID = RecalboxSystem::getInstance()->getAvailableWiFiSSID(baseEnabled);
+        std::vector<std::string> availableSSID = RecalboxSystem::getAvailableWiFiSSID(baseEnabled);
         RecalboxConf::getInstance()->set("wifi.enabled", "1");
         for (auto it = availableSSID.begin(); it != availableSSID.end(); it++) {
 
@@ -1318,7 +1318,7 @@ void GuiMenu::menuNetworkSettings(){
       if (baseSSID != newSSID
         || baseKEY != newKey
         || !baseEnabled) {
-        if (RecalboxSystem::getInstance()->enableWifi(newSSID, newKey)) {
+        if (RecalboxSystem::enableWifi(newSSID, newKey)) {
           window->pushGui(new GuiMsgBox(window, _("WIFI ENABLED"))
           );
         } else {
@@ -1328,12 +1328,12 @@ void GuiMenu::menuNetworkSettings(){
       }
     }
     else if (baseEnabled || RecalboxConf::getInstance()->get("wifi.enabled") == "1"){
-      RecalboxSystem::getInstance()->disableWifi();
+      RecalboxSystem::disableWifi();
     }
 
     RecalboxConf::getInstance()->set("wifi.enabled", wifienabled ? "1" : "0");
     RecalboxConf::getInstance()->saveRecalboxConf();
-    RecalboxSystem::getInstance()->backupRecalboxConf();
+    RecalboxSystem::backupRecalboxConf();
   });
   mWindow->pushGui(s);
 }
@@ -1443,7 +1443,7 @@ void GuiMenu::menuAdvancedSettings(){
     bool reboot = false;
     if (Settings::getInstance()->getString("Overclock") != overclock_choice->getSelected()) {
       Settings::getInstance()->setString("Overclock", overclock_choice->getSelected());
-      RecalboxSystem::getInstance()->setOverclock(overclock_choice->getSelected());
+      RecalboxSystem::setOverclock(overclock_choice->getSelected());
       reboot = true;
     }
     RecalboxConf::getInstance()->saveRecalboxConf();
@@ -1457,7 +1457,7 @@ void GuiMenu::menuAdvancedSettings(){
                       }
                     }, _("NO"), [] {
                   Settings::getInstance()->setString("Overclock", "none");
-                  RecalboxSystem::getInstance()->setOverclock("none");
+                  RecalboxSystem::setOverclock("none");
                   Settings::getInstance()->saveFile();
                 }));
       } else {
@@ -1590,7 +1590,7 @@ void GuiMenu::menuAdvancedSettings(){
           RecalboxConf::getInstance()->get("system.security.enabled") == "1");
       securityGui->addWithLabel(securityEnabled, _("ENFORCE SECURITY"), _(MenuMessages::ADVANCED_ENFORCE_SECURITY_HELP_MSG));
 
-      auto rootpassword = std::make_shared<TextComponent>(mWindow, RecalboxSystem::getInstance()->getRootPassword(),
+      auto rootpassword = std::make_shared<TextComponent>(mWindow, RecalboxSystem::getRootPassword(),
           mMenuTheme->menuText.font, mMenuTheme->menuText.color);
       securityGui->addWithLabel(rootpassword, _("ROOT PASSWORD"), _(MenuMessages::ADVANCED_ROOT_PWD_HELP_MSG));
 
@@ -1624,7 +1624,7 @@ void GuiMenu::menuAdvancedSettings(){
   s->addSaveFunc([overscan_enabled] {
     if (Settings::getInstance()->getBool("Overscan") != overscan_enabled->getState()) {
       Settings::getInstance()->setBool("Overscan", overscan_enabled->getState());
-      RecalboxSystem::getInstance()->setOverscan(overscan_enabled->getState());
+      RecalboxSystem::setOverscan(overscan_enabled->getState());
     }
   });
 
@@ -1661,7 +1661,7 @@ void GuiMenu::menuQuit(){
 
   row.makeAcceptInputHandler([window] {
     window->pushGui(new GuiMsgBox(window, _("REALLY SHUTDOWN?"), _("YES"), [] {
-        if (RecalboxSystem::getInstance()->shutdown() != 0) {
+        if (RecalboxSystem::shutdown() != 0) {
           LOG(LogWarning) << "Shutdown terminated with non-zero result!";
           }
         }, _("NO"), nullptr));
@@ -1672,7 +1672,7 @@ void GuiMenu::menuQuit(){
   row.elements.clear();
   row.makeAcceptInputHandler([window] {
     window->pushGui(new GuiMsgBox(window, _("REALLY SHUTDOWN WITHOUT SAVING METADATAS?"), _("YES"), [] {
-        if (RecalboxSystem::getInstance()->fastShutdown() != 0) {
+        if (RecalboxSystem::fastShutdown() != 0) {
           LOG(LogWarning) << "Shutdown terminated with non-zero result!";
           }
         }, _("NO"), nullptr));
@@ -1683,7 +1683,7 @@ void GuiMenu::menuQuit(){
   row.elements.clear();
   row.makeAcceptInputHandler([window] {
     window->pushGui(new GuiMsgBox(window, _("REALLY RESTART?"), _("YES"), [] {
-        if (RecalboxSystem::getInstance()->reboot() != 0) {
+        if (RecalboxSystem::reboot() != 0) {
           LOG(LogWarning) << "Restart terminated with non-zero result!";
           }
         }, _("NO"), nullptr));
@@ -1699,7 +1699,7 @@ void GuiMenu::popSystemConfigurationGui(SystemData *systemData) const {
     // The system configuration
     GuiSettings *systemConfiguration = new GuiSettings(mWindow, systemData->getFullName().c_str());
 
-    EmulatorDefaults emulatorDefaults = RecalboxSystem::getInstance()->getEmulatorDefaults(systemData->getName());
+    EmulatorDefaults emulatorDefaults = RecalboxSystem::getEmulatorDefaults(systemData->getName());
 
     //Emulator choice
     auto emu_choice = std::make_shared<OptionListComponent<std::string>>(mWindow, _("Emulator"), false);

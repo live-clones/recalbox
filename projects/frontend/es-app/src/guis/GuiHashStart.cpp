@@ -50,7 +50,7 @@ void GuiHashStart::start()
 
     	std::string command = "/recalbox/scripts/recalbox-hash.sh -s \"" + system->getName() + "\" -t";
 
-	    auto cmdResult = RecalboxSystem::getInstance()->execute(command);
+	    auto cmdResult = RecalboxSystem::execute(command);
 
 	    //script output 1 if system is in fobidden list (like fba_libretro) so we skip to next system
 	    if (cmdResult.second == 1) {
@@ -121,7 +121,7 @@ void GuiHashStart::start()
 
             std::string cmd = "/recalbox/scripts/recalbox-hash.sh -f \"" + path.string() + "\"";
 
-	        auto hashResult = RecalboxSystem::getInstance()->execute(cmd);
+	        auto hashResult = RecalboxSystem::execute(cmd);
 
 	        std::string hashString = hashResult.first;
 
