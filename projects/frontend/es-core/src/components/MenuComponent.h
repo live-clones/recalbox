@@ -50,7 +50,7 @@ public:
 
 	inline void addRowWithHelp(ComponentListRow& row, const std::string& label, const std::string& help = "", bool setCursorHere = false, bool updateGeometry = true) 
 	{
-		if (help.size()) {
+		if (!help.empty()) {
 			row.makeHelpInputHandler(buildHelpGui(label, help));
 		}
 		addRow(row, setCursorHere, updateGeometry);

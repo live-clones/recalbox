@@ -158,14 +158,14 @@ bool ISimpleGameListView::input(InputConfig* config, Input input) {
 		// BACK to PARENT FOLDER or PARENT SYSTEM
 		if(config->isMappedTo("a", input))
 		{
-			if (mCursorStack.size())
+			if (!mCursorStack.empty())
 			{
 				FolderData* selected = mCursorStack.top();
 
 				// remove current folder from stack
 				mCursorStack.pop();
 
-				FolderData* cursor = mCursorStack.size() ? mCursorStack.top() : getRoot();
+				FolderData* cursor = !mCursorStack.empty() ? mCursorStack.top() : getRoot();
 				populateList(cursor);
 
 				setCursor(selected);

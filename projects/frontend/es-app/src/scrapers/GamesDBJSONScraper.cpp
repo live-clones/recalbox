@@ -214,7 +214,7 @@ namespace
 
   std::string getBoxartImage(const Value& v)
   {
-    if (!v.IsArray() || v.Size() == 0)
+    if (!v.IsArray() || v.Empty())
     {
       return "";
     }

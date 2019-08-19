@@ -581,7 +581,7 @@ void GuiMenu::menuControllers() {
         window->pushGui(new GuiMsgBox(window, _("AN ERROR OCCURED"), _("OK")));
       } else {
         std::vector<std::string> *resolvedControllers = ((std::vector<std::string> *) controllers);
-        if (resolvedControllers->size() == 0) {
+        if (resolvedControllers->empty()) {
           window->pushGui(new GuiMsgBox(window, _("NO CONTROLLERS FOUND"), _("OK")));
         } else {
           GuiSettings *pairGui = new GuiSettings(window, _("PAIR A BLUETOOTH CONTROLLER").c_str());

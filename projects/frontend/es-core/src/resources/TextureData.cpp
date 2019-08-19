@@ -128,7 +128,7 @@ bool TextureData::initImageFromMemory(const unsigned char* fileData, size_t leng
 	}
 
 	std::vector<unsigned char> imageRGBA = ImageIO::loadFromMemoryRGBA32((const unsigned char*)(fileData), length, width, height);
-	if (imageRGBA.size() == 0)
+	if (imageRGBA.empty())
 	{
 		LOG(LogError) << "Could not initialize texture from memory, invalid data!  (file path: " << mPath << ", data ptr: " << (size_t)fileData << ", reported size: " << length << ")";
 		return false;

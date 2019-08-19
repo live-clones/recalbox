@@ -22,7 +22,7 @@ GuiSettings::~GuiSettings()
 
 void GuiSettings::save()
 {
-	if(!mSaveFuncs.size())
+	if(mSaveFuncs.empty())
 		return;
 
 	for (auto& saveFunc : mSaveFuncs)

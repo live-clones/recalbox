@@ -135,7 +135,7 @@ int FolderData::getItemsRecursively(FileData::List& to, Filter includes, bool in
   {
     if (fd->isFolder())
     {
-      int position = (int)to.size(); // TOOD: Check if the insert is necessary
+      int position = (int)to.size(); // TODO: Check if the insert is necessary
       if (CastFolder(fd)->getItemsRecursively(to, includes, includefolders) > 1)
         if (includefolders)
           to.insert(to.begin() + position, fd); // Include folders iif it contains more than one game.

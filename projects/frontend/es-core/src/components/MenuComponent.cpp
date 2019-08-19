@@ -86,7 +86,7 @@ MenuComponent::MenuComponent(Window* window, const char* title, const std::share
         }
         if(config->isMappedTo("up", input)) {
         	mList->setCursorIndex(mList->size() - 1);
-            if(mButtons.size()) {
+            if(!mButtons.empty()) {
 				mGrid.moveCursor(Vector2i(0, 1));
             } else {
                 mGrid.setCursorTo(mList);
@@ -162,7 +162,7 @@ void MenuComponent::updateGrid()
 
     mButtonGrid.reset();
 
-    if(mButtons.size())
+    if(!mButtons.empty())
     {
         mButtonGrid = makeButtonGrid(mWindow, mButtons);
         mGrid.setEntry(mButtonGrid, Vector2i(0, 2), true, false);

@@ -60,7 +60,7 @@ std::string RecalboxSystem::getFreeSpaceInfo()
 {
   struct statvfs fiData;
   std::string sharePart = Settings::getInstance()->getString("SharePartition");
-  if (sharePart.size() > 0)
+  if (!sharePart.empty())
   {
     const char* fnPath = sharePart.c_str();
     if ((statvfs(fnPath, &fiData)) < 0)
@@ -93,7 +93,7 @@ std::string RecalboxSystem::getFreeSpaceInfo()
 bool RecalboxSystem::isFreeSpaceLimit()
 {
   std::string sharePart = Settings::getInstance()->getString("SharePartition");
-  if (sharePart.size() > 0)
+  if (!sharePart.empty())
   {
     return getFreeSpaceGB(sharePart) < 2;
   }
@@ -106,7 +106,7 @@ bool RecalboxSystem::isFreeSpaceLimit()
 
 std::string RecalboxSystem::readFile(std::string file)
 {
-  if (file.size() > 0)
+  if (!file.empty())
   {
     std::ifstream ifs(file);
 

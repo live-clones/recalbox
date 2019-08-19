@@ -265,7 +265,7 @@ void ScraperSearchComponent::onSearchDone(const std::vector<ScraperSearchResult>
 
 	if(mSearchType == SearchType::AutoAcceptFirst)
 	{
-		if(mScraperResults.size() == 0)
+		if(mScraperResults.empty())
 			mSkipCallback();
 		else
 			returnResult(mScraperResults.front());
@@ -286,7 +286,7 @@ void ScraperSearchComponent::onSearchError(const std::string& error)
 
 int ScraperSearchComponent::getSelectedIndex()
 {
-	if(!mScraperResults.size() || mGrid.getSelectedComponent() != mResultList)
+	if(mScraperResults.empty() || mGrid.getSelectedComponent() != mResultList)
 		return -1;
 
 	return mResultList->getCursorId();
@@ -295,7 +295,7 @@ int ScraperSearchComponent::getSelectedIndex()
 void ScraperSearchComponent::updateInfoPane()
 {
 	int i = getSelectedIndex();
-	if(mSearchType == SearchType::AutoAcceptFirst && mScraperResults.size())
+	if(mSearchType == SearchType::AutoAcceptFirst && (!mScraperResults.empty()))
 	{
 		i = 0;
 	}
