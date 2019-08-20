@@ -333,7 +333,7 @@ void DetailedGameListView::updateInfoPanel()
     else
     {
       if (isFolder)
-        setFolderInfo(static_cast<FolderData*>(file));
+        setFolderInfo((FolderData*)file);
       else
         setGameInfo(file);
       switchDisplay(!isFolder);

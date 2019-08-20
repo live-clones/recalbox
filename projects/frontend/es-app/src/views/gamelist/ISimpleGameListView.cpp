@@ -143,7 +143,7 @@ bool ISimpleGameListView::input(InputConfig* config, Input input) {
 			}
 			else if (cursor->isFolder())
 			{
-				FolderData* folder = static_cast<FolderData*>(cursor);
+				FolderData* folder = (FolderData*)cursor;
 				if (folder->hasChildren())
 				{
 					mCursorStack.push(folder);

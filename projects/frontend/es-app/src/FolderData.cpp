@@ -10,7 +10,7 @@
 
 namespace fs = boost::filesystem;
 
-#define CastFolder(f) static_cast<FolderData*>(f)
+#define CastFolder(f) ((FolderData*)(f))
 
 FolderData::~FolderData()
 {

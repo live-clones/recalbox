@@ -50,7 +50,7 @@ FileData* findOrCreateFile(SystemData* system, const boost::filesystem::path& pa
       }
       else // Final folder (scrapped obviously)
       {
-        FolderData* folder = static_cast<FolderData*>(item);
+        FolderData* folder = (FolderData*)item;
         if (folder == nullptr)
         {
           // create missing folder
@@ -63,7 +63,7 @@ FileData* findOrCreateFile(SystemData* system, const boost::filesystem::path& pa
     }
     else // Intermediate path
     {
-      FolderData* folder = static_cast<FolderData*>(item);
+      FolderData* folder = (FolderData*)item;
       if (folder == nullptr)
       {
         // create missing folder

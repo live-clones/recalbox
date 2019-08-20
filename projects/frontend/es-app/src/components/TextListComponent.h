@@ -316,9 +316,9 @@ void TextListComponent<T>::add(const std::string& name, const T& obj, unsigned i
 	entry.object = obj;
 	entry.data.colorId = color;
 	if (toTheBeginning) {
-		static_cast<IList< TextListData, T >*>(this)->unshift(entry);
+    ((IList< TextListData, T >*)this)->unshift(entry);
 	} else {
-		static_cast<IList< TextListData, T >*>(this)->add(entry);
+    ((IList< TextListData, T >*)this)->add(entry);
 	}
 }
 

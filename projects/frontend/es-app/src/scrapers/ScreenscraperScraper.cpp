@@ -278,7 +278,7 @@ void ScreenScraperRequest::processGame(const pugi::xml_document& xmldoc, std::ve
       // <media type="..." region="..." format="...">
       // and we need to find the right media for the region.
       pugi::xpath_node_set results = media_list.select_nodes(
-        (static_cast<std::string>("media[@type='") + Configuration().media_name + "']").c_str());
+        ("media[@type='" + Configuration().media_name + "']").c_str());
       if (!results.empty())
       {
         // Region fallback: WOR(LD), US, CUS(TOM?), JP, EU

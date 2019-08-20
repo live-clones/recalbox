@@ -632,7 +632,7 @@ void ThemeData::parseElement(const pugi::xml_node& root, const std::map<std::str
 			break;
 		case ElementProperty::Float:
 			{
-			float floatVal = static_cast<float>(strtod(str.c_str(), nullptr));
+			float floatVal = (float)(strtod(str.c_str(), nullptr));
 			element.properties[node.name()] = floatVal;
   			break;
 			}

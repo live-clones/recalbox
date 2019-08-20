@@ -1,6 +1,7 @@
 #pragma once
 
 #include <utils/StringUtil.h>
+#include <utils/Stringize.h>
 #include "scrapers/Scraper.h"
 #include "EmulationStation.h"
 #include "RecalboxConf.h"
@@ -38,7 +39,7 @@ class ScreenScraperRequest : public ScraperHttpRequest
       const std::string API_DEV_P = "\xC0\x0C\x80\x45\x30\xD6\x7F\x6A\x69\xB5\x02\x9D\xAD\x6B\xA3\x33\xE6\x7A\xE8\x4E";
       const std::string API_DEV_KEY = "\x83\x2E\xA9\xF4\x05\x67\xC1\xDB\xB1\x65\xC7\x0D\xFE\x29\xA3\x48";
       const std::string API_URL_BASE = "https://www.screenscraper.fr/api2";
-      const std::string API_SOFT_NAME = "Emulationstation " + static_cast<std::string>(PROGRAM_VERSION_STRING);
+      const std::string API_SOFT_NAME = "Emulationstation " STRINGIZE(PROGRAM_VERSION_STRING);
 
       /** Which type of image artwork we need. Possible values (not a comprehensive list):
         - ss: in-game screenshot
