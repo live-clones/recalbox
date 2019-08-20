@@ -110,8 +110,8 @@ void GuiComponent::setSize(float w, float h)
 
 Vector2f GuiComponent::getCenter() const
 {
-	return Vector2f(mPosition.x() - (getSize().x() * mOrigin.x()) + getSize().x() / 2,
-						      mPosition.y() - (getSize().y() * mOrigin.y()) + getSize().y() / 2);
+	return { mPosition.x() - (getSize().x() * mOrigin.x()) + getSize().x() / 2,
+					 mPosition.y() - (getSize().y() * mOrigin.y()) + getSize().y() / 2 };
 }
 
 //Children stuff.

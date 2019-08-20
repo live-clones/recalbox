@@ -54,7 +54,7 @@ private:
 				aspect[1] = (float)texSize.y() / texSize.x();
 		}
 
-		return Vector2f(156 * aspect.x(), 156 * aspect.y());
+		return {156 * aspect.x(), 156 * aspect.y() };
 	};
 
 	Vector2f getMaxSquareSize() const
@@ -81,7 +81,7 @@ private:
 		return gridSize;
 	};
 
-	Vector2f getPadding() const { return Vector2f(24, 24); }
+	Vector2f getPadding() const { return {24, 24 }; }
 	
 	void buildImages();
 	void updateImages();

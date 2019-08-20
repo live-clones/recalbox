@@ -271,12 +271,12 @@ bool TextEditComponent::isMultiline()
 
 Vector2f TextEditComponent::getTextAreaPos() const
 {
-	return Vector2f(TEXT_PADDING_HORIZ / 2.0f, TEXT_PADDING_VERT / 2.0f);
+	return { TEXT_PADDING_HORIZ / 2.0f, TEXT_PADDING_VERT / 2.0f };
 }
 
 Vector2f TextEditComponent::getTextAreaSize() const
 {
-	return Vector2f(mSize.x() - TEXT_PADDING_HORIZ, mSize.y() - TEXT_PADDING_VERT);
+	return { mSize.x() - TEXT_PADDING_HORIZ, mSize.y() - TEXT_PADDING_VERT };
 }
 
 std::vector<HelpPrompt> TextEditComponent::getHelpPrompts()

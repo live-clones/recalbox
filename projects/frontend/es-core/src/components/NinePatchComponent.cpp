@@ -184,7 +184,7 @@ void NinePatchComponent::onSizeChanged()
 
 Vector2f NinePatchComponent::getCornerSize() const
 {
-	return Vector2f(16, 16);
+	return {16, 16 };
 }
 
 void NinePatchComponent::fitTo(Vector2f size, Vector3f position, Vector2f padding)

@@ -584,7 +584,7 @@ Vector2f Font::sizeText(const std::string& text, float lineSpacing)
 	if(lineWidth > highestWidth)
 		highestWidth = lineWidth;
 
-	return Vector2f(highestWidth, y);
+	return { highestWidth, y };
 }
 
 float Font::getHeight(float lineSpacing) const
@@ -684,7 +684,7 @@ Vector2f Font::getWrappedTextCursorOffset(const std::string& text, float xLen, s
 			lineWidth += glyph->advance.x();
 	}
 
-	return Vector2f(lineWidth, y);
+	return { lineWidth, y };
 }
 
 //=============================================================================================================
