@@ -202,8 +202,8 @@ bool RecalboxSystem::setAudioOutputDevice(std::string selected)
   int exitcode = system(oss.str().c_str());
   if (selected.find('[') != std::string::npos)
   {
-    int p1 = selected.find(":");
-    int p2 = selected.find("]");
+    int p1 = selected.find(':');
+    int p2 = selected.find(']');
     std::string acard = selected.substr(1, p1 - 1);
     std::string adevice = selected.substr(p1 + 1, p2 - p1 - 1);
     std::string alsaAudioDev = "hw:" + acard + "," + adevice;
@@ -703,7 +703,7 @@ std::string RecalboxSystem::getJSONStringValue(std::string json, std::string key
     std::string token = json.substr(startPos + key.length() + 4, json.length());
     if (token.substr(0, 4) != "null")
     {
-      int endPos = token.find("\"", 1);
+      int endPos = token.find('\"', 1);
 
       if (endPos > 0)
       {

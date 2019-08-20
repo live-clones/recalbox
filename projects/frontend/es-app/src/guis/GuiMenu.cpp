@@ -350,7 +350,7 @@ void GuiMenu::menuUpdates(){
         std::string message = changelog;
         std::string updateVersion = RecalboxUpgrade::getUpdateVersion();
         mWindow->displayScrollMessage(_("AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"),
-            _("UPDATE VERSION:") + " " + updateVersion + "\n" +
+            _("UPDATE VERSION:") + ' ' + updateVersion + "\n" +
             _("UPDATE CHANGELOG:") + "\n" + message);
       } else {
         mWindow->displayMessage(_("AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"));
@@ -649,7 +649,7 @@ void GuiMenu::menuControllers() {
     std::string confGuid = sstm.str() + "GUID";
     snprintf(strbuf, 256, _("INPUT P%i").c_str(), player + 1);
 
-    LOG(LogInfo) << player + 1 << " " << confName << " " << confGuid;
+    LOG(LogInfo) << player + 1 << ' ' << confName << ' ' << confGuid;
     auto inputOptionList = std::make_shared<OptionListComponent<StrInputConfig *> >(mWindow, strbuf, false);
     options.push_back(inputOptionList);
 
@@ -663,7 +663,7 @@ void GuiMenu::menuControllers() {
       if (config->isConfigured()) {
         // create name
         std::stringstream dispNameSS;
-        dispNameSS << "#" << config->getDeviceId() << " ";
+        dispNameSS << '#' << config->getDeviceId() << ' ';
         std::string deviceName = config->getDeviceName();
         if (deviceName.size() > 25) {
           dispNameSS << deviceName.substr(0, 16) << "..." <<
@@ -1175,7 +1175,7 @@ void GuiMenu::menuSoundSettings(){
       if(tokens.size()>= 8){
         std::string vname;
         for (unsigned int i=0; i<8; i++) {
-          vname += " ";
+          vname += ' ';
           vname += tokens.at(i);
         }
         optionsAudio->add(vname, it, selectedAudio == it);
@@ -1285,7 +1285,7 @@ void GuiMenu::menuNetworkSettings(){
             if (tokens.size() >= 8) {
               std::string vname;
               for (unsigned int i = 0; i < 8; i++) {
-                vname += " ";
+                vname += ' ';
                 vname += tokens.at(i);
               }
               ed = std::make_shared<TextComponent>(mWindow, vname, mMenuTheme->menuText.font, mMenuTheme->menuText.color, TextAlignment::Left);

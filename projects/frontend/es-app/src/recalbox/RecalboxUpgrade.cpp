@@ -87,7 +87,7 @@ std::pair<std::string, int> RecalboxUpgrade::updateSystem(BusyComponent* ui)
     if (output.find(':') != std::string::npos)
     {
 
-      int p1 = output.find(":");
+      int p1 = output.find(':');
       std::string i18n = output.substr(0, p1);
       std::string percent = output.substr(p1 + 1, std::string::npos);
       ui->setText(_(i18n.c_str()) + ": " + percent);

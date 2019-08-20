@@ -352,7 +352,7 @@ void ThemeData::loadFile(const std::string& systemThemeFolder, const std::string
 		throw error << "<formatVersion> tag missing!\n   It's either out of date or you need to add <formatVersion>" << CURRENT_THEME_FORMAT_VERSION << "</formatVersion> inside your <theme> tag.";
 
 	if(mVersion < MINIMUM_THEME_FORMAT_VERSION)
-		throw error << "Theme uses format version " << mVersion << ". Minimum supported version is " << MINIMUM_THEME_FORMAT_VERSION << ".";
+		throw error << "Theme uses format version " << mVersion << ". Minimum supported version is " << MINIMUM_THEME_FORMAT_VERSION << '.';
 	
 	parseIncludes(root);
 	parseViews(root);
