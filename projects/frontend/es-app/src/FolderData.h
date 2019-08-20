@@ -60,7 +60,7 @@ class FolderData : public FileData
      * @param high Highest element
      * @param comparer Compare method
      */
-    static void QuickSortAscending(FileData::List& items, int low, int high, int (*comparer)(FileData* const a, FileData* const b));
+    static void QuickSortAscending(FileData::List& items, int low, int high, int (*comparer)(const FileData&, const FileData&));
 
     /*!
      * Highly optimized Quicksort, inpired from original Delphi 7 code
@@ -68,7 +68,7 @@ class FolderData : public FileData
      * @param high Highest element
      * @param comparer Compare method
      */
-    static void QuickSortDescending(FileData::List& items, int low, int high, int (*comparer)(FileData* const a, FileData* const b));
+    static void QuickSortDescending(FileData::List& items, int low, int high, int (*comparer)(const FileData&, const FileData&));
 
   public:
     /*!
@@ -174,7 +174,7 @@ class FolderData : public FileData
      * @param comparer Comparison function
      * @param ascending True for ascending sort, false for descending.
      */
-    static void Sort(FileData::List& items, int (*comparer)(FileData* const a, FileData* const b), bool ascending);
+    static void Sort(FileData::List& items, int (*comparer)(const FileData& a, const FileData& b), bool ascending);
 
     /*!
      * Count filtered items recursively starting from the current folder

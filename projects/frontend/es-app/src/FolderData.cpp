@@ -371,7 +371,7 @@ FileData* FolderData::GetNextFavoriteTo(FileData* reference)
   return nullptr;
 }
 
-void FolderData::Sort(FileData::List& items, int (*comparer)(FileData* const, FileData* const), bool ascending)
+void FolderData::Sort(FileData::List& items, int (*comparer)(const FileData&, const FileData&), bool ascending)
 {
   if (items.size() > 1)
   {
@@ -382,14 +382,14 @@ void FolderData::Sort(FileData::List& items, int (*comparer)(FileData* const, Fi
   }
 }
 
-void FolderData::QuickSortAscending(FileData::List& items, int low, int high, int (*comparer)(FileData* const, FileData* const))
+void FolderData::QuickSortAscending(FileData::List& items, int low, int high, int (*comparer)(const FileData&, const FileData&))
 {
   int Low = low, High = high;
-  FileData* pivot = items[(Low + High) >> 1];
+  const FileData& pivot = *items[(Low + High) >> 1];
   do
   {
-    while((*comparer)(items[Low] , pivot) < 0) Low++;
-    while((*comparer)(items[High], pivot) > 0) High--;
+    while((*comparer)(*items[Low] , pivot) < 0) Low++;
+    while((*comparer)(*items[High], pivot) > 0) High--;
     if (Low <= High)
     {
       FileData* Tmp = items[Low]; items[Low] = items[High]; items[High] = Tmp;
@@ -400,14 +400,14 @@ void FolderData::QuickSortAscending(FileData::List& items, int low, int high, in
   if (Low < high) QuickSortAscending(items, Low, high, comparer);
 }
 
-void FolderData::QuickSortDescending(FileData::List& items, int low, int high, int (*comparer)(FileData* const, FileData* const))
+void FolderData::QuickSortDescending(FileData::List& items, int low, int high, int (*comparer)(const FileData&, const FileData&))
 {
   int Low = low, High = high;
-  FileData* pivot = items[(Low + High) >> 1];
+  const FileData& pivot = *items[(Low + High) >> 1];
   do
   {
-    while((*comparer)(items[Low] , pivot) > 0) Low++;
-    while((*comparer)(items[High], pivot) < 0) High--;
+    while((*comparer)(*items[Low] , pivot) > 0) Low++;
+    while((*comparer)(*items[High], pivot) < 0) High--;
     if (Low <= High)
     {
       FileData* Tmp = items[Low]; items[Low] = items[High]; items[High] = Tmp;

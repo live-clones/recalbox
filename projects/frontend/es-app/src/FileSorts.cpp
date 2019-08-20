@@ -43,13 +43,13 @@ namespace FileSorts
     }
   }
 
-  static int compareFoldersAndGames(FileData* const fd1, FileData* const fd2)
+  static int compareFoldersAndGames(const FileData& fd1, const FileData& fd2)
   {
-    ItemType f1 = fd1->getType();
-    ItemType f2 = fd2->getType();
-    if (f1 == f2) return 0;                      // Both are games or folders
+    ItemType f1 = fd1.getType();
+    ItemType f2 = fd2.getType();
+    if (f1 == f2) return 0;                // Both are games or folders
     if (f1 == ItemType::Folder) return -1; // f1 is a folder, f2 is a game
-    return 1;                                    // f2 is a folder
+    return 1;                              // f2 is a folder
   }
 
   #define CheckFoldersAndGames(f1, f2) { int folderComparison = compareFoldersAndGames(f1, f2); if (folderComparison != 0) return folderComparison; }
@@ -58,66 +58,67 @@ namespace FileSorts
 
   ImplementSortMethod(compareSystemName)
   {
-    const SystemData * system1 = file1->getSystem();
-    const SystemData * system2 = file2->getSystem();
+    const SystemData * system1 = file1.getSystem();
+    const SystemData * system2 = file2.getSystem();
     const int result = simpleCompareUppercase(system1->getName(), system2->getName());
     if (result != 0) { return result; }
-    return simpleCompareUppercase(file1->getName(), file2->getName());
+    return simpleCompareUppercase(file1.getName(), file2.getName());
   }
 
   ImplementSortMethod(compareFileName)
   {
-    CheckFoldersAndGames(file1, file2);
-    return simpleCompareUppercase(file1->getName(), file2->getName());
+    CheckFoldersAndGames(file1, file2)
+    return simpleCompareUppercase(file1.getName(), file2.getName());
   }
 
   ImplementSortMethod(compareRating)
   {
-    CheckFoldersAndGames(file1, file2);
-    float c = file1->Metadata().Rating() - file2->Metadata().Rating();
+    CheckFoldersAndGames(file1, file2)
+    float c = file1.Metadata().Rating() - file2.Metadata().Rating();
     if (c < 0) { return -1; }
     if (c > 0) { return 1; }
-    return simpleCompareUppercase(file1->getName(), file2->getName());
+    return simpleCompareUppercase(file1.getName(), file2.getName());
   }
 
   ImplementSortMethod(compareTimesPlayed)
   {
-    CheckFoldersAndGames(file1, file2);
-    int playCount = (file1)->Metadata().PlayCount() - (file2)->Metadata().PlayCount();
+    CheckFoldersAndGames(file1, file2)
+    int playCount = (file1).Metadata().PlayCount() - (file2).Metadata().PlayCount();
     if (playCount != 0) return playCount;
-    return simpleCompareUppercase(file1->getName(), file2->getName());
+    return simpleCompareUppercase(file1.getName(), file2.getName());
   }
 
   ImplementSortMethod(compareLastPlayed)
   {
-    CheckFoldersAndGames(file1, file2);
-    int ep1 = (file1)->Metadata().LastPlayedEpoc();
-    int ep2 = (file2)->Metadata().LastPlayedEpoc();
-    if ((ep1 == 0) || (ep2 == 0)) {
+    CheckFoldersAndGames(file1, file2)
+    int ep1 = (file1).Metadata().LastPlayedEpoc();
+    int ep2 = (file2).Metadata().LastPlayedEpoc();
+    if ((ep1 == 0) || (ep2 == 0))
+    {
       if (ep1 != 0) return 1;
       if (ep2 != 0) return -1;
-      return  simpleCompareUppercase(file1->getName(), file2->getName());
+      return  simpleCompareUppercase(file1.getName(), file2.getName());
     }
     return ep1 < ep2 ? -1 : 1;
   }
 
   ImplementSortMethod(compareNumberPlayers)
   {
-    CheckFoldersAndGames(file1, file2);
-    int players = (file1)->Metadata().PlayerRange() - (file2)->Metadata().PlayerRange();
+    CheckFoldersAndGames(file1, file2)
+    int players = (file1).Metadata().PlayerRange() - (file2).Metadata().PlayerRange();
     if (players != 0) return players;
-    return simpleCompareUppercase(file1->getName(), file2->getName());
+    return simpleCompareUppercase(file1.getName(), file2.getName());
   }
 
   ImplementSortMethod(compareDevelopper)
   {
-    CheckFoldersAndGames(file1, file2);
-    return simpleCompareUppercase(file1->Metadata().Developer(), file2->Metadata().Developer());
+    CheckFoldersAndGames(file1, file2)
+    return simpleCompareUppercase(file1.Metadata().Developer(), file2.Metadata().Developer());
   }
 
   ImplementSortMethod(compareGenre)
   {
-    CheckFoldersAndGames(file1, file2);
-    return simpleCompareUppercase(file1->Metadata().Genre(), file2->Metadata().Genre());
+    CheckFoldersAndGames(file1, file2)
+    return simpleCompareUppercase(file1.Metadata().Genre(), file2.Metadata().Genre());
   }
-};
+}
