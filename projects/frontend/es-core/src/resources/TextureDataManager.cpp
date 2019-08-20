@@ -1,11 +1,13 @@
 #include "resources/TextureDataManager.h"
+
+#include <memory>
 #include "resources/TextureResource.h"
 #include "Settings.h"
 
 TextureDataManager::TextureDataManager()
 {
 	unsigned char data[5 * 5 * 4];
-	mBlank = std::shared_ptr<TextureData>(new TextureData(false));
+	mBlank = std::make_shared<TextureData>(false);
 	for (int i = 0; i < (5 * 5); ++i)
 	{
 		data[i*4] = (i % 2) * 255;

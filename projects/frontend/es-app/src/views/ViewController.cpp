@@ -19,6 +19,8 @@
 
 #include <SDL.h>
 
+#include <memory>
+
 ViewController* ViewController::sInstance = nullptr;
 
 ViewController* ViewController::get()
@@ -352,7 +354,7 @@ std::shared_ptr<SystemView> ViewController::getSystemListView()
 	if(mSystemListView)
 		return mSystemListView;
 
-	mSystemListView = std::shared_ptr<SystemView>(new SystemView(mWindow));
+	mSystemListView = std::make_shared<SystemView>(mWindow);
 	addChild(mSystemListView.get());
 	mSystemListView->setPosition(0, Renderer::getDisplayHeightAsFloat());
 	return mSystemListView;

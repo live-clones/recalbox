@@ -5,6 +5,7 @@
 #include "Log.h"
 #include "Settings.h"
 #include "pugixml/pugixml.hpp"
+#include <memory>
 #include <boost/algorithm/string/replace.hpp>
 #include <components/VideoComponent.h>
 
@@ -675,7 +676,7 @@ const std::shared_ptr<ThemeData>& ThemeData::getDefault()
 	static std::shared_ptr<ThemeData> theme = nullptr;
 	if(theme == nullptr)
 	{
-		theme = std::shared_ptr<ThemeData>(new ThemeData());
+		theme = std::make_shared<ThemeData>();
 
 		const std::string path = RootFolders::DataRootFolder + "/system/.emulationstation/es_theme_default.xml";
 		if(fs::exists(path))
@@ -687,7 +688,7 @@ const std::shared_ptr<ThemeData>& ThemeData::getDefault()
 			} catch(ThemeException& e)
 			{
 				LOG(LogError) << e.what();
-				theme = std::shared_ptr<ThemeData>(new ThemeData()); //reset to empty
+				theme = std::make_shared<ThemeData>(); //reset to empty
 			}
 		}
 	}
@@ -700,7 +701,7 @@ const std::shared_ptr<ThemeData>& ThemeData::getCurrent()
 	static std::shared_ptr<ThemeData> theme = nullptr;
 	if(theme == nullptr || Settings::getInstance()->getBool("ThemeChanged"))
 	{
-		theme = std::shared_ptr<ThemeData>(new ThemeData());
+		theme = std::make_shared<ThemeData>();
 		fs::path path;
 		std::string currentTheme = Settings::getInstance()->getString("ThemeSet");
 		static const size_t pathCount = 3;
@@ -734,7 +735,7 @@ const std::shared_ptr<ThemeData>& ThemeData::getCurrent()
 						} catch(ThemeException& e)
 						{
 							LOG(LogError) << e.what();
-							theme = std::shared_ptr<ThemeData>(new ThemeData()); //reset to empty
+							theme = std::make_shared<ThemeData>(); //reset to empty
 						}
 					}
 				
@@ -751,7 +752,7 @@ const std::shared_ptr<ThemeData>& ThemeData::getCurrent()
 						} catch(ThemeException& e)
 						{
 							LOG(LogError) << e.what();
-							theme = std::shared_ptr<ThemeData>(new ThemeData()); //reset to empty
+							theme = std::make_shared<ThemeData>(); //reset to empty
 						}
 					}
 		}

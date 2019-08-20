@@ -12,6 +12,8 @@
 #include <guis/GuiSettings.h>
 #include <RecalboxConf.h>
 #include <guis/GuiNetPlay.h>
+
+#include <memory>
 #include "guis/GuiMenu.h"
 #include "themes/ThemeData.h"
 #include "MenuThemeData.h"
@@ -131,7 +133,7 @@ void SystemView::addSystem(SystemData * it){
 		e.data.logotext->setPosition(denormalized.x(), denormalized.y(), 0.0);
 	}
 
-	e.data.backgroundExtras = std::shared_ptr<ThemeExtras>(new ThemeExtras(mWindow));
+	e.data.backgroundExtras = std::make_shared<ThemeExtras>(mWindow);
 	e.data.backgroundExtras->setExtras(ThemeData::makeExtras((it)->getTheme(), "system", mWindow));
 
 

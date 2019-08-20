@@ -1,6 +1,8 @@
 #include "MenuThemeData.h"
 #include "Settings.h"
 #include "themes/ThemeData.h"
+
+#include <memory>
 #include "Renderer.h"
 #include "resources/Font.h"
 
@@ -14,7 +16,7 @@ std::shared_ptr<MenuThemeData> MenuThemeData::getInstance() {
 
 MenuThemeData::MenuThemeData()
 {
-	mCurrent = std::shared_ptr<MenuTheme>(new MenuTheme);
+	mCurrent = std::make_shared<MenuTheme>();
 	
 	auto elem = ThemeData::getCurrent()->getElement("menu", "menubg", "menuBackground");
 	
