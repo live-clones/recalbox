@@ -571,7 +571,7 @@ void GuiMenu::menuControllers() {
 
   row.elements.clear();
 
-  std::function<void(void *)> showControllerList = [window, this, s](void *controllers) {
+  std::function<void(void *)> showControllerList = [window, this](void *controllers) {
     std::function<void(void *)> deletePairGui = [window](void *pairedPointer) {
       bool paired = *((bool *) pairedPointer);
       window->pushGui(
@@ -589,7 +589,7 @@ void GuiMenu::menuControllers() {
              controllerString != ((std::vector<std::string> *) controllers)->end(); ++controllerString) {
 
             ComponentListRow controllerRow;
-            std::function<void()> pairController = [this, window, pairGui, controllerString, deletePairGui] {
+            std::function<void()> pairController = [window, controllerString, deletePairGui] {
               window->pushGui(new GuiLoading(window, [controllerString] {
                 bool paired = RecalboxSystem::pairBluetooth(*controllerString);
 
@@ -611,7 +611,7 @@ void GuiMenu::menuControllers() {
 
     };
 
-  row.makeAcceptInputHandler([window, this, s, showControllerList] {
+  row.makeAcceptInputHandler([window, showControllerList] {
     window->pushGui(new GuiLoading(window, [] {
       auto s = RecalboxSystem::scanBluetooth();
       return (void *) s;
@@ -622,7 +622,7 @@ void GuiMenu::menuControllers() {
   s->addRowWithHelp(row, _("PAIR A BLUETOOTH CONTROLLER"), _(MenuMessages::CONTROLLER_BT_HELP_MSG));
   row.elements.clear();
 
-  row.makeAcceptInputHandler([window, this, s] {
+  row.makeAcceptInputHandler([window] {
     RecalboxSystem::forgetBluetoothControllers();
     window->pushGui(new GuiMsgBox(window, _("CONTROLLERS LINKS HAVE BEEN DELETED."), _("OK")));
   });
@@ -708,7 +708,7 @@ void GuiMenu::menuControllers() {
     // Populate controllers list
     s->addWithLabel(inputOptionList, strbuf);
   }
-  s->addSaveFunc([this, options, window] {
+  s->addSaveFunc([options] {
     for (int player = 0; player < MAX_PLAYERS; player++) {
       std::stringstream sstm;
       sstm << "INPUT P" << player + 1;
@@ -896,7 +896,7 @@ void GuiMenu::menuUISettings(){
     theme_set->add(it->first, it->first, it == selectedSet);
   st->addWithLabel(theme_set, _("THEME SET"), _(MenuMessages::UI_THEME_HELP_MSG));
 
-  std::function<void()> ReloadAll = [this, window] () {
+  std::function<void()> ReloadAll = [window] () {
     ViewController::get()->goToStart();
     window->renderShutdownScreen();
     delete ViewController::get();
@@ -919,7 +919,7 @@ void GuiMenu::menuUISettings(){
   };
 
 
-  st->addSaveFunc([this, window, theme_set, ReloadAll] {
+  st->addSaveFunc([theme_set, ReloadAll] {
 
     if (Settings::getInstance()->getString("ThemeSet") != theme_set->getSelected())
     {
@@ -1071,7 +1071,7 @@ void GuiMenu::menuUISettings(){
       themeconfig->addWithLabel(theme_region, _("THEME REGION"), _(MenuMessages::UI_THEME_REGION_MSG));
 
 
-    themeconfig->addSaveFunc([this, window, theme_set, theme_colorset, theme_iconset, theme_menu, theme_systemview, theme_gamelistview, theme_region, ReloadAll] {
+    themeconfig->addSaveFunc([theme_set, theme_colorset, theme_iconset, theme_menu, theme_systemview, theme_gamelistview, theme_region, ReloadAll] {
       bool needReload = false;
       if (Settings::getInstance()->getString("ThemeColorSet") != theme_colorset->getSelected() && !theme_colorset->getSelected().empty())
         needReload = true;
@@ -1118,8 +1118,8 @@ void GuiMenu::menuUISettings(){
 	s->addSubMenu(_("THEME"), openGuiTheme, _(MenuMessages::UI_THEME_HELP_MSG));
 
 	// Game List Update
-	s->addSubMenu(_("UPDATE GAMES LISTS"), [this,window] {
-		window->pushGui(new GuiMsgBox(window, _("REALLY UPDATE GAMES LISTS ?"), _("YES"), [this,window] {
+	s->addSubMenu(_("UPDATE GAMES LISTS"), [window] {
+		window->pushGui(new GuiMsgBox(window, _("REALLY UPDATE GAMES LISTS ?"), _("YES"), [window] {
 			ViewController::get()->goToStart();
 			window->renderShutdownScreen();
 			delete ViewController::get();
@@ -1259,7 +1259,7 @@ void GuiMenu::menuNetworkSettings(){
       ComponentListRow row;
       ed = std::make_shared<TextComponent>(mWindow, _("MANUAL INPUT"), mMenuTheme->menuText.font, mMenuTheme->menuText.color, TextAlignment::Left);
       row.addElement(ed, true);
-      auto updateValue = [this, updateVal, SSID](const std::string &newVal) {
+      auto updateValue = [updateVal, SSID](const std::string &newVal) {
         RecalboxConf::getInstance()->set("wifi.ssid", newVal);
         updateVal(newVal);
         delete SSID;
@@ -1293,7 +1293,7 @@ void GuiMenu::menuNetworkSettings(){
               ed = std::make_shared<TextComponent>(mWindow, (*it), mMenuTheme->menuText.font, mMenuTheme->menuText.color, TextAlignment::Left);
             }
             row.addElement(ed, true);
-            row.makeAcceptInputHandler([this, updateValue, ed] { updateValue(ed->getValue()); });
+            row.makeAcceptInputHandler([updateValue, ed] { updateValue(ed->getValue()); });
             SSID->addRow(row);
           }
         }
@@ -1451,7 +1451,7 @@ void GuiMenu::menuAdvancedSettings(){
       if (std::find(overclockWarning.begin(), overclockWarning.end(), overclock_choice->getSelected()) != overclockWarning.end()) {
         window->pushGui(
             new GuiMsgBox(window, _("TURBO AND EXTREM OVERCLOCK PRESETS MAY CAUSE SYSTEM UNSTABILITIES, SO USE THEM AT YOUR OWN RISK.\nIF YOU CONTINUE, THE SYSTEM WILL REBOOT NOW."),
-                _("YES"), [window] {
+                _("YES"), [] {
                       if (runRestartCommand() != 0) {
                         LOG(LogWarning) << "Reboot terminated with non-zero result!";
                       }
@@ -1462,7 +1462,7 @@ void GuiMenu::menuAdvancedSettings(){
                 }));
       } else {
         window->pushGui(
-            new GuiMsgBox(window, _("THE SYSTEM WILL NOW REBOOT"), _("OK"), [window] {
+            new GuiMsgBox(window, _("THE SYSTEM WILL NOW REBOOT"), _("OK"), [] {
                       if (runRestartCommand() != 0) {
                         LOG(LogWarning) << "Reboot terminated with non-zero result!";
                       }
@@ -1606,7 +1606,7 @@ void GuiMenu::menuAdvancedSettings(){
 
         if (reboot) {
           window->pushGui(
-            new GuiMsgBox(window, _("THE SYSTEM WILL NOW REBOOT"), _("OK"), [window] {
+            new GuiMsgBox(window, _("THE SYSTEM WILL NOW REBOOT"), _("OK"), [] {
               if (runRestartCommand() != 0) {
                 LOG(LogWarning) << "Reboot terminated with non-zero result!";
               }
@@ -1717,7 +1717,7 @@ void GuiMenu::popSystemConfigurationGui(SystemData *systemData) const {
     }
 
     // when emulator changes, load new core list
-    emu_choice->setSelectedChangedCallback([this, systemData, emulatorDefaults, core_choice](std::string emulatorName) {
+    emu_choice->setSelectedChangedCallback([systemData, emulatorDefaults, core_choice](std::string emulatorName) {
         core_choice->clear();
 
         if (emulatorName == "default") {

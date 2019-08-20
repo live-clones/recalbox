@@ -395,7 +395,7 @@ void SystemView::onCursorChanged(const CursorState& state)
 	unsigned int gameNoHiddenCount = gameCount - hiddenCount;
 
 	// also change the text after we've fully faded out
-	setAnimation(infoFadeOut, 0, [this, gameCount, favoritesCount, gameNoHiddenCount, hiddenCount] {
+	setAnimation(infoFadeOut, 0, [this, favoritesCount, gameNoHiddenCount, hiddenCount] {
 		char strbuf[256];
 		if(favoritesCount == 0 && hiddenCount == 0) {
 			snprintf(strbuf, 256, ngettext("%i GAME AVAILABLE", "%i GAMES AVAILABLE", gameNoHiddenCount).c_str(), gameNoHiddenCount);
