@@ -3,9 +3,6 @@
 
 #include <SDL.h>
 #include <iostream>
-#include <iomanip>
-#include <sstream>
-#include <fstream>
 
 #include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
@@ -20,11 +17,9 @@
 #include "Log.h"
 #include "NetPlayThread.h"
 #include "NetworkThread.h"
-#include "platform.h"
 #include "RecalboxConf.h"
 #include "Renderer.h"
 #include "resources/Font.h"
-#include "ScraperCmdLine.h"
 #include "Settings.h"
 #include "SystemData.h"
 #include "views/ViewController.h"
@@ -43,8 +38,6 @@
 #endif
 
 namespace fs = boost::filesystem;
-
-bool scrape_cmdline = false;
 
 void playSound(const std::string& name)
 {
@@ -101,10 +94,6 @@ bool parseArgs(int argc, char* argv[], unsigned int* width, unsigned int* height
       bool vsync = (strcmp(argv[i + 1], "on") == 0 || strcmp(argv[i + 1], "1") == 0);
       Settings::getInstance()->setBool("VSync", vsync);
       i++; // skip vsync value
-    }
-    else if (strcmp(argv[i], "--scrape") == 0)
-    {
-      scrape_cmdline = true;
     }
     else if (strcmp(argv[i], "--max-vram") == 0)
     {
@@ -329,21 +318,18 @@ int main(int argc, char* argv[])
     ViewController::init(&window);
     window.pushGui(ViewController::get());
 
-    if (!scrape_cmdline)
+    if (!window.init(width, height, false))
     {
-      if (!window.init(width, height, false))
-      {
-        LOG(LogError) << "Window failed to initialize!";
-        return 1;
-      }
-
-      std::string glExts = (const char*) glGetString(GL_EXTENSIONS);
-      LOG(LogInfo) << "Checking available OpenGL extensions...";
-      LOG(LogInfo) << " ARB_texture_non_power_of_two: "
-                   << (glExts.find("ARB_texture_non_power_of_two") != std::string::npos ? "OK" : "MISSING");
-
-      window.renderLoadingScreen();
+      LOG(LogError) << "Window failed to initialize!";
+      return 1;
     }
+
+    std::string glExts = (const char*) glGetString(GL_EXTENSIONS);
+    LOG(LogInfo) << "Checking available OpenGL extensions...";
+    LOG(LogInfo) << " ARB_texture_non_power_of_two: "
+                 << (glExts.find("ARB_texture_non_power_of_two") != std::string::npos ? "OK" : "MISSING");
+
+    window.renderLoadingScreen();
 
     // Initialize audio manager
     VolumeControl::getInstance()->init();
@@ -358,8 +344,7 @@ int main(int argc, char* argv[])
       if (errorMsg == nullptr)
       {
         LOG(LogError) << "Unknown error occured while parsing system config file.";
-        if (!scrape_cmdline)
-          Renderer::finalize();
+        Renderer::finalize();
         return 1;
       }
 
@@ -409,12 +394,6 @@ int main(int argc, char* argv[])
 
     LOG(LogDebug) << "Launching Netplay thread";
     NetPlayThread netPlayThread(&window, NetPlayPopupEvent);
-
-    //run the command line scraper then quit
-    if (scrape_cmdline)
-    {
-      return run_scraper_cmdline();
-    }
 
     //dont generate joystick events while we're loading (hopefully fixes "automatically started emulator" bug)
     SDL_JoystickEventState(SDL_DISABLE);
