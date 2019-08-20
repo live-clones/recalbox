@@ -55,7 +55,7 @@ void MamedbRequest::process(const std::unique_ptr<HttpReq>& req, std::vector<Scr
       result.mdl.SetReleaseDateAsString(std::string(linematches["date"]));
 
       // DEVELOPPER
-      if (std::string(linematches["developer"]).compare(std::string("<unknown></unknown>")) != 0)
+      if (std::string(linematches["developer"]) != "<unknown></unknown>")
       {
         result.mdl.SetDeveloper(std::string(linematches["developer"]));
       }

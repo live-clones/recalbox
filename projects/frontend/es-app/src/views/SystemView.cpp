@@ -793,9 +793,9 @@ void SystemView::getCarouselFromTheme(const ThemeData::ThemeElement* elem)
 {
 	if (elem->has("type"))
 	{
-		if ((elem->get<std::string>("type").compare("vertical")) == 0)
+		if (elem->get<std::string>("type") == "vertical")
 			mCarousel.type = CarouselType::Vertical;
-		else if ((elem->get<std::string>("type").compare("vertical_wheel")) == 0)
+		else if (elem->get<std::string>("type") == "vertical_wheel")
 			mCarousel.type = CarouselType::VerticalWheel;
 		else
 			mCarousel.type = CarouselType::Horizontal;
@@ -822,13 +822,13 @@ void SystemView::getCarouselFromTheme(const ThemeData::ThemeElement* elem)
 		mCarousel.logoRotationOrigin = elem->get<Vector2f>("logoRotationOrigin");
 	if (elem->has("logoAlignment"))
 	{
-		if ((elem->get<std::string>("logoAlignment").compare("left")) == 0)
+		if (elem->get<std::string>("logoAlignment") == "left")
 			mCarousel.logoAlignment = TextAlignment::Left;
-		else if ((elem->get<std::string>("logoAlignment").compare("right")) == 0)
+		else if (elem->get<std::string>("logoAlignment") == "right")
 			mCarousel.logoAlignment = TextAlignment::Right;
-		else if ((elem->get<std::string>("logoAlignment").compare("top")) == 0)
+		else if (elem->get<std::string>("logoAlignment") == "top")
 			mCarousel.logoAlignment = TextAlignment::Top;
-		else if ((elem->get<std::string>("logoAlignment").compare("bottom")) == 0)
+		else if (elem->get<std::string>("logoAlignment") == "bottom")
 			mCarousel.logoAlignment = TextAlignment::Bottom;
 		else
 			mCarousel.logoAlignment = TextAlignment::Center;

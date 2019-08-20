@@ -324,7 +324,7 @@ bool GuiInputConfig::assign(Input input) {
 	// input is from InputConfig* mTargetConfig
 	// if this input is mapped to something other than "nothing" or the current row, error
 	// (if it's the same as what it was before, allow it)
-	if(std::string("HotKey").compare(formInput.name) != 0 && !mTargetConfig->getMappedTo(input).empty() && !mTargetConfig->isMappedTo(formInput.name, input)) {
+	if(std::string("HotKey") != formInput.name && !mTargetConfig->getMappedTo(input).empty() && !mTargetConfig->isMappedTo(formInput.name, input)) {
 		setMapped();
 		return false;
 	}

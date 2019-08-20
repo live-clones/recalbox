@@ -437,7 +437,7 @@ std::string RecalboxSystem::getIpAdress()
     }
   }
   // Seeking for ipv6 if no IPV4
-  if (result.compare("NOT CONNECTED") == 0)
+  if (result == "NOT CONNECTED")
   {
     for (ifa = ifAddrStruct; ifa != nullptr; ifa = ifa->ifa_next)
     {

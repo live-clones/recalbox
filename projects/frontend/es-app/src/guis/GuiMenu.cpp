@@ -695,7 +695,7 @@ void GuiMenu::menuControllers() {
         }
       }
     }
-    if (configuratedName.compare("") == 0 || !found) {
+    if (configuratedName.empty() || !found) {
       LOG(LogWarning) << "adding default entry for player " << player << "(selected : true)";
       inputOptionList->add("default", nullptr, true);
     } else {
@@ -719,7 +719,7 @@ void GuiMenu::menuControllers() {
       std::string name;
       std::string selectedName = input_p1->getSelectedName();
 
-      if (selectedName.compare(StringUtil::toUpper("default")) == 0) {
+      if (selectedName == "DEFAULT") {
         name = "DEFAULT";
         Settings::getInstance()->setString(confName, name);
         Settings::getInstance()->setString(confGuid, "");
