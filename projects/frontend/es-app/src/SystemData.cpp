@@ -549,7 +549,7 @@ bool SystemData::loadConfig()
     case RaspberryGeneration::Pi3plus:
     case RaspberryGeneration::Pi4:
     case RaspberryGeneration::NotYetKnown:
-    case RaspberryGeneration::UndetectedYet:;
+    case RaspberryGeneration::UndetectedYet:
     default:
     {
       // THE CREATION OF EACH SYSTEM

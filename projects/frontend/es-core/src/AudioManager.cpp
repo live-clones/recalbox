@@ -219,11 +219,11 @@ void AudioManager::play()
 void AudioManager::stop()
 {
   //stop playing all Sounds
-  for (unsigned int i = 0; i < sSoundVector.size(); i++)
+  for (auto & i : sSoundVector)
   {
-    if (sSoundVector.at(i)->isPlaying())
+    if (i->isPlaying())
     {
-      sSoundVector[i]->stop();
+      i->stop();
     }
   }
   //stop playing all Musics

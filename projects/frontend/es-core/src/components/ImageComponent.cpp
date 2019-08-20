@@ -211,12 +211,12 @@ void ImageComponent::updateVertices() {
 
     if (mFlipX)
     {
-        for (int i = 0; i < 6; i++)
-            mVertices[i].tex[0] = mVertices[i].tex[0] == px ? 0 : px;
+      for (auto & mVertice : mVertices)
+            mVertice.tex[0] = mVertice.tex[0] == px ? 0 : px;
     }
     if (mFlipY) {
-        for (int i = 1; i < 6; i++)
-            mVertices[i].tex[1] = mVertices[i].tex[1] == py ? 0 : py;
+      for (auto & mVertice : mVertices)
+            mVertice.tex[1] = mVertice.tex[1] == py ? 0 : py;
     }
 }
 

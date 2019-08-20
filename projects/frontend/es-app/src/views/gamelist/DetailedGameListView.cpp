@@ -460,9 +460,8 @@ void DetailedGameListView::setScrappedFolderInfo(FileData* file)
 
 void DetailedGameListView::fadeOut(std::vector<GuiComponent*> comps, bool fadingOut)
 {
-  for (auto it = comps.begin(); it != comps.end(); it++)
+  for (auto comp : comps)
   {
-    GuiComponent* comp = *it;
     // an animation is playing
     //   then animate if reverse != fadingOut
     // an animation is not playing

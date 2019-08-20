@@ -236,8 +236,8 @@ void GuiGamelistOptions::save() {
 	if (mSaveFuncs.empty()) {
 		return;
 	}
-	for (auto it = mSaveFuncs.begin(); it != mSaveFuncs.end(); it++) {
-		(*it)();
+	for (auto & mSaveFunc : mSaveFuncs) {
+		mSaveFunc();
 	}
 	Settings::getInstance()->saveFile();
 	RecalboxConf::getInstance()->saveRecalboxConf();

@@ -53,9 +53,9 @@ void CommandThread::run() {
 		}
 		
 		SystemData *system = nullptr;
-		for (auto tmp = SystemData::sSystemVector.begin(); tmp != SystemData::sSystemVector.end(); tmp ++) {
-			if ((*tmp)->getName() == tokens[1]) {
-				system = *tmp;
+		for (auto & tmp : SystemData::sSystemVector) {
+			if (tmp->getName() == tokens[1]) {
+				system = tmp;
 				break;
 			}
 		}

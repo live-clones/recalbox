@@ -12,17 +12,17 @@ std::string HttpReq::urlEncode(const std::string &s)
     const std::string unreserved = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_.~";
 
     std::string escaped="";
-    for (size_t i=0; i<s.length(); i++)
+    for (char i : s)
     {
-        if (unreserved.find_first_of(s[i]) != std::string::npos)
+        if (unreserved.find_first_of(i) != std::string::npos)
         {
-            escaped.push_back(s[i]);
+            escaped.push_back(i);
         }
         else
         {
             escaped.append("%");
             char buf[3];
-            sprintf(buf, "%.2X", (unsigned char)s[i]);
+            sprintf(buf, "%.2X", (unsigned char)i);
             escaped.append(buf);
         }
     }

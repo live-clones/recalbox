@@ -257,7 +257,6 @@ std::string DateTimeComponent::getDisplayString(Display mode) const
 			snprintf(strbuf, 256, ngettext("%i day ago", "%i days ago", n).c_str(), n);
 			return strbuf;
 		}
-		break;
 	}
 	
 	if(mTime == boost::posix_time::not_a_date_time)

@@ -58,15 +58,15 @@ bool RecalboxConf::saveRecalboxConf() {
 
 
     /* Save new value if exists */
-    for (std::map<std::string, std::string>::iterator it = confMap.begin(); it != confMap.end(); ++it) {
-        std::string key = it->first;
-        std::string val = it->second;
+    for (auto & it : confMap) {
+        std::string key = it.first;
+        std::string val = it.second;
         bool lineFound = false;
-        for (int i = 0; i < (int)fileLines.size(); i++) {
-            std::string currentLine = fileLines[i];
+        for (auto & fileLine : fileLines) {
+            std::string currentLine = fileLine;
 
             if (boost::starts_with(currentLine, key+"=") || boost::starts_with(currentLine, ";"+key+"=")){
-                fileLines[i] = key + "=" + val;
+                fileLine = key + "=" + val;
                 lineFound = true;
             }
         }
@@ -79,8 +79,8 @@ bool RecalboxConf::saveRecalboxConf() {
         LOG(LogError) << "Unable to open for saving :  " << recalboxConfFileTmp << "\n";
         return false;
     }
-    for (int i = 0; i < (int)fileLines.size(); i++) {
-        fileout << fileLines[i] << "\n";
+    for (const auto & fileLine : fileLines) {
+        fileout << fileLine << "\n";
     }
 
     fileout.close();

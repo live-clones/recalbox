@@ -585,20 +585,19 @@ void GuiMenu::menuControllers() {
           window->pushGui(new GuiMsgBox(window, _("NO CONTROLLERS FOUND"), _("OK")));
         } else {
           GuiSettings *pairGui = new GuiSettings(window, _("PAIR A BLUETOOTH CONTROLLER").c_str());
-          for (std::vector<std::string>::iterator controllerString = ((std::vector<std::string> *) controllers)->begin();
-             controllerString != ((std::vector<std::string> *) controllers)->end(); ++controllerString) {
+          for (auto & controllerString : *((std::vector<std::string> *) controllers)) {
 
             ComponentListRow controllerRow;
-            std::function<void()> pairController = [window, controllerString, deletePairGui] {
-              window->pushGui(new GuiLoading(window, [controllerString] {
-                bool paired = RecalboxSystem::pairBluetooth(*controllerString);
+            std::function<void()> pairController = [window, &controllerString, deletePairGui] {
+              window->pushGui(new GuiLoading(window, [&controllerString] {
+                bool paired = RecalboxSystem::pairBluetooth(controllerString);
 
                 return (void *) new bool(paired);
               }, deletePairGui));
 
             };
             controllerRow.makeAcceptInputHandler(pairController);
-            auto update = std::make_shared<TextComponent>(window, *controllerString,
+            auto update = std::make_shared<TextComponent>(window, controllerString,
                                     mMenuTheme->menuText.font, mMenuTheme->menuText.color);
             auto bracket = makeArrow(window);
             controllerRow.addElement(update, true);
@@ -766,8 +765,8 @@ void GuiMenu::menuUISettings(){
 	  screensavers.push_back("dim");
 	  screensavers.push_back("black");
 	  screensavers.push_back("demo");
-	  for (auto it = screensavers.begin(); it != screensavers.end(); it++)
-		  screensaver_behavior->add(*it, *it, Settings::getInstance()->getString("ScreenSaverBehavior") == *it);
+	  for (auto & screensaver : screensavers)
+		  screensaver_behavior->add(screensaver, screensaver, Settings::getInstance()->getString("ScreenSaverBehavior") == screensaver);
 	  ss->addWithLabel(screensaver_behavior, _("SCREENSAVER BEHAVIOR"),
 	                   _(MenuMessages::UI_SCREENSAVER_BEHAVIOR_HELP_MSG));
 	  ss->addSaveFunc([screensaver_behavior] {
@@ -877,8 +876,8 @@ void GuiMenu::menuUISettings(){
   transitions.push_back("fade");
   transitions.push_back("slide");
   transitions.push_back("instant");
-  for (auto it = transitions.begin(); it != transitions.end(); it++)
-    transition_style->add(*it, *it, Settings::getInstance()->getString("TransitionStyle") == *it);
+  for (auto & transition : transitions)
+    transition_style->add(transition, transition, Settings::getInstance()->getString("TransitionStyle") == transition);
   st->addWithLabel(transition_style, _("TRANSITION STYLE"), _(MenuMessages::UI_TRANSITION_HELP_MSG));
   st->addSaveFunc([transition_style] {
     Settings::getInstance()->setString("TransitionStyle", transition_style->getSelected());
@@ -1274,13 +1273,13 @@ void GuiMenu::menuNetworkSettings(){
       if (enable_wifi->getState()) {
         std::vector<std::string> availableSSID = RecalboxSystem::getAvailableWiFiSSID(baseEnabled);
         RecalboxConf::getInstance()->set("wifi.enabled", "1");
-        for (auto it = availableSSID.begin(); it != availableSSID.end(); it++) {
+        for (auto & it : availableSSID) {
 
-          if ((*it) != "\n") {
+          if (it != "\n") {
 
             row.elements.clear();
             std::vector<std::string> tokens;
-            boost::split(tokens, (*it), boost::is_any_of(" "));
+            boost::split(tokens, it, boost::is_any_of(" "));
 
             if (tokens.size() >= 8) {
               std::string vname;
@@ -1290,7 +1289,7 @@ void GuiMenu::menuNetworkSettings(){
               }
               ed = std::make_shared<TextComponent>(mWindow, vname, mMenuTheme->menuText.font, mMenuTheme->menuText.color, TextAlignment::Left);
             } else {
-              ed = std::make_shared<TextComponent>(mWindow, (*it), mMenuTheme->menuText.font, mMenuTheme->menuText.color, TextAlignment::Left);
+              ed = std::make_shared<TextComponent>(mWindow, it, mMenuTheme->menuText.font, mMenuTheme->menuText.color, TextAlignment::Left);
             }
             row.addElement(ed, true);
             row.makeAcceptInputHandler([updateValue, ed] { updateValue(ed->getValue()); });
@@ -1490,8 +1489,8 @@ void GuiMenu::menuAdvancedSettings(){
       // For each activated system
       std::vector<SystemData *> systems = SystemData::sSystemVector;
       bool found = false;
-      for (auto system = systems.begin(); system != systems.end(); system++) {
-        std::string systemName = (*system)->getName();
+      for (auto & system : systems) {
+        std::string systemName = system->getName();
         if(systemName != "favorites") {
           found = found || currentSystem == systemName;
           system_choices->add(systemName, systemName, currentSystem == systemName);
@@ -1640,14 +1639,14 @@ void GuiMenu::menuAdvancedSettings(){
   s->addWithLabel(manager, _("RECALBOX MANAGER"), _(MenuMessages::ADVANCED_MANAGER_HELP_MSG));
   s->addSaveFunc([manager] {
     RecalboxConf::getInstance()->set("system.manager.enabled", manager->getState() ? "1" : "0");
-    RecalboxConf::getInstance()->saveRecalboxConf();;
+    RecalboxConf::getInstance()->saveRecalboxConf();
   });
   // Recalbox API
   auto recalboxApi = std::make_shared<SwitchComponent>(mWindow, RecalboxConf::getInstance()->get("system.api.enabled") == "1");
   s->addWithLabel(recalboxApi, _("RECALBOX API"), _(MenuMessages::ADVANCED_API_HELP_MSG));
   s->addSaveFunc([recalboxApi] {
     RecalboxConf::getInstance()->set("system.api.enabled", recalboxApi->getState() ? "1" : "0");
-    RecalboxConf::getInstance()->saveRecalboxConf();;
+    RecalboxConf::getInstance()->saveRecalboxConf();
   });
   mWindow->pushGui(s);
 }
