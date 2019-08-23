@@ -136,8 +136,8 @@ def getDefaultEmulator(targetSystem):
         "gamegear"      : Emulator(name='gamegear', emulator='libretro', core='genesisplusgx'),
         "sega32x"       : Emulator(name='sega32x', emulator='libretro', core='picodrive'),
         "segacd"        : Emulator(name='segacd', emulator='libretro', core='picodrive'),
-        "saturn"        : Emulator(name='segacd', emulator='libretro', core='beetle_saturn'),
-        "dreamcast"     : Emulator(name='dreamcast', emulator='reicast'),
+        "dreamcast"     : Emulator(name='dreamcast', emulator='reicast', core='reicast'),
+        "saturn"        : Emulator(name='saturn', emulator='libretro', core='mednafen_saturn'),
 
         # Arcade
         "neogeo"        : Emulator(name='neogeo', emulator='fba2x'),
