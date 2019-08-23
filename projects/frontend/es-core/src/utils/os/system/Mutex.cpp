@@ -22,14 +22,12 @@ Mutex::~Mutex()
 
 bool Mutex::Lock()
 {
-  if(pthread_mutex_lock(&mMutex) == 0) return true;
-  return false;
+  return pthread_mutex_lock(&mMutex) == 0;
 }
 
 bool Mutex::UnLock()
 {
-  if(pthread_mutex_unlock(&mMutex) == 0) return true;
-  return false;
+  return pthread_mutex_unlock(&mMutex) == 0;
 }
 
 bool Mutex::Signal()
