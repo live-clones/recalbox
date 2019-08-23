@@ -18,7 +18,7 @@ char LoadTimeZone()
 
 bool LoadRTCValues(short &millis, short &year, char &month, char &day, char &hour, char &minute, char &second)
 {
-  timeval tv;
+  timeval tv = { 0, 0 };
   gettimeofday(&tv, nullptr);
   time_t t=tv.tv_sec;
   struct tm* lt = localtime(&t);

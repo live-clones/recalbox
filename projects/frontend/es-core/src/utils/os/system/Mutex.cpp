@@ -46,7 +46,7 @@ bool Mutex::WaitSignal()
 
 bool Mutex::WaitSignal(int milliseconds)
 {
-  struct timespec ts;
+  struct timespec ts = { 0, 0 };
   clock_gettime(CLOCK_REALTIME, &ts);
   if( milliseconds>1000 )
   {
