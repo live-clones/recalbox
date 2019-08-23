@@ -387,7 +387,7 @@ std::string DateTime::ToStringFormat(const char* format) const
     }
   }
 
-  return std::move(result);
+  return result;
 }
 
 bool DateTime::FetchNumeric(const char*& str, int min, int max, int& result)

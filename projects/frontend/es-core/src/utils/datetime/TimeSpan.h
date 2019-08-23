@@ -246,36 +246,36 @@ public:
    * @param millisecond If true, milliseconds are added as second fractions.
    * @return Formatted string
    */
-  std::string ToString(bool millisecond = false) const { return std::move(ToStringFormat(millisecond ? "%d:%HH:%mm:%ss.%fff" : "%d:%HH:%mm:%ss")); };
+  std::string ToString(bool millisecond = false) const { return ToStringFormat(millisecond ? "%d:%HH:%mm:%ss.%fff" : "%d:%HH:%mm:%ss"); };
 
   /*!
    * Format current TimeStamp to a comprehensive string using Time unit only (no days).
    * @param millisecond If true, milliseconds are added as second fractions.
    * @return Formatted string
    */
-  std::string ToTimeString(bool millisecond = false) const { return std::move(ToStringFormat(millisecond ? "%H:%mm:%ss.%fff" : "%H:%mm:%ss")); };
+  std::string ToTimeString(bool millisecond = false) const { return ToStringFormat(millisecond ? "%H:%mm:%ss.%fff" : "%H:%mm:%ss"); };
 
   /*!
    * Format current timestamp into a string representation of the total hours
    * @return Formatted string
    */
-  std::string ToHoursString() const { return std::move(ToStringFormat("%H")); };
+  std::string ToHoursString() const { return ToStringFormat("%H"); };
 
   /*!
    * Format current timestamp into a string representation of the total minutes
    * @return Formatted string
    */
-  std::string ToMinutesString() const { return std::move(ToStringFormat("%mmmm")); };
+  std::string ToMinutesString() const { return ToStringFormat("%mmmm"); };
 
   /*!
    * Format current timestamp into a string representation of the total seconds
    * @return Formatted string
    */
-  std::string ToSecondsString() const { return std::move(ToStringFormat("%ssss")); };
+  std::string ToSecondsString() const { return ToStringFormat("%ssss"); };
 
   /*!
    * Format current timestamp into a string representation of the total milliseconds
    * @return Formatted string
    */
-  std::string ToMillisecondsString() const { return std::move(ToStringFormat("%ffff")); };
+  std::string ToMillisecondsString() const { return ToStringFormat("%ffff"); };
 };

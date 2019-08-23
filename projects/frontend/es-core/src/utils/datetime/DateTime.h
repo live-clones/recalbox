@@ -324,43 +324,43 @@ public:
    * Return the current DateTime in an ISO8601 string format: YYYY-MM-ddTHH:mm:ss+zzzz
    * @return
    */
-  std::string ToISO8601() const { return std::move(ToStringFormat("%YYYY-%MM-%ddT%HH:%mm:%ss%zzzz")); }
+  std::string ToISO8601() const { return ToStringFormat("%YYYY-%MM-%ddT%HH:%mm:%ss%zzzz"); }
 
   /*!
    * Return the current DateTime in an ISO8601 string format: YYYY-MM-ddTHH:mm:ss+zzzz
    * @return
    */
-  std::string ToCompactISO8601() const { return std::move(ToStringFormat("%YYYY%MM%ddT%HH%mm%ss")); }
+  std::string ToCompactISO8601() const { return ToStringFormat("%YYYY%MM%ddT%HH%mm%ss"); }
 
     /*!
    * Return very compact 14 digit DateTime representation
    * @return Compact representation of the current DateTime
    */
-  std::string ToCompactFormat() const { return std::move(ToStringFormat("%YYYY%MM%dd%HH%mm%ss")); }
+  std::string ToCompactFormat() const { return ToStringFormat("%YYYY%MM%dd%HH%mm%ss"); }
 
   /*!
    * Return short DateTime representation
    * @return Short representation of the current DateTime
    */
-  std::string ToShortFormat() const { return std::move(ToStringFormat("%YYYY/%MM/%dd %HH:%mm:%ss%zz")); }
+  std::string ToShortFormat() const { return ToStringFormat("%YYYY/%MM/%dd %HH:%mm:%ss%zz"); }
 
   /*!
    * Return precise timestamp DateTime representation
    * @return Short representation of the current DateTime
    */
-  std::string ToPreciseTimeStamp() const { return std::move(ToStringFormat("%YYYY/%MM/%dd %HH:%mm:%ss.%fff")); }
+  std::string ToPreciseTimeStamp() const { return ToStringFormat("%YYYY/%MM/%dd %HH:%mm:%ss.%fff"); }
 
   /*!
    * Return long DateTime representation (english names)
    * @return Long representation of the current DateTime
    */
-  std::string ToLongFormat() const { return std::move(ToStringFormat("%YYYY/%MMM/%dd %HH:%mm:%ss%zzzz")); }
+  std::string ToLongFormat() const { return ToStringFormat("%YYYY/%MMM/%dd %HH:%mm:%ss%zzzz"); }
 
   /*!
    * Return Human readable DateTime representation (english names)
    * @return Human readable representation of the current DateTime
    */
-  std::string ToHumanFormat() const { return std::move(ToStringFormat("%dddd %dd, %MMMM %YYYY - %HH:%mm:%ss%zzzz")); }
+  std::string ToHumanFormat() const { return ToStringFormat("%dddd %dd, %MMMM %YYYY - %HH:%mm:%ss%zzzz"); }
 
   /*!
    * Return the epoch time representation of the current DateTime
