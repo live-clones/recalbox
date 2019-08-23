@@ -80,6 +80,7 @@ BasicGameListView::BasicGameListView(Window* window, FolderData* root)
 	: ISimpleGameListView(window, root),
 	  mList(window),
     mEmptyListItem(root->getSystem()),
+    mPopulatedFolder(nullptr),
 	  listingOffset(0)
 {
 	mList.setSize(mSize.x(), mSize.y() * 0.8f);

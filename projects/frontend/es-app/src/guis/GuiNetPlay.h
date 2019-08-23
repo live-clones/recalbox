@@ -106,7 +106,7 @@ private:
 	boost::thread *mHandle;
 
 	bool mLoading;
-	bool mLoaded = false;
+	bool mLoaded;
 	bool mLobbyLoaded;
 	bool mLobbyChecked;
 

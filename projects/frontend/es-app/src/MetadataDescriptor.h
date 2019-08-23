@@ -4,7 +4,7 @@
 #include "utils/datetime/DateTime.h"
 #include "ItemType.h"
 
-//#define _METADATA_STATS_
+#define _METADATA_STATS_
 
 // Forward declaration (MetadataFieldDescriptor must indlude MetadataDescriptor)
 class MetadataFieldDescriptor;
@@ -17,7 +17,6 @@ class MetadataDescriptor
 
     #ifdef _METADATA_STATS_
     static int LivingClasses;
-    static int LivingNone;
     static int LivingFolders;
     static int LivingGames;
     #endif

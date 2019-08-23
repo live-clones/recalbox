@@ -8,6 +8,7 @@
 
 GuiComponent::GuiComponent(Window* window)
   : mTransform(Transform4x4f::Identity()),
+    mAnimationMap{ nullptr },
     mChildren(nullptr),
     mWindow(window),
     mParent(nullptr),
@@ -15,10 +16,13 @@ GuiComponent::GuiComponent(Window* window)
     mOrigin(Vector2f::Zero()),
     mRotationOrigin(0.5, 0.5),
     mSize(Vector2f::Zero()),
+    mRotation(0.0f),
+    mScale(1.0f),
+    mDefaultZIndex(0),
+    mZIndex(0),
     mOpacity(255),
     mIsProcessing(false)
 {
-  memset(mAnimationMap, 0, sizeof(mAnimationMap));
 }
 
 GuiComponent::~GuiComponent()

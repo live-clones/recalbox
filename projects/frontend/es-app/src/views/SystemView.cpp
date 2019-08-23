@@ -26,17 +26,17 @@ const int logoBuffersRight[] = { 1, 2, 5 };
 
 SystemView::SystemView(Window* window)
   : IList<SystemViewData, SystemData*>(window, LIST_SCROLL_STYLE_SLOW, LoopType::Always),
-		mSystemInfo(window, "SYSTEM INFO", Font::get(FONT_SIZE_SMALL), 0x33333300, TextAlignment::Center),
-		mViewNeedsReload(true),
+    mCarousel(),
+    mSystemInfo(window, "SYSTEM INFO", Font::get(FONT_SIZE_SMALL), 0x33333300, TextAlignment::Center),
+    mCamOffset(0),
+    mExtrasCamOffset(0),
+    mExtrasFadeOpacity(0.0f),
+    lastSystem(nullptr),
+    mViewNeedsReload(true),
+    mShowing(false),
 		launchKodi(false)
 {
-	mCamOffset = 0;
-	mExtrasCamOffset = 0;
-	mExtrasFadeOpacity = 0.0f;
-
 	setSize(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
-
-
 	populate();
 }
 
@@ -86,7 +86,7 @@ void SystemView::addSystem(SystemData * it){
 		e.data.logo = std::shared_ptr<GuiComponent>(text);
     if (mCarousel.type == CarouselType::Vertical || mCarousel.type == CarouselType::VerticalWheel)
 			text->setHorizontalAlignment(mCarousel.logoAlignment);
-		else
+    else
 			text->setVerticalAlignment(mCarousel.logoAlignment);
 	}
 

@@ -3,7 +3,10 @@
 
 AsyncReqComponent::AsyncReqComponent(Window* window, std::shared_ptr<HttpReq> req, std::function<void(std::shared_ptr<HttpReq>)> onSuccess, std::function<void()> onCancel) 
 	: GuiComponent(window), 
-	mSuccessFunc(std::move(onSuccess)), mCancelFunc(std::move(onCancel)), mTime(0), mRequest(std::move(req))
+    mSuccessFunc(std::move(onSuccess)),
+    mCancelFunc(std::move(onCancel)),
+    mTime(0),
+    mRequest(std::move(req))
 {
 	
 }

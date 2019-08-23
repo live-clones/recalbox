@@ -1,6 +1,7 @@
 #include "Mutex.h"
 
 Mutex::Mutex()
+  : mMutex(), mCondition()
 {
   pthread_mutexattr_t MutexAttr;
   pthread_mutexattr_init(&MutexAttr);

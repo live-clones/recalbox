@@ -5,7 +5,10 @@
 
 GuiTextEditPopupKeyboard::GuiTextEditPopupKeyboard(Window* window, const std::string& title, const std::string& initValue,
 	const std::function<void(const std::string&)>& okCallback, bool multiLine, const std::string& acceptBtnText)
-	: GuiComponent(window), mBackground(window, ":/frame.png"), mGrid(window, Vector2i(1, 4)), mMultiLine(multiLine)
+	: GuiComponent(window),
+	  mBackground(window, ":/frame.png"),
+	  mGrid(window, Vector2i(1, 4)),
+	  mMultiLine(multiLine)
 {
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 

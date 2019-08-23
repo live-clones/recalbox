@@ -35,7 +35,7 @@ private:
 	{
 		std::string name;
 		T object;
-		bool selected;
+		bool selected = false;
 	};
 
 	class OptionListPopup : public GuiComponent

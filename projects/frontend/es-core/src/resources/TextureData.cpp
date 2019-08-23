@@ -19,6 +19,7 @@ TextureData::TextureData()
     mSourceWidth(0.0f),
     mSourceHeight(0.0f),
     mScalable(false),
+    mReloadable(false),
     mSVGImage(nullptr)
 {
 }

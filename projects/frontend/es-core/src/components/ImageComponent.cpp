@@ -20,14 +20,17 @@ ImageComponent::ImageComponent(Window* window, bool forceLoad, bool dynamic)
     mFlipX(false),
     mFlipY(false),
     mTargetIsMax(false),
+    mVertices{ { { 0, 0 }, { 0, 0 } } },
+    mColors{ 0 },
     mColorShift(0xFFFFFFFF),
+    mOriginColor(0),
     mFadeOpacity(0.0f),
     mFading(false),
     mForceLoad(forceLoad),
     mDynamic(dynamic)
 {
 	mColorNotSet = true;
-    updateColors();
+  updateColors();
 }
 
 void ImageComponent::resize() {

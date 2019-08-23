@@ -8,7 +8,7 @@
 const std::string MetadataDescriptor::DefaultValueEmulator = "default";
 const std::string MetadataDescriptor::DefaultValueCore = "default";
 const std::string MetadataDescriptor::DefaultValueRatio = "auto";
-const std::string MetadataDescriptor::DefaultValueEmpty = "";
+const std::string MetadataDescriptor::DefaultValueEmpty;
 const std::string MetadataDescriptor::DefaultValueRating = "0.0";
 const std::string MetadataDescriptor::DefaultValuePlayers = "1";
 const std::string MetadataDescriptor::DefaultValuePlaycount = "0";

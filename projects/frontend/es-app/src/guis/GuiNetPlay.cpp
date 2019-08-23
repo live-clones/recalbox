@@ -25,13 +25,15 @@ GuiNetPlay::GuiNetPlay(Window* window)
     mGrid(window, Vector2i(1, 3)),
     mGridMeta(new ComponentGrid(window, Vector2i(2, 1))),
     mGridMetaRight(new ComponentGrid(window, Vector2i(2, 11))),
-    mList(nullptr)
+    mList(nullptr),
+    mHandle(nullptr),
+    mLoading(false),
+    mLoaded(false),
+    mLobbyLoaded(false),
+    mLobbyChecked(false)
 {
 	addChild(&mBackground);
 	addChild(&mGrid);
-
-	mLoading = false;
-	mLobbyChecked = false;
 
 	mMenuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 

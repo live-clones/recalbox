@@ -94,7 +94,8 @@ private:
 };
 
 template<typename T>
-ImageGridComponent<T>::ImageGridComponent(Window* window) : IList<ImageGridData, T>(window)
+ImageGridComponent<T>::ImageGridComponent(Window* window)
+  : IList<ImageGridData, T>(window)
 {
 	mEntriesDirty = true;
 }

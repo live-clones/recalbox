@@ -2,17 +2,20 @@
 // Created by bkg2k on 10/03/19.
 //
 
+// TODO: Use DataTime instead of gettimeofday
 #include <sys/time.h>
 #include "DemoMode.h"
 #include "Log.h"
-
 
 DemoMode::DemoMode(Window& window)
   : mWindow(window),
     mSettings(*Settings::getInstance()),
     mRecalboxConf(*RecalboxConf::getInstance()),
+    mDefaultDuration(0),
+    mInfoScreenDuration(0),
     mRandomGenerator(mRandomDevice()),
-    mGameRandomizer(0, 1U << 30U)
+    mGameRandomizer(0, 1U << 30U),
+    mSeed(0)
 {
 }
 

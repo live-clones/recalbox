@@ -114,23 +114,20 @@ private:
 template <typename T>
 TextListComponent<T>::TextListComponent(Window* window)
   :	IList<TextListData, T>(window),
+    mMarqueeOffset(0),
+    mMarqueeTime(-MARQUEE_DELAY),
+    mAlignment(Alignment::Center),
+    mHorizontalMargin(0),
+    mFont(Font::get(FONT_SIZE_MEDIUM)),
+    mUppercase(false),
+    mLineSpacing(1.5f),
+    mSelectorOffsetY(0),
+    mSelectorColor(0x000000FF),
+    mSelectedColor(0),
+    mColors{ 0x0000FFFF, 0x00FF00FF},
     mSelectorImage(window)
 {
-	mMarqueeOffset = 0;
-	mMarqueeTime = -MARQUEE_DELAY;
-
-	mHorizontalMargin = 0;
-	mAlignment = Alignment::Center;
-
-	mFont = Font::get(FONT_SIZE_MEDIUM);
-	mUppercase = false;
-	mLineSpacing = 1.5f;
 	mSelectorHeight = mFont->getSize() * 1.5f;
-	mSelectorOffsetY = 0;
-	mSelectorColor = 0x000000FF;
-	mSelectedColor = 0;
-	mColors[0] = 0x0000FFFF;
-	mColors[1] = 0x00FF00FF;
 }
 
 template <typename T>

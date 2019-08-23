@@ -8,7 +8,6 @@
 #include "components/BusyComponent.h"
 #include "components/NinePatchComponent.h"
 
-
 #include <boost/thread.hpp>
 
 class GuiLoading  : public GuiComponent {

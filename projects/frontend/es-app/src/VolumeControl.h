@@ -26,7 +26,7 @@ class VolumeControl
 #elif defined(__linux__)
     static const char * mixerName;
     static const char * mixerCard;
-    int mixerIndex{};
+    int mixerIndex;
 	  snd_mixer_t* mixerHandle;
     snd_mixer_elem_t* mixerElem;
     snd_mixer_selem_id_t* mixerSelemId;

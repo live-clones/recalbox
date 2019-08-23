@@ -22,7 +22,10 @@ std::shared_ptr<AudioManager> AudioManager::sInstance;
 
 AudioManager::AudioManager()
   : currentMusic(nullptr),
-    running(0)
+    mWindow(nullptr),
+    mEvent(0),
+    running(false),
+    runningFromPlaylist(false)
 {
   init();
 }

@@ -4,7 +4,9 @@
 int Thread::mCount = 0;
 
 Thread::Thread()
-  : mIsRunning(false), mIsDone(true)
+  : mHandle(0),
+    mIsRunning(false),
+    mIsDone(true)
 {
   mCount++;
 }

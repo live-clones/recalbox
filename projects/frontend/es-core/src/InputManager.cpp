@@ -26,7 +26,8 @@ namespace fs = boost::filesystem;
 
 InputManager* InputManager::mInstance = nullptr;
 
-InputManager::InputManager() : mKeyboardInputConfig(nullptr)
+InputManager::InputManager()
+  : mKeyboardInputConfig(nullptr)
 {
 }
 

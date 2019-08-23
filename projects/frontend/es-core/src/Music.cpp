@@ -6,7 +6,6 @@
 
 std::map< std::string, std::shared_ptr<Music> > Music::sMap;
 
-
 std::shared_ptr<Music> Music::get(const std::string& path)
 {
 	auto it = sMap.find(path);
@@ -31,9 +30,11 @@ std::shared_ptr<Music> Music::getFromTheme(const std::shared_ptr<ThemeData>& the
 	return get(elem->get<std::string>("path"));
 }
 
-Music::Music(const std::string & path) : music(nullptr), playing(false)
+Music::Music(const std::string & path)
+  : mPath(path),
+    music(nullptr),
+    playing(false)
 {
-	mPath = path;
 	initMusic();
 }
 

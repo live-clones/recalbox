@@ -8,7 +8,8 @@
 SwitchComponent::SwitchComponent(Window* window)
   : GuiComponent(window),
     mImage(window),
-    mState(false)
+    mState(false),
+    mInitialState(false)
 {
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 	mImage.setImage(mState ? menuTheme->iconSet.on : menuTheme->iconSet.off);

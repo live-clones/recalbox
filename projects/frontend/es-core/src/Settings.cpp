@@ -38,8 +38,8 @@ static std::vector<const char *>& SettingsNotToSave()
 
 Settings::Settings()
 {
-    setDefaults();
-    loadFile();
+  setDefaults();
+  loadFile();
 }
 
 Settings *Settings::getInstance() {

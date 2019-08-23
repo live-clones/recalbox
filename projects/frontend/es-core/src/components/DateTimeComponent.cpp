@@ -7,10 +7,17 @@
 #include "Locale.h"
 #include "MenuThemeData.h"
 
-DateTimeComponent::DateTimeComponent(Window* window, Display dispMode) : GuiComponent(window),
-                                                                             mEditing(false), mEditIndex(0), mDisplayMode(dispMode), mRelativeUpdateAccumulator(0),
-                                                                             mColor(0x777777FF), mFont(Font::get(
-    FONT_SIZE_SMALL, FONT_PATH_LIGHT)), mUppercase(false), mAutoSize(true)
+DateTimeComponent::DateTimeComponent(Window* window, Display dispMode)
+  : GuiComponent(window),
+    mEditing(false),
+    mEditIndex(0),
+    mDisplayMode(dispMode),
+    mRelativeUpdateAccumulator(0),
+    mColor(0x777777FF),
+    mOriginColor(0),
+    mFont(Font::get(FONT_SIZE_SMALL, FONT_PATH_LIGHT)),
+    mUppercase(false),
+    mAutoSize(true)
 {
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 	setFont(menuTheme->menuTextSmall.font);

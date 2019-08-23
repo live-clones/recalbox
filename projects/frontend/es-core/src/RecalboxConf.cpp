@@ -12,8 +12,9 @@ std::string recalboxConfFile = "/recalbox/share/system/recalbox.conf";
 std::string recalboxConfFileInit = "/recalbox/share_init/system/recalbox.conf";
 std::string recalboxConfFileTmp = "/recalbox/share/system/recalbox.conf.tmp";
 
-RecalboxConf::RecalboxConf(bool mainFile) {
-    loadRecalboxConf(mainFile);
+RecalboxConf::RecalboxConf(bool mainFile)
+{
+  loadRecalboxConf(mainFile);
 }
 
 RecalboxConf& RecalboxConf::Instance()

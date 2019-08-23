@@ -30,7 +30,7 @@ public:
 	std::vector<HelpPrompt> getHelpPrompts() override { return mGrid.getHelpPrompts(); }
 
 private:
-  GuiMsgBox(Window* window);
+  explicit GuiMsgBox(Window* window);
 
 	void deleteMeAndCall(const std::function<void()>& func);
 

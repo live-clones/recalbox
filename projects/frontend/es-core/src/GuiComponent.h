@@ -160,11 +160,11 @@ class GuiComponent
     Vector2f mRotationOrigin;
     Vector2f mSize;
 
-    float mRotation = 0.0;
-    float mScale = 1.0;
+    float mRotation;
+    float mScale;
 
-    float mDefaultZIndex = 0;
-    float mZIndex = 0;
+    float mDefaultZIndex;
+    float mZIndex;
 
     unsigned char mOpacity;
     bool mIsProcessing;
