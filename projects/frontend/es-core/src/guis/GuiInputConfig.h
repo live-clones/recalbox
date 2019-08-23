@@ -7,7 +7,6 @@
 #include "components/ComponentList.h"
 #include "InputStack.h"
 #include "Locale.h"
-#include "Util.h"
 
 class TextComponent;
 

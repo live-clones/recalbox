@@ -1,7 +1,5 @@
 #include "views/gamelist/IGameListView.h"
 #include "Window.h"
-#include "guis/GuiMetaDataEd.h"
-#include "guis/GuiMenu.h"
 #include "views/ViewController.h"
 #include "Settings.h"
 #include "Log.h"

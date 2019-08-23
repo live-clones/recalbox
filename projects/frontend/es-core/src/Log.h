@@ -6,7 +6,6 @@ if (LogLevel::level <= Log::getReportingLevel()) Log().get(LogLevel::level)
 
 #include <string>
 #include <sstream>
-#include <iostream>
 
 enum class LogLevel
 {

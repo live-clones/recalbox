@@ -7,9 +7,6 @@
 #include "FileData.h"
 #include "Log.h"
 #include "PlatformId.h"
-#include "Settings.h"
-#include "SystemData.h"
-#include <pugixml/pugixml.hpp>
 
 /* When raspbian will get an up to date version of rapidjson we'll be
    able to have it throw in case of error with the following:

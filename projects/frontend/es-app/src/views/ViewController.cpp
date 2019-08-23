@@ -7,17 +7,12 @@
 
 #include "views/gamelist/BasicGameListView.h"
 #include "views/gamelist/DetailedGameListView.h"
-#include "views/gamelist/GridGameListView.h"
-#include "guis/GuiMenu.h"
 #include "guis/GuiDetectDevice.h"
-#include "guis/GuiMsgBox.h"
 #include "animations/LaunchAnimation.h"
 #include "animations/MoveCameraAnimation.h"
 #include "animations/LambdaAnimation.h"
 
 #include "AudioManager.h"
-
-#include <SDL.h>
 
 #include <memory>
 

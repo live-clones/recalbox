@@ -1,19 +1,16 @@
 #include <chrono>
-#include <fstream>
 #include <memory>
 #include <thread>
 
 #include "Log.h"
-
 #include "scrapers/GamesDBJSONScraperResources.h"
 #include "utils/os/fs/FileSystemUtil.h"
 
-
 #include <rapidjson/document.h>
 #include <rapidjson/error/en.h>
+#include <fstream>
 
 using namespace rapidjson;
-
 
 namespace
 {

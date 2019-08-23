@@ -6,7 +6,6 @@
 #include "Log.h"
 #include "Settings.h"
 #include "Util.h"
-#include "recalbox/RecalboxSystem.h"
 
 namespace fs = boost::filesystem;
 namespace pt = boost::property_tree;

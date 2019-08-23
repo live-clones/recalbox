@@ -10,7 +10,6 @@
 #include "components/ButtonComponent.h"
 #include "components/MenuComponent.h"
 #include <boost/regex.hpp>
-#include <boost/algorithm/string/predicate.hpp>
 #include <regex>
 
 

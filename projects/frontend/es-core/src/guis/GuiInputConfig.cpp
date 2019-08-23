@@ -6,7 +6,6 @@
 #include "components/ImageComponent.h"
 #include "components/MenuComponent.h"
 #include "components/ButtonComponent.h"
-#include "Util.h"
 #include "InputManager.h"
 #include "MenuThemeData.h"
 #include <boost/format.hpp>

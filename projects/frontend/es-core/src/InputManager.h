@@ -1,5 +1,4 @@
-#ifndef _INPUTMANAGER_H_
-#define _INPUTMANAGER_H_
+#pragma once
 
 #include <SDL.h>
 #include <vector>
@@ -63,5 +62,3 @@ public:
 	std::string configureEmulators();
 
 };
-
-#endif

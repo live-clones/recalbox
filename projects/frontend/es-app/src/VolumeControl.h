@@ -1,13 +1,10 @@
 #pragma once
 
 #include <memory>
-#include <stdint.h>
 
 #if defined (__APPLE__)
     #warning TODO: Not implemented for MacOS yet!!!
 #elif defined(__linux__)
-	#include <unistd.h>
-	#include <fcntl.h>
 	#include <alsa/asoundlib.h>
 #elif defined(WIN32) || defined(_WIN32)
 	#include <Windows.h>

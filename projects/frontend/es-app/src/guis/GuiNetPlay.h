@@ -9,12 +9,12 @@
 #include "GuiComponent.h"
 #include "components/NinePatchComponent.h"
 #include "components/ComponentGrid.h"
-#include "resources/Font.h"
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 #include <recalbox/RecalboxSystem.h>
 #include <boost/thread.hpp>
 #include <MenuThemeData.h>
+#include <components/BusyComponent.h>
 #include "FileData.h"
 
 namespace json = boost::property_tree;

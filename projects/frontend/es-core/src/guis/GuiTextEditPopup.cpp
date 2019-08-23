@@ -1,5 +1,6 @@
 #include "guis/GuiTextEditPopup.h"
 #include "components/MenuComponent.h"
+#include "components/ButtonComponent.h"
 #include "Locale.h"
 #include "MenuThemeData.h"
 

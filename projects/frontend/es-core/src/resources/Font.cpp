@@ -1,6 +1,5 @@
 #include "resources/Font.h"
 #include <iostream>
-#include <algorithm>
 #include <vector>
 #include <boost/filesystem.hpp>
 #include "Renderer.h"

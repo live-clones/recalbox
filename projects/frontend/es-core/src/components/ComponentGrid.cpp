@@ -1,5 +1,4 @@
 #include "components/ComponentGrid.h"
-#include "Log.h"
 #include "Renderer.h"
 #include "Settings.h"
 #include "Locale.h"

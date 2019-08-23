@@ -2,7 +2,6 @@
 
 #include <string>
 #include "Window.h"
-#include "components/BusyComponent.h"
 #include "FileData.h"
 
 struct EmulatorDefaults

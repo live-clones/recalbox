@@ -1,18 +1,15 @@
 #include "guis/GuiMetaDataEd.h"
 #include "Renderer.h"
-#include "Log.h"
 #include "components/AsyncReqComponent.h"
 #include "Settings.h"
 #include "views/ViewController.h"
 #include "guis/GuiGameScraper.h"
 #include "guis/GuiMsgBox.h"
-#include <boost/filesystem.hpp>
 #include <boost/format.hpp>
 #include <RecalboxConf.h>
 #include <components/SwitchComponent.h>
 #include <LibretroRatio.h>
 
-#include "components/TextEditComponent.h"
 #include "components/DateTimeComponent.h"
 #include "components/RatingComponent.h"
 #include "guis/GuiTextEditPopup.h"

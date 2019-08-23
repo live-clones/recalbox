@@ -1,6 +1,4 @@
 #include <RecalboxConf.h>
-#include "components/TextListComponent.h"
-#include "components/IList.h"
 #include "views/gamelist/BasicGameListView.h"
 #include "views/ViewController.h"
 #include "Renderer.h"
@@ -10,7 +8,6 @@
 #include "FileSorts.h"
 #include "Settings.h"
 #include "Locale.h"
-#include <boost/assign.hpp>
 #include <recalbox/RecalboxSystem.h>
 
 static const std::map<std::string, const char*>& FavoritesIconsMap()

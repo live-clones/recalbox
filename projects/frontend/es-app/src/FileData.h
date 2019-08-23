@@ -4,7 +4,6 @@
 #include <unordered_map>
 #include <string>
 #include <boost/filesystem.hpp>
-#include <components/IList.h>
 #include "MetadataDescriptor.h"
 #include "ItemType.h"
 #include "utils/cplusplus/Bitflags.h"

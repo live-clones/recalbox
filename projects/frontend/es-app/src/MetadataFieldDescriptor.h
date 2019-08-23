@@ -1,8 +1,6 @@
 #pragma once
 
 #include <string>
-#include <stdexcept>
-#include "MetadataDescriptor.h"
 
 //! Method pointer to default value getters
 typedef bool (MetadataDescriptor::*IsDefaultValueMethodType)() const;

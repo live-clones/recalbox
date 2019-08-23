@@ -1,6 +1,5 @@
 #include "Log.h"
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
 #include <map>
 #include <iostream>
 #include "platform.h"

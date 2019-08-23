@@ -1,8 +1,6 @@
-#include <guis/GuiMsgBoxScroll.h>
 #include <Settings.h>
 #include "components/ComponentList.h"
 #include "Util.h"
-#include "Log.h"
 #include "Locale.h"
 #include "MenuThemeData.h"
 

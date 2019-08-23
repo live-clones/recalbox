@@ -1,7 +1,7 @@
 #include "utils/StringUtil.h"
 
 #include <algorithm>
-#include <stdarg.h>
+#include <cstdarg>
 
 unsigned int StringUtil::chars2Unicode(const std::string& _string, size_t& _cursor)
 {

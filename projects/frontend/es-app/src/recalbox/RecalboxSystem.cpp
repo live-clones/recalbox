@@ -10,19 +10,15 @@
 #include <sys/statvfs.h>
 #include "Settings.h"
 #include "Log.h"
-#include "HttpReq.h"
 
 #include "AudioManager.h"
 #include "VolumeControl.h"
 #include "SystemData.h"
 
 #include <ifaddrs.h>
-#include <fstream>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <boost/algorithm/string/replace.hpp>
-#include <fstream>
-#include <Locale.h>
 #include <VideoEngine.h>
 
 void RecalboxSystem::NotifySystemAndGame(const SystemData* system, const FileData* game, bool play, bool demo)

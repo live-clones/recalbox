@@ -1,7 +1,6 @@
 #ifndef _IMAGECOMPONENT_H_
 #define _IMAGECOMPONENT_H_
 
-#include "platform.h"
 #include "platform_gl.h"
 
 #include "GuiComponent.h"

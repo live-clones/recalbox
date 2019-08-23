@@ -1,4 +1,3 @@
-#include <Locale.h>
 #include "MenuMessages.h"
 
 const char* MenuMessages::START_KODI_HELP_MSG = "Start kodi media player.";

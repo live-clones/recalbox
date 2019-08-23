@@ -3,6 +3,7 @@
 #include "Log.h"
 #include <Locale.h>
 #include <boost/algorithm/string/replace.hpp>
+#include <components/BusyComponent.h>
 
 std::string RecalboxUpgrade::getVersion()
 {

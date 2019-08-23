@@ -9,7 +9,7 @@
 #include "Locale.h"
 #include "MenuMessages.h"
 #include "guis/GuiMsgBox.h"
-#include <stdio.h>
+#include <cstdio>
 
 GuiGamelistOptions::GuiGamelistOptions(Window* window, SystemData* system)
   :	GuiComponent(window),

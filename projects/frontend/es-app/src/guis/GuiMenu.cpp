@@ -9,7 +9,6 @@
 
 #include <functional>
 #include <LibretroRatio.h>
-#include <guis/GuiMsgBoxScroll.h>
 
 #include "EmulationStation.h"
 #include "guis/GuiMenu.h"

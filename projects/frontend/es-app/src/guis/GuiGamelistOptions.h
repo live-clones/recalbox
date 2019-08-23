@@ -1,7 +1,6 @@
 #include "GuiComponent.h"
 #include "components/MenuComponent.h"
 #include "components/OptionListComponent.h"
-#include "components/SwitchComponent.h"
 #include "FileSorts.h"
 
 class IGameListView;

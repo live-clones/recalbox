@@ -1,13 +1,13 @@
 #pragma once
 
 #include <string>
-#include "platform.h"
 #include "platform_gl.h"
 #include <ft2build.h>
 #include FT_FREETYPE_H
 #include "utils/math/Vectors.h"
 #include "resources/ResourceManager.h"
 #include "themes/ThemeData.h"
+#include "themes/Properties.h"
 
 class TextCache;
 

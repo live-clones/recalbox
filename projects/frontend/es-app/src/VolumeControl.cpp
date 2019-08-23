@@ -1,7 +1,7 @@
 #include "VolumeControl.h"
 
 #include "Log.h"
-#include <math.h>
+#include <cmath>
 
 #if defined(__linux__)
     #ifdef _RPI_

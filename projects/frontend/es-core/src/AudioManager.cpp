@@ -11,9 +11,7 @@
 #include "Locale.h"
 #include "RootFolders.h"
 #include <unistd.h>
-#include <time.h>
-#include <views/ViewController.h>
-#include <guis/GuiInfoPopup.h>
+#include <ctime>
 
 std::vector<std::shared_ptr<Sound>> AudioManager::sSoundVector;
 std::vector<std::shared_ptr<Music>> AudioManager::sMusicVector;

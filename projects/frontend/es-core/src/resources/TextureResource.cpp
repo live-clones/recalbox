@@ -1,11 +1,9 @@
 #include "resources/TextureResource.h"
 
 #include <memory>
-#include "Log.h"
 #include "platform.h"
 #include "platform_gl.h"
 #include "ImageIO.h"
-#include "Renderer.h"
 #include "Util.h"
 #include "Settings.h"
 

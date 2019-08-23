@@ -1,6 +1,5 @@
 #pragma once
 
-#include "platform.h"
 #include "platform_gl.h"
 
 #include "GuiComponent.h"

@@ -6,6 +6,7 @@
 #include <boost/filesystem/path.hpp>
 #include <recalbox/RecalboxSystem.h>
 #include <guis/GuiMsgBox.h>
+#include <Util.h>
 #include "GuiHashStart.h"
 #include "components/OptionListComponent.h"
 

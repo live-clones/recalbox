@@ -5,7 +5,6 @@
 #include <string>
 #include <set>
 #include <list>
-#include "platform.h"
 #include "utils/math/Vectors.h"
 #include "resources/TextureData.h"
 #include "resources/TextureDataManager.h"

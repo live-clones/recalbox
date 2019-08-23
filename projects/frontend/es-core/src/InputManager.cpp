@@ -5,9 +5,7 @@
 #include "Log.h"
 #include "pugixml/pugixml.hpp"
 #include <boost/filesystem.hpp>
-#include <utility>
 #include "platform.h"
-#include "Settings.h"
 #include "RootFolders.h"
 #include "SDL.h"
 

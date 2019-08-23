@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <time.h>
+#include <ctime>
 
 class HighResolutionTimer
 {

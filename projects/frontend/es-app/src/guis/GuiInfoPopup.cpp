@@ -3,8 +3,6 @@
 //
 
 #include "GuiInfoPopup.h"
-#include "components/ComponentGrid.h"
-#include "components/NinePatchComponent.h"
 #include "components/TextComponent.h"
 #include "Renderer.h"
 #include <SDL_timer.h>

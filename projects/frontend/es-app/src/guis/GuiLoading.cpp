@@ -3,14 +3,10 @@
 //
 
 #include "GuiLoading.h"
-#include "guis/GuiMsgBox.h"
 
 #include "Window.h"
 #include <boost/thread.hpp>
 #include <string>
-#include "Log.h"
-#include "Settings.h"
-#include "recalbox/RecalboxSystem.h"
 
 //! Null function used to allow permanent reference
 static const std::function<void(void*)> _NullFunction;

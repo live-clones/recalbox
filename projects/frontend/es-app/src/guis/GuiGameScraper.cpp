@@ -6,7 +6,6 @@
 #include "components/MenuComponent.h"
 #include "scrapers/Scraper.h"
 #include "Renderer.h"
-#include "Log.h"
 #include "Settings.h"
 #include "Locale.h"
 #include "MenuThemeData.h"

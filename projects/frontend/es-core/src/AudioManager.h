@@ -6,8 +6,6 @@
 
 #include <guis/GuiInfoPopup.h>
 
-#include "SDL_audio.h"
-
 #include "Sound.h"
 #include "Music.h"
 

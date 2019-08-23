@@ -6,7 +6,6 @@
 #define EMULATIONSTATION_ALL_NETPLAYTHREAD_H
 
 #include <Window.h>
-#include <guis/GuiInfoPopup.h>
 #include <boost/thread/thread.hpp>
 
 class NetPlayThread

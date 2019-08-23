@@ -4,7 +4,6 @@
 #include <string>
 #include <stack>
 #include <SDL.h>
-#include "platform.h"
 #include "platform_gl.h"
 #include "utils/math/Vectors.h"
 

@@ -1,15 +1,9 @@
 #include "platform.h"
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <boost/filesystem.hpp>
 #include <iostream>
-#include <sys/statvfs.h>
-#include <sstream>
-#include "Settings.h"
 #include "Log.h"
-
-#include <fstream>
-
 
 #ifdef WIN32
 #include <codecvt>

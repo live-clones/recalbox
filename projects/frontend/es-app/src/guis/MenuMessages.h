@@ -1,11 +1,7 @@
 //
 // Created by matthieu on 28/01/17.
 //
-
-#ifndef EMULATIONSTATION_ALL_MENUMESSAGES_H
-#define EMULATIONSTATION_ALL_MENUMESSAGES_H
-
-#include <string>
+#pragma once
 
 class MenuMessages {
 public:
@@ -124,5 +120,3 @@ public:
 	static const char* GAMELISTOPTION_EDIT_METADATA_MSG;
 
 };
-
-#endif //EMULATIONSTATION_ALL_MENUMESSAGES_H

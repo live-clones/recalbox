@@ -2,6 +2,8 @@
 
 #include "RecalboxSystem.h"
 
+class BusyComponent;
+
 class RecalboxUpgrade
 {
   public:

@@ -9,9 +9,7 @@
 #include <boost/filesystem.hpp>
 #include <boost/variant.hpp>
 #include "pugixml/pugixml.hpp"
-#include "GuiComponent.h"
 #include "utils/math/Vectors.h"
-#include "utils/cplusplus/Bitflags.h"
 
 template<typename T>
 class TextListComponent;

@@ -7,7 +7,6 @@
 #include "components/ComponentList.h"
 #include "components/TextComponent.h"
 #include "components/ComponentGrid.h"
-#include "Util.h"
 #include "Window.h"
 #include "MenuThemeData.h"
 #include "Locale.h"

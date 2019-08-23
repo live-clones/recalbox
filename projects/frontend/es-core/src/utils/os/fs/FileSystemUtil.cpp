@@ -542,10 +542,7 @@ bool FileSystemUtil::removeFile(const std::string& _path)
 
 } // removeFile
 
-#include <string.h>
-#include <limits.h>     /* PATH_MAX */
-#include <sys/stat.h>   /* mkdir(2) */
-#include <errno.h>
+#include <cerrno>
 
 static int createAllDirectories(const char *path)
 {

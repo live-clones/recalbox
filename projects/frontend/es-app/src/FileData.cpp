@@ -1,9 +1,6 @@
 #include "FileData.h"
-#include "FileSorts.h"
 #include "SystemData.h"
-#include "Log.h"
 
-#include <string.h>
 #include <utils/StringUtil.h>
 
 namespace fs = boost::filesystem;

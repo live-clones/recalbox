@@ -2,7 +2,7 @@
 #include "resources/ResourceManager.h"
 #include "Log.h"
 #include "ImageIO.h"
-#include "string.h"
+#include <cstring>
 #include "Util.h"
 #include "nanosvg/nanosvg.h"
 #include "nanosvg/nanosvgrast.h"

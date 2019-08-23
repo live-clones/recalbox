@@ -1,8 +1,8 @@
 #pragma once
 
 #include <curl/curl.h>
-#include <sstream>
 #include <map>
+#include <sstream>
 
 /* Usage:
  * HttpReq myRequest("www.google.com", "/index.html");
