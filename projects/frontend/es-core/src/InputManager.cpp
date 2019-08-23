@@ -39,7 +39,7 @@ InputManager::~InputManager()
 
 InputManager* InputManager::getInstance()
 {
-  if (!mInstance)
+  if (mInstance == nullptr)
     mInstance = new InputManager();
 
   return mInstance;
@@ -239,12 +239,12 @@ bool InputManager::parseEvent(const SDL_Event& ev, Window* window)
       return true;
 
     case SDL_KEYDOWN:
-      if (ev.key.keysym.sym == SDLK_BACKSPACE && SDL_IsTextInputActive())
+      if (ev.key.keysym.sym == SDLK_BACKSPACE && (SDL_IsTextInputActive() != 0u))
       {
         window->textInput("\b");
       }
 
-      if (ev.key.repeat)
+      if (ev.key.repeat != 0u)
         return false;
 
       if (ev.key.keysym.sym == SDLK_F4)
@@ -272,7 +272,7 @@ bool InputManager::parseEvent(const SDL_Event& ev, Window* window)
       #if defined(__APPLE__)
       addJoystickByDeviceIndex(ev.jdevice.which); // ev.jdevice.which is a device index
       #else
-      if (!getInputConfigByDevice(ev.jdevice.which))
+      if (getInputConfigByDevice(ev.jdevice.which) == nullptr)
       {
         LOG(LogInfo) << "Reinitialize because of SDL_JOYDEVADDED unknown";
         this->init();
@@ -317,7 +317,7 @@ bool InputManager::loadInputConfig(InputConfig* config)
 
   bool found_guid = false;
   bool found_exact = false;
-  for (pugi::xml_node item = root.child("inputConfig"); item; item = item.next_sibling("inputConfig"))
+  for (pugi::xml_node item = root.child("inputConfig"); item != nullptr; item = item.next_sibling("inputConfig"))
   {
     // check the guid
     if (strcmp(config->getDeviceGUIDString().c_str(), item.attribute("deviceGUID").value()) == 0)
@@ -399,10 +399,10 @@ void InputManager::writeDeviceConfig(InputConfig* config)
     {
       // successfully loaded, delete the old entry if it exists
       pugi::xml_node root = doc.child("inputList");
-      if (root)
+      if (root != nullptr)
       {
         pugi::xml_node oldEntry(nullptr);
-        for (pugi::xml_node item = root.child("inputConfig"); item; item = item.next_sibling("inputConfig"))
+        for (pugi::xml_node item = root.child("inputConfig"); item != nullptr; item = item.next_sibling("inputConfig"))
         {
           if (strcmp(config->getDeviceGUIDString().c_str(), item.attribute("deviceGUID").value()) == 0 &&
               strcmp(config->getDeviceName().c_str(), item.attribute("deviceName").value()) == 0)
@@ -412,7 +412,7 @@ void InputManager::writeDeviceConfig(InputConfig* config)
           }
         }
 
-        if (oldEntry)
+        if (oldEntry != nullptr)
           root.remove_child(oldEntry);
         //oldEntry = root.find_child_by_attribute("inputConfig", "deviceName", config->getDeviceName().c_str());
         //if(oldEntry)

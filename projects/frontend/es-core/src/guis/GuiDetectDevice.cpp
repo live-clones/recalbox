@@ -86,7 +86,7 @@ void GuiDetectDevice::onSizeChanged()
 
 bool GuiDetectDevice::input(InputConfig* config, Input input)
 {
-	if(!mFirstRun && ((input.device == DEVICE_KEYBOARD && input.type == InputType::Key && input.value && input.id == SDLK_ESCAPE) ||
+	if(!mFirstRun && ((input.device == DEVICE_KEYBOARD && input.type == InputType::Key && (input.value != 0) && input.id == SDLK_ESCAPE) ||
 	                  (input.device != DEVICE_KEYBOARD && config->isMappedTo("hotkey", input))))
 	{
 		// cancel configuring
@@ -96,13 +96,13 @@ bool GuiDetectDevice::input(InputConfig* config, Input input)
 
 	if(input.type == InputType::Button || input.type == InputType::Key)
 	{
-		if(input.value && mHoldingConfig == nullptr)
+		if((input.value != 0) && mHoldingConfig == nullptr)
 		{
 			// started holding
 			mHoldingConfig = config;
 			mHoldTime = HOLD_TIME;
 			mDeviceHeld->setText(StringUtil::toUpper(config->getDeviceName()));
-		}else if(!input.value && mHoldingConfig == config)
+		}else if((input.value == 0) && mHoldingConfig == config)
 		{
 			// cancel
 			mHoldingConfig = nullptr;
@@ -116,7 +116,7 @@ bool GuiDetectDevice::input(InputConfig* config, Input input)
 
 void GuiDetectDevice::update(int deltaTime)
 {
-	if(mHoldingConfig)
+	if(mHoldingConfig != nullptr)
 	{
 		mHoldTime -= deltaTime;
 		int t = HOLD_TIME / deltaTime;

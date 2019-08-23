@@ -142,7 +142,7 @@ namespace PlatformIds
     while(*mameNames != nullptr && strcmp(from, *mameNames) != 0)
       mameNames += 2;
 
-    if(*mameNames)
+    if(*mameNames != nullptr)
       return *(mameNames + 1);
 
     return from;

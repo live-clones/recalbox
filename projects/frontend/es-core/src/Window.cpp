@@ -80,7 +80,7 @@ GuiComponent* Window::peekGui()
 }
 
 void Window::deleteAllGui() {
-	while (peekGui()) {
+	while (peekGui() != nullptr) {
 		delete peekGui();
 	}
 }
@@ -110,7 +110,7 @@ bool Window::init(unsigned int width, unsigned int height, bool initRenderer)
 	mBackgroundOverlay->setResize(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
 
 	// update our help because font sizes probably changed
-	if(peekGui())
+	if(peekGui() != nullptr)
 		peekGui()->updateHelpPrompts();
 
 	return true;
@@ -125,7 +125,7 @@ void Window::deinit()
 
 void Window::textInput(const char* text)
 {
-	if(peekGui())
+	if(peekGui() != nullptr)
 		peekGui()->textInput(text);
 }
 
@@ -142,17 +142,17 @@ void Window::input(InputConfig* config, Input input)
 
 	mTimeSinceLastInput = 0;
 
-	if(config->getDeviceId() == DEVICE_KEYBOARD && input.value && input.id == SDLK_g && SDL_GetModState() & KMOD_LCTRL && Settings::getInstance()->getBool("Debug"))
+	if(config->getDeviceId() == DEVICE_KEYBOARD && (input.value != 0) && input.id == SDLK_g && ((SDL_GetModState() & KMOD_LCTRL) != 0) && Settings::getInstance()->getBool("Debug"))
 	{
 		// toggle debug grid with Ctrl-G
 		Settings::getInstance()->setBool("DebugGrid", !Settings::getInstance()->getBool("DebugGrid"));
 	}
-	else if(config->getDeviceId() == DEVICE_KEYBOARD && input.value && input.id == SDLK_t && SDL_GetModState() & KMOD_LCTRL && Settings::getInstance()->getBool("Debug"))
+	else if(config->getDeviceId() == DEVICE_KEYBOARD && (input.value != 0) && input.id == SDLK_t && ((SDL_GetModState() & KMOD_LCTRL) != 0) && Settings::getInstance()->getBool("Debug"))
 	{
 		// toggle TextComponent debug view with Ctrl-T
 		Settings::getInstance()->setBool("DebugText", !Settings::getInstance()->getBool("DebugText"));
 	}
-	else if(peekGui())
+	else if(peekGui() != nullptr)
 	{
 		this->peekGui()->input(config, input);
 	}
@@ -225,7 +225,7 @@ void Window::update(int deltaTime)
 
 	mTimeSinceLastInput += deltaTime;
 
-	if(peekGui())
+	if(peekGui() != nullptr)
 		peekGui()->update(deltaTime);
 }
 
@@ -416,7 +416,7 @@ bool Window::KonamiCode(InputConfig* config, Input input, Window* window)
 {
   (void)window;
 
-	if (!input.value)
+	if (input.value == 0)
 		return false;
 
 	bool codeOk = false;

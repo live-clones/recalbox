@@ -188,28 +188,28 @@ bool GuiTextEditPopupKeyboard::input(InputConfig* config, Input input)
 		return true;
 
 	// pressing back when not text editing closes us
-	if (config->isMappedTo("a", input) && input.value)
+	if (config->isMappedTo("a", input) && (input.value != 0))
 	{
 		delete this;
 		return true;
 	}
 
 	// For deleting a chara (Left Top Button)
-	if (config->isMappedTo("PageUp", input) && input.value) {
+	if (config->isMappedTo("PageUp", input) && (input.value != 0)) {
 		mText->startEditing();
 		mText->textInput("\b");
 		mText->stopEditing();
 	}
 
 	// For Adding a space (Right Top Button)
-	if (config->isMappedTo("PageDown", input) && input.value) {
+	if (config->isMappedTo("PageDown", input) && (input.value != 0)) {
 		mText->startEditing();
 		mText->textInput(" ");
 		mText->stopEditing();
 	}
 
 	// For Shifting (Y)
-	if (config->isMappedTo("y", input) && input.value) {
+	if (config->isMappedTo("y", input) && (input.value != 0)) {
 		switchShift();
 	}
 

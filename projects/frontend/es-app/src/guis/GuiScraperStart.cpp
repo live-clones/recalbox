@@ -126,7 +126,7 @@ bool GuiScraperStart::input(InputConfig* config, Input input)
 	{
 		// close everything
 		Window* window = mWindow;
-		while(window->peekGui() && window->peekGui() != ViewController::get())
+		while((window->peekGui() != nullptr) && window->peekGui() != ViewController::get())
 			delete window->peekGui();
 	}
 

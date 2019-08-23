@@ -139,9 +139,9 @@ void Renderer::destroySurface()
 
 bool Renderer::initialize(int w, int h)
 {
-  if (w)
+  if (w != 0)
     _DisplayWidth = w;
-  if (h)
+  if (h != 0)
     _DisplayHeight = h;
 
   bool createdSurface = createSurface();

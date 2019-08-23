@@ -338,7 +338,7 @@ void TextListComponent<T>::applyTheme(const std::shared_ptr<ThemeData>& theme, c
 	GuiComponent::applyTheme(theme, view, element, properties);
 
 	const ThemeData::ThemeElement* elem = theme->getElement(view, element, "textlist");
-	if(!elem)
+	if (elem == nullptr)
 		return;
 
 	if (hasFlag(properties, ThemeProperties::Color))

@@ -227,11 +227,11 @@ ComponentGrid::GridEntry* ComponentGrid::getCellAt(int x, int y)
 bool ComponentGrid::input(InputConfig* config, Input input) {
     GridEntry* cursorEntry = getCellAt(mCursor);
 
-    if (cursorEntry && cursorEntry->component->input(config, input)) {
+    if ((cursorEntry != nullptr) && cursorEntry->component->input(config, input)) {
         return true;
     }
 
-    if (!input.value) {
+    if (input.value == 0) {
         return false;
     }
 
@@ -293,7 +293,7 @@ bool ComponentGrid::moveCursor(Vector2i dir)
             && mCursor.x() >= 0 && mCursor.y() >= 0)
         {
             cursorEntry = getCellAt(mCursor);
-            if(cursorEntry && cursorEntry->canFocus && cursorEntry != currentCursorEntry)
+            if((cursorEntry != nullptr) && cursorEntry->canFocus && cursorEntry != currentCursorEntry)
             {
                 onCursorMoved(origCursor, mCursor);
                 return true;
@@ -308,7 +308,7 @@ bool ComponentGrid::moveCursor(Vector2i dir)
             && mCursor.x() < mGridSize.x() && mCursor.y() < mGridSize.y())
         {
             cursorEntry = getCellAt(mCursor);
-            if(cursorEntry && cursorEntry->canFocus && cursorEntry != currentCursorEntry)
+            if((cursorEntry != nullptr) && cursorEntry->canFocus && cursorEntry != currentCursorEntry)
             {
                 onCursorMoved(origCursor, mCursor);
                 return true;
@@ -328,14 +328,14 @@ bool ComponentGrid::moveCursor(Vector2i dir)
 void ComponentGrid::onFocusLost()
 {
     GridEntry* cursorEntry = getCellAt(mCursor);
-    if(cursorEntry)
+    if(cursorEntry != nullptr)
         cursorEntry->component->onFocusLost();
 }
 
 void ComponentGrid::onFocusGained()
 {
     GridEntry* cursorEntry = getCellAt(mCursor);
-    if(cursorEntry)
+    if(cursorEntry != nullptr)
         cursorEntry->component->onFocusGained();
 }
 
@@ -393,11 +393,11 @@ void ComponentGrid::textInput(const char* text)
 void ComponentGrid::onCursorMoved(Vector2i from, Vector2i to)
 {
     GridEntry* cell = getCellAt(from);
-    if(cell)
+    if(cell != nullptr)
         cell->component->onFocusLost();
 
     cell = getCellAt(to);
-    if(cell)
+    if(cell != nullptr)
         cell->component->onFocusGained();
 
     updateHelpPrompts();
@@ -424,7 +424,7 @@ std::vector<HelpPrompt> ComponentGrid::getHelpPrompts()
 {
     std::vector<HelpPrompt> prompts;
     GridEntry* e = getCellAt(mCursor);
-    if(e)
+    if(e != nullptr)
         prompts = e->component->getHelpPrompts();
     
     bool canScrollVert = mGridSize.y() > 1;

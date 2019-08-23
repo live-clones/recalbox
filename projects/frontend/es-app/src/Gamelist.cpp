@@ -123,7 +123,7 @@ void parseGamelist(SystemData* system, FileData::StringMap& doppelgangerWatcher)
         }
 
       FileData* file = findOrCreateFile(system, path, type, trustGamelist, doppelgangerWatcher);
-      if(!file)
+      if(file == nullptr)
       {
         LOG(LogError) << "Error finding/creating FileData for \"" << path << "\", skipping.";
         continue;

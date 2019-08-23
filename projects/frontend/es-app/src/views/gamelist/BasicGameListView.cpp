@@ -202,7 +202,7 @@ void BasicGameListView::setCursor(FileData* cursor)
 		{
 			std::stack<FolderData*> tmp;
 			FolderData* ptr = cursor->getParent();
-			while(ptr && ptr != mRoot)
+			while((ptr != nullptr) && ptr != mRoot)
 			{
 				tmp.push(ptr);
 				ptr = ptr->getParent();

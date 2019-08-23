@@ -38,7 +38,7 @@ void TextureData::reset()
 {
   releaseVRAM();
   releaseRAM();
-  if (mSVGImage)
+  if (mSVGImage != nullptr)
     nsvgDelete(mSVGImage);
 
   mWidth = mHeight = 0;
@@ -59,11 +59,11 @@ bool TextureData::initSVGFromMemory(const unsigned char* fileData, size_t length
 	// If already initialised then don't read again
 	{
 		std::unique_lock<std::mutex> lock(mMutex);
-		if (mDataRGBA)
+		if (mDataRGBA != nullptr)
 			return true;
 	}
 
-	if (mSVGImage)
+	if (mSVGImage != nullptr)
 		nsvgDelete(mSVGImage);
 	mSVGImage = nullptr;
 
@@ -75,7 +75,7 @@ bool TextureData::initSVGFromMemory(const unsigned char* fileData, size_t length
 
 	mSVGImage = nsvgParse(copy, "px", DPI);
 	free(copy);
-	if (!mSVGImage)
+	if (mSVGImage == nullptr)
 	{
 		LOG(LogError) << "Error parsing SVG image.";
 		return false;
@@ -123,7 +123,7 @@ bool TextureData::initImageFromMemory(const unsigned char* fileData, size_t leng
 	// If already initialised then don't read again
 	{
 		std::unique_lock<std::mutex> lock(mMutex);
-		if (mDataRGBA)
+		if (mDataRGBA != nullptr)
 			return true;
 	}
 
@@ -145,7 +145,7 @@ bool TextureData::initFromRGBA(const unsigned char* dataRGBA, size_t width, size
 {
 	// If already initialised then don't read again
 	//std::unique_lock<std::mutex> lock(mMutex);
-	if (mDataRGBA)
+	if (mDataRGBA != nullptr)
 		return true;
 
 	// Take a copy
@@ -180,7 +180,7 @@ bool TextureData::load()
 bool TextureData::isLoaded()
 {
 	std::unique_lock<std::mutex> lock(mMutex);
-	if (mDataRGBA || (mTextureID != 0))
+	if ((mDataRGBA != nullptr) || (mTextureID != 0))
 		return true;
 	return false;
 }
@@ -196,7 +196,7 @@ bool TextureData::uploadAndBind()
 	else
 	{
 		// Load it if necessary
-		if (!mDataRGBA)
+		if (mDataRGBA == nullptr)
 		{
 			return false;
 		}

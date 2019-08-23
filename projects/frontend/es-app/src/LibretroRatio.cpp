@@ -48,6 +48,7 @@ LibretroRatio *LibretroRatio::getInstance()
     return sInstance;
 }
 
+// TODO: Instance is useless, return const& from static instead
 std::map<std::string, std::string> *LibretroRatio::getRatio()
 {
     return ratioMap;

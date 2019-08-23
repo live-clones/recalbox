@@ -30,7 +30,7 @@ bool RecalboxUpgrade::updateLastChangelogFile()
   std::ostringstream oss;
   oss << "cp  " << Settings::getInstance()->getString("Changelog").c_str() << " "
       << Settings::getInstance()->getString("LastChangelog").c_str();
-  if (std::system(oss.str().c_str()))
+  if (std::system(oss.str().c_str()) != 0)
   {
     LOG(LogWarning) << "Error executing " << oss.str().c_str();
     return false;
@@ -79,7 +79,7 @@ std::pair<std::string, int> RecalboxUpgrade::updateSystem(BusyComponent* ui)
   {
     return std::pair<std::string, int>(std::string("Cannot call upgrade command"), -1);
   }
-  while (fgets(line, 1024, pipe))
+  while (fgets(line, 1024, pipe) != nullptr)
   {
     strtok(line, "\n");
     std::string output = line;

@@ -343,12 +343,12 @@ void VideoComponent::applyTheme(const std::shared_ptr<ThemeData>& theme, const s
                                 ThemeProperties properties)
 {
   const ThemeData::ThemeElement* elem = theme->getElement(view, element, "video");
-  if (!elem)
+  if (elem == nullptr)
   {
     return;
   }
 
-  Vector2f scale = getParent() ?
+  Vector2f scale = getParent() != nullptr ?
                    getParent()->getSize() :
                    Vector2f(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
 

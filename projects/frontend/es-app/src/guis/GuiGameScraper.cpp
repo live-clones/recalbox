@@ -101,7 +101,7 @@ void GuiGameScraper::onSizeChanged()
 
 bool GuiGameScraper::input(InputConfig* config, Input input)
 {
-	if(config->isMappedTo("a", input) && input.value)
+	if(config->isMappedTo("a", input) && (input.value != 0))
 	{
 		delete this;
 		return true;

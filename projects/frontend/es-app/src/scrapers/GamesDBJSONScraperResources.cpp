@@ -62,17 +62,17 @@ void TheGamesDBJSONRequestResources::prepare()
     return;
   }
 
-  if (loadResource(gamesdb_new_developers_map, "developers", genFilePath(DEVELOPERS_JSON_FILE)) &&
+  if ((loadResource(gamesdb_new_developers_map, "developers", genFilePath(DEVELOPERS_JSON_FILE)) != 0) &&
       !gamesdb_developers_resource_request)
   {
     gamesdb_developers_resource_request = fetchResource(DEVELOPERS_ENDPOINT);
   }
-  if (loadResource(gamesdb_new_publishers_map, "publishers", genFilePath(PUBLISHERS_JSON_FILE)) &&
+  if ((loadResource(gamesdb_new_publishers_map, "publishers", genFilePath(PUBLISHERS_JSON_FILE)) != 0) &&
       !gamesdb_publishers_resource_request)
   {
     gamesdb_publishers_resource_request = fetchResource(PUBLISHERS_ENDPOINT);
   }
-  if (loadResource(gamesdb_new_genres_map, "genres", genFilePath(GENRES_JSON_FILE)) && !gamesdb_genres_resource_request)
+  if ((loadResource(gamesdb_new_genres_map, "genres", genFilePath(GENRES_JSON_FILE)) != 0) && !gamesdb_genres_resource_request)
   {
     gamesdb_genres_resource_request = fetchResource(GENRES_ENDPOINT);
   }

@@ -112,7 +112,7 @@ void ComponentList::update(int deltaTime)
 {
 	listUpdate(deltaTime);
 
-	if(size())
+	if(size() != 0)
 	{
 		// update our currently selected row
 		for (auto& element : mEntries.at(mCursor).data.elements)
@@ -133,7 +133,7 @@ void ComponentList::onCursorChanged(const CursorState& state)
 	updateCameraOffset();
 
 	// this is terribly inefficient but we don't know what we came from so...
-	if(size())
+	if(size() != 0)
 	{
 		for (auto& mEntrie : mEntries)
 			mEntrie.data.elements.back().component->onFocusLost();
@@ -175,7 +175,7 @@ void ComponentList::updateCameraOffset()
 
 void ComponentList::render(const Transform4x4f& parentTrans)
 {
-	if(!size())
+	if(size() == 0)
 		return;
 
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
@@ -324,7 +324,7 @@ void ComponentList::updateElementSize(const ComponentListRow& row)
 
 void ComponentList::textInput(const char* text)
 {
-	if(!size())
+	if(size() == 0)
 		return;
 
 	mEntries.at(mCursor).data.elements.back().component->textInput(text);
@@ -332,7 +332,7 @@ void ComponentList::textInput(const char* text)
 
 std::vector<HelpPrompt> ComponentList::getHelpPrompts()
 {
-	if(!size())
+	if(size() == 0)
 		return std::vector<HelpPrompt>();
 
 	std::vector<HelpPrompt> prompts = mEntries.at(mCursor).data.elements.back().component->getHelpPrompts();

@@ -209,7 +209,7 @@ void ScreenScraperRequest::processGame(const pugi::xml_document& xmldoc, std::ve
   pugi::xml_node data = xmldoc.child("Data");
   pugi::xml_node game = data.child("jeu");
 
-  if (game)
+  if (game != nullptr)
   {
     ScraperSearchResult result;
 
@@ -260,7 +260,7 @@ void ScreenScraperRequest::processGame(const pugi::xml_document& xmldoc, std::ve
     // Players
     result.mdl.SetPlayCountAsString(game.child("joueurs").text().get());
 
-    if (Settings::getInstance()->getBool("ScrapeRatings") && game.child("note"))
+    if (Settings::getInstance()->getBool("ScrapeRatings") && (game.child("note") != nullptr))
     {
       float ratingVal = (game.child("note").text().as_float() / 20.0f);
       result.mdl.SetRating(ratingVal);
@@ -269,7 +269,7 @@ void ScreenScraperRequest::processGame(const pugi::xml_document& xmldoc, std::ve
     // Media super-node
     pugi::xml_node media_list = game.child("medias");
 
-    if (media_list)
+    if (media_list != nullptr)
     {
       pugi::xml_node art = pugi::xml_node(nullptr);
 
@@ -284,7 +284,7 @@ void ScreenScraperRequest::processGame(const pugi::xml_document& xmldoc, std::ve
         // Region fallback: WOR(LD), US, CUS(TOM?), JP, EU
         for (const auto& _region : regions)
         {
-          if (art) break;
+          if (art != nullptr) break;
           for (auto node : results)
             if (node.node().attribute("region").value() == _region)
             {
@@ -294,7 +294,7 @@ void ScreenScraperRequest::processGame(const pugi::xml_document& xmldoc, std::ve
         }
       } // results
 
-      if (art)
+      if (art != nullptr)
       {
         // Sending a 'softname' containing space will make the image URLs returned by the API also contain the space.
         //  Escape any spaces in the URL here

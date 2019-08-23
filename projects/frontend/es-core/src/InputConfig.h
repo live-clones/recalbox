@@ -51,10 +51,10 @@ public:
 
   static const char* getHatDir(int val)
   {
-    if (val & SDL_HAT_UP)    return "up";
-    if (val & SDL_HAT_DOWN)  return "down";
-    if (val & SDL_HAT_LEFT)  return "left";
-    if (val & SDL_HAT_RIGHT) return "right";
+    if ((val & SDL_HAT_UP) != 0)    return "up";
+    if ((val & SDL_HAT_DOWN) != 0)  return "down";
+    if ((val & SDL_HAT_LEFT) != 0)  return "left";
+    if ((val & SDL_HAT_RIGHT) != 0) return "right";
     return "neutral?";
   }
 

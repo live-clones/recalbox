@@ -260,7 +260,7 @@ namespace fs = boost::filesystem;
 unsigned int getHexColor(const char* str)
 {
 	ThemeException error;
-	if(!str)
+	if(str == nullptr)
 		throw error << "Empty color";
 
 	size_t len = strlen(str);
@@ -281,7 +281,7 @@ unsigned int getHexColor(const char* str)
 // helper
 std::string resolvePath(const char* in, const fs::path& relative)
 {
-	if(!in || in[0] == '\0')
+	if((in == nullptr) || in[0] == '\0')
 		return in;
 
 	fs::path relPath = relative.parent_path();
@@ -366,7 +366,7 @@ void ThemeData::parseIncludes(const pugi::xml_node& root)
 	ThemeException error;
 	error.setFiles(mPaths);
 
-	for (pugi::xml_node node = root.child("include"); node; node = node.next_sibling("include"))
+	for (pugi::xml_node node = root.child("include"); node != nullptr; node = node.next_sibling("include"))
 	{
 		if (parseSubset(node))
 		{
@@ -408,7 +408,7 @@ bool ThemeData::parseSubset(const pugi::xml_node& node)
 {
 	bool parse = true;
 	
-	if (node.attribute("subset"))
+	if (node.attribute("subset") != nullptr)
 	{
 		parse = false;
 		const std::string subsetAttr = node.attribute("subset").as_string();
@@ -451,7 +451,7 @@ void ThemeData::parseFeatures(const pugi::xml_node& root)
 	ThemeException error;
 	error.setFiles(mPaths);
 
-	for (pugi::xml_node node = root.child("feature"); node; node = node.next_sibling("feature"))
+	for (pugi::xml_node node = root.child("feature"); node != nullptr; node = node.next_sibling("feature"))
 	{
 		if(!node.attribute("supported"))
 			throw error << "Feature missing \"supported\" attribute!";
@@ -471,7 +471,7 @@ void ThemeData::parseViews(const pugi::xml_node& root)
 	error.setFiles(mPaths);
 
 	// parse views
-	for (pugi::xml_node node = root.child("view"); node; node = node.next_sibling("view"))
+	for (pugi::xml_node node = root.child("view"); node != nullptr; node = node.next_sibling("view"))
 	{
 		if(!node.attribute("name"))
 			throw error << "View missing \"name\" attribute!";
@@ -503,7 +503,7 @@ void ThemeData::parseView(const pugi::xml_node& root, ThemeView& view)
 	ThemeException error;
 	error.setFiles(mPaths);
 
-	for (pugi::xml_node node = root.first_child(); node; node = node.next_sibling())
+	for (pugi::xml_node node = root.first_child(); node != nullptr; node = node.next_sibling())
 	{
 		if(!node.attribute("name"))
 			throw error << "Element of type \"" << node.name() << "\" missing \"name\" attribute!";
@@ -543,7 +543,7 @@ bool ThemeData::parseRegion(const pugi::xml_node& node)
 {
 	bool parse = true;
 	
-	if (node.attribute("region"))
+	if (node.attribute("region") != nullptr)
 	{
 		std::string regionsetting = Settings::getInstance()->getString("ThemeRegionName");
 		parse = false;
@@ -577,7 +577,7 @@ void ThemeData::parseElement(const pugi::xml_node& root, const std::map<std::str
 	element.type = root.name();
 	element.extra = root.attribute("extra").as_bool(false);
 	
-	for (pugi::xml_node node = root.first_child(); node; node = node.next_sibling())
+	for (pugi::xml_node node = root.first_child(); node != nullptr; node = node.next_sibling())
 	{
 		auto typeIt = typeMap.find(node.name());
 		if(typeIt == typeMap.end())
@@ -875,7 +875,7 @@ std::map<std::string, std::string> ThemeData::getThemeSubSets(const std::string&
 
 void ThemeData::crawlIncludes(const pugi::xml_node& root, std::map<std::string, std::string>& sets, std::deque<boost::filesystem::path>& dequepath)
 {
-	for (pugi::xml_node node = root.child("include"); node; node = node.next_sibling("include"))
+	for (pugi::xml_node node = root.child("include"); node != nullptr; node = node.next_sibling("include"))
 	{
 		
 		sets[node.attribute("name").as_string()] = node.attribute("subset").as_string();
@@ -940,7 +940,7 @@ std::string ThemeData::getTransition()
 {
 	std::string result;
 	auto elem = getElement("system", "systemcarousel", "carousel");
-	if (elem) {
+	if (elem != nullptr) {
 		if (elem->has("defaultTransition")) {
 			if (!(elem->get<std::string>("defaultTransition").compare("instant"))) {
 				result = "instant";
@@ -961,5 +961,5 @@ std::string ThemeData::getTransition()
 
 bool ThemeData::isFolderHandled() const {
 	auto elem = getElement("detailed", "md_folder_name", "text");
-	return elem ? elem->has("pos") : false;
+	return elem != nullptr ? elem->has("pos") : false;
 }

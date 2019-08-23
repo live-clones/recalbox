@@ -148,14 +148,14 @@ Font::FontFace::FontFace(ResourceData&& d, int size) : data(d)
 
 Font::FontFace::~FontFace()
 {
-	if(face)
+	if(face != nullptr)
 		FT_Done_Face(face);
 }
 
 void Font::initLibrary()
 {
 	assert(sLibrary == nullptr);
-	if(FT_Init_FreeType(&sLibrary))
+	if(FT_Init_FreeType(&sLibrary) != 0)
 	{
 		sLibrary = nullptr;
 		LOG(LogError) << "Error initializing FreeType!";
@@ -200,7 +200,7 @@ Font::Font(int size, const std::string& path) : mSize(size), mPath(path)
 	
 	mMaxGlyphHeight = 0;
 
-	if(!sLibrary)
+	if(sLibrary == nullptr)
 		initLibrary();
 
 	// always initialize ASCII characters
@@ -435,7 +435,7 @@ Font::Glyph* Font::getGlyph(UnicodeChar id)
 
 	// nope, need to make a glyph
 	FT_Face face = getFaceForChar(id);
-	if(!face)
+	if(face == nullptr)
 	{
 		LOG(LogError) << "Could not find appropriate font face for character " << id << " for font " << mPath;
 		return nullptr;
@@ -443,7 +443,7 @@ Font::Glyph* Font::getGlyph(UnicodeChar id)
 
 	FT_GlyphSlot g = face->glyph;
 
-	if(FT_Load_Char(face, id, FT_LOAD_RENDER))
+	if(FT_Load_Char(face, id, FT_LOAD_RENDER) != 0)
 	{
 		LOG(LogError) << "Could not find glyph for character " << id << " for font " << mPath << ", size " << mSize << "!";
 		return nullptr;
@@ -578,7 +578,7 @@ Vector2f Font::sizeText(std::string text, float lineSpacing)
 		}
 
 		Glyph* glyph = getGlyph(character);
-		if(glyph)
+		if(glyph != nullptr)
 			lineWidth += glyph->advance.x();
 	}
 
@@ -681,7 +681,7 @@ Vector2f Font::getWrappedTextCursorOffset(std::string text, float xLen, size_t s
 		}
 
 		Glyph* glyph = getGlyph(character);
-		if(glyph)
+		if(glyph != nullptr)
 			lineWidth += glyph->advance.x();
 	}
 

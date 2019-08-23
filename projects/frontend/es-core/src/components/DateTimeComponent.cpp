@@ -294,7 +294,7 @@ void DateTimeComponent::updateTextCache()
 		mSize = mTextCache->metrics.size;
 
 		//mAutoSize = false;
-		if(getParent())
+		if(getParent() != nullptr)
 			getParent()->onSizeChanged();
 	}
 
@@ -359,7 +359,7 @@ void DateTimeComponent::setUppercase(bool uppercase)
 void DateTimeComponent::applyTheme(const std::shared_ptr<ThemeData>& theme, const std::string& view, const std::string& element, ThemeProperties properties)
 {
 	const ThemeData::ThemeElement* elem = theme->getElement(view, element, "datetime");
-	if(!elem)
+	if(elem == nullptr)
 		return;
 
 	// We set mAutoSize BEFORE calling GuiComponent::applyTheme because it calls

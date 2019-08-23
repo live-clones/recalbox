@@ -302,11 +302,11 @@ void ImageComponent::fadeIn(bool textureLoaded) {
 void ImageComponent::applyTheme(const std::shared_ptr<ThemeData>& theme, const std::string& view, const std::string& element, ThemeProperties properties)
 {
     const ThemeData::ThemeElement* elem = theme->getElement(view, element, "image");
-    if (!elem) {
+    if (elem == nullptr) {
         return;
     }
 
-    Vector2f scale = getParent() ? getParent()->getSize() : Vector2f(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
+    Vector2f scale = getParent() != nullptr ? getParent()->getSize() : Vector2f(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
     
     if (hasFlag(properties, ThemeProperties::Position) && elem->has("pos")) {
         Vector2f denormalized = elem->get<Vector2f>("pos") * scale;

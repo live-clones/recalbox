@@ -96,7 +96,7 @@ void ISimpleGameListView::onFileChanged(FileData* file, FileChangeType change)
 			ViewController::get()->setInvalidGamesList(SystemData::getFavoriteSystem());
 			ViewController::get()->getSystemListView()->manageFavorite();
 			mFavoritesCount = mFavoritesCount + (isFavorite ? 1 : -1);
-			if (!mFavoritesCount) { mFavoritesOnly = false; }
+			if (mFavoritesCount == 0) { mFavoritesOnly = false; }
 			updateHelpPrompts();
 		}
 	}
@@ -210,7 +210,7 @@ bool ISimpleGameListView::input(InputConfig* config, Input input) {
         setCursorIndex(cursorPlace);
 
         mFavoritesCount = mFavoritesCount + (md.Favorite() ? 1 : -1);
-        if (!mFavoritesCount) { mFavoritesOnly = false; }
+        if (mFavoritesCount == 0) { mFavoritesOnly = false; }
         updateHelpPrompts();
 			}
       RecalboxSystem::NotifyGame(*getCursor(), false, false);
@@ -288,16 +288,16 @@ bool ISimpleGameListView::input(InputConfig* config, Input input) {
 		}
 
 
-		if(config->isMappedTo("start", input) && input.value)
+		if(config->isMappedTo("start", input) && (input.value != 0))
 		{
 			mWindow->pushGui(new GuiGamelistOptions(mWindow, getRoot()->getSystem()));
 			return true;
 		}
 
 
-		if(config->isMappedTo("select", input) && input.value && !mIsFavoriteSystem)
+		if(config->isMappedTo("select", input) && (input.value != 0) && !mIsFavoriteSystem)
 		{
-			if (mFavoritesCount) {
+			if (mFavoritesCount != 0) {
 				mFavoritesOnly = !mFavoritesOnly;
 				refreshList();
 				updateInfoPanel();
@@ -347,7 +347,7 @@ std::vector<HelpPrompt> ISimpleGameListView::getHelpPrompts() {
 	{
 		prompts.push_back(HelpPrompt("start", _("OPTIONS")));
 
-		if (mFavoritesCount)
+		if (mFavoritesCount != 0)
 		{
 			if (mFavoritesOnly)
 				prompts.push_back(HelpPrompt("select", _("ALL GAMES")));
@@ -417,7 +417,7 @@ void ISimpleGameListView::jumpToLetter(char letter)
 	for (min = 0; (min < files.size() - 1) && (files.at(min)->getType() != ItemType::Game) ; min++) ;
 
 	// look for last game position
-	for (max = files.size() - 1; max && (files.at(max)->getType() != ItemType::Game) ; max--) ;
+	for (max = files.size() - 1; (max != 0u) && (files.at(max)->getType() != ItemType::Game) ; max--) ;
 
 	while(max >= min) {
 		mid = ((max - min) / 2) + min;

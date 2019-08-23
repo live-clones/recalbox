@@ -173,23 +173,23 @@ void Settings::loadFile()
     }
 
     pugi::xml_node config = doc.child("config");
-    if(config) { /* correct file format, having a config root node */
-      for (pugi::xml_node node = config.child("bool"); node; node = node.next_sibling("bool"))
+    if(config != nullptr) { /* correct file format, having a config root node */
+      for (pugi::xml_node node = config.child("bool"); node != nullptr; node = node.next_sibling("bool"))
         setBool(node.attribute("name").as_string(), node.attribute("value").as_bool());
-      for (pugi::xml_node node = config.child("int"); node; node = node.next_sibling("int"))
+      for (pugi::xml_node node = config.child("int"); node != nullptr; node = node.next_sibling("int"))
         setInt(node.attribute("name").as_string(), node.attribute("value").as_int());
-      for (pugi::xml_node node = config.child("float"); node; node = node.next_sibling("float"))
+      for (pugi::xml_node node = config.child("float"); node != nullptr; node = node.next_sibling("float"))
         setFloat(node.attribute("name").as_string(), node.attribute("value").as_float());
-      for (pugi::xml_node node = config.child("string"); node; node = node.next_sibling("string"))
+      for (pugi::xml_node node = config.child("string"); node != nullptr; node = node.next_sibling("string"))
         setString(node.attribute("name").as_string(), node.attribute("value").as_string());
     } else { /* the old format, without the root config node -- keep for a transparent upgrade */
-      for (pugi::xml_node node = doc.child("bool"); node; node = node.next_sibling("bool"))
+      for (pugi::xml_node node = doc.child("bool"); node != nullptr; node = node.next_sibling("bool"))
         setBool(node.attribute("name").as_string(), node.attribute("value").as_bool());
-      for (pugi::xml_node node = doc.child("int"); node; node = node.next_sibling("int"))
+      for (pugi::xml_node node = doc.child("int"); node != nullptr; node = node.next_sibling("int"))
         setInt(node.attribute("name").as_string(), node.attribute("value").as_int());
-      for (pugi::xml_node node = doc.child("float"); node; node = node.next_sibling("float"))
+      for (pugi::xml_node node = doc.child("float"); node != nullptr; node = node.next_sibling("float"))
         setFloat(node.attribute("name").as_string(), node.attribute("value").as_float());
-      for (pugi::xml_node node = doc.child("string"); node; node = node.next_sibling("string"))
+      for (pugi::xml_node node = doc.child("string"); node != nullptr; node = node.next_sibling("string"))
         setString(node.attribute("name").as_string(), node.attribute("value").as_string());
     }
 }

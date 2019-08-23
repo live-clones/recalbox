@@ -13,7 +13,7 @@ std::vector<unsigned char> ImageIO::loadFromMemoryRGBA32(const unsigned char * d
 	{
 		//detect the filetype from data
 		FREE_IMAGE_FORMAT format = FreeImage_GetFileTypeFromMemory(fiMemory);
-		if (format != FIF_UNKNOWN && FreeImage_FIFSupportsReading(format))
+		if (format != FIF_UNKNOWN && (FreeImage_FIFSupportsReading(format) != 0))
 		{
 			//file type is supported. load image
 			FIBITMAP* fiBitmap = FreeImage_LoadFromMemory(format, fiMemory);

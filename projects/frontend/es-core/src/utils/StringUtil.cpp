@@ -249,7 +249,7 @@ std::string StringUtil::vectorToCommaString(stringVector _vector)
 	std::sort(_vector.begin(), _vector.end());
 
 	for (const auto& it : _vector)
-		string += (string.length() ? "," : "") + it;
+		string += (string.length() != 0u ? "," : "") + it;
 
 	return string;
 

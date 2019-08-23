@@ -88,7 +88,7 @@ void GuiHashStart::start()
 
         int totalRoms = 0;
 
-	    for (pugi::xml_node fileNode = root.child(tag); fileNode; fileNode = fileNode.next_sibling(tag))
+	    for (pugi::xml_node fileNode = root.child(tag); fileNode != nullptr; fileNode = fileNode.next_sibling(tag))
 	    {
 	    	totalRoms++;
 	    }
@@ -98,7 +98,7 @@ void GuiHashStart::start()
 	    std::string busyText;
 	    const std::string& systemName = system->getFullName();
 
-        for (pugi::xml_node fileNode = root.child(tag); fileNode; fileNode = fileNode.next_sibling(tag))
+        for (pugi::xml_node fileNode = root.child(tag); fileNode != nullptr; fileNode = fileNode.next_sibling(tag))
         {
 			currentRom++;
 
@@ -115,7 +115,7 @@ void GuiHashStart::start()
 	        mBusyAnim.setText(busyText);
 
 	        // if missing only, don't bother calculating hash if tag is present
-	        if (fileNode.child("hash") && mFilter->getSelected() != "all") {
+	        if ((fileNode.child("hash") != nullptr) && mFilter->getSelected() != "all") {
 	        	continue;
 	        }
 
@@ -129,7 +129,7 @@ void GuiHashStart::start()
 	        hashString.erase(std::remove(hashString.begin(), hashString.end(), '\n'), hashString.end());
 
 	        //if tag exist, update if not, add it
-            if (fileNode.child("hash") && mFilter->getSelected() == "all") {
+            if ((fileNode.child("hash") != nullptr) && mFilter->getSelected() == "all") {
 	            fileNode.child("hash").text().set(hashString.c_str());
             } else {
                 pugi::xml_node hash = fileNode.append_child("hash");

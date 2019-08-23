@@ -16,7 +16,7 @@ HelpStyle::HelpStyle()
 void HelpStyle::applyTheme(const std::shared_ptr<ThemeData>& theme, const std::string& view)
 {
 	auto elem = theme->getElement(view, "help", "helpsystem");
-	if(!elem)
+	if(elem == nullptr)
 		return;
 
 	if(elem->has("pos"))

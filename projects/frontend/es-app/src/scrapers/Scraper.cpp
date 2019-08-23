@@ -256,7 +256,7 @@ bool resizeImage(const std::string& path, int maxWidth, int maxHeight)
 	}
 
 	//make sure we can read this filetype first, then load it
-	if(FreeImage_FIFSupportsReading(format))
+	if(FreeImage_FIFSupportsReading(format) != 0)
 	{
 		image = FreeImage_Load(format, path.c_str());
 	}else{
@@ -284,7 +284,7 @@ bool resizeImage(const std::string& path, int maxWidth, int maxHeight)
 		return false;
 	}
 
-	bool saved =  path.empty() ? false : FreeImage_Save(format, imageRescaled, path.c_str());
+	bool saved =  path.empty() ? false : (FreeImage_Save(format, imageRescaled, path.c_str()) != 0);
 	FreeImage_Unload(imageRescaled);
 
     if(!saved) {

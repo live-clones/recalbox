@@ -139,7 +139,7 @@ RaspberryGeneration getRaspberryVersion()
     {
       char line[1024];
       std::string str; // Declared before loop to keep memory allocated
-      while (fgets(line, sizeof(line) - 1, f))
+      while (fgets(line, sizeof(line) - 1, f) != nullptr)
       {
         if (strncmp(line, HARDWARE_STRING, SizeLitteral(HARDWARE_STRING)) == 0)
         {

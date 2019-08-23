@@ -292,10 +292,10 @@ void GuiInputConfig::setHelpMessage() {
 		}
 		if (mTargetConfig->isMapped("DOWN")) {
 			if (inputId == 0)
-				msg = (msg.length() ? msg + " - " : "") +
+				msg = (msg.length() != 0u ? msg + " - " : "") +
 					  str(boost::format(_("DOWN TO KEEP [%1%]")) % StringUtil::toUpper(input.string()));
 			else
-				msg = (msg.length() ? msg + " - " : "") +
+				msg = (msg.length() != 0u ? msg + " - " : "") +
 					  str(boost::format(_("UP/DOWN TO KEEP [%1%]")) % StringUtil::toUpper(input.string()));
 		}
 

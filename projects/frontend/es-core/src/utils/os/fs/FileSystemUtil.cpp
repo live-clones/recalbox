@@ -145,11 +145,11 @@ std::string FileSystemUtil::getHomePath()
   static std::string path;
 
   // only construct the homepath once
-  if(!path.length())
+  if(path.empty())
   {
     // this should give us something like "/home/YOUR_USERNAME" on Linux and "C:/Users/YOUR_USERNAME/" on Windows
     char* envHome = getenv("HOME");
-    if(envHome)
+    if(envHome != nullptr)
       path = getGenericPath(envHome);
 
 #if defined(_WIN32)
@@ -164,7 +164,7 @@ std::string FileSystemUtil::getHomePath()
 #endif // _WIN32
 
     // no homepath found, fall back to current working directory
-    if(!path.length())
+    if(path.empty())
       path = getCWDPath();
   }
 
@@ -178,7 +178,7 @@ std::string FileSystemUtil::getCWDPath()
   char temp[512];
 
   // return current working directory path
-  return (getcwd(temp, 512) ? getGenericPath(temp) : "");
+  return (getcwd(temp, 512) != nullptr ? getGenericPath(temp) : "");
 
 } // getCWDPath
 
@@ -187,7 +187,7 @@ std::string FileSystemUtil::getExePath()
   static std::string path;
 
   // only construct the exepath once
-  if(!path.length())
+  if(path.empty())
   {
     path = getCanonicalPath(Settings::getInstance()->getString("ExePath"));
 
@@ -232,7 +232,7 @@ std::string FileSystemUtil::getGenericPath(const std::string& _path)
     path.erase(offset, 1);
 
   // remove trailing '/'
-  while(path.length() && ((offset = path.find_last_of('/')) == (path.length() - 1)))
+  while(!path.empty() && ((offset = path.find_last_of('/')) == (path.length() - 1)))
     path.erase(offset, 1);
 
   // return generic path
@@ -252,7 +252,7 @@ std::string FileSystemUtil::getEscapedPath(const std::string& _path)
   const char* invalidChars = "\\ '\"!$^&*(){}[]?;<>";
   const char* invalidChar  = invalidChars;
 
-  while(*invalidChar)
+  while(*invalidChar != 0)
   {
     size_t start  = 0;
     size_t offset = 0;
@@ -433,7 +433,7 @@ std::string FileSystemUtil::resolveRelativePath(const std::string& _path, const 
   std::string relativeTo = isDirectory(_relativeTo) ? getGenericPath(_relativeTo) : getParent(_relativeTo);
 
   // nothing to resolve
-  if(!path.length())
+  if(path.empty())
     return path;
 
   // replace '.' with relativeTo
@@ -563,7 +563,7 @@ static int createAllDirectories(const char *path)
   strcpy(_path, path);
 
   /* Iterate the string */
-  for (char* p = _path + 1; *p; p++)
+  for (char* p = _path + 1; *p != 0; p++)
   {
     if (*p == '/')
     {

@@ -220,7 +220,7 @@ void NinePatchComponent::applyTheme(const std::shared_ptr<ThemeData>& theme, con
 	GuiComponent::applyTheme(theme, view, element, properties);
 
 	const ThemeData::ThemeElement* elem = theme->getElement(view, element, "ninepatch");
-	if(!elem)
+	if(elem == nullptr)
 		return;
 
 	if(hasFlag(properties, ThemeProperties::Path) && elem->has("path"))

@@ -99,7 +99,7 @@ bool RecalboxSystem::isFreeSpaceLimit()
   }
   else
   {
-    return "ERROR";
+    return false; //"ERROR";
   }
 
 }
@@ -137,7 +137,7 @@ std::vector<std::string> RecalboxSystem::getAvailableWiFiSSID(bool activatedWifi
     return res;
   }
 
-  while (fgets(line, 1024, pipe))
+  while (fgets(line, 1024, pipe) != nullptr)
   {
     strtok(line, "\n");
     res.push_back(std::string(line));
@@ -159,7 +159,7 @@ std::vector<std::string> RecalboxSystem::getAvailableAudioOutputDevices()
     return res;
   }
 
-  while (fgets(line, 1024, pipe))
+  while (fgets(line, 1024, pipe) != nullptr)
   {
     strtok(line, "\n");
     res.push_back(std::string(line));
@@ -182,7 +182,7 @@ std::string RecalboxSystem::getCurrentAudioOutputDevice()
     return "";
   }
 
-  if (fgets(line, 1024, pipe))
+  if (fgets(line, 1024, pipe) != nullptr)
   {
     strtok(line, "\n");
     pclose(pipe);
@@ -233,7 +233,7 @@ bool RecalboxSystem::setOverscan(bool enable)
   }
   std::string command = oss.str();
   LOG(LogInfo) << "Launching " << command;
-  if (system(command.c_str()))
+  if (system(command.c_str()) != 0)
   {
     LOG(LogWarning) << "Error executing " << command;
     return false;
@@ -254,7 +254,7 @@ bool RecalboxSystem::setOverclock(std::string mode)
     oss << Settings::getInstance()->getString("RecalboxSettingScript") << " " << "overclock" << " " << mode;
     std::string command = oss.str();
     LOG(LogInfo) << "Launching " << command;
-    if (system(command.c_str()))
+    if (system(command.c_str()) != 0)
     {
       LOG(LogWarning) << "Error executing " << command;
       return false;
@@ -383,7 +383,7 @@ bool RecalboxSystem::halt(bool reboot, bool fast)
   else
     quit->type = SDL_QUIT | SDL_RB_SHUTDOWN;
   SDL_PushEvent(quit);
-  return 0;
+  return false;
 }
 
 bool RecalboxSystem::reboot()
@@ -418,7 +418,7 @@ std::string RecalboxSystem::getIpAdress()
 
   for (ifa = ifAddrStruct; ifa != nullptr; ifa = ifa->ifa_next)
   {
-    if (!ifa->ifa_addr)
+    if (ifa->ifa_addr == nullptr)
     {
       continue;
     }
@@ -441,7 +441,7 @@ std::string RecalboxSystem::getIpAdress()
   {
     for (ifa = ifAddrStruct; ifa != nullptr; ifa = ifa->ifa_next)
     {
-      if (!ifa->ifa_addr)
+      if (ifa->ifa_addr == nullptr)
       {
         continue;
       }
@@ -478,7 +478,7 @@ std::vector<std::string>* RecalboxSystem::scanBluetooth()
     return nullptr;
   }
 
-  while (fgets(line, 1024, pipe))
+  while (fgets(line, 1024, pipe) != nullptr)
   {
     strtok(line, "\n");
     res->push_back(std::string(line));
@@ -510,7 +510,7 @@ std::vector<std::string> RecalboxSystem::getAvailableStorageDevices()
     return res;
   }
 
-  while (fgets(line, 1024, pipe))
+  while (fgets(line, 1024, pipe) != nullptr)
   {
     strtok(line, "\n");
     res.push_back(std::string(line));
@@ -533,7 +533,7 @@ std::string RecalboxSystem::getCurrentStorage()
     return "";
   }
 
-  if (fgets(line, 1024, pipe))
+  if (fgets(line, 1024, pipe) != nullptr)
   {
     strtok(line, "\n");
     pclose(pipe);
@@ -571,7 +571,7 @@ std::string RecalboxSystem::getRootPassword()
     return "";
   }
 
-  if (fgets(line, 1024, pipe))
+  if (fgets(line, 1024, pipe) != nullptr)
   {
     strtok(line, "\n");
     pclose(pipe);
@@ -593,7 +593,7 @@ std::pair<std::string, int> RecalboxSystem::execute(std::string command)
     return std::make_pair("", -1);
   }
   std::ostringstream res;
-  while (fgets(line, 1024, pipe))
+  while (fgets(line, 1024, pipe) != nullptr)
   {
     res << line;
   }
@@ -747,7 +747,7 @@ std::string RecalboxSystem::runCmd(std::string options)
     return "";
   }
 
-  if (fgets(line, 1024, pipe))
+  if (fgets(line, 1024, pipe) != nullptr)
   {
     strtok(line, "\n");
     pclose(pipe);

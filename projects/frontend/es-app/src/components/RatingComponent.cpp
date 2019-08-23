@@ -155,7 +155,7 @@ void RatingComponent::applyTheme(const std::shared_ptr<ThemeData>& theme, const 
 	GuiComponent::applyTheme(theme, view, element, properties);
 
 	const ThemeData::ThemeElement* elem = theme->getElement(view, element, "rating");
-	if(!elem)
+	if (elem == nullptr)
 		return;
 
 	bool imgChanged = false;

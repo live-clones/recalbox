@@ -45,7 +45,7 @@ GuiGamelistOptions::GuiGamelistOptions(Window* window, SystemData* system)
 													   menuTheme->menuText.color), true);
 		row.addElement(mJumpToLetterList, false);
 		row.input_handler = [&](InputConfig *config, Input input) {
-			if (config->isMappedTo("b", input) && input.value) {
+			if (config->isMappedTo("b", input) && (input.value != 0)) {
 				jumpToLetter();
 				return true;
 			} else if (mJumpToLetterList->input(config, input)) {
@@ -145,7 +145,7 @@ GuiGamelistOptions::~GuiGamelistOptions()
 	if (mReloading) return;
 
 	FolderData* root = getGamelist()->getRoot();
-	if (root->countAll(false))
+	if (root->countAll(false) != 0)
 	{
 		if (mListSort->getSelected() != (int)mSystem->getSortId())
 		{
@@ -214,7 +214,7 @@ void GuiGamelistOptions::jumpToLetter() {
 }
 
 bool GuiGamelistOptions::input(InputConfig* config, Input input) {
-	if ((config->isMappedTo("a", input) || config->isMappedTo("select", input)) && input.value) {
+	if ((config->isMappedTo("a", input) || config->isMappedTo("select", input)) && (input.value != 0)) {
 		save();
 		delete this;
 		return true;

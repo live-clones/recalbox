@@ -206,7 +206,7 @@ int setLocale(char* argv1)
   char* p;
 
   bool error = false;
-  if (!(p = strrchr(argv1, '/')))
+  if ((p = strrchr(argv1, '/')) == nullptr)
   {
     char* res = getcwd(abs_exe_path, sizeof(abs_exe_path));
     error = (res == nullptr);
@@ -443,7 +443,7 @@ int main(int argc, char* argv[])
     fs::path ready_path = fs::temp_directory_path();
     ready_path /= "emulationstation.ready";
     FILE* ready_file = fopen(ready_path.c_str(), "w");
-    if (ready_file)
+    if (ready_file != nullptr)
       fclose(ready_file);
 
     //generate joystick events since we're done loading
@@ -461,7 +461,7 @@ int main(int argc, char* argv[])
     while (running)
     {
       SDL_Event event;
-      while (SDL_PollEvent(&event))
+      while (SDL_PollEvent(&event) != 0)
       {
         switch (event.type)
         {

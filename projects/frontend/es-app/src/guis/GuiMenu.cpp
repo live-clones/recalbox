@@ -1661,7 +1661,7 @@ void GuiMenu::menuQuit(){
 
   row.makeAcceptInputHandler([window] {
     window->pushGui(new GuiMsgBox(window, _("REALLY SHUTDOWN?"), _("YES"), [] {
-        if (RecalboxSystem::shutdown() != 0) {
+        if (RecalboxSystem::shutdown()) {
           LOG(LogWarning) << "Shutdown terminated with non-zero result!";
           }
         }, _("NO"), nullptr));
@@ -1672,7 +1672,7 @@ void GuiMenu::menuQuit(){
   row.elements.clear();
   row.makeAcceptInputHandler([window] {
     window->pushGui(new GuiMsgBox(window, _("REALLY SHUTDOWN WITHOUT SAVING METADATAS?"), _("YES"), [] {
-        if (RecalboxSystem::fastShutdown() != 0) {
+        if (RecalboxSystem::fastShutdown()) {
           LOG(LogWarning) << "Shutdown terminated with non-zero result!";
           }
         }, _("NO"), nullptr));
@@ -1683,7 +1683,7 @@ void GuiMenu::menuQuit(){
   row.elements.clear();
   row.makeAcceptInputHandler([window] {
     window->pushGui(new GuiMsgBox(window, _("REALLY RESTART?"), _("YES"), [] {
-        if (RecalboxSystem::reboot() != 0) {
+        if (RecalboxSystem::reboot()) {
           LOG(LogWarning) << "Restart terminated with non-zero result!";
           }
         }, _("NO"), nullptr));

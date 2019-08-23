@@ -90,7 +90,7 @@ HttpReq::HttpReq(const std::string& url)
 
 HttpReq::~HttpReq()
 {
-	if(mHandle)
+	if(mHandle != nullptr)
 	{
 		s_requests.erase(mHandle);
 
@@ -119,7 +119,7 @@ HttpReq::Status HttpReq::status()
 
 		int msgs_left;
 		CURLMsg* msg;
-        while((msg = curl_multi_info_read(s_multi_handle, &msgs_left)))
+        while((msg = curl_multi_info_read(s_multi_handle, &msgs_left)) != nullptr)
 		{
 			if(msg->msg == CURLMSG_DONE)
 			{

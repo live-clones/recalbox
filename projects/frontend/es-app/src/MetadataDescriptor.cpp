@@ -4,6 +4,7 @@
 #include "Util.h"
 #include "Log.h"
 
+// TODO: Use const char* instead
 const std::string MetadataDescriptor::DefaultValueEmulator = "default";
 const std::string MetadataDescriptor::DefaultValueCore = "default";
 const std::string MetadataDescriptor::DefaultValueRatio = "auto";

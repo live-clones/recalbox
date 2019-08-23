@@ -47,7 +47,7 @@ std::shared_ptr<AudioManager>& AudioManager::getInstance()
 void AudioManager::init()
 {
   runningFromPlaylist = false;
-  if (running == 0)
+  if (!running)
   {
     if (SDL_InitSubSystem(SDL_INIT_AUDIO) != 0)
     {
@@ -98,7 +98,7 @@ void AudioManager::themeChanged(const std::shared_ptr<ThemeData>& theme)
   if (RecalboxConf::getInstance()->get("audio.bgmusic") == "1")
   {
     const ThemeData::ThemeElement* elem = theme->getElement("system", "directory", "sound");
-    if (!elem || !elem->has("path"))
+    if ((elem == nullptr) || !elem->has("path"))
     {
       currentThemeMusicDirectory.clear();
     }
@@ -297,7 +297,7 @@ void AudioManager::playCheckSound()
   std::string selectedTheme = Settings::getInstance()->getString("ThemeSet");
   std::string loadingMusic = RootFolders::DataRootFolder + "/system/.emulationstation/themes/" + selectedTheme + "/fx/loading.ogg";
 
-  if (boost::filesystem::exists(loadingMusic) == false)
+  if (!boost::filesystem::exists(loadingMusic))
   {
     loadingMusic = RootFolders::TemplateRootFolder + "/system/.emulationstation/themes/recalbox/fx/loading.ogg";
   }

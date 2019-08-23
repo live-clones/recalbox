@@ -162,15 +162,15 @@ class VideoEngine : Thread
 
         void Dispose()
         {
-          if (AudioVideoContext ) avformat_close_input(&AudioVideoContext);
-          if (AudioCodecContext ) avcodec_close(AudioCodecContext);
-          if (VideoCodecContext ) avcodec_close(VideoCodecContext);
-          if (ResamplerContext  ) swr_free(&ResamplerContext);
-          if (ColorsSpaceContext) sws_freeContext(ColorsSpaceContext);
-          if (Frame             ) av_frame_free(&Frame);
-          if (FrameRGB[0]       ) av_frame_free(&FrameRGB[0]);
-          if (FrameRGB[1]       ) av_frame_free(&FrameRGB[1]);
-          if (FrameBuffer       ) av_free(FrameBuffer);
+          if (AudioVideoContext != nullptr ) avformat_close_input(&AudioVideoContext);
+          if (AudioCodecContext != nullptr ) avcodec_close(AudioCodecContext);
+          if (VideoCodecContext != nullptr ) avcodec_close(VideoCodecContext);
+          if (ResamplerContext != nullptr  ) swr_free(&ResamplerContext);
+          if (ColorsSpaceContext != nullptr) sws_freeContext(ColorsSpaceContext);
+          if (Frame != nullptr             ) av_frame_free(&Frame);
+          if (FrameRGB[0] != nullptr       ) av_frame_free(&FrameRGB[0]);
+          if (FrameRGB[1] != nullptr       ) av_frame_free(&FrameRGB[1]);
+          if (FrameBuffer != nullptr       ) av_free(FrameBuffer);
 
           AudioVideoContext = nullptr;
           AudioCodec = VideoCodec = nullptr;

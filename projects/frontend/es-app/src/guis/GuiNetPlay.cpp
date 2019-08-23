@@ -108,7 +108,7 @@ bool GuiNetPlay::parseLobby()
 			if (array_element.second.get<std::string>("fields.game_crc") != "00000000") {
 				tmp = findGame(array_element.second.get<std::string>("fields.game_crc"));
 			}
-			if (!tmp) {
+			if (tmp == nullptr) {
 				tmp = findGame(array_element.second.get<std::string>("fields.game_name"));
 			}
 			mGames.push_back(tmp);
@@ -191,7 +191,7 @@ void GuiNetPlay::populateGrid()
       {
           gameName = v.second.get<std::string>("fields.game_name");
       }
-			if (mGames[i]) {
+			if (mGames[i] != nullptr) {
 				if (mGames[i]->getHash() == v.second.get<std::string>("fields.game_crc")) {
 					text = "\uf1c0 " + gameName;
 				}
@@ -243,7 +243,7 @@ void GuiNetPlay::populateGridMeta(int i)
 	bool hashMatch = false;
 	bool coreVerMatch,coreMatch;
 
-	if (mGames[i]) {
+	if (mGames[i] != nullptr) {
 		hashMatch = mGames[i]->getHash() == mRooms[i].second.get<std::string>("fields.game_crc");
 	}
 	std::pair<std::string, std::string> CoreInfo = getCoreInfo(mRooms[i].second.get<std::string>("fields.core_name"));
@@ -270,7 +270,7 @@ void GuiNetPlay::populateGridMeta(int i)
     } else {
         mMetaTextRomHash->setText("\uf1c2 " + _("No Match"));
     }
-	if (mGames[i]) {
+	if (mGames[i] != nullptr) {
         mMetaTextRomFile->setText("\uf1c0 " + _("Match"));
 	} else {
         mMetaTextRomFile->setText("\uf1c2 " + _("No Match"));
@@ -288,7 +288,7 @@ void GuiNetPlay::populateGridMeta(int i)
     mMetaTextLatency->setText(mPings[i]);
     mMetaTextRAVer->setText(mRooms[i].second.get<std::string>("fields.retroarch_version", "N/A"));
     mMetaTextHostArch->setText(frontend);
-	if (mGames[i]) {
+	if (mGames[i] != nullptr) {
 		if (hashMatch && coreMatch) {
             mMetaTextCanJoin->setText("\uf1c0 " + _("Rom, hash and core match"));
             mMetaTextCanJoin->setColor(0x26B14AFF);
@@ -309,7 +309,7 @@ void GuiNetPlay::populateGridMeta(int i)
 
 void GuiNetPlay::launch()
 {
-	if (mGames[mList->getCursor()]) {
+	if (mGames[mList->getCursor()] != nullptr) {
         Vector3f target(Renderer::getDisplayWidthAsFloat() / 2.0f, Renderer::getDisplayHeightAsFloat() / 2.0f, 0);
         int index = mList->getCursor();
         std::string core = getCoreInfo(mRooms[index].second.get<std::string>("fields.core_name")).first;
@@ -366,7 +366,7 @@ std::pair<std::string, std::string> GuiNetPlay::getCoreInfo(const std::string &n
         LOG(LogError) << "Unable to open " << filePath;
         return result;
     }
-    if (coreMap.count(name)) {
+    if (coreMap.count(name) != 0u) {
         std::string s = coreMap[name];
         std::string delimiter = ";";
         size_t pos = 0;

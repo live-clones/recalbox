@@ -29,7 +29,7 @@ void SwitchComponent::setColor(unsigned int color) {
 
 bool SwitchComponent::input(InputConfig* config, Input input)
 {
-	if(config->isMappedTo("b", input) && input.value)
+	if(config->isMappedTo("b", input) && (input.value != 0))
 	{
 		mState = !mState;
 		onStateChanged();

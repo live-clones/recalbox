@@ -52,7 +52,7 @@ void SystemView::addSystem(SystemData * it){
 	e.object = it;
 
 	// make logo
-	if(theme->getElement("system", "logo", "image"))
+	if(theme->getElement("system", "logo", "image") != nullptr)
 	{
 		ImageComponent* logo = new ImageComponent(mWindow, false, false);
 		logo->setMaxSize(mCarousel.logoSize * mCarousel.logoScale);
@@ -164,7 +164,7 @@ bool SystemView::input(InputConfig* config, Input input)
 {
 	if(input.value != 0)
 	{
-		if(config->getDeviceId() == DEVICE_KEYBOARD && input.id == SDLK_r && SDL_GetModState() & KMOD_LCTRL && Settings::getInstance()->getBool("Debug"))
+		if(config->getDeviceId() == DEVICE_KEYBOARD && input.id == SDLK_r && ((SDL_GetModState() & KMOD_LCTRL) != 0) && Settings::getInstance()->getBool("Debug"))
 		{
 			LOG(LogInfo) << " Reloading all";
 			ViewController::get()->reloadAll();
@@ -263,7 +263,7 @@ bool SystemView::input(InputConfig* config, Input input)
 			row.makeAcceptInputHandler([window] {
 			    window->pushGui(new GuiMsgBox(window, _("REALLY SHUTDOWN?"), _("YES"),
 											  [] {
-												  if (RecalboxSystem::shutdown() != 0)  {
+												  if (RecalboxSystem::shutdown())  {
 													  LOG(LogWarning) <<
 																	  "Shutdown terminated with non-zero result!";
 												  }
@@ -283,7 +283,7 @@ bool SystemView::input(InputConfig* config, Input input)
 			row.makeAcceptInputHandler([window] {
 				window->pushGui(new GuiMsgBox(window, _("REALLY SHUTDOWN WITHOUT SAVING METADATAS?"), _("YES"),
 											  [] {
-												  if (RecalboxSystem::fastShutdown() != 0)  {
+												  if (RecalboxSystem::fastShutdown())  {
 													  LOG(LogWarning) <<
 																	  "Shutdown terminated with non-zero result!";
 												  }
@@ -302,7 +302,7 @@ bool SystemView::input(InputConfig* config, Input input)
 			row.makeAcceptInputHandler([window] {
 				window->pushGui(new GuiMsgBox(window, _("REALLY RESTART?"), _("YES"),
 				                              [] {
-					                              if (RecalboxSystem::reboot() != 0)  {
+					                              if (RecalboxSystem::reboot())  {
 						                              LOG(LogWarning) << "Restart terminated with non-zero result!";
 					                              }
 				                              }, _("NO"), nullptr));
@@ -571,11 +571,11 @@ void  SystemView::getViewElements(const std::shared_ptr<ThemeData>& theme)
 		getDefaultElements();
 		
 		const ThemeData::ThemeElement* carouselElem = theme->getElement("system", "systemcarousel", "carousel");
-		if (carouselElem)
+		if (carouselElem != nullptr)
 			getCarouselFromTheme(carouselElem);
 		
 		const ThemeData::ThemeElement* sysInfoElem = theme->getElement("system", "systemInfo", "text");
-		if (sysInfoElem)
+		if (sysInfoElem != nullptr)
 			mSystemInfo.applyTheme(theme, "system", "systemInfo", ThemeProperties::All);
 		
 		mViewNeedsReload = false;
@@ -746,7 +746,7 @@ void SystemView::renderExtras(const Transform4x4f& trans, float lower, float upp
 void SystemView::renderFade(const Transform4x4f& trans)
 {
 	// fade extras if necessary
-	if (mExtrasFadeOpacity)
+	if (mExtrasFadeOpacity != 0.0f)
 	{
 			Renderer::setMatrix(trans);
 			Renderer::drawRect(0.0f, 0.0f, mSize.x(), mSize.y(), 0x00000000 | (unsigned char)(mExtrasFadeOpacity * 255));
@@ -791,9 +791,9 @@ void SystemView::getCarouselFromTheme(const ThemeData::ThemeElement* elem)
 {
 	if (elem->has("type"))
 	{
-		if (!(elem->get<std::string>("type").compare("vertical")))
+		if ((elem->get<std::string>("type").compare("vertical")) == 0)
 			mCarousel.type = CarouselType::Vertical;
-		else if (!(elem->get<std::string>("type").compare("vertical_wheel")))
+		else if ((elem->get<std::string>("type").compare("vertical_wheel")) == 0)
 			mCarousel.type = CarouselType::VerticalWheel;
 		else
 			mCarousel.type = CarouselType::Horizontal;
@@ -820,13 +820,13 @@ void SystemView::getCarouselFromTheme(const ThemeData::ThemeElement* elem)
 		mCarousel.logoRotationOrigin = elem->get<Vector2f>("logoRotationOrigin");
 	if (elem->has("logoAlignment"))
 	{
-		if (!(elem->get<std::string>("logoAlignment").compare("left")))
+		if ((elem->get<std::string>("logoAlignment").compare("left")) == 0)
 			mCarousel.logoAlignment = TextAlignment::Left;
-		else if (!(elem->get<std::string>("logoAlignment").compare("right")))
+		else if ((elem->get<std::string>("logoAlignment").compare("right")) == 0)
 			mCarousel.logoAlignment = TextAlignment::Right;
-		else if (!(elem->get<std::string>("logoAlignment").compare("top")))
+		else if ((elem->get<std::string>("logoAlignment").compare("top")) == 0)
 			mCarousel.logoAlignment = TextAlignment::Top;
-		else if (!(elem->get<std::string>("logoAlignment").compare("bottom")))
+		else if ((elem->get<std::string>("logoAlignment").compare("bottom")) == 0)
 			mCarousel.logoAlignment = TextAlignment::Bottom;
 		else
 			mCarousel.logoAlignment = TextAlignment::Center;

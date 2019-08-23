@@ -268,7 +268,7 @@ public:
         
 	T getSelected()
 	{
-		assert(mMultiSelect == false);
+		assert(!mMultiSelect);
 		auto selected = getSelectedObjects();
 		if(selected.size() == 1){
                     return selected.at(0);
@@ -279,7 +279,7 @@ public:
         
 	std::string getSelectedName()
 	{
-                assert(mMultiSelect == false);
+                assert(!mMultiSelect);
 		for (auto& entry : mEntries)
 		{
 			if(entry.selected)
@@ -343,7 +343,7 @@ public:
 private:
 	unsigned int getSelectedId()
 	{
-		assert(mMultiSelect == false);
+		assert(!mMultiSelect);
 		for (unsigned int i = 0; i < mEntries.size(); i++)
 		{
 			if(mEntries.at(i).selected)

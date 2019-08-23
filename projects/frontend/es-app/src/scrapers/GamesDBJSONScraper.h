@@ -32,7 +32,7 @@ class TheGamesDBJSONRequest : public ScraperHttpRequest
     void process(const std::unique_ptr<HttpReq>& req, std::vector<ScraperSearchResult>& results) override;
 
     bool isGameRequest()
-    { return !mRequestQueue; }
+    { return mRequestQueue == nullptr; }
 
     std::queue<std::unique_ptr<ScraperRequest>>* mRequestQueue;
 };

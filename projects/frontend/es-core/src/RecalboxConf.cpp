@@ -97,20 +97,20 @@ bool RecalboxConf::saveRecalboxConf() {
 }
 
 std::string RecalboxConf::get(const std::string &name) {
-    if (confMap.count(name)) {
+    if (confMap.count(name) != 0u) {
         return confMap[name];
     }
     return "";
 }
 std::string RecalboxConf::get(const std::string &name, const std::string &defaultValue) {
-    if (confMap.count(name)) {
+    if (confMap.count(name) != 0u) {
         return confMap[name];
     }
     return defaultValue;
 }
 
 bool RecalboxConf::getBool(const std::string &name, bool defaultValue) {
-    if (confMap.count(name)) {
+    if (confMap.count(name) != 0u) {
         return confMap[name] == "1";
     }
     return defaultValue;
@@ -118,7 +118,7 @@ bool RecalboxConf::getBool(const std::string &name, bool defaultValue) {
 
 unsigned int RecalboxConf::getUInt(const std::string &name, unsigned int defaultValue) {
     try {
-        if (confMap.count(name)) {
+        if (confMap.count(name) != 0u) {
             int value = std::stoi(confMap[name]);
             return value > 0 ? (unsigned int) value : 0;
         }
@@ -150,7 +150,7 @@ void RecalboxConf::setList(const std::string &name, const std::vector<std::strin
 
   for (auto & value: values)
   {
-    if (value.length())
+    if (value.length() != 0u)
     {
       if (addDelimiter)
         ss << delimiter;
@@ -163,7 +163,7 @@ void RecalboxConf::setList(const std::string &name, const std::vector<std::strin
 
 bool RecalboxConf::isInList(const std::string &name, const std::string &value) {
     bool result = false;
-    if (confMap.count(name)) {
+    if (confMap.count(name) != 0u) {
         std::string s = confMap[name];
         std::string delimiter = ",";
 

@@ -50,15 +50,15 @@ void VideoEngine::AudioPacketQueue::Enqueue(const AVPacket* packet)
 {
   AVPacketList* elt = nullptr;
   AVPacket pkt;
-  if (av_packet_ref(&pkt, packet)) return;
+  if (av_packet_ref(&pkt, packet) != 0) return;
   elt = (AVPacketList*)av_malloc(sizeof(AVPacketList));
-  if (!elt) return;
+  if (elt == nullptr) return;
   elt->pkt = pkt;
   elt->next = nullptr;
 
   mMutex.Lock();
 
-  if (!Last) First = elt;
+  if (Last == nullptr) First = elt;
   else Last->next = elt;
   Last = elt;
   Count++;
@@ -73,10 +73,10 @@ bool VideoEngine::AudioPacketQueue::Dequeue(AVPacket& pkt)
 
   mMutex.Lock();
   AVPacketList* elt = First;
-  if (elt)
+  if (elt != nullptr)
   {
     First = elt->next;
-    if (!First) Last = nullptr;
+    if (First == nullptr) Last = nullptr;
     Count--;
     Size -= elt->pkt.size;
     pkt = elt->pkt;
@@ -181,11 +181,11 @@ bool VideoEngine::InitializeDecoder()
   }
 
   // Open the file
-  if (avformat_open_input(&mContext.AudioVideoContext, mFileName.c_str(), nullptr, nullptr))
+  if (avformat_open_input(&mContext.AudioVideoContext, mFileName.c_str(), nullptr, nullptr) != 0)
     RETURN_ERROR("Error opening video " << mFileName, false);
 
   // Lookup stream
-  if (avformat_find_stream_info(mContext.AudioVideoContext, nullptr))
+  if (avformat_find_stream_info(mContext.AudioVideoContext, nullptr) != 0)
     RETURN_ERROR("Error finding streams in " << mFileName, false);
 
   // Lookup audio and vdeo stream indexes
@@ -212,29 +212,29 @@ bool VideoEngine::InitializeDecoder()
   if (mContext.AudioStreamIndex >= 0)
   {
     mContext.AudioCodec = avcodec_find_decoder(mContext.AudioVideoContext->streams[mContext.AudioStreamIndex]->codecpar->codec_id);
-    if (!mContext.AudioCodec) RETURN_ERROR("Error finding audio codec " << _FourCCToString(mContext.AudioVideoContext->streams[mContext.AudioStreamIndex]->codecpar->codec_tag), false);
+    if (mContext.AudioCodec == nullptr) RETURN_ERROR("Error finding audio codec " << _FourCCToString(mContext.AudioVideoContext->streams[mContext.AudioStreamIndex]->codecpar->codec_tag), false);
     mContext.AudioCodecContext = avcodec_alloc_context3(mContext.AudioCodec);
-    if (!mContext.AudioCodecContext) RETURN_ERROR("Error allocating audio codec context", false);
-    if (avcodec_parameters_to_context(mContext.AudioCodecContext, mContext.AudioVideoContext->streams[mContext.AudioStreamIndex]->codecpar)) RETURN_ERROR("Error setting parameters to audio codec context", false);
-    if (avcodec_open2(mContext.AudioCodecContext, mContext.AudioCodec, nullptr)) RETURN_ERROR("Error opening audio codec", false);
+    if (mContext.AudioCodecContext == nullptr) RETURN_ERROR("Error allocating audio codec context", false);
+    if (avcodec_parameters_to_context(mContext.AudioCodecContext, mContext.AudioVideoContext->streams[mContext.AudioStreamIndex]->codecpar) != 0) RETURN_ERROR("Error setting parameters to audio codec context", false);
+    if (avcodec_open2(mContext.AudioCodecContext, mContext.AudioCodec, nullptr) != 0) RETURN_ERROR("Error opening audio codec", false);
     mContext.ResamplerContext = swr_alloc();
-    if (!mContext.ResamplerContext) RETURN_ERROR("Error allocating audio resampler context", false);
+    if (mContext.ResamplerContext == nullptr) RETURN_ERROR("Error allocating audio resampler context", false);
     av_opt_set_channel_layout(mContext.ResamplerContext, "in_channel_layout", mContext.AudioCodecContext->channel_layout, 0);
     av_opt_set_channel_layout(mContext.ResamplerContext, "out_channel_layout", mContext.AudioCodecContext->channel_layout, 0);
     av_opt_set_int(mContext.ResamplerContext, "in_sample_rate", mContext.AudioCodecContext->sample_rate, 0);
     av_opt_set_int(mContext.ResamplerContext, "out_sample_rate", mContext.AudioCodecContext->sample_rate, 0);
     av_opt_set_sample_fmt(mContext.ResamplerContext, "in_sample_fmt", mContext.AudioCodecContext->sample_fmt, 0);
     av_opt_set_sample_fmt(mContext.ResamplerContext, "out_sample_fmt", AV_SAMPLE_FMT_FLT, 0);
-    if (swr_init(mContext.ResamplerContext)) RETURN_ERROR("Error initializing audio resampler context", false);
+    if (swr_init(mContext.ResamplerContext) != 0) RETURN_ERROR("Error initializing audio resampler context", false);
   }
 
   // Initialize video codec
   mContext.VideoCodec = avcodec_find_decoder(mContext.AudioVideoContext->streams[mContext.VideoStreamIndex]->codecpar->codec_id);
-  if (!mContext.VideoCodec) RETURN_ERROR("Error finding video codec " << mContext.AudioVideoContext->streams[mContext.VideoStreamIndex]->codecpar->codec_id, false);
+  if (mContext.VideoCodec == nullptr) RETURN_ERROR("Error finding video codec " << mContext.AudioVideoContext->streams[mContext.VideoStreamIndex]->codecpar->codec_id, false);
   mContext.VideoCodecContext = avcodec_alloc_context3(mContext.VideoCodec);
-  if (!mContext.VideoCodecContext) RETURN_ERROR("Error allocating video codec context", false);
-  if (avcodec_parameters_to_context(mContext.VideoCodecContext, mContext.AudioVideoContext->streams[mContext.VideoStreamIndex]->codecpar)) RETURN_ERROR("Error setting parameters to video codec context", false);
-  if (avcodec_open2(mContext.VideoCodecContext, mContext.VideoCodec, nullptr)) RETURN_ERROR("Error opening video codec", false);
+  if (mContext.VideoCodecContext == nullptr) RETURN_ERROR("Error allocating video codec context", false);
+  if (avcodec_parameters_to_context(mContext.VideoCodecContext, mContext.AudioVideoContext->streams[mContext.VideoStreamIndex]->codecpar) != 0) RETURN_ERROR("Error setting parameters to video codec context", false);
+  if (avcodec_open2(mContext.VideoCodecContext, mContext.VideoCodec, nullptr) != 0) RETURN_ERROR("Error opening video codec", false);
   mContext.ColorsSpaceContext = sws_getContext(mContext.VideoCodecContext->width,
                                                mContext.VideoCodecContext->height,
                                                mContext.VideoCodecContext->pix_fmt,
@@ -245,7 +245,7 @@ bool VideoEngine::InitializeDecoder()
                                                nullptr,
                                                nullptr,
                                                nullptr);
-  if (!mContext.ColorsSpaceContext) RETURN_ERROR("Error initializing video color space context", false);
+  if (mContext.ColorsSpaceContext == nullptr) RETURN_ERROR("Error initializing video color space context", false);
 
   // Time frame & duration
   AVStream* videoStream = mContext.AudioVideoContext->streams[mContext.VideoStreamIndex];
@@ -256,14 +256,14 @@ bool VideoEngine::InitializeDecoder()
   mContext.Frame = av_frame_alloc();
   mContext.FrameRGB[0] = av_frame_alloc();
   mContext.FrameRGB[1] = av_frame_alloc();
-  if (!mContext.Frame || ! mContext.FrameRGB[0] || ! mContext.FrameRGB[1]) RETURN_ERROR("Error allocating video frames", false);
+  if ((mContext.Frame == nullptr) || (mContext.FrameRGB[0] == nullptr) || (mContext.FrameRGB[1] == nullptr)) RETURN_ERROR("Error allocating video frames", false);
 
   mContext.Width = mContext.AudioVideoContext->streams[mContext.VideoStreamIndex]->codecpar->width;
   mContext.Height = mContext.AudioVideoContext->streams[mContext.VideoStreamIndex]->codecpar->height;
   int argbSize = av_image_get_buffer_size(PIXEL_FORMAT, mContext.Width, mContext.Height, 8);
   if (argbSize < 1) RETURN_ERROR("Error getting video frame size", false);
   auto FrameBuffer = (unsigned char*)av_malloc(argbSize);
-  if (!FrameBuffer) RETURN_ERROR("Error allocating frame buffer", false);
+  if (FrameBuffer == nullptr) RETURN_ERROR("Error allocating frame buffer", false);
 
   if (av_image_fill_arrays(&mContext.FrameRGB[0]->data[0], &mContext.FrameRGB[0]->linesize[0], FrameBuffer, PIXEL_FORMAT, mContext.Width, mContext.Height, 1) < 0)
     RETURN_ERROR("Error setting frame buffer", false);
@@ -271,7 +271,7 @@ bool VideoEngine::InitializeDecoder()
     RETURN_ERROR("Error setting frame buffer", false);
 
   // Initialize audio callback
-  if (mContext.AudioCodec)
+  if (mContext.AudioCodec != nullptr)
   {
     SDL_AudioSpec Wanted;
     SDL_AudioSpec ActuallyGot;
@@ -311,7 +311,7 @@ int VideoEngine::DecodeAudioFrame(AVCodecContext& audioContext, unsigned char* b
 
       packetData += size;
       packetSize -= size;
-      if (gotFrame)
+      if (gotFrame != 0)
       {
         //dataSize = av_samples_get_buffer_size(nullptr, audioContext.channels, frame->nb_samples, audioContext.sample_fmt, 1);
         int outSize = av_samples_get_buffer_size(nullptr, audioContext.channels, frame->nb_samples, AV_SAMPLE_FMT_FLT, 1);
@@ -368,7 +368,7 @@ TextureData& VideoEngine::GetDisplayableFrame()
 {
   int frame = (mContext.FrameInUse ^ 1U) & 1U;
   mContext.FrammeRGBLocker[frame].Lock();
-  if (mContext.FrameRGB[frame])
+  if (mContext.FrameRGB[frame] != nullptr)
     mTexture.updateFromRGBA(mContext.FrameRGB[frame]->data[0], mContext.Width, mContext.Height);
   mContext.FrammeRGBLocker[frame].UnLock();
 
@@ -399,9 +399,9 @@ void VideoEngine::DecodeFrames()
     {
       if (packet.stream_index == mContext.VideoStreamIndex)
       {
-        if (avcodec_send_packet(mContext.VideoCodecContext, &packet))
+        if (avcodec_send_packet(mContext.VideoCodecContext, &packet) != 0)
           RETURN_ERROR("Error sending video packet to codec",);
-        while (mState == PlayerState::Playing && !avcodec_receive_frame(mContext.VideoCodecContext, mContext.Frame))
+        while (mState == PlayerState::Playing && (avcodec_receive_frame(mContext.VideoCodecContext, mContext.Frame) == 0))
         {
           // Timing
           long long TimeFromPreviousFrame = timer.GetNanoSeconds();

@@ -61,7 +61,7 @@ namespace FileSorts
     const SystemData * system1 = file1->getSystem();
     const SystemData * system2 = file2->getSystem();
     const int result = simpleCompareUppercase(system1->getName(), system2->getName());
-    if (result) { return result; }
+    if (result != 0) { return result; }
     return simpleCompareUppercase(file1->getName(), file2->getName());
   }
 
@@ -93,9 +93,9 @@ namespace FileSorts
     CheckFoldersAndGames(file1, file2);
     int ep1 = (file1)->Metadata().LastPlayedEpoc();
     int ep2 = (file2)->Metadata().LastPlayedEpoc();
-    if (!ep1 || !ep2) {
-      if (ep1) return 1;
-      if (ep2) return -1;
+    if ((ep1 == 0) || (ep2 == 0)) {
+      if (ep1 != 0) return 1;
+      if (ep2 != 0) return -1;
       return  simpleCompareUppercase(file1->getName(), file2->getName());
     }
     return ep1 < ep2 ? -1 : 1;

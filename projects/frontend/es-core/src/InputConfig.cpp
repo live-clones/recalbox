@@ -133,7 +133,7 @@ bool InputConfig::isMappedTo(const std::string& name, Input input)
   {
     if(comp.type == InputType::Hat)
     {
-      return (input.value == 0 || input.value & comp.value);
+      return (input.value == 0 || ((input.value & comp.value) != 0));
     }
 
     if(comp.type == InputType::Axis)
@@ -161,7 +161,7 @@ std::vector<std::string> InputConfig::getMappedTo(Input input)
     {
       if(chk.type == InputType::Hat)
       {
-        if(input.value == 0 || input.value & chk.value)
+        if(input.value == 0 || ((input.value & chk.value) != 0))
         {
           maps.push_back(iterator.first);
         }
@@ -185,7 +185,7 @@ void InputConfig::loadFromXML(pugi::xml_node node)
 {
   clear();
 
-  for (pugi::xml_node input = node.child("input"); input; input = input.next_sibling("input"))
+  for (pugi::xml_node input = node.child("input"); input != nullptr; input = input.next_sibling("input"))
   {
     std::string name = input.attribute("name").as_string();
     std::string type = input.attribute("type").as_string();

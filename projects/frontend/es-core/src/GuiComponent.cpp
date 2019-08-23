@@ -27,7 +27,7 @@ GuiComponent::~GuiComponent()
 
 	cancelAllAnimations();
 
-	if(mParent)
+	if(mParent != nullptr)
 		mParent->removeChild(this);
 
 	for (int i = getChildCount(); --i >= 0; )
@@ -120,7 +120,7 @@ void GuiComponent::addChild(GuiComponent* cmp)
   if (mChildren == nullptr) mChildren = new std::vector<GuiComponent*>();
   mChildren->push_back(cmp);
 
-	if(cmp->getParent())
+	if(cmp->getParent() != nullptr)
 		cmp->getParent()->removeChild(cmp);
 
 	cmp->setParent(this);
@@ -128,7 +128,7 @@ void GuiComponent::addChild(GuiComponent* cmp)
 
 void GuiComponent::removeChild(GuiComponent* cmp)
 {
-	if(!cmp->getParent())
+	if(cmp->getParent() == nullptr)
 		return;
 
 	if(cmp->getParent() != this)
@@ -235,7 +235,7 @@ void GuiComponent::setAnimation(Animation* anim, int delay, std::function<void()
 bool GuiComponent::stopAnimation(unsigned char slot)
 {
 	assert(slot < MAX_ANIMATIONS);
-	if(mAnimationMap[slot])
+	if(mAnimationMap[slot] != nullptr)
 	{
 		delete mAnimationMap[slot];
 		mAnimationMap[slot] = nullptr;
@@ -248,7 +248,7 @@ bool GuiComponent::stopAnimation(unsigned char slot)
 bool GuiComponent::cancelAnimation(unsigned char slot)
 {
 	assert(slot < MAX_ANIMATIONS);
-	if(mAnimationMap[slot])
+	if(mAnimationMap[slot] != nullptr)
 	{
 		mAnimationMap[slot]->removeFinishedCallback();
 		delete mAnimationMap[slot];
@@ -262,7 +262,7 @@ bool GuiComponent::cancelAnimation(unsigned char slot)
 bool GuiComponent::finishAnimation(unsigned char slot)
 {
 	assert(slot < MAX_ANIMATIONS);
-	if(mAnimationMap[slot])
+	if(mAnimationMap[slot] != nullptr)
 	{
 		// skip to animation's end
 		const bool done = mAnimationMap[slot]->update(mAnimationMap[slot]->getAnimation()->getDuration() - mAnimationMap[slot]->getTime());
@@ -281,7 +281,7 @@ bool GuiComponent::advanceAnimation(unsigned char slot, unsigned int time)
 {
 	assert(slot < MAX_ANIMATIONS);
 	AnimationController* anim = mAnimationMap[slot];
-	if(anim)
+	if(anim != nullptr)
 	{
 		bool done = anim->update((int)time);
 		if(done)
@@ -330,16 +330,16 @@ Vector2f GuiComponent::denormalise(float x, float y) {
 }
 
 Vector2f GuiComponent::denormalise(const Vector2f& value) {
-    Vector2f scale = getParent() ? getParent()->getSize() : Vector2f(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
+    Vector2f scale = getParent() != nullptr ? getParent()->getSize() : Vector2f(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
     return value * scale;
 }
 
 void GuiComponent::applyTheme(const std::shared_ptr<ThemeData>& theme, const std::string& view, const std::string& element, ThemeProperties properties)
 {
-	Vector2f scale = getParent() ? getParent()->getSize() : Vector2f(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
+	Vector2f scale = getParent() != nullptr ? getParent()->getSize() : Vector2f(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
 
 	const ThemeData::ThemeElement* elem = theme->getElement(view, element, "");
-	if(!elem)
+	if(elem == nullptr)
 		return;
 
 	if (hasFlag(properties, ThemeProperties::Position) && elem->has("pos"))
@@ -371,7 +371,7 @@ void GuiComponent::applyTheme(const std::shared_ptr<ThemeData>& theme, const std
 
 void GuiComponent::updateHelpPrompts()
 {
-	if(getParent())
+	if(getParent() != nullptr)
 	{
 		getParent()->updateHelpPrompts();
 		return;

@@ -63,7 +63,7 @@ void ViewController::goToStart()
   int index = systemName.empty() ? -1 : SystemData::getSystemIndex(systemName);
   SystemData* selectedSystem = index < 0 ? nullptr : SystemData::sSystemVector.at(index);
 
-  if (!selectedSystem || !selectedSystem->hasGame())
+  if ((selectedSystem == nullptr) || !selectedSystem->hasGame())
     selectedSystem = SystemData::getFirstSystemWithGame();
 
   if (RecalboxConf::getInstance()->get("emulationstation.hidesystemview") == "1")

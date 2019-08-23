@@ -18,7 +18,7 @@ MenuThemeData::MenuThemeData()
 	
 	auto elem = ThemeData::getCurrent()->getElement("menu", "menubg", "menuBackground");
 	
-	if (elem)
+	if (elem != nullptr)
 	{
 		if (elem->has("path"))
 			mCurrent->menuBackground.path = elem->get<std::string>("path");
@@ -30,7 +30,7 @@ MenuThemeData::MenuThemeData()
 	
 	elem = ThemeData::getCurrent()->getElement("menu", "menutitle", "menuText");
 	
-	if (elem)
+	if (elem != nullptr)
 	{
 		if(elem->has("fontPath") || elem->has("fontSize"))
 			mCurrent->menuTitle.font = Font::getFromTheme(elem, ThemeProperties::All, Font::get(FONT_SIZE_LARGE));
@@ -40,7 +40,7 @@ MenuThemeData::MenuThemeData()
 	
 	elem = ThemeData::getCurrent()->getElement("menu", "menufooter", "menuText");
 	
-	if (elem)
+	if (elem != nullptr)
 	{
 		if(elem->has("fontPath") || elem->has("fontSize"))
 			mCurrent->menuFooter.font = Font::getFromTheme(elem, ThemeProperties::All, Font::get(FONT_SIZE_SMALL));
@@ -50,7 +50,7 @@ MenuThemeData::MenuThemeData()
 	
 	elem = ThemeData::getCurrent()->getElement("menu", "menutext", "menuText");
 	
-	if (elem)
+	if (elem != nullptr)
 	{
 		if(elem->has("fontPath") || elem->has("fontSize"))
 		{
@@ -69,7 +69,7 @@ MenuThemeData::MenuThemeData()
 	
 	elem = ThemeData::getCurrent()->getElement("menu", "menutextsmall", "menuTextSmall");
 	
-	if (elem)
+	if (elem != nullptr)
 	{
 		if(elem->has("fontPath") || elem->has("fontSize"))
 		{
@@ -86,7 +86,7 @@ MenuThemeData::MenuThemeData()
 	
 	elem = ThemeData::getCurrent()->getElement("menu", "menubutton", "menuButton");
 	
-	if (elem)
+	if (elem != nullptr)
 	{
 		if(elem->has("path"))
 			mCurrent->iconSet.button = elem->get<std::string>("path");
@@ -96,7 +96,7 @@ MenuThemeData::MenuThemeData()
 	
 	elem = ThemeData::getCurrent()->getElement("menu", "menuswitch", "menuSwitch");
 	
-	if (elem)
+	if (elem != nullptr)
 	{
 		if(elem->has("pathOn"))
 			mCurrent->iconSet.on = elem->get<std::string>("pathOn");
@@ -106,13 +106,13 @@ MenuThemeData::MenuThemeData()
 	
 	elem = ThemeData::getCurrent()->getElement("menu", "menuslider", "menuSlider");
 	
-	if (elem)
+	if (elem != nullptr)
 		if(elem->has("path"))
 			mCurrent->iconSet.knob = elem->get<std::string>("path");
 
 	elem = ThemeData::getCurrent()->getElement("menu", "menuicons", "menuIcons");
 
-	if (elem) {
+	if (elem != nullptr) {
 		if (elem->has("iconKodi"))
 			mCurrent->menuIconSet.kodi = elem->get<std::string>("iconKodi");
 
