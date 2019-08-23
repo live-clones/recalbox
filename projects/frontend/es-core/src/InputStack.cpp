@@ -3,7 +3,7 @@
 
 #define SDL_IDLE_MS 100
 
-bool InputStack::hasInput(const Input input)
+bool InputStack::hasInput(const Input& input)
 {
 	for (auto& mInput : mInputs)
 	{
@@ -15,7 +15,7 @@ bool InputStack::hasInput(const Input input)
 	return false;
 }
 
-void InputStack::push(const Input input, const std::function<void(const std::list<Input> inputs)>& func) 
+void InputStack::push(const Input& input, const std::function<void(const std::list<Input>& inputs)>& func)
 {
 	if (mSwallow)
 		return;

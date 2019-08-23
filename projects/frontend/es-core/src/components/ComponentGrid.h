@@ -17,7 +17,7 @@ enum class Borders : unsigned char // Take less memory in grid elements
   Left   = (1 << 2),
   Right  = (1 << 3),
 };
-DEFINE_BITFLAG_ENUM(Borders, unsigned int);
+DEFINE_BITFLAG_ENUM(Borders, unsigned int)
 
 // Used to arrange a bunch of components in a spreadsheet-esque grid.
 class ComponentGrid : public GuiComponent

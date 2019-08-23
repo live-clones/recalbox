@@ -123,11 +123,10 @@ void GuiMsgBoxScroll::onSizeChanged()
 
 void GuiMsgBoxScroll::deleteMeAndCall(const std::function<void()>& func)
 {
-	auto funcCopy = func;
 	delete this;
 
-	if(funcCopy)
-		funcCopy();
+	if(func)
+		func();
 
 }
 

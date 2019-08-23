@@ -31,7 +31,7 @@ private:
         std::shared_ptr<ButtonComponent> button;
 		    const std::string key;
 		    const std::string shiftedKey;
-        KeyboardButton(const std::shared_ptr<ButtonComponent> b, const std::string& k, const std::string& sk)
+        KeyboardButton(const std::shared_ptr<ButtonComponent>& b, const std::string& k, const std::string& sk)
           : button(b),
             key(k),
             shiftedKey(sk)

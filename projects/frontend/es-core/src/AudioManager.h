@@ -83,7 +83,7 @@ class AudioManager
     bool running;
     int lastTime = 0;
 
-    std::shared_ptr<Music> getRandomMusic(std::string themeSoundDirectory);
+    std::shared_ptr<Music> getRandomMusic(const std::string& themeSoundDirectory);
 
     bool runningFromPlaylist;
 

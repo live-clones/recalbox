@@ -331,7 +331,7 @@ void DateTimeComponent::setColor(unsigned int color)
 		mTextCache->setColor(color);
 }
 
-void DateTimeComponent::setFont(std::shared_ptr<Font> font)
+void DateTimeComponent::setFont(const std::shared_ptr<Font>& font)
 {
 	mFont = font;
 	updateTextCache();

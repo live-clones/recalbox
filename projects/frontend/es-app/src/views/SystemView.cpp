@@ -756,7 +756,7 @@ void SystemView::renderFade(const Transform4x4f& trans)
 }
 
 // Populate the system carousel with the legacy values
-void  SystemView::getDefaultElements(void)
+void  SystemView::getDefaultElements()
 {
 	// Carousel
 	mCarousel.type = CarouselType::Horizontal;

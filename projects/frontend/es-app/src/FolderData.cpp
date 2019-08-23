@@ -49,7 +49,7 @@ void FolderData::populateRecursiveFolder(const std::string& filteredExtensions, 
     return;
   }
 
-  const std::string folderStr = folderPath.generic_string();
+  const std::string& folderStr = folderPath.generic_string();
 
   //make sure that this isn't a symlink to a thing we already have
   if(fs::is_symlink(folderPath))

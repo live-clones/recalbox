@@ -75,7 +75,7 @@ class FileData
      */
 
     inline const std::string& getName() const { return mMetadata.Name(); }
-    inline const std::string getHash() const { return mMetadata.RomCrc32AsString(); }
+    inline std::string getHash() const { return mMetadata.RomCrc32AsString(); }
     inline ItemType getType() const { return mType; }
     inline const boost::filesystem::path& getPath() const { return mPath; }
     inline FolderData* getParent() const { return mParent; }

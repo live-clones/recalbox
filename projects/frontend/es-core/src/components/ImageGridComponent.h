@@ -40,7 +40,7 @@ public:
 	void render(const Transform4x4f& parentTrans) override;
 
 private:
-	Vector2f getSquareSize(std::shared_ptr<TextureResource> tex = nullptr) const
+	Vector2f getSquareSize(const std::shared_ptr<TextureResource>& tex = nullptr) const
 	{
 		Vector2f aspect(1, 1);
 

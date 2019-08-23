@@ -91,7 +91,7 @@ class GuiComponent
     bool isAnimationPlaying(unsigned char slot) const;
     bool isAnimationReversed(unsigned char slot) const;
     int getAnimationTime(unsigned char slot) const;
-    void setAnimation(Animation* animation, int delay = 0, std::function<void()> finishedCallback = nullptr, bool reverse = false, unsigned char slot = 0);
+    void setAnimation(Animation* animation, int delay = 0, const std::function<void()>& finishedCallback = nullptr, bool reverse = false, unsigned char slot = 0);
     bool stopAnimation(unsigned char slot);
     bool cancelAnimation(unsigned char slot); // Like stopAnimation, but doesn't call finishedCallback - only removes the animation, leaving things in their current state.  Returns true if successful (an animation was in this slot).
     bool finishAnimation(unsigned char slot); // Calls update(1.f) and finishedCallback, then deletes the animation - basically skips to the end.  Returns true if successful (an animation was in this slot).

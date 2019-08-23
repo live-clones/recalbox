@@ -554,7 +554,7 @@ void Font::renderTextCache(TextCache* cache)
 	}
 }
 
-Vector2f Font::sizeText(std::string text, float lineSpacing)
+Vector2f Font::sizeText(const std::string& text, float lineSpacing)
 {
 	float lineWidth = 0.0f;
 	float highestWidth = 0.0f;
@@ -600,6 +600,7 @@ float Font::getLetterHeight()
 	return glyph->texSize.y() * glyph->texture->textureSize.y();
 }
 
+// TODO: Rewrite!
 //the worst algorithm ever written
 //breaks up a normal string with newlines to make it fit xLen
 std::string Font::wrapText(std::string text, float xLen)
@@ -642,13 +643,12 @@ std::string Font::wrapText(std::string text, float xLen)
 	return out;
 }
 
-Vector2f Font::sizeWrappedText(std::string text, float xLen, float lineSpacing)
+Vector2f Font::sizeWrappedText(const std::string& text, float xLen, float lineSpacing)
 {
-	text = wrapText(text, xLen);
-	return sizeText(text, lineSpacing);
+	return sizeText(wrapText(text, xLen), lineSpacing);
 }
 
-Vector2f Font::getWrappedTextCursorOffset(std::string text, float xLen, size_t stop, float lineSpacing)
+Vector2f Font::getWrappedTextCursorOffset(const std::string& text, float xLen, size_t stop, float lineSpacing)
 {
 	std::string wrappedText = wrapText(text, xLen);
 

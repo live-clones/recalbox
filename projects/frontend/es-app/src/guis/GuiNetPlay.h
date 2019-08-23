@@ -43,7 +43,7 @@ public:
 
 	void launch();
 
-	FileData* findGame(std::string game);
+	FileData* findGame(const std::string& game);
 
   std::pair<std::string, std::string> getCoreInfo(const std::string &name);
 

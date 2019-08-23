@@ -11,7 +11,7 @@
 class StrInputConfig
 {
  public:
-  StrInputConfig(std::string ideviceName, std::string ideviceGUIDString) {
+  StrInputConfig(const std::string& ideviceName, const std::string& ideviceGUIDString) {
     deviceName = ideviceName;
     deviceGUIDString = ideviceGUIDString;
   }
@@ -31,10 +31,10 @@ public:
 	std::vector<HelpPrompt> getHelpPrompts() override;
 
 private:
-	void addEntry(const char* name, unsigned int color, bool add_arrow, const std::function<void()>& func, const std::string iconName = "");
-	void addEntryWithHelp(const char* name, const std::string help, unsigned int color, bool add_arrow, const std::function<void()>& func, const std::string iconName = "");
+	void addEntry(const char* name, unsigned int color, bool add_arrow, const std::function<void()>& func, const std::string& iconName = "");
+	void addEntryWithHelp(const char* name, const std::string& help, unsigned int color, bool add_arrow, const std::function<void()>& func, const std::string& iconName = "");
 
-	void createInputTextRow(GuiSettings * gui, std::string title, const char* settingsID, bool password, std::string help);
+	void createInputTextRow(GuiSettings * gui, const std::string& title, const char* settingsID, bool password, const std::string& help);
 	void menuSystem();
 	void menuUpdates();
 	void menuGameSettings();
@@ -51,7 +51,7 @@ private:
 
 
 	std::shared_ptr<OptionListComponent<std::string>> createRatioOptionList(Window *window,
-                                                                        std::string configname) const;
+                                                                        const std::string& configname) const;
 
 	void popSystemConfigurationGui(SystemData *systemData) const;
 

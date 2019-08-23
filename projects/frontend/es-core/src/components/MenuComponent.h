@@ -18,7 +18,7 @@ class ButtonComponent;
 class ImageComponent;
 
 std::shared_ptr<ComponentGrid> makeButtonGrid(Window* window, const std::vector< std::shared_ptr<ButtonComponent> >& buttons);
-std::shared_ptr<ComponentGrid> makeMultiDimButtonGrid(Window* window, const std::vector< std::vector< std::shared_ptr<ButtonComponent> > >& buttons, const float outerWidth, const float outerHeight);
+std::shared_ptr<ComponentGrid> makeMultiDimButtonGrid(Window* window, const std::vector< std::vector< std::shared_ptr<ButtonComponent> > >& buttons, float outerWidth, float outerHeight);
 std::shared_ptr<ImageComponent> makeArrow(Window* window);
 
 #define TITLE_VERT_PADDING (Renderer::getDisplayHeightAsFloat()*0.0637f)
@@ -34,7 +34,7 @@ public:
 
 	void onSizeChanged() override;
 	
-	inline const std::function<void()> buildHelpGui(const std::string& label, const std::string& help) 
+	inline std::function<void()> buildHelpGui(const std::string& label, const std::string& help)
 	{
 		return [this, label, help] () {
 			int dur = Settings::getInstance()->getInt("HelpPopupTime");

@@ -15,8 +15,8 @@
 class InputStack
 {
 public:
-	bool hasInput(const Input input);
-	void push(const Input input, const std::function<void(const std::list<Input> inputs)>& func);
+	bool hasInput(const Input& input);
+	void push(const Input& input, const std::function<void(const std::list<Input>& inputs)>& func);
 	void debounce();
 private:
 	bool mSwallow = false;

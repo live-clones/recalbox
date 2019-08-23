@@ -11,10 +11,10 @@ class StringUtil
 		typedef std::vector<std::string> stringVector;
 
 		static unsigned int chars2Unicode      (const std::string& _string, size_t& _cursor);
-		static std::string  unicode2Chars      (const unsigned int _unicode);
-		static size_t       nextCursor         (const std::string& _string, const size_t _cursor);
-		static size_t       prevCursor         (const std::string& _string, const size_t _cursor);
-		static size_t       moveCursor         (const std::string& _string, const size_t _cursor, const int _amount);
+		static std::string  unicode2Chars      (unsigned int _unicode);
+		static size_t       nextCursor         (const std::string& _string, size_t _cursor);
+		static size_t       prevCursor         (const std::string& _string, size_t _cursor);
+		static size_t       moveCursor         (const std::string& _string, size_t _cursor, int _amount);
 		static std::string  toLower            (const std::string& _string);
 		static std::string  toUpper            (const std::string& _string);
 		static std::string  trim               (const std::string& _string);

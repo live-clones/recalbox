@@ -266,7 +266,7 @@ void ViewController::onFileChanged(FileData* file, FileChangeType change)
 	}
 }
 
-void ViewController::launch(FileData* game, Vector3f center, std::string netplay, std::string core, std::string ip, std::string port)
+void ViewController::launch(FileData* game, Vector3f center, const std::string& netplay, const std::string& core, const std::string& ip, const std::string& port)
 {
 	if(!game->isGame())
 	{
@@ -283,7 +283,7 @@ void ViewController::launch(FileData* game, Vector3f center, std::string netplay
 
 	std::string transition_style = Settings::getInstance()->getString("TransitionStyle");
 
-	auto launchFactory = [this, game, origCamera, netplay, core, ip, port] (std::function<void(std::function<void()>)> backAnimation) {
+	auto launchFactory = [this, game, origCamera, netplay, core, ip, port] (const std::function<void(std::function<void()>)>& backAnimation) {
 		return [this, game, origCamera, backAnimation, netplay, core, ip, port] {
       game->getSystem()->launchGame(mWindow, game, netplay, core, ip, port);
 			mCamera = origCamera;
@@ -298,17 +298,17 @@ void ViewController::launch(FileData* game, Vector3f center, std::string netplay
 		auto fadeFunc = [this](float t) {
 			mFadeOpacity = lerp<float>(0.0f, 1.0f, t);
 		};
-		setAnimation(new LambdaAnimation(fadeFunc, 800), 0, launchFactory([this, fadeFunc](std::function<void()> finishedCallback) {
+		setAnimation(new LambdaAnimation(fadeFunc, 800), 0, launchFactory([this, fadeFunc](const std::function<void()>& finishedCallback) {
 			setAnimation(new LambdaAnimation(fadeFunc, 800), 0, finishedCallback, true);
 		}));
 	} else if (transition_style == "slide"){
 
 		// move camera to zoom in on center + fade out, launch game, come back in
-		setAnimation(new LaunchAnimation(mCamera, mFadeOpacity, center, 1500), 0, launchFactory([this, center](std::function<void()> finishedCallback) {
+		setAnimation(new LaunchAnimation(mCamera, mFadeOpacity, center, 1500), 0, launchFactory([this, center](const std::function<void()>& finishedCallback) {
 			setAnimation(new LaunchAnimation(mCamera, mFadeOpacity, center, 1000), 0, finishedCallback, true);
 		}));
 	} else {
-		setAnimation(new LaunchAnimation(mCamera, mFadeOpacity, center, 10), 0, launchFactory([this, center](std::function<void()> finishedCallback) {
+		setAnimation(new LaunchAnimation(mCamera, mFadeOpacity, center, 10), 0, launchFactory([this, center](const std::function<void()>& finishedCallback) {
 			setAnimation(new LaunchAnimation(mCamera, mFadeOpacity, center, 10), 0, finishedCallback, true);
 		}));
 	}

@@ -29,12 +29,12 @@ class ResourceManager
 public:
 	static std::shared_ptr<ResourceManager>& getInstance();
 
-	void addReloadable(std::weak_ptr<IReloadable> reloadable);
+	void addReloadable(const std::weak_ptr<IReloadable>& reloadable);
 
 	void unloadAll();
 	void reloadAll();
 
-	const ResourceData getFileData(const std::string& path) const;
+	ResourceData getFileData(const std::string& path) const;
 	bool fileExists(const std::string& path) const;
 
 private:

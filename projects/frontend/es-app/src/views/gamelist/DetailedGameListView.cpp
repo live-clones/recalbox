@@ -458,7 +458,7 @@ void DetailedGameListView::setScrappedFolderInfo(FileData* file)
     }
 }*/
 
-void DetailedGameListView::fadeOut(std::vector<GuiComponent*> comps, bool fadingOut)
+void DetailedGameListView::fadeOut(const std::vector<GuiComponent*>& comps, bool fadingOut)
 {
   for (auto comp : comps)
   {

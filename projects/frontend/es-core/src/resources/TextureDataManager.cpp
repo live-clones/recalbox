@@ -82,7 +82,7 @@ bool TextureDataManager::bind(const TextureResource* key)
 size_t TextureDataManager::getTotalSize()
 {
 	size_t total = 0;
-	for (auto tex : mTextures)
+	for (const auto& tex : mTextures)
 		total += tex->width() * tex->height() * 4;
 	return total;
 }
@@ -90,7 +90,7 @@ size_t TextureDataManager::getTotalSize()
 size_t TextureDataManager::getCommittedSize()
 {
 	size_t total = 0;
-	for (auto tex : mTextures)
+	for (const auto& tex : mTextures)
 		total += tex->getVRAMUsage();
 	return total;
 }
@@ -100,7 +100,7 @@ size_t TextureDataManager::getQueueSize()
 	return mLoader->getQueueSize();
 }
 
-void TextureDataManager::load(std::shared_ptr<TextureData> tex, bool block)
+void TextureDataManager::load(const std::shared_ptr<TextureData>& tex, bool block)
 {
 	// See if it's already loaded
 	if (tex->isLoaded())
@@ -181,7 +181,7 @@ void TextureLoader::threadProc()
 	}
 }
 
-void TextureLoader::load(std::shared_ptr<TextureData> textureData)
+void TextureLoader::load(const std::shared_ptr<TextureData>& textureData)
 {
 	// Make sure it's not already loaded
 	if (!textureData->isLoaded())
@@ -202,7 +202,7 @@ void TextureLoader::load(std::shared_ptr<TextureData> textureData)
 	}
 }
 
-void TextureLoader::remove(std::shared_ptr<TextureData> textureData)
+void TextureLoader::remove(const std::shared_ptr<TextureData>& textureData)
 {
 	// Just remove it from the queue so we don't attempt to load it
 	std::unique_lock<std::mutex> lock(mMutex);
@@ -220,7 +220,7 @@ size_t TextureLoader::getQueueSize()
 	// the queue are loaded
 	size_t mem = 0;
 	std::unique_lock<std::mutex> lock(mMutex);
-	for (auto tex : mTextureDataQ)
+	for (const auto& tex : mTextureDataQ)
 	{
 		mem += tex->width() * tex->height() * 4;
 	}

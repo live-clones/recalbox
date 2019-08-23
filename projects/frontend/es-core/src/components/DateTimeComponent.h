@@ -40,7 +40,7 @@ public:
 	void setColor(unsigned int color) override; // Text color.
 	inline void setOriginColor(unsigned int color){mOriginColor = color;};
 	inline unsigned int getOriginColor() override{return mOriginColor;};
-	void setFont(std::shared_ptr<Font> font); // Font to display with. Default is Font::get(FONT_SIZE_MEDIUM).
+	void setFont(const std::shared_ptr<Font>& font); // Font to display with. Default is Font::get(FONT_SIZE_MEDIUM).
 	void setUppercase(bool uppercase); // Force text to be uppercase when in DISP_RELATIVE_TO_NOW mode.
 	void setHorizontalAlignment(TextAlignment align);
 

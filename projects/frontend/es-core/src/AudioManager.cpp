@@ -242,7 +242,7 @@ std::vector<std::string> getMusicIn(const std::string& path)
   {
     return all_matching_files;
   }
-  const std::string target_path(path);
+  const std::string& target_path(path);
   const boost::regex my_filter(".*\\.(mp3|ogg)$");
 
   boost::filesystem::recursive_directory_iterator end_itr; // Default ctor yields past-the-end
@@ -263,7 +263,7 @@ std::vector<std::string> getMusicIn(const std::string& path)
   return all_matching_files;
 }
 
-std::shared_ptr<Music> AudioManager::getRandomMusic(std::string themeSoundDirectory)
+std::shared_ptr<Music> AudioManager::getRandomMusic(const std::string& themeSoundDirectory)
 {
   // 1 check in User music directory
   std::vector<std::string> musics = getMusicIn(Settings::getInstance()->getString("MusicDirectory"));

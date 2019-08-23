@@ -88,7 +88,7 @@ void GuiScraperStart::start()
 	}
 }
 
-std::queue<ScraperSearchParams> GuiScraperStart::getSearches(std::vector<SystemData*> systems, GameFilterFunc selector)
+std::queue<ScraperSearchParams> GuiScraperStart::getSearches(std::vector<SystemData*> systems, const GameFilterFunc& selector)
 {
 	std::queue<ScraperSearchParams> queue;
 	for (auto& system : systems)

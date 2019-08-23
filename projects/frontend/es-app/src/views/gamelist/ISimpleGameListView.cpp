@@ -373,7 +373,7 @@ std::vector<std::string> ISimpleGameListView::getAvailableLetters()
 		}
 	}
 
-	for (const auto letter : setOfLetters)
+	for (const auto& letter : setOfLetters)
 	{
 		letters.push_back(letter);
 	}

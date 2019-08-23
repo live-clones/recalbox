@@ -237,7 +237,7 @@ void GuiInputConfig::initFormInputs()
 	addFormInput("HotKey", _("HOTKEY"), ":/help/button_hotkey.svg", false, InputType::Button);
 }
 
-void GuiInputConfig::addFormInput(const char* name, std::string label, const char* icon, bool skippable, InputType preferredType)
+void GuiInputConfig::addFormInput(const char* name, const std::string& label, const char* icon, bool skippable, InputType preferredType)
 {
 	FormInput formInput(name, label, icon, skippable, preferredType);
 	mFormInputs.push_back(formInput);

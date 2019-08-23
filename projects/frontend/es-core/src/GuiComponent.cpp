@@ -222,7 +222,7 @@ void GuiComponent::textInput(const char* text)
     }
 }
 
-void GuiComponent::setAnimation(Animation* anim, int delay, std::function<void()> finishedCallback, bool reverse, unsigned char slot)
+void GuiComponent::setAnimation(Animation* anim, int delay, const std::function<void()>& finishedCallback, bool reverse, unsigned char slot)
 {
 	assert(slot < MAX_ANIMATIONS);
 

@@ -43,7 +43,7 @@ public:
 	// Plays a nice launch effect and launches the game at the end of it.
 	// Once the game terminates, plays a return effect.
 	void launch(FileData* game, Vector3f centerCameraOn = Vector3f(Renderer::getDisplayWidthAsFloat() / 2.0f, Renderer::getDisplayHeightAsFloat() / 2.0f, 0),
-			std::string netplay = "", std::string core = "", std::string ip = "", std::string port = "");
+			const std::string& netplay = "", const std::string& core = "", const std::string& ip = "", const std::string& port = "");
 
 	bool input(InputConfig* config, Input input) override;
 	void update(int deltaTime) override;

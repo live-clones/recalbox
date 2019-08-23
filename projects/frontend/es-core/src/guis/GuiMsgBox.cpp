@@ -150,10 +150,8 @@ void GuiMsgBox::onSizeChanged()
 
 void GuiMsgBox::deleteMeAndCall(const std::function<void()>& func)
 {
-	auto funcCopy = func;
 	delete this;
 
-	if(funcCopy)
-		funcCopy();
-
+	if(func)
+		func();
 }

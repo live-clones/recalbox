@@ -105,7 +105,7 @@ void NetPlayThread::run()
             std::string game = array_element.second.get<std::string>("fields.game_name");
             newGames.push_back(std::make_pair(player, game));
           }
-          for (auto tmp : newGames)
+          for (const auto& tmp : newGames)
           {
             std::vector<std::pair<std::string, std::string>>::const_iterator it;
             it = std::find(oldGames.begin(), oldGames.end(), tmp);

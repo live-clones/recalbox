@@ -157,7 +157,7 @@ GuiMenu::~GuiMenu() {
     clearLoadedInput();
 }
 
-void GuiMenu::createInputTextRow(GuiSettings *gui, std::string title, const char *settingsID, bool password, std::string help = "") {
+void GuiMenu::createInputTextRow(GuiSettings *gui, const std::string& title, const char *settingsID, bool password, const std::string& help = "") {
   // LABEL
   Window *window = mWindow;
   ComponentListRow row;
@@ -347,7 +347,7 @@ void GuiMenu::menuUpdates(){
     updateGui->addSubMenu(_("UPDATE CHANGELOG"), [this] {
       std::string changelog = RecalboxUpgrade::getUpdateChangelog();
       if (!changelog.empty()) {
-        std::string message = changelog;
+        const std::string& message = changelog;
         std::string updateVersion = RecalboxUpgrade::getUpdateVersion();
         mWindow->displayScrollMessage(_("AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"),
             _("UPDATE VERSION:") + ' ' + updateVersion + "\n" +
@@ -444,7 +444,7 @@ void GuiMenu::menuGameSettings(){
   });
 
   shaders_choices->setSelectedChangedCallback(
-      [integerscale_enabled](std::string selectedShader) {
+      [integerscale_enabled](const std::string& selectedShader) {
         integerscale_enabled->setState(selectedShader != "none");
       });
 
@@ -663,7 +663,7 @@ void GuiMenu::menuControllers() {
         // create name
         std::stringstream dispNameSS;
         dispNameSS << '#' << config->getDeviceId() << ' ';
-        std::string deviceName = config->getDeviceName();
+        const std::string& deviceName = config->getDeviceName();
         if (deviceName.size() > 25) {
           dispNameSS << deviceName.substr(0, 16) << "..." <<
                  deviceName.substr(deviceName.size() - 5, deviceName.size() - 1);
@@ -1225,8 +1225,8 @@ void GuiMenu::menuNetworkSettings(){
 
   //SSID
   std::string baseSSID = RecalboxConf::getInstance()->get("wifi.ssid");
-  auto WifiSSID = [this, baseSSID, enable_wifi, baseEnabled] (GuiSettings *gui, std::string title,
-      std::string value, std::string help = "") {
+  auto WifiSSID = [this, baseSSID, enable_wifi, baseEnabled] (GuiSettings *gui, const std::string& title,
+      const std::string& value, const std::string& help = "") {
 
     ComponentListRow row;
 
@@ -1490,7 +1490,7 @@ void GuiMenu::menuAdvancedSettings(){
       std::vector<SystemData *> systems = SystemData::sSystemVector;
       bool found = false;
       for (auto & system : systems) {
-        std::string systemName = system->getName();
+        const std::string& systemName = system->getName();
         if(systemName != "favorites") {
           found = found || currentSystem == systemName;
           system_choices->add(systemName, systemName, currentSystem == systemName);
@@ -1716,7 +1716,7 @@ void GuiMenu::popSystemConfigurationGui(SystemData *systemData) const {
     }
 
     // when emulator changes, load new core list
-    emu_choice->setSelectedChangedCallback([systemData, emulatorDefaults, core_choice](std::string emulatorName) {
+    emu_choice->setSelectedChangedCallback([systemData, emulatorDefaults, core_choice](const std::string& emulatorName) {
         core_choice->clear();
 
         if (emulatorName == "default") {
@@ -1805,7 +1805,7 @@ void GuiMenu::onSizeChanged() {
     mVersion.setPosition(0, mSize.y() - mVersion.getSize().y());
 }
 
-void GuiMenu::addEntryWithHelp(const char *name, const std::string help, unsigned int color, bool add_arrow, const std::function<void()> &func, const std::string iconName) {
+void GuiMenu::addEntryWithHelp(const char *name, const std::string& help, unsigned int color, bool add_arrow, const std::function<void()> &func, const std::string& iconName) {
 
   auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
   std::shared_ptr<Font> font = menuTheme->menuText.font;
@@ -1839,7 +1839,7 @@ void GuiMenu::addEntryWithHelp(const char *name, const std::string help, unsigne
     mMenu.addRowWithHelp(row, name, help);
 }
 
-void GuiMenu::addEntry(const char *name, unsigned int color, bool add_arrow, const std::function<void()> &func, const std::string iconName) {
+void GuiMenu::addEntry(const char *name, unsigned int color, bool add_arrow, const std::function<void()> &func, const std::string& iconName) {
     addEntryWithHelp(name, "", color, add_arrow, func, iconName);
 }
 
@@ -1863,7 +1863,7 @@ std::vector<HelpPrompt> GuiMenu::getHelpPrompts() {
     return prompts;
 }
 
-std::shared_ptr<OptionListComponent<std::string>> GuiMenu::createRatioOptionList(Window *window, std::string configname) const {
+std::shared_ptr<OptionListComponent<std::string>> GuiMenu::createRatioOptionList(Window *window, const std::string& configname) const {
     auto ratio_choice = std::make_shared<OptionListComponent<std::string> >(window, _("GAME RATIO"), false);
     std::string currentRatio = RecalboxConf::getInstance()->get(configname + ".ratio");
     if (currentRatio.empty()) {

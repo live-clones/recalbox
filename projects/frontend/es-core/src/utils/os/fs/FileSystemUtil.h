@@ -29,8 +29,8 @@ class FileSystemUtil
     static std::string getFileName        (const std::string& _path);
     static std::string getStem            (const std::string& _path);
     static std::string getExtension       (const std::string& _path);
-    static std::string resolveRelativePath(const std::string& _path, const std::string& _relativeTo, const bool _allowHome);
-    static std::string createRelativePath (const std::string& _path, const std::string& _relativeTo, const bool _allowHome);
+    static std::string resolveRelativePath(const std::string& _path, const std::string& _relativeTo, bool _allowHome);
+    static std::string createRelativePath (const std::string& _path, const std::string& _relativeTo, bool _allowHome);
     static std::string removeCommonPath   (const std::string& _path, const std::string& _common, bool& _contains);
     static std::string resolveSymlink     (const std::string& _path);
     static bool        removeFile         (const std::string& _path);

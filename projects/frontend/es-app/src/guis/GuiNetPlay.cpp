@@ -329,7 +329,7 @@ void GuiNetPlay::launch()
 	}
 }
 
-FileData* GuiNetPlay::findGame(std::string gameNameOrHash)
+FileData* GuiNetPlay::findGame(const std::string& gameNameOrHash)
 {
 	for (auto tmp : SystemData::sSystemVector)
 	{

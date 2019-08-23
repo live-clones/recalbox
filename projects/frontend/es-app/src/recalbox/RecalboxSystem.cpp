@@ -44,7 +44,7 @@ void RecalboxSystem::NotifySystemAndGame(const SystemData* system, const FileDat
 }
 
 
-unsigned long RecalboxSystem::getFreeSpaceGB(std::string mountpoint)
+unsigned long RecalboxSystem::getFreeSpaceGB(const std::string& mountpoint)
 {
   struct statvfs fiData;
   const char* fnPath = mountpoint.c_str();
@@ -104,7 +104,7 @@ bool RecalboxSystem::isFreeSpaceLimit()
 
 }
 
-std::string RecalboxSystem::readFile(std::string file)
+std::string RecalboxSystem::readFile(const std::string& file)
 {
   if (!file.empty())
   {
@@ -191,7 +191,7 @@ std::string RecalboxSystem::getCurrentAudioOutputDevice()
   return "auto";
 }
 
-bool RecalboxSystem::setAudioOutputDevice(std::string selected)
+bool RecalboxSystem::setAudioOutputDevice(const std::string& selected)
 {
   std::ostringstream oss;
 
@@ -246,7 +246,7 @@ bool RecalboxSystem::setOverscan(bool enable)
 
 }
 
-bool RecalboxSystem::setOverclock(std::string mode)
+bool RecalboxSystem::setOverclock(const std::string& mode)
 {
   if (!mode.empty())
   {
@@ -542,7 +542,7 @@ std::string RecalboxSystem::getCurrentStorage()
   return "INTERNAL";
 }
 
-bool RecalboxSystem::setStorage(std::string selected)
+bool RecalboxSystem::setStorage(const std::string& selected)
 {
   std::ostringstream oss;
   oss << Settings::getInstance()->getString("RecalboxSettingScript") << " " << "storage" << " " << selected;
@@ -580,7 +580,7 @@ std::string RecalboxSystem::getRootPassword()
   return oss.str().c_str();
 }
 
-std::pair<std::string, int> RecalboxSystem::execute(std::string command)
+std::pair<std::string, int> RecalboxSystem::execute(const std::string& command)
 {
   std::ostringstream oss;
   oss << command;
@@ -694,7 +694,7 @@ std::pair<std::string, int> RecalboxSystem::getSysBatteryInfo()
   return result;
 }
 
-std::string RecalboxSystem::getJSONStringValue(std::string json, std::string key)
+std::string RecalboxSystem::getJSONStringValue(const std::string& json, const std::string& key)
 {
   int startPos = json.find("\"" + key + "\": ");
 
@@ -715,7 +715,7 @@ std::string RecalboxSystem::getJSONStringValue(std::string json, std::string key
   return "";
 }
 
-EmulatorDefaults RecalboxSystem::getEmulatorDefaults(std::string emulatorName)
+EmulatorDefaults RecalboxSystem::getEmulatorDefaults(const std::string& emulatorName)
 {
   EmulatorDefaults defaults;
   auto initConfig = new RecalboxConf(false);
@@ -736,7 +736,7 @@ EmulatorDefaults RecalboxSystem::getEmulatorDefaults(std::string emulatorName)
   return defaults;
 }
 
-std::string RecalboxSystem::runCmd(std::string options)
+std::string RecalboxSystem::runCmd(const std::string& options)
 {
   std::string cmd = Settings::getInstance()->getString("RecalboxSettingScript") + " " + options;
   FILE* pipe = popen(cmd.c_str(), "r");

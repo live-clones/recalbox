@@ -20,11 +20,11 @@ public:
 		mMenu.addWithLabel(comp, label, help, false, true, nullptr);
 		updatePosition();
 	};
-    inline void addSubMenu(const std::string& label, const std::function<void()>& func, std::string help = "") {
+    inline void addSubMenu(const std::string& label, const std::function<void()>& func, const std::string& help = "") {
 		ComponentListRow row;
 		row.makeAcceptInputHandler(func);
 		auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
-		std::string helpLabel(label);
+		const std::string& helpLabel(label);
 		if(!help.empty()) {
 			row.makeHelpInputHandler([this, help, helpLabel] {
 				mWindow->pushGui(new GuiMsgBoxScroll(

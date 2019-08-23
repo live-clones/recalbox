@@ -43,12 +43,12 @@ private:
 	inline void setAssignedTo(Input input) { setText(StringUtil::toUpper(input.string()), mMainColor); }
 
 	void initFormInputs();
-	void addFormInput(const char* name, std::string label, const char* icon, bool skippable, InputType preferredType);
+	void addFormInput(const char* name, const std::string& label, const char* icon, bool skippable, InputType preferredType);
 
 	void setHelpMessage();
 	void setPress();
 	void setText(const std::string& msg, unsigned int color);
-	void setText(const std::string& msg, unsigned int color, const int inputId);
+	void setText(const std::string& msg, unsigned int color, int inputId);
 
 	bool assign(Input input);
 	void unAssign();

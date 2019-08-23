@@ -180,7 +180,7 @@ protected:
 		listInput(0);
 	}
 
-	inline const std::vector<UserData> getObjects() {
+	inline std::vector<UserData> getObjects() {
         std::vector<UserData> objects;
         for (auto it = mEntries.begin(); it != mEntries.end(); it++)  {
             objects.push_back((*it).object);
