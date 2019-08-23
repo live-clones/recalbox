@@ -137,7 +137,7 @@ void RecalboxConf::setBool(const std::string &name, bool value) {
 }
 
 void RecalboxConf::setUInt(const std::string &name, unsigned int value) {
-    confMap[name] = std::to_string(value).c_str();
+    confMap[name] = std::to_string(value);
 }
 
 /**

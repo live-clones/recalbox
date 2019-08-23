@@ -573,7 +573,7 @@ std::string RecalboxSystem::getRootPassword()
     pclose(pipe);
     return std::string(line);
   }
-  return oss.str().c_str();
+  return oss.str();
 }
 
 std::pair<std::string, int> RecalboxSystem::execute(const std::string& command)

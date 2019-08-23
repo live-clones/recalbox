@@ -28,7 +28,7 @@ public:
 		if(!help.empty()) {
 			row.makeHelpInputHandler([this, help, helpLabel] {
 				mWindow->pushGui(new GuiMsgBoxScroll(
-						mWindow, helpLabel, help.c_str(), _("OK"),
+						mWindow, helpLabel, help, _("OK"),
 						[] {}, "", nullptr, "", nullptr));
 				return true;
 			});

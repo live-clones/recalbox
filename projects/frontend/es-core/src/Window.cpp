@@ -321,7 +321,7 @@ void Window::setHelpPrompts(const std::vector<HelpPrompt>& prompts, const HelpSt
 	for (const auto& prompt : prompts)
 	{
 		// only add it if the same icon hasn't already been added
-	  if (inputSeenMap.insert(std::make_pair<std::string, bool>(prompt.first.c_str(), true)).second)
+	  if (inputSeenMap.insert(std::make_pair<std::string, bool>(std::string(prompt.first), true)).second)
 		{
 			// this symbol hasn't been seen yet, what about the action name?
 			auto mappedTo = mappedToSeenMap.find(prompt.second);
