@@ -294,13 +294,16 @@ bool RecalboxSystem::launchKodi(Window* window)
   switch (exitCode)
   {
     case 10: // reboot code
+    {
       reboot();
       return true;
-      break;
+    }
     case 11: // shutdown code
+    {
       shutdown();
       return true;
-      break;
+    }
+    default: break;
   }
 
   return exitCode == 0;
