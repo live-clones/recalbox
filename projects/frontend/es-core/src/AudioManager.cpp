@@ -64,7 +64,7 @@ void AudioManager::init()
     else
     {
       LOG(LogInfo) << "SDL AUDIO Initialized";
-      running = 1;
+      running = true;
     }
   }
 }
@@ -79,7 +79,7 @@ void AudioManager::deinit()
   Mix_HaltMusic();
   Mix_CloseAudio();
   SDL_QuitSubSystem(SDL_INIT_AUDIO);
-  running = 0;
+  running = false;
 }
 
 void AudioManager::stopMusic()
@@ -197,7 +197,7 @@ void AudioManager::unregisterSound(std::shared_ptr<Sound>& sound)
 void AudioManager::unregisterMusic(std::shared_ptr<Music>& music)
 {
   getInstance();
-  for (unsigned int i = 0; i < sMusicVector.size(); i++)
+  for (unsigned int i = 0; i < (unsigned int)sMusicVector.size(); i++)
   {
     if (sMusicVector.at(i) == music)
     {

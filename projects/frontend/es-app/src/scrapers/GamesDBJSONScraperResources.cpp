@@ -196,5 +196,5 @@ int TheGamesDBJSONRequestResources::loadResource(std::unordered_map<int, std::st
     }
     resource[entry["id"].GetInt()] = entry["name"].GetString();
   }
-  return resource.empty();
+  return resource.empty() ? 1 : 0;
 }

@@ -49,9 +49,9 @@ private:
 			const Vector2i& texSize = tex->getSize();
 
 			if(texSize.x() > texSize.y())
-				aspect[0] = (float)texSize.x() / texSize.y();
+				aspect[0] = (float)texSize.x() / (float)texSize.y();
 			else
-				aspect[1] = (float)texSize.y() / texSize.x();
+				aspect[1] = (float)texSize.y() / (float)texSize.x();
 		}
 
 		return {156 * aspect.x(), 156 * aspect.y() };
@@ -192,7 +192,7 @@ void ImageGridComponent<T>::buildImages()
 	Vector2f padding = getPadding();
 
 	// attempt to center within our size
-	Vector2f totalSize(gridSize.x() * (squareSize.x() + padding.x()), gridSize.y() * (squareSize.y() + padding.y()));
+	Vector2f totalSize((float)gridSize.x() * (squareSize.x() + padding.x()), (float)gridSize.y() * (squareSize.y() + padding.y()));
 	Vector2f offset(mSize.x() - totalSize.x(), mSize.y() - totalSize.y());
 	offset /= 2;
 
@@ -203,7 +203,7 @@ void ImageGridComponent<T>::buildImages()
 			mImages.push_back(ImageComponent(mWindow));
 			ImageComponent& image = mImages.at(y * gridSize.x() + x);
 
-			image.setPosition((squareSize.x() + padding.x()) * (x + 0.5f) + offset.x(), (squareSize.y() + padding.y()) * (y + 0.5f) + offset.y());
+			image.setPosition((squareSize.x() + padding.x()) * ((float)x + 0.5f) + offset.x(), (squareSize.y() + padding.y()) * ((float)y + 0.5f) + offset.y());
 			image.setOrigin(0.5f, 0.5f);
 			image.setResize(squareSize.x(), squareSize.y());
 			image.setImage("");

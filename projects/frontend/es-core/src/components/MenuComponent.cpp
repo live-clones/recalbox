@@ -184,7 +184,7 @@ std::shared_ptr<ComponentGrid> makeButtonGrid(Window* window, const std::vector<
         grid->setEntry(buttons.at(i), Vector2i(i, 0), true, false);
         gridWidth += buttons.at(i)->getSize().x();
     }
-    for (unsigned int i = 0; i < buttons.size(); i++)
+    for (int i = 0; i < (int)buttons.size(); i++)
     {
         grid->setColWidthPerc(i, (buttons.at(i)->getSize().x() + BUTTON_GRID_HORIZ_PADDING) / gridWidth);
     }
@@ -205,14 +205,14 @@ std::shared_ptr<ComponentGrid> makeMultiDimButtonGrid(Window* window, const std:
     const int sizeX = (int) buttons.at(0).size();
     const int sizeY = (int) buttons.size();
     const float buttonHeight = buttons.at(0).at(0)->getSize().y();
-    const float gridHeight = (buttonHeight + BUTTON_GRID_VERT_PADDING + 2) * sizeY;
+    const float gridHeight = (buttonHeight + BUTTON_GRID_VERT_PADDING + 2) * (float)sizeY;
 
     float horizPadding = (float) BUTTON_GRID_HORIZ_PADDING;
     float gridWidth, buttonWidth;
 
     do {
         gridWidth = outerWidth - horizPadding; // to get centered because size * (button size + BUTTON_GRID_VERT_PADDING) let a half BUTTON_GRID_VERT_PADDING left / right marge
-        buttonWidth = (gridWidth / sizeX) - horizPadding;
+        buttonWidth = (gridWidth / (float)sizeX) - horizPadding;
         horizPadding -= 2;
     } while ((buttonWidth < 100) && (horizPadding > 2));
 
@@ -222,7 +222,7 @@ std::shared_ptr<ComponentGrid> makeMultiDimButtonGrid(Window* window, const std:
     grid->setSize(gridWidth, gridHeight < outerHeight ? gridHeight : outerHeight);
 
     for (int x = 0; x < sizeX; x++)
-        grid->setColWidthPerc(x, (float) 1 / sizeX);
+        grid->setColWidthPerc(x, (float) 1 / (float)sizeX);
 
     for (int y = 0; y < sizeY; y++)
     {

@@ -41,12 +41,12 @@ void DemoMode::init()
     if ((includeSystem || systemIsInIncludeList) && hasVisibleGame)
     {
       mDemoSystems.push_back(allSystems[i]);
-      int systemDuration = mRecalboxConf.getUInt(name + ".demo.duration", (unsigned int)mDefaultDuration);
+      int systemDuration = (int)mRecalboxConf.getUInt(name + ".demo.duration", (unsigned int)mDefaultDuration);
       mDurations.push_back(systemDuration);
       LOG(LogInfo) << "System selected for demo : " << allSystems[i]->getName() << " with session of " << systemDuration << "s";
     }
     else
-      LOG(LogDebug) << "System NOT selected for demo : " << allSystems[i]->getName() << " - isSelected: " << (includeSystem | systemIsInIncludeList) << " - hasVisibleGame: " << (hasVisibleGame ? 1 : 0);
+      LOG(LogDebug) << "System NOT selected for demo : " << allSystems[i]->getName() << " - isSelected: " << (includeSystem || systemIsInIncludeList) << " - hasVisibleGame: " << (hasVisibleGame ? 1 : 0);
   }
 
   // Check if there is at least one system.

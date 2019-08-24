@@ -44,10 +44,10 @@ unsigned long RecalboxSystem::getFreeSpaceGB(const std::string& mountpoint)
 {
   struct statvfs fiData;
   const char* fnPath = mountpoint.c_str();
-  int free = 0;
+  unsigned long free = 0;
   if ((statvfs(fnPath, &fiData)) >= 0)
   {
-    free = (fiData.f_bfree * fiData.f_bsize) / (1024 * 1024 * 1024);
+    free = (fiData.f_bfree * fiData.f_bsize) >> 30;
   }
   return free;
 }

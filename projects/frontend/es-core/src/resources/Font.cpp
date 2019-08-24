@@ -398,7 +398,7 @@ FT_Face Font::getFaceForChar(UnicodeChar id)
 	static const std::vector<std::string> fallbackFonts = getFallbackFontPaths();
 
 	// look through our current font + fallback fonts to see if any have the glyph we're looking for
-	for (unsigned int i = 0; i < fallbackFonts.size() + 1; i++)
+	for (unsigned int i = 0; i < (unsigned int)fallbackFonts.size() + 1; i++)
 	{
 		auto fit = mFaceCache.find(i);
 
@@ -448,10 +448,10 @@ Font::Glyph* Font::getGlyph(UnicodeChar id)
 		return nullptr;
 	}
 
-	Vector2i glyphSize(g->bitmap.width, g->bitmap.rows);
+	Vector2i glyphSize((int)g->bitmap.width, (int)g->bitmap.rows);
 
 	FontTexture* tex = nullptr;
-	Vector2i cursor;
+	Vector2i cursor(0);
 	getTextureForNewGlyph(glyphSize, tex, cursor);
 
 	// getTextureForNewGlyph can fail if the glyph is bigger than the max texture size (absurdly large font size)
@@ -465,8 +465,8 @@ Font::Glyph* Font::getGlyph(UnicodeChar id)
 	Glyph& glyph = mGlyphMap[id];
 	
 	glyph.texture = tex;
-	glyph.texPos.Set(cursor.x() / (float)tex->textureSize.x(), cursor.y() / (float)tex->textureSize.y());
-	glyph.texSize.Set(glyphSize.x() / (float)tex->textureSize.x(), glyphSize.y() / (float)tex->textureSize.y());
+	glyph.texPos.Set((float)cursor.x() / (float)tex->textureSize.x(), (float)cursor.y() / (float)tex->textureSize.y());
+	glyph.texSize.Set((float)glyphSize.x() / (float)tex->textureSize.x(), (float)glyphSize.y() / (float)tex->textureSize.y());
 
 	glyph.advance.Set((float)g->metrics.horiAdvance / 64.0f, (float)g->metrics.vertAdvance / 64.0f);
 	glyph.bearing.Set((float)g->metrics.horiBearingX / 64.0f, (float)g->metrics.horiBearingY / 64.0f);
@@ -504,10 +504,10 @@ void Font::rebuildTextures()
 		FT_Load_Char(face, it.first, FT_LOAD_RENDER);
 
 		FontTexture* tex = it.second.texture;
-		
-		// find the position/size
-		Vector2i cursor(it.second.texPos.x() * tex->textureSize.x(), it.second.texPos.y() * tex->textureSize.y());
-		Vector2i glyphSize(it.second.texSize.x() * tex->textureSize.x(), it.second.texSize.y() * tex->textureSize.y());
+
+    // find the position/size
+    Vector2i cursor((int)(it.second.texPos.x() * (float)tex->textureSize.x()), (int)(it.second.texPos.y() * (float)tex->textureSize.y()));
+    Vector2i glyphSize((int)(it.second.texSize.x() * (float)tex->textureSize.x()), (int)(it.second.texSize.y() * (float)tex->textureSize.y()));
 		
 		// upload to texture
 		glBindTexture(GL_TEXTURE_2D, tex->textureId);
@@ -589,14 +589,14 @@ Vector2f Font::sizeText(const std::string& text, float lineSpacing)
 
 float Font::getHeight(float lineSpacing) const
 {
-	return mMaxGlyphHeight * lineSpacing;
+	return (float)mMaxGlyphHeight * lineSpacing;
 }
 
 float Font::getLetterHeight()
 {
 	Glyph* glyph = getGlyph((UnicodeChar)'S');
 	assert(glyph);
-	return glyph->texSize.y() * glyph->texture->textureSize.y();
+	return glyph->texSize.y() * (float)glyph->texture->textureSize.y();
 }
 
 // TODO: Rewrite!
@@ -609,7 +609,7 @@ std::string Font::wrapText(std::string text, float xLen)
 	std::string line, word, temp;
 	size_t space;
 
-	Vector2f textSize;
+	Vector2f textSize(0);
 
 	while(text.length() > 0) //while there's text or we still have text to render
 	{
@@ -758,8 +758,8 @@ TextCache* Font::buildTextCache(const std::string& text, Vector2f offset, unsign
 
 		// triangle 1
 		// round to fix some weird "cut off" text bugs
-		tri[0].pos.Set(round(glyphStartX), round(y + (glyph->texSize.y() * textureSize.y() - glyph->bearing.y())));
-		tri[1].pos.Set(round(glyphStartX + glyph->texSize.x() * textureSize.x()), round(y - glyph->bearing.y()));
+		tri[0].pos.Set(round(glyphStartX), round(y + (glyph->texSize.y() * (float)textureSize.y() - glyph->bearing.y())));
+		tri[1].pos.Set(round(glyphStartX + glyph->texSize.x() * (float)textureSize.x()), round(y - glyph->bearing.y()));
 		tri[2].pos.Set(tri[0].pos.x(), tri[1].pos.y());
 
 		tri[0].tex.Set(glyph->texPos.x(), glyph->texPos.y() + glyph->texSize.y());

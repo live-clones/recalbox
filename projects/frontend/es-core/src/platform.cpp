@@ -78,12 +78,12 @@ int runSystemCommand(const std::string& cmd_utf8)
 RaspberryGeneration extractGeneration(unsigned int revision)
 {
   // Split - uuuuuuuuFMMMCCCCPPPPTTTTTTTTRRRR
-  bool newGeneration  = (revision >> 23u) & 1u;
-  int  memorySize     = (revision >> 20u) & 0x7u; (void)memorySize;
-  int  manufacturer   = (revision >> 16u) & 0xFu; (void)manufacturer;
-  int  processor      = (revision >> 12u) & 0xFu; (void)processor;
-  int  model          = (revision >>  4u) & 0xFFu;
-  int  revisionNumber = (revision >>  0u) & 0xFu; (void)revisionNumber;
+  bool newGeneration  = ((revision >> 23) & 1) != 0;
+  int  memorySize     = ((int)revision >> 20) & 0x7; (void)memorySize;
+  int  manufacturer   = ((int)revision >> 16) & 0xF; (void)manufacturer;
+  int  processor      = ((int)revision >> 12) & 0xF; (void)processor;
+  int  model          = ((int)revision >>  4) & 0xFF;
+  int  revisionNumber = ((int)revision >>  0) & 0xF; (void)revisionNumber;
 
   // Old revision numbering
   if (!newGeneration)

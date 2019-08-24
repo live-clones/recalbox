@@ -355,7 +355,7 @@ void VideoEngine::DecodeAudioFrameOnDemand(uint8_t * stream, int len)
       else AudioBufferSize = audioSize;
       AudioBufferIndex = 0;
     }
-    int Remaining = AudioBufferSize - AudioBufferIndex;
+    int Remaining = (int)(AudioBufferSize - AudioBufferIndex);
     if (Remaining > len) Remaining = len;
     memcpy(stream, (unsigned char *)AudioBuffer + AudioBufferIndex, Remaining);
     len -= Remaining;
@@ -366,7 +366,7 @@ void VideoEngine::DecodeAudioFrameOnDemand(uint8_t * stream, int len)
 
 TextureData& VideoEngine::GetDisplayableFrame()
 {
-  int frame = (mContext.FrameInUse ^ 1U) & 1U;
+  int frame = ((int)mContext.FrameInUse ^ 1) & 1;
   mContext.FrammeRGBLocker[frame].Lock();
   if (mContext.FrameRGB[frame] != nullptr)
     mTexture.updateFromRGBA(mContext.FrameRGB[frame]->data[0], mContext.Width, mContext.Height);

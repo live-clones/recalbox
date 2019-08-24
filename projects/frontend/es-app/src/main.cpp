@@ -313,7 +313,7 @@ int main(int argc, char* argv[])
     archFile.close();
     Settings::getInstance()->setString("Arch", arch);
 
-    Renderer::initialize(width, height);
+    Renderer::initialize((int)width, (int)height);
     Window window;
     ViewController::init(&window);
     window.pushGui(ViewController::get());
@@ -390,10 +390,10 @@ int main(int argc, char* argv[])
     // Allocate custom event types
     unsigned int NetPlayPopupEvent = SDL_RegisterEvents(2);
     unsigned int MusicStartEvent = NetPlayPopupEvent + 1;
-    AudioManager::getInstance()->SetMusicStartEvent(&window, MusicStartEvent);
+    AudioManager::getInstance()->SetMusicStartEvent(&window, (int)MusicStartEvent);
 
     LOG(LogDebug) << "Launching Netplay thread";
-    NetPlayThread netPlayThread(&window, NetPlayPopupEvent);
+    NetPlayThread netPlayThread(&window, (int)NetPlayPopupEvent);
 
     //dont generate joystick events while we're loading (hopefully fixes "automatically started emulator" bug)
     SDL_JoystickEventState(SDL_DISABLE);

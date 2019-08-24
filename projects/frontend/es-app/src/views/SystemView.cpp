@@ -383,7 +383,7 @@ void SystemView::onCursorChanged(const CursorState& state)
 	cancelAnimation(1);
 	cancelAnimation(2);
 
-	const float infoStartOpacity = mSystemInfo.getOpacity() / 255.f;
+	const float infoStartOpacity = (float)mSystemInfo.getOpacity() / 255.f;
 
 	Animation* infoFadeOut = new LambdaAnimation(
 		[infoStartOpacity, this] (float t)
@@ -661,15 +661,15 @@ void SystemView::renderCarousel(const Transform4x4f& trans)
 			index -= mEntries.size();
 
 		Transform4x4f logoTrans = carouselTrans;
-		logoTrans.translate(Vector3f(i * logoSpacing[0] + xOff, i * logoSpacing[1] + yOff, 0));
+		logoTrans.translate(Vector3f((float)i * logoSpacing[0] + xOff, (float)i * logoSpacing[1] + yOff, 0));
 
-		float distance = i - mCamOffset;
+		float distance = (float)i - mCamOffset;
 
-		float scale = 1.0 + ((mCarousel.logoScale - 1.0) * (1 - fabs(distance)));
+		float scale = 1.0f + ((mCarousel.logoScale - 1.0f) * (1.0f - fabs(distance)));
 		scale = std::min(mCarousel.logoScale, std::max(1.0f, scale));
 		scale /= mCarousel.logoScale;
 
-		int opacity = round(0x80 + ((0xFF - 0x80) * (1 - fabs(distance))));
+		int opacity = Math::roundi(0x80 + ((0xFF - 0x80) * (1 - fabs(distance))));
 		opacity = std::max((int) 0x80, opacity);
 
 		const std::shared_ptr<GuiComponent> &comp = mEntries.at(index).data.logo;
@@ -726,11 +726,11 @@ void SystemView::renderExtras(const Transform4x4f& trans, float lower, float upp
 		{
 			Transform4x4f extrasTrans = trans;
 			if (mCarousel.type == CarouselType::Horizontal)
-				extrasTrans.translate(Vector3f((i - mExtrasCamOffset) * mSize.x(), 0, 0));
+				extrasTrans.translate(Vector3f(((float)i - mExtrasCamOffset) * mSize.x(), 0, 0));
 			else
-				extrasTrans.translate(Vector3f(0, (i - mExtrasCamOffset) * mSize.y(), 0));
+				extrasTrans.translate(Vector3f(0, ((float)i - mExtrasCamOffset) * mSize.y(), 0));
 
-			Renderer::pushClipRect(Vector2i(extrasTrans.translation()[0], extrasTrans.translation()[1]),
+			Renderer::pushClipRect(Vector2i((int)extrasTrans.translation()[0], (int)extrasTrans.translation()[1]),
 								   mSize.toInt());
 			SystemViewData data = mEntries.at(index).data;
 			for (unsigned int j = 0; j < data.backgroundExtras->getmExtras().size(); j++) {
@@ -813,7 +813,7 @@ void SystemView::getCarouselFromTheme(const ThemeData::ThemeElement* elem)
 	if (elem->has("logoSize"))
 		mCarousel.logoSize = elem->get<Vector2f>("logoSize") * mSize;
 	if (elem->has("maxLogoCount"))
-		mCarousel.maxLogoCount = std::round(elem->get<float>("maxLogoCount"));
+		mCarousel.maxLogoCount = Math::roundi(elem->get<float>("maxLogoCount"));
 	if (elem->has("zIndex"))
 		mCarousel.zIndex = elem->get<float>("zIndex");
 	if (elem->has("logoRotation"))

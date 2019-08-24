@@ -3,9 +3,9 @@
 
 TimeSpan& TimeSpan::Build(long long ms)
 {
-  Units._Millis = (int)(ms % 1000LL); ms /= 1000LL;
-  Units._Seconds = (int)(ms % 60LL); ms /= 60LL;
-  Units._Minutes = (int)(ms % 60LL); ms /= 60LL;
+  Units._Millis = (short)(ms % 1000LL); ms /= 1000LL;
+  Units._Seconds = (char)(ms % 60LL); ms /= 60LL;
+  Units._Minutes = (char)(ms % 60LL); ms /= 60LL;
   Units._Hours = (int)ms;
   return *this;
 }
@@ -58,12 +58,12 @@ std::string TimeSpan::ToStringFormat(const char* format) const
     {
       case 'd':
       {
-        if (repeat == 0) result += (Units._Hours / 24);
+        if (repeat == 0) result += std::to_string(Units._Hours / 24);
         break;
       }
       case 'H':
       {
-        if (repeat == 0) result +=(Units._Hours);
+        if (repeat == 0) result += std::to_string(Units._Hours);
         else if (repeat == 1) { result += ((char) ('0' + (((Units._Hours % 24) / 10) % 10))); result += ((char) ('0' + ((Units._Hours % 24) % 10))); }
         break;
       }
@@ -71,21 +71,21 @@ std::string TimeSpan::ToStringFormat(const char* format) const
       {
         if (repeat == 0) result += (Units._Minutes);
         else if (repeat == 1) { result += ((char) ('0' + ((Units._Minutes / 10) % 10))); result += ((char) ('0' + (Units._Minutes % 10))); }
-        else if (repeat == 3) result+= (TotalMinutes());
+        else if (repeat == 3) result+= std::to_string(TotalMinutes());
         break;
       }
       case 's':
       {
         if (repeat == 0) result += (Units._Seconds);
         else if (repeat == 1) { result += ((char) ('0' + ((Units._Seconds / 10) % 10))); result += ((char) ('0' + (Units._Seconds % 10))); }
-        else if (repeat == 3) result += (TotalSeconds());
+        else if (repeat == 3) result += std::to_string(TotalSeconds());
         break;
       }
       case 'f':
       {
-        if (repeat == 0) result += (Units._Millis);
+        if (repeat == 0) result += std::to_string(Units._Millis);
         else if (repeat == 2) { result += ((char) ('0' + ((Units._Millis / 100) % 10))); result += ((char) ('0' + ((Units._Millis / 10) % 10))); result += ((char) ('0' + (Units._Millis % 10))); }
-        else if (repeat == 3) result += (TotalMilliseconds());
+        else if (repeat == 3) result += std::to_string(TotalMilliseconds());
         break;
       }
       case '%':

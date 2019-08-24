@@ -12,6 +12,8 @@ class Math
     static float sinf        (float _num);
     static float floorf      (float _num);
     static float ceilf       (float _num);
+    static int   floori      (float _num);
+    static int   ceili       (float _num);
 
     static int   min         (int _num1, int _num2);
     static int   max         (int _num1, int _num2);
@@ -19,6 +21,7 @@ class Math
     static float max         (float _num1, float _num2);
     static float clamp       (float _num, float _min, float _max);
     static float round       (float _num);
+    static int   roundi      (float _num);
     static float lerp        (float _start, float _end, float _fraction);
     static float smoothStep  (float _left, float _right, float _x);
     static float smootherStep(float _left, float _right, float _x);

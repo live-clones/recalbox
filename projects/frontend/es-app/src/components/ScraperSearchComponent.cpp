@@ -64,8 +64,8 @@ ScraperSearchComponent::ScraperSearchComponent(Window* window, SearchType type)
 	mMD_Pairs.push_back(MetaDataPair(std::make_shared<TextComponent>(mWindow, StringUtil::toUpper(_("Genre") + ":"), font, mdLblColor), mMD_Genre));
 	mMD_Pairs.push_back(MetaDataPair(std::make_shared<TextComponent>(mWindow, StringUtil::toUpper(_("Players") + ":"), font, mdLblColor), mMD_Players));
 
-	mMD_Grid = std::make_shared<ComponentGrid>(mWindow, Vector2i(2, mMD_Pairs.size()*2 - 1));
-	unsigned int i = 0;
+	mMD_Grid = std::make_shared<ComponentGrid>(mWindow, Vector2i(2, (int)mMD_Pairs.size()*2 - 1));
+	int i = 0;
 	for (auto& mMD_Pair : mMD_Pairs)
 	{
 		mMD_Grid->setEntry(mMD_Pair.first, Vector2i(0, i), false, true);
@@ -152,7 +152,7 @@ void ScraperSearchComponent::resizeMetadata()
 				maxLblWidth = mMD_Pair.first->getSize().x() + 6;
 		}
 
-		for (unsigned int i = 0; i < mMD_Pairs.size(); i++)
+		for (int i = 0; i < (int)mMD_Pairs.size(); i++)
 		{
 			mMD_Grid->setRowHeightPerc(i*2, (fontLbl->getLetterHeight() + 2) / mMD_Grid->getSize().y());
 		}
@@ -233,7 +233,7 @@ void ScraperSearchComponent::onSearchDone(const std::vector<ScraperSearchResult>
 
 	mScraperResults = results;
 
-	const int end = results.size() > MAX_SCRAPER_RESULTS ? MAX_SCRAPER_RESULTS : results.size(); // at max display 5
+	const int end = (int)results.size() > MAX_SCRAPER_RESULTS ? MAX_SCRAPER_RESULTS : (int)results.size(); // at max display 5
 
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 	auto font = menuTheme->menuText.font;

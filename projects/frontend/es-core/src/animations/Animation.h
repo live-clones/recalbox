@@ -1,7 +1,5 @@
 #pragma once
 
-#include "utils/math/Vectors.h"
-
 class Animation
 {
 public:
@@ -9,7 +7,6 @@ public:
 	virtual int getDuration() const = 0;
 	virtual void apply(float t) = 0;
 };
-
 
 // useful helper/interpolation functions
 inline float clamp(float min, float max, float val)

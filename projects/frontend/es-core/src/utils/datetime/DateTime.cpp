@@ -22,7 +22,7 @@ bool LoadRTCValues(short &millis, short &year, char &month, char &day, char &hou
   gettimeofday(&tv, nullptr);
   time_t t=tv.tv_sec;
   struct tm* lt = localtime(&t);
-  millis = tv.tv_usec / 1000;
+  millis = (short)(tv.tv_usec / 1000);
   second = (char)lt->tm_sec;
   minute = (char)lt->tm_min;
   hour   = (char)lt->tm_hour;
@@ -314,14 +314,14 @@ std::string DateTime::ToStringFormat(const char* format) const
     {
       case 'Y':
       {
-        if (repeat == 0) result += ((int)_Year);
+        if (repeat == 0) result += std::to_string((int)_Year);
         else if (repeat == 1) { result += ((char) ('0' + ((_Year / 10) % 10))); result += ((char) ('0' + (_Year % 10))); }
         else { result += ((char) ('0' + (_Year / 1000))); result += ((char) ('0' + ((_Year / 100) % 10))); result += ((char) ('0' + ((_Year / 10) % 10))); result += ((char) ('0' + (_Year % 10))); }
         break;
       }
       case 'M':
       {
-        if (repeat == 0) result += ((int)_Month);
+        if (repeat == 0) result += std::to_string((int)_Month);
         else if (repeat == 1) { result += ((char) ('0' + ((_Month / 10) % 10))); result += ((char) ('0' + (_Month % 10))); }
         else if (repeat == 2) result += (shortMonthNames[(int) _Month]);
         else result += (longMonthNames[(int) _Month]);
@@ -329,7 +329,7 @@ std::string DateTime::ToStringFormat(const char* format) const
       }
       case 'd':
       {
-        if (repeat == 0) result += ((int)_Day);
+        if (repeat == 0) result += std::to_string((int)_Day);
         else if (repeat == 1) { result += ((char) ('0' + ((_Day / 10) % 10))); result += ((char) ('0' + (_Day % 10))); }
         else if (repeat == 2) result += (shortDayNames[DayOfWeek()]);
         else result += (longDayNames[DayOfWeek()]);
@@ -337,25 +337,25 @@ std::string DateTime::ToStringFormat(const char* format) const
       }
       case 'H':
       {
-        if (repeat == 0) result += ((int)_Hour);
+        if (repeat == 0) result += std::to_string((int)_Hour);
         else if (repeat == 1) { result += ((char) ('0' + ((_Hour / 10) % 10))); result += ((char) ('0' + (_Hour % 10))); }
         break;
       }
       case 'm':
       {
-        if (repeat == 0) result += ((int)_Minute);
+        if (repeat == 0) result += std::to_string((int)_Minute);
         else if (repeat == 1) { result += ((char) ('0' + ((_Minute / 10) % 10))); result += ((char) ('0' + (_Minute % 10))); }
         break;
       }
       case 's':
       {
-        if (repeat == 0) result += ((int)_Second);
+        if (repeat == 0) result += std::to_string((int)_Second);
         else if (repeat == 1) { result += ((char) ('0' + ((_Second / 10) % 10))); result += ((char) ('0' + (_Second % 10))); }
         break;
       }
       case 'f':
       {
-        if (repeat == 0) result += ((int)_Millis);
+        if (repeat == 0) result += std::to_string((int)_Millis);
         else if (repeat == 2) { result += ((char) ('0' + ((_Millis / 100) % 10))); result += ((char) ('0' + ((_Millis / 10) % 10))); result += ((char) ('0' + (_Millis % 10))); }
         break;
       }
@@ -363,7 +363,7 @@ std::string DateTime::ToStringFormat(const char* format) const
       {
         int timeZone = _TimeZone; if (timeZone < 0) timeZone = -timeZone;
         result += (_TimeZone < 0 ? '-' : '+');
-        if (repeat == 0) result += timeZone;
+        if (repeat == 0) result += std::to_string(timeZone);
         else if (repeat == 1) { result += ((char) ('0' + ((timeZone / 40) % 10))); result += ((char) ('0' + ((timeZone >> 2) % 10))); }
         else
         {

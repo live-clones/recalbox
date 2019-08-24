@@ -134,13 +134,13 @@ void VideoComponent::updateVertices(double bump)
     case Effect::Bump:
     case Effect::BreakingNews:
     {
-      double bumpedWidth = mSize.x() * bump;
-      double bumpedHeight = mSize.y() * bump;
-      double centerX = mSize.x() / 2.0;
-      double centerY = mSize.y() / 2.0;
+      float bumpedWidth = (float)(mSize.x() * bump);
+      float bumpedHeight = (float)(mSize.y() * bump);
+      float centerX = mSize.x() / 2.0f;
+      float centerY = mSize.y() / 2.0f;
 
-      Vector2f topLeft(round(centerX - bumpedWidth / 2.0), round(centerY - bumpedHeight / 2.0));
-      Vector2f bottomRight(round(centerX + bumpedWidth / 2.0), round(centerY + bumpedHeight / 2.0));
+      Vector2f topLeft(Math::round(centerX - bumpedWidth / 2.0f), Math::round(centerY - bumpedHeight / 2.0f));
+      Vector2f bottomRight(Math::round(centerX + bumpedWidth / 2.0f), Math::round(centerY + bumpedHeight / 2.0f));
 
       mVertices[0].pos.Set(topLeft.x(), topLeft.y());
       mVertices[1].pos.Set(topLeft.x(), bottomRight.y());
@@ -313,7 +313,7 @@ void VideoComponent::render(const Transform4x4f& parentTrans)
     setOpacity((mEffect == Effect::Fade) ? (int)(effect * 255.0) : 255);
     updateColors();
     // Rotation
-    setRotation(mEffect == Effect::BreakingNews ? ((float)(Pi * 4)) * (float)effect : 0.0);
+    setRotation(mEffect == Effect::BreakingNews ? (float)(Pi * 4.0) * (float)effect : 0.0f);
     setRotationOrigin(0.5f, 0.5f);
 
     glEnable(GL_TEXTURE_2D);

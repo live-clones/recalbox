@@ -103,7 +103,7 @@ void ScrollableContainer::update(int deltaTime)
 Vector2f ScrollableContainer::getContentSize()
 {
 	Vector2f max(0, 0);
-	for (int i = getChildCount(); --i >= 0;)
+	for (int i = (int)getChildCount(); --i >= 0;)
 	{
 		Vector2f pos(getChild(i)->getPosition()[0]);
 		Vector2f bottomRight = getChild(i)->getSize() + pos;

@@ -2,6 +2,7 @@
 
 #include "Log.h"
 #include <cmath>
+#include <utils/math/Misc.h>
 
 #if defined(__linux__)
     #ifdef _RPI_
@@ -256,7 +257,7 @@ int VolumeControl::getVolume() const
 				rawVolume -= minVolume;
 				if (rawVolume > 0)
 				{
-				  volume = ceil((rawVolume * 100) / (((double)maxVolume - minVolume)));
+				  volume = Math::ceili(((float)rawVolume * 100.0f) / (float)(maxVolume - minVolume));
 				}
 				//else volume = 0;
 			}

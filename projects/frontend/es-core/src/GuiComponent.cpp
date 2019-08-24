@@ -34,7 +34,7 @@ GuiComponent::~GuiComponent()
 	if(mParent != nullptr)
 		mParent->removeChild(this);
 
-	for (int i = getChildCount(); --i >= 0; )
+	for (int i = (int)getChildCount(); --i >= 0; )
 		getChild(i)->setParent(nullptr);
 }
 

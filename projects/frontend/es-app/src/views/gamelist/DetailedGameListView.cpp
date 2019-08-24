@@ -152,7 +152,7 @@ void DetailedGameListView::onThemeChanged(const std::shared_ptr<ThemeData>& them
   }
 
   assert(names.size() == labels.size());
-  for (unsigned int i = 0; i < labels.size(); i++)
+  for (unsigned int i = 0; i < (unsigned int)labels.size(); i++)
   {
     labels[i]->applyTheme(theme, getName(), names[i], ThemeProperties::All);
   }
@@ -179,7 +179,7 @@ void DetailedGameListView::onThemeChanged(const std::shared_ptr<ThemeData>& them
   values.push_back(&mFolderName);
 
   assert(names.size() == values.size());
-  for (unsigned int i = 0; i < values.size(); i++)
+  for (unsigned int i = 0; i < (unsigned int)values.size(); i++)
   {
     values[i]->applyTheme(theme, getName(), names.at(i), ThemeProperties::All ^ ThemeProperties::Text);
   }
@@ -232,8 +232,8 @@ void DetailedGameListView::onThemeChanged(const std::shared_ptr<ThemeData>& them
       {
         ImageComponent* img = mFolderContent.at(x + y * grid);
         img->setMaxSize(imgSize, imgSize);
-        img->setPosition(left + imgSize * img->getOrigin().x() + x * (1 + relativeMarge) * imgSize,
-                         top + imgSize * img->getOrigin().y() + y * (1 + relativeMarge) * imgSize);
+        img->setPosition(left + imgSize * img->getOrigin().x() + (float)x * (1 + relativeMarge) * imgSize,
+                         top + imgSize * img->getOrigin().y() + (float)y * (1 + relativeMarge) * imgSize);
         img->setZIndex(30);
       }
     }
@@ -254,13 +254,13 @@ void DetailedGameListView::initMDLabels()
   const float colSize = (mSize.x() * 0.48f) / colCount;
   const float rowPadding = 0.01f * mSize.y();
 
-  for (unsigned int i = 0; i < components.size(); i++)
+  for (unsigned int i = 0; i < (unsigned int)components.size(); i++)
   {
     const unsigned int row = i % rowCount;
     Vector3f pos(0.0f, 0.0f, 0.0f);
     if (row == 0)
     {
-      pos = start + Vector3f(colSize * (i / rowCount), 0, 0);
+      pos = start + Vector3f(colSize * ((float)i / (float)rowCount), 0, 0);
     }
     else
     {
@@ -294,7 +294,7 @@ void DetailedGameListView::initMDValues()
   float bottom = 0.0f;
 
   const float colSize = (mSize.x() * 0.48f) / 2;
-  for (unsigned int i = 0; i < labels.size(); i++)
+  for (unsigned int i = 0; i < (unsigned int)labels.size(); i++)
   {
     const float heightDiff = (labels[i]->getSize().y() - values[i]->getSize().y()) / 2;
     values[i]->setPosition(labels[i]->getPosition() + Vector3f(labels[i]->getSize().x(), heightDiff, 0));
@@ -427,8 +427,8 @@ void DetailedGameListView::setGameInfo(FileData* file)
   mPlayCount.setValue(file->Metadata().PlayCountAsString());
   mFavorite.setValue(file->Metadata().FavoriteAsString());
 
-  int videoDelay = mSettings.getUInt("global.videosnaps.delay", VideoComponent::DEFAULT_VIDEODELAY);
-  int videoLoop  = mSettings.getUInt("global.videosnaps.loop", VideoComponent::DEFAULT_VIDEOLOOP);
+  int videoDelay = (int)mSettings.getUInt("global.videosnaps.delay", VideoComponent::DEFAULT_VIDEODELAY);
+  int videoLoop  = (int)mSettings.getUInt("global.videosnaps.loop", VideoComponent::DEFAULT_VIDEOLOOP);
 
   mImage.setImage(file->Metadata().Image());
   mVideo.setVideo(file->Metadata().Video(), videoDelay, videoLoop);

@@ -16,7 +16,7 @@ class HighResolutionTimer
      * @brief Get current absolute timer
      * @return absolute timer in nanosecond
      */
-    long long getNanoSecondTimer()
+    static long long getNanoSecondTimer()
     {
       timespec time = { 0, 0 };
       clock_gettime(CLOCK_REALTIME, &time);

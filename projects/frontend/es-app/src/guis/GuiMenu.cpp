@@ -751,7 +751,7 @@ void GuiMenu::menuUISettings(){
 
 	  // screensaver time
 	  auto screensaver_time = std::make_shared<SliderComponent>(mWindow, 0.f, 30.f, 1.f, "m");
-	  screensaver_time->setValue((float) (Settings::getInstance()->getInt("ScreenSaverTime") / (1000 * 60)));
+	  screensaver_time->setValue((float)Settings::getInstance()->getInt("ScreenSaverTime") / (1000.0f * 60.0f));
 	  ss->addWithLabel(screensaver_time, _("SCREENSAVER AFTER"), _(MenuMessages::UI_SCREENSAVER_AFTER_HELP_MSG));
 	  ss->addSaveFunc([screensaver_time] {
 		  Settings::getInstance()->setInt("ScreenSaverTime", (int) round(screensaver_time->getValue()) * (1000 * 60));

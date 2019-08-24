@@ -62,7 +62,7 @@ GuiGamelistOptions::GuiGamelistOptions(Window* window, SystemData* system)
 		currentSortId = 0;
 	}
 	mListSort = std::make_shared<SortList>(mWindow, _("SORT GAMES BY"), false);
-	for (unsigned int i = 0; i < sortTypes.size(); i++) {
+	for (unsigned int i = 0; i < (unsigned int)sortTypes.size(); i++) {
 		const FileSorts::SortType& sortType = sortTypes.at(i);
 		mListSort->add(sortType.description, i, i == currentSortId);
 	}

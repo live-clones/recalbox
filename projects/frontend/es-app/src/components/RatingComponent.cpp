@@ -106,9 +106,9 @@ void RatingComponent::render(const Transform4x4f& parentTrans)
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	
 	
-	int r = ( mColor >> 24 ) & 0xFF;
-	int g = ( mColor >> 16 ) & 0xFF;
-	int b = ( mColor >> 8 ) & 0xFF;
+	int r = ((int)mColor >> 24) & 0xFF;
+	int g = ((int)mColor >> 16) & 0xFF;
+	int b = ((int)mColor >> 8 ) & 0xFF;
 	//int a = mColor & 0xFF;
 
 	glColor4ub(r, g, b, getOpacity());

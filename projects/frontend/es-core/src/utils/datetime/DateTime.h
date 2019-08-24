@@ -409,7 +409,7 @@ public:
     int localtz = LoadTimeZone();
     DateTime result(*this);
     result += TimeSpan((localtz - _TimeZone) * 15, 0, 0);
-    result._TimeZone = localtz;
+    result._TimeZone = (char)localtz;
     return result;
   }
 
@@ -418,25 +418,25 @@ public:
    * @param ts TimeSpan to add
    * @return The current DateTime
    */
-  DateTime& operator += (const TimeSpan& ts) { long long epochMs = (ToEpochTime() * 1000LL + _Millis) + ts.TotalMilliseconds(); FillFromEpochTime(epochMs / 1000LL); _Millis = epochMs % 1000; return *this; }
+  DateTime& operator += (const TimeSpan& ts) { long long epochMs = (ToEpochTime() * 1000LL + _Millis) + ts.TotalMilliseconds(); FillFromEpochTime(epochMs / 1000LL); _Millis = (short)(epochMs % 1000); return *this; }
   /*!
   * Substract a Timespan to the current DateTime
   * @param ts TimeSpan to substract
   * @return The current DateTime
   */
-  DateTime& operator -= (const TimeSpan& ts) { long long epochMs = (ToEpochTime() * 1000LL + _Millis) - ts.TotalMilliseconds(); FillFromEpochTime(epochMs / 1000LL); _Millis = epochMs % 1000; return *this; }
+  DateTime& operator -= (const TimeSpan& ts) { long long epochMs = (ToEpochTime() * 1000LL + _Millis) - ts.TotalMilliseconds(); FillFromEpochTime(epochMs / 1000LL); _Millis = (short)(epochMs % 1000); return *this; }
   /*!
   * Get a new DateTime representing the current DateTime plus a Timespan
   * @param ts TimeSpan to add
   * @return New DateTime
   */
-  DateTime operator + (const TimeSpan& ts) const { long long epochMs = (ToEpochTime() * 1000LL + _Millis) + ts.TotalMilliseconds(); DateTime result(epochMs / 1000LL); result._Millis = epochMs % 1000; return result; }
+  DateTime operator + (const TimeSpan& ts) const { long long epochMs = (ToEpochTime() * 1000LL + _Millis) + ts.TotalMilliseconds(); DateTime result(epochMs / 1000LL); result._Millis = (short)(epochMs % 1000); return result; }
   /*!
   * Get a new DateTime representing the current DateTime minus a Timespan
   * @param ts TimeSpan to substract
   * @return New DateTime
   */
-  DateTime operator - (const TimeSpan& ts) const { long long epochMs = (ToEpochTime() * 1000LL + _Millis) - ts.TotalMilliseconds(); DateTime result(epochMs / 1000LL); result._Millis = epochMs % 1000; return result; }
+  DateTime operator - (const TimeSpan& ts) const { long long epochMs = (ToEpochTime() * 1000LL + _Millis) - ts.TotalMilliseconds(); DateTime result(epochMs / 1000LL); result._Millis = (short)(epochMs % 1000); return result; }
 
   /*!
    * Substract the given DateTime to the current DateTime and return the difference as a TimeSpan
@@ -550,23 +550,23 @@ public:
   DateTime& AddDays(int days)       { return operator +=(TimeSpan(days * 24, 0, 0, 0)); }
   DateTime& AddMonth(int month)
   {
-    _Month += month;
-    if (_Month < 1)
+    month += _Month;
+    if (month < 1)
     {
-      _Year -= (--_Month / 12) + 1;            // Month to 0-11
-      _Month = (char)((12 + _Month % 12) + 1); // Month to 1-12
+      _Year -= (short)((--month / 12) + 1);            // Month to 0-11
+      _Month = (char)((12 + month % 12) + 1); // Month to 1-12
     }
-    if (_Month > 12)
+    if (month > 12)
     {
-      _Year += (--_Month / 12);           // Month to 0-11
-      _Month = (char)((_Month % 12) + 1); // Month to 1-12
+      _Year += (short)(--month / 12);           // Month to 0-11
+      _Month = (char)((month % 12) + 1); // Month to 1-12
     }
     if (_Day > DayPerMonth(_Month, _Year)) _Day = (char)DayPerMonth(_Month, _Year);
     return *this;
   }
   DateTime& AddYears(int years)
   {
-    _Year += years;
+    _Year += (short)years;
     if (_Day > DayPerMonth(_Month, _Year)) _Day = (char)DayPerMonth(_Month, _Year); // 29 february case
     return *this;
   }

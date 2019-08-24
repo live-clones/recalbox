@@ -22,6 +22,16 @@ float Math::ceilf(float _num)
   return ::ceilf(_num);
 }
 
+int Math::floori(float _num)
+{
+  return (int)::floorf(_num);
+}
+
+int Math::ceili(float _num)
+{
+  return (int)::ceilf(_num);
+}
+
 int Math::min(int _num1, int _num2)
 {
   return (_num1 < _num2) ? _num1 : _num2;
@@ -52,6 +62,12 @@ float Math::round(float _num)
   _num += 0.5f;
   int num = (int)_num;
   return (float)num;
+}
+
+int Math::roundi(float _num)
+{
+  _num += 0.5f;
+  return  (int)_num;
 }
 
 float Math::lerp(float _start, float _end, float _fraction)

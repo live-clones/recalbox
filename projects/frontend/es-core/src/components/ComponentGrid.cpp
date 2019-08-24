@@ -278,7 +278,7 @@ bool ComponentGrid::moveCursor(Vector2i dir)
 
     GridEntry* currentCursorEntry = getCellAt(mCursor);
 
-    Vector2i searchAxis(dir.x() == 0, dir.y() == 0);
+    Vector2i searchAxis(dir.x() == 0 ? 1 : 0, dir.y() == 0 ? 1 : 0);
     
     while(mCursor.x() >= 0 && mCursor.y() >= 0 && mCursor.x() < mGridSize.x() && mCursor.y() < mGridSize.y())
     {

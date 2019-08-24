@@ -83,7 +83,7 @@ int ViewController::getSystemId(SystemData* system)
 void ViewController::goToSystemView(SystemData* system)
 {
   auto systemList = getSystemListView();
-  systemList->setPosition(getSystemId(system) * Renderer::getDisplayWidthAsFloat(), systemList->getPosition().y());
+  systemList->setPosition((float)getSystemId(system) * Renderer::getDisplayWidthAsFloat(), systemList->getPosition().y());
 
   if (!system->hasGame()) {
     system = SystemData::getFirstSystemWithGame();
@@ -334,7 +334,7 @@ std::shared_ptr<IGameListView> ViewController::getGameListView(SystemData* syste
 
 	std::vector<SystemData*>& sysVec = SystemData::sSystemVector;
 	int id = std::find(sysVec.begin(), sysVec.end(), system) - sysVec.begin();
-	view->setPosition(id * Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat() * 2);
+	view->setPosition((float)id * Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat() * 2);
 
 	addChild(view.get());
 
@@ -385,7 +385,7 @@ void ViewController::update(int deltaTime)
 void ViewController::render(const Transform4x4f& parentTrans)
 {
 	Transform4x4f trans = mCamera * parentTrans;
-  Transform4x4f transInverse;
+  Transform4x4f transInverse(Transform4x4f::Identity());
   transInverse.invert(trans);
 
 	// camera position, position + size

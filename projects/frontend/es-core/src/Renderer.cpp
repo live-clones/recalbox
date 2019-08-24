@@ -132,7 +132,7 @@ void Renderer::destroySurface()
   sdlWindow = nullptr;
 
   //show mouse cursor
-  SDL_ShowCursor(initialCursorState);
+  SDL_ShowCursor(initialCursorState ? 1 : 0);
 
   SDL_Quit();
 }

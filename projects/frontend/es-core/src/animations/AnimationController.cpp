@@ -24,7 +24,7 @@ bool AnimationController::update(int deltaTime)
 	if(mTime < 0) // are we still in delay?
 		return false;
 
-	float t = (float)mTime / mAnimation->getDuration();
+	float t = (float)mTime / (float)mAnimation->getDuration();
 
 	if(t > 1.0f)
 		t = 1.0f;
@@ -33,8 +33,5 @@ bool AnimationController::update(int deltaTime)
 
 	mAnimation->apply(mReverse ? 1.0f - t : t);
 
-	if(t == 1.0f)
-		return true;
-
-	return false;
+	return t == 1.0f;
 }

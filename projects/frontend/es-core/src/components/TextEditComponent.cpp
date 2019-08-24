@@ -231,7 +231,7 @@ void TextEditComponent::render(const Transform4x4f& parentTrans)
 
 	Vector2i clipPos((int)trans.translation().x(), (int)trans.translation().y());
 	Vector3f dimScaled = trans * Vector3f(getTextAreaSize().x(), getTextAreaSize().y(), 0); // use "text area" size for clipping
-	Vector2i clipDim((int)dimScaled.x() - trans.translation().x(), (int)dimScaled.y() - trans.translation().y());
+	Vector2i clipDim((int)(dimScaled.x() - trans.translation().x()), (int)(dimScaled.y() - trans.translation().y()));
 	Renderer::pushClipRect(clipPos, clipDim);
 
 	trans.translate(Vector3f(-mScrollOffset.x(), -mScrollOffset.y(), 0));
@@ -250,7 +250,7 @@ void TextEditComponent::render(const Transform4x4f& parentTrans)
 	// draw cursor
 	if(mEditing)
 	{
-		Vector2f cursorPos;
+		Vector2f cursorPos(0);
 		if(isMultiline())
 		{
 			cursorPos = mFont->getWrappedTextCursorOffset(mText, getTextAreaSize().x(), mCursor);

@@ -181,7 +181,7 @@ void GuiNetPlay::populateGrid()
 		for (auto& v : mRooms) {
 			row.elements.clear();
 			std::string text, gameName;
-			if (v.second.get<std::string>("fields.core_name") == "FB Alpha" ||
+      if (v.second.get<std::string>("fields.core_name") == "FB Alpha" ||
 					v.second.get<std::string>("fields.core_name") == "MAME 2000" ||
 					v.second.get<std::string>("fields.core_name") == "MAME 2010" ||
 					v.second.get<std::string>("fields.core_name") == "MAME 2003")
@@ -402,7 +402,7 @@ std::string GuiNetPlay::pingHost(const std::string& ip)
 {
     std::pair<std::string, int> ping = RecalboxSystem::execute("ping -c 1 -w 1 " + ip + " | grep \"min/avg/max\" | cut -d '/' -f 5");
     if (!ping.first.empty()) {
-        float latency = strtof(ping.first.c_str(), 0);
+        float latency = strtof(ping.first.c_str(), nullptr);
         if (latency <=80) {
             return "\uF1c8 " + _("good") + " (" + std::to_string((int)latency) + "ms)";
         } else if (latency <= 150) {
@@ -412,7 +412,7 @@ std::string GuiNetPlay::pingHost(const std::string& ip)
         }
     } else {
         return "\uF1c9 " + _("unknown");
-    };
+    }
 }
 
 float GuiNetPlay::getButtonGridHeight() const
