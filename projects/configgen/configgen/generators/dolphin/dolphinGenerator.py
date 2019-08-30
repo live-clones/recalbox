@@ -106,7 +106,7 @@ class DolphinGenerator(Generator):
         dolphinSettings.setOption(self.SECTION_ANALYTICS, "Enabled", "True")
         dolphinSettings.setOption(self.SECTION_ANALYTICS, "PermissionAsked", "True")
         # BluetoothPasstrough
-        dolphinSettings.setOption(self.SECTION_BTPASSTHROUGH, "Enable", "False")
+        dolphinSettings.setOption(self.SECTION_BTPASSTHROUGH, "Enabled", "False")
         # Netplay
         dolphinSettings.setOption(self.SECTION_NETPLAY, "Nickname", nickname)
         dolphinSettings.setOption(self.SECTION_NETPLAY,  "UseUPNP", "True")
