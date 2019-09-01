@@ -24,7 +24,7 @@
 
 ### Improvements
 - Retroarch updated to version 1.7.8!
-- Retroarch cheats updated to version 1.7.7!
+- Retroarch cheats updated to version 1.7.8!
 - Libretro core updated! FBA Libretro core updated to latest version (Neogeo CDRom Speed fix)
 - Libretro core updated! Picodrive updated to latest version (Fix shifted down screen)
 - Libretro core updated! Theodore updated to latest version (add emulation of Thomson MO6 and Olivetti Prodest PC128)
