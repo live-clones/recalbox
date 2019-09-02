@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_FBNEO_VERSION = 20a917a99994ff4ea829fd0900f7fa4771893e72
+LIBRETRO_FBNEO_VERSION = a28d26f0418c7eb9771c1f026cfe1a6c141d2eb3
 LIBRETRO_FBNEO_SITE = $(call github,libretro,FBNeo,$(LIBRETRO_FBNEO_VERSION))
 
 ifeq ($(BR2_ARM_CPU_HAS_NEON),y)
