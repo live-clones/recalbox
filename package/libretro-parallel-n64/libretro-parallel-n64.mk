@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_PARALLEL_N64_VERSION = 68d89c77c37cb6d3da05245f75ea6f949096da96
+LIBRETRO_PARALLEL_N64_VERSION = 017d864aa5a727f3aa9b3c21534f07de21d0a0c9
 LIBRETRO_PARALLEL_N64_SITE = $(call github,libretro,parallel-n64,$(LIBRETRO_PARALLEL_N64_VERSION))
 LIBRETRO_PARALLEL_N64_DEPENDENCIES = rpi-userland
 
