@@ -1,5 +1,6 @@
 import recalboxFiles
-
+import platform
+import os 
 
 class LibretroRetroarch:
 
@@ -127,6 +128,14 @@ class LibretroRetroarch:
     def fillRetroarchConfiguration(self):
         settings = self.settings
         recalbox = self.system.config
+
+        # Nvidia driver?
+        arch = platform.machine()
+        if arch == "x86_64":
+            if os.path.exists("/etc/modprobe.d/blacklist.conf"):
+               for line in open("/etc/modprobe.d/blacklist.conf"):
+                   if "blacklist nouveau" in line:
+                       settings.setOption("video_threaded", "false")
 
         # Enable RetroArch option "quit_press_twice"
         quitPressTwice = self.recalboxSettings.getOption("global.quitpresstwice", "0")
