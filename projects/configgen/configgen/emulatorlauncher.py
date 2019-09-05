@@ -5,6 +5,7 @@ import utils.runner as runner
 import recalboxFiles
 
 from controllersConfig import Controller
+from settings.configOverriding import buildOverrideChain
 from settings.keyValueSettings import keyValueSettings
 
 lineAppleGeneratorOverride = None
@@ -251,16 +252,11 @@ def loadRecalboxSettings(rom, systemname):
     
     if rom is not None:
         # build file names
-        romPath = os.path.dirname(rom)
-        romFile, romWithoutExt = os.path.splitext(rom)
-        romSettings = "{}{}".format(romFile, ".recalbox.conf")
-        pathSettings = os.path.join(romPath, ".recalbox.conf")
+        pathSettings = buildOverrideChain(rom, ".recalbox.conf")
         # Override with path settings
-        settings.changeSettingsFile(pathSettings)
-        settings.loadFile(False)
-        # Override with rom settings
-        settings.changeSettingsFile(romSettings)
-        settings.loadFile(False)
+        for pathSetting in pathSettings:
+            settings.changeSettingsFile(pathSetting)
+            settings.loadFile(False)
 
     return settings, fixedScreenSize
 
