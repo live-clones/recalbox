@@ -214,7 +214,7 @@ void GuiGamelistOptions::jumpToLetter() {
 }
 
 bool GuiGamelistOptions::input(InputConfig* config, Input input) {
-	if ((config->isMappedTo("a", input) || config->isMappedTo("select", input)) && (input.value != 0)) {
+	if ((config->isMappedTo("a", input) || config->isMappedTo("start", input)) && (input.value != 0)) {
 		save();
 		delete this;
 		return true;
