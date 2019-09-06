@@ -41,6 +41,7 @@ set(CORE_HEADERS
 		${CMAKE_CURRENT_SOURCE_DIR}/src/utils/math/Misc.h
 		${CMAKE_CURRENT_SOURCE_DIR}/src/utils/math/Transform4x4f.h
 		${CMAKE_CURRENT_SOURCE_DIR}/src/utils/Stringize.h
+	    ${CMAKE_CURRENT_SOURCE_DIR}/src/utils/FileUtil.h
 
 		# Animations
 		${CMAKE_CURRENT_SOURCE_DIR}/src/animations/Animation.h
@@ -127,6 +128,7 @@ set(CORE_SOURCES
 		${CMAKE_CURRENT_SOURCE_DIR}/src/utils/math/Vector4f.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/src/utils/math/Misc.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/src/utils/math/Transform4x4f.cpp
+	    ${CMAKE_CURRENT_SOURCE_DIR}/src/utils/FileUtil.cpp
 
 		# Animations
 		${CMAKE_CURRENT_SOURCE_DIR}/src/animations/AnimationController.cpp

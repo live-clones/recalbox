@@ -128,6 +128,33 @@ void FolderData::populateRecursiveFolder(const std::string& filteredExtensions, 
   }
 }
 
+int FolderData::getAllFoldersRecursively(FileData::List& to) const
+{
+  int gameCount = 0;
+  for (FileData* fd : mChildren)
+  {
+    if (fd->isFolder())
+    {
+      to.push_back(fd);
+      int position = (int)to.size(); // TOOD: Check if the insert is necessary
+      if (CastFolder(fd)->getAllFoldersRecursively(to) > 1)
+        to.insert(to.begin() + position, fd); // Include folders iif it contains more than one game.
+    }
+    else if (fd->isGame())
+    {
+      gameCount++;
+    }
+  }
+  return gameCount;
+}
+
+FileData::List FolderData::getAllFolders() const
+{
+  FileData::List result;
+  getAllFoldersRecursively(result);
+  return result;
+}
+
 int FolderData::getItemsRecursively(FileData::List& to, Filter includes, bool includefolders) const
 {
   int gameCount = 0;

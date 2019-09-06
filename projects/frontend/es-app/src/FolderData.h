@@ -16,6 +16,13 @@ class FolderData : public FileData
     void ClearChildList() { mChildren.clear(); }
 
     /*!
+     * @brief Get all folders recursively
+     * @param Folder list
+     * @return Total amount of games
+     */
+    int getAllFoldersRecursively(FileData::List& to) const;
+
+    /*!
      * Get all items recursively.
      * @param to List to fill
      * @param includes Get only items matching these filters
@@ -248,6 +255,12 @@ class FolderData : public FileData
      * @return List of filtered items
      */
     FileData::List getAllFavorites(bool includefolders) const;
+
+    /*!
+     * @brief Get all folders recursively
+     * @return Folder list
+     */
+    FileData::List getAllFolders() const;
 };
 
 

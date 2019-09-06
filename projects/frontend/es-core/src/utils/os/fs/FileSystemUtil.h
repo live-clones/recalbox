@@ -15,8 +15,8 @@ class FileSystemUtil
 			All = 3
 		};
 
-		static stringList  getDirContent      (const std::string& _path, EntryTypes types, bool _recursive = false);
-    static stringList  getPathList        (const std::string& _path);
+		static stringList  getDirContent      (const std::string& path, EntryTypes types, bool recursive = false);
+    static stringList  getPathList        (const std::string& path);
     static std::string getHomePath        ();
     static std::string getCWDPath         ();
     static std::string getExePath         ();

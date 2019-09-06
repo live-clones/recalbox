@@ -3,12 +3,88 @@
 #include <boost/filesystem.hpp>
 #include <boost/property_tree/xml_parser.hpp>
 #include <RecalboxConf.h>
+#include <utils/os/fs/FileSystemUtil.h>
+#include <utils/FileUtil.h>
+#include <utils/StringUtil.h>
 #include "Log.h"
 #include "Settings.h"
 #include "Util.h"
 
 namespace fs = boost::filesystem;
 namespace pt = boost::property_tree;
+
+std::string getLocalizedText(const std::string& source)
+{
+  // Extract prefered language/region
+  std::string locale = StringUtil::toLower(RecalboxConf::Instance().get("system.language", "en_US"));
+
+  // Get start
+  std::string key = "["; key += locale; key += "]";
+  unsigned long start = source.find(key);
+  if (start == std::string::npos)
+  {
+    std::string language = (locale.length() == 5) ? locale.substr(0,2) : "en";
+    key = "["; key += language; key += "]";
+    start = source.find(key);
+    if (start == std::string::npos)
+    {
+      key = "[en]";
+      start = source.find(key);
+      if (start == std::string::npos)
+      {
+        return source;
+      }
+    }
+  }
+
+  // Get end
+  unsigned long stop = source.find('[', start + key.length());
+  if (stop == std::string::npos) stop = source.length();
+
+  // Trimming
+  start = source.find_first_not_of(" \t\n\r", start + key.length());
+  if (start == std::string::npos) return "";
+  stop = source.find_last_not_of(" \t\n\r", stop);
+
+  return source.substr(start, stop - start);
+}
+
+void overrideFolderInformation(FileData* folderdata)
+{
+  // Override image
+  bool imageOverriden = false;
+  std::string fullPath = folderdata->getPath().generic_string() + "/.folder.picture.svg";
+
+  MetadataDescriptor& metadata = folderdata->Metadata();
+
+  if (FileSystemUtil::exists(fullPath))
+  {
+    metadata.SetVolatileImagePath(fullPath);
+    imageOverriden = true;
+  }
+  else
+  {
+    fullPath = folderdata->getPath().generic_string() + "/.folder.picture.png";
+    if (FileSystemUtil::exists(fullPath))
+    {
+      metadata.SetVolatileImagePath(fullPath);
+      imageOverriden = true;
+    }
+  }
+
+  // Override description oly if the image has been overriden
+  if (imageOverriden)
+  {
+    fullPath = folderdata->getPath().generic_string() + "/.folder.description.txt";
+    std::string text = FileUtil::loadTextFile(fullPath);
+    if (text.length() != 0)
+    {
+      text = getLocalizedText(text);
+      if (text.length() != 0)
+        metadata.SetVolatileDescription(text);
+    }
+  }
+}
 
 FileData* findOrCreateFile(SystemData* system, const boost::filesystem::path& path, ItemType type, bool trustGamelist, FileData::StringMap& doppelgangerWatcher)
 {
@@ -128,7 +204,7 @@ void parseGamelist(SystemData* system, FileData::StringMap& doppelgangerWatcher)
         continue;
       }
 
-      //load the metadata
+      // load the metadata
       file->Metadata().Deserialize(fileNode, relativeTo.generic_string());
     }
   }

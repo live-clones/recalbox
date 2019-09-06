@@ -4,7 +4,6 @@
 
 #include "Settings.h"
 #include <sys/stat.h>
-#include <string.h>
 
 #if defined(_WIN32)
 // because windows...
@@ -543,6 +542,7 @@ bool FileSystemUtil::removeFile(const std::string& _path)
 } // removeFile
 
 #include <cerrno>
+#include <cstring>
 
 static int createAllDirectories(const char *path)
 {

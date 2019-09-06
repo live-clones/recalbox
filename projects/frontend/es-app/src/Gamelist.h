@@ -10,3 +10,6 @@ void parseGamelist(SystemData* system, FileData::StringMap& doppelgangerWatcher)
 
 // Writes currently loaded metadata for a SystemData to gamelist.xml.
 void updateGamelist(SystemData* system);
+
+void overrideFolderInformation(FileData* folderdata);
+

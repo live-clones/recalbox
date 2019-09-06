@@ -493,6 +493,13 @@ class MetadataDescriptor
     void SetDirty() { _Dirty = true; }
 
     /*
+     * Volatile setters - do not set the Dirty flag for auto-saving
+     */
+
+    void SetVolatileDescription(const std::string& description) { _Description = description; }
+    void SetVolatileImagePath(const std::string& image) { _Image = image; }
+
+    /*
      * String setters
      */
 

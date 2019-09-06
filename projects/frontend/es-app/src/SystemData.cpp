@@ -39,6 +39,10 @@ SystemData* SystemData::CreateRegularSystem(const std::string& name, const std::
     // Populate items from gamelist.xml
     if (!Settings::getInstance()->getBool("IgnoreGamelist"))
       parseGamelist(result, doppelgangerWatcher);
+    // Overrides?
+    FileData::List allFolders = result->getRootFolder()->getAllFolders();
+    for(auto folder : allFolders)
+      overrideFolderInformation(folder);
   } // Let the doppelgangerWatcher to free its memory ASAP
 
   result->loadTheme();
