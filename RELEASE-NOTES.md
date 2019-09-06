@@ -1,6 +1,6 @@
 # Release notes
 
-## Version 6.1
+## Version 6.1 - Pre-release
 
 ### News
 - Pi 3A+ compatibility (Firmware bump)
