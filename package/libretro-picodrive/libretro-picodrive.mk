@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_PICODRIVE_VERSION = a9f220a890c5a0edad44fcf0ed2e03e1200cbd3f
+LIBRETRO_PICODRIVE_VERSION = 28dcfd6f43434e6828ee647223a0576bfe858c24
 LIBRETRO_PICODRIVE_SITE = git://github.com/libretro/picodrive.git
 LIBRETRO_PICODRIVE_DEPENDENCIES = libpng
 LIBRETRO_PICODRIVE_GIT_SUBMODULES=y

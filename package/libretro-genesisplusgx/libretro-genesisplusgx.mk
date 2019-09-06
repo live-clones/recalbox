@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_GENESISPLUSGX_VERSION = a02ec8763e662bab6a2530dd308255f059b999ff
+LIBRETRO_GENESISPLUSGX_VERSION = ba9556a7bf71ca1b97779d677d062c9a1fc64406
 LIBRETRO_GENESISPLUSGX_SITE = $(call github,libretro,Genesis-Plus-GX,$(LIBRETRO_GENESISPLUSGX_VERSION))
 
 define LIBRETRO_GENESISPLUSGX_BUILD_CMDS
