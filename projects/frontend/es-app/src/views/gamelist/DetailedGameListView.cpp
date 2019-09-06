@@ -413,6 +413,8 @@ void DetailedGameListView::setFolderInfo(FolderData* folder)
   {
     mFolderContent.at((unsigned int) i)->setImage("");
   }
+  // Kill video on multi-thumbnail folder
+  mVideo.setVideo("", 0, 0);
 }
 
 void DetailedGameListView::setGameInfo(FileData* file)
