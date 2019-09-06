@@ -58,5 +58,3 @@ log_verbosity = false
 
 framecount_show = false
 rgui_show_start_screen = false
-
-audio_volume = 8.0
