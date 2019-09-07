@@ -1,16 +1,16 @@
 <?xml version="1.0"?>
 <gameList>
-	<game>
-		<path>./liftoff.fd</path>
-		<name>Mission: Liftoff</name>
-		<desc>
-MISSION:LIFTOFF is a game inspired by the 8-bit classic Jetpac.
-Lost and stranded on a hostile planet, your mission is to collect rocket parts and fuel cells so you can take off and fly on to the next level. Make generous use of your powerful laser gun to dispose of enemies. Bonus will appear randomly and can be collected by just getting in contact with them.
-</desc>
-		<image>./media/images/liftoff.png</image>
-		<releasedate>20181001T000000</releasedate>
-		<developer>Francois Mouret, Herve Piton</developer>
-		<publisher>Datascud</publisher>
-		<genre>Shoot'em up</genre>
-	</game>
+  <game id="195431" source="ScreenScraper.fr">
+    <path>./liftoff.fd</path>
+    <name>Mission: Liftoff</name>
+    <desc>MISSION:LIFTOFF is a game inspired by the 8-bit classic Jetpac. Lost and stranded on a hostile planet, your mission is to collect rocket parts and fuel cells so you can take off and fly on to the next level. Make generous use of your powerful laser gun to dispose of enemies. Bonus will appear randomly and can be collected by just getting in contact with them.</desc>
+    <rating>0</rating>
+    <releasedate>20181001T000000</releasedate>
+    <developer>François Mouret, Hervé Piton, Benoît Charcosset</developer>
+    <publisher>Datascud</publisher>
+    <genre>Tir / 3eme Personne-Tir</genre>
+    <players>1</players>
+    <hash>FC943CC0</hash>
+    <image>./media/images/liftoff.png</image>
+  </game>
 </gameList>
