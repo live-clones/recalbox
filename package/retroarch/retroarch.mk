@@ -8,7 +8,7 @@ RETROARCH_VERSION = 455982da91e904b18cf15fa94f5bd43ba1ef02c2
 RETROARCH_SITE = git://github.com/libretro/RetroArch.git
 RETROARCH_SITE_METHOD = git
 RETROARCH_LICENSE = GPLv3+
-RETROARCH_CONF_OPTS += --disable-oss --enable-zlib --disable-opengl1 --disable-opengl
+RETROARCH_CONF_OPTS += --disable-oss --enable-zlib --disable-opengl1
 RETROARCH_DEPENDENCIES = host-pkgconf recalbox-system
 
 ifeq ($(BR2_PACKAGE_SDL2),y)
@@ -92,11 +92,16 @@ else
 RETROARCH_CONF_OPTS += --disable-opengles
 endif
 
-ifeq ($(BR2_PACKAGE_HAS_LIBEGL),y)
-RETROARCH_CONF_OPTS += --enable-egl
-RETROARCH_DEPENDENCIES += libegl
+ifeq ($(BR2_PACKAGE_HAS_LIBGLES),y)
+    ifeq ($(BR2_x86_64),y)
+    RETROARCH_CONF_OPTS += --disable-opengles --enable-opengl
+    RETROARCH_DEPENDENCIES += libgles
+    else
+    RETROARCH_CONF_OPTS += --enable-opengles
+    RETROARCH_DEPENDENCIES += libgles
+    endif
 else
-RETROARCH_CONF_OPTS += --disable-egl
+RETROARCH_CONF_OPTS += --disable-opengles
 endif
 
 ifeq ($(BR2_PACKAGE_HAS_LIBOPENVG),y)
