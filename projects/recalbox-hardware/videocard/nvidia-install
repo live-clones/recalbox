@@ -33,16 +33,16 @@ if [ -n "${pci}" ] && [ -n "${suportList}" ]; then
 
     echo "Install libraries"
     chmod +x "${xorgModules}"/extra/libnvidia*
-    cp "${xorgModules}"/extra/libnvidia-wfb.so."${nvidiaVersion}" "${xorgModules}"/libnvidia-wfb.so
+    mv "${xorgModules}"/extra/libnvidia-wfb.so."${nvidiaVersion}" "${xorgModules}"/libnvidia-wfb.so
     chmod +x "${xorgModules}"/extra/drivers/nvidia*
-    cp "${xorgModules}"/extra/drivers/nvidia_drv.so "${xorgModules}"/drivers/nvidia_drv.so
+    mv "${xorgModules}"/extra/drivers/nvidia_drv.so "${xorgModules}"/drivers/nvidia_drv.so
     chmod +x "${xorgModules}"/extra/extensions/libglx.so.*
-    cp "${xorgModules}"/extra/extensions/libglx.so."${nvidiaVersion}" "${xorgModules}"/extensions/libglx.so."${nvidiaVersion}"
+    mv "${xorgModules}"/extra/extensions/libglx.so."${nvidiaVersion}" "${xorgModules}"/extensions/libglx.so."${nvidiaVersion}"
     cd "${xorgModules}"/extensions/
      ln -sf libglx.so."${nvidiaVersion}" libglx.so
 
     chmod -x "${libs}"/extra/lib*
-    cp "${libs}"/extra/* "${libs}"/
+    mv "${libs}"/extra/* "${libs}"/
     cd "${libs}"/
 
     ln -sf libEGL.so.1.1.0 libEGL.so.1
