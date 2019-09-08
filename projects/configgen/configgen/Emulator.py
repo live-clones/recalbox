@@ -51,7 +51,7 @@ class Emulator:
         # Draw FPS
         if self.config.get('showFPS') not in ['false', 'true']:
             self.config['showFPS'] = False
-            #self.updateDrawFPS()
+            self.updateDrawFPS()
 
         # Optionnal emulator args ONLY if security is disabled
         security = recalboxSettings.getOption("system.security.enabled", '0')
@@ -60,6 +60,17 @@ class Emulator:
             self.config['args'] = shlex.split(settings['args'])
         else:
             self.config['args'] = None
+
+    def updateDrawFPS(self):
+        try:
+            import xml.etree.ElementTree as ET
+            esConfig = ET.parse(recalboxFiles.esSettings)
+            value = esConfig.find("./bool[@name='DrawFramerate']").attrib["value"]
+        except:
+            value = 'false'
+        if value not in ['false', 'true']:
+            value = 'false'
+        self.config['showFPS'] = value
 
     def updateShaders(self, shaderSet):
         if shaderSet is not None and shaderSet != 'none':
