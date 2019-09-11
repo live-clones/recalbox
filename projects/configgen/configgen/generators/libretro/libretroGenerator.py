@@ -73,18 +73,20 @@ class LibretroGenerator(Generator):
     def createConfigurationFile(system, playersControllers, rom, demo, recalboxSettings):
         # Setup system configuration
         configuration = libretroConfigurations.LibretroConfiguration(system, playersControllers, rom, demo, recalboxSettings)
-        configuration.createRetroarchConfiguration()
-        configuration.createCoreConfiguration()
+        retroarchConfig = configuration.createRetroarchConfiguration()
+        coreConfig = configuration.createCoreConfiguration()
+        commandArgs = configuration.getCommandLineArguments(retroarchConfig, coreConfig)
 
-        return configuration.getRetroarchConfigurationFileName()
+        return configuration.getRetroarchConfigurationFileName(), commandArgs
 
     # Configure retroarch and return a command
     def generate(self, system, rom, playersControllers, demo, recalboxSettings):
         configFileName = system.config.get("configfile", None)
 
         # Set recalbox default config file if no user defined one
+        commandArgs = []
         if configFileName is None:
-            configFileName = self.createConfigurationFile(system, playersControllers, rom, demo, recalboxSettings)
+            configFileName, commandArgs = self.createConfigurationFile(system, playersControllers, rom, demo, recalboxSettings)
 
         # Retroarch core on the filesystem
         retroarchCore = recalboxFiles.retroarchCores + system.config['core'] + recalboxFiles.libretroExt
@@ -95,6 +97,8 @@ class LibretroGenerator(Generator):
         commandArray.extend(self.getAppendConfigs(system, rom))
         # Netplay mode
         commandArray.extend(self.getNetplayArguments(system))
+        # Converted command args
+        commandArray.extend(commandArgs)
 
         # Optionnal arguments from es_systems.cfg
         if 'extra' in system.config and system.config['extra'] is not None:

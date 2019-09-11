@@ -56,6 +56,24 @@ class LibretroConfiguration:
 
         return retroarchConfig
 
+    def getCommandLineArguments(self, retroarchConfig, coreConfig):
+        # No result yet
+        result = []
+
+        # Starting from Retroarch 1.7.8, the shaders are now managed by a new automatic overall/core/game system
+        # and the old video_shader key is no longer used.
+        # The we have to convert the old key into a new overriding command line argument.
+        # That way the users can use both system:
+        # - Internal Retroarch configuration/override
+        # - Recalbox configuration and overrides
+        if retroarchConfig.hasOption("video_shader"):
+            shader = retroarchConfig.getOption("video_shader", None)
+            if shader is not None:
+                result.append("--set-shader")
+                result.append(shader)
+
+        return result
+
     def createRetroarchConfiguration(self):
         # Load settings
         retroarchConfig = self.loadRetroarchConfigurations()
