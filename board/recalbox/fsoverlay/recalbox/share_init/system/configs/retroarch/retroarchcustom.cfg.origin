@@ -8,7 +8,7 @@ config_save_on_exit = false
 
 video_threaded = true
 
-menu_driver = rgui
+menu_driver = ozone
 
 #aspect_ratio_index = "21"
 video_aspect_ratio_auto = true
