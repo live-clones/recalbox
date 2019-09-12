@@ -13,6 +13,7 @@ public:
     : SwitchComponent(window)
   {
     mState = state;
+    onStateChanged();
   }
 
 	bool input(InputConfig* config, Input input) override;
@@ -34,7 +35,7 @@ private:
 	void onStateChanged();
 
 	ImageComponent mImage;
+  unsigned int mOriginColor;
 	bool mState;
 	bool mInitialState;
-	unsigned int mOriginColor;
 };
