@@ -13,6 +13,9 @@ class Input:
         self.value = value
         self.code = code
 
+    def clone(self):
+        return Input(self.name, self.type, self.id, self.value, self.code)
+
 
 class Controller:
     def __init__(self, configName, type_, guid, player, index="-1", realName="", inputs=None, dev=None, nbaxes=None, nbhats=None, nbbuttons=None):

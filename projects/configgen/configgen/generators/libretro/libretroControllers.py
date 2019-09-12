@@ -68,7 +68,15 @@ class LibretroControllers:
         'right': 'hold_fast_forward',
         'l2': 'shader_prev',
         'r2': 'shader_next',
-        'a': 'reset'
+        'a': 'reset',
+        # Added in 6.1
+        'r3': 'fps_toggle',
+        'joystick1left': 'disk_prev',
+        'joystick1right': 'disk_next',
+        'joystick1up': 'disk_eject_toggle',
+        'joystick2left': 'cheat_index_minus',
+        'joystick2right': 'cheat_index_plus',
+        'joystick2up': 'cheat_toggle',
     }
 
     # Clone previous dictionnary and add 'b': 'menu_toggle'
@@ -173,6 +181,31 @@ class LibretroControllers:
 
         raise TypeError
 
+    @staticmethod
+    def getControllerItem(controller, key):
+        fake = False
+        realKey = key
+        if key == 'joystick1right':
+            realKey = 'joystick1left'
+            fake = True
+        if key == 'joystick2right':
+            realKey = 'joystick2left'
+            fake = True
+
+        # Not available?
+        if realKey not in controller.inputs:
+            return None
+
+        # Real input?
+        if not fake:
+            return controller.inputs[key]
+
+        # Build a fake input
+        fakeInput = controller.inputs[realKey].clone()
+        fakeInput.name = key
+        fakeInput.value = str(-int(fakeInput.value))
+        return fakeInput
+
     # Write a configuration for a specified controller
     def buildController(self, controller, playerIndex):
         settings = self.settings
@@ -207,8 +240,8 @@ class LibretroControllers:
                 specialMap = self.retroarchspecials
             for specialkey in specialMap:
                 specialvalue = specialMap[specialkey]
-                if specialkey in controller.inputs:
-                    inp = controller.inputs[specialkey]
+                inp = self.getControllerItem(controller, specialkey)
+                if inp is not None:
                     settings.setOption("input_%s%s" % (specialvalue, self.typetoname[inp.type]), self.getConfigValue(inp))
             specialvalue = self.retroarchspecials["start"]
             inp = controller.inputs["start"]
