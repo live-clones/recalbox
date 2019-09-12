@@ -26,12 +26,13 @@ class LibretroControllers:
     }
 
     # Map an emulationstation input type to the corresponding retroarch type
+    # 6.1: add _ in front of suffixes to allow empty ones
     typetoname = \
     {
-        'button': 'btn',
-        'hat': 'btn',
-        'axis': 'axis',
-        'key': 'key'
+        'button': '_btn',
+        'hat': '_btn',
+        'axis': '_axis',
+        'key': ''  # 6.1: no prefix for keys
     }
 
     # Map an emulationstation input hat to the corresponding retroarch hat value
@@ -184,13 +185,13 @@ class LibretroControllers:
             btnvalue = self.retroarchbtns[btnkey]
             if btnkey in controller.inputs:
                 inp = controller.inputs[btnkey]
-                settings.setOption("input_player%s_%s_%s" % (controller.player, btnvalue, self.typetoname[inp.type]),
+                settings.setOption("input_player%s_%s%s" % (controller.player, btnvalue, self.typetoname[inp.type]),
                                    self.getConfigValue(inp))
         for dirkey in self.retroarchdirs:
             dirvalue = self.retroarchdirs[dirkey]
             if dirkey in controller.inputs:
                 inp = controller.inputs[dirkey]
-                settings.setOption("input_player%s_%s_%s" % (controller.player, dirvalue, self.typetoname[inp.type]),
+                settings.setOption("input_player%s_%s%s" % (controller.player, dirvalue, self.typetoname[inp.type]),
                                    self.getConfigValue(inp))
         for jskey in self.retroarchjoysticks:
             jsvalue = self.retroarchjoysticks[jskey]
@@ -208,10 +209,10 @@ class LibretroControllers:
                 specialvalue = specialMap[specialkey]
                 if specialkey in controller.inputs:
                     inp = controller.inputs[specialkey]
-                    settings.setOption("input_%s_%s" % (specialvalue, self.typetoname[inp.type]), self.getConfigValue(inp))
+                    settings.setOption("input_%s%s" % (specialvalue, self.typetoname[inp.type]), self.getConfigValue(inp))
             specialvalue = self.retroarchspecials["start"]
             inp = controller.inputs["start"]
-            settings.setOption("input_%s_%s" % (specialvalue, self.typetoname[inp.type]), self.getConfigValue(inp))
+            settings.setOption("input_%s%s" % (specialvalue, self.typetoname[inp.type]), self.getConfigValue(inp))
 
         # Assign pad to player
         settings.setOption("input_player{}_joypad_index".format(playerIndex), controller.index)
