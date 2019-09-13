@@ -85,6 +85,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add new recalbox/retroarch/core configuration override par system/folder/game
 - Switch default retroarch ui to ozone
 - 
+- Odroid C2 removed from supported boards
 
 ## [6.0] - DragonBlaze
 - Change name from 5.0 to 6.0 DragonBlaze

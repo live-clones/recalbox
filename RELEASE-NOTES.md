@@ -23,6 +23,7 @@
 - New core! Added flycast libretro core. Dreamcast (et al.) emulator
 - New system! Saturn added with libretro's bettle-saturn, yabause and yabasanshiro emulators (pc only)
 - New configuration override system to fine tune all configuration per system, per folder or per game
+- Odroid C2 removed from supported boards
 
 ### Improvements
 - Retroarch updated to version 1.7.8v3!
@@ -80,7 +81,6 @@
 - Fix Amiga multi-disk bug with [] characters
 - Fix Amiga WHDL loader
 - Fix default scraper
-
 
 ## Version 6.0 - DragonBlaze
 
