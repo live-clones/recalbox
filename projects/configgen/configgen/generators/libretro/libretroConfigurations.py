@@ -17,17 +17,17 @@ class LibretroConfiguration:
 
     # constructor
     def __init__(self, system, controllers, rom, demo, recalboxSettings):
-        # Rom folder
-        romFolder = os.path.dirname(rom)
         # Default files
         self.retroarchCustomOriginFile = recalboxFiles.retroarchCustomOrigin
         self.retroarchCustomFile = recalboxFiles.retroarchCustom
-        self.retroarchCustomOverrideFile = buildOverrideChain(rom, ".retroarch.cfg")
+        self.retroarchCustomOverrideChain = buildOverrideChain(rom, ".retroarch.cfg")
+        self.retroarchCustomOverrideFile = recalboxFiles.retroarchCustom + ".overrides.cfg"
         self.retroarchCoreCustomFile = recalboxFiles.retroarchCoreCustom
-        self.retroarchCoreCustomOverrideFile = buildOverrideChain(rom, ".core.cfg")
+        self.retroarchCoreCustomOverrideChain = buildOverrideChain(rom, ".core.cfg")
         # Default settings
         self.recalboxSettings = recalboxSettings
         self.retroarchSettings = keyValueSettings(None, True)
+        self.retroarchOverrides = keyValueSettings(None, True)
         self.coreSettings = keyValueSettings(None, True)
         self.system = system
         self.controllers = controllers
@@ -49,14 +49,25 @@ class LibretroConfiguration:
         if self.retroarchCustomOriginFile is not None:
             retroarchConfig.changeSettingsFile(self.retroarchCustomOriginFile)
             retroarchConfig.loadFile()
-        # Override with folder/rom settings
-        for customFile in self.retroarchCustomOverrideFile:
-            retroarchConfig.changeSettingsFile(customFile)
+        # Load template config file
+        if self.retroarchCustomFile is not None:
+            retroarchConfig.changeSettingsFile(self.retroarchCustomFile)
             retroarchConfig.loadFile()
 
         return retroarchConfig
 
-    def getCommandLineArguments(self, retroarchConfig, coreConfig):
+    def loadRetroarchOverrides(self):
+        retroarchOverrides = self.retroarchOverrides
+        retroarchOverrides.clear()
+
+        # Override with folder/rom settings
+        for customFile in self.retroarchCustomOverrideChain:
+            retroarchOverrides.changeSettingsFile(customFile)
+            retroarchOverrides.loadFile()
+
+        return retroarchOverrides
+
+    def getCommandLineArguments(self, retroarchConfig, _):
         # No result yet
         result = []
 
@@ -89,8 +100,15 @@ class LibretroConfiguration:
         retroarchConfig.changeSettingsFile(self.retroarchCustomFile)
         retroarchConfig.saveFile()
 
+        # load overrides
+        retroarchOverrides = self.loadRetroarchOverrides()
+
+        # Save overrides
+        retroarchOverrides.changeSettingsFile(self.retroarchCustomOverrideFile)
+        retroarchOverrides.saveFile()
+
         # Return file for testing purpose only
-        return retroarchConfig
+        return retroarchConfig, retroarchOverrides
 
     def createCoreConfiguration(self):
         coreConfig = self.coreSettings
@@ -100,7 +118,7 @@ class LibretroConfiguration:
             coreConfig.changeSettingsFile(self.retroarchCoreCustomFile)
             coreConfig.loadFile(True)
         # Override with folder/rom settings
-        for coreFile in self.retroarchCoreCustomOverrideFile:
+        for coreFile in self.retroarchCoreCustomOverrideChain:
             coreConfig.changeSettingsFile(coreFile)
             coreConfig.loadFile(False)
 
@@ -117,6 +135,9 @@ class LibretroConfiguration:
 
     def getRetroarchConfigurationFileName(self):
         return self.retroarchSettings.getSettingsFile()
+
+    def getRetroarchOverridesFileName(self):
+        return self.retroarchOverrides.getSettingsFile()
 
     @staticmethod
     def updateLibretroConfig(version):

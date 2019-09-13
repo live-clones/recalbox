@@ -70,13 +70,15 @@ class LibretroControllers:
         'r2': 'shader_next',
         'a': 'reset',
         # Added in 6.1
-        'r3': 'fps_toggle',
+        'r3': 'ai_service',
         'joystick1left': 'disk_prev',
         'joystick1right': 'disk_next',
         'joystick1up': 'disk_eject_toggle',
+        'joystick1down': 'recording_toggle',
         'joystick2left': 'cheat_index_minus',
         'joystick2right': 'cheat_index_plus',
         'joystick2up': 'cheat_toggle',
+        'joystick2down': 'fps_toggle',
     }
 
     # Clone previous dictionnary and add 'b': 'menu_toggle'
@@ -190,6 +192,12 @@ class LibretroControllers:
             fake = True
         if key == 'joystick2right':
             realKey = 'joystick2left'
+            fake = True
+        if key == 'joystick1down':
+            realKey = 'joystick1up'
+            fake = True
+        if key == 'joystick2down':
+            realKey = 'joystick2up'
             fake = True
 
         # Not available?

@@ -43,7 +43,7 @@ class LibretroGenerator(Generator):
 
     # Build appendable configurations files argument
     @staticmethod
-    def getAppendConfigs(system, rom):
+    def getAppendConfigs(system, rom, externalOverrides):
         # Extra configs
         configs = []
         romName = os.path.basename(rom)
@@ -63,6 +63,10 @@ class LibretroGenerator(Generator):
         if os.path.isfile(overlayFile):
             configs.append(overlayFile)
 
+        # In-place override takes priority over all
+        if os.path.isfile(externalOverrides):
+            configs.append(externalOverrides)
+
         if not configs:
             return []
 
@@ -73,28 +77,30 @@ class LibretroGenerator(Generator):
     def createConfigurationFile(system, playersControllers, rom, demo, recalboxSettings):
         # Setup system configuration
         configuration = libretroConfigurations.LibretroConfiguration(system, playersControllers, rom, demo, recalboxSettings)
-        retroarchConfig = configuration.createRetroarchConfiguration()
+        retroarchConfig, retroarchOverrides = configuration.createRetroarchConfiguration()
         coreConfig = configuration.createCoreConfiguration()
         commandArgs = configuration.getCommandLineArguments(retroarchConfig, coreConfig)
 
-        return configuration.getRetroarchConfigurationFileName(), commandArgs
+        return configuration.getRetroarchConfigurationFileName(),\
+               configuration.getRetroarchOverridesFileName(),\
+               commandArgs
 
     # Configure retroarch and return a command
     def generate(self, system, rom, playersControllers, demo, recalboxSettings):
         configFileName = system.config.get("configfile", None)
 
         # Set recalbox default config file if no user defined one
-        commandArgs = []
+        newConfigFileName, overrideFileName, commandArgs = self.createConfigurationFile(system, playersControllers, rom, demo, recalboxSettings)
         if configFileName is None:
-            configFileName, commandArgs = self.createConfigurationFile(system, playersControllers, rom, demo, recalboxSettings)
+            configFileName = newConfigFileName
 
         # Retroarch core on the filesystem
         retroarchCore = recalboxFiles.retroarchCores + system.config['core'] + recalboxFiles.libretroExt
 
         # The command to run
         commandArray = [recalboxFiles.recalboxBins[system.config['emulator']], "-L", retroarchCore, "--config", configFileName]
-        # Extra configs
-        commandArray.extend(self.getAppendConfigs(system, rom))
+        # Extra configs - pass in-place override last
+        commandArray.extend(self.getAppendConfigs(system, rom, overrideFileName))
         # Netplay mode
         commandArray.extend(self.getNetplayArguments(system))
         # Converted command args
