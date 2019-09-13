@@ -16,6 +16,7 @@ for DIR in cheats \
            system/.config/lirc \
            system/.config/residualvm \
            system/.config/scummvm \
+           system/.config/retroarch \
            system/.emulationstation/themes \
            system/bluetooth \
            system/configs \
@@ -27,6 +28,25 @@ do
         mkdir -p "$OUT""/""$DIR"
     fi
 done
+
+# link folders
+OLDIFS=$IFS
+IFS=','
+# 
+for DIRS in /usr/share/retroarch/assets,system/.config/retroarch/assets
+do
+    set -- $DIRS
+    TARGET=$1
+    SOURCE=$OUT/$2
+    echo "TARGET: $TARGET"
+    echo "SOURCE: $SOURCE"
+    if test ! -e "$OUT""/""$SOURCE"
+    then
+        echo $(dirname "$SOURCE")
+        ln -s "$TARGET" $(dirname "$SOURCE")
+    fi
+done
+IFS=$OLDIFS
 
 # directories / files to copy when initializing the user data
 #
