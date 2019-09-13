@@ -18,17 +18,6 @@
 # http://odroid.com/dokuwiki/doku.php?id=en:xu3_partition_table
 # https://github.com/hardkernel/u-boot/blob/odroidxu3-v2012.07/sd_fuse/hardkernel/sd_fusing.sh
 
-# C2 SD CARD
-#
-#       1       97         1281
-# +-----+-------+-----------+--------+----------+--------------+
-# | MBR |  bl1  |   uboot   |  BOOT  |  ROOTFS  |     FREE     |
-# +-----+-------+-----------+--------+----------+--------------+
-#      512     48K         640K
-#
-# http://odroid.com/dokuwiki/doku.php?id=en:c2_building_u-boot
-# https://wiki.odroid.com/odroid-c2/software/partition_table#ubuntu_partition_table
-
 xu4_fusing() {
     BINARIES_DIR=$1
     RECALBOXIMG=$2
@@ -132,24 +121,6 @@ case "${RECALBOX_TARGET}" in
         # recalbox.img
         support/scripts/genimage.sh -c "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/xu4/genimage.cfg" || exit 1
 	xu4_fusing "${BINARIES_DIR}" "${BINARIES_DIR}/recalbox.img" || exit 1
-        sync || exit 1
-        ;;
-
-    C2)
-        cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/c2/boot-logo.bmp.gz" ${BINARIES_DIR} || exit 1
-
-        # /boot
-        cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/c2/boot.ini" ${BINARIES_DIR}/boot.ini || exit 1
-
-        # root.tar.xz
-        cp "${BINARIES_DIR}/rootfs.tar.xz" "${RECALBOX_BINARIES_DIR}/root.tar.xz" || exit 1
-
-        # boot.tar.xz
-        (cd "${BINARIES_DIR}" && tar -cJf "${RECALBOX_BINARIES_DIR}/boot.tar.xz" boot.ini Image meson64_odroidc2.dtb recalbox-boot.conf boot-logo.bmp.gz bl1.bin.hardkernel u-boot.bin) || exit 1
-
-        # recalbox.img
-        support/scripts/genimage.sh -c "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/c2/genimage.cfg" || exit 1
-        c2_fusing "${BINARIES_DIR}" "${BINARIES_DIR}/recalbox.img" || exit 1
         sync || exit 1
         ;;
 

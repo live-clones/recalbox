@@ -99,6 +99,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add arcade meta-system
 - Add amiga emulator (libretro-uae) on all platforms
 
+- 
+- Odroid C2 removed from supported boards
 
 ## [6.0] - DragonBlaze
 - Change name from 5.0 to 6.0 DragonBlaze
