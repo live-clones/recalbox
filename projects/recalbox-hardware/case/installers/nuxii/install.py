@@ -4,7 +4,7 @@ from installers.base.install import InstallBase
 class Install(InstallBase):
 
     def __init__(self):
-        pass
+        InstallBase.__init__(self)
 
     def InstallHardware(self, case):
 

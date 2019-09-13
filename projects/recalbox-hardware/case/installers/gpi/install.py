@@ -139,6 +139,37 @@ class Install(InstallBase):
                 else:
                     logger.hardlog("GPi: Sound configuration NOT installed")
 
+                # Fine tune recalbox
+                retroarchOriginOverrides =\
+                {
+                    "menu_rgui_full_width_layout": "true",
+                    "menu_rgui_shadows": "true",
+                    "rgui_aspect_ratio": "0",
+                    "rgui_aspect_ratio_lock": "1",
+                    "rgui_background_filler_thickness_enable": "false",
+                    "rgui_border_filler_enable": "true",
+                    "rgui_border_filler_thickness_enable": "false",
+                    "rgui_browser_directory": "default",
+                    "rgui_config_directory": "~/.config/retroarch/config",
+                    "rgui_extended_ascii": "true",
+                    "rgui_inline_thumbnails": "true",
+                    "rgui_internal_upscale_level": "1",
+                    "rgui_menu_color_theme": "25",
+                    "rgui_menu_theme_preset": "",
+                    "rgui_particle_effect": "4",
+                    "rgui_particle_effect_speed": "1.000000",
+                    "rgui_show_start_screen": "false",
+                    "rgui_swap_thumbnails": "false",
+                    "rgui_thumbnail_delay": "0",
+                    "rgui_thumbnail_downscaler": "0",
+                    "video_font_size": "18",
+                }
+                with open("/recalbox/share/system/configs/retroarch/retroarchcustom.cfg.origin", "a+") as f:
+                    f.write("\n")
+                    f.write("# GPI Configuration\n")
+                    for k,v in retroarchOriginOverrides.items():
+                        f.write('{} = "{}"\n'.format(k, v))
+
             except Exception as e:
                 logger.hardlog("GPi: Exception = {}".format(e))
                 return ""
