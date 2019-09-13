@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-RECALBOX_CONFIGGEN_VERSION = 79b5ec6dbfc1ca73eac3c3f572fa18cc243cd4df
+RECALBOX_CONFIGGEN_VERSION = 5052d4a010da0ae15d0fc7bfb54f201ca0ddda89
 
 RECALBOX_CONFIGGEN_SITE = https://gitlab.com/recalbox/recalbox-configgen.git
 RECALBOX_CONFIGGEN_SITE_METHOD = git

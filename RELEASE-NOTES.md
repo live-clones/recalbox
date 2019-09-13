@@ -22,10 +22,12 @@
 - New system! NAOMI added with libretro's flycast emulator (pc only)
 - New core! Added flycast libretro core. Dreamcast (et al.) emulator
 - New system! Saturn added with libretro's bettle-saturn, yabause and yabasanshiro emulators (pc only)
+- New configuration override system to fine tune all configuration per system, per folder or per game
 
 ### Improvements
-- Retroarch updated to version 1.7.8!
+- Retroarch updated to version 1.7.8v3!
 - Retroarch cheats updated to version 1.7.8!
+- Switched default Retroarch UI to Ozone
 - Libretro core updated! FBA Libretro core updated to latest version (Neogeo CDRom Speed fix)
 - Libretro core updated! Picodrive updated to latest version (Fix shifted down screen)
 - Libretro core updated! Theodore updated to latest version (add emulation of Thomson MO6 and Olivetti Prodest PC128)

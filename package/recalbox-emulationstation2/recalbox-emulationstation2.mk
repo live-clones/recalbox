@@ -5,7 +5,7 @@
 ################################################################################
 
 RECALBOX_EMULATIONSTATION2_SITE = https://gitlab.com/recalbox/recalbox-emulationstation.git
-RECALBOX_EMULATIONSTATION2_VERSION = 8199f6426ecb7702d0c176520b17a711ac16c0c1
+RECALBOX_EMULATIONSTATION2_VERSION = c6df847f0c93ce366997c13f130b80bb163a171b
 RECALBOX_EMULATIONSTATION2_SITE_METHOD = git
 RECALBOX_EMULATIONSTATION2_LICENSE = MIT
 RECALBOX_EMULATIONSTATION2_DEPENDENCIES = sdl2 sdl2_mixer boost freeimage freetype eigen alsa-lib \
