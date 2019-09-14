@@ -142,6 +142,7 @@ class Install(InstallBase):
                 # Fine tune recalbox
                 retroarchOriginOverrides =\
                 {
+                    "menu_driver": "rgui",
                     "menu_rgui_full_width_layout": "true",
                     "menu_rgui_shadows": "true",
                     "rgui_aspect_ratio": "0",
