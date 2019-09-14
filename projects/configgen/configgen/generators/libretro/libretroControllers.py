@@ -70,11 +70,11 @@ class LibretroControllers:
         'r2': 'shader_next',
         'a': 'reset',
         # Added in 6.1
-        'r3': 'ai_service',
+        'r3': 'recording_toggle',
         'joystick1left': 'disk_prev',
         'joystick1right': 'disk_next',
         'joystick1up': 'disk_eject_toggle',
-        'joystick1down': 'recording_toggle',
+        'joystick1down': 'ai_service',
         'joystick2left': 'cheat_index_minus',
         'joystick2right': 'cheat_index_plus',
         'joystick2up': 'cheat_toggle',
