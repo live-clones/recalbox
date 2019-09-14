@@ -80,7 +80,7 @@ class keyValueSettings:
                 self.settings.clear()
             with open(self.settingsFile) as lines:
                 for line in lines:
-                    m = re.match(r'^([^#;].*)\s?=\s?(.+)$', line)
+                    m = re.match(r'^([^#;].*?)\s?=\s?(.+)$', line)
                     if m:
                         key = m.group(1).strip()
                         value = m.group(2).strip()
