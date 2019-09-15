@@ -107,6 +107,82 @@ class LibretroRetroarch:
         'atari7800'
     )
 
+    # AI Service language indexes - Keep in sync with
+    # https://github.com/libretro/RetroArch/blob/master/translation_defines.h
+    aiLanguages =\
+    [
+        "AUTO",
+        "EN",
+        "ES",
+        "FR",
+        "IT",
+        "DE",
+        "JP",
+        "NL",
+        "CS",
+        "DA",
+        "SV",
+        "HR",
+        "KO",
+        "ZH_CN",
+        "ZH_TW",
+        "CA",
+        "BG",
+        "BN",
+        "EU",
+        "AZ",
+        "AR",
+        "SQ",
+        "AF",
+        "EO",
+        "ET",
+        "TL",
+        "FI",
+        "GL",
+        "KA",
+        "EL",
+        "GU",
+        "HT",
+        "IW",
+        "HI",
+        "HU",
+        "IS",
+        "ID",
+        "GA",
+        "KN",
+        "LA",
+        "LV",
+        "LT",
+        "MK",
+        "MS",
+        "MT",
+        "NO",
+        "FA",
+        "PL",
+        "PT",
+        "RO",
+        "RU",
+        "SR",
+        "SK",
+        "SL",
+        "SW",
+        "TA",
+        "TE",
+        "TH",
+        "TR",
+        "UK",
+        "UR",
+        "VI",
+        "CY",
+        "YI"
+    ]
+
+    def languageIndex(self, language):
+        try:
+            return str(self.aiLanguages.index(language))
+        except ValueError:
+            return "0"
+
     def __init__(self, system, settings, controllers, demo, recalboxSettings):
         self.recalboxSettings = recalboxSettings
         self.system = system
@@ -124,6 +200,16 @@ class LibretroRetroarch:
         recalbox = self.system.config
         return key in recalbox and isinstance(recalbox[key], str) and len(recalbox[key]) > 0
 
+    # Get an option fromp system config or from global config
+    # TODO: should be in self.system.config
+    def getOption(self, key, default):
+        settings = self.recalboxSettings
+        systemkey = "{}.{}".format(self.system.config, key)
+        if settings.hasOption(systemkey):
+            return settings.getOption(systemkey, default)
+        globalkey = "{}.{}".format("global", key)
+        return settings.getOption(globalkey, default)
+
     # Is nVidia driver on?
     @staticmethod
     def hasnVidiaDriver():
@@ -140,6 +226,20 @@ class LibretroRetroarch:
         settings = self.settings
         recalbox = self.system.config
 
+        # AI System
+        aiOn = self.getOption("translate", "1")
+        aiFrom = self.getOption("translate.from", "auto")
+        aiTo = self.getOption("translate.to", self.recalboxSettings.getOption("system.language", "auto"))
+        aiTo = aiTo.upper()
+        if aiTo[:2] != "ZH":  # Keep chinese region
+            aiTo = aiTo[:2]
+        aiKey = self.getOption("translate.apikey", "")
+        settings.setOption("ai_service_enable", self.TRUE if aiOn and aiKey != "" else self.FALSE)
+        settings.setDefaultOption("ai_service_mode", "0")
+        settings.setOption("ai_service_source_lang", self.languageIndex(aiFrom))
+        settings.setOption("ai_service_target_lang", self.languageIndex(aiTo))
+        settings.setOption("ai_service_url", "http://ztranslate.net/service?api_key={}".format(aiKey) if aiKey != "" else "http://localhost:4404/")
+
         # Threaded video
         threadedVideo = True
         if recalbox["core"] == "px68k" or self.hasnVidiaDriver():
@@ -147,7 +247,7 @@ class LibretroRetroarch:
         settings.setOption("video_threaded", self.TRUE if threadedVideo else self.FALSE)
 
         # Enable RetroArch option "quit_press_twice"
-        quitPressTwice = self.recalboxSettings.getOption("global.quitpresstwice", "0")
+        quitPressTwice = self.getOption("quitpresstwice", "0")
         settings.setOption("quit_press_twice", self.TRUE if quitPressTwice == "1" else self.FALSE)
 
         # Control new RA 1.7.7 key: do not allow upscaling higher than x4
