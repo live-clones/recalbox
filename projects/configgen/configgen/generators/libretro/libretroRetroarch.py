@@ -234,11 +234,17 @@ class LibretroRetroarch:
         if aiTo[:2] != "ZH":  # Keep chinese region
             aiTo = aiTo[:2]
         aiKey = self.getOption("translate.apikey", "")
+        aiUrl = self.getOption("translate.url", "")
         settings.setOption("ai_service_enable", self.TRUE if aiOn and aiKey != "" else self.FALSE)
         settings.setDefaultOption("ai_service_mode", "0")
         settings.setOption("ai_service_source_lang", self.languageIndex(aiFrom))
         settings.setOption("ai_service_target_lang", self.languageIndex(aiTo))
-        settings.setOption("ai_service_url", "http://ztranslate.net/service?api_key={}".format(aiKey) if aiKey != "" else "http://localhost:4404/")
+        if aiUrl == "":
+            if aiKey == "":
+                aiUrl = "http://localhost:4404/"
+            else:
+                aiUrl = "http://ztranslate.net/service?api_key={}".format(aiKey)
+        settings.setOption("ai_service_url", aiUrl)
 
         # Threaded video
         threadedVideo = True
