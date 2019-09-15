@@ -27,6 +27,8 @@ savestate_auto_load = false
 
 video_shader_dir = /recalbox/share_init/shaders/
 screenshot_directory = /recalbox/share/screenshots/
+recording_output_directory = /recalbox/share/screenshots/
+recording_config_directory = /recalbox/share/screenshots/
 savestate_directory = /recalbox/share/saves/
 savefile_directory = /recalbox/share/saves/
 cache_directory = /recalbox/share/extractions/
