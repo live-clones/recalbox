@@ -59,6 +59,8 @@ log_verbosity = false
 framecount_show = false
 rgui_show_start_screen = false
 
+menu_show_restart_retroarch = false
+
 # specific to x86
 video_driver = "gl"
 # avoid blinking borders coming sometimes - to use only with sdl2 video driver
