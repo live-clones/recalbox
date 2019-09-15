@@ -23,6 +23,7 @@
 - New core! Added flycast libretro core. Dreamcast (et al.) emulator
 - New system! Saturn added with libretro's bettle-saturn, yabause and yabasanshiro emulators (pc only)
 - New configuration override system to fine tune all configuration per system, per folder or per game
+- Easy AI Service configuration (Retroarch translation service)
 
 ### Improvements
 - Retroarch updated to version 1.7.8v3!

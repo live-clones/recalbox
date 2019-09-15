@@ -85,6 +85,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add new recalbox/retroarch/core configuration override par system/folder/game
 - Switch default retroarch ui to ozone
 - Improved RGUI configuration on GPI
+- Add new recalbox.conf keys to ease AI Service configuration
 
 
 ## [6.0] - DragonBlaze
