@@ -84,7 +84,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add Saturn libretro emulators (mednafen_saturn, yabause and yabasanshiro) on x86(_64)
 - Add new recalbox/retroarch/core configuration override par system/folder/game
 - Switch default retroarch ui to ozone
-- 
+- Improved RGUI configuration on GPI
+
 
 ## [6.0] - DragonBlaze
 - Change name from 5.0 to 6.0 DragonBlaze

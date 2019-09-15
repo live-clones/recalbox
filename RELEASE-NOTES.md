@@ -27,7 +27,8 @@
 ### Improvements
 - Retroarch updated to version 1.7.8v3!
 - Retroarch cheats updated to version 1.7.8!
-- Switched default Retroarch UI to Ozone
+- Switched default Retroarch UI to Ozone (except on GPI)
+- Improved RGUI configuration on GPI
 - Libretro core updated! FBA Libretro core updated to latest version (Neogeo CDRom Speed fix)
 - Libretro core updated! Picodrive updated to latest version (Fix shifted down screen)
 - Libretro core updated! Theodore updated to latest version (add emulation of Thomson MO6 and Olivetti Prodest PC128)
