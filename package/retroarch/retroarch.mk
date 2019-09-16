@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-RETROARCH_VERSION = 561a4cd4bf6f3476f78e719861e3f2328350c8f3
+RETROARCH_VERSION = f45a1d797e1e6306c56cc1c8ebbd4e1d119739b2
 RETROARCH_SITE = git://github.com/libretro/RetroArch.git
 RETROARCH_SITE_METHOD = git
 RETROARCH_LICENSE = GPLv3+
