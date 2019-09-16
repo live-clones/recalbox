@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_FLYCAST_VERSION = 652e1af12aa6b359a3eccb57b2894bf001b996f8
+LIBRETRO_FLYCAST_VERSION = 5577632c8772aa50589d9fb6203aa4327e68e757
 LIBRETRO_FLYCAST_SITE = $(call github,libretro,flycast,$(LIBRETRO_FLYCAST_VERSION))
 LIBRETRO_FLYCAST_LICENSE = GPLv2
 
