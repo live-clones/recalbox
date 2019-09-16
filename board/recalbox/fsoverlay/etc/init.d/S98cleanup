@@ -1,20 +1,29 @@
-#!/bin/bash
+#!/bin/ash
 
-if test "$1" != "stop"
-then
+if [ "$1" != "stop" ]; then
   exit 0
 fi
 
-# the update system doesn't allow the file removing. So use this script for this task
+# The upgrade system doesn't allow file removals. So use this script for this task.
 
+#############
+# FUNCTIONS #
+#############
+
+# doClean <file>
+#   performs the file deletion
 doClean() {
-    if test -e "$1"
-    then
-	mount -o remount,rw /
-	rm -rf "$1"
-	mount -o remount,ro /
-    fi
+  if [ -e "$1" ]; then
+    recallog -f init.log "Post-upgrade cleanup: deleting '$1'"
+    mount -o remount,rw /
+    rm -rf "$1"
+    mount -o remount,ro /
+  fi
 }
+
+########
+# MAIN #
+########
 
 # V4.0.0 2016-01-29
 doClean "/etc/init.d/S29recalboxsystem"
@@ -22,10 +31,9 @@ doClean "/etc/init.d/S42networkrestart"
 
 # V4.1.0 2016-03-24
 find "/usr/share/kodi/system/keymaps" -name "joystick.*.xml" |
-    while read X
-    do
-	doClean "${X}"
-    done
+  while read file; do
+   doClean "${file}"
+  done
 
 # V4.1.0 2016-04-10
 # the upgrade will fail to replace link by a file
@@ -33,19 +41,19 @@ doClean "/etc/network/interfaces.base"
 doClean "/etc/wpa_supplicant/wpa_supplicant.conf"
 
 # V4.1.0 2016-06-16
-doClean "${TARGET_DIR}/etc/init.d/S10udev"
-doClean "${TARGET_DIR}/etc/init.d/S30dbus"
-doClean "${TARGET_DIR}/etc/init.d/S40network"
-doClean "${TARGET_DIR}/etc/init.d/S45connman"
+doClean "/etc/init.d/S10udev"
+doClean "/etc/init.d/S30dbus"
+doClean "/etc/init.d/S40network"
+doClean "/etc/init.d/S45connman"
 
 # V180209 2018-02-09
-doClean "${TARGET_DIR}/etc/init.d/S46network-config"
+doClean "/etc/init.d/S46network-config"
 
 # V180420 2018-04-20
-doClean "${TARGET_DIR}/etc/init.d/S95api"
+doClean "/etc/init.d/S95api"
 
-# V1806XX 2018-06-XX
-doClean "${TARGET_DIR}/etc/init.d/S04mountboot"
+# V180627 2018-06-27
+doClean "/etc/init.d/S04mountboot"
 
 # V6.1 2019-09-XX
 doClean "/etc/init.d/S02splash"
