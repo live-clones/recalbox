@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if test "$1" != "start"
+if test "$1" != "stop"
 then
   exit 0
 fi
@@ -46,5 +46,11 @@ doClean "${TARGET_DIR}/etc/init.d/S95api"
 
 # V1806XX 2018-06-XX
 doClean "${TARGET_DIR}/etc/init.d/S04mountboot"
+
+# V6.1 2019-09-XX
+doClean "/etc/init.d/S02splash"
+doClean "/etc/init.d/S03populate"
+doClean "/etc/init.d/S04populate"
+doClean "/etc/init.d/S05acpid"
 
 exit 0
