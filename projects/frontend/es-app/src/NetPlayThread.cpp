@@ -18,9 +18,14 @@ NetPlayThread::NetPlayThread(Window* window, int event)
   : mWindow(window),
     mRunning(false),
     mThreadHandle(nullptr),
-    mEvent(event),
-    mLobby(RecalboxConf::getInstance()->get("global.netplay.lobby"))
+    mEvent(event)
 {
+}
+
+std::string NetPlayThread::getLobbyListCommand()
+{
+  static std::string command = "curl -s --connect-timeout 3 -m 3 -A libretro " + RecalboxConf::getInstance()->get("global.netplay.lobby");
+  return command;
 }
 
 NetPlayThread::~NetPlayThread()
@@ -55,9 +60,8 @@ void NetPlayThread::run()
     if (popupDuration != 0)
     {
       std::vector<std::pair<std::string, std::string>> oldGames;
-      std::string lobby = RecalboxConf::getInstance()->get("global.netplay.lobby");
 
-      auto json_req = RecalboxSystem::execute("curl -s --connect-timeout 3 -m 3 " + lobby);
+      auto json_req = RecalboxSystem::execute(getLobbyListCommand());
       if (json_req.second == 0)
       {
         json::ptree root;
@@ -82,7 +86,7 @@ void NetPlayThread::run()
 
       while (mRunning)
       {
-        json_req = RecalboxSystem::execute("curl -s --connect-timeout 3 -m 3 " + mLobby);
+        json_req = RecalboxSystem::execute(getLobbyListCommand());
         if (json_req.second == 0)
         {
           json::ptree root;

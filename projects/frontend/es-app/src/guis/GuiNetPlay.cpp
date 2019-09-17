@@ -11,6 +11,7 @@
 #include "components/MenuComponent.h"
 #include <boost/regex.hpp>
 #include <regex>
+#include <NetPlayThread.h>
 
 
 #define BUTTON_GRID_VERT_PADDING Renderer::getDisplayHeightAsFloat() * 0.025f
@@ -79,8 +80,7 @@ void GuiNetPlay::checkLobby()
 bool GuiNetPlay::parseLobby()
 {
 	mRooms.clear();
-	std::string lobby = RecalboxConf::getInstance()->get("global.netplay.lobby");
-	auto json_req = RecalboxSystem::execute("curl -s --connect-timeout 3 -m 3 " + lobby);
+	auto json_req = RecalboxSystem::execute(NetPlayThread::getLobbyListCommand());
 	if (json_req.second == 0) {
 		json::ptree root;
 		std::stringstream ss;

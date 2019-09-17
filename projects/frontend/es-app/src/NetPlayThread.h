@@ -29,8 +29,10 @@ class NetPlayThread
      */
     std::string GetLastPopupText() { return mLastPopupText; }
 
+    static std::string getLobbyListCommand();
+
   private:
-    //! Attached wndow
+    //! Attached window
     Window* mWindow;
 
     //! Running flag. True when Start() is called
@@ -41,9 +43,6 @@ class NetPlayThread
 
     //! Reserved SDL Event
     int mEvent;
-
-    //! Lobby server
-    std::string mLobby;
 
     //! Last created popup
     std::string mLastPopupText;
