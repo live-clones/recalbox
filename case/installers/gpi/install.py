@@ -2,6 +2,8 @@ import os
 import logger
 import xml.etree.ElementTree as XmlTree
 from installers.base.install import InstallBase
+from settings import keyValueSettings
+
 
 class Install(InstallBase):
 
@@ -165,11 +167,11 @@ class Install(InstallBase):
                     "rgui_thumbnail_downscaler": "0",
                     "video_font_size": "18",
                 }
-                with open("/recalbox/share/system/configs/retroarch/retroarchcustom.cfg.origin", "a+") as f:
-                    f.write("\n")
-                    f.write("# GPI Configuration\n")
-                    for k,v in retroarchOriginOverrides.items():
-                        f.write('{} = "{}"\n'.format(k, v))
+                settings = keyValueSettings("/recalbox/share/system/configs/retroarch/retroarchcustom.cfg.origin", True)
+                settings.loadFile(True)
+                for k, v in retroarchOriginOverrides.items():
+                    settings.setOption(k, v)
+                settings.saveFile()
 
             except Exception as e:
                 logger.hardlog("GPi: Exception = {}".format(e))

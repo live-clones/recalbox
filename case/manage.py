@@ -1,5 +1,5 @@
 import sys
-from settings import Settings
+from settings import keyValueSettings
 
 # --------- GPI
 
@@ -68,7 +68,7 @@ def mainInstall():
     if phase < 0: phase = 0
     if phase > 1: phase = 1
 
-    settings = Settings("/boot/recalbox-boot.conf")
+    settings = keyValueSettings("/boot/recalbox-boot.conf")
     settings.loadFile()
 
     # Install/Uninstall new case
