@@ -1,6 +1,6 @@
 ## RECALBOX - SYSTEM MSX1 ##
 
-Put your MSX 1 roms in this directory.
+Put your MSX1 roms in this directory.
 
 BlueMSX emulator can load ".rom/.mx1/.mx2/.dsk/.cas/.m3u/.zip/.7z" files.
 
