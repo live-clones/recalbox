@@ -167,11 +167,14 @@ class Install(InstallBase):
                     "rgui_thumbnail_downscaler": "0",
                     "video_font_size": "18",
                 }
-                settings = keyValueSettings("/recalbox/share/system/configs/retroarch/retroarchcustom.cfg.origin", True)
-                settings.loadFile(True)
-                for k, v in retroarchOriginOverrides.items():
-                    settings.setOption(k, v)
-                settings.saveFile()
+                for fileName in ("/recalbox/share/system/configs/retroarch/retroarchcustom.cfg.origin",
+                                 "/recalbox/share/system/configs/retroarch/retroarchcustom.cfg"):
+                    settings = keyValueSettings(fileName, True)
+                    settings.loadFile(True)
+                    for k, v in retroarchOriginOverrides.items():
+                        settings.setOption(k, v)
+                    settings.saveFile()
+                logger.hardlog("GPi: Retroarch gui set to RGUI")
 
             except Exception as e:
                 logger.hardlog("GPi: Exception = {}".format(e))
