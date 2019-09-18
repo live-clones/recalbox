@@ -128,6 +128,18 @@ unsigned int RecalboxConf::getUInt(const std::string &name, unsigned int default
     return defaultValue;
 }
 
+int RecalboxConf::getInt(const std::string &name, int defaultValue)
+{
+  try
+  {
+    if (confMap.count(name) != 0u)
+      return std::stoi(confMap[name]);
+  }
+  catch(std::invalid_argument&) {}
+
+  return defaultValue;
+}
+
 void RecalboxConf::set(const std::string &name, const std::string &value) {
     confMap[name] = value;
 }

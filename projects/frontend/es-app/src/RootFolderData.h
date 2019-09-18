@@ -26,6 +26,8 @@ class RootFolderData : public FolderData
       if (!mChildOwnership)
         ClearChildList();
     }
+
+    bool hasChildrenOwnership() const { return mChildOwnership; }
 };
 
 

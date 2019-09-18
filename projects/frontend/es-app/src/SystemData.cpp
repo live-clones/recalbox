@@ -15,6 +15,7 @@
 #include <VideoEngine.h>
 
 std::vector<SystemData *> SystemData::sSystemVector;
+std::vector<SystemData*> SystemData::sHiddenSystemVector;
 
 namespace fs = boost::filesystem;
 namespace pt = boost::property_tree;
@@ -50,13 +51,13 @@ SystemData* SystemData::CreateRegularSystem(const std::string& name, const std::
   return result;
 }
 
-SystemData* SystemData::CreateFavoriteSystem(const std::string& name, const std::string& fullName, const std::string& command,
+SystemData* SystemData::CreateFavoriteSystem(const std::string& name, const std::string& fullName,
                                              const std::string& themeFolder, const std::vector<SystemData*>& systems)
 {
   std::vector<PlatformIds::PlatformId> platformIds;
   platformIds.push_back(PlatformIds::PlatformId::PLATFORM_IGNORE);
 
-  SystemData* result = new SystemData(name, fullName, "", "", command, platformIds, themeFolder, nullptr, false);
+  SystemData* result = new SystemData(name, fullName, "", "", "", platformIds, themeFolder, nullptr, false);
   result->mIsFavorite = true;
 
   for (auto system : systems)
@@ -67,6 +68,30 @@ SystemData* SystemData::CreateFavoriteSystem(const std::string& name, const std:
       LOG(LogWarning) << " Get " << favs.size() << " favorites for " << system->getName() << "!";
       for (auto favorite : favs)
         result->mRootFolder.addChild(favorite, false);
+    }
+  }
+
+  result->loadTheme();
+
+  return result;
+}
+
+SystemData* SystemData::CreateMetaSystem(const std::string& name, const std::string& fullName,
+                                             const std::string& themeFolder, const std::vector<SystemData*>& systems)
+{
+  std::vector<PlatformIds::PlatformId> platformIds;
+  platformIds.push_back(PlatformIds::PlatformId::PLATFORM_IGNORE);
+
+  SystemData* result = new SystemData(name, fullName, "", "", "", platformIds, themeFolder, nullptr, false);
+
+  for (auto system : systems)
+  {
+    FileData::List all = system->getRootFolder()->getAllItems(true);
+    if (!all.empty())
+    {
+      LOG(LogWarning) << " Send games from " << system->getName() << " into Arcade";
+      for (auto fd : all)
+        result->mRootFolder.addChild(fd, false);
     }
   }
 
@@ -113,7 +138,7 @@ SystemData::SystemData(const std::string &name, const std::string &fullName, con
 SystemData::~SystemData()
 {
   //save changed game data back to xml
-  if (!Settings::getInstance()->getBool("IgnoreGamelist") && !mIsFavorite)
+  if (!Settings::getInstance()->getBool("IgnoreGamelist") && mRootFolder.hasChildrenOwnership())
     updateGamelist(this);
 
   for (const auto &itr : mEmulators)
@@ -342,7 +367,7 @@ std::vector<std::string> readList(const std::string &str, const char *delims = "
   return ret;
 }
 
-SystemData *createSystem(const SystemData::Tree &system)
+SystemData* SystemData::createSystem(const SystemData::Tree &system)
 {
   std::string name, fullname, path, cmd, themeFolder;
   try
@@ -499,6 +524,70 @@ bool SystemData::loadSystemList(Tree &document, XmlNodeCollisionMap &collisionMa
   return result;
 }
 
+bool SystemData::AddFavoriteSystem(const XmlNodeList& systemList)
+{
+  // Favorite system
+  if (!sSystemVector.empty())
+    for (const Tree &system : systemList)
+    {
+      std::string name = system.get("name", "");
+      std::string fullname = system.get("fullname", "");
+      std::string themeFolder = system.get("theme", "");
+
+      if (name == "favorites")
+      {
+        LOG(LogInfo) << "creating favorite system";
+        SystemData *newSys = SystemData::CreateFavoriteSystem("favorites", fullname, themeFolder, sSystemVector);
+        sSystemVector.push_back(newSys);
+      }
+    }
+
+  return true;
+}
+
+bool SystemData::AddArcadeMetaSystem()
+{
+  if (RecalboxConf::Instance().getBool("global.arcade", false))
+  {
+    bool includeNeogeo = RecalboxConf::Instance().getBool("global.arcade.includeneogeo", true);
+    // Lookup all non-empty arcade platforms
+    for (SystemData* system: sSystemVector)
+      if (system->getRootFolder()->hasGame())
+        for(PlatformIds::PlatformId platform : system->getPlatformIds())
+          if ((platform == PlatformIds::PlatformId::ARCADE) ||
+              (platform == PlatformIds::PlatformId::NEOGEO && includeNeogeo))
+          {
+            sHiddenSystemVector.push_back(system);
+            break;
+          }
+
+    // Non empty?
+    if (!sHiddenSystemVector.empty())
+    {
+      // Remove Hidden systems fron the visible ist
+      bool hideOriginals = RecalboxConf::Instance().getBool("global.arcade.hideoriginals", true);
+      if (hideOriginals)
+        for (SystemData* hidden: sHiddenSystemVector)
+        {
+          auto it = std::find(sSystemVector.begin(), sSystemVector.end(), hidden);
+          if (it != sSystemVector.end())
+            sSystemVector.erase(it);
+        }
+      // Create meta-system
+      SystemData* arcade = CreateMetaSystem("arcade", "Arcade", "arcade", sHiddenSystemVector);
+      LOG(LogInfo) << "creating Arcade meta-system";
+      int position = RecalboxConf::Instance().getInt("global.arcade.position", 0) % (int)sSystemVector.size();
+      auto it = position >= 0 ? sSystemVector.begin() + position : sSystemVector.end() + (position + 1);
+      sSystemVector.insert(it, arcade);
+      // Hide originals?
+      if (!hideOriginals)
+        sHiddenSystemVector.clear();
+    }
+  }
+
+  return !sHiddenSystemVector.empty();
+}
+
 //creates systems from information located in a config file
 bool SystemData::loadConfig()
 {
@@ -590,22 +679,9 @@ bool SystemData::loadConfig()
   DateTime stop;
   LOG(LogInfo) << "Gamelist load time: " << (stop-start).ToStringFormat("%ss.%fff");
 
-  if (sSystemVector.empty()) return true;
-  // Favorite system
-  for (const Tree &system : systemList)
-  {
-    std::string name = system.get("name", "");
-    std::string fullname = system.get("fullname", "");
-    std::string cmd = system.get("command", "");
-    std::string themeFolder = system.get("theme", "");
+  AddArcadeMetaSystem();
 
-    if (name == "favorites")
-    {
-      LOG(LogInfo) << "creating favorite system";
-      SystemData *newSys = SystemData::CreateFavoriteSystem("favorites", fullname, cmd, themeFolder, sSystemVector);
-      sSystemVector.push_back(newSys);
-    }
-  }
+  AddFavoriteSystem(systemList);
 
   return true;
 }
@@ -681,6 +757,15 @@ void SystemData::deleteSystems()
 
     std::vector<boost::unique_future<bool>> pending_data;
     for (SystemData *system : sSystemVector)
+    {
+      typedef boost::packaged_task<bool> task_t;
+      boost::shared_ptr<task_t> task = boost::make_shared<task_t>(
+        boost::bind(&deleteSystem, system));
+      boost::unique_future<bool> fut = task->get_future();
+      pending_data.push_back(std::move(fut));
+      ioService.post(boost::bind(&task_t::operator(), task));
+    }
+    for (SystemData *system : sHiddenSystemVector)
     {
       typedef boost::packaged_task<bool> task_t;
       boost::shared_ptr<task_t> task = boost::make_shared<task_t>(
