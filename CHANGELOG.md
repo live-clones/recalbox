@@ -87,6 +87,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Improved RGUI configuration on GPI
 - Fix post-upgrade cleanup
 - Add new recalbox.conf keys to ease AI Service configuration
+- Add arcade meta-system
 
 
 ## [6.0] - DragonBlaze
