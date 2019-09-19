@@ -135,13 +135,14 @@ class Install(InstallBase):
                     logger.hardlog("GPi: GPi-case theme NOT installed")
 
                 # Copy sound configuration
+                os.system("sed -i -E 's/name=|SystemVolume| value=|.*|/name=|SystemVolume| value=|90|/g' /recalbox/share/system/.emulationstation/es_settings.cfg".replace('|', '"'))
                 soundConfiguration = self.BASE_SOURCE_FOLDER + "assets/asound.conf"
                 if os.system("cp {} /etc/".format(soundConfiguration)) == 0:
                     logger.hardlog("GPi: Sound configuration installed")
                 else:
                     logger.hardlog("GPi: Sound configuration NOT installed")
 
-                # Fine tune recalbox
+                # Fine tune retroarch
                 retroarchOriginOverrides =\
                 {
                     "menu_driver": "rgui",
