@@ -1,6 +1,6 @@
 ## RECALBOX - SYSTEM MSX1 ##
 
-Placez ici vos roms MSX 1.
+Placez ici vos roms MSX1.
 
 L'émulateur BlueMSX gére également les fichiers ".rom/.mx1/.mx2/.dsk/.cas/.m3u/.zip/.7z".
 

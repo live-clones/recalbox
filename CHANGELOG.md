@@ -82,6 +82,13 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Remove generic MSX in favor of new MSXturboR system
 - Add Atomiswave, NAOMI and new Dreamcast emulator on x86_64 (libretro-flycast)
 - Add Saturn libretro emulators (mednafen_saturn, yabause and yabasanshiro) on x86(_64)
+- Add new recalbox/retroarch/core configuration override par system/folder/game
+- Switch default retroarch ui to ozone
+- Improved RGUI configuration on GPI
+- Fix post-upgrade cleanup
+- Add new recalbox.conf keys to ease AI Service configuration
+- Add arcade meta-system
+
 
 ## [6.0] - DragonBlaze
 - Change name from 5.0 to 6.0 DragonBlaze

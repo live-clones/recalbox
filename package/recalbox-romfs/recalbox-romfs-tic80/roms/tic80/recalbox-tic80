@@ -1,15 +1,22 @@
 #!/bin/bash
+
 # TIC-80 Software Downloader
 #
 # This script downloads TIC-80 cartridges from https://tic.computer
 # Cartridges are downloaded and stored as .tic files in their respective category directory.
 # The file name format is as follows:
 #   ${cartridgeName} - ${cartridgeId} (${cartridgeDate}).tic
+
+#############
+# VARIABLES #
+#############
+
 releaseDate=2019.08.03
-echo "recalbox-tic80 ver. ${releaseDate}"
+
 #############
 # FUNCTIONS #
 #############
+
 # chooseCategory
 #   asks the user which category of software they want to download and set it as ${categoryChoice}
 function chooseCategory {
@@ -20,11 +27,13 @@ function chooseCategory {
     esac
   done
 }
+
 # unescapeHTML
 #   converts stdin HTML tags to plain text
 function unescapeHTML {
   sed 's/&amp;/\&/g; s/&lt;/\</g; s/&gt;/\>/g; s/&quot;/\"/g; s/&#39;/\'"'"'/g; s/&ldquo;/\"/g; s/&rdquo;/\"/g;'
 }
+
 # categoryId <categoryName>
 #   outputs the category ID for a given category name
 function categoryId {
@@ -38,6 +47,7 @@ function categoryId {
     *) echo "Category not found"; break;;
   esac
 }
+
 # downloadCartridge <cartridgeId> <cartridgeName> <categoryName>
 #   downloads a given cartridge
 function downloadCartridge {
@@ -56,6 +66,7 @@ function downloadCartridge {
     && echo " [OK]" \
     || echo " [ERROR]"
 }
+
 # downloadCategorySoftware <categoryName>
 #   downloads all cartridges in a given category
 function downloadCategorySoftware {
@@ -69,10 +80,15 @@ function downloadCategorySoftware {
     downloadCartridge "${cartridgeIds[$i]}" "${cartridgeNames[$i]}" "${categoryName}"
   done
 }
+
 ########
 # MAIN #
 ########
+
+echo "recalbox-tic80 ver. ${releaseDate}"
+
 chooseCategory
+
 if [ "${categoryChoice}" = "All categories" ]; then
   for category in Games Demos Tools Music WIP; do
     downloadCategorySoftware ${category}

@@ -22,17 +22,22 @@
 - New system! NAOMI added with libretro's flycast emulator (pc only)
 - New core! Added flycast libretro core. Dreamcast (et al.) emulator
 - New system! Saturn added with libretro's bettle-saturn, yabause and yabasanshiro emulators (pc only)
+- New configuration override system to fine tune all configuration per system, per folder or per game
+- Easy AI Service configuration (Retroarch translation service)
+- Add Arcade meta-system to group piFBA, FBN, MAME and Neogeo into a single system
 
 ### Improvements
-- Retroarch updated to version 1.7.8!
+- Retroarch updated to version 1.7.8v3!
 - Retroarch cheats updated to version 1.7.8!
+- Switched default Retroarch UI to Ozone (except on GPI)
+- Improved RGUI configuration on GPI
 - Libretro core updated! FBA Libretro core updated to latest version (Neogeo CDRom Speed fix)
 - Libretro core updated! Picodrive updated to latest version (Fix shifted down screen)
 - Libretro core updated! Theodore updated to latest version (add emulation of Thomson MO6 and Olivetti Prodest PC128)
 - Libretro core updated! Migrate Glupen64 to Mupen64Plus
 - Libretro core split! Rebrand stella to stella2014 and add upstream stella core
-- Emulator updated! ScummVM updated to August 2019 version (new theme included)
-- Emulator updated! ResidualVM updated to August 2019 Version
+- Emulator updated! ScummVM updated to September 2019 version (new theme included)
+- Emulator updated! ResidualVM updated to September 2019 Version
 - Emulator updated! Linapple-Pie now uses upstream repository
 - Emulator updated! Oricutron updated
 - Enable both hotkeys and I2C on RasberryPi GPIO

@@ -8,7 +8,7 @@ config_save_on_exit = false
 
 video_threaded = true
 
-menu_driver = rgui
+menu_driver = ozone
 
 #aspect_ratio_index = "21"
 video_aspect_ratio_auto = true
@@ -27,6 +27,8 @@ savestate_auto_load = false
 
 video_shader_dir = /recalbox/share_init/shaders/
 screenshot_directory = /recalbox/share/screenshots/
+recording_output_directory = /recalbox/share/screenshots/
+recording_config_directory = /recalbox/share/screenshots/
 savestate_directory = /recalbox/share/saves/
 savefile_directory = /recalbox/share/saves/
 cache_directory = /recalbox/share/extractions/
@@ -58,3 +60,6 @@ log_verbosity = false
 
 framecount_show = false
 rgui_show_start_screen = false
+
+menu_show_restart_retroarch = false
+cheevos_badges_enable = "false"
