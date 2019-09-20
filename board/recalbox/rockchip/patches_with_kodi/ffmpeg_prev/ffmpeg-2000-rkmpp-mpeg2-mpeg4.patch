@@ -1,0 +1,39 @@
+diff --git a/libavcodec/allcodecs.c b/libavcodec/allcodecs.c
+index 4d4ef530e4..f5be5e9ac1
+--- a/libavcodec/allcodecs.c
++++ b/libavcodec/allcodecs.c
+@@ -187,6 +187,7 @@ extern AVCodec ff_mpeg4_decoder;
+ extern AVCodec ff_mpeg4_crystalhd_decoder;
+ extern AVCodec ff_mpeg4_v4l2m2m_decoder;
+ extern AVCodec ff_mpeg4_mmal_decoder;
++extern AVCodec ff_mpeg4_rkmpp_decoder;
+ extern AVCodec ff_mpegvideo_decoder;
+ extern AVCodec ff_mpeg1_v4l2m2m_decoder;
+ extern AVCodec ff_mpeg2_mmal_decoder;
+@@ -760,6 +761,7 @@ extern AVCodec ff_vp8_vaapi_encoder;
+ extern AVCodec ff_vp9_cuvid_decoder;
+ extern AVCodec ff_vp9_mediacodec_decoder;
+ extern AVCodec ff_vp9_vaapi_encoder;
++extern AVCodec ff_mpeg2_rkmpp_decoder;
+ 
+ #include "libavcodec/codec_list.c"
+ 
+diff --git a/libavcodec/rkmppdec.c b/libavcodec/rkmppdec.c
+index 143d05bd51..57be2e1522
+--- a/libavcodec/rkmppdec.c
++++ b/libavcodec/rkmppdec.c
+@@ -71,6 +71,8 @@ static MppCodingType rkmpp_get_codingtype(AVCodecContext *avctx)
+     case AV_CODEC_ID_HEVC:          return MPP_VIDEO_CodingHEVC;
+     case AV_CODEC_ID_VP8:           return MPP_VIDEO_CodingVP8;
+     case AV_CODEC_ID_VP9:           return MPP_VIDEO_CodingVP9;
++    case AV_CODEC_ID_MPEG2VIDEO:    return MPP_VIDEO_CodingMPEG2;
++    case AV_CODEC_ID_MPEG4:         return MPP_VIDEO_CodingMPEG4;
+     default:                        return MPP_VIDEO_CodingUnused;
+     }
+ }
+@@ -584,3 +586,5 @@ RKMPP_DEC(h264,  AV_CODEC_ID_H264,          "h264_mp4toannexb")
+ RKMPP_DEC(hevc,  AV_CODEC_ID_HEVC,          "hevc_mp4toannexb")
+ RKMPP_DEC(vp8,   AV_CODEC_ID_VP8,           NULL)
+ RKMPP_DEC(vp9,   AV_CODEC_ID_VP9,           NULL)
++RKMPP_DEC(mpeg2, AV_CODEC_ID_MPEG2VIDEO,    NULL)
++RKMPP_DEC(mpeg4, AV_CODEC_ID_MPEG4,         NULL)

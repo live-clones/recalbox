@@ -1,0 +1,12 @@
+MRFIXIT: need to match the resolution to the framebuffer resolution defined in extlinux for rockchip (1080p)
+--- a/src/Frame.cpp
++++ b/src/Frame.cpp
+@@ -1163,7 +1163,7 @@
+ 	SDL_putenv("SDL_VIDEO_CENTERED=center"); //center our window
+ 
+ 	bIamFullScreened = false; // at startup not in fullscreen mode
+-	screen = SDL_SetVideoMode(g_ScreenWidth, g_ScreenHeight, SCREEN_BPP, SDL_SWSURFACE | SDL_HWPALETTE);
++	screen = SDL_SetVideoMode(1920, 1080, SCREEN_BPP, SDL_SWSURFACE | SDL_HWPALETTE);
+ 	if (screen == NULL) {
+ 		fprintf(stderr, "Could not set SDL video mode: %s\n", SDL_GetError());
+ 		SDL_Quit();

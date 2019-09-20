@@ -1,0 +1,116 @@
+MRFIXIT: This patch cleans up SDL before reicast exits. Without it, most of the time resources are not properly released and cleared, so ES cannot reinit SDL and the user is stuck at a blank screen
+--- a/core/sdl/sdl.h	2018-06-13 12:53:12.000000000 -0400
++++ b/core/sdl/sdl.h	2018-06-15 10:46:03.353682052 -0400
+@@ -5,3 +5,5 @@
+ extern void input_sdl_handle(u32 port);
+ extern void sdl_window_create();
+ extern void sdl_window_set_text(const char* text);
++
++void dc_kill();
+--- a/core/sdl/sdl.cpp	2018-04-21 18:17:01.000000000 -0400
++++ b/core/sdl/sdl.cpp	2018-06-13 20:01:10.771997223 -0400
+@@ -52,6 +52,35 @@
+ u32  JSensitivity[256];  // To have less sensitive value on nubs
+ #endif
+ 
++extern void dc_term();
++
++void gl_term()
++{
++	if (window != NULL) {
++		SDL_GL_MakeCurrent(window, NULL);
++		SDL_GL_SwapWindow(window);
++	}
++
++	if (glcontext != NULL) {
++		SDL_GL_DeleteContext(glcontext);
++		glcontext = NULL;
++	}
++
++	if (window != NULL) {
++		SDL_DestroyWindow(window);
++		window = NULL;
++	}
++}
++
++void dc_kill()
++{
++	gl_term();
++	SDL_Quit();
++	dc_term();
++	// Ugly way of force-quitting, but we tried everything else! Sometimes still stuck.
++	die("I asked nicely, but apparently I had to force quit.");
++}
++
+ void input_sdl_init()
+ {
+ 	if (SDL_WasInit(SDL_INIT_JOYSTICK) == 0)
+@@ -131,7 +157,7 @@
+ 		switch (event.type)
+ 		{
+ 			case SDL_QUIT:
+-				dc_stop();
++				dc_kill();
+ 				break;
+ 			case SDL_KEYDOWN:
+ 			case SDL_KEYUP:
+@@ -169,7 +195,7 @@
+ 						break;
+ 					case SDLK_MENU:
+ 					case SDLK_ESCAPE:
+-						dc_stop();
++						dc_kill();
+ 						break;
+ 					case SDLK_RSHIFT:
+ 						lt[port] = (value ? 255 : 0);
+@@ -483,9 +509,4 @@
+ 		screen_width = new_width;
+ 		screen_height = new_height;
+ 	}
+-}
+-
+-void gl_term()
+-{
+-	SDL_GL_DeleteContext(glcontext);
+-}
++}
+\ No newline at end of file
+--- a/core/linux-dist/evdev.cpp	2018-06-13 12:53:12.000000000 -0400
++++ b/core/linux-dist/evdev.cpp	2018-06-15 10:47:16.361682052 -0400
+@@ -4,6 +4,7 @@
+ #include "hw/maple/maple_cfg.h"
+ #include "cfg/cfg.h"
+ #include "cfg/ini.h"
++#include "sdl/sdl.h"
+ #include <vector>
+ #include <map>
+ #include <dlfcn.h>
+@@ -331,8 +332,7 @@
+ 					} else if (ie.code == controller->mapping->Btn_Start) {
+ 						SET_FLAG(kcode[port], DC_BTN_START, ie.value);
+ 					} else if (ie.code == controller->mapping->Btn_Escape) {
+-						dc_stop();
+-						dc_term();
++						dc_kill();
+ 					} else if (ie.code == controller->mapping->Btn_DPad_Left) {
+ 						SET_FLAG(kcode[port], DC_DPAD_LEFT, ie.value);
+ 					} else if (ie.code == controller->mapping->Btn_DPad_Right) {
+--- a/core/linux/common.cpp	2018-06-13 12:53:12.000000000 -0400
++++ b/core/linux/common.cpp	2018-06-15 11:36:38.677682052 -0400
+@@ -29,6 +29,8 @@
+ 
+ #include "hw/sh4/dyna/ngen.h"
+ 
++#include "sdl/sdl.h"
++
+ #if !defined(TARGET_NO_EXCEPTIONS)
+ bool ngen_Rewrite(unat& addr,unat retadr,unat acc);
+ u32* ngen_readm_fail_v2(u32* ptr,u32* regs,u32 saddr);
+@@ -96,6 +98,7 @@
+ 	else
+ 	{
+ 		printf("SIGSEGV @ %u (fault_handler+0x%u) ... %p -> was not in vram\n", ctx.pc, ctx.pc - (unat)fault_handler, si->si_addr);
++		dc_kill();
+ 		die("segfault");
+ 		signal(SIGSEGV, SIG_DFL);
+ 	}

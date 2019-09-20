@@ -1,0 +1,21 @@
+--- a/configgen/generators/reicast/reicastControllers.py
++++ b/configgen/generators/reicast/reicastControllers.py
+@@ -69,11 +69,12 @@
+ 		
+ 		# Sadly, we don't get the right axis code for Y hats. So, dirty hack time
+ 		code = input.code
+-		if input.type == 'hat':
+-		    if input.name == 'up':
+-    			code = int(input.code) + 1
+-		    else:
+-    			code = input.code
++		if code:
++			if input.type == 'hat':
++				if input.name == 'up':
++					code = int(input.code) + 1
++				else:
++					code = input.code
+ 		
+ 		Config.set(section, var, code)
+ 
+

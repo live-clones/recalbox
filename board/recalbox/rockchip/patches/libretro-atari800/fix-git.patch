@@ -1,0 +1,13 @@
+MRFIXIT: just in case the compiler doesn't know the GIT_VERSION, remove it. Otherwise compile will fail.
+Due to line endings, do not edit this patch
+--- a/libretro/libretro-core.c
++++ b/libretro/libretro-core.c
+@@ -563,7 +563,7 @@
+ {
+    memset(info, 0, sizeof(*info));
+    info->library_name     = "Atari800";
+-   info->library_version  = "3.1.0" GIT_VERSION;
++   info->library_version  = "3.1.0";
+    info->valid_extensions = "xfd|atr|cdm|cas|bin|a52|zip|atx";
+    info->need_fullpath    = true;
+    info->block_extract = false;

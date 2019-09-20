@@ -1,0 +1,8 @@
+config BR2_PACKAGE_R64GPIO
+	bool "r64gpio"
+	depends on BR2_PACKAGE_RECALBOX_TARGETGROUP_ROCKCHIP
+	help
+	  A Python GPIO library for the Rock64 single-board computer (RPi.GPIO clone)
+	  https://github.com/Leapo/Rock64-R64.GPIO
+
+comment "GPIO Library for Rock64"

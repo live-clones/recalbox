@@ -1,0 +1,856 @@
+From c19eb69648dc75221220900a1dfa56ef9a4c3e51 Mon Sep 17 00:00:00 2001
+From: Jonas Karlman <jonas@kwiboo.se>
+Date: Wed, 27 Jun 2018 21:00:16 +0200
+Subject: [PATCH] windowing/gbm: add option to limit gui size
+
+---
+ .../resources/strings.po                      | 44 ++++++++++++++++++-
+ system/settings/gbm.xml                       | 15 +++++++
+ xbmc/windowing/gbm/DRMUtils.cpp               | 27 ++++++++++++
+ 3 files changed, 85 insertions(+), 1 deletion(-)
+
+diff --git a/addons/resource.language.en_gb/resources/strings.po b/addons/resource.language.en_gb/resources/strings.po
+index 6f5b6f5904..94b65d4a7c 100644
+--- a/addons/resource.language.en_gb/resources/strings.po
++++ b/addons/resource.language.en_gb/resources/strings.po
+@@ -7232,7 +7232,49 @@ msgctxt "#13465"
+ msgid "EGL"
+ msgstr ""
+ 
+-#empty strings from id 13466 to 13504
++#. Option for setting Limit GUI Size
++#: system/settings/gbm.xml
++msgctxt "#13466"
++msgid "Limit GUI Size"
++msgstr ""
++
++#. Description of setting with label #13466 "Limit GUI Size"
++#: system/settings/gbm.xml
++msgctxt "#13467"
++msgid "This option limits GUI size for screen resolutions above 1080p. Requires restart."
++msgstr ""
++
++#. String for options 1 of setting with label #13466 "Limit GUI Size"
++#: system/settings/gbm.xml
++msgctxt "#13468"
++msgid "No limit"
++msgstr ""
++
++#. String for options 2 of setting with label #13466 "Limit GUI Size"
++#: system/settings/gbm.xml
++msgctxt "#13469"
++msgid "720p"
++msgstr ""
++
++#. String for options 3 of setting with label #13466 "Limit GUI Size"
++#: system/settings/gbm.xml
++msgctxt "#13470"
++msgid "1080p / 720p (>30hz)"
++msgstr ""
++
++#. String for options 4 of setting with label #13466 "Limit GUI Size"
++#: system/settings/gbm.xml
++msgctxt "#13471"
++msgid "1080p"
++msgstr ""
++
++#. String for options 5 of setting with label #13466 "Limit GUI Size"
++#: system/settings/gbm.xml
++msgctxt "#13472"
++msgid "No limit / 1080p (>30hz)"
++msgstr ""
++
++#empty strings from id 13473 to 13504
+ 
+ #: system/settings/settings.xml
+ msgctxt "#13505"
+diff --git a/system/settings/gbm.xml b/system/settings/gbm.xml
+index a498718679..153ed802fb 100644
+--- a/system/settings/gbm.xml
++++ b/system/settings/gbm.xml
+@@ -34,6 +34,21 @@
+         <setting id="videoscreen.screen">
+           <visible>false</visible>
+         </setting>
++        <setting id="videoscreen.limitguisize" type="integer" label="13466" help="13467">
++          <visible>false</visible>
++          <level>3</level>
++          <default>0</default>
++          <constraints>
++            <options>
++              <option label="13468">0</option> <!-- No limit -->
++              <option label="13469">1</option> <!-- 720p -->
++              <option label="13470">2</option> <!-- 1080p/720p(>30hz) -->
++              <option label="13471">3</option> <!-- 1080p -->
++              <option label="13472">4</option> <!-- No limit/1080p(>30hz) -->
++            </options>
++          </constraints>
++          <control type="spinner" format="string" />
++        </setting>
+         <setting id="videoscreen.limitedrange" type="boolean" label="36042" help="36359">
+           <level>3</level>
+           <default>false</default>
+diff --git a/xbmc/windowing/gbm/DRMUtils.cpp b/xbmc/windowing/gbm/DRMUtils.cpp
+index 2d915cfbc7..be8b575066 100644
+--- a/xbmc/windowing/gbm/DRMUtils.cpp
++++ b/xbmc/windowing/gbm/DRMUtils.cpp
+@@ -29,12 +29,15 @@
+ #include <unistd.h>
+ 
+ #include "WinSystemGbmGLESContext.h"
++#include "settings/Settings.h"
+ #include "utils/log.h"
+ #include "utils/StringUtils.h"
+ #include "windowing/GraphicContext.h"
+ 
+ #include "DRMUtils.h"
+ 
++const std::string SETTING_VIDEOSCREEN_LIMITGUISIZE = "videoscreen.limitguisize";
++
+ CDRMUtils::CDRMUtils()
+   : m_connector(new connector)
+   , m_encoder(new encoder)
+@@ -613,6 +616,30 @@ RESOLUTION_INFO CDRMUtils::GetResolutionInfo(drmModeModeInfoPtr mode)
+   res.iWidth = res.iScreenWidth;
+   res.iHeight = res.iScreenHeight;
+ 
++  int limit = CServiceBroker::GetSettings().GetInt(SETTING_VIDEOSCREEN_LIMITGUISIZE);
++  if (limit > 0 && res.iScreenWidth > 1920 && res.iScreenHeight > 1080)
++  {
++    switch (limit)
++    {
++    case 1:
++      res.iWidth = 1280;
++      res.iHeight = 720;
++      break;
++    case 2:
++      res.iWidth = mode->vrefresh > 30 ? 1280 : 1920;
++      res.iHeight = mode->vrefresh > 30 ? 720 : 1080;
++      break;
++    case 3:
++      res.iWidth = 1920;
++      res.iHeight = 1080;
++      break;
++    case 4:
++      res.iWidth = mode->vrefresh > 30 ? 1920 : res.iScreenWidth;
++      res.iHeight = mode->vrefresh > 30 ? 1080 : res.iScreenHeight;
++      break;
++    }
++  }
++
+   if (mode->clock % 5 != 0)
+     res.fRefreshRate = static_cast<float>(mode->vrefresh) * (1000.0f/1001.0f);
+   else
+
+From d3f02c1753aa501a4d5d3dcd8c796e0de5502b9e Mon Sep 17 00:00:00 2001
+From: Jonas Karlman <jonas@kwiboo.se>
+Date: Sun, 1 Jul 2018 15:15:18 +0200
+Subject: [PATCH] Resolution: use desktop screen width in whitelist fallback
+
+---
+ xbmc/windowing/Resolution.cpp | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
+
+diff --git a/xbmc/windowing/Resolution.cpp b/xbmc/windowing/Resolution.cpp
+index f816226e8d..b43f04834d 100644
+--- a/xbmc/windowing/Resolution.cpp
++++ b/xbmc/windowing/Resolution.cpp
+@@ -128,15 +128,15 @@
+ 
+   CLog::Log(LOGDEBUG, "No double refresh rate whitelisted resolution matched, trying current resolution");
+ 
++  const RESOLUTION_INFO desktop_info = CServiceBroker::GetWinSystem()->GetGfxContext().GetResInfo(CDisplaySettings::GetInstance().GetCurrentResolution());
++
+   for (const auto &mode : indexList)
+   {
+     auto i = CDisplaySettings::GetInstance().GetResFromString(mode.asString());
+     const RESOLUTION_INFO info = CServiceBroker::GetWinSystem()->GetGfxContext().GetResInfo(i);
+ 
+-    const RESOLUTION_INFO desktop_info = CServiceBroker::GetWinSystem()->GetGfxContext().GetResInfo(CDisplaySettings::GetInstance().GetCurrentResolution());
+-
+     // allow resolutions that are desktop resolution but have the correct refresh rate
+-    if (info.iScreenWidth == desktop_info.iWidth &&
++    if (info.iScreenWidth == desktop_info.iScreenWidth &&
+         info.iScreen == desktop_info.iScreen &&
+         (info.dwFlags & D3DPRESENTFLAG_MODEMASK) == (desktop_info.dwFlags & D3DPRESENTFLAG_MODEMASK) &&
+         MathUtils::FloatEquals(info.fRefreshRate, fps, 0.01f))
+@@ -154,10 +154,8 @@
+     auto i = CDisplaySettings::GetInstance().GetResFromString(mode.asString());
+     const RESOLUTION_INFO info = CServiceBroker::GetWinSystem()->GetGfxContext().GetResInfo(i);
+ 
+-    const RESOLUTION_INFO desktop_info = CServiceBroker::GetWinSystem()->GetGfxContext().GetResInfo(CDisplaySettings::GetInstance().GetCurrentResolution());
+-
+     // allow resolutions that are desktop resolution but have double the refresh rate
+-    if (info.iScreenWidth == desktop_info.iWidth &&
++    if (info.iScreenWidth == desktop_info.iScreenWidth &&
+         info.iScreen == desktop_info.iScreen &&
+         (info.dwFlags & D3DPRESENTFLAG_MODEMASK) == (desktop_info.dwFlags & D3DPRESENTFLAG_MODEMASK) &&
+         MathUtils::FloatEquals(info.fRefreshRate, fps * 2, 0.01f))
+
+From c25bcf41f1317b73a7d70c1275e9d0ffc592c98f Mon Sep 17 00:00:00 2001
+From: Jonas Karlman <jonas@kwiboo.se>
+Date: Sun, 8 Jul 2018 16:11:58 +0200
+Subject: [PATCH] RendererDRMPRIME: ref count video buffer presented on screen
+
+---
+ .../HwDecRender/RendererDRMPRIME.cpp          | 75 +++++++++++++++----
+ .../HwDecRender/RendererDRMPRIME.h            | 22 +++++-
+ xbmc/windowing/gbm/WinSystemGbm.cpp           | 12 +++
+ xbmc/windowing/gbm/WinSystemGbm.h             | 10 +++
+ 4 files changed, 102 insertions(+), 17 deletions(-)
+
+diff --git a/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererDRMPRIME.cpp b/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererDRMPRIME.cpp
+index 1fce1277b9..7a736efe10 100644
+--- a/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererDRMPRIME.cpp
++++ b/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererDRMPRIME.cpp
+@@ -33,11 +33,6 @@
+ 
+ const std::string SETTING_VIDEOPLAYER_USEPRIMERENDERER = "videoplayer.useprimerenderer";
+ 
+-CRendererDRMPRIME::CRendererDRMPRIME(std::shared_ptr<CDRMUtils> drm)
+-  : m_DRM(drm)
+-{
+-}
+-
+ CRendererDRMPRIME::~CRendererDRMPRIME()
+ {
+   Reset();
+@@ -49,8 +44,9 @@ CBaseRenderer* CRendererDRMPRIME::Create(CVideoBuffer* buffer)
+       CServiceBroker::GetSettings().GetInt(SETTING_VIDEOPLAYER_USEPRIMERENDERER) == 0)
+   {
+     CWinSystemGbmGLESContext* winSystem = dynamic_cast<CWinSystemGbmGLESContext*>(CServiceBroker::GetWinSystem());
+-    if (winSystem)
+-      return new CRendererDRMPRIME(winSystem->GetDrm());
++    if (winSystem && winSystem->GetDrm()->GetPrimaryPlane()->plane &&
++        std::dynamic_pointer_cast<CDRMAtomic>(winSystem->GetDrm()))
++      return new CRendererDRMPRIME();
+   }
+ 
+   return nullptr;
+@@ -169,8 +165,20 @@ void CRendererDRMPRIME::RenderUpdate(int index, int index2, bool clear, unsigned
+     return;
+ 
+   CVideoBufferDRMPRIME* buffer = dynamic_cast<CVideoBufferDRMPRIME*>(m_buffers[index].videoBuffer);
+-  if (buffer)
+-    SetVideoPlane(buffer);
++  if (!buffer)
++    return;
++
++  if (!m_videoLayerBridge)
++  {
++    CWinSystemGbmGLESContext* winSystem = static_cast<CWinSystemGbmGLESContext*>(CServiceBroker::GetWinSystem());
++    m_videoLayerBridge = std::make_shared<CVideoLayerBridgeDRMPRIME>(winSystem->GetDrm());
++    winSystem->RegisterVideoLayerBridge(m_videoLayerBridge);
++  }
++
++  if (m_iLastRenderBuffer == -1)
++    m_videoLayerBridge->Enable(buffer);
++
++  m_videoLayerBridge->SetVideoPlane(buffer, m_destRect);
+ 
+   m_iLastRenderBuffer = index;
+ }
+@@ -205,8 +213,45 @@ bool CRendererDRMPRIME::Supports(ESCALINGMETHOD method)
+   return false;
+ }
+ 
+-void CRendererDRMPRIME::SetVideoPlane(CVideoBufferDRMPRIME* buffer)
++//------------------------------------------------------------------------------
++
++CVideoLayerBridgeDRMPRIME::CVideoLayerBridgeDRMPRIME(std::shared_ptr<CDRMUtils> drm)
++  : m_DRM(drm)
+ {
++}
++
++CVideoLayerBridgeDRMPRIME::~CVideoLayerBridgeDRMPRIME()
++{
++  if (m_prev_buffer)
++    m_prev_buffer->Release();
++  if (m_buffer)
++    m_buffer->Release();
++}
++
++void CVideoLayerBridgeDRMPRIME::Disable()
++{
++  // disable video plane
++  m_DRM->AddProperty(m_DRM->GetPrimaryPlane(), "FB_ID", 0);
++  m_DRM->AddProperty(m_DRM->GetPrimaryPlane(), "CRTC_ID", 0);
++}
++
++void CVideoLayerBridgeDRMPRIME::Acquire(CVideoBufferDRMPRIME* buffer)
++{
++  // release the buffer that is no longer presented on screen
++  if (m_prev_buffer)
++    m_prev_buffer->Release();
++
++  // release the buffer currently being presented next time
++  m_prev_buffer = m_buffer;
++
++  // reference count the buffer that is going to be presented on screen
++  m_buffer = buffer;
++  m_buffer->Acquire();
++}
++
++void CVideoLayerBridgeDRMPRIME::SetVideoPlane(CVideoBufferDRMPRIME* buffer, const CRect& destRect)
++{
++  // TODO: move drmModeRmFB and gem close from CVideoBufferDRMPRIME to CVideoLayerBridgeDRMPRIME
+   buffer->m_drm_fd = m_DRM->GetFileDescriptor();
+ 
+   AVDRMFrameDescriptor* descriptor = buffer->GetDescriptor();
+@@ -250,10 +295,10 @@ void CRendererDRMPRIME::SetVideoPlane(CVideoBufferDRMPRIME* buffer)
+       return;
+     }
+ 
+-    int32_t crtc_x = static_cast<int32_t>(m_destRect.x1) & ~1;
+-    int32_t crtc_y = static_cast<int32_t>(m_destRect.y1) & ~1;
+-    uint32_t crtc_w = (static_cast<uint32_t>(m_destRect.Width()) + 1) & ~1;
+-    uint32_t crtc_h = (static_cast<uint32_t>(m_destRect.Height()) + 1) & ~1;
++    int32_t crtc_x = static_cast<int32_t>(destRect.x1) & ~1;
++    int32_t crtc_y = static_cast<int32_t>(destRect.y1) & ~1;
++    uint32_t crtc_w = (static_cast<uint32_t>(destRect.Width()) + 1) & ~1;
++    uint32_t crtc_h = (static_cast<uint32_t>(destRect.Height()) + 1) & ~1;
+     uint32_t src_x = 0;
+     uint32_t src_y = 0;
+     uint32_t src_w = buffer->GetWidth() << 16;
+@@ -269,5 +314,7 @@ void CRendererDRMPRIME::SetVideoPlane(CVideoBufferDRMPRIME* buffer)
+     m_DRM->AddProperty(m_DRM->GetPrimaryPlane(), "CRTC_Y",  crtc_y);
+     m_DRM->AddProperty(m_DRM->GetPrimaryPlane(), "CRTC_W",  crtc_w);
+     m_DRM->AddProperty(m_DRM->GetPrimaryPlane(), "CRTC_H",  crtc_h);
++
++    Acquire(buffer);
+   }
+ }
+diff --git a/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererDRMPRIME.h b/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererDRMPRIME.h
+index c00d4fb2d5..fbd6e6cccb 100644
+--- a/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererDRMPRIME.h
++++ b/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererDRMPRIME.h
+@@ -24,11 +24,28 @@
+ #include "cores/VideoPlayer/VideoRenderers/BaseRenderer.h"
+ #include "windowing/gbm/WinSystemGbmGLESContext.h"
+ 
++class CVideoLayerBridgeDRMPRIME
++  : public CVideoLayerBridge
++{
++public:
++  CVideoLayerBridgeDRMPRIME(std::shared_ptr<CDRMUtils> drm);
++  ~CVideoLayerBridgeDRMPRIME();
++  virtual void Enable(CVideoBufferDRMPRIME* buffer) {};
++  void Disable() override;
++  void Acquire(CVideoBufferDRMPRIME* buffer);
++  void SetVideoPlane(CVideoBufferDRMPRIME* buffer, const CRect& destRect);
++protected:
++  std::shared_ptr<CDRMUtils> m_DRM;
++private:
++  CVideoBuffer* m_buffer = nullptr;
++  CVideoBuffer* m_prev_buffer = nullptr;
++};
++
+ class CRendererDRMPRIME
+   : public CBaseRenderer
+ {
+ public:
+-  CRendererDRMPRIME(std::shared_ptr<CDRMUtils> drm);
++  CRendererDRMPRIME() = default;
+   ~CRendererDRMPRIME();
+ 
+   // Registration
+@@ -60,12 +77,11 @@ protected:
+ 
+ private:
+   void Reset();
+-  void SetVideoPlane(CVideoBufferDRMPRIME* buffer);
+ 
+   bool m_bConfigured = false;
+   int m_iLastRenderBuffer = -1;
+ 
+-  std::shared_ptr<CDRMUtils> m_DRM;
++  std::shared_ptr<CVideoLayerBridgeDRMPRIME> m_videoLayerBridge;
+ 
+   struct BUFFER
+   {
+diff --git a/xbmc/windowing/gbm/WinSystemGbm.cpp b/xbmc/windowing/gbm/WinSystemGbm.cpp
+index 349afc643e..f859875eb7 100644
+--- a/xbmc/windowing/gbm/WinSystemGbm.cpp
++++ b/xbmc/windowing/gbm/WinSystemGbm.cpp
+@@ -237,11 +237,23 @@ bool CWinSystemGbm::SetFullScreen(bool fullScreen, RESOLUTION_INFO& res, bool bl
+ 
+ void CWinSystemGbm::FlipPage(bool rendered, bool videoLayer)
+ {
++  if (m_videoLayerBridge && !videoLayer)
++  {
++    // disable video plane as soon as video layer no longer is active
++    m_videoLayerBridge->Disable();
++  }
++
+   struct gbm_bo *bo = m_GBM->LockFrontBuffer();
+ 
+   m_DRM->FlipPage(bo, rendered, videoLayer);
+ 
+   m_GBM->ReleaseBuffer();
++
++  if (m_videoLayerBridge && !videoLayer)
++  {
++    // delete video layer bridge as soon as video layer no longer is active
++    m_videoLayerBridge.reset();
++  }
+ }
+ 
+ void CWinSystemGbm::WaitVBlank()
+diff --git a/xbmc/windowing/gbm/WinSystemGbm.h b/xbmc/windowing/gbm/WinSystemGbm.h
+index e1a3bc863b..8277aa205c 100644
+--- a/xbmc/windowing/gbm/WinSystemGbm.h
++++ b/xbmc/windowing/gbm/WinSystemGbm.h
+@@ -31,6 +31,13 @@
+ 
+ class IDispResource;
+ 
++class CVideoLayerBridge
++{
++public:
++  virtual ~CVideoLayerBridge() = default;
++  virtual void Disable() {};
++};
++
+ class CWinSystemGbm : public CWinSystemBase
+ {
+ public:
+@@ -62,6 +69,8 @@ public:
+   virtual void Register(IDispResource *resource);
+   virtual void Unregister(IDispResource *resource);
+ 
++  void RegisterVideoLayerBridge(std::shared_ptr<CVideoLayerBridge> bridge) { m_videoLayerBridge = bridge; };
++
+   std::string GetModule() const { return m_DRM->GetModule(); }
+   std::string GetDevicePath() const { return m_DRM->GetDevicePath(); }
+   struct gbm_device *GetGBMDevice() const { return m_GBM->GetDevice(); }
+@@ -72,6 +81,7 @@ protected:
+ 
+   std::shared_ptr<CDRMUtils> m_DRM;
+   std::unique_ptr<CGBMUtils> m_GBM;
++  std::shared_ptr<CVideoLayerBridge> m_videoLayerBridge;
+ 
+   CCriticalSection m_resourceSection;
+   std::vector<IDispResource*>  m_resources;
+
+From ce27869cc773bed925b40c3a3b945f79709ecb53 Mon Sep 17 00:00:00 2001
+From: Jonas Karlman <jonas@kwiboo.se>
+Date: Sun, 8 Jul 2018 16:11:58 +0200
+Subject: [PATCH] RendererDRMPRIME: merge Flush and Reset
+
+---
+ .../HwDecRender/RendererDRMPRIME.cpp           | 18 ++++++------------
+ .../HwDecRender/RendererDRMPRIME.h             |  2 --
+ 2 files changed, 6 insertions(+), 14 deletions(-)
+
+diff --git a/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererDRMPRIME.cpp b/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererDRMPRIME.cpp
+index 7a736efe10..9557c1bb07 100644
+--- a/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererDRMPRIME.cpp
++++ b/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererDRMPRIME.cpp
+@@ -35,7 +35,7 @@ const std::string SETTING_VIDEOPLAYER_USEPRIMERENDERER = "videoplayer.useprimere
+ 
+ CRendererDRMPRIME::~CRendererDRMPRIME()
+ {
+-  Reset();
++  Flush();
+ }
+ 
+ CBaseRenderer* CRendererDRMPRIME::Create(CVideoBuffer* buffer)
+@@ -83,7 +83,7 @@ bool CRendererDRMPRIME::Configure(const VideoPicture& picture, float fps, unsign
+   SetViewMode(m_videoSettings.m_ViewMode);
+   ManageRenderArea();
+ 
+-  Reset();
++  Flush();
+ 
+   m_bConfigured = true;
+   return true;
+@@ -106,17 +106,16 @@ void CRendererDRMPRIME::ManageRenderArea()
+ void CRendererDRMPRIME::AddVideoPicture(const VideoPicture& picture, int index, double currentClock)
+ {
+   BUFFER& buf = m_buffers[index];
+-
+-  // delay Release of videoBuffer after a Flush call to prevent drmModeRmFB of a videoBuffer tied to a drm plane
+-  // TODO: move Release to Flush once current videoBuffer tied to a drm plane is reference counted
+   if (buf.videoBuffer)
++  {
++    CLog::LogF(LOGERROR, "unreleased video buffer");
+     buf.videoBuffer->Release();
+-
++  }
+   buf.videoBuffer = picture.videoBuffer;
+   buf.videoBuffer->Acquire();
+ }
+ 
+-void CRendererDRMPRIME::Reset()
++void CRendererDRMPRIME::Flush()
+ {
+   for (int i = 0; i < NUM_BUFFERS; i++)
+     ReleaseBuffer(i);
+@@ -124,11 +123,6 @@ void CRendererDRMPRIME::Reset()
+   m_iLastRenderBuffer = -1;
+ }
+ 
+-void CRendererDRMPRIME::Flush()
+-{
+-  m_iLastRenderBuffer = -1;
+-}
+-
+ void CRendererDRMPRIME::ReleaseBuffer(int index)
+ {
+   BUFFER& buf = m_buffers[index];
+diff --git a/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererDRMPRIME.h b/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererDRMPRIME.h
+index fbd6e6cccb..b4ff262335 100644
+--- a/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererDRMPRIME.h
++++ b/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererDRMPRIME.h
+@@ -76,8 +76,6 @@ protected:
+   void ManageRenderArea() override;
+ 
+ private:
+-  void Reset();
+-
+   bool m_bConfigured = false;
+   int m_iLastRenderBuffer = -1;
+ 
+
+From ccc81c26f3f099bcc152563076787b9f85cff0c8 Mon Sep 17 00:00:00 2001
+From: Jonas Karlman <jonas@kwiboo.se>
+Date: Sun, 8 Jul 2018 16:11:58 +0200
+Subject: [PATCH] WIP: RendererDRMPRIME: set HDR and HDMI output properties
+
+---
+ .../DVDCodecs/Video/DVDVideoCodecDRMPRIME.h   |   1 +
+ .../HwDecRender/RendererDRMPRIME.cpp          | 120 +++++++++++++++++-
+ .../HwDecRender/RendererDRMPRIME.h            |  26 ++++
+ xbmc/windowing/gbm/DRMAtomic.cpp              |   1 +
+ xbmc/windowing/gbm/DRMUtils.h                 |   1 +
+ 5 files changed, 148 insertions(+), 1 deletion(-)
+
+diff --git a/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecDRMPRIME.h b/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecDRMPRIME.h
+index 44ec0014e3..589b8d4e39 100644
+--- a/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecDRMPRIME.h
++++ b/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecDRMPRIME.h
+@@ -48,6 +48,7 @@ public:
+   AVDRMFrameDescriptor* GetDescriptor() const { return reinterpret_cast<AVDRMFrameDescriptor*>(m_pFrame->data[0]); }
+   uint32_t GetWidth() const { return m_pFrame->width; }
+   uint32_t GetHeight() const { return m_pFrame->height; }
++  AVFrame* GetFrame() const { return m_pFrame; }
+ protected:
+   AVFrame* m_pFrame = nullptr;
+ };
+diff --git a/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererDRMPRIME.cpp b/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererDRMPRIME.cpp
+index 9557c1bb07..a0a6a60b14 100644
+--- a/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererDRMPRIME.cpp
++++ b/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererDRMPRIME.cpp
+@@ -165,7 +165,10 @@ void CRendererDRMPRIME::RenderUpdate(int index, int index2, bool clear, unsigned
+   if (!m_videoLayerBridge)
+   {
+     CWinSystemGbmGLESContext* winSystem = static_cast<CWinSystemGbmGLESContext*>(CServiceBroker::GetWinSystem());
+-    m_videoLayerBridge = std::make_shared<CVideoLayerBridgeDRMPRIME>(winSystem->GetDrm());
++    if (winSystem->GetDrm()->GetModule() == "rockchip")
++      m_videoLayerBridge = std::make_shared<CVideoLayerBridgeRockchip>(winSystem->GetDrm());
++    else
++      m_videoLayerBridge = std::make_shared<CVideoLayerBridgeDRMPRIME>(winSystem->GetDrm());
+     winSystem->RegisterVideoLayerBridge(m_videoLayerBridge);
+   }
+ 
+@@ -312,3 +315,118 @@ void CVideoLayerBridgeDRMPRIME::SetVideoPlane(CVideoBufferDRMPRIME* buffer, cons
+     Acquire(buffer);
+   }
+ }
++
++//------------------------------------------------------------------------------
++
++#include <linux/videodev2.h>
++
++enum hdmi_output_format {
++	HDMI_OUTPUT_DEFAULT_RGB,
++	HDMI_OUTPUT_YCBCR444,
++	HDMI_OUTPUT_YCBCR422,
++	HDMI_OUTPUT_YCBCR420,
++	HDMI_OUTPUT_YCBCR_HQ,
++	HDMI_OUTPUT_YCBCR_LQ,
++};
++
++enum hdmi_colorimetry {
++	HDMI_COLORIMETRY_NONE,
++	HDMI_COLORIMETRY_ITU_601,
++	HDMI_COLORIMETRY_ITU_709,
++	HDMI_COLORIMETRY_EXTENDED,
++};
++
++enum hdmi_extended_colorimetry {
++	HDMI_EXTENDED_COLORIMETRY_XV_YCC_601,
++	HDMI_EXTENDED_COLORIMETRY_XV_YCC_709,
++	HDMI_EXTENDED_COLORIMETRY_S_YCC_601,
++	HDMI_EXTENDED_COLORIMETRY_ADOBE_YCC_601,
++	HDMI_EXTENDED_COLORIMETRY_ADOBE_RGB,
++
++	/* The following EC values are only defined in CEA-861-F. */
++	HDMI_EXTENDED_COLORIMETRY_BT2020_CONST_LUM,
++	HDMI_EXTENDED_COLORIMETRY_BT2020,
++	HDMI_EXTENDED_COLORIMETRY_RESERVED,
++};
++
++enum hdmi_metadata_type {
++	HDMI_STATIC_METADATA_TYPE1 = 1,
++};
++
++enum hdmi_eotf {
++	HDMI_EOTF_TRADITIONAL_GAMMA_SDR,
++	HDMI_EOTF_TRADITIONAL_GAMMA_HDR,
++	HDMI_EOTF_SMPTE_ST2084,
++	HDMI_EOTF_BT_2100_HLG,
++};
++
++static int GetColorSpace(bool is10bit, AVFrame* frame)
++{
++  if (is10bit && frame->color_primaries != AVCOL_PRI_BT709)
++    return V4L2_COLORSPACE_BT2020;
++  if (frame->color_primaries == AVCOL_PRI_SMPTE170M)
++    return V4L2_COLORSPACE_SMPTE170M;
++  return V4L2_COLORSPACE_REC709;
++}
++
++static int GetEOTF(bool is10bit, AVFrame* frame)
++{
++  if (is10bit)
++  {
++    if (frame->color_trc == AVCOL_TRC_SMPTE2084)
++      return HDMI_EOTF_SMPTE_ST2084;
++    if (frame->color_trc == AVCOL_TRC_ARIB_STD_B67 ||
++        frame->color_trc == AVCOL_TRC_BT2020_10)
++      return HDMI_EOTF_BT_2100_HLG;
++  }
++  return HDMI_EOTF_TRADITIONAL_GAMMA_SDR;
++}
++
++void CVideoLayerBridgeRockchip::Enable(CVideoBufferDRMPRIME* buffer)
++{
++  AVDRMFrameDescriptor* descriptor = buffer->GetDescriptor();
++  if (descriptor && descriptor->nb_layers)
++  {
++    AVDRMLayerDescriptor* layer = &descriptor->layers[0];
++    bool is10bit = layer->format == DRM_FORMAT_NV12_10;
++    AVFrame* frame = buffer->GetFrame();
++
++    m_hdr_metadata.type = HDMI_STATIC_METADATA_TYPE1;
++    m_hdr_metadata.eotf = GetEOTF(is10bit, frame);
++
++    if (m_hdr_blob_id)
++      drmModeDestroyPropertyBlob(m_DRM->GetFileDescriptor(), m_hdr_blob_id);
++    m_hdr_blob_id = 0;
++
++    if (m_hdr_metadata.eotf)
++      drmModeCreatePropertyBlob(m_DRM->GetFileDescriptor(), &m_hdr_metadata, sizeof(m_hdr_metadata), &m_hdr_blob_id);
++
++    CLog::Log(LOGNOTICE, "CVideoLayerBridgeRockchip::{} - format={} is10bit={} width={} height={} colorspace={} color_primaries={} color_trc={} color_range={} eotf={} blob_id={}",
++              __FUNCTION__, layer->format, is10bit, frame->width, frame->height, frame->colorspace, frame->color_primaries, frame->color_trc, frame->color_range, m_hdr_metadata.eotf, m_hdr_blob_id);
++
++    m_DRM->AddProperty(m_DRM->GetPrimaryPlane(), "COLOR_SPACE", GetColorSpace(is10bit, frame));
++    m_DRM->AddProperty(m_DRM->GetPrimaryPlane(), "EOTF", m_hdr_metadata.eotf);
++    m_DRM->AddProperty(m_DRM->GetConnector(), "HDR_SOURCE_METADATA", m_hdr_blob_id);
++    m_DRM->AddProperty(m_DRM->GetConnector(), "hdmi_output_depth", is10bit ? 10 : 8);
++    m_DRM->AddProperty(m_DRM->GetConnector(), "hdmi_output_format", HDMI_OUTPUT_YCBCR_HQ);
++    m_DRM->AddProperty(m_DRM->GetConnector(), "hdmi_output_colorimetry", is10bit ? HDMI_EXTENDED_COLORIMETRY_BT2020 : 0);
++    m_DRM->SetActive(true);
++  }
++}
++
++void CVideoLayerBridgeRockchip::Disable()
++{
++  CVideoLayerBridgeDRMPRIME::Disable();
++
++  m_DRM->AddProperty(m_DRM->GetPrimaryPlane(), "COLOR_SPACE", V4L2_COLORSPACE_DEFAULT);
++  m_DRM->AddProperty(m_DRM->GetPrimaryPlane(), "EOTF", HDMI_EOTF_TRADITIONAL_GAMMA_SDR);
++  m_DRM->AddProperty(m_DRM->GetConnector(), "HDR_SOURCE_METADATA", 0);
++  m_DRM->AddProperty(m_DRM->GetConnector(), "hdmi_output_depth", 8);
++  m_DRM->AddProperty(m_DRM->GetConnector(), "hdmi_output_format", HDMI_OUTPUT_DEFAULT_RGB);
++  m_DRM->AddProperty(m_DRM->GetConnector(), "hdmi_output_colorimetry", 0);
++  m_DRM->SetActive(true);
++
++  if (m_hdr_blob_id)
++    drmModeDestroyPropertyBlob(m_DRM->GetFileDescriptor(), m_hdr_blob_id);
++  m_hdr_blob_id = 0;
++}
+diff --git a/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererDRMPRIME.h b/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererDRMPRIME.h
+index b4ff262335..74713975db 100644
+--- a/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererDRMPRIME.h
++++ b/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererDRMPRIME.h
+@@ -41,6 +41,32 @@ private:
+   CVideoBuffer* m_prev_buffer = nullptr;
+ };
+ 
++struct hdr_static_metadata {
++	uint16_t eotf;
++	uint16_t type;
++	uint16_t display_primaries_x[3];
++	uint16_t display_primaries_y[3];
++	uint16_t white_point_x;
++	uint16_t white_point_y;
++	uint16_t max_mastering_display_luminance;
++	uint16_t min_mastering_display_luminance;
++	uint16_t max_fall;
++	uint16_t max_cll;
++	uint16_t min_cll;
++};
++
++class CVideoLayerBridgeRockchip
++  : public CVideoLayerBridgeDRMPRIME
++{
++public:
++  CVideoLayerBridgeRockchip(std::shared_ptr<CDRMUtils> drm) : CVideoLayerBridgeDRMPRIME(drm) {};
++  void Enable(CVideoBufferDRMPRIME* buffer) override;
++  void Disable() override;
++private:
++  uint32_t m_hdr_blob_id = 0;
++  struct hdr_static_metadata m_hdr_metadata = {0};
++};
++
+ class CRendererDRMPRIME
+   : public CBaseRenderer
+ {
+diff --git a/xbmc/windowing/gbm/DRMAtomic.cpp b/xbmc/windowing/gbm/DRMAtomic.cpp
+index d143e2d2ab..64bb2c7877 100644
+--- a/xbmc/windowing/gbm/DRMAtomic.cpp
++++ b/xbmc/windowing/gbm/DRMAtomic.cpp
+@@ -113,6 +113,7 @@ void CDRMAtomic::FlipPage(struct gbm_bo *bo, bool rendered, bool videoLayer)
+   {
+     flags |= DRM_MODE_ATOMIC_ALLOW_MODESET;
+     m_need_modeset = false;
++    rendered = true;
+   }
+ 
+   struct drm_fb *drm_fb = nullptr;
+diff --git a/xbmc/windowing/gbm/DRMUtils.h b/xbmc/windowing/gbm/DRMUtils.h
+index 8fa3ae7c09..2968804cf4 100644
+--- a/xbmc/windowing/gbm/DRMUtils.h
++++ b/xbmc/windowing/gbm/DRMUtils.h
+@@ -88,6 +88,7 @@ public:
+   struct plane* GetPrimaryPlane() const { return m_primary_plane; }
+   struct plane* GetOverlayPlane() const { return m_overlay_plane; }
+   struct crtc* GetCrtc() const { return m_crtc; }
++  struct connector* GetConnector() const { return m_connector; }
+ 
+   RESOLUTION_INFO GetCurrentMode();
+   std::vector<RESOLUTION_INFO> GetModes();
+
+From c82acdbaca64766576da14a02d76286ff341a906 Mon Sep 17 00:00:00 2001
+From: Jonas Karlman <jonas@kwiboo.se>
+Date: Sat, 16 Jun 2018 18:15:17 +0200
+Subject: [PATCH] DVDVideoCodecDRMPRIME: allow 5 picture references
+
+---
+ xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecDRMPRIME.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecDRMPRIME.h b/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecDRMPRIME.h
+index 589b8d4e39..931b9f480a 100644
+--- a/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecDRMPRIME.h
++++ b/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecDRMPRIME.h
+@@ -68,7 +68,7 @@ public:
+   void Reset() override;
+   CDVDVideoCodec::VCReturn GetPicture(VideoPicture* pVideoPicture) override;
+   const char* GetName() override { return m_name.c_str(); };
+-  unsigned GetAllowedReferences() override { return 4; };
++  unsigned GetAllowedReferences() override { return 5; };
+   void SetCodecControl(int flags) override { m_codecControlFlags = flags; };
+ 
+ protected:
+
+From 2099630e3dc6ee74ad7df3fd96d1a93f1992f8b4 Mon Sep 17 00:00:00 2001
+From: Jonas Karlman <jonas@kwiboo.se>
+Date: Sat, 16 Jun 2018 18:14:33 +0200
+Subject: [PATCH] RendererDRMPRIME: switch to full screen early
+
+---
+ .../VideoRenderers/HwDecRender/RendererDRMPRIME.cpp            | 2 ++
+ xbmc/cores/VideoPlayer/VideoRenderers/RenderManager.cpp        | 3 +++
+ 2 files changed, 5 insertions(+)
+
+diff --git a/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererDRMPRIME.cpp b/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererDRMPRIME.cpp
+index a0a6a60b14..63389bfb98 100644
+--- a/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererDRMPRIME.cpp
++++ b/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererDRMPRIME.cpp
+@@ -86,6 +86,8 @@ bool CRendererDRMPRIME::Configure(const VideoPicture& picture, float fps, unsign
+   Flush();
+ 
+   m_bConfigured = true;
++
++  CServiceBroker::GetWinSystem()->GetGfxContext().SetFullScreenVideo(true);
+   return true;
+ }
+ 
+diff --git a/xbmc/cores/VideoPlayer/VideoRenderers/RenderManager.cpp b/xbmc/cores/VideoPlayer/VideoRenderers/RenderManager.cpp
+index 63df654dfa..9228f3fc7d 100644
+--- a/xbmc/cores/VideoPlayer/VideoRenderers/RenderManager.cpp
++++ b/xbmc/cores/VideoPlayer/VideoRenderers/RenderManager.cpp
+@@ -304,6 +304,9 @@ void CRenderManager::FrameMove()
+       if (!Configure())
+         return;
+ 
++      if (m_renderState == STATE_CONFIGURED)
++        UpdateResolution();
++
+       firstFrame = true;
+       FrameWait(50);
+     }
+
+From 56d3d1cb91034d2639dc645153e293f5c798f59e Mon Sep 17 00:00:00 2001
+From: Jonas Karlman <jonas@kwiboo.se>
+Date: Thu, 28 Jun 2018 20:06:53 +0200
+Subject: [PATCH] RendererDRMPRIME: set modifiers flag
+
+---
+ .../VideoPlayer/VideoRenderers/HwDecRender/RendererDRMPRIME.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererDRMPRIME.cpp b/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererDRMPRIME.cpp
+index 63389bfb98..d1423fa877 100644
+--- a/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererDRMPRIME.cpp
++++ b/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererDRMPRIME.cpp
+@@ -287,7 +287,7 @@ void CVideoLayerBridgeDRMPRIME::SetVideoPlane(CVideoBufferDRMPRIME* buffer, cons
+     }
+ 
+     // add the video frame FB
+-    ret = drmModeAddFB2WithModifiers(m_DRM->GetFileDescriptor(), buffer->GetWidth(), buffer->GetHeight(), layer->format, handles, pitches, offsets, modifier, &buffer->m_fb_id, 0);
++    ret = drmModeAddFB2WithModifiers(m_DRM->GetFileDescriptor(), buffer->GetWidth(), buffer->GetHeight(), layer->format, handles, pitches, offsets, modifier, &buffer->m_fb_id, modifier[0] ? DRM_MODE_FB_MODIFIERS : 0);
+     if (ret < 0)
+     {
+       CLog::Log(LOGERROR, "CRendererDRMPRIME::%s - failed to add drm layer %d, ret = %d", __FUNCTION__, buffer->m_fb_id, ret);
+
+From 980b59cbd08c4357c04f75ae2e1f2caa9d5dbd1c Mon Sep 17 00:00:00 2001
+From: Jonas Karlman <jonas@kwiboo.se>
+Date: Sun, 24 Jun 2018 10:27:15 +0200
+Subject: [PATCH] fixup: fix gbm modifiers build error
+
+---
+ xbmc/utils/GBMBufferObject.cpp | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/xbmc/utils/GBMBufferObject.cpp b/xbmc/utils/GBMBufferObject.cpp
+index 9e7c1bc313..dca22b69b2 100644
+--- a/xbmc/utils/GBMBufferObject.cpp
++++ b/xbmc/utils/GBMBufferObject.cpp
+@@ -92,5 +92,9 @@ int CGBMBufferObject::GetStride()
+ 
+ uint64_t CGBMBufferObject::GetModifier()
+ {
++#if defined(HAS_GBM_MODIFIERS)
+   return gbm_bo_get_modifier(m_bo);
++#else
++  return 0;
++#endif
+ }
+diff --git a/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererDRMPRIME.cpp b/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererDRMPRIME.cpp
+index d1423fa877..c9f7211f5b 100644
+--- a/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererDRMPRIME.cpp
++++ b/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererDRMPRIME.cpp
+@@ -424,7 +424,7 @@ void CVideoLayerBridgeRockchip::Disable()
+   m_DRM->AddProperty(m_DRM->GetPrimaryPlane(), "EOTF", HDMI_EOTF_TRADITIONAL_GAMMA_SDR);
+   m_DRM->AddProperty(m_DRM->GetConnector(), "HDR_SOURCE_METADATA", 0);
+   m_DRM->AddProperty(m_DRM->GetConnector(), "hdmi_output_depth", 8);
+-  m_DRM->AddProperty(m_DRM->GetConnector(), "hdmi_output_format", HDMI_OUTPUT_DEFAULT_RGB);
++  m_DRM->AddProperty(m_DRM->GetConnector(), "hdmi_output_format", HDMI_OUTPUT_YCBCR_HQ);
+   m_DRM->AddProperty(m_DRM->GetConnector(), "hdmi_output_colorimetry", 0);
+   m_DRM->SetActive(true);
+ 

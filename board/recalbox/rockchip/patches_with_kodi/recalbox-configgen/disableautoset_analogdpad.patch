@@ -1,0 +1,21 @@
+--- a/configgen/generators/libretro/libretroControllers.py
++++ b/configgen/generators/libretro/libretroControllers.py
+@@ -134,12 +134,12 @@
+ 
+ # return the retroarch analog_dpad_mode
+ def getAnalogMode(controller, system):
+-    # if system.name != 'psx':
+-    for dirkey in retroarchdirs:
+-        if dirkey in controller.inputs:
+-            if (controller.inputs[dirkey].type == 'button') or (controller.inputs[dirkey].type == 'hat'):
+-                return '1'
+-    return '0'
++    if system.name != 'n64':
++        for dirkey in retroarchdirs:
++            if dirkey in controller.inputs:
++                if (controller.inputs[dirkey].type == 'button') or (controller.inputs[dirkey].type == 'hat'):
++                    return '1'
++    return '0'
+ 
+ 
+ # return the playstation analog mode for a controller

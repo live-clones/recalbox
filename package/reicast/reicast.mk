@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-REICAST_VERSION = ad61f95dd6b4c6218846a25de6194550311a5d28
+REICAST_VERSION =  ad61f95dd6b4c6218846a25de6194550311a5d28
 REICAST_SITE = $(call github,reicast,reicast-emulator,$(REICAST_VERSION))
 REICAST_DEPENDENCIES = sdl2 libpng
 
@@ -26,6 +26,24 @@ else ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_X86_64),y)
 REICAST_RECALBOX_SYSTEM=x64
 endif
 
+ifeq ($(BR2_PACKAGE_RECALBOX_TARGETGROUP_ROCKCHIP),y)
+REICAST_RECALBOX_SYSTEM=rockchip
+# Let Reicast prioritize EVDEV for inputs instead of both SDL and EVDEV - using both can cause buggy button mappings
+define REICAST_PREBUILD_ROCK
+sed -i 's|input_sdl_init();||; s|input_sdl_handle(port);||' $(@D)/core/linux-dist/main.cpp
+endef
+REICAST_PRE_BUILD_HOOKS += REICAST_PREBUILD_ROCK
+define REICAST_BUILD_CMDS
+	$(TARGET_CONFIGURE_OPTS) $(MAKE) \
+		CPP="$(TARGET_CPP)" \
+		CXX="$(TARGET_CXX) -D_GLIBCXX_USE_CXX11_ABI=0" \
+		CC="$(TARGET_CC)" \
+		AS="$(TARGET_CC)" \
+		AR="$(TARGET_CC)-ar" \
+		STRIP="$(TARGET_STRIP)" \
+		-C $(@D)/shell/linux -f Makefile platform=$(REICAST_RECALBOX_SYSTEM) USE_SDL=1
+endef
+else
 # Sadly the NEON optimizations in the PNG library doesn't work yet, so disable them
 define REICAST_BUILD_CMDS
 	$(SED) "s|-O2|-O3|g" $(@D)/shell/linux/Makefile
@@ -41,6 +59,7 @@ define REICAST_BUILD_CMDS
 		STRIP="$(TARGET_STRIP)" \
 		-C $(@D)/shell/linux -f Makefile platform=$(REICAST_RECALBOX_SYSTEM)
 endef
+endif
 
 define REICAST_INSTALL_TARGET_CMDS
 	$(INSTALL) -D -m 0755 $(@D)/shell/linux/reicast.elf $(TARGET_DIR)/usr/bin

@@ -1,0 +1,1847 @@
+From 00f949487d1a3329adaecde88c95fdff821cf046 Mon Sep 17 00:00:00 2001
+From: Philipp Kerling <pkerling@casix.org>
+Date: Thu, 5 Apr 2018 12:01:30 +0200
+Subject: [PATCH 01/14] Rename CEGLContextUtils parameter names to comply with
+ coding style
+
+---
+ xbmc/utils/EGLUtils.cpp | 14 +++++++-------
+ xbmc/utils/EGLUtils.h   |  4 ++--
+ 2 files changed, 9 insertions(+), 9 deletions(-)
+
+diff --git a/xbmc/utils/EGLUtils.cpp b/xbmc/utils/EGLUtils.cpp
+index 723f7e923233..57250ed081d8 100644
+--- a/xbmc/utils/EGLUtils.cpp
++++ b/xbmc/utils/EGLUtils.cpp
+@@ -76,17 +76,17 @@ CEGLContextUtils::~CEGLContextUtils()
+ }
+ 
+ bool CEGLContextUtils::CreateDisplay(EGLDisplay display,
+-                                     EGLint renderable_type,
+-                                     EGLint rendering_api)
++                                     EGLint renderableType,
++                                     EGLint renderingApi)
+ {
+   EGLint neglconfigs = 0;
+   int major, minor;
+ 
+-  EGLint surface_type = EGL_WINDOW_BIT;
++  EGLint surfaceType = EGL_WINDOW_BIT;
+   // for the non-trivial dirty region modes, we need the EGL buffer to be preserved across updates
+   if (g_advancedSettings.m_guiAlgorithmDirtyRegions == DIRTYREGION_SOLVER_COST_REDUCTION ||
+       g_advancedSettings.m_guiAlgorithmDirtyRegions == DIRTYREGION_SOLVER_UNION)
+-    surface_type |= EGL_SWAP_BEHAVIOR_PRESERVED_BIT;
++    surfaceType |= EGL_SWAP_BEHAVIOR_PRESERVED_BIT;
+ 
+   EGLint attribs[] =
+   {
+@@ -98,8 +98,8 @@ bool CEGLContextUtils::CreateDisplay(EGLDisplay display,
+     EGL_STENCIL_SIZE,    0,
+     EGL_SAMPLE_BUFFERS,  0,
+     EGL_SAMPLES,         0,
+-    EGL_SURFACE_TYPE,    surface_type,
+-    EGL_RENDERABLE_TYPE, renderable_type,
++    EGL_SURFACE_TYPE,    surfaceType,
++    EGL_RENDERABLE_TYPE, renderableType,
+     EGL_NONE
+   };
+ 
+@@ -133,7 +133,7 @@ bool CEGLContextUtils::CreateDisplay(EGLDisplay display,
+     return false;
+   }
+ 
+-  eglBindAPI(rendering_api);
++  eglBindAPI(renderingApi);
+ 
+   if (!eglChooseConfig(m_eglDisplay, attribs,
+                        &m_eglConfig, 1, &neglconfigs))
+diff --git a/xbmc/utils/EGLUtils.h b/xbmc/utils/EGLUtils.h
+index d91527ed06fd..46206dbd0b95 100644
+--- a/xbmc/utils/EGLUtils.h
++++ b/xbmc/utils/EGLUtils.h
+@@ -127,8 +127,8 @@ class CEGLContextUtils
+   virtual ~CEGLContextUtils();
+ 
+   bool CreateDisplay(EGLDisplay display,
+-                     EGLint renderable_type,
+-                     EGLint rendering_api);
++                     EGLint renderableType,
++                     EGLint renderingApi);
+ 
+   bool CreateSurface(EGLNativeWindowType surface);
+   bool CreateContext(const EGLint* contextAttribs);
+
+From 553a163a35776a78694acd5deee9a000bb86fc0c Mon Sep 17 00:00:00 2001
+From: Philipp Kerling <pkerling@casix.org>
+Date: Sun, 22 Apr 2018 22:15:55 +0200
+Subject: [PATCH 02/14] Do not recreate EGL context every time window is
+ created
+
+This should not actually be necessary.
+---
+ .../amlogic/WinSystemAmlogicGLESContext.cpp         | 20 ++++++++++----------
+ .../android/WinSystemAndroidGLESContext.cpp         | 20 ++++++++++----------
+ xbmc/windowing/gbm/WinSystemGbmGLESContext.cpp      | 20 ++++++++++----------
+ xbmc/windowing/rpi/WinSystemRpiGLESContext.cpp      | 21 +++++++++++----------
+ 4 files changed, 41 insertions(+), 40 deletions(-)
+
+diff --git a/xbmc/windowing/amlogic/WinSystemAmlogicGLESContext.cpp b/xbmc/windowing/amlogic/WinSystemAmlogicGLESContext.cpp
+index a46abe6fb8c9..92a7068f1740 100644
+--- a/xbmc/windowing/amlogic/WinSystemAmlogicGLESContext.cpp
++++ b/xbmc/windowing/amlogic/WinSystemAmlogicGLESContext.cpp
+@@ -43,6 +43,16 @@ bool CWinSystemAmlogicGLESContext::InitWindowSystem()
+     return false;
+   }
+ 
++  const EGLint contextAttribs[] =
++  {
++    EGL_CONTEXT_CLIENT_VERSION, 2, EGL_NONE
++  };
++
++  if (!m_pGLContext.CreateContext(contextAttribs))
++  {
++    return false;
++  }
++
+   return true;
+ }
+ 
+@@ -67,16 +77,6 @@ bool CWinSystemAmlogicGLESContext::CreateNewWindow(const std::string& name,
+     return false;
+   }
+ 
+-  const EGLint contextAttribs[] =
+-  {
+-    EGL_CONTEXT_CLIENT_VERSION, 2, EGL_NONE
+-  };
+-
+-  if (!m_pGLContext.CreateContext(contextAttribs))
+-  {
+-    return false;
+-  }
+-
+   if (!m_pGLContext.BindContext())
+   {
+     return false;
+diff --git a/xbmc/windowing/android/WinSystemAndroidGLESContext.cpp b/xbmc/windowing/android/WinSystemAndroidGLESContext.cpp
+index 067f2011c844..407709b6404e 100644
+--- a/xbmc/windowing/android/WinSystemAndroidGLESContext.cpp
++++ b/xbmc/windowing/android/WinSystemAndroidGLESContext.cpp
+@@ -43,6 +43,16 @@ bool CWinSystemAndroidGLESContext::InitWindowSystem()
+     return false;
+   }
+ 
++  const EGLint contextAttribs[] =
++  {
++    EGL_CONTEXT_CLIENT_VERSION, 2, EGL_NONE
++  };
++
++  if (!m_pGLContext.CreateContext(contextAttribs))
++  {
++    return false;
++  }
++
+   return true;
+ }
+ 
+@@ -62,16 +72,6 @@ bool CWinSystemAndroidGLESContext::CreateNewWindow(const std::string& name,
+     return false;
+   }
+ 
+-  const EGLint contextAttribs[] =
+-  {
+-    EGL_CONTEXT_CLIENT_VERSION, 2, EGL_NONE
+-  };
+-
+-  if (!m_pGLContext.CreateContext(contextAttribs))
+-  {
+-    return false;
+-  }
+-
+   if (!m_pGLContext.BindContext())
+   {
+     return false;
+diff --git a/xbmc/windowing/gbm/WinSystemGbmGLESContext.cpp b/xbmc/windowing/gbm/WinSystemGbmGLESContext.cpp
+index c61afa336ae5..7943e9c06fe2 100644
+--- a/xbmc/windowing/gbm/WinSystemGbmGLESContext.cpp
++++ b/xbmc/windowing/gbm/WinSystemGbmGLESContext.cpp
+@@ -57,6 +57,16 @@ bool CWinSystemGbmGLESContext::InitWindowSystem()
+     return false;
+   }
+ 
++  const EGLint contextAttribs[] =
++  {
++    EGL_CONTEXT_CLIENT_VERSION, 2, EGL_NONE
++  };
++
++  if (!m_pGLContext.CreateContext(contextAttribs))
++  {
++    return false;
++  }
++
+   bool general, deepColor;
+   m_vaapiProxy.reset(GBM::VaapiProxyCreate());
+   GBM::VaapiProxyConfig(m_vaapiProxy.get(), m_pGLContext.m_eglDisplay);
+@@ -104,16 +114,6 @@ bool CWinSystemGbmGLESContext::CreateNewWindow(const std::string& name,
+     return false;
+   }
+ 
+-  const EGLint contextAttribs[] =
+-  {
+-    EGL_CONTEXT_CLIENT_VERSION, 2, EGL_NONE
+-  };
+-
+-  if (!m_pGLContext.CreateContext(contextAttribs))
+-  {
+-    return false;
+-  }
+-
+   if (!m_pGLContext.BindContext())
+   {
+     return false;
+diff --git a/xbmc/windowing/rpi/WinSystemRpiGLESContext.cpp b/xbmc/windowing/rpi/WinSystemRpiGLESContext.cpp
+index 490f32f711e4..39b87dba96ca 100644
+--- a/xbmc/windowing/rpi/WinSystemRpiGLESContext.cpp
++++ b/xbmc/windowing/rpi/WinSystemRpiGLESContext.cpp
+@@ -56,6 +56,17 @@ bool CWinSystemRpiGLESContext::InitWindowSystem()
+   {
+     return false;
+   }
++
++  const EGLint contextAttribs[] =
++  {
++    EGL_CONTEXT_CLIENT_VERSION, 2, EGL_NONE
++  };
++
++  if (!m_pGLContext.CreateContext(contextAttribs))
++  {
++    return false;
++  }
++
+   CProcessInfoPi::Register();
+   RETRO::CRPProcessInfoPi::Register();
+   //RETRO::CRPProcessInfoPi::RegisterRendererFactory(new RETRO::CRendererFactoryMMAL); //! @todo
+@@ -91,16 +102,6 @@ bool CWinSystemRpiGLESContext::CreateNewWindow(const std::string& name,
+     return false;
+   }
+ 
+-  const EGLint contextAttribs[] =
+-  {
+-    EGL_CONTEXT_CLIENT_VERSION, 2, EGL_NONE
+-  };
+-
+-  if (!m_pGLContext.CreateContext(contextAttribs))
+-  {
+-    return false;
+-  }
+-
+   if (!m_pGLContext.BindContext())
+   {
+     return false;
+
+From e8977e7f3eb333e2aa3e3a5914004e309b14dc11 Mon Sep 17 00:00:00 2001
+From: Philipp Kerling <pkerling@casix.org>
+Date: Sat, 7 Apr 2018 11:30:00 +0200
+Subject: [PATCH 03/14] Add state checks in EGLUtils
+
+Also fixes potential memory leaks
+---
+ xbmc/utils/EGLUtils.cpp | 21 ++++++++++++++++-----
+ 1 file changed, 16 insertions(+), 5 deletions(-)
+
+diff --git a/xbmc/utils/EGLUtils.cpp b/xbmc/utils/EGLUtils.cpp
+index 57250ed081d8..53a5489e2746 100644
+--- a/xbmc/utils/EGLUtils.cpp
++++ b/xbmc/utils/EGLUtils.cpp
+@@ -79,6 +79,11 @@ bool CEGLContextUtils::CreateDisplay(EGLDisplay display,
+                                      EGLint renderableType,
+                                      EGLint renderingApi)
+ {
++  if (m_eglDisplay != EGL_NO_DISPLAY)
++  {
++    throw std::logic_error("Do not call CreateDisplay when display has already been created");
++  }
++
+   EGLint neglconfigs = 0;
+   int major, minor;
+ 
+@@ -153,12 +158,14 @@ bool CEGLContextUtils::CreateDisplay(EGLDisplay display,
+ 
+ bool CEGLContextUtils::CreateContext(const EGLint* contextAttribs)
+ {
+-  if (m_eglContext == EGL_NO_CONTEXT)
++  if (m_eglContext != EGL_NO_CONTEXT)
+   {
+-    m_eglContext = eglCreateContext(m_eglDisplay, m_eglConfig,
+-                                    EGL_NO_CONTEXT, contextAttribs);
++    throw std::logic_error("Do not call CreateContext when context has already been created");
+   }
+ 
++  m_eglContext = eglCreateContext(m_eglDisplay, m_eglConfig,
++                                  EGL_NO_CONTEXT, contextAttribs);
++
+   if (m_eglContext == EGL_NO_CONTEXT)
+   {
+     CLog::Log(LOGERROR, "failed to create EGL context");
+@@ -170,8 +177,12 @@ bool CEGLContextUtils::CreateContext(const EGLint* contextAttribs)
+ 
+ bool CEGLContextUtils::BindContext()
+ {
+-  if (!eglMakeCurrent(m_eglDisplay, m_eglSurface,
+-                      m_eglSurface, m_eglContext))
++  if (m_eglDisplay == EGL_NO_DISPLAY || m_eglSurface == EGL_NO_SURFACE || m_eglContext == EGL_NO_CONTEXT)
++  {
++    throw std::logic_error("Activating an EGLContext requires display, surface, and context");
++  }
++
++  if (eglMakeCurrent(m_eglDisplay, m_eglSurface, m_eglSurface, m_eglContext) != EGL_TRUE)
+   {
+     CLog::Log(LOGERROR, "Failed to make context current %p %p %p",
+                          m_eglDisplay, m_eglSurface, m_eglContext);
+
+From a4c7406f9f19ac1e185d89214d49d324987f64c4 Mon Sep 17 00:00:00 2001
+From: Philipp Kerling <pkerling@casix.org>
+Date: Sat, 7 Apr 2018 11:31:29 +0200
+Subject: [PATCH 04/14] Improve CEGLContextUtils error handling
+
+always compare to EGL_TRUE, log errors with CEGLUtils and destroy
+context when initialization fails
+---
+ xbmc/utils/EGLUtils.cpp | 47 ++++++++++++++++++++++++++++++++---------------
+ 1 file changed, 32 insertions(+), 15 deletions(-)
+
+diff --git a/xbmc/utils/EGLUtils.cpp b/xbmc/utils/EGLUtils.cpp
+index 53a5489e2746..f8e4a69d85c8 100644
+--- a/xbmc/utils/EGLUtils.cpp
++++ b/xbmc/utils/EGLUtils.cpp
+@@ -118,6 +118,12 @@ bool CEGLContextUtils::CreateDisplay(EGLDisplay display,
+     {
+       m_eglDisplay = getPlatformDisplayEXT(EGL_PLATFORM_GBM_KHR, (EGLNativeDisplayType)display, NULL);
+     }
++
++    if (m_eglDisplay == EGL_NO_DISPLAY)
++    {
++      CEGLUtils::LogError("Failed to get EGL platform display");
++      return false;
++    }
+   }
+ #endif
+ 
+@@ -128,28 +134,36 @@ bool CEGLContextUtils::CreateDisplay(EGLDisplay display,
+ 
+   if (m_eglDisplay == EGL_NO_DISPLAY)
+   {
+-    CLog::Log(LOGERROR, "failed to get EGL display");
++    CEGLUtils::LogError("failed to get EGL display");
+     return false;
+   }
+ 
+   if (!eglInitialize(m_eglDisplay, &major, &minor))
+   {
+-    CLog::Log(LOGERROR, "failed to initialize EGL display");
++    CEGLUtils::LogError("failed to initialize EGL display");
++    Destroy();
+     return false;
+   }
++  CLog::Log(LOGINFO, "EGL v%d.%d", major, minor);
+ 
+-  eglBindAPI(renderingApi);
++  if (eglBindAPI(renderingApi) != EGL_TRUE)
++  {
++    CEGLUtils::LogError("failed to bind EGL API");
++    Destroy();
++    return false;
++  }
+ 
+-  if (!eglChooseConfig(m_eglDisplay, attribs,
+-                       &m_eglConfig, 1, &neglconfigs))
++  if (eglChooseConfig(m_eglDisplay, attribs, &m_eglConfig, 1, &neglconfigs) != EGL_TRUE)
+   {
+-    CLog::Log(LOGERROR, "Failed to query number of EGL configs");
++    CEGLUtils::LogError("failed to query number of EGL configs");
++    Destroy();
+     return false;
+   }
+ 
+   if (neglconfigs <= 0)
+   {
+     CLog::Log(LOGERROR, "No suitable EGL configs found");
++    Destroy();
+     return false;
+   }
+ 
+@@ -168,7 +182,8 @@ bool CEGLContextUtils::CreateContext(const EGLint* contextAttribs)
+ 
+   if (m_eglContext == EGL_NO_CONTEXT)
+   {
+-    CLog::Log(LOGERROR, "failed to create EGL context");
++    // This is expected to fail under some circumstances, so log as debug
++    CLog::Log(LOGDEBUG, "Failed to create EGL context (EGL error %d)", eglGetError());
+     return false;
+   }
+ 
+@@ -203,7 +218,7 @@ bool CEGLContextUtils::SurfaceAttrib()
+       return false;
+     }
+ 
+-    if (!eglSurfaceAttrib(m_eglDisplay, m_eglSurface, EGL_SWAP_BEHAVIOR, EGL_BUFFER_PRESERVED))
++    if (eglSurfaceAttrib(m_eglDisplay, m_eglSurface, EGL_SWAP_BEHAVIOR, EGL_BUFFER_PRESERVED) != EGL_TRUE)
+     {
+       CLog::Log(LOGDEBUG, "%s: Could not set EGL_SWAP_BEHAVIOR",__FUNCTION__);
+     }
+@@ -266,12 +281,7 @@ void CEGLContextUtils::Detach()
+ 
+ bool CEGLContextUtils::SetVSync(bool enable)
+ {
+-  if (!eglSwapInterval(m_eglDisplay, enable))
+-  {
+-    return false;
+-  }
+-
+-  return true;
++  return (eglSwapInterval(m_eglDisplay, enable) == EGL_TRUE);
+ }
+ 
+ void CEGLContextUtils::SwapBuffers()
+@@ -281,5 +291,12 @@ void CEGLContextUtils::SwapBuffers()
+     return;
+   }
+ 
+-  eglSwapBuffers(m_eglDisplay, m_eglSurface);
++  if (eglSwapBuffers(m_eglDisplay, m_eglSurface) != EGL_TRUE)
++  {
++    // For now we just hard fail if this fails
++    // Theoretically, EGL_CONTEXT_LOST could be handled, but it needs to be checked
++    // whether egl implementations actually use it (mesa does not)
++    CEGLUtils::LogError("eglSwapBuffers failed");
++    throw std::runtime_error("eglSwapBuffers failed");
++  }
+ }
+
+From 09d6d51e5db6607335d12c4eae1c38480ece9d95 Mon Sep 17 00:00:00 2001
+From: Philipp Kerling <pkerling@casix.org>
+Date: Sat, 7 Apr 2018 11:32:59 +0200
+Subject: [PATCH 05/14] Move CEGLContextUtils default member initialization to
+ variable declarations
+
+---
+ xbmc/utils/EGLUtils.cpp | 6 +-----
+ xbmc/utils/EGLUtils.h   | 8 ++++----
+ 2 files changed, 5 insertions(+), 9 deletions(-)
+
+diff --git a/xbmc/utils/EGLUtils.cpp b/xbmc/utils/EGLUtils.cpp
+index f8e4a69d85c8..d8f2fd110561 100644
+--- a/xbmc/utils/EGLUtils.cpp
++++ b/xbmc/utils/EGLUtils.cpp
+@@ -62,10 +62,7 @@
+   CLog::Log(LOGERROR, "%s (EGL error %d)", what.c_str(), eglGetError());
+ }
+ 
+-CEGLContextUtils::CEGLContextUtils() :
+-  m_eglDisplay(EGL_NO_DISPLAY),
+-  m_eglSurface(EGL_NO_SURFACE),
+-  m_eglContext(EGL_NO_CONTEXT)
++CEGLContextUtils::CEGLContextUtils()
+ {
+ }
+ 
+diff --git a/xbmc/utils/EGLUtils.h b/xbmc/utils/EGLUtils.h
+index 46206dbd0b95..3d655df116d4 100644
+--- a/xbmc/utils/EGLUtils.h
++++ b/xbmc/utils/EGLUtils.h
+@@ -157,8 +157,8 @@
+   bool SetVSync(bool enable);
+   void SwapBuffers();
+ 
+-  EGLDisplay m_eglDisplay;
+-  EGLSurface m_eglSurface;
+-  EGLContext m_eglContext;
++  EGLDisplay m_eglDisplay{EGL_NO_DISPLAY};
++  EGLSurface m_eglSurface{EGL_NO_SURFACE};
++  EGLContext m_eglContext{EGL_NO_CONTEXT};
+   EGLConfig m_eglConfig = 0;
+ };
+From 954eab61fad61754cd5ada428181298b82150c77 Mon Sep 17 00:00:00 2001
+From: Philipp Kerling <pkerling@casix.org>
+Date: Sat, 7 Apr 2018 11:42:58 +0200
+Subject: [PATCH 06/14] Shuffle code around
+
+so that variable declaration and usage are closer together
+---
+ xbmc/utils/EGLUtils.cpp | 47 +++++++++++++++++++++++------------------------
+ 1 file changed, 23 insertions(+), 24 deletions(-)
+
+diff --git a/xbmc/utils/EGLUtils.cpp b/xbmc/utils/EGLUtils.cpp
+index d8f2fd110561..d5878401150e 100644
+--- a/xbmc/utils/EGLUtils.cpp
++++ b/xbmc/utils/EGLUtils.cpp
+@@ -80,30 +80,6 @@ bool CEGLContextUtils::CreateDisplay(EGLDisplay display,
+     throw std::logic_error("Do not call CreateDisplay when display has already been created");
+   }
+ 
+-  EGLint neglconfigs = 0;
+-  int major, minor;
+-
+-  EGLint surfaceType = EGL_WINDOW_BIT;
+-  // for the non-trivial dirty region modes, we need the EGL buffer to be preserved across updates
+-  if (g_advancedSettings.m_guiAlgorithmDirtyRegions == DIRTYREGION_SOLVER_COST_REDUCTION ||
+-      g_advancedSettings.m_guiAlgorithmDirtyRegions == DIRTYREGION_SOLVER_UNION)
+-    surfaceType |= EGL_SWAP_BEHAVIOR_PRESERVED_BIT;
+-
+-  EGLint attribs[] =
+-  {
+-    EGL_RED_SIZE,        8,
+-    EGL_GREEN_SIZE,      8,
+-    EGL_BLUE_SIZE,       8,
+-    EGL_ALPHA_SIZE,      8,
+-    EGL_DEPTH_SIZE,     16,
+-    EGL_STENCIL_SIZE,    0,
+-    EGL_SAMPLE_BUFFERS,  0,
+-    EGL_SAMPLES,         0,
+-    EGL_SURFACE_TYPE,    surfaceType,
+-    EGL_RENDERABLE_TYPE, renderableType,
+-    EGL_NONE
+-  };
+-
+ #if defined(EGL_EXT_platform_base) && defined(EGL_KHR_platform_gbm) && defined(HAVE_GBM)
+   if (m_eglDisplay == EGL_NO_DISPLAY &&
+       CEGLUtils::HasExtension(EGL_NO_DISPLAY, "EGL_EXT_platform_base") &&
+@@ -134,6 +110,7 @@ bool CEGLContextUtils::CreateDisplay(EGLDisplay display,
+     return false;
+   }
+ 
++  int major, minor;
+   if (!eglInitialize(m_eglDisplay, &major, &minor))
+   {
+     CEGLUtils::LogError("failed to initialize EGL display");
+@@ -149,6 +126,28 @@ bool CEGLContextUtils::CreateDisplay(EGLDisplay display,
+     return false;
+   }
+ 
++  EGLint surfaceType = EGL_WINDOW_BIT;
++  // for the non-trivial dirty region modes, we need the EGL buffer to be preserved across updates
++  if (g_advancedSettings.m_guiAlgorithmDirtyRegions == DIRTYREGION_SOLVER_COST_REDUCTION ||
++      g_advancedSettings.m_guiAlgorithmDirtyRegions == DIRTYREGION_SOLVER_UNION)
++    surfaceType |= EGL_SWAP_BEHAVIOR_PRESERVED_BIT;
++
++  EGLint attribs[] =
++  {
++    EGL_RED_SIZE,        8,
++    EGL_GREEN_SIZE,      8,
++    EGL_BLUE_SIZE,       8,
++    EGL_ALPHA_SIZE,      8,
++    EGL_DEPTH_SIZE,     16,
++    EGL_STENCIL_SIZE,    0,
++    EGL_SAMPLE_BUFFERS,  0,
++    EGL_SAMPLES,         0,
++    EGL_SURFACE_TYPE,    surfaceType,
++    EGL_RENDERABLE_TYPE, renderableType,
++    EGL_NONE
++  };
++
++  EGLint neglconfigs = 0;
+   if (eglChooseConfig(m_eglDisplay, attribs, &m_eglConfig, 1, &neglconfigs) != EGL_TRUE)
+   {
+     CEGLUtils::LogError("failed to query number of EGL configs");
+
+From 630f150e294b543519b39f7b87c5fcb3363956d3 Mon Sep 17 00:00:00 2001
+From: Philipp Kerling <pkerling@casix.org>
+Date: Sat, 7 Apr 2018 11:43:59 +0200
+Subject: [PATCH 07/14] Remove vertical alignment
+
+Code style guidelines say we don't do this
+---
+ xbmc/utils/EGLUtils.cpp | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
+
+diff --git a/xbmc/utils/EGLUtils.cpp b/xbmc/utils/EGLUtils.cpp
+index d5878401150e..195a278cffea 100644
+--- a/xbmc/utils/EGLUtils.cpp
++++ b/xbmc/utils/EGLUtils.cpp
+@@ -134,15 +134,15 @@ bool CEGLContextUtils::CreateDisplay(EGLDisplay display,
+ 
+   EGLint attribs[] =
+   {
+-    EGL_RED_SIZE,        8,
+-    EGL_GREEN_SIZE,      8,
+-    EGL_BLUE_SIZE,       8,
+-    EGL_ALPHA_SIZE,      8,
+-    EGL_DEPTH_SIZE,     16,
+-    EGL_STENCIL_SIZE,    0,
+-    EGL_SAMPLE_BUFFERS,  0,
+-    EGL_SAMPLES,         0,
+-    EGL_SURFACE_TYPE,    surfaceType,
++    EGL_RED_SIZE, 8,
++    EGL_GREEN_SIZE, 8,
++    EGL_BLUE_SIZE, 8,
++    EGL_ALPHA_SIZE, 8,
++    EGL_DEPTH_SIZE, 16,
++    EGL_STENCIL_SIZE, 0,
++    EGL_SAMPLE_BUFFERS, 0,
++    EGL_SAMPLES, 0,
++    EGL_SURFACE_TYPE, surfaceType,
+     EGL_RENDERABLE_TYPE, renderableType,
+     EGL_NONE
+   };
+
+From 4518264b693ac8fae9f5e9ce8ab9892dffab1a4f Mon Sep 17 00:00:00 2001
+From: Philipp Kerling <pkerling@casix.org>
+Date: Sat, 7 Apr 2018 12:06:25 +0200
+Subject: [PATCH 08/14] Automatically call SurfaceAttrib()
+
+We set the SURFACE_TYPE automatically, no reason to not also do that
+for the swap behavior.
+---
+ xbmc/utils/EGLUtils.cpp                                | 18 +++++++++---------
+ xbmc/utils/EGLUtils.h                                  |  2 +-
+ xbmc/windowing/amlogic/WinSystemAmlogicGLESContext.cpp |  5 -----
+ xbmc/windowing/android/WinSystemAndroidGLESContext.cpp |  5 -----
+ xbmc/windowing/gbm/WinSystemGbmGLESContext.cpp         |  5 -----
+ xbmc/windowing/rpi/WinSystemRpiGLESContext.cpp         |  5 -----
+ 6 files changed, 10 insertions(+), 30 deletions(-)
+
+diff --git a/xbmc/utils/EGLUtils.cpp b/xbmc/utils/EGLUtils.cpp
+index 195a278cffea..898503e34e32 100644
+--- a/xbmc/utils/EGLUtils.cpp
++++ b/xbmc/utils/EGLUtils.cpp
+@@ -202,24 +202,22 @@ bool CEGLContextUtils::BindContext()
+   return true;
+ }
+ 
+-bool CEGLContextUtils::SurfaceAttrib()
++void CEGLContextUtils::SurfaceAttrib()
+ {
++  if (m_eglDisplay == EGL_NO_DISPLAY || m_eglSurface == EGL_NO_SURFACE)
++  {
++    throw std::logic_error("Setting surface attributes requires a surface");
++  }
++
+   // for the non-trivial dirty region modes, we need the EGL buffer to be preserved across updates
+   if (g_advancedSettings.m_guiAlgorithmDirtyRegions == DIRTYREGION_SOLVER_COST_REDUCTION ||
+       g_advancedSettings.m_guiAlgorithmDirtyRegions == DIRTYREGION_SOLVER_UNION)
+   {
+-    if ((m_eglDisplay == EGL_NO_DISPLAY) || (m_eglSurface == EGL_NO_SURFACE))
+-    {
+-      return false;
+-    }
+-
+     if (eglSurfaceAttrib(m_eglDisplay, m_eglSurface, EGL_SWAP_BEHAVIOR, EGL_BUFFER_PRESERVED) != EGL_TRUE)
+     {
+-      CLog::Log(LOGDEBUG, "%s: Could not set EGL_SWAP_BEHAVIOR",__FUNCTION__);
++      CEGLUtils::LogError("failed to set EGL_BUFFER_PRESERVED swap behavior");
+     }
+   }
+-
+-  return true;
+ }
+ 
+ bool CEGLContextUtils::CreateSurface(EGLNativeWindowType surface)
+@@ -235,6 +233,8 @@ bool CEGLContextUtils::CreateSurface(EGLNativeWindowType surface)
+     return false;
+   }
+ 
++  SurfaceAttrib();
++
+   return true;
+ }
+ 
+diff --git a/xbmc/utils/EGLUtils.h b/xbmc/utils/EGLUtils.h
+index 3d655df116d4..07f3ff85a4a6 100644
+--- a/xbmc/utils/EGLUtils.h
++++ b/xbmc/utils/EGLUtils.h
+@@ -150,11 +150,11 @@
+   bool CreatePlatformSurface(void* nativeWindow, EGLNativeWindowType nativeWindowLegacy);
+   bool CreateContext(const EGLint* contextAttribs);
+   bool BindContext();
+-  bool SurfaceAttrib();
+   void Destroy();
+   void Detach();
+   bool SetVSync(bool enable);
+   void SwapBuffers();
++  void SurfaceAttrib();
+ 
+   EGLDisplay m_eglDisplay{EGL_NO_DISPLAY};
+   EGLSurface m_eglSurface{EGL_NO_SURFACE};
+diff --git a/xbmc/windowing/amlogic/WinSystemAmlogicGLESContext.cpp b/xbmc/windowing/amlogic/WinSystemAmlogicGLESContext.cpp
+index 92a7068f1740..63c8935212f2 100644
+--- a/xbmc/windowing/amlogic/WinSystemAmlogicGLESContext.cpp
++++ b/xbmc/windowing/amlogic/WinSystemAmlogicGLESContext.cpp
+@@ -82,11 +82,6 @@ bool CWinSystemAmlogicGLESContext::CreateNewWindow(const std::string& name,
+     return false;
+   }
+ 
+-  if (!m_pGLContext.SurfaceAttrib())
+-  {
+-    return false;
+-  }
+-
+   if (!m_delayDispReset)
+   {
+     CSingleLock lock(m_resourceSection);
+diff --git a/xbmc/windowing/android/WinSystemAndroidGLESContext.cpp b/xbmc/windowing/android/WinSystemAndroidGLESContext.cpp
+index 407709b6404e..7220a951fdde 100644
+--- a/xbmc/windowing/android/WinSystemAndroidGLESContext.cpp
++++ b/xbmc/windowing/android/WinSystemAndroidGLESContext.cpp
+@@ -77,11 +77,6 @@ bool CWinSystemAndroidGLESContext::CreateNewWindow(const std::string& name,
+     return false;
+   }
+ 
+-  if (!m_pGLContext.SurfaceAttrib())
+-  {
+-    return false;
+-  }
+-
+   if (!m_delayDispReset)
+   {
+     CSingleLock lock(m_resourceSection);
+diff --git a/xbmc/windowing/gbm/WinSystemGbmGLESContext.cpp b/xbmc/windowing/gbm/WinSystemGbmGLESContext.cpp
+index 7943e9c06fe2..20e7c03a23bf 100644
+--- a/xbmc/windowing/gbm/WinSystemGbmGLESContext.cpp
++++ b/xbmc/windowing/gbm/WinSystemGbmGLESContext.cpp
+@@ -119,11 +119,6 @@ bool CWinSystemGbmGLESContext::CreateNewWindow(const std::string& name,
+     return false;
+   }
+ 
+-  if (!m_pGLContext.SurfaceAttrib())
+-  {
+-    return false;
+-  }
+-
+   return true;
+ }
+ 
+diff --git a/xbmc/windowing/rpi/WinSystemRpiGLESContext.cpp b/xbmc/windowing/rpi/WinSystemRpiGLESContext.cpp
+index 39b87dba96ca..a362edf01342 100644
+--- a/xbmc/windowing/rpi/WinSystemRpiGLESContext.cpp
++++ b/xbmc/windowing/rpi/WinSystemRpiGLESContext.cpp
+@@ -107,11 +107,6 @@ bool CWinSystemRpiGLESContext::CreateNewWindow(const std::string& name,
+     return false;
+   }
+ 
+-  if (!m_pGLContext.SurfaceAttrib())
+-  {
+-    return false;
+-  }
+-
+   if (!m_delayDispReset)
+   {
+     CSingleLock lock(m_resourceSection);
+
+From 0d640afe8f9bac69cd579a32241645affdb7d0b7 Mon Sep 17 00:00:00 2001
+From: Philipp Kerling <pkerling@casix.org>
+Date: Sat, 7 Apr 2018 12:07:51 +0200
+Subject: [PATCH 09/14] Add CEGLUtils::HasClientExtension
+
+---
+ xbmc/utils/EGLUtils.cpp | 6 ++++++
+ xbmc/utils/EGLUtils.h   | 1 +
+ 2 files changed, 7 insertions(+)
+
+diff --git a/xbmc/utils/EGLUtils.cpp b/xbmc/utils/EGLUtils.cpp
+index 898503e34e32..9f704dfce4f9 100644
+--- a/xbmc/utils/EGLUtils.cpp
++++ b/xbmc/utils/EGLUtils.cpp
+@@ -57,6 +57,12 @@ bool CEGLUtils::HasExtension(EGLDisplay eglDisplay, const std::string& name)
+   return (exts.find(name) != exts.end());
+ }
+ 
++bool CEGLUtils::HasClientExtension(const std::string& name)
++{
++  auto exts = GetClientExtensions();
++  return (exts.find(name) != exts.end());
++}
++
+ void CEGLUtils::LogError(const std::string& what)
+ {
+   CLog::Log(LOGERROR, "%s (EGL error %d)", what.c_str(), eglGetError());
+diff --git a/xbmc/utils/EGLUtils.h b/xbmc/utils/EGLUtils.h
+index 07f3ff85a4a6..6f9975e12823 100644
+--- a/xbmc/utils/EGLUtils.h
++++ b/xbmc/utils/EGLUtils.h
+@@ -33,6 +33,7 @@ class CEGLUtils
+   static std::set<std::string> GetClientExtensions();
+   static std::set<std::string> GetExtensions(EGLDisplay eglDisplay);
+   static bool HasExtension(EGLDisplay eglDisplay, std::string const & name);
++  static bool HasClientExtension(std::string const & name);
+   static void LogError(std::string const & what);
+   template<typename T>
+   static T GetRequiredProcAddress(const char * procname)
+
+From e36197ba7d418382260401cc4b7ddf177e4f3dae Mon Sep 17 00:00:00 2001
+From: Philipp Kerling <pkerling@casix.org>
+Date: Sat, 7 Apr 2018 12:08:28 +0200
+Subject: [PATCH 10/14] Allow to specify EGL platform enum for CreateDisplay()
+
+---
+ cmake/platform/linux/gbm.cmake                 |  3 +-
+ xbmc/utils/EGLUtils.cpp                        | 64 ++++++++++++++++++--------
+ xbmc/utils/EGLUtils.h                          | 26 +++++++++--
+ xbmc/windowing/gbm/WinSystemGbmGLESContext.cpp | 12 +++--
+ xbmc/windowing/gbm/WinSystemGbmGLESContext.h   |  2 +-
+ 5 files changed, 79 insertions(+), 28 deletions(-)
+
+diff --git a/cmake/platform/linux/gbm.cmake b/cmake/platform/linux/gbm.cmake
+index d8e73d062807..7e5a5a02e447 100644
+--- a/cmake/platform/linux/gbm.cmake
++++ b/cmake/platform/linux/gbm.cmake
+@@ -1,4 +1,5 @@
+ set(PLATFORM_REQUIRED_DEPS OpenGLES EGL GBM LibDRM)
+ set(PLATFORM_OPTIONAL_DEPS VAAPI)
+ set(APP_RENDER_SYSTEM gles)
+-list(APPEND PLATFORM_DEFINES -DMESA_EGL_NO_X11_HEADERS -DPLATFORM_SETTINGS_FILE=gbm.xml)
++# __GBM__ is needed by eglplatform.h in case it is included before gbm.h
++list(APPEND PLATFORM_DEFINES -DMESA_EGL_NO_X11_HEADERS -D__GBM__=1 -DPLATFORM_SETTINGS_FILE=gbm.xml)
+diff --git a/xbmc/utils/EGLUtils.cpp b/xbmc/utils/EGLUtils.cpp
+index 9f704dfce4f9..3843b0e8061e 100644
+--- a/xbmc/utils/EGLUtils.cpp
++++ b/xbmc/utils/EGLUtils.cpp
+@@ -72,34 +72,60 @@ CEGLContextUtils::CEGLContextUtils()
+ {
+ }
+ 
++CEGLContextUtils::CEGLContextUtils(EGLenum platform, std::string const& platformExtension)
++: m_platform{platform}
++{
++  m_platformSupported = CEGLUtils::HasClientExtension("EGL_EXT_platform_base") && CEGLUtils::HasClientExtension(platformExtension);
++}
++
++bool CEGLContextUtils::IsPlatformSupported() const
++{
++  return m_platformSupported;
++}
++
+ CEGLContextUtils::~CEGLContextUtils()
+ {
+   Destroy();
+ }
+ 
+-bool CEGLContextUtils::CreateDisplay(EGLDisplay display,
+-                                     EGLint renderableType,
+-                                     EGLint renderingApi)
++bool CEGLContextUtils::CreateDisplay(EGLNativeDisplayType nativeDisplay, EGLint renderableType, EGLint renderingApi)
+ {
+   if (m_eglDisplay != EGL_NO_DISPLAY)
+   {
+     throw std::logic_error("Do not call CreateDisplay when display has already been created");
+   }
+ 
+-#if defined(EGL_EXT_platform_base) && defined(EGL_KHR_platform_gbm) && defined(HAVE_GBM)
+-  if (m_eglDisplay == EGL_NO_DISPLAY &&
+-      CEGLUtils::HasExtension(EGL_NO_DISPLAY, "EGL_EXT_platform_base") &&
+-      CEGLUtils::HasExtension(EGL_NO_DISPLAY, "EGL_KHR_platform_gbm"))
++  m_eglDisplay = eglGetDisplay(nativeDisplay);
++  if (m_eglDisplay == EGL_NO_DISPLAY)
+   {
+-    PFNEGLGETPLATFORMDISPLAYEXTPROC getPlatformDisplayEXT = (PFNEGLGETPLATFORMDISPLAYEXTPROC)eglGetProcAddress("eglGetPlatformDisplayEXT");
+-    if (getPlatformDisplayEXT)
+-    {
+-      m_eglDisplay = getPlatformDisplayEXT(EGL_PLATFORM_GBM_KHR, (EGLNativeDisplayType)display, NULL);
+-    }
++    CEGLUtils::LogError("failed to get EGL display");
++    return false;
++  }
++
++  return InitializeDisplay(renderableType, renderingApi);
++}
++
++bool CEGLContextUtils::CreatePlatformDisplay(void* nativeDisplay, EGLNativeDisplayType nativeDisplayLegacy, EGLint renderableType, EGLint renderingApi)
++{
++  if (m_eglDisplay != EGL_NO_DISPLAY)
++  {
++    throw std::logic_error("Do not call CreateDisplay when display has already been created");
++  }
++
++#if defined(EGL_EXT_platform_base)
++  if (IsPlatformSupported())
++  {
++    // Theoretically it is possible to use eglGetDisplay() and eglCreateWindowSurface,
++    // but then the EGL library basically has to guess which platform we want
++    // if it supports multiple which is usually the case -
++    // it's better and safer to make it explicit
++
++    auto getPlatformDisplayEXT = CEGLUtils::GetRequiredProcAddress<PFNEGLGETPLATFORMDISPLAYEXTPROC>("eglGetPlatformDisplayEXT");
++    m_eglDisplay = getPlatformDisplayEXT(m_platform, nativeDisplay, nullptr);
+ 
+     if (m_eglDisplay == EGL_NO_DISPLAY)
+     {
+-      CEGLUtils::LogError("Failed to get EGL platform display");
++      CEGLUtils::LogError("failed to get platform display");
+       return false;
+     }
+   }
+@@ -107,15 +133,13 @@ bool CEGLContextUtils::CreateDisplay(EGLDisplay display,
+ 
+   if (m_eglDisplay == EGL_NO_DISPLAY)
+   {
+-    m_eglDisplay = eglGetDisplay((EGLNativeDisplayType)display);
+-  }
+-
+-  if (m_eglDisplay == EGL_NO_DISPLAY)
+-  {
+-    CEGLUtils::LogError("failed to get EGL display");
+-    return false;
++    return CreateDisplay(nativeDisplayLegacy, renderableType, renderingApi);
+   }
++  return InitializeDisplay(renderableType, renderingApi);
++}
+ 
++bool CEGLContextUtils::InitializeDisplay(EGLint renderableType, EGLint renderingApi)
++{
+   int major, minor;
+   if (!eglInitialize(m_eglDisplay, &major, &minor))
+   {
+diff --git a/xbmc/utils/EGLUtils.h b/xbmc/utils/EGLUtils.h
+index 6f9975e12823..f3ce810648c0 100644
+--- a/xbmc/utils/EGLUtils.h
++++ b/xbmc/utils/EGLUtils.h
+@@ -126,11 +126,25 @@
+ {
+ public:
+   CEGLContextUtils();
++  /**
++   * \param platform platform as constant from an extension building on EGL_EXT_platform_base
++   */
++  CEGLContextUtils(EGLenum platform, std::string const& platformExtension);
+   ~CEGLContextUtils();
+ 
+-  bool CreateDisplay(EGLDisplay display,
+-                     EGLint renderableType,
+-                     EGLint renderingApi);
++  bool CreateDisplay(EGLNativeDisplayType nativeDisplay, EGLint renderableType, EGLint renderingApi);
++  /**
++   * Create EGLDisplay with EGL_EXT_platform_base
++   *
++   * Falls back to \ref CreateDisplay (with nativeDisplayLegacy) on failure.
++   * The native displays to use with the platform-based and the legacy approach
++   * may be defined to have different types and/or semantics, so this function takes
++   * both as separate parameters.
++   *
++   * \param nativeDisplay native display to use with eglGetPlatformDisplayEXT
++   * \param nativeDisplayLegacy native display to use with eglGetDisplay
++   */
++  bool CreatePlatformDisplay(void* nativeDisplay, EGLNativeDisplayType nativeDisplayLegacy, EGLint renderableType, EGLint renderingApi);
+ 
+   bool CreateSurface(EGLNativeWindowType nativeWindow);
+   bool CreatePlatformSurface(void* nativeWindow, EGLNativeWindowType nativeWindowLegacy);
+@@ -155,8 +155,13 @@
+   void DestroyContext();
+   bool SetVSync(bool enable);
+   void SwapBuffers();
++  bool IsPlatformSupported() const;
++  bool InitializeDisplay(EGLint renderableType, EGLint renderingApi);
+   void SurfaceAttrib();
+ 
++  EGLenum m_platform{EGL_NONE};
++  bool m_platformSupported{false};
++
+   EGLDisplay m_eglDisplay{EGL_NO_DISPLAY};
+   EGLSurface m_eglSurface{EGL_NO_SURFACE};
+   EGLContext m_eglContext{EGL_NO_CONTEXT};
+diff --git a/xbmc/windowing/gbm/WinSystemGbmGLESContext.cpp b/xbmc/windowing/gbm/WinSystemGbmGLESContext.cpp
+index 20e7c03a23bf..7e20cb00d297 100644
+--- a/xbmc/windowing/gbm/WinSystemGbmGLESContext.cpp
++++ b/xbmc/windowing/gbm/WinSystemGbmGLESContext.cpp
+@@ -18,6 +18,10 @@
+  *
+  */
+ 
++#include <gbm.h>
++#include <EGL/egl.h>
++#include <EGL/eglext.h>
++
+ #include "cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecDRMPRIME.h"
+ #include "cores/VideoPlayer/VideoRenderers/HwDecRender/RendererDRMPRIME.h"
+ 
+@@ -33,6 +37,10 @@
+ 
+ using namespace KODI;
+ 
++CWinSystemGbmGLESContext::CWinSystemGbmGLESContext()
++: m_pGLContext{EGL_PLATFORM_GBM_MESA, "EGL_MESA_platform_gbm"}
++{}
++
+ std::unique_ptr<CWinSystemBase> CWinSystemBase::CreateWinSystem()
+ {
+   std::unique_ptr<CWinSystemBase> winSystem(new CWinSystemGbmGLESContext());
+@@ -50,9 +58,7 @@ bool CWinSystemGbmGLESContext::InitWindowSystem()
+     return false;
+   }
+ 
+-  if (!m_pGLContext.CreateDisplay(m_GBM->GetDevice(),
+-                                  EGL_OPENGL_ES2_BIT,
+-                                  EGL_OPENGL_ES_API))
++  if (!m_pGLContext.CreatePlatformDisplay(m_GBM->GetDevice(), m_GBM->GetDevice(), EGL_OPENGL_ES2_BIT, EGL_OPENGL_ES_API))
+   {
+     return false;
+   }
+diff --git a/xbmc/windowing/gbm/WinSystemGbmGLESContext.h b/xbmc/windowing/gbm/WinSystemGbmGLESContext.h
+index d422fd30659d..42b743d48719 100644
+--- a/xbmc/windowing/gbm/WinSystemGbmGLESContext.h
++++ b/xbmc/windowing/gbm/WinSystemGbmGLESContext.h
+@@ -30,7 +30,7 @@ class CVaapiProxy;
+ class CWinSystemGbmGLESContext : public CWinSystemGbm, public CRenderSystemGLES
+ {
+ public:
+-  CWinSystemGbmGLESContext() = default;
++  CWinSystemGbmGLESContext();
+   virtual ~CWinSystemGbmGLESContext() = default;
+ 
+   // Implementation of CWinSystemBase via CWinSystemGbm
+
+From 2d0d13943556a22af0f6aebb4c0d4b99f50f71f6 Mon Sep 17 00:00:00 2001
+From: Philipp Kerling <pkerling@casix.org>
+Date: Sat, 7 Apr 2018 12:18:33 +0200
+Subject: [PATCH 11/14] Use eglCreatePlatformWindowSurfaceEXT if available
+
+---
+ xbmc/utils/EGLUtils.cpp                        | 53 +++++++++++++++++++++++---
+ xbmc/utils/EGLUtils.h                          |  3 +-
+ xbmc/windowing/gbm/WinSystemGbmGLESContext.cpp |  2 +-
+ 3 files changed, 50 insertions(+), 8 deletions(-)
+
+diff --git a/xbmc/utils/EGLUtils.cpp b/xbmc/utils/EGLUtils.cpp
+index 3843b0e8061e..2b439d45e5a2 100644
+--- a/xbmc/utils/EGLUtils.cpp
++++ b/xbmc/utils/EGLUtils.cpp
+@@ -250,16 +250,22 @@ void CEGLContextUtils::SurfaceAttrib()
+   }
+ }
+ 
+-bool CEGLContextUtils::CreateSurface(EGLNativeWindowType surface)
++bool CEGLContextUtils::CreateSurface(EGLNativeWindowType nativeWindow)
+ {
+-  m_eglSurface = eglCreateWindowSurface(m_eglDisplay,
+-                                        m_eglConfig,
+-                                        surface,
+-                                        nullptr);
++  if (m_eglDisplay == EGL_NO_DISPLAY)
++  {
++    throw std::logic_error("Creating a surface requires a display");
++  }
++  if (m_eglSurface != EGL_NO_SURFACE)
++  {
++    throw std::logic_error("Do not call CreateSurface when surface has already been created");
++  }
++
++  m_eglSurface = eglCreateWindowSurface(m_eglDisplay, m_eglConfig, nativeWindow, nullptr);
+ 
+   if (m_eglSurface == EGL_NO_SURFACE)
+   {
+-    CLog::Log(LOGERROR, "failed to create EGL window surface %d", eglGetError());
++    CEGLUtils::LogError("failed to create window surface");
+     return false;
+   }
+ 
+@@ -268,6 +274,41 @@ bool CEGLContextUtils::CreateSurface(EGLNativeWindowType surface)
+   return true;
+ }
+ 
++bool CEGLContextUtils::CreatePlatformSurface(void* nativeWindow, EGLNativeWindowType nativeWindowLegacy)
++{
++  if (m_eglDisplay == EGL_NO_DISPLAY)
++  {
++    throw std::logic_error("Creating a surface requires a display");
++  }
++  if (m_eglSurface != EGL_NO_SURFACE)
++  {
++    throw std::logic_error("Do not call CreateSurface when surface has already been created");
++  }
++
++#if defined(EGL_EXT_platform_base)
++  if (IsPlatformSupported())
++  {
++    auto createPlatformWindowSurfaceEXT = CEGLUtils::GetRequiredProcAddress<PFNEGLCREATEPLATFORMWINDOWSURFACEEXTPROC>("eglCreatePlatformWindowSurfaceEXT");
++    m_eglSurface = createPlatformWindowSurfaceEXT(m_eglDisplay, m_eglConfig, nativeWindow, nullptr);
++
++    if (m_eglSurface == EGL_NO_SURFACE)
++    {
++      CEGLUtils::LogError("failed to create platform window surface");
++      return false;
++    }
++  }
++#endif
++
++  if (m_eglSurface == EGL_NO_SURFACE)
++  {
++    return CreateSurface(nativeWindowLegacy);
++  }
++
++  SurfaceAttrib();
++
++  return true;
++}
++
+ void CEGLContextUtils::Destroy()
+ {
+   if (m_eglContext != EGL_NO_CONTEXT)
+diff --git a/xbmc/utils/EGLUtils.h b/xbmc/utils/EGLUtils.h
+index f3ce810648c0..3dda0c65769f 100644
+--- a/xbmc/utils/EGLUtils.h
++++ b/xbmc/utils/EGLUtils.h
+@@ -145,7 +145,8 @@ class CEGLContextUtils
+    */
+   bool CreatePlatformDisplay(void* nativeDisplay, EGLNativeDisplayType nativeDisplayLegacy, EGLint renderableType, EGLint renderingApi);
+ 
+-  bool CreateSurface(EGLNativeWindowType surface);
++  bool CreateSurface(EGLNativeWindowType nativeWindow);
++  bool CreatePlatformSurface(void* nativeWindow, EGLNativeWindowType nativeWindowLegacy);
+   bool CreateContext(const EGLint* contextAttribs);
+   bool BindContext();
+   void Destroy();
+diff --git a/xbmc/windowing/gbm/WinSystemGbmGLESContext.cpp b/xbmc/windowing/gbm/WinSystemGbmGLESContext.cpp
+index 7e20cb00d297..11b2fdbcdc14 100644
+--- a/xbmc/windowing/gbm/WinSystemGbmGLESContext.cpp
++++ b/xbmc/windowing/gbm/WinSystemGbmGLESContext.cpp
+@@ -115,7 +115,7 @@ bool CWinSystemGbmGLESContext::CreateNewWindow(const std::string& name,
+     return false;
+   }
+ 
+-  if (!m_pGLContext.CreateSurface(reinterpret_cast<EGLNativeWindowType>(m_GBM->GetSurface())))
++  if (!m_pGLContext.CreatePlatformSurface(m_GBM->GetSurface(), m_GBM->GetSurface()))
+   {
+     return false;
+   }
+
+From 8a2fedb3f9955a6897a9d08833a40c6fb9d6ce1c Mon Sep 17 00:00:00 2001
+From: Philipp Kerling <pkerling@casix.org>
+Date: Sat, 7 Apr 2018 12:24:28 +0200
+Subject: [PATCH 12/14] Split and rename destroy functions
+
+---
+ xbmc/utils/EGLUtils.cpp                            | 23 ++++++++++------------
+ xbmc/utils/EGLUtils.h                              |  3 ++-
+ .../amlogic/WinSystemAmlogicGLESContext.cpp        |  2 +-
+ .../android/WinSystemAndroidGLESContext.cpp        |  2 +-
+ xbmc/windowing/gbm/WinSystemGbmGLESContext.cpp     |  2 +-
+ xbmc/windowing/rpi/WinSystemRpiGLESContext.cpp     |  2 +-
+ 6 files changed, 16 insertions(+), 18 deletions(-)
+
+diff --git a/xbmc/utils/EGLUtils.cpp b/xbmc/utils/EGLUtils.cpp
+index 2b439d45e5a2..9ca2d0be13dd 100644
+--- a/xbmc/utils/EGLUtils.cpp
++++ b/xbmc/utils/EGLUtils.cpp
+@@ -311,18 +311,8 @@ bool CEGLContextUtils::CreatePlatformSurface(void* nativeWindow, EGLNativeWindow
+ 
+ void CEGLContextUtils::Destroy()
+ {
+-  if (m_eglContext != EGL_NO_CONTEXT)
+-  {
+-    eglDestroyContext(m_eglDisplay, m_eglContext);
+-    eglMakeCurrent(m_eglDisplay, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
+-    m_eglContext = EGL_NO_CONTEXT;
+-  }
+-
+-  if (m_eglSurface != EGL_NO_SURFACE)
+-  {
+-    eglDestroySurface(m_eglDisplay, m_eglSurface);
+-    m_eglSurface = EGL_NO_SURFACE;
+-  }
++  DestroyContext();
++  DestroySurface();
+ 
+   if (m_eglDisplay != EGL_NO_DISPLAY)
+   {
+@@ -331,20 +321,27 @@ void CEGLContextUtils::Destroy()
+   }
+ }
+ 
+-void CEGLContextUtils::Detach()
++void CEGLContextUtils::DestroyContext()
+ {
+   if (m_eglContext != EGL_NO_CONTEXT)
+   {
+     eglMakeCurrent(m_eglDisplay, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
++    eglDestroyContext(m_eglDisplay, m_eglContext);
++    m_eglContext = EGL_NO_CONTEXT;
+   }
++}
+ 
++void CEGLContextUtils::DestroySurface()
++{
+   if (m_eglSurface != EGL_NO_SURFACE)
+   {
++    eglMakeCurrent(m_eglDisplay, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
+     eglDestroySurface(m_eglDisplay, m_eglSurface);
+     m_eglSurface = EGL_NO_SURFACE;
+   }
+ }
+ 
++
+ bool CEGLContextUtils::SetVSync(bool enable)
+ {
+   return (eglSwapInterval(m_eglDisplay, enable) == EGL_TRUE);
+diff --git a/xbmc/utils/EGLUtils.h b/xbmc/utils/EGLUtils.h
+index 3dda0c65769f..be3ce0d78fa6 100644
+--- a/xbmc/utils/EGLUtils.h
++++ b/xbmc/utils/EGLUtils.h
+@@ -150,7 +150,8 @@ class CEGLContextUtils
+   bool CreateContext(const EGLint* contextAttribs);
+   bool BindContext();
+   void Destroy();
+-  void Detach();
++  void DestroySurface();
++  void DestroyContext();
+   bool SetVSync(bool enable);
+   void SwapBuffers();
+   bool IsPlatformSupported() const;
+diff --git a/xbmc/windowing/amlogic/WinSystemAmlogicGLESContext.cpp b/xbmc/windowing/amlogic/WinSystemAmlogicGLESContext.cpp
+index 63c8935212f2..b926229c4182 100644
+--- a/xbmc/windowing/amlogic/WinSystemAmlogicGLESContext.cpp
++++ b/xbmc/windowing/amlogic/WinSystemAmlogicGLESContext.cpp
+@@ -60,7 +60,7 @@ bool CWinSystemAmlogicGLESContext::CreateNewWindow(const std::string& name,
+                                                bool fullScreen,
+                                                RESOLUTION_INFO& res)
+ {
+-  m_pGLContext.Detach();
++  m_pGLContext.DestroySurface();
+ 
+   if (!CWinSystemAmlogic::DestroyWindow())
+   {
+diff --git a/xbmc/windowing/android/WinSystemAndroidGLESContext.cpp b/xbmc/windowing/android/WinSystemAndroidGLESContext.cpp
+index 7220a951fdde..84393c5647ef 100644
+--- a/xbmc/windowing/android/WinSystemAndroidGLESContext.cpp
++++ b/xbmc/windowing/android/WinSystemAndroidGLESContext.cpp
+@@ -60,7 +60,7 @@ bool CWinSystemAndroidGLESContext::CreateNewWindow(const std::string& name,
+                                                bool fullScreen,
+                                                RESOLUTION_INFO& res)
+ {
+-  m_pGLContext.Detach();
++  m_pGLContext.DestroySurface();
+ 
+   if (!CWinSystemAndroid::CreateNewWindow(name, fullScreen, res))
+   {
+diff --git a/xbmc/windowing/gbm/WinSystemGbmGLESContext.cpp b/xbmc/windowing/gbm/WinSystemGbmGLESContext.cpp
+index 11b2fdbcdc14..1d16d291aa68 100644
+--- a/xbmc/windowing/gbm/WinSystemGbmGLESContext.cpp
++++ b/xbmc/windowing/gbm/WinSystemGbmGLESContext.cpp
+@@ -103,7 +103,7 @@ bool CWinSystemGbmGLESContext::CreateNewWindow(const std::string& name,
+                                                bool fullScreen,
+                                                RESOLUTION_INFO& res)
+ {
+-  m_pGLContext.Detach();
++  m_pGLContext.DestroySurface();
+ 
+   if (!CWinSystemGbm::DestroyWindow())
+   {
+diff --git a/xbmc/windowing/rpi/WinSystemRpiGLESContext.cpp b/xbmc/windowing/rpi/WinSystemRpiGLESContext.cpp
+index a362edf01342..4cd298f00e32 100644
+--- a/xbmc/windowing/rpi/WinSystemRpiGLESContext.cpp
++++ b/xbmc/windowing/rpi/WinSystemRpiGLESContext.cpp
+@@ -85,7 +85,7 @@ bool CWinSystemRpiGLESContext::CreateNewWindow(const std::string& name,
+                                                bool fullScreen,
+                                                RESOLUTION_INFO& res)
+ {
+-  m_pGLContext.Detach();
++  m_pGLContext.DestroySurface();
+ 
+   if (!CWinSystemRpi::DestroyWindow())
+   {
+
+From ecc54a6b48df64af9eda89f210885242368e9de6 Mon Sep 17 00:00:00 2001
+From: Philipp Kerling <pkerling@casix.org>
+Date: Sat, 7 Apr 2018 12:40:14 +0200
+Subject: [PATCH 13/14] Make EGL display/surface/context/config private
+
+---
+ xbmc/utils/EGLUtils.h                                  | 18 ++++++++++++++++++
+ xbmc/windowing/amlogic/WinSystemAmlogicGLESContext.cpp |  8 ++++----
+ xbmc/windowing/android/WinSystemAndroidGLESContext.cpp |  8 ++++----
+ xbmc/windowing/gbm/WinSystemGbmGLESContext.cpp         | 10 +++++-----
+ xbmc/windowing/rpi/WinSystemRpiGLESContext.cpp         |  8 ++++----
+ 5 files changed, 35 insertions(+), 17 deletions(-)
+
+diff --git a/xbmc/utils/EGLUtils.h b/xbmc/utils/EGLUtils.h
+index be3ce0d78fa6..862da2a8a20a 100644
+--- a/xbmc/utils/EGLUtils.h
++++ b/xbmc/utils/EGLUtils.h
+@@ -156,6 +156,24 @@
+   bool SetVSync(bool enable);
+   void SwapBuffers();
+   bool IsPlatformSupported() const;
++  EGLDisplay GetEGLDisplay() const
++  {
++    return m_eglDisplay;
++  }
++  EGLSurface GetEGLSurface() const
++  {
++    return m_eglSurface;
++  }
++  EGLContext GetEGLContext() const
++  {
++    return m_eglContext;
++  }
++  EGLConfig GetEGLConfig() const
++  {
++    return m_eglConfig;
++  }
++
++private:
+   bool InitializeDisplay(EGLint renderableType, EGLint renderingApi);
+   void SurfaceAttrib();
+ 
+diff --git a/xbmc/windowing/amlogic/WinSystemAmlogicGLESContext.cpp b/xbmc/windowing/amlogic/WinSystemAmlogicGLESContext.cpp
+index b926229c4182..20080a54af2c 100644
+--- a/xbmc/windowing/amlogic/WinSystemAmlogicGLESContext.cpp
++++ b/xbmc/windowing/amlogic/WinSystemAmlogicGLESContext.cpp
+@@ -134,22 +134,22 @@ void CWinSystemAmlogicGLESContext::PresentRenderImpl(bool rendered)
+ 
+ EGLDisplay CWinSystemAmlogicGLESContext::GetEGLDisplay() const
+ {
+-  return m_pGLContext.m_eglDisplay;
++  return m_pGLContext.GetEGLDisplay();
+ }
+ 
+ EGLSurface CWinSystemAmlogicGLESContext::GetEGLSurface() const
+ {
+-  return m_pGLContext.m_eglSurface;
++  return m_pGLContext.GetEGLSurface();
+ }
+ 
+ EGLContext CWinSystemAmlogicGLESContext::GetEGLContext() const
+ {
+-  return m_pGLContext.m_eglContext;
++  return m_pGLContext.GetEGLContext();
+ }
+ 
+ EGLConfig  CWinSystemAmlogicGLESContext::GetEGLConfig() const
+ {
+-  return m_pGLContext.m_eglConfig;
++  return m_pGLContext.GetEGLConfig();
+ }
+ 
+ std::unique_ptr<CVideoSync> CWinSystemAmlogicGLESContext::GetVideoSync(void *clock)
+diff --git a/xbmc/windowing/android/WinSystemAndroidGLESContext.cpp b/xbmc/windowing/android/WinSystemAndroidGLESContext.cpp
+index 84393c5647ef..e3b3af4e753a 100644
+--- a/xbmc/windowing/android/WinSystemAndroidGLESContext.cpp
++++ b/xbmc/windowing/android/WinSystemAndroidGLESContext.cpp
+@@ -129,22 +129,22 @@ void CWinSystemAndroidGLESContext::PresentRenderImpl(bool rendered)
+ 
+ EGLDisplay CWinSystemAndroidGLESContext::GetEGLDisplay() const
+ {
+-  return m_pGLContext.m_eglDisplay;
++  return m_pGLContext.GetEGLDisplay();
+ }
+ 
+ EGLSurface CWinSystemAndroidGLESContext::GetEGLSurface() const
+ {
+-  return m_pGLContext.m_eglSurface;
++  return m_pGLContext.GetEGLSurface();
+ }
+ 
+ EGLContext CWinSystemAndroidGLESContext::GetEGLContext() const
+ {
+-  return m_pGLContext.m_eglContext;
++  return m_pGLContext.GetEGLContext();
+ }
+ 
+ EGLConfig  CWinSystemAndroidGLESContext::GetEGLConfig() const
+ {
+-  return m_pGLContext.m_eglConfig;
++  return m_pGLContext.GetEGLConfig();
+ }
+ 
+ std::unique_ptr<CVideoSync> CWinSystemAndroidGLESContext::GetVideoSync(void *clock)
+diff --git a/xbmc/windowing/gbm/WinSystemGbmGLESContext.cpp b/xbmc/windowing/gbm/WinSystemGbmGLESContext.cpp
+index 1d16d291aa68..fa2c04b0ae1f 100644
+--- a/xbmc/windowing/gbm/WinSystemGbmGLESContext.cpp
++++ b/xbmc/windowing/gbm/WinSystemGbmGLESContext.cpp
+@@ -75,7 +75,7 @@ bool CWinSystemGbmGLESContext::InitWindowSystem()
+ 
+   bool general, deepColor;
+   m_vaapiProxy.reset(GBM::VaapiProxyCreate());
+-  GBM::VaapiProxyConfig(m_vaapiProxy.get(), m_pGLContext.m_eglDisplay);
++  GBM::VaapiProxyConfig(m_vaapiProxy.get(), m_pGLContext.GetEGLDisplay());
+   GBM::VAAPIRegisterRender(m_vaapiProxy.get(), general, deepColor);
+ 
+   if (general)
+@@ -186,20 +186,20 @@ void CWinSystemGbmGLESContext::delete_CVaapiProxy::operator()(CVaapiProxy *p) co
+ 
+ EGLDisplay CWinSystemGbmGLESContext::GetEGLDisplay() const
+ {
+-  return m_pGLContext.m_eglDisplay;
++  return m_pGLContext.GetEGLDisplay();
+ }
+ 
+ EGLSurface CWinSystemGbmGLESContext::GetEGLSurface() const
+ {
+-  return m_pGLContext.m_eglSurface;
++  return m_pGLContext.GetEGLSurface();
+ }
+ 
+ EGLContext CWinSystemGbmGLESContext::GetEGLContext() const
+ {
+-  return m_pGLContext.m_eglContext;
++  return m_pGLContext.GetEGLContext();
+ }
+ 
+ EGLConfig  CWinSystemGbmGLESContext::GetEGLConfig() const
+ {
+-  return m_pGLContext.m_eglConfig;
++  return m_pGLContext.GetEGLConfig();
+ }
+diff --git a/xbmc/windowing/rpi/WinSystemRpiGLESContext.cpp b/xbmc/windowing/rpi/WinSystemRpiGLESContext.cpp
+index 4cd298f00e32..d4526c81ea0f 100644
+--- a/xbmc/windowing/rpi/WinSystemRpiGLESContext.cpp
++++ b/xbmc/windowing/rpi/WinSystemRpiGLESContext.cpp
+@@ -163,22 +163,22 @@ void CWinSystemRpiGLESContext::PresentRenderImpl(bool rendered)
+ 
+ EGLDisplay CWinSystemRpiGLESContext::GetEGLDisplay() const
+ {
+-  return m_pGLContext.m_eglDisplay;
++  return m_pGLContext.GetEGLDisplay();
+ }
+ 
+ EGLSurface CWinSystemRpiGLESContext::GetEGLSurface() const
+ {
+-  return m_pGLContext.m_eglSurface;
++  return m_pGLContext.GetEGLSurface();
+ }
+ 
+ EGLContext CWinSystemRpiGLESContext::GetEGLContext() const
+ {
+-  return m_pGLContext.m_eglContext;
++  return m_pGLContext.GetEGLContext();
+ }
+ 
+ EGLConfig  CWinSystemRpiGLESContext::GetEGLConfig() const
+ {
+-  return m_pGLContext.m_eglConfig;
++  return m_pGLContext.GetEGLConfig();
+ }
+ 
+ std::unique_ptr<CVideoSync> CWinSystemRpiGLESContext::GetVideoSync(void *clock)
+
+From 24713788cccb063e880153d02c830796587433f0 Mon Sep 17 00:00:00 2001
+From: Philipp Kerling <pkerling@casix.org>
+Date: Sat, 7 Apr 2018 12:46:03 +0200
+Subject: [PATCH 14/14] [wayland] Use CEGLContextUtil
+
+---
+ cmake/platform/linux/wayland.cmake                 |   3 +-
+ xbmc/windowing/wayland/CMakeLists.txt              |   2 -
+ xbmc/windowing/wayland/EGLContext.cpp              | 242 ---------------------
+ xbmc/windowing/wayland/EGLContext.h                |  94 --------
+ .../wayland/WinSystemWaylandEGLContext.cpp         |  26 ++-
+ .../windowing/wayland/WinSystemWaylandEGLContext.h |  10 +-
+ .../wayland/WinSystemWaylandEGLContextGL.cpp       |   1 +
+ 7 files changed, 31 insertions(+), 347 deletions(-)
+ delete mode 100644 xbmc/windowing/wayland/EGLContext.cpp
+ delete mode 100644 xbmc/windowing/wayland/EGLContext.h
+
+diff --git a/cmake/platform/linux/wayland.cmake b/cmake/platform/linux/wayland.cmake
+index 7ecc6a34dfdc..97cff678879d 100644
+--- a/cmake/platform/linux/wayland.cmake
++++ b/cmake/platform/linux/wayland.cmake
+@@ -15,6 +15,7 @@ endif()
+ 
+ set(PLATFORM_GLOBAL_TARGET_DEPS generate-wayland-extra-protocols)
+ set(WAYLAND_EXTRA_PROTOCOL_GENERATED_DIR "${CMAKE_CURRENT_BINARY_DIR}")
+-list(APPEND PLATFORM_DEFINES -DPLATFORM_SETTINGS_FILE=wayland.xml)
++# WL_EGL_PLATFORM is needed by eglplatform.h in case it is included before wayland-egl.h
++list(APPEND PLATFORM_DEFINES -DWL_EGL_PLATFORM=1 -DPLATFORM_SETTINGS_FILE=wayland.xml)
+ # for wayland-extra-protocols.hpp
+ include_directories("${WAYLAND_EXTRA_PROTOCOL_GENERATED_DIR}")
+diff --git a/xbmc/windowing/wayland/CMakeLists.txt b/xbmc/windowing/wayland/CMakeLists.txt
+index 654a04e220a2..f7cbd30b16e7 100644
+--- a/xbmc/windowing/wayland/CMakeLists.txt
++++ b/xbmc/windowing/wayland/CMakeLists.txt
+@@ -4,7 +4,6 @@ set_source_files_properties(${WAYLAND_EXTRA_PROTOCOL_GENERATED_DIR}/wayland-extr
+                             PROPERTIES GENERATED TRUE)
+ 
+ set(SOURCES Connection.cpp
+-            EGLContext.cpp
+             OptionalsReg.cpp
+             Output.cpp
+             InputProcessorKeyboard.h
+@@ -28,7 +27,6 @@ set(SOURCES Connection.cpp
+             XkbcommonKeymap.cpp)
+ 
+ set(HEADERS Connection.h
+-            EGLContext.h
+             OptionalsReg.h
+             Output.h
+             InputProcessorKeyboard.cpp
+diff --git a/xbmc/windowing/wayland/EGLContext.cpp b/xbmc/windowing/wayland/EGLContext.cpp
+deleted file mode 100644
+index f904a7bd1899..000000000000
+--- a/xbmc/windowing/wayland/EGLContext.cpp
++++ /dev/null
+@@ -1,242 +0,0 @@
+-/*
+- *      Copyright (C) 2017 Team XBMC
+- *      http://kodi.tv
+- *
+- *  This Program is free software; you can redistribute it and/or modify
+- *  it under the terms of the GNU General Public License as published by
+- *  the Free Software Foundation; either version 2, or (at your option)
+- *  any later version.
+- *
+- *  This Program is distributed in the hope that it will be useful,
+- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+- *  GNU General Public License for more details.
+- *
+- *  You should have received a copy of the GNU General Public License
+- *  along with XBMC; see the file COPYING.  If not, see
+- *  <http://www.gnu.org/licenses/>.
+- *
+- */
+-
+-#include "EGLContext.h"
+-
+-#include "utils/EGLUtils.h"
+-#include "utils/log.h"
+-
+-using namespace KODI::WINDOWING::WAYLAND;
+-
+-CEGLContext::CEGLContext()
+-{
+-  // EGL_EXT_platform_wayland requires EGL_EXT_client_extensions, so this should
+-  // be safe to use
+-  m_clientExtensions = CEGLUtils::GetClientExtensions();
+-
+-  if (m_clientExtensions.find("EGL_EXT_platform_base") == m_clientExtensions.end())
+-  {
+-    throw std::runtime_error("EGL implementation does not support EGL_EXT_platform_base, cannot continue");
+-  }
+-  if (m_clientExtensions.find("EGL_EXT_platform_wayland") == m_clientExtensions.end())
+-  {
+-    throw std::runtime_error("EGL implementation does not support EGL_EXT_platform_wayland, cannot continue");
+-  }
+-
+-  // Theoretically it is possible to use eglGetDisplay() and eglCreateWindowSurface,
+-  // but then the EGL library basically has to guess which platform we want
+-  // if it supports multiple which is usually the case -
+-  // it's better and safer to make it explicit
+-  m_eglGetPlatformDisplayEXT = CEGLUtils::GetRequiredProcAddress<PFNEGLGETPLATFORMDISPLAYEXTPROC>("eglGetPlatformDisplayEXT");
+-  m_eglCreatePlatformWindowSurfaceEXT = CEGLUtils::GetRequiredProcAddress<PFNEGLCREATEPLATFORMWINDOWSURFACEEXTPROC>("eglCreatePlatformWindowSurfaceEXT");
+-}
+-
+-CEGLContext::~CEGLContext() noexcept
+-{
+-  Destroy();
+-}
+-
+-bool CEGLContext::CreateDisplay(wayland::display_t& display,
+-                                  EGLint renderableType,
+-                                  EGLenum renderingApi)
+-{
+-  if (m_eglDisplay != EGL_NO_DISPLAY)
+-  {
+-    throw std::logic_error("Do not call CreateDisplay when display has already been created");
+-  }
+-
+-  EGLint neglconfigs = 0;
+-  int major, minor;
+-
+-  EGLint attribs[] ={
+-    EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
+-    EGL_RENDERABLE_TYPE, renderableType,
+-    EGL_RED_SIZE, 8,
+-    EGL_GREEN_SIZE, 8,
+-    EGL_BLUE_SIZE, 8,
+-    EGL_DEPTH_SIZE, 16,
+-    EGL_NONE,
+-  };
+-
+-  m_eglDisplay = m_eglGetPlatformDisplayEXT(EGL_PLATFORM_WAYLAND_EXT, display, nullptr);
+-
+-  if (m_eglDisplay == EGL_NO_DISPLAY)
+-  {
+-    CEGLUtils::LogError("Failed to get EGL Wayland platform display");
+-    return false;
+-  }
+-
+-  if (eglInitialize(m_eglDisplay, &major, &minor) != EGL_TRUE)
+-  {
+-    CEGLUtils::LogError("Failed to initialize EGL display");
+-    Destroy();
+-    return false;
+-  }
+-  CLog::Log(LOGINFO, "Got EGL v%d.%d", major, minor);
+-
+-  if (eglBindAPI(renderingApi) != EGL_TRUE)
+-  {
+-    CEGLUtils::LogError("Failed to bind EGL API");
+-    Destroy();
+-    return false;
+-  }
+-
+-  if (eglChooseConfig(m_eglDisplay, attribs, &m_eglConfig, 1, &neglconfigs) != EGL_TRUE)
+-  {
+-    CEGLUtils::LogError("Failed to query number of EGL configs");
+-    Destroy();
+-    return false;
+-  }
+-
+-  if (neglconfigs <= 0)
+-  {
+-    CLog::Log(LOGERROR, "No suitable EGL configs found");
+-    Destroy();
+-    return false;
+-  }
+-
+-  return true;
+-}
+-
+-bool CEGLContext::CreateContext(const EGLint* contextAttribs)
+-{
+-  if (m_eglContext != EGL_NO_CONTEXT)
+-  {
+-    throw std::logic_error("Do not call CreateContext when context has already been created");
+-  }
+-
+-  m_eglContext = eglCreateContext(m_eglDisplay, m_eglConfig,
+-                                  EGL_NO_CONTEXT, contextAttribs);
+-
+-  if (m_eglContext == EGL_NO_CONTEXT)
+-  {
+-    // This is expected to fail under some circumstances, so log as debug
+-    CLog::Log(LOGDEBUG, "Failed to create EGL context (EGL error %d)", eglGetError());
+-    return false;
+-  }
+-
+-  return true;
+-}
+-
+-bool CEGLContext::CreateSurface(wayland::surface_t const& surface, CSizeInt size)
+-{
+-  if (m_eglSurface != EGL_NO_SURFACE)
+-  {
+-    throw std::logic_error("Do not call CreateSurface when surface has already been created");
+-  }
+-
+-  m_nativeWindow = wayland::egl_window_t(surface, size.Width(), size.Height());
+-
+-  m_eglSurface = m_eglCreatePlatformWindowSurfaceEXT(m_eglDisplay,
+-                                                     m_eglConfig,
+-                                                     m_nativeWindow, nullptr);
+-
+-  if (m_eglSurface == EGL_NO_SURFACE)
+-  {
+-    CEGLUtils::LogError("Failed to create EGL platform window surface");
+-    DestroySurface();
+-    return false;
+-  }
+-  return true;
+-}
+-
+-bool CEGLContext::MakeCurrent()
+-{
+-  if (m_eglDisplay == EGL_NO_DISPLAY || m_eglSurface == EGL_NO_SURFACE || m_eglContext == EGL_NO_CONTEXT)
+-  {
+-    throw std::logic_error("Activating an EGLContext requires display, surface, and context");
+-  }
+-
+-  if (eglMakeCurrent(m_eglDisplay, m_eglSurface, m_eglSurface, m_eglContext) != EGL_TRUE)
+-  {
+-    CEGLUtils::LogError("Failed to make context current");
+-    return false;
+-  }
+-  return true;
+-}
+-
+-CSizeInt CEGLContext::GetAttachedSize()
+-{
+-  int width, height;
+-  m_nativeWindow.get_attached_size(width, height);
+-  return {width, height};
+-}
+-
+-void CEGLContext::Resize(CSizeInt size)
+-{
+-  m_nativeWindow.resize(size.Width(), size.Height(), 0, 0);
+-}
+-
+-void CEGLContext::Destroy()
+-{
+-  DestroyContext();
+-  DestroySurface();
+-
+-  if (m_eglDisplay != EGL_NO_DISPLAY)
+-  {
+-    eglTerminate(m_eglDisplay);
+-    m_eglDisplay = EGL_NO_DISPLAY;
+-  }
+-}
+-
+-void CEGLContext::DestroyContext()
+-{
+-  if (m_eglContext != EGL_NO_CONTEXT)
+-  {
+-    eglMakeCurrent(m_eglDisplay, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
+-    eglDestroyContext(m_eglDisplay, m_eglContext);
+-    m_eglContext = EGL_NO_CONTEXT;
+-  }
+-}
+-
+-void CEGLContext::DestroySurface()
+-{
+-  if (m_eglSurface != EGL_NO_SURFACE)
+-  {
+-    eglMakeCurrent(m_eglDisplay, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
+-    eglDestroySurface(m_eglDisplay, m_eglSurface);
+-    m_eglSurface = EGL_NO_SURFACE;
+-  }
+-
+-  m_nativeWindow = wayland::egl_window_t();
+-}
+-
+-void CEGLContext::SetVSync(bool enable)
+-{
+-  if (eglSwapInterval(m_eglDisplay, enable) != EGL_TRUE)
+-  {
+-    CEGLUtils::LogError("Failed to set egl swap interval");
+-  }
+-}
+-
+-void CEGLContext::SwapBuffers()
+-{
+-  if (m_eglDisplay == EGL_NO_DISPLAY || m_eglSurface == EGL_NO_SURFACE)
+-    return;
+-
+-  if (eglSwapBuffers(m_eglDisplay, m_eglSurface) != EGL_TRUE)
+-  {
+-    // For now we just hard fail if this fails
+-    // Theoretically, EGL_CONTEXT_LOST could be handled, but it needs to be checked
+-    // whether egl implementations actually use it (mesa does not)
+-    CEGLUtils::LogError("eglSwapBuffers failed");
+-    throw std::runtime_error("eglSwapBuffers failed");
+-  }
+-}
+diff --git a/xbmc/windowing/wayland/WinSystemWaylandEGLContext.cpp b/xbmc/windowing/wayland/WinSystemWaylandEGLContext.cpp
+index 048ed3c550a4..fc7ae9099d78 100644
+--- a/xbmc/windowing/wayland/WinSystemWaylandEGLContext.cpp
++++ b/xbmc/windowing/wayland/WinSystemWaylandEGLContext.cpp
+@@ -20,6 +20,8 @@
+ 
+ #include "WinSystemWaylandEGLContext.h"
+ 
++#include <EGL/eglext.h>
++
+ #include "Connection.h"
+ #include "cores/VideoPlayer/DVDCodecs/DVDFactoryCodec.h"
+ #include "cores/VideoPlayer/VideoRenderers/RenderFactory.h"
+@@ -28,6 +30,10 @@
+ 
+ using namespace KODI::WINDOWING::WAYLAND;
+ 
++CWinSystemWaylandEGLContext::CWinSystemWaylandEGLContext()
++: m_eglContext{EGL_PLATFORM_WAYLAND_EXT, "EGL_EXT_platform_wayland"}
++{}
++
+ bool CWinSystemWaylandEGLContext::InitWindowSystemEGL(EGLint renderableType, EGLint apiType)
+ {
+   VIDEOPLAYER::CRendererFactory::ClearRenderer();
+@@ -38,7 +44,7 @@ bool CWinSystemWaylandEGLContext::InitWindowSystemEGL(EGLint renderableType, EGL
+     return false;
+   }
+ 
+-  if (!m_eglContext.CreateDisplay(GetConnection()->GetDisplay(), renderableType, apiType))
++  if (!m_eglContext.CreatePlatformDisplay(GetConnection()->GetDisplay(), GetConnection()->GetDisplay(), renderableType, apiType))
+   {
+     return false;
+   }
+@@ -60,15 +66,17 @@ bool CWinSystemWaylandEGLContext::CreateNewWindow(const std::string& name,
+     return false;
+   }
+ 
++  m_nativeWindow = wayland::egl_window_t{GetMainSurface(), GetBufferSize().Width(), GetBufferSize().Height()};
++
+   // CWinSystemWayland::CreateNewWindow sets internal m_bufferSize
+   // to the resolution that should be used for the initial surface size
+   // - the compositor might want something other than the resolution given
+-  if (!m_eglContext.CreateSurface(GetMainSurface(), GetBufferSize()))
++  if (!m_eglContext.CreatePlatformSurface(m_nativeWindow.c_ptr(), m_nativeWindow.c_ptr()))
+   {
+     return false;
+   }
+ 
+-  if (!m_eglContext.MakeCurrent())
++  if (!m_eglContext.BindContext())
+   {
+     return false;
+   }
+@@ -83,6 +91,7 @@ bool CWinSystemWaylandEGLContext::CreateNewWindow(const std::string& name,
+ bool CWinSystemWaylandEGLContext::DestroyWindow()
+ {
+   m_eglContext.DestroySurface();
++  m_nativeWindow = {};
+ 
+   return CWinSystemWayland::DestroyWindow();
+ }
+@@ -94,13 +103,20 @@ bool CWinSystemWaylandEGLContext::DestroyWindowSystem()
+   return CWinSystemWayland::DestroyWindowSystem();
+ }
+ 
++CSizeInt CWinSystemWaylandEGLContext::GetNativeWindowAttachedSize()
++{
++  int width, height;
++  m_nativeWindow.get_attached_size(width, height);
++  return {width, height};
++}
++
+ void CWinSystemWaylandEGLContext::SetContextSize(CSizeInt size)
+ {
+   // Change EGL surface size if necessary
+-  if (m_eglContext.GetAttachedSize() != size)
++  if (GetNativeWindowAttachedSize() != size)
+   {
+     CLog::LogF(LOGDEBUG, "Updating egl_window size to %dx%d", size.Width(), size.Height());
+-    m_eglContext.Resize(size);
++    m_nativeWindow.resize(size.Width(), size.Height(), 0, 0);
+   }
+ }
+ 
+diff --git a/xbmc/windowing/wayland/WinSystemWaylandEGLContext.h b/xbmc/windowing/wayland/WinSystemWaylandEGLContext.h
+index db17396a84b0..8ac03dcc7e3a 100644
+--- a/xbmc/windowing/wayland/WinSystemWaylandEGLContext.h
++++ b/xbmc/windowing/wayland/WinSystemWaylandEGLContext.h
+@@ -19,7 +19,9 @@
+  */
+ #pragma once
+ 
+-#include "EGLContext.h"
++#include <wayland-egl.hpp>
++
++#include "utils/EGLUtils.h"
+ #include "WinSystemWayland.h"
+ 
+ namespace KODI
+@@ -32,7 +34,7 @@ namespace WAYLAND
+ class CWinSystemWaylandEGLContext : public CWinSystemWayland
+ {
+ public:
+-  CWinSystemWaylandEGLContext() = default;
++  CWinSystemWaylandEGLContext();
+   virtual ~CWinSystemWaylandEGLContext() = default;
+ 
+   bool CreateNewWindow(const std::string& name,
+@@ -50,12 +52,14 @@ class CWinSystemWaylandEGLContext : public CWinSystemWayland
+    */
+   bool InitWindowSystemEGL(EGLint renderableType, EGLint apiType);
+ 
++  CSizeInt GetNativeWindowAttachedSize();
+   void PresentFrame(bool rendered);
+   void SetContextSize(CSizeInt size) override;
+ 
+   virtual bool CreateContext() = 0;
+ 
+-  CEGLContext m_eglContext;
++  CEGLContextUtils m_eglContext;
++  wayland::egl_window_t m_nativeWindow;
+ };
+ 
+ }
+diff --git a/xbmc/windowing/wayland/WinSystemWaylandEGLContextGL.cpp b/xbmc/windowing/wayland/WinSystemWaylandEGLContextGL.cpp
+index 5a01bb46f910..8b83f3175fc1 100644
+--- a/xbmc/windowing/wayland/WinSystemWaylandEGLContextGL.cpp
++++ b/xbmc/windowing/wayland/WinSystemWaylandEGLContextGL.cpp
+@@ -22,6 +22,7 @@
+ #include "OptionalsReg.h"
+ 
+ #include <EGL/egl.h>
++#include <EGL/eglext.h>
+ 
+ #include "cores/RetroPlayer/process/RPProcessInfo.h"
+ #include "cores/RetroPlayer/rendering/VideoRenderers/RPRendererOpenGL.h"

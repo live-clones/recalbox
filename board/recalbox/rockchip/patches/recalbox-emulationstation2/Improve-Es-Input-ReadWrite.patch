@@ -1,0 +1,86 @@
+MRFIXIT: The current code uses loops, which utilize pugi functions that also use loops. It's not efficient. Fix it!
+--- a/es-core/src/InputManager.cpp	2018-07-16 20:12:37.936667000 -0400
++++ b/es-core/src/InputManager.cpp	2018-07-18 21:00:31.323752155 -0400
+@@ -312,37 +312,28 @@
+     return false;
+ 
+   // looking for a device having the same guid and name, or if not, one with the same guid or in last chance, one with the same name
+-  pugi::xml_node configNode(nullptr);
+-
+-  bool found_guid = false;
+   bool found_exact = false;
+-  for (pugi::xml_node item = root.child("inputConfig"); item != nullptr; item = item.next_sibling("inputConfig"))
+-  {
+-    // check the guid
+-    if (strcmp(config->getDeviceGUIDString().c_str(), item.attribute("deviceGUID").value()) == 0)
+-    {
+-      // found a correct guid
+-      found_guid = true; // no more need to check the name only
+-      configNode = item;
+-
+-      if (strcmp(config->getDeviceName().c_str(), item.attribute("deviceName").value()) == 0)
+-      {
+-        // found the exact device
+-        found_exact = true;
+-        configNode = item;
+-        break;
+-      }
+-    }
+ 
+-    // check for a name if no guid is found
+-    if (!found_guid)
+-    {
+-      if (strcmp(config->getDeviceName().c_str(), item.attribute("deviceName").value()) == 0)
+-      {
+-        configNode = item;
+-      }
+-    }
+-  }
++  pugi::xml_node configNode;
++  pugi::xpath_node searchNode;
++  pugi::xpath_variable_set vars;
++  vars.add("deviceName", pugi::xpath_type_string);
++  vars.set("deviceName", config->getDeviceName().c_str());
++  vars.add("deviceGUID", pugi::xpath_type_string);
++  vars.set("deviceGUID", config->getDeviceGUIDString().c_str());
++
++  searchNode = doc.select_node("/inputList/inputConfig[@deviceName=string($deviceName) and @deviceGUID=string($deviceGUID)]", &vars);
++  if (!searchNode) {
++	searchNode = doc.select_node("/inputList/inputConfig[@deviceGUID=string($deviceGUID)]", &vars);
++	if (!searchNode) {
++		searchNode = doc.select_node("/inputList/inputConfig[@deviceName=string($deviceName)]", &vars);
++	}
++  } else {
++	found_exact = true;
++   }
++ 
++  if (searchNode)
++		configNode = searchNode.node();
+ 
+   if (!configNode)
+     return false;
+@@ -401,15 +392,15 @@
+       if (root != nullptr)
+       {
+         pugi::xml_node oldEntry(nullptr);
+-        for (pugi::xml_node item = root.child("inputConfig"); item != nullptr; item = item.next_sibling("inputConfig"))
+-        {
+-          if (strcmp(config->getDeviceGUIDString().c_str(), item.attribute("deviceGUID").value()) == 0 &&
+-              strcmp(config->getDeviceName().c_str(), item.attribute("deviceName").value()) == 0)
+-          {
+-            oldEntry = item;
+-            break;
+-          }
+-        }
++	pugi::xpath_node searchNode;
++	pugi::xpath_variable_set vars;
++	vars.add("deviceName", pugi::xpath_type_string);
++	vars.set("deviceName", config->getDeviceName().c_str());
++	vars.add("deviceGUID", pugi::xpath_type_string);
++	vars.set("deviceGUID", config->getDeviceGUIDString().c_str());
++	searchNode = doc.select_node("/inputList/inputConfig[@deviceName=string($deviceName) and @deviceGUID=string($deviceGUID)]", &vars);
++	if(searchNode)
++		oldEntry = searchNode.node();
+ 
+         if (oldEntry != nullptr)
+           root.remove_child(oldEntry);

@@ -1,0 +1,123 @@
+--- a/configure.ac
++++ b/configure.ac
+@@ -506,26 +506,9 @@
+       CXXFLAGS="$CXXFLAGS `$sdl2_config --cflags`"
+       LIBS="$LIBS `$sdl2_config --libs`"
+ 
+-      dnl Determine whether we need to add SDL2/ as a prefix.
+-      AC_MSG_CHECKING(whether SDL2 requires a prefix on includes)
+-      AC_TRY_LINK([#include <SDL2/SDL_render.h>],
+-                  [SDL_GetNumRenderDrivers()],
+-                  [AC_MSG_RESULT(yes);
+-                   use_sdl_prefix=no;
+-                   use_sdl2_prefix=yes;
+-                   found_sdl2=yes],
+-                  [AC_MSG_RESULT(no)])
+-
+-      if test x"$found_sdl2" != "xyes"; then
+-        AC_MSG_CHECKING(whether SDL2 works without a prefix)
+-        AC_TRY_LINK([#include <SDL_render.h>],
+-                    [SDL_GetNumRenderDrivers()],
+-                    [AC_MSG_RESULT(yes);
+-                     use_sdl_prefix=no;
+-                     use_sdl2_prefix=no;
+-                     found_sdl2=yes],
+-                    [AC_MSG_RESULT(no)])
+-      fi
++      use_sdl_prefix=no
++      use_sdl2_prefix=yes
++      found_sdl2=yes
+     fi
+   fi
+ 
+@@ -1253,11 +1253,7 @@
+ AC_CHECK_PROGS(DOS2UNIX, dos2unix, dos2unix)
+ 
+ AC_CHECK_PROGS(XA, [xa xa65], no)
+-
+-if test x"$XA" = "xno"; then
+-  AC_MSG_ERROR([xa is missing])
+-fi
+-
++z
+ if test x"$SVN" != "x"; then
+   svnrevision=`$SVN 2>dummy.tmp info $srcdir | grep Revision | cut -d " " -f 2`
+   rm dummy.tmp
+
+--- a/configure
++++ b/configure
+@@ -6888,59 +6888,9 @@
+       CXXFLAGS="$CXXFLAGS `$sdl2_config --cflags`"
+       LIBS="$LIBS `$sdl2_config --libs`"
+ 
+-            { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether SDL2 requires a prefix on includes" >&5
+-$as_echo_n "checking whether SDL2 requires a prefix on includes... " >&6; }
+-      cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+-/* end confdefs.h.  */
+-#include <SDL2/SDL_render.h>
+-int
+-main ()
+-{
+-SDL_GetNumRenderDrivers()
+-  ;
+-  return 0;
+-}
+-_ACEOF
+-if ac_fn_c_try_link "$LINENO"; then :
+-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+-$as_echo "yes" >&6; };
+-                   use_sdl_prefix=no;
+-                   use_sdl2_prefix=yes;
+-                   found_sdl2=yes
+-else
+-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+-$as_echo "no" >&6; }
+-fi
+-rm -f core conftest.err conftest.$ac_objext \
+-    conftest$ac_exeext conftest.$ac_ext
+-
+-      if test x"$found_sdl2" != "xyes"; then
+-        { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether SDL2 works without a prefix" >&5
+-$as_echo_n "checking whether SDL2 works without a prefix... " >&6; }
+-        cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+-/* end confdefs.h.  */
+-#include <SDL_render.h>
+-int
+-main ()
+-{
+-SDL_GetNumRenderDrivers()
+-  ;
+-  return 0;
+-}
+-_ACEOF
+-if ac_fn_c_try_link "$LINENO"; then :
+-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+-$as_echo "yes" >&6; };
+-                     use_sdl_prefix=no;
+-                     use_sdl2_prefix=no;
+-                     found_sdl2=yes
+-else
+-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+-$as_echo "no" >&6; }
+-fi
+-rm -f core conftest.err conftest.$ac_objext \
+-    conftest$ac_exeext conftest.$ac_ext
+-      fi
++      use_sdl_prefix=no
++      use_sdl2_prefix=yes
++      found_sdl2=yes
+     fi
+   fi
+ 
+@@ -10363,11 +10313,6 @@
+ done
+ test -n "$XA" || XA="no"
+ 
+-
+-if test x"$XA" = "xno"; then
+-  as_fn_error $? "xa is missing" "$LINENO" 5
+-fi
+-
+ if test x"$SVN" != "x"; then
+   svnrevision=`$SVN 2>dummy.tmp info $srcdir | grep Revision | cut -d " " -f 2`
+   rm dummy.tmp

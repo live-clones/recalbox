@@ -1,0 +1,24 @@
+--- a/es-app/src/recalbox/RecalboxUpgrade.cpp	2018-03-21 03:59:45.000000000 -0400
++++ b/es-app/src/recalbox/RecalboxUpgrade.cpp	2018-04-27 10:54:10.765437335 -0400
+@@ -81,12 +81,12 @@
+ 
+ bool RecalboxUpgrade::canUpdate() {
+ 
+-    std::pair<std::string, int> res = system->execute(Settings::getInstance()->getString("RecalboxUpgradeScript") + " canupgrade");
+-    if(res.second == 0){
+-        LOG(LogInfo) << "Can upgrade";
+-        return true;
+-    }else {
+-        LOG(LogInfo) << "Cannot upgrade";
++//    std::pair<std::string, int> res = system->execute(Settings::getInstance()->getString("RecalboxUpgradeScript") + " canupgrade");
++//    if(res.second == 0){
++//        LOG(LogInfo) << "Can upgrade";
++//        return true;
++//    }else {
++//        LOG(LogInfo) << "Cannot upgrade";
+         return false;
+-    }
+-}
+\ No newline at end of file
++//    }
++}

@@ -1,0 +1,164 @@
+--- a/core/rend/gles/gles.cpp
++++ b/core/rend/gles/gles.cpp
+@@ -70,6 +70,8 @@
+ float fb_scale_x,fb_scale_y;
+ float scale_x, scale_y;
+ 
++int disp_x = 640, disp_y = 480;
++
+ #if 1
+ 
+ //Fragment and vertex shaders code
+@@ -692,8 +694,8 @@
+ 					(GLXDrawable)libPvr_GetRenderTarget(),
+ 					(GLXContext)x11_glc);
+ 
+-				screen_width = 640;
+-				screen_height = 480;
++				screen_width = disp_x;
++				screen_height = disp_y;
+ 				return gl3wInit() != -1 && gl3wIsSupported(3, 1);
+ 			}
+ 
+@@ -1290,7 +1292,7 @@
+ 
+   float w=float(strlen(text)*14)*scale;
+ 
+-  float x=640-w;
++  float x=disp_x-w;
+   float y=yy;
+   float h=16.0f*scale;
+   w=14.0f*scale;
+@@ -1454,11 +1456,11 @@
+ 
+     verify(glIsProgram(gl.OSD_SHADER.program));
+ 
+-	float dc_width=640;
+-	float dc_height=480;
++	float dc_width=disp_x;
++	float dc_height=disp_y;
+ 
+-	float dc2s_scale_h=screen_height/480.0f;
+-	float ds2s_offs_x=(screen_width-dc2s_scale_h*640)/2;
++	float dc2s_scale_h=screen_height/static_cast<float>(disp_y);
++	float ds2s_offs_x=(screen_width-dc2s_scale_h*disp_x)/2;
+ 
+ 
+     glBindTexture(GL_TEXTURE_2D,osd_font);
+@@ -1615,14 +1617,14 @@
+ 	//float A=-B*max_invW+vnear;
+ 
+ 	//these should be adjusted based on the current PVR scaling etc params
+-	float dc_width=640;
+-	float dc_height=480;
++	float dc_width=disp_x;
++	float dc_height=disp_y;
+ 
+ 	if (!is_rtt)
+ 	{
+ 		gcflip=0;
+-		dc_width=640;
+-		dc_height=480;
++		dc_width=disp_x;
++		dc_height=disp_y;
+ 	}
+ 	else
+ 	{
+@@ -1636,8 +1638,8 @@
+ 		u32 pvr_stride=(FB_W_LINESTRIDE.stride)*8;
+ 		*/
+ 
+-		dc_width=640;
+-		dc_height=480;
++		dc_width=disp_x;
++		dc_height=disp_y;
+ 	}
+ 
+ 	scale_x = 1;
+@@ -1697,13 +1699,35 @@
+ 	/*
+ 		Handle Dc to screen scaling
+ 	*/
+-	float dc2s_scale_h=screen_height/480.0f;
+-	float ds2s_offs_x=(screen_width-dc2s_scale_h*640)/2;
++	bool fixaspect = false;
++	int cfgfixaspect = cfgLoadInt("config", "rend.FixAspect", 1);
++	float pseudo_width = screen_width;
++
++	float dc2s_scale_h=screen_height/static_cast<float>(disp_y);
++	float ds2s_offs_x=(screen_width-dc2s_scale_h*disp_x)/2;
++
++	if (cfgfixaspect == 1 && ds2s_offs_x == 0) {
++		// MRFIXIT: force the resolution to warp the aspect ratio on widescreen monitors that stretch a 4:3 to 16:9
++		fixaspect = true;
++		pseudo_width = static_cast<float>(screen_height) * (16.0/9.0);
++		ds2s_offs_x=(pseudo_width-dc2s_scale_h*disp_x)/2;
++	} else {
++		pseudo_width = screen_width;
++	}
++
++	/*printf("mrfixit debug: scale_x: %.6f\n", scale_x);
++	printf("mrfixit debug: is_rtt: %d\n", is_rtt);
++	printf("mrfixit debug: screen_height: %d\n", screen_height);
++	printf("mrfixit debug: screen_width: %d\n", screen_width);
++	printf("mrfixit debug: pseudo_width: %.6f\n", pseudo_width);
++	printf("mrfixit debug: dc_height: %d\n", dc_height);
++	printf("mrfixit debug: dc2s_scale_h: %.6f\n", dc2s_scale_h);
++	printf("mrfixit debug: ds2s_offs_x: %.6f\n", ds2s_offs_x);*/
+ 
+ 	//-1 -> too much to left
+-	ShaderUniforms.scale_coefs[0]=2.0f/(screen_width/dc2s_scale_h*scale_x);
+-	ShaderUniforms.scale_coefs[1]=(is_rtt?2:-2)/dc_height;
+-	ShaderUniforms.scale_coefs[2]=1-2*ds2s_offs_x/(screen_width);
++	ShaderUniforms.scale_coefs[0]=2.0f/(pseudo_width/dc2s_scale_h*scale_x);
++	ShaderUniforms.scale_coefs[1]=(is_rtt?2:-2)/dc_height; // line affects rendered height
++	ShaderUniforms.scale_coefs[2]=(1-2*ds2s_offs_x/(pseudo_width));
+ 	ShaderUniforms.scale_coefs[3]=(is_rtt?1:-1);
+ 
+ 
+@@ -1863,13 +1887,29 @@
+ 		printf("SCI: %f, %f, %f, %f\n", offs_x+pvrrc.fb_X_CLIP.min/scale_x,(pvrrc.fb_Y_CLIP.min/scale_y)*dc2s_scale_h,(pvrrc.fb_X_CLIP.max-pvrrc.fb_X_CLIP.min+1)/scale_x*dc2s_scale_h,(pvrrc.fb_Y_CLIP.max-pvrrc.fb_Y_CLIP.min+1)/scale_y*dc2s_scale_h);
+ 	#endif
+ 
+-	if (settings.rend.WideScreen && pvrrc.fb_X_CLIP.min==0 && ((pvrrc.fb_X_CLIP.max+1)/scale_x==640) && (pvrrc.fb_Y_CLIP.min==0) && ((pvrrc.fb_Y_CLIP.max+1)/scale_y==480 ) )
++	if (settings.rend.WideScreen && pvrrc.fb_X_CLIP.min==0 && ((pvrrc.fb_X_CLIP.max+1)/scale_x==disp_x) && (pvrrc.fb_Y_CLIP.min==0) && ((pvrrc.fb_Y_CLIP.max+1)/scale_y==disp_y) )
+ 	{
+ 		glDisable(GL_SCISSOR_TEST);
+ 	}
+ 	else
+ 	{
+-		float width = (pvrrc.fb_X_CLIP.max - pvrrc.fb_X_CLIP.min + 1) / scale_x;
++/*
++
++720p results
++mrfixit debug: min_x: 160.000000
++mrfixit debug: min_y: 0.000000
++mrfixit debug: width: 960.000000
++mrfixit debug: height: 720.000000
++*/
++
++		float width;
++		if (fixaspect) {
++			// width = (594/dc2s_scale_h);
++			width = ((static_cast<float>(screen_width)-(pseudo_width-static_cast<float>(screen_width)) + (((ds2s_offs_x-(ds2s_offs_x / dc2s_scale_h))*2.0))))/dc2s_scale_h;
++			ds2s_offs_x = (ds2s_offs_x / dc2s_scale_h);
++		} else {
++			width = (pvrrc.fb_X_CLIP.max - pvrrc.fb_X_CLIP.min + 1) / scale_x;
++		}
+ 		float height = (pvrrc.fb_Y_CLIP.max - pvrrc.fb_Y_CLIP.min + 1) / scale_y;
+ 		float min_x = pvrrc.fb_X_CLIP.min / scale_x;
+ 		float min_y = pvrrc.fb_Y_CLIP.min / scale_y;
+@@ -1882,6 +1922,13 @@
+ 			width *= dc2s_scale_h;
+ 			height *= dc2s_scale_h;
+ 		}
++
++		/*printf("mrfixit debug: min_x: %.6f\n", min_x);
++		printf("mrfixit debug: min_y: %.6f\n", min_y);
++		printf("mrfixit debug: width: %.6f\n", width);
++		printf("mrfixit debug: height: %.6f\n", height);
++		printf("mrfixit debug: pvrrc.fb_X_CLIP.min: %d\n", pvrrc.fb_X_CLIP.min);*/
++
+ 		glScissor(min_x + 0.5f, min_y + 0.5f, width + 0.5f, height + 0.5f);
+ 		glEnable(GL_SCISSOR_TEST);
+ 	}

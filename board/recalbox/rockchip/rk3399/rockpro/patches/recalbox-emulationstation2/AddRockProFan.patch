@@ -1,0 +1,65 @@
+MRFIXIT: Add option to menu to let the user turn the internal rockpro fan on and off
+--- a/es-app/src/recalbox/RecalboxSystem.cpp
++++ b/es-app/src/recalbox/RecalboxSystem.cpp
+@@ -100,6 +100,13 @@
+ 
+ }
+ 
++bool RecalboxSystem::toggleRockProFan() {
++  std::ostringstream oss;
++  oss << Settings::getInstance()->getString("RecalboxSettingScript") << " " << "toggleRockProFan";
++  int exitcode = system(oss.str().c_str());
++  return exitcode == 0;
++}
++
+ std::string RecalboxSystem::readFile(const std::string& file)
+ {
+   if (!file.empty())
+--- a/es-app/src/recalbox/RecalboxSystem.h
++++ b/es-app/src/recalbox/RecalboxSystem.h
+@@ -27,6 +27,8 @@
+ 
+     static bool isFreeSpaceLimit();
+ 
++    static bool toggleRockProFan();
++
+     static std::string getRootPassword();
+ 
+     static bool setAudioOutputDevice(const std::string& device);
+--- a/es-app/src/guis/GuiMenu.cpp
++++ b/es-app/src/guis/GuiMenu.cpp
+@@ -222,6 +222,14 @@
+       warning ? 0xFF0000FF : mMenuTheme->menuText.color);
+   s->addWithLabel(space, _("DISK USAGE"), _(MenuMessages::DISK_USAGE_HELP_MSG));
+ 
++  auto rpFan = std::make_shared<SwitchComponent>(mWindow, RecalboxConf::getInstance()->get("system.rockprofan.enabled") == "1");
++  s->addWithLabel(rpFan, _("ROCKPRO64 FAN"), _(MenuMessages::ROCKPROFAN));
++  s->addSaveFunc([rpFan] {
++    RecalboxConf::getInstance()->set("system.rockprofan.enabled", rpFan->getState() ? "1" : "0");
++    RecalboxConf::getInstance()->saveRecalboxConf();;
++    RecalboxSystem::toggleRockProFan();
++  });
++
+   std::vector<std::string> availableStorage = RecalboxSystem::getAvailableStorageDevices();
+   std::string selectedStorage = RecalboxSystem::getCurrentStorage();
+ 
+--- a/es-app/src/guis/MenuMessages.cpp
++++ b/es-app/src/guis/MenuMessages.cpp
+@@ -2,6 +2,7 @@
+ #include "MenuMessages.h"
+ 
+ const char* MenuMessages::START_KODI_HELP_MSG = "Start kodi media player.";
++const char* MenuMessages::ROCKPROFAN = "If your Pine64 RockPro64 has a fan connected, turn it on/off.";
+ const char* MenuMessages::SYSTEM_HELP_MSG = "Select the language for your recalbox, select an external drive to store your games and configurations, check your current version and the free space on your drive";
+ const char* MenuMessages::VERSION_HELP_MSG = "Shows your current recalboxOS version.";
+ const char* MenuMessages::DISK_USAGE_HELP_MSG = "Show how much space is used on your SHARE partition, located either on the SDCARD or on an external drive. The information shows how much GB are used and how much GB your storage has overall (example 13GB/26GB).";
+--- a/es-app/src/guis/MenuMessages.h
++++ b/es-app/src/guis/MenuMessages.h
+@@ -11,6 +11,7 @@
+ public:
+ 	static const char* START_KODI_HELP_MSG;
+ 	static const char* SYSTEM_HELP_MSG;
++	static const char* ROCKPROFAN;
+ 	static const char* VERSION_HELP_MSG;
+ 	static const char* DISK_USAGE_HELP_MSG;
+ 	static const char* STORAGE_DEVICE_HELP_MSG;

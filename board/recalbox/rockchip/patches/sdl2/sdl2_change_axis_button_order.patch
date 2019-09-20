@@ -1,0 +1,25 @@
+MRFIXIT: attempt to make SDL map the button before the axis, avoiding the L2/R2 axis issues
+--- a/src/joystick/SDL_gamecontroller.c
++++ b/src/joystick/SDL_gamecontroller.c
+@@ -535,7 +535,10 @@
+ 
+     axis = SDL_GameControllerGetAxisFromString(szGameButton);
+     button = SDL_GameControllerGetButtonFromString(szGameButton);
+-    if (axis != SDL_CONTROLLER_AXIS_INVALID) {
++    if (button != SDL_CONTROLLER_BUTTON_INVALID) {
++        bind.outputType = SDL_CONTROLLER_BINDTYPE_BUTTON;
++        bind.output.button = button;
++    } else if (axis != SDL_CONTROLLER_AXIS_INVALID) {
+         bind.outputType = SDL_CONTROLLER_BINDTYPE_AXIS;
+         bind.output.axis.axis = axis;
+         if (axis == SDL_CONTROLLER_AXIS_TRIGGERLEFT || axis == SDL_CONTROLLER_AXIS_TRIGGERRIGHT) {
+@@ -553,9 +556,6 @@
+                 bind.output.axis.axis_max = SDL_JOYSTICK_AXIS_MAX;
+             }
+         }
+-    } else if (button != SDL_CONTROLLER_BUTTON_INVALID) {
+-        bind.outputType = SDL_CONTROLLER_BINDTYPE_BUTTON;
+-        bind.output.button = button;
+     } else {
+         SDL_SetError("Unexpected controller element %s", szGameButton);
+         return;

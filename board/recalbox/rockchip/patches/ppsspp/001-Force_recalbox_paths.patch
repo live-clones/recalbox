@@ -1,0 +1,14 @@
+diff --git a/UI/NativeApp.cpp b/UI/NativeApp.cpp
+index a94c5ea..c876bd3 100644
+--- a/UI/NativeApp.cpp
++++ b/UI/NativeApp.cpp
+@@ -494,7 +494,7 @@
+ 
+ 	// Note that if we don't have storage permission here, loading the config will
+ 	// fail and it will be set to the default. Later, we load again when we get permission.
+-	g_Config.Load();
++	g_Config.Load("/recalbox/share/system/configs/ppsspp/PSP/SYSTEM/ppsspp.ini", "/recalbox/share/system/configs/ppsspp/PSP/SYSTEM/controls.ini");
+ #endif
+ 	LogManager *logman = LogManager::GetInstance();
+ 
+

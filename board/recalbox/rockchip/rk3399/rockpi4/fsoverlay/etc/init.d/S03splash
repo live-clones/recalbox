@@ -1,0 +1,131 @@
+#!/bin/ash
+
+if [ "$1" != "start" ]; then
+  exit 0
+fi
+
+# on some sytems, fb0 is not immediatly loaded,
+# so, give it a chance by waiting a bit (5 seconds, then fail hard)
+count=0
+until [ -e /dev/fb0 ]; do
+  if [ ${count} -ge 50 ]; then
+    exit 1
+  else
+    sleep 0.1
+    let count++
+  fi
+done
+
+## Functions ##
+
+# turnOffGPiCaseHDMI
+#   takes no argument, power off HDMI port to save energy when running in a GPi case
+turnOffGPiCaseHDMI() {
+  case=$(sed -n 's/^case=\(.*\)/\1/p' /boot/recalbox-boot.conf)
+  if [ "${case}" = "GPiV1:1" ]; then
+    recallog "GPi case detected: turning HDMI off"
+    tvservice -o
+  fi
+}
+
+# selectVideo
+#   takes no argument and outputs a random video from those available
+#   (uses 240p videos if framebuffer height is 240px or less)
+function selectVideo() {
+  if [ ${fbdevHeight} -le 240 ]; then
+    videoSubFolder="/240p"
+  fi
+  IFS= find /recalbox/system/resources/splash${videoSubFolder} -maxdepth 1 -name *.mp4 \
+    | while read line; do echo "$RANDOM ${line}"; done \
+    | sort -n \
+    | head -1 \
+    | cut -d' ' -f2
+}
+
+# stopPlayerWhenFrontendReady <playerPID> <timeout>
+#   stops player running with PID <playerPID> when either (whichever comes first):
+#     - EmulationStation is ready
+#     - Kodi is ready
+#     - after <timeout> seconds
+function stopPlayerWhenFrontendReady() {
+  local playerPID="$1"
+  local timeout="$2"
+  local count=0
+
+  [ ${timeout} -eq -1 ] && return
+  until [ -f "/tmp/emulationstation.ready" ] || [ -e "/var/run/kodi.msg" ] || [ ${count} -ge ${timeout} ]; do
+    sleep 1
+    let count++
+  done
+  kill -9 ${playerPID}
+}
+
+# playWithFFPlay
+#   starts playing a video on the framebuffer via ffplay
+function playWithFFPlay() {
+  local videoFile="$(selectVideo)"
+
+  if ! which ffplay > /dev/null; then
+    return
+  fi
+  ffplay_opts="-hide_banner -autoexit"
+  ffplay_srt="subtitles=/recalbox/system/resources/splash/recalboxintro.srt:force_style='FontName=/usr/share/fonts/dejavu/DejaVuSans-BoldOblique.ttf,Fontsize=10'"
+  ffplay ${ffplay_opts} -x ${fbdevWidth} -y ${fbdevHeight} -vf "${ffplay_srt}" "${videoFile}" > /dev/null 2>&1 &
+  if [ ${videoLength} -ne -1 ]; then
+    stopPlayerWhenFrontendReady $! ${videoLength}
+  fi
+}
+
+# playWithOMX
+#   starts playing an intro video via OMX player
+function playWithOMX() {
+  local videoFile="$(selectVideo)"
+
+  if ! which omxplayer.bin > /dev/null; then
+    return
+  fi
+  omx_fnt="--font=/usr/share/fonts/dejavu/DejaVuSans-BoldOblique.ttf"
+  omx_opt="--adev both --no-keys --layer=10000 --aspect-mode=fill"
+  omx_srt="--no-ghost-box --lines=1 --align=left $omx_fnt --font-size=20 --subtitles=/recalbox/system/resources/splash/recalboxintro.srt"
+  /usr/bin/omxplayer.bin ${omx_opt} ${omx_srt} ${videoFile} &
+  if [ ${videoLength} -ne -1 ]; then
+    stopPlayerWhenFrontendReady $! ${videoLength}
+  fi
+}
+
+# showIntroBackground
+#   displays our intro background via the framebuffer
+showIntroBackground() {
+  fbv -f -i /recalbox/system/resources/splash/logo-version.png
+}
+
+# showInstallBackground
+#   displays our install background via the framebuffer
+showInstallBackground() {
+  fbv -f -i /tmp/.install.png
+}
+
+## Global variables ##
+
+videoLength=$(sed -n "s/^system.splash.length=//p" /boot/recalbox-backup.conf)
+if [ -z "${videoLength}" ] || [ ${videoLength} -eq 0 ] || [ ${videoLength} -lt -1 ]; then
+  videoLength=20
+fi
+
+fbdevWidth=$(cut -d, -f1 /sys/class/graphics/fb0/virtual_size)
+fbdevHeight=$(cut -d, -f2 /sys/class/graphics/fb0/virtual_size)
+
+## Main ##
+
+## MRFIXIT ADDED TO SET RESOLUTION TO 1920 x 1080 PRIOR TO PLAYBACK - MAYBE CHANGE TO USE GLOBAL VARIABLES? NEEDS TESTING
+fbset -xres 1920 -yres 1080 -match
+
+if [ -f /tmp/.install.png ]; then
+  showInstallBackground &
+elif [ "$(head -c 3 /recalbox/recalbox.arch)" = "rpi" ]; then
+  ( turnOffGPiCaseHDMI; playWithOMX; showIntroBackground ) &
+else
+  ( playWithFFPlay; showIntroBackground ) &
+fi
+
+exit 0

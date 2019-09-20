@@ -153,6 +153,78 @@ case "${RECALBOX_TARGET}" in
         sync || exit 1
         ;;
 
+    RK3328)
+	case $(echo "$(<"${BR2_CONFIG}")" | grep '^BR2_LINUX_KERNEL_INTREE_DTS_NAME=' | sed -r 's|BR2_LINUX_KERNEL_INTREE_DTS_NAME=||g' | sed -r 's|"||g') in
+		rockchip/rk3328-rock64)
+			BOARD="rock64"
+		;;
+
+		rockchip/rk3328-rockbox)
+			BOARD="rockbox"
+		;;
+
+		*)
+			echo "Ouch. Unknown RK3328 Rockchip DTS:"
+			echo $(echo "$(<"${BR2_CONFIG}")" | grep '^BR2_LINUX_KERNEL_INTREE_DTS_NAME=' | sed -r 's|BR2_LINUX_KERNEL_INTREE_DTS_NAME=||g' | sed -r 's|"||g')
+			bash
+			exit 1
+	esac
+	RECALBOX_IMG="${RECALBOX_BINARIES_DIR}/recalbox-${BOARD}.img"
+
+	# supporting files
+	echo "Copying supporting files..."
+	mkdir -p ${BINARIES_DIR}/extlinux
+        cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/rockchip/rk3328/${BOARD}/extlinux.conf" ${BINARIES_DIR}/extlinux/extlinux.conf || exit 1
+        cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/rockchip/rk3328/${BOARD}/uboot/idbloader.img" ${BINARIES_DIR}/idbloader.img || exit 1
+        cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/rockchip/rk3328/${BOARD}/uboot/trust.img" ${BINARIES_DIR}/trust.img || exit 1
+        cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/rockchip/rk3328/${BOARD}/uboot/uboot.img" ${BINARIES_DIR}/uboot.img || exit 1
+
+        # rootfs
+	echo "Copying rootfs tar..."
+        cp "${BINARIES_DIR}/rootfs.tar.xz" "${RECALBOX_BINARIES_DIR}/root.tar.xz" || exit 1
+
+        # recalbox.img
+	echo "Generating Image..."
+        support/scripts/genimage.sh -c "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/rockchip/rk3328/${BOARD}/genimage.cfg" || exit 1
+        sync || exit 1
+        ;;
+
+    RK3399)
+	case $(echo "$(<"${BR2_CONFIG}")" | grep '^BR2_LINUX_KERNEL_INTREE_DTS_NAME=' | sed -r 's|BR2_LINUX_KERNEL_INTREE_DTS_NAME=||g' | sed -r 's|"||g') in
+		rockchip/rk3399-rockpro64)
+			BOARD="rockpro"
+		;;
+
+		rockchip/rockpi-4b-linux)
+			BOARD="rockpi4"
+		;;
+
+		*)
+			echo "Ouch. Unknown RK3399 Rockchip DTS:"
+			echo $(echo "$(<"${BR2_CONFIG}")" | grep '^BR2_LINUX_KERNEL_INTREE_DTS_NAME=' | sed -r 's|BR2_LINUX_KERNEL_INTREE_DTS_NAME=||g' | sed -r 's|"||g')
+			bash
+			exit 1
+	esac
+	RECALBOX_IMG="${RECALBOX_BINARIES_DIR}/recalbox-${BOARD}.img"
+
+        # supporting files
+	echo "Copying supporting files..."
+	mkdir -p ${BINARIES_DIR}/extlinux
+        cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/rockchip/rk3399/${BOARD}/extlinux.conf" ${BINARIES_DIR}/extlinux/extlinux.conf || exit 1
+        cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/rockchip/rk3399/${BOARD}/uboot/idbloader.img" ${BINARIES_DIR}/idbloader.img || exit 1
+        cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/rockchip/rk3399/${BOARD}/uboot/trust.img" ${BINARIES_DIR}/trust.img || exit 1
+        cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/rockchip/rk3399/${BOARD}/uboot/uboot.img" ${BINARIES_DIR}/uboot.img || exit 1
+
+        # rootfs
+	echo "Copying rootfs tar..."
+        cp "${BINARIES_DIR}/rootfs.tar.xz" "${RECALBOX_BINARIES_DIR}/root.tar.xz" || exit 1
+
+        # recalbox.img
+	echo "Generating Image..."
+        support/scripts/genimage.sh -c "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/rockchip/rk3399/${BOARD}/genimage.cfg" || exit 1
+        sync || exit 1
+        ;;
+
       X86|X86_64)
         # /boot
         rm -rf ${BINARIES_DIR}/boot || exit 1

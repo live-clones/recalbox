@@ -1,0 +1,24 @@
+--- a/configgen/generators/reicast/reicastControllers.py
++++ b/configgen/generators/reicast/reicastControllers.py
+@@ -14,8 +14,8 @@
+                   'y': {'button': 'btn_x'},
+                   'start': {'button': 'btn_start'},
+                   'hotkey': {'button': 'btn_escape'},
+-                  'pageup': {'axis': 'axis_trigger_left', 'button': 'btn_trigger_left'},
+-                  'pagedown': {'axis': 'axis_trigger_right', 'button': 'btn_trigger_right'},
++                  'pageup': {'button': 'btn_trigger_left'},
++                  'pagedown': {'button': 'btn_trigger_right'},
+                   'joystick1left': {'axis': 'axis_x'},
+                   'joystick1up': {'axis': 'axis_y'},
+                   # The DPAD can be an axis (for gpio sticks for example) or a hat
+@@ -24,8 +24,8 @@
+                   'right': {'button': 'btn_dpad1_right'},
+                   'down': {'button': 'btn_dpad1_down'},
+                   # We are only interested in L2/R2 if they are axis, to have real dreamcasttriggers
+-                  'r2': {'axis': 'axis_trigger_right'},
+-                  'l2': {'axis': 'axis_trigger_left'}
++                  'r2': {'button': 'btn_trigger_right'},
++                  'l2': {'button': 'btn_trigger_left'}
+                   }
+ 
+ sections = {'emulator': ['mapping_name', 'btn_escape'],

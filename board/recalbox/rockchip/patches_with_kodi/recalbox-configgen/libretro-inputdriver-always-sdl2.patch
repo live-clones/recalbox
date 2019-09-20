@@ -1,0 +1,18 @@
+MRFIXIT: udev has some issues with USB hubs - if more than one USB device, sometimes a gamepad would only work if it was plugged into a specific port. SDL2 seems to always work, so let's just use that. 
+
+--- a/configgen/generators/libretro/libretroControllers.py
++++ b/configgen/generators/libretro/libretroControllers.py
+@@ -154,11 +154,7 @@
+ # find the driver for controllers
+ # Write a configuration for a specified controller
+ def getInputDriver(controllers):
+-    for controller in controllers:
+-        for controllerName in sdl2driverControllers:
+-            if controllerName in controllers[controller].realName:
+-                return 'sdl2'
+-    return 'udev'
++    return 'sdl2'
+ 
+ # list of controllers that works only with sdl2 driver
+ sdl2driverControllers = ['Bluetooth Wireless Controller', 'szmy-power', 'XiaoMi Bluetooth Wireless GameController', 'ipega Bluetooth Gamepad', 'ipega Bluetooth Gamepad   ', 'Moga Pro 2 HID']
+

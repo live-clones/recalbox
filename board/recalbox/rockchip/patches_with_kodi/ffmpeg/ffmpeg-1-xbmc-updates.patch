@@ -1,0 +1,104 @@
+MRFIXIT: Added this to sync up the ffmpeg repo with the xbmc repo so it can be used as source
+
+diff --git a/Makefile b/Makefile
+index 0cd0a1d6f2d..66373a1e6fe 100644
+--- a/Makefile
++++ b/Makefile
+@@ -113,7 +113,7 @@ GIT_LOG     = $(SRC_PATH)/.git/logs/HEAD
+ .version: M=@
+ 
+ libavutil/ffversion.h .version:
+-	$(M)$(VERSION_SH) $(SRC_PATH) libavutil/ffversion.h $(EXTRA_VERSION)
++	$(M)$(VERSION_SH) $(SRC_PATH) libavutil/ffversion.h Kodi
+ 	$(Q)touch .version
+ 
+ # force version.sh to run whenever version might have changed
+diff --git a/ffbuild/common.mak b/ffbuild/common.mak
+index eb41b05ee66..cf74fef4254 100644
+--- a/ffbuild/common.mak
++++ b/ffbuild/common.mak
+@@ -80,7 +80,7 @@ COMPILE_NVCC = $(call COMPILE,NVCC)
+ 
+ %.o: %.asm
+ 	$(COMPILE_X86ASM)
+-	-$(if $(ASMSTRIPFLAGS), $(STRIP) $(ASMSTRIPFLAGS) $@)
++	$(if $(STRIP), $(if $(ASMSTRIPFLAGS), $(STRIP) $(ASMSTRIPFLAGS) $@))
+ 
+ %.o: %.rc
+ 	$(WINDRES) $(IFLAGS) --preprocessor "$(DEPWINDRES) -E -xc-header -DRC_INVOKED $(CC_DEPFLAGS)" -o $@ $<
+diff --git a/ffbuild/version.sh b/ffbuild/version.sh
+index edc4dd33c54..239a138ca77 100755
+--- a/ffbuild/version.sh
++++ b/ffbuild/version.sh
+@@ -2,6 +2,7 @@
+ 
+ # Usage: version.sh <ffmpeg-root-dir> <output-version.h> <extra-version>
+ 
++if [ -d $1/.git ]; then  # only check for a git rev, if the src tree is in a git repo
+ # check for git short hash
+ if ! test "$revision"; then
+     if (cd "$1" && grep git RELEASE 2> /dev/null >/dev/null) ; then
+@@ -27,6 +28,7 @@ if [ -z "$revision" ]; then
+       git_hash="${srcdir##*-}";;
+   esac
+ fi
++fi
+ 
+ # no revision number found
+ test "$revision" || revision=$(cd "$1" && cat RELEASE 2> /dev/null)
+diff --git a/libavcodec/dxva2_h264.c b/libavcodec/dxva2_h264.c
+index 5b23b28f120..c0a8d80f3b1 100644
+--- a/libavcodec/dxva2_h264.c
++++ b/libavcodec/dxva2_h264.c
+@@ -504,6 +504,14 @@ static int dxva2_h264_end_frame(AVCodecContext *avctx)
+ 
+     if (ctx_pic->slice_count <= 0 || ctx_pic->bitstream_size <= 0)
+         return -1;
++
++    // Wait for an I-frame before start decoding. Workaround for ATI UVD and UVD+ GPUs
++    if (!h->got_first_iframe) {
++        if (!(ctx_pic->pp.wBitFields & (1 << 15)))
++            return -1;
++        h->got_first_iframe = 1;
++    }
++
+     ret = ff_dxva2_common_end_frame(avctx, h->cur_pic_ptr->f,
+                                     &ctx_pic->pp, sizeof(ctx_pic->pp),
+                                     &ctx_pic->qm, sizeof(ctx_pic->qm),
+diff --git a/libavcodec/h264_slice.c b/libavcodec/h264_slice.c
+index d71ddbe9ba4..f78f9f87b09 100644
+--- a/libavcodec/h264_slice.c
++++ b/libavcodec/h264_slice.c
+@@ -929,6 +929,7 @@ static int h264_slice_header_init(H264Context *h)
+ 
+     h->first_field           = 0;
+     h->prev_interlaced_frame = 1;
++    h->got_first_iframe = 0;
+ 
+     init_scan_tables(h);
+     ret = ff_h264_alloc_tables(h);
+diff --git a/libavcodec/h264dec.c b/libavcodec/h264dec.c
+index 7494c7a8f2c..33e1056d872 100644
+--- a/libavcodec/h264dec.c
++++ b/libavcodec/h264dec.c
+@@ -486,6 +486,7 @@ void ff_h264_flush_change(H264Context *h)
+ 
+     h->next_outputed_poc = INT_MIN;
+     h->prev_interlaced_frame = 1;
++    h->got_first_iframe = 0;
+     idr(h);
+ 
+     h->poc.prev_frame_num = -1;
+diff --git a/libavcodec/h264dec.h b/libavcodec/h264dec.h
+index 1d9723260dd..b0b42b7672b 100644
+--- a/libavcodec/h264dec.h
++++ b/libavcodec/h264dec.h
+@@ -533,6 +533,8 @@ typedef struct H264Context {
+      * slices) anymore */
+     int setup_finished;
+ 
++    int got_first_iframe;
++
+     int cur_chroma_format_idc;
+     int cur_bit_depth_luma;
+     int16_t slice_row[MAX_SLICES]; ///< to detect when MAX_SLICES is too low

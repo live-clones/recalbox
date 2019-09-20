@@ -1,0 +1,34 @@
+MRFIXIT: By default, GameLists are only updated when ES exits. Let's fix this so it actually saves the metadata when it's changed, like the user would expect.
+--- a/es-app/src/guis/GuiMetaDataEd.cpp
++++ b/es-app/src/guis/GuiMetaDataEd.cpp
+@@ -21,9 +21,12 @@
+ #include "components/OptionListComponent.h"
+ #include "recalbox/RecalboxSystem.h"
+ 
++#include "Gamelist.h"
+ 
+ using namespace Eigen;
+ 
++SystemData* current_system;
++
+ GuiMetaDataEd::GuiMetaDataEd(Window *window, MetaDataList *md, const std::vector<MetaDataDecl> &mdd,
+                              ScraperSearchParams scraperParams, const std::string &header, 
+                              std::function<void()> saveCallback, std::function<void()> deleteFunc, 
+@@ -38,6 +41,8 @@
+     addChild(&mBackground);
+     addChild(&mGrid);
+ 
++    current_system = system;
++
+     mHeaderGrid = std::make_shared<ComponentGrid>(mWindow, Vector2i(1, 5));
+ 	
+ 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+@@ -339,6 +344,8 @@
+         }
+     }
+ 
++    updateGamelist(current_system);
++
+     if (mSavedCallback)
+         mSavedCallback();
+ }
