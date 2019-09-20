@@ -1,5 +1,5 @@
 diff --git a/package/x11r7/xdriver_xf86-video-ati/xdriver_xf86-video-ati.hash b/package/x11r7/xdriver_xf86-video-ati/xdriver_xf86-video-ati.hash
-index 117c5749ff..54c553e6ce 100644
+index 117c574..54c553e 100644
 --- a/package/x11r7/xdriver_xf86-video-ati/xdriver_xf86-video-ati.hash
 +++ b/package/x11r7/xdriver_xf86-video-ati/xdriver_xf86-video-ati.hash
 @@ -1,5 +1,7 @@

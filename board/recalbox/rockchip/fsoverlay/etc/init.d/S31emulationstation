@@ -1,0 +1,64 @@
+#!/bin/sh
+#
+#
+
+systemsetting="recalbox_settings"
+
+PIDFILE=/var/run/emulationstation.pid
+ESBIN=/usr/bin/emulationstation
+
+scr_msg() {
+	printf "\r%20s%10s" "${1}" " " > /dev/tty0 # with spaces at the begining for screen not displaying the left ; and spaces on right to erase old msg
+}
+
+case "$1" in
+  start)
+	enabled="`$systemsetting -command load -key system.es.atstartup`"
+	videoMode="`$systemsetting -command load -key system.es.videomode`"
+	if [ "$enabled" != "0" ];then
+		# Don't start if ffplay (splash video) still running
+		while [[ $(ps | grep ffplay | grep -v 'grep') ]]; do
+			sleep 0.1
+		done
+
+		/recalbox/scripts/showlogo.sh & # In case the logo has been removed, let's put it back again
+		echo $videoMode | grep -qE "(CEA|DMT) [0-9]{1,2} (HDMI|DVI)"
+		[ $? = "0" ] && tvservice -e "$videoMode"
+		settings_lang="`$systemsetting -command load -key system.language`"
+		recallog "starting emulationstation with lang = $settings_lang"
+		HOME=/recalbox/share/system LANG="${settings_lang}.UTF-8" SDL_VIDEO_GL_DRIVER=/usr/lib/libGLESv2.so SDL_VIDEO_EGL_DRIVER=/usr/lib/libGLESv2.so SDL_NOMOUSE=1 start-stop-daemon -S -q -m -p /var/run/emulationstation.pid  --exec /usr/bin/emulationstation &
+	fi
+	;;
+  stop)
+	recallog "Stopping Emulationstation"
+	start-stop-daemon -K -q -p "${PIDFILE}"
+	clear > /dev/tty0
+	(echo;echo;echo;echo;echo) > /dev/tty0
+	scr_msg "Please DO NOT power off Recalbox, PLEASE WAIT !!!"
+	;;
+  restart|reload)
+	"$0" stop
+	if [ -f "${PIDFILE}" ] ; then
+		ESPID=`cat /var/run/emulationstation.pid 2>/dev/null`
+		while `"$0" status > /dev/null` ; do
+			sleep 0.1
+		done
+	fi
+	"$0" start
+	;;
+  status)
+	ESPID=`cat ${PIDFILE} 2>/dev/null`
+	if [ -f "${PIDFILE}" ] && `ps | grep -qE "^[[:space:]]*${ESPID}"` ; then
+		echo "Emulationstation is running (pid `cat /var/run/emulationstation.pid`)"
+		exit 0
+	else
+		echo "Emulationstation is stopped"
+		exit 1
+	fi
+	;;
+  *)
+	echo "Usage: $0 {start|stop|restart}"
+	exit 1
+esac
+
+exit $?

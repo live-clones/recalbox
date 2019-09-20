@@ -1,0 +1,87 @@
+MRFIXIT: Add a "Suspend System" option to the quit menu
+--- a/es-app/src/recalbox/RecalboxSystem.h
++++ b/es-app/src/recalbox/RecalboxSystem.h
+@@ -51,6 +51,8 @@
+ 
+     static bool disableWifi();
+ 
++    static bool suspend();
++
+     static bool reboot();
+ 
+     static bool shutdown();
+
+--- a/es-app/src/recalbox/RecalboxSystem.cpp
++++ b/es-app/src/recalbox/RecalboxSystem.cpp
+@@ -385,6 +385,12 @@
+   return false;
+ }
+ 
++bool RecalboxSystem::suspend() {
++  std::string command = "/recalbox/scripts/rockchip_suspend.sh";
++  int exitCode = system(command.c_str());
++  return exitCode;
++}
++
+ bool RecalboxSystem::reboot()
+ {
+   return halt(true, false);
+
+--- a/es-app/src/guis/GuiMenu.cpp
++++ b/es-app/src/guis/GuiMenu.cpp
+@@ -1615,6 +1615,17 @@
+ 
+   row.elements.clear();
+   row.makeAcceptInputHandler([window] {
++    window->pushGui(new GuiMsgBox(window, _("REALLY SUSPEND?"), _("YES"), [] {
++        if (RecalboxSystem::suspend() != 0) {
++          LOG(LogWarning) << "Suspend terminated with non-zero result!";
++          }
++        }, _("NO"), nullptr));
++  });
++  row.addElement(std::make_shared<TextComponent>(window, _("SUSPEND SYSTEM"), mMenuTheme->menuText.font, mMenuTheme->menuText.color), true);
++  s->addRow(row);
++
++  row.elements.clear();
++  row.makeAcceptInputHandler([window] {
+     window->pushGui(new GuiMsgBox(window, _("REALLY SHUTDOWN?"), _("YES"), [] {
+         if (RecalboxSystem::shutdown() != 0) {
+           LOG(LogWarning) << "Shutdown terminated with non-zero result!";
+
+--- a/es-app/src/views/SystemView.cpp
++++ b/es-app/src/views/SystemView.cpp
+@@ -263,6 +263,26 @@
+ 
+ 
+ 			row.makeAcceptInputHandler([window] {
++			    window->pushGui(new GuiMsgBox(window, _("REALLY SUSPEND?"), _("YES"), [] {
++				if (RecalboxSystem::suspend() != 0) {
++				  LOG(LogWarning) << "Suspend terminated with non-zero result!";
++				  }
++				}, _("NO"), nullptr));
++			});
++			// icon
++			auto icon4 = std::make_shared<ImageComponent>(mWindow);
++			icon4->setImage(menuTheme->menuIconSet.shutdown);
++			icon4->setColorShift(menuTheme->menuText.color);
++			icon4->setResize(0, menuTheme->menuText.font->getLetterHeight() * 1.25f);
++			row.addElement(icon4, false);
++
++			// spacer between icon and text
++			auto spacer = std::make_shared<GuiComponent>(mWindow);
++			row.addElement(spacer, false);
++			row.addElement(std::make_shared<TextComponent>(window, _("SUSPEND SYSTEM"), menuTheme->menuText.font, menuTheme->menuText.color), true);
++			s->addRow(row);
++			row.elements.clear();
++			row.makeAcceptInputHandler([window] {
+ 			    window->pushGui(new GuiMsgBox(window, _("REALLY SHUTDOWN?"), _("YES"),
+ 											  [] {
+ 												  if (RecalboxSystem::shutdown())  {
+@@ -296,7 +296,6 @@
+ 			icon2->setResize(0, menuTheme->menuText.font->getLetterHeight() * 1.25f);
+ 			row.addElement(icon2, false);
+ 			// spacer between icon and text
+-			auto spacer = std::make_shared<GuiComponent>(mWindow);
+ 			row.addElement(spacer, false);
+ 			row.addElement(std::make_shared<TextComponent>(window, _("SHUTDOWN SYSTEM"), menuTheme->menuText.font, menuTheme->menuText.color), true);
+ 			s->addRow(row);

@@ -1,5 +1,5 @@
 diff --git a/package/ffmpeg/ffmpeg.hash b/package/ffmpeg/ffmpeg.hash
-index a8092616a9..e986de98ca 100644
+index a809261..e986de9 100644
 --- a/package/ffmpeg/ffmpeg.hash
 +++ b/package/ffmpeg/ffmpeg.hash
 @@ -1,5 +1,2 @@

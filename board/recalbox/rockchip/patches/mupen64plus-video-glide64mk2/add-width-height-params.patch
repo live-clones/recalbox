@@ -1,0 +1,92 @@
+MRFIXIT: ALLOWS FOR THE OVERRIDE OF THE GENERAL VIDEO RESOLUTION SETTINGS INSIDE THE MK2 SETTINGS IN MUPEN64PLUS.CFG
+--- a/src/Glide64/Config.cpp	2018-11-09 16:39:42.608159241 +0000
++++ b/src/Glide64/Config.cpp	2018-11-09 16:52:27.401663331 +0000
+@@ -38,7 +38,9 @@
+     ConfigSetDefaultBool(video_general_section, "VerticalSync", true, "If true, prevent frame tearing by waiting for vsync before swapping");
+     ConfigSetDefaultInt(video_general_section, "ScreenWidth", 640, "Width of output window or fullscreen width");
+     ConfigSetDefaultInt(video_general_section, "ScreenHeight", 480, "Height of output window or fullscreen height");
++    ConfigSetDefaultInt(video_glide64_section, "ScreenWidth", 640, "Width of output window or fullscreen width");
++    ConfigSetDefaultInt(video_glide64_section, "ScreenHeight", 480, "Height of output window or fullscreen height");
+     ConfigSetDefaultInt(video_glide64_section, "ScreenLeftOffset", 0, "Position of the left of the screen");
+     ConfigSetDefaultInt(video_glide64_section, "wrpAntiAliasing", 0, "Enable full-scene anti-aliasing by setting this to a value greater than 1");
+     ConfigSetDefaultInt(video_general_section, "Rotate", 0, "Rotate screen contents: 0=0 degree, 1=90 degree, 2 = 180 degree, 3=270 degree");
+ 
+@@ -46,15 +48,24 @@
+ 
+ int Config_ReadScreenInt(const char *itemname)
+ {
+-    return ConfigGetParamInt(video_general_section, itemname);
++    if (ConfigGetParamInt(video_glide64_section, itemname) == 0) {
++        return ConfigGetParamInt(video_general_section, itemname);
++    } else {
++        return ConfigGetParamInt(video_glide64_section, itemname);
++	}
+ }
+ 
+ PackedScreenResolution Config_ReadScreenSettings()
+ {
+     PackedScreenResolution packedResolution;
+ 
+-    packedResolution.width = ConfigGetParamInt(video_general_section, "ScreenWidth");
+-    packedResolution.height = ConfigGetParamInt(video_general_section, "ScreenHeight");
++    if (ConfigGetParamInt(video_glide64_section, "ScreenWidth") == 0 || ConfigGetParamInt(video_glide64_section, "ScreenHeight") == 0) {
++        packedResolution.width = ConfigGetParamInt(video_general_section, "ScreenWidth");
++        packedResolution.height = ConfigGetParamInt(video_general_section, "ScreenHeight");
++    } else {
++        packedResolution.width = ConfigGetParamInt(video_glide64_section, "ScreenWidth");
++        packedResolution.height = ConfigGetParamInt(video_glide64_section, "ScreenHeight");
++    }
+     packedResolution.fullscreen = ConfigGetParamBool(video_general_section, "Fullscreen");
+ 
+     return packedResolution;
+diff -Naur mupen64plus-video-glide64mk2_orig/src/Glitch64/OGLESglitchmain.cpp mupen64plus-video-glide64mk2/src/Glitch64/OGLESglitchmain.cpp
+--- a/src/Glitch64/OGLESglitchmain.cpp	2018-11-09 16:39:42.634825313 +0000
++++ b/src/Glitch64/OGLESglitchmain.cpp	2018-11-09 17:04:02.705144635 +0000
+@@ -489,14 +489,23 @@
+   width = height = 0;
+ 
+   m64p_handle video_general_section;
++  m64p_handle video_glide64_section;
+   printf("&ConfigOpenSection is %p\n", &ConfigOpenSection);
+-  if (ConfigOpenSection("Video-General", &video_general_section) != M64ERR_SUCCESS)
++  if (ConfigOpenSection("Video-General", &video_general_section) != M64ERR_SUCCESS ||
++        ConfigOpenSection("Video-Glide64mk2", &video_glide64_section) != M64ERR_SUCCESS)
+   {
+     printf("Could not open video settings");
+     return false;
+   }
+   adjust = ConfigGetParamInt(video_glide64_section, "ScreenLeftOffset");
+-  width = ConfigGetParamInt(video_general_section, "ScreenWidth");
+-  height = ConfigGetParamInt(video_general_section, "ScreenHeight");
++
++  if (ConfigGetParamInt(video_glide64_section, "ScreenWidth") == 0 || ConfigGetParamInt(video_glide64_section, "ScreenHeight") == 0) {
++    width = ConfigGetParamInt(video_general_section, "ScreenWidth");
++    height = ConfigGetParamInt(video_general_section, "ScreenHeight");
++  } else {
++    width = ConfigGetParamInt(video_glide64_section, "ScreenWidth");
++    height = ConfigGetParamInt(video_glide64_section, "ScreenHeight");
++  }
++
+   fullscreen = ConfigGetParamBool(video_general_section, "Fullscreen");
+   int vsync = ConfigGetParamBool(video_general_section, "VerticalSync");
+   //viewport_offset = ((screen_resolution>>2) > 20) ? screen_resolution >> 2 : 20;
+diff -Naur mupen64plus-video-glide64mk2_orig/src/Glitch64/OGLglitchmain.cpp mupen64plus-video-glide64mk2/src/Glitch64/OGLglitchmain.cpp
+--- a/src/Glitch64/OGLglitchmain.cpp	2018-11-09 16:39:42.638158573 +0000
++++ b/src/Glitch64/OGLglitchmain.cpp	2018-11-09 17:19:48.018516829 +0000
+@@ -490,8 +490,13 @@
+   ConfigOpenSection("Video-Glide64mk2", &video_glide64mk2_section);
+   int aalevel = ConfigGetParamInt(video_glide64mk2_section, "wrpAntiAliasing");
+ 
+-  screen_width = width = ConfigGetParamInt(video_general_section, "ScreenWidth");
+-  screen_height = height = ConfigGetParamInt(video_general_section, "ScreenHeight");
++  if (ConfigGetParamInt(video_glide64mk2_section, "ScreenWidth") == 0 || ConfigGetParamInt(video_glide64mk2_section, "ScreenHeight") == 0) {
++    screen_width = width = ConfigGetParamInt(video_general_section, "ScreenWidth");
++    screen_height = height = ConfigGetParamInt(video_general_section, "ScreenHeight");
++  } else {
++    screen_width = width = ConfigGetParamInt(video_glide64mk2_section, "ScreenWidth");
++    screen_height = height = ConfigGetParamInt(video_glide64mk2_section, "ScreenHeight");
++  }
+   fullscreen = ConfigGetParamBool(video_general_section, "Fullscreen");
+   int vsync = ConfigGetParamBool(video_general_section, "VerticalSync");
+ 
+

@@ -1,0 +1,15 @@
+diff --git a/linux/Config.in b/linux/Config.in
+index 6f5c0ea..d6d8e37 100644
+--- a/linux/Config.in
++++ b/linux/Config.in
+@@ -6,6 +6,10 @@ config BR2_LINUX_KERNEL
+ 	  Enable this option if you want to build a Linux kernel for
+ 	  your embedded device
+ 
++config BR2_LINUX_X64_KERNEL_IN_X32_USER
++ 	bool "64 bit kernel in 32 bit userland"
++ 	select BR2_TOOLCHAIN_OPTIONAL_LINARO_AARCH64
++
+ if BR2_LINUX_KERNEL
+ 
+ comment "Linux kernel in thumb mode may be broken with binutils >= 2.29"

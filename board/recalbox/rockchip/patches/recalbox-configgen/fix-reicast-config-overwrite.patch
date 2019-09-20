@@ -1,0 +1,15 @@
+MRFIXIT: without the below patch, the reicast config gets overridden so user's cant adjust the settings themselves
+--- a/configgen/generators/reicast/reicastGenerator.py
++++ b/configgen/generators/reicast/reicastGenerator.py
+@@ -52,7 +52,10 @@
+             # Write emu.cfg to map joysticks, init with the default emu.cfg
+             Config = ConfigParser.ConfigParser()
+             Config.optionxform = str
+-            Config.read(recalboxFiles.reicastConfigInit)
++            if os.path.isfile(recalboxFiles.reicastConfig):
++	            Config.read(recalboxFiles.reicastConfig)
++            else:
++	            Config.read(recalboxFiles.reicastConfigInit)
+             section = "input"
+             # For each pad detected
+             for index in playersControllers :

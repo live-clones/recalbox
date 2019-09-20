@@ -1,0 +1,47 @@
+--- a/Core/Screenshot.cpp	2018-10-13 22:53:51.502902400 +0000
++++ b/Core/Screenshot.cpp	2018-10-13 23:49:28.884224046 +0000
+@@ -21,7 +21,7 @@
+ #ifdef USING_QT_UI
+ #include <QtGui/QImage>
+ #else
+-#include <libpng17/png.h>
++#include <libpng16/png.h>
+ #include "ext/jpge/jpge.h"
+ #endif
+ 
+--- a/Core/TextureReplacer.cpp	2018-10-13 22:53:51.502902400 +0000
++++ b/Core/TextureReplacer.cpp	2018-10-13 23:51:19.813240339 +0000
+@@ -18,7 +18,7 @@
+ #ifdef USING_QT_UI
+ #include <QtGui/QImage>
+ #else
+-#include <libpng17/png.h>
++#include <libpng16/png.h>
+ #endif
+ 
+ #include <algorithm>
+--- a/ext/native/image/png_load.cpp	2018-10-13 22:53:52.306216800 +0000
++++ b/ext/native/image/png_load.cpp	2018-10-13 23:54:00.352484956 +0000
+@@ -5,7 +5,7 @@
+ #ifdef USING_QT_UI
+ #include <QtGui/QImage>
+ #else
+-#include "libpng17/png.h"
++#include "libpng16/png.h"
+ #endif
+ 
+ #include "png_load.h"
+--- a/Core/Debugger/WebSocket/GPUBufferSubscriber.cpp	2018-10-13 22:53:51.366238900 +0000
++++ b/Core/Debugger/WebSocket/GPUBufferSubscriber.cpp	2018-10-14 01:21:27.768828677 +0000
+@@ -17,7 +17,7 @@
+ 
+ #include <algorithm>
+ #ifndef USING_QT_UI
+-#include <libpng17/png.h>
++#include <libpng16/png.h>
+ #include <zlib.h>
+ #endif
+ #include "data/base64.h"
+
+
+

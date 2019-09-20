@@ -1,0 +1,38 @@
+#!/bin/ash
+
+# mount the /boot partition in read only
+
+BOOTPART=$(/recalbox/scripts/recalbox-part.sh boot)
+SYSPART=$(/recalbox/scripts/recalbox-part.sh system)
+
+function shouldUpdateRoot {
+  grep "root=${SYSPART}" /boot/extlinux/extlinux.conf && return 1
+  return 0
+}
+
+function updateRoot {
+  sed -i "s,\(.*root=\)[^ ]* \(.*\),\1$SYSPART \2,g" /boot/extlinux/extlinux.conf
+}
+
+case "$1" in
+  start)
+    BOOTPART=$(/recalbox/scripts/recalbox-part.sh boot) || exit 1
+    mount | cut -d ' ' -f 3 | grep -q '/boot' || mount "${BOOTPART}" -o ro /boot || exit 1
+
+    # Update /extlinux/extlinux.conf if needed
+    if shouldUpdateRoot
+    then
+        mount "${BOOTPART}" /boot -o remount,rw || exit 1
+        updateRoot
+        mount -o remount,ro /boot || exit 1
+    fi
+    ;;
+  stop)
+    umount /boot || exit 1
+    ;;
+  *)
+    echo "Usage: $0 <start|stop>"
+    exit 1
+esac
+
+exit 0

@@ -1,0 +1,17 @@
+--- a/Makefile.libretro
++++ b/Makefile.libretro
+@@ -48,10 +48,10 @@
+    TARGET := $(TARGET_NAME)_libretro.so
+    fpic := -fPIC
+    SHARED := -shared -Wl,--no-undefined -Wl,--version-script=$(CORE_DIR)/frontend/libretro/link.T
+-   LIBS := -lpthread -lGL -lpcap
+-   CXXFLAGS += -DHAVE_OPENGL -std=gnu++11
+-   DESMUME_OPENGL = 1
+-	DESMUME_OPENGL_CORE = 1
++   LIBS := -lpthread -lpcap
++   CXXFLAGS += -std=gnu++11
++   DESMUME_OPENGL = 0
++	DESMUME_OPENGL_CORE = 0
+ 
+    ifneq (,$(findstring clang,$(platform)))
+       CC = clang

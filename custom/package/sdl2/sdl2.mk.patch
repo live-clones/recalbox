@@ -1,0 +1,72 @@
+diff --git a/package/sdl2/sdl2.mk b/package/sdl2/sdl2.mk
+index bd71485..de172f7 100644
+--- a/package/sdl2/sdl2.mk
++++ b/package/sdl2/sdl2.mk
+@@ -20,6 +20,67 @@ SDL2_CONF_OPTS += \
+ 	--disable-pulseaudio \
+ 	--disable-video-wayland
+ 
++ifeq ($(BR2_PACKAGE_RECALBOX_TARGETGROUP_ROCKCHIP),y)
++SDL2_DEPENDENCIES = rockchip-mali
++SDL2_CONF_OPTS += \
++		--target=arm-buildroot-linux-gnueabihf \
++		--disable-video-mir \
++		--disable-altivec \
++		--disable-oss \
++		--disable-alsatest \
++		--disable-esdtest --disable-esd-shared \
++		--disable-arts-shared \
++		--disable-nas \
++		--disable-sndio \
++		--disable-diskaudio \
++		--disable-dummyaudio \
++		--disable-wayland-shared \
++		--disable-mir-shared \
++		--disable-directfb-shared \
++		--disable-fusionsound --disable-fusionsound-shared \
++		--disable-directx \
++		--disable-clock_gettime \
++		--disable-render-d3d \
++		--disable-x11-shared \
++		--disable-video-x11-xshape \
++		--disable-video-dummy --disable-video-vulkan \
++		--enable-pulseaudio --enable-pulseaudio-shared \
++		--enable-video-mali --enable-video-kmsdrm --enable-kmsdrm-shared \
++		--enable-libc \
++		--enable-gcc-atomics \
++		--enable-atomic \
++		--enable-audio \
++		--enable-render \
++		--enable-events \
++		--enable-joystick \
++		--enable-haptic \
++		--enable-power \
++		--enable-filesystem \
++		--enable-threads \
++		--enable-timers \
++		--enable-file \
++		--enable-loadso \
++		--enable-cpuinfo \
++		--enable-assembly \
++		--enable-alsa-shared \
++		--enable-nas-shared \
++		--enable-sndio-shared \
++		--enable-dbus \
++		--enable-pthreads --enable-pthread-sem \
++		--enable-sdl-dlopen \
++		--with-alsa-prefix=$(STAGING_DIR)/usr/lib \
++		--with-alsa-inc-prefix=$(STAGING_DIR)/usr/include
++SDL2_CONF_ENV += CFLAGS="$(TARGET_CFLAGS) -DSDL_STATIC=OFF \
++		       -DDUMMYAUDIO=OFF \
++		       -DOSS=OFF \
++		       -DRPATH=OFF \
++		       -DVIDEO_X11=OFF \
++		       -DVIDEO_WAYLAND=OFF \
++		       -DVIDEO_DUMMY=OFF \
++		       -DCMAKE_INSTALL_PREFIX=/usr \
++		       -DDISKAUDIO=OFF"
++endif
++
+ # We must enable static build to get compilation successful.
+ SDL2_CONF_OPTS += --enable-static
+ 

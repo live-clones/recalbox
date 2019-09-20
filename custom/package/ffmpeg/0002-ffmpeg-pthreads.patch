@@ -1,0 +1,38 @@
+From patchwork Wed Oct 25 13:32:36 2017
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Subject: [FFmpeg-devel] configure: v4l2_m2m depends on pthreads
+From: Mark Thompson <sw@jkqxz.net>
+X-Patchwork-Id: 5688
+Message-Id: <27e5b360-1210-d550-c8de-a761f8e9f326@jkqxz.net>
+To: FFmpeg development discussions and patches <ffmpeg-devel@ffmpeg.org>
+Date: Wed, 25 Oct 2017 14:32:36 +0100
+
+Fixes build with --disable-pthreads.
+
+MRFIXIT adjusted to match recalbox's reverted version of 3.3.5
+
+Downloaded from upstream patchworks:
+https://patchwork.ffmpeg.org/patch/5688/
+
+Signed-off-by: Bernd Kuhls <bernd.kuhls@t-online.de>
+---
+ configure | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/configure b/configure
+index c86e578..76523c8 100755
+--- a/configure
++++ b/configure
+@@ -3022,8 +3022,8 @@
+ sndio_indev_deps="sndio_h"
+ sndio_outdev_deps="sndio_h"
+ v4l_indev_deps="linux_videodev_h"
+-v4l2_indev_deps_any="linux_videodev2_h sys_videoio_h"
+-v4l2_outdev_deps_any="linux_videodev2_h sys_videoio_h"
++v4l2_indev_deps_any="linux_videodev2_h sys_videoio_h pthreads"
++v4l2_outdev_deps_any="linux_videodev2_h sys_videoio_h pthreads"
+ vfwcap_indev_deps="capCreateCaptureWindow vfwcap_defines"
+ vfwcap_indev_extralibs="-lavicap32"
+ xcbgrab_indev_deps="libxcb"

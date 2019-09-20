@@ -1,0 +1,17 @@
+MRFIXIT: udev has some issues with USB hubs - if more than one USB device, sometimes a gamepad would only work if it was plugged into a specific port. SDL2 seems to always work, so let's just use that. 
+
+--- a/configgen/generators/libretro/libretroControllers.py
++++ b/configgen/generators/libretro/libretroControllers.py
+@@ -118,11 +118,7 @@
+ 
+     # Find the best driver for controllers
+     def getInputDriver(self):
+-        for controller in self.controllers:
+-            for controllerName in self.sdl2driverControllers:
+-                if controllerName in self.controllers[controller].realName:
+-                    return "sdl2"
+-        return "udev"
++        return 'sdl2'
+ 
+     # Remove all controller configurations
+     def cleanUpControllers(self):

@@ -1,0 +1,30 @@
+#!/bin/sh
+#
+# Enable or Disable the fan on RockPro
+#
+
+case "$1" in
+  start)
+	recallog "Toggling RockPro Fan"
+	fanOnOff=$(egrep "^system.rockprofan.enabled" /recalbox/share/system/recalbox.conf|sed "s/system.rockprofan.enabled=//g")
+	while [ ! -f /sys/class/hwmon/hwmon0/pwm1 ] ; do
+		sleep 0.1
+	done
+	if [ "$fanOnOff" == "1" ];then
+		echo 255 > /sys/class/hwmon/hwmon0/pwm1
+	else
+		echo 0 > /sys/class/hwmon/hwmon0/pwm1
+	fi
+	;;
+  stop)
+	;;
+  restart|reload)
+	"$0" stop
+	"$0" start
+	;;
+  *)
+	echo "Usage: $0 {start|stop|restart}"
+	exit 1
+esac
+
+exit $?

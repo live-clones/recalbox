@@ -1,0 +1,43 @@
+--- a/src/libm_math.c
++++ b/src/libm_math.c
+@@ -40,7 +40,7 @@
+ extern double frexp(double, int *);
+ extern double modf(double, double *);
+ 
+-static double log2 = 0.693147180559945309e0;
++static double log2a = 0.693147180559945309e0;
+ static double sqrto2 = 0.707106781186547524e0;
+ static double logp0 = -.240139179559210510e2;
+ static double logp1 = 0.309572928215376501e2;
+@@ -191,7 +191,7 @@
+ 
+     temp = ((logp3 * zsq + logp2) * zsq + logp1) * zsq + logp0;
+     temp = temp / (((1.0 * zsq + logq2) * zsq + logq1) * zsq + logq0);
+-    temp = temp * z + exp * log2;
++    temp = temp * z + exp * log2a;
+     return (temp);
+ }
+ 
+--- a/src/usleep.c
++++ b/src/usleep.c
+@@ -59,7 +59,7 @@
+           used even there, instead a target specific vice_usleep should be
+           implemented, which really waits the requested delay (and no more, and
+           no less) */
+-int usleep(unsigned long int microSeconds)
++int usleep(__useconds_t microSeconds)
+ {
+     unsigned int Seconds, uSec;
+ #ifdef __OS2__
+--- a/src/c1541.c
++++ b/src/c1541.c
+@@ -4767,9 +4767,6 @@
+         interactive_mode = 1;
+ 
+         /* properly init GNU readline, if available */
+-#ifdef HAVE_READLINE_READLINE_H
+-        using_history();
+-#endif
+         version_cmd(0, NULL);
+         printf("Copyright 1995-2018 The VICE Development Team.\n"
+                "C1541 is free software, covered by the GNU General Public License,"

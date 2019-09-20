@@ -1,0 +1,280 @@
+diff --git a/Common/KeyMap.cpp b/Common/KeyMap.cpp
+index bd81b1f..4242bc3 100644
+--- a/Common/KeyMap.cpp
++++ b/Common/KeyMap.cpp
+@@ -651,6 +651,7 @@ const KeyMap_IntStrPair psp_button_names[] = {
+ 	{VIRTKEY_SAVE_STATE, "Save State"},
+ 	{VIRTKEY_LOAD_STATE, "Load State"},
+ 	{VIRTKEY_NEXT_SLOT,  "Next Slot"},
++	{VIRTKEY_PREV_SLOT,  "Previous Slot"},
+ #if !defined(_WIN32) && !defined(MOBILE_DEVICE)
+ 	{VIRTKEY_TOGGLE_FULLSCREEN, "Toggle Fullscreen"},
+ #endif
+diff --git a/Common/KeyMap.h b/Common/KeyMap.h
+index abc4f77..445f931 100644
+--- a/Common/KeyMap.h
++++ b/Common/KeyMap.h
+@@ -51,6 +51,7 @@ enum {
+ 	VIRTKEY_AXIS_SWAP = 0x10012,
+ 	VIRTKEY_DEVMENU = 0x10013,
+ 	VIRTKEY_FRAME_ADVANCE = 0x10014,
++	VIRTKEY_PREV_SLOT  = 0x10015,
+ 	VIRTKEY_LAST,
+ 	VIRTKEY_COUNT = VIRTKEY_LAST - VIRTKEY_FIRST
+ };
+diff --git a/Core/SaveState.cpp b/Core/SaveState.cpp
+index d39b0da..15f95f8 100644
+--- a/Core/SaveState.cpp
++++ b/Core/SaveState.cpp
+@@ -409,6 +409,11 @@ namespace SaveState
+ 		g_Config.iCurrentStateSlot = (g_Config.iCurrentStateSlot + 1) % NUM_SLOTS;
+ 	}
+ 
++	void PrevSlot()
++	{
++		g_Config.iCurrentStateSlot = (g_Config.iCurrentStateSlot - 1) % NUM_SLOTS;
++	}
++
+ 	void LoadSlot(const std::string &gameFilename, int slot, Callback callback, void *cbUserData)
+ 	{
+ 		std::string fn = GenerateSaveSlotFilename(gameFilename, slot, STATE_EXTENSION);
+diff --git a/Core/SaveState.h b/Core/SaveState.h
+index a471910..690b43f 100644
+--- a/Core/SaveState.h
++++ b/Core/SaveState.h
+@@ -34,6 +34,7 @@ namespace SaveState
+ 
+ 	// Cycle through the 5 savestate slots
+ 	void NextSlot();
++	void PrevSlot();
+ 	void SaveSlot(const std::string &gameFilename, int slot, Callback callback, void *cbUserData = 0);
+ 	void LoadSlot(const std::string &gameFilename, int slot, Callback callback, void *cbUserData = 0);
+ 	// Checks whether there's an existing save in the specified slot.
+diff --git a/SDL/SDLJoystick.cpp b/SDL/SDLJoystick.cpp
+index 36576d0..4e5dbb6 100644
+--- a/SDL/SDLJoystick.cpp
++++ b/SDL/SDLJoystick.cpp
+@@ -4,9 +4,15 @@
+ 
+ #include <iostream>
+ #include <string>
++#include <algorithm>
++#include <sstream>
+ 
+ using namespace std;
+ 
++static bool hotkey = false;
++static bool hotkeyIsNotADedicatedKey = false;
++keycode_t guideCode;
++
+ static int SDLJoystickEventHandlerWrapper(void* userdata, SDL_Event* event)
+ {
+ 	static_cast<SDLJoystick *>(userdata)->ProcessInput(*event);
+@@ -54,6 +60,10 @@ void SDLJoystick::setUpControllers() {
+ 	}
+ 	if (controllers.size() > 0) {
+ 		cout << "pad 1 has been assigned to control pad: " << SDL_GameControllerName(controllers.front()) << endl;
++		auto mapping = SDL_GameControllerMapping(controllers.front());
++		// Check with mapping if guide and select have the same button, and turn on a flag
++		guideCode = findGuideRealButton(mapping);
++		hotkeyIsNotADedicatedKey = ( guideCode != NKCODE_UNKNOWN );
+ 	}
+ }
+ 
+@@ -138,7 +148,12 @@ void SDLJoystick::ProcessInput(SDL_Event &event){
+ 				key.flags = KEY_DOWN;
+ 				key.keyCode = code;
+ 				key.deviceId = DEVICE_ID_PAD_0 + getDeviceIndex(event.cbutton.which);
++				keysPressedCombo.push_back(code);
+ 				NativeKey(key);
++				if (hotkeyIsNotADedicatedKey and (code == guideCode)) {
++					key.keyCode = NKCODE_BACK;
++					NativeKey(key);
++				}
+ 			}
+ 		}
+ 		break;
+@@ -151,6 +166,10 @@ void SDLJoystick::ProcessInput(SDL_Event &event){
+ 				key.keyCode = code;
+ 				key.deviceId = DEVICE_ID_PAD_0 + getDeviceIndex(event.cbutton.which);
+ 				NativeKey(key);
++				if (code == NKCODE_BUTTON_9 and hotkeyIsNotADedicatedKey) {
++					key.keyCode = NKCODE_BACK;
++					NativeKey(key);
++				}
+ 			}
+ 		}
+ 		break;
+@@ -181,6 +200,10 @@ void SDLJoystick::ProcessInput(SDL_Event &event){
+ 		setUpController(event.cdevice.which);
+ 		if (prevNumControllers == 0 && controllers.size() > 0) {
+ 			cout << "pad 1 has been assigned to control pad: " << SDL_GameControllerName(controllers.front()) << endl;
++			auto mapping = SDL_GameControllerMapping(controllers.front());
++			// Check with mapping if guide and select have the same button, and turn on a flag
++			guideCode = findGuideRealButton(mapping);
++			hotkeyIsNotADedicatedKey = ( guideCode != NKCODE_UNKNOWN );
+ 		}
+ 		break;
+ 	}
+@@ -194,3 +217,29 @@ int SDLJoystick::getDeviceIndex(int instanceId) {
+ 	}
+ 	return it->second;
+ }
++
++// Hack for people whose HK is not a dedicated button
++keycode_t SDLJoystick::findGuideRealButton(const char* mapping) {
++	std::string s, guideStringCode, guideString;
++	std::istringstream f(mapping);
++	size_t pos;
++
++	while (getline(f, s, ',')) {
++		if (pos=s.find("guide:b") != std::string::npos) {
++			guideString = s;
++			guideStringCode = s.substr(7); // thats length of guide:b
++			break;
++		}
++	}
++
++	s.clear();
++	while (getline(f, s, ',')) {
++		if (pos=s.find(guideStringCode) != std::string::npos and s != guideString) {
++			s = s.substr(0, s.find(':'));
++			if (pos=s.find("back") != std::string::npos) { return NKCODE_BUTTON_9; }
++			if (pos=s.find("leftstick") != std::string::npos) { return NKCODE_BUTTON_THUMBL; }
++			if (pos=s.find("rightstick") != std::string::npos) { return NKCODE_BUTTON_THUMBR; }
++		}
++	}
++	return NKCODE_UNKNOWN;
++}
+diff --git a/SDL/SDLJoystick.h b/SDL/SDLJoystick.h
+index c5d8113..e384f81 100644
+--- a/SDL/SDLJoystick.h
++++ b/SDL/SDLJoystick.h
+@@ -28,4 +28,7 @@ class SDLJoystick{
+ 	bool registeredAsEventHandler;
+ 	std::vector<SDL_GameController *> controllers;
+ 	std::map<int, int> controllerDeviceMap;
++	std::vector<keycode_t> keysPressedCombo;
++	bool checkGuideCombo();
++	keycode_t findGuideRealButton(const char* mapping);
+ };
+diff --git a/UI/EmuScreen.cpp b/UI/EmuScreen.cpp
+index 882d9bb..e8f3166 100644
+--- a/UI/EmuScreen.cpp
++++ b/UI/EmuScreen.cpp
+@@ -81,6 +81,7 @@ AVIDump avi;
+ static bool frameStep_;
+ static int lastNumFlips;
+ static bool startDumping;
++static bool hkPressed;
+ 
+ static void __EmuScreenVblank()
+ {
+@@ -411,7 +412,7 @@ void EmuScreen::onVKeyDown(int virtualKeyCode) {
+ 		break;
+ 
+ 	case VIRTKEY_PAUSE:
+-		pauseTrigger_ = true;
++		hkPressed = true;
+ 		break;
+ 
+ 	case VIRTKEY_FRAME_ADVANCE:
+@@ -478,6 +479,10 @@ void EmuScreen::onVKeyDown(int virtualKeyCode) {
+ 		SaveState::NextSlot();
+ 		NativeMessageReceived("savestate_displayslot", "");
+ 		break;
++	case VIRTKEY_PREV_SLOT:
++		SaveState::PrevSlot();
++		NativeMessageReceived("savestate_displayslot", "");
++		break;
+ 	case VIRTKEY_TOGGLE_FULLSCREEN:
+ 		System_SendMessage("toggle_fullscreen", "");
+ 		break;
+@@ -515,11 +520,63 @@ void EmuScreen::onVKeyUp(int virtualKeyCode) {
+ 		setVKeyAnalogY(CTRL_STICK_RIGHT, VIRTKEY_AXIS_RIGHT_Y_MIN, VIRTKEY_AXIS_RIGHT_Y_MAX);
+ 		break;
+ 
++	case VIRTKEY_PAUSE:
++		hkPressed = false;
++		break;
++
+ 	default:
+ 		break;
+ 	}
+ }
+ 
++bool EmuScreen::checkCombos(u32 buttons) {
++	if (!hkPressed) {
++		ILOG("HK not pressed");
++		return false;
++	}
++
++	bool retval = false;
++
++	if (buttons & CTRL_CROSS) {
++		pauseTrigger_ = true;
++		retval =  true;
++	}
++	if (buttons & CTRL_START) {
++		System_SendMessage("finish", "");
++		retval =  true;
++	}
++	if (buttons & CTRL_CIRCLE) {
++		sendMessage("reset", "");
++		retval =  true;
++	}
++	if (buttons & CTRL_SQUARE) {
++		onVKeyDown(VIRTKEY_SAVE_STATE);
++		retval =  true;
++	}
++	if (buttons & CTRL_TRIANGLE) {
++		onVKeyDown(VIRTKEY_LOAD_STATE);
++		retval =  true;
++	}
++	if (buttons & CTRL_UP) {
++		onVKeyDown(VIRTKEY_NEXT_SLOT);
++		retval =  true;
++	}
++	if (buttons & CTRL_DOWN) {
++		onVKeyDown(VIRTKEY_PREV_SLOT);
++		retval =  true;
++	}
++	if (buttons & CTRL_LEFT) {
++		onVKeyDown(VIRTKEY_REWIND);
++		retval =  true;
++	}
++	if (buttons & CTRL_RIGHT) {
++		onVKeyDown(VIRTKEY_SPEED_TOGGLE);
++		retval =  true;
++	}
++	hkPressed = false;
++	return retval;
++}
++
+ // Handles control rotation due to internal screen rotation.
+ static void SetPSPAxis(char axis, float value, int stick) {
+ 	switch (g_Config.iInternalScreenRotation) {
+@@ -633,8 +690,9 @@ void EmuScreen::pspKey(int pspKeyCode, int flags) {
+ 		}
+ 	} else {
+ 		// ILOG("pspKey %i %i", pspKeyCode, flags);
+-		if (flags & KEY_DOWN)
+-			__CtrlButtonDown(pspKeyCode);
++		if (flags & KEY_DOWN) {
++			if (! checkCombos(pspKeyCode)) __CtrlButtonDown(pspKeyCode);
++		}
+ 		if (flags & KEY_UP)
+ 			__CtrlButtonUp(pspKeyCode);
+ 	}
+diff --git a/UI/EmuScreen.h b/UI/EmuScreen.h
+index 15d08da..b628970 100644
+--- a/UI/EmuScreen.h
++++ b/UI/EmuScreen.h
+@@ -58,6 +58,7 @@ class EmuScreen : public UIScreen {
+ 	void pspKey(int pspKeyCode, int flags);
+ 	void onVKeyDown(int virtualKeyCode);
+ 	void onVKeyUp(int virtualKeyCode);
++	bool checkCombos(u32 buttons);
+ 	void setVKeyAnalogX(int stick, int virtualKeyMin, int virtualKeyMax);
+ 	void setVKeyAnalogY(int stick, int virtualKeyMin, int virtualKeyMax);
+ 

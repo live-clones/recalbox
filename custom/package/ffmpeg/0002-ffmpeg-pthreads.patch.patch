@@ -1,0 +1,37 @@
+diff --git a/package/ffmpeg/0002-ffmpeg-pthreads.patch b/package/ffmpeg/0002-ffmpeg-pthreads.patch
+index c6d75d2..ccefb4f 100644
+--- a/package/ffmpeg/0002-ffmpeg-pthreads.patch
++++ b/package/ffmpeg/0002-ffmpeg-pthreads.patch
+@@ -11,6 +11,8 @@ Date: Wed, 25 Oct 2017 14:32:36 +0100
+ 
+ Fixes build with --disable-pthreads.
+ 
++MRFIXIT adjusted to match recalbox's reverted version of 3.3.5
++
+ Downloaded from upstream patchworks:
+ https://patchwork.ffmpeg.org/patch/5688/
+ 
+@@ -23,12 +25,14 @@ diff --git a/configure b/configure
+ index c86e578..76523c8 100755
+ --- a/configure
+ +++ b/configure
+-@@ -2780,7 +2780,7 @@ omx_rpi_select="omx"
+- qsvdec_select="qsv"
+- qsvenc_select="qsv"
+- vaapi_encode_deps="vaapi"
+--v4l2_m2m_deps_any="linux_videodev2_h"
+-+v4l2_m2m_deps="linux_videodev2_h pthreads"
+- 
+- hwupload_cuda_filter_deps="cuda"
+- scale_npp_filter_deps="cuda libnpp"
++@@ -3022,8 +3022,8 @@
++ sndio_indev_deps="sndio_h"
++ sndio_outdev_deps="sndio_h"
++ v4l_indev_deps="linux_videodev_h"
++-v4l2_indev_deps_any="linux_videodev2_h sys_videoio_h"
++-v4l2_outdev_deps_any="linux_videodev2_h sys_videoio_h"
+++v4l2_indev_deps_any="linux_videodev2_h sys_videoio_h pthreads"
+++v4l2_outdev_deps_any="linux_videodev2_h sys_videoio_h pthreads"
++ vfwcap_indev_deps="capCreateCaptureWindow vfwcap_defines"
++ vfwcap_indev_extralibs="-lavicap32"
++ xcbgrab_indev_deps="libxcb"

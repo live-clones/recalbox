@@ -1,0 +1,37 @@
+diff --git a/package/libdrm/libdrm.mk b/package/libdrm/libdrm.mk
+index 1c898a5..eec9e44 100644
+--- a/package/libdrm/libdrm.mk
++++ b/package/libdrm/libdrm.mk
+@@ -4,7 +4,11 @@
+ #
+ ################################################################################
+ 
++ifeq ($(BR2_PACKAGE_RECALBOX_TARGETGROUP_ROCKCHIP),y)
++LIBDRM_VERSION = 2.4.96
++else
+ LIBDRM_VERSION = 2.4.89
++endif
+ LIBDRM_SOURCE = libdrm-$(LIBDRM_VERSION).tar.bz2
+ LIBDRM_SITE = https://dri.freedesktop.org/libdrm
+ LIBDRM_LICENSE = MIT
+@@ -99,12 +103,20 @@ else
+ LIBDRM_CONF_OPTS += --disable-vc4
+ endif
+ 
++ifeq ($(BR2_PACKAGE_RECALBOX_TARGETGROUP_ROCKCHIP),y)
++LIBDRM_CONF_OPTS += \
++	--disable-udev \
++	--enable-largefile \
++	--with-kernel-source=$(@D)../linux-$(BR2_LINUX_KERNEL_VERSION) \
++	--disable-libkms 
++else
+ ifeq ($(BR2_PACKAGE_HAS_UDEV),y)
+ LIBDRM_CONF_OPTS += --enable-udev
+ LIBDRM_DEPENDENCIES += udev
+ else
+ LIBDRM_CONF_OPTS += --disable-udev
+ endif
++endif
+ 
+ ifeq ($(BR2_PACKAGE_VALGRIND),y)
+ LIBDRM_CONF_OPTS += --enable-valgrind
