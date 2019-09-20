@@ -88,7 +88,16 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fix post-upgrade cleanup
 - Add new recalbox.conf keys to ease AI Service configuration
 - Add arcade meta-system
-
+- Add Rockchip board folders for boards with Rockchip chipsets
+- Add package for Rockchip Mali GPU drivers
+- Add package for network adapter RTL8812AU
+- Add package to support hardware accelerated media playback on Rockchip RKMPP
+- Add board folder and config for Pine64 Rock64 SBC
+- Add board folder and config for Pine64 RockPro64 SBC
+- Add board folder and config for Pine64 Pinebook Pro Laptop
+- Add board folder and config for Radxa RockPi4 SBC
+- Add package to support GPIO I/O with Rock64 and RockPro64
+- Add package to support Kintaro Case and Roshambo Case compatiblity with Rock64 and RockPro64
 
 ## [6.0] - DragonBlaze
 - Change name from 5.0 to 6.0 DragonBlaze
