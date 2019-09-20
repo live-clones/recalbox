@@ -228,11 +228,12 @@ class LibretroRetroarch:
 
         # AI System
         aiOn = self.getOption("translate", "1")
-        aiFrom = self.getOption("translate.from", "auto")
+        aiFrom = self.getOption("translate.from", "auto").upper()
         aiTo = self.getOption("translate.to", self.recalboxSettings.getOption("system.language", "auto"))
         aiTo = aiTo.upper()
-        if aiTo[:2] != "ZH":  # Keep chinese region
-            aiTo = aiTo[:2]
+        if len(aiTo) > 2:
+            if not aiTo.startswith("ZH") and not aiTo.startswith("AUTO"):  # Keep chinese region
+                aiTo = aiTo[:2]
         aiKey = self.getOption("translate.apikey", "")
         aiUrl = self.getOption("translate.url", "")
         settings.setOption("ai_service_enable", self.TRUE if aiOn and aiKey != "" else self.FALSE)
