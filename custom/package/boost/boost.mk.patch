@@ -1,6 +1,8 @@
---- a/package/boost/boost.mk	2019-02-04 19:52:26.373976454 +0100
-+++ b/package/boost/boost.mk	2019-02-04 19:49:24.228506477 +0100
-@@ -11,6 +11,8 @@
+diff --git a/package/boost/boost.mk b/package/boost/boost.mk
+index 9ad83d5..ddb7800 100644
+--- a/package/boost/boost.mk
++++ b/package/boost/boost.mk
+@@ -11,6 +11,8 @@ BOOST_INSTALL_STAGING = YES
  BOOST_LICENSE = BSL-1.0
  BOOST_LICENSE_FILES = LICENSE_1_0.txt
  

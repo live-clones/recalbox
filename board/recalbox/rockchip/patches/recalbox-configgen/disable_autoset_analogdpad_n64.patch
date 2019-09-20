@@ -1,0 +1,32 @@
+--- a/configgen/generators/libretro/libretroControllers.py
++++ b/configgen/generators/libretro/libretroControllers.py
+@@ -134,13 +134,13 @@
+ 
+     # Return the retroarch analog_dpad_mode
+     @staticmethod
+-    def getAnalogMode(controller):
+-        # if system.name != 'psx':
+-        for dirkey in LibretroControllers.retroarchdirs:
+-            if dirkey in controller.inputs:
+-                if controller.inputs[dirkey].type in ("button", "hat"):
+-                    return "1"
+-        return "0"
++    def getAnalogMode(self, controller):
++        if self.system.name != 'n64':
++		for dirkey in LibretroControllers.retroarchdirs:
++		    if dirkey in controller.inputs:
++		        if controller.inputs[dirkey].type in ("button", "hat"):
++		            return "1"
++	return "0"
+ 
+     # Return the playstation analog mode for a controller
+     @staticmethod
+@@ -211,7 +211,7 @@
+ 
+         # Assign pad to player
+         settings.setOption("input_player{}_joypad_index".format(playerIndex), controller.index)
+-        settings.setOption("input_player{}_analog_dpad_mode".format(playerIndex), self.getAnalogMode(controller))
++        settings.setOption("input_player{}_analog_dpad_mode".format(playerIndex), self.getAnalogMode(self, controller))
+ 
+ 
+ 

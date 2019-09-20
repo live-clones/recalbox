@@ -29,11 +29,16 @@ ifeq ($(BR2_arm1176jzf_s),y)
 RETROARCH_CONF_OPTS += --enable-floathard
 endif
 
-# RPI 2 and 3
+# RPI 2 and 3, RK3328
 ifeq ($(BR2_cortex_a7),y)
 RETROARCH_CONF_OPTS += --enable-floathard
 endif
 ifeq ($(BR2_arm)$(BR2_cortex_a53),yy)
+RETROARCH_CONF_OPTS += --enable-floathard
+endif
+
+# RK3399
+ifeq ($(BR2_arm)$(BR2_cortex_a72_a53),yy)
 RETROARCH_CONF_OPTS += --enable-floathard
 endif
 
@@ -49,6 +54,12 @@ endif
 # odroid xu4
 ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_XU4),y)
 RETROARCH_CONF_OPTS += --enable-floathard
+endif
+
+# ROCKCHIP
+ifeq ($(BR2_PACKAGE_RECALBOX_TARGETGROUP_ROCKCHIP),y)
+RETROARCH_CONF_OPTS += --enable-kms --disable-wayland --disable-vg
+RETROARCH_DEPENDENCIES += libdrm rockchip-mali
 endif
 
 # x86 : SSE
@@ -138,7 +149,11 @@ endef
 
 ifeq ($(BR2_PACKAGE_MALI_OPENGLES_SDK),y)
 RETROARCH_PRE_CONFIGURE_HOOKS += RETROARCH_MALI_FIXUP
-RETROARCH_CONF_OPTS += --enable-opengles --enable-mali_fbdev
+RETROARCH_CONF_OPTS += --enable-opengles
+	# Rockchip doesn't work with mali_fbdev
+	ifeq ($(BR2_PACKAGE_RECALBOX_TARGETGROUP_ROCKCHIP),)
+		RETROARCH_CONF_OPTS += --enable-mali_fbdev
+	endif
 endif
 
 ifeq ($(BR2_i386),y)
@@ -216,11 +231,27 @@ ifeq ($(BR2_arm)$(BR2_cortex_a53),yy)
 RETROARCH_LIBRETRO_PLATFORM += armv8
 endif
 
+ifeq ($(BR2_arm)$(BR2_cortex_a72_a53),yy)
+RETROARCH_LIBRETRO_PLATFORM += armv8
+endif
+
 ifeq ($(BR2_ARM_CPU_HAS_NEON),y)
 RETROARCH_LIBRETRO_PLATFORM += neon
 endif
 
 # SPECIFIC PLATFORM
+ifeq ($(BR2_PACKAGE_RECALBOX_TARGETGROUP_ROCKCHIP),y)
+RETROARCH_LIBRETRO_PLATFORM += rockchip
+endif
+
+ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_RK3399),y)
+RETROARCH_LIBRETRO_PLATFORM += RK3399
+endif
+
+ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_RK3328),y)
+RETROARCH_LIBRETRO_PLATFORM += RK3328
+endif
+
 # Will be equal to rpi1, rpi2, rpi3 if we are on rpi.
 # Will be equal to RETROARCH_LIBRETRO_PLATFORM otherwise
 RETROARCH_LIBRETRO_BOARD=$(RETROARCH_LIBRETRO_PLATFORM)

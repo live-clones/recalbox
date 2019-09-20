@@ -1,0 +1,13 @@
+MRFIXIT: Disable auto-setting of resolution for mupen, not effective on rockchip. Instead, there is a different patch which allows the resolution to be controlled in recalbox.conf
+--- a/configgen/generators/mupen/mupenConfig.py
++++ b/configgen/generators/mupen/mupenConfig.py
+@@ -12,7 +12,8 @@
+ def writeMupenConfig(system, controllers, rom):
+     setPaths()
+     writeHotKeyConfig(controllers)
+-    setRealResolution(system.config['videomode'].strip())
++    # ROCKCHIP: Do not auto-set resolution because the cores are patched to change resolution after launching
++    # setRealResolution(system.config['videomode'].strip())
+     # ~ mupenSettings.save('Fullscreen', "True")
+     # ~ mupenSettings.save('ScreenWidth', "")
+     # ~ mupenSettings.save('ScreenHeight', "")

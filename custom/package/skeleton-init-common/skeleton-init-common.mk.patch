@@ -1,5 +1,5 @@
 diff --git a/package/skeleton-init-common/skeleton-init-common.mk b/package/skeleton-init-common/skeleton-init-common.mk
-index 8228a8103f..51aa132f2e 100644
+index 8228a81..51aa132 100644
 --- a/package/skeleton-init-common/skeleton-init-common.mk
 +++ b/package/skeleton-init-common/skeleton-init-common.mk
 @@ -72,7 +72,7 @@ endif

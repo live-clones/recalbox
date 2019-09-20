@@ -1,0 +1,31 @@
+--- a/setup.py
++++ b/setup.py
+@@ -472,7 +472,23 @@
+-        # Ensure that /usr/local is always used
+-        if not cross_compiling:
+-            add_dir_to_list(self.compiler.library_dirs, '/usr/local/lib')
++        try:
++            modules_lib_dirs = os.environ["PYTHON_MODULES_LIB"].split()
++        except KeyError:
++            modules_lib_dirs = []
++        if len(modules_lib_dirs) > 0:
++            for dir in modules_lib_dirs:
++                add_dir_to_list(self.compiler.library_dirs, dir)
++        else:
++            add_dir_to_list(self.compiler.library_dirs, '/usr/lib')
++            self.add_multiarch_paths()
++
+-            add_dir_to_list(self.compiler.include_dirs, '/usr/local/include')
++        try:
++            modules_include_dirs = os.environ["PYTHON_MODULES_INCLUDE"].split()
++        except KeyError:
++            modules_include_dirs = []
++        if len(modules_include_dirs) > 0:
++            for dir in modules_include_dirs:
++                add_dir_to_list(self.compiler.include_dirs, dir)
++        else:
++            add_dir_to_list(self.compiler.include_dirs, '/usr/include/python2.7')   
+-            self.add_multiarch_paths()
++
+         if cross_compiling:
+             self.add_gcc_paths()

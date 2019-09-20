@@ -1,0 +1,14 @@
+--- a/Makefile.common
++++ b/Makefile.common
+@@ -1021,11 +1021,6 @@
+    endif
+ endif
+ 
+-ifeq ($(HAVE_XCB),1)
+-   DEF_FLAGS += $(XCB_CFLAGS)
+-   LIBS      += $(XCB_LIBS)
+-endif
+-
+ ifeq ($(HAVE_XKBCOMMON), 1)
+    DEF_FLAGS += $(XKBCOMMON_CFLAGS)
+    OBJ += input/drivers_keyboard/keyboard_event_xkb.o

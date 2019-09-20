@@ -1,0 +1,117 @@
+MRFIXIT: Fix cmake for rockchip
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index e26ebe2227..d4384f8a94 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -71,7 +71,7 @@ endif()
+ 
+ if(NOT ANDROID AND NOT IOS)
+ 	if(ARM_DEVICE OR SIMULATOR)
+-		set(USING_EGL ON)
++		set(USING_EGL OFF)
+ 	endif()
+ endif()
+ 
+@@ -90,7 +90,7 @@ endif()
+ 
+ # We only support Vulkan on Unix, Android and Windows.
+ if(ANDROID OR WIN32 OR (UNIX AND NOT APPLE AND NOT ARM_NO_VULKAN))
+-	set(VULKAN ON)
++	set(VULKAN OFF)
+ endif()
+ 
+ if(NOT DEFINED HEADLESS)
+
+
+MRFIXIT: The below portion changes the max FPS to be a user-defined value to boost performance for high demanding games
+--- a/UI/GameSettingsScreen.cpp	2018-11-18 02:06:08.250398000 +0000
++++ b/UI/GameSettingsScreen.cpp	2018-11-18 02:20:02.941563758 +0000
+@@ -136,8 +136,8 @@
+ 		g_Config.loadGameConfig(gameID_);
+ 	}
+ 
+-	cap60FPS_ = g_Config.iForceMaxEmulatedFPS == 60;
++	maxFpsChoice = (g_Config.iForceMaxEmulatedFPS / 10);
+ 
+ 	iAlternateSpeedPercent1_ = g_Config.iFpsLimit1 < 0 ? -1 : (g_Config.iFpsLimit1 * 100) / 60;
+ 	iAlternateSpeedPercent2_ = g_Config.iFpsLimit2 < 0 ? -1 : (g_Config.iFpsLimit2 * 100) / 60;
+ 
+@@ -275,8 +273,10 @@
+ 	graphicsSettings->Add(new PopupMultiChoice(&g_Config.iFrameSkipType, gr->T("Frame Skipping Type"), frameSkipType, 0, ARRAY_SIZE(frameSkipType), gr->GetName(), screenManager()));
+ 	frameSkipAuto_ = graphicsSettings->Add(new CheckBox(&g_Config.bAutoFrameSkip, gr->T("Auto FrameSkip")));
+ 	frameSkipAuto_->OnClick.Handle(this, &GameSettingsScreen::OnAutoFrameskip);
+-	graphicsSettings->Add(new CheckBox(&cap60FPS_, gr->T("Force max 60 FPS (helps GoW)")));
+-
++	static const char *maxFps[] = {"Off", "10", "20", "30", "40", "50", "60", "70", "80"};
++	maxFps_ = graphicsSettings->Add(new PopupMultiChoice(&maxFpsChoice, gr->T("Force Max FPS (lower helps GoW)"), maxFps, 0, ARRAY_SIZE(maxFps), gr->GetName(), screenManager()));
++	maxFps_->OnChoice.Handle(this, &GameSettingsScreen::OnForceMaxEmulatedFPS);
++	
+ 	PopupSliderChoice *altSpeed1 = graphicsSettings->Add(new PopupSliderChoice(&iAlternateSpeedPercent1_, 0, 1000, gr->T("Alternative Speed", "Alternative speed"), 5, screenManager(), gr->T("%, 0:unlimited")));
+ 	altSpeed1->SetFormat("%i%%");
+ 	altSpeed1->SetZeroLabel(gr->T("Unlimited"));
+@@ -1022,6 +1022,16 @@
+ 	return UI::EVENT_DONE;
+ };
+ 
++UI::EventReturn GameSettingsScreen::OnForceMaxEmulatedFPS(UI::EventParams &e) {
++	if (maxFpsChoice > 0) {
++		g_Config.iForceMaxEmulatedFPS = (maxFpsChoice * 10);
++	} else {
++		g_Config.iForceMaxEmulatedFPS = 0;
++	}
++	Reporting::UpdateConfig();
++	return UI::EVENT_DONE;
++}
++
+ UI::EventReturn GameSettingsScreen::OnResolutionChange(UI::EventParams &e) {
+ 	if (g_Config.iAndroidHwScale == 1) {
+ 		RecreateActivity();
+@@ -1045,7 +1053,6 @@
+ 
+ void GameSettingsScreen::update() {
+ 	UIScreen::update();
+-	g_Config.iForceMaxEmulatedFPS = cap60FPS_ ? 60 : 0;
+ 
+ 	g_Config.iFpsLimit1 = iAlternateSpeedPercent1_ < 0 ? -1 : (iAlternateSpeedPercent1_ * 60) / 100;
+ 	g_Config.iFpsLimit2 = iAlternateSpeedPercent2_ < 0 ? -1 : (iAlternateSpeedPercent2_ * 60) / 100;
+
+--- a/UI/GameSettingsScreen.h	2018-11-18 02:05:21.907810600 +0000
++++ b/UI/GameSettingsScreen.h	2018-11-18 02:20:47.993962676 +0000
+@@ -50,6 +50,7 @@
+ 	UI::Choice *displayEditor_;
+ 	UI::Choice *backgroundChoice_ = nullptr;
+ 	UI::PopupMultiChoice *resolutionChoice_;
++	UI::PopupMultiChoice *maxFps_;
+ 	UI::CheckBox *frameSkipAuto_;
+ 	SettingInfoMessage *settingInfo_;
+ #ifdef _WIN32
+@@ -84,6 +85,7 @@
+ 	UI::EventReturn OnFullscreenChange(UI::EventParams &e);
+ 	UI::EventReturn OnDisplayLayoutEditor(UI::EventParams &e);
+ 	UI::EventReturn OnResolutionChange(UI::EventParams &e);
++	UI::EventReturn OnForceMaxEmulatedFPS(UI::EventParams &e);
+ 	UI::EventReturn OnHwScaleChange(UI::EventParams &e);
+ 	UI::EventReturn OnRestoreDefaultSettings(UI::EventParams &e);
+ 	UI::EventReturn OnRenderingMode(UI::EventParams &e);
+@@ -107,6 +109,7 @@
+ 	UI::EventReturn OnSysInfo(UI::EventParams &e);
+ 
+ 	// Temporaries to convert setting types.
++	int maxFpsChoice;
+ 	int iAlternateSpeedPercent1_;
+ 	int iAlternateSpeedPercent2_;
+ 	bool enableReports_;
+
+
+MRFIXIT2001: This patch reverts changes made to the media engine in order to fix a stuttering issue in the video scenes
+--- a/Core/HW/MediaEngine.cpp	2018-10-26 20:12:11.573955557 +0000
++++ b/Core/HW/MediaEngine.cpp	2018-10-26 20:12:18.855023903 +0000
+@@ -304,7 +304,7 @@
+ 	av_dict_free(&open_opt);
+ 
+-	if (!SetupStreams()) {
++	if (true) {
+ 		// Fallback to old behavior.
+ 		if (avformat_find_stream_info(m_pFormatCtx, NULL) < 0) {
+ 			closeContext();
+ 			return false;

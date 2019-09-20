@@ -1,0 +1,26 @@
+--- a/projects/unix/Makefile	2018-09-02 22:01:21.135841000 -0400
++++ a/projects/unix/Makefile	2018-09-02 22:23:09.567841441 -0400
+@@ -125,6 +125,23 @@
+     $(warning Architecture "$(HOST_CPU)" not officially supported.')
+   endif
+ endif
++ifneq ("$(filter aarch64,$(HOST_CPU))","")
++    CPU := ARM
++    ARCH_DETECTED := 64BITS
++    PIC ?= 1
++    ifeq ($(VFP), 1)
++      CFLAGS += -DARM_ASM
++      CFLAGS += -D__VFP_OPT
++    endif
++    ifeq ($(NEON), 1)
++      CFLAGS += -D__NEON_OPT
++      ifeq ("$(filter -mfpu=neon%,$(OPTFLAGS))","")
++    	CFLAGS += -mfpu=neon
++    	$(warning Use default -mfpu=neon.')
++      endif
++    endif
++    $(warning Architecture "$(HOST_CPU)" not officially supported.')
++endif
+ ifeq ("$(CPU)","NONE")
+   $(error CPU type "$(HOST_CPU)" not supported.  Please file bug report at 'http://code.google.com/p/mupen64plus/issues')
+ endif

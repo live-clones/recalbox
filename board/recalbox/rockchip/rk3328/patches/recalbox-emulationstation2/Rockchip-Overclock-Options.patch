@@ -1,0 +1,88 @@
+--- a/CMakeLists.txt	2018-06-19 21:12:19.768969000 -0400
++++ b/CMakeLists.txt	2018-06-20 07:43:26.580773533 -0400
+@@ -55,6 +55,9 @@
+ 	add_definitions(-DRPI_VERSION=${RPI_VERSION})
+ endif()
+ 
++if(${ROCKCHIP})
++	add_definitions(-DROCKCHIP=1)
++endif()
+ 
+ #finding necessary packages
+ #-------------------------------------------------------------------------------
+--- a/es-app/src/guis/GuiMenu.cpp	2018-04-30 14:53:55.000000000 -0400
++++ b/es-app/src/guis/GuiMenu.cpp	2018-06-19 20:31:20.771052825 -0400
+@@ -1394,6 +1394,7 @@
+   // Overclock choice
+   auto overclock_choice = std::make_shared<OptionListComponent<std::string> >(window, _("OVERCLOCK"), false);
+   std::string currentOverclock = Settings::getInstance()->getString("Overclock");
++#ifdef _RPI_
+   switch(getRaspberryVersion())
+   {
+     case RaspberryGeneration::Pi1:
+@@ -1439,6 +1440,14 @@
+       break;
+     }
+   }
++#endif
++#ifdef ROCKCHIP
++	overclock_choice->add(_("EXTREME (1512Mhz)"), "r64-extrem", currentOverclock == "r64-extrem");
++	overclock_choice->add(_("HIGH (1392Mhz)"), "r64-high", currentOverclock == "r64-high");
++	overclock_choice->add(_("LOW (1296Mhz)"), "r64-low", currentOverclock == "r64-low");
++ 	overclock_choice->add(_("NONE"), "r64-none", currentOverclock == "r64-none");
++#endif
++
+ 
+   std::vector<std::string> overclockWarning = {
+     "turbo",
+@@ -1448,7 +1457,10 @@
+     "rpi3-turbo",
+     "rpi3-extrem",
+     "rpi3plus-turbo",
+-    "rpi3plus-extrem"
++    "rpi3plus-extrem",
++    "r64-high",
++    "r64-extrem",
++    "r64-low"
+   };
+ 
+   s->addWithLabel(overclock_choice, _("OVERCLOCK"), _(MenuMessages::ADVANCED_OVERCLOCK_HELP_MSG));
+@@ -1463,14 +1475,21 @@
+     if (reboot) {
+       if (std::find(overclockWarning.begin(), overclockWarning.end(), overclock_choice->getSelected()) != overclockWarning.end()) {
+         window->pushGui(
+-            new GuiMsgBox(window, _("TURBO AND EXTREM OVERCLOCK PRESETS MAY CAUSE SYSTEM UNSTABILITIES, SO USE THEM AT YOUR OWN RISK.\nIF YOU CONTINUE, THE SYSTEM WILL REBOOT NOW."),
++            new GuiMsgBox(window, _("OVERCLOCKING MAY CAUSE SYSTEM INSTABILITIES, SO USE THEM AT YOUR OWN RISK.\nIF YOU CONTINUE, THE SYSTEM WILL REBOOT NOW."),
+                 _("YES"), [] {
+                       if (runRestartCommand() != 0) {
+                         LOG(LogWarning) << "Reboot terminated with non-zero result!";
+                       }
+                     }, _("NO"), [] {
++#ifdef _RPI_
+                   Settings::getInstance()->setString("Overclock", "none");
+                   RecalboxSystem::setOverclock("none");
++#endif
++#ifdef ROCKCHIP
++                  Settings::getInstance()->setString("Overclock", "r64-none");
++                  RecalboxSystem::setOverclock("r64-none");
++#endif
++
+                   Settings::getInstance()->saveFile();
+                 }));
+       } else {
+--- a/es-core/src/Settings.cpp	2018-04-30 14:53:55.000000000 -0400
++++ b/es-core/src/Settings.cpp	2018-06-21 20:50:48.570869207 -0400
+@@ -101,7 +101,13 @@
+     mStringMap["INPUT P2"] = "DEFAULT";
+     mStringMap["INPUT P3"] = "DEFAULT";
+     mStringMap["INPUT P4"] = "DEFAULT";
++#ifdef _RPI_
+     mStringMap["Overclock"] = "none";
++#else
++#ifdef ROCKCHIP
++    mStringMap["Overclock"] = "r64-none";
++#endif
++#endif
+     mStringMap["UpdateCommand"] = "/recalbox/scripts/recalbox-upgrade.sh";
+     mStringMap["UpdateServer"] = "archive.recalbox.com";
+     mStringMap["VersionFile"] = "/recalbox/recalbox.version";

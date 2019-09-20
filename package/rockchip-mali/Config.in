@@ -1,0 +1,22 @@
+config BR2_PACKAGE_ROCKCHIP_MALI
+	bool "rockchip-mali"
+	depends on BR2_arm || BR2_aarch64
+	select BR2_PACKAGE_MALI_OPENGLES_SDK
+	select BR2_PACKAGE_HAS_LIBEGL
+	select BR2_PACKAGE_HAS_LIBGLES
+	help
+	  Install the binary user-space components for the Rockchip provided
+	  ARM Mali GPU. This package requires a kernel with the ARM Mali 
+	  GPU Kernel Drivers enabled.
+
+if BR2_PACKAGE_ROCKCHIP_MALI
+
+config BR2_PACKAGE_PROVIDES_LIBEGL
+	default "rockchip-mali"
+
+config BR2_PACKAGE_PROVIDES_LIBGLES
+	default "rockchip-mali"
+
+endif
+
+comment "rockchip-mali"

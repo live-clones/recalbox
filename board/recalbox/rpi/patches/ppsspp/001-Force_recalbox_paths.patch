@@ -1,0 +1,13 @@
+diff --git a/UI/NativeApp.cpp b/UI/NativeApp.cpp
+index a94c5ea..c876bd3 100644
+--- a/UI/NativeApp.cpp
++++ b/UI/NativeApp.cpp
+@@ -363,7 +363,7 @@ void NativeInit(int argc, const char *argv[], const char *savegame_dir, const ch
+ 	g_Config.AddSearchPath(user_data_path);
+ 	g_Config.AddSearchPath(g_Config.memStickDirectory + "PSP/SYSTEM/");
+ 	g_Config.SetDefaultPath(g_Config.memStickDirectory + "PSP/SYSTEM/");
+-	g_Config.Load();
++	g_Config.Load("/recalbox/share/system/configs/ppsspp/PSP/SYSTEM/ppsspp.ini", "/recalbox/share/system/configs/ppsspp/PSP/SYSTEM/controls.ini");
+ 	g_Config.externalDirectory = external_dir;
+ #endif
+ 	LogManager *logman = LogManager::GetInstance();

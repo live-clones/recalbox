@@ -1,0 +1,64 @@
+MRFIXIT: Add option to menu to let the user restart the bluetooth service (hciattach)
+--- a/es-app/src/recalbox/RecalboxSystem.cpp
++++ b/es-app/src/recalbox/RecalboxSystem.cpp
+@@ -549,6 +549,13 @@
+   return exitcode == 0;
+ }
+ 
++bool RecalboxSystem::restartBluetoothService() {
++  std::ostringstream oss;
++  oss << Settings::getInstance()->getString("RecalboxSettingScript") << " " << "restartBT";
++  int exitcode = system(oss.str().c_str());
++  return exitcode == 0;
++}
++
+ bool RecalboxSystem::forgetBluetoothControllers()
+ {
+   std::ostringstream oss;
+--- a/es-app/src/recalbox/RecalboxSystem.h
++++ b/es-app/src/recalbox/RecalboxSystem.h
+@@ -71,6 +71,8 @@
+ 
+     static bool setStorage(const std::string& basic_string);
+ 
++    static bool restartBluetoothService();
++
+     static bool forgetBluetoothControllers();
+ 
+     static std::string readFile(const std::string& file);
+--- a/es-app/src/guis/GuiMenu.cpp
++++ b/es-app/src/guis/GuiMenu.cpp
+@@ -595,6 +595,13 @@
+   s->addRowWithHelp(row, _("FORGET BLUETOOTH CONTROLLERS"), _(MenuMessages::CONTROLLER_FORGET_HELP_MSG));
+   row.elements.clear();
+ 
++  row.makeAcceptInputHandler([window, this, s] {
++    RecalboxSystem::restartBluetoothService();
++    window->pushGui(new GuiMsgBox(window, _("Bluetooth Service Restart Complete"), _("OK")));
++  });
++  row.addElement(std::make_shared<TextComponent>(window, _("RESTART BLUETOOTH SERVICE"), mMenuTheme->menuText.font, mMenuTheme->menuText.color), true);
++  s->addRowWithHelp(row, _("RESTART BLUETOOTH SERVICE"), _(MenuMessages::BLUETOOTH_RESTART_HELP_MSG));
++  row.elements.clear();
+ 
+   row.elements.clear();
+ 
+--- a/es-app/src/guis/MenuMessages.cpp
++++ b/es-app/src/guis/MenuMessages.cpp
+@@ -36,6 +36,7 @@
+ const char* MenuMessages::CONTROLLER_CONF_HELP_MSG = "Configure an associated controller. Your controller has to be associated / plugged before.";
+ const char* MenuMessages::CONTROLLER_BT_HELP_MSG = "Pair a bluetooth controller with your recalbox. Your controller must be in pairing mode.";
+ const char* MenuMessages::CONTROLLER_FORGET_HELP_MSG = "Forget all paired bluetooth controllers. You will have to pair your controllers again, but this option can help if you have issues to reconnect a controller, which is already paired.";
++const char* MenuMessages::BLUETOOTH_RESTART_HELP_MSG = "Restart the blutooth service. If your bluetooth devices are not showing on a scan, sometimes restarting the service helps!";
+ 
+ const char* MenuMessages::UI_HELP_MSG = "Configure your EmulationStation experience. Select transition types, help prompts, screensaver behavior. You can also deactivate the onscreen keyboard if you have a real keyboard plugged into your recalbox.\nIf you've added games since the last boot, you can also refresh the gamelist from this menu.";
+ const char* MenuMessages::UI_SCREENSAVER_AFTER_HELP_MSG = "Start the screensaver after N minutes.";
+--- a/es-app/src/guis/MenuMessages.h
++++ b/es-app/src/guis/MenuMessages.h
+@@ -44,6 +44,7 @@
+ 	static const char* CONTROLLER_CONF_HELP_MSG;
+ 	static const char* CONTROLLER_BT_HELP_MSG;
+ 	static const char* CONTROLLER_FORGET_HELP_MSG;
++	static const char* BLUETOOTH_RESTART_HELP_MSG;
+ 
+ 	static const char* UI_HELP_MSG;
+ 	static const char* UI_SCREENSAVER_AFTER_HELP_MSG;

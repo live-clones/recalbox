@@ -1,0 +1,13 @@
+--- a/Makefile
++++ b/Makefile
+@@ -76,8 +76,8 @@
+    TARGET := $(TARGET_NAME)_libretro.$(EXT)
+    fpic := -fPIC
+    SHARED := -shared -Wl,--version-script=$(CORE_DIR)/link.T -Wl,--no-undefined
+-   LIBS +=-lpthread -lGL
+-   HAVE_OPENGL=1
++   LIBS +=-lpthread
++   HAVE_OPENGL=0
+    HAVE_THREADS=1
+ else ifeq ($(platform), linux-portable)
+    TARGET := $(TARGET_NAME)_libretro.$(EXT)

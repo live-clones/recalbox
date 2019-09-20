@@ -1,0 +1,127 @@
+MRFIXIT: This patch seems to fix the compile for the latest commit of advancemame, but it doesn't run, probably because I removed os_main, but I didn't figure out what should be in it's place. Abandoned the emulator on the port, but leaving the patch for reference in case it helps later.
+--- a/advance/blit/interp.c	2018-09-25 15:22:28.000000000 -0400
++++ b/advance/blit/interp.c	2019-09-17 16:29:43.383992096 -0400
+@@ -185,6 +185,23 @@
+ 	return 3 * r + 4 * g + 2 * b;
+ }
+ 
++/**
++ * Computes the distance between two three.
++ * Equivalent at "dist(A,B) + dist(B,C)".
++ * Used by XBR algorithm.
++ * This is a very rought approximation taking into account only the luminosity.
++ * See: http://www.compuphase.com/cmetric.htm
++ */
++int interp_16_dist3(interp_uint16 p1, interp_uint16 p2, interp_uint16 p3)
++{
++	return interp_16_dist(p1, p2) + interp_16_dist(p2, p3);
++}
++
++inline int interp_32_dist3(interp_uint32 p1, interp_uint32 p2, interp_uint32 p3)
++{
++	return interp_32_dist(p1, p2) + interp_32_dist(p2, p3);
++}
++
+ int interp_32_dist(interp_uint32 p1, interp_uint32 p2)
+ {
+ 	int r, g, b;
+
+--- a/advance/blit/interp.h	2018-09-25 15:22:28.000000000 -0400
++++ b/advance/blit/interp.h	2019-09-17 16:29:26.051330724 -0400
+@@ -482,22 +482,9 @@
+ int interp_32_dist(interp_uint32 p1, interp_uint32 p2);
+ int interp_yuy2_dist(interp_uint32 p1, interp_uint32 p2);
+ 
+-/**
+- * Computes the distance between two three.
+- * Equivalent at "dist(A,B) + dist(B,C)".
+- * Used by XBR algorithm.
+- * This is a very rought approximation taking into account only the luminosity.
+- * See: http://www.compuphase.com/cmetric.htm
+- */
+-static int interp_16_dist3(interp_uint16 p1, interp_uint16 p2, interp_uint16 p3)
+-{
+-	return interp_16_dist(p1, p2) + interp_16_dist(p2, p3);
+-}
++int interp_16_dist3(interp_uint16 p1, interp_uint16 p2, interp_uint16 p3);
++int interp_32_dist3(interp_uint32 p1, interp_uint32 p2, interp_uint32 p3);
+ 
+-static inline int interp_32_dist3(interp_uint32 p1, interp_uint32 p2, interp_uint32 p3)
+-{
+-	return interp_32_dist(p1, p2) + interp_32_dist(p2, p3);
+-}
+ int interp_yuy2_dist3(interp_uint32 p1, interp_uint32 p2, interp_uint32 p3);
+ 
+ void interp_set(unsigned color_def);
+
+--- a/advance/blit/xbr2x.c	2018-09-25 15:22:28.000000000 -0400
++++ b/advance/blit/xbr2x.c	2019-09-17 16:26:21.459620991 -0400
+@@ -29,7 +29,7 @@
+  */
+ 
+ #include "portable.h"
+-
++#include "interp.h"
+ #include "xbr2x.h"
+ 
+ #include <assert.h>
+
+--- a/advance/blit/xbr3x.c	2018-09-25 15:22:28.000000000 -0400
++++ b/advance/blit/xbr3x.c	2019-09-17 16:26:49.717484039 -0400
+@@ -29,7 +29,7 @@
+  */
+ 
+ #include "portable.h"
+-
++#include "interp.h"
+ #include "xbr3x.h"
+ 
+ #include <assert.h>
+
+--- a/advance/blit/xbr4x.c	2018-09-25 15:22:28.000000000 -0400
++++ b/advance/blit/xbr4x.c	2019-09-17 16:27:04.314182039 -0400
+@@ -29,7 +29,7 @@
+  */
+ 
+ #include "portable.h"
+-
++#include "interp.h"
+ #include "xbr4x.h"
+ 
+ #include <assert.h>
+
+--- a/advance/m.mak
++++ b/advance/m.mak
+@@ -12,7 +12,6 @@
+ 	$(MOBJ)/m \
+ 	$(MOBJ)/lib
+ MOBJS += \
+-	$(MOBJ)/m/m.o \
+ 	$(MOBJ)/lib/portable.o \
+ 	$(MOBJ)/lib/measure.o \
+ 	$(MOBJ)/lib/snstring.o \
+
+--- a/advance/linux/os.c
++++ b/advance/linux/os.c
+@@ -545,7 +545,7 @@
+ 	/* set some signal handlers */
+ 
+ 	/* STANDARD signals */
+-	term_action.sa_handler = (void (*)(int))os_signal;
++	term_action.sa_handler = (void (*)(int))os_default_signal;
+ 	/* block external generated signals in the signal handler */
+ 	sigemptyset(&term_action.sa_mask);
+ 	sigaddset(&term_action.sa_mask, SIGALRM);
+@@ -804,12 +804,6 @@
+ 		target_done();
+ 		return EXIT_FAILURE;
+ 	}
+-
+-	if (os_main(argc, argv) != 0) {
+-		file_done();
+-		target_done();
+-		return EXIT_FAILURE;
+-	}
+ 
+ 	file_done();
+ 	target_done();

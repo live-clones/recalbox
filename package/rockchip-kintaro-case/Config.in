@@ -1,0 +1,8 @@
+config BR2_PACKAGE_ROCKCHIP_KINTARO_CASE
+	bool "rockchip-kintaro-case"
+	depends on BR2_PACKAGE_RECALBOX_TARGETGROUP_ROCKCHIP
+	select BR2_PACKAGE_R64GPIO
+	help
+	  A Custom Python Script to Enable LED and Buttons on Kintaro Cases for Recalbox on the Rock64
+
+comment "Enable Kintaro Case Buttons and LED for the Rock64/Rockpro64"

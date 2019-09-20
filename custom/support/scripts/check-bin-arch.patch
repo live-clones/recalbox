@@ -1,0 +1,22 @@
+diff --git a/support/scripts/check-bin-arch b/support/scripts/check-bin-arch
+index 7f97696..323041b 100755
+--- a/support/scripts/check-bin-arch
++++ b/support/scripts/check-bin-arch
+@@ -79,8 +79,15 @@ while read f; do
+ 		continue
+ 	fi
+ 
+-	printf 'ERROR: architecture for "%s" is "%s", should be "%s"\n' \
+-	       "${f}" "${arch}" "${arch_name}"
++	# Support Compiling arm64 in arm userspace - really should also add a check for BR2_LINUX_X64_KERNEL_IN_X32_USER
++	if [ "${arch}" = "AArch64" -a "${arch_name}" = "ARM" ] ; then
++		printf 'NOTE: Detected Arch is AArch64 with ARM Userspace for file:\n"%s"\n\n' \
++		"${f}"
++	else
++		printf 'ERROR: architecture for "%s" is "%s", should be "%s"\n' \
++		       "${f}" "${arch}" "${arch_name}"
++		exitcode=1
++	fi
+ 
+ 	exitcode=1
+ done < <( sed -r -e "/^${package},\.(.+)$/!d; s//\1/;" ${pkg_list} )

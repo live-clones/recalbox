@@ -1,0 +1,46 @@
+#!/bin/sh
+#
+# Auto connect bluetooth controllers
+#
+
+systemsetting="recalbox_settings"
+btTar=/recalbox/share/system/bluetooth/bluetooth.tar
+scanningDaemon=test-discovery
+alternate="`$systemsetting  -command load -key controllers.bluetooth.alternate`"
+scanCmd=
+
+if [[ $alternate == 1 ]] ; then
+  scanningDaemon=btDaemon
+  scanCmd="start-stop-daemon -S -q -m -p /var/run/$scanningDaemon.pid --exec /recalbox/scripts/bluetooth/$scanningDaemon > /dev/null 2>&1"
+fi
+
+case "$1" in
+  start)
+    enabled="`$systemsetting  -command load -key controllers.bluetooth.enabled`"
+    alternate="`$systemsetting  -command load -key controllers.bluetooth.alternate`"
+    [[ $alternate == 1 ]] && scanningDaemon=btDaemon
+    if [ "$enabled" == "1" ];then
+      settings_version="`$systemsetting -command load -key controllers.ps3.driver`"
+      if [ "$settings_version" != "bluez" ]; then BLUETOOTHD_ARGS="--noplugin=sixaxis"; else BLUETOOTHD_ARGS="--noplugin=sixaxispair"; fi
+      start-stop-daemon -S -q -m -p /var/run/bluetoothd.pid  --exec /usr/libexec/bluetooth/bluetoothd -- $BLUETOOTHD_ARGS &	
+      ( /recalbox/scripts/bluetoothcontrollers.sh ; $scanCmd ) &
+    fi
+    ;;
+  stop)
+	ps -o comm,pid | grep 'hciattach' | grep -v grep | awk '{print $2}' | xargs -r kill -9
+	while ps -o comm,pid | grep 'hciattach'; do
+		sleep .5
+	done
+	start-stop-daemon -K -q -p /var/run/"$scanningDaemon".pid
+	start-stop-daemon -K -q -p /var/run/bluetoothd.pid && ( rm "$btTar" ; tar cvf "$btTar" /var/lib/bluetooth/ > /dev/null )
+	;;
+  restart|reload)
+    "$0" stop
+    "$0" start
+	;;
+  *)
+    echo "Usage: $0 {start|stop|restart}"
+    exit 1
+esac
+
+exit $?

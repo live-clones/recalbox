@@ -1,0 +1,31 @@
+MRFIXIT: By default, GameLists are only updated when ES exits. Let's fix this so it actually saves the metadata when it's changed, like the user would expect.
+--- a/es-app/src/guis/GuiMetaDataEd.cpp
++++ b/es-app/src/guis/GuiMetaDataEd.cpp
+@@ -21,6 +21,10 @@
+ #include "MetadataDescriptor.h"
+ #include "MetadataFieldDescriptor.h"
+ 
++#include "Gamelist.h"
++
++SystemData* current_system;
++
+ GuiMetaDataEd::GuiMetaDataEd(Window* window,
+                              MetadataDescriptor& md,
+                              ScraperSearchParams scraperParams,
+@@ -42,6 +46,7 @@
+     mSavedCallback(saveCallback),
+     mDeleteFunc(deleteFunc)
+ {
++  current_system = system;
+   addChild(&mBackground);
+   addChild(&mGrid);
+ 
+@@ -416,6 +421,8 @@
+     }
+   }
+ 
++  updateGamelist(current_system);
++
+   if (mSavedCallback)
+   {
+     mSavedCallback();
