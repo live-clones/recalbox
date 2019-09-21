@@ -27,6 +27,7 @@ REICAST_RECALBOX_SYSTEM=x64
 endif
 
 ifeq ($(BR2_PACKAGE_RECALBOX_TARGETGROUP_ROCKCHIP),y)
+REICAST_VERSION =  bbc54e4125745413b4fe60b936ace1a1bf28fa31
 REICAST_RECALBOX_SYSTEM=rockchip
 # Let Reicast prioritize EVDEV for inputs instead of both SDL and EVDEV - using both can cause buggy button mappings
 define REICAST_PREBUILD_ROCK
