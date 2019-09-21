@@ -1,6 +1,7 @@
 config BR2_PACKAGE_RECALBOX_ROMFS_AMIGA600
 	bool "recalbox-romfs-amiga600"
 	select BR2_PACKAGE_RECALBOX_ROMS
-	depends on BR2_PACKAGE_AMIBERRY
+	depends on BR2_PACKAGE_AMIBERRY \
+	  || BR2_PACKAGE_LIBRETRO_UAE
 	help
 	  share_init/roms and xml for amiga600
