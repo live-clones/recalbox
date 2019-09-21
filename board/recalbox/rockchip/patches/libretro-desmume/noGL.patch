@@ -1,5 +1,5 @@
---- a/Makefile.libretro
-+++ b/Makefile.libretro
+--- a/desmume/src/frontend/libretro/Makefile.libretro
++++ b/desmume/src/frontend/libretro/Makefile.libretro
 @@ -48,10 +48,10 @@
     TARGET := $(TARGET_NAME)_libretro.so
     fpic := -fPIC

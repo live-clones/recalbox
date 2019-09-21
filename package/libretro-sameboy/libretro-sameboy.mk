@@ -36,7 +36,7 @@ endef
 define LIBRETRO_SAMEBOY_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/build/bin/sameboy_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/sameboy_libretro.so
-	$(INSTALL) -m 755 -d $(@D)/build/bin/BootROMs/*.bin \
+	$(INSTALL) -m 755 $(@D)/build/bin/BootROMs/*.bin \
 		$(TARGET_DIR)/recalbox/share_init/bios/
 endef
 
