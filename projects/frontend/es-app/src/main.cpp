@@ -8,6 +8,7 @@
 #include <boost/filesystem.hpp>
 #include <RootFolders.h>
 #include <VideoEngine.h>
+#include <guis/GuiNetPlay.h>
 
 #include "AudioManager.h"
 #include "CommandThread.h"
@@ -540,6 +541,8 @@ int main(int argc, char* argv[])
     window.renderShutdownScreen();
     SystemData::deleteSystems();
     window.deinit();
+    GuiNetPlay::stopLobbyThread();
+
     LOG(LogInfo) << "EmulationStation cleanly shutting down.";
     if (doReboot)
     {
