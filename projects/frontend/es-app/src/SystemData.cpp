@@ -13,6 +13,7 @@
 #include <RootFolders.h>
 #include <recalbox/RecalboxSystem.h>
 #include <VideoEngine.h>
+#include <utils/StringUtil.h>
 
 std::vector<SystemData *> SystemData::sSystemVector;
 std::vector<SystemData*> SystemData::sHiddenSystemVector;
@@ -377,7 +378,7 @@ SystemData* SystemData::createSystem(const SystemData::Tree &system)
     path = system.get("path", "");
 
 //#ifdef DEBUG
-//    strFindAndReplace(path, "roms", "romstest");
+//    path = StringUtil::replace(path, "roms", "romstest");
 //#endif
 
     // convert extensions list from a string into a vector of strings
