@@ -30,6 +30,14 @@ class LibretroCores:
     #
 
     @staticmethod
+    def configureAmiga1200(coreSettings):
+        coreSettings.setOption("puae_model", '"A1200"')
+
+    @staticmethod
+    def configureAmiga600(coreSettings):
+        coreSettings.setOption("puae_model", '"A500PLUS"')
+
+    @staticmethod
     def configureSpectravideo(coreSettings):
         coreSettings.setOption("bluemsx_msxtype", '"SVI - Spectravideo SVI-328 MK2"')
 
@@ -87,6 +95,8 @@ class LibretroCores:
         # Specific configuration handlers per system
         specificSystemHandlers =\
         {
+            "amiga600"     : LibretroCores.configureAmiga600,
+            "amiga1200"    : LibretroCores.configureAmiga1200,
             "atari5200"    : LibretroCores.configureAtari5200,
             "atari800"     : LibretroCores.configureAtari800,
             "amstradcpc"   : LibretroCores.configureAmstradCPC,
