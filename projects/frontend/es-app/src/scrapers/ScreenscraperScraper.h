@@ -1,7 +1,6 @@
 #pragma once
 
 #include <utils/StringUtil.h>
-#include <utils/Stringize.h>
 #include "scrapers/Scraper.h"
 #include "EmulationStation.h"
 #include "RecalboxConf.h"
@@ -84,14 +83,27 @@ class ScreenScraperRequest : public ScraperHttpRequest
       // Build request URL
       std::string getGameSearchUrl(const std::string& gameName) const
       {
-        return API_URL_BASE +
-               "/jeuInfos.php?devid=" + scramble(API_DEV_U, API_DEV_KEY) +
-               "&devpassword=" + scramble(API_DEV_P, API_DEV_KEY) +
-               "&softname=" + HttpReq::urlEncode(API_SOFT_NAME) +
-               "&ssid=" + user +
-               "&sspassword=" + password +
-               "&output=xml" +
-               "&romnom=" + HttpReq::urlEncode(gameName);
+        std::string url = API_URL_BASE;
+        url += "/jeuInfos.php?devid=";
+        url += scramble(API_DEV_U, API_DEV_KEY);
+        url += "&devpassword=";
+        url += scramble(API_DEV_P, API_DEV_KEY);
+        url += "&softname=";
+        url += HttpReq::urlEncode(API_SOFT_NAME);
+
+        if (!user.empty())
+        {
+          url += "&ssid=";
+          url += user;
+          url += "&sspassword=";
+          url += password;
+        }
+
+        url += "&output=xml";
+        url += "&romnom=";
+        url += HttpReq::urlEncode(gameName);
+
+        return url;
       }
 
       ScreenScraperConfiguration()
