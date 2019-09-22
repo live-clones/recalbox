@@ -217,20 +217,23 @@ void ImageDownloadHandle::update()
 	}
 
 	const std::string& content = mReq->getContent();
-	stream.write(content.data(), content.length());
-	stream.close();
-	if(stream.bad())
-	{
-		setError("Failed to save image. Disk full?");
-		return;
-	}
+	if (content.length() > 256) // handle the "NOMEDIA" text reponse :(
+  {
+    stream.write(content.data(), content.length());
+    stream.close();
+    if (stream.bad())
+    {
+      setError("Failed to save image. Disk full?");
+      return;
+    }
 
-	// resize it
-	if(!resizeImage(mSavePath, mMaxWidth, mMaxHeight))
-	{
-		setError("Error saving resized image. Out of memory? Disk full?");
-		return;
-	}
+    // resize it
+    if (!resizeImage(mSavePath, mMaxWidth, mMaxHeight))
+    {
+      setError("Error saving resized image. Out of memory? Disk full?");
+      return;
+    }
+  }
 
 	setStatus(AsyncStatus::Done);
 }
