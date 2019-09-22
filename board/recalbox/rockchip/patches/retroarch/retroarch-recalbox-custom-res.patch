@@ -55,8 +55,8 @@ If this mode isn't found, then it's likely that the currently connected display 
 -   drm->fb_height   = g_drm_connector->modes[0].vdisplay;
 +   /* Stock Retroarch assumes the first mode [0]
 +    * to be "optimal", but it's just the "highest".
-+    * For RockPro, the "optimal" emulation resolution is 1024x768,
-+    * so let's search for that. */
++    * For rockchip, the "optimal" emulation can be set inside recalbox.conf,
++    * so let's search for that setting. */
 +   int modenum = 0;
 +   getResFromConfig();
 +   for (i = 0; i < g_drm_connector->count_modes; i++)

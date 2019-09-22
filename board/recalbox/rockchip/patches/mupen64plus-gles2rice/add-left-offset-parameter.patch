@@ -1,3 +1,4 @@
+MRFIXIT: Add a new parameter to the settings to control left offset since SDL2 center doesn't work
 --- a/src/Config.cpp	2018-11-09 16:39:42.608159241 +0000
 +++ b/src/Config.cpp	2018-11-09 16:52:27.401663331 +0000
 @@ -306,7 +306,8 @@

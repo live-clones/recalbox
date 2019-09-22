@@ -1,3 +1,4 @@
+MRFIXIT: Add a new parameter to the settings to control left offset since SDL2 center doesn't work
 --- a/src/Config.h
 +++ b/src/Config.h
 @@ -12,7 +12,7 @@

@@ -1,3 +1,4 @@
+MRFIXIT: Add a new parameter to the settings to control left offset since SDL2 center doesn't work
 --- a/src/mupenplus/Config_mupenplus.cpp
 +++ b/src/mupenplus/Config_mupenplus.cpp
 @@ -35,12 +35,14 @@

@@ -8,9 +8,9 @@
 +  if(!window->init())
 +  {
 +        // Failed to re-init the renderer. Sometimes emulators don't clean up completely after themselves and hold on to resources that ES needs.
-+        // So even though it's a bit "hacky", let's restart ES, which will clear that out and create a new context. (Utilizes mrfixit's bootexec.py instead of recalbox restart function, otherwise bootexec.py will start kodi when es closes)
++        // So even though it's a bit "hacky", let's restart ES, which will clear that out and create a new context. 
 +        LOG(LogError) << "Forcing a restart of ES to clear the stuck graphics renderer...";
-+        command = "/recalbox/scripts/es_restart.sh";
++        command = "/etc/init.d/S31emulationstation restart";
 +        system(command.c_str());
 +        return;
 +  }

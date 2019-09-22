@@ -1,4 +1,4 @@
-MRFIXIT: testing with just the main thread patched to see if it makes the BIG difference
+MRFIXIT: forcing the main thread onto only the BIG cores on the rk3399 makes the BIG difference in performance
 --- a/SDL/SDLMain.cpp
 +++ b/SDL/SDLMain.cpp
 @@ -340,6 +340,14 @@

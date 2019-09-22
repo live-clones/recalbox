@@ -1,3 +1,4 @@
+MRFIXIT: add a new setting option in the reicast config that will let the user correct an incorrect aspect ratio on a widescreen tv with a non-widescreen resolution. Reicast has a widescreen setting, but this forces the rendering full screen and causes the emulator to run slower. This allows the image to properly be clipped.
 --- a/core/rend/gles/gles.cpp
 +++ b/core/rend/gles/gles.cpp
 @@ -70,6 +70,8 @@

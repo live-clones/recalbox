@@ -1,3 +1,4 @@
+MRFIXIT: Add overclock options for rockchip build into emulationstation. Also added to recalbox scripts to support.
 --- a/CMakeLists.txt	2018-06-19 21:12:19.768969000 -0400
 +++ b/CMakeLists.txt	2018-06-20 07:43:26.580773533 -0400
 @@ -55,6 +55,9 @@
