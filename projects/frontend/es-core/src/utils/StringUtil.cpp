@@ -172,9 +172,8 @@ std::string StringUtil::trim(const std::string& _string)
 std::string StringUtil::replace(const std::string& _string, const std::string& _replace, const std::string& _with)
 {
 	std::string string = _string;
-	size_t      pos;
 
-	while((pos = string.find(_replace)) != std::string::npos)
+	for(int pos = 0; (pos = string.find(_replace, pos)) != (int)std::string::npos; pos += _with.length())
 		string = string.replace(pos, _replace.length(), _with.c_str(), _with.length());
 
 	return string;
