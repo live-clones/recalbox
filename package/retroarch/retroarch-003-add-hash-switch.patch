@@ -1,6 +1,6 @@
 --- a/retroarch.c
 +++ b/retroarch.c
-@@ -791,6 +791,7 @@
+@@ -802,6 +802,7 @@
     RA_OPT_EOF_EXIT,
     RA_OPT_LOG_FILE,
     RA_OPT_MAX_FRAMES,
@@ -8,17 +8,16 @@
     RA_OPT_MAX_FRAMES_SCREENSHOT,
     RA_OPT_MAX_FRAMES_SCREENSHOT_PATH
  };
-@@ -17357,7 +17358,8 @@
- #endif
-    puts("      --nick=NICK       Picks a username (for use with netplay). "
-          "Not mandatory.");
--
-+   puts("      --hash=HASH       Force a ROM hash. "
-+         "Not mandatory.");
-    puts("  -r, --record=FILE     Path to record video file.\n        "
-          "Using .mkv extension is recommended.");
-    puts("      --recordconfig    Path to settings used during recording.");
-@@ -17450,6 +17452,7 @@
+@@ -17357,6 +17358,8 @@
+ 
+       strlcat(buf, "      --nick=NICK       Picks a username (for use with netplay). "
+             "Not mandatory.\n", sizeof(buf));
++      puts("      --hash=HASH       Force a ROM hash. "
++            "Not mandatory.");
+       strlcat(buf, "  -r, --record=FILE     Path to record video file.\n        "
+             "Using .mkv extension is recommended.\n", sizeof(buf));
+       strlcat(buf, "      --recordconfig    Path to settings used during recording.\n", sizeof(buf));
+@@ -21851,6 +21853,7 @@
        { "bps",                1, NULL, RA_OPT_BPS },
        { "ips",                1, NULL, RA_OPT_IPS },
        { "no-patch",           0, NULL, RA_OPT_NO_PATCH },
@@ -26,7 +25,7 @@
        { "detach",             0, NULL, 'D' },
        { "features",           0, NULL, RA_OPT_FEATURES },
        { "subsystem",          1, NULL, RA_OPT_SUBSYSTEM },
-@@ -17878,6 +17881,11 @@
+@@ -22302,6 +22304,11 @@
                 }
                 break;
  
@@ -40,7 +39,7 @@
                          &recording_width,
 --- a/retroarch.h
 +++ b/retroarch.h
-@@ -233,6 +233,7 @@
+@@ -248,6 +248,7 @@
        char ips[8192];
        char label[8192];
        char *remapfile;
