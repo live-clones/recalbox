@@ -3,7 +3,7 @@
 @@ -238,6 +238,8 @@
    Sint32 joymode_a, joymode_b;
    Sint32 telejoymode_a, telejoymode_b;
-   SDL_COMPAT_KEY kbjoy1[6], kbjoy2[6];
+   SDL_COMPAT_KEY kbjoy1[7], kbjoy2[7];
 +  int mapjoy1[4], mapjoy2[4];
 +  int hkeystart1[2], hkeystart2[2];
  
@@ -11,7 +11,7 @@
    SDL_bool printfilter;
 --- a/machine.c
 +++ b/machine.c
-@@ -983,6 +983,10 @@
+@@ -987,6 +987,10 @@
    oric->joymode_b = JOYMODE_NONE;
    oric->telejoymode_a = JOYMODE_KB1;
    oric->telejoymode_b = JOYMODE_NONE;
@@ -74,14 +74,14 @@
  
          case SDL_JOYBUTTONDOWN:
 -          if( ev->jbutton.which != (mode-JOYMODE_SDL0) ) return SDL_FALSE;
--          joystate[4+(ev->jbutton.button&1)] = 1;
+-          joystate[4+(ev->jbutton.button % 3)] = 1;
 -          swallowit = SDL_TRUE;
 -          break;
 -
          case SDL_JOYBUTTONUP:
 +        {
            if( ev->jbutton.which != (mode-JOYMODE_SDL0) ) return SDL_FALSE;
--          joystate[4+(ev->jbutton.button&1)] = 0;
+-          joystate[4+(ev->jbutton.button % 3)] = 0;
 +
 +          int pressed = (ev->type == SDL_JOYBUTTONDOWN) ? 1 : 0;
 +          int* map = (oric->joymode_a == mode) ? oric->mapjoy1 : oric->mapjoy2;
@@ -140,10 +140,10 @@
      if( read_config_option( &sto->lctmp[i], "telejoy_a",    &oric->telejoymode_a, joymodes ) ) continue;
      if( read_config_option( &sto->lctmp[i], "telejoy_b",    &oric->telejoymode_b, joymodes ) ) continue;
      if( read_config_joykey( &sto->lctmp[i], "kbjoy1_up",    &oric->kbjoy1[0] ) ) continue;
-@@ -497,6 +504,14 @@
-     if( read_config_joykey( &sto->lctmp[i], "kbjoy2_right", &oric->kbjoy2[3] ) ) continue;
+@@ -499,6 +506,14 @@
      if( read_config_joykey( &sto->lctmp[i], "kbjoy2_fire1", &oric->kbjoy2[4] ) ) continue;
      if( read_config_joykey( &sto->lctmp[i], "kbjoy2_fire2", &oric->kbjoy2[5] ) ) continue;
+     if( read_config_joykey( &sto->lctmp[i], "kbjoy2_fire3", &oric->kbjoy2[6] ) ) continue;
 +    if( read_config_int   ( &sto->lctmp[i], "sdljoy1_hkey",  &oric->mapjoy1[2], -1, 63 ) ) continue;
 +    if( read_config_int   ( &sto->lctmp[i], "sdljoy1_start", &oric->mapjoy1[3], -1, 63) ) continue;
 +    if( read_config_int   ( &sto->lctmp[i], "sdljoy2_hkey",  &oric->mapjoy2[2], -1, 63 ) ) continue;
@@ -155,7 +155,7 @@
      if( read_config_bool(   &sto->lctmp[i], "diskautosave", &oric->diskautosave ) ) continue;
      if( read_config_bool(   &sto->lctmp[i], "ch376",        &oric->ch376_activated) ) continue;
      if( read_config_bool(   &sto->lctmp[i], "pravdiskautoboot", &oric->pravdiskautoboot ) ) continue;
-@@ -511,6 +526,16 @@
+@@ -513,6 +528,16 @@
      }
    }
  
@@ -172,7 +172,7 @@
    fclose( f );
  }
  
-@@ -659,7 +684,7 @@
+@@ -661,7 +686,7 @@
    kbd_init(oric);
  
    // Go SDL!

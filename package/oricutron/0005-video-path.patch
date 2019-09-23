@@ -1,6 +1,6 @@
 --- a/machine.c
 +++ b/machine.c
-@@ -965,7 +965,7 @@
+@@ -969,7 +969,7 @@
    oric->prclose = 0;
    oric->lasttapefile[0] = 0;
    oric->keymap = KMAP_QWERTY;
@@ -9,7 +9,7 @@
    oric->popupstr[0] = 0;
    oric->newpopupstr = SDL_FALSE;
    oric->popuptime = 0;
-@@ -1282,7 +1282,7 @@
+@@ -1288,7 +1288,7 @@
               break;
             }
  
