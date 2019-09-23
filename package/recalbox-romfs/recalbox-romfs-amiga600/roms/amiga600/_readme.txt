@@ -2,6 +2,7 @@
 
 Put your amiga 600 roms in this directory.
 
+Amiberry:
 Rom files must be files of the following types:
 - ADF Disk (*.adf, zipped or 7zipped)
 - IPF Disk (*.ipf, zipped)
@@ -14,3 +15,9 @@ This system requires BIOS to work (kickstart 1.3 & kickstart 2.0 for WHDL)
 
 Documentation can be found here : 
 https://github.com/recalbox/recalbox-os/wiki/Amiga-emulation-on-Recalbox-(EN)
+
+Libretro P-UAE:
+Supported formats are:
+adf, dms, fdi, ipf, zip files for disk images
+hdf, hdz for hard drive images
+m3u for multiple disk images
