@@ -88,6 +88,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fix post-upgrade cleanup
 - Add new recalbox.conf keys to ease AI Service configuration
 - Add arcade meta-system
+- Add amiga emulator (libretro-uae) on all platforms
 
 
 ## [6.0] - DragonBlaze
