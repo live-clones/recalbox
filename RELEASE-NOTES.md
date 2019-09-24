@@ -26,6 +26,7 @@
 - Easy AI Service configuration (Retroarch translation service)
 - Add Arcade meta-system to group piFBA, FBN, MAME and Neogeo into a single system
 - New core! Added UAE libretro core. (Experimental) Amiga emulator on all platforms
+- New documentation available on gitbook: http://recalbox.gitbook.io (still WIP)
 
 ### Improvements
 - Retroarch updated to version 1.7.8v3!
