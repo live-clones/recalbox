@@ -1,5 +1,5 @@
 --- a/Makefile
---- b/Makefile
++++ b/Makefile
 @@ -454,6 +454,7 @@
  CFLAGS += -g $(shell PKG_CONFIG_PATH=/usr/$(BASELIBDIR)/pkgconfig pkg-config $(SDL_LIB) --cflags)
  LFLAGS += -lm -L/usr/$(BASELIBDIR) $(shell PKG_CONFIG_PATH=/usr/$(BASELIBDIR)/pkgconfig pkg-config $(SDL_LIB) --libs) #-lX11

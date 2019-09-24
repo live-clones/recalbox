@@ -1,0 +1,23 @@
+MRFIXIT: Change the Kodi Quit message to be recalbox specific and add rockchip suspend option
+--- a/addons/skin.estuary/xml/DialogButtonMenu.xml
++++ b/addons/skin.estuary/xml/DialogButtonMenu.xml
+@@ -18,7 +18,7 @@
+ 				<include>ButtonMenuList</include>
+ 				<content>
+ 					<item>
+-						<label>$LOCALIZE[13012]</label>
++						<label>Exit to Recalbox</label>
+ 						<onclick>Quit()</onclick>
+ 						<visible>System.ShowExitButton</visible>
+ 					</item>
+@@ -40,8 +40,8 @@
+ 					</item>
+ 					<item>
+ 						<label>$LOCALIZE[13011]</label>
+-						<onclick>Suspend()</onclick>
+-						<visible>System.CanSuspend</visible>
++						<onclick>System.ExecWait("/recalbox/scripts/rockchip_suspend.sh")</onclick>
++						<visible>True</visible>
+ 					</item>
+ 					<item>
+ 						<label>$LOCALIZE[13010]</label>
