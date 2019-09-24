@@ -1,7 +1,7 @@
-MRFIXIT: When the graphics stack is stuck, we can't restart using S31emulationstation. Need to killall and then restart using a separate script.
+MRFIXIT: When the graphics stack is stuck, restarting from within emulationstation is tricky because any process we spawn is still owned by ES itself. That's why I changed S31emulationstation to call a script that wraps around emulationstation and will check if it has requested a restart when it closes.
 --- a/es-app/src/SystemData.cpp	2018-07-10 03:42:13.000000000 -0400
 +++ b/es-app/src/SystemData.cpp	2018-07-25 19:38:05.013628499 -0400
-@@ -227,7 +227,16 @@
+@@ -227,7 +227,19 @@
    }
  
    // Reinit
@@ -11,8 +11,11 @@ MRFIXIT: When the graphics stack is stuck, we can't restart using S31emulationst
 +        // Failed to re-init the renderer. Sometimes emulators don't clean up completely after themselves and hold on to resources that ES needs.
 +        // So let's restart ES, which will clear that out and create a new context. 
 +        LOG(LogError) << "Forcing a restart of ES to clear the stuck graphics renderer...";
-+        command = "/recalbox/scripts/es_restart.sh";
++        command = "touch /var/run/es.restart";
 +        system(command.c_str());
++        SDL_Event* quit = new SDL_Event();
++        quit->type = SDL_QUIT;
++        SDL_PushEvent(quit);
 +        return;
 +  }
 +
