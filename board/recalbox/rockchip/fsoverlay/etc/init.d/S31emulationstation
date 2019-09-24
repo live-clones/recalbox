@@ -26,7 +26,7 @@ case "$1" in
 		[ $? = "0" ] && tvservice -e "$videoMode"
 		settings_lang="`$systemsetting -command load -key system.language`"
 		recallog "starting emulationstation with lang = $settings_lang"
-		HOME=/recalbox/share/system LANG="${settings_lang}.UTF-8" SDL_VIDEO_GL_DRIVER=/usr/lib/libGLESv2.so SDL_VIDEO_EGL_DRIVER=/usr/lib/libGLESv2.so SDL_NOMOUSE=1 start-stop-daemon -S -q -m -p /var/run/emulationstation.pid  --exec /usr/bin/emulationstation &
+		HOME=/recalbox/share/system LANG="${settings_lang}.UTF-8" SDL_VIDEO_GL_DRIVER=/usr/lib/libGLESv2.so SDL_VIDEO_EGL_DRIVER=/usr/lib/libGLESv2.so SDL_NOMOUSE=1 start-stop-daemon -S -q -m -p /var/run/emulationstation.pid  --exec /recalbox/scripts/eslauncher.sh &
 	fi
 	;;
   stop)
