@@ -7,6 +7,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fix Flycast on RPi
 - Fix Amstrad GX4000 .cpr/.bin extensions
 - Fix libretro-uae bios list
+- Fix GPIO driver not loading
 
 
 ## [6.1]
