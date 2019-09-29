@@ -7,7 +7,9 @@
 ### Improvements
 
 ### Fixes
-- Fix Reicast on XU4 and PC platforms.
+- Fix Reicast on XU4 and PC platforms and fix wrong flycast entry on Rpi
+- Fix .cpr and .bin extensions for the Amstrad GX4000 system
+- Fix libretro-uae bios list
 
 
 ## Version 6.1
