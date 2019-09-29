@@ -2,6 +2,7 @@ config BR2_PACKAGE_RECALBOX_ROMFS_DREAMCAST
 	bool "recalbox-romfs-dreamcast"
 	select BR2_PACKAGE_RECALBOX_ROMS
 	depends on BR2_PACKAGE_LIBRETRO_FLYCAST \
-	  || BR2_PACKAGE_REICAST || BR2_PACKAGE_REICAST_OLD
+	  || BR2_PACKAGE_REICAST \
+	  || BR2_PACKAGE_REICAST_OLD
 	help
 	  share_init/roms and xml for dreamcast

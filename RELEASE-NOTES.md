@@ -1,5 +1,15 @@
 # Release notes
 
+## Version 6.x
+
+### News
+
+### Improvements
+
+### Fixes
+- Fix Reicast on XU4 and PC platforms.
+
+
 ## Version 6.1
 
 ### News

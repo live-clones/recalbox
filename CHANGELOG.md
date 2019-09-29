@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [6.x]
+- Fix reicast on XU4 & PC
+
+
 ## [6.1]
 - Replacement of the neogeo intro video
 - Fix : bug introrecaboxsms.mp4 is not playing fixed with reencoding

@@ -5,7 +5,11 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system dreamcast --extension '.gdi .GDI .cdi .CDI .chd .CHD' --fullname 'Sega Dreamcast' --platform dreamcast --theme dreamcast libretro:flycast:BR2_PACKAGE_LIBRETRO_FLYCAST reicast:reicast:BR2_PACKAGE_REICAST
+# ./scripts/linux/empack.py --system dreamcast --extension '.gdi .GDI .cdi .CDI .chd .CHD' --fullname 'Sega Dreamcast' --platform dreamcast --theme dreamcast libretro:flycast:BR2_PACKAGE_LIBRETRO_FLYCAST reicast:reicast:BR2_PACKAGE_REICAST reicast:reicast:BR2_PACKAGE_REICAST_OLD
+
+#
+# DO NOT CALL empack.py to regenerate this file! It cannot handle both REICAST package!
+#
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_DREAMCAST_SOURCE = 
@@ -21,16 +25,16 @@ SOURCE_ROMDIR_DREAMCAST = $(RECALBOX_ROMFS_DREAMCAST_PKGDIR)/roms
 # variables are global across buildroot
 
 
-ifneq ($(BR2_PACKAGE_LIBRETRO_FLYCAST)$(BR2_PACKAGE_REICAST),)
+ifneq ($(BR2_PACKAGE_LIBRETRO_FLYCAST)$(BR2_PACKAGE_REICAST)$(BR2_PACKAGE_REICAST_OLD),)
 define CONFIGURE_MAIN_DREAMCAST_START
 	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_DREAMCAST),Sega Dreamcast,$(SYSTEM_NAME_DREAMCAST),.gdi .GDI .cdi .CDI .chd .CHD,dreamcast,dreamcast)
 endef
 
-ifneq ($(BR2_PACKAGE_LIBRETRO_FLYCAST)$(BR2_PACKAGE_REICAST),)
+ifneq ($(BR2_PACKAGE_REICAST)$(BR2_PACKAGE_REICAST_OLD),)
 define CONFIGURE_DREAMCAST_REICAST_START
 	$(call RECALBOX_ROMFS_CALL_START_EMULATOR,$(SYSTEM_XML_DREAMCAST),reicast)
 endef
-ifeq ($(BR2_PACKAGE_REICAST),y)
+ifneq ($(BR2_PACKAGE_REICAST)$(BR2_PACKAGE_REICAST_OLD),)
 define CONFIGURE_DREAMCAST_REICAST_REICAST_DEF
 	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_DREAMCAST),reicast)
 endef
@@ -41,7 +45,7 @@ define CONFIGURE_DREAMCAST_REICAST_END
 endef
 endif
 
-ifneq ($(BR2_PACKAGE_LIBRETRO_FLYCAST)$(BR2_PACKAGE_REICAST),)
+ifneq ($(BR2_PACKAGE_LIBRETRO_FLYCAST),)
 define CONFIGURE_DREAMCAST_LIBRETRO_START
 	$(call RECALBOX_ROMFS_CALL_START_EMULATOR,$(SYSTEM_XML_DREAMCAST),libretro)
 endef
