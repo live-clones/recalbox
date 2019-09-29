@@ -55,7 +55,7 @@ class LibretroCores:
 
         a800settings = keyValueSettings(recalboxFiles.atari800CustomConfig)
         a800settings.loadFile(True)
-        a800settings.setOption("MACHINE_TYPE", "Atari 520")
+        a800settings.setOption("MACHINE_TYPE", "Atari 5200")
         a800settings.setOption("RAM_SIZE", "16")
         a800settings.setOption("STEREO_POKEY", "0")
         a800settings.setOption("BUILTIN_BASIC", "0")
