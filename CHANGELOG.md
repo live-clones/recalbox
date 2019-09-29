@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [6.x]
+- Add zfast shaders
 - Fix reicast on XU4 & PC
 - Fix Flycast on RPi
 - Fix Amstrad GX4000 .cpr/.bin extensions

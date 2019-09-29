@@ -5,6 +5,7 @@
 ### News
 
 ### Improvements
+- Add zfast shaders, fast CRT shaders for all platforms
 
 ### Fixes
 - Fix Reicast on XU4 and PC platforms and fix wrong flycast entry on Rpi
