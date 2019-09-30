@@ -1,0 +1,20 @@
+--- a/sources/src/caps/caps.c	2019-09-18 02:14:55.000000000 +0200
++++ b/sources/src/caps/caps.c	2019-09-22 22:59:07.878513243 +0200
+@@ -37,7 +37,7 @@
+ #define CAPSLIB_NAME    "capsimg.dll"
+ #define DIR_SEP_CHR     '\\'
+ #else
+-#define CAPSLIB_NAME    "capsimg.so"
++#define CAPSLIB_NAME    "libcapsimage.so.4"
+ #define DIR_SEP_CHR     '/'
+ #endif
+ 
+@@ -74,7 +74,7 @@
+     /* This could be done more elegantly ;-) */
+ 
+ #ifdef __LIBRETRO__
+-    snprintf(CAPSLIB_PATH, RETRO_PATH_MAX, "%s%c%s", retro_system_directory, DIR_SEP_CHR, CAPSLIB_NAME);
++    snprintf(CAPSLIB_PATH, RETRO_PATH_MAX, "/usr/lib/%s", CAPSLIB_NAME);
+     if ((capslib.handle = uae_dlopen(CAPSLIB_PATH))) {
+ #else
+     if ((capslib.handle = uae_dlopen(CAPSLIB_NAME))) {

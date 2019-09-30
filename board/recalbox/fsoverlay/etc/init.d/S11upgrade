@@ -87,8 +87,6 @@ pre_reboot_actions() {
   alsactl -f /recalbox/share/system/configs/asound.state restore 2>&1 | recallog
   recallog "Upgrading RA Core names"
   upgradeRetroarchCoreNames -f /recalbox/share/system/configs/retroarch.corenames 2>&1 | recallog
-  recallog "Clean up init scripts"
-  rm -f /etc/init.d/{S02splash,S0{3,4}populate,S05acpid}
   recallog "Reset case"
   sed -i 's/^case=.*$/d' /boot/recalbox-boot.conf
 }

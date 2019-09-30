@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_CAP32_VERSION = 2828e7d2e57c5c17c1e8694f2ff9a7866f384a22
+LIBRETRO_CAP32_VERSION = 8681fbdc5623830078b38d713935caf4682e5295
 LIBRETRO_CAP32_SITE = $(call github,libretro,libretro-cap32,$(LIBRETRO_CAP32_VERSION))
 
 define LIBRETRO_CAP32_BUILD_CMDS

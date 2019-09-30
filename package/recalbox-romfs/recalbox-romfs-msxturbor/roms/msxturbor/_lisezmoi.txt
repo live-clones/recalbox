@@ -1,34 +1,9 @@
-## RECALBOX - SYSTEM MSX1/2 ##
+## RECALBOX - SYSTEM MSXTURBOR ##
 
-Placez ici vos roms msx.
+Placez ici vos roms MSXturboR.
 
 L'émulateur BlueMSX gére également les fichiers ".rom/.mx1/.mx2/.dsk/.cas/.m3u/.zip/.7z"
 
 Ce système supporte également les roms compressées au format .zip/.7z.
 Attention toutefois, il ne s'agit que d'une archive. Les fichiers contenus dans les .zip/.7z doivent correspondre aux extensions citées précédemment.
 De plus, chaque fichier .zip/.7z ne doit contenir qu'une seule rom compressée.
-
-
-## BIOS ##
-
-- Emulateur BlueMSX (EMULATEUR MSX PAR DEFAUT) :
-Vous devez télécharger la version standalone de l'émulateur BlueMSX disponible à l'adresse suivante : http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip
-Puis extraire de ce dernier, les répertoire "Databases" et "Machines" et les ajouter dans le répertoire bios de recalbox.
-
-- Emulateur FMSX :
-Vous devez avoir les fichiers fournis avec la distribution de fmsx suivant dans le dossier bios :
-CARTS.SHA
-CYRILLIC.FNT
-DISK.ROM
-FMPAC.ROM
-FMPAC16.ROM
-ITALIC.FNT
-KANJI.ROM
-MSX.ROM
-MSX2.ROM
-MSX2EXT.ROM
-MSX2P.ROM
-MSX2PEXT.ROM
-MSXDOS2.ROM
-PAINTER.ROM
-RS232.ROM

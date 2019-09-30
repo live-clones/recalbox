@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_MAME2000_VERSION = dfd6c396e69e2ae89f2f52f4afa991c74813d828
+LIBRETRO_MAME2000_VERSION = 0a8a174f5e755cdd476895207003c5d07cfa6af2
 LIBRETRO_MAME2000_SITE = $(call github,libretro,mame2000-libretro,$(LIBRETRO_MAME2000_VERSION))
 
 define LIBRETRO_MAME2000_BUILD_CMDS

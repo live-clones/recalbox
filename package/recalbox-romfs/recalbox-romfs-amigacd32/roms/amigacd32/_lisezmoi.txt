@@ -2,6 +2,7 @@
 
 Placez ici vos roms amiga CD32.
 
+Amiberry:
 Les roms doivent être:
 - Images ISO (*.iso avec eventuellement un .cue correspondant)
 - Images BIN (*.bin avec eventuellement un .cue correspondant)
@@ -13,3 +14,9 @@ Ce système nécessite des bios pour fonctionner (cd32.rom et cd32ext.com).
 
 Consultez la documentation à cette adresse : 
 https://github.com/recalbox/recalbox-os/wiki/Amiga-sur-Recalbox-(FR)
+
+Libretro P-UAE:
+Supported formats are:
+adf, dms, fdi, ipf, zip files for disk images
+hdf, hdz for hard drive images
+m3u for multiple disk images

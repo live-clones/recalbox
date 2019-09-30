@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_NESTOPIA_VERSION = e56a04ae23d928bb50b213642e4729608f69efb8
+LIBRETRO_NESTOPIA_VERSION = 7f48c211c281880d122981da119a4455a9bebbde
 LIBRETRO_NESTOPIA_SITE = $(call github,libretro,nestopia,$(LIBRETRO_NESTOPIA_VERSION))
 
 define LIBRETRO_NESTOPIA_BUILD_CMDS
@@ -18,8 +18,8 @@ endef
 define LIBRETRO_NESTOPIA_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/libretro/nestopia_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/nestopia_libretro.so
-	# NstDatabase needed for proper emulation
-	cp $(@D)/NstDatabase.xml $(TARGET_DIR)/recalbox/share_init/bios
+	# NstDatabase needed for proper emulation (backed into the core)
+	# cp $(@D)/NstDatabase.xml $(TARGET_DIR)/recalbox/share_init/bios
 endef
 
 $(eval $(generic-package))

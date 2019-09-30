@@ -1,6 +1,6 @@
 --- a/machine.c
 +++ b/machine.c
-@@ -1457,6 +1457,8 @@
+@@ -1459,6 +1459,8 @@
    return SDL_FALSE;
  }
  
@@ -9,7 +9,7 @@
  void load_patches( struct machine *oric, char *fname )
  {
    FILE *f;
-@@ -1464,10 +1466,14 @@
+@@ -1466,10 +1468,14 @@
    char *tmpname;
  
    // MinGW doesn't have asprintf :-(

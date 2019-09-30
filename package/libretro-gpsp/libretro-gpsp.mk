@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_GPSP_VERSION = efd437a2b40ccfb84be20523362164eb42219ab8
+LIBRETRO_GPSP_VERSION = 24af89596e6484ff5a7a08efecfa8288cfbc02f3
 LIBRETRO_GPSP_SITE = $(call github,libretro,gpsp,$(LIBRETRO_GPSP_VERSION))
 
 define LIBRETRO_GPSP_BUILD_CMDS

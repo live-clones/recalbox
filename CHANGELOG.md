@@ -2,6 +2,15 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [6.x]
+- Add zfast shaders
+- Fix reicast on XU4 & PC
+- Fix Flycast on RPi
+- Fix Amstrad GX4000 .cpr/.bin extensions
+- Fix libretro-uae bios list
+- Fix GPIO driver not loading
+
+
 ## [6.1]
 - Replacement of the neogeo intro video
 - Fix : bug introrecaboxsms.mp4 is not playing fixed with reencoding
@@ -84,6 +93,12 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add Saturn libretro emulators (mednafen_saturn, yabause and yabasanshiro) on x86(_64)
 - Add new recalbox/retroarch/core configuration override par system/folder/game
 - Switch default retroarch ui to ozone
+- Improved RGUI configuration on GPI
+- Fix post-upgrade cleanup
+- Add new recalbox.conf keys to ease AI Service configuration
+- Add arcade meta-system
+- Add amiga emulator (libretro-uae) on all platforms
+
 - 
 - Odroid C2 removed from supported boards
 
