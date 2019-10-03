@@ -11,6 +11,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fix GPIO driver not loading
 - Fix random crashes while mapping pads
 - Improved multi-event filtering while mapping pads
+- Odroid XU4 fan control optimization
 
 
 ## [6.1]
