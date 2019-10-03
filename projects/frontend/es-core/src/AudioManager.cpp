@@ -10,6 +10,7 @@
 #include "themes/ThemeData.h"
 #include "Locale.h"
 #include "RootFolders.h"
+#include "utils/sdl2/SyncronousEventService.h"
 #include <unistd.h>
 #include <ctime>
 
@@ -23,7 +24,7 @@ std::shared_ptr<AudioManager> AudioManager::sInstance;
 AudioManager::AudioManager()
   : currentMusic(nullptr),
     mWindow(nullptr),
-    mEvent(0),
+    mSender(SyncronousEventService::Instance().ObtainSyncCallback(this)),
     running(false),
     runningFromPlaylist(false)
 {
@@ -143,10 +144,8 @@ void AudioManager::playRandomMusic()
       // Create music popup
       mLastPopupText = _("Now playing") + ":\n" + currentMusic->getName();
 
-      // Push event to the main thread
-      SDL_Event event;
-      event.type = mEvent;
-      SDL_PushEvent(&event);
+      // Push synhroneous event
+      mSender.Call();
     }
     return;
   }
@@ -307,4 +306,14 @@ void AudioManager::playCheckSound()
   {
     Music::get(loadingMusic)->play(false, nullptr);
   }
+}
+
+void AudioManager::ReceiveSyncCallback(const SDL_Event& event)
+{
+  (void)event;
+  int popupDuration = Settings::getInstance()->getInt("MusicPopupTime");
+  std::shared_ptr<GuiInfoPopup> popup = std::make_shared<GuiInfoPopup>(mWindow,
+                                                                       AudioManager::getInstance()->GetLastPopupText(),
+                                                                       popupDuration, 10);
+  mWindow->setInfoPopup(popup);
 }

@@ -1,7 +1,6 @@
 #include "InputStack.h"
-#include "Timer.h"
 
-#define SDL_IDLE_MS 100
+#define SDL_IDLE_MS 150
 
 bool InputStack::hasInput(const Input& input)
 {
@@ -17,40 +16,19 @@ bool InputStack::hasInput(const Input& input)
 
 void InputStack::push(const Input& input, const std::function<void(const std::list<Input>& inputs)>& func)
 {
-	if (mSwallow)
-		return;
-
-	if (!mInputs.empty()) {
-		mPushTimer->clearTimeout();
-	}
+  LOG(LogDebug) << "Push!";
+  // Debouncing
+  TimeSpan diff = DateTime() - mDebounceReference;
+  if (diff.TotalMilliseconds() < SDL_IDLE_MS)
+    return;
 
 	mInputs.push_back(input);
-	
-	mPushTimer = std::make_shared<Timer>(SDL_IDLE_MS, [this, func] {
-		func(mInputs);
-		mInputs.clear();
-	});
-}
+	// First event pushed, start debouncing
+  debounce();
 
-void InputStack::debounce()
-{
-	mSwallow = true;
-
-	if (mPushTimer) 
-	{
-		mPushTimer->clearTimeout();
-		mPushTimer = nullptr;
-	}
-
-	mInputs.clear();
-
-	if (mDebounceTimer) 
-	{
-		mDebounceTimer->clearTimeout();
-	}
-
-	mDebounceTimer = std::make_shared<Timer>(SDL_IDLE_MS, [this] {
-		mSwallow = false;
-	});
+	// Start or restart the timer.
+	// Once this timer end, inputs are sent to the method associated with inputstack
+	mCallback = func; // TODO: should be set by the constructor
+	mTimer.Start(SDL_IDLE_MS, false);
 }
 

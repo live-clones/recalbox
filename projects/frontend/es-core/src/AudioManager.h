@@ -10,9 +10,11 @@
 #include "Music.h"
 
 #include "Window.h"
+#include "utils/sdl2/SyncronousEvent.h"
+#include "utils/sdl2/ISyncronousEvent.h"
 
 
-class AudioManager
+class AudioManager : private ISyncronousEvent
 {
   private:
     static std::vector<std::shared_ptr<Sound>> sSoundVector;
@@ -30,7 +32,13 @@ class AudioManager
     Window* mWindow;
 
     //! Reserved SDL Event
-    int mEvent;
+    SyncronousEvent mSender;
+
+    /*!
+     * @brief Synchronous event receiver
+     * @param event Event
+     */
+    void ReceiveSyncCallback(const SDL_Event& event) override;
 
   public:
     static std::shared_ptr<AudioManager>& getInstance();
@@ -68,9 +76,8 @@ class AudioManager
     /*!
      * Instruct this class to use this event identifier to push notifications to the main thread
      * @param window Window class to attach popups to
-     * @param event event identifier to use when pushing events
      */
-    void SetMusicStartEvent(Window* window, int event) { mWindow = window; mEvent = event; }
+    void SetMusicStartEvent(Window* window) { mWindow = window; }
 
     /*!
      * Called from the main thread to get the popup to display

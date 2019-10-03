@@ -7,11 +7,13 @@
 
 #include <Window.h>
 #include <boost/thread/thread.hpp>
+#include <utils/sdl2/ISyncronousEvent.h>
+#include <utils/sdl2/SyncronousEvent.h>
 
-class NetPlayThread
+class NetPlayThread : private ISyncronousEvent
 {
   public:
-    NetPlayThread(Window* window, int event);
+    explicit NetPlayThread(Window* window);
 
     ~NetPlayThread();
 
@@ -41,14 +43,20 @@ class NetPlayThread
     //! Thread handle. Null until Start() is called
     boost::thread* mThreadHandle;
 
-    //! Reserved SDL Event
-    int mEvent;
+    //! SDL Event sender
+    SyncronousEvent mSender;
 
     //! Last created popup
     std::string mLastPopupText;
 
     //! Main thread runner
     void run();
+
+    /*!
+     * @brief Synchronous event receiver
+     * @param event Event
+     */
+    void ReceiveSyncCallback(const SDL_Event& event) override;
 };
 
 #endif //EMULATIONSTATION_ALL_NETPLAYTHREAD_H

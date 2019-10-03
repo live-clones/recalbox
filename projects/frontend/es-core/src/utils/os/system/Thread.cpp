@@ -1,42 +1,61 @@
 #include "Thread.h"
 #include <string>
-
-int Thread::mCount = 0;
+#include <Log.h>
+#include <cstring>
 
 Thread::Thread()
-  : mHandle(0),
+  : mName(),
+    mHandle(0),
     mIsRunning(false),
-    mIsDone(true)
+    mIsDone(false)
 {
-  mCount++;
+  static int __TotalCount__ = 0;
+  std::string strName = "thread " + std::to_string(++__TotalCount__);
+  strncpy(mName, strName.c_str(), sizeof(mName));
+}
+
+Thread::~Thread()
+{
+  Stop();
 }
 
 void Thread::Start(const std::string& name)
 {
-  mName = (!name.empty()) ? name : "thread " + std::to_string(mCount);
+  Stop();
+
+  if (!name.empty())
+    strncpy(mName, name.c_str(), sizeof(mName));
+  LOG(LogDebug) << "Start thread! " << name;
 
   mIsDone = false;
-  pthread_create(&mHandle, nullptr, &Thread::StartThread, this);
-  pthread_setname_np(mHandle, mName.c_str());
+  mIsRunning = true;
+  int err = pthread_create(&mHandle, nullptr, &Thread::StartThread, this);
+  if (err != 0) LOG(LogError) << "Error running thread " << mName;
+  pthread_setname_np(mHandle, mName);
 }
 
 void Thread::Stop()
 {
   mIsRunning = false;
-  Break();
-  void* dummy;
-  pthread_join(mHandle, &dummy);
+  if (mHandle != 0)
+  {
+    Break();
+    void* dummy;
+    pthread_join(mHandle, &dummy);
+    mHandle = 0;
+  }
+  mIsDone = true;
 }
 
 void* Thread::StartThread(void* thread_)
 {
   Thread& thread = *((Thread*)(thread_));
 
-  thread.mIsRunning = true;
   thread.BeforeRun();
   thread.Run();
   thread.AfterRun();
-  thread.mIsDone = true;
+
+  LOG(LogDebug) << "Thread " << thread.mName << " exited!";
 
   return nullptr;
 }

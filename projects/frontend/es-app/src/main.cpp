@@ -4,11 +4,11 @@
 #include <SDL.h>
 #include <iostream>
 
-#include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
 #include <RootFolders.h>
 #include <VideoEngine.h>
 #include <guis/GuiNetPlay.h>
+#include <utils/sdl2/SyncronousEventService.h>
 
 #include "AudioManager.h"
 #include "CommandThread.h"
@@ -28,7 +28,6 @@
 #include "Window.h"
 #include "DemoMode.h"
 #include "guis/GuiDetectDevice.h"
-#include "guis/GuiInfoPopup.h"
 #include "guis/GuiMsgBox.h"
 #include "guis/GuiMsgBoxScroll.h"
 #include "recalbox/RecalboxSystem.h"
@@ -389,12 +388,10 @@ int main(int argc, char* argv[])
     VideoEngine::This().StartEngine();
 
     // Allocate custom event types
-    unsigned int NetPlayPopupEvent = SDL_RegisterEvents(2);
-    unsigned int MusicStartEvent = NetPlayPopupEvent + 1;
-    AudioManager::getInstance()->SetMusicStartEvent(&window, (int)MusicStartEvent);
+    AudioManager::getInstance()->SetMusicStartEvent(&window);
 
     LOG(LogDebug) << "Launching Netplay thread";
-    NetPlayThread netPlayThread(&window, (int)NetPlayPopupEvent);
+    NetPlayThread netPlayThread(&window);
 
     //dont generate joystick events while we're loading (hopefully fixes "automatically started emulator" bug)
     SDL_JoystickEventState(SDL_DISABLE);
@@ -429,7 +426,6 @@ int main(int argc, char* argv[])
     //generate joystick events since we're done loading
     SDL_JoystickEventState(SDL_ENABLE);
 
-    int popupDuration = Settings::getInstance()->getInt("MusicPopupTime");
     int lastTime = SDL_GetTicks();
     bool running = true;
     bool doReboot = false;
@@ -480,20 +476,7 @@ int main(int argc, char* argv[])
             break;
           default:
           {
-            if (event.type == NetPlayPopupEvent)
-            {
-              std::shared_ptr<GuiInfoPopup> popup = std::make_shared<GuiInfoPopup>(&window,
-                                                                                   netPlayThread.GetLastPopupText(),
-                                                                                   popupDuration, 20);
-              window.setInfoPopup(popup);
-            }
-            else if (event.type == MusicStartEvent)
-            {
-              std::shared_ptr<GuiInfoPopup> popup = std::make_shared<GuiInfoPopup>(&window,
-                                                                                   AudioManager::getInstance()->GetLastPopupText(),
-                                                                                   popupDuration, 10);
-              window.setInfoPopup(popup);
-            }
+            SyncronousEventService::Instance().Dispatch(&event);
             break;
           }
         }

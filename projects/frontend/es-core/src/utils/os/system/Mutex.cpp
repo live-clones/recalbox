@@ -54,6 +54,5 @@ bool Mutex::WaitSignal(int milliseconds)
     milliseconds %= 1000;
   }
   ts.tv_nsec += (long)milliseconds * 1000000L;
-  pthread_cond_timedwait(&mCondition, &mMutex, &ts);
-  return true;
+  return (pthread_cond_timedwait(&mCondition, &mMutex, &ts) == 0);
 }

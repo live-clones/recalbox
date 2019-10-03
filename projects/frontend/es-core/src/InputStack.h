@@ -1,10 +1,13 @@
 #pragma once
 
 #include "InputConfig.h"
-#include "Timer.h"
+#include "utils/sdl2/SyncronousEventService.h"
 #include <functional>
 #include <list>
-#include <memory>
+#include <utils/datetime/DateTime.h>
+#include <utils/sdl2/ISyncTimer.h>
+#include <utils/sdl2/SyncTimer.h>
+#include <Log.h>
 
 /**
  * The purpose of this class is to catch the whole inputs sent by SDL when using a gamepad hat / joy / button
@@ -12,16 +15,44 @@
  * Example: when pressing UP HAT button, SDL send: SDL_JOYBUTTONDOWN and SDL_JOYHATMOTION
  * Idea of this class is to stack them waiting for a pause of SDL_IDLE_MS ms before calling a callback
  */
-class InputStack
+class InputStack : private ISyncTimer
 {
-public:
-	bool hasInput(const Input& input);
-	void push(const Input& input, const std::function<void(const std::list<Input>& inputs)>& func);
-	void debounce();
-private:
-	bool mSwallow = false;
-	std::list<Input> mInputs;
-	std::shared_ptr<Timer> mPushTimer;
-	std::shared_ptr<Timer> mDebounceTimer;
+  private:
+    //! Time reference for debouncing (reject bouncing events)
+    DateTime mDebounceReference;
+
+    //! Timer
+    SyncTimer mTimer;
+
+    //! Event list
+    std::list<Input> mInputs;
+
+    //! Callbacl method
+    std::function<void(const std::list<Input>& inputs)> mCallback;
+
+    void TimerTick(int id) override
+    {
+      (void)id;
+      mCallback(mInputs);
+      mInputs.clear();
+    }
+
+  public:
+    bool hasInput(const Input& input);
+
+    void push(const Input& input, const std::function<void(const std::list<Input>& inputs)>& func);
+
+    void debounce()
+    {
+      mDebounceReference = DateTime();
+    }
+
+    InputStack()
+      : mTimer(this, 0, "InputStack"),
+        mCallback(nullptr)
+    {
+      mDebounceReference = DateTime(0LL);
+    }
+
 };
 

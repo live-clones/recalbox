@@ -23,6 +23,10 @@ set(CORE_HEADERS
 		${CMAKE_CURRENT_SOURCE_DIR}/src/Util.h
 		${CMAKE_CURRENT_SOURCE_DIR}/src/VideoEngine.h
 		${CMAKE_CURRENT_SOURCE_DIR}/src/Window.h
+		${CMAKE_CURRENT_SOURCE_DIR}/src/utils/sdl2/ISyncronousEvent.h
+		${CMAKE_CURRENT_SOURCE_DIR}/src/utils/sdl2/ISyncTimer.h
+		${CMAKE_CURRENT_SOURCE_DIR}/src/utils/sdl2/SyncronousEventService.h
+		${CMAKE_CURRENT_SOURCE_DIR}/src/utils/sdl2/SyncronousEvent.h
 		${CMAKE_CURRENT_SOURCE_DIR}/src/themes/ThemeData.h
 		${CMAKE_CURRENT_SOURCE_DIR}/src/themes/ThemeExtras.h
 
@@ -113,6 +117,9 @@ set(CORE_SOURCES
 		${CMAKE_CURRENT_SOURCE_DIR}/src/Util.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/src/VideoEngine.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/src/Window.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/src/utils/sdl2/SyncTimer.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/src/utils/sdl2/SyncronousEventService.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/src/utils/sdl2/SyncronousEvent.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/src/themes/ThemeData.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/src/themes/ThemeExtras.cpp
 

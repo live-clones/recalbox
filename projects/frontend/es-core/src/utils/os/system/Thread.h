@@ -21,7 +21,7 @@ class Thread
     /*!
      * Releases resources held by the IThread.
      */
-    virtual ~Thread() = default;
+    virtual ~Thread();
 
   public:
     /*!
@@ -87,17 +87,9 @@ class Thread
      */
     static void* StartThread(void* thread);
 
-  public:
-
-    /*!
-     * Get current amount of running threads
-     */
-    static int GetThreadCount() { return mCount; }
-
   private:
-    static int mCount;
     //! Thread name
-    std::string mName;
+    char mName[16];
     //! eCos thread handle
     ThreadHandle mHandle;
     //! Running flag

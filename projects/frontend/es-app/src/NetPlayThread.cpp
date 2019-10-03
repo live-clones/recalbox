@@ -11,14 +11,17 @@
 #include <Settings.h>
 #include <views/ViewController.h>
 #include <Locale.h>
+#include <utils/sdl2/SyncronousEventService.h>
+#include <guis/GuiInfoPopup.h>
+#include <AudioManager.h>
 
 namespace json = boost::property_tree;
 
-NetPlayThread::NetPlayThread(Window* window, int event)
+NetPlayThread::NetPlayThread(Window* window)
   : mWindow(window),
     mRunning(false),
     mThreadHandle(nullptr),
-    mEvent(event)
+    mSender(SyncronousEventService::Instance().ObtainSyncCallback(this))
 {
 }
 
@@ -122,13 +125,9 @@ void NetPlayThread::run()
                                  tmp.first;
                 +"\n " + _("Game") + ": " + tmp.second;
 
-                // Create event
-                SDL_Event event;
-                event.user.type = (unsigned int) mEvent;
-
                 // Push event to the main thread so that all GUI operations are safely run in the main thread.
                 // SDL_PushEvent is synchronized & thread-safe
-                SDL_PushEvent(&event);
+                mSender.Call();
 
                 break;
               }
@@ -147,4 +146,14 @@ void NetPlayThread::run()
     LOG(LogError) << "Main thread crashed.";
     LOG(LogError) << "Exception: " << ex.what();
   }
+}
+
+void NetPlayThread::ReceiveSyncCallback(const SDL_Event& event)
+{
+  (void)event;
+  int popupDuration = Settings::getInstance()->getInt("MusicPopupTime");
+  std::shared_ptr<GuiInfoPopup> popup = std::make_shared<GuiInfoPopup>(mWindow,
+                                                                       AudioManager::getInstance()->GetLastPopupText(),
+                                                                       popupDuration, 10);
+  mWindow->setInfoPopup(popup);
 }
