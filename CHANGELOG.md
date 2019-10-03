@@ -9,6 +9,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fix Amstrad GX4000 .cpr/.bin extensions
 - Fix libretro-uae bios list
 - Fix GPIO driver not loading
+- Fix random crashes while mapping pads
+- Improved multi-event filtering while mapping pads
 
 
 ## [6.1]
