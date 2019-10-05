@@ -12,6 +12,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fix random crashes while mapping pads
 - Improved multi-event filtering while mapping pads
 - Odroid XU4 fan control optimization
+- Fix aple2gs configgen and patch emulator to support dpads
 
 
 ## [6.1]

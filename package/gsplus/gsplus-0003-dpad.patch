@@ -1,0 +1,167 @@
+--- a/src/joystick_driver.c	2019-10-05 18:05:31.533515919 +0200
++++ b/src/joystick_driver.c	2019-10-05 19:10:00.797203960 +0200
+@@ -42,18 +42,30 @@
+ int g_joystick_native_fd = -1;
+ int g_joystick_num_axes = 0;
+ int g_joystick_num_buttons = 0;
+-int g_joystick_number = 0;                              // SDL2
+-int g_joystick_x_axis = 0;                              // SDL2
+-int g_joystick_y_axis = 1;                              // SDL2
+-int g_joystick_button_0 = 0;                    // SDL2
++int g_joystick_number = 0;              // SDL2
++int g_joystick_x_axis = 0;              // SDL2
++int g_joystick_y_axis = 1;              // SDL2
++int g_joystick_button_0 = 0;            // SDL2
+ int g_joystick_button_1 = 1;            // SDL2
+ 
+-int g_joystick_x2_axis = 2;                             // SDL2
+-int g_joystick_y2_axis = 3;                             // SDL2
+-int g_joystick_button_2 = 2;                    // SDL2
++int g_joystick_x2_axis = 2;             // SDL2
++int g_joystick_y2_axis = 3;             // SDL2
++int g_joystick_button_2 = 2;            // SDL2
+ int g_joystick_button_3 = 3;            // SDL2
+-int g_joystick_button_hk = 4;                    // SDL2
+-int g_joystick_button_start = 5;            // SDL2
++
++int g_joystick_button_hk = 4;           // SDL2
++int g_joystick_button_start = 5;        // SDL2
++
++int g_joystick_dpad_up_button = -1;
++int g_joystick_dpad_down_button = -1;
++int g_joystick_dpad_left_button = -1;
++int g_joystick_dpad_right_button = -1;
++
++int g_joystick_dpad_up_hat = -1;
++int g_joystick_dpad_down_hat = -1;
++int g_joystick_dpad_left_hat = -1;
++int g_joystick_dpad_right_hat = -1;
++
+ #define JOY2SUPPORT
+ 
+ 
+@@ -99,6 +111,22 @@
+     g_paddle_val[2] = (int)SDL_JoystickGetAxis(gGameController, g_joystick_x2_axis);  // default is 2
+     g_paddle_val[3] = (int)SDL_JoystickGetAxis(gGameController, g_joystick_y2_axis);  // default is 3
+ 
++    // recalbox patch: support dpad button
++    if (SDL_JoystickGetButton(gGameController, g_joystick_dpad_left_button)) g_paddle_val[0] = -32767;
++    if (SDL_JoystickGetButton(gGameController, g_joystick_dpad_right_button)) g_paddle_val[0] = +32767;
++    if (SDL_JoystickGetButton(gGameController, g_joystick_dpad_up_button)) g_paddle_val[1] = -32767;
++    if (SDL_JoystickGetButton(gGameController, g_joystick_dpad_down_button)) g_paddle_val[1] = +32767;
++
++    // recalbox patch: support dpad hats
++    if (g_joystick_dpad_left_hat >= 0)
++      if (SDL_JoystickGetHat(gGameController, g_joystick_dpad_left_hat >> 4) & g_joystick_dpad_left_hat) g_paddle_val[0] = -32767;
++    if (g_joystick_dpad_right_hat >= 0)
++      if (SDL_JoystickGetHat(gGameController, g_joystick_dpad_right_hat >> 4) & g_joystick_dpad_right_hat) g_paddle_val[0] = +32767;
++    if (g_joystick_dpad_up_hat >= 0)
++      if (SDL_JoystickGetHat(gGameController, g_joystick_dpad_up_hat >> 4) & g_joystick_dpad_up_hat) g_paddle_val[1] = -32767;
++    if (g_joystick_dpad_down_hat >= 0)
++      if (SDL_JoystickGetHat(gGameController, g_joystick_dpad_down_hat >> 4) & g_joystick_dpad_down_hat) g_paddle_val[1] = +32767;
++
+     if (SDL_JoystickGetButton(gGameController, g_joystick_button_0)) {
+       g_paddle_buttons = g_paddle_buttons | 1;
+     } else {
+diff -u output/build/gsplus-480572054518112647c8fae5d7ea7046a6d6ecfb/src/options.c output/build/gsplus-modified/src/options.c
+--- a/src/options.c	2019-10-05 18:05:31.529515885 +0200
++++ b/src/options.c	2019-10-05 19:16:46.660531875 +0200
+@@ -81,7 +81,14 @@
+ extern int g_joystick_button_3;       // defined in joystick_driver.c
+ extern int g_joystick_button_hk;      // defined in joystick_driver.c
+ extern int g_joystick_button_start;   // defined in joystick_driver.c
+-
++extern int g_joystick_dpad_up_button;
++extern int g_joystick_dpad_down_button;
++extern int g_joystick_dpad_left_button;
++extern int g_joystick_dpad_right_button;
++extern int g_joystick_dpad_up_hat;
++extern int g_joystick_dpad_down_hat;
++extern int g_joystick_dpad_left_hat;
++extern int g_joystick_dpad_right_hat;
+ 
+ // DEPRECATED: force bit depth (15/16/24) for X-Windows, might still work.
+ extern int g_force_depth;             // defined in sim65816.c
+@@ -324,6 +331,81 @@
+         glogf("%s Setting joystick Button start to Gamepad %d", parse_log_prefix, tmp1);
+         g_joystick_button_start = tmp1;
+         i++;
++
++    } else if(!strcmp("-joy-up-button", argv[i])) {
++      if((i+1) >= argc) {
++        glogf("%s Error, option '-joy-up-button' missing argument", parse_log_prefix);
++        exit(1);
++      }
++      tmp1 = strtol(argv[i+1], 0, 0); // no bounds check, not sure what ids we get
++      glogf("%s Setting joystick dpad up button to Gamepad %d", parse_log_prefix, tmp1);
++      g_joystick_dpad_up_button = tmp1;
++      i++;
++    } else if(!strcmp("-joy-down-button", argv[i])) {
++      if((i+1) >= argc) {
++        glogf("%s Error, option '-joy-down-button' missing argument", parse_log_prefix);
++        exit(1);
++      }
++      tmp1 = strtol(argv[i+1], 0, 0); // no bounds check, not sure what ids we get
++      glogf("%s Setting joystick dpad down button to Gamepad %d", parse_log_prefix, tmp1);
++      g_joystick_dpad_down_button = tmp1;
++      i++;
++    } else if(!strcmp("-joy-left-button", argv[i])) {
++      if((i+1) >= argc) {
++        glogf("%s Error, option '-joy-left-button' missing argument", parse_log_prefix);
++        exit(1);
++      }
++      tmp1 = strtol(argv[i+1], 0, 0); // no bounds check, not sure what ids we get
++      glogf("%s Setting joystick dpad left button to Gamepad %d", parse_log_prefix, tmp1);
++      g_joystick_dpad_left_button = tmp1;
++      i++;
++    } else if(!strcmp("-joy-rioght-button", argv[i])) {
++      if((i+1) >= argc) {
++        glogf("%s Error, option '-joy-right-button' missing argument", parse_log_prefix);
++        exit(1);
++      }
++      tmp1 = strtol(argv[i+1], 0, 0); // no bounds check, not sure what ids we get
++      glogf("%s Setting joystick dpad right button to Gamepad %d", parse_log_prefix, tmp1);
++      g_joystick_dpad_right_button = tmp1;
++      i++;
++
++    } else if(!strcmp("-joy-up-hat", argv[i])) {
++      if((i+1) >= argc) {
++        glogf("%s Error, option '-joy-up-hat' missing argument", parse_log_prefix);
++        exit(1);
++      }
++      tmp1 = strtol(argv[i+1], 0, 0); // no bounds check, not sure what ids we get
++      glogf("%s Setting joystick dpad up hat to Gamepad %d", parse_log_prefix, tmp1);
++      g_joystick_dpad_up_hat = tmp1;
++      i++;
++    } else if(!strcmp("-joy-down-hat", argv[i])) {
++      if((i+1) >= argc) {
++        glogf("%s Error, option '-joy-down-hat' missing argument", parse_log_prefix);
++        exit(1);
++      }
++      tmp1 = strtol(argv[i+1], 0, 0); // no bounds check, not sure what ids we get
++      glogf("%s Setting joystick dpad down hat to Gamepad %d", parse_log_prefix, tmp1);
++      g_joystick_dpad_down_hat = tmp1;
++      i++;
++    } else if(!strcmp("-joy-left-hat", argv[i])) {
++      if((i+1) >= argc) {
++        glogf("%s Error, option '-joy-left-hat' missing argument", parse_log_prefix);
++        exit(1);
++      }
++      tmp1 = strtol(argv[i+1], 0, 0); // no bounds check, not sure what ids we get
++      glogf("%s Setting joystick dpad left hat to Gamepad %d", parse_log_prefix, tmp1);
++      g_joystick_dpad_left_hat = tmp1;
++      i++;
++    } else if(!strcmp("-joy-right-hat", argv[i])) {
++      if((i+1) >= argc) {
++        glogf("%s Error, option '-joy-right-hat' missing argument", parse_log_prefix);
++        exit(1);
++      }
++      tmp1 = strtol(argv[i+1], 0, 0); // no bounds check, not sure what ids we get
++      glogf("%s Setting joystick dpad right hat to Gamepad %d", parse_log_prefix, tmp1);
++      g_joystick_dpad_right_hat = tmp1;
++      i++;
++
+     } else if(!strcmp("-dhr140", argv[i])) {
+       glogf("%s Using simple dhires color map", parse_log_prefix);
+       g_use_dhr140 = 1;
+

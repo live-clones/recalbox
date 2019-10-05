@@ -15,6 +15,8 @@
 - Fix libretro-uae bios list
 - Fix GPIO driver not loading (Arcade, GameCon & DB9)
 - Fix random crashed while remapping pads
+- Fix AppleIIGS not running with some pads
+- Fix AppleIIGS multidisk game configuration
 
 
 ## Version 6.1
