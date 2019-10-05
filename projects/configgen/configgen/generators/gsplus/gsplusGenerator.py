@@ -57,12 +57,62 @@ class GSplusGenerator(Generator):
 
         return disks
 
-    def generate(self, system, rom, playersControllers, demo, recalboxSettings):
+    @staticmethod
+    def addJoyItem(option, item, _type, inputs, to):
+        # -> option: str, item: str, input:s: dict, to: list
+        if item in inputs:
+            if inputs[item].type == _type:
+                to.append(option)
+                to.append(str(inputs[item].id))
 
-        '''
+    def addSpecialButtons(self, controller, to):
+        self.addJoyItem("-joy-bhk", "hotkey", 'button', controller.inputs, to)
+        self.addJoyItem("-joy-bstart", "start", 'button', controller.inputs, to)
+
+    def addGeneralButtons(self, controller, to):
+        self.addJoyItem("-joy-b0", "a", 'button', controller.inputs, to)
+        self.addJoyItem("-joy-b1", "b", 'button', controller.inputs, to)
+        self.addJoyItem("-joy-b2", "x", 'button', controller.inputs, to)
+        self.addJoyItem("-joy-b3", "y", 'button', controller.inputs, to)
+
+    def addJoystickLeft(self, controller, to):
+        self.addJoyItem("-joy-x", "joystick1left", 'axis', controller.inputs, to)
+        self.addJoyItem("-joy-y", "joystick1up", 'axis', controller.inputs, to)
+
+    def addJoystickRight(self, controller, to):
+        self.addJoyItem("-joy-x2", "joystick2left", 'axis', controller.inputs, to)
+        self.addJoyItem("-joy-y2", "joystick2up", 'axis', controller.inputs, to)
+
+    @staticmethod
+    def addDpadItem(option, item, inputs, to):
+        if item in inputs:
+            _input = inputs[item]
+            if _input.type == 'button':
+                to.append('-joy-' + option + '-button')
+                to.append(str(_input.id))
+            if _input.type == 'hat':
+                to.append('-joy-' + option + '-hat')
+                to.append(str((int(_input.id) << 4) + int(_input.value)))
+            if _input.type == 'axis':
+                if option == 'up':
+                    to.append('-joy-y')
+                    to.append(str(_input.id))
+                if option == 'left':
+                    to.append('-joy-x')
+                    to.append(str(_input.id))
+
+    def addDpad(self, controller, to):
+        self.addDpadItem('up', 'up', controller.inputs, to)
+        self.addDpadItem('down', 'down', controller.inputs, to)
+        self.addDpadItem('left', 'left', controller.inputs, to)
+        self.addDpadItem('right', 'right', controller.inputs, to)
+        pass
+
+    def generate(self, system, rom, playersControllers, demo, recalboxSettings):
+        """
         Load, override keys and save back emulator's configuration file
         This way, any modification is kept accross emulator launches
-        '''
+        """
 
         # Load config file
         settings = keyValueSettings(recalboxFiles.gsplusConfig, True)
@@ -87,17 +137,12 @@ class GSplusGenerator(Generator):
         for index in playersControllers:
             controller = playersControllers[index]
             if controller.player == "1":
-                joystickOptions = ["-joy", str(controller.index),
-                                   "-joy-x", str(controller.inputs["joystick1left"].id),
-                                   "-joy-y", str(controller.inputs["joystick1up"].id),
-                                   "-joy-x2", str(controller.inputs["joystick2left"].id),
-                                   "-joy-y2", str(controller.inputs["joystick2up"].id),
-                                   "-joy-bhk", str(controller.inputs["hotkey"].id),
-                                   "-joy-bstart", str(controller.inputs["start"].id),
-                                   "-joy-b0", str(controller.inputs["a"].id),
-                                   "-joy-b1", str(controller.inputs["b"].id),
-                                   "-joy-b2", str(controller.inputs["x"].id),
-                                   "-joy-b3", str(controller.inputs["y"].id)]
+                joystickOptions = ["-joy", str(controller.index)]
+                self.addGeneralButtons(controller, joystickOptions)
+                self.addSpecialButtons(controller, joystickOptions)
+                self.addJoystickLeft(controller, joystickOptions)
+                self.addJoystickRight(controller, joystickOptions)
+                self.addDpad(controller, joystickOptions)
 
         commandArray = [recalboxFiles.recalboxBins[system.config['emulator']]]
         commandArray.extend(options)
