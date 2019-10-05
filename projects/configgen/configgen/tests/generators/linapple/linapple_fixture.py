@@ -70,12 +70,12 @@ class Joystick(FixtureJoystick):
                 'Joy{}Axis1'.format(player) : 
                     find('axis','joystick1up', 'joystick2up', 'up'),
                 'Joy{}Button1'.format(player) : 
-                    find('button', 'pagedown','x'),
+                    find('button', 'a','x'),
             }
             if player  < 1 :
                 results.update({
                     'Joy{}Button2'.format(player) : 
-                        find('button', 'pageup', 'y'),
+                        find('button', 'b', 'y'),
                     'JoyExitEnable' : '1',
                     'JoyExitButton0' : 
                         str(controller.inputs['select'].id),

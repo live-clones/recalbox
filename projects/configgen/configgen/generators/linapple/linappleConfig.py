@@ -10,11 +10,12 @@ joystick_translator = {
         # linapple : recalboxOS
         'Joy0Axis0' :   ('joystick1left', 'joystick2left', 'left'),
         'Joy0Axis1' :   ('joystick1up', 'joystick2up', 'up'),
-        'Joy0Button1' : ('pagedown','x'),
-        'Joy0Button2' : ('pageup', 'y'),
+        'Joy0Button1' : ('a','x'),
+        'Joy0Button2' : ('b','y'),
         'Joy1Axis0' :   ('joystick1left', 'joystick2left', 'left'),
         'Joy1Axis1':    ('joystick1up', 'joystick2up', 'up'),
-        'Joy1Button1':  ('pagedown','x'),
+        'Joy1Button1':  ('pageup',),
+        'Joy1Button2':  ('pagedown',),
         'JoyExitButton0' : ('select',),
         'JoyExitButton1' : ('start',)
     }
