@@ -123,6 +123,7 @@ class GSplusGenerator(Generator):
         diskDrive = 1
         for disk in disks:
             settings.setOption("s7d{}".format(diskDrive), disk)
+            diskDrive += 1
 
         # Save config file
         settings.saveFile()
