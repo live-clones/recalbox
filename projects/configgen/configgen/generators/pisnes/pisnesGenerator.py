@@ -25,6 +25,7 @@ class PisnesGenerator(Generator):
 
     SECTION_PATH = "Path"
     SECTION_PAD  = "Joystick"
+    SECTION_GFX  = "Graphics"
 
     @staticmethod
     def Loadconfiguration():
@@ -33,7 +34,6 @@ class PisnesGenerator(Generator):
         config.loadFile(True)
 
         return config
-
 
     @staticmethod
     def SaveConfiguration(config):
@@ -45,7 +45,6 @@ class PisnesGenerator(Generator):
         # Save configuration back
         config.saveFile()
 
-
     def generate(self, system, rom, playersControllers, demo, recalboxSettings):
 
         config = PisnesGenerator.Loadconfiguration()
@@ -53,6 +52,11 @@ class PisnesGenerator(Generator):
         # Path settings
         config.setOption(self.SECTION_PATH, "RomFolder", recalboxFiles.ROMS + "/snes")
         config.setOption(self.SECTION_PATH, "SaveStateFolder", recalboxFiles.SAVES + "/snes")
+
+        # Full screen settings
+        key = "integerscale"
+        intScale = key in system.config and system.config[key] in ('1', 'true')
+        config.setOption(self.SECTION_GFX, "MaintainAspectRatio", '1' if intScale else '0')
 
         # controller settings
         # Axis & Hats are hard-coded, so just set buttons
