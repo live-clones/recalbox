@@ -8,6 +8,7 @@
 - Add zfast shaders, fast CRT shaders for all platforms
 - Odroid C2 removed from supported boards
 - Improved button filtering while mapping pads (especially PS2/PS3 pads)
+- Make apple II mapping more consistent: Use button A/B instead of L/R
 
 ### Fixes
 - Fix Reicast on XU4 and PC platforms and fix wrong flycast entry on Rpi
@@ -17,6 +18,7 @@
 - Fix random crashed while remapping pads
 - Fix AppleIIGS not running with some pads
 - Fix AppleIIGS multidisk game configuration
+- Fix PiSNES fullscreen/integer-scale
 
 
 ## Version 6.1

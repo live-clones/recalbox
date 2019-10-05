@@ -13,6 +13,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Improved multi-event filtering while mapping pads
 - Odroid XU4 fan control optimization
 - Fix aple2gs configgen and patch emulator to support dpads
+- Change apple II mapping from L/R to A/B
+- Make PiSNES fullscreen
 
 
 ## [6.1]
