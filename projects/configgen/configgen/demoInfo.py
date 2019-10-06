@@ -46,7 +46,7 @@ class demoInformation:
 
         import random
         self.msg = self.__MSGS[random.randint(0, len(self.__MSGS) - 1)]
-        self.fileName = os.path.basename(__file__)
+        self.fileName = os.path.basename(__file__).rstrip('c')
 
 
     def __del__(self):
