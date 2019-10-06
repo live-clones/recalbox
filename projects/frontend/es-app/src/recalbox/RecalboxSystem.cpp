@@ -42,48 +42,51 @@ void RecalboxSystem::NotifySystemAndGame(const SystemData* system, const FileDat
 
 unsigned long RecalboxSystem::getFreeSpaceGB(const std::string& mountpoint)
 {
-  struct statvfs fiData;
+  struct statvfs fiData {};
   const char* fnPath = mountpoint.c_str();
-  unsigned long free = 0;
+  unsigned long long free = 0;
   if ((statvfs(fnPath, &fiData)) >= 0)
   {
-    free = (fiData.f_bfree * fiData.f_bsize) >> 30;
+    free = (((unsigned long long)fiData.f_bfree * (unsigned long long)fiData.f_bsize)) >> 30;
   }
-  return free;
+  return (unsigned long)free;
+}
+
+std::string RecalboxSystem::SizeToString(unsigned long long size)
+{
+  if ((size >> 30) != 0) return std::to_string((int)(size >> 30)) + "GB";
+  if ((size >> 20) != 0) return std::to_string((int)(size >> 20)) + "MB";
+  if ((size >> 10) != 0) return std::to_string((int)(size >> 10)) + "KB";
+  return std::to_string((int)size) + 'B';
 }
 
 std::string RecalboxSystem::getFreeSpaceInfo()
 {
-  struct statvfs fiData;
   std::string sharePart = Settings::getInstance()->getString("SharePartition");
+  std::string result = "N/A";
   if (!sharePart.empty())
   {
     const char* fnPath = sharePart.c_str();
+    struct statvfs fiData {};
     if ((statvfs(fnPath, &fiData)) < 0)
     {
-      return "";
+      result += " (SYSTEM ERROR)";
     }
     else
     {
-      unsigned long total = (fiData.f_blocks * (fiData.f_bsize / 1024)) / (1024L * 1024L);
-      unsigned long free = (fiData.f_bfree * (fiData.f_bsize / 1024)) / (1024L * 1024L);
-      unsigned long used = total - free;
-      unsigned long percent = 0;
-      std::ostringstream oss;
+      unsigned long long total = ((unsigned long long)fiData.f_blocks * (unsigned long long)fiData.f_bsize);
+      unsigned long long free = ((unsigned long long)fiData.f_bfree * (unsigned long long)fiData.f_bsize);
       if (total != 0)
-      {  //for small SD card ;) with share < 1GB
-        percent = used * 100 / total;
-        oss << used << "GB/" << total << "GB (" << percent << "%)";
+      {
+        unsigned long long used = total - free;
+        int percent = (int)(used * 100 / total);
+        result = SizeToString(used) + '/' + SizeToString(total) + " (" + std::to_string(percent) + "%)";
       }
-      else
-        oss << "N/A";
-      return oss.str();
     }
   }
-  else
-  {
-    return "ERROR";
-  }
+  else result += " (NO PARTITION)";
+
+  return result;
 }
 
 bool RecalboxSystem::isFreeSpaceLimit()

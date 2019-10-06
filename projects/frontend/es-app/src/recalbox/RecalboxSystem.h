@@ -23,6 +23,8 @@ class RecalboxSystem
 
     static unsigned long getFreeSpaceGB(const std::string& mountpoint);
 
+    static std::string SizeToString(unsigned long long size);
+
     static std::string getFreeSpaceInfo();
 
     static bool isFreeSpaceLimit();
