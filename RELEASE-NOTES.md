@@ -24,6 +24,7 @@
 - Fix demo screen ratio on non-16:9 screens
 - Fix Arcade system not available in GUI
 - Fix demo mode on PC (first game launched no longer runs indefinitely)
+- Fix emulationstation reporting wrong free space in System menu
 
 
 ## Version 6.1

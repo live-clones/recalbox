@@ -20,6 +20,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fix demo mode on PC (no infinite run)
 - Bump Retroarch to 1.7.9
 - Bump kernel firmwares
+- Fix emulationstation reporting wrong free space
 
 
 ## [6.1]
