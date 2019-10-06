@@ -9,6 +9,8 @@
 - Odroid C2 removed from supported boards
 - Improved button filtering while mapping pads (especially PS2/PS3 pads)
 - Make apple II mapping more consistent: Use button A/B instead of L/R
+- Bump Retroarch to 1.7.9
+- Bump kernel firmwares to latest version
 
 ### Fixes
 - Fix Reicast on XU4 and PC platforms and fix wrong flycast entry on Rpi
