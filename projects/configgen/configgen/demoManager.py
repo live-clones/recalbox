@@ -180,8 +180,11 @@ class DemoTimer(threading.Thread):
                     break
                 # Outscreen?
                 if duration < outDuration:
-                    outScreen = demoInformation()
-                    outScreen.display()
+                    try:
+                        outScreen = demoInformation()
+                        outScreen.display()
+                    except Exception:
+                        duration = 0
                     self.terminateProcess(refresh, time)
 
         if outScreen is not None:
