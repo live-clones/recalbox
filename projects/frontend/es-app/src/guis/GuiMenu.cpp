@@ -774,7 +774,7 @@ void GuiMenu::menuUISettings(){
 
 	  // add systems (all with a platformid specified selected)
 	  auto systems = std::make_shared<OptionListComponent<std::string> >(mWindow, _("SYSTEMS TO SHOW IN DEMO"), true);
-	  for (auto &it : SystemData::sSystemVector) {
+	  for (auto it : SystemData::getAllSystems()) {
 		  if (!it->hasPlatformId(PlatformIds::PlatformId::PLATFORM_IGNORE))
 			  systems->add(it->getFullName(), it->getName(),
 			               RecalboxConf::getInstance()->isInList("global.demo.systemlist", it->getName()) &&
@@ -898,7 +898,7 @@ void GuiMenu::menuUISettings(){
     ViewController::get()->goToStart();
     window->renderShutdownScreen();
     delete ViewController::get();
-    for (auto& systems : SystemData::sSystemVector)
+    for (auto& systems : SystemData::getVisibleSystems())
       systems->loadTheme();
     GuiComponent *gui;
     while ((gui = window->peekGui()) != nullptr) {
@@ -1486,7 +1486,7 @@ void GuiMenu::menuAdvancedSettings(){
       auto system_choices = std::make_shared<OptionListComponent<std::string> >(mWindow, _("BOOT ON SYSTEM"), false);
       std::string currentSystem = !selectedsystem.empty() ? selectedsystem : "favorites";
       // For each activated system
-      std::vector<SystemData *> systems = SystemData::sSystemVector;
+      std::vector<SystemData *> systems = SystemData::getVisibleSystems();
       bool found = false;
       for (auto & system : systems) {
         const std::string& systemName = system->getName();
@@ -1538,7 +1538,7 @@ void GuiMenu::menuAdvancedSettings(){
       s->save();
       GuiSettings *configuration = new GuiSettings(mWindow, _("EMULATOR ADVANCED CONFIGURATION").c_str());
       // For each activated system
-      std::vector<SystemData *> systems = SystemData::sSystemVector;
+      std::vector<SystemData *> systems = SystemData::getAllSystems();
       for (auto& system : systems)
       {
         if (system != SystemData::getFavoriteSystem()) {

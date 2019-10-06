@@ -129,7 +129,7 @@ void SystemView::addSystem(SystemData * it){
 				e.data.logotext->setOrigin(0.5, 0.5);
 		}
 
-		Vector2f denormalized = mCarousel.logoSize * e.data.logotext->getOrigin();
+		denormalized = mCarousel.logoSize * e.data.logotext->getOrigin();
 		e.data.logotext->setPosition(denormalized.x(), denormalized.y(), 0.0);
 	}
 
@@ -146,7 +146,7 @@ void SystemView::populate()
 {
 	mEntries.clear();
 
-	for (auto& it : SystemData::sSystemVector)
+	for (auto& it : SystemData::getVisibleSystems())
 	{
 		addSystem(it);
 	}
@@ -247,8 +247,8 @@ bool SystemView::input(InputConfig* config, Input input)
                     launchKodi = false;
 		        }
 		    } else if (netplay && !mWindow->isShowingPopup()) {
-                auto netplay = new GuiNetPlay(mWindow);
-                mWindow->pushGui(netplay);
+                auto netplayGui = new GuiNetPlay(mWindow);
+                mWindow->pushGui(netplayGui);
 		    }
 
 
@@ -599,8 +599,8 @@ void SystemView::renderCarousel(const Transform4x4f& trans)
 	
 	// draw logos
 	Vector2f logoSpacing(0.0, 0.0); // NB: logoSpacing will include the size of the logo itself as well!
-	float xOff = 0.0;
-	float yOff = 0.0;
+	float xOff;
+	float yOff;
 	
 	switch (mCarousel.type)
 	{
@@ -609,30 +609,30 @@ void SystemView::renderCarousel(const Transform4x4f& trans)
 			if (mCarousel.logoAlignment == TextAlignment::Left)
 				xOff = mCarousel.logoSize.x() / 10;
 			else if (mCarousel.logoAlignment == TextAlignment::Right)
-				xOff = mCarousel.size.x() - (mCarousel.logoSize.x() * 1.1);
+				xOff = (float)(mCarousel.size.x() - (mCarousel.logoSize.x() * 1.1));
 			else
 				xOff = (mCarousel.size.x() - mCarousel.logoSize.x()) / 2;
 			break;
 		case CarouselType::Vertical:
-			logoSpacing[1] = ((mCarousel.size.y() - (mCarousel.logoSize.y() * mCarousel.maxLogoCount)) / (mCarousel.maxLogoCount)) + mCarousel.logoSize.y();
+			logoSpacing[1] = ((mCarousel.size.y() - (mCarousel.logoSize.y() * (float)mCarousel.maxLogoCount)) / (float)(mCarousel.maxLogoCount)) + mCarousel.logoSize.y();
 			yOff = (mCarousel.size.y() - mCarousel.logoSize.y()) / 2 - (mCamOffset * logoSpacing[1]);
 
 			if (mCarousel.logoAlignment == TextAlignment::Left)
 				xOff = mCarousel.logoSize.x() / 10;
 			else if (mCarousel.logoAlignment == TextAlignment::Right)
-				xOff = mCarousel.size.x() - (mCarousel.logoSize.x() * 1.1);
+				xOff = (float)(mCarousel.size.x() - (mCarousel.logoSize.x() * 1.1));
 			else
 				xOff = (mCarousel.size.x() - mCarousel.logoSize.x()) / 2;
 			break;
 		case CarouselType::Horizontal:
 		default:
-			logoSpacing[0] = ((mCarousel.size.x() - (mCarousel.logoSize.x() * mCarousel.maxLogoCount)) / (mCarousel.maxLogoCount)) + mCarousel.logoSize.x();
+			logoSpacing[0] = ((mCarousel.size.x() - (mCarousel.logoSize.x() * (float)mCarousel.maxLogoCount)) / (float)(mCarousel.maxLogoCount)) + mCarousel.logoSize.x();
 			xOff = (mCarousel.size.x() - mCarousel.logoSize.x()) / 2 - (mCamOffset * logoSpacing[0]);
 
 			if (mCarousel.logoAlignment == TextAlignment::Top)
 				yOff = mCarousel.logoSize.y() / 10;
 			else if (mCarousel.logoAlignment == TextAlignment::Bottom)
-				yOff = mCarousel.size.y() - (mCarousel.logoSize.y() * 1.1);
+				yOff = (float)(mCarousel.size.y() - (mCarousel.logoSize.y() * 1.1));
 			else
 				yOff = (mCarousel.size.y() - mCarousel.logoSize.y()) / 2;
 			break;

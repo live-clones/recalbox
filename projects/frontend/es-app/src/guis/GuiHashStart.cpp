@@ -32,7 +32,7 @@ GuiHashStart::GuiHashStart(Window* window)
 
     // add systems (all with a platformid specified selected)
     mSystems = std::make_shared< OptionListComponent<SystemData*> >(mWindow, _("HASH THESE SYSTEMS"), true);
-    for (auto& it : SystemData::sSystemVector)
+    for (auto it : SystemData::getVisibleSystems())
     {
         if(RecalboxConf::getInstance()->isInList("global.netplay.systems", it->getName()))
             mSystems->add(it->getFullName(), it, true);

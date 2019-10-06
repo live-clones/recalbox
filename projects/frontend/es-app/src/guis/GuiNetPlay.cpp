@@ -519,7 +519,7 @@ int GuiNetPlay::pingHost(const std::string& ip)
 
 FileData* GuiNetPlay::findGame(const std::string& gameNameOrHash)
 {
-  for (auto tmp : SystemData::sSystemVector)
+  for (auto tmp : SystemData::getAllSystems())
   {
     if (RecalboxConf::getInstance()->isInList("global.netplay.systems", tmp->getName()))
     {

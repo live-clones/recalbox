@@ -17,6 +17,7 @@
 
 std::vector<SystemData *> SystemData::sSystemVector;
 std::vector<SystemData*> SystemData::sHiddenSystemVector;
+std::vector<SystemData*> SystemData::sAllSystemVector;
 
 namespace fs = boost::filesystem;
 namespace pt = boost::property_tree;
@@ -168,7 +169,7 @@ std::string escapePath(const boost::filesystem::path &path)
   std::string pathStr = path.string();
 
   const char *invalidChars = " '\"\\!$^&*(){}[]?;<>";
-  for (unsigned int i = 0; i < pathStr.length(); i++)
+  for (unsigned int i = 0; i < (unsigned int)pathStr.length(); i++)
   {
     char c;
     unsigned int charNum = 0;
@@ -681,8 +682,11 @@ bool SystemData::loadConfig()
   LOG(LogInfo) << "Gamelist load time: " << (stop-start).ToStringFormat("%ss.%fff");
 
   AddArcadeMetaSystem();
-
   AddFavoriteSystem(systemList);
+
+  // Set *all* service vector
+  for(SystemData* service : sSystemVector)       sAllSystemVector.push_back(service);
+  for(SystemData* service : sHiddenSystemVector) sAllSystemVector.push_back(service);
 
   return true;
 }
@@ -893,7 +897,7 @@ SystemData *SystemData::getFavoriteSystem()
   return nullptr;
 }
 
-int SystemData::getSystemIndex(const std::string &name)
+int SystemData::getVisibleSystemIndex(const std::string &name)
 {
   for (int i = (int) sSystemVector.size(); --i >= 0;)
     if (sSystemVector[i]->mName == name)

@@ -82,7 +82,7 @@ private:
 	static ViewController* sInstance;
 
 	void playViewTransition();
-	int getSystemId(SystemData* system);
+	static int getSystemId(SystemData* system);
 
 	std::shared_ptr<GuiComponent> mCurrentView;
 	std::map< SystemData*, std::shared_ptr<IGameListView> > mGameListViews;

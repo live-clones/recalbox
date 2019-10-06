@@ -99,6 +99,13 @@ class SystemData
      */
     static SystemData* createSystem(const SystemData::Tree &system);
 
+    //! Visible system, including virtual system (Arcade)
+    static std::vector<SystemData*> sSystemVector;
+    //! Hidden system, just here to hold their own children
+    static std::vector<SystemData*> sHiddenSystemVector;
+    //! ALL systems, visible and hidden
+    static std::vector<SystemData*> sAllSystemVector;
+
   public:
 
     ~SystemData();
@@ -136,16 +143,14 @@ class SystemData
     static bool loadConfig(); //Load the system config file at getConfigPath(). Returns true if no errors were encountered. An example will be written if the file doesn't exist.
     static void writeExampleConfig(const std::string& path);
 
-    //! Visible system, including virtual system (Arcade)
-    static std::vector<SystemData*> sSystemVector;
-    //! Hidden system, just here to hold their on children
-    static std::vector<SystemData*> sHiddenSystemVector;
-
     static SystemData* getFavoriteSystem();
     static SystemData* getSystem(std::string& name);
     static SystemData* getFirstSystemWithGame();
-    static int getSystemIndex(const std::string& name);
-    static const std::vector<SystemData*>& getAllSystems() { return sSystemVector; }
+    static int getVisibleSystemIndex(const std::string& name);
+
+    static const std::vector<SystemData*>& getAllSystems() { return sAllSystemVector; }
+    static const std::vector<SystemData*>& getVisibleSystems() { return sSystemVector; }
+    static const std::vector<SystemData*>& getHiddenSystems() { return sHiddenSystemVector; }
 
     inline std::vector<SystemData*>::const_iterator getIterator() const { return std::find(sSystemVector.begin(), sSystemVector.end(), this); };
     inline std::vector<SystemData*>::const_reverse_iterator getRevIterator() const { return std::find(sSystemVector.rbegin(), sSystemVector.rend(), this); };
@@ -176,7 +181,7 @@ class SystemData
     static std::string getUserConfigurationAbsolutePath()     { return RootFolders::DataRootFolder     + "/system/.emulationstation/es_systems.cfg"; }
     static std::string getTemplateConfigurationAbsolutePath() { return RootFolders::TemplateRootFolder + "/system/.emulationstation/es_systems.cfg"; }
 
-    std::string demoInitialize(Window& window);
-    void demoFinalize(Window& window);
+    static std::string demoInitialize(Window& window);
+    static void demoFinalize(Window& window);
     bool demoLaunchGame(FileData* game, int duration, int infoscreenduration, const std::string& controlersConfig);
 };

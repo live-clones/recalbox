@@ -53,7 +53,7 @@ void CommandThread::run() {
 		}
 		
 		SystemData *system = nullptr;
-		for (auto & tmp : SystemData::sSystemVector) {
+		for (auto & tmp : SystemData::getVisibleSystems()) {
 			if (tmp->getName() == tokens[1]) {
 				system = tmp;
 				break;

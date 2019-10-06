@@ -26,7 +26,7 @@ GuiScraperStart::GuiScraperStart(Window* window)
 
 	// add systems (all with a platformid specified selected)
 	mSystems = std::make_shared< OptionListComponent<SystemData*> >(mWindow, _("SCRAPE THESE SYSTEMS"), true);
-	for (auto& it : SystemData::sSystemVector)
+	for (auto it : SystemData::getVisibleSystems())
 	{
 		if(!it->hasPlatformId(PlatformIds::PlatformId::PLATFORM_IGNORE))
 			mSystems->add(it->getFullName(), it, !it->getPlatformIds().empty());

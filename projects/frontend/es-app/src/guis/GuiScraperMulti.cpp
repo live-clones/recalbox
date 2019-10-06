@@ -84,7 +84,7 @@ GuiScraperMulti::GuiScraperMulti(Window* window, const std::queue<ScraperSearchP
 GuiScraperMulti::~GuiScraperMulti()
 {
 	// view type probably changed (basic -> detailed)
-	for (auto& system : SystemData::sSystemVector)
+	for (auto& system : SystemData::getVisibleSystems())
 		ViewController::get()->reloadGameListView(system, false);
 }
 

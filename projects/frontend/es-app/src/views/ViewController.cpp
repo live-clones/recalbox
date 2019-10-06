@@ -57,8 +57,8 @@ void ViewController::goToStart()
 	playViewTransition(); */
 
   std::string systemName = RecalboxConf::getInstance()->get("emulationstation.selectedsystem");
-  int index = systemName.empty() ? -1 : SystemData::getSystemIndex(systemName);
-  SystemData* selectedSystem = index < 0 ? nullptr : SystemData::sSystemVector.at(index);
+  int index = systemName.empty() ? -1 : SystemData::getVisibleSystemIndex(systemName);
+  SystemData* selectedSystem = index < 0 ? nullptr : SystemData::getVisibleSystems().at(index);
 
   if ((selectedSystem == nullptr) || !selectedSystem->hasGame())
     selectedSystem = SystemData::getFirstSystemWithGame();
@@ -76,7 +76,7 @@ void ViewController::goToStart()
 
 int ViewController::getSystemId(SystemData* system)
 {
-	std::vector<SystemData*>& sysVec = SystemData::sSystemVector;
+	const std::vector<SystemData*>& sysVec = SystemData::getVisibleSystems();
 	return std::find(sysVec.begin(), sysVec.end(), system) - sysVec.begin();
 }
 
@@ -145,7 +145,7 @@ void ViewController::goToGameList(SystemData* system)
 		auto sysList = getSystemListView();
 		float offX = sysList->getPosition().x();
 		int sysId = getSystemId(system);
-		sysList->setPosition(sysId * Renderer::getDisplayWidthAsFloat(), sysList->getPosition().y());
+		sysList->setPosition((float)sysId * Renderer::getDisplayWidthAsFloat(), sysList->getPosition().y());
 		offX = sysList->getPosition().x() - offX;
 		mCamera.translation().x() -= offX;
 	}
@@ -332,7 +332,7 @@ std::shared_ptr<IGameListView> ViewController::getGameListView(SystemData* syste
 
 	view->setTheme(system->getTheme());
 
-	std::vector<SystemData*>& sysVec = SystemData::sSystemVector;
+	const std::vector<SystemData*>& sysVec = SystemData::getVisibleSystems();
 	int id = std::find(sysVec.begin(), sysVec.end(), system) - sysVec.begin();
 	view->setPosition((float)id * Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat() * 2);
 
@@ -398,7 +398,7 @@ void ViewController::render(const Transform4x4f& parentTrans)
   int vpb = (int)viewEnd.y() - 1;
 
 	// draw systemview
-  do
+  for(;;)
   {
     auto systemView = getSystemListView();
 
@@ -413,7 +413,8 @@ void ViewController::render(const Transform4x4f& parentTrans)
     if (gu > vpb) break;
 
     systemView->render(trans);
-  }while(false);
+    break;
+  }
 
 	// draw gamelists
 	for (auto& mGameListView : mGameListViews)
@@ -448,7 +449,7 @@ void ViewController::render(const Transform4x4f& parentTrans)
 
 void ViewController::preload()
 {
-	for (auto& it : SystemData::sSystemVector)
+	for (auto it : SystemData::getVisibleSystems())
 	{
 		getGameListView(it);
 	}
@@ -530,12 +531,12 @@ void ViewController::reloadAll()
 	{
 		
 		SystemData* system = mState.getSystem();
-		goToSystemView(SystemData::sSystemVector.front());
+		goToSystemView(SystemData::getVisibleSystems().front());
 		mSystemListView->goToSystem(system, false);
 		mCurrentView = mSystemListView;
 		
 	}else{
-		goToSystemView(SystemData::sSystemVector.front());
+		goToSystemView(SystemData::getVisibleSystems().front());
 	}
 
 	updateHelpPrompts();
