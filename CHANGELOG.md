@@ -15,6 +15,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fix aple2gs configgen and patch emulator to support dpads
 - Change apple II mapping from L/R to A/B
 - Make PiSNES fullscreen
+- Fix demo screen ratio
 
 
 ## [6.1]

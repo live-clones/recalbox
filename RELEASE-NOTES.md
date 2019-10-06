@@ -19,6 +19,7 @@
 - Fix AppleIIGS not running with some pads
 - Fix AppleIIGS multidisk game configuration
 - Fix PiSNES fullscreen/integer-scale
+- Fix demo screen ratio on non-16:9 screens
 
 
 ## Version 6.1
