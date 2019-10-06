@@ -21,6 +21,7 @@
 - Fix PiSNES fullscreen/integer-scale
 - Fix demo screen ratio on non-16:9 screens
 - Fix Arcade system not available in GUI
+- Fix demo mode on PC (first game launched no longer runs indefinitely)
 
 
 ## Version 6.1

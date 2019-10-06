@@ -17,6 +17,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Make PiSNES fullscreen
 - Fix demo screen ratio
 - Fix Arcade system not available in GUI
+- Fix demo mode on PC (no infinite run)
 
 
 ## [6.1]
