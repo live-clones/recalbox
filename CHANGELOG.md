@@ -16,6 +16,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Change apple II mapping from L/R to A/B
 - Make PiSNES fullscreen
 - Fix demo screen ratio
+- Fix Arcade system not available in GUI
 
 
 ## [6.1]

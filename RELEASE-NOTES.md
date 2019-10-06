@@ -20,6 +20,7 @@
 - Fix AppleIIGS multidisk game configuration
 - Fix PiSNES fullscreen/integer-scale
 - Fix demo screen ratio on non-16:9 screens
+- Fix Arcade system not available in GUI
 
 
 ## Version 6.1
