@@ -21,6 +21,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Bump Retroarch to 1.7.9
 - Bump kernel firmwares
 - Fix emulationstation reporting wrong free space
+- Fix configgen exit in demo mode
 
 
 ## [6.1]
