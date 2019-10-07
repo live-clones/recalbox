@@ -308,11 +308,11 @@ def main(arguments):
         # Rerun emulator in play mode
         if returnCode == runner.USERWANNAPLAY:
             print("User wanna play!")
-            arguments.demo = None
+            arguments.demo = False
             arguments.demoduration = 0
             arguments.demoinfoduration = 0
             main(arguments)
-            return runner.USERQUIT
+            returnCode = runner.USERQUIT
 
         return returnCode, not fixedScreenSize
     
