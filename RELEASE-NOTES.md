@@ -26,6 +26,7 @@
 - Fix demo mode on PC (first game launched no longer runs indefinitely)
 - Fix emulationstation reporting wrong free space in System menu
 - Fix demo mode exit after the user pressed start
+- Fix missing apple IIGS bios information in Manager and bios/readme.txt
 
 
 ## Version 6.1

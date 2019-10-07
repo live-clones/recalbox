@@ -22,6 +22,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Bump kernel firmwares
 - Fix emulationstation reporting wrong free space
 - Fix configgen exit in demo mode
+- Fix missing apple IIGS bios information
 
 
 ## [6.1]

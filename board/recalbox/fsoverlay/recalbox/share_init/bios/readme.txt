@@ -242,3 +242,7 @@ df864344d2a2091c3f952bd1c5ce1707  oricutron/microdis.rom
 - PALM OS :
 83cb1d1c76e568b916dc2e7c0bf669f6  palmos41-en-m515.rom
 e64c755205bc3e79d1bc5b70128f688d  bootloader-en-m515.rom
+
+
+- APPLE IIGS :
+ba89edf2729a28a17cd9e0f7a0ac9a39  apple2gs.rom
