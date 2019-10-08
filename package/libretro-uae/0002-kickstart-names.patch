@@ -2,8 +2,7 @@
 +++ b/libretro/libretro.c	2019-09-22 23:09:38.268819308 +0200
 @@ -161,10 +161,10 @@
  
- // Amiga default kickstarts
- 
+ // Amiga kickstarts
 -#define A500_ROM    "kick34005.A500"
 -#define A500KS2_ROM "kick37175.A500"
 -#define A600_ROM    "kick40063.A600"
