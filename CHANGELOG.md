@@ -23,7 +23,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fix emulationstation reporting wrong free space
 - Fix configgen exit in demo mode
 - Fix missing apple IIGS bios information
-
+- Odroid C2 removed from supported boards
 
 ## [6.1]
 - Replacement of the neogeo intro video
@@ -112,9 +112,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add new recalbox.conf keys to ease AI Service configuration
 - Add arcade meta-system
 - Add amiga emulator (libretro-uae) on all platforms
-
-- 
-- Odroid C2 removed from supported boards
 
 ## [6.0] - DragonBlaze
 - Change name from 5.0 to 6.0 DragonBlaze
