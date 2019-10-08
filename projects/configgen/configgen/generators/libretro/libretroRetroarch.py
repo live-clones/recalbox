@@ -249,7 +249,7 @@ class LibretroRetroarch:
 
         # Threaded video
         threadedVideo = True
-        if recalbox["core"] == "px68k" or self.hasnVidiaDriver():
+        if recalbox["core"] in ("px68k", "atari800") or self.hasnVidiaDriver():
             threadedVideo = False
         settings.setOption("video_threaded", self.TRUE if threadedVideo else self.FALSE)
 
