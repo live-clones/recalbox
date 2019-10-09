@@ -25,6 +25,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fix missing apple IIGS bios information
 - Odroid C2 removed from supported boards
 - Add new Game Boy shader
+- Fix diacritic characters lowercasing/uppercasing
+- Fix atari800 core crashes
 
 ## [6.1]
 - Replacement of the neogeo intro video
