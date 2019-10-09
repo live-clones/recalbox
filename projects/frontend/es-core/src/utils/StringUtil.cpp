@@ -2,6 +2,130 @@
 
 #include <algorithm>
 #include <cstdarg>
+#include <cstring>
+
+#include "Unicode.h"
+
+unsigned short StringUtil::_SmallToCapital[1 << (8 * sizeof(unsigned short))];
+unsigned short StringUtil::_CapitalToSmall[1 << (8 * sizeof(unsigned short))];
+
+bool StringUtil::_Initialized = StringUtil::_Initialize();
+
+bool StringUtil::_Initialize()
+{
+  if (!_Initialized)
+  {
+    memset(_SmallToCapital, 0, sizeof(_SmallToCapital));
+    memset(_CapitalToSmall, 0, sizeof(_CapitalToSmall));
+
+    for(int i = (int)(sizeof(UnicodeConverterTable) / sizeof(UnicodeConverterTable[0])); --i >= 0;)
+    {
+      const UnicodeConverter& c = UnicodeConverterTable[i];
+      _SmallToCapital[c.Small] = c.Capital;
+      _CapitalToSmall[c.Capital] = c.Small;
+
+      // This test code ensure every single tuple encodes on the same amount of bytes
+      /*std::string a = unicode2Chars((unsigned int)c.Small);
+      std::string b = unicode2Chars((unsigned int)c.Capital);
+      if (a.length() != b.length())
+        printf("index %d not equal!", i);*/
+    }
+  }
+  return true;
+}
+
+std::string StringUtil::toLowerUTF8(const std::string& str)
+{
+  std::string result = str; // Allocate memory once
+  int l = str.length();
+
+  for(int cursor = 0; cursor < l; )
+  {
+    unsigned char c = result[cursor];
+    if((c & 0x80) == 0) // 0xxxxxxx, one byte character
+    {
+      // Simple ASCII7 uppercase
+      if (c - 0x41u < 26u) result[cursor] = (char)(c | 0x20);
+      cursor++;
+    }
+    else if((c & 0xE0) == 0xC0) // 110xxxxx, two byte character
+    {
+      // Unicode lowercase
+      unsigned short u = _CapitalToSmall[(unsigned short)((c & 0x1F) <<  6) | ((result[cursor + 1] & 0x3F))];
+      if (u != 0)
+      {
+        result[cursor + 0] = (char)(((u >>  6) & 0xFF) | 0xC0);
+        result[cursor + 1] = (char)(((u      ) & 0x3F) | 0x80);
+      }
+      cursor += 2;
+    }
+    else if((c & 0xF0) == 0xE0) // 1110xxxx, three byte character
+    {
+      // 1110xxxx 10xxxxxx 10xxxxxx
+      unsigned short u = _CapitalToSmall[(unsigned short)((result[cursor + 0] & 0x0F) << 12) |
+                                                         ((result[cursor + 1] & 0x3F) <<  6) |
+                                                         ((result[cursor + 2] & 0x3F))];
+      if (u != 0)
+      {
+        result[cursor + 0] += (char)(((u >> 12) & 0xFF) | 0xE0);
+        result[cursor + 1] += (char)(((u >>  6) & 0x3F) | 0x80);
+        result[cursor + 2] += (char)(((u      ) & 0x3F) | 0x80);
+      }
+      cursor += 3;
+    }
+    else if((c & 0xF8) == 0xF0) cursor += 4; // 11110xxx, four byte character, ignore!
+    else ++cursor; // error, invalid unicode
+  }
+
+  return result;
+}
+
+std::string StringUtil::toUpperUTF8(const std::string& str)
+{
+  std::string result = str; // Allocate memory once
+  int l = str.length();
+
+  for(int cursor = 0; cursor < l; )
+  {
+    unsigned char c = result[cursor];
+    if((c & 0x80) == 0) // 0xxxxxxx, one byte character
+    {
+      // Simple ASCII7 lowercase
+      if (c - 0x61u < 26u) result[cursor] = (char)(c & 0xDF);
+      cursor++;
+    }
+    else if((c & 0xE0) == 0xC0) // 110xxxxx, two byte character
+    {
+      // Unicode lowercase
+      unsigned short u = _SmallToCapital[(unsigned short)((c & 0x1F) <<  6) | ((result[cursor + 1] & 0x3F))];
+      if (u != 0)
+      {
+        result[cursor + 0] = (char)(((u >>  6) & 0xFF) | 0xC0);
+        result[cursor + 1] = (char)(((u      ) & 0x3F) | 0x80);
+      }
+      cursor += 2;
+    }
+    else if((c & 0xF0) == 0xE0) // 1110xxxx, three byte character
+    {
+      // 1110xxxx 10xxxxxx 10xxxxxx
+      unsigned short u = _SmallToCapital[(unsigned short)((result[cursor + 0] & 0x0F) << 12) |
+                                         ((result[cursor + 1] & 0x3F) <<  6) |
+                                         ((result[cursor + 2] & 0x3F))];
+      if (u != 0)
+      {
+        result[cursor + 0] += (char)(((u >> 12) & 0xFF) | 0xE0);
+        result[cursor + 1] += (char)(((u >>  6) & 0x3F) | 0x80);
+        result[cursor + 2] += (char)(((u      ) & 0x3F) | 0x80);
+      }
+      cursor += 3;
+    }
+    else if((c & 0xF8) == 0xF0) cursor += 4; // 11110xxx, four byte character, ignore!
+    else ++cursor; // error, invalid unicode
+  }
+
+  return result;
+}
+
 
 unsigned int StringUtil::chars2Unicode(const std::string& _string, size_t& _cursor)
 {
@@ -182,8 +306,7 @@ std::string StringUtil::replace(const std::string& _string, const std::string& _
 
 bool StringUtil::startsWith(const std::string& _string, const std::string& _start)
 {
-	return (_string.find(_start) == 0);
-
+	return (_string.find(_start) <= 0);
 } // startsWith
 
 bool StringUtil::endsWith(const std::string& _string, const std::string& _end)
