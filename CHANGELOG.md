@@ -24,6 +24,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fix configgen exit in demo mode
 - Fix missing apple IIGS bios information
 - Odroid C2 removed from supported boards
+- Add new Game Boy shader
 
 ## [6.1]
 - Replacement of the neogeo intro video
