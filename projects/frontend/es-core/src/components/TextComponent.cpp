@@ -204,7 +204,7 @@ void TextComponent::onTextChanged()
 		return;
 	}
 
-	std::string text = mUppercase ? StringUtil::toUpper(mText) : mText;
+	std::string text = mUppercase ? StringUtil::toUpperUTF8(mText) : mText;
 
 	std::shared_ptr<Font> f = mFont;
 	const bool isMultiline = (mSize.y() == 0 || mSize.y() > f->getHeight()*1.2f);
