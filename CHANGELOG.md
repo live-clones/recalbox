@@ -27,6 +27,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add new Game Boy shader
 - Fix diacritic characters lowercasing/uppercasing
 - Fix atari800 core crashes
+- Fix enable cheevos badge in retroarch menu (retroachievement.org)
 
 ## [6.1]
 - Replacement of the neogeo intro video

@@ -30,6 +30,7 @@
 - Fix missing apple IIGS bios information in Manager and bios/readme.txt
 - Fix diacritic characters in uppercase texts
 - Fix atari800 core crashes
+- Fix enable cheevos badge in retroarch menu (retroachievement.org)
 
 
 ## Version 6.1
