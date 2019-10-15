@@ -483,95 +483,24 @@ if [ "$command" == "module" ];then
     exit 0
 fi
 
-rb_wifi_configure() {
-	[ "$1" = "1" ] && X="" || X="$1"
-	settings_ssid=`egrep "^wifi${X}.ssid" /recalbox/share/system/recalbox.conf|sed "s/wifi${X}.ssid=//g"`
-	settings_key=`egrep "^wifi${X}.key" /recalbox/share/system/recalbox.conf|sed "s/wifi${X}.key=//g"`
-	settings_file="/var/lib/connman/recalbox_wifi${X}.config"
-	[ "$1" = "1" ] && settings_name="default" || settings_name="${X}"
-
-	if [[ "$settings_ssid" != "" ]] ;then
-	mkdir -p "/var/lib/connman"
-	cat > "${settings_file}" <<EOF
-[global]
-Name=recalbox
-
-[service_recalbox_${settings_name}]
-Type=wifi
-Name=${settings_ssid}
-EOF
-	if test "${settings_key}" != ""
-	then
-        echo "Passphrase=${settings_key}" >> "${settings_file}"
-	fi
-	fi
-}
-
 if [[ "$command" == "wifi" ]]; then
     ssid="$3"
     psk="$4"
 
     if [[ "$mode" == "enable" ]]; then
-        recallog "configure wifi"
-	#Configure with ES settings
-        mkdir -p "/var/lib/connman" || exit 1
-        cat > "/var/lib/connman/recalbox.config" <<EOF
-[global]
-Name=recalbox
-
-[service_recalbox_default]
-Type=wifi
-Name=${ssid}
-EOF
-        if test "${psk}" != ""
-        then
-        echo "Passphrase=${psk}" >> "/var/lib/connman/recalbox.config"
-        fi
-	# Configure with recalbox.conf settings
-	for i in {1..3}; do
-		rb_wifi_configure $i&
-	done
-
-        connmanctl enable wifi || exit 1
-	settings_region="`$systemsetting  -command load -key wifi.region`"
-	if [[ "$settings_region" != "" ]] ;then
-		/usr/sbin/iw reg set "${settings_region}"
-	fi
-        connmanctl scan   wifi || exit 1
-        exit 0
-    fi
-    if [[ "$mode" =~ "start" ]]; then
-        if [[ "$mode" != "forcestart" ]]; then
-            settingsWlan="`$systemsetting -command load -key wifi.enabled`"
-            if [ "$settingsWlan" != "1" ];then
-                exit 1
-            fi
-        fi
-        connmanctl enable wifi || exit 1
-	settings_region="`$systemsetting  -command load -key wifi.region`"
-	if [[ "$settings_region" != "" ]] ;then
-		/usr/sbin/iw reg set "${settings_region}"
-	fi
-        connmanctl scan   wifi || exit 1
-        exit 0
+        recallog "(re)configure wifi"
+	/etc/init.d/S09wifi restart
     fi
     if [[ "$mode" == "disable" ]]; then
-        connmanctl disable wifi
+        recallog "disable wifi"
+	/etc/init.d/S09wifi stop
         exit $?
     fi
     if [[ "$mode" == "list" ]]; then
-	settings_region="`$systemsetting  -command load -key wifi.region`"
-	if [[ "$settings_region" != "" ]] ;then
-		/usr/sbin/iw reg set "${settings_region}"
-	fi
-        connmanctl scan wifi &> /dev/null
-        WAVAILABLE=$(connmanctl services | grep "wifi_" | grep -v "_hidden_" | cut -c 5- | sed -e "s/\(.*[^ ]\) *wifi_.*/\1/g")
-        if test -n "${ssid}"
-        then
-            echo "${WAVAILABLE}" | grep -qE '^'"${ssid}"'$' || echo "${ssid}"
-        fi
-        echo "${WAVAILABLE}"
-        exit 0
+	wpa_cli -i wlan0 scan > /dev/null || exit 1
+	sleep 3 # wait a bit until some results come in
+	wpa_cli -i wlan0 scan_results | tail -n +2 | sed -r 's/^([^ \t]*[ \t]*){4}(.*)$/\2/' | sort -u -f || exit 1
+	exit 0
     fi
 fi
 

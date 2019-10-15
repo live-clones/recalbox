@@ -30,6 +30,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fix enable cheevos badge in retroarch menu (retroachievement.org)
 - Make advancemame available on xu4, x86 and x64
 - Set Retroarch threaded_video option to off by default
+- Wifi: connman replaced by wpa_supplicant
 
 ## [6.1]
 - Replacement of the neogeo intro video

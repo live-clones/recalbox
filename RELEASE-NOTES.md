@@ -12,6 +12,7 @@
 - Bump Retroarch to 1.7.9
 - Bump kernel firmwares to latest version
 - Add new Game Boy shader
+- New wifi management
 
 ### Fixes
 - Fix Reicast on XU4 and PC platforms and fix wrong flycast entry on Rpi
