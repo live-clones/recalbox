@@ -32,6 +32,7 @@
 - Fix atari800 core crashes
 - Fix enable cheevos badge in retroarch menu (retroachievement.org)
 - Fix advancemame availability on xu4, x86 and x64
+- Fix some retroarch core random crashes and/or lags/slowness
 
 
 ## Version 6.1
