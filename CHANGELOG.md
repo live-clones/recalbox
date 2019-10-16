@@ -28,6 +28,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fix diacritic characters lowercasing/uppercasing
 - Fix atari800 core crashes
 - Fix enable cheevos badge in retroarch menu (retroachievement.org)
+- Make advancemame available on xu4, x86 and x64
 
 ## [6.1]
 - Replacement of the neogeo intro video
