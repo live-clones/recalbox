@@ -248,10 +248,7 @@ class LibretroRetroarch:
         settings.setOption("ai_service_url", aiUrl)
 
         # Threaded video
-        threadedVideo = True
-        if recalbox["core"] in ("px68k", "atari800") or self.hasnVidiaDriver():
-            threadedVideo = False
-        settings.setOption("video_threaded", self.TRUE if threadedVideo else self.FALSE)
+        settings.setOption("video_threaded", self.FALSE)
 
         # Enable RetroArch option "quit_press_twice"
         quitPressTwice = self.getOption("quitpresstwice", "0")
