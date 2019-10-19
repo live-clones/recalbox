@@ -10,7 +10,6 @@ SUPERMODEL_SITE_METHOD = svn
 SUPERMODEL_LICENSE = GPL2
 SUPERMODEL_DEPENDENCIES = sdl2 zlib libpng libogg libvorbis sdl_sound sdl2_net
 
-
 define SUPERMODEL_FIX_SDL_CONFIG_PATH
 	$(SED) "s+sdl-config+$(STAGING_DIR)/usr/bin/sdl-config+g" $(@D)/Makefiles/Makefile.UNIX
 endef
