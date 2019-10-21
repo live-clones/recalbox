@@ -52,6 +52,7 @@ ScraperSearchComponent::ScraperSearchComponent(Window* window, SearchType type)
 	mMD_Rating = std::make_shared<RatingComponent>(mWindow, menuTheme->menuText.color);
 	mMD_ReleaseDate = std::make_shared<DateTimeComponent>(mWindow);
 	mMD_ReleaseDate->setColor(mdColor);
+	mMD_ReleaseDate->setHorizontalAlignment(TextAlignment::Left);
 	mMD_Developer = std::make_shared<TextComponent>(mWindow, "", font, mdColor);
 	mMD_Publisher = std::make_shared<TextComponent>(mWindow, "", font, mdColor);
 	mMD_Genre = std::make_shared<TextComponent>(mWindow, "", font, mdColor);
