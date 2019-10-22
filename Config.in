@@ -80,6 +80,7 @@ menu "Emulators"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/reicast-old/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/dolphin-emu/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/gsplus/Config.in"
+         source "$BR2_EXTERNAL_RECALBOX_PATH/package/supermodel/Config.in"
 
 if BR2_PACKAGE_RETROARCH
 menu "Libretro Cores"
