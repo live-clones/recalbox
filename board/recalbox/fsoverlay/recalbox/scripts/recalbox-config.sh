@@ -400,7 +400,7 @@ ctl.!default {
 EOF
         exit $?
     else
-        recallog -e "Uknown audio format : $mode"
+        recallog -e "Unknown audio format : $mode"
         exit 1
     fi
     exit 0
@@ -483,13 +483,16 @@ if [ "$command" == "module" ];then
     exit 0
 fi
 
-if [[ "$command" == "wifi" ]]; then
+if [ "$command" == "wifi" ]; then
     ssid="$3"
     psk="$4"
 
     if [[ "$mode" == "enable" ]]; then
         recallog "(re)configure wifi"
+	$systemsetting -command save -key wifi.enabled -value 1
 	/etc/init.d/S09wifi restart
+	sleep 5 # wait a bit before returning to ES
+	exit $?
     fi
     if [[ "$mode" == "disable" ]]; then
         recallog "disable wifi"
@@ -619,7 +622,7 @@ if [[ "$command" == "configbackup" ]]; then
     exit 0
 fi
 
-echo "Uknown command $command"
+echo "Unknown command $command"
 recallog -e "recalbox-config.sh: unknown command $command"
 
 exit 10

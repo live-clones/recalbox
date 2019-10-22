@@ -6,7 +6,7 @@ config_file_boot=/boot/recalbox-backup.conf
 wpa_file=/etc/wpa_supplicant.conf
 
 # if /recalbox/share is not yet mounted
-if ! [-f "$config_file" ]; then
+if ! [ -f "$config_file" ]; then
   # use the boot version of the file
   config_file="$config_file_boot"
 fi
