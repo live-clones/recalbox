@@ -779,7 +779,7 @@ void GuiMenu::menuUISettings(){
 		  if (!it->hasPlatformId(PlatformIds::PlatformId::PLATFORM_IGNORE))
 			  systems->add(it->getFullName(), it->getName(),
 			               RecalboxConf::getInstance()->isInList("global.demo.systemlist", it->getName()) &&
-			               !it->getPlatformIds().empty());
+			               it->getPlatformCount() != 0);
 	  }
 	  ss->addWithLabel(systems, _("SYSTEMS FOR DEMO"));
 	  ss->addSaveFunc([systems] {

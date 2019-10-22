@@ -150,13 +150,13 @@ void thegamesdb_generate_json_scraper_requests(const ScraperSearchParams& params
   else
   {
     std::string platformQueryParam;
-    auto& platforms = params.system->getPlatformIds();
-    if (!platforms.empty())
+    if (params.system->getPlatformCount() != 0)
     {
       bool first = true;
       platformQueryParam += "&filter%5Bplatform%5D=";
-      for (auto platform : platforms)
+      for (int i = params.system->getPlatformCount(); --i >= 0;)
       {
+        PlatformIds::PlatformId platform = params.system->getPlatformIds(i);
         auto mapIt = gamesdb_new_platformid_map.find(platform);
         if (mapIt != gamesdb_new_platformid_map.cend())
         {

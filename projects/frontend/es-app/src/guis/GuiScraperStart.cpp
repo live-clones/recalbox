@@ -30,7 +30,7 @@ GuiScraperStart::GuiScraperStart(Window* window)
 	for (auto it : SystemManager::Instance().getVisibleSystems())
 	{
 		if(!it->hasPlatformId(PlatformIds::PlatformId::PLATFORM_IGNORE))
-			mSystems->add(it->getFullName(), it, !it->getPlatformIds().empty());
+			mSystems->add(it->getFullName(), it, it->getPlatformCount() != 0);
 	}
 	mMenu.addWithLabel(mSystems, _("SYSTEMS"));
 
@@ -55,10 +55,9 @@ GuiScraperStart::GuiScraperStart(Window* window)
 
 void GuiScraperStart::pressedStart()
 {
-	std::vector<SystemData*> sys = mSystems->getSelectedObjects();
-	for (auto& sy : sys)
+	for (auto& system : mSystems->getSelectedObjects())
 	{
-		if(sy->getPlatformIds().empty())
+		if(system->getPlatformCount() == 0)
 		{
 			mWindow->pushGui(new GuiMsgBox(mWindow, 
 				_("WARNING: SOME OF YOUR SELECTED SYSTEMS DO NOT HAVE A PLATFORM SET. RESULTS MAY BE EVEN MORE INACCURATE THAN USUAL!\nCONTINUE ANYWAY?"), 

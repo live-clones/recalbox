@@ -15,6 +15,10 @@ class SystemData
 	private:
     friend class SystemManager;
 
+    static constexpr int sMaximumPlatformIds = 8;
+    static constexpr int sMaximumEmulators   = 4;
+    static constexpr int sMaximumCores       = 8;
+
     //! convenient ptree type access
     typedef boost::property_tree::ptree Tree;
 
@@ -28,8 +32,10 @@ class SystemData
 		std::string mSearchExtensions;
 		//! Cmmand to run a game
 		std::string mLaunchCommand;
+		//! Platform count
+		int mPlatformCount;
 		//! Platform identifiers (for scraping only)
-		std::vector<PlatformIds::PlatformId> mPlatformIds;
+		PlatformIds::PlatformId mPlatformIds[sMaximumPlatformIds];
 		//! Theme data folder
 		std::string mThemeFolder;
 		//! Theme object
@@ -89,8 +95,15 @@ class SystemData
     inline FileSorts::SortType getSortType(bool forFavorites) const { return forFavorites ? FileSorts::SortTypesForFavorites.at(mSortId) : FileSorts::SortTypes.at(mSortId); };
     inline void setSortId(const unsigned int sortId = 0) { mSortId = sortId; };
 
-    inline const std::vector<PlatformIds::PlatformId>& getPlatformIds() const { return mPlatformIds; }
-    inline bool hasPlatformId(PlatformIds::PlatformId id) { return std::find(mPlatformIds.begin(), mPlatformIds.end(), id) != mPlatformIds.end(); }
+    inline PlatformIds::PlatformId getPlatformIds(int index) const { return (unsigned int)index < (unsigned int)mPlatformCount ? mPlatformIds[index] : PlatformIds::PlatformId::PLATFORM_UNKNOWN; }
+    inline  int getPlatformCount() const { return mPlatformCount; }
+    inline bool hasPlatformId(PlatformIds::PlatformId id)
+    {
+      for(int i = mPlatformCount; --i >= 0;)
+        if (id == mPlatformIds[i])
+          return true;
+      return false;
+    }
 
     inline const std::shared_ptr<ThemeData>& getTheme() const { return mTheme; }
 

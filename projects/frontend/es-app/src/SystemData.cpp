@@ -27,7 +27,8 @@ SystemData::SystemData(const std::string& name,
     mStartPath(getExpandedPath(startPath)),
     mSearchExtensions(filteredExtensions),
     mLaunchCommand(command),
-    mPlatformIds(platformIds),
+    mPlatformCount(0),
+    mPlatformIds(),
     mThemeFolder(themeFolder),
     mEmulators(),
     mRootFolder(childOwnership, mStartPath, this),
@@ -35,6 +36,18 @@ SystemData::SystemData(const std::string& name,
     mIsFavorite(favorite)
 {
   mRootFolder.Metadata().SetName(mFullName);
+
+  // Convert platforms
+  mPlatformCount = platformIds.size();
+  if (mPlatformCount >= sMaximumPlatformIds)
+  {
+    LOG(LogError) << "Platform count for system " << mName << " clipped to " << sMaximumPlatformIds;
+    mPlatformCount = sMaximumPlatformIds;
+  }
+  for(int i = sMaximumPlatformIds; --i >= 0;)
+    mPlatformIds[i] = PlatformIds::PlatformId::PLATFORM_UNKNOWN;
+  for(int i = mPlatformCount; --i >= 0;)
+    mPlatformIds[i] = platformIds[i];
 
   // emulators and cores
   if (emuNodes != nullptr)

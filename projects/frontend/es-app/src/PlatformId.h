@@ -8,7 +8,7 @@ namespace PlatformIds
    * @brief Scrapable platforms
    * @note PLEASE, keep this list consistent and ordered!
    */
-  enum class PlatformId : unsigned int
+  enum class PlatformId : unsigned char
   {
     PLATFORM_UNKNOWN = 0,
 

@@ -286,9 +286,9 @@ bool SystemManager::AddArcadeMetaSystem()
     // Lookup all non-empty arcade platforms
     for (SystemData* system: sSystemVector)
       if (system->getRootFolder()->hasGame())
-        for(PlatformIds::PlatformId platform : system->getPlatformIds())
-          if ((platform == PlatformIds::PlatformId::ARCADE) ||
-              (platform == PlatformIds::PlatformId::NEOGEO && includeNeogeo))
+        for(int i = system->getPlatformCount(); --i >= 0; )
+          if ((system->getPlatformIds(i) == PlatformIds::PlatformId::ARCADE) ||
+              (system->getPlatformIds(i) == PlatformIds::PlatformId::NEOGEO && includeNeogeo))
           {
             sHiddenSystemVector.push_back(system);
             break;

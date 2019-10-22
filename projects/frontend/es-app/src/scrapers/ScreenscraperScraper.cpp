@@ -162,10 +162,10 @@ void screenscraper_generate_scraper_requests(const ScraperSearchParams& params,
   const ScreenScraperRequest::ScreenScraperConfiguration& ssConfig = ScreenScraperRequest::Configuration();
 
   path = ssConfig.getGameSearchUrl(params.game->getPath().filename().generic_string());
-  auto& platforms = params.system->getPlatformIds();
 
-  for (auto platform : platforms)
+  for (int i = params.system->getPlatformCount(); --i >= 0;)
   {
+    PlatformIds::PlatformId platform = params.system->getPlatformIds(i);
     auto mapIt = getPlatformIDs().find(platform);
     if (mapIt != getPlatformIDs().cend())
     {
