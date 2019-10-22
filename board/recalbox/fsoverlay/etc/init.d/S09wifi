@@ -1,4 +1,4 @@
-#!/bin/ash
+#!/bin/bash
 
 interface=wlan0
 config_file=/recalbox/share/system/recalbox.conf
