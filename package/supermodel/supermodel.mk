@@ -15,8 +15,6 @@ define SUPERMODEL_FIX_SDL_CONFIG_PATH
 		$(SED) "s+(SDL_LIBS)+(STAGING_DIR)/bin/+g" $(@D)/Makefiles/Makefile.UNIX
 endef
 
-TARGET_LDFLAGS = 
-
 define SUPERMODEL_CONFIGURE_CMDS
 	ln -s $(@D)/Makefiles/Makefile.UNIX $(@D)/Makefile; \
 	$(SED) "s|-O2|-O3|g" $(@D)/Makefile
