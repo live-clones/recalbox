@@ -45,7 +45,7 @@ class AudioManager : private ISyncronousEvent
 
     void stopMusic();
 
-    void themeChanged(const std::shared_ptr<ThemeData>& theme);
+    void themeChanged(const ThemeData& theme);
 
     void resumeMusic();
 

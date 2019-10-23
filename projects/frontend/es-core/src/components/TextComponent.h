@@ -45,7 +45,7 @@ public:
 	
 	inline std::shared_ptr<Font> getFont() const { return mFont; }
 
-	void applyTheme(const std::shared_ptr<ThemeData>& theme, const std::string& view, const std::string& element, ThemeProperties properties) override;
+	void applyTheme(const ThemeData& theme, const std::string& view, const std::string& element, ThemeProperties properties) override;
 
 private:
 	void calculateExtent();

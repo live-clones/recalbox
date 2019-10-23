@@ -93,7 +93,7 @@ BasicGameListView::BasicGameListView(Window* window, FolderData* root)
 	populateList(root);
 }
 
-void BasicGameListView::onThemeChanged(const std::shared_ptr<ThemeData>& theme)
+void BasicGameListView::onThemeChanged(const ThemeData& theme)
 {
 	ISimpleGameListView::onThemeChanged(theme);
 	mList.applyTheme(theme, getName(), "gamelist", ThemeProperties::All);

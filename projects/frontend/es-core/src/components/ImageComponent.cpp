@@ -302,9 +302,9 @@ void ImageComponent::fadeIn(bool textureLoaded) {
     }
 }
 
-void ImageComponent::applyTheme(const std::shared_ptr<ThemeData>& theme, const std::string& view, const std::string& element, ThemeProperties properties)
+void ImageComponent::applyTheme(const ThemeData& theme, const std::string& view, const std::string& element, ThemeProperties properties)
 {
-    const ThemeData::ThemeElement* elem = theme->getElement(view, element, "image");
+    const ThemeData::ThemeElement* elem = theme.getElement(view, element, "image");
     if (elem == nullptr) {
         return;
     }

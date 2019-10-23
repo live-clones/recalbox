@@ -150,11 +150,11 @@ bool RatingComponent::ProcessInput(const InputCompactEvent& event)
 	return GuiComponent::ProcessInput(event);
 }
 
-void RatingComponent::applyTheme(const std::shared_ptr<ThemeData>& theme, const std::string& view, const std::string& element, ThemeProperties properties)
+void RatingComponent::applyTheme(const ThemeData& theme, const std::string& view, const std::string& element, ThemeProperties properties)
 {
 	GuiComponent::applyTheme(theme, view, element, properties);
 
-	const ThemeData::ThemeElement* elem = theme->getElement(view, element, "rating");
+	const ThemeData::ThemeElement* elem = theme.getElement(view, element, "rating");
 	if (elem == nullptr)
 		return;
 

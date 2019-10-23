@@ -359,9 +359,9 @@ void DateTimeComponent::setUppercase(bool uppercase)
 	updateTextCache();
 }
 
-void DateTimeComponent::applyTheme(const std::shared_ptr<ThemeData>& theme, const std::string& view, const std::string& element, ThemeProperties properties)
+void DateTimeComponent::applyTheme(const ThemeData& theme, const std::string& view, const std::string& element, ThemeProperties properties)
 {
-	const ThemeData::ThemeElement* elem = theme->getElement(view, element, "datetime");
+	const ThemeData::ThemeElement* elem = theme.getElement(view, element, "datetime");
 	if(elem == nullptr)
 		return;
 

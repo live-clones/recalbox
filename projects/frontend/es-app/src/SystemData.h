@@ -131,7 +131,7 @@ class SystemData
 		//! Theme data folder
 		std::string mThemeFolder;
 		//! Theme object
-		std::shared_ptr<ThemeData> mTheme;
+		ThemeData mTheme;
 		//! Emulator/Cores tree
     EmulatorList mEmulators;
     //! Root folder - Children are top level visible gale/folder of the system
@@ -174,8 +174,8 @@ class SystemData
     const std::string& getName() const { return mName; }
     const std::string& getFullName() const { return mFullName; }
     const std::string& getStartPath() const { return mStartPath; }
-    const std::string& getThemeFolder() const { return mThemeFolder; }
-    bool getHasFavoritesInTheme() const { return mTheme->getHasFavoritesInTheme(); }
+    const std::string& ThemeFolder() const { return mThemeFolder; }
+    bool getHasFavoritesInTheme() const { return mTheme.getHasFavoritesInTheme(); }
     bool isFavorite() const { return mIsFavorite; }
     FileData::List getFavorites() const { return mRootFolder.getAllFavoritesRecursively(false); }
     unsigned int getSortId() const { return mSortId; };
@@ -193,7 +193,7 @@ class SystemData
       return false;
     }
 
-    inline const std::shared_ptr<ThemeData>& getTheme() const { return mTheme; }
+    inline const ThemeData& getTheme() const { return mTheme; }
 
     std::string getGamelistPath(bool forWrite) const;
     std::string getThemePath() const;

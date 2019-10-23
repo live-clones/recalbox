@@ -259,11 +259,11 @@ void TextComponent::setLineSpacing(float spacing)
 	onTextChanged();
 }
 
-void TextComponent::applyTheme(const std::shared_ptr<ThemeData>& theme, const std::string& view, const std::string& element, ThemeProperties properties)
+void TextComponent::applyTheme(const ThemeData& theme, const std::string& view, const std::string& element, ThemeProperties properties)
 {
 	GuiComponent::applyTheme(theme, view, element, properties);
 
-	const ThemeData::ThemeElement* elem = theme->getElement(view, element, "text");
+	const ThemeData::ThemeElement* elem = theme.getElement(view, element, "text");
 	if(elem == nullptr)
 		return;
 

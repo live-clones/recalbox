@@ -264,22 +264,19 @@ std::string SystemData::getThemePath() const
 
 void SystemData::loadTheme()
 {
-  mTheme = std::make_shared<ThemeData>();
-
   std::string path = getThemePath();
-
   if (!fs::exists(path)) // no theme available for this platform
     return;
 
   try
   {
-    mTheme->loadFile(getThemeFolder(), path);
+    mTheme.loadFile(ThemeFolder(), path);
   }
   catch (ThemeException& e)
   {
     LOG(LogError) << e.what();
     mThemeFolder = "default";
-    mTheme->loadFile(getThemeFolder(), path);
+    mTheme.loadFile(ThemeFolder(), path);
   }
 }
 

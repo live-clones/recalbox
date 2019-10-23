@@ -215,11 +215,11 @@ void NinePatchComponent::setCenterColor(unsigned int centerColor)
 	updateColors();
 }
 
-void NinePatchComponent::applyTheme(const std::shared_ptr<ThemeData>& theme, const std::string& view, const std::string& element, ThemeProperties properties)
+void NinePatchComponent::applyTheme(const ThemeData& theme, const std::string& view, const std::string& element, ThemeProperties properties)
 {
 	GuiComponent::applyTheme(theme, view, element, properties);
 
-	const ThemeData::ThemeElement* elem = theme->getElement(view, element, "ninepatch");
+	const ThemeData::ThemeElement* elem = theme.getElement(view, element, "ninepatch");
 	if(elem == nullptr)
 		return;
 

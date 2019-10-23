@@ -125,7 +125,7 @@ class VideoComponent : public GuiComponent
 
     void render(const Transform4x4f& parentTrans) override;
 
-    void applyTheme(const std::shared_ptr<ThemeData>& theme, const std::string& view, const std::string& element, ThemeProperties properties) override;
+    void applyTheme(const ThemeData& theme, const std::string& view, const std::string& element, ThemeProperties properties) override;
 
     std::vector<HelpPrompt> getHelpPrompts() override;
 

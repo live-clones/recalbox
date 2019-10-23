@@ -53,7 +53,7 @@ public:
 	void update(int deltaTime) override;
 	void render(const Transform4x4f& parentTrans) override;
 	
-	void onThemeChanged(const std::shared_ptr<ThemeData>& theme);
+	void onThemeChanged(const ThemeData& theme);
 
 	std::vector<HelpPrompt> getHelpPrompts() override;
 	HelpStyle getHelpStyle() override;
@@ -66,7 +66,7 @@ protected:
 	void onCursorChanged(const CursorState& state) override;
 
 private:
-	void getViewElements(const std::shared_ptr<ThemeData>& theme);
+	void getViewElements(const ThemeData& theme);
 	void getDefaultElements();
 	void getCarouselFromTheme(const ThemeData::ThemeElement* elem);
   
@@ -84,7 +84,7 @@ private:
 	float mCamOffset;
 	float mExtrasCamOffset;
 	float mExtrasFadeOpacity;
-        SystemData * lastSystem;
+	SystemData* lastSystem;
 	bool mViewNeedsReload;
 	bool mShowing;
 	bool launchKodi;

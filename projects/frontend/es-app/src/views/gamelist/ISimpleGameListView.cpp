@@ -42,7 +42,7 @@ ISimpleGameListView::ISimpleGameListView(Window* window, FolderData* root)
   addChild(&mBackground);
 }
 
-void ISimpleGameListView::onThemeChanged(const std::shared_ptr<ThemeData>& theme)
+void ISimpleGameListView::onThemeChanged(const ThemeData& theme)
 {
   mBackground.applyTheme(theme, getName(), "background", ThemeProperties::All);
   mHeaderImage.applyTheme(theme, getName(), "logo", ThemeProperties::All);

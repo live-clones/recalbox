@@ -17,5 +17,5 @@ struct HelpStyle
 	std::map<std::string, std::string> iconMap;
 
 	HelpStyle(); // default values
-	void applyTheme(const std::shared_ptr<ThemeData>& theme, const std::string& view);
+	void applyTheme(const ThemeData& theme, const std::string& view);
 };

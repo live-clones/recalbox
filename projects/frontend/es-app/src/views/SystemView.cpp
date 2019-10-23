@@ -45,7 +45,7 @@ void SystemView::addSystem(SystemData * it){
 	if(!(it)->getRootFolder()->hasChildren()){
 		return;
 	}
-	const std::shared_ptr<ThemeData>& theme = (it)->getTheme();
+	const ThemeData& theme = (it)->getTheme();
 	
 	if(mViewNeedsReload)
 			getViewElements(theme);
@@ -55,13 +55,13 @@ void SystemView::addSystem(SystemData * it){
 	e.object = it;
 
 	// make logo
-	if(theme->getElement("system", "logo", "image") != nullptr)
+	if(theme.getElement("system", "logo", "image") != nullptr)
 	{
 		ImageComponent* logo = new ImageComponent(mWindow, false, false);
 		logo->setMaxSize(mCarousel.logoSize * mCarousel.logoScale);
 		logo->applyTheme((it)->getTheme(), "system", "logo", ThemeProperties::Path);
 		e.data.logo = std::shared_ptr<GuiComponent>(logo);
-		if ((it)->getThemeFolder() == "default")
+		if ((it)->ThemeFolder() == "default")
 		{
 			TextComponent* text = new TextComponent(mWindow,
                                               (it)->getName(),
@@ -560,7 +560,7 @@ HelpStyle SystemView::getHelpStyle()
 	return style;
 	}	
 
-void  SystemView::onThemeChanged(const std::shared_ptr<ThemeData>& theme)
+void  SystemView::onThemeChanged(const ThemeData& theme)
 {
 	(void)theme; // TODO: Log theme name
 	LOG(LogDebug) << "SystemView::onThemeChanged()";
@@ -569,16 +569,16 @@ void  SystemView::onThemeChanged(const std::shared_ptr<ThemeData>& theme)
 }	
 
 //  Get the ThemeElements that make up the SystemView.
-void  SystemView::getViewElements(const std::shared_ptr<ThemeData>& theme)
+void  SystemView::getViewElements(const ThemeData& theme)
 {
 		LOG(LogDebug) << "SystemView::getViewElements()";
 		getDefaultElements();
 		
-		const ThemeData::ThemeElement* carouselElem = theme->getElement("system", "systemcarousel", "carousel");
+		const ThemeData::ThemeElement* carouselElem = theme.getElement("system", "systemcarousel", "carousel");
 		if (carouselElem != nullptr)
 			getCarouselFromTheme(carouselElem);
 		
-		const ThemeData::ThemeElement* sysInfoElem = theme->getElement("system", "systemInfo", "text");
+		const ThemeData::ThemeElement* sysInfoElem = theme.getElement("system", "systemInfo", "text");
 		if (sysInfoElem != nullptr)
 			mSystemInfo.applyTheme(theme, "system", "systemInfo", ThemeProperties::All);
 		

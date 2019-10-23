@@ -16,7 +16,7 @@ class Sound
 
 public:
 	static std::shared_ptr<Sound> get(const std::string& path);
-	static std::shared_ptr<Sound> getFromTheme(const std::shared_ptr<ThemeData>& theme, const std::string& view, const std::string& elem);
+	static std::shared_ptr<Sound> getFromTheme(const ThemeData& theme, const std::string& view, const std::string& elem);
 
 	~Sound();
 

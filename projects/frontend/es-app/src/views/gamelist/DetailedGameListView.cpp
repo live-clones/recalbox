@@ -126,7 +126,7 @@ DetailedGameListView::DetailedGameListView(Window* window, FolderData* root, Sys
   updateInfoPanel();
 }
 
-void DetailedGameListView::onThemeChanged(const std::shared_ptr<ThemeData>& theme)
+void DetailedGameListView::onThemeChanged(const ThemeData& theme)
 {
   BasicGameListView::onThemeChanged(theme);
 
@@ -189,7 +189,7 @@ void DetailedGameListView::onThemeChanged(const std::shared_ptr<ThemeData>& them
   mDescription.applyTheme(theme, getName(), "md_description",
                           ThemeProperties::All ^ (ThemeProperties::Position | ThemeProperties::Size | ThemeProperties::Origin | ThemeProperties::Text));
 
-  if (theme->isFolderHandled())
+  if (theme.isFolderHandled())
   {
     char strbuf[256];
     mFolderName.applyTheme(theme, getName(), "md_folder_name", ThemeProperties::All);

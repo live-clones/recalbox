@@ -13,7 +13,7 @@ class DetailedGameListView : public BasicGameListView
 public:
     DetailedGameListView(Window* window, FolderData* root, SystemData* system);
 
-    void onThemeChanged(const std::shared_ptr<ThemeData>& theme) override;
+    void onThemeChanged(const ThemeData& theme) override;
 
     const char* getName() const override { return "detailed"; }
 

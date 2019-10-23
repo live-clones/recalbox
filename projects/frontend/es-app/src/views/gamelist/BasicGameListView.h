@@ -13,7 +13,7 @@ public:
 	// Called when a FileData* is added, has its metadata changed, or is removed
 	void onFileChanged(FileData* file, FileChangeType change) override;
 
-	void onThemeChanged(const std::shared_ptr<ThemeData>& theme) override;
+	void onThemeChanged(const ThemeData& theme) override;
 
 	FileData* getCursor() override { return mList.getSelected(); }
 	int getCursorIndex() override { return mList.getCursorIndex(); }

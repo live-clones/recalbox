@@ -341,10 +341,10 @@ void VideoComponent::render(const Transform4x4f& parentTrans)
   GuiComponent::renderChildren(trans);
 }
 
-void VideoComponent::applyTheme(const std::shared_ptr<ThemeData>& theme, const std::string& view, const std::string& element,
+void VideoComponent::applyTheme(const ThemeData& theme, const std::string& view, const std::string& element,
                                 ThemeProperties properties)
 {
-  const ThemeData::ThemeElement* elem = theme->getElement(view, element, "video");
+  const ThemeData::ThemeElement* elem = theme.getElement(view, element, "video");
   if (elem == nullptr)
   {
     return;

@@ -230,7 +230,7 @@ void GuiComponent::setAnimation(Animation* anim, int delay, const std::function<
 	assert(slot < MAX_ANIMATIONS);
 
 	AnimationController* oldAnim = mAnimationMap[slot];
-	mAnimationMap[slot] = new AnimationController(anim, delay, std::move(finishedCallback), reverse);
+	mAnimationMap[slot] = new AnimationController(anim, delay, finishedCallback, reverse);
 
 	delete oldAnim;
 }
@@ -337,11 +337,11 @@ Vector2f GuiComponent::denormalise(const Vector2f& value) {
     return value * scale;
 }
 
-void GuiComponent::applyTheme(const std::shared_ptr<ThemeData>& theme, const std::string& view, const std::string& element, ThemeProperties properties)
+void GuiComponent::applyTheme(const ThemeData& theme, const std::string& view, const std::string& element, ThemeProperties properties)
 {
 	Vector2f scale = getParent() != nullptr ? getParent()->getSize() : Vector2f(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
 
-	const ThemeData::ThemeElement* elem = theme->getElement(view, element, "");
+	const ThemeData::ThemeElement* elem = theme.getElement(view, element, "");
 	if(elem == nullptr)
 		return;
 

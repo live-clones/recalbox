@@ -671,37 +671,39 @@ const ThemeData::ThemeElement* ThemeData::getElement(const std::string& view, co
 	return &elemIt->second;
 }
 
-const std::shared_ptr<ThemeData>& ThemeData::getDefault()
+const ThemeData& ThemeData::getDefault()
 {
-	static std::shared_ptr<ThemeData> theme = nullptr;
-	if(theme == nullptr)
-	{
-		theme = std::make_shared<ThemeData>();
+  static ThemeData sDefault;
+  static bool sLoaded = false;
 
+  if (!sLoaded)
+  {
 		const std::string path = RootFolders::DataRootFolder + "/system/.emulationstation/es_theme_default.xml";
 		if(fs::exists(path))
 		{
 			try
 			{
 				std::string empty;
-				theme->loadFile(empty, path);
-			} catch(ThemeException& e)
+        sDefault.loadFile(empty, path);
+			}
+			catch(ThemeException& e)
 			{
 				LOG(LogError) << e.what();
-				theme = std::make_shared<ThemeData>(); //reset to empty
 			}
 		}
+		sLoaded = true;
 	}
 
-	return theme;
+	return sDefault;
 }
 
-const std::shared_ptr<ThemeData>& ThemeData::getCurrent()
+const ThemeData& ThemeData::getCurrent()
 {
-	static std::shared_ptr<ThemeData> theme = nullptr;
-	if(theme == nullptr || Settings::getInstance()->getBool("ThemeChanged"))
+	static ThemeData sCurrent;
+	static bool sLoaded = false;
+
+	if (!sLoaded || Settings::getInstance()->getBool("ThemeChanged"))
 	{
-		theme = std::make_shared<ThemeData>();
 		fs::path path;
 		std::string currentTheme = Settings::getInstance()->getString("ThemeSet");
 		static const size_t pathCount = 3;
@@ -730,12 +732,12 @@ const std::shared_ptr<ThemeData>& ThemeData::getCurrent()
 						try
 						{
 							std::string empty;
-							theme->loadFile(empty, path.string());
-							return theme;
-						} catch(ThemeException& e)
+              sCurrent.loadFile(empty, path.string());
+							return sCurrent;
+						}
+						catch(ThemeException& e)
 						{
 							LOG(LogError) << e.what();
-							theme = std::make_shared<ThemeData>(); //reset to empty
 						}
 					}
 				
@@ -743,34 +745,35 @@ const std::shared_ptr<ThemeData>& ThemeData::getCurrent()
 			}
 			path = i / "theme.xml";
 			if(fs::exists(path))
-					{
-						try
-						{
-							std::string empty;
-							theme->loadFile(empty, path.string());
-							return theme;
-						} catch(ThemeException& e)
-						{
-							LOG(LogError) << e.what();
-							theme = std::make_shared<ThemeData>(); //reset to empty
-						}
-					}
+      {
+        try
+        {
+          std::string empty;
+          sCurrent.loadFile(empty, path.string());
+          return sCurrent;
+        }
+        catch(ThemeException& e)
+        {
+          LOG(LogError) << e.what();
+        }
+      }
 		}
 	}
-	return theme;
+
+	return sCurrent;
 }
 
-std::vector<GuiComponent*> ThemeData::makeExtras(const std::shared_ptr<ThemeData>& theme, const std::string& view, Window* window)
+std::vector<GuiComponent*> ThemeData::makeExtras(const ThemeData& theme, const std::string& view, Window* window)
 {
 	std::vector<GuiComponent*> comps;
 
-	auto viewIt = theme->mViews.find(view);
-	if(viewIt == theme->mViews.end())
+	auto viewIt = theme.mViews.find(view);
+	if(viewIt == theme.mViews.end())
 		return comps;
 	
 	for (auto& key : viewIt->second.orderedKeys)
 	{
-		ThemeElement& elem = viewIt->second.elements.at(key);
+		const ThemeElement& elem = viewIt->second.elements.at(key);
 		if(elem.extra)
 		{
 			GuiComponent* comp = nullptr;
@@ -937,7 +940,7 @@ fs::path ThemeData::getThemeFromCurrentSet(const std::string& system)
 	return set->second.getThemePath(system);
 }
 
-std::string ThemeData::getTransition()
+std::string ThemeData::getTransition() const
 {
 	std::string result;
 	auto elem = getElement("system", "systemcarousel", "carousel");

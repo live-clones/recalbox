@@ -18,7 +18,7 @@ MenuThemeData::MenuThemeData()
 {
 	mCurrent = std::make_shared<MenuTheme>();
 	
-	auto elem = ThemeData::getCurrent()->getElement("menu", "menubg", "menuBackground");
+	auto elem = ThemeData::getCurrent().getElement("menu", "menubg", "menuBackground");
 	
 	if (elem != nullptr)
 	{
@@ -30,7 +30,7 @@ MenuThemeData::MenuThemeData()
 			mCurrent->menuBackground.color = elem->get<unsigned int>("color");
 	}
 	
-	elem = ThemeData::getCurrent()->getElement("menu", "menutitle", "menuText");
+	elem = ThemeData::getCurrent().getElement("menu", "menutitle", "menuText");
 	
 	if (elem != nullptr)
 	{
@@ -40,7 +40,7 @@ MenuThemeData::MenuThemeData()
 			mCurrent->menuTitle.color = elem->get<unsigned int>("color");
 	}
 	
-	elem = ThemeData::getCurrent()->getElement("menu", "menufooter", "menuText");
+	elem = ThemeData::getCurrent().getElement("menu", "menufooter", "menuText");
 	
 	if (elem != nullptr)
 	{
@@ -50,7 +50,7 @@ MenuThemeData::MenuThemeData()
 			mCurrent->menuFooter.color = elem->get<unsigned int>("color");
 	}
 	
-	elem = ThemeData::getCurrent()->getElement("menu", "menutext", "menuText");
+	elem = ThemeData::getCurrent().getElement("menu", "menutext", "menuText");
 	
 	if (elem != nullptr)
 	{
@@ -69,7 +69,7 @@ MenuThemeData::MenuThemeData()
 			mCurrent->menuText.selectorColor = elem->get<unsigned int>("selectorColor");
 	}
 	
-	elem = ThemeData::getCurrent()->getElement("menu", "menutextsmall", "menuTextSmall");
+	elem = ThemeData::getCurrent().getElement("menu", "menutextsmall", "menuTextSmall");
 	
 	if (elem != nullptr)
 	{
@@ -86,7 +86,7 @@ MenuThemeData::MenuThemeData()
 			mCurrent->menuText.selectedColor = elem->get<unsigned int>("selectorColor");
 	}
 	
-	elem = ThemeData::getCurrent()->getElement("menu", "menubutton", "menuButton");
+	elem = ThemeData::getCurrent().getElement("menu", "menubutton", "menuButton");
 	
 	if (elem != nullptr)
 	{
@@ -96,7 +96,7 @@ MenuThemeData::MenuThemeData()
 			mCurrent->iconSet.button_filled = elem->get<std::string>("filledPath");
 	}
 	
-	elem = ThemeData::getCurrent()->getElement("menu", "menuswitch", "menuSwitch");
+	elem = ThemeData::getCurrent().getElement("menu", "menuswitch", "menuSwitch");
 	
 	if (elem != nullptr)
 	{
@@ -106,13 +106,13 @@ MenuThemeData::MenuThemeData()
 			mCurrent->iconSet.off = elem->get<std::string>("pathOff");
 	}
 	
-	elem = ThemeData::getCurrent()->getElement("menu", "menuslider", "menuSlider");
+	elem = ThemeData::getCurrent().getElement("menu", "menuslider", "menuSlider");
 	
 	if (elem != nullptr)
 		if(elem->has("path"))
 			mCurrent->iconSet.knob = elem->get<std::string>("path");
 
-	elem = ThemeData::getCurrent()->getElement("menu", "menuicons", "menuIcons");
+	elem = ThemeData::getCurrent().getElement("menu", "menuicons", "menuIcons");
 
 	if (elem != nullptr) {
 		if (elem->has("iconKodi"))

@@ -18,15 +18,15 @@ bool IGameListView::ProcessInput(const InputCompactEvent& event)
 	return GuiComponent::ProcessInput(event);
 }
 
-void IGameListView::setTheme(const std::shared_ptr<ThemeData>& theme)
+void IGameListView::setTheme(const ThemeData& theme)
 {
-	mTheme = theme;
+	mTheme = &theme;
 	onThemeChanged(theme);
 }
 
 HelpStyle IGameListView::getHelpStyle()
 {
 	HelpStyle style;
-	style.applyTheme(mTheme, getName());
+	style.applyTheme(*mTheme, getName());
 	return style;
 }

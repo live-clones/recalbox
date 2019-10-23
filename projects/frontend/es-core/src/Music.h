@@ -16,7 +16,7 @@ class Music
 
 public:
         
-	static std::shared_ptr<Music> getFromTheme(const std::shared_ptr<ThemeData>& theme, const std::string& view, const std::string& element);
+	static std::shared_ptr<Music> getFromTheme(const ThemeData& theme, const std::string& view, const std::string& element);
 	static std::shared_ptr<Music> get(const std::string& path);
 	void play(bool repeat, void (* callback)());
 	std::string getName();

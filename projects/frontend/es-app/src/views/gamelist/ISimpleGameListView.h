@@ -16,7 +16,7 @@ public:
 	void onFileChanged(FileData* file, FileChangeType change) override;
 
 	// Called whenever the theme changes.
-	void onThemeChanged(const std::shared_ptr<ThemeData>& theme) override;
+	void onThemeChanged(const ThemeData& theme) override;
 
 	FileData* getCursor() override = 0;
 	virtual int getCursorIndex() = 0;

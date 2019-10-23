@@ -28,7 +28,7 @@ class IGameListView : public GuiComponent
   protected:
     FolderData* mRoot;
     SystemData* mSystem;
-    std::shared_ptr<ThemeData> mTheme;
+    const ThemeData* mTheme;
 
   public:
     IGameListView(Window* window, FolderData* root)
@@ -45,11 +45,11 @@ class IGameListView : public GuiComponent
     virtual void onFileChanged(FileData* file, FileChangeType change) = 0;
 
     // Called whenever the theme changes.
-    virtual void onThemeChanged(const std::shared_ptr<ThemeData>& theme) = 0;
+    virtual void onThemeChanged(const ThemeData& theme) = 0;
 
-    void setTheme(const std::shared_ptr<ThemeData>& theme);
+    void setTheme(const ThemeData& theme);
 
-    inline const std::shared_ptr<ThemeData>& getTheme() const { return mTheme; }
+    inline const ThemeData& getTheme() const { return *mTheme; }
 
     inline FolderData* getRoot() const { return mRoot; }
 

@@ -911,7 +911,7 @@ void GuiMenu::menuUISettings(){
     window->pushGui(ViewController::get());
     ViewController::get()->goToStart();
     MenuThemeData::getInstance();
-    auto transi = ThemeData::getCurrent()->getTransition();
+    auto transi = ThemeData::getCurrent().getTransition();
     if (!transi.empty())
       Settings::getInstance()->setString("TransitionStyle", transi);
     Settings::getInstance()->setBool("ThemeChanged", false);

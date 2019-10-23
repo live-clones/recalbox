@@ -41,7 +41,7 @@ public:
 	bool ProcessInput(const InputCompactEvent& event) override;
 	void update(int deltaTime) override;
 	void render(const Transform4x4f& parentTrans) override;
-	void applyTheme(const std::shared_ptr<ThemeData>& theme, const std::string& view, const std::string& element, ThemeProperties properties) override;
+	void applyTheme(const ThemeData& theme, const std::string& view, const std::string& element, ThemeProperties properties) override;
 
 	void add(const std::string& name, const T& obj, unsigned int colorId, bool toTheBeginning = false);
 	
@@ -323,11 +323,11 @@ void TextListComponent<T>::onCursorChanged(const CursorState& state)
 }
 
 template <typename T>
-void TextListComponent<T>::applyTheme(const std::shared_ptr<ThemeData>& theme, const std::string& view, const std::string& element, ThemeProperties properties)
+void TextListComponent<T>::applyTheme(const ThemeData& theme, const std::string& view, const std::string& element, ThemeProperties properties)
 {
 	GuiComponent::applyTheme(theme, view, element, properties);
 
-	const ThemeData::ThemeElement* elem = theme->getElement(view, element, "textlist");
+	const ThemeData::ThemeElement* elem = theme.getElement(view, element, "textlist");
 	if (elem == nullptr)
 		return;
 

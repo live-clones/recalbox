@@ -13,9 +13,9 @@ HelpStyle::HelpStyle()
 	iconMap.clear();
 }
 
-void HelpStyle::applyTheme(const std::shared_ptr<ThemeData>& theme, const std::string& view)
+void HelpStyle::applyTheme(const ThemeData& theme, const std::string& view)
 {
-	auto elem = theme->getElement(view, "help", "helpsystem");
+	auto elem = theme.getElement(view, "help", "helpsystem");
 	if(elem == nullptr)
 		return;
 
