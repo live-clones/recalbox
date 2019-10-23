@@ -14,6 +14,7 @@
 #include <guis/GuiNetPlay.h>
 
 #include <memory>
+#include <SystemManager.h>
 #include "guis/GuiMenu.h"
 #include "themes/ThemeData.h"
 #include "MenuThemeData.h"
@@ -146,7 +147,7 @@ void SystemView::populate()
 {
 	mEntries.clear();
 
-	for (auto& it : SystemData::getVisibleSystems())
+	for (auto& it : SystemManager::Instance().getVisibleSystems())
 	{
 		addSystem(it);
 	}
@@ -155,7 +156,7 @@ void SystemView::populate()
 void SystemView::goToSystem(SystemData* system, bool animate)
 {
 	if (!setCursor(system)) // When deleting last favorite from favorite view, favorite system is no longer available
-	  setCursor(SystemData::getFirstSystemWithGame());
+	  setCursor(SystemManager::Instance().getFirstSystemWithGame());
 
 	if(!animate)
 		finishAnimation(0);
@@ -851,7 +852,7 @@ void SystemView::manageFavorite(){
 			hasFavorite = true;
 			break;
 		}
-	SystemData *favorite = SystemData::getFavoriteSystem();
+	SystemData *favorite = SystemManager::Instance().getFavoriteSystem();
 	if(hasFavorite) {
 		if (favorite->getFavoritesCount() == 0) {
 			removeFavoriteSystem();

@@ -10,6 +10,7 @@
 #include "MenuMessages.h"
 #include "guis/GuiMsgBox.h"
 #include <cstdio>
+#include <SystemManager.h>
 
 GuiGamelistOptions::GuiGamelistOptions(Window* window, SystemData* system)
   :	GuiComponent(window),
@@ -114,8 +115,8 @@ GuiGamelistOptions::GuiGamelistOptions(Window* window, SystemData* system)
                         ViewController::get()->goToStart();
                         window->renderShutdownScreen();
                         delete ViewController::get();
-                        SystemData::deleteSystems();
-                        SystemData::loadConfig();
+                        SystemManager::Instance().deleteSystems();
+                        SystemManager::Instance().loadConfig();
                         window->deleteAllGui();
                         ViewController::init(window);
                         ViewController::get()->reloadAll();

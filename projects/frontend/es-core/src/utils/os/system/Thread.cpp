@@ -25,7 +25,6 @@ void Thread::Start(const std::string& name)
 
   if (!name.empty())
     strncpy(mName, name.c_str(), sizeof(mName));
-  LOG(LogDebug) << "Start thread! " << name;
 
   mIsDone = false;
   mIsRunning = true;
@@ -47,9 +46,23 @@ void Thread::Stop()
   mIsDone = true;
 }
 
+void Thread::Join()
+{
+  void* dummy;
+  if (mHandle != 0)
+  {
+    pthread_join(mHandle, &dummy);
+    mHandle = 0;
+  }
+  mIsRunning = false;
+  mIsDone = true;
+}
+
 void* Thread::StartThread(void* thread_)
 {
   Thread& thread = *((Thread*)(thread_));
+
+  LOG(LogDebug) << "Thread " << thread.mName << " started!";
 
   thread.BeforeRun();
   thread.Run();

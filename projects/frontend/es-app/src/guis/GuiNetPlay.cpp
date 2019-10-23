@@ -12,6 +12,7 @@
 #include <boost/regex.hpp>
 #include <regex>
 #include <NetPlayThread.h>
+#include <SystemManager.h>
 
 namespace json = boost::property_tree;
 
@@ -519,7 +520,7 @@ int GuiNetPlay::pingHost(const std::string& ip)
 
 FileData* GuiNetPlay::findGame(const std::string& gameNameOrHash)
 {
-  for (auto tmp : SystemData::getAllSystems())
+  for (auto tmp : SystemManager::Instance().getAllSystems())
   {
     if (RecalboxConf::getInstance()->isInList("global.netplay.systems", tmp->getName()))
     {

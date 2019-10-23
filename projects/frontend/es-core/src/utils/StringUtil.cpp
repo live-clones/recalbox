@@ -290,7 +290,17 @@ std::string StringUtil::trim(const std::string& _string)
 		return "";
 
 	return _string.substr(strBegin, strEnd - strBegin + 1);
+} // trim
 
+std::string StringUtil::trim(const std::string& _string, const char* _trimwhat)
+{
+  const size_t strBegin = _string.find_first_not_of(_trimwhat);
+  const size_t strEnd   = _string.find_last_not_of(_trimwhat);
+
+  if(strBegin == std::string::npos)
+    return "";
+
+  return _string.substr(strBegin, strEnd - strBegin + 1);
 } // trim
 
 std::string StringUtil::replace(const std::string& _string, const std::string& _replace, const std::string& _with)

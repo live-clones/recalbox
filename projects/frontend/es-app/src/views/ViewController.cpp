@@ -15,6 +15,7 @@
 #include "AudioManager.h"
 
 #include <memory>
+#include <SystemManager.h>
 
 ViewController* ViewController::sInstance = nullptr;
 
@@ -57,11 +58,11 @@ void ViewController::goToStart()
 	playViewTransition(); */
 
   std::string systemName = RecalboxConf::getInstance()->get("emulationstation.selectedsystem");
-  int index = systemName.empty() ? -1 : SystemData::getVisibleSystemIndex(systemName);
-  SystemData* selectedSystem = index < 0 ? nullptr : SystemData::getVisibleSystems().at(index);
+  int index = systemName.empty() ? -1 : SystemManager::Instance().getVisibleSystemIndex(systemName);
+  SystemData* selectedSystem = index < 0 ? nullptr : SystemManager::Instance().getVisibleSystems().at(index);
 
   if ((selectedSystem == nullptr) || !selectedSystem->hasGame())
-    selectedSystem = SystemData::getFirstSystemWithGame();
+    selectedSystem = SystemManager::Instance().getFirstSystemWithGame();
 
   if (RecalboxConf::getInstance()->get("emulationstation.hidesystemview") == "1")
     goToGameList(selectedSystem);
@@ -76,7 +77,7 @@ void ViewController::goToStart()
 
 int ViewController::getSystemId(SystemData* system)
 {
-	const std::vector<SystemData*>& sysVec = SystemData::getVisibleSystems();
+	const std::vector<SystemData*>& sysVec = SystemManager::Instance().getVisibleSystems();
 	return std::find(sysVec.begin(), sysVec.end(), system) - sysVec.begin();
 }
 
@@ -86,7 +87,7 @@ void ViewController::goToSystemView(SystemData* system)
   systemList->setPosition((float)getSystemId(system) * Renderer::getDisplayWidthAsFloat(), systemList->getPosition().y());
 
   if (!system->hasGame()) {
-    system = SystemData::getFirstSystemWithGame();
+    system = SystemManager::Instance().getFirstSystemWithGame();
   }
 
 	mState.viewing = ViewMode::SystemList;
@@ -106,11 +107,11 @@ void ViewController::goToNextGameList()
 	assert(mState.viewing == ViewMode::GameList);
 	SystemData* system = getState().getSystem();
 	assert(system);
-	SystemData* next = system->getNext();
+	SystemData* next = SystemManager::Instance().getNext(system);
 	while(!next->getRootFolder()->hasChildren()) {
-		next = next->getNext();
+		next = SystemManager::Instance().getNext(next);
 	}
-	AudioManager::getInstance()->themeChanged(system->getNext()->getTheme());
+	AudioManager::getInstance()->themeChanged(next->getTheme());
 
 	goToGameList(next);
 }
@@ -120,16 +121,16 @@ void ViewController::goToPrevGameList()
 	assert(mState.viewing == ViewMode::GameList);
 	SystemData* system = getState().getSystem();
 	assert(system);
-	SystemData* prev = system->getPrev();
+	SystemData* prev = SystemManager::Instance().getPrev(system);
 	while(!prev->getRootFolder()->hasChildren()) {
-		prev = prev->getPrev();
+		prev = SystemManager::Instance().getPrev(prev);
 	}
 	AudioManager::getInstance()->themeChanged(prev->getTheme());
 	goToGameList(prev);
 }
 
 bool ViewController::goToGameList(std::string& systemName) {
-	SystemData* system = SystemData::getSystem(systemName);
+	SystemData* system = SystemManager::Instance().getSystem(systemName);
 	if (system != nullptr) {
 		goToGameList(system);
 		return true;
@@ -332,7 +333,7 @@ std::shared_ptr<IGameListView> ViewController::getGameListView(SystemData* syste
 
 	view->setTheme(system->getTheme());
 
-	const std::vector<SystemData*>& sysVec = SystemData::getVisibleSystems();
+	const std::vector<SystemData*>& sysVec = SystemManager::Instance().getVisibleSystems();
 	int id = std::find(sysVec.begin(), sysVec.end(), system) - sysVec.begin();
 	view->setPosition((float)id * Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat() * 2);
 
@@ -450,7 +451,7 @@ void ViewController::render(const Transform4x4f& parentTrans)
 
 void ViewController::preload()
 {
-	for (auto it : SystemData::getVisibleSystems())
+	for (auto it : SystemManager::Instance().getVisibleSystems())
 	{
 		getGameListView(it);
 	}
@@ -495,8 +496,8 @@ void ViewController::deleteAndReloadAll()
   Window *window = mWindow;
   window->renderShutdownScreen();
   delete ViewController::get();
-  SystemData::deleteSystems();
-  SystemData::loadConfig();
+  SystemManager::Instance().deleteSystems();
+  SystemManager::Instance().loadConfig();
   GuiComponent *gui;
   while ((gui = window->peekGui()) != nullptr)
     window->removeGui(gui);
@@ -532,12 +533,12 @@ void ViewController::reloadAll()
 	{
 		
 		SystemData* system = mState.getSystem();
-		goToSystemView(SystemData::getVisibleSystems().front());
+		goToSystemView(SystemManager::Instance().getVisibleSystems().front());
 		mSystemListView->goToSystem(system, false);
 		mCurrentView = mSystemListView;
 		
 	}else{
-		goToSystemView(SystemData::getVisibleSystems().front());
+		goToSystemView(SystemManager::Instance().getVisibleSystems().front());
 	}
 
 	updateHelpPrompts();

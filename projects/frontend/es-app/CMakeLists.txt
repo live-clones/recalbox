@@ -14,6 +14,7 @@ set(ES_HEADERS
         ${CMAKE_CURRENT_SOURCE_DIR}/src/MetadataFieldDescriptor.h
         ${CMAKE_CURRENT_SOURCE_DIR}/src/PlatformId.h
         ${CMAKE_CURRENT_SOURCE_DIR}/src/SystemData.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/SystemManager.h
         ${CMAKE_CURRENT_SOURCE_DIR}/src/VolumeControl.h
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Gamelist.h
         ${CMAKE_CURRENT_SOURCE_DIR}/src/NetworkThread.h
@@ -76,6 +77,7 @@ set(ES_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/src/MetadataDescriptor.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/PlatformId.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/SystemData.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/SystemManager.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/VolumeControl.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Gamelist.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/NetworkThread.cpp

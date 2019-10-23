@@ -32,6 +32,7 @@
 #include "guis/GuiMsgBoxScroll.h"
 #include "recalbox/RecalboxSystem.h"
 #include "recalbox/RecalboxUpgrade.h"
+#include "SystemManager.h"
 
 #ifdef WIN32
   #include <Windows.h>
@@ -159,7 +160,7 @@ bool loadSystemConfigFile(const char** errorString)
 {
   *errorString = nullptr;
 
-  if (!SystemData::loadConfig())
+  if (!SystemManager::Instance().loadConfig())
   {
     LOG(LogError) << "Error while parsing systems configuration file!";
     *errorString = "IT LOOKS LIKE YOUR SYSTEMS CONFIGURATION FILE HAS NOT BEEN SET UP OR IS INVALID. YOU'LL NEED TO DO THIS BY HAND, UNFORTUNATELY.\n\n"
@@ -167,7 +168,7 @@ bool loadSystemConfigFile(const char** errorString)
     return false;
   }
 
-  if (SystemData::getVisibleSystems().empty())
+  if (SystemManager::Instance().getVisibleSystems().empty())
   {
     LOG(LogError)
       << "No systems found! Does at least one system have a game present? (check that extensions match!)\n(Also, make sure you've updated your es_systems.cfg for XML!)";
@@ -528,7 +529,7 @@ int main(int argc, char* argv[])
       delete window.peekGui();
 
     window.renderShutdownScreen();
-    SystemData::deleteSystems();
+    SystemManager::Instance().deleteSystems();
     window.deinit();
     GuiNetPlay::stopLobbyThread();
 

@@ -2,8 +2,6 @@
 // Created by bkg2k on 10/03/19.
 //
 
-// TODO: Use DataTime instead of gettimeofday
-#include <sys/time.h>
 #include "DemoMode.h"
 #include "utils/Log.h"
 
@@ -30,7 +28,7 @@ void DemoMode::init()
   mDurations.clear();
 
   // Build system list filtered by user config
-  const std::vector<SystemData*>& allSystems = SystemData::getAllSystems();
+  const std::vector<SystemData*>& allSystems = SystemManager::Instance().getAllSystems();
   bool systemListExists = !mRecalboxConf.get("global.demo.systemlist").empty();
   for (int i=(int)allSystems.size(); --i>= 0;)
   {
@@ -68,10 +66,8 @@ void DemoMode::init()
       mGameHistories[s][g] = -1;
   }
 
-  // Second seed
-  timeval tv = { 0, 0 };
-  gettimeofday(&tv, nullptr);
-  mSeed = tv.tv_usec;
+  // Second seed - must never be negative
+  mSeed = ((int)(DateTime() - DateTime(1970, 1, 1)).TotalMilliseconds()) & 0x7FFFFFFF;
 }
 
 bool DemoMode::hasDemoMode()
@@ -141,7 +137,7 @@ bool DemoMode::getRandomGame(FileData*& outputGame, int& outputDuration)
   for (int i = MAX_HISTORY; --i >= 0; )
   {
     // Select game
-    gamePosition = (mGameRandomizer(mRandomGenerator) + i + mSeed) % (int)gameList.size();
+    gamePosition = ((mGameRandomizer(mRandomGenerator) + i + mSeed) & 0x7FFFFFFF) % (int)gameList.size();
     outputGame = gameList[gamePosition];
 
     if (!isInHistory(gamePosition, mGameHistories[systemIndex], (int)gameList.size() / 2) || (gameList.size() == 1))
@@ -178,7 +174,7 @@ void DemoMode::runDemo()
     // Initialize (shutdown ES display)
     if (!Initialized)
     {
-      controllerConfigs = system->demoInitialize(mWindow);
+      controllerConfigs = SystemData::demoInitialize(mWindow);
       Initialized = true;
     }
     // Run game
@@ -193,7 +189,7 @@ void DemoMode::runDemo()
   }
   // Finalize (remount ES display)
   if (Initialized)
-    system->demoFinalize(mWindow);
+    SystemData::demoFinalize(mWindow);
 }
 
 

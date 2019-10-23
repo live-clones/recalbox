@@ -7,6 +7,7 @@
 #include <recalbox/RecalboxSystem.h>
 #include <guis/GuiMsgBox.h>
 #include <Util.h>
+#include <SystemManager.h>
 #include "GuiHashStart.h"
 #include "components/OptionListComponent.h"
 
@@ -32,7 +33,7 @@ GuiHashStart::GuiHashStart(Window* window)
 
     // add systems (all with a platformid specified selected)
     mSystems = std::make_shared< OptionListComponent<SystemData*> >(mWindow, _("HASH THESE SYSTEMS"), true);
-    for (auto it : SystemData::getVisibleSystems())
+    for (auto it : SystemManager::Instance().getVisibleSystems())
     {
         if(RecalboxConf::getInstance()->isInList("global.netplay.systems", it->getName()))
             mSystems->add(it->getFullName(), it, true);

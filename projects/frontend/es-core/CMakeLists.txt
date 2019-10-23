@@ -35,7 +35,10 @@ set(CORE_HEADERS
 		# Utils
 		${CMAKE_CURRENT_SOURCE_DIR}/src/utils/StringUtil.h
 		${CMAKE_CURRENT_SOURCE_DIR}/src/utils/os/fs/FileSystemUtil.h
+		${CMAKE_CURRENT_SOURCE_DIR}/src/utils/os/fs/StringMapFile.h
 		${CMAKE_CURRENT_SOURCE_DIR}/src/utils/os/system/Thread.h
+		${CMAKE_CURRENT_SOURCE_DIR}/src/utils/os/system/ThreadPool.h
+		${CMAKE_CURRENT_SOURCE_DIR}/src/utils/os/system/ThreadPoolWorkerInterface.h
 		${CMAKE_CURRENT_SOURCE_DIR}/src/utils/os/system/Mutex.h
 		${CMAKE_CURRENT_SOURCE_DIR}/src/utils/datetime/HighResolutionTimer.h
 		${CMAKE_CURRENT_SOURCE_DIR}/src/utils/math/Vectors.h
@@ -131,6 +134,7 @@ set(CORE_SOURCES
 		${CMAKE_CURRENT_SOURCE_DIR}/src/utils/os/system/Thread.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/src/utils/os/system/Mutex.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/src/utils/os/fs/FileSystemUtil.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/src/utils/os/fs/StringMapFile.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/src/utils/StringUtil.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/src/utils/math/Vector2i.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/src/utils/math/Vector2f.cpp

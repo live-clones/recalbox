@@ -9,6 +9,7 @@
 
 #include <functional>
 #include <LibretroRatio.h>
+#include <SystemManager.h>
 
 #include "EmulationStation.h"
 #include "guis/GuiMenu.h"
@@ -774,7 +775,7 @@ void GuiMenu::menuUISettings(){
 
 	  // add systems (all with a platformid specified selected)
 	  auto systems = std::make_shared<OptionListComponent<std::string> >(mWindow, _("SYSTEMS TO SHOW IN DEMO"), true);
-	  for (auto it : SystemData::getAllSystems()) {
+	  for (auto it : SystemManager::Instance().getAllSystems()) {
 		  if (!it->hasPlatformId(PlatformIds::PlatformId::PLATFORM_IGNORE))
 			  systems->add(it->getFullName(), it->getName(),
 			               RecalboxConf::getInstance()->isInList("global.demo.systemlist", it->getName()) &&
@@ -898,7 +899,7 @@ void GuiMenu::menuUISettings(){
     ViewController::get()->goToStart();
     window->renderShutdownScreen();
     delete ViewController::get();
-    for (auto& systems : SystemData::getVisibleSystems())
+    for (auto& systems : SystemManager::Instance().getVisibleSystems())
       systems->loadTheme();
     GuiComponent *gui;
     while ((gui = window->peekGui()) != nullptr) {
@@ -1121,8 +1122,8 @@ void GuiMenu::menuUISettings(){
 			ViewController::get()->goToStart();
 			window->renderShutdownScreen();
 			delete ViewController::get();
-			SystemData::deleteSystems();
-			SystemData::loadConfig();
+			SystemManager::Instance().deleteSystems();
+			SystemManager::Instance().loadConfig();
 			GuiComponent *gui;
 			while ((gui = window->peekGui()) != nullptr) {
 				window->removeGui(gui);
@@ -1486,7 +1487,7 @@ void GuiMenu::menuAdvancedSettings(){
       auto system_choices = std::make_shared<OptionListComponent<std::string> >(mWindow, _("BOOT ON SYSTEM"), false);
       std::string currentSystem = !selectedsystem.empty() ? selectedsystem : "favorites";
       // For each activated system
-      std::vector<SystemData *> systems = SystemData::getVisibleSystems();
+      std::vector<SystemData *> systems = SystemManager::Instance().getVisibleSystems();
       bool found = false;
       for (auto & system : systems) {
         const std::string& systemName = system->getName();
@@ -1538,10 +1539,10 @@ void GuiMenu::menuAdvancedSettings(){
       s->save();
       GuiSettings *configuration = new GuiSettings(mWindow, _("EMULATOR ADVANCED CONFIGURATION").c_str());
       // For each activated system
-      std::vector<SystemData *> systems = SystemData::getAllSystems();
+      std::vector<SystemData *> systems = SystemManager::Instance().getAllSystems();
       for (auto& system : systems)
       {
-        if (system != SystemData::getFavoriteSystem()) {
+        if (system != SystemManager::Instance().getFavoriteSystem()) {
           SystemData *systemData = system;
           configuration->addSubMenu(system->getFullName(), [this, systemData] {
             popSystemConfigurationGui(systemData);

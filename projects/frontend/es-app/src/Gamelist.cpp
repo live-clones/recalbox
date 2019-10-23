@@ -86,13 +86,13 @@ void overrideFolderInformation(FileData* folderdata)
   }
 }
 
-FileData* findOrCreateFile(SystemData* system, const boost::filesystem::path& path, ItemType type, bool trustGamelist, FileData::StringMap& doppelgangerWatcher)
+FileData* findOrCreateFile(SystemData* system, const boost::filesystem::path& path, ItemType type, FileData::StringMap& doppelgangerWatcher)
 {
 	// first, verify that path is within the system's root folder
 	FolderData* root = system->getRootFolder();
 	
 	bool contains = false;
-	fs::path relative = trustGamelist ? removeCommonPathUsingStrings(path, root->getPath(), contains) : removeCommonPath(path, root->getPath(), contains);
+	fs::path relative = removeCommonPathUsingStrings(path, root->getPath(), contains);
 	if (!contains)
 	{
 		LOG(LogError) << "File path \"" << path << "\" is outside system path \"" << system->getStartPath() << "\"";
@@ -156,15 +156,14 @@ FileData* findOrCreateFile(SystemData* system, const boost::filesystem::path& pa
 
 void parseGamelist(SystemData* system, FileData::StringMap& doppelgangerWatcher)
 {
+  LOG(LogInfo) << system->getFullName() << ": Parsing XML file " << system->getGamelistPath(false) << "...";
+
   try
   {
-    bool trustGamelist = RecalboxConf::getInstance()->get("emulationstation.gamelistonly") == "1";
     std::string xmlpath = system->getGamelistPath(false);
 
     if(!boost::filesystem::exists(xmlpath))
       return;
-
-    LOG(LogInfo) << "Parsing XML file \"" << xmlpath << "\"...";
 
     MetadataDescriptor::Tree gameList;
     try
@@ -190,14 +189,7 @@ void parseGamelist(SystemData* system, FileData::StringMap& doppelgangerWatcher)
       const MetadataDescriptor::Tree& children = fileNode.second;
       path = resolvePath(children.get("path", ""), relativeTo, false);
 
-      if(!trustGamelist)
-        if (!boost::filesystem::exists(path))
-        {
-          LOG(LogWarning) << "File \"" << path << "\" does not exist! Ignoring.";
-          continue;
-        }
-
-      FileData* file = findOrCreateFile(system, path, type, trustGamelist, doppelgangerWatcher);
+      FileData* file = findOrCreateFile(system, path, type, doppelgangerWatcher);
       if(file == nullptr)
       {
         LOG(LogError) << "Error finding/creating FileData for \"" << path << "\", skipping.";

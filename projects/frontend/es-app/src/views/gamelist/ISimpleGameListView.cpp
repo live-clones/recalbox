@@ -1,5 +1,6 @@
 #include <RecalboxConf.h>
 #include <guis/GuiNetPlay.h>
+#include <SystemManager.h>
 #include "guis/GuiGamelistOptions.h"
 #include "views/gamelist/ISimpleGameListView.h"
 #include "themes/ThemeData.h"
@@ -35,7 +36,7 @@ ISimpleGameListView::ISimpleGameListView(Window* window, FolderData* root)
   mBackground.setResize(mSize.x(), mSize.y());
   mBackground.setDefaultZIndex(0);
 
-  mIsFavoriteSystem = getRoot()->getSystem() == SystemData::getFavoriteSystem();
+  mIsFavoriteSystem = getRoot()->getSystem() == SystemManager::Instance().getFavoriteSystem();
 
   addChild(&mHeaderText);
   addChild(&mBackground);
@@ -85,7 +86,7 @@ void ISimpleGameListView::onFileChanged(FileData* file, FileChangeType change)
 
   if (file->isGame())
   {
-    SystemData* favoriteSystem = SystemData::getFavoriteSystem();
+    SystemData* favoriteSystem = SystemManager::Instance().getFavoriteSystem();
     bool isInFavorite = favoriteSystem->getRootFolder()->Contains(file, true);
     bool isFavorite = file->Metadata().Favorite();
 
@@ -93,7 +94,7 @@ void ISimpleGameListView::onFileChanged(FileData* file, FileChangeType change)
     {
       if (isInFavorite) favoriteSystem->getRootFolder()->removeChild(file);
       else favoriteSystem->getRootFolder()->addChild(file, false);
-      ViewController::get()->setInvalidGamesList(SystemData::getFavoriteSystem());
+      ViewController::get()->setInvalidGamesList(SystemManager::Instance().getFavoriteSystem());
       ViewController::get()->getSystemListView()->manageFavorite();
       mFavoritesCount = mFavoritesCount + (isFavorite ? 1 : -1);
       if (mFavoritesCount == 0) { mFavoritesOnly = false; }
@@ -107,7 +108,7 @@ void ISimpleGameListView::onFileChanged(FileData* file, FileChangeType change)
     delete file;
     if (favorite)
     {
-      ViewController::get()->setInvalidGamesList(SystemData::getFavoriteSystem());
+      ViewController::get()->setInvalidGamesList(SystemManager::Instance().getFavoriteSystem());
       ViewController::get()->getSystemListView()->manageFavorite();
     }
   }

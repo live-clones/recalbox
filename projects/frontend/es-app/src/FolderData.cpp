@@ -49,6 +49,10 @@ void FolderData::populateRecursiveFolder(const std::string& filteredExtensions, 
     return;
   }
 
+  // media folder?
+  if (folderPath.stem() == "media")
+    return;
+
   const std::string& folderStr = folderPath.generic_string();
 
   //make sure that this isn't a symlink to a thing we already have
@@ -87,7 +91,7 @@ void FolderData::populateRecursiveFolder(const std::string& filteredExtensions, 
     bool isFile = !fs::is_directory(filePath);
     bool isHidden = filePath.has_filename() ? filePath.filename().string()[0] == '.' : false;
     if (!isHidden)
-      if((noExtensions && isFile) || (!extension.empty() && filteredExtensions.find(extension) != std::string::npos)  /*(std::find(searchExtensions.begin(), searchExtensions.end(), extension) != searchExtensions.end())*/)
+      if((noExtensions && isFile) || (!extension.empty() && filteredExtensions.find(extension) != std::string::npos))
       {
         if (isArcade)
         {
@@ -107,7 +111,7 @@ void FolderData::populateRecursiveFolder(const std::string& filteredExtensions, 
       }
 
     //add directories that also do not match an extension as folders
-    if(!isLaunchableGame && fs::is_directory(filePath))
+    if (!isFile && !isHidden && !isLaunchableGame)
     {
       FolderData* newFolder = new FolderData(filePath.generic_string(), systemData);
       newFolder->populateRecursiveFolder(filteredExtensions, systemData, doppelgangerWatcher);

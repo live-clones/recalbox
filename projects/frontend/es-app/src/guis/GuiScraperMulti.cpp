@@ -1,3 +1,4 @@
+#include <SystemManager.h>
 #include "guis/GuiScraperMulti.h"
 #include "Renderer.h"
 #include "utils/Log.h"
@@ -84,7 +85,7 @@ GuiScraperMulti::GuiScraperMulti(Window* window, const std::queue<ScraperSearchP
 GuiScraperMulti::~GuiScraperMulti()
 {
 	// view type probably changed (basic -> detailed)
-	for (auto& system : SystemData::getVisibleSystems())
+	for (auto& system : SystemManager::Instance().getVisibleSystems())
 		ViewController::get()->reloadGameListView(system, false);
 }
 

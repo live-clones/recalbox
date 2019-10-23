@@ -4,6 +4,7 @@
 #include "SystemData.h"
 #include "utils/Log.h"
 #include "views/ViewController.h"
+#include "SystemManager.h"
 #include <boost/algorithm/string/classification.hpp>
 #include <boost/algorithm/string/split.hpp>
 using boost::asio::ip::udp;
@@ -53,7 +54,7 @@ void CommandThread::run() {
 		}
 		
 		SystemData *system = nullptr;
-		for (auto & tmp : SystemData::getVisibleSystems()) {
+		for (auto & tmp : SystemManager::Instance().getVisibleSystems()) {
 			if (tmp->getName() == tokens[1]) {
 				system = tmp;
 				break;

@@ -38,6 +38,8 @@ class StringUtil
 
     static std::string trim(const std::string& _string);
 
+    static std::string trim(const std::string& _string, const char* _trimwhat);
+
     static std::string replace(const std::string& _string, const std::string& _replace, const std::string& _with);
 
     static bool startsWith(const std::string& _string, const std::string& _start);

@@ -32,8 +32,14 @@ class Thread
 
     /*!
      * Stops the thread
+     * @param donotjoin Don't call join to wait for the effective end
      */
     void Stop();
+
+    /*!
+     * @brief Wait until thread deatj
+     */
+    void Join();
 
     /*!
      * Returns the running status of the thread
@@ -47,6 +53,10 @@ class Thread
      */
     bool IsDone() const { return mIsDone; }
 
+    /*!
+     * @brief Get the current thread id
+     * @return Current Thread ID
+     */
     static int SelfId() { return (int)pthread_self(); }
 
     /*!

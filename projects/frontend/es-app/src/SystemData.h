@@ -9,112 +9,78 @@
 #include "FileSorts.h"
 
 #include <boost/property_tree/ptree.hpp>
-#include <RootFolders.h>
 
 class SystemData
 {
-	public:
-		//! convenient ptree type access
-		typedef boost::property_tree::ptree Tree;
-		typedef std::pair<std::string, Tree> TreeNode;
-
-		//! Convenient alias for system collision map
-		typedef std::map<std::string, int> XmlNodeCollisionMap;
-		//! Convenient alias for XML node list
-		typedef std::vector<Tree> XmlNodeList;
-
 	private:
-		std::string mName;
+    friend class SystemManager;
+
+    //! convenient ptree type access
+    typedef boost::property_tree::ptree Tree;
+
+    //! Short name
+    std::string mName;
+    //! Long name
 		std::string mFullName;
+		//! Rom path
 		std::string mStartPath;
+		//! Extension list
 		std::string mSearchExtensions;
+		//! Cmmand to run a game
 		std::string mLaunchCommand;
+		//! Platform identifiers (for scraping only)
 		std::vector<PlatformIds::PlatformId> mPlatformIds;
+		//! Theme data folder
 		std::string mThemeFolder;
+		//! Theme object
 		std::shared_ptr<ThemeData> mTheme;
-
+		//! Emulator/Cores tree
+    std::map<std::string, std::vector<std::string> *> mEmulators;
+    //! Root folder - Children are top level visible gale/folder of the system
+    RootFolderData mRootFolder;
+    //! Sorting index
+    unsigned int mSortId;
+    //! Is this system the favorite system?
 		bool mIsFavorite;
-		unsigned int mSortId;
 
-		void populateFolder(FolderData* folder, FileData::StringMap& doppelgangerWatcher);
-
-		RootFolderData mRootFolder;
-		std::map<std::string, std::vector<std::string> *> mEmulators;
-
-		/*!
-     * Run though the system list and store system nodes into the given store.
-     * If a system already exists in the store, the new system node is ignored
-     * @param collisionMap Collision map to keep track of nodes in the store
-     * @param nodeStore Node store to fill with unique system nodes
-     * @param document Source document
-     * @return true if the system list contains one or more system. False if the systemList node does not exist or is empty.
+    /*!
+     * @brief Populate the system using all available folder/games by gathering recursively
+     * all files mathing the extension list
+     * @param folder Root folder to recurse in
+     * @param doppelgangerWatcher full path map to avoid symlink to inject a game more than once
      */
-		static bool loadSystemNodes(XmlNodeCollisionMap& collisionMap, XmlNodeList& nodeStore, const Tree& document);
+    void populateFolder(FolderData* folder, FileData::StringMap& doppelgangerWatcher);
 
-		/*!
+    /*!
+     * @brief Private constructor, called from SystemManager
+     * @param name Short name (e.g: snes)
+     * @param fullName Long name (e.g: Super Nintendo Entertainment System)
+     * @param startPath Rom path (e.g: /recalbox/share/roms/snes)
+     * @param filteredExtensions Rom extensions (e.g: "zip 7z smc sfc")
+     * @param command Command to run a single game from this system
+     * @param platformIds Platform identifier list used for scraping only
+     * @param themeFolder Theme data folder
+     * @param emuNodes XML emulator node (e.g: a tree of emulator/cores)
+     * @param childOwnership True og the system own all its children game/folder.
+     * False if the system is a virtual system. Avoid games to be destroyed more than once
+     * @param favorite True if this is the favorite system.
      */
-
-		/*!
-     * Load systemList file into the given XML Document, then parse and store systems into the given node store
-     * Perform all file/xml checks.
-     * @param document Xml Document to store content to
-     * @param collisionMap Collision map to keep track of nodes in the store
-     * @param nodeStore System node store
-     * @return true if the operation is successful and at least one system has been processed. False otherwise
-     */
-		static bool loadSystemList(Tree& document, XmlNodeCollisionMap& collisionMap, XmlNodeList& nodeStore, const std::string& filepath);
-
-		/*!
-     * Load and parse the given file to populate a property tree
-     * @param document Document to populate
-     * @param filepath Filepath to load & parse
-     * @return false if the file does not exist or if the file is not parsable.
-     */
-		static bool loadXmlFile(Tree& document, const std::string& filepath);
-
-		static bool AddFavoriteSystem(const XmlNodeList& systemList);
-
-		static bool AddArcadeMetaSystem();
-
-    static SystemData* CreateRegularSystem(const std::string& name, const std::string& fullName, const std::string& startPath,
-                                           const std::string& filteredExtensions, const std::string& command,
-                                           const std::vector<PlatformIds::PlatformId>& platformIds, const std::string& themeFolder,
-                                           const Tree& emuNodes);
-
-    static SystemData* CreateFavoriteSystem(const std::string& name, const std::string& fullName,
-                                            const std::string& themeFolder, const std::vector<SystemData*>& systems);
-
-    static SystemData* CreateMetaSystem(const std::string& name, const std::string& fullName,
-                                        const std::string& themeFolder, const std::vector<SystemData*>& systems);
-
     SystemData(const std::string& name, const std::string& fullName, const std::string& startPath,
                const std::string& filteredExtensions, const std::string& command,
                const std::vector<PlatformIds::PlatformId>& platformIds, const std::string& themeFolder,
-               const Tree* emuNodes, bool childOwnership);
-
-    /*!
-     * @brief Called from loading threads
-     * @param system XML system descriptor
-     * @return New SystemData instance
-     */
-    static SystemData* createSystem(const SystemData::Tree &system);
-
-    //! Visible system, including virtual system (Arcade)
-    static std::vector<SystemData*> sSystemVector;
-    //! Hidden system, just here to hold their own children
-    static std::vector<SystemData*> sHiddenSystemVector;
-    //! ALL systems, visible and hidden
-    static std::vector<SystemData*> sAllSystemVector;
+               const Tree* emuNodes, bool childOwnership, bool favorite);
 
   public:
-
+    /*!
+     * @brief Destructor
+     */
     ~SystemData();
 
+    //! Return the root folder object
     inline RootFolderData* getRootFolder() { return &mRootFolder; };
     inline const std::string& getName() const { return mName; }
     inline const std::string& getFullName() const { return mFullName; }
     inline const std::string& getStartPath() const { return mStartPath; }
-    //inline const std::vector<std::string>& getExtensions() const { return mSearchExtensions; }
     inline const std::string& getThemeFolder() const { return mThemeFolder; }
     inline bool getHasFavoritesInTheme() const { return mTheme->getHasFavoritesInTheme(); }
     inline bool isFavorite() const { return mIsFavorite; }
@@ -139,47 +105,12 @@ class SystemData
 
     void launchGame(Window* window, FileData* game, const std::string& netplay, const std::string& core, const std::string& ip, const std::string& port);
 
-    static void deleteSystems();
-    static bool loadConfig(); //Load the system config file at getConfigPath(). Returns true if no errors were encountered. An example will be written if the file doesn't exist.
-    static void writeExampleConfig(const std::string& path);
-
-    static SystemData* getFavoriteSystem();
-    static SystemData* getSystem(std::string& name);
-    static SystemData* getFirstSystemWithGame();
-    static int getVisibleSystemIndex(const std::string& name);
-
-    static const std::vector<SystemData*>& getAllSystems() { return sAllSystemVector; }
-    static const std::vector<SystemData*>& getVisibleSystems() { return sSystemVector; }
-    static const std::vector<SystemData*>& getHiddenSystems() { return sHiddenSystemVector; }
-
-    inline std::vector<SystemData*>::const_iterator getIterator() const { return std::find(sSystemVector.begin(), sSystemVector.end(), this); };
-    inline std::vector<SystemData*>::const_reverse_iterator getRevIterator() const { return std::find(sSystemVector.rbegin(), sSystemVector.rend(), this); };
-
-    inline SystemData* getNext() const
-    {
-      auto it = getIterator();
-      it++;
-      if(it == sSystemVector.end()) it = sSystemVector.begin();
-      return *it;
-    }
-
-    inline SystemData* getPrev() const
-    {
-      auto it = getRevIterator();
-      it++;
-      if(it == sSystemVector.rend()) it = sSystemVector.rbegin();
-      return *it;
-    }
-
     // Load or re-load theme.
     void loadTheme();
 
     std::map<std::string, std::vector<std::string> *> * getEmulators() { return &mEmulators; }
 
     std::vector<std::string> getCores(const std::string& emulatorName);
-
-    static std::string getUserConfigurationAbsolutePath()     { return RootFolders::DataRootFolder     + "/system/.emulationstation/es_systems.cfg"; }
-    static std::string getTemplateConfigurationAbsolutePath() { return RootFolders::TemplateRootFolder + "/system/.emulationstation/es_systems.cfg"; }
 
     static std::string demoInitialize(Window& window);
     static void demoFinalize(Window& window);
