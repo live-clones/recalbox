@@ -155,9 +155,10 @@ GuiMetaDataEd::GuiMetaDataEd(Window* window,
 
           emu_choice->add(str(boost::format(_("DEFAULT (%1%)")) % mainConfigEmulator), "default", true);
 
-          for (auto & it : *system->getEmulators())
+          for (int i = system->Emulators().Count(); --i >= 0; )
           {
-            emu_choice->add(it.first, it.first, it.first == currentEmulator);
+            emu_choice->add(system->Emulators().At(i).Name(), system->Emulators().At(i).Name(),
+                            system->Emulators().At(i).Name() == currentEmulator);
           }
 
           // when emulator changes, load new core list
@@ -176,7 +177,8 @@ GuiMetaDataEd::GuiMetaDataEd(Window* window,
                                                      return;
                                                    }
 
-                                                   std::vector<std::string> cores = system->getCores(emulatorName);
+                                                   const SystemData::EmulatorDescriptor& emulator = system->Emulators().Named(
+                                                     emulatorName);
                                                    std::string currentCore = mMetaData.Core();
 
                                                    if (currentCore.empty())
@@ -185,7 +187,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window* window,
                                                    }
 
                                                    // update current core if it is not available in the emulator selected core list
-                                                   if (currentCore != "default" && std::find(cores.begin(), cores.end(), currentCore) == cores.end())
+                                                   if (currentCore != "default" && emulator.HasCore(currentCore))
                                                    {
                                                      if (emulatorName == emulatorDefaults.emulator)
                                                      {
@@ -194,20 +196,19 @@ GuiMetaDataEd::GuiMetaDataEd(Window* window,
                                                      else
                                                      {
                                                        // use first one
-                                                       currentCore = *(cores.begin());
+                                                       currentCore = emulator.Core(0);
                                                      }
                                                    }
 
-                                                   for (auto it = cores.begin(); it != cores.end(); it++)
+                                                   for (int i = 0; i < emulator.CoreCount(); ++i)
                                                    {
-                                                     std::string core = *it;
                                                      // select at least first one in case of bad entry in config file
-                                                     bool selected = currentCore == core || it == cores.begin();
+                                                     bool selected = (currentCore == emulator.Core(i)) || (i == 0);
                                                      if (currentCore == "default" && emulatorName == emulatorDefaults.emulator)
                                                      {
-                                                       selected = selected || core == emulatorDefaults.core;
+                                                       selected = selected || (emulator.Core(i) == emulatorDefaults.core);
                                                      }
-                                                     core_choice->add(core, core, selected);
+                                                     core_choice->add(emulator.Core(i), emulator.Core(i), selected);
                                                    }
                                                  });
 

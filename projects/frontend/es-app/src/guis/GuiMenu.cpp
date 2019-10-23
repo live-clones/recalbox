@@ -779,7 +779,7 @@ void GuiMenu::menuUISettings(){
 		  if (!it->hasPlatformId(PlatformIds::PlatformId::PLATFORM_IGNORE))
 			  systems->add(it->getFullName(), it->getName(),
 			               RecalboxConf::getInstance()->isInList("global.demo.systemlist", it->getName()) &&
-			               it->getPlatformCount() != 0);
+			               it->PlatformCount() != 0);
 	  }
 	  ss->addWithLabel(systems, _("SYSTEMS FOR DEMO"));
 	  ss->addSaveFunc([systems] {
@@ -1710,9 +1710,10 @@ void GuiMenu::popSystemConfigurationGui(SystemData *systemData) const {
 
     emu_choice->add(str(boost::format(_("DEFAULT (%1%)")) % emulatorDefaults.emulator), "default", true);
 
-    for (auto& it : *systemData->getEmulators())
+    for (int i = systemData->Emulators().Count(); --i >= 0;)
     {
-        emu_choice->add(it.first, it.first, it.first == currentEmulator);
+      emu_choice->add(systemData->Emulators().At(i).Name(), systemData->Emulators().At(i).Name(),
+                      systemData->Emulators().At(i).Name() == currentEmulator);
     }
 
     // when emulator changes, load new core list
@@ -1724,7 +1725,7 @@ void GuiMenu::popSystemConfigurationGui(SystemData *systemData) const {
             return ;
         }
         
-        std::vector<std::string> cores = systemData->getCores(emulatorName);
+        const SystemData::EmulatorDescriptor& emulator = systemData->Emulators().Named(emulatorName);
         std::string currentCore = RecalboxConf::getInstance()->get(systemData->getName() + ".core");
 
         if (currentCore.empty()) {
@@ -1732,23 +1733,22 @@ void GuiMenu::popSystemConfigurationGui(SystemData *systemData) const {
         }
 
         // update current core if it is not available in the emulator selected core list
-        if (currentCore != "default" && std::find(cores.begin(), cores.end(), currentCore) == cores.end()) {
+        if (currentCore != "default" && emulator.HasCore(currentCore)) {
             if (emulatorName == emulatorDefaults.emulator) {
                 currentCore = emulatorDefaults.core;
             } else {
                 // use first one
-                currentCore = *(cores.begin());
+                currentCore = emulator.Core(0);
             }
         }
 
-        for (auto it = cores.begin(); it != cores.end(); it++) {
-            std::string core = *it;
+        for (int i = 0; i < emulator.CoreCount(); ++i)
+        {
             // select at least first one in case of bad entry in config file
-            bool selected = currentCore == core || it == cores.begin();
-            if (currentCore == "default" && emulatorName == emulatorDefaults.emulator) {
-                selected = selected || core == emulatorDefaults.core;
-            }
-            core_choice->add(core, core, selected);
+            bool selected = currentCore == emulator.Core(i) || i == 0;
+            if (currentCore == "default" && emulatorName == emulatorDefaults.emulator)
+                selected = selected || (emulator.Core(i) == emulatorDefaults.core);
+            core_choice->add(emulator.Core(i), emulator.Core(i), selected);
         }
     });
 

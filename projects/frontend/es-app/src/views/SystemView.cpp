@@ -393,9 +393,9 @@ void SystemView::onCursorChanged(const CursorState& state)
 		mSystemInfo.setOpacity((unsigned char)(lerp<float>(infoStartOpacity, 0.f, t) * 255));
 	}, (int)(infoStartOpacity * 150));
 
-	unsigned int gameCount = getSelected()->getGameCount();
-	unsigned int favoritesCount = getSelected()->getFavoritesCount();
-	unsigned int hiddenCount = getSelected()->getHiddenCount();
+	unsigned int gameCount = getSelected()->GameCount();
+	unsigned int favoritesCount = getSelected()->FavoritesCount();
+	unsigned int hiddenCount = getSelected()->HiddenCount();
 	unsigned int gameNoHiddenCount = gameCount - hiddenCount;
 
 	// also change the text after we've fully faded out
@@ -854,11 +854,11 @@ void SystemView::manageFavorite(){
 		}
 	SystemData *favorite = SystemManager::Instance().getFavoriteSystem();
 	if(hasFavorite) {
-		if (favorite->getFavoritesCount() == 0) {
+		if (favorite->FavoritesCount() == 0) {
 			removeFavoriteSystem();
 		}
 	}else {
-		if (favorite->getFavoritesCount() > 0) {
+		if (favorite->FavoritesCount() > 0) {
 			addSystem(favorite);
 		}
 	}

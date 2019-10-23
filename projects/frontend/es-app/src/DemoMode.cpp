@@ -178,7 +178,7 @@ void DemoMode::runDemo()
       Initialized = true;
     }
     // Run game
-    if (system->demoLaunchGame(game, duration, mInfoScreenDuration, controllerConfigs))
+    if (system->DemoRunGame(*game, duration, mInfoScreenDuration, controllerConfigs))
     {
       mWindow.doWake();
       break;

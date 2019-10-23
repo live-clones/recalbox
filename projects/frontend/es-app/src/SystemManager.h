@@ -7,7 +7,6 @@
 
 //! convenient ptree type access
 typedef boost::property_tree::ptree Tree;
-typedef std::pair<std::string, Tree> TreeNode;
 
 class SystemManager :
   public ThreadPoolWorkerInterface<Tree, SystemData*>, // Multi-threaded system loading
@@ -23,7 +22,7 @@ class SystemManager :
     static constexpr const char* sWeightFilePath = "/recalbox/share/system/.emulationstation/.weights";
 
     //! Visible system, including virtual system (Arcade)
-    std::vector<SystemData*> sSystemVector;
+    std::vector<SystemData*> sVisibleSystemVector;
     //! Hidden system, just here to hold their own children
     std::vector<SystemData*> sHiddenSystemVector;
     //! ALL systems, visible and hidden
@@ -69,7 +68,7 @@ class SystemManager :
     static SystemData* CreateRegularSystem(const std::string& name, const std::string& fullName, const std::string& startPath,
                                     const std::string& filteredExtensions, const std::string& command,
                                     const std::vector<PlatformIds::PlatformId>& platformIds, const std::string& themeFolder,
-                                    const Tree& emuNodes);
+                                    const SystemData::EmulatorList& emuNodes);
 
     static SystemData* CreateFavoriteSystem(const std::string& name, const std::string& fullName,
                                       const std::string& themeFolder, const std::vector<SystemData*>& systems);
@@ -81,6 +80,8 @@ class SystemManager :
 
     static std::string getUserConfigurationAbsolutePath()     { return RootFolders::DataRootFolder     + "/system/.emulationstation/es_systems.cfg"; }
     static std::string getTemplateConfigurationAbsolutePath() { return RootFolders::TemplateRootFolder + "/system/.emulationstation/es_systems.cfg"; }
+
+    static SystemData::EmulatorList DeserializeEmulatorTree(const Tree& treeNode);
 
     /*
      * ThreadPoolWorkingInterface implementation
@@ -119,24 +120,24 @@ class SystemManager :
     bool loadConfig();
 
     const std::vector<SystemData*>& getAllSystems() { return sAllSystemVector; }
-    const std::vector<SystemData*>& getVisibleSystems() { return sSystemVector; }
+    const std::vector<SystemData*>& getVisibleSystems() { return sVisibleSystemVector; }
     const std::vector<SystemData*>& getHiddenSystems() { return sHiddenSystemVector; }
 
-    inline SystemData* getNext(SystemData* to) const
+    inline SystemData* getNextVisible(SystemData* to) const
     {
-      int size = (int)sSystemVector.size();
+      int size = (int)sVisibleSystemVector.size();
       for(int i = size; --i>=0; )
-        if (sSystemVector[i] == to)
-          return sSystemVector[(++i) % size];
+        if (sVisibleSystemVector[i] == to)
+          return sVisibleSystemVector[(++i) % size];
       return nullptr;
     }
 
-    inline SystemData* getPrev(SystemData* to) const
+    inline SystemData* getPreviousVisible(SystemData* to) const
     {
-      int size = (int)sSystemVector.size();
+      int size = (int)sVisibleSystemVector.size();
       for(int i = size; --i>=0; )
-        if (sSystemVector[i] == to)
-          return sSystemVector[(--i + size) % size];
+        if (sVisibleSystemVector[i] == to)
+          return sVisibleSystemVector[(--i + size) % size];
       return nullptr;
     }
 };

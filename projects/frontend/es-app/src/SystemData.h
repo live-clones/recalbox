@@ -7,17 +7,109 @@
 #include "PlatformId.h"
 #include "themes/ThemeData.h"
 #include "FileSorts.h"
+#include "Log.h"
 
 #include <boost/property_tree/ptree.hpp>
 
 class SystemData
 {
-	private:
-    friend class SystemManager;
-
+  private:
     static constexpr int sMaximumPlatformIds = 8;
     static constexpr int sMaximumEmulators   = 4;
     static constexpr int sMaximumCores       = 8;
+
+  public:
+    class EmulatorDescriptor
+    {
+      private:
+        std::string mEmulator;
+        int mCoreCount;
+        std::string mCores[sMaximumCores];
+
+      public:
+        EmulatorDescriptor()
+          : mCoreCount(0)
+        {
+        }
+
+        explicit EmulatorDescriptor(const std::string& emulator)
+          : mEmulator(emulator),
+            mCoreCount(0)
+        {
+        }
+
+        const std::string& Name() const { return mEmulator; }
+
+        int CoreCount() const { return mCoreCount; }
+
+        bool HasAny() const { return mCoreCount != 0; }
+
+        bool HasCore(const std::string& name) const
+        {
+          for(int i=mCoreCount; --i>=0; )
+            if (name == mCores[i])
+              return true;
+          return false;
+        }
+
+        const std::string& Core(int index) const { return (unsigned int)index < (unsigned int)mCoreCount ? mCores[index] : mCores[0]; }
+
+        void AddCore(const std::string& core)
+        {
+          if (mCoreCount < sMaximumCores)
+            mCores[mCoreCount++] = core;
+          else
+            LOG(LogError) << "Core " << core << " cannot be added to emulator " << mEmulator;
+        }
+    };
+
+    class EmulatorList
+    {
+      private:
+        int mEmulatorCount;
+        EmulatorDescriptor mEmulators[sMaximumEmulators];
+
+        static EmulatorDescriptor sEmptyEmulator;
+
+      public:
+        EmulatorList()
+          : mEmulatorCount(0)
+        {
+        }
+
+        int Count() const { return mEmulatorCount; }
+
+        const EmulatorDescriptor& At(int index) const { return (unsigned int)index < (unsigned int)mEmulatorCount ? mEmulators[index] : sEmptyEmulator; }
+
+        const EmulatorDescriptor& Named(const std::string& name) const
+        {
+          for(int i=mEmulatorCount; --i>=0; )
+            if (name == mEmulators[i].Name())
+              return mEmulators[i];
+          return sEmptyEmulator;
+        }
+
+        bool HasAny() const { return mEmulatorCount != 0; }
+
+        bool HasNamed(const std::string& name) const
+        {
+          for(int i=mEmulatorCount; --i>=0; )
+            if (name == mEmulators[i].Name())
+              return true;
+          return false;
+        }
+
+        void AddEmulator(const EmulatorDescriptor& emulatorDescriptor)
+        {
+          if (mEmulatorCount < sMaximumEmulators)
+            mEmulators[mEmulatorCount++] = emulatorDescriptor;
+          else
+            LOG(LogError) << emulatorDescriptor.Name() << " cannot be added to current system.";
+        }
+    };
+
+	private:
+    friend class SystemManager;
 
     //! convenient ptree type access
     typedef boost::property_tree::ptree Tree;
@@ -41,7 +133,7 @@ class SystemData
 		//! Theme object
 		std::shared_ptr<ThemeData> mTheme;
 		//! Emulator/Cores tree
-    std::map<std::string, std::vector<std::string> *> mEmulators;
+    EmulatorList mEmulators;
     //! Root folder - Children are top level visible gale/folder of the system
     RootFolderData mRootFolder;
     //! Sorting index
@@ -74,30 +166,26 @@ class SystemData
     SystemData(const std::string& name, const std::string& fullName, const std::string& startPath,
                const std::string& filteredExtensions, const std::string& command,
                const std::vector<PlatformIds::PlatformId>& platformIds, const std::string& themeFolder,
-               const Tree* emuNodes, bool childOwnership, bool favorite);
+               const EmulatorList* emus, bool childOwnership, bool favorite);
 
   public:
-    /*!
-     * @brief Destructor
-     */
-    ~SystemData();
-
     //! Return the root folder object
-    inline RootFolderData* getRootFolder() { return &mRootFolder; };
-    inline const std::string& getName() const { return mName; }
-    inline const std::string& getFullName() const { return mFullName; }
-    inline const std::string& getStartPath() const { return mStartPath; }
-    inline const std::string& getThemeFolder() const { return mThemeFolder; }
-    inline bool getHasFavoritesInTheme() const { return mTheme->getHasFavoritesInTheme(); }
-    inline bool isFavorite() const { return mIsFavorite; }
-    inline FileData::List getFavorites() const { return mRootFolder.getAllFavoritesRecursively(false); }
-    inline unsigned int getSortId() const { return mSortId; };
-    inline FileSorts::SortType getSortType(bool forFavorites) const { return forFavorites ? FileSorts::SortTypesForFavorites.at(mSortId) : FileSorts::SortTypes.at(mSortId); };
-    inline void setSortId(const unsigned int sortId = 0) { mSortId = sortId; };
+    RootFolderData* getRootFolder() { return &mRootFolder; };
+    const std::string& getName() const { return mName; }
+    const std::string& getFullName() const { return mFullName; }
+    const std::string& getStartPath() const { return mStartPath; }
+    const std::string& getThemeFolder() const { return mThemeFolder; }
+    bool getHasFavoritesInTheme() const { return mTheme->getHasFavoritesInTheme(); }
+    bool isFavorite() const { return mIsFavorite; }
+    FileData::List getFavorites() const { return mRootFolder.getAllFavoritesRecursively(false); }
+    unsigned int getSortId() const { return mSortId; };
+    FileSorts::SortType getSortType(bool forFavorites) const { return forFavorites ? FileSorts::SortTypesForFavorites.at(mSortId) : FileSorts::SortTypes.at(mSortId); };
+    void setSortId(const unsigned int sortId = 0) { mSortId = sortId; };
 
-    inline PlatformIds::PlatformId getPlatformIds(int index) const { return (unsigned int)index < (unsigned int)mPlatformCount ? mPlatformIds[index] : PlatformIds::PlatformId::PLATFORM_UNKNOWN; }
-    inline  int getPlatformCount() const { return mPlatformCount; }
-    inline bool hasPlatformId(PlatformIds::PlatformId id)
+    PlatformIds::PlatformId PlatformIds(int index) const { return (unsigned int)index < (unsigned int)mPlatformCount ? mPlatformIds[index] : PlatformIds::PlatformId::PLATFORM_UNKNOWN; }
+    int PlatformCount() const { return mPlatformCount; }
+    bool HasPlatform() const { return mPlatformCount != 0; }
+    bool hasPlatformId(PlatformIds::PlatformId id)
     {
       for(int i = mPlatformCount; --i >= 0;)
         if (id == mPlatformIds[i])
@@ -108,24 +196,21 @@ class SystemData
     inline const std::shared_ptr<ThemeData>& getTheme() const { return mTheme; }
 
     std::string getGamelistPath(bool forWrite) const;
-    //bool hasGamelist() const;
     std::string getThemePath() const;
 
-    bool hasGame() const { return mRootFolder.hasGame(); }
-    int getGameCount() const { return mRootFolder.countAll(false); };
-    int getFavoritesCount() const{ return mRootFolder.countAllFavorites(false); };
-    int getHiddenCount() const{ return mRootFolder.countAllHidden(false); };
+    bool HasGame() const { return mRootFolder.hasGame(); }
+    int GameCount() const { return mRootFolder.countAll(false); };
+    int FavoritesCount() const{ return mRootFolder.countAllFavorites(false); };
+    int HiddenCount() const{ return mRootFolder.countAllHidden(false); };
 
-    void launchGame(Window* window, FileData* game, const std::string& netplay, const std::string& core, const std::string& ip, const std::string& port);
+    void RunGame(Window& window, FileData& game, const std::string& netplay, const std::string& core, const std::string& ip, const std::string& port);
 
     // Load or re-load theme.
     void loadTheme();
 
-    std::map<std::string, std::vector<std::string> *> * getEmulators() { return &mEmulators; }
-
-    std::vector<std::string> getCores(const std::string& emulatorName);
+    const EmulatorList& Emulators() const { return mEmulators; }
 
     static std::string demoInitialize(Window& window);
     static void demoFinalize(Window& window);
-    bool demoLaunchGame(FileData* game, int duration, int infoscreenduration, const std::string& controlersConfig);
+    bool DemoRunGame(const FileData& game, int duration, int infoscreenduration, const std::string& controlersConfig);
 };

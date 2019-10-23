@@ -8,9 +8,7 @@
 #include <Settings.h>
 #include <RecalboxConf.h>
 #include <utils/os/fs/FileSystemUtil.h>
-#include <boost/thread.hpp>
 #include <boost/property_tree/xml_parser.hpp>
-#include <boost/asio/io_service.hpp>
 #include <boost/make_shared.hpp>
 #include <platform.h>
 #include <utils/StringUtil.h>
@@ -22,11 +20,12 @@ namespace pt = boost::property_tree;
 SystemData* SystemManager::CreateRegularSystem(const std::string& name, const std::string& fullName, const std::string& startPath,
                                             const std::string& filteredExtensions, const std::string& command,
                                             const std::vector<PlatformIds::PlatformId>& platformIds, const std::string& themeFolder,
-                                            const Tree& emuNodes)
+                                            const SystemData::EmulatorList& emuNodes)
 {
   const std::string defaultRomsPath = FileSystemUtil::getCanonicalPath(Settings::getInstance()->getString("DefaultRomsPath"));
   std::string realPath = defaultRomsPath.empty() ? startPath : fs::absolute(startPath, defaultRomsPath).generic_string();
 
+  // Create system
   SystemData* result = new SystemData(name, fullName, realPath, filteredExtensions, command, platformIds, themeFolder, &emuNodes, true, false);
 
   // Avoid files being added more than once even through symlinks
@@ -100,6 +99,22 @@ SystemData* SystemManager::CreateMetaSystem(const std::string& name, const std::
   return result;
 }
 
+SystemData::EmulatorList SystemManager::DeserializeEmulatorTree(const Tree& treeNode)
+{
+  SystemData::EmulatorList result;
+
+  for (const auto& emuNode : treeNode)
+  {
+    const std::string& emulatorName = emuNode.second.get_child("<xmlattr>").get("name", "");
+    SystemData::EmulatorDescriptor emulatorDescriptor(emulatorName);
+    for (const auto& coreNode : emuNode.second.get_child("cores"))
+      emulatorDescriptor.AddCore(coreNode.second.data());
+    if (emulatorDescriptor.HasAny()) result.AddEmulator(emulatorDescriptor);
+  }
+
+  return result;
+}
+
 SystemData* SystemManager::ThreadPoolRunJob(Tree& system)
 {
   std::string name, fullname, path, cmd, themeFolder;
@@ -154,7 +169,7 @@ SystemData* SystemManager::ThreadPoolRunJob(Tree& system)
       return nullptr;
     }
 
-    //convert path to generic directory seperators
+    // Convert path to generic directory separators
     boost::filesystem::path genericPath(path);
     path = genericPath.generic_string();
 
@@ -162,7 +177,7 @@ SystemData* SystemManager::ThreadPoolRunJob(Tree& system)
                                              path, extensions,
                                              cmd, platformIds,
                                              themeFolder,
-                                            system.get_child("emulators"));
+                                             DeserializeEmulatorTree(system.get_child("emulators")));
     if (newSys->getRootFolder()->countAll(false) == 0)
     {
       LOG(LogWarning) << "System \"" << name << "\" has no games! Ignoring it.";
@@ -260,7 +275,7 @@ bool SystemManager::loadSystemList(Tree &document, XmlNodeCollisionMap &collisio
 bool SystemManager::AddFavoriteSystem(const XmlNodeList& systemList)
 {
   // Favorite system
-  if (!sSystemVector.empty())
+  if (!sVisibleSystemVector.empty())
     for (const Tree &system : systemList)
     {
       std::string name = system.get("name", "");
@@ -270,8 +285,8 @@ bool SystemManager::AddFavoriteSystem(const XmlNodeList& systemList)
       if (name == "favorites")
       {
         LOG(LogInfo) << "creating favorite system";
-        SystemData *newSys = CreateFavoriteSystem("favorites", fullname, themeFolder, sSystemVector);
-        sSystemVector.push_back(newSys);
+        SystemData *newSys = CreateFavoriteSystem("favorites", fullname, themeFolder, sVisibleSystemVector);
+        sVisibleSystemVector.push_back(newSys);
       }
     }
 
@@ -284,11 +299,11 @@ bool SystemManager::AddArcadeMetaSystem()
   {
     bool includeNeogeo = RecalboxConf::Instance().getBool("global.arcade.includeneogeo", true);
     // Lookup all non-empty arcade platforms
-    for (SystemData* system: sSystemVector)
+    for (SystemData* system: sVisibleSystemVector)
       if (system->getRootFolder()->hasGame())
-        for(int i = system->getPlatformCount(); --i >= 0; )
-          if ((system->getPlatformIds(i) == PlatformIds::PlatformId::ARCADE) ||
-              (system->getPlatformIds(i) == PlatformIds::PlatformId::NEOGEO && includeNeogeo))
+        for(int i = system->PlatformCount(); --i >= 0; )
+          if ((system->PlatformIds(i) == PlatformIds::PlatformId::ARCADE) ||
+              (system->PlatformIds(i) == PlatformIds::PlatformId::NEOGEO && includeNeogeo))
           {
             sHiddenSystemVector.push_back(system);
             break;
@@ -302,16 +317,16 @@ bool SystemManager::AddArcadeMetaSystem()
       if (hideOriginals)
         for (SystemData* hidden: sHiddenSystemVector)
         {
-          auto it = std::find(sSystemVector.begin(), sSystemVector.end(), hidden);
-          if (it != sSystemVector.end())
-            sSystemVector.erase(it);
+          auto it = std::find(sVisibleSystemVector.begin(), sVisibleSystemVector.end(), hidden);
+          if (it != sVisibleSystemVector.end())
+            sVisibleSystemVector.erase(it);
         }
       // Create meta-system
       SystemData* arcade = CreateMetaSystem("arcade", "Arcade", "arcade", sHiddenSystemVector);
       LOG(LogInfo) << "creating Arcade meta-system";
-      int position = RecalboxConf::Instance().getInt("global.arcade.position", 0) % (int)sSystemVector.size();
-      auto it = position >= 0 ? sSystemVector.begin() + position : sSystemVector.end() + (position + 1);
-      sSystemVector.insert(it, arcade);
+      int position = RecalboxConf::Instance().getInt("global.arcade.position", 0) % (int)sVisibleSystemVector.size();
+      auto it = position >= 0 ? sVisibleSystemVector.begin() + position : sVisibleSystemVector.end() + (position + 1);
+      sVisibleSystemVector.insert(it, arcade);
       // Hide originals?
       if (!hideOriginals)
         sHiddenSystemVector.clear();
@@ -368,16 +383,16 @@ bool SystemManager::loadConfig()
   int count = threadPool.PendingJobs();
   threadPool.Run(false);
   // Push result
-  sSystemVector.resize(count, nullptr);
+  sVisibleSystemVector.resize(count, nullptr);
   int index = 0;
   for(SystemData* result = nullptr; threadPool.PopResult(result, index); )
-    sSystemVector[index] = result;
+    sVisibleSystemVector[index] = result;
   // Shrink & update weights
   for(int i = count; --i >= 0; )
   {
-    SystemData* system = sSystemVector[i];
+    SystemData* system = sVisibleSystemVector[i];
     if (system == nullptr)
-      sSystemVector.erase(sSystemVector.begin() + i);
+      sVisibleSystemVector.erase(sVisibleSystemVector.begin() + i);
     else
       weights.SetInt(system->mStartPath, system->getRootFolder()->countAll(true));
   }
@@ -391,7 +406,7 @@ bool SystemManager::loadConfig()
   AddFavoriteSystem(systemList);
 
   // Set *all* service vector
-  for(SystemData* service : sSystemVector)       sAllSystemVector.push_back(service);
+  for(SystemData* service : sVisibleSystemVector)       sAllSystemVector.push_back(service);
   for(SystemData* service : sHiddenSystemVector) sAllSystemVector.push_back(service);
 
   return true;
@@ -460,7 +475,7 @@ void SystemManager::deleteSystems()
     DateTime start;
 
     // Create automatic thread-pool
-    ThreadPool<SystemData*, bool> threadPool(this, "System-Updater", -2, false);
+    ThreadPool<SystemData*, bool> threadPool(this, "System-Save", -2, false);
     // Push system to process
     for (SystemData* system : sAllSystemVector)
       threadPool.PushFeed(system, 0);
@@ -470,7 +485,7 @@ void SystemManager::deleteSystems()
     DateTime stop;
     LOG(LogInfo) << "Gamelist update time: " << std::to_string((stop-start).TotalMilliseconds());
 
-    sSystemVector.clear();
+    sVisibleSystemVector.clear();
     sAllSystemVector.clear();
     sHiddenSystemVector.clear();
   }
@@ -478,7 +493,7 @@ void SystemManager::deleteSystems()
 
 SystemData *SystemManager::getSystem(std::string &name)
 {
-  for (auto system: sSystemVector)
+  for (auto system: sVisibleSystemVector)
   {
     if (system->mName == name)
     {
@@ -490,24 +505,24 @@ SystemData *SystemManager::getSystem(std::string &name)
 
 SystemData *SystemManager::getFavoriteSystem()
 {
-  for (int i = (int) sSystemVector.size(); --i >= 0;)
-    if (sSystemVector[i]->isFavorite())
-      return sSystemVector[i];
+  for (int i = (int) sVisibleSystemVector.size(); --i >= 0;)
+    if (sVisibleSystemVector[i]->isFavorite())
+      return sVisibleSystemVector[i];
   return nullptr;
 }
 
 int SystemManager::getVisibleSystemIndex(const std::string &name)
 {
-  for (int i = (int) sSystemVector.size(); --i >= 0;)
-    if (sSystemVector[i]->mName == name)
+  for (int i = (int) sVisibleSystemVector.size(); --i >= 0;)
+    if (sVisibleSystemVector[i]->mName == name)
       return i;
   return -1;
 }
 
 SystemData* SystemManager::getFirstSystemWithGame()
 {
-  for (auto &system : sSystemVector)
-    if (system->hasGame())
+  for (auto &system : sVisibleSystemVector)
+    if (system->HasGame())
       return system;
 
   return nullptr;

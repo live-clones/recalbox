@@ -61,7 +61,7 @@ void ViewController::goToStart()
   int index = systemName.empty() ? -1 : SystemManager::Instance().getVisibleSystemIndex(systemName);
   SystemData* selectedSystem = index < 0 ? nullptr : SystemManager::Instance().getVisibleSystems().at(index);
 
-  if ((selectedSystem == nullptr) || !selectedSystem->hasGame())
+  if ((selectedSystem == nullptr) || !selectedSystem->HasGame())
     selectedSystem = SystemManager::Instance().getFirstSystemWithGame();
 
   if (RecalboxConf::getInstance()->get("emulationstation.hidesystemview") == "1")
@@ -86,7 +86,7 @@ void ViewController::goToSystemView(SystemData* system)
   auto systemList = getSystemListView();
   systemList->setPosition((float)getSystemId(system) * Renderer::getDisplayWidthAsFloat(), systemList->getPosition().y());
 
-  if (!system->hasGame()) {
+  if (!system->HasGame()) {
     system = SystemManager::Instance().getFirstSystemWithGame();
   }
 
@@ -107,9 +107,9 @@ void ViewController::goToNextGameList()
 	assert(mState.viewing == ViewMode::GameList);
 	SystemData* system = getState().getSystem();
 	assert(system);
-	SystemData* next = SystemManager::Instance().getNext(system);
+	SystemData* next = SystemManager::Instance().getNextVisible(system);
 	while(!next->getRootFolder()->hasChildren()) {
-		next = SystemManager::Instance().getNext(next);
+		next = SystemManager::Instance().getNextVisible(next);
 	}
 	AudioManager::getInstance()->themeChanged(next->getTheme());
 
@@ -121,9 +121,9 @@ void ViewController::goToPrevGameList()
 	assert(mState.viewing == ViewMode::GameList);
 	SystemData* system = getState().getSystem();
 	assert(system);
-	SystemData* prev = SystemManager::Instance().getPrev(system);
+	SystemData* prev = SystemManager::Instance().getPreviousVisible(system);
 	while(!prev->getRootFolder()->hasChildren()) {
-		prev = SystemManager::Instance().getPrev(prev);
+		prev = SystemManager::Instance().getPreviousVisible(prev);
 	}
 	AudioManager::getInstance()->themeChanged(prev->getTheme());
 	goToGameList(prev);
@@ -281,7 +281,7 @@ void ViewController::launch(FileData* game, Vector3f center, const std::string& 
 
 	auto launchFactory = [this, game, origCamera, netplay, core, ip, port] (const std::function<void(std::function<void()>)>& backAnimation) {
 		return [this, game, origCamera, backAnimation, netplay, core, ip, port] {
-      game->getSystem()->launchGame(mWindow, game, netplay, core, ip, port);
+      game->getSystem()->RunGame(*mWindow, *game, netplay, core, ip, port);
 			mCamera = origCamera;
 			backAnimation([this] { mLockInput = false; });
 			this->onFileChanged(game, FileChangeType::Run);
@@ -467,7 +467,7 @@ bool ViewController::reloadGameListView(IGameListView* view, bool reloadTheme)
 			{
 				bool isCurrent = (mCurrentView == it->second);
 				SystemData *system = it->first;
-				bool hasGame = system->hasGame();
+				bool hasGame = system->HasGame();
 				FileData *cursor = hasGame ? view->getCursor() : nullptr;
 				mGameListViews.erase(it);
 

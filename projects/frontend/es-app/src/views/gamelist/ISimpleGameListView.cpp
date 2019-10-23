@@ -19,7 +19,7 @@ ISimpleGameListView::ISimpleGameListView(Window* window, FolderData* root)
     mBackground(window),
     mThemeExtras(window)
 {
-  mFavoritesCount = getRoot()->getSystem()->getFavoritesCount();
+  mFavoritesCount = getRoot()->getSystem()->FavoritesCount();
   mFavoritesOnly = mFavoritesCount > 0 && Settings::getInstance()->getBool("FavoritesOnly");
 
   mHeaderText.setText("Logo Text");
