@@ -1,5 +1,8 @@
 image: docker:latest
 
+variables:
+  GIT_SUBMODULE_STRATEGY: normal
+
 stages:
   - build
 
@@ -9,3 +12,6 @@ build:
     - docker build . 
   tags:
     - esbuild
+  artifacts:
+    reports:
+      junit: ./**/report.xml

@@ -11,3 +11,6 @@ ADD . /src
 RUN cmake .
 
 RUN (test -x "RB_VERSION" && echo ok || true ) && make -j8
+
+RUN ./emulationstation_test --gtest_output="xml:report.xml"
+

@@ -20,6 +20,7 @@
 
 # Compiled executable
 emulationstation
+emulationstation_test
 
 # build tags
 es-app/src/EmulationStation.h
@@ -55,3 +56,4 @@ CPackSourceConfig.cmake
 *.cbp
 *.cmake
 test_exe
+/test_detail.xml
