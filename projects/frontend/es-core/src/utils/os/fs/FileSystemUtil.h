@@ -19,7 +19,6 @@ class FileSystemUtil
     static stringList  getPathList        (const std::string& path);
     static std::string getHomePath        ();
     static std::string getCWDPath         ();
-    static std::string getExePath         ();
     static std::string getPreferredPath   (const std::string& _path);
     static std::string getGenericPath     (const std::string& _path);
     static std::string getEscapedPath     (const std::string& _path);

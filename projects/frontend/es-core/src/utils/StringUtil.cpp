@@ -297,7 +297,7 @@ std::string StringUtil::replace(const std::string& _string, const std::string& _
 {
 	std::string string = _string;
 
-	for(int pos = 0; (pos = string.find(_replace, pos)) != (int)std::string::npos; pos += _with.length())
+	for(int pos = 0; (pos = string.find(_replace, pos)) != (int)std::string::npos; )
 		string = string.replace(pos, _replace.length(), _with.c_str(), _with.length());
 
 	return string;

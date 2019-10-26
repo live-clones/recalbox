@@ -181,26 +181,6 @@ std::string FileSystemUtil::getCWDPath()
 
 } // getCWDPath
 
-std::string FileSystemUtil::getExePath()
-{
-  static std::string path;
-
-  // only construct the exepath once
-  if(path.empty())
-  {
-    path = getCanonicalPath(Settings::getInstance()->getString("ExePath"));
-
-    if(isRegularFile(path))
-    {
-      path = getParent(path);
-    }
-  }
-
-  // return constructed exepath
-  return path;
-
-} // getExePath
-
 std::string FileSystemUtil::getPreferredPath(const std::string& _path)
 {
   std::string path   = _path;
