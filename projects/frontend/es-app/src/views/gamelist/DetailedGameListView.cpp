@@ -527,4 +527,12 @@ std::vector<GuiComponent*> DetailedGameListView::getMDValues()
   return ret;
 }
 
+void DetailedGameListView::update(int deltatime)
+{
+  if (mList.isScrolling())
+    mVideo.setVideo("", 0, 0);
+
+  GuiComponent::update(deltatime);
+}
+
 

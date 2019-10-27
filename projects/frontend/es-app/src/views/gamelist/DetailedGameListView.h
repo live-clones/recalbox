@@ -17,6 +17,8 @@ public:
 
     const char* getName() const override { return "detailed"; }
 
+    void update(int deltatime) override;
+
     void updateInfoPanel() override;
 
 protected:
