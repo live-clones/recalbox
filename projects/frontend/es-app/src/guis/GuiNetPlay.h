@@ -14,7 +14,7 @@
 #include <MenuThemeData.h>
 #include <components/BusyComponent.h>
 #include <utils/os/system/Mutex.h>
-#include "FileData.h"
+#include "games/FileData.h"
 
 class TextComponent;
 

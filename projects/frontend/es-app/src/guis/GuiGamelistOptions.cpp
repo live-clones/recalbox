@@ -10,7 +10,7 @@
 #include "MenuMessages.h"
 #include "guis/GuiMsgBox.h"
 #include <cstdio>
-#include <SystemManager.h>
+#include <systems/SystemManager.h>
 
 GuiGamelistOptions::GuiGamelistOptions(Window* window, SystemData* system)
   :	GuiComponent(window),

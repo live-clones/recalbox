@@ -9,7 +9,7 @@
 
 #include <functional>
 #include <LibretroRatio.h>
-#include <SystemManager.h>
+#include <systems/SystemManager.h>
 
 #include "EmulationStation.h"
 #include "guis/GuiMenu.h"
@@ -775,7 +775,7 @@ void GuiMenu::menuUISettings(){
 
 	  // add systems (all with a platformid specified selected)
 	  auto systems = std::make_shared<OptionListComponent<std::string> >(mWindow, _("SYSTEMS TO SHOW IN DEMO"), true);
-	  for (auto it : SystemManager::Instance().getAllSystems()) {
+	  for (auto it : SystemManager::Instance().GetAllSystemList()) {
 		  if (!it->hasPlatformId(PlatformIds::PlatformId::PLATFORM_IGNORE))
 			  systems->add(it->getFullName(), it->getName(),
 			               RecalboxConf::getInstance()->isInList("global.demo.systemlist", it->getName()) &&
@@ -899,7 +899,7 @@ void GuiMenu::menuUISettings(){
     ViewController::get()->goToStart();
     window->renderShutdownScreen();
     delete ViewController::get();
-    for (auto& systems : SystemManager::Instance().getVisibleSystems())
+    for (auto& systems : SystemManager::Instance().GetVisibleSystemList())
       systems->loadTheme();
     GuiComponent *gui;
     while ((gui = window->peekGui()) != nullptr) {
@@ -1487,7 +1487,7 @@ void GuiMenu::menuAdvancedSettings(){
       auto system_choices = std::make_shared<OptionListComponent<std::string> >(mWindow, _("BOOT ON SYSTEM"), false);
       std::string currentSystem = !selectedsystem.empty() ? selectedsystem : "favorites";
       // For each activated system
-      std::vector<SystemData *> systems = SystemManager::Instance().getVisibleSystems();
+      std::vector<SystemData *> systems = SystemManager::Instance().GetVisibleSystemList();
       bool found = false;
       for (auto & system : systems) {
         const std::string& systemName = system->getName();
@@ -1539,7 +1539,7 @@ void GuiMenu::menuAdvancedSettings(){
       s->save();
       GuiSettings *configuration = new GuiSettings(mWindow, _("EMULATOR ADVANCED CONFIGURATION").c_str());
       // For each activated system
-      std::vector<SystemData *> systems = SystemManager::Instance().getAllSystems();
+      std::vector<SystemData *> systems = SystemManager::Instance().GetAllSystemList();
       for (auto& system : systems)
       {
         if (system != SystemManager::Instance().getFavoriteSystem()) {
@@ -1725,7 +1725,7 @@ void GuiMenu::popSystemConfigurationGui(SystemData *systemData) const {
             return ;
         }
         
-        const SystemData::EmulatorDescriptor& emulator = systemData->Emulators().Named(emulatorName);
+        const EmulatorDescriptor& emulator = systemData->Emulators().Named(emulatorName);
         std::string currentCore = RecalboxConf::getInstance()->get(systemData->getName() + ".core");
 
         if (currentCore.empty()) {

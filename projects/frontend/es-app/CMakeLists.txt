@@ -1,128 +1,128 @@
 project("emulationstation")
 
 set(ES_HEADERS
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/MameNameMap.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/DemoMode.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/EmulationStation.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/ItemType.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/FileData.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/FolderData.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/EmptyData.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/RootFolderData.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/FileSorts.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/MetadataDescriptor.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/MetadataFieldDescriptor.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/PlatformId.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/SystemData.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/SystemManager.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/VolumeControl.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/Gamelist.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/NetworkThread.h
+        src/DemoMode.h
+        src/EmulationStation.h
+        src/FileSorts.h
+        src/ItemType.h
+        src/MameNameMap.h
+        src/NetworkThread.h
+        src/PlatformId.h
+        src/VolumeControl.h
+        src/games/FileData.h
+        src/games/FolderData.h
+        src/games/EmptyData.h
+        src/games/RootFolderData.h
+        src/games/MetadataDescriptor.h
+        src/games/MetadataFieldDescriptor.h
+        src/systems/EmulatorDescriptor.h
+        src/systems/EmulatorList.h
+        src/systems/SystemDescriptor.h
+        src/systems/SystemData.h
+        src/systems/SystemManager.h
 
         # GuiComponents
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/components/AsyncReqComponent.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/components/RatingComponent.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/components/ScraperSearchComponent.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/components/TextListComponent.h
+        src/components/AsyncReqComponent.h
+        src/components/RatingComponent.h
+        src/components/ScraperSearchComponent.h
+        src/components/TextListComponent.h
 
         # Guis
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiMetaDataEd.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiGameScraper.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiGamelistOptions.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiMenu.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiSettings.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiScraperMulti.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiScraperStart.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiUpdate.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiInfoPopup.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/MenuMessages.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiNetPlay.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiHashStart.h
+        src/guis/GuiMetaDataEd.h
+        src/guis/GuiGameScraper.h
+        src/guis/GuiGamelistOptions.h
+        src/guis/GuiMenu.h
+        src/guis/GuiSettings.h
+        src/guis/GuiScraperMulti.h
+        src/guis/GuiScraperStart.h
+        src/guis/GuiUpdate.h
+        src/guis/GuiInfoPopup.h
+        src/guis/MenuMessages.h
+        src/guis/GuiNetPlay.h
+        src/guis/GuiHashStart.h
 
         # Scrapers
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/scrapers/Scraper.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/scrapers/GamesDBJSONScraper.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/scrapers/GamesDBJSONScraperResources.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/scrapers/MamedbScraper.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/scrapers/ScreenscraperScraper.h
+        src/scrapers/Scraper.h
+        src/scrapers/GamesDBJSONScraper.h
+        src/scrapers/GamesDBJSONScraperResources.h
+        src/scrapers/MamedbScraper.h
+        src/scrapers/ScreenscraperScraper.h
 
         # Views
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/views/gamelist/BasicGameListView.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/views/gamelist/DetailedGameListView.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/views/gamelist/IGameListView.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/views/gamelist/ISimpleGameListView.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/views/gamelist/GridGameListView.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/views/SystemView.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/views/ViewController.h
+        src/views/gamelist/BasicGameListView.h
+        src/views/gamelist/DetailedGameListView.h
+        src/views/gamelist/IGameListView.h
+        src/views/gamelist/ISimpleGameListView.h
+        src/views/gamelist/GridGameListView.h
+        src/views/SystemView.h
+        src/views/ViewController.h
 
         # Animations
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/animations/LaunchAnimation.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/animations/MoveCameraAnimation.h
+        src/animations/LaunchAnimation.h
+        src/animations/MoveCameraAnimation.h
 
         # Recalbox
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/recalbox/RecalboxSystem.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/recalbox/RecalboxUpgrade.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/LibretroRatio.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/CommandThread.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/NetPlayThread.h
+        src/recalbox/RecalboxSystem.h
+        src/recalbox/RecalboxUpgrade.h
+        src/LibretroRatio.h
+        src/CommandThread.h
+        src/NetPlayThread.h
         )
 
 set(ES_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/DemoMode.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/FileData.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/FolderData.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/FileSorts.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/MameNameMap.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/MetadataDescriptor.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/PlatformId.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/SystemData.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/SystemManager.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/VolumeControl.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/Gamelist.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/NetworkThread.cpp
-
+        src/main.cpp
+        src/DemoMode.cpp
+        src/FileSorts.cpp
+        src/MameNameMap.cpp
+        src/NetworkThread.cpp
+        src/PlatformId.cpp
+        src/VolumeControl.cpp
+        src/games/FileData.cpp
+        src/games/FolderData.cpp
+        src/games/MetadataDescriptor.cpp
+        src/systems/SystemData.cpp
+        src/systems/SystemManager.cpp
 
         # GuiComponents
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/components/AsyncReqComponent.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/components/RatingComponent.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/components/ScraperSearchComponent.cpp
+        src/components/AsyncReqComponent.cpp
+        src/components/RatingComponent.cpp
+        src/components/ScraperSearchComponent.cpp
 
         # Guis
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiMetaDataEd.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiGameScraper.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiGamelistOptions.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiMenu.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiSettings.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiScraperMulti.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiScraperStart.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiUpdate.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiInfoPopup.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/MenuMessages.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiNetPlay.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiHashStart.cpp
+        src/guis/GuiMetaDataEd.cpp
+        src/guis/GuiGameScraper.cpp
+        src/guis/GuiGamelistOptions.cpp
+        src/guis/GuiMenu.cpp
+        src/guis/GuiSettings.cpp
+        src/guis/GuiScraperMulti.cpp
+        src/guis/GuiScraperStart.cpp
+        src/guis/GuiUpdate.cpp
+        src/guis/GuiInfoPopup.cpp
+        src/guis/MenuMessages.cpp
+        src/guis/GuiNetPlay.cpp
+        src/guis/GuiHashStart.cpp
 
         # Scrapers
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/scrapers/Scraper.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/scrapers/GamesDBJSONScraper.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/scrapers/GamesDBJSONScraperResources.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/scrapers/MamedbScraper.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/scrapers/ScreenscraperScraper.cpp
+        src/scrapers/Scraper.cpp
+        src/scrapers/GamesDBJSONScraper.cpp
+        src/scrapers/GamesDBJSONScraperResources.cpp
+        src/scrapers/MamedbScraper.cpp
+        src/scrapers/ScreenscraperScraper.cpp
 
         # Views
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/views/gamelist/BasicGameListView.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/views/gamelist/DetailedGameListView.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/views/gamelist/IGameListView.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/views/gamelist/ISimpleGameListView.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/views/gamelist/GridGameListView.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/views/SystemView.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/views/ViewController.cpp
+        src/views/gamelist/BasicGameListView.cpp
+        src/views/gamelist/DetailedGameListView.cpp
+        src/views/gamelist/IGameListView.cpp
+        src/views/gamelist/ISimpleGameListView.cpp
+        src/views/gamelist/GridGameListView.cpp
+        src/views/SystemView.cpp
+        src/views/ViewController.cpp
 
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/recalbox/RecalboxSystem.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/recalbox/RecalboxUpgrade.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/LibretroRatio.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/CommandThread.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/NetPlayThread.cpp
+        src/recalbox/RecalboxSystem.cpp
+        src/recalbox/RecalboxUpgrade.cpp
+        src/LibretroRatio.cpp
+        src/CommandThread.cpp
+        src/NetPlayThread.cpp
 
         )
 
@@ -130,13 +130,13 @@ set(ES_SOURCES
 # define OS specific sources and headers
 if (MSVC)
     LIST(APPEND ES_SOURCES
-            ${CMAKE_CURRENT_SOURCE_DIR}/src/EmulationStation.rc
+            src/EmulationStation.rc
             )
 endif ()
 
 #-------------------------------------------------------------------------------
 # define target
-include_directories(${COMMON_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR}/src)
+include_directories(${COMMON_INCLUDE_DIRS} src)
 add_executable(emulationstation ${ES_SOURCES} ${ES_HEADERS} src/guis/GuiLoading.cpp src/guis/GuiLoading.h)
 target_link_libraries(emulationstation ${COMMON_LIBRARIES} es-core)
 
@@ -165,8 +165,8 @@ INCLUDE(InstallRequiredSystemLibraries)
 SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "A flexible graphical emulator front-end")
 SET(CPACK_PACKAGE_DESCRIPTION "EmulationStation is a flexible, graphical front-end designed for keyboardless navigation of your multi-platform retro game collection.")
 
-SET(CPACK_RESOURCE_FILE LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE.md")
-SET(CPACK_RESOURCE_FILE README "${CMAKE_CURRENT_SOURCE_DIR}/README.md")
+SET(CPACK_RESOURCE_FILE LICENSE "LICENSE.md")
+SET(CPACK_RESOURCE_FILE README "README.md")
 
 SET(CPACK_DEBIAN_PACKAGE_MAINTAINER "Alec Lofquist <allofquist@yahoo.com>")
 SET(CPACK_DEBIAN_PACKAGE_SECTION "misc")

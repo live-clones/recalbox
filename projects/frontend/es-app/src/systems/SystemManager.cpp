@@ -3,47 +3,43 @@
 //
 
 #include "SystemManager.h"
-#include "Gamelist.h"
-#include <Log.h>
+#include "SystemDescriptor.h"
+#include <utils/Log.h>
 #include <Settings.h>
 #include <RecalboxConf.h>
+#include <platform.h>
 #include <utils/os/fs/FileSystemUtil.h>
 #include <boost/property_tree/xml_parser.hpp>
-#include <boost/make_shared.hpp>
-#include <platform.h>
 #include <utils/StringUtil.h>
 #include <utils/os/fs/StringMapFile.h>
 
 namespace fs = boost::filesystem;
 namespace pt = boost::property_tree;
 
-SystemData* SystemManager::CreateRegularSystem(const std::string& name, const std::string& fullName, const std::string& startPath,
-                                            const std::string& filteredExtensions, const std::string& command,
-                                            const std::vector<PlatformIds::PlatformId>& platformIds, const std::string& themeFolder,
-                                            const SystemData::EmulatorList& emuNodes)
+SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDescriptor)
 {
   const std::string defaultRomsPath = FileSystemUtil::getCanonicalPath(Settings::getInstance()->getString("DefaultRomsPath"));
-  std::string realPath = defaultRomsPath.empty() ? startPath : fs::absolute(startPath, defaultRomsPath).generic_string();
+  std::string realPath = defaultRomsPath.empty() ? systemDescriptor.RomPath().ToString() : fs::absolute(systemDescriptor.RomPath().ToString(), defaultRomsPath).generic_string();
 
   // Create system
-  SystemData* result = new SystemData(name, fullName, realPath, filteredExtensions, command, platformIds, themeFolder, &emuNodes, true, false);
+  SystemData* result = new SystemData(systemDescriptor, true, false);
 
   // Avoid files being added more than once even through symlinks
   {
     FileData::StringMap doppelgangerWatcher;
 
-    LOG(LogInfo) << "Creating & populating system: " << fullName;
+    LOG(LogInfo) << "Creating & populating system: " << systemDescriptor.FullName();
 
     // Populate items from disk
-    if (RecalboxConf::getInstance()->get("emulationstation.gamelistonly") != "1")
+    if (RecalboxConf::Instance().getBool("emulationstation.gamelistonly", false))
       result->populateFolder(&(result->mRootFolder), doppelgangerWatcher);
     // Populate items from gamelist.xml
     if (!Settings::getInstance()->getBool("IgnoreGamelist"))
-      parseGamelist(result, doppelgangerWatcher);
+      result->ParseGamelistXml(doppelgangerWatcher);
     // Overrides?
     FileData::List allFolders = result->getRootFolder()->getAllFolders();
     for(auto folder : allFolders)
-      overrideFolderInformation(folder);
+      result->overrideFolderInformation(folder);
   } // Let the doppelgangerWatcher to free its memory ASAP
 
   result->loadTheme();
@@ -52,12 +48,14 @@ SystemData* SystemManager::CreateRegularSystem(const std::string& name, const st
 }
 
 SystemData* SystemManager::CreateFavoriteSystem(const std::string& name, const std::string& fullName,
-                                             const std::string& themeFolder, const std::vector<SystemData*>& systems)
+                                                const std::string& themeFolder, const std::vector<SystemData*>& systems)
 {
   std::vector<PlatformIds::PlatformId> platformIds;
   platformIds.push_back(PlatformIds::PlatformId::PLATFORM_IGNORE);
 
-  SystemData* result = new SystemData(name, fullName, "", "", "", platformIds, themeFolder, nullptr, false, true);
+  SystemDescriptor descriptor;
+  descriptor.SetInformation("", name, fullName, "", "", themeFolder);
+  SystemData* result = new SystemData(descriptor, false, true);
 
   for (auto system : systems)
   {
@@ -81,7 +79,9 @@ SystemData* SystemManager::CreateMetaSystem(const std::string& name, const std::
   std::vector<PlatformIds::PlatformId> platformIds;
   platformIds.push_back(PlatformIds::PlatformId::PLATFORM_IGNORE);
 
-  SystemData* result = new SystemData(name, fullName, "", "", "", platformIds, themeFolder, nullptr, false, false);
+  SystemDescriptor descriptor;
+  descriptor.SetInformation("", name, fullName, "", "", themeFolder);
+  SystemData* result = new SystemData(descriptor, false, false);
 
   for (auto system : systems)
   {
@@ -99,100 +99,82 @@ SystemData* SystemManager::CreateMetaSystem(const std::string& name, const std::
   return result;
 }
 
-SystemData::EmulatorList SystemManager::DeserializeEmulatorTree(const Tree& treeNode)
+void SystemManager::DeserializeEmulatorTree(const Tree& treeNode, EmulatorList& emulatorList)
 {
-  SystemData::EmulatorList result;
-
+  emulatorList.Clear();
   for (const auto& emuNode : treeNode)
   {
     const std::string& emulatorName = emuNode.second.get_child("<xmlattr>").get("name", "");
-    SystemData::EmulatorDescriptor emulatorDescriptor(emulatorName);
+    EmulatorDescriptor emulatorDescriptor(emulatorName);
     for (const auto& coreNode : emuNode.second.get_child("cores"))
       emulatorDescriptor.AddCore(coreNode.second.data());
-    if (emulatorDescriptor.HasAny()) result.AddEmulator(emulatorDescriptor);
+    if (emulatorDescriptor.HasAny()) emulatorList.AddEmulator(emulatorDescriptor);
   }
-
-  return result;
 }
 
-SystemData* SystemManager::ThreadPoolRunJob(Tree& system)
+bool SystemManager::DeserializeSystemDescriptor(const Tree& system, SystemDescriptor& systemDescriptor)
 {
-  std::string name, fullname, path, cmd, themeFolder;
-  try
+  systemDescriptor.ClearEmulators();
+  systemDescriptor.ClearPlatforms();
+
+  // Information
+  systemDescriptor.SetInformation(system.get("path", ""),
+                                  system.get("name", ""),
+                                  system.get("fullname", ""),
+                                  system.get("command", ""),
+                                  system.get("extension", ""),
+                                  system.get("theme", ""));
+
+  // Check
+  if (systemDescriptor.IsValid())
   {
-    name = system.get("name", "");
-    fullname = system.get("fullname", "");
-    path = system.get("path", "");
+    // Emulator tree
+    EmulatorList emulatorList;
+    DeserializeEmulatorTree(system.get_child("emulators"), emulatorList);
+    systemDescriptor.SetEmulatorList(emulatorList);
 
-    //#ifdef DEBUG
-    //    path = StringUtil::replace(path, "roms", "romstest");
-    //#endif
-
-    // convert extensions list from a string into a vector of strings
-    std::string extensions = system.get("extension", "");
-
-    cmd = system.get("command", "");
-
-    // platform id list
-    const std::string platformList = system.get("platform", "");
-    std::vector<std::string> platformStrs = StringUtil::commaStringToVector(platformList);
-    std::vector<PlatformIds::PlatformId> platformIds;
-    for (const auto &it : platformStrs)
+    // Platform list
+    std::vector<std::string> platforms = StringUtil::commaStringToVector(system.get("platform", ""));
+    for (const auto &platform : platforms)
     {
-      const char *str = it.c_str();
-      PlatformIds::PlatformId platformId = PlatformIds::getPlatformId(str);
-
+      PlatformIds::PlatformId platformId = PlatformIds::getPlatformId(platform);
       if (platformId == PlatformIds::PlatformId::PLATFORM_IGNORE)
       {
-        // when platform is ignore, do not allow other platforms
-        platformIds.clear();
-        platformIds.push_back(platformId);
+        systemDescriptor.ClearPlatforms();
+        systemDescriptor.AddPlatformIdentifiers(platformId);
         break;
       }
-
-      // if there appears to be an actual platform ID supplied but it didn't match the list, warn
-      if ((str != nullptr) && (str[0] != '\0') && (platformId == PlatformIds::PlatformId::PLATFORM_UNKNOWN))
-      {
-        LOG(LogWarning) << "  Unknown platform for system \"" << name << "\" (platform \"" << str << "\" from list \"" << platformList << "\")";
-      }
-      else if (platformId != PlatformIds::PlatformId::PLATFORM_UNKNOWN)
-        platformIds.push_back(platformId);
+      if (!systemDescriptor.AddPlatformIdentifiers(platformId))
+        LOG(LogError) << "Platform count for system " << systemDescriptor.Name() << " full. " << platform << " ignored!";
     }
+    return true;
+  }
 
-    // theme folder
-    themeFolder = system.get("theme", "");
+  LOG(LogError) << "System \"" << systemDescriptor.Name() << "\" is missing name, path, extension, or command!";
+  return false;
+}
 
-    //validate
-    if (name.empty() || path.empty() || extensions.empty() || cmd.empty())
-    {
-      LOG(LogError) << "System \"" << name << "\" is missing name, path, extension, or command!";
-      return nullptr;
-    }
 
-    // Convert path to generic directory separators
-    boost::filesystem::path genericPath(path);
-    path = genericPath.generic_string();
-
-    SystemData* newSys = CreateRegularSystem(name, fullname,
-                                             path, extensions,
-                                             cmd, platformIds,
-                                             themeFolder,
-                                             DeserializeEmulatorTree(system.get_child("emulators")));
+SystemData* SystemManager::ThreadPoolRunJob(SystemDescriptor& system)
+{
+  try
+  {
+    SystemData* newSys = CreateRegularSystem(system);
     if (newSys->getRootFolder()->countAll(false) == 0)
     {
-      LOG(LogWarning) << "System \"" << name << "\" has no games! Ignoring it.";
+      LOG(LogWarning) << "System \"" << system.Name() << "\" has no games! Ignoring it.";
       delete newSys;
       return nullptr;
     }
     else
     {
-      LOG(LogWarning) << "Adding \"" << name << "\" in system list.";
+      LOG(LogWarning) << "Adding \"" << system.Name() << "\" in system list.";
       return newSys;
     }
   }
   catch(std::exception& ex)
   {
-    LOG(LogError) << "System \"" << fullname << "\" has raised an error. Ignored.";
+    LOG(LogError) << "System \"" << system.FullName() << "\" has raised an error. Ignored.";
     LOG(LogError) << "Exception: " << ex.what();
   }
   return nullptr;
@@ -361,14 +343,13 @@ bool SystemManager::loadConfig()
     return false;
   }
 
-
   DateTime start;
 
   // Get weight store
   StringMapFile weights(sWeightFilePath);
   weights.Load();
   // Create automatic thread-pool
-  ThreadPool<Tree, SystemData*> threadPool(this, "System-Loader", -2, false);
+  ThreadPool<SystemDescriptor, SystemData*> threadPool(this, "System-Loader", -2, false);
   // Push system to process
   for (const Tree& system : systemList)
   {
@@ -376,8 +357,13 @@ bool SystemManager::loadConfig()
     std::string key = system.get("path", "unknown");
     //key = StringUtil::replace(key, "roms", "romstest");
     int weight = weights.GetInt(key, 0);
-    // Push weighted system
-    threadPool.PushFeed(system, weight);
+    // Create system descriptor
+    SystemDescriptor descriptor;
+    if (DeserializeSystemDescriptor(system, descriptor))
+    {
+      // Push weighted system
+      threadPool.PushFeed(descriptor, weight);
+    }
   }
   // Run the threadpool and automatically wait for all jobs to complete
   int count = threadPool.PendingJobs();
@@ -394,7 +380,7 @@ bool SystemManager::loadConfig()
     if (system == nullptr)
       sVisibleSystemVector.erase(sVisibleSystemVector.begin() + i);
     else
-      weights.SetInt(system->mStartPath, system->getRootFolder()->countAll(true));
+      weights.SetInt(system->getStartPath().ToString(), system->getRootFolder()->countAll(true));
   }
   weights.Save();
 
@@ -463,7 +449,7 @@ bool SystemManager::ThreadPoolRunJob(SystemData*& feed)
   // Save changed game data back to xml
   if (!Settings::getInstance()->getBool("IgnoreGamelist"))
     if (feed->getRootFolder()->hasChildrenOwnership())
-      updateGamelist(feed);
+      feed->UpdateGamelistXml();
 
   return true;
 }
@@ -495,7 +481,7 @@ SystemData *SystemManager::getSystem(std::string &name)
 {
   for (auto system: sVisibleSystemVector)
   {
-    if (system->mName == name)
+    if (system->getName() == name)
     {
       return system;
     }
@@ -514,7 +500,7 @@ SystemData *SystemManager::getFavoriteSystem()
 int SystemManager::getVisibleSystemIndex(const std::string &name)
 {
   for (int i = (int) sVisibleSystemVector.size(); --i >= 0;)
-    if (sVisibleSystemVector[i]->mName == name)
+    if (sVisibleSystemVector[i]->getName() == name)
       return i;
   return -1;
 }

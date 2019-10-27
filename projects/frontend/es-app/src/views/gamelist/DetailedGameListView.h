@@ -6,7 +6,7 @@
 #include "components/DateTimeComponent.h"
 #include "components/ImageComponent.h"
 #include "components/VideoComponent.h"
-#include "SystemData.h"
+#include "systems/SystemData.h"
 
 class DetailedGameListView : public BasicGameListView
 {

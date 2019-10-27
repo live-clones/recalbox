@@ -3,7 +3,7 @@
 #include <views/ViewController.h>
 #include "views/gamelist/ISimpleGameListView.h"
 #include "components/TextListComponent.h"
-#include "EmptyData.h"
+#include "games/EmptyData.h"
 
 class BasicGameListView : public ISimpleGameListView
 {

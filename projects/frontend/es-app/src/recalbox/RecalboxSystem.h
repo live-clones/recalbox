@@ -2,7 +2,7 @@
 
 #include <string>
 #include "Window.h"
-#include "FileData.h"
+#include "games/FileData.h"
 
 struct EmulatorDefaults
 {

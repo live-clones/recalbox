@@ -3,7 +3,7 @@
 //
 
 #include <RecalboxConf.h>
-#include <SystemData.h>
+#include <systems/SystemData.h>
 #include <views/ViewController.h>
 #include "GuiNetPlay.h"
 #include "components/TextComponent.h"
@@ -12,7 +12,7 @@
 #include <boost/regex.hpp>
 #include <regex>
 #include <NetPlayThread.h>
-#include <SystemManager.h>
+#include <systems/SystemManager.h>
 
 namespace json = boost::property_tree;
 
@@ -520,7 +520,7 @@ int GuiNetPlay::pingHost(const std::string& ip)
 
 FileData* GuiNetPlay::findGame(const std::string& gameNameOrHash)
 {
-  for (auto tmp : SystemManager::Instance().getAllSystems())
+  for (auto tmp : SystemManager::Instance().GetAllSystemList())
   {
     if (RecalboxConf::getInstance()->isInList("global.netplay.systems", tmp->getName()))
     {

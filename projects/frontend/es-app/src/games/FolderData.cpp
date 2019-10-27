@@ -4,7 +4,7 @@
 
 #include "FolderData.h"
 #include "utils/Log.h"
-#include "SystemData.h"
+#include "systems/SystemData.h"
 #include "MameNameMap.h"
 #include "boost/filesystem.hpp"
 

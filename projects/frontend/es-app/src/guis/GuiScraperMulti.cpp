@@ -1,9 +1,8 @@
-#include <SystemManager.h>
+#include <systems/SystemManager.h>
 #include "guis/GuiScraperMulti.h"
 #include "Renderer.h"
 #include "utils/Log.h"
 #include "views/ViewController.h"
-#include "Gamelist.h"
 
 #include "components/TextComponent.h"
 #include "components/ButtonComponent.h"
@@ -85,7 +84,7 @@ GuiScraperMulti::GuiScraperMulti(Window* window, const std::queue<ScraperSearchP
 GuiScraperMulti::~GuiScraperMulti()
 {
 	// view type probably changed (basic -> detailed)
-	for (auto& system : SystemManager::Instance().getVisibleSystems())
+	for (auto& system : SystemManager::Instance().GetVisibleSystemList())
 		ViewController::get()->reloadGameListView(system, false);
 }
 
@@ -128,7 +127,7 @@ void GuiScraperMulti::acceptResult(const ScraperSearchResult& result)
 	ScraperSearchParams& search = mSearchQueue.front();
 
 	search.game->Metadata().Merge(result.mdl);
-	updateGamelist(search.system);
+	search.system->UpdateGamelistXml();
 
 	mSearchQueue.pop();
 	mCurrentGame++;

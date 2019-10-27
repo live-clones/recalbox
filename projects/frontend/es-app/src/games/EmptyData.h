@@ -1,6 +1,6 @@
 #pragma once
 
-#include "FileData.h"
+#include "games/FileData.h"
 
 class EmptyData : public FileData
 {

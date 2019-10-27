@@ -1,15 +1,13 @@
 #include <RecalboxConf.h>
 #include <guis/GuiNetPlay.h>
-#include <SystemManager.h>
+#include <systems/SystemManager.h>
 #include "guis/GuiGamelistOptions.h"
 #include "views/gamelist/ISimpleGameListView.h"
 #include "themes/ThemeData.h"
-#include "SystemData.h"
+#include "systems/SystemData.h"
 #include "Window.h"
 #include "views/ViewController.h"
-#include "Sound.h"
 #include "Settings.h"
-#include "Gamelist.h"
 #include "Locale.h"
 
 ISimpleGameListView::ISimpleGameListView(Window* window, FolderData* root)
@@ -183,7 +181,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
     FileData* cursor = getCursor();
     if (cursor->isGame() && cursor->getSystem()->getHasFavoritesInTheme()) {
       MetadataDescriptor& md = cursor->Metadata();
-      SystemData *favoriteSystem = SystemData::getFavoriteSystem();
+      SystemData *favoriteSystem = SystemManager::Instance().getFavoriteSystem();
 
       md.SetFavorite(!md.Favorite());
 

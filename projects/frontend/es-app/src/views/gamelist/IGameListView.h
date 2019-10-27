@@ -1,8 +1,8 @@
 #pragma once
 
-#include "FileData.h"
+#include "games/FileData.h"
 #include "Renderer.h"
-#include "SystemData.h"
+#include "systems/SystemData.h"
 
 class Window;
 

@@ -4,7 +4,7 @@
 #include "scrapers/GamesDBJSONScraper.h"
 #include "scrapers/GamesDBJSONScraperResources.h"
 
-#include "FileData.h"
+#include "games/FileData.h"
 #include "utils/Log.h"
 #include "PlatformId.h"
 

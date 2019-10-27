@@ -1,6 +1,7 @@
 #pragma once
 
 #include "SystemData.h"
+#include "SystemDescriptor.h"
 #include <utils/os/system/ThreadPool.h>
 #include <utils/os/system/ThreadPoolWorkerInterface.h>
 #include <RootFolders.h>
@@ -9,7 +10,7 @@
 typedef boost::property_tree::ptree Tree;
 
 class SystemManager :
-  public ThreadPoolWorkerInterface<Tree, SystemData*>, // Multi-threaded system loading
+  public ThreadPoolWorkerInterface<SystemDescriptor, SystemData*>, // Multi-threaded system loading
   public ThreadPoolWorkerInterface<SystemData*, bool> // Multi-threaded system unloading
 {
   public:
@@ -17,6 +18,8 @@ class SystemManager :
     typedef std::map<std::string, int> XmlNodeCollisionMap;
     //! Convenient alias for XML node list
     typedef std::vector<Tree> XmlNodeList;
+    //! Convenient alias for System list
+    typedef std::vector<SystemData*> SystemList;
 
   private:
     static constexpr const char* sWeightFilePath = "/recalbox/share/system/.emulationstation/.weights";
@@ -65,10 +68,7 @@ class SystemManager :
 
     bool AddArcadeMetaSystem();
 
-    static SystemData* CreateRegularSystem(const std::string& name, const std::string& fullName, const std::string& startPath,
-                                    const std::string& filteredExtensions, const std::string& command,
-                                    const std::vector<PlatformIds::PlatformId>& platformIds, const std::string& themeFolder,
-                                    const SystemData::EmulatorList& emuNodes);
+    static SystemData* CreateRegularSystem(const SystemDescriptor& systemDescriptor);
 
     static SystemData* CreateFavoriteSystem(const std::string& name, const std::string& fullName,
                                       const std::string& themeFolder, const std::vector<SystemData*>& systems);
@@ -81,7 +81,8 @@ class SystemManager :
     static std::string getUserConfigurationAbsolutePath()     { return RootFolders::DataRootFolder     + "/system/.emulationstation/es_systems.cfg"; }
     static std::string getTemplateConfigurationAbsolutePath() { return RootFolders::TemplateRootFolder + "/system/.emulationstation/es_systems.cfg"; }
 
-    static SystemData::EmulatorList DeserializeEmulatorTree(const Tree& treeNode);
+    static void DeserializeEmulatorTree(const Tree& treeNode, EmulatorList& emulatorList);
+    static bool DeserializeSystemDescriptor(const Tree& treeNode, SystemDescriptor& systemDescriptor);
 
     /*
      * ThreadPoolWorkingInterface implementation
@@ -92,7 +93,7 @@ class SystemManager :
      * @param feed System object from es_systems.cfg
      * @return New SystemData object or nullptr
      */
-    SystemData* ThreadPoolRunJob(Tree& feed) override;
+    SystemData* ThreadPoolRunJob(SystemDescriptor& feed) override;
 
     /*!
      * @brief Update a single gamelist from the metadata
@@ -119,9 +120,21 @@ class SystemManager :
      */
     bool loadConfig();
 
-    const std::vector<SystemData*>& getAllSystems() { return sAllSystemVector; }
-    const std::vector<SystemData*>& getVisibleSystems() { return sVisibleSystemVector; }
-    const std::vector<SystemData*>& getHiddenSystems() { return sHiddenSystemVector; }
+    /*!
+     * @brief Get All system list, visibles + hidden
+     * @return System list
+     */
+    const SystemList& GetAllSystemList() { return sAllSystemVector; }
+    /*!
+     * @brief Get visible-only system list
+     * @return System list
+     */
+    const SystemList& GetVisibleSystemList() { return sVisibleSystemVector; }
+    /*!
+     * @brief Get Hidden-only system list
+     * @return System list
+     */
+    const SystemList& GetHiddenSystemList() { return sHiddenSystemVector; }
 
     inline SystemData* getNextVisible(SystemData* to) const
     {

@@ -2,7 +2,7 @@
 #include <recalbox/RecalboxSystem.h>
 #include "views/ViewController.h"
 #include "utils/Log.h"
-#include "SystemData.h"
+#include "systems/SystemData.h"
 #include "Settings.h"
 
 #include "views/gamelist/BasicGameListView.h"
@@ -15,7 +15,7 @@
 #include "AudioManager.h"
 
 #include <memory>
-#include <SystemManager.h>
+#include <systems/SystemManager.h>
 
 ViewController* ViewController::sInstance = nullptr;
 
@@ -59,7 +59,7 @@ void ViewController::goToStart()
 
   std::string systemName = RecalboxConf::getInstance()->get("emulationstation.selectedsystem");
   int index = systemName.empty() ? -1 : SystemManager::Instance().getVisibleSystemIndex(systemName);
-  SystemData* selectedSystem = index < 0 ? nullptr : SystemManager::Instance().getVisibleSystems().at(index);
+  SystemData* selectedSystem = index < 0 ? nullptr : SystemManager::Instance().GetVisibleSystemList().at(index);
 
   if ((selectedSystem == nullptr) || !selectedSystem->HasGame())
     selectedSystem = SystemManager::Instance().getFirstSystemWithGame();
@@ -77,7 +77,7 @@ void ViewController::goToStart()
 
 int ViewController::getSystemId(SystemData* system)
 {
-	const std::vector<SystemData*>& sysVec = SystemManager::Instance().getVisibleSystems();
+	const std::vector<SystemData*>& sysVec = SystemManager::Instance().GetVisibleSystemList();
 	return std::find(sysVec.begin(), sysVec.end(), system) - sysVec.begin();
 }
 
@@ -333,7 +333,7 @@ std::shared_ptr<IGameListView> ViewController::getGameListView(SystemData* syste
 
 	view->setTheme(system->getTheme());
 
-	const std::vector<SystemData*>& sysVec = SystemManager::Instance().getVisibleSystems();
+	const std::vector<SystemData*>& sysVec = SystemManager::Instance().GetVisibleSystemList();
 	int id = std::find(sysVec.begin(), sysVec.end(), system) - sysVec.begin();
 	view->setPosition((float)id * Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat() * 2);
 
@@ -451,7 +451,7 @@ void ViewController::render(const Transform4x4f& parentTrans)
 
 void ViewController::preload()
 {
-	for (auto it : SystemManager::Instance().getVisibleSystems())
+	for (auto it : SystemManager::Instance().GetVisibleSystemList())
 	{
 		getGameListView(it);
 	}
@@ -533,12 +533,12 @@ void ViewController::reloadAll()
 	{
 		
 		SystemData* system = mState.getSystem();
-		goToSystemView(SystemManager::Instance().getVisibleSystems().front());
+		goToSystemView(SystemManager::Instance().GetVisibleSystemList().front());
 		mSystemListView->goToSystem(system, false);
 		mCurrentView = mSystemListView;
 		
 	}else{
-		goToSystemView(SystemManager::Instance().getVisibleSystems().front());
+		goToSystemView(SystemManager::Instance().GetVisibleSystemList().front());
 	}
 
 	updateHelpPrompts();

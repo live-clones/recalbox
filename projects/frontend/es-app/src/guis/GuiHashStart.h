@@ -5,7 +5,7 @@
 
 #include <boost/thread.hpp>
 #include "GuiComponent.h"
-#include "SystemData.h"
+#include "systems/SystemData.h"
 #include "components/MenuComponent.h"
 #include "components/BusyComponent.h"
 

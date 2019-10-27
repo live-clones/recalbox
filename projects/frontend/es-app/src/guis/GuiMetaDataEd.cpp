@@ -18,8 +18,8 @@
 #include "components/OptionListComponent.h"
 #include "recalbox/RecalboxSystem.h"
 
-#include "MetadataDescriptor.h"
-#include "MetadataFieldDescriptor.h"
+#include "games/MetadataDescriptor.h"
+#include "games/MetadataFieldDescriptor.h"
 
 GuiMetaDataEd::GuiMetaDataEd(Window* window,
                              MetadataDescriptor& md,
@@ -177,8 +177,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window* window,
                                                      return;
                                                    }
 
-                                                   const SystemData::EmulatorDescriptor& emulator = system->Emulators().Named(
-                                                     emulatorName);
+                                                   const EmulatorDescriptor& emulator = system->Emulators().Named(emulatorName);
                                                    std::string currentCore = mMetaData.Core();
 
                                                    if (currentCore.empty())

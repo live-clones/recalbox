@@ -4,6 +4,7 @@
 
 #include "DemoMode.h"
 #include "utils/Log.h"
+#include "systems/SystemManager.h"
 
 DemoMode::DemoMode(Window& window)
   : mWindow(window),
@@ -28,7 +29,7 @@ void DemoMode::init()
   mDurations.clear();
 
   // Build system list filtered by user config
-  const std::vector<SystemData*>& allSystems = SystemManager::Instance().getAllSystems();
+  const std::vector<SystemData*>& allSystems = SystemManager::Instance().GetAllSystemList();
   bool systemListExists = !mRecalboxConf.get("global.demo.systemlist").empty();
   for (int i=(int)allSystems.size(); --i>= 0;)
   {

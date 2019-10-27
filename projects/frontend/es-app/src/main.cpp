@@ -22,7 +22,7 @@
 #include "Renderer.h"
 #include "resources/Font.h"
 #include "Settings.h"
-#include "SystemData.h"
+#include "systems/SystemData.h"
 #include "views/ViewController.h"
 #include "VolumeControl.h"
 #include "Window.h"
@@ -32,7 +32,7 @@
 #include "guis/GuiMsgBoxScroll.h"
 #include "recalbox/RecalboxSystem.h"
 #include "recalbox/RecalboxUpgrade.h"
-#include "SystemManager.h"
+#include "systems/SystemManager.h"
 
 #ifdef WIN32
   #include <Windows.h>
@@ -168,7 +168,7 @@ bool loadSystemConfigFile(const char** errorString)
     return false;
   }
 
-  if (SystemManager::Instance().getVisibleSystems().empty())
+  if (SystemManager::Instance().GetVisibleSystemList().empty())
   {
     LOG(LogError)
       << "No systems found! Does at least one system have a game present? (check that extensions match!)\n(Also, make sure you've updated your es_systems.cfg for XML!)";

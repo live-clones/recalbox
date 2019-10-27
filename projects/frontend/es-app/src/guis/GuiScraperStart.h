@@ -1,7 +1,7 @@
 #pragma once
 
 #include "GuiComponent.h"
-#include "SystemData.h"
+#include "systems/SystemData.h"
 #include "scrapers/Scraper.h"
 #include "components/MenuComponent.h"
 #include <queue>

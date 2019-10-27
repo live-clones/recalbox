@@ -1,5 +1,5 @@
 #include "views/SystemView.h"
-#include "SystemData.h"
+#include "systems/SystemData.h"
 #include "Renderer.h"
 #include "utils/Log.h"
 #include "Window.h"
@@ -14,7 +14,7 @@
 #include <guis/GuiNetPlay.h>
 
 #include <memory>
-#include <SystemManager.h>
+#include <systems/SystemManager.h>
 #include "guis/GuiMenu.h"
 #include "themes/ThemeData.h"
 #include "MenuThemeData.h"
@@ -147,7 +147,7 @@ void SystemView::populate()
 {
 	mEntries.clear();
 
-	for (auto& it : SystemManager::Instance().getVisibleSystems())
+	for (auto& it : SystemManager::Instance().GetVisibleSystemList())
 	{
 		addSystem(it);
 	}

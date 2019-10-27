@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vector>
-#include "FileData.h"
+#include "games/FileData.h"
 
 // TODO: typedef the compare function in FolderData.h
 namespace FileSorts

@@ -5,7 +5,7 @@
 #include "components/OptionListComponent.h"
 #include <functional>
 #include <Window.h>
-#include <SystemData.h>
+#include <systems/SystemData.h>
 #include "guis/GuiSettings.h"
 
 class StrInputConfig

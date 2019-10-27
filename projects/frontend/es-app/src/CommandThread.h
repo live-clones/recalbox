@@ -1,5 +1,5 @@
 #include <Window.h>
-#include "FileData.h"
+#include "games/FileData.h"
 #include <boost/thread/thread.hpp>
 #include <boost/asio.hpp>
 
