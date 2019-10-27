@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [6.x]
+## [6.1.1]
 - Add zfast shaders
 - Fix reicast on XU4 & PC
 - Fix Flycast on RPi
@@ -30,6 +30,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fix enable cheevos badge in retroarch menu (retroachievement.org)
 - Make advancemame available on xu4, x86 and x64
 - Set Retroarch threaded_video option to off by default
+- Fix component video still active while scrolling
 
 ## [6.1]
 - Replacement of the neogeo intro video

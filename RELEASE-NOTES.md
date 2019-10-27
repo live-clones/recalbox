@@ -1,6 +1,6 @@
 # Release notes
 
-## Version 6.x
+## Version 6.1.1
 
 ### News
 
@@ -33,6 +33,7 @@
 - Fix enable cheevos badge in retroarch menu (retroachievement.org)
 - Fix advancemame availability on xu4, x86 and x64
 - Fix some retroarch core random crashes and/or lags/slowness
+- Fix videosnaps crashs/artifects while scrolling
 
 
 ## Version 6.1
