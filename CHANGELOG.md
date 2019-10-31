@@ -34,6 +34,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Wifi: connman replaced by wpa_supplicant
 - Bluetooth: improve association
 - Bluetooth: option to enable or disable ERTM in recalbox.conf
+- Add Retro City controller defaults
 
 ## [6.1]
 - Replacement of the neogeo intro video
