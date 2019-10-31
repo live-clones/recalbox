@@ -5,6 +5,16 @@ then
   exit 0
 fi
 
+systemsetting="recalbox_settings"
+ertm="`$systemsetting  -command load -key controllers.bluetooth.ertm`"
+mount -o remount,rw /
+if [ "$ertm" == "0" ];then
+  echo "options bluetooth disable_ertm=Y" > /etc/modprobe.d/bluetooth.conf
+else
+  echo "options bluetooth disable_ertm=N" > /etc/modprobe.d/bluetooth.conf
+fi
+mount -o remount,ro /
+
 while IFS='' read -r line || [[ -n "$line" ]]; do
     modprobe $line 2>&1 | recallog
 done < /etc/modules.conf

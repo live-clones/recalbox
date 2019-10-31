@@ -13,6 +13,7 @@
 - Bump kernel firmwares to latest version
 - Add new Game Boy shader
 - New wifi management
+- Improve Blutooth association
 
 ### Fixes
 - Fix Reicast on XU4 and PC platforms and fix wrong flycast entry on Rpi

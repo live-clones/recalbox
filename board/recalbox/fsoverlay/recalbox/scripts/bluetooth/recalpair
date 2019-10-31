@@ -16,7 +16,7 @@ sleep 1
 echo -e "scan on\n"
 sleep 3
 echo -e "devices\n"
-sleep 1
+sleep 2
 echo -e "remove $mac\n"
 sleep 1
 echo -e "pair $mac\n"

@@ -12,7 +12,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fix random crashes while mapping pads
 - Improved multi-event filtering while mapping pads
 - Odroid XU4 fan control optimization
-- Fix aple2gs configgen and patch emulator to support dpads
+- Fix apple2gs configgen and patch emulator to support dpads
 - Change apple II mapping from L/R to A/B
 - Make PiSNES fullscreen
 - Fix demo screen ratio
@@ -32,6 +32,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Set Retroarch threaded_video option to off by default
 - Fix component video still active while scrolling
 - Wifi: connman replaced by wpa_supplicant
+- Bluetooth: improve association
+- Bluetooth: option to enable or disable ERTM in recalbox.conf
 
 ## [6.1]
 - Replacement of the neogeo intro video
