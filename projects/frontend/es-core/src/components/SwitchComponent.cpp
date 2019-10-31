@@ -28,9 +28,9 @@ void SwitchComponent::setColor(unsigned int color) {
 	mImage.setColorShift(color);
 }
 
-bool SwitchComponent::input(InputConfig* config, Input input)
+bool SwitchComponent::ProcessInput(const InputCompactEvent& event)
 {
-	if(config->isMappedTo("b", input) && (input.value != 0))
+	if(event.BPressed())
 	{
 		mState = !mState;
 		onStateChanged();

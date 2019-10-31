@@ -20,7 +20,7 @@ public:
 	inline void setOriginColor(unsigned int color){ mOriginColor = color; }
 	inline unsigned int getOriginColor() override{return mOriginColor;};
 
-	bool input(InputConfig* config, Input input) override;
+	bool ProcessInput(const InputCompactEvent& event) override;
 	void update(int deltaTime) override;
 	void render(const Transform4x4f& parentTrans) override;
 	

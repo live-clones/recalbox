@@ -35,7 +35,7 @@ public:
 	
 	void onSizeChanged() override;
 
-	bool input(InputConfig* config, Input input) override;
+	bool ProcessInput(const InputCompactEvent& event) override;
 	void update(int deltaTime) override;
 	void render(const Transform4x4f& parentTrans) override;
 
@@ -112,33 +112,28 @@ void ImageGridComponent<T>::add(const std::string& name, const std::string& imag
 }
 
 template<typename T>
-bool ImageGridComponent<T>::input(InputConfig* config, Input input)
+bool ImageGridComponent<T>::ProcessInput(const InputCompactEvent& event)
 {
-	if(input.value != 0)
+	if (event.AnythingPressed())
 	{
 		Vector2i dir = Vector2i::Zero();
-		if(config->isMappedTo("up", input))
-			dir[1] = -1;
-		else if(config->isMappedTo("down", input))
-			dir[1] = 1;
-		else if(config->isMappedTo("left", input))
-			dir[0] = -1;
-		else if(config->isMappedTo("right", input))
-			dir[0] = 1;
+		if (event.AnyUpPressed()) dir.y() = -1;
+		else if (event.AnyDownPressed()) dir.y() = 1;
+		else if (event.AnyLeftPressed()) dir.x() = -1;
+		else if (event.AnyRightPressed()) dir.x() = 1;
 
 		if(dir != Vector2i::Zero())
 		{
 			listInput(dir.x() + dir.y() * getGridSize().x());
 			return true;
 		}
-	}else{
-		if(config->isMappedTo("up", input) || config->isMappedTo("down", input) || config->isMappedTo("left", input) || config->isMappedTo("right", input))
-		{
-			stopScrolling();
-		}
 	}
+	else if (event.AnyUpReleased() || event.AnyDownReleased() || event.AnyLeftReleased() || event.AnyRightReleased())
+  {
+    stopScrolling();
+  }
 
-	return GuiComponent::input(config, input);
+	return GuiComponent::ProcessInput(event);
 }
 
 template<typename T>

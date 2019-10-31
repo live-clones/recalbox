@@ -31,15 +31,15 @@ void GuiSettings::save()
 	Settings::getInstance()->saveFile();
 }
 
-bool GuiSettings::input(InputConfig* config, Input input)
+bool GuiSettings::ProcessInput(const InputCompactEvent& event)
 {
-	if(config->isMappedTo("a", input) && input.value != 0)
+	if (event.APressed())
 	{
 		delete this;
 		return true;
 	}
 
-	if(config->isMappedTo("start", input) && input.value != 0)
+	if (event.StartPressed())
 	{
 		// close everything
 		Window* window = mWindow;
@@ -48,7 +48,7 @@ bool GuiSettings::input(InputConfig* config, Input input)
 		return true;
 	}
 	
-	return GuiComponent::input(config, input);
+	return GuiComponent::ProcessInput(event);
 }
 
 std::vector<HelpPrompt> GuiSettings::getHelpPrompts()

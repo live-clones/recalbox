@@ -78,13 +78,13 @@ MenuComponent::MenuComponent(Window* window, const char* title, const std::share
     mList = std::make_shared<ComponentList>(mWindow);
     mGrid.setEntry(mList, Vector2i(0, 1), true);
 
-    mGrid.setUnhandledInputCallback([this] (InputConfig* config, Input input) -> bool {
-        if (config->isMappedTo("down", input)) {
+    mGrid.setUnhandledInputCallback([this](const InputCompactEvent& event) -> bool {
+        if (event.DownPressed()) {
             mGrid.setCursorTo(mList);
             mList->setCursorIndex(0);
             return true;
         }
-        if(config->isMappedTo("up", input)) {
+        if (event.UpPressed()) {
         	mList->setCursorIndex(mList->size() - 1);
             if(!mButtons.empty()) {
 				mGrid.moveCursor(Vector2i(0, 1));

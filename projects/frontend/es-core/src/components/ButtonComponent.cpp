@@ -38,16 +38,16 @@ void ButtonComponent::setPressedFunc(std::function<void()> f)
 	mPressedFunc = std::move(f);
 }
 
-bool ButtonComponent::input(InputConfig* config, Input input)
+bool ButtonComponent::ProcessInput(const InputCompactEvent& event)
 {
-	if(config->isMappedTo("b", input) && input.value != 0)
+	if(event.BPressed())
 	{
 		if(mPressedFunc && mEnabled)
 			mPressedFunc();
 		return true;
 	}
 
-	return GuiComponent::input(config, input);
+	return GuiComponent::ProcessInput(event);
 }
 
 void ButtonComponent::setText(const std::string& text, const std::string& helpText, bool upperCase, bool resize, bool doUpdateHelpPrompts)

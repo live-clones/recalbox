@@ -45,7 +45,7 @@ public:
 	void launch(FileData* game, Vector3f centerCameraOn = Vector3f(Renderer::getDisplayWidthAsFloat() / 2.0f, Renderer::getDisplayHeightAsFloat() / 2.0f, 0),
 			const std::string& netplay = "", const std::string& core = "", const std::string& ip = "", const std::string& port = "");
 
-	bool input(InputConfig* config, Input input) override;
+	bool ProcessInput(const InputCompactEvent& event) override;
 	void update(int deltaTime) override;
 	void render(const Transform4x4f& parentTrans) override;
 

@@ -136,9 +136,9 @@ void RatingComponent::render(const Transform4x4f& parentTrans)
 	renderChildren(trans);
 }
 
-bool RatingComponent::input(InputConfig* config, Input input)
+bool RatingComponent::ProcessInput(const InputCompactEvent& event)
 {
-	if(config->isMappedTo("b", input) && input.value != 0)
+	if (event.BPressed())
 	{
 		mValue += 1.f / NUM_RATING_STARS;
 		if(mValue > 1.0f)
@@ -147,7 +147,7 @@ bool RatingComponent::input(InputConfig* config, Input input)
 		updateVertices();
 	}
 
-	return GuiComponent::input(config, input);
+	return GuiComponent::ProcessInput(event);
 }
 
 void RatingComponent::applyTheme(const std::shared_ptr<ThemeData>& theme, const std::string& view, const std::string& element, ThemeProperties properties)

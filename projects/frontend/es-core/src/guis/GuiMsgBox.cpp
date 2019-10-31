@@ -116,24 +116,16 @@ void GuiMsgBox::build(const std::string& text, TextAlignment align,
 	addChild(&mGrid);
 }
 
-bool GuiMsgBox::input(InputConfig* config, Input input)
+bool GuiMsgBox::ProcessInput(const InputCompactEvent& event)
 {
 	// special case for when GuiMsgBox comes up to report errors before anything has been configured
-	if(config->getDeviceId() == DEVICE_KEYBOARD && !config->isConfigured() && (input.value != 0) &&
-		(input.id == SDLK_RETURN || input.id == SDLK_ESCAPE || input.id == SDLK_SPACE))
+	if (mAcceleratorFunc && event.AskForConfiguration())
 	{
 		mAcceleratorFunc();
 		return true;
 	}
 
-	/* when it's not configured, allow to remove the message box too to allow the configdevice window a chance */
-	if(mAcceleratorFunc && ((config->isMappedTo("a", input) && input.value != 0) || (!config->isConfigured() && input.type == InputType::Button)))
-	{
-		mAcceleratorFunc();
-		return true;
-	}
-
-	return GuiComponent::input(config, input);
+	return GuiComponent::ProcessInput(event);
 }
 
 void GuiMsgBox::onSizeChanged()
@@ -150,7 +142,7 @@ void GuiMsgBox::onSizeChanged()
 
 void GuiMsgBox::deleteMeAndCall(const std::function<void()>& func)
 {
-  auto antibug = func; // TODO: REMOVE delete this! Use a need-to-be-closes stack instead.
+  auto antibug = func; // TODO: REMOVE delete this! Use a need-to-be-closed stack instead.
 
 	delete this;
 

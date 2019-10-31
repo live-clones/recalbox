@@ -405,7 +405,7 @@ int main(int argc, char* argv[])
     LOG(LogDebug) << "Preparing GUI";
     if (errorMsg == nullptr)
     {
-      if (fs::exists(InputManager::getConfigPath()) && InputManager::getInstance()->getNumConfiguredDevices() > 0)
+      if (fs::exists(InputManager::ConfigurationPath()) && InputManager::Instance().ConfiguredDeviceCount() > 0)
       {
         ViewController::get()->goToStart();
       }
@@ -441,18 +441,24 @@ int main(int argc, char* argv[])
       {
         switch (event.type)
         {
+          case SDL_TEXTINPUT:
+          {
+            window.textInput(event.text.text);
+            break;
+          }
           case SDL_JOYHATMOTION:
           case SDL_JOYBUTTONDOWN:
           case SDL_JOYBUTTONUP:
           case SDL_KEYDOWN:
           case SDL_KEYUP:
           case SDL_JOYAXISMOTION:
-          case SDL_TEXTINPUT:
-          case SDL_TEXTEDITING:
           case SDL_JOYDEVICEADDED:
           case SDL_JOYDEVICEREMOVED:
-            InputManager::getInstance()->parseEvent(event, &window);
+          {
+            InputCompactEvent compactEvent = InputManager::Instance().ManageSDLEvent(event);
+            if (!compactEvent.Empty()) window.ProcessInput(compactEvent);
             break;
+          }
           case SDL_QUIT:
             running = false;
             break;

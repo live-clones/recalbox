@@ -11,13 +11,13 @@ class GuiDetectDevice : public GuiComponent
 public:
 	GuiDetectDevice(Window* window, bool firstRun, const std::function<void()>& doneCallback);
 
-	bool input(InputConfig* config, Input input) override;
+	bool ProcessInput(const InputCompactEvent& event) override;
 	void update(int deltaTime) override;
 	void onSizeChanged() override;
 
 private:
 	bool mFirstRun;
-	InputConfig* mHoldingConfig;
+	InputDevice* mHoldingConfig;
 	int mHoldTime;
 
 	NinePatchComponent mBackground;

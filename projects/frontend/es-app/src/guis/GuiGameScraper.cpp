@@ -98,15 +98,15 @@ void GuiGameScraper::onSizeChanged()
 	mGrid.setSize(mSize);
 }
 
-bool GuiGameScraper::input(InputConfig* config, Input input)
+bool GuiGameScraper::ProcessInput(const InputCompactEvent& event)
 {
-	if(config->isMappedTo("a", input) && (input.value != 0))
+	if (event.APressed())
 	{
 		delete this;
 		return true;
 	}
 
-	return GuiComponent::input(config, input);
+	return GuiComponent::ProcessInput(event);
 }
 
 void GuiGameScraper::update(int deltaTime)

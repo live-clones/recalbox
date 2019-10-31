@@ -87,24 +87,17 @@ GuiMsgBoxScroll::GuiMsgBoxScroll(Window* window,
 	addChild(&mGrid);
 }
 
-bool GuiMsgBoxScroll::input(InputConfig* config, Input input)
+bool GuiMsgBoxScroll::ProcessInput(const InputCompactEvent& event)
 {
 	// special case for when GuiMsgBox comes up to report errors before anything has been configured
-	if(config->getDeviceId() == DEVICE_KEYBOARD && !config->isConfigured() && (input.value != 0) &&
-		(input.id == SDLK_RETURN || input.id == SDLK_ESCAPE || input.id == SDLK_SPACE))
-	{
-		mAcceleratorFunc();
-		return true;
-	}
-
 	/* when it's not configured, allow to remove the message box too to allow the configdevice window a chance */
-	if(mAcceleratorFunc && ((config->isMappedTo("a", input) && input.value != 0) || (!config->isConfigured() && input.type == InputType::Button)))
+	if(mAcceleratorFunc && event.AskForConfiguration())
 	{
 		mAcceleratorFunc();
 		return true;
 	}
 
-	return GuiComponent::input(config, input);
+	return GuiComponent::ProcessInput(event);
 }
 
 void GuiMsgBoxScroll::onSizeChanged()

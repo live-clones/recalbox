@@ -19,7 +19,7 @@ public:
 	std::string getValue() const override;
 	void setValue(const std::string& value) override; // Should be a normalized float (in the range [0..1]) - if it's not, it will be clamped.
 
-	bool input(InputConfig* config, Input input) override;
+	bool ProcessInput(const InputCompactEvent& event) override;
 	void render(const Transform4x4f& parentTrans) override;
 
   void setColor(unsigned int color) override { mColor=color; }

@@ -21,7 +21,7 @@ class GuiScraperStart : public GuiComponent
 public:
 	explicit GuiScraperStart(Window* window);
 
-	bool input(InputConfig* config, Input input) override;
+	bool ProcessInput(const InputCompactEvent& event) override;
 
 	std::vector<HelpPrompt> getHelpPrompts() override;
 

@@ -32,10 +32,9 @@ GuiUpdate::~GuiUpdate()
   mPingHandle->join();
 }
 
-bool GuiUpdate::input(InputConfig* config, Input input)
+bool GuiUpdate::ProcessInput(const InputCompactEvent& event)
 {
-  (void) config;
-  (void) input;
+  (void)event;
   return false;
 }
 

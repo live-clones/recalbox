@@ -38,7 +38,7 @@ public:
 
 	explicit TextListComponent(Window* window);
 	
-	bool input(InputConfig* config, Input input) override;
+	bool ProcessInput(const InputCompactEvent& event) override;
 	void update(int deltaTime) override;
 	void render(const Transform4x4f& parentTrans) override;
 	void applyTheme(const std::shared_ptr<ThemeData>& theme, const std::string& view, const std::string& element, ThemeProperties properties) override;
@@ -236,44 +236,37 @@ void TextListComponent<T>::render(const Transform4x4f& parentTrans)
 }
 
 template <typename T>
-bool TextListComponent<T>::input(InputConfig* config, Input input)
+bool TextListComponent<T>::ProcessInput(const InputCompactEvent& event)
 {
 	if(size() > 0)
 	{
-		if(input.value != 0)
-		{
-			if(config->isMappedTo("down", input))
-			{
-				listInput(1);
-				return true;
-			}
-
-			if(config->isMappedTo("up", input))
-			{
-				listInput(-1);
-				return true;
-			}
-			if(config->isMappedTo("pagedown", input))
-			{
-				listInput(10);
-				return true;
-			}
-
-			if(config->isMappedTo("pageup", input))
-			{
-				listInput(-10);
-				return true;
-			}
-		}else{
-			if(config->isMappedTo("down", input) || config->isMappedTo("up", input) || 
-				config->isMappedTo("pagedown", input) || config->isMappedTo("pageup", input))
-			{
-				stopScrolling();
-			}
-		}
+    if (event.AnyDownPressed())
+    {
+      listInput(1);
+      return true;
+    }
+    else if (event.AnyUpPressed())
+    {
+      listInput(-1);
+      return true;
+    }
+    else if (event.R1Pressed())
+    {
+      listInput(10);
+      return true;
+    }
+    else if (event.L1Pressed())
+    {
+      listInput(-10);
+      return true;
+    }
+    else if (event.AnyDownReleased() || event.AnyUpReleased() || event.R1Released() || event.L1Released())
+    {
+      stopScrolling();
+    }
 	}
 
-	return GuiComponent::input(config, input);
+	return GuiComponent::ProcessInput(event);
 }
 
 template <typename T>

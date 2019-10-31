@@ -38,15 +38,14 @@ GuiComponent::~GuiComponent()
 		getChild(i)->setParent(nullptr);
 }
 
-bool GuiComponent::input(InputConfig* config, Input input)
+bool GuiComponent::ProcessInput(const InputCompactEvent& event)
 {
-	for (unsigned int i = 0; i < getChildCount(); i++)
-	{
-		if(getChild(i)->input(config, input))
-			return true;
-	}
+  int count = (int)getChildCount();
+  for (int i = 0; i < count; ++i)
+    if(getChild(i)->ProcessInput(event))
+      return true;
 
-	return false;
+  return false;
 }
 
 void GuiComponent::updateSelf(int deltaTime)

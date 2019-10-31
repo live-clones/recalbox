@@ -356,18 +356,19 @@ std::shared_ptr<SystemView> ViewController::getSystemListView()
 }
 
 
-bool ViewController::input(InputConfig* config, Input input)
+bool ViewController::ProcessInput(const InputCompactEvent& event)
 {
 	if (mLockInput) return true;
 
 	/* if we receive a button pressure for a non configured joystick, suggest the joystick configuration */
-	if (!config->isConfigured() && (input.type == InputType::Button) )
+	if (event.AskForConfiguration())
 	{
 		mWindow->pushGui(new GuiDetectDevice(mWindow, false, nullptr));
 		return true;
 	}
 
-	if (mCurrentView) return mCurrentView->input(config, input);
+  // Normal processing
+  if (mCurrentView) return mCurrentView->ProcessInput(event);
 
 	return false;
 }

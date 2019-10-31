@@ -144,16 +144,16 @@ void GuiHashStart::start()
     mState = -1;
 }
 
-bool GuiHashStart::input(InputConfig* config, Input input)
+bool GuiHashStart::ProcessInput(const InputCompactEvent& event)
 {
 	if (mLoading)
 		return false;
 
-	if (config->isMappedTo("a", input) && input.value != 0)
+	if (event.APressed())
 	{
 		delete this;
 	}
-	return GuiComponent::input(config, input);
+	return GuiComponent::ProcessInput(event);
 }
 
 void GuiHashStart::update(int deltaTime) {

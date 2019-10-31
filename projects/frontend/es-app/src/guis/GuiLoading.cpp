@@ -55,10 +55,9 @@ GuiLoading::~GuiLoading() {
     mHandle->join();
 }
 
-bool GuiLoading::input(InputConfig *config, Input input)
+bool GuiLoading::ProcessInput(const InputCompactEvent& event)
 {
-    (void)config;
-    (void)input;
+    (void)event;
     return false;
 }
 

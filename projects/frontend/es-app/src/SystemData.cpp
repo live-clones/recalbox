@@ -200,7 +200,7 @@ void SystemData::launchGame(Window* window, FileData* game, const std::string& n
   AudioManager::getInstance()->deinit();
   VolumeControl::getInstance()->deinit();
 
-  std::string controlersConfig = InputManager::getInstance()->configureEmulators();
+  std::string controlersConfig = InputManager::Instance().GenerateConfiggenConfiguration();
   LOG(LogInfo) << "Controllers config : " << controlersConfig;
   window->deinit();
 
@@ -269,7 +269,7 @@ std::string SystemData::demoInitialize(Window& window)
 {
   LOG(LogInfo) << "Entering demo mode...";
 
-  std::string controlersConfig = InputManager::getInstance()->configureEmulators();
+  std::string controlersConfig = InputManager::Instance().GenerateConfiggenConfiguration();
   LOG(LogInfo) << "Controllers config : " << controlersConfig;
 
   VideoEngine::This().StopVideo();

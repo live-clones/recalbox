@@ -61,13 +61,13 @@ void GuiTextEditPopup::onSizeChanged()
 	mGrid.setSize(mSize);
 }
 
-bool GuiTextEditPopup::input(InputConfig* config, Input input)
+bool GuiTextEditPopup::ProcessInput(const InputCompactEvent& event)
 {
-	if(GuiComponent::input(config, input))
+	if (GuiComponent::ProcessInput(event))
 		return true;
 
 	// pressing back when not text editing closes us
-	if(config->isMappedTo("a", input) && (input.value != 0))
+	if (event.APressed())
 	{
 		delete this;
 		return true;

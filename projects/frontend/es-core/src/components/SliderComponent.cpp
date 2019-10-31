@@ -36,26 +36,24 @@ SliderComponent::SliderComponent(Window* window, float min, float max, float inc
 	setSize(Renderer::getDisplayWidthAsFloat() * 0.15f, menuTheme->menuText.font->getLetterHeight());
 }
 
-bool SliderComponent::input(InputConfig* config, Input input)
+bool SliderComponent::ProcessInput(const InputCompactEvent& event)
 {
-	if(config->isMappedTo("left", input))
+	if (event.AnyLeft())
 	{
-		if(input.value != 0)
-			setValue(mValue - mSingleIncrement);
+		if (event.LeftPressed()) setValue(mValue - mSingleIncrement);
 
-		mMoveRate = input.value != 0 ? -mSingleIncrement : 0;
+		mMoveRate = event.LeftPressed() ? -mSingleIncrement : 0;
 		mMoveAccumulator = -MOVE_REPEAT_DELAY;
 	}
-	if(config->isMappedTo("right", input))
+	if (event.AnyRight())
 	{
-		if(input.value != 0)
-			setValue(mValue + mSingleIncrement);
+		if (event.RightPressed()) setValue(mValue + mSingleIncrement);
 
-		mMoveRate = input.value != 0 ? mSingleIncrement : 0;
+		mMoveRate = event.RightPressed() ? mSingleIncrement : 0;
 		mMoveAccumulator = -MOVE_REPEAT_DELAY;
 	}
 
-	return GuiComponent::input(config, input);
+	return GuiComponent::ProcessInput(event);
 }
 
 void SliderComponent::update(int deltaTime)

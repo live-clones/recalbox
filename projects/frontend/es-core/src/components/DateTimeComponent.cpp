@@ -33,12 +33,9 @@ void DateTimeComponent::setDisplayMode(Display mode)
 	updateTextCache();
 }
 
-bool DateTimeComponent::input(InputConfig* config, Input input)
+bool DateTimeComponent::ProcessInput(const InputCompactEvent& event)
 {
-	if(input.value == 0)
-		return false;
-
-	if(config->isMappedTo("b", input))
+	if (event.BPressed())
 	{
 		if(mDisplayMode != Display::RelativeToNow) //don't allow editing for relative times
 			mEditing = !mEditing;
@@ -61,7 +58,7 @@ bool DateTimeComponent::input(InputConfig* config, Input input)
 
 	if(mEditing)
 	{
-		if(config->isMappedTo("a", input))
+		if (event.APressed())
 		{
 			mEditing = false;
 			mTime = mTimeBeforeEdit;
@@ -70,9 +67,9 @@ bool DateTimeComponent::input(InputConfig* config, Input input)
 		}
 
 		int incDir = 0;
-		if(config->isMappedTo("up", input) || config->isMappedTo("pageup", input))
+		if (event.AnyUpPressed() || event.L1Pressed())
 			incDir = 1;
-		else if(config->isMappedTo("down", input) || config->isMappedTo("pagedown", input))
+		else if (event.AnyDownPressed() || event.R1Pressed())
 			incDir = -1;
 
 		if(incDir != 0)
@@ -115,7 +112,7 @@ bool DateTimeComponent::input(InputConfig* config, Input input)
 			return true;
 		}
 
-		if(config->isMappedTo("right", input))
+		if (event.RightPressed())
 		{
 			mEditIndex++;
 			if(mEditIndex >= (int)mCursorBoxes.size())
@@ -123,7 +120,7 @@ bool DateTimeComponent::input(InputConfig* config, Input input)
 			return true;
 		}
 		
-		if(config->isMappedTo("left", input))
+		if (event.LeftPressed())
 		{
 			mEditIndex--;
 			if(mEditIndex < 0)
@@ -132,7 +129,7 @@ bool DateTimeComponent::input(InputConfig* config, Input input)
 		}
 	}
 
-	return GuiComponent::input(config, input);
+	return GuiComponent::ProcessInput(event);
 }
 
 void DateTimeComponent::update(int deltaTime)

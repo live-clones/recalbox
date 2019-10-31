@@ -223,34 +223,20 @@ ComponentGrid::GridEntry* ComponentGrid::getCellAt(int x, int y)
     return nullptr;
 }
 
-bool ComponentGrid::input(InputConfig* config, Input input) {
+bool ComponentGrid::ProcessInput(const InputCompactEvent& event) {
     GridEntry* cursorEntry = getCellAt(mCursor);
 
-    if ((cursorEntry != nullptr) && cursorEntry->component->input(config, input)) {
+    if ((cursorEntry != nullptr) && cursorEntry->component->ProcessInput(event)) {
         return true;
     }
 
-    if (input.value == 0) {
-        return false;
-    }
+    if (event.AnyDownPressed())            return moveCursor(Vector2i(0, 1));
+    else if (event.AnyUpPressed())         return moveCursor(Vector2i(0, -1));
+    else if (event.AnyLeftPressed())       return moveCursor(Vector2i(-1, 0));
+    else if (event.AnyRightPressed())      return moveCursor(Vector2i(1, 0));
+    else if (mUnhandledInputCallback) return mUnhandledInputCallback(event);
 
-    bool result = false;
-
-    if (config->isMappedTo("down", input)) {
-        result = moveCursor(Vector2i(0, 1));
-    } else if(config->isMappedTo("up", input)) {
-        result = moveCursor(Vector2i(0, -1));
-    } else if(config->isMappedTo("left", input)) {
-        result = moveCursor(Vector2i(-1, 0));
-    } else if(config->isMappedTo("right", input)) {
-        result = moveCursor(Vector2i(1, 0));
-    }
-
-    if (!result && mUnhandledInputCallback) {
-        return mUnhandledInputCallback(config, input);
-    }
-
-    return result;
+    return false;
 }
 
 void ComponentGrid::resetCursor()

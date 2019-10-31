@@ -45,7 +45,7 @@ public:
 	inline void addSaveFunc(const std::function<void()>& func) { mSaveFuncs.push_back(func); };
         inline void setSave(bool sav) { doSave = sav; };
 
-	bool input(InputConfig* config, Input input) override;
+	bool ProcessInput(const InputCompactEvent& event) override;
 	std::vector<HelpPrompt> getHelpPrompts() override;
 
 	inline MenuComponent *getMenu() const { return &mMenu; }

@@ -2,11 +2,11 @@
 
 #define SDL_IDLE_MS 150
 
-bool InputStack::hasInput(const Input& input)
+bool InputStack::hasInput(const InputEvent& input)
 {
 	for (auto& mInput : mInputs)
 	{
-		if(mInput.device == input.device && mInput.type == input.type && mInput.id == input.id)
+		if(mInput.Device() == input.Device() && mInput.Type() == input.Type() && mInput.Id() == input.Id())
 		{
 			return true;
 		}
@@ -14,9 +14,9 @@ bool InputStack::hasInput(const Input& input)
 	return false;
 }
 
-void InputStack::push(const Input& input, const std::function<void(const std::list<Input>& inputs)>& func)
+void InputStack::push(const InputEvent& input, const std::function<void(const std::list<InputEvent>& inputs)>& func)
 {
-  LOG(LogDebug) << "Push!";
+  LOG(LogDebug) << "Push! " << input.ToString();
   // Debouncing
   TimeSpan diff = DateTime() - mDebounceReference;
   if (diff.TotalMilliseconds() < SDL_IDLE_MS)

@@ -26,8 +26,8 @@ struct ComponentListRow
 	// Return false to let the list try to use it or true if the input has been consumed.
 	// If no input handler is supplied (input_handler == nullptr), the default behavior is to forward the input to 
 	// the rightmost element in the currently selected row.
-	std::function<bool(InputConfig*, Input)> input_handler;
-	std::function<bool(InputConfig*, Input)> help_handler;
+	std::function<bool(const InputCompactEvent&)> input_handler;
+	std::function<bool(const InputCompactEvent&)> help_handler;
 
 	explicit ComponentListRow(std::string n = std::string()) : name(std::move(n))
 	{}
@@ -40,8 +40,8 @@ struct ComponentListRow
 	// Utility method for making an input handler for "when the users presses B on this, do func."
 	inline void makeAcceptInputHandler(const std::function<void()>& func)
 	{
-		input_handler = [func](InputConfig* config, Input input) -> bool {
-			if(config->isMappedTo("b", input) && input.value != 0)
+		input_handler = [func](const InputCompactEvent& event) -> bool {
+			if(event.BPressed())
 			{
 				func();
 				return true;
@@ -52,8 +52,8 @@ struct ComponentListRow
 
 	inline void makeHelpInputHandler(const std::function<void()> &func)
 	{
-		help_handler = [func](InputConfig* config, Input input) -> bool {
-			if(config->isMappedTo("y", input) && input.value != 0)
+		help_handler = [func](const InputCompactEvent& event) -> bool {
+			if(event.YPressed())
 			{
 				func();
 				return true;
@@ -71,7 +71,7 @@ public:
 	void addRow(const ComponentListRow& row, bool setCursorHere = false, bool updateGeometry = true);
 
 	void textInput(const char* text) override;
-	bool input(InputConfig* config, Input input) override;
+	bool ProcessInput(const InputCompactEvent& event) override;
 	void update(int deltaTime) override;
 	void render(const Transform4x4f& parentTrans) override;
 	std::vector<HelpPrompt> getHelpPrompts() override;

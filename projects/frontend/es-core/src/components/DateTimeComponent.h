@@ -25,7 +25,7 @@ public:
 	void setValue(const std::string& val) override;
 	std::string getValue() const override;
 
-	bool input(InputConfig* config, Input input) override;
+	bool ProcessInput(const InputCompactEvent& event) override;
 	void update(int deltaTime) override;
 	void render(const Transform4x4f& parentTrans) override;
 	void onSizeChanged() override;

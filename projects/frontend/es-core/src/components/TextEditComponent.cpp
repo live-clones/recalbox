@@ -94,17 +94,17 @@ void TextEditComponent::stopEditing()
 	updateHelpPrompts();
 }
 
-bool TextEditComponent::input(InputConfig* config, Input input)
+bool TextEditComponent::ProcessInput(const InputCompactEvent& event)
 {
-	if(input.value == 0)
+	if (event.AnythingReleased())
 	{
-		if(config->isMappedTo("left", input) || config->isMappedTo("right", input))
+		if (event.LeftReleased() || event.RightPressed())
 			mCursorRepeatDir = 0;
 
 		return false;
 	}
 
-	if(config->isMappedTo("b", input) && mFocused && !mEditing)
+	if (event.BPressed() && mFocused && !mEditing)
 	{
 		startEditing();
 		return true;
@@ -112,7 +112,7 @@ bool TextEditComponent::input(InputConfig* config, Input input)
 
 	if(mEditing)
 	{
-		if(config->getDeviceId() == DEVICE_KEYBOARD && input.id == SDLK_RETURN)
+		if (event.KeyCode() == SDLK_RETURN)
 		{
 			if(isMultiline())
 			{
@@ -124,21 +124,23 @@ bool TextEditComponent::input(InputConfig* config, Input input)
 			return true;
 		}
 
-		if((config->getDeviceId() == DEVICE_KEYBOARD && input.id == SDLK_ESCAPE) || (config->getDeviceId() != DEVICE_KEYBOARD && config->isMappedTo("a", input)))
+		if (event.KeyCode() == SDLK_ESCAPE || (event.Device().IsPad() && event.APressed()))
 		{
 			stopEditing();
 			return true;
 		}
 
-		if(config->isMappedTo("up", input))
+		if (event.UpPressed())
 		{
 			// TODO
-		}else if(config->isMappedTo("down", input))
+		}
+		else if (event.DownPressed())
 		{
 			// TODO
-		}else if(config->isMappedTo("left", input) || config->isMappedTo("right", input))
+		}
+		else if (event.LeftPressed() || event.RightPressed())
 		{
-			mCursorRepeatDir = config->isMappedTo("left", input) ? -1 : 1;
+			mCursorRepeatDir = event.LeftPressed() ? -1 : 1;
 			mCursorRepeatTimer = -(CURSOR_REPEAT_START_DELAY - CURSOR_REPEAT_SPEED);
 			moveCursor(mCursorRepeatDir);
 		}

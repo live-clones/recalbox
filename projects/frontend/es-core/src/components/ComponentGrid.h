@@ -32,7 +32,9 @@ public:
 		const Vector2i& size = Vector2i(1, 1), Borders border = Borders::None, UpdateType updateType = UpdateType::Always);
 
 	void textInput(const char* text) override;
-	bool input(InputConfig* config, Input input) override;
+
+	bool ProcessInput(const InputCompactEvent& event) override;
+
 	void update(int deltaTime) override;
 	void render(const Transform4x4f& parentTrans) override;
 	void onSizeChanged() override;
@@ -49,7 +51,7 @@ public:
 	bool moveCursor(Vector2i dir);
 	void setCursorTo(const std::shared_ptr<GuiComponent>& comp);
 
-	inline void setUnhandledInputCallback(const std::function<bool(InputConfig* config, Input input)>& func) { mUnhandledInputCallback = func; }
+	inline void setUnhandledInputCallback(const std::function<bool(const InputCompactEvent&)>& func) { mUnhandledInputCallback = func; }
 
 	inline std::shared_ptr<GuiComponent> getSelectedComponent()
 	{
@@ -116,5 +118,5 @@ private:
 	void onCursorMoved(Vector2i from, Vector2i to);
 	Vector2i mCursor;
 
-	std::function<bool(InputConfig* config, Input input)> mUnhandledInputCallback;
+	std::function<bool(const InputCompactEvent&)> mUnhandledInputCallback;
 };

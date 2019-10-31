@@ -126,197 +126,186 @@ void ISimpleGameListView::onFileChanged(FileData* file, FileChangeType change)
   updateInfoPanel();
 }
 
-bool ISimpleGameListView::input(InputConfig* config, Input input) {
+bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
   bool hideSystemView = RecalboxConf::getInstance()->get("emulationstation.hidesystemview") == "1";
 
-  if (input.value != 0)
+  // RUN GAME or ENTER FOLDER
+  if (event.BPressed())
   {
-
-    // RUN GAME or ENTER FOLDER
-    if (config->isMappedTo("b", input))
+    FileData* cursor = getCursor();
+    if (cursor->isGame())
     {
-      FileData* cursor = getCursor();
-      if (cursor->isGame())
+      //Sound::getFromTheme(getTheme(), getName(), "launch")->play();
+      launch(cursor);
+    }
+    else if (cursor->isFolder())
+    {
+      FolderData* folder = (FolderData*)cursor;
+      if (folder->hasChildren())
       {
-        //Sound::getFromTheme(getTheme(), getName(), "launch")->play();
-        launch(cursor);
-      }
-      else if (cursor->isFolder())
-      {
-        FolderData* folder = (FolderData*)cursor;
-        if (folder->hasChildren())
-        {
-          mCursorStack.push(folder);
-          populateList(folder);
-          setCursorIndex(0);
-        }
-      }
-      RecalboxSystem::NotifyGame(*getCursor(), false, false);
-      return true;
-    }
-
-    // BACK to PARENT FOLDER or PARENT SYSTEM
-    if(config->isMappedTo("a", input))
-    {
-      if (!mCursorStack.empty())
-      {
-        FolderData* selected = mCursorStack.top();
-
-        // remove current folder from stack
-        mCursorStack.pop();
-
-        FolderData* cursor = !mCursorStack.empty() ? mCursorStack.top() : getRoot();
-        populateList(cursor);
-
-        setCursor(selected);
-        //Sound::getFromTheme(getTheme(), getName(), "back")->play();
-        RecalboxSystem::NotifyGame(*getCursor(), false, false);
-      }
-      else if (!hideSystemView)
-      {
-        onFocusLost();
-        ViewController::get()->goToSystemView(getRoot()->getSystem());
-      }
-      return true;
-    }
-
-    // TOGGLE FAVORITES
-    if (config->isMappedTo("y", input)) {
-      FileData* cursor = getCursor();
-      if (cursor->isGame() && cursor->getSystem()->getHasFavoritesInTheme()) {
-        MetadataDescriptor& md = cursor->Metadata();
-        SystemData *favoriteSystem = SystemData::getFavoriteSystem();
-
-        md.SetFavorite(!md.Favorite());
-
-        if (favoriteSystem != nullptr) {
-          if (md.Favorite()) {
-            favoriteSystem->getRootFolder()->addChild(cursor, false);
-          } else {
-            favoriteSystem->getRootFolder()->removeChild(cursor);
-          }
-
-          if (mIsFavoriteSystem) {
-            ViewController::get()->setInvalidGamesList(cursor->getSystem());
-          } else {
-            ViewController::get()->setInvalidGamesList(favoriteSystem);
-          }
-          ViewController::get()->getSystemListView()->manageFavorite();
-        }
-
-        // Reload to refresh the favorite icon
-        int cursorPlace = getCursorIndex();
-        refreshList();
-        setCursorIndex(cursorPlace);
-
-        mFavoritesCount = mFavoritesCount + (md.Favorite() ? 1 : -1);
-        if (mFavoritesCount == 0) { mFavoritesOnly = false; }
-        updateHelpPrompts();
-      }
-      RecalboxSystem::NotifyGame(*getCursor(), false, false);
-      return true;
-    }
-
-    // MOVE to NEXT GAMELIST
-    if (config->isMappedTo("right", input)) {
-      if (Settings::getInstance()->getBool("QuickSystemSelect") && !hideSystemView) {
-        onFocusLost();
-        ViewController::get()->goToNextGameList();
-        RecalboxSystem::NotifyGame(*getCursor(), false, false);
-        return true;
-      }
-    }
-
-    // MOVE to PREVIOUS GAMELIST
-    if (config->isMappedTo("left", input)) {
-      if (Settings::getInstance()->getBool("QuickSystemSelect") && !hideSystemView) {
-        onFocusLost();
-        ViewController::get()->goToPrevGameList();
-        RecalboxSystem::NotifyGame(*getCursor(), false, false);
-        return true;
-      }
-    }
-
-
-    // JUMP TO NEXT LETTER
-    if(config->isMappedTo("PageUp", input))
-    {
-      jumpToNextLetter(mSystem->getSortId() == 1 ? 1 : -1);
-      return true;
-    }
-
-    // JUMP TO PREVIOUS LETTER
-        if(config->isMappedTo("PageDown", input))
-        {
-            jumpToNextLetter(mSystem->getSortId() == 1 ? -1 : 1);
-            return true;
-        }
-
-    // JUMP TO -10
-    if(config->isMappedTo("L2", input))
-    {
-      auto index = getCursorIndex();
-      if (index > 0)
-        setCursorIndex(index > 10 ? index - 10 : 0);
-      else
-        setCursorIndex(getCursorIndexMax());
-      return true;
-    }
-
-    // JUMP TO +10
-    if(config->isMappedTo("R2", input))
-    {
-      auto index = getCursorIndex();
-      auto max = getCursorIndexMax();
-      if (index == max)
+        mCursorStack.push(folder);
+        populateList(folder);
         setCursorIndex(0);
-      else
-        setCursorIndex(index > max - 10 ? max : index + 10);
-      return true;
-    }
-
-    // NETPLAY
-    if ((config->isMappedTo("x", input)) && (RecalboxConf::getInstance()->get("global.netplay") == "1")
-              && (RecalboxConf::getInstance()->isInList("global.netplay.systems", getCursor()->getSystem()->getName())))
-    {
-      FileData* cursor = getCursor();
-      if(cursor->isGame())
-      {
-        Vector3f target(Renderer::getDisplayWidthAsFloat() / 2.0f, Renderer::getDisplayHeightAsFloat() / 2.0f, 0);
-        ViewController::get()->launch(cursor, target, "host");
       }
     }
+    RecalboxSystem::NotifyGame(*getCursor(), false, false);
+    return true;
+  }
 
-
-    if(config->isMappedTo("start", input) && (input.value != 0))
+  // BACK to PARENT FOLDER or PARENT SYSTEM
+  if (event.APressed())
+  {
+    if (!mCursorStack.empty())
     {
-      mWindow->pushGui(new GuiGamelistOptions(mWindow, getRoot()->getSystem()));
-      return true;
+      FolderData* selected = mCursorStack.top();
+
+      // remove current folder from stack
+      mCursorStack.pop();
+
+      FolderData* cursor = !mCursorStack.empty() ? mCursorStack.top() : getRoot();
+      populateList(cursor);
+
+      setCursor(selected);
+      //Sound::getFromTheme(getTheme(), getName(), "back")->play();
+      RecalboxSystem::NotifyGame(*getCursor(), false, false);
     }
-
-
-    if(config->isMappedTo("select", input) && (input.value != 0) && !mIsFavoriteSystem)
+    else if (!hideSystemView)
     {
-      if (mFavoritesCount != 0) {
-        mFavoritesOnly = !mFavoritesOnly;
-        Settings::getInstance()->setBool("FavoritesOnly", mFavoritesOnly);
-        refreshList();
-        updateInfoPanel();
-        updateHelpPrompts();
+      onFocusLost();
+      ViewController::get()->goToSystemView(getRoot()->getSystem());
+    }
+    return true;
+  }
+
+  // TOGGLE FAVORITES
+  if (event.YPressed()) {
+    FileData* cursor = getCursor();
+    if (cursor->isGame() && cursor->getSystem()->getHasFavoritesInTheme()) {
+      MetadataDescriptor& md = cursor->Metadata();
+      SystemData *favoriteSystem = SystemData::getFavoriteSystem();
+
+      md.SetFavorite(!md.Favorite());
+
+      if (favoriteSystem != nullptr) {
+        if (md.Favorite()) {
+          favoriteSystem->getRootFolder()->addChild(cursor, false);
+        } else {
+          favoriteSystem->getRootFolder()->removeChild(cursor);
+        }
+
+        if (mIsFavoriteSystem) {
+          ViewController::get()->setInvalidGamesList(cursor->getSystem());
+        } else {
+          ViewController::get()->setInvalidGamesList(favoriteSystem);
+        }
+        ViewController::get()->getSystemListView()->manageFavorite();
       }
+
+      // Reload to refresh the favorite icon
+      int cursorPlace = getCursorIndex();
+      refreshList();
+      setCursorIndex(cursorPlace);
+
+      mFavoritesCount = mFavoritesCount + (md.Favorite() ? 1 : -1);
+      if (mFavoritesCount == 0) { mFavoritesOnly = false; }
+      updateHelpPrompts();
+    }
+    RecalboxSystem::NotifyGame(*getCursor(), false, false);
+    return true;
+  }
+
+  // MOVE to NEXT GAMELIST
+  if (event.AnyRightPressed())
+  {
+    if (Settings::getInstance()->getBool("QuickSystemSelect") && !hideSystemView) {
+      onFocusLost();
+      ViewController::get()->goToNextGameList();
+      RecalboxSystem::NotifyGame(*getCursor(), false, false);
       return true;
     }
   }
 
-  bool result = IGameListView::input(config, input);
+  // MOVE to PREVIOUS GAMELIST
+  if (event.AnyLeftPressed()) {
+    if (Settings::getInstance()->getBool("QuickSystemSelect") && !hideSystemView) {
+      onFocusLost();
+      ViewController::get()->goToPrevGameList();
+      RecalboxSystem::NotifyGame(*getCursor(), false, false);
+      return true;
+    }
+  }
 
-  // TODO: Guess there is a better way to detect a game change
-  if (config->isMappedTo("down", input) ||
-      config->isMappedTo("up", input) ||
-      config->isMappedTo("pagedown", input) ||
-      config->isMappedTo("pageup", input) ||
-      config->isMappedTo("l2", input) ||
-      config->isMappedTo("r2", input) )
+
+  // JUMP TO NEXT LETTER
+  if (event.L1Pressed())
+  {
+    jumpToNextLetter(mSystem->getSortId() == 1 ? 1 : -1);
+    return true;
+  }
+
+  // JUMP TO PREVIOUS LETTER
+  if (event.R1Pressed())
+  {
+      jumpToNextLetter(mSystem->getSortId() == 1 ? -1 : 1);
+      return true;
+  }
+
+  // JUMP TO -10
+  if (event.L2Pressed())
+  {
+    auto index = getCursorIndex();
+    if (index > 0)
+      setCursorIndex(index > 10 ? index - 10 : 0);
+    else
+      setCursorIndex(getCursorIndexMax());
+    return true;
+  }
+
+  // JUMP TO +10
+  if (event.R2Pressed())
+  {
+    auto index = getCursorIndex();
+    auto max = getCursorIndexMax();
+    if (index == max)
+      setCursorIndex(0);
+    else
+      setCursorIndex(index > max - 10 ? max : index + 10);
+    return true;
+  }
+
+  // NETPLAY
+  if ((event.XPressed()) && (RecalboxConf::getInstance()->get("global.netplay") == "1")
+      && (RecalboxConf::getInstance()->isInList("global.netplay.systems", getCursor()->getSystem()->getName())))
+  {
+    FileData* cursor = getCursor();
+    if(cursor->isGame())
+    {
+      Vector3f target(Renderer::getDisplayWidthAsFloat() / 2.0f, Renderer::getDisplayHeightAsFloat() / 2.0f, 0);
+      ViewController::get()->launch(cursor, target, "host");
+    }
+  }
+
+  if (event.StartPressed())
+  {
+    mWindow->pushGui(new GuiGamelistOptions(mWindow, getRoot()->getSystem()));
+    return true;
+  }
+
+  if (event.SelectPressed() && !mIsFavoriteSystem)
+  {
+    if (mFavoritesCount != 0) {
+      mFavoritesOnly = !mFavoritesOnly;
+      Settings::getInstance()->setBool("FavoritesOnly", mFavoritesOnly);
+      refreshList();
+      updateInfoPanel();
+      updateHelpPrompts();
+    }
+    return true;
+  }
+
+  bool result = IGameListView::ProcessInput(event);
+
+  if (event.AnythingPressed())
       RecalboxSystem::NotifyGame(*getCursor(), false, false);
 
   return result;

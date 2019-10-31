@@ -39,7 +39,7 @@ GuiDetectDevice::GuiDetectDevice(Window* window, bool firstRun, const std::funct
 	
 	// device info
 	std::stringstream deviceInfo;
-	int numDevices = InputManager::getInstance()->getNumJoysticks();
+	int numDevices = InputManager::Instance().DeviceCount();
 	
 	if(numDevices > 0) {
 	  char strbuf[256];
@@ -84,32 +84,29 @@ void GuiDetectDevice::onSizeChanged()
 	mGrid.setRowHeightPerc(4, mDeviceHeld->getFont()->getHeight() *1.5f / mSize.y());
 }
 
-bool GuiDetectDevice::input(InputConfig* config, Input input)
+bool GuiDetectDevice::ProcessInput(const InputCompactEvent& event)
 {
-	if(!mFirstRun && ((input.device == DEVICE_KEYBOARD && input.type == InputType::Key && (input.value != 0) && input.id == SDLK_ESCAPE) ||
-	                  (input.device != DEVICE_KEYBOARD && config->isMappedTo("hotkey", input))))
+	if (!mFirstRun && (event.KeyCode() == SDLK_ESCAPE || event.HotkeyPressed()))
 	{
 		// cancel configuring
 		delete this;
 		return true;
 	}
 
-	if(input.type == InputType::Button || input.type == InputType::Key)
-	{
-		if((input.value != 0) && mHoldingConfig == nullptr)
-		{
-			// started holding
-			mHoldingConfig = config;
-			mHoldTime = HOLD_TIME;
-			mDeviceHeld->setText(StringUtil::toUpper(config->getDeviceName()));
-		}else if((input.value == 0) && mHoldingConfig == config)
-		{
-			// cancel
-			mHoldingConfig = nullptr;
-			mDeviceHeld->setText("");
-			mAlpha = 0;
-		}
-	}
+  if (event.RawEvent().AnyButtonPressed() && mHoldingConfig == nullptr)
+  {
+    // started holding
+    mHoldingConfig = &event.Device();
+    mHoldTime = HOLD_TIME;
+    mDeviceHeld->setText(StringUtil::toUpper(event.Device().Name()));
+  }
+  else if (event.RawEvent().AnyButtonReleased() && mHoldingConfig == &event.Device())
+  {
+    // cancel
+    mHoldingConfig = nullptr;
+    mDeviceHeld->setText("");
+    mAlpha = 0;
+  }
 
 	return true;
 }

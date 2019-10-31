@@ -65,43 +65,37 @@ void ComponentList::onFocusGained()
 		mFocusGainedCallback();
 }
 
-bool ComponentList::input(InputConfig* config, Input input)
+bool ComponentList::ProcessInput(const InputCompactEvent& event)
 {
 	if(size() == 0)
 		return false;
 
 	if(mEntries.at(mCursor).data.help_handler){
-		if(mEntries.at(mCursor).data.help_handler(config, input))
+		if(mEntries.at(mCursor).data.help_handler(event))
 			return true;
 	}
 	// give it to the current row's input handler
 	if(mEntries.at(mCursor).data.input_handler)
 	{
-		if(mEntries.at(mCursor).data.input_handler(config, input))
+		if(mEntries.at(mCursor).data.input_handler(event))
 			return true;
 	}else{
 		// no input handler assigned, do the default, which is to give it to the rightmost element in the row
 		auto& row = mEntries.at(mCursor).data;
 		if(!row.elements.empty())
 		{
-			if(row.elements.back().component->input(config, input))
+			if(row.elements.back().component->ProcessInput(event))
 				return true;
 		}
 	}
 
 	// input handler didn't consume the input - try to scroll
-	if(config->isMappedTo("up", input))
-	{
-		return listInput(input.value != 0 ? -1 : 0);
-	}else if(config->isMappedTo("down", input))
-	{
-		return listInput(input.value != 0 ? 1 : 0);
-	}else if(config->isMappedTo("pageup", input))
-	{
-		return listInput(input.value != 0 ? -7 : 0);
-	}else if(config->isMappedTo("pagedown", input)){
-		return listInput(input.value != 0 ? 7 : 0);
-	}
+	if (event.UpPressed())	       return listInput(-1);
+	else if (event.DownPressed()) return listInput(1);
+	else if (event.L1Pressed())   return listInput(-7);
+	else if (event.R1Pressed())   return listInput(7);
+	else if (event.UpReleased() || event.DownReleased() || event.L1Released() || event.R1Released())
+	  listInput(0);
 
 	return false;
 }

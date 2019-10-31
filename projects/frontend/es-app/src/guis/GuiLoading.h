@@ -19,7 +19,7 @@ public:
 
     void render(const Transform4x4f& parentTrans) override;
 
-    bool input(InputConfig *config, Input input) override;
+    bool ProcessInput(const InputCompactEvent& event) override;
 
     std::vector<HelpPrompt> getHelpPrompts() override { return std::vector<HelpPrompt>(); }
 

@@ -339,15 +339,15 @@ void ScraperSearchComponent::updateInfoPane()
 	}
 }
 
-bool ScraperSearchComponent::input(InputConfig* config, Input input)
+bool ScraperSearchComponent::ProcessInput(const InputCompactEvent& event)
 {
-	if(config->isMappedTo("b", input) && input.value != 0)
+	if (event.BPressed())
 	{
 		if(mBlockAccept)
 			return true;
 	}
 
-	return GuiComponent::input(config, input);
+	return GuiComponent::ProcessInput(event);
 }
 
 void ScraperSearchComponent::render(const Transform4x4f& parentTrans)

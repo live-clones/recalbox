@@ -56,7 +56,7 @@ class IGameListView : public GuiComponent
     virtual FileData* getCursor() = 0;
     virtual void setCursor(FileData*) = 0;
 
-    bool input(InputConfig* config, Input input) override;
+    bool ProcessInput(const InputCompactEvent& event) override;
 
     virtual const char* getName() const = 0;
 

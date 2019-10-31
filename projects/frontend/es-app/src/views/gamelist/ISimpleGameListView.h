@@ -24,7 +24,7 @@ public:
 	void setCursor(FileData*) override = 0;
 	virtual void setCursorIndex(int) = 0;
 
-	bool input(InputConfig* config, Input input) override;
+	bool ProcessInput(const InputCompactEvent& event) override;
 
 	inline void updateInfoPanel() override {}
 

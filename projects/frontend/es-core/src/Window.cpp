@@ -95,7 +95,7 @@ bool Window::init(unsigned int width, unsigned int height, bool initRenderer)
         }
     }
 
-	InputManager::getInstance()->init();
+  InputManager::Instance().Initialize();
 
 	ResourceManager::getInstance()->reloadAll();
 
@@ -118,7 +118,7 @@ bool Window::init(unsigned int width, unsigned int height, bool initRenderer)
 
 void Window::deinit()
 {
-	InputManager::getInstance()->deinit();
+  InputManager::Instance().Finalize();
 	ResourceManager::getInstance()->unloadAll();
 	Renderer::finalize();
 }
@@ -129,7 +129,7 @@ void Window::textInput(const char* text)
 		peekGui()->textInput(text);
 }
 
-void Window::input(InputConfig* config, Input input)
+void Window::ProcessInput(const InputCompactEvent& event)
 {
 	if(mSleeping)
 	{
@@ -141,20 +141,9 @@ void Window::input(InputConfig* config, Input input)
 	}
 
 	mTimeSinceLastInput = 0;
-
-	if(config->getDeviceId() == DEVICE_KEYBOARD && (input.value != 0) && input.id == SDLK_g && ((SDL_GetModState() & KMOD_LCTRL) != 0) && Settings::getInstance()->getBool("Debug"))
+	if(peekGui() != nullptr)
 	{
-		// toggle debug grid with Ctrl-G
-		Settings::getInstance()->setBool("DebugGrid", !Settings::getInstance()->getBool("DebugGrid"));
-	}
-	else if(config->getDeviceId() == DEVICE_KEYBOARD && (input.value != 0) && input.id == SDLK_t && ((SDL_GetModState() & KMOD_LCTRL) != 0) && Settings::getInstance()->getBool("Debug"))
-	{
-		// toggle TextComponent debug view with Ctrl-T
-		Settings::getInstance()->setBool("DebugText", !Settings::getInstance()->getBool("DebugText"));
-	}
-	else if(peekGui() != nullptr)
-	{
-		this->peekGui()->input(config, input);
+		this->peekGui()->ProcessInput(event);
 	}
 
 	//else
@@ -412,18 +401,17 @@ void Window::doWake()
 	onWake();
 }
 
-bool Window::KonamiCode(InputConfig* config, Input input, Window* window)
+bool Window::KonamiCode(InputDevice* config, InputEvent input, Window* window)
 {
   (void)window;
 
-	if (input.value == 0)
-		return false;
+	if (input.Value() == 0)	return false;
 
 	bool codeOk = false;
 
 	for (auto valstring : mInputVals)
 	{
-		if (config->isMappedTo(valstring, input) && (this->mKonami[this->mKonamiCount] == valstring[0]))
+		if (config->IsMatching(valstring, input) && (this->mKonami[this->mKonamiCount] == valstring))
 		{
 			this->mKonamiCount ++;
 			codeOk = true;
@@ -435,7 +423,7 @@ bool Window::KonamiCode(InputConfig* config, Input input, Window* window)
 		this->mKonamiCount = 0; // current input is incorrect, reset counter
 	}
 
-	if (this->mKonamiCount == (int)(this->mKonami.length()))
+	if (this->mKonamiCount == sKonamiLength)
 	{
 		auto s = std::make_shared<GuiInfoPopup>(this, "I entered Konami Code and all I get is this lame popup", 4, 50);
 		this->setInfoPopup(s);

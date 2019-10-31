@@ -110,19 +110,19 @@ std::queue<ScraperSearchParams> GuiScraperStart::getSearches(std::vector<SystemD
 	return queue;
 }
 
-bool GuiScraperStart::input(InputConfig* config, Input input)
+bool GuiScraperStart::ProcessInput(const InputCompactEvent& event)
 {
-	bool consumed = GuiComponent::input(config, input);
+	bool consumed = GuiComponent::ProcessInput(event);
 	if(consumed)
 		return true;
 	
-	if(input.value != 0 && config->isMappedTo("a", input))
+	if (event.APressed())
 	{
 		delete this;
 		return true;
 	}
 
-	if(config->isMappedTo("start", input) && input.value != 0)
+	if (event.StartPressed())
 	{
 		// close everything
 		Window* window = mWindow;

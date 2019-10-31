@@ -18,7 +18,7 @@ class GuiHashStart : public GuiComponent
 public:
     explicit GuiHashStart(Window* window);
 
-    bool input(InputConfig* config, Input input) override;
+    bool ProcessInput(const InputCompactEvent& event) override;
 
     std::vector<HelpPrompt> getHelpPrompts() override;
 

@@ -15,7 +15,7 @@ public:
 	FileData* getCursor() override { return mGrid.getSelected(); }
 	void setCursor(FileData*) override;
 
-	bool input(InputConfig* config, Input input) override;
+	bool ProcessInput(const InputCompactEvent& event) override;
 
 	const char* getName() const override { return "grid"; }
 

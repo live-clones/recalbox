@@ -640,7 +640,7 @@ void GuiMenu::menuControllers() {
   std::vector<std::shared_ptr<OptionListComponent<StrInputConfig *>>> options;
   char strbuf[256];
 
-  for (int player = 0; player < MAX_PLAYERS; player++) {
+  for (int player = 0; player < InputEvent::sMaxPlayers; player++) {
     std::stringstream sstm;
     sstm << "INPUT P" << player + 1;
     std::string confName = sstm.str() + "NAME";
@@ -656,13 +656,13 @@ void GuiMenu::menuControllers() {
     std::string configuratedGuid = Settings::getInstance()->getString(confGuid);
     bool found = false;
     // For each available and configured input
-    for (auto it = 0; it < InputManager::getInstance()->getNumJoysticks(); it++) {
-      InputConfig *config = InputManager::getInstance()->getInputConfigByDevice(it);
-      if (config->isConfigured()) {
+    for (auto it = 0; it < InputManager::Instance().DeviceCount(); it++) {
+      InputDevice *config = InputManager::Instance().GetDeviceConfiguration(it);
+      if (config->IsConfigured()) {
         // create name
         std::stringstream dispNameSS;
-        dispNameSS << '#' << config->getDeviceId() << ' ';
-        const std::string& deviceName = config->getDeviceName();
+        dispNameSS << '#' << config->Identifier() << ' ';
+        const std::string& deviceName = config->Name();
         if (deviceName.size() > 25) {
           dispNameSS << deviceName.substr(0, 16) << "..." <<
                  deviceName.substr(deviceName.size() - 5, deviceName.size() - 1);
@@ -673,11 +673,11 @@ void GuiMenu::menuControllers() {
         std::string displayName = dispNameSS.str();
 
 
-        bool foundFromConfig = configuratedName == config->getDeviceName() && configuratedGuid == config->getDeviceGUIDString();
-        int deviceID = config->getDeviceId();
+        bool foundFromConfig = configuratedName == config->Name() && configuratedGuid == config->GUID();
+        int deviceID = config->Identifier();
         // Si la manette est configurée, qu'elle correspond a la configuration, et qu'elle n'est pas
         // deja selectionnée on l'ajoute en séléctionnée
-        StrInputConfig *newInputConfig = new StrInputConfig(config->getDeviceName(), config->getDeviceGUIDString());
+        StrInputConfig *newInputConfig = new StrInputConfig(config->Name(), config->GUID());
         mLoadedInput.push_back(newInputConfig);
 
         if (foundFromConfig
@@ -685,10 +685,10 @@ void GuiMenu::menuControllers() {
           && !found) {
           found = true;
           alreadyTaken.push_back(deviceID);
-          LOG(LogWarning) << "adding entry for player" << player << " (selected): " << config->getDeviceName() << "  " << config->getDeviceGUIDString();
+          LOG(LogWarning) << "adding entry for player" << player << " (selected): " << config->Name() << "  " << config->GUID();
           inputOptionList->add(displayName, newInputConfig, true);
         } else {
-          LOG(LogWarning) << "adding entry for player" << player << " (not selected): " << config->getDeviceName() << "  " << config->getDeviceGUIDString();
+          LOG(LogWarning) << "adding entry for player" << player << " (not selected): " << config->Name() << "  " << config->GUID();
           inputOptionList->add(displayName, newInputConfig, false);
         }
       }
@@ -707,7 +707,7 @@ void GuiMenu::menuControllers() {
     s->addWithLabel(inputOptionList, strbuf);
   }
   s->addSaveFunc([options] {
-    for (int player = 0; player < MAX_PLAYERS; player++) {
+    for (int player = 0; player < InputEvent::sMaxPlayers; player++) {
       std::stringstream sstm;
       sstm << "INPUT P" << player + 1;
       std::string confName = sstm.str() + "NAME";
@@ -1842,11 +1842,12 @@ void GuiMenu::addEntry(const char *name, unsigned int color, bool add_arrow, con
     addEntryWithHelp(name, "", color, add_arrow, func, iconName);
 }
 
-bool GuiMenu::input(InputConfig *config, Input input) {
-    if (GuiComponent::input(config, input))
+bool GuiMenu::ProcessInput(const InputCompactEvent& event)
+{
+    if (GuiComponent::ProcessInput(event))
         return true;
 
-    if ((config->isMappedTo("a", input) || config->isMappedTo("start", input)) && input.value != 0) {
+    if (event.APressed() || event.StartPressed()) {
         delete this;
         return true;
     }

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "InputConfig.h"
+#include "input/InputDevice.h"
 #include <memory>
 #include <functional>
 #include "utils/math/Vectors.h"
@@ -24,9 +24,12 @@ class GuiComponent
 
     virtual void textInput(const char* text);
 
-    //Called when input is received.
-    //Return true if the input is consumed, false if it should continue to be passed to other children.
-    virtual bool input(InputConfig* config, Input input);
+    /*!
+     * @brief Notification of an input event
+     * @param event Compact event
+     * @return Implementation must return true if it consumed the event.
+     */
+    virtual bool ProcessInput(const InputCompactEvent& event);
 
     //Called when time passes.  Default implementation calls updateSelf(deltaTime) and updateChildren(deltaTime) - so you should probably call GuiComponent::update(deltaTime) at some point (or at least updateSelf so animations work).
     virtual void update(int deltaTime);

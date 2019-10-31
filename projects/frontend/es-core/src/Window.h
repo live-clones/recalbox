@@ -3,7 +3,7 @@
 #include "GuiComponent.h"
 #include <vector>
 #include "resources/Font.h"
-#include "InputManager.h"
+#include "input/InputManager.h"
 
 class HelpComponent;
 class ImageComponent;
@@ -27,7 +27,7 @@ public:
 	void deleteAllGui();
 
 	void textInput(const char* text);
-	void input(InputConfig* config, Input input);
+	void ProcessInput(const InputCompactEvent& event);
 	void update(int deltaTime);
 	void render();
 
@@ -62,7 +62,7 @@ private:
 	bool isProcessing();
 	void renderScreenSaver();
 
-	bool KonamiCode(InputConfig* config, Input input, Window* window);
+	bool KonamiCode(InputDevice* config, InputEvent input, Window* window);
 
 	HelpComponent* mHelp;
 	ImageComponent* mBackgroundOverlay;
@@ -89,7 +89,28 @@ private:
 
 	bool mRenderedHelpPrompts;
 
-	std::string mKonami = "uuddlrlrba";
+	static constexpr int sKonamiLength = 10;
+	InputDevice::Entry mKonami[sKonamiLength] =
+	{
+    InputDevice::Entry::Up,
+    InputDevice::Entry::Up,
+    InputDevice::Entry::Down,
+    InputDevice::Entry::Down,
+    InputDevice::Entry::Left,
+    InputDevice::Entry::Right,
+    InputDevice::Entry::Left,
+    InputDevice::Entry::Right,
+    InputDevice::Entry::B,
+    InputDevice::Entry::A,
+  };
 	int mKonamiCount = 0;
-	const std::vector<std::string> mInputVals = { "up", "down", "left", "right", "a", "b" };
+	const std::vector<InputDevice::Entry> mInputVals =
+  {
+    InputDevice::Entry::Up,
+    InputDevice::Entry::Down,
+    InputDevice::Entry::Left,
+    InputDevice::Entry::Right,
+    InputDevice::Entry::A,
+    InputDevice::Entry::B,
+  };
 };

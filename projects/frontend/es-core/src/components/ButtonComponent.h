@@ -19,7 +19,7 @@ public:
 
 	void setEnabled(bool enable);
 
-	bool input(InputConfig* config, Input input) override;
+	bool ProcessInput(const InputCompactEvent& event) override;
 	void render(const Transform4x4f& parentTrans) override;
 
 	void setText(const std::string& text, const std::string& helpText, bool upperCase = true, bool resize = true, bool doUpdateHelpPrompts = true);

@@ -73,7 +73,7 @@ class GuiNetPlay : public GuiComponent
 
     void updateSize();
 
-    bool input(InputConfig* config, Input input) override;
+    bool ProcessInput(const InputCompactEvent& event) override;
 
     std::vector<HelpPrompt> getHelpPrompts() override;
 

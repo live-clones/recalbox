@@ -6,25 +6,31 @@
 #include "components/ImageComponent.h"
 #include "components/MenuComponent.h"
 #include "components/ButtonComponent.h"
-#include "InputManager.h"
+#include "input/InputManager.h"
 #include "MenuThemeData.h"
 #include <boost/format.hpp>
 
 using namespace boost::locale;
 
-GuiInputConfig::GuiInputConfig(Window* window, InputConfig* target, const std::function<void()>& doneCallback)
+GuiInputConfig::~GuiInputConfig()
+{
+  mTargetConfig->SetConfiguringState(false);
+}
+
+GuiInputConfig::GuiInputConfig(Window* window, InputDevice* target, const std::function<void()>& doneCallback)
   : GuiComponent(window),
 	  mBackground(window, ":/frame.png"),
 	  mGrid(window, Vector2i(1, 5)),
 	  mTargetConfig(target),
 	  mCursorOnList(true)
 {
-	LOG(LogInfo) << "Configuring device " << mTargetConfig->getDeviceId() << " (" << mTargetConfig->getDeviceName() << ").";
+  mTargetConfig->SetConfiguringState(true);
+	LOG(LogInfo) << "Configuring device " << mTargetConfig->Identifier() << " (" << mTargetConfig->Name() << ").";
 
 	initFormInputs();
 
-	InputConfig previousConfig(mTargetConfig);
-	mTargetConfig->clear();
+	InputDevice previousConfig(*mTargetConfig);
+  mTargetConfig->ClearAll();
 	
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 	
@@ -41,10 +47,10 @@ GuiInputConfig::GuiInputConfig(Window* window, InputConfig* target, const std::f
 	mGrid.setEntry(mTitle, Vector2i(0, 0), false, true);
 
 	char strbuf[256];
-	if(mTargetConfig->getDeviceId() == DEVICE_KEYBOARD)
+	if(mTargetConfig->Identifier() == InputEvent::sKeyboardDevice)
 	  strncpy(strbuf, _("KEYBOARD").c_str(), 256);
 	else
-	  snprintf(strbuf, 256, _("GAMEPAD %i").c_str(), mTargetConfig->getDeviceId() + 1);
+	  snprintf(strbuf, 256, _("GAMEPAD %i").c_str(), mTargetConfig->Identifier() + 1);
 	  
 	mSubtitle1 = std::make_shared<TextComponent>(mWindow, StringUtil::toUpper(strbuf), menuTheme->menuText.font, menuTheme->menuFooter.color, TextAlignment::Center);
 	mGrid.setEntry(mSubtitle1, Vector2i(0, 1), false, true);
@@ -76,24 +82,23 @@ GuiInputConfig::GuiInputConfig(Window* window, InputConfig* target, const std::f
 		row.addElement(mapping, true);
 		mMappings.push_back(mapping);
 
-		row.input_handler = [this, formInput, mapping](InputConfig* config, Input input) -> bool {
+		row.input_handler = [this, formInput, mapping](const InputCompactEvent& event) -> bool {
 			// ignore input not from our target device
-			if(config != mTargetConfig)
+			if(&event.Device() != mTargetConfig)
 				return false;
 
-			if (input.value != 0) // pressed (an event is fired when releasing, with value == 0)
+			if (event.RawEvent().AnythingPressed()) // Something was pressed/moved
 			{
-				if (!mInputStack.hasInput(input))
+				if (!mInputStack.hasInput(event.RawEvent()))
 				{
-					mInputStack.push(input, [this, formInput] (const std::list<Input>& inputs)
+					mInputStack.push(event.RawEvent(), [this, formInput](const std::list<InputEvent>& inputs)
 					{
-
             for (auto input: inputs)
             {
 							// Key Up
-							if (mTargetConfig->isMappedTo("UP", input))
+							if (mTargetConfig->IsMatching(InputDevice::Entry::Up, input))
 							{
-								if (mList->getCursorId() > 0 && mTargetConfig->isMapped("DOWN"))
+								if (mList->getCursorId() > 0 && mTargetConfig->IsSet(InputDevice::Entry::Down))
 								{
 									restaurePreviousAssignment();
 									if (!isAssigned() && formInput.skippable) setSkipped();
@@ -104,7 +109,7 @@ GuiInputConfig::GuiInputConfig(Window* window, InputConfig* target, const std::f
 							}
 
 							// Key Down
-							if (mTargetConfig->isMappedTo("DOWN", input))
+							if (mTargetConfig->IsMatching(InputDevice::Entry::Down, input))
 							{
 								if (!isAssigned() && !formInput.skippable) return ;
 								restaurePreviousAssignment();
@@ -113,34 +118,34 @@ GuiInputConfig::GuiInputConfig(Window* window, InputConfig* target, const std::f
 								return;
 							}
 
-							if (isAssigned() && mTargetConfig->isMappedTo("A", input))
+							if (isAssigned() && mTargetConfig->IsMatching(InputDevice::Entry::A, input))
 							{
-                                unAssign();
+                unAssign();
 								setHelpMessage();
 								setPress();
 								return;
 							}
 						}
 
-                        if (isAssigned())
-                        {
-                            setHelpMessage();
-                            setPress();
-                            return;
-                        }
+            if (isAssigned())
+            {
+                setHelpMessage();
+                setPress();
+                return;
+            }
 
-                        // At first, try to find the preferred type, on the second pass, we ignore the preferred type
+            // At first, try to find the preferred type, on the second pass, we ignore the preferred type
 						for (int pass = 0; pass < 2; pass++)
-                        {
-                            for (auto input: inputs)
-                            {
-                                if ( ( (input.type == formInput.preferredType) || (pass == 1) ) && assign(input))
-                                {
-                                    rowDone(); // if successful, move cursor/stop configuring - if not, we'll just try again
-                                    return ;
-                                }
-                            }
-                        }
+            {
+                for (auto input: inputs)
+                {
+                    if (((input.Type() == formInput.preferredType) || (pass == 1) ) && assign(input))
+                    {
+                        rowDone(); // if successful, move cursor/stop configuring - if not, we'll just try again
+                        return ;
+                    }
+                }
+            }
 					});
 				}
 			}
@@ -183,14 +188,14 @@ GuiInputConfig::GuiInputConfig(Window* window, InputConfig* target, const std::f
 	std::vector< std::shared_ptr<ButtonComponent> > buttons;
 
 	buttons.push_back(std::make_shared<ButtonComponent>(mWindow, _("OK"), _("OK"), [this, doneCallback] {
-		InputManager::getInstance()->writeDeviceConfig(mTargetConfig); // save
+    InputManager::WriteDeviceXmlConfiguration(*mTargetConfig); // save
 		if(doneCallback)
 			doneCallback();
 		delete this; 
 	}));
 
 	buttons.push_back(std::make_shared<ButtonComponent>(mWindow, _("CANCEL"), _("CANCEL"), [this, previousConfig, doneCallback] {
-		mTargetConfig->loadFrom(&previousConfig); // restaure previous target configuration
+    mTargetConfig->LoadFrom(previousConfig); // restaure previous target configuration
 		if(doneCallback)
 			doneCallback();
 		delete this; 
@@ -205,38 +210,38 @@ GuiInputConfig::GuiInputConfig(Window* window, InputConfig* target, const std::f
 
 void GuiInputConfig::initFormInputs()
 {
-	addFormInput("Up", _("UP"), ":/help/dpad_up.svg", false, InputType::Hat);
-	addFormInput("Down", _("DOWN"), ":/help/dpad_down.svg", false, InputType::Hat);
-	addFormInput("Left", _("LEFT"), ":/help/dpad_left.svg", false, InputType::Hat);
-	addFormInput("Right", _("RIGHT"), ":/help/dpad_right.svg", false, InputType::Hat);
+	addFormInput("Up", _("UP"), ":/help/dpad_up.svg", false, InputEvent::EventType::Hat);
+	addFormInput("Down", _("DOWN"), ":/help/dpad_down.svg", false, InputEvent::EventType::Hat);
+	addFormInput("Left", _("LEFT"), ":/help/dpad_left.svg", false, InputEvent::EventType::Hat);
+	addFormInput("Right", _("RIGHT"), ":/help/dpad_right.svg", false, InputEvent::EventType::Hat);
 
-	addFormInput("Joystick1Up", _("JOYSTICK 1 UP"), ":/help/joystick_up.svg", true, InputType::Axis);
-	addFormInput("Joystick1Left", _("JOYSTICK 1 LEFT"), ":/help/joystick_left.svg", true, InputType::Axis);
-	addFormInput("Joystick2Up", _("JOYSTICK 2 UP"), ":/help/joystick_up.svg", true, InputType::Axis);
-	addFormInput("Joystick2Left", _("JOYSTICK 2 LEFT"), ":/help/joystick_left.svg", true, InputType::Axis);
+	addFormInput("Joystick1Up", _("JOYSTICK 1 UP"), ":/help/joystick_up.svg", true, InputEvent::EventType::Axis);
+	addFormInput("Joystick1Left", _("JOYSTICK 1 LEFT"), ":/help/joystick_left.svg", true, InputEvent::EventType::Axis);
+	addFormInput("Joystick2Up", _("JOYSTICK 2 UP"), ":/help/joystick_up.svg", true, InputEvent::EventType::Axis);
+	addFormInput("Joystick2Left", _("JOYSTICK 2 LEFT"), ":/help/joystick_left.svg", true, InputEvent::EventType::Axis);
 	
-	addFormInput("A", _("A"), ":/help/button_a.svg", false, InputType::Button);
-	addFormInput("B", _("B"), ":/help/button_b.svg", false, InputType::Button);
+	addFormInput("A", _("A"), ":/help/button_a.svg", false, InputEvent::EventType::Button);
+	addFormInput("B", _("B"), ":/help/button_b.svg", false, InputEvent::EventType::Button);
 	
-	addFormInput("X", _("X"), ":/help/button_x.svg", true, InputType::Button);
-	addFormInput("Y", _("Y"), ":/help/button_y.svg", true, InputType::Button);
+	addFormInput("X", _("X"), ":/help/button_x.svg", true, InputEvent::EventType::Button);
+	addFormInput("Y", _("Y"), ":/help/button_y.svg", true, InputEvent::EventType::Button);
 	
-	addFormInput("Start", _("START"), ":/help/button_start.svg", false, InputType::Button);
-	addFormInput("Select", _("SELECT"), ":/help/button_select.svg", false, InputType::Button);
+	addFormInput("Start", _("START"), ":/help/button_start.svg", false, InputEvent::EventType::Button);
+	addFormInput("Select", _("SELECT"), ":/help/button_select.svg", false, InputEvent::EventType::Button);
 	
-	addFormInput("PageUp", _("PAGE UP"), ":/help/button_l.svg", true, InputType::Button);
-	addFormInput("PageDown", _("PAGE DOWN"), ":/help/button_r.svg", true, InputType::Button);
+	addFormInput("L1", _("L1"), ":/help/button_l.svg", true, InputEvent::EventType::Button);
+	addFormInput("R1", _("R1"), ":/help/button_r.svg", true, InputEvent::EventType::Button);
 	
-	addFormInput("L2", _("L2"), ":/help/button_l2.svg", true, InputType::Button);
-	addFormInput("R2", _("R2"), ":/help/button_r2.svg", true, InputType::Button);
+	addFormInput("L2", _("L2"), ":/help/button_l2.svg", true, InputEvent::EventType::Button);
+	addFormInput("R2", _("R2"), ":/help/button_r2.svg", true, InputEvent::EventType::Button);
 	
-	addFormInput("L3", _("L3"), ":/help/button_l3.svg", true, InputType::Button);
-	addFormInput("R3", _("R3"), ":/help/button_r3.svg", true, InputType::Button);
+	addFormInput("L3", _("L3"), ":/help/button_l3.svg", true, InputEvent::EventType::Button);
+	addFormInput("R3", _("R3"), ":/help/button_r3.svg", true, InputEvent::EventType::Button);
 
-	addFormInput("HotKey", _("HOTKEY"), ":/help/button_hotkey.svg", false, InputType::Button);
+	addFormInput("HotKey", _("HOTKEY"), ":/help/button_hotkey.svg", false, InputEvent::EventType::Button);
 }
 
-void GuiInputConfig::addFormInput(const char* name, const std::string& label, const char* icon, bool skippable, InputType preferredType)
+void GuiInputConfig::addFormInput(const char* name, const std::string& label, const char* icon, bool skippable, InputEvent::EventType preferredType)
 {
 	FormInput formInput(name, label, icon, skippable, preferredType);
 	mFormInputs.push_back(formInput);
@@ -278,24 +283,24 @@ void GuiInputConfig::setText(const std::string& msg, unsigned int color, const i
 
 void GuiInputConfig::setHelpMessage() {
 	std::string msg;
-	Input input;
+	InputEvent input;
 	int inputId = mList->getCursorId();
 	FormInput formInput = mFormInputs.at(inputId);
-	bool assigned = mTargetConfig->getInputByName(formInput.name, &input);
+	bool assigned = mTargetConfig->GetEntryConfiguration(InputDevice::StringToEntry(formInput.name), input);
 	//std::shared_ptr<TextComponent>& text = mMappings.at(inputId);
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 
 	if (assigned) {
-		if (mTargetConfig->isMapped("A")) {
+		if (mTargetConfig->IsSet(InputDevice::Entry::A)) {
 			msg = msg + _("A TO UNSET");
 		}
-		if (mTargetConfig->isMapped("DOWN")) {
+		if (mTargetConfig->IsSet(InputDevice::Entry::Down)) {
 			if (inputId == 0)
 				msg = (msg.length() != 0u ? msg + " - " : "") +
-					  str(boost::format(_("DOWN TO KEEP [%1%]")) % StringUtil::toUpper(input.string()));
+					  str(boost::format(_("DOWN TO KEEP [%1%]")) % StringUtil::toUpper(input.ToString()));
 			else
 				msg = (msg.length() != 0u ? msg + " - " : "") +
-					  str(boost::format(_("UP/DOWN TO KEEP [%1%]")) % StringUtil::toUpper(input.string()));
+					  str(boost::format(_("UP/DOWN TO KEEP [%1%]")) % StringUtil::toUpper(input.ToString()));
 		}
 
 	} else if (formInput.skippable)
@@ -308,36 +313,37 @@ void GuiInputConfig::setHelpMessage() {
 }
 
 void GuiInputConfig::setPress() {
-	Input input;
+	InputEvent input;
 	FormInput formInput = mFormInputs.at((unsigned int) mList->getCursorId());
-	if (mTargetConfig->getInputByName(formInput.name, &input)) {
+	if (mTargetConfig->GetEntryConfiguration(InputDevice::StringToEntry(formInput.name), input)) {
 		setAssignedTo(input);
 	} else {
 		setText(_("PRESS ANYTHING"), mMainColor); 
 	}
 }
 
-bool GuiInputConfig::assign(Input input) {
+bool GuiInputConfig::assign(InputEvent input) {
 	FormInput formInput = mFormInputs.at((unsigned int) mList->getCursorId());
 
 	// input is from InputConfig* mTargetConfig
 	// if this input is mapped to something other than "nothing" or the current row, error
 	// (if it's the same as what it was before, allow it)
-	if(std::string("HotKey") != formInput.name && !mTargetConfig->getMappedTo(input).empty() && !mTargetConfig->isMappedTo(formInput.name, input)) {
+	if (std::string("HotKey") != formInput.name &&
+	    mTargetConfig->GetMatchedEntry(input) != InputDevice::Entry::None &&
+      !mTargetConfig->IsMatching(InputDevice::StringToEntry(formInput.name), input))
+	{
 		setMapped();
 		return false;
 	}
 
 	setAssignedTo(input);
 	
-	input.configured = true;
-
 	// set a code while the device is still connected
-	input.computeCode();
+  input.StoreSDLCode();
 
-	mTargetConfig->mapInput(formInput.name, input);
+  mTargetConfig->Set(InputDevice::StringToEntry(formInput.name), input);
 
-	LOG(LogInfo) << "  Mapping [" << input.string() << "] -> " << formInput.name;
+	LOG(LogInfo) << "  Mapping [" << input.ToString() << "] -> " << formInput.name;
 
 	return true;
 }
@@ -345,21 +351,20 @@ bool GuiInputConfig::assign(Input input) {
 void GuiInputConfig::unAssign() {
 	FormInput formInput = mFormInputs.at((unsigned int) mList->getCursorId());
 
-	Input input;
-	mTargetConfig->getInputByName(formInput.name, &input);
+	InputEvent input;
+  mTargetConfig->GetEntryConfiguration(InputDevice::StringToEntry(formInput.name), input);
 
 	setNotDefined();
 	
-	input.configured = false;
-	mTargetConfig->unmapInput(formInput.name);
+  mTargetConfig->Unset(InputDevice::StringToEntry(formInput.name));
 
-	LOG(LogInfo) << "  Unmapping [" << input.string() << "] -> " << formInput.name;
+	LOG(LogInfo) << "  Unmapping [" << input.ToString() << "] -> " << formInput.name;
 }
 
 void GuiInputConfig::restaurePreviousAssignment() {
-	Input input;
+	InputEvent input;
 	FormInput formInput = mFormInputs.at((unsigned int) mList->getCursorId());
-	if(mTargetConfig->getInputByName(formInput.name, &input))
+	if(mTargetConfig->GetEntryConfiguration(InputDevice::StringToEntry(formInput.name), input))
 		setAssignedTo(input);
 	else
 		setNotDefined();
@@ -367,5 +372,6 @@ void GuiInputConfig::restaurePreviousAssignment() {
 
 bool GuiInputConfig::isAssigned() {
 	FormInput formInput = mFormInputs.at((unsigned int) mList->getCursorId());
-	return mTargetConfig->isMapped(formInput.name);
+	return mTargetConfig->IsSet(InputDevice::StringToEntry(formInput.name));
 }
+

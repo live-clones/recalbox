@@ -12,7 +12,7 @@ public:
 
 	void onSizeChanged() override;
 
-	bool input(InputConfig* config, Input input) override;
+	bool ProcessInput(const InputCompactEvent& event) override;
 	void update(int deltaTime) override;
 	std::vector<HelpPrompt> getHelpPrompts() override;
 

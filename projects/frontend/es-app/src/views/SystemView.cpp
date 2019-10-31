@@ -162,26 +162,26 @@ void SystemView::goToSystem(SystemData* system, bool animate)
 	onCursorChanged(CursorState::Stopped);
 }
 
-bool SystemView::input(InputConfig* config, Input input)
+bool SystemView::ProcessInput(const InputCompactEvent& event)
 {
-	if(input.value != 0)
+	if (event.AnythingPressed())
 	{
-		if(config->getDeviceId() == DEVICE_KEYBOARD && input.id == SDLK_r && ((SDL_GetModState() & KMOD_LCTRL) != 0) && Settings::getInstance()->getBool("Debug"))
+		/*if(config->getDeviceId() == InputEvent::sKeyboardDevice && input.Id() == SDLK_r && ((SDL_GetModState() & KMOD_LCTRL) != 0) && Settings::getInstance()->getBool("Debug"))
 		{
 			LOG(LogInfo) << " Reloading all";
 			ViewController::get()->reloadAll();
 			return true;
-		}
+		}*/
 		switch (mCarousel.type)
 		{
 		case CarouselType::Vertical:
 		case CarouselType::VerticalWheel:
-			if (config->isMappedTo("up", input))
+			if (event.AnyUpPressed())
 			{
 				listInput(-1);
 				return true;
 			}
-			if (config->isMappedTo("down", input))
+			if (event.AnyDownPressed())
 			{
 				listInput(1);
 				return true;
@@ -189,71 +189,76 @@ bool SystemView::input(InputConfig* config, Input input)
 			break;
 		case CarouselType::Horizontal:
 		default:
-			if (config->isMappedTo("left", input))
+			if (event.AnyLeftPressed())
 			{
 				listInput(-1);
 				return true;
 			}
-			if (config->isMappedTo("right", input))
+			if (event.AnyRightPressed())
 			{
 				listInput(1);
 				return true;
 			}
 			break;	
 		}
-		if (config->isMappedTo("b", input))
+		if (event.BPressed())
 		{
 			stopScrolling();
 			ViewController::get()->goToGameList(getSelected());
 			return true;
 		}
-        if (config->isMappedTo("x", input))
+    if (event.XPressed())
+    {
+    bool kodiEnabled = RecalboxConf::getInstance()->get("kodi.enabled") == "1";
+    bool kodiX = RecalboxConf::getInstance()->get("kodi.xbutton") == "1";
+    bool netplay = RecalboxConf::getInstance()->get("global.netplay") == "1";
+
+    if (kodiEnabled && kodiX && !launchKodi && !mWindow->isShowingPopup())
+    {
+      if (netplay)
+      {
+        auto s = new GuiSettings(mWindow, _("KODI/NETPLAY").c_str());
+        auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+        ComponentListRow row;
+        row.makeAcceptInputHandler([this, s] {
+            launchKodi = true;
+            if( ! RecalboxSystem::launchKodi(mWindow)) {
+                LOG(LogWarning) << "Shutdown terminated with non-zero result!";
+            }
+            launchKodi = false;
+            delete s;
+        });
+        auto lbl = std::make_shared<TextComponent>(mWindow, "\uF1c3 " + _("KODI MEDIA CENTER"), menuTheme->menuText.font, menuTheme->menuText.color);
+        row.addElement(lbl, true); // label
+        s->addRow(row);
+        row.elements.clear();
+        row.makeAcceptInputHandler([this, s] {
+            auto netplay = new GuiNetPlay(mWindow);
+            mWindow->pushGui(netplay);
+            delete s;
+        });
+        auto lbl2 = std::make_shared<TextComponent>(mWindow, "\uF1c4 " + _("NETPLAY LOBBY"), menuTheme->menuText.font, menuTheme->menuText.color);
+        row.addElement(lbl2, true); // label
+        s->addRow(row);
+        mWindow->pushGui(s);
+      }
+      else
+      {
+        launchKodi = true;
+        if( ! RecalboxSystem::launchKodi(mWindow))
         {
-		    bool kodiEnabled = RecalboxConf::getInstance()->get("kodi.enabled") == "1";
-		    bool kodiX = RecalboxConf::getInstance()->get("kodi.xbutton") == "1";
-		    bool netplay = RecalboxConf::getInstance()->get("global.netplay") == "1";
-
-		    if (kodiEnabled && kodiX && !launchKodi && !mWindow->isShowingPopup()) {
-		        if (netplay) {
-                    auto s = new GuiSettings(mWindow, _("KODI/NETPLAY").c_str());
-                    auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
-                    ComponentListRow row;
-                    row.makeAcceptInputHandler([this, s] {
-                        launchKodi = true;
-                        if( ! RecalboxSystem::launchKodi(mWindow)) {
-                            LOG(LogWarning) << "Shutdown terminated with non-zero result!";
-                        }
-                        launchKodi = false;
-                        delete s;
-                    });
-                    auto lbl = std::make_shared<TextComponent>(mWindow, "\uF1c3 " + _("KODI MEDIA CENTER"), menuTheme->menuText.font, menuTheme->menuText.color);
-                    row.addElement(lbl, true); // label
-                    s->addRow(row);
-                    row.elements.clear();
-                    row.makeAcceptInputHandler([this, s] {
-                        auto netplay = new GuiNetPlay(mWindow);
-                        mWindow->pushGui(netplay);
-                        delete s;
-                    });
-                    auto lbl2 = std::make_shared<TextComponent>(mWindow, "\uF1c4 " + _("NETPLAY LOBBY"), menuTheme->menuText.font, menuTheme->menuText.color);
-                    row.addElement(lbl2, true); // label
-                    s->addRow(row);
-                    mWindow->pushGui(s);
-                } else {
-                    launchKodi = true;
-                    if( ! RecalboxSystem::launchKodi(mWindow)) {
-                        LOG(LogWarning) << "Shutdown terminated with non-zero result!";
-                    }
-                    launchKodi = false;
-		        }
-		    } else if (netplay && !mWindow->isShowingPopup()) {
-                auto netplayGui = new GuiNetPlay(mWindow);
-                mWindow->pushGui(netplayGui);
-		    }
-
-
+            LOG(LogWarning) << "Shutdown terminated with non-zero result!";
         }
-		if (config->isMappedTo("select", input) && RecalboxConf::getInstance()->get("emulationstation.menu") != "none")
+        launchKodi = false;
+      }
+    } else if (netplay && !mWindow->isShowingPopup()) {
+            auto netplayGui = new GuiNetPlay(mWindow);
+            mWindow->pushGui(netplayGui);
+    }
+
+
+    }
+		if (event.SelectPressed() && RecalboxConf::getInstance()->get("emulationstation.menu") != "none")
 		{
 		  auto s = new GuiSettings(mWindow, _("QUIT").c_str());
 			auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
@@ -324,21 +329,17 @@ bool SystemView::input(InputConfig* config, Input input)
 			mWindow->pushGui(s);
 		}
 
-		if (config->isMappedTo("start", input) && RecalboxConf::getInstance()->get("emulationstation.menu") != "none")
+		if (event.StartPressed() && RecalboxConf::getInstance()->get("emulationstation.menu") != "none")
 		{
 			mWindow->pushGui(new GuiMenu(mWindow));
 			return true;
 		}
 
-	} else {
-		if (config->isMappedTo("left", input) ||
-				config->isMappedTo("right", input) ||
-				config->isMappedTo("up", input) || 
-				config->isMappedTo("down", input))
-				listInput(0);
 	}
+	else if (event.AnyLeftReleased() || event.AnyRightReleased() || event.AnyUpReleased() || event.AnyDownReleased())
+	  listInput(0);
 
-	return GuiComponent::input(config, input);
+	return GuiComponent::ProcessInput(event);
 }
 
 void SystemView::update(int deltaTime)

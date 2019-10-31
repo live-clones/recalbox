@@ -7,9 +7,11 @@ set(CORE_HEADERS
 		${CMAKE_CURRENT_SOURCE_DIR}/src/HelpStyle.h
 		${CMAKE_CURRENT_SOURCE_DIR}/src/HttpReq.h
 		${CMAKE_CURRENT_SOURCE_DIR}/src/ImageIO.h
-		${CMAKE_CURRENT_SOURCE_DIR}/src/InputConfig.h
-		${CMAKE_CURRENT_SOURCE_DIR}/src/InputManager.h
-		${CMAKE_CURRENT_SOURCE_DIR}/src/InputStack.h
+		src/input/InputDevice.h
+		src/input/InputEvent.h
+		src/input/InputCompactEvent.h
+		src/input/InputManager.h
+		src/input/InputStack.h
 		${CMAKE_CURRENT_SOURCE_DIR}/src/Log.h
 		${CMAKE_CURRENT_SOURCE_DIR}/src/Locale.h
 		${CMAKE_CURRENT_SOURCE_DIR}/src/Music.h
@@ -102,9 +104,11 @@ set(CORE_SOURCES
 		${CMAKE_CURRENT_SOURCE_DIR}/src/HelpStyle.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/src/HttpReq.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/src/ImageIO.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/src/InputConfig.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/src/InputManager.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/src/InputStack.cpp
+		src/input/InputDevice.cpp
+		src/input/InputEvent.cpp
+		src/input/InputCompactEvent.cpp
+		src/input/InputManager.cpp
+		src/input/InputStack.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/src/Log.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/src/Music.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/src/platform.cpp

@@ -26,7 +26,7 @@ public:
 	explicit GuiMenu(Window* window);
 	~GuiMenu() override;
 
-	bool input(InputConfig* config, Input input) override;
+	bool ProcessInput(const InputCompactEvent& event) override;
 	void onSizeChanged() override;
 	std::vector<HelpPrompt> getHelpPrompts() override;
 

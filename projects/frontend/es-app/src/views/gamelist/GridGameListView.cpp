@@ -24,12 +24,12 @@ void GridGameListView::setCursor(FileData* file)
 	}
 }
 
-bool GridGameListView::input(InputConfig* config, Input input)
+bool GridGameListView::ProcessInput(const InputCompactEvent& event)
 {
-	if(config->isMappedTo("left", input) || config->isMappedTo("right", input))
-		return GuiComponent::input(config, input);
+	if (event.AnyLeftPressed() || event.AnyRightPressed())
+		return GuiComponent::ProcessInput(event); // TODO: Check call!
 
-	return ISimpleGameListView::input(config, input);
+	return ISimpleGameListView::ProcessInput(event);
 }
 
 void GridGameListView::populateList(const FolderData* folder)

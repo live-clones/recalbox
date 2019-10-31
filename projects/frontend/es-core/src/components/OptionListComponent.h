@@ -129,15 +129,15 @@ private:
 			addChild(&mMenu);
 		}
 
-		bool input(InputConfig* config, Input input) override
+		bool ProcessInput(const InputCompactEvent& event) override
 		{
-			if(config->isMappedTo("a", input) && input.value != 0)
+			if (event.APressed())
 			{
 				delete this;
 				return true;
 			}
 
-			return GuiComponent::input(config, input);
+			return GuiComponent::ProcessInput(event);
 		}
 
 		std::vector<HelpPrompt> getHelpPrompts() override
@@ -213,44 +213,41 @@ public:
 		mRightArrow.setPosition(mText.getPosition().x() + mText.getSize().x(), (mSize.y() - mRightArrow.getSize().y()) / 2);
 	}
 
-	bool input(InputConfig* config, Input input) override
+	bool ProcessInput(const InputCompactEvent& event) override
 	{
-		if(input.value != 0)
-		{
-			if(config->isMappedTo("b", input))
-			{
-				open();
-				return true;
-			}
-			if(!mMultiSelect)
-			{
-				if(config->isMappedTo("left", input))
-				{
-					// move selection to previous
-					unsigned int i = getSelectedId();
-					int next = (int)i - 1;
-					if(next < 0)
-						next += mEntries.size();
+    if (event.BPressed())
+    {
+      open();
+      return true;
+    }
+    if(!mMultiSelect)
+    {
+      if (event.AnyLeftPressed())
+      {
+        // move selection to previous
+        unsigned int i = getSelectedId();
+        int next = (int)i - 1;
+        if(next < 0)
+          next += mEntries.size();
 
-					mEntries.at(i).selected = false;
-					mEntries.at(next).selected = true;
-					onSelectedChanged();
-					return true;
+        mEntries.at(i).selected = false;
+        mEntries.at(next).selected = true;
+        onSelectedChanged();
+        return true;
 
-				}else if(config->isMappedTo("right", input))
-				{
-					// move selection to next
-					unsigned int i = getSelectedId();
-					int next = (i + 1) % mEntries.size();
-					mEntries.at(i).selected = false;
-					mEntries.at(next).selected = true;
-					onSelectedChanged();
-					return true;
+      }else if (event.AnyRightPressed())
+      {
+        // move selection to next
+        unsigned int i = getSelectedId();
+        int next = (i + 1) % mEntries.size();
+        mEntries.at(i).selected = false;
+        mEntries.at(next).selected = true;
+        onSelectedChanged();
+        return true;
 
-				}
-			}
-		}
-		return GuiComponent::input(config, input);
+      }
+    }
+		return GuiComponent::ProcessInput(event);
 	}
 
 	std::vector<T> getSelectedObjects()

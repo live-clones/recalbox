@@ -37,7 +37,7 @@ public:
 	inline void setSkipCallback(const std::function<void()>& skipCallback) { mSkipCallback = skipCallback; };
 	inline void setCancelCallback(const std::function<void()>& cancelCallback) { mCancelCallback = cancelCallback; }
 
-	bool input(InputConfig* config, Input input) override;
+	bool ProcessInput(const InputCompactEvent& event) override;
 	void update(int deltaTime) override;
 	void render(const Transform4x4f& parentTrans) override;
 	std::vector<HelpPrompt> getHelpPrompts() override;

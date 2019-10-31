@@ -428,13 +428,13 @@ float GuiNetPlay::getButtonGridHeight() const
   return (mButtonGrid ? mButtonGrid->getSize().y() : menuTheme->menuText.font->getHeight() + BUTTON_GRID_VERT_PADDING);
 }
 
-bool GuiNetPlay::input(InputConfig* config, Input input)
+bool GuiNetPlay::ProcessInput(const InputCompactEvent& event)
 {
-  if (config->isMappedTo("a", input) && input.value != 0)
+  if (event.APressed())
   {
     delete this;
   }
-  return GuiComponent::input(config, input);
+  return GuiComponent::ProcessInput(event);
 }
 
 void GuiNetPlay::updateSize()

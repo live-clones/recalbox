@@ -44,11 +44,11 @@ GuiGamelistOptions::GuiGamelistOptions(Window* window, SystemData* system)
 		row.addElement(std::make_shared<TextComponent>(mWindow, _("JUMP TO LETTER"), menuTheme->menuText.font,
 													   menuTheme->menuText.color), true);
 		row.addElement(mJumpToLetterList, false);
-		row.input_handler = [&](InputConfig *config, Input input) {
-			if (config->isMappedTo("b", input) && (input.value != 0)) {
+		row.input_handler = [&](const InputCompactEvent& event) {
+			if (event.BPressed()) {
 				jumpToLetter();
 				return true;
-			} else if (mJumpToLetterList->input(config, input)) {
+			} else if (mJumpToLetterList->ProcessInput(event)) {
 				return true;
 			}
 			return false;
@@ -213,13 +213,13 @@ void GuiGamelistOptions::jumpToLetter() {
 	delete this;
 }
 
-bool GuiGamelistOptions::input(InputConfig* config, Input input) {
-	if ((config->isMappedTo("a", input) || config->isMappedTo("start", input)) && (input.value != 0)) {
+bool GuiGamelistOptions::ProcessInput(const InputCompactEvent& event) {
+	if (event.APressed() || event.StartPressed()) {
 		save();
 		delete this;
 		return true;
 	}
-	return mMenu.input(config, input);
+	return mMenu.ProcessInput(event);
 }
 
 std::vector<HelpPrompt> GuiGamelistOptions::getHelpPrompts() {

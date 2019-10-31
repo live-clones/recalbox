@@ -1,6 +1,6 @@
 #pragma once
 
-#include "InputConfig.h"
+#include "InputDevice.h"
 #include "utils/sdl2/SyncronousEventService.h"
 #include <functional>
 #include <list>
@@ -25,10 +25,10 @@ class InputStack : private ISyncTimer
     SyncTimer mTimer;
 
     //! Event list
-    std::list<Input> mInputs;
+    std::list<InputEvent> mInputs;
 
     //! Callbacl method
-    std::function<void(const std::list<Input>& inputs)> mCallback;
+    std::function<void(const std::list<InputEvent>& inputs)> mCallback;
 
     void TimerTick(int id) override
     {
@@ -38,9 +38,9 @@ class InputStack : private ISyncTimer
     }
 
   public:
-    bool hasInput(const Input& input);
+    bool hasInput(const InputEvent& input);
 
-    void push(const Input& input, const std::function<void(const std::list<Input>& inputs)>& func);
+    void push(const InputEvent& input, const std::function<void(const std::list<InputEvent>& inputs)>& func);
 
     void debounce()
     {

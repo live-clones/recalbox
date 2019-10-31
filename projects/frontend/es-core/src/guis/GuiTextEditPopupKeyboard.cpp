@@ -185,36 +185,37 @@ void GuiTextEditPopupKeyboard::onSizeChanged()
 	mKeyboardGrid->onSizeChanged();
 }
 
-bool GuiTextEditPopupKeyboard::input(InputConfig* config, Input input)
+bool GuiTextEditPopupKeyboard::ProcessInput(const InputCompactEvent& event)
 {
-	if (GuiComponent::input(config, input))
+	if (GuiComponent::ProcessInput(event))
 		return true;
 
 	// pressing back when not text editing closes us
-	if (config->isMappedTo("a", input) && (input.value != 0))
+	if (event.APressed())
 	{
 		delete this;
 		return true;
 	}
 
 	// For deleting a chara (Left Top Button)
-	if (config->isMappedTo("PageUp", input) && (input.value != 0)) {
+	if (event.L1Pressed())
+	{
 		mText->startEditing();
 		mText->textInput("\b");
 		mText->stopEditing();
 	}
 
 	// For Adding a space (Right Top Button)
-	if (config->isMappedTo("PageDown", input) && (input.value != 0)) {
+	if (event.R1Pressed())
+	{
 		mText->startEditing();
 		mText->textInput(" ");
 		mText->stopEditing();
 	}
 
 	// For Shifting (Y)
-	if (config->isMappedTo("y", input) && (input.value != 0)) {
+	if (event.YPressed())
 		switchShift();
-	}
 
 	return false;
 }

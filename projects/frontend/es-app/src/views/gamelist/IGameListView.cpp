@@ -5,17 +5,17 @@
 #include "Log.h"
 #include "Sound.h"
 
-bool IGameListView::input(InputConfig* config, Input input)
+bool IGameListView::ProcessInput(const InputCompactEvent& event)
 {
-	if(Settings::getInstance()->getBool("Debug") && config->getDeviceId() == DEVICE_KEYBOARD &&
-		((SDL_GetModState() & (KMOD_LCTRL | KMOD_RCTRL)) != 0) && input.id == SDLK_r && input.value != 0)
+	/*if (Settings::getInstance()->getBool("Debug") && config->getDeviceId() == InputEvent::sKeyboardDevice &&
+     ((SDL_GetModState() & (KMOD_LCTRL | KMOD_RCTRL)) != 0) && input.Id() == SDLK_r && input.Value() != 0)
 	{
 		LOG(LogDebug) << "reloading view";
 		ViewController::get()->reloadGameListView(this, true);
 		return true;
-	}
+	}*/
 
-	return GuiComponent::input(config, input);
+	return GuiComponent::ProcessInput(event);
 }
 
 void IGameListView::setTheme(const std::shared_ptr<ThemeData>& theme)

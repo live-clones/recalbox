@@ -14,7 +14,7 @@ public:
 	void save();
 	inline void addSaveFunc(const std::function<void()>& func) { mSaveFuncs.push_back(func); };
 
-	bool input(InputConfig* config, Input input) override;
+	bool ProcessInput(const InputCompactEvent& event) override;
 	std::vector<HelpPrompt> getHelpPrompts() override;
 
 private:

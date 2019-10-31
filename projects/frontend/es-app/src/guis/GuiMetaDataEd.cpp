@@ -114,7 +114,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window* window,
         row.addElement(spacer, false);
 
         // pass input to the actual RatingComponent instead of the spacer
-        row.input_handler = std::bind(&GuiComponent::input, ed.get(), std::placeholders::_1, std::placeholders::_2);
+        row.input_handler = std::bind(&GuiComponent::ProcessInput, ed.get(), std::placeholders::_1/*, std::placeholders::_2*/);
 
         break;
       }
@@ -128,7 +128,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window* window,
         row.addElement(spacer, false);
 
         // pass input to the actual DateTimeComponent instead of the spacer
-        row.input_handler = std::bind(&GuiComponent::input, ed.get(), std::placeholders::_1, std::placeholders::_2);
+        row.input_handler = std::bind(&GuiComponent::ProcessInput, ed.get(), std::placeholders::_1/*, std::placeholders::_2*/);
 
         break;
       }
@@ -354,16 +354,15 @@ GuiMetaDataEd::GuiMetaDataEd(Window* window,
   mButtons = makeButtonGrid(mWindow, buttons);
   mGrid.setEntry(mButtons, Vector2i(0, 2), true, false);
 
-  mGrid.setUnhandledInputCallback([this](InputConfig* config,
-                                         Input input) -> bool
+  mGrid.setUnhandledInputCallback([this](const InputCompactEvent& event) -> bool
                                   {
-                                    if (config->isMappedTo("down", input))
+                                    if (event.AnyDownPressed())
                                     {
                                       mGrid.setCursorTo(mList);
                                       mList->setCursorIndex(0);
                                       return true;
                                     }
-                                    if (config->isMappedTo("up", input))
+                                    if (event.AnyUpPressed())
                                     {
                                       mList->setCursorIndex(mList->size() - 1);
                                       mGrid.moveCursor(Vector2i(0, 1));
@@ -485,18 +484,16 @@ void GuiMetaDataEd::close(bool closeAllWindows)
   }
 }
 
-bool GuiMetaDataEd::input(InputConfig* config,
-                          Input input)
+bool GuiMetaDataEd::ProcessInput(const InputCompactEvent& event)
 {
-  if (GuiComponent::input(config, input))
+  if (GuiComponent::ProcessInput(event))
   {
     return true;
   }
 
-  const bool isStart = config->isMappedTo("start", input);
-  if (input.value != 0 && (config->isMappedTo("a", input) || isStart))
+  if (event.APressed() || event.StartPressed())
   {
-    close(isStart);
+    close(event.StartPressed());
     return true;
   }
 

@@ -11,9 +11,9 @@ AsyncReqComponent::AsyncReqComponent(Window* window, std::shared_ptr<HttpReq> re
 	
 }
 
-bool AsyncReqComponent::input(InputConfig* config, Input input)
+bool AsyncReqComponent::ProcessInput(const InputCompactEvent& event)
 {
-	if(input.value != 0 && config->isMappedTo("a", input))
+	if (event.APressed())
 	{
 		if(mCancelFunc)
 			mCancelFunc();
