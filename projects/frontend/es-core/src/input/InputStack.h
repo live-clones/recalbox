@@ -7,7 +7,7 @@
 #include <utils/datetime/DateTime.h>
 #include <utils/sdl2/ISyncTimer.h>
 #include <utils/sdl2/SyncTimer.h>
-#include <Log.h>
+#include <utils/Log.h>
 
 /**
  * The purpose of this class is to catch the whole inputs sent by SDL when using a gamepad hat / joy / button

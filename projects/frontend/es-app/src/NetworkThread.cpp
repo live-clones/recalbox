@@ -5,7 +5,7 @@
  * Created on 6 février 2015, 11:40
  */
 
-#include <Log.h>
+#include <utils/Log.h>
 #include "NetworkThread.h"
 #include "recalbox/RecalboxSystem.h"
 #include "recalbox/RecalboxUpgrade.h"

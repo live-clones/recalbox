@@ -1,7 +1,7 @@
 #include "Locale.h"
 #include "guis/GuiInputConfig.h"
 #include "Window.h"
-#include "Log.h"
+#include "utils/Log.h"
 #include "components/TextComponent.h"
 #include "components/ImageComponent.h"
 #include "components/MenuComponent.h"

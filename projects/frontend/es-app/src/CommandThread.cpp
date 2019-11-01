@@ -2,7 +2,7 @@
 #include "CommandThread.h"
 #include "guis/GuiMsgBox.h"
 #include "SystemData.h"
-#include "Log.h"
+#include "utils/Log.h"
 #include "views/ViewController.h"
 #include <boost/algorithm/string/classification.hpp>
 #include <boost/algorithm/string/split.hpp>

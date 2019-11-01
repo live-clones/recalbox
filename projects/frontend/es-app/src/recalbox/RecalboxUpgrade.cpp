@@ -1,6 +1,6 @@
 #include "RecalboxUpgrade.h"
 #include "Settings.h"
-#include "Log.h"
+#include "utils/Log.h"
 #include <Locale.h>
 #include <boost/algorithm/string/replace.hpp>
 #include <components/BusyComponent.h>

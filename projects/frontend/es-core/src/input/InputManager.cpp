@@ -1,7 +1,7 @@
 #include "InputManager.h"
 #include "InputDevice.h"
 #include "Settings.h"
-#include "Log.h"
+#include "utils/Log.h"
 #include "pugixml/pugixml.hpp"
 #include <boost/filesystem.hpp>
 #include "platform.h"

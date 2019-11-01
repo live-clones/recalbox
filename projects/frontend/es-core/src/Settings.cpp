@@ -1,5 +1,5 @@
 #include "Settings.h"
-#include "Log.h"
+#include "utils/Log.h"
 #include "pugixml/pugixml.hpp"
 #include "platform.h"
 #include "RootFolders.h"

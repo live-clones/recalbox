@@ -2,7 +2,7 @@
 #include "components/DateTimeComponent.h"
 #include "Renderer.h"
 #include "Window.h"
-#include "Log.h"
+#include "utils/Log.h"
 #include "Util.h"
 #include "Locale.h"
 #include "MenuThemeData.h"

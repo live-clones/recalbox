@@ -2,7 +2,7 @@
 #include <cassert>
 #include "Renderer.h"
 #include "resources/Font.h"
-#include "Log.h"
+#include "utils/Log.h"
 #include "Util.h"
 #include "Locale.h"
 #include "MenuThemeData.h"

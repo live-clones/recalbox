@@ -1,7 +1,7 @@
 #pragma once
 
 #include "animations/Animation.h"
-#include "Log.h"
+#include "utils/Log.h"
 
 // let's look at the game launch effect:
 // -move camera to center on point P (interpolation method: linear)

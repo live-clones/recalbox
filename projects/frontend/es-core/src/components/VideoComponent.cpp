@@ -3,7 +3,7 @@
 #include <cmath>
 #include <VideoEngine.h>
 #include <utils/datetime/DateTime.h>
-#include "Log.h"
+#include "utils/Log.h"
 #include "Renderer.h"
 #include "themes/ThemeData.h"
 #include "Locale.h"

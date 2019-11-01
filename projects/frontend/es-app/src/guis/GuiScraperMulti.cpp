@@ -1,6 +1,6 @@
 #include "guis/GuiScraperMulti.h"
 #include "Renderer.h"
-#include "Log.h"
+#include "utils/Log.h"
 #include "views/ViewController.h"
 #include "Gamelist.h"
 

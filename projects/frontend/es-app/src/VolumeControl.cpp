@@ -1,6 +1,6 @@
 #include "VolumeControl.h"
 
-#include "Log.h"
+#include "utils/Log.h"
 #include <cmath>
 #include <utils/math/Misc.h>
 

@@ -6,7 +6,7 @@
 #include <utils/os/fs/FileSystemUtil.h>
 #include <utils/FileUtil.h>
 #include <utils/StringUtil.h>
-#include "Log.h"
+#include "utils/Log.h"
 #include "Settings.h"
 #include "Util.h"
 

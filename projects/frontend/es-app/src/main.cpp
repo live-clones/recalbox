@@ -15,7 +15,7 @@
 #include "EmulationStation.h"
 #include "FileSorts.h"
 #include "Locale.h"
-#include "Log.h"
+#include "utils/Log.h"
 #include "NetPlayThread.h"
 #include "NetworkThread.h"
 #include "RecalboxConf.h"

@@ -1,6 +1,6 @@
 #include "InputDevice.h"
 #include <string>
-#include "Log.h"
+#include "utils/Log.h"
 #include "utils/StringUtil.h"
 
 std::string InputDevice::EntryToString(InputDevice::Entry entry)

@@ -2,7 +2,7 @@
 #include "Gamelist.h"
 #include "AudioManager.h"
 #include "VolumeControl.h"
-#include "Log.h"
+#include "utils/Log.h"
 #include "Settings.h"
 #include "Util.h"
 #include <boost/thread.hpp>

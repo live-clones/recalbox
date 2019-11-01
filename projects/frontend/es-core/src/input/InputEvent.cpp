@@ -3,7 +3,7 @@
 //
 
 #include "InputEvent.h"
-#include <Log.h>
+#include <utils/Log.h>
 
 std::string InputEvent::TypeToString(EventType type)
 {

@@ -1,7 +1,7 @@
 #include "components/ImageComponent.h"
 #include <iostream>
 #include <cmath>
-#include "Log.h"
+#include "utils/Log.h"
 #include "Renderer.h"
 #include "themes/ThemeData.h"
 #include "Locale.h"

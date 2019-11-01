@@ -3,7 +3,7 @@
 #include "utils/datetime/DateTime.h"
 #include "utils/StringUtil.h"
 #include "FileData.h"
-#include "Log.h"
+#include "utils/Log.h"
 #include "PlatformId.h"
 #include "Settings.h"
 #include "pugixml/pugixml.hpp"

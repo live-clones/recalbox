@@ -1,6 +1,6 @@
 #include "GuiComponent.h"
 #include "Window.h"
-#include "Log.h"
+#include "utils/Log.h"
 #include "Renderer.h"
 #include "animations/AnimationController.h"
 #include "themes/ThemeData.h"

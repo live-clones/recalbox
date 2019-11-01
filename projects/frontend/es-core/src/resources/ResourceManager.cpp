@@ -1,5 +1,5 @@
 #include "ResourceManager.h"
-#include "Log.h"
+#include "utils/Log.h"
 #include "../data/Resources.h"
 #include <boost/filesystem.hpp>
 

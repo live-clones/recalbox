@@ -1,7 +1,7 @@
 #include <utils/StringUtil.h>
 #include "components/TextComponent.h"
 #include "Renderer.h"
-#include "Log.h"
+#include "utils/Log.h"
 #include "Window.h"
 #include "themes/ThemeData.h"
 #include "Util.h"

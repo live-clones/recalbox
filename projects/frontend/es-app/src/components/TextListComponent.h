@@ -4,7 +4,7 @@
 #include "Renderer.h"
 #include "resources/Font.h"
 #include "Sound.h"
-#include "Log.h"
+#include "utils/Log.h"
 #include "themes/ThemeData.h"
 #include <string>
 #include <memory>

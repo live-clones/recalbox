@@ -1,7 +1,7 @@
 #include "Window.h"
 #include <iostream>
 #include "Renderer.h"
-#include "Log.h"
+#include "utils/Log.h"
 #include "Settings.h"
 #include <algorithm>
 #include <iomanip>

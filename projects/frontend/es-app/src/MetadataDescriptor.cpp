@@ -2,7 +2,7 @@
 #include "MetadataFieldDescriptor.h"
 #include "Locale.h"
 #include "Util.h"
-#include "Log.h"
+#include "utils/Log.h"
 
 // TODO: Use const char* instead
 const std::string MetadataDescriptor::DefaultValueEmulator = "default";

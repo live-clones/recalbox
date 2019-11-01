@@ -2,7 +2,7 @@
 #include "Window.h"
 #include "views/ViewController.h"
 #include "Settings.h"
-#include "Log.h"
+#include "utils/Log.h"
 #include "Sound.h"
 
 bool IGameListView::ProcessInput(const InputCompactEvent& event)

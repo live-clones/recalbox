@@ -2,7 +2,7 @@
 #include "components/HelpComponent.h"
 #include "Renderer.h"
 #include "Settings.h"
-#include "Log.h"
+#include "utils/Log.h"
 #include "Util.h"
 #include "components/ImageComponent.h"
 #include "components/TextComponent.h"

@@ -1,5 +1,5 @@
 #include "components/AnimatedImageComponent.h"
-#include "Log.h"
+#include "utils/Log.h"
 #include "MenuThemeData.h"
 
 AnimatedImageComponent::AnimatedImageComponent(Window* window)

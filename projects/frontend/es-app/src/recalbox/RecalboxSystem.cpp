@@ -9,7 +9,7 @@
 #include "RecalboxSystem.h"
 #include <sys/statvfs.h>
 #include "Settings.h"
-#include "Log.h"
+#include "utils/Log.h"
 
 #include "AudioManager.h"
 #include "VolumeControl.h"

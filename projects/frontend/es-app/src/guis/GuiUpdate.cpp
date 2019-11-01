@@ -1,7 +1,7 @@
 #include "guis/GuiUpdate.h"
 #include "guis/GuiMsgBox.h"
 
-#include "Log.h"
+#include "utils/Log.h"
 #include "recalbox/RecalboxSystem.h"
 #include "Locale.h"
 #include <boost/algorithm/string/replace.hpp>

@@ -3,7 +3,7 @@
 #include <stack>
 #include "platform.h"
 #include "platform_gl.h"
-#include "Log.h"
+#include "utils/Log.h"
 #include "ImageIO.h"
 #include "../data/Resources.h"
 #include "Settings.h"

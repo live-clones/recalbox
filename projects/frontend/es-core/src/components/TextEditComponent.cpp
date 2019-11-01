@@ -1,5 +1,5 @@
 #include "components/TextEditComponent.h"
-#include "Log.h"
+#include "utils/Log.h"
 #include "resources/Font.h"
 #include "Window.h"
 #include "Renderer.h"

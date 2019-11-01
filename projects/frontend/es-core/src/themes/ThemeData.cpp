@@ -2,7 +2,7 @@
 #include "Renderer.h"
 #include "Sound.h"
 #include "resources/TextureResource.h"
-#include "Log.h"
+#include "utils/Log.h"
 #include "Settings.h"
 #include "pugixml/pugixml.hpp"
 #include <memory>

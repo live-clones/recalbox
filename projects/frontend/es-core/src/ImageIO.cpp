@@ -1,6 +1,6 @@
 #include "ImageIO.h"
 
-#include "Log.h"
+#include "utils/Log.h"
 #include <FreeImage.h>
 
 

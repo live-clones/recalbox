@@ -3,7 +3,7 @@
 #include "GuiComponent.h"
 #include "components/IList.h"
 #include "components/ImageComponent.h"
-#include "Log.h"
+#include "utils/Log.h"
 
 struct ImageGridData
 {

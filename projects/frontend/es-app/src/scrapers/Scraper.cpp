@@ -1,5 +1,5 @@
 #include "scrapers/Scraper.h"
-#include "Log.h"
+#include "utils/Log.h"
 #include "Settings.h"
 #include <FreeImage.h>
 #include <boost/filesystem.hpp>

@@ -1,7 +1,7 @@
 #include <RecalboxConf.h>
 #include <recalbox/RecalboxSystem.h>
 #include "views/ViewController.h"
-#include "Log.h"
+#include "utils/Log.h"
 #include "SystemData.h"
 #include "Settings.h"
 

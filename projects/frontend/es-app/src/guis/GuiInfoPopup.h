@@ -7,7 +7,7 @@
 #include "components/NinePatchComponent.h"
 #include "components/ComponentGrid.h"
 #include "Window.h"
-#include "Log.h"
+#include "utils/Log.h"
 #include "utils/math/Vectors.h"
 
 class GuiInfoPopup : public GuiComponent, public Window::InfoPopup

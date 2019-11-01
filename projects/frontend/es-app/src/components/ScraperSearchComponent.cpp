@@ -11,7 +11,7 @@
 #include "components/ComponentList.h"
 #include "HttpReq.h"
 #include "Settings.h"
-#include "Log.h"
+#include "utils/Log.h"
 #include "guis/GuiTextEditPopup.h"
 #include "guis/GuiTextEditPopupKeyboard.h"
 #include "Locale.h"

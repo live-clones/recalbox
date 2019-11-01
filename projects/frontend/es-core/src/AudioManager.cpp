@@ -4,7 +4,7 @@
 #include <boost/filesystem.hpp>
 #include <boost/regex.hpp>
 #include <views/SystemView.h>
-#include "Log.h"
+#include "utils/Log.h"
 #include "RecalboxConf.h"
 #include "Settings.h"
 #include "themes/ThemeData.h"

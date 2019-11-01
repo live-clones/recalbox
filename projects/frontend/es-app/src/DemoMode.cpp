@@ -5,7 +5,7 @@
 // TODO: Use DataTime instead of gettimeofday
 #include <sys/time.h>
 #include "DemoMode.h"
-#include "Log.h"
+#include "utils/Log.h"
 
 DemoMode::DemoMode(Window& window)
   : mWindow(window),

@@ -1,5 +1,5 @@
 #include "MamedbScraper.h"
-#include "Log.h"
+#include "utils/Log.h"
 
 #include <boost/regex.hpp>
 

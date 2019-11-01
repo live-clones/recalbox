@@ -1,6 +1,6 @@
 #include "Thread.h"
 #include <string>
-#include <Log.h>
+#include <utils/Log.h>
 #include <cstring>
 
 Thread::Thread()

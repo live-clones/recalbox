@@ -2,7 +2,7 @@
 #include <memory>
 #include <thread>
 
-#include "Log.h"
+#include "utils/Log.h"
 #include "scrapers/GamesDBJSONScraperResources.h"
 #include "utils/os/fs/FileSystemUtil.h"
 

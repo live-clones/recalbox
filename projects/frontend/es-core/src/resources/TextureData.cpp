@@ -1,6 +1,6 @@
 #include "resources/TextureData.h"
 #include "resources/ResourceManager.h"
-#include "Log.h"
+#include "utils/Log.h"
 #include "ImageIO.h"
 #include <cstring>
 #include "Util.h"

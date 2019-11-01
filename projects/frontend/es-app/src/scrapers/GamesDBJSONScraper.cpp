@@ -5,7 +5,7 @@
 #include "scrapers/GamesDBJSONScraperResources.h"
 
 #include "FileData.h"
-#include "Log.h"
+#include "utils/Log.h"
 #include "PlatformId.h"
 
 /* When raspbian will get an up to date version of rapidjson we'll be

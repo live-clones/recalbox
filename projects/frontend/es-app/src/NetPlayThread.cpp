@@ -5,7 +5,7 @@
 #include "NetPlayThread.h"
 #include <RecalboxConf.h>
 #include <recalbox/RecalboxSystem.h>
-#include <Log.h>
+#include <utils/Log.h>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 #include <Settings.h>
