@@ -36,6 +36,7 @@
 - Fix advancemame availability on xu4, x86 and x64
 - Fix some retroarch core random crashes and/or lags/slowness
 - Fix videosnaps crashs/artifects while scrolling
+- Fix missing videosnaps keys in recalbox.conf
 
 
 ## Version 6.1
