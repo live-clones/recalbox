@@ -1,30 +1,41 @@
-#!/bin/bash
-#Usage: recalpair XX:XX:XX:XX:XX:XX | bluetoothctl
+#!/usr/bin/expect -f
+#Usage: recalpair XX:XX:XX:XX:XX:XX
 
-mac=$1
+set timeout 10
+set prompt "#"
+set address [lindex $argv 0]
 
-echo -e "agent on\n"
+spawn bluetoothctl -a
+expect -re $prompt
+send "remove $address\r"
 sleep 1
-echo -e "default-agent\n"
+expect {
+  "Device has been removed" {
+    send "quit\r"
+    exit 1
+  }
+ "Device $address not available" {
+  }
+}
+set timeout 60
+send "scan on\r"
 sleep 1
-echo -e "power on\n"
+expect "*\] Device $address"
+send "scan off\r"
+set timeout 10
+expect "Controller"
+send "trust $address\r"
 sleep 1
-echo -e "discoverable on\n"
+expect "Changing $address trust succeeded"
+send "pair $address\r"
+set timeout 5
+expect "Enter PIN code:"
+send "0000\r"
+set timeout 10
+expect "Pairing successful"
+send "connect $address\r"
 sleep 1
-echo -e "pairable on\n"
-sleep 1
-echo -e "scan on\n"
-sleep 3
-echo -e "devices\n"
-sleep 2
-echo -e "remove $mac\n"
-sleep 1
-echo -e "pair $mac\n"
-sleep 3
-echo -e "connect $mac\n"
-sleep 5
-echo -e "0000\n"
-sleep 3
-echo -e "trust $mac\n"
-sleep 3
-echo -e "exit"
+expect "Connection successful"
+#send_user "\nShould be paired now.\r"
+send "quit\r"
+expect eof
