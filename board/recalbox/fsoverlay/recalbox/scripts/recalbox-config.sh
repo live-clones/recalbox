@@ -538,7 +538,7 @@ if [[ "$command" == "hiddpair" ]]; then
         fi
     fi
 
-    /recalbox/scripts/bluetooth/recalpair $mac | bluetoothctl | recallog
+    /recalbox/scripts/bluetooth/recalpair $mac | recallog
     hcitool con | grep $mac1
     if [[ $? == "0" ]]; then
         connected=0
