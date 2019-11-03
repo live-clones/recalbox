@@ -17,15 +17,14 @@ static std::map<LogLevel, std::string> StringLevel =
 	{ LogLevel::LogError  , "ERROR" },
 };
 
-std::string Log::getLogPath()
+Path Log::getLogPath()
 {
-	std::string home = RootFolders::DataRootFolder + "/system/.emulationstation/es_log.txt";
-	return home;
+	return RootFolders::DataRootFolder / "/system/.emulationstation/es_log.txt";
 }
 
 void Log::open()
 {
-	file = fopen(getLogPath().c_str(), "w");
+	file = fopen(getLogPath().ToChars(), "w");
 }
 
 std::ostringstream& Log::get(LogLevel level)

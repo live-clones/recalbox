@@ -149,7 +149,7 @@ bool DemoMode::getRandomGame(FileData*& outputGame, int& outputDuration)
     }
     // No luck, try again
   }
-  LOG(LogInfo) << "Randomly selected game: " << outputGame->getPath().generic_string() << " ("  << gamePosition << "/" << (int)gameList.size() << ")";
+  LOG(LogInfo) << "Randomly selected game: " << outputGame->getPath().ToString() << " ("  << gamePosition << "/" << (int)gameList.size() << ")";
   //std::cout << "Randomly selected game: " << outputGame->getPath().generic_string() << "\r\n";;
 
   mSeed++;
@@ -168,6 +168,7 @@ void DemoMode::runDemo()
 
   init();
 
+  Path mustExit("/tmp/emulationstation.quitnow");
   while(getRandomGame(game, duration))
   {
     // Get game's parent system
@@ -185,8 +186,7 @@ void DemoMode::runDemo()
       break;
     }
     // Exit required?
-    if(boost::filesystem::exists("/tmp/emulationstation.quitnow"))
-      break;
+    if (mustExit.Exists()) break;
   }
   // Finalize (remount ES display)
   if (Initialized)

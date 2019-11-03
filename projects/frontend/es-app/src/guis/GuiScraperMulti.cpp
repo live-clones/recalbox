@@ -17,7 +17,7 @@ using namespace boost::locale;
 GuiScraperMulti::GuiScraperMulti(Window* window, const std::queue<ScraperSearchParams>& searches, bool approveResults)
   :	GuiComponent(window),
     mSearchQueue(searches),
-    mBackground(window, ":/frame.png"),
+    mBackground(window, Path(":/frame.png")),
     mGrid(window, Vector2i(1, 5))
 {
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
@@ -116,7 +116,7 @@ void GuiScraperMulti::doNextSearch()
 	char strbuf[256];
 	snprintf(strbuf, 256, _("GAME %i OF %i").c_str(), mCurrentGame + 1, mTotalGames);
 
-	ss << strbuf << " - " << StringUtil::toUpper(mSearchQueue.front().game->getPath().filename().string());
+	ss << strbuf << " - " << StringUtil::toUpper(mSearchQueue.front().game->getPath().Filename());
 	mSubtitle->setText(ss.str());
 
 	mSearchComp->search(mSearchQueue.front());

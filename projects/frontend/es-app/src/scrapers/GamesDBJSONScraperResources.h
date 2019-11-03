@@ -23,17 +23,17 @@ struct TheGamesDBJSONRequestResources
   private:
     bool checkLoaded();
 
-    bool saveResource(HttpReq* req, std::unordered_map<int, std::string>& resource, const std::string& resource_name,
-                      const std::string& file_name);
+    static bool saveResource(HttpReq* req, std::unordered_map<int, std::string>& resource, const std::string& resource_name,
+                      const Path& file_name);
 
     std::unique_ptr<HttpReq> fetchResource(const std::string& endpoint);
 
-    int loadResource(std::unordered_map<int, std::string>& resource, const std::string& resource_name,
-                     const std::string& file_name);
+    static int loadResource(std::unordered_map<int, std::string>& resource, const std::string& resource_name,
+                     const Path& file_name);
 
     std::unique_ptr<HttpReq> gamesdb_developers_resource_request;
     std::unique_ptr<HttpReq> gamesdb_publishers_resource_request;
     std::unique_ptr<HttpReq> gamesdb_genres_resource_request;
 };
 
-std::string getScrapersResouceDir();
+Path getScrapersResouceDir();

@@ -10,7 +10,7 @@
 GuiUpdate::GuiUpdate(Window* window)
   : GuiComponent(window),
     mBusyAnim(window),
-    mBackground(window, ":/frame.png"),
+    mBackground(window, Path(":/frame.png")),
     mLoading(true),
     mState(0),
     mHandle(nullptr)

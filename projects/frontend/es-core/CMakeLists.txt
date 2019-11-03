@@ -35,7 +35,6 @@ set(CORE_HEADERS
 		# Utils
 		src/utils/StringUtil.h
 		src/utils/os/fs/Path.h
-		src/utils/os/fs/FileSystemUtil.h
 		src/utils/os/fs/StringMapFile.h
 		src/utils/os/system/Thread.h
 		src/utils/os/system/ThreadPool.h
@@ -135,7 +134,6 @@ set(CORE_SOURCES
 		src/utils/os/system/Thread.cpp
 		src/utils/os/system/Mutex.cpp
 		src/utils/os/fs/Path.cpp
-		src/utils/os/fs/FileSystemUtil.cpp
 		src/utils/os/fs/StringMapFile.cpp
 		src/utils/StringUtil.cpp
 		src/utils/math/Vector2i.cpp

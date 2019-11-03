@@ -71,7 +71,7 @@ class SystemData
      * @param doppelgangerWatcher Maps to avoid duplicate entries
      * @return Existing or newly created FileData
      */
-    FileData* LookupOrCreateGame(const boost::filesystem::path& path, ItemType type, FileData::StringMap& doppelgangerWatcher);
+    FileData* LookupOrCreateGame(const Path& path, ItemType type, FileData::StringMap& doppelgangerWatcher);
 
     /*!
      * @brief Parse xml gamelist files and add games to the current system
@@ -100,8 +100,8 @@ class SystemData
 
     inline const ThemeData& getTheme() const { return mTheme; }
 
-    std::string getGamelistPath(bool forWrite) const;
-    std::string getThemePath() const;
+    Path getGamelistPath(bool forWrite) const;
+    Path getThemePath() const;
 
     bool HasGame() const { return mRootFolder.hasGame(); }
     int GameCount() const { return mRootFolder.countAll(false); };

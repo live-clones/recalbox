@@ -1243,7 +1243,7 @@ void GuiMenu::menuNetworkSettings(){
     row.addElement(spacer, false);
 
     auto bracket = std::make_shared<ImageComponent>(mWindow);
-    bracket->setImage(":/arrow.svg");
+    bracket->setImage(Path(":/arrow.svg"));
     bracket->setResize(Vector2f(0, lbl->getFont()->getLetterHeight()));
     row.addElement(bracket, false);
 
@@ -1805,18 +1805,18 @@ void GuiMenu::onSizeChanged() {
     mVersion.setPosition(0, mSize.y() - mVersion.getSize().y());
 }
 
-void GuiMenu::addEntryWithHelp(const char *name, const std::string& help, unsigned int color, bool add_arrow, const std::function<void()> &func, const std::string& iconName) {
+void GuiMenu::addEntryWithHelp(const char *name, const std::string& help, unsigned int color, bool add_arrow, const std::function<void()> &func, const Path& iconPath) {
 
   auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
   std::shared_ptr<Font> font = menuTheme->menuText.font;
     // populate the list
     ComponentListRow row;
 
-    if (!iconName.empty())
+    if (!iconPath.Empty())
     {
         // icon
         auto icon = std::make_shared<ImageComponent>(mWindow);
-        icon->setImage(iconName);
+        icon->setImage(iconPath);
         icon->setColorShift(menuTheme->menuText.color);
         icon->setResize(0, menuTheme->menuText.font->getLetterHeight() * 1.25f);
         row.addElement(icon, false);
@@ -1839,8 +1839,8 @@ void GuiMenu::addEntryWithHelp(const char *name, const std::string& help, unsign
     mMenu.addRowWithHelp(row, name, help);
 }
 
-void GuiMenu::addEntry(const char *name, unsigned int color, bool add_arrow, const std::function<void()> &func, const std::string& iconName) {
-    addEntryWithHelp(name, "", color, add_arrow, func, iconName);
+void GuiMenu::addEntry(const char *name, unsigned int color, bool add_arrow, const std::function<void()> &func, const Path& iconPath) {
+    addEntryWithHelp(name, "", color, add_arrow, func, iconPath);
 }
 
 bool GuiMenu::ProcessInput(const InputCompactEvent& event)

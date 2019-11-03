@@ -4,16 +4,14 @@
 #include <memory>
 #include <map>
 #include <list>
+#include <utils/os/fs/Path.h>
 
 //The ResourceManager exists to...
 //Allow loading resources embedded into the executable like an actual file.
 //Allow embedded resources to be optionally remapped to actual files for further customization.
 
-struct ResourceData
-{
-	const std::shared_ptr<unsigned char> ptr;
-	const size_t length;
-};
+//!< Use a simple string as byte buffer
+typedef std::string ResourceData;
 
 class ResourceManager;
 
@@ -34,15 +32,15 @@ public:
 	void unloadAll();
 	void reloadAll();
 
-	ResourceData getFileData(const std::string& path) const;
-	bool fileExists(const std::string& path) const;
+	ResourceData getFileData(const Path& path) const;
+	bool fileExists(const Path& path) const;
 
 private:
 	ResourceManager() = default;
 
 	static std::shared_ptr<ResourceManager> sInstance;
 
-	ResourceData loadFile(const std::string& path) const;
+	ResourceData loadFile(const Path& path) const;
 
 	std::list< std::weak_ptr<IReloadable> > mReloadables;
 };

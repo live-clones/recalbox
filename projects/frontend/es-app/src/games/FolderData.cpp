@@ -8,8 +8,6 @@
 #include "MameNameMap.h"
 #include "boost/filesystem.hpp"
 
-namespace fs = boost::filesystem;
-
 #define CastFolder(f) ((FolderData*)(f))
 
 FolderData::~FolderData()
@@ -42,27 +40,25 @@ void FolderData::removeChild(FileData* file)
 
 void FolderData::populateRecursiveFolder(const std::string& filteredExtensions, SystemData* systemData, FileData::StringMap& doppelgangerWatcher)
 {
-  const fs::path& folderPath = getPath();
-  if(!fs::is_directory(folderPath))
+  const Path& folderPath = getPath();
+  if (!folderPath.IsDirectory())
   {
-    LOG(LogWarning) << "Error - folder with path \"" << folderPath << "\" is not a directory!";
+    LOG(LogWarning) << "Error - folder with path \"" << folderPath.ToString() << "\" is not a directory!";
     return;
   }
 
   // media folder?
-  if (folderPath.stem() == "media")
+  if (folderPath.FilenameWithoutExtension() == "media")
     return;
 
-  const std::string& folderStr = folderPath.generic_string();
-
   //make sure that this isn't a symlink to a thing we already have
-  if(fs::is_symlink(folderPath))
+  if (folderPath.IsSymLink())
   {
-    //if this symlink resolves to somewhere that's at the beginning of our path, it's gonna recurse
-    std::string s = fs::canonical(folderPath).generic_string();
-    if (folderStr.compare(0, s.length(), s) == 0)
+    // if this symlink resolves to somewhere that's at the beginning of our path, it's gonna recurse
+    Path canonical = folderPath.ToCanonical();
+    if (folderPath.ToString().compare(0, canonical.ToString().size(), canonical.ToChars()) == 0)
     {
-      LOG(LogWarning) << "Skipping infinitely recursive symlink \"" << folderPath << "\"";
+      LOG(LogWarning) << "Skipping infinitely recursive symlink \"" << folderPath.ToString() << "\"";
       return;
     }
   }
@@ -73,61 +69,60 @@ void FolderData::populateRecursiveFolder(const std::string& filteredExtensions, 
   bool noExtensions = filteredExtensions.empty();
 
   // Keep temporary object outside the loop to avoid construction/destruction and keep memory allocated AMAP
-  fs::path filePath;
-  std::string extension, key, stem;
-  for (fs::directory_iterator end, dir(folderPath); dir != end; ++dir)
+  Path::PathList items = folderPath.GetDirectoryContent();
+  for (Path& filePath : items)
   {
-    filePath = (*dir).path();
-    stem = filePath.stem().string();
+    // Get file
+    std::string stem = filePath.FilenameWithoutExtension();
     if (stem.empty()) continue;
 
-    //this is a little complicated because we allow a list of extensions to be defined (delimited with a space)
-    //we first get the extension of the file itself:
-    extension = filePath.extension().string();
+    // and Extension
+    std::string extension = filePath.Extension();
 
     //fyi, folders *can* also match the extension and be added as games - this is mostly just to support higan
     //see issue #75: https://github.com/Aloshi/EmulationStation/issues/75
     bool isLaunchableGame = false;
-    bool isFile = !fs::is_directory(filePath);
-    bool isHidden = filePath.has_filename() ? filePath.filename().string()[0] == '.' : false;
-    if (!isHidden)
-      if((noExtensions && isFile) || (!extension.empty() && filteredExtensions.find(extension) != std::string::npos))
+    if (!filePath.IsHidden())
+    {
+      if ((noExtensions && filePath.IsFile()) ||
+          (!extension.empty() && filteredExtensions.find(extension) != std::string::npos))
       {
         if (isArcade)
         {
           if (std::find(mameBioses.begin(), mameBioses.end(), stem) != mameBioses.end() ||
-              std::find(mameDevices.begin(), mameDevices.end(), stem) != mameDevices.end()) continue; // MAME Bios or Machine
+              std::find(mameDevices.begin(), mameDevices.end(), stem) != mameDevices.end())
+            continue; // MAME Bios or Machine
         }
         // Get the key for duplicate detection. MUST MATCH KEYS USED IN Gamelist.findOrCreateFile - Always fullpath
-        key = filePath.string();
-        if (doppelgangerWatcher.find(key) == doppelgangerWatcher.end())
+        if (doppelgangerWatcher.find(filePath.ToString()) == doppelgangerWatcher.end())
         {
-          FileData* newGame = new FileData(key, systemData);
+          FileData* newGame = new FileData(filePath, systemData);
           newGame->Metadata().SetDirty();
           addChild(newGame, true);
-          doppelgangerWatcher[key] = newGame;
+          doppelgangerWatcher[filePath.ToString()] = newGame;
         }
         isLaunchableGame = true;
       }
 
-    //add directories that also do not match an extension as folders
-    if (!isFile && !isHidden && !isLaunchableGame)
-    {
-      FolderData* newFolder = new FolderData(filePath.generic_string(), systemData);
-      newFolder->populateRecursiveFolder(filteredExtensions, systemData, doppelgangerWatcher);
-
-      //ignore folders that do not contain games
-      if(newFolder->hasChildren())
+      //add directories that also do not match an extension as folders
+      if (!isLaunchableGame && filePath.IsDirectory())
       {
-        const std::string& key = newFolder->getPath().string();
-        if (doppelgangerWatcher.find(key) == doppelgangerWatcher.end())
+        FolderData* newFolder = new FolderData(filePath, systemData);
+        newFolder->populateRecursiveFolder(filteredExtensions, systemData, doppelgangerWatcher);
+
+        //ignore folders that do not contain games
+        if (newFolder->hasChildren())
         {
-          addChild(newFolder, true);
-          doppelgangerWatcher[key] = newFolder;
+          const std::string& key = newFolder->getPath().ToString();
+          if (doppelgangerWatcher.find(key) == doppelgangerWatcher.end())
+          {
+            addChild(newFolder, true);
+            doppelgangerWatcher[key] = newFolder;
+          }
         }
+        else
+          delete newFolder;
       }
-      else
-        delete newFolder;
     }
   }
 }
@@ -335,8 +330,8 @@ bool FolderData::hasDetailedData() const
     else
     {
       const MetadataDescriptor& metadata = fd->Metadata();
-      if (!metadata.Image().empty()) return true;
-      if (!metadata.Thumbnail().empty()) return true;
+      if (!metadata.Image().Empty()) return true;
+      if (!metadata.Thumbnail().Empty()) return true;
       if (!metadata.Description().empty()) return true;
       if (!metadata.Publisher().empty()) return true;
       if (!metadata.Developer().empty()) return true;
@@ -351,7 +346,7 @@ FileData* FolderData::LookupGame(const std::string& item, SearchAttributes attri
   // Recursively look for the game in subfolders too
   for (FileData* fd : mChildren)
   {
-    std::string filename = path.empty() ? fd->getPath().filename().generic_string() : path + '/' + fd->getPath().filename().generic_string();
+    std::string filename = path.empty() ? fd->getPath().ToString() : path + '/' + fd->getPath().Filename();
 
     if (fd->isFolder())
     {
@@ -370,7 +365,7 @@ FileData* FolderData::LookupGame(const std::string& item, SearchAttributes attri
           return fd;
       if ((attributes & SearchAttributes::ByName) != 0)
       {
-        filename = path.empty() ? fd->getPath().stem().generic_string() : path + '/' + fd->getPath().stem().generic_string();
+        filename = path.empty() ? fd->getPath().FilenameWithoutExtension() : path + '/' + fd->getPath().FilenameWithoutExtension();
         if (strcasecmp(filename.c_str(), item.c_str()) == 0)
           return fd;
       }

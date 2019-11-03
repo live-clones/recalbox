@@ -3,7 +3,6 @@
 #include "pugixml/pugixml.hpp"
 #include "platform.h"
 #include "RootFolders.h"
-#include <boost/filesystem.hpp>
 #include <boost/assign.hpp>
 
 Settings *Settings::sInstance = nullptr;
@@ -138,7 +137,7 @@ void saveMap(pugi::xml_node &node, std::map<K, V> &map, const char *type) {
 
 void Settings::saveFile()
 {
-    const std::string path = RootFolders::DataRootFolder + "/system/.emulationstation/es_settings.cfg";
+    const Path path = RootFolders::DataRootFolder / "/system/.emulationstation/es_settings.cfg";
 
     pugi::xml_document doc;
 
@@ -155,18 +154,17 @@ void Settings::saveFile()
         node.append_attribute("value").set_value(iter.second.c_str());
     }
 
-    doc.save_file(path.c_str());
+    doc.save_file(path.ToChars());
 }
 
 void Settings::loadFile()
 {
-    const std::string path = RootFolders::DataRootFolder + "/system/.emulationstation/es_settings.cfg";
+    const Path path = RootFolders::DataRootFolder / "/system/.emulationstation/es_settings.cfg";
 
-    if (!boost::filesystem::exists(path))
-        return;
+    if (!path.Exists()) return;
 
     pugi::xml_document doc;
-    pugi::xml_parse_result result = doc.load_file(path.c_str());
+    pugi::xml_parse_result result = doc.load_file(path.ToChars());
     if (!result) {
         LOG(LogError) << "Could not parse Settings file!\n   " << result.description();
         return;

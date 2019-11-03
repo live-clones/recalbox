@@ -1,17 +1,22 @@
-//
-// Created by bkg2k on 31/07/2019.
-//
+#pragma once
 
-#ifndef EMULATIONSTATION_ALL_FILEUTIL_H
-#define EMULATIONSTATION_ALL_FILEUTIL_H
-
-#include <string>
+#include <utils/os/fs/Path.h>
 
 class FileUtil
 {
   public:
-    static std::string loadTextFile       (const std::string& path);
+    /*!
+     * @brief Load the whole content of a file into a string
+     * @param path File to load
+     * @return File content
+     */
+    static std::string LoadFile(const Path& path);
+
+    /*!
+     * @brief Save the given string into a file
+     * @param path File path
+     * @param content String ot save
+     * @return True if the content has been saved
+     */
+    static bool SaveFile(const Path& path, const std::string& content);
 };
-
-
-#endif //EMULATIONSTATION_ALL_FILEUTIL_H

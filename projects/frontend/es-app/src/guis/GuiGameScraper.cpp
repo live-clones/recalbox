@@ -14,7 +14,7 @@ GuiGameScraper::GuiGameScraper(Window* window, const ScraperSearchParams& params
   : GuiComponent(window),
 		mClose(false),
   	mGrid(window, Vector2i(1, 7)),
-	  mBox(window, ":/frame.png"),
+	  mBox(window, Path(":/frame.png")),
 	  mSearchParams(params)
 {
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
@@ -27,7 +27,7 @@ GuiGameScraper::GuiGameScraper(Window* window, const ScraperSearchParams& params
 
 	// row 0 is a spacer
 
-	mGameName = std::make_shared<TextComponent>(mWindow, StringUtil::toUpper(mSearchParams.game->getPath().filename().generic_string()), menuTheme->menuText.font, menuTheme->menuText.color, TextAlignment::Center);
+	mGameName = std::make_shared<TextComponent>(mWindow, StringUtil::toUpper(mSearchParams.game->getPath().Filename()), menuTheme->menuText.font, menuTheme->menuText.color, TextAlignment::Center);
 	mGrid.setEntry(mGameName, Vector2i(0, 1), false, true);
 
 	// row 2 is a spacer

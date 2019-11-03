@@ -19,7 +19,7 @@ GuiInputConfig::~GuiInputConfig()
 
 GuiInputConfig::GuiInputConfig(Window* window, InputDevice* target, const std::function<void()>& doneCallback)
   : GuiComponent(window),
-	  mBackground(window, ":/frame.png"),
+	  mBackground(window, Path(":/frame.png")),
 	  mGrid(window, Vector2i(1, 5)),
 	  mTargetConfig(target),
 	  mCursorOnList(true)
@@ -243,7 +243,7 @@ void GuiInputConfig::initFormInputs()
 
 void GuiInputConfig::addFormInput(const char* name, const std::string& label, const char* icon, bool skippable, InputEvent::EventType preferredType)
 {
-	FormInput formInput(name, label, icon, skippable, preferredType);
+	FormInput formInput(name, label, Path(icon), skippable, preferredType);
 	mFormInputs.push_back(formInput);
 }
 

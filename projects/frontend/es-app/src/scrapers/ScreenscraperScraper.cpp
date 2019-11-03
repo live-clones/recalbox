@@ -161,7 +161,7 @@ void screenscraper_generate_scraper_requests(const ScraperSearchParams& params,
 
   const ScreenScraperRequest::ScreenScraperConfiguration& ssConfig = ScreenScraperRequest::Configuration();
 
-  path = ssConfig.getGameSearchUrl(params.game->getPath().filename().generic_string());
+  path = ssConfig.getGameSearchUrl(params.game->getPath().Filename());
 
   for (int i = params.system->PlatformCount(); --i >= 0;)
   {

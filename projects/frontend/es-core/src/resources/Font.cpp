@@ -1,7 +1,6 @@
 #include "resources/Font.h"
 #include <iostream>
 #include <vector>
-#include <boost/filesystem.hpp>
 #include "Renderer.h"
 #include "utils/Log.h"
 #include "Util.h"
@@ -10,7 +9,7 @@ FT_Library Font::sLibrary = nullptr;
 
 int Font::getSize() const { return mSize; }
 
-std::map< std::pair<std::string, int>, std::weak_ptr<Font> > Font::sFontMap;
+std::map< std::pair<Path, int>, std::weak_ptr<Font> > Font::sFontMap;
 
 
 // utf8 stuff
@@ -138,7 +137,7 @@ UnicodeChar Font::readUnicodeChar(const std::string& str, size_t& cursor)
 
 Font::FontFace::FontFace(ResourceData&& d, int size) : data(d)
 {
-	int err = FT_New_Memory_Face(sLibrary, data.ptr.get(), data.length, 0, &face);
+	int err = FT_New_Memory_Face(sLibrary, (const unsigned char*)data.data(), data.size(), 0, &face);
   (void)err;
 	assert(!err);
 	
@@ -168,7 +167,7 @@ size_t Font::getMemUsage() const
 		memUsage += mTexture.textureSize.x() * mTexture.textureSize.y() * 4;
 
 	for (const auto& it : mFaceCache)
-		memUsage += it.second->data.length;
+		memUsage += it.second->data.size();
 
 	return memUsage;
 }
@@ -193,7 +192,7 @@ size_t Font::getTotalMemUsage()
 	return total;
 }
 
-Font::Font(int size, const std::string& path) : mSize(size), mPath(path)
+Font::Font(int size, const Path& path) : mSize(size), mPath(path)
 {
 	assert(mSize > 0);
 	
@@ -214,11 +213,9 @@ Font::~Font()
 	unload(ResourceManager::getInstance());
 }
 
-std::shared_ptr<Font> Font::get(int size, const std::string& path)
+std::shared_ptr<Font> Font::get(int size, const Path& path)
 {
-	const std::string canonicalPath = getCanonicalPath(path);
-
-	std::pair<std::string, int> def(canonicalPath.empty() ? getDefaultPath() : canonicalPath, size);
+	std::pair<Path, int> def(path.Empty() ? getDefaultPath() : path, size);
 	auto foundFont = sFontMap.find(def);
 	if(foundFont != sFontMap.end())
 	{
@@ -337,65 +334,29 @@ void Font::getTextureForNewGlyph(const Vector2i& glyphSize, FontTexture*& tex_ou
 	}
 }
 
-std::vector<std::string> getFallbackFontPaths()
+const std::vector<Path>& getFallbackFontPaths()
 {
-#ifdef WIN32
-	// Windows
+  static Path originalPath[] =
+  {
+    Path(":/fontawesome_webfont.ttf"),
+    Path("/usr/share/fonts/truetype/DroidSansFallback.ttf"),// japanese, chinese, korean
+    Path("/usr/share/fonts/truetype/DejaVuSansCondensed.ttf"),
+    Path("/usr/share/fonts/truetype/ubuntu_condensed.ttf"),
+  };
+  static std::vector<Path> fontPaths;
+	if (fontPaths.empty())
+  {
+	  for(auto& path : originalPath)
+	    if (ResourceManager::getInstance()->fileExists(path))
+        fontPaths.push_back(path);
+  }
 
-	// get this system's equivalent of "C:\Windows" (might be on a different drive or in a different folder)
-	// so we can check the Fonts subdirectory for fallback fonts
-	TCHAR winDir[MAX_PATH];
-	GetWindowsDirectory(winDir, MAX_PATH);
-	std::string fontDir = winDir;
-	fontDir += "\\Fonts\\";
-
-	const char* fontNames[] = {
-		"meiryo.ttc", // japanese
-		"simhei.ttf", // chinese
-		"arial.ttf"   // latin
-	};
-
-	//prepend to font file names
-	std::vector<std::string> fontPaths;
-	fontPaths.reserve(sizeof(fontNames) / sizeof(fontNames[0]));
-
-	for (unsigned int i = 0; i < sizeof(fontNames) / sizeof(fontNames[0]); i++)
-	{
-		std::string path = fontDir + fontNames[i];
-		if(ResourceManager::getInstance()->fileExists(path))
-			fontPaths.push_back(path);
-	}
-
-	fontPaths.shrink_to_fit();
 	return fontPaths;
-
-#else
-	// Linux
-
-	// TODO
-	const char* paths[] = {
-		":/fontawesome_webfont.ttf",
-		"/usr/share/fonts/truetype/DroidSansFallback.ttf",// japanese, chinese, korean
-		//"/usr/share/fonts/truetype/ubuntu_condensed.ttf",
-		"/usr/share/fonts/truetype/DejaVuSansCondensed.ttf"
-	};
-
-	std::vector<std::string> fontPaths;
-	for (auto& path : paths)
-	{
-		if(ResourceManager::getInstance()->fileExists(path))
-			fontPaths.push_back(path);
-	}
-
-	fontPaths.shrink_to_fit();
-	return fontPaths;
-
-#endif
 }
 
 FT_Face Font::getFaceForChar(UnicodeChar id)
 {
-	static const std::vector<std::string> fallbackFonts = getFallbackFontPaths();
+	const std::vector<Path>& fallbackFonts = getFallbackFontPaths();
 
 	// look through our current font + fallback fonts to see if any have the glyph we're looking for
 	for (unsigned int i = 0; i < (unsigned int)fallbackFonts.size() + 1; i++)
@@ -406,7 +367,7 @@ FT_Face Font::getFaceForChar(UnicodeChar id)
 		{
 			// i == 0 -> mPath
 			// otherwise, take from fallbackFonts
-			const std::string& path = (i == 0 ? mPath : fallbackFonts.at(i - 1));
+			const Path& path = (i == 0 ? mPath : fallbackFonts.at(i - 1));
 			ResourceData data = ResourceManager::getInstance()->getFileData(path);
 			mFaceCache[i] = std::unique_ptr<FontFace>(new FontFace(std::move(data), mSize));
 			fit = mFaceCache.find(i);
@@ -436,7 +397,7 @@ Font::Glyph* Font::getGlyph(UnicodeChar id)
 	FT_Face face = getFaceForChar(id);
 	if(face == nullptr)
 	{
-		LOG(LogError) << "Could not find appropriate font face for character " << id << " for font " << mPath;
+		LOG(LogError) << "Could not find appropriate font face for character " << id << " for font " << mPath.ToString();
 		return nullptr;
 	}
 
@@ -444,7 +405,7 @@ Font::Glyph* Font::getGlyph(UnicodeChar id)
 
 	if(FT_Load_Char(face, id, FT_LOAD_RENDER) != 0)
 	{
-		LOG(LogError) << "Could not find glyph for character " << id << " for font " << mPath << ", size " << mSize << "!";
+		LOG(LogError) << "Could not find glyph for character " << id << " for font " << mPath.ToString() << ", size " << mSize << "!";
 		return nullptr;
 	}
 
@@ -457,7 +418,7 @@ Font::Glyph* Font::getGlyph(UnicodeChar id)
 	// getTextureForNewGlyph can fail if the glyph is bigger than the max texture size (absurdly large font size)
 	if(tex == nullptr)
 	{
-		LOG(LogError) << "Could not create glyph for character " << id << " for font " << mPath << ", size " << mSize << " (no suitable texture found)!";
+		LOG(LogError) << "Could not create glyph for character " << id << " for font " << mPath.ToString() << ", size " << mSize << " (no suitable texture found)!";
 		return nullptr;
 	}
 
@@ -820,13 +781,13 @@ std::shared_ptr<Font> Font::getFromTheme(const ThemeData::ThemeElement* elem, Th
 	
 	std::shared_ptr<Font> font;
 	int size = (orig ? orig->mSize : (int) FONT_SIZE_MEDIUM);
-	std::string path = (orig ? orig->mPath : getDefaultPath());
+	Path path = (orig ? orig->mPath : getDefaultPath());
 
 	float sh = std::min(Renderer::getDisplayHeightAsFloat(), Renderer::getDisplayWidthAsFloat());
 	if (hasFlag(properties, ThemeProperties::FontSize) && elem->has("fontSize"))
 		size = (int)(sh * elem->get<float>("fontSize"));
 	if (hasFlag(properties, ThemeProperties::FontPath) && elem->has("fontPath"))
-		path = elem->get<std::string>("fontPath");
+		path = Path(elem->get<std::string>("fontPath"));
 
 	return get(size, path);
 }

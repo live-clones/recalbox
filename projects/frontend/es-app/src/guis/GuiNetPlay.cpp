@@ -31,7 +31,7 @@ bool GuiNetPlay::mIsLobbyLoaded = false;
 GuiNetPlay::GuiNetPlay(Window* window)
   : GuiComponent(window),
     mState(State::WaitingForLobby),
-    mBackground(window, ":/frame.png"),
+    mBackground(window, Path(":/frame.png")),
     mBusyAnim(window),
     mGrid(window, Vector2i(1, 3)),
     mGridMeta(new ComponentGrid(window, Vector2i(2, 1))),

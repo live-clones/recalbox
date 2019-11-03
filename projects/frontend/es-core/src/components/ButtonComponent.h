@@ -55,8 +55,8 @@ private:
 
 	std::string mText;
 	std::string mHelpText;
-	std::string mButton = ":/button.png";
-	std::string mButton_filled = ":/button_filled.png";
+	Path mButton;
+	Path mButton_filled;
 	std::unique_ptr<TextCache> mTextCache;
 	NinePatchComponent mBox;
 };

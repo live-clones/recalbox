@@ -11,7 +11,7 @@ class RootFolderData : public FolderData
     /*!
      * Constructor
      */
-    RootFolderData(bool childownership, const std::string& startpath, SystemData* system)
+    RootFolderData(bool childownership, const Path& startpath, SystemData* system)
       : FolderData(startpath, system),
         mChildOwnership(childownership)
     {

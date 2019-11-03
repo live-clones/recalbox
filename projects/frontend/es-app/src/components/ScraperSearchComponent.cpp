@@ -308,7 +308,7 @@ void ScraperSearchComponent::updateInfoPane()
 		mResultDesc->setText(StringUtil::toUpper(res.mdl.Description()));
 		mDescContainer->reset();
 
-		mResultThumbnail->setImage("");
+		mResultThumbnail->setImage(Path());
 		const std::string& thumb = res.thumbnailUrl.empty() ? res.imageUrl : res.thumbnailUrl;
 		if(!thumb.empty())
 		{
@@ -328,7 +328,7 @@ void ScraperSearchComponent::updateInfoPane()
 	}else{
 		mResultName->setText("");
 		mResultDesc->setText("");
-		mResultThumbnail->setImage("");
+		mResultThumbnail->setImage(Path());
 
 		// metadata
 		mMD_Rating->setValue("");
@@ -441,7 +441,7 @@ void ScraperSearchComponent::updateThumbnail()
 		mGrid.onSizeChanged(); // a hack to fix the thumbnail position since its size changed
 	}else{
 		LOG(LogWarning) << "thumbnail req failed: " << mThumbnailReq->getErrorMsg();
-		mResultThumbnail->setImage("");
+		mResultThumbnail->setImage(Path());
 	}
 
 	mThumbnailReq.reset();

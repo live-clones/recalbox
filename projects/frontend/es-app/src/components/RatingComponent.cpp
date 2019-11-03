@@ -9,8 +9,8 @@ RatingComponent::RatingComponent(Window* window, unsigned int color)
     mColor(color),
     mOriginColor(color)
 {
-	mFilledTexture = TextureResource::get(":/star_filled.svg", true);
-	mUnfilledTexture = TextureResource::get(":/star_unfilled.svg", true);
+	mFilledTexture = TextureResource::get(Path(":/star_filled.svg"), true);
+	mUnfilledTexture = TextureResource::get(Path(":/star_unfilled.svg"), true);
 	mValue = 0.5f;
 	mSize.Set(64 * NUM_RATING_STARS, 64);
 	updateVertices();
@@ -161,12 +161,12 @@ void RatingComponent::applyTheme(const ThemeData& theme, const std::string& view
 	bool imgChanged = false;
 	if (hasFlag(properties, ThemeProperties::Path) && elem->has("filledPath"))
 	{
-		mFilledTexture = TextureResource::get(elem->get<std::string>("filledPath"), true);
+		mFilledTexture = TextureResource::get(Path(elem->get<std::string>("filledPath")), true);
 		imgChanged = true;
 	}
 	if (hasFlag(properties, ThemeProperties::Path) && elem->has("unfilledPath"))
 	{
-		mUnfilledTexture = TextureResource::get(elem->get<std::string>("unfilledPath"), true);
+		mUnfilledTexture = TextureResource::get(Path(elem->get<std::string>("unfilledPath")), true);
 		imgChanged = true;
 	}
 

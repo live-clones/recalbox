@@ -4,11 +4,11 @@
 
 #include "utils/Log.h"
 #include "scrapers/GamesDBJSONScraperResources.h"
-#include "utils/os/fs/FileSystemUtil.h"
 
 #include <rapidjson/document.h>
 #include <rapidjson/error/en.h>
 #include <fstream>
+#include <utils/FileUtil.h>
 
 using namespace rapidjson;
 
@@ -28,24 +28,24 @@ namespace
   constexpr char PUBLISHERS_ENDPOINT[] = "/Publishers";
   constexpr char GENRES_ENDPOINT[] = "/Genres";
 
-  std::string genFilePath(const std::string& file_name)
+  Path genFilePath(const std::string& file_name)
   {
-    return FileSystemUtil::getGenericPath(getScrapersResouceDir() + "/" + file_name);
+    return getScrapersResouceDir() / file_name;
   }
 
   void ensureScrapersResourcesDir()
   {
-    std::string path = getScrapersResouceDir();
-    if (!FileSystemUtil::exists(path))
-      FileSystemUtil::createDirectories(path);
+    Path path = getScrapersResouceDir();
+    if (!path.Exists())
+      path.CreatePath();
   }
 
 } // namespace
 
 
-std::string getScrapersResouceDir()
+Path getScrapersResouceDir()
 {
-  return FileSystemUtil::getGenericPath(FileSystemUtil::getHomePath() + "/.emulationstation/" + SCRAPER_RESOURCES_DIR);
+  return Path::Home() / ".emulationstation" / SCRAPER_RESOURCES_DIR;
 }
 
 std::string TheGamesDBJSONRequestResources::getApiKey() const
@@ -120,7 +120,7 @@ bool TheGamesDBJSONRequestResources::checkLoaded()
 }
 
 bool TheGamesDBJSONRequestResources::saveResource(HttpReq* req, std::unordered_map<int, std::string>& resource,
-                                                  const std::string& resource_name, const std::string& file_name)
+                                                  const std::string& resource_name, const Path& file_name)
 {
   if (req == nullptr)
   {
@@ -133,15 +133,13 @@ bool TheGamesDBJSONRequestResources::saveResource(HttpReq* req, std::unordered_m
   }
   if (req->status() != HttpReq::Status::Success)
   {
-    LOG(LogError) << "Resource request for " << file_name << " failed:\n\t" << req->getErrorMsg();
+    LOG(LogError) << "Resource request for " << file_name.ToString() << " failed:\n\t" << req->getErrorMsg();
     return true; // Request failed, resetting request.
   }
 
   ensureScrapersResourcesDir();
 
-  std::ofstream fout(file_name);
-  fout << req->getContent();
-  fout.close();
+  FileUtil::SaveFile(file_name, req->getContent());
   loadResource(resource, resource_name, file_name);
   return true;
 }
@@ -157,21 +155,14 @@ std::unique_ptr<HttpReq> TheGamesDBJSONRequestResources::fetchResource(const std
 
 
 int TheGamesDBJSONRequestResources::loadResource(std::unordered_map<int, std::string>& resource,
-                                                 const std::string& resource_name, const std::string& file_name)
+                                                 const std::string& resource_name, const Path& file_name)
 {
-  std::ifstream fin(file_name);
-  if (!fin.good())
-  {
-    return 1;
-  }
-  std::stringstream buffer;
-  buffer << fin.rdbuf();
   Document doc;
-  doc.Parse(buffer.str().c_str());
+  doc.Parse(FileUtil::LoadFile(file_name).c_str());
 
   if (doc.HasParseError())
   {
-    std::string err = std::string("TheGamesDBJSONRequest - Error parsing JSON for resource file ") + file_name +
+    std::string err = std::string("TheGamesDBJSONRequest - Error parsing JSON for resource file ") + file_name.ToString() +
                       ":\n\t" + GetParseError_En(doc.GetParseError());
     LOG(LogError) << err;
     return 1;

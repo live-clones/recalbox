@@ -4,6 +4,7 @@
 #include <mutex>
 #include "platform_gl.h"
 #include <nanosvg/nanosvg.h>
+#include <utils/os/fs/Path.h>
 
 class TextureResource;
 
@@ -17,7 +18,7 @@ public:
 	// These functions populate mDataRGBA but do not upload the texture to VRAM
 
 	//!!!! Needs to be canonical path. Caller should check for duplicates before calling this
-	void initFromPath(const std::string& path);
+	void initFromPath(const Path& path);
 	bool initSVGFromMemory(const unsigned char* fileData, size_t length);
 	bool initImageFromMemory(const unsigned char* fileData, size_t length);
 	bool initFromRGBA(const unsigned char* dataRGBA, size_t width, size_t height);
@@ -56,7 +57,7 @@ public:
 private:
 	std::mutex		mMutex;
 	bool			mTile;
-	std::string		mPath;
+	Path		mPath;
 	GLuint 			mTextureID;
 	unsigned char*	mDataRGBA;
 	size_t			mWidth;

@@ -10,7 +10,7 @@
 
 GuiMsgBox::GuiMsgBox(Window* window)
   : GuiComponent(window),
-    mBackground(window, ":/frame.png"),
+    mBackground(window, Path(":/frame.png")),
     mGrid(window, Vector2i(1, 2))
 {
 }

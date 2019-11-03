@@ -37,7 +37,7 @@ class Font : public IReloadable
 public:
 	static void initLibrary();
 
-	static std::shared_ptr<Font> get(int size, const std::string& path = getDefaultPath());
+	static std::shared_ptr<Font> get(int size, const Path& path = getDefaultPath());
 
 	virtual ~Font();
 
@@ -57,9 +57,9 @@ public:
   void unload(std::shared_ptr<ResourceManager>& ) override { unloadTextures(); }
 
 	int getSize() const;
-	inline const std::string& getPath() const { return mPath; }
+	inline const Path& getPath() const { return mPath; }
 
-	inline static const char* getDefaultPath() { return FONT_PATH_REGULAR; }
+	static Path getDefaultPath() { static Path defaultFont(FONT_PATH_REGULAR); return defaultFont; }
 
 	static std::shared_ptr<Font> getFromTheme(const ThemeData::ThemeElement* elem, ThemeProperties properties, const std::shared_ptr<Font>& orig);
 
@@ -74,9 +74,9 @@ public:
 
 private:
 	static FT_Library sLibrary;
-	static std::map< std::pair<std::string, int>, std::weak_ptr<Font> > sFontMap;
+	static std::map< std::pair<Path, int>, std::weak_ptr<Font> > sFontMap;
 
-	Font(int size, const std::string& path);
+	Font(int size, const Path& path);
 
 	struct FontTexture
 	{
@@ -133,7 +133,7 @@ private:
 	int mMaxGlyphHeight;
 	
 	const int mSize;
-	const std::string mPath;
+	const Path mPath;
 
 	float getNewlineStartOffset(const std::string& text, unsigned int charStart, float xLen, TextAlignment alignment);
 

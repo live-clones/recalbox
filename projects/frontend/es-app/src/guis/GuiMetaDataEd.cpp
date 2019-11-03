@@ -30,7 +30,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window* window,
                              SystemData* system,
                              bool main)
   : GuiComponent(window),
-    mBackground(window, ":/frame.png"),
+    mBackground(window, Path(":/frame.png")),
     mGrid(window, Vector2i(1, 3)),
     mScraperParams(scraperParams),
     mMetaData(md),
@@ -51,7 +51,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window* window,
   mTitle = std::make_shared<TextComponent>(mWindow, _("EDIT METADATA"), menuTheme->menuTitle.font, menuTheme->menuTitle.color,
                                            TextAlignment::Center);
   mSubtitle = std::make_shared<TextComponent>(mWindow,
-                                              StringUtil::toUpper(scraperParams.game->getPath().filename().generic_string()),
+                                              StringUtil::toUpper(scraperParams.game->getPath().Filename()),
                                               menuTheme->menuFooter.font, menuTheme->menuFooter.color, TextAlignment::Center);
   float y = 0;
   y += mTitle->getFont()->getHeight() + mSubtitle->getFont()->getHeight();

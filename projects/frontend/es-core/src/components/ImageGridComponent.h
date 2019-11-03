@@ -31,7 +31,7 @@ public:
 
 	explicit ImageGridComponent(Window* window);
 
-	void add(const std::string& name, const std::string& imagePath, const T& obj);
+	void add(const std::string& name, const Path& imagePath, const T& obj);
 	
 	void onSizeChanged() override;
 
@@ -101,12 +101,12 @@ ImageGridComponent<T>::ImageGridComponent(Window* window)
 }
 
 template<typename T>
-void ImageGridComponent<T>::add(const std::string& name, const std::string& imagePath, const T& obj)
+void ImageGridComponent<T>::add(const std::string& name, const Path& imagePath, const T& obj)
 {
 	typename IList<ImageGridData, T>::Entry entry;
 	entry.name = name;
 	entry.object = obj;
-	entry.data.texture = ResourceManager::getInstance()->fileExists(imagePath) ? TextureResource::get(imagePath) : TextureResource::get(":/button.png");
+	entry.data.texture = ResourceManager::getInstance()->fileExists(imagePath) ? TextureResource::get(imagePath) : TextureResource::get(Path(":/button.png"));
   ((IList< ImageGridData, T >*)this)->add(entry);
 	mEntriesDirty = true;
 }
@@ -201,7 +201,7 @@ void ImageGridComponent<T>::buildImages()
 			image.setPosition((squareSize.x() + padding.x()) * ((float)x + 0.5f) + offset.x(), (squareSize.y() + padding.y()) * ((float)y + 0.5f) + offset.y());
 			image.setOrigin(0.5f, 0.5f);
 			image.setResize(squareSize.x(), squareSize.y());
-			image.setImage("");
+			image.setImage(Path());
 		}
 	}
 }
@@ -232,7 +232,7 @@ void ImageGridComponent<T>::updateImages()
 		ImageComponent& image = mImages.at(img);
 		if(i >= (unsigned int)size())
 		{
-			image.setImage("");
+			image.setImage(Path());
 			continue;
 		}
 

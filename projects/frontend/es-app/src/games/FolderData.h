@@ -81,7 +81,7 @@ class FolderData : public FileData
     /*!
      * Constructor
      */
-    FolderData(const std::string& startpath, SystemData* system)
+    FolderData(const Path& startpath, SystemData* system)
       : FileData(ItemType::Folder, startpath, system)
     {
     }

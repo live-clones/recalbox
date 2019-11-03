@@ -3,10 +3,8 @@
 //
 
 #include <RecalboxConf.h>
-#include <boost/filesystem/path.hpp>
 #include <recalbox/RecalboxSystem.h>
 #include <guis/GuiMsgBox.h>
-#include <Util.h>
 #include <systems/SystemManager.h>
 #include "GuiHashStart.h"
 #include "components/OptionListComponent.h"
@@ -60,31 +58,29 @@ void GuiHashStart::start()
 		    continue;
 	    }
 
-        std::string xmlpath = system->getGamelistPath(false);
+        Path xmlpath = system->getGamelistPath(false);
 
-        if(!boost::filesystem::exists(xmlpath))
-            return;
+        if(!xmlpath.Exists()) return;
 
-        LOG(LogInfo) << "Hashing games from XML file \"" << xmlpath << "\"...";
+        LOG(LogInfo) << "Hashing games from XML file \"" << xmlpath.ToString() << "\"...";
 
         pugi::xml_document doc;
-        pugi::xml_parse_result result = doc.load_file(xmlpath.c_str());
+        pugi::xml_parse_result result = doc.load_file(xmlpath.ToChars());
 
         if(!result)
         {
-            LOG(LogError) << "Error parsing XML file \"" << xmlpath << "\"!\n	" << result.description();
+            LOG(LogError) << "Error parsing XML file \"" << xmlpath.ToString() << "\"!\n	" << result.description();
             return;
         }
 
         pugi::xml_node root = doc.child("gameList");
         if(!root)
         {
-            LOG(LogError) << "Could not find <gameList> node in gamelist \"" << xmlpath << "\"!";
+            LOG(LogError) << "Could not find <gameList> node in gamelist \"" << xmlpath.ToString() << "\"!";
             return;
         }
 
-        boost::filesystem::path relativeTo = system->getStartPath().ToString();
-
+        const Path& relativeTo = system->getStartPath();
 
         const char* tag = "game";
 
@@ -104,11 +100,11 @@ void GuiHashStart::start()
         {
 			currentRom++;
 
-            boost::filesystem::path path = resolvePath(fileNode.child("path").text().get(), relativeTo, false);
+            Path path = Path(fileNode.child("path").text().get()).ToAbsolute(relativeTo);
 
-            if(!boost::filesystem::exists(path))
+            if(!path.Exists())
             {
-                LOG(LogWarning) << "File \"" << path << "\" does not exist! Ignoring.";
+                LOG(LogWarning) << "File \"" << path.ToString() << "\" does not exist! Ignoring.";
                 continue;
             }
 
@@ -121,7 +117,7 @@ void GuiHashStart::start()
 	        	continue;
 	        }
 
-            std::string cmd = "/recalbox/scripts/recalbox-hash.sh -f \"" + path.string() + "\"";
+            std::string cmd = "/recalbox/scripts/recalbox-hash.sh -f \"" + path.ToString() + "\"";
 
 	        auto hashResult = RecalboxSystem::execute(cmd);
 
@@ -138,7 +134,7 @@ void GuiHashStart::start()
                 hash.append_child(pugi::node_pcdata).set_value(hashString.c_str());
             }
         }
-        doc.save_file(xmlpath.c_str());
+        doc.save_file(xmlpath.ToChars());
 
     }
     mLoading = false;

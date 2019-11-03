@@ -24,10 +24,10 @@ private:
 	public:
 		const std::string name;
 		const std::string label;
-		const std::string icon;
+		const Path icon;
 		const bool skippable;
 		const InputEvent::EventType preferredType;
-		FormInput(const std::string& inName, const std::string& inLabel, const std::string& inIcon, bool inSkippable, InputEvent::EventType inPreferredType)
+		FormInput(const std::string& inName, const std::string& inLabel, const Path& inIcon, bool inSkippable, InputEvent::EventType inPreferredType)
 		  : name(inName),
 		    label(inLabel),
 		    icon(inIcon),

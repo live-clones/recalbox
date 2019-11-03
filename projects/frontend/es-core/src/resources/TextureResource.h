@@ -15,7 +15,7 @@
 class TextureResource : public IReloadable
 {
 public:
-	static std::shared_ptr<TextureResource> get(const std::string& path, bool tile = false, bool forceLoad = false, bool dynamic = true);
+	static std::shared_ptr<TextureResource> get(const Path& path, bool tile = false, bool forceLoad = false, bool dynamic = true);
 	void initFromPixels(const unsigned char* dataRGBA, size_t width, size_t height);
 	virtual void initFromMemory(const char* file, size_t length);
 
@@ -35,7 +35,7 @@ public:
 	static size_t getTotalTextureSize(); // returns the number of bytes that would be used if all textures were in memory
 
 protected:
-	TextureResource(const std::string& path, bool tile, bool dynamic);
+	TextureResource(const Path& path, bool tile, bool dynamic);
 	void unload(std::shared_ptr<ResourceManager>& rm) override;
 	void reload(std::shared_ptr<ResourceManager>& rm) override;
 
@@ -51,7 +51,7 @@ private:
 	Vector2f					mSourceSize;
 	bool							mForceLoad;
 
-	typedef std::pair<std::string, bool> TextureKeyType;
+	typedef std::pair<Path, bool> TextureKeyType;
 	static std::map< TextureKeyType, std::weak_ptr<TextureResource> > sTextureMap; // map of textures, used to prevent duplicate textures
 
 	static std::set<TextureResource*> 	sAllTextures;	// Set of all textures, used for memory management

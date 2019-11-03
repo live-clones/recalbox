@@ -9,7 +9,7 @@ void mamedb_generate_scraper_requests(const ScraperSearchParams& params,
 {
   std::string path = "mamedb.blu-ferret.co.uk/game/";
 
-  std::string cleanName = params.game->getPath().filename().replace_extension("").string();
+  std::string cleanName = params.game->getPath().ChangeExtension("").Filename();
   path += HttpReq::urlEncode(cleanName);
   path += "/";
 

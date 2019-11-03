@@ -75,8 +75,6 @@ class RecalboxSystem
 
     static bool forgetBluetoothControllers();
 
-    static std::string readFile(const std::string& file);
-
     static std::pair<std::string, int> execute(const std::string& command);
 
     static std::pair<std::string, int> getSDLBatteryInfo();

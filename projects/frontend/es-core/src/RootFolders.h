@@ -1,11 +1,11 @@
 #pragma once
 
-#include <string>
+#include <utils/os/fs/Path.h>
 
 class RootFolders
 {
   public:
-    static const std::string TemplateRootFolder; // /recalbox/share_init
-    static const std::string DataRootFolder;     // /recalbox/share
+    static const Path TemplateRootFolder; // /recalbox/share_init
+    static const Path DataRootFolder;     // /recalbox/share
 };
 

@@ -88,13 +88,13 @@ class AudioManager : private ISyncronousEvent
     bool running;
     int lastTime = 0;
 
-    std::shared_ptr<Music> getRandomMusic(const std::string& themeSoundDirectory);
+    static std::shared_ptr<Music> getRandomMusic(const Path& themeSoundDirectory);
 
     bool runningFromPlaylist;
 
     bool update(int curTime);
 
-    std::string currentThemeMusicDirectory;
+    Path currentThemeMusicDirectory;
 
     void playRandomMusic();
 };

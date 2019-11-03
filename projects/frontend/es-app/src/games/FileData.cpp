@@ -3,9 +3,7 @@
 
 #include <utils/StringUtil.h>
 
-namespace fs = boost::filesystem;
-
-FileData::FileData(ItemType type, const fs::path& path, SystemData* system)
+FileData::FileData(ItemType type, const Path& path, SystemData* system)
 	: mSystem(system),
     mParent(nullptr),
     mType(type),
@@ -15,13 +13,13 @@ FileData::FileData(ItemType type, const fs::path& path, SystemData* system)
 
 }
 
-FileData::FileData(const fs::path& path, SystemData* system) : FileData(ItemType::Game, path, system)
+FileData::FileData(const Path& path, SystemData* system) : FileData(ItemType::Game, path, system)
 {
 }
 
 std::string FileData::getDisplayName() const
 {
-	std::string stem = mPath.stem().generic_string();
+	std::string stem = mPath.FilenameWithoutExtension();
 	if (mSystem != nullptr)
 	  if ((mSystem->hasPlatformId(PlatformIds::PlatformId::ARCADE) || mSystem->hasPlatformId(PlatformIds::PlatformId::NEOGEO)))
 		  stem = PlatformIds::getCleanMameName(stem.c_str());

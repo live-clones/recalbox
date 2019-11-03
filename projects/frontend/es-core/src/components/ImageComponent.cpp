@@ -95,13 +95,13 @@ void ImageComponent::onSizeChanged() {
     updateVertices();
 }
 
-void ImageComponent::setImage(const std::string& path, bool tile) {
+void ImageComponent::setImage(const Path& path, bool tile) {
     if ( (mPath == path) && mTexture && (mTexture->isTiled() == tile) ) {
         return;
     }
     mPath = path;
 
-    if (path.empty() || !ResourceManager::getInstance()->fileExists(path)) {
+    if (path.Empty() || !ResourceManager::getInstance()->fileExists(path)) {
         mTexture.reset();
     } else {
         mTexture = TextureResource::get(path, tile, mForceLoad, mDynamic);
@@ -115,7 +115,7 @@ void ImageComponent::setImage(const std::string& path, bool tile) {
 void ImageComponent::setImage(const char* image, size_t length, bool tile) {
     mPath = "!";
     mTexture.reset();
-    mTexture = TextureResource::get("", tile);
+    mTexture = TextureResource::get(Path(), tile);
     mTexture->initFromMemory(image, length);
     resize();
 }
@@ -331,7 +331,7 @@ void ImageComponent::applyTheme(const ThemeData& theme, const std::string& view,
 
     if (hasFlag(properties, ThemeProperties::Path) && elem->has("path")) {
         bool tile = (elem->has("tile") && elem->get<bool>("tile"));
-        setImage(elem->get<std::string>("path"), tile);
+        setImage(Path(elem->get<std::string>("path")), tile);
     }
 
     if (hasFlag(properties, ThemeProperties::Color) && elem->has("color")) {

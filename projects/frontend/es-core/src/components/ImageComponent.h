@@ -22,7 +22,7 @@ public:
   }
 
 	//Loads the image at the given filepath. Will tile if tile is true (retrieves texture as tiling, creates vertices accordingly).
-    void setImage(const std::string& path, bool tile = false);
+  void setImage(const Path& path, bool tile = false);
 	//Loads an image from memory.
 	void setImage(const char* image, size_t length, bool tile = false);
 	//Use an already existing texture.
@@ -69,7 +69,7 @@ public:
 private:
 	Vector2f mTargetSize;
 
-	std::string mPath;
+	Path mPath;
 	bool mFlipX, mFlipY, mTargetIsMax;
 
 	// Calculates the correct mSize from our resizing information (set by setResize/setMaxSize).

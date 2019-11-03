@@ -392,12 +392,12 @@ void TextListComponent<T>::applyTheme(const ThemeData& theme, const std::string&
 
 	if (elem->has("selectorImagePath"))
 	{
-		std::string path = elem->get<std::string>("selectorImagePath");
+		Path path(elem->get<std::string>("selectorImagePath"));
 		bool tile = elem->has("selectorImageTile") && elem->get<bool>("selectorImageTile");
 		mSelectorImage.setImage(path, tile);
 		mSelectorImage.setSize(mSize.x(), mSelectorHeight);
 		mSelectorImage.setColorShift(mSelectorColor);
 	} else {
-		mSelectorImage.setImage("");
+		mSelectorImage.setImage(Path());
 	}
 }

@@ -148,7 +148,7 @@ protected:
         mLoopType(loopType)
     {
       mGradient.setResize(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
-      mGradient.setImage(":/scroll_gradient.png");
+      mGradient.setImage(Path(":/scroll_gradient.png"));
       mTitleOverlayFont = Font::get(FONT_SIZE_LARGE);
     }
     IList(Window* window, const ScrollTierList& tierList)

@@ -1,12 +1,6 @@
+#include <utils/FileUtil.h>
 #include "ResourceManager.h"
-#include "utils/Log.h"
 #include "../data/Resources.h"
-#include <boost/filesystem.hpp>
-
-namespace fs = boost::filesystem;
-
-auto array_deleter = [](const unsigned char* p) { delete[] p; };
-auto nop_deleter = [](const unsigned char* p) { (void)p; };
 
 std::shared_ptr<ResourceManager> ResourceManager::sInstance = nullptr;
 
@@ -18,57 +12,40 @@ std::shared_ptr<ResourceManager>& ResourceManager::getInstance()
 	return sInstance;
 }
 
-ResourceData ResourceManager::getFileData(const std::string& path) const
+ResourceData ResourceManager::getFileData(const Path& path) const
 {
 	//check if its embedded
-	
-	if(res2hMap.find(path) != res2hMap.end())
+	if(res2hMap.find(path.ToString()) != res2hMap.end())
 	{
 		//it is
-		Res2hEntry embeddedEntry = res2hMap.find(path)->second;
-		ResourceData data = { 
-			std::shared_ptr<unsigned char>(const_cast<unsigned char*>(embeddedEntry.data), nop_deleter), 
-			embeddedEntry.size
-		};
+		Res2hEntry embeddedEntry = res2hMap.find(path.ToString())->second;
+		ResourceData data((const char*)embeddedEntry.data, embeddedEntry.size);
 		return data;
 	}
 
 	//it's not embedded; load the file
-	if(!fs::exists(path))
+	if(!path.Exists())
 	{
 		//if the file doesn't exist, return an "empty" ResourceData
-		ResourceData data = {nullptr, 0};
-		return data;
+		return ResourceData();
 	}else{
 		ResourceData data = loadFile(path);
 		return data;
 	}
 }
 
-ResourceData ResourceManager::loadFile(const std::string& path) const
+ResourceData ResourceManager::loadFile(const Path& path) const
 {
-	std::ifstream stream(path, std::ios::binary);
-
-	stream.seekg(0, stream.end);
-	size_t size = (size_t)stream.tellg();
-	stream.seekg(0, stream.beg);
-
-	//supply custom deleter to properly free array
-	std::shared_ptr<unsigned char> data(new unsigned char[size], array_deleter);
-	stream.read((char*)data.get(), size);
-	stream.close();
-
-	ResourceData ret = {data, size};
-	return ret;
+  return FileUtil::LoadFile(path);
 }
 
-bool ResourceManager::fileExists(const std::string& path) const
+bool ResourceManager::fileExists(const Path& path) const
 {
 	//if it exists as an embedded file, return true
-	if(res2hMap.find(path) != res2hMap.end())
+	if(res2hMap.find(path.ToString()) != res2hMap.end())
 		return true;
 
-	return fs::exists(path);
+	return path.Exists();
 }
 
 void ResourceManager::unloadAll()

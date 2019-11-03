@@ -3,7 +3,7 @@
 #include <vector>
 #include <unordered_map>
 #include <string>
-#include <boost/filesystem.hpp>
+#include <utils/os/fs/Path.h>
 #include "MetadataDescriptor.h"
 #include "ItemType.h"
 #include "utils/cplusplus/Bitflags.h"
@@ -48,7 +48,7 @@ class FileData
 
   private:
     //! Item path on the filesystem
-    boost::filesystem::path mPath;
+    Path mPath;
     //! Metadata
     MetadataDescriptor mMetadata;
 
@@ -59,7 +59,7 @@ class FileData
      * @param path Item path
      * @param system Parent system
      */
-    FileData(ItemType type, const boost::filesystem::path& path, SystemData* system);
+    FileData(ItemType type, const Path& path, SystemData* system);
 
   public:
     /*!
@@ -67,7 +67,7 @@ class FileData
      * @param path Item path on filesystem
      * @param system system to attach to
      */
-    FileData(const boost::filesystem::path& path, SystemData* system);
+    FileData(const Path& path, SystemData* system);
 
     /*
      * Getters
@@ -76,7 +76,7 @@ class FileData
     inline const std::string& getName() const { return mMetadata.Name(); }
     inline std::string getHash() const { return mMetadata.RomCrc32AsString(); }
     inline ItemType getType() const { return mType; }
-    inline const boost::filesystem::path& getPath() const { return mPath; }
+    inline const Path& getPath() const { return mPath; }
     inline FolderData* getParent() const { return mParent; }
     inline SystemData* getSystem() const { return mSystem; }
 
@@ -98,13 +98,13 @@ class FileData
      * Get Thumbnail path if there is one, or Image path.
      * @return file path (may be empty)
      */
-    inline const std::string& getThumbnailOrImagePath() const { return mMetadata.Thumbnail().empty() ? mMetadata.Image() : mMetadata.Thumbnail(); }
+    inline const Path& getThumbnailOrImagePath() const { return mMetadata.Thumbnail().Empty() ? mMetadata.Image() : mMetadata.Thumbnail(); }
 
     /*!
      * Return true if at least one image is available (thumbnail or regular image)
      * @return Boolean result
      */
-    inline bool hasThumbnailOrImage() const { return !(mMetadata.Thumbnail().empty() && mMetadata.Image().empty()); }
+    inline bool hasThumbnailOrImage() const { return !(mMetadata.Thumbnail().Empty() && mMetadata.Image().Empty()); }
 
     /*!
      * const Metadata accessor for Read operations

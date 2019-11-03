@@ -8,7 +8,7 @@ GuiTextEditPopup::GuiTextEditPopup(Window* window, const std::string& title, con
 				                           const std::function<void(const std::string&)>& okCallback, bool multiLine,
 				                           const std::string& acceptBtnText)
 	: GuiComponent(window),
-	  mBackground(window, ":/frame.png"),
+	  mBackground(window, Path(":/frame.png")),
 	  mGrid(window, Vector2i(1, 3)),
 	  mMultiLine(multiLine)
 {

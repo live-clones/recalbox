@@ -8,18 +8,17 @@
 #include <Settings.h>
 #include <RecalboxConf.h>
 #include <platform.h>
-#include <utils/os/fs/FileSystemUtil.h>
 #include <boost/property_tree/xml_parser.hpp>
 #include <utils/StringUtil.h>
 #include <utils/os/fs/StringMapFile.h>
+#include <utils/FileUtil.h>
 
-namespace fs = boost::filesystem;
 namespace pt = boost::property_tree;
 
 SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDescriptor)
 {
-  const std::string defaultRomsPath = FileSystemUtil::getCanonicalPath(Settings::getInstance()->getString("DefaultRomsPath"));
-  std::string realPath = defaultRomsPath.empty() ? systemDescriptor.RomPath().ToString() : fs::absolute(systemDescriptor.RomPath().ToString(), defaultRomsPath).generic_string();
+  const Path defaultRomsPath = Path(Settings::getInstance()->getString("DefaultRomsPath")).ToAbsolute();
+  Path realPath = defaultRomsPath.Empty() ? systemDescriptor.RomPath() : systemDescriptor.RomPath().ToAbsolute(defaultRomsPath);
 
   // Create system
   SystemData* result = new SystemData(systemDescriptor, true, false);
@@ -39,7 +38,7 @@ SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDes
     // Overrides?
     FileData::List allFolders = result->getRootFolder()->getAllFolders();
     for(auto folder : allFolders)
-      result->overrideFolderInformation(folder);
+      SystemData::overrideFolderInformation(folder);
   } // Let the doppelgangerWatcher to free its memory ASAP
 
   result->loadTheme();
@@ -218,37 +217,37 @@ bool SystemManager::loadSystemNodes(XmlNodeCollisionMap &collisionMap, XmlNodeLi
   return result;
 }
 
-bool SystemManager::loadXmlFile(Tree &document, const std::string &filePath)
+bool SystemManager::loadXmlFile(Tree &document, const Path& filePath)
 {
   try
   {
-    pt::read_xml(filePath, document);
+    pt::read_xml(filePath.ToString(), document);
   }
   catch (std::exception &e)
   {
-    LOG(LogError) << "Could not parse " << filePath << " file!";
+    LOG(LogError) << "Could not parse " << filePath.ToString() << " file!";
     LOG(LogError) << e.what();
     return false;
   }
   return true;
 }
 
-bool SystemManager::loadSystemList(Tree &document, XmlNodeCollisionMap &collisionMap, XmlNodeList &nodeStore, const std::string &filePath)
+bool SystemManager::loadSystemList(Tree &document, XmlNodeCollisionMap &collisionMap, XmlNodeList &nodeStore, const Path &filePath)
 {
   // Load user configuration
-  if (!fs::exists(filePath))
+  if (!filePath.Exists())
   {
-    LOG(LogError) << filePath << " file does not exist!";
+    LOG(LogError) << filePath.ToString() << " file does not exist!";
     return false;
   }
 
-  LOG(LogInfo) << "Loading system config files " << filePath << "...";
+  LOG(LogInfo) << "Loading system config files " << filePath.ToString() << "...";
   if (!loadXmlFile(document, filePath)) return false;
 
   bool result = loadSystemNodes(collisionMap, nodeStore, document);
   if (!result)
   {
-    LOG(LogWarning) << filePath << " has no systems or systemList nodes";
+    LOG(LogWarning) << filePath.ToString() << " has no systems or systemList nodes";
   }
 
   return result;
@@ -398,50 +397,49 @@ bool SystemManager::loadConfig()
   return true;
 }
 
-void SystemManager::writeExampleConfig(const std::string &path)
+void SystemManager::writeExampleConfig(const Path& path)
 {
-  std::ofstream file(path.c_str());
+  std::string text =
+    "<!-- This is the EmulationStation Systems configuration file.\n"
+    "All systems must be contained within the <systemList> tag.-->\n"
+    "\n"
+    "<systemList>\n"
+    "    <!-- Here's an example system to get you started. -->\n"
+    "    <system>\n"
+    "\n"
+    "        <!-- A short name, used internally. Traditionally lower-case. -->\n"
+    "        <name>nes</name>\n"
+    "\n"
+    "        <!-- A \"pretty\" name, displayed in menus and such. -->\n"
+    "        <fullname>Nintendo Entertainment System</fullname>\n"
+    "\n"
+    "        <!-- The path to start searching for ROMs in. '~' will be expanded to $HOME on Linux or %HOMEPATH% on Windows. -->\n"
+    "        <path>/recalbox/share/roms/nes</path>\n"
+    "\n"
+    "        <!-- A list of extensions to search for, delimited by any of the whitespace characters (\", \\r\\n\\t\").\n"
+    "        You MUST include the period at the start of the extension! It's also case sensitive. -->\n"
+    "        <extension>.nes .NES</extension>\n"
+    "\n"
+    "        <!-- The shell command executed when a game is selected. A few special tags are replaced if found in a command:\n"
+    "        %ROM% is replaced by a bash-special-character-escaped absolute path to the ROM.\n"
+    "        %BASENAME% is replaced by the \"base\" name of the ROM.  For example, \"/foo/bar.rom\" would have a basename of \"bar\". Useful for MAME.\n"
+    "        %ROM_RAW% is the raw, unescaped path to the ROM. -->\n"
+    "        <command>retroarch -L ~/cores/libretro-fceumm.so %ROM%</command>\n"
+    "\n"
+    "        <!-- The platform to use when scraping. You can see the full list of accepted platforms in src/PlatformIds.cpp.\n"
+    "        It's case sensitive, but everything is lowercase. This tag is optional.\n"
+    "        You can use multiple platforms too, delimited with any of the whitespace characters (\", \\r\\n\\t\"), eg: \"genesis, megadrive\" -->\n"
+    "        <platform>nes</platform>\n"
+    "\n"
+    "        <!-- The theme to load from the current theme set.  See THEMES.md for more information.\n"
+    "        This tag is optional. If not set, it will default to the value of <name>. -->\n"
+    "        <theme>nes</theme>\n"
+    "    </system>\n"
+    "</systemList>\n";
 
-  file << "<!-- This is the EmulationStation Systems configuration file.\n"
-          "All systems must be contained within the <systemList> tag.-->\n"
-          "\n"
-          "<systemList>\n"
-          "    <!-- Here's an example system to get you started. -->\n"
-          "    <system>\n"
-          "\n"
-          "        <!-- A short name, used internally. Traditionally lower-case. -->\n"
-          "        <name>nes</name>\n"
-          "\n"
-          "        <!-- A \"pretty\" name, displayed in menus and such. -->\n"
-          "        <fullname>Nintendo Entertainment System</fullname>\n"
-          "\n"
-          "        <!-- The path to start searching for ROMs in. '~' will be expanded to $HOME on Linux or %HOMEPATH% on Windows. -->\n"
-          "        <path>/recalbox/share/roms/nes</path>\n"
-          "\n"
-          "        <!-- A list of extensions to search for, delimited by any of the whitespace characters (\", \\r\\n\\t\").\n"
-          "        You MUST include the period at the start of the extension! It's also case sensitive. -->\n"
-          "        <extension>.nes .NES</extension>\n"
-          "\n"
-          "        <!-- The shell command executed when a game is selected. A few special tags are replaced if found in a command:\n"
-          "        %ROM% is replaced by a bash-special-character-escaped absolute path to the ROM.\n"
-          "        %BASENAME% is replaced by the \"base\" name of the ROM.  For example, \"/foo/bar.rom\" would have a basename of \"bar\". Useful for MAME.\n"
-          "        %ROM_RAW% is the raw, unescaped path to the ROM. -->\n"
-          "        <command>retroarch -L ~/cores/libretro-fceumm.so %ROM%</command>\n"
-          "\n"
-          "        <!-- The platform to use when scraping. You can see the full list of accepted platforms in src/PlatformIds.cpp.\n"
-          "        It's case sensitive, but everything is lowercase. This tag is optional.\n"
-          "        You can use multiple platforms too, delimited with any of the whitespace characters (\", \\r\\n\\t\"), eg: \"genesis, megadrive\" -->\n"
-          "        <platform>nes</platform>\n"
-          "\n"
-          "        <!-- The theme to load from the current theme set.  See THEMES.md for more information.\n"
-          "        This tag is optional. If not set, it will default to the value of <name>. -->\n"
-          "        <theme>nes</theme>\n"
-          "    </system>\n"
-          "</systemList>\n";
+  FileUtil::SaveFile(path, text);
 
-  file.close();
-
-  LOG(LogError) << "Example config written!  Go read it at \"" << path << "\"!";
+  LOG(LogError) << "Example config written!  Go read it at \"" << path.ToString() << "\"!";
 }
 
 bool SystemManager::ThreadPoolRunJob(SystemData*& feed)

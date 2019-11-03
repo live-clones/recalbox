@@ -323,7 +323,7 @@ void DetailedGameListView::updateInfoPanel()
   else
   {
     const bool isFolder = file->isFolder();
-    const bool hasImage = !file->Metadata().Image().empty();
+    const bool hasImage = !file->Metadata().Image().Empty();
 
     if (hasImage && isFolder)
     {
@@ -411,7 +411,7 @@ void DetailedGameListView::setFolderInfo(FolderData* folder)
   }
   for (int i = idx; i < (int) mFolderContent.size(); i++)
   {
-    mFolderContent.at((unsigned int) i)->setImage("");
+    mFolderContent.at((unsigned int) i)->setImage(Path());
   }
   // Kill video on multi-thumbnail folder
   mVideo.setVideo("", 0, 0);
@@ -435,7 +435,7 @@ void DetailedGameListView::setGameInfo(FileData* file)
   mImage.setImage(file->Metadata().Image());
   mVideo.setVideo(file->Metadata().Video(), videoDelay, videoLoop);
 
-  LOG(LogDebug) << "Set " << file->Metadata().Video() << " for " << file->Metadata().Name() << " => " << file->getPath().generic_string();
+  LOG(LogDebug) << "Set " << file->Metadata().Video() << " for " << file->Metadata().Name() << " => " << file->getPath().ToString();
 
   mDescription.setText(file->Metadata().Description());
   mDescContainer.reset();

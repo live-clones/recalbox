@@ -5,6 +5,7 @@
 #include <map>
 #include <string>
 #include <input/InputDevice.h>
+#include <utils/os/fs/Path.h>
 
 class Window;
 
@@ -176,7 +177,7 @@ class InputManager
      * @brief Get configuration path
      * @return Configuration path
      */
-    static std::string ConfigurationPath();
+    static Path ConfigurationPath();
 
     /*!
      * @brief Write device configuration to Xml configuration file

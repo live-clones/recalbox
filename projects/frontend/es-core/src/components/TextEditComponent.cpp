@@ -22,7 +22,7 @@ TextEditComponent::TextEditComponent(Window* window)
 		mCursorRepeatTimer(0),
     mCursorRepeatDir(0),
 	  mScrollOffset(0.0f, 0.0f),
-		mBox(window, ":/textinput_ninepatch.png"),
+		mBox(window, Path(":/textinput_ninepatch.png")),
 		mFont(MenuThemeData::getInstance()->getCurrentTheme()->menuText.font)
 {
 	addChild(&mBox);
@@ -35,13 +35,13 @@ TextEditComponent::TextEditComponent(Window* window)
 void TextEditComponent::onFocusGained()
 {
 	mFocused = true;
-	mBox.setImagePath(":/textinput_ninepatch_active.png");
+	mBox.setImagePath(Path(":/textinput_ninepatch_active.png"));
 }
 
 void TextEditComponent::onFocusLost()
 {
 	mFocused = false;
-	mBox.setImagePath(":/textinput_ninepatch.png");
+	mBox.setImagePath(Path(":/textinput_ninepatch.png"));
 }
 
 void TextEditComponent::onSizeChanged()

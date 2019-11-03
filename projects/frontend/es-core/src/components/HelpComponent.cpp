@@ -11,21 +11,21 @@
 #define ICON_TEXT_SPACING std::max(Renderer::getDisplayWidthAsFloat() * 0.004f, 2.0f) // space between [icon] and [text] (px)
 #define ENTRY_SPACING std::max(Renderer::getDisplayWidthAsFloat() * 0.008f, 2.0f) // space between [text] and next [icon] (px)
 
-static const std::map<std::string, const char*>& IconPathMap()
+static const std::map<std::string, Path>& IconPathMap()
 {
-  static const std::map<std::string, const char*> _IconPathMap =
+  static const std::map<std::string, Path> _IconPathMap =
   {
-    {"up/down",            ":/help/dpad_updown.svg"},
-    {"left/right",         ":/help/dpad_leftright.svg"},
-    {"up/down/left/right", ":/help/dpad_all.svg"},
-    {"a",                  ":/help/button_a.svg"},
-    {"b",                  ":/help/button_b.svg"},
-    {"x",                  ":/help/button_x.svg"},
-    {"y",                  ":/help/button_y.svg"},
-    {"l",                  ":/help/button_l.svg"},
-    {"r",                  ":/help/button_r.svg"},
-    {"start",              ":/help/button_start.svg"},
-    {"select",             ":/help/button_select.svg"},
+    {"up/down",            Path(":/help/dpad_updown.svg") },
+    {"left/right",         Path(":/help/dpad_leftright.svg") },
+    {"up/down/left/right", Path(":/help/dpad_all.svg") },
+    {"a",                  Path(":/help/button_a.svg") },
+    {"b",                  Path(":/help/button_b.svg") },
+    {"x",                  Path(":/help/button_x.svg") },
+    {"y",                  Path(":/help/button_y.svg") },
+    {"l",                  Path(":/help/button_l.svg") },
+    {"r",                  Path(":/help/button_r.svg") },
+    {"start",              Path(":/help/button_start.svg") },
+    {"select",             Path(":/help/button_select.svg") },
   };
   return _IconPathMap;
 }
@@ -120,7 +120,7 @@ std::shared_ptr<TextureResource> HelpComponent::getIconTexture(const char* name)
 	}
 	if(!ResourceManager::getInstance()->fileExists(pathLookup->second))
 	{
-		LOG(LogError) << "Help icon \"" << name << "\" - corresponding image file \"" << pathLookup->second << "\" misisng!";
+		LOG(LogError) << "Help icon \"" << name << "\" - corresponding image file \"" << pathLookup->second.ToString() << "\" missing!";
 		return nullptr;
 	}
 

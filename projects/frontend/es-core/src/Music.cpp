@@ -4,9 +4,9 @@
 #include "themes/ThemeData.h"
 #include "AudioManager.h"
 
-std::map< std::string, std::shared_ptr<Music> > Music::sMap;
+std::map<Path, std::shared_ptr<Music>> Music::sMap;
 
-std::shared_ptr<Music> Music::get(const std::string& path)
+std::shared_ptr<Music> Music::get(const Path& path)
 {
 	auto it = sMap.find(path);
 	if(it != sMap.end())
@@ -27,10 +27,10 @@ std::shared_ptr<Music> Music::getFromTheme(const ThemeData& theme, const std::st
 		LOG(LogInfo) << "   (missing)";
 		return nullptr;
 	}
-	return get(elem->get<std::string>("path"));
+	return get(Path(elem->get<std::string>("path")));
 }
 
-Music::Music(const std::string & path)
+Music::Music(const Path & path)
   : mPath(path),
     music(nullptr),
     playing(false)
@@ -45,24 +45,22 @@ Music::~Music()
 
 std::string Music::getName()
 {
-	boost::filesystem::path p(mPath);
-	return p.stem().string();
+  return mPath.FilenameWithoutExtension();
 }
-
 
 void Music::initMusic()
 {
 	if(music != nullptr)
 		deinitMusic();
 
-	if(mPath.empty())
+	if(mPath.Empty())
 		return;
 
 	//load wav file via SDL
         Mix_Music *gMusic = nullptr;
-        gMusic = Mix_LoadMUS( mPath.c_str() );
+        gMusic = Mix_LoadMUS( mPath.ToChars() );
         if(gMusic == nullptr){
-            LOG(LogError) << "Error loading sound \"" << mPath << "\"!\n" << "	" << SDL_GetError();
+            LOG(LogError) << "Error loading sound \"" << mPath.ToString() << "\"!\n" << "	" << SDL_GetError();
             return;
         }else {
             music = gMusic;

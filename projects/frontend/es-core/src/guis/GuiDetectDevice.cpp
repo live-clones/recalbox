@@ -14,7 +14,7 @@
 GuiDetectDevice::GuiDetectDevice(Window* window, bool firstRun, const std::function<void()>& doneCallback)
   : GuiComponent(window),
     mFirstRun(firstRun),
-	  mBackground(window, ":/frame.png"),
+	  mBackground(window, Path(":/frame.png")),
 	  mGrid(window, Vector2i(1, 5))
 {
 	mHoldingConfig = nullptr;

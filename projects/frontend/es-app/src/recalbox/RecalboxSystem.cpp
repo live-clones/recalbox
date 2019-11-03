@@ -18,8 +18,9 @@
 #include <ifaddrs.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
-#include <boost/algorithm/string/replace.hpp>
 #include <VideoEngine.h>
+#include <utils/StringUtil.h>
+#include <utils/FileUtil.h>
 
 void RecalboxSystem::NotifySystemAndGame(const SystemData* system, const FileData* game, bool play, bool demo)
 {
@@ -27,8 +28,8 @@ void RecalboxSystem::NotifySystemAndGame(const SystemData* system, const FileDat
   output.append("System=").append((system != nullptr) ? system->getFullName() : "").append("\r\n");
   output.append("SystemId=").append((system != nullptr) ? system->getName() : "").append("\r\n");
   output.append("Game=").append((game != nullptr) ? game->getName() : "").append("\r\n");
-  output.append("GamePath=").append((game != nullptr) ? game->getPath().generic_string() : "").append("\r\n");
-  output.append("ImagePath=").append((game != nullptr) ? game->Metadata().Image() : "").append("\r\n");
+  output.append("GamePath=").append((game != nullptr) ? game->getPath().ToString() : "").append("\r\n");
+  output.append("ImagePath=").append((game != nullptr) ? game->Metadata().Image().ToString() : "").append("\r\n");
   output.append("State=").append(play ? (demo ? "demo" : "playing") : "selected").append("\r\n");
   FILE* f = fopen("/tmp/es_state.inf", "w");
   if (f != nullptr)
@@ -101,22 +102,6 @@ bool RecalboxSystem::isFreeSpaceLimit()
     return false; //"ERROR";
   }
 
-}
-
-std::string RecalboxSystem::readFile(const std::string& file)
-{
-  if (!file.empty())
-  {
-    std::ifstream ifs(file);
-
-    if (ifs.good())
-    {
-      std::string contents;
-      std::getline(ifs, contents);
-      return contents;
-    }
-  }
-  return "";
 }
 
 std::vector<std::string> RecalboxSystem::getAvailableWiFiSSID(bool activatedWifi)
@@ -335,8 +320,8 @@ bool RecalboxSystem::backupRecalboxConf()
 bool RecalboxSystem::enableWifi(std::string ssid, std::string key)
 {
   std::ostringstream oss;
-  boost::replace_all(ssid, "\"", "\\\"");
-  boost::replace_all(key, "\"", "\\\"");
+  ssid = StringUtil::replace(ssid, "\"", "\\\"");
+  key = StringUtil::replace(key, "\"", "\\\"");
   oss << Settings::getInstance()->getString("RecalboxSettingScript") << " " << "wifi" << " " << "enable" << " \""
       << ssid << "\" \"" << key << "\"";
   std::string command = oss.str();
@@ -660,21 +645,13 @@ std::pair<std::string, int> RecalboxSystem::getSysBatteryInfo()
 {
   std::pair<std::string, int> result;
 
-
-  if (!boost::filesystem::exists("/sys/class/power_supply/BAT0/capacity"))
-  {
+  Path batteryCapacity("/sys/class/power_supply/BAT0/capacity");
+  Path batteryStatus("/sys/class/power_supply/BAT0/status");
+  if (!batteryCapacity.Exists())
     return std::make_pair("", -1);
-  }
 
-  std::ifstream ifs("/sys/class/power_supply/BAT0/capacity");
-  int percent;
-  ifs >> percent;
-  ifs.close();
-
-  std::ifstream ifst("/sys/class/power_supply/BAT0/status");
-  std::string status;
-  ifst >> status;
-  ifst.close();
+  int percent = std::stoi(FileUtil::LoadFile(batteryCapacity));
+  std::string status = FileUtil::LoadFile(batteryStatus);
 
   if (status == "Discharging")
   {

@@ -2,17 +2,15 @@
 // Created by bkg2k on 31/07/2019.
 //
 
-#include <fstream>
-#include <utils/os/fs/FileSystemUtil.h>
 #include "FileUtil.h"
 
-std::string FileUtil::loadTextFile(const std::string& path)
+std::string FileUtil::LoadFile(const Path& path)
 {
   std::string result;
 
-  if (FileSystemUtil::exists(path))
+  if (path.Exists())
   {
-    FILE* f = fopen(path.c_str(), "rb");
+    FILE* f = fopen(path.ToChars(), "rb");
     if (f != nullptr)
     {
       fseek(f, 0, SEEK_END);
@@ -28,3 +26,14 @@ std::string FileUtil::loadTextFile(const std::string& path)
   return result;
 }
 
+bool FileUtil::SaveFile(const Path& path, const std::string& content)
+{
+  FILE* f = fopen(path.ToChars(), "wb");
+  if (f != nullptr)
+  {
+    bool ok = (fwrite(content.c_str(), content.size(), 1, f) == 1);
+    fclose(f);
+    return ok;
+  }
+  return false;
+}

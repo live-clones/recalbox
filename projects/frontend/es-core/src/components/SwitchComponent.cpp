@@ -58,7 +58,7 @@ void SwitchComponent::setState(bool state)
 
 void SwitchComponent::onStateChanged()
 {
-	mImage.setImage(mState ? ":/on.svg" : ":/off.svg");
+	mImage.setImage(mState ? Path(":/on.svg") : Path(":/off.svg"));
 }
 
 std::vector<HelpPrompt> SwitchComponent::getHelpPrompts()

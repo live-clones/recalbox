@@ -278,8 +278,7 @@ std::string StringUtil::toUpper(const std::string& _string)
 		string[i] = (char)toupper(_string[i]);
 
 	return string;
-
-} // toUpper
+}
 
 std::string StringUtil::trim(const std::string& _string)
 {
@@ -311,19 +310,17 @@ std::string StringUtil::replace(const std::string& _string, const std::string& _
 		string = string.replace(pos, _replace.length(), _with.c_str(), _with.length());
 
 	return string;
-
-} // replace
+}
 
 bool StringUtil::startsWith(const std::string& _string, const std::string& _start)
 {
 	return (_string.find(_start) <= 0);
-} // startsWith
+}
 
 bool StringUtil::endsWith(const std::string& _string, const std::string& _end)
 {
 	return (_string.find(_end) == (_string.size() - _end.size()));
-
-} // endsWith
+}
 
 std::string StringUtil::removeParenthesis(const std::string& _string)
 {

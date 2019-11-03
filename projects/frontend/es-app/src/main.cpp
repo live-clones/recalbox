@@ -4,11 +4,11 @@
 #include <SDL.h>
 #include <iostream>
 
-#include <boost/filesystem.hpp>
 #include <RootFolders.h>
 #include <VideoEngine.h>
 #include <guis/GuiNetPlay.h>
 #include <utils/sdl2/SyncronousEventService.h>
+#include <utils/FileUtil.h>
 
 #include "AudioManager.h"
 #include "CommandThread.h"
@@ -34,18 +34,11 @@
 #include "recalbox/RecalboxUpgrade.h"
 #include "systems/SystemManager.h"
 
-#ifdef WIN32
-  #include <Windows.h>
-#endif
-
-namespace fs = boost::filesystem;
-
 void playSound(const std::string& name)
 {
   std::string selectedTheme = Settings::getInstance()->getString("ThemeSet");
-  std::string loadingMusic = RootFolders::DataRootFolder + "/system/.emulationstation/themes/" + selectedTheme +
-                             "/fx/" + name + ".ogg";
-  if (boost::filesystem::exists(loadingMusic))
+  Path loadingMusic = RootFolders::DataRootFolder / "system/.emulationstation/themes" / selectedTheme / "fx" / (name + ".ogg");
+  if (loadingMusic.Exists())
   {
     Music::get(loadingMusic)->play(false, nullptr);
   }
@@ -139,13 +132,13 @@ bool parseArgs(int argc, char* argv[], unsigned int* width, unsigned int* height
 bool verifyHomeFolderExists()
 {
   //make sure the config directory exists
-  std::string home = RootFolders::DataRootFolder;
-  std::string configDir = home + "/system/.emulationstation";
-  if (!fs::exists(configDir))
+  Path home = RootFolders::DataRootFolder;
+  Path configDir = home / "system/.emulationstation";
+  if (!configDir.Exists())
   {
-    std::cout << "Creating config directory \"" << configDir << "\"\n";
-    fs::create_directory(configDir);
-    if (!fs::exists(configDir))
+    std::cout << "Creating config directory \"" << configDir.ToString() << "\"\n";
+    configDir.CreatePath();
+    if (!configDir.Exists())
     {
       std::cerr << "Config directory could not be created!\n";
       return false;
@@ -406,7 +399,7 @@ int main(int argc, char* argv[])
     LOG(LogDebug) << "Preparing GUI";
     if (errorMsg == nullptr)
     {
-      if (fs::exists(InputManager::ConfigurationPath()) && InputManager::Instance().ConfiguredDeviceCount() > 0)
+      if (InputManager::ConfigurationPath().Exists() && InputManager::Instance().ConfiguredDeviceCount() > 0)
       {
         ViewController::get()->goToStart();
       }
@@ -418,11 +411,8 @@ int main(int argc, char* argv[])
     }
 
     // Create a flag in  temporary directory to signal READY state
-    fs::path ready_path = fs::temp_directory_path();
-    ready_path /= "emulationstation.ready";
-    FILE* ready_file = fopen(ready_path.c_str(), "w");
-    if (ready_file != nullptr)
-      fclose(ready_file);
+    Path ready("/tmp/emulationstation.ready");
+    FileUtil::SaveFile(ready, "ready");
 
     //generate joystick events since we're done loading
     SDL_JoystickEventState(SDL_ENABLE);
@@ -435,6 +425,7 @@ int main(int argc, char* argv[])
     DemoMode demoMode(window);
 
     LOG(LogDebug) << "Entering main loop";
+    Path mustExit("/tmp/emulationstation.quitnow");
     while (running)
     {
       SDL_Event event;
@@ -517,13 +508,12 @@ int main(int argc, char* argv[])
       Log::flush();
 
       // Immediate exit required?
-      if(fs::exists("/tmp/emulationstation.quitnow"))
-        break;
+      if (mustExit.Exists()) break;
     }
 
     // Clean ready flag
-    if (fs::exists(ready_path))
-      fs::remove(ready_path);
+    if (ready.Exists())
+      ready.Delete();
 
     while (window.peekGui() != ViewController::get())
       delete window.peekGui();

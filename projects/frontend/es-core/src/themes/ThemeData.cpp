@@ -6,8 +6,8 @@
 #include "Settings.h"
 #include "pugixml/pugixml.hpp"
 #include <memory>
-#include <boost/algorithm/string/replace.hpp>
 #include <components/VideoComponent.h>
+#include <utils/StringUtil.h>
 
 #include "components/ImageComponent.h"
 #include "components/TextComponent.h"
@@ -255,8 +255,6 @@ std::map< std::string, std::map<std::string, ThemeData::ElementProperty> >& Them
   return _ElementMap;
 }
 
-namespace fs = boost::filesystem;
-
 // helper
 unsigned int getHexColor(const char* str)
 {
@@ -279,34 +277,9 @@ unsigned int getHexColor(const char* str)
 	return val;
 }
 
-// helper
-std::string resolvePath(const char* in, const fs::path& relative)
-{
-	if((in == nullptr) || in[0] == '\0')
-		return in;
-
-	fs::path relPath = relative.parent_path();
-	
-	boost::filesystem::path path(in);
-	
-	// we use boost filesystem here instead of just string checks because 
-	// some directories could theoretically start with ~ or .
-	if(*path.begin() == "~")
-	{
-		path = getHomePath() + (in + 1);
-	}else if(*path.begin() == ".")
-	{
-		path = relPath / (in + 1);
-	}
-
-	return path.generic_string();
-}
-
 std::string ThemeData::resolveSystemVariable(const std::string& systemThemeFolder, const std::string& path)
 {
-	std::string result = path;
-	boost::algorithm::replace_first(result, "$system", systemThemeFolder);
-	return result;
+	return StringUtil::replace(path, "$system", systemThemeFolder);
 }
 
 ThemeData::ThemeData()
@@ -321,14 +294,14 @@ ThemeData::ThemeData()
 	mSystemThemeFolder.clear();
 }
 
-void ThemeData::loadFile(const std::string& systemThemeFolder, const std::string& path)
+void ThemeData::loadFile(const std::string& systemThemeFolder, const Path& path)
 {
 	mPaths.push_back(path);
 
 	ThemeException error;
 	error.setFiles(mPaths);
 
-	if(!fs::exists(path))
+	if(!path.Exists())
 		throw error << "File does not exist!";
 
 	mVersion = 0;
@@ -336,10 +309,8 @@ void ThemeData::loadFile(const std::string& systemThemeFolder, const std::string
 	
 	mSystemThemeFolder = systemThemeFolder;
 	
-
-
 	pugi::xml_document doc;
-	pugi::xml_parse_result res = doc.load_file(path.c_str());
+	pugi::xml_parse_result res = doc.load_file(path.ToChars());
 	if(!res)
 		throw error << "XML parsing error: \n    " << res.description();
 
@@ -378,17 +349,16 @@ void ThemeData::parseIncludes(const pugi::xml_node& root)
 			if (str.find("//") == std::string::npos)
 			{
 			
-				const char* relPath = str.c_str();
-				std::string path = resolvePath(relPath, mPaths.back());
+				Path path = Path(str).ToAbsolute(mPaths.back().Directory());
 				if(!ResourceManager::getInstance()->fileExists(path))
-					throw error << "Included file \"" << relPath << "\" not found! (resolved to \"" << path << "\")";
+					throw error << "Included file \"" << str << "\" not found! (resolved to \"" << path.ToString() << "\")";
 
-				error << "    from included file \"" << relPath << "\":\n    ";
+				error << "    from included file \"" << str << "\":\n    ";
 
 				mPaths.push_back(path);
 
 				pugi::xml_document includeDoc;
-				pugi::xml_parse_result result = includeDoc.load_file(path.c_str());
+				pugi::xml_parse_result result = includeDoc.load_file(path.ToChars());
 				if(!result)
 					throw error << "Error parsing file: \n    " << result.description();
 
@@ -608,7 +578,7 @@ void ThemeData::parseElement(const pugi::xml_node& root, const std::map<std::str
 			break;
 		case ElementProperty::Path:
 		{
-			std::string path = resolvePath(str.c_str(), mPaths.back().string());
+			Path path = Path(str).ToAbsolute(mPaths.back().Directory());
 			std::string variable = node.text().get();
 			if(!ResourceManager::getInstance()->fileExists(path))
 			{
@@ -618,13 +588,13 @@ void ThemeData::parseElement(const pugi::xml_node& root, const std::map<std::str
 					std::stringstream ss;
 					ss << "  Warning " << error.msg; // "from theme yadda yadda, included file yadda yadda
 					ss << "could not find file \"" << node.text().get() << "\" ";
-					if(node.text().get() != path)
-						ss << "(which resolved to \"" << path << "\") ";
+					if(node.text().get() != path.ToString())
+						ss << "(which resolved to \"" << path.ToString() << "\") ";
 					LOG(LogWarning) << ss.str();
 				}
 				break;
 			}
-			element.properties[node.name()] = path;
+			element.properties[node.name()] = path.ToString();
 			break;
 		}
 		case ElementProperty::Color:
@@ -678,8 +648,8 @@ const ThemeData& ThemeData::getDefault()
 
   if (!sLoaded)
   {
-		const std::string path = RootFolders::DataRootFolder + "/system/.emulationstation/es_theme_default.xml";
-		if(fs::exists(path))
+		const Path path = RootFolders::DataRootFolder / "system/.emulationstation/es_theme_default.xml";
+		if (path.Exists())
 		{
 			try
 			{
@@ -704,38 +674,36 @@ const ThemeData& ThemeData::getCurrent()
 
 	if (!sLoaded || Settings::getInstance()->getBool("ThemeChanged"))
 	{
-		fs::path path;
+		Path path;
 		std::string currentTheme = Settings::getInstance()->getString("ThemeSet");
-		static const size_t pathCount = 3;
-		fs::path paths[pathCount] =
+
+		static constexpr size_t pathCount = 3;
+		Path paths[pathCount] =
 		{
-			RootFolders::TemplateRootFolder + "/system/.emulationstation/themes/" + currentTheme,
-			RootFolders::DataRootFolder     + "/themes/" + currentTheme,
-			RootFolders::DataRootFolder     + "/system/.emulationstation/themes/" + currentTheme
+			RootFolders::TemplateRootFolder / "system/.emulationstation/themes/" / currentTheme,
+			RootFolders::DataRootFolder     / "themes/" / currentTheme,
+			RootFolders::DataRootFolder     / "system/.emulationstation/themes/" / currentTheme
 		};
-	
 
-		fs::directory_iterator end;
-
-		for (const auto& i : paths)
+		for (const auto& master : paths)
 		{
-			if(!fs::is_directory(i))
+			if(!master.IsDirectory())
 				continue;
 
-			for (fs::directory_iterator it(i); it != end; ++it)
+			Path::PathList list = master.GetDirectoryContent();
+			for(auto& sub : list)
 			{
-				if(fs::is_directory(*it))
+				if (sub.IsDirectory())
 				{
-					path = *it / "theme.xml";
-					if(fs::exists(path))
+					Path subTheme = sub / "theme.xml";
+					if (subTheme.Exists())
 					{
 						try
 						{
 							std::string empty;
-              sCurrent.loadFile(empty, path.string());
+              sCurrent.loadFile(empty, subTheme);
 							return sCurrent;
-						}
-						catch(ThemeException& e)
+						} catch(ThemeException& e)
 						{
 							LOG(LogError) << e.what();
 						}
@@ -743,18 +711,18 @@ const ThemeData& ThemeData::getCurrent()
 				
 				}
 			}
-			path = i / "theme.xml";
-			if(fs::exists(path))
+			Path masterTheme = master / "theme.xml";
+			if (masterTheme.Exists())
       {
         try
         {
           std::string empty;
-          sCurrent.loadFile(empty, path.string());
+          sCurrent.loadFile(empty, masterTheme);
           return sCurrent;
-        }
-        catch(ThemeException& e)
+        } catch(ThemeException& e)
         {
           LOG(LogError) << e.what();
+          sCurrent = ThemeData(); //reset to empty
         }
       }
 		}
@@ -801,25 +769,21 @@ std::map<std::string, ThemeSet> ThemeData::getThemeSets()
 	std::map<std::string, ThemeSet> sets;
 
 	static const size_t pathCount = 3;
-	fs::path paths[pathCount] =
+	static Path paths[pathCount] =
 	{
-		RootFolders::TemplateRootFolder + "/system/.emulationstation/themes",
-		RootFolders::DataRootFolder     + "/themes",
-		RootFolders::DataRootFolder     + "/system/.emulationstation/themes"
+		RootFolders::TemplateRootFolder / "/system/.emulationstation/themes",
+		RootFolders::DataRootFolder     / "/themes",
+		RootFolders::DataRootFolder     / "/system/.emulationstation/themes"
 	};
-
-	fs::directory_iterator end;
 
 	for (const auto& path : paths)
 	{
-		if(!fs::is_directory(path))
-			continue;
-
-		for (fs::directory_iterator it(path); it != end; ++it)
+    Path::PathList list = path.GetDirectoryContent();
+    for(auto& setPath : list)
 		{
-			if(fs::is_directory(*it))
+			if(setPath.IsDirectory())
 			{
-				ThemeSet set = {*it};
+				ThemeSet set(setPath);
 				sets[set.getName()] = set;
 			}
 		}
@@ -831,64 +795,59 @@ std::map<std::string, ThemeSet> ThemeData::getThemeSets()
 std::map<std::string, std::string> ThemeData::getThemeSubSets(const std::string& theme)
 {
 	std::map<std::string, std::string> sets;
-	fs::path path;
-	std::deque<boost::filesystem::path> dequepath;
+	std::deque<Path> dequepath;
+
 	static const size_t pathCount = 3;
-	fs::path paths[pathCount] =
+	Path paths[pathCount] =
 	{
-		RootFolders::TemplateRootFolder + "/system/.emulationstation/themes/" + theme,
-		RootFolders::DataRootFolder     + "/themes/" + theme,
-		RootFolders::DataRootFolder     + "/system/.emulationstation/themes/" + theme
+		RootFolders::TemplateRootFolder / "/system/.emulationstation/themes/" / theme,
+		RootFolders::DataRootFolder     / "/themes/" / theme,
+		RootFolders::DataRootFolder     / "/system/.emulationstation/themes/" / theme
 	};
 
-	fs::directory_iterator end;
-
-	for (const auto& i : paths)
+	for (const auto& path : paths)
 	{
-		if(!fs::is_directory(i))
-			continue;
-
-		for (fs::directory_iterator it(i); it != end; ++it)
-		{
-			if(fs::is_directory(*it))
+    Path::PathList list = path.GetDirectoryContent();
+    for(auto& setPath : list)
+    {
+      if (setPath.IsDirectory())
 			{
-				path = *it / "theme.xml";
-				dequepath.push_back(path);
+				Path themePath = setPath / "theme.xml";
+				dequepath.push_back(themePath);
 				pugi::xml_document doc;
-				/*pugi::xml_parse_result res =*/ doc.load_file(path.c_str());
+				doc.load_file(themePath.ToChars());
 				pugi::xml_node root = doc.child("theme");
 				crawlIncludes(root, sets, dequepath);
 				dequepath.pop_back();
 			}
 		}
-		path = i / "theme.xml";
-			if(fs::exists(path))
-			{
-				dequepath.push_back(path);
-				pugi::xml_document doc;
-				/*pugi::xml_parse_result res =*/ doc.load_file(path.c_str());
-				pugi::xml_node root = doc.child("theme");			
-				crawlIncludes(root, sets, dequepath);
-				findRegion(doc, sets);
-				dequepath.pop_back();
-			}
+		Path master = path / "theme.xml";
+    if (master.Exists())
+    {
+      dequepath.push_back(path);
+      pugi::xml_document doc;
+      doc.load_file(path.ToChars());
+      pugi::xml_node root = doc.child("theme");
+      crawlIncludes(root, sets, dequepath);
+      findRegion(doc, sets);
+      dequepath.pop_back();
+    }
 	}
 
 	return sets;
 }
 
-void ThemeData::crawlIncludes(const pugi::xml_node& root, std::map<std::string, std::string>& sets, std::deque<boost::filesystem::path>& dequepath)
+void ThemeData::crawlIncludes(const pugi::xml_node& root, std::map<std::string, std::string>& sets, std::deque<Path>& dequepath)
 {
 	for (pugi::xml_node node = root.child("include"); node != nullptr; node = node.next_sibling("include"))
 	{
-		
 		sets[node.attribute("name").as_string()] = node.attribute("subset").as_string();
 		
-		const char* relPath = node.text().get();
-		std::string path = resolvePath(relPath, dequepath.back());
+		Path relPath(node.text().get());
+		Path path = relPath.ToAbsolute(dequepath.back());
 		dequepath.push_back(path);
 		pugi::xml_document includeDoc;
-		/*pugi::xml_parse_result result =*/ includeDoc.load_file(path.c_str());
+		/*pugi::xml_parse_result result =*/ includeDoc.load_file(path.ToChars());
 		pugi::xml_node root = includeDoc.child("theme");
 		crawlIncludes(root, sets, dequepath);
 		findRegion(includeDoc, sets);
@@ -920,13 +879,13 @@ std::map<std::string, std::string> ThemeData::sortThemeSubSets(const std::map<st
 }
 
 
-fs::path ThemeData::getThemeFromCurrentSet(const std::string& system)
+Path ThemeData::getThemeFromCurrentSet(const std::string& system)
 {
 	auto themeSets = ThemeData::getThemeSets();
 	if(themeSets.empty())
 	{
 		// no theme sets available
-		return "";
+		return Path();
 	}
 
 	auto set = themeSets.find(Settings::getInstance()->getString("ThemeSet"));

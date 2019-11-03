@@ -152,23 +152,23 @@ class MDResolveHandle : public AsyncHandle
 class ImageDownloadHandle : public AsyncHandle
 {
   public:
-    ImageDownloadHandle(const std::string& url, const std::string& path, int maxWidth, int maxHeight);
+    ImageDownloadHandle(const std::string& url, const Path& path, int maxWidth, int maxHeight);
 
     void update() override;
 
   private:
     std::unique_ptr<HttpReq> mReq;
-    std::string mSavePath;
+    Path mSavePath;
     int mMaxWidth;
     int mMaxHeight;
 };
 
 //About the same as "~/.emulationstation/media/images/[system_name]/[game_name].[url's extension]".
 //Will create the "media/images" and "subdirectory" directories if they do not exist.
-std::string getSaveAsPath(const ScraperSearchParams& params, const std::string& suffix, ScraperImageType type);
+Path getSaveAsPath(const ScraperSearchParams& params, const std::string& suffix, ScraperImageType type);
 
 //Will resize according to Settings::getInt("ScraperResizeWidth") and Settings::getInt("ScraperResizeHeight").
-std::unique_ptr<ImageDownloadHandle> downloadImageAsync(const std::string& url, const std::string& saveAs);
+std::unique_ptr<ImageDownloadHandle> downloadImageAsync(const std::string& url, const Path& saveAs);
 
 // Resolves all metadata assets that need to be downloaded.
 std::unique_ptr<MDResolveHandle>
@@ -177,4 +177,4 @@ resolveMetaDataAssets(const ScraperSearchResult& result, const ScraperSearchPara
 //You can pass 0 for maxWidth or maxHeight to automatically keep the aspect ratio.
 //Will overwrite the image at [path] with the new resized one.
 //Returns true if successful, false otherwise.
-bool resizeImage(const std::string& path, int maxWidth, int maxHeight);
+bool resizeImage(const Path& path, int maxWidth, int maxHeight);

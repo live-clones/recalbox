@@ -273,7 +273,7 @@ void Window::renderWaitingScreen(const std::string& text)
 
 	ImageComponent splash(this, true);
 	splash.setResize(Renderer::getDisplayWidthAsFloat() * 0.6f, 0.0f);
-	splash.setImage(":/splash.svg");
+	splash.setImage(Path(":/splash.svg"));
 	splash.setPosition((Renderer::getDisplayWidthAsFloat() - splash.getSize().x()) / 2, (Renderer::getDisplayHeightAsFloat() - splash.getSize().y()) / 2 * 0.6f);
 	splash.render(trans);
 

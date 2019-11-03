@@ -67,7 +67,7 @@ private:
 				{
 					// add checkbox
 					auto checkbox = std::make_shared<ImageComponent>(mWindow);
-					checkbox->setImage(e.selected ? CHECKED_PATH : UNCHECKED_PATH);
+					checkbox->setImage(Path(e.selected ? CHECKED_PATH : UNCHECKED_PATH));
 					checkbox->setResize(0, font->getLetterHeight());
 					checkbox->setColor(color);
 					row.addElement(checkbox, false);
@@ -77,7 +77,7 @@ private:
 					row.makeAcceptInputHandler([this, &e, checkbox, color]
 					{
 						e.selected = !e.selected;
-						checkbox->setImage(e.selected ? CHECKED_PATH : UNCHECKED_PATH);
+						checkbox->setImage(Path(e.selected ? CHECKED_PATH : UNCHECKED_PATH));
 						checkbox->setColor(color);
 						mParent->onSelectedChanged();
 					});
@@ -108,7 +108,7 @@ private:
 					for (unsigned int i = 0; i < mParent->mEntries.size(); i++)
 					{
 						mParent->mEntries.at(i).selected = true;
-						checkboxes.at(i)->setImage(CHECKED_PATH);
+						checkboxes.at(i)->setImage(Path(CHECKED_PATH));
 						checkboxes.at(i)->setColor(color);
 					}
 					mParent->onSelectedChanged();
@@ -118,7 +118,7 @@ private:
 					for (unsigned int i = 0; i < mParent->mEntries.size(); i++)
 					{
 						mParent->mEntries.at(i).selected = false;
-						checkboxes.at(i)->setImage(UNCHECKED_PATH);
+						checkboxes.at(i)->setImage(Path(UNCHECKED_PATH));
 						checkboxes.at(i)->setColor(color);
 					}
 					mParent->onSelectedChanged();

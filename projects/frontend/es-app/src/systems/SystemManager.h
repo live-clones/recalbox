@@ -54,7 +54,7 @@ class SystemManager :
      * @param nodeStore System node store
      * @return true if the operation is successful and at least one system has been processed. False otherwise
      */
-    bool loadSystemList(Tree& document, XmlNodeCollisionMap& collisionMap, XmlNodeList& nodeStore, const std::string& filepath);
+    bool loadSystemList(Tree& document, XmlNodeCollisionMap& collisionMap, XmlNodeList& nodeStore, const Path& filepath);
 
     /*!
      * Load and parse the given file to populate a property tree
@@ -62,7 +62,7 @@ class SystemManager :
      * @param filepath Filepath to load & parse
      * @return false if the file does not exist or if the file is not parsable.
      */
-    static bool loadXmlFile(Tree& document, const std::string& filepath);
+    static bool loadXmlFile(Tree& document, const Path& filepath);
 
     bool AddFavoriteSystem(const XmlNodeList& systemList);
 
@@ -71,15 +71,15 @@ class SystemManager :
     static SystemData* CreateRegularSystem(const SystemDescriptor& systemDescriptor);
 
     static SystemData* CreateFavoriteSystem(const std::string& name, const std::string& fullName,
-                                      const std::string& themeFolder, const std::vector<SystemData*>& systems);
+                                            const std::string& themeFolder, const std::vector<SystemData*>& systems);
 
     static SystemData* CreateMetaSystem(const std::string& name, const std::string& fullName,
-                                 const std::string& themeFolder, const std::vector<SystemData*>& systems);
+                                        const std::string& themeFolder, const std::vector<SystemData*>& systems);
 
-    static void writeExampleConfig(const std::string& path);
+    static void writeExampleConfig(const Path& path);
 
-    static std::string getUserConfigurationAbsolutePath()     { return RootFolders::DataRootFolder     + "/system/.emulationstation/es_systems.cfg"; }
-    static std::string getTemplateConfigurationAbsolutePath() { return RootFolders::TemplateRootFolder + "/system/.emulationstation/es_systems.cfg"; }
+    static Path getUserConfigurationAbsolutePath()     { return RootFolders::DataRootFolder     / "system/.emulationstation/es_systems.cfg"; }
+    static Path getTemplateConfigurationAbsolutePath() { return RootFolders::TemplateRootFolder / "system/.emulationstation/es_systems.cfg"; }
 
     static void DeserializeEmulatorTree(const Tree& treeNode, EmulatorList& emulatorList);
     static bool DeserializeSystemDescriptor(const Tree& treeNode, SystemDescriptor& systemDescriptor);

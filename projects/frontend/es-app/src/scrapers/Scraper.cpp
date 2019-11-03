@@ -2,10 +2,8 @@
 #include "utils/Log.h"
 #include "Settings.h"
 #include <FreeImage.h>
-#include <boost/filesystem.hpp>
-#include <boost/assign.hpp>
 #include <RootFolders.h>
-#include <utils/os/fs/FileSystemUtil.h>
+#include <utils/FileUtil.h>
 
 #include "GamesDBJSONScraper.h"
 #include "MamedbScraper.h"
@@ -147,10 +145,10 @@ MDResolveHandle::MDResolveHandle(const ScraperSearchResult& result, const Scrape
 {
 	if(!result.imageUrl.empty())
 	{
-		std::string imgPath = getSaveAsPath(search, "images", result.imageType);
+		Path imgPath = getSaveAsPath(search, "images", result.imageType);
 		mFuncs.push_back(ResolvePair(downloadImageAsync(result.imageUrl, imgPath), [this, imgPath]
 		{
-			mResult.mdl.SetImagePath(imgPath);
+			mResult.mdl.SetImagePath(imgPath.ToString());
 			mResult.imageUrl.clear();
 		}));
 	}
@@ -181,13 +179,13 @@ void MDResolveHandle::update()
 		setStatus(AsyncStatus::Done);
 }
 
-std::unique_ptr<ImageDownloadHandle> downloadImageAsync(const std::string& url, const std::string& saveAs)
+std::unique_ptr<ImageDownloadHandle> downloadImageAsync(const std::string& url, const Path& saveAs)
 {
 	return std::unique_ptr<ImageDownloadHandle>(new ImageDownloadHandle(url, saveAs, 
 		Settings::getInstance()->getInt("ScraperResizeWidth"), Settings::getInstance()->getInt("ScraperResizeHeight")));
 }
 
-ImageDownloadHandle::ImageDownloadHandle(const std::string& url, const std::string& path, int maxWidth, int maxHeight)
+ImageDownloadHandle::ImageDownloadHandle(const std::string& url, const Path& path, int maxWidth, int maxHeight)
   : mReq(new HttpReq(url)),
 	  mSavePath(path),
 	  mMaxWidth(maxWidth),
@@ -208,26 +206,15 @@ void ImageDownloadHandle::update()
 		return;
 	}
 
-	// download is done, save it to disk
-	std::ofstream stream(mSavePath, std::ios_base::out | std::ios_base::binary);
-	if(stream.bad())
-	{
-		setError("Failed to open image path to write. Permission error? Disk full?");
-		return;
-	}
-
-	const std::string& content = mReq->getContent();
-	if (content.length() > 256) // handle the "NOMEDIA" text reponse :(
+  if (mReq->getContent().size() > 256) // handle the "NOMEDIA" text reponse :(
   {
-    stream.write(content.data(), content.length());
-    stream.close();
-    if (stream.bad())
+    // Save
+    if (!FileUtil::SaveFile(mSavePath, mReq->getContent()))
     {
       setError("Failed to save image. Disk full?");
       return;
     }
-
-    // resize it
+    // Resize
     if (!resizeImage(mSavePath, mMaxWidth, mMaxHeight))
     {
       setError("Error saving resized image. Out of memory? Disk full?");
@@ -239,7 +226,7 @@ void ImageDownloadHandle::update()
 }
 
 //you can pass 0 for width or height to keep aspect ratio
-bool resizeImage(const std::string& path, int maxWidth, int maxHeight)
+bool resizeImage(const Path& path, int maxWidth, int maxHeight)
 {
 	// nothing to do
 	if(maxWidth == 0 && maxHeight == 0)
@@ -249,21 +236,21 @@ bool resizeImage(const std::string& path, int maxWidth, int maxHeight)
 	FIBITMAP* image = nullptr;
 	
 	//detect the filetype
-	format = FreeImage_GetFileType(path.c_str(), 0);
+	format = FreeImage_GetFileType(path.ToChars(), 0);
 	if(format == FIF_UNKNOWN)
-		format = FreeImage_GetFIFFromFilename(path.c_str());
+		format = FreeImage_GetFIFFromFilename(path.ToChars());
 	if(format == FIF_UNKNOWN)
 	{
-		LOG(LogError) << "Error - could not detect filetype for image \"" << path << "\"!";
+		LOG(LogError) << "Error - could not detect filetype for image \"" << path.ToString() << "\"!";
 		return false;
 	}
 
 	//make sure we can read this filetype first, then load it
 	if(FreeImage_FIFSupportsReading(format) != 0)
 	{
-		image = FreeImage_Load(format, path.c_str());
+		image = FreeImage_Load(format, path.ToChars());
 	}else{
-		LOG(LogError) << "Error - file format reading not supported for image \"" << path << "\"!";
+		LOG(LogError) << "Error - file format reading not supported for image \"" << path.ToString() << "\"!";
 		return false;
 	}
 
@@ -287,7 +274,7 @@ bool resizeImage(const std::string& path, int maxWidth, int maxHeight)
 		return false;
 	}
 
-	bool saved =  path.empty() ? false : (FreeImage_Save(format, imageRescaled, path.c_str()) != 0);
+	bool saved =  path.Empty() ? false : (FreeImage_Save(format, imageRescaled, path.ToChars()) != 0);
 	FreeImage_Unload(imageRescaled);
 
     if(!saved) {
@@ -297,25 +284,25 @@ bool resizeImage(const std::string& path, int maxWidth, int maxHeight)
 	return saved;
 }
 
-std::string getSaveAsPath(const ScraperSearchParams& params, const std::string& suffix, const ScraperImageType type)
+Path getSaveAsPath(const ScraperSearchParams& params, const std::string& suffix, const ScraperImageType type)
 {
-	const std::string rootFolder = params.system->getRootFolder()->getPath().generic_string();
-  const std::string gameFolder = params.game->getPath().parent_path().generic_string();
-	const std::string gameName = params.game->getPath().stem().generic_string();
+	const Path rootFolder = params.system->getRootFolder()->getPath();
+  const Path gameFolder = params.game->getPath().Directory();
+	const std::string gameName = params.game->getPath().Filename();
 
 	bool dummy;
-	std::string subPath = FileSystemUtil::removeCommonPath(gameFolder, rootFolder, dummy);
+	Path subPath = gameFolder.MakeRelative(rootFolder, dummy);
 
 	// default dir in rom directory
-	std::string path = params.system->getRootFolder()->getPath().generic_string() + "/media/" + suffix + '/';
-	if (subPath.length() != 0) path += subPath + '/';
-	if (!FileSystemUtil::exists(path))
+	Path path = params.system->getRootFolder()->getPath() / "media" / suffix;
+	if (!subPath.Empty()) path = path / subPath;
+	if (!path.Exists())
   {
-	  FileSystemUtil::createDirectories(path);
-    if (!FileSystemUtil::exists(path))
+	  path.CreatePath();
+    if (!path.Exists())
     {
-      LOG(LogError) << "Cannot create " << path;
-      return "";
+      LOG(LogError) << "Cannot create " << path.ToString();
+      return Path();
     }
   }
 
@@ -327,6 +314,6 @@ std::string getSaveAsPath(const ScraperSearchParams& params, const std::string& 
     default: break;
   }
 
-	path += gameName + gameExt;
-	return path;
+	path = path / gameName;
+	return path.ChangeExtension(gameExt);
 }

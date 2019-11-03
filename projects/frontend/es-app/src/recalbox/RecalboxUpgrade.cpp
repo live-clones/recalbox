@@ -4,11 +4,12 @@
 #include <Locale.h>
 #include <boost/algorithm/string/replace.hpp>
 #include <components/BusyComponent.h>
+#include <utils/FileUtil.h>
 
 std::string RecalboxUpgrade::getVersion()
 {
   std::string version = Settings::getInstance()->getString("VersionFile");
-  return RecalboxSystem::readFile(version);
+  return FileUtil::LoadFile(Path(version));
 }
 
 std::string RecalboxUpgrade::getUpdateVersion()

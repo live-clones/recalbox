@@ -6,6 +6,7 @@ if (LogLevel::level <= Log::getReportingLevel()) Log().get(LogLevel::level)
 
 #include <string>
 #include <sstream>
+#include <utils/os/fs/Path.h>
 
 enum class LogLevel
 {
@@ -24,7 +25,7 @@ class Log
     static LogLevel getReportingLevel() { return reportingLevel; }
     static void setReportingLevel(LogLevel level) { reportingLevel = level; }
 
-    static std::string getLogPath();
+    static Path getLogPath();
 
     static void flush();
     static void open();

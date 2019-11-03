@@ -17,7 +17,7 @@
 class NinePatchComponent : public GuiComponent
 {
 public:
-	NinePatchComponent(Window* window, const std::string& path);
+	NinePatchComponent(Window* window, const Path& path);
   explicit NinePatchComponent(Window* window);
 	~NinePatchComponent() override;
 
@@ -27,7 +27,7 @@ public:
 
 	void fitTo(Vector2f size, Vector3f position = Vector3f::Zero(), Vector2f padding = Vector2f::Zero());
 
-	void setImagePath(const std::string& path);
+	void setImagePath(const Path& path);
 	void setEdgeColor(unsigned int edgeColor); // Apply a color shift to the "edge" parts of the ninepatch.
 	void setCenterColor(unsigned int centerColor); // Apply a color shift to the "center" part of the ninepatch.
 
@@ -48,7 +48,7 @@ private:
 	Vertex* mVertices;
 	GLubyte* mColors;
 
-	std::string mPath;
+	Path mPath;
 	unsigned int mEdgeColor;
 	unsigned int mCenterColor;
 	std::shared_ptr<TextureResource> mTexture;

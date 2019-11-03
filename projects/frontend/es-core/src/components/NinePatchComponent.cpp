@@ -15,11 +15,11 @@ NinePatchComponent::NinePatchComponent(Window* window)
 {
 }
 
-NinePatchComponent::NinePatchComponent(Window* window, const std::string& path)
+NinePatchComponent::NinePatchComponent(Window* window, const Path& path)
 	: NinePatchComponent(window)
 {
   mPath = path;
-	if (!mPath.empty())
+	if (!mPath.Empty())
 		buildVertices();
 }
 
@@ -197,7 +197,7 @@ void NinePatchComponent::fitTo(Vector2f size, Vector3f position, Vector2f paddin
 	setPosition(-getCornerSize().x() + position.x(), -getCornerSize().y() + position.y());
 }
 
-void NinePatchComponent::setImagePath(const std::string& path)
+void NinePatchComponent::setImagePath(const Path& path)
 {
 	mPath = path;
 	buildVertices();
@@ -224,5 +224,5 @@ void NinePatchComponent::applyTheme(const ThemeData& theme, const std::string& v
 		return;
 
 	if(hasFlag(properties, ThemeProperties::Path) && elem->has("path"))
-		setImagePath(elem->get<std::string>("path"));
+		setImagePath(Path(elem->get<std::string>("path")));
 }

@@ -264,7 +264,7 @@ bool MetadataDescriptor::StringToFloat(const std::string& from, float& to)
   return true;
 }
 
-bool MetadataDescriptor::Deserialize(const TreeNode& from, const std::string& relativeTo)
+bool MetadataDescriptor::Deserialize(const TreeNode& from, const Path& relativeTo)
 {
   #ifdef _METADATA_STATS_
     if (_Type == ItemType::Game) LivingGames--;
@@ -313,7 +313,7 @@ bool MetadataDescriptor::Deserialize(const TreeNode& from, const std::string& re
       }
       case MetadataFieldDescriptor::DataType::PPath:
       {
-        value = resolvePath(value, relativeTo, true).generic_string();
+        value = Path(value).ToAbsolute(relativeTo).ToString();
         AssignPString(*((std::string**)target), value);
         break;
       }
@@ -325,7 +325,7 @@ bool MetadataDescriptor::Deserialize(const TreeNode& from, const std::string& re
       }
       case MetadataFieldDescriptor::DataType::Path:
       {
-        value = resolvePath(value, relativeTo, true).generic_string();
+        value = Path(value).ToAbsolute(relativeTo).ToString();
         *((std::string*)target) = value;
         break;
       }
@@ -404,7 +404,7 @@ bool MetadataDescriptor::Deserialize(const TreeNode& from, const std::string& re
   return true;
 }
 
-void MetadataDescriptor::Serialize(Tree& parentTree, const std::string& filePath, const std::string& relativeTo) const
+void MetadataDescriptor::Serialize(Tree& parentTree, const Path& filePath, const Path& relativeTo) const
 {
   int count = 0;
   const MetadataFieldDescriptor* fields = GetMetadataFieldDescriptors(_Type, count);
@@ -413,8 +413,9 @@ void MetadataDescriptor::Serialize(Tree& parentTree, const std::string& filePath
   Tree& tree = parentTree.add_child(_Type == ItemType::Game ? GameNodeIdentifier : FolderNodeIdentifier, Tree());
 
   // Add path
-  std::string relative = makeRelativePath(filePath, relativeTo, true).generic_string();
-  tree.put("path", relative);
+  bool dummy;
+  Path relative = filePath.MakeRelative(relativeTo, dummy);
+  tree.put("path", relative.ToString());
 
   // Metadata
   for (; --count >= 0; )
@@ -447,12 +448,12 @@ void MetadataDescriptor::Serialize(Tree& parentTree, const std::string& filePath
       }
       case MetadataFieldDescriptor::DataType::PPath:
       {
-        tree.put(field.Key(), makeRelativePath(ReadPString(*((std::string**)source), DefaultValueEmpty), relativeTo, true).generic_string());
+        tree.put(field.Key(), ReadPPath(*((Path**)source), Path()).MakeRelative(relativeTo, dummy).ToString());
         break;
       }
       case MetadataFieldDescriptor::DataType::Path:
       {
-        tree.put(field.Key(), makeRelativePath(*((std::string*)source), relativeTo, true).generic_string());
+        tree.put(field.Key(), (*((Path*)source)).MakeRelative(relativeTo, dummy).ToString());
         break;
       }
       case MetadataFieldDescriptor::DataType::Int:

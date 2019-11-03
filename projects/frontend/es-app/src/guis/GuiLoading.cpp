@@ -14,7 +14,7 @@ static const std::function<void(void*)> _NullFunction;
 GuiLoading::GuiLoading(Window *window, const std::function<void*()>& mFunc)
   : GuiComponent(window),
     mBusyAnim(window),
-    mBackground(window, ":/frame.png"),
+    mBackground(window, Path(":/frame.png")),
     mFunc(mFunc),
     mFunc2(_NullFunction),
     result(nullptr)
@@ -34,7 +34,7 @@ GuiLoading::GuiLoading(Window *window, const std::function<void*()>& mFunc)
 GuiLoading::GuiLoading(Window *window, const std::function<void*()> &mFunc, const std::function<void(void *)> &mFunc2)
   : GuiComponent(window),
     mBusyAnim(window),
-    mBackground(window, ":/frame.png"),
+    mBackground(window, Path(":/frame.png")),
     mFunc(mFunc),
     mFunc2(mFunc2),
     result(nullptr)

@@ -13,6 +13,8 @@ ButtonComponent::ButtonComponent(Window* window, const std::string& text, const 
     mEnabled(true),
     mTextColorFocused(0xFFFFFFFF), mTextColorUnfocused(0x777777FF),
     mModdedColor(0),
+    mButton(":/button.png"),
+    mButton_filled(":/button_filled.png"),
     mBox(window, mButton)
 {
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();

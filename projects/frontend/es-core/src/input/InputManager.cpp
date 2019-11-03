@@ -1,16 +1,14 @@
+#include <algorithm>
 #include "InputManager.h"
 #include "InputDevice.h"
 #include "Settings.h"
 #include "utils/Log.h"
 #include "pugixml/pugixml.hpp"
-#include <boost/filesystem.hpp>
 #include "platform.h"
 #include "RootFolders.h"
 #include "SDL.h"
 
 #define KEYBOARD_GUID_STRING "-1"
-
-namespace fs = boost::filesystem;
 
 InputManager::InputManager()
   : mKeyboard(InputEvent::sKeyboardDevice, -1, "Keyboard", KEYBOARD_GUID_STRING, 0, 0, 125)
@@ -228,19 +226,18 @@ InputCompactEvent InputManager::ManageSDLEvent(const SDL_Event& ev)
   return {InputCompactEvent::Entry::Nothing, InputCompactEvent::Entry::Nothing, mKeyboard, InputEvent() };
 }
 
-std::string InputManager::ConfigurationPath()
+Path InputManager::ConfigurationPath()
 {
-  std::string path = RootFolders::DataRootFolder + "/system/.emulationstation/es_input.cfg";
-  return path;
+  return RootFolders::DataRootFolder / "system/.emulationstation/es_input.cfg";
 }
 
 bool InputManager::LookupDeviceXmlConfiguration(InputDevice& device)
 {
-  std::string path = ConfigurationPath();
-  if (!fs::exists(path)) return false;
+  Path path = ConfigurationPath();
+  if (!path.Exists()) return false;
 
   pugi::xml_document doc;
-  pugi::xml_parse_result res = doc.load_file(path.c_str());
+  pugi::xml_parse_result res = doc.load_file(path.ToChars());
   if (!res)
   {
     LOG(LogError) << "Error parsing input config: " << res.description();
@@ -268,11 +265,11 @@ bool InputManager::LookupDeviceXmlConfiguration(InputDevice& device)
 
 void InputManager::WriteDeviceXmlConfiguration(InputDevice& device)
 {
-  std::string path = ConfigurationPath();
+  Path path = ConfigurationPath();
   pugi::xml_document doc;
-  if (fs::exists(path))
+  if (path.Exists())
   {
-    pugi::xml_parse_result result = doc.load_file(path.c_str());
+    pugi::xml_parse_result result = doc.load_file(path.ToChars());
     if (!result)
     {
       LOG(LogError) << "Error parsing input config: " << result.description();
@@ -296,7 +293,7 @@ void InputManager::WriteDeviceXmlConfiguration(InputDevice& device)
   if (!root) root = doc.append_child("inputList");
 
   device.SaveToXml(root);
-  doc.save_file(path.c_str());
+  doc.save_file(path.ToChars());
 }
 
 void InputManager::FillConfiguredDevicelist(std::vector<InputDevice*>& list)

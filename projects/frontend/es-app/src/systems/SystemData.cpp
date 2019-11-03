@@ -8,12 +8,10 @@
 #include <recalbox/RecalboxSystem.h>
 #include <VideoEngine.h>
 #include <utils/StringUtil.h>
-#include <utils/os/fs/FileSystemUtil.h>
 #include <utils/FileUtil.h>
 #include <Settings.h>
 #include <boost/property_tree/xml_parser.hpp>
 
-namespace fs = boost::filesystem;
 namespace pt = boost::property_tree;
 
 EmulatorDescriptor EmulatorList::sEmptyEmulator("NO EMULATOR");
@@ -22,7 +20,7 @@ SystemData::SystemData(const SystemDescriptor& descriptor,
                        bool childOwnership,
                        bool favorite)
   : mDescriptor(descriptor),
-    mRootFolder(childOwnership, descriptor.RomPath().ToString(), this),
+    mRootFolder(childOwnership, descriptor.RomPath(), this),
     mSortId(RecalboxConf::getInstance()->getUInt(mDescriptor.Name() + ".sort")),
     mIsFavorite(favorite)
 {
@@ -48,9 +46,9 @@ void SystemData::RunGame(Window& window, FileData& game, const std::string& netp
 
   std::string command = mDescriptor.Command();
 
-  const std::string rom = FileSystemUtil::getEscapedPath(game.getPath().generic_string());
-  const std::string basename = game.getPath().stem().string();
-  const std::string rom_raw = fs::path(game.getPath()).make_preferred().string();
+  const std::string rom = game.getPath().MakeEscaped();
+  const std::string basename = game.getPath().FilenameWithoutExtension();
+  const std::string rom_raw = game.getPath().ToString();
 
   command = StringUtil::replace(command, "%ROM%", rom);
   command = StringUtil::replace(command, "%CONTROLLERSCONFIG%", controlersConfig);
@@ -128,9 +126,9 @@ bool SystemData::DemoRunGame(const FileData& game, int duration, int infoscreend
 {
   std::string command = mDescriptor.Command();
 
-  const std::string rom = FileSystemUtil::getEscapedPath(game.getPath().generic_string());
-  const std::string basename = game.getPath().stem().string();
-  const std::string rom_raw = fs::path(game.getPath()).make_preferred().string();
+  const std::string rom = game.getPath().MakeEscaped();
+  const std::string basename = game.getPath().FilenameWithoutExtension();
+  const std::string rom_raw = game.getPath().ToString();
 
   command = StringUtil::replace(command, "%ROM%", rom);
   command = StringUtil::replace(command, "%CONTROLLERSCONFIG%", controlersConfig);
@@ -173,7 +171,7 @@ bool SystemData::DemoRunGame(const FileData& game, int duration, int infoscreend
 void SystemData::populateFolder(FolderData* folder, FileData::StringMap& doppelgangerWatcher)
 {
   LOG(LogInfo) << folder->getSystem()->getFullName() << ": Searching games/roms in "
-               << folder->getPath().generic_string() << "...";
+               << folder->getPath().ToString() << "...";
 
   try
   {
@@ -181,21 +179,21 @@ void SystemData::populateFolder(FolderData* folder, FileData::StringMap& doppelg
   }
   catch (std::exception& ex)
   {
-    LOG(LogError) << "Reading folder \"" << folder->getPath().generic_string() << "\" has raised an error!";
+    LOG(LogError) << "Reading folder \"" << folder->getPath().ToString() << "\" has raised an error!";
     LOG(LogError) << "Exception: " << ex.what();
   }
 }
 
-std::string SystemData::getGamelistPath(bool forWrite) const
+Path SystemData::getGamelistPath(bool forWrite) const
 {
-  fs::path filePath;
+  Path filePath;
   filePath = mRootFolder.getPath() / "gamelist.xml";
-  if (forWrite && !fs::exists(filePath))
-    fs::create_directories(filePath.parent_path());
-  return filePath.generic_string();
+  if (forWrite && !filePath.Exists())
+    filePath.Directory().CreatePath();
+  return filePath;
 }
 
-std::string SystemData::getThemePath() const
+Path SystemData::getThemePath() const
 {
   // where we check for themes, in order:
   // 1. [SYSTEM_PATH]/theme.xml
@@ -203,29 +201,29 @@ std::string SystemData::getThemePath() const
   // 3. default system theme from currently selected theme set [CURRENT_THEME_PATH]/theme.xml
 
   // first, check game folder
-  fs::path localThemePath = mRootFolder.getPath() / "theme.xml";
-  if (fs::exists(localThemePath)) return localThemePath.generic_string();
+  Path localThemePath = mRootFolder.getPath() / "theme.xml";
+  if (localThemePath.Exists()) return localThemePath;
 
   // not in game folder, try system theme in theme sets
   localThemePath = ThemeData::getThemeFromCurrentSet(mDescriptor.ThemeFolder());
-  if (fs::exists(localThemePath)) return localThemePath.generic_string();
+  if (localThemePath.Exists()) return localThemePath;
 
   // not system theme, try default system theme in theme set
-  localThemePath = localThemePath.parent_path().parent_path() / "theme.xml";
-  if (fs::exists(localThemePath)) return localThemePath.generic_string();
+  localThemePath = localThemePath.Directory().Directory() / "theme.xml";
+  if (localThemePath.Exists()) return localThemePath;
 
-  //none of the above, try default
-  localThemePath = localThemePath.parent_path() / "default/theme.xml";
-  if (fs::exists(localThemePath)) return localThemePath.generic_string();
+  // none of the above, try default
+  localThemePath = localThemePath.Directory() / "default/theme.xml";
+  if (localThemePath.Exists()) return localThemePath;
 
   // No luck...
-  return "";
+  return Path();
 }
 
 void SystemData::loadTheme()
 {
-  std::string path = getThemePath();
-  if (!fs::exists(path)) // no theme available for this platform
+  Path path = getThemePath();
+  if (!path.Exists()) // no theme available for this platform
     return;
 
   try
@@ -278,19 +276,19 @@ void SystemData::overrideFolderInformation(FileData* folderdata)
 {
   // Override image
   bool imageOverriden = false;
-  std::string fullPath = folderdata->getPath().generic_string() + "/.folder.picture.svg";
+  Path fullPath = folderdata->getPath() / ".folder.picture.svg";
 
   MetadataDescriptor& metadata = folderdata->Metadata();
 
-  if (FileSystemUtil::exists(fullPath))
+  if (fullPath.Exists())
   {
     metadata.SetVolatileImagePath(fullPath);
     imageOverriden = true;
   }
   else
   {
-    fullPath = folderdata->getPath().generic_string() + "/.folder.picture.png";
-    if (FileSystemUtil::exists(fullPath))
+    fullPath = folderdata->getPath() / ".folder.picture.png";
+    if (fullPath.Exists())
     {
       metadata.SetVolatileImagePath(fullPath);
       imageOverriden = true;
@@ -300,8 +298,8 @@ void SystemData::overrideFolderInformation(FileData* folderdata)
   // Override description oly if the image has been overriden
   if (imageOverriden)
   {
-    fullPath = folderdata->getPath().generic_string() + "/.folder.description.txt";
-    std::string text = FileUtil::loadTextFile(fullPath);
+    fullPath = folderdata->getPath() / ".folder.description.txt";
+    std::string text = FileUtil::LoadFile(fullPath);
     if (text.length() != 0)
     {
       text = getLocalizedText(text);
@@ -311,31 +309,29 @@ void SystemData::overrideFolderInformation(FileData* folderdata)
   }
 }
 
-FileData* SystemData::LookupOrCreateGame(const boost::filesystem::path& path, ItemType type,
+FileData* SystemData::LookupOrCreateGame(const Path& path, ItemType type,
                                          FileData::StringMap& doppelgangerWatcher)
 {
   // first, verify that path is within the system's root folder
   FolderData* root = getRootFolder();
 
-  bool contains = false;
-  fs::path relative = removeCommonPathUsingStrings(path, root->getPath(), contains);
-  if (!contains)
+  if (!path.StartWidth(root->getPath()))
   {
-    LOG(LogError) << "File path \"" << path << "\" is outside system path \"" << getStartPath().ToString() << "\"";
+    LOG(LogError) << "File path \"" << path.ToString() << "\" is outside system path \"" << getStartPath().ToString() << "\"";
     return nullptr;
   }
 
-  auto path_it = relative.begin();
+  int itemStart = root->getPath().ItemCount();
+  int itemLast = path.ItemCount() - 1;
   FolderData* treeNode = root;
-  std::string key;
-  while(path_it != relative.end())
+  for(int itemIndex = itemStart; itemIndex <= itemLast; ++itemIndex)
   {
     // Get the key for duplicate detection. MUST MATCH KEYS USED IN populateRecursiveFolder.populateRecursiveFolder - Always fullpath
-    key = (treeNode->getPath() / *path_it).string();
+    std::string key = path.UptoItem(itemIndex);
     FileData* item = (doppelgangerWatcher.find(key) != doppelgangerWatcher.end()) ? doppelgangerWatcher[key] : nullptr;
 
     // Last path component?
-    if (path_it == --relative.end())
+    if (itemIndex == itemLast)
     {
       if (type == ItemType::Game) // Final file
       {
@@ -355,7 +351,7 @@ FileData* SystemData::LookupOrCreateGame(const boost::filesystem::path& path, It
         if (folder == nullptr)
         {
           // create missing folder
-          folder = new FolderData(key, this);
+          folder = new FolderData(Path(key), this);
           doppelgangerWatcher[key] = folder;
           treeNode->addChild(folder, true);
         }
@@ -368,13 +364,12 @@ FileData* SystemData::LookupOrCreateGame(const boost::filesystem::path& path, It
       if (folder == nullptr)
       {
         // create missing folder
-        folder = new FolderData(key, this);
+        folder = new FolderData(Path(key), this);
         doppelgangerWatcher[key] = folder;
         treeNode->addChild(folder, true);
       }
       treeNode = folder;
     }
-    path_it++;
   }
 
   return nullptr;
@@ -382,29 +377,26 @@ FileData* SystemData::LookupOrCreateGame(const boost::filesystem::path& path, It
 
 void SystemData::ParseGamelistXml(FileData::StringMap& doppelgangerWatcher)
 {
-  LOG(LogInfo) << getFullName() << ": Parsing XML file " << getGamelistPath(false) << "...";
-
   try
   {
-    std::string xmlpath = getGamelistPath(false);
+    Path xmlpath = getGamelistPath(false);
 
-    if(!boost::filesystem::exists(xmlpath))
+    if(!xmlpath.Exists())
       return;
 
     MetadataDescriptor::Tree gameList;
     try
     {
-      pt::read_xml(xmlpath, gameList, 0, std::locale("en_US.UTF8"));
+      pt::read_xml(xmlpath.ToString(), gameList, 0, std::locale("en_US.UTF8"));
     }
     catch(std::exception& e)
     {
-      LOG(LogError) << "Could not parse " << xmlpath <<" file!";
+      LOG(LogError) << "Could not parse " << xmlpath.ToString() <<" file!";
       LOG(LogError) << e.what();
       return;
     }
 
-    fs::path relativeTo = getStartPath().ToString();
-    fs::path path;
+    Path relativeTo = getStartPath();
     for (const auto& fileNode : gameList.get_child("gameList"))
     {
       ItemType type;
@@ -413,17 +405,17 @@ void SystemData::ParseGamelistXml(FileData::StringMap& doppelgangerWatcher)
       else continue; // Unknown node
 
       const MetadataDescriptor::Tree& children = fileNode.second;
-      path = resolvePath(children.get("path", ""), relativeTo, false);
+      Path path = relativeTo / children.get("path", "");
 
       FileData* file = LookupOrCreateGame(path, type, doppelgangerWatcher);
       if(file == nullptr)
       {
-        LOG(LogError) << "Error finding/creating FileData for \"" << path << "\", skipping.";
+        LOG(LogError) << "Error finding/creating FileData for \"" << path.ToString() << "\", skipping.";
         continue;
       }
 
       // load the metadata
-      file->Metadata().Deserialize(fileNode, relativeTo.generic_string());
+      file->Metadata().Deserialize(fileNode, relativeTo);
     }
   }
   catch(std::exception& ex)
@@ -457,26 +449,27 @@ void SystemData::UpdateGamelistXml()
      * Create game/folder map for fast seeking using relative path as key
      */
     std::unordered_map<std::string, const FileData *> fileLinks;
-    for (const FileData *file : fileData)                                                                    // For each File
-      if (file->Metadata().IsDirty())                                                                        // with updated metadata
-        fileLinks[makeRelativePath(file->getPath(), getStartPath().ToString(), false).generic_string()] = file; // store the relative path
+    bool ok = false;
+    for (const FileData *file : fileData)                                                      // For each File
+      if (file->Metadata().IsDirty())                                                          // with updated metadata
+        fileLinks[file->getPath().MakeRelative(getStartPath(), ok).ToString()] = file; // store the relative path
     // Nothing changed?
     if (fileLinks.empty()) return;
 
     /*
      * Load or create gamelist node
      */
-    std::string xmlReadPath = getGamelistPath(false);
+    Path xmlReadPath = getGamelistPath(false);
     MetadataDescriptor::Tree document;
-    if (boost::filesystem::exists(xmlReadPath))
+    if (xmlReadPath.Exists())
     {
       try
       {
-        pt::read_xml(xmlReadPath, document, pt::xml_parser::trim_whitespace, std::locale("en_US.UTF8"));
+        pt::read_xml(xmlReadPath.ToString(), document, pt::xml_parser::trim_whitespace, std::locale("en_US.UTF8"));
       }
       catch (std::exception &e)
       {
-        LOG(LogError) << "Could not parse " << xmlReadPath << " file!";
+        LOG(LogError) << "Could not parse " << xmlReadPath.ToString() << " file!";
         LOG(LogError) << e.what();
       }
     } else
@@ -501,24 +494,24 @@ void SystemData::UpdateGamelistXml()
     for (const FileData *file : fileData)                                 // For each file
       if (file->Metadata().IsDirty())                                     // If metadata have changed
         file->Metadata().Serialize(gameList,                              // Insert updated node
-                                   file->getPath().generic_string(),
-                                   getStartPath().ToString());
+                                   file->getPath(),
+                                   getStartPath());
 
     /*
      * Write the list.
      * At this point, we're sure at least one node has been updated (or added and updated).
      */
-    boost::filesystem::path xmlWritePath(getGamelistPath(true));
-    boost::filesystem::create_directories(xmlWritePath.parent_path());
+    Path xmlWritePath(getGamelistPath(true));
+    xmlWritePath.Directory().CreatePath();
     try
     {
       pt::xml_writer_settings<std::string> settings(' ', 2);
-      pt::write_xml(xmlWritePath.generic_string(), document, std::locale("en_US.UTF8"), settings);
+      pt::write_xml(xmlWritePath.ToString(), document, std::locale("en_US.UTF8"), settings);
       LOG(LogInfo) << "Saved gamelist.xml for system " << getFullName() << ". Updated items: " << fileLinks.size() << "/" << fileData.size();
     }
     catch (std::exception &e)
     {
-      LOG(LogError) << "Failed to save " << xmlWritePath.generic_string() << " : " << e.what();
+      LOG(LogError) << "Failed to save " << xmlWritePath.ToString() << " : " << e.what();
     }
 
   }

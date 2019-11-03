@@ -1,6 +1,7 @@
 #pragma once
 
 #include <boost/property_tree/ptree.hpp>
+#include <utils/os/fs/Path.h>
 #include "utils/datetime/DateTime.h"
 #include "ItemType.h"
 
@@ -41,14 +42,14 @@ class MetadataDescriptor
     // Please keep field ordered by typpe size to reduce alignment padding
     std::string  _Name;         //!< Name as simple string
     std::string  _Description;  //!< Description, multiline text
-    std::string  _Image;        //!< Image path
+    Path         _Image;        //!< Image path
     std::string  _Developer;    //!< Developer name
     std::string  _Publisher;    //!< Publisher name
     std::string  _Genre;        //!< Genres, comma separated
     std::string* _Emulator;     //!< Specific emulator
     std::string* _Core;         //!< Specific core
     std::string* _Ratio;        //!< Specific screen ratio
-    std::string* _Thumbnail;    //!< Thumbnail path
+    Path*        _Thumbnail;    //!< Thumbnail path
     std::string* _Video;        //!< Video path
     std::string* _Region;       //!< Rom/Game Region
     float        _Rating;       //!< Rating from 0.0 to 1.0
@@ -83,6 +84,19 @@ class MetadataDescriptor
     }
 
     /*!
+     * Free the PPath if non null
+     * @param path Pointer to Path
+     */
+    static void FreePPath(Path*& path)
+    {
+      if (path != nullptr)
+      {
+        delete path;
+        path = nullptr;
+      }
+    }
+
+    /*!
      * Assign a value to the given PString.
      * the PString is created/destroyed if required
      * @param string PString to assign value to
@@ -99,6 +113,22 @@ class MetadataDescriptor
     }
 
     /*!
+     * Assign a value to the given PPath.
+     * the PPath is created/destroyed if required
+     * @param string PPath to assign value to
+     * @param value Value to assign
+     */
+    static void AssignPPath(Path*& path, const std::string& value)
+    {
+      if (value.empty()) FreePPath(path);
+      else
+      {
+        if (path == nullptr) path = new Path();
+        *path = value;
+      }
+    }
+
+    /*!
      * Read PString content. Return static empty string if the PString is null
      * @param string PString to read
      * @return read value
@@ -107,6 +137,17 @@ class MetadataDescriptor
     {
       if (string == nullptr) return defaultvalue;
       return *string;
+    }
+
+    /*!
+     * Read PPath content. Return static empty path if the PPath is null
+     * @param path PPath to read
+     * @return read value
+     */
+    static const Path& ReadPPath(const Path* path, const Path& defaultvalue)
+    {
+      if (path == nullptr) return defaultvalue;
+      return *path;
     }
 
     /*!
@@ -316,7 +357,7 @@ class MetadataDescriptor
       if (source._Emulator  != nullptr) _Emulator  = new std::string(*source._Emulator );
       if (source._Core      != nullptr) _Core      = new std::string(*source._Core     );
       if (source._Ratio     != nullptr) _Ratio     = new std::string(*source._Ratio    );
-      if (source._Thumbnail != nullptr) _Thumbnail = new std::string(*source._Thumbnail);
+      if (source._Thumbnail != nullptr) _Thumbnail = new Path       (*source._Thumbnail);
       if (source._Video     != nullptr) _Video     = new std::string(*source._Video    );
       if (source._Region    != nullptr) _Region    = new std::string(*source._Region   );
       _Rating      = source._Rating     ;
@@ -388,14 +429,14 @@ class MetadataDescriptor
      * @param relativeTo Root path
      * @return True of the node has been successfully deserialized
      */
-    bool Deserialize(const TreeNode& from, const std::string& relativeTo);
+    bool Deserialize(const TreeNode& from, const Path& relativeTo);
 
     /*!
      * Serialize internal data to XML node
      * @param relativeTo Root path
      * @return Serialized XML node
      */
-    void Serialize(Tree& parentTree, const std::string& filePath, const std::string& relativeTo) const;
+    void Serialize(Tree& parentTree, const Path& filePath, const Path& relativeTo) const;
 
     /*!
      * Merge value from the source metadata object into the current object
@@ -415,8 +456,8 @@ class MetadataDescriptor
     const std::string& Core()        const { return ReadPString(_Core, DefaultValueCore);         }
     const std::string& Ratio()       const { return ReadPString(_Ratio, DefaultValueRatio);       }
     const std::string& Description() const { return _Description;                                 }
-    const std::string& Image()       const { return _Image;                                       }
-    const std::string& Thumbnail()   const { return ReadPString(_Thumbnail, DefaultValueEmpty);   }
+    const Path&        Image()       const { return _Image;                                       }
+    const Path&        Thumbnail()   const { return ReadPPath  (_Thumbnail, Path());   }
     const std::string& Video()       const { return ReadPString(_Video, DefaultValueEmpty);       }
     const std::string& Developer()   const { return _Developer;                                   }
     const std::string& Publisher()   const { return _Publisher;                                   }
@@ -445,8 +486,8 @@ class MetadataDescriptor
     std::string CoreAsString()        const { return ReadPString(_Core, DefaultValueCore);         }
     std::string RatioAsString()       const { return ReadPString(_Ratio, DefaultValueRatio);       }
     std::string DescriptionAsString() const { return _Description;                                 }
-    std::string ImageAsString()       const { return _Image;                                       }
-    std::string ThumbnailAsString()   const { return ReadPString(_Thumbnail, DefaultValueEmpty);   }
+    std::string ImageAsString()       const { return _Image.ToString();                                       }
+    std::string ThumbnailAsString()   const { return ReadPPath  (_Thumbnail, Path()).ToString();   }
     std::string VideoAsString()       const { return ReadPString(_Video, DefaultValueEmpty);       }
     std::string DeveloperAsString()   const { return _Developer;                                   }
     std::string PublisherAsString()   const { return _Publisher;                                   }
@@ -472,7 +513,7 @@ class MetadataDescriptor
     void SetRatio(const std::string& ratio) { AssignPString(_Ratio, ratio); _Dirty = true; }
     void SetDescription(const std::string& description) { _Description = description; _Dirty = true; }
     void SetImagePath(const std::string& image) { _Image = image; _Dirty = true; }
-    void SetThumbnailPath(const std::string& thumbnail) { AssignPString(_Thumbnail, thumbnail); _Dirty = true; }
+    void SetThumbnailPath(const std::string& thumbnail) { AssignPPath(_Thumbnail, thumbnail); _Dirty = true; }
     void SetVideoPath(const std::string& video) { AssignPString(_Video, video); _Dirty = true; }
     void SetReleaseDate(const DateTime& releasedate) { _ReleaseDate = (int)releasedate.ToEpochTime(); _Dirty = true; }
     void SetDeveloper(const std::string& developer) { _Developer = developer; _Dirty = true; }
@@ -497,7 +538,7 @@ class MetadataDescriptor
      */
 
     void SetVolatileDescription(const std::string& description) { _Description = description; }
-    void SetVolatileImagePath(const std::string& image) { _Image = image; }
+    void SetVolatileImagePath(const Path& image) { _Image = image; }
 
     /*
      * String setters

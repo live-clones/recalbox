@@ -23,9 +23,9 @@ MenuThemeData::MenuThemeData()
 	if (elem != nullptr)
 	{
 		if (elem->has("path"))
-			mCurrent->menuBackground.path = elem->get<std::string>("path");
+			mCurrent->menuBackground.path = Path(elem->get<std::string>("path"));
 		if (elem->has("fadePath"))
-			mCurrent->menuBackground.fadePath = elem->get<std::string>("fadePath");
+			mCurrent->menuBackground.fadePath = Path(elem->get<std::string>("fadePath"));
 		if (elem->has("color"))
 			mCurrent->menuBackground.color = elem->get<unsigned int>("color");
 	}

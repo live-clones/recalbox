@@ -11,14 +11,14 @@ TextureDataManager		TextureResource::sTextureDataManager;
 std::map< TextureResource::TextureKeyType, std::weak_ptr<TextureResource> > TextureResource::sTextureMap;
 std::set<TextureResource*> 	TextureResource::sAllTextures;
 
-TextureResource::TextureResource(const std::string& path, bool tile, bool dynamic)
+TextureResource::TextureResource(const Path& path, bool tile, bool dynamic)
   : mTextureData(nullptr),
     mSize(0),
     mSourceSize(0.0f),
     mForceLoad(false)
 {
 // Create a texture data object for this texture
-	if (!path.empty())
+	if (!path.Empty())
 	{
 		// If there is a path then the 'dynamic' flag tells us whether to use the texture
 		// data manager to manage loading/unloading of this texture
@@ -103,20 +103,19 @@ bool TextureResource::bind()
 }
 
 
-std::shared_ptr<TextureResource> TextureResource::get(const std::string& path, bool tile, bool forceLoad, bool dynamic)
+std::shared_ptr<TextureResource> TextureResource::get(const Path& path, bool tile, bool forceLoad, bool dynamic)
 {
 	std::shared_ptr<ResourceManager>& rm = ResourceManager::getInstance();
 
-	const std::string canonicalPath = getCanonicalPath(path);
 
-	if(canonicalPath.empty())
+	if(path.Empty())
 	{
-		std::shared_ptr<TextureResource> tex(new TextureResource("", tile, false));
+		std::shared_ptr<TextureResource> tex(new TextureResource(Path(), tile, false));
 		rm->addReloadable(tex); //make sure we get properly deinitialized even though we do nothing on reinitialization
 		return tex;
 	}
 
-	TextureKeyType key(canonicalPath, tile);
+	TextureKeyType key(path, tile);
 	auto foundTexture = sTextureMap.find(key);
 	if(foundTexture != sTextureMap.end())
 	{
@@ -127,11 +126,11 @@ std::shared_ptr<TextureResource> TextureResource::get(const std::string& path, b
 
 	// need to create it
 	std::shared_ptr<TextureResource> tex;
-	tex = std::shared_ptr<TextureResource>(new TextureResource(key.first, tile, dynamic));
+	tex = std::shared_ptr<TextureResource>(new TextureResource(Path(key.first), tile, dynamic));
 	std::shared_ptr<TextureData> data = sTextureDataManager.get(tex.get());
 
 	// is it an SVG?
-	if(key.first.substr(key.first.size() - 4, std::string::npos) != ".svg")
+	if(key.first.Extension() != ".svg")
 	{
 		// Probably not. Add it to our map. We don't add SVGs because 2 svgs might be rasterized at different sizes
 		sTextureMap[key] = std::weak_ptr<TextureResource>(tex);

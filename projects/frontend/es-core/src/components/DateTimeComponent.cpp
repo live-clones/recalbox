@@ -15,7 +15,7 @@ DateTimeComponent::DateTimeComponent(Window* window, Display dispMode)
     mRelativeUpdateAccumulator(0),
     mColor(0x777777FF),
     mOriginColor(0),
-    mFont(Font::get(FONT_SIZE_SMALL, FONT_PATH_LIGHT)),
+    mFont(Font::get(FONT_SIZE_SMALL, Path(FONT_PATH_LIGHT))),
     mUppercase(false),
     mAutoSize(true)
 {
