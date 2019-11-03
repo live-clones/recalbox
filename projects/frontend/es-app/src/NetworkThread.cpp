@@ -6,66 +6,95 @@
  */
 
 #include <utils/Log.h>
+#include <guis/GuiInfoPopup.h>
+#include <utils/sdl2/SyncronousEventService.h>
 #include "NetworkThread.h"
-#include "recalbox/RecalboxSystem.h"
 #include "recalbox/RecalboxUpgrade.h"
 #include "RecalboxConf.h"
 #include "Locale.h"
 
 NetworkThread::NetworkThread(Window* window)
-  : mWindow(window)
+  : mWindow(window),
+    mSender(this)
 {
-  mRunning = true;
-  mThreadHandle = new boost::thread(boost::bind(&NetworkThread::run, this));
+  Thread::Start("NetworkThread");
+  mSignal.Signal();
 }
 
 NetworkThread::~NetworkThread()
 {
-  mRunning = false;
-  mThreadHandle->interrupt();
+  mSignal.Signal();
+  Thread::Stop();
 }
 
-void NetworkThread::run()
+void NetworkThread::Run()
 {
   try
   {
-    if (RecalboxConf::getInstance()->get("updates.enabled") != "1")
-      mRunning = false;
-
+    // First check at 15s
     int waitForSeconds = 15;
-    while (mRunning)
+    while (IsRunning())
     {
-      boost::this_thread::sleep(boost::posix_time::seconds(waitForSeconds));
+      if (mSignal.WaitSignal(waitForSeconds * 1000LL))
+        break;
+      // Next checks, once an hour
       waitForSeconds = 3600;
 
       if (RecalboxUpgrade::canUpdate())
       {
-        std::string changelog = RecalboxUpgrade::getUpdateChangelog();
+        std::string updateVersion = RecalboxUpgrade::getUpdateVersion();
 
-        while (mWindow->isShowingPopup())
+        // Popup, always shown
+        mPopupMessage = _("AN UPDATE IS AVAILABLE FOR YOUR RECALBOX");
+        mPopupMessage += "\n";
+        mPopupMessage = _("UPDATE VERSION:");
+        mPopupMessage += " ";
+        mPopupMessage += updateVersion;
+
+        // Message box only if the option is on
+        if (RecalboxConf::getInstance()->get("updates.enabled") != "1")
         {
-          boost::this_thread::sleep(boost::posix_time::seconds(5));
+          std::string changelog = RecalboxUpgrade::getUpdateChangelog();
+
+          while (mWindow->isShowingPopup())
+            sleep(5);
+
+          mMessageBoxMessage = _("UPDATE VERSION:");
+          mMessageBoxMessage += " ";
+          mMessageBoxMessage += updateVersion;
+          if (!changelog.empty())
+          {
+            mMessageBoxMessage += "\n";
+            mMessageBoxMessage += _("UPDATE CHANGELOG:");
+            mMessageBoxMessage += "\n";
+            mMessageBoxMessage += changelog;
+
+          }
         }
 
-        if (!changelog.empty())
-        {
-          std::string message = changelog;
-          std::string updateVersion = RecalboxUpgrade::getUpdateVersion();
-          mWindow->displayScrollMessage(_("AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"),
-                                        _("UPDATE VERSION:") + " " + updateVersion + "\n" + _("UPDATE CHANGELOG:") +
-                                        "\n" + message);
-        }
-        else
-        {
-          mWindow->displayMessage(_("AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"));
-        }
+        mSender.Call();
       }
     }
   }
   catch(std::exception& ex)
   {
-    LOG(LogError) << "Main thread crashed.";
+    LOG(LogError) << "NetworkThread thread crashed.";
     LOG(LogError) << "Exception: " << ex.what();
   }
 }
 
+void NetworkThread::ReceiveSyncCallback(const SDL_Event& event)
+{
+  (void)event;
+
+  // Volatile popup
+  if (!mPopupMessage.empty())
+  {
+    std::shared_ptr<GuiInfoPopup> popup = std::make_shared<GuiInfoPopup>(mWindow, mPopupMessage, 30, 10);
+    mWindow->setInfoPopup(popup);
+  }
+
+  // Messagebox
+  if (mMessageBoxMessage.empty())
+    mWindow->displayScrollMessage(_("AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"), mMessageBoxMessage);
+}

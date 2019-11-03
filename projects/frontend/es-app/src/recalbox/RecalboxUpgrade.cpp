@@ -2,7 +2,6 @@
 #include "Settings.h"
 #include "utils/Log.h"
 #include <Locale.h>
-//#include <boost/algorithm/string/replace.hpp>
 #include <components/BusyComponent.h>
 #include <utils/FileUtil.h>
 #include <utils/StringUtil.h>

@@ -47,7 +47,7 @@ class Mutex
      * @param timeout in milliseconds
      * @return True if the operation is successful
      */
-    bool WaitSignal(int milliseconds);
+    bool WaitSignal(long long milliseconds);
 
   private:
     //! Mutex handle

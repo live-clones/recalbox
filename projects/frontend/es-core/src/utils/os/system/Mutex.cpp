@@ -44,15 +44,19 @@ bool Mutex::WaitSignal()
   return true;
 }
 
-bool Mutex::WaitSignal(int milliseconds)
+bool Mutex::WaitSignal(long long milliseconds)
 {
   struct timespec ts = { 0, 0 };
   clock_gettime(CLOCK_REALTIME, &ts);
-  if( milliseconds>1000 )
+  if (milliseconds >1000)
   {
-    ts.tv_sec += milliseconds/1000;
-    milliseconds %= 1000;
+    ts.tv_sec += milliseconds / 1000LL;
+    milliseconds %= 1000LL;
   }
-  ts.tv_nsec += (long)milliseconds * 1000000L;
-  return (pthread_cond_timedwait(&mCondition, &mMutex, &ts) == 0);
+  ts.tv_nsec += milliseconds * 1000000LL;
+
+  Lock();
+  bool result = (pthread_cond_timedwait(&mCondition, &mMutex, &ts) == 0);
+  UnLock();
+  return result;
 }
