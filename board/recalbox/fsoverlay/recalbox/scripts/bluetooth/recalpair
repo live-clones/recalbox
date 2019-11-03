@@ -24,18 +24,17 @@ expect "*\] Device $address"
 send "scan off\r"
 set timeout 10
 expect "Controller"
-send "trust $address\r"
+send "connect $address\r"
 sleep 1
-expect "Changing $address trust succeeded"
+expect "Connection successful"
 send "pair $address\r"
 set timeout 5
 expect "Enter PIN code:"
 send "0000\r"
 set timeout 10
 expect "Pairing successful"
-send "connect $address\r"
+send "trust $address\r"
 sleep 1
-expect "Connection successful"
-#send_user "\nShould be paired now.\r"
+expect "Changing $address trust succeeded"
 send "quit\r"
 expect eof
