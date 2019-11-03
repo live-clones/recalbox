@@ -2,9 +2,10 @@
 #include "Settings.h"
 #include "utils/Log.h"
 #include <Locale.h>
-#include <boost/algorithm/string/replace.hpp>
+//#include <boost/algorithm/string/replace.hpp>
 #include <components/BusyComponent.h>
 #include <utils/FileUtil.h>
+#include <utils/StringUtil.h>
 
 std::string RecalboxUpgrade::getVersion()
 {
@@ -84,8 +85,7 @@ std::pair<std::string, int> RecalboxUpgrade::updateSystem(BusyComponent* ui)
   while (fgets(line, 1024, pipe) != nullptr)
   {
     strtok(line, "\n");
-    std::string output = line;
-    boost::replace_all(output, "\e[1A\e[K", "");
+    std::string output = StringUtil::replace(line, "\e[1A\e[K", "");
     if (output.find(':') != std::string::npos)
     {
 

@@ -6,7 +6,6 @@
 #include "utils/Log.h"
 #include "systems/SystemData.h"
 #include "MameNameMap.h"
-#include "boost/filesystem.hpp"
 
 #define CastFolder(f) ((FolderData*)(f))
 

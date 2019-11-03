@@ -351,6 +351,25 @@ std::string StringUtil::removeParenthesis(const std::string& _string)
 
 } // removeParenthesis
 
+StringUtil::stringVector StringUtil::splitString(const std::string& _string, char splitter)
+{
+  stringVector vector;
+  size_t       start = 0;
+  size_t       comma = _string.find(splitter);
+
+  while(comma != std::string::npos)
+  {
+    vector.push_back(_string.substr(start, comma - start));
+    start = comma + 1;
+    comma = _string.find(splitter, start);
+  }
+  if (start < _string.length())
+    vector.push_back(_string.substr(start));
+
+  return vector;
+
+} // commaStringToVector
+
 StringUtil::stringVector StringUtil::commaStringToVector(const std::string& _string)
 {
 	stringVector vector;

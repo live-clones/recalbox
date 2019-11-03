@@ -48,6 +48,8 @@ class StringUtil
 
     static std::string removeParenthesis(const std::string& _string);
 
+    static stringVector splitString(const std::string& _string, char splitter);
+
     static stringVector commaStringToVector(const std::string& _string);
 
     static std::string vectorToCommaString(stringVector _vector);

@@ -19,6 +19,11 @@ public:
 	// Caches things so there's no pauses during transitions.
 	void preload();
 
+	/*!
+	 * @brief Wake up the system if it is in a sleeping state
+	 */
+	void WakeUp() { mWindow->doWake(); }
+
 	// If a basic view detected a metadata change, it can request to recreate
 	// the current gamelist view (as it may change to be detailed).
 	bool reloadGameListView(IGameListView* gamelist, bool reloadTheme = false);

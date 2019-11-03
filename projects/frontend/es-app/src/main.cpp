@@ -22,7 +22,6 @@
 #include "Renderer.h"
 #include "resources/Font.h"
 #include "Settings.h"
-#include "systems/SystemData.h"
 #include "views/ViewController.h"
 #include "VolumeControl.h"
 #include "Window.h"
@@ -375,7 +374,7 @@ int main(int argc, char* argv[])
 
     // Start the socket server
     LOG(LogDebug) << "Launching Command thread";
-    CommandThread commandThread(&window);
+    CommandThread commandThread;
 
     // Starts Video engine
     LOG(LogDebug) << "Launching Video engine";

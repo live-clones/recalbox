@@ -1,90 +1,115 @@
-
 #include "CommandThread.h"
-#include "guis/GuiMsgBox.h"
 #include "systems/SystemData.h"
 #include "utils/Log.h"
 #include "views/ViewController.h"
 #include "systems/SystemManager.h"
-#include <boost/algorithm/string/classification.hpp>
-#include <boost/algorithm/string/split.hpp>
-using boost::asio::ip::udp;
+#include <utils/StringUtil.h>
+#include <netinet/in.h>
 
-const int max_length = 2048;
-
-
-CommandThread::CommandThread(Window* window)
-  : mWindow(window),
-    mRunning(true),
-    mIOService(),
-    mSocket(mIOService, udp::endpoint(udp::v4(), 1337))
+CommandThread::CommandThread()
+  : mSocket(-1),
+    mEvent(this)
 {
-	mThreadHandle = new boost::thread(boost::bind(&CommandThread::run, this));
+  Thread::Start("CommandThread");
 }
 
 CommandThread::~CommandThread()
 {
-	mRunning = false;
-	mSocket.close();
-	mThreadHandle->interrupt();
+  Thread::Stop();
 }
 
-void CommandThread::run() {
-	boost::this_thread::sleep(boost::posix_time::seconds(5));
-
-	LOG(LogInfo) << "CommandThread started";
-
-	char buf[max_length];
-	while (mRunning)
-	{
-		udp::endpoint sender_endpoint;
-		boost::system::error_code ec;
-		size_t length = mSocket.receive_from(boost::asio::buffer(buf, max_length), sender_endpoint, 0, ec);
-		if (ec.value() != 0) break;
-		if (length <= 0) continue;
-		buf[length + 1] = '\0';
-
-		std::string str(buf, length);
-		std::vector<std::string> tokens;
-		boost::split(tokens, str, boost::is_from_range('|', '|'), boost::token_compress_on);
-
-		// Check that the command is valid. Easy way as there is just 1 for now
-		if (tokens[0] != "START") {
-			LOG(LogError) << "Wrong network command " << tokens[0];
-			continue;
-		}
-		
-		SystemData *system = nullptr;
-		for (auto & tmp : SystemManager::Instance().GetVisibleSystemList()) {
-			if (tmp->getName() == tokens[1]) {
-				system = tmp;
-				break;
-			}
-		}
-
-		// The system is not a valid one
-		if (system == nullptr)
-		{
-			LOG(LogError) << "Invalid system on network command: " << tokens[1];
-			continue;
-		}
-
-		FileData* result = system->getRootFolder()->LookupGame(tokens[2], FileData::SearchAttributes::ByNameWithExt);
-		if (result != nullptr)
-		{
-			LOG(LogInfo) << "Starting game " << tokens[2] << " for system " << tokens[1];
-			runGame(result);
-		}
-		else
-		{
-			LOG(LogError) << "Couldn't find game " << tokens[2] << " for system " << tokens[1];
-		}
-	}
-}
-
-void CommandThread::runGame (FileData* game)
+void CommandThread::Run()
 {
-	ViewController *view = ViewController::get();
-	Vector3f target(Renderer::getDisplayWidthAsFloat() / 2.0f, Renderer::getDisplayHeightAsFloat() / 2.0f, 0);
-	mWindow->doWake();
-	view->launch(game, target);
+  try
+  {
+    sleep(5);
+
+    LOG(LogInfo) << "CommandThread started";
+
+    if (OpenUDP())
+      while (IsRunning())
+      {
+        std::string frame = ReadUDP();
+        std::vector<std::string> tokens = StringUtil::splitString(frame, '|');
+        if (tokens.size() < 3) continue;
+
+        std::string command = tokens[0];
+        std::string systemName = tokens[1];
+        std::string gameName = tokens[2];
+
+        // Check that the command is valid. Easy way as there is just 1 for now
+        if (command != "START") {
+          LOG(LogError) << "Wrong network command " << tokens[0];
+          continue;
+        }
+
+        // Get and check system
+        SystemData *system = SystemManager::Instance().getSystem(systemName);
+        if (system == nullptr)
+        {
+          LOG(LogError) << "Invalid system on network command: " << systemName;
+          continue;
+        }
+
+        // Get and check game
+        FileData* result = system->getRootFolder()->LookupGame(gameName, FileData::SearchAttributes::ByNameWithExt);
+        if (result != nullptr)
+        {
+          LOG(LogInfo) << "Starting game " << gameName << " for system " << systemName;
+          mEvent.Call(result);
+        }
+        else LOG(LogError) << "Couldn't find game " << gameName << " for system " << systemName;
+      }
+  }
+  catch(std::exception& ex)
+  {
+    LOG(LogError) << "CommandThread thread crashed.";
+    LOG(LogError) << "Exception: " << ex.what();
+  }
 }
+
+std::string CommandThread::ReadUDP()
+{
+  sockaddr_in si_other = {};
+  char buffer[2048];
+  int size, slen = sizeof(si_other);
+  if ((size = recvfrom(mSocket, buffer, sizeof(buffer), 0, (struct sockaddr *) &si_other, (socklen_t*)&slen)) > 0)
+    return std::string(buffer, size);
+  return std::string();
+}
+
+bool CommandThread::OpenUDP()
+{
+  while(IsRunning())
+  {
+    // Create an UDP socket
+    if ((mSocket = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) >= 0)
+    {
+      // zero out the structure
+      sockaddr_in si_me = {};
+      memset((char*) &si_me, 0, sizeof(si_me));
+      si_me.sin_family = AF_INET;
+      si_me.sin_port = htons(sPort);
+      si_me.sin_addr.s_addr = htonl(INADDR_ANY);
+
+      //bind socket to port
+      if (bind(mSocket, (struct sockaddr*) &si_me, sizeof(si_me)) >= 0)
+        return true;
+    }
+    // Wait a bit before the next try
+    sleep(1);
+  }
+
+  return false;
+}
+
+void CommandThread::ReceiveSyncCallback(const SDL_Event& event)
+{
+  // Get game
+  FileData* game = (FileData*)event.user.data1;
+
+  ViewController *view = ViewController::get();
+  view->WakeUp();
+  view->launch(game);
+}
+
