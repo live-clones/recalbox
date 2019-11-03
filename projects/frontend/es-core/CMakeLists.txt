@@ -19,7 +19,6 @@ set(CORE_HEADERS
 		src/Renderer.h
 		src/Settings.h
 		src/Sound.h
-		src/Timer.h
 		src/RootFolders.h
 		src/MenuThemeData.h
 		src/Util.h
@@ -118,7 +117,6 @@ set(CORE_SOURCES
 		src/Renderer.cpp
 		src/Settings.cpp
 		src/Sound.cpp
-		src/Timer.cpp
 		src/RootFolders.cpp
 		src/MenuThemeData.cpp
 		src/Util.cpp
