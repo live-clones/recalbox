@@ -1,9 +1,10 @@
 #!/usr/bin/expect -f
-#Usage: recalpair XX:XX:XX:XX:XX:XX
+#Usage: recalpair XX:XX:XX:XX:XX:XX "name"
 
 set timeout 10
 set prompt "#"
 set address [lindex $argv 0]
+set name [lindex $argv 1]
 
 spawn bluetoothctl -a
 expect -re $prompt
@@ -17,24 +18,45 @@ expect {
  "Device $address not available" {
   }
 }
+
 set timeout 60
+
 send "scan on\r"
 sleep 1
-expect "*\] Device $address"
-send "scan off\r"
-set timeout 10
-expect "Controller"
-send "connect $address\r"
-sleep 1
-expect "Connection successful"
-send "pair $address\r"
-set timeout 5
-expect "Enter PIN code:"
-send "0000\r"
-set timeout 10
-expect "Pairing successful"
-send "trust $address\r"
-sleep 1
-expect "Changing $address trust succeeded"
-send "quit\r"
-expect eof
+expect {
+  "*\] Device $address" {
+  send "scan off\r"
+
+  set timeout 10
+  expect "Controller"
+
+  if { $name != "8Bitdo NES30 Pro" } {
+    send "connect $address\r"
+    sleep 1
+    expect "Connection successful"
+  }
+
+  send "pair $address\r"
+  set timeout 5
+  expect {
+    "Enter PIN code:" {
+      send "0000\r"
+    }
+  }
+  set timeout 10
+  expect "Pairing successful"
+
+  send "trust $address\r"
+  sleep 1
+  expect "Changing $address trust succeeded"
+
+  send "connect $address\r"
+  sleep 1
+  expect "Connection successful"
+
+  send "quit\r"
+  expect eof
+  exit 0
+  }
+}
+exit 1
