@@ -3,13 +3,13 @@
 #include "pugixml/pugixml.hpp"
 #include "platform.h"
 #include "RootFolders.h"
-#include <boost/assign.hpp>
+//#include <boost/assign.hpp>
 
 Settings *Settings::sInstance = nullptr;
 
-static std::vector<const char *>& SettingsNotToSave()
+static std::string& SettingsNotToSave()
 {
-  static std::vector<const char*> _SettingsNotToSave
+  static const char* _SettingsNotToSave[] =
   {
     "Debug",
     "DebugGrid",
@@ -32,7 +32,14 @@ static std::vector<const char *>& SettingsNotToSave()
     "ThemeHasMenuView",
     "Arch",
   };
-  return _SettingsNotToSave;
+  static std::string _SettingsNotToSaveBuilt;
+  if (_SettingsNotToSaveBuilt.empty())
+    for(const char* snts: _SettingsNotToSave)
+    {
+      _SettingsNotToSaveBuilt += snts;
+      _SettingsNotToSaveBuilt += ' ';
+    }
+  return _SettingsNotToSaveBuilt;
 }
 
 Settings::Settings()
@@ -126,7 +133,7 @@ template<typename K, typename V>
 void saveMap(pugi::xml_node &node, std::map<K, V> &map, const char *type) {
     for (auto iter = map.begin(); iter != map.end(); iter++) {
         // key is on the "don't save" list, so don't save it
-        if (std::find(SettingsNotToSave().begin(), SettingsNotToSave().end(), iter->first) != SettingsNotToSave().end())
+        if (SettingsNotToSave().find(iter->first) != std::string::npos)
             continue;
 
         pugi::xml_node parent_node = node.append_child(type);
