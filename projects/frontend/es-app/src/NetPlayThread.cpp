@@ -13,16 +13,14 @@
 #include <Locale.h>
 #include <utils/sdl2/SyncronousEventService.h>
 #include <guis/GuiInfoPopup.h>
-#include <AudioManager.h>
 
 namespace json = boost::property_tree;
 
 NetPlayThread::NetPlayThread(Window* window)
   : mWindow(window),
-    mRunning(false),
-    mThreadHandle(nullptr),
-    mSender(SyncronousEventService::Instance().ObtainSyncCallback(this))
+    mSender(this)
 {
+  StartScan();
 }
 
 std::string NetPlayThread::getLobbyListCommand()
@@ -33,117 +31,67 @@ std::string NetPlayThread::getLobbyListCommand()
 
 NetPlayThread::~NetPlayThread()
 {
-  Stop();
+  StopScan();
 }
 
-void NetPlayThread::Start()
+void NetPlayThread::StartScan()
 {
-  mRunning = true;
-  mThreadHandle = new boost::thread(boost::bind(&NetPlayThread::run, this));
+  Thread::Start("NetplayThread");
 }
 
-void NetPlayThread::Stop()
+void NetPlayThread::StopScan()
 {
-  if (mRunning)
-  {
-    mRunning = false;
-    mThreadHandle->join();
-  }
+  Thread::Stop();
 }
 
-void NetPlayThread::run()
+void NetPlayThread::Run()
 {
   try
   {
-    boost::this_thread::sleep(boost::posix_time::seconds(5));
+    sleep(5);
 
     LOG(LogInfo) << "NetPlayThread started";
 
+    bool firstLoop = true;
+    bool enabled = RecalboxConf::getInstance()->getBool("global.netplay");
     int popupDuration = Settings::getInstance()->getInt("NetplayPopupTime");
     if (popupDuration != 0)
     {
       std::vector<std::pair<std::string, std::string>> oldGames;
+      std::vector<std::pair<std::string, std::string>> newGames;
 
-      auto json_req = RecalboxSystem::execute(getLobbyListCommand());
-      if (json_req.second == 0)
+      while (IsRunning())
       {
-        json::ptree root;
-        std::stringstream ss;
-        ss << json_req.first;
-        try
+        if (firstLoop && enabled)
         {
-          json::read_json(ss, root);
-        }
-        catch (const boost::property_tree::json_parser_error& e1)
-        {
-          LOG(LogInfo) << "NetPlayThread error";
+          RefreshNetplayList(oldGames, true);
+          firstLoop = false;
         }
 
-        for (json::ptree::value_type& array_element : root)
-        {
-          std::string player = array_element.second.get<std::string>("fields.username");
-          std::string game = array_element.second.get<std::string>("fields.game_name");
-          oldGames.push_back(std::make_pair(player, game));
-        }
-      }
-
-      while (mRunning)
-      {
-        json_req = RecalboxSystem::execute(getLobbyListCommand());
-        if (json_req.second == 0)
-        {
-          json::ptree root;
-          std::stringstream ss;
-          ss << json_req.first;
-          try
+        if (enabled)
+          if (RefreshNetplayList(newGames, true))
           {
-            json::read_json(ss, root);
-          }
-          catch (const boost::property_tree::json_parser_error& e1)
-          {
-            LOG(LogInfo) << "NetPlayThread error";
-          }
-
-          std::vector<std::pair<std::string, std::string>> newGames;
-
-          for (json::ptree::value_type& array_element : root)
-          {
-            std::string player = array_element.second.get<std::string>("fields.username");
-            std::string game = array_element.second.get<std::string>("fields.game_name");
-            newGames.push_back(std::make_pair(player, game));
-          }
-          for (const auto& tmp : newGames)
-          {
-            std::vector<std::pair<std::string, std::string>>::const_iterator it;
-            it = std::find(oldGames.begin(), oldGames.end(), tmp);
-            if (it == oldGames.end())
+            for (const auto& tmp : newGames)
             {
-              if (tmp.first.find("RECALBOX") != std::string::npos)
+              auto it = std::find(oldGames.begin(), oldGames.end(), tmp);
+              if (it == oldGames.end())
               {
-                // Create popup text
-                mLastPopupText = _("A Recalbox friend has started a Netplay game!") + "\n " + _("Player") + ": " +
-                                 tmp.first;
-                +"\n " + _("Game") + ": " + tmp.second;
-
-                // Push event to the main thread so that all GUI operations are safely run in the main thread.
-                // SDL_PushEvent is synchronized & thread-safe
-                mSender.Call();
-
+                PopupTriggered(tmp.first, tmp.second);
                 break;
               }
             }
+            oldGames = newGames;
           }
-          oldGames = newGames;
-        }
 
-        for (int i = 30; --i >= 0 && mRunning;)
-          boost::this_thread::sleep(boost::posix_time::seconds(1));
+        // Sleep a bit
+        if (Sleep(enabled))
+          firstLoop = true;
       }
     }
   }
   catch(std::exception& ex)
   {
-    LOG(LogError) << "Main thread crashed.";
+    LOG(LogError) << "NetPlayThread thread crashed.";
     LOG(LogError) << "Exception: " << ex.what();
   }
 }
@@ -151,9 +99,70 @@ void NetPlayThread::run()
 void NetPlayThread::ReceiveSyncCallback(const SDL_Event& event)
 {
   (void)event;
-  int popupDuration = Settings::getInstance()->getInt("MusicPopupTime");
+  int popupDuration = Settings::getInstance()->getInt("NetplayPopupTime");
   std::shared_ptr<GuiInfoPopup> popup = std::make_shared<GuiInfoPopup>(mWindow,
-                                                                       AudioManager::getInstance()->GetLastPopupText(),
+                                                                       mLastPopupText,
                                                                        popupDuration, 10);
   mWindow->setInfoPopup(popup);
+}
+
+bool NetPlayThread::Sleep(bool& enabled)
+{
+  for (int i = 30; --i >= 0 && IsRunning();)
+  {
+    bool stillEnabled = RecalboxConf::getInstance()->getBool("global.netplay");
+    if (enabled != stillEnabled)
+    {
+      enabled = stillEnabled;
+      return true;
+    }
+    sleep(1);
+  }
+  return false;
+}
+
+void NetPlayThread::PopupTriggered(const std::string& player, const std::string& game)
+{
+  // Create popup text
+  mLastPopupText = _("A Recalbox friend has started a Netplay game!") + "\n " + _("Player") + ": " +
+                   player + "\n " + _("Game") + ": " + game;
+
+  // Push event to the main thread so that all GUI operations are safely run in the main thread.
+  // SDL_PushEvent is synchronized & thread-safe
+  mSender.Call();
+
+}
+
+bool NetPlayThread::RefreshNetplayList(PlayerGameList& list, bool filtered)
+{
+  list.clear();
+  LOG(LogInfo) << "NetPlayThread: Refresh lobby list";
+  auto json_req = RecalboxSystem::execute(getLobbyListCommand());
+  if (json_req.second == 0)
+  {
+    json::ptree root;
+    std::stringstream ss;
+    ss << json_req.first;
+    try
+    {
+      json::read_json(ss, root);
+    }
+    catch (const boost::property_tree::json_parser_error& e1)
+    {
+      LOG(LogInfo) << "NetPlayThread error";
+      return false;
+    }
+
+    for (json::ptree::value_type& array_element : root)
+    {
+      std::string player = array_element.second.get<std::string>("fields.username");
+      std::string game = array_element.second.get<std::string>("fields.game_name");
+      if (!filtered)
+        list.push_back(std::make_pair(player, game));
+      else if (array_element.second.get<std::string>("fields.frontend").find("@RECALBOX") != std::string::npos)
+        list.push_back(std::make_pair(player, game));
+    }
+    return true;
+  }
+  return false;
 }

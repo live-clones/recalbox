@@ -1,47 +1,50 @@
 //
 // Created by xizor on 06/06/18.
 //
-
-#ifndef EMULATIONSTATION_ALL_NETPLAYTHREAD_H
-#define EMULATIONSTATION_ALL_NETPLAYTHREAD_H
+#pragma once
 
 #include <Window.h>
-#include <boost/thread/thread.hpp>
 #include <utils/sdl2/ISyncronousEvent.h>
 #include <utils/sdl2/SyncronousEvent.h>
+#include <utils/os/system/Thread.h>
 
-class NetPlayThread : private ISyncronousEvent
+class NetPlayThread: private Thread, private ISyncronousEvent
 {
   public:
+    //! Typedef for convenience
+    typedef std::vector<std::pair<std::string, std::string>> PlayerGameList;
+
+    /*!
+     * @brief Constructor
+     * @param window main window
+     */
     explicit NetPlayThread(Window* window);
 
-    ~NetPlayThread();
+    /*!
+     * @brief Destructor
+     */
+    ~NetPlayThread() override;
 
     /*!
-     * Start the thread. Initialize the thread handle and set the running glaf to true
+     * Start the scan
      */
-    void Start();
+    void StartScan();
     /*!
-     * Stop the thread & wait till it's actually stopped. Reset the running flag
+     * Stop the scan
      */
-    void Stop();
-
-    /*!
-     * Called from the main thread to get the popup to display
-     */
-    std::string GetLastPopupText() { return mLastPopupText; }
+    void StopScan();
 
     static std::string getLobbyListCommand();
+
+    /*!
+     * @brief Load current netplay list
+     * @return Netplay list
+     */
+    static bool RefreshNetplayList(PlayerGameList& list, bool filtered);
 
   private:
     //! Attached window
     Window* mWindow;
-
-    //! Running flag. True when Start() is called
-    bool mRunning;
-
-    //! Thread handle. Null until Start() is called
-    boost::thread* mThreadHandle;
 
     //! SDL Event sender
     SyncronousEvent mSender;
@@ -50,13 +53,26 @@ class NetPlayThread : private ISyncronousEvent
     std::string mLastPopupText;
 
     //! Main thread runner
-    void run();
+    void Run() override;
 
     /*!
      * @brief Synchronous event receiver
      * @param event Event
      */
     void ReceiveSyncCallback(const SDL_Event& event) override;
+
+    /*!
+     * @brief Sleep a bit
+     * @param enabled Netplay enable flag. May be updated.
+     * @return True if the netplay flag has been updated
+     */
+    bool Sleep(bool& enabled);
+
+    /*!
+     * @brief Create and trig the popup
+     * @param player Player name
+     * @param game Game
+     */
+    void PopupTriggered(const std::string& player, const std::string& game);
 };
 
-#endif //EMULATIONSTATION_ALL_NETPLAYTHREAD_H
