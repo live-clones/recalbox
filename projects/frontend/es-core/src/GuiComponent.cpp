@@ -21,7 +21,8 @@ GuiComponent::GuiComponent(Window* window)
     mDefaultZIndex(0),
     mZIndex(0),
     mOpacity(255),
-    mIsProcessing(false)
+    mIsProcessing(false),
+    mGuiClosePending(false)
 {
 }
 

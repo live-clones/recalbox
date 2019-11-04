@@ -113,4 +113,9 @@ private:
     InputDevice::Entry::A,
     InputDevice::Entry::B,
   };
+
+	/*!
+	 * @brief Delete GUI pending for deletion
+	 */
+  void deleteClosePendingGui();
 };

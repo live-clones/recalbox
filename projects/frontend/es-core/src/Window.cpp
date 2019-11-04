@@ -79,6 +79,18 @@ GuiComponent* Window::peekGui()
 	return mGuiStack.back();
 }
 
+void Window::deleteClosePendingGui()
+{
+  // Delete top GUI if pendingf for deletion
+  if (!mGuiStack.empty())
+    if (mGuiStack.back()->IsPendingForDeletion())
+    {
+      GuiComponent* topGui = mGuiStack.back();
+      mGuiStack.pop_back();
+      delete topGui;
+    }
+}
+
 void Window::deleteAllGui() {
 	while (peekGui() != nullptr) {
 		delete peekGui();
@@ -170,6 +182,7 @@ void Window::update(int deltaTime)
 		mMessages.pop_back();
 		pushGui(new GuiMsgBox(this, message));
 	}
+
 	if(!mScrollMessages.empty()){
 		std::string message = mScrollMessages.back();
 		std::string title = mScrollTitle.back();
@@ -177,6 +190,7 @@ void Window::update(int deltaTime)
 		mScrollTitle.pop_back();
 		pushGui(new GuiMsgBoxScroll(this, title, message, _("OK"), [] {}, "", nullptr, "", nullptr, TextAlignment::Left));
 	}
+
 	if(mNormalizeNextUpdate)
 	{
 		mNormalizeNextUpdate = false;
@@ -214,6 +228,10 @@ void Window::update(int deltaTime)
 
 	mTimeSinceLastInput += deltaTime;
 
+	// Process GUI pending for deletion
+  deleteClosePendingGui();
+
+	// Process highest GUI
 	if(peekGui() != nullptr)
 		peekGui()->update(deltaTime);
 }

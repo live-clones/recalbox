@@ -139,6 +139,17 @@ class GuiComponent
   public:
     const static unsigned char MAX_ANIMATIONS = 4;
 
+    /*!
+     * @brief Close the GUI
+     */
+    void Close() { mGuiClosePending = true; }
+
+    /*!
+     * @brief Get deletion status
+     * @return True if the current GUI is pênding for deletion
+     */
+    bool IsPendingForDeletion() const { return mGuiClosePending; }
+
   private:
     Transform4x4f mTransform; //Don't access this directly! Use getTransform()!
     AnimationController* mAnimationMap[MAX_ANIMATIONS];
@@ -171,4 +182,7 @@ class GuiComponent
 
     unsigned char mOpacity;
     bool mIsProcessing;
+
+    //! When set, let the main processing delete safely this GUI
+    bool mGuiClosePending;
 };
