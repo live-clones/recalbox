@@ -2,10 +2,6 @@
 #include <algorithm>
 #include <string>
 #include <sstream>
-#include <boost/algorithm/string/predicate.hpp>
-#include <boost/algorithm/string/split.hpp>
-#include <boost/algorithm/string/classification.hpp>
-#include <boost/format.hpp>
 
 #include <functional>
 #include <LibretroRatio.h>
@@ -235,9 +231,8 @@ void GuiMenu::menuSystem(){
   for (auto& it : availableStorage)
   {
     if (it != "RAM") {
-      if (boost::starts_with(it, "DEV")) {
-        std::vector<std::string> tokens;
-        boost::split(tokens, it, boost::is_any_of(" "));
+      if (StringUtil::startsWith(it, "DEV")) {
+        std::vector<std::string> tokens = StringUtil::splitString(it, ' ');
         if (tokens.size() >= 3) {
           optionsStorage->add(tokens.at(2), it,
               selectedStorage == std::string("DEV " + tokens.at(1)));
@@ -1168,8 +1163,7 @@ void GuiMenu::menuSoundSettings(){
   if (RecalboxConf::getInstance()->get("emulationstation.menu") != "bartop") {
     for (auto& it : availableAudio)
     {
-      std::vector<std::string> tokens;
-      boost::split( tokens, it, boost::is_any_of(" ") );
+      std::vector<std::string> tokens = StringUtil::splitString(it, ' ');
 
       if(tokens.size()>= 8){
         std::string vname;
@@ -1278,8 +1272,7 @@ void GuiMenu::menuNetworkSettings(){
           if (it != "\n") {
 
             row.elements.clear();
-            std::vector<std::string> tokens;
-            boost::split(tokens, it, boost::is_any_of(" "));
+            std::vector<std::string> tokens = StringUtil::splitString(it, ' ');
 
             if (tokens.size() >= 8) {
               std::string vname;
@@ -1708,7 +1701,7 @@ void GuiMenu::popSystemConfigurationGui(SystemData *systemData) const {
 
     std::string currentEmulator = RecalboxConf::getInstance()->get(systemData->getName() + ".emulator");
 
-    emu_choice->add(str(boost::format(_("DEFAULT (%1%)")) % emulatorDefaults.emulator), "default", true);
+    emu_choice->add(StringUtil::replace(_("DEFAULT (%1%)"), "%1%", emulatorDefaults.emulator), "default", true);
 
     for (int i = systemData->Emulators().Count(); --i >= 0;)
     {
@@ -1721,7 +1714,7 @@ void GuiMenu::popSystemConfigurationGui(SystemData *systemData) const {
         core_choice->clear();
 
         if (emulatorName == "default") {
-            core_choice->add(str(boost::format(_("DEFAULT (%1%)")) % emulatorDefaults.core), "default", true);
+            core_choice->add(StringUtil::replace(_("DEFAULT (%1%)"), "%1%", emulatorDefaults.core), "default", true);
             return ;
         }
         
