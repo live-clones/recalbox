@@ -1,5 +1,5 @@
 #!/usr/bin/expect -f
-#Usage: recalpair XX:XX:XX:XX:XX:XX "name"
+#Usage: recalpair XX:XX:XX:XX:XX:XX
 
 set timeout 10
 set prompt "#"
@@ -30,7 +30,8 @@ expect {
   set timeout 10
   expect "Controller"
 
-  if { $name != "8Bitdo NES30 Pro" } {
+  # DS4 patch
+  if { $name == "Wireless Controller" } {
     send "connect $address\r"
     sleep 1
     expect "Connection successful"
