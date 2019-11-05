@@ -15,6 +15,7 @@ const std::string MetadataDescriptor::DefaultValuePlaycount = "0";
 //const std::string MetadataDescriptor::DefaultValueUnknown = "unknown";
 const std::string MetadataDescriptor::DefaultValueFavorite = "false";
 const std::string MetadataDescriptor::DefaultValueHidden = "false";
+const Path        MetadataDescriptor::DefaultEmptyPath;
 
 const std::string MetadataDescriptor::GameNodeIdentifier = "game";
 const std::string MetadataDescriptor::FolderNodeIdentifier = "folder";

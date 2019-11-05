@@ -33,6 +33,7 @@ class MetadataDescriptor
     //static const std::string DefaultValueUnknown;
     static const std::string DefaultValueFavorite;
     static const std::string DefaultValueHidden;
+    static const Path        DefaultEmptyPath;
 
     //! Game node <game></game>
     static const std::string GameNodeIdentifier;
@@ -457,7 +458,7 @@ class MetadataDescriptor
     const std::string& Ratio()       const { return ReadPString(_Ratio, DefaultValueRatio);       }
     const std::string& Description() const { return _Description;                                 }
     const Path&        Image()       const { return _Image;                                       }
-    const Path&        Thumbnail()   const { return ReadPPath  (_Thumbnail, Path());   }
+    const Path&        Thumbnail()   const { return ReadPPath  (_Thumbnail, DefaultEmptyPath);   }
     const std::string& Video()       const { return ReadPString(_Video, DefaultValueEmpty);       }
     const std::string& Developer()   const { return _Developer;                                   }
     const std::string& Publisher()   const { return _Publisher;                                   }
