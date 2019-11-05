@@ -517,6 +517,7 @@ int main(int argc, char* argv[])
     while (window.peekGui() != ViewController::get())
       delete window.peekGui();
 
+    VideoEngine::This().StopVideo(true);
     window.renderShutdownScreen();
     SystemManager::Instance().deleteSystems();
     window.deinit();
