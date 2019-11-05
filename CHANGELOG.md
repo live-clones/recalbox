@@ -28,7 +28,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fix diacritic characters lowercasing/uppercasing
 - Fix atari800 core crashes
 - Fix enable cheevos badge in retroarch menu (retroachievement.org)
-- Make advancemame available on xu4, x86 and x64
+- Make advancemame available on xu4 and x86 (not x64)
 - Set Retroarch threaded_video option to off by default
 - Fix component video still active while scrolling
 - Wifi: connman replaced by wpa_supplicant

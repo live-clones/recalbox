@@ -35,7 +35,7 @@
 - Fix diacritic characters in uppercase texts
 - Fix atari800 core crashes
 - Fix enable cheevos badge in retroarch menu (retroachievement.org)
-- Fix advancemame availability on xu4, x86 and x64
+- Fix advancemame availability on xu4 and x86 (not x64)
 - Fix some retroarch core random crashes and/or lags/slowness
 - Fix videosnaps crashs/artifects while scrolling
 - Fix missing videosnaps keys in recalbox.conf
