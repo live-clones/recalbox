@@ -44,13 +44,6 @@ bool DateTimeComponent::ProcessInput(const InputCompactEvent& event)
 		{
 			//started editing
 			mTimeBeforeEdit = mTime;
-
-			//initialize to now if unset
-			if(mTime == boost::posix_time::not_a_date_time)
-			{
-				mTime = boost::posix_time::ptime(boost::gregorian::day_clock::local_day());
-				updateTextCache();
-			}
 		}
 
 		return true;
@@ -74,40 +67,19 @@ bool DateTimeComponent::ProcessInput(const InputCompactEvent& event)
 
 		if(incDir != 0)
 		{
-			tm new_tm = boost::posix_time::to_tm(mTime);
-
 			if(mEditIndex == 0)
 			{
-				new_tm.tm_mon += incDir;
-
-				if(new_tm.tm_mon > 11)
-					new_tm.tm_mon = 11;
-				else if(new_tm.tm_mon < 0)
-					new_tm.tm_mon = 0;
-				
-			}else if(mEditIndex == 1)
+        mTime.AddYears(incDir);
+			}
+			else if(mEditIndex == 1)
 			{
-				new_tm.tm_mday += incDir;
-				int days_in_month = mTime.date().end_of_month().day().as_number();
-				if(new_tm.tm_mday > days_in_month)
-					new_tm.tm_mday = days_in_month;
-				else if(new_tm.tm_mday < 1)
-					new_tm.tm_mday = 1;
-
-			}else if(mEditIndex == 2)
+        mTime.AddMonth(incDir);
+			}
+			else if(mEditIndex == 2)
 			{
-				new_tm.tm_year += incDir;
-				if(new_tm.tm_year < 0)
-					new_tm.tm_year = 0;
+        mTime.AddDays(incDir);
 			}
 
-			//validate day
-			int days_in_month = boost::gregorian::date(new_tm.tm_year + 1900, new_tm.tm_mon + 1, 1).end_of_month().day().as_number();
-			if(new_tm.tm_mday > days_in_month)
-				new_tm.tm_mday = days_in_month;
-
-			mTime = boost::posix_time::ptime_from_tm(new_tm);
-			
 			updateTextCache();
 			return true;
 		}
@@ -178,13 +150,17 @@ void DateTimeComponent::render(const Transform4x4f& parentTrans)
 
 void DateTimeComponent::setValue(const std::string& val)
 {
-	mTime = string_to_ptime(val);
-	updateTextCache();
+  DateTime dt(false);
+  if (DateTime::FromCompactISO6801(val, dt))
+  {
+    mTime = dt;
+    updateTextCache();
+  }
 }
 
 std::string DateTimeComponent::getValue() const
 {
-	return boost::posix_time::to_iso_string(mTime);
+	return mTime.ToCompactISO8601();
 }
 
 DateTimeComponent::Display DateTimeComponent::getCurrentDisplayMode() const
@@ -203,77 +179,30 @@ DateTimeComponent::Display DateTimeComponent::getCurrentDisplayMode() const
 
 std::string DateTimeComponent::getDisplayString(Display mode) const
 {
-	std::string fmt;
 	char strbuf[256];
-	int n;
 
 	switch(mode)
 	{
-	  case Display::Date:
-		fmt = "%m/%d/%Y";
-		break;
-	case Display::DateTime:
-		fmt = "%m/%d/%Y %H:%M:%S";
-		break;
-    //only used for timer in main menu
-	case Display::Time: {
-  	fmt = "%H:%M:%S";
-		using namespace boost::posix_time;
-		boost::posix_time::time_facet* facet = new boost::posix_time::time_facet();
-		facet->format(fmt.c_str());
-		std::locale loc(std::locale::classic(), facet);
-
-		std::stringstream ss;
-		ss.imbue(loc);
-		ss << "" << second_clock::local_time() << " ";
-		return ss.str();
-	}
-	case Display::RelativeToNow:
+	  case Display::Date: return mTime.ToStringFormat("%YYYY/%MM/%dd");
+    case Display::DateTime: return mTime.ToStringFormat("%YYYY/%MM/%dd %HH:%mm:%ss");
+    case Display::Time: return mTime.ToStringFormat("%HH:%mm:%ss");
+    case Display::RelativeToNow:
 		{
-			//relative time
-			using namespace boost::posix_time;
+			if(mTime.Year() == 0) return _("never");
 
-			if(mTime == not_a_date_time)
-			  return _("never");
+			TimeSpan diff = DateTime() - mTime;
 
-			ptime now = second_clock::universal_time();
-			time_duration dur = now - mTime;
-
-			if(dur < seconds(2))
-			  return _("just now");
-			if(dur < seconds(60)) {
-			  n = dur.seconds();
-			  snprintf(strbuf, 256, ngettext("%i sec ago", "%i secs ago", n).c_str(), n);
-			  return strbuf;
-			}
-			if(dur < minutes(60)) {
-			  n = dur.minutes();
-			  snprintf(strbuf, 256, ngettext("%i min ago", "%i mins ago", n).c_str(), n);
-			  return strbuf;
-			}
-			if(dur < hours(24)) {
-			  n = dur.hours();
-			  snprintf(strbuf, 256, ngettext("%i hour ago", "%i hours ago", n).c_str(), n);
-			  return strbuf;
-			}
-
-			n = dur.hours() / 24;
-			snprintf(strbuf, 256, ngettext("%i day ago", "%i days ago", n).c_str(), n);
+			if (diff.TotalSeconds() < 2) return _("just now");
+			if (diff.TotalSeconds() < 60) { snprintf(strbuf, sizeof(strbuf), ngettext("%i sec ago", "%i secs ago", diff.TotalSeconds()).c_str(), diff.TotalSeconds()); return strbuf; }
+			if (diff.TotalMinutes() < 60) { snprintf(strbuf, sizeof(strbuf), ngettext("%i min ago", "%i mins ago", diff.TotalMinutes()).c_str(), diff.TotalMinutes()); return strbuf; }
+			if (diff.TotalHours()   < 24) { snprintf(strbuf, sizeof(strbuf), ngettext("%i hour ago", "%i hours ago", diff.TotalHours()).c_str(), diff.TotalHours()); return strbuf; }
+			snprintf(strbuf, sizeof(strbuf), ngettext("%i day ago", "%i days ago", diff.TotalDays()).c_str(), diff.TotalDays());
 			return strbuf;
 		}
+	  default: break;
 	}
-	
-	if(mTime == boost::posix_time::not_a_date_time)
-	  return _("unknown");
 
-	boost::posix_time::time_facet* facet = new boost::posix_time::time_facet();
-	facet->format(fmt.c_str());
-	std::locale loc(std::locale::classic(), facet);
-
-	std::stringstream ss;
-	ss.imbue(loc);
-	ss << mTime;
-	return ss.str();
+	return "???";
 }
 
 std::shared_ptr<Font> DateTimeComponent::getFont() const

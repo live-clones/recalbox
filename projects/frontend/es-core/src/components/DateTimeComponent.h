@@ -1,8 +1,8 @@
 #pragma once
 
 #include "GuiComponent.h"
-#include <boost/date_time.hpp>
 #include "resources/Font.h"
+#include <utils/datetime/DateTime.h>
 
 // Used to enter or display a specific point in time.
 class DateTimeComponent : public GuiComponent
@@ -54,8 +54,8 @@ private:
 	
 	void updateTextCache();
 
-	boost::posix_time::ptime mTime;
-	boost::posix_time::ptime mTimeBeforeEdit;
+	DateTime mTime;
+	DateTime mTimeBeforeEdit;
 
 	bool mEditing;
 	int mEditIndex;
