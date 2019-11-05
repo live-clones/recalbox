@@ -489,9 +489,14 @@ if [ "$command" == "wifi" ]; then
 
     if [[ "$mode" == "enable" ]]; then
         recallog "(re)configure wifi"
+        if [[ $ssid != "" && $psk != "" ]];then
+          sed -i "s|^wifi.ssid=.*|wifi.ssid=${ssid}|g" /recalbox/share/system/recalbox.conf
+          sed -i "s|^wifi.key=.*|wifi.key=${psk}|g" /recalbox/share/system/recalbox.conf
+        fi
 	$systemsetting -command save -key wifi.enabled -value 1
+        sleep 1
 	/etc/init.d/S09wifi restart
-	sleep 5 # wait a bit before returning to ES
+	sleep 4 # wait a bit before returning to ES
 	exit $?
     fi
     if [[ "$mode" == "disable" ]]; then
