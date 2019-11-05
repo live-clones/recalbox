@@ -9,8 +9,6 @@
 #include "components/TextComponent.h"
 #include "components/ButtonComponent.h"
 #include "components/MenuComponent.h"
-#include <boost/regex.hpp>
-#include <regex>
 #include <NetPlayThread.h>
 #include <systems/SystemManager.h>
 
@@ -269,15 +267,7 @@ void GuiNetPlay::populateGridMeta(int i)
   std::string username = game.mUserName.empty() ? "N/A" : game.mUserName;
   std::string frontend = game.mFrontEnd;
 
-  if (std::regex_search(username, std::regex("@RECALBOX")))
-  {
-    username = std::regex_replace(username, std::regex("@RECALBOX"), " \uF200");
-  }
-  else if (std::regex_search(frontend, std::regex("@RECALBOX")))
-  {
-    username = username + " \uF200";
-    frontend = std::regex_replace(frontend, std::regex("@RECALBOX"), "");
-  }
+  frontend = StringUtil::replace(frontend, "@RECALBOX", " \uF200");
 
   mMetaTextUsername->setText(username);
   mMetaTextCountry->setText(game.mCountry.empty() ? "N/A" : game.mCountry);
@@ -373,7 +363,6 @@ void GuiNetPlay::launch()
 
 std::pair<std::string, std::string> GuiNetPlay::getCoreInfo(const std::string& name)
 {
-  boost::regex validLine("^(?<key>[^;|#].*?);(?<val>.*?)$");
   std::pair<std::string, std::string> result;
   result.first.clear();
   result.second.clear();
@@ -385,10 +374,10 @@ std::pair<std::string, std::string> GuiNetPlay::getCoreInfo(const std::string& n
   {
     while (std::getline(retroarchCores, line))
     {
-      boost::smatch lineInfo;
-      if (boost::regex_match(line, lineInfo, validLine))
+      std::string key, value;
+      if (RecalboxConf::IsValidKeyValue(line, key, value))
       {
-        coreMap[std::string(lineInfo["key"])] = std::string(lineInfo["val"]);
+        coreMap[key] = value;
       }
     }
     retroarchCores.close();
@@ -571,7 +560,7 @@ void GuiNetPlay::parseLobby()
         }
 
         // Take only recalbox games
-        if (!(std::regex_search(item.second.get<std::string>("fields.frontend"), std::regex("@RECALBOX"))))
+        if (item.second.get<std::string>("fields.frontend").find("@RECALBOX") == std::string::npos)
         {
           continue;
         }
