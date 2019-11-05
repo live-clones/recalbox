@@ -1,7 +1,7 @@
+#include <cmath>
 #include "MetadataDescriptor.h"
 #include "MetadataFieldDescriptor.h"
 #include "Locale.h"
-#include "Util.h"
 #include "utils/Log.h"
 
 // TODO: Use const char* instead

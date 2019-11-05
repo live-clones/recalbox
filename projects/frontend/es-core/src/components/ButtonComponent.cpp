@@ -2,7 +2,6 @@
 #include "components/ButtonComponent.h"
 #include "Renderer.h"
 #include "Window.h"
-#include "Util.h"
 #include "Locale.h"
 #include "MenuThemeData.h"
 
@@ -130,14 +129,14 @@ void ButtonComponent::updateImage()
 
 void ButtonComponent::render(const Transform4x4f& parentTrans)
 {
-  Transform4x4f trans = roundMatrix(parentTrans * getTransform());
+  Transform4x4f trans = (parentTrans * getTransform()).round();
 	
 	mBox.render(trans);
 
 	if(mTextCache)
 	{
 		Vector3f centerOffset((mSize.x() - mTextCache->metrics.size.x()) / 2, (mSize.y() - mTextCache->metrics.size.y()) / 2, 0);
-		centerOffset = roundVector(centerOffset);
+		centerOffset.round();
 		trans = trans.translate(centerOffset);
 
 		Renderer::setMatrix(trans);

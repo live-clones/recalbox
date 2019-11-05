@@ -3,7 +3,6 @@
 #include <vector>
 #include "Renderer.h"
 #include "utils/Log.h"
-#include "Util.h"
 
 FT_Library Font::sLibrary = nullptr;
 

@@ -110,10 +110,6 @@ class RecalboxConf
      */
     bool isInList(const std::string &name, const std::string &value);
 
-  private:
-    //! Configuration map: key, value
-    std::map<std::string, std::string> confMap;
-
     /*!
      * @brief Check if the given line is a valide 'key=value'
      * @param line Text line to seek for key/value
@@ -122,6 +118,10 @@ class RecalboxConf
      * @return true if a valid key=value has been found
      */
     static bool IsValidKeyValue(const std::string& line, std::string& key, std::string& value);
+
+  private:
+    //! Configuration map: key, value
+    std::map<std::string, std::string> confMap;
 
     /*!
      * @brief Load configuration file

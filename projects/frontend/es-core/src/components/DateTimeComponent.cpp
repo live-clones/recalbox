@@ -3,7 +3,6 @@
 #include "Renderer.h"
 #include "Window.h"
 #include "utils/Log.h"
-#include "Util.h"
 #include "Locale.h"
 #include "MenuThemeData.h"
 
@@ -128,7 +127,7 @@ void DateTimeComponent::render(const Transform4x4f& parentTrans)
 		// vertically center
 		Vector3f off(0, (mSize.y() - mTextCache->metrics.size.y()) / 2, 0);
 		trans.translate(off);
-		trans = roundMatrix(trans);
+		trans.round();
 
 		Renderer::setMatrix(trans);
 

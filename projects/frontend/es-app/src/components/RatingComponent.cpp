@@ -1,7 +1,6 @@
 #include "components/RatingComponent.h"
 #include "Renderer.h"
 #include "Window.h"
-#include "Util.h"
 
 RatingComponent::RatingComponent(Window* window, unsigned int color)
   : GuiComponent(window),
@@ -98,7 +97,7 @@ void RatingComponent::updateVertices()
 
 void RatingComponent::render(const Transform4x4f& parentTrans)
 {
-	Transform4x4f trans = roundMatrix(parentTrans * getTransform());
+	Transform4x4f trans = (parentTrans * getTransform()).round();
 	Renderer::setMatrix(trans);
 
 	glEnable(GL_TEXTURE_2D);

@@ -3,10 +3,11 @@
 #include "utils/Log.h"
 #include "ImageIO.h"
 #include <cstring>
-#include "Util.h"
 #include "nanosvg/nanosvg.h"
 #include "nanosvg/nanosvgrast.h"
 #include <vector>
+#include <cassert>
+#include <utils/math/Misc.h>
 
 #define DPI 96
 
@@ -89,24 +90,24 @@ bool TextureData::initSVGFromMemory(const unsigned char* fileData, size_t length
 		mSourceWidth = mSVGImage->width;
 		mSourceHeight = mSVGImage->height;
 	}
-	mWidth = (size_t)round(mSourceWidth);
-	mHeight = (size_t)round(mSourceHeight);
+	mWidth = (size_t)Math::round(mSourceWidth);
+	mHeight = (size_t)Math::round(mSourceHeight);
 
 	if (mWidth == 0)
 	{
 		// auto scale width to keep aspect
-		mWidth = (size_t)round(((float)mHeight / mSVGImage->height) * mSVGImage->width);
+		mWidth = (size_t)Math::round(((float)mHeight / mSVGImage->height) * mSVGImage->width);
 	}
 	else if (mHeight == 0)
 	{
 		// auto scale height to keep aspect
-		mHeight = (size_t)round(((float)mWidth / mSVGImage->width) * mSVGImage->height);
+		mHeight = (size_t)Math::round(((float)mWidth / mSVGImage->width) * mSVGImage->height);
 	}
 
 	unsigned char* dataRGBA = new unsigned char[mWidth * mHeight * 4];
 
 	NSVGrasterizer* rast = nsvgCreateRasterizer();
-	nsvgRasterize(rast, mSVGImage, 0, 0, mHeight / mSVGImage->height, dataRGBA, mWidth, mHeight, mWidth * 4);
+	nsvgRasterize(rast, mSVGImage, 0, 0, mHeight / mSVGImage->height, dataRGBA, mWidth, mHeight, mWidth << 2);
 	nsvgDeleteRasterizer(rast);
 
 	ImageIO::flipPixelsVert(dataRGBA, mWidth, mHeight);

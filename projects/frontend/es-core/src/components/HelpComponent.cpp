@@ -3,7 +3,6 @@
 #include "Renderer.h"
 #include "Settings.h"
 #include "utils/Log.h"
-#include "Util.h"
 #include "components/ImageComponent.h"
 #include "components/TextComponent.h"
 #include "components/ComponentGrid.h"

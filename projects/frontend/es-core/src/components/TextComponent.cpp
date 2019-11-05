@@ -4,9 +4,7 @@
 #include "utils/Log.h"
 #include "Window.h"
 #include "themes/ThemeData.h"
-#include "Util.h"
 #include "Settings.h"
-#include "Locale.h"
 
 TextComponent::TextComponent(Window* window)
 	: GuiComponent(window),
@@ -154,7 +152,7 @@ void TextComponent::render(const Transform4x4f& parentTrans)
 		}
 		
 		trans.translate(off);
-		trans = roundMatrix(trans);
+		trans.round();
 		Renderer::setMatrix(trans);
 
 		// draw the text area, where the text actually is going

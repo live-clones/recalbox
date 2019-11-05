@@ -3,7 +3,6 @@
 #include "utils/Log.h"
 #include "Renderer.h"
 #include "themes/ThemeData.h"
-#include "Util.h"
 
 NinePatchComponent::NinePatchComponent(Window* window)
   : GuiComponent(window),
@@ -138,13 +137,13 @@ void NinePatchComponent::buildVertices()
 	// round vertices
 	for (int i = 0; i < 6*9; i++)
 	{
-		mVertices[i].pos = roundVector(mVertices[i].pos);
+		mVertices[i].pos.round();
 	}
 }
 
 void NinePatchComponent::render(const Transform4x4f& parentTrans)
 {
-	Transform4x4f trans = roundMatrix(parentTrans * getTransform());
+	Transform4x4f trans = (parentTrans * getTransform()).round();
 	
 	if(mTexture && mVertices != nullptr)
 	{

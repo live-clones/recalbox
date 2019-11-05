@@ -3,7 +3,6 @@
 #include "Renderer.h"
 #include "resources/Font.h"
 #include "utils/Log.h"
-#include "Util.h"
 #include "Locale.h"
 #include "MenuThemeData.h"
 
@@ -73,7 +72,7 @@ void SliderComponent::update(int deltaTime)
 
 void SliderComponent::render(const Transform4x4f& parentTrans)
 {
-  Transform4x4f trans = roundMatrix(parentTrans * getTransform());
+  Transform4x4f trans = (parentTrans * getTransform()).round();
 	Renderer::setMatrix(trans);
 
 	// render suffix

@@ -2,7 +2,6 @@
 #include "AudioManager.h"
 #include "VolumeControl.h"
 #include "utils/Log.h"
-#include "Util.h"
 #include <RecalboxConf.h>
 #include <RootFolders.h>
 #include <recalbox/RecalboxSystem.h>

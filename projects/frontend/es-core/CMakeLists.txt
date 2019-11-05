@@ -21,7 +21,6 @@ set(CORE_HEADERS
 		src/Sound.h
 		src/RootFolders.h
 		src/MenuThemeData.h
-		src/Util.h
 		src/VideoEngine.h
 		src/Window.h
 		src/utils/sdl2/ISyncronousEvent.h
@@ -119,7 +118,6 @@ set(CORE_SOURCES
 		src/Sound.cpp
 		src/RootFolders.cpp
 		src/MenuThemeData.cpp
-		src/Util.cpp
 		src/VideoEngine.cpp
 		src/Window.cpp
 		src/utils/sdl2/SyncTimer.cpp

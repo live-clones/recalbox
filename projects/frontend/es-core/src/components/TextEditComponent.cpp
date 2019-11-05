@@ -4,7 +4,6 @@
 #include "Window.h"
 #include "Renderer.h"
 
-#include "Util.h"
 #include "Locale.h"
 #include "MenuThemeData.h"
 
@@ -237,7 +236,7 @@ void TextEditComponent::render(const Transform4x4f& parentTrans)
 	Renderer::pushClipRect(clipPos, clipDim);
 
 	trans.translate(Vector3f(-mScrollOffset.x(), -mScrollOffset.y(), 0));
-	trans = roundMatrix(trans);
+	trans.round();
 
 	Renderer::setMatrix(trans);
 

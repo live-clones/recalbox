@@ -1,6 +1,5 @@
 #include <Settings.h>
 #include "components/ComponentList.h"
-#include "Util.h"
 #include "Locale.h"
 #include "MenuThemeData.h"
 
@@ -176,7 +175,7 @@ void ComponentList::render(const Transform4x4f& parentTrans)
 	unsigned int bgColor = menuTheme->menuBackground.color;
 	unsigned int separatorColor = menuTheme->menuText.separatorColor;
 
-	Transform4x4f trans = roundMatrix(parentTrans * getTransform());
+	Transform4x4f trans = (parentTrans * getTransform()).round();
 
 	// clip everything to be inside our bounds
 	Vector3f dim(mSize.x(), mSize.y(), 0);
