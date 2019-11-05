@@ -8,8 +8,9 @@ set name [lindex $argv 1]
 
 spawn bluetoothctl -a
 expect -re $prompt
+
 send "remove $address\r"
-sleep 1
+expect $prompt
 expect {
   "Device has been removed" {
     send "quit\r"
@@ -20,12 +21,12 @@ expect {
 }
 
 set timeout 60
-
 send "scan on\r"
-sleep 1
+expect $prompt
 expect {
   "*\] Device $address" {
   send "scan off\r"
+  expect $prompt
 
   set timeout 10
   expect "Controller"
@@ -33,8 +34,8 @@ expect {
   # DS4 patch
   if { $name == "Wireless Controller" } {
     send "connect $address\r"
-    sleep 1
     expect "Connection successful"
+    expect $prompt
   }
 
   send "pair $address\r"
@@ -42,18 +43,20 @@ expect {
   expect {
     "Enter PIN code:" {
       send "0000\r"
+      expect $prompt
     }
   }
   set timeout 10
   expect "Pairing successful"
+  expect $prompt
 
   send "trust $address\r"
-  sleep 1
   expect "Changing $address trust succeeded"
+  expect $prompt
 
   send "connect $address\r"
-  sleep 1
   expect "Connection successful"
+  expect $prompt
 
   send "quit\r"
   expect eof
