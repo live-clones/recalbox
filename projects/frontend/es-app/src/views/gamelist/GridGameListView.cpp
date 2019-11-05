@@ -45,7 +45,7 @@ void GridGameListView::populateList(const FolderData* folder)
 
 std::vector<HelpPrompt> GridGameListView::getHelpPrompts()
 {
-	bool hideSystemView = RecalboxConf::getInstance()->get("emulationstation.hidesystemview") == "1";
+	bool hideSystemView = RecalboxConf::Instance().AsBool("emulationstation.hidesystemview");
 
 	std::vector<HelpPrompt> prompts;
 	prompts.push_back(HelpPrompt("up/down/left/right", _("SCROLL")));

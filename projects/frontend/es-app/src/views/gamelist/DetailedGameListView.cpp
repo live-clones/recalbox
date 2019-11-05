@@ -33,7 +33,7 @@ DetailedGameListView::DetailedGameListView(Window* window, FolderData* root, Sys
   mDescContainer(window),
   mDescription(window),
   mSystem(system),
-  mSettings(*RecalboxConf::getInstance())
+  mSettings(RecalboxConf::Instance())
 {
   const float padding = 0.01f;
 
@@ -429,8 +429,8 @@ void DetailedGameListView::setGameInfo(FileData* file)
   mPlayCount.setValue(file->Metadata().PlayCountAsString());
   mFavorite.setValue(file->Metadata().FavoriteAsString());
 
-  int videoDelay = (int)mSettings.getUInt("emulationstation.videosnaps.delay", VideoComponent::DEFAULT_VIDEODELAY);
-  int videoLoop  = (int)mSettings.getUInt("emulationstation.videosnaps.loop", VideoComponent::DEFAULT_VIDEOLOOP);
+  int videoDelay = (int) mSettings.AsUInt("emulationstation.videosnaps.delay", VideoComponent::DEFAULT_VIDEODELAY);
+  int videoLoop  = (int) mSettings.AsUInt("emulationstation.videosnaps.loop", VideoComponent::DEFAULT_VIDEOLOOP);
 
   mImage.setImage(file->Metadata().Image());
   mVideo.setVideo(file->Metadata().Video(), videoDelay, videoLoop);

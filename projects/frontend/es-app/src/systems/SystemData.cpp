@@ -21,7 +21,7 @@ SystemData::SystemData(const SystemDescriptor& descriptor,
                        bool favorite)
   : mDescriptor(descriptor),
     mRootFolder(childOwnership, descriptor.RomPath(), this),
-    mSortId(RecalboxConf::getInstance()->getUInt(mDescriptor.Name() + ".sort")),
+    mSortId(RecalboxConf::Instance().AsUInt(mDescriptor.Name() + ".sort")),
     mIsFavorite(favorite)
 {
   // Set name
@@ -69,7 +69,7 @@ void SystemData::RunGame(Window& window, FileData& game, const std::string& netp
     std::string hashcmd;
     if (!hash.empty()) hashcmd = " -hash " + hash;
     command = StringUtil::replace(command, "%NETPLAY%", "-netplay host -netplay_port " +
-                                                        RecalboxConf::getInstance()->get("global.netplay.port") +
+                                                        RecalboxConf::Instance().AsString("global.netplay.port") +
                                                         hashcmd);
   }
   else command = StringUtil::replace(command, "%NETPLAY%", "");
@@ -241,7 +241,7 @@ void SystemData::loadTheme()
 std::string SystemData::getLocalizedText(const std::string& source)
 {
   // Extract prefered language/region
-  std::string locale = StringUtil::toLower(RecalboxConf::Instance().get("system.language", "en_US"));
+  std::string locale = StringUtil::toLower(RecalboxConf::Instance().AsString("system.language", "en_US"));
 
   // Get start
   std::string key = "["; key += locale; key += "]";

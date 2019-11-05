@@ -112,15 +112,15 @@ class ScreenScraperRequest : public ScraperHttpRequest
         RecalboxConf& conf = RecalboxConf::Instance();
 
         // Extract prefered language/region
-        std::string locale = StringUtil::toLower(conf.get("system.language", "en_US"));
+        std::string locale = StringUtil::toLower(conf.AsString("system.language", "en_US"));
         region = (locale.length() == 5) ? locale.substr(3,2) : "us";
         language = (locale.length() == 5) ? locale.substr(0,2) : "en";
         // Override with conf values
-        region = conf.get("scraper.screenscraper.region", region);
-        language = conf.get("scraper.screenscraper.language", region);
+        region = conf.AsString("scraper.screenscraper.region", region);
+        language = conf.AsString("scraper.screenscraper.language", region);
 
         // Choose media
-        media_name = StringUtil::toLower(conf.get("scraper.screenscraper.media", "mixv1"));
+        media_name = StringUtil::toLower(conf.AsString("scraper.screenscraper.media", "mixv1"));
         if (media_name == "screenshot") media_name = "ss";
         else if (media_name == "title") media_name = "sstitle";
         else if (media_name == "box2d") media_name = "box-2D";
@@ -129,8 +129,8 @@ class ScreenScraperRequest : public ScraperHttpRequest
         else if (media_name == "mixv2") media_name = "mixrbv2";
         else media_name = "mixrbv1";
 
-        user = conf.get("scraper.screenscraper.user", "");
-        password = conf.get("scraper.screenscraper.password", "");
+        user = conf.AsString("scraper.screenscraper.user", "");
+        password = conf.AsString("scraper.screenscraper.password", "");
       };
     };
 

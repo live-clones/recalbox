@@ -25,7 +25,7 @@ NetPlayThread::NetPlayThread(Window* window)
 
 std::string NetPlayThread::getLobbyListCommand()
 {
-  static std::string command = "curl -s --connect-timeout 3 -m 3 -A libretro " + RecalboxConf::getInstance()->get("global.netplay.lobby");
+  static std::string command = "curl -s --connect-timeout 3 -m 3 -A libretro " + RecalboxConf::Instance().AsString("global.netplay.lobby");
   return command;
 }
 
@@ -53,7 +53,7 @@ void NetPlayThread::Run()
     LOG(LogInfo) << "NetPlayThread started";
 
     bool firstLoop = true;
-    bool enabled = RecalboxConf::getInstance()->getBool("global.netplay");
+    bool enabled = RecalboxConf::Instance().AsBool("global.netplay");
     int popupDuration = Settings::getInstance()->getInt("NetplayPopupTime");
     if (popupDuration != 0)
     {
@@ -110,7 +110,7 @@ bool NetPlayThread::Sleep(bool& enabled)
 {
   for (int i = 30; --i >= 0 && IsRunning();)
   {
-    bool stillEnabled = RecalboxConf::getInstance()->getBool("global.netplay");
+    bool stillEnabled = RecalboxConf::Instance().AsBool("global.netplay");
     if (enabled != stillEnabled)
     {
       enabled = stillEnabled;

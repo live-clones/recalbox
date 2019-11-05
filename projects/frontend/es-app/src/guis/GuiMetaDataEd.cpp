@@ -5,7 +5,6 @@
 #include "views/ViewController.h"
 #include "guis/GuiGameScraper.h"
 #include "guis/GuiMsgBox.h"
-#include <boost/format.hpp>
 #include <RecalboxConf.h>
 #include <components/SwitchComponent.h>
 #include <LibretroRatio.h>
@@ -146,14 +145,14 @@ GuiMetaDataEd::GuiMetaDataEd(Window* window,
         {
           row.addElement(emu_choice, false);
           std::string currentEmulator = mMetaData.Emulator();
-          std::string mainConfigEmulator = RecalboxConf::getInstance()->get(system->getName() + ".emulator");
+          std::string mainConfigEmulator = RecalboxConf::Instance().AsString(system->getName() + ".emulator");
 
           if (mainConfigEmulator.empty() || mainConfigEmulator == "default")
           {
             mainConfigEmulator = emulatorDefaults.emulator;
           }
 
-          emu_choice->add(str(boost::format(_("DEFAULT (%1%)")) % mainConfigEmulator), "default", true);
+          emu_choice->add(StringUtil::replace(_("DEFAULT (%1%)"), "%1%", mainConfigEmulator), "default", true);
 
           for (int i = system->Emulators().Count(); --i >= 0; )
           {
@@ -168,12 +167,12 @@ GuiMetaDataEd::GuiMetaDataEd(Window* window,
 
                                                    if (emulatorName == "default")
                                                    {
-                                                     std::string mainConfigCore = RecalboxConf::getInstance()->get(system->getName() + ".core");
+                                                     std::string mainConfigCore = RecalboxConf::Instance().AsString(system->getName() + ".core");
                                                      if (mainConfigCore.empty() || mainConfigCore == "default")
                                                      {
                                                        mainConfigCore = emulatorDefaults.core;
                                                      }
-                                                     core_choice->add(str(boost::format(_("DEFAULT (%1%)")) % mainConfigCore), "default", true);
+                                                     core_choice->add(StringUtil::replace(_("DEFAULT (%1%)"), "%1%", mainConfigCore), "default", true);
                                                      return;
                                                    }
 

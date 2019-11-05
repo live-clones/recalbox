@@ -8,7 +8,7 @@
 #include "components/BusyComponent.h"
 #include "components/NinePatchComponent.h"
 
-class GuiUpdate : public GuiComponent, private Thread, private ISyncronousEvent
+class GuiUpdate : public GuiComponent, private Thread
 {
   public:
     explicit GuiUpdate(Window *window);

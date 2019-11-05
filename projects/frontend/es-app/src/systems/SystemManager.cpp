@@ -30,7 +30,7 @@ SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDes
     LOG(LogInfo) << "Creating & populating system: " << systemDescriptor.FullName();
 
     // Populate items from disk
-    if (RecalboxConf::Instance().getBool("emulationstation.gamelistonly", false))
+    if (RecalboxConf::Instance().AsBool("emulationstation.gamelistonly", false))
       result->populateFolder(&(result->mRootFolder), doppelgangerWatcher);
     // Populate items from gamelist.xml
     if (!Settings::getInstance()->getBool("IgnoreGamelist"))
@@ -276,9 +276,9 @@ bool SystemManager::AddFavoriteSystem(const XmlNodeList& systemList)
 
 bool SystemManager::AddArcadeMetaSystem()
 {
-  if (RecalboxConf::Instance().getBool("global.arcade", false))
+  if (RecalboxConf::Instance().AsBool("global.arcade", false))
   {
-    bool includeNeogeo = RecalboxConf::Instance().getBool("global.arcade.includeneogeo", true);
+    bool includeNeogeo = RecalboxConf::Instance().AsBool("global.arcade.includeneogeo", true);
     // Lookup all non-empty arcade platforms
     for (SystemData* system: sVisibleSystemVector)
       if (system->getRootFolder()->hasGame())
@@ -294,7 +294,7 @@ bool SystemManager::AddArcadeMetaSystem()
     if (!sHiddenSystemVector.empty())
     {
       // Remove Hidden systems fron the visible ist
-      bool hideOriginals = RecalboxConf::Instance().getBool("global.arcade.hideoriginals", true);
+      bool hideOriginals = RecalboxConf::Instance().AsBool("global.arcade.hideoriginals", true);
       if (hideOriginals)
         for (SystemData* hidden: sHiddenSystemVector)
         {
@@ -305,7 +305,7 @@ bool SystemManager::AddArcadeMetaSystem()
       // Create meta-system
       SystemData* arcade = CreateMetaSystem("arcade", "Arcade", "arcade", sHiddenSystemVector);
       LOG(LogInfo) << "creating Arcade meta-system";
-      int position = RecalboxConf::Instance().getInt("global.arcade.position", 0) % (int)sVisibleSystemVector.size();
+      int position = RecalboxConf::Instance().AsInt("global.arcade.position", 0) % (int)sVisibleSystemVector.size();
       auto it = position >= 0 ? sVisibleSystemVector.begin() + position : sVisibleSystemVector.end() + (position + 1);
       sVisibleSystemVector.insert(it, arcade);
       // Hide originals?

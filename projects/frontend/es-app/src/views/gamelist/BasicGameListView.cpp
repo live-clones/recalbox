@@ -140,7 +140,7 @@ void BasicGameListView::populateList(const FolderData* folder)
     filter = FileData::Filter::Favorite;
 
   // Get items
-  bool flatfolders = (RecalboxConf::getInstance()->getBool(getRoot()->getSystem()->getName() + ".flatfolder"));
+  bool flatfolders = (RecalboxConf::Instance().AsBool(getRoot()->getSystem()->getName() + ".flatfolder"));
   int count = flatfolders ? folder->countFilteredItemsRecursively(filter, false) : folder->countFilteredItems(filter, true);
   if (count == 0) filter |= FileData::Filter::Normal;
 	FileData::List items = flatfolders ? folder->getFilteredItemsRecursively(filter, false) : folder->getFilteredItems(filter, true);

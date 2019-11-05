@@ -8,7 +8,6 @@
 #include "components/ButtonComponent.h"
 #include "input/InputManager.h"
 #include "MenuThemeData.h"
-#include <boost/format.hpp>
 
 using namespace boost::locale;
 
@@ -297,10 +296,10 @@ void GuiInputConfig::setHelpMessage() {
 		if (mTargetConfig->IsSet(InputDevice::Entry::Down)) {
 			if (inputId == 0)
 				msg = (msg.length() != 0u ? msg + " - " : "") +
-					  str(boost::format(_("DOWN TO KEEP [%1%]")) % StringUtil::toUpper(input.ToString()));
+					  StringUtil::replace(_("DOWN TO KEEP [%1%]"), "%1%", StringUtil::toUpper(input.ToString()));
 			else
 				msg = (msg.length() != 0u ? msg + " - " : "") +
-					  str(boost::format(_("UP/DOWN TO KEEP [%1%]")) % StringUtil::toUpper(input.ToString()));
+					  StringUtil::replace(_("UP/DOWN TO KEEP [%1%]"), "%1%", StringUtil::toUpper(input.ToString()));
 		}
 
 	} else if (formInput.skippable)

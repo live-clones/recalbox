@@ -57,18 +57,18 @@ void ViewController::goToStart()
 	mCurrentView.reset();
 	playViewTransition(); */
 
-  std::string systemName = RecalboxConf::getInstance()->get("emulationstation.selectedsystem");
+  std::string systemName = RecalboxConf::Instance().AsString("emulationstation.selectedsystem");
   int index = systemName.empty() ? -1 : SystemManager::Instance().getVisibleSystemIndex(systemName);
   SystemData* selectedSystem = index < 0 ? nullptr : SystemManager::Instance().GetVisibleSystemList().at(index);
 
   if ((selectedSystem == nullptr) || !selectedSystem->HasGame())
     selectedSystem = SystemManager::Instance().getFirstSystemWithGame();
 
-  if (RecalboxConf::getInstance()->get("emulationstation.hidesystemview") == "1")
+  if (RecalboxConf::Instance().AsBool("emulationstation.hidesystemview"))
     goToGameList(selectedSystem);
   else
   {
-    if (RecalboxConf::getInstance()->get("emulationstation.bootongamelist") == "1")
+    if (RecalboxConf::Instance().AsBool("emulationstation.bootongamelist"))
       goToGameList(selectedSystem);
     else
       goToSystemView(selectedSystem);
@@ -323,7 +323,7 @@ std::shared_ptr<IGameListView> ViewController::getGameListView(SystemData* syste
 	//decide type
 	bool detailed = system->getRootFolder()->hasDetailedData();
 
-	if(detailed && ! (RecalboxConf::getInstance()->get("emulationstation.forcebasicgamelistview") == "1"))
+	if(detailed && ! (RecalboxConf::Instance().AsBool("emulationstation.forcebasicgamelistview")))
 		view = std::shared_ptr<IGameListView>(new DetailedGameListView(mWindow, system->getRootFolder(), system));
 	else
 		view = std::shared_ptr<IGameListView>(new BasicGameListView(mWindow, system->getRootFolder()));

@@ -351,8 +351,8 @@ int main(int argc, char* argv[])
       }));
     }
 
-    RecalboxConf* recalboxConf = RecalboxConf::getInstance();
-    if (recalboxConf->get("kodi.enabled") == "1" && recalboxConf->get("kodi.atstartup") == "1")
+    RecalboxConf& recalboxConf = RecalboxConf::Instance();
+    if (recalboxConf.AsString("kodi.enabled") == "1" && recalboxConf.AsString("kodi.atstartup") == "1")
     {
       RecalboxSystem::launchKodi(&window);
     }

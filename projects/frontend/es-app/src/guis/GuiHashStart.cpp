@@ -33,7 +33,7 @@ GuiHashStart::GuiHashStart(Window* window)
     mSystems = std::make_shared< OptionListComponent<SystemData*> >(mWindow, _("HASH THESE SYSTEMS"), true);
     for (auto it : SystemManager::Instance().GetVisibleSystemList())
     {
-        if(RecalboxConf::getInstance()->isInList("global.netplay.systems", it->getName()))
+        if(RecalboxConf::Instance().isInList("global.netplay.systems", it->getName()))
             mSystems->add(it->getFullName(), it, true);
     }
     mMenu.addWithLabel(mSystems, _("SYSTEMS"));

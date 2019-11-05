@@ -112,7 +112,7 @@ void ISimpleGameListView::onFileChanged(FileData* file, FileChangeType change)
   }
 
   int cursor = getCursorIndex();
-  if (RecalboxConf::getInstance()->getBool(getRoot()->getSystem()->getName() + ".flatfolder"))
+  if (RecalboxConf::Instance().AsBool(getRoot()->getSystem()->getName() + ".flatfolder"))
   {
     populateList(getRoot());
   }
@@ -126,7 +126,7 @@ void ISimpleGameListView::onFileChanged(FileData* file, FileChangeType change)
 }
 
 bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
-  bool hideSystemView = RecalboxConf::getInstance()->get("emulationstation.hidesystemview") == "1";
+  bool hideSystemView = RecalboxConf::Instance().AsBool("emulationstation.hidesystemview");
 
   // RUN GAME or ENTER FOLDER
   if (event.BPressed())
@@ -273,8 +273,8 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
   }
 
   // NETPLAY
-  if ((event.XPressed()) && (RecalboxConf::getInstance()->get("global.netplay") == "1")
-      && (RecalboxConf::getInstance()->isInList("global.netplay.systems", getCursor()->getSystem()->getName())))
+  if ((event.XPressed()) && (RecalboxConf::Instance().AsBool("global.netplay"))
+      && (RecalboxConf::Instance().isInList("global.netplay.systems", getCursor()->getSystem()->getName())))
   {
     FileData* cursor = getCursor();
     if(cursor->isGame())
@@ -311,12 +311,12 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
 }
 
 std::vector<HelpPrompt> ISimpleGameListView::getHelpPrompts() {
-  bool hideSystemView = RecalboxConf::getInstance()->get("emulationstation.hidesystemview") == "1";
+  bool hideSystemView = RecalboxConf::Instance().AsBool("emulationstation.hidesystemview");
   std::vector<HelpPrompt> prompts;
 
   prompts.push_back(HelpPrompt("b", _("LAUNCH")));
 
-  if ((RecalboxConf::getInstance()->get("global.netplay") == "1") && (RecalboxConf::getInstance()->isInList("global.netplay.systems", getCursor()->getSystem()->getName())))
+  if (RecalboxConf::Instance().AsBool("global.netplay") && (RecalboxConf::Instance().isInList("global.netplay.systems", getCursor()->getSystem()->getName())))
     prompts.push_back(HelpPrompt("x", _("NETPLAY")));
 
   if (mIsFavoriteSystem)

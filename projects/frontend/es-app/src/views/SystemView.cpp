@@ -210,9 +210,9 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
 		}
     if (event.XPressed())
     {
-    bool kodiEnabled = RecalboxConf::getInstance()->get("kodi.enabled") == "1";
-    bool kodiX = RecalboxConf::getInstance()->get("kodi.xbutton") == "1";
-    bool netplay = RecalboxConf::getInstance()->get("global.netplay") == "1";
+    bool kodiEnabled = RecalboxConf::Instance().AsBool("kodi.enabled");
+    bool kodiX = RecalboxConf::Instance().AsBool("kodi.xbutton");
+    bool netplay = RecalboxConf::Instance().AsBool("global.netplay");
 
     if (kodiEnabled && kodiX && !launchKodi && !mWindow->isShowingPopup())
     {
@@ -259,7 +259,7 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
 
 
     }
-		if (event.SelectPressed() && RecalboxConf::getInstance()->get("emulationstation.menu") != "none")
+		if (event.SelectPressed() && RecalboxConf::Instance().AsString("emulationstation.menu") != "none")
 		{
 		  auto s = new GuiSettings(mWindow, _("QUIT").c_str());
 			auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
@@ -330,7 +330,7 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
 			mWindow->pushGui(s);
 		}
 
-		if (event.StartPressed() && RecalboxConf::getInstance()->get("emulationstation.menu") != "none")
+		if (event.StartPressed() && RecalboxConf::Instance().AsString("emulationstation.menu") != "none")
 		{
 			mWindow->pushGui(new GuiMenu(mWindow));
 			return true;
@@ -537,14 +537,14 @@ std::vector<HelpPrompt> SystemView::getHelpPrompts()
 			prompts.push_back(HelpPrompt("left/right", _("CHOOSE")));
 	prompts.push_back(HelpPrompt("b", _("SELECT")));
 
-	if (RecalboxConf::getInstance()->get("kodi.enabled") == "1" && RecalboxConf::getInstance()->get("kodi.xbutton") == "1")
+	if (RecalboxConf::Instance().AsBool("kodi.enabled") && RecalboxConf::Instance().AsBool("kodi.xbutton"))
 	{
-	    if (RecalboxConf::getInstance()->get("global.netplay") == "1")
+	    if (RecalboxConf::Instance().AsBool("global.netplay"))
 	        prompts.push_back(HelpPrompt("x", _("KODI/NETPLAY")));
 	    else
             prompts.push_back(HelpPrompt("x", _("START KODI")));
 
-	} else if (RecalboxConf::getInstance()->get("global.netplay") == "1")
+	} else if (RecalboxConf::Instance().AsBool("global.netplay"))
 	    prompts.push_back(HelpPrompt("x", _("NETPLAY")));
 
 	prompts.push_back(HelpPrompt("select", _("QUIT")));

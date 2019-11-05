@@ -9,7 +9,7 @@
 DemoMode::DemoMode(Window& window)
   : mWindow(window),
     mSettings(*Settings::getInstance()),
-    mRecalboxConf(*RecalboxConf::getInstance()),
+    mRecalboxConf(RecalboxConf::Instance()),
     mDefaultDuration(0),
     mInfoScreenDuration(0),
     mRandomGenerator(mRandomDevice()),
@@ -21,8 +21,8 @@ DemoMode::DemoMode(Window& window)
 void DemoMode::init()
 {
   // Default duration
-  mDefaultDuration = (int)mRecalboxConf.getUInt("global.demo.duration", 90);
-  mInfoScreenDuration = (int)mRecalboxConf.getUInt("global.demo.infoscreenduration", 6);
+  mDefaultDuration = (int) mRecalboxConf.AsUInt("global.demo.duration", 90);
+  mInfoScreenDuration = (int) mRecalboxConf.AsUInt("global.demo.infoscreenduration", 6);
 
   // flush previous init
   mDemoSystems.clear();
@@ -30,17 +30,17 @@ void DemoMode::init()
 
   // Build system list filtered by user config
   const std::vector<SystemData*>& allSystems = SystemManager::Instance().GetAllSystemList();
-  bool systemListExists = !mRecalboxConf.get("global.demo.systemlist").empty();
+  bool systemListExists = !mRecalboxConf.AsString("global.demo.systemlist").empty();
   for (int i=(int)allSystems.size(); --i>= 0;)
   {
     const std::string& name = allSystems[i]->getName();
-    bool includeSystem = mRecalboxConf.getBool(name + ".demo.include");
+    bool includeSystem = mRecalboxConf.AsBool(name + ".demo.include");
     bool systemIsInIncludeList = !systemListExists || mRecalboxConf.isInList("global.demo.systemlist", name);
     bool hasVisibleGame = allSystems[i]->getRootFolder()->hasVisibleGame();
     if ((includeSystem || systemIsInIncludeList) && hasVisibleGame)
     {
       mDemoSystems.push_back(allSystems[i]);
-      int systemDuration = (int)mRecalboxConf.getUInt(name + ".demo.duration", (unsigned int)mDefaultDuration);
+      int systemDuration = (int) mRecalboxConf.AsUInt(name + ".demo.duration", (unsigned int) mDefaultDuration);
       mDurations.push_back(systemDuration);
       LOG(LogInfo) << "System selected for demo : " << allSystems[i]->getName() << " with session of " << systemDuration << "s";
     }

@@ -41,7 +41,7 @@ GuiTextEditPopupKeyboard::GuiTextEditPopupKeyboard(Window* window, const std::st
 
 		std::vector<std::array<std::string, 12> > lines;
 
-		std::string keyboard = RecalboxConf::getInstance()->get("system.kblayout");
+		std::string keyboard = RecalboxConf::Instance().AsString("system.kblayout");
 
 		if (keyboard == "fr")
 		{

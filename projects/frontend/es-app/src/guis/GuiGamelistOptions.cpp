@@ -68,7 +68,7 @@ GuiGamelistOptions::GuiGamelistOptions(Window* window, SystemData* system)
 	}
 
 	mMenu.addWithLabel(mListSort, _("SORT GAMES BY"), _(MenuMessages::GAMELISTOPTION_SORT_GAMES_MSG));
-	addSaveFunc([this, system] { RecalboxConf::getInstance()->setUInt(system->getName() + ".sort", (unsigned int) mListSort->getSelected()); });
+	addSaveFunc([this, system] { RecalboxConf::Instance().SetInt(system->getName() + ".sort", mListSort->getSelected()); });
 
 	if (!system->isFavorite()) {
 	    // favorite only
@@ -85,15 +85,15 @@ GuiGamelistOptions::GuiGamelistOptions(Window* window, SystemData* system)
 
     	// flat folders
         auto flat_folders = std::make_shared<SwitchComponent>(mWindow);
-        flat_folders->setState(RecalboxConf::getInstance()->getBool(system->getName() + ".flatfolder"));
+        flat_folders->setState(RecalboxConf::Instance().AsBool(system->getName() + ".flatfolder"));
         mMenu.addWithLabel(flat_folders, _("SHOW FOLDERS CONTENT"), _(MenuMessages::GAMELISTOPTION_SHOW_FOLDER_CONTENT_MSG));
-        addSaveFunc([flat_folders, system] { RecalboxConf::getInstance()->setBool(system->getName() + ".flatfolder", flat_folders->getState()); });
+        addSaveFunc([flat_folders, system] { RecalboxConf::Instance().SetBool(system->getName() + ".flatfolder", flat_folders->getState()); });
     }
 
 	// edit game metadata
 	row.elements.clear();
 
-	if (RecalboxConf::getInstance()->get("emulationstation.menu") != "none" && RecalboxConf::getInstance()->get("emulationstation.menu") != "bartop"){
+	if (RecalboxConf::Instance().AsString("emulationstation.menu") != "none" && RecalboxConf::Instance().AsString("emulationstation.menu") != "bartop"){
 		row.addElement(std::make_shared<TextComponent>(mWindow, _("EDIT THIS GAME'S METADATA"), menuTheme->menuText.font, menuTheme->menuText.color), true);
 		row.addElement(makeArrow(mWindow), false);
 		row.makeAcceptInputHandler(std::bind(&GuiGamelistOptions::openMetaDataEd, this));
@@ -240,5 +240,5 @@ void GuiGamelistOptions::save() {
 		mSaveFunc();
 	}
 	Settings::getInstance()->saveFile();
-	RecalboxConf::getInstance()->saveRecalboxConf();
+	RecalboxConf::Instance().SaveRecalboxConf();
 }

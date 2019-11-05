@@ -1,195 +1,194 @@
 #include "RecalboxConf.h"
-#include <iostream>
-#include <fstream>
-#include <boost/regex.hpp>
+#include <utils/StringUtil.h>
+#include <utils/FileUtil.h>
 #include "utils/Log.h"
-#include <boost/algorithm/string/predicate.hpp>
 
-boost::regex validLine("^(?<key>[^;|#].*?)=(?<val>.*?)$");
-boost::regex commentLine("^;(?<key>.*?)=(?<val>.*?)$");
+static Path recalboxConfFile("/recalbox/share/system/recalbox.conf");
+static Path recalboxConfFileBackup("/recalbox/share/system/recalbox.conf.previous");
+static Path recalboxConfFileInit("/recalbox/share_init/system/recalbox.conf");
 
-std::string recalboxConfFile = "/recalbox/share/system/recalbox.conf";
-std::string recalboxConfFileInit = "/recalbox/share_init/system/recalbox.conf";
-std::string recalboxConfFileTmp = "/recalbox/share/system/recalbox.conf.tmp";
-
-RecalboxConf::RecalboxConf(bool mainFile)
+RecalboxConf::RecalboxConf(bool initialConfigOnly)
 {
-  loadRecalboxConf(mainFile);
+  LoadRecalboxConf(initialConfigOnly);
 }
 
 RecalboxConf& RecalboxConf::Instance()
 {
-  static RecalboxConf _Instance(true); // Initialized the first time this is called - destroyed on program exit
+  static RecalboxConf _Instance(false); // Initialized the first time this is called - destroyed on program exit
   return _Instance;
 }
 
-bool RecalboxConf::loadRecalboxConf(bool mainFile) {
-    std::string line;
-    std::string filePath = mainFile ? recalboxConfFile : recalboxConfFileInit;
-    std::ifstream recalboxConf(filePath);
-    if (recalboxConf && recalboxConf.is_open()) {
-        while (std::getline(recalboxConf, line)) {
-            boost::smatch lineInfo;
-            if (boost::regex_match(line, lineInfo, validLine)) {
-                confMap[std::string(lineInfo["key"])] = std::string(lineInfo["val"]);
-            }
-        }
-        recalboxConf.close();
-    } else {
-        LOG(LogError) << "Unable to open " << filePath;
-        return false;
-    }
-    return true;
-}
-
-
-bool RecalboxConf::saveRecalboxConf() {
-    std::ifstream filein(recalboxConfFile); //File to read from
-    if (!filein) {
-        LOG(LogError) << "Unable to open for saving :  " << recalboxConfFile << "\n";
-        return false;
-    }
-    /* Read all lines in a vector */
-    std::vector<std::string> fileLines;
-    std::string line;
-    while (std::getline(filein, line)) {
-        fileLines.push_back(line);
-    }
-    filein.close();
-
-
-    /* Save new value if exists */
-    for (auto & it : confMap) {
-        std::string key = it.first;
-        std::string val = it.second;
-        bool lineFound = false;
-        for (auto & fileLine : fileLines) {
-            std::string currentLine = fileLine;
-
-            if (boost::starts_with(currentLine, key+"=") || boost::starts_with(currentLine, ";"+key+"=")){
-                fileLine = key + "=" + val;
-                lineFound = true;
-            }
-        }
-        if(!lineFound){
-            fileLines.push_back(key + "=" + val);
-        }
-    }
-    std::ofstream fileout(recalboxConfFileTmp); //Temporary file
-    if (!fileout) {
-        LOG(LogError) << "Unable to open for saving :  " << recalboxConfFileTmp << "\n";
-        return false;
-    }
-    for (const auto & fileLine : fileLines) {
-        fileout << fileLine << "\n";
-    }
-
-    fileout.close();
-
-
-    /* Copy back the tmp to recalbox.conf */
-    std::ifstream  src(recalboxConfFileTmp, std::ios::binary);
-    std::ofstream  dst(recalboxConfFile,   std::ios::binary);
-    dst << src.rdbuf();
-
-    remove(recalboxConfFileTmp.c_str());
-
-    return true;
-}
-
-std::string RecalboxConf::get(const std::string &name) {
-    if (confMap.count(name) != 0u) {
-        return confMap[name];
-    }
-    return "";
-}
-std::string RecalboxConf::get(const std::string &name, const std::string &defaultValue) {
-    if (confMap.count(name) != 0u) {
-        return confMap[name];
-    }
-    return defaultValue;
-}
-
-bool RecalboxConf::getBool(const std::string &name, bool defaultValue) {
-    if (confMap.count(name) != 0u) {
-        return confMap[name] == "1";
-    }
-    return defaultValue;
-}
-
-unsigned int RecalboxConf::getUInt(const std::string &name, unsigned int defaultValue) {
-    try {
-        if (confMap.count(name) != 0u) {
-            int value = std::stoi(confMap[name]);
-            return value > 0 ? (unsigned int) value : 0;
-        }
-    } catch(std::invalid_argument&) {}
-
-    return defaultValue;
-}
-
-int RecalboxConf::getInt(const std::string &name, int defaultValue)
+bool RecalboxConf::IsValidKeyValue(const std::string& line, std::string& key, std::string& value)
 {
-  try
+  static std::string _allowedCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-";
+  if (!line.empty()) // Ignore empty line
   {
-    if (confMap.count(name) != 0u)
-      return std::stoi(confMap[name]);
+    bool comment = (line[0] == ';' || line[0] == '#');
+    if (!comment)
+    {
+      size_t separatorPos = line.find('=');
+      if (separatorPos != std::string::npos) // Expect a key=value line
+      {
+        size_t validated = line.find_first_not_of(_allowedCharacters);
+        if (validated == std::string::npos || validated >= separatorPos) // Unknown characters after the = ?
+        {
+          key = line.substr(0, separatorPos);
+          value = line.substr(separatorPos + 1);
+          return true;
+        }
+        else LOG(LogWarning) << "Invalid key: `" << line << '`';
+      }
+      else LOG(LogError) << "Invalid line: `" << line << '`';
+    }
   }
-  catch(std::invalid_argument&) {}
+  return false;
+}
+
+bool RecalboxConf::LoadRecalboxConf(bool initialConfigOnly)
+{
+  // Load file
+  std::string content = FileUtil::LoadFile(initialConfigOnly ? recalboxConfFileInit : recalboxConfFile);
+  if (content.empty() && !initialConfigOnly) content = FileUtil::LoadFile(recalboxConfFileInit);
+
+  // Split lines
+  content = StringUtil::replace(content, "\r", "");
+  StringUtil::stringVector lines = StringUtil::splitString(content, '\n');
+
+  // Get key/value
+  std::string key, value;
+  for (std::string& line : lines)
+    if (IsValidKeyValue(line, key, value))
+      confMap[key] = value;
+
+  return true;
+}
+
+bool RecalboxConf::SaveRecalboxConf()
+{
+  // Load file
+  std::string content = FileUtil::LoadFile(recalboxConfFile);
+  if (content.empty()) content = FileUtil::LoadFile(recalboxConfFileInit);
+
+  // Split lines
+  content = StringUtil::replace(content, "\r", "");
+  StringUtil::stringVector lines = StringUtil::splitString(content, '\n');
+
+  // Save new value if exists
+  for (auto& it : confMap)
+  {
+    std::string key = it.first;
+    std::string val = it.second;
+    bool lineFound = false;
+    for (auto& line : lines)
+      if (StringUtil::startsWith(line, key + "=") || StringUtil::startsWith(line, ";" + key + "="))
+      {
+        line = key.append("=").append(val);
+        lineFound = true;
+      }
+    if (!lineFound)
+      lines.push_back(key.append("=").append(val));
+  }
+
+  // Delete old backup
+  if (recalboxConfFileBackup.Exists())
+    recalboxConfFileBackup.Delete();
+  // Rename
+  Path::Rename(recalboxConfFile, recalboxConfFileBackup);
+  // Save new
+  FileUtil::SaveFile(recalboxConfFile, StringUtil::joinStrings(lines, "\r\n"));
+
+  return true;
+}
+
+std::string RecalboxConf::AsString(const std::string& name)
+{
+  auto item = confMap.find(name);
+  return (item != confMap.end()) ? item->second : std::string();
+}
+
+std::string RecalboxConf::AsString(const std::string& name, const std::string& defaultValue)
+{
+  auto item = confMap.find(name);
+  return (item != confMap.end()) ? item->second : defaultValue;
+}
+
+bool RecalboxConf::AsBool(const std::string& name, bool defaultValue)
+{
+  auto item = confMap.find(name);
+  return (item != confMap.end()) ? (item->second.size() == 1 && item->second[0] == '1') : defaultValue;
+}
+
+unsigned int RecalboxConf::AsUInt(const std::string& name, unsigned int defaultValue)
+{
+  auto item = confMap.find(name);
+  if (item != confMap.end())
+  {
+    long int value;
+    if (StringUtil::TryToLong(item->second, value))
+      return (unsigned int)value;
+  }
 
   return defaultValue;
 }
 
-void RecalboxConf::set(const std::string &name, const std::string &value) {
-    confMap[name] = value;
-}
-
-void RecalboxConf::setBool(const std::string &name, bool value) {
-    confMap[name] = value ? "1" : "0";
-}
-
-void RecalboxConf::setUInt(const std::string &name, unsigned int value) {
-    confMap[name] = std::to_string(value);
-}
-
-/**
- * Join a list using the , as delimiter, removing all empty values
- */
-void RecalboxConf::setList(const std::string &name, const std::vector<std::string> &values) {
-
-  std::stringstream ss;
-  std::string delimiter = ",";
-  bool addDelimiter = false;
-
-  for (auto & value: values)
+int RecalboxConf::AsInt(const std::string& name, int defaultValue)
+{
+  auto item = confMap.find(name);
+  if (item != confMap.end())
   {
-    if (value.length() != 0u)
-    {
-      if (addDelimiter)
-        ss << delimiter;
-      ss << value;
-      addDelimiter = true;
-    }
+    int value;
+    if (StringUtil::TryToInt(item->second, value))
+      return value;
   }
-  confMap[name] = ss.str();
+
+  return defaultValue;
 }
 
-bool RecalboxConf::isInList(const std::string &name, const std::string &value) {
-    bool result = false;
-    if (confMap.count(name) != 0u) {
-        std::string s = confMap[name];
-        std::string delimiter = ",";
+void RecalboxConf::SetString(const std::string& name, const std::string& value)
+{
+  confMap[name] = value;
+}
 
-        size_t pos = 0;
-        std::string token;
-        while (((pos = s.find(delimiter)) != std::string::npos) ) {
-            token = s.substr(0, pos);
-            if (token == value)
-	            result = true;
-            s.erase(0, pos + delimiter.length());
-        }
-	    if (s == value)
-		    result = true;
+void RecalboxConf::SetBool(const std::string& name, bool value)
+{
+  confMap[name] = value ? "1" : "0";
+}
+
+void RecalboxConf::SetUInt(const std::string& name, unsigned int value)
+{
+  confMap[name] = std::to_string(value);
+}
+
+void RecalboxConf::SetInt(const std::string& name, unsigned int value)
+{
+  confMap[name] = std::to_string(value);
+}
+
+void RecalboxConf::SetList(const std::string& name, const std::vector<std::string>& values)
+{
+  confMap[name] = StringUtil::joinStrings(values, ",");
+}
+
+bool RecalboxConf::isInList(const std::string& name, const std::string& value)
+{
+  bool result = false;
+  if (confMap.count(name) != 0u)
+  {
+    std::string s = confMap[name];
+    std::string delimiter = ",";
+
+    size_t pos = 0;
+    std::string token;
+    while (((pos = s.find(delimiter)) != std::string::npos))
+    {
+      token = s.substr(0, pos);
+      if (token == value)
+        result = true;
+      s.erase(0, pos + delimiter.length());
     }
-    return result;
+    if (s == value)
+      result = true;
+  }
+  return result;
 }
+

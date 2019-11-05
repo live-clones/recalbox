@@ -3,7 +3,6 @@
 #include "pugixml/pugixml.hpp"
 #include "platform.h"
 #include "RootFolders.h"
-//#include <boost/assign.hpp>
 
 Settings *Settings::sInstance = nullptr;
 

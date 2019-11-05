@@ -52,7 +52,7 @@ void NetworkThread::Run()
         mPopupMessage += updateVersion;
 
         // Message box only if the option is on
-        if (RecalboxConf::getInstance()->get("updates.enabled") != "1")
+        if (RecalboxConf::Instance().AsBool("updates.enabled"))
         {
           std::string changelog = RecalboxUpgrade::getUpdateChangelog();
 
