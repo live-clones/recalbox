@@ -447,5 +447,13 @@ class Path
      * @return file and directory list, or empty list if the current path is invalid or not a directory
      */
     PathList GetDirectoryContent() const;
+
+    /*!
+     * @brief Rename a from "from" to "to"
+     * @param from Source path
+     * @param to Destination path
+     * @return True if the renaming/move is successful
+     */
+    static bool Rename(const Path& from, const Path& to);
 };
 

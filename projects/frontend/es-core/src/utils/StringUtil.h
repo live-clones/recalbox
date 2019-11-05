@@ -50,6 +50,8 @@ class StringUtil
 
     static stringVector splitString(const std::string& _string, char splitter);
 
+    static std::string joinStrings(const std::vector<std::string>& _string, const std::string& joiner);
+
     static stringVector commaStringToVector(const std::string& _string);
 
     static std::string vectorToCommaString(stringVector _vector);
@@ -57,6 +59,18 @@ class StringUtil
     static std::string format(const char* _string, ...);
 
     static std::string scramble(const std::string& _input, const std::string& key);
+
+    static bool TryToInt(const std::string& source, int index, char stop, int& out);
+
+    static bool TryToInt(const std::string& source, int index, int& out) { return TryToInt(source, index, 0, out); }
+
+    static bool TryToInt(const std::string& source, int& out) { return TryToInt(source, 0, 0, out); }
+
+    static bool TryToLong(const std::string& source, int index, char stop, long int& out);
+
+    static bool TryToLong(const std::string& source, int index, long int& out) { return TryToLong(source, index, 0, out); }
+
+    static bool TryToLong(const std::string& source, long int& out) { return TryToLong(source, 0, 0, out); }
 }; // String::
 
 #endif // ES_CORE_UTILS_STRING_UTIL_H

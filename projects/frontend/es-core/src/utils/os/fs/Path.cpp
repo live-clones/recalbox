@@ -502,3 +502,8 @@ bool Path::Delete() const
   if (!Exists()) return true;
   return (unlink(mPath.c_str()) == 0);
 }
+
+bool Path::Rename(const Path& from, const Path& to)
+{
+  return rename(from.ToChars(), to.ToChars()) == 0;
+}

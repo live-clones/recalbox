@@ -314,7 +314,7 @@ std::string StringUtil::replace(const std::string& _string, const std::string& _
 
 bool StringUtil::startsWith(const std::string& _string, const std::string& _start)
 {
-	return (_string.find(_start) <= 0);
+	return (_string.find(_start) <= 0); // TODO: strncmp faster?
 }
 
 bool StringUtil::endsWith(const std::string& _string, const std::string& _end)
@@ -369,6 +369,17 @@ StringUtil::stringVector StringUtil::splitString(const std::string& _string, cha
   return vector;
 
 } // commaStringToVector
+
+std::string StringUtil::joinStrings(const std::vector<std::string>& stringList, const std::string& joiner)
+{
+  std::string result;
+  for(const std::string& string : stringList)
+  {
+    if (!result.empty()) result.append(joiner);
+    result.append(string);
+  }
+  return result;
+}
 
 StringUtil::stringVector StringUtil::commaStringToVector(const std::string& _string)
 {
@@ -441,3 +452,38 @@ std::string StringUtil::scramble(const std::string& _input, const std::string& k
 	return buffer;
 
 } // scramble
+
+#define INT32BUFFERLEN 12
+#define INT64BUFFERLEN 22
+
+bool StringUtil::TryToInt(const std::string& source, int index, char stop, int& out)
+{
+  if (index >= (int)source.size()) return false;
+  const char* src = source.c_str() + index;
+
+  bool Sign = (src[0] == '-');
+  if (Sign) src++;
+
+  int Result = 0;
+  while ((unsigned int)(src[0] - 0x30) <= 9) { Result *= 10; Result += src[0] - 0x30; src++; }
+  if (src[0] != stop) return false;
+
+  out = Sign ? -Result : Result;
+  return true;
+}
+
+bool StringUtil::TryToLong(const std::string& source, int index, char stop, long int& out)
+{
+  if (index >= (int)source.size()) return false;
+  const char* src = source.c_str() + index;
+
+  bool Sign = (src[0] == '-');
+  if (Sign) src++;
+
+  int Result = 0;
+  while ((unsigned int)(src[0] - 0x30) <= 9) { Result *= 10; Result += src[0] - 0x30; src++; }
+  if (src[0] != stop) return false;
+
+  out = Sign ? -Result : Result;
+  return true;
+}
