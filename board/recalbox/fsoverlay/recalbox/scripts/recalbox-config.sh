@@ -525,7 +525,7 @@ if [[ "$command" == "hiddpair" ]]; then
         exit 1
     fi
     recallog "Unpairing and removing BT device $mac"
-    /recalbox/scripts/bluetooth/test-device remove "$mac"
+    /recalbox/scripts/bluetooth/test-device remove "$mac" "$name"
 
     recallog "pairing $name $mac"
     echo $name | grep "8Bitdo\|other"
@@ -538,7 +538,7 @@ if [[ "$command" == "hiddpair" ]]; then
         fi
     fi
 
-    /recalbox/scripts/bluetooth/recalpair $mac | bluetoothctl | recallog
+    /recalbox/scripts/bluetooth/recalpair $mac "$name"
     hcitool con | grep $mac1
     if [[ $? == "0" ]]; then
         connected=0

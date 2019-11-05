@@ -1,30 +1,66 @@
-#!/bin/bash
-#Usage: recalpair XX:XX:XX:XX:XX:XX | bluetoothctl
+#!/usr/bin/expect -f
+#Usage: recalpair XX:XX:XX:XX:XX:XX
 
-mac=$1
+set timeout 10
+set prompt "#"
+set address [lindex $argv 0]
+set name [lindex $argv 1]
 
-echo -e "agent on\n"
-sleep 1
-echo -e "default-agent\n"
-sleep 1
-echo -e "power on\n"
-sleep 1
-echo -e "discoverable on\n"
-sleep 1
-echo -e "pairable on\n"
-sleep 1
-echo -e "scan on\n"
-sleep 3
-echo -e "devices\n"
-sleep 2
-echo -e "remove $mac\n"
-sleep 1
-echo -e "pair $mac\n"
-sleep 3
-echo -e "connect $mac\n"
-sleep 5
-echo -e "0000\n"
-sleep 3
-echo -e "trust $mac\n"
-sleep 3
-echo -e "exit"
+spawn bluetoothctl -a
+expect -re $prompt
+
+send "remove $address\r"
+expect $prompt
+expect {
+  "Device has been removed" {
+    send "quit\r"
+    exit 1
+  }
+ "Device $address not available" {
+  }
+}
+
+set timeout 60
+send "scan on\r"
+expect $prompt
+expect {
+  "*\] Device $address" {
+  send "scan off\r"
+  expect $prompt
+
+  set timeout 10
+  expect "Controller"
+
+  # DS4 patch
+  if { $name == "Wireless Controller" } {
+    send "connect $address\r"
+    expect "Connection successful"
+    expect $prompt
+  }
+
+  send "pair $address\r"
+  set timeout 5
+  expect {
+    "Enter PIN code:" {
+      send "0000\r"
+      expect $prompt
+    }
+  }
+  set timeout 10
+  expect "Pairing successful"
+  expect $prompt
+
+  send "trust $address\r"
+  expect "Changing $address trust succeeded"
+  expect $prompt
+
+  send "connect $address\r"
+  expect "Connection successful"
+  expect $prompt
+
+  send "quit\r"
+  expect eof
+  exit 0
+  }
+}
+exit 1
