@@ -110,14 +110,10 @@ enable_wifi() {
     rb_wifi_configure $i
   done
 
-  #cat /etc/dhcpcd.conf | recallog
-
   # write wpa_supplicant configuration
   mount -o remount,rw /
     wpa_cli -i "$interface" save_config
   mount -o remount,ro /
-
-  #cat /etc/dhcpcd.conf | recallog
 }
 
 start() {
