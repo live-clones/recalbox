@@ -452,30 +452,28 @@ std::string RecalboxSystem::getIpAdress()
   return result;
 }
 
-std::vector<std::string>* RecalboxSystem::scanBluetooth()
+std::vector<std::string> RecalboxSystem::scanBluetooth()
 {
-  std::vector<std::string>* res = new std::vector<std::string>();
+  std::vector<std::string> res;
   std::ostringstream oss;
   oss << Settings::getInstance()->getString("RecalboxSettingScript") << " " << "hcitoolscan";
   FILE* pipe = popen(oss.str().c_str(), "r");
   char line[1024];
 
-  if (pipe == nullptr)
+  if (pipe != nullptr)
   {
-    return nullptr;
+    while (fgets(line, 1024, pipe) != nullptr)
+    {
+      strtok(line, "\n");
+      res.push_back(std::string(line));
+    }
+    pclose(pipe);
   }
-
-  while (fgets(line, 1024, pipe) != nullptr)
-  {
-    strtok(line, "\n");
-    res->push_back(std::string(line));
-  }
-  pclose(pipe);
 
   return res;
 }
 
-bool RecalboxSystem::pairBluetooth(std::string& controller)
+bool RecalboxSystem::pairBluetooth(const std::string& controller)
 {
   std::ostringstream oss;
   oss << Settings::getInstance()->getString("RecalboxSettingScript") << " " << "hiddpair" << " " << controller;

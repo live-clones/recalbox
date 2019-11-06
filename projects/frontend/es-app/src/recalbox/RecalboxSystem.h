@@ -63,9 +63,9 @@ class RecalboxSystem
 
     static std::string getIpAdress();
 
-    static std::vector<std::string>* scanBluetooth();
+    static std::vector<std::string> scanBluetooth();
 
-    static bool pairBluetooth(std::string& basic_string);
+    static bool pairBluetooth(const std::string& basic_string);
 
     static std::vector<std::string> getAvailableStorageDevices();
 

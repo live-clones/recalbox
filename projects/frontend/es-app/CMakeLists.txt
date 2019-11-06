@@ -40,6 +40,7 @@ set(ES_HEADERS
         src/guis/MenuMessages.h
         src/guis/GuiNetPlay.h
         src/guis/GuiHashStart.h
+        src/guis/GuiLoading.h
 
         # Scrapers
         src/scrapers/Scraper.h
@@ -137,7 +138,7 @@ endif ()
 #-------------------------------------------------------------------------------
 # define target
 include_directories(${COMMON_INCLUDE_DIRS} src)
-add_executable(emulationstation ${ES_SOURCES} ${ES_HEADERS} src/guis/GuiLoading.cpp src/guis/GuiLoading.h)
+add_executable(emulationstation ${ES_SOURCES} ${ES_HEADERS})
 target_link_libraries(emulationstation ${COMMON_LIBRARIES} es-core)
 
 # special properties for Windows builds

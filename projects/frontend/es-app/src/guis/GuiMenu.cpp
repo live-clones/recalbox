@@ -563,49 +563,45 @@ void GuiMenu::menuControllers() {
 
   row.elements.clear();
 
-  std::function<void(void *)> showControllerList = [window, this](void *controllers) {
-    std::function<void(void *)> deletePairGui = [window](void *pairedPointer) {
-      bool paired = *((bool *) pairedPointer);
-      window->pushGui(
-          new GuiMsgBox(window, paired ? _("CONTROLLER PAIRED") : _("UNABLE TO PAIR CONTROLLER"), _("OK")));
-      };
-      if (controllers == nullptr) {
-        window->pushGui(new GuiMsgBox(window, _("AN ERROR OCCURED"), _("OK")));
-      } else {
-        std::vector<std::string> *resolvedControllers = ((std::vector<std::string> *) controllers);
-        if (resolvedControllers->empty()) {
-          window->pushGui(new GuiMsgBox(window, _("NO CONTROLLERS FOUND"), _("OK")));
-        } else {
-          GuiSettings *pairGui = new GuiSettings(window, _("PAIR A BLUETOOTH CONTROLLER").c_str());
-          for (auto & controllerString : *((std::vector<std::string> *) controllers)) {
-
-            ComponentListRow controllerRow;
-            std::function<void()> pairController = [window, &controllerString, deletePairGui] {
-              window->pushGui(new GuiLoading(window, [&controllerString] {
-                bool paired = RecalboxSystem::pairBluetooth(controllerString);
-
-                return (void *) new bool(paired);
-              }, deletePairGui));
-
-            };
-            controllerRow.makeAcceptInputHandler(pairController);
-            auto update = std::make_shared<TextComponent>(window, controllerString,
-                                    mMenuTheme->menuText.font, mMenuTheme->menuText.color);
-            auto bracket = makeArrow(window);
-            controllerRow.addElement(update, true);
-            controllerRow.addElement(bracket, false);
-            pairGui->addRow(controllerRow);
-          }
-          window->pushGui(pairGui);
-        }
+  std::function<void(std::vector<std::string>)> showControllerList = [window, this](const std::vector<std::string>& controllers)
+  {
+    if (controllers.empty())
+    {
+      window->pushGui(new GuiMsgBox(window, _("NO CONTROLLERS FOUND"), _("OK")));
+    }
+    else
+    {
+      GuiSettings *pairGui = new GuiSettings(window, _("PAIR A BLUETOOTH CONTROLLER").c_str());
+      for (auto & controllerString : controllers)
+      {
+        ComponentListRow controllerRow;
+        std::function<void()> pairController = [window, controllerString]
+        {
+          window->pushGui(new GuiLoading<bool>(window, [controllerString]
+          {
+            return RecalboxSystem::pairBluetooth(controllerString);
+          }, [window](bool paired)
+          {
+            window->pushGui(new GuiMsgBox(window, paired ? _("CONTROLLER PAIRED") : _("UNABLE TO PAIR CONTROLLER"), _("OK")));
+          }));
+        };
+        controllerRow.makeAcceptInputHandler(pairController);
+        auto update = std::make_shared<TextComponent>(window, controllerString,
+                                mMenuTheme->menuText.font, mMenuTheme->menuText.color);
+        auto bracket = makeArrow(window);
+        controllerRow.addElement(update, true);
+        controllerRow.addElement(bracket, false);
+        pairGui->addRow(controllerRow);
       }
+      window->pushGui(pairGui);
+    }
+  };
 
-    };
-
-  row.makeAcceptInputHandler([window, showControllerList] {
-    window->pushGui(new GuiLoading(window, [] {
-      auto s = RecalboxSystem::scanBluetooth();
-      return (void *) s;
+  row.makeAcceptInputHandler([window, showControllerList]
+  {
+    window->pushGui(new GuiLoading<std::vector<std::string>>(window, []
+    {
+      return RecalboxSystem::scanBluetooth();
     }, showControllerList));
   });
 
