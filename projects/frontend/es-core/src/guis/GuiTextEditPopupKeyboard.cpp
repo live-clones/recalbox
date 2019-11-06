@@ -115,7 +115,7 @@ GuiTextEditPopupKeyboard::GuiTextEditPopupKeyboard(Window* window, const std::st
 
 	std::vector< std::shared_ptr<ButtonComponent> > buttons;
 
-	buttons.push_back(std::make_shared<ButtonComponent>(mWindow, acceptBtnText, acceptBtnText, [this, okCallback] { okCallback(mText->getValue()); delete this; }));
+	buttons.push_back(std::make_shared<ButtonComponent>(mWindow, acceptBtnText, acceptBtnText, [this, okCallback] { okCallback(mText->getValue()); Close(); }));
 	buttons.push_back(std::make_shared<ButtonComponent>(mWindow, _("SPACE"), _("SPACE"), [this] {
 		mText->startEditing();
 		mText->textInput(" ");
@@ -126,7 +126,7 @@ GuiTextEditPopupKeyboard::GuiTextEditPopupKeyboard(Window* window, const std::st
 		mText->textInput("\b");
 		mText->stopEditing();
 	}));
-	buttons.push_back(std::make_shared<ButtonComponent>(mWindow, _("CANCEL"), _("DISCARD CHANGES"), [this] { delete this; }));
+	buttons.push_back(std::make_shared<ButtonComponent>(mWindow, _("CANCEL"), _("DISCARD CHANGES"), [this] { Close(); }));
 
 	// Add buttons
 	mButtons = makeButtonGrid(mWindow, buttons);
@@ -193,7 +193,7 @@ bool GuiTextEditPopupKeyboard::ProcessInput(const InputCompactEvent& event)
 	// pressing back when not text editing closes us
 	if (event.APressed())
 	{
-		delete this;
+		Close();
 		return true;
 	}
 

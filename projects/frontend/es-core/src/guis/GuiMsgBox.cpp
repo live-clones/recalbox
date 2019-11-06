@@ -144,7 +144,7 @@ void GuiMsgBox::deleteMeAndCall(const std::function<void()>& func)
 {
   auto antibug = func; // TODO: REMOVE delete this! Use a need-to-be-closed stack instead.
 
-	delete this;
+	Close();
 
 	if(antibug)
 		antibug();

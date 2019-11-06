@@ -210,13 +210,13 @@ void GuiGamelistOptions::jumpToLetter() {
 	}
 
 	gamelist->jumpToLetter(letter);
-	delete this;
+	Close();
 }
 
 bool GuiGamelistOptions::ProcessInput(const InputCompactEvent& event) {
 	if (event.APressed() || event.StartPressed()) {
 		save();
-		delete this;
+		Close();
 		return true;
 	}
 	return mMenu.ProcessInput(event);

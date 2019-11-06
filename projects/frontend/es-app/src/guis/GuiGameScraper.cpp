@@ -48,7 +48,7 @@ GuiGameScraper::GuiGameScraper(Window* window, const ScraperSearchParams& params
 		mSearch->openInputScreen(mSearchParams); 
 		mGrid.resetCursor(); 
 	}));
-	buttons.push_back(std::make_shared<ButtonComponent>(mWindow, _("CANCEL"), _("CANCEL"), [&] { delete this; }));
+	buttons.push_back(std::make_shared<ButtonComponent>(mWindow, _("CANCEL"), _("CANCEL"), [&] { Close(); }));
 	mButtonGrid = makeButtonGrid(mWindow, buttons);
 
 	mGrid.setEntry(mButtonGrid, Vector2i(0, 6), true, false);
@@ -61,7 +61,7 @@ GuiGameScraper::GuiGameScraper(Window* window, const ScraperSearchParams& params
 	//         mBox::update()
 	//         it++;
 	//         mSearchComponent::update()
-	//           acceptCallback -> delete this
+	//           acceptCallback -> Close()
 	//         it++; // error, mChildren has been deleted because it was part of this
 
 	// so instead we do this:
@@ -74,9 +74,9 @@ GuiGameScraper::GuiGameScraper(Window* window, const ScraperSearchParams& params
 	//           acceptCallback -> close() -> mClose = true
 	//         it++; // ok
 	//       if(mClose)
-	//         delete this;
+	//         Close();
 	mSearch->setAcceptCallback([this, doneFunc](const ScraperSearchResult& result) { doneFunc(result); close(); });
-	mSearch->setCancelCallback([&] { delete this; });
+	mSearch->setCancelCallback([&] { Close(); });
 
 	setSize(Renderer::getDisplayWidthAsFloat() * 0.95f, Renderer::getDisplayHeightAsFloat() * 0.747f);
 	setPosition((Renderer::getDisplayWidthAsFloat() - mSize.x()) / 2, (Renderer::getDisplayHeightAsFloat() - mSize.y()) / 2);
@@ -102,7 +102,7 @@ bool GuiGameScraper::ProcessInput(const InputCompactEvent& event)
 {
 	if (event.APressed())
 	{
-		delete this;
+		Close();
 		return true;
 	}
 
@@ -114,7 +114,7 @@ void GuiGameScraper::update(int deltaTime)
 	GuiComponent::update(deltaTime);
 
 	if(mClose)
-		delete this;
+		Close();
 }
 
 std::vector<HelpPrompt> GuiGameScraper::getHelpPrompts()

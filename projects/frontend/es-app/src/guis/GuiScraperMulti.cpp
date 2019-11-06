@@ -166,7 +166,7 @@ void GuiScraperMulti::finish()
 	}
 
 	mWindow->pushGui(new GuiMsgBox(mWindow, ss.str(), 
-				       _("OK"), [&] { delete this; }));
+				       _("OK"), [&] { Close(); }));
 
 	mIsProcessing = false;
 }

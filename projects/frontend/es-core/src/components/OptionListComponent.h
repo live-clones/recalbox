@@ -92,7 +92,7 @@ private:
 						mParent->mEntries.at(mParent->getSelectedId()).selected = false;
 						e.selected = true;
 						mParent->onSelectedChanged();
-						delete this;
+						Close();
 					});
 				}
 
@@ -100,7 +100,7 @@ private:
 				mMenu.addRow(row, (!mParent->mMultiSelect && e.selected));
 			}
 
-			mMenu.addButton(_("BACK"), "accept", [this] { delete this; });
+			mMenu.addButton(_("BACK"), "accept", [this] { Close(); });
 
 			if(mParent->mMultiSelect)
 			{
@@ -133,7 +133,7 @@ private:
 		{
 			if (event.APressed())
 			{
-				delete this;
+				Close();
 				return true;
 			}
 

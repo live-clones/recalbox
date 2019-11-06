@@ -190,14 +190,14 @@ GuiInputConfig::GuiInputConfig(Window* window, InputDevice* target, const std::f
     InputManager::WriteDeviceXmlConfiguration(*mTargetConfig); // save
 		if(doneCallback)
 			doneCallback();
-		delete this; 
+		Close();
 	}));
 
 	buttons.push_back(std::make_shared<ButtonComponent>(mWindow, _("CANCEL"), _("CANCEL"), [this, previousConfig, doneCallback] {
     mTargetConfig->LoadFrom(previousConfig); // restaure previous target configuration
 		if(doneCallback)
 			doneCallback();
-		delete this; 
+		Close();
 	}));
 
 	mButtonGrid = makeButtonGrid(mWindow, buttons);

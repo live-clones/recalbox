@@ -1832,7 +1832,7 @@ bool GuiMenu::ProcessInput(const InputCompactEvent& event)
         return true;
 
     if (event.APressed() || event.StartPressed()) {
-        delete this;
+        Close();
         return true;
     }
 

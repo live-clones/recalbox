@@ -57,7 +57,7 @@ GuiNetPlay::GuiNetPlay(Window* window)
   mGrid.setEntry(mTitle, Vector2i(0, 0), false);
 
   mButtons.push_back(std::make_shared<ButtonComponent>(mWindow, _("CLOSE"), _("CLOSE"), [this]
-  { delete this; }));
+  { Close(); }));
 
   mButtonGrid = makeButtonGrid(mWindow, mButtons);
   mGrid.setEntry(mButtonGrid, Vector2i(0, 2), true, false);
@@ -357,7 +357,7 @@ void GuiNetPlay::launch()
 
     deactivateLobbyThread();
     ViewController::get()->launch(game.mGame, target, "client", game.mCoreName, ip, port);
-    delete this;
+    Close();
   }
 }
 
@@ -422,7 +422,7 @@ bool GuiNetPlay::ProcessInput(const InputCompactEvent& event)
 {
   if (event.APressed())
   {
-    delete this;
+    Close();
   }
   return GuiComponent::ProcessInput(event);
 }

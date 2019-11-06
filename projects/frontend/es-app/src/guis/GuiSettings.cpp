@@ -10,7 +10,7 @@ GuiSettings::GuiSettings(Window* window, const char* title)
 {
 	addChild(&mMenu);
 
-	mMenu.addButton(_("CLOSE"), _("CLOSE"), [this] { delete this; });
+	mMenu.addButton(_("CLOSE"), _("CLOSE"), [this] { Close(); });
 
 	setSize(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
 }
@@ -35,7 +35,7 @@ bool GuiSettings::ProcessInput(const InputCompactEvent& event)
 {
 	if (event.APressed())
 	{
-		delete this;
+		Close();
 		return true;
 	}
 

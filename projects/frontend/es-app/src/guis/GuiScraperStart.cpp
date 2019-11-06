@@ -48,7 +48,7 @@ GuiScraperStart::GuiScraperStart(Window* window)
 	mMenu.addWithLabel(mApproveResults, _("USER DECIDES ON CONFLICTS"));
 
 	mMenu.addButton(_("START"), "start", std::bind(&GuiScraperStart::pressedStart, this));
-	mMenu.addButton(_("BACK"), "back", [&] { delete this; });
+	mMenu.addButton(_("BACK"), "back", [&] { Close(); });
 
 	mMenu.setPosition((Renderer::getDisplayWidthAsFloat() - mMenu.getSize().x()) / 2, (Renderer::getDisplayHeightAsFloat() - mMenu.getSize().y()) / 2);
 }
@@ -84,7 +84,7 @@ void GuiScraperStart::start()
 	}else{
 		GuiScraperMulti* gsm = new GuiScraperMulti(mWindow, searches, mApproveResults->getState());
 		mWindow->pushGui(gsm);
-		delete this;
+		Close();
 	}
 }
 
@@ -118,7 +118,7 @@ bool GuiScraperStart::ProcessInput(const InputCompactEvent& event)
 	
 	if (event.APressed())
 	{
-		delete this;
+		Close();
 		return true;
 	}
 

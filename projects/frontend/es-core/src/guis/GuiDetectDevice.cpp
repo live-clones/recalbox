@@ -89,7 +89,7 @@ bool GuiDetectDevice::ProcessInput(const InputCompactEvent& event)
 	if (!mFirstRun && (event.KeyCode() == SDLK_ESCAPE || event.HotkeyPressed()))
 	{
 		// cancel configuring
-		delete this;
+		Close();
 		return true;
 	}
 
@@ -123,7 +123,7 @@ void GuiDetectDevice::update(int deltaTime)
 		{
 			// picked one!
 			mWindow->pushGui(new GuiInputConfig(mWindow, mHoldingConfig, mDoneCallback));
-			delete this;
+			Close();
 		}
 	}
 }

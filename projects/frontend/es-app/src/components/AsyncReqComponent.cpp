@@ -18,7 +18,7 @@ bool AsyncReqComponent::ProcessInput(const InputCompactEvent& event)
 		if(mCancelFunc)
 			mCancelFunc();
 
-		delete this;
+		Close();
 	}
 
 	return true;
@@ -29,7 +29,7 @@ void AsyncReqComponent::update(int deltaTime)
 	if(mRequest->status() != HttpReq::Status::InProgress)
 	{
 		mSuccessFunc(mRequest);
-		delete this;
+		Close();
 		return;
 	}
 
