@@ -517,20 +517,20 @@ if [[ "$command" == "hcitoolscan" ]]; then
     alternate="`$systemsetting  -command load -key controllers.bluetooth.alternate`"
     [[ $alternate == 1 ]] && scanningDaemon=btDaemon
     /recalbox/scripts/bluetooth/"$scanningDaemon" & ( PID=$! ; sleep 15 ; kill -15 $PID)
-    PYTHONIOENCODING=UTF-8 /recalbox/scripts/bluetooth/test-device list
+    PYTHONIOENCODING=UTF-8 /recalbox/scripts/bluetooth/eslist.sh
     exit 0
 fi
 
 if [[ "$command" == "hiddpair" ]]; then
-    name="$postMode"
-    mac1="$mode"
+    name="${@:4}"
+    mac1="$3"
     mac=`echo $mac1 | grep -oEi "([0-9A-F]{2}[:-]){5}([0-9A-F]{2})" | tr '[:lower:]' '[:upper:]'`
     macLowerCase=`echo $mac | tr '[:upper:]' '[:lower:]'`
     if [ "$?" != "0" ]; then
         exit 1
     fi
     recallog "Unpairing and removing BT device $mac"
-    /recalbox/scripts/bluetooth/test-device remove "$mac" "$name"
+    /recalbox/scripts/bluetooth/test-device remove "$mac"
 
     recallog "pairing $name $mac"
     echo $name | grep "8Bitdo\|other"

@@ -1,10 +1,12 @@
 #!/usr/bin/expect -f
-#Usage: recalpair XX:XX:XX:XX:XX:XX
+#Usage: recalpair XX:XX:XX:XX:XX:XX "name"
 
 set timeout 10
 set prompt "#"
 set address [lindex $argv 0]
 set name [lindex $argv 1]
+
+eval exec "recallog \"Pairing bluetooth device $name with mac $address...\""
 
 spawn bluetoothctl -a
 expect -re $prompt
@@ -14,6 +16,7 @@ expect $prompt
 expect {
   "Device has been removed" {
     send "quit\r"
+    eval exec "recallog \"Pairing failed because device was already paired. Please try again.\""
     exit 1
   }
  "Device $address not available" {
@@ -21,46 +24,65 @@ expect {
 }
 
 set timeout 60
+eval exec "echo state=0" > /tmp/bt_state
+eval exec "recallog \"Scanning...\""
 send "scan on\r"
 expect $prompt
 expect {
   "*\] Device $address" {
   send "scan off\r"
   expect $prompt
+  eval exec "echo state=1" > /tmp/bt_state
+  eval exec "recallog \"Device found. Pairing...\""
 
   set timeout 10
   expect "Controller"
 
   # DS4 patch
   if { $name == "Wireless Controller" } {
+    eval exec "recallog \"DS4 controller - connecting...\""
     send "connect $address\r"
     expect "Connection successful"
     expect $prompt
+    eval exec "recallog \"Connected!\""
   }
 
+  eval exec "recallog \"Pairing...\""
   send "pair $address\r"
   set timeout 5
   expect {
     "Enter PIN code:" {
+      eval exec "recallog \"Pin code asked...\""
       send "0000\r"
       expect $prompt
+      eval exec "recallog \"Pin code entered!\""
     }
   }
   set timeout 10
   expect "Pairing successful"
   expect $prompt
+  eval exec "recallog \"Paired!\""
+  eval exec "echo state=2" > /tmp/bt_state
 
+  eval exec "recallog \"Trusting...\""
   send "trust $address\r"
   expect "Changing $address trust succeeded"
   expect $prompt
+  eval exec "recallog \"Trusted!\""
+  eval exec "echo state=3" > /tmp/bt_state
 
+  eval exec "recallog \"Connecting...\""
   send "connect $address\r"
   expect "Connection successful"
   expect $prompt
+  eval exec "recallog \"Connected!\""
+  eval exec "echo state=4" > /tmp/bt_state
 
+  eval exec "recallog \"Device $name pairing ended.\""
   send "quit\r"
   expect eof
   exit 0
   }
 }
+eval exec "recallog \"Pairing failed because device was not found.\""
 exit 1

@@ -34,6 +34,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Wifi: connman replaced by wpa_supplicant
 - Bluetooth: improve association
 - Bluetooth: option to enable or disable ERTM in recalbox.conf
+- Bluetooth: display already paired devices in ES
 - Add Retro City controller defaults
 - Add videosnaps config keys in recalbox.conf
 - Bump FreeIntV
