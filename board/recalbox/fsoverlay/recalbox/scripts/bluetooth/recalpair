@@ -1,10 +1,12 @@
 #!/usr/bin/expect -f
-#Usage: recalpair XX:XX:XX:XX:XX:XX
+#Usage: recalpair XX:XX:XX:XX:XX:XX "name"
 
 set timeout 10
 set prompt "#"
 set address [lindex $argv 0]
 set name [lindex $argv 1]
+
+exec "recallog \"Pairing bluetooth device $name with mac $address...\""
 
 spawn bluetoothctl -a
 expect -re $prompt
@@ -14,6 +16,7 @@ expect $prompt
 expect {
   "Device has been removed" {
     send "quit\r"
+    exec "recallog \"Pairing failed because device was already paired. Please try again.\""
     exit 1
   }
  "Device $address not available" {
@@ -21,46 +24,65 @@ expect {
 }
 
 set timeout 60
+echo "state=0" > /tmp/bt_state
+exec "recallog \"Scanning...\""
 send "scan on\r"
 expect $prompt
 expect {
   "*\] Device $address" {
   send "scan off\r"
   expect $prompt
+  echo "state=1" > /tmp/bt_state
+  exec "recallog \"Device found. Pairing...\""
 
   set timeout 10
   expect "Controller"
 
   # DS4 patch
   if { $name == "Wireless Controller" } {
+    exec "recallog \"DS4 controller - connecting...\""
     send "connect $address\r"
     expect "Connection successful"
     expect $prompt
+    exec "recallog \"Connected!\""
   }
 
+  exec "recallog \"Pairing...\""
   send "pair $address\r"
   set timeout 5
   expect {
     "Enter PIN code:" {
+      exec "recallog \"Pin code asked...\""
       send "0000\r"
       expect $prompt
+      exec "recallog \"Pin code entered!\""
     }
   }
   set timeout 10
   expect "Pairing successful"
   expect $prompt
+  exec "recallog \"Paired!\""
+  echo "state=2" > /tmp/bt_state
 
+  exec "recallog \"Trusting...\""
   send "trust $address\r"
   expect "Changing $address trust succeeded"
   expect $prompt
+  exec "recallog \"Trusted!\""
+  echo "state=3" > /tmp/bt_state
 
+  exec "recallog \"Connecting...\""
   send "connect $address\r"
   expect "Connection successful"
   expect $prompt
+  exec "recallog \"Connected!\""
+  echo "state=4" > /tmp/bt_state
 
+  exec "recallog \"Device $name pairing ended.\""
   send "quit\r"
   expect eof
   exit 0
   }
 }
+exec "recallog \"Pairing failed because device was not found.\""
 exit 1
