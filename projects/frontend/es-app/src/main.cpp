@@ -9,6 +9,7 @@
 #include <guis/GuiNetPlay.h>
 #include <utils/sdl2/SyncronousEventService.h>
 #include <utils/FileUtil.h>
+#include <fstream>
 
 #include "AudioManager.h"
 #include "CommandThread.h"

@@ -6,15 +6,12 @@
 #include <RecalboxConf.h>
 #include <recalbox/RecalboxSystem.h>
 #include <utils/Log.h>
-#include <boost/property_tree/ptree.hpp>
-#include <boost/property_tree/json_parser.hpp>
 #include <Settings.h>
 #include <views/ViewController.h>
 #include <Locale.h>
 #include <utils/sdl2/SyncronousEventService.h>
 #include <guis/GuiInfoPopup.h>
-
-namespace json = boost::property_tree;
+#include <rapidjson/document.h>
 
 NetPlayThread::NetPlayThread(Window* window)
   : mWindow(window),
@@ -140,26 +137,18 @@ bool NetPlayThread::RefreshNetplayList(PlayerGameList& list, bool filtered)
   auto json_req = RecalboxSystem::execute(getLobbyListCommand());
   if (json_req.second == 0)
   {
-    json::ptree root;
-    std::stringstream ss;
-    ss << json_req.first;
-    try
-    {
-      json::read_json(ss, root);
-    }
-    catch (const boost::property_tree::json_parser_error& e1)
-    {
-      LOG(LogInfo) << "NetPlayThread error";
-      return false;
-    }
+    rapidjson::Document json;
+    json.Parse(json_req.first.c_str());
 
-    for (json::ptree::value_type& array_element : root)
+    for (auto& item : json.GetArray())
     {
-      std::string player = array_element.second.get<std::string>("fields.username");
-      std::string game = array_element.second.get<std::string>("fields.game_name");
+      const rapidjson::Value& fields = item["fields"];
+
+      std::string player = fields["username"].GetString();
+      std::string game   = fields["game_name"].GetString();
       if (!filtered)
         list.push_back(std::make_pair(player, game));
-      else if (array_element.second.get<std::string>("fields.frontend").find("@RECALBOX") != std::string::npos)
+      else if (std::string(fields["frontend"].GetString()).find("@RECALBOX") != std::string::npos)
         list.push_back(std::make_pair(player, game));
     }
     return true;

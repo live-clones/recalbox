@@ -11,8 +11,10 @@
 #include "components/MenuComponent.h"
 #include <NetPlayThread.h>
 #include <systems/SystemManager.h>
-
-namespace json = boost::property_tree;
+#include <rapidjson/rapidjson.h>
+#include <rapidjson/pointer.h>
+#include <fstream>
+#include <utils/FileUtil.h>
 
 std::vector<LobbyGame> GuiNetPlay::mLobbyList;
 boost::thread* GuiNetPlay::mlobbyThreadHandle = nullptr;
@@ -171,10 +173,13 @@ void GuiNetPlay::populateGrid()
     {
       row.elements.clear();
       std::string text, gameName;
-      if (game.mCoreName == "FB Alpha" ||
+      if (game.mCoreName == "FinalBurn Neo" ||
         game.mCoreName == "MAME 2000" ||
+        game.mCoreName == "MAME 2003" ||
+        game.mCoreName == "MAME 2003-Plus" ||
         game.mCoreName == "MAME 2010" ||
-        game.mCoreName == "MAME 2003")
+        game.mCoreName == "MAME 2015" ||
+        game.mCoreName == "MAME 2016" )
       {
         gameName = PlatformIds::getCleanMameName(game.mGameName.c_str());
       }
@@ -351,65 +356,29 @@ void GuiNetPlay::launch()
   Vector3f target(Renderer::getDisplayWidthAsFloat() / 2.0f, Renderer::getDisplayHeightAsFloat() / 2.0f, 0);
   if (!game.mCoreName.empty())
   {
-    bool mitm = game.mHostMethod == "3";
+    bool mitm = game.mHostMethod == 3;
     std::string& ip = mitm ? game.mMitmIp : game.mIp;
-    std::string& port = mitm ? game.mMitmPort : game.mPort;
+    int port = mitm ? game.mMitmPort : game.mPort;
 
     deactivateLobbyThread();
-    ViewController::get()->launch(game.mGame, target, "client", game.mCoreName, ip, port);
+    ViewController::get()->launch(game.mGame, target, "client", game.mCoreName, ip, std::to_string(port));
     Close();
   }
 }
 
 std::pair<std::string, std::string> GuiNetPlay::getCoreInfo(const std::string& name)
 {
-  std::pair<std::string, std::string> result;
-  result.first.clear();
-  result.second.clear();
-  std::map<std::string, std::string> coreMap;
-  std::string line;
-  std::string filePath = "/recalbox/share/system/configs/retroarch.corenames";
-  std::ifstream retroarchCores(filePath);
-  if (retroarchCores && retroarchCores.is_open())
+  static std::string content = FileUtil::LoadFile(RootFolders::DataRootFolder / "system/configs/retroarch.corenames");
+  static StringUtil::stringVector lines;
+  if (lines.empty()) lines = StringUtil::splitString(content, '\n');
+  for(std::string& line : lines)
   {
-    while (std::getline(retroarchCores, line))
-    {
-      std::string key, value;
-      if (RecalboxConf::IsValidKeyValue(line, key, value))
-      {
-        coreMap[key] = value;
-      }
-    }
-    retroarchCores.close();
+    StringUtil::stringVector parts = StringUtil::splitString(line, ';');
+    if (parts.size() == 3)
+      if (parts[0] == name)
+        return std::pair<std::string, std::string>(parts[1], parts[2]);
   }
-  else
-  {
-    LOG(LogError) << "Unable to open " << filePath;
-    return result;
-  }
-  if (coreMap.count(name) != 0u)
-  {
-    std::string s = coreMap[name];
-    std::string delimiter = ";";
-    size_t pos = 0;
-    std::string token;
-    while (((pos = s.find(delimiter)) != std::string::npos))
-    {
-      token = s.substr(0, pos);
-      result.first = token;
-      s.erase(0, pos + delimiter.length());
-    }
-    if (!result.first.empty())
-    {
-      result.second = s;
-    }
-    else
-    {
-      result.first = s;
-    }
-    return result;
-  }
-  return result;
+  return std::pair<std::string, std::string>();
 }
 
 float GuiNetPlay::getButtonGridHeight() const
@@ -510,17 +479,12 @@ int GuiNetPlay::pingHost(const std::string& ip)
 FileData* GuiNetPlay::findGame(const std::string& gameNameOrHash)
 {
   for (auto tmp : SystemManager::Instance().GetAllSystemList())
-  {
     if (RecalboxConf::Instance().isInList("global.netplay.systems", tmp->getName()))
     {
       FileData* result = tmp->getRootFolder()->LookupGame(gameNameOrHash, FileData::SearchAttributes::ByName |
                                                                           FileData::SearchAttributes::ByHash);
-      if (result != nullptr)
-      {
-        return result;
-      }
+      if (result != nullptr) return result;
     }
-  }
   return nullptr;
 }
 
@@ -534,61 +498,54 @@ void GuiNetPlay::parseLobby()
     auto json_req = RecalboxSystem::execute(NetPlayThread::getLobbyListCommand());
     if (json_req.second == 0)
     {
-      json::ptree root;
-      std::stringstream ss;
-      ss << json_req.first;
-      if (ss.str() == "[]")
-        break;
+      rapidjson::Document json;
 
       try
       {
-        json::read_json(ss, root);
+        json.Parse(json_req.first.c_str());
       }
-      catch (const boost::property_tree::json_parser_error& e1)
+      catch(...)
       {
         break;
       }
 
-      for (json::ptree::value_type& item : root)
+      for (auto& item : json.GetArray())
       {
         LobbyGame game;
+        const rapidjson::Value& fields = item["fields"];
 
         // Atm, Ignore protected games
-        if (item.second.get<bool>("fields.has_password"))
-        {
+        if (fields["has_password"].GetBool())
           continue;
-        }
 
         // Take only recalbox games
-        if (item.second.get<std::string>("fields.frontend").find("@RECALBOX") == std::string::npos)
-        {
+        if (strstr(fields["frontend"].GetString(), "@RECALBOX") == nullptr)
           continue;
-        }
 
         FileData* tmp = nullptr;
-        if (item.second.get<std::string>("fields.game_crc") != "00000000")
+        if (fields["game_crc"] != "00000000")
         {
-          tmp = findGame(item.second.get<std::string>("fields.game_crc"));
+          tmp = findGame(fields["game_crc"].GetString());
         }
         if (tmp == nullptr)
         {
-          tmp = findGame(item.second.get<std::string>("fields.game_name"));
+          tmp = findGame(fields["game_name"].GetString());
         }
 
         game.mGame = tmp;
-        game.mIp = item.second.get<std::string>("fields.ip");
-        game.mPort = item.second.get<std::string>("fields.port");
-        game.mGameName = item.second.get<std::string>("fields.game_name");
-        game.mGameCRC = item.second.get<std::string>("fields.game_crc");
-        game.mCoreName = item.second.get<std::string>("fields.core_name");
-        game.mCoreVersion = item.second.get<std::string>("fields.core_version");
-        game.mUserName = item.second.get<std::string>("fields.username");
-        game.mFrontEnd = item.second.get<std::string>("fields.frontend");
-        game.mRetroarchVersion = item.second.get<std::string>("fields.retroarch_version");
-        game.mCountry = item.second.get<std::string>("fields.country");
-        game.mHostMethod = item.second.get<std::string>("fields.host_method");
-        game.mMitmIp = item.second.get<std::string>("fields.mitm_ip");
-        game.mMitmPort = item.second.get<std::string>("fields.mitm_port");
+        game.mIp = fields["ip"].GetString();
+        game.mPort = fields["port"].GetInt();
+        game.mGameName = fields["game_name"].GetString();
+        game.mGameCRC = fields["game_crc"].GetString();
+        game.mCoreName = fields["core_name"].GetString();
+        game.mCoreVersion = fields["core_version"].GetString();
+        game.mUserName = fields["username"].GetString();
+        game.mFrontEnd = fields["frontend"].GetString();
+        game.mRetroarchVersion = fields["retroarch_version"].GetString();
+        game.mCountry = fields["country"].GetString();
+        game.mHostMethod = fields["host_method"].GetInt();
+        game.mMitmIp = fields["mitm_ip"].GetString();
+        game.mMitmPort = fields["mitm_port"].GetInt();
 
         mLobbyList.push_back(game);
       }

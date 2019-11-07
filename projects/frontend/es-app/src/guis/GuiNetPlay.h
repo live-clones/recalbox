@@ -7,8 +7,6 @@
 #include "GuiComponent.h"
 #include "components/NinePatchComponent.h"
 #include "components/ComponentGrid.h"
-#include <boost/property_tree/ptree.hpp>
-#include <boost/property_tree/json_parser.hpp>
 #include <recalbox/RecalboxSystem.h>
 #include <boost/thread.hpp>
 #include <MenuThemeData.h>
@@ -17,7 +15,6 @@
 #include "games/FileData.h"
 
 class TextComponent;
-
 class ButtonComponent;
 
 #define TITLE_VERT_PADDING (Renderer::getDisplayHeightAsFloat()*0.0637f)
@@ -26,8 +23,6 @@ class LobbyGame
 {
   public:
     FileData* mGame;
-    std::string mIp;
-    std::string mPort;
     std::string mGameName;
     std::string mGameCRC;
     std::string mCoreName;
@@ -36,13 +31,18 @@ class LobbyGame
     std::string mFrontEnd;
     std::string mRetroarchVersion;
     std::string mCountry;
-    std::string mHostMethod;
+    std::string mIp;
     std::string mMitmIp;
-    std::string mMitmPort;
+    int         mPort;
+    int         mMitmPort;
+    int         mHostMethod;
     int mPingTimeInMs;
 
     LobbyGame()
       : mGame(nullptr),
+        mPort(0),
+        mMitmPort(0),
+        mHostMethod(0),
         mPingTimeInMs(0)
     {
     }
