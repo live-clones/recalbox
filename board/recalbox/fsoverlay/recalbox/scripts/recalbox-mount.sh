@@ -44,6 +44,7 @@ case "${FSTYPE}" in
 	# required for exfat
 	# note that we can't just put in /etc/modules.conf because it is loaded too late after udev and share mounting
 	modprobe fuse
+	FSMOUNTOPT="${FSMOUNTOPT},nonempty"
 	;;
 esac
 
