@@ -44,7 +44,19 @@ class SyncronousEvent
      * @brief Send an async message with one parameters
      * @param data free void* parameter
      */
+    void Call(int data) const;
+
+    /*!
+     * @brief Send an async message with one parameters
+     * @param data free void* parameter
+     */
     void Call(void* data) const;
+
+    /*!
+     * @brief Send an async message with one parameters
+     * @param data free void* parameter
+     */
+    void Call(int data, void* data1) const;
 
     /*!
      * @brief Send an async message with two parameters
@@ -52,4 +64,12 @@ class SyncronousEvent
      * @param data2 free void* parameter
      */
     void Call(void* data1, void* data2) const;
+
+    /*!
+     * @brief Send an async message with two parameters
+     * @param data int parameter
+     * @param data1 free void* parameter
+     * @param data2 free void* parameter
+     */
+    void Call(int data, void* data1, void* data2) const;
 };

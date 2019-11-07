@@ -522,7 +522,6 @@ int main(int argc, char* argv[])
     window.renderShutdownScreen();
     SystemManager::Instance().deleteSystems();
     window.deinit();
-    GuiNetPlay::stopLobbyThread();
 
     LOG(LogInfo) << "EmulationStation cleanly shutting down.";
     if (doReboot)

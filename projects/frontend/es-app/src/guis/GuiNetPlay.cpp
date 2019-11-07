@@ -16,13 +16,6 @@
 #include <fstream>
 #include <utils/FileUtil.h>
 
-std::vector<LobbyGame> GuiNetPlay::mLobbyList;
-boost::thread* GuiNetPlay::mlobbyThreadHandle = nullptr;
-Mutex GuiNetPlay::mLobbyProtector;
-bool GuiNetPlay::mMustQuit = false;
-bool GuiNetPlay::mIsActive = false;
-bool GuiNetPlay::mIsLobbyLoaded = false;
-
 #define BUTTON_GRID_VERT_PADDING Renderer::getDisplayHeightAsFloat() * 0.025f
 #define BUTTON_GRID_HORIZ_PADDING 10
 
@@ -30,7 +23,8 @@ bool GuiNetPlay::mIsLobbyLoaded = false;
 
 GuiNetPlay::GuiNetPlay(Window* window)
   : GuiComponent(window),
-    mState(State::WaitingForLobby),
+    mLobbyLoaded(false),
+    mSender(this),
     mBackground(window, Path(":/frame.png")),
     mBusyAnim(window),
     mGrid(window, Vector2i(1, 3)),
@@ -38,13 +32,6 @@ GuiNetPlay::GuiNetPlay(Window* window)
     mGridMetaRight(new ComponentGrid(window, Vector2i(2, 11))),
     mList(nullptr)
 {
-  // Force the netplay thread to reload
-  mIsLobbyLoaded = false;
-  // start the thread if not aleaady done
-  startLobbyThread();
-  // Set the sthread for active research
-  activateLobbyThread();
-
   addChild(&mBackground);
   addChild(&mGrid);
 
@@ -69,17 +56,13 @@ GuiNetPlay::GuiNetPlay(Window* window)
   setPosition((Renderer::getDisplayWidthAsFloat() - mSize.x()) / 2,
               (Renderer::getDisplayHeightAsFloat() - mSize.y()) / 2);
 
+  // start the thread if not aleaady done
+  Thread::Start("GuiNetPlay");
 }
 
 GuiNetPlay::~GuiNetPlay()
 {
-  // Time to sleep a bit
-  deactivateLobbyThread();
-
-  if (mList)
-  {
-    mList->clear();
-  }
+  Thread::Stop();
 }
 
 void GuiNetPlay::populateGrid()
@@ -166,55 +149,32 @@ void GuiNetPlay::populateGrid()
 
     ComponentListRow row;
     std::shared_ptr<GuiComponent> ed;
-    int i = 0;
 
-    mLobbyProtector.Lock();
     for (auto& game : mLobbyList)
     {
       row.elements.clear();
-      std::string text, gameName;
-      if (game.mCoreName == "FinalBurn Neo" ||
-        game.mCoreName == "MAME 2000" ||
-        game.mCoreName == "MAME 2003" ||
-        game.mCoreName == "MAME 2003-Plus" ||
-        game.mCoreName == "MAME 2010" ||
-        game.mCoreName == "MAME 2015" ||
-        game.mCoreName == "MAME 2016" )
-      {
-        gameName = PlatformIds::getCleanMameName(game.mGameName.c_str());
-      }
-      else
-      {
-        gameName = game.mGameName;
-      }
+
+      // Get game name
+      std::string gameName = game.mGameName;
+      static std::string arcadesCores("FinalBurn Neo,MAME 2000,MAME 2003,MAME 2003-Plus,MAME 2010,MAME 2015,MAME 2016");
+      if (arcadesCores.find(gameName) != std::string::npos) gameName = PlatformIds::getCleanMameName(game.mGameName.c_str());
+
+      std::string text;
       if (game.mGame != nullptr)
       {
-        if (game.mGame->getHash() == game.mGameCRC)
-        {
-          text = "\uf1c0 " + gameName;
-        }
-        else if (!getCoreInfo(game.mCoreName).first.empty())
-        {
-          text = "\uf1c1 " + gameName;
-        }
-        else
-        {
-          text = "\uf1c2 " + gameName;
-        }
+        if (game.mGame->getHash() == game.mGameCRC)          text = "\uf1c0 " + gameName;
+        else if (!getCoreInfo(game.mCoreName).first.empty()) text = "\uf1c1 " + gameName;
+        else text = "\uf1c2 " + gameName;
       }
-      else
-      {
-        text = "\uf1c2 " + gameName;
-      }
+      else text = "\uf1c2 " + gameName;
+
       ed = std::make_shared<TextComponent>(mWindow, text, mMenuTheme->menuText.font, mMenuTheme->menuText.color,
                                            TextAlignment::Left);
       row.addElement(ed, true);
       row.makeAcceptInputHandler([this]
                                  { launch(); });
       addRow(row);
-      i++;
     }
-    mLobbyProtector.UnLock();
 
     populateGridMeta(0);
     mList->setCursorChangedCallback([this](CursorState state)
@@ -251,14 +211,11 @@ void GuiNetPlay::populateGrid()
 //called when changing cursor in mList
 void GuiNetPlay::populateGridMeta(int i)
 {
-  mLobbyProtector.Lock();
   if ((i < 0) || (i >= (int)mLobbyList.size()))
   {
-    mLobbyProtector.UnLock();
     return;
   }
   LobbyGame& game = mLobbyList[i];
-  mLobbyProtector.UnLock();
 
   bool hashMatch = false;
   if (game.mGame != nullptr)
@@ -276,47 +233,23 @@ void GuiNetPlay::populateGridMeta(int i)
 
   mMetaTextUsername->setText(username);
   mMetaTextCountry->setText(game.mCountry.empty() ? "N/A" : game.mCountry);
-  if (hashMatch)
-  {
-    mMetaTextRomHash->setText("\uf1c0 " + _("Match"));
-  }
-  else
-  {
-    mMetaTextRomHash->setText("\uf1c2 " + _("No Match"));
-  }
-  if (game.mGame != nullptr)
-  {
-    mMetaTextRomFile->setText("\uf1c0 " + _("Match"));
-  }
-  else
-  {
-    mMetaTextRomFile->setText("\uf1c2 " + _("No Match"));
-  }
-  if (coreMatch)
-  {
-    mMetaTextCore->setText("\uf1c0 " + game.mCoreName);
-  }
-  else
-  {
-    mMetaTextCore->setText("\uf1c2 " + game.mCoreName);
-  }
-  if (coreVerMatch)
-  {
-    mMetaTextCoreVer->setText("\uf1c0 " + (game.mCoreVersion.empty() ? std::string("N/A") : game.mCoreVersion));
-  }
-  else
-  {
-    mMetaTextCoreVer->setText("\uf1c2 " + (game.mCoreVersion.empty() ? std::string("N/A") : game.mCoreVersion));
-  }
 
-  if (game.mPingTimeInMs < 0)
-    mMetaTextLatency->setText("\uF1c9 " + _("unknown"));
-  else if (game.mPingTimeInMs < 80)
-    mMetaTextLatency->setText("\uF1c8 " + _("good") + " (" + std::to_string(game.mPingTimeInMs) + "ms)");
-  else if (game.mPingTimeInMs < 150)
-    mMetaTextLatency->setText("\uF1c7 " + _("medium") + " (" + std::to_string(game.mPingTimeInMs) + "ms)");
-  else
-    mMetaTextLatency->setText("\uF1c6 " + _("bad") + " (" + std::to_string(game.mPingTimeInMs) + "ms)");
+  if (hashMatch) mMetaTextRomHash->setText("\uf1c0 " + _("Match"));
+  else           mMetaTextRomHash->setText("\uf1c2 " + _("No Match"));
+
+  if (game.mGame != nullptr) mMetaTextRomFile->setText("\uf1c0 " + _("Match"));
+  else                       mMetaTextRomFile->setText("\uf1c2 " + _("No Match"));
+
+  if (coreMatch) mMetaTextCore->setText("\uf1c0 " + game.mCoreName);
+  else           mMetaTextCore->setText("\uf1c2 " + game.mCoreName);
+
+  if (coreVerMatch) mMetaTextCoreVer->setText("\uf1c0 " + (game.mCoreVersion.empty() ? std::string("N/A") : game.mCoreVersion));
+  else              mMetaTextCoreVer->setText("\uf1c2 " + (game.mCoreVersion.empty() ? std::string("N/A") : game.mCoreVersion));
+
+  if (game.mPingTimeInMs < 0)         mMetaTextLatency->setText("\uF1c9 " + _("unknown"));
+  else if (game.mPingTimeInMs < 80)   mMetaTextLatency->setText("\uF1c8 " + _("good") + " (" + std::to_string(game.mPingTimeInMs) + "ms)");
+  else if (game.mPingTimeInMs < 150)  mMetaTextLatency->setText("\uF1c7 " + _("medium") + " (" + std::to_string(game.mPingTimeInMs) + "ms)");
+  else                                mMetaTextLatency->setText("\uF1c6 " + _("bad") + " (" + std::to_string(game.mPingTimeInMs) + "ms)");
 
   mMetaTextRAVer->setText(game.mRetroarchVersion.empty() ? "N/A" : game.mRetroarchVersion);
   mMetaTextHostArch->setText(frontend);
@@ -349,9 +282,7 @@ void GuiNetPlay::launch()
 {
   int index = mList->getCursor();
 
-  mLobbyProtector.Lock();
   LobbyGame game = mLobbyList[index];
-  mLobbyProtector.UnLock();
 
   Vector3f target(Renderer::getDisplayWidthAsFloat() / 2.0f, Renderer::getDisplayHeightAsFloat() / 2.0f, 0);
   if (!game.mCoreName.empty())
@@ -360,7 +291,6 @@ void GuiNetPlay::launch()
     std::string& ip = mitm ? game.mMitmIp : game.mIp;
     int port = mitm ? game.mMitmPort : game.mPort;
 
-    deactivateLobbyThread();
     ViewController::get()->launch(game.mGame, target, "client", game.mCoreName, ip, std::to_string(port));
     Close();
   }
@@ -426,25 +356,6 @@ void GuiNetPlay::update(int deltaTime)
 {
   GuiComponent::update(deltaTime);
   mBusyAnim.update(deltaTime);
-
-  switch(mState)
-  {
-    case State::WaitingForLobby:
-    {
-      if (mIsLobbyLoaded)
-        mState = State::Initializing;
-      break;
-    }
-    case State::Initializing:
-    {
-      populateGrid();
-      mState = State::Ready;
-      break;
-    }
-    case State::Ready:
-    default:
-      break;
-  }
 }
 
 void GuiNetPlay::render(const Transform4x4f& parentTrans)
@@ -456,16 +367,8 @@ void GuiNetPlay::render(const Transform4x4f& parentTrans)
   Renderer::setMatrix(trans);
   Renderer::drawRect(0.f, 0.f, mSize.x(), mSize.y(), 0x00000011);
 
-  if (!mIsLobbyLoaded)
+  if (!mLobbyLoaded)
     mBusyAnim.render(trans);
-}
-
-void GuiNetPlay::startLobbyThread()
-{
-  if (mlobbyThreadHandle == nullptr)
-  {
-    mlobbyThreadHandle = new boost::thread(boost::bind(&GuiNetPlay::lobbyEngine, nullptr));
-  }
 }
 
 int GuiNetPlay::pingHost(const std::string& ip)
@@ -490,7 +393,6 @@ FileData* GuiNetPlay::findGame(const std::string& gameNameOrHash)
 
 void GuiNetPlay::parseLobby()
 {
-  mLobbyProtector.Lock();
   mLobbyList.clear();
 
   for(;;)
@@ -499,15 +401,7 @@ void GuiNetPlay::parseLobby()
     if (json_req.second == 0)
     {
       rapidjson::Document json;
-
-      try
-      {
-        json.Parse(json_req.first.c_str());
-      }
-      catch(...)
-      {
-        break;
-      }
+      json.Parse(json_req.first.c_str());
 
       for (auto& item : json.GetArray())
       {
@@ -524,13 +418,9 @@ void GuiNetPlay::parseLobby()
 
         FileData* tmp = nullptr;
         if (fields["game_crc"] != "00000000")
-        {
           tmp = findGame(fields["game_crc"].GetString());
-        }
         if (tmp == nullptr)
-        {
           tmp = findGame(fields["game_name"].GetString());
-        }
 
         game.mGame = tmp;
         game.mIp = fields["ip"].GetString();
@@ -552,35 +442,40 @@ void GuiNetPlay::parseLobby()
     }
     break;
   }
-
-  mLobbyProtector.UnLock();
 }
 
-// /!\ This is a THREAD. Complex variables accesses MUST be protected against multiple accesses
-void GuiNetPlay::lobbyEngine(void* param)
+void GuiNetPlay::Run()
 {
-  (void)param;
+  LOG(LogDebug) << "Lobby Thread: Start getting lobby list";
+  parseLobby();
+  mSender.Call((int)MessageType::LobbyLoaded);
+  if (!IsRunning()) return;
 
-  while(!mMustQuit)
+  LOG(LogDebug) << "Lobby Thread: Start pinging players";
+  for (auto& game : mLobbyList)
   {
-    if (mIsActive)
+    if (!IsRunning()) return;
+    game.mPingTimeInMs = pingHost(game.mIp);
+    mSender.Call((int)MessageType::Ping);
+  }
+
+  LOG(LogDebug) << "Lobby Thread: Start sleeping";
+}
+
+void GuiNetPlay::ReceiveSyncCallback(const SDL_Event& event)
+{
+  switch((MessageType)event.user.code)
+  {
+    case MessageType::LobbyLoaded:
     {
-      LOG(LogDebug) << "Lobby Thread: Start getting lobby list";
-      parseLobby();
-      mIsLobbyLoaded = true;
-
-      LOG(LogDebug) << "Lobby Thread: Start pinging players";
-      for (auto& game : mLobbyList)
-      {
-        if (mMustQuit) return;
-        if (!mIsActive) break;
-        game.mPingTimeInMs = pingHost(game.mIp);
-      }
-
-      mIsActive = false;
-      LOG(LogDebug) << "Lobby Thread: Start sleeping";
+      mLobbyLoaded = true;
+      populateGrid();
+      break;
     }
-
-    usleep(200000); // Sleep 200ms
+    case MessageType::Ping:
+    {
+      populateGridMeta(mList->getCursor());
+      break;
+    }
   }
 }

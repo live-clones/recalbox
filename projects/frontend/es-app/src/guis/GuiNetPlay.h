@@ -8,10 +8,12 @@
 #include "components/NinePatchComponent.h"
 #include "components/ComponentGrid.h"
 #include <recalbox/RecalboxSystem.h>
-#include <boost/thread.hpp>
 #include <MenuThemeData.h>
 #include <components/BusyComponent.h>
 #include <utils/os/system/Mutex.h>
+#include <utils/os/system/Thread.h>
+#include <utils/sdl2/ISyncronousEvent.h>
+#include <utils/sdl2/SyncronousEvent.h>
 #include "games/FileData.h"
 
 class TextComponent;
@@ -22,7 +24,7 @@ class ButtonComponent;
 class LobbyGame
 {
   public:
-    FileData* mGame;
+    FileData*   mGame;
     std::string mGameName;
     std::string mGameCRC;
     std::string mCoreName;
@@ -36,7 +38,7 @@ class LobbyGame
     int         mPort;
     int         mMitmPort;
     int         mHostMethod;
-    int mPingTimeInMs;
+    int         mPingTimeInMs;
 
     LobbyGame()
       : mGame(nullptr),
@@ -48,7 +50,7 @@ class LobbyGame
     }
 };
 
-class GuiNetPlay : public GuiComponent
+class GuiNetPlay : public GuiComponent, private Thread, private ISyncronousEvent
 {
   public:
     explicit GuiNetPlay(Window* window);
@@ -83,25 +85,31 @@ class GuiNetPlay : public GuiComponent
 
     void render(const Transform4x4f& parentTrans) override;
 
-    static void stopLobbyThread()
-    {
-      if (mlobbyThreadHandle != nullptr)
-      {
-        mMustQuit = true;
-        mlobbyThreadHandle->join();
-      }
-    }
-
   private:
-
-    enum class State
+    enum class MessageType
     {
-        WaitingForLobby,
-        Initializing,
-        Ready,
+      LobbyLoaded,
+      Ping,
     };
 
-    State mState;
+    /*
+     * Thread Implementation
+     */
+
+    /*!
+     * @brief Main thread routine
+     */
+    void Run() override;
+
+    /*
+     * Synchronous event
+     */
+
+    /*!
+     * @brief Receive SDL event from the main thread
+     * @param event SDL event
+     */
+    void ReceiveSyncCallback(const SDL_Event& event) override;
 
     /*!
      * @brief Ping a remote host
@@ -120,60 +128,16 @@ class GuiNetPlay : public GuiComponent
     /*!
      * @brief Get the playable games from the lobby and fill the list
      */
-    static void parseLobby();
+    void parseLobby();
 
     /*!
      * @brief Netplayable Game list
      */
-    static std::vector<LobbyGame> mLobbyList;
+    std::vector<LobbyGame> mLobbyList;
 
-    /*!
-     * @brief Lobby thread handle
-     */
-    static boost::thread* mlobbyThreadHandle;
+    bool mLobbyLoaded;
 
-    /*!
-     * @brief Protect lobby list access againt multiple accesses
-     */
-    static Mutex mLobbyProtector;
-
-    /*!
-     * @brief True if the thread must quit
-     */
-    static bool mMustQuit;
-
-    /*!
-     * @brief True if the thread is active and must seek the lobby
-     * when set tp false the thread must sleep
-     */
-    static bool mIsActive;
-
-    /*!
-     * @brief If true, the lobby list has been loaded
-     * Set this flag to false to force a reload
-     */
-    static bool mIsLobbyLoaded;
-
-    /*!
-     * @brief Wake up the lobby thread and make it search for active game room continuously
-     */
-    static void activateLobbyThread() { mIsActive = true; }
-
-    /*!
-     * @brief Send the lobby thread back to sleep
-     */
-    static void deactivateLobbyThread() { mIsActive = false; }
-
-    /*!
-     * @brief Lobby thread - Collect data from lobby
-     */
-    static void lobbyEngine(void* param);
-
-    /*!
-     * @brief Start lobby engine IIF it's not already started
-     * This thread must be stopped before the application exit
-     */
-    static void startLobbyThread();
+    SyncronousEvent mSender;
 
     NinePatchComponent mBackground;
     BusyComponent mBusyAnim;
