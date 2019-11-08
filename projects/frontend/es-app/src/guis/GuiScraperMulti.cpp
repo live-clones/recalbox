@@ -12,8 +12,6 @@
 #include "Locale.h"
 #include "MenuThemeData.h"
 
-using namespace boost::locale;
-
 GuiScraperMulti::GuiScraperMulti(Window* window, const std::queue<ScraperSearchParams>& searches, bool approveResults)
   :	GuiComponent(window),
     mSearchQueue(searches),

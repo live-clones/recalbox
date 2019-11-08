@@ -9,8 +9,6 @@
 #include "input/InputManager.h"
 #include "MenuThemeData.h"
 
-using namespace boost::locale;
-
 GuiInputConfig::~GuiInputConfig()
 {
   mTargetConfig->SetConfiguringState(false);

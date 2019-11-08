@@ -184,53 +184,17 @@ void onExit()
 
 int setLocale(char* argv1)
 {
-  char path_save[PATH_MAX];
-  char abs_exe_path[PATH_MAX];
-  char* p;
-
-  bool error = false;
-  if ((p = strrchr(argv1, '/')) == nullptr)
-  {
-    char* res = getcwd(abs_exe_path, sizeof(abs_exe_path));
-    error = (res == nullptr);
-  }
-  else
-  {
-    *p = '\0';
-    if (getcwd(path_save, sizeof(path_save)) == nullptr)
-      error = true;
-    if (chdir(argv1) != 0)
-      error = true;
-    if (getcwd(abs_exe_path, sizeof(abs_exe_path)) == nullptr)
-      error = true;
-    if (chdir(path_save) != 0)
-      error = true;
-  }
-  if (error)
+  Path path(argv1);
+  path = path.Directory(); // Get executable folder
+  if (path.Empty() || !path.Exists())
   {
     LOG(LogError) << "Error getting path";
   }
 
-  boost::locale::localization_backend_manager my = boost::locale::localization_backend_manager::global();
-  // Get global backend
+  setlocale(LC_ALL,"");
+  bindtextdomain("emulationstation2",(path / "locale/lang").ToChars());
+  textdomain("emulationstation2");
 
-  my.select("std");
-  boost::locale::localization_backend_manager::global(my);
-  // set this backend globally
-
-  boost::locale::generator gen;
-
-  std::string localeDir = abs_exe_path;
-  localeDir += "/locale/lang";
-  LOG(LogInfo) << "Setting local directory to " << localeDir;
-  // Specify location of dictionaries
-  gen.add_messages_path(localeDir);
-  gen.add_messages_path("/usr/share/locale");
-  gen.add_messages_domain("emulationstation2");
-
-  // Generate locales and imbue them to iostream
-  std::locale::global(gen(""));
-  std::cout.imbue(std::locale());
   LOG(LogInfo) << "Locals set...";
   return 0;
 }

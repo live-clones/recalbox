@@ -12,9 +12,6 @@
 #include "Locale.h"
 #include "MenuThemeData.h"
 
-using namespace boost::locale;
-
-
 //Used to display a list of options.
 //Can select one or multiple options.
 

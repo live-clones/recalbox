@@ -1,9 +1,6 @@
-#ifndef _LOCALE_H_
-#define _LOCALE_H_
+#pragma once
 
-#include <boost/locale.hpp>
+#include <libintl.h>
 
-#define _(A) boost::locale::gettext(A)
-#define ngettext(A, B, C) boost::locale::ngettext(A, B, C)
-
-#endif
+#define _(String) std::string(gettext(String))
+#define ngettext(A, B, C) ((C) > 1 ? _(B) : _(A))
