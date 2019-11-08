@@ -49,20 +49,25 @@ expect {
 
   eval exec "recallog \"Pairing...\""
   send "pair $address\r"
-  set timeout 5
   expect {
     "Enter PIN code:" {
       eval exec "recallog \"Pin code asked...\""
       send "0000\r"
       expect $prompt
       eval exec "recallog \"Pin code entered!\""
+      exp_continue
+    }
+    "Pairing successful" {
+      expect $prompt
+      eval exec "recallog \"Paired!\""
+      eval exec "echo state=2" > /tmp/bt_state
+    }
+    "Failed to pair: org.bluez.Error.AlreadyExists" {
+      expect $prompt
+      eval exec "recallog \"Paired!\""
+      eval exec "echo state=2" > /tmp/bt_state
     }
   }
-  set timeout 10
-  expect "Pairing successful"
-  expect $prompt
-  eval exec "recallog \"Paired!\""
-  eval exec "echo state=2" > /tmp/bt_state
 
   eval exec "recallog \"Trusting...\""
   send "trust $address\r"
