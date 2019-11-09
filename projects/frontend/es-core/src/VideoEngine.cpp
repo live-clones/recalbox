@@ -445,5 +445,4 @@ void VideoEngine::DecodeFrames()
 void VideoEngine::FinalizeDecoder()
 {
   mContext.Dispose();
-  mTexture.reset();
 }

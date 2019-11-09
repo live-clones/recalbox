@@ -222,9 +222,13 @@ bool TextureData::uploadAndBind()
 
 bool TextureData::updateFromRGBA(const unsigned char* dataRGBA, size_t width, size_t height)
 {
-  // First time init
-  if (mWidth * mHeight == 0)
+  // First time init or reset
+  if (mWidth != width || mHeight != height)
   {
+    // Already exists?
+    if (mWidth * mHeight != 0)
+      reset();
+
     // First time
     if (initFromRGBA(dataRGBA, width, height))
       if (uploadAndBind()) return true;
