@@ -3,6 +3,7 @@
 //
 #pragma once
 
+#include <algorithm>
 #include "ThemeData.h"
 #include "GuiComponent.h"
 

@@ -28,6 +28,7 @@ set(CORE_HEADERS
 		src/utils/sdl2/SyncronousEventService.h
 		src/utils/sdl2/SyncronousEvent.h
 		src/themes/ThemeData.h
+		src/themes/ThemeElement.h
 		src/themes/ThemeExtras.h
 
 		# Utils
@@ -124,6 +125,7 @@ set(CORE_SOURCES
 		src/utils/sdl2/SyncronousEventService.cpp
 		src/utils/sdl2/SyncronousEvent.cpp
 		src/themes/ThemeData.cpp
+		src/themes/ThemeElement.cpp
 		src/themes/ThemeExtras.cpp
 
 		# Utils

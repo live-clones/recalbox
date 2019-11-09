@@ -98,14 +98,14 @@ void AudioManager::themeChanged(const ThemeData& theme)
 {
   if (RecalboxConf::Instance().AsBool("audio.bgmusic"))
   {
-    const ThemeData::ThemeElement* elem = theme.getElement("system", "directory", "sound");
-    if ((elem == nullptr) || !elem->has("path"))
+    const ThemeElement* elem = theme.getElement("system", "directory", "sound");
+    if ((elem == nullptr) || !elem->HasProperty("path"))
     {
       currentThemeMusicDirectory = Path();
     }
     else
     {
-      currentThemeMusicDirectory = Path(elem->get<std::string>("path"));
+      currentThemeMusicDirectory = Path(elem->AsString("path"));
     }
 
     std::shared_ptr<Music> bgsound = Music::getFromTheme(theme, "system", "bgsound");

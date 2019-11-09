@@ -68,7 +68,7 @@ protected:
 private:
 	void getViewElements(const ThemeData& theme);
 	void getDefaultElements();
-	void getCarouselFromTheme(const ThemeData::ThemeElement* elem);
+	void getCarouselFromTheme(const ThemeElement* elem);
   
 	void renderCarousel(const Transform4x4f& parentTrans);
 	void renderExtras(const Transform4x4f& parentTrans, float lower, float upper);

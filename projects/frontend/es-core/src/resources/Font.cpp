@@ -773,7 +773,7 @@ void TextCache::setColor(unsigned int color)
 		Renderer::buildGLColorArray(vertexList.colors.data(), color, vertexList.verts.size());
 }
 
-std::shared_ptr<Font> Font::getFromTheme(const ThemeData::ThemeElement* elem, ThemeProperties properties, const std::shared_ptr<Font>& orig)
+std::shared_ptr<Font> Font::getFromTheme(const ThemeElement* elem, ThemeProperties properties, const std::shared_ptr<Font>& orig)
 {
 	if (!hasFlags(properties, ThemeProperties::FontPath, ThemeProperties::FontSize))
 		return orig;
@@ -783,10 +783,10 @@ std::shared_ptr<Font> Font::getFromTheme(const ThemeData::ThemeElement* elem, Th
 	Path path = (orig ? orig->mPath : getDefaultPath());
 
 	float sh = std::min(Renderer::getDisplayHeightAsFloat(), Renderer::getDisplayWidthAsFloat());
-	if (hasFlag(properties, ThemeProperties::FontSize) && elem->has("fontSize"))
-		size = (int)(sh * elem->get<float>("fontSize"));
-	if (hasFlag(properties, ThemeProperties::FontPath) && elem->has("fontPath"))
-		path = Path(elem->get<std::string>("fontPath"));
+	if (hasFlag(properties, ThemeProperties::FontSize) && elem->HasProperty("fontSize"))
+		size = (int)(sh * elem->AsFloat("fontSize"));
+	if (hasFlag(properties, ThemeProperties::FontPath) && elem->HasProperty("fontPath"))
+		path = Path(elem->AsString("fontPath"));
 
 	return get(size, path);
 }

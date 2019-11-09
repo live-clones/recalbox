@@ -289,7 +289,7 @@ void DateTimeComponent::setUppercase(bool uppercase)
 
 void DateTimeComponent::applyTheme(const ThemeData& theme, const std::string& view, const std::string& element, ThemeProperties properties)
 {
-	const ThemeData::ThemeElement* elem = theme.getElement(view, element, "datetime");
+	const ThemeElement* elem = theme.getElement(view, element, "datetime");
 	if(elem == nullptr)
 		return;
 
@@ -297,16 +297,16 @@ void DateTimeComponent::applyTheme(const ThemeData& theme, const std::string& vi
 	// setSize(), which will call updateTextCache(), which will reset mSize if 
 	// mAutoSize == true, ignoring the theme's value.
 	if (hasFlag(properties, ThemeProperties::Size))
-		mAutoSize = !elem->has("size");
+		mAutoSize = !elem->HasProperty("size");
 
 	GuiComponent::applyTheme(theme, view, element, properties);
 
-	if (hasFlag(properties, ThemeProperties::Color) && elem->has("color"))
-		setColor(elem->get<unsigned int>("color"));
+	if (hasFlag(properties, ThemeProperties::Color) && elem->HasProperty("color"))
+		setColor((unsigned int)elem->AsInt("color"));
 
-	if (hasFlag(properties, ThemeProperties::Alignment) && elem->has("alignment"))
+	if (hasFlag(properties, ThemeProperties::Alignment) && elem->HasProperty("alignment"))
 	{
-		std::string str = elem->get<std::string>("alignment");
+		std::string str = elem->AsString("alignment");
 		if(str == "left")
 			setHorizontalAlignment(TextAlignment::Left);
 		else if(str == "center")
@@ -317,8 +317,8 @@ void DateTimeComponent::applyTheme(const ThemeData& theme, const std::string& vi
 		LOG(LogError) << "Unknown text alignment string: " << str;
 	}
 
-	if (hasFlag(properties, ThemeProperties::ForceUppercase) && elem->has("forceUppercase"))
-		setUppercase(elem->get<bool>("forceUppercase"));
+	if (hasFlag(properties, ThemeProperties::ForceUppercase) && elem->HasProperty("forceUppercase"))
+		setUppercase(elem->AsBool("forceUppercase"));
 
 	setFont(Font::getFromTheme(elem, properties, mFont));
 }

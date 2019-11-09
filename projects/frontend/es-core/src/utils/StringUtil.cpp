@@ -487,3 +487,137 @@ bool StringUtil::TryToLong(const std::string& source, int index, char stop, long
   out = Sign ? -Result : Result;
   return true;
 }
+
+bool StringUtil::TryToFloat(const std::string& source, int index, char stop, float& out)
+{
+  if (index >= (int)source.size()) return false;
+  const char* src = source.c_str() + index;
+
+  bool Sign = (src[0] == '-');
+  if (Sign) src++;
+
+  long long IntPart = 0;
+  long long FracPart = 0;
+  long long Pow10 = 1;
+
+  // Integer part
+  while ((unsigned int)(src[0] - 0x30) <= 9) { IntPart *= 10; IntPart += src[0] - 0x30; src++; }
+  if (src[0] == '.')
+  {
+    src++;
+    while ((unsigned int)(src[0] - 0x30) <= 9) { FracPart *= 10; FracPart += src[0] - 0x30; src++; Pow10 *= 10; }
+  }
+  if (src[0] != stop) return false;
+
+  float Result = (float)IntPart + ((float)FracPart / (float)Pow10);
+
+  out = Sign ? -Result : Result;
+  return true;
+}
+
+bool StringUtil::TryToBool(const std::string& source, int index, char stop, bool& out)
+{
+  if (index >= (int)source.size()) return false;
+  const char* src = source.c_str() + index;
+
+  // Try numeric
+  if ((src[0] == '1') && (src[1] == stop)) { out = true; return true; }
+  if ((src[0] == '0') && (src[1] == stop)) { out = false; return true; }
+
+  // Try textual
+  const int Mask = 0xDF;
+  if (((src[0] & Mask) == 'T') && ((src[1] & Mask) == 'R') && ((src[2] & Mask) == 'U') && ((src[3] & Mask) == 'E') && (src[4] == stop)) { out = true; return true; }
+  if (((src[0] & Mask) == 'F') && ((src[1] & Mask) == 'A') && ((src[2] & Mask) == 'L') && ((src[3] & Mask) == 'S') && ((src[4] & Mask) == 'E') && (src[5] == stop)) { out = false; return true; }
+
+  return false;
+}
+
+std::string StringUtil::ToString(int integer)
+{
+  char Buffer[INT32BUFFERLEN]; Buffer[INT32BUFFERLEN - 1] = 0;
+  int Index = INT32BUFFERLEN - 1;
+  bool Sign = (integer < 0);
+  if (Sign) integer = -integer;
+
+  do { Buffer[--Index] = (char)(0x30 + (integer % 10)); integer /= 10; } while (integer != 0);
+  if (Sign) Buffer[--Index] = '-';
+
+  return std::string(Buffer + Index, (INT32BUFFERLEN - 1) - Index);
+}
+
+std::string StringUtil::ToString(unsigned int integer)
+{
+  char Buffer[INT32BUFFERLEN]; Buffer[INT32BUFFERLEN - 1] = 0;
+  int Index = INT32BUFFERLEN - 1;
+
+  do { Buffer[--Index] = (char)(0x30 + (integer % 10)); integer /= 10; } while (integer != 0);
+
+  return std::string(Buffer + Index, (INT32BUFFERLEN - 1) - Index);
+}
+
+std::string StringUtil::ToString(long long integer)
+{
+  char Buffer[INT64BUFFERLEN]; Buffer[INT64BUFFERLEN - 1] = 0;
+  int Index = INT64BUFFERLEN - 1;
+  bool Sign = (integer < 0);
+  if (Sign) integer = -integer;
+
+  do { Buffer[--Index] = (char)(0x30 + (integer % 10)); integer /= 10; } while (integer != 0);
+  if (Sign) Buffer[--Index] = '-';
+
+  return std::string(Buffer + Index, (INT64BUFFERLEN - 1) - Index);
+}
+
+std::string StringUtil::ToString(unsigned long long integer)
+{
+  char Buffer[INT64BUFFERLEN]; Buffer[INT64BUFFERLEN - 1] = 0;
+  int Index = INT64BUFFERLEN - 1;
+
+  do { Buffer[--Index] = (char)(0x30 + (integer % 10)); integer /= 10; } while (integer != 0);
+
+  return std::string(Buffer + Index, (INT64BUFFERLEN - 1) - Index);
+}
+
+static float Pow10[] =
+{
+  1.0f,
+  10.0f,
+  100.0f,
+  1000.0f,
+  10000.0f,
+  100000.0f,
+  1000000.0f,
+  10000000.0f,
+  100000000.0f,
+  1000000000.0f,
+  10000000000.0f,
+};
+
+std::string StringUtil::ToString(float value, int precision)
+{
+  // Extract integer part
+  int integer = (int)value;
+  // Extract floating part
+  float fpart = value - (float)integer;
+
+  char Buffer[INT64BUFFERLEN * 2]; Buffer[INT64BUFFERLEN - 1] = 0;
+  int Index = INT64BUFFERLEN - 1;
+
+  do { Buffer[--Index] = (char)(0x30 + (integer % 10)); integer /= 10; } while (integer != 0);
+
+  // check for display option after point
+  if (precision > 0)
+  {
+    int Start = Index;
+    Buffer[INT64BUFFERLEN - 1] = '.';
+    if (precision > 10) precision = 10;
+
+    Index = INT64BUFFERLEN + precision; Buffer[Index] = 0;
+    fpart *= Pow10[precision]; integer = (int)fpart;
+    do { Buffer[--Index] = (char)(0x30 + (integer % 10)); integer /= 10; } while (integer != 0);
+
+    return std::string(Buffer + Start, (INT64BUFFERLEN - Index) + precision);
+  }
+
+  return std::string(Buffer + Index, (INT64BUFFERLEN - 1) - Index);
+}

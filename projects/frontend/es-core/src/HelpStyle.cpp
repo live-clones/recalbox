@@ -19,48 +19,48 @@ void HelpStyle::applyTheme(const ThemeData& theme, const std::string& view)
 	if(elem == nullptr)
 		return;
 
-	if(elem->has("pos"))
-		position = elem->get<Vector2f>("pos") * Vector2f(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
+	if(elem->HasProperty("pos"))
+		position = elem->AsVector("pos") * Vector2f(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
 
-	if(elem->has("textColor"))
-		textColor = elem->get<unsigned int>("textColor");
+	if(elem->HasProperty("textColor"))
+		textColor = (unsigned int)elem->AsInt("textColor");
 
-	if(elem->has("iconColor"))
-		iconColor = elem->get<unsigned int>("iconColor");
+	if(elem->HasProperty("iconColor"))
+		iconColor = (unsigned int)elem->AsInt("iconColor");
 
-	if(elem->has("fontPath") || elem->has("fontSize"))
+	if(elem->HasProperty("fontPath") || elem->HasProperty("fontSize"))
 		font = Font::getFromTheme(elem, ThemeProperties::All, font);
 	
-	if(elem->has("iconUpDown"))
-		iconMap["up/down"] = elem->get<std::string>("iconUpDown");
+	if(elem->HasProperty("iconUpDown"))
+		iconMap["up/down"] = elem->AsString("iconUpDown");
 	
-	if(elem->has("iconLeftRight"))
-		iconMap["left/right"] = elem->get<std::string>("iconLeftRight");
+	if(elem->HasProperty("iconLeftRight"))
+		iconMap["left/right"] = elem->AsString("iconLeftRight");
 	
-	if(elem->has("iconUpDownLeftRight"))
-		iconMap["up/down/left/right"] = elem->get<std::string>("iconUpDownLeftRight");
+	if(elem->HasProperty("iconUpDownLeftRight"))
+		iconMap["up/down/left/right"] = elem->AsString("iconUpDownLeftRight");
 	
-	if(elem->has("iconA"))
-		iconMap["a"] = elem->get<std::string>("iconA");
+	if(elem->HasProperty("iconA"))
+		iconMap["a"] = elem->AsString("iconA");
 	
-	if(elem->has("iconB"))
-		iconMap["b"] = elem->get<std::string>("iconB");
+	if(elem->HasProperty("iconB"))
+		iconMap["b"] = elem->AsString("iconB");
 	
-	if(elem->has("iconX"))
-		iconMap["x"] = elem->get<std::string>("iconX");
+	if(elem->HasProperty("iconX"))
+		iconMap["x"] = elem->AsString("iconX");
 	
-	if(elem->has("iconY"))
-		iconMap["y"] = elem->get<std::string>("iconY");
+	if(elem->HasProperty("iconY"))
+		iconMap["y"] = elem->AsString("iconY");
 	
-	if(elem->has("iconL"))
-		iconMap["l"] = elem->get<std::string>("iconL");
+	if(elem->HasProperty("iconL"))
+		iconMap["l"] = elem->AsString("iconL");
 	
-	if(elem->has("iconR"))
-		iconMap["r"] = elem->get<std::string>("iconR");
+	if(elem->HasProperty("iconR"))
+		iconMap["r"] = elem->AsString("iconR");
 	
-	if(elem->has("iconStart"))
-		iconMap["start"] = elem->get<std::string>("iconStart");
+	if(elem->HasProperty("iconStart"))
+		iconMap["start"] = elem->AsString("iconStart");
 	
-	if(elem->has("iconSelect"))
-		iconMap["select"] = elem->get<std::string>("iconSelect");
+	if(elem->HasProperty("iconSelect"))
+		iconMap["select"] = elem->AsString("iconSelect");
 }

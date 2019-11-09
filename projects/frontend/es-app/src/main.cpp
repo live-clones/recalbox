@@ -192,8 +192,11 @@ int setLocale(char* argv1)
   }
 
   setlocale(LC_ALL,"");
-  bindtextdomain("emulationstation2",(path / "locale/lang").ToChars());
+  path = path / "locale/lang";
+  bindtextdomain("emulationstation2", path.ToChars());
   textdomain("emulationstation2");
+
+  std::string test = _("MAIN MENU");
 
   LOG(LogInfo) << "Locals set...";
   return 0;

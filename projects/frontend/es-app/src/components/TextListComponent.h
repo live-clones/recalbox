@@ -327,32 +327,32 @@ void TextListComponent<T>::applyTheme(const ThemeData& theme, const std::string&
 {
 	GuiComponent::applyTheme(theme, view, element, properties);
 
-	const ThemeData::ThemeElement* elem = theme.getElement(view, element, "textlist");
+	const ThemeElement* elem = theme.getElement(view, element, "textlist");
 	if (elem == nullptr)
 		return;
 
 	if (hasFlag(properties, ThemeProperties::Color))
 	{
-		if(elem->has("selectorColor"))
-			setSelectorColor(elem->get<unsigned int>("selectorColor"));
-		if(elem->has("selectedColor"))
-			setSelectedColor(elem->get<unsigned int>("selectedColor"));
-		if(elem->has("primaryColor"))
-			setColor(0, elem->get<unsigned int>("primaryColor"));
-		if(elem->has("secondaryColor"))
-			setColor(1, elem->get<unsigned int>("secondaryColor"));
+		if(elem->HasProperty("selectorColor"))
+			setSelectorColor((unsigned int)elem->AsInt("selectorColor"));
+		if(elem->HasProperty("selectedColor"))
+			setSelectedColor((unsigned int)elem->AsInt("selectedColor"));
+		if(elem->HasProperty("primaryColor"))
+			setColor(0, (unsigned int)elem->AsInt("primaryColor"));
+		if(elem->HasProperty("secondaryColor"))
+			setColor(1, (unsigned int)elem->AsInt("secondaryColor"));
 	}
 
 	setFont(Font::getFromTheme(elem, properties, mFont));
 	
-	if (hasFlag(properties, ThemeProperties::Sound) && elem->has("scrollSound"))
-		setSound(Sound::get(elem->get<std::string>("scrollSound")));
+	if (hasFlag(properties, ThemeProperties::Sound) && elem->HasProperty("scrollSound"))
+		setSound(Sound::get(elem->AsString("scrollSound")));
 
 	if (hasFlag(properties, ThemeProperties::Alignment))
 	{
-		if(elem->has("alignment"))
+		if(elem->HasProperty("alignment"))
 		{
-			const std::string& str = elem->get<std::string>("alignment");
+			const std::string& str = elem->AsString("alignment");
 			if(str == "left")
 				setAlignment(Alignment::Left);
 			else if(str == "center")
@@ -362,38 +362,38 @@ void TextListComponent<T>::applyTheme(const ThemeData& theme, const std::string&
 			else
 				LOG(LogError) << "Unknown TextListComponent alignment \"" << str << "\"!";
 		}
-		if(elem->has("horizontalMargin"))
+		if(elem->HasProperty("horizontalMargin"))
 		{
-			mHorizontalMargin = elem->get<float>("horizontalMargin") * (this->mParent ? this->mParent->getSize().x() : Renderer::getDisplayWidthAsFloat());
+			mHorizontalMargin = elem->AsFloat("horizontalMargin") * (this->mParent ? this->mParent->getSize().x() : Renderer::getDisplayWidthAsFloat());
 		}
 	}
 
-	if (hasFlag(properties, ThemeProperties::ForceUppercase) && elem->has("forceUppercase"))
-		setUppercase(elem->get<bool>("forceUppercase"));
+	if (hasFlag(properties, ThemeProperties::ForceUppercase) && elem->HasProperty("forceUppercase"))
+		setUppercase(elem->AsBool("forceUppercase"));
 
 	if (hasFlag(properties, ThemeProperties::LineSpacing))
 	{
-		if(elem->has("lineSpacing"))
-			setLineSpacing(elem->get<float>("lineSpacing"));
-		if(elem->has("selectorHeight"))
+		if(elem->HasProperty("lineSpacing"))
+			setLineSpacing(elem->AsFloat("lineSpacing"));
+		if(elem->HasProperty("selectorHeight"))
 		{
-			setSelectorHeight(elem->get<float>("selectorHeight") * Renderer::getDisplayHeightAsFloat());
+			setSelectorHeight(elem->AsFloat("selectorHeight") * Renderer::getDisplayHeightAsFloat());
 		} else {
 			setSelectorHeight(mFont->getSize() * 1.5);
 		}
-		if(elem->has("selectorOffsetY"))
+		if(elem->HasProperty("selectorOffsetY"))
 		{
 			float scale = this->mParent ? this->mParent->getSize().y() : Renderer::getDisplayHeightAsFloat();
-			setSelectorOffsetY(elem->get<float>("selectorOffsetY") * scale);
+			setSelectorOffsetY(elem->AsFloat("selectorOffsetY") * scale);
 		} else {
 			setSelectorOffsetY(0.0);
 		}
 	}
 
-	if (elem->has("selectorImagePath"))
+	if (elem->HasProperty("selectorImagePath"))
 	{
-		Path path(elem->get<std::string>("selectorImagePath"));
-		bool tile = elem->has("selectorImageTile") && elem->get<bool>("selectorImageTile");
+		Path path(elem->AsString("selectorImagePath"));
+		bool tile = elem->HasProperty("selectorImageTile") && elem->AsBool("selectorImageTile");
 		mSelectorImage.setImage(path, tile);
 		mSelectorImage.setSize(mSize.x(), mSelectorHeight);
 		mSelectorImage.setColorShift(mSelectorColor);

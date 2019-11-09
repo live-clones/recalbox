@@ -261,22 +261,22 @@ void TextComponent::applyTheme(const ThemeData& theme, const std::string& view, 
 {
 	GuiComponent::applyTheme(theme, view, element, properties);
 
-	const ThemeData::ThemeElement* elem = theme.getElement(view, element, "text");
+	const ThemeElement* elem = theme.getElement(view, element, "text");
 	if(elem == nullptr)
 		return;
 
-	if (hasFlag(properties, ThemeProperties::Color) && elem->has("color"))
-		setColor(elem->get<unsigned int>("color"));	
+	if (hasFlag(properties, ThemeProperties::Color) && elem->HasProperty("color"))
+		setColor((unsigned int)elem->AsInt("color"));
 
 	setRenderBackground(false);
-	if (hasFlag(properties, ThemeProperties::Color) && elem->has("backgroundColor")) {
-		setBackgroundColor(elem->get<unsigned int>("backgroundColor"));
+	if (hasFlag(properties, ThemeProperties::Color) && elem->HasProperty("backgroundColor")) {
+		setBackgroundColor((unsigned int)elem->AsInt("backgroundColor"));
 		setRenderBackground(true);
 	}
 
-	if(hasFlag(properties, ThemeProperties::Alignment) && elem->has("alignment"))
+	if(hasFlag(properties, ThemeProperties::Alignment) && elem->HasProperty("alignment"))
 	{
-		std::string str = elem->get<std::string>("alignment");
+		std::string str = elem->AsString("alignment");
 		if(str == "left")
 			setHorizontalAlignment(TextAlignment::Left);
 		else if(str == "center")
@@ -287,14 +287,14 @@ void TextComponent::applyTheme(const ThemeData& theme, const std::string& view, 
 			LOG(LogError) << "Unknown text alignment string: " << str;
 	}
 
-	if (hasFlag(properties, ThemeProperties::Text) && elem->has("text"))
-		setText(elem->get<std::string>("text"));
+	if (hasFlag(properties, ThemeProperties::Text) && elem->HasProperty("text"))
+		setText(elem->AsString("text"));
 
-	if (hasFlag(properties, ThemeProperties::ForceUppercase) && elem->has("forceUppercase"))
-		setUppercase(elem->get<bool>("forceUppercase"));
+	if (hasFlag(properties, ThemeProperties::ForceUppercase) && elem->HasProperty("forceUppercase"))
+		setUppercase(elem->AsBool("forceUppercase"));
 
-	if (hasFlag(properties, ThemeProperties::LineSpacing) && elem->has("lineSpacing"))
-		setLineSpacing(elem->get<float>("lineSpacing"));
+	if (hasFlag(properties, ThemeProperties::LineSpacing) && elem->HasProperty("lineSpacing"))
+		setLineSpacing(elem->AsFloat("lineSpacing"));
 
 	setFont(Font::getFromTheme(elem, properties, mFont));
 }

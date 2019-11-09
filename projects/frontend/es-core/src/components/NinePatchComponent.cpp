@@ -218,10 +218,10 @@ void NinePatchComponent::applyTheme(const ThemeData& theme, const std::string& v
 {
 	GuiComponent::applyTheme(theme, view, element, properties);
 
-	const ThemeData::ThemeElement* elem = theme.getElement(view, element, "ninepatch");
+	const ThemeElement* elem = theme.getElement(view, element, "ninepatch");
 	if(elem == nullptr)
 		return;
 
-	if(hasFlag(properties, ThemeProperties::Path) && elem->has("path"))
-		setImagePath(Path(elem->get<std::string>("path")));
+	if(hasFlag(properties, ThemeProperties::Path) && elem->HasProperty("path"))
+		setImagePath(Path(elem->AsString("path")));
 }

@@ -344,7 +344,7 @@ void VideoComponent::render(const Transform4x4f& parentTrans)
 void VideoComponent::applyTheme(const ThemeData& theme, const std::string& view, const std::string& element,
                                 ThemeProperties properties)
 {
-  const ThemeData::ThemeElement* elem = theme.getElement(view, element, "video");
+  const ThemeElement* elem = theme.getElement(view, element, "video");
   if (elem == nullptr)
   {
     return;
@@ -354,55 +354,55 @@ void VideoComponent::applyTheme(const ThemeData& theme, const std::string& view,
                    getParent()->getSize() :
                    Vector2f(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
 
-  if (hasFlag(properties, ThemeProperties::Position) && elem->has("pos"))
+  if (hasFlag(properties, ThemeProperties::Position) && elem->HasProperty("pos"))
   {
-    Vector2f denormalized = elem->get<Vector2f>("pos") * scale;
+    Vector2f denormalized = elem->AsVector("pos") * scale;
     setPosition(Vector3f(denormalized.x(), denormalized.y(), 0));
   }
 
   if (hasFlag(properties, ThemeProperties::Size))
   {
-    if (elem->has("size"))
+    if (elem->HasProperty("size"))
     {
-      setResize(elem->get<Vector2f>("size") * scale);
+      setResize(elem->AsVector("size") * scale);
     }
-    else if (elem->has("maxSize"))
+    else if (elem->HasProperty("maxSize"))
     {
-      setMaxSize(elem->get<Vector2f>("maxSize") * scale);
+      setMaxSize(elem->AsVector("maxSize") * scale);
     }
   }
 
   // position + size also implies origin
-  if ((hasFlag(properties, ThemeProperties::Origin) || (hasFlags(properties, ThemeProperties::Position, ThemeProperties::Size))) && elem->has("origin"))
+  if ((hasFlag(properties, ThemeProperties::Origin) || (hasFlags(properties, ThemeProperties::Position, ThemeProperties::Size))) && elem->HasProperty("origin"))
   {
-    setOrigin(elem->get<Vector2f>("origin"));
+    setOrigin(elem->AsVector("origin"));
   }
 
-  if (hasFlag(properties, ThemeProperties::Path) && elem->has("path"))
+  if (hasFlag(properties, ThemeProperties::Path) && elem->HasProperty("path"))
   {
-    setVideo(elem->get<std::string>("path"), DEFAULT_VIDEODELAY, DEFAULT_VIDEOLOOP);
+    setVideo(elem->AsString("path"), DEFAULT_VIDEODELAY, DEFAULT_VIDEOLOOP);
   }
 
-  if (hasFlag(properties, ThemeProperties::Color) && elem->has("color"))
+  if (hasFlag(properties, ThemeProperties::Color) && elem->HasProperty("color"))
   {
-    setColorShift(elem->get<unsigned int>("color"));
+    setColorShift((unsigned int)elem->AsInt("color"));
   }
 
   if (hasFlag(properties, ThemeProperties::Rotation))
   {
-    if (elem->has("rotation"))
+    if (elem->HasProperty("rotation"))
     {
-      setRotationDegrees(elem->get<float>("rotation"));
+      setRotationDegrees(elem->AsFloat("rotation"));
     }
-    if (elem->has("rotationOrigin"))
+    if (elem->HasProperty("rotationOrigin"))
     {
-      setRotationOrigin(elem->get<Vector2f>("rotationOrigin"));
+      setRotationOrigin(elem->AsVector("rotationOrigin"));
     }
   }
 
-  if (hasFlag(properties, ThemeProperties::ZIndex) && elem->has("zIndex"))
+  if (hasFlag(properties, ThemeProperties::ZIndex) && elem->HasProperty("zIndex"))
   {
-    setZIndex(elem->get<float>("zIndex"));
+    setZIndex(elem->AsFloat("zIndex"));
   }
   else
   {

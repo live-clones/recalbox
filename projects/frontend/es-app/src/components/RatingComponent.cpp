@@ -153,19 +153,19 @@ void RatingComponent::applyTheme(const ThemeData& theme, const std::string& view
 {
 	GuiComponent::applyTheme(theme, view, element, properties);
 
-	const ThemeData::ThemeElement* elem = theme.getElement(view, element, "rating");
+	const ThemeElement* elem = theme.getElement(view, element, "rating");
 	if (elem == nullptr)
 		return;
 
 	bool imgChanged = false;
-	if (hasFlag(properties, ThemeProperties::Path) && elem->has("filledPath"))
+	if (hasFlag(properties, ThemeProperties::Path) && elem->HasProperty("filledPath"))
 	{
-		mFilledTexture = TextureResource::get(Path(elem->get<std::string>("filledPath")), true);
+		mFilledTexture = TextureResource::get(Path(elem->AsString("filledPath")), true);
 		imgChanged = true;
 	}
-	if (hasFlag(properties, ThemeProperties::Path) && elem->has("unfilledPath"))
+	if (hasFlag(properties, ThemeProperties::Path) && elem->HasProperty("unfilledPath"))
 	{
-		mUnfilledTexture = TextureResource::get(Path(elem->get<std::string>("unfilledPath")), true);
+		mUnfilledTexture = TextureResource::get(Path(elem->AsString("unfilledPath")), true);
 		imgChanged = true;
 	}
 

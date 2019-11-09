@@ -21,13 +21,13 @@ std::shared_ptr<Music> Music::get(const Path& path)
 std::shared_ptr<Music> Music::getFromTheme(const ThemeData& theme, const std::string& view, const std::string& element)
 {
 	LOG(LogInfo) << " req music [" << view << "." << element << "]";
-	const ThemeData::ThemeElement* elem = theme.getElement(view, element, "sound");
-	if((elem == nullptr) || !elem->has("path"))
+	const ThemeElement* elem = theme.getElement(view, element, "sound");
+	if((elem == nullptr) || !elem->HasProperty("path"))
 	{
 		LOG(LogInfo) << "   (missing)";
 		return nullptr;
 	}
-	return get(Path(elem->get<std::string>("path")));
+	return get(Path(elem->AsString("path")));
 }
 
 Music::Music(const Path & path)

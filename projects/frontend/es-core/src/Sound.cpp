@@ -22,14 +22,14 @@ std::shared_ptr<Sound> Sound::getFromTheme(const ThemeData& theme, const std::st
 {
 	LOG(LogInfo) << " req sound [" << view << "." << element << "]";
 
-	const ThemeData::ThemeElement* elem = theme.getElement(view, element, "sound");
-	if((elem == nullptr) || !elem->has("path"))
+	const ThemeElement* elem = theme.getElement(view, element, "sound");
+	if((elem == nullptr) || !elem->HasProperty("path"))
 	{
 		LOG(LogInfo) << "   (missing)";
 		return get("");
 	}
 
-	return get(elem->get<std::string>("path"));
+	return get(elem->AsString("path"));
 }
 
 Sound::Sound(const std::string & path)

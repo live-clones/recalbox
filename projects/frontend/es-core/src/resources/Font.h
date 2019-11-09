@@ -61,7 +61,7 @@ public:
 
 	static Path getDefaultPath() { static Path defaultFont(FONT_PATH_REGULAR); return defaultFont; }
 
-	static std::shared_ptr<Font> getFromTheme(const ThemeData::ThemeElement* elem, ThemeProperties properties, const std::shared_ptr<Font>& orig);
+	static std::shared_ptr<Font> getFromTheme(const ThemeElement* elem, ThemeProperties properties, const std::shared_ptr<Font>& orig);
 
 	size_t getMemUsage() const; // returns an approximation of VRAM used by this font's texture (in bytes)
 	static size_t getTotalMemUsage(); // returns an approximation of total VRAM used by font textures (in bytes)

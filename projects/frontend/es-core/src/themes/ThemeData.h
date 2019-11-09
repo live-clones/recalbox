@@ -5,10 +5,9 @@
 #include <map>
 #include <deque>
 #include <string>
-#include <boost/variant.hpp>
 #include <utils/os/fs/Path.h>
 #include "pugixml/pugixml.hpp"
-#include "utils/math/Vectors.h"
+#include "ThemeElement.h"
 
 template<typename T> class TextListComponent;
 
@@ -61,22 +60,6 @@ class ThemeSet
 
 class ThemeData
 {
-  public:
-
-    class ThemeElement
-    {
-      public:
-        bool extra;
-        std::string type;
-
-        std::map< std::string, boost::variant<Vector2f, std::string, unsigned int, float, bool> > properties;
-
-        template<typename T>
-        T get(const std::string& prop) const { return boost::get<T>(properties.at(prop)); }
-
-        inline bool has(const std::string& prop) const { return (properties.find(prop) != properties.end()); }
-    };
-
   private:
     class ThemeView
     {

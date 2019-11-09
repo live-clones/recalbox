@@ -71,6 +71,28 @@ class StringUtil
     static bool TryToLong(const std::string& source, int index, long int& out) { return TryToLong(source, index, 0, out); }
 
     static bool TryToLong(const std::string& source, long int& out) { return TryToLong(source, 0, 0, out); }
+
+    static bool TryToFloat(const std::string& source, int index, char stop, float& out);
+
+    static bool TryToFloat(const std::string& source, int index, float& out) { return TryToFloat(source, index, 0, out); }
+
+    static bool TryToFloat(const std::string& source, float& out) { return TryToFloat(source, 0, 0, out); }
+
+    static bool TryToBool(const std::string& source, int index, char stop, bool& out);
+
+    static bool TryToBool(const std::string& source, int index, bool& out) { return TryToBool(source, index, 0, out); }
+
+    static bool TryToBool(const std::string& source, bool& out) { return TryToBool(source, 0, 0, out); }
+
+    static  std::string ToString(int integer);
+
+    static std::string ToString(unsigned int integer);
+
+    static std::string ToString(long long integer);
+
+    static std::string ToString(unsigned long long integer);
+
+    static std::string ToString(float value, int precision);
 }; // String::
 
 #endif // ES_CORE_UTILS_STRING_UTIL_H

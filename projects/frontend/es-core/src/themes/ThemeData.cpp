@@ -8,7 +8,7 @@
 #include <memory>
 #include <components/VideoComponent.h>
 #include <utils/StringUtil.h>
-
+#include <algorithm>
 #include "components/ImageComponent.h"
 #include "components/TextComponent.h"
 #include "RootFolders.h"
@@ -545,8 +545,7 @@ void ThemeData::parseElement(const pugi::xml_node& root, const std::map<std::str
 	ThemeException error;
 	error.setFiles(mPaths);
 
-	element.type = root.name();
-	element.extra = root.attribute("extra").as_bool(false);
+	element.SetRootData(root.name(), root.attribute("extra").as_bool(false));
 	
 	for (pugi::xml_node node = root.first_child(); node != nullptr; node = node.next_sibling())
 	{
@@ -560,22 +559,25 @@ void ThemeData::parseElement(const pugi::xml_node& root, const std::map<std::str
 		{
 		case ElementProperty::NormalizedPair:
 		{
-
-			size_t divider = str.find(' ');
-			if(divider == std::string::npos) 
-				throw error << "invalid normalized pair (property \"" << node.name() << "\", value \"" << str.c_str() << "\")";
-
-			std::string first = str.substr(0, divider);
-			std::string second = str.substr(divider, std::string::npos);
-
-			Vector2f val(atof(first.c_str()), atof(second.c_str()));
-
-			element.properties[node.name()] = val;
+      float x,y;
+      if (StringUtil::TryToFloat(str, 0, ' ', x))
+      {
+        size_t pos = str.find(' ');
+        if (pos != std::string::npos)
+          if (StringUtil::TryToFloat(str, (int)pos + 1, 0, y))
+          {
+            element.AddVectorProperty(node.name(), x, y);
+            break;
+          }
+      }
+      throw error << "invalid normalized pair (property \"" << node.name() << "\", value \"" << str.c_str() << "\")";
 			break;
 		}
 		case ElementProperty::String:
-			element.properties[node.name()] = str;
-			break;
+    {
+      element.AddStringProperty(node.name(), str);
+      break;
+    }
 		case ElementProperty::Path:
 		{
 			Path path = Path(str).ToAbsolute(mPaths.back().Directory());
@@ -594,27 +596,31 @@ void ThemeData::parseElement(const pugi::xml_node& root, const std::map<std::str
 				}
 				break;
 			}
-			element.properties[node.name()] = path.ToString();
+			element.AddStringProperty(node.name(), path.ToString());
 			break;
 		}
 		case ElementProperty::Color:
-			element.properties[node.name()] = getHexColor(str.c_str());
-			break;
+    {
+      element.AddIntProperty(node.name(), (int) getHexColor(str.c_str()));
+      break;
+    }
 		case ElementProperty::Float:
-			{
-			float floatVal = (float)(strtod(str.c_str(), nullptr));
-			element.properties[node.name()] = floatVal;
-  			break;
-			}
+		{
+			float floatVal;
+			if (!StringUtil::TryToFloat(str, floatVal))
+        throw error << "invalid float value (property \"" << node.name() << "\", value \"" << str << "\")";
+		  element.AddFloatProperty(node.name(), floatVal);
+  		break;
+		}
 		case ElementProperty::Boolean:
-			{
+		{
 			// only look at first char
 			char first = str[0];
 			// 1*, t* (true), T* (True), y* (yes), Y* (YES)
 			bool boolVal = (first == '1' || first == 't' || first == 'T' || first == 'y' || first == 'Y');
-			element.properties[node.name()] = boolVal;
+			element.AddBoolProperty(node.name(), boolVal);
   			break;
-			}
+		}
 		default:
 			throw error << "Unknown ElementPropertyType for \"" << root.attribute("name").as_string() << "\", property " << node.name();
 		}
@@ -622,7 +628,7 @@ void ThemeData::parseElement(const pugi::xml_node& root, const std::map<std::str
 }
 
 
-const ThemeData::ThemeElement* ThemeData::getElement(const std::string& view, const std::string& element, const std::string& expectedType) const
+const ThemeElement* ThemeData::getElement(const std::string& view, const std::string& element, const std::string& expectedType) const
 {
 	auto viewIt = mViews.find(view);
 	if(viewIt == mViews.end())
@@ -631,10 +637,10 @@ const ThemeData::ThemeElement* ThemeData::getElement(const std::string& view, co
 	auto elemIt = viewIt->second.elements.find(element);
 	if(elemIt == viewIt->second.elements.end()) return nullptr;
 
-	if(elemIt->second.type != expectedType && !expectedType.empty())
+	if(elemIt->second.Type() != expectedType && !expectedType.empty())
 	{
 		LOG(LogWarning) << " requested mismatched theme type for [" << view << "." << element << "] - expected \"" 
-			<< expectedType << "\", got \"" << elemIt->second.type << "\"";
+			<< expectedType << "\", got \"" << elemIt->second.Type() << "\"";
 		return nullptr;
 	}
 
@@ -742,10 +748,10 @@ std::vector<GuiComponent*> ThemeData::makeExtras(const ThemeData& theme, const s
 	for (auto& key : viewIt->second.orderedKeys)
 	{
 		const ThemeElement& elem = viewIt->second.elements.at(key);
-		if(elem.extra)
+		if(elem.Extra())
 		{
 			GuiComponent* comp = nullptr;
-			const std::string& t = elem.type;
+			const std::string& t = elem.Type();
 			if(t == "image")
 				comp = new ImageComponent(window);
 
@@ -904,16 +910,16 @@ std::string ThemeData::getTransition() const
 	std::string result;
 	auto elem = getElement("system", "systemcarousel", "carousel");
 	if (elem != nullptr) {
-		if (elem->has("defaultTransition")) {
-			if (elem->get<std::string>("defaultTransition") == "instant") {
+		if (elem->HasProperty("defaultTransition")) {
+			if (elem->AsString("defaultTransition") == "instant") {
 				result = "instant";
 				return result;
 			}
-			if (elem->get<std::string>("defaultTransition") == "fade") {
+			if (elem->AsString("defaultTransition") == "fade") {
 				result = "fade";
 				return result;
 			}
-			if (elem->get<std::string>("defaultTransition") == "slide") {
+			if (elem->AsString("defaultTransition") == "slide") {
 				result = "slide";
 				return result;
 			}
@@ -924,5 +930,5 @@ std::string ThemeData::getTransition() const
 
 bool ThemeData::isFolderHandled() const {
 	auto elem = getElement("detailed", "md_folder_name", "text");
-	return elem != nullptr ? elem->has("pos") : false;
+	return elem != nullptr ? elem->HasProperty("pos") : false;
 }

@@ -304,51 +304,51 @@ void ImageComponent::fadeIn(bool textureLoaded) {
 
 void ImageComponent::applyTheme(const ThemeData& theme, const std::string& view, const std::string& element, ThemeProperties properties)
 {
-    const ThemeData::ThemeElement* elem = theme.getElement(view, element, "image");
+    const ThemeElement* elem = theme.getElement(view, element, "image");
     if (elem == nullptr) {
         return;
     }
 
     Vector2f scale = getParent() != nullptr ? getParent()->getSize() : Vector2f(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
     
-    if (hasFlag(properties, ThemeProperties::Position) && elem->has("pos")) {
-        Vector2f denormalized = elem->get<Vector2f>("pos") * scale;
+    if (hasFlag(properties, ThemeProperties::Position) && elem->HasProperty("pos")) {
+        Vector2f denormalized = elem->AsVector("pos") * scale;
         setPosition(Vector3f(denormalized.x(), denormalized.y(), 0));
     }
 
     if (hasFlag(properties,ThemeProperties::Size)) {
-        if (elem->has("size")) {
-            setResize(elem->get<Vector2f>("size") * scale);
-        } else if (elem->has("maxSize")) {
-            setMaxSize(elem->get<Vector2f>("maxSize") * scale);
+        if (elem->HasProperty("size")) {
+            setResize(elem->AsVector("size") * scale);
+        } else if (elem->HasProperty("maxSize")) {
+            setMaxSize(elem->AsVector("maxSize") * scale);
         }
     }
 
     // position + size also implies origin
-    if ((hasFlag(properties, ThemeProperties::Origin) || (hasFlags(properties, ThemeProperties::Position, ThemeProperties::Size))) && elem->has("origin")) {
-        setOrigin(elem->get<Vector2f>("origin"));
+    if ((hasFlag(properties, ThemeProperties::Origin) || (hasFlags(properties, ThemeProperties::Position, ThemeProperties::Size))) && elem->HasProperty("origin")) {
+        setOrigin(elem->AsVector("origin"));
     }
 
-    if (hasFlag(properties, ThemeProperties::Path) && elem->has("path")) {
-        bool tile = (elem->has("tile") && elem->get<bool>("tile"));
-        setImage(Path(elem->get<std::string>("path")), tile);
+    if (hasFlag(properties, ThemeProperties::Path) && elem->HasProperty("path")) {
+        bool tile = (elem->HasProperty("tile") && elem->AsBool("tile"));
+        setImage(Path(elem->AsString("path")), tile);
     }
 
-    if (hasFlag(properties, ThemeProperties::Color) && elem->has("color")) {
-        setColorShift(elem->get<unsigned int>("color"));
+    if (hasFlag(properties, ThemeProperties::Color) && elem->HasProperty("color")) {
+        setColorShift((unsigned int)elem->AsInt("color"));
     }
 
     if (hasFlag(properties, ThemeProperties::Rotation)) {
-        if (elem->has("rotation")) {
-            setRotationDegrees(elem->get<float>("rotation"));
+        if (elem->HasProperty("rotation")) {
+            setRotationDegrees(elem->AsFloat("rotation"));
         }
-        if (elem->has("rotationOrigin")) {
-            setRotationOrigin(elem->get<Vector2f>("rotationOrigin"));
+        if (elem->HasProperty("rotationOrigin")) {
+            setRotationOrigin(elem->AsVector("rotationOrigin"));
         }
     }
     
-    if (hasFlag(properties, ThemeProperties::ZIndex) && elem->has("zIndex")) {
-        setZIndex(elem->get<float>("zIndex"));
+    if (hasFlag(properties, ThemeProperties::ZIndex) && elem->HasProperty("zIndex")) {
+        setZIndex(elem->AsFloat("zIndex"));
     } else {
         setZIndex(getDefaultZIndex());
     }

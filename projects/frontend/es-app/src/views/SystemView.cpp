@@ -574,11 +574,11 @@ void  SystemView::getViewElements(const ThemeData& theme)
 		LOG(LogDebug) << "SystemView::getViewElements()";
 		getDefaultElements();
 		
-		const ThemeData::ThemeElement* carouselElem = theme.getElement("system", "systemcarousel", "carousel");
+		const ThemeElement* carouselElem = theme.getElement("system", "systemcarousel", "carousel");
 		if (carouselElem != nullptr)
 			getCarouselFromTheme(carouselElem);
 		
-		const ThemeData::ThemeElement* sysInfoElem = theme.getElement("system", "systemInfo", "text");
+		const ThemeElement* sysInfoElem = theme.getElement("system", "systemInfo", "text");
 		if (sysInfoElem != nullptr)
 			mSystemInfo.applyTheme(theme, "system", "systemInfo", ThemeProperties::All);
 		
@@ -791,46 +791,46 @@ void  SystemView::getDefaultElements()
 	mSystemInfo.setDefaultZIndex(50);
 }
 
-void SystemView::getCarouselFromTheme(const ThemeData::ThemeElement* elem)
+void SystemView::getCarouselFromTheme(const ThemeElement* elem)
 {
-	if (elem->has("type"))
+	if (elem->HasProperty("type"))
 	{
-		if (elem->get<std::string>("type") == "vertical")
+		if (elem->AsString("type") == "vertical")
 			mCarousel.type = CarouselType::Vertical;
-		else if (elem->get<std::string>("type") == "vertical_wheel")
+		else if (elem->AsString("type") == "vertical_wheel")
 			mCarousel.type = CarouselType::VerticalWheel;
 		else
 			mCarousel.type = CarouselType::Horizontal;
 	}
-	if (elem->has("size"))
-		mCarousel.size = elem->get<Vector2f>("size") * mSize;
-	if (elem->has("pos"))
-		mCarousel.pos = elem->get<Vector2f>("pos") * mSize;
-	if (elem->has("origin"))
-		mCarousel.origin = elem->get<Vector2f>("origin");
-	if (elem->has("color"))
-		mCarousel.color = elem->get<unsigned int>("color");
-	if (elem->has("logoScale"))
-		mCarousel.logoScale = elem->get<float>("logoScale");
-	if (elem->has("logoSize"))
-		mCarousel.logoSize = elem->get<Vector2f>("logoSize") * mSize;
-	if (elem->has("maxLogoCount"))
-		mCarousel.maxLogoCount = Math::roundi(elem->get<float>("maxLogoCount"));
-	if (elem->has("zIndex"))
-		mCarousel.zIndex = elem->get<float>("zIndex");
-	if (elem->has("logoRotation"))
-		mCarousel.logoRotation = elem->get<float>("logoRotation");
-	if (elem->has("logoRotationOrigin"))
-		mCarousel.logoRotationOrigin = elem->get<Vector2f>("logoRotationOrigin");
-	if (elem->has("logoAlignment"))
+	if (elem->HasProperty("size"))
+		mCarousel.size = elem->AsVector("size") * mSize;
+	if (elem->HasProperty("pos"))
+		mCarousel.pos = elem->AsVector("pos") * mSize;
+	if (elem->HasProperty("origin"))
+		mCarousel.origin = elem->AsVector("origin");
+	if (elem->HasProperty("color"))
+		mCarousel.color = (unsigned int)elem->AsInt("color");
+	if (elem->HasProperty("logoScale"))
+		mCarousel.logoScale = elem->AsFloat("logoScale");
+	if (elem->HasProperty("logoSize"))
+		mCarousel.logoSize = elem->AsVector("logoSize") * mSize;
+	if (elem->HasProperty("maxLogoCount"))
+		mCarousel.maxLogoCount = Math::roundi(elem->AsFloat("maxLogoCount"));
+	if (elem->HasProperty("zIndex"))
+		mCarousel.zIndex = elem->AsFloat("zIndex");
+	if (elem->HasProperty("logoRotation"))
+		mCarousel.logoRotation = elem->AsFloat("logoRotation");
+	if (elem->HasProperty("logoRotationOrigin"))
+		mCarousel.logoRotationOrigin = elem->AsVector("logoRotationOrigin");
+	if (elem->HasProperty("logoAlignment"))
 	{
-		if (elem->get<std::string>("logoAlignment") == "left")
+		if (elem->AsString("logoAlignment") == "left")
 			mCarousel.logoAlignment = TextAlignment::Left;
-		else if (elem->get<std::string>("logoAlignment") == "right")
+		else if (elem->AsString("logoAlignment") == "right")
 			mCarousel.logoAlignment = TextAlignment::Right;
-		else if (elem->get<std::string>("logoAlignment") == "top")
+		else if (elem->AsString("logoAlignment") == "top")
 			mCarousel.logoAlignment = TextAlignment::Top;
-		else if (elem->get<std::string>("logoAlignment") == "bottom")
+		else if (elem->AsString("logoAlignment") == "bottom")
 			mCarousel.logoAlignment = TextAlignment::Bottom;
 		else
 			mCarousel.logoAlignment = TextAlignment::Center;
