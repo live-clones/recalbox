@@ -163,6 +163,7 @@ void VideoEngine::StopVideo(bool waitforstop)
   }
 
   mFileName = "";
+  mTexture.reset();
 }
 
 bool VideoEngine::InitializeDecoder()
