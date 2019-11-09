@@ -39,6 +39,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add videosnaps config keys in recalbox.conf
 - Bump FreeIntV
 - Bump FBNeo
+- Fix videosnaps on x64 gpus
+- Bump Retroarch
 
 ## [6.1]
 - Replacement of the neogeo intro video

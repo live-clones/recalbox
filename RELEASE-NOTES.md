@@ -16,6 +16,7 @@
 - Improve Blutooth association
 - Bump FreeIntV to include latest fixes
 - Bump FBNeo to include latest fixes
+- Bump Retroarch to 1.8.1  to include latest fixes & optimizations
 
 ### Fixes
 - Fix Reicast on XU4 and PC platforms and fix wrong flycast entry on Rpi
@@ -39,6 +40,7 @@
 - Fix some retroarch core random crashes and/or lags/slowness
 - Fix videosnaps crashs/artifects while scrolling
 - Fix missing videosnaps keys in recalbox.conf
+- Fix videosnaps crashes & white textures on x64 (Thanks to cpasjuste)
 
 
 ## Version 6.1
