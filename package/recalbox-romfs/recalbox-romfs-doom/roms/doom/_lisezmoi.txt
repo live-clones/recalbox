@@ -1,4 +1,4 @@
-## RECALBOX - SYSTEM PRBOOM ##
+## RECALBOX - SYSTEM DOOM ##
 
 Placez ici vos jeux DOOM 1 et 2 (et les mods associés).
 Placez vos soundtracks dans le répertoire ./game-musics

@@ -222,7 +222,7 @@ ifeq ($(BR2_PACKAGE_HYPSEUS),y)
 endif
 
 # System: doom
-ifneq ($(BR2_PACKAGE_LIBRETRO_PRBOOM),)
+ifneq ($(BR2_PACKAGE_LIBRETRO_PRBOOM)$(BR2_PACKAGE_LIBRETRO_DHEWM3),)
         RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-doom
 endif
 
