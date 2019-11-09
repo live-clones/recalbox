@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_DHEWM3_VERSION = 078f452426a2eafd998b4d7adf401d364861c34c
+LIBRETRO_DHEWM3_VERSION = a71c2d661a8cc833b4367a1d71367e423e51aa26
 LIBRETRO_DHEWM3_SITE = $(call github,libretro,dhewm3-libretro,$(LIBRETRO_DHEWM3_VERSION))
 
 define LIBRETRO_DHEWM3_BUILD_CMDS
