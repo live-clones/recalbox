@@ -245,7 +245,11 @@ class VideoEngine : Thread
     /*!
      * @brief Destructor
      */
-    ~VideoEngine() override { Thread::Stop(); }
+    ~VideoEngine() override
+    {
+      StopVideo(false);
+      Thread::Stop();
+    }
 
     /*!
      * @brief Start playing a video file
