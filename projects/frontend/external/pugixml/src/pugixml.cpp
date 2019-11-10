@@ -2709,7 +2709,7 @@ PUGI__NS_BEGIN
 	{
 		PUGI__STATIC_ASSERT(parse_escapes == 0x10 && parse_eol == 0x20 && parse_trim_pcdata == 0x0800);
 
-		switch (((optmask >> 4) & 3) | ((optmask >> 9) & 4)) // get bitmask for flags (trim eol escapes); this simultaneously checks 3 options from assertion above
+		switch (((optmask >> 4) & 3) | ((optmask >> 9) & 4)) // get bitmask for flags (Trim eol escapes); this simultaneously checks 3 options from assertion above
 		{
 		case 0: return strconv_pcdata_impl<opt_false, opt_false, opt_false>::parse;
 		case 1: return strconv_pcdata_impl<opt_false, opt_false, opt_true>::parse;
@@ -2731,7 +2731,7 @@ PUGI__NS_BEGIN
 		{
 			gap g;
 
-			// trim leading whitespaces
+			// Trim leading whitespaces
 			if (PUGI__IS_CHARTYPE(*s, ct_space))
 			{
 				char_t* str = s;

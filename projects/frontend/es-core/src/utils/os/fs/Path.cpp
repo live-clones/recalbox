@@ -2,7 +2,7 @@
 // Created by bkg2k on 23/10/2019.
 //
 
-#include <utils/StringUtil.h>
+#include <utils/Strings.h>
 #include <sys/stat.h>
 #include <zconf.h>
 #include <cstring>
@@ -28,11 +28,11 @@ void Path::Normalize()
 
   // Remove double separator
   if (mPath.find(sDoubleSeparatorString) != std::string::npos)
-    mPath = StringUtil::replace(mPath, sDoubleSeparatorString, sSeparatorString);
+    mPath = Strings::Replace(mPath, sDoubleSeparatorString, sSeparatorString);
 
   // Remove single colon
   if (mPath.find(sSingleDotPath) != std::string::npos)
-    mPath = StringUtil::replace(mPath, sSingleDotPath, sSeparatorString);
+    mPath = Strings::Replace(mPath, sSingleDotPath, sSeparatorString);
   int size = mPath.size();
   if (size == 1 && mPath[0] == '.')
     mPath.clear();

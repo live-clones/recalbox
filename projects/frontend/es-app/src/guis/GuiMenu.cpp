@@ -129,7 +129,7 @@ GuiMenu::GuiMenu(Window* window)
   mVersion.setFont(mMenuTheme->menuFooter.font);
   mVersion.setColor(mMenuTheme->menuFooter.color);
 
-    mVersion.setText("RB EMULATIONSTATION V" + StringUtil::toUpper(PROGRAM_VERSION_STRING));
+    mVersion.setText("RB EMULATIONSTATION V" + Strings::ToUpperASCII(PROGRAM_VERSION_STRING));
     mVersion.setHorizontalAlignment(TextAlignment::Center);
 
     addChild(&mMenu);
@@ -175,7 +175,7 @@ void GuiMenu::createInputTextRow(GuiSettings *gui, const std::string& title, con
   auto bracket = std::make_shared<ImageComponent>(mWindow);
   bracket->setImage(mMenuTheme->iconSet.arrow);
   bracket->setColorShift(mMenuTheme->menuText.color);
-  bracket->setResize(Vector2f(0, round(mMenuTheme->menuText.font->getLetterHeight())));
+  bracket->setResize(Vector2f(0, Math::round(mMenuTheme->menuText.font->getLetterHeight())));
 
 
   row.addElement(bracket, false);
@@ -231,8 +231,8 @@ void GuiMenu::menuSystem(){
   for (auto& it : availableStorage)
   {
     if (it != "RAM") {
-      if (StringUtil::startsWith(it, "DEV")) {
-        std::vector<std::string> tokens = StringUtil::splitString(it, ' ');
+      if (Strings::StartsWith(it, "DEV")) {
+        std::vector<std::string> tokens = Strings::Split(it, ' ');
         if (tokens.size() >= 3) {
           optionsStorage->add(tokens.at(2), it,
               selectedStorage == std::string("DEV " + tokens.at(1)));
@@ -743,7 +743,7 @@ void GuiMenu::menuUISettings(){
 	  screensaver_time->setValue((float)Settings::getInstance()->getInt("ScreenSaverTime") / (1000.0f * 60.0f));
 	  ss->addWithLabel(screensaver_time, _("SCREENSAVER AFTER"), _(MenuMessages::UI_SCREENSAVER_AFTER_HELP_MSG));
 	  ss->addSaveFunc([screensaver_time] {
-		  Settings::getInstance()->setInt("ScreenSaverTime", (int) round(screensaver_time->getValue()) * (1000 * 60));
+		  Settings::getInstance()->setInt("ScreenSaverTime", Math::roundi(screensaver_time->getValue()) * (1000 * 60));
 	  });
 
 	  // screensaver behavior
@@ -824,9 +824,9 @@ void GuiMenu::menuUISettings(){
     PopupGui->addWithLabel(netplay_popup_time, _("NETPLAY POPUP DURATION"), _(MenuMessages::UI_NETPLAY_POPUP_DURATION_HELP_MSG));*/
 
     PopupGui->addSaveFunc([help_popup_time, music_popup_time, popup_position] {
-      Settings::getInstance()->setInt("HelpPopupTime", (int) round(help_popup_time->getValue()));
-      Settings::getInstance()->setInt("MusicPopupTime", (int) round(music_popup_time->getValue()));
-      //Settings::getInstance()->setInt("NetplayPopupTime", (int) round(netplay_popup_time->getValue()));
+      Settings::getInstance()->setInt("HelpPopupTime", Math::roundi(help_popup_time->getValue()));
+      Settings::getInstance()->setInt("MusicPopupTime", Math::roundi(music_popup_time->getValue()));
+      //Settings::getInstance()->setInt("NetplayPopupTime", Math::roundi(netplay_popup_time->getValue()));
       Settings::getInstance()->setString("PopupPosition", popup_position->getSelected());
     });
     mWindow->pushGui(PopupGui);
@@ -1132,7 +1132,7 @@ void GuiMenu::menuSoundSettings(){
 
   // volume
   auto setVolume = [](const float &newVal) {
-    VolumeControl::getInstance()->setVolume((int) round(newVal));
+    VolumeControl::getInstance()->setVolume(Math::roundi(newVal));
   };
   auto volume = std::make_shared<SliderComponent>(mWindow, 0.f, 100.f, 1.f, "%");
   volume->setValue((float) VolumeControl::getInstance()->getVolume());
@@ -1156,7 +1156,7 @@ void GuiMenu::menuSoundSettings(){
   if (RecalboxConf::Instance().AsString("emulationstation.menu") != "bartop") {
     for (auto& it : availableAudio)
     {
-      std::vector<std::string> tokens = StringUtil::splitString(it, ' ');
+      std::vector<std::string> tokens = Strings::Split(it, ' ');
 
       if(tokens.size()>= 8){
         std::string vname;
@@ -1176,7 +1176,7 @@ void GuiMenu::menuSoundSettings(){
     s->addWithLabel(optionsAudio, _("OUTPUT DEVICE"));
   }
   s->addSaveFunc([optionsAudio, currentDevice, sounds_enabled, volume] {
-    RecalboxConf::Instance().SetInt("audio.volume", (int) round(volume->getValue()));
+    RecalboxConf::Instance().SetInt("audio.volume", Math::roundi(volume->getValue()));
 
     RecalboxConf::Instance().SetBool("audio.bgmusic", sounds_enabled->getState());
     if (!sounds_enabled->getState())
@@ -1265,7 +1265,7 @@ void GuiMenu::menuNetworkSettings(){
           if (it != "\n") {
 
             row.elements.clear();
-            std::vector<std::string> tokens = StringUtil::splitString(it, ' ');
+            std::vector<std::string> tokens = Strings::Split(it, ' ');
 
             if (tokens.size() >= 8) {
               std::string vname;
@@ -1691,7 +1691,7 @@ void GuiMenu::popSystemConfigurationGui(SystemData *systemData) const {
 
     std::string currentEmulator = RecalboxConf::Instance().AsString(systemData->getName() + ".emulator");
 
-    emu_choice->add(StringUtil::replace(_("DEFAULT (%1%)"), "%1%", emulatorDefaults.emulator), "default", true);
+    emu_choice->add(Strings::Replace(_("DEFAULT (%1%)"), "%1%", emulatorDefaults.emulator), "default", true);
 
     for (int i = systemData->Emulators().Count(); --i >= 0;)
     {
@@ -1704,7 +1704,7 @@ void GuiMenu::popSystemConfigurationGui(SystemData *systemData) const {
         core_choice->clear();
 
         if (emulatorName == "default") {
-            core_choice->add(StringUtil::replace(_("DEFAULT (%1%)"), "%1%", emulatorDefaults.core), "default", true);
+            core_choice->add(Strings::Replace(_("DEFAULT (%1%)"), "%1%", emulatorDefaults.core), "default", true);
             return ;
         }
         

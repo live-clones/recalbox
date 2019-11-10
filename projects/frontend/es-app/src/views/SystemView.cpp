@@ -641,7 +641,7 @@ void SystemView::renderCarousel(const Transform4x4f& trans)
 	}
 
 	int center = (int)(mCamOffset);
-	int logoCount = std::min(mCarousel.maxLogoCount, (int)mEntries.size());
+	int logoCount = Math::min(mCarousel.maxLogoCount, (int)mEntries.size());
 	
 	// Adding texture loading buffers depending on scrolling speed and status
 	int bufferIndex = getScrollingVelocity() + 1;
@@ -668,11 +668,11 @@ void SystemView::renderCarousel(const Transform4x4f& trans)
 		float distance = (float)i - mCamOffset;
 
 		float scale = 1.0f + ((mCarousel.logoScale - 1.0f) * (1.0f - fabs(distance)));
-		scale = std::min(mCarousel.logoScale, std::max(1.0f, scale));
+		scale = Math::min(mCarousel.logoScale, Math::max(1.0f, scale));
 		scale /= mCarousel.logoScale;
 
 		int opacity = Math::roundi(0x80 + ((0xFF - 0x80) * (1 - fabs(distance))));
-		opacity = std::max((int) 0x80, opacity);
+		opacity = Math::max((int) 0x80, opacity);
 
 		const std::shared_ptr<GuiComponent> &comp = mEntries.at(index).data.logo;
 		if (mCarousel.type == CarouselType::VerticalWheel) {
@@ -774,8 +774,8 @@ void  SystemView::getDefaultElements()
 	mCarousel.logoRotation = 7.5;
 	mCarousel.logoRotationOrigin.x() = -5;
 	mCarousel.logoRotationOrigin.y() = 0.5;
-	mCarousel.logoSize.x() = 0.25f * (std::max(mSize.y(), mSize.x()));
-	mCarousel.logoSize.y() = 0.155f * (std::min(mSize.y(), mSize.x()));
+	mCarousel.logoSize.x() = 0.25f * (Math::max(mSize.y(), mSize.x()));
+	mCarousel.logoSize.y() = 0.155f * (Math::min(mSize.y(), mSize.x()));
 	mCarousel.maxLogoCount = 3;
 	mCarousel.zIndex = 40;
 
@@ -784,7 +784,7 @@ void  SystemView::getDefaultElements()
 	mSystemInfo.setPosition(0, (mCarousel.pos.y() + mCarousel.size.y() - 0.2f));
 	mSystemInfo.setBackgroundColor(0xDDDDDDD8);
 	mSystemInfo.setRenderBackground(true);
-	mSystemInfo.setFont(Font::get((int)(0.035f * (std::min(mSize.y(), mSize.x()))), Font::getDefaultPath()));
+	mSystemInfo.setFont(Font::get((int)(0.035f * (Math::min(mSize.y(), mSize.x()))), Font::getDefaultPath()));
 	mSystemInfo.setHorizontalAlignment(TextAlignment::Center);
 	mSystemInfo.setColor(0x000000FF);
 	mSystemInfo.setZIndex(50);

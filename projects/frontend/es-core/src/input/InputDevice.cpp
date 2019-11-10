@@ -1,7 +1,7 @@
 #include "InputDevice.h"
 #include <string>
 #include "utils/Log.h"
-#include "utils/StringUtil.h"
+#include "utils/Strings.h"
 
 std::string InputDevice::EntryToString(InputDevice::Entry entry)
 {
@@ -40,7 +40,7 @@ std::string InputDevice::EntryToString(InputDevice::Entry entry)
 
 InputDevice::Entry InputDevice::StringToEntry(const std::string& entry)
 {
-  std::string lentry = StringUtil::toLower(entry);
+  std::string lentry = Strings::ToLowerASCII(entry);
   if (lentry == "none") return InputDevice::Entry::None;
   if (lentry == "start") return InputDevice::Entry::Start;
   if (lentry == "select") return InputDevice::Entry::Select;

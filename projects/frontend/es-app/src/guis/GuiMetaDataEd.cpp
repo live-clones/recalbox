@@ -49,8 +49,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window* window,
 
   mTitle = std::make_shared<TextComponent>(mWindow, _("EDIT METADATA"), menuTheme->menuTitle.font, menuTheme->menuTitle.color,
                                            TextAlignment::Center);
-  mSubtitle = std::make_shared<TextComponent>(mWindow,
-                                              StringUtil::toUpper(scraperParams.game->getPath().Filename()),
+  mSubtitle = std::make_shared<TextComponent>(mWindow, Strings::ToUpperASCII(scraperParams.game->getPath().Filename()),
                                               menuTheme->menuFooter.font, menuTheme->menuFooter.color, TextAlignment::Center);
   float y = 0;
   y += mTitle->getFont()->getHeight() + mSubtitle->getFont()->getHeight();
@@ -94,7 +93,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window* window,
     // create ed and add it (and any related components) to mMenu
     // ed's value will be set below
     ComponentListRow row;
-    auto lbl = std::make_shared<TextComponent>(mWindow, StringUtil::toUpper(field.DisplayName()), menuTheme->menuText.font, menuTheme->menuText.color);
+    auto lbl = std::make_shared<TextComponent>(mWindow, Strings::ToUpperASCII(field.DisplayName()), menuTheme->menuText.font, menuTheme->menuText.color);
 
     row.addElement(lbl, true); // label
     y += lbl->getFont()->getHeight();
@@ -152,7 +151,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window* window,
             mainConfigEmulator = emulatorDefaults.emulator;
           }
 
-          emu_choice->add(StringUtil::replace(_("DEFAULT (%1%)"), "%1%", mainConfigEmulator), "default", true);
+          emu_choice->add(Strings::Replace(_("DEFAULT (%1%)"), "%1%", mainConfigEmulator), "default", true);
 
           for (int i = system->Emulators().Count(); --i >= 0; )
           {
@@ -172,7 +171,8 @@ GuiMetaDataEd::GuiMetaDataEd(Window* window,
                                                      {
                                                        mainConfigCore = emulatorDefaults.core;
                                                      }
-                                                     core_choice->add(StringUtil::replace(_("DEFAULT (%1%)"), "%1%", mainConfigCore), "default", true);
+                                                     core_choice->add(
+                                                       Strings::Replace(_("DEFAULT (%1%)"), "%1%", mainConfigCore), "default", true);
                                                      return;
                                                    }
 

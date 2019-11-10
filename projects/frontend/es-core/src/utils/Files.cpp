@@ -2,9 +2,9 @@
 // Created by bkg2k on 31/07/2019.
 //
 
-#include "FileUtil.h"
+#include "Files.h"
 
-std::string FileUtil::LoadFile(const Path& path)
+std::string Files::LoadFile(const Path& path)
 {
   std::string result;
 
@@ -26,7 +26,7 @@ std::string FileUtil::LoadFile(const Path& path)
   return result;
 }
 
-bool FileUtil::SaveFile(const Path& path, const std::string& content)
+bool Files::SaveFile(const Path& path, const std::string& content)
 {
   FILE* f = fopen(path.ToChars(), "wb");
   if (f != nullptr)

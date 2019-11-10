@@ -8,7 +8,7 @@
 #include <VideoEngine.h>
 #include <guis/GuiNetPlay.h>
 #include <utils/sdl2/SyncronousEventService.h>
-#include <utils/FileUtil.h>
+#include <utils/Files.h>
 #include <fstream>
 
 #include "AudioManager.h"
@@ -379,7 +379,7 @@ int main(int argc, char* argv[])
 
     // Create a flag in  temporary directory to signal READY state
     Path ready("/tmp/emulationstation.ready");
-    FileUtil::SaveFile(ready, "ready");
+    Files::SaveFile(ready, "ready");
 
     //generate joystick events since we're done loading
     SDL_JoystickEventState(SDL_ENABLE);

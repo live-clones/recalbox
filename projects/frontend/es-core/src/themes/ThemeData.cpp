@@ -7,7 +7,7 @@
 #include "pugixml/pugixml.hpp"
 #include <memory>
 #include <components/VideoComponent.h>
-#include <utils/StringUtil.h>
+#include <utils/Strings.h>
 #include <algorithm>
 #include "components/ImageComponent.h"
 #include "components/TextComponent.h"
@@ -279,7 +279,7 @@ unsigned int getHexColor(const char* str)
 
 std::string ThemeData::resolveSystemVariable(const std::string& systemThemeFolder, const std::string& path)
 {
-	return StringUtil::replace(path, "$system", systemThemeFolder);
+	return Strings::Replace(path, "$system", systemThemeFolder);
 }
 
 ThemeData::ThemeData()
@@ -560,11 +560,11 @@ void ThemeData::parseElement(const pugi::xml_node& root, const std::map<std::str
 		case ElementProperty::NormalizedPair:
 		{
       float x,y;
-      if (StringUtil::TryToFloat(str, 0, ' ', x))
+      if (Strings::ToFloat(str, 0, ' ', x))
       {
         size_t pos = str.find(' ');
         if (pos != std::string::npos)
-          if (StringUtil::TryToFloat(str, (int)pos + 1, 0, y))
+          if (Strings::ToFloat(str, (int) pos + 1, 0, y))
           {
             element.AddVectorProperty(node.name(), x, y);
             break;
@@ -607,7 +607,7 @@ void ThemeData::parseElement(const pugi::xml_node& root, const std::map<std::str
 		case ElementProperty::Float:
 		{
 			float floatVal;
-			if (!StringUtil::TryToFloat(str, floatVal))
+			if (!Strings::ToFloat(str, floatVal))
         throw error << "invalid float value (property \"" << node.name() << "\", value \"" << str << "\")";
 		  element.AddFloatProperty(node.name(), floatVal);
   		break;

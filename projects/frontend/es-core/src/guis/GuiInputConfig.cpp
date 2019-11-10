@@ -49,7 +49,7 @@ GuiInputConfig::GuiInputConfig(Window* window, InputDevice* target, const std::f
 	else
 	  snprintf(strbuf, 256, _("GAMEPAD %i").c_str(), mTargetConfig->Identifier() + 1);
 	  
-	mSubtitle1 = std::make_shared<TextComponent>(mWindow, StringUtil::toUpper(strbuf), menuTheme->menuText.font, menuTheme->menuFooter.color, TextAlignment::Center);
+	mSubtitle1 = std::make_shared<TextComponent>(mWindow, Strings::ToUpperASCII(strbuf), menuTheme->menuText.font, menuTheme->menuFooter.color, TextAlignment::Center);
 	mGrid.setEntry(mSubtitle1, Vector2i(0, 1), false, true);
 
 	mSubtitle2 = std::make_shared<TextComponent>(mWindow, "", menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Center);
@@ -274,7 +274,7 @@ void GuiInputConfig::setText(const std::string& msg, unsigned int color) {
 
 void GuiInputConfig::setText(const std::string& msg, unsigned int color, const int inputId) {
 	std::shared_ptr<TextComponent>& text = mMappings.at(inputId);
-	text->setText(StringUtil::toUpper(msg));
+	text->setText(Strings::ToUpperASCII(msg));
 	text->setColor(color);
 }
 
@@ -294,10 +294,10 @@ void GuiInputConfig::setHelpMessage() {
 		if (mTargetConfig->IsSet(InputDevice::Entry::Down)) {
 			if (inputId == 0)
 				msg = (msg.length() != 0u ? msg + " - " : "") +
-					  StringUtil::replace(_("DOWN TO KEEP [%1%]"), "%1%", StringUtil::toUpper(input.ToString()));
+          Strings::Replace(_("DOWN TO KEEP [%1%]"), "%1%", Strings::ToUpperASCII(input.ToString()));
 			else
 				msg = (msg.length() != 0u ? msg + " - " : "") +
-					  StringUtil::replace(_("UP/DOWN TO KEEP [%1%]"), "%1%", StringUtil::toUpper(input.ToString()));
+          Strings::Replace(_("UP/DOWN TO KEEP [%1%]"), "%1%", Strings::ToUpperASCII(input.ToString()));
 		}
 
 	} else if (formInput.skippable)

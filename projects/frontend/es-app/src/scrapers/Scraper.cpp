@@ -3,7 +3,7 @@
 #include "Settings.h"
 #include <FreeImage.h>
 #include <RootFolders.h>
-#include <utils/FileUtil.h>
+#include <utils/Files.h>
 
 #include "GamesDBJSONScraper.h"
 #include "ScreenscraperScraper.h"
@@ -206,7 +206,7 @@ void ImageDownloadHandle::update()
   if (mReq->getContent().size() > 256) // handle the "NOMEDIA" text reponse :(
   {
     // Save
-    if (!FileUtil::SaveFile(mSavePath, mReq->getContent()))
+    if (!Files::SaveFile(mSavePath, mReq->getContent()))
     {
       setError("Failed to save image. Disk full?");
       return;

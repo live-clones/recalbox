@@ -2,7 +2,7 @@
 // Created by bkg2k on 17/10/2019.
 //
 
-#include <utils/StringUtil.h>
+#include <utils/Strings.h>
 #include "StringMapFile.h"
 
 void StringMapFile::Load()
@@ -18,8 +18,8 @@ void StringMapFile::Load()
       unsigned long pos = 0;
       if ((pos = keyvalue.find('=')) != std::string::npos)
       {
-        std::string key = StringUtil::trim(keyvalue.substr(0, pos), " \t\n\r");
-        std::string value = StringUtil::trim(keyvalue.substr(pos + 1), " \t\n\r");
+        std::string key = Strings::Trim(keyvalue.substr(0, pos), " \t\n\r");
+        std::string value = Strings::Trim(keyvalue.substr(pos + 1), " \t\n\r");
         mMap[key] = value;
       }
     }

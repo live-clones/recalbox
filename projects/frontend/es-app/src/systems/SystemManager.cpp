@@ -9,9 +9,9 @@
 #include <RecalboxConf.h>
 #include <platform.h>
 #include <utils/os/system/ThreadPool.h>
-#include <utils/StringUtil.h>
+#include <utils/Strings.h>
 #include <utils/os/fs/StringMapFile.h>
-#include <utils/FileUtil.h>
+#include <utils/Files.h>
 #include <algorithm>
 
 SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDescriptor)
@@ -134,7 +134,7 @@ bool SystemManager::DeserializeSystemDescriptor(const XmlNode system, SystemDesc
     systemDescriptor.SetEmulatorList(emulatorList);
 
     // Platform list
-    std::vector<std::string> platforms = StringUtil::splitString(Xml::AsString(system, "platform", ""), ' ');
+    std::vector<std::string> platforms = Strings::Split(Xml::AsString(system, "platform", ""), ' ');
     for (const auto &platform : platforms)
     {
       PlatformIds::PlatformId platformId = PlatformIds::getPlatformId(platform);
@@ -350,7 +350,6 @@ bool SystemManager::loadConfig()
   {
     // Get weight
     std::string key = Xml::AsString(system, "path", "unknown");
-    //key = StringUtil::replace(key, "roms", "romstest");
     int weight = weights.GetInt(key, 0);
     // Create system descriptor
     SystemDescriptor descriptor;
@@ -433,7 +432,7 @@ void SystemManager::writeExampleConfig(const Path& path)
     "    </system>\n"
     "</systemList>\n";
 
-  FileUtil::SaveFile(path, text);
+  Files::SaveFile(path, text);
 
   LOG(LogError) << "Example config written!  Go read it at \"" << path.ToString() << "\"!";
 }

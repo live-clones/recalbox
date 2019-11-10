@@ -57,7 +57,7 @@ GuiMsgBoxScroll::GuiMsgBoxScroll(Window* window,
 	}else{
 		for (auto& mButton : mButtons)
 		{
-			if(StringUtil::toUpper(mButton->getText()) == "OK" || StringUtil::toUpper(mButton->getText()) == "NO")
+			if(Strings::ToUpperASCII(mButton->getText()) == "OK" || Strings::ToUpperASCII(mButton->getText()) == "NO")
 			{
 				mAcceleratorFunc = mButton->getPressedFunc();
 				break;
@@ -73,12 +73,12 @@ GuiMsgBoxScroll::GuiMsgBoxScroll(Window* window,
 	if(mMsg->getSize().x() < width && mButtonGrid->getSize().x() < width)
 	{
 		// mMsg and buttons are narrower than width
-		width = std::max(mButtonGrid->getSize().x(), mMsg->getSize().x());
-		width = std::max(width, minWidth);
+		width = Math::max(mButtonGrid->getSize().x(), mMsg->getSize().x());
+		width = Math::max(width, minWidth);
 	}
 
 	mMsg->setSize(width, 0);
-	const float msgHeight = std::min(Renderer::getDisplayHeightAsFloat() * 0.5f, mMsg->getSize().y());
+	const float msgHeight = Math::min(Renderer::getDisplayHeightAsFloat() * 0.5f, mMsg->getSize().y());
 	mMsgContainer->setSize(width, msgHeight);
 	setSize(width + HORIZONTAL_PADDING_PX*2, mButtonGrid->getSize().y() + msgHeight + mTitle->getSize().y());
 

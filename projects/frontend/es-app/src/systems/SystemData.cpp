@@ -6,8 +6,8 @@
 #include <RootFolders.h>
 #include <recalbox/RecalboxSystem.h>
 #include <VideoEngine.h>
-#include <utils/StringUtil.h>
-#include <utils/FileUtil.h>
+#include <utils/Strings.h>
+#include <utils/Files.h>
 #include <Settings.h>
 
 EmulatorDescriptor EmulatorList::sEmptyEmulator("NO EMULATOR");
@@ -42,29 +42,28 @@ void SystemData::RunGame(Window& window, FileData& game, const std::string& netp
   const std::string basename = game.getPath().FilenameWithoutExtension();
   const std::string rom_raw = game.getPath().ToString();
 
-  command = StringUtil::replace(command, "%ROM%", rom);
-  command = StringUtil::replace(command, "%CONTROLLERSCONFIG%", controlersConfig);
-  command = StringUtil::replace(command, "%SYSTEM%", game.getSystem()->getName());
-  command = StringUtil::replace(command, "%BASENAME%", basename);
-  command = StringUtil::replace(command, "%ROM_RAW%", rom_raw);
-  command = StringUtil::replace(command, "%EMULATOR%", game.Metadata().Emulator());
-  command = StringUtil::replace(command, "%CORE%", game.Metadata().Core());
-  command = StringUtil::replace(command, "%RATIO%", game.Metadata().RatioAsString());
+  command = Strings::Replace(command, "%ROM%", rom);
+  command = Strings::Replace(command, "%CONTROLLERSCONFIG%", controlersConfig);
+  command = Strings::Replace(command, "%SYSTEM%", game.getSystem()->getName());
+  command = Strings::Replace(command, "%BASENAME%", basename);
+  command = Strings::Replace(command, "%ROM_RAW%", rom_raw);
+  command = Strings::Replace(command, "%EMULATOR%", game.Metadata().Emulator());
+  command = Strings::Replace(command, "%CORE%", game.Metadata().Core());
+  command = Strings::Replace(command, "%RATIO%", game.Metadata().RatioAsString());
 
   if (netplay == "client")
   {
-    command = StringUtil::replace(command, "%NETPLAY%", "-netplay client -netplay_port " + port + " -netplay_ip " + ip);
+    command = Strings::Replace(command, "%NETPLAY%", "-netplay client -netplay_port " + port + " -netplay_ip " + ip);
   }
   else if (netplay == "host")
   {
     std::string hash = game.Metadata().RomCrc32AsString();
     std::string hashcmd;
     if (!hash.empty()) hashcmd = " -hash " + hash;
-    command = StringUtil::replace(command, "%NETPLAY%", "-netplay host -netplay_port " +
-                                                        RecalboxConf::Instance().AsString("global.netplay.port") +
-                                                        hashcmd);
+    command = Strings::Replace(command, "%NETPLAY%", "-netplay host -netplay_port " +
+                                                     RecalboxConf::Instance().AsString("global.netplay.port") + hashcmd);
   }
-  else command = StringUtil::replace(command, "%NETPLAY%", "");
+  else command = Strings::Replace(command, "%NETPLAY%", "");
 
   LOG(LogInfo) << "	" << command;
   std::cout << "==============================================\n";
@@ -123,15 +122,15 @@ SystemData::DemoRunGame(const FileData& game, int duration, int infoscreendurati
   const std::string basename = game.getPath().FilenameWithoutExtension();
   const std::string rom_raw = game.getPath().ToString();
 
-  command = StringUtil::replace(command, "%ROM%", rom);
-  command = StringUtil::replace(command, "%CONTROLLERSCONFIG%", controlersConfig);
-  command = StringUtil::replace(command, "%SYSTEM%", game.getSystem()->getName());
-  command = StringUtil::replace(command, "%BASENAME%", basename);
-  command = StringUtil::replace(command, "%ROM_RAW%", rom_raw);
-  command = StringUtil::replace(command, "%EMULATOR%", game.Metadata().Emulator());
-  command = StringUtil::replace(command, "%CORE%", game.Metadata().Core());
-  command = StringUtil::replace(command, "%RATIO%", game.Metadata().RatioAsString());
-  command = StringUtil::replace(command, "%NETPLAY%", "");
+  command = Strings::Replace(command, "%ROM%", rom);
+  command = Strings::Replace(command, "%CONTROLLERSCONFIG%", controlersConfig);
+  command = Strings::Replace(command, "%SYSTEM%", game.getSystem()->getName());
+  command = Strings::Replace(command, "%BASENAME%", basename);
+  command = Strings::Replace(command, "%ROM_RAW%", rom_raw);
+  command = Strings::Replace(command, "%EMULATOR%", game.Metadata().Emulator());
+  command = Strings::Replace(command, "%CORE%", game.Metadata().Core());
+  command = Strings::Replace(command, "%RATIO%", game.Metadata().RatioAsString());
+  command = Strings::Replace(command, "%NETPLAY%", "");
 
   // Add demo stuff
   command += " -demo 1";
@@ -234,7 +233,7 @@ void SystemData::loadTheme()
 std::string SystemData::getLocalizedText(const std::string& source)
 {
   // Extract prefered language/region
-  std::string locale = StringUtil::toLower(RecalboxConf::Instance().AsString("system.language", "en_US"));
+  std::string locale = Strings::ToLowerASCII(RecalboxConf::Instance().AsString("system.language", "en_US"));
 
   // Get start
   std::string key = "[";
@@ -296,7 +295,7 @@ void SystemData::overrideFolderInformation(FileData* folderdata)
   if (imageOverriden)
   {
     fullPath = folderdata->getPath() / ".folder.description.txt";
-    std::string text = FileUtil::LoadFile(fullPath);
+    std::string text = Files::LoadFile(fullPath);
     if (text.length() != 0)
     {
       text = getLocalizedText(text);

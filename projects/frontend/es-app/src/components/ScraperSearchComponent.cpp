@@ -1,4 +1,4 @@
-#include <utils/StringUtil.h>
+#include <utils/Strings.h>
 #include "components/ScraperSearchComponent.h"
 
 #include "guis/GuiMsgBox.h"
@@ -58,12 +58,12 @@ ScraperSearchComponent::ScraperSearchComponent(Window* window, SearchType type)
 	mMD_Genre = std::make_shared<TextComponent>(mWindow, "", font, mdColor);
 	mMD_Players = std::make_shared<TextComponent>(mWindow, "", font, mdColor);
 
-	mMD_Pairs.push_back(MetaDataPair(std::make_shared<TextComponent>(mWindow, StringUtil::toUpper(_("Rating") + ":"), font, mdLblColor), mMD_Rating, false));
-	mMD_Pairs.push_back(MetaDataPair(std::make_shared<TextComponent>(mWindow, StringUtil::toUpper(_("Released") + ":"), font, mdLblColor), mMD_ReleaseDate));
-	mMD_Pairs.push_back(MetaDataPair(std::make_shared<TextComponent>(mWindow, StringUtil::toUpper(_("Developer") + ":"), font, mdLblColor), mMD_Developer));
-	mMD_Pairs.push_back(MetaDataPair(std::make_shared<TextComponent>(mWindow, StringUtil::toUpper(_("Publisher") + ":"), font, mdLblColor), mMD_Publisher));
-	mMD_Pairs.push_back(MetaDataPair(std::make_shared<TextComponent>(mWindow, StringUtil::toUpper(_("Genre") + ":"), font, mdLblColor), mMD_Genre));
-	mMD_Pairs.push_back(MetaDataPair(std::make_shared<TextComponent>(mWindow, StringUtil::toUpper(_("Players") + ":"), font, mdLblColor), mMD_Players));
+	mMD_Pairs.push_back(MetaDataPair(std::make_shared<TextComponent>(mWindow, Strings::ToUpperASCII(_("Rating") + ":"), font, mdLblColor), mMD_Rating, false));
+	mMD_Pairs.push_back(MetaDataPair(std::make_shared<TextComponent>(mWindow, Strings::ToUpperASCII(_("Released") + ":"), font, mdLblColor), mMD_ReleaseDate));
+	mMD_Pairs.push_back(MetaDataPair(std::make_shared<TextComponent>(mWindow, Strings::ToUpperASCII(_("Developer") + ":"), font, mdLblColor), mMD_Developer));
+	mMD_Pairs.push_back(MetaDataPair(std::make_shared<TextComponent>(mWindow, Strings::ToUpperASCII(_("Publisher") + ":"), font, mdLblColor), mMD_Publisher));
+	mMD_Pairs.push_back(MetaDataPair(std::make_shared<TextComponent>(mWindow, Strings::ToUpperASCII(_("Genre") + ":"), font, mdLblColor), mMD_Genre));
+	mMD_Pairs.push_back(MetaDataPair(std::make_shared<TextComponent>(mWindow, Strings::ToUpperASCII(_("Players") + ":"), font, mdLblColor), mMD_Players));
 
 	mMD_Grid = std::make_shared<ComponentGrid>(mWindow, Vector2i(2, (int)mMD_Pairs.size()*2 - 1));
 	int i = 0;
@@ -254,7 +254,7 @@ void ScraperSearchComponent::onSearchDone(const std::vector<ScraperSearchResult>
 		for (int i = 0; i < end; i++)
 		{
 			row.elements.clear();
-			row.addElement(std::make_shared<TextComponent>(mWindow, StringUtil::toUpper(results.at(i).mdl.Name()), font, color), true);
+			row.addElement(std::make_shared<TextComponent>(mWindow, Strings::ToUpperASCII(results.at(i).mdl.Name()), font, color), true);
 			row.makeAcceptInputHandler([this, i] { returnResult(mScraperResults.at(i)); });
 			mResultList->addRow(row);
 		}
@@ -279,10 +279,10 @@ void ScraperSearchComponent::onSearchDone(const std::vector<ScraperSearchResult>
 void ScraperSearchComponent::onSearchError(const std::string& error)
 {
 	LOG(LogInfo) << "ScraperSearchComponent search error: " << error;
-	mWindow->pushGui(new GuiMsgBox(mWindow, StringUtil::toUpper(error),
-				       _("RETRY"), std::bind(&ScraperSearchComponent::search, this, mLastSearch),
-				       _("SKIP"), mSkipCallback,
-				       _("CANCEL"), mCancelCallback));
+	mWindow->pushGui(new GuiMsgBox(mWindow, Strings::ToUpperASCII(error),
+                                 _("RETRY"), std::bind(&ScraperSearchComponent::search, this, mLastSearch),
+                                 _("SKIP"), mSkipCallback,
+                                 _("CANCEL"), mCancelCallback));
 }
 
 int ScraperSearchComponent::getSelectedIndex()
@@ -304,8 +304,8 @@ void ScraperSearchComponent::updateInfoPane()
 	if(i != -1 && (int)mScraperResults.size() > i)
 	{
 		ScraperSearchResult& res = mScraperResults.at(i);
-		mResultName->setText(StringUtil::toUpper(res.mdl.Name()));
-		mResultDesc->setText(StringUtil::toUpper(res.mdl.Description()));
+		mResultName->setText(Strings::ToUpperASCII(res.mdl.Name()));
+		mResultDesc->setText(Strings::ToUpperASCII(res.mdl.Description()));
 		mDescContainer->reset();
 
 		mResultThumbnail->setImage(Path());
@@ -318,12 +318,12 @@ void ScraperSearchComponent::updateInfoPane()
 		}
 
 		// metadata
-		mMD_Rating->setValue(StringUtil::toUpper(res.mdl.RatingAsString()));
-		mMD_ReleaseDate->setValue(StringUtil::toUpper(res.mdl.ReleaseDateAsString()));
-		mMD_Developer->setText(StringUtil::toUpper(res.mdl.Developer()));
-		mMD_Publisher->setText(StringUtil::toUpper(res.mdl.Publisher()));
-		mMD_Genre->setText(StringUtil::toUpper(res.mdl.Genre()));
-		mMD_Players->setText(StringUtil::toUpper(res.mdl.PlayersAsString()));
+		mMD_Rating->setValue(Strings::ToUpperASCII(res.mdl.RatingAsString()));
+		mMD_ReleaseDate->setValue(Strings::ToUpperASCII(res.mdl.ReleaseDateAsString()));
+		mMD_Developer->setText(Strings::ToUpperASCII(res.mdl.Developer()));
+		mMD_Publisher->setText(Strings::ToUpperASCII(res.mdl.Publisher()));
+		mMD_Genre->setText(Strings::ToUpperASCII(res.mdl.Genre()));
+		mMD_Players->setText(Strings::ToUpperASCII(res.mdl.PlayersAsString()));
 		mGrid.onSizeChanged();
 	}else{
 		mResultName->setText("");

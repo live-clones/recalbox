@@ -19,7 +19,7 @@ GuiTextEditPopupKeyboard::GuiTextEditPopupKeyboard(Window* window, const std::st
 	addChild(&mBackground);
 	addChild(&mGrid);
 
-	mTitle = std::make_shared<TextComponent>(mWindow, StringUtil::toUpper(title), menuTheme->menuTitle.font, menuTheme->menuTitle.color, TextAlignment::Center);
+	mTitle = std::make_shared<TextComponent>(mWindow, Strings::ToUpperASCII(title), menuTheme->menuTitle.font, menuTheme->menuTitle.color, TextAlignment::Center);
 
 	mText = std::make_shared<TextEditComponent>(mWindow);
 	mText->setValue(initValue);
@@ -140,7 +140,7 @@ GuiTextEditPopupKeyboard::GuiTextEditPopupKeyboard(Window* window, const std::st
 
 	// Determine available free space to get a more airy grid
 	float height = mTitle->getFont()->getHeight() + textHeight + mKeyboardGrid->getSize().y() + (mMultiLine ? 0 : mButtons->getSize().y());
-	float padding = std::min(40.0f, (screenHeightAvailable - height) * 0.75f);
+	float padding = Math::min(40.0f, (screenHeightAvailable - height) * 0.75f);
 
 	// If multiline, set all size back to default, else draw size for keyboard.
 	if (mMultiLine)

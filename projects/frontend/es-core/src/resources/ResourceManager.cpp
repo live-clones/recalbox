@@ -1,4 +1,4 @@
-#include <utils/FileUtil.h>
+#include <utils/Files.h>
 #include "ResourceManager.h"
 #include "../data/Resources.h"
 
@@ -36,7 +36,7 @@ ResourceData ResourceManager::getFileData(const Path& path) const
 
 ResourceData ResourceManager::loadFile(const Path& path) const
 {
-  return FileUtil::LoadFile(path);
+  return Files::LoadFile(path);
 }
 
 bool ResourceManager::fileExists(const Path& path) const

@@ -148,7 +148,7 @@ void GuiUpdate::Run()
       else
       {
         mResult = _("AN ERROR OCCURED - DOWNLOADED") + std::string(": ") +
-                  StringUtil::replace(updateStatus.first, "\e[1A", "");
+          Strings::Replace(updateStatus.first, "\e[1A", "");
         mState = State::Error;
       }
       break;

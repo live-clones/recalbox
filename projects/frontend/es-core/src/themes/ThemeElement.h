@@ -4,7 +4,7 @@
 #pragma once
 
 #include <string>
-#include <utils/StringUtil.h>
+#include <utils/Strings.h>
 #include <map>
 #include <utils/math/Vector2f.h>
 
@@ -46,10 +46,10 @@ class ThemeElement
         {
           switch(mType)
           {
-            case Type::Vector: return StringUtil::ToString(mFloat, 4) + ' ' + StringUtil::ToString(mSecondFloat, 4);
+            case Type::Vector: return Strings::ToString(mFloat, 4) + ' ' + Strings::ToString(mSecondFloat, 4);
             case Type::String: return mString;
-            case Type::Integer: return StringUtil::ToString(mInteger);
-            case Type::Float: return StringUtil::ToString(mFloat, 4);
+            case Type::Integer: return Strings::ToString(mInteger);
+            case Type::Float: return Strings::ToString(mFloat, 4);
             case Type::Bool: return std::string(mBool ? "1" : "0", 1);
           }
           return std::string();
@@ -58,7 +58,7 @@ class ThemeElement
         {
           switch(mType)
           {
-            case Type::String: int result; return StringUtil::TryToInt(mString, result) ? result : 0;
+            case Type::String: int result; return Strings::ToInt(mString, result) ? result : 0;
             case Type::Integer: return mInteger;
             case Type::Vector:
             case Type::Float: return (int)mFloat;
@@ -70,7 +70,7 @@ class ThemeElement
         {
           switch(mType)
           {
-            case Type::String: float result; return StringUtil::TryToFloat(mString, result) ? result : 0.0f;
+            case Type::String: float result; return Strings::ToFloat(mString, result) ? result : 0.0f;
             case Type::Integer: return (float)mInteger;
             case Type::Vector:
             case Type::Float: return mFloat;
@@ -82,7 +82,7 @@ class ThemeElement
         {
           switch(mType)
           {
-            case Type::String: bool result; return StringUtil::TryToBool(mString, result) ? result : false;
+            case Type::String: bool result; return Strings::ToBool(mString, result) ? result : false;
             case Type::Integer: return (bool)mInteger;
             case Type::Vector:
             case Type::Float: return (bool)mFloat;
@@ -98,11 +98,11 @@ class ThemeElement
             case Type::String:
             {
               float x,y;
-              if (StringUtil::TryToFloat(mString, 0, ' ', x))
+              if (Strings::ToFloat(mString, 0, ' ', x))
               {
                 size_t pos = mString.find(' ');
                 if (pos == std::string::npos)
-                  if (StringUtil::TryToFloat(mString, (int)pos + 1, 0, y))
+                  if (Strings::ToFloat(mString, (int) pos + 1, 0, y))
                     return { x, y };
               }
               break;

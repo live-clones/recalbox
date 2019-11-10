@@ -718,8 +718,8 @@ TextCache* Font::buildTextCache(const std::string& text, Vector2f offset, unsign
 
 		// triangle 1
 		// round to fix some weird "cut off" text bugs
-		tri[0].pos.Set(round(glyphStartX), round(y + (glyph->texSize.y() * (float)textureSize.y() - glyph->bearing.y())));
-		tri[1].pos.Set(round(glyphStartX + glyph->texSize.x() * (float)textureSize.x()), round(y - glyph->bearing.y()));
+		tri[0].pos.Set(Math::round(glyphStartX), Math::round(y + (glyph->texSize.y() * (float)textureSize.y() - glyph->bearing.y())));
+		tri[1].pos.Set(Math::round(glyphStartX + glyph->texSize.x() * (float)textureSize.x()), Math::round(y - glyph->bearing.y()));
 		tri[2].pos.Set(tri[0].pos.x(), tri[1].pos.y());
 
 		tri[0].tex.Set(glyph->texPos.x(), glyph->texPos.y() + glyph->texSize.y());
@@ -782,7 +782,7 @@ std::shared_ptr<Font> Font::getFromTheme(const ThemeElement* elem, ThemeProperti
 	int size = (orig ? orig->mSize : (int) FONT_SIZE_MEDIUM);
 	Path path = (orig ? orig->mPath : getDefaultPath());
 
-	float sh = std::min(Renderer::getDisplayHeightAsFloat(), Renderer::getDisplayWidthAsFloat());
+	float sh = Math::min(Renderer::getDisplayHeightAsFloat(), Renderer::getDisplayWidthAsFloat());
 	if (hasFlag(properties, ThemeProperties::FontSize) && elem->HasProperty("fontSize"))
 		size = (int)(sh * elem->AsFloat("fontSize"));
 	if (hasFlag(properties, ThemeProperties::FontPath) && elem->HasProperty("fontPath"))

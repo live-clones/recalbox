@@ -14,7 +14,7 @@
 #include <rapidjson/rapidjson.h>
 #include <rapidjson/pointer.h>
 #include <fstream>
-#include <utils/FileUtil.h>
+#include <utils/Files.h>
 
 #define BUTTON_GRID_VERT_PADDING Renderer::getDisplayHeightAsFloat() * 0.025f
 #define BUTTON_GRID_HORIZ_PADDING 10
@@ -229,7 +229,7 @@ void GuiNetPlay::populateGridMeta(int i)
   std::string username = game.mUserName.empty() ? "N/A" : game.mUserName;
   std::string frontend = game.mFrontEnd;
 
-  frontend = StringUtil::replace(frontend, "@RECALBOX", " \uF200");
+  frontend = Strings::Replace(frontend, "@RECALBOX", " \uF200");
 
   mMetaTextUsername->setText(username);
   mMetaTextCountry->setText(game.mCountry.empty() ? "N/A" : game.mCountry);
@@ -298,12 +298,12 @@ void GuiNetPlay::launch()
 
 std::pair<std::string, std::string> GuiNetPlay::getCoreInfo(const std::string& name)
 {
-  static std::string content = FileUtil::LoadFile(RootFolders::DataRootFolder / "system/configs/retroarch.corenames");
-  static StringUtil::stringVector lines;
-  if (lines.empty()) lines = StringUtil::splitString(content, '\n');
+  static std::string content = Files::LoadFile(RootFolders::DataRootFolder / "system/configs/retroarch.corenames");
+  static Strings::Vector lines;
+  if (lines.empty()) lines = Strings::Split(content, '\n');
   for(std::string& line : lines)
   {
-    StringUtil::stringVector parts = StringUtil::splitString(line, ';');
+    Strings::Vector parts = Strings::Split(line, ';');
     if (parts.size() == 3)
       if (parts[0] == name)
         return std::pair<std::string, std::string>(parts[1], parts[2]);

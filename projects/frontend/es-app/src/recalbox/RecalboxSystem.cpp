@@ -19,8 +19,8 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <VideoEngine.h>
-#include <utils/StringUtil.h>
-#include <utils/FileUtil.h>
+#include <utils/Strings.h>
+#include <utils/Files.h>
 
 void RecalboxSystem::NotifySystemAndGame(const SystemData* system, const FileData* game, bool play, bool demo)
 {
@@ -320,8 +320,8 @@ bool RecalboxSystem::backupRecalboxConf()
 bool RecalboxSystem::enableWifi(std::string ssid, std::string key)
 {
   std::ostringstream oss;
-  ssid = StringUtil::replace(ssid, "\"", "\\\"");
-  key = StringUtil::replace(key, "\"", "\\\"");
+  ssid = Strings::Replace(ssid, "\"", "\\\"");
+  key = Strings::Replace(key, "\"", "\\\"");
   oss << Settings::getInstance()->getString("RecalboxSettingScript") << " " << "wifi" << " " << "enable" << " \""
       << ssid << "\" \"" << key << "\"";
   std::string command = oss.str();
@@ -648,8 +648,8 @@ std::pair<std::string, int> RecalboxSystem::getSysBatteryInfo()
   if (!batteryCapacity.Exists())
     return std::make_pair("", -1);
 
-  int percent = std::stoi(FileUtil::LoadFile(batteryCapacity));
-  std::string status = FileUtil::LoadFile(batteryStatus);
+  int percent = std::stoi(Files::LoadFile(batteryCapacity));
+  std::string status = Files::LoadFile(batteryStatus);
 
   if (status == "Discharging")
   {

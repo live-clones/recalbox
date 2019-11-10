@@ -63,7 +63,7 @@ void VideoComponent::resize()
       }
 
       // for SVG rasterization, always calculate width from rounded height (see comment above)
-      mSize[1] = round(mSize[1]);
+      mSize[1] = Math::round(mSize[1]);
       mSize[0] = (mSize[1] / textureSize.y()) * textureSize.x();
     }
     else
@@ -76,12 +76,12 @@ void VideoComponent::resize()
       // for SVG rasterization, we always calculate width from rounded height (see comment above)
       if ((mTargetSize.x() == 0) && (mTargetSize.y() != 0))
       {
-        mSize[1] = round(mTargetSize.y());
+        mSize[1] = Math::round(mTargetSize.y());
         mSize[0] = (mSize.y() / textureSize.y()) * textureSize.x();
       }
       else if ((mTargetSize.x() != 0) && (mTargetSize.y() == 0))
       {
-        mSize[1] = round((mTargetSize.x() / textureSize.x()) * textureSize.y());
+        mSize[1] = Math::round((mTargetSize.x() / textureSize.x()) * textureSize.y());
         mSize[0] = (mSize.y() / textureSize.y()) * textureSize.x();
       }
     }
@@ -154,7 +154,7 @@ void VideoComponent::updateVertices(double bump)
     case Effect::Fade:
     {
       Vector2f topLeft(0.0, 0.0);
-      Vector2f bottomRight(round(mSize.x()), round(mSize.y()));
+      Vector2f bottomRight(Math::round(mSize.x()), Math::round(mSize.y()));
 
       mVertices[0].pos.Set(topLeft.x(), topLeft.y());
       mVertices[1].pos.Set(topLeft.x(), bottomRight.y());

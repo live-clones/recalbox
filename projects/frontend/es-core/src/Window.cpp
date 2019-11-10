@@ -297,8 +297,8 @@ void Window::renderWaitingScreen(const std::string& text)
 
 	auto& font = mDefaultFonts.at(1);
 	TextCache* cache = font->buildTextCache(text, 0, 0, 0x656565FF);
-	trans = trans.translate(Vector3f(round((Renderer::getDisplayWidthAsFloat() - cache->metrics.size.x()) / 2.0f),
-											round(Renderer::getDisplayHeightAsFloat() * 0.835f), 0.0f));
+	trans = trans.translate(Vector3f(Math::round((Renderer::getDisplayWidthAsFloat() - cache->metrics.size.x()) / 2.0f),
+											Math::round(Renderer::getDisplayHeightAsFloat() * 0.835f), 0.0f));
 	Renderer::setMatrix(trans);
 	font->renderTextCache(cache);
 	delete cache;

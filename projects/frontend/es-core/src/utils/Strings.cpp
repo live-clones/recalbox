@@ -1,17 +1,16 @@
-#include "utils/StringUtil.h"
+#include "utils/Strings.h"
 
-#include <algorithm>
 #include <cstdarg>
 #include <cstring>
 
 #include "Unicode.h"
 
-unsigned short StringUtil::_SmallToCapital[1 << (8 * sizeof(unsigned short))];
-unsigned short StringUtil::_CapitalToSmall[1 << (8 * sizeof(unsigned short))];
+unsigned short Strings::_SmallToCapital[1 << (8 * sizeof(unsigned short))];
+unsigned short Strings::_CapitalToSmall[1 << (8 * sizeof(unsigned short))];
 
-bool StringUtil::_Initialized = StringUtil::_Initialize();
+bool Strings::_Initialized = Strings::_Initialize();
 
-bool StringUtil::_Initialize()
+bool Strings::_Initialize()
 {
   if (!_Initialized)
   {
@@ -34,10 +33,10 @@ bool StringUtil::_Initialize()
   return true;
 }
 
-std::string StringUtil::toLowerUTF8(const std::string& str)
+std::string Strings::ToLowerUTF8(const std::string& _string)
 {
-  std::string result = str; // Allocate memory once
-  int l = str.length();
+  std::string result = _string; // Allocate memory once
+  int l = _string.length();
 
   for(int cursor = 0; cursor < l; )
   {
@@ -80,10 +79,10 @@ std::string StringUtil::toLowerUTF8(const std::string& str)
   return result;
 }
 
-std::string StringUtil::toUpperUTF8(const std::string& str)
+std::string Strings::ToUpperUTF8(const std::string& _string)
 {
-  std::string result = str; // Allocate memory once
-  int l = str.length();
+  std::string result = _string; // Allocate memory once
+  int l = _string.length();
 
   for(int cursor = 0; cursor < l; )
   {
@@ -127,7 +126,7 @@ std::string StringUtil::toUpperUTF8(const std::string& str)
 }
 
 
-unsigned int StringUtil::chars2Unicode(const std::string& _string, size_t& _cursor)
+unsigned int Strings::chars2Unicode(const std::string& _string, size_t& _cursor)
 {
 	const char&  c      = _string[_cursor];
 	unsigned int result = '?';
@@ -172,7 +171,7 @@ unsigned int StringUtil::chars2Unicode(const std::string& _string, size_t& _curs
 
 } // chars2Unicode
 
-std::string StringUtil::unicode2Chars(const unsigned int _unicode)
+std::string Strings::unicode2Chars(const unsigned int _unicode)
 {
 	std::string result;
 
@@ -208,7 +207,7 @@ std::string StringUtil::unicode2Chars(const unsigned int _unicode)
 
 } // unicode2Chars
 
-size_t StringUtil::nextCursor(const std::string& _string, const size_t _cursor)
+size_t Strings::nextCursor(const std::string& _string, const size_t _cursor)
 {
 	size_t result = _cursor;
 
@@ -224,7 +223,7 @@ size_t StringUtil::nextCursor(const std::string& _string, const size_t _cursor)
 
 } // nextCursor
 
-size_t StringUtil::prevCursor(const std::string& _string, const size_t _cursor)
+size_t Strings::prevCursor(const std::string& _string, const size_t _cursor)
 {
 	size_t result = _cursor;
 
@@ -240,7 +239,7 @@ size_t StringUtil::prevCursor(const std::string& _string, const size_t _cursor)
 
 } // prevCursor
 
-size_t StringUtil::moveCursor(const std::string& _string, const size_t _cursor, const int _amount)
+size_t Strings::moveCursor(const std::string& _string, const size_t _cursor, const int _amount)
 {
 	size_t result = _cursor;
 
@@ -259,7 +258,7 @@ size_t StringUtil::moveCursor(const std::string& _string, const size_t _cursor, 
 
 } // moveCursor
 
-std::string StringUtil::toLower(const std::string& _string)
+std::string Strings::ToLowerASCII(const std::string& _string)
 {
 	std::string string = _string;
 
@@ -268,9 +267,9 @@ std::string StringUtil::toLower(const std::string& _string)
 
 	return string;
 
-} // toLower
+} // ToLowerASCII
 
-std::string StringUtil::toUpper(const std::string& _string)
+std::string Strings::ToUpperASCII(const std::string& _string)
 {
 	std::string string = _string;
 
@@ -280,7 +279,7 @@ std::string StringUtil::toUpper(const std::string& _string)
 	return string;
 }
 
-std::string StringUtil::trim(const std::string& _string)
+std::string Strings::Trim(const std::string& _string)
 {
 	const size_t strBegin = _string.find_first_not_of(" \t");
 	const size_t strEnd   = _string.find_last_not_of(" \t");
@@ -289,9 +288,9 @@ std::string StringUtil::trim(const std::string& _string)
 		return "";
 
 	return _string.substr(strBegin, strEnd - strBegin + 1);
-} // trim
+} // Trim
 
-std::string StringUtil::trim(const std::string& _string, const char* _trimwhat)
+std::string Strings::Trim(const std::string& _string, const char* _trimwhat)
 {
   const size_t strBegin = _string.find_first_not_of(_trimwhat);
   const size_t strEnd   = _string.find_last_not_of(_trimwhat);
@@ -300,9 +299,9 @@ std::string StringUtil::trim(const std::string& _string, const char* _trimwhat)
     return "";
 
   return _string.substr(strBegin, strEnd - strBegin + 1);
-} // trim
+} // Trim
 
-std::string StringUtil::replace(const std::string& _string, const std::string& _replace, const std::string& _with)
+std::string Strings::Replace(const std::string& _string, const std::string& _replace, const std::string& _with)
 {
 	std::string string = _string;
 
@@ -312,17 +311,17 @@ std::string StringUtil::replace(const std::string& _string, const std::string& _
 	return string;
 }
 
-bool StringUtil::startsWith(const std::string& _string, const std::string& _start)
+bool Strings::StartsWith(const std::string& _string, const std::string& _start)
 {
 	return (_string.find(_start) <= 0); // TODO: strncmp faster?
 }
 
-bool StringUtil::endsWith(const std::string& _string, const std::string& _end)
+bool Strings::EndsWith(const std::string& _string, const std::string& _end)
 {
 	return (_string.find(_end) == (_string.size() - _end.size()));
 }
 
-std::string StringUtil::removeParenthesis(const std::string& _string)
+std::string Strings::RemoveParenthesis(const std::string& _string)
 {
 	static const char remove[4] = { '(', ')', '[', ']' };
 	std::string       string = _string;
@@ -347,13 +346,13 @@ std::string StringUtil::removeParenthesis(const std::string& _string)
 		}
 	}
 
-	return trim(string);
+	return Trim(string);
 
 } // removeParenthesis
 
-StringUtil::stringVector StringUtil::splitString(const std::string& _string, char splitter)
+Strings::Vector Strings::Split(const std::string& _string, char splitter)
 {
-  stringVector vector;
+  Vector vector;
   size_t       start = 0;
   size_t       comma = _string.find(splitter);
 
@@ -370,10 +369,10 @@ StringUtil::stringVector StringUtil::splitString(const std::string& _string, cha
 
 } // commaStringToVector
 
-std::string StringUtil::joinStrings(const std::vector<std::string>& stringList, const std::string& joiner)
+std::string Strings::Join(const std::vector<std::string>& _string, const std::string& joiner)
 {
   std::string result;
-  for(const std::string& string : stringList)
+  for(const std::string& string : _string)
   {
     if (!result.empty()) result.append(joiner);
     result.append(string);
@@ -381,66 +380,30 @@ std::string StringUtil::joinStrings(const std::vector<std::string>& stringList, 
   return result;
 }
 
-StringUtil::stringVector StringUtil::commaStringToVector(const std::string& _string)
-{
-	stringVector vector;
-	size_t       start = 0;
-	size_t       comma = _string.find(',');
-
-	while(comma != std::string::npos)
-	{
-		vector.push_back(_string.substr(start, comma - start));
-		start = comma + 1;
-		comma = _string.find(',', start);
-	}
-
-	vector.push_back(_string.substr(start));
-	std::sort(vector.begin(), vector.end());
-
-	return vector;
-
-} // commaStringToVector
-
-std::string StringUtil::vectorToCommaString(stringVector _vector)
-{
-	std::string string;
-
-	std::sort(_vector.begin(), _vector.end());
-
-	for (const auto& it : _vector)
-		string += (string.length() != 0u ? "," : "") + it;
-
-	return string;
-
-} // vectorToCommaString
-
-std::string StringUtil::format(const char* _format, ...)
+std::string Strings::Format(const char* _string, ...)
 {
 	va_list	args;
 	va_list copy;
 
-	va_start(args, _format);
+	va_start(args, _string);
 
 	va_copy(copy, args);
-	const int length = vsnprintf(nullptr, 0, _format, copy);
+	const int length = vsnprintf(nullptr, 0, _string, copy);
 	va_end(copy);
 
-	char* buffer = new char[length + 1];
+	std::string result;
+	result.resize(length);
 	va_copy(copy, args);
-	vsnprintf(buffer, (size_t)length + 1, _format, copy);
+	vsnprintf((char*)result.c_str(), (size_t)length + 1, _string, copy);
 	va_end(copy);
 
 	va_end(args);
 
-	std::string out(buffer);
-	delete[] buffer;
-
-	return out;
-
+	return result;
 } // format
 
 // Simple XOR scrambling of a string, with an accompanying key
-std::string StringUtil::scramble(const std::string& _input, const std::string& key)
+std::string Strings::ScrambleSymetric(const std::string& _input, const std::string& key)
 {
 	std::string buffer = _input;
 
@@ -456,7 +419,7 @@ std::string StringUtil::scramble(const std::string& _input, const std::string& k
 #define INT32BUFFERLEN 12
 #define INT64BUFFERLEN 22
 
-bool StringUtil::TryToInt(const std::string& source, int index, char stop, int& out)
+bool Strings::ToInt(const std::string& source, int index, char stop, int& out)
 {
   if (index >= (int)source.size()) return false;
   const char* src = source.c_str() + index;
@@ -472,7 +435,7 @@ bool StringUtil::TryToInt(const std::string& source, int index, char stop, int& 
   return true;
 }
 
-bool StringUtil::TryToLong(const std::string& source, int index, char stop, long int& out)
+bool Strings::ToLong(const std::string& source, int index, char stop, long int& out)
 {
   if (index >= (int)source.size()) return false;
   const char* src = source.c_str() + index;
@@ -488,7 +451,7 @@ bool StringUtil::TryToLong(const std::string& source, int index, char stop, long
   return true;
 }
 
-bool StringUtil::TryToFloat(const std::string& source, int index, char stop, float& out)
+bool Strings::ToFloat(const std::string& source, int index, char stop, float& out)
 {
   if (index >= (int)source.size()) return false;
   const char* src = source.c_str() + index;
@@ -515,7 +478,7 @@ bool StringUtil::TryToFloat(const std::string& source, int index, char stop, flo
   return true;
 }
 
-bool StringUtil::TryToBool(const std::string& source, int index, char stop, bool& out)
+bool Strings::ToBool(const std::string& source, int index, char stop, bool& out)
 {
   if (index >= (int)source.size()) return false;
   const char* src = source.c_str() + index;
@@ -532,7 +495,7 @@ bool StringUtil::TryToBool(const std::string& source, int index, char stop, bool
   return false;
 }
 
-std::string StringUtil::ToString(int integer)
+std::string Strings::ToString(int integer)
 {
   char Buffer[INT32BUFFERLEN]; Buffer[INT32BUFFERLEN - 1] = 0;
   int Index = INT32BUFFERLEN - 1;
@@ -545,7 +508,7 @@ std::string StringUtil::ToString(int integer)
   return std::string(Buffer + Index, (INT32BUFFERLEN - 1) - Index);
 }
 
-std::string StringUtil::ToString(unsigned int integer)
+std::string Strings::ToString(unsigned int integer)
 {
   char Buffer[INT32BUFFERLEN]; Buffer[INT32BUFFERLEN - 1] = 0;
   int Index = INT32BUFFERLEN - 1;
@@ -555,7 +518,7 @@ std::string StringUtil::ToString(unsigned int integer)
   return std::string(Buffer + Index, (INT32BUFFERLEN - 1) - Index);
 }
 
-std::string StringUtil::ToString(long long integer)
+std::string Strings::ToString(long long integer)
 {
   char Buffer[INT64BUFFERLEN]; Buffer[INT64BUFFERLEN - 1] = 0;
   int Index = INT64BUFFERLEN - 1;
@@ -568,7 +531,7 @@ std::string StringUtil::ToString(long long integer)
   return std::string(Buffer + Index, (INT64BUFFERLEN - 1) - Index);
 }
 
-std::string StringUtil::ToString(unsigned long long integer)
+std::string Strings::ToString(unsigned long long integer)
 {
   char Buffer[INT64BUFFERLEN]; Buffer[INT64BUFFERLEN - 1] = 0;
   int Index = INT64BUFFERLEN - 1;
@@ -593,7 +556,7 @@ static float Pow10[] =
   10000000000.0f,
 };
 
-std::string StringUtil::ToString(float value, int precision)
+std::string Strings::ToString(float value, int precision)
 {
   // Extract integer part
   int integer = (int)value;

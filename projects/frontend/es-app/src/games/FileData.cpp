@@ -1,7 +1,7 @@
 #include "FileData.h"
 #include "systems/SystemData.h"
 
-#include <utils/StringUtil.h>
+#include <utils/Strings.h>
 
 FileData::FileData(ItemType type, const Path& path, SystemData* system)
 	: mSystem(system),
@@ -29,5 +29,5 @@ std::string FileData::getDisplayName() const
 
 std::string FileData::getScrappableName() const
 {
-  return StringUtil::removeParenthesis(getDisplayName());
+  return Strings::RemoveParenthesis(getDisplayName());
 }

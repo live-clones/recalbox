@@ -1,4 +1,4 @@
-#include <utils/StringUtil.h>
+#include <utils/Strings.h>
 #include "components/HelpComponent.h"
 #include "Renderer.h"
 #include "Settings.h"
@@ -7,8 +7,8 @@
 #include "components/TextComponent.h"
 #include "components/ComponentGrid.h"
 
-#define ICON_TEXT_SPACING std::max(Renderer::getDisplayWidthAsFloat() * 0.004f, 2.0f) // space between [icon] and [text] (px)
-#define ENTRY_SPACING std::max(Renderer::getDisplayWidthAsFloat() * 0.008f, 2.0f) // space between [text] and next [icon] (px)
+#define ICON_TEXT_SPACING Math::max(Renderer::getDisplayWidthAsFloat() * 0.004f, 2.0f) // space between [icon] and [text] (px)
+#define ENTRY_SPACING Math::max(Renderer::getDisplayWidthAsFloat() * 0.008f, 2.0f) // space between [text] and next [icon] (px)
 
 static const std::map<std::string, Path>& IconPathMap()
 {
@@ -69,7 +69,7 @@ void HelpComponent::updateGrid()
 	std::vector< std::shared_ptr<TextComponent> > labels;
 
 	float width = 0;
-	const float height = round(font->getLetterHeight() * 1.25f);
+	const float height = Math::round(font->getLetterHeight() * 1.25f);
 	for (auto& mPrompt : mPrompts)
 	{
 		auto icon = std::make_shared<ImageComponent>(mWindow);
@@ -83,7 +83,7 @@ void HelpComponent::updateGrid()
 		icon->setResize(0, height);
 		icons.push_back(icon);
 
-		auto lbl = std::make_shared<TextComponent>(mWindow, StringUtil::toUpperUTF8(mPrompt.second), font, mStyle.textColor);
+		auto lbl = std::make_shared<TextComponent>(mWindow, Strings::ToUpperUTF8(mPrompt.second), font, mStyle.textColor);
 		labels.push_back(lbl);
 
 		width += icon->getSize().x() + lbl->getSize().x() + ICON_TEXT_SPACING + ENTRY_SPACING;

@@ -5,8 +5,8 @@
 #include "Locale.h"
 #include "MenuThemeData.h"
 
-#define BUTTON_GRID_VERT_PADDING std::max(Renderer::getDisplayHeightAsFloat() * 0.008f, 2.0f)
-#define BUTTON_GRID_HORIZ_PADDING std::max(Renderer::getDisplayWidthAsFloat() * 0.01f, 3.0f)
+#define BUTTON_GRID_VERT_PADDING Math::max(Renderer::getDisplayHeightAsFloat() * 0.008f, 2.0f)
+#define BUTTON_GRID_HORIZ_PADDING Math::max(Renderer::getDisplayWidthAsFloat() * 0.01f, 3.0f)
 
 #define TITLE_HEIGHT (mTitle->getFont()->getLetterHeight() + TITLE_VERT_PADDING)
 
@@ -104,7 +104,7 @@ MenuComponent::MenuComponent(Window* window, const char* title, const std::share
 
 void MenuComponent::setTitle(const char* title, const std::shared_ptr<Font>& font)
 {
-    mTitle->setText(StringUtil::toUpper(title));
+    mTitle->setText(Strings::ToUpperASCII(title));
     mTitle->setFont(font);
 }
 
@@ -133,7 +133,7 @@ void MenuComponent::updateSize()
         }
     }
 
-    float width = std::min(Renderer::getDisplayHeightAsFloat(), Renderer::getDisplayWidthAsFloat() * 0.90f);
+    float width = Math::min(Renderer::getDisplayHeightAsFloat(), Renderer::getDisplayWidthAsFloat() * 0.90f);
     setSize(width, height);
 }
 
@@ -150,7 +150,7 @@ void MenuComponent::onSizeChanged()
 
 void MenuComponent::addButton(const std::string& name, const std::string& helpText, const std::function<void()>& callback)
 {
-    mButtons.push_back(std::make_shared<ButtonComponent>(mWindow, StringUtil::toUpper(name), helpText, callback));
+    mButtons.push_back(std::make_shared<ButtonComponent>(mWindow, Strings::ToUpperASCII(name), helpText, callback));
     updateGrid();
     updateSize();
 }

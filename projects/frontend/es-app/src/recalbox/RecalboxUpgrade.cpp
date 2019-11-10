@@ -3,14 +3,14 @@
 #include "utils/Log.h"
 #include <Locale.h>
 #include <components/BusyComponent.h>
-#include <utils/FileUtil.h>
-#include <utils/StringUtil.h>
+#include <utils/Files.h>
+#include <utils/Strings.h>
 #include <algorithm>
 
 std::string RecalboxUpgrade::getVersion()
 {
   std::string version = Settings::getInstance()->getString("VersionFile");
-  return FileUtil::LoadFile(Path(version));
+  return Files::LoadFile(Path(version));
 }
 
 std::string RecalboxUpgrade::getUpdateVersion()
@@ -85,7 +85,7 @@ std::pair<std::string, int> RecalboxUpgrade::updateSystem(BusyComponent* ui)
   while (fgets(line, 1024, pipe) != nullptr)
   {
     strtok(line, "\n");
-    std::string output = StringUtil::replace(line, "\e[1A\e[K", "");
+    std::string output = Strings::Replace(line, "\e[1A\e[K", "");
     if (output.find(':') != std::string::npos)
     {
 

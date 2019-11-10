@@ -1,4 +1,4 @@
-#include <utils/StringUtil.h>
+#include <utils/Strings.h>
 #include "components/TextComponent.h"
 #include "Renderer.h"
 #include "utils/Log.h"
@@ -183,11 +183,11 @@ void TextComponent::calculateExtent()
 {
 	if(mAutoCalcExtentX)
 	{
-		mSize = mFont->sizeText(mUppercase ? StringUtil::toUpper(mText) : mText, mLineSpacing);
+		mSize = mFont->sizeText(mUppercase ? Strings::ToUpperASCII(mText) : mText, mLineSpacing);
 	}else{
 		if(mAutoCalcExtentY)
 		{
-			mSize[1] = mFont->sizeWrappedText(mUppercase ? StringUtil::toUpper(mText) : mText, getSize().x(), mLineSpacing).y();
+			mSize[1] = mFont->sizeWrappedText(mUppercase ? Strings::ToUpperASCII(mText) : mText, getSize().x(), mLineSpacing).y();
 		}
 	}
 }
@@ -202,7 +202,7 @@ void TextComponent::onTextChanged()
 		return;
 	}
 
-	std::string text = mUppercase ? StringUtil::toUpperUTF8(mText) : mText;
+	std::string text = mUppercase ? Strings::ToUpperUTF8(mText) : mText;
 
 	std::shared_ptr<Font> f = mFont;
 	const bool isMultiline = (mSize.y() == 0 || mSize.y() > f->getHeight()*1.2f);

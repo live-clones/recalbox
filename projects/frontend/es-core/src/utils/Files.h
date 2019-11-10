@@ -2,7 +2,7 @@
 
 #include <utils/os/fs/Path.h>
 
-class FileUtil
+class Files
 {
   public:
     /*!

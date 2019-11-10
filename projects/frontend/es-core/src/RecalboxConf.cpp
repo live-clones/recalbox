@@ -1,6 +1,6 @@
 #include "RecalboxConf.h"
-#include <utils/StringUtil.h>
-#include <utils/FileUtil.h>
+#include <utils/Strings.h>
+#include <utils/Files.h>
 #include "utils/Log.h"
 
 static Path recalboxConfFile("/recalbox/share/system/recalbox.conf");
@@ -47,12 +47,12 @@ bool RecalboxConf::IsValidKeyValue(const std::string& line, std::string& key, st
 bool RecalboxConf::LoadRecalboxConf(bool initialConfigOnly)
 {
   // Load file
-  std::string content = FileUtil::LoadFile(initialConfigOnly ? recalboxConfFileInit : recalboxConfFile);
-  if (content.empty() && !initialConfigOnly) content = FileUtil::LoadFile(recalboxConfFileInit);
+  std::string content = Files::LoadFile(initialConfigOnly ? recalboxConfFileInit : recalboxConfFile);
+  if (content.empty() && !initialConfigOnly) content = Files::LoadFile(recalboxConfFileInit);
 
   // Split lines
-  content = StringUtil::replace(content, "\r", "");
-  StringUtil::stringVector lines = StringUtil::splitString(content, '\n');
+  content = Strings::Replace(content, "\r", "");
+  Strings::Vector lines = Strings::Split(content, '\n');
 
   // Get key/value
   std::string key, value;
@@ -66,12 +66,12 @@ bool RecalboxConf::LoadRecalboxConf(bool initialConfigOnly)
 bool RecalboxConf::SaveRecalboxConf()
 {
   // Load file
-  std::string content = FileUtil::LoadFile(recalboxConfFile);
-  if (content.empty()) content = FileUtil::LoadFile(recalboxConfFileInit);
+  std::string content = Files::LoadFile(recalboxConfFile);
+  if (content.empty()) content = Files::LoadFile(recalboxConfFileInit);
 
   // Split lines
-  content = StringUtil::replace(content, "\r", "");
-  StringUtil::stringVector lines = StringUtil::splitString(content, '\n');
+  content = Strings::Replace(content, "\r", "");
+  Strings::Vector lines = Strings::Split(content, '\n');
 
   // Save new value if exists
   for (auto& it : confMap)
@@ -80,7 +80,7 @@ bool RecalboxConf::SaveRecalboxConf()
     std::string val = it.second;
     bool lineFound = false;
     for (auto& line : lines)
-      if (StringUtil::startsWith(line, key + "=") || StringUtil::startsWith(line, ";" + key + "="))
+      if (Strings::StartsWith(line, key + "=") || Strings::StartsWith(line, ";" + key + "="))
       {
         line = key.append("=").append(val);
         lineFound = true;
@@ -95,7 +95,7 @@ bool RecalboxConf::SaveRecalboxConf()
   // Rename
   Path::Rename(recalboxConfFile, recalboxConfFileBackup);
   // Save new
-  FileUtil::SaveFile(recalboxConfFile, StringUtil::joinStrings(lines, "\r\n"));
+  Files::SaveFile(recalboxConfFile, Strings::Join(lines, "\r\n"));
 
   return true;
 }
@@ -124,7 +124,7 @@ unsigned int RecalboxConf::AsUInt(const std::string& name, unsigned int defaultV
   if (item != confMap.end())
   {
     long int value;
-    if (StringUtil::TryToLong(item->second, value))
+    if (Strings::ToLong(item->second, value))
       return (unsigned int)value;
   }
 
@@ -137,7 +137,7 @@ int RecalboxConf::AsInt(const std::string& name, int defaultValue)
   if (item != confMap.end())
   {
     int value;
-    if (StringUtil::TryToInt(item->second, value))
+    if (Strings::ToInt(item->second, value))
       return value;
   }
 
@@ -166,7 +166,7 @@ void RecalboxConf::SetInt(const std::string& name, unsigned int value)
 
 void RecalboxConf::SetList(const std::string& name, const std::vector<std::string>& values)
 {
-  confMap[name] = StringUtil::joinStrings(values, ",");
+  confMap[name] = Strings::Join(values, ",");
 }
 
 bool RecalboxConf::isInList(const std::string& name, const std::string& value)

@@ -32,7 +32,7 @@ set(CORE_HEADERS
 		src/themes/ThemeExtras.h
 
 		# Utils
-		src/utils/StringUtil.h
+		src/utils/Strings.h
 		src/utils/os/fs/Path.h
 		src/utils/os/fs/StringMapFile.h
 		src/utils/os/system/Thread.h
@@ -49,7 +49,7 @@ set(CORE_HEADERS
 		src/utils/math/Misc.h
 		src/utils/math/Transform4x4f.h
 		src/utils/Stringize.h
-	    src/utils/FileUtil.h
+		src/utils/Files.h
 		src/utils/Xml.h
 
 		# Animations
@@ -134,7 +134,7 @@ set(CORE_SOURCES
 		src/utils/os/system/Mutex.cpp
 		src/utils/os/fs/Path.cpp
 		src/utils/os/fs/StringMapFile.cpp
-		src/utils/StringUtil.cpp
+		src/utils/Strings.cpp
 		src/utils/math/Vector2i.cpp
 		src/utils/math/Vector2f.cpp
 		src/utils/math/Vector3f.cpp
@@ -142,7 +142,7 @@ set(CORE_SOURCES
 		src/utils/math/Vector4f.cpp
 		src/utils/math/Misc.cpp
 		src/utils/math/Transform4x4f.cpp
-	    src/utils/FileUtil.cpp
+		src/utils/Files.cpp
 
 		# Animations
 		src/animations/AnimationController.cpp

@@ -22,7 +22,7 @@ GuiTextEditPopup::GuiTextEditPopup(Window* window, const std::string& title, con
 	addChild(&mBackground);
 	addChild(&mGrid);
 
-	mTitle = std::make_shared<TextComponent>(mWindow, StringUtil::toUpper(title), menuTheme->menuTitle.font, menuTheme->menuTitle.color, TextAlignment::Center);
+	mTitle = std::make_shared<TextComponent>(mWindow, Strings::ToUpperASCII(title), menuTheme->menuTitle.font, menuTheme->menuTitle.color, TextAlignment::Center);
 
 	mText = std::make_shared<TextEditComponent>(mWindow);
 	mText->setValue(initValue);

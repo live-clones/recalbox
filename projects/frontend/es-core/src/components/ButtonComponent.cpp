@@ -1,4 +1,4 @@
-#include <utils/StringUtil.h>
+#include <utils/Strings.h>
 #include "components/ButtonComponent.h"
 #include "Renderer.h"
 #include "Window.h"
@@ -53,7 +53,7 @@ bool ButtonComponent::ProcessInput(const InputCompactEvent& event)
 
 void ButtonComponent::setText(const std::string& text, const std::string& helpText, bool upperCase, bool resize, bool doUpdateHelpPrompts)
 {
-	mText = upperCase ? StringUtil::toUpper(text) : text;
+	mText = upperCase ? Strings::ToUpperASCII(text) : text;
 	mHelpText = helpText;
 
 	mTextCache = std::unique_ptr<TextCache>(mFont->buildTextCache(mText, 0, 0, getCurTextColor()));
@@ -61,7 +61,7 @@ void ButtonComponent::setText(const std::string& text, const std::string& helpTe
 	if (resize)
 	{
 		float minWidth = mFont->sizeText("DELETE").x() + 12;
-		setSize(std::max(mTextCache->metrics.size.x() + 12, minWidth), mTextCache->metrics.size.y() + 8);
+		setSize(Math::max(mTextCache->metrics.size.x() + 12, minWidth), mTextCache->metrics.size.y() + 8);
 	}
 
 	if (doUpdateHelpPrompts)

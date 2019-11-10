@@ -29,9 +29,9 @@ GuiInfoPopup::GuiInfoPopup(Window* window, const std::string& message, int durat
 	maxAlpha = (int)menuTheme->menuBackground.color & 0xFF;
 	mFrameColor = menuTheme->menuBackground.color;
 
-	unsigned int FONT_SIZE_ICON = (unsigned int)(0.04f * std::min(Renderer::getDisplayHeightAsFloat(),
+	unsigned int FONT_SIZE_ICON = (unsigned int)(0.04f * Math::min(Renderer::getDisplayHeightAsFloat(),
                                                                 Renderer::getDisplayWidthAsFloat()));
-	unsigned int FONT_SIZE_TEXT = (unsigned int)(0.02f * std::min(Renderer::getDisplayHeightAsFloat(),
+	unsigned int FONT_SIZE_TEXT = (unsigned int)(0.02f * Math::min(Renderer::getDisplayHeightAsFloat(),
                                                                 Renderer::getDisplayWidthAsFloat()));
 
 	// add a padding to the box
@@ -66,13 +66,13 @@ GuiInfoPopup::GuiInfoPopup(Window* window, const std::string& message, int durat
 
 	if (noIcon){
 		mMsgText->setSize(maxWidth, 0);
-		msgHeight = std::min(maxHeight, mMsgText->getSize().y());
+		msgHeight = Math::min(maxHeight, mMsgText->getSize().y());
 		mGrid.setColWidthPerc(1,1);
 	}
 
 	else {
 		mMsgText->setSize(maxWidth - mMsgIcon->getSize().y(), 0);
-		msgHeight = std::min(maxHeight, std::max(mMsgText->getSize().y(), mMsgIcon->getSize().y()));
+		msgHeight = Math::min(maxHeight, Math::max(mMsgText->getSize().y(), mMsgIcon->getSize().y()));
 		mGrid.setColWidthPerc(0, (float)(mMsgIcon->getFont()->getSize() + paddingX) / maxWidth);
 	}
 

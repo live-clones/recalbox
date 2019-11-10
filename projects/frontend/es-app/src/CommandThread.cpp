@@ -3,7 +3,7 @@
 #include "utils/Log.h"
 #include "views/ViewController.h"
 #include "systems/SystemManager.h"
-#include <utils/StringUtil.h>
+#include <utils/Strings.h>
 #include <netinet/in.h>
 
 CommandThread::CommandThread()
@@ -30,7 +30,7 @@ void CommandThread::Run()
       while (IsRunning())
       {
         std::string frame = ReadUDP();
-        std::vector<std::string> tokens = StringUtil::splitString(frame, '|');
+        std::vector<std::string> tokens = Strings::Split(frame, '|');
         if (tokens.size() < 3) continue;
 
         std::string command = tokens[0];

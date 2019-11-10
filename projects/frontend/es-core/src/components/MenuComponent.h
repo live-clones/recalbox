@@ -2,7 +2,7 @@
 
 #include <guis/GuiInfoPopup.h>
 #include <Settings.h>
-#include <utils/StringUtil.h>
+#include <utils/Strings.h>
 #include "components/NinePatchComponent.h"
 #include "components/ComponentList.h"
 #include "components/TextComponent.h"
@@ -59,7 +59,7 @@ public:
 	{
 		ComponentListRow row;
 		auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
-		row.addElement(std::make_shared<TextComponent>(mWindow, StringUtil::toUpper(_(label.c_str())), menuTheme->menuText.font, menuTheme->menuText.color), true);
+		row.addElement(std::make_shared<TextComponent>(mWindow, Strings::ToUpperASCII(_(label.c_str())), menuTheme->menuText.font, menuTheme->menuText.color), true);
 		row.addElement(comp, false, invert_when_selected);
 		if (acceptCallback) {
 			row.makeAcceptInputHandler(acceptCallback);

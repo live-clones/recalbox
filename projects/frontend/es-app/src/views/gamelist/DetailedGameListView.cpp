@@ -204,7 +204,7 @@ void DetailedGameListView::onThemeChanged(const ThemeData& theme)
   {
     // backward compatibility
     auto size = mImage.getSize().isZero() ? mImage.getTargetSize() : mImage.getSize();
-    float minSize = std::min(size.x(), size.y());
+    float minSize = Math::min(size.x(), size.y());
     float left = mImage.getPosition().x() - mImage.getOrigin().x() * minSize;
     float top = mImage.getPosition().y() - mImage.getOrigin().y() * minSize;
 
@@ -219,7 +219,7 @@ void DetailedGameListView::onThemeChanged(const ThemeData& theme)
     float labelHeight = 2.5f * Font::get(FONT_SIZE_EXTRASMALL)->getLetterHeight();
     top += labelHeight;
 
-    minSize = std::min(size.x(), size.y() - labelHeight);
+    minSize = Math::min(size.x(), size.y() - labelHeight);
 
     const float imgSize = minSize / (grid + 2.0f * relativeMarge);
 

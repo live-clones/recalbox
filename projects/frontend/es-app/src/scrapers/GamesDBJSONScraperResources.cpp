@@ -8,7 +8,7 @@
 #include <rapidjson/document.h>
 #include <rapidjson/error/en.h>
 #include <fstream>
-#include <utils/FileUtil.h>
+#include <utils/Files.h>
 
 using namespace rapidjson;
 
@@ -139,7 +139,7 @@ bool TheGamesDBJSONRequestResources::saveResource(HttpReq* req, std::unordered_m
 
   ensureScrapersResourcesDir();
 
-  FileUtil::SaveFile(file_name, req->getContent());
+  Files::SaveFile(file_name, req->getContent());
   loadResource(resource, resource_name, file_name);
   return true;
 }
@@ -158,7 +158,7 @@ int TheGamesDBJSONRequestResources::loadResource(std::unordered_map<int, std::st
                                                  const std::string& resource_name, const Path& file_name)
 {
   Document doc;
-  doc.Parse(FileUtil::LoadFile(file_name).c_str());
+  doc.Parse(Files::LoadFile(file_name).c_str());
 
   if (doc.HasParseError())
   {

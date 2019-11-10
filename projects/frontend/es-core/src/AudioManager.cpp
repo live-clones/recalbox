@@ -11,7 +11,7 @@
 #include "utils/sdl2/SyncronousEventService.h"
 #include <unistd.h>
 #include <ctime>
-#include <utils/StringUtil.h>
+#include <utils/Strings.h>
 
 std::vector<std::shared_ptr<Sound>> AudioManager::sSoundVector;
 std::vector<std::shared_ptr<Music>> AudioManager::sMusicVector;
@@ -246,7 +246,7 @@ std::vector<Path> getMusicIn(const Path& path)
     if (!musicPath.IsFile()) continue;
 
     // Skip if no match
-    std::string ext = StringUtil::toLower(musicPath.Extension());
+    std::string ext = Strings::ToLowerASCII(musicPath.Extension());
     static std::string supportedExtensions = "|.mp3|.ogg|";
     if (supportedExtensions.find(ext) == std::string::npos) continue;
 
