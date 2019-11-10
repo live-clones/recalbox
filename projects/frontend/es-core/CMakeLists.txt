@@ -50,6 +50,7 @@ set(CORE_HEADERS
 		src/utils/math/Transform4x4f.h
 		src/utils/Stringize.h
 	    src/utils/FileUtil.h
+		src/utils/Xml.h
 
 		# Animations
 		src/animations/Animation.h

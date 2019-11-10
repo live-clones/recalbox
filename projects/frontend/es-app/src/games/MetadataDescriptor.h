@@ -1,7 +1,7 @@
 #pragma once
 
-#include <boost/property_tree/ptree.hpp>
 #include <utils/os/fs/Path.h>
+#include <utils/Xml.h>
 #include "utils/datetime/DateTime.h"
 #include "ItemType.h"
 
@@ -217,10 +217,6 @@ class MetadataDescriptor
     void FreeAll();
 
   public:
-    //! convenient ptree type access
-    typedef boost::property_tree::ptree Tree;
-    typedef std::pair<std::string, Tree> TreeNode;
-
     /*
      * Destructor
      */
@@ -430,14 +426,14 @@ class MetadataDescriptor
      * @param relativeTo Root path
      * @return True of the node has been successfully deserialized
      */
-    bool Deserialize(const TreeNode& from, const Path& relativeTo);
+    bool Deserialize(const XmlNode from, const Path& relativeTo);
 
     /*!
      * Serialize internal data to XML node
      * @param relativeTo Root path
      * @return Serialized XML node
      */
-    void Serialize(Tree& parentTree, const Path& filePath, const Path& relativeTo) const;
+    void Serialize(XmlNode parentTree, const Path& filePath, const Path& relativeTo) const;
 
     /*!
      * Merge value from the source metadata object into the current object

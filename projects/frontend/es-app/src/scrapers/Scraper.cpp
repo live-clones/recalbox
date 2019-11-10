@@ -6,11 +6,9 @@
 #include <utils/FileUtil.h>
 
 #include "GamesDBJSONScraper.h"
-#include "MamedbScraper.h"
 #include "ScreenscraperScraper.h"
 
 #define SCRAPER_THEGAMEDB     "TheGamesDB"
-#define SCRAPER_MAMEDB        "Mamedb"
 #define SCRAPER_SCREENSCRAPER "Screenscraper"
 
 static const std::map<std::string, generate_scraper_requests_func>& getScraperGeneratorList()
@@ -18,7 +16,6 @@ static const std::map<std::string, generate_scraper_requests_func>& getScraperGe
   static const std::map<std::string, generate_scraper_requests_func> scraperRequestFunction =
   {
     {SCRAPER_THEGAMEDB,     &thegamesdb_generate_json_scraper_requests},
-    {SCRAPER_MAMEDB,        &mamedb_generate_scraper_requests},
     {SCRAPER_SCREENSCRAPER, &screenscraper_generate_scraper_requests},
   };
   return scraperRequestFunction;

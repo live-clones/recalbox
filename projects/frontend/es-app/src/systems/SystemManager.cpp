@@ -8,12 +8,11 @@
 #include <Settings.h>
 #include <RecalboxConf.h>
 #include <platform.h>
-#include <boost/property_tree/xml_parser.hpp>
+#include <utils/os/system/ThreadPool.h>
 #include <utils/StringUtil.h>
 #include <utils/os/fs/StringMapFile.h>
 #include <utils/FileUtil.h>
-
-namespace pt = boost::property_tree;
+#include <algorithm>
 
 SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDescriptor)
 {
@@ -98,42 +97,44 @@ SystemData* SystemManager::CreateMetaSystem(const std::string& name, const std::
   return result;
 }
 
-void SystemManager::DeserializeEmulatorTree(const Tree& treeNode, EmulatorList& emulatorList)
+void SystemManager::DeserializeEmulatorTree(const XmlNode emulators, EmulatorList& emulatorList)
 {
   emulatorList.Clear();
-  for (const auto& emuNode : treeNode)
+  for (const auto& emulator : emulators.children("emulator"))
   {
-    const std::string& emulatorName = emuNode.second.get_child("<xmlattr>").get("name", "");
+    const std::string& emulatorName = Xml::AttributeAsString(emulator, "name", "");
     EmulatorDescriptor emulatorDescriptor(emulatorName);
-    for (const auto& coreNode : emuNode.second.get_child("cores"))
-      emulatorDescriptor.AddCore(coreNode.second.data());
+    XmlNode cores = emulator.child("cores");
+    if (cores != nullptr)
+      for (const auto& coreNode : cores.children("core"))
+        emulatorDescriptor.AddCore(coreNode.child_value());
     if (emulatorDescriptor.HasAny()) emulatorList.AddEmulator(emulatorDescriptor);
   }
 }
 
-bool SystemManager::DeserializeSystemDescriptor(const Tree& system, SystemDescriptor& systemDescriptor)
+bool SystemManager::DeserializeSystemDescriptor(const XmlNode system, SystemDescriptor& systemDescriptor)
 {
   systemDescriptor.ClearEmulators();
   systemDescriptor.ClearPlatforms();
 
   // Information
-  systemDescriptor.SetInformation(system.get("path", ""),
-                                  system.get("name", ""),
-                                  system.get("fullname", ""),
-                                  system.get("command", ""),
-                                  system.get("extension", ""),
-                                  system.get("theme", ""));
+  systemDescriptor.SetInformation(Xml::AsString(system, "path", ""),
+                                  Xml::AsString(system, "name", ""),
+                                  Xml::AsString(system, "fullname", ""),
+                                  Xml::AsString(system, "command", ""),
+                                  Xml::AsString(system, "extension", ""),
+                                  Xml::AsString(system, "theme", ""));
 
   // Check
   if (systemDescriptor.IsValid())
   {
     // Emulator tree
     EmulatorList emulatorList;
-    DeserializeEmulatorTree(system.get_child("emulators"), emulatorList);
+    DeserializeEmulatorTree(system.child("emulators"), emulatorList);
     systemDescriptor.SetEmulatorList(emulatorList);
 
     // Platform list
-    std::vector<std::string> platforms = StringUtil::commaStringToVector(system.get("platform", ""));
+    std::vector<std::string> platforms = StringUtil::splitString(Xml::AsString(system, "platform", ""), ' ');
     for (const auto &platform : platforms)
     {
       PlatformIds::PlatformId platformId = PlatformIds::getPlatformId(platform);
@@ -179,35 +180,33 @@ SystemData* SystemManager::ThreadPoolRunJob(SystemDescriptor& system)
   return nullptr;
 }
 
-bool SystemManager::loadSystemNodes(XmlNodeCollisionMap &collisionMap, XmlNodeList &nodeStore, const Tree &document)
+bool SystemManager::loadSystemNodes(XmlNodeCollisionMap &collisionMap, XmlNodeList &nodeStore, const XmlDocument& document)
 {
-  deleteSystems();
   bool result = false;
-  for (const auto& systemNode : document.get_child("systemList"))
-  {
-    // At least one node found
-    result = true;
-
-    // Get system
-    const Tree &system = systemNode.second;
-
-    // Composite key: fullname + platform
-    std::string key = system.get("fullname", "");
-    key += system.get("platform", "");
-    LOG(LogDebug) << "Key: " << key;
-
-    // Already exist in the store ?
-    int index = (collisionMap.find(key) != collisionMap.end()) ? collisionMap[key] : -1;
-
-    // If the system does not exists, add it to the end of list.
-    // Replace the existing entry otherwise.
-    // This way, we keep the original ordering of first-in entries
-    if (index < 0)
+  XmlNode systemList = document.child("systemList");
+  if (systemList != nullptr)
+    for (const XmlNode system : systemList.children("system"))
     {
-      collisionMap[key] = (int) nodeStore.size();
-      nodeStore.push_back(system);
-    } else nodeStore[index] = system;
-  }
+      // At least one node found
+      result = true;
+
+      // Composite key: fullname + platform
+      std::string key = Xml::AsString(system, "fullname", "");
+      key += Xml::AsString(system, "platform", "");
+      LOG(LogDebug) << "Key: " << key;
+
+      // Already exist in the store ?
+      int index = (collisionMap.find(key) != collisionMap.end()) ? collisionMap[key] : -1;
+
+      // If the system does not exists, add it to the end of list.
+      // Replace the existing entry otherwise.
+      // This way, we keep the original ordering of first-in entries
+      if (index < 0)
+      {
+        collisionMap[key] = (int) nodeStore.size();
+        nodeStore.push_back(system);
+      } else nodeStore[index] = system;
+    }
 
   if (!result)
   {
@@ -217,22 +216,18 @@ bool SystemManager::loadSystemNodes(XmlNodeCollisionMap &collisionMap, XmlNodeLi
   return result;
 }
 
-bool SystemManager::loadXmlFile(Tree &document, const Path& filePath)
+bool SystemManager::loadXmlFile(XmlDocument& document, const Path& filePath)
 {
-  try
-  {
-    pt::read_xml(filePath.ToString(), document);
-  }
-  catch (std::exception &e)
+  XmlResult result = document.load_file(filePath.ToChars());
+  if (!result)
   {
     LOG(LogError) << "Could not parse " << filePath.ToString() << " file!";
-    LOG(LogError) << e.what();
     return false;
   }
   return true;
 }
 
-bool SystemManager::loadSystemList(Tree &document, XmlNodeCollisionMap &collisionMap, XmlNodeList &nodeStore, const Path &filePath)
+bool SystemManager::loadSystemList(XmlDocument &document, XmlNodeCollisionMap &collisionMap, XmlNodeList &nodeStore, const Path &filePath)
 {
   // Load user configuration
   if (!filePath.Exists())
@@ -257,11 +252,11 @@ bool SystemManager::AddFavoriteSystem(const XmlNodeList& systemList)
 {
   // Favorite system
   if (!sVisibleSystemVector.empty())
-    for (const Tree &system : systemList)
+    for (const XmlNode system : systemList)
     {
-      std::string name = system.get("name", "");
-      std::string fullname = system.get("fullname", "");
-      std::string themeFolder = system.get("theme", "");
+      std::string name = Xml::AsString(system, "name", "");
+      std::string fullname = Xml::AsString(system, "fullname", "");
+      std::string themeFolder = Xml::AsString(system, "theme", "");
 
       if (name == "favorites")
       {
@@ -324,10 +319,11 @@ bool SystemManager::loadConfig()
 
   // System store
   XmlNodeCollisionMap systemMap;    // System key to vector index
-  XmlNodeList systemList;  // Sorted storage, keeping original system node ordering
+  XmlNodeList systemList;           // Sorted storage, keeping original system node ordering
+
   // XML Documents - declared here to keep node memory allocated
-  pt::ptree templateDocument;
-  pt::ptree userDocument;
+  XmlDocument templateDocument;
+  XmlDocument userDocument;
 
   // Load user systems
   bool userValid = loadSystemList(userDocument, systemMap, systemList, getUserConfigurationAbsolutePath());
@@ -350,10 +346,10 @@ bool SystemManager::loadConfig()
   // Create automatic thread-pool
   ThreadPool<SystemDescriptor, SystemData*> threadPool(this, "System-Loader", -2, false);
   // Push system to process
-  for (const Tree& system : systemList)
+  for (const XmlNode system : systemList)
   {
     // Get weight
-    std::string key = system.get("path", "unknown");
+    std::string key = Xml::AsString(system, "path", "unknown");
     //key = StringUtil::replace(key, "roms", "romstest");
     int weight = weights.GetInt(key, 0);
     // Create system descriptor

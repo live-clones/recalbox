@@ -265,15 +265,16 @@ bool MetadataDescriptor::StringToFloat(const std::string& from, float& to)
   return true;
 }
 
-bool MetadataDescriptor::Deserialize(const TreeNode& from, const Path& relativeTo)
+bool MetadataDescriptor::Deserialize(const XmlNode from, const Path& relativeTo)
 {
   #ifdef _METADATA_STATS_
     if (_Type == ItemType::Game) LivingGames--;
     if (_Type == ItemType::Folder) LivingFolders--;
   #endif
 
-  if (from.first == GameNodeIdentifier) _Type = ItemType::Game;
-  else if (from.first == FolderNodeIdentifier) _Type = ItemType::Folder;
+  std::string name = from.name();
+  if (name == GameNodeIdentifier) _Type = ItemType::Game;
+  else if (name == FolderNodeIdentifier) _Type = ItemType::Folder;
   else return false; // Unidentified node
 
   #ifdef _METADATA_STATS_
@@ -294,7 +295,7 @@ bool MetadataDescriptor::Deserialize(const TreeNode& from, const Path& relativeT
 
     // Get field data as string
     const std::string& defaultStringValue = field.DefaultValue();
-    std::string value = from.second.get(field.Key(), defaultStringValue);
+    std::string value = Xml::AsString(from, field.Key(), defaultStringValue);
     // Ignore default values
     if (value == defaultStringValue) continue;
 
@@ -405,18 +406,18 @@ bool MetadataDescriptor::Deserialize(const TreeNode& from, const Path& relativeT
   return true;
 }
 
-void MetadataDescriptor::Serialize(Tree& parentTree, const Path& filePath, const Path& relativeTo) const
+void MetadataDescriptor::Serialize(XmlNode parentNode, const Path& filePath, const Path& relativeTo) const
 {
   int count = 0;
   const MetadataFieldDescriptor* fields = GetMetadataFieldDescriptors(_Type, count);
 
   // Add empty node game/folder
-  Tree& tree = parentTree.add_child(_Type == ItemType::Game ? GameNodeIdentifier : FolderNodeIdentifier, Tree());
+  XmlNode node = parentNode.append_child(_Type == ItemType::Game ? GameNodeIdentifier.c_str() : FolderNodeIdentifier.c_str());
 
   // Add path
   bool dummy;
   Path relative = filePath.MakeRelative(relativeTo, dummy);
-  tree.put("path", relative.ToString());
+  Xml::AddAsString(node, "path", relative.ToChars());
 
   // Metadata
   for (; --count >= 0; )
@@ -438,56 +439,56 @@ void MetadataDescriptor::Serialize(Tree& parentTree, const Path& filePath, const
       case MetadataFieldDescriptor::DataType::String:
       case MetadataFieldDescriptor::DataType::Text:
       {
-        tree.put(field.Key(), *((std::string*)source));
+        Xml::AddAsString(node, field.Key(), *((std::string*)source));
         break;
       }
       case MetadataFieldDescriptor::DataType::PString:
       case MetadataFieldDescriptor::DataType::PList:
       {
-        tree.put(field.Key(), ReadPString(*((std::string**)source), DefaultValueEmpty));
+        Xml::AddAsString(node, field.Key(), ReadPString(*((std::string**)source), DefaultValueEmpty));
         break;
       }
       case MetadataFieldDescriptor::DataType::PPath:
       {
-        tree.put(field.Key(), ReadPPath(*((Path**)source), Path()).MakeRelative(relativeTo, dummy).ToString());
+        Xml::AddAsString(node, field.Key(), ReadPPath(*((Path**)source), Path()).MakeRelative(relativeTo, dummy).ToString());
         break;
       }
       case MetadataFieldDescriptor::DataType::Path:
       {
-        tree.put(field.Key(), (*((Path*)source)).MakeRelative(relativeTo, dummy).ToString());
+        Xml::AddAsString(node, field.Key(), (*((Path*)source)).MakeRelative(relativeTo, dummy).ToString());
         break;
       }
       case MetadataFieldDescriptor::DataType::Int:
       {
-        tree.put(field.Key(), *((int*)source)); // Autoboxing std::string(int)
+        Xml::AddAsString(node, field.Key(), *((int*)source)); // Autoboxing std::string(int)
         break;
       }
       case MetadataFieldDescriptor::DataType::Bool:
       {
-        tree.put(field.Key(), *((bool*)source) ? "true" : "false");
+        Xml::AddAsString(node, field.Key(), *((bool*)source) ? "true" : "false");
         break;
       }
       case MetadataFieldDescriptor::DataType::Float:
       case MetadataFieldDescriptor::DataType::Rating:
       {
-        tree.put(field.Key(), *((float*)source)); // Autoboxing std::string(float)
+        Xml::AddAsString(node, field.Key(), *((float*)source)); // Autoboxing std::string(float)
         break;
       }
       case MetadataFieldDescriptor::DataType::Date:
       {
-        tree.put(field.Key(), DateTime((long long)*((int*)source)).ToUtc().ToCompactISO8601());
+        Xml::AddAsString(node, field.Key(), DateTime((long long)*((int*)source)).ToUtc().ToCompactISO8601());
         break;
       }
       case MetadataFieldDescriptor::DataType::Range:
       {
-        tree.put(field.Key(), IntToRange(*((int*)source)));
+        Xml::AddAsString(node, field.Key(), IntToRange(*((int*)source)));
         break;
       }
       case MetadataFieldDescriptor::DataType::Crc32:
       {
         std::string value;
         IntToHex(*((int*)source), value);
-        tree.put(field.Key(), value);
+        Xml::AddAsString(node, field.Key(), value);
         break;
       }
       default: throw std::logic_error("Unknown field type");

@@ -2,12 +2,9 @@
 
 #include "SystemData.h"
 #include "SystemDescriptor.h"
-#include <utils/os/system/ThreadPool.h>
 #include <utils/os/system/ThreadPoolWorkerInterface.h>
 #include <RootFolders.h>
-
-//! convenient ptree type access
-typedef boost::property_tree::ptree Tree;
+#include <utils/Xml.h>
 
 class SystemManager :
   public ThreadPoolWorkerInterface<SystemDescriptor, SystemData*>, // Multi-threaded system loading
@@ -17,7 +14,7 @@ class SystemManager :
     //! Convenient alias for system collision map
     typedef std::map<std::string, int> XmlNodeCollisionMap;
     //! Convenient alias for XML node list
-    typedef std::vector<Tree> XmlNodeList;
+    typedef std::vector<XmlNode> XmlNodeList;
     //! Convenient alias for System list
     typedef std::vector<SystemData*> SystemList;
 
@@ -44,7 +41,7 @@ class SystemManager :
      * @param document Source document
      * @return true if the system list contains one or more system. False if the systemList node does not exist or is empty.
      */
-    bool loadSystemNodes(XmlNodeCollisionMap& collisionMap, XmlNodeList& nodeStore, const Tree& document);
+    bool loadSystemNodes(XmlNodeCollisionMap& collisionMap, XmlNodeList& nodeStore, const XmlDocument& document);
 
     /*!
      * Load systemList file into the given XML Document, then parse and store systems into the given node store
@@ -54,7 +51,7 @@ class SystemManager :
      * @param nodeStore System node store
      * @return true if the operation is successful and at least one system has been processed. False otherwise
      */
-    bool loadSystemList(Tree& document, XmlNodeCollisionMap& collisionMap, XmlNodeList& nodeStore, const Path& filepath);
+    bool loadSystemList(XmlDocument& document, XmlNodeCollisionMap& collisionMap, XmlNodeList& nodeStore, const Path& filepath);
 
     /*!
      * Load and parse the given file to populate a property tree
@@ -62,7 +59,7 @@ class SystemManager :
      * @param filepath Filepath to load & parse
      * @return false if the file does not exist or if the file is not parsable.
      */
-    static bool loadXmlFile(Tree& document, const Path& filepath);
+    static bool loadXmlFile(XmlDocument& document, const Path& filepath);
 
     bool AddFavoriteSystem(const XmlNodeList& systemList);
 
@@ -81,8 +78,8 @@ class SystemManager :
     static Path getUserConfigurationAbsolutePath()     { return RootFolders::DataRootFolder     / "system/.emulationstation/es_systems.cfg"; }
     static Path getTemplateConfigurationAbsolutePath() { return RootFolders::TemplateRootFolder / "system/.emulationstation/es_systems.cfg"; }
 
-    static void DeserializeEmulatorTree(const Tree& treeNode, EmulatorList& emulatorList);
-    static bool DeserializeSystemDescriptor(const Tree& treeNode, SystemDescriptor& systemDescriptor);
+    static void DeserializeEmulatorTree(const XmlNode treeNode, EmulatorList& emulatorList);
+    static bool DeserializeSystemDescriptor(const XmlNode treeNode, SystemDescriptor& systemDescriptor);
 
     /*
      * ThreadPoolWorkingInterface implementation

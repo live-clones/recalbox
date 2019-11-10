@@ -5,6 +5,7 @@
 #include <components/BusyComponent.h>
 #include <utils/FileUtil.h>
 #include <utils/StringUtil.h>
+#include <algorithm>
 
 std::string RecalboxUpgrade::getVersion()
 {

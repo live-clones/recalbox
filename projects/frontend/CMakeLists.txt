@@ -56,7 +56,7 @@ find_package(Freetype REQUIRED)
 find_package(FreeImage REQUIRED)
 find_package(SDL2MIXER REQUIRED)
 find_package(SDL2 REQUIRED) 
-find_package(Boost REQUIRED COMPONENTS system filesystem date_time regex locale thread)
+#find_package(Boost REQUIRED COMPONENTS system filesystem date_time regex locale thread)
 find_package(Eigen3 REQUIRED)
 find_package(CURL REQUIRED)
 
@@ -115,7 +115,7 @@ set(COMMON_INCLUDE_DIRS
     ${FREETYPE_INCLUDE_DIRS}
     ${FreeImage_INCLUDE_DIRS}
     ${SDL2_INCLUDE_DIR}
-    ${Boost_INCLUDE_DIRS}
+    #${Boost_INCLUDE_DIRS}
     ${CURL_INCLUDE_DIR}
 )
 
@@ -138,10 +138,10 @@ endif()
 
 #-------------------------------------------------------------------------------
 #define libraries and directories
-link_directories(${Boost_LIBRARY_DIRS})
+#link_directories(${Boost_LIBRARY_DIRS})
 
 set(COMMON_LIBRARIES
-    ${Boost_LIBRARIES}
+    #${Boost_LIBRARIES}
     ${FREETYPE_LIBRARIES}
     ${FreeImage_LIBRARIES}
 	${SDL2_LIBRARY}

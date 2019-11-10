@@ -14,9 +14,6 @@ class SystemData
 	private:
     friend class SystemManager;
 
-    //! convenient ptree type access
-    typedef boost::property_tree::ptree Tree;
-
     //! Descriptor
     SystemDescriptor mDescriptor;
     //! Theme object

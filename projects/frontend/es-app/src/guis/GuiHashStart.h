@@ -5,6 +5,8 @@
 
 #include "GuiComponent.h"
 #include "systems/SystemData.h"
+#include <utils/os/system/Mutex.h>
+#include <utils/os/system/Thread.h>
 #include "components/MenuComponent.h"
 #include "components/BusyComponent.h"
 

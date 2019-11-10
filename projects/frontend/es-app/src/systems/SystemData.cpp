@@ -9,19 +9,12 @@
 #include <utils/StringUtil.h>
 #include <utils/FileUtil.h>
 #include <Settings.h>
-#include <boost/property_tree/xml_parser.hpp>
-
-namespace pt = boost::property_tree;
 
 EmulatorDescriptor EmulatorList::sEmptyEmulator("NO EMULATOR");
 
-SystemData::SystemData(const SystemDescriptor& descriptor,
-                       bool childOwnership,
-                       bool favorite)
-  : mDescriptor(descriptor),
-    mRootFolder(childOwnership, descriptor.RomPath(), this),
-    mSortId(RecalboxConf::Instance().AsUInt(mDescriptor.Name() + ".sort")),
-    mIsFavorite(favorite)
+SystemData::SystemData(const SystemDescriptor& descriptor, bool childOwnership, bool favorite)
+  : mDescriptor(descriptor), mRootFolder(childOwnership, descriptor.RomPath(), this),
+    mSortId(RecalboxConf::Instance().AsUInt(mDescriptor.Name() + ".sort")), mIsFavorite(favorite)
 {
   // Set name
   mRootFolder.Metadata().SetName(mDescriptor.FullName());
@@ -121,7 +114,8 @@ void SystemData::demoFinalize(Window& window)
   window.normalizeNextUpdate();
 }
 
-bool SystemData::DemoRunGame(const FileData& game, int duration, int infoscreenduration, const std::string& controlersConfig)
+bool
+SystemData::DemoRunGame(const FileData& game, int duration, int infoscreenduration, const std::string& controlersConfig)
 {
   std::string command = mDescriptor.Command();
 
@@ -169,8 +163,8 @@ bool SystemData::DemoRunGame(const FileData& game, int duration, int infoscreend
 
 void SystemData::populateFolder(FolderData* folder, FileData::StringMap& doppelgangerWatcher)
 {
-  LOG(LogInfo) << folder->getSystem()->getFullName() << ": Searching games/roms in "
-               << folder->getPath().ToString() << "...";
+  LOG(LogInfo) << folder->getSystem()->getFullName() << ": Searching games/roms in " << folder->getPath().ToString()
+               << "...";
 
   try
   {
@@ -243,12 +237,16 @@ std::string SystemData::getLocalizedText(const std::string& source)
   std::string locale = StringUtil::toLower(RecalboxConf::Instance().AsString("system.language", "en_US"));
 
   // Get start
-  std::string key = "["; key += locale; key += "]";
+  std::string key = "[";
+  key += locale;
+  key += "]";
   unsigned long start = source.find(key);
   if (start == std::string::npos)
   {
-    std::string language = (locale.length() == 5) ? locale.substr(0,2) : "en";
-    key = "["; key += language; key += "]";
+    std::string language = (locale.length() == 5) ? locale.substr(0, 2) : "en";
+    key = "[";
+    key += language;
+    key += "]";
     start = source.find(key);
     if (start == std::string::npos)
     {
@@ -308,22 +306,22 @@ void SystemData::overrideFolderInformation(FileData* folderdata)
   }
 }
 
-FileData* SystemData::LookupOrCreateGame(const Path& path, ItemType type,
-                                         FileData::StringMap& doppelgangerWatcher)
+FileData* SystemData::LookupOrCreateGame(const Path& path, ItemType type, FileData::StringMap& doppelgangerWatcher)
 {
   // first, verify that path is within the system's root folder
   FolderData* root = getRootFolder();
 
   if (!path.StartWidth(root->getPath()))
   {
-    LOG(LogError) << "File path \"" << path.ToString() << "\" is outside system path \"" << getStartPath().ToString() << "\"";
+    LOG(LogError) << "File path \"" << path.ToString() << "\" is outside system path \"" << getStartPath().ToString()
+                  << "\"";
     return nullptr;
   }
 
   int itemStart = root->getPath().ItemCount();
   int itemLast = path.ItemCount() - 1;
   FolderData* treeNode = root;
-  for(int itemIndex = itemStart; itemIndex <= itemLast; ++itemIndex)
+  for (int itemIndex = itemStart; itemIndex <= itemLast; ++itemIndex)
   {
     // Get the key for duplicate detection. MUST MATCH KEYS USED IN populateRecursiveFolder.populateRecursiveFolder - Always fullpath
     std::string key = path.UptoItem(itemIndex);
@@ -346,7 +344,7 @@ FileData* SystemData::LookupOrCreateGame(const Path& path, ItemType type,
       }
       else // Final folder (scrapped obviously)
       {
-        FolderData* folder = (FolderData*)item;
+        FolderData* folder = (FolderData*) item;
         if (folder == nullptr)
         {
           // create missing folder
@@ -359,7 +357,7 @@ FileData* SystemData::LookupOrCreateGame(const Path& path, ItemType type,
     }
     else // Intermediate path
     {
-      FolderData* folder = (FolderData*)item;
+      FolderData* folder = (FolderData*) item;
       if (folder == nullptr)
       {
         // create missing folder
@@ -379,45 +377,41 @@ void SystemData::ParseGamelistXml(FileData::StringMap& doppelgangerWatcher)
   try
   {
     Path xmlpath = getGamelistPath(false);
+    if (!xmlpath.Exists()) return;
 
-    if(!xmlpath.Exists())
-      return;
-
-    MetadataDescriptor::Tree gameList;
-    try
+    XmlDocument gameList;
+    XmlResult result = gameList.load_file(xmlpath.ToChars());
+    if (!result)
     {
-      pt::read_xml(xmlpath.ToString(), gameList, 0, std::locale("en_US.UTF8"));
-    }
-    catch(std::exception& e)
-    {
-      LOG(LogError) << "Could not parse " << xmlpath.ToString() <<" file!";
-      LOG(LogError) << e.what();
+      LOG(LogError) << "Could not parse " << xmlpath.ToString() << " file!";
       return;
     }
 
     Path relativeTo = getStartPath();
-    for (const auto& fileNode : gameList.get_child("gameList"))
-    {
-      ItemType type;
-      if (fileNode.first == "game") type = ItemType::Game;
-      else if (fileNode.first == "folder") type = ItemType::Folder;
-      else continue; // Unknown node
-
-      const MetadataDescriptor::Tree& children = fileNode.second;
-      Path path = relativeTo / children.get("path", "");
-
-      FileData* file = LookupOrCreateGame(path, type, doppelgangerWatcher);
-      if(file == nullptr)
+    XmlNode games = gameList.child("gameList");
+    if (games != nullptr)
+      for (const XmlNode fileNode : games.children())
       {
-        LOG(LogError) << "Error finding/creating FileData for \"" << path.ToString() << "\", skipping.";
-        continue;
-      }
+        ItemType type;
+        std::string name = fileNode.name();
+        if (name == "game") type = ItemType::Game;
+        else if (name == "folder") type = ItemType::Folder;
+        else continue; // Unknown node
 
-      // load the metadata
-      file->Metadata().Deserialize(fileNode, relativeTo);
-    }
+        Path path = relativeTo / Xml::AsString(fileNode, "path", "");
+
+        FileData* file = LookupOrCreateGame(path, type, doppelgangerWatcher);
+        if (file == nullptr)
+        {
+          LOG(LogError) << "Error finding/creating FileData for \"" << path.ToString() << "\", skipping.";
+          continue;
+        }
+
+        // load the metadata
+        file->Metadata().Deserialize(fileNode, relativeTo);
+      }
   }
-  catch(std::exception& ex)
+  catch (std::exception& ex)
   {
     LOG(LogError) << "System \"" << getName() << "\" has raised an error while reading its gamelist.xml!";
     LOG(LogError) << "Exception: " << ex.what();
@@ -437,7 +431,7 @@ void SystemData::UpdateGamelistXml()
     /*
      * Get all folder & games in a flat storage
      */
-    FolderData *rootFolder = getRootFolder();
+    FolderData* rootFolder = getRootFolder();
     if (rootFolder == nullptr) return;
 
     FileData::List fileData = rootFolder->getAllItemsRecursively(true);
@@ -447,9 +441,9 @@ void SystemData::UpdateGamelistXml()
     /*
      * Create game/folder map for fast seeking using relative path as key
      */
-    std::unordered_map<std::string, const FileData *> fileLinks;
+    std::unordered_map<std::string, const FileData*> fileLinks;
     bool ok = false;
-    for (const FileData *file : fileData)                                                      // For each File
+    for (const FileData* file : fileData)                                                      // For each File
       if (file->Metadata().IsDirty())                                                          // with updated metadata
         fileLinks[file->getPath().MakeRelative(getStartPath(), ok).ToString()] = file; // store the relative path
     // Nothing changed?
@@ -459,42 +453,39 @@ void SystemData::UpdateGamelistXml()
      * Load or create gamelist node
      */
     Path xmlReadPath = getGamelistPath(false);
-    MetadataDescriptor::Tree document;
+    XmlDocument document;
     if (xmlReadPath.Exists())
     {
-      try
-      {
-        pt::read_xml(xmlReadPath.ToString(), document, pt::xml_parser::trim_whitespace, std::locale("en_US.UTF8"));
-      }
-      catch (std::exception &e)
+      XmlDocument gameList;
+      XmlResult result = gameList.load_string(xmlReadPath.ToChars());
+      if (!result)
       {
         LOG(LogError) << "Could not parse " << xmlReadPath.ToString() << " file!";
-        LOG(LogError) << e.what();
+        return;
       }
-    } else
+    }
+    else
     {
       // Create empty game list node
-      document.add_child("gameList", MetadataDescriptor::Tree());
+      document.append_child("gameList");
     }
-    MetadataDescriptor::Tree &gameList = document.get_child("gameList");
+    XmlNode gameList = document.child("gameList");
 
     /*
      * Update pass #1 : Remove node from the gamelist where corresponding metadata have changed
      */
-    for (auto it = gameList.begin(); it != gameList.end();)                         // For each gamelist entry
-      if (fileLinks.find((*it).second.get("path", "")) != fileLinks.end())          // corresponding to an updated file
-        it = gameList.erase(it);                                                    // delete the entry from the gamelist
-      else
-        ++it;
+    for (XmlNode node : gameList)                                                   // For each gamelist entry
+      if (fileLinks.find(Xml::AsString(node, "path", "")) != fileLinks.end())       // corresponding to an updated file
+        gameList.remove_child(
+          node);                                                // delete the entry from the gamelist
 
     /*
      * Update pass #2 - Insert new/updated game/folder nodes into the gamelist node
      */
-    for (const FileData *file : fileData)                                 // For each file
+    for (const FileData* file : fileData)                                 // For each file
       if (file->Metadata().IsDirty())                                     // If metadata have changed
         file->Metadata().Serialize(gameList,                              // Insert updated node
-                                   file->getPath(),
-                                   getStartPath());
+                                   file->getPath(), getStartPath());
 
     /*
      * Write the list.
@@ -502,19 +493,14 @@ void SystemData::UpdateGamelistXml()
      */
     Path xmlWritePath(getGamelistPath(true));
     xmlWritePath.Directory().CreatePath();
-    try
+    if (document.save_file(xmlWritePath.ToChars()))
     {
-      pt::xml_writer_settings<std::string> settings(' ', 2);
-      pt::write_xml(xmlWritePath.ToString(), document, std::locale("en_US.UTF8"), settings);
-      LOG(LogInfo) << "Saved gamelist.xml for system " << getFullName() << ". Updated items: " << fileLinks.size() << "/" << fileData.size();
+      LOG(LogInfo) << "Saved gamelist.xml for system " << getFullName() << ". Updated items: " << fileLinks.size()
+                   << "/" << fileData.size();
     }
-    catch (std::exception &e)
-    {
-      LOG(LogError) << "Failed to save " << xmlWritePath.ToString() << " : " << e.what();
-    }
-
+    else LOG(LogError) << "Failed to save " << xmlWritePath.ToString();
   }
-  catch(std::exception& e)
+  catch (std::exception& e)
   {
     LOG(LogError) << "Something went wrong while saving " << getFullName() << " : " << e.what();
   }

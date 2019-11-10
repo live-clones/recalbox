@@ -6,6 +6,7 @@
 #include "utils/Log.h"
 #include "systems/SystemData.h"
 #include "MameNameMap.h"
+#include <algorithm>
 
 #define CastFolder(f) ((FolderData*)(f))
 
