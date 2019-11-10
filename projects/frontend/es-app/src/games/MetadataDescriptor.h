@@ -2,10 +2,11 @@
 
 #include <utils/os/fs/Path.h>
 #include <utils/Xml.h>
-#include "utils/datetime/DateTime.h"
+#include <utils/datetime/DateTime.h>
+#include <utils/Strings.h>
 #include "ItemType.h"
 
-#define _METADATA_STATS_
+//#define _METADATA_STATS_
 
 // Forward declaration (MetadataFieldDescriptor must indlude MetadataDescriptor)
 class MetadataFieldDescriptor;
@@ -159,7 +160,6 @@ class MetadataDescriptor
      */
     static const MetadataFieldDescriptor* GetMetadataFieldDescriptors(ItemType type, int& count);
 
-    static std::string FloatToString(float source, int precision);
     /*!
      * Convert integer range to string: low-high
      * @param range Integer range: Highest into MSB, Lowest into LSB
@@ -426,7 +426,7 @@ class MetadataDescriptor
      * @param relativeTo Root path
      * @return True of the node has been successfully deserialized
      */
-    bool Deserialize(const XmlNode from, const Path& relativeTo);
+    bool Deserialize(XmlNode from, const Path& relativeTo);
 
     /*!
      * Serialize internal data to XML node
@@ -491,7 +491,7 @@ class MetadataDescriptor
     std::string GenreAsString()       const { return _Genre;                                       }
     std::string RegionAsString()      const { return ReadPString(_Region, DefaultValueEmpty);      }
 
-    std::string RatingAsString()      const { return FloatToString(_Rating, 4);                            }
+    std::string RatingAsString()      const { return Strings::ToString(_Rating, 4);                            }
     std::string PlayersAsString()     const { return IntToRange(_Players);                                 }
     std::string ReleaseDateAsString() const { return _ReleaseDate != 0 ? DateTime((long long)_ReleaseDate).ToCompactISO8601() : ""; }
     std::string PlayCountAsString()   const { return std::to_string(_Playcount);                           }

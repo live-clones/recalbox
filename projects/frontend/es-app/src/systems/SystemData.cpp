@@ -9,6 +9,7 @@
 #include <utils/Strings.h>
 #include <utils/Files.h>
 #include <Settings.h>
+#include <themes/ThemeException.h>
 
 EmulatorDescriptor EmulatorList::sEmptyEmulator("NO EMULATOR");
 
@@ -66,11 +67,11 @@ void SystemData::RunGame(Window& window, FileData& game, const std::string& netp
   else command = Strings::Replace(command, "%NETPLAY%", "");
 
   LOG(LogInfo) << "	" << command;
-  std::cout << "==============================================\n";
+  printf("==============================================\n");
   RecalboxSystem::NotifyGame(game, true, false);
   int exitCode = runSystemCommand(command);
   RecalboxSystem::NotifyGame(game, false, false);
-  std::cout << "==============================================\n";
+  printf("==============================================\n");
 
   if (exitCode != 0)
     LOG(LogWarning) << "...launch terminated with nonzero exit code " << exitCode << "!";

@@ -80,6 +80,12 @@ class Strings
 
     static bool ToBool(const std::string& source, bool& out) { return ToBool(source, 0, 0, out); }
 
+    static bool HexToInt(const std::string& from, int index, char stop, int& out);
+
+    static bool HexToInt(const std::string& from, int index, int& out) { return HexToInt(from, index, 0, out); }
+
+    static bool HexToInt(const std::string& from, int& out) { return HexToInt(from, 0, 0, out); }
+
     static std::string ToString(int integer);
 
     static std::string ToString(unsigned int integer);

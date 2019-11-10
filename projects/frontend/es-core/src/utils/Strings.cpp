@@ -584,3 +584,30 @@ std::string Strings::ToString(float value, int precision)
 
   return std::string(Buffer + Index, (INT64BUFFERLEN - 1) - Index);
 }
+
+bool Strings::HexToInt(const std::string& from, int index, char stop, int& out)
+{
+  if (index >= (int)from.size()) return false;
+  const char* src = from.c_str() + index;
+
+  if (src[0] != 0)
+    if (src[1] != 0)
+      if ((src[0] == '0') && (src[1] == 'x')) src += 2;
+
+  int Result = 0;
+  for (;; src++)
+  {
+    int v = src[0];
+    if ((unsigned int)(v - 0x30) <= 9) { Result <<= 4; Result += v - 0x30; }
+    else
+    {
+      v &= 0xDF;
+      if ((unsigned int)(v - 0x41) <= 5) { Result <<= 4; Result += v - 0x37; }
+      else break;
+    }
+  }
+  if (src[0] != stop) return false;
+
+  out = Result;
+  return true;
+}

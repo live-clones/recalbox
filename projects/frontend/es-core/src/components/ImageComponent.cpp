@@ -1,6 +1,4 @@
 #include "components/ImageComponent.h"
-#include <iostream>
-#include <cmath>
 #include "utils/Log.h"
 #include "Renderer.h"
 #include "themes/ThemeData.h"

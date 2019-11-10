@@ -1,6 +1,4 @@
 #include "components/VideoComponent.h"
-#include <iostream>
-#include <cmath>
 #include <VideoEngine.h>
 #include <utils/datetime/DateTime.h>
 #include "utils/Log.h"

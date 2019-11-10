@@ -30,6 +30,7 @@ set(CORE_HEADERS
 		src/themes/ThemeData.h
 		src/themes/ThemeElement.h
 		src/themes/ThemeExtras.h
+		src/themes/ThemeException.h
 
 		# Utils
 		src/utils/Strings.h

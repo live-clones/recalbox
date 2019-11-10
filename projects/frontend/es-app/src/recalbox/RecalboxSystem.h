@@ -88,6 +88,10 @@ class RecalboxSystem
     static void NotifySystem(const SystemData& system) { NotifySystemAndGame(&system, nullptr, false, false); }
 
   private:
+    static std::string BuildSettingsCommand(const std::string& arguments);
+
+    static Strings::Vector ExecuteSettingsCommand(const std::string& arguments);
+
     static bool halt(bool reboot, bool fast);
 
     static std::string runCmd(const std::string& cmd);

@@ -1,7 +1,4 @@
 #include "platform.h"
-#include <cstdio>
-#include <cstdlib>
-#include <iostream>
 #include <cstring>
 #include "utils/Log.h"
 

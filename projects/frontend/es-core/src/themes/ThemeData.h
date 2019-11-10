@@ -1,7 +1,5 @@
 #pragma once
 
-#include <iostream>
-#include <sstream>
 #include <map>
 #include <deque>
 #include <string>
@@ -17,34 +15,6 @@ class ImageComponent;
 class NinePatchComponent;
 class TextComponent;
 class Window;
-
-class ThemeException : public std::exception
-{
-public:
-	std::string msg;
-
-	const char* what() const noexcept override { return msg.c_str(); }
-
-	template<typename T>
-	friend ThemeException& operator<<(ThemeException& e, T msg);
-	
-	inline void setFiles(const std::deque<Path>& deque)
-	{
-		*this << "from theme \"" << deque.front().ToString() << "\"\n";
-		for (auto it = deque.begin() + 1; it != deque.end(); it++)
-			*this << "  (from included file \"" << (*it).ToString() << "\")\n";
-		*this << "    ";
-	}
-};
-
-template<typename T>
-ThemeException& operator<<(ThemeException& e, T appendMsg)
-{
-	std::stringstream ss;
-	ss << e.msg << appendMsg;
-	e.msg = ss.str();
-	return e;
-}
 
 class ThemeSet
 {
@@ -125,12 +95,15 @@ class ThemeData
     void parseViews(const pugi::xml_node& themeRoot);
     void parseView(const pugi::xml_node& viewNode, ThemeView& view);
     void parseElement(const pugi::xml_node& elementNode, const std::map<std::string, ElementProperty>& typeMap, ThemeElement& element);
-    bool parseRegion(const pugi::xml_node& root);
+    static bool parseRegion(const pugi::xml_node& root);
     bool parseSubset(const pugi::xml_node& node);
     static void crawlIncludes(const pugi::xml_node& root, std::map<std::string, std::string>& sets, std::deque<Path>& dequepath);
     static void findRegion(const pugi::xml_document& doc, std::map<std::string, std::string>& sets);
 
-    std::string resolveSystemVariable(const std::string& systemThemeFolder, const std::string& path);
+    static std::string resolveSystemVariable(const std::string& systemThemeFolder, const std::string& path)
+    {
+      return Strings::Replace(path, "$system", systemThemeFolder);
+    }
 
     std::map<std::string, ThemeView> mViews;
 };

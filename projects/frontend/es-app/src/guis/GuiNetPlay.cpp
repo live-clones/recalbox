@@ -13,7 +13,6 @@
 #include <systems/SystemManager.h>
 #include <rapidjson/rapidjson.h>
 #include <rapidjson/pointer.h>
-#include <fstream>
 #include <utils/Files.h>
 
 #define BUTTON_GRID_VERT_PADDING Renderer::getDisplayHeightAsFloat() * 0.025f

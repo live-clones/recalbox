@@ -30,12 +30,10 @@ std::string RecalboxUpgrade::getUpdateVersion()
 
 bool RecalboxUpgrade::updateLastChangelogFile()
 {
-  std::ostringstream oss;
-  oss << "cp  " << Settings::getInstance()->getString("Changelog").c_str() << " "
-      << Settings::getInstance()->getString("LastChangelog").c_str();
-  if (std::system(oss.str().c_str()) != 0)
+  std::string cmd =  "cp " + Settings::getInstance()->getString("Changelog") + ' ' + Settings::getInstance()->getString("LastChangelog");
+  if (std::system(cmd.c_str()) != 0)
   {
-    LOG(LogWarning) << "Error executing " << oss.str().c_str();
+    LOG(LogWarning) << "Error executing " << cmd.c_str();
     return false;
   }
   else

@@ -1,5 +1,4 @@
 #include "Renderer.h"
-#include <iostream>
 #include <stack>
 #include "platform.h"
 #include "platform_gl.h"

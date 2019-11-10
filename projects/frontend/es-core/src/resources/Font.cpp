@@ -1,5 +1,4 @@
 #include "resources/Font.h"
-#include <iostream>
 #include <vector>
 #include "Renderer.h"
 #include "utils/Log.h"

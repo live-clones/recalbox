@@ -16,7 +16,7 @@ public:
 	explicit RatingComponent(Window* window);
   explicit RatingComponent(Window* window, unsigned int color);
 
-	std::string getValue() const override;
+	std::string getValue() const override { return Strings::ToString(mValue, 2); }
 	void setValue(const std::string& value) override; // Should be a normalized float (in the range [0..1]) - if it's not, it will be clamped.
 
 	bool ProcessInput(const InputCompactEvent& event) override;

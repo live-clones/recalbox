@@ -1,7 +1,6 @@
 #include "VolumeControl.h"
 
 #include "utils/Log.h"
-#include <cmath>
 #include <utils/math/Misc.h>
 
 #if defined(__linux__)

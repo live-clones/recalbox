@@ -40,6 +40,28 @@ void RecalboxSystem::NotifySystemAndGame(const SystemData* system, const FileDat
   VideoEngine::This().StopVideo();
 }
 
+std::string RecalboxSystem::BuildSettingsCommand(const std::string& arguments)
+{
+  std::string result = Settings::getInstance()->getString("RecalboxSettingScript");
+  result.append(1, ' ');
+  result.append(arguments);
+  return result;
+}
+
+Strings::Vector RecalboxSystem::ExecuteSettingsCommand(const std::string& arguments)
+{
+  std::string output;
+  char buffer[1024];
+  FILE* pipe = popen(BuildSettingsCommand(arguments).c_str(), "r");
+  if (pipe != nullptr)
+  {
+    while (feof(pipe) == 0)
+      if (fgets(buffer, sizeof(buffer), pipe) != nullptr)
+        output.append(output);
+    pclose(pipe);
+  }
+  return Strings::Split(output, '\n');
+}
 
 unsigned long RecalboxSystem::getFreeSpaceGB(const std::string& mountpoint)
 {
@@ -110,10 +132,9 @@ std::vector<std::string> RecalboxSystem::getAvailableWiFiSSID(bool activatedWifi
   {
     enableWifi("", "");
   }
+
   std::vector<std::string> res;
-  std::ostringstream oss;
-  oss << Settings::getInstance()->getString("RecalboxSettingScript") << " " << "wifi list";
-  FILE* pipe = popen(oss.str().c_str(), "r");
+  FILE* pipe = popen(BuildSettingsCommand("wifi list").c_str(), "r");
   char line[1024];
 
   if (pipe == nullptr)
@@ -132,58 +153,22 @@ std::vector<std::string> RecalboxSystem::getAvailableWiFiSSID(bool activatedWifi
 
 std::vector<std::string> RecalboxSystem::getAvailableAudioOutputDevices()
 {
-  std::vector<std::string> res;
-  std::ostringstream oss;
-  oss << Settings::getInstance()->getString("RecalboxSettingScript") << " " << "lsaudio";
-  FILE* pipe = popen(oss.str().c_str(), "r");
-  char line[1024];
-
-  if (pipe == nullptr)
-  {
-    return res;
-  }
-
-  while (fgets(line, 1024, pipe) != nullptr)
-  {
-    strtok(line, "\n");
-    res.push_back(std::string(line));
-  }
-  pclose(pipe);
-
-  return res;
+  return ExecuteSettingsCommand("lsaudio");
 }
 
 std::string RecalboxSystem::getCurrentAudioOutputDevice()
 {
-
-  std::ostringstream oss;
-  oss << Settings::getInstance()->getString("RecalboxSettingScript") << " " << "getaudio";
-  FILE* pipe = popen(oss.str().c_str(), "r");
-  char line[1024];
-
-  if (pipe == nullptr)
-  {
-    return "";
-  }
-
-  if (fgets(line, 1024, pipe) != nullptr)
-  {
-    strtok(line, "\n");
-    pclose(pipe);
-    return std::string(line);
-  }
-  return "auto";
+  Strings::Vector lines = ExecuteSettingsCommand("lsaudio");
+  return lines.empty() ? "auto" : lines[0];
 }
 
 bool RecalboxSystem::setAudioOutputDevice(const std::string& selected)
 {
-  std::ostringstream oss;
-
   AudioManager::getInstance()->deinit();
   VolumeControl::getInstance()->deinit();
 
-  oss << Settings::getInstance()->getString("RecalboxSettingScript") << " " << "audio" << " '" << selected << "'";
-  int exitcode = system(oss.str().c_str());
+  std::string cmd = Settings::getInstance()->getString("RecalboxSettingScript") + ' ' + "audio" + " '" + selected + '\'';
+  int exitcode = system(cmd.c_str());
   if (selected.find('[') != std::string::npos)
   {
     int p1 = selected.find(':');
@@ -204,22 +189,12 @@ bool RecalboxSystem::setAudioOutputDevice(const std::string& selected)
 
 bool RecalboxSystem::setOverscan(bool enable)
 {
-
-  std::ostringstream oss;
-  oss << Settings::getInstance()->getString("RecalboxSettingScript") << " " << "overscan";
-  if (enable)
+  std::string cmd =Settings::getInstance()->getString("RecalboxSettingScript") + " overscan";
+  cmd += enable ? " enable" : " disable";
+  LOG(LogInfo) << "Launching " << cmd;
+  if (system(cmd.c_str()) != 0)
   {
-    oss << " " << "enable";
-  }
-  else
-  {
-    oss << " " << "disable";
-  }
-  std::string command = oss.str();
-  LOG(LogInfo) << "Launching " << command;
-  if (system(command.c_str()) != 0)
-  {
-    LOG(LogWarning) << "Error executing " << command;
+    LOG(LogWarning) << "Error executing " << cmd;
     return false;
   }
   else
@@ -234,13 +209,11 @@ bool RecalboxSystem::setOverclock(const std::string& mode)
 {
   if (!mode.empty())
   {
-    std::ostringstream oss;
-    oss << Settings::getInstance()->getString("RecalboxSettingScript") << " " << "overclock" << " " << mode;
-    std::string command = oss.str();
-    LOG(LogInfo) << "Launching " << command;
-    if (system(command.c_str()) != 0)
+    std::string cmd = Settings::getInstance()->getString("RecalboxSettingScript") + " overclock" + ' ' + mode;
+    LOG(LogInfo) << "Launching " << cmd;
+    if (system(cmd.c_str()) != 0)
     {
-      LOG(LogWarning) << "Error executing " << command;
+      LOG(LogWarning) << "Error executing " << cmd;
       return false;
     }
     else
@@ -255,9 +228,7 @@ bool RecalboxSystem::setOverclock(const std::string& mode)
 
 bool RecalboxSystem::launchKodi(Window* window)
 {
-
   LOG(LogInfo) << "Attempting to launch kodi...";
-
 
   AudioManager::getInstance()->deinit();
   VolumeControl::getInstance()->deinit();
@@ -295,17 +266,13 @@ bool RecalboxSystem::launchKodi(Window* window)
   }
 
   return exitCode == 0;
-
 }
 
 bool RecalboxSystem::backupRecalboxConf()
 {
-  std::ostringstream oss;
-  oss << Settings::getInstance()->getString("RecalboxSettingScript") << " configbackup";
-  std::string command = oss.str();
-
-  LOG(LogInfo) << "Launching " << command;
-  if (system(command.c_str()) == 0)
+  std::string cmd = Settings::getInstance()->getString("RecalboxSettingScript") + " configbackup";
+  LOG(LogInfo) << "Launching " << cmd;
+  if (system(cmd.c_str()) == 0)
   {
     LOG(LogInfo) << "recalbox.conf backup'ed successfully";
     return true;
@@ -319,14 +286,11 @@ bool RecalboxSystem::backupRecalboxConf()
 
 bool RecalboxSystem::enableWifi(std::string ssid, std::string key)
 {
-  std::ostringstream oss;
   ssid = Strings::Replace(ssid, "\"", "\\\"");
   key = Strings::Replace(key, "\"", "\\\"");
-  oss << Settings::getInstance()->getString("RecalboxSettingScript") << " " << "wifi" << " " << "enable" << " \""
-      << ssid << "\" \"" << key << "\"";
-  std::string command = oss.str();
-  LOG(LogInfo) << "Launching " << command;
-  if (system(command.c_str()) == 0)
+  std::string cmd = Settings::getInstance()->getString("RecalboxSettingScript") + " wifi enable \"" + ssid + "\" \"" + key + "\"";
+  LOG(LogInfo) << "Launching " << cmd;
+  if (system(cmd.c_str()) == 0)
   {
     LOG(LogInfo) << "Wifi enabled ";
     return true;
@@ -340,11 +304,9 @@ bool RecalboxSystem::enableWifi(std::string ssid, std::string key)
 
 bool RecalboxSystem::disableWifi()
 {
-  std::ostringstream oss;
-  oss << Settings::getInstance()->getString("RecalboxSettingScript") << " " << "wifi" << " " << "disable";
-  std::string command = oss.str();
-  LOG(LogInfo) << "Launching " << command;
-  if (system(command.c_str()) == 0)
+  std::string cmd = Settings::getInstance()->getString("RecalboxSettingScript") + " wifi disable";
+  LOG(LogInfo) << "Launching " << cmd;
+  if (system(cmd.c_str()) == 0)
   {
     LOG(LogInfo) << "Wifi disabled ";
     return true;
@@ -454,136 +416,63 @@ std::string RecalboxSystem::getIpAdress()
 
 std::vector<std::string> RecalboxSystem::scanBluetooth()
 {
-  std::vector<std::string> res;
-  std::ostringstream oss;
-  oss << Settings::getInstance()->getString("RecalboxSettingScript") << " " << "hcitoolscan";
-  FILE* pipe = popen(oss.str().c_str(), "r");
-  char line[1024];
-
-  if (pipe != nullptr)
-  {
-    while (fgets(line, 1024, pipe) != nullptr)
-    {
-      strtok(line, "\n");
-      res.push_back(std::string(line));
-    }
-    pclose(pipe);
-  }
-
-  return res;
+  return ExecuteSettingsCommand("hcitoolscan");
 }
 
 bool RecalboxSystem::pairBluetooth(const std::string& controller)
 {
-  std::ostringstream oss;
-  oss << Settings::getInstance()->getString("RecalboxSettingScript") << " " << "hiddpair" << " " << controller;
-  int exitcode = system(oss.str().c_str());
+  std::string cmd = Settings::getInstance()->getString("RecalboxSettingScript") + " hiddpair " + controller;
+  int exitcode = system(cmd.c_str());
   return exitcode == 0;
 }
 
 std::vector<std::string> RecalboxSystem::getAvailableStorageDevices()
 {
-
-  std::vector<std::string> res;
-  std::ostringstream oss;
-  oss << Settings::getInstance()->getString("RecalboxSettingScript") << " " << "storage list";
-  FILE* pipe = popen(oss.str().c_str(), "r");
-  char line[1024];
-
-  if (pipe == nullptr)
-  {
-    return res;
-  }
-
-  while (fgets(line, 1024, pipe) != nullptr)
-  {
-    strtok(line, "\n");
-    res.push_back(std::string(line));
-  }
-  pclose(pipe);
-
-  return res;
+  return ExecuteSettingsCommand("storage list");
 }
 
 std::string RecalboxSystem::getCurrentStorage()
 {
-
-  std::ostringstream oss;
-  oss << Settings::getInstance()->getString("RecalboxSettingScript") << " " << "storage current";
-  FILE* pipe = popen(oss.str().c_str(), "r");
-  char line[1024];
-
-  if (pipe == nullptr)
-  {
-    return "";
-  }
-
-  if (fgets(line, 1024, pipe) != nullptr)
-  {
-    strtok(line, "\n");
-    pclose(pipe);
-    return std::string(line);
-  }
-  return "INTERNAL";
+  Strings::Vector lines = ExecuteSettingsCommand("storage current");
+  return lines.empty() ? "INTERNAL" : lines[1];
 }
 
 bool RecalboxSystem::setStorage(const std::string& selected)
 {
-  std::ostringstream oss;
-  oss << Settings::getInstance()->getString("RecalboxSettingScript") << " " << "storage" << " " << selected;
-  int exitcode = system(oss.str().c_str());
+  std::string cmd = Settings::getInstance()->getString("RecalboxSettingScript") + " storage " + selected;
+  int exitcode = system(cmd.c_str());
   return exitcode == 0;
 }
 
 bool RecalboxSystem::forgetBluetoothControllers()
 {
-  std::ostringstream oss;
-  oss << Settings::getInstance()->getString("RecalboxSettingScript") << " " << "forgetBT";
-  int exitcode = system(oss.str().c_str());
+  std::string cmd = Settings::getInstance()->getString("RecalboxSettingScript") + " forgetBT";
+  int exitcode = system(cmd.c_str());
   return exitcode == 0;
 }
 
 std::string RecalboxSystem::getRootPassword()
 {
-
-  std::ostringstream oss;
-  oss << Settings::getInstance()->getString("RecalboxSettingScript") << " " << "getRootPassword";
-  FILE* pipe = popen(oss.str().c_str(), "r");
-  char line[1024];
-
-  if (pipe == nullptr)
-  {
-    return "";
-  }
-
-  if (fgets(line, 1024, pipe) != nullptr)
-  {
-    strtok(line, "\n");
-    pclose(pipe);
-    return std::string(line);
-  }
-  return oss.str();
+  Strings::Vector lines = ExecuteSettingsCommand("getRootPassword");
+  return lines.empty() ? "" : lines[1];
 }
 
 std::pair<std::string, int> RecalboxSystem::execute(const std::string& command)
 {
-  std::ostringstream oss;
-  oss << command;
-
-  FILE* pipe = popen(oss.str().c_str(), "r");
+  FILE* pipe = popen(command.c_str(), "r");
   char line[1024];
 
   if (pipe == nullptr)
   {
     return std::make_pair("", -1);
   }
-  std::ostringstream res;
+  std::string output;
   while (fgets(line, 1024, pipe) != nullptr)
   {
-    res << line;
+    output += line;
   }
   int exitCode = pclose(pipe);
-  return std::make_pair(res.str(), WEXITSTATUS(exitCode));
+  return std::make_pair(output, WEXITSTATUS(exitCode));
 }
 
 bool RecalboxSystem::ping()
@@ -732,3 +621,4 @@ std::string RecalboxSystem::runCmd(const std::string& options)
   }
   return cmd;
 }
+

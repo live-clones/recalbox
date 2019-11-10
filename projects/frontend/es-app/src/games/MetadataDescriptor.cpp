@@ -1,4 +1,3 @@
-#include <cmath>
 #include "MetadataDescriptor.h"
 #include "MetadataFieldDescriptor.h"
 #include "Locale.h"
@@ -102,24 +101,6 @@ MetadataDescriptor MetadataDescriptor::BuildDefaultValueMetadataDescriptor()
   }
 
   return defaultData;
-}
-
-std::string MetadataDescriptor::FloatToString(float value, int precision)
-{
-  int ipart = (int)value;
-  value -= (float)ipart;
-
-  // convert integer part to string
-  std::string result = std::to_string(ipart);
-
-  // check for display option after point
-  if (precision > 0)
-  {
-    result += '.';
-    value *= (float)pow(10, precision);
-    result += std::to_string((int)value); // TODO: Get XAString::ToInt and get rid of that @#%$*!!! to_string
-  }
-  return result;
 }
 
 std::string MetadataDescriptor::IntToRange(int range)

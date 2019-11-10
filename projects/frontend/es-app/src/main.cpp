@@ -2,14 +2,12 @@
 //http://www.aloshi.com
 
 #include <SDL.h>
-#include <iostream>
 
 #include <RootFolders.h>
 #include <VideoEngine.h>
 #include <guis/GuiNetPlay.h>
 #include <utils/sdl2/SyncronousEventService.h>
 #include <utils/Files.h>
-#include <fstream>
 
 #include "AudioManager.h"
 #include "CommandThread.h"
@@ -52,7 +50,7 @@ bool parseArgs(int argc, char* argv[], unsigned int* width, unsigned int* height
     {
       if (i >= argc - 2)
       {
-        std::cerr << "Invalid resolution supplied.";
+        LOG(LogError) << "Invalid resolution supplied.";
         return false;
       }
 
@@ -105,23 +103,23 @@ bool parseArgs(int argc, char* argv[], unsigned int* width, unsigned int* height
       AttachConsole(ATTACH_PARENT_PROCESS);
       freopen("CONOUT$", "wb", stdout);
       #endif
-      std::cout << "EmulationStation, a graphical front-end for ROM browsing.\n"
-                   "Written by Alec \"Aloshi\" Lofquist.\n"
-                   "Version " << PROGRAM_VERSION_STRING << ", built " << PROGRAM_BUILT_STRING << "\n\n"
-                                                                                                 "Command line arguments:\n"
-                                                                                                 "--resolution [width] [height]	try and force a particular resolution\n"
-                                                                                                 "--gamelist-only			skip automatic game search, only read from gamelist.xml\n"
-                                                                                                 "--ignore-gamelist		ignore the gamelist (useful for troubleshooting)\n"
-                                                                                                 "--draw-framerate		display the framerate\n"
-                                                                                                 "--no-exit			don't show the exit option in the menu\n"
-                                                                                                 "--hide-systemview		show only gamelist view, no system view\n"
-                                                                                                 "--debug				more logging, show console on Windows\n"
-                                                                                                 "--scrape			scrape using command line interface\n"
-                                                                                                 "--windowed			not fullscreen, should be used with --resolution\n"
-                                                                                                 "--vsync [1/on or 0/off]		turn vsync on or off (default is on)\n"
-                                                                                                 "--max-vram [size]		Max VRAM to use in Mb before swapping. 0 for unlimited\n"
-                                                                                                 "--help, -h			summon a sentient, angry tuba\n\n"
-                                                                                                 "More information available in README.md.\n";
+      printf("EmulationStation, a graphical front-end for ROM browsing.\n"
+             "Written by Alec \"Aloshi\" Lofquist.\n"
+             "Version " PROGRAM_VERSION_STRING ", built " PROGRAM_BUILT_STRING "\n\n"
+             "Command line arguments:\n"
+             "--resolution [width] [height]	try and force a particular resolution\n"
+             "--gamelist-only			skip automatic game search, only read from gamelist.xml\n"
+             "--ignore-gamelist		ignore the gamelist (useful for troubleshooting)\n"
+             "--draw-framerate		display the framerate\n"
+             "--no-exit			don't show the exit option in the menu\n"
+             "--hide-systemview		show only gamelist view, no system view\n"
+             "--debug				more logging, show console on Windows\n"
+             "--scrape			scrape using command line interface\n"
+             "--windowed			not fullscreen, should be used with --resolution\n"
+             "--vsync [1/on or 0/off]		turn vsync on or off (default is on)\n"
+             "--max-vram [size]		Max VRAM to use in Mb before swapping. 0 for unlimited\n"
+             "--help, -h			summon a sentient, angry tuba\n\n"
+             "More information available in README.md.\n");
       return false; //exit after printing help
     }
   }
@@ -136,11 +134,11 @@ bool verifyHomeFolderExists()
   Path configDir = home / "system/.emulationstation";
   if (!configDir.Exists())
   {
-    std::cout << "Creating config directory \"" << configDir.ToString() << "\"\n";
+    LOG(LogError) << "Creating config directory \"" << configDir.ToString() << "\"\n";
     configDir.CreatePath();
     if (!configDir.Exists())
     {
-      std::cerr << "Config directory could not be created!\n";
+      LOG(LogError) << "Config directory could not be created!\n";
       return false;
     }
   }
@@ -267,12 +265,7 @@ int main(int argc, char* argv[])
     Settings::getInstance()->setBool("ThemeChanged", false);
     Settings::getInstance()->setBool("ThemeHasMenuView", false);
 
-    std::string arch;
-    std::ifstream archFile;
-    archFile.open("/recalbox/recalbox.arch");
-    std::getline(archFile, arch);
-    archFile.close();
-    Settings::getInstance()->setString("Arch", arch);
+    Settings::getInstance()->setString("Arch", Files::LoadFile(Path("/recalbox/recalbox.arch")));
 
     Renderer::initialize((int)width, (int)height);
     Window window;

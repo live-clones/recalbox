@@ -1,7 +1,6 @@
 #include <list>
 #include <algorithm>
 #include <string>
-#include <sstream>
 
 #include <functional>
 #include <LibretroRatio.h>
@@ -630,10 +629,9 @@ void GuiMenu::menuControllers() {
   char strbuf[256];
 
   for (int player = 0; player < InputEvent::sMaxPlayers; player++) {
-    std::stringstream sstm;
-    sstm << "INPUT P" << player + 1;
-    std::string confName = sstm.str() + "NAME";
-    std::string confGuid = sstm.str() + "GUID";
+    std::string sstm = "INPUT P" + Strings::ToString(player + 1);
+    std::string confName = sstm + "NAME";
+    std::string confGuid = sstm + "GUID";
     snprintf(strbuf, 256, _("INPUT P%i").c_str(), player + 1);
 
     LOG(LogInfo) << player + 1 << ' ' << confName << ' ' << confGuid;
@@ -649,18 +647,14 @@ void GuiMenu::menuControllers() {
       InputDevice *config = InputManager::Instance().GetDeviceConfiguration(it);
       if (config->IsConfigured()) {
         // create name
-        std::stringstream dispNameSS;
-        dispNameSS << '#' << config->Identifier() << ' ';
+        std::string displayName = '#' + Strings::ToString(config->Identifier()) + ' ';
         const std::string& deviceName = config->Name();
         if (deviceName.size() > 25) {
-          dispNameSS << deviceName.substr(0, 16) << "..." <<
+          displayName += deviceName.substr(0, 16) + "..." +
                  deviceName.substr(deviceName.size() - 5, deviceName.size() - 1);
         } else {
-          dispNameSS << deviceName;
+          displayName += deviceName;
         }
-
-        std::string displayName = dispNameSS.str();
-
 
         bool foundFromConfig = configuratedName == config->Name() && configuratedGuid == config->GUID();
         int deviceID = config->Identifier();
@@ -697,10 +691,9 @@ void GuiMenu::menuControllers() {
   }
   s->addSaveFunc([options] {
     for (int player = 0; player < InputEvent::sMaxPlayers; player++) {
-      std::stringstream sstm;
-      sstm << "INPUT P" << player + 1;
-      std::string confName = sstm.str() + "NAME";
-      std::string confGuid = sstm.str() + "GUID";
+      std::string sstm = "INPUT P" + Strings::ToString(player + 1);
+      std::string confName = sstm + "NAME";
+      std::string confGuid = sstm + "GUID";
 
       auto input_p1 = options.at(player);
       std::string name;
