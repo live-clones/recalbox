@@ -1,7 +1,7 @@
 #include <cstring>
+#include <utils/Strings.h>
 #include "PlatformId.h"
-
-extern const char* mameNameToRealName[];
+#include <MameNameMap.h>
 
 namespace PlatformIds
 {
@@ -135,16 +135,27 @@ namespace PlatformIds
     return "Unknown";
   }
 
-  const char* getCleanMameName(const char* from)
+  static void GenerateMameNameHashes()
   {
-    const char** mameNames = mameNameToRealName;
+    for(int i = mameNameSize; --i >=0; )
+      mameNameHashes[i] = Strings::ToHash(mameNameToRealName[i * 2]);
+  }
 
-    while(*mameNames != nullptr && strcmp(from, *mameNames) != 0)
-      mameNames += 2;
+  const char* getCleanMameName(const std::string& from)
+  {
+    static bool HashGenerated = false;
+    if (!HashGenerated)
+    {
+      GenerateMameNameHashes();
+      HashGenerated = true;
+    }
 
-    if(*mameNames != nullptr)
-      return *(mameNames + 1);
+    int hash = Strings::ToHash(from);
+    for(int i = mameNameSize; --i >= 0; )
+      if (mameNameHashes[i] == hash)
+        if (strcmp(from.c_str(), mameNameToRealName[i << 1]) == 0)
+          return mameNameToRealName[(i << 1) + 1];
 
-    return from;
+    return nullptr;
   }
 }

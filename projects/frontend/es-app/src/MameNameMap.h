@@ -8,5 +8,8 @@
 extern std::vector<std::string> mameBioses;
 extern std::vector<std::string> mameDevices;
 extern const char* mameNameToRealName[];
+extern int mameNameHashes[];
+extern int mameNameSize;
+void GenerateMameNameHashes();
 
 #endif //EMULATIONSTATION_ALL_MAMENAMEMAP_H

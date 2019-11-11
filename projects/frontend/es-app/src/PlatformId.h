@@ -119,5 +119,5 @@ namespace PlatformIds
   PlatformId getPlatformId(const std::string& str);
   std::string getPlatformName(PlatformId id);
 
-  const char* getCleanMameName(const char* from);
+  const char* getCleanMameName(const std::string& from);
 }

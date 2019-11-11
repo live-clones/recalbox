@@ -62,6 +62,6 @@ private:
 
 	Status mStatus;
 
-	std::string mContent; // TODO: string!
+	std::string mContent;
 	std::string mErrorMsg;
 };

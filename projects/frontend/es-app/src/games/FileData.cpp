@@ -22,7 +22,11 @@ std::string FileData::getDisplayName() const
 	std::string stem = mPath.FilenameWithoutExtension();
 	if (mSystem != nullptr)
 	  if ((mSystem->hasPlatformId(PlatformIds::PlatformId::ARCADE) || mSystem->hasPlatformId(PlatformIds::PlatformId::NEOGEO)))
-		  stem = PlatformIds::getCleanMameName(stem.c_str());
+    {
+      const char* newName = PlatformIds::getCleanMameName(stem);
+      if (newName != nullptr)
+        return newName;
+    }
 
   return stem;
 }

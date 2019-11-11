@@ -616,3 +616,21 @@ std::string Strings::ToString(bool value)
 {
   return value ? "1" : "0";
 }
+
+int Strings::ToHash(const std::string& string)
+{
+  int count = string.size();
+  unsigned int Hash = (unsigned int)count;
+  const unsigned char* p = (unsigned char*)string.c_str();
+  while(--count >= 0) { Hash = ((Hash >> 27) | (Hash << 5)) ^ p[0]; p++; }
+  return (int)Hash;
+}
+
+int Strings::ToHash(const char* string)
+{
+  int count = strlen(string);
+  unsigned int Hash = (unsigned int)count;
+  const unsigned char* p = (unsigned char*)string;
+  while(--count >= 0) { Hash = ((Hash >> 27) | (Hash << 5)) ^ p[0]; p++; }
+  return (int)Hash;
+}

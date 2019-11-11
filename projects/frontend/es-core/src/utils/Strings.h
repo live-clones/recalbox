@@ -97,6 +97,10 @@ class Strings
     static std::string ToString(unsigned long long value);
 
     static std::string ToString(float value, int precision);
+
+    static int ToHash(const std::string& string);
+
+    static int ToHash(const char* string);
 }; // String::
 
 #endif // ES_CORE_UTILS_STRING_UTIL_H

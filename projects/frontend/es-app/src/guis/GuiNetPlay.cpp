@@ -156,7 +156,12 @@ void GuiNetPlay::populateGrid()
       // Get game name
       std::string gameName = game.mGameName;
       static std::string arcadesCores("FinalBurn Neo,MAME 2000,MAME 2003,MAME 2003-Plus,MAME 2010,MAME 2015,MAME 2016");
-      if (arcadesCores.find(gameName) != std::string::npos) gameName = PlatformIds::getCleanMameName(game.mGameName.c_str());
+      if (arcadesCores.find(gameName) != std::string::npos)
+      {
+        const char* newName = PlatformIds::getCleanMameName(game.mGameName);
+        if (newName != nullptr)
+          gameName = newName;
+      }
 
       std::string text;
       if (game.mGame != nullptr)

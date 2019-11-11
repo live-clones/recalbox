@@ -1,5 +1,6 @@
 #include <string>
 #include <vector>
+#include <utils/Strings.h>
 
 const char* mameNameToRealName[] = {
 	"005", "005", 
@@ -30448,9 +30449,17 @@ const char* mameNameToRealName[] = {
 	"yokaidko", "Yokai Douchuuki (Japan old version)",
 	"youkaidk", "Yokai Douchuuki (Japan new version)",
 	"zzyzzyx2", "Zzyzzyxx (set 2)",
-
-	nullptr
 };
+
+static constexpr int _mameNameSize =sizeof(mameNameToRealName) / (sizeof(const char*) * 2);
+int mameNameSize =  _mameNameSize;
+int mameNameHashes[_mameNameSize];
+
+void GenerateMameNameHashes()
+{
+  for(int i = _mameNameSize; --i >=0; )
+    mameNameHashes[i] = Strings::ToHash(mameNameToRealName[i * 2]);
+}
 
 std::vector<std::string> mameBioses = {
     "galgbios",
