@@ -3,4 +3,4 @@
 Placez ici vos jeux DOOM 1 et 2 (et les mods associés).
 Placez vos soundtracks dans le répertoire ./game-musics
 
-Les jeux DOOM doivent avoir l'extension ".wad/.iwad/.pwad/.lmp"
+Les jeux DOOM doivent avoir l'extension ".wad/.iwad/.pwad/.lmp/.pk4"
