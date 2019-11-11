@@ -1,6 +1,5 @@
 #include "guis/GuiMetaDataEd.h"
 #include "Renderer.h"
-#include "components/AsyncReqComponent.h"
 #include "Settings.h"
 #include "views/ViewController.h"
 #include "guis/GuiGameScraper.h"
@@ -274,7 +273,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window* window,
         }; // ok callback (apply new value to ed)
         row.makeAcceptInputHandler([this, title, ed, updateVal, multiLine]
                                    {
-                                     if (Settings::getInstance()->getBool("UseOSK") && (!multiLine))
+                                     if (Settings::Instance().UseOSK() && (!multiLine))
                                      {
                                        mWindow->pushGui(new GuiTextEditPopupKeyboard(mWindow, title, ed->getValue(), updateVal, multiLine));
                                      }

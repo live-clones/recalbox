@@ -7,7 +7,6 @@
 #include <utils/Log.h>
 #include <Settings.h>
 #include <RecalboxConf.h>
-#include <platform.h>
 #include <utils/os/system/ThreadPool.h>
 #include <utils/Strings.h>
 #include <utils/os/fs/StringMapFile.h>
@@ -16,7 +15,7 @@
 
 SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDescriptor)
 {
-  const Path defaultRomsPath = Path(Settings::getInstance()->getString("DefaultRomsPath")).ToAbsolute();
+  const Path defaultRomsPath = Path(Settings::Instance().DefaultRomsPath()).ToAbsolute();
   Path realPath = defaultRomsPath.Empty() ? systemDescriptor.RomPath() : systemDescriptor.RomPath().ToAbsolute(defaultRomsPath);
 
   // Create system
@@ -32,7 +31,7 @@ SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDes
     if (RecalboxConf::Instance().AsBool("emulationstation.gamelistonly", false))
       result->populateFolder(&(result->mRootFolder), doppelgangerWatcher);
     // Populate items from gamelist.xml
-    if (!Settings::getInstance()->getBool("IgnoreGamelist"))
+    if (!Settings::Instance().IgnoreGamelist())
       result->ParseGamelistXml(doppelgangerWatcher);
     // Overrides?
     FileData::List allFolders = result->getRootFolder()->getAllFolders();
@@ -440,7 +439,7 @@ void SystemManager::writeExampleConfig(const Path& path)
 bool SystemManager::ThreadPoolRunJob(SystemData*& feed)
 {
   // Save changed game data back to xml
-  if (!Settings::getInstance()->getBool("IgnoreGamelist"))
+  if (!Settings::Instance().IgnoreGamelist())
     if (feed->getRootFolder()->hasChildrenOwnership())
       feed->UpdateGamelistXml();
 

@@ -51,7 +51,7 @@ void NetPlayThread::Run()
 
     bool firstLoop = true;
     bool enabled = RecalboxConf::Instance().AsBool("global.netplay");
-    int popupDuration = Settings::getInstance()->getInt("NetplayPopupTime");
+    int popupDuration = Settings::Instance().NetplayPopupTime();
     if (popupDuration != 0)
     {
       std::vector<std::pair<std::string, std::string>> oldGames;
@@ -96,7 +96,7 @@ void NetPlayThread::Run()
 void NetPlayThread::ReceiveSyncCallback(const SDL_Event& event)
 {
   (void)event;
-  int popupDuration = Settings::getInstance()->getInt("NetplayPopupTime");
+  int popupDuration = Settings::Instance().NetplayPopupTime();
   std::shared_ptr<GuiInfoPopup> popup = std::make_shared<GuiInfoPopup>(mWindow,
                                                                        mLastPopupText,
                                                                        popupDuration, 10);

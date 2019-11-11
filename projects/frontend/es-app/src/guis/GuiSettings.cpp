@@ -28,7 +28,7 @@ void GuiSettings::save()
 	for (auto& saveFunc : mSaveFuncs)
 		saveFunc();
 
-	Settings::getInstance()->saveFile();
+	Settings::Instance().saveFile();
 }
 
 bool GuiSettings::ProcessInput(const InputCompactEvent& event)

@@ -9,7 +9,7 @@
 std::shared_ptr<MenuThemeData> MenuThemeData::sInstance = nullptr;
 
 std::shared_ptr<MenuThemeData> MenuThemeData::getInstance() {
-	if (sInstance == nullptr || Settings::getInstance()->getBool("ThemeChanged"))
+	if (sInstance == nullptr || Settings::Instance().ThemeChanged())
 		sInstance = std::shared_ptr<MenuThemeData>(new MenuThemeData());
 	return sInstance;
 }

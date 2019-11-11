@@ -41,7 +41,7 @@ ViewController::ViewController(Window* window)
 	  mWindow(window)
 {
 	mState.viewing = ViewMode::None;
-	mFavoritesOnly = Settings::getInstance()->getBool("FavoritesOnly");
+	mFavoritesOnly = Settings::Instance().FavoritesOnly();
 }
 
 ViewController::~ViewController()
@@ -164,7 +164,7 @@ void ViewController::goToGameList(SystemData* system)
 		if (!system->isFavorite())
 		{
 			updateFavorite(system, getGameListView(system).get()->getCursor());
-			mFavoritesOnly = Settings::getInstance()->getBool("FavoritesOnly");
+			mFavoritesOnly = Settings::Instance().FavoritesOnly();
 		}
 	}
 
@@ -180,7 +180,7 @@ void ViewController::goToGameList(SystemData* system)
 void ViewController::updateFavorite(SystemData* system, FileData* file)
 {
 	IGameListView* view = getGameListView(system).get();
-	if (Settings::getInstance()->getBool("FavoritesOnly"))
+	if (Settings::Instance().FavoritesOnly())
 	{
 		view->populateList(system->getRootFolder());
 		FileData* nextFavorite = system->getRootFolder()->GetNextFavoriteTo(file);
@@ -200,7 +200,7 @@ void ViewController::playViewTransition()
 	if(target == -mCamera.translation() && !isAnimationPlaying(0))
 		return;
 
-	std::string transition_style = Settings::getInstance()->getString("TransitionStyle");
+	std::string transition_style = Settings::Instance().TransitionStyle();
 	if(transition_style == "fade")
 	{
 		// fade
@@ -277,7 +277,7 @@ void ViewController::launch(FileData* game, Vector3f center, const std::string& 
 	stopAnimation(1); // make sure the fade in isn't still playing
 	mLockInput = true;
 
-	std::string transition_style = Settings::getInstance()->getString("TransitionStyle");
+	std::string transition_style = Settings::Instance().TransitionStyle();
 
 	auto launchFactory = [this, game, origCamera, netplay, core, ip, port] (const std::function<void(std::function<void()>)>& backAnimation) {
 		return [this, game, origCamera, backAnimation, netplay, core, ip, port] {

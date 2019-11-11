@@ -45,5 +45,5 @@ private:
 	void getFavorites(const FileData::List& files, FileData::List& favorites);
 	void addItem(FileData* file, bool toTheBeginning = false);*/
 
-	const char * getItemIcon(FileData* item);
+	static const char * getItemIcon(FileData* item);
 };

@@ -8,7 +8,7 @@
 
 DemoMode::DemoMode(Window& window)
   : mWindow(window),
-    mSettings(*Settings::getInstance()),
+    mSettings(Settings::Instance()),
     mRecalboxConf(RecalboxConf::Instance()),
     mDefaultDuration(0),
     mInfoScreenDuration(0),
@@ -73,7 +73,7 @@ void DemoMode::init()
 
 bool DemoMode::hasDemoMode()
 {
-  return (mSettings.getString("ScreenSaverBehavior") == "demo");
+  return (mSettings.ScreenSaverBehavior() == "demo");
 }
 
 bool DemoMode::isInHistory(int item, const int history[], int maxitems)

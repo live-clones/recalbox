@@ -137,7 +137,7 @@ void AudioManager::playRandomMusic()
     stopMusic();
     bgsound->play(false, musicEndInternal);
     currentMusic = bgsound;
-    int popupDuration = Settings::getInstance()->getInt("MusicPopupTime");
+    int popupDuration = Settings::Instance().MusicPopupTime();
     if (popupDuration != 0)
     {
       // Create music popup
@@ -161,7 +161,7 @@ void AudioManager::resumeMusic()
   this->init();
   if (currentMusic != nullptr && RecalboxConf::Instance().AsBool("audio.bgmusic"))
   {
-    currentMusic->play(runningFromPlaylist ? false : true, runningFromPlaylist ? musicEndInternal : nullptr);
+    currentMusic->play(!runningFromPlaylist, runningFromPlaylist ? musicEndInternal : nullptr);
   }
 }
 
@@ -260,7 +260,7 @@ std::vector<Path> getMusicIn(const Path& path)
 std::shared_ptr<Music> AudioManager::getRandomMusic(const Path& themeSoundDirectory)
 {
   // 1 check in User music directory
-  std::vector<Path> musics = getMusicIn(Path(Settings::getInstance()->getString("MusicDirectory")));
+  std::vector<Path> musics = getMusicIn(Path(Settings::Instance().MusicDirectory()));
   if (musics.empty())
   {
     //  Check in theme sound directory
@@ -288,7 +288,7 @@ void AudioManager::musicEnd()
 
 void AudioManager::playCheckSound()
 {
-  std::string selectedTheme = Settings::getInstance()->getString("ThemeSet");
+  std::string selectedTheme = Settings::Instance().ThemeSet();
   Path loadingMusic = RootFolders::DataRootFolder / "/system/.emulationstation/themes/" / selectedTheme / "/fx/loading.ogg";
 
   if (!loadingMusic.Exists())
@@ -305,7 +305,7 @@ void AudioManager::playCheckSound()
 void AudioManager::ReceiveSyncCallback(const SDL_Event& event)
 {
   (void)event;
-  int popupDuration = Settings::getInstance()->getInt("MusicPopupTime");
+  int popupDuration = Settings::Instance().MusicPopupTime();
   std::shared_ptr<GuiInfoPopup> popup = std::make_shared<GuiInfoPopup>(mWindow,
                                                                        AudioManager::getInstance()->GetLastPopupText(),
                                                                        popupDuration, 10);

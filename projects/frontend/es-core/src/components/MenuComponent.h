@@ -36,7 +36,7 @@ public:
 	inline std::function<void()> buildHelpGui(const std::string& label, const std::string& help)
 	{
 		return [this, label, help] () {
-			int dur = Settings::getInstance()->getInt("HelpPopupTime");
+			int dur = Settings::Instance().HelpPopupTime();
 			if (dur != 0) {
 				auto s = std::make_shared<GuiInfoPopup>(mWindow, label + "\n" + help, dur);
 				mWindow->setInfoPopup(s);

@@ -391,7 +391,7 @@ void GuiComponent::updateHelpPrompts()
 HelpStyle GuiComponent::getHelpStyle()
 {
 	HelpStyle style = HelpStyle();
-	if (Settings::getInstance()->getBool("ThemeHasMenuView"))
+	if (Settings::Instance().ThemeHasMenuView())
 		style.applyTheme(ThemeData::getCurrent(), "menu");
 	else
 		style.applyTheme(ThemeData::getCurrent(), "system");

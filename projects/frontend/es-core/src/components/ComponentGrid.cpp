@@ -152,7 +152,7 @@ void ComponentGrid::updateSeparators()
 {
     mLines.clear();
 
-    bool drawAll = Settings::getInstance()->getBool("DebugGrid");
+    bool drawAll = Settings::Instance().DebugGrid();
 
     Vector2f pos(0, 0);
     Vector2f size(0, 0);

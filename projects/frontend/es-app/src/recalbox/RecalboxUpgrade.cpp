@@ -9,14 +9,14 @@
 
 std::string RecalboxUpgrade::getVersion()
 {
-  std::string version = Settings::getInstance()->getString("VersionFile");
+  const std::string& version = Settings::Instance().VersionFile();
   return Files::LoadFile(Path(version));
 }
 
 std::string RecalboxUpgrade::getUpdateVersion()
 {
   std::pair<std::string, int> res = RecalboxSystem::execute(
-    Settings::getInstance()->getString("RecalboxUpgradeScript") + " canupgrade");
+    Settings::Instance().RecalboxUpgradeScript() + " canupgrade");
   if (res.second != 0)
   {
     return _("NO UPGRADE AVAILABLE");
@@ -30,7 +30,7 @@ std::string RecalboxUpgrade::getUpdateVersion()
 
 bool RecalboxUpgrade::updateLastChangelogFile()
 {
-  std::string cmd =  "cp " + Settings::getInstance()->getString("Changelog") + ' ' + Settings::getInstance()->getString("LastChangelog");
+  std::string cmd =  "cp " + Settings::Instance().Changelog() + ' ' + Settings::Instance().LastChangelog();
   if (std::system(cmd.c_str()) != 0)
   {
     LOG(LogWarning) << "Error executing " << cmd.c_str();
@@ -46,7 +46,7 @@ bool RecalboxUpgrade::updateLastChangelogFile()
 std::string RecalboxUpgrade::getUpdateChangelog()
 {
   std::pair<std::string, int> res = RecalboxSystem::execute(
-    Settings::getInstance()->getString("RecalboxUpgradeScript") + " diffremote");
+    Settings::Instance().RecalboxUpgradeScript() + " diffremote");
   if (res.second == 0)
   {
     return res.first;
@@ -60,7 +60,7 @@ std::string RecalboxUpgrade::getUpdateChangelog()
 std::string RecalboxUpgrade::getChangelog()
 {
   std::pair<std::string, int> res = RecalboxSystem::execute(
-    Settings::getInstance()->getString("RecalboxUpgradeScript") + " difflocal");
+    Settings::Instance().RecalboxUpgradeScript() + " difflocal");
   if (res.second == 0)
   {
     return res.first;
@@ -73,7 +73,7 @@ std::string RecalboxUpgrade::getChangelog()
 
 std::pair<std::string, int> RecalboxUpgrade::updateSystem(BusyComponent* ui)
 {
-  std::string updatecommand = Settings::getInstance()->getString("RecalboxUpgradeScript") + " upgrade";
+  std::string updatecommand = Settings::Instance().RecalboxUpgradeScript() + " upgrade";
   FILE* pipe = popen(updatecommand.c_str(), "r");
   char line[1024] = "";
   if (pipe == nullptr)
@@ -104,7 +104,7 @@ bool RecalboxUpgrade::canUpdate()
 {
 
   std::pair<std::string, int> res = RecalboxSystem::execute(
-    Settings::getInstance()->getString("RecalboxUpgradeScript") + " canupgrade");
+    Settings::Instance().RecalboxUpgradeScript() + " canupgrade");
   if (res.second == 0)
   {
     LOG(LogInfo) << "Can upgrade";

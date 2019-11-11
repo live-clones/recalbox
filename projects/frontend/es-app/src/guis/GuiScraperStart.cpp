@@ -4,12 +4,10 @@
 #include "guis/GuiMsgBox.h"
 #include "views/ViewController.h"
 
-#include "components/TextComponent.h"
 #include "components/OptionListComponent.h"
 #include "components/SwitchComponent.h"
 #include "Locale.h"
 #include "Settings.h"
-
 
 GuiScraperStart::GuiScraperStart(Window* window)
   : GuiComponent(window),
@@ -35,7 +33,7 @@ GuiScraperStart::GuiScraperStart(Window* window)
 	mMenu.addWithLabel(mSystems, _("SYSTEMS"));
 
 	// add mix images option (if scraper = screenscraper)
-	std::string scraperName = Settings::getInstance()->getString("Scraper");
+	std::string scraperName = Settings::Instance().Scraper();
 
 	if(scraperName == "Screenscraper") {
 		mMixImages = std::make_shared<SwitchComponent>(mWindow);
@@ -73,8 +71,8 @@ void GuiScraperStart::pressedStart()
 void GuiScraperStart::start()
 {
 	std::queue<ScraperSearchParams> searches = getSearches(mSystems->getSelectedObjects(), mFilters->getSelected());
-	if(Settings::getInstance()->getString("Scraper") == "Screenscraper") {
-		Settings::getInstance()->setBool("MixImages", mMixImages->getState());
+	if(Settings::Instance().Scraper() == "Screenscraper") {
+		Settings::Instance().SetMixImages(mMixImages->getState());
 	}
 
 	if(searches.empty())

@@ -144,7 +144,7 @@ void TextComponent::render(const Transform4x4f& parentTrans)
 			}
 		Vector3f off(0, yOff, 0);
 
-		if(Settings::getInstance()->getBool("DebugText"))
+		if(Settings::Instance().DebugText())
 		{
 			// draw the "textbox" area, what we are aligned within
 			Renderer::setMatrix(trans);
@@ -156,7 +156,7 @@ void TextComponent::render(const Transform4x4f& parentTrans)
 		Renderer::setMatrix(trans);
 
 		// draw the text area, where the text actually is going
-		if(Settings::getInstance()->getBool("DebugText"))
+		if(Settings::Instance().DebugText())
 		{
 			switch(mHorizontalAlignment)
 			{

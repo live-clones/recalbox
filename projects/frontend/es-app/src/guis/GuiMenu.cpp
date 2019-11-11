@@ -189,7 +189,7 @@ void GuiMenu::createInputTextRow(GuiSettings *gui, const std::string& title, con
   }; // ok callback (apply new value to ed)
 
   row.makeAcceptInputHandler([this, title, updateVal, settingsID] {
-    if (Settings::getInstance()->getBool("UseOSK")) {
+    if (Settings::Instance().UseOSK()) {
       mWindow->pushGui(
           new GuiTextEditPopupKeyboard(mWindow, title, RecalboxConf::Instance().AsString(settingsID),
                          updateVal, false));
@@ -628,19 +628,15 @@ void GuiMenu::menuControllers() {
   std::vector<std::shared_ptr<OptionListComponent<StrInputConfig *>>> options;
   char strbuf[256];
 
-  for (int player = 0; player < InputEvent::sMaxPlayers; player++) {
-    std::string sstm = "INPUT P" + Strings::ToString(player + 1);
-    std::string confName = sstm + "NAME";
-    std::string confGuid = sstm + "GUID";
+  for (int player = 0; player < InputEvent::sMaxPlayers; player++)
+  {
     snprintf(strbuf, 256, _("INPUT P%i").c_str(), player + 1);
-
-    LOG(LogInfo) << player + 1 << ' ' << confName << ' ' << confGuid;
     auto inputOptionList = std::make_shared<OptionListComponent<StrInputConfig *> >(mWindow, strbuf, false);
     options.push_back(inputOptionList);
 
     // Checking if a setting has been saved, else setting to default
-    std::string configuratedName = Settings::getInstance()->getString(confName);
-    std::string configuratedGuid = Settings::getInstance()->getString(confGuid);
+    const std::string& configuratedName = Settings::Instance().InputName(player);
+    const std::string& configuratedGuid = Settings::Instance().InputGuid(player);
     bool found = false;
     // For each available and configured input
     for (auto it = 0; it < InputManager::Instance().DeviceCount(); it++) {
@@ -701,20 +697,20 @@ void GuiMenu::menuControllers() {
 
       if (selectedName == "DEFAULT") {
         name = "DEFAULT";
-        Settings::getInstance()->setString(confName, name);
-        Settings::getInstance()->setString(confGuid, "");
+        Settings::Instance().SetInputName(player, name);
+        Settings::Instance().SetInputGuid(player, "");
       } else {
         if (input_p1->getSelected() != nullptr) {
           LOG(LogWarning) << "Found the selected controller ! : name in list  = " << selectedName;
           LOG(LogWarning) << "Found the selected controller ! : guid  = " << input_p1->getSelected()->deviceGUIDString;
 
-          Settings::getInstance()->setString(confName, input_p1->getSelected()->deviceName);
-          Settings::getInstance()->setString(confGuid, input_p1->getSelected()->deviceGUIDString);
+          Settings::Instance().SetInputName(player, input_p1->getSelected()->deviceName);
+          Settings::Instance().SetInputGuid(player, input_p1->getSelected()->deviceGUIDString);
         }
       }
     }
 
-    Settings::getInstance()->saveFile();
+    Settings::Instance().saveFile();
 
   });
 
@@ -733,10 +729,10 @@ void GuiMenu::menuUISettings(){
 
 	  // screensaver time
 	  auto screensaver_time = std::make_shared<SliderComponent>(mWindow, 0.f, 30.f, 1.f, "m");
-	  screensaver_time->setValue((float)Settings::getInstance()->getInt("ScreenSaverTime") / (1000.0f * 60.0f));
+	  screensaver_time->setValue((float)Settings::Instance().ScreenSaverTime() / (1000.0f * 60.0f));
 	  ss->addWithLabel(screensaver_time, _("SCREENSAVER AFTER"), _(MenuMessages::UI_SCREENSAVER_AFTER_HELP_MSG));
 	  ss->addSaveFunc([screensaver_time] {
-		  Settings::getInstance()->setInt("ScreenSaverTime", Math::roundi(screensaver_time->getValue()) * (1000 * 60));
+		  Settings::Instance().SetScreenSaverTime(Math::roundi(screensaver_time->getValue()) * (1000 * 60));
 	  });
 
 	  // screensaver behavior
@@ -747,11 +743,11 @@ void GuiMenu::menuUISettings(){
 	  screensavers.push_back("black");
 	  screensavers.push_back("demo");
 	  for (auto & screensaver : screensavers)
-		  screensaver_behavior->add(screensaver, screensaver, Settings::getInstance()->getString("ScreenSaverBehavior") == screensaver);
+		  screensaver_behavior->add(screensaver, screensaver, Settings::Instance().ScreenSaverBehavior() == screensaver);
 	  ss->addWithLabel(screensaver_behavior, _("SCREENSAVER BEHAVIOR"),
 	                   _(MenuMessages::UI_SCREENSAVER_BEHAVIOR_HELP_MSG));
 	  ss->addSaveFunc([screensaver_behavior] {
-		  Settings::getInstance()->setString("ScreenSaverBehavior", screensaver_behavior->getSelected());
+		  Settings::Instance().SetScreenSaverBehavior(screensaver_behavior->getSelected());
 	  });
 
 	  // add systems (all with a platformid specified selected)
@@ -775,18 +771,18 @@ void GuiMenu::menuUISettings(){
 
   // display clock
   auto show_time = std::make_shared<SwitchComponent>(mWindow);
-  show_time->setState(Settings::getInstance()->getBool("ShowClock"));
+  show_time->setState(Settings::Instance().ShowClock());
   s->addWithLabel(show_time, _("CLOCK IN MENU"), _(MenuMessages::UI_CLOCK_HELP_MSG));
   s->addSaveFunc([show_time] {
-    Settings::getInstance()->setBool("ShowClock", show_time->getState());
+    Settings::Instance().SetShowClock(show_time->getState());
   });
 
   // show help
   auto show_help = std::make_shared<SwitchComponent>(mWindow);
-  show_help->setState(Settings::getInstance()->getBool("ShowHelpPrompts"));
+  show_help->setState(Settings::Instance().ShowHelpPrompts());
   s->addWithLabel(show_help, _("ON-SCREEN HELP"), _(MenuMessages::UI_ONSCREENHELP_HELP_MSG));
   s->addSaveFunc([show_help] {
-    Settings::getInstance()->setBool("ShowHelpPrompts", show_help->getState());
+    Settings::Instance().SetShowHelpPrompts(show_help->getState());
   });
 
   std::function<void()> openGuiSub = [this] {
@@ -794,7 +790,7 @@ void GuiMenu::menuUISettings(){
 
     auto popup_position = std::make_shared<OptionListComponent<std::string> >(mWindow, _("POPUP POSITION"), false);
 
-    std::string currentPos = Settings::getInstance()->getString("PopupPosition");
+    std::string currentPos = Settings::Instance().PopupPosition();
     popup_position->add(_("TOP/RIGHT"), "Top/Right", currentPos == "Top/Right");
     popup_position->add(_("BOTTOM/RIGHT"), "Bottom/Right", currentPos == "Bottom/Right");
     popup_position->add(_("BOTTOM/LEFT"), "Bottom/Left", currentPos == "Bottom/Left");
@@ -803,24 +799,24 @@ void GuiMenu::menuUISettings(){
 
     //help popup time 0=no popup
     auto help_popup_time = std::make_shared<SliderComponent>(mWindow, 0.f, 10.f, 1.f, "s");
-    help_popup_time->setValue((float) (Settings::getInstance()->getInt("HelpPopupTime")));
+    help_popup_time->setValue((float) (Settings::Instance().HelpPopupTime()));
     PopupGui->addWithLabel(help_popup_time, _("HELP POPUP DURATION"), _(MenuMessages::UI_HELP_POPUP_DURATION_HELP_MSG));
 
     //music popup time 0=no popup
     auto music_popup_time = std::make_shared<SliderComponent>(mWindow, 0.f, 10.f, 1.f, "s");
-    music_popup_time->setValue((float) (Settings::getInstance()->getInt("MusicPopupTime")));
+    music_popup_time->setValue((float) (Settings::Instance().MusicPopupTime()));
     PopupGui->addWithLabel(music_popup_time, _("MUSIC POPUP DURATION"), _(MenuMessages::UI_MUSIC_POPUP_DURATION_HELP_MSG));
 
     //netplay popup time 0=no popup
     /*auto netplay_popup_time = std::make_shared<SliderComponent>(mWindow, 0.f, 10.f, 1.f, "s");
-    netplay_popup_time->setValue((float) (Settings::getInstance()->getInt("NetplayPopupTime")));
+    netplay_popup_time->setValue((float) (Settings::Instance().getInt("NetplayPopupTime")));
     PopupGui->addWithLabel(netplay_popup_time, _("NETPLAY POPUP DURATION"), _(MenuMessages::UI_NETPLAY_POPUP_DURATION_HELP_MSG));*/
 
     PopupGui->addSaveFunc([help_popup_time, music_popup_time, popup_position] {
-      Settings::getInstance()->setInt("HelpPopupTime", Math::roundi(help_popup_time->getValue()));
-      Settings::getInstance()->setInt("MusicPopupTime", Math::roundi(music_popup_time->getValue()));
-      //Settings::getInstance()->setInt("NetplayPopupTime", Math::roundi(netplay_popup_time->getValue()));
-      Settings::getInstance()->setString("PopupPosition", popup_position->getSelected());
+      Settings::Instance().SetHelpPopupTime(Math::roundi(help_popup_time->getValue()));
+      Settings::Instance().SetMusicPopupTime(Math::roundi(music_popup_time->getValue()));
+      //Settings::Instance().setInt("NetplayPopupTime", Math::roundi(netplay_popup_time->getValue()));
+      Settings::Instance().SetPopupPosition(popup_position->getSelected());
     });
     mWindow->pushGui(PopupGui);
   };
@@ -828,18 +824,18 @@ void GuiMenu::menuUISettings(){
 
   // quick system select (left/right in game list view)
   auto quick_sys_select = std::make_shared<SwitchComponent>(mWindow);
-  quick_sys_select->setState(Settings::getInstance()->getBool("QuickSystemSelect"));
+  quick_sys_select->setState(Settings::Instance().QuickSystemSelect());
   s->addWithLabel(quick_sys_select, _("QUICK SYSTEM SELECT"), _(MenuMessages::UI_QUICK_HELP_MSG));
   s->addSaveFunc([quick_sys_select] {
-    Settings::getInstance()->setBool("QuickSystemSelect", quick_sys_select->getState());
+    Settings::Instance().SetQuickSystemSelect(quick_sys_select->getState());
   });
 
   // Enable OSK (On-Screen-Keyboard)
   auto osk_enable = std::make_shared<SwitchComponent>(mWindow);
-  osk_enable->setState(Settings::getInstance()->getBool("UseOSK"));
+  osk_enable->setState(Settings::Instance().UseOSK());
   s->addWithLabel(osk_enable, _("ON SCREEN KEYBOARD"), _(MenuMessages::UI_KEYBOARD_HELP_MSG));
   s->addSaveFunc([osk_enable] {
-    Settings::getInstance()->setBool("UseOSK", osk_enable->getState());
+    Settings::Instance().SetUseOSK(osk_enable->getState());
   });
 
   std::function<void()> openGuiTheme = [this, window] {
@@ -847,9 +843,9 @@ void GuiMenu::menuUISettings(){
 
   // carousel transition option
   auto move_carousel = std::make_shared<SwitchComponent>(mWindow);
-  move_carousel->setState(Settings::getInstance()->getBool("MoveCarousel"));
+  move_carousel->setState(Settings::Instance().MoveCarousel());
   st->addWithLabel(move_carousel, _("CAROUSEL ANIMATION"), _(MenuMessages::UI_CAROUSEL_HELP_MSG));
-  st->addSaveFunc([move_carousel] { Settings::getInstance()->setBool("MoveCarousel", move_carousel->getState()); });
+  st->addSaveFunc([move_carousel] { Settings::Instance().SetMoveCarousel(move_carousel->getState()); });
 
   // transition style
   auto transition_style = std::make_shared<OptionListComponent<std::string> >(mWindow, _("TRANSITION STYLE"), false);
@@ -858,16 +854,16 @@ void GuiMenu::menuUISettings(){
   transitions.push_back("slide");
   transitions.push_back("instant");
   for (auto & transition : transitions)
-    transition_style->add(transition, transition, Settings::getInstance()->getString("TransitionStyle") == transition);
+    transition_style->add(transition, transition, Settings::Instance().TransitionStyle() == transition);
   st->addWithLabel(transition_style, _("TRANSITION STYLE"), _(MenuMessages::UI_TRANSITION_HELP_MSG));
   st->addSaveFunc([transition_style] {
-    Settings::getInstance()->setString("TransitionStyle", transition_style->getSelected());
+    Settings::Instance().SetTransitionStyle(transition_style->getSelected());
   });
 
   // theme set
   auto themeSets = ThemeData::getThemeSets();
 
-  auto selectedSet = themeSets.find(Settings::getInstance()->getString("ThemeSet"));
+  auto selectedSet = themeSets.find(Settings::Instance().ThemeSet());
   if (selectedSet == themeSets.end())
     selectedSet = themeSets.begin();
 
@@ -894,17 +890,17 @@ void GuiMenu::menuUISettings(){
     MenuThemeData::getInstance();
     auto transi = ThemeData::getCurrent().getTransition();
     if (!transi.empty())
-      Settings::getInstance()->setString("TransitionStyle", transi);
-    Settings::getInstance()->setBool("ThemeChanged", false);
+      Settings::Instance().SetTransitionStyle(transi);
+    Settings::Instance().SetThemeChanged(false);
   };
 
 
   st->addSaveFunc([theme_set, ReloadAll] {
 
-    if (Settings::getInstance()->getString("ThemeSet") != theme_set->getSelected())
+    if (Settings::Instance().ThemeSet() != theme_set->getSelected())
     {
 
-      Settings::getInstance()->setString("ThemeSet", theme_set->getSelected());
+      Settings::Instance().SetThemeSet(theme_set->getSelected());
 
       auto themeSubSets = ThemeData::getThemeSubSets(theme_set->getSelected());
       auto themeColorSets = ThemeData::sortThemeSubSets(themeSubSets, "colorset");
@@ -916,36 +912,36 @@ void GuiMenu::menuUISettings(){
 
       // theme changed without setting options, forcing options to avoid crash/blank theme
       if (themeRegions.empty())
-        Settings::getInstance()->setString("ThemeRegionName", "");
+        Settings::Instance().SetThemeRegionName("");
       else
-        Settings::getInstance()->setString("ThemeRegionName", themeRegions.begin()->first);
+        Settings::Instance().SetThemeRegionName(themeRegions.begin()->first);
 
       if (themeColorSets.empty())
-        Settings::getInstance()->setString("ThemeColorSet", "");
+        Settings::Instance().SetThemeColorSet("");
       else
-        Settings::getInstance()->setString("ThemeColorSet", themeColorSets.begin()->first);
+        Settings::Instance().SetThemeColorSet(themeColorSets.begin()->first);
 
       if (themeIconSets.empty())
-        Settings::getInstance()->setString("ThemeIconSet", "");
+        Settings::Instance().SetThemeIconSet("");
       else
-        Settings::getInstance()->setString("ThemeIconSet", themeIconSets.begin()->first);
+        Settings::Instance().SetThemeIconSet(themeIconSets.begin()->first);
 
       if (themeMenus.empty())
-        Settings::getInstance()->setString("ThemeMenu", "");
+        Settings::Instance().SetThemeMenu("");
       else
-        Settings::getInstance()->setString("ThemeMenu", themeMenus.begin()->first);
+        Settings::Instance().SetThemeMenu(themeMenus.begin()->first);
 
       if (themeSystemviewSets.empty())
-        Settings::getInstance()->setString("ThemeSystemView", "");
+        Settings::Instance().SetThemeSystemView("");
       else
-        Settings::getInstance()->setString("ThemeSystemView", themeSystemviewSets.begin()->first);
+        Settings::Instance().SetThemeSystemView(themeSystemviewSets.begin()->first);
 
       if (themeGamelistViewSets.empty())
-        Settings::getInstance()->setString("ThemeGamelistView", "");
+        Settings::Instance().SetThemeGamelistView("");
       else
-        Settings::getInstance()->setString("ThemeGamelistView", themeGamelistViewSets.begin()->first);
+        Settings::Instance().SetThemeGamelistView(themeGamelistViewSets.begin()->first);
 
-      Settings::getInstance()->setBool("ThemeChanged", true);
+      Settings::Instance().SetThemeChanged(true);
 
       //reload theme:
 
@@ -970,7 +966,7 @@ void GuiMenu::menuUISettings(){
 
     // colorset
 
-    auto selectedColorSet = themeColorSets.find(Settings::getInstance()->getString("ThemeColorSet"));
+    auto selectedColorSet = themeColorSets.find(Settings::Instance().ThemeColorSet());
     if (selectedColorSet == themeColorSets.end())
       selectedColorSet = themeColorSets.begin();
     auto theme_colorset = std::make_shared<OptionListComponent<std::string> >(mWindow, _("THEME COLORSET"), false);
@@ -983,7 +979,7 @@ void GuiMenu::menuUISettings(){
 
     // iconset
 
-    auto selectedIconSet = themeIconSets.find(Settings::getInstance()->getString("ThemeIconSet"));
+    auto selectedIconSet = themeIconSets.find(Settings::Instance().ThemeIconSet());
     if (selectedIconSet == themeIconSets.end())
       selectedIconSet = themeIconSets.begin();
     auto theme_iconset = std::make_shared<OptionListComponent<std::string> >(mWindow, _("THEME ICONSET"), false);
@@ -996,7 +992,7 @@ void GuiMenu::menuUISettings(){
 
     // menu
 
-    auto selectedMenu = themeMenus.find(Settings::getInstance()->getString("ThemeMenu"));
+    auto selectedMenu = themeMenus.find(Settings::Instance().ThemeMenu());
     if (selectedMenu == themeMenus.end())
       selectedMenu = themeMenus.begin();
     auto theme_menu = std::make_shared<OptionListComponent<std::string> >(mWindow, _("THEME MENU"), false);
@@ -1010,7 +1006,7 @@ void GuiMenu::menuUISettings(){
 
     // systemview
 
-    auto selectedSystemviewSet = themeSystemviewSets.find(Settings::getInstance()->getString("ThemeSystemView"));
+    auto selectedSystemviewSet = themeSystemviewSets.find(Settings::Instance().ThemeSystemView());
     if (selectedSystemviewSet == themeSystemviewSets.end())
       selectedSystemviewSet = themeSystemviewSets.begin();
 
@@ -1024,7 +1020,7 @@ void GuiMenu::menuUISettings(){
 
     // gamelistview
 
-    auto selectedGamelistViewSet = themeGamelistViewSets.find(Settings::getInstance()->getString("ThemeGamelistView"));
+    auto selectedGamelistViewSet = themeGamelistViewSets.find(Settings::Instance().ThemeGamelistView());
     if (selectedGamelistViewSet == themeGamelistViewSets.end())
       selectedGamelistViewSet = themeGamelistViewSets.begin();
 
@@ -1038,7 +1034,7 @@ void GuiMenu::menuUISettings(){
 
     // themeregion
 
-    auto selectedRegion = themeRegions.find(Settings::getInstance()->getString("ThemeRegionName"));
+    auto selectedRegion = themeRegions.find(Settings::Instance().ThemeRegionName());
     if (selectedRegion == themeRegions.end())
       selectedRegion = themeRegions.begin();
 
@@ -1053,28 +1049,28 @@ void GuiMenu::menuUISettings(){
 
     themeconfig->addSaveFunc([theme_set, theme_colorset, theme_iconset, theme_menu, theme_systemview, theme_gamelistview, theme_region, ReloadAll] {
       bool needReload = false;
-      if (Settings::getInstance()->getString("ThemeColorSet") != theme_colorset->getSelected() && !theme_colorset->getSelected().empty())
+      if (Settings::Instance().ThemeColorSet() != theme_colorset->getSelected() && !theme_colorset->getSelected().empty())
         needReload = true;
-      if (Settings::getInstance()->getString("ThemeIconSet") != theme_iconset->getSelected() && !theme_iconset->getSelected().empty())
+      if (Settings::Instance().ThemeIconSet() != theme_iconset->getSelected() && !theme_iconset->getSelected().empty())
         needReload = true;
-      if (Settings::getInstance()->getString("ThemeMenu") != theme_menu->getSelected() && !theme_menu->getSelected().empty())
+      if (Settings::Instance().ThemeMenu() != theme_menu->getSelected() && !theme_menu->getSelected().empty())
         needReload = true;
-      if (Settings::getInstance()->getString("ThemeSystemView") != theme_systemview->getSelected() && !theme_systemview->getSelected().empty())
+      if (Settings::Instance().ThemeSystemView() != theme_systemview->getSelected() && !theme_systemview->getSelected().empty())
         needReload = true;
-      if (Settings::getInstance()->getString("ThemeGamelistView") != theme_gamelistview->getSelected() && !theme_gamelistview->getSelected().empty())
+      if (Settings::Instance().ThemeGamelistView() != theme_gamelistview->getSelected() && !theme_gamelistview->getSelected().empty())
         needReload = true;
-      if (Settings::getInstance()->getString("ThemeRegionName") != theme_region->getSelected() && !theme_region->getSelected().empty())
+      if (Settings::Instance().ThemeRegionName() != theme_region->getSelected() && !theme_region->getSelected().empty())
         needReload = true;
 
       if (needReload){
-        Settings::getInstance()->setString("ThemeSet", theme_set->getSelected());
-        Settings::getInstance()->setString("ThemeColorSet", theme_colorset->getSelected());
-        Settings::getInstance()->setString("ThemeIconSet", theme_iconset->getSelected());
-        Settings::getInstance()->setString("ThemeMenu", theme_menu->getSelected());
-        Settings::getInstance()->setString("ThemeSystemView", theme_systemview->getSelected());
-        Settings::getInstance()->setString("ThemeGamelistView", theme_gamelistview->getSelected());
-        Settings::getInstance()->setString("ThemeRegionName", theme_region->getSelected());
-        Settings::getInstance()->setBool("ThemeChanged", true);
+        Settings::Instance().SetThemeSet(theme_set->getSelected());
+        Settings::Instance().SetThemeColorSet(theme_colorset->getSelected());
+        Settings::Instance().SetThemeIconSet(theme_iconset->getSelected());
+        Settings::Instance().SetThemeMenu(theme_menu->getSelected());
+        Settings::Instance().SetThemeSystemView(theme_systemview->getSelected());
+        Settings::Instance().SetThemeGamelistView(theme_gamelistview->getSelected());
+        Settings::Instance().SetThemeRegionName(theme_region->getSelected());
+        Settings::Instance().SetThemeChanged(true);
         //reload theme
         ReloadAll();
       }
@@ -1244,7 +1240,7 @@ void GuiMenu::menuNetworkSettings(){
         delete SSID;
       };
       row.makeAcceptInputHandler([this, updateValue] {
-        if (Settings::getInstance()->getBool("UseOSK"))
+        if (Settings::Instance().UseOSK())
           mWindow->pushGui(new GuiTextEditPopupKeyboard(mWindow, "", "", updateValue, false));
         else
           mWindow->pushGui(new GuiTextEditPopup(mWindow, "", "", updateValue, false));
@@ -1325,19 +1321,19 @@ void GuiMenu::menuScrapper(){
   auto scraper_list = std::make_shared<OptionListComponent<std::string> >(mWindow, _("SCRAPE FROM"), false);
   std::vector<std::string> scrapers = getScraperList();
   for (auto& scraper : scrapers)
-    scraper_list->add(scraper, scraper, scraper == Settings::getInstance()->getString("Scraper"));
+    scraper_list->add(scraper, scraper, scraper == Settings::Instance().Scraper());
 
   s->addWithLabel(scraper_list, _("SCRAPE FROM"), _(MenuMessages::SCRAPER_FROM_HELP_MSG));
   s->addSaveFunc([scraper_list] {
-    Settings::getInstance()->setString("Scraper", scraper_list->getSelected());
+    Settings::Instance().SetScraper(scraper_list->getSelected());
   });
 
   // scrape ratings
   auto scrape_ratings = std::make_shared<SwitchComponent>(mWindow);
-  scrape_ratings->setState(Settings::getInstance()->getBool("ScrapeRatings"));
+  scrape_ratings->setState(Settings::Instance().ScrapeRatings());
   s->addWithLabel(scrape_ratings, _("SCRAPE RATINGS"), _(MenuMessages::SCRAPER_RATINGS_HELP_MSG));
   s->addSaveFunc([scrape_ratings] {
-    Settings::getInstance()->setBool("ScrapeRatings", scrape_ratings->getState());
+    Settings::Instance().SetScrapeRatings(scrape_ratings->getState());
   });
 
   // scrape now
@@ -1358,7 +1354,7 @@ void GuiMenu::menuAdvancedSettings(){
 
   // Overclock choice
   auto overclock_choice = std::make_shared<OptionListComponent<std::string> >(window, _("OVERCLOCK"), false);
-  std::string currentOverclock = Settings::getInstance()->getString("Overclock");
+  const std::string& currentOverclock = Settings::Instance().Overclock();
   switch(getRaspberryVersion())
   {
     case RaspberryGeneration::Pi1:
@@ -1419,8 +1415,8 @@ void GuiMenu::menuAdvancedSettings(){
   s->addWithLabel(overclock_choice, _("OVERCLOCK"), _(MenuMessages::ADVANCED_OVERCLOCK_HELP_MSG));
   s->addSaveFunc([overclock_choice, overclockWarning, window]  {
     bool reboot = false;
-    if (Settings::getInstance()->getString("Overclock") != overclock_choice->getSelected()) {
-      Settings::getInstance()->setString("Overclock", overclock_choice->getSelected());
+    if (Settings::Instance().Overclock() != overclock_choice->getSelected()) {
+      Settings::Instance().SetOverclock(overclock_choice->getSelected());
       RecalboxSystem::setOverclock(overclock_choice->getSelected());
       reboot = true;
     }
@@ -1434,9 +1430,9 @@ void GuiMenu::menuAdvancedSettings(){
                         LOG(LogWarning) << "Reboot terminated with non-zero result!";
                       }
                     }, _("NO"), [] {
-                  Settings::getInstance()->setString("Overclock", "none");
+                  Settings::Instance().SetOverclock("none");
                   RecalboxSystem::setOverclock("none");
-                  Settings::getInstance()->saveFile();
+                  Settings::Instance().saveFile();
                 }));
       } else {
         window->pushGui(
@@ -1594,20 +1590,20 @@ void GuiMenu::menuAdvancedSettings(){
     s->addSubMenu(_("SECURITY"), openGui, _(MenuMessages::ADVANCED_SECURITY_HELP_MSG));
   }
   // overscan
-  auto overscan_enabled = std::make_shared<SwitchComponent>(mWindow, Settings::getInstance()->getBool("Overscan"));
+  auto overscan_enabled = std::make_shared<SwitchComponent>(mWindow, Settings::Instance().Overscan());
   s->addWithLabel(overscan_enabled, _("OVERSCAN"), _(MenuMessages::ADVANCED_OVERSCAN_HELP_MSG));
   s->addSaveFunc([overscan_enabled] {
-    if (Settings::getInstance()->getBool("Overscan") != overscan_enabled->getState()) {
-      Settings::getInstance()->setBool("Overscan", overscan_enabled->getState());
+    if (Settings::Instance().Overscan() != overscan_enabled->getState()) {
+      Settings::Instance().SetOverscan(overscan_enabled->getState());
       RecalboxSystem::setOverscan(overscan_enabled->getState());
     }
   });
 
   // framerate
-  auto framerate = std::make_shared<SwitchComponent>(mWindow, Settings::getInstance()->getBool("DrawFramerate"));
+  auto framerate = std::make_shared<SwitchComponent>(mWindow, Settings::Instance().DrawFramerate());
   s->addWithLabel(framerate, _("SHOW FRAMERATE"), _(MenuMessages::ADVANCED_FRAMERATE_HELP_MSG));
   s->addSaveFunc([framerate] {
-    Settings::getInstance()->setBool("DrawFramerate", framerate->getState());
+    Settings::Instance().SetDrawFramerate(framerate->getState());
   });
 
   // Recalbox Manager

@@ -55,7 +55,7 @@ void InputManager::Initialize()
     Finalize();
 
   SDL_SetHint(SDL_HINT_JOYSTICK_ALLOW_BACKGROUND_EVENTS,
-              Settings::getInstance()->getBool("BackgroundJoystickInput") ? "1" : "0");
+              Settings::Instance().BackgroundJoystickInput() ? "1" : "0");
   SDL_InitSubSystem(SDL_INIT_JOYSTICK);
   SDL_JoystickEventState(SDL_ENABLE);
 
@@ -191,14 +191,14 @@ InputCompactEvent InputManager::ManageKeyEvent(const SDL_KeyboardEvent& key, boo
       return {InputCompactEvent::Entry::Nothing, InputCompactEvent::Entry::Nothing, mKeyboard, event };
     }
 
-    if (event.Value() != 0 && Settings::getInstance()->getBool("Debug"))
+    if (event.Value() != 0 && Settings::Instance().Debug())
     {
       // toggle debug grid with Ctrl-G
       if (event.Id() == SDLK_g && ((SDL_GetModState() & KMOD_LCTRL) != 0))
-        Settings::getInstance()->setBool("DebugGrid", !Settings::getInstance()->getBool("DebugGrid"));
+        Settings::Instance().SetDebugGrid(!Settings::Instance().DebugGrid());
       // toggle TextComponent debug view with Ctrl-T
       else if (event.Id() == SDLK_t && ((SDL_GetModState() & KMOD_LCTRL) != 0))
-        Settings::getInstance()->setBool("DebugText", !Settings::getInstance()->getBool("DebugText"));
+        Settings::Instance().SetDebugText(!Settings::Instance().DebugText());
     }
   }
   return mKeyboard.ConvertToCompact(event);
@@ -357,9 +357,8 @@ std::string InputManager::GenerateConfiggenConfiguration()
   // First loop, search for GUID + NAME. High Priority
   for (int player = 0; player < InputEvent::sMaxPlayers; ++player)
   {
-    std::string sstm("INPUT P"); sstm += std::to_string(player + 1);
-    std::string playerConfigName = Settings::getInstance()->getString(sstm + "NAME");
-    std::string playerConfigGuid = Settings::getInstance()->getString(sstm + "GUID");
+    std::string playerConfigName = Settings::Instance().InputName(player);
+    std::string playerConfigGuid = Settings::Instance().InputGuid(player);
 
     InputDevice* device = LookupDevice(list, playerConfigGuid, playerConfigName);
     if (device != nullptr)
@@ -373,8 +372,7 @@ std::string InputManager::GenerateConfiggenConfiguration()
   for (int player = 0; player < InputEvent::sMaxPlayers; ++player)
     if (devices[player] == nullptr)
     {
-      std::string sstm("INPUT P"); sstm += std::to_string(player + 1);
-      std::string playerConfigName = Settings::getInstance()->getString(sstm + "NAME");
+      std::string playerConfigName = Settings::Instance().InputName(player);
 
       InputDevice* device = LookupDevice(list, playerConfigName);
       if (device != nullptr)

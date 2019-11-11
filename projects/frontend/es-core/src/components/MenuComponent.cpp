@@ -41,7 +41,7 @@ MenuComponent::MenuComponent(Window* window, const char* title, const std::share
 
 		auto headerGrid = std::make_shared<ComponentGrid>(mWindow, Vector2i(3, 1));
 
-		std::string arch = Settings::getInstance()->getString("Arch");
+		std::string arch = Settings::Instance().Arch();
 		if (arch == "x86" || arch == "x86_64") {
 
 			auto batt = RecalboxSystem::getSysBatteryInfo(); // TODO: Remove ascending core=>app
@@ -59,7 +59,7 @@ MenuComponent::MenuComponent(Window* window, const char* title, const std::share
 			}
 		}
 
-		if (Settings::getInstance()->getBool("ShowClock")) {
+		if (Settings::Instance().ShowClock()) {
 
 			mDateTime = std::make_shared<DateTimeComponent>(mWindow);
 			mDateTime->setDisplayMode(DateTimeComponent::Display::Time);

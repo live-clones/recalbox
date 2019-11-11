@@ -34,7 +34,7 @@
 
 void playSound(const std::string& name)
 {
-  std::string selectedTheme = Settings::getInstance()->getString("ThemeSet");
+  std::string selectedTheme = Settings::Instance().ThemeSet();
   Path loadingMusic = RootFolders::DataRootFolder / "system/.emulationstation/themes" / selectedTheme / "fx" / (name + ".ogg");
   if (loadingMusic.Exists())
   {
@@ -61,37 +61,37 @@ bool parseArgs(int argc, char* argv[], unsigned int* width, unsigned int* height
     }
     else if (strcmp(argv[i], "--ignore-gamelist") == 0)
     {
-      Settings::getInstance()->setBool("IgnoreGamelist", true);
+      Settings::Instance().SetIgnoreGamelist(true);
     }
     else if (strcmp(argv[i], "--draw-framerate") == 0)
     {
-      Settings::getInstance()->setBool("DrawFramerate", true);
+      Settings::Instance().SetDrawFramerate(true);
     }
     else if (strcmp(argv[i], "--no-exit") == 0)
     {
-      Settings::getInstance()->setBool("ShowExit", false);
+      Settings::Instance().SetShowExit(false);
     }
     else if (strcmp(argv[i], "--debug") == 0)
     {
-      Settings::getInstance()->setBool("Debug", true);
-      Settings::getInstance()->setBool("HideConsole", false);
+      Settings::Instance().SetDebug(true);
+      Settings::Instance().SetHideConsole( false);
       Log::setReportingLevel(LogLevel::LogDebug);
     }
     else if (strcmp(argv[i], "--windowed") == 0)
     {
-      Settings::getInstance()->setBool("Windowed", true);
+      Settings::Instance().SetWindowed(true);
     }
     else if (strcmp(argv[i], "--vsync") == 0)
     {
       bool vsync = (strcmp(argv[i + 1], "on") == 0 || strcmp(argv[i + 1], "1") == 0);
-      Settings::getInstance()->setBool("VSync", vsync);
+      Settings::Instance().SetVSync(vsync);
       i++; // skip vsync value
     }
     else if (strcmp(argv[i], "--max-vram") == 0)
     {
       char* err;
       int maxVRAM = (int)strtol(argv[i + 1], &err, 10);
-      Settings::getInstance()->setInt("MaxVRAM", maxVRAM);
+      Settings::Instance().SetMaxVRAM(maxVRAM);
     }
     else if (strcmp(argv[i], "--help") == 0 || strcmp(argv[i], "-h") == 0)
     {
@@ -226,7 +226,7 @@ int main(int argc, char* argv[])
   // will leave a brief flash.
   // TL;DR: You should compile ES under the "WINDOWS" subsystem.
   // I have no idea how this works with non-MSVC compilers.
-  if(!Settings::getInstance()->getBool("HideConsole"))
+  if(!Settings::Instance().getBool("HideConsole"))
   {
     // we want to show the console
     // if we're compiled in "CONSOLE" mode, this is already done.
@@ -262,10 +262,10 @@ int main(int argc, char* argv[])
 
     // other init
     FileSorts::init(); // require locale
-    Settings::getInstance()->setBool("ThemeChanged", false);
-    Settings::getInstance()->setBool("ThemeHasMenuView", false);
+    Settings::Instance().SetThemeChanged(false);
+    Settings::Instance().SetThemeHasMenuView(false);
 
-    Settings::getInstance()->setString("Arch", Files::LoadFile(Path("/recalbox/recalbox.arch")));
+    Settings::Instance().SetArch(Files::LoadFile(Path("/recalbox/recalbox.arch")));
 
     Renderer::initialize((int)width, (int)height);
     Window window;
@@ -417,12 +417,12 @@ int main(int argc, char* argv[])
           case RecalboxSystem::SDL_FAST_QUIT | RecalboxSystem::SDL_RB_REBOOT:
             running = false;
             doReboot = true;
-            Settings::getInstance()->setBool("IgnoreGamelist", true);
+            Settings::Instance().SetIgnoreGamelist(true);
             break;
           case RecalboxSystem::SDL_FAST_QUIT | RecalboxSystem::SDL_RB_SHUTDOWN:
             running = false;
             doShutdown = true;
-            Settings::getInstance()->setBool("IgnoreGamelist", true);
+            Settings::Instance().SetIgnoreGamelist(true);
             break;
           case SDL_QUIT | RecalboxSystem::SDL_RB_REBOOT:
             running = false;

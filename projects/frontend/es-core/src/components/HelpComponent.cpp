@@ -54,7 +54,7 @@ void HelpComponent::setStyle(const HelpStyle& style)
 
 void HelpComponent::updateGrid()
 {
-	if(!Settings::getInstance()->getBool("ShowHelpPrompts") || mPrompts.empty())
+	if(!Settings::Instance().ShowHelpPrompts() || mPrompts.empty())
 	{
 		mGrid.reset();
 		return;

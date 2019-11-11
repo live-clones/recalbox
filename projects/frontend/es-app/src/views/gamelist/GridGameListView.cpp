@@ -35,7 +35,7 @@ bool GridGameListView::ProcessInput(const InputCompactEvent& event)
 void GridGameListView::populateList(const FolderData* folder)
 {
 	mGrid.clear();
-	bool favoritesOnly = Settings::getInstance()->getBool("FavoritesOnly");
+	bool favoritesOnly = Settings::Instance().FavoritesOnly();
 	FileData::List files = favoritesOnly ? folder->getAllFavorites(true) : folder->getAllDisplayableItems(true);
 	for (FileData* fd : files)
 	{

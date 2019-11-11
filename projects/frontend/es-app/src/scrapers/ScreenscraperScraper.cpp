@@ -2,7 +2,6 @@
 
 #include "utils/datetime/DateTime.h"
 #include "utils/Strings.h"
-#include "games/FileData.h"
 #include "utils/Log.h"
 #include "PlatformId.h"
 #include "Settings.h"
@@ -257,7 +256,7 @@ void ScreenScraperRequest::processGame(const pugi::xml_document& xmldoc, std::ve
     // Players
     result.mdl.SetPlayCountAsString(game.child("joueurs").text().get());
 
-    if (Settings::getInstance()->getBool("ScrapeRatings") && (game.child("note") != nullptr))
+    if (Settings::Instance().ScrapeRatings() && (game.child("note") != nullptr))
     {
       float ratingVal = (game.child("note").text().as_float() / 20.0f);
       result.mdl.SetRating(ratingVal);

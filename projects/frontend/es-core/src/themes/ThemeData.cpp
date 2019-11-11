@@ -273,12 +273,12 @@ unsigned int getHexColor(const char* str)
 ThemeData::ThemeData()
 {
 	mVersion = 0;
-	mColorset = Settings::getInstance()->getString("ThemeColorSet");
-	mIconset = Settings::getInstance()->getString("ThemeIconSet");
-	mMenu = Settings::getInstance()->getString("ThemeMenu");
-	mSystemview = Settings::getInstance()->getString("ThemeSystemView");
-	mGamelistview = Settings::getInstance()->getString("ThemeGamelistView");
-	Settings::getInstance()->setBool("ThemeHasMenuView", false);
+	mColorset = Settings::Instance().ThemeColorSet();
+	mIconset = Settings::Instance().ThemeIconSet();
+	mMenu = Settings::Instance().ThemeMenu();
+	mSystemview = Settings::Instance().ThemeSystemView();
+	mGamelistview = Settings::Instance().ThemeGamelistView();
+	Settings::Instance().SetThemeHasMenuView(false);
 	mSystemThemeFolder.clear();
 }
 
@@ -433,7 +433,7 @@ void ThemeData::parseViews(const pugi::xml_node& root)
 		{
 			viewKey = nameAttr.substr(prevOff, off - prevOff);
 			if (viewKey == "menu")
-				Settings::getInstance()->setBool("ThemeHasMenuView", true);
+				Settings::Instance().SetThemeHasMenuView(true);
 			prevOff = nameAttr.find_first_not_of(delim, off);
 			off = nameAttr.find_first_of(delim, prevOff);
 			
@@ -453,7 +453,7 @@ void ThemeData::parseView(const pugi::xml_node& root, ThemeView& view)
 		if(!node.attribute("name"))
 			throw ThemeException("Element of type \"" + std::string(node.name()) + R"(" missing "name" attribute!)", mPaths);
 		if (std::string(node.name()) == "helpsystem")
-			Settings::getInstance()->setBool("ThemeHasHelpSystem", true);
+			Settings::Instance().SetThemeHasHelpSystem(true);
 
     const std::map< std::string, std::map<std::string, ThemeData::ElementProperty> >& elementMap = ElementMap();
 
@@ -490,7 +490,7 @@ bool ThemeData::parseRegion(const pugi::xml_node& node)
 	
 	if (node.attribute("region") != nullptr)
 	{
-		std::string regionsetting = Settings::getInstance()->getString("ThemeRegionName");
+		const std::string& regionsetting = Settings::Instance().ThemeRegionName();
 		parse = false;
 		const char* delim = " \t\r\n,";
 		const std::string nameAttr = node.attribute("region").as_string();
@@ -647,10 +647,10 @@ const ThemeData& ThemeData::getCurrent()
 	static ThemeData sCurrent;
 	static bool sLoaded = false;
 
-	if (!sLoaded || Settings::getInstance()->getBool("ThemeChanged"))
+	if (!sLoaded || Settings::Instance().ThemeChanged())
 	{
 		Path path;
-		std::string currentTheme = Settings::getInstance()->getString("ThemeSet");
+		const std::string& currentTheme = Settings::Instance().ThemeSet();
 
 		static constexpr size_t pathCount = 3;
 		Path paths[pathCount] =
@@ -866,12 +866,12 @@ Path ThemeData::getThemeFromCurrentSet(const std::string& system)
 		return Path();
 	}
 
-	auto set = themeSets.find(Settings::getInstance()->getString("ThemeSet"));
+	auto set = themeSets.find(Settings::Instance().ThemeSet());
 	if(set == themeSets.end())
 	{
 		// currently selected theme set is missing, so just pick the first available set
 		set = themeSets.begin();
-		Settings::getInstance()->setString("ThemeSet", set->first);
+		Settings::Instance().SetThemeSet(set->first);
 	}
 
 	return set->second.getThemePath(system);

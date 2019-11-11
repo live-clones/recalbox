@@ -343,7 +343,7 @@ std::vector<HelpPrompt> ComponentList::getHelpPrompts()
 		if(addMovePrompt)
 		  prompts.push_back(HelpPrompt("up/down", _("CHOOSE")));
 	}
-	if((mEntries.at(mCursor).data.help_handler != nullptr) && Settings::getInstance()->getInt("HelpPopupTime") != 0){
+	if((mEntries.at(mCursor).data.help_handler != nullptr) && Settings::Instance().HelpPopupTime() != 0){
 		prompts.push_back(HelpPrompt("y", _("HELP")));
 	}
 

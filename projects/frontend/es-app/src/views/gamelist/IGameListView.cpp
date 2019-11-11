@@ -7,7 +7,7 @@
 
 bool IGameListView::ProcessInput(const InputCompactEvent& event)
 {
-	/*if (Settings::getInstance()->getBool("Debug") && config->getDeviceId() == InputEvent::sKeyboardDevice &&
+	/*if (Settings::Instance().getBool("Debug") && config->getDeviceId() == InputEvent::sKeyboardDevice &&
      ((SDL_GetModState() & (KMOD_LCTRL | KMOD_RCTRL)) != 0) && input.Id() == SDLK_r && input.Value() != 0)
 	{
 		LOG(LogDebug) << "reloading view";

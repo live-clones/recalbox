@@ -167,7 +167,7 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
 {
 	if (event.AnythingPressed())
 	{
-		/*if(config->getDeviceId() == InputEvent::sKeyboardDevice && input.Id() == SDLK_r && ((SDL_GetModState() & KMOD_LCTRL) != 0) && Settings::getInstance()->getBool("Debug"))
+		/*if(config->getDeviceId() == InputEvent::sKeyboardDevice && input.Id() == SDLK_r && ((SDL_GetModState() & KMOD_LCTRL) != 0) && Settings::Instance().getBool("Debug"))
 		{
 			LOG(LogInfo) << " Reloading all";
 			ViewController::get()->reloadAll();
@@ -434,8 +434,8 @@ void SystemView::onCursorChanged(const CursorState& state)
 		return;
 
 	Animation* anim;
-    bool move_carousel = Settings::getInstance()->getBool("MoveCarousel");
-	std::string transition_style = Settings::getInstance()->getString("TransitionStyle");
+    bool move_carousel = Settings::Instance().MoveCarousel();
+	std::string transition_style = Settings::Instance().TransitionStyle();
 	if(transition_style == "fade")
 	{
 		float startExtrasFade = mExtrasFadeOpacity;

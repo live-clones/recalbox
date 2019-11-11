@@ -107,7 +107,7 @@ void TextureDataManager::load(const std::shared_ptr<TextureData>& tex, bool bloc
 		return;
 	// Not loaded. Make sure there is room
 	size_t size = TextureResource::getTotalMemUsage();
-	size_t max_texture = (size_t)Settings::getInstance()->getInt("MaxVRAM") * 1024 * 1024;
+	size_t max_texture = (size_t)Settings::Instance().MaxVRAM() * 1024 * 1024;
 
 	//size_t in = size;
 

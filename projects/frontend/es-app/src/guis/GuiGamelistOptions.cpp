@@ -73,15 +73,15 @@ GuiGamelistOptions::GuiGamelistOptions(Window* window, SystemData* system)
 	if (!system->isFavorite()) {
 	    // favorite only
         auto favorite_only = std::make_shared<SwitchComponent>(mWindow);
-        favorite_only->setState(Settings::getInstance()->getBool("FavoritesOnly"));
+        favorite_only->setState(Settings::Instance().FavoritesOnly());
         mMenu.addWithLabel(favorite_only, _("FAVORITES ONLY"), _(MenuMessages::GAMELISTOPTION_FAVORITES_ONLY_MSG));
-        addSaveFunc([favorite_only] { Settings::getInstance()->setBool("FavoritesOnly", favorite_only->getState()); });
+        addSaveFunc([favorite_only] { Settings::Instance().SetFavoritesOnly(favorite_only->getState()); });
 
         // show hidden
         auto show_hidden = std::make_shared<SwitchComponent>(mWindow);
-        show_hidden->setState(Settings::getInstance()->getBool("ShowHidden"));
+        show_hidden->setState(Settings::Instance().ShowHidden());
         mMenu.addWithLabel(show_hidden, _("SHOW HIDDEN"), _(MenuMessages::GAMELISTOPTION_SHOW_HIDDEN_MSG));
-        addSaveFunc([show_hidden] { Settings::getInstance()->setBool("ShowHidden", show_hidden->getState()); });
+        addSaveFunc([show_hidden] { Settings::Instance().SetShowHidden(show_hidden->getState()); });
 
     	// flat folders
         auto flat_folders = std::make_shared<SwitchComponent>(mWindow);
@@ -136,8 +136,8 @@ GuiGamelistOptions::GuiGamelistOptions(Window* window, SystemData* system)
 	setSize(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
 	mMenu.setPosition((mSize.x() - mMenu.getSize().x()) / 2, (mSize.y() - mMenu.getSize().y()) / 2);
 
-	mFavoriteState = Settings::getInstance()->getBool("FavoritesOnly");
-	mHiddenState = Settings::getInstance()->getBool("ShowHidden");
+	mFavoriteState = Settings::Instance().FavoritesOnly();
+	mHiddenState = Settings::Instance().ShowHidden();
 }
 
 GuiGamelistOptions::~GuiGamelistOptions()
@@ -162,7 +162,7 @@ GuiGamelistOptions::~GuiGamelistOptions()
 		}
 
 		// if states has changed, invalidate and reload game list
-		if (Settings::getInstance()->getBool("FavoritesOnly") != mFavoriteState || Settings::getInstance()->getBool("ShowHidden") != mHiddenState)
+		if (Settings::Instance().FavoritesOnly() != mFavoriteState || Settings::Instance().ShowHidden() != mHiddenState)
 		{
 			ViewController::get()->setAllInvalidGamesList(getGamelist()->getCursor()->getSystem());
 			ViewController::get()->reloadGameListView(getGamelist()->getCursor()->getSystem());
@@ -239,6 +239,6 @@ void GuiGamelistOptions::save() {
 	for (auto & mSaveFunc : mSaveFuncs) {
 		mSaveFunc();
 	}
-	Settings::getInstance()->saveFile();
+	Settings::Instance().saveFile();
 	RecalboxConf::Instance().SaveRecalboxConf();
 }

@@ -18,7 +18,7 @@ ISimpleGameListView::ISimpleGameListView(Window* window, FolderData* root)
     mThemeExtras(window)
 {
   mFavoritesCount = getRoot()->getSystem()->FavoritesCount();
-  mFavoritesOnly = mFavoritesCount > 0 && Settings::getInstance()->getBool("FavoritesOnly");
+  mFavoritesOnly = mFavoritesCount > 0 && Settings::Instance().FavoritesOnly();
 
   mHeaderText.setText("Logo Text");
   mHeaderText.setSize(mSize.x(), 0);
@@ -216,7 +216,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
   // MOVE to NEXT GAMELIST
   if (event.AnyRightPressed())
   {
-    if (Settings::getInstance()->getBool("QuickSystemSelect") && !hideSystemView) {
+    if (Settings::Instance().QuickSystemSelect() && !hideSystemView) {
       onFocusLost();
       ViewController::get()->goToNextGameList();
       RecalboxSystem::NotifyGame(*getCursor(), false, false);
@@ -226,7 +226,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
 
   // MOVE to PREVIOUS GAMELIST
   if (event.AnyLeftPressed()) {
-    if (Settings::getInstance()->getBool("QuickSystemSelect") && !hideSystemView) {
+    if (Settings::Instance().QuickSystemSelect() && !hideSystemView) {
       onFocusLost();
       ViewController::get()->goToPrevGameList();
       RecalboxSystem::NotifyGame(*getCursor(), false, false);
@@ -294,7 +294,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
   {
     if (mFavoritesCount != 0) {
       mFavoritesOnly = !mFavoritesOnly;
-      Settings::getInstance()->setBool("FavoritesOnly", mFavoritesOnly);
+      Settings::Instance().SetFavoritesOnly(mFavoritesOnly);
       refreshList();
       updateInfoPanel();
       updateHelpPrompts();
@@ -329,7 +329,7 @@ std::vector<HelpPrompt> ISimpleGameListView::getHelpPrompts() {
 
   prompts.push_back(HelpPrompt("up/down", _("CHOOSE")));
 
-  if (Settings::getInstance()->getBool("QuickSystemSelect") && !hideSystemView)
+  if (Settings::Instance().QuickSystemSelect() && !hideSystemView)
     prompts.push_back(HelpPrompt("left/right", _("SYSTEM")));
 
   if (!mIsFavoriteSystem)

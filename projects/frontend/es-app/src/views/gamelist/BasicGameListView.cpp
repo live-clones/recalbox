@@ -133,7 +133,7 @@ void BasicGameListView::populateList(const FolderData* folder)
   // Default filter
   FileData::Filter filter = FileData::Filter::Normal | FileData::Filter::Favorite;
   // Add hidden?
-  if (Settings::getInstance()->getBool("ShowHidden"))
+  if (Settings::Instance().ShowHidden())
     filter |= FileData::Filter::Hidden;
   // Favorites only?
   if (mFavoritesOnly)

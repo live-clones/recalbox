@@ -80,7 +80,7 @@ GuiInfoPopup::GuiInfoPopup(Window* window, const std::string& message, int durat
 
 	float posX = 0.0f, posY = 0.0f;
 
-	std::string posString = Settings::getInstance()->getString("PopupPosition");
+	const std::string& posString = Settings::Instance().PopupPosition();
 
 	if (posString == "Top/Right"){
 		posX = Renderer::getDisplayWidthAsFloat() * 0.98f - mGrid.getSize().x() * 0.98f;

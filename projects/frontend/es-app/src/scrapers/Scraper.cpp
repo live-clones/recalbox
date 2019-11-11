@@ -24,7 +24,7 @@ static const std::map<std::string, generate_scraper_requests_func>& getScraperGe
 std::unique_ptr<ScraperSearchHandle> startScraperSearch(const ScraperSearchParams& params)
 {
   // Get prefered scrapper
-	std::string name = Settings::getInstance()->getString("Scraper");
+	std::string name = Settings::Instance().Scraper();
 
 	// Control invalid scraper
 	if (getScraperGeneratorList().find(name) == getScraperGeneratorList().end())
@@ -179,7 +179,7 @@ void MDResolveHandle::update()
 std::unique_ptr<ImageDownloadHandle> downloadImageAsync(const std::string& url, const Path& saveAs)
 {
 	return std::unique_ptr<ImageDownloadHandle>(new ImageDownloadHandle(url, saveAs, 
-		Settings::getInstance()->getInt("ScraperResizeWidth"), Settings::getInstance()->getInt("ScraperResizeHeight")));
+		Settings::Instance().ScraperResizeWidth(), Settings::Instance().ScraperResizeHeight()));
 }
 
 ImageDownloadHandle::ImageDownloadHandle(const std::string& url, const Path& path, int maxWidth, int maxHeight)

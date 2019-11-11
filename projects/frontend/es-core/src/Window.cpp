@@ -204,7 +204,7 @@ void Window::update(int deltaTime)
 	{
 		mAverageDeltaTime = mFrameTimeElapsed / mFrameCountElapsed;
 		
-		if(Settings::getInstance()->getBool("DrawFramerate"))
+		if(Settings::Instance().DrawFramerate())
 		{
 			std::stringstream ss;
 			
@@ -259,13 +259,13 @@ void Window::render()
 	if(!mRenderedHelpPrompts)
 		mHelp->render(transform);
 
-	if(Settings::getInstance()->getBool("DrawFramerate") && mFrameDataText)
+	if(Settings::Instance().DrawFramerate() && mFrameDataText)
 	{
 		Renderer::setMatrix(Transform4x4f::Identity());
 		mDefaultFonts.at(1)->renderTextCache(mFrameDataText.get());
 	}
 
-	unsigned int screensaverTime = (unsigned int)Settings::getInstance()->getInt("ScreenSaverTime");
+	unsigned int screensaverTime = (unsigned int)Settings::Instance().ScreenSaverTime();
 	if(mTimeSinceLastInput >= screensaverTime && screensaverTime != 0)
 	{
 
@@ -408,7 +408,7 @@ bool Window::isProcessing()
 void Window::renderScreenSaver()
 {
 	Renderer::setMatrix(Transform4x4f::Identity());
-	unsigned char opacity = Settings::getInstance()->getString("ScreenSaverBehavior") == "dim" ? 0xA0 : 0xFF;
+	unsigned char opacity = Settings::Instance().ScreenSaverBehavior() == "dim" ? 0xA0 : 0xFF;
 	Renderer::drawRect(0, 0, Renderer::getDisplayWidthAsInt(), Renderer::getDisplayHeightAsInt(), 0x00000000 | opacity);
 }
 
