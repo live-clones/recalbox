@@ -69,15 +69,14 @@ std::vector<unsigned char> ImageIO::loadFromMemoryRGBA32(const unsigned char * d
 
 void ImageIO::flipPixelsVert(unsigned char* imagePx, const size_t& width, const size_t& height)
 {
-	unsigned int temp;
 	unsigned int* arr = (unsigned int*)imagePx;
-	for (size_t y = 0; y < height / 2; y++)
-	{
-		for (size_t x = 0; x < width; x++)
+  unsigned int* s1 = arr;
+  unsigned int* s2 = arr + (height - 1) * width;
+	for (int y = (int)height / 2; --y >= 0; s1 += width, s2 -= width)
+		for (int x = (int)width; --x >= 0; )
 		{
-			temp = arr[x + (y * width)];
-			arr[x + (y * width)] = arr[x + (height * width) - ((y + 1) * width)];
-			arr[x + (height * width) - ((y + 1) * width)] = temp;
+			unsigned int temp = s1[x];
+			s1[x] = s2[x];
+			s2[x] = temp;
 		}
-	}
 }
