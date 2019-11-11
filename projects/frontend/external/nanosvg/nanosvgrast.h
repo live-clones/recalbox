@@ -1324,11 +1324,11 @@ static void nsvg__initPaint(NSVGcachedPaint* cache, NSVGpaint* paint, float opac
 static void dumpEdges(NSVGrasterizer* r, const char* name)
 {
 	float xmin = 0, xmax = 0, ymin = 0, ymax = 0;
-	NSVGedge *e = NULL;
+	NSVGedge *e = nullptr;
 	int i;
 	if (r->nedges == 0) return;
 	FILE* fp = fopen(name, "w");
-	if (fp == NULL) return;
+	if (fp == nullptr) return;
 
 	xmin = xmax = r->edges[0].x0;
 	ymin = ymax = r->edges[0].y0;

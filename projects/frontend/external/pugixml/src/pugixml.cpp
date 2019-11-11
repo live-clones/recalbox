@@ -1,5 +1,5 @@
 /**
- * pugixml parser - version 1.9
+ * pugixml parser - version 1.10
  * --------------------------------------------------------
  * Copyright (C) 2006-2019, by Arseny Kapoulkine (arseny.kapoulkine@gmail.com)
  * Report bugs and download new versions at https://pugixml.org/
@@ -1861,7 +1861,7 @@ PUGI__NS_BEGIN
 	enum chartypex_t
 	{
 		ctx_special_pcdata = 1,   // Any symbol >= 0 and < 32 (except \t, \r, \n), &, <, >
-		ctx_special_attr = 2,     // Any symbol >= 0 and < 32, &, <, >, "
+		ctx_special_attr = 2,     // Any symbol >= 0 and < 32, &, <, ", '
 		ctx_start_symbol = 4,	  // Any symbol > 127, a-z, A-Z, _
 		ctx_digit = 8,			  // 0-9
 		ctx_symbol = 16			  // Any symbol > 127, a-z, A-Z, 0-9, _, -, .
@@ -1871,8 +1871,8 @@ PUGI__NS_BEGIN
 	{
 		3,  3,  3,  3,  3,  3,  3,  3,     3,  2,  2,  3,  3,  2,  3,  3,     // 0-15
 		3,  3,  3,  3,  3,  3,  3,  3,     3,  3,  3,  3,  3,  3,  3,  3,     // 16-31
-		0,  0,  2,  0,  0,  0,  3,  0,     0,  0,  0,  0,  0, 16, 16,  0,     // 32-47
-		24, 24, 24, 24, 24, 24, 24, 24,    24, 24, 0,  0,  3,  0,  3,  0,     // 48-63
+		0,  0,  2,  0,  0,  0,  3,  2,     0,  0,  0,  0,  0, 16, 16,  0,     // 32-47
+		24, 24, 24, 24, 24, 24, 24, 24,    24, 24, 0,  0,  3,  0,  1,  0,     // 48-63
 
 		0,  20, 20, 20, 20, 20, 20, 20,    20, 20, 20, 20, 20, 20, 20, 20,    // 64-79
 		20, 20, 20, 20, 20, 20, 20, 20,    20, 20, 20, 0,  0,  0,  0,  20,    // 80-95
@@ -2709,7 +2709,7 @@ PUGI__NS_BEGIN
 	{
 		PUGI__STATIC_ASSERT(parse_escapes == 0x10 && parse_eol == 0x20 && parse_trim_pcdata == 0x0800);
 
-		switch (((optmask >> 4) & 3) | ((optmask >> 9) & 4)) // get bitmask for flags (Trim eol escapes); this simultaneously checks 3 options from assertion above
+		switch (((optmask >> 4) & 3) | ((optmask >> 9) & 4)) // get bitmask for flags (trim eol escapes); this simultaneously checks 3 options from assertion above
 		{
 		case 0: return strconv_pcdata_impl<opt_false, opt_false, opt_false>::parse;
 		case 1: return strconv_pcdata_impl<opt_false, opt_false, opt_true>::parse;
@@ -2731,7 +2731,7 @@ PUGI__NS_BEGIN
 		{
 			gap g;
 
-			// Trim leading whitespaces
+			// trim leading whitespaces
 			if (PUGI__IS_CHARTYPE(*s, ct_space))
 			{
 				char_t* str = s;
@@ -3903,7 +3903,7 @@ PUGI__NS_BEGIN
 		xml_encoding encoding;
 	};
 
-	PUGI__FN void text_output_escaped(xml_buffered_writer& writer, const char_t* s, chartypex_t type)
+	PUGI__FN void text_output_escaped(xml_buffered_writer& writer, const char_t* s, chartypex_t type, unsigned int flags)
 	{
 		while (*s)
 		{
@@ -3930,7 +3930,17 @@ PUGI__NS_BEGIN
 					++s;
 					break;
 				case '"':
-					writer.write('&', 'q', 'u', 'o', 't', ';');
+					if (flags & format_attribute_single_quote)
+						writer.write('"');
+					else
+						writer.write('&', 'q', 'u', 'o', 't', ';');
+					++s;
+					break;
+				case '\'':
+					if (flags & format_attribute_single_quote)
+						writer.write('&', 'a', 'p', 'o', 's', ';');
+					else
+						writer.write('\'');
 					++s;
 					break;
 				default: // s is not a usual symbol
@@ -3938,7 +3948,8 @@ PUGI__NS_BEGIN
 					unsigned int ch = static_cast<unsigned int>(*s++);
 					assert(ch < 32);
 
-					writer.write('&', '#', static_cast<char_t>((ch / 10) + '0'), static_cast<char_t>((ch % 10) + '0'), ';');
+					if (!(flags & format_skip_control_chars))
+						writer.write('&', '#', static_cast<char_t>((ch / 10) + '0'), static_cast<char_t>((ch % 10) + '0'), ';');
 				}
 			}
 		}
@@ -3949,7 +3960,7 @@ PUGI__NS_BEGIN
 		if (flags & format_no_escapes)
 			writer.write_string(s);
 		else
-			text_output_escaped(writer, s, type);
+			text_output_escaped(writer, s, type, flags);
 	}
 
 	PUGI__FN void text_output_cdata(xml_buffered_writer& writer, const char_t* s)
@@ -4063,6 +4074,7 @@ PUGI__NS_BEGIN
 	PUGI__FN void node_output_attributes(xml_buffered_writer& writer, xml_node_struct* node, const char_t* indent, size_t indent_length, unsigned int flags, unsigned int depth)
 	{
 		const char_t* default_name = PUGIXML_TEXT(":anonymous");
+		const char_t enquotation_char = (flags & format_attribute_single_quote) ? '\'' : '"';
 
 		for (xml_attribute_struct* a = node->first_attribute; a; a = a->next_attribute)
 		{
@@ -4078,12 +4090,12 @@ PUGI__NS_BEGIN
 			}
 
 			writer.write_string(a->name ? a->name + 0 : default_name);
-			writer.write('=', '"');
+			writer.write('=', enquotation_char);
 
 			if (a->value)
 				text_output(writer, a->value, ctx_special_attr, flags);
 
-			writer.write('"');
+			writer.write(enquotation_char);
 		}
 	}
 
@@ -7332,14 +7344,14 @@ PUGI__NS_BEGIN
 		}
 	};
 
-	template <typename T> void swap(T& lhs, T& rhs)
+	template <typename T> inline void swap(T& lhs, T& rhs)
 	{
 		T temp = lhs;
 		lhs = rhs;
 		rhs = temp;
 	}
 
-	template <typename I, typename Pred> I min_element(I begin, I end, const Pred& pred)
+	template <typename I, typename Pred> PUGI__FN I min_element(I begin, I end, const Pred& pred)
 	{
 		I result = begin;
 
@@ -7350,17 +7362,20 @@ PUGI__NS_BEGIN
 		return result;
 	}
 
-	template <typename I> void reverse(I begin, I end)
+	template <typename I> PUGI__FN void reverse(I begin, I end)
 	{
-		while (end - begin > 1) swap(*begin++, *--end);
+		while (end - begin > 1)
+			swap(*begin++, *--end);
 	}
 
-	template <typename I> I unique(I begin, I end)
+	template <typename I> PUGI__FN I unique(I begin, I end)
 	{
 		// fast skip head
-		while (end - begin > 1 && *begin != *(begin + 1)) begin++;
+		while (end - begin > 1 && *begin != *(begin + 1))
+			begin++;
 
-		if (begin == end) return begin;
+		if (begin == end)
+			return begin;
 
 		// last written element
 		I write = begin++;
@@ -7378,7 +7393,7 @@ PUGI__NS_BEGIN
 		return write + 1;
 	}
 
-	template <typename T, typename Pred> void insertion_sort(T* begin, T* end, const Pred& pred)
+	template <typename T, typename Pred> PUGI__FN void insertion_sort(T* begin, T* end, const Pred& pred)
 	{
 		if (begin == end)
 			return;
@@ -7400,16 +7415,19 @@ PUGI__NS_BEGIN
 		}
 	}
 
-	template <typename I, typename Pred> I median3(I first, I middle, I last, const Pred& pred)
+	template <typename I, typename Pred> inline I median3(I first, I middle, I last, const Pred& pred)
 	{
-		if (pred(*middle, *first)) swap(middle, first);
-		if (pred(*last, *middle)) swap(last, middle);
-		if (pred(*middle, *first)) swap(middle, first);
+		if (pred(*middle, *first))
+			swap(middle, first);
+		if (pred(*last, *middle))
+			swap(last, middle);
+		if (pred(*middle, *first))
+			swap(middle, first);
 
 		return middle;
 	}
 
-	template <typename T, typename Pred> void partition3(T* begin, T* end, T pivot, const Pred& pred, T** out_eqbeg, T** out_eqend)
+	template <typename T, typename Pred> PUGI__FN void partition3(T* begin, T* end, T pivot, const Pred& pred, T** out_eqbeg, T** out_eqend)
 	{
 		// invariant: array is split into 4 groups: = < ? > (each variable denotes the boundary between the groups)
 		T* eq = begin;
@@ -7436,7 +7454,7 @@ PUGI__NS_BEGIN
 		*out_eqend = gt;
 	}
 
-	template <typename I, typename Pred> void sort(I begin, I end, const Pred& pred)
+	template <typename I, typename Pred> PUGI__FN void sort(I begin, I end, const Pred& pred)
 	{
 		// sort large chunks
 		while (end - begin > 16)
@@ -7464,6 +7482,41 @@ PUGI__NS_BEGIN
 
 		// insertion sort small chunk
 		insertion_sort(begin, end, pred);
+	}
+
+	PUGI__FN bool hash_insert(const void** table, size_t size, const void* key)
+	{
+		assert(key);
+
+		unsigned int h = static_cast<unsigned int>(reinterpret_cast<uintptr_t>(key));
+
+		// MurmurHash3 32-bit finalizer
+		h ^= h >> 16;
+		h *= 0x85ebca6bu;
+		h ^= h >> 13;
+		h *= 0xc2b2ae35u;
+		h ^= h >> 16;
+
+		size_t hashmod = size - 1;
+		size_t bucket = h & hashmod;
+
+		for (size_t probe = 0; probe <= hashmod; ++probe)
+		{
+			if (table[bucket] == 0)
+			{
+				table[bucket] = key;
+				return true;
+			}
+
+			if (table[bucket] == key)
+				return false;
+
+			// hash collision, quadratic probing
+			bucket = (bucket + probe + 1) & hashmod;
+		}
+
+		assert(false && "Hash table is full"); // unreachable
+		return false;
 	}
 PUGI__NS_END
 
@@ -8051,15 +8104,6 @@ PUGI__NS_BEGIN
 			if (!ln || !rn) return ln < rn;
 
 			return node_is_before(ln.internal_object(), rn.internal_object());
-		}
-	};
-
-	struct duplicate_comparator
-	{
-		bool operator()(const xpath_node& lhs, const xpath_node& rhs) const
-		{
-			if (lhs.attribute()) return rhs.attribute() ? lhs.attribute() < rhs.attribute() : true;
-			else return rhs.attribute() ? false : lhs.node() < rhs.node();
 		}
 	};
 
@@ -8850,12 +8894,42 @@ PUGI__NS_BEGIN
 			_end = pos;
 		}
 
-		void remove_duplicates()
+		void remove_duplicates(xpath_allocator* alloc)
 		{
-			if (_type == xpath_node_set::type_unsorted)
-				sort(_begin, _end, duplicate_comparator());
+			if (_type == xpath_node_set::type_unsorted && _end - _begin > 2)
+			{
+				xpath_allocator_capture cr(alloc);
 
-			_end = unique(_begin, _end);
+				size_t size_ = static_cast<size_t>(_end - _begin);
+
+				size_t hash_size = 1;
+				while (hash_size < size_ + size_ / 2) hash_size *= 2;
+
+				const void** hash_data = static_cast<const void**>(alloc->allocate(hash_size * sizeof(void**)));
+				if (!hash_data) return;
+
+				memset(hash_data, 0, hash_size * sizeof(const void**));
+
+				xpath_node* write = _begin;
+
+				for (xpath_node* it = _begin; it != _end; ++it)
+				{
+					const void* attr = it->attribute().internal_object();
+					const void* node = it->node().internal_object();
+					const void* key = attr ? attr : node;
+
+					if (key && hash_insert(hash_data, hash_size, key))
+					{
+						*write++ = *it;
+					}
+				}
+
+				_end = write;
+			}
+			else
+			{
+				_end = unique(_begin, _end);
+			}
 		}
 
 		xpath_node_set::type_t type() const
@@ -10117,7 +10191,7 @@ PUGI__NS_BEGIN
 			// child, attribute and self axes always generate unique set of nodes
 			// for other axis, if the set stayed sorted, it stayed unique because the traversal algorithms do not visit the same node twice
 			if (axis != axis_child && axis != axis_attribute && axis != axis_self && ns.type() == xpath_node_set::type_unsorted)
-				ns.remove_duplicates();
+				ns.remove_duplicates(stack.temp);
 
 			return ns;
 		}
@@ -10737,16 +10811,16 @@ PUGI__NS_BEGIN
 
 				xpath_stack swapped_stack = {stack.temp, stack.result};
 
-				xpath_node_set_raw ls = _left->eval_node_set(c, swapped_stack, eval);
-				xpath_node_set_raw rs = _right->eval_node_set(c, stack, eval);
+				xpath_node_set_raw ls = _left->eval_node_set(c, stack, eval);
+				xpath_node_set_raw rs = _right->eval_node_set(c, swapped_stack, eval);
 
 				// we can optimize merging two sorted sets, but this is a very rare operation, so don't bother
-				rs.set_type(xpath_node_set::type_unsorted);
+				ls.set_type(xpath_node_set::type_unsorted);
 
-				rs.append(ls.begin(), ls.end(), stack.result);
-				rs.remove_duplicates();
+				ls.append(rs.begin(), rs.end(), stack.result);
+				ls.remove_duplicates(stack.temp);
 
-				return rs;
+				return ls;
 			}
 
 			case ast_filter:
