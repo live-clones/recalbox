@@ -236,7 +236,7 @@ bool RecalboxSystem::launchKodi(Window* window)
   std::string commandline = InputManager::Instance().GenerateConfiggenConfiguration();
   std::string command = "configgen -system kodi -rom '' " + commandline;
 
-  window->deinit();
+  Window::deinit();
 
   int exitCode = system(command.c_str());
   if (WIFEXITED(exitCode))

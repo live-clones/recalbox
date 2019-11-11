@@ -1,5 +1,4 @@
-#ifndef _IMAGECOMPONENT_H_
-#define _IMAGECOMPONENT_H_
+#pragma once
 
 #include "platform_gl.h"
 
@@ -99,4 +98,3 @@ private:
 	bool mDynamic;
 };
 
-#endif

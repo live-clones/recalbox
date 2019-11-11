@@ -7,7 +7,6 @@
 
 #include <rapidjson/document.h>
 #include <rapidjson/error/en.h>
-#include <fstream>
 #include <utils/Files.h>
 
 using namespace rapidjson;

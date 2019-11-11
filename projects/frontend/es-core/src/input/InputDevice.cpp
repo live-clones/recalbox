@@ -79,7 +79,8 @@ InputDevice::InputDevice(int deviceId, int deviceIndex, const std::string& devic
     mDeviceNbHats(deviceNbHats),
     mDeviceNbButtons(deviceNbButtons),
     mConfigurationBits(0),
-    mPreviousAxisValues{}
+    mPreviousAxisValues{},
+    mConfiguring(false)
 {
 }
 

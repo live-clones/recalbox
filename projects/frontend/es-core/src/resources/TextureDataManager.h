@@ -8,7 +8,6 @@
 #include <thread>
 #include <mutex>
 #include <condition_variable>
-#include <functional>
 
 class TextureResource;
 
@@ -24,7 +23,6 @@ public:
 	size_t getQueueSize();
 
 private:
-	void processQueue();
 	void threadProc();
 
 	std::list<std::shared_ptr<TextureData> > 										mTextureDataQ;

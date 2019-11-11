@@ -1,5 +1,4 @@
 #include "Window.h"
-#include <iostream>
 #include "Renderer.h"
 #include "utils/Log.h"
 #include "Settings.h"
@@ -206,20 +205,18 @@ void Window::update(int deltaTime)
 		
 		if(Settings::Instance().DrawFramerate())
 		{
-			std::stringstream ss;
-			
-			// fps
-			ss << std::fixed << std::setprecision(1) << (1000.0f * (float)mFrameCountElapsed / (float)mFrameTimeElapsed) << "fps, ";
-			ss << std::fixed << std::setprecision(2) << ((float)mFrameTimeElapsed / (float)mFrameCountElapsed) << "ms";
+			std::string ss = Strings::ToString(1000.0f * (float)mFrameCountElapsed / (float)mFrameTimeElapsed, 1) + "fps, "
+			               + Strings::ToString((float)mFrameTimeElapsed / (float)mFrameCountElapsed, 2) + "ms";
 
 			// vram
 			float textureVramUsageMb = TextureResource::getTotalMemUsage() / (1024.0f * 1024.0f);
 			float textureTotalUsageMb = TextureResource::getTotalTextureSize() / (1024.0f * 1024.0f);
 			float fontVramUsageMb = Font::getTotalMemUsage() / (1024.0f * 1024.0f);
-			ss << "\nFont VRAM: " << fontVramUsageMb << " Tex VRAM: " << textureVramUsageMb <<
-				  " Tex Max: " << textureTotalUsageMb;
+			ss += "\nFont VRAM: " + Strings::ToString(fontVramUsageMb, 2)
+			    + " Tex VRAM: " + Strings::ToString(textureVramUsageMb, 2)
+			    + " Tex Max: " + Strings::ToString(textureTotalUsageMb, 2);
 
-			mFrameDataText = std::unique_ptr<TextCache>(mDefaultFonts.at(1)->buildTextCache(ss.str(), 50.f, 50.f, 0xFF00FFFF));
+			mFrameDataText = std::unique_ptr<TextCache>(mDefaultFonts.at(1)->buildTextCache(ss, 50.f, 50.f, 0xFF00FFFF));
 		}
 
 		mFrameTimeElapsed = 0;

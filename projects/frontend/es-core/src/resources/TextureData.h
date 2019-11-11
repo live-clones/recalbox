@@ -1,6 +1,5 @@
 #pragma once
 
-#include <string>
 #include <mutex>
 #include "platform_gl.h"
 #include <nanosvg/nanosvg.h>

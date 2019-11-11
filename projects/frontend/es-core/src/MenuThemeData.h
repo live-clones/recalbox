@@ -1,6 +1,5 @@
 #pragma once
 
-#include <string>
 #include "themes/ThemeData.h"
 #include "resources/Font.h"
 #include "Renderer.h"

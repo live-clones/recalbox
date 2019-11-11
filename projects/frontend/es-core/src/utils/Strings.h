@@ -86,13 +86,15 @@ class Strings
 
     static bool HexToInt(const std::string& from, int& out) { return HexToInt(from, 0, 0, out); }
 
-    static std::string ToString(int integer);
+    static std::string ToString(bool value);
 
-    static std::string ToString(unsigned int integer);
+    static std::string ToString(int value);
 
-    static std::string ToString(long long integer);
+    static std::string ToString(unsigned int value);
 
-    static std::string ToString(unsigned long long integer);
+    static std::string ToString(long long value);
+
+    static std::string ToString(unsigned long long value);
 
     static std::string ToString(float value, int precision);
 }; // String::

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "input/InputDevice.h"
-#include <memory>
 #include <functional>
 #include "utils/math/Vectors.h"
 #include "HelpStyle.h"

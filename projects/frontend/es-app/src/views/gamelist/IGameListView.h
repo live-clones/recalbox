@@ -26,7 +26,7 @@ enum class FileChangeType
 class IGameListView : public GuiComponent
 {
   protected:
-    FolderData* mRoot;
+    FolderData* mRoot; // TODO: check if a & is more appropriate
     SystemData* mSystem;
     const ThemeData* mTheme;
 
@@ -34,7 +34,8 @@ class IGameListView : public GuiComponent
     IGameListView(Window* window, FolderData* root)
       : GuiComponent(window),
         mRoot(root),
-        mSystem(root->getSystem())
+        mSystem(root->getSystem()),
+        mTheme(nullptr)
     {
       setSize(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
     }

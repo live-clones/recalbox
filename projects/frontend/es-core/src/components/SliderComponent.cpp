@@ -39,14 +39,14 @@ bool SliderComponent::ProcessInput(const InputCompactEvent& event)
 {
 	if (event.AnyLeft())
 	{
-		if (event.LeftPressed()) setValue(mValue - mSingleIncrement);
+		if (event.LeftPressed()) setSlider(mValue - mSingleIncrement);
 
 		mMoveRate = event.LeftPressed() ? -mSingleIncrement : 0;
 		mMoveAccumulator = -MOVE_REPEAT_DELAY;
 	}
 	if (event.AnyRight())
 	{
-		if (event.RightPressed()) setValue(mValue + mSingleIncrement);
+		if (event.RightPressed()) setSlider(mValue + mSingleIncrement);
 
 		mMoveRate = event.RightPressed() ? mSingleIncrement : 0;
 		mMoveAccumulator = -MOVE_REPEAT_DELAY;
@@ -62,7 +62,7 @@ void SliderComponent::update(int deltaTime)
 		mMoveAccumulator += deltaTime;
 		while(mMoveAccumulator >= MOVE_REPEAT_RATE)
 		{
-			setValue(mValue + mMoveRate);
+			setSlider(mValue + mMoveRate);
 			mMoveAccumulator -= MOVE_REPEAT_RATE;
 		}
 	}
@@ -92,7 +92,7 @@ void SliderComponent::render(const Transform4x4f& parentTrans)
 	GuiComponent::renderChildren(trans);
 }
 
-void SliderComponent::setValue(float value)
+void SliderComponent::setSlider(float value)
 {
 	mValue = value;
 	if(mValue < mMin)
@@ -122,20 +122,8 @@ void SliderComponent::onValueChanged()
 	// update suffix textcache
 	if(mFont)
 	{
-		std::stringstream ss;
-		ss << std::fixed;
-		ss.precision(0);
-		ss << mValue;
-		ss << mSuffix;
-		const std::string val = ss.str();
-
-		ss.str("");
-		ss.clear();
-		ss << std::fixed;
-		ss.precision(0);
-		ss << mMax;
-		ss << mSuffix;
-		const std::string max = ss.str();
+		const std::string val = Strings::ToString(mValue, 0) + mSuffix;
+		const std::string max = Strings::ToString(mMax, 0) + mSuffix;
 
 		Vector2f textSize = mFont->sizeText(max);
 

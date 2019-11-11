@@ -15,8 +15,6 @@ public:
 
 	inline bool isReversed() const { return mReverse; }
 	inline int getTime() const { return mTime; }
-	inline int getDelay() const { return mDelay; }
-	inline const std::function<void()>& getFinishedCallback() const { return mFinishedCallback; }
 	inline Animation* getAnimation() const { return mAnimation; }
 
 	inline void removeFinishedCallback() { mFinishedCallback = nullptr; }

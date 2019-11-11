@@ -139,28 +139,30 @@ void GuiScraperMulti::skip()
 
 void GuiScraperMulti::finish()
 {
-	std::stringstream ss;
+  std::string ss;
 	if(mTotalSuccessful == 0)
 	{
-		ss << _("WE CAN'T FIND ANY SYSTEMS!\n"
+		ss = _("WE CAN'T FIND ANY SYSTEMS!\n"
 			"CHECK THAT YOUR PATHS ARE CORRECT IN THE SYSTEMS CONFIGURATION FILE, AND "
 			"YOUR GAME DIRECTORY HAS AT LEAST ONE GAME WITH THE CORRECT EXTENSION.\n"
 			"\n"
 			"VISIT RECALBOX.FR FOR MORE INFORMATION."
 			);
-	} else {
+	}
+	else
+	{
 	  char strbuf[256];
 	  snprintf(strbuf, 256, ngettext("%i GAME SUCCESSFULLY SCRAPED!", "%i GAMES SUCCESSFULLY SCRAPED!", mTotalSuccessful).c_str(), mTotalSuccessful);
-	  ss << strbuf;
+	  ss = strbuf;
 
-	  if(mTotalSkipped > 0) {
+	  if(mTotalSkipped > 0)
+	  {
 	    snprintf(strbuf, 256, ngettext("%i GAME SKIPPED.", "%i GAMES SKIPPED.", mTotalSkipped).c_str(), mTotalSkipped);
-	    ss << "\n" << strbuf;
+	    ss += '\n' + std::string(strbuf);
 	  }
 	}
 
-	mWindow->pushGui(new GuiMsgBox(mWindow, ss.str(), 
-				       _("OK"), [&] { Close(); }));
+	mWindow->pushGui(new GuiMsgBox(mWindow, ss, _("OK"), [&] { Close(); }));
 
 	mIsProcessing = false;
 }

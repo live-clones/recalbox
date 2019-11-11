@@ -7,7 +7,6 @@
 #include "components/TextComponent.h"
 #include "components/ImageComponent.h"
 #include "components/MenuComponent.h"
-#include <sstream>
 #include "utils/Log.h"
 #include "Locale.h"
 #include "MenuThemeData.h"

@@ -197,9 +197,8 @@ void ImageDownloadHandle::update()
 
 	if(mReq->status() != HttpReq::Status::Success)
 	{
-		std::stringstream ss;
-		ss << "Network error: " << mReq->getErrorMsg();
-		setError(ss.str());
+		std::string ss = "Network error: " + mReq->getErrorMsg();
+		setError(ss);
 		return;
 	}
 

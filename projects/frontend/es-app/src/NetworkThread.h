@@ -50,7 +50,7 @@ class NetworkThread: private Thread, private ISyncronousEvent
      * @brief Receive SDL event from the main thread
      * @param event SDL event
      */
-    void ReceiveSyncCallback(const SDL_Event& event);
+    void ReceiveSyncCallback(const SDL_Event& event) override;
 };
 
 

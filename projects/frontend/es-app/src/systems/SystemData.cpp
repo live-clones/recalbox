@@ -34,7 +34,7 @@ void SystemData::RunGame(Window& window, FileData& game, const std::string& netp
 
   std::string controlersConfig = InputManager::Instance().GenerateConfiggenConfiguration();
   LOG(LogInfo) << "Controllers config : " << controlersConfig;
-  window.deinit();
+  Window::deinit();
 
 
   std::string command = mDescriptor.Command();
@@ -89,7 +89,7 @@ void SystemData::RunGame(Window& window, FileData& game, const std::string& netp
   game.Metadata().SetLastplayedNow();
 }
 
-std::string SystemData::demoInitialize(Window& window)
+std::string SystemData::demoInitialize(Window&)
 {
   LOG(LogInfo) << "Entering demo mode...";
 
@@ -100,7 +100,7 @@ std::string SystemData::demoInitialize(Window& window)
   AudioManager::getInstance()->deinit();
   VolumeControl::getInstance()->deinit();
 
-  window.deinit();
+  Window::deinit();
 
   return controlersConfig;
 }

@@ -1,12 +1,11 @@
 #include "Log.h"
 #include <map>
-#include <iostream>
 #include "platform.h"
 #include "RootFolders.h"
 #include "utils/datetime/DateTime.h"
 
 LogLevel Log::reportingLevel = LogLevel::LogInfo;
-FILE* Log::file = nullptr;
+FILE* Log::sFile = nullptr;
 
 static std::map<LogLevel, std::string> StringLevel =
 {
@@ -23,20 +22,20 @@ Path Log::getLogPath()
 
 void Log::open()
 {
-	file = fopen(getLogPath().ToChars(), "w");
+	sFile = fopen(getLogPath().ToChars(), "w");
 }
 
-std::ostringstream& Log::get(LogLevel level)
+Log& Log::get(LogLevel level)
 {
-	os << '[' << DateTime().ToPreciseTimeStamp() << "] (" << StringLevel[level] << ") : ";
+	mMessage = '[' + DateTime().ToPreciseTimeStamp() + "] (" + StringLevel[level] + ") : ";
 	messageLevel = level;
 
-	return os;
+	return *this;
 }
 
 void Log::flush()
 {
-	fflush(file);
+	fflush(sFile);
 }
 
 void Log::close()
@@ -52,27 +51,27 @@ void Log::close()
 
 void Log::doClose()
 {
-  fclose(file);
-  file = nullptr;
+  fclose(sFile);
+  sFile = nullptr;
 }
 
 Log::~Log()
 {
-	bool loggerClosed = (file == nullptr);
+	bool loggerClosed = (sFile == nullptr);
 	// Reopen temporarily
 	if (loggerClosed)
   {
 	  open();
-	  os << " [closed!]";
+	  mMessage += " [closed!]";
   }
 
-  os << std::endl;
-	fputs(os.str().c_str(), file);
+  mMessage += '\n';
+	fputs(mMessage.c_str(), sFile);
 	if (!loggerClosed) flush();
 	else doClose();
 
   // if it's an error, also print to console
   // print all messages if using --debug
   if(messageLevel == LogLevel::LogError || reportingLevel >= LogLevel::LogDebug)
-    fputs(os.str().c_str(), stderr);
+    fputs(mMessage.c_str(), stderr);
 }

@@ -9,14 +9,14 @@ SyncronousEvent::SyncronousEvent(ISyncronousEvent* callback)
 SyncronousEvent::~SyncronousEvent()
 {
   SyncronousEventService::Instance().RecycleSyncCallback(*this);
-};
+}
 
 void SyncronousEvent::Call() const
 {
   SDL_Event event;
   event.user.type = mSDLEvent;
   SDL_PushEvent(&event);
-};
+}
 
 void SyncronousEvent::Call(int data) const
 {
@@ -32,7 +32,7 @@ void SyncronousEvent::Call(void* data) const
   event.user.type = mSDLEvent;
   event.user.data1 = data;
   SDL_PushEvent(&event);
-};
+}
 
 void SyncronousEvent::Call(int data, void* data1) const
 {
@@ -41,7 +41,7 @@ void SyncronousEvent::Call(int data, void* data1) const
   event.user.code = data;
   event.user.data1 = data1;
   SDL_PushEvent(&event);
-};
+}
 
 void SyncronousEvent::Call(void* data1, void* data2) const
 {

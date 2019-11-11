@@ -4,7 +4,6 @@
 #include "resources/Font.h"
 #include "guis/GuiInputConfig.h"
 #include "components/TextComponent.h"
-#include <iostream>
 #include <string>
 #include "Locale.h"
 #include "MenuThemeData.h"
@@ -38,17 +37,17 @@ GuiDetectDevice::GuiDetectDevice(Window* window, bool firstRun, const std::funct
 	mGrid.setEntry(mTitle, Vector2i(0, 0), false, true);
 	
 	// device info
-	std::stringstream deviceInfo;
+	std::string deviceInfo;
 	int numDevices = InputManager::Instance().DeviceCount();
 	
 	if(numDevices > 0) {
 	  char strbuf[256];
 	  snprintf(strbuf, 256, ngettext("%i GAMEPAD DETECTED", "%i GAMEPADS DETECTED", numDevices).c_str(), numDevices);
-	  deviceInfo << strbuf;
+	  deviceInfo = strbuf;
 	}
 	else
-		deviceInfo << _("NO GAMEPADS DETECTED");
-	mDeviceInfo = std::make_shared<TextComponent>(mWindow, deviceInfo.str(), menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Center);
+		deviceInfo = _("NO GAMEPADS DETECTED");
+	mDeviceInfo = std::make_shared<TextComponent>(mWindow, deviceInfo, menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Center);
 	mGrid.setEntry(mDeviceInfo, Vector2i(0, 1), false, true);
 
 	// message

@@ -7,9 +7,8 @@
 #include <utils/datetime/DateTime.h>
 #include <utils/sdl2/ISyncTimer.h>
 #include <utils/sdl2/SyncTimer.h>
-#include <utils/Log.h>
 
-/**
+/*!
  * The purpose of this class is to catch the whole inputs sent by SDL when using a gamepad hat / joy / button
  * Indeed, when pressing one HAT button for example, the GamePad / SDL will send more than one SDL event,
  * Example: when pressing UP HAT button, SDL send: SDL_JOYBUTTONDOWN and SDL_JOYHATMOTION

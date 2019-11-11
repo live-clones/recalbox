@@ -1,7 +1,5 @@
 #pragma once
 
-#include <vector>
-#include <string>
 #include <stack>
 #include <SDL.h>
 #include "platform_gl.h"

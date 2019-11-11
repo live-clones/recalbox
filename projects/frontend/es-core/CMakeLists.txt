@@ -127,7 +127,6 @@ set(CORE_SOURCES
 		src/utils/sdl2/SyncronousEventService.cpp
 		src/utils/sdl2/SyncronousEvent.cpp
 		src/themes/ThemeData.cpp
-		src/themes/ThemeElement.cpp
 		src/themes/ThemeExtras.cpp
 
 		# Utils

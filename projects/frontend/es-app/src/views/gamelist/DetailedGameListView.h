@@ -64,5 +64,5 @@ private:
     void setGameInfo(FileData* file);
     void setScrappedFolderInfo(FileData* file);
     //void getFolderGames(FileData* folder, FileData::List &output);
-    void fadeOut(const std::vector<GuiComponent*>& comps, bool fadingOut);
+    static void fadeOut(const std::vector<GuiComponent*>& comps, bool fadingOut);
 };

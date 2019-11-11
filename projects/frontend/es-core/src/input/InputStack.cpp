@@ -1,4 +1,5 @@
 #include "InputStack.h"
+#include "utils/Log.h"
 
 #define SDL_IDLE_MS 150
 

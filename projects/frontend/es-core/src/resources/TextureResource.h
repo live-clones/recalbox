@@ -2,7 +2,6 @@
 
 #include "resources/ResourceManager.h"
 
-#include <string>
 #include <set>
 #include <list>
 #include "utils/math/Vectors.h"

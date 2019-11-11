@@ -4,7 +4,6 @@
 #include "Settings.h"
 #include "utils/Log.h"
 #include "pugixml/pugixml.hpp"
-#include "platform.h"
 #include "RootFolders.h"
 #include "SDL.h"
 

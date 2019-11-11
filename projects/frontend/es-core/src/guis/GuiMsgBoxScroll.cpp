@@ -117,11 +117,7 @@ void GuiMsgBoxScroll::onSizeChanged()
 
 void GuiMsgBoxScroll::deleteMeAndCall(const std::function<void()>& func)
 {
-  auto antibug = func; // TODO: REMOVE delete this! Use a need-to-be-closes stack instead.
-
 	Close();
-
-	if(antibug)
-		antibug();
+	if(func) func();
 }
 

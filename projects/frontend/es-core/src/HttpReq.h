@@ -2,7 +2,6 @@
 
 #include <curl/curl.h>
 #include <map>
-#include <sstream>
 
 /* Usage:
  * HttpReq myRequest("www.google.com", "/index.html");
@@ -63,6 +62,6 @@ private:
 
 	Status mStatus;
 
-	std::stringstream mContent;
+	std::string mContent; // TODO: string!
 	std::string mErrorMsg;
 };

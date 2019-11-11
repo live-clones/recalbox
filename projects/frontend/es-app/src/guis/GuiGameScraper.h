@@ -30,5 +30,5 @@ private:
 
 	ScraperSearchParams mSearchParams;
 
-	std::function<void()> mCancelFunc;
+	//std::function<void()> mCancelFunc;
 };

@@ -255,8 +255,7 @@ void TextureData::releaseVRAM()
 void TextureData::releaseRAM()
 {
 	std::unique_lock<std::mutex> lock(mMutex);
-	if (mDataRGBA != nullptr)
-  	delete[] mDataRGBA;
+	delete[] mDataRGBA;
 	mDataRGBA = nullptr;
 }
 

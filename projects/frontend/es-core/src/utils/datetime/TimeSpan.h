@@ -49,9 +49,9 @@ private:
   TimeSpan& Negate()
   {
     Units._Hours = -Units._Hours;
-    Units._Minutes = -Units._Minutes;
-    Units._Seconds = -Units._Seconds;
-    Units._Millis = -Units._Millis;
+    Units._Minutes = (char)-Units._Minutes;
+    Units._Seconds = (char)-Units._Seconds;
+    Units._Millis = (short)-Units._Millis;
     return *this;
   }
 

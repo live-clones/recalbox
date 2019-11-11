@@ -133,7 +133,7 @@ UnicodeChar Font::readUnicodeChar(const std::string& str, size_t& cursor)
 }
 
 
-Font::FontFace::FontFace(ResourceData&& d, int size) : data(d)
+Font::FontFace::FontFace(ResourceData&& d, int size) : data(d), face(nullptr)
 {
 	int err = FT_New_Memory_Face(sLibrary, (const unsigned char*)data.data(), data.size(), 0, &face);
   (void)err;
@@ -236,11 +236,11 @@ void Font::unloadTextures()
 }
 
 Font::FontTexture::FontTexture()
+  : textureId(0),
+    textureSize(2048, 512),
+    writePos(Vector2i::Zero()),
+    rowHeight(0)
 {
-	textureId = 0;
-	textureSize.Set(2048, 512);
-	writePos = Vector2i::Zero();
-	rowHeight = 0;
 }
 
 Font::FontTexture::~FontTexture()
@@ -395,7 +395,7 @@ Font::Glyph* Font::getGlyph(UnicodeChar id)
 	FT_Face face = getFaceForChar(id);
 	if(face == nullptr)
 	{
-		LOG(LogError) << "Could not find appropriate font face for character " << id << " for font " << mPath.ToString();
+		LOG(LogError) << "Could not find appropriate font face for character " << (int)id << " for font " << mPath.ToString();
 		return nullptr;
 	}
 
@@ -403,7 +403,7 @@ Font::Glyph* Font::getGlyph(UnicodeChar id)
 
 	if(FT_Load_Char(face, id, FT_LOAD_RENDER) != 0)
 	{
-		LOG(LogError) << "Could not find glyph for character " << id << " for font " << mPath.ToString() << ", size " << mSize << "!";
+		LOG(LogError) << "Could not find glyph for character " << (int)id << " for font " << mPath.ToString() << ", size " << mSize << "!";
 		return nullptr;
 	}
 
@@ -416,7 +416,7 @@ Font::Glyph* Font::getGlyph(UnicodeChar id)
 	// getTextureForNewGlyph can fail if the glyph is bigger than the max texture size (absurdly large font size)
 	if(tex == nullptr)
 	{
-		LOG(LogError) << "Could not create glyph for character " << id << " for font " << mPath.ToString() << ", size " << mSize << " (no suitable texture found)!";
+		LOG(LogError) << "Could not create glyph for character " << (int)id << " for font " << mPath.ToString() << ", size " << mSize << " (no suitable texture found)!";
 		return nullptr;
 	}
 

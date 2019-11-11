@@ -4,7 +4,6 @@
 #include "platform.h"
 #include "platform_gl.h"
 #include "ImageIO.h"
-#include "Settings.h"
 
 TextureDataManager		TextureResource::sTextureDataManager;
 std::map< TextureResource::TextureKeyType, std::weak_ptr<TextureResource> > TextureResource::sTextureMap;

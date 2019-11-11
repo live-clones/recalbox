@@ -1,4 +1,3 @@
-#include <iostream>
 #include <cassert>
 #include "HttpReq.h"
 #include "utils/Log.h"
@@ -148,7 +147,7 @@ HttpReq::Status HttpReq::status()
 std::string HttpReq::getContent() const
 {
 	assert(mStatus == Status::Success);
-	return mContent.str();
+	return mContent;
 }
 
 //used as a curl callback
@@ -156,8 +155,8 @@ std::string HttpReq::getContent() const
 //return value is number of elements successfully read
 size_t HttpReq::write_content(void* buff, size_t size, size_t nmemb, void* req_ptr)
 {
-	std::stringstream& ss = ((HttpReq*)req_ptr)->mContent;
-	ss.write((char*)buff, size * nmemb);
+	std::string& ss = ((HttpReq*)req_ptr)->mContent;
+	ss.append((char*)buff, size * nmemb);
 
 	return nmemb;
 }

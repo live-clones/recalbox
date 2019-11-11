@@ -1,8 +1,6 @@
 #pragma once
 
 #include <utils/os/system/Thread.h>
-#include <utils/sdl2/ISyncronousEvent.h>
-#include <utils/sdl2/SyncronousEvent.h>
 #include "GuiComponent.h"
 #include "components/MenuComponent.h"
 #include "components/BusyComponent.h"

@@ -49,23 +49,23 @@ class AudioManager : private ISyncronousEvent
 
     void resumeMusic();
 
-    void playCheckSound();
+    static void playCheckSound();
 
     void init();
 
     void deinit();
 
-    void registerMusic(std::shared_ptr<Music>& music);
+    static void registerMusic(std::shared_ptr<Music>& music);
 
-    void registerSound(std::shared_ptr<Sound>& sound);
+    static void registerSound(std::shared_ptr<Sound>& sound);
 
-    void unregisterMusic(std::shared_ptr<Music>& music);
+    static void unregisterMusic(std::shared_ptr<Music>& music);
 
-    void unregisterSound(std::shared_ptr<Sound>& sound);
+    static void unregisterSound(std::shared_ptr<Sound>& sound);
 
-    void play();
+    static void play();
 
-    void stop();
+    static void stop();
 
     void musicEnd();
 

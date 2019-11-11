@@ -10,7 +10,6 @@
 #include <recalbox/RecalboxSystem.h>
 #include <MenuThemeData.h>
 #include <components/BusyComponent.h>
-#include <utils/os/system/Mutex.h>
 #include <utils/os/system/Thread.h>
 #include <utils/sdl2/ISyncronousEvent.h>
 #include <utils/sdl2/SyncronousEvent.h>

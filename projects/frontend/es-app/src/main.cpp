@@ -481,7 +481,7 @@ int main(int argc, char* argv[])
     VideoEngine::This().StopVideo(true);
     window.renderShutdownScreen();
     SystemManager::Instance().deleteSystems();
-    window.deinit();
+    Window::deinit();
 
     LOG(LogInfo) << "EmulationStation cleanly shutting down.";
     if (doReboot)

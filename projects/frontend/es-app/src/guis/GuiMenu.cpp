@@ -729,10 +729,10 @@ void GuiMenu::menuUISettings(){
 
 	  // screensaver time
 	  auto screensaver_time = std::make_shared<SliderComponent>(mWindow, 0.f, 30.f, 1.f, "m");
-	  screensaver_time->setValue((float)Settings::Instance().ScreenSaverTime() / (1000.0f * 60.0f));
+	  screensaver_time->setSlider((float)Settings::Instance().ScreenSaverTime() / (1000.0f * 60.0f));
 	  ss->addWithLabel(screensaver_time, _("SCREENSAVER AFTER"), _(MenuMessages::UI_SCREENSAVER_AFTER_HELP_MSG));
 	  ss->addSaveFunc([screensaver_time] {
-		  Settings::Instance().SetScreenSaverTime(Math::roundi(screensaver_time->getValue()) * (1000 * 60));
+		  Settings::Instance().SetScreenSaverTime(Math::roundi(screensaver_time->getSlider()) * (1000 * 60));
 	  });
 
 	  // screensaver behavior
@@ -799,12 +799,12 @@ void GuiMenu::menuUISettings(){
 
     //help popup time 0=no popup
     auto help_popup_time = std::make_shared<SliderComponent>(mWindow, 0.f, 10.f, 1.f, "s");
-    help_popup_time->setValue((float) (Settings::Instance().HelpPopupTime()));
+    help_popup_time->setSlider((float) (Settings::Instance().HelpPopupTime()));
     PopupGui->addWithLabel(help_popup_time, _("HELP POPUP DURATION"), _(MenuMessages::UI_HELP_POPUP_DURATION_HELP_MSG));
 
     //music popup time 0=no popup
     auto music_popup_time = std::make_shared<SliderComponent>(mWindow, 0.f, 10.f, 1.f, "s");
-    music_popup_time->setValue((float) (Settings::Instance().MusicPopupTime()));
+    music_popup_time->setSlider((float) (Settings::Instance().MusicPopupTime()));
     PopupGui->addWithLabel(music_popup_time, _("MUSIC POPUP DURATION"), _(MenuMessages::UI_MUSIC_POPUP_DURATION_HELP_MSG));
 
     //netplay popup time 0=no popup
@@ -813,8 +813,8 @@ void GuiMenu::menuUISettings(){
     PopupGui->addWithLabel(netplay_popup_time, _("NETPLAY POPUP DURATION"), _(MenuMessages::UI_NETPLAY_POPUP_DURATION_HELP_MSG));*/
 
     PopupGui->addSaveFunc([help_popup_time, music_popup_time, popup_position] {
-      Settings::Instance().SetHelpPopupTime(Math::roundi(help_popup_time->getValue()));
-      Settings::Instance().SetMusicPopupTime(Math::roundi(music_popup_time->getValue()));
+      Settings::Instance().SetHelpPopupTime(Math::roundi(help_popup_time->getSlider()));
+      Settings::Instance().SetMusicPopupTime(Math::roundi(music_popup_time->getSlider()));
       //Settings::Instance().setInt("NetplayPopupTime", Math::roundi(netplay_popup_time->getValue()));
       Settings::Instance().SetPopupPosition(popup_position->getSelected());
     });
@@ -1124,7 +1124,7 @@ void GuiMenu::menuSoundSettings(){
     VolumeControl::getInstance()->setVolume(Math::roundi(newVal));
   };
   auto volume = std::make_shared<SliderComponent>(mWindow, 0.f, 100.f, 1.f, "%");
-  volume->setValue((float) VolumeControl::getInstance()->getVolume());
+  volume->setSlider((float) VolumeControl::getInstance()->getVolume());
   volume->setSelectedChangedCallback(setVolume);
   s->addWithLabel(volume, _("SYSTEM VOLUME"), _(MenuMessages::SOUND_VOLUME_HELP_MSG));
 
@@ -1165,7 +1165,7 @@ void GuiMenu::menuSoundSettings(){
     s->addWithLabel(optionsAudio, _("OUTPUT DEVICE"));
   }
   s->addSaveFunc([optionsAudio, currentDevice, sounds_enabled, volume] {
-    RecalboxConf::Instance().SetInt("audio.volume", Math::roundi(volume->getValue()));
+    RecalboxConf::Instance().SetInt("audio.volume", Math::roundi(volume->getSlider()));
 
     RecalboxConf::Instance().SetBool("audio.bgmusic", sounds_enabled->getState());
     if (!sounds_enabled->getState())

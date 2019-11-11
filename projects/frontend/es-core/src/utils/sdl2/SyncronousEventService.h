@@ -1,4 +1,3 @@
-#include <vector>
 #include "ISyncronousEvent.h"
 #include "SyncronousEvent.h"
 

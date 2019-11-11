@@ -21,13 +21,13 @@ void AnimatedImageComponent::load(const AnimationDef* def)
 	{
 		if(def->frames[i].path != nullptr && !ResourceManager::getInstance()->fileExists(Path(def->frames[i].path)))
 		{
-			LOG(LogError) << "Missing animation frame " << i << " (\"" << def->frames[i].path << "\")";
+			LOG(LogError) << "Missing animation frame " << (int)i << " (\"" << def->frames[i].path << "\")";
 			continue;
 		}
 
 		auto img = std::unique_ptr<ImageComponent>(new ImageComponent(mWindow));
 		img->setResize(mSize.x(), mSize.y());
-		img->setImage(def->frames[i].path, false);
+		img->setImage(def->frames[i].path, 0, false); // TODO: 0, really?!
 		img->setColorShift(menuTheme->menuText.color);
 		mFrames.push_back(ImageFrame(std::move(img), def->frames[i].time));
 	}

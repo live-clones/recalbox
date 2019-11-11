@@ -64,7 +64,7 @@ std::vector<unsigned char> ImageIO::loadFromMemoryRGBA32(const unsigned char * d
 		//free FIMEMORY again
 		FreeImage_CloseMemory(fiMemory);
 	}
-	return std::move(rawData);
+	return rawData;
 }
 
 void ImageIO::flipPixelsVert(unsigned char* imagePx, const size_t& width, const size_t& height)

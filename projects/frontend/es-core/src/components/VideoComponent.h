@@ -4,7 +4,6 @@
 
 #include "GuiComponent.h"
 #include <string>
-#include <memory>
 #include <utils/datetime/HighResolutionTimer.h>
 #include <RecalboxConf.h>
 #include "resources/TextureResource.h"

@@ -611,3 +611,8 @@ bool Strings::HexToInt(const std::string& from, int index, char stop, int& out)
   out = Result;
   return true;
 }
+
+std::string Strings::ToString(bool value)
+{
+  return value ? "1" : "0";
+}

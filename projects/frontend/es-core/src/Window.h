@@ -32,7 +32,7 @@ public:
 	void render();
 
   bool init(unsigned int width = 0, unsigned int height = 0, bool initRenderer = true);
-	void deinit();
+	static void deinit();
 
   void normalizeNextUpdate() { mNormalizeNextUpdate = true; }
 
@@ -54,13 +54,13 @@ public:
 	void doWake();
 
 private:
-	void onSleep();
-	void onWake();
+	static void onSleep();
+	static void onWake();
 	void renderWaitingScreen(const std::string& text);
 
 	// Returns true if at least one component on the stack is processing
 	bool isProcessing();
-	void renderScreenSaver();
+	static void renderScreenSaver();
 
 	bool KonamiCode(InputDevice* config, InputEvent input, Window* window);
 

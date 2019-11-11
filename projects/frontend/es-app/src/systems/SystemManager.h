@@ -41,7 +41,7 @@ class SystemManager :
      * @param document Source document
      * @return true if the system list contains one or more system. False if the systemList node does not exist or is empty.
      */
-    bool loadSystemNodes(XmlNodeCollisionMap& collisionMap, XmlNodeList& nodeStore, const XmlDocument& document);
+    static bool loadSystemNodes(XmlNodeCollisionMap& collisionMap, XmlNodeList& nodeStore, const XmlDocument& document);
 
     /*!
      * Load systemList file into the given XML Document, then parse and store systems into the given node store
@@ -51,7 +51,7 @@ class SystemManager :
      * @param nodeStore System node store
      * @return true if the operation is successful and at least one system has been processed. False otherwise
      */
-    bool loadSystemList(XmlDocument& document, XmlNodeCollisionMap& collisionMap, XmlNodeList& nodeStore, const Path& filepath);
+    static bool loadSystemList(XmlDocument& document, XmlNodeCollisionMap& collisionMap, XmlNodeList& nodeStore, const Path& filepath);
 
     /*!
      * Load and parse the given file to populate a property tree
@@ -78,8 +78,8 @@ class SystemManager :
     static Path getUserConfigurationAbsolutePath()     { return RootFolders::DataRootFolder     / "system/.emulationstation/es_systems.cfg"; }
     static Path getTemplateConfigurationAbsolutePath() { return RootFolders::TemplateRootFolder / "system/.emulationstation/es_systems.cfg"; }
 
-    static void DeserializeEmulatorTree(const XmlNode treeNode, EmulatorList& emulatorList);
-    static bool DeserializeSystemDescriptor(const XmlNode treeNode, SystemDescriptor& systemDescriptor);
+    static void DeserializeEmulatorTree(XmlNode treeNode, EmulatorList& emulatorList);
+    static bool DeserializeSystemDescriptor(XmlNode treeNode, SystemDescriptor& systemDescriptor);
 
     /*
      * ThreadPoolWorkingInterface implementation

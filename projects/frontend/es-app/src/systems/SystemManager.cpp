@@ -96,7 +96,7 @@ SystemData* SystemManager::CreateMetaSystem(const std::string& name, const std::
   return result;
 }
 
-void SystemManager::DeserializeEmulatorTree(const XmlNode emulators, EmulatorList& emulatorList)
+void SystemManager::DeserializeEmulatorTree(XmlNode emulators, EmulatorList& emulatorList)
 {
   emulatorList.Clear();
   for (const auto& emulator : emulators.children("emulator"))
@@ -111,7 +111,7 @@ void SystemManager::DeserializeEmulatorTree(const XmlNode emulators, EmulatorLis
   }
 }
 
-bool SystemManager::DeserializeSystemDescriptor(const XmlNode system, SystemDescriptor& systemDescriptor)
+bool SystemManager::DeserializeSystemDescriptor(XmlNode system, SystemDescriptor& systemDescriptor)
 {
   systemDescriptor.ClearEmulators();
   systemDescriptor.ClearPlatforms();

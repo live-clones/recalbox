@@ -59,7 +59,7 @@ void AudioManager::init()
     //Open the audio device and pause
     if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096) < 0)
     {
-      LOG(LogError) << "MUSIC Error - Unable to open SDLMixer audio: " << SDL_GetError() << std::endl;
+      LOG(LogError) << "MUSIC Error - Unable to open SDLMixer audio: " << SDL_GetError();
     }
     else
     {
@@ -180,7 +180,7 @@ void AudioManager::registerMusic(std::shared_ptr<Music>& music)
 void AudioManager::unregisterSound(std::shared_ptr<Sound>& sound)
 {
   getInstance();
-  for (unsigned int i = 0; i < sSoundVector.size(); i++)
+  for (int i = 0; i < (int)sSoundVector.size(); i++)
   {
     if (sSoundVector.at(i) == sound)
     {
