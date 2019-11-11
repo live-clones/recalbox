@@ -15,7 +15,7 @@ define LIBRETRO_DHEWM3_BUILD_CMDS
 endef
 
 define LIBRETRO_DHEWM3_INSTALL_TARGET_CMDS
-	$(INSTALL) -D $(@D)/dhewm3_libretro.so \
+	$(INSTALL) -D $(@D)/neo/dhewm3_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/dhewm3_libretro.so
 endef
 
