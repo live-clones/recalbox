@@ -58,6 +58,8 @@ function stopPlayerWhenFrontendReady() {
     let count++
   done
   kill -9 ${playerPID}
+  # background image is not scaled (fbv), clear framebuffer on player end
+  dd if=/dev/zero of=/dev/fb0 > /dev/null 2>&1
 }
 
 # playWithMPlayer
