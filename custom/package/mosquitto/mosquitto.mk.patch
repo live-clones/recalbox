@@ -1,5 +1,5 @@
 diff --git a/package/mosquitto/mosquitto.mk b/package/mosquitto/mosquitto.mk
-index ec5fc02f9f..c6bafbc254 100644
+index ec5fc02..c6bafbc 100644
 --- a/package/mosquitto/mosquitto.mk
 +++ b/package/mosquitto/mosquitto.mk
 @@ -87,7 +87,7 @@ endef

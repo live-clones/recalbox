@@ -1,8 +1,8 @@
 diff --git a/package/rpi-firmware/config.txt b/package/rpi-firmware/config.txt
-index 58cc966a87..c376dfecb9 100644
+index 58cc966..9df614a 100644
 --- a/package/rpi-firmware/config.txt
 +++ b/package/rpi-firmware/config.txt
-@@ -1,20 +1,47 @@
+@@ -1,20 +1,49 @@
 -# Please note that this is only a sample, we recommend you to change it to fit
 -# your needs.
 -# You should override this file using a post-build script.
@@ -57,7 +57,9 @@ index 58cc966a87..c376dfecb9 100644
 +
 +avoid_safe_mode=1
 +
-+kernel=zImage
++#kernel=zImage
++kernel=boot/linux
++initramfs boot/initrd.gz
  
 -# How much memory in MB to assign to the GPU on Pi models having
 -# 256, 512 or 1024 MB total memory

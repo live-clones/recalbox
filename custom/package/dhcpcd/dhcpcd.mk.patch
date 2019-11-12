@@ -1,5 +1,5 @@
 diff --git a/package/dhcpcd/dhcpcd.mk b/package/dhcpcd/dhcpcd.mk
-index dc5c69b86b..100ba67bca 100644
+index dc5c69b..100ba67 100644
 --- a/package/dhcpcd/dhcpcd.mk
 +++ b/package/dhcpcd/dhcpcd.mk
 @@ -38,7 +38,7 @@ endef

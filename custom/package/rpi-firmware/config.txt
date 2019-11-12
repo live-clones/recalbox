@@ -41,7 +41,9 @@ gpu_mem_1024=448
 
 avoid_safe_mode=1
 
-kernel=zImage
+#kernel=zImage
+kernel=boot/linux
+initramfs boot/initrd.gz
 
 # Raise the first security limit up to 70° instead of 60°
 temp_soft_limit=70

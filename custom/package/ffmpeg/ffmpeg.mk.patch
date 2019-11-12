@@ -1,5 +1,5 @@
 diff --git a/package/ffmpeg/ffmpeg.mk b/package/ffmpeg/ffmpeg.mk
-index 5d2f89fb43..b7148bbba2 100644
+index 5d2f89f..b7148bb 100644
 --- a/package/ffmpeg/ffmpeg.mk
 +++ b/package/ffmpeg/ffmpeg.mk
 @@ -4,7 +4,7 @@

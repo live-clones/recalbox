@@ -12,6 +12,7 @@ do_boot_upgrade() {
 
     # all these files doesn't exist on non rpi platform, so, we have to test them
     BOOTFILES="cmdline.txt config.txt recalbox-boot.conf"
+    recallog "UPGRADE: processing /boot"
 
     # backup files to keep
     for BOOTFILE in ${BOOTFILES}
@@ -36,6 +37,15 @@ do_boot_upgrade() {
 	    mv "/boot/${BOOTFILE}.upgrade" "/boot/${BOOTFILE}" || return 1
 	fi
     done
+
+    if [ "${bootMethod}" == "squashfs" ] ; then
+        recallog "UPGRADE: Overwriting /boot/zImage.squashfs"
+        cp -f /boot/zImage /boot/zImage.squashfs
+    else
+        recallog "UPGRADE: Overwriting /boot/zImage.sd"
+        cp -f /boot/zImage /boot/zImage.sd
+    fi
+
 }
 
 do_upgrade() {
@@ -59,6 +69,7 @@ do_upgrade() {
 
     # /boot is already upgraded
     # upgrading /root
+    recallog "UPGRADE: processing /"
     EXIT_CODE=1
     date
     echo "Upgrading /"
@@ -76,10 +87,93 @@ do_upgrade() {
     fi
     test "${EXIT_CODE}" = 1 && return 1 # don't insist if /root failed to upgrade
 
+    recallog "UPGRADE: / successfully upgraded"
     echo "Upgrade ended successfully."
     date
     return 0
 }
+
+do_upgrade_squashfs() {
+    # upgrading /boot
+    BOOTTAR="/recalbox/share/system/upgrade/boot.tar.xz"
+    ROOTTAR="/recalbox/share/system/upgrade/recalbox.squashfs.xz"
+    EXIT_CODE=1
+    date
+    echo "Upgrading /boot"
+    if mount -o remount,rw /boot
+    then
+        if do_boot_upgrade "${BOOTTAR}"
+        then
+            EXIT_CODE=0
+        fi
+        sync
+    fi
+    test "${EXIT_CODE}" = 1 && return 1 # don't insist if /boot failed to upgrade
+
+    date
+
+    # Remove the downgrade file if it exists
+    rm /recalbox.squashfs.downgrade 2>/dev/null
+    # Start the copy progression
+    totalSize=`cat /recalbox/share/system/upgrade/recalbox.squashfs.size`
+    (
+        echo "title Upgrading the squashfs"
+        while true
+        do
+            sizeCopied=`stat /recalbox.squashfs.upgrade | grep "Size:" | tr -s ' ' | cut -d ' ' -f 3 || echo "0"`
+            let sizePercentage=${sizeCopied}00/${totalSize}
+            echo "percent ${sizePercentage}"
+            sleep 1
+        done
+    ) | /recalbox/scripts/shell2fb.py &
+    # Copy the file
+    xz -dc --threads=0 < "${ROOTTAR}" > /recalbox.squashfs.upgrade
+}
+
+do_boot_kernel_trick() {
+    # If the kernel version changes after several updates of squashfs, but sd hasn't been updated for a while,
+    # booting SD with the squashfs kernel could cause some problems with tools and modules
+    # So we make a copy of the kernel, the initramfs will check and swap them, then reboot.
+
+    # Check if / is mounted on a loop
+    if `mount | grep -q "on / type squashfs"` ; then
+	# YES : copy current kernel to kernel.squashfs
+	recallog "UPGRADE: booting from squashfs, backing up kernel to /boot/zImage.squashfs"
+	recallog "UPGRADE: zImage.squashfs md5sum is `md5sum /boot/zImage.squashfs`"
+	cp -f /boot/zImage /boot/zImage.squashfs || return 1
+    else
+	# NO : copy the current kernel as kernel.sd
+	recallog "UPGRADE: booting from SD, backing up kernel to /boot/zImage.sd"
+	recallog "UPGRADE: zImage.sd md5sum is `md5sum /boot/zImage.sd`"
+	cp -f /boot/zImage /boot/zImage.sd || return 1
+    fi
+}
+
+bootMethod=`grep "^boot=" /boot/recalbox-boot.conf | cut -d '=' -f 2`
+# what about doing an upgrade ?
+if test -e "/recalbox/share/system/upgrade/boot.tar.xz" -a -e "/recalbox/share/system/upgrade/root.tar.xz" -a -z "${bootMethod}"
+then
+    # let's go
+    recallog "An upgrade is available (SD), proceeding ..."
+    do_boot_kernel_trick
+    do_upgrade > /recalbox/share/system/upgrade/upgrade.out.log 2> /recalbox/share/system/upgrade/upgrade.err.log
+
+    # remove to not apply it indefinitly, even if it fails
+    rm "/recalbox/share/system/upgrade/boot.tar.xz" "/recalbox/share/system/upgrade/root.tar.xz"
+
+    # rebooting now
+    recallog "UPGRADE: Done ! Rebooting"
+    shutdown -r now
+elif test -e "/recalbox/share/system/upgrade/recalbox.squashfs.xz" -a "${bootMethod}" == "squashfs" ; then
+    recallog "An upgrade is available (SQUASHFS), proceeding ..."
+    do_boot_kernel_trick
+    do_upgrade_squashfs > /recalbox/share/system/upgrade/upgrade.out.log 2> /recalbox/share/system/upgrade/upgrade.err.log
+
+    rm "/recalbox/share/system/upgrade/boot.tar.xz" "/recalbox/share/system/upgrade/recalbox.squashfs.xz"
+    recallog "UPGRADE: Done ! Rebooting"
+    # rebooting now
+    shutdown -r now
+fi
 
 pre_reboot_actions() {
   # If we don't restore before reboot, default values will be saved at reboot, losing custom ones
