@@ -160,17 +160,3 @@ case "${RECALBOX_TARGET}" in
         bash
         exit 1
 esac
-
-# Compress the generated .img
-if mv -f ${BINARIES_DIR}/recalbox.img ${RECALBOX_IMG} ; then
-    echo "Compressing ${RECALBOX_IMG} ... "
-    xz --threads=0 "${RECALBOX_IMG}"
-else
-    echo "Couldn't move recalbox.img or compress it"
-    exit 1
-fi
-
-# Computing hash sums to make have an update that can be dropped on a running Recalbox
-echo "Computing sha1 sums ..."
-for file in "${RECALBOX_BINARIES_DIR}"/* ; do sha1sum "${file}" > "${file}.sha1"; done
-[[ -e "${RECALBOX_BINARIES_DIR}/root.tar.xz" ]] && tar tf "${RECALBOX_BINARIES_DIR}/root.tar.xz" | sort > "${RECALBOX_BINARIES_DIR}/root.list"
