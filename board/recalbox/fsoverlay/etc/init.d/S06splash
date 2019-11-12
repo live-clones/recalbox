@@ -58,8 +58,6 @@ function stopPlayerWhenFrontendReady() {
     let count++
   done
   kill -9 ${playerPID}
-  # background image is not scaled (fbv), clear framebuffer on player end
-  dd if=/dev/zero of=/dev/fb0 > /dev/null 2>&1
 }
 
 # playWithMPlayer
@@ -118,6 +116,9 @@ function playWithOMX() {
 # showIntroBackground
 #   displays our intro background via the framebuffer
 showIntroBackground() {
+  # fbv will only clear the aera it is drawing to,
+  # clear framebuffer in case we don't use the same screen/bg ratio
+  dd if=/dev/zero of=/dev/fb0 > /dev/null 2>&1
   fbv -f -i /recalbox/system/resources/splash/logo-version.png
 }
 
