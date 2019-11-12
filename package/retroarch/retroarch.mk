@@ -99,6 +99,13 @@ else
 RETROARCH_CONF_OPTS += --disable-egl
 endif
 
+ifeq ($(BR2_PACKAGE_HAS_LIBGL),y)
+RETROARCH_CONF_OPTS += --enable-opengl
+RETROARCH_DEPENDENCIES += libgl
+else
+RETROARCH_CONF_OPTS += --disable-opengl
+endif
+
 ifeq ($(BR2_PACKAGE_HAS_LIBOPENVG),y)
 RETROARCH_DEPENDENCIES += libopenvg
 endif
