@@ -64,4 +64,7 @@ doClean "/etc/init.d/S05acpid"
 # V6.1.1
 doClean "/etc/init.d/S08connman"
 
+# V6.x
+doClean "/etc/init.d/S03splash"
+
 exit 0

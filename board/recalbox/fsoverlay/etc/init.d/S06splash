@@ -60,6 +60,26 @@ function stopPlayerWhenFrontendReady() {
   kill -9 ${playerPID}
 }
 
+# playWithMPlayer
+# starts playing a video on the framebuffer via mplayer
+function playWithMPlayer() {
+  local videoFile="$(selectVideo)"
+  
+  if ! which mplayer > /dev/null; then
+    return
+  fi
+  # init alsa audio
+  alsactl init
+  # disable framebuffer cursor
+  echo -e '\033[?17;0;0c' > /dev/tty1
+  # play media in fullscreen
+  mp_subs="/recalbox/system/resources/splash/recalboxintro.srt"
+  mplayer -vo fbdev2 -fs -zoom -x ${fbdevWidth} -y ${fbdevHeight} -sub "${mp_subs}" "${videoFile}" > /dev/null 2>&1 &
+  if [ ${videoLength} -ne -1 ]; then
+    stopPlayerWhenFrontendReady $! ${videoLength}
+  fi
+}
+
 # playWithFFPlay
 #   starts playing a video on the framebuffer via ffplay
 function playWithFFPlay() {
@@ -121,6 +141,8 @@ if [ -f /tmp/.install.png ]; then
   showInstallBackground &
 elif [ "$(head -c 3 /recalbox/recalbox.arch)" = "rpi" ]; then
   ( turnOffGPiCaseHDMI; playWithOMX; showIntroBackground ) &
+elif [ "$(head -c 3 /recalbox/recalbox.arch)" = "x86" ]; then
+  ( playWithMPlayer; showIntroBackground ) &
 else
   ( playWithFFPlay; showIntroBackground ) &
 fi
