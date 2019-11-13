@@ -92,8 +92,8 @@ void ISimpleGameListView::onFileChanged(FileData* file, FileChangeType change)
     {
       if (isInFavorite) favoriteSystem->getRootFolder()->removeChild(file);
       else favoriteSystem->getRootFolder()->addChild(file, false);
-      ViewController::get()->setInvalidGamesList(SystemManager::Instance().getFavoriteSystem());
-      ViewController::get()->getSystemListView()->manageFavorite();
+      ViewController::Instance().setInvalidGamesList(SystemManager::Instance().getFavoriteSystem());
+      ViewController::Instance().getSystemListView()->manageFavorite();
       mFavoritesCount = mFavoritesCount + (isFavorite ? 1 : -1);
       if (mFavoritesCount == 0) { mFavoritesOnly = false; }
       updateHelpPrompts();
@@ -106,8 +106,8 @@ void ISimpleGameListView::onFileChanged(FileData* file, FileChangeType change)
     delete file;
     if (favorite)
     {
-      ViewController::get()->setInvalidGamesList(SystemManager::Instance().getFavoriteSystem());
-      ViewController::get()->getSystemListView()->manageFavorite();
+      ViewController::Instance().setInvalidGamesList(SystemManager::Instance().getFavoriteSystem());
+      ViewController::Instance().getSystemListView()->manageFavorite();
     }
   }
 
@@ -171,7 +171,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
     else if (!hideSystemView)
     {
       onFocusLost();
-      ViewController::get()->goToSystemView(getRoot()->getSystem());
+      ViewController::Instance().goToSystemView(getRoot()->getSystem());
     }
     return true;
   }
@@ -193,11 +193,11 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
         }
 
         if (mIsFavoriteSystem) {
-          ViewController::get()->setInvalidGamesList(cursor->getSystem());
+          ViewController::Instance().setInvalidGamesList(cursor->getSystem());
         } else {
-          ViewController::get()->setInvalidGamesList(favoriteSystem);
+          ViewController::Instance().setInvalidGamesList(favoriteSystem);
         }
-        ViewController::get()->getSystemListView()->manageFavorite();
+        ViewController::Instance().getSystemListView()->manageFavorite();
       }
 
       // Reload to refresh the favorite icon
@@ -218,7 +218,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
   {
     if (Settings::Instance().QuickSystemSelect() && !hideSystemView) {
       onFocusLost();
-      ViewController::get()->goToNextGameList();
+      ViewController::Instance().goToNextGameList();
       RecalboxSystem::NotifyGame(*getCursor(), false, false);
       return true;
     }
@@ -228,7 +228,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
   if (event.AnyLeftPressed()) {
     if (Settings::Instance().QuickSystemSelect() && !hideSystemView) {
       onFocusLost();
-      ViewController::get()->goToPrevGameList();
+      ViewController::Instance().goToPrevGameList();
       RecalboxSystem::NotifyGame(*getCursor(), false, false);
       return true;
     }
@@ -280,7 +280,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
     if(cursor->isGame())
     {
       Vector3f target(Renderer::getDisplayWidthAsFloat() / 2.0f, Renderer::getDisplayHeightAsFloat() / 2.0f, 0);
-      ViewController::get()->launch(cursor, target, "host");
+      ViewController::Instance().launch(cursor, target, "host");
     }
   }
 

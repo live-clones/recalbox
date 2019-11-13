@@ -108,8 +108,7 @@ void CommandThread::ReceiveSyncCallback(const SDL_Event& event)
   // Get game
   FileData* game = (FileData*)event.user.data1;
 
-  ViewController *view = ViewController::get();
-  view->WakeUp();
-  view->launch(game);
+  ViewController::Instance().WakeUp();
+  ViewController::Instance().launch(game);
 }
 

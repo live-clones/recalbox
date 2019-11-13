@@ -106,27 +106,11 @@ GuiGamelistOptions::GuiGamelistOptions(Window* window, SystemData* system)
         row.addElement(std::make_shared<TextComponent>(mWindow, _("UPDATE GAMES LISTS"), menuTheme->menuText.font,
                                                        menuTheme->menuText.color), true);
         row.addElement(makeArrow(mWindow), false);
-        row.makeAcceptInputHandler([this, system, window] {
+        row.makeAcceptInputHandler([this, window] {
             mReloading = true;
             window->pushGui(new GuiMsgBox(window, _("REALLY UPDATE GAMES LISTS ?"),
-                                          _("YES"), [system, window] {
-                        std::string systemName = system->getName();
-                        ViewController::get()->goToStart();
-                        window->renderShutdownScreen();
-                        delete ViewController::get();
-                        SystemManager::Instance().deleteSystems();
-                        SystemManager::Instance().loadConfig();
-                        window->deleteAllGui();
-                        ViewController::init(window);
-                        ViewController::get()->reloadAll();
-                        window->pushGui(ViewController::get());
-                        if (!ViewController::get()->goToGameList(systemName)) {
-                            ViewController::get()->goToStart();
-                        }
-                    },
-                                          _("NO"), [this] {
-                        mReloading = false;
-                    }
+                                          _("YES"), [] { ViewController::Instance().deleteAndReloadAll(); },
+                                          _("NO"), [this] { mReloading = false; }
             ));
         });
         mMenu.addRowWithHelp(row, _("UPDATE GAMES LISTS"), _(MenuMessages::UI_UPDATE_GAMELIST_HELP_MSG));
@@ -164,13 +148,13 @@ GuiGamelistOptions::~GuiGamelistOptions()
 		// if states has changed, invalidate and reload game list
 		if (Settings::Instance().FavoritesOnly() != mFavoriteState || Settings::Instance().ShowHidden() != mHiddenState)
 		{
-			ViewController::get()->setAllInvalidGamesList(getGamelist()->getCursor()->getSystem());
-			ViewController::get()->reloadGameListView(getGamelist()->getCursor()->getSystem());
+      ViewController::Instance().setAllInvalidGamesList(getGamelist()->getCursor()->getSystem());
+      ViewController::Instance().reloadGameListView(getGamelist()->getCursor()->getSystem());
 		}
 	}
 	else
 	{
-    ViewController::get()->deleteAndReloadAll();
+    ViewController::Instance().deleteAndReloadAll();
 	}
 }
 
@@ -229,7 +213,7 @@ std::vector<HelpPrompt> GuiGamelistOptions::getHelpPrompts() {
 }
 
 IGameListView* GuiGamelistOptions::getGamelist() {
-	return ViewController::get()->getGameListView(mSystem).get();
+	return ViewController::Instance().getGameListView(mSystem).get();
 }
 
 void GuiGamelistOptions::save() {

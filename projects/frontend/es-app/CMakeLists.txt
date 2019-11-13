@@ -68,6 +68,7 @@ set(ES_HEADERS
         src/LibretroRatio.h
         src/CommandThread.h
         src/NetPlayThread.h
+        src/MainRunner.h
         )
 
 set(ES_SOURCES
@@ -124,7 +125,7 @@ set(ES_SOURCES
         src/LibretroRatio.cpp
         src/CommandThread.cpp
         src/NetPlayThread.cpp
-
+        src/MainRunner.cpp
         )
 
 #-------------------------------------------------------------------------------

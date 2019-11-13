@@ -455,7 +455,7 @@ void GuiMetaDataEd::close(bool closeAllWindows)
     Window* window = mWindow;
     closeFunc = [window]
     {
-      while (window->peekGui() != ViewController::get())
+      while (window->peekGui() != &ViewController::Instance())
       {
         delete window->peekGui();
       }

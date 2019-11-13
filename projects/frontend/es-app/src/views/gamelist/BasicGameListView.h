@@ -31,7 +31,7 @@ public:
 	FileData::List getFileDataList() override;
 
 protected:
-	void launch(FileData* game) override { ViewController::get()->launch(game); }
+	void launch(FileData* game) override { ViewController::Instance().launch(game); }
 
   FileData* getEmptyListItem() override { return &mEmptyListItem; }
 

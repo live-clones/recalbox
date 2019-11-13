@@ -4,24 +4,25 @@
 #include "games/FileData.h"
 
 // TODO: typedef the compare function in FolderData.h
-namespace FileSorts
+class FileSorts
 {
-	struct SortType
-	{
-		int (*comparisonFunction)(const FileData& a, const FileData& b);
-		bool ascending;
-		std::string description;
+  public:
+    struct SortType
+    {
+      int (*comparisonFunction)(const FileData& a, const FileData& b);
+      bool ascending;
+      std::string description;
 
-		SortType(int (*sortFunction)(const FileData& a, const FileData& b), bool sortAscending, const std::string & sortDescription)
-			: comparisonFunction(sortFunction),
-			  ascending(sortAscending),
-			  description(sortDescription)
-		{
-		}
-	};
+      SortType(int (*sortFunction)(const FileData& a, const FileData& b), bool sortAscending, const std::string & sortDescription)
+        : comparisonFunction(sortFunction),
+          ascending(sortAscending),
+          description(sortDescription)
+      {
+      }
+    };
 
-	#define DeclareSortMethodPrototype(x) int x(const FileData& file1, const FileData& file2);
-	#define ImplementSortMethod(x) int x(const FileData& file1, const FileData& file2)
+	#define DeclareSortMethodPrototype(x) static int x(const FileData& file1, const FileData& file2);
+	#define ImplementSortMethod(x) int FileSorts::x(const FileData& file1, const FileData& file2)
 
 	DeclareSortMethodPrototype(compareSystemName)
 	DeclareSortMethodPrototype(compareFileName)
@@ -32,7 +33,10 @@ namespace FileSorts
 	DeclareSortMethodPrototype(compareDevelopper)
 	DeclareSortMethodPrototype(compareGenre)
 
-	extern std::vector<SortType> SortTypes;
-	extern std::vector<SortType> SortTypesForFavorites;
-	void init();
-}
+	static std::vector<SortType> SortTypes;
+	static std::vector<SortType> SortTypesForFavorites;
+
+	static bool Initialize();
+
+	static bool mInitialized;
+};

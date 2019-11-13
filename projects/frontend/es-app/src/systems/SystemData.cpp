@@ -34,7 +34,7 @@ void SystemData::RunGame(Window& window, FileData& game, const std::string& netp
 
   std::string controlersConfig = InputManager::Instance().GenerateConfiggenConfiguration();
   LOG(LogInfo) << "Controllers config : " << controlersConfig;
-  Window::deinit();
+  Window::Finalize();
 
 
   std::string command = mDescriptor.Command();
@@ -77,7 +77,7 @@ void SystemData::RunGame(Window& window, FileData& game, const std::string& netp
     LOG(LogWarning) << "...launch terminated with nonzero exit code " << exitCode << "!";
 
   // Reinit
-  window.init();
+  window.Initialize();
   VolumeControl::getInstance()->init();
   AudioManager::getInstance()->resumeMusic();
   window.normalizeNextUpdate();
@@ -100,7 +100,7 @@ std::string SystemData::demoInitialize(Window&)
   AudioManager::getInstance()->deinit();
   VolumeControl::getInstance()->deinit();
 
-  Window::deinit();
+  Window::Finalize();
 
   return controlersConfig;
 }
@@ -108,7 +108,7 @@ std::string SystemData::demoInitialize(Window&)
 void SystemData::demoFinalize(Window& window)
 {
   // Reinit
-  window.init();
+  window.Initialize();
   VolumeControl::getInstance()->init();
   AudioManager::getInstance()->resumeMusic();
   window.normalizeNextUpdate();

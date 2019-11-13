@@ -9,11 +9,11 @@ class SystemData;
 class ViewController : public GuiComponent
 {
 public:
-	static void init(Window* window);
-	static ViewController* get();
-	inline static Window* getWindow(){return sInstance->mWindow;}
+	static ViewController& Instance() { return *sInstance; };
+	//inline static Window* getWindow(){return sInstance->mWindow;}
 
-	~ViewController() override;
+	explicit ViewController(Window* window);
+  ~ViewController() override;
 
 	// Try to completely populate the GameListView map.
 	// Caches things so there's no pauses during transitions.
@@ -83,7 +83,6 @@ public:
 	std::shared_ptr<SystemView> getSystemListView();
 
 private:
-	explicit ViewController(Window* window);
 	static ViewController* sInstance;
 
 	void playViewTransition();

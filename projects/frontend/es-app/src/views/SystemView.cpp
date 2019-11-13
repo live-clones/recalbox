@@ -205,7 +205,7 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
 		if (event.BPressed())
 		{
 			stopScrolling();
-			ViewController::get()->goToGameList(getSelected());
+      ViewController::Instance().goToGameList(getSelected());
 			return true;
 		}
     if (event.XPressed())

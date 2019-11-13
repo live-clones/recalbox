@@ -462,11 +462,11 @@ void SystemManager::deleteSystems()
 
     DateTime stop;
     LOG(LogInfo) << "Gamelist update time: " << std::to_string((stop-start).TotalMilliseconds());
-
-    sVisibleSystemVector.clear();
-    sAllSystemVector.clear();
-    sHiddenSystemVector.clear();
   }
+
+  sVisibleSystemVector.clear();
+  sAllSystemVector.clear();
+  sHiddenSystemVector.clear();
 }
 
 SystemData *SystemManager::getSystem(std::string &name)

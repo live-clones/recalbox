@@ -43,7 +43,7 @@ bool GuiSettings::ProcessInput(const InputCompactEvent& event)
 	{
 		// close everything
 		Window* window = mWindow;
-		while((window->peekGui() != nullptr) && window->peekGui() != ViewController::get())
+		while((window->peekGui() != nullptr) && window->peekGui() != &ViewController::Instance())
 			delete window->peekGui();
 		return true;
 	}

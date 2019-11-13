@@ -295,7 +295,7 @@ void GuiNetPlay::launch()
     std::string& ip = mitm ? game.mMitmIp : game.mIp;
     int port = mitm ? game.mMitmPort : game.mPort;
 
-    ViewController::get()->launch(game.mGame, target, "client", game.mCoreName, ip, std::to_string(port));
+    ViewController::Instance().launch(game.mGame, target, "client", game.mCoreName, ip, std::to_string(port));
     Close();
   }
 }

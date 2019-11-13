@@ -872,21 +872,8 @@ void GuiMenu::menuUISettings(){
     theme_set->add(it->first, it->first, it == selectedSet);
   st->addWithLabel(theme_set, _("THEME SET"), _(MenuMessages::UI_THEME_HELP_MSG));
 
-  std::function<void()> ReloadAll = [window] () {
-    ViewController::get()->goToStart();
-    window->renderShutdownScreen();
-    delete ViewController::get();
-    for (auto& systems : SystemManager::Instance().GetVisibleSystemList())
-      systems->loadTheme();
-    GuiComponent *gui;
-    while ((gui = window->peekGui()) != nullptr) {
-      window->removeGui(gui);
-    }
-    delete gui;
-    ViewController::init(window);
-    ViewController::get()->reloadAll();
-    window->pushGui(ViewController::get());
-    ViewController::get()->goToStart();
+  std::function<void()> ReloadAll = [] () {
+    ViewController::Instance().deleteAndReloadAll();
     MenuThemeData::getInstance();
     auto transi = ThemeData::getCurrent().getTransition();
     if (!transi.empty())
@@ -1095,21 +1082,8 @@ void GuiMenu::menuUISettings(){
 
 	// Game List Update
 	s->addSubMenu(_("UPDATE GAMES LISTS"), [window] {
-		window->pushGui(new GuiMsgBox(window, _("REALLY UPDATE GAMES LISTS ?"), _("YES"), [window] {
-			ViewController::get()->goToStart();
-			window->renderShutdownScreen();
-			delete ViewController::get();
-			SystemManager::Instance().deleteSystems();
-			SystemManager::Instance().loadConfig();
-			GuiComponent *gui;
-			while ((gui = window->peekGui()) != nullptr) {
-				window->removeGui(gui);
-				delete gui;
-			}
-			ViewController::init(window);
-			ViewController::get()->reloadAll();
-			window->pushGui(ViewController::get());
-			ViewController::get()->goToStart();
+		window->pushGui(new GuiMsgBox(window, _("REALLY UPDATE GAMES LISTS ?"), _("YES"), [] {
+      ViewController::Instance().deleteAndReloadAll();
 		}, _("NO"), nullptr));
 	}, _(MenuMessages::UI_UPDATE_GAMELIST_HELP_MSG));
 

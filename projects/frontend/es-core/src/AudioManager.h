@@ -92,8 +92,6 @@ class AudioManager : private ISyncronousEvent
 
     bool runningFromPlaylist;
 
-    bool update(int curTime);
-
     Path currentThemeMusicDirectory;
 
     void playRandomMusic();

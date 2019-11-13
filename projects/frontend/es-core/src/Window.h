@@ -31,8 +31,8 @@ public:
 	void update(int deltaTime);
 	void render();
 
-  bool init(unsigned int width = 0, unsigned int height = 0, bool initRenderer = true);
-	static void deinit();
+  bool Initialize(unsigned int width = 0, unsigned int height = 0, bool initRenderer = true);
+	static void Finalize();
 
   void normalizeNextUpdate() { mNormalizeNextUpdate = true; }
 

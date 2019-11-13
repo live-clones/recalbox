@@ -1,0 +1,337 @@
+//
+// Created by bkg2k on 13/11/2019.
+//
+#include <Locale.h>
+#include <utils/os/fs/Path.h>
+#include <utils/Log.h>
+#include <RootFolders.h>
+#include <Settings.h>
+#include <utils/Files.h>
+#include <AudioManager.h>
+#include <views/ViewController.h>
+#include <systems/SystemManager.h>
+#include <guis/GuiMsgBoxScroll.h>
+#include <recalbox/RecalboxUpgrade.h>
+#include <RecalboxConf.h>
+#include <VideoEngine.h>
+#include <guis/GuiDetectDevice.h>
+#include <utils/sdl2/SyncronousEventService.h>
+#include "MainRunner.h"
+#include "EmulationStation.h"
+#include "VolumeControl.h"
+#include "NetworkThread.h"
+#include "CommandThread.h"
+#include "NetPlayThread.h"
+#include "DemoMode.h"
+
+MainRunner::MainRunner(const std::string& executablePath, unsigned int width, unsigned int height)
+  : mRequestedWidth(width),
+    mRequestedHeight(height)
+{
+  OpenLogs();
+  SetLocale(executablePath);
+  CheckHomeFolder();
+  SetArchitecture();
+}
+
+MainRunner::ExitState MainRunner::Run()
+{
+  // Initialize sound
+  InitializeAudio();
+
+  try
+  {
+    // Shut-up joysticks :)
+    SDL_JoystickEventState(SDL_DISABLE);
+
+    // Initialize the renderer first, because many things depend on renderer width/height
+    if (!Renderer::initialize((int)mRequestedWidth, (int)mRequestedHeight))
+    {
+      LOG(LogError) << "Error initializing the GL renderer.";
+      return ExitState::FatalError;
+    }
+
+    // Initialize main Window and ViewController
+    Window window;
+    ViewController viewControler(&window);
+    if (!window.Initialize(mRequestedWidth, mRequestedHeight, false))
+    {
+      LOG(LogError) << "Window failed to initialize!";
+      return ExitState::FatalError;
+    }
+
+    // Display "loading..." screen
+    window.renderLoadingScreen();
+    PlayLoadingSound();
+
+    // Try to load system configurations
+    if (!TryToLoadConfiguredSystems())
+      return ExitState::FatalError;
+
+    // Run kodi at startup?
+    RecalboxConf& recalboxConf = RecalboxConf::Instance();
+    if (recalboxConf.AsString("kodi.enabled") == "1" && recalboxConf.AsString("kodi.atstartup") == "1")
+      RecalboxSystem::launchKodi(&window);
+
+    // Start update thread
+    LOG(LogDebug) << "Launching Network thread";
+    NetworkThread networkThread(&window);
+    // Start the socket server
+    LOG(LogDebug) << "Launching Command thread";
+    CommandThread commandThread;
+    // Start Video engine
+    LOG(LogDebug) << "Launching Video engine";
+    VideoEngine::This().StartEngine();
+    // Start Neyplay thread
+    LOG(LogDebug) << "Launching Netplay thread";
+    NetPlayThread netPlayThread(&window);
+
+    // Allocate custom event types
+    AudioManager::getInstance()->SetMusicStartEvent(&window);
+
+    // Update?
+    CheckUpdateMessage(window);
+    // Input ok?
+    CheckAndInitializeInput(window);
+
+    // Main Loop!
+    CreateReadyFlagFile();
+    ExitState exitState = MainLoop(window);
+    DeleteReadyFlagFile();
+
+    // Exit
+    window.renderShutdownScreen();
+    VideoEngine::This().StopVideo(true);
+    window.deleteAllGui();
+    SystemManager::Instance().deleteSystems();
+    Window::Finalize();
+
+    return exitState;
+  }
+  catch(std::exception& ex)
+  {
+    LOG(LogError) << "Main thread crashed.";
+    LOG(LogError) << "Exception: " << ex.what();
+  }
+
+  // There is no "normal exit".
+  // If we get there, something went wrong, so ask for a relaunch
+  return ExitState::Relaunch;
+}
+
+void MainRunner::CreateReadyFlagFile()
+{
+  // Create a flag in  temporary directory to signal READY state
+  Path ready(sReadyFile);
+  Files::SaveFile(ready, "ready");
+}
+
+void MainRunner::DeleteReadyFlagFile()
+{
+  Path ready(sReadyFile);
+  ready.Delete();
+}
+
+MainRunner::ExitState MainRunner::MainLoop(Window& window)
+{
+  // Allow joystick event
+  SDL_JoystickEventState(SDL_ENABLE);
+
+  DemoMode demoMode(window);
+
+  LOG(LogDebug) << "Entering main loop";
+  Path mustExit("/tmp/emulationstation.quitnow");
+  int lastTime = SDL_GetTicks();
+  for(;;)
+  {
+    SDL_Event event;
+    while (SDL_PollEvent(&event) != 0)
+    {
+      switch (event.type)
+      {
+        case SDL_TEXTINPUT:
+        {
+          window.textInput(event.text.text);
+          break;
+        }
+        case SDL_JOYHATMOTION:
+        case SDL_JOYBUTTONDOWN:
+        case SDL_JOYBUTTONUP:
+        case SDL_KEYDOWN:
+        case SDL_KEYUP:
+        case SDL_JOYAXISMOTION:
+        case SDL_JOYDEVICEADDED:
+        case SDL_JOYDEVICEREMOVED:
+        {
+          InputCompactEvent compactEvent = InputManager::Instance().ManageSDLEvent(event);
+          if (!compactEvent.Empty()) window.ProcessInput(compactEvent);
+          break;
+        }
+        case SDL_QUIT: return ExitState::Quit;
+        case RecalboxSystem::SDL_FAST_QUIT | RecalboxSystem::SDL_RB_REBOOT:
+        {
+          Settings::Instance().SetIgnoreGamelist(true);
+          return ExitState::FastReboot;
+        }
+        case RecalboxSystem::SDL_FAST_QUIT | RecalboxSystem::SDL_RB_SHUTDOWN:
+        {
+          Settings::Instance().SetIgnoreGamelist(true);
+          return ExitState::FastShutdown;
+        }
+        case SDL_QUIT | RecalboxSystem::SDL_RB_REBOOT: return ExitState::NormalReboot;
+        case SDL_QUIT | RecalboxSystem::SDL_RB_SHUTDOWN: return ExitState::Shutdown;
+        default:
+        {
+          SyncronousEventService::Instance().Dispatch(&event);
+          break;
+        }
+      }
+    }
+
+    if (window.isSleeping())
+    {
+      if (demoMode.hasDemoMode())
+        demoMode.runDemo();
+
+      lastTime = SDL_GetTicks();
+      // Take a breath
+      SDL_Delay(1);
+      continue;
+    }
+
+    int curTime = SDL_GetTicks();
+    int deltaTime = curTime - lastTime;
+    lastTime = curTime;
+    if (deltaTime > 1000 || deltaTime < 0) // cap deltaTime at 1000
+      deltaTime = 1000;
+
+    window.update(deltaTime);
+    window.render();
+    Renderer::swapBuffers();
+
+    Log::flush(); // TODO: Check
+
+    // Immediate exit required? TODO: Filewatching!
+    if (mustExit.Exists()) return ExitState::Quit;
+  }
+}
+
+void MainRunner::CheckAndInitializeInput(Window& window)
+{
+  // Choose which GUI to open depending on if an input configuration already exists
+  LOG(LogDebug) << "Preparing GUI";
+  if (InputManager::ConfigurationPath().Exists() && InputManager::Instance().ConfiguredDeviceCount() > 0)
+    ViewController::Instance().goToStart();
+  else
+    window.pushGui(new GuiDetectDevice(&window, true, [] { ViewController::Instance().goToStart(); }));
+}
+
+void MainRunner::CheckUpdateMessage(Window& window)
+{
+  // Push a message box with the whangelog if Recalbox has been updated
+  std::string changelog = RecalboxUpgrade::getChangelog();
+  if (!changelog.empty())
+  {
+    std::string message = "Changes :\n" + changelog;
+    window.pushGui(new GuiMsgBoxScroll(&window, _("THE SYSTEM IS UP TO DATE"), message, _("OK"), []
+    {
+      RecalboxUpgrade::updateLastChangelogFile();
+    }, "", nullptr, "", nullptr, TextAlignment::Left));
+  }
+}
+
+void MainRunner::PlayLoadingSound()
+{
+  std::string selectedTheme = Settings::Instance().ThemeSet();
+  Path loadingMusic = RootFolders::DataRootFolder / "system/.emulationstation/themes" / selectedTheme / "fx/loading.ogg";
+  if (!loadingMusic.Exists())
+    loadingMusic = RootFolders::DataRootFolder / "themes" / selectedTheme / "fx/loading.ogg";
+  if (loadingMusic.Exists())
+  {
+    Music::get(loadingMusic)->play(false, nullptr);
+  }
+}
+
+bool MainRunner::TryToLoadConfiguredSystems()
+{
+  if (!SystemManager::Instance().loadConfig())
+  {
+    LOG(LogError) << "Error while parsing systems configuration file!";
+    LOG(LogError) << "IT LOOKS LIKE YOUR SYSTEMS CONFIGURATION FILE HAS NOT BEEN SET UP OR IS INVALID. YOU'LL NEED TO DO THIS BY HAND, UNFORTUNATELY.\n\n"
+                     "VISIT EMULATIONSTATION.ORG FOR MORE INFORMATION.";
+    return false;
+  }
+
+  if (SystemManager::Instance().GetVisibleSystemList().empty())
+  {
+    LOG(LogError) << "No systems found! Does at least one system have a game present? (check that extensions match!)\n(Also, make sure you've updated your es_systems.cfg for XML!)";
+    LOG(LogError) << "WE CAN'T FIND ANY SYSTEMS!\n"
+                     "CHECK THAT YOUR PATHS ARE CORRECT IN THE SYSTEMS CONFIGURATION FILE, AND "
+                     "YOUR GAME DIRECTORY HAS AT LEAST ONE GAME WITH THE CORRECT EXTENSION.\n"
+                     "\n"
+                     "VISIT RECALBOX.FR FOR MORE INFORMATION.";
+    return false;
+  }
+
+  return true;
+}
+
+
+void MainRunner::InitializeAudio()
+{
+  // Initialize audio manager
+  VolumeControl::getInstance()->init();
+  AudioManager::getInstance()->init();
+}
+
+void onExit()
+{
+  Log::close();
+}
+
+void MainRunner::OpenLogs()
+{
+  atexit(&onExit); // Always close the log on exit
+
+  Log::open();
+  LOG(LogInfo) << "EmulationStation - v" << PROGRAM_VERSION_STRING << ", built " << PROGRAM_BUILT_STRING;
+}
+
+void MainRunner::CheckHomeFolder()
+{
+  //make sure the config directory exists
+  Path home = RootFolders::DataRootFolder;
+  Path configDir = home / "system/.emulationstation";
+  if (!configDir.Exists())
+  {
+    LOG(LogError) << "Creating config directory \"" << configDir.ToString() << "\"\n";
+    configDir.CreatePath();
+    if (!configDir.Exists())
+    {
+      LOG(LogError) << "Config directory could not be created!\n";
+    }
+  }
+}
+
+void MainRunner::SetLocale(const std::string& executablePath)
+{
+  Path path(executablePath);
+  path = path.Directory(); // Get executable folder
+  if (path.Empty() || !path.Exists())
+  {
+    LOG(LogError) << "Error getting path";
+  }
+
+  setlocale(LC_ALL,"");
+  path = path / "locale/lang";
+  bindtextdomain("emulationstation2", path.ToChars());
+  textdomain("emulationstation2");
+
+  LOG(LogInfo) << "Locals set...";
+}
+
+void MainRunner::SetArchitecture()
+{
+  if (Settings::Instance().Arch().empty())
+    Settings::Instance().SetArch(Files::LoadFile(Path("/recalbox/recalbox.arch")));
+}

@@ -90,13 +90,13 @@ void Window::deleteClosePendingGui()
     }
 }
 
-void Window::deleteAllGui() {
-	while (peekGui() != nullptr) {
+void Window::deleteAllGui()
+{
+	while (peekGui() != &ViewController::Instance())
 		delete peekGui();
-	}
 }
 
-bool Window::init(unsigned int width, unsigned int height, bool initRenderer)
+bool Window::Initialize(unsigned int width, unsigned int height, bool initRenderer)
 {
     if (initRenderer) {
         if(!Renderer::initialize((int)width, (int)height))
@@ -106,8 +106,12 @@ bool Window::init(unsigned int width, unsigned int height, bool initRenderer)
         }
     }
 
-  InputManager::Instance().Initialize();
+  std::string glExts = (const char*) glGetString(GL_EXTENSIONS);
+  LOG(LogInfo) << "Checking available OpenGL extensions...";
+  LOG(LogInfo) << " ARB_texture_non_power_of_two: "
+               << (glExts.find("ARB_texture_non_power_of_two") != std::string::npos ? "OK" : "MISSING");
 
+  InputManager::Instance().Initialize();
 	ResourceManager::getInstance()->reloadAll();
 
 	//keep a reference to the default fonts, so they don't keep getting destroyed/recreated
@@ -127,7 +131,7 @@ bool Window::init(unsigned int width, unsigned int height, bool initRenderer)
 	return true;
 }
 
-void Window::deinit()
+void Window::Finalize()
 {
   InputManager::Instance().Finalize();
 	ResourceManager::getInstance()->unloadAll();

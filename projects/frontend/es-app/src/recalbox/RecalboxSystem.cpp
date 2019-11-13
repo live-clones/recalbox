@@ -236,7 +236,7 @@ bool RecalboxSystem::launchKodi(Window* window)
   std::string commandline = InputManager::Instance().GenerateConfiggenConfiguration();
   std::string command = "configgen -system kodi -rom '' " + commandline;
 
-  Window::deinit();
+  Window::Finalize();
 
   int exitCode = system(command.c_str());
   if (WIFEXITED(exitCode))
@@ -244,7 +244,7 @@ bool RecalboxSystem::launchKodi(Window* window)
     exitCode = WEXITSTATUS(exitCode);
   }
 
-  window->init();
+  window->Initialize();
   VolumeControl::getInstance()->init();
   AudioManager::getInstance()->resumeMusic();
   window->normalizeNextUpdate();

@@ -21,7 +21,7 @@ public:
 
 protected:
 	void populateList(const FolderData* folder) override;
-	void launch(FileData* game) override { ViewController::get()->launch(game); }
+	void launch(FileData* game) override { ViewController::Instance().launch(game); }
 
 	ImageGridComponent<FileData*> mGrid;
 };

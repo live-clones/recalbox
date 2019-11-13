@@ -19,18 +19,6 @@
 
 ViewController* ViewController::sInstance = nullptr;
 
-ViewController* ViewController::get()
-{
-	assert(sInstance);
-	return sInstance;
-}
-
-void ViewController::init(Window* window)
-{
-	assert(!sInstance);
-	sInstance = new ViewController(window);
-}
-
 ViewController::ViewController(Window* window)
 	: GuiComponent(window),
 	  mCurrentView(nullptr),
@@ -40,14 +28,20 @@ ViewController::ViewController(Window* window)
     mState(),
 	  mWindow(window)
 {
+  if (sInstance == nullptr)
+  {
+    sInstance = this;
+    window->pushGui(this);
+  }
+
 	mState.viewing = ViewMode::None;
 	mFavoritesOnly = Settings::Instance().FavoritesOnly();
 }
 
 ViewController::~ViewController()
 {
-	assert(sInstance == this);
-	sInstance = nullptr;
+  if (sInstance == this)
+	  sInstance = nullptr;
 }
 
 void ViewController::goToStart()
@@ -495,16 +489,12 @@ void ViewController::deleteAndReloadAll()
 {
   Window *window = mWindow;
   window->renderShutdownScreen();
-  delete ViewController::get();
   SystemManager::Instance().deleteSystems();
   SystemManager::Instance().loadConfig();
-  GuiComponent *gui;
-  while ((gui = window->peekGui()) != nullptr)
-    window->removeGui(gui);
-  ViewController::init(window);
-  ViewController::get()->reloadAll();
-  window->pushGui(ViewController::get());
-  ViewController::get()->goToStart();
+  window->deleteAllGui();
+  ViewController::Instance().reloadAll();
+  window->pushGui(&ViewController::Instance());
+  ViewController::Instance().goToStart();
 }
 
 void ViewController::reloadAll()

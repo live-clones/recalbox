@@ -107,7 +107,7 @@ void BasicGameListView::onFileChanged(FileData* file, FileChangeType change)
 	if(change == FileChangeType::MetadataChanged)
 	{
 		// might switch to a detailed view
-		ViewController::get()->reloadGameListView(this);
+    ViewController::Instance().reloadGameListView(this);
 		return;
 	}
 }
