@@ -76,7 +76,7 @@ convert "${TARGET_DIR}/recalbox/system/resources/splash/logo.png" -fill white -p
 echo -e "1\n00:00:00,000 --> 00:00:03,000\n${TGVERSION}" > "${TARGET_DIR}/recalbox/system/resources/splash/recalboxintro.srt"
 omx_fnt="/usr/share/fonts/dejavu/DejaVuSans-BoldOblique.ttf"
 if [[ -f ${TARGET_DIR}$omx_fnt ]] ; then
-	sed -i "s|omx_fnt=\"\"|omx_fnt=\"--font=$omx_fnt\"|g" "${TARGET_DIR}/etc/init.d/S03splash"
+	sed -i "s|omx_fnt=\"\"|omx_fnt=\"--font=$omx_fnt\"|g" "${TARGET_DIR}/etc/init.d/S06splash"
 fi
 # Changelog
 cp "$BR2_EXTERNAL_RECALBOX_PATH/CHANGELOG.md" "${TARGET_DIR}/recalbox/recalbox.changelog"
