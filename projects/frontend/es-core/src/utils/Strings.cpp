@@ -413,7 +413,19 @@ std::string Strings::ScrambleSymetric(const std::string& _input, const std::stri
 	}
 
 	return buffer;
+} // scramble
 
+std::string Strings::ScrambleSymetric2(const std::string& _input, const std::string& key)
+{
+  std::string buffer = _input;
+  int l = key.size();
+
+  for (size_t i = 0; i < _input.size(); ++i)
+  {
+    buffer[i] = _input[i] ^ (char)(key[i % l] + (i*17));
+  }
+
+  return buffer;
 } // scramble
 
 #define INT32BUFFERLEN 12

@@ -14,6 +14,9 @@ extern const uint8_t fav_remove_svg_data[];
 extern const uint16_t star_unfilled_svg_size;
 extern const uint8_t star_unfilled_svg_data[];
 
+extern const uint32_t recalbox_svg_size;
+extern const uint8_t recalbox_svg_data[];
+
 extern const uint16_t off_svg_size;
 extern const uint8_t off_svg_data[];
 
@@ -73,6 +76,9 @@ extern const uint8_t textinput_ninepatch_png_data[];
 
 extern const uint16_t busy_1_png_size;
 extern const uint8_t busy_1_png_data[];
+
+extern const uint16_t question_svg_size;
+extern const uint8_t question_svg_data[];
 
 extern const uint16_t splash_svg_size;
 extern const uint8_t splash_svg_data[];

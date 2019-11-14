@@ -3,6 +3,8 @@
 //
 #pragma once
 
+#define __MESSAGE_DECORATOR "\x9D\x31\x7B\x2C\x54\xFA\x85\x0E\xAD\x65\x1B"
+
 class MenuMessages {
 public:
 	static const char* START_KODI_HELP_MSG;
@@ -119,4 +121,14 @@ public:
 	static const char* GAMELISTOPTION_SHOW_FOLDER_CONTENT_MSG;
 	static const char* GAMELISTOPTION_EDIT_METADATA_MSG;
 
+	static const char* LICENCE_MSG;
+  static const int   LICENCE_MSG_SIZE;
+
+#define LICENSE_ORIGINAL_TEXT "Redistribution and use of the RECALBOX code or any derivative works are permitted provided that the following conditions are met:\n" \
+                              "\n" \
+                              "- Redistributions may not be sold without authorization, nor may they be used in a commercial product or activity.\n" \
+                              "- Redistributions that are modified from the original source must include the complete source code, including the source code for all components used by a binary built from the modified sources.\n" \
+                              "- Redistributions must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.\n" \
+                              "\n" \
+                              "THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS \"AS IS\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
 };

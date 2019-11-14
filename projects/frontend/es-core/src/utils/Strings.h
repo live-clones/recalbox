@@ -56,6 +56,8 @@ class Strings
 
     static std::string ScrambleSymetric(const std::string& _input, const std::string& key);
 
+    static std::string ScrambleSymetric2(const std::string& _input, const std::string& key);
+
     static bool ToInt(const std::string& source, int index, char stop, int& out);
 
     static bool ToInt(const std::string& source, int index, int& out) { return ToInt(source, index, 0, out); }

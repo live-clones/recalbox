@@ -195,6 +195,8 @@ set(EMBEDDED_ASSET_SOURCES
 		${emulationstation-all_SOURCE_DIR}/data/converted/textinput_ninepatch_active_png.cpp
 		${emulationstation-all_SOURCE_DIR}/data/converted/frame_png.cpp
 		${emulationstation-all_SOURCE_DIR}/data/converted/scroll_gradient_png.cpp
+		${emulationstation-all_SOURCE_DIR}/data/converted/recalbox_svg.cpp
+		${emulationstation-all_SOURCE_DIR}/data/converted/question_svg.cpp
 
 		${emulationstation-all_SOURCE_DIR}/data/converted/help__button_a_svg.cpp
 		${emulationstation-all_SOURCE_DIR}/data/converted/help__button_b_svg.cpp

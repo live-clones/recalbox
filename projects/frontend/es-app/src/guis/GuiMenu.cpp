@@ -55,6 +55,7 @@ GuiMenu::GuiMenu(Window* window)
   // NETWORK >
   // SCRAPER >
   // ADVANCED SETTINGS >
+  // ABOUT >
   // QUIT >
 
   mMenuTheme = MenuThemeData::getInstance()->getCurrentTheme();
@@ -121,6 +122,12 @@ GuiMenu::GuiMenu(Window* window)
         addEntryWithHelp(_("ADVANCED SETTINGS").c_str(), _(MenuMessages::ADVANCED_HELP_MSG), mMenuTheme->menuText.color, true,
                  [this] { menuAdvancedSettings(); }, mMenuTheme->menuIconSet.advanced);
     }
+
+	//ABOUT
+	addEntry(_("LICENSE").c_str(), mMenuTheme->menuText.color, true,
+	         [this] {
+		         mWindow->pushGui(new GuiMsgBoxScroll(mWindow, "RECALBOX", Strings::ScrambleSymetric2(std::string(MenuMessages::LICENCE_MSG, MenuMessages::LICENCE_MSG_SIZE), __MESSAGE_DECORATOR), _("OK"), nullptr, "", nullptr, "", nullptr, TextAlignment::Left));
+		 }, Path(":/question.svg"));
 
     //QUIT
     addEntry(_("QUIT").c_str(), mMenuTheme->menuText.color, true,
@@ -1756,11 +1763,12 @@ void GuiMenu::addEntryWithHelp(const char *name, const std::string& help, unsign
     if (!iconPath.Empty())
     {
         // icon
-        auto icon = std::make_shared<ImageComponent>(mWindow);
-        icon->setImage(iconPath);
-        icon->setColorShift(menuTheme->menuText.color);
-        icon->setResize(0, menuTheme->menuText.font->getLetterHeight() * 1.25f);
-        row.addElement(icon, false);
+	    auto icon = std::make_shared<ImageComponent>(mWindow);
+	    icon->setImage(iconPath);
+	    icon->setColorShift(menuTheme->menuText.color);
+	    icon->setResize(0, menuTheme->menuText.font->getLetterHeight() * 1.25f);
+	    row.addElement(icon, false);
+
 
         // spacer between icon and text
         auto spacer = std::make_shared<GuiComponent>(mWindow);
