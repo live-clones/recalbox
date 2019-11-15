@@ -93,7 +93,7 @@ RETROARCH_CONF_OPTS += --disable-opengles
 endif
 
 ifeq ($(BR2_PACKAGE_HAS_LIBGLES),y)
-    ifeq ($(BR2_x86_64),y)
+    ifeq ($(BR2_x86_64),$(BR2_i386)y)
     RETROARCH_CONF_OPTS += --disable-opengles --enable-opengl --enable-opengl1
     RETROARCH_DEPENDENCIES += libgl
     else
