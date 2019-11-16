@@ -47,11 +47,11 @@ class Controller:
             'select'        : { 'button' : 'back' },
             'pageup'        : { 'button' : 'leftshoulder' },
             'pagedown'      : { 'button' : 'rightshoulder' },
-            'l2'            : { 'button' : 'lefttrigger', 'axis' : 'lefttrigger' },
+            'l2'            : { 'button' : 'lefttrigger',  'axis' : 'lefttrigger' },
             'r2'            : { 'button' : 'righttrigger', 'axis' : 'righttrigger' },
             'l3'            : { 'button' : 'leftstick' },
             'r3'            : { 'button' : 'rightstick' },
-            'up'            : { 'button' : 'dpup',    'hat' : 'dpup', 'axis' : 'lefty' },
+            'up'            : { 'button' : 'dpup',    'hat' : 'dpup',   'axis' : 'lefty' },
             'down'          : { 'button' : 'dpdown',  'hat' : 'dpdown' },
             'left'          : { 'button' : 'dpleft',  'hat' : 'dpleft', 'axis' : 'leftx' },
             'right'         : { 'button' : 'dpright', 'hat' : 'dpright' },
@@ -61,6 +61,12 @@ class Controller:
             'joystick2left' : { 'axis' : 'rightx' },
             'hotkey'        : { 'button' : 'guide' }
         }
+        nameMappingForceHatToAxis = {
+            'up'            : { 'button' : '-lefty', 'hat' : '-lefty' },
+            'down'          : { 'button' : '+lefty', 'hat' : '+lefty' },
+            'left'          : { 'button' : '-leftx', 'hat' : '-leftx' },
+            'right'         : { 'button' : '+leftx', 'hat' : '+leftx' }
+        }
         typePrefix = {
             'axis'   : 'a',
             'button' : 'b',
@@ -69,6 +75,10 @@ class Controller:
         
         if not self.inputs:
             return None
+
+        # If no left axis defined, map hat to left axis
+        if not self.inputs.has_key('joystick1up'):
+            nameMapping.update(nameMappingForceHatToAxis)
             
         # Need to remove commas from the device name
         strOut = "{},{},platform:Linux,".format(self.guid, self.configName.replace(',', ' '))
