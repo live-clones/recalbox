@@ -26,8 +26,8 @@ gpu=("$(lspci -d::0300 |awk -F'[' '{print $2}' |awk -F']' '{print $1}')")
 gpuid=("$(lspci -nd10de::0300 | egrep -o "[[:xdigit:]]{4}:[[:xdigit:]]{4}" | cut -d ":" -f 2)")
 
 # check the compatibility of the graphics card with the driver version "440.31" then "390.116"
-supportList440=($(grep -i "${gpu}" /recalbox/system/hardware/videocard/nvidiacheckcompatibility-440.txt))
-supportList390=($(grep -i "${gpu}" /recalbox/system/hardware/videocard/nvidiacheckcompatibility-390.txt))
+supportList440=($(grep -i "${gpuid}" /recalbox/system/hardware/videocard/nvidiacheckcompatibility-440.txt))
+supportList390=($(grep -i "${gpuid}" /recalbox/system/hardware/videocard/nvidiacheckcompatibility-390.txt))
 
 # nouveau conflict with nvidia-drm
 blacklistFile="/etc/modprobe.d/blacklist.conf"
