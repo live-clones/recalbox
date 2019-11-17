@@ -45,7 +45,7 @@ libs="/usr/lib"
 xorg="${libs}/xorg/modules"
 nvkern="/lib/modules/`uname -r`/extra"
 nvlibs="${libs}/extra/nvidia-${nvver}"
-nvxorg="${xorg}/extra/nvidia-${nvver}"
+nvxorg="${nvlibs}/xorg"
 nvegl=($(ls "${libs}"/extra/nvidia-${nvver} | grep libEGL.so | tail -c 6))
 nvgl=($(ls "${libs}"/extra/nvidia-${nvver} | grep libGL.so | tail -c 6))
 nvgles1=($(ls "${libs}"/extra/nvidia-${nvver} | grep libGLESv1_CM.so | tail -c 6))
@@ -70,9 +70,7 @@ echo "Installing..."
 ##
 # install/symlink xorg modules
 ##
-chmod +x ${nvxorg}/*
-chmod +x ${nvxorg}/drivers/*
-chmod +x ${nvxorg}/extensions/*
+chmod -R +x ${nvxorg}
 # 390/440
 try_symlink "${nvxorg}/drivers/nvidia_drv.so" "${xorg}/drivers/nvidia_drv.so"
 # 390
@@ -111,6 +109,8 @@ try_symlink_lib "${nvlibs}/libnvidia-opencl.so" "${libs}/libnvidia-opencl.so" "$
 try_symlink_lib "${nvlibs}/libnvidia-compiler.so" "${libs}/libnvidia-compiler.so" "${nvver}"
 try_symlink_lib "${nvlibs}/libnvidia-encode.so" "${libs}/libnvidia-encode.so" "${nvver}"
 try_symlink_lib "${nvlibs}/libnvidia-ptxjitcompiler.so" "${libs}/libnvidia-ptxjitcompiler.so" "${nvver}"
+try_symlink_lib "${nvlibs}/libnvidia-gtk2.so" "${libs}/libnvidia-gtk2.so" "${nvver}"
+try_symlink_lib "${nvlibs}/libnvidia-gtk3.so" "${libs}/libnvidia-gtk3.so" "${nvver}"
 
 ##
 # install/symlink kernel modules
