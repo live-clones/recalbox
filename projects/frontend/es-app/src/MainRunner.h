@@ -7,6 +7,8 @@
 #include <Window.h>
 #include <utils/sdl2/ISyncronousEvent.h>
 
+class AudioManager;
+
 class MainRunner: private ISyncronousEvent
 {
   public:
@@ -63,14 +65,9 @@ class MainRunner: private ISyncronousEvent
     static void SetArchitecture();
 
     /*!
-     * @brief Initialize all audio
-     */
-    static void InitializeAudio();
-
-    /*!
      * @brief Play loading jingle (loading.ogg) from theme if available
      */
-    static void PlayLoadingSound();
+    static void PlayLoadingSound(AudioManager& audioManager);
 
     /*!
      * @brief Try loading system configuration.

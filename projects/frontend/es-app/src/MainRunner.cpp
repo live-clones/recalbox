@@ -37,9 +37,6 @@ MainRunner::MainRunner(const std::string& executablePath, unsigned int width, un
 
 MainRunner::ExitState MainRunner::Run()
 {
-  // Initialize sound
-  InitializeAudio();
-
   try
   {
     // Shut-up joysticks :)
@@ -61,9 +58,13 @@ MainRunner::ExitState MainRunner::Run()
       return ExitState::FatalError;
     }
 
+    // Initialize audio manager
+    VolumeControl::getInstance()->init();
+    AudioManager audioManager(window);
+
     // Display "loading..." screen
     window.renderLoadingScreen();
-    PlayLoadingSound();
+    PlayLoadingSound(audioManager);
 
     // Try to load system configurations
     if (!TryToLoadConfiguredSystems())
@@ -74,32 +75,39 @@ MainRunner::ExitState MainRunner::Run()
     if (recalboxConf.AsString("kodi.enabled") == "1" && recalboxConf.AsString("kodi.atstartup") == "1")
       RecalboxSystem::launchKodi(&window);
 
-    // Start update thread
-    LOG(LogDebug) << "Launching Network thread";
-    NetworkThread networkThread(&window);
-    // Start the socket server
-    LOG(LogDebug) << "Launching Command thread";
-    CommandThread commandThread;
-    // Start Video engine
-    LOG(LogDebug) << "Launching Video engine";
-    VideoEngine::This().StartEngine();
-    // Start Neyplay thread
-    LOG(LogDebug) << "Launching Netplay thread";
-    NetPlayThread netPlayThread(&window);
+    ExitState exitState;
+    try
+    {
+      // Start update thread
+      LOG(LogDebug) << "Launching Network thread";
+      NetworkThread networkThread(&window);
+      // Start the socket server
+      LOG(LogDebug) << "Launching Command thread";
+      CommandThread commandThread;
+      // Start Video engine
+      LOG(LogDebug) << "Launching Video engine";
+      VideoEngine::This().StartEngine();
+      // Start Neyplay thread
+      LOG(LogDebug) << "Launching Netplay thread";
+      NetPlayThread netPlayThread(&window);
 
-    // Allocate custom event types
-    AudioManager::getInstance()->SetMusicStartEvent(&window);
+      // Update?
+      CheckUpdateMessage(window);
+      // Input ok?
+      CheckAndInitializeInput(window);
 
-    // Update?
-    CheckUpdateMessage(window);
-    // Input ok?
-    CheckAndInitializeInput(window);
-
-    // Main Loop!
-    CreateReadyFlagFile();
-    ExitState exitState = MainLoop(window);
-    ResetExitState();
-    DeleteReadyFlagFile();
+      // Main Loop!
+      CreateReadyFlagFile();
+      exitState = MainLoop(window);
+      ResetExitState();
+      DeleteReadyFlagFile();
+    }
+    catch(std::exception& ex)
+    {
+      LOG(LogError) << "Main thread crashed (inner).";
+      LOG(LogError) << "Exception: " << ex.what();
+      exitState = ExitState::Relaunch;
+    }
 
     // Exit
     window.renderShutdownScreen();
@@ -112,13 +120,13 @@ MainRunner::ExitState MainRunner::Run()
   }
   catch(std::exception& ex)
   {
-    LOG(LogError) << "Main thread crashed.";
+    LOG(LogError) << "Main thread crashed (outer).";
     LOG(LogError) << "Exception: " << ex.what();
   }
 
-  // There is no "normal exit".
-  // If we get there, something went wrong, so ask for a relaunch
-  return ExitState::Relaunch;
+  // If we get there, a severe and probably non-recoverable error occured.
+  // Just quit
+  return ExitState::FatalError;
 }
 
 void MainRunner::CreateReadyFlagFile()
@@ -232,7 +240,7 @@ void MainRunner::CheckUpdateMessage(Window& window)
   }
 }
 
-void MainRunner::PlayLoadingSound()
+void MainRunner::PlayLoadingSound(AudioManager& audioManager)
 {
   std::string selectedTheme = Settings::Instance().ThemeSet();
   Path loadingMusic = RootFolders::DataRootFolder / "system/.emulationstation/themes" / selectedTheme / "fx/loading.ogg";
@@ -240,7 +248,7 @@ void MainRunner::PlayLoadingSound()
     loadingMusic = RootFolders::DataRootFolder / "themes" / selectedTheme / "fx/loading.ogg";
   if (loadingMusic.Exists())
   {
-    Music::get(loadingMusic)->play(false, nullptr);
+    audioManager.PlayMusic(audioManager.LoadMusic(loadingMusic), false);
   }
 }
 
@@ -266,14 +274,6 @@ bool MainRunner::TryToLoadConfiguredSystems()
   }
 
   return true;
-}
-
-
-void MainRunner::InitializeAudio()
-{
-  // Initialize audio manager
-  VolumeControl::getInstance()->init();
-  AudioManager::getInstance()->init();
 }
 
 void onExit()
