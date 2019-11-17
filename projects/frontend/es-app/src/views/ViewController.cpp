@@ -16,6 +16,7 @@
 
 #include <memory>
 #include <systems/SystemManager.h>
+#include <MainRunner.h>
 
 ViewController* ViewController::sInstance = nullptr;
 
@@ -487,14 +488,15 @@ bool ViewController::reloadGameListView(IGameListView* view, bool reloadTheme)
 
 void ViewController::deleteAndReloadAll()
 {
-  Window *window = mWindow;
+  MainRunner::RequestQuit(MainRunner::ExitState::Relaunch);
+  /*Window *window = mWindow;
   window->renderShutdownScreen();
   SystemManager::Instance().deleteSystems();
   SystemManager::Instance().loadConfig();
   window->deleteAllGui();
   ViewController::Instance().reloadAll();
   window->pushGui(&ViewController::Instance());
-  ViewController::Instance().goToStart();
+  ViewController::Instance().goToStart();*/
 }
 
 void ViewController::reloadAll()

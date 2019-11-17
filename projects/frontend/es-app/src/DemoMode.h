@@ -5,8 +5,6 @@
 #include "Settings.h"
 #include "RecalboxConf.h"
 #include "systems/SystemData.h"
-#include "games/FileData.h"
-#include "PlatformId.h"
 
 class DemoMode
 {

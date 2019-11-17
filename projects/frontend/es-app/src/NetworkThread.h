@@ -4,7 +4,6 @@
 #include <utils/sdl2/ISyncronousEvent.h>
 #include <utils/sdl2/SyncronousEvent.h>
 #include <utils/os/system/Mutex.h>
-#include "Window.h"
 
 class NetworkThread: private Thread, private ISyncronousEvent
 {

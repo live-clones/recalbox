@@ -2,8 +2,6 @@
 //http://www.aloshi.com
 
 #include <EmulationStation.h>
-#include <VideoEngine.h>
-#include <guis/GuiNetPlay.h>
 #include <utils/sdl2/SyncronousEventService.h>
 #include <Settings.h>
 #include <utils/Log.h>

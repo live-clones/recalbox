@@ -16,11 +16,6 @@ struct EmulatorDefaults
 class RecalboxSystem
 {
   public:
-    // TODO: use dynamic values from SDL APIs
-    const static Uint32 SDL_FAST_QUIT = 0x800F;
-    const static Uint32 SDL_RB_SHUTDOWN = 0X4000;
-    const static Uint32 SDL_RB_REBOOT = 0x2000;
-
     static unsigned long getFreeSpaceGB(const std::string& mountpoint);
 
     static std::string SizeToString(unsigned long long size);
@@ -53,14 +48,6 @@ class RecalboxSystem
 
     static bool disableWifi();
 
-    static bool reboot();
-
-    static bool shutdown();
-
-    static bool fastReboot();
-
-    static bool fastShutdown();
-
     static std::string getIpAdress();
 
     static std::vector<std::string> scanBluetooth();
@@ -91,8 +78,6 @@ class RecalboxSystem
     static std::string BuildSettingsCommand(const std::string& arguments);
 
     static Strings::Vector ExecuteSettingsCommand(const std::string& arguments);
-
-    static bool halt(bool reboot, bool fast);
 
     static std::string runCmd(const std::string& cmd);
 

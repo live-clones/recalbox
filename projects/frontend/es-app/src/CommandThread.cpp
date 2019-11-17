@@ -1,5 +1,4 @@
 #include "CommandThread.h"
-#include "systems/SystemData.h"
 #include "utils/Log.h"
 #include "views/ViewController.h"
 #include "systems/SystemManager.h"

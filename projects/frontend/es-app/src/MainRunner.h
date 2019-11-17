@@ -4,8 +4,10 @@
 #pragma once
 
 #include <string>
+#include <Window.h>
+#include <utils/sdl2/ISyncronousEvent.h>
 
-class MainRunner
+class MainRunner: private ISyncronousEvent
 {
   public:
     // Runner exit state
@@ -21,11 +23,23 @@ class MainRunner
     };
 
   private:
+    //! Temporary file used as flag of readyness
     static constexpr const char* sReadyFile = "/tmp/emulationstation.ready";
+    //! Temporary file used as quit request
+    static constexpr const char* sQuitNow = "/tmp/emulationstation.quitnow";
     //! Requested width
     unsigned int mRequestedWidth;
     //! Requested height
     unsigned int mRequestedHeight;
+    //! Quit request state
+    static ExitState mRequestedExitState;
+    //! Quit request
+    static bool mQuitRequested;
+
+    /*!
+     * @brief Reset last exit state
+     */
+    static void ResetExitState() { mQuitRequested = false; }
 
     /*!
      * @brief Set the system locale
@@ -92,6 +106,16 @@ class MainRunner
      */
     static void DeleteReadyFlagFile();
 
+    /*
+     * ISynchronousEvent implementation
+     */
+
+    /*!
+     * @brief Receive requested exit state event
+     * @param event SDL event
+     */
+    void ReceiveSyncCallback(const SDL_Event& event) override;
+
   public:
     /*!
      * @brief Constructor
@@ -105,4 +129,10 @@ class MainRunner
      * @brief Run the game!
      */
     ExitState Run();
+
+    /*!
+     * @brief Request the application to quit using a particular exitstate
+     * @param requestedState Requested Exit State
+     */
+    static void RequestQuit(ExitState requestedState);
 };

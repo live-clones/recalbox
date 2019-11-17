@@ -21,6 +21,7 @@
 #include <VideoEngine.h>
 #include <utils/Strings.h>
 #include <utils/Files.h>
+#include <MainRunner.h>
 
 void RecalboxSystem::NotifySystemAndGame(const SystemData* system, const FileData* game, bool play, bool demo)
 {
@@ -254,12 +255,12 @@ bool RecalboxSystem::launchKodi(Window* window)
   {
     case 10: // reboot code
     {
-      reboot();
+      MainRunner::RequestQuit(MainRunner::ExitState::NormalReboot);;
       return true;
     }
     case 11: // shutdown code
     {
-      shutdown();
+      MainRunner::RequestQuit(MainRunner::ExitState::Shutdown);
       return true;
     }
     default: break;
@@ -317,44 +318,6 @@ bool RecalboxSystem::disableWifi()
     return false;
   }
 }
-
-
-bool RecalboxSystem::halt(bool reboot, bool fast)
-{
-  SDL_Event* quit = new SDL_Event();
-  if (fast)
-    if (reboot)
-      quit->type = SDL_FAST_QUIT | SDL_RB_REBOOT;
-    else
-      quit->type = SDL_FAST_QUIT | SDL_RB_SHUTDOWN;
-  else if (reboot)
-    quit->type = SDL_QUIT | SDL_RB_REBOOT;
-  else
-    quit->type = SDL_QUIT | SDL_RB_SHUTDOWN;
-  SDL_PushEvent(quit);
-  return false;
-}
-
-bool RecalboxSystem::reboot()
-{
-  return halt(true, false);
-}
-
-bool RecalboxSystem::fastReboot()
-{
-  return halt(true, true);
-}
-
-bool RecalboxSystem::shutdown()
-{
-  return halt(false, false);
-}
-
-bool RecalboxSystem::fastShutdown()
-{
-  return halt(false, true);
-}
-
 
 std::string RecalboxSystem::getIpAdress()
 {

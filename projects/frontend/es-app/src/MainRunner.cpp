@@ -4,8 +4,6 @@
 #include <Locale.h>
 #include <utils/os/fs/Path.h>
 #include <utils/Log.h>
-#include <RootFolders.h>
-#include <Settings.h>
 #include <utils/Files.h>
 #include <AudioManager.h>
 #include <views/ViewController.h>
@@ -23,6 +21,9 @@
 #include "CommandThread.h"
 #include "NetPlayThread.h"
 #include "DemoMode.h"
+
+MainRunner::ExitState MainRunner::mRequestedExitState = MainRunner::ExitState::Quit;
+bool MainRunner::mQuitRequested = false;
 
 MainRunner::MainRunner(const std::string& executablePath, unsigned int width, unsigned int height)
   : mRequestedWidth(width),
@@ -44,7 +45,7 @@ MainRunner::ExitState MainRunner::Run()
     // Shut-up joysticks :)
     SDL_JoystickEventState(SDL_DISABLE);
 
-    // Initialize the renderer first, because many things depend on renderer width/height
+    // Initialize the renderer first,'cause many things depend on renderer width/height
     if (!Renderer::initialize((int)mRequestedWidth, (int)mRequestedHeight))
     {
       LOG(LogError) << "Error initializing the GL renderer.";
@@ -97,6 +98,7 @@ MainRunner::ExitState MainRunner::Run()
     // Main Loop!
     CreateReadyFlagFile();
     ExitState exitState = MainLoop(window);
+    ResetExitState();
     DeleteReadyFlagFile();
 
     // Exit
@@ -140,7 +142,7 @@ MainRunner::ExitState MainRunner::MainLoop(Window& window)
   DemoMode demoMode(window);
 
   LOG(LogDebug) << "Entering main loop";
-  Path mustExit("/tmp/emulationstation.quitnow");
+  Path mustExit(sQuitNow);
   int lastTime = SDL_GetTicks();
   for(;;)
   {
@@ -149,6 +151,7 @@ MainRunner::ExitState MainRunner::MainLoop(Window& window)
     {
       switch (event.type)
       {
+        case SDL_QUIT: return ExitState::Quit;
         case SDL_TEXTINPUT:
         {
           window.textInput(event.text.text);
@@ -167,19 +170,6 @@ MainRunner::ExitState MainRunner::MainLoop(Window& window)
           if (!compactEvent.Empty()) window.ProcessInput(compactEvent);
           break;
         }
-        case SDL_QUIT: return ExitState::Quit;
-        case RecalboxSystem::SDL_FAST_QUIT | RecalboxSystem::SDL_RB_REBOOT:
-        {
-          Settings::Instance().SetIgnoreGamelist(true);
-          return ExitState::FastReboot;
-        }
-        case RecalboxSystem::SDL_FAST_QUIT | RecalboxSystem::SDL_RB_SHUTDOWN:
-        {
-          Settings::Instance().SetIgnoreGamelist(true);
-          return ExitState::FastShutdown;
-        }
-        case SDL_QUIT | RecalboxSystem::SDL_RB_REBOOT: return ExitState::NormalReboot;
-        case SDL_QUIT | RecalboxSystem::SDL_RB_SHUTDOWN: return ExitState::Shutdown;
         default:
         {
           SyncronousEventService::Instance().Dispatch(&event);
@@ -209,10 +199,12 @@ MainRunner::ExitState MainRunner::MainLoop(Window& window)
     window.render();
     Renderer::swapBuffers();
 
-    Log::flush(); // TODO: Check
-
     // Immediate exit required? TODO: Filewatching!
     if (mustExit.Exists()) return ExitState::Quit;
+
+    // Quit Request?
+    if (mQuitRequested)
+      return mRequestedExitState;
   }
 }
 
@@ -334,4 +326,16 @@ void MainRunner::SetArchitecture()
 {
   if (Settings::Instance().Arch().empty())
     Settings::Instance().SetArch(Files::LoadFile(Path("/recalbox/recalbox.arch")));
+}
+
+void MainRunner::ReceiveSyncCallback(const SDL_Event& /*event*/)
+{
+  //mQuitRequested = true;
+  //mRequestedExitState = (ExitState)event.user.code;
+}
+
+void MainRunner::RequestQuit(MainRunner::ExitState requestedState)
+{
+  mQuitRequested = true;
+  mRequestedExitState = requestedState;
 }

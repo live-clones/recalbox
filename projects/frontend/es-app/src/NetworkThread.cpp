@@ -5,9 +5,7 @@
  * Created on 6 février 2015, 11:40
  */
 
-#include <utils/Log.h>
 #include <guis/GuiInfoPopup.h>
-#include <utils/sdl2/SyncronousEventService.h>
 #include "NetworkThread.h"
 #include "recalbox/RecalboxUpgrade.h"
 #include "RecalboxConf.h"

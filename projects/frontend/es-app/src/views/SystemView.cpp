@@ -1,25 +1,13 @@
 #include "views/SystemView.h"
-#include "systems/SystemData.h"
-#include "Renderer.h"
-#include "utils/Log.h"
-#include "Window.h"
 #include "views/ViewController.h"
 #include "animations/LambdaAnimation.h"
-#include "Settings.h"
 #include <guis/GuiMsgBox.h>
-#include <recalbox/RecalboxSystem.h>
-#include <components/ComponentList.h>
-#include <guis/GuiSettings.h>
 #include <RecalboxConf.h>
 #include <guis/GuiNetPlay.h>
-
-#include <memory>
 #include <systems/SystemManager.h>
+#include <MainRunner.h>
 #include "guis/GuiMenu.h"
-#include "themes/ThemeData.h"
-#include "MenuThemeData.h"
 #include "AudioManager.h"
-#include "Locale.h"
 
 // buffer values for scrolling velocity (left, stopped, right)
 const int logoBuffersLeft[] = { -5, -2, -1 };
@@ -270,12 +258,7 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
 
 			row.makeAcceptInputHandler([window] {
 			    window->pushGui(new GuiMsgBox(window, _("REALLY SHUTDOWN?"), _("YES"),
-											  [] {
-												  if (RecalboxSystem::shutdown())  {
-													  LOG(LogWarning) <<
-																	  "Shutdown terminated with non-zero result!";
-												  }
-							  }, _("NO"), nullptr));
+											  [] { MainRunner::RequestQuit(MainRunner::ExitState::Shutdown); }, _("NO"), nullptr));
 			});
 			auto icon2 = std::make_shared<ImageComponent>(mWindow);
 			icon2->setImage(menuTheme->menuIconSet.shutdown);
@@ -290,12 +273,7 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
 			row.elements.clear();
 			row.makeAcceptInputHandler([window] {
 				window->pushGui(new GuiMsgBox(window, _("REALLY SHUTDOWN WITHOUT SAVING METADATAS?"), _("YES"),
-											  [] {
-												  if (RecalboxSystem::fastShutdown())  {
-													  LOG(LogWarning) <<
-																	  "Shutdown terminated with non-zero result!";
-												  }
-											  }, _("NO"), nullptr));
+											  [] { MainRunner::RequestQuit(MainRunner::ExitState::FastShutdown);; }, _("NO"), nullptr));
 			});
 			auto icon3 = std::make_shared<ImageComponent>(mWindow);
 			icon3->setImage(menuTheme->menuIconSet.fastshutdown);
@@ -309,11 +287,7 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
 			row.elements.clear();
 			row.makeAcceptInputHandler([window] {
 				window->pushGui(new GuiMsgBox(window, _("REALLY RESTART?"), _("YES"),
-				                              [] {
-					                              if (RecalboxSystem::reboot())  {
-						                              LOG(LogWarning) << "Restart terminated with non-zero result!";
-					                              }
-				                              }, _("NO"), nullptr));
+				                              [] { MainRunner::RequestQuit(MainRunner::ExitState::NormalReboot); }, _("NO"), nullptr));
 			});
 			// icon
 			auto icon1 = std::make_shared<ImageComponent>(mWindow);

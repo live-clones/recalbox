@@ -5,6 +5,7 @@
 #include <functional>
 #include <LibretroRatio.h>
 #include <systems/SystemManager.h>
+#include <MainRunner.h>
 
 #include "EmulationStation.h"
 #include "guis/GuiMenu.h"
@@ -1606,9 +1607,7 @@ void GuiMenu::menuQuit(){
 
   row.makeAcceptInputHandler([window] {
     window->pushGui(new GuiMsgBox(window, _("REALLY SHUTDOWN?"), _("YES"), [] {
-        if (RecalboxSystem::shutdown()) {
-          LOG(LogWarning) << "Shutdown terminated with non-zero result!";
-          }
+      MainRunner::RequestQuit(MainRunner::ExitState::Shutdown);
         }, _("NO"), nullptr));
   });
   row.addElement(std::make_shared<TextComponent>(window, _("SHUTDOWN SYSTEM"), mMenuTheme->menuText.font, mMenuTheme->menuText.color), true);
@@ -1617,9 +1616,7 @@ void GuiMenu::menuQuit(){
   row.elements.clear();
   row.makeAcceptInputHandler([window] {
     window->pushGui(new GuiMsgBox(window, _("REALLY SHUTDOWN WITHOUT SAVING METADATAS?"), _("YES"), [] {
-        if (RecalboxSystem::fastShutdown()) {
-          LOG(LogWarning) << "Shutdown terminated with non-zero result!";
-          }
+      MainRunner::RequestQuit(MainRunner::ExitState::FastShutdown);
         }, _("NO"), nullptr));
   });
   row.addElement(std::make_shared<TextComponent>(window, _("FAST SHUTDOWN SYSTEM"), mMenuTheme->menuText.font, mMenuTheme->menuText.color), true);
@@ -1628,9 +1625,7 @@ void GuiMenu::menuQuit(){
   row.elements.clear();
   row.makeAcceptInputHandler([window] {
     window->pushGui(new GuiMsgBox(window, _("REALLY RESTART?"), _("YES"), [] {
-        if (RecalboxSystem::reboot()) {
-          LOG(LogWarning) << "Restart terminated with non-zero result!";
-          }
+      MainRunner::RequestQuit(MainRunner::ExitState::NormalReboot);
         }, _("NO"), nullptr));
   });
   row.addElement(std::make_shared<TextComponent>(window, _("RESTART SYSTEM"), mMenuTheme->menuText.font, mMenuTheme->menuText.color), true);
