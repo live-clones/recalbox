@@ -1,0 +1,105 @@
+NVIDIA TITAN X (Pascal)
+GeForce 920M
+GeForce 910M
+GeForce GTX 880M
+GeForce GTX 870M
+GeForce 825M
+GeForce 820M
+GeForce 810M
+GeForce 800M
+GeForce GT 705
+GeForce GTX 765M
+GeForce GT 755M
+GeForce GT 750M
+GeForce GT 745M
+GeForce GT 735M
+GeForce 720M
+GeForce 710M
+GeForce 705M
+GeForce GT 645
+GeForce GT 620
+GeForce GT 610
+GeForce 605
+GeForce GTX 675MX
+GeForce GTX 675M
+GeForce GT 650M
+GeForce GT 645M
+GeForce GT 625M
+GeForce GT 620M
+GeForce 610M
+GeForce GTX 590
+GeForce GTX 580
+GeForce GTX 570
+GeForce GTX 560 Ti
+GeForce GTX 560 SE
+GeForce GTX 560
+GeForce GTX 555
+GeForce GTX 550 Ti
+GeForce GT 545
+GeForce GT 530
+GeForce GT 520
+GeForce 510
+GeForce GTX 580M
+GeForce GTX 570M
+GeForce GTX 560M
+GeForce GT 555M
+GeForce GT 550M
+GeForce GT 540M
+GeForce GT 525M
+GeForce GT 520M
+GeForce GT 520MX
+GeForce GTX 480
+GeForce GTX 470
+GeForce GTX 465
+GeForce GTX 460 SE v2
+GeForce GTX 460 SE
+GeForce GTX 460
+GeForce GTS 450
+GeForce GT 440
+GeForce GT 430
+GeForce GT 420
+GeForce GTX 485M
+GeForce GTX 480M
+GeForce GTX 470M
+GeForce GTX 460M
+GeForce GT 445M
+GeForce GT 435M
+GeForce GT 425M
+GeForce GT 420M
+GeForce GT 415M
+GeForce 410M
+Quadro 6000
+Quadro 5000
+Quadro 4000
+Quadro K5100M
+Quadro K4100M
+Quadro K3100M
+Quadro K2100M
+Quadro K3000M
+Quadro K1100M
+Quadro K1000M
+Quadro K610M
+Quadro K510M
+Quadro K500M
+Quadro 5010M
+Quadro 5000M
+Quadro 4000M
+Quadro 3000M
+Quadro 2000M
+Quadro 1000M
+Quadro K3100M
+NVS 315
+NVS 310
+NVS 5400M
+NVS 5200M
+NVS 4200M
+Quadro Plex 7000
+Quadro Sync II
+Quadro Sync
+Quadro G-Sync II
+Quadro SDI
+NVS 315
+NVS 310
+NVS 5400M
+NVS 5200M
+NVS 4200M
