@@ -113,7 +113,7 @@ MainRunner::ExitState MainRunner::Run()
     window.renderShutdownScreen();
     VideoEngine::This().StopVideo(true);
     window.deleteAllGui();
-    SystemManager::Instance().deleteSystems();
+    SystemManager::Instance().DeleteAllSystems(DoWeHaveToUpdateGamelist(exitState));
     Window::Finalize();
 
     return exitState;
@@ -254,7 +254,7 @@ void MainRunner::PlayLoadingSound(AudioManager& audioManager)
 
 bool MainRunner::TryToLoadConfiguredSystems()
 {
-  if (!SystemManager::Instance().loadConfig())
+  if (!SystemManager::Instance().LoadSystemConfigurations())
   {
     LOG(LogError) << "Error while parsing systems configuration file!";
     LOG(LogError) << "IT LOOKS LIKE YOUR SYSTEMS CONFIGURATION FILE HAS NOT BEEN SET UP OR IS INVALID. YOU'LL NEED TO DO THIS BY HAND, UNFORTUNATELY.\n\n"
@@ -338,4 +338,19 @@ void MainRunner::RequestQuit(MainRunner::ExitState requestedState)
 {
   mQuitRequested = true;
   mRequestedExitState = requestedState;
+}
+
+bool MainRunner::DoWeHaveToUpdateGamelist(MainRunner::ExitState state)
+{
+  switch(state)
+  {
+    case ExitState::Quit:
+    case ExitState::NormalReboot:
+    case ExitState::Shutdown: return true;
+    case ExitState::Relaunch:
+    case ExitState::FatalError:
+    case ExitState::FastReboot:
+    case ExitState::FastShutdown: return false;
+  };
+  return false;
 }

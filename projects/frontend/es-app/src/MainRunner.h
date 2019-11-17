@@ -113,6 +113,13 @@ class MainRunner: private ISyncronousEvent
      */
     void ReceiveSyncCallback(const SDL_Event& event) override;
 
+    /*!
+     * @brief Tell if we have to save the gamelist, regarding the exitstate
+     * @param state exit state
+     * @return True if we have to update the gamelists before exiting
+     */
+    static bool DoWeHaveToUpdateGamelist(ExitState state);
+
   public:
     /*!
      * @brief Constructor

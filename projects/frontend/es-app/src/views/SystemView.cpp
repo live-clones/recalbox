@@ -144,7 +144,7 @@ void SystemView::populate()
 void SystemView::goToSystem(SystemData* system, bool animate)
 {
 	if (!setCursor(system)) // When deleting last favorite from favorite view, favorite system is no longer available
-	  setCursor(SystemManager::Instance().getFirstSystemWithGame());
+	  setCursor(SystemManager::Instance().FirstNonEmptySystem());
 
 	if(!animate)
 		finishAnimation(0);
@@ -826,7 +826,7 @@ void SystemView::manageFavorite(){
 			hasFavorite = true;
 			break;
 		}
-	SystemData *favorite = SystemManager::Instance().getFavoriteSystem();
+	SystemData *favorite = SystemManager::Instance().FavoriteSystem();
 	if(hasFavorite) {
 		if (favorite->FavoritesCount() == 0) {
 			removeFavoriteSystem();

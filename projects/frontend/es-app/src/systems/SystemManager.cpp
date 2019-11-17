@@ -179,7 +179,7 @@ SystemData* SystemManager::ThreadPoolRunJob(SystemDescriptor& system)
   return nullptr;
 }
 
-bool SystemManager::loadSystemNodes(XmlNodeCollisionMap &collisionMap, XmlNodeList &nodeStore, const XmlDocument& document)
+bool SystemManager::LoadSystemXMLNodes(XmlNodeCollisionMap &collisionMap, XmlNodeList &nodeStore, const XmlDocument& document)
 {
   bool result = false;
   XmlNode systemList = document.child("systemList");
@@ -215,33 +215,33 @@ bool SystemManager::loadSystemNodes(XmlNodeCollisionMap &collisionMap, XmlNodeLi
   return result;
 }
 
-bool SystemManager::loadXmlFile(XmlDocument& document, const Path& filePath)
+bool SystemManager::LoadXMLFile(XmlDocument& document, const Path& filepath)
 {
-  XmlResult result = document.load_file(filePath.ToChars());
+  XmlResult result = document.load_file(filepath.ToChars());
   if (!result)
   {
-    LOG(LogError) << "Could not parse " << filePath.ToString() << " file!";
+    LOG(LogError) << "Could not parse " << filepath.ToString() << " file!";
     return false;
   }
   return true;
 }
 
-bool SystemManager::loadSystemList(XmlDocument &document, XmlNodeCollisionMap &collisionMap, XmlNodeList &nodeStore, const Path &filePath)
+bool SystemManager::LoadSystemList(XmlDocument &document, XmlNodeCollisionMap &collisionMap, XmlNodeList &nodeStore, const Path &filepath)
 {
   // Load user configuration
-  if (!filePath.Exists())
+  if (!filepath.Exists())
   {
-    LOG(LogError) << filePath.ToString() << " file does not exist!";
+    LOG(LogError) << filepath.ToString() << " file does not exist!";
     return false;
   }
 
-  LOG(LogInfo) << "Loading system config files " << filePath.ToString() << "...";
-  if (!loadXmlFile(document, filePath)) return false;
+  LOG(LogInfo) << "Loading system config files " << filepath.ToString() << "...";
+  if (!LoadXMLFile(document, filepath)) return false;
 
-  bool result = loadSystemNodes(collisionMap, nodeStore, document);
+  bool result = LoadSystemXMLNodes(collisionMap, nodeStore, document);
   if (!result)
   {
-    LOG(LogWarning) << filePath.ToString() << " has no systems or systemList nodes";
+    LOG(LogWarning) << filepath.ToString() << " has no systems or systemList nodes";
   }
 
   return result;
@@ -312,10 +312,8 @@ bool SystemManager::AddArcadeMetaSystem()
 }
 
 //creates systems from information located in a config file
-bool SystemManager::loadConfig()
+bool SystemManager::LoadSystemConfigurations()
 {
-  deleteSystems();
-
   // System store
   XmlNodeCollisionMap systemMap;    // System key to vector index
   XmlNodeList systemList;           // Sorted storage, keeping original system node ordering
@@ -325,15 +323,15 @@ bool SystemManager::loadConfig()
   XmlDocument userDocument;
 
   // Load user systems
-  bool userValid = loadSystemList(userDocument, systemMap, systemList, getUserConfigurationAbsolutePath());
+  bool userValid = LoadSystemList(userDocument, systemMap, systemList, UserConfigurationPath());
   // Load template systems
-  bool templateValid = loadSystemList(templateDocument, systemMap, systemList, getTemplateConfigurationAbsolutePath());
+  bool templateValid = LoadSystemList(templateDocument, systemMap, systemList, TemplateConfigurationPath());
 
   // Is there at least
   if (!templateValid && !userValid)
   {
     LOG(LogError) << "No es_systems.cfg file available!";
-    writeExampleConfig(getUserConfigurationAbsolutePath());
+    GenerateExampleConfigurationFile(UserConfigurationPath());
     return false;
   }
 
@@ -391,7 +389,7 @@ bool SystemManager::loadConfig()
   return true;
 }
 
-void SystemManager::writeExampleConfig(const Path& path)
+void SystemManager::GenerateExampleConfigurationFile(const Path& path)
 {
   std::string text =
     "<!-- This is the EmulationStation Systems configuration file.\n"
@@ -446,9 +444,9 @@ bool SystemManager::ThreadPoolRunJob(SystemData*& feed)
   return true;
 }
 
-void SystemManager::deleteSystems()
+void SystemManager::DeleteAllSystems(bool updateGamelists)
 {
-  if (!sAllSystemVector.empty())
+  if (updateGamelists && !sAllSystemVector.empty())
   {
     DateTime start;
 
@@ -469,7 +467,7 @@ void SystemManager::deleteSystems()
   sHiddenSystemVector.clear();
 }
 
-SystemData *SystemManager::getSystem(std::string &name)
+SystemData *SystemManager::SystemByName(std::string &name)
 {
   for (auto system: sVisibleSystemVector)
   {
@@ -481,7 +479,7 @@ SystemData *SystemManager::getSystem(std::string &name)
   return nullptr;
 }
 
-SystemData *SystemManager::getFavoriteSystem()
+SystemData *SystemManager::FavoriteSystem()
 {
   for (int i = (int) sVisibleSystemVector.size(); --i >= 0;)
     if (sVisibleSystemVector[i]->isFavorite())
@@ -497,7 +495,7 @@ int SystemManager::getVisibleSystemIndex(const std::string &name)
   return -1;
 }
 
-SystemData* SystemManager::getFirstSystemWithGame()
+SystemData* SystemManager::FirstNonEmptySystem()
 {
   for (auto &system : sVisibleSystemVector)
     if (system->HasGame())

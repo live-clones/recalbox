@@ -19,6 +19,7 @@ class SystemManager :
     typedef std::vector<SystemData*> SystemList;
 
   private:
+    //! File path to system weight file for fast loading/saving
     static constexpr const char* sWeightFilePath = "/recalbox/share/system/.emulationstation/.weights";
 
     //! Visible system, including virtual system (Arcade)
@@ -41,7 +42,7 @@ class SystemManager :
      * @param document Source document
      * @return true if the system list contains one or more system. False if the systemList node does not exist or is empty.
      */
-    static bool loadSystemNodes(XmlNodeCollisionMap& collisionMap, XmlNodeList& nodeStore, const XmlDocument& document);
+    static bool LoadSystemXMLNodes(XmlNodeCollisionMap& collisionMap, XmlNodeList& nodeStore, const XmlDocument& document);
 
     /*!
      * Load systemList file into the given XML Document, then parse and store systems into the given node store
@@ -51,7 +52,7 @@ class SystemManager :
      * @param nodeStore System node store
      * @return true if the operation is successful and at least one system has been processed. False otherwise
      */
-    static bool loadSystemList(XmlDocument& document, XmlNodeCollisionMap& collisionMap, XmlNodeList& nodeStore, const Path& filepath);
+    static bool LoadSystemList(XmlDocument& document, XmlNodeCollisionMap& collisionMap, XmlNodeList& nodeStore, const Path& filepath);
 
     /*!
      * Load and parse the given file to populate a property tree
@@ -59,26 +60,81 @@ class SystemManager :
      * @param filepath Filepath to load & parse
      * @return false if the file does not exist or if the file is not parsable.
      */
-    static bool loadXmlFile(XmlDocument& document, const Path& filepath);
+    static bool LoadXMLFile(XmlDocument& document, const Path& filepath);
 
+    /*!
+     * @brief Create and add the favorite meta-system
+     * @param systemList All system from which to fetch favorite games
+     * @return True if the favorite system has been added
+     */
     bool AddFavoriteSystem(const XmlNodeList& systemList);
 
+    /*!
+     * @brief Add Arcade meta-system
+     * @return True if the arcade system has been added
+     */
     bool AddArcadeMetaSystem();
 
+    /*!
+     * @brief Create regular system from a SystemDescriptor object
+     * @param systemDescriptor SystemDescriptor object
+     * @return New system
+     */
     static SystemData* CreateRegularSystem(const SystemDescriptor& systemDescriptor);
 
+    /*!
+     * @brief Create Favorite system using favorites available in systems from a list
+     * @param name Target system short name
+     * @param fullName Target system full name
+     * @param themeFolder Theme folder name
+     * @param systems System list from which to fetch favorite games
+     * @return New favorite games
+     */
     static SystemData* CreateFavoriteSystem(const std::string& name, const std::string& fullName,
                                             const std::string& themeFolder, const std::vector<SystemData*>& systems);
 
+    /*!
+     * @brief Create meta-system aggregating games from multiple systems
+     * @param name Target system short name
+     * @param fullName Target system fullname
+     * @param themeFolder Theme folder name
+     * @param systems System to fetch games to aggregate into a single list
+     * @return New meta-system
+     */
     static SystemData* CreateMetaSystem(const std::string& name, const std::string& fullName,
                                         const std::string& themeFolder, const std::vector<SystemData*>& systems);
 
-    static void writeExampleConfig(const Path& path);
+    /*!
+     * @brief Write exemple configuration file when no configuration file are available
+     * @param path Configuration file path
+     */
+    static void GenerateExampleConfigurationFile(const Path& path);
 
-    static Path getUserConfigurationAbsolutePath()     { return RootFolders::DataRootFolder     / "system/.emulationstation/es_systems.cfg"; }
-    static Path getTemplateConfigurationAbsolutePath() { return RootFolders::TemplateRootFolder / "system/.emulationstation/es_systems.cfg"; }
+    /*!
+     * @brief Get User Configuration filepath
+     * @return User Configuration filepath
+     */
+    static Path UserConfigurationPath()     { return RootFolders::DataRootFolder / "system/.emulationstation/es_systems.cfg"; }
 
+    /*!
+     * @brief Get Template Configuration filepath
+     * @return Template Configuration filepath
+     */
+    static Path TemplateConfigurationPath() { return RootFolders::TemplateRootFolder / "system/.emulationstation/es_systems.cfg"; }
+
+    /*!
+     * @brief Deserialize an emulator node and all its tree into an EmulatorList object
+     * @param treeNode XML node to deserialize
+     * @param emulatorList target EmulatorList object
+     */
     static void DeserializeEmulatorTree(XmlNode treeNode, EmulatorList& emulatorList);
+
+    /*!
+     * @brief Deserialize XML system node into a SystemDescriptor oject
+     * @param treeNode Node to deserialize
+     * @param systemDescriptor Target SystemDescriptor object
+     * @return True if the XML node has been successfully deserialized
+     */
     static bool DeserializeSystemDescriptor(XmlNode treeNode, SystemDescriptor& systemDescriptor);
 
     /*
@@ -100,22 +156,52 @@ class SystemManager :
     bool ThreadPoolRunJob(SystemData*& feed) override;
 
   public:
+    /*!
+     * @brief Get unique instance
+     * @return Unique instance
+     */
     static SystemManager& Instance()
     {
       static SystemManager instance;
       return instance;
     }
 
-    SystemData* getFavoriteSystem();
-    SystemData* getSystem(std::string& name);
-    SystemData* getFirstSystemWithGame();
+    /*!
+     * @brief Get favorite system
+     * @return Favorite system of nullptr if there is no favorite system
+     */
+    SystemData* FavoriteSystem();
+
+    /*!
+     * @brief Get system by (short) name
+     * @param name Short name
+     * @return System instance of nullptr if not found
+     */
+    SystemData* SystemByName(std::string& name);
+
+    /*!
+     * @brief Get the first non-empty system
+     * @return First non empty system or null if all systems are empty
+     */
+    SystemData* FirstNonEmptySystem();
+
+    /*!
+     * @brief Get visible system index by name
+     * @param name System name
+     * @return System index or -1 if not found
+     */
     int getVisibleSystemIndex(const std::string& name);
 
-    void deleteSystems();
+    /*!
+     * @brief Delete all systems and all sub-objects
+     * @param updateGamelists
+     */
+    void DeleteAllSystems(bool updateGamelists);
+
     /*!
      * @brief Load the system config file at getConfigPath(). Returns true if no errors were encountered. An example will be written if the file doesn't exist.
      */
-    bool loadConfig();
+    bool LoadSystemConfigurations();
 
     /*!
      * @brief Get All system list, visibles + hidden
@@ -133,7 +219,12 @@ class SystemManager :
      */
     const SystemList& GetHiddenSystemList() { return sHiddenSystemVector; }
 
-    inline SystemData* getNextVisible(SystemData* to) const
+    /*!
+     * @brief Get next system to the given system
+     * @param to Reference system
+     * @return Next system
+     */
+    SystemData* NextVisible(SystemData* to) const
     {
       int size = (int)sVisibleSystemVector.size();
       for(int i = size; --i>=0; )
@@ -142,7 +233,12 @@ class SystemManager :
       return nullptr;
     }
 
-    inline SystemData* getPreviousVisible(SystemData* to) const
+    /*!
+     * @brief Get previous system to the given system
+     * @param to Reference system
+     * @return Previous system
+     */
+    SystemData* PreviousVisible(SystemData* to) const
     {
       int size = (int)sVisibleSystemVector.size();
       for(int i = size; --i>=0; )

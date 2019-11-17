@@ -1496,7 +1496,7 @@ void GuiMenu::menuAdvancedSettings(){
       std::vector<SystemData *> systems = SystemManager::Instance().GetAllSystemList();
       for (auto& system : systems)
       {
-        if (system != SystemManager::Instance().getFavoriteSystem()) {
+        if (system != SystemManager::Instance().FavoriteSystem()) {
           SystemData *systemData = system;
           configuration->addSubMenu(system->getFullName(), [this, systemData] {
             popSystemConfigurationGui(systemData);

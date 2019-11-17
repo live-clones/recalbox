@@ -43,7 +43,7 @@ void CommandThread::Run()
         }
 
         // Get and check system
-        SystemData *system = SystemManager::Instance().getSystem(systemName);
+        SystemData *system = SystemManager::Instance().SystemByName(systemName);
         if (system == nullptr)
         {
           LOG(LogError) << "Invalid system on network command: " << systemName;

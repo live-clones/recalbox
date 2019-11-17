@@ -57,7 +57,7 @@ void ViewController::goToStart()
   SystemData* selectedSystem = index < 0 ? nullptr : SystemManager::Instance().GetVisibleSystemList().at(index);
 
   if ((selectedSystem == nullptr) || !selectedSystem->HasGame())
-    selectedSystem = SystemManager::Instance().getFirstSystemWithGame();
+    selectedSystem = SystemManager::Instance().FirstNonEmptySystem();
 
   if (RecalboxConf::Instance().AsBool("emulationstation.hidesystemview"))
     goToGameList(selectedSystem);
@@ -82,7 +82,7 @@ void ViewController::goToSystemView(SystemData* system)
   systemList->setPosition((float)getSystemId(system) * Renderer::getDisplayWidthAsFloat(), systemList->getPosition().y());
 
   if (!system->HasGame()) {
-    system = SystemManager::Instance().getFirstSystemWithGame();
+    system = SystemManager::Instance().FirstNonEmptySystem();
   }
 
 	mState.viewing = ViewMode::SystemList;
@@ -102,9 +102,9 @@ void ViewController::goToNextGameList()
 	assert(mState.viewing == ViewMode::GameList);
 	SystemData* system = getState().getSystem();
 	assert(system);
-	SystemData* next = SystemManager::Instance().getNextVisible(system);
+	SystemData* next = SystemManager::Instance().NextVisible(system);
 	while(!next->getRootFolder()->hasChildren()) {
-		next = SystemManager::Instance().getNextVisible(next);
+		next = SystemManager::Instance().NextVisible(next);
 	}
   AudioManager::Instance().StartPlaying(next->getTheme());
 
@@ -116,16 +116,16 @@ void ViewController::goToPrevGameList()
 	assert(mState.viewing == ViewMode::GameList);
 	SystemData* system = getState().getSystem();
 	assert(system);
-	SystemData* prev = SystemManager::Instance().getPreviousVisible(system);
+	SystemData* prev = SystemManager::Instance().PreviousVisible(system);
 	while(!prev->getRootFolder()->hasChildren()) {
-		prev = SystemManager::Instance().getPreviousVisible(prev);
+		prev = SystemManager::Instance().PreviousVisible(prev);
 	}
   AudioManager::Instance().StartPlaying(prev->getTheme());
 	goToGameList(prev);
 }
 
 bool ViewController::goToGameList(std::string& systemName) {
-	SystemData* system = SystemManager::Instance().getSystem(systemName);
+	SystemData* system = SystemManager::Instance().SystemByName(systemName);
 	if (system != nullptr) {
 		goToGameList(system);
 		return true;
