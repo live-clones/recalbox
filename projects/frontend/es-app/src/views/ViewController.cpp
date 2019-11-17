@@ -106,7 +106,7 @@ void ViewController::goToNextGameList()
 	while(!next->getRootFolder()->hasChildren()) {
 		next = SystemManager::Instance().getNextVisible(next);
 	}
-	AudioManager::getInstance()->themeChanged(next->getTheme());
+  AudioManager::Instance().StartPlaying(next->getTheme());
 
 	goToGameList(next);
 }
@@ -120,7 +120,7 @@ void ViewController::goToPrevGameList()
 	while(!prev->getRootFolder()->hasChildren()) {
 		prev = SystemManager::Instance().getPreviousVisible(prev);
 	}
-	AudioManager::getInstance()->themeChanged(prev->getTheme());
+  AudioManager::Instance().StartPlaying(prev->getTheme());
 	goToGameList(prev);
 }
 

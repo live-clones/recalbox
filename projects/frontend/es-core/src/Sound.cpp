@@ -4,94 +4,62 @@
 #include "Settings.h"
 #include "themes/ThemeData.h"
 
-std::map< std::string, std::shared_ptr<Sound> > Sound::sMap;
-
-std::shared_ptr<Sound> Sound::get(const std::string& path)
+Sound* Sound::BuildFromPath(const Path& path)
 {
-	auto it = sMap.find(path);
-	if(it != sMap.end())
-		return it->second;
-
-	std::shared_ptr<Sound> sound = std::shared_ptr<Sound>(new Sound(path));
-	AudioManager::getInstance()->registerSound(sound);
-	sMap[path] = sound;
-	return sound;
+  if (path.Exists()) return new Sound(path);
+  return nullptr;
 }
 
-std::shared_ptr<Sound> Sound::getFromTheme(const ThemeData& theme, const std::string& view, const std::string& element)
+Sound* Sound::BuildFromTheme(const ThemeData& theme, const std::string& view, const std::string& element)
 {
-	LOG(LogInfo) << " req sound [" << view << "." << element << "]";
+  LOG(LogInfo) << "Load sound [" << view << "." << element << "]";
 
-	const ThemeElement* elem = theme.getElement(view, element, "sound");
-	if((elem == nullptr) || !elem->HasProperty("path"))
-	{
-		LOG(LogInfo) << "   (missing)";
-		return get("");
-	}
+  const ThemeElement* elem = theme.getElement(view, element, "sound");
+  if ((elem == nullptr) || !elem->HasProperty("path"))
+  {
+    LOG(LogError) << view << '.' << element << " not found";
+    return nullptr;
+  }
 
-	return get(elem->AsString("path"));
+  return new Sound(Path(elem->AsString("path")));
 }
 
-Sound::Sound(const std::string & path)
-  : mSampleData(nullptr),
-    playing(false)
+Sound::Sound(const Path& path)
+  : mPath(path),
+    mSampleData(nullptr)
 {
-	loadFile(path);
+  Initialize();
 }
 
 Sound::~Sound()
 {
-	deinit();
+  Finalize();
 }
 
-void Sound::loadFile(const std::string & path)
+void Sound::Initialize()
 {
-	mPath = path;
-	init();
+  if (mPath.Empty()) return;
+
+  //load wav file via SDL
+  mSampleData = Mix_LoadWAV(mPath.ToChars());
+  if (mSampleData == nullptr)
+    LOG(LogError) << "Error loading sound \"" << mPath.ToString() << "\"!\n" << "	" << SDL_GetError();
 }
 
-void Sound::init()
+void Sound::Finalize()
 {
-	if(mSampleData != nullptr)
-		deinit();
-
-	if(mPath.empty())
-		return;
-
-	//load wav file via SDL
-	mSampleData = Mix_LoadWAV(mPath.c_str());
-	if(mSampleData == nullptr) {
-		LOG(LogError) << "Error loading sound \"" << mPath << "\"!\n" << "	" << SDL_GetError();
-		return;
-	}
+  if (mSampleData != nullptr)
+    Mix_FreeChunk(mSampleData);
 }
 
-void Sound::deinit()
+void Sound::Play()
 {
-	playing = false;
-
-	if(mSampleData != nullptr)
-	{
-            Mix_FreeChunk( mSampleData );
-	}
+  if (mSampleData == nullptr) return;
+  Mix_PlayChannel(-1, mSampleData, 0);
 }
 
-void Sound::play()
+void Sound::Stop()
 {
-	if(mSampleData == nullptr)
-		return;
-	
-
-	if (!playing)
-	{
-		//flag our sample as playing
-		playing = true;
-	}
-	Mix_PlayChannel( -1, mSampleData, 0 );
+  Mix_HaltChannel(-1);
 }
 
-void Sound::stop()
-{
-	playing = false;
-	
-}

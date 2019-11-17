@@ -29,7 +29,7 @@ void SystemData::RunGame(Window& window, FileData& game, const std::string& netp
   LOG(LogInfo) << "Attempting to launch game...";
 
   VideoEngine::This().StopVideo();
-  AudioManager::getInstance()->deinit();
+  AudioManager::Instance().Deactivate();
   VolumeControl::getInstance()->deinit();
 
   std::string controlersConfig = InputManager::Instance().GenerateConfiggenConfiguration();
@@ -79,7 +79,7 @@ void SystemData::RunGame(Window& window, FileData& game, const std::string& netp
   // Reinit
   window.Initialize();
   VolumeControl::getInstance()->init();
-  AudioManager::getInstance()->resumeMusic();
+  AudioManager::Instance().Reactivate();
   window.normalizeNextUpdate();
 
   //update number of times the game has been launched
@@ -97,7 +97,7 @@ std::string SystemData::demoInitialize(Window&)
   LOG(LogInfo) << "Controllers config : " << controlersConfig;
 
   VideoEngine::This().StopVideo();
-  AudioManager::getInstance()->deinit();
+  AudioManager::Instance().Deactivate();
   VolumeControl::getInstance()->deinit();
 
   Window::Finalize();
@@ -110,7 +110,7 @@ void SystemData::demoFinalize(Window& window)
   // Reinit
   window.Initialize();
   VolumeControl::getInstance()->init();
-  AudioManager::getInstance()->resumeMusic();
+  AudioManager::Instance().Reactivate();
   window.normalizeNextUpdate();
 }
 

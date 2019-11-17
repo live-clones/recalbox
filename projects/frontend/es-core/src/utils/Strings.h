@@ -103,6 +103,10 @@ class Strings
     static int ToHash(const std::string& string);
 
     static int ToHash(const char* string);
+
+    static unsigned long long ToHash64(const std::string& string);
+
+    static unsigned long long ToHash64(const char* string);
 }; // String::
 
 #endif // ES_CORE_UTILS_STRING_UTIL_H

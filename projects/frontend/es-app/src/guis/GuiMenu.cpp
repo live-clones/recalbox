@@ -1151,7 +1151,7 @@ void GuiMenu::menuSoundSettings(){
 
     RecalboxConf::Instance().SetBool("audio.bgmusic", sounds_enabled->getState());
     if (!sounds_enabled->getState())
-      AudioManager::getInstance()->stopMusic();
+      AudioManager::Instance().StopAll();
     if (currentDevice != optionsAudio->getSelected()) {
       RecalboxConf::Instance().SetString("audio.device", optionsAudio->getSelected());
     }

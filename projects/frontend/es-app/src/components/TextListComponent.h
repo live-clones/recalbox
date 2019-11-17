@@ -3,13 +3,13 @@
 #include "components/IList.h"
 #include "Renderer.h"
 #include "resources/Font.h"
-#include "Sound.h"
 #include "utils/Log.h"
 #include "themes/ThemeData.h"
 #include <string>
 #include <memory>
 #include <functional>
 #include <utils/Strings.h>
+#include <AudioManager.h>
 
 struct TextListData
 {
@@ -75,13 +75,13 @@ public:
 	inline void setSelectorOffsetY(float selectorOffsetY) { mSelectorOffsetY = selectorOffsetY; }
 	inline void setSelectorColor(unsigned int color) { mSelectorColor = color; }
 	inline void setSelectedColor(unsigned int color) { mSelectedColor = color; }
-	inline void setScrollSound(const std::shared_ptr<Sound>& sound) { mScrollSound = sound; }
+	inline void setScrollSound(AudioManager::AudioHandle sound) { mScrollSound = sound; }
 	inline void setColor(unsigned int id, unsigned int color) { mColors[id] = color; }
-	inline void setSound(const std::shared_ptr<Sound>& sound) { mScrollSound = sound; }
+	inline void setSound(AudioManager::AudioHandle sound) { mScrollSound = sound; }
 	inline void setLineSpacing(float lineSpacing) { mLineSpacing = lineSpacing; }
 
 protected:
-	virtual void onScroll(int amt) { (void)amt; if(mScrollSound) mScrollSound->play(); }
+	virtual void onScroll(int amt) { (void)amt; AudioManager::Instance().PlaySound(mScrollSound); }
 	virtual void onCursorChanged(const CursorState& state);
 
 private:
@@ -104,7 +104,7 @@ private:
 	float mSelectorOffsetY;
 	unsigned int mSelectorColor;
 	unsigned int mSelectedColor;
-	std::shared_ptr<Sound> mScrollSound;
+	AudioManager::AudioHandle mScrollSound;
 	static const unsigned int COLOR_ID_COUNT = 2;
 	unsigned int mColors[COLOR_ID_COUNT];
 
@@ -347,7 +347,7 @@ void TextListComponent<T>::applyTheme(const ThemeData& theme, const std::string&
 	setFont(Font::getFromTheme(elem, properties, mFont));
 	
 	if (hasFlag(properties, ThemeProperties::Sound) && elem->HasProperty("scrollSound"))
-		setSound(Sound::get(elem->AsString("scrollSound")));
+		setSound(AudioManager::Instance().LoadSound(theme, "textlist", "scrollSound"));
 
 	if (hasFlag(properties, ThemeProperties::Alignment))
 	{

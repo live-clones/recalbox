@@ -165,7 +165,7 @@ std::string RecalboxSystem::getCurrentAudioOutputDevice()
 
 bool RecalboxSystem::setAudioOutputDevice(const std::string& selected)
 {
-  AudioManager::getInstance()->deinit();
+  AudioManager::Instance().Deactivate();
   VolumeControl::getInstance()->deinit();
 
   std::string cmd = Settings::Instance().RecalboxSettingScript() + ' ' + "audio" + " '" + selected + '\'';
@@ -182,8 +182,7 @@ bool RecalboxSystem::setAudioOutputDevice(const std::string& selected)
   else
     setenv("AUDIODEV", "hw:0,0", 1);
   VolumeControl::getInstance()->init();
-  AudioManager::getInstance()->resumeMusic();
-  //AudioManager::getInstance()->playCheckSound();
+  AudioManager::Instance().Reactivate();
 
   return exitcode == 0;
 }
@@ -231,7 +230,7 @@ bool RecalboxSystem::launchKodi(Window* window)
 {
   LOG(LogInfo) << "Attempting to launch kodi...";
 
-  AudioManager::getInstance()->deinit();
+  AudioManager::Instance().Deactivate();
   VolumeControl::getInstance()->deinit();
 
   std::string commandline = InputManager::Instance().GenerateConfiggenConfiguration();
@@ -247,7 +246,7 @@ bool RecalboxSystem::launchKodi(Window* window)
 
   window->Initialize();
   VolumeControl::getInstance()->init();
-  AudioManager::getInstance()->resumeMusic();
+  AudioManager::Instance().Reactivate();
   window->normalizeNextUpdate();
 
   // handle end of kodi

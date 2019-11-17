@@ -6,238 +6,239 @@
 #include "RecalboxConf.h"
 #include "Settings.h"
 #include "themes/ThemeData.h"
-#include "Locale.h"
 #include "RootFolders.h"
 #include "utils/sdl2/SyncronousEventService.h"
-#include <unistd.h>
-#include <ctime>
+#include "Locale.h"
 #include <utils/Strings.h>
 
-std::vector<std::shared_ptr<Sound>> AudioManager::sSoundVector;
-std::vector<std::shared_ptr<Music>> AudioManager::sMusicVector;
+AudioManager* AudioManager::sInstance;
 
-
-std::shared_ptr<AudioManager> AudioManager::sInstance;
-
-
-AudioManager::AudioManager()
-  : currentMusic(nullptr),
-    mWindow(nullptr),
+AudioManager::AudioManager(Window& window)
+  : mWindow(window),
+    mCurrentMusic(0),
     mSender(SyncronousEventService::Instance().ObtainSyncCallback(this)),
-    running(false),
-    runningFromPlaylist(false)
+    mRandomGenerator(mRandomDevice()),
+    mSystemRandomizer()
 {
-  init();
+  if (sInstance == nullptr)
+  {
+    sInstance = this;
+    Initialize();
+  }
+  else
+  {
+    LOG(LogError) << "AudioManager multiple instance detected";
+    exit(-1);
+  }
 }
 
 AudioManager::~AudioManager()
 {
-  deinit();
+  // Finalize SDL
+  Finalize();
+
+  // Null instance
+  sInstance = nullptr;
+
+  // Delete all sounds
+  for(auto& sound : mSoundMap)
+    delete sound.second;
+
+  // Delete all musics
+  for(auto& music : mMusicMap)
+    delete music.second;
 }
 
-std::shared_ptr<AudioManager>& AudioManager::getInstance()
+AudioManager& AudioManager::Instance()
 {
-  //check if an AudioManager instance is already created, if not create one
   if (sInstance == nullptr)
   {
-    sInstance = std::shared_ptr<AudioManager>(new AudioManager);
+    LOG(LogError) << "AudioManager not available!";
+    exit(-1);
   }
-  return sInstance;
+  return *sInstance;
 }
 
-void AudioManager::init()
+void AudioManager::Initialize()
 {
-  runningFromPlaylist = false;
-  if (!running)
+  if (SDL_InitSubSystem(SDL_INIT_AUDIO) != 0)
   {
-    if (SDL_InitSubSystem(SDL_INIT_AUDIO) != 0)
-    {
-      LOG(LogError) << "Error initializing SDL audio!\n" << SDL_GetError();
-      return;
-    }
-
-    //Open the audio device and pause
-    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096) < 0)
-    {
-      LOG(LogError) << "MUSIC Error - Unable to open SDLMixer audio: " << SDL_GetError();
-    }
-    else
-    {
-      LOG(LogInfo) << "SDL AUDIO Initialized";
-      running = true;
-    }
+    LOG(LogError) << "Error initializing SDL audio!\n" << SDL_GetError();
+    return;
   }
+
+  // Open the audio device and pause
+  if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096) < 0)
+  {
+    LOG(LogError) << "MUSIC Error - Unable to open SDLMixer audio: " << SDL_GetError();
+    return;
+  }
+
+  LOG(LogInfo) << "SDL AUDIO Initialized";
 }
 
-void AudioManager::deinit()
+void AudioManager::Finalize()
 {
-  //stop all playback
-  //stop();
-  //completely tear down SDL audio. else SDL hogs audio resources and emulators might fail to start...
+  // Completely tear down SDL audio. else SDL hogs audio resources and emulators might fail to start...
   LOG(LogInfo) << "Shutting down SDL AUDIO";
   Mix_HookMusicFinished(nullptr);
   Mix_HaltMusic();
   Mix_CloseAudio();
   SDL_QuitSubSystem(SDL_INIT_AUDIO);
-  running = false;
 }
 
-void AudioManager::stopMusic()
+void AudioManager::Reactivate()
 {
-  Mix_FadeOutMusic(1000);
-  Mix_HaltMusic();
-  currentMusic = nullptr;
+  Initialize();
+
+  if (RecalboxConf::Instance().AsBool("audio.bgmusic"))
+    PlayMusic(mCurrentMusic, false);
 }
 
-void musicEndInternal()
+AudioManager::AudioHandle AudioManager::LoadSound(const Path& path)
 {
-  AudioManager::getInstance()->musicEnd();
+  // Get handle
+  AudioHandle handle = Strings::ToHash64(path.ToString()) | 1;
+
+  // Already exists
+  if (mSoundMap.find(handle) != mSoundMap.end())
+    return handle;
+
+  // Try to load
+  Sound* sound = Sound::BuildFromPath(path);
+  if (sound == nullptr) return 0; // Not found
+  // Add and return the handle
+  mSoundMap[handle] = sound;
+  return handle;
 }
 
-void AudioManager::themeChanged(const ThemeData& theme)
+AudioManager::AudioHandle AudioManager::LoadSound(const ThemeData& theme, const std::string& view, const std::string& elem)
+{
+  // Get handle
+  AudioHandle handle = Strings::ToHash64("Theme" + view + elem) | 1;
+
+  // Already exists
+  if (mSoundMap.find(handle) != mSoundMap.end())
+    return handle;
+
+  // Try to load
+  Sound* sound = Sound::BuildFromTheme(theme, view, elem);
+  if (sound == nullptr) return 0; // Not found
+  // Add and return the handle
+  mSoundMap[handle] = sound;
+  return handle;
+}
+
+AudioManager::AudioHandle AudioManager::LoadMusic(const Path& path)
+{
+  // Get handle
+  AudioHandle handle = Strings::ToHash64(path.ToString()) | 1;
+
+  // Already exists
+  if (mMusicMap.find(handle) != mMusicMap.end())
+    return handle;
+
+  // Try to load
+  Music* music = Music::BuildFromPath(path);
+  if (music == nullptr) return 0; // Not found
+  // Add and return the handle
+  mMusicMap[handle] = music;
+  return handle;
+}
+
+AudioManager::AudioHandle AudioManager::LoadMusic(const ThemeData& theme, const std::string& view, const std::string& elem)
+{
+  // Get handle
+  AudioHandle handle = Strings::ToHash64("Theme" + view + elem) | 1;
+
+  // Already exists
+  if (mMusicMap.find(handle) != mMusicMap.end())
+    return handle;
+
+  // Try to load
+  Music* music = Music::BuildFromTheme(theme, view, elem);
+  if (music == nullptr) return 0; // Not found
+  // Add and return the handle
+  mMusicMap[handle] = music;
+  return handle;
+}
+
+
+bool AudioManager::PlaySound(AudioManager::AudioHandle handle)
+{
+  auto it = mSoundMap.find(handle);
+  if (it != mSoundMap.end())
+  {
+    StopAll();
+    it->second->Play();
+    return true;
+  }
+  return false;
+}
+
+bool AudioManager::PlayMusic(AudioManager::AudioHandle handle, bool loop)
+{
+  auto it = mMusicMap.find(handle);
+  if (it != mMusicMap.end())
+  {
+    mCurrentMusicTitle = it->second->Name();
+    StopAll();
+    it->second->Play(loop);
+    return true;
+  }
+  return false;
+}
+
+void AudioManager::StopAll()
+{
+  Music::Stop();
+  Sound::Stop();
+  mCurrentMusic = 0;
+}
+
+void AudioManager::StartPlaying(const ThemeData& theme)
 {
   if (RecalboxConf::Instance().AsBool("audio.bgmusic"))
   {
     const ThemeElement* elem = theme.getElement("system", "directory", "sound");
-    if ((elem == nullptr) || !elem->HasProperty("path"))
-    {
-      currentThemeMusicDirectory = Path();
-    }
-    else
-    {
-      currentThemeMusicDirectory = Path(elem->AsString("path"));
-    }
+    mThemeMusicFolder = ((elem == nullptr) || !elem->HasProperty("path")) ? Path() : Path(elem->AsString("path"));
 
-    std::shared_ptr<Music> bgsound = Music::getFromTheme(theme, "system", "bgsound");
-
+    AudioHandle handle = LoadMusic(theme, "system", "bgsound");
     // Found a music for the system
-    if (bgsound)
+    if (handle != 0)
     {
-      runningFromPlaylist = false;
-      stopMusic();
-      bgsound->play(true, nullptr);
-      currentMusic = bgsound;
+      PlayMusic(handle, true);
+      mCurrentMusic = handle;
       return;
     }
-
-    if (!runningFromPlaylist)
-    {
-      playRandomMusic();
-    }
+    else PlayRandomMusic();
   }
 }
 
-void AudioManager::playRandomMusic()
+void AudioManager::PlayRandomMusic()
 {
   // Find a random song in user directory or theme music directory
-  std::shared_ptr<Music> bgsound = getRandomMusic(currentThemeMusicDirectory);
-  if (bgsound)
+  AudioHandle music = FetchRandomMusic(mThemeMusicFolder);
+  if (music != 0)
   {
-    runningFromPlaylist = true;
-    stopMusic();
-    bgsound->play(false, musicEndInternal);
-    currentMusic = bgsound;
+    PlayMusic(music, false);
+    mCurrentMusic = music;
     int popupDuration = Settings::Instance().MusicPopupTime();
     if (popupDuration != 0)
     {
       // Create music popup
-      mLastPopupText = _("Now playing") + ":\n" + currentMusic->getName();
-
-      // Push synhroneous event
-      mSender.Call();
-    }
-    return;
-  }
-  else
-  {
-    // Not running from playlist, and no theme song found
-    stopMusic();
-  }
-}
-
-
-void AudioManager::resumeMusic()
-{
-  this->init();
-  if (currentMusic != nullptr && RecalboxConf::Instance().AsBool("audio.bgmusic"))
-  {
-    currentMusic->play(!runningFromPlaylist, runningFromPlaylist ? musicEndInternal : nullptr);
-  }
-}
-
-void AudioManager::registerSound(std::shared_ptr<Sound>& sound)
-{
-  getInstance();
-  sSoundVector.push_back(sound);
-}
-
-void AudioManager::registerMusic(std::shared_ptr<Music>& music)
-{
-  getInstance();
-  sMusicVector.push_back(music);
-}
-
-void AudioManager::unregisterSound(std::shared_ptr<Sound>& sound)
-{
-  getInstance();
-  for (int i = 0; i < (int)sSoundVector.size(); i++)
-  {
-    if (sSoundVector.at(i) == sound)
-    {
-      sSoundVector[i]->stop();
-      sSoundVector.erase(sSoundVector.begin() + i);
-      return;
+      std::shared_ptr<GuiInfoPopup> popup =
+        std::make_shared<GuiInfoPopup>(&mWindow, _("Now playing") + ":\n" + mCurrentMusicTitle, popupDuration, 10);
+      mWindow.setInfoPopup(popup);
     }
   }
-  LOG(LogError) << "AudioManager Error - tried to unregister a sound that wasn't registered!";
 }
 
-void AudioManager::unregisterMusic(std::shared_ptr<Music>& music)
+std::vector<Path> AudioManager::ListMusicInFolder(const Path& path)
 {
-  getInstance();
-  for (unsigned int i = 0; i < (unsigned int)sMusicVector.size(); i++)
-  {
-    if (sMusicVector.at(i) == music)
-    {
-      //sMusicVector[i]->stop();
-      sMusicVector.erase(sMusicVector.begin() + i);
-      return;
-    }
-  }
-  LOG(LogError) << "AudioManager Error - tried to unregister a music that wasn't registered!";
-}
+  std::vector<Path> musics;
 
-void AudioManager::play()
-{
-  getInstance();
-
-  //unpause audio, the mixer will figure out if samples need to be played...
-  //SDL_PauseAudio(0);
-}
-
-void AudioManager::stop()
-{
-  //stop playing all Sounds
-  for (auto & i : sSoundVector)
-  {
-    if (i->isPlaying())
-    {
-      i->stop();
-    }
-  }
-  //stop playing all Musics
-
-
-  //pause audio
-  //SDL_PauseAudio(1);
-}
-
-
-std::vector<Path> getMusicIn(const Path& path)
-{
-  std::vector<Path> all_matching_files;
-
-  if (!path.IsDirectory()) return all_matching_files;
+  if (!path.IsDirectory()) return musics;
 
   Path::PathList list = path.GetDirectoryContent();
   for(Path& musicPath : list)
@@ -251,63 +252,32 @@ std::vector<Path> getMusicIn(const Path& path)
     if (supportedExtensions.find(ext) == std::string::npos) continue;
 
     // File matches, store it
-    all_matching_files.push_back(musicPath);
+    musics.push_back(musicPath);
   }
 
-  return all_matching_files;
+  return musics;
 }
 
-std::shared_ptr<Music> AudioManager::getRandomMusic(const Path& themeSoundDirectory)
+AudioManager::AudioHandle AudioManager::FetchRandomMusic(const Path& themeMusicDirectory)
 {
   // 1 check in User music directory
-  std::vector<Path> musics = getMusicIn(Path(Settings::Instance().MusicDirectory()));
+  std::vector<Path> musics = ListMusicInFolder(Path(Settings::Instance().MusicDirectory()));
+  if (musics.empty() && !themeMusicDirectory.Empty())
+    musics = ListMusicInFolder(themeMusicDirectory);
   if (musics.empty())
-  {
-    //  Check in theme sound directory
-    if (!themeSoundDirectory.Empty())
-    {
-      musics = getMusicIn(themeSoundDirectory);
-      if (musics.empty()) { return nullptr; }
-    }
-    else { return nullptr; }
-  }
-  srand(time(nullptr) % getpid() + getppid());
-  int randomIndex = rand() % musics.size();
-  std::shared_ptr<Music> bgsound = Music::get(musics.at(randomIndex));
-  return bgsound;
-}
+    return 0;
 
-void AudioManager::musicEnd()
-{
-  LOG(LogInfo) << "MusicEnded";
-  if (runningFromPlaylist && RecalboxConf::Instance().AsBool("audio.bgmusic"))
-  {
-    playRandomMusic();
-  }
-}
+  // Adjust randomizer distribution
+  if (mSystemRandomizer.b() != (int)musics.size() - 1)
+    mSystemRandomizer = std::uniform_int_distribution<int>(0, (int)musics.size() - 1);
 
-void AudioManager::playCheckSound()
-{
-  std::string selectedTheme = Settings::Instance().ThemeSet();
-  Path loadingMusic = RootFolders::DataRootFolder / "/system/.emulationstation/themes/" / selectedTheme / "/fx/loading.ogg";
-
-  if (!loadingMusic.Exists())
-  {
-    loadingMusic = RootFolders::TemplateRootFolder / "/system/.emulationstation/themes/recalbox/fx/loading.ogg";
-  }
-
-  if (loadingMusic.Exists())
-  {
-    Music::get(loadingMusic)->play(false, nullptr);
-  }
+  int randomIndex = mSystemRandomizer(mRandomGenerator);
+  AudioHandle music = LoadMusic(Path(musics.at(randomIndex)));
+  return music;
 }
 
 void AudioManager::ReceiveSyncCallback(const SDL_Event& event)
 {
   (void)event;
-  int popupDuration = Settings::Instance().MusicPopupTime();
-  std::shared_ptr<GuiInfoPopup> popup = std::make_shared<GuiInfoPopup>(mWindow,
-                                                                       AudioManager::getInstance()->GetLastPopupText(),
-                                                                       popupDuration, 10);
-  mWindow->setInfoPopup(popup);
+  PlayRandomMusic();
 }

@@ -329,7 +329,7 @@ void SystemView::onCursorChanged(const CursorState& state)
 
 	if(lastSystem != getSelected()){
 		lastSystem = getSelected();
-		AudioManager::getInstance()->themeChanged(getSelected()->getTheme());
+    AudioManager::Instance().StartPlaying(getSelected()->getTheme());
 	}
 	// update help style
 	updateHelpPrompts();

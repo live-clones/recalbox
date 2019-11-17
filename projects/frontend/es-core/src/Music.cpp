@@ -4,92 +4,89 @@
 #include "themes/ThemeData.h"
 #include "AudioManager.h"
 
-std::map<Path, std::shared_ptr<Music>> Music::sMap;
-
-std::shared_ptr<Music> Music::get(const Path& path)
+Music* Music::BuildFromPath(const Path& path)
 {
-	auto it = sMap.find(path);
-	if(it != sMap.end())
-		return it->second;
-	std::shared_ptr<Music> music = std::shared_ptr<Music>(new Music(path));
-	sMap[path] = music;
-        AudioManager::getInstance()->registerMusic(music);
-
-	return music;
+  LOG(LogInfo) << "Load music " << path.ToString();
+  if (path.Exists()) return new Music(path);
+  return nullptr;
 }
 
-std::shared_ptr<Music> Music::getFromTheme(const ThemeData& theme, const std::string& view, const std::string& element)
+Music* Music::BuildFromTheme(const ThemeData& theme, const std::string& view,
+                             const std::string& element)
 {
-	LOG(LogInfo) << " req music [" << view << "." << element << "]";
-	const ThemeElement* elem = theme.getElement(view, element, "sound");
-	if((elem == nullptr) || !elem->HasProperty("path"))
-	{
-		LOG(LogInfo) << "   (missing)";
-		return nullptr;
-	}
-	return get(Path(elem->AsString("path")));
+  LOG(LogInfo) << "Load music [" << view << "." << element << "]";
+  const ThemeElement* elem = theme.getElement(view, element, "sound");
+  if ((elem == nullptr) || !elem->HasProperty("path"))
+  {
+    LOG(LogError) << view << '.' << element << " not found";
+    return nullptr;
+  }
+
+  return BuildFromPath(Path(elem->AsString("path")));
 }
 
-Music::Music(const Path & path)
+Music::Music(const Path& path)
   : mPath(path),
-    music(nullptr),
-    playing(false)
+    mMusic(nullptr),
+    mIsPlaying(false)
 {
-	initMusic();
+  Initialize();
 }
 
 Music::~Music()
 {
-	deinitMusic();
+  Finalize();
 }
 
-std::string Music::getName()
+void Music::Initialize()
 {
-  return mPath.FilenameWithoutExtension();
+  if (mPath.Empty()) return;
+
+  //load wav file via SDL
+  Mix_Music* gMusic = nullptr;
+  gMusic = Mix_LoadMUS(mPath.ToChars());
+  if (gMusic == nullptr)
+  {
+    LOG(LogError) << "Error loading sound \"" << mPath.ToString() << "\"!\n" << "	" << SDL_GetError();
+    return;
+  }
+  mMusic = gMusic;
 }
 
-void Music::initMusic()
+void Music::Finalize()
 {
-	if(music != nullptr)
-		deinitMusic();
-
-	if(mPath.Empty())
-		return;
-
-	//load wav file via SDL
-        Mix_Music *gMusic = nullptr;
-        gMusic = Mix_LoadMUS( mPath.ToChars() );
-        if(gMusic == nullptr){
-            LOG(LogError) << "Error loading sound \"" << mPath.ToString() << "\"!\n" << "	" << SDL_GetError();
-            return;
-        }else {
-            music = gMusic;
-        }
+  mIsPlaying = false;
+  if (mMusic != nullptr)
+  {
+    Mix_FreeMusic(mMusic);
+    mMusic = nullptr;
+  }
 }
 
-void Music::deinitMusic()
+static void MusicEndCallback()
 {
-	playing = false;
-        if(music != nullptr){
-            Mix_FreeMusic( music );
-            music = nullptr;
-        }
+  AudioManager::Instance().SignalEndOfMusic();
 }
 
-void Music::play(bool repeat, void (* callback)())
+bool Music::Play(bool repeat)
 {
-    if(music == nullptr)
-		return;
-	if (!playing)
-	{
-		playing = true;
-	}
-    LOG(LogInfo) << "playing";
-    if(Mix_FadeInMusic(music, repeat ? -1 : 1, 1000) == -1){
-        LOG(LogInfo) << "Mix_PlayMusic: " << Mix_GetError();
-		return;
-    }
-	if(!repeat){
-		Mix_HookMusicFinished(callback);
-	}
+  if (mMusic == nullptr) return false;
+  mIsPlaying = true;
+
+  LOG(LogInfo) << "Playing " << Name();
+  if (Mix_FadeInMusic(mMusic, repeat ? -1 : 1, 1000) == -1)
+  {
+    LOG(LogInfo) << "Mix_PlayMusic Error: " << Mix_GetError();
+    return false;
+  }
+  if (!repeat)
+    Mix_HookMusicFinished(MusicEndCallback);
+  return true;
 }
+
+void Music::Stop()
+{
+  Mix_FadeOutMusic(1000);
+  Mix_HaltMusic();
+}
+
