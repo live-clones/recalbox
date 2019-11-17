@@ -20,11 +20,14 @@ try_symlink_lib() {
 }
 
 # get nvidia gpu model
-gpu=("$(lspci |grep "NVIDIA Corporation" |grep -vE "Audio device"  |awk -F'[' '{print $2}' |awk -F']' '{print $1}')")
+# "lspci -d::0300" only list vga class devices 
+gpu=("$(lspci -d::0300 |awk -F'[' '{print $2}' |awk -F']' '{print $1}')")
+# "lspci -nd10de::0300" only list nvidia vendor and vga class devices
+gpuid=("$(lspci -nd10de::0300 | egrep -o "[[:xdigit:]]{4}:[[:xdigit:]]{4}" | cut -d ":" -f 2)")
 
 # check the compatibility of the graphics card with the driver version "440.31" then "390.116"
-supportList440=($(grep -w "${gpu}" /recalbox/system/hardware/videocard/nvidiacheckcompatibility-440.txt))
-supportList390=($(grep -w "${gpu}" /recalbox/system/hardware/videocard/nvidiacheckcompatibility-390.txt))
+supportList440=($(grep -i "${gpu}" /recalbox/system/hardware/videocard/nvidiacheckcompatibility-440.txt))
+supportList390=($(grep -i "${gpu}" /recalbox/system/hardware/videocard/nvidiacheckcompatibility-390.txt))
 
 # nouveau conflict with nvidia-drm
 blacklistFile="/etc/modprobe.d/blacklist.conf"
@@ -54,7 +57,7 @@ nvway=($(ls "${libs}"/extra/nvidia-${nvver} | grep libnvidia-egl-wayland.so | ta
 
 # is gpu compatible ?
 if [ -n "${nvver}" ]; then
-  echo "GPU: ${gpu}, driver: ${nvver}"
+  echo "GPU: ${gpu}, id: ${gpuid}, driver: ${nvver}"
 else
   echo "GPU: '${gpu}' is unknown or unsupported, skipping nvidia driver installation"
   exit 0
