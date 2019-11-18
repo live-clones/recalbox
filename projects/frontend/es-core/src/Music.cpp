@@ -86,6 +86,7 @@ bool Music::Play(bool repeat)
 
 void Music::Stop()
 {
+  Mix_HookMusicFinished(nullptr);
   Mix_FadeOutMusic(1000);
   Mix_HaltMusic();
 }
