@@ -9,8 +9,9 @@
 #include "GuiHashStart.h"
 #include "components/OptionListComponent.h"
 
-GuiHashStart::GuiHashStart(Window* window)
+GuiHashStart::GuiHashStart(Window* window, SystemManager& systemManager)
   : GuiComponent(window),
+    mSystemManager(systemManager),
     mBusyAnim(window),
     mMenu(window, _("HASH NOW").c_str()),
     mState(State::Wait)
@@ -26,7 +27,7 @@ GuiHashStart::GuiHashStart(Window* window)
 
   // add systems (all with a platformid specified selected)
   mSystems = std::make_shared<OptionListComponent<SystemData*> >(mWindow, _("HASH THESE SYSTEMS"), true);
-  for (auto it : SystemManager::Instance().GetVisibleSystemList())
+  for (auto it : mSystemManager.GetVisibleSystemList())
   {
     if (RecalboxConf::Instance().isInList("global.netplay.systems", it->getName()))
       mSystems->add(it->getFullName(), it, true);

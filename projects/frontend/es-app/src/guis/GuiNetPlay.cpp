@@ -20,8 +20,9 @@
 
 #define TITLE_HEIGHT (mTitle->getFont()->getLetterHeight() + TITLE_VERT_PADDING)
 
-GuiNetPlay::GuiNetPlay(Window* window)
+GuiNetPlay::GuiNetPlay(Window* window, SystemManager& systemManager)
   : GuiComponent(window),
+    mSystemManager(systemManager),
     mLobbyLoaded(false),
     mSender(this),
     mBackground(window, Path(":/frame.png")),
@@ -385,7 +386,7 @@ int GuiNetPlay::pingHost(const std::string& ip)
 
 FileData* GuiNetPlay::findGame(const std::string& gameNameOrHash)
 {
-  for (auto tmp : SystemManager::Instance().GetAllSystemList())
+  for (auto tmp : mSystemManager.GetAllSystemList())
     if (RecalboxConf::Instance().isInList("global.netplay.systems", tmp->getName()))
     {
       FileData* result = tmp->getRootFolder()->LookupGame(gameNameOrHash, FileData::SearchAttributes::ByName |

@@ -6,8 +6,9 @@
 #include "utils/Log.h"
 #include "systems/SystemManager.h"
 
-DemoMode::DemoMode(Window& window)
+DemoMode::DemoMode(Window& window, SystemManager& systemManager)
   : mWindow(window),
+    mSystemManager(systemManager),
     mSettings(Settings::Instance()),
     mRecalboxConf(RecalboxConf::Instance()),
     mDefaultDuration(0),
@@ -29,7 +30,7 @@ void DemoMode::init()
   mDurations.clear();
 
   // Build system list filtered by user config
-  const std::vector<SystemData*>& allSystems = SystemManager::Instance().GetAllSystemList();
+  const std::vector<SystemData*>& allSystems = mSystemManager.GetAllSystemList();
   bool systemListExists = !mRecalboxConf.AsString("global.demo.systemlist").empty();
   for (int i=(int)allSystems.size(); --i>= 0;)
   {

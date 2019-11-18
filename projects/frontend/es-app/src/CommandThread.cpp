@@ -5,8 +5,9 @@
 #include <utils/Strings.h>
 #include <netinet/in.h>
 
-CommandThread::CommandThread()
-  : mSocket(-1),
+CommandThread::CommandThread(SystemManager& systemManager)
+  : mSystemManager(systemManager),
+    mSocket(-1),
     mEvent(this)
 {
   Thread::Start("CommandThread");
@@ -43,7 +44,7 @@ void CommandThread::Run()
         }
 
         // Get and check system
-        SystemData *system = SystemManager::Instance().SystemByName(systemName);
+        SystemData *system = mSystemManager.SystemByName(systemName);
         if (system == nullptr)
         {
           LOG(LogError) << "Invalid system on network command: " << systemName;

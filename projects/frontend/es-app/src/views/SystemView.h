@@ -6,6 +6,7 @@
 #include "resources/TextureResource.h"
 #include "themes/ThemeExtras.h"
 
+class SystemManager;
 class SystemData;
 class AnimatedImageComponent;
 
@@ -42,7 +43,7 @@ struct SystemViewCarousel
 class SystemView : public IList<SystemViewData, SystemData*>
 {
 public:
-	explicit SystemView(Window* window);
+	SystemView(Window* window, SystemManager& systemManager);
 
 	void onShow() override {	mShowing = true; }
 	void onHide() override {	mShowing = false; }
@@ -75,8 +76,10 @@ private:
 	void renderInfoBar(const Transform4x4f& trans);
 	void renderFade(const Transform4x4f& trans);
 
-	SystemViewCarousel mCarousel;
+  //! SystemManager instance
+	SystemManager& mSystemManager;
 
+	SystemViewCarousel mCarousel;
 
 	TextComponent mSystemInfo;
 

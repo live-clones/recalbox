@@ -19,7 +19,7 @@ class SwitchComponent;
 class GuiScraperStart : public GuiComponent
 {
 public:
-	explicit GuiScraperStart(Window* window);
+	explicit GuiScraperStart(Window* window, SystemManager& systemManager);
 
 	bool ProcessInput(const InputCompactEvent& event) override;
 
@@ -31,6 +31,9 @@ private:
 	void pressedStart();
 	void start();
 	static std::queue<ScraperSearchParams> getSearches(std::vector<SystemData*> systems, const GameFilterFunc& selector);
+
+  //! SystemManager instance
+	SystemManager& mSystemManager;
 
 	std::shared_ptr< OptionListComponent<GameFilterFunc> > mFilters;
 	std::shared_ptr< OptionListComponent<SystemData*> > mSystems;

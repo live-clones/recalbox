@@ -24,6 +24,9 @@ class GuiHashStart : public GuiComponent, private Thread
       Exit,    //!< Close this UI
     };
 
+    //! SystemManager instance
+    SystemManager& mSystemManager;
+
     //! Busy animation
     BusyComponent mBusyAnim;
     //! Selected systems
@@ -51,7 +54,7 @@ class GuiHashStart : public GuiComponent, private Thread
      * @brief Constructor
      * @param window main ui window
      */
-    explicit GuiHashStart(Window* window);
+    explicit GuiHashStart(Window* window, SystemManager& systemManager);
 
     /*!
      * @brief Destructor

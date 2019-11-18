@@ -30,11 +30,6 @@ class SystemManager :
     std::vector<SystemData*> sAllSystemVector;
 
     /*!
-     * @brief Private constructor
-     */
-    SystemManager() = default;
-
-    /*!
      * Run though the system list and store system nodes into the given store.
      * If a system already exists in the store, the new system node is ignored
      * @param collisionMap Collision map to keep track of nodes in the store
@@ -157,14 +152,19 @@ class SystemManager :
 
   public:
     /*!
+     * @brief Private constructor
+     */
+    SystemManager() = default;
+
+    /*!
      * @brief Get unique instance
      * @return Unique instance
      */
-    static SystemManager& Instance()
+    /*static SystemManager& Instance()
     {
       static SystemManager instance;
       return instance;
-    }
+    }*/
 
     /*!
      * @brief Get favorite system

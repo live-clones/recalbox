@@ -9,8 +9,9 @@
 #include "Locale.h"
 #include "Settings.h"
 
-GuiScraperStart::GuiScraperStart(Window* window)
+GuiScraperStart::GuiScraperStart(Window* window, SystemManager& systemManager)
   : GuiComponent(window),
+    mSystemManager(systemManager),
     mMenu(window, _("SCRAPE NOW").c_str())
 {
 	addChild(&mMenu);
@@ -25,7 +26,7 @@ GuiScraperStart::GuiScraperStart(Window* window)
 
 	// add systems (all with a platformid specified selected)
 	mSystems = std::make_shared< OptionListComponent<SystemData*> >(mWindow, _("SCRAPE THESE SYSTEMS"), true);
-	for (auto it : SystemManager::Instance().GetVisibleSystemList())
+	for (auto it : mSystemManager.GetVisibleSystemList())
 	{
 		if(!it->hasPlatformId(PlatformIds::PlatformId::PLATFORM_IGNORE))
 			mSystems->add(it->getFullName(), it, it->PlatformCount() != 0);
@@ -80,7 +81,7 @@ void GuiScraperStart::start()
 		mWindow->pushGui(new GuiMsgBox(mWindow,
 					       _("NO GAMES FIT THAT CRITERIA.")));
 	}else{
-		GuiScraperMulti* gsm = new GuiScraperMulti(mWindow, searches, mApproveResults->getState());
+		GuiScraperMulti* gsm = new GuiScraperMulti(mWindow, mSystemManager, searches, mApproveResults->getState());
 		mWindow->pushGui(gsm);
 		Close();
 	}

@@ -6,10 +6,12 @@
 #include "components/ImageComponent.h"
 #include "themes/ThemeExtras.h"
 
+class SystemManager;
+
 class ISimpleGameListView : public IGameListView
 {
 public:
-	ISimpleGameListView(Window* window, FolderData* root);
+	ISimpleGameListView(Window* window, SystemManager& systemManager, FolderData* root);
 	~ISimpleGameListView() override = default;
 
 	// Called when a new file is added, a file is removed, a file's metadata changes, or when file sort changed
@@ -41,6 +43,9 @@ protected:
 	virtual void launch(FileData* game) = 0;
 
 	virtual FileData* getEmptyListItem() = 0;
+
+  //! SystemManager instance
+	SystemManager& mSystemManager;
 
 	TextComponent mHeaderText;
 	ImageComponent mHeaderImage;

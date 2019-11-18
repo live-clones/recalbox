@@ -5,7 +5,7 @@
 #include "Locale.h"
 
 GridGameListView::GridGameListView(Window* window, FolderData* root)
-  : ISimpleGameListView(window, root),
+  : ISimpleGameListView(window, mSystemManager, root),
     mGrid(window)
 {
 	mGrid.setPosition(0, mSize.y() * 0.2f);

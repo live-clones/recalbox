@@ -6,11 +6,15 @@
 #include "RecalboxConf.h"
 #include "systems/SystemData.h"
 
+class SystemManager;
+
 class DemoMode
 {
   private:
     //! Window
     Window& mWindow;
+    //! SystemManager instance
+    SystemManager& mSystemManager;
 
     //! Settings direct access
     Settings& mSettings;
@@ -87,7 +91,7 @@ class DemoMode
 
 public:
     //! Default constructor
-    explicit DemoMode(Window& window);
+    explicit DemoMode(Window& window, SystemManager& systemManager);
 
     /*!
      * @brief Return true is the uer set the screensaver to "demo"

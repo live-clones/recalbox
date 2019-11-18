@@ -51,7 +51,8 @@ MainRunner::ExitState MainRunner::Run()
 
     // Initialize main Window and ViewController
     Window window;
-    ViewController viewControler(&window);
+    SystemManager systemManager;
+    ViewController viewControler(&window, systemManager);
     if (!window.Initialize(mRequestedWidth, mRequestedHeight, false))
     {
       LOG(LogError) << "Window failed to initialize!";
@@ -67,7 +68,7 @@ MainRunner::ExitState MainRunner::Run()
     PlayLoadingSound(audioManager);
 
     // Try to load system configurations
-    if (!TryToLoadConfiguredSystems())
+    if (!TryToLoadConfiguredSystems(systemManager))
       return ExitState::FatalError;
 
     // Run kodi at startup?
@@ -83,7 +84,7 @@ MainRunner::ExitState MainRunner::Run()
       NetworkThread networkThread(&window);
       // Start the socket server
       LOG(LogDebug) << "Launching Command thread";
-      CommandThread commandThread;
+      CommandThread commandThread(systemManager);
       // Start Video engine
       LOG(LogDebug) << "Launching Video engine";
       VideoEngine::This().StartEngine();
@@ -98,7 +99,7 @@ MainRunner::ExitState MainRunner::Run()
 
       // Main Loop!
       CreateReadyFlagFile();
-      exitState = MainLoop(window);
+      exitState = MainLoop(window, systemManager);
       ResetExitState();
       DeleteReadyFlagFile();
     }
@@ -113,7 +114,7 @@ MainRunner::ExitState MainRunner::Run()
     window.renderShutdownScreen();
     VideoEngine::This().StopVideo(true);
     window.deleteAllGui();
-    SystemManager::Instance().DeleteAllSystems(DoWeHaveToUpdateGamelist(exitState));
+    systemManager.DeleteAllSystems(DoWeHaveToUpdateGamelist(exitState));
     Window::Finalize();
 
     return exitState;
@@ -142,12 +143,12 @@ void MainRunner::DeleteReadyFlagFile()
   ready.Delete();
 }
 
-MainRunner::ExitState MainRunner::MainLoop(Window& window)
+MainRunner::ExitState MainRunner::MainLoop(Window& window, SystemManager& systemManager)
 {
   // Allow joystick event
   SDL_JoystickEventState(SDL_ENABLE);
 
-  DemoMode demoMode(window);
+  DemoMode demoMode(window, systemManager);
 
   LOG(LogDebug) << "Entering main loop";
   Path mustExit(sQuitNow);
@@ -257,9 +258,9 @@ void MainRunner::PlayLoadingSound(AudioManager& audioManager)
   }
 }
 
-bool MainRunner::TryToLoadConfiguredSystems()
+bool MainRunner::TryToLoadConfiguredSystems(SystemManager& systemManager)
 {
-  if (!SystemManager::Instance().LoadSystemConfigurations())
+  if (!systemManager.LoadSystemConfigurations())
   {
     LOG(LogError) << "Error while parsing systems configuration file!";
     LOG(LogError) << "IT LOOKS LIKE YOUR SYSTEMS CONFIGURATION FILE HAS NOT BEEN SET UP OR IS INVALID. YOU'LL NEED TO DO THIS BY HAND, UNFORTUNATELY.\n\n"
@@ -267,7 +268,7 @@ bool MainRunner::TryToLoadConfiguredSystems()
     return false;
   }
 
-  if (SystemManager::Instance().GetVisibleSystemList().empty())
+  if (systemManager.GetVisibleSystemList().empty())
   {
     LOG(LogError) << "No systems found! Does at least one system have a game present? (check that extensions match!)\n(Also, make sure you've updated your es_systems.cfg for XML!)";
     LOG(LogError) << "WE CAN'T FIND ANY SYSTEMS!\n"
@@ -355,7 +356,7 @@ bool MainRunner::DoWeHaveToUpdateGamelist(MainRunner::ExitState state)
     case ExitState::Relaunch:
     case ExitState::FatalError:
     case ExitState::FastReboot:
-    case ExitState::FastShutdown: return false;
-  };
+    case ExitState::FastShutdown: break;
+  }
   return false;
 }

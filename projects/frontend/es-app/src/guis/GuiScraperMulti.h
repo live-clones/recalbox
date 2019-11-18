@@ -14,7 +14,7 @@ class TextComponent;
 class GuiScraperMulti : public GuiComponent
 {
 public:
-	GuiScraperMulti(Window* window, const std::queue<ScraperSearchParams>& searches, bool approveResults);
+	GuiScraperMulti(Window* window, SystemManager& systemManager, const std::queue<ScraperSearchParams>& searches, bool approveResults);
 	~GuiScraperMulti() override;
 
 	void onSizeChanged() override;
@@ -26,6 +26,9 @@ private:
 	void doNextSearch();
 	
 	void finish();
+
+  //! SystemManager instance
+	SystemManager& mSystemManager;
 
 	unsigned int mTotalGames;
 	unsigned int mCurrentGame;

@@ -77,7 +77,7 @@ static const std::map<std::string, const char*>& FavoritesIconsMap()
 }
 
 BasicGameListView::BasicGameListView(Window* window, FolderData* root)
-	: ISimpleGameListView(window, root),
+	: ISimpleGameListView(window, mSystemManager, root),
 	  mList(window),
     mEmptyListItem(root->getSystem()),
     mPopulatedFolder(nullptr),

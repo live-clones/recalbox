@@ -23,7 +23,7 @@ class StrInputConfig
 class GuiMenu : public GuiComponent
 {
 public:
-	explicit GuiMenu(Window* window);
+	GuiMenu(Window* window, SystemManager& systemManager);
 	~GuiMenu() override;
 
 	bool ProcessInput(const InputCompactEvent& event) override;
@@ -45,6 +45,10 @@ private:
 	void menuScrapper();
 	void menuAdvancedSettings();
 	void menuQuit();
+
+	//! SystemManager instance
+	SystemManager& mSystemManager;
+
 	MenuComponent mMenu;
 	TextComponent mVersion;
 	std::shared_ptr<MenuTheme> mMenuTheme;

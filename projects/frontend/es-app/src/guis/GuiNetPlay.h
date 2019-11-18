@@ -17,6 +17,7 @@
 
 class TextComponent;
 class ButtonComponent;
+class SystemManager;
 
 #define TITLE_VERT_PADDING (Renderer::getDisplayHeightAsFloat()*0.0637f)
 
@@ -52,7 +53,7 @@ class LobbyGame
 class GuiNetPlay : public GuiComponent, private Thread, private ISyncronousEvent
 {
   public:
-    explicit GuiNetPlay(Window* window);
+    explicit GuiNetPlay(Window* window, SystemManager& systemManager);
 
     ~GuiNetPlay() override;
 
@@ -122,12 +123,15 @@ class GuiNetPlay : public GuiComponent, private Thread, private ISyncronousEvent
      * @param game game or hash
      * @return FileData of the game is found, otherwise nullptr
      */
-    static FileData* findGame(const std::string& game);
+    FileData* findGame(const std::string& game);
 
     /*!
      * @brief Get the playable games from the lobby and fill the list
      */
     void parseLobby();
+
+    //! SystemManager instance
+    SystemManager& mSystemManager;
 
     /*!
      * @brief Netplayable Game list

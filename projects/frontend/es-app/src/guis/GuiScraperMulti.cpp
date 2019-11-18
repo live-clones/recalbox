@@ -12,8 +12,9 @@
 #include "Locale.h"
 #include "MenuThemeData.h"
 
-GuiScraperMulti::GuiScraperMulti(Window* window, const std::queue<ScraperSearchParams>& searches, bool approveResults)
+GuiScraperMulti::GuiScraperMulti(Window* window, SystemManager& systemManager, const std::queue<ScraperSearchParams>& searches, bool approveResults)
   :	GuiComponent(window),
+    mSystemManager(systemManager),
     mSearchQueue(searches),
     mBackground(window, Path(":/frame.png")),
     mGrid(window, Vector2i(1, 5))
@@ -82,7 +83,7 @@ GuiScraperMulti::GuiScraperMulti(Window* window, const std::queue<ScraperSearchP
 GuiScraperMulti::~GuiScraperMulti()
 {
 	// view type probably changed (basic -> detailed)
-	for (auto& system : SystemManager::Instance().GetVisibleSystemList())
+	for (auto& system : mSystemManager.GetVisibleSystemList())
     ViewController::Instance().reloadGameListView(system, false);
 }
 

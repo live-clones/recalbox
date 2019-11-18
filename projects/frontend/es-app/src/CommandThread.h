@@ -3,13 +3,15 @@
 #include <utils/sdl2/SyncronousEvent.h>
 #include <sys/socket.h>
 
+class SystemManager;
+
 class CommandThread: private Thread, private ISyncronousEvent
 {
   public:
     /*!
      * @brief Default Constructor
      */
-    explicit CommandThread();
+    explicit CommandThread(SystemManager& systemManager);
 
     /*!
      * @brief Destructor
@@ -19,6 +21,9 @@ class CommandThread: private Thread, private ISyncronousEvent
   private:
     //! Udp port
     static constexpr int sPort = 1337;
+
+    //! SystemManager instance
+    SystemManager& mSystemManager;
 
     //! Socket handle
     int mSocket;

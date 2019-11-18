@@ -8,6 +8,7 @@
 #include <utils/sdl2/ISyncronousEvent.h>
 
 class AudioManager;
+class SystemManager;
 
 class MainRunner: private ISyncronousEvent
 {
@@ -71,9 +72,10 @@ class MainRunner: private ISyncronousEvent
 
     /*!
      * @brief Try loading system configuration.
+     * @param systemManager System manager instance
      * @return True if there is at least one system loaded
      */
-    static bool TryToLoadConfiguredSystems();
+    static bool TryToLoadConfiguredSystems(SystemManager& systemManager);
 
     /*!
      * @brief Check if Recalbox has been updated and push a display changelog popup
@@ -91,7 +93,7 @@ class MainRunner: private ISyncronousEvent
      * @param window Main window
      * @return Exit state
      */
-    static ExitState MainLoop(Window& window);
+    static ExitState MainLoop(Window& window, SystemManager& systemManager);
 
     /*!
      * @brief Create ready flag file to notify all external software that

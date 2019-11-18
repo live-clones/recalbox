@@ -12,7 +12,7 @@ public:
 	static ViewController& Instance() { return *sInstance; };
 	//inline static Window* getWindow(){return sInstance->mWindow;}
 
-	explicit ViewController(Window* window);
+	ViewController(Window* window, SystemManager& systemManager);
   ~ViewController() override;
 
 	// Try to completely populate the GameListView map.
@@ -86,7 +86,10 @@ private:
 	static ViewController* sInstance;
 
 	void playViewTransition();
-	static int getSystemId(SystemData* system);
+	int getSystemId(SystemData* system);
+
+  //! SystemManager instance
+	SystemManager& mSystemManager;
 
 	std::shared_ptr<GuiComponent> mCurrentView;
 	std::map< SystemData*, std::shared_ptr<IGameListView> > mGameListViews;

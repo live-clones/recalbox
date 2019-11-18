@@ -10,8 +10,9 @@
 #include "Settings.h"
 #include "Locale.h"
 
-ISimpleGameListView::ISimpleGameListView(Window* window, FolderData* root)
+ISimpleGameListView::ISimpleGameListView(Window* window, SystemManager& systemManager, FolderData* root)
   : IGameListView(window, root),
+    mSystemManager(systemManager),
     mHeaderText(window),
     mHeaderImage(window),
     mBackground(window),
@@ -34,7 +35,7 @@ ISimpleGameListView::ISimpleGameListView(Window* window, FolderData* root)
   mBackground.setResize(mSize.x(), mSize.y());
   mBackground.setDefaultZIndex(0);
 
-  mIsFavoriteSystem = getRoot()->getSystem() == SystemManager::Instance().FavoriteSystem();
+  mIsFavoriteSystem = getRoot()->getSystem() == mSystemManager.FavoriteSystem();
 
   addChild(&mHeaderText);
   addChild(&mBackground);
@@ -84,7 +85,7 @@ void ISimpleGameListView::onFileChanged(FileData* file, FileChangeType change)
 
   if (file->isGame())
   {
-    SystemData* favoriteSystem = SystemManager::Instance().FavoriteSystem();
+    SystemData* favoriteSystem = mSystemManager.FavoriteSystem();
     bool isInFavorite = favoriteSystem->getRootFolder()->Contains(file, true);
     bool isFavorite = file->Metadata().Favorite();
 
@@ -92,7 +93,7 @@ void ISimpleGameListView::onFileChanged(FileData* file, FileChangeType change)
     {
       if (isInFavorite) favoriteSystem->getRootFolder()->removeChild(file);
       else favoriteSystem->getRootFolder()->addChild(file, false);
-      ViewController::Instance().setInvalidGamesList(SystemManager::Instance().FavoriteSystem());
+      ViewController::Instance().setInvalidGamesList(mSystemManager.FavoriteSystem());
       ViewController::Instance().getSystemListView()->manageFavorite();
       mFavoritesCount = mFavoritesCount + (isFavorite ? 1 : -1);
       if (mFavoritesCount == 0) { mFavoritesOnly = false; }
@@ -106,7 +107,7 @@ void ISimpleGameListView::onFileChanged(FileData* file, FileChangeType change)
     delete file;
     if (favorite)
     {
-      ViewController::Instance().setInvalidGamesList(SystemManager::Instance().FavoriteSystem());
+      ViewController::Instance().setInvalidGamesList(mSystemManager.FavoriteSystem());
       ViewController::Instance().getSystemListView()->manageFavorite();
     }
   }
@@ -181,7 +182,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
     FileData* cursor = getCursor();
     if (cursor->isGame() && cursor->getSystem()->getHasFavoritesInTheme()) {
       MetadataDescriptor& md = cursor->Metadata();
-      SystemData *favoriteSystem = SystemManager::Instance().FavoriteSystem();
+      SystemData *favoriteSystem = mSystemManager.FavoriteSystem();
 
       md.SetFavorite(!md.Favorite());
 

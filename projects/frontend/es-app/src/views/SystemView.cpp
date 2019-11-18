@@ -13,8 +13,9 @@
 const int logoBuffersLeft[] = { -5, -2, -1 };
 const int logoBuffersRight[] = { 1, 2, 5 };
 
-SystemView::SystemView(Window* window)
+SystemView::SystemView(Window* window, SystemManager& systemManager)
   : IList<SystemViewData, SystemData*>(window, LIST_SCROLL_STYLE_SLOW, LoopType::Always),
+    mSystemManager(systemManager),
     mCarousel(),
     mSystemInfo(window, "SYSTEM INFO", Font::get(FONT_SIZE_SMALL), 0x33333300, TextAlignment::Center),
     mCamOffset(0),
@@ -135,7 +136,7 @@ void SystemView::populate()
 {
 	mEntries.clear();
 
-	for (auto& it : SystemManager::Instance().GetVisibleSystemList())
+	for (auto& it : mSystemManager.GetVisibleSystemList())
 	{
 		addSystem(it);
 	}
@@ -144,7 +145,7 @@ void SystemView::populate()
 void SystemView::goToSystem(SystemData* system, bool animate)
 {
 	if (!setCursor(system)) // When deleting last favorite from favorite view, favorite system is no longer available
-	  setCursor(SystemManager::Instance().FirstNonEmptySystem());
+	  setCursor(mSystemManager.FirstNonEmptySystem());
 
 	if(!animate)
 		finishAnimation(0);
@@ -222,7 +223,7 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
         s->addRow(row);
         row.elements.clear();
         row.makeAcceptInputHandler([this, s] {
-            auto netplay = new GuiNetPlay(mWindow);
+            auto netplay = new GuiNetPlay(mWindow, mSystemManager);
             mWindow->pushGui(netplay);
             delete s;
         });
@@ -241,7 +242,7 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
         launchKodi = false;
       }
     } else if (netplay && !mWindow->isShowingPopup()) {
-            auto netplayGui = new GuiNetPlay(mWindow);
+            auto netplayGui = new GuiNetPlay(mWindow, mSystemManager);
             mWindow->pushGui(netplayGui);
     }
 
@@ -306,7 +307,7 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
 
 		if (event.StartPressed() && RecalboxConf::Instance().AsString("emulationstation.menu") != "none")
 		{
-			mWindow->pushGui(new GuiMenu(mWindow));
+			mWindow->pushGui(new GuiMenu(mWindow, mSystemManager));
 			return true;
 		}
 
@@ -826,7 +827,7 @@ void SystemView::manageFavorite(){
 			hasFavorite = true;
 			break;
 		}
-	SystemData *favorite = SystemManager::Instance().FavoriteSystem();
+	SystemData *favorite = mSystemManager.FavoriteSystem();
 	if(hasFavorite) {
 		if (favorite->FavoritesCount() == 0) {
 			removeFavoriteSystem();
