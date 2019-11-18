@@ -24,7 +24,7 @@ LIBRETRO_FLYCAST_MAKE_ARGS = platform="$(LIBRETRO_FLYCAST_PLATFORM)" $(LIBRETRO_
 
 define LIBRETRO_FLYCAST_BUILD_CMDS
 	# Change compiler on arm
-	$(SED) "s|CC_AS    = ${CC_PREFIX}gcc|CC_AS    = ${CC_PREFIX}${CC}|g" $(@D)/Makefile
+	$(SED) "s|${CC_PREFIX}gcc|${CC_PREFIX}${CC}|g" $(@D)/Makefile
 	$(SED) "s|-O2|-O3|g" $(@D)/Makefile
 	CFLAGS="$(TARGET_CFLAGS) $(COMPILER_COMMONS_CFLAGS_SO)" \
 		CXXFLAGS="$(TARGET_CXXFLAGS) $(COMPILER_COMMONS_CXXFLAGS_SO)" \
