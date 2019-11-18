@@ -6,11 +6,12 @@
 #include <string>
 #include <Window.h>
 #include <utils/sdl2/ISyncronousEvent.h>
+#include <utils/cplusplus/INoCopy.h>
 
 class AudioManager;
 class SystemManager;
 
-class MainRunner: private ISyncronousEvent
+class MainRunner: private INoCopy, private ISyncronousEvent
 {
   public:
     // Runner exit state

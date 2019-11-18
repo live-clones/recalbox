@@ -5,8 +5,10 @@
 #include <utils/os/system/ThreadPoolWorkerInterface.h>
 #include <RootFolders.h>
 #include <utils/Xml.h>
+#include <utils/cplusplus/INoCopy.h>
 
 class SystemManager :
+  private INoCopy, // No copy allowed
   public ThreadPoolWorkerInterface<SystemDescriptor, SystemData*>, // Multi-threaded system loading
   public ThreadPoolWorkerInterface<SystemData*, bool> // Multi-threaded system unloading
 {
