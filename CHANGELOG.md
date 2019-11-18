@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [6.2]
+- Add joystick rules for IPega PG-9037
+
+
 ## [6.1.1]
 - Add zfast shaders
 - Fix reicast on XU4 & PC
