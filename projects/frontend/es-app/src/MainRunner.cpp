@@ -174,8 +174,13 @@ MainRunner::ExitState MainRunner::MainLoop(Window& window)
         case SDL_JOYDEVICEADDED:
         case SDL_JOYDEVICEREMOVED:
         {
+          // Convert event
           InputCompactEvent compactEvent = InputManager::Instance().ManageSDLEvent(event);
-          if (!compactEvent.Empty()) window.ProcessInput(compactEvent);
+          // Quit?
+          if (compactEvent.IsKeyboard() && compactEvent.KeyUp() && (event.key.keysym.sym == SDLK_F4))
+            RequestQuit(ExitState::Quit);
+          // Normal process
+          else if (!compactEvent.Empty()) window.ProcessInput(compactEvent);
           break;
         }
         default:
