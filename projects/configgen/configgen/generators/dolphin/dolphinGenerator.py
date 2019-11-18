@@ -99,9 +99,9 @@ class DolphinGenerator(Generator):
         dolphinSettings.setOption(self.SECTION_CORE, "WiimoteContinuousScanning", "True")
         dolphinSettings.setOption(self.SECTION_CORE, "WiiKeyboard", "False")
         # General
-        dolphinSettings.setOption(self.SECTION_GENERAL, "ISOPaths", "2")
-        dolphinSettings.setOption(self.SECTION_GENERAL, "ISOPath0", "/recalbox/share/roms/gamecube")
-        dolphinSettings.setOption(self.SECTION_GENERAL, "ISOPath1", "/recalbox/share/roms/wii")
+        dolphinSettings.setOption(self.SECTION_GENERAL, "ISOPaths", "2") ## Scan iso
+        dolphinSettings.setOption(self.SECTION_GENERAL, "ISOPath0", "/recalbox/share/roms/gamecube") ## Scan iso 
+        dolphinSettings.setOption(self.SECTION_GENERAL, "ISOPath1", "/recalbox/share/roms/wii") ## Scan iso
         # Analytics
         dolphinSettings.setOption(self.SECTION_ANALYTICS, "Enabled", "True")
         dolphinSettings.setOption(self.SECTION_ANALYTICS, "PermissionAsked", "True")
@@ -109,7 +109,11 @@ class DolphinGenerator(Generator):
         dolphinSettings.setOption(self.SECTION_BTPASSTHROUGH, "Enabled", "False")
         # Netplay
         dolphinSettings.setOption(self.SECTION_NETPLAY, "Nickname", nickname)
-        dolphinSettings.setOption(self.SECTION_NETPLAY,  "UseUPNP", "True")
+        dolphinSettings.setOption(self.SECTION_NETPLAY,  "UseUPNP", "True") ## force UpNp
+        dolphinSettings.setOption(self.SECTION_NETPLAY, "IndexName", nickname) ## name of room in dolphin netplay server
+        dolphinSettings.setOption(self.SECTION_NETPLAY, "TraversalChoice", "traversal")
+        dolphinSettings.setOption(self.SECTION_NETPLAY, "UseIndex", "True") ## show room in dolphin lobby
+        #dolphinSettings.setOption(self.SECTION_NETPLAY, "IndexRegion", language)
 
         # Save configuration
         dolphinSettings.saveFile()
@@ -141,7 +145,7 @@ class DolphinGenerator(Generator):
             self.mainConfiguration()
             self.gfxConfiguration(system)
 
-        commandArray = [recalboxFiles.recalboxBins[system.config['emulator']], "-platform", "xcb", "-e", rom]
+        commandArray = [recalboxFiles.recalboxBins[system.config['emulator']], "-e", rom]
         if 'args' in system.config and system.config['args'] is not None:
              commandArray.extend(system.config['args'])
         return Command.Command(videomode=system.config['videomode'], array=commandArray, env={"XDG_CONFIG_HOME":recalboxFiles.CONF, "XDG_DATA_HOME":recalboxFiles.SAVES})
