@@ -457,7 +457,7 @@ void SystemData::UpdateGamelistXml()
     if (xmlReadPath.Exists())
     {
       XmlDocument gameList;
-      XmlResult result = gameList.load_string(xmlReadPath.ToChars());
+      XmlResult result = gameList.load_file(xmlReadPath.ToChars());
       if (!result)
       {
         LOG(LogError) << "Could not parse " << xmlReadPath.ToString() << " file!";

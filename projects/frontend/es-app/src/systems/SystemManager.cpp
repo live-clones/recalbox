@@ -376,7 +376,7 @@ bool SystemManager::LoadSystemConfigurations()
   weights.Save();
 
   DateTime stop;
-  LOG(LogInfo) << "Gamelist load time: " << std::to_string((stop-start).TotalMilliseconds());
+  LOG(LogInfo) << "Gamelist load time: " << std::to_string((stop-start).TotalMilliseconds()) << "ms";
 
   // Add special systems
   AddArcadeMetaSystem();
@@ -459,7 +459,7 @@ void SystemManager::DeleteAllSystems(bool updateGamelists)
     threadPool.Run(false);
 
     DateTime stop;
-    LOG(LogInfo) << "Gamelist update time: " << std::to_string((stop-start).TotalMilliseconds());
+    LOG(LogInfo) << "Gamelist update time: " << std::to_string((stop-start).TotalMilliseconds()) << "ms";
   }
 
   sVisibleSystemVector.clear();
