@@ -18,7 +18,7 @@ class NetPlayThread: private Thread, private ISyncronousEvent
      * @brief Constructor
      * @param window main window
      */
-    explicit NetPlayThread(Window* window);
+    explicit NetPlayThread(Window&window);
 
     /*!
      * @brief Destructor
@@ -44,7 +44,7 @@ class NetPlayThread: private Thread, private ISyncronousEvent
 
   private:
     //! Attached window
-    Window* mWindow;
+    Window& mWindow;
 
     //! SDL Event sender
     SyncronousEvent mSender;

@@ -10,7 +10,7 @@
 #include <components/ScrollableContainer.h>
 #include <Settings.h>
 
-GuiInfoPopup::GuiInfoPopup(Window* window, const std::string& message, int duration, int icon)
+GuiInfoPopup::GuiInfoPopup(Window&window, const std::string& message, int duration, int icon)
   : GuiComponent(window),
     mDuration(duration * 1000),
 		mGrid(window, Vector2i(2, 1)),

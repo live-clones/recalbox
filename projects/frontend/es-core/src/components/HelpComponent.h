@@ -11,7 +11,7 @@ class ComponentGrid;
 class HelpComponent : public GuiComponent
 {
 public:
-	explicit HelpComponent(Window* window);
+	explicit HelpComponent(Window&window);
 
 	void clearPrompts();
 	void setPrompts(const std::vector<HelpPrompt>& prompts);

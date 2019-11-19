@@ -226,7 +226,7 @@ bool RecalboxSystem::setOverclock(const std::string& mode)
   return false;
 }
 
-bool RecalboxSystem::launchKodi(Window* window)
+bool RecalboxSystem::launchKodi(Window& window)
 {
   LOG(LogInfo) << "Attempting to launch kodi...";
 
@@ -244,10 +244,10 @@ bool RecalboxSystem::launchKodi(Window* window)
     exitCode = WEXITSTATUS(exitCode);
   }
 
-  window->Initialize();
+  window.Initialize();
   VolumeControl::getInstance()->init();
   AudioManager::Instance().Reactivate();
-  window->normalizeNextUpdate();
+  window.normalizeNextUpdate();
 
   // handle end of kodi
   switch (exitCode)

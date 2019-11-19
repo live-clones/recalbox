@@ -9,7 +9,7 @@
 class GuiMetaDataEd : public GuiComponent
 {
 public:
-		GuiMetaDataEd(Window* window, MetadataDescriptor& md, ScraperSearchParams params,
+		GuiMetaDataEd(Window&window, MetadataDescriptor& md, ScraperSearchParams params,
 		const std::string& header, std::function<void()> savedCallback, std::function<void()> deleteFunc, SystemData* system, bool main);
 	
 	bool ProcessInput(const InputCompactEvent& event) override;

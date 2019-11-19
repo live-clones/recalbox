@@ -9,8 +9,8 @@
 class ButtonComponent : public GuiComponent
 {
 public:
-	ButtonComponent(Window* window, const std::string& text, const std::string& helpText, const std::function<void()>& func, bool upperCase);
-  ButtonComponent(Window* window, const std::string& text, const std::string& helpText, const std::function<void()>& func)
+	ButtonComponent(Window&window, const std::string& text, const std::string& helpText, const std::function<void()>& func, bool upperCase);
+  ButtonComponent(Window&window, const std::string& text, const std::string& helpText, const std::function<void()>& func)
     : ButtonComponent(window, text, helpText, func, true)
   {
   }

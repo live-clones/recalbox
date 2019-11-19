@@ -11,7 +11,7 @@
 #include "RecalboxConf.h"
 #include "Locale.h"
 
-NetworkThread::NetworkThread(Window* window)
+NetworkThread::NetworkThread(Window&window)
   : mWindow(window),
     mSender(this)
 {
@@ -54,7 +54,7 @@ void NetworkThread::Run()
         {
           std::string changelog = RecalboxUpgrade::getUpdateChangelog();
 
-          while (mWindow->isShowingPopup())
+          while (mWindow.isShowingPopup())
             sleep(5);
 
           mMessageBoxMessage = _("UPDATE VERSION:");
@@ -89,10 +89,10 @@ void NetworkThread::ReceiveSyncCallback(const SDL_Event& event)
   if (!mPopupMessage.empty())
   {
     std::shared_ptr<GuiInfoPopup> popup = std::make_shared<GuiInfoPopup>(mWindow, mPopupMessage, 30, 10);
-    mWindow->setInfoPopup(popup);
+    mWindow.setInfoPopup(popup);
   }
 
   // Messagebox
   if (mMessageBoxMessage.empty())
-    mWindow->displayScrollMessage(_("AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"), mMessageBoxMessage);
+    mWindow.displayScrollMessage(_("AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"), mMessageBoxMessage);
 }

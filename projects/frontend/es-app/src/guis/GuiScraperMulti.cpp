@@ -12,7 +12,7 @@
 #include "Locale.h"
 #include "MenuThemeData.h"
 
-GuiScraperMulti::GuiScraperMulti(Window* window, SystemManager& systemManager, const std::queue<ScraperSearchParams>& searches, bool approveResults)
+GuiScraperMulti::GuiScraperMulti(Window&window, SystemManager& systemManager, const std::queue<ScraperSearchParams>& searches, bool approveResults)
   :	GuiComponent(window),
     mSystemManager(systemManager),
     mSearchQueue(searches),
@@ -163,7 +163,7 @@ void GuiScraperMulti::finish()
 	  }
 	}
 
-	mWindow->pushGui(new GuiMsgBox(mWindow, ss, _("OK"), [&] { Close(); }));
+	mWindow.pushGui(new GuiMsgBox(mWindow, ss, _("OK"), [&] { Close(); }));
 
 	mIsProcessing = false;
 }

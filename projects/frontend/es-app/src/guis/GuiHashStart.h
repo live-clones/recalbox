@@ -54,7 +54,7 @@ class GuiHashStart : public GuiComponent, private Thread
      * @brief Constructor
      * @param window main ui window
      */
-    explicit GuiHashStart(Window* window, SystemManager& systemManager);
+    explicit GuiHashStart(Window& window, SystemManager& systemManager);
 
     /*!
      * @brief Destructor

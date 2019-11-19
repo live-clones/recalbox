@@ -9,7 +9,7 @@
 class GuiUpdate : public GuiComponent, private Thread
 {
   public:
-    explicit GuiUpdate(Window *window);
+    explicit GuiUpdate(Window& window);
 
     ~GuiUpdate() override;
 

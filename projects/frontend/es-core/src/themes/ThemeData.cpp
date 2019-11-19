@@ -706,7 +706,7 @@ const ThemeData& ThemeData::getCurrent()
 	return sCurrent;
 }
 
-std::vector<GuiComponent*> ThemeData::makeExtras(const ThemeData& theme, const std::string& view, Window* window)
+std::vector<GuiComponent*> ThemeData::makeExtras(const ThemeData& theme, const std::string& view, Window& window)
 {
 	std::vector<GuiComponent*> comps;
 

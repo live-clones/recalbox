@@ -10,7 +10,7 @@
 class ThemeExtras : public GuiComponent
 {
   public:
-    explicit ThemeExtras(Window* window)
+    explicit ThemeExtras(Window& window)
       : GuiComponent(window)
     {
     }

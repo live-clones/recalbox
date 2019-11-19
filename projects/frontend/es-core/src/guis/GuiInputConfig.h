@@ -13,7 +13,7 @@ class TextComponent;
 class GuiInputConfig : public GuiComponent
 {
 public:
-	GuiInputConfig(Window* window, InputDevice* target, const std::function<void()>& doneCallback);
+	GuiInputConfig(Window& window, InputDevice* target, const std::function<void()>& doneCallback);
 	~GuiInputConfig() override;
 	void onSizeChanged() override;
 

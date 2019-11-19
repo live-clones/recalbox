@@ -6,7 +6,7 @@
 #include "themes/ThemeData.h"
 #include "Locale.h"
 
-VideoComponent::VideoComponent(Window* window)
+VideoComponent::VideoComponent(Window&window)
 : GuiComponent(window),
   mState(State::Uninitialized),
   mEffect(Effect::BreakingNews),

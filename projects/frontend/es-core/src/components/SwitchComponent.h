@@ -8,8 +8,8 @@
 class SwitchComponent : public GuiComponent
 {
 public:
-	explicit SwitchComponent(Window* window);
-  SwitchComponent(Window* window, bool state)
+	explicit SwitchComponent(Window&window);
+  SwitchComponent(Window&window, bool state)
     : SwitchComponent(window)
   {
     mState = state;

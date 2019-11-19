@@ -10,9 +10,9 @@ class ViewController : public GuiComponent
 {
 public:
 	static ViewController& Instance() { return *sInstance; };
-	//inline static Window* getWindow(){return sInstance->mWindow;}
+	//inline static Window&getWindow(){return sInstance->mWindow;}
 
-	ViewController(Window* window, SystemManager& systemManager);
+	ViewController(Window& window, SystemManager& systemManager);
   ~ViewController() override;
 
 	// Try to completely populate the GameListView map.
@@ -22,7 +22,7 @@ public:
 	/*!
 	 * @brief Wake up the system if it is in a sleeping state
 	 */
-	void WakeUp() { mWindow->doWake(); }
+	void WakeUp() { mWindow.doWake(); }
 
 	// If a basic view detected a metadata change, it can request to recreate
 	// the current gamelist view (as it may change to be detailed).
@@ -103,5 +103,5 @@ private:
 	bool mFavoritesOnly;
 
 	State mState;
-  Window* mWindow;
+  Window& mWindow;
 };

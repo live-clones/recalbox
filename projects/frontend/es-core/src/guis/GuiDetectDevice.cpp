@@ -10,7 +10,7 @@
 
 #define HOLD_TIME 1000
 
-GuiDetectDevice::GuiDetectDevice(Window* window, bool firstRun, const std::function<void()>& doneCallback)
+GuiDetectDevice::GuiDetectDevice(Window& window, bool firstRun, const std::function<void()>& doneCallback)
   : GuiComponent(window),
     mFirstRun(firstRun),
 	  mBackground(window, Path(":/frame.png")),
@@ -121,7 +121,7 @@ void GuiDetectDevice::update(int deltaTime)
 		if(mHoldTime <= 0)
 		{
 			// picked one!
-			mWindow->pushGui(new GuiInputConfig(mWindow, mHoldingConfig, mDoneCallback));
+			mWindow.pushGui(new GuiInputConfig(mWindow, mHoldingConfig, mDoneCallback));
 			Close();
 		}
 	}

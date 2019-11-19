@@ -29,7 +29,7 @@ public:
 	using IList<ImageGridData, T>::isScrolling;
 	using IList<ImageGridData, T>::stopScrolling;
 
-	explicit ImageGridComponent(Window* window);
+	explicit ImageGridComponent(Window& window);
 
 	void add(const std::string& name, const Path& imagePath, const T& obj);
 	
@@ -94,7 +94,7 @@ private:
 };
 
 template<typename T>
-ImageGridComponent<T>::ImageGridComponent(Window* window)
+ImageGridComponent<T>::ImageGridComponent(Window& window)
   : IList<ImageGridData, T>(window)
 {
 	mEntriesDirty = true;

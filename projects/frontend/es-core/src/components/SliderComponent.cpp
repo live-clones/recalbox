@@ -9,7 +9,7 @@
 #define MOVE_REPEAT_DELAY 500
 #define MOVE_REPEAT_RATE 40
 
-SliderComponent::SliderComponent(Window* window, float min, float max, float increment, const std::string& suffix)
+SliderComponent::SliderComponent(Window&window, float min, float max, float increment, const std::string& suffix)
   : GuiComponent(window),
 	  mMin(min),
 	  mMax(max),

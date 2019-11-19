@@ -23,7 +23,7 @@ DEFINE_BITFLAG_ENUM(Borders, unsigned int)
 class ComponentGrid : public GuiComponent
 {
 public:
-	ComponentGrid(Window* window, const Vector2i& gridDimensions);
+	ComponentGrid(Window&window, const Vector2i& gridDimensions);
 	~ComponentGrid() override;
 
 	bool removeEntry(const std::shared_ptr<GuiComponent>& comp);

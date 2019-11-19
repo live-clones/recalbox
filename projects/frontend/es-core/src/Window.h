@@ -62,7 +62,7 @@ private:
 	bool isProcessing();
 	static void renderScreenSaver();
 
-	bool KonamiCode(InputDevice* config, InputEvent input, Window* window);
+	bool KonamiCode(InputDevice* config, InputEvent input, Window&window);
 
 	HelpComponent* mHelp;
 	ImageComponent* mBackgroundOverlay;

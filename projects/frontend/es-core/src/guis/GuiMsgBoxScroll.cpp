@@ -7,7 +7,7 @@
 
 #define HORIZONTAL_PADDING_PX 20
 
-GuiMsgBoxScroll::GuiMsgBoxScroll(Window* window,
+GuiMsgBoxScroll::GuiMsgBoxScroll(Window& window,
                                  const std::string& title, const std::string& text,
                                  const std::string& name1, const std::function<void()>& func1,
                                  const std::string& name2, const std::function<void()>& func2,

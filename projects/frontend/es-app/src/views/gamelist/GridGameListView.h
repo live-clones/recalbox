@@ -8,7 +8,7 @@
 class GridGameListView : public ISimpleGameListView
 {
 public:
-	GridGameListView(Window* window, FolderData* root);
+	GridGameListView(Window& window, FolderData* root);
 
 	FileData* getCursor() override { return mGrid.getSelected(); }
 	void setCursor(FileData*) override;

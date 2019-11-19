@@ -20,7 +20,7 @@
 
 ViewController* ViewController::sInstance = nullptr;
 
-ViewController::ViewController(Window* window, SystemManager& systemManager)
+ViewController::ViewController(Window& window, SystemManager& systemManager)
 	: GuiComponent(window),
 	  mSystemManager(systemManager),
 	  mCurrentView(nullptr),
@@ -33,7 +33,7 @@ ViewController::ViewController(Window* window, SystemManager& systemManager)
   if (sInstance == nullptr)
   {
     sInstance = this;
-    window->pushGui(this);
+    mWindow.pushGui(this);
   }
 
 	mState.viewing = ViewMode::None;
@@ -277,7 +277,7 @@ void ViewController::launch(FileData* game, Vector3f center, const std::string& 
 
 	auto launchFactory = [this, game, origCamera, netplay, core, ip, port] (const std::function<void(std::function<void()>)>& backAnimation) {
 		return [this, game, origCamera, backAnimation, netplay, core, ip, port] {
-      game->getSystem()->RunGame(*mWindow, *game, netplay, core, ip, port);
+      game->getSystem()->RunGame(mWindow, *game, netplay, core, ip, port);
 			mCamera = origCamera;
 			backAnimation([this] { mLockInput = false; });
 			this->onFileChanged(game, FileChangeType::Run);
@@ -360,7 +360,7 @@ bool ViewController::ProcessInput(const InputCompactEvent& event)
 	/* if we receive a button pressure for a non configured joystick, suggest the joystick configuration */
 	if (event.AskForConfiguration())
 	{
-		mWindow->pushGui(new GuiDetectDevice(mWindow, false, nullptr));
+		mWindow.pushGui(new GuiDetectDevice(mWindow, false, nullptr));
 		return true;
 	}
 
@@ -434,8 +434,8 @@ void ViewController::render(const Transform4x4f& parentTrans)
 		mGameListView.second->render(trans);
 	}
 
-	if(mWindow->peekGui() == this)
-		mWindow->renderHelpPromptsEarly();
+	if(mWindow.peekGui() == this)
+		mWindow.renderHelpPromptsEarly();
 
 	// fade out
 	if(mFadeOpacity != 0.0)

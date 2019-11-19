@@ -6,7 +6,7 @@
 #include "Locale.h"
 #include <recalbox/RecalboxUpgrade.h>
 
-GuiUpdate::GuiUpdate(Window* window)
+GuiUpdate::GuiUpdate(Window& window)
   : GuiComponent(window),
     mBusyAnim(window),
     mBackground(window, Path(":/frame.png")),
@@ -56,7 +56,7 @@ void GuiUpdate::update(int deltaTime)
     case State::DoUpdate: break;
     case State::AskForUpdate:
     {
-      mWindow->pushGui(new GuiMsgBox(mWindow, _("REALLY UPDATE?"),
+      mWindow.pushGui(new GuiMsgBox(mWindow, _("REALLY UPDATE?"),
                        _("YES"), [this]
                        {
                          mState = State::DoUpdate;
@@ -73,7 +73,7 @@ void GuiUpdate::update(int deltaTime)
     }
     case State::NeedNetwork:
     {
-      mWindow->pushGui(new GuiMsgBox(mWindow, _("NETWORK CONNECTION NEEDED"), _("OK"), [this]
+      mWindow.pushGui(new GuiMsgBox(mWindow, _("NETWORK CONNECTION NEEDED"), _("OK"), [this]
       {
         mState = State::Exit;
       }));
@@ -91,7 +91,7 @@ void GuiUpdate::update(int deltaTime)
     }
     case State::Error:
     {
-      mWindow->pushGui(new GuiMsgBox(mWindow, mResult, _("OK"), [this]
+      mWindow.pushGui(new GuiMsgBox(mWindow, mResult, _("OK"), [this]
       {
         mState = State::Exit;
       }));
@@ -100,7 +100,7 @@ void GuiUpdate::update(int deltaTime)
     }
     case State::NoUpdate:
     {
-      mWindow->pushGui(new GuiMsgBox(mWindow, _("NO UPDATE AVAILABLE"), _("OK"), [this]
+      mWindow.pushGui(new GuiMsgBox(mWindow, _("NO UPDATE AVAILABLE"), _("OK"), [this]
       {
         mState = State::Exit;
       }));

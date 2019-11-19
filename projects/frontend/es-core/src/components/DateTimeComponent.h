@@ -16,8 +16,8 @@ public:
 		RelativeToNow,
 	};
 
-           DateTimeComponent(Window* window, Display dispMode);
-  explicit DateTimeComponent(Window* window)
+           DateTimeComponent(Window&window, Display dispMode);
+  explicit DateTimeComponent(Window&window)
     : DateTimeComponent(window, Display::Date)
   {
   }

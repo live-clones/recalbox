@@ -8,7 +8,7 @@ class IGameListView;
 class GuiGamelistOptions : public GuiComponent
 {
 public:
-	GuiGamelistOptions(Window* window, SystemData* system);
+	GuiGamelistOptions(Window&window, SystemData* system);
 	~GuiGamelistOptions() override;
 
 	void save();

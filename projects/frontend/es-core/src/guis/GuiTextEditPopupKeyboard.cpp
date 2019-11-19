@@ -3,7 +3,7 @@
 #include "MenuThemeData.h"
 #include <RecalboxConf.h>
 
-GuiTextEditPopupKeyboard::GuiTextEditPopupKeyboard(Window* window, const std::string& title, const std::string& initValue,
+GuiTextEditPopupKeyboard::GuiTextEditPopupKeyboard(Window&window, const std::string& title, const std::string& initValue,
 	const std::function<void(const std::string&)>& okCallback, bool multiLine, const std::string& acceptBtnText)
 	: GuiComponent(window),
 	  mBackground(window, Path(":/frame.png")),

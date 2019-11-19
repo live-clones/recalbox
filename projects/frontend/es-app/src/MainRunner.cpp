@@ -52,7 +52,7 @@ MainRunner::ExitState MainRunner::Run()
     // Initialize main Window and ViewController
     Window window;
     SystemManager systemManager;
-    ViewController viewControler(&window, systemManager);
+    ViewController viewControler(window, systemManager);
     if (!window.Initialize(mRequestedWidth, mRequestedHeight, false))
     {
       LOG(LogError) << "Window failed to initialize!";
@@ -74,14 +74,14 @@ MainRunner::ExitState MainRunner::Run()
     // Run kodi at startup?
     RecalboxConf& recalboxConf = RecalboxConf::Instance();
     if (recalboxConf.AsString("kodi.enabled") == "1" && recalboxConf.AsString("kodi.atstartup") == "1")
-      RecalboxSystem::launchKodi(&window);
+      RecalboxSystem::launchKodi(window);
 
     ExitState exitState;
     try
     {
       // Start update thread
       LOG(LogDebug) << "Launching Network thread";
-      NetworkThread networkThread(&window);
+      NetworkThread networkThread(window);
       // Start the socket server
       LOG(LogDebug) << "Launching Command thread";
       CommandThread commandThread(systemManager);
@@ -90,7 +90,7 @@ MainRunner::ExitState MainRunner::Run()
       VideoEngine::This().StartEngine();
       // Start Neyplay thread
       LOG(LogDebug) << "Launching Netplay thread";
-      NetPlayThread netPlayThread(&window);
+      NetPlayThread netPlayThread(window);
 
       // Update?
       CheckUpdateMessage(window);
@@ -229,7 +229,7 @@ void MainRunner::CheckAndInitializeInput(Window& window)
   if (InputManager::ConfigurationPath().Exists() && InputManager::Instance().ConfiguredDeviceCount() > 0)
     ViewController::Instance().goToStart();
   else
-    window.pushGui(new GuiDetectDevice(&window, true, [] { ViewController::Instance().goToStart(); }));
+    window.pushGui(new GuiDetectDevice(window, true, [] { ViewController::Instance().goToStart(); }));
 }
 
 void MainRunner::CheckUpdateMessage(Window& window)
@@ -239,7 +239,7 @@ void MainRunner::CheckUpdateMessage(Window& window)
   if (!changelog.empty())
   {
     std::string message = "Changes :\n" + changelog;
-    window.pushGui(new GuiMsgBoxScroll(&window, _("THE SYSTEM IS UP TO DATE"), message, _("OK"), []
+    window.pushGui(new GuiMsgBoxScroll(window, _("THE SYSTEM IS UP TO DATE"), message, _("OK"), []
     {
       RecalboxUpgrade::updateLastChangelogFile();
     }, "", nullptr, "", nullptr, TextAlignment::Left));

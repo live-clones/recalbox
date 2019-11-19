@@ -13,7 +13,7 @@
 const int logoBuffersLeft[] = { -5, -2, -1 };
 const int logoBuffersRight[] = { 1, 2, 5 };
 
-SystemView::SystemView(Window* window, SystemManager& systemManager)
+SystemView::SystemView(Window& window, SystemManager& systemManager)
   : IList<SystemViewData, SystemData*>(window, LIST_SCROLL_STYLE_SLOW, LoopType::Always),
     mSystemManager(systemManager),
     mCarousel(),
@@ -203,7 +203,7 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
     bool kodiX = RecalboxConf::Instance().AsBool("kodi.xbutton");
     bool netplay = RecalboxConf::Instance().AsBool("global.netplay");
 
-    if (kodiEnabled && kodiX && !launchKodi && !mWindow->isShowingPopup())
+    if (kodiEnabled && kodiX && !launchKodi && !mWindow.isShowingPopup())
     {
       if (netplay)
       {
@@ -224,13 +224,13 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
         row.elements.clear();
         row.makeAcceptInputHandler([this, s] {
             auto netplay = new GuiNetPlay(mWindow, mSystemManager);
-            mWindow->pushGui(netplay);
+            mWindow.pushGui(netplay);
             delete s;
         });
         auto lbl2 = std::make_shared<TextComponent>(mWindow, "\uF1c4 " + _("NETPLAY LOBBY"), menuTheme->menuText.font, menuTheme->menuText.color);
         row.addElement(lbl2, true); // label
         s->addRow(row);
-        mWindow->pushGui(s);
+        mWindow.pushGui(s);
       }
       else
       {
@@ -241,9 +241,9 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
         }
         launchKodi = false;
       }
-    } else if (netplay && !mWindow->isShowingPopup()) {
+    } else if (netplay && !mWindow.isShowingPopup()) {
             auto netplayGui = new GuiNetPlay(mWindow, mSystemManager);
-            mWindow->pushGui(netplayGui);
+            mWindow.pushGui(netplayGui);
     }
 
 
@@ -252,13 +252,10 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
 		{
 		  auto s = new GuiSettings(mWindow, _("QUIT").c_str());
 			auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
-			Window *window = mWindow;
 			ComponentListRow row;
 
-
-
-			row.makeAcceptInputHandler([window] {
-			    window->pushGui(new GuiMsgBox(window, _("REALLY SHUTDOWN?"), _("YES"),
+			row.makeAcceptInputHandler([this] {
+        mWindow.pushGui(new GuiMsgBox(mWindow, _("REALLY SHUTDOWN?"), _("YES"),
 											  [] { MainRunner::RequestQuit(MainRunner::ExitState::Shutdown); }, _("NO"), nullptr));
 			});
 			auto icon2 = std::make_shared<ImageComponent>(mWindow);
@@ -269,11 +266,11 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
 			// spacer between icon and text
 			auto spacer = std::make_shared<GuiComponent>(mWindow);
 			row.addElement(spacer, false);
-			row.addElement(std::make_shared<TextComponent>(window, _("SHUTDOWN SYSTEM"), menuTheme->menuText.font, menuTheme->menuText.color), true);
+			row.addElement(std::make_shared<TextComponent>(mWindow, _("SHUTDOWN SYSTEM"), menuTheme->menuText.font, menuTheme->menuText.color), true);
 			s->addRow(row);
 			row.elements.clear();
-			row.makeAcceptInputHandler([window] {
-				window->pushGui(new GuiMsgBox(window, _("REALLY SHUTDOWN WITHOUT SAVING METADATAS?"), _("YES"),
+			row.makeAcceptInputHandler([this] {
+        mWindow.pushGui(new GuiMsgBox(mWindow, _("REALLY SHUTDOWN WITHOUT SAVING METADATAS?"), _("YES"),
 											  [] { MainRunner::RequestQuit(MainRunner::ExitState::FastShutdown);; }, _("NO"), nullptr));
 			});
 			auto icon3 = std::make_shared<ImageComponent>(mWindow);
@@ -283,11 +280,11 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
 			row.addElement(icon3, false);
 			// spacer between icon and text
 			row.addElement(spacer, false);
-			row.addElement(std::make_shared<TextComponent>(window, _("FAST SHUTDOWN SYSTEM"), menuTheme->menuText.font, menuTheme->menuText.color), true);
+			row.addElement(std::make_shared<TextComponent>(mWindow, _("FAST SHUTDOWN SYSTEM"), menuTheme->menuText.font, menuTheme->menuText.color), true);
 			s->addRow(row);
 			row.elements.clear();
-			row.makeAcceptInputHandler([window] {
-				window->pushGui(new GuiMsgBox(window, _("REALLY RESTART?"), _("YES"),
+			row.makeAcceptInputHandler([this] {
+        mWindow.pushGui(new GuiMsgBox(mWindow, _("REALLY RESTART?"), _("YES"),
 				                              [] { MainRunner::RequestQuit(MainRunner::ExitState::NormalReboot); }, _("NO"), nullptr));
 			});
 			// icon
@@ -300,14 +297,14 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
 
 			spacer->setSize(10, 0);
 			row.addElement(spacer, false);
-			row.addElement(std::make_shared<TextComponent>(window, _("RESTART SYSTEM"), menuTheme->menuText.font, menuTheme->menuText.color), true);
+			row.addElement(std::make_shared<TextComponent>(mWindow, _("RESTART SYSTEM"), menuTheme->menuText.font, menuTheme->menuText.color), true);
 			s->addRow(row);
-			mWindow->pushGui(s);
+			mWindow.pushGui(s);
 		}
 
 		if (event.StartPressed() && RecalboxConf::Instance().AsString("emulationstation.menu") != "none")
 		{
-			mWindow->pushGui(new GuiMenu(mWindow, mSystemManager));
+			mWindow.pushGui(new GuiMenu(mWindow, mSystemManager));
 			return true;
 		}
 

@@ -40,7 +40,7 @@ class RecalboxSystem
 
     static bool ping();
 
-    static bool launchKodi(Window* window);
+    static bool launchKodi(Window&window);
 
     static bool backupRecalboxConf();
 

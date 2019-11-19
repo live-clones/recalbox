@@ -16,17 +16,17 @@
 class ButtonComponent;
 class ImageComponent;
 
-std::shared_ptr<ComponentGrid> makeButtonGrid(Window* window, const std::vector< std::shared_ptr<ButtonComponent> >& buttons);
-std::shared_ptr<ComponentGrid> makeMultiDimButtonGrid(Window* window, const std::vector< std::vector< std::shared_ptr<ButtonComponent> > >& buttons, float outerWidth, float outerHeight);
-std::shared_ptr<ImageComponent> makeArrow(Window* window);
+std::shared_ptr<ComponentGrid> makeButtonGrid(Window&window, const std::vector< std::shared_ptr<ButtonComponent> >& buttons);
+std::shared_ptr<ComponentGrid> makeMultiDimButtonGrid(Window&window, const std::vector< std::vector< std::shared_ptr<ButtonComponent> > >& buttons, float outerWidth, float outerHeight);
+std::shared_ptr<ImageComponent> makeArrow(Window&window);
 
 #define TITLE_VERT_PADDING (Renderer::getDisplayHeightAsFloat()*0.0637f)
 
 class MenuComponent : public GuiComponent
 {
 public:
-	MenuComponent(Window* window, const char* title, const std::shared_ptr<Font>& titleFont);
-  MenuComponent(Window* window, const char* title)
+	MenuComponent(Window&window, const char* title, const std::shared_ptr<Font>& titleFont);
+  MenuComponent(Window&window, const char* title)
     : MenuComponent(window, title, Font::get(FONT_SIZE_LARGE))
   {
   }
@@ -39,7 +39,7 @@ public:
 			int dur = Settings::Instance().HelpPopupTime();
 			if (dur != 0) {
 				auto s = std::make_shared<GuiInfoPopup>(mWindow, label + "\n" + help, dur);
-				mWindow->setInfoPopup(s);
+				mWindow.setInfoPopup(s);
 			}
 			return true;
 		};

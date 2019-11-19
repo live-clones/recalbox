@@ -12,7 +12,7 @@ class NetworkThread: private Thread, private ISyncronousEvent
      * @brief Constructor
      * @param window main Window
      */
-    explicit NetworkThread(Window * window);
+    explicit NetworkThread(Window& window);
 
     /*!
      * @brief Destructor
@@ -21,7 +21,7 @@ class NetworkThread: private Thread, private ISyncronousEvent
 
   private:
     //! MainWindow
-    Window* mWindow;
+    Window& mWindow;
     //! Syncronous event to display popup
     SyncronousEvent mSender;
     //! Signal used to stop the thread

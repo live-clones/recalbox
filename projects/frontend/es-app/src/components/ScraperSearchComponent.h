@@ -25,7 +25,7 @@ public:
 		NeverAutoAccept,
 	};
 
-	explicit ScraperSearchComponent(Window* window, SearchType searchType = SearchType::NeverAutoAccept);
+	explicit ScraperSearchComponent(Window& window, SearchType searchType = SearchType::NeverAutoAccept);
 
 	void search(const ScraperSearchParams& params);
 	void openInputScreen(ScraperSearchParams& from);

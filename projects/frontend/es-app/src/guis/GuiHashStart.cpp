@@ -9,7 +9,7 @@
 #include "GuiHashStart.h"
 #include "components/OptionListComponent.h"
 
-GuiHashStart::GuiHashStart(Window* window, SystemManager& systemManager)
+GuiHashStart::GuiHashStart(Window& window, SystemManager& systemManager)
   : GuiComponent(window),
     mSystemManager(systemManager),
     mBusyAnim(window),
@@ -36,7 +36,7 @@ GuiHashStart::GuiHashStart(Window* window, SystemManager& systemManager)
 
   mMenu.addButton(_("START"), "start", [this]
   {
-    mWindow->pushGui(new GuiMsgBox(mWindow, _("THIS COULD TAKE A WHILE, CONFIRM?"), _("YES"), [this]
+    mWindow.pushGui(new GuiMsgBox(mWindow, _("THIS COULD TAKE A WHILE, CONFIRM?"), _("YES"), [this]
     {
       Start("HashThread");
       mState = State::Hashing;

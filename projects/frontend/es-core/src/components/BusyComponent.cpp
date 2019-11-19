@@ -15,7 +15,7 @@ AnimationFrame BUSY_ANIMATION_FRAMES[] = {
 };
 const AnimationDef BUSY_ANIMATION_DEF = { BUSY_ANIMATION_FRAMES, 4, true };
 
-BusyComponent::BusyComponent(Window* window)
+BusyComponent::BusyComponent(Window&window)
 : GuiComponent(window),
   mBackground(window, Path(":/frame.png")),
   mGrid(window,Vector2i(5, 3)),

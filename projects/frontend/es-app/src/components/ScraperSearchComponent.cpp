@@ -17,7 +17,7 @@
 #include "Locale.h"
 #include "MenuThemeData.h"
 
-ScraperSearchComponent::ScraperSearchComponent(Window* window, SearchType type)
+ScraperSearchComponent::ScraperSearchComponent(Window& window, SearchType type)
   : GuiComponent(window),
 	  mGrid(window, Vector2i(4, 3)),
 	  mSearchType(type),
@@ -279,7 +279,7 @@ void ScraperSearchComponent::onSearchDone(const std::vector<ScraperSearchResult>
 void ScraperSearchComponent::onSearchError(const std::string& error)
 {
 	LOG(LogInfo) << "ScraperSearchComponent search error: " << error;
-	mWindow->pushGui(new GuiMsgBox(mWindow, Strings::ToUpperASCII(error),
+	mWindow.pushGui(new GuiMsgBox(mWindow, Strings::ToUpperASCII(error),
                                  _("RETRY"), std::bind(&ScraperSearchComponent::search, this, mLastSearch),
                                  _("SKIP"), mSkipCallback,
                                  _("CANCEL"), mCancelCallback));
@@ -459,13 +459,13 @@ void ScraperSearchComponent::openInputScreen(ScraperSearchParams& params)
 
 	stop();
 	if (openOSK) {
-		mWindow->pushGui(new GuiTextEditPopupKeyboard(mWindow, _("SEARCH FOR"),
+		mWindow.pushGui(new GuiTextEditPopupKeyboard(mWindow, _("SEARCH FOR"),
 			// initial value is last search if there was one, otherwise the clean path name
 			params.nameOverride.empty() ? params.game->getScrappableName() : params.nameOverride,
 			searchForFunc, false, _("SEARCH")));
 	}
 	else {
-		mWindow->pushGui(new GuiTextEditPopup(mWindow, _("SEARCH FOR"),
+		mWindow.pushGui(new GuiTextEditPopup(mWindow, _("SEARCH FOR"),
 			// initial value is last search if there was one, otherwise the clean path name
 			params.nameOverride.empty() ? params.game->getScrappableName() : params.nameOverride,
 			searchForFunc, false, _("SEARCH")));

@@ -5,7 +5,7 @@
 #include "Locale.h"
 #include "MenuThemeData.h"
 
-SwitchComponent::SwitchComponent(Window* window)
+SwitchComponent::SwitchComponent(Window&window)
   : GuiComponent(window),
     mImage(window),
     mState(false),

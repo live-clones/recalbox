@@ -9,7 +9,7 @@
 class GuiSettings : public GuiComponent
 {
 public:
-	GuiSettings(Window* window, const char* title);
+	GuiSettings(Window& window, const char* title);
 	~GuiSettings() override; // just calls save();
 
 	void save();
@@ -27,7 +27,7 @@ public:
 		const std::string& helpLabel(label);
 		if(!help.empty()) {
 			row.makeHelpInputHandler([this, help, helpLabel] {
-				mWindow->pushGui(new GuiMsgBoxScroll(
+				mWindow.pushGui(new GuiMsgBoxScroll(
 						mWindow, helpLabel, help, _("OK"),
 						[] {}, "", nullptr, "", nullptr));
 				return true;

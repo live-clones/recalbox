@@ -2,7 +2,7 @@
 #include "Renderer.h"
 #include "Window.h"
 
-RatingComponent::RatingComponent(Window* window, unsigned int color)
+RatingComponent::RatingComponent(Window&window, unsigned int color)
   : GuiComponent(window),
     mVertices(),
     mColor(color),
@@ -15,7 +15,7 @@ RatingComponent::RatingComponent(Window* window, unsigned int color)
 	updateVertices();
 }
 
-RatingComponent::RatingComponent(Window* window)
+RatingComponent::RatingComponent(Window&window)
   : RatingComponent(window, 0xFFFFFFFF)
 {
 }

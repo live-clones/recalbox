@@ -10,7 +10,7 @@
 #include "Locale.h"
 #include "MenuThemeData.h"
 
-GuiGameScraper::GuiGameScraper(Window* window, const ScraperSearchParams& params, const std::function<void(const ScraperSearchResult&)>& doneFunc)
+GuiGameScraper::GuiGameScraper(Window&window, const ScraperSearchParams& params, const std::function<void(const ScraperSearchResult&)>& doneFunc)
   : GuiComponent(window),
 		mClose(false),
   	mGrid(window, Vector2i(1, 7)),

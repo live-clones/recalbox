@@ -58,7 +58,7 @@ class ThemeData
     // If expectedType is an empty string, will do no type checking.
     const ThemeElement* getElement(const std::string& view, const std::string& element, const std::string& expectedType) const;
 
-    static std::vector<GuiComponent*> makeExtras(const ThemeData& theme, const std::string& view, Window* window);
+    static std::vector<GuiComponent*> makeExtras(const ThemeData& theme, const std::string& view, Window& window);
 
     static const ThemeData& getDefault();
     static const ThemeData& getCurrent();

@@ -134,7 +134,7 @@ protected:
   }*/
 
   public:
-    IList(Window* window, const ScrollTierList& tierList, LoopType loopType)
+    IList(Window& window, const ScrollTierList& tierList, LoopType loopType)
       : GuiComponent(window),
         mCursor(0),
         mScrollTier(0),
@@ -151,11 +151,11 @@ protected:
       mGradient.setImage(Path(":/scroll_gradient.png"));
       mTitleOverlayFont = Font::get(FONT_SIZE_LARGE);
     }
-    IList(Window* window, const ScrollTierList& tierList)
+    IList(Window& window, const ScrollTierList& tierList)
       : IList(window, tierList, LoopType::PauseAtEnd)
     {
     }
-    explicit IList(Window* window)
+    explicit IList(Window&window)
       : IList(window, LIST_SCROLL_STYLE_QUICK, LoopType::PauseAtEnd)
     {
     }

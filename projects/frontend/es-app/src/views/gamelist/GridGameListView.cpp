@@ -4,7 +4,7 @@
 #include "Settings.h"
 #include "Locale.h"
 
-GridGameListView::GridGameListView(Window* window, FolderData* root)
+GridGameListView::GridGameListView(Window&window, FolderData* root)
   : ISimpleGameListView(window, mSystemManager, root),
     mGrid(window)
 {

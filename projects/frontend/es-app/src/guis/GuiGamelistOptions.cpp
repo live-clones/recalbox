@@ -11,7 +11,7 @@
 #include "MenuMessages.h"
 #include "guis/GuiMsgBox.h"
 
-GuiGamelistOptions::GuiGamelistOptions(Window* window, SystemData* system)
+GuiGamelistOptions::GuiGamelistOptions(Window& window, SystemData* system)
   :	GuiComponent(window),
 		mMenu(window, _("OPTIONS").c_str()),
     mReloading(false),
@@ -106,9 +106,9 @@ GuiGamelistOptions::GuiGamelistOptions(Window* window, SystemData* system)
         row.addElement(std::make_shared<TextComponent>(mWindow, _("UPDATE GAMES LISTS"), menuTheme->menuText.font,
                                                        menuTheme->menuText.color), true);
         row.addElement(makeArrow(mWindow), false);
-        row.makeAcceptInputHandler([this, window] {
+        row.makeAcceptInputHandler([this] {
             mReloading = true;
-            window->pushGui(new GuiMsgBox(window, _("REALLY UPDATE GAMES LISTS ?"),
+            mWindow.pushGui(new GuiMsgBox(mWindow, _("REALLY UPDATE GAMES LISTS ?"),
                                           _("YES"), [] { ViewController::Instance().deleteAndReloadAll(); },
                                           _("NO"), [this] { mReloading = false; }
             ));
@@ -164,7 +164,7 @@ void GuiGamelistOptions::openMetaDataEd() {
 	ScraperSearchParams p;
 	p.game = file;
 	p.system = file->getSystem();
-	mWindow->pushGui(new GuiMetaDataEd(mWindow, file->Metadata(), p, file->getPath().Filename(),
+	mWindow.pushGui(new GuiMetaDataEd(mWindow, file->Metadata(), p, file->getPath().Filename(),
 									 std::bind(&IGameListView::onFileChanged, getGamelist(), file, FileChangeType::MetadataChanged), [this, file]
 									 {
 				             file->getPath().Delete();

@@ -4,7 +4,7 @@
 #include "Renderer.h"
 #include "themes/ThemeData.h"
 
-NinePatchComponent::NinePatchComponent(Window* window)
+NinePatchComponent::NinePatchComponent(Window& window)
   : GuiComponent(window),
     mVertices(nullptr),
     mColors(nullptr),
@@ -14,7 +14,7 @@ NinePatchComponent::NinePatchComponent(Window* window)
 {
 }
 
-NinePatchComponent::NinePatchComponent(Window* window, const Path& path)
+NinePatchComponent::NinePatchComponent(Window& window, const Path& path)
 	: NinePatchComponent(window)
 {
   mPath = path;

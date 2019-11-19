@@ -9,10 +9,10 @@
 class GuiTextEditPopupKeyboard : public GuiComponent
 {
 public:
-	GuiTextEditPopupKeyboard(Window* window, const std::string& title, const std::string& initValue,
+	GuiTextEditPopupKeyboard(Window& window, const std::string& title, const std::string& initValue,
 		                       const std::function<void(const std::string&)>& okCallback, bool multiLine,
 		                       const std::string& acceptBtnText);
-  GuiTextEditPopupKeyboard(Window* window, const std::string& title, const std::string& initValue,
+  GuiTextEditPopupKeyboard(Window& window, const std::string& title, const std::string& initValue,
                            const std::function<void(const std::string&)>& okCallback, bool multiLine)
     : GuiTextEditPopupKeyboard(window, title, initValue, okCallback, multiLine, "OK")
   {

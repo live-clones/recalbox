@@ -23,7 +23,7 @@ class StrInputConfig
 class GuiMenu : public GuiComponent
 {
 public:
-	GuiMenu(Window* window, SystemManager& systemManager);
+	GuiMenu(Window& window, SystemManager& systemManager);
 	~GuiMenu() override;
 
 	bool ProcessInput(const InputCompactEvent& event) override;
@@ -54,7 +54,7 @@ private:
 	std::shared_ptr<MenuTheme> mMenuTheme;
 
 
-	std::shared_ptr<OptionListComponent<std::string>> createRatioOptionList(Window *window,
+	std::shared_ptr<OptionListComponent<std::string>> createRatioOptionList(Window& window,
                                                                         const std::string& configname) const;
 
 	void popSystemConfigurationGui(SystemData *systemData) const;

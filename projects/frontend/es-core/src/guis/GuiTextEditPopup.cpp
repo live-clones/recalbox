@@ -4,7 +4,7 @@
 #include "Locale.h"
 #include "MenuThemeData.h"
 
-GuiTextEditPopup::GuiTextEditPopup(Window* window, const std::string& title, const std::string& initValue,
+GuiTextEditPopup::GuiTextEditPopup(Window& window, const std::string& title, const std::string& initValue,
 				                           const std::function<void(const std::string&)>& okCallback, bool multiLine,
 				                           const std::string& acceptBtnText)
 	: GuiComponent(window),

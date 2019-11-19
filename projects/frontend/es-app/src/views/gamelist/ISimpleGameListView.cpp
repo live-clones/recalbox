@@ -10,7 +10,7 @@
 #include "Settings.h"
 #include "Locale.h"
 
-ISimpleGameListView::ISimpleGameListView(Window* window, SystemManager& systemManager, FolderData* root)
+ISimpleGameListView::ISimpleGameListView(Window& window, SystemManager& systemManager, FolderData* root)
   : IGameListView(window, root),
     mSystemManager(systemManager),
     mHeaderText(window),
@@ -287,7 +287,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
 
   if (event.StartPressed())
   {
-    mWindow->pushGui(new GuiGamelistOptions(mWindow, getRoot()->getSystem()));
+    mWindow.pushGui(new GuiGamelistOptions(mWindow, getRoot()->getSystem()));
     return true;
   }
 

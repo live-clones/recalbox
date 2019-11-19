@@ -12,7 +12,7 @@
 #include <guis/GuiInfoPopup.h>
 #include <rapidjson/document.h>
 
-NetPlayThread::NetPlayThread(Window* window)
+NetPlayThread::NetPlayThread(Window&window)
   : mWindow(window),
     mSender(this)
 {
@@ -99,7 +99,7 @@ void NetPlayThread::ReceiveSyncCallback(const SDL_Event& event)
   std::shared_ptr<GuiInfoPopup> popup = std::make_shared<GuiInfoPopup>(mWindow,
                                                                        mLastPopupText,
                                                                        popupDuration, 10);
-  mWindow->setInfoPopup(popup);
+  mWindow.setInfoPopup(popup);
 }
 
 bool NetPlayThread::Sleep(bool& enabled)

@@ -3,7 +3,7 @@
 #include "Settings.h"
 #include "Locale.h"
 
-ComponentGrid::ComponentGrid(Window* window, const Vector2i& gridDimensions)
+ComponentGrid::ComponentGrid(Window&window, const Vector2i& gridDimensions)
   : GuiComponent(window),
     mGridSize(gridDimensions),
     mCursor(0, 0),

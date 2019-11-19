@@ -19,7 +19,7 @@
 #include "games/MetadataDescriptor.h"
 #include "games/MetadataFieldDescriptor.h"
 
-GuiMetaDataEd::GuiMetaDataEd(Window* window,
+GuiMetaDataEd::GuiMetaDataEd(Window& window,
                              MetadataDescriptor& md,
                              ScraperSearchParams scraperParams,
                              const std::string& header,
@@ -275,11 +275,11 @@ GuiMetaDataEd::GuiMetaDataEd(Window* window,
                                    {
                                      if (Settings::Instance().UseOSK() && (!multiLine))
                                      {
-                                       mWindow->pushGui(new GuiTextEditPopupKeyboard(mWindow, title, ed->getValue(), updateVal, multiLine));
+                                       mWindow.pushGui(new GuiTextEditPopupKeyboard(mWindow, title, ed->getValue(), updateVal, multiLine));
                                      }
                                      else
                                      {
-                                       mWindow->pushGui(new GuiTextEditPopup(mWindow, title, ed->getValue(), updateVal, multiLine));
+                                       mWindow.pushGui(new GuiTextEditPopup(mWindow, title, ed->getValue(), updateVal, multiLine));
                                      }
                                    });
         break;
@@ -314,7 +314,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window* window,
     row.makeAcceptInputHandler([this, header, system]
                                {
                                  // call the same Gui with "main" set to "false"
-                                 mWindow->pushGui(new GuiMetaDataEd(mWindow, mMetaData, mScraperParams, header, nullptr, nullptr, system, false));
+                                 mWindow.pushGui(new GuiMetaDataEd(mWindow, mMetaData, mScraperParams, header, nullptr, nullptr, system, false));
                                });
 
     mList->addRow(row);
@@ -343,7 +343,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window* window,
     };
     auto deleteBtnFunc = [this, deleteFileAndSelf]
     {
-      mWindow->pushGui(new GuiMsgBox(mWindow, _("THIS WILL DELETE A FILE!\nARE YOU SURE?"), _("YES"), deleteFileAndSelf, _("NO"), nullptr));
+      mWindow.pushGui(new GuiMsgBox(mWindow, _("THIS WILL DELETE A FILE!\nARE YOU SURE?"), _("YES"), deleteFileAndSelf, _("NO"), nullptr));
     };
     buttons.push_back(std::make_shared<ButtonComponent>(mWindow, _("DELETE"), _("DELETE"), deleteBtnFunc));
   }
@@ -417,7 +417,7 @@ void GuiMetaDataEd::save()
 
 void GuiMetaDataEd::fetch()
 {
-  mWindow->pushGui(new GuiGameScraper(mWindow, mScraperParams,
+  mWindow.pushGui(new GuiGameScraper(mWindow, mScraperParams,
                                       std::bind(&GuiMetaDataEd::fetchDone, this, std::placeholders::_1)));
 }
 
@@ -452,12 +452,11 @@ void GuiMetaDataEd::close(bool closeAllWindows)
   }
   else
   {
-    Window* window = mWindow;
-    closeFunc = [window]
+    closeFunc = [this]
     {
-      while (window->peekGui() != &ViewController::Instance())
+      while (mWindow.peekGui() != &ViewController::Instance())
       {
-        delete window->peekGui();
+        delete mWindow.peekGui();
       }
     };
   }
@@ -466,7 +465,7 @@ void GuiMetaDataEd::close(bool closeAllWindows)
   if (dirty)
   {
     // changes were made, ask if the user wants to save them
-    mWindow->pushGui(new GuiMsgBox(mWindow,
+    mWindow.pushGui(new GuiMsgBox(mWindow,
                                    _("SAVE CHANGES?"),
                                    _("YES"), [this, closeFunc]
                                    {

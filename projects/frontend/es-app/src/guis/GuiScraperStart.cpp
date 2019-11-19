@@ -9,7 +9,7 @@
 #include "Locale.h"
 #include "Settings.h"
 
-GuiScraperStart::GuiScraperStart(Window* window, SystemManager& systemManager)
+GuiScraperStart::GuiScraperStart(Window& window, SystemManager& systemManager)
   : GuiComponent(window),
     mSystemManager(systemManager),
     mMenu(window, _("SCRAPE NOW").c_str())
@@ -58,7 +58,7 @@ void GuiScraperStart::pressedStart()
 	{
 		if(system->PlatformCount() == 0)
 		{
-			mWindow->pushGui(new GuiMsgBox(mWindow, 
+			mWindow.pushGui(new GuiMsgBox(mWindow,
 				_("WARNING: SOME OF YOUR SELECTED SYSTEMS DO NOT HAVE A PLATFORM SET. RESULTS MAY BE EVEN MORE INACCURATE THAN USUAL!\nCONTINUE ANYWAY?"), 
 						       _("YES"), std::bind(&GuiScraperStart::start, this), 
 						       _("NO"), nullptr));
@@ -78,11 +78,11 @@ void GuiScraperStart::start()
 
 	if(searches.empty())
 	{
-		mWindow->pushGui(new GuiMsgBox(mWindow,
+		mWindow.pushGui(new GuiMsgBox(mWindow,
 					       _("NO GAMES FIT THAT CRITERIA.")));
 	}else{
 		GuiScraperMulti* gsm = new GuiScraperMulti(mWindow, mSystemManager, searches, mApproveResults->getState());
-		mWindow->pushGui(gsm);
+		mWindow.pushGui(gsm);
 		Close();
 	}
 }
@@ -124,9 +124,8 @@ bool GuiScraperStart::ProcessInput(const InputCompactEvent& event)
 	if (event.StartPressed())
 	{
 		// close everything
-		Window* window = mWindow;
-		while((window->peekGui() != nullptr) && window->peekGui() != &ViewController::Instance())
-			delete window->peekGui();
+		while((mWindow.peekGui() != nullptr) && mWindow.peekGui() != &ViewController::Instance())
+			delete mWindow.peekGui();
 	}
 
 

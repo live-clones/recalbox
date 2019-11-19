@@ -7,7 +7,7 @@
 #include "themes/ThemeData.h"
 #include "Settings.h"
 
-GuiComponent::GuiComponent(Window* window)
+GuiComponent::GuiComponent(Window& window)
   : mTransform(Transform4x4f::Identity()),
     mAnimationMap{ nullptr },
     mChildren(nullptr),
@@ -29,7 +29,7 @@ GuiComponent::GuiComponent(Window* window)
 
 GuiComponent::~GuiComponent()
 {
-	mWindow->removeGui(this);
+	mWindow.removeGui(this);
 
 	cancelAllAnimations();
 
@@ -384,8 +384,8 @@ void GuiComponent::updateHelpPrompts()
 
 	std::vector<HelpPrompt> prompts = getHelpPrompts();
 
-	if(mWindow->peekGui() == this)
-		mWindow->setHelpPrompts(prompts, getHelpStyle());
+	if(mWindow.peekGui() == this)
+		mWindow.setHelpPrompts(prompts, getHelpStyle());
 }
 
 HelpStyle GuiComponent::getHelpStyle()

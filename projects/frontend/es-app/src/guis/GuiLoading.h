@@ -57,7 +57,7 @@ public:
      * @param asyncExecution Method to execute asynchronously
      * @param pushResult Method to call to push the result
      */
-    GuiLoading(Window *window, const std::function<T()> asyncExecution, const std::function<void(T)> pushResult)
+    GuiLoading(Window& window, const std::function<T()> asyncExecution, const std::function<void(T)> pushResult)
       : GuiComponent(window),
         mBusyAnim(window),
         mBackground(window, Path(":/frame.png")),

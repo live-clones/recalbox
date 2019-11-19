@@ -7,7 +7,7 @@
 #include "animations/LambdaAnimation.h"
 #include "Locale.h"
 
-DetailedGameListView::DetailedGameListView(Window* window, FolderData* root, SystemData* system)
+DetailedGameListView::DetailedGameListView(Window&window, FolderData* root, SystemData* system)
 : BasicGameListView(window, root),
   mImage(window),
   mVideo(window),

@@ -17,8 +17,8 @@
 class NinePatchComponent : public GuiComponent
 {
 public:
-	NinePatchComponent(Window* window, const Path& path);
-  explicit NinePatchComponent(Window* window);
+	NinePatchComponent(Window&window, const Path& path);
+  explicit NinePatchComponent(Window&window);
 	~NinePatchComponent() override;
 
 	void render(const Transform4x4f& parentTrans) override;

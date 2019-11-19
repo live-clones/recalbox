@@ -8,14 +8,14 @@
 
 #define HORIZONTAL_PADDING_PX 20
 
-GuiMsgBox::GuiMsgBox(Window* window)
+GuiMsgBox::GuiMsgBox(Window& window)
   : GuiComponent(window),
     mBackground(window, Path(":/frame.png")),
     mGrid(window, Vector2i(1, 2))
 {
 }
 
-GuiMsgBox::GuiMsgBox(Window* window, const std::string& text,
+GuiMsgBox::GuiMsgBox(Window& window, const std::string& text,
                      const std::string& name1, const std::function<void()>& func1,
                      const std::string& name2, const std::function<void()>& func2,
                      const std::string& name3, const std::function<void()>& func3,
@@ -25,7 +25,7 @@ GuiMsgBox::GuiMsgBox(Window* window, const std::string& text,
   build(text, align, name1, func1, name2, func2, name3, func3);
 }
 
-GuiMsgBox::GuiMsgBox(Window* window, const std::string& text,
+GuiMsgBox::GuiMsgBox(Window& window, const std::string& text,
                      const std::string& name1, const std::function<void()>& func1,
                      const std::string& name2, const std::function<void()>& func2)
   : GuiMsgBox(window)
@@ -33,21 +33,21 @@ GuiMsgBox::GuiMsgBox(Window* window, const std::string& text,
   build(text, TextAlignment::Center, name1, func1, name2, func2, std::string(), nullptr);
 }
 
-GuiMsgBox::GuiMsgBox(Window* window, const std::string& text,
+GuiMsgBox::GuiMsgBox(Window& window, const std::string& text,
                      const std::string& name1, const std::function<void()>& func1)
   : GuiMsgBox(window)
 {
   build(text, TextAlignment::Center, name1, func1, std::string(), nullptr, std::string(), nullptr);
 }
 
-GuiMsgBox::GuiMsgBox(Window* window, const std::string& text,
+GuiMsgBox::GuiMsgBox(Window& window, const std::string& text,
                      const std::string& name1)
   : GuiMsgBox(window)
 {
   build(text, TextAlignment::Center, name1, nullptr, std::string(), nullptr, std::string(), nullptr);
 }
 
-GuiMsgBox::GuiMsgBox(Window* window, const std::string& text)
+GuiMsgBox::GuiMsgBox(Window& window, const std::string& text)
   : GuiMsgBox(window)
 {
   build(text, TextAlignment::Center, "OK", nullptr, std::string(), nullptr, std::string(), nullptr);

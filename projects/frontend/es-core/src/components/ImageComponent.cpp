@@ -11,7 +11,7 @@ Vector2i ImageComponent::getTextureSize() const {
     return Vector2i::Zero();
 }
 
-ImageComponent::ImageComponent(Window* window, bool forceLoad, bool dynamic)
+ImageComponent::ImageComponent(Window&window, bool forceLoad, bool dynamic)
   : GuiComponent(window),
     mTargetSize(0, 0),
     mPath(""),

@@ -4,7 +4,7 @@
 #include "Window.h"
 #include "MenuThemeData.h"
 
-ButtonComponent::ButtonComponent(Window* window, const std::string& text, const std::string& helpText, const std::function<void()>& func, bool upperCase)
+ButtonComponent::ButtonComponent(Window&window, const std::string& text, const std::string& helpText, const std::function<void()>& func, bool upperCase)
   : GuiComponent(window),
     mFont(Font::get(FONT_SIZE_MEDIUM)),
     mFocused(false),

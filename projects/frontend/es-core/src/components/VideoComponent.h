@@ -92,7 +92,7 @@ class VideoComponent : public GuiComponent
     static constexpr double Pi = 3.1415926535;
 
   public:
-    explicit VideoComponent(Window* window);
+    explicit VideoComponent(Window&window);
     ~VideoComponent() override = default;
 
     /*!

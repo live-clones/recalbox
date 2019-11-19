@@ -4,7 +4,7 @@
 #include "views/ViewController.h"
 #include "Locale.h"
 
-GuiSettings::GuiSettings(Window* window, const char* title)
+GuiSettings::GuiSettings(Window&window, const char* title)
   : GuiComponent(window),
     mMenu(window, title)
 {
@@ -42,9 +42,8 @@ bool GuiSettings::ProcessInput(const InputCompactEvent& event)
 	if (event.StartPressed())
 	{
 		// close everything
-		Window* window = mWindow;
-		while((window->peekGui() != nullptr) && window->peekGui() != &ViewController::Instance())
-			delete window->peekGui();
+		while((mWindow.peekGui() != nullptr) && mWindow.peekGui() != &ViewController::Instance())
+			delete mWindow.peekGui();
 		return true;
 	}
 	

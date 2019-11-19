@@ -13,7 +13,7 @@
 #define CURSOR_REPEAT_START_DELAY 500
 #define CURSOR_REPEAT_SPEED 28 // lower is faster
 
-TextEditComponent::TextEditComponent(Window* window)
+TextEditComponent::TextEditComponent(Window&window)
 	: GuiComponent(window),
 		mFocused(false),
 		mEditing(false),

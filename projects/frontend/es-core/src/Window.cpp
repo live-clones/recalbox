@@ -25,8 +25,8 @@ Window::Window()
 	  mTimeSinceLastInput(0),
 	  mRenderedHelpPrompts(false)
 {
-	mHelp = new HelpComponent(this);
-	mBackgroundOverlay = new ImageComponent(this);
+	mHelp = new HelpComponent(*this);
+	mBackgroundOverlay = new ImageComponent(*this);
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 	mBackgroundOverlay->setImage(menuTheme->menuBackground.fadePath);
 }
@@ -183,7 +183,7 @@ void Window::update(int deltaTime)
 	if(!mMessages.empty()){
 		std::string message = mMessages.back();
 		mMessages.pop_back();
-		pushGui(new GuiMsgBox(this, message));
+		pushGui(new GuiMsgBox(*this, message));
 	}
 
 	if(!mScrollMessages.empty()){
@@ -191,7 +191,7 @@ void Window::update(int deltaTime)
 		std::string title = mScrollTitle.back();
 		mScrollMessages.pop_back();
 		mScrollTitle.pop_back();
-		pushGui(new GuiMsgBoxScroll(this, title, message, _("OK"), [] {}, "", nullptr, "", nullptr, TextAlignment::Left));
+		pushGui(new GuiMsgBoxScroll(*this, title, message, _("OK"), [] {}, "", nullptr, "", nullptr, TextAlignment::Left));
 	}
 
 	if(mNormalizeNextUpdate)
@@ -290,7 +290,7 @@ void Window::renderWaitingScreen(const std::string& text)
 	Renderer::setMatrix(trans);
 	Renderer::drawRect(0, 0, Renderer::getDisplayWidthAsInt(), Renderer::getDisplayHeightAsInt(), 0xFFFFFFFF);
 
-	ImageComponent splash(this, true);
+	ImageComponent splash(*this, true);
 	splash.setResize(Renderer::getDisplayWidthAsFloat() * 0.6f, 0.0f);
 	splash.setImage(Path(":/splash.svg"));
 	splash.setPosition((Renderer::getDisplayWidthAsFloat() - splash.getSize().x()) / 2, (Renderer::getDisplayHeightAsFloat() - splash.getSize().y()) / 2 * 0.6f);
@@ -420,7 +420,7 @@ void Window::doWake()
 	onWake();
 }
 
-bool Window::KonamiCode(InputDevice* config, InputEvent input, Window* window)
+bool Window::KonamiCode(InputDevice* config, InputEvent input, Window&window)
 {
   (void)window;
 
@@ -444,7 +444,7 @@ bool Window::KonamiCode(InputDevice* config, InputEvent input, Window* window)
 
 	if (this->mKonamiCount == sKonamiLength)
 	{
-		auto s = std::make_shared<GuiInfoPopup>(this, "I entered Konami Code and all I get is this lame popup", 4, 50);
+		auto s = std::make_shared<GuiInfoPopup>(*this, "I entered Konami Code and all I get is this lame popup", 4, 50);
 		this->setInfoPopup(s);
 		return true;
 	}

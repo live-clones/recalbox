@@ -31,7 +31,7 @@ class IGameListView : public GuiComponent
     const ThemeData* mTheme;
 
   public:
-    IGameListView(Window* window, FolderData* root)
+    IGameListView(Window&window, FolderData* root)
       : GuiComponent(window),
         mRoot(root),
         mSystem(root->getSystem()),

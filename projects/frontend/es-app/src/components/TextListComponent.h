@@ -36,7 +36,7 @@ public:
 	using IList<TextListData, T>::isScrolling;
 	using IList<TextListData, T>::stopScrolling;
 
-	explicit TextListComponent(Window* window);
+	explicit TextListComponent(Window& window);
 	
 	bool ProcessInput(const InputCompactEvent& event) override;
 	void update(int deltaTime) override;
@@ -112,7 +112,7 @@ private:
 };
 
 template <typename T>
-TextListComponent<T>::TextListComponent(Window* window)
+TextListComponent<T>::TextListComponent(Window& window)
   :	IList<TextListData, T>(window),
     mMarqueeOffset(0),
     mMarqueeTime(-MARQUEE_DELAY),

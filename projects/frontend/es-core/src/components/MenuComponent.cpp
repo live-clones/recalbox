@@ -10,7 +10,7 @@
 
 #define TITLE_HEIGHT (mTitle->getFont()->getLetterHeight() + TITLE_VERT_PADDING)
 
-MenuComponent::MenuComponent(Window* window, const char* title, const std::shared_ptr<Font>& titleFont)
+MenuComponent::MenuComponent(Window&window, const char* title, const std::shared_ptr<Font>& titleFont)
   : GuiComponent(window),
     mBackground(window),
     mGrid(window, Vector2i(1, 3))
@@ -174,7 +174,7 @@ std::vector<HelpPrompt> MenuComponent::getHelpPrompts()
     return mGrid.getHelpPrompts();
 }
 
-std::shared_ptr<ComponentGrid> makeButtonGrid(Window* window, const std::vector< std::shared_ptr<ButtonComponent> >& buttons)
+std::shared_ptr<ComponentGrid> makeButtonGrid(Window&window, const std::vector< std::shared_ptr<ButtonComponent> >& buttons)
 {
     std::shared_ptr<ComponentGrid> grid = std::make_shared<ComponentGrid>(window, Vector2i(buttons.size(), 2));
 
@@ -199,7 +199,7 @@ std::shared_ptr<ComponentGrid> makeButtonGrid(Window* window, const std::vector<
  * Limitation: same number of button per line, same dimension per cell
  */
 
-std::shared_ptr<ComponentGrid> makeMultiDimButtonGrid(Window* window, const std::vector< std::vector< std::shared_ptr<ButtonComponent> > >& buttons, const float outerWidth, const float outerHeight)
+std::shared_ptr<ComponentGrid> makeMultiDimButtonGrid(Window&window, const std::vector< std::vector< std::shared_ptr<ButtonComponent> > >& buttons, const float outerWidth, const float outerHeight)
 {
 
     const int sizeX = (int) buttons.at(0).size();
@@ -237,7 +237,7 @@ std::shared_ptr<ComponentGrid> makeMultiDimButtonGrid(Window* window, const std:
     return grid;
 }
 
-std::shared_ptr<ImageComponent> makeArrow(Window* window)
+std::shared_ptr<ImageComponent> makeArrow(Window&window)
 {
     auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
     auto bracket = std::make_shared<ImageComponent>(window);

@@ -12,12 +12,12 @@ class ScrollableContainer;
 class GuiMsgBoxScroll : public GuiComponent
 {
 public:
-	GuiMsgBoxScroll(Window* window, const std::string& title, const std::string& text,
+	GuiMsgBoxScroll(Window& window, const std::string& title, const std::string& text,
                   const std::string& name1, const std::function<void()>& func1,
                   const std::string& name2, const std::function<void()>& func2,
                   const std::string& name3, const std::function<void()>& func3,
                   TextAlignment align, float size);
-  GuiMsgBoxScroll(Window* window, const std::string& title, const std::string& text,
+  GuiMsgBoxScroll(Window& window, const std::string& title, const std::string& text,
                   const std::string& name1, const std::function<void()>& func1,
                   const std::string& name2, const std::function<void()>& func2,
                   const std::string& name3, const std::function<void()>& func3,
@@ -25,7 +25,7 @@ public:
     : GuiMsgBoxScroll(window, title, text, name1, func1, name2, func2, name3, func3, align, 0)
   {
   }
-  GuiMsgBoxScroll(Window* window, const std::string& title, const std::string& text,
+  GuiMsgBoxScroll(Window& window, const std::string& title, const std::string& text,
                   const std::string& name1, const std::function<void()>& func1,
                   const std::string& name2, const std::function<void()>& func2,
                   const std::string& name3, const std::function<void()>& func3)

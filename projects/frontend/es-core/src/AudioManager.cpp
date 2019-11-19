@@ -228,7 +228,7 @@ void AudioManager::PlayRandomMusic()
     {
       // Create music popup
       std::shared_ptr<GuiInfoPopup> popup =
-        std::make_shared<GuiInfoPopup>(&mWindow, _("Now playing") + ":\n" + mCurrentMusicTitle, popupDuration, 10);
+        std::make_shared<GuiInfoPopup>(mWindow, _("Now playing") + ":\n" + mCurrentMusicTitle, popupDuration, 10);
       mWindow.setInfoPopup(popup);
     }
   }

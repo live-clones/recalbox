@@ -19,7 +19,7 @@ class SwitchComponent;
 class GuiScraperStart : public GuiComponent
 {
 public:
-	explicit GuiScraperStart(Window* window, SystemManager& systemManager);
+	explicit GuiScraperStart(Window& window, SystemManager& systemManager);
 
 	bool ProcessInput(const InputCompactEvent& event) override;
 

@@ -6,7 +6,7 @@
 #include "Locale.h"
 #include "MenuThemeData.h"
 
-DateTimeComponent::DateTimeComponent(Window* window, Display dispMode)
+DateTimeComponent::DateTimeComponent(Window&window, Display dispMode)
   : GuiComponent(window),
     mEditing(false),
     mEditIndex(0),

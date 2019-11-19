@@ -41,7 +41,7 @@ private:
 		OptionListComponent<T>* mParent;
 
 	public:
-		OptionListPopup(Window* window, OptionListComponent<T>* parent, const std::string& title)
+		OptionListPopup(Window&window, OptionListComponent<T>* parent, const std::string& title)
 		  : GuiComponent(window),
 			  mMenu(window, title.c_str()),
 			  mParent(parent)
@@ -145,7 +145,7 @@ private:
 	};
 
 public:
-	OptionListComponent(Window* window, const std::string& name, bool multiSelect, unsigned int font_size)
+	OptionListComponent(Window&window, const std::string& name, bool multiSelect, unsigned int font_size)
 	  : GuiComponent(window),
 	    mMultiSelect(multiSelect),
 	    mName(name),
@@ -186,7 +186,7 @@ public:
 
 		setSize(mLeftArrow.getSize().x() + mRightArrow.getSize().x(), font->getHeight());
 	}
-  OptionListComponent(Window* window, const std::string& name, bool multiSelect)
+  OptionListComponent(Window&window, const std::string& name, bool multiSelect)
     : OptionListComponent(window, name, multiSelect, FONT_SIZE_MEDIUM)
   {
   }
@@ -349,7 +349,7 @@ private:
 
 	void open()
 	{
-		mWindow->pushGui(new OptionListPopup(mWindow, this, mName));
+		mWindow.pushGui(new OptionListPopup(mWindow, this, mName));
 	}
 
 	void onSelectedChanged()

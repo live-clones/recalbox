@@ -10,12 +10,12 @@
 class ImageComponent : public GuiComponent
 {
 public:
-  ImageComponent(Window* window, bool forceLoad, bool dynamic);
-  ImageComponent(Window* window, bool forceLoad)
+  ImageComponent(Window&window, bool forceLoad, bool dynamic);
+  ImageComponent(Window&window, bool forceLoad)
     : ImageComponent(window, forceLoad, true)
   {
   }
-  explicit ImageComponent(Window* window)
+  explicit ImageComponent(Window&window)
     : ImageComponent(window, false, true)
   {
   }

@@ -18,7 +18,7 @@ typedef std::pair<std::string, std::string> HelpPrompt;
 class GuiComponent
 {
   public:
-    explicit GuiComponent(Window* window);
+    explicit GuiComponent(Window&window);
     virtual ~GuiComponent();
 
     virtual void textInput(const char* text);
@@ -164,7 +164,7 @@ class GuiComponent
     Vector2f denormalise(float x, float y);
     Vector2f denormalise(const Vector2f& value);
 
-    Window* mWindow;
+    Window& mWindow;
 
     GuiComponent* mParent;
 

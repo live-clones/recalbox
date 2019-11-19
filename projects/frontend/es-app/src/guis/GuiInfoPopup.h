@@ -13,7 +13,7 @@
 class GuiInfoPopup : public GuiComponent, public Window::InfoPopup
 {
   public:
-    GuiInfoPopup(Window* window, const std::string& message, int duration, int icon = 0);
+    GuiInfoPopup(Window& window, const std::string& message, int duration, int icon = 0);
     ~GuiInfoPopup() override = default;
     void render(const Transform4x4f& parentTrans) override;
     inline void stop() { running = false; };

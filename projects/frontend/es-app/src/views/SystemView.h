@@ -43,7 +43,7 @@ struct SystemViewCarousel
 class SystemView : public IList<SystemViewData, SystemData*>
 {
 public:
-	SystemView(Window* window, SystemManager& systemManager);
+	SystemView(Window& window, SystemManager& systemManager);
 
 	void onShow() override {	mShowing = true; }
 	void onHide() override {	mShowing = false; }
