@@ -3,4 +3,4 @@ config BR2_PACKAGE_UBOOT_XU4
 	help
 	  Pre-built uboot binaries for XU4 for GCC >= 5.x
 
-	  https://github.com/hardkernel/u-boot/tree/odroidxu3-v2012.07
+	  https://github.com/hardkernel/u-boot/tree/odroidxu4-v2017.05

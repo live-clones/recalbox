@@ -9,14 +9,14 @@
 
 # XU4 SD/EMMC CARD
 #
-#       1      31      63          719     1231    1263
+#       1      31      63          1503     2015    2047
 # +-----+-------+-------+-----------+--------+-------+--------+----------+--------------+
 # | MBR |  bl1  |  bl2  |   uboot   |  tzsw  | erase |  BOOT  |  ROOTFS  |     FREE     |
 # +-----+-------+-------+-----------+--------+-------+--------+----------+--------------+
-#      512     15K     31K         359K     615K    631K     64M        1.2G
+#      512     15K     31K         751K    1007K   1023K     64M        1.2G
 #
-# http://odroid.com/dokuwiki/doku.php?id=en:xu3_partition_table
-# https://github.com/hardkernel/u-boot/blob/odroidxu3-v2012.07/sd_fuse/hardkernel/sd_fusing.sh
+# https://wiki.odroid.com/odroid-xu4/software/partition_table
+# https://github.com/hardkernel/u-boot/blob/odroidxu4-v2017.05/sd_fuse/sd_fusing.sh
 
 xu4_fusing() {
     BINARIES_DIR=$1
@@ -26,14 +26,14 @@ xu4_fusing() {
     signed_bl1_position=1
     bl2_position=31
     uboot_position=63
-    tzsw_position=719
-    env_position=1231
+    tzsw_position=1503
+    env_position=2015 
 
     echo "BL1 fusing"
-    dd if="${BINARIES_DIR}/bl1.bin.hardkernel"    of="${RECALBOXIMG}" seek=$signed_bl1_position conv=notrunc || return 1
+    dd if="${BINARIES_DIR}/bl1.bin.hardkernel"  of="${RECALBOXIMG}" seek=$signed_bl1_position conv=notrunc || return 1
 
     echo "BL2 fusing"
-    dd if="${BINARIES_DIR}/bl2.bin.hardkernel"    of="${RECALBOXIMG}" seek=$bl2_position        conv=notrunc || return 1
+    dd if="${BINARIES_DIR}/bl2.bin.hardkernel.720k_uboot"    of="${RECALBOXIMG}" seek=$bl2_position        conv=notrunc || return 1
 
     echo "u-boot fusing"
     dd if="${BINARIES_DIR}/u-boot.bin.hardkernel" of="${RECALBOXIMG}" seek=$uboot_position      conv=notrunc || return 1
@@ -104,9 +104,9 @@ case "${RECALBOX_TARGET}" in
         ;;
 
     XU4)
-        for F in bl1.bin.hardkernel bl2.bin.hardkernel tzsw.bin.hardkernel u-boot.bin.hardkernel
+        for F in bl1.bin.hardkernel bl2.bin.hardkernel.720k_uboot tzsw.bin.hardkernel u-boot.bin.hardkernel
         do
-            cp "${BUILD_DIR}/uboot-xu4-odroidxu3-v2012.07/sd_fuse/hardkernel/${F}" "${BINARIES_DIR}" || exit 1
+            cp "${BUILD_DIR}/uboot-xu4-odroidxu4-v2017.05/sd_fuse/${F}" "${BINARIES_DIR}" || exit 1
         done
 
         # /boot
