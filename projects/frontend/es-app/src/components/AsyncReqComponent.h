@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GuiComponent.h"
+#include "guis/Gui.h"
 #include "HttpReq.h"
 #include <functional>
 #include <memory>
@@ -25,10 +25,10 @@
 		//we can forget about req, since it will always delete itself
 */
 
-class AsyncReqComponent : public GuiComponent
+class AsyncReqComponent : public Gui
 {
 public:
-	AsyncReqComponent(Window&window, std::shared_ptr<HttpReq> req, std::function<void(std::shared_ptr<HttpReq>)> onSuccess, std::function<void()> onCancel = nullptr);
+	AsyncReqComponent(Window& window, std::shared_ptr<HttpReq> req, std::function<void(std::shared_ptr<HttpReq>)> onSuccess, std::function<void()> onCancel = nullptr);
 
 	bool ProcessInput(const InputCompactEvent& event) override;
 	void update(int deltaTime) override;

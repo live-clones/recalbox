@@ -1,8 +1,8 @@
 #include "components/AsyncReqComponent.h"
 #include "Renderer.h"
 
-AsyncReqComponent::AsyncReqComponent(Window&window, std::shared_ptr<HttpReq> req, std::function<void(std::shared_ptr<HttpReq>)> onSuccess, std::function<void()> onCancel)
-	: GuiComponent(window), 
+AsyncReqComponent::AsyncReqComponent(Window& window, std::shared_ptr<HttpReq> req, std::function<void(std::shared_ptr<HttpReq>)> onSuccess, std::function<void()> onCancel)
+	: Gui(window),
     mSuccessFunc(std::move(onSuccess)),
     mCancelFunc(std::move(onCancel)),
     mTime(0),

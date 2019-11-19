@@ -2,6 +2,7 @@
 
 #include "GuiComponent.h"
 #include <vector>
+#include <guis/Gui.h>
 #include "resources/Font.h"
 #include "input/InputManager.h"
 
@@ -19,7 +20,7 @@ public:
 	Window();
 	~Window();
 
-	void pushGui(GuiComponent* gui);
+	void pushGui(Gui* gui);
 	void displayMessage(const std::string& message);
 	void displayScrollMessage(const std::string& title, const std::string& message);
 	void removeGui(GuiComponent* gui);
@@ -68,7 +69,7 @@ private:
 	ImageComponent* mBackgroundOverlay;
 	std::shared_ptr<InfoPopup> mInfoPopup;
 
-	std::vector<GuiComponent*> mGuiStack;
+	std::vector<Gui*> mGuiStack;
 	std::vector<std::string> mMessages;
 	std::vector<std::string> mScrollMessages;
 	std::vector<std::string> mScrollTitle;

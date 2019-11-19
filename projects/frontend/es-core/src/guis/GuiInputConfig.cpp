@@ -15,7 +15,7 @@ GuiInputConfig::~GuiInputConfig()
 }
 
 GuiInputConfig::GuiInputConfig(Window&window, InputDevice* target, const std::function<void()>& doneCallback)
-  : GuiComponent(window),
+  : Gui(window),
 	  mBackground(window, Path(":/frame.png")),
 	  mGrid(window, Vector2i(1, 5)),
 	  mTargetConfig(target),

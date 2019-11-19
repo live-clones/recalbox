@@ -1,11 +1,11 @@
-#include "GuiComponent.h"
+#include "Gui.h"
 
 #include "components/NinePatchComponent.h"
 #include "components/ComponentGrid.h"
 #include "components/TextEditComponent.h"
 #include "components/TextComponent.h"
 
-class GuiTextEditPopup : public GuiComponent
+class GuiTextEditPopup : public Gui
 {
 public:
 	GuiTextEditPopup(Window&window, const std::string& title, const std::string& initValue,

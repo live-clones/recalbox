@@ -3,7 +3,7 @@
 //
 #pragma once
 
-#include "GuiComponent.h"
+#include "guis/Gui.h"
 #include "components/MenuComponent.h"
 #include "components/BusyComponent.h"
 #include "components/NinePatchComponent.h"
@@ -11,7 +11,7 @@
 #include <utils/sdl2/ISyncronousEvent.h>
 #include <utils/sdl2/SyncronousEvent.h>
 
-template<class T> class GuiLoading: public GuiComponent, private Thread, private ISyncronousEvent
+template<class T> class GuiLoading: public Gui, private Thread, private ISyncronousEvent
 {
   private:
     BusyComponent mBusyAnim;
@@ -58,7 +58,7 @@ public:
      * @param pushResult Method to call to push the result
      */
     GuiLoading(Window& window, const std::function<T()> asyncExecution, const std::function<void(T)> pushResult)
-      : GuiComponent(window),
+      : Gui(window),
         mBusyAnim(window),
         mBackground(window, Path(":/frame.png")),
         mSender(this),

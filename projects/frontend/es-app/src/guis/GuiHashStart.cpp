@@ -10,7 +10,7 @@
 #include "components/OptionListComponent.h"
 
 GuiHashStart::GuiHashStart(Window& window, SystemManager& systemManager)
-  : GuiComponent(window),
+  : Gui(window),
     mSystemManager(systemManager),
     mBusyAnim(window),
     mMenu(window, _("HASH NOW").c_str()),

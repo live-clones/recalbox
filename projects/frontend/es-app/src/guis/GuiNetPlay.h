@@ -4,7 +4,7 @@
 #pragma once
 
 #include <components/ComponentList.h>
-#include "GuiComponent.h"
+#include "guis/Gui.h"
 #include "components/NinePatchComponent.h"
 #include "components/ComponentGrid.h"
 #include <recalbox/RecalboxSystem.h>
@@ -50,7 +50,7 @@ class LobbyGame
     }
 };
 
-class GuiNetPlay : public GuiComponent, private Thread, private ISyncronousEvent
+class GuiNetPlay : public Gui, private Thread, private ISyncronousEvent
 {
   public:
     explicit GuiNetPlay(Window&window, SystemManager& systemManager);

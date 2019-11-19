@@ -3,7 +3,7 @@
 //
 #pragma once
 
-#include "GuiComponent.h"
+#include "guis/Gui.h"
 #include "systems/SystemData.h"
 #include <utils/os/system/Mutex.h>
 #include <utils/os/system/Thread.h>
@@ -13,7 +13,7 @@
 template<typename T>
 class OptionListComponent;
 
-class GuiHashStart : public GuiComponent, private Thread
+class GuiHashStart : public Gui, private Thread
 {
   private:
     //! UI State

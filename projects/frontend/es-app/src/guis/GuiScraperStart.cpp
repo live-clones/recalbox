@@ -10,7 +10,7 @@
 #include "Settings.h"
 
 GuiScraperStart::GuiScraperStart(Window& window, SystemManager& systemManager)
-  : GuiComponent(window),
+  : Gui(window),
     mSystemManager(systemManager),
     mMenu(window, _("SCRAPE NOW").c_str())
 {

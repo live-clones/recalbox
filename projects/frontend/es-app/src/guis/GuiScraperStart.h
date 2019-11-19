@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GuiComponent.h"
+#include "guis/Gui.h"
 #include "systems/SystemData.h"
 #include "scrapers/Scraper.h"
 #include "components/MenuComponent.h"
@@ -16,7 +16,7 @@ class SwitchComponent;
 //The starting point for a multi-game scrape.
 //Allows the user to set various parameters (to set filters, to set which systems to scrape, to enable manual mode).
 //Generates a list of "searches" that will be carried out by GuiScraperLog.
-class GuiScraperStart : public GuiComponent
+class GuiScraperStart : public Gui
 {
 public:
 	explicit GuiScraperStart(Window& window, SystemManager& systemManager);

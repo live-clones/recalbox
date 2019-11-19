@@ -21,7 +21,7 @@
 #define TITLE_HEIGHT (mTitle->getFont()->getLetterHeight() + TITLE_VERT_PADDING)
 
 GuiNetPlay::GuiNetPlay(Window& window, SystemManager& systemManager)
-  : GuiComponent(window),
+  : Gui(window),
     mSystemManager(systemManager),
     mLobbyLoaded(false),
     mSender(this),

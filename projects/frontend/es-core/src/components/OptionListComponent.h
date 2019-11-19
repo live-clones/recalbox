@@ -34,15 +34,15 @@ private:
 		bool selected = false;
 	};
 
-	class OptionListPopup : public GuiComponent
+	class OptionListPopup : public Gui
 	{
 	private:
 		MenuComponent mMenu;
 		OptionListComponent<T>* mParent;
 
 	public:
-		OptionListPopup(Window&window, OptionListComponent<T>* parent, const std::string& title)
-		  : GuiComponent(window),
+		OptionListPopup(Window& window, OptionListComponent<T>* parent, const std::string& title)
+		  : Gui(window),
 			  mMenu(window, title.c_str()),
 			  mParent(parent)
 		{
@@ -145,7 +145,7 @@ private:
 	};
 
 public:
-	OptionListComponent(Window&window, const std::string& name, bool multiSelect, unsigned int font_size)
+	OptionListComponent(Window& window, const std::string& name, bool multiSelect, unsigned int font_size)
 	  : GuiComponent(window),
 	    mMultiSelect(multiSelect),
 	    mName(name),
@@ -402,7 +402,6 @@ private:
 		mRightArrow.setColorShift(color);
 		mLeftArrow.setColorShift(color);
 	}
-
 
 	inline void setOriginColor(unsigned int color){mOriginColor = color;};
 	inline unsigned int getOriginColor() override{return mOriginColor;};

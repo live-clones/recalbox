@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GuiComponent.h"
+#include "Gui.h"
 #include "components/NinePatchComponent.h"
 #include "components/ComponentGrid.h"
 #include "resources/Font.h"
@@ -8,7 +8,7 @@
 class TextComponent;
 class ButtonComponent;
 
-class GuiMsgBox : public GuiComponent
+class GuiMsgBox : public Gui
 {
 public:
 	GuiMsgBox(Window& window, const std::string& text,

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GuiComponent.h"
+#include "guis/Gui.h"
 #include "components/NinePatchComponent.h"
 #include "components/ComponentGrid.h"
 #include "scrapers/Scraper.h"
@@ -11,7 +11,7 @@
 class ScraperSearchComponent;
 class TextComponent;
 
-class GuiScraperMulti : public GuiComponent
+class GuiScraperMulti : public Gui
 {
 public:
 	GuiScraperMulti(Window&window, SystemManager& systemManager, const std::queue<ScraperSearchParams>& searches, bool approveResults);

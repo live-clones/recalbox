@@ -1,12 +1,12 @@
 #pragma once
 
-#include "GuiComponent.h"
+#include "Gui.h"
 #include "components/NinePatchComponent.h"
 #include "components/ComponentGrid.h"
 
 class TextComponent;
 
-class GuiDetectDevice : public GuiComponent
+class GuiDetectDevice : public Gui
 {
 public:
 	GuiDetectDevice(Window& window, bool firstRun, const std::function<void()>& doneCallback);

@@ -1,12 +1,12 @@
 #pragma once
 
-#include "GuiComponent.h"
+#include "guis/Gui.h"
 #include "components/MenuComponent.h"
 #include "scrapers/Scraper.h"
 
 #include <functional>
 
-class GuiMetaDataEd : public GuiComponent
+class GuiMetaDataEd : public Gui
 {
 public:
 		GuiMetaDataEd(Window&window, MetadataDescriptor& md, ScraperSearchParams params,

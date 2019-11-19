@@ -6,7 +6,7 @@
 class SystemData;
 
 // Used to smoothly transition the camera between multiple views (e.g. from system to system, from gamelist to gamelist).
-class ViewController : public GuiComponent
+class ViewController : public Gui
 {
 public:
 	static ViewController& Instance() { return *sInstance; };
@@ -14,10 +14,6 @@ public:
 
 	ViewController(Window& window, SystemManager& systemManager);
   ~ViewController() override;
-
-	// Try to completely populate the GameListView map.
-	// Caches things so there's no pauses during transitions.
-	void preload();
 
 	/*!
 	 * @brief Wake up the system if it is in a sleeping state

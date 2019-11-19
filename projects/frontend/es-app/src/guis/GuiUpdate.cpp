@@ -7,7 +7,7 @@
 #include <recalbox/RecalboxUpgrade.h>
 
 GuiUpdate::GuiUpdate(Window& window)
-  : GuiComponent(window),
+  : Gui(window),
     mBusyAnim(window),
     mBackground(window, Path(":/frame.png")),
     mState(State::CheckForUpdate)

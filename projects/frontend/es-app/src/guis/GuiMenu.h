@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GuiComponent.h"
+#include "guis/Gui.h"
 #include "components/MenuComponent.h"
 #include "components/OptionListComponent.h"
 #include <functional>
@@ -20,7 +20,7 @@ class StrInputConfig
   std::string deviceGUIDString;
 };
 
-class GuiMenu : public GuiComponent
+class GuiMenu : public Gui
 {
 public:
 	GuiMenu(Window& window, SystemManager& systemManager);

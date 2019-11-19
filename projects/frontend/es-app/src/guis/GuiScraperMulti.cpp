@@ -13,7 +13,7 @@
 #include "MenuThemeData.h"
 
 GuiScraperMulti::GuiScraperMulti(Window&window, SystemManager& systemManager, const std::queue<ScraperSearchParams>& searches, bool approveResults)
-  :	GuiComponent(window),
+  :	Gui(window),
     mSystemManager(systemManager),
     mSearchQueue(searches),
     mBackground(window, Path(":/frame.png")),

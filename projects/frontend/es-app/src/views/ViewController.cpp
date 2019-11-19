@@ -21,7 +21,7 @@
 ViewController* ViewController::sInstance = nullptr;
 
 ViewController::ViewController(Window& window, SystemManager& systemManager)
-	: GuiComponent(window),
+	: Gui(window),
 	  mSystemManager(systemManager),
 	  mCurrentView(nullptr),
 	  mCamera(Transform4x4f::Identity()),
@@ -442,14 +442,6 @@ void ViewController::render(const Transform4x4f& parentTrans)
 	{
 		Renderer::setMatrix(parentTrans);
 		Renderer::drawRect(0, 0, Renderer::getDisplayWidthAsInt(), Renderer::getDisplayHeightAsInt(), 0x00000000 | (unsigned char)(mFadeOpacity * 255));
-	}
-}
-
-void ViewController::preload()
-{
-	for (auto it : mSystemManager.GetVisibleSystemList())
-	{
-		getGameListView(it);
 	}
 }
 

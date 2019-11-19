@@ -80,6 +80,7 @@ set(CORE_HEADERS
 		src/components/TextEditComponent.h
 
 		# Guis
+		src/guis/Gui.h
 		src/guis/GuiDetectDevice.h
 		src/guis/GuiInputConfig.h
 		src/guis/GuiMsgBox.h

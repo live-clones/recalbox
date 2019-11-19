@@ -11,7 +11,7 @@
 #include "MenuThemeData.h"
 
 GuiGameScraper::GuiGameScraper(Window&window, const ScraperSearchParams& params, const std::function<void(const ScraperSearchResult&)>& doneFunc)
-  : GuiComponent(window),
+  : Gui(window),
 		mClose(false),
   	mGrid(window, Vector2i(1, 7)),
 	  mBox(window, Path(":/frame.png")),

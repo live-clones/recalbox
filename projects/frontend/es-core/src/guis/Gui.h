@@ -1,0 +1,31 @@
+//
+// Created by bkg2k on 19/11/2019.
+//
+#pragma once
+
+#include <GuiComponent.h>
+
+class Gui : public GuiComponent
+{
+  private:
+    //! When set, let the main processing delete safely this GUI
+    bool mGuiClosePending;
+
+  public:
+    Gui(Window& window)
+      : GuiComponent(window),
+        mGuiClosePending(false)
+    {
+    }
+
+    /*!
+     * @brief Close the GUI
+     */
+    void Close() { mGuiClosePending = true; }
+
+    /*!
+     * @brief Get deletion status
+     * @return True if the current GUI is pending for deletion
+     */
+    bool IsPendingForDeletion() const { return mGuiClosePending; }
+};

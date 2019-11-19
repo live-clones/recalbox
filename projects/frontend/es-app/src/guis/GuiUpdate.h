@@ -1,12 +1,12 @@
 #pragma once
 
 #include <utils/os/system/Thread.h>
-#include "GuiComponent.h"
+#include "guis/Gui.h"
 #include "components/MenuComponent.h"
 #include "components/BusyComponent.h"
 #include "components/NinePatchComponent.h"
 
-class GuiUpdate : public GuiComponent, private Thread
+class GuiUpdate : public Gui, private Thread
 {
   public:
     explicit GuiUpdate(Window& window);

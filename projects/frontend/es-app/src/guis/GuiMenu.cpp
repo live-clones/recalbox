@@ -41,7 +41,7 @@
 #include "GuiHashStart.h"
 
 GuiMenu::GuiMenu(Window& window, SystemManager& systemManager)
-  : GuiComponent(window),
+  : Gui(window),
     mSystemManager(systemManager),
     mMenu(window, _("MAIN MENU").c_str()),
     mVersion(window)

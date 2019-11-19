@@ -37,7 +37,7 @@ Window::~Window() {
 	delete mHelp;
 }
 
-void Window::pushGui(GuiComponent* gui)
+void Window::pushGui(Gui* gui)
 {
 	mGuiStack.push_back(gui);
 	gui->updateHelpPrompts();

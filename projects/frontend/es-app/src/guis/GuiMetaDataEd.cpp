@@ -27,7 +27,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window& window,
                              std::function<void()> deleteFunc,
                              SystemData* system,
                              bool main)
-  : GuiComponent(window),
+  : Gui(window),
     mBackground(window, Path(":/frame.png")),
     mGrid(window, Vector2i(1, 3)),
     mScraperParams(scraperParams),

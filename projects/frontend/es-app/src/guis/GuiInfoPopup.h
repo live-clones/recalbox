@@ -3,14 +3,14 @@
 //
 #pragma once
 
-#include "GuiComponent.h"
+#include "guis/Gui.h"
 #include "components/NinePatchComponent.h"
 #include "components/ComponentGrid.h"
 #include "Window.h"
 #include "utils/Log.h"
 #include "utils/math/Vectors.h"
 
-class GuiInfoPopup : public GuiComponent, public Window::InfoPopup
+class GuiInfoPopup : public Gui, public Window::InfoPopup
 {
   public:
     GuiInfoPopup(Window& window, const std::string& message, int duration, int icon = 0);

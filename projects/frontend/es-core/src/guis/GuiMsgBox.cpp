@@ -9,7 +9,7 @@
 #define HORIZONTAL_PADDING_PX 20
 
 GuiMsgBox::GuiMsgBox(Window& window)
-  : GuiComponent(window),
+  : Gui(window),
     mBackground(window, Path(":/frame.png")),
     mGrid(window, Vector2i(1, 2))
 {

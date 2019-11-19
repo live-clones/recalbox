@@ -12,7 +12,7 @@
 #include "guis/GuiMsgBox.h"
 
 GuiGamelistOptions::GuiGamelistOptions(Window& window, SystemData* system)
-  :	GuiComponent(window),
+  :	Gui(window),
 		mMenu(window, _("OPTIONS").c_str()),
     mReloading(false),
     mSystem(system)

@@ -1,11 +1,11 @@
 #pragma once
 
-#include "GuiComponent.h"
+#include "guis/Gui.h"
 #include "components/ScraperSearchComponent.h"
 #include "components/NinePatchComponent.h"
 #include "components/TextComponent.h"
 
-class GuiGameScraper : public GuiComponent
+class GuiGameScraper : public Gui
 {
 public:
 	GuiGameScraper(Window&window, const ScraperSearchParams& params, const std::function<void(const ScraperSearchResult&)>& doneFunc);

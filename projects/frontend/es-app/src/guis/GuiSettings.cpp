@@ -5,7 +5,7 @@
 #include "Locale.h"
 
 GuiSettings::GuiSettings(Window&window, const char* title)
-  : GuiComponent(window),
+  : Gui(window),
     mMenu(window, title)
 {
 	addChild(&mMenu);

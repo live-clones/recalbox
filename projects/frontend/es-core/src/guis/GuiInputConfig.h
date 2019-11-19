@@ -1,7 +1,7 @@
 #pragma once
 
 #include <utils/Strings.h>
-#include "GuiComponent.h"
+#include "Gui.h"
 #include "components/NinePatchComponent.h"
 #include "components/ComponentGrid.h"
 #include "components/ComponentList.h"
@@ -10,7 +10,7 @@
 
 class TextComponent;
 
-class GuiInputConfig : public GuiComponent
+class GuiInputConfig : public Gui
 {
 public:
 	GuiInputConfig(Window& window, InputDevice* target, const std::function<void()>& doneCallback);

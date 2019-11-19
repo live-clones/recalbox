@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GuiComponent.h"
+#include "Gui.h"
 #include "components/NinePatchComponent.h"
 #include "components/ComponentGrid.h"
 #include "resources/Font.h"
@@ -9,7 +9,7 @@ class TextComponent;
 class ButtonComponent;
 class ScrollableContainer;
 
-class GuiMsgBoxScroll : public GuiComponent
+class GuiMsgBoxScroll : public Gui
 {
 public:
 	GuiMsgBoxScroll(Window& window, const std::string& title, const std::string& text,

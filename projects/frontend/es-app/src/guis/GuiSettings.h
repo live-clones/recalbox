@@ -2,11 +2,11 @@
 
 #include <guis/GuiMsgBoxScroll.h>
 #include <Locale.h>
-#include "GuiComponent.h"
+#include "guis/Gui.h"
 #include "components/MenuComponent.h"
 
 // This is just a really simple template for a GUI that calls some save functions when closed.
-class GuiSettings : public GuiComponent
+class GuiSettings : public Gui
 {
 public:
 	GuiSettings(Window& window, const char* title);

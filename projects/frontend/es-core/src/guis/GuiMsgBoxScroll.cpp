@@ -13,7 +13,7 @@ GuiMsgBoxScroll::GuiMsgBoxScroll(Window& window,
                                  const std::string& name2, const std::function<void()>& func2,
                                  const std::string& name3, const std::function<void()>& func3,
                                  TextAlignment align, float height)
-  : GuiComponent(window),
+  : Gui(window),
     mBackground(window, Path(":/frame.png")),
     mGrid(window, Vector2i(1, 3))
 {

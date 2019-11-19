@@ -1,11 +1,11 @@
-#include "GuiComponent.h"
+#include "guis/Gui.h"
 #include "components/MenuComponent.h"
 #include "components/OptionListComponent.h"
 #include "FileSorts.h"
 
 class IGameListView;
 
-class GuiGamelistOptions : public GuiComponent
+class GuiGamelistOptions : public Gui
 {
 public:
 	GuiGamelistOptions(Window&window, SystemData* system);
