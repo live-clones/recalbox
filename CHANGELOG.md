@@ -4,7 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [6.2]
 - Add joystick rules for IPega PG-9037
-
+- Fix Odroid XU4 fan issue
 
 ## [6.1.1]
 - Add zfast shaders
