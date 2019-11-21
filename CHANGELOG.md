@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add joystick rules for IPega PG-9037
 - Fix Odroid XU4 fan issue
 - Fix Odroid XU4 sound issue
+- New: option to boot on EMMC on XU4 (boot.ini)
 
 ## [6.1.1]
 - Add zfast shaders
