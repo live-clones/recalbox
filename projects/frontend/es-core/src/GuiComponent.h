@@ -3,9 +3,10 @@
 #include "input/InputDevice.h"
 #include <functional>
 #include "utils/math/Vectors.h"
-#include "HelpStyle.h"
+#include "help/HelpStyle.h"
 #include "themes/ThemeData.h"
 #include "themes/Properties.h"
+#include "help/Help.h"
 
 class Window;
 class Animation;
@@ -123,19 +124,18 @@ class GuiComponent
     virtual void applyTheme(const ThemeData& theme, const std::string& view, const std::string& element, ThemeProperties properties);
 
     // Returns a list of help prompts.
-    virtual std::vector<HelpPrompt> getHelpPrompts() { return std::vector<HelpPrompt>(); };
+    virtual bool getHelpPrompts(Help& help) { (void)help; return false; };
 
     // Called whenever help prompts change.
     void updateHelpPrompts();
 
-    virtual HelpStyle getHelpStyle();
+    virtual void ApplyHelpStyle();
 
     virtual inline void setScrollDir(int dir) { (void)dir; }
 
     // Returns true if the component is busy doing background processing (e.g. HTTP downloads)
     bool isProcessing() const { return mIsProcessing; }
 
-  public:
     const static unsigned char MAX_ANIMATIONS = 4;
 
   private:
@@ -146,6 +146,17 @@ class GuiComponent
     std::vector<GuiComponent*>* mChildren;
 
   protected:
+    static Help& HelpItems()
+    {
+      static Help sHelp;
+      return sHelp;
+    }
+    static HelpStyle& HelpItemStyle()
+    {
+      static HelpStyle sHelpStyle;
+      return sHelpStyle;
+    }
+
     void renderChildren(const Transform4x4f& transform) const;
     void updateSelf(int deltaTime); // updates animations
     void updateChildren(int deltaTime); // updates animations
@@ -154,7 +165,6 @@ class GuiComponent
     Vector2f denormalise(const Vector2f& value);
 
     Window& mWindow;
-
     GuiComponent* mParent;
 
     Vector3f mPosition;

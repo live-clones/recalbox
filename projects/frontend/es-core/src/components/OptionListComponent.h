@@ -136,11 +136,11 @@ private:
 			return GuiComponent::ProcessInput(event);
 		}
 
-		std::vector<HelpPrompt> getHelpPrompts() override
+		bool getHelpPrompts(Help& help) override
 		{
-			auto prompts = mMenu.getHelpPrompts();
-			prompts.push_back(HelpPrompt("a", _("BACK")));
-			return prompts;
+			mMenu.getHelpPrompts(help);
+			help.Set(HelpType::A, _("BACK"));
+			return true;
 		}
 	};
 
@@ -386,14 +386,13 @@ private:
 		}
 	}
 
-	std::vector<HelpPrompt> getHelpPrompts() override
+	bool getHelpPrompts(Help& help) override
 	{
-		std::vector<HelpPrompt> prompts;
 		if(!mMultiSelect)
-		  prompts.push_back(HelpPrompt("left/right", _("CHANGE")));
+		  help.Set(HelpType::LeftRight, _("CHANGE"));
 		
-		prompts.push_back(HelpPrompt("b", _("SELECT")));
-		return prompts;
+		help.Set(HelpType::B, _("SELECT"));
+		return true;
 	}
 
 	void setColor(unsigned int color) override

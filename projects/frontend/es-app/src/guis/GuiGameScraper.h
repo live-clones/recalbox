@@ -14,7 +14,7 @@ public:
 
 	bool ProcessInput(const InputCompactEvent& event) override;
 	void update(int deltaTime) override;
-	std::vector<HelpPrompt> getHelpPrompts() override;
+	bool getHelpPrompts(Help& help) override;
 
 private:
 	bool mClose;

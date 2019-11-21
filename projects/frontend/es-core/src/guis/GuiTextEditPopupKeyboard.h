@@ -21,7 +21,7 @@ public:
 	bool ProcessInput(const InputCompactEvent& event) override;
 	void update(int) override {}
 	void onSizeChanged() override;
-	std::vector<HelpPrompt> getHelpPrompts() override;
+	bool getHelpPrompts(Help& help) override;
 
 private:
 

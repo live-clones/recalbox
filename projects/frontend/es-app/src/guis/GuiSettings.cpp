@@ -42,20 +42,19 @@ bool GuiSettings::ProcessInput(const InputCompactEvent& event)
 	if (event.StartPressed())
 	{
 		// close everything
-		while((mWindow.peekGui() != nullptr) && mWindow.peekGui() != &ViewController::Instance())
-			delete mWindow.peekGui();
+	  mWindow.deleteAllGui();
 		return true;
 	}
 	
 	return GuiComponent::ProcessInput(event);
 }
 
-std::vector<HelpPrompt> GuiSettings::getHelpPrompts()
+bool GuiSettings::getHelpPrompts(Help& help)
 {
-	std::vector<HelpPrompt> prompts = mMenu.getHelpPrompts();
+	mMenu.getHelpPrompts(help);
 
-	prompts.push_back(HelpPrompt("a", _("BACK")));
-	prompts.push_back(HelpPrompt("start", _("CLOSE")));
+	help.Set(HelpType::A, _("BACK"))
+	    .Set(HelpType::Start, _("CLOSE"));
 
-	return prompts;
+	return true;
 }

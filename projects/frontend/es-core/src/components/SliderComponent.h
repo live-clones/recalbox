@@ -26,7 +26,7 @@ public:
 	
 	void onSizeChanged() override;
 	
-	std::vector<HelpPrompt> getHelpPrompts() override;
+	bool getHelpPrompts(Help& help) override;
 
 	inline void setSelectedChangedCallback(const std::function<void(const float&)>& callback) {
 		mSelectedChangedCallback = callback;

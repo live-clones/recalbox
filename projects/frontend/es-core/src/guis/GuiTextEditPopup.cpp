@@ -76,9 +76,9 @@ bool GuiTextEditPopup::ProcessInput(const InputCompactEvent& event)
 	return false;
 }
 
-std::vector<HelpPrompt> GuiTextEditPopup::getHelpPrompts()
+bool GuiTextEditPopup::getHelpPrompts(Help& help)
 {
-	std::vector<HelpPrompt> prompts = mGrid.getHelpPrompts();
-	prompts.push_back(HelpPrompt("a", _("BACK")));
-	return prompts;
+  mGrid.getHelpPrompts(help);
+	help.Set(HelpType::A, _("BACK"));
+	return true;
 }

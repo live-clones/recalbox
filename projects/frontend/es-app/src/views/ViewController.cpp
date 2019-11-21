@@ -27,13 +27,14 @@ ViewController::ViewController(Window& window, SystemManager& systemManager)
 	  mCamera(Transform4x4f::Identity()),
 	  mFadeOpacity(0),
 	  mLockInput(false),
-    mState(),
-	  mWindow(window)
+    mState()
 {
   if (sInstance == nullptr)
-  {
     sInstance = this;
-    mWindow.pushGui(this);
+  else
+  {
+    LOG(LogError) << "ViewController multiple instance detected";
+    exit(-1);
   }
 
 	mState.viewing = ViewMode::None;
@@ -434,7 +435,7 @@ void ViewController::render(const Transform4x4f& parentTrans)
 		mGameListView.second->render(trans);
 	}
 
-	if(mWindow.peekGui() == this)
+	if(mWindow.peekGui() == nullptr) // TODO:: dafuk?!
 		mWindow.renderHelpPromptsEarly();
 
 	// fade out
@@ -552,16 +553,15 @@ void ViewController::setAllInvalidGamesList(SystemData* systemExclude)
 	}
 }
 
-std::vector<HelpPrompt> ViewController::getHelpPrompts()
+bool ViewController::getHelpPrompts(Help& help)
 {
-	std::vector<HelpPrompt> prompts;
-	return mCurrentView ? mCurrentView->getHelpPrompts() : prompts;
+	return mCurrentView ? mCurrentView->getHelpPrompts(help) : true;
 }
 
-HelpStyle ViewController::getHelpStyle()
+void ViewController::ApplyHelpStyle()
 {
 	if(!mCurrentView)
-		return GuiComponent::getHelpStyle();
+		return GuiComponent::ApplyHelpStyle();
 
-	return mCurrentView->getHelpStyle();
+	return mCurrentView->ApplyHelpStyle();
 }

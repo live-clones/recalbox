@@ -33,7 +33,7 @@ public:
 	inline void populateList(const FolderData* folder) override { (void)folder; }
 	inline void refreshList() override {};
 
-	std::vector<HelpPrompt> getHelpPrompts() override;
+	bool getHelpPrompts(Help& help) override;
 	std::vector<std::string> getAvailableLetters() override;
 	void jumpToLetter(char letter) override;
 

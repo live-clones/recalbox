@@ -311,42 +311,33 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
   return result;
 }
 
-std::vector<HelpPrompt> ISimpleGameListView::getHelpPrompts() {
+bool ISimpleGameListView::getHelpPrompts(Help& help)
+{
   bool hideSystemView = RecalboxConf::Instance().AsBool("emulationstation.hidesystemview");
-  std::vector<HelpPrompt> prompts;
 
-  prompts.push_back(HelpPrompt("b", _("LAUNCH")));
+  help.Set(HelpType::B, _("LAUNCH"));
 
   if (RecalboxConf::Instance().AsBool("global.netplay") && (RecalboxConf::Instance().isInList("global.netplay.systems", getCursor()->getSystem()->getName())))
-    prompts.push_back(HelpPrompt("x", _("NETPLAY")));
+    help.Set(HelpType::X, _("NETPLAY"));
 
-  if (mIsFavoriteSystem)
-    prompts.push_back(HelpPrompt("y", _("Remove from favorite")));
-  else
-    prompts.push_back(HelpPrompt("y", _("Favorite")));
+  help.Set(HelpType::Y, mIsFavoriteSystem ? _("Remove from favorite") : _("Favorite"));
 
   if (!hideSystemView)
-    prompts.push_back(HelpPrompt("a", _("BACK")));
+    help.Set(HelpType::A, _("BACK"));
 
-  prompts.push_back(HelpPrompt("up/down", _("CHOOSE")));
+  help.Set(HelpType::UpDown, _("CHOOSE"));
 
   if (Settings::Instance().QuickSystemSelect() && !hideSystemView)
-    prompts.push_back(HelpPrompt("left/right", _("SYSTEM")));
+    help.Set(HelpType::LeftRight, _("SYSTEM"));
 
   if (!mIsFavoriteSystem)
   {
-    prompts.push_back(HelpPrompt("start", _("OPTIONS")));
-
+    help.Set(HelpType::Start, _("OPTIONS"));
     if (mFavoritesCount != 0)
-    {
-      if (mFavoritesOnly)
-        prompts.push_back(HelpPrompt("select", _("ALL GAMES")));
-      else
-        prompts.push_back(HelpPrompt("select", _("FAVORITES ONLY")));
-    }
+      help.Set(HelpType::Select, mFavoritesOnly ? _("ALL GAMES") : _("FAVORITES ONLY"));
   }
 
-  return prompts;
+  return true;
 }
 
 std::vector<std::string> ISimpleGameListView::getAvailableLetters()

@@ -56,8 +56,8 @@ public:
 	
 	void onThemeChanged(const ThemeData& theme);
 
-	std::vector<HelpPrompt> getHelpPrompts() override;
-	HelpStyle getHelpStyle() override;
+	bool getHelpPrompts(Help& help) override;
+	void ApplyHelpStyle() override;
 	void populate();
 	void removeFavoriteSystem();
 	void manageFavorite();
@@ -80,7 +80,6 @@ private:
 	SystemManager& mSystemManager;
 
 	SystemViewCarousel mCarousel;
-
 	TextComponent mSystemInfo;
 
 	// unit is list index

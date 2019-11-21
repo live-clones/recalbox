@@ -321,33 +321,18 @@ void ComponentList::textInput(const char* text)
 	mEntries.at(mCursor).data.elements.back().component->textInput(text);
 }
 
-std::vector<HelpPrompt> ComponentList::getHelpPrompts()
+bool ComponentList::getHelpPrompts(Help& help)
 {
-	if(size() == 0)
-		return std::vector<HelpPrompt>();
+	if (size() == 0) return false;
+	mEntries.at(mCursor).data.elements.back().component->getHelpPrompts(help);
 
-	std::vector<HelpPrompt> prompts = mEntries.at(mCursor).data.elements.back().component->getHelpPrompts();
+	if (size() > 1)
+		if (help.IsSet(HelpType::UpDown) || help.IsSet(HelpType::AllDirections)) help.Set(HelpType::UpDown, _("CHOOSE"));
 
-	if(size() > 1)
-	{
-		bool addMovePrompt = true;
-		for (auto& prompt : prompts)
-		{
-		  if(strcmp(prompt.first.c_str(), "up/down") == 0 || strcmp(prompt.first.c_str(), "up/down/left/right") == 0)
-			{
-				addMovePrompt = false;
-				break;
-			}
-		}
+	if ((mEntries.at(mCursor).data.help_handler != nullptr) && Settings::Instance().HelpPopupTime() != 0)
+		help.Set(HelpType::Y, _("HELP"));
 
-		if(addMovePrompt)
-		  prompts.push_back(HelpPrompt("up/down", _("CHOOSE")));
-	}
-	if((mEntries.at(mCursor).data.help_handler != nullptr) && Settings::Instance().HelpPopupTime() != 0){
-		prompts.push_back(HelpPrompt("y", _("HELP")));
-	}
-
-	return prompts;
+	return true;
 }
 
 bool ComponentList::moveCursor(int amt)

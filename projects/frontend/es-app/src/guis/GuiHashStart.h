@@ -70,9 +70,9 @@ class GuiHashStart : public Gui, private Thread
 
     /*!
      * @brief Get the help system
-     * @return Help system
+     * @return True
      */
-    std::vector<HelpPrompt> getHelpPrompts() override;
+    bool getHelpPrompts(Help& help) override;
 
     /*!
      * @brief Update method, called periodically

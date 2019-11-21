@@ -203,7 +203,7 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
     bool kodiX = RecalboxConf::Instance().AsBool("kodi.xbutton");
     bool netplay = RecalboxConf::Instance().AsBool("global.netplay");
 
-    if (kodiEnabled && kodiX && !launchKodi && !mWindow.isShowingPopup())
+    if (kodiEnabled && kodiX && !launchKodi && !mWindow.HasGui())
     {
       if (netplay)
       {
@@ -241,7 +241,7 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
         }
         launchKodi = false;
       }
-    } else if (netplay && !mWindow.isShowingPopup()) {
+    } else if (netplay && !mWindow.HasGui()) {
             auto netplayGui = new GuiNetPlay(mWindow, mSystemManager);
             mWindow.pushGui(netplayGui);
     }
@@ -500,37 +500,26 @@ void SystemView::render(const Transform4x4f& parentTrans)
 	renderExtras(trans, minMax.second, INT16_MAX);
 }
 
-std::vector<HelpPrompt> SystemView::getHelpPrompts()
+bool SystemView::getHelpPrompts(Help& help)
 {
-	std::vector<HelpPrompt> prompts;
-	if (mCarousel.type == CarouselType::Vertical)
-			prompts.push_back(HelpPrompt("up/down", _("CHOOSE")));
-	else
-			prompts.push_back(HelpPrompt("left/right", _("CHOOSE")));
-	prompts.push_back(HelpPrompt("b", _("SELECT")));
+	help.Set(mCarousel.type == CarouselType::Vertical ? HelpType::UpDown : HelpType::LeftRight, _("CHOOSE"))
+	    .Set(HelpType::B, _("SELECT"));
 
 	if (RecalboxConf::Instance().AsBool("kodi.enabled") && RecalboxConf::Instance().AsBool("kodi.xbutton"))
-	{
-	    if (RecalboxConf::Instance().AsBool("global.netplay"))
-	        prompts.push_back(HelpPrompt("x", _("KODI/NETPLAY")));
-	    else
-            prompts.push_back(HelpPrompt("x", _("START KODI")));
+    help.Set(HelpType::X, RecalboxConf::Instance().AsBool("global.netplay") ? _("KODI/NETPLAY") : _("START KODI"));
+	else if (RecalboxConf::Instance().AsBool("global.netplay"))
+	  help.Set(HelpType::X, _("NETPLAY"));
 
-	} else if (RecalboxConf::Instance().AsBool("global.netplay"))
-	    prompts.push_back(HelpPrompt("x", _("NETPLAY")));
+	help.Set(HelpType::Select, _("QUIT"))
+	    .Set(HelpType::Start, _("MENU"));
 
-	prompts.push_back(HelpPrompt("select", _("QUIT")));
-	prompts.push_back(HelpPrompt("start", _("MENU")));
-
-	return prompts;
+	return true;
 }	
 
-HelpStyle SystemView::getHelpStyle()
+void SystemView::ApplyHelpStyle()
 {
-	HelpStyle style;
-	style.applyTheme(mEntries.at(mCursor).object->getTheme(), "system");
-	return style;
-	}	
+  HelpItemStyle().FromTheme(mEntries.at(mCursor).object->getTheme(), "system");
+}
 
 void  SystemView::onThemeChanged(const ThemeData& theme)
 {

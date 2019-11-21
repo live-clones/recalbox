@@ -169,9 +169,9 @@ void MenuComponent::updateGrid()
     }
 }
 
-std::vector<HelpPrompt> MenuComponent::getHelpPrompts()
+bool MenuComponent::getHelpPrompts(Help& help)
 {
-    return mGrid.getHelpPrompts();
+    return mGrid.getHelpPrompts(help);
 }
 
 std::shared_ptr<ComponentGrid> makeButtonGrid(Window&window, const std::vector< std::shared_ptr<ButtonComponent> >& buttons)

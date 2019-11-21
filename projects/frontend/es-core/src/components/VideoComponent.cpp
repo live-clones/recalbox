@@ -408,7 +408,8 @@ void VideoComponent::applyTheme(const ThemeData& theme, const std::string& view,
   }
 }
 
-std::vector<HelpPrompt> VideoComponent::getHelpPrompts()
+bool VideoComponent::getHelpPrompts(Help& help)
 {
-  return { HelpPrompt("b", _("SELECT")) };
+  help.Set(HelpType::B, _("SELECT"));
+  return true;
 }

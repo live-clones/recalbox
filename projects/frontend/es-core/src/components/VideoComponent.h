@@ -126,7 +126,7 @@ class VideoComponent : public GuiComponent
 
     void applyTheme(const ThemeData& theme, const std::string& view, const std::string& element, ThemeProperties properties) override;
 
-    std::vector<HelpPrompt> getHelpPrompts() override;
+    bool getHelpPrompts(Help& help)  override;
 
     static constexpr int DEFAULT_VIDEODELAY = 2000;
     static constexpr int DEFAULT_VIDEOEFFET = 500;

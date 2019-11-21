@@ -352,8 +352,8 @@ void ImageComponent::applyTheme(const ThemeData& theme, const std::string& view,
     }
 }
 
-std::vector<HelpPrompt> ImageComponent::getHelpPrompts() {
-    std::vector<HelpPrompt> ret;
-    ret.push_back(HelpPrompt("b", _("SELECT")));
-    return ret;
+bool ImageComponent::getHelpPrompts(Help& help)
+{
+  help.Set(HelpType::B, _("SELECT"));
+  return true;
 }

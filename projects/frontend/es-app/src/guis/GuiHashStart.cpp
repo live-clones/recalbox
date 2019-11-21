@@ -134,9 +134,9 @@ void GuiHashStart::render(const Transform4x4f& parentTrans)
 }
 
 
-std::vector<HelpPrompt> GuiHashStart::getHelpPrompts()
+bool GuiHashStart::getHelpPrompts(Help& help)
 {
-  std::vector<HelpPrompt> prompts = mMenu.getHelpPrompts();
-  prompts.push_back(HelpPrompt("a", _("BACK")));
-  return prompts;
+  mMenu.getHelpPrompts(help);
+  help.Set(HelpType::A, _("BACK"));
+  return true;
 }

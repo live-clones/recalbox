@@ -1,3 +1,4 @@
+#include <Locale.h>
 #include "components/RatingComponent.h"
 #include "Renderer.h"
 #include "Window.h"
@@ -164,9 +165,8 @@ void RatingComponent::applyTheme(const ThemeData& theme, const std::string& view
 		onSizeChanged();
 }
 
-std::vector<HelpPrompt> RatingComponent::getHelpPrompts()
+bool RatingComponent::getHelpPrompts(Help& help)
 {
-	std::vector<HelpPrompt> prompts;
-	prompts.push_back(HelpPrompt("b", "add star"));
-	return prompts;
+	help.Set(HelpType::B, _("ADD STAR"));
+	return true;
 }

@@ -28,4 +28,10 @@ class Gui : public GuiComponent
      * @return True if the current GUI is pending for deletion
      */
     bool IsPendingForDeletion() const { return mGuiClosePending; }
+
+    /*!
+     * @brief Check if the current UI is on top of the screen
+     * @return True if the current UI is the first visible
+     */
+    bool AmIOnTopOfScreen() const;
 };

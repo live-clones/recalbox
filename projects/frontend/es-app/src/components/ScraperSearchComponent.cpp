@@ -472,11 +472,11 @@ void ScraperSearchComponent::openInputScreen(ScraperSearchParams& params)
 	}
 }
 
-std::vector<HelpPrompt> ScraperSearchComponent::getHelpPrompts()
+bool ScraperSearchComponent::getHelpPrompts(Help& help)
 {
-	std::vector<HelpPrompt> prompts = mGrid.getHelpPrompts();
-	if(getSelectedIndex() != -1)
-		prompts.push_back(HelpPrompt("b", _("ACCEPT RESULT")));
-	
-	return prompts;
+	mGrid.getHelpPrompts(help);
+	if (getSelectedIndex() != -1)
+		help.Set(HelpType::B, _("ACCEPT RESULT"));
+
+	return true;
 }

@@ -15,7 +15,7 @@ public:
 	inline void addSaveFunc(const std::function<void()>& func) { mSaveFuncs.push_back(func); };
 
 	bool ProcessInput(const InputCompactEvent& event) override;
-	std::vector<HelpPrompt> getHelpPrompts() override;
+	bool getHelpPrompts(Help& help) override;
 
 private:
 	void openMetaDataEd();

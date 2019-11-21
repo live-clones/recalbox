@@ -46,7 +46,7 @@ public:
         inline void setSave(bool sav) { doSave = sav; };
 
 	bool ProcessInput(const InputCompactEvent& event) override;
-	std::vector<HelpPrompt> getHelpPrompts() override;
+	bool getHelpPrompts(Help& help) override;
 
 	inline MenuComponent *getMenu() const { return &mMenu; }
 

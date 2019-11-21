@@ -17,7 +17,7 @@ public:
 
 	const char* getName() const override { return "grid"; }
 
-	std::vector<HelpPrompt> getHelpPrompts() override;
+	bool getHelpPrompts(Help& help) override;
 
 protected:
 	void populateList(const FolderData* folder) override;

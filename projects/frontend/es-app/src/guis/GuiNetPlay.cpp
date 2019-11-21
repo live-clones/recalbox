@@ -349,12 +349,12 @@ void GuiNetPlay::onSizeChanged()
   mGrid.setSize(mSize);
 }
 
-std::vector<HelpPrompt> GuiNetPlay::getHelpPrompts()
+bool GuiNetPlay::getHelpPrompts(Help& help)
 {
-  std::vector<HelpPrompt> prompts = mGrid.getHelpPrompts();
-  prompts.push_back(HelpPrompt("a", _("BACK")));
-  prompts.push_back(HelpPrompt("b", _("LAUNCH")));
-  return prompts;
+  mGrid.getHelpPrompts(help);
+  help.Set(HelpType::A, _("BACK"))
+      .Set(HelpType::B, _("LAUNCH"));
+  return true;
 }
 
 void GuiNetPlay::update(int deltaTime)

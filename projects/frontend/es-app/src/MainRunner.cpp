@@ -50,9 +50,8 @@ MainRunner::ExitState MainRunner::Run()
     }
 
     // Initialize main Window and ViewController
-    Window window;
     SystemManager systemManager;
-    ViewController viewControler(window, systemManager);
+    ApplicationWindow window(systemManager);
     if (!window.Initialize(mRequestedWidth, mRequestedHeight, false))
     {
       LOG(LogError) << "Window failed to initialize!";
@@ -143,7 +142,7 @@ void MainRunner::DeleteReadyFlagFile()
   ready.Delete();
 }
 
-MainRunner::ExitState MainRunner::MainLoop(Window& window, SystemManager& systemManager)
+MainRunner::ExitState MainRunner::MainLoop(ApplicationWindow& window, SystemManager& systemManager)
 {
   // Allow joystick event
   SDL_JoystickEventState(SDL_ENABLE);
@@ -177,11 +176,10 @@ MainRunner::ExitState MainRunner::MainLoop(Window& window, SystemManager& system
         {
           // Convert event
           InputCompactEvent compactEvent = InputManager::Instance().ManageSDLEvent(event);
+          // Process
+          if (!compactEvent.Empty()) window.ProcessInput(compactEvent);
           // Quit?
-          if (compactEvent.IsKeyboard() && compactEvent.KeyUp() && (event.key.keysym.sym == SDLK_F4))
-            RequestQuit(ExitState::Quit);
-          // Normal process
-          else if (!compactEvent.Empty()) window.ProcessInput(compactEvent);
+          if (window.Closed()) RequestQuit(ExitState::Quit);
           break;
         }
         default:
@@ -209,8 +207,8 @@ MainRunner::ExitState MainRunner::MainLoop(Window& window, SystemManager& system
     if (deltaTime > 1000 || deltaTime < 0) // cap deltaTime at 1000
       deltaTime = 1000;
 
-    window.update(deltaTime);
-    window.render();
+    window.Update(deltaTime);
+    window.RenderAllGraphics();
     Renderer::swapBuffers();
 
     // Immediate exit required? TODO: Filewatching!

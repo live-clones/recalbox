@@ -1,3 +1,4 @@
+#include <Locale.h>
 #include "components/AsyncReqComponent.h"
 #include "Renderer.h"
 
@@ -48,9 +49,8 @@ void AsyncReqComponent::render(const Transform4x4f& parentTrans)
 	Renderer::drawRect((int)point.x(), (int)point.y(), 8, 8, 0x0000FFFF);
 }
 
-std::vector<HelpPrompt> AsyncReqComponent::getHelpPrompts()
+bool AsyncReqComponent::getHelpPrompts(Help& help)
 {
-	std::vector<HelpPrompt> prompts;
-	prompts.push_back(HelpPrompt("a", "cancel"));
-	return prompts;
+	help.Set(HelpType::A, _("CANCEL"));
+	return true;
 }

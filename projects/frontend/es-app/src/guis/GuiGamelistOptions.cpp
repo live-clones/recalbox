@@ -206,10 +206,11 @@ bool GuiGamelistOptions::ProcessInput(const InputCompactEvent& event) {
 	return mMenu.ProcessInput(event);
 }
 
-std::vector<HelpPrompt> GuiGamelistOptions::getHelpPrompts() {
-	auto prompts = mMenu.getHelpPrompts();
-	prompts.push_back(HelpPrompt("a", _("CLOSE")));
-	return prompts;
+bool GuiGamelistOptions::getHelpPrompts(Help& help)
+{
+	mMenu.getHelpPrompts(help);
+	help.Set(HelpType::A, _("CLOSE"));
+	return true;
 }
 
 IGameListView* GuiGamelistOptions::getGamelist() {

@@ -117,9 +117,9 @@ void GuiGameScraper::update(int deltaTime)
 		Close();
 }
 
-std::vector<HelpPrompt> GuiGameScraper::getHelpPrompts()
+bool GuiGameScraper::getHelpPrompts(Help& help)
 {
-	return mGrid.getHelpPrompts();
+	return mGrid.getHelpPrompts(help);
 }
 
 void GuiGameScraper::close()

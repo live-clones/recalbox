@@ -23,7 +23,7 @@ enum class FileChangeType
 };
 
 // This is an interface that defines the minimum for a GameListView.
-class IGameListView : public GuiComponent
+class IGameListView : public Gui
 {
   protected:
     FolderData* mRoot; // TODO: check if a & is more appropriate
@@ -32,7 +32,7 @@ class IGameListView : public GuiComponent
 
   public:
     IGameListView(Window&window, FolderData* root)
-      : GuiComponent(window),
+      : Gui(window),
         mRoot(root),
         mSystem(root->getSystem()),
         mTheme(nullptr)
@@ -61,7 +61,7 @@ class IGameListView : public GuiComponent
 
     virtual const char* getName() const = 0;
 
-    HelpStyle getHelpStyle() override;
+    void ApplyHelpStyle() override;
 
     virtual void updateInfoPanel() = 0;
 

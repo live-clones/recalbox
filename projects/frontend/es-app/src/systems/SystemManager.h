@@ -159,16 +159,6 @@ class SystemManager :
     SystemManager() = default;
 
     /*!
-     * @brief Get unique instance
-     * @return Unique instance
-     */
-    /*static SystemManager& Instance()
-    {
-      static SystemManager instance;
-      return instance;
-    }*/
-
-    /*!
      * @brief Get favorite system
      * @return Favorite system of nullptr if there is no favorite system
      */

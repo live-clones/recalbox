@@ -1,7 +1,7 @@
 #pragma once
 
 #include "GuiComponent.h"
-#include "HelpStyle.h"
+#include "help/HelpStyle.h"
 
 
 class ImageComponent;
@@ -13,21 +13,16 @@ class HelpComponent : public GuiComponent
 public:
 	explicit HelpComponent(Window&window);
 
-	void clearPrompts();
-	void setPrompts(const std::vector<HelpPrompt>& prompts);
-
 	void render(const Transform4x4f& parent) override;
 	void setOpacity(unsigned char opacity) override;
 
-	void setStyle(const HelpStyle& style);
+  void UpdateHelps();
 
-private:
+  private:
 	std::shared_ptr<TextureResource> getIconTexture(const char* name);
 	std::map< std::string, std::shared_ptr<TextureResource> > mIconCache;
 
 	std::shared_ptr<ComponentGrid> mGrid;
-	void updateGrid();
 
-	std::vector<HelpPrompt> mPrompts;
 	HelpStyle mStyle;
 };

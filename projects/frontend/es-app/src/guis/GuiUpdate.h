@@ -17,7 +17,7 @@ class GuiUpdate : public Gui, private Thread
 
     bool ProcessInput(const InputCompactEvent&) override { return false; }
 
-    std::vector<HelpPrompt> getHelpPrompts() override { return std::vector<HelpPrompt>(); }
+    bool getHelpPrompts(Help& help) override { (void)help; return true; }
 
     void update(int deltaTime) override;
 

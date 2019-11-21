@@ -123,19 +123,18 @@ bool GuiScraperStart::ProcessInput(const InputCompactEvent& event)
 
 	if (event.StartPressed())
 	{
-		// close everything
-		while((mWindow.peekGui() != nullptr) && mWindow.peekGui() != &ViewController::Instance())
-			delete mWindow.peekGui();
+	  mWindow.deleteAllGui();
+    return true;
 	}
 
 
 	return false;
 }
 
-std::vector<HelpPrompt> GuiScraperStart::getHelpPrompts()
+bool GuiScraperStart::getHelpPrompts(Help& help)
 {
-	std::vector<HelpPrompt> prompts = mMenu.getHelpPrompts();
-	prompts.push_back(HelpPrompt("a", _("BACK")));
-	prompts.push_back(HelpPrompt("start", _("CLOSE")));
-	return prompts;
+	mMenu.getHelpPrompts(help);
+	help.Set(HelpType::A, _("BACK"))
+	    .Set(HelpType::Start, _("CLOSE"));
+	return true;
 }

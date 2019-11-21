@@ -61,11 +61,10 @@ void SwitchComponent::onStateChanged()
 	mImage.setImage(mState ? Path(":/on.svg") : Path(":/off.svg"));
 }
 
-std::vector<HelpPrompt> SwitchComponent::getHelpPrompts()
+bool SwitchComponent::getHelpPrompts(Help& help)
 {
-	std::vector<HelpPrompt> prompts;
-	prompts.push_back(HelpPrompt("b", _("CHANGE")));
-	return prompts;
+	help.Set(HelpType::B, _("CHANGE"));
+	return true;
 }
 
 std::string SwitchComponent::getValue() const {

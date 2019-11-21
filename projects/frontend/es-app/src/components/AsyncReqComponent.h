@@ -34,7 +34,7 @@ public:
 	void update(int deltaTime) override;
 	void render(const Transform4x4f& parentTrans) override;
 
-	std::vector<HelpPrompt> getHelpPrompts() override;
+	bool getHelpPrompts(Help& help) override;
 private:
 	std::function<void(std::shared_ptr<HttpReq>)> mSuccessFunc;
 	std::function<void()> mCancelFunc;

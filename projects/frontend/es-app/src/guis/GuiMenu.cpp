@@ -1791,12 +1791,13 @@ bool GuiMenu::ProcessInput(const InputCompactEvent& event)
     return false;
 }
 
-std::vector<HelpPrompt> GuiMenu::getHelpPrompts() {
-    std::vector<HelpPrompt> prompts = mMenu.getHelpPrompts();
-    prompts.push_back(HelpPrompt("up/down", _("CHOOSE")));
-    prompts.push_back(HelpPrompt("b", _("SELECT")));
-    prompts.push_back(HelpPrompt("start", _("CLOSE")));
-    return prompts;
+bool GuiMenu::getHelpPrompts(Help& help)
+{
+  mMenu.getHelpPrompts(help);
+  help.Set(HelpType::UpDown, _("CHOOSE"))
+      .Set(HelpType::B, _("SELECT"))
+      .Set(HelpType::Start, _("CLOSE"));
+  return true;
 }
 
 std::shared_ptr<OptionListComponent<std::string>> GuiMenu::createRatioOptionList(Window& window, const std::string& configname) const {

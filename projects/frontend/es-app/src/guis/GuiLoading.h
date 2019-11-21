@@ -104,6 +104,6 @@ public:
         mBusyAnim.render(trans);
     }
 
-    std::vector<HelpPrompt> getHelpPrompts() override { return std::vector<HelpPrompt>(); }
+    bool getHelpPrompts(Help& help) override { (void)help; return true; }
 };
 

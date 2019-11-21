@@ -155,9 +155,8 @@ unsigned int ButtonComponent::getCurTextColor() const
 		return mTextColorFocused;
 }
 
-std::vector<HelpPrompt> ButtonComponent::getHelpPrompts()
+bool ButtonComponent::getHelpPrompts(Help& help)
 {
-	std::vector<HelpPrompt> prompts;
-	prompts.push_back(HelpPrompt("b", mHelpText.empty() ? mText.c_str() : mHelpText.c_str()));
-	return prompts;
+	help.Set(HelpType::B, mHelpText.empty() ? mText.c_str() : mHelpText.c_str());
+	return true;
 }

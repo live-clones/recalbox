@@ -54,7 +54,7 @@ void NetworkThread::Run()
         {
           std::string changelog = RecalboxUpgrade::getUpdateChangelog();
 
-          while (mWindow.isShowingPopup())
+          while (mWindow.HasGui())
             sleep(5);
 
           mMessageBoxMessage = _("UPDATE VERSION:");

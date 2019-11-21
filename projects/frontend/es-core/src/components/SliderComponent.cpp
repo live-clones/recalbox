@@ -141,9 +141,8 @@ void SliderComponent::onValueChanged()
 		mSelectedChangedCallback(mValue);
 }
 
-std::vector<HelpPrompt> SliderComponent::getHelpPrompts()
+bool SliderComponent::getHelpPrompts(Help& help)
 {
-	std::vector<HelpPrompt> prompts;
-	prompts.push_back(HelpPrompt("left/right", _("CHANGE")));
-	return prompts;
+	help.Set(HelpType::LeftRight, _("CHANGE"));
+	return true;
 }

@@ -35,7 +35,7 @@ public:
 
 	bool ProcessInput(const InputCompactEvent& event) override;
 	void onSizeChanged() override;
-	std::vector<HelpPrompt> getHelpPrompts() override { return mGrid.getHelpPrompts(); }
+  bool getHelpPrompts(Help& help)  override { return mGrid.getHelpPrompts(help); }
 
 private:
 	void deleteMeAndCall(const std::function<void()>& func);

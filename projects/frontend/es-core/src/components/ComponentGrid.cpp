@@ -405,37 +405,20 @@ void ComponentGrid::setCursorTo(const std::shared_ptr<GuiComponent>& comp)
     assert(false);
 }
 
-std::vector<HelpPrompt> ComponentGrid::getHelpPrompts()
+bool ComponentGrid::getHelpPrompts(Help& help)
 {
-    std::vector<HelpPrompt> prompts;
-    GridEntry* e = getCellAt(mCursor);
-    if(e != nullptr)
-        prompts = e->component->getHelpPrompts();
-    
-    bool canScrollVert = mGridSize.y() > 1;
-    bool canScrollHoriz = mGridSize.x() > 1;
-    for (auto& prompt : prompts)
-    {
-      if(strcmp(prompt.first.c_str(), "up/down/left/right") == 0)
-        {
-            canScrollHoriz = false;
-            canScrollVert = false;
-            break;
-        }else if(strcmp(prompt.first.c_str(), "up/down") == 0)
-        {
-            canScrollVert = false;
-        }else if(strcmp(prompt.first.c_str(), "left/right") == 0)
-        {
-            canScrollHoriz = false;
-        }
-    }
+  GridEntry* e = getCellAt(mCursor);
+  if(e != nullptr) e->component->getHelpPrompts(help);
 
-    if(canScrollHoriz && canScrollVert)
-      prompts.push_back(HelpPrompt("up/down/left/right", _("CHOOSE")));
-    else if(canScrollHoriz)
-      prompts.push_back(HelpPrompt("left/right", _("CHOOSE")));
-    else if(canScrollVert)
-      prompts.push_back(HelpPrompt("up/down", _("CHOOSE")));
+  bool canScrollVert = mGridSize.y() > 1;
+  bool canScrollHoriz = mGridSize.x() > 1;
+  if (!help.IsSet(HelpType::AllDirections)) canScrollHoriz = canScrollVert = false;
+  if (!help.IsSet(HelpType::LeftRight)) canScrollHoriz = false;
+  if (!help.IsSet(HelpType::UpDown)) canScrollVert = false;
 
-    return prompts;
+  if(canScrollHoriz && canScrollVert) help.Set(HelpType::AllDirections, _("CHOOSE"));
+  else if(canScrollHoriz) help.Set(HelpType::LeftRight, _("CHOOSE"));
+  else if(canScrollVert) help.Set(HelpType::UpDown, _("CHOOSE"));
+
+  return true;
 }

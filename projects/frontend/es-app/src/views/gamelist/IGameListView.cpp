@@ -21,9 +21,7 @@ void IGameListView::setTheme(const ThemeData& theme)
 	onThemeChanged(theme);
 }
 
-HelpStyle IGameListView::getHelpStyle()
+void IGameListView::ApplyHelpStyle()
 {
-	HelpStyle style;
-	style.applyTheme(*mTheme, getName());
-	return style;
+  HelpItemStyle().FromTheme(*mTheme, getName());
 }

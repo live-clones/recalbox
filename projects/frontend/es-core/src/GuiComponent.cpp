@@ -28,8 +28,6 @@ GuiComponent::GuiComponent(Window& window)
 
 GuiComponent::~GuiComponent()
 {
-	mWindow.removeGui(this);
-
 	cancelAllAnimations();
 
 	if(mParent != nullptr)
@@ -381,20 +379,20 @@ void GuiComponent::updateHelpPrompts()
 		return;
 	}
 
-	std::vector<HelpPrompt> prompts = getHelpPrompts();
-
-	if(mWindow.peekGui() == this)
-		mWindow.setHelpPrompts(prompts, getHelpStyle());
+	HelpItems().Clear();
+	if (getHelpPrompts(HelpItems()))
+  {
+	  ApplyHelpStyle();
+    mWindow.UpdateHelp();
+  }
 }
 
-HelpStyle GuiComponent::getHelpStyle()
+void GuiComponent::ApplyHelpStyle()
 {
-	HelpStyle style = HelpStyle();
 	if (Settings::Instance().ThemeHasMenuView())
-		style.applyTheme(ThemeData::getCurrent(), "menu");
+		HelpItemStyle().FromTheme(ThemeData::getCurrent(), "menu");
 	else
-		style.applyTheme(ThemeData::getCurrent(), "system");
-	return style;
+		HelpItemStyle().FromTheme(ThemeData::getCurrent(), "system");
 }
 
 void GuiComponent::onShow()

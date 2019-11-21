@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include "GuiComponent.h"
+#include "guis/Gui.h"
 #include "components/ImageComponent.h"
 #include "resources/Font.h"
 #include "Renderer.h"
@@ -55,7 +55,7 @@ const ScrollTierList LIST_SCROLL_STYLE_SLOW = { 2, SLOW_SCROLL_TIERS };
  */
 
 template <typename EntryData, typename UserData>
-class IList : public GuiComponent/*, public ISorter<UserData>*/
+class IList : public Gui
 {
 public:
 	struct Entry {
@@ -135,7 +135,7 @@ protected:
 
   public:
     IList(Window& window, const ScrollTierList& tierList, LoopType loopType)
-      : GuiComponent(window),
+      : Gui(window),
         mCursor(0),
         mScrollTier(0),
         mScrollVelocity(0),
@@ -155,7 +155,7 @@ protected:
       : IList(window, tierList, LoopType::PauseAtEnd)
     {
     }
-    explicit IList(Window&window)
+    explicit IList(Window& window)
       : IList(window, LIST_SCROLL_STYLE_QUICK, LoopType::PauseAtEnd)
     {
     }

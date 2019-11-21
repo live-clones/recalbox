@@ -4,7 +4,7 @@
 #pragma once
 
 #include <string>
-#include <Window.h>
+#include <ApplicationWindow.h>
 #include <utils/sdl2/ISyncronousEvent.h>
 #include <utils/cplusplus/INoCopy.h>
 
@@ -94,7 +94,7 @@ class MainRunner: private INoCopy, private ISyncronousEvent
      * @param window Main window
      * @return Exit state
      */
-    static ExitState MainLoop(Window& window, SystemManager& systemManager);
+    static ExitState MainLoop(ApplicationWindow& window, SystemManager& systemManager);
 
     /*!
      * @brief Create ready flag file to notify all external software that

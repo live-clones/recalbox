@@ -1,122 +1,147 @@
 #pragma once
 
-#include "GuiComponent.h"
 #include <vector>
 #include <guis/Gui.h>
+#include <components/HelpComponent.h>
+#include <components/ImageComponent.h>
 #include "resources/Font.h"
 #include "input/InputManager.h"
 
-class HelpComponent;
-class ImageComponent;
-
 class Window
 {
-public:
-	class InfoPopup
-	{
-	public:
-		virtual void render(const Transform4x4f& parentTrans) = 0;
-	};
-	Window();
-	~Window();
+  public:
+    class InfoPopup
+    {
+      public:
+        virtual void render(const Transform4x4f& parentTrans) = 0;
+    };
 
-	void pushGui(Gui* gui);
-	void displayMessage(const std::string& message);
-	void displayScrollMessage(const std::string& title, const std::string& message);
-	void removeGui(GuiComponent* gui);
-	GuiComponent* peekGui();
-	void deleteAllGui();
+    /*!
+     * @brief Default constructor
+     */
+    Window();
 
-	void textInput(const char* text);
-	void ProcessInput(const InputCompactEvent& event);
-	void update(int deltaTime);
-	void render();
+    /*!
+     * @brief Default destructor
+     */
+    ~Window();
 
-  bool Initialize(unsigned int width = 0, unsigned int height = 0, bool initRenderer = true);
-	static void Finalize();
+    void pushGui(Gui* gui);
 
-  void normalizeNextUpdate() { mNormalizeNextUpdate = true; }
+    void displayMessage(const std::string& message);
 
-	inline bool isShowingPopup() const { return mGuiStack.size() > 1; }
-	inline bool isSleeping() const { return mSleeping; }
-  bool getAllowSleep() { return mAllowSleep; }
-  void setAllowSleep(bool sleep) { mAllowSleep = sleep; }
+    void displayScrollMessage(const std::string& title, const std::string& message);
 
-  void renderLoadingScreen();
+    GuiComponent* peekGui();
 
-	void renderHelpPromptsEarly(); // used to render HelpPrompts before a fade
-	void setHelpPrompts(const std::vector<HelpPrompt>& prompts, const HelpStyle& style);
+    void deleteAllGui();
 
-	void setInfoPopup(const std::shared_ptr<InfoPopup>& infoPopup) { mInfoPopup = infoPopup; }
-	//inline void stopInfoPopup() { if (mInfoPopup) mInfoPopup->~InfoPopup(); };
+    void textInput(const char* text);
 
-	void renderShutdownScreen();
-	
-	void doWake();
+    virtual void ProcessInput(const InputCompactEvent& event);
 
-private:
-	static void onSleep();
-	static void onWake();
-	void renderWaitingScreen(const std::string& text);
+    virtual void Update(int deltaTime);
 
-	// Returns true if at least one component on the stack is processing
-	bool isProcessing();
-	static void renderScreenSaver();
+    virtual void Render(Transform4x4f& transform);
 
-	bool KonamiCode(InputDevice* config, InputEvent input, Window&window);
+    bool Initialize(unsigned int width = 0, unsigned int height = 0, bool initRenderer = true);
 
-	HelpComponent* mHelp;
-	ImageComponent* mBackgroundOverlay;
-	std::shared_ptr<InfoPopup> mInfoPopup;
+    static void Finalize();
 
-	std::vector<Gui*> mGuiStack;
-	std::vector<std::string> mMessages;
-	std::vector<std::string> mScrollMessages;
-	std::vector<std::string> mScrollTitle;
+    void normalizeNextUpdate() { mNormalizeNextUpdate = true; }
 
-	std::vector< std::shared_ptr<Font> > mDefaultFonts;
+    bool isSleeping() const { return mSleeping; }
 
-	int mFrameTimeElapsed;
-	int mFrameCountElapsed;
-	int mAverageDeltaTime;
+    void renderLoadingScreen();
 
-	std::unique_ptr<TextCache> mFrameDataText;
+    void renderHelpPromptsEarly(); // used to render HelpPrompts before a fade
+    void UpdateHelp() { mHelp.UpdateHelps(); }
 
-	bool mNormalizeNextUpdate;
+    void setInfoPopup(const std::shared_ptr<InfoPopup>& infoPopup) { mInfoPopup = infoPopup; }
 
-	bool mAllowSleep;
-	bool mSleeping;
-	unsigned int mTimeSinceLastInput;
+    void renderShutdownScreen();
 
-	bool mRenderedHelpPrompts;
+    void doWake()
+    {
+      mTimeSinceLastInput = 0;
+      mSleeping = false;
+    }
 
-	static constexpr int sKonamiLength = 10;
-	InputDevice::Entry mKonami[sKonamiLength] =
-	{
-    InputDevice::Entry::Up,
-    InputDevice::Entry::Up,
-    InputDevice::Entry::Down,
-    InputDevice::Entry::Down,
-    InputDevice::Entry::Left,
-    InputDevice::Entry::Right,
-    InputDevice::Entry::Left,
-    InputDevice::Entry::Right,
-    InputDevice::Entry::B,
-    InputDevice::Entry::A,
-  };
-	int mKonamiCount = 0;
-	const std::vector<InputDevice::Entry> mInputVals =
-  {
-    InputDevice::Entry::Up,
-    InputDevice::Entry::Down,
-    InputDevice::Entry::Left,
-    InputDevice::Entry::Right,
-    InputDevice::Entry::A,
-    InputDevice::Entry::B,
-  };
+    /*!
+     * @brief Check if the window has
+     * @return
+     */
+    bool HasGui() const { return !mGuiStack.empty(); }
 
-	/*!
-	 * @brief Delete GUI pending for deletion
-	 */
-  void deleteClosePendingGui();
+    /*!
+     * @brief Check if the given UI is on top of the screen
+     * @return True if the given UI is the first visible
+     */
+    virtual bool AmIOnTopOfScreen(const Gui* ui) const
+    {
+      if (!mGuiStack.empty())
+        if (mGuiStack.back() == ui) return true;
+      return false;
+    }
+
+  private:
+    void renderWaitingScreen(const std::string& text);
+
+    // Returns true if at least one component on the stack is processing
+    bool isProcessing();
+
+    static void renderScreenSaver();
+
+    bool KonamiCode(InputDevice* config, InputEvent input, Window& window);
+
+    HelpComponent mHelp;
+    ImageComponent mBackgroundOverlay;
+    std::shared_ptr<InfoPopup> mInfoPopup;
+
+    std::vector<Gui*> mGuiStack;
+    Strings::Vector mMessages;
+    Strings::Vector mScrollMessages;
+    Strings::Vector mScrollTitle;
+
+    std::vector<std::shared_ptr<Font> > mDefaultFonts;
+    std::unique_ptr<TextCache> mFrameDataText;
+
+    int mFrameTimeElapsed;
+    int mFrameCountElapsed;
+    int mAverageDeltaTime;
+    unsigned int mTimeSinceLastInput;
+
+    bool mNormalizeNextUpdate;
+    bool mSleeping;
+    bool mRenderedHelpPrompts;
+
+    static constexpr int sKonamiLength = 10;
+    InputDevice::Entry mKonami[sKonamiLength] =
+    {
+      InputDevice::Entry::Up,
+      InputDevice::Entry::Up,
+      InputDevice::Entry::Down,
+      InputDevice::Entry::Down,
+      InputDevice::Entry::Left,
+      InputDevice::Entry::Right,
+      InputDevice::Entry::Left,
+      InputDevice::Entry::Right,
+      InputDevice::Entry::B,
+      InputDevice::Entry::A,
+    };
+    int mKonamiCount = 0;
+    const std::vector<InputDevice::Entry> mInputVals =
+    {
+      InputDevice::Entry::Up,
+      InputDevice::Entry::Down,
+      InputDevice::Entry::Left,
+      InputDevice::Entry::Right,
+      InputDevice::Entry::A,
+      InputDevice::Entry::B,
+    };
+
+    /*!
+     * @brief Delete GUI pending for deletion
+     */
+    void deleteClosePendingGui();
 };

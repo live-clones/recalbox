@@ -28,7 +28,7 @@ public:
 
 	bool ProcessInput(const InputCompactEvent& event) override;
 	void onSizeChanged() override;
-	std::vector<HelpPrompt> getHelpPrompts() override;
+	bool getHelpPrompts(Help& help) override;
 
 private:
 	void addEntry(const char* name, unsigned int color, bool add_arrow, const std::function<void()>& func, const Path& iconName = Path());

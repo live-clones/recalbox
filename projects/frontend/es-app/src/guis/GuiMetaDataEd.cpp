@@ -454,10 +454,7 @@ void GuiMetaDataEd::close(bool closeAllWindows)
   {
     closeFunc = [this]
     {
-      while (mWindow.peekGui() != &ViewController::Instance())
-      {
-        delete mWindow.peekGui();
-      }
+      mWindow.deleteAllGui();
     };
   }
 
@@ -497,10 +494,10 @@ bool GuiMetaDataEd::ProcessInput(const InputCompactEvent& event)
   return false;
 }
 
-std::vector<HelpPrompt> GuiMetaDataEd::getHelpPrompts()
+bool GuiMetaDataEd::getHelpPrompts(Help& help)
 {
-  std::vector<HelpPrompt> prompts = mGrid.getHelpPrompts();
-  prompts.push_back(HelpPrompt("a", _("BACK")));
-  prompts.push_back(HelpPrompt("start", _("CLOSE")));
-  return prompts;
+  mGrid.getHelpPrompts(help);
+  help.Set(HelpType::A, _("BACK"))
+      .Set(HelpType::Start, _("CLOSE"));
+  return true;
 }

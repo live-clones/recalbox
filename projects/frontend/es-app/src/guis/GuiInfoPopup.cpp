@@ -17,9 +17,7 @@ GuiInfoPopup::GuiInfoPopup(Window&window, const std::string& message, int durati
 		mFrame(window, Path(":/frame.png")),
     running(true)
 {
-
 	bool noIcon = icon == 0;
-
 
 	float maxWidth = Renderer::getDisplayWidthAsFloat() * 0.2f;
 	float maxHeight = Renderer::getDisplayHeightAsFloat() * 0.4f;

@@ -43,14 +43,13 @@ void GridGameListView::populateList(const FolderData* folder)
 	}
 }
 
-std::vector<HelpPrompt> GridGameListView::getHelpPrompts()
+bool GridGameListView::getHelpPrompts(Help& help)
 {
 	bool hideSystemView = RecalboxConf::Instance().AsBool("emulationstation.hidesystemview");
 
-	std::vector<HelpPrompt> prompts;
-	prompts.push_back(HelpPrompt("up/down/left/right", _("SCROLL")));
-	prompts.push_back(HelpPrompt("b", _("LAUNCH")));
+	help.Set(HelpType::AllDirections, _("SCROLL"))
+	    .Set(HelpType::B, _("LAUNCH"));
 	if(!hideSystemView)
-	  prompts.push_back(HelpPrompt("a", _("BACK")));
-	return prompts;
+	  help.Set(HelpType::A, _("BACK"));
+	return true;
 }

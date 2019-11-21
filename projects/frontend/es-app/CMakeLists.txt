@@ -69,6 +69,7 @@ set(ES_HEADERS
         src/CommandThread.h
         src/NetPlayThread.h
         src/MainRunner.h
+        src/ApplicationWindow.h
         )
 
 set(ES_SOURCES
@@ -126,6 +127,7 @@ set(ES_SOURCES
         src/CommandThread.cpp
         src/NetPlayThread.cpp
         src/MainRunner.cpp
+        src/ApplicationWindow.cpp
         )
 
 #-------------------------------------------------------------------------------

@@ -4,7 +4,8 @@ set(CORE_HEADERS
 		src/AsyncHandle.h
 		src/AudioManager.h
 		src/GuiComponent.h
-		src/HelpStyle.h
+		src/help/HelpStyle.h
+		src/help/Help.h
 		src/HttpReq.h
 		src/ImageIO.h
 		src/input/InputDevice.h
@@ -106,7 +107,8 @@ set(CORE_HEADERS
 set(CORE_SOURCES
 		src/AudioManager.cpp
 		src/GuiComponent.cpp
-		src/HelpStyle.cpp
+        src/help/HelpStyle.cpp
+		src/help/Help.cpp
 		src/HttpReq.cpp
 		src/ImageIO.cpp
 		src/input/InputDevice.cpp
@@ -167,6 +169,7 @@ set(CORE_SOURCES
 		src/components/TextEditComponent.cpp
 
 		# Guis
+		src/guis/Gui.cpp
 		src/guis/GuiDetectDevice.cpp
 		src/guis/GuiInputConfig.cpp
 		src/guis/GuiMsgBox.cpp

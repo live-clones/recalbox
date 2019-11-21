@@ -280,15 +280,12 @@ Vector2f TextEditComponent::getTextAreaSize() const
 	return { mSize.x() - TEXT_PADDING_HORIZ, mSize.y() - TEXT_PADDING_VERT };
 }
 
-std::vector<HelpPrompt> TextEditComponent::getHelpPrompts()
+bool TextEditComponent::getHelpPrompts(Help& help)
 {
-	std::vector<HelpPrompt> prompts;
 	if(mEditing)
-	{
-		prompts.push_back(HelpPrompt("up/down/left/right", _("MOVE CURSOR")));
-		prompts.push_back(HelpPrompt("a", _("STOP EDITING")));
-	}else{
-		prompts.push_back(HelpPrompt("b", _("EDIT")));
-	}
-	return prompts;
+		help.Set(HelpType::AllDirections, _("MOVE CURSOR"))
+		    .Set(HelpType::A, _("STOP EDITING"));
+	else
+		help.Set(HelpType::B, _("EDIT"));
+	return true;
 }

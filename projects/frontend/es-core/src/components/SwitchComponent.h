@@ -29,7 +29,7 @@ public:
 	std::string getValue() const override;
 	bool changed();
 
-	std::vector<HelpPrompt> getHelpPrompts() override;
+	bool getHelpPrompts(Help& help) override;
 
 private:
 	void onStateChanged();

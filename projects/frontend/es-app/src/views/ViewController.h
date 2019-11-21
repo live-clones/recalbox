@@ -72,11 +72,13 @@ public:
 	inline const State& getState() const { return mState; }
 	inline bool isViewing(ViewMode viewing) const { return mState.viewing == viewing; }
 
-	std::vector<HelpPrompt> getHelpPrompts() override;
-	HelpStyle getHelpStyle() override;
+	bool getHelpPrompts(Help& help) override;
+	void ApplyHelpStyle() override;
 
 	std::shared_ptr<IGameListView> getGameListView(SystemData* system);
 	std::shared_ptr<SystemView> getSystemListView();
+
+	Gui* CurrentUi() const { return mCurrentView.get(); }
 
 private:
 	static ViewController* sInstance;
@@ -87,7 +89,7 @@ private:
   //! SystemManager instance
 	SystemManager& mSystemManager;
 
-	std::shared_ptr<GuiComponent> mCurrentView;
+	std::shared_ptr<Gui> mCurrentView;
 	std::map< SystemData*, std::shared_ptr<IGameListView> > mGameListViews;
 	std::shared_ptr<SystemView> mSystemListView;
 
@@ -99,5 +101,4 @@ private:
 	bool mFavoritesOnly;
 
 	State mState;
-  Window& mWindow;
 };

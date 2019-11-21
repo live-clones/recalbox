@@ -18,7 +18,7 @@ public:
 	~GuiScraperMulti() override;
 
 	void onSizeChanged() override;
-	std::vector<HelpPrompt> getHelpPrompts() override { return mGrid.getHelpPrompts(); }
+	bool getHelpPrompts(Help& help) override { return mGrid.getHelpPrompts(help); }
 
 private:
 	void acceptResult(const ScraperSearchResult& result);

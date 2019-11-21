@@ -99,7 +99,7 @@ GuiTextEditPopupKeyboard::GuiTextEditPopupKeyboard(Window&window, const std::str
 	    }
 	}
 
-	const float screenHeightAvailable = Renderer::getDisplayHeightAsFloat() - getHelpStyle().font->getHeight(); // Height - Help Height
+	const float screenHeightAvailable = Renderer::getDisplayHeightAsFloat() - HelpItemStyle().TextFont()->getHeight(); // Height - Help Height
   const float gridWidth = Renderer::getDisplayWidthAsFloat() * 0.98f;
   const float gridHeight = screenHeightAvailable * ((float) buttonList.size() / (float) (buttonList.size() + 3) ); // 3 => share space with mTitle + mText + buttons
 
@@ -236,13 +236,13 @@ void GuiTextEditPopupKeyboard::switchShift()
   updateHelpPrompts();
 }
 
-std::vector<HelpPrompt> GuiTextEditPopupKeyboard::getHelpPrompts()
+bool GuiTextEditPopupKeyboard::getHelpPrompts(Help& help)
 {
-	std::vector<HelpPrompt> prompts = mGrid.getHelpPrompts();
-	prompts.push_back(HelpPrompt("y", _("SHIFT")));
-	prompts.push_back(HelpPrompt("a", _("BACK")));
-	prompts.push_back(HelpPrompt("r", _("SPACE")));
-	prompts.push_back(HelpPrompt("l", _("DELETE")));
-	return prompts;
+	mGrid.getHelpPrompts(help);
+	help.Set(HelpType::Y, _("SHIFT"))
+	    .Set(HelpType::A, _("BACK"))
+	    .Set(HelpType::R, _("SPACE"))
+	    .Set(HelpType::L, _("DELETE"));
+	return true;
 }
 

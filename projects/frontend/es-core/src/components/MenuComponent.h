@@ -78,7 +78,7 @@ public:
 	inline void setCursorToButtons() { assert(mButtonGrid); mGrid.setCursorTo(mButtonGrid); }
 	inline void clear() { mList->clear(); }
 
-	std::vector<HelpPrompt> getHelpPrompts() override;
+	bool getHelpPrompts(Help& help) override;
 
 protected:
 	inline ComponentList* getList() const { return mList.get(); }
