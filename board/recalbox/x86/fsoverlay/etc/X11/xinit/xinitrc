@@ -1,6 +1,9 @@
 #!/bin/sh
 
-matchbox-window-manager -use_titlebar no -use_desktop_mode no -use_lowlight no &
+# matchbox doesn't seems to correctly handle qt5 apps, at least for doplhin-emu,
+# replace it with ratpoison: https://wiki.archlinux.org/index.php/Ratpoison
+# matchbox-window-manager -use_titlebar no -use_desktop_mode no -use_lowlight no &
+ratpoison &
 
 # set the keyboard
 systemsetting="recalbox_settings"
