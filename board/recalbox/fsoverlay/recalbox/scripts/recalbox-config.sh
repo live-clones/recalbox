@@ -533,10 +533,10 @@ if [[ "$command" == "hiddpair" ]]; then
     /recalbox/scripts/bluetooth/test-device remove "$mac"
 
     recallog "pairing $name $mac"
-    echo $name | grep "8Bitdo\|other"
+    echo $name | grep -i "8Bitdo\|other"
     if [ "$?" == "0" ]; then
         recallog "8Bitdo detected"
-        cat "/run/udev/rules.d/99-8bitdo.rules" | grep "$mac" >> /dev/null
+        cat "/run/udev/rules.d/99-8bitdo.rules" | grep -i "$mac" >> /dev/null
         if [ "$?" != "0" ]; then
             recallog "adding rule for $mac"
             echo "SUBSYSTEM==\"input\", ATTRS{uniq}==\"$macLowerCase\", MODE=\"0666\", ENV{ID_INPUT_JOYSTICK}=\"1\"" >> "/run/udev/rules.d/99-8bitdo.rules"

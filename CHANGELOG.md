@@ -7,6 +7,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fix Odroid XU4 fan issue
 - Fix Odroid XU4 sound issue
 - New: option to boot on EMMC on XU4 (boot.ini)
+- Fix 8bitdo udev rules issue
+- Add 8bitdo N30 Pro 2 controller to pre-configured pads/joyticks
 
 ## [6.1.1]
 - Add zfast shaders
