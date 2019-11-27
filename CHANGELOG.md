@@ -23,6 +23,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fix fulscreen for oric and apple2 on x86/x86_64
 - Fix apple2 on x86/x86_64
 
+- Fix dolphin emulator on x86/x64
 
 ## [6.1.1]
 - Add zfast shaders

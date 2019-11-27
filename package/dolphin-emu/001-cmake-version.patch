@@ -1,0 +1,12 @@
+--- a/CMakeLists.txt	2019-11-15 13:08:45.000000000 +0000
++++ b/CMakeLists.txt	2019-11-15 16:56:58.467472359 +0000
+@@ -1,7 +1,7 @@
+ ########################################
+ # General setup
+ #
+-cmake_minimum_required(VERSION 3.10)
++cmake_minimum_required(VERSION 3.8.2)
+ set(CMAKE_OSX_ARCHITECTURES "x86_64")
+ # Minimum OS X version.
+ # This is inserted into the Info.plist as well.
+
