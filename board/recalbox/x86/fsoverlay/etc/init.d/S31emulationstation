@@ -6,29 +6,28 @@ log=/recalbox/share/system/logs/recalbox.log
 systemsetting="recalbox_settings"
 
 case "$1" in
-  start)
-	enabled="`$systemsetting  -command load -key system.es.atstartup`"
-        if [ "$enabled" != "0" ];then
-		settings_lang="`$systemsetting -command load -key system.language`"
-        	recallog "starting emulationstation with lang = $settings_lang"
-                command="HOME=/recalbox/share/system startx"
-        	recallog "Starting emulationstation with command : "
-        	recallog "$command"
-        	eval $command >> $log &
-	fi
-	;;
-  stop)
-	killall emulationstation
-	;;
-  restart|reload)
-        "$0" stop
-        "$0" start
-	;;
-  *)
-	echo "Usage: $0 {start|stop|restart}"
-	exit 1
+	start)
+		enabled="`$systemsetting  -command load -key system.es.atstartup`"
+		if [ "$enabled" != "0" ];then
+			settings_lang="`$systemsetting -command load -key system.language`"
+			recallog "starting emulationstation with lang = $settings_lang"
+			command="HOME=/recalbox/share/system startx"
+			recallog "Starting emulationstation with command : "
+			recallog "$command"
+			eval $command >> $log &
+		fi
+		;;
+	stop)
+		killall emulationstation
+		;;
+	restart|reload)
+		"$0" stop
+		"$0" start
+		;;
+	*)
+		echo "Usage: $0 {start|stop|restart}"
+		exit 1
+		;;
 esac
 
 exit $?
-
-

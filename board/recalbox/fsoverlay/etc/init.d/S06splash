@@ -16,6 +16,24 @@ until [ -e /dev/fb0 ]; do
   fi
 done
 
+## Global variables ##
+
+fbdevWidth=$(cut -d, -f1 /sys/class/graphics/fb0/virtual_size)
+fbdevHeight=$(cut -d, -f2 /sys/class/graphics/fb0/virtual_size)
+
+videoPath=$(sed -n "s/^system.splash.path=//p" /boot/recalbox-backup.conf)
+if [ -z "${videoPath}" ] || [ ${videoPath} -eq 0 ] || [ ${videoPath} -lt -1 ]; then
+  videoPath="/recalbox/system/resources/splash"
+  if [ ${fbdevHeight} -le 240 ]; then
+    videoPath="${videoPath}/240p"
+  fi
+fi
+
+videoLength=$(sed -n "s/^system.splash.length=//p" /boot/recalbox-backup.conf)
+if [ -z "${videoLength}" ] || [ ${videoLength} -eq 0 ] || [ ${videoLength} -lt -1 ]; then
+  videoLength=20
+fi
+
 ## Functions ##
 
 # turnOffGPiCaseHDMI
@@ -30,34 +48,47 @@ turnOffGPiCaseHDMI() {
 
 # selectVideo
 #   takes no argument and outputs a random video from those available
-#   (uses 240p videos if framebuffer height is 240px or less)
 function selectVideo() {
-  if [ ${fbdevHeight} -le 240 ]; then
-    videoSubFolder="/240p"
-  fi
-  IFS= find /recalbox/system/resources/splash${videoSubFolder} -maxdepth 1 -name *.mp4 \
+  IFS= find ${videoPath} -maxdepth 1 -name *.mp4 \
     | while read line; do echo "$RANDOM ${line}"; done \
     | sort -n \
     | head -1 \
     | cut -d' ' -f2
 }
 
-# stopPlayerWhenFrontendReady <playerPID> <timeout>
-#   stops player running with PID <playerPID> when either (whichever comes first):
-#     - EmulationStation is ready
-#     - Kodi is ready
-#     - after <timeout> seconds
-function stopPlayerWhenFrontendReady() {
+# stopPlayerWhenTimeoutReached <playerPID> <timeout>
+#   stops player running with PID <playerPID> when <timeout> reached
+function stopPlayerWhenTimeoutReached() {
   local playerPID="$1"
   local timeout="$2"
   local count=0
 
   [ ${timeout} -eq -1 ] && return
-  until [ -f "/tmp/emulationstation.ready" ] || [ -e "/var/run/kodi.msg" ] || [ ${count} -ge ${timeout} ]; do
+  until [ ${count} -ge ${timeout} ]; do
     sleep 1
     let count++
   done
   kill -9 ${playerPID}
+}
+
+# playWithMPlayer
+# starts playing a video on the framebuffer via mplayer
+function playWithMPlayer() {
+  local videoFile="$(selectVideo)"
+  
+  if ! which mplayer > /dev/null; then
+    return
+  fi
+  # init alsa audio
+  alsactl init
+  # disable framebuffer cursor
+  echo -e '\033[?17;0;0c' > /dev/tty1
+  # play media in fullscreen
+  mp_subs="/recalbox/system/resources/splash/recalboxintro.srt"
+  mplayer -vo fbdev2 -fs -zoom -x ${fbdevWidth} -y ${fbdevHeight} -sub "${mp_subs}" "${videoFile}" > /dev/null 2>&1 &
+  if [ ${videoLength} -ne -1 ]; then
+    stopPlayerWhenTimeoutReached $! ${videoLength}
+  fi
 }
 
 # playWithFFPlay
@@ -72,7 +103,7 @@ function playWithFFPlay() {
   ffplay_srt="subtitles=/recalbox/system/resources/splash/recalboxintro.srt:force_style='FontName=/usr/share/fonts/dejavu/DejaVuSans-BoldOblique.ttf,Fontsize=10'"
   ffplay ${ffplay_opts} -x ${fbdevWidth} -y ${fbdevHeight} -vf "${ffplay_srt}" "${videoFile}" > /dev/null 2>&1 &
   if [ ${videoLength} -ne -1 ]; then
-    stopPlayerWhenFrontendReady $! ${videoLength}
+    stopPlayerWhenTimeoutReached $! ${videoLength}
   fi
 }
 
@@ -89,14 +120,19 @@ function playWithOMX() {
   omx_srt="--no-ghost-box --lines=1 --align=left $omx_fnt --font-size=20 --subtitles=/recalbox/system/resources/splash/recalboxintro.srt"
   /usr/bin/omxplayer.bin ${omx_opt} ${omx_srt} ${videoFile} &
   if [ ${videoLength} -ne -1 ]; then
-    stopPlayerWhenFrontendReady $! ${videoLength}
+    stopPlayerWhenTimeoutReached $! ${videoLength}
   fi
 }
 
 # showIntroBackground
 #   displays our intro background via the framebuffer
 showIntroBackground() {
+  # fbv will only clear the aera it is drawing to,
+  # clear framebuffer in case we don't use the same screen/bg ratio
+  dd if=/dev/zero of=/dev/fb0 > /dev/null 2>&1
   fbv -f -i /recalbox/system/resources/splash/logo-version.png
+  # launching ES just after fbv can cause some screen corruption
+  sleep 1
 }
 
 # showInstallBackground
@@ -105,22 +141,14 @@ showInstallBackground() {
   fbv -f -i /tmp/.install.png
 }
 
-## Global variables ##
-
-videoLength=$(sed -n "s/^system.splash.length=//p" /boot/recalbox-backup.conf)
-if [ -z "${videoLength}" ] || [ ${videoLength} -eq 0 ] || [ ${videoLength} -lt -1 ]; then
-  videoLength=20
-fi
-
-fbdevWidth=$(cut -d, -f1 /sys/class/graphics/fb0/virtual_size)
-fbdevHeight=$(cut -d, -f2 /sys/class/graphics/fb0/virtual_size)
-
 ## Main ##
 
 if [ -f /tmp/.install.png ]; then
   showInstallBackground &
 elif [ "$(head -c 3 /recalbox/recalbox.arch)" = "rpi" ]; then
   ( turnOffGPiCaseHDMI; playWithOMX; showIntroBackground ) &
+elif [ "$(head -c 3 /recalbox/recalbox.arch)" = "x86" ]; then
+  ( playWithMPlayer; showIntroBackground ) &
 else
   ( playWithFFPlay; showIntroBackground ) &
 fi
