@@ -5,38 +5,29 @@
 log=/recalbox/share/system/logs/recalbox.log
 systemsetting="recalbox_settings"
 
-wait_intro_end() {
-  # on x86/x64, at least, emulationstation can start really fast,
-  # so wait for intro video (mplayer) to finish before launching ES
-  mp_pid=$(pgrep -f mplayer)
-  while kill -0 $mp_pid 2>/dev/null; do
-    sleep 0.1
-  done
-}
-
 case "$1" in
-  start)
-    enabled="`$systemsetting  -command load -key system.es.atstartup`"
-    if [ "$enabled" != "0" ];then
-      wait_intro_end
-      settings_lang="`$systemsetting -command load -key system.language`"
-      recallog "starting emulationstation with lang = $settings_lang"
-      command="HOME=/recalbox/share/system startx"
-      recallog "Starting emulationstation with command : "
-      recallog "$command"
-      eval $command >> $log &
-    fi
-    ;;
-  stop)
-    killall emulationstation
-    ;;
-  restart|reload)
-    "$0" stop
-    "$0" start
-    ;;
-  *)
-    echo "Usage: $0 {start|stop|restart}"
-    exit 1
+	start)
+		enabled="`$systemsetting  -command load -key system.es.atstartup`"
+		if [ "$enabled" != "0" ];then
+			settings_lang="`$systemsetting -command load -key system.language`"
+			recallog "starting emulationstation with lang = $settings_lang"
+			command="HOME=/recalbox/share/system startx"
+			recallog "Starting emulationstation with command : "
+			recallog "$command"
+			eval $command >> $log &
+		fi
+		;;
+	stop)
+		killall emulationstation
+		;;
+	restart|reload)
+		"$0" stop
+		"$0" start
+		;;
+	*)
+		echo "Usage: $0 {start|stop|restart}"
+		exit 1
+		;;
 esac
 
 exit $?
