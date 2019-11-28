@@ -6,7 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add joystick rules for IPega PG-9037
 - Fix Odroid XU4 fan issue
 - Fix Odroid XU4 sound issue
-- New: option to boot on EMMC on XU4 (boot.ini)
+- Fix: EMMC boot on XU4
 - Fix 8bitdo udev rules issue
 - Add 8bitdo N30 Pro 2 controller to pre-configured pads/joyticks
 - Odroid XU4 uboot bumped to odroidxu4-v2017.05
