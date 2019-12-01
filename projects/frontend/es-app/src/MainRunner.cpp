@@ -22,8 +22,8 @@
 #include "NetPlayThread.h"
 #include "DemoMode.h"
 
-MainRunner::ExitState MainRunner::mRequestedExitState = MainRunner::ExitState::Quit;
-bool MainRunner::mQuitRequested = false;
+MainRunner::ExitState MainRunner::sRequestedExitState = MainRunner::ExitState::Quit;
+bool MainRunner::sQuitRequested = false;
 
 MainRunner::MainRunner(const std::string& executablePath, unsigned int width, unsigned int height)
   : mRequestedWidth(width),
@@ -63,7 +63,8 @@ MainRunner::ExitState MainRunner::Run()
     AudioManager audioManager(window);
 
     // Display "loading..." screen
-    window.renderLoadingScreen();
+    //window.renderLoadingScreen();
+    window.RenderAll();
     PlayLoadingSound(audioManager);
 
     // Try to load system configurations
@@ -110,7 +111,8 @@ MainRunner::ExitState MainRunner::Run()
     }
 
     // Exit
-    window.renderShutdownScreen();
+    window.GoToQuitScreen();
+    //window.renderShutdownScreen();
     VideoEngine::This().StopVideo(true);
     window.deleteAllGui();
     systemManager.DeleteAllSystems(DoWeHaveToUpdateGamelist(exitState));
@@ -208,15 +210,14 @@ MainRunner::ExitState MainRunner::MainLoop(ApplicationWindow& window, SystemMana
       deltaTime = 1000;
 
     window.Update(deltaTime);
-    window.RenderAllGraphics();
-    Renderer::swapBuffers();
+    window.RenderAll();
 
     // Immediate exit required? TODO: Filewatching!
     if (mustExit.Exists()) return ExitState::Quit;
 
     // Quit Request?
-    if (mQuitRequested)
-      return mRequestedExitState;
+    if (sQuitRequested)
+      return sRequestedExitState;
   }
 }
 
@@ -334,14 +335,14 @@ void MainRunner::SetArchitecture()
 
 void MainRunner::ReceiveSyncCallback(const SDL_Event& /*event*/)
 {
-  //mQuitRequested = true;
-  //mRequestedExitState = (ExitState)event.user.code;
+  //sQuitRequested = true;
+  //sRequestedExitState = (ExitState)event.user.code;
 }
 
 void MainRunner::RequestQuit(MainRunner::ExitState requestedState)
 {
-  mQuitRequested = true;
-  mRequestedExitState = requestedState;
+  sQuitRequested = true;
+  sRequestedExitState = requestedState;
 }
 
 bool MainRunner::DoWeHaveToUpdateGamelist(MainRunner::ExitState state)

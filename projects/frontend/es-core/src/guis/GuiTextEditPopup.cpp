@@ -63,7 +63,7 @@ void GuiTextEditPopup::onSizeChanged()
 
 bool GuiTextEditPopup::ProcessInput(const InputCompactEvent& event)
 {
-	if (GuiComponent::ProcessInput(event))
+	if (Component::ProcessInput(event))
 		return true;
 
 	// pressing back when not text editing closes us

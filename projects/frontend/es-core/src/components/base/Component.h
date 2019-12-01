@@ -7,6 +7,7 @@
 #include "themes/ThemeData.h"
 #include "themes/Properties.h"
 #include "help/Help.h"
+#include "IComponent.h"
 
 class Window;
 class Animation;
@@ -14,13 +15,11 @@ class AnimationController;
 class ThemeData;
 class Font;
 
-typedef std::pair<std::string, std::string> HelpPrompt;
-
-class GuiComponent
+class Component: public IComponent
 {
   public:
-    explicit GuiComponent(Window&window);
-    virtual ~GuiComponent();
+    explicit Component(Window&window);
+    virtual ~Component();
 
     virtual void textInput(const char* text);
 
@@ -29,18 +28,25 @@ class GuiComponent
      * @param event Compact event
      * @return Implementation must return true if it consumed the event.
      */
-    virtual bool ProcessInput(const InputCompactEvent& event);
+    bool ProcessInput(const InputCompactEvent& event) override;
 
-    //Called when time passes.  Default implementation calls updateSelf(deltaTime) and updateChildren(deltaTime) - so you should probably call GuiComponent::update(deltaTime) at some point (or at least updateSelf so animations work).
-    virtual void update(int deltaTime);
+    /*!
+     * @brief Called once per frame. Override to implement your own drawings.
+     * Call your base::Update() to ensure animation and childrens are updated properly
+     * @param deltaTime Elapsed time from the previous frame, in millisecond
+     */
+    void Update(int deltaTime) override;
 
-    //Called when it's time to render.  By default, just calls renderChildren(parentTrans * getTransform()).
-    //You probably want to override this like so:
-    //1. Calculate the new transform that your control will draw at with Eigen::Affine3f t = parentTrans * getTransform().
-    //2. Set the renderer to use that new transform as the model matrix - Renderer::setMatrix(t);
-    //3. Draw your component.
-    //4. Tell your children to render, based on your component's transform - renderChildren(t).
-    virtual void render(const Transform4x4f& parentTrans);
+    /*!
+     * @brief Called once per frame, after Update
+     * Implement your own Render() to draw your own compponents or over-drawings
+     * First, execute: 	Transform4x4f trans = (parentTrans * getTransform()).round();
+	   *                  Renderer::setMatrix(trans);
+     * Then draw your components
+     * Finally, call your base.Render(trans) to draw animations and childrens
+     * @param parentTrans Transformation
+     */
+    void Render(const Transform4x4f& parentTrans) override;
 
     const Vector3f& getPosition() const { return mPosition; }
     void setNormalisedPosition(float x, float y, float z = 0.0f);
@@ -80,15 +86,15 @@ class GuiComponent
     // Returns the center point of the image (takes origin into account).
     Vector2f getCenter() const;
 
-    void setParent(GuiComponent* parent) { mParent = parent; }
-    GuiComponent* getParent() const { return mParent; }
+    void setParent(Component* parent) { mParent = parent; }
+    Component* getParent() const { return mParent; }
 
-    void addChild(GuiComponent* cmp);
-    void removeChild(GuiComponent* cmp);
+    void addChild(Component* cmp);
+    void removeChild(Component* cmp);
     void clearChildren();
     void sortChildren();
     unsigned int getChildCount() const;
-    GuiComponent* getChild(unsigned int i) const;
+    Component* getChild(unsigned int i) const;
 
     // animation will be automatically deleted when it completes or is stopped.
     bool isAnimationPlaying(unsigned char slot) const;
@@ -143,7 +149,7 @@ class GuiComponent
     AnimationController* mAnimationMap[MAX_ANIMATIONS];
     // mChildren has been moved from value to reference, because most component instances do not have any child.
     // Doing this saves 20 octets by instance
-    std::vector<GuiComponent*>* mChildren;
+    std::vector<Component*>* mChildren;
 
   protected:
     static Help& HelpItems()
@@ -165,7 +171,7 @@ class GuiComponent
     Vector2f denormalise(const Vector2f& value);
 
     Window& mWindow;
-    GuiComponent* mParent;
+    Component* mParent;
 
     Vector3f mPosition;
     Vector2f mOrigin;

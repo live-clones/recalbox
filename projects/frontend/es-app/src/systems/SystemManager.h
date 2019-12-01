@@ -2,15 +2,16 @@
 
 #include "SystemData.h"
 #include "SystemDescriptor.h"
-#include <utils/os/system/ThreadPoolWorkerInterface.h>
+#include <utils/os/system/IThreadPoolWorkerInterface.h>
 #include <RootFolders.h>
 #include <utils/Xml.h>
 #include <utils/cplusplus/INoCopy.h>
+#include <views/IProgressInterface.h>
 
 class SystemManager :
   private INoCopy, // No copy allowed
-  public ThreadPoolWorkerInterface<SystemDescriptor, SystemData*>, // Multi-threaded system loading
-  public ThreadPoolWorkerInterface<SystemData*, bool> // Multi-threaded system unloading
+  public IThreadPoolWorkerInterface<SystemDescriptor, SystemData*>, // Multi-threaded system loading
+  public IThreadPoolWorkerInterface<SystemData*, bool> // Multi-threaded system unloading
 {
   public:
     //! Convenient alias for system collision map
@@ -30,6 +31,9 @@ class SystemManager :
     std::vector<SystemData*> sHiddenSystemVector;
     //! ALL systems, visible and hidden
     std::vector<SystemData*> sAllSystemVector;
+
+    //! Progress interface called when loading/unloading
+    IProgressInterface* mProgressInterface;
 
     /*!
      * Run though the system list and store system nodes into the given store.
@@ -152,11 +156,19 @@ class SystemManager :
      */
     bool ThreadPoolRunJob(SystemData*& feed) override;
 
+    void ThreadPoolTick(int completed, int total) override;
+
   public:
     /*!
-     * @brief Private constructor
+     * @brief constructor
      */
     SystemManager() = default;
+
+    /*!
+     * @brief Set the progress interface
+     * @param interface
+     */
+    void SetProgressInterface(IProgressInterface* interface) { mProgressInterface = interface; }
 
     /*!
      * @brief Get favorite system

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GuiComponent.h"
+#include "components/base/Component.h"
 #include "components/TextComponent.h"
 #include "components/IList.h"
 #include "resources/TextureResource.h"
@@ -19,8 +19,8 @@ enum class CarouselType : unsigned int
 
 struct SystemViewData
 {
-	std::shared_ptr<GuiComponent> logo;
-	std::shared_ptr<GuiComponent> logotext;
+	std::shared_ptr<Component> logo;
+	std::shared_ptr<Component> logotext;
 	std::shared_ptr<ThemeExtras> backgroundExtras;
 };
 
@@ -51,8 +51,8 @@ public:
     void goToSystem(SystemData* system, bool animate);
 
 	bool ProcessInput(const InputCompactEvent& event) override;
-	void update(int deltaTime) override;
-	void render(const Transform4x4f& parentTrans) override;
+	void Update(int deltaTime) override;
+	void Render(const Transform4x4f& parentTrans) override;
 	
 	void onThemeChanged(const ThemeData& theme);
 

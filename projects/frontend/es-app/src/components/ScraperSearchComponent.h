@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GuiComponent.h"
+#include "components/base/Component.h"
 #include "scrapers/Scraper.h"
 #include "components/ComponentGrid.h"
 #include "components/BusyComponent.h"
@@ -15,7 +15,7 @@ class ScrollableContainer;
 class HttpReq;
 class AnimatedImageComponent;
 
-class ScraperSearchComponent : public GuiComponent
+class ScraperSearchComponent : public Component
 {
 public:
 	enum class SearchType
@@ -38,8 +38,8 @@ public:
 	inline void setCancelCallback(const std::function<void()>& cancelCallback) { mCancelCallback = cancelCallback; }
 
 	bool ProcessInput(const InputCompactEvent& event) override;
-	void update(int deltaTime) override;
-	void render(const Transform4x4f& parentTrans) override;
+	void Update(int deltaTime) override;
+	void Render(const Transform4x4f& parentTrans) override;
 	bool getHelpPrompts(Help& help) override;
 	void onSizeChanged() override;	
   void onFocusGained() override { mGrid.onFocusGained(); }
@@ -80,10 +80,10 @@ private:
 	struct MetaDataPair
 	{
 		std::shared_ptr<TextComponent> first;
-		std::shared_ptr<GuiComponent> second;
+		std::shared_ptr<Component> second;
 		bool resize;
 
-		MetaDataPair(std::shared_ptr<TextComponent> f, std::shared_ptr<GuiComponent> s, bool r = true) : first(std::move(f)), second(std::move(s)), resize(r) {};
+		MetaDataPair(std::shared_ptr<TextComponent> f, std::shared_ptr<Component> s, bool r = true) : first(std::move(f)), second(std::move(s)), resize(r) {};
 	};
 	
 	std::vector<MetaDataPair> mMD_Pairs;

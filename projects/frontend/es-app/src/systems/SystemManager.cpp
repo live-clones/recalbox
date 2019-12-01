@@ -153,6 +153,11 @@ bool SystemManager::DeserializeSystemDescriptor(XmlNode system, SystemDescriptor
   return false;
 }
 
+void SystemManager::ThreadPoolTick(int completed, int /*total*/)
+{
+  if (mProgressInterface != nullptr)
+    mProgressInterface->SetProgress(completed);
+}
 
 SystemData* SystemManager::ThreadPoolRunJob(SystemDescriptor& system)
 {
@@ -341,7 +346,7 @@ bool SystemManager::LoadSystemConfigurations()
   StringMapFile weights(sWeightFilePath);
   weights.Load();
   // Create automatic thread-pool
-  ThreadPool<SystemDescriptor, SystemData*> threadPool(this, "System-Loader", -2, false);
+  ThreadPool<SystemDescriptor, SystemData*> threadPool(this, "System-Loader", -2, false, 20);
   // Push system to process
   for (const XmlNode system : systemList)
   {
@@ -358,6 +363,8 @@ bool SystemManager::LoadSystemConfigurations()
   }
   // Run the threadpool and automatically wait for all jobs to complete
   int count = threadPool.PendingJobs();
+  if (mProgressInterface != nullptr)
+    mProgressInterface->SetMaximum(count);
   threadPool.Run(false);
   // Push result
   sVisibleSystemVector.resize(count, nullptr);
@@ -450,8 +457,10 @@ void SystemManager::DeleteAllSystems(bool updateGamelists)
   {
     DateTime start;
 
+    if (mProgressInterface != nullptr)
+      mProgressInterface->SetMaximum(sAllSystemVector.size());
     // Create automatic thread-pool
-    ThreadPool<SystemData*, bool> threadPool(this, "System-Save", -2, false);
+    ThreadPool<SystemData*, bool> threadPool(this, "System-Save", -2, false, 20);
     // Push system to process
     for (SystemData* system : sAllSystemVector)
       threadPool.PushFeed(system, 0);

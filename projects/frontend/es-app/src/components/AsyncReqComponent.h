@@ -31,8 +31,8 @@ public:
 	AsyncReqComponent(Window& window, std::shared_ptr<HttpReq> req, std::function<void(std::shared_ptr<HttpReq>)> onSuccess, std::function<void()> onCancel = nullptr);
 
 	bool ProcessInput(const InputCompactEvent& event) override;
-	void update(int deltaTime) override;
-	void render(const Transform4x4f& parentTrans) override;
+	void Update(int deltaTime) override;
+	void Render(const Transform4x4f& parentTrans) override;
 
 	bool getHelpPrompts(Help& help) override;
 private:

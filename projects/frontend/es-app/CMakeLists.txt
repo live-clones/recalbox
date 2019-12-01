@@ -57,6 +57,8 @@ set(ES_HEADERS
         src/views/gamelist/GridGameListView.h
         src/views/SystemView.h
         src/views/ViewController.h
+        src/views/SplashView.h
+        src/views/IProgressInterface.h
 
         # Animations
         src/animations/LaunchAnimation.h
@@ -120,6 +122,7 @@ set(ES_SOURCES
         src/views/gamelist/GridGameListView.cpp
         src/views/SystemView.cpp
         src/views/ViewController.cpp
+        src/views/SplashView.cpp
 
         src/recalbox/RecalboxSystem.cpp
         src/recalbox/RecalboxUpgrade.cpp

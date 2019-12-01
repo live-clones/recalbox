@@ -24,6 +24,8 @@ ViewController::ViewController(Window& window, SystemManager& systemManager)
 	: Gui(window),
 	  mSystemManager(systemManager),
 	  mCurrentView(nullptr),
+	  mSystemListView(window, systemManager),
+	  mSplashView(window),
 	  mCamera(Transform4x4f::Identity()),
 	  mFadeOpacity(0),
 	  mLockInput(false),
@@ -37,8 +39,19 @@ ViewController::ViewController(Window& window, SystemManager& systemManager)
     exit(-1);
   }
 
-	mState.viewing = ViewMode::None;
+  // Progress interface
+  systemManager.SetProgressInterface(&mSplashView);
+
+  // default view mode
+	mState.viewing = ViewMode::SplashScreen;
 	mFavoritesOnly = Settings::Instance().FavoritesOnly();
+
+	// System View
+  mSystemListView.setPosition(0, Renderer::getDisplayHeightAsFloat());
+  // Splash
+  mSplashView.setPosition(0,0);
+
+  mCurrentView = &mSplashView;
 }
 
 ViewController::~ViewController()
@@ -49,11 +62,6 @@ ViewController::~ViewController()
 
 void ViewController::goToStart()
 {
-	// TODO
-	/* mState.viewing = START_SCREEN;
-	mCurrentView.reset();
-	playViewTransition(); */
-
   std::string systemName = RecalboxConf::Instance().AsString("emulationstation.selectedsystem");
   int index = systemName.empty() ? -1 : mSystemManager.getVisibleSystemIndex(systemName);
   SystemData* selectedSystem = index < 0 ? nullptr : mSystemManager.GetVisibleSystemList().at(index);
@@ -78,10 +86,16 @@ int ViewController::getSystemId(SystemData* system)
 	return std::find(sysVec.begin(), sysVec.end(), system) - sysVec.begin();
 }
 
+void ViewController::goToQuitScreen()
+{
+  mSplashView.Quit();
+  mState.viewing = ViewMode::SplashScreen;
+  mCamera.translation().Set(0,0,0);
+}
+
 void ViewController::goToSystemView(SystemData* system)
 {
-  auto systemList = getSystemListView();
-  systemList->setPosition((float)getSystemId(system) * Renderer::getDisplayWidthAsFloat(), systemList->getPosition().y());
+  mSystemListView.setPosition((float)getSystemId(system) * Renderer::getDisplayWidthAsFloat(), mSystemListView.getPosition().y());
 
   if (!system->HasGame()) {
     system = mSystemManager.FirstNonEmptySystem();
@@ -90,8 +104,8 @@ void ViewController::goToSystemView(SystemData* system)
 	mState.viewing = ViewMode::SystemList;
 	mState.system = system;
 
-	systemList->goToSystem(system, false);
-	mCurrentView = systemList;
+  mSystemListView.goToSystem(system, false);
+	mCurrentView = &mSystemListView;
 	mCurrentView->onShow();
 
 	playViewTransition();
@@ -140,11 +154,10 @@ void ViewController::goToGameList(SystemData* system)
 	if (mState.viewing == ViewMode::SystemList)
 	{
 		// move system list
-		auto sysList = getSystemListView();
-		float offX = sysList->getPosition().x();
+		float offX = mSystemListView.getPosition().x();
 		int sysId = getSystemId(system);
-		sysList->setPosition((float)sysId * Renderer::getDisplayWidthAsFloat(), sysList->getPosition().y());
-		offX = sysList->getPosition().x() - offX;
+    mSystemListView.setPosition((float)sysId * Renderer::getDisplayWidthAsFloat(), mSystemListView.getPosition().y());
+		offX = mSystemListView.getPosition().x() - offX;
 		mCamera.translation().x() -= offX;
 	}
 
@@ -168,7 +181,7 @@ void ViewController::goToGameList(SystemData* system)
 	mState.viewing = ViewMode::GameList;
 	mState.system = system;
 
-	mCurrentView = getGameListView(system);
+	mCurrentView = getGameListView(system).get();
 	playViewTransition();
 
   RecalboxSystem::NotifyGame(*getGameListView(system).get()->getCursor(), false, false);
@@ -190,8 +203,7 @@ void ViewController::updateFavorite(SystemData* system, FileData* file)
 void ViewController::playViewTransition()
 {
 	Vector3f target(Vector3f::Zero());
-	if(mCurrentView)
-		target = mCurrentView->getPosition();
+  target = mCurrentView->getPosition();
 
 	// no need to animate, we're not going anywhere (probably goToNextGamelist() or goToPrevGamelist() when there's only 1 system)
 	if(target == -mCamera.translation() && !isAnimationPlaying(0))
@@ -321,9 +333,9 @@ std::shared_ptr<IGameListView> ViewController::getGameListView(SystemData* syste
 	bool detailed = system->getRootFolder()->hasDetailedData();
 
 	if(detailed && ! (RecalboxConf::Instance().AsBool("emulationstation.forcebasicgamelistview")))
-		view = std::shared_ptr<IGameListView>(new DetailedGameListView(mWindow, system->getRootFolder(), system));
+		view = std::shared_ptr<IGameListView>(new DetailedGameListView(mWindow, mSystemManager, system->getRootFolder()));
 	else
-		view = std::shared_ptr<IGameListView>(new BasicGameListView(mWindow, system->getRootFolder()));
+		view = std::shared_ptr<IGameListView>(new BasicGameListView(mWindow, mSystemManager, system->getRootFolder()));
 
 	// uncomment for experimental "image grid" view
 	//view = std::shared_ptr<IGameListView>(new GridGameListView(mWindow, system->getRootFolder()));
@@ -341,19 +353,6 @@ std::shared_ptr<IGameListView> ViewController::getGameListView(SystemData* syste
 	return view;
 }
 
-std::shared_ptr<SystemView> ViewController::getSystemListView()
-{
-	//if we already made one, return that one
-	if(mSystemListView)
-		return mSystemListView;
-
-	mSystemListView = std::make_shared<SystemView>(mWindow, mSystemManager);
-	addChild(mSystemListView.get());
-	mSystemListView->setPosition(0, Renderer::getDisplayHeightAsFloat());
-	return mSystemListView;
-}
-
-
 bool ViewController::ProcessInput(const InputCompactEvent& event)
 {
 	if (mLockInput) return true;
@@ -366,22 +365,18 @@ bool ViewController::ProcessInput(const InputCompactEvent& event)
 	}
 
   // Normal processing
-  if (mCurrentView) return mCurrentView->ProcessInput(event);
+  mCurrentView->ProcessInput(event);
 
 	return false;
 }
 
-void ViewController::update(int deltaTime)
+void ViewController::Update(int deltaTime)
 {
-	if(mCurrentView)
-	{
-		mCurrentView->update(deltaTime);
-	}
-
+  mCurrentView->Update(deltaTime);
 	updateSelf(deltaTime);
 }
 
-void ViewController::render(const Transform4x4f& parentTrans)
+void ViewController::Render(const Transform4x4f& parentTrans)
 {
 	Transform4x4f trans = mCamera * parentTrans;
   Transform4x4f transInverse(Transform4x4f::Identity());
@@ -396,14 +391,12 @@ void ViewController::render(const Transform4x4f& parentTrans)
   int vpr = (int)viewEnd.x() - 1;
   int vpb = (int)viewEnd.y() - 1;
 
-	// draw systemview
+  // Draw systemview
   for(;;)
   {
-    auto systemView = getSystemListView();
-
     // clipping - only y
-    const Vector3f& position = systemView->getPosition();
-    const Vector2f& size = systemView->getSize();
+    const Vector3f& position = mSplashView.getPosition();
+    const Vector2f& size = mSplashView.getSize();
 
     int gu = (int)position.y();
     int gb = (int)position.y() + (int)size.y() - 1;
@@ -411,11 +404,28 @@ void ViewController::render(const Transform4x4f& parentTrans)
     if (gb < vpu) break;
     if (gu > vpb) break;
 
-    systemView->render(trans);
+    mSplashView.Render(trans);
     break;
   }
 
-	// draw gamelists
+	// Draw systemview
+  for(;;)
+  {
+    // clipping - only y
+    const Vector3f& position = mSystemListView.getPosition();
+    const Vector2f& size = mSystemListView.getSize();
+
+    int gu = (int)position.y();
+    int gb = (int)position.y() + (int)size.y() - 1;
+
+    if (gb < vpu) break;
+    if (gu > vpb) break;
+
+    mSystemListView.Render(trans);
+    break;
+  }
+
+	// Draw gamelists
 	for (auto& mGameListView : mGameListViews)
 	{
     // clipping
@@ -432,7 +442,7 @@ void ViewController::render(const Transform4x4f& parentTrans)
     if (gb < vpu) continue;
     if (gu > vpb) continue;
 
-		mGameListView.second->render(trans);
+    mGameListView.second->Render(trans);
 	}
 
 	if(mWindow.peekGui() == nullptr) // TODO:: dafuk?!
@@ -454,7 +464,7 @@ bool ViewController::reloadGameListView(IGameListView* view, bool reloadTheme)
 		{
 			if (it->second.get() == view)
 			{
-				bool isCurrent = (mCurrentView == it->second);
+				bool isCurrent = (mCurrentView == it->second.get());
 				SystemData *system = it->first;
 				bool hasGame = system->HasGame();
 				FileData *cursor = hasGame ? view->getCursor() : nullptr;
@@ -467,7 +477,7 @@ bool ViewController::reloadGameListView(IGameListView* view, bool reloadTheme)
 				if (hasGame)
 					newView->setCursor(cursor);
 				if (isCurrent)
-					mCurrentView = newView;
+					mCurrentView = newView.get();
 				break;
 			}
 		}
@@ -483,51 +493,6 @@ bool ViewController::reloadGameListView(IGameListView* view, bool reloadTheme)
 void ViewController::deleteAndReloadAll()
 {
   MainRunner::RequestQuit(MainRunner::ExitState::Relaunch);
-  /*Window *window = mWindow;
-  window->renderShutdownScreen();
-  mSystemManager.deleteSystems();
-  mSystemManager.loadConfig();
-  window->deleteAllGui();
-  ViewController::Instance().reloadAll();
-  window->pushGui(&ViewController::Instance());
-  ViewController::Instance().goToStart();*/
-}
-
-void ViewController::reloadAll()
-{
-	std::map<SystemData*, FileData*> cursorMap;
-	for (auto& mGameListView : mGameListViews)
-	{
-		cursorMap[mGameListView.first] = mGameListView.second->getCursor();
-	}
-	mGameListViews.clear();
-
-	for (auto& it : cursorMap)
-	{
-		it.first->loadTheme();
-		getGameListView(it.first)->setCursor(it.second);
-	}
-
-	mSystemListView.reset();
-	getSystemListView();
-
-	// update mCurrentView since the pointers changed
-	if(mState.viewing == ViewMode::GameList)
-	{
-		mCurrentView = getGameListView(mState.getSystem());
-	}else if(mState.viewing == ViewMode::SystemList)
-	{
-		
-		SystemData* system = mState.getSystem();
-		goToSystemView(mSystemManager.GetVisibleSystemList().front());
-		mSystemListView->goToSystem(system, false);
-		mCurrentView = mSystemListView;
-		
-	}else{
-		goToSystemView(mSystemManager.GetVisibleSystemList().front());
-	}
-
-	updateHelpPrompts();
 }
 
 void ViewController::setInvalidGamesList(SystemData* system)
@@ -555,13 +520,11 @@ void ViewController::setAllInvalidGamesList(SystemData* systemExclude)
 
 bool ViewController::getHelpPrompts(Help& help)
 {
-	return mCurrentView ? mCurrentView->getHelpPrompts(help) : true;
+	return mCurrentView->getHelpPrompts(help);
 }
 
 void ViewController::ApplyHelpStyle()
 {
-	if(!mCurrentView)
-		return GuiComponent::ApplyHelpStyle();
-
 	return mCurrentView->ApplyHelpStyle();
 }
+

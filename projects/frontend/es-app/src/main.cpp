@@ -108,7 +108,7 @@ int main(int argc, char* argv[])
     LOG(LogInfo) << "EmulationStation cleanly shutting down.";
     switch(exitState)
     {
-      case MainRunner::ExitState::Quit: return 0;
+      case MainRunner::ExitState::Quit:
       case MainRunner::ExitState::FatalError: return 0;
       case MainRunner::ExitState::Relaunch: continue;
       case MainRunner::ExitState::NormalReboot:

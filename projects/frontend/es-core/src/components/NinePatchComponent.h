@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GuiComponent.h"
+#include "components/base/Component.h"
 #include "resources/TextureResource.h"
 
 // Display an image in a way so that edges don't get too distorted no matter the final size. Useful for UI elements like backgrounds, buttons, etc.
@@ -14,14 +14,14 @@
 // Borders (2, 4, 6, 8) will be stretched along one axis (2 and 8 horizontally, 4 and 6 vertically).
 // The center (5) will be stretched.
 
-class NinePatchComponent : public GuiComponent
+class NinePatchComponent : public Component
 {
 public:
 	NinePatchComponent(Window&window, const Path& path);
   explicit NinePatchComponent(Window&window);
 	~NinePatchComponent() override;
 
-	void render(const Transform4x4f& parentTrans) override;
+	void Render(const Transform4x4f& parentTrans) override;
 
 	void onSizeChanged() override;
 

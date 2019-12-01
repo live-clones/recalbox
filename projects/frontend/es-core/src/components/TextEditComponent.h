@@ -1,21 +1,21 @@
 #pragma once
 
-#include "GuiComponent.h"
+#include "components/base/Component.h"
 #include "components/NinePatchComponent.h"
 
 class Font;
 class TextCache;
 
 // Used to enter text.
-class TextEditComponent : public GuiComponent
+class TextEditComponent : public Component
 {
 public:
 	explicit TextEditComponent(Window&window);
 	
 	void textInput(const char* text) override;
 	bool ProcessInput(const InputCompactEvent& event) override;
-	void update(int deltaTime) override;
-	void render(const Transform4x4f& parentTrans) override;
+	void Update(int deltaTime) override;
+	void Render(const Transform4x4f& parentTrans) override;
 
 	void onFocusGained() override;
 	void onFocusLost() override;

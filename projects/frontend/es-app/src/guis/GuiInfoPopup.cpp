@@ -114,7 +114,7 @@ GuiInfoPopup::GuiInfoPopup(Window&window, const std::string& message, int durati
 	addChild(&mGrid);
 }
 
-void GuiInfoPopup::render(const Transform4x4f& parentTrans)
+void GuiInfoPopup::Render(const Transform4x4f& parentTrans)
 {
   (void)parentTrans;
 

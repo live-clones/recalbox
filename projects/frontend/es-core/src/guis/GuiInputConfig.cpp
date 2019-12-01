@@ -68,7 +68,7 @@ GuiInputConfig::GuiInputConfig(Window&window, InputDevice* target, const std::fu
 		row.addElement(icon, false);
 
 		// spacer between icon and text
-		auto spacer = std::make_shared<GuiComponent>(mWindow);
+		auto spacer = std::make_shared<Component>(mWindow);
 		spacer->setSize(16, 0);
 		row.addElement(spacer, false);
 

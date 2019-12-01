@@ -3,9 +3,9 @@
 //
 #pragma once
 
-#include <GuiComponent.h>
+#include <components/base/Component.h>
 
-class Gui : public GuiComponent
+class Gui : public Component
 {
   private:
     //! When set, let the main processing delete safely this GUI
@@ -13,7 +13,7 @@ class Gui : public GuiComponent
 
   public:
     Gui(Window& window)
-      : GuiComponent(window),
+      : Component(window),
         mGuiClosePending(false)
     {
     }
@@ -34,4 +34,8 @@ class Gui : public GuiComponent
      * @return True if the current UI is the first visible
      */
     bool AmIOnTopOfScreen() const;
+
+    /*
+     * Partial IComponent implementation
+     */
 };

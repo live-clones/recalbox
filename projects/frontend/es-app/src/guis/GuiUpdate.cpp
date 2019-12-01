@@ -31,7 +31,7 @@ GuiUpdate::~GuiUpdate()
   Thread::Stop();
 }
 
-void GuiUpdate::render(const Transform4x4f& parentTrans)
+void GuiUpdate::Render(const Transform4x4f& parentTrans)
 {
   Transform4x4f trans = parentTrans * getTransform();
 
@@ -41,13 +41,13 @@ void GuiUpdate::render(const Transform4x4f& parentTrans)
   Renderer::drawRect(0.f, 0.f, mSize.x(), mSize.y(), 0x00000011);
 
   if (mState == State::CheckForUpdate || mState == State::DoUpdate)
-    mBusyAnim.render(trans);
+    mBusyAnim.Render(trans);
 }
 
-void GuiUpdate::update(int deltaTime)
+void GuiUpdate::Update(int deltaTime)
 {
-  GuiComponent::update(deltaTime);
-  mBusyAnim.update(deltaTime);
+  Component::Update(deltaTime);
+  mBusyAnim.Update(deltaTime);
 
   switch(mState)
   {

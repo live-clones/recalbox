@@ -1,9 +1,10 @@
 project("core")
 
 set(CORE_HEADERS
+		src/components/base/Component.h
+		src/components/base/IComponent.h
 		src/AsyncHandle.h
 		src/AudioManager.h
-		src/GuiComponent.h
 		src/help/HelpStyle.h
 		src/help/Help.h
 		src/HttpReq.h
@@ -39,7 +40,7 @@ set(CORE_HEADERS
 		src/utils/os/fs/StringMapFile.h
 		src/utils/os/system/Thread.h
 		src/utils/os/system/ThreadPool.h
-		src/utils/os/system/ThreadPoolWorkerInterface.h
+        src/utils/os/system/IThreadPoolWorkerInterface.h
 		src/utils/os/system/Mutex.h
 		src/utils/datetime/HighResolutionTimer.h
 		src/utils/math/Vectors.h
@@ -105,8 +106,9 @@ set(CORE_HEADERS
 )
 
 set(CORE_SOURCES
+		src/components/base/Component.cpp
+		src/components/base/IComponent.cpp
 		src/AudioManager.cpp
-		src/GuiComponent.cpp
         src/help/HelpStyle.cpp
 		src/help/Help.cpp
 		src/HttpReq.cpp

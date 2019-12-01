@@ -219,7 +219,7 @@ void AudioManager::PlayRandomMusic()
 {
   // Find a random song in user directory or theme music directory
   AudioHandle music = FetchRandomMusic(mThemeMusicFolder);
-  if (music != 0)
+  if (music != 0 && music != mCurrentMusic)
   {
     PlayMusic(music, false);
     mCurrentMusic = music;

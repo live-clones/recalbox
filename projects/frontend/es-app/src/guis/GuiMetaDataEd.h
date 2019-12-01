@@ -33,7 +33,7 @@ private:
 
 	ScraperSearchParams mScraperParams;
 
-	std::vector< std::shared_ptr<GuiComponent> > mEditors;
+	std::vector< std::shared_ptr<Component> > mEditors;
 	std::vector< const MetadataFieldDescriptor* > mMetaDataEditable;
 
 	MetadataDescriptor& mMetaData;

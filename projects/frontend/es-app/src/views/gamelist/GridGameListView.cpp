@@ -27,7 +27,7 @@ void GridGameListView::setCursor(FileData* file)
 bool GridGameListView::ProcessInput(const InputCompactEvent& event)
 {
 	if (event.AnyLeftPressed() || event.AnyRightPressed())
-		return GuiComponent::ProcessInput(event); // TODO: Check call!
+		return Component::ProcessInput(event); // TODO: Check call!
 
 	return ISimpleGameListView::ProcessInput(event);
 }

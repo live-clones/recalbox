@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GuiComponent.h"
+#include "components/base/Component.h"
 #include "help/HelpStyle.h"
 
 
@@ -8,12 +8,12 @@ class ImageComponent;
 class TextureResource;
 class ComponentGrid;
 
-class HelpComponent : public GuiComponent
+class HelpComponent : public Component
 {
 public:
 	explicit HelpComponent(Window&window);
 
-	void render(const Transform4x4f& parent) override;
+	void Render(const Transform4x4f& parent) override;
 	void setOpacity(unsigned char opacity) override;
 
   void UpdateHelps();

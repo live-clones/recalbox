@@ -377,7 +377,7 @@ protected:
 		Transform4x4f identTrans = Transform4x4f::Identity();
 
 		mGradient.setOpacity(mTitleOverlayOpacity);
-		mGradient.render(identTrans);
+    mGradient.Render(identTrans);
 
 		TextCache* cache = mTitleOverlayFont->buildTextCache(text, off.x(), off.y(), 0xFFFFFF00 | mTitleOverlayOpacity);
 		mTitleOverlayFont->renderTextCache(cache); // relies on mGradient's render for Renderer::setMatrix()

@@ -94,7 +94,7 @@ void ISimpleGameListView::onFileChanged(FileData* file, FileChangeType change)
       if (isInFavorite) favoriteSystem->getRootFolder()->removeChild(file);
       else favoriteSystem->getRootFolder()->addChild(file, false);
       ViewController::Instance().setInvalidGamesList(mSystemManager.FavoriteSystem());
-      ViewController::Instance().getSystemListView()->manageFavorite();
+      ViewController::Instance().getSystemListView().manageFavorite();
       mFavoritesCount = mFavoritesCount + (isFavorite ? 1 : -1);
       if (mFavoritesCount == 0) { mFavoritesOnly = false; }
       updateHelpPrompts();
@@ -108,7 +108,7 @@ void ISimpleGameListView::onFileChanged(FileData* file, FileChangeType change)
     if (favorite)
     {
       ViewController::Instance().setInvalidGamesList(mSystemManager.FavoriteSystem());
-      ViewController::Instance().getSystemListView()->manageFavorite();
+      ViewController::Instance().getSystemListView().manageFavorite();
     }
   }
 
@@ -198,7 +198,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
         } else {
           ViewController::Instance().setInvalidGamesList(favoriteSystem);
         }
-        ViewController::Instance().getSystemListView()->manageFavorite();
+        ViewController::Instance().getSystemListView().manageFavorite();
       }
 
       // Reload to refresh the favorite icon

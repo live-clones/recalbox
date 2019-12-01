@@ -18,9 +18,9 @@
 #include "MenuThemeData.h"
 
 ScraperSearchComponent::ScraperSearchComponent(Window& window, SearchType type)
-  : GuiComponent(window),
-	  mGrid(window, Vector2i(4, 3)),
-	  mSearchType(type),
+  : Component(window),
+    mGrid(window, Vector2i(4, 3)),
+    mSearchType(type),
     mBusyAnim(window)
 {
 	addChild(&mGrid);
@@ -30,7 +30,7 @@ ScraperSearchComponent::ScraperSearchComponent(Window& window, SearchType type)
 	mBlockAccept = false;
 
 	// left spacer (empty component, needed for borders)
-	mGrid.setEntry(std::make_shared<GuiComponent>(mWindow), Vector2i(0, 0), false, false, Vector2i(1, 3), Borders::Top | Borders::Bottom);
+	mGrid.setEntry(std::make_shared<Component>(mWindow), Vector2i(0, 0), false, false, Vector2i(1, 3), Borders::Top | Borders::Bottom);
 
 	// selected result name
 	mResultName = std::make_shared<TextComponent>(mWindow, "RESULT NAME", menuTheme->menuText.font, menuTheme->menuText.color);
@@ -190,14 +190,14 @@ void ScraperSearchComponent::updateViewStyle()
 		mGrid.setEntry(mResultName, Vector2i(1, 0), false, true, Vector2i(2, 1), Borders::Top);
 
 		// need a border on the bottom left
-		mGrid.setEntry(std::make_shared<GuiComponent>(mWindow), Vector2i(0, 2), false, false, Vector2i(3, 1), Borders::Bottom);
+		mGrid.setEntry(std::make_shared<Component>(mWindow), Vector2i(0, 2), false, false, Vector2i(3, 1), Borders::Bottom);
 
 		// show description on the right
 		mGrid.setEntry(mDescContainer, Vector2i(3, 0), false, false, Vector2i(1, 3), Borders::Top | Borders::Bottom);
 		mResultDesc->setSize(mDescContainer->getSize().x(), 0); // make desc text wrap at edge of container
 	}else{
 		// fake row where name would be
-		mGrid.setEntry(std::make_shared<GuiComponent>(mWindow), Vector2i(1, 0), false, true, Vector2i(2, 1), Borders::Top);
+		mGrid.setEntry(std::make_shared<Component>(mWindow), Vector2i(1, 0), false, true, Vector2i(2, 1), Borders::Top);
 
 		// show result list on the right
 		mGrid.setEntry(mResultList, Vector2i(3, 0), true, true, Vector2i(1, 3), Borders::Left | Borders::Top | Borders::Bottom);
@@ -348,10 +348,10 @@ bool ScraperSearchComponent::ProcessInput(const InputCompactEvent& event)
 			return true;
 	}
 
-	return GuiComponent::ProcessInput(event);
+	return Component::ProcessInput(event);
 }
 
-void ScraperSearchComponent::render(const Transform4x4f& parentTrans)
+void ScraperSearchComponent::Render(const Transform4x4f& parentTrans)
 {
 	Transform4x4f trans = parentTrans * getTransform();
 
@@ -364,7 +364,7 @@ void ScraperSearchComponent::render(const Transform4x4f& parentTrans)
 		//Renderer::drawRect((int)mResultList->getPosition().x(), (int)mResultList->getPosition().y(),
 		//	(int)mResultList->getSize().x(), (int)mResultList->getSize().y(), 0x00000011);
 
-		mBusyAnim.render(trans);
+    mBusyAnim.Render(trans);
 	}
 }
 
@@ -382,13 +382,13 @@ void ScraperSearchComponent::returnResult(const ScraperSearchResult& result)
 	mAcceptCallback(result);
 }
 
-void ScraperSearchComponent::update(int deltaTime)
+void ScraperSearchComponent::Update(int deltaTime)
 {
-	GuiComponent::update(deltaTime);
+  Component::Update(deltaTime);
 
 	if(mBlockAccept)
 	{
-		mBusyAnim.update(deltaTime);
+    mBusyAnim.Update(deltaTime);
 	}
 
 	if(mThumbnailReq && mThumbnailReq->status() != HttpReq::Status::InProgress)

@@ -12,7 +12,7 @@ public:
 	GuiDetectDevice(Window& window, bool firstRun, const std::function<void()>& doneCallback);
 
 	bool ProcessInput(const InputCompactEvent& event) override;
-	void update(int deltaTime) override;
+	void Update(int deltaTime) override;
 	void onSizeChanged() override;
 
 private:

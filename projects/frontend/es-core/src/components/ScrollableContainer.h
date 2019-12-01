@@ -1,8 +1,8 @@
 #pragma once
 
-#include "GuiComponent.h"
+#include "components/base/Component.h"
 
-class ScrollableContainer : public GuiComponent
+class ScrollableContainer : public Component
 {
 public:
 	explicit ScrollableContainer(Window&window);
@@ -13,8 +13,8 @@ public:
   void setAutoScroll(bool autoScroll);
 	void reset();
 
-	void update(int deltaTime) override;
-	void render(const Transform4x4f& parentTrans) override;
+	void Update(int deltaTime) override;
+	void Render(const Transform4x4f& parentTrans) override;
 	int mAutoScrollDelay; // ms to wait before starting to autoscroll
 	int mAutoScrollSpeed; // ms to wait before scrolling down by mScrollDir
 	int mAutoScrollResetAccumulator;

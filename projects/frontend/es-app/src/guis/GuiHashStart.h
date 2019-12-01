@@ -78,11 +78,11 @@ class GuiHashStart : public Gui, private Thread
      * @brief Update method, called periodically
      * @param deltaTime Elapsed milliseconds since the last call
      */
-    void update(int deltaTime) override;
+    void Update(int deltaTime) override;
 
     /*!
      * @brief Render UI
      * @param parentTrans Parent transformation
      */
-    void render(const Transform4x4f &parentTrans) override;
+    void Render(const Transform4x4f &parentTrans) override;
 };

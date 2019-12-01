@@ -4,7 +4,7 @@
 #include "Locale.h"
 
 ComponentGrid::ComponentGrid(Window&window, const Vector2i& gridDimensions)
-  : GuiComponent(window),
+  : Component(window),
     mGridSize(gridDimensions),
     mCursor(0, 0),
     mUnhandledInputCallback(nullptr)
@@ -83,8 +83,8 @@ void ComponentGrid::setRowHeightPerc(int row, float height, bool update)
         onSizeChanged();
 }
 
-void ComponentGrid::setEntry(const std::shared_ptr<GuiComponent>& comp, const Vector2i& pos, bool canFocus, bool resize, const Vector2i& size,
-    Borders border, UpdateType updateType)
+void ComponentGrid::setEntry(const std::shared_ptr<Component>& comp, const Vector2i& pos, bool canFocus, bool resize, const Vector2i& size,
+                             Borders border, UpdateType updateType)
 {
     assert(pos.x() >= 0 && pos.x() < mGridSize.x() && pos.y() >= 0 && pos.y() < mGridSize.y());
     assert(comp != nullptr);
@@ -106,7 +106,7 @@ void ComponentGrid::setEntry(const std::shared_ptr<GuiComponent>& comp, const Ve
     updateSeparators();
 }
 
-bool ComponentGrid::removeEntry(const std::shared_ptr<GuiComponent>& comp)
+bool ComponentGrid::removeEntry(const std::shared_ptr<Component>& comp)
 {
     for (auto it = mCells.begin(); it != mCells.end(); it++)
     {
@@ -223,20 +223,20 @@ ComponentGrid::GridEntry* ComponentGrid::getCellAt(int x, int y)
     return nullptr;
 }
 
-bool ComponentGrid::ProcessInput(const InputCompactEvent& event) {
-    GridEntry* cursorEntry = getCellAt(mCursor);
+bool ComponentGrid::ProcessInput(const InputCompactEvent& event)
+{
+  GridEntry* cursorEntry = getCellAt(mCursor);
 
-    if ((cursorEntry != nullptr) && cursorEntry->component->ProcessInput(event)) {
-        return true;
-    }
+  if ((cursorEntry != nullptr) && cursorEntry->component->ProcessInput(event))
+    return true;
 
-    if (event.AnyDownPressed())            return moveCursor(Vector2i(0, 1));
-    else if (event.AnyUpPressed())         return moveCursor(Vector2i(0, -1));
-    else if (event.AnyLeftPressed())       return moveCursor(Vector2i(-1, 0));
-    else if (event.AnyRightPressed())      return moveCursor(Vector2i(1, 0));
-    else if (mUnhandledInputCallback) return mUnhandledInputCallback(event);
+  if (event.AnyDownPressed())       return moveCursor(Vector2i(0, 1));
+  else if (event.AnyUpPressed())    return moveCursor(Vector2i(0, -1));
+  else if (event.AnyLeftPressed())  return moveCursor(Vector2i(-1, 0));
+  else if (event.AnyRightPressed()) return moveCursor(Vector2i(1, 0));
+  else if (mUnhandledInputCallback) return mUnhandledInputCallback(event);
 
-    return false;
+  return false;
 }
 
 void ComponentGrid::resetCursor()
@@ -330,18 +330,18 @@ bool ComponentGrid::cursorValid()
     return (e != nullptr && e->canFocus);
 }
 
-void ComponentGrid::update(int deltaTime)
+void ComponentGrid::Update(int deltaTime)
 {
     // update ALL THE THINGS
     GridEntry* cursorEntry = getCellAt(mCursor);
     for (auto& mCell : mCells)
     {
         if(mCell.updateType == UpdateType::Always || (mCell.updateType == UpdateType::WhenSelected && cursorEntry == &mCell))
-            mCell.component->update(deltaTime);
+          mCell.component->Update(deltaTime);
     }
 }
 
-void ComponentGrid::render(const Transform4x4f& parentTrans)
+void ComponentGrid::Render(const Transform4x4f& parentTrans)
 {
     Transform4x4f trans = parentTrans * getTransform();
 
@@ -388,7 +388,7 @@ void ComponentGrid::onCursorMoved(Vector2i from, Vector2i to)
     updateHelpPrompts();
 }
 
-void ComponentGrid::setCursorTo(const std::shared_ptr<GuiComponent>& comp)
+void ComponentGrid::setCursorTo(const std::shared_ptr<Component>& comp)
 {
     for (auto& mCell : mCells)
     {

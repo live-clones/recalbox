@@ -6,7 +6,7 @@
 
 class Window;
 
-class GuiComponent;
+class Component;
 
 class FileData;
 

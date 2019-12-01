@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GuiComponent.h"
+#include "components/base/Component.h"
 #include "resources/TextureResource.h"
 
 #define NUM_RATING_STARS 5
@@ -10,7 +10,7 @@
 //   * (0, y != 0) - x will be automatically calculated (5*y).
 //   * (x != 0, 0) - y will be automatically calculated (x/5).
 //   * (x != 0, y != 0) - you better be sure x = y*5
-class RatingComponent : public GuiComponent
+class RatingComponent : public Component
 {
 public:
 	explicit RatingComponent(Window&window);
@@ -20,7 +20,7 @@ public:
 	void setValue(const std::string& value) override; // Should be a normalized float (in the range [0..1]) - if it's not, it will be clamped.
 
 	bool ProcessInput(const InputCompactEvent& event) override;
-	void render(const Transform4x4f& parentTrans) override;
+	void Render(const Transform4x4f& parentTrans) override;
 
   void setColor(unsigned int color) override { mColor=color; }
 

@@ -1,6 +1,6 @@
 #pragma once
 
-template<class FeedObject, class ResultObject> class ThreadPoolWorkerInterface
+template<class FeedObject, class ResultObject> class IThreadPoolWorkerInterface
 {
   public:
     /*!
@@ -22,4 +22,11 @@ template<class FeedObject, class ResultObject> class ThreadPoolWorkerInterface
      * @param remainingJobs Jobs still in queue
      */
     virtual void ThreadPoolJobCompleted(FeedObject& feed, int remainingJobs) { (void)feed; (void)remainingJobs; }
+
+    /*!
+     * @brief Called asap by the main thread when a job complete, regarding the tick duration
+     * @param completed Currently completed jobs count
+     * @param total Total jobs
+     */
+    virtual void ThreadPoolTick(int completed, int total) = 0;
 };

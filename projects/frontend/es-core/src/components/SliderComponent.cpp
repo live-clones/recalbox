@@ -10,15 +10,15 @@
 #define MOVE_REPEAT_RATE 40
 
 SliderComponent::SliderComponent(Window&window, float min, float max, float increment, const std::string& suffix)
-  : GuiComponent(window),
-	  mMin(min),
-	  mMax(max),
-	  mSingleIncrement(increment),
-	  mMoveRate(0),
-	  mMoveAccumulator(0),
-	  mOriginColor(0),
+  : Component(window),
+    mMin(min),
+    mMax(max),
+    mSingleIncrement(increment),
+    mMoveRate(0),
+    mMoveAccumulator(0),
+    mOriginColor(0),
     mKnob(window),
-	  mSuffix(suffix)
+    mSuffix(suffix)
 {
 	assert((min - max) != 0);
 
@@ -52,10 +52,10 @@ bool SliderComponent::ProcessInput(const InputCompactEvent& event)
 		mMoveAccumulator = -MOVE_REPEAT_DELAY;
 	}
 
-	return GuiComponent::ProcessInput(event);
+	return Component::ProcessInput(event);
 }
 
-void SliderComponent::update(int deltaTime)
+void SliderComponent::Update(int deltaTime)
 {
 	if(mMoveRate != 0)
 	{
@@ -66,11 +66,11 @@ void SliderComponent::update(int deltaTime)
 			mMoveAccumulator -= MOVE_REPEAT_RATE;
 		}
 	}
-	
-	GuiComponent::update(deltaTime);
+
+  Component::Update(deltaTime);
 }
 
-void SliderComponent::render(const Transform4x4f& parentTrans)
+void SliderComponent::Render(const Transform4x4f& parentTrans)
 {
   Transform4x4f trans = (parentTrans * getTransform()).round();
 	Renderer::setMatrix(trans);
@@ -87,9 +87,9 @@ void SliderComponent::render(const Transform4x4f& parentTrans)
 	Renderer::drawRect(mKnob.getSize().x() / 2, mSize.y() / 2 - lineWidth / 2, width, lineWidth, mColor);
 
 	//render knob
-	mKnob.render(trans);
+  mKnob.Render(trans);
 	
-	GuiComponent::renderChildren(trans);
+	Component::renderChildren(trans);
 }
 
 void SliderComponent::setSlider(float value)

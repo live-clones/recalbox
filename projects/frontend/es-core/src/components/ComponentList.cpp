@@ -89,7 +89,7 @@ bool ComponentList::ProcessInput(const InputCompactEvent& event)
 	}
 
 	// input handler didn't consume the input - try to scroll
-	if (event.UpPressed())	       return listInput(-1);
+	if (event.UpPressed())	      return listInput(-1);
 	else if (event.DownPressed()) return listInput(1);
 	else if (event.L1Pressed())   return listInput(-7);
 	else if (event.R1Pressed())   return listInput(7);
@@ -99,7 +99,7 @@ bool ComponentList::ProcessInput(const InputCompactEvent& event)
 	return false;
 }
 
-void ComponentList::update(int deltaTime)
+void ComponentList::Update(int deltaTime)
 {
 	listUpdate(deltaTime);
 
@@ -107,7 +107,7 @@ void ComponentList::update(int deltaTime)
 	{
 		// update our currently selected row
 		for (auto& element : mEntries.at(mCursor).data.elements)
-			element.component->update(deltaTime);
+      element.component->Update(deltaTime);
 	}
 }
 
@@ -164,7 +164,7 @@ void ComponentList::updateCameraOffset()
 	}
 }
 
-void ComponentList::render(const Transform4x4f& parentTrans)
+void ComponentList::Render(const Transform4x4f& parentTrans)
 {
 	if(size() == 0)
 		return;
@@ -187,7 +187,7 @@ void ComponentList::render(const Transform4x4f& parentTrans)
 	trans.translate(Vector3f(0, -Math::round(mCameraOffset), 0));
 
 	// draw our entries
-	std::vector<GuiComponent*> drawAfterCursor;
+	std::vector<Component*> drawAfterCursor;
 	bool drawAll;
 	for (int i = 0; i < (int)mEntries.size(); i++)
 	{
@@ -198,7 +198,7 @@ void ComponentList::render(const Transform4x4f& parentTrans)
 			if(drawAll || element.invert_when_selected)
 			{
 				element.component->setColor(element.component->getOriginColor());
-				element.component->render(trans);
+        element.component->Render(trans);
 			}else{
 				drawAfterCursor.push_back(element.component.get());
 			}
@@ -226,7 +226,7 @@ void ComponentList::render(const Transform4x4f& parentTrans)
 		}
 
 		for (auto& it : drawAfterCursor)
-			it->render(trans);
+      it->Render(trans);
 		
 		// reset matrix if one of these components changed it
 		if (!drawAfterCursor.empty())
@@ -295,7 +295,7 @@ void ComponentList::updateElementPosition(const ComponentListRow& row)
 void ComponentList::updateElementSize(const ComponentListRow& row)
 {
 	float width = mSize.x() - TOTAL_HORIZONTAL_PADDING_PX;
-	std::vector< std::shared_ptr<GuiComponent> > resizeVec;
+	std::vector< std::shared_ptr<Component> > resizeVec;
 
 	for (const auto& element : row.elements)
 	{

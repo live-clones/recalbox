@@ -167,14 +167,14 @@ void GuiMenu::createInputTextRow(GuiSettings *gui, const std::string& title, con
   auto lbl = std::make_shared<TextComponent>(mWindow, title, mMenuTheme->menuText.font, mMenuTheme->menuText.color);
   row.addElement(lbl, true); // label
 
-  std::shared_ptr<GuiComponent> ed;
+  std::shared_ptr<Component> ed;
 
   ed = std::make_shared<TextComponent>(mWindow, ((password && !RecalboxConf::Instance().AsString(settingsID).empty()) ?
       "*********" : RecalboxConf::Instance().AsString(settingsID)),
                                        mMenuTheme->menuText.font, mMenuTheme->menuText.color, TextAlignment::Right);
   row.addElement(ed, true);
 
-  auto spacer = std::make_shared<GuiComponent>(mWindow);
+  auto spacer = std::make_shared<Component>(mWindow);
   spacer->setSize(Renderer::getDisplayWidthAsFloat() * 0.005f, 0);
   row.addElement(spacer, false);
 
@@ -1181,12 +1181,12 @@ void GuiMenu::menuNetworkSettings(){
     auto lbl = std::make_shared<TextComponent>(mWindow, title, mMenuTheme->menuText.font, mMenuTheme->menuText.color);
     row.addElement(lbl, true); // label
 
-    std::shared_ptr<GuiComponent> ed;
+    std::shared_ptr<Component> ed;
 
     ed = std::make_shared<TextComponent>(mWindow, value, mMenuTheme->menuText.font, mMenuTheme->menuText.color, TextAlignment::Right);
     row.addElement(ed, true);
 
-    auto spacer = std::make_shared<GuiComponent>(mWindow);
+    auto spacer = std::make_shared<Component>(mWindow);
     spacer->setSize(Renderer::getDisplayWidthAsFloat() * 0.005f, 0);
     row.addElement(spacer, false);
 
@@ -1202,7 +1202,7 @@ void GuiMenu::menuNetworkSettings(){
     row.makeAcceptInputHandler([this, updateVal, enable_wifi, baseEnabled] {
 
       GuiSettings *SSID = new GuiSettings(mWindow, _("WIFI SSID").c_str());
-      std::shared_ptr<GuiComponent> ed;
+      std::shared_ptr<Component> ed;
       ComponentListRow row;
       ed = std::make_shared<TextComponent>(mWindow, _("MANUAL INPUT"), mMenuTheme->menuText.font, mMenuTheme->menuText.color, TextAlignment::Left);
       row.addElement(ed, true);
@@ -1757,7 +1757,7 @@ void GuiMenu::addEntryWithHelp(const char *name, const std::string& help, unsign
 
 
         // spacer between icon and text
-        auto spacer = std::make_shared<GuiComponent>(mWindow);
+        auto spacer = std::make_shared<Component>(mWindow);
         spacer->setSize(10, 0);
         row.addElement(spacer, false);
     }
@@ -1780,7 +1780,7 @@ void GuiMenu::addEntry(const char *name, unsigned int color, bool add_arrow, con
 
 bool GuiMenu::ProcessInput(const InputCompactEvent& event)
 {
-    if (GuiComponent::ProcessInput(event))
+    if (Component::ProcessInput(event))
         return true;
 
     if (event.APressed() || event.StartPressed()) {

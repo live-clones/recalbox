@@ -99,7 +99,7 @@ bool GuiMsgBoxScroll::ProcessInput(const InputCompactEvent& event)
 		return true;
 	}
 
-	return GuiComponent::ProcessInput(event);
+	return Component::ProcessInput(event);
 }
 
 void GuiMsgBoxScroll::onSizeChanged()

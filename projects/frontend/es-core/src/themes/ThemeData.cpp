@@ -706,9 +706,9 @@ const ThemeData& ThemeData::getCurrent()
 	return sCurrent;
 }
 
-std::vector<GuiComponent*> ThemeData::makeExtras(const ThemeData& theme, const std::string& view, Window& window)
+std::vector<Component*> ThemeData::makeExtras(const ThemeData& theme, const std::string& view, Window& window)
 {
-	std::vector<GuiComponent*> comps;
+	std::vector<Component*> comps;
 
 	auto viewIt = theme.mViews.find(view);
 	if(viewIt == theme.mViews.end())
@@ -719,7 +719,7 @@ std::vector<GuiComponent*> ThemeData::makeExtras(const ThemeData& theme, const s
 		const ThemeElement& elem = viewIt->second.elements.at(key);
 		if(elem.Extra())
 		{
-			GuiComponent* comp = nullptr;
+			Component* comp = nullptr;
 			const std::string& t = elem.Type();
 			if(t == "image")
 				comp = new ImageComponent(window);

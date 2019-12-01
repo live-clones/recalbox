@@ -1,13 +1,13 @@
 #pragma once
 
-#include "GuiComponent.h"
+#include "components/base/Component.h"
 #include "components/ImageComponent.h"
 
 class TextCache;
 class Font;
 
 // Used to display/edit a value between some min and max values.
-class SliderComponent : public GuiComponent
+class SliderComponent : public Component
 {
 public:
 	//Minimum value (far left of the slider), maximum value (far right of the slider), increment size (how much just pressing L/R moves by), unit to display (optional).
@@ -21,8 +21,8 @@ public:
 	inline unsigned int getOriginColor() override{return mOriginColor;};
 
 	bool ProcessInput(const InputCompactEvent& event) override;
-	void update(int deltaTime) override;
-	void render(const Transform4x4f& parentTrans) override;
+	void Update(int deltaTime) override;
+	void Render(const Transform4x4f& parentTrans) override;
 	
 	void onSizeChanged() override;
 	

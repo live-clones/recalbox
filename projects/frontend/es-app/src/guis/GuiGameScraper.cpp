@@ -106,12 +106,12 @@ bool GuiGameScraper::ProcessInput(const InputCompactEvent& event)
 		return true;
 	}
 
-	return GuiComponent::ProcessInput(event);
+	return Component::ProcessInput(event);
 }
 
-void GuiGameScraper::update(int deltaTime)
+void GuiGameScraper::Update(int deltaTime)
 {
-	GuiComponent::update(deltaTime);
+  Component::Update(deltaTime);
 
 	if(mClose)
 		Close();

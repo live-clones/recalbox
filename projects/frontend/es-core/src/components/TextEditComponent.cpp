@@ -14,15 +14,15 @@
 #define CURSOR_REPEAT_SPEED 28 // lower is faster
 
 TextEditComponent::TextEditComponent(Window&window)
-	: GuiComponent(window),
-		mFocused(false),
-		mEditing(false),
-		mCursor(0),
-		mCursorRepeatTimer(0),
+	: Component(window),
+    mFocused(false),
+    mEditing(false),
+    mCursor(0),
+    mCursorRepeatTimer(0),
     mCursorRepeatDir(0),
-	  mScrollOffset(0.0f, 0.0f),
-		mBox(window, Path(":/textinput_ninepatch.png")),
-		mFont(MenuThemeData::getInstance()->getCurrentTheme()->menuText.font)
+    mScrollOffset(0.0f, 0.0f),
+    mBox(window, Path(":/textinput_ninepatch.png")),
+    mFont(MenuThemeData::getInstance()->getCurrentTheme()->menuText.font)
 {
 	addChild(&mBox);
 	
@@ -151,10 +151,10 @@ bool TextEditComponent::ProcessInput(const InputCompactEvent& event)
 	return false;
 }
 
-void TextEditComponent::update(int deltaTime)
+void TextEditComponent::Update(int deltaTime)
 {
 	updateCursorRepeat(deltaTime);
-	GuiComponent::update(deltaTime);
+  Component::Update(deltaTime);
 }
 
 void TextEditComponent::updateCursorRepeat(int deltaTime)
@@ -221,7 +221,7 @@ void TextEditComponent::onCursorChanged()
 	}
 }
 
-void TextEditComponent::render(const Transform4x4f& parentTrans)
+void TextEditComponent::Render(const Transform4x4f& parentTrans)
 {
 	Transform4x4f trans = getTransform() * parentTrans;
 	renderChildren(trans);

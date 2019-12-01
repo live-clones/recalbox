@@ -5,26 +5,26 @@
 
 #include <algorithm>
 #include "ThemeData.h"
-#include "GuiComponent.h"
+#include "components/base/Component.h"
 
-class ThemeExtras : public GuiComponent
+class ThemeExtras : public Component
 {
   public:
     explicit ThemeExtras(Window& window)
-      : GuiComponent(window)
+      : Component(window)
     {
     }
     ~ThemeExtras() override;
 
     // will take ownership of the components within extras (delete them in destructor or when setExtras is called again)
-    void setExtras(const std::vector<GuiComponent*>& extras);
-    inline std::vector<GuiComponent*> getmExtras(){return mExtras;}
+    void setExtras(const std::vector<Component*>& extras);
+    inline std::vector<Component*> getmExtras(){return mExtras;}
     inline void sortExtrasByZIndex(){
-      std::stable_sort(mExtras.begin(), mExtras.end(),  [](GuiComponent* a, GuiComponent* b) {
+      std::stable_sort(mExtras.begin(), mExtras.end(),  [](Component* a, Component* b) {
         return b->getZIndex() > a->getZIndex();
       });
     }
 
   private:
-    std::vector<GuiComponent*> mExtras;
+    std::vector<Component*> mExtras;
 };

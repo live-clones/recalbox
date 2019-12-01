@@ -5,7 +5,7 @@
 #include "platform_gl.h"
 #include "utils/math/Vectors.h"
 
-class GuiComponent;
+class Component;
 class Font;
 
 //The Renderer provides several higher-level functions for drawing (rectangles, text, etc.).

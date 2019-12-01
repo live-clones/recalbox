@@ -5,14 +5,14 @@
 
 struct ComponentListElement
 {
-	explicit ComponentListElement(std::shared_ptr<GuiComponent> cmp, bool resize_w, bool inv)
+	explicit ComponentListElement(std::shared_ptr<Component> cmp, bool resize_w, bool inv)
 		: component(std::move(cmp)),
 		  resize_width(resize_w),
 		  invert_when_selected(inv)
   {
   };
 
-	std::shared_ptr<GuiComponent> component;
+	std::shared_ptr<Component> component;
 	bool resize_width;
 	bool invert_when_selected;
 };
@@ -32,7 +32,7 @@ struct ComponentListRow
 	explicit ComponentListRow(std::string n = std::string()) : name(std::move(n))
 	{}
 	
-	inline void addElement(const std::shared_ptr<GuiComponent>& component, bool resize_width, bool invert_when_selected = true)
+	inline void addElement(const std::shared_ptr<Component>& component, bool resize_width, bool invert_when_selected = true)
 	{
 		elements.push_back(ComponentListElement(component, resize_width, invert_when_selected));
 	}
@@ -72,8 +72,8 @@ public:
 
 	void textInput(const char* text) override;
 	bool ProcessInput(const InputCompactEvent& event) override;
-	void update(int deltaTime) override;
-	void render(const Transform4x4f& parentTrans) override;
+	void Update(int deltaTime) override;
+	void Render(const Transform4x4f& parentTrans) override;
 	bool getHelpPrompts(Help& help) override;
 
 	void onSizeChanged() override;

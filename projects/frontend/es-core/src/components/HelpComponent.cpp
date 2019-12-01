@@ -30,7 +30,7 @@ static const std::map<HelpType, Path>& IconPathMap()
 }
 
 HelpComponent::HelpComponent(Window&window)
-  : GuiComponent(window)
+  : Component(window)
 {
 }
 
@@ -113,7 +113,7 @@ void HelpComponent::UpdateHelps()
 
 void HelpComponent::setOpacity(unsigned char opacity)
 {
-	GuiComponent::setOpacity(opacity);
+	Component::setOpacity(opacity);
 
 	for (unsigned int i = 0; i < mGrid->getChildCount(); i++)
 	{
@@ -121,10 +121,10 @@ void HelpComponent::setOpacity(unsigned char opacity)
 	}
 }
 
-void HelpComponent::render(const Transform4x4f& parentTrans)
+void HelpComponent::Render(const Transform4x4f& parentTrans)
 {
 	Transform4x4f trans = parentTrans * getTransform();
 
 	if(mGrid)
-		mGrid->render(trans);
+    mGrid->Render(trans);
 }

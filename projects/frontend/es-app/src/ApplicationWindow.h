@@ -21,11 +21,11 @@ class ApplicationWindow: public Window
     {
     }
 
-    void ProcessInput(const InputCompactEvent& event) override;
+    bool ProcessInput(const InputCompactEvent& event) override;
 
     void Update(int deltaTime) override;
 
-    void RenderAllGraphics();
+    void Render(Transform4x4f& transform) override;
 
     /*!
      * @brief Return true if the Application window is required to close
@@ -42,6 +42,15 @@ class ApplicationWindow: public Window
       if (HasGui())
         return Window::AmIOnTopOfScreen(ui);
       else
-        return mViewController.CurrentUi() == ui;
+        return &mViewController.CurrentUi() == ui;
+    }
+
+    /*!
+     * @brief Switch the view controller to the splash screen
+     */
+    void GoToQuitScreen()
+    {
+      mViewController.goToQuitScreen();
+      RenderAll();
     }
 };

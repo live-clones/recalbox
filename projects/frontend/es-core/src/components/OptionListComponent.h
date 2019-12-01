@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GuiComponent.h"
+#include "components/base/Component.h"
 #include "resources/Font.h"
 #include "Renderer.h"
 #include "Window.h"
@@ -24,7 +24,7 @@
 #define UNCHECKED_PATH ":/checkbox_unchecked.svg"
 
 template<typename T>
-class OptionListComponent : public GuiComponent
+class OptionListComponent : public Component
 {
 private:
 	struct OptionListData
@@ -133,7 +133,7 @@ private:
 				return true;
 			}
 
-			return GuiComponent::ProcessInput(event);
+			return Component::ProcessInput(event);
 		}
 
 		bool getHelpPrompts(Help& help) override
@@ -146,9 +146,9 @@ private:
 
 public:
 	OptionListComponent(Window& window, const std::string& name, bool multiSelect, unsigned int font_size)
-	  : GuiComponent(window),
-	    mMultiSelect(multiSelect),
-	    mName(name),
+	  : Component(window),
+      mMultiSelect(multiSelect),
+      mName(name),
       mText(window),
       mLeftArrow(window),
       mRightArrow(window)
@@ -243,7 +243,7 @@ public:
 
       }
     }
-		return GuiComponent::ProcessInput(event);
+		return Component::ProcessInput(event);
 	}
 
 	std::vector<T> getSelectedObjects()

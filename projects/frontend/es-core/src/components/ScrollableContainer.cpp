@@ -6,18 +6,18 @@
 #define AUTO_SCROLL_SPEED 50 // ms between scrolls
 
 ScrollableContainer::ScrollableContainer(Window&window)
-  : GuiComponent(window),
-	  mAutoScrollDelay(0),
-	  mAutoScrollSpeed(0),
-	  mAutoScrollResetAccumulator(0),
-	  mAutoScrollAccumulator(0),
-	  mScrollPos(0, 0),
-	  mScrollDir(0, 0),
-	  mAtEnd(false)
+  : Component(window),
+    mAutoScrollDelay(0),
+    mAutoScrollSpeed(0),
+    mAutoScrollResetAccumulator(0),
+    mAutoScrollAccumulator(0),
+    mScrollPos(0, 0),
+    mScrollDir(0, 0),
+    mAtEnd(false)
 {
 }
 
-void ScrollableContainer::render(const Transform4x4f& parentTrans)
+void ScrollableContainer::Render(const Transform4x4f& parentTrans)
 {
 	Transform4x4f trans = parentTrans * getTransform();
 
@@ -31,7 +31,7 @@ void ScrollableContainer::render(const Transform4x4f& parentTrans)
 	trans.translate(-Vector3f(mScrollPos.x(), mScrollPos.y(), 0));
 	Renderer::setMatrix(trans);
 
-	GuiComponent::renderChildren(trans);
+	Component::renderChildren(trans);
 
 	Renderer::popClipRect();
 }
@@ -52,7 +52,7 @@ void ScrollableContainer::setAutoScroll(bool autoScroll)
 	}
 }
 
-void ScrollableContainer::update(int deltaTime)
+void ScrollableContainer::Update(int deltaTime)
 {
 	if(mAutoScrollSpeed != 0)
 	{
@@ -96,7 +96,7 @@ void ScrollableContainer::update(int deltaTime)
 			reset();
 	}
 
-	GuiComponent::update(deltaTime);
+  Component::Update(deltaTime);
 }
 
 //this should probably return a box to allow for when controls don't start at 0,0

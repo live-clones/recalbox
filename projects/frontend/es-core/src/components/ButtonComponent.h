@@ -1,12 +1,12 @@
 #pragma once
 
-#include "GuiComponent.h"
+#include "components/base/Component.h"
 #include <functional>
 #include "resources/Font.h"
 #include "components/NinePatchComponent.h"
 #include <string>
 
-class ButtonComponent : public GuiComponent
+class ButtonComponent : public Component
 {
 public:
 	ButtonComponent(Window&window, const std::string& text, const std::string& helpText, const std::function<void()>& func, bool upperCase);
@@ -20,7 +20,7 @@ public:
 	void setEnabled(bool enable);
 
 	bool ProcessInput(const InputCompactEvent& event) override;
-	void render(const Transform4x4f& parentTrans) override;
+	void Render(const Transform4x4f& parentTrans) override;
 
 	void setText(const std::string& text, const std::string& helpText, bool upperCase = true, bool resize = true, bool doUpdateHelpPrompts = true);
 	void autoSizeFont();

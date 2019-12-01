@@ -81,9 +81,9 @@ class GuiNetPlay : public Gui, private Thread, private ISyncronousEvent
 
     void onSizeChanged() override;
 
-    void update(int deltaTime) override;
+    void Update(int deltaTime) override;
 
-    void render(const Transform4x4f& parentTrans) override;
+    void Render(const Transform4x4f& parentTrans) override;
 
   private:
     enum class MessageType

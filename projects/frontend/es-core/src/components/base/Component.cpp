@@ -1,5 +1,5 @@
 #include <algorithm>
-#include "GuiComponent.h"
+#include "Component.h"
 #include "Window.h"
 #include "utils/Log.h"
 #include "Renderer.h"
@@ -7,7 +7,7 @@
 #include "themes/ThemeData.h"
 #include "Settings.h"
 
-GuiComponent::GuiComponent(Window& window)
+Component::Component(Window& window)
   : mTransform(Transform4x4f::Identity()),
     mAnimationMap{ nullptr },
     mChildren(nullptr),
@@ -26,7 +26,7 @@ GuiComponent::GuiComponent(Window& window)
 {
 }
 
-GuiComponent::~GuiComponent()
+Component::~Component()
 {
 	cancelAllAnimations();
 
@@ -37,7 +37,7 @@ GuiComponent::~GuiComponent()
 		getChild(i)->setParent(nullptr);
 }
 
-bool GuiComponent::ProcessInput(const InputCompactEvent& event)
+bool Component::ProcessInput(const InputCompactEvent& event)
 {
   int count = (int)getChildCount();
   for (int i = 0; i < count; ++i)
@@ -47,79 +47,79 @@ bool GuiComponent::ProcessInput(const InputCompactEvent& event)
   return false;
 }
 
-void GuiComponent::updateSelf(int deltaTime)
+void Component::updateSelf(int deltaTime)
 {
 	for (int i = MAX_ANIMATIONS; --i >= 0; )
 		advanceAnimation(i, deltaTime);
 }
 
-void GuiComponent::updateChildren(int deltaTime)
+void Component::updateChildren(int deltaTime)
 {
 	for (unsigned int i = 0; i < getChildCount(); i++)
 	{
-		getChild(i)->update(deltaTime);
+    getChild(i)->Update(deltaTime);
 	}
 }
 
-void GuiComponent::update(int deltaTime)
+void Component::Update(int deltaTime)
 {
 	updateSelf(deltaTime);
 	updateChildren(deltaTime);
 }
 
-void GuiComponent::render(const Transform4x4f& parentTrans)
+void Component::Render(const Transform4x4f& parentTrans)
 {
 	Transform4x4f trans = parentTrans * getTransform();
 	renderChildren(trans);
 }
 
-void GuiComponent::renderChildren(const Transform4x4f& transform) const
+void Component::renderChildren(const Transform4x4f& transform) const
 {
 	for (unsigned int i = 0; i < getChildCount(); i++)
 	{
-		getChild(i)->render(transform);
+    getChild(i)->Render(transform);
 	}
 }
 
-void GuiComponent::setNormalisedPosition(float x, float y, float z)
+void Component::setNormalisedPosition(float x, float y, float z)
 {
     Vector2f pos = denormalise(x, y);
     setPosition(pos.x(), pos.y(), z);
 }
 
-void GuiComponent::setPosition(float x, float y, float z)
+void Component::setPosition(float x, float y, float z)
 {
 	mPosition.Set(x, y, z);
 	onPositionChanged();
 }
 
-void GuiComponent::setOrigin(float x, float y)
+void Component::setOrigin(float x, float y)
 {
 	mOrigin.Set(x, y);
 	onOriginChanged();
 }
 
-void GuiComponent::setRotationOrigin(float x, float y)
+void Component::setRotationOrigin(float x, float y)
 {
 	mRotationOrigin.Set(x, y);
 }
 
-void GuiComponent::setSize(float w, float h)
+void Component::setSize(float w, float h)
 {
 	mSize.Set(w, h);
     onSizeChanged();
 }
 
-Vector2f GuiComponent::getCenter() const
+Vector2f Component::getCenter() const
 {
 	return { mPosition.x() - (getSize().x() * mOrigin.x()) + getSize().x() / 2,
 					 mPosition.y() - (getSize().y() * mOrigin.y()) + getSize().y() / 2 };
 }
 
 //Children stuff.
-void GuiComponent::addChild(GuiComponent* cmp)
+void Component::addChild(Component* cmp)
 {
-  if (mChildren == nullptr) mChildren = new std::vector<GuiComponent*>();
+  if (mChildren == nullptr) mChildren = new std::vector<Component*>();
   mChildren->push_back(cmp);
 
 	if(cmp->getParent() != nullptr)
@@ -128,7 +128,7 @@ void GuiComponent::addChild(GuiComponent* cmp)
 	cmp->setParent(this);
 }
 
-void GuiComponent::removeChild(GuiComponent* cmp)
+void Component::removeChild(Component* cmp)
 {
 	if(cmp->getParent() == nullptr)
 		return;
@@ -149,34 +149,34 @@ void GuiComponent::removeChild(GuiComponent* cmp)
       }
 }
 
-void GuiComponent::clearChildren()
+void Component::clearChildren()
 {
   if (mChildren != nullptr)
     mChildren->clear();
 }
 
-void GuiComponent::sortChildren()
+void Component::sortChildren()
 {
   if (mChildren != nullptr)
-    std::stable_sort(mChildren->begin(), mChildren->end(),  [](GuiComponent* a, GuiComponent* b)
+    std::stable_sort(mChildren->begin(), mChildren->end(),  [](Component* a, Component* b)
     {
       return b->getZIndex() > a->getZIndex();
     });
 }
 
-unsigned int GuiComponent::getChildCount() const
+unsigned int Component::getChildCount() const
 {
   if (mChildren == nullptr) return 0;
 	return mChildren->size();
 }
 
-GuiComponent* GuiComponent::getChild(unsigned int i) const
+Component* Component::getChild(unsigned int i) const
 {
   if (mChildren == nullptr) return nullptr;
   return mChildren->at(i);
 }
 
-void GuiComponent::setOpacity(unsigned char opacity)
+void Component::setOpacity(unsigned char opacity)
 {
 	mOpacity = opacity;
 	if (mChildren != nullptr)
@@ -186,7 +186,7 @@ void GuiComponent::setOpacity(unsigned char opacity)
     }
 }
 
-const Transform4x4f& GuiComponent::getTransform()
+const Transform4x4f& Component::getTransform()
 {
 	mTransform = Transform4x4f::Identity();
 	mTransform.translate(mPosition);
@@ -215,7 +215,7 @@ const Transform4x4f& GuiComponent::getTransform()
 	return mTransform;
 }
 
-void GuiComponent::textInput(const char* text)
+void Component::textInput(const char* text)
 {
   if (mChildren != nullptr)
     for (auto iter : *mChildren)
@@ -224,7 +224,7 @@ void GuiComponent::textInput(const char* text)
     }
 }
 
-void GuiComponent::setAnimation(Animation* anim, int delay, const std::function<void()>& finishedCallback, bool reverse, unsigned char slot)
+void Component::setAnimation(Animation* anim, int delay, const std::function<void()>& finishedCallback, bool reverse, unsigned char slot)
 {
 	assert(slot < MAX_ANIMATIONS);
 
@@ -234,7 +234,7 @@ void GuiComponent::setAnimation(Animation* anim, int delay, const std::function<
 	delete oldAnim;
 }
 
-bool GuiComponent::stopAnimation(unsigned char slot)
+bool Component::stopAnimation(unsigned char slot)
 {
 	assert(slot < MAX_ANIMATIONS);
 	if(mAnimationMap[slot] != nullptr)
@@ -247,7 +247,7 @@ bool GuiComponent::stopAnimation(unsigned char slot)
 	}
 }
 
-bool GuiComponent::cancelAnimation(unsigned char slot)
+bool Component::cancelAnimation(unsigned char slot)
 {
 	assert(slot < MAX_ANIMATIONS);
 	if(mAnimationMap[slot] != nullptr)
@@ -261,7 +261,7 @@ bool GuiComponent::cancelAnimation(unsigned char slot)
 	}
 }
 
-bool GuiComponent::finishAnimation(unsigned char slot)
+bool Component::finishAnimation(unsigned char slot)
 {
 	assert(slot < MAX_ANIMATIONS);
 	if(mAnimationMap[slot] != nullptr)
@@ -279,7 +279,7 @@ bool GuiComponent::finishAnimation(unsigned char slot)
 	}
 }
 
-bool GuiComponent::advanceAnimation(unsigned char slot, unsigned int time)
+bool Component::advanceAnimation(unsigned char slot, unsigned int time)
 {
 	assert(slot < MAX_ANIMATIONS);
 	AnimationController* anim = mAnimationMap[slot];
@@ -297,46 +297,46 @@ bool GuiComponent::advanceAnimation(unsigned char slot, unsigned int time)
 	}
 }
 
-void GuiComponent::stopAllAnimations()
+void Component::stopAllAnimations()
 {
 	for (unsigned char i = 0; i < MAX_ANIMATIONS; i++)
 		stopAnimation(i);
 }
 
-void GuiComponent::cancelAllAnimations()
+void Component::cancelAllAnimations()
 {
 	for (unsigned char i = 0; i < MAX_ANIMATIONS; i++)
 		cancelAnimation(i);
 }
 
-bool GuiComponent::isAnimationPlaying(unsigned char slot) const
+bool Component::isAnimationPlaying(unsigned char slot) const
 {
 	return mAnimationMap[slot] != nullptr;
 }
 
-bool GuiComponent::isAnimationReversed(unsigned char slot) const
+bool Component::isAnimationReversed(unsigned char slot) const
 {
 	assert(mAnimationMap[slot] != nullptr);
 	return mAnimationMap[slot]->isReversed();
 }
 
-int GuiComponent::getAnimationTime(unsigned char slot) const
+int Component::getAnimationTime(unsigned char slot) const
 {
 	assert(mAnimationMap[slot] != nullptr);
 	return mAnimationMap[slot]->getTime();
 }
 
-Vector2f GuiComponent::denormalise(float x, float y) {
+Vector2f Component::denormalise(float x, float y) {
     Vector2f value(x, y);
     return denormalise(value);
 }
 
-Vector2f GuiComponent::denormalise(const Vector2f& value) {
+Vector2f Component::denormalise(const Vector2f& value) {
     Vector2f scale = getParent() != nullptr ? getParent()->getSize() : Vector2f(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
     return value * scale;
 }
 
-void GuiComponent::applyTheme(const ThemeData& theme, const std::string& view, const std::string& element, ThemeProperties properties)
+void Component::applyTheme(const ThemeData& theme, const std::string& view, const std::string& element, ThemeProperties properties)
 {
 	Vector2f scale = getParent() != nullptr ? getParent()->getSize() : Vector2f(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
 
@@ -371,7 +371,7 @@ void GuiComponent::applyTheme(const ThemeData& theme, const std::string& view, c
 		setZIndex(getDefaultZIndex());
 }
 
-void GuiComponent::updateHelpPrompts()
+void Component::updateHelpPrompts()
 {
 	if(getParent() != nullptr)
 	{
@@ -387,7 +387,7 @@ void GuiComponent::updateHelpPrompts()
   }
 }
 
-void GuiComponent::ApplyHelpStyle()
+void Component::ApplyHelpStyle()
 {
 	if (Settings::Instance().ThemeHasMenuView())
 		HelpItemStyle().FromTheme(ThemeData::getCurrent(), "menu");
@@ -395,13 +395,13 @@ void GuiComponent::ApplyHelpStyle()
 		HelpItemStyle().FromTheme(ThemeData::getCurrent(), "system");
 }
 
-void GuiComponent::onShow()
+void Component::onShow()
 {
     for (unsigned int i = 0; i < getChildCount(); i++)
         getChild(i)->onShow();
 }
 
-void GuiComponent::onHide()
+void Component::onHide()
 {
 	for (unsigned int i = 0; i < getChildCount(); i++)
         getChild(i)->onHide();

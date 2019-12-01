@@ -4,7 +4,7 @@
 #include "Window.h"
 
 RatingComponent::RatingComponent(Window&window, unsigned int color)
-  : GuiComponent(window),
+  : Component(window),
     mVertices(),
     mColor(color),
     mOriginColor(color)
@@ -87,7 +87,7 @@ void RatingComponent::updateVertices()
 	mVertices[11] = mVertices[7];
 }
 
-void RatingComponent::render(const Transform4x4f& parentTrans)
+void RatingComponent::Render(const Transform4x4f& parentTrans)
 {
 	Transform4x4f trans = (parentTrans * getTransform()).round();
 	Renderer::setMatrix(trans);
@@ -138,12 +138,12 @@ bool RatingComponent::ProcessInput(const InputCompactEvent& event)
 		updateVertices();
 	}
 
-	return GuiComponent::ProcessInput(event);
+	return Component::ProcessInput(event);
 }
 
 void RatingComponent::applyTheme(const ThemeData& theme, const std::string& view, const std::string& element, ThemeProperties properties)
 {
-	GuiComponent::applyTheme(theme, view, element, properties);
+	Component::applyTheme(theme, view, element, properties);
 
 	const ThemeElement* elem = theme.getElement(view, element, "rating");
 	if (elem == nullptr)

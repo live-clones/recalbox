@@ -27,7 +27,6 @@ SystemView::SystemView(Window& window, SystemManager& systemManager)
 		launchKodi(false)
 {
 	setSize(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
-	populate();
 }
 
 void SystemView::addSystem(SystemData * it){
@@ -49,7 +48,7 @@ void SystemView::addSystem(SystemData * it){
 		ImageComponent* logo = new ImageComponent(mWindow, false, false);
 		logo->setMaxSize(mCarousel.logoSize * mCarousel.logoScale);
 		logo->applyTheme((it)->getTheme(), "system", "logo", ThemeProperties::Path);
-		e.data.logo = std::shared_ptr<GuiComponent>(logo);
+		e.data.logo = std::shared_ptr<Component>(logo);
 		if ((it)->ThemeFolder() == "default")
 		{
 			TextComponent* text = new TextComponent(mWindow,
@@ -58,7 +57,7 @@ void SystemView::addSystem(SystemData * it){
                                               0x1A1A1AFF,
                                               TextAlignment::Center);
 			text->setSize(mCarousel.logoSize * mCarousel.logoScale);
-			e.data.logotext = std::shared_ptr<GuiComponent>(text);
+			e.data.logotext = std::shared_ptr<Component>(text);
 			if (mCarousel.type == CarouselType::Vertical || mCarousel.type == CarouselType::VerticalWheel)
 				text->setHorizontalAlignment(mCarousel.logoAlignment);
 			else
@@ -73,7 +72,7 @@ void SystemView::addSystem(SystemData * it){
                                             0x000000FF,
                                             TextAlignment::Center);
 		text->setSize(mCarousel.logoSize * mCarousel.logoScale);
-		e.data.logo = std::shared_ptr<GuiComponent>(text);
+		e.data.logo = std::shared_ptr<Component>(text);
     if (mCarousel.type == CarouselType::Vertical || mCarousel.type == CarouselType::VerticalWheel)
 			text->setHorizontalAlignment(mCarousel.logoAlignment);
     else
@@ -144,6 +143,10 @@ void SystemView::populate()
 
 void SystemView::goToSystem(SystemData* system, bool animate)
 {
+  // Systems lazy initialization
+  if (mEntries.empty())
+    populate();
+
 	if (!setCursor(system)) // When deleting last favorite from favorite view, favorite system is no longer available
 	  setCursor(mSystemManager.FirstNonEmptySystem());
 
@@ -264,7 +267,7 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
 			icon2->setResize(0, menuTheme->menuText.font->getLetterHeight() * 1.25f);
 			row.addElement(icon2, false);
 			// spacer between icon and text
-			auto spacer = std::make_shared<GuiComponent>(mWindow);
+			auto spacer = std::make_shared<Component>(mWindow);
 			row.addElement(spacer, false);
 			row.addElement(std::make_shared<TextComponent>(mWindow, _("SHUTDOWN SYSTEM"), menuTheme->menuText.font, menuTheme->menuText.color), true);
 			s->addRow(row);
@@ -312,13 +315,13 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
 	else if (event.AnyLeftReleased() || event.AnyRightReleased() || event.AnyUpReleased() || event.AnyDownReleased())
 	  listInput(0);
 
-	return GuiComponent::ProcessInput(event);
+	return Component::ProcessInput(event);
 }
 
-void SystemView::update(int deltaTime)
+void SystemView::Update(int deltaTime)
 {
 	listUpdate(deltaTime);
-	GuiComponent::update(deltaTime);
+  Component::Update(deltaTime);
 }
 
 void SystemView::onCursorChanged(const CursorState& state)
@@ -470,7 +473,7 @@ void SystemView::onCursorChanged(const CursorState& state)
 	setAnimation(anim, 0, nullptr, false, 0);
 }
 
-void SystemView::render(const Transform4x4f& parentTrans)
+void SystemView::Render(const Transform4x4f& parentTrans)
 {
 	if(size() == 0)
 		return;  // nothing to render
@@ -635,25 +638,25 @@ void SystemView::renderCarousel(const Transform4x4f& trans)
 		int opacity = Math::roundi(0x80 + ((0xFF - 0x80) * (1 - fabs(distance))));
 		opacity = Math::max((int) 0x80, opacity);
 
-		const std::shared_ptr<GuiComponent> &comp = mEntries.at(index).data.logo;
+		const std::shared_ptr<Component> &comp = mEntries.at(index).data.logo;
 		if (mCarousel.type == CarouselType::VerticalWheel) {
 			comp->setRotationDegrees(mCarousel.logoRotation * distance);
 			comp->setRotationOrigin(mCarousel.logoRotationOrigin);
 		}
 		comp->setScale(scale);
 		comp->setOpacity(opacity);
-		comp->render(logoTrans);
+    comp->Render(logoTrans);
 
 		if (mEntries.at(index).data.logotext)
 		{
-			const std::shared_ptr<GuiComponent> &comp2 = mEntries.at(index).data.logotext;
+			const std::shared_ptr<Component> &comp2 = mEntries.at(index).data.logotext;
 			if (mCarousel.type == CarouselType::VerticalWheel) {
 				comp2->setRotationDegrees(mCarousel.logoRotation * distance);
 				comp2->setRotationOrigin(mCarousel.logoRotationOrigin);
 			}
 			comp2->setScale(scale);
 			comp2->setOpacity(opacity);
-			comp2->render(logoTrans);
+      comp2->Render(logoTrans);
 		}
 	}
 	Renderer::popClipRect();
@@ -662,7 +665,7 @@ void SystemView::renderCarousel(const Transform4x4f& trans)
 void SystemView::renderInfoBar(const Transform4x4f& trans)
 {
 	Renderer::setMatrix(trans);
-	mSystemInfo.render(trans);
+  mSystemInfo.Render(trans);
 }
 
 
@@ -697,9 +700,9 @@ void SystemView::renderExtras(const Transform4x4f& trans, float lower, float upp
 								   mSize.toInt());
 			SystemViewData data = mEntries.at(index).data;
 			for (unsigned int j = 0; j < data.backgroundExtras->getmExtras().size(); j++) {
-				GuiComponent *extra = data.backgroundExtras->getmExtras()[j];
+				Component *extra = data.backgroundExtras->getmExtras()[j];
 				if (extra->getZIndex() >= lower && extra->getZIndex() < upper) {
-					extra->render(extrasTrans);
+          extra->Render(extrasTrans);
 				}
 			}
 			Renderer::popClipRect();

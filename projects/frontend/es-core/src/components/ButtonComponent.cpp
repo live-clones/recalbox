@@ -5,7 +5,7 @@
 #include "MenuThemeData.h"
 
 ButtonComponent::ButtonComponent(Window&window, const std::string& text, const std::string& helpText, const std::function<void()>& func, bool upperCase)
-  : GuiComponent(window),
+  : Component(window),
     mFont(Font::get(FONT_SIZE_MEDIUM)),
     mFocused(false),
     mEnabled(true),
@@ -47,7 +47,7 @@ bool ButtonComponent::ProcessInput(const InputCompactEvent& event)
 		return true;
 	}
 
-	return GuiComponent::ProcessInput(event);
+	return Component::ProcessInput(event);
 }
 
 void ButtonComponent::setText(const std::string& text, const std::string& helpText, bool upperCase, bool resize, bool doUpdateHelpPrompts)
@@ -126,11 +126,11 @@ void ButtonComponent::updateImage()
 	mBox.setImagePath(mFocused ? mButton_filled : mButton);
 }
 
-void ButtonComponent::render(const Transform4x4f& parentTrans)
+void ButtonComponent::Render(const Transform4x4f& parentTrans)
 {
   Transform4x4f trans = (parentTrans * getTransform()).round();
-	
-	mBox.render(trans);
+
+  mBox.Render(trans);
 
 	if(mTextCache)
 	{

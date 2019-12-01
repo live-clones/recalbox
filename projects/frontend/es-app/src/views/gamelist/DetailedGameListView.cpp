@@ -7,8 +7,8 @@
 #include "animations/LambdaAnimation.h"
 #include "Locale.h"
 
-DetailedGameListView::DetailedGameListView(Window&window, FolderData* root, SystemData* system)
-: BasicGameListView(window, root),
+DetailedGameListView::DetailedGameListView(Window&window, SystemManager& systemManager, FolderData* root)
+: BasicGameListView(window, systemManager, root),
   mImage(window),
   mVideo(window),
   mLblRating(window),
@@ -32,7 +32,7 @@ DetailedGameListView::DetailedGameListView(Window&window, FolderData* root, Syst
   mFavorite(window),
   mDescContainer(window),
   mDescription(window),
-  mSystem(system),
+  mSystem(root->getSystem()),
   mSettings(RecalboxConf::Instance())
 {
   const float padding = 0.01f;
@@ -104,7 +104,7 @@ DetailedGameListView::DetailedGameListView(Window&window, FolderData* root, Syst
   mLblPlayCount.setText(_("Times played") + ": ");
   addChild(&mLblPlayCount);
   addChild(&mPlayCount);
-  if (system->getHasFavoritesInTheme())
+  if (mSystem->getHasFavoritesInTheme())
   {
     mLblFavorite.setText(_("Favorite") + ": ");
     addChild(&mLblFavorite);
@@ -158,7 +158,7 @@ void DetailedGameListView::onThemeChanged(const ThemeData& theme)
   }
 
   initMDValues();
-  std::vector<GuiComponent*> values = getMDValues();
+  std::vector<Component*> values = getMDValues();
   names = {
     "md_rating",
     "md_releasedate",
@@ -265,7 +265,7 @@ void DetailedGameListView::initMDLabels()
     else
     {
       // work from the last component
-      GuiComponent* lc = components[i - 1];
+      Component* lc = components[i - 1];
       pos = lc->getPosition() + Vector3f(0, lc->getSize().y() + rowPadding, 0);
     }
 
@@ -278,7 +278,7 @@ void DetailedGameListView::initMDLabels()
 void DetailedGameListView::initMDValues()
 {
   std::vector<TextComponent*> labels = getMDLabels();
-  std::vector<GuiComponent*> values = getMDValues();
+  std::vector<Component*> values = getMDValues();
 
   std::shared_ptr<Font> defaultFont = Font::get(FONT_SIZE_SMALL);
   mRating.setSize(defaultFont->getHeight() * 5.0f, defaultFont->getHeight());
@@ -356,9 +356,9 @@ bool DetailedGameListView::switchDisplay(bool isGame)
   return true;
 }
 
-std::vector<GuiComponent*> DetailedGameListView::getFolderComponents()
+std::vector<Component*> DetailedGameListView::getFolderComponents()
 {
-  std::vector<GuiComponent*> comps;
+  std::vector<Component*> comps;
   for (auto img: mFolderContent)
   {
     comps.push_back(img);
@@ -367,9 +367,9 @@ std::vector<GuiComponent*> DetailedGameListView::getFolderComponents()
   return comps;
 }
 
-std::vector<GuiComponent*> DetailedGameListView::getGameComponents(bool includeMainComponents)
+std::vector<Component*> DetailedGameListView::getGameComponents(bool includeMainComponents)
 {
-  std::vector<GuiComponent*> comps = getMDValues();
+  std::vector<Component*> comps = getMDValues();
   if (includeMainComponents)
   {
     comps.push_back(&mImage);
@@ -381,9 +381,9 @@ std::vector<GuiComponent*> DetailedGameListView::getGameComponents(bool includeM
   return comps;
 }
 
-std::vector<GuiComponent*> DetailedGameListView::getScrappedFolderComponents()
+std::vector<Component*> DetailedGameListView::getScrappedFolderComponents()
 {
-  std::vector<GuiComponent*> comps;
+  std::vector<Component*> comps;
   comps.push_back(&mImage);
   comps.push_back(&mVideo);
   comps.push_back(&mDescription);
@@ -460,7 +460,7 @@ void DetailedGameListView::setScrappedFolderInfo(FileData* file)
     }
 }*/
 
-void DetailedGameListView::fadeOut(const std::vector<GuiComponent*>& comps, bool fadingOut)
+void DetailedGameListView::fadeOut(const std::vector<Component*>& comps, bool fadingOut)
 {
   for (auto comp : comps)
   {
@@ -509,9 +509,9 @@ std::vector<TextComponent*> DetailedGameListView::getMDLabels()
 }
 
 // element order need to follow the one in onThemeChanged
-std::vector<GuiComponent*> DetailedGameListView::getMDValues()
+std::vector<Component*> DetailedGameListView::getMDValues()
 {
-  std::vector<GuiComponent*> ret;
+  std::vector<Component*> ret;
   ret.push_back(&mRating);
   ret.push_back(&mReleaseDate);
   ret.push_back(&mDeveloper);
@@ -527,12 +527,12 @@ std::vector<GuiComponent*> DetailedGameListView::getMDValues()
   return ret;
 }
 
-void DetailedGameListView::update(int deltatime)
+void DetailedGameListView::Update(int deltatime)
 {
   if (mList.isScrolling())
     mVideo.setVideo("", 0, 0);
 
-  GuiComponent::update(deltatime);
+  Component::Update(deltatime);
 }
 
 

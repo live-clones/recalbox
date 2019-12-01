@@ -7,7 +7,7 @@
 #include "Locale.h"
 
 VideoComponent::VideoComponent(Window&window)
-: GuiComponent(window),
+: Component(window),
   mState(State::Uninitialized),
   mEffect(Effect::BreakingNews),
   mTargetSize(0),
@@ -293,7 +293,7 @@ bool VideoComponent::ProcessDisplay(double& effect)
   return video;
 }
 
-void VideoComponent::render(const Transform4x4f& parentTrans)
+void VideoComponent::Render(const Transform4x4f& parentTrans)
 {
   Transform4x4f trans = parentTrans * getTransform();
   Renderer::setMatrix(trans);
@@ -336,7 +336,7 @@ void VideoComponent::render(const Transform4x4f& parentTrans)
     glDisable(GL_BLEND);
   }
 
-  GuiComponent::renderChildren(trans);
+  Component::renderChildren(trans);
 }
 
 void VideoComponent::applyTheme(const ThemeData& theme, const std::string& view, const std::string& element,

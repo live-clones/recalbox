@@ -16,7 +16,7 @@ AnimationFrame BUSY_ANIMATION_FRAMES[] = {
 const AnimationDef BUSY_ANIMATION_DEF = { BUSY_ANIMATION_FRAMES, 4, true };
 
 BusyComponent::BusyComponent(Window&window)
-: GuiComponent(window),
+: Component(window),
   mBackground(window, Path(":/frame.png")),
   mGrid(window,Vector2i(5, 3)),
   mThreadMessagechanged(false)
@@ -55,7 +55,7 @@ void BusyComponent::setText(std::string txt)
 	}
 }
 
-void BusyComponent::render(const Transform4x4f& parentTrans) {
+void BusyComponent::Render(const Transform4x4f& parentTrans) {
 	if (SDL_LockMutex(mutex) == 0) {
 		if(mThreadMessagechanged) {
       mThreadMessagechanged = false;
@@ -64,7 +64,7 @@ void BusyComponent::render(const Transform4x4f& parentTrans) {
 		}
 		SDL_UnlockMutex(mutex);
 	}
-	GuiComponent::render(parentTrans);
+  Component::Render(parentTrans);
 }
 
 void BusyComponent::onSizeChanged()

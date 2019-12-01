@@ -4,27 +4,27 @@
 
 #include "ApplicationWindow.h"
 
-void ApplicationWindow::ProcessInput(const InputCompactEvent& event)
+bool ApplicationWindow::ProcessInput(const InputCompactEvent& event)
 {
   if (event.IsKeyboard() && event.KeyUp() && (event.RawEvent().Code() == SDLK_F4))
-    mClosed = true;
-  else
   {
-    if (!mViewController.ProcessInput(event))
-      Window::ProcessInput(event);
+    Window::ProcessInput(event); // Force window wakeup
+    mClosed = true;
+    return true;
   }
+
+  if (Window::ProcessInput(event)) return true;
+  return mViewController.ProcessInput(event);
 }
 
 void ApplicationWindow::Update(int deltaTime)
 {
-  mViewController.update(deltaTime);
+  mViewController.Update(deltaTime);
   Window::Update(deltaTime);
 }
 
-void ApplicationWindow::RenderAllGraphics()
+void ApplicationWindow::Render(Transform4x4f& transform)
 {
-  Transform4x4f transform = Transform4x4f::Identity();
-
-  mViewController.render(transform);
+  mViewController.Render(transform);
   Window::Render(transform);
 }

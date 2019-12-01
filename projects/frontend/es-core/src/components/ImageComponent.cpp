@@ -12,7 +12,7 @@ Vector2i ImageComponent::getTextureSize() const {
 }
 
 ImageComponent::ImageComponent(Window&window, bool forceLoad, bool dynamic)
-  : GuiComponent(window),
+  : Component(window),
     mTargetSize(0, 0),
     mPath(""),
     mFlipX(false),
@@ -225,7 +225,7 @@ void ImageComponent::updateColors() {
     Renderer::buildGLColorArray(mColors, mColorShift, 6);
 }
 
-void ImageComponent::render(const Transform4x4f& parentTrans) {
+void ImageComponent::Render(const Transform4x4f& parentTrans) {
     Transform4x4f trans = parentTrans * getTransform();
     Renderer::setMatrix(trans);
     
@@ -263,7 +263,7 @@ void ImageComponent::render(const Transform4x4f& parentTrans) {
         }
     }
 
-    GuiComponent::renderChildren(trans);
+    Component::renderChildren(trans);
 }
 
 void ImageComponent::fadeIn(bool textureLoaded) {

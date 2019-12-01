@@ -111,7 +111,7 @@ std::queue<ScraperSearchParams> GuiScraperStart::getSearches(std::vector<SystemD
 
 bool GuiScraperStart::ProcessInput(const InputCompactEvent& event)
 {
-	bool consumed = GuiComponent::ProcessInput(event);
+	bool consumed = Component::ProcessInput(event);
 	if(consumed)
 		return true;
 	

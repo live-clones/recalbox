@@ -6,7 +6,7 @@
 #include "MenuThemeData.h"
 
 SwitchComponent::SwitchComponent(Window&window)
-  : GuiComponent(window),
+  : Component(window),
     mImage(window),
     mState(false),
     mInitialState(false)
@@ -40,11 +40,11 @@ bool SwitchComponent::ProcessInput(const InputCompactEvent& event)
 	return false;
 }
 
-void SwitchComponent::render(const Transform4x4f& parentTrans)
+void SwitchComponent::Render(const Transform4x4f& parentTrans)
 {
 	Transform4x4f trans = parentTrans * getTransform();
-	
-	mImage.render(trans);
+
+  mImage.Render(trans);
 
 	renderChildren(trans);
 }

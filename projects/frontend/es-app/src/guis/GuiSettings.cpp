@@ -46,7 +46,7 @@ bool GuiSettings::ProcessInput(const InputCompactEvent& event)
 		return true;
 	}
 	
-	return GuiComponent::ProcessInput(event);
+	return Component::ProcessInput(event);
 }
 
 bool GuiSettings::getHelpPrompts(Help& help)

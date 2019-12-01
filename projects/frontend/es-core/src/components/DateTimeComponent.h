@@ -1,11 +1,11 @@
 #pragma once
 
-#include "GuiComponent.h"
+#include "components/base/Component.h"
 #include "resources/Font.h"
 #include <utils/datetime/DateTime.h>
 
 // Used to enter or display a specific point in time.
-class DateTimeComponent : public GuiComponent
+class DateTimeComponent : public Component
 {
 public:
 	enum class Display
@@ -26,8 +26,8 @@ public:
 	std::string getValue() const override;
 
 	bool ProcessInput(const InputCompactEvent& event) override;
-	void update(int deltaTime) override;
-	void render(const Transform4x4f& parentTrans) override;
+	void Update(int deltaTime) override;
+	void Render(const Transform4x4f& parentTrans) override;
 	void onSizeChanged() override;
 
 	// Set how the point in time will be displayed:

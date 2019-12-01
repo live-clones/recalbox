@@ -22,7 +22,7 @@ std::shared_ptr<ImageComponent> makeArrow(Window&window);
 
 #define TITLE_VERT_PADDING (Renderer::getDisplayHeightAsFloat()*0.0637f)
 
-class MenuComponent : public GuiComponent
+class MenuComponent : public Component
 {
 public:
 	MenuComponent(Window&window, const char* title, const std::shared_ptr<Font>& titleFont);
@@ -55,7 +55,7 @@ public:
 		addRow(row, setCursorHere, updateGeometry);
 	}
 
-	inline void addWithLabel(const std::shared_ptr<GuiComponent>& comp, const std::string& label, const std::string& help = "", bool setCursorHere = false, bool invert_when_selected = true, const std::function<void()>& acceptCallback = nullptr) 
+	inline void addWithLabel(const std::shared_ptr<Component>& comp, const std::string& label, const std::string& help = "", bool setCursorHere = false, bool invert_when_selected = true, const std::function<void()>& acceptCallback = nullptr) 
 	{
 		ComponentListRow row;
 		auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();

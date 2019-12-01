@@ -4,7 +4,7 @@
 
 #include "ThemeExtras.h"
 
-void ThemeExtras::setExtras(const std::vector<GuiComponent*>& extras)
+void ThemeExtras::setExtras(const std::vector<Component*>& extras)
 {
   // delete old extras (if any)
   for (auto& mExtra : mExtras)

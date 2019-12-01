@@ -2,13 +2,13 @@
 
 #include "platform_gl.h"
 
-#include "GuiComponent.h"
+#include "components/base/Component.h"
 #include <string>
 #include <utils/datetime/HighResolutionTimer.h>
 #include <RecalboxConf.h>
 #include "resources/TextureResource.h"
 
-class VideoComponent : public GuiComponent
+class VideoComponent : public Component
 {
   private:
     enum class State
@@ -122,7 +122,7 @@ class VideoComponent : public GuiComponent
     void setColorShift(unsigned int color);
     void setColor(unsigned int color) override { setColorShift(color); }
 
-    void render(const Transform4x4f& parentTrans) override;
+    void Render(const Transform4x4f& parentTrans) override;
 
     void applyTheme(const ThemeData& theme, const std::string& view, const std::string& element, ThemeProperties properties) override;
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GuiComponent.h"
+#include "components/base/Component.h"
 
 enum class UpdateType : unsigned char // Take less memory in grid elements
 {
@@ -20,23 +20,23 @@ enum class Borders : unsigned char // Take less memory in grid elements
 DEFINE_BITFLAG_ENUM(Borders, unsigned int)
 
 // Used to arrange a bunch of components in a spreadsheet-esque grid.
-class ComponentGrid : public GuiComponent
+class ComponentGrid : public Component
 {
 public:
 	ComponentGrid(Window&window, const Vector2i& gridDimensions);
 	~ComponentGrid() override;
 
-	bool removeEntry(const std::shared_ptr<GuiComponent>& comp);
+	bool removeEntry(const std::shared_ptr<Component>& comp);
 
-	void setEntry(const std::shared_ptr<GuiComponent>& comp, const Vector2i& pos, bool canFocus, bool resize = true,
-		const Vector2i& size = Vector2i(1, 1), Borders border = Borders::None, UpdateType updateType = UpdateType::Always);
+	void setEntry(const std::shared_ptr<Component>& comp, const Vector2i& pos, bool canFocus, bool resize = true,
+                const Vector2i& size = Vector2i(1, 1), Borders border = Borders::None, UpdateType updateType = UpdateType::Always);
 
 	void textInput(const char* text) override;
 
 	bool ProcessInput(const InputCompactEvent& event) override;
 
-	void update(int deltaTime) override;
-	void render(const Transform4x4f& parentTrans) override;
+	void Update(int deltaTime) override;
+	void Render(const Transform4x4f& parentTrans) override;
 	void onSizeChanged() override;
 
 	void resetCursor();
@@ -49,11 +49,11 @@ public:
 	void setRowHeightPerc(int row, float height, bool update = true); // if update is false, will not call an onSizeChanged() which triggers a (potentially costly) repositioning + resizing of every element
 
 	bool moveCursor(Vector2i dir);
-	void setCursorTo(const std::shared_ptr<GuiComponent>& comp);
+	void setCursorTo(const std::shared_ptr<Component>& comp);
 
 	inline void setUnhandledInputCallback(const std::function<bool(const InputCompactEvent&)>& func) { mUnhandledInputCallback = func; }
 
-	inline std::shared_ptr<GuiComponent> getSelectedComponent()
+	inline std::shared_ptr<Component> getSelectedComponent()
 	{
 		GridEntry* e = getCellAt(mCursor);
 		if(e != nullptr)
@@ -73,15 +73,15 @@ private:
     public:
       Vector2i pos;
       Vector2i dim;
-      std::shared_ptr<GuiComponent> component;
+      std::shared_ptr<Component> component;
       UpdateType updateType;
       Borders border;
       bool canFocus;
       bool resize;
 
       explicit GridEntry(const Vector2i& p = Vector2i::Zero(), const Vector2i& d = Vector2i::Zero(),
-        std::shared_ptr<GuiComponent> cmp = nullptr, bool f = false, bool r = true,
-        UpdateType u = UpdateType::Always, Borders b = Borders::None) :
+                         std::shared_ptr<Component> cmp = nullptr, bool f = false, bool r = true,
+                         UpdateType u = UpdateType::Always, Borders b = Borders::None) :
         pos(p), dim(d), component(std::move(cmp)), updateType(u), border(b), canFocus(f), resize(r)
       {};
 

@@ -2,12 +2,12 @@
 
 #include "platform_gl.h"
 
-#include "GuiComponent.h"
+#include "components/base/Component.h"
 #include <string>
 #include <memory>
 #include "resources/TextureResource.h"
 
-class ImageComponent : public GuiComponent
+class ImageComponent : public Component
 {
 public:
   ImageComponent(Window&window, bool forceLoad, bool dynamic);
@@ -60,7 +60,7 @@ public:
 
 	bool hasImage() { return mTexture != nullptr; }
 
-	void render(const Transform4x4f& parentTrans) override;
+	void Render(const Transform4x4f& parentTrans) override;
 
 	void applyTheme(const ThemeData& theme, const std::string& view, const std::string& element, ThemeProperties properties) override;
 

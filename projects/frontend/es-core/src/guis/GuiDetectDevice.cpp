@@ -110,7 +110,7 @@ bool GuiDetectDevice::ProcessInput(const InputCompactEvent& event)
 	return true;
 }
 
-void GuiDetectDevice::update(int deltaTime)
+void GuiDetectDevice::Update(int deltaTime)
 {
 	if(mHoldingConfig != nullptr)
 	{

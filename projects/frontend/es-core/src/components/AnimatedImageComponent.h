@@ -1,4 +1,4 @@
-#include "GuiComponent.h"
+#include "components/base/Component.h"
 #include "ImageComponent.h"
 
 struct AnimationFrame
@@ -14,7 +14,7 @@ struct AnimationDef
 	bool loop;
 };
 
-class AnimatedImageComponent : public GuiComponent
+class AnimatedImageComponent : public Component
 {
 public:
 	explicit AnimatedImageComponent(Window&window);
@@ -23,8 +23,8 @@ public:
 
 	void reset(); // set to frame 0
 
-	void update(int deltaTime) override;
-	void render(const Transform4x4f& trans) override;
+	void Update(int deltaTime) override;
+	void Render(const Transform4x4f& trans) override;
 
 	void onSizeChanged() override;
 

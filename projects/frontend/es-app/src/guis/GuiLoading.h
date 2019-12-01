@@ -86,13 +86,13 @@ public:
       Thread::Stop();
     }
 
-    void update(int deltaTime) override
+    void Update(int deltaTime) override
     {
-      GuiComponent::update(deltaTime);
-      mBusyAnim.update(deltaTime);
+      Component::Update(deltaTime);
+      mBusyAnim.Update(deltaTime);
     }
 
-    void render(const Transform4x4f& parentTrans) override
+    void Render(const Transform4x4f& parentTrans) override
     {
       Transform4x4f trans = parentTrans * getTransform();
       renderChildren(trans);
@@ -101,7 +101,7 @@ public:
       Renderer::drawRect(0.f, 0.f, mSize.x(), mSize.y(), 0x00000011);
 
       if (IsRunning())
-        mBusyAnim.render(trans);
+        mBusyAnim.Render(trans);
     }
 
     bool getHelpPrompts(Help& help) override { (void)help; return true; }

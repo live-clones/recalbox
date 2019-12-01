@@ -75,7 +75,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window& window,
     const MetadataFieldDescriptor &field = fields[0];
     fields++;
 
-    std::shared_ptr<GuiComponent> ed;
+    std::shared_ptr<Component> ed;
 
     // don't add statistics
     if (field.IsStatistic())
@@ -106,12 +106,12 @@ GuiMetaDataEd::GuiMetaDataEd(Window& window,
         ed->setSize(0, lbl->getSize().y() * 0.8f);
         row.addElement(ed, false, true);
 
-        auto spacer = std::make_shared<GuiComponent>(mWindow);
+        auto spacer = std::make_shared<Component>(mWindow);
         spacer->setSize(Renderer::getDisplayWidthAsFloat() * 0.0025f, 0);
         row.addElement(spacer, false);
 
         // pass input to the actual RatingComponent instead of the spacer
-        row.input_handler = std::bind(&GuiComponent::ProcessInput, ed.get(), std::placeholders::_1/*, std::placeholders::_2*/);
+        row.input_handler = std::bind(&Component::ProcessInput, ed.get(), std::placeholders::_1/*, std::placeholders::_2*/);
 
         break;
       }
@@ -120,12 +120,12 @@ GuiMetaDataEd::GuiMetaDataEd(Window& window,
         ed = std::make_shared<DateTimeComponent>(mWindow);
         row.addElement(ed, false);
 
-        auto spacer = std::make_shared<GuiComponent>(mWindow);
+        auto spacer = std::make_shared<Component>(mWindow);
         spacer->setSize(Renderer::getDisplayWidthAsFloat() * 0.0025f, 0);
         row.addElement(spacer, false);
 
         // pass input to the actual DateTimeComponent instead of the spacer
-        row.input_handler = std::bind(&GuiComponent::ProcessInput, ed.get(), std::placeholders::_1/*, std::placeholders::_2*/);
+        row.input_handler = std::bind(&Component::ProcessInput, ed.get(), std::placeholders::_1/*, std::placeholders::_2*/);
 
         break;
       }
@@ -254,7 +254,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window& window,
         ed = std::make_shared<TextComponent>(window, "", menuTheme->menuText.font, menuTheme->menuText.color, TextAlignment::Right);
         row.addElement(ed, true);
 
-        auto spacer = std::make_shared<GuiComponent>(mWindow);
+        auto spacer = std::make_shared<Component>(mWindow);
         spacer->setSize(Renderer::getDisplayWidthAsFloat() * 0.005f, 0);
         row.addElement(spacer, false);
 
@@ -403,7 +403,7 @@ void GuiMetaDataEd::save()
     }
     else
     {
-      std::shared_ptr<GuiComponent> ed = mEditors.at(i);
+      std::shared_ptr<Component> ed = mEditors.at(i);
       std::shared_ptr<OptionListComponent<std::string>> list = std::static_pointer_cast<OptionListComponent<std::string>>(ed);
       (mMetaData.*(mMetaDataEditable[i]->SetValueMethod()))(list->getSelected());
     }
@@ -480,7 +480,7 @@ void GuiMetaDataEd::close(bool closeAllWindows)
 
 bool GuiMetaDataEd::ProcessInput(const InputCompactEvent& event)
 {
-  if (GuiComponent::ProcessInput(event))
+  if (Component::ProcessInput(event))
   {
     return true;
   }

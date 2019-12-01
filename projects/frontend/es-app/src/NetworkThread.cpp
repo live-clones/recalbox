@@ -66,7 +66,6 @@ void NetworkThread::Run()
             mMessageBoxMessage += _("UPDATE CHANGELOG:");
             mMessageBoxMessage += "\n";
             mMessageBoxMessage += changelog;
-
           }
         }
 
@@ -93,6 +92,6 @@ void NetworkThread::ReceiveSyncCallback(const SDL_Event& event)
   }
 
   // Messagebox
-  if (mMessageBoxMessage.empty())
+  if (!mMessageBoxMessage.empty())
     mWindow.displayScrollMessage(_("AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"), mMessageBoxMessage);
 }

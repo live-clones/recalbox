@@ -5,7 +5,7 @@
 #include "themes/ThemeData.h"
 
 NinePatchComponent::NinePatchComponent(Window& window)
-  : GuiComponent(window),
+  : Component(window),
     mVertices(nullptr),
     mColors(nullptr),
     mPath(),
@@ -141,7 +141,7 @@ void NinePatchComponent::buildVertices()
 	}
 }
 
-void NinePatchComponent::render(const Transform4x4f& parentTrans)
+void NinePatchComponent::Render(const Transform4x4f& parentTrans)
 {
 	Transform4x4f trans = (parentTrans * getTransform()).round();
 	
@@ -216,7 +216,7 @@ void NinePatchComponent::setCenterColor(unsigned int centerColor)
 
 void NinePatchComponent::applyTheme(const ThemeData& theme, const std::string& view, const std::string& element, ThemeProperties properties)
 {
-	GuiComponent::applyTheme(theme, view, element, properties);
+	Component::applyTheme(theme, view, element, properties);
 
 	const ThemeElement* elem = theme.getElement(view, element, "ninepatch");
 	if(elem == nullptr)

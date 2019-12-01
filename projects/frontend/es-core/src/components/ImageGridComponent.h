@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GuiComponent.h"
+#include "components/base/Component.h"
 #include "components/IList.h"
 #include "components/ImageComponent.h"
 #include "utils/Log.h"
@@ -36,8 +36,8 @@ public:
 	void onSizeChanged() override;
 
 	bool ProcessInput(const InputCompactEvent& event) override;
-	void update(int deltaTime) override;
-	void render(const Transform4x4f& parentTrans) override;
+	void Update(int deltaTime) override;
+	void Render(const Transform4x4f& parentTrans) override;
 
 private:
 	Vector2f getSquareSize(const std::shared_ptr<TextureResource>& tex = nullptr) const
@@ -133,17 +133,17 @@ bool ImageGridComponent<T>::ProcessInput(const InputCompactEvent& event)
     stopScrolling();
   }
 
-	return GuiComponent::ProcessInput(event);
+	return Component::ProcessInput(event);
 }
 
 template<typename T>
-void ImageGridComponent<T>::update(int deltaTime)
+void ImageGridComponent<T>::Update(int deltaTime)
 {
 	listUpdate(deltaTime);
 }
 
 template<typename T>
-void ImageGridComponent<T>::render(const Transform4x4f& parentTrans)
+void ImageGridComponent<T>::Render(const Transform4x4f& parentTrans)
 {
   Transform4x4f trans = getTransform() * parentTrans;
 
@@ -156,10 +156,10 @@ void ImageGridComponent<T>::render(const Transform4x4f& parentTrans)
 
 	for (auto& image : mImages)
 	{
-		image.render(trans);
+    image.Render(trans);
 	}
 
-	GuiComponent::renderChildren(trans);
+	Component::renderChildren(trans);
 }
 
 template<typename T>

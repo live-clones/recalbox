@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GuiComponent.h"
+#include "components/base/Component.h"
 #include "resources/Font.h"
 
 class ThemeData;
@@ -10,7 +10,7 @@ class ThemeData;
 //  * (0, 0)                     - will automatically calculate a size that fits the text on one line (expand horizontally)
 //  * (x != 0, 0)                - wrap text so that it does not reach beyond x. Will automatically calculate a vertical size (expand vertically).
 //  * (x != 0, y <= fontHeight)  - will truncate text so it fits within this box.
-class TextComponent : public GuiComponent
+class TextComponent : public Component
 {
 public:
 	explicit TextComponent(Window&window);
@@ -34,7 +34,7 @@ public:
 	void setBackgroundColor(unsigned int color);
 	void setRenderBackground(bool render) { mRenderBackground = render; }
 
-	void render(const Transform4x4f& parentTrans) override;
+	void Render(const Transform4x4f& parentTrans) override;
 
 	std::string getValue() const override { return mText; }
 	void setValue(const std::string& value) override { setText(value); }

@@ -14,7 +14,15 @@ class SystemManager;
 class MainRunner: private INoCopy, private ISyncronousEvent
 {
   public:
-    // Runner exit state
+    //! Messages code
+    enum MessageCodes
+    {
+       RefreshSplash,   //!< Splash screen must be redrawn
+       GamelistChanged, //!< At least one gamelist has changed. ES must reload
+       ThemeChanged,    //!< Current theme has been modified. ES must reload
+    };
+    
+    //! Runner exit state
     enum class ExitState
     {
       Quit,         //!< Normal quit (usually requested by external software)
@@ -36,14 +44,14 @@ class MainRunner: private INoCopy, private ISyncronousEvent
     //! Requested height
     unsigned int mRequestedHeight;
     //! Quit request state
-    static ExitState mRequestedExitState;
+    static ExitState sRequestedExitState;
     //! Quit request
-    static bool mQuitRequested;
+    static bool sQuitRequested;
 
     /*!
      * @brief Reset last exit state
      */
-    static void ResetExitState() { mQuitRequested = false; }
+    static void ResetExitState() { sQuitRequested = false; }
 
     /*!
      * @brief Set the system locale

@@ -13,7 +13,7 @@ public:
 	void onSizeChanged() override;
 
 	bool ProcessInput(const InputCompactEvent& event) override;
-	void update(int deltaTime) override;
+	void Update(int deltaTime) override;
 	bool getHelpPrompts(Help& help) override;
 
 private:

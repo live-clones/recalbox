@@ -13,7 +13,7 @@ class Window
     class InfoPopup
     {
       public:
-        virtual void render(const Transform4x4f& parentTrans) = 0;
+        virtual void Render(const Transform4x4f& parentTrans) = 0;
     };
 
     /*!
@@ -32,17 +32,19 @@ class Window
 
     void displayScrollMessage(const std::string& title, const std::string& message);
 
-    GuiComponent* peekGui();
+    Component* peekGui();
 
     void deleteAllGui();
 
     void textInput(const char* text);
 
-    virtual void ProcessInput(const InputCompactEvent& event);
+    virtual bool ProcessInput(const InputCompactEvent& event);
 
     virtual void Update(int deltaTime);
 
     virtual void Render(Transform4x4f& transform);
+
+    void RenderAll();
 
     bool Initialize(unsigned int width = 0, unsigned int height = 0, bool initRenderer = true);
 
@@ -52,14 +54,14 @@ class Window
 
     bool isSleeping() const { return mSleeping; }
 
-    void renderLoadingScreen();
+    //void renderLoadingScreen();
 
     void renderHelpPromptsEarly(); // used to render HelpPrompts before a fade
     void UpdateHelp() { mHelp.UpdateHelps(); }
 
     void setInfoPopup(const std::shared_ptr<InfoPopup>& infoPopup) { mInfoPopup = infoPopup; }
 
-    void renderShutdownScreen();
+    //void renderShutdownScreen();
 
     void doWake()
     {
@@ -85,7 +87,7 @@ class Window
     }
 
   private:
-    void renderWaitingScreen(const std::string& text);
+    //void renderWaitingScreen(const std::string& text);
 
     // Returns true if at least one component on the stack is processing
     bool isProcessing();

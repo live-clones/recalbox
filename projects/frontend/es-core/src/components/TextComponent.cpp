@@ -7,16 +7,16 @@
 #include "Settings.h"
 
 TextComponent::TextComponent(Window&window)
-	: GuiComponent(window),
-		mFont(Font::get(FONT_SIZE_MEDIUM)),
+	: Component(window),
+    mFont(Font::get(FONT_SIZE_MEDIUM)),
     mColor(0x000000FF),
     mOriginColor(0x000000FF),
     mBgColor(0),
     mLineSpacing(1.5f),
     mColorOpacity(0xFF),
     mBgColorOpacity(0),
-		mHorizontalAlignment(TextAlignment::Left),
-		mVerticalAlignment(TextAlignment::Center),
+    mHorizontalAlignment(TextAlignment::Left),
+    mVerticalAlignment(TextAlignment::Center),
     mRenderBackground(false),
     mUppercase(false),
     mAutoCalcExtentX(true),
@@ -69,7 +69,7 @@ void TextComponent::setColor(unsigned int color)
 {
     mColor = color;
     unsigned char opacity = mColor & 0x000000FF;
-    GuiComponent::setOpacity(opacity);
+    Component::setOpacity(opacity);
 
     mColorOpacity = mColor & 0x000000FF;
 
@@ -99,7 +99,7 @@ void TextComponent::setOpacity(unsigned char opacity)
 
 	onColorChanged();
 
-	GuiComponent::setOpacity(opacity);
+	Component::setOpacity(opacity);
 }
 
 void TextComponent::setText(const std::string& text)
@@ -114,7 +114,7 @@ void TextComponent::setUppercase(bool uppercase)
 	onTextChanged();
 }
 
-void TextComponent::render(const Transform4x4f& parentTrans)
+void TextComponent::Render(const Transform4x4f& parentTrans)
 {
 	Transform4x4f trans = parentTrans * getTransform();
 
@@ -259,7 +259,7 @@ void TextComponent::setLineSpacing(float spacing)
 
 void TextComponent::applyTheme(const ThemeData& theme, const std::string& view, const std::string& element, ThemeProperties properties)
 {
-	GuiComponent::applyTheme(theme, view, element, properties);
+	Component::applyTheme(theme, view, element, properties);
 
 	const ThemeElement* elem = theme.getElement(view, element, "text");
 	if(elem == nullptr)

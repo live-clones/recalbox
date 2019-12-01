@@ -13,13 +13,13 @@ class GuiUpdate : public Gui, private Thread
 
     ~GuiUpdate() override;
 
-    void render(const Transform4x4f& parentTrans) override;
+    void Render(const Transform4x4f& parentTrans) override;
 
     bool ProcessInput(const InputCompactEvent&) override { return false; }
 
     bool getHelpPrompts(Help& help) override { (void)help; return true; }
 
-    void update(int deltaTime) override;
+    void Update(int deltaTime) override;
 
   private:
     enum State

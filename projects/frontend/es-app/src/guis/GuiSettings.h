@@ -16,7 +16,7 @@ public:
 	inline void updatePosition() {mMenu.setPosition((Renderer::getDisplayWidthAsFloat() - mMenu.getSize().x()) / 2, (Renderer::getDisplayHeightAsFloat() - mMenu.getSize().y()) / 2);};
 	inline void addRow(const ComponentListRow& row) { mMenu.addRow(row); updatePosition();};
 	inline void addRowWithHelp(ComponentListRow& row, const std::string& label, const std::string& help) { mMenu.addRowWithHelp(row, label, help); updatePosition();};
-	inline void addWithLabel(const std::shared_ptr<GuiComponent>& comp, const std::string& label, const std::string& help = "") {
+	inline void addWithLabel(const std::shared_ptr<Component>& comp, const std::string& label, const std::string& help = "") {
 		mMenu.addWithLabel(comp, label, help, false, true, nullptr);
 		updatePosition();
 	};

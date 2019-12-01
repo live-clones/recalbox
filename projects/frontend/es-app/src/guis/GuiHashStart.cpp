@@ -105,21 +105,21 @@ bool GuiHashStart::ProcessInput(const InputCompactEvent& event)
   if (event.APressed())
     Close();
 
-  return GuiComponent::ProcessInput(event);
+  return Component::ProcessInput(event);
 }
 
-void GuiHashStart::update(int deltaTime)
+void GuiHashStart::Update(int deltaTime)
 {
-  GuiComponent::update(deltaTime);
+  Component::Update(deltaTime);
   mMutex.Lock();
-  mBusyAnim.update(deltaTime);
+  mBusyAnim.Update(deltaTime);
   mMutex.UnLock();
 
   if (mState == State::Exit)
     Close();
 }
 
-void GuiHashStart::render(const Transform4x4f& parentTrans)
+void GuiHashStart::Render(const Transform4x4f& parentTrans)
 {
   Transform4x4f trans = parentTrans * getTransform();
 
@@ -130,7 +130,7 @@ void GuiHashStart::render(const Transform4x4f& parentTrans)
   Renderer::drawRect(0.f, 0.f, mSize.x(), mSize.y(), 0x00000011);
 
   if (mState == State::Hashing)
-    mBusyAnim.render(trans);
+    mBusyAnim.Render(trans);
 }
 
 

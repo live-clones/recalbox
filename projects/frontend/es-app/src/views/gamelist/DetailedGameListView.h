@@ -11,13 +11,13 @@
 class DetailedGameListView : public BasicGameListView
 {
 public:
-    DetailedGameListView(Window& window, FolderData* root, SystemData* system);
+    DetailedGameListView(Window& window, SystemManager& systemManager, FolderData* root);
 
     void onThemeChanged(const ThemeData& theme) override;
 
     const char* getName() const override { return "detailed"; }
 
-    void update(int deltatime) override;
+    void Update(int deltatime) override;
 
     void updateInfoPanel() override;
 
@@ -46,7 +46,7 @@ private:
     TextComponent mFavorite;
 
     std::vector<TextComponent*> getMDLabels();
-    std::vector<GuiComponent*> getMDValues();
+    std::vector<Component*> getMDValues();
 
     ScrollableContainer mDescContainer;
     TextComponent mDescription;
@@ -57,12 +57,12 @@ private:
 
     bool switchDisplay(bool isGame);
     bool switchToFolderScrappedDisplay();
-    std::vector<GuiComponent*> getFolderComponents();
-    std::vector<GuiComponent*> getGameComponents(bool includeMainComponents = true);
-    std::vector<GuiComponent*> getScrappedFolderComponents();
+    std::vector<Component*> getFolderComponents();
+    std::vector<Component*> getGameComponents(bool includeMainComponents = true);
+    std::vector<Component*> getScrappedFolderComponents();
     void setFolderInfo(FolderData* folder);
     void setGameInfo(FileData* file);
     void setScrappedFolderInfo(FileData* file);
     //void getFolderGames(FileData* folder, FileData::List &output);
-    static void fadeOut(const std::vector<GuiComponent*>& comps, bool fadingOut);
+    static void fadeOut(const std::vector<Component*>& comps, bool fadingOut);
 };

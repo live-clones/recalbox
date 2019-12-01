@@ -7,7 +7,7 @@
 #include "MenuThemeData.h"
 
 DateTimeComponent::DateTimeComponent(Window&window, Display dispMode)
-  : GuiComponent(window),
+  : Component(window),
     mEditing(false),
     mEditIndex(0),
     mDisplayMode(dispMode),
@@ -100,10 +100,10 @@ bool DateTimeComponent::ProcessInput(const InputCompactEvent& event)
 		}
 	}
 
-	return GuiComponent::ProcessInput(event);
+	return Component::ProcessInput(event);
 }
 
-void DateTimeComponent::update(int deltaTime)
+void DateTimeComponent::Update(int deltaTime)
 {
 	if(mDisplayMode == Display::RelativeToNow || mDisplayMode == Display::Time)
 	{
@@ -115,10 +115,10 @@ void DateTimeComponent::update(int deltaTime)
 		}
 	}
 
-	GuiComponent::update(deltaTime);
+  Component::Update(deltaTime);
 }
 
-void DateTimeComponent::render(const Transform4x4f& parentTrans)
+void DateTimeComponent::Render(const Transform4x4f& parentTrans)
 {
 	Transform4x4f trans = parentTrans * getTransform();
 
@@ -299,7 +299,7 @@ void DateTimeComponent::applyTheme(const ThemeData& theme, const std::string& vi
 	if (hasFlag(properties, ThemeProperties::Size))
 		mAutoSize = !elem->HasProperty("size");
 
-	GuiComponent::applyTheme(theme, view, element, properties);
+	Component::applyTheme(theme, view, element, properties);
 
 	if (hasFlag(properties, ThemeProperties::Color) && elem->HasProperty("color"))
 		setColor((unsigned int)elem->AsInt("color"));

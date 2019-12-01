@@ -25,7 +25,7 @@ bool AsyncReqComponent::ProcessInput(const InputCompactEvent& event)
 	return true;
 }
 
-void AsyncReqComponent::update(int deltaTime)
+void AsyncReqComponent::Update(int deltaTime)
 {
 	if(mRequest->status() != HttpReq::Status::InProgress)
 	{
@@ -37,7 +37,7 @@ void AsyncReqComponent::update(int deltaTime)
 	mTime += deltaTime;
 }
 
-void AsyncReqComponent::render(const Transform4x4f& parentTrans)
+void AsyncReqComponent::Render(const Transform4x4f& parentTrans)
 {
 	(void)parentTrans;
 

@@ -5,7 +5,7 @@
 #include <utils/Log.h>
 #include "Thread.h"
 #include "Mutex.h"
-#include "ThreadPoolWorkerInterface.h"
+#include "IThreadPoolWorkerInterface.h"
 
 template<class FeedObject, class ResultObject> class ThreadPool
 {
@@ -97,11 +97,15 @@ template<class FeedObject, class ResultObject> class ThreadPool
     //! Queues protection
     Mutex                      mStackMutex;
     //! Interface
-    ThreadPoolWorkerInterface<FeedObject, ResultObject>* mInterface;
+    IThreadPoolWorkerInterface<FeedObject, ResultObject>* mInterface;
     //! Maximum workers
     int                        mWorkers;
-    //! Global index
+    //! Global index (also total queue-ed object count)
     int                        mIndex;
+    //! Total completed
+    volatile int               mTotalCompleted;
+    //! Tick duration
+    int                        mTickDuration;
     //! Permanent workers
     volatile bool              mPermanent;
 
@@ -144,11 +148,13 @@ template<class FeedObject, class ResultObject> class ThreadPool
      * @param parmanent if set to True, all workers do no die after job completion.
      * They wait for next queued job instead
      */
-    ThreadPool(ThreadPoolWorkerInterface<FeedObject, ResultObject>* interface, const std::string& name, int maxthreads, bool permanent)
+    ThreadPool(IThreadPoolWorkerInterface<FeedObject, ResultObject>* interface, const std::string& name, int maxthreads, bool permanent, int tickduration = 0)
       : mThreadPoolName(name),
         mInterface(interface),
         mWorkers(maxthreads),
         mIndex(0),
+        mTotalCompleted(0),
+        mTickDuration(tickduration),
         mPermanent(permanent)
     {
       if (maxthreads <= 0)
@@ -246,6 +252,20 @@ template<class FeedObject, class ResultObject> class ThreadPool
      */
     void WaitForCompletion()
     {
+      int completed = 0;
+      if (mTickDuration > 0)
+        for(;;)
+        {
+          usleep(mTickDuration * 1000); // 20ms
+          if (completed != mTotalCompleted)
+          {
+            mInterface->ThreadPoolTick(mTotalCompleted, mIndex);
+            completed = mTotalCompleted;
+          }
+          if (!mPermanent)
+            if (mResults.size() == mIndex) break;
+        }
+
       // Wait for thread to die
       for (auto& thread : mThreads)
         thread->Join();
@@ -307,6 +327,7 @@ void ThreadPool<FeedObject, ResultObject>::WorkerThread::Run()
 
         // Run job
         IndexedResult result(feed.Index, mParent.mInterface->ThreadPoolRunJob(feed.Feed));
+        mParent.mTotalCompleted++;
         mParent.PushResult(result);
 
         // Stop job

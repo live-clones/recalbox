@@ -148,7 +148,7 @@ void GuiNetPlay::populateGrid()
     mGridMetaRight->setColWidthPerc(1, 0.60, true);
 
     ComponentListRow row;
-    std::shared_ptr<GuiComponent> ed;
+    std::shared_ptr<Component> ed;
 
     for (auto& game : mLobbyList)
     {
@@ -328,7 +328,7 @@ bool GuiNetPlay::ProcessInput(const InputCompactEvent& event)
   {
     Close();
   }
-  return GuiComponent::ProcessInput(event);
+  return Component::ProcessInput(event);
 }
 
 void GuiNetPlay::updateSize()
@@ -357,13 +357,13 @@ bool GuiNetPlay::getHelpPrompts(Help& help)
   return true;
 }
 
-void GuiNetPlay::update(int deltaTime)
+void GuiNetPlay::Update(int deltaTime)
 {
-  GuiComponent::update(deltaTime);
-  mBusyAnim.update(deltaTime);
+  Component::Update(deltaTime);
+  mBusyAnim.Update(deltaTime);
 }
 
-void GuiNetPlay::render(const Transform4x4f& parentTrans)
+void GuiNetPlay::Render(const Transform4x4f& parentTrans)
 {
   Transform4x4f trans = parentTrans * getTransform();
 
@@ -373,7 +373,7 @@ void GuiNetPlay::render(const Transform4x4f& parentTrans)
   Renderer::drawRect(0.f, 0.f, mSize.x(), mSize.y(), 0x00000011);
 
   if (!mLobbyLoaded)
-    mBusyAnim.render(trans);
+    mBusyAnim.Render(trans);
 }
 
 int GuiNetPlay::pingHost(const std::string& ip)

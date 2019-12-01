@@ -1,13 +1,13 @@
 #pragma once
 
-#include "GuiComponent.h"
+#include "components/base/Component.h"
 #include "components/ComponentGrid.h"
 #include "components/NinePatchComponent.h"
 
 class AnimatedImageComponent;
 class TextComponent;
 
-class BusyComponent : public GuiComponent
+class BusyComponent : public Component
 {
 public:
 	explicit BusyComponent(Window&window);
@@ -16,7 +16,7 @@ public:
 	void onSizeChanged() override;
 	void setText(std::string txt);
 
-	void render(const Transform4x4f& parentTrans) override;
+	void Render(const Transform4x4f& parentTrans) override;
 
 private:
 	NinePatchComponent mBackground;

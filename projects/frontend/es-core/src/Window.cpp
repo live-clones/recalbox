@@ -51,7 +51,7 @@ void Window::displayScrollMessage(const std::string& title, const std::string& m
   mScrollMessages.push_back(message);
 }
 
-GuiComponent* Window::peekGui()
+Component* Window::peekGui()
 {
   if (mGuiStack.empty())
     return nullptr;
@@ -130,25 +130,30 @@ void Window::textInput(const char* text)
     mGuiStack.back()->textInput(text);
 }
 
-void Window::ProcessInput(const InputCompactEvent& event)
+bool Window::ProcessInput(const InputCompactEvent& event)
 {
   if (mSleeping)
   {
     // wake up
     mTimeSinceLastInput = 0;
     mSleeping = false;
-    return;
+    return false;
   }
 
   mTimeSinceLastInput = 0;
   if (peekGui() != nullptr)
-    this->peekGui()->ProcessInput(event);
+  {
+    peekGui()->ProcessInput(event);
+    // Top Gui always consume events
+    return true;
+  }
 
   /*	if(peekGui() && !KonamiCode(config, input, this))
     {
       this->peekGui()->input(config, input);
     }
-  }*/
+  */
+  return false;
 }
 
 void Window::Update(int deltaTime)
@@ -209,7 +214,7 @@ void Window::Update(int deltaTime)
 
   // Process highest GUI
   if (!mGuiStack.empty())
-    mGuiStack.back()->update(deltaTime);
+    mGuiStack.back()->Update(deltaTime);
 }
 
 void Window::Render(Transform4x4f& transform)
@@ -222,16 +227,16 @@ void Window::Render(Transform4x4f& transform)
     auto& bottom = mGuiStack.front();
     auto& top = mGuiStack.back();
 
-    bottom->render(transform);
+    bottom->Render(transform);
     if (bottom != top)
     {
-      mBackgroundOverlay.render(transform);
-      top->render(transform);
+      mBackgroundOverlay.Render(transform);
+      top->Render(transform);
     }
   }
 
   if (!mRenderedHelpPrompts)
-    mHelp.render(transform);
+    mHelp.Render(transform);
 
   if (Settings::Instance().DrawFramerate() && mFrameDataText)
   {
@@ -251,11 +256,11 @@ void Window::Render(Transform4x4f& transform)
   }
   if (mInfoPopup)
   {
-    mInfoPopup->render(transform);
+    mInfoPopup->Render(transform);
   }
 }
 
-void Window::renderWaitingScreen(const std::string& text)
+/*void Window::renderWaitingScreen(const std::string& text)
 {
   Transform4x4f trans = Transform4x4f::Identity();
   Renderer::setMatrix(trans);
@@ -266,7 +271,7 @@ void Window::renderWaitingScreen(const std::string& text)
   splash.setImage(Path(":/splash.svg"));
   splash.setPosition((Renderer::getDisplayWidthAsFloat() - splash.getSize().x()) / 2,
                      (Renderer::getDisplayHeightAsFloat() - splash.getSize().y()) / 2 * 0.6f);
-  splash.render(trans);
+  splash.Render(trans);
 
   auto& font = mDefaultFonts.at(1);
   TextCache* cache = font->buildTextCache(text, 0, 0, 0x656565FF);
@@ -277,27 +282,27 @@ void Window::renderWaitingScreen(const std::string& text)
   delete cache;
 
   Renderer::swapBuffers();
-}
+}*/
 
-void Window::renderLoadingScreen()
+/*void Window::renderLoadingScreen()
 {
   renderWaitingScreen(_("LOADING..."));
-}
+}*/
 
 void Window::renderHelpPromptsEarly()
 {
-  mHelp.render(Transform4x4f::Identity());
+  mHelp.Render(Transform4x4f::Identity());
   mRenderedHelpPrompts = true;
 }
 
-void Window::renderShutdownScreen()
+/*void Window::renderShutdownScreen()
 {
   renderWaitingScreen(_("PLEASE WAIT..."));
-}
+}*/
 
 bool Window::isProcessing()
 {
-  return count_if(mGuiStack.begin(), mGuiStack.end(), [](GuiComponent* c)
+  return count_if(mGuiStack.begin(), mGuiStack.end(), [](Component* c)
   { return c->isProcessing(); }) > 0;
 }
 
@@ -337,4 +342,11 @@ bool Window::KonamiCode(InputDevice* config, InputEvent input, Window& window)
     return true;
   }
   return false;
+}
+
+void Window::RenderAll()
+{
+  Transform4x4f transform(Transform4x4f::Identity());
+  Render(transform);
+  Renderer::swapBuffers();
 }

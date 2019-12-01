@@ -1,11 +1,11 @@
 #pragma once
 
-#include "GuiComponent.h"
+#include "components/base/Component.h"
 #include "components/ImageComponent.h"
 
 // A very simple "on/off" switch.
 // Should hopefully be switched to use images instead of text in the future.
-class SwitchComponent : public GuiComponent
+class SwitchComponent : public Component
 {
 public:
 	explicit SwitchComponent(Window&window);
@@ -17,7 +17,7 @@ public:
   }
 
 	bool ProcessInput(const InputCompactEvent& event) override;
-	void render(const Transform4x4f& parentTrans) override;
+	void Render(const Transform4x4f& parentTrans) override;
 	void onSizeChanged() override;
 	void setColor(unsigned int color) override;
 	inline void setOriginColor(unsigned int color){mOriginColor = color;};
