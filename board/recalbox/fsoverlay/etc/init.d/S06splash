@@ -30,8 +30,8 @@ if [ -z "${videoPath}" ] || [ ${videoPath} -eq 0 ] || [ ${videoPath} -lt -1 ]; t
 fi
 
 videoLength=$(sed -n "s/^system.splash.length=//p" /boot/recalbox-backup.conf)
-if [ -z "${videoLength}" ] || [ ${videoLength} -eq 0 ] || [ ${videoLength} -lt -1 ]; then
-  videoLength=20
+if [ -z "${videoLength}" ] || [ ${videoLength} -lt -1 ]; then
+  videoLength=0
 fi
 
 ## Functions ##
@@ -56,19 +56,31 @@ function selectVideo() {
     | cut -d' ' -f2
 }
 
-# stopPlayerWhenTimeoutReached <playerPID> <timeout>
-#   stops player running with PID <playerPID> when <timeout> reached
+# stopPlayerWhenTimeoutReached <playerPID>
+#   stops player running with PID <playerPID> when conditions reached
 function stopPlayerWhenTimeoutReached() {
   local playerPID="$1"
-  local timeout="$2"
   local count=0
 
-  [ ${timeout} -eq -1 ] && return
-  until [ ${count} -ge ${timeout} ]; do
-    sleep 1
-    let count++
-  done
-  kill -9 ${playerPID}
+  if [ ${videoLength} -eq -1 ]; then
+    # let the player to run until S30waitsplash starts
+    until pgrep -f S30waitsplash >/dev/null; do
+      sleep 1
+    done
+    kill -9 ${playerPID}
+  elif [ ${videoLength} -eq 0 ]; then
+    # let the player to play entirely
+    while kill -0 ${playerPID} 2>/dev/null; do
+      sleep 1
+    done
+  else
+    # let the player to play entirely or stop when ${videoLength} reached
+    while [ ${count} -lt ${videoLength} ] && kill -0 ${playerPID} 2>/dev/null; do
+      sleep 1
+      let count++
+    done
+    kill -9 ${playerPID}
+  fi
 }
 
 # playWithMPlayer
@@ -86,9 +98,7 @@ function playWithMPlayer() {
   # play media in fullscreen
   mp_subs="/recalbox/system/resources/splash/recalboxintro.srt"
   mplayer -vo fbdev2 -fs -zoom -x ${fbdevWidth} -y ${fbdevHeight} -sub "${mp_subs}" "${videoFile}" > /dev/null 2>&1 &
-  if [ ${videoLength} -ne -1 ]; then
-    stopPlayerWhenTimeoutReached $! ${videoLength}
-  fi
+  stopPlayerWhenTimeoutReached $! ${videoLength}
 }
 
 # playWithFFPlay
@@ -102,9 +112,7 @@ function playWithFFPlay() {
   ffplay_opts="-hide_banner -autoexit"
   ffplay_srt="subtitles=/recalbox/system/resources/splash/recalboxintro.srt:force_style='FontName=/usr/share/fonts/dejavu/DejaVuSans-BoldOblique.ttf,Fontsize=10'"
   ffplay ${ffplay_opts} -x ${fbdevWidth} -y ${fbdevHeight} -vf "${ffplay_srt}" "${videoFile}" > /dev/null 2>&1 &
-  if [ ${videoLength} -ne -1 ]; then
-    stopPlayerWhenTimeoutReached $! ${videoLength}
-  fi
+  stopPlayerWhenTimeoutReached $!
 }
 
 # playWithOMX
@@ -119,20 +127,19 @@ function playWithOMX() {
   omx_opt="--adev both --no-keys --layer=10000 --aspect-mode=fill"
   omx_srt="--no-ghost-box --lines=1 --align=left $omx_fnt --font-size=20 --subtitles=/recalbox/system/resources/splash/recalboxintro.srt"
   /usr/bin/omxplayer.bin ${omx_opt} ${omx_srt} ${videoFile} &
-  if [ ${videoLength} -ne -1 ]; then
-    stopPlayerWhenTimeoutReached $! ${videoLength}
-  fi
+  stopPlayerWhenTimeoutReached $! ${videoLength}
 }
 
 # showIntroBackground
 #   displays our intro background via the framebuffer
 showIntroBackground() {
+  
   # fbv will only clear the aera it is drawing to,
   # clear framebuffer in case we don't use the same screen/bg ratio
   dd if=/dev/zero of=/dev/fb0 > /dev/null 2>&1
   fbv -f -i /recalbox/system/resources/splash/logo-version.png
   # launching ES just after fbv can cause some screen corruption
-  sleep 1
+  sleep 0.1
 }
 
 # showInstallBackground
