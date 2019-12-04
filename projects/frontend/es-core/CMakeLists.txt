@@ -37,6 +37,11 @@ set(CORE_HEADERS
 		# Utils
 		src/utils/os/fs/Path.h
 		src/utils/os/fs/StringMapFile.h
+		src/utils/os/fs/watching/EventType.h
+		src/utils/os/fs/watching/FileSystemEvent.h
+		src/utils/os/fs/watching/FileSystemWatcher.h
+		src/utils/os/fs/watching/IFileSystemWatcherNotification.h
+		src/utils/os/fs/watching/NotifierBuilder.h
 		src/utils/os/system/Thread.h
 		src/utils/os/system/ThreadPool.h
         src/utils/os/system/IThreadPoolWorkerInterface.h
@@ -146,6 +151,9 @@ set(CORE_SOURCES
 		src/utils/os/fs/Path.cpp
 		src/utils/os/fs/StringMapFile.cpp
 		src/utils/locale/Internationalizer.cpp
+		src/utils/os/fs/watching/EventType.cpp
+		src/utils/os/fs/watching/FileSystemWatcher.cpp
+		src/utils/os/fs/watching/NotifierBuilder.cpp
 		src/utils/math/Vector2i.cpp
 		src/utils/math/Vector2f.cpp
 		src/utils/math/Vector3f.cpp

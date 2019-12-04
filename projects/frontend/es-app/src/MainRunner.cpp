@@ -371,3 +371,8 @@ bool MainRunner::DoWeHaveToUpdateGamelist(MainRunner::ExitState state)
   }
   return false;
 }
+
+void MainRunner::FileSystemWatcherNotification(EventType event, const Path& path, const DateTime& time)
+{
+
+}
