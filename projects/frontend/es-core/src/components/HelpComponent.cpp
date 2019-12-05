@@ -57,7 +57,7 @@ void HelpComponent::UpdateHelps()
     {
       auto icon = std::make_shared<ImageComponent>(mWindow);
       const Path imagePath = HelpItemStyle().ImagePath(Help::TypeFromIndex(i));
-      if (!imagePath.Empty())
+      if (!imagePath.IsEmpty())
         icon->setImage(imagePath);
       else
         icon->setImage(IconPathMap().at(Help::TypeFromIndex(i)));

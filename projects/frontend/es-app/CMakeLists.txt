@@ -43,11 +43,18 @@ set(ES_HEADERS
         src/guis/GuiLoading.h
 
         # Scrapers
-        src/scrapers/Scraper.h
-        src/scrapers/GamesDBJSONScraper.h
-        src/scrapers/GamesDBJSONScraperResources.h
+        src/scraping/new/ScraperFactory.h
+        src/scraping/new/INotifyScrapeResult.h
+        src/scraping/new/ScrapeResult.h
+        src/scraping/new/scrapers/IScraperEngine.h
+        src/scraping/new/scrapers/screenscraper/ScreenScraperEngine.h
+        src/scraping/new/scrapers/thegamedb/TheGameDBEngine.h
+
+        src/scraping/Scraper.h
+        src/scraping/GamesDBJSONScraper.h
+        src/scraping/GamesDBJSONScraperResources.h
         #src/scrapers/MamedbScraper.h
-        src/scrapers/ScreenscraperScraper.h
+        src/scraping/ScreenscraperScraper.h
 
         # Views
         src/views/gamelist/BasicGameListView.h
@@ -108,11 +115,15 @@ set(ES_SOURCES
         src/guis/GuiHashStart.cpp
 
         # Scrapers
-        src/scrapers/Scraper.cpp
-        src/scrapers/GamesDBJSONScraper.cpp
-        src/scrapers/GamesDBJSONScraperResources.cpp
+        src/scraping/new/ScraperFactory.cpp
+        src/scraping/new/scrapers/screenscraper/ScreenScraperEngine.cpp
+        src/scraping/new/scrapers/thegamedb/TheGameDBEngine.cpp
+
+        src/scraping/Scraper.cpp
+        src/scraping/GamesDBJSONScraper.cpp
+        src/scraping/GamesDBJSONScraperResources.cpp
         #src/scrapers/MamedbScraper.cpp
-        src/scrapers/ScreenscraperScraper.cpp
+        src/scraping/ScreenscraperScraper.cpp
 
         # Views
         src/views/gamelist/BasicGameListView.cpp

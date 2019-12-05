@@ -37,6 +37,10 @@ class Path
 
   public:
     typedef std::vector<Path> PathList;
+
+    //! Empty path
+    static const Path Empty;
+
     /*
      * Constructors
      */
@@ -118,7 +122,7 @@ class Path
      * @brief Check whether the path is empty or not
      * @return True if the path is empty
      */
-    bool Empty() const { return mPath.empty(); }
+    bool IsEmpty() const { return mPath.empty(); }
 
     /*!
      * @brief Return the component count of the path

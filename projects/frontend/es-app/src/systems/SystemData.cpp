@@ -210,7 +210,7 @@ Path SystemData::getThemePath() const
   if (localThemePath.Exists()) return localThemePath;
 
   // No luck...
-  return Path();
+  return Path::Empty;
 }
 
 void SystemData::loadTheme()

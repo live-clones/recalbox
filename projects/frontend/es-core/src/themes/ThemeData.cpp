@@ -863,7 +863,7 @@ Path ThemeData::getThemeFromCurrentSet(const std::string& system)
 	if(themeSets.empty())
 	{
 		// no theme sets available
-		return Path();
+		return Path::Empty;
 	}
 
 	auto set = themeSets.find(Settings::Instance().ThemeSet());

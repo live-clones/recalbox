@@ -3,7 +3,7 @@
 #include <thread>
 
 #include "utils/Log.h"
-#include "scrapers/GamesDBJSONScraperResources.h"
+#include "scraping/GamesDBJSONScraperResources.h"
 
 #include <rapidjson/document.h>
 #include <rapidjson/error/en.h>

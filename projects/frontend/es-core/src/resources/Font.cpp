@@ -213,7 +213,7 @@ Font::~Font()
 
 std::shared_ptr<Font> Font::get(int size, const Path& path)
 {
-	std::pair<Path, int> def(path.Empty() ? getDefaultPath() : path, size);
+	std::pair<Path, int> def(path.IsEmpty() ? getDefaultPath() : path, size);
 	auto foundFont = sFontMap.find(def);
 	if(foundFont != sFontMap.end())
 	{

@@ -3,7 +3,7 @@
 #include "guis/Gui.h"
 #include "components/NinePatchComponent.h"
 #include "components/ComponentGrid.h"
-#include "scrapers/Scraper.h"
+#include "scraping/Scraper.h"
 #include "components/TextComponent.h"
 
 #include <queue>

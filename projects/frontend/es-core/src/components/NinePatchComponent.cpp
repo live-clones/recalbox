@@ -18,7 +18,7 @@ NinePatchComponent::NinePatchComponent(Window& window, const Path& path)
 	: NinePatchComponent(window)
 {
   mPath = path;
-	if (!mPath.Empty())
+	if (!mPath.IsEmpty())
 		buildVertices();
 }
 

@@ -40,7 +40,7 @@ Music::~Music()
 
 void Music::Initialize()
 {
-  if (mPath.Empty()) return;
+  if (mPath.IsEmpty()) return;
 
   //load wav file via SDL
   Mix_Music* gMusic = nullptr;

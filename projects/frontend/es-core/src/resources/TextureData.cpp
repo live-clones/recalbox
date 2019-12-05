@@ -163,7 +163,7 @@ bool TextureData::load()
 	bool retval = false;
 
 	// Need to load. See if there is a file
-	if (!mPath.Empty())
+	if (!mPath.IsEmpty())
 	{
 		std::shared_ptr<ResourceManager>& rm = ResourceManager::getInstance();
 		const ResourceData& data = rm->getFileData(mPath);

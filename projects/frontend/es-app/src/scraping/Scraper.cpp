@@ -1,4 +1,4 @@
-#include "scrapers/Scraper.h"
+#include "scraping/Scraper.h"
 #include "utils/Log.h"
 #include "Settings.h"
 #include <FreeImage.h>
@@ -270,7 +270,7 @@ bool resizeImage(const Path& path, int maxWidth, int maxHeight)
 		return false;
 	}
 
-	bool saved =  path.Empty() ? false : (FreeImage_Save(format, imageRescaled, path.ToChars()) != 0);
+	bool saved =  path.IsEmpty() ? false : (FreeImage_Save(format, imageRescaled, path.ToChars()) != 0);
 	FreeImage_Unload(imageRescaled);
 
     if(!saved) {
@@ -291,14 +291,14 @@ Path getSaveAsPath(const ScraperSearchParams& params, const std::string& suffix,
 
 	// default dir in rom directory
 	Path path = params.system->getRootFolder()->getPath() / "media" / suffix;
-	if (!subPath.Empty()) path = path / subPath;
+	if (!subPath.IsEmpty()) path = path / subPath;
 	if (!path.Exists())
   {
 	  path.CreatePath();
     if (!path.Exists())
     {
       LOG(LogError) << "Cannot create " << path.ToString();
-      return Path();
+      return Path::Empty;
     }
   }
 

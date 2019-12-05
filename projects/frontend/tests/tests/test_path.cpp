@@ -730,7 +730,7 @@ TEST_F(PathTest, testMakeRelative)
 {
   bool ok;
   // Nok
-  ASSERT_EQ(Path("/path/to/file").MakeRelative(Path(), ok), "/path/to/file");
+  ASSERT_EQ(Path("/path/to/file").MakeRelative(Path::Empty, ok), "/path/to/file");
   ASSERT_FALSE(ok);
   ASSERT_EQ(Path("/path/to/file").MakeRelative(Path("path/to"), ok), "/path/to/file");
   ASSERT_FALSE(ok);

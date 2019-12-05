@@ -9,6 +9,8 @@
 #include <dirent.h>
 #include "Path.h"
 
+const Path Path::Empty;
+
 void Path::Normalize()
 {
   // Remove "\\?\"
@@ -132,7 +134,7 @@ Path Path::operator/(const std::string& path) const
 Path Path::operator/(const Path& path) const
 {
   Path result(*this);
-  if (!path.Empty())
+  if (!path.IsEmpty())
   {
     if (path.mPath[0] != sSeparator)
       result.mPath.append(1, sSeparator);
@@ -151,7 +153,7 @@ Path Path::Directory() const
         return (strcmp(p + i + 1, "..") == 0) ?
                Path(mPath.substr(0, i)).Directory() :
                Path(mPath.substr(0, i));
-  return Path();
+  return Path::Empty;
 }
 
 std::string Path::Filename() const
@@ -383,11 +385,11 @@ Path Path::Home()
 {
   static Path _HomePath;
 
-  if (_HomePath.Empty())                               // Build only once
+  if (_HomePath.IsEmpty())                               // Build only once
   {
     char* envHome = getenv("HOME");              // Get home
     if (envHome != nullptr) _HomePath.mPath = envHome; // Store home
-    if (_HomePath.Empty()) _HomePath = Cwd();          // Fallback to current working directory
+    if (_HomePath.IsEmpty()) _HomePath = Cwd();          // Fallback to current working directory
     _HomePath.Normalize();                             // Normalize
   }
 
@@ -398,7 +400,7 @@ Path Path::Cwd()
 {
   char path[PATH_MAX];
   if (getcwd(path, sizeof(path)) != nullptr) return Path(path); // Got it!
-  return Path();                                                // Not lucky...
+  return Path::Empty;                                                // Not lucky...
 }
 
 Path::PathList Path::GetDirectoryContent() const
@@ -433,7 +435,7 @@ Path::PathList Path::GetDirectoryContent() const
 
 Path Path::MakeRelative(const Path& parent, bool &ok) const
 {
-  if (!parent.Empty())
+  if (!parent.IsEmpty())
   {
     Path startWidth = parent.Exists() && !parent.IsDirectory() ? parent.Directory() : parent;
 

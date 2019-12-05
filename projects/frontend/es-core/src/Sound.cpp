@@ -38,7 +38,7 @@ Sound::~Sound()
 
 void Sound::Initialize()
 {
-  if (mPath.Empty()) return;
+  if (mPath.IsEmpty()) return;
 
   //load wav file via SDL
   mSampleData = Mix_LoadWAV(mPath.ToChars());

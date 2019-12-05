@@ -16,7 +16,7 @@ TextureResource::TextureResource(const Path& path, bool tile, bool dynamic)
     mForceLoad(false)
 {
 // Create a texture data object for this texture
-	if (!path.Empty())
+	if (!path.IsEmpty())
 	{
 		// If there is a path then the 'dynamic' flag tells us whether to use the texture
 		// data manager to manage loading/unloading of this texture
@@ -106,9 +106,9 @@ std::shared_ptr<TextureResource> TextureResource::get(const Path& path, bool til
 	std::shared_ptr<ResourceManager>& rm = ResourceManager::getInstance();
 
 
-	if(path.Empty())
+	if(path.IsEmpty())
 	{
-		std::shared_ptr<TextureResource> tex(new TextureResource(Path(), tile, false));
+		std::shared_ptr<TextureResource> tex(new TextureResource(Path::Empty, tile, false));
 		rm->addReloadable(tex); //make sure we get properly deinitialized even though we do nothing on reinitialization
 		return tex;
 	}

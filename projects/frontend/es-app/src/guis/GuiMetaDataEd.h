@@ -2,7 +2,7 @@
 
 #include "guis/Gui.h"
 #include "components/MenuComponent.h"
-#include "scrapers/Scraper.h"
+#include "scraping/Scraper.h"
 
 #include <functional>
 

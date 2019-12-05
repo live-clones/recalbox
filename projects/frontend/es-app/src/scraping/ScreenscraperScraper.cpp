@@ -1,4 +1,4 @@
-#include "scrapers/ScreenscraperScraper.h"
+#include "scraping/ScreenscraperScraper.h"
 
 #include "utils/datetime/DateTime.h"
 #include "utils/Strings.h"

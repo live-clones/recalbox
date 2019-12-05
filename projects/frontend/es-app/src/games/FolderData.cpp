@@ -330,8 +330,8 @@ bool FolderData::hasDetailedData() const
     else
     {
       const MetadataDescriptor& metadata = fd->Metadata();
-      if (!metadata.Image().Empty()) return true;
-      if (!metadata.Thumbnail().Empty()) return true;
+      if (!metadata.Image().IsEmpty()) return true;
+      if (!metadata.Thumbnail().IsEmpty()) return true;
       if (!metadata.Description().empty()) return true;
       if (!metadata.Publisher().empty()) return true;
       if (!metadata.Developer().empty()) return true;

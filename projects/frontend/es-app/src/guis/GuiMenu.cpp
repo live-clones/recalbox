@@ -1746,7 +1746,7 @@ void GuiMenu::addEntryWithHelp(const char *name, const std::string& help, unsign
     // populate the list
     ComponentListRow row;
 
-    if (!iconPath.Empty())
+    if (!iconPath.IsEmpty())
     {
         // icon
 	    auto icon = std::make_shared<ImageComponent>(mWindow);

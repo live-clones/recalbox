@@ -99,7 +99,7 @@ void ImageComponent::setImage(const Path& path, bool tile) {
     }
     mPath = path;
 
-    if (path.Empty() || !ResourceManager::getInstance()->fileExists(path)) {
+    if (path.IsEmpty() || !ResourceManager::getInstance()->fileExists(path)) {
         mTexture.reset();
     } else {
         mTexture = TextureResource::get(path, tile, mForceLoad, mDynamic);
@@ -113,7 +113,7 @@ void ImageComponent::setImage(const Path& path, bool tile) {
 void ImageComponent::setImage(const char* image, size_t length, bool tile) {
     mPath = "!";
     mTexture.reset();
-    mTexture = TextureResource::get(Path(), tile);
+    mTexture = TextureResource::get(Path::Empty, tile);
     mTexture->initFromMemory(image, length);
     resize();
 }

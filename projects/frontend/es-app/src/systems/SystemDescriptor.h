@@ -97,7 +97,7 @@ class SystemDescriptor
      */
     bool IsValid()
     {
-      return !mName.empty() && !mPath.Empty() && !mExtensions.empty() && !mCommand.empty();
+      return !mName.empty() && !mPath.IsEmpty() && !mExtensions.empty() && !mCommand.empty();
     }
 
     /*

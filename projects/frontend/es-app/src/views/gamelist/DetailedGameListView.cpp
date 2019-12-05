@@ -323,7 +323,7 @@ void DetailedGameListView::updateInfoPanel()
   else
   {
     const bool isFolder = file->isFolder();
-    const bool hasImage = !file->Metadata().Image().Empty();
+    const bool hasImage = !file->Metadata().Image().IsEmpty();
 
     if (hasImage && isFolder)
     {

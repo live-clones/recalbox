@@ -98,13 +98,13 @@ class FileData
      * Get Thumbnail path if there is one, or Image path.
      * @return file path (may be empty)
      */
-    inline const Path& getThumbnailOrImagePath() const { return mMetadata.Thumbnail().Empty() ? mMetadata.Image() : mMetadata.Thumbnail(); }
+    inline const Path& getThumbnailOrImagePath() const { return mMetadata.Thumbnail().IsEmpty() ? mMetadata.Image() : mMetadata.Thumbnail(); }
 
     /*!
      * Return true if at least one image is available (thumbnail or regular image)
      * @return Boolean result
      */
-    inline bool hasThumbnailOrImage() const { return !(mMetadata.Thumbnail().Empty() && mMetadata.Image().Empty()); }
+    inline bool hasThumbnailOrImage() const { return !(mMetadata.Thumbnail().IsEmpty() && mMetadata.Image().IsEmpty()); }
 
     /*!
      * const Metadata accessor for Read operations

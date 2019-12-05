@@ -19,7 +19,7 @@ void HelpStyle::FromTheme(const ThemeData& theme, const std::string& view)
 		return;
 
 	for(int i=Help::TypeCount(); --i>=0; )
-	  mImagesPath[i] = Path();
+	  mImagesPath[i] = Path::Empty;
 
 	if(elem->HasProperty("pos"))
 		mPosition = elem->AsVector("pos") * Vector2f(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());

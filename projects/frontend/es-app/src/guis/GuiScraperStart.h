@@ -2,7 +2,7 @@
 
 #include "guis/Gui.h"
 #include "systems/SystemData.h"
-#include "scrapers/Scraper.h"
+#include "scraping/Scraper.h"
 #include "components/MenuComponent.h"
 #include <queue>
 

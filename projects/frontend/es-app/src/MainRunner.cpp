@@ -314,7 +314,7 @@ void MainRunner::SetLocale(const std::string& executablePath)
 {
   Path path(executablePath);
   path = path.Directory(); // Get executable folder
-  if (path.Empty() || !path.Exists())
+  if (path.IsEmpty() || !path.Exists())
   {
     LOG(LogError) << "Error getting path";
   }

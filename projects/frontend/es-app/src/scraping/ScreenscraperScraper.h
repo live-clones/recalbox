@@ -1,7 +1,7 @@
 #pragma once
 
 #include <utils/Strings.h>
-#include "scrapers/Scraper.h"
+#include "scraping/Scraper.h"
 #include "EmulationStation.h"
 #include "RecalboxConf.h"
 

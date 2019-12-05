@@ -201,7 +201,7 @@ void AudioManager::StartPlaying(const ThemeData& theme)
   if (RecalboxConf::Instance().AsBool("audio.bgmusic"))
   {
     const ThemeElement* elem = theme.getElement("system", "directory", "sound");
-    mThemeMusicFolder = ((elem == nullptr) || !elem->HasProperty("path")) ? Path() : Path(elem->AsString("path"));
+    mThemeMusicFolder = ((elem == nullptr) || !elem->HasProperty("path")) ? Path::Empty : Path(elem->AsString("path"));
 
     AudioHandle handle = LoadMusic(theme, "system", "bgsound");
     // Found a music for the system
@@ -268,7 +268,7 @@ AudioManager::AudioHandle AudioManager::FetchRandomMusic(const Path& themeMusicD
 {
   // 1 check in User music directory
   std::vector<Path> musics = ListMusicInFolder(Path(Settings::Instance().MusicDirectory()));
-  if (musics.empty() && !themeMusicDirectory.Empty())
+  if (musics.empty() && !themeMusicDirectory.IsEmpty())
     musics = ListMusicInFolder(themeMusicDirectory);
   if (musics.empty())
     return 0;

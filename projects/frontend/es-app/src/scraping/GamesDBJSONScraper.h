@@ -1,6 +1,6 @@
 #pragma once
 
-#include "scrapers/Scraper.h"
+#include "scraping/Scraper.h"
 
 namespace pugi
 {

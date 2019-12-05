@@ -16,7 +16,7 @@
 SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDescriptor)
 {
   const Path defaultRomsPath = Path(Settings::Instance().DefaultRomsPath()).ToAbsolute();
-  Path realPath = defaultRomsPath.Empty() ? systemDescriptor.RomPath() : systemDescriptor.RomPath().ToAbsolute(defaultRomsPath);
+  Path realPath = defaultRomsPath.IsEmpty() ? systemDescriptor.RomPath() : systemDescriptor.RomPath().ToAbsolute(defaultRomsPath);
 
   // Create system
   SystemData* result = new SystemData(systemDescriptor, true, false);

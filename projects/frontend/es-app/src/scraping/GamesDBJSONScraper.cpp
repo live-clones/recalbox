@@ -1,8 +1,8 @@
 #include <exception>
 #include <map>
 
-#include "scrapers/GamesDBJSONScraper.h"
-#include "scrapers/GamesDBJSONScraperResources.h"
+#include "scraping/GamesDBJSONScraper.h"
+#include "scraping/GamesDBJSONScraperResources.h"
 
 #include "games/FileData.h"
 #include "utils/Log.h"

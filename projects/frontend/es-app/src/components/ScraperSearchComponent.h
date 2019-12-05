@@ -1,7 +1,7 @@
 #pragma once
 
 #include "components/base/Component.h"
-#include "scrapers/Scraper.h"
+#include "scraping/Scraper.h"
 #include "components/ComponentGrid.h"
 #include "components/BusyComponent.h"
 #include <functional>
