@@ -37,3 +37,15 @@ bool Files::SaveFile(const Path& path, const std::string& content)
   }
   return false;
 }
+
+bool Files::AppendToFile(const Path& path, const void* data, int size)
+{
+  FILE* f = fopen(path.ToChars(), "ab");
+  if (f != nullptr)
+  {
+    bool ok = (fwrite(data, size, 1, f) == 1);
+    fclose(f);
+    return ok;
+  }
+  return false;
+}

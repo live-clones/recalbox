@@ -35,7 +35,6 @@ set(CORE_HEADERS
 		src/themes/ThemeException.h
 
 		# Utils
-		src/utils/Strings.h
 		src/utils/os/fs/Path.h
 		src/utils/os/fs/StringMapFile.h
 		src/utils/os/system/Thread.h
@@ -51,8 +50,10 @@ set(CORE_HEADERS
 		src/utils/math/Vector4f.h
 		src/utils/math/Misc.h
 		src/utils/math/Transform4x4f.h
-		src/utils/Stringize.h
 		src/utils/Files.h
+		src/utils/Http.h
+		src/utils/Strings.h
+		src/utils/Stringize.h
 		src/utils/Xml.h
 
 		# Animations
@@ -139,7 +140,6 @@ set(CORE_SOURCES
 		src/utils/os/system/Mutex.cpp
 		src/utils/os/fs/Path.cpp
 		src/utils/os/fs/StringMapFile.cpp
-		src/utils/Strings.cpp
 		src/utils/math/Vector2i.cpp
 		src/utils/math/Vector2f.cpp
 		src/utils/math/Vector3f.cpp
@@ -147,7 +147,9 @@ set(CORE_SOURCES
 		src/utils/math/Vector4f.cpp
 		src/utils/math/Misc.cpp
 		src/utils/math/Transform4x4f.cpp
+		src/utils/Http.cpp
 		src/utils/Files.cpp
+		src/utils/Strings.cpp
 
 		# Animations
 		src/animations/AnimationController.cpp
@@ -253,5 +255,5 @@ set(FFMPEGLIBS avcodec avformat swresample avutil swscale avdevice)
 
 include_directories(${COMMON_INCLUDE_DIRS})
 add_library(es-core STATIC ${CORE_SOURCES} ${CORE_HEADERS} src/RecalboxConf.cpp src/RecalboxConf.h)
-target_link_libraries(es-core ${COMMON_LIBRARIES} ${FFMPEGLIBS})
+target_link_libraries(es-core ${COMMON_LIBRARIES} ${FFMPEGLIBS} curl)
 

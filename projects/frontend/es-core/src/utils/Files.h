@@ -19,4 +19,24 @@ class Files
      * @return True if the content has been saved
      */
     static bool SaveFile(const Path& path, const std::string& content);
+
+    /*!
+     * @brief Append the given string at the end of the given file or create it if it does not exist
+     * @param path File path
+     * @param data Data buffer to append
+     * @param size Data size to append
+     * @return True if the content has been saved
+     */
+    static bool AppendToFile(const Path& path, const void* data, int size);
+
+    /*!
+     * @brief Append the given string at the end of the given file or create it if it does not exist
+     * @param path File path
+     * @param content String ot append
+     * @return True if the content has been saved
+     */
+    static bool AppendToFile(const Path& path, const std::string& content)
+    {
+      return AppendToFile(path, content.c_str(), content.length());
+    }
 };

@@ -6,6 +6,8 @@
 #include <scraping/new/scrapers/thegamedb/TheGameDBEngine.h>
 #include "ScraperFactory.h"
 
+ScraperFactory::ScraperHolder ScraperFactory::mScrapers;
+
 ScraperFactory::ScraperHolder::~ScraperHolder()
 {
   for(auto scraper : mScrapers)

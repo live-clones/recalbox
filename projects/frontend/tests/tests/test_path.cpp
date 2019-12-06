@@ -190,17 +190,17 @@ TEST_F(PathTest, testOperatorGreaterThan)
 
 TEST_F(PathTest, testEmptiness)
 {
-  ASSERT_TRUE(Path().Empty());
-  ASSERT_TRUE(Path("").Empty());
-  ASSERT_TRUE(Path(std::string()).Empty());
-  ASSERT_TRUE(Path(".").Empty());
-  ASSERT_TRUE(Path("./").Empty());
-  ASSERT_FALSE(Path("/path/to/file").Empty());
-  ASSERT_FALSE(Path("/").Empty());
-  ASSERT_FALSE(Path("//").Empty());
-  ASSERT_FALSE(Path("/./").Empty());
-  ASSERT_FALSE(Path("/.").Empty());
-  ASSERT_FALSE(Path("..").Empty());
+  ASSERT_TRUE(Path().IsEmpty());
+  ASSERT_TRUE(Path("").IsEmpty());
+  ASSERT_TRUE(Path(std::string()).IsEmpty());
+  ASSERT_TRUE(Path(".").IsEmpty());
+  ASSERT_TRUE(Path("./").IsEmpty());
+  ASSERT_FALSE(Path("/path/to/file").IsEmpty());
+  ASSERT_FALSE(Path("/").IsEmpty());
+  ASSERT_FALSE(Path("//").IsEmpty());
+  ASSERT_FALSE(Path("/./").IsEmpty());
+  ASSERT_FALSE(Path("/.").IsEmpty());
+  ASSERT_FALSE(Path("..").IsEmpty());
 }
 
 TEST_F(PathTest, testConstructor)
@@ -223,7 +223,7 @@ TEST_F(PathTest, testMoveConstructor)
   Path source("/path/to/file");
   Path destination(std::move(source));
   ASSERT_EQ(destination, "/path/to/file");
-  ASSERT_TRUE(source.Empty()); // Safely ignore the tidy-clang warning
+  ASSERT_TRUE(source.IsEmpty()); // Safely ignore the tidy-clang warning
 
   std::string source2("/path/to/file");
   Path destination2(std::move(source2));
