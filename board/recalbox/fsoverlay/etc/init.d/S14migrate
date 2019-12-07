@@ -92,7 +92,7 @@ sed -i \
 declare -A renamedSystems
 renamedSystems=([prboom]=doom)
 for oldSystemName in ${!renamedSystems[@]}; do
-  sed -i "s/\.system=${oldSystemName}\s*$/.system=${renamedSystems[${oldSystemName}]}/" $_SHARE/${recalboxConfPath} \
+  sed -i "s/^${oldSystemName}/${renamedSystems[${oldSystemName}]}/" $_SHARE/${recalboxConfPath} \
     && recallog "RENAMED '${oldSystemName}' system to '${renamedSystems[${oldSystemName}]}' in $_SHARE/${recalboxConfPath}." \
     || { recallog "ERROR: couldn't replace '${oldSystemName}' by '${renamedSystems[${oldSystemName}]}' in $_SHARE/${recalboxConfPath}."; exit 1; }
 done
