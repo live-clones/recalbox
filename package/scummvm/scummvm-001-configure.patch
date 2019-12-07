@@ -1,6 +1,6 @@
 --- a/configure	2017-11-04 16:38:19.000000000 +0100
 +++ b/configure	2017-11-14 10:52:22.726267013 +0100
-@@ -1468,7 +1468,7 @@
+@@ -1514,7 +1514,7 @@
  		done
  		;;
  	*)
@@ -9,7 +9,7 @@
  		;;
  	esac;
  done;
-@@ -3057,18 +3057,18 @@
+@@ -3131,18 +3131,18 @@
  			# but Raspbian does.
  			# Be careful as it's the linker (LDFLAGS) which must know about sysroot.
  			# These are needed to build against Raspbian's libSDL.

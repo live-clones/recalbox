@@ -1,5 +1,13 @@
 # Release notes
 
+## Version 6.2
+
+### Improvements
+- Bump DosBox to r4290
+- Bump ScummVM to 2.1.0 and map D-pad when no analog available
+- Bump ResidualVM (2019-12)
+
+
 ## Version 6.1.1
 
 ### News
@@ -9,7 +17,6 @@
 - Odroid C2 removed from supported boards
 - Improved button filtering while mapping pads (especially PS2/PS3 pads)
 - Make apple II mapping more consistent: Use button A/B instead of L/R
-- Bump Retroarch to 1.7.9
 - Bump kernel firmwares to latest version
 - Add new Game Boy shader
 - New wifi management
