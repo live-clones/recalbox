@@ -92,7 +92,16 @@ sed -i \
 declare -A renamedSystems
 renamedSystems=([prboom]=doom)
 for oldSystemName in ${!renamedSystems[@]}; do
-  sed -i "s/^${oldSystemName}/${renamedSystems[${oldSystemName}]}/" $_SHARE/${recalboxConfPath} \
+  sed -i "s/^${oldSystemName}./${renamedSystems[${oldSystemName}]}./" $_SHARE/${recalboxConfPath} \
     && recallog "RENAMED '${oldSystemName}' system to '${renamedSystems[${oldSystemName}]}' in $_SHARE/${recalboxConfPath}." \
     || { recallog "ERROR: couldn't replace '${oldSystemName}' by '${renamedSystems[${oldSystemName}]}' in $_SHARE/${recalboxConfPath}."; exit 1; }
+  mv $_SHARE/themes/*/${oldSystemName} $_SHARE/themes/*/${renamedSystems[${oldSystemName}]} \
+    && recallog "RENAMED '${oldSystemName}' system to '${renamedSystems[${oldSystemName}]}' in $_SHARE/themes/*/." \
+    || { recallog "ERROR: couldn't replace '${oldSystemName}' by '${renamedSystems[${oldSystemName}]}' in $_SHARE/themes/*/."; exit 1; }
+  mv $_SHARE/saves/${oldSystemName} $_SHARE/saves/${renamedSystems[${oldSystemName}]} \
+    && recallog "RENAMED '${oldSystemName}' system to '${renamedSystems[${oldSystemName}]}' in $_SHARE/saves/" \
+    || { recallog "ERROR: couldn't replace '${oldSystemName}' by '${renamedSystems[${oldSystemName}]}' in $_SHARE/saves/"; exit 1; }
+  mv $_SHARE/system/.emulationstation/themes/*/${oldSystemName} mv $_SHARE/system/.emulationstation/themes/*/$_SHARE/saves/${renamedSystems[${oldSystemName}]} \
+    && recallog "RENAMED '${oldSystemName}' system to '${renamedSystems[${oldSystemName}]}' in $_SHARE/system/.emulationstation/themes/*/." \
+    || { recallog "ERROR: couldn't replace '${oldSystemName}' by '${renamedSystems[${oldSystemName}]}' in $_SHARE/system/.emulationstation/themes/*/."; exit 1; }
 done
