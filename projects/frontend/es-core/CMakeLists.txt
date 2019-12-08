@@ -104,6 +104,9 @@ set(CORE_HEADERS
 
 		# Embedded assets (needed by ResourceManager)
 		${emulationstation-all_SOURCE_DIR}/data/Resources.h
+
+        # Hash
+        src/hash/Md5.h
 )
 
 set(CORE_SOURCES
@@ -191,6 +194,9 @@ set(CORE_SOURCES
 		# Datetime
 		src/utils/datetime/DateTime.cpp
 		src/utils/datetime/TimeSpan.cpp
+
+		# Hash
+		src/hash/Md5.cpp
 )
 
 set(EMBEDDED_ASSET_SOURCES
