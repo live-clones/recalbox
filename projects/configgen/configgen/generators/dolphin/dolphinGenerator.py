@@ -43,6 +43,20 @@ class DolphinGenerator(Generator):
         "kr": 9,
     }
 
+    # Neplay servers
+    NETPLAY_SERVERS =\
+    {
+        "jp": "CH",
+        "zh": "CH",
+        "en": "EU",
+        "de": "EU",
+        "fr": "EU",
+        "es": "EU",
+        "it": "EU",
+        "kr": "EA",
+        "br": "SA",
+    }
+
     SECTION_GENERAL   = "General"
     SECTION_INTERFACE = "Interface"
     SECTION_CORE      = "Core"
@@ -82,20 +96,21 @@ class DolphinGenerator(Generator):
         language = self.GetLanguage()
         gamecubeLanguage = self.GAMECUBE_LANGUAGES[language] if language in self.GAMECUBE_LANGUAGES else 0
         wiiLanguage = self.WII_LANGUAGES[language] if language in self.WII_LANGUAGES else 0
-        # Get Netplay UserName
+        # Get Netplay configs
         nickname = self.GetNetplay()
+        lobbyServer = self.NETPLAY_SERVERS[language] if language in self.NETPLAY_SERVERS else None
         
         # Load Configuration
         dolphinSettings = IniSettings(recalboxFiles.dolphinIni, True)
         dolphinSettings.loadFile(True)
 
         # Interface
-        dolphinSettings.setOption(self.SECTION_INTERFACE, "Language", wiiLanguage)
         dolphinSettings.setOption(self.SECTION_INTERFACE, "LanguageCode", language)
         dolphinSettings.setOption(self.SECTION_INTERFACE, "AutoHideCursor", "True")
         dolphinSettings.setOption(self.SECTION_INTERFACE, "ConfirmStop", "False")
         # Core
-        dolphinSettings.setOption(self.SECTION_CORE, "SelectedLanguage", gamecubeLanguage)
+        dolphinSettings.setOption(self.SECTION_CORE, "SelectedLanguage", gamecubeLanguage) ## Game languages
+        dolphinSettings.setOption(self.SECTION_INTERFACE, "Language", wiiLanguage) ## Game languages
         dolphinSettings.setOption(self.SECTION_CORE, "WiimoteContinuousScanning", "True")
         dolphinSettings.setOption(self.SECTION_CORE, "WiiKeyboard", "False")
         # General
@@ -113,7 +128,7 @@ class DolphinGenerator(Generator):
         dolphinSettings.setOption(self.SECTION_NETPLAY, "IndexName", nickname) ## name of room in dolphin netplay server
         dolphinSettings.setOption(self.SECTION_NETPLAY, "TraversalChoice", "traversal")
         dolphinSettings.setOption(self.SECTION_NETPLAY, "UseIndex", "True") ## show room in dolphin lobby
-        #dolphinSettings.setOption(self.SECTION_NETPLAY, "IndexRegion", language)
+        dolphinSettings.setOption(self.SECTION_NETPLAY, "IndexRegion", lobbyServer) ## choose server lobby 
 
         # Save configuration
         dolphinSettings.saveFile()

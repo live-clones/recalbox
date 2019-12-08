@@ -5,13 +5,15 @@ import recalboxFiles
 import ConfigParser
 
 hotkeysCombo = {
-    "b":      "Toggle Pause",
+    "b":      "Stop", ## to unify the unique combination of Recalbox ;) 
+#    "b":      "Toggle Pause",
     "pageup": "Take Screenshot",
     "start":  "Exit",
     "a":      "Reset",
     "y":      "Save to selected slot",
     "x":      "Load from selected slot",
-    "r2":     "Stop",
+#    "r2":     "Stop",
+    "r2":     "Toggle Pause",
     "up":     "Select State Slot 1",
     "down":   "Select State Slot 2",
     "left":   "Decrease Emulation Speed",
@@ -22,12 +24,15 @@ hotkeysCombo = {
 def generateControllerConfig(system, playersControllers):
     generateHotkeys(playersControllers)
     if system.name == "wii":
-        if 'emulatedwiimotes' in system.config and system.config['emulatedwiimotes'] == '1':
+        if 'realwiimotes' in system.config and system.config['realwiimotes'] == '0':
             generateControllerConfig_emulatedwiimotes(playersControllers, system)
         else:
             generateControllerConfig_realwiimotes("WiimoteNew.ini", "Wiimote")
     elif system.name == "gamecube":
-        generateControllerConfig_gamecube(playersControllers, system)
+        if 'realgamecubepads' in system.config and system.config['realgamecubepads'] == '0':
+            generateControllerConfig_emulatedGamecube(playersControllers, system)
+        else:
+            generateControllerConfig_realgamecubepads("GCPadNew.ini", "GCPad")
     else:
         raise ValueError("Invalid system name : '" + system.name + "'")
 
@@ -54,7 +59,7 @@ def generateControllerConfig_emulatedwiimotes(playersControllers, system):
     }
     generateControllerConfig_any(playersControllers, "WiimoteNew.ini", "Wiimote", wiiMapping, wiiReverseAxes, system)
 
-def generateControllerConfig_gamecube(playersControllers, system):
+def generateControllerConfig_emulatedGamecube(playersControllers, system):
     gamecubeMapping = {
         'a':      'Buttons/X',  'b':        'Buttons/A',
         'x':      'Buttons/Y',  'y':        'Buttons/B',
@@ -75,6 +80,17 @@ def generateControllerConfig_gamecube(playersControllers, system):
     generateControllerConfig_any(playersControllers, "GCPadNew.ini", "GCPad", gamecubeMapping, gamecubeReverseAxes, system)
 
 def generateControllerConfig_realwiimotes(filename, anyDefKey):
+    configFileName = "{}/{}".format(recalboxFiles.dolphinConfig, filename)
+    f = open(configFileName, "w")
+    nplayer = 1
+    while nplayer <= 4:
+        f.write("[" + anyDefKey + str(nplayer) + "]" + "\n")
+        f.write("Source = 2\n")
+        nplayer += 1
+    #f.write
+    f.close()
+
+def generateControllerConfig_realgamecubepads(filename, anyDefKey):
     configFileName = "{}/{}".format(recalboxFiles.dolphinConfig, filename)
     f = open(configFileName, "w")
     nplayer = 1
