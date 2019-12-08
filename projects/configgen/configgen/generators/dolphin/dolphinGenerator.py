@@ -44,17 +44,37 @@ class DolphinGenerator(Generator):
     }
 
     # Neplay servers
-    NETPLAY_SERVERS =\
+    NETPLAY_SERVERS = \
     {
-        "jp": "CH",
-        "zh": "CH",
-        "en": "EU",
-        "de": "EU",
-        "fr": "EU",
-        "es": "EU",
-        "it": "EU",
-        "kr": "EA",
-        "br": "SA",
+        # Chine
+        "CN": "CH",
+        "TW": "CH",
+        # Est Asia
+        "KR": "EA",
+        "RU": "EA",
+        "JP": "EA",
+        # Europe
+        "GB": "EU",
+        "DE": "EU",
+        "FR": "EU",
+        "ES": "EU",
+        "IT": "EU",
+        "PT": "EU",
+        "TR": "EU",
+        "SU": "EU",
+        "NO": "EU",
+        "NL": "EU",
+        "PL": "EU",
+        "HU": "EU",
+        "CZ": "EU",
+        "GR": "EU",
+        "LU": "EU",
+        "LV": "EU",
+        "SE": "EU",
+        # South America
+        "BR": "SA",
+        # North America
+        "US": "NA",
     }
 
     SECTION_GENERAL   = "General"
@@ -75,6 +95,14 @@ class DolphinGenerator(Generator):
         kl = conf.getOption("system.kblayout", conf.getOption("system.language", "en")[0:2]).lower()
         return kl
 
+    @staticmethod
+    def GetEmulationstationLanguage():
+        conf = keyValueSettings(recalboxFiles.recalboxConf)
+        conf.loadFile(True)
+        # Try to obtain from keyboard layout, then from system language, then fallback to us
+        esLanguage = conf.getOption("system.language", "$")[0:2].upper()
+        return esLanguage
+
     # Get selected ratio
     @staticmethod
     def GetRatio():
@@ -94,11 +122,12 @@ class DolphinGenerator(Generator):
     def mainConfiguration(self):
         # Get Languages
         language = self.GetLanguage()
+        systemLanguage = self.GetEmulationstationLanguage()
         gamecubeLanguage = self.GAMECUBE_LANGUAGES[language] if language in self.GAMECUBE_LANGUAGES else 0
         wiiLanguage = self.WII_LANGUAGES[language] if language in self.WII_LANGUAGES else 0
         # Get Netplay configs
         nickname = self.GetNetplay()
-        lobbyServer = self.NETPLAY_SERVERS[language] if language in self.NETPLAY_SERVERS else None
+        lobbyServer = self.NETPLAY_SERVERS[systemLanguage] if systemLanguage in self.NETPLAY_SERVERS else None
         
         # Load Configuration
         dolphinSettings = IniSettings(recalboxFiles.dolphinIni, True)
