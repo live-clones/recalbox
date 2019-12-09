@@ -29,7 +29,7 @@ esInputCfgPath="system/.emulationstation/es_input.cfg"
 ###     Migrations     ###
 ##########################
 
-recallog "Running MIGRATIONS…"
+recallog "Running MIGRATIONS..."
 
 ### Migration 0 [20190322135434]
 # Change cores that have been renamed in bf151a1
