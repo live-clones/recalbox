@@ -2,6 +2,7 @@
 #
 # To run this locally (requires `gitlab-runner`):
 #   $ gitlab-runner exec docker <job_name>
+# test
 
 image: docker:latest
 
