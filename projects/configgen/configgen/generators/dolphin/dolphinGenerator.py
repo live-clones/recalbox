@@ -99,7 +99,7 @@ class DolphinGenerator(Generator):
     def GetEmulationstationLanguage():
         conf = keyValueSettings(recalboxFiles.recalboxConf)
         conf.loadFile(True)
-        # Try to obtain from keyboard layout, then from system language, then fallback to us
+        # Try to obtain from system language, then fallback to US or 
         esLanguage = conf.getOption("system.language", "$")[0:2].upper()
         return esLanguage
 
@@ -119,6 +119,18 @@ class DolphinGenerator(Generator):
         speudo = conf.getOption("global.netplay.nickname", "$")
         return speudo
 
+    # Check if Gamecube bios IPL.bin in folders
+    @staticmethod
+    def CheckGamecubeIpl():
+        ipl0 = "/usr/share/dolphin-emu/sys/GC/EUR/IPL.bin"
+        ipl1 = "/usr/share/dolphin-emu/sys/GC/JP/IPL.bin"
+        ipl2 = "/usr/share/dolphin-emu/sys/GC/USA/IPL.bin"
+        # if os.path? return "True" set "False" for disable "SkipIpl=Video boot intro"
+        if os.path.exists(ipl0 or ipl1 or ipl2):
+            return("False")
+        else:
+            return("True")
+
     def mainConfiguration(self):
         # Get Languages
         language = self.GetLanguage()
@@ -128,6 +140,8 @@ class DolphinGenerator(Generator):
         # Get Netplay configs
         nickname = self.GetNetplay()
         lobbyServer = self.NETPLAY_SERVERS[systemLanguage] if systemLanguage in self.NETPLAY_SERVERS else None
+        ## Get if have all IPL.bin in folders Gc bios
+        biosGamecube = self.CheckGamecubeIpl()
         
         # Load Configuration
         dolphinSettings = IniSettings(recalboxFiles.dolphinIni, True)
@@ -142,6 +156,7 @@ class DolphinGenerator(Generator):
         dolphinSettings.setOption(self.SECTION_INTERFACE, "Language", wiiLanguage) ## Game languages
         dolphinSettings.setOption(self.SECTION_CORE, "WiimoteContinuousScanning", "True")
         dolphinSettings.setOption(self.SECTION_CORE, "WiiKeyboard", "False")
+        dolphinSettings.setOption(self.SECTION_CORE, "SkipIpl", biosGamecube) ##
         # General
         dolphinSettings.setOption(self.SECTION_GENERAL, "ISOPaths", "2") ## Scan iso
         dolphinSettings.setOption(self.SECTION_GENERAL, "ISOPath0", "/recalbox/share/roms/gamecube") ## Scan iso 
