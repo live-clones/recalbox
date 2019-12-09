@@ -99,8 +99,8 @@ for oldSystemName in ${!renamedSystems[@]}; do
     && recallog "RENAMED '${oldSystemName}' system to '${renamedSystems[${oldSystemName}]}' in $_SHARE/themes/*/." \
     || { recallog "ERROR: couldn't replace '${oldSystemName}' by '${renamedSystems[${oldSystemName}]}' in $_SHARE/themes/*/."; exit 1; }
   mv $_SHARE/saves/${oldSystemName} $_SHARE/saves/${renamedSystems[${oldSystemName}]} \
-    && recallog "RENAMED '${oldSystemName}' system to '${renamedSystems[${oldSystemName}]}' in $_SHARE/saves/" \
-    || { recallog "ERROR: couldn't replace '${oldSystemName}' by '${renamedSystems[${oldSystemName}]}' in $_SHARE/saves/"; exit 1; }
+    && recallog "RENAMED '${oldSystemName}' system to '${renamedSystems[${oldSystemName}]}' in $_SHARE/saves/." \
+    || { recallog "ERROR: couldn't replace '${oldSystemName}' by '${renamedSystems[${oldSystemName}]}' in $_SHARE/saves/."; exit 1; }
   mv $_SHARE/system/.emulationstation/themes/*/${oldSystemName} mv $_SHARE/system/.emulationstation/themes/*/$_SHARE/saves/${renamedSystems[${oldSystemName}]} \
     && recallog "RENAMED '${oldSystemName}' system to '${renamedSystems[${oldSystemName}]}' in $_SHARE/system/.emulationstation/themes/*/." \
     || { recallog "ERROR: couldn't replace '${oldSystemName}' by '${renamedSystems[${oldSystemName}]}' in $_SHARE/system/.emulationstation/themes/*/."; exit 1; }
