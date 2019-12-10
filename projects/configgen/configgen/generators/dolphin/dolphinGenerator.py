@@ -76,15 +76,18 @@ class DolphinGenerator(Generator):
         # North America
         "US": "NA",
     }
-
-    SECTION_GENERAL   = "General"
-    SECTION_INTERFACE = "Interface"
-    SECTION_CORE      = "Core"
+    ## Setting on dolphin.ini
     SECTION_ANALYTICS = "Analytics"
     SECTION_BTPASSTHROUGH = "BluetoothPassthrough"
-    SECTION_SETTINGS  = "Settings"
-    SECTION_HARDWARE = "Hardware"
+    SECTION_CONTROLS = "Controls"
+    SECTION_CORE = "Core"
+    SECTION_GAMELIST = "GameList"
+    SECTION_GENERAL = "General"
+    SECTION_INTERFACE = "Interface"
     SECTION_NETPLAY = "NetPlay"
+    ## Setting on GFX.ini
+    SECTION_SETTINGS = "Settings"
+    SECTION_HARDWARE = "Hardware"
 
     # Get keyboard layout
     @staticmethod
@@ -131,6 +134,14 @@ class DolphinGenerator(Generator):
         else:
             return("True")
 
+    # GameCube Controller Adapter for Wii U in Dolphin controllers if realgamecubepads=1 set in recalbox.conf
+    @staticmethod
+    def SetGamecubeWiiuAdapter():
+        conf = keyValueSettings(recalboxFiles.recalboxConf)
+        conf.loadFile(True)
+        adapterStatus = conf.getOption("gamecube.realgamecubepads", "$")
+        return adapterStatus
+
     def mainConfiguration(self):
         # Get Languages
         language = self.GetLanguage()
@@ -142,37 +153,45 @@ class DolphinGenerator(Generator):
         lobbyServer = self.NETPLAY_SERVERS[systemLanguage] if systemLanguage in self.NETPLAY_SERVERS else None
         ## Get if have all IPL.bin in folders Gc bios
         biosGamecube = self.CheckGamecubeIpl()
+        ## set gamecube wiiu adapter
+        padsgamecube = self.SetGamecubeWiiuAdapter()
         
         # Load Configuration
         dolphinSettings = IniSettings(recalboxFiles.dolphinIni, True)
         dolphinSettings.loadFile(True)
 
-        # Interface
-        dolphinSettings.setOption(self.SECTION_INTERFACE, "LanguageCode", language)
-        dolphinSettings.setOption(self.SECTION_INTERFACE, "AutoHideCursor", "True")
-        dolphinSettings.setOption(self.SECTION_INTERFACE, "ConfirmStop", "False")
-        # Core
-        dolphinSettings.setOption(self.SECTION_CORE, "SelectedLanguage", gamecubeLanguage) ## Game languages
-        dolphinSettings.setOption(self.SECTION_INTERFACE, "Language", wiiLanguage) ## Game languages
-        dolphinSettings.setOption(self.SECTION_CORE, "WiimoteContinuousScanning", "True")
-        dolphinSettings.setOption(self.SECTION_CORE, "WiiKeyboard", "False")
-        dolphinSettings.setOption(self.SECTION_CORE, "SkipIpl", biosGamecube) ##
-        # General
-        dolphinSettings.setOption(self.SECTION_GENERAL, "ISOPaths", "2") ## Scan iso
-        dolphinSettings.setOption(self.SECTION_GENERAL, "ISOPath0", "/recalbox/share/roms/gamecube") ## Scan iso 
-        dolphinSettings.setOption(self.SECTION_GENERAL, "ISOPath1", "/recalbox/share/roms/wii") ## Scan iso
         # Analytics
         dolphinSettings.setOption(self.SECTION_ANALYTICS, "Enabled", "True")
         dolphinSettings.setOption(self.SECTION_ANALYTICS, "PermissionAsked", "True")
         # BluetoothPasstrough
         dolphinSettings.setOption(self.SECTION_BTPASSTHROUGH, "Enabled", "False")
+        # Core
+        dolphinSettings.setOption(self.SECTION_CORE, "SelectedLanguage", gamecubeLanguage)
+        dolphinSettings.setOption(self.SECTION_CORE, "WiimoteContinuousScanning", "True")
+        dolphinSettings.setOption(self.SECTION_CORE, "WiiKeyboard", "False")
+        dolphinSettings.setOption(self.SECTION_CORE, "SkipIpl", biosGamecube)
+        dolphinSettings.setOption(self.SECTION_CORE, "SIDevice0", "12" if padsgamecube == '1' else None)
+        dolphinSettings.setOption(self.SECTION_CORE, "SIDevice1", "12" if padsgamecube == '1' else None)
+        dolphinSettings.setOption(self.SECTION_CORE, "SIDevice2", "12" if padsgamecube == '1' else None)
+        dolphinSettings.setOption(self.SECTION_CORE, "SIDevice3", "12" if padsgamecube == '1' else None)
+        # GameList
+        dolphinSettings.setOption(self.SECTION_GAMELIST, "ColumnID", "True")
+        # General
+        dolphinSettings.setOption(self.SECTION_GENERAL, "ISOPaths", "2")
+        dolphinSettings.setOption(self.SECTION_GENERAL, "ISOPath0", "/recalbox/share/roms/gamecube") 
+        dolphinSettings.setOption(self.SECTION_GENERAL, "ISOPath1", "/recalbox/share/roms/wii")
+        # Interface
+        dolphinSettings.setOption(self.SECTION_INTERFACE, "LanguageCode", language)
+        dolphinSettings.setOption(self.SECTION_INTERFACE, "AutoHideCursor", "True")
+        dolphinSettings.setOption(self.SECTION_INTERFACE, "ConfirmStop", "False")
+        dolphinSettings.setOption(self.SECTION_INTERFACE, "Language", wiiLanguage)
         # Netplay
         dolphinSettings.setOption(self.SECTION_NETPLAY, "Nickname", nickname)
-        dolphinSettings.setOption(self.SECTION_NETPLAY,  "UseUPNP", "True") ## force UpNp
-        dolphinSettings.setOption(self.SECTION_NETPLAY, "IndexName", nickname) ## name of room in dolphin netplay server
+        dolphinSettings.setOption(self.SECTION_NETPLAY,  "UseUPNP", "True")
+        dolphinSettings.setOption(self.SECTION_NETPLAY, "IndexName", nickname)
         dolphinSettings.setOption(self.SECTION_NETPLAY, "TraversalChoice", "traversal")
-        dolphinSettings.setOption(self.SECTION_NETPLAY, "UseIndex", "True") ## show room in dolphin lobby
-        dolphinSettings.setOption(self.SECTION_NETPLAY, "IndexRegion", lobbyServer) ## choose server lobby 
+        dolphinSettings.setOption(self.SECTION_NETPLAY, "UseIndex", "True")
+        dolphinSettings.setOption(self.SECTION_NETPLAY, "IndexRegion", lobbyServer)
 
         # Save configuration
         dolphinSettings.saveFile()
@@ -185,12 +204,11 @@ class DolphinGenerator(Generator):
         # Load Configuration
         gfxSettings = IniSettings(recalboxFiles.dolphinGFX, True)
         gfxSettings.loadFile(True)
- 
-        # FPS
-        gfxSettings.setOption(self.SECTION_SETTINGS, "ShowFPS", "True" if system.config['showFPS'] == 'true' else "False")
-        # Vsync
+
+        # Hardware
         gfxSettings.setOption(self.SECTION_HARDWARE, "VSync", "True")
-        # Ratio
+        # Settings
+        gfxSettings.setOption(self.SECTION_SETTINGS, "ShowFPS", "True" if system.config['showFPS'] == 'true' else "False")
         gfxSettings.setOption(self.SECTION_SETTINGS, "AspectRatio", gameRatio)
 
         # Save configuration
