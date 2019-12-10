@@ -1,7 +1,7 @@
 #include "SyncronousEvent.h"
 #include "SyncronousEventService.h"
 
-SyncronousEvent::SyncronousEvent(ISyncronousEvent* callback)
+SyncronousEvent::SyncronousEvent(ISynchronousEvent* callback)
   : SyncronousEvent(SyncronousEventService::Instance().ObtainSyncCallback(callback))
 {
 }

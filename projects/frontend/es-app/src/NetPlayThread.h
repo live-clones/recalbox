@@ -4,11 +4,11 @@
 #pragma once
 
 #include <Window.h>
-#include <utils/sdl2/ISyncronousEvent.h>
+#include <utils/sdl2/ISynchronousEvent.h>
 #include <utils/sdl2/SyncronousEvent.h>
 #include <utils/os/system/Thread.h>
 
-class NetPlayThread: private Thread, private ISyncronousEvent
+class NetPlayThread: private Thread, private ISynchronousEvent
 {
   public:
     //! Typedef for convenience

@@ -2,20 +2,567 @@
 // Created by bkg2k on 04/12/2019.
 //
 
+#include <utils/os/system/ThreadPool.h>
+#include <utils/Log.h>
+#include <RecalboxConf.h>
+#include <hash/Md5.h>
+#include <utils/Zip.h>
 #include "ScreenScraperEngine.h"
+
+/*!
+ * List of systems and their IDs from
+ * https://www.screenscraper.fr/api/systemesListe.php?devid=xxx&devpassword=yyy&softname=zzz&output=XML
+ */
+static const std::map<PlatformIds::PlatformId, int>& GetPlatformIDs()
+{
+  static const std::map<PlatformIds::PlatformId, int> screenscraperPlatformidMap
+    {
+      { PlatformIds::PlatformId::AMSTRAD_CPC,               65},
+      { PlatformIds::PlatformId::AMSTRAD_GX4000,            87},
+      { PlatformIds::PlatformId::APPLE_II,                  86},
+      { PlatformIds::PlatformId::APPLE_IIGS,                217},
+      { PlatformIds::PlatformId::APPLE_MACOS,               146},
+      { PlatformIds::PlatformId::ARCADE,                    75},
+      { PlatformIds::PlatformId::ATARI_8BITS,               43},
+      { PlatformIds::PlatformId::ATARI_2600,                26},
+      { PlatformIds::PlatformId::ATARI_5200,                40},
+      { PlatformIds::PlatformId::ATARI_7800,                41},
+      { PlatformIds::PlatformId::ATARI_JAGUAR,              27},
+      { PlatformIds::PlatformId::ATARI_JAGUAR_CD,           171},
+      { PlatformIds::PlatformId::ATARI_LYNX,                28},
+      { PlatformIds::PlatformId::ATARI_ST,                  42},
+      { PlatformIds::PlatformId::BANDAI_WONDERSWAN,         45},
+      { PlatformIds::PlatformId::BANDAI_WONDERSWAN_COLOR,   46},
+      { PlatformIds::PlatformId::COLECOVISION,              48},
+      { PlatformIds::PlatformId::COMMODORE_64,              66},
+      { PlatformIds::PlatformId::COMMODORE_AMIGA,           64},
+      { PlatformIds::PlatformId::COMMODORE_CD32,            130},
+      { PlatformIds::PlatformId::COMMODORE_CDTV,            129},
+      { PlatformIds::PlatformId::FAIRCHILD_CHANNELF,        80},
+      { PlatformIds::PlatformId::GAMEENGINE_DAPHNE,         49},
+      { PlatformIds::PlatformId::GAMEENGINE_LUTRO,          206},
+      { PlatformIds::PlatformId::GAMEENGINE_OPENBOR,        214},
+      { PlatformIds::PlatformId::GAMEENGINE_SCUMMVM,        123},
+      { PlatformIds::PlatformId::GAMEENGINE_SOLARUS,        223},
+      { PlatformIds::PlatformId::GAMEENGINE_TIC80,          222},
+      { PlatformIds::PlatformId::GCE_VECTREX,               102},
+      { PlatformIds::PlatformId::IBM_PC,                    135},
+      { PlatformIds::PlatformId::MAGNAVOX_ODYSSEY2,         104},
+      { PlatformIds::PlatformId::MATTEL_INTELLIVISION,      115},
+      { PlatformIds::PlatformId::MGT_SAMCOUPE,              213},
+      { PlatformIds::PlatformId::MICROSOFT_MSX,             113},
+      { PlatformIds::PlatformId::MICROSOFT_MSX1,            113},
+      { PlatformIds::PlatformId::MICROSOFT_MSX2,            116},
+      { PlatformIds::PlatformId::MICROSOFT_MSXTURBOR,       118},
+      { PlatformIds::PlatformId::MICROSOFT_XBOX,            32},
+      { PlatformIds::PlatformId::MICROSOFT_XBOX_360,        33},
+      { PlatformIds::PlatformId::NEC_PC88,                  221},
+      { PlatformIds::PlatformId::NEC_PC98,                  208},
+      { PlatformIds::PlatformId::NEC_PCENGINE,              31},
+      { PlatformIds::PlatformId::NEC_PCENGINE_CD,           114},
+      { PlatformIds::PlatformId::NEC_PCFX,                  72},
+      { PlatformIds::PlatformId::NEC_SUPERGRAFX,            31},
+      { PlatformIds::PlatformId::NEOGEO,                    142},
+      { PlatformIds::PlatformId::NEOGEO_CD,                 142},
+      { PlatformIds::PlatformId::NEOGEO_POCKET,             25},
+      { PlatformIds::PlatformId::NEOGEO_POCKET_COLOR,       82},
+      { PlatformIds::PlatformId::NINTENDO_3DS,              17},
+      { PlatformIds::PlatformId::NINTENDO_64,               14},
+      { PlatformIds::PlatformId::NINTENDO_DS,               15},
+      { PlatformIds::PlatformId::NINTENDO_FDS,              106},
+      { PlatformIds::PlatformId::NINTENDO_GAME_AND_WATCH,   52},
+      { PlatformIds::PlatformId::NINTENDO_GAMEBOY,          9},
+      { PlatformIds::PlatformId::NINTENDO_GAMEBOY_ADVANCE,  12},
+      { PlatformIds::PlatformId::NINTENDO_GAMEBOY_COLOR,    10},
+      { PlatformIds::PlatformId::NINTENDO_GAMECUBE,         13},
+      { PlatformIds::PlatformId::NINTENDO_NES,              3},
+      { PlatformIds::PlatformId::NINTENDO_POKEMINI,         211},
+      { PlatformIds::PlatformId::NINTENDO_SATELLAVIEW,      107},
+      { PlatformIds::PlatformId::NINTENDO_SNES,             4},
+      { PlatformIds::PlatformId::NINTENDO_SUFAMITURBO,      108},
+      { PlatformIds::PlatformId::NINTENDO_VIRTUAL_BOY,      11},
+      { PlatformIds::PlatformId::NINTENDO_WII,              16},
+      { PlatformIds::PlatformId::NINTENDO_WII_U,            18},
+      { PlatformIds::PlatformId::OSH_UZEBOX,                216},
+      { PlatformIds::PlatformId::PALM_PDA,                  219},
+      { PlatformIds::PlatformId::PANASONIC_3DO,             29},
+      { PlatformIds::PlatformId::PORT_CAVE_STORY,           135},
+      { PlatformIds::PlatformId::PORT_PRBOOM,               135},
+      { PlatformIds::PlatformId::SAMMY_ATOMISWAVE,          53},
+      { PlatformIds::PlatformId::SEGA_32X,                  19},
+      { PlatformIds::PlatformId::SEGA_CD,                   20},
+      { PlatformIds::PlatformId::SEGA_DREAMCAST,            23},
+      { PlatformIds::PlatformId::SEGA_GAME_GEAR,            21},
+      { PlatformIds::PlatformId::SEGA_GENESIS,              1},
+      { PlatformIds::PlatformId::SEGA_MASTER_SYSTEM,        2},
+      { PlatformIds::PlatformId::SEGA_MEGA_DRIVE,           1},
+      { PlatformIds::PlatformId::SEGA_NAOMI,                56},
+      { PlatformIds::PlatformId::SEGA_SATURN,               22},
+      { PlatformIds::PlatformId::SEGA_SG1000,               109},
+      { PlatformIds::PlatformId::SHARP_X1,                  220},
+      { PlatformIds::PlatformId::SHARP_X68000,              79},
+      { PlatformIds::PlatformId::SINCLAIR_ZX_SPECTRUM,      76},
+      { PlatformIds::PlatformId::SINCLAIR_ZX_81,            77},
+      { PlatformIds::PlatformId::SONY_PLAYSTATION,          57},
+      { PlatformIds::PlatformId::SONY_PLAYSTATION_2,        58},
+      { PlatformIds::PlatformId::SONY_PLAYSTATION_3,        59},
+      { PlatformIds::PlatformId::SONY_PLAYSTATION_VITA,     62},
+      { PlatformIds::PlatformId::SONY_PLAYSTATION_PORTABLE, 61},
+      { PlatformIds::PlatformId::SPECTRAVISION_SPECTRAVIDEO,218},
+      { PlatformIds::PlatformId::TANDERINE_ORICATMOS,       131},
+      { PlatformIds::PlatformId::THOMSON_MOTO,              141},
+    };
+
+  return screenscraperPlatformidMap;
+}
+
+
+ScreenScraperEngine::ScreenScraperEngine()
+  : mEngines
+    {
+      Engine(this), Engine(this), Engine(this), Engine(this), Engine(this),
+      Engine(this), Engine(this), Engine(this), Engine(this), Engine(this),
+      Engine(this), Engine(this), Engine(this), Engine(this), Engine(this)
+    },
+    mAllocatedEngines(0),
+    mMethod(ScrappingMethod::All),
+    mNotifier(nullptr),
+    mMainImage(ScreenScraperApis::IConfiguration::Image::MixV1),
+    mThumbnailImage(ScreenScraperApis::IConfiguration::Image::None),
+    mVideo(ScreenScraperApis::IConfiguration::Video::None),
+    mWantMarquee(false),
+    mWantWheel(false),
+    mTotal(0),
+    mCount(0),
+    mSender(this)
+{
+}
+
 
 void ScreenScraperEngine::Initialize()
 {
+  // Reset engines
+  mAllocatedEngines = 0;
+  mMethod = ScrappingMethod::All;
+  mNotifier = nullptr;
 
+  // Reset live stats
+  mTotal = 0;
+  mCount = 0;
+
+    // Credentials
+  mLogin = RecalboxConf::Instance().AsString("scraper.screenscraper.user", "");
+  mPassword = RecalboxConf::Instance().AsString("scraper.screenscraper.password", "");
+
+  // Language & region
+  std::string locale = Strings::ToLowerASCII(RecalboxConf::Instance().AsString("system.language", "en_US"));
+  mRegion = (locale.length() == 5) ? locale.substr(3,2) : "us";
+  mLanguage = (locale.length() == 5) ? locale.substr(0,2) : "en";
+  mRegion = RecalboxConf::Instance().AsString("scraper.screenscraper.region", "");
+  mLanguage = RecalboxConf::Instance().AsString("scraper.screenscraper.language", "");
+
+  // Images
+  mMainImage = ScreenScraperApis::IConfiguration::Image::MixV1; // Default to mix v1
+  std::string value = RecalboxConf::Instance().AsString("scraper.screenscraper.media", "");
+  if (value == "screenshot"  ) mMainImage = ScreenScraperApis::IConfiguration::Image::ScreenshotIngame;
+  else if (value == "title"  ) mMainImage = ScreenScraperApis::IConfiguration::Image::ScreenshotTitle;
+  else if (value == "logo"   ) mMainImage = ScreenScraperApis::IConfiguration::Image::Wheel;
+  else if (value == "marquee") mMainImage = ScreenScraperApis::IConfiguration::Image::Marquee;
+  else if (value == "box2d"  ) mMainImage = ScreenScraperApis::IConfiguration::Image::Box2d;
+  else if (value == "box3d"  ) mMainImage = ScreenScraperApis::IConfiguration::Image::Box3d;
+  else if (value == "mixv1"  ) mMainImage = ScreenScraperApis::IConfiguration::Image::MixV1;
+  else if (value == "mixv2"  ) mMainImage = ScreenScraperApis::IConfiguration::Image::MixV2;
+  mThumbnailImage = ScreenScraperApis::IConfiguration::Image::Box3d; // Default to box-3d
+  value = RecalboxConf::Instance().AsString("scraper.screenscraper.thumbnail", "");
+  if (value == "screenshot"  ) mThumbnailImage = ScreenScraperApis::IConfiguration::Image::ScreenshotIngame;
+  else if (value == "title"  ) mThumbnailImage = ScreenScraperApis::IConfiguration::Image::ScreenshotTitle;
+  else if (value == "logo"   ) mThumbnailImage = ScreenScraperApis::IConfiguration::Image::Wheel;
+  else if (value == "marquee") mThumbnailImage = ScreenScraperApis::IConfiguration::Image::Marquee;
+  else if (value == "box2d"  ) mThumbnailImage = ScreenScraperApis::IConfiguration::Image::Box2d;
+  else if (value == "box3d"  ) mThumbnailImage = ScreenScraperApis::IConfiguration::Image::Box3d;
+  else if (value == "mixv1"  ) mThumbnailImage = ScreenScraperApis::IConfiguration::Image::MixV1;
+  else if (value == "mixv2"  ) mThumbnailImage = ScreenScraperApis::IConfiguration::Image::MixV2;
+  mVideo = ScreenScraperApis::IConfiguration::Video::None; // Default to no video
+  value = RecalboxConf::Instance().AsString("scraper.screenscraper.video", "");
+  if (value == "normal") mVideo = ScreenScraperApis::IConfiguration::Video::Raw;
+  else if (value == "optimized") mVideo = ScreenScraperApis::IConfiguration::Video::Optimized;
+  mWantMarquee = RecalboxConf::Instance().AsBool("scraper.screenscraper.marquee", false);
+  mWantWheel = RecalboxConf::Instance().AsBool("scraper.screenscraper.wheel", false);
 }
 
 bool ScreenScraperEngine::RunOn(ScrappingMethod method, const SystemManager::SystemList& systemList,
                                 INotifyScrapeResult* notifyTarget)
 {
+  LOG(LogInfo) << "Staring new scrapping session...";
+
+  mNotifier = notifyTarget;
+  mMethod = method;
+
+  // Get screenscraper's thread
+  ScreenScraperApis apis(this);
+  int threadCount = apis.GetUserInformation().mThreads;
+  // Allocate threadpool
+  ThreadPool<FileData*, bool> runner(this, "Scraper-ssfr", threadCount, false);
+  // Feed threadpool
+  for(SystemData* system : systemList)
+    for(FileData* game : system->getRootFolder()->getAllDisplayableItemsRecursively(false))
+      runner.PushFeed(game);
+  // Run!
+  runner.Run(false);
+
   return false;
 }
 
-bool ScreenScraperEngine::Abort()
+bool ScreenScraperEngine::ThreadPoolRunJob(FileData*& feed)
 {
+  int engineIndex = ObtainEngine();
+  if (engineIndex >= 0)
+  {
+    // Process the scrape in this thread, allocated ans fired automatically by the threadpool
+    LOG(LogDebug) << "Got engine #" << engineIndex << " for " << feed->getPath().ToString();
+    Engine& engine = mEngines[engineIndex];
+    engine.Initialize();
+    if (engine.Scrape(mMethod, *feed)) // True? Need to abort immediately
+      Abort();
+    // ... and recycle the Engine
+    RecycleEngine(engineIndex);
+    // Then, signal the main thread with the engine number.
+    mSender.Call(feed);
+    return true;
+  }
+  else LOG(LogError) << "No more engine available!";
+  return false;
+}
+
+void ScreenScraperEngine::ReceiveSyncCallback(const SDL_Event& event)
+{
+  // Finally, we process the result in the main thread
+  FileData* game = (FileData*)event.user.data1;
+  if (mNotifier != nullptr)
+    mNotifier->GameResult(0, 0, game);
+}
+
+int ScreenScraperEngine::ObtainEngine()
+{
+  int result = -1;
+  while(result < 0)
+  {
+    // Look for a free engine
+    if (mEngineMutex.Lock())
+    {
+      for (int i = sMaxEngines; --i >= 0;)
+        if ((mAllocatedEngines & (1 << i)) == 0)
+        {
+          mAllocatedEngines |= (1 << i);
+          result = i;
+          break;
+        }
+      mEngineMutex.UnLock();
+    }
+    // Success!
+    if (result >= 0) break;
+
+    // Nothing free? Wait...
+    if (IsRunning()) mEngineSignal.WaitSignal(200);
+  }
+  return result;
+}
+
+void ScreenScraperEngine::RecycleEngine(int index)
+{
+  if (mEngineMutex.Lock())
+  {
+    mAllocatedEngines &= ~(1 << index);
+    mEngineMutex.UnLock();
+    mEngineSignal.Signal();
+  }
+}
+
+void ScreenScraperEngine::Engine::Initialize()
+{
+  mRunning = false;
+  mAbortRequest = false;
+  mQuotaReached = false;
+}
+
+bool ScreenScraperEngine::Engine::Scrape(ScrappingMethod method, FileData& game)
+{
+  // Start
+  mRunning = true;
+
+  // Check if the game needs to be scraped
+  if (NeedScrapping(method, game))
+    // Dummy loop, only there to be exited from everywhere
+    for(;mRunning && !mAbortRequest;)
+    {
+      // Default return status
+      ScreenScraperApis::Game gameResult;
+      gameResult.mResult = ScreenScraperApis::GameResult::NotFound;
+
+      LOG(LogDebug) << "Start scrapping data for " << game.getPath().ToString();
+      if (mAbortRequest) break;
+
+      // Get file size
+      long long size = game.getPath().Size();
+      if (size <= 0) break;
+      if (mAbortRequest) break;
+
+      // Zip request
+      switch (RequestZipGameInfo(gameResult, game, size))
+      {
+        case ScreenScraperApis::GameResult::QuotaReached:
+        case ScreenScraperApis::GameResult::FatalError: mRunning = false; return true; // General abort
+        case ScreenScraperApis::GameResult::Ok:break;
+        case ScreenScraperApis::GameResult::NotFound:
+        {
+          // Normal file request
+          switch (RequestGameInfo(gameResult, game, size))
+          {
+            case ScreenScraperApis::GameResult::QuotaReached:
+            case ScreenScraperApis::GameResult::FatalError: mRunning = false; return true; // General abort
+            case ScreenScraperApis::GameResult::NotFound: mRunning = false;
+            case ScreenScraperApis::GameResult::Ok: break;
+          }
+        }
+      }
+      if (mAbortRequest) break;
+
+      // Something found?
+      if (gameResult.mResult == ScreenScraperApis::GameResult::Ok)
+      {
+        // Store text data
+        StoreTextData(method, gameResult, game);
+        if (mAbortRequest) break;
+
+        // Request and store media
+        if (DownloadAndStoreMedia(method, gameResult, game))
+          return true; // Quota reached
+        if (mAbortRequest) break;
+      }
+
+      break;
+    }
+
+  // Stop
+  mRunning = false;
+  return false;
+}
+
+std::string ScreenScraperEngine::Engine::ComputeMD5(const Path& path)
+{
+  FILE* f = fopen(path.ToChars(), "rb");
+  if (f != nullptr)
+  {
+    MD5 md5;
+    char buffer[1 << 20]; // 1Mb buffer
+    for(int read = 0; (read = fread(buffer, 1, sizeof(buffer), f)) > 0; )
+      md5.update(buffer, read);
+    fclose(f);
+    md5.finalize();
+    return md5.hexdigest();
+  }
+  return std::string();
+}
+
+ScreenScraperApis::GameResult
+ScreenScraperEngine::Engine::RequestGameInfo(ScreenScraperApis::Game& result, const FileData& game, long long size)
+{
+  // Get MD5
+  std::string md5 = (size < sMaxMd5Calculation) ? ComputeMD5(game.getPath()) : std::string();
+  LOG(LogDebug) << "MD5 of " << game.getPath().ToString() << " : " << md5;
+
+  // Get crc32
+  std::string crc32;
+  if (game.Metadata().RomCrc32() != 0) game.Metadata().RomCrc32AsString();
+
+  // Lookup system
+  for(int i = game.getSystem()->PlatformCount(); --i >= 0; )
+  {
+    if (mAbortRequest) break;
+
+    // Convert platform ID
+    PlatformIds::PlatformId systemid = game.getSystem()->PlatformIds(i);
+    const std::map<PlatformIds::PlatformId, int>& Map = GetPlatformIDs();
+    if (Map.find(systemid) == Map.end())
+      return result.mResult;
+    int sssysid = Map.at(systemid);
+
+    // Call!
+    result = mCaller.GetGameInformation(sssysid, game.getPath(), crc32, md5, size);
+    switch(result.mResult)
+    {
+      case ScreenScraperApis::GameResult::NotFound: continue;
+      case ScreenScraperApis::GameResult::QuotaReached:
+      case ScreenScraperApis::GameResult::FatalError:
+      case ScreenScraperApis::GameResult::Ok: return result.mResult;
+    }
+  }
+
+  return result.mResult;
+}
+
+ScreenScraperApis::GameResult
+ScreenScraperEngine::Engine::RequestZipGameInfo(ScreenScraperApis::Game& result, const FileData& game, long long size)
+{
+  if (Strings::ToLowerASCII(game.getPath().Extension()) == ".zip")
+  {
+    Zip zip(game.getPath());
+    if (zip.Count() == 1) // Ignore multi-file archives
+    {
+      // Get real name
+      Path filePath = zip.FileName(0);
+
+      // Get MD5
+      std::string md5 = zip.Md5(0);
+      LOG(LogDebug) << "MD5 of " << filePath.ToString() << " [" << game.getPath().ToString() << "] : " << md5;
+
+      // Get crc32
+      int crc32i = zip.Crc32(0);
+      std::string crc32 = Strings::ToHexa(crc32i, 8);
+
+      // Lookup system
+      for (int i = game.getSystem()->PlatformCount(); --i >= 0;)
+      {
+        if (mAbortRequest) break;
+
+        // Convert platform ID
+        PlatformIds::PlatformId systemid = game.getSystem()->PlatformIds(i);
+        const std::map<PlatformIds::PlatformId, int>& Map = GetPlatformIDs();
+        if (Map.find(systemid) == Map.end())
+          return result.mResult;
+        int sssysid = Map.at(systemid);
+        if (sssysid == 75) continue; // Arcade
+
+        // Call!
+        result = mCaller.GetGameInformation(sssysid, filePath, crc32, md5, size);
+        switch (result.mResult)
+        {
+          case ScreenScraperApis::GameResult::NotFound: continue;
+          case ScreenScraperApis::GameResult::QuotaReached:
+          case ScreenScraperApis::GameResult::FatalError:
+          case ScreenScraperApis::GameResult::Ok: return result.mResult;
+        }
+      }
+    }
+  }
+
+  return result.mResult;
+}
+
+bool ScreenScraperEngine::Engine::NeedScrapping(ScrappingMethod method, FileData& game)
+{
+  switch(method)
+  {
+    case ScrappingMethod::All: return true;
+    case ScrappingMethod::IncompleteKeep:
+    case ScrappingMethod::IncompleteOverwrite:
+    {
+      // Any missing text info = scrape
+      if (game.Metadata().Name().empty()) return true;
+      if (game.Metadata().Description().empty()) return true;
+      if (game.Metadata().ReleaseDateEpoc() == 0) return true;
+      if (game.Metadata().Developer().empty()) return true;
+      if (game.Metadata().Publisher().empty()) return true;
+      if (game.Metadata().Publisher().empty()) return true;
+
+      // Check required and missing media
+      if (mConfiguration.GetImageType() != ScreenScraperApis::IConfiguration::Image::None)
+        if (game.Metadata().Image().IsEmpty()) return true;
+      if (mConfiguration.GetThumbnailType() != ScreenScraperApis::IConfiguration::Image::None)
+        if (game.Metadata().Thumbnail().IsEmpty()) return true;
+      if (mConfiguration.GetVideo() != ScreenScraperApis::IConfiguration::Video::None)
+        if (game.Metadata().Video().IsEmpty()) return true;
+      // TODO: Add more media checks here
+    }
+  }
+
+  // Unknown method
+  LOG(LogError) << "Unknown scrapping method";
+  return false;
+}
+
+void
+ScreenScraperEngine::Engine::StoreTextData(ScrappingMethod method, const ScreenScraperApis::Game& sourceData, FileData& game)
+{
+  // Name always scraped
+  if (!sourceData.mName.empty())
+    game.Metadata().SetName(sourceData.mName);
+  // Store data only if they are not empty and not scrapped if method is IncompleteKeep
+  if (!sourceData.mSynopsis.empty())
+    if (game.Metadata().Description().empty() || method != ScrappingMethod::IncompleteKeep)
+      game.Metadata().SetDescription(sourceData.mSynopsis);
+  if (!sourceData.mPublisher.empty())
+    if (game.Metadata().Publisher().empty() || method != ScrappingMethod::IncompleteKeep)
+      game.Metadata().SetPublisher(sourceData.mPublisher);
+  if (!sourceData.mDeveloper.empty())
+    if (game.Metadata().Developer().empty() || method != ScrappingMethod::IncompleteKeep)
+      game.Metadata().SetDeveloper(sourceData.mDeveloper);
+  if (!sourceData.mPlayers.empty())
+    if (game.Metadata().PlayerRange() == 0 || method != ScrappingMethod::IncompleteKeep)
+      game.Metadata().SetPlayersAsString(sourceData.mPlayers);
+  if (sourceData.mReleaseDate.ToEpochTime() != 0)
+    if (game.Metadata().ReleaseDateEpoc() == 0 || method != ScrappingMethod::IncompleteKeep)
+      game.Metadata().SetReleaseDate(sourceData.mReleaseDate);
+  if (sourceData.mRating == 0.0f)
+    if (game.Metadata().Rating() == 0.0 || method != ScrappingMethod::IncompleteKeep)
+      game.Metadata().SetRating(sourceData.mRating);
+}
+
+bool
+ScreenScraperEngine::Engine::DownloadAndStoreMedia(ScrappingMethod method, const ScreenScraperApis::Game& sourceData,
+                                                   FileData& game)
+{
+  const Path rootFolder(game.getSystem()->getRootFolder()->getPath());
+  const std::string gameName = game.getPath().FilenameWithoutExtension();
+
+  // Main image
+  if (!sourceData.MediaSources.mImage.empty())
+    if (game.Metadata().Image().IsEmpty() || method != ScrappingMethod::IncompleteKeep)
+    {
+      Path AbsoluteImagePath = rootFolder / "media/images" / (gameName + '.' + sourceData.MediaSources.mImageFormat);
+
+      switch(mCaller.GetMedia(sourceData.MediaSources.mImage, AbsoluteImagePath))
+      {
+        case ScreenScraperApis::GameResult::Ok: game.Metadata().SetImagePath(AbsoluteImagePath); break;
+        case ScreenScraperApis::GameResult::NotFound: LOG(LogError) << "Missing media!"; break;
+        case ScreenScraperApis::GameResult::QuotaReached: return true;
+        case ScreenScraperApis::GameResult::FatalError: break;
+      }
+    }
+  if (mAbortRequest) return false;
+
+  // Thumbnail image
+  if (!sourceData.MediaSources.mThumbnail.empty())
+    if (game.Metadata().Thumbnail().IsEmpty() || method != ScrappingMethod::IncompleteKeep)
+    {
+      Path AbsoluteThumbnailPath = rootFolder / "media/thumbnails" / (gameName + '.' + sourceData.MediaSources.mThumbnailFormat);
+
+      switch(mCaller.GetMedia(sourceData.MediaSources.mThumbnail, AbsoluteThumbnailPath))
+      {
+        case ScreenScraperApis::GameResult::Ok: game.Metadata().SetThumbnailPath(AbsoluteThumbnailPath); break;
+        case ScreenScraperApis::GameResult::NotFound: LOG(LogError) << "Missing media!"; break;
+        case ScreenScraperApis::GameResult::QuotaReached: return true;
+        case ScreenScraperApis::GameResult::FatalError: break;
+      }
+    }
+  if (mAbortRequest) return false;
+
+  // Video
+  if (!sourceData.MediaSources.mVideo.empty())
+    if (game.Metadata().Thumbnail().IsEmpty() || method != ScrappingMethod::IncompleteKeep)
+    {
+      Path AbsoluteVideoPath = rootFolder / "media/videos" / (gameName + '.' + sourceData.MediaSources.mVideoFormat);
+
+      switch(mCaller.GetMedia(sourceData.MediaSources.mVideo, AbsoluteVideoPath))
+      {
+        case ScreenScraperApis::GameResult::Ok: game.Metadata().SetVideoPath(AbsoluteVideoPath); break;
+        case ScreenScraperApis::GameResult::NotFound: LOG(LogError) << "Missing media!"; break;
+        case ScreenScraperApis::GameResult::QuotaReached: return true;
+        case ScreenScraperApis::GameResult::FatalError: break;
+      }
+    }
+
+  // TODO: Add more image download & save here
+
   return false;
 }

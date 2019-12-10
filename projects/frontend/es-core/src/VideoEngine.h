@@ -193,7 +193,7 @@ class VideoEngine : Thread
     Mutex mSignal;
 
     //! Video filename
-    std::string mFileName;
+    Path mFileName;
 
     //! Video playing state
     volatile PlayerState mState;
@@ -256,7 +256,7 @@ class VideoEngine : Thread
      * If a video is already playing, a call to stop is performed playing the new video
      * @param videopath Path to the video file ot play
      */
-    void PlayVideo(const std::string& videopath);
+    void PlayVideo(const Path& videopath);
 
     /*!
      * @brief Stop the currently playing video file.

@@ -207,7 +207,6 @@ std::string Path::Extension() const
     if (p[i] == sExtensionSeparator)
       return mPath.substr(i);
 
-
   // No extension
   return std::string();
 }
@@ -246,6 +245,17 @@ bool Path::Exists() const
 
   // check if stat64 succeeded
   return (stat64(mPath.c_str(), &info) == 0);
+}
+
+long long Path::Size() const
+{
+  struct stat64 info = {};
+
+  // check if stat64 succeeded
+  if (stat64(mPath.c_str(), &info) == 0)
+    return info.st_size;
+
+  return 0;
 }
 
 bool Path::IsFile() const
@@ -509,3 +519,4 @@ bool Path::Rename(const Path& from, const Path& to)
 {
   return rename(from.ToChars(), to.ToChars()) == 0;
 }
+

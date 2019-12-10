@@ -263,7 +263,7 @@ template<class FeedObject, class ResultObject> class ThreadPool
             completed = mTotalCompleted;
           }
           if (!mPermanent)
-            if (mResults.size() == mIndex) break;
+            if ((int)mResults.size() == mIndex) break;
         }
 
       // Wait for thread to die

@@ -1,11 +1,11 @@
 #pragma once
 
 #include <utils/os/system/Thread.h>
-#include <utils/sdl2/ISyncronousEvent.h>
+#include <utils/sdl2/ISynchronousEvent.h>
 #include <utils/sdl2/SyncronousEvent.h>
 #include <utils/os/system/Mutex.h>
 
-class NetworkThread: private Thread, private ISyncronousEvent
+class NetworkThread: private Thread, private ISynchronousEvent
 {
   public:
     /*!

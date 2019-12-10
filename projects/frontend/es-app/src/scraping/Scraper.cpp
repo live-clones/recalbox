@@ -145,7 +145,7 @@ MDResolveHandle::MDResolveHandle(const ScraperSearchResult& result, const Scrape
 		Path imgPath = getSaveAsPath(search, "images", result.imageType);
 		mFuncs.push_back(ResolvePair(downloadImageAsync(result.imageUrl, imgPath), [this, imgPath]
 		{
-			mResult.mdl.SetImagePath(imgPath.ToString());
+			mResult.mdl.SetImagePath(imgPath);
 			mResult.imageUrl.clear();
 		}));
 	}

@@ -1,11 +1,11 @@
 #include <utils/os/system/Thread.h>
-#include <utils/sdl2/ISyncronousEvent.h>
+#include <utils/sdl2/ISynchronousEvent.h>
 #include <utils/sdl2/SyncronousEvent.h>
 #include <sys/socket.h>
 
 class SystemManager;
 
-class CommandThread: private Thread, private ISyncronousEvent
+class CommandThread: private Thread, private ISynchronousEvent
 {
   public:
     /*!

@@ -4,9 +4,9 @@
 #include <utils/os/system/Mutex.h>
 #include "ISyncTimer.h"
 #include "SyncronousEvent.h"
-#include "ISyncronousEvent.h"
+#include "ISynchronousEvent.h"
 
-class SyncTimer : private Thread, private ISyncronousEvent
+class SyncTimer : private Thread, private ISynchronousEvent
 {
   private:
     //! Synchronous Event manager
@@ -31,7 +31,7 @@ class SyncTimer : private Thread, private ISyncronousEvent
     bool mRepeat;
 
     /*
-     *  ISyncronousEvent implementation
+     *  ISynchronousEvent implementation
      */
 
     /*!

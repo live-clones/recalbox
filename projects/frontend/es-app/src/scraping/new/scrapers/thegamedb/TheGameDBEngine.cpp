@@ -19,3 +19,8 @@ bool TheGameDBEngine::Abort()
 {
   return false;
 }
+
+bool TheGameDBEngine::IsRunning()
+{
+  return false;
+}

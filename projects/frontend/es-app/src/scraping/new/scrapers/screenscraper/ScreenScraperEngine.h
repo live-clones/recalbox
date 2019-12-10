@@ -4,12 +4,190 @@
 #pragma once
 
 #include <scraping/new/scrapers/IScraperEngine.h>
+#include <utils/os/system/Mutex.h>
+#include <utils/sdl2/SyncronousEvent.h>
+#include "ScreenScraperApis.h"
 
-class ScreenScraperEngine : public IScraperEngine
+class ScreenScraperEngine
+  : public IScraperEngine,
+    public IThreadPoolWorkerInterface<FileData*, bool>,
+    public ScreenScraperApis::IConfiguration,
+    public ISynchronousEvent
 {
   private:
+    //! Persistant engine class accross requests
+    class Engine
+    {
+      private:
+        //! Tell if the engine is running
+        bool mRunning;
+        //! True if the current scrape is requested to abort
+        bool mAbortRequest;
+        //! Quota reached
+        bool mQuotaReached;
+        //! ScreenScraper WebApi
+        ScreenScraperApis mCaller;
+        //! Configuration
+        ScreenScraperApis::IConfiguration& mConfiguration;
+
+        /*!
+         * @brief Compute MD5 hash from a file
+         * @param path Filepath
+         * @return Hash hexa string
+         */
+        static std::string ComputeMD5(const Path& path);
+
+        /*!
+         * @brief Send a game info request
+         * @param game FileData game object
+         * @param md5 Optionnal md5
+         * @param size Rom size
+         * @return Result
+         */
+        ScreenScraperApis::GameResult RequestGameInfo(ScreenScraperApis::Game& result, const FileData& game, long long size);
+
+        /*!
+         * @brief Send a game info request
+         * @param game FileData game object
+         * @param md5 Optionnal md5
+         * @param size Rom size
+         * @return Result
+         */
+        ScreenScraperApis::GameResult RequestZipGameInfo(ScreenScraperApis::Game& result, const FileData& game, long long size);
+
+        /*!
+         * @brief Check if the current game needs to be scrapped regarding the given method
+         * @param method Scrapping method
+         * @param game Game to scrape
+         * @return True of the game need to be scraped
+         */
+        bool NeedScrapping(ScrappingMethod method, FileData& game);
+
+        /*!
+         * @brief Store scraped data into destination game's metadata, regarding the scrapping method
+         * @param method Scrapping method
+         * @param sourceData Source data
+         * @param game DFestination game
+         */
+        static void StoreTextData(ScrappingMethod method, const ScreenScraperApis::Game& sourceData, FileData& game);
+
+        /*!
+         * @brief Download an store media one after once
+         * @param method Scrapping method
+         * @param sourceData Source data
+         * @param game DFestination game
+         * @return True if the quota is reached and the scrapping must stop ASAP. False in any other case
+         */
+        bool DownloadAndStoreMedia(ScrappingMethod method, const ScreenScraperApis::Game& sourceData, FileData& game);
+
+      public:
+        explicit Engine(ScreenScraperApis::IConfiguration* configuration)
+          : mRunning(false),
+            mAbortRequest(false),
+            mQuotaReached(false),
+            mCaller(configuration),
+            mConfiguration(*configuration)
+        {
+          Initialize();
+        }
+
+        /*!
+         * @brief Reset the engine
+         */
+        void Initialize();
+
+        /*!
+         * @brief Scrape a single game
+         * @param game game to scrape
+         * @return True if the whole process must stop for whatever reason
+         */
+        bool Scrape(ScrappingMethod method, FileData& game);
+
+        /*!
+         * @brief Abort the current engine. The engine is required to quit its current scrapping ASAP
+         */
+        void Abort() { mAbortRequest = true; }
+
+        //! Check if the engine is running
+        bool IsRunning() const { return mRunning; }
+    };
+
+    //! Maximum simultaneous engines
+    static constexpr int sMaxEngines = 15;
+    //! Maximum file size for md5 calculation
+    static constexpr int sMaxMd5Calculation = (20 << 20); // 20 Mb
+
+    //! Engines
+    Engine mEngines[sMaxEngines];
+    //! Bitflag of allocated engine. If the bit at index X is set, the engine is allocated to a thread
+    int mAllocatedEngines;
+
+    //! Scraping method
+    ScrappingMethod mMethod;
+
+    //! Notification interface
+    INotifyScrapeResult* mNotifier;
+
+    //! Screenscraper credentials: Login
+    std::string mLogin;
+    //! Screenscraper credentials: Password
+    std::string mPassword;
+    //! Ffavorite language
+    std::string mLanguage;
+    //! Favorite region
+    std::string mRegion;
+    //! Main image
+    ScreenScraperApis::IConfiguration::Image mMainImage;
+    //! Thumbnail image
+    ScreenScraperApis::IConfiguration::Image mThumbnailImage;
+    //! Video
+    ScreenScraperApis::IConfiguration::Video mVideo;
+    //! Marquee
+    bool mWantMarquee;
+    //! Wheel
+    bool mWantWheel;
+
+    //! Live stats: Total
+    int mTotal;
+    //! Live stats: Processed
+    int mCount;
+
+    //! Engine allocator protection
+    Mutex mEngineMutex;
+    //! Free engine signal
+    Mutex mEngineSignal;
+
+    //! Main thread synchronizer
+    SyncronousEvent mSender;
+
     /*
-     * IScraperEngine implemntation
+     * Getters
+     */
+
+    //! Get current scrapping session completion
+    int Completed() const { return mCount; }
+
+    //! Get current scrapping session's total item to process
+    int Total() const { return mTotal; }
+
+    /*
+     * Engine providers/recyclers
+     */
+
+    /*!
+     * @brief Obtain a free engine index or -1 if no engine is available
+     * @return Engine index from 0 to sMaxEngines-1, or -1
+     */
+    int ObtainEngine();
+
+    /*!
+     * @brief Recycle and free the engine at the given index
+     * @param index Engine index to free and recycle
+     */
+    void RecycleEngine(int index);
+
+    /*
+     * IScraperEngine implementation
      */
 
     /*!
@@ -31,5 +209,92 @@ class ScreenScraperEngine : public IScraperEngine
      * @brief Abort the current engine
      * @return True
      */
-    bool Abort() override;
+    bool Abort() override
+    {
+      for(int i = sMaxEngines; --i >= 0; )
+      {
+        mEngines->Abort();
+        mEngineSignal.Signal();
+      }
+      return true;
+    }
+
+    /*!
+     * @brief Check if the engine is running, allowing UI to know when the engine actually stops after an abort request
+     * @return True if the engine is running
+     */
+    bool IsRunning() override
+    {
+      for(int i = sMaxEngines; --i >= 0; )
+        if (mEngines->IsRunning())
+          return true;
+      return false;
+    }
+
+    /*
+     * IThreadPoolWorkerInterface
+     */
+
+    /*!
+     * @brief The main runner. Implement here the task to process a feed object
+     * @param feed Feed object to process
+     * @return Result Object
+     */
+    bool ThreadPoolRunJob(FileData*& feed) override;
+
+    /*!
+     * @brief Called asap by the main thread when a job complete, regarding the tick duration
+     * @param completed Currently completed jobs count
+     * @param total Total jobs
+     */
+    void ThreadPoolTick(int completed, int total) override
+    {
+      mCount = completed;
+      mTotal = total;
+    }
+
+    /*
+     * ScreenScraperApis::IConfiguration implementation
+     */
+
+    //! Get screenscraper login
+    std::string GetLogin() const override { return mLogin; }
+
+    //! Get screenscraper password
+    std::string GetPassword() const override { return mPassword; }
+
+    //! Get favorite language
+    std::string GetFavoriteLanguage() const override { return mLanguage; };
+
+    //! Get favorite region
+    std::string GetFavoriteRegion() const override { return mRegion; }
+
+    //! Get main image type
+    ScreenScraperApis::IConfiguration::Image GetImageType() const override { return mMainImage; }
+
+    //! Get thumbnail image typ
+    ScreenScraperApis::IConfiguration::Image GetThumbnailType() const override { return mThumbnailImage; }
+
+    //! Check if video are required
+    ScreenScraperApis::IConfiguration::Video GetVideo() const override { return mVideo; }
+
+    //! Check if marquee are required
+    bool GetWantMarquee() const override { return mWantMarquee; }
+
+    //! Check if wheel are required
+    bool GetWantWheel() const override { return mWantWheel; }
+
+    /*
+     * ISynchronousEvent implementation
+     */
+
+    /*!
+     * @brief Receive synchronous SDL2 event
+     * @param event SDL event with .user populated by the sender
+     */
+    void ReceiveSyncCallback(const SDL_Event& event) override ;
+
+  public:
+    //! Constructor
+    ScreenScraperEngine();
 };

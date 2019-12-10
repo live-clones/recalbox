@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ISyncronousEvent.h"
+#include "ISynchronousEvent.h"
 
 class SyncronousEvent
 {
@@ -24,7 +24,7 @@ class SyncronousEvent
      * @brief Public constructor
      * @param event Callback
      */
-    explicit SyncronousEvent(ISyncronousEvent* callback);
+    explicit SyncronousEvent(ISynchronousEvent* callback);
 
     //! Destructor - Recycle message
     ~SyncronousEvent();

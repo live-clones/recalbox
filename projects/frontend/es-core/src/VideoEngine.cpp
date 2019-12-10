@@ -107,7 +107,7 @@ void VideoEngine::Run()
     }
 
     // Run the video
-    LOG(LogDebug) << "Video Engine start playing " << mFileName;
+    LOG(LogDebug) << "Video Engine start playing " << mFileName.ToString();
     mState = PlayerState::StartPending;
     if (InitializeDecoder())
     {
@@ -122,15 +122,15 @@ void VideoEngine::Run()
   }
 }
 
-void VideoEngine::PlayVideo(const std::string& videopath)
+void VideoEngine::PlayVideo(const Path& videopath)
 {
-  LOG(LogDebug) << "Video Engine requested to play " << videopath;
+  LOG(LogDebug) << "Video Engine requested to play " << videopath.ToString();
 
   // Stop previous video
   StopVideo(true);
 
   // Start the new video
-  if (!videopath.empty())
+  if (!videopath.IsEmpty())
   {
     mFileName = videopath;
     mSignal.Signal();
@@ -146,7 +146,7 @@ void VideoEngine::StopVideo(bool waitforstop)
     case PlayerState::Paused:
     case PlayerState::Playing:
     {
-      LOG(LogDebug) << "Video Engine requested to stop playing " << mFileName;
+      LOG(LogDebug) << "Video Engine requested to stop playing " << mFileName.ToString();
       mState = PlayerState::StopPending;
       break;
     }
@@ -182,12 +182,12 @@ bool VideoEngine::InitializeDecoder()
   }
 
   // Open the file
-  if (avformat_open_input(&mContext.AudioVideoContext, mFileName.c_str(), nullptr, nullptr) != 0)
-    RETURN_ERROR("Error opening video " << mFileName, false);
+  if (avformat_open_input(&mContext.AudioVideoContext, mFileName.ToChars(), nullptr, nullptr) != 0)
+    RETURN_ERROR("Error opening video " << mFileName.ToString(), false);
 
   // Lookup stream
   if (avformat_find_stream_info(mContext.AudioVideoContext, nullptr) != 0)
-    RETURN_ERROR("Error finding streams in " << mFileName, false);
+    RETURN_ERROR("Error finding streams in " << mFileName.ToString(), false);
 
   // Lookup audio and vdeo stream indexes
   mContext.AudioStreamIndex = mContext.VideoStreamIndex = -1;
@@ -207,7 +207,7 @@ bool VideoEngine::InitializeDecoder()
     }
   }
   if (mContext.VideoStreamIndex < 0)
-    RETURN_ERROR("Error finding video stream in " << mFileName, false);
+    RETURN_ERROR("Error finding video stream in " << mFileName.ToString(), false);
 
   // Initialize audio codec
   if (mContext.AudioStreamIndex >= 0)

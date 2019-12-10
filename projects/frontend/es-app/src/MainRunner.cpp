@@ -14,6 +14,7 @@
 #include <VideoEngine.h>
 #include <guis/GuiDetectDevice.h>
 #include <utils/sdl2/SyncronousEventService.h>
+#include <scraping/new/ScraperFactory.h>
 #include "MainRunner.h"
 #include "EmulationStation.h"
 #include "VolumeControl.h"
@@ -70,6 +71,24 @@ MainRunner::ExitState MainRunner::Run()
     // Try to load system configurations
     if (!TryToLoadConfiguredSystems(systemManager))
       return ExitState::FatalError;
+
+
+
+
+
+
+
+
+    IScraperEngine* engine = ScraperFactory::GetScraper("default");
+    engine->RunOn(ScrappingMethod::All, systemManager.GetVisibleSystemList(), nullptr);
+
+
+
+
+
+
+
+
 
     // Run kodi at startup?
     RecalboxConf& recalboxConf = RecalboxConf::Instance();

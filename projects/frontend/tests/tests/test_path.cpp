@@ -753,3 +753,10 @@ TEST_F(PathTest, testMakeRelative)
   ASSERT_EQ(Path(TestSet.Folder1.Folder2.Folder3.name).MakeRelative(Path(TestSet.Folder1.file1), ok).ToString(), "folder2/folder3");
   ASSERT_TRUE(ok);
 }
+
+TEST_F(PathTest, testFileSize)
+{
+  ASSERT_EQ(Path("/path/to/file").Size(), 0);
+  ASSERT_EQ(Path(TestSet.Folder1.Folder2.Folder3.file3).Size(), 4);
+  ASSERT_NE(Path(TestSet.Folder1.Folder2.Folder3.name).Size(), 0);
+}

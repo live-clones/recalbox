@@ -52,7 +52,7 @@ class MetadataDescriptor
     std::string* _Core;         //!< Specific core
     std::string* _Ratio;        //!< Specific screen ratio
     Path*        _Thumbnail;    //!< Thumbnail path
-    std::string* _Video;        //!< Video path
+    Path*        _Video;        //!< Video path
     std::string* _Region;       //!< Rom/Game Region
     float        _Rating;       //!< Rating from 0.0 to 1.0
     int          _Players;      //!< Players range: LSW:from - MSW:to (allow sorting by max players)
@@ -120,9 +120,9 @@ class MetadataDescriptor
      * @param string PPath to assign value to
      * @param value Value to assign
      */
-    static void AssignPPath(Path*& path, const std::string& value)
+    static void AssignPPath(Path*& path, const Path& value)
     {
-      if (value.empty()) FreePPath(path);
+      if (value.IsEmpty()) FreePPath(path);
       else
       {
         if (path == nullptr) path = new Path();
@@ -355,7 +355,7 @@ class MetadataDescriptor
       if (source._Core      != nullptr) _Core      = new std::string(*source._Core     );
       if (source._Ratio     != nullptr) _Ratio     = new std::string(*source._Ratio    );
       if (source._Thumbnail != nullptr) _Thumbnail = new Path       (*source._Thumbnail);
-      if (source._Video     != nullptr) _Video     = new std::string(*source._Video    );
+      if (source._Video     != nullptr) _Video     = new Path       (*source._Video    );
       if (source._Region    != nullptr) _Region    = new std::string(*source._Region   );
       _Rating      = source._Rating     ;
       _Players     = source._Players    ;
@@ -454,8 +454,8 @@ class MetadataDescriptor
     const std::string& Ratio()       const { return ReadPString(_Ratio, DefaultValueRatio);       }
     const std::string& Description() const { return _Description;                                 }
     const Path&        Image()       const { return _Image;                                       }
-    const Path&        Thumbnail()   const { return ReadPPath  (_Thumbnail, DefaultEmptyPath);   }
-    const std::string& Video()       const { return ReadPString(_Video, DefaultValueEmpty);       }
+    const Path&        Thumbnail()   const { return ReadPPath  (_Thumbnail, DefaultEmptyPath);    }
+    const Path&        Video()       const { return ReadPPath  (_Video, DefaultEmptyPath);        }
     const std::string& Developer()   const { return _Developer;                                   }
     const std::string& Publisher()   const { return _Publisher;                                   }
     const std::string& Genre()       const { return _Genre;                                       }
@@ -483,15 +483,15 @@ class MetadataDescriptor
     std::string CoreAsString()        const { return ReadPString(_Core, DefaultValueCore);         }
     std::string RatioAsString()       const { return ReadPString(_Ratio, DefaultValueRatio);       }
     std::string DescriptionAsString() const { return _Description;                                 }
-    std::string ImageAsString()       const { return _Image.ToString();                                       }
+    std::string ImageAsString()       const { return _Image.ToString();                            }
     std::string ThumbnailAsString()   const { return ReadPPath  (_Thumbnail, Path()).ToString();   }
-    std::string VideoAsString()       const { return ReadPString(_Video, DefaultValueEmpty);       }
+    std::string VideoAsString()       const { return ReadPPath  (_Video, Path()).ToString();       }
     std::string DeveloperAsString()   const { return _Developer;                                   }
     std::string PublisherAsString()   const { return _Publisher;                                   }
     std::string GenreAsString()       const { return _Genre;                                       }
     std::string RegionAsString()      const { return ReadPString(_Region, DefaultValueEmpty);      }
 
-    std::string RatingAsString()      const { return Strings::ToString(_Rating, 4);                            }
+    std::string RatingAsString()      const { return Strings::ToString(_Rating, 4);                        }
     std::string PlayersAsString()     const { return IntToRange(_Players);                                 }
     std::string ReleaseDateAsString() const { return _ReleaseDate != 0 ? DateTime((long long)_ReleaseDate).ToCompactISO8601() : ""; }
     std::string PlayCountAsString()   const { return std::to_string(_Playcount);                           }
@@ -504,28 +504,28 @@ class MetadataDescriptor
      * Setters
      */
 
-    void SetName(const std::string& name) { _Name = name; _Dirty = true; }
-    void SetEmulator(const std::string& emulator) { AssignPString(_Emulator, emulator); _Dirty = true; }
-    void SetCore(const std::string& core) { AssignPString(_Core, core); _Dirty = true; }
-    void SetRatio(const std::string& ratio) { AssignPString(_Ratio, ratio); _Dirty = true; }
-    void SetDescription(const std::string& description) { _Description = description; _Dirty = true; }
-    void SetImagePath(const std::string& image) { _Image = image; _Dirty = true; }
-    void SetThumbnailPath(const std::string& thumbnail) { AssignPPath(_Thumbnail, thumbnail); _Dirty = true; }
-    void SetVideoPath(const std::string& video) { AssignPString(_Video, video); _Dirty = true; }
-    void SetReleaseDate(const DateTime& releasedate) { _ReleaseDate = (int)releasedate.ToEpochTime(); _Dirty = true; }
-    void SetDeveloper(const std::string& developer) { _Developer = developer; _Dirty = true; }
-    void SetPublisher(const std::string& publisher) { _Publisher = publisher; _Dirty = true; }
-    void SetGenre(const std::string& genre) { _Genre = genre; _Dirty = true; }
-    void SetRating(float rating) { _Rating = rating; _Dirty = true; }
+    void SetName(const std::string& name)               { _Name = name; _Dirty = true;                                  }
+    void SetEmulator(const std::string& emulator)       { AssignPString(_Emulator, emulator); _Dirty = true;            }
+    void SetCore(const std::string& core)               { AssignPString(_Core, core); _Dirty = true;                    }
+    void SetRatio(const std::string& ratio)             { AssignPString(_Ratio, ratio); _Dirty = true;                  }
+    void SetDescription(const std::string& description) { _Description = description; _Dirty = true;                    }
+    void SetImagePath(const Path& image)                { _Image = image; _Dirty = true;                                }
+    void SetThumbnailPath(const Path& thumbnail)        { AssignPPath(_Thumbnail, thumbnail); _Dirty = true;            }
+    void SetVideoPath(const Path& video)                { AssignPPath(_Video, video); _Dirty = true;                    }
+    void SetReleaseDate(const DateTime& releasedate)    { _ReleaseDate = (int)releasedate.ToEpochTime(); _Dirty = true; }
+    void SetDeveloper(const std::string& developer)     { _Developer = developer; _Dirty = true;                        }
+    void SetPublisher(const std::string& publisher)     { _Publisher = publisher; _Dirty = true;                        }
+    void SetGenre(const std::string& genre)             { _Genre = genre; _Dirty = true;                                }
+    void SetRating(float rating)                        { _Rating = rating; _Dirty = true;                              }
     void SetPlayers(int min, int max)
     {
       _Players = (max << 16) + min;
       _Dirty = true;
     }
-    void SetRegion(const std::string& region) { AssignPString(_Region, region); _Dirty = true; }
-    void SetRomCrc32(int romcrc32) { _RomCrc32 = romcrc32; _Dirty = true; }
-    void SetFavorite(bool favorite) { _Favorite = favorite; _Dirty = true; }
-    void SetHidden(bool hidden) { _Hidden = hidden; _Dirty = true; }
+    void SetRegion(const std::string& region)           { AssignPString(_Region, region); _Dirty = true;                }
+    void SetRomCrc32(int romcrc32)                      { _RomCrc32 = romcrc32; _Dirty = true;                          }
+    void SetFavorite(bool favorite)                     { _Favorite = favorite; _Dirty = true;                          }
+    void SetHidden(bool hidden)                         { _Hidden = hidden; _Dirty = true;                              }
 
     // Special setter to force dirty
     void SetDirty() { _Dirty = true; }
@@ -541,6 +541,9 @@ class MetadataDescriptor
      * String setters
      */
 
+    void SetImagePathAsString(const std::string& image)                { _Image = image; _Dirty = true;                                }
+    void SetThumbnailPathAsString(const std::string& thumbnail)        { AssignPPath(_Thumbnail, Path(thumbnail)); _Dirty = true;            }
+    void SetVideoPathAsString(const std::string& video)                { AssignPPath(_Video, Path(video)); _Dirty = true;                    }
     void SetReleaseDateAsString(const std::string& releasedate)
     {
       DateTime st;

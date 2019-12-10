@@ -414,7 +414,7 @@ void DetailedGameListView::setFolderInfo(FolderData* folder)
     mFolderContent.at((unsigned int) i)->setImage(Path());
   }
   // Kill video on multi-thumbnail folder
-  mVideo.setVideo("", 0, 0);
+  mVideo.setVideo(Path::Empty, 0, 0);
 }
 
 void DetailedGameListView::setGameInfo(FileData* file)
@@ -435,7 +435,7 @@ void DetailedGameListView::setGameInfo(FileData* file)
   mImage.setImage(file->Metadata().Image());
   mVideo.setVideo(file->Metadata().Video(), videoDelay, videoLoop);
 
-  LOG(LogDebug) << "Set " << file->Metadata().Video() << " for " << file->Metadata().Name() << " => " << file->getPath().ToString();
+  LOG(LogDebug) << "Set " << file->Metadata().Video().ToString() << " for " << file->Metadata().Name() << " => " << file->getPath().ToString();
 
   mDescription.setText(file->Metadata().Description());
   mDescContainer.reset();
@@ -444,7 +444,7 @@ void DetailedGameListView::setGameInfo(FileData* file)
 void DetailedGameListView::setScrappedFolderInfo(FileData* file)
 {
   mImage.setImage(file->Metadata().Image());
-  mVideo.setVideo("", 0, 0);
+  mVideo.setVideo(Path::Empty, 0, 0);
   mDescription.setText(file->Metadata().Description());
   mDescContainer.reset();
 }
@@ -530,7 +530,7 @@ std::vector<Component*> DetailedGameListView::getMDValues()
 void DetailedGameListView::Update(int deltatime)
 {
   if (mList.isScrolling())
-    mVideo.setVideo("", 0, 0);
+    mVideo.setVideo(Path::Empty, 0, 0);
 
   Component::Update(deltatime);
 }

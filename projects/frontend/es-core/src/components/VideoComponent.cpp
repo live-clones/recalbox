@@ -86,7 +86,7 @@ void VideoComponent::resize()
   }
 }
 
-void VideoComponent::setVideo(const std::string& path, int delay, int loops)
+void VideoComponent::setVideo(const Path& path, int delay, int loops)
 {
   VideoEngine::This().StopVideo(false);
   mVideoPath = path;
@@ -226,7 +226,7 @@ bool VideoComponent::ProcessDisplay(double& effect)
     case State::Uninitialized:
     {
       effect = 0.0;
-      if (elapsed >= mVideoDelay && !mVideoPath.empty())
+      if (elapsed >= mVideoDelay && !mVideoPath.IsEmpty())
       {
         mEffect = (Effect)(((int)mEffect + 1) % (int)Effect::_LastItem);
         mState = State::InitializeVideo;
@@ -378,7 +378,7 @@ void VideoComponent::applyTheme(const ThemeData& theme, const std::string& view,
 
   if (hasFlag(properties, ThemeProperties::Path) && elem->HasProperty("path"))
   {
-    setVideo(elem->AsString("path"), DEFAULT_VIDEODELAY, DEFAULT_VIDEOLOOP);
+    setVideo(Path(elem->AsString("path")), DEFAULT_VIDEODELAY, DEFAULT_VIDEOLOOP);
   }
 
   if (hasFlag(properties, ThemeProperties::Color) && elem->HasProperty("color"))

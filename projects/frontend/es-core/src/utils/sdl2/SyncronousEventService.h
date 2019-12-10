@@ -1,4 +1,4 @@
-#include "ISyncronousEvent.h"
+#include "ISynchronousEvent.h"
 #include "SyncronousEvent.h"
 
 #pragma once
@@ -16,7 +16,7 @@ class SyncronousEventService
     unsigned int mFirstMessage;
 
     //! List of current callbacks
-    ISyncronousEvent* mCallbacks[mMessageCount];
+    ISynchronousEvent* mCallbacks[mMessageCount];
 
   public:
 
@@ -36,7 +36,7 @@ class SyncronousEventService
       memset(mCallbacks, 0, sizeof(mCallbacks));
     }
 
-    SyncronousEvent ObtainSyncCallback(ISyncronousEvent* callback);
+    SyncronousEvent ObtainSyncCallback(ISynchronousEvent* callback);
 
     void RecycleSyncCallback(SyncronousEvent& recyclable);
 

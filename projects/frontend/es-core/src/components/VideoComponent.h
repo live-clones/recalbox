@@ -5,7 +5,6 @@
 #include "components/base/Component.h"
 #include <string>
 #include <utils/datetime/HighResolutionTimer.h>
-#include <RecalboxConf.h>
 #include "resources/TextureResource.h"
 
 class VideoComponent : public Component
@@ -36,7 +35,7 @@ class VideoComponent : public Component
 
     Vector2f mTargetSize;
 
-    std::string mVideoPath;
+    Path mVideoPath;
     bool mTargetIsMax;
 
     // Calculates the correct mSize from our resizing information (set by setResize/setMaxSize).
@@ -101,7 +100,7 @@ class VideoComponent : public Component
      * @param delay Delay before actually playing the video in milliseconds
      * @param loops Number of loops (0 = infinite loops)
      */
-    void setVideo(const std::string& path, int delay, int loops);
+    void setVideo(const Path& path, int delay, int loops);
 
     void setOpacity(unsigned char opacity) override;
 

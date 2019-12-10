@@ -25,7 +25,7 @@ set(CORE_HEADERS
 		src/MenuThemeData.h
 		src/VideoEngine.h
 		src/Window.h
-		src/utils/sdl2/ISyncronousEvent.h
+		src/utils/sdl2/ISynchronousEvent.h
 		src/utils/sdl2/ISyncTimer.h
 		src/utils/sdl2/SyncronousEventService.h
 		src/utils/sdl2/SyncronousEvent.h
@@ -55,6 +55,7 @@ set(CORE_HEADERS
 		src/utils/Strings.h
 		src/utils/Stringize.h
 		src/utils/Xml.h
+		src/utils/Zip.h
 
 		# Animations
 		src/animations/Animation.h
@@ -153,6 +154,7 @@ set(CORE_SOURCES
 		src/utils/Http.cpp
 		src/utils/Files.cpp
 		src/utils/Strings.cpp
+		src/utils/Zip.cpp
 
 		# Animations
 		src/animations/AnimationController.cpp
@@ -261,5 +263,5 @@ set(FFMPEGLIBS avcodec avformat swresample avutil swscale avdevice)
 
 include_directories(${COMMON_INCLUDE_DIRS})
 add_library(es-core STATIC ${CORE_SOURCES} ${CORE_HEADERS} src/RecalboxConf.cpp src/RecalboxConf.h)
-target_link_libraries(es-core ${COMMON_LIBRARIES} ${FFMPEGLIBS} curl)
+target_link_libraries(es-core ${COMMON_LIBRARIES} ${FFMPEGLIBS} curl zip)
 

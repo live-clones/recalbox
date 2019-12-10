@@ -60,30 +60,10 @@ class Http
      * @return True if the request executed successfuly
      */
     bool Execute(const std::string& url, const Path& output);
+
+    /*!
+     * @brief Get last http response code
+     * @return Http code, or 0 if the request failed to execute
+     */
+    int GetLastHttpResponseCode() const { return mLastReturnCode; }
 };
-
-
-/*size_t write_callback(char *ptr, size_t size, size_t nmemb, void *userdata)
-{
-  std::string s(ptr, size * nmemb);
-  puts(s.c_str());
-}
-
-int main()
-{
-  CURL *curl = curl_easy_init();
-  if(curl != nullptr)
-  {
-    curl_easy_setopt(curl, CURLOPT_REDIR_PROTOCOLS,CURLPROTO_HTTP | CURLPROTO_HTTPS);
-    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
-    curl_easy_setopt(curl, CURLOPT_URL, "http://google.com");
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_callback);
-    curl_easy_setopt(curl, CURLOPT_WRITEDATA, curl);
-    CURLcode res = curl_easy_perform(curl);
-    int responseCode;
-    curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &responseCode);
-    curl_easy_cleanup(curl);
-  }
-
-  return 0;
-}*/

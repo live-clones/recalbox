@@ -44,6 +44,8 @@ bool Http::Execute(const std::string& url, const Path& output)
 {
   if (mHandle != nullptr)
   {
+    if (!output.Directory().Exists())
+      output.Directory().CreatePath();
     mLastReturnCode = 0;
     mResultHolder.clear();
     mResultFile = output;
@@ -63,13 +65,14 @@ size_t Http::WriteCallback(char* ptr, size_t size, size_t nmemb, void* userdata)
   // Always store into the string
   This.mResultHolder.append(ptr, size * nmemb);
   // Should flush?
-  if (!This.mResultFile.IsEmpty() && (This.mResultHolder.length() > sMaxDataKeptInRam || (size * nmemb) == 0))
-  {
-    // Try flushing to disk
-    if (!Files::AppendToFile(This.mResultFile, This.mResultHolder.c_str(), (int)This.mResultHolder.length()))
-      return 0; // Error flushing to disk
-    // Clear the string
-    This.mResultHolder.clear();
-  }
+  if (!This.mResultFile.IsEmpty())
+    if (This.mResultHolder.length() > sMaxDataKeptInRam || (size * nmemb) == 0)
+    {
+      // Try flushing to disk
+      if (!Files::AppendToFile(This.mResultFile, This.mResultHolder.c_str(), (int)This.mResultHolder.length()))
+        return 0; // Error flushing to disk
+      // Clear the string
+      This.mResultHolder.clear();
+    }
   return size * nmemb;
 }

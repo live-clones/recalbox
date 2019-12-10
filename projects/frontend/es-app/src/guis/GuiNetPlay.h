@@ -11,7 +11,7 @@
 #include <MenuThemeData.h>
 #include <components/BusyComponent.h>
 #include <utils/os/system/Thread.h>
-#include <utils/sdl2/ISyncronousEvent.h>
+#include <utils/sdl2/ISynchronousEvent.h>
 #include <utils/sdl2/SyncronousEvent.h>
 #include "games/FileData.h"
 
@@ -50,7 +50,7 @@ class LobbyGame
     }
 };
 
-class GuiNetPlay : public Gui, private Thread, private ISyncronousEvent
+class GuiNetPlay : public Gui, private Thread, private ISynchronousEvent
 {
   public:
     explicit GuiNetPlay(Window&window, SystemManager& systemManager);

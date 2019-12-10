@@ -48,6 +48,7 @@ set(ES_HEADERS
         src/scraping/new/ScrapeResult.h
         src/scraping/new/scrapers/IScraperEngine.h
         src/scraping/new/scrapers/screenscraper/ScreenScraperEngine.h
+        src/scraping/new/scrapers/screenscraper/ScreenScraperApis.h
         src/scraping/new/scrapers/thegamedb/TheGameDBEngine.h
 
         src/scraping/Scraper.h
@@ -117,6 +118,7 @@ set(ES_SOURCES
         # Scrapers
         src/scraping/new/ScraperFactory.cpp
         src/scraping/new/scrapers/screenscraper/ScreenScraperEngine.cpp
+        src/scraping/new/scrapers/screenscraper/ScreenScraperApis.cpp
         src/scraping/new/scrapers/thegamedb/TheGameDBEngine.cpp
 
         src/scraping/Scraper.cpp

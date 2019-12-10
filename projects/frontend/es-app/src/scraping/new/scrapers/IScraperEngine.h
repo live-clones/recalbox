@@ -33,10 +33,16 @@ class IScraperEngine : private INoCopy
     virtual bool RunOn(ScrappingMethod method, const SystemManager::SystemList& systemList, INotifyScrapeResult* notifyTarget) = 0;
 
     /*!
-     * @brief Abort the current engine
+     * @brief Request the engine to abort as soon as possible!
      * @return True
      */
     virtual bool Abort() = 0;
+
+    /*!
+     * @brief Check if the engine is running, allowing UI to know when the engine actually stops after an abort request
+     * @return True if the engine is running
+     */
+    virtual bool IsRunning() = 0;
 
     /*!
      * @brief Virtual destructor

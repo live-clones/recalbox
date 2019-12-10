@@ -5,13 +5,13 @@
 
 #include <string>
 #include <ApplicationWindow.h>
-#include <utils/sdl2/ISyncronousEvent.h>
+#include <utils/sdl2/ISynchronousEvent.h>
 #include <utils/cplusplus/INoCopy.h>
 
 class AudioManager;
 class SystemManager;
 
-class MainRunner: private INoCopy, private ISyncronousEvent
+class MainRunner: private INoCopy, private ISynchronousEvent
 {
   public:
     //! Messages code

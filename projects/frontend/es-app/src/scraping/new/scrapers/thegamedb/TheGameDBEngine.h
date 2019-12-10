@@ -32,4 +32,13 @@ class TheGameDBEngine : public IScraperEngine
      * @return True
      */
     bool Abort() override;
+
+    /*!
+     * @brief Check if the engine is running, allowing UI to know when the engine actually stops after an abort request
+     * @return True if the engine is running
+     */
+    bool IsRunning() override;
+
+  public:
+    TheGameDBEngine() = default;
 };

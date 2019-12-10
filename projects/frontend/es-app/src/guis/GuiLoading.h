@@ -8,10 +8,10 @@
 #include "components/BusyComponent.h"
 #include "components/NinePatchComponent.h"
 #include <utils/os/system/Thread.h>
-#include <utils/sdl2/ISyncronousEvent.h>
+#include <utils/sdl2/ISynchronousEvent.h>
 #include <utils/sdl2/SyncronousEvent.h>
 
-template<class T> class GuiLoading: public Gui, private Thread, private ISyncronousEvent
+template<class T> class GuiLoading: public Gui, private Thread, private ISynchronousEvent
 {
   private:
     BusyComponent mBusyAnim;
@@ -36,7 +36,7 @@ template<class T> class GuiLoading: public Gui, private Thread, private ISyncron
     }
 
     /*
-     * ISyncronousEvent implementation
+     * ISynchronousEvent implementation
      */
 
     /*!

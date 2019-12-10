@@ -664,3 +664,64 @@ unsigned long long Strings::ToHash64(const char* string)
   while(--count >= 0) { Hash = ((Hash >> 59) | (Hash << 5)) ^ p[0]; p++; }
   return Hash;
 }
+
+static const char* HexaChars = "0123456789ABCDEF";
+
+std::string Strings::ToHexa(int hex)
+{
+  char Buffer[10];
+  int Index = sizeof(Buffer);
+  do { Buffer[--Index] = HexaChars[hex & 0xF]; hex >>= 4; } while(hex != 0);
+  return std::string(Buffer + Index, sizeof(Buffer) - Index);
+}
+
+std::string Strings::ToHexa(long long hex)
+{
+  char Buffer[18];
+  int Index = sizeof(Buffer);
+  do { Buffer[--Index] = HexaChars[hex & 0xF]; hex >>= 4; } while(hex != 0);
+  return std::string(Buffer + Index, sizeof(Buffer) - Index);
+}
+
+std::string Strings::ToHexa(int hex, int length)
+{
+  char Buffer[10];
+  if ((unsigned int)length > 8) length = 8;
+  int Index = sizeof(Buffer);
+  do { Buffer[--Index] = HexaChars[hex & 0xF]; hex >>= 4; } while(--length != 0);
+  return std::string(Buffer + Index, sizeof(Buffer) - Index);
+}
+
+std::string Strings::ToHexa(long long hex, int length)
+{
+  char Buffer[18];
+  if ((unsigned int)length > 16) length = 16;
+  int Index = sizeof(Buffer);
+  do { Buffer[--Index] = HexaChars[hex & 0xF]; hex >>= 4; } while(--length != 0);
+  return std::string(Buffer + Index, sizeof(Buffer) - Index);
+}
+
+std::string Strings::URLEncode(const std::string& source)
+{
+  std::string result;
+  const char* p = source.c_str();
+
+  for (int i = source.length(); --i >= 0;)
+  {
+    unsigned char C = (unsigned char)*p++;
+    if (((C >= 'a') && (C <= 'z')) ||
+        ((C >= 'A') && (C <= 'Z')) ||
+        ((C >= '0') && (C <= '9')) ||
+        (C == '_') ||
+        (C == '*') ||
+        (C == '.') ||
+        (C == '-')) result.append(1, (char)C);
+    else
+    {
+      char buffer[3] = { '%', HexaChars[C >> 4], HexaChars[C & 0xF] };
+      result.append(buffer, 3);
+    }
+  }
+
+  return result;
+}

@@ -50,5 +50,9 @@ IScraperEngine* ScraperFactory::GetScraper(const std::string& scraperidentifier)
   else if (scraperidentifier == "TheGamesDB") type = ScraperType::TheGameDB;
 
   // Get
-  return mScrapers.Get(type);
+  IScraperEngine* engine = mScrapers.Get(type);
+  // (re)Initialize
+  engine->Initialize();
+
+  return engine;
 }

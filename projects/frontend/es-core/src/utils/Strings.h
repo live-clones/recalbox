@@ -107,6 +107,16 @@ class Strings
     static unsigned long long ToHash64(const std::string& string);
 
     static unsigned long long ToHash64(const char* string);
-}; // String::
+
+    static std::string ToHexa(int hex);
+
+    static std::string ToHexa(long long hex);
+
+    static std::string ToHexa(int hex, int length);
+
+    static std::string ToHexa(long long hex, int length);
+
+    static std::string URLEncode(const std::string& source);
+};
 
 #endif // ES_CORE_UTILS_STRING_UTIL_H

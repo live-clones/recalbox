@@ -232,6 +232,12 @@ class Path
      */
     bool Delete() const;
 
+    /*!
+     * @brief Get size of the file
+     * @return Size in bytes
+     */
+    long long Size() const;
+
     /*
      * Operator overloading
      */

@@ -4,7 +4,7 @@
 
 #include "SyncronousEventService.h"
 
-SyncronousEvent SyncronousEventService::ObtainSyncCallback(ISyncronousEvent* callback)
+SyncronousEvent SyncronousEventService::ObtainSyncCallback(ISynchronousEvent* callback)
 {
   // Lookup free message
   for(int i = mMessageCount; --i >= 0;)
@@ -40,7 +40,7 @@ bool SyncronousEventService::Dispatch(SDL_Event* event)
   unsigned int index = event->type - mFirstMessage;
   if (index >= mMessageCount) return false;
 
-  ISyncronousEvent* interface = mCallbacks[index];
+  ISynchronousEvent* interface = mCallbacks[index];
   if (interface != nullptr)
   {
     interface->ReceiveSyncCallback(*event);

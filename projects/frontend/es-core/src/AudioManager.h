@@ -11,9 +11,9 @@
 
 #include "Window.h"
 #include "utils/sdl2/SyncronousEvent.h"
-#include "utils/sdl2/ISyncronousEvent.h"
+#include "utils/sdl2/ISynchronousEvent.h"
 
-class AudioManager : private ISyncronousEvent
+class AudioManager : private ISynchronousEvent
 {
   public:
     typedef unsigned long long AudioHandle;
