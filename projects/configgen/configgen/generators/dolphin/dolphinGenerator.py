@@ -174,6 +174,8 @@ class DolphinGenerator(Generator):
         dolphinSettings.setOption(self.SECTION_CORE, "SIDevice1", "12" if padsgamecube == '1' else None)
         dolphinSettings.setOption(self.SECTION_CORE, "SIDevice2", "12" if padsgamecube == '1' else None)
         dolphinSettings.setOption(self.SECTION_CORE, "SIDevice3", "12" if padsgamecube == '1' else None)
+        dolphinSettings.setOption(self.SECTION_CORE, "SlotA", "8")
+        dolphinSettings.setOption(self.SECTION_CORE, "SlotB", "8")
         # GameList
         dolphinSettings.setOption(self.SECTION_GAMELIST, "ColumnID", "True")
         # General
