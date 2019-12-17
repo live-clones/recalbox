@@ -1,17 +1,17 @@
---- a/libretro/libretro.c	2019-11-05 13:49:19.956577028 +0100
-+++ b/libretro/libretro.c	2019-11-05 13:49:30.176655092 +0100
-@@ -173,10 +173,10 @@
+--- a/libretro/libretro.c	2019-12-03 04:47:22.000000000 +0100
++++ b/libretro/libretro.c	2019-12-17 23:43:07.765134660 +0100
+@@ -193,10 +193,10 @@
  
  
  // Amiga kickstarts
--#define A500_ROM    "kick34005.A500"
--#define A500KS2_ROM "kick37175.A500"
--#define A600_ROM    "kick40063.A600"
--#define A1200_ROM   "kick40068.A1200"
-+#define A500_ROM    "kick34005.A500.rom"
-+#define A500KS2_ROM "kick37175.A500.rom"
-+#define A600_ROM    "kick40063.A600.rom"
-+#define A1200_ROM   "kick40068.A1200.rom"
+-#define A500_ROM                "kick34005.A500"
+-#define A500KS2_ROM             "kick37175.A500"
+-#define A600_ROM                "kick40063.A600"
+-#define A1200_ROM               "kick40068.A1200"
++#define A500_ROM                "kick34005.A500.rom"
++#define A500KS2_ROM             "kick37175.A500.rom"
++#define A600_ROM                "kick40063.A600.rom"
++#define A1200_ROM               "kick40068.A1200.rom"
  
- #define PUAE_VIDEO_PAL 		0x01
- #define PUAE_VIDEO_NTSC 	0x02
+ #define PUAE_VIDEO_PAL          0x01
+ #define PUAE_VIDEO_NTSC         0x02
