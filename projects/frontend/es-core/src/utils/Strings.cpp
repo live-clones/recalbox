@@ -652,7 +652,7 @@ unsigned long long Strings::ToHash64(const std::string& string)
   int count = string.size();
   unsigned long long Hash = (unsigned long long)count;
   const unsigned char* p = (unsigned char*)string.c_str();
-  while(--count >= 0) { Hash = ((Hash >> 27) | (Hash << 5)) ^ p[0]; p++; }
+  while(--count >= 0) { Hash = ((Hash >> 59) | (Hash << 5)) ^ p[0]; p++; }
   return Hash;
 }
 
@@ -661,6 +661,6 @@ unsigned long long Strings::ToHash64(const char* string)
   int count = strlen(string);
   unsigned long long Hash = (unsigned long long)count;
   const unsigned char* p = (unsigned char*)string;
-  while(--count >= 0) { Hash = ((Hash >> 27) | (Hash << 5)) ^ p[0]; p++; }
+  while(--count >= 0) { Hash = ((Hash >> 59) | (Hash << 5)) ^ p[0]; p++; }
   return Hash;
 }

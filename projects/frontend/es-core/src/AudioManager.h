@@ -80,8 +80,9 @@ class AudioManager : private ISyncronousEvent
 
     /*!
      * @brief Play a new random music from theme/user music folder
+     * @param allowTheSame Allow the same music to replay
      */
-    void PlayRandomMusic();
+    void PlayRandomMusic(bool allowTheSame = false);
   public:
     /*!
      * @brief Constructor - act as a singleton (Multiple instance is not possible)

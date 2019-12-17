@@ -215,21 +215,27 @@ void AudioManager::StartPlaying(const ThemeData& theme)
   }
 }
 
-void AudioManager::PlayRandomMusic()
+void AudioManager::PlayRandomMusic(bool allowTheSame)
 {
-  // Find a random song in user directory or theme music directory
-  AudioHandle music = FetchRandomMusic(mThemeMusicFolder);
-  if (music != 0 && music != mCurrentMusic)
+  for(int i = 3; --i >= 0; )
   {
-    PlayMusic(music, false);
-    mCurrentMusic = music;
-    int popupDuration = Settings::Instance().MusicPopupTime();
-    if (popupDuration != 0)
+    // Find a random song in user directory or theme music directory
+    AudioHandle music = FetchRandomMusic(mThemeMusicFolder);
+    if (music == 0) return; // No music, exit
+    if (i == 0) allowTheSame = true; // Last chance, allow the same
+    if ((music != mCurrentMusic) || allowTheSame)
     {
-      // Create music popup
-      std::shared_ptr<GuiInfoPopup> popup =
-        std::make_shared<GuiInfoPopup>(mWindow, _("Now playing") + ":\n" + mCurrentMusicTitle, popupDuration, 10);
-      mWindow.setInfoPopup(popup);
+      PlayMusic(music, false);
+      mCurrentMusic = music;
+      int popupDuration = Settings::Instance().MusicPopupTime();
+      if (popupDuration != 0)
+      {
+        // Create music popup
+        std::shared_ptr<GuiInfoPopup> popup =
+          std::make_shared<GuiInfoPopup>(mWindow, _("Now playing") + ":\n" + mCurrentMusicTitle, popupDuration,10);
+        mWindow.setInfoPopup(popup);
+      }
+      return;
     }
   }
 }
@@ -279,5 +285,5 @@ AudioManager::AudioHandle AudioManager::FetchRandomMusic(const Path& themeMusicD
 void AudioManager::ReceiveSyncCallback(const SDL_Event& event)
 {
   (void)event;
-  PlayRandomMusic();
+  PlayRandomMusic(true);
 }
