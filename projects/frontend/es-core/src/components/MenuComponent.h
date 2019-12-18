@@ -80,11 +80,19 @@ public:
 
 	bool getHelpPrompts(Help& help) override;
 
+    /*!
+     * @brief Notification of an input event
+     * @param event Compact event
+     * @return Implementation must return true if it consumed the event.
+     */
+    bool ProcessInput(const InputCompactEvent& event) override;
+
 protected:
-	inline ComponentList* getList() const { return mList.get(); }
+  inline ComponentList* getList() const { return mList.get(); }
 
 private:
-	void updateSize();
+
+  void updateSize();
 	void updateGrid();
 	float getButtonGridHeight() const;
 

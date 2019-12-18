@@ -78,7 +78,7 @@ MenuComponent::MenuComponent(Window&window, const char* title, const std::shared
     mList = std::make_shared<ComponentList>(mWindow);
     mGrid.setEntry(mList, Vector2i(0, 1), true);
 
-    mGrid.setUnhandledInputCallback([this](const InputCompactEvent& event) -> bool {
+    /*mGrid.setUnhandledInputCallback([this](const InputCompactEvent& event) -> bool {
         if (event.DownPressed()) {
             mGrid.setCursorTo(mList);
             mList->setCursorIndex(0);
@@ -94,13 +94,34 @@ MenuComponent::MenuComponent(Window&window, const char* title, const std::shared
             return true;
         }
         return false;
-    });
+    });*/
 
     updateGrid();
     updateSize();
 
     mGrid.resetCursor();
 }
+
+bool MenuComponent::ProcessInput(const InputCompactEvent& event)
+{
+  if (Component::ProcessInput(event)) return true;
+
+  if (event.DownPressed())
+  {
+    mGrid.setCursorTo(mList);
+    mList->setCursorIndex(0);
+    return true;
+  }
+  else if (event.UpPressed())
+  {
+    mList->setCursorIndex(mList->size() - 1);
+    if(!mButtons.empty()) mGrid.moveCursor(Vector2i(0, 1));
+    else                  mGrid.setCursorTo(mList);
+    return true;
+  }
+  return false;
+}
+
 
 void MenuComponent::setTitle(const char* title, const std::shared_ptr<Font>& font)
 {
