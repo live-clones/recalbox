@@ -99,6 +99,13 @@ class InputEvent
       return std::string("Input to string error");
     }
 
+    #ifndef SDL_JOYSTICK_IS_OVERRIDEN_BY_RECALBOX
+      #define SDL_JoystickAxisEventCodeById(mDevice, mId) (-1)
+      #define SDL_JoystickButtonEventCodeById(mDevice, mId) (-1)
+      #define SDL_JoystickHatEventCodeById(mDevice, mId) (-1)
+    #endif
+
+
     /*!
      * @brief Get the raw SDL2 code for the current event.
      * Some emulators require raw code in their configurations
@@ -108,19 +115,13 @@ class InputEvent
       switch (mType)
       {
         case EventType::Axis:
-          #ifdef SDL_JOYSTICK_IS_OVERRIDEN_BY_RECALBOX
           mCode = SDL_JoystickAxisEventCodeById(mDevice, mId);
-          #endif
           break;
         case EventType::Button:
-          #ifdef SDL_JOYSTICK_IS_OVERRIDEN_BY_RECALBOX
           mCode = SDL_JoystickButtonEventCodeById(mDevice, mId);
-          #endif
           break;
         case EventType::Hat:
-          #ifdef SDL_JOYSTICK_IS_OVERRIDEN_BY_RECALBOX
           mCode = SDL_JoystickHatEventCodeById(mDevice, mId);
-          #endif
           break;
         case EventType::Key:
         case EventType::Unknown:

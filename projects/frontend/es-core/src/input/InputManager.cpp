@@ -414,7 +414,7 @@ std::string InputManager::GenerateConfiggenConfiguration()
       command.append(p + "nbaxes " + std::to_string(device->AxeCount()));
 
       #ifdef SDL_JOYSTICK_IS_OVERRIDEN_BY_RECALBOX
-        command.append(p + "nbaxes " + SDL_JoystickDevicePathById(device->Index()));
+        command.append(p + "devicepath " + SDL_JoystickDevicePathById(device->Index()));
       #endif
     }
   }
