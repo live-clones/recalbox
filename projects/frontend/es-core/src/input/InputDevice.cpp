@@ -307,7 +307,7 @@ InputCompactEvent InputDevice::ConvertToCompact(const InputEvent& event)
           // Axis to axis are converted to negative/center/positive.
           // Axis to binaries are converted to on only for the right sign. off otherwise
           // That is, axis on triggers will be properly converted to on/off buttons.
-          if (current.Type() == InputEvent::EventType::Axis)
+          if (targetEntry >= InputCompactEvent::Entry::J1Left)
           {
             InputCompactEvent::Entry targetOpposite = (InputCompactEvent::Entry)((int)targetEntry << 1);
             // Since configured event are negatives, if we got a positive value in current config, that means
