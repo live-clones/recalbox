@@ -133,6 +133,9 @@ class InputManager
     static InputDevice* LookupDevice(InputDeviceList& list);
 
   public:
+    //! Maximum players
+    static constexpr int sMaxPlayers = 10;
+
     /*!
      * @brief Default destructor
      */

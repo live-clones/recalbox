@@ -638,7 +638,7 @@ void GuiMenu::menuControllers() {
   std::vector<std::shared_ptr<OptionListComponent<StrInputConfig *>>> options;
   char strbuf[256];
 
-  for (int player = 0; player < InputEvent::sMaxPlayers; player++)
+  for (int player = 0; player < InputManager::sMaxPlayers; player++)
   {
     snprintf(strbuf, 256, _("INPUT P%i").c_str(), player + 1);
     auto inputOptionList = std::make_shared<OptionListComponent<StrInputConfig *> >(mWindow, strbuf, false);
@@ -696,7 +696,7 @@ void GuiMenu::menuControllers() {
     s->addWithLabel(inputOptionList, strbuf);
   }
   s->addSaveFunc([options] {
-    for (int player = 0; player < InputEvent::sMaxPlayers; player++) {
+    for (int player = 0; player < InputManager::sMaxPlayers; player++) {
       std::string sstm = "INPUT P" + Strings::ToString(player + 1);
       std::string confName = sstm + "NAME";
       std::string confGuid = sstm + "GUID";

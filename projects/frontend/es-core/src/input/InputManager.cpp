@@ -349,12 +349,12 @@ std::string InputManager::GenerateConfiggenConfiguration()
   InputDeviceList list;
   FillConfiguredDevicelist(list);
 
-  InputDevice* devices[InputEvent::sMaxPlayers];
-  for(int i = InputEvent::sMaxPlayers; --i >= 0;)
+  InputDevice* devices[sMaxPlayers];
+  for(int i = sMaxPlayers; --i >= 0;)
     devices[i] = nullptr;
 
   // First loop, search for GUID + NAME. High Priority
-  for (int player = 0; player < InputEvent::sMaxPlayers; ++player)
+  for (int player = 0; player < sMaxPlayers; ++player)
   {
     std::string playerConfigName = Settings::Instance().InputName(player);
     std::string playerConfigGuid = Settings::Instance().InputGuid(player);
@@ -368,7 +368,7 @@ std::string InputManager::GenerateConfiggenConfiguration()
     }
   }
   // Second loop, search for NAME. High Priority
-  for (int player = 0; player < InputEvent::sMaxPlayers; ++player)
+  for (int player = 0; player < sMaxPlayers; ++player)
     if (devices[player] == nullptr)
     {
       std::string playerConfigName = Settings::Instance().InputName(player);
@@ -382,7 +382,7 @@ std::string InputManager::GenerateConfiggenConfiguration()
       }
     }
   // Last loop, search for free controllers for remaining players.
-  for (int player = 0; player < InputEvent::sMaxPlayers; ++player)
+  for (int player = 0; player < sMaxPlayers; ++player)
     if (devices[player] == nullptr)
     {
       LOG(LogInfo) << "No config for player " << player;
@@ -395,14 +395,14 @@ std::string InputManager::GenerateConfiggenConfiguration()
       }
     }
   // Shrink configuration so that there is no hole
-  for (int player = 0, i = 0; player < InputEvent::sMaxPlayers; ++player)
+  for (int player = 0, i = 0; player < sMaxPlayers; ++player)
   {
     devices[i] = devices[player];
     if (devices[i] != nullptr) ++i;
   }
 
   std::string command;
-  for (int player = 0; player < InputEvent::sMaxPlayers; ++player)
+  for (int player = 0; player < sMaxPlayers; ++player)
   {
     InputDevice* device = devices[player];
     if (device != nullptr)

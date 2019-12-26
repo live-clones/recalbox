@@ -30,8 +30,6 @@ class InputEvent
   public:
     //! Define virtual default keyboard device
     static constexpr int sKeyboardDevice = -1;
-    //! Maximum players
-    static constexpr int sMaxPlayers = 5;
 
     /*!
      * @brief Default constructor

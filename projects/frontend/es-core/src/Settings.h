@@ -7,6 +7,8 @@
 class Settings : public StaticLifeCycleControler<Settings>
 {
   private:
+    static constexpr int sMaxJoysticks = 10;
+
     enum class DataType
     {
       Bool,
@@ -74,8 +76,8 @@ class Settings : public StaticLifeCycleControler<Settings>
       std::string mScreenSaverBehavior;
       std::string mScraper;
       std::string mLang;
-      std::string mInputName[5];
-      std::string mInputGuid[5];
+      std::string mInputName[sMaxJoysticks];
+      std::string mInputGuid[sMaxJoysticks];
       std::string mOverclock;
       std::string mUpdateCommand;
       std::string mUpdateServer;
@@ -194,8 +196,8 @@ class Settings : public StaticLifeCycleControler<Settings>
     const std::string& Arch                 () const { return mData.mArch;                  }
     const std::string& DefaultRomsPath      () const { return mData.mDefaultRomsPath;       }
 
-    std::string InputName(int index) const { return (index < (int)sizeof(mData.mInputName)) ? mData.mInputName[index] : ""; }
-    std::string InputGuid(int index) const { return (index < (int)sizeof(mData.mInputGuid)) ? mData.mInputGuid[index] : ""; }
+    std::string InputName(int index) const { return (index < sMaxJoysticks) ? mData.mInputName[index] : ""; }
+    std::string InputGuid(int index) const { return (index < sMaxJoysticks) ? mData.mInputGuid[index] : ""; }
 
     void SetBackgroundJoystickInput(bool value) { mData.mBackgroundJoystickInput = value; }   
     void SetDrawFramerate          (bool value) { mData.mDrawFramerate           = value; }   
