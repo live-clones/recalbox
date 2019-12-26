@@ -5,6 +5,7 @@
 
 #include <string>
 #include <SDL.h>
+#include <utils/Strings.h>
 
 class InputEvent
 {
@@ -88,10 +89,10 @@ class InputEvent
     {
       switch (mType)
       {
-        case EventType::Button:  return std::string("Button ") + std::to_string(mId);
-        case EventType::Axis:    return std::string("Axis ") + std::to_string(mId) + (mValue > 0 ? "+" : "-");
-        case EventType::Hat:     return std::string("Hat ") + std::to_string(mId) + " " + HatDir(mValue);
-        case EventType::Key:     return std::string("Key ") + SDL_GetKeyName((SDL_Keycode) mId);
+        case EventType::Button:  return std::string("Button ").append(Strings::ToString(mId));
+        case EventType::Axis:    return std::string("Axis ").append(Strings::ToString(mId)).append(1, (mValue > 0 ? '+' : '-'));
+        case EventType::Hat:     return std::string("Hat ").append(Strings::ToString(mId)).append(1, ' ').append(HatDir(mValue));
+        case EventType::Key:     return std::string("Key ").append(SDL_GetKeyName((SDL_Keycode) mId));
         case EventType::Unknown:
         default: break;
       }

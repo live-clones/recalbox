@@ -274,7 +274,7 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
 			row.elements.clear();
 			row.makeAcceptInputHandler([this] {
         mWindow.pushGui(new GuiMsgBox(mWindow, _("REALLY SHUTDOWN WITHOUT SAVING METADATAS?"), _("YES"),
-											  [] { MainRunner::RequestQuit(MainRunner::ExitState::FastShutdown);; }, _("NO"), nullptr));
+											  [] { MainRunner::RequestQuit(MainRunner::ExitState::FastShutdown); }, _("NO"), nullptr));
 			});
 			auto icon3 = std::make_shared<ImageComponent>(mWindow);
 			icon3->setImage(menuTheme->menuIconSet.fastshutdown);

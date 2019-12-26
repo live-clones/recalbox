@@ -201,4 +201,8 @@ class InputManager
      * @return Configuration string
      */
     std::string GenerateConfiggenConfiguration();
+
+    static void LogRawEvent(const InputEvent& event);
+
+    static void LogCompactEvent(const InputCompactEvent& event);
 };

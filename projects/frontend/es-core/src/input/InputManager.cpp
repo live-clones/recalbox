@@ -421,3 +421,13 @@ std::string InputManager::GenerateConfiggenConfiguration()
   LOG(LogInfo) << "Configure emulators command : " << command;
   return command;
 }
+
+void InputManager::LogRawEvent(const InputEvent& event)
+{
+  LOG(LogDebug) << "Raw Event: " << event.ToString();
+}
+
+void InputManager::LogCompactEvent(const InputCompactEvent& event)
+{
+  LOG(LogDebug) << "Compact Event: " << event.ToString();
+}

@@ -191,6 +191,12 @@ class InputCompactEvent
     {
       return ((mDeactivatedEntryFlags | mActivatedEntryFlags) == 0) && (!KeyDown() && !KeyUp());
     }
+
+    /*
+     * Debug
+     */
+
+    std::string ToString() const;
 };
 
 DEFINE_BITFLAG_ENUM(InputCompactEvent::Entry, unsigned int)
