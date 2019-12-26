@@ -4,7 +4,7 @@
 #pragma once
 
 #include "PadItems.h"
-#include "Pad2Keyb.h"
+#include "PadConstants.h"
 #include "Pad.h"
 #include "VirtualKeyboard.h"
 
@@ -28,7 +28,7 @@ class MappingConfiguration
     };
 
     //! Mapping
-    Mapping mMapping[Pad2Keyb::MaxPadSupported];
+    Mapping mMapping[PadConstants::MaxPadSupported];
 
     /*!
      * @brief Load all configuration/overrides from root path to rom path

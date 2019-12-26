@@ -33,7 +33,7 @@ class PadConfiguration
     const Configuration& mConfiguration;
 
     //! All pad configuration
-    PadAllItemConfiguration mPads[Pad2Keyb::MaxPadSupported];
+    PadAllItemConfiguration mPads[PadConstants::MaxPadSupported];
 
     //! Ready flag
     bool mReady;
@@ -55,7 +55,7 @@ class PadConfiguration
      * @param index Index
      * @return Pad configuration
      */
-    const PadAllItemConfiguration& Pad(int index) const { return mPads[(unsigned int)index <= Pad2Keyb::MaxPadSupported ? index : 0]; }
+    const PadAllItemConfiguration& Pad(int index) const { return mPads[(unsigned int)index <= PadConstants::MaxPadSupported ? index : 0]; }
 
     /*!
      * @brief Check if the pad configuration are loaded

@@ -3,7 +3,7 @@
 //
 #pragma once
 
-namespace Pad2Keyb
+namespace PadConstants
 {
   static constexpr int MaxPadSupported = 10;
 

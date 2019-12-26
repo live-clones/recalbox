@@ -77,19 +77,19 @@ void MappingConfiguration::AssignMapping(const std::string& key, const std::stri
 
   if (ParsePadItems(key, padNum, padItem))
     if (ParseKeyCode(value, keyCode))
-      if (padNum < Pad2Keyb::MaxPadSupported)
+      if (padNum < PadConstants::MaxPadSupported)
         mMapping[padNum].PadItemToKeyCodes[(int)padItem] = keyCode;
 }
 
 VirtualKeyboard::Event MappingConfiguration::Translate(Pad::Event& event) const
 {
-  if ((unsigned int)event.Pad >= Pad2Keyb::MaxPadSupported) return { 0, false };
+  if ((unsigned int)event.Pad >= PadConstants::MaxPadSupported) return { 0, false };
   return { (short)mMapping[(int)event.Pad].PadItemToKeyCodes[(int)event.Item], event.On };
 }
 
 bool MappingConfiguration::Valid() const
 {
-  for(int i = Pad2Keyb::MaxPadSupported; --i >= 0; )
+  for(int i = PadConstants::MaxPadSupported; --i >= 0; )
     if (mMapping[i].Valid())
       return true;
   return false;

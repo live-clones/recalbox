@@ -40,7 +40,7 @@ void PadConfiguration::Load()
     if ((padName == nullptr) || (padGuid == nullptr)) continue;
 
     // Lookup every configured pad
-    for(int i = Pad2Keyb::MaxPadSupported; --i >= 0; )
+    for(int i = PadConstants::MaxPadSupported; --i >= 0; )
       if (mConfiguration.Valid(i))
         if (strcmp(padName, mConfiguration.PadName[i]) == 0)
           if (strcmp(padGuid, mConfiguration.PadGUID[i]) == 0)

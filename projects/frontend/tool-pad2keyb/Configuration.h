@@ -3,14 +3,14 @@
 //
 #pragma once
 
-#include <Pad2Keyb.h>
+#include "PadConstants.h"
 
 struct Configuration
 {
   const char* RomPath;                              //!< Rom path
-  const char* PadDevice[Pad2Keyb::MaxPadSupported]; //!< Device path (/dev/xxxx)
-  const char* PadName[Pad2Keyb::MaxPadSupported];   //!< Device name
-  const char* PadGUID[Pad2Keyb::MaxPadSupported];   //!< Device GUID
+  const char* PadDevice[PadConstants::MaxPadSupported]; //!< Device path (/dev/xxxx)
+  const char* PadName[PadConstants::MaxPadSupported];   //!< Device name
+  const char* PadGUID[PadConstants::MaxPadSupported];   //!< Device GUID
   bool Debug;                                       //!< Debug flag
 
   /*!
@@ -23,7 +23,7 @@ struct Configuration
       Debug(false)
   {
     RomPath = nullptr;
-    for(int i = Pad2Keyb::MaxPadSupported; --i >= 0; )
+    for(int i = PadConstants::MaxPadSupported; --i >= 0; )
       PadDevice[i] = PadName[i] = PadGUID[i] = nullptr;
   }
 
@@ -36,7 +36,7 @@ struct Configuration
     // RomPath madatory
     if (RomPath == nullptr) return false;
     // Check every device is either full defined or not defined at all
-    for(int i = Pad2Keyb::MaxPadSupported; --i >= 0; )
+    for(int i = PadConstants::MaxPadSupported; --i >= 0; )
     {
       // All values defined: valid
       if ((PadDevice[i] != nullptr) && (PadName[i] != nullptr) && (PadGUID[i] != nullptr)) continue;
@@ -50,7 +50,7 @@ struct Configuration
 
   bool Valid(int index) const
   {
-    if ((unsigned int)index >= Pad2Keyb::MaxPadSupported) return false;
+    if ((unsigned int)index >= PadConstants::MaxPadSupported) return false;
     return ((PadDevice[index] != nullptr) && (PadName[index] != nullptr) && (PadGUID[index] != nullptr));
   }
 };

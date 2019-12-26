@@ -30,9 +30,9 @@ class Pad
     //! Pad configurations references
     const PadConfiguration& mPadConfiguration;
     //! SDL Index to Recalbox Index
-    int mSdlToRecalboxIndexex[Pad2Keyb::MaxPadSupported];
+    int mSdlToRecalboxIndexex[PadConstants::MaxPadSupported];
     //! SDL Index to Recalbox Index
-    int mItemOnOff[Pad2Keyb::MaxPadSupported];
+    int mItemOnOff[PadConstants::MaxPadSupported];
     //! Devices readiness
     bool mReady;
 

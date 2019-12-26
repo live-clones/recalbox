@@ -8,11 +8,11 @@
 
 #include <utils/Log.h>
 
-#include <Configuration.h>
-#include <VirtualKeyboard.h>
-#include <MappingConfiguration.h>
-#include <Pad.h>
-#include <PadConfiguration.h>
+#include "Configuration.h"
+#include "VirtualKeyboard.h"
+#include "MappingConfiguration.h"
+#include "Pad.h"
+#include "PadConfiguration.h"
 
 Configuration ParseArguments(int argc, char *argv[])
 {
@@ -45,7 +45,7 @@ Configuration ParseArguments(int argc, char *argv[])
         {
           unsigned int number = 0;
           if (descriptor.Numbered) number = (unsigned int)(arg[descriptor.SwitchLength] - 0x30u);
-          if (number < Pad2Keyb::MaxPadSupported)
+          if (number < PadConstants::MaxPadSupported)
             Descriptors[i].TargetValue[number] = argv[++index];
         }
       }

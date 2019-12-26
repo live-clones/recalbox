@@ -26,7 +26,7 @@ void Pad::Open()
   // Bitflag for assigned pads
   int Assigned = 0;
   // Reset
-  for(int i = Pad2Keyb::MaxPadSupported; --i >= 0; )
+  for(int i = PadConstants::MaxPadSupported; --i >= 0; )
   {
     mSdlToRecalboxIndexex[i] = -1;
     mItemOnOff[i] = 0;
@@ -46,10 +46,10 @@ void Pad::Open()
     SDL_JoystickGetGUIDString(SDL_JoystickGetGUID(joystick), guid, sizeof(guid));
 
     // SDL index too high?
-    if (joystickIndex >= Pad2Keyb::MaxPadSupported) continue;
+    if (joystickIndex >= PadConstants::MaxPadSupported) continue;
 
     // Lookup
-    for(int i = 0; i < Pad2Keyb::MaxPadSupported; ++i)
+    for(int i = 0; i < PadConstants::MaxPadSupported; ++i)
       if (mConfiguration.Valid(i))                          // Configuration valid?
         if (strcmp(name, mConfiguration.PadName[i]) == 0)   // Name matching?
           if (strcmp(guid, mConfiguration.PadGUID[i]) == 0) // Guid matching?
@@ -87,7 +87,7 @@ bool Pad::GetEvent(Pad::Event& event)
         case SDL_JOYAXISMOTION:
         {
           // Get pad mapping
-          if ((unsigned int) sdl.jaxis.which >= Pad2Keyb::MaxPadSupported) break;
+          if ((unsigned int) sdl.jaxis.which >= PadConstants::MaxPadSupported) break;
           int index = mSdlToRecalboxIndexex[sdl.jaxis.which]; // Get Recalbox index
           if (index < 0) break;
           const PadConfiguration::PadAllItemConfiguration& pad = mPadConfiguration.Pad(index);
@@ -119,7 +119,7 @@ bool Pad::GetEvent(Pad::Event& event)
         case SDL_JOYHATMOTION:
         {
           // Get pad mapping
-          if ((unsigned int) sdl.jhat.which >= Pad2Keyb::MaxPadSupported) break;
+          if ((unsigned int) sdl.jhat.which >= PadConstants::MaxPadSupported) break;
           int index = mSdlToRecalboxIndexex[sdl.jhat.which]; // Get Recalbox index
           if (index < 0) break;
           const PadConfiguration::PadAllItemConfiguration& pad = mPadConfiguration.Pad(index);
@@ -150,7 +150,7 @@ bool Pad::GetEvent(Pad::Event& event)
         case SDL_JOYBUTTONUP:
         {
           // Get pad mapping
-          if ((unsigned int) sdl.jbutton.which >= Pad2Keyb::MaxPadSupported) break;
+          if ((unsigned int) sdl.jbutton.which >= PadConstants::MaxPadSupported) break;
           int index = mSdlToRecalboxIndexex[sdl.jbutton.which]; // Get Recalbox index
           if (index < 0) break;
           const PadConfiguration::PadAllItemConfiguration& pad = mPadConfiguration.Pad(index);
