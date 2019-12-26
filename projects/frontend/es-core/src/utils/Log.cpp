@@ -1,33 +1,35 @@
 #include "Log.h"
-#include <map>
-#include "platform.h"
 #include "RootFolders.h"
 #include "utils/datetime/DateTime.h"
 
 LogLevel Log::reportingLevel = LogLevel::LogInfo;
 FILE* Log::sFile = nullptr;
 
-static std::map<LogLevel, std::string> StringLevel =
+static const char* StringLevel[] =
 {
-	{ LogLevel::LogDebug  , "DEBUG" },
-	{ LogLevel::LogInfo   , "INFO " },
-	{ LogLevel::LogWarning, "WARN!" },
-	{ LogLevel::LogError  , "ERROR" },
+  "ERROR",
+  "WARN!",
+  "INFO ",
+	"DEBUG",
 };
 
-Path Log::getLogPath()
+Path Log::getLogPath(const char* filename)
 {
-	return RootFolders::DataRootFolder / "/system/.emulationstation/es_log.txt";
+	return RootFolders::DataRootFolder / "system/.emulationstation" / filename;
 }
 
-void Log::open()
+void Log::open(const char* filename)
 {
-	sFile = fopen(getLogPath().ToChars(), "w");
+	sFile = fopen(getLogPath(filename != nullptr ? filename : "es_log.txt").ToChars(), "w");
 }
 
 Log& Log::get(LogLevel level)
 {
-	mMessage = '[' + DateTime().ToPreciseTimeStamp() + "] (" + StringLevel[level] + ") : ";
+	mMessage.append(1, '[')
+	        .append(DateTime().ToPreciseTimeStamp())
+	        .append("] (")
+	        .append(StringLevel[(int)level])
+	        .append(") : ");
 	messageLevel = level;
 
 	return *this;

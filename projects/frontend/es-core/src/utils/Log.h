@@ -8,12 +8,13 @@ if (LogLevel::level <= Log::getReportingLevel()) Log().get(LogLevel::level)
 #include <utils/os/fs/Path.h>
 #include "Strings.h"
 
+//! Log level
 enum class LogLevel
 {
-	LogError,
-	LogWarning,
-	LogInfo,
-	LogDebug,
+	LogError   = 0, //!< Error messages
+	LogWarning = 1, //!< Warning messages
+	LogInfo    = 2, //!< Information message
+	LogDebug   = 3, //§< Debug message
 };
 
 class Log
@@ -25,10 +26,7 @@ class Log
     static LogLevel getReportingLevel() { return reportingLevel; }
     static void setReportingLevel(LogLevel level) { reportingLevel = level; }
 
-    static Path getLogPath();
-
-    static void flush();
-    static void open();
+    static void open(const char* filename = nullptr);
     static void close();
 
     Log& operator << (char v) { mMessage += v; return *this; }
@@ -43,13 +41,16 @@ class Log
     Log& operator << (bool v) { mMessage += Strings::ToString(v); return *this; }
     Log& operator << (float v) { mMessage += Strings::ToString(v, 4); return *this; }
 
-  protected:
-    std::string mMessage;
-    static FILE* sFile;
 
   private:
+    static FILE* sFile;
     static LogLevel reportingLevel;
+    std::string mMessage;
     LogLevel messageLevel;
+
+    static Path getLogPath(const char* filename);
+
+    static void flush();
 
     static void doClose();
 };
