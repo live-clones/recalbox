@@ -170,10 +170,10 @@ class DolphinGenerator(Generator):
         dolphinSettings.setOption(self.SECTION_CORE, "WiimoteContinuousScanning", "True")
         dolphinSettings.setOption(self.SECTION_CORE, "WiiKeyboard", "False")
         dolphinSettings.setOption(self.SECTION_CORE, "SkipIpl", biosGamecube)
-        dolphinSettings.setOption(self.SECTION_CORE, "SIDevice0", "12" if padsgamecube == '1' else None)
-        dolphinSettings.setOption(self.SECTION_CORE, "SIDevice1", "12" if padsgamecube == '1' else None)
-        dolphinSettings.setOption(self.SECTION_CORE, "SIDevice2", "12" if padsgamecube == '1' else None)
-        dolphinSettings.setOption(self.SECTION_CORE, "SIDevice3", "12" if padsgamecube == '1' else None)
+        dolphinSettings.setOption(self.SECTION_CORE, "SIDevice0", "12" if padsgamecube == '1' else "6")
+        dolphinSettings.setOption(self.SECTION_CORE, "SIDevice1", "12" if padsgamecube == '1' else "6")
+        dolphinSettings.setOption(self.SECTION_CORE, "SIDevice2", "12" if padsgamecube == '1' else "6")
+        dolphinSettings.setOption(self.SECTION_CORE, "SIDevice3", "12" if padsgamecube == '1' else "6")
         dolphinSettings.setOption(self.SECTION_CORE, "SlotA", "8")
         dolphinSettings.setOption(self.SECTION_CORE, "SlotB", "8")
         # GameList
@@ -189,7 +189,7 @@ class DolphinGenerator(Generator):
         dolphinSettings.setOption(self.SECTION_INTERFACE, "Language", wiiLanguage)
         # Netplay
         dolphinSettings.setOption(self.SECTION_NETPLAY, "Nickname", nickname)
-        dolphinSettings.setOption(self.SECTION_NETPLAY,  "UseUPNP", "True")
+        dolphinSettings.setOption(self.SECTION_NETPLAY, "UseUPNP", "True")
         dolphinSettings.setOption(self.SECTION_NETPLAY, "IndexName", nickname)
         dolphinSettings.setOption(self.SECTION_NETPLAY, "TraversalChoice", "traversal")
         dolphinSettings.setOption(self.SECTION_NETPLAY, "UseIndex", "True")
