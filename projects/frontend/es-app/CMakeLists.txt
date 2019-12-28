@@ -51,11 +51,11 @@ set(ES_HEADERS
         src/scraping/new/scrapers/screenscraper/ScreenScraperApis.h
         src/scraping/new/scrapers/thegamedb/TheGameDBEngine.h
 
-        src/scraping/Scraper.h
-        src/scraping/GamesDBJSONScraper.h
-        src/scraping/GamesDBJSONScraperResources.h
+        #src/scraping/Scraper.h
+        #src/scraping/GamesDBJSONScraper.h
+        #src/scraping/GamesDBJSONScraperResources.h
         #src/scrapers/MamedbScraper.h
-        src/scraping/ScreenscraperScraper.h
+        #src/scraping/ScreenscraperScraper.h
 
         # Views
         src/views/gamelist/BasicGameListView.h
@@ -121,11 +121,11 @@ set(ES_SOURCES
         src/scraping/new/scrapers/screenscraper/ScreenScraperApis.cpp
         src/scraping/new/scrapers/thegamedb/TheGameDBEngine.cpp
 
-        src/scraping/Scraper.cpp
-        src/scraping/GamesDBJSONScraper.cpp
-        src/scraping/GamesDBJSONScraperResources.cpp
+        #src/scraping/Scraper.cpp
+        #src/scraping/GamesDBJSONScraper.cpp
+        #src/scraping/GamesDBJSONScraperResources.cpp
         #src/scrapers/MamedbScraper.cpp
-        src/scraping/ScreenscraperScraper.cpp
+        #src/scraping/ScreenscraperScraper.cpp
 
         # Views
         src/views/gamelist/BasicGameListView.cpp

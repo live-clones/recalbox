@@ -1,3 +1,4 @@
+#include <utils/Strings.h>
 #include "DateTime.h"
 #include "TimeSpan.h"
 
@@ -58,34 +59,34 @@ std::string TimeSpan::ToStringFormat(const char* format) const
     {
       case 'd':
       {
-        if (repeat == 0) result += std::to_string(Units._Hours / 24);
+        if (repeat == 0) result += Strings::ToString(Units._Hours / 24);
         break;
       }
       case 'H':
       {
-        if (repeat == 0) result += std::to_string(Units._Hours);
+        if (repeat == 0) result += Strings::ToString(Units._Hours);
         else if (repeat == 1) { result += ((char) ('0' + (((Units._Hours % 24) / 10) % 10))); result += ((char) ('0' + ((Units._Hours % 24) % 10))); }
         break;
       }
       case 'm':
       {
-        if (repeat == 0) result += (Units._Minutes);
+        if (repeat == 0) result += Strings::ToString(Units._Minutes);
         else if (repeat == 1) { result += ((char) ('0' + ((Units._Minutes / 10) % 10))); result += ((char) ('0' + (Units._Minutes % 10))); }
-        else if (repeat == 3) result+= std::to_string(TotalMinutes());
+        else if (repeat == 3) result+= Strings::ToString(TotalMinutes());
         break;
       }
       case 's':
       {
-        if (repeat == 0) result += (Units._Seconds);
+        if (repeat == 0) result += Strings::ToString(Units._Seconds);
         else if (repeat == 1) { result += ((char) ('0' + ((Units._Seconds / 10) % 10))); result += ((char) ('0' + (Units._Seconds % 10))); }
-        else if (repeat == 3) result += std::to_string(TotalSeconds());
+        else if (repeat == 3) result += Strings::ToString(TotalSeconds());
         break;
       }
       case 'f':
       {
-        if (repeat == 0) result += std::to_string(Units._Millis);
+        if (repeat == 0) result += Strings::ToString(Units._Millis);
         else if (repeat == 2) { result += ((char) ('0' + ((Units._Millis / 100) % 10))); result += ((char) ('0' + ((Units._Millis / 10) % 10))); result += ((char) ('0' + (Units._Millis % 10))); }
-        else if (repeat == 3) result += std::to_string(TotalMilliseconds());
+        else if (repeat == 3) result += Strings::ToString(TotalMilliseconds());
         break;
       }
       case '%':

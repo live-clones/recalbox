@@ -3,38 +3,35 @@
 #include "guis/Gui.h"
 #include "components/NinePatchComponent.h"
 #include "components/ComponentGrid.h"
-#include "scraping/Scraper.h"
 #include "components/TextComponent.h"
-
-#include <queue>
+#include <scraping/new/scrapers/IScraperEngine.h>
+#include <components/ButtonComponent.h>
 
 class ScraperSearchComponent;
 class TextComponent;
 
-class GuiScraperMulti : public Gui
+class GuiScraperMulti : public Gui, public INotifyScrapeResult
 {
 public:
-	GuiScraperMulti(Window&window, SystemManager& systemManager, const std::queue<ScraperSearchParams>& searches, bool approveResults);
-	~GuiScraperMulti() override;
+	GuiScraperMulti(Window&window, SystemManager& systemManager, const SystemManager::SystemList& systems);
+	~GuiScraperMulti() override = default;
 
 	void onSizeChanged() override;
 	bool getHelpPrompts(Help& help) override { return mGrid.getHelpPrompts(help); }
 
 private:
-	void acceptResult(const ScraperSearchResult& result);
-	void skip();
-	void doNextSearch();
-	
 	void finish();
 
   //! SystemManager instance
 	SystemManager& mSystemManager;
 
-	unsigned int mTotalGames;
-	unsigned int mCurrentGame;
-	unsigned int mTotalSuccessful;
-	unsigned int mTotalSkipped;
-	std::queue<ScraperSearchParams> mSearchQueue;
+	//! Scraper interface
+	IScraperEngine* mScraper;
+
+	//! Start time
+	DateTime mStart;
+
+	SystemManager::SystemList mSearchQueue;
 
 	NinePatchComponent mBackground;
 	ComponentGrid mGrid;
@@ -43,5 +40,36 @@ private:
 	std::shared_ptr<TextComponent> mSystem;
 	std::shared_ptr<TextComponent> mSubtitle;
 	std::shared_ptr<ScraperSearchComponent> mSearchComp;
+	std::shared_ptr<TextComponent> mTiming;
+  std::shared_ptr<TextComponent> mDatabaseMessage;
+  std::shared_ptr<ButtonComponent> mButton;
 	std::shared_ptr<ComponentGrid> mButtonGrid;
+  std::shared_ptr<TextComponent> mFinalReport;
+
+	// Running state
+	enum class State
+  {
+	  Running,     //!< Running (scrapping)
+	  StopPending, //!< Stop pending
+	  Stopped,     //!< Stopped, display statistics
+	  OverQuota,   //!< Stopped, over quota
+	  DiskFull,    //!< Stopped, disk full
+  };
+
+	/*
+	 * INotifyScrapeResult implementation
+	 */
+
+  /*!
+   * @brief Notify a game has been scraped
+   * @param index Game index
+   * @param total Total game to scrape
+   * @param result Result object
+   */
+  void GameResult(int index, int total, const FileData* result) override;
+
+  /*!
+   * @brief Scraper site quota reached. Scrapping is being aborted immediately.
+   */
+  void ScrapingComplete(ScrapeResult reason) override;
 };

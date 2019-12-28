@@ -64,11 +64,11 @@ class Strings
 
     static bool ToInt(const std::string& source, int& out) { return ToInt(source, 0, 0, out); }
 
-    static bool ToLong(const std::string& source, int index, char stop, long int& out);
+    static bool ToLong(const std::string& source, int index, char stop, long long int& out);
 
-    static bool ToLong(const std::string& source, int index, long int& out) { return ToLong(source, index, 0, out); }
+    static bool ToLong(const std::string& source, int index, long long int& out) { return ToLong(source, index, 0, out); }
 
-    static bool ToLong(const std::string& source, long int& out) { return ToLong(source, 0, 0, out); }
+    static bool ToLong(const std::string& source, long long int& out) { return ToLong(source, 0, 0, out); }
 
     static bool ToFloat(const std::string& source, int index, char stop, float& out);
 

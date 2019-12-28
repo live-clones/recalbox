@@ -1,8 +1,10 @@
 #include <systems/SystemManager.h>
+#include <scraping/new/ScraperFactory.h>
+#include <MainRunner.h>
+#include <recalbox/RecalboxSystem.h>
 #include "guis/GuiScraperMulti.h"
 #include "Renderer.h"
 #include "utils/Log.h"
-#include "views/ViewController.h"
 
 #include "components/TextComponent.h"
 #include "components/ButtonComponent.h"
@@ -11,13 +13,14 @@
 #include "guis/GuiMsgBox.h"
 #include "Locale.h"
 #include "MenuThemeData.h"
+#include "MenuMessages.h"
 
-GuiScraperMulti::GuiScraperMulti(Window&window, SystemManager& systemManager, const std::queue<ScraperSearchParams>& searches, bool approveResults)
+GuiScraperMulti::GuiScraperMulti(Window&window, SystemManager& systemManager, const SystemManager::SystemList& systems/*, bool approveResults*/)
   :	Gui(window),
     mSystemManager(systemManager),
-    mSearchQueue(searches),
+    mSearchQueue(systems),
     mBackground(window, Path(":/frame.png")),
-    mGrid(window, Vector2i(1, 5))
+    mGrid(window, Vector2i(1, 7))
 {
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 	
@@ -32,139 +35,144 @@ GuiScraperMulti::GuiScraperMulti(Window&window, SystemManager& systemManager, co
 
 	mIsProcessing = true;
 
-	mTotalGames = mSearchQueue.size();
-	mCurrentGame = 0;
-	mTotalSuccessful = 0;
-	mTotalSkipped = 0;
-
 	// set up grid
 	mTitle = std::make_shared<TextComponent>(mWindow, _("SCRAPING IN PROGRESS"), menuTheme->menuTitle.font, menuTheme->menuTitle.color, TextAlignment::Center);
 	mGrid.setEntry(mTitle, Vector2i(0, 0), false, true);
 
-	mSystem = std::make_shared<TextComponent>(mWindow, _("SYSTEM"), menuTheme->menuText.font, menuTheme->menuText.color, TextAlignment::Center);
+  mSystem = std::make_shared<TextComponent>(mWindow, _("SYSTEM"), menuTheme->menuText.font, menuTheme->menuText.color, TextAlignment::Center);
 	mGrid.setEntry(mSystem, Vector2i(0, 1), false, true);
 
 	mSubtitle = std::make_shared<TextComponent>(mWindow, _("subtitle text"), menuTheme->menuFooter.font, menuTheme->menuFooter.color, TextAlignment::Center);
 	mGrid.setEntry(mSubtitle, Vector2i(0, 2), false, true);
 
-	mSearchComp = std::make_shared<ScraperSearchComponent>(mWindow, 
-		approveResults ? ScraperSearchComponent::SearchType::AutoAcceptMatchingCRC : ScraperSearchComponent::SearchType::AutoAcceptFirst);
-	mSearchComp->setAcceptCallback(std::bind(&GuiScraperMulti::acceptResult, this, std::placeholders::_1));
-	mSearchComp->setSkipCallback(std::bind(&GuiScraperMulti::skip, this));
-	mSearchComp->setCancelCallback(std::bind(&GuiScraperMulti::finish, this));
-	mGrid.setEntry(mSearchComp, Vector2i(0, 3), mSearchComp->getSearchType() != ScraperSearchComponent::SearchType::AutoAcceptFirst, true);
+	mSearchComp = std::make_shared<ScraperSearchComponent>(mWindow);
+	mGrid.setEntry(mSearchComp, Vector2i(0, 3), false, true);
 
-	std::vector< std::shared_ptr<ButtonComponent> > buttons;
+  mTiming = std::make_shared<TextComponent>(mWindow, "", menuTheme->menuFooter.font, menuTheme->menuText.color, TextAlignment::Center);
+  mGrid.setEntry(mTiming, Vector2i(0, 4), false, true);
 
-	if(approveResults)
-	{
-	  buttons.push_back(std::make_shared<ButtonComponent>(mWindow, _("INPUT"), _("search"), [&] { 
-			mSearchComp->openInputScreen(mSearchQueue.front()); 
-			mGrid.resetCursor(); 
-		}));
+  mDatabaseMessage = std::make_shared<TextComponent>(mWindow, "", menuTheme->menuFooter.font, menuTheme->menuFooter.color, TextAlignment::Center);
+  mGrid.setEntry(mDatabaseMessage, Vector2i(0, 5), false, true);
 
-	  buttons.push_back(std::make_shared<ButtonComponent>(mWindow, _("SKIP"), _("SKIP"), [&] {
-			skip();
-			mGrid.resetCursor();
-		}));
-	}
-
-	buttons.push_back(std::make_shared<ButtonComponent>(mWindow, _("STOP"), _("stop (progress saved)"), std::bind(&GuiScraperMulti::finish, this)));
-
+  mButton = std::make_shared<ButtonComponent>(mWindow, _("STOP"), _("stop (progress saved)"), std::bind(&GuiScraperMulti::finish, this));
+  std::vector<std::shared_ptr<ButtonComponent>> buttons;
+	buttons.push_back(mButton);
 	mButtonGrid = makeButtonGrid(mWindow, buttons);
-	mGrid.setEntry(mButtonGrid, Vector2i(0, 4), true, false);
+	mGrid.setEntry(mButtonGrid, Vector2i(0, 6), true, false);
 
 	setSize(Renderer::getDisplayWidthAsFloat() * 0.95f, Renderer::getDisplayHeightAsFloat() * 0.849f);
 	setPosition((Renderer::getDisplayWidthAsFloat() - mSize.x()) / 2, (Renderer::getDisplayHeightAsFloat() - mSize.y()) / 2);
 
-	doNextSearch();
-}
+	// Final report component
+  mFinalReport = std::make_shared<TextComponent>(mWindow, _("subtitle text"), menuTheme->menuFooter.font, menuTheme->menuText.color, TextAlignment::Center);
 
-GuiScraperMulti::~GuiScraperMulti()
-{
-	// view type probably changed (basic -> detailed)
-	for (auto& system : mSystemManager.GetVisibleSystemList())
-    ViewController::Instance().reloadGameListView(system, false);
+  // Create scraper and run!
+	mScraper = ScraperFactory::GetScraper(Settings::Instance().Scraper());
+	mScraper->RunOn(ScrappingMethod::All, systems, this, RecalboxSystem::GetMinimumFreeSpaceOnSharePartition());
 }
 
 void GuiScraperMulti::onSizeChanged()
 {
 	mBackground.fitTo(mSize, Vector3f::Zero(), Vector2f(-32, -32));
 
-	mGrid.setRowHeightPerc(0, mTitle->getFont()->getLetterHeight() * 1.9725f / mSize.y(), false);
-	mGrid.setRowHeightPerc(1, (mSystem->getFont()->getLetterHeight() + 2) / mSize.y(), false);
+	mGrid.setRowHeightPerc(0, mTitle->getFont()->getLetterHeight() * 2.0f / mSize.y(), false);
+	mGrid.setRowHeightPerc(1, (mSystem->getFont()->getLetterHeight() + 2.0f) / mSize.y(), false);
 	mGrid.setRowHeightPerc(2, mSubtitle->getFont()->getHeight() * 1.75f / mSize.y(), false);
-	mGrid.setRowHeightPerc(4, mButtonGrid->getSize().y() / mSize.y(), false);
+  mGrid.setRowHeightPerc(4, mTiming->getFont()->getHeight() * 1.5f / mSize.y(), false);
+  mGrid.setRowHeightPerc(5, mDatabaseMessage->getFont()->getHeight() * 1.5f / mSize.y(), false);
+	mGrid.setRowHeightPerc(6, mButtonGrid->getSize().y() / mSize.y(), false);
 	mGrid.setSize(mSize);
-}
-
-void GuiScraperMulti::doNextSearch()
-{
-	if(mSearchQueue.empty())
-	{
-		finish();
-		return;
-	}
-
-	// update title
-	mSystem->setText(Strings::ToUpperASCII(mSearchQueue.front().system->getFullName()));
-
-	// update subtitle
-	std::string ss = Strings::Format(_("GAME %i OF %i").c_str(), mCurrentGame + 1, mTotalGames) +
-	                 " - " + Strings::ToUpperASCII(mSearchQueue.front().game->getPath().Filename());
-	mSubtitle->setText(ss);
-
-	mSearchComp->search(mSearchQueue.front());
-}
-
-void GuiScraperMulti::acceptResult(const ScraperSearchResult& result)
-{
-	ScraperSearchParams& search = mSearchQueue.front();
-
-	search.game->Metadata().Merge(result.mdl);
-	search.system->UpdateGamelistXml();
-
-	mSearchQueue.pop();
-	mCurrentGame++;
-	mTotalSuccessful++;
-	doNextSearch();
-}
-
-void GuiScraperMulti::skip()
-{
-	mSearchQueue.pop();
-	mCurrentGame++;
-	mTotalSkipped++;
-	doNextSearch();
 }
 
 void GuiScraperMulti::finish()
 {
-  std::string ss;
-	if(mTotalSuccessful == 0)
-	{
-		ss = _("WE CAN'T FIND ANY SYSTEMS!\n"
-			"CHECK THAT YOUR PATHS ARE CORRECT IN THE SYSTEMS CONFIGURATION FILE, AND "
-			"YOUR GAME DIRECTORY HAS AT LEAST ONE GAME WITH THE CORRECT EXTENSION.\n"
-			"\n"
-			"VISIT RECALBOX.FR FOR MORE INFORMATION."
-			);
-	}
-	else
-	{
-	  char strbuf[256];
-	  snprintf(strbuf, 256, ngettext("%i GAME SUCCESSFULLY SCRAPED!", "%i GAMES SUCCESSFULLY SCRAPED!", mTotalSuccessful).c_str(), mTotalSuccessful);
-	  ss = strbuf;
-
-	  if(mTotalSkipped > 0)
-	  {
-	    snprintf(strbuf, 256, ngettext("%i GAME SKIPPED.", "%i GAMES SKIPPED.", mTotalSkipped).c_str(), mTotalSkipped);
-	    ss += '\n' + std::string(strbuf);
-	  }
-	}
-
-	mWindow.pushGui(new GuiMsgBox(mWindow, ss, _("OK"), [&] { Close(); }));
-
+  mWindow.CloseAll();
+  MainRunner::RequestQuit(MainRunner::ExitState::Relaunch);
 	mIsProcessing = false;
+}
+
+void GuiScraperMulti::GameResult(int index, int total, const FileData* result)
+{
+  // update title
+  mSystem->setText(Strings::ToUpperASCII(result->getSystem()->getFullName()));
+
+  // update subtitle
+  std::string ss = Strings::Format(_("GAME %i OF %i").c_str(), index, total) +
+                   " - " + Strings::ToUpperASCII(result->getPath().Filename());
+  mSubtitle->setText(ss);
+
+  // Update game data
+  mSearchComp->UpdateInfoPane(result);
+
+  // Update timings
+  TimeSpan elapsed = DateTime() - mStart;
+  std::string time = _("ELAPSED TIME: ")
+                     .append(elapsed.ToStringFormat("%H:%mm:%ss"))
+                     .append(" - ")
+                     .append(_("ESTIMATED TIME: "));
+  if ((mScraper->ScrapesProcessed() > 10 || mScraper->ScrapesTotal() <= 10) && elapsed.TotalSeconds() > 10)
+  {
+    long long millisecondPerGame = elapsed.TotalMilliseconds() / mScraper->ScrapesProcessed();
+    TimeSpan estimated(millisecondPerGame * mScraper->ScrapesStillPending());
+    if (mScraper->ScrapesProcessed() < mScraper->ScrapesTotal())
+      time.append(estimated.ToStringFormat("%H:%mm:%ss"));
+    else
+      time.append(_("COMPLETE!"));
+  }
+  else time.append("---");
+  mTiming->setText(time);
+
+  // Update database message
+  mDatabaseMessage->setText(mScraper->ScraperDatabaseMessage());
+}
+
+void GuiScraperMulti::ScrapingComplete(ScrapeResult reason)
+{
+  mGrid.removeEntry(mSearchComp);
+  std::string finalReport;
+  switch(reason)
+  {
+    case ScrapeResult::Ok:
+    case ScrapeResult::NotFound:
+    case ScrapeResult::FatalError:
+    {
+      finalReport = MenuMessages::SCRAPER_FINAL_POPUP;
+      finalReport = Strings::Replace(finalReport, "{PROCESSED}", Strings::ToString(mScraper->ScrapesTotal()));
+      finalReport = Strings::Replace(finalReport, "{SUCCESS}", Strings::ToString(mScraper->ScrapesSuccessful()));
+      finalReport = Strings::Replace(finalReport, "{NOTFOUND}", Strings::ToString(mScraper->ScrapesNotFound()));
+      finalReport = Strings::Replace(finalReport, "{ERRORS}", Strings::ToString(mScraper->ScrapesErrors()));
+      finalReport = Strings::Replace(finalReport, "{TEXTINFO}", Strings::ToString(mScraper->StatsTextInfo()));
+      finalReport = Strings::Replace(finalReport, "{IMAGES}", Strings::ToString(mScraper->StatsImages()));
+      finalReport = Strings::Replace(finalReport, "{VIDEOS}", Strings::ToString(mScraper->StatsVideos()));
+      long long size = mScraper->StatsMediaSize();
+      std::string sizeText;
+      if      (size >= (1 << 30)) sizeText = Strings::ToString((float)(size >> 20) / 1024.0f, 2).append("GB");
+      else if (size >= (1 << 20)) sizeText = Strings::ToString((float)(size >> 10) / 1024.0f, 2).append("MB");
+      else if (size >= (1 << 10)) sizeText = Strings::ToString((float)size / 1024.0f, 2).append("KB");
+      else                        sizeText = Strings::ToString((int)size).append("B");
+      finalReport = Strings::Replace(finalReport, "{MEDIASIZE}", sizeText);
+      finalReport = Strings::ToUpperUTF8(finalReport);
+      break;
+    }
+    case ScrapeResult::QuotaReached:
+    {
+      finalReport = MenuMessages::SCRAPER_FINAL_QUOTA;
+      break;
+    }
+    case ScrapeResult::DiskFull:
+    {
+      finalReport = MenuMessages::SCRAPER_FINAL_DISKFULL;
+      break;
+    }
+  }
+  mFinalReport->setText(finalReport);
+  mGrid.setEntry(mFinalReport, Vector2i(0, 3), false, true);
+
+  // Update button?
+  if (mScraper->ScrapesStillPending() == 0)
+  {
+    mButton->setText(_("CLOSE"), _("CLOSE"));
+    mSearchComp->SetRunning(false);
+  }
 }
 

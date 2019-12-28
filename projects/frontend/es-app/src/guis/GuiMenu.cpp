@@ -6,6 +6,7 @@
 #include <LibretroRatio.h>
 #include <systems/SystemManager.h>
 #include <MainRunner.h>
+#include <scraping/new/ScraperFactory.h>
 
 #include "EmulationStation.h"
 #include "guis/GuiMenu.h"
@@ -875,7 +876,7 @@ void GuiMenu::menuUISettings(){
   st->addWithLabel(theme_set, _("THEME SET"), _(MenuMessages::UI_THEME_HELP_MSG));
 
   std::function<void()> ReloadAll = [] () {
-    ViewController::Instance().deleteAndReloadAll();
+    ViewController::deleteAndReloadAll();
     MenuThemeData::getInstance();
     auto transi = ThemeData::getCurrent().getTransition();
     if (!transi.empty())
@@ -1083,7 +1084,7 @@ void GuiMenu::menuUISettings(){
 	// Game List Update
 	s->addSubMenu(_("UPDATE GAMES LISTS"), [this] {
     mWindow.pushGui(new GuiMsgBox(mWindow, _("REALLY UPDATE GAMES LISTS ?"), _("YES"), [] {
-      ViewController::Instance().deleteAndReloadAll();
+      ViewController::deleteAndReloadAll();
 		}, _("NO"), nullptr));
 	}, _(MenuMessages::UI_UPDATE_GAMELIST_HELP_MSG));
 
@@ -1291,7 +1292,7 @@ void GuiMenu::menuScrapper(){
 
   // scrape from
   auto scraper_list = std::make_shared<OptionListComponent<std::string> >(mWindow, _("SCRAPE FROM"), false);
-  std::vector<std::string> scrapers = getScraperList();
+  std::vector<std::string> scrapers = ScraperFactory::GetScraperList();
   for (auto& scraper : scrapers)
     scraper_list->add(scraper, scraper, scraper == Settings::Instance().Scraper());
 
@@ -1800,7 +1801,7 @@ bool GuiMenu::getHelpPrompts(Help& help)
   return true;
 }
 
-std::shared_ptr<OptionListComponent<std::string>> GuiMenu::createRatioOptionList(Window& window, const std::string& configname) const {
+std::shared_ptr<OptionListComponent<std::string>> GuiMenu::createRatioOptionList(Window& window, const std::string& configname) {
     auto ratio_choice = std::make_shared<OptionListComponent<std::string> >(window, _("GAME RATIO"), false);
     std::string currentRatio = RecalboxConf::Instance().AsString(configname + ".ratio");
     if (currentRatio.empty()) {

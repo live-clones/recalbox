@@ -70,6 +70,11 @@ class Window
     }
 
     /*!
+     * @brief Close all gui
+     */
+    void CloseAll();
+
+    /*!
      * @brief Check if the window has
      * @return
      */

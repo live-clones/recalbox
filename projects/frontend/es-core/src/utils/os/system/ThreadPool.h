@@ -98,8 +98,6 @@ template<class FeedObject, class ResultObject> class ThreadPool
     Mutex                      mStackMutex;
     //! Interface
     IThreadPoolWorkerInterface<FeedObject, ResultObject>* mInterface;
-    //! Maximum workers
-    int                        mWorkers;
     //! Global index (also total queue-ed object count)
     int                        mIndex;
     //! Total completed
@@ -143,25 +141,22 @@ template<class FeedObject, class ResultObject> class ThreadPool
   public:
     /*!
      * @brief Constructor
-     * @param maxthreads MAximum thread allocated to this thread pool.
-     * Using 0 set the actual value to ncpu * 2
      * @param parmanent if set to True, all workers do no die after job completion.
      * They wait for next queued job instead
      */
-    ThreadPool(IThreadPoolWorkerInterface<FeedObject, ResultObject>* interface, const std::string& name, int maxthreads, bool permanent, int tickduration = 0)
+    ThreadPool(IThreadPoolWorkerInterface<FeedObject, ResultObject>* interface, const std::string& name, bool permanent, int tickduration = 0)
       : mThreadPoolName(name),
         mInterface(interface),
-        mWorkers(maxthreads),
         mIndex(0),
         mTotalCompleted(0),
         mTickDuration(tickduration),
         mPermanent(permanent)
     {
-      if (maxthreads <= 0)
-        mWorkers = get_nprocs_conf() * (maxthreads == 0 ? 1 : -maxthreads);
-      LOG(LogDebug) << "Creating new threadpool '" << name << "' using " << mWorkers << " workers " << (permanent ? "permanently" : "one-shoot");
     }
 
+    /*!
+     * @brief Destructor
+     */
     ~ThreadPool()
     {
       mPermanent = false;
@@ -180,6 +175,10 @@ template<class FeedObject, class ResultObject> class ThreadPool
       mThreads.clear();
     }
 
+    /*!
+     * @brief Get pending job count
+     * @return Job count
+     */
     int PendingJobs()
     {
       mStackMutex.Lock();
@@ -241,10 +240,12 @@ template<class FeedObject, class ResultObject> class ThreadPool
 
     /*!
      * @brief Run the current thread pool
+     * @param threadCount Number of thread to allocate and launch
+     * Using 0 set the actual value to ncpu * 2
      * @param async Do not wait for end of all thread, exit immediately.
      * if async is used, WaitForCompletion must be used to ensure all worker thread have finished.
      */
-    void Run(bool async);
+    void Run(int threadCount, bool async);
 
     /*!
      * @brief Wait for completion of all worker threads
@@ -275,7 +276,7 @@ template<class FeedObject, class ResultObject> class ThreadPool
      * @brief Get the worker count
      * @return Worker count
      */
-    int WorkerCount() const { return mWorkers; }
+    int WorkerCount() const { return mThreads.size(); }
 
     /*!
      * @brief Tell if the threadpool is parmanent or not
@@ -285,14 +286,25 @@ template<class FeedObject, class ResultObject> class ThreadPool
 };
 
 template<class FeedObject, class ResultObject>
-void ThreadPool<FeedObject, ResultObject>::Run(bool async)
+void ThreadPool<FeedObject, ResultObject>::Run(int threadCount, bool async)
 {
+  // Set thread count
+  if (threadCount <= 0)
+    threadCount = get_nprocs_conf() * (threadCount == 0 ? 1 : -threadCount);
+
+  // Log
+  LOG(LogDebug) << "Creating new threadpool '" << mThreadPoolName << "' using " << threadCount << " workers " << (mPermanent ? "permanently" : "one-shoot");
+
   // Sort by priority
   if (mQueue.size() > 1)
     QuickSortAscending(mQueue, 0, mQueue.size() - 1);
 
+  // Delete previous threads
+  for(WorkerThread* thread : mThreads)
+    delete thread;
+
   // Create and run threads
-  for(int i = mWorkers; --i >= 0; )
+  for(int i = threadCount; --i >= 0; )
   {
     WorkerThread* worker = new WorkerThread(*this);
     std::string name = mThreadPoolName;

@@ -1,10 +1,10 @@
 #pragma once
 
 #include "components/base/Component.h"
-#include "scraping/Scraper.h"
 #include "components/ComponentGrid.h"
 #include "components/BusyComponent.h"
 #include <functional>
+#include <games/FileData.h>
 
 class ComponentList;
 class ImageComponent;
@@ -18,24 +18,7 @@ class AnimatedImageComponent;
 class ScraperSearchComponent : public Component
 {
 public:
-	enum class SearchType
-	{
-		AutoAcceptFirst,
-		AutoAcceptMatchingCRC,
-		NeverAutoAccept,
-	};
-
-	explicit ScraperSearchComponent(Window& window, SearchType searchType = SearchType::NeverAutoAccept);
-
-	void search(const ScraperSearchParams& params);
-	void openInputScreen(ScraperSearchParams& from);
-	void stop();
-	inline SearchType getSearchType() const { return mSearchType; }
-
-	// Metadata assets will be resolved before calling the accept callback (e.g. result.mdl's "image" is automatically downloaded and properly set).
-	inline void setAcceptCallback(const std::function<void(const ScraperSearchResult&)>& acceptCallback) { mAcceptCallback = acceptCallback; }
-	inline void setSkipCallback(const std::function<void()>& skipCallback) { mSkipCallback = skipCallback; };
-	inline void setCancelCallback(const std::function<void()>& cancelCallback) { mCancelCallback = cancelCallback; }
+	explicit ScraperSearchComponent(Window& window);
 
 	bool ProcessInput(const InputCompactEvent& event) override;
 	void Update(int deltaTime) override;
@@ -45,20 +28,18 @@ public:
   void onFocusGained() override { mGrid.onFocusGained(); }
   void onFocusLost() override { mGrid.onFocusLost(); }
 
+  void UpdateInfoPane(const FileData* game);
+
+  /*!
+   * @brief Set running state - display or not busy animation
+   * @param running True to show the busy animation
+   */
+  void SetRunning(bool running) { mRunning = running; }
+
 private:
 	void updateViewStyle();
-	void updateThumbnail();
-	void updateInfoPane();
 
 	void resizeMetadata();
-
-	void onSearchError(const std::string& error);
-	void onSearchDone(const std::vector<ScraperSearchResult>& results);
-
-	int getSelectedIndex();
-
-	// resolve any metadata assets that need to be downloaded and return
-	void returnResult(const ScraperSearchResult& result);
 
 	ComponentGrid mGrid;
 
@@ -66,7 +47,6 @@ private:
 	std::shared_ptr<ScrollableContainer> mDescContainer;
 	std::shared_ptr<TextComponent> mResultDesc;
 	std::shared_ptr<ImageComponent> mResultThumbnail;
-	std::shared_ptr<ComponentList> mResultList;
 
 	std::shared_ptr<ComponentGrid> mMD_Grid;
 	std::shared_ptr<RatingComponent> mMD_Rating;
@@ -88,17 +68,6 @@ private:
 	
 	std::vector<MetaDataPair> mMD_Pairs;
 
-	SearchType mSearchType;
-	ScraperSearchParams mLastSearch;
-	std::function<void(const ScraperSearchResult&)> mAcceptCallback;
-	std::function<void()> mSkipCallback;
-	std::function<void()> mCancelCallback;
-	bool mBlockAccept;
-
-	std::unique_ptr<ScraperSearchHandle> mSearchHandle;
-	std::unique_ptr<MDResolveHandle> mMDResolveHandle;
-	std::vector<ScraperSearchResult> mScraperResults;
-	std::unique_ptr<HttpReq> mThumbnailReq;
-
+	bool mRunning;
 	BusyComponent mBusyAnim;
 };

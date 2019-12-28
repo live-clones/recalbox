@@ -161,10 +161,7 @@ GuiGamelistOptions::~GuiGamelistOptions()
 void GuiGamelistOptions::openMetaDataEd() {
 	// open metadata editor
 	FileData* file = getGamelist()->getCursor();
-	ScraperSearchParams p;
-	p.game = file;
-	p.system = file->getSystem();
-	mWindow.pushGui(new GuiMetaDataEd(mWindow, file->Metadata(), p, file->getPath().Filename(),
+	mWindow.pushGui(new GuiMetaDataEd(mWindow, file->Metadata(), *file, file->getPath().Filename(),
 									 std::bind(&IGameListView::onFileChanged, getGamelist(), file, FileChangeType::MetadataChanged), [this, file]
 									 {
 				             file->getPath().Delete();

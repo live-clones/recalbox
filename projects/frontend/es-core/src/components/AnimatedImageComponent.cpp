@@ -27,7 +27,7 @@ void AnimatedImageComponent::load(const AnimationDef* def)
 
 		auto img = std::unique_ptr<ImageComponent>(new ImageComponent(mWindow));
 		img->setResize(mSize.x(), mSize.y());
-		img->setImage(def->frames[i].path, 0, false); // TODO: 0, really?!
+		img->setImage(Path(def->frames[i].path), false);
 		img->setColorShift(menuTheme->menuText.color);
 		mFrames.push_back(ImageFrame(std::move(img), def->frames[i].time));
 	}

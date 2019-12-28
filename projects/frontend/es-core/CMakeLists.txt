@@ -107,7 +107,7 @@ set(CORE_HEADERS
 		${emulationstation-all_SOURCE_DIR}/data/Resources.h
 
         # Hash
-        src/hash/Md5.h
+        src/utils/hash/Md5.h
 )
 
 set(CORE_SOURCES
@@ -198,7 +198,7 @@ set(CORE_SOURCES
 		src/utils/datetime/TimeSpan.cpp
 
 		# Hash
-		src/hash/Md5.cpp
+        src/utils/hash/Md5.cpp
 )
 
 set(EMBEDDED_ASSET_SOURCES

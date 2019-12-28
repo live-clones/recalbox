@@ -54,8 +54,8 @@ private:
 	std::shared_ptr<MenuTheme> mMenuTheme;
 
 
-	std::shared_ptr<OptionListComponent<std::string>> createRatioOptionList(Window& window,
-                                                                        const std::string& configname) const;
+	static std::shared_ptr<OptionListComponent<std::string>> createRatioOptionList(Window& window,
+                                                                        const std::string& configname) ;
 
 	void popSystemConfigurationGui(SystemData *systemData) const;
 

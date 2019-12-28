@@ -7,6 +7,7 @@
 #include <utils/Http.h>
 #include <utils/datetime/DateTime.h>
 #include <rapidjson/document.h>
+#include <scraping/new/ScrapeResult.h>
 
 
 class ScreenScraperApis
@@ -69,20 +70,11 @@ class ScreenScraperApis
       std::string mRegion;     //! favregion
     };
 
-    //! Result type
-    enum class GameResult
-    {
-        Ok,           //!< Game found
-        NotFound,     //!< Game not found
-        QuotaReached, //!< Quota reached - Stop scrapping!
-        FatalError,   //!< Fatal error - Stop scrapping!
-    };
-
     //! Game object
     struct Game
     {
       //! Result
-      GameResult mResult = GameResult::NotFound;
+      ScrapeResult mResult = ScrapeResult::NotFound;
       //! Game Name
       std::string mName;
       //! Developer
@@ -105,14 +97,22 @@ class ScreenScraperApis
         std::string mImage;
         //! Main image file format
         std::string mImageFormat;
+        //! Main image size
+        long long mImageSize;
+
         //! Thumbnail image
         std::string mThumbnail;
         //! Thumbnail image file format
         std::string mThumbnailFormat;
+        //! Thumbnail image
+        long long mThumbnailSize;
+
         //! Video
         std::string mVideo;
         //! Video file format
         std::string mVideoFormat;
+        //! Video
+        long long mVideoSize;
       }
       MediaSources;
     };
@@ -192,7 +192,7 @@ class ScreenScraperApis
      * @param format If an url is found, this string contains the media format (jpg, png, mp4, ...)
      * @return Best-matching url
      */
-    static std::string ExtractMedia(const rapidjson::Value& medias, const char* type, const std::string& region, std::string& format);
+    static std::string ExtractMedia(const rapidjson::Value& medias, const char* type, const std::string& region, std::string& format, long long& size);
 
   public:
     /*!
@@ -221,8 +221,8 @@ class ScreenScraperApis
      * @brief Download a media into a target file
      * @param mediaurl Media url
      * @param to Filepath
-     * @return GameResult Request status
+     * @return ScrapeResult Request status
      */
-    GameResult GetMedia(const std::string& mediaurl, const Path& to);
+    ScrapeResult GetMedia(const std::string& mediaurl, const Path& to, long long& size);
 };
 

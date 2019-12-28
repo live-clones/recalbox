@@ -123,7 +123,7 @@ unsigned int RecalboxConf::AsUInt(const std::string& name, unsigned int defaultV
   auto item = confMap.find(name);
   if (item != confMap.end())
   {
-    long int value;
+    long long int value;
     if (Strings::ToLong(item->second, value))
       return (unsigned int)value;
   }

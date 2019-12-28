@@ -6,7 +6,9 @@
 #include "Files.h"
 
 Http::Http() noexcept
-  : mHandle(nullptr)
+  : mHandle(nullptr),
+    mLastReturnCode(0),
+    mContentSize(0)
 {
   mHandle = curl_easy_init();
   if (mHandle != nullptr)
@@ -28,6 +30,7 @@ bool Http::Execute(const std::string& url, std::string& output)
 {
   if (mHandle != nullptr)
   {
+    mContentSize = 0;
     mLastReturnCode = 0;
     mResultHolder.clear();
     mResultFile = Path::Empty;
@@ -46,6 +49,7 @@ bool Http::Execute(const std::string& url, const Path& output)
   {
     if (!output.Directory().Exists())
       output.Directory().CreatePath();
+    mContentSize = 0;
     mLastReturnCode = 0;
     mResultHolder.clear();
     mResultFile = output;
@@ -64,6 +68,7 @@ size_t Http::WriteCallback(char* ptr, size_t size, size_t nmemb, void* userdata)
   Http& This = *((Http*)userdata);
   // Always store into the string
   This.mResultHolder.append(ptr, size * nmemb);
+  This.mContentSize += (long long)(size * nmemb);
   // Should flush?
   if (!This.mResultFile.IsEmpty())
     if (This.mResultHolder.length() > sMaxDataKeptInRam || (size * nmemb) == 0)

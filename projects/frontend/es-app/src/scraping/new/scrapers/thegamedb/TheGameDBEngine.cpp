@@ -10,8 +10,24 @@ void TheGameDBEngine::Initialize()
 }
 
 bool TheGameDBEngine::RunOn(ScrappingMethod method, const SystemManager::SystemList& systemList,
-                            INotifyScrapeResult* notifyTarget)
+                            INotifyScrapeResult* notifyTarget, long long diskMinimumFree)
 {
+  (void)method;
+  (void)systemList;
+  (void)notifyTarget;
+  (void)diskMinimumFree;
+
+  return false;
+}
+
+bool TheGameDBEngine::RunOn(ScrappingMethod method, FileData& singleGame, INotifyScrapeResult* notifyTarget,
+                            long long diskMinimumFree)
+{
+  (void)method;
+  (void)singleGame;
+  (void)notifyTarget;
+  (void)diskMinimumFree;
+
   return false;
 }
 
@@ -20,7 +36,7 @@ bool TheGameDBEngine::Abort()
   return false;
 }
 
-bool TheGameDBEngine::IsRunning()
+bool TheGameDBEngine::IsRunning() const
 {
   return false;
 }

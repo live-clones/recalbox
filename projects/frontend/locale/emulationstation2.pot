@@ -123,7 +123,58 @@ msgid_plural "%i GAMES SKIPPED."
 msgstr[0] ""
 msgstr[1] ""
 
-#: 
+#:
+msgid "ESTIMATED TIME: "
+msgstr ""
+
+#:
+msgid "ELAPSED TIME: "
+msgstr ""
+
+#:
+msgid "COMPLETE!"
+msgstr ""
+
+#:
+msgid "PLEASE VISIT"
+msgstr ""
+
+#:
+msgid "ONLY 1 SCRAPPING ENGINE"
+msgstr ""
+
+#:
+msgid "%i SCRAPPING ENGINES"
+msgstr ""
+
+#:
+msgid ""
+"Scrapping complete! {PROCESSED} games processed.\n\n"
+"{SUCCESS} game(s) scraped or updated\n"
+"{NOTFOUND} game(s) not found...\n"
+"{ERRORS} request/download errors\n\n"
+"{TEXTINFO} Text information updated\n"
+"{IMAGES} images and {VIDEOS} videos downloaded\n"
+"{MEDIASIZE} of media saved\n"
+"Now, EmulationStation is going to relaunch to update all gamelists."
+msgstr ""
+
+#:
+msgid ""
+"You reached your daily quota of scrapping request.\n"
+"All your today's scrapes have been saved anyway.\n\n"
+"Start scrapping again tomorrow.\n"
+"Dont forget to select 'update' and not 'scrape all'"
+msgstr ""
+
+#:
+msgid ""
+"Your share partition is almost full.\n"
+"The scraper stopped automatically.\n\n"
+"Remove unused games, media, files to make room before running the scraper again!"
+msgstr ""
+
+#:
 msgid "OK"
 msgstr ""
 

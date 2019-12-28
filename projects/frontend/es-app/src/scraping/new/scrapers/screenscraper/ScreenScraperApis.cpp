@@ -99,19 +99,19 @@ ScreenScraperApis::GetGameInformation(int system, const Path& path, const std::s
         case 423:
         case 403:
         case 401:
-        case 400: game.mResult = GameResult::FatalError; break;
-        case 404: game.mResult = GameResult::NotFound; break;
-        case 430: game.mResult = GameResult::QuotaReached; break;
-        case 200: game.mResult = GameResult::Ok; break;
+        case 400: game.mResult = ScrapeResult::FatalError; break;
+        case 404: game.mResult = ScrapeResult::NotFound; break;
+        case 430: game.mResult = ScrapeResult::QuotaReached; break;
+        case 200: game.mResult = ScrapeResult::Ok; break;
         default:
         {
           LOG(LogError) << "Unexpected HTTP return code " << mClient.GetLastHttpResponseCode();
-          game.mResult = GameResult::FatalError;
+          game.mResult = ScrapeResult::FatalError;
           break;
         }
       }
       // Error?
-      if (game.mResult != GameResult::Ok) break;
+      if (game.mResult != ScrapeResult::Ok) break;
       if (output.empty())
       {
         LOG(LogError) << "Empty response, retrying...";
@@ -183,9 +183,9 @@ void ScreenScraperApis::DeserializeGameInformation(const std::string& jsonstring
         }
         if (mConfiguration.GetImageType() != IConfiguration::Image::None)
         {
-          game.MediaSources.mImage = ExtractMedia(medias, type, mConfiguration.GetFavoriteRegion(), game.MediaSources.mImageFormat);
+          game.MediaSources.mImage = ExtractMedia(medias, type, mConfiguration.GetFavoriteRegion(), game.MediaSources.mImageFormat, game.MediaSources.mImageSize);
           if (game.MediaSources.mImage.empty() && type2 != nullptr)
-            game.MediaSources.mImage = ExtractMedia(medias, type2, mConfiguration.GetFavoriteRegion(), game.MediaSources.mImageFormat);
+            game.MediaSources.mImage = ExtractMedia(medias, type2, mConfiguration.GetFavoriteRegion(), game.MediaSources.mImageFormat, game.MediaSources.mImageSize);
         }
 
         // Thumbnail
@@ -205,9 +205,9 @@ void ScreenScraperApis::DeserializeGameInformation(const std::string& jsonstring
         }
         if (mConfiguration.GetThumbnailType() != IConfiguration::Image::None)
         {
-          game.MediaSources.mThumbnail = ExtractMedia(medias, type, mConfiguration.GetFavoriteRegion(), game.MediaSources.mThumbnailFormat);
+          game.MediaSources.mThumbnail = ExtractMedia(medias, type, mConfiguration.GetFavoriteRegion(), game.MediaSources.mThumbnailFormat, game.MediaSources.mThumbnailSize);
           if (game.MediaSources.mThumbnail.empty() && type2 != nullptr)
-            game.MediaSources.mThumbnail = ExtractMedia(medias, type2, mConfiguration.GetFavoriteRegion(), game.MediaSources.mThumbnailFormat);
+            game.MediaSources.mThumbnail = ExtractMedia(medias, type2, mConfiguration.GetFavoriteRegion(), game.MediaSources.mThumbnailFormat, game.MediaSources.mThumbnailSize);
         }
 
         // Video
@@ -221,9 +221,9 @@ void ScreenScraperApis::DeserializeGameInformation(const std::string& jsonstring
         }
         if (mConfiguration.GetVideo() != IConfiguration::Video::None)
         {
-          game.MediaSources.mVideo = ExtractMedia(medias, type, std::string(), game.MediaSources.mVideoFormat);
+          game.MediaSources.mVideo = ExtractMedia(medias, type, std::string(), game.MediaSources.mVideoFormat, game.MediaSources.mVideoSize);
           if (game.MediaSources.mVideo.empty() && type2 != nullptr)
-            game.MediaSources.mVideo = ExtractMedia(medias, type2, std::string(), game.MediaSources.mVideoFormat);
+            game.MediaSources.mVideo = ExtractMedia(medias, type2, std::string(), game.MediaSources.mVideoFormat, game.MediaSources.mVideoSize);
         }
       }
     }
@@ -287,9 +287,11 @@ std::string ScreenScraperApis::ExtractLocalizedText(const rapidjson::Value& arra
   return std::string();
 }
 
-std::string ScreenScraperApis::ExtractMedia(const rapidjson::Value& medias, const char* type, const std::string& region, std::string& format)
+std::string ScreenScraperApis::ExtractMedia(const rapidjson::Value& medias, const char* type, const std::string& region, std::string& format, long long& size)
 {
   const char* parent = "jeu";
+  format.clear();
+  size = 0;
 
   if (!region.empty())
   {
@@ -299,6 +301,7 @@ std::string ScreenScraperApis::ExtractMedia(const rapidjson::Value& medias, cons
         if (strcmp(object["parent"].GetString(), parent) == 0)
           if (strcmp(object["region"].GetString(), region.c_str()) == 0)
           {
+            Strings::ToLong(object["size"].GetString(), size);
             format = object["format"].GetString();
             return object["url"].GetString();
           }
@@ -309,6 +312,7 @@ std::string ScreenScraperApis::ExtractMedia(const rapidjson::Value& medias, cons
         if (strcmp(object["parent"].GetString(), parent) == 0)
           if (strcmp(object["region"].GetString(), "wor") == 0)
           {
+            Strings::ToLong(object["size"].GetString(), size);
             format = object["format"].GetString();
             return object["url"].GetString();
           }
@@ -319,6 +323,7 @@ std::string ScreenScraperApis::ExtractMedia(const rapidjson::Value& medias, cons
         if (strcmp(object["parent"].GetString(), parent) == 0)
           if (strcmp(object["region"].GetString(), "us") == 0)
           {
+            Strings::ToLong(object["size"].GetString(), size);
             format = object["format"].GetString();
             return object["url"].GetString();
           }
@@ -329,6 +334,7 @@ std::string ScreenScraperApis::ExtractMedia(const rapidjson::Value& medias, cons
         if (strcmp(object["parent"].GetString(), parent) == 0)
           if (strcmp(object["region"].GetString(), "jp") == 0)
           {
+            Strings::ToLong(object["size"].GetString(), size);
             format = object["format"].GetString();
             return object["url"].GetString();
           }
@@ -339,6 +345,7 @@ std::string ScreenScraperApis::ExtractMedia(const rapidjson::Value& medias, cons
         if (strcmp(object["parent"].GetString(), parent) == 0)
           if (strcmp(object["region"].GetString(), "ss") == 0)
           {
+            Strings::ToLong(object["size"].GetString(), size);
             format = object["format"].GetString();
             return object["url"].GetString();
           }
@@ -349,6 +356,7 @@ std::string ScreenScraperApis::ExtractMedia(const rapidjson::Value& medias, cons
     if (strcmp(object["type"].GetString(), type) == 0)
       if (strcmp(object["parent"].GetString(), parent) == 0)
       {
+        Strings::ToLong(object["size"].GetString(), size);
         format = object["format"].GetString();
         return object["url"].GetString();
       }
@@ -358,9 +366,10 @@ std::string ScreenScraperApis::ExtractMedia(const rapidjson::Value& medias, cons
   return std::string();
 }
 
-ScreenScraperApis::GameResult ScreenScraperApis::GetMedia(const std::string& mediaurl, const Path& to)
+ScrapeResult ScreenScraperApis::GetMedia(const std::string& mediaurl, const Path& to, long long& size)
 {
-  GameResult result = GameResult::FatalError;
+  ScrapeResult result = ScrapeResult::FatalError;
+  size = 0;
   for(int i = 3; --i >= 0; )
   {
     if (mClient.Execute(mediaurl, to))
@@ -372,14 +381,14 @@ ScreenScraperApis::GameResult ScreenScraperApis::GetMedia(const std::string& med
         case 423:
         case 403:
         case 401:
-        case 400: result = GameResult::FatalError; break;
-        case 404: result = GameResult::NotFound; break;
-        case 430: result = GameResult::QuotaReached; break;
-        case 200: result = GameResult::Ok; break;
+        case 400: result = ScrapeResult::FatalError; break;
+        case 404: result = ScrapeResult::NotFound; break;
+        case 430: result = ScrapeResult::QuotaReached; break;
+        case 200: result = ScrapeResult::Ok; size = mClient.GetLastContentSize(); break;
         default:
         {
           LOG(LogError) << "Unexpected HTTP return code " << mClient.GetLastHttpResponseCode();
-          result = GameResult::FatalError;
+          result = ScrapeResult::FatalError;
           break;
         }
       }

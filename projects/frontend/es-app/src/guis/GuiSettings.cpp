@@ -42,7 +42,7 @@ bool GuiSettings::ProcessInput(const InputCompactEvent& event)
 	if (event.StartPressed())
 	{
 		// close everything
-	  mWindow.deleteAllGui();
+	  mWindow.CloseAll();
 		return true;
 	}
 	

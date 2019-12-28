@@ -51,7 +51,8 @@ void Log::close()
 
 void Log::doClose()
 {
-  fclose(sFile);
+  if (sFile != nullptr)
+    fclose(sFile);
   sFile = nullptr;
 }
 

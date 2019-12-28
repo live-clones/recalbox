@@ -56,3 +56,13 @@ IScraperEngine* ScraperFactory::GetScraper(const std::string& scraperidentifier)
 
   return engine;
 }
+
+const std::vector<std::string>& ScraperFactory::GetScraperList()
+{
+  static std::vector<std::string> _List =
+  {
+    "Screenscraper",
+    "TheGamesDB",
+  };
+  return _List;
+}

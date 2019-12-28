@@ -88,6 +88,9 @@ public:
 	static const char* SCRAPER_FROM_HELP_MSG;
 	static const char* SCRAPER_NOW_HELP_MSG;
 	static const char* SCRAPER_RATINGS_HELP_MSG;
+  static const char* SCRAPER_FINAL_POPUP;
+  static const char* SCRAPER_FINAL_QUOTA;
+  static const char* SCRAPER_FINAL_DISKFULL;
 
 	static const char* ADVANCED_HELP_MSG;
 	static const char* ADVANCED_OVERCLOCK_HELP_MSG;

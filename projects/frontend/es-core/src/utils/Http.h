@@ -17,6 +17,8 @@ class Http
     CURL* mHandle;
     //! HTTP returnc ode of last request
     int   mLastReturnCode;
+    //! Content size
+    long long mContentSize;
 
     //! Request result, or temporary buffer waiting for disk flush
     std::string mResultHolder;
@@ -66,4 +68,10 @@ class Http
      * @return Http code, or 0 if the request failed to execute
      */
     int GetLastHttpResponseCode() const { return mLastReturnCode; }
+
+    /*!
+     * @brief Get last http content size
+     * @return Content size
+     */
+    long long GetLastContentSize() const { return mContentSize; }
 };

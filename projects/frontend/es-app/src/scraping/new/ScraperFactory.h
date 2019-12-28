@@ -40,5 +40,7 @@ class ScraperFactory
 
   public:
     static IScraperEngine* GetScraper(const std::string& scraperidentifier);
+
+    static const std::vector<std::string>& GetScraperList();
 };
 

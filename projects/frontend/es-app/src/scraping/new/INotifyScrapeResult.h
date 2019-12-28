@@ -3,6 +3,8 @@
 //
 #pragma once
 
+#include "ScrapeResult.h"
+
 class INotifyScrapeResult
 {
   public:
@@ -15,7 +17,7 @@ class INotifyScrapeResult
     virtual void GameResult(int index, int total, const FileData* result) = 0;
 
     /*!
-     * @brief Scraper site quota reached. Scrapping is being aborted immediately.
+     * @brief Notify the caller of scrapping is being aborted immediately
      */
-    virtual void QuotaReached() = 0;
+    virtual void ScrapingComplete(ScrapeResult reason) = 0;
 };

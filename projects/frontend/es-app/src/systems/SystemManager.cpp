@@ -346,7 +346,7 @@ bool SystemManager::LoadSystemConfigurations()
   StringMapFile weights(sWeightFilePath);
   weights.Load();
   // Create automatic thread-pool
-  ThreadPool<SystemDescriptor, SystemData*> threadPool(this, "System-Loader", -2, false, 20);
+  ThreadPool<SystemDescriptor, SystemData*> threadPool(this, "System-Loader", false, 20);
   // Push system to process
   for (const XmlNode system : systemList)
   {
@@ -365,7 +365,7 @@ bool SystemManager::LoadSystemConfigurations()
   int count = threadPool.PendingJobs();
   if (mProgressInterface != nullptr)
     mProgressInterface->SetMaximum(count);
-  threadPool.Run(false);
+  threadPool.Run(-2, false);
   // Push result
   sVisibleSystemVector.resize(count, nullptr);
   int index = 0;
@@ -460,12 +460,12 @@ void SystemManager::DeleteAllSystems(bool updateGamelists)
     if (mProgressInterface != nullptr)
       mProgressInterface->SetMaximum(sAllSystemVector.size());
     // Create automatic thread-pool
-    ThreadPool<SystemData*, bool> threadPool(this, "System-Save", -2, false, 20);
+    ThreadPool<SystemData*, bool> threadPool(this, "System-Save", false, 20);
     // Push system to process
     for (SystemData* system : sAllSystemVector)
       threadPool.PushFeed(system, 0);
     // Run the threadpool and automatically wait for all jobs to complete
-    threadPool.Run(false);
+    threadPool.Run(-2, false);
 
     DateTime stop;
     LOG(LogInfo) << "Gamelist update time: " << std::to_string((stop-start).TotalMilliseconds()) << "ms";

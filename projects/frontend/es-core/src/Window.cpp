@@ -61,14 +61,14 @@ Component* Window::peekGui()
 
 void Window::deleteClosePendingGui()
 {
-  // Delete top GUI if pendingf for deletion
-  if (!mGuiStack.empty())
-    if (mGuiStack.back()->IsPendingForDeletion())
+  for(auto it = mGuiStack.begin(); it != mGuiStack.end(); it++)
+  {
+    if ((*it)->IsPendingForDeletion())
     {
-      Gui* topGui = mGuiStack.back();
-      mGuiStack.pop_back();
-      delete topGui;
+      delete *it;
+      mGuiStack.erase(it--);
     }
+  }
 }
 
 void Window::deleteAllGui()
@@ -260,45 +260,11 @@ void Window::Render(Transform4x4f& transform)
   }
 }
 
-/*void Window::renderWaitingScreen(const std::string& text)
-{
-  Transform4x4f trans = Transform4x4f::Identity();
-  Renderer::setMatrix(trans);
-  Renderer::drawRect(0, 0, Renderer::getDisplayWidthAsInt(), Renderer::getDisplayHeightAsInt(), 0xFFFFFFFF);
-
-  ImageComponent splash(*this, true);
-  splash.setResize(Renderer::getDisplayWidthAsFloat() * 0.6f, 0.0f);
-  splash.setImage(Path(":/splash.svg"));
-  splash.setPosition((Renderer::getDisplayWidthAsFloat() - splash.getSize().x()) / 2,
-                     (Renderer::getDisplayHeightAsFloat() - splash.getSize().y()) / 2 * 0.6f);
-  splash.Render(trans);
-
-  auto& font = mDefaultFonts.at(1);
-  TextCache* cache = font->buildTextCache(text, 0, 0, 0x656565FF);
-  trans = trans.translate(Vector3f(Math::round((Renderer::getDisplayWidthAsFloat() - cache->metrics.size.x()) / 2.0f),
-                                   Math::round(Renderer::getDisplayHeightAsFloat() * 0.835f), 0.0f));
-  Renderer::setMatrix(trans);
-  font->renderTextCache(cache);
-  delete cache;
-
-  Renderer::swapBuffers();
-}*/
-
-/*void Window::renderLoadingScreen()
-{
-  renderWaitingScreen(_("LOADING..."));
-}*/
-
 void Window::renderHelpPromptsEarly()
 {
   mHelp.Render(Transform4x4f::Identity());
   mRenderedHelpPrompts = true;
 }
-
-/*void Window::renderShutdownScreen()
-{
-  renderWaitingScreen(_("PLEASE WAIT..."));
-}*/
 
 bool Window::isProcessing()
 {
@@ -349,4 +315,10 @@ void Window::RenderAll()
   Transform4x4f transform(Transform4x4f::Identity());
   Render(transform);
   Renderer::swapBuffers();
+}
+
+void Window::CloseAll()
+{
+  for(Gui* gui : mGuiStack)
+    gui->Close();
 }

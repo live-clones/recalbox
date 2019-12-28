@@ -6,6 +6,7 @@
 #include <scraping/new/scrapers/IScraperEngine.h>
 #include <utils/os/system/Mutex.h>
 #include <utils/sdl2/SyncronousEvent.h>
+#include <utils/os/system/ThreadPool.h>
 #include "ScreenScraperApis.h"
 
 class ScreenScraperEngine
@@ -25,6 +26,14 @@ class ScreenScraperEngine
         bool mAbortRequest;
         //! Quota reached
         bool mQuotaReached;
+        //! Statistics: Text infos
+        int mTextInfo;
+        //! Statistics: Images
+        int mImages;
+        //! Statistics: Video
+        int mVideos;
+        //! Statistics: Media size
+        long long mMediaSize;
         //! ScreenScraper WebApi
         ScreenScraperApis mCaller;
         //! Configuration
@@ -44,7 +53,7 @@ class ScreenScraperEngine
          * @param size Rom size
          * @return Result
          */
-        ScreenScraperApis::GameResult RequestGameInfo(ScreenScraperApis::Game& result, const FileData& game, long long size);
+        ScrapeResult RequestGameInfo(ScreenScraperApis::Game& result, const FileData& game, long long size);
 
         /*!
          * @brief Send a game info request
@@ -53,7 +62,7 @@ class ScreenScraperEngine
          * @param size Rom size
          * @return Result
          */
-        ScreenScraperApis::GameResult RequestZipGameInfo(ScreenScraperApis::Game& result, const FileData& game, long long size);
+        ScrapeResult RequestZipGameInfo(ScreenScraperApis::Game& result, const FileData& game, long long size);
 
         /*!
          * @brief Check if the current game needs to be scrapped regarding the given method
@@ -69,7 +78,7 @@ class ScreenScraperEngine
          * @param sourceData Source data
          * @param game DFestination game
          */
-        static void StoreTextData(ScrappingMethod method, const ScreenScraperApis::Game& sourceData, FileData& game);
+        void StoreTextData(ScrappingMethod method, const ScreenScraperApis::Game& sourceData, FileData& game);
 
         /*!
          * @brief Download an store media one after once
@@ -78,13 +87,17 @@ class ScreenScraperEngine
          * @param game DFestination game
          * @return True if the quota is reached and the scrapping must stop ASAP. False in any other case
          */
-        bool DownloadAndStoreMedia(ScrappingMethod method, const ScreenScraperApis::Game& sourceData, FileData& game);
+        ScrapeResult DownloadAndStoreMedia(ScrappingMethod method, const ScreenScraperApis::Game& sourceData, FileData& game);
 
       public:
         explicit Engine(ScreenScraperApis::IConfiguration* configuration)
           : mRunning(false),
             mAbortRequest(false),
             mQuotaReached(false),
+            mTextInfo(0),
+            mImages(0),
+            mVideos(0),
+            mMediaSize(0),
             mCaller(configuration),
             mConfiguration(*configuration)
         {
@@ -101,7 +114,7 @@ class ScreenScraperEngine
          * @param game game to scrape
          * @return True if the whole process must stop for whatever reason
          */
-        bool Scrape(ScrappingMethod method, FileData& game);
+        ScrapeResult Scrape(ScrappingMethod method, FileData& game);
 
         /*!
          * @brief Abort the current engine. The engine is required to quit its current scrapping ASAP
@@ -110,12 +123,27 @@ class ScreenScraperEngine
 
         //! Check if the engine is running
         bool IsRunning() const { return mRunning; }
+
+        //! Stats Text infos
+        int StatsTextInfo() const { return mTextInfo; };
+
+        //! Stats images downloaded
+        int StatsImages() const { return mImages; };
+
+        //! Stats videos downloaded
+        int StatsVideos() const { return mVideos; };
+
+        //! Stats videos downloaded
+        long long StatsMediaSize() const { return mMediaSize; };
     };
 
     //! Maximum simultaneous engines
     static constexpr int sMaxEngines = 15;
     //! Maximum file size for md5 calculation
     static constexpr int sMaxMd5Calculation = (20 << 20); // 20 Mb
+
+    //! Thread pool
+    ThreadPool<FileData*, bool> mRunner;
 
     //! Engines
     Engine mEngines[sMaxEngines];
@@ -127,6 +155,9 @@ class ScreenScraperEngine
 
     //! Notification interface
     INotifyScrapeResult* mNotifier;
+
+    //! Minimum free disk
+    long long mDiskMinimumFree;
 
     //! Screenscraper credentials: Login
     std::string mLogin;
@@ -152,6 +183,21 @@ class ScreenScraperEngine
     //! Live stats: Processed
     int mCount;
 
+    //! Statistics: Scraped games
+    int mStatScraped;
+    //! Statistics: Gamesnot found
+    int mStatNotFound;
+    //! Statistics: Scrape errors
+    int mStatErrors;
+    //! Statistics: Text infos
+    int mTextInfo;
+    //! Statistics: Images
+    int mImages;
+    //! Statistics: Video
+    int mVideos;
+    //! Statistics: Media size
+    long long mMediaSize;
+
     //! Engine allocator protection
     Mutex mEngineMutex;
     //! Free engine signal
@@ -159,6 +205,9 @@ class ScreenScraperEngine
 
     //! Main thread synchronizer
     SyncronousEvent mSender;
+
+    //! Database message
+    std::string mDatabaseMessage;
 
     /*
      * Getters
@@ -203,7 +252,52 @@ class ScreenScraperEngine
      * @param notifyTarget Interface for reporting scrapping progression
      * @return True if everything has been successful. False if cancelled, quota reached or fatal error occurred
      */
-    bool RunOn(ScrappingMethod method, const SystemManager::SystemList& systemList, INotifyScrapeResult* notifyTarget) override;
+    bool RunOn(ScrappingMethod method, const SystemManager::SystemList& systemList, INotifyScrapeResult* notifyTarget,
+               long long diskMinimumFree) override;
+
+    /*!
+     * @brief Run the scraper using the given methods, on the given single game and report progress using notifyTarget
+     * @param method Scrapping method
+     * @param singleGame Single game to scrape
+     * @param notifyTarget Interface for reporting scrapping progression
+     * @return True if everything has been successful. False if cancelled, quota reached or fatal error occurred
+     */
+    bool RunOn(ScrappingMethod method, FileData& singleGame,
+               INotifyScrapeResult* notifyTarget, long long diskMinimumFree) override;
+
+    //! Get total to scrape
+    int ScrapesTotal() const override { return mTotal; }
+
+    //! Get processed items
+    int ScrapesProcessed() const override { return mCount; }
+
+    //! Get pending items (still not scraped)
+    int ScrapesStillPending() const override { return mTotal - mCount; }
+
+    //! Get successfully scraped games
+    int ScrapesSuccessful() const override { return mStatScraped; }
+
+    //! Get unsuccessfully scraped games
+    int ScrapesNotFound() const override { return mStatNotFound; }
+
+    //! Get failes scrapes
+    int ScrapesErrors() const override { return mStatErrors; }
+
+    //! Stats Text infos
+    int StatsTextInfo() const override { return mTextInfo; };
+
+    //! Stats images downloaded
+    int StatsImages() const override { return mImages; };
+
+    //! Stats videos downloaded
+    int StatsVideos() const override { return mVideos; };
+
+    //! Stats videos downloaded
+    long long StatsMediaSize() const override { return mMediaSize; };
+
+
+    //! Get Scraper message
+    std::string ScraperDatabaseMessage() override { return mDatabaseMessage; };
 
     /*!
      * @brief Abort the current engine
@@ -213,7 +307,7 @@ class ScreenScraperEngine
     {
       for(int i = sMaxEngines; --i >= 0; )
       {
-        mEngines->Abort();
+        mEngines[i].Abort();
         mEngineSignal.Signal();
       }
       return true;
@@ -223,10 +317,10 @@ class ScreenScraperEngine
      * @brief Check if the engine is running, allowing UI to know when the engine actually stops after an abort request
      * @return True if the engine is running
      */
-    bool IsRunning() override
+    bool IsRunning() const override
     {
       for(int i = sMaxEngines; --i >= 0; )
-        if (mEngines->IsRunning())
+        if (mEngines[i].IsRunning())
           return true;
       return false;
     }
@@ -247,11 +341,7 @@ class ScreenScraperEngine
      * @param completed Currently completed jobs count
      * @param total Total jobs
      */
-    void ThreadPoolTick(int completed, int total) override
-    {
-      mCount = completed;
-      mTotal = total;
-    }
+    void ThreadPoolTick(int /*completed*/, int /*total*/) override {}
 
     /*
      * ScreenScraperApis::IConfiguration implementation

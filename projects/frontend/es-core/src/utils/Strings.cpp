@@ -447,7 +447,7 @@ bool Strings::ToInt(const std::string& source, int index, char stop, int& out)
   return true;
 }
 
-bool Strings::ToLong(const std::string& source, int index, char stop, long int& out)
+bool Strings::ToLong(const std::string& source, int index, char stop, long long int& out)
 {
   if (index >= (int)source.size()) return false;
   const char* src = source.c_str() + index;

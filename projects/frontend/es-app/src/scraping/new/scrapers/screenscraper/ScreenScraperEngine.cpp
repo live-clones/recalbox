@@ -2,11 +2,11 @@
 // Created by bkg2k on 04/12/2019.
 //
 
-#include <utils/os/system/ThreadPool.h>
 #include <utils/Log.h>
 #include <RecalboxConf.h>
-#include <hash/Md5.h>
+#include <utils/hash/Md5.h>
 #include <utils/Zip.h>
+#include <Locale.h>
 #include "ScreenScraperEngine.h"
 
 /*!
@@ -118,7 +118,8 @@ static const std::map<PlatformIds::PlatformId, int>& GetPlatformIDs()
 
 
 ScreenScraperEngine::ScreenScraperEngine()
-  : mEngines
+  : mRunner(this, "Scraper-ssfr", false),
+    mEngines
     {
       Engine(this), Engine(this), Engine(this), Engine(this), Engine(this),
       Engine(this), Engine(this), Engine(this), Engine(this), Engine(this),
@@ -127,6 +128,7 @@ ScreenScraperEngine::ScreenScraperEngine()
     mAllocatedEngines(0),
     mMethod(ScrappingMethod::All),
     mNotifier(nullptr),
+    mDiskMinimumFree(0),
     mMainImage(ScreenScraperApis::IConfiguration::Image::MixV1),
     mThumbnailImage(ScreenScraperApis::IConfiguration::Image::None),
     mVideo(ScreenScraperApis::IConfiguration::Video::None),
@@ -134,13 +136,28 @@ ScreenScraperEngine::ScreenScraperEngine()
     mWantWheel(false),
     mTotal(0),
     mCount(0),
+    mStatScraped(0),
+    mStatNotFound(0),
+    mStatErrors(0),
+    mTextInfo(0),
+    mImages(0),
+    mVideos(0),
+    mMediaSize(0),
     mSender(this)
 {
 }
 
-
 void ScreenScraperEngine::Initialize()
 {
+  // Resets stats
+  mStatScraped = 0;
+  mStatNotFound = 0;
+  mStatErrors = 0;
+  mTextInfo = 0;
+  mImages = 0;
+  mVideos = 0;
+  mMediaSize = 0;
+
   // Reset engines
   mAllocatedEngines = 0;
   mMethod = ScrappingMethod::All;
@@ -190,25 +207,50 @@ void ScreenScraperEngine::Initialize()
   mWantWheel = RecalboxConf::Instance().AsBool("scraper.screenscraper.wheel", false);
 }
 
-bool ScreenScraperEngine::RunOn(ScrappingMethod method, const SystemManager::SystemList& systemList,
-                                INotifyScrapeResult* notifyTarget)
+bool ScreenScraperEngine::RunOn(ScrappingMethod method, FileData& singleGame, INotifyScrapeResult* notifyTarget,
+                                long long diskMinimumFree)
 {
-  LOG(LogInfo) << "Staring new scrapping session...";
+  LOG(LogInfo) << "Starting new single game scrapping session...";
 
   mNotifier = notifyTarget;
   mMethod = method;
+  mDiskMinimumFree = diskMinimumFree;
+
+  // Get screenscraper's thread
+  mDatabaseMessage = (_("PLEASE VISIT")).append(" HTTP://WWW.SCREENSCRAPER.FR");
+  // Feed threadpool
+  mRunner.PushFeed(&singleGame);
+  mTotal = mRunner.PendingJobs();
+  // Run!
+  mRunner.Run(1, true);
+
+  return false;
+}
+
+
+bool ScreenScraperEngine::RunOn(ScrappingMethod method, const SystemManager::SystemList& systemList,
+                                INotifyScrapeResult* notifyTarget, long long diskMinimumFree)
+{
+  LOG(LogInfo) << "Starting new multi-system scrapping session...";
+
+  mNotifier = notifyTarget;
+  mMethod = method;
+  mDiskMinimumFree = diskMinimumFree;
 
   // Get screenscraper's thread
   ScreenScraperApis apis(this);
   int threadCount = apis.GetUserInformation().mThreads;
-  // Allocate threadpool
-  ThreadPool<FileData*, bool> runner(this, "Scraper-ssfr", threadCount, false);
+  mDatabaseMessage = Strings::Replace(ngettext("ONLY 1 SCRAPPING ENGINE", "%i SCRAPPING ENGINES", threadCount), "%i", Strings::ToString(threadCount))
+                     .append(" - ")
+                     .append(_("PLEASE VISIT"))
+                     .append(" HTTP://WWW.SCREENSCRAPER.FR");
   // Feed threadpool
   for(SystemData* system : systemList)
     for(FileData* game : system->getRootFolder()->getAllDisplayableItemsRecursively(false))
-      runner.PushFeed(game);
+      mRunner.PushFeed(game);
+  mTotal = mRunner.PendingJobs();
   // Run!
-  runner.Run(false);
+  mRunner.Run(threadCount, true);
 
   return false;
 }
@@ -222,8 +264,22 @@ bool ScreenScraperEngine::ThreadPoolRunJob(FileData*& feed)
     LOG(LogDebug) << "Got engine #" << engineIndex << " for " << feed->getPath().ToString();
     Engine& engine = mEngines[engineIndex];
     engine.Initialize();
-    if (engine.Scrape(mMethod, *feed)) // True? Need to abort immediately
-      Abort();
+    switch(engine.Scrape(mMethod, *feed))
+    {
+      case ScrapeResult::Ok:
+      {
+        mTextInfo += engine.StatsTextInfo();
+        mImages += engine.StatsImages();
+        mVideos += engine.StatsVideos();
+        mMediaSize += engine.StatsMediaSize();
+        mStatScraped++;
+        break;
+      }
+      case ScrapeResult::NotFound: mStatNotFound++; break;
+      case ScrapeResult::FatalError: mStatErrors++; break;
+      case ScrapeResult::QuotaReached: Abort(); mSender.Call((int)ScrapeResult::QuotaReached); break;
+      case ScrapeResult::DiskFull: Abort(); mSender.Call((int)ScrapeResult::DiskFull); break;
+    }
     // ... and recycle the Engine
     RecycleEngine(engineIndex);
     // Then, signal the main thread with the engine number.
@@ -238,8 +294,35 @@ void ScreenScraperEngine::ReceiveSyncCallback(const SDL_Event& event)
 {
   // Finally, we process the result in the main thread
   FileData* game = (FileData*)event.user.data1;
-  if (mNotifier != nullptr)
-    mNotifier->GameResult(0, 0, game);
+  if (game != nullptr)
+  {
+    // Processed
+    mCount++;
+    // Call completed game notification
+    if (mNotifier != nullptr)
+      mNotifier->GameResult(mCount, mTotal, game);
+    // End of scrapping?
+    if (mCount == mTotal)
+      if (mNotifier != nullptr)
+        mNotifier->ScrapingComplete(ScrapeResult::Ok);
+  }
+  else
+  {
+    ScrapeResult error = (ScrapeResult)event.user.code;
+    switch(error)
+    {
+      case ScrapeResult::Ok:
+      case ScrapeResult::NotFound:
+      case ScrapeResult::QuotaReached:break;
+      case ScrapeResult::DiskFull:
+      case ScrapeResult::FatalError:
+      {
+        if (mNotifier != nullptr)
+          mNotifier->ScrapingComplete(error);
+        break;
+      }
+    }
+  }
 }
 
 int ScreenScraperEngine::ObtainEngine()
@@ -283,12 +366,19 @@ void ScreenScraperEngine::Engine::Initialize()
   mRunning = false;
   mAbortRequest = false;
   mQuotaReached = false;
+  mTextInfo = 0;
+  mImages = 0;
+  mVideos = 0;
+  mMediaSize = 0;
 }
 
-bool ScreenScraperEngine::Engine::Scrape(ScrappingMethod method, FileData& game)
+ScrapeResult ScreenScraperEngine::Engine::Scrape(ScrappingMethod method, FileData& game)
 {
   // Start
   mRunning = true;
+
+  // Result
+  ScrapeResult result = ScrapeResult::NotFound;
 
   // Check if the game needs to be scraped
   if (NeedScrapping(method, game))
@@ -297,7 +387,7 @@ bool ScreenScraperEngine::Engine::Scrape(ScrappingMethod method, FileData& game)
     {
       // Default return status
       ScreenScraperApis::Game gameResult;
-      gameResult.mResult = ScreenScraperApis::GameResult::NotFound;
+      gameResult.mResult = ScrapeResult::NotFound;
 
       LOG(LogDebug) << "Start scrapping data for " << game.getPath().ToString();
       if (mAbortRequest) break;
@@ -308,35 +398,43 @@ bool ScreenScraperEngine::Engine::Scrape(ScrappingMethod method, FileData& game)
       if (mAbortRequest) break;
 
       // Zip request
-      switch (RequestZipGameInfo(gameResult, game, size))
+      switch (result = RequestZipGameInfo(gameResult, game, size))
       {
-        case ScreenScraperApis::GameResult::QuotaReached:
-        case ScreenScraperApis::GameResult::FatalError: mRunning = false; return true; // General abort
-        case ScreenScraperApis::GameResult::Ok:break;
-        case ScreenScraperApis::GameResult::NotFound:
+        case ScrapeResult::QuotaReached:
+        case ScrapeResult::DiskFull:
+        case ScrapeResult::FatalError: mRunning = false; return result; // General abort
+        case ScrapeResult::Ok: break;
+        case ScrapeResult::NotFound:
         {
           // Normal file request
-          switch (RequestGameInfo(gameResult, game, size))
+          switch (result = RequestGameInfo(gameResult, game, size))
           {
-            case ScreenScraperApis::GameResult::QuotaReached:
-            case ScreenScraperApis::GameResult::FatalError: mRunning = false; return true; // General abort
-            case ScreenScraperApis::GameResult::NotFound: mRunning = false;
-            case ScreenScraperApis::GameResult::Ok: break;
+            case ScrapeResult::QuotaReached:
+            case ScrapeResult::DiskFull:
+            case ScrapeResult::FatalError: mRunning = false; return result; // General abort
+            case ScrapeResult::NotFound:
+            case ScrapeResult::Ok: break;
           }
         }
       }
       if (mAbortRequest) break;
 
       // Something found?
-      if (gameResult.mResult == ScreenScraperApis::GameResult::Ok)
+      if (gameResult.mResult == ScrapeResult::Ok)
       {
         // Store text data
         StoreTextData(method, gameResult, game);
         if (mAbortRequest) break;
 
         // Request and store media
-        if (DownloadAndStoreMedia(method, gameResult, game))
-          return true; // Quota reached
+        switch (DownloadAndStoreMedia(method, gameResult, game))
+        {
+          case ScrapeResult::QuotaReached:
+          case ScrapeResult::DiskFull:
+          case ScrapeResult::FatalError: mRunning = false; return result; // General abort
+          case ScrapeResult::NotFound:
+          case ScrapeResult::Ok: break;
+        }
         if (mAbortRequest) break;
       }
 
@@ -345,7 +443,7 @@ bool ScreenScraperEngine::Engine::Scrape(ScrappingMethod method, FileData& game)
 
   // Stop
   mRunning = false;
-  return false;
+  return result;
 }
 
 std::string ScreenScraperEngine::Engine::ComputeMD5(const Path& path)
@@ -364,8 +462,7 @@ std::string ScreenScraperEngine::Engine::ComputeMD5(const Path& path)
   return std::string();
 }
 
-ScreenScraperApis::GameResult
-ScreenScraperEngine::Engine::RequestGameInfo(ScreenScraperApis::Game& result, const FileData& game, long long size)
+ScrapeResult ScreenScraperEngine::Engine::RequestGameInfo(ScreenScraperApis::Game& result, const FileData& game, long long size)
 {
   // Get MD5
   std::string md5 = (size < sMaxMd5Calculation) ? ComputeMD5(game.getPath()) : std::string();
@@ -391,18 +488,18 @@ ScreenScraperEngine::Engine::RequestGameInfo(ScreenScraperApis::Game& result, co
     result = mCaller.GetGameInformation(sssysid, game.getPath(), crc32, md5, size);
     switch(result.mResult)
     {
-      case ScreenScraperApis::GameResult::NotFound: continue;
-      case ScreenScraperApis::GameResult::QuotaReached:
-      case ScreenScraperApis::GameResult::FatalError:
-      case ScreenScraperApis::GameResult::Ok: return result.mResult;
+      case ScrapeResult::NotFound: continue;
+      case ScrapeResult::QuotaReached:
+      case ScrapeResult::DiskFull:
+      case ScrapeResult::FatalError:
+      case ScrapeResult::Ok: return result.mResult;
     }
   }
 
   return result.mResult;
 }
 
-ScreenScraperApis::GameResult
-ScreenScraperEngine::Engine::RequestZipGameInfo(ScreenScraperApis::Game& result, const FileData& game, long long size)
+ScrapeResult ScreenScraperEngine::Engine::RequestZipGameInfo(ScreenScraperApis::Game& result, const FileData& game, long long size)
 {
   if (Strings::ToLowerASCII(game.getPath().Extension()) == ".zip")
   {
@@ -437,10 +534,11 @@ ScreenScraperEngine::Engine::RequestZipGameInfo(ScreenScraperApis::Game& result,
         result = mCaller.GetGameInformation(sssysid, filePath, crc32, md5, size);
         switch (result.mResult)
         {
-          case ScreenScraperApis::GameResult::NotFound: continue;
-          case ScreenScraperApis::GameResult::QuotaReached:
-          case ScreenScraperApis::GameResult::FatalError:
-          case ScreenScraperApis::GameResult::Ok: return result.mResult;
+          case ScrapeResult::NotFound: continue;
+          case ScrapeResult::DiskFull:
+          case ScrapeResult::QuotaReached:
+          case ScrapeResult::FatalError:
+          case ScrapeResult::Ok: return result.mResult;
         }
       }
     }
@@ -486,29 +584,50 @@ ScreenScraperEngine::Engine::StoreTextData(ScrappingMethod method, const ScreenS
 {
   // Name always scraped
   if (!sourceData.mName.empty())
+  {
     game.Metadata().SetName(sourceData.mName);
+    mTextInfo++;
+  }
   // Store data only if they are not empty and not scrapped if method is IncompleteKeep
   if (!sourceData.mSynopsis.empty())
     if (game.Metadata().Description().empty() || method != ScrappingMethod::IncompleteKeep)
+    {
       game.Metadata().SetDescription(sourceData.mSynopsis);
+      mTextInfo++;
+    }
   if (!sourceData.mPublisher.empty())
     if (game.Metadata().Publisher().empty() || method != ScrappingMethod::IncompleteKeep)
+    {
       game.Metadata().SetPublisher(sourceData.mPublisher);
+      mTextInfo++;
+    }
   if (!sourceData.mDeveloper.empty())
     if (game.Metadata().Developer().empty() || method != ScrappingMethod::IncompleteKeep)
+    {
       game.Metadata().SetDeveloper(sourceData.mDeveloper);
+      mTextInfo++;
+    }
   if (!sourceData.mPlayers.empty())
     if (game.Metadata().PlayerRange() == 0 || method != ScrappingMethod::IncompleteKeep)
+    {
       game.Metadata().SetPlayersAsString(sourceData.mPlayers);
+      mTextInfo++;
+    }
   if (sourceData.mReleaseDate.ToEpochTime() != 0)
     if (game.Metadata().ReleaseDateEpoc() == 0 || method != ScrappingMethod::IncompleteKeep)
+    {
       game.Metadata().SetReleaseDate(sourceData.mReleaseDate);
-  if (sourceData.mRating == 0.0f)
-    if (game.Metadata().Rating() == 0.0 || method != ScrappingMethod::IncompleteKeep)
+      mTextInfo++;
+    }
+  if (sourceData.mRating != 0.0f)
+    if (game.Metadata().Rating() == 0.0f || method != ScrappingMethod::IncompleteKeep)
+    {
       game.Metadata().SetRating(sourceData.mRating);
+      mTextInfo++;
+    }
 }
 
-bool
+ScrapeResult
 ScreenScraperEngine::Engine::DownloadAndStoreMedia(ScrappingMethod method, const ScreenScraperApis::Game& sourceData,
                                                    FileData& game)
 {
@@ -520,49 +639,55 @@ ScreenScraperEngine::Engine::DownloadAndStoreMedia(ScrappingMethod method, const
     if (game.Metadata().Image().IsEmpty() || method != ScrappingMethod::IncompleteKeep)
     {
       Path AbsoluteImagePath = rootFolder / "media/images" / (gameName + '.' + sourceData.MediaSources.mImageFormat);
+      long long size = 0;
 
-      switch(mCaller.GetMedia(sourceData.MediaSources.mImage, AbsoluteImagePath))
+      switch(mCaller.GetMedia(sourceData.MediaSources.mImage, AbsoluteImagePath, size))
       {
-        case ScreenScraperApis::GameResult::Ok: game.Metadata().SetImagePath(AbsoluteImagePath); break;
-        case ScreenScraperApis::GameResult::NotFound: LOG(LogError) << "Missing media!"; break;
-        case ScreenScraperApis::GameResult::QuotaReached: return true;
-        case ScreenScraperApis::GameResult::FatalError: break;
+        case ScrapeResult::Ok: game.Metadata().SetImagePath(AbsoluteImagePath); mImages++; mMediaSize += size; break;
+        case ScrapeResult::NotFound: LOG(LogError) << "Missing media!"; break;
+        case ScrapeResult::DiskFull: return ScrapeResult::DiskFull;
+        case ScrapeResult::QuotaReached: return ScrapeResult::QuotaReached;
+        case ScrapeResult::FatalError: break;
       }
     }
-  if (mAbortRequest) return false;
+  if (mAbortRequest) return ScrapeResult::Ok;
 
   // Thumbnail image
   if (!sourceData.MediaSources.mThumbnail.empty())
     if (game.Metadata().Thumbnail().IsEmpty() || method != ScrappingMethod::IncompleteKeep)
     {
       Path AbsoluteThumbnailPath = rootFolder / "media/thumbnails" / (gameName + '.' + sourceData.MediaSources.mThumbnailFormat);
+      long long size = 0;
 
-      switch(mCaller.GetMedia(sourceData.MediaSources.mThumbnail, AbsoluteThumbnailPath))
+      switch(mCaller.GetMedia(sourceData.MediaSources.mThumbnail, AbsoluteThumbnailPath, size))
       {
-        case ScreenScraperApis::GameResult::Ok: game.Metadata().SetThumbnailPath(AbsoluteThumbnailPath); break;
-        case ScreenScraperApis::GameResult::NotFound: LOG(LogError) << "Missing media!"; break;
-        case ScreenScraperApis::GameResult::QuotaReached: return true;
-        case ScreenScraperApis::GameResult::FatalError: break;
+        case ScrapeResult::Ok: game.Metadata().SetThumbnailPath(AbsoluteThumbnailPath); mImages++;  mMediaSize += size; break;
+        case ScrapeResult::NotFound: LOG(LogError) << "Missing media!"; break;
+        case ScrapeResult::DiskFull: return ScrapeResult::DiskFull;
+        case ScrapeResult::QuotaReached: return ScrapeResult::QuotaReached;
+        case ScrapeResult::FatalError: break;
       }
     }
-  if (mAbortRequest) return false;
+  if (mAbortRequest) return ScrapeResult::Ok;
 
   // Video
   if (!sourceData.MediaSources.mVideo.empty())
     if (game.Metadata().Thumbnail().IsEmpty() || method != ScrappingMethod::IncompleteKeep)
     {
       Path AbsoluteVideoPath = rootFolder / "media/videos" / (gameName + '.' + sourceData.MediaSources.mVideoFormat);
+      long long size = 0;
 
-      switch(mCaller.GetMedia(sourceData.MediaSources.mVideo, AbsoluteVideoPath))
+      switch(mCaller.GetMedia(sourceData.MediaSources.mVideo, AbsoluteVideoPath, size))
       {
-        case ScreenScraperApis::GameResult::Ok: game.Metadata().SetVideoPath(AbsoluteVideoPath); break;
-        case ScreenScraperApis::GameResult::NotFound: LOG(LogError) << "Missing media!"; break;
-        case ScreenScraperApis::GameResult::QuotaReached: return true;
-        case ScreenScraperApis::GameResult::FatalError: break;
+        case ScrapeResult::Ok: game.Metadata().SetVideoPath(AbsoluteVideoPath); mVideos++;  mMediaSize += size; break;
+        case ScrapeResult::NotFound: LOG(LogError) << "Missing media!"; break;
+        case ScrapeResult::DiskFull: return ScrapeResult::DiskFull;
+        case ScrapeResult::QuotaReached: return ScrapeResult::QuotaReached;
+        case ScrapeResult::FatalError: break;
       }
     }
 
   // TODO: Add more image download & save here
 
-  return false;
+  return ScrapeResult::Ok;
 }

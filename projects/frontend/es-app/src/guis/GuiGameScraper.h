@@ -1,5 +1,7 @@
 #pragma once
 
+#include <scraping/new/scrapers/IScraperEngine.h>
+#include <components/ButtonComponent.h>
 #include "guis/Gui.h"
 #include "components/ScraperSearchComponent.h"
 #include "components/NinePatchComponent.h"
@@ -7,28 +9,42 @@
 
 class GuiGameScraper : public Gui
 {
-public:
-	GuiGameScraper(Window&window, const ScraperSearchParams& params, const std::function<void(const ScraperSearchResult&)>& doneFunc);
+  public:
+    class IScrappingComplete
+    {
+      public:
+        virtual void ScrappingComplete(FileData& game) = 0;
+    };
 
-	void onSizeChanged() override;
+  private:
+    //! Scraper interface
+    IScraperEngine* mScraper;
 
-	bool ProcessInput(const InputCompactEvent& event) override;
-	void Update(int deltaTime) override;
-	bool getHelpPrompts(Help& help) override;
+    //! Target game
+    FileData& mGame;
 
-private:
-	bool mClose;
-	void close();
+    //! Notification interface
+    IScrappingComplete* mNotifier;
 
-	ComponentGrid mGrid;
-	NinePatchComponent mBox;
+    /*
+     * Components
+     */
 
-	std::shared_ptr<TextComponent> mGameName;
-	std::shared_ptr<TextComponent> mSystemName;
-	std::shared_ptr<ScraperSearchComponent> mSearch;
-	std::shared_ptr<ComponentGrid> mButtonGrid;
+    ComponentGrid mGrid;
+    NinePatchComponent mBox;
 
-	ScraperSearchParams mSearchParams;
+    std::shared_ptr<TextComponent> mGameName;
+    std::shared_ptr<TextComponent> mSystemName;
+    std::shared_ptr<ScraperSearchComponent> mSearch;
+    std::shared_ptr<ButtonComponent> mButton;
+    std::shared_ptr<ComponentGrid> mButtonGrid;
 
-	//std::function<void()> mCancelFunc;
+  public:
+    explicit GuiGameScraper(Window&window, FileData& game, IScrappingComplete* notifier);
+
+    void onSizeChanged() override;
+
+    bool ProcessInput(const InputCompactEvent& event) override;
+    void Update(int deltaTime) override;
+    bool getHelpPrompts(Help& help) override;
 };

@@ -27,4 +27,4 @@ add_executable(
         ${ALL_TESTED_SOURCES}
 )
 
-target_link_libraries(emulationstation_test pthread ${SDL2_LIBRARY} curl)
+target_link_libraries(emulationstation_test pthread ${SDL2_LIBRARY} curl zip)

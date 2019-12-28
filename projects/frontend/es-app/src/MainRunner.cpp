@@ -79,8 +79,8 @@ MainRunner::ExitState MainRunner::Run()
 
 
 
-    IScraperEngine* engine = ScraperFactory::GetScraper("default");
-    engine->RunOn(ScrappingMethod::All, systemManager.GetVisibleSystemList(), nullptr);
+    //IScraperEngine* engine = ScraperFactory::GetScraper("default");
+    //engine->RunOn(ScrappingMethod::All, systemManager.GetVisibleSystemList(), nullptr);
 
 
 

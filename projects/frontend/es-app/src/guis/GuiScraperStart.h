@@ -2,9 +2,7 @@
 
 #include "guis/Gui.h"
 #include "systems/SystemData.h"
-#include "scraping/Scraper.h"
 #include "components/MenuComponent.h"
-#include <queue>
 
 typedef std::function<bool(SystemData*, FileData*)> GameFilterFunc;
 
@@ -30,7 +28,6 @@ public:
 private:
 	void pressedStart();
 	void start();
-	static std::queue<ScraperSearchParams> getSearches(std::vector<SystemData*> systems, const GameFilterFunc& selector);
 
   //! SystemManager instance
 	SystemManager& mSystemManager;

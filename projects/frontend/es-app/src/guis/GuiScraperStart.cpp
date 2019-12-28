@@ -2,7 +2,6 @@
 #include "guis/GuiScraperStart.h"
 #include "guis/GuiScraperMulti.h"
 #include "guis/GuiMsgBox.h"
-#include "views/ViewController.h"
 
 #include "components/OptionListComponent.h"
 #include "components/SwitchComponent.h"
@@ -71,42 +70,13 @@ void GuiScraperStart::pressedStart()
 
 void GuiScraperStart::start()
 {
-	std::queue<ScraperSearchParams> searches = getSearches(mSystems->getSelectedObjects(), mFilters->getSelected());
 	if(Settings::Instance().Scraper() == "Screenscraper") {
 		Settings::Instance().SetMixImages(mMixImages->getState());
 	}
 
-	if(searches.empty())
-	{
-		mWindow.pushGui(new GuiMsgBox(mWindow,
-					       _("NO GAMES FIT THAT CRITERIA.")));
-	}else{
-		GuiScraperMulti* gsm = new GuiScraperMulti(mWindow, mSystemManager, searches, mApproveResults->getState());
-		mWindow.pushGui(gsm);
-		Close();
-	}
-}
-
-std::queue<ScraperSearchParams> GuiScraperStart::getSearches(std::vector<SystemData*> systems, const GameFilterFunc& selector)
-{
-	std::queue<ScraperSearchParams> queue;
-	for (auto& system : systems)
-	{
-		FileData::List games = system->getRootFolder()->getAllItemsRecursively(false);
-		for (auto& game : games)
-		{
-			if(selector(system, game))
-			{
-				ScraperSearchParams search;
-				search.game = game;
-				search.system = system;
-				
-				queue.push(search);
-			}
-		}
-	}
-
-	return queue;
+  GuiScraperMulti* gsm = new GuiScraperMulti(mWindow, mSystemManager, mSystems->getSelectedObjects()/*, mApproveResults->getState()*/);
+  mWindow.pushGui(gsm);
+  Close();
 }
 
 bool GuiScraperStart::ProcessInput(const InputCompactEvent& event)
@@ -123,10 +93,9 @@ bool GuiScraperStart::ProcessInput(const InputCompactEvent& event)
 
 	if (event.StartPressed())
 	{
-	  mWindow.deleteAllGui();
+	  mWindow.CloseAll();
     return true;
 	}
-
 
 	return false;
 }

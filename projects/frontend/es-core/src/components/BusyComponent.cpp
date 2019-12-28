@@ -23,12 +23,11 @@ BusyComponent::BusyComponent(Window&window)
 {
 	mutex = SDL_CreateMutex();
 
+  auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 
-    auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
-
-    mBackground.setImagePath(menuTheme->menuBackground.path);
-    mBackground.setCenterColor(menuTheme->menuBackground.color);
-    mBackground.setEdgeColor(menuTheme->menuBackground.color);
+  mBackground.setImagePath(menuTheme->menuBackground.path);
+  mBackground.setCenterColor(menuTheme->menuBackground.color);
+  mBackground.setEdgeColor(menuTheme->menuBackground.color);
 
 	mAnimation = std::make_shared<AnimatedImageComponent>(mWindow);
 	mAnimation->load(&BUSY_ANIMATION_DEF);

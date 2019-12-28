@@ -16,6 +16,8 @@ struct EmulatorDefaults
 class RecalboxSystem
 {
   public:
+    static long long GetMinimumFreeSpaceOnSharePartition() { return 3 << 30; } // 3Gb
+
     static unsigned long getFreeSpaceGB(const std::string& mountpoint);
 
     static std::string SizeToString(unsigned long long size);

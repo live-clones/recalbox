@@ -1,8 +1,6 @@
 #include "guis/GuiMetaDataEd.h"
 #include "Renderer.h"
 #include "Settings.h"
-#include "views/ViewController.h"
-#include "guis/GuiGameScraper.h"
 #include "guis/GuiMsgBox.h"
 #include <RecalboxConf.h>
 #include <components/SwitchComponent.h>
@@ -18,19 +16,20 @@
 
 #include "games/MetadataDescriptor.h"
 #include "games/MetadataFieldDescriptor.h"
+#include "GuiGameScraper.h"
 
 GuiMetaDataEd::GuiMetaDataEd(Window& window,
                              MetadataDescriptor& md,
-                             ScraperSearchParams scraperParams,
+                             FileData& game,
                              const std::string& header,
                              std::function<void()> saveCallback,
                              std::function<void()> deleteFunc,
                              SystemData* system,
                              bool main)
   : Gui(window),
+    mGame(game),
     mBackground(window, Path(":/frame.png")),
     mGrid(window, Vector2i(1, 3)),
-    mScraperParams(scraperParams),
     mMetaData(md),
     mSavedCallback(std::move(saveCallback)),
     mDeleteFunc(std::move(deleteFunc))
@@ -48,7 +47,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window& window,
 
   mTitle = std::make_shared<TextComponent>(mWindow, _("EDIT METADATA"), menuTheme->menuTitle.font, menuTheme->menuTitle.color,
                                            TextAlignment::Center);
-  mSubtitle = std::make_shared<TextComponent>(mWindow, Strings::ToUpperASCII(scraperParams.game->getPath().Filename()),
+  mSubtitle = std::make_shared<TextComponent>(mWindow, Strings::ToUpperASCII(game.getPath().Filename()),
                                               menuTheme->menuFooter.font, menuTheme->menuFooter.color, TextAlignment::Center);
   float y = 0;
   y += mTitle->getFont()->getHeight() + mSubtitle->getFont()->getHeight();
@@ -314,14 +313,14 @@ GuiMetaDataEd::GuiMetaDataEd(Window& window,
     row.makeAcceptInputHandler([this, header, system]
                                {
                                  // call the same Gui with "main" set to "false"
-                                 mWindow.pushGui(new GuiMetaDataEd(mWindow, mMetaData, mScraperParams, header, nullptr, nullptr, system, false));
+                                 mWindow.pushGui(new GuiMetaDataEd(mWindow, mMetaData, mGame, header, nullptr, nullptr, system, false));
                                });
 
     mList->addRow(row);
   }
 
 
-  if (main && !scraperParams.system->hasPlatformId(PlatformIds::PlatformId::PLATFORM_IGNORE))
+  if (main && !game.getSystem()->hasPlatformId(PlatformIds::PlatformId::PLATFORM_IGNORE))
   {
     buttons.push_back(std::make_shared<ButtonComponent>(mWindow, _("SCRAPE"), _("SCRAPE"), std::bind(&GuiMetaDataEd::fetch, this)));
   }
@@ -417,13 +416,11 @@ void GuiMetaDataEd::save()
 
 void GuiMetaDataEd::fetch()
 {
-  mWindow.pushGui(new GuiGameScraper(mWindow, mScraperParams,
-                                      std::bind(&GuiMetaDataEd::fetchDone, this, std::placeholders::_1)));
+  mWindow.pushGui(new GuiGameScraper(mWindow, mGame, this));
 }
 
-void GuiMetaDataEd::fetchDone(const ScraperSearchResult& result)
+void GuiMetaDataEd::ScrappingComplete(FileData& /*game*/)
 {
-  mMetaData.Merge(result.mdl);
   for (int i = 0; i < (int)mEditors.size(); i++)
   {
     GetValueMethodType method = mMetaDataEditable[i]->GetValueMethod();
@@ -454,7 +451,7 @@ void GuiMetaDataEd::close(bool closeAllWindows)
   {
     closeFunc = [this]
     {
-      mWindow.deleteAllGui();
+      mWindow.CloseAll();
     };
   }
 

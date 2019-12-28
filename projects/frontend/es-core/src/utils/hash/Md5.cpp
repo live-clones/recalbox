@@ -31,7 +31,7 @@ documentation and/or software.
 */
 
 /* interface header */
-#include "hash/Md5.h"
+#include "Md5.h"
 
 /* system implementation headers */
 #include <cstdio>
