@@ -63,6 +63,22 @@ float ComponentGrid::getRowHeight(int row)
     return (freeHeightPerc * mSize.y()) / (float)between;
 }
 
+float ComponentGrid::getColWidth(int col1, int col2)
+{
+  float result = 0;
+  for(++col2; --col2 >= col1; )
+    result += getColWidth(col2);
+  return result;
+}
+
+float ComponentGrid::getRowHeight(int row1, int row2)
+{
+  float result = 0;
+  for(++row2; --row2 >= row1; )
+    result += getRowHeight(row2);
+  return result;
+}
+
 void ComponentGrid::setColWidthPerc(int col, float width, bool update)
 {
     assert(width >= 0 && width <= 1);

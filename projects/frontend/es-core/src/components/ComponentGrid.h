@@ -45,7 +45,10 @@ public:
 	float getColWidth(int col);
 	float getRowHeight(int row);
 
-	void setColWidthPerc(int col, float width, bool update = true); // if update is false, will not call an onSizeChanged() which triggers a (potentially costly) repositioning + resizing of every element
+  float getColWidth(int col1, int col2);
+  float getRowHeight(int row1, int row2);
+
+  void setColWidthPerc(int col, float width, bool update = true); // if update is false, will not call an onSizeChanged() which triggers a (potentially costly) repositioning + resizing of every element
 	void setRowHeightPerc(int row, float height, bool update = true); // if update is false, will not call an onSizeChanged() which triggers a (potentially costly) repositioning + resizing of every element
 
 	bool moveCursor(Vector2i dir);

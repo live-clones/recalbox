@@ -37,9 +37,15 @@ TextComponent::TextComponent(Window&window, const std::string& text, const std::
 }
 
 TextComponent::TextComponent(Window&window, const std::string& text, const std::shared_ptr<Font>& font, unsigned int color, TextAlignment align)
-  : TextComponent(window, text, font, color)
+  : TextComponent(window)
 {
+  mFont = font;
+  mText = text;
+  mColor = color;
+  mColorOpacity = (unsigned char)(color & 0xFF);
+  mOriginColor = color;
   mHorizontalAlignment = align;
+  onTextChanged();
 }
 
 TextComponent::TextComponent(Window&window, const std::string& text, const std::shared_ptr<Font>& font, unsigned int color, TextAlignment align,
@@ -139,7 +145,7 @@ void TextComponent::Render(const Transform4x4f& parentTrans)
 			case TextAlignment::Center:
 				yOff = (getSize().y() - textSize.y()) / 2.0f;
 				break;
-				case TextAlignment::Left: break;
+				case TextAlignment::Left:
 				case TextAlignment::Right: break;
 			}
 		Vector3f off(0, yOff, 0);
@@ -169,7 +175,7 @@ void TextComponent::Render(const Transform4x4f& parentTrans)
 			case TextAlignment::Right:
 				Renderer::drawRect(mSize.x() - mTextCache->metrics.size.x(), 0.0f, mTextCache->metrics.size.x(), mTextCache->metrics.size.y(), 0x00000033);
 				break;
-        case TextAlignment::Top:break;
+        case TextAlignment::Top:
         case TextAlignment::Bottom:break;
       }
 		}

@@ -17,57 +17,55 @@ class AnimatedImageComponent;
 
 class ScraperSearchComponent : public Component
 {
-public:
-	explicit ScraperSearchComponent(Window& window);
+  public:
+    explicit ScraperSearchComponent(Window& window);
 
-	bool ProcessInput(const InputCompactEvent& event) override;
-	void Update(int deltaTime) override;
-	void Render(const Transform4x4f& parentTrans) override;
-	bool getHelpPrompts(Help& help) override;
-	void onSizeChanged() override;	
-  void onFocusGained() override { mGrid.onFocusGained(); }
-  void onFocusLost() override { mGrid.onFocusLost(); }
+    bool ProcessInput(const InputCompactEvent& event) override;
 
-  void UpdateInfoPane(const FileData* game);
+    void Update(int deltaTime) override;
 
-  /*!
-   * @brief Set running state - display or not busy animation
-   * @param running True to show the busy animation
-   */
-  void SetRunning(bool running) { mRunning = running; }
+    void Render(const Transform4x4f& parentTrans) override;
 
-private:
-	void updateViewStyle();
+    bool getHelpPrompts(Help& help) override;
 
-	void resizeMetadata();
+    void onSizeChanged() override;
 
-	ComponentGrid mGrid;
+    void onFocusGained() override
+    { mGrid.onFocusGained(); }
 
-	std::shared_ptr<TextComponent> mResultName;
-	std::shared_ptr<ScrollableContainer> mDescContainer;
-	std::shared_ptr<TextComponent> mResultDesc;
-	std::shared_ptr<ImageComponent> mResultThumbnail;
+    void onFocusLost() override
+    { mGrid.onFocusLost(); }
 
-	std::shared_ptr<ComponentGrid> mMD_Grid;
-	std::shared_ptr<RatingComponent> mMD_Rating;
-	std::shared_ptr<DateTimeComponent> mMD_ReleaseDate;
-	std::shared_ptr<TextComponent> mMD_Developer;
-	std::shared_ptr<TextComponent> mMD_Publisher;
-	std::shared_ptr<TextComponent> mMD_Genre;
-	std::shared_ptr<TextComponent> mMD_Players;
+    void UpdateInfoPane(const FileData* game);
 
-	// label-component pair
-	struct MetaDataPair
-	{
-		std::shared_ptr<TextComponent> first;
-		std::shared_ptr<Component> second;
-		bool resize;
+    /*!
+     * @brief Set running state - display or not busy animation
+     * @param running True to show the busy animation
+     */
+    void SetRunning(bool running) { mRunning = running; }
 
-		MetaDataPair(std::shared_ptr<TextComponent> f, std::shared_ptr<Component> s, bool r = true) : first(std::move(f)), second(std::move(s)), resize(r) {};
-	};
-	
-	std::vector<MetaDataPair> mMD_Pairs;
+  private:
+    ComponentGrid mGrid;
+    BusyComponent mBusyAnim;
 
-	bool mRunning;
-	BusyComponent mBusyAnim;
+    std::shared_ptr<TextComponent> mResultName;
+    std::shared_ptr<ScrollableContainer> mDescContainer;
+    std::shared_ptr<TextComponent> mResultDesc;
+    std::shared_ptr<ImageComponent> mResultThumbnail;
+
+    std::shared_ptr<RatingComponent> mValueRating;
+    std::shared_ptr<DateTimeComponent> mValueReleaseDate;
+    std::shared_ptr<TextComponent> mValueDeveloper;
+    std::shared_ptr<TextComponent> mValuePublisher;
+    std::shared_ptr<TextComponent> mValueGenre;
+    std::shared_ptr<TextComponent> mValuePlayers;
+
+    std::shared_ptr<TextComponent> mLabelRating;
+    std::shared_ptr<TextComponent> mLabelReleaseDate;
+    std::shared_ptr<TextComponent> mLabelDeveloper;
+    std::shared_ptr<TextComponent> mLabelPublisher;
+    std::shared_ptr<TextComponent> mLabelGenre;
+    std::shared_ptr<TextComponent> mLabelPlayers;
+
+    bool mRunning;
 };

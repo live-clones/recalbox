@@ -16,63 +16,90 @@
 
 ScraperSearchComponent::ScraperSearchComponent(Window& window)
   : Component(window),
-    mGrid(window, Vector2i(4, 3)),
+    mGrid(window, Vector2i(7, 6)),
     mBusyAnim(window)
 {
 	addChild(&mGrid);
-	
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 
-	mRunning = true;
+	// GRID: 7 x 6
+	// +-+-------------------------------------------------------------------------------------------------------------+-+
+	// | | GAME TITLE                                                                                                  | | 0 = 10% or Text height
+  // | +-------------------------------+--------------------+-------------------+-------------------+----------------+ |
+  // | |  ###########################  |        DEVELOPER : | SEGA              |          RATING : | @@@OO          | | 1 = 10% or Text height
+  // | |  #                         #  +--------------------+-------------------+-------------------+----------------+ |
+  // | |  #                         #  |        PUBLISHER : | NINTENDO          |    RELEASE DATE : | 1891/12/03     | | 2 = 10% or Text height
+  // | |  #                         #  +--------------------+-------------------+-------------------+----------------+ |
+  // | |  #                         #  |            GENRE : | SHOOT'EM-UP       |         PLAYERS : | 1-2            | | 3 = 10% or Text height
+  // | |  #                         #  +--------------------+-------------------+-------------------+----------------+ |
+  // | |  #                         #  |                                                                             | |
+  // | |  #                         #  | Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod     | |
+  // | |  #                         #  | tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim        | | 4 = 30%
+  // | |  ###########################  | veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea     | |
+  // | |                               | commodo consequat. Duis aute irure dolor in reprehenderit in voluptate      | |
+  // | +-------------------------------+ velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat  | |
+  // | |                               | cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id   | |
+  // | |                               | est laborum.                                                                | |
+  // | |   @O Animated busy            |                                                                             | |
+  // | |   OO                          |                                                                             | | 5 = 30%
+  // | |                               |                                                                             | |
+  // | |                               |                                                                             | |
+  // +-+-------------------------------+-----------------------------------------------------------------------------+-+
+  //  0              1                            2                  3                   4                   5        6
+  //  5%            30%                          15%                15%                 15%                 15%       5%
 
-	// left spacer (empty component, needed for borders)
-	mGrid.setEntry(std::make_shared<Component>(mWindow), Vector2i(0, 0), false, false, Vector2i(1, 3), Borders::Top | Borders::Bottom);
+  auto font = menuTheme->menuTextSmall.font;
+  const unsigned int mdColor = menuTheme->menuText.color;
+  const unsigned int mdLblColor = menuTheme->menuText.color;
 
-	// selected result name
-	mResultName = std::make_shared<TextComponent>(mWindow, "RESULT NAME", menuTheme->menuText.font, menuTheme->menuText.color);
+  // Game Name
+  mResultName = std::make_shared<TextComponent>(mWindow, "RESULT NAME", menuTheme->menuText.font, menuTheme->menuText.color);
+  mGrid.setEntry(mResultName, Vector2i(1, 0), false, true, Vector2i(5, 1));
 
-	// selected result thumbnail
-	mResultThumbnail = std::make_shared<ImageComponent>(mWindow);
-	mGrid.setEntry(mResultThumbnail, Vector2i(1, 1), false, false, Vector2i(1, 1));
+  // Image thumbnail
+  mResultThumbnail = std::make_shared<ImageComponent>(mWindow);
+  mGrid.setEntry(mResultThumbnail, Vector2i(1, 1), false, false, Vector2i(1, 4));
 
-	// selected result desc + container
-	mDescContainer = std::make_shared<ScrollableContainer>(mWindow);
-	mResultDesc = std::make_shared<TextComponent>(mWindow, "RESULT DESC", menuTheme->menuText.font, menuTheme->menuText.color);
-	mDescContainer->addChild(mResultDesc.get());
-	mDescContainer->setAutoScroll(true);
-	
-	// metadata
-	auto font = menuTheme->menuTextSmall.font; // this gets replaced in onSizeChanged() so its just a placeholder
-	const unsigned int mdColor = menuTheme->menuText.color;
-	const unsigned int mdLblColor = menuTheme->menuText.color;
-	mMD_Rating = std::make_shared<RatingComponent>(mWindow, menuTheme->menuText.color);
-	mMD_ReleaseDate = std::make_shared<DateTimeComponent>(mWindow);
-	mMD_ReleaseDate->setColor(mdColor);
-	mMD_ReleaseDate->setHorizontalAlignment(TextAlignment::Left);
-	mMD_Developer = std::make_shared<TextComponent>(mWindow, "", font, mdColor);
-	mMD_Publisher = std::make_shared<TextComponent>(mWindow, "", font, mdColor);
-	mMD_Genre = std::make_shared<TextComponent>(mWindow, "", font, mdColor);
-	mMD_Players = std::make_shared<TextComponent>(mWindow, "", font, mdColor);
+  // selected result desc + container
+  mDescContainer = std::make_shared<ScrollableContainer>(mWindow);
+  mResultDesc = std::make_shared<TextComponent>(mWindow, "RESULT DESC", font, menuTheme->menuText.color);
+  mDescContainer->addChild(mResultDesc.get());
+  mDescContainer->setAutoScroll(true);
+  // show description on the right
+  mGrid.setEntry(mDescContainer, Vector2i(2, 4), false, false, Vector2i(4, 2));
+  mResultDesc->setSize(mDescContainer->getSize().x(), 0); // make desc text wrap at edge of container
 
-	mMD_Pairs.push_back(MetaDataPair(std::make_shared<TextComponent>(mWindow, Strings::ToUpperASCII(_("Rating") + ":"), font, mdLblColor), mMD_Rating, false));
-	mMD_Pairs.push_back(MetaDataPair(std::make_shared<TextComponent>(mWindow, Strings::ToUpperASCII(_("Released") + ":"), font, mdLblColor), mMD_ReleaseDate));
-	mMD_Pairs.push_back(MetaDataPair(std::make_shared<TextComponent>(mWindow, Strings::ToUpperUTF8(_("Developer") + ":"), font, mdLblColor), mMD_Developer));
-	mMD_Pairs.push_back(MetaDataPair(std::make_shared<TextComponent>(mWindow, Strings::ToUpperUTF8(_("Publisher") + ":"), font, mdLblColor), mMD_Publisher));
-	mMD_Pairs.push_back(MetaDataPair(std::make_shared<TextComponent>(mWindow, Strings::ToUpperUTF8(_("Genre") + ":"), font, mdLblColor), mMD_Genre));
-	mMD_Pairs.push_back(MetaDataPair(std::make_shared<TextComponent>(mWindow, Strings::ToUpperASCII(_("Players") + ":"), font, mdLblColor), mMD_Players));
+  // Labels
+  mLabelDeveloper = std::make_shared<TextComponent>(mWindow, Strings::ToUpperUTF8(_("Developer") + ":"), font, mdLblColor, TextAlignment::Right);
+  mGrid.setEntry(mLabelDeveloper, Vector2i(2, 1), false, false, Vector2i(1, 1));
+  mLabelPublisher = std::make_shared<TextComponent>(mWindow, Strings::ToUpperUTF8(_("Publisher") + ":"), font, mdLblColor, TextAlignment::Right);
+  mGrid.setEntry(mLabelPublisher, Vector2i(2, 2), false, false, Vector2i(1, 1));
+  mLabelGenre = std::make_shared<TextComponent>(mWindow, Strings::ToUpperUTF8(_("Genre") + ":"), font, mdLblColor, TextAlignment::Right);
+  mGrid.setEntry(mLabelGenre, Vector2i(2, 3), false, false, Vector2i(1, 1));
+  mLabelRating = std::make_shared<TextComponent>(mWindow, Strings::ToUpperASCII(_("Rating") + ":"), font, mdLblColor, TextAlignment::Right);
+  mGrid.setEntry(mLabelRating, Vector2i(4, 1), false, false, Vector2i(1, 1));
+  mLabelReleaseDate = std::make_shared<TextComponent>(mWindow, Strings::ToUpperASCII(_("Released") + ":"), font, mdLblColor, TextAlignment::Right);
+  mGrid.setEntry(mLabelReleaseDate, Vector2i(4, 2), false, false, Vector2i(1, 1));
+  mLabelPlayers = std::make_shared<TextComponent>(mWindow, Strings::ToUpperASCII(_("Players") + ":"), font, mdLblColor, TextAlignment::Right);
+  mGrid.setEntry(mLabelPlayers, Vector2i(4, 3), false, false, Vector2i(1, 1));
 
-	mMD_Grid = std::make_shared<ComponentGrid>(mWindow, Vector2i(2, (int)mMD_Pairs.size()*2 - 1));
-	int i = 0;
-	for (auto& mMD_Pair : mMD_Pairs)
-	{
-		mMD_Grid->setEntry(mMD_Pair.first, Vector2i(0, i), false, true);
-		mMD_Grid->setEntry(mMD_Pair.second, Vector2i(1, i), false, mMD_Pair.resize);
-		i += 2;
-	}
+  // Value
+  mValueDeveloper = std::make_shared<TextComponent>(mWindow, "", font, mdColor);
+  mGrid.setEntry(mValueDeveloper, Vector2i(3, 1), false, false, Vector2i(1, 1));
+  mValuePublisher = std::make_shared<TextComponent>(mWindow, "", font, mdColor);
+  mGrid.setEntry(mValuePublisher, Vector2i(3, 2), false, false, Vector2i(1, 1));
+  mValueGenre = std::make_shared<TextComponent>(mWindow, "", font, mdColor);
+  mGrid.setEntry(mValueGenre, Vector2i(2, 3), false, false, Vector2i(1, 1));
+  mValueRating = std::make_shared<RatingComponent>(mWindow, menuTheme->menuText.color);
+  mGrid.setEntry(mValueRating, Vector2i(5, 1), false, false, Vector2i(1, 1));
+  mValueReleaseDate = std::make_shared<DateTimeComponent>(mWindow);
+  mValueReleaseDate->setColor(mdColor);
+  mValueReleaseDate->setHorizontalAlignment(TextAlignment::Left);
+  mGrid.setEntry(mValueReleaseDate, Vector2i(5, 2), false, false, Vector2i(1, 1));
+  mValuePlayers = std::make_shared<TextComponent>(mWindow, "", font, mdColor);
+  mGrid.setEntry(mValuePlayers, Vector2i(5, 3), false, false, Vector2i(1, 1));
 
-	mGrid.setEntry(mMD_Grid, Vector2i(2, 1), false, false);
-
-	updateViewStyle();
+  mRunning = true;
 }
 
 void ScraperSearchComponent::onSizeChanged()
@@ -81,100 +108,59 @@ void ScraperSearchComponent::onSizeChanged()
 	
 	if(mSize.x() == 0 || mSize.y() == 0) return;
 
-	// column widths
-  mGrid.setColWidthPerc(0, 0.02f); // looks better when this is higher in auto mode
+  // column widths
+  mGrid.setColWidthPerc(0, 0.05f);
+	mGrid.setColWidthPerc(1, 0.30f);
+	mGrid.setColWidthPerc(2, 0.15f);
+  mGrid.setColWidthPerc(3, 0.15f);
+  mGrid.setColWidthPerc(4, 0.15f);
+  mGrid.setColWidthPerc(5, 0.15f);
+  mGrid.setColWidthPerc(6, 0.05f);
 
-	mGrid.setColWidthPerc(1, 0.25f);
-	mGrid.setColWidthPerc(2, 0.25f);
-	
 	// row heights
-	mGrid.setRowHeightPerc(0, (mResultName->getFont()->getHeight() * 1.6f) / mGrid.getSize().y()); // result name
+  auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+  auto font = menuTheme->menuTextSmall.font;
+	float firstRowPercent = (mResultName->getFont()->getHeight() * 1.6f) / mGrid.getSize().y();
+  float textRowPercent  = (font->getHeight() * 1.6f) / mGrid.getSize().y();
+  float otherRowPercent = (1.0f - (firstRowPercent + textRowPercent * 3.0f)) / 2.0f;
+	mGrid.setRowHeightPerc(0, firstRowPercent); // result name
+  mGrid.setRowHeightPerc(1, textRowPercent);
+  mGrid.setRowHeightPerc(2, textRowPercent);
+  mGrid.setRowHeightPerc(3, textRowPercent);
+  mGrid.setRowHeightPerc(4, otherRowPercent);
+  mGrid.setRowHeightPerc(5, otherRowPercent);
 
-	mGrid.setRowHeightPerc(2, 0.2f);
-
+  // Resize title & description
 	const float boxartCellScale = 0.9f;
-
-	// limit thumbnail size using setMaxHeight - we do this instead of letting mGrid call setSize because it maintains the aspect ratio
-	// we also pad a little so it doesn't rub up against the metadata labels
-	mResultThumbnail->setMaxSize(mGrid.getColWidth(1) * boxartCellScale, mGrid.getRowHeight(1));
-
-	// metadata
-	resizeMetadata();
-	
-	mDescContainer->setSize(mGrid.getColWidth(1)*boxartCellScale + mGrid.getColWidth(2), mResultDesc->getFont()->getHeight() * 3);
-
+	mResultThumbnail->setMaxSize(mGrid.getColWidth(1) * boxartCellScale, mGrid.getRowHeight(1, 4) * boxartCellScale);
+	mDescContainer->setSize(mGrid.getColWidth(2, 5) * boxartCellScale, mGrid.getRowHeight(4, 5) * boxartCellScale);
 	mResultDesc->setSize(mDescContainer->getSize().x(), 0); // make desc text wrap at edge of container
 
-	mGrid.onSizeChanged();
+  // Resize Labels
+  mLabelDeveloper->setSize(mGrid.getColWidth(3) * boxartCellScale, mLabelDeveloper->getFont()->getHeight());
+  mLabelPublisher->setSize(mGrid.getColWidth(3) * boxartCellScale, mLabelPublisher->getFont()->getHeight());
+  mLabelGenre->setSize(mGrid.getColWidth(3) * boxartCellScale, mLabelGenre->getFont()->getHeight());
+  mLabelRating->setSize(mGrid.getColWidth(5) * boxartCellScale, mLabelRating->getFont()->getHeight());
+  mLabelReleaseDate->setSize(mGrid.getColWidth(5) * boxartCellScale, mLabelReleaseDate->getFont()->getHeight());
+  mLabelPlayers->setSize(mGrid.getColWidth(5) * boxartCellScale, mLabelPlayers->getFont()->getHeight());
 
-	mBusyAnim.setSize(mSize);
-}
+  // Resize Values
+	mValueDeveloper->setSize(mGrid.getColWidth(3) * boxartCellScale, mValueDeveloper->getFont()->getHeight());
+  mValuePublisher->setSize(mGrid.getColWidth(3) * boxartCellScale, mValuePublisher->getFont()->getHeight());
+  mValueGenre->setSize(mGrid.getColWidth(3) * boxartCellScale, mValueGenre->getFont()->getHeight());
+  mValueRating->setSize(mGrid.getColWidth(5) * boxartCellScale, mValueDeveloper->getFont()->getHeight() * 0.65f);
+  mValueReleaseDate->setSize(mGrid.getColWidth(5) * boxartCellScale, mValueDeveloper->getFont()->getHeight());
+  mValuePlayers->setSize(mGrid.getColWidth(5) * boxartCellScale, mValuePublisher->getFont()->getHeight());
 
-void ScraperSearchComponent::resizeMetadata()
-{
-	mMD_Grid->setSize(mGrid.getColWidth(2), mGrid.getRowHeight(1));
-	if(mMD_Grid->getSize().y() > mMD_Pairs.size())
-	{
-		auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
-		//const int fontHeight = (int)(mMD_Grid->getSize().y() / mMD_Pairs.size() * 0.8f);
-		auto fontLbl = menuTheme->menuTextSmall.font;
-		auto fontComp = menuTheme->menuTextSmall.font;
-
-		// update label fonts
-		float maxLblWidth = 0;
-		for (auto& mMD_Pair : mMD_Pairs)
-		{
-			mMD_Pair.first->setFont(fontLbl);
-			mMD_Pair.first->setSize(0, 0);
-			if(mMD_Pair.first->getSize().x() > maxLblWidth)
-				maxLblWidth = mMD_Pair.first->getSize().x() + 6;
-		}
-
-		for (int i = 0; i < (int)mMD_Pairs.size(); i++)
-		{
-			mMD_Grid->setRowHeightPerc(i*2, (fontLbl->getLetterHeight() + 2) / mMD_Grid->getSize().y());
-		}
-
-		// update component fonts
-		mMD_ReleaseDate->setFont(fontComp);
-		mMD_Developer->setFont(fontComp);
-		mMD_Publisher->setFont(fontComp);
-		mMD_Genre->setFont(fontComp);
-		mMD_Players->setFont(fontComp);
-
-		mMD_Grid->setColWidthPerc(0, maxLblWidth / mMD_Grid->getSize().x());
-
-		// rating is manually sized
-		mMD_Rating->setSize(mMD_Grid->getColWidth(1), fontLbl->getHeight() * 0.65f);
-		mMD_Grid->onSizeChanged();
-
-		// make result font follow label font
-		mResultDesc->setFont(menuTheme->menuTextSmall.font);
-	}
-}
-
-void ScraperSearchComponent::updateViewStyle()
-{
-	// unlink description and result list and result name
-	mGrid.removeEntry(mResultName);
-	mGrid.removeEntry(mResultDesc);
-
-  // show name
-  mGrid.setEntry(mResultName, Vector2i(1, 0), false, true, Vector2i(2, 1), Borders::Top);
-
-  // need a border on the bottom left
-  mGrid.setEntry(std::make_shared<Component>(mWindow), Vector2i(0, 2), false, false, Vector2i(3, 1), Borders::Bottom);
-
-  // show description on the right
-  mGrid.setEntry(mDescContainer, Vector2i(3, 0), false, false, Vector2i(1, 3), Borders::Top | Borders::Bottom);
-  mResultDesc->setSize(mDescContainer->getSize().x(), 0); // make desc text wrap at edge of container
+  mGrid.onSizeChanged();
+  mBusyAnim.setPosition(mGrid.getColWidth(0), mGrid.getRowHeight(0, 4));
+	mBusyAnim.setSize(mGrid.getColWidth(1), mGrid.getRowHeight(5));
 }
 
 void ScraperSearchComponent::UpdateInfoPane(const FileData* game)
 {
 	if (game != nullptr)
 	{
-
 		mResultName->setText(Strings::ToUpperUTF8(game->getName()));
 		mResultDesc->setText(Strings::ToUpperUTF8(game->Metadata().Description()));
 		mDescContainer->reset();
@@ -184,12 +170,12 @@ void ScraperSearchComponent::UpdateInfoPane(const FileData* game)
     mResultThumbnail->setImage(image);
 
     // metadata
-		mMD_Rating->setValue(Strings::ToUpperASCII(game->Metadata().RatingAsString()));
-		mMD_ReleaseDate->setValue(Strings::ToUpperASCII(game->Metadata().ReleaseDateAsString()));
-		mMD_Developer->setText(Strings::ToUpperUTF8(game->Metadata().Developer()));
-		mMD_Publisher->setText(Strings::ToUpperUTF8(game->Metadata().Publisher()));
-		mMD_Genre->setText(Strings::ToUpperUTF8(game->Metadata().Genre()));
-		mMD_Players->setText(Strings::ToUpperASCII(game->Metadata().PlayersAsString()));
+		mValueRating->setValue(Strings::ToUpperASCII(game->Metadata().RatingAsString()));
+		mValueReleaseDate->setValue(Strings::ToUpperASCII(game->Metadata().ReleaseDateAsString()));
+		mValueDeveloper->setText(Strings::ToUpperUTF8(game->Metadata().Developer()));
+		mValuePublisher->setText(Strings::ToUpperUTF8(game->Metadata().Publisher()));
+		mValueGenre->setText(Strings::ToUpperUTF8(game->Metadata().Genre()));
+		mValuePlayers->setText(Strings::ToUpperASCII(game->Metadata().PlayersAsString()));
 		mGrid.onSizeChanged();
 	}
 	else
@@ -201,12 +187,12 @@ void ScraperSearchComponent::UpdateInfoPane(const FileData* game)
     mResultThumbnail->setImage(Path());
 
     // metadata
-		mMD_Rating->setValue("");
-		mMD_ReleaseDate->setValue("");
-		mMD_Developer->setText("");
-		mMD_Publisher->setText("");
-		mMD_Genre->setText("");
-		mMD_Players->setText("");
+		mValueRating->setValue("");
+		mValueReleaseDate->setValue("");
+		mValueDeveloper->setText("");
+		mValuePublisher->setText("");
+		mValueGenre->setText("");
+		mValuePlayers->setText("");
 	}
 }
 

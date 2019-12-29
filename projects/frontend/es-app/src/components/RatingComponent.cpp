@@ -23,11 +23,10 @@ RatingComponent::RatingComponent(Window&window)
 
 void RatingComponent::setValue(const std::string& value)
 {
-	if(value.empty())
-	{
-		mValue = 0.0f;
-	}else{
-		mValue = stof(value);
+  mValue = 0.0f;
+	if(!value.empty())
+  {
+		Strings::ToFloat(value, mValue);
 		if(mValue > 1.0f)
 			mValue = 1.0f;
 		else if(mValue < 0.0f)
@@ -40,6 +39,7 @@ void RatingComponent::setValue(const std::string& value)
 void RatingComponent::onSizeChanged()
 {
 	if(mSize.y() == 0)
+
 		mSize[1] = mSize.x() / NUM_RATING_STARS;
 	else if(mSize.x() == 0)
 		mSize[0] = mSize.y() * NUM_RATING_STARS;
