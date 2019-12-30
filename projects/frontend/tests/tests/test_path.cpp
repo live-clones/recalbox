@@ -757,6 +757,6 @@ TEST_F(PathTest, testMakeRelative)
 TEST_F(PathTest, testFileSize)
 {
   ASSERT_EQ(Path("/path/to/file").Size(), 0);
-  ASSERT_EQ(Path(TestSet.Folder1.Folder2.Folder3.file3).Size(), 4);
+  ASSERT_EQ(Path(TestSet.Folder1.Folder2.Folder3.file3).Size(), 5); // text + \n
   ASSERT_NE(Path(TestSet.Folder1.Folder2.Folder3.name).Size(), 0);
 }
