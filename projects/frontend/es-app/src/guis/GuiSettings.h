@@ -51,7 +51,7 @@ public:
 	inline MenuComponent *getMenu() const { return &mMenu; }
 
 private:
-        bool doSave = true;
+  bool doSave = true;
 	mutable MenuComponent mMenu;
 	std::vector< std::function<void()> > mSaveFuncs;
 };

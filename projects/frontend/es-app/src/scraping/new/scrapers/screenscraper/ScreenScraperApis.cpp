@@ -101,6 +101,7 @@ ScreenScraperApis::GetGameInformation(int system, const Path& path, const std::s
         case 401:
         case 400: game.mResult = ScrapeResult::FatalError; break;
         case 404: game.mResult = ScrapeResult::NotFound; break;
+        case 431:
         case 430: game.mResult = ScrapeResult::QuotaReached; break;
         case 200: game.mResult = ScrapeResult::Ok; break;
         default:
@@ -383,6 +384,7 @@ ScrapeResult ScreenScraperApis::GetMedia(const std::string& mediaurl, const Path
         case 401:
         case 400: result = ScrapeResult::FatalError; break;
         case 404: result = ScrapeResult::NotFound; break;
+        case 431:
         case 430: result = ScrapeResult::QuotaReached; break;
         case 200: result = ScrapeResult::Ok; size = mClient.GetLastContentSize(); break;
         default:

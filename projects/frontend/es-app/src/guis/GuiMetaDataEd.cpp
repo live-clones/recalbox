@@ -16,7 +16,7 @@
 
 #include "games/MetadataDescriptor.h"
 #include "games/MetadataFieldDescriptor.h"
-#include "GuiGameScraper.h"
+#include "GuiScraperSingleGameRun.h"
 
 GuiMetaDataEd::GuiMetaDataEd(Window& window,
                              MetadataDescriptor& md,
@@ -416,7 +416,7 @@ void GuiMetaDataEd::save()
 
 void GuiMetaDataEd::fetch()
 {
-  mWindow.pushGui(new GuiGameScraper(mWindow, mGame, this));
+  mWindow.pushGui(new GuiScraperSingleGameRun(mWindow, mGame, this));
 }
 
 void GuiMetaDataEd::ScrappingComplete(FileData& /*game*/)

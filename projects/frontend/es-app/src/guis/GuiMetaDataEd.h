@@ -2,12 +2,12 @@
 
 #include "guis/Gui.h"
 #include "components/MenuComponent.h"
-#include "GuiGameScraper.h"
+#include "GuiScraperSingleGameRun.h"
 
 #include <functional>
 #include <systems/SystemData.h>
 
-class GuiMetaDataEd : public Gui, public GuiGameScraper::IScrappingComplete
+class GuiMetaDataEd : public Gui, public GuiScraperSingleGameRun::IScrappingComplete
 {
   private:
     void save();
@@ -33,7 +33,7 @@ class GuiMetaDataEd : public Gui, public GuiGameScraper::IScrappingComplete
     std::function<void()> mDeleteFunc;
 
     /*
-     * GuiGameScraper::IScrappingCommplete
+     * GuiScraperSingleGameRun::IScrappingCommplete
      */
 
     void ScrappingComplete(FileData& game) override;

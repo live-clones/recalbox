@@ -8,7 +8,7 @@
 
 class ScraperFactory
 {
-  private:
+  public:
     //! Available scraper type
     enum class ScraperType
     {
@@ -16,6 +16,7 @@ class ScraperFactory
         TheGameDB,     //!< The GameDB database
     };
 
+  private:
     //! Scraper instance holder, for automatic destruction
     class ScraperHolder
     {
@@ -40,6 +41,8 @@ class ScraperFactory
 
   public:
     static IScraperEngine* GetScraper(const std::string& scraperidentifier);
+
+    static ScraperType GetScraperType(const std::string& scraperidentifier);
 
     static const std::vector<std::string>& GetScraperList();
 };

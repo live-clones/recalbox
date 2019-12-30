@@ -119,9 +119,6 @@ template<class FeedObject, class ResultObject> class ThreadPool
       {
         result = mQueue.back();
         mQueue.pop_back();
-        if (mQueue.empty())
-          for (auto& thread : mThreads)
-            thread->Signal();
       }
       mStackMutex.UnLock();
       return ok;
@@ -197,8 +194,9 @@ template<class FeedObject, class ResultObject> class ThreadPool
       mStackMutex.Lock();
       mQueue.push_back(IndexedFeed(mIndex++, feed, priority));
       mStackMutex.UnLock();
-      for(auto& thread : mThreads)
-        thread->Signal();
+      if (mPermanent)
+        for(auto& thread : mThreads)
+          thread->Signal();
     }
 
     /*!
@@ -302,6 +300,7 @@ void ThreadPool<FeedObject, ResultObject>::Run(int threadCount, bool async)
   // Delete previous threads
   for(WorkerThread* thread : mThreads)
     delete thread;
+  mThreads.clear();
 
   // Create and run threads
   for(int i = threadCount; --i >= 0; )

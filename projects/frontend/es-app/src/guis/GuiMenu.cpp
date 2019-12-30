@@ -6,7 +6,6 @@
 #include <LibretroRatio.h>
 #include <systems/SystemManager.h>
 #include <MainRunner.h>
-#include <scraping/new/ScraperFactory.h>
 
 #include "EmulationStation.h"
 #include "guis/GuiMenu.h"
@@ -16,7 +15,6 @@
 #include "recalbox/RecalboxSystem.h"
 #include "recalbox/RecalboxUpgrade.h"
 #include "guis/GuiMsgBox.h"
-#include "guis/GuiScraperStart.h"
 #include "guis/GuiDetectDevice.h"
 #include "guis/GuiUpdate.h"
 #include "views/ViewController.h"
@@ -40,6 +38,7 @@
 #include "MenuThemeData.h"
 #include "animations/LambdaAnimation.h"
 #include "GuiHashStart.h"
+#include "GuiScraperSelect.h"
 
 GuiMenu::GuiMenu(Window& window, SystemManager& systemManager)
   : Gui(window),
@@ -1285,9 +1284,9 @@ void GuiMenu::menuNetworkSettings(){
   mWindow.pushGui(s);
 }
 
-void GuiMenu::menuScrapper(){
-
-  auto openScrapeNow = [this] { mWindow.pushGui(new GuiScraperStart(mWindow, mSystemManager)); };
+void GuiMenu::menuScrapper()
+{
+  /*auto openScrapeNow = [this] { mWindow.pushGui(new GuiScraperOptions(mWindow, mSystemManager)); };
   auto s = new GuiSettings(mWindow, _("SCRAPER").c_str());
 
   // scrape from
@@ -1297,27 +1296,18 @@ void GuiMenu::menuScrapper(){
     scraper_list->add(scraper, scraper, scraper == Settings::Instance().Scraper());
 
   s->addWithLabel(scraper_list, _("SCRAPE FROM"), _(MenuMessages::SCRAPER_FROM_HELP_MSG));
-  s->addSaveFunc([scraper_list] {
-    Settings::Instance().SetScraper(scraper_list->getSelected());
-  });
-
-  // scrape ratings
-  auto scrape_ratings = std::make_shared<SwitchComponent>(mWindow);
-  scrape_ratings->setState(Settings::Instance().ScrapeRatings());
-  s->addWithLabel(scrape_ratings, _("SCRAPE RATINGS"), _(MenuMessages::SCRAPER_RATINGS_HELP_MSG));
-  s->addSaveFunc([scrape_ratings] {
-    Settings::Instance().SetScrapeRatings(scrape_ratings->getState());
-  });
+  s->addSaveFunc([scraper_list] { Settings::Instance().SetScraper(scraper_list->getSelected()); });
 
   // scrape now
-  std::function<void()> openAndSave = openScrapeNow;
-  openAndSave = [s, openAndSave] {
+  std::function<void()> openAndSave = [s, openScrapeNow]
+  {
     s->save();
-    openAndSave();
+    openScrapeNow();
   };
-  s->addSubMenu(_("SCRAPE NOW"), openAndSave, _(MenuMessages::SCRAPER_NOW_HELP_MSG));
+  s->addSubMenu(_("SCRAPE NOW"), openAndSave, _(MenuMessages::SCRAPER_NOW_HELP_MSG));*
 
-  mWindow.pushGui(s);
+  mWindow.pushGui(s);*/
+  mWindow.pushGui(new GuiScraperSelect(mWindow, mSystemManager));
 }
 
 void GuiMenu::menuAdvancedSettings(){

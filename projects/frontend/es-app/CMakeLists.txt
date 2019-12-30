@@ -29,12 +29,13 @@ set(ES_HEADERS
 
         # Guis
         src/guis/GuiMetaDataEd.h
-        src/guis/GuiGameScraper.h
         src/guis/GuiGamelistOptions.h
         src/guis/GuiMenu.h
         src/guis/GuiSettings.h
-        src/guis/GuiScraperMulti.h
-        src/guis/GuiScraperStart.h
+        src/guis/GuiScraperRun.h
+        src/guis/GuiScraperSelect.h
+        src/guis/GuiScraperOptions.h
+        src/guis/GuiScraperSingleGameRun.h
         src/guis/GuiUpdate.h
         src/guis/GuiInfoPopup.h
         src/guis/MenuMessages.h
@@ -103,12 +104,13 @@ set(ES_SOURCES
 
         # Guis
         src/guis/GuiMetaDataEd.cpp
-        src/guis/GuiGameScraper.cpp
         src/guis/GuiGamelistOptions.cpp
         src/guis/GuiMenu.cpp
         src/guis/GuiSettings.cpp
-        src/guis/GuiScraperMulti.cpp
-        src/guis/GuiScraperStart.cpp
+        src/guis/GuiScraperRun.cpp
+        src/guis/GuiScraperSelect.cpp
+        src/guis/GuiScraperOptions.cpp
+        src/guis/GuiScraperSingleGameRun.cpp
         src/guis/GuiUpdate.cpp
         src/guis/GuiInfoPopup.cpp
         src/guis/MenuMessages.cpp

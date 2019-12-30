@@ -1,4 +1,4 @@
-#include "guis/GuiGameScraper.h"
+#include "guis/GuiScraperSingleGameRun.h"
 #include "guis/GuiTextEditPopup.h"
 #include "guis/GuiTextEditPopupKeyboard.h"
 #include "components/TextComponent.h"
@@ -11,7 +11,7 @@
 #include <scraping/new/ScraperFactory.h>
 #include <recalbox/RecalboxSystem.h>
 
-GuiGameScraper::GuiGameScraper(Window&window, FileData& game, IScrappingComplete* notifier)
+GuiScraperSingleGameRun::GuiScraperSingleGameRun(Window&window, FileData& game, IScrappingComplete* notifier)
   : Gui(window),
     mGame(game),
     mNotifier(notifier),
@@ -59,7 +59,7 @@ GuiGameScraper::GuiGameScraper(Window&window, FileData& game, IScrappingComplete
   mScraper->RunOn(ScrappingMethod::All, game, nullptr, RecalboxSystem::GetMinimumFreeSpaceOnSharePartition());
 }
 
-void GuiGameScraper::onSizeChanged()
+void GuiScraperSingleGameRun::onSizeChanged()
 {
 	mBox.fitTo(mSize, Vector3f::Zero(), Vector2f(-32, -32));
 
@@ -72,7 +72,7 @@ void GuiGameScraper::onSizeChanged()
 	mGrid.setSize(mSize);
 }
 
-bool GuiGameScraper::ProcessInput(const InputCompactEvent& event)
+bool GuiScraperSingleGameRun::ProcessInput(const InputCompactEvent& event)
 {
 	if (event.APressed())
 	{
@@ -83,7 +83,7 @@ bool GuiGameScraper::ProcessInput(const InputCompactEvent& event)
 	return Component::ProcessInput(event);
 }
 
-void GuiGameScraper::Update(int deltaTime)
+void GuiScraperSingleGameRun::Update(int deltaTime)
 {
   if (mScraper != nullptr)
     if (!mScraper->IsRunning())
@@ -99,7 +99,7 @@ void GuiGameScraper::Update(int deltaTime)
   Component::Update(deltaTime);
 }
 
-bool GuiGameScraper::getHelpPrompts(Help& help)
+bool GuiScraperSingleGameRun::getHelpPrompts(Help& help)
 {
 	return mGrid.getHelpPrompts(help);
 }

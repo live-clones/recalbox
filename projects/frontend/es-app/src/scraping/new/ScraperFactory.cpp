@@ -42,15 +42,8 @@ IScraperEngine* ScraperFactory::ScraperHolder::Get(ScraperFactory::ScraperType t
 
 IScraperEngine* ScraperFactory::GetScraper(const std::string& scraperidentifier)
 {
-  // Default scraper
-  ScraperType type = ScraperType::ScreenScraper;
-
-  // Identify
-  if (scraperidentifier == "Screenscraper") type = ScraperType::ScreenScraper;
-  else if (scraperidentifier == "TheGamesDB") type = ScraperType::TheGameDB;
-
   // Get
-  IScraperEngine* engine = mScrapers.Get(type);
+  IScraperEngine* engine = mScrapers.Get(GetScraperType(scraperidentifier));
   // (re)Initialize
   engine->Initialize();
 
@@ -65,4 +58,16 @@ const std::vector<std::string>& ScraperFactory::GetScraperList()
     "TheGamesDB",
   };
   return _List;
+}
+
+ScraperFactory::ScraperType ScraperFactory::GetScraperType(const std::string& scraperidentifier)
+{
+  // Default scraper
+  ScraperType type = ScraperType::ScreenScraper;
+
+  // Identify
+  if (scraperidentifier == "Screenscraper") type = ScraperType::ScreenScraper;
+  else if (scraperidentifier == "TheGamesDB") type = ScraperType::TheGameDB;
+
+  return type;
 }

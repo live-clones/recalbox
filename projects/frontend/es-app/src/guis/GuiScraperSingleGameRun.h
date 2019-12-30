@@ -7,7 +7,7 @@
 #include "components/NinePatchComponent.h"
 #include "components/TextComponent.h"
 
-class GuiGameScraper : public Gui
+class GuiScraperSingleGameRun : public Gui
 {
   public:
     class IScrappingComplete
@@ -40,7 +40,7 @@ class GuiGameScraper : public Gui
     std::shared_ptr<ComponentGrid> mButtonGrid;
 
   public:
-    explicit GuiGameScraper(Window&window, FileData& game, IScrappingComplete* notifier);
+    explicit GuiScraperSingleGameRun(Window&window, FileData& game, IScrappingComplete* notifier);
 
     void onSizeChanged() override;
 

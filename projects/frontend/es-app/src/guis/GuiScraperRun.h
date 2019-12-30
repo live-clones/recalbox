@@ -10,11 +10,11 @@
 class ScraperSearchComponent;
 class TextComponent;
 
-class GuiScraperMulti : public Gui, public INotifyScrapeResult
+class GuiScraperRun : public Gui, public INotifyScrapeResult
 {
 public:
-	GuiScraperMulti(Window&window, SystemManager& systemManager, const SystemManager::SystemList& systems);
-	~GuiScraperMulti() override = default;
+	GuiScraperRun(Window&window, SystemManager& systemManager, const SystemManager::SystemList& systems, ScrappingMethod method);
+	~GuiScraperRun() override = default;
 
 	void onSizeChanged() override;
 	bool getHelpPrompts(Help& help) override { return mGrid.getHelpPrompts(help); }

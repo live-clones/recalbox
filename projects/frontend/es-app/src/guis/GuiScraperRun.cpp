@@ -2,7 +2,7 @@
 #include <scraping/new/ScraperFactory.h>
 #include <MainRunner.h>
 #include <recalbox/RecalboxSystem.h>
-#include "guis/GuiScraperMulti.h"
+#include "guis/GuiScraperRun.h"
 #include "Renderer.h"
 #include "utils/Log.h"
 
@@ -15,7 +15,7 @@
 #include "MenuThemeData.h"
 #include "MenuMessages.h"
 
-GuiScraperMulti::GuiScraperMulti(Window&window, SystemManager& systemManager, const SystemManager::SystemList& systems/*, bool approveResults*/)
+GuiScraperRun::GuiScraperRun(Window&window, SystemManager& systemManager, const SystemManager::SystemList& systems, ScrappingMethod method)
   :	Gui(window),
     mSystemManager(systemManager),
     mSearchQueue(systems),
@@ -54,7 +54,7 @@ GuiScraperMulti::GuiScraperMulti(Window&window, SystemManager& systemManager, co
   mDatabaseMessage = std::make_shared<TextComponent>(mWindow, "", menuTheme->menuFooter.font, menuTheme->menuFooter.color, TextAlignment::Center);
   mGrid.setEntry(mDatabaseMessage, Vector2i(0, 5), false, true);
 
-  mButton = std::make_shared<ButtonComponent>(mWindow, _("STOP"), _("stop (progress saved)"), std::bind(&GuiScraperMulti::finish, this));
+  mButton = std::make_shared<ButtonComponent>(mWindow, _("STOP"), _("stop (progress saved)"), std::bind(&GuiScraperRun::finish, this));
   std::vector<std::shared_ptr<ButtonComponent>> buttons;
 	buttons.push_back(mButton);
 	mButtonGrid = makeButtonGrid(mWindow, buttons);
@@ -68,10 +68,10 @@ GuiScraperMulti::GuiScraperMulti(Window&window, SystemManager& systemManager, co
 
   // Create scraper and run!
 	mScraper = ScraperFactory::GetScraper(Settings::Instance().Scraper());
-	mScraper->RunOn(ScrappingMethod::All, systems, this, RecalboxSystem::GetMinimumFreeSpaceOnSharePartition());
+	mScraper->RunOn(method, systems, this, RecalboxSystem::GetMinimumFreeSpaceOnSharePartition());
 }
 
-void GuiScraperMulti::onSizeChanged()
+void GuiScraperRun::onSizeChanged()
 {
 	mBackground.fitTo(mSize, Vector3f::Zero(), Vector2f(-32, -32));
 
@@ -84,14 +84,14 @@ void GuiScraperMulti::onSizeChanged()
 	mGrid.setSize(mSize);
 }
 
-void GuiScraperMulti::finish()
+void GuiScraperRun::finish()
 {
   mWindow.CloseAll();
   MainRunner::RequestQuit(MainRunner::ExitState::Relaunch);
 	mIsProcessing = false;
 }
 
-void GuiScraperMulti::GameResult(int index, int total, const FileData* result)
+void GuiScraperRun::GameResult(int index, int total, const FileData* result)
 {
   // update title
   mSystem->setText(Strings::ToUpperASCII(result->getSystem()->getFullName()));
@@ -126,7 +126,7 @@ void GuiScraperMulti::GameResult(int index, int total, const FileData* result)
   mDatabaseMessage->setText(mScraper->ScraperDatabaseMessage());
 }
 
-void GuiScraperMulti::ScrapingComplete(ScrapeResult reason)
+void GuiScraperRun::ScrapingComplete(ScrapeResult reason)
 {
   mGrid.removeEntry(mSearchComp);
   std::string finalReport;

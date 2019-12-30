@@ -275,6 +275,7 @@ bool ScreenScraperEngine::ThreadPoolRunJob(FileData*& feed)
         mStatScraped++;
         break;
       }
+      case ScrapeResult::NotScraped: break;
       case ScrapeResult::NotFound: mStatNotFound++; break;
       case ScrapeResult::FatalError: mStatErrors++; break;
       case ScrapeResult::QuotaReached: Abort(); mSender.Call((int)ScrapeResult::QuotaReached); break;
@@ -312,6 +313,7 @@ void ScreenScraperEngine::ReceiveSyncCallback(const SDL_Event& event)
     switch(error)
     {
       case ScrapeResult::Ok:
+      case ScrapeResult::NotScraped:
       case ScrapeResult::NotFound:
       case ScrapeResult::QuotaReached:break;
       case ScrapeResult::DiskFull:
@@ -378,7 +380,7 @@ ScrapeResult ScreenScraperEngine::Engine::Scrape(ScrappingMethod method, FileDat
   mRunning = true;
 
   // Result
-  ScrapeResult result = ScrapeResult::NotFound;
+  ScrapeResult result = ScrapeResult::NotScraped;
 
   // Check if the game needs to be scraped
   if (NeedScrapping(method, game))
@@ -403,6 +405,7 @@ ScrapeResult ScreenScraperEngine::Engine::Scrape(ScrappingMethod method, FileDat
         case ScrapeResult::QuotaReached:
         case ScrapeResult::DiskFull:
         case ScrapeResult::FatalError: mRunning = false; return result; // General abort
+        case ScrapeResult::NotScraped:
         case ScrapeResult::Ok: break;
         case ScrapeResult::NotFound:
         {
@@ -413,6 +416,7 @@ ScrapeResult ScreenScraperEngine::Engine::Scrape(ScrappingMethod method, FileDat
             case ScrapeResult::DiskFull:
             case ScrapeResult::FatalError: mRunning = false; return result; // General abort
             case ScrapeResult::NotFound:
+            case ScrapeResult::NotScraped:
             case ScrapeResult::Ok: break;
           }
         }
@@ -433,6 +437,7 @@ ScrapeResult ScreenScraperEngine::Engine::Scrape(ScrappingMethod method, FileDat
           case ScrapeResult::DiskFull:
           case ScrapeResult::FatalError: mRunning = false; return result; // General abort
           case ScrapeResult::NotFound:
+          case ScrapeResult::NotScraped:
           case ScrapeResult::Ok: break;
         }
         if (mAbortRequest) break;
@@ -492,6 +497,7 @@ ScrapeResult ScreenScraperEngine::Engine::RequestGameInfo(ScreenScraperApis::Gam
       case ScrapeResult::QuotaReached:
       case ScrapeResult::DiskFull:
       case ScrapeResult::FatalError:
+      case ScrapeResult::NotScraped:
       case ScrapeResult::Ok: return result.mResult;
     }
   }
@@ -538,6 +544,7 @@ ScrapeResult ScreenScraperEngine::Engine::RequestZipGameInfo(ScreenScraperApis::
           case ScrapeResult::DiskFull:
           case ScrapeResult::QuotaReached:
           case ScrapeResult::FatalError:
+          case ScrapeResult::NotScraped:
           case ScrapeResult::Ok: return result.mResult;
         }
       }
@@ -644,6 +651,7 @@ ScreenScraperEngine::Engine::DownloadAndStoreMedia(ScrappingMethod method, const
       switch(mCaller.GetMedia(sourceData.MediaSources.mImage, AbsoluteImagePath, size))
       {
         case ScrapeResult::Ok: game.Metadata().SetImagePath(AbsoluteImagePath); mImages++; mMediaSize += size; break;
+        case ScrapeResult::NotScraped: break;
         case ScrapeResult::NotFound: LOG(LogError) << "Missing media!"; break;
         case ScrapeResult::DiskFull: return ScrapeResult::DiskFull;
         case ScrapeResult::QuotaReached: return ScrapeResult::QuotaReached;
@@ -662,6 +670,7 @@ ScreenScraperEngine::Engine::DownloadAndStoreMedia(ScrappingMethod method, const
       switch(mCaller.GetMedia(sourceData.MediaSources.mThumbnail, AbsoluteThumbnailPath, size))
       {
         case ScrapeResult::Ok: game.Metadata().SetThumbnailPath(AbsoluteThumbnailPath); mImages++;  mMediaSize += size; break;
+        case ScrapeResult::NotScraped: break;
         case ScrapeResult::NotFound: LOG(LogError) << "Missing media!"; break;
         case ScrapeResult::DiskFull: return ScrapeResult::DiskFull;
         case ScrapeResult::QuotaReached: return ScrapeResult::QuotaReached;
@@ -680,6 +689,7 @@ ScreenScraperEngine::Engine::DownloadAndStoreMedia(ScrappingMethod method, const
       switch(mCaller.GetMedia(sourceData.MediaSources.mVideo, AbsoluteVideoPath, size))
       {
         case ScrapeResult::Ok: game.Metadata().SetVideoPath(AbsoluteVideoPath); mVideos++;  mMediaSize += size; break;
+        case ScrapeResult::NotScraped: break;
         case ScrapeResult::NotFound: LOG(LogError) << "Missing media!"; break;
         case ScrapeResult::DiskFull: return ScrapeResult::DiskFull;
         case ScrapeResult::QuotaReached: return ScrapeResult::QuotaReached;
