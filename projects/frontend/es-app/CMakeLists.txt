@@ -43,6 +43,12 @@ set(ES_HEADERS
         src/guis/GuiHashStart.h
         src/guis/GuiLoading.h
 
+        # Bios
+        src/bios/Bios.h
+        src/bios/BiosList.h
+        src/bios/BiosManager.h
+        src/bios/IBiosScanReporting.h
+
         # Scrapers
         src/scraping/new/ScraperFactory.h
         src/scraping/new/INotifyScrapeResult.h
@@ -116,6 +122,11 @@ set(ES_SOURCES
         src/guis/MenuMessages.cpp
         src/guis/GuiNetPlay.cpp
         src/guis/GuiHashStart.cpp
+
+        # Bios
+        src/bios/Bios.cpp
+        src/bios/BiosList.cpp
+        src/bios/BiosManager.cpp
 
         # Scrapers
         src/scraping/new/ScraperFactory.cpp

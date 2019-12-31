@@ -15,6 +15,7 @@
 #include <guis/GuiDetectDevice.h>
 #include <utils/sdl2/SyncronousEventService.h>
 #include <scraping/new/ScraperFactory.h>
+#include <bios/BiosManager.h>
 #include "MainRunner.h"
 #include "EmulationStation.h"
 #include "VolumeControl.h"
@@ -72,24 +73,6 @@ MainRunner::ExitState MainRunner::Run()
     if (!TryToLoadConfiguredSystems(systemManager))
       return ExitState::FatalError;
 
-
-
-
-
-
-
-
-    //IScraperEngine* engine = ScraperFactory::GetScraper("default");
-    //engine->RunOn(ScrappingMethod::All, systemManager.GetVisibleSystemList(), nullptr);
-
-
-
-
-
-
-
-
-
     // Run kodi at startup?
     RecalboxConf& recalboxConf = RecalboxConf::Instance();
     if (recalboxConf.AsString("kodi.enabled") == "1" && recalboxConf.AsString("kodi.atstartup") == "1")
@@ -115,6 +98,11 @@ MainRunner::ExitState MainRunner::Run()
       CheckUpdateMessage(window);
       // Input ok?
       CheckAndInitializeInput(window);
+
+      // Bios
+      BiosManager biosManager;
+      biosManager.LoadFromFile();
+      biosManager.Scan(nullptr);
 
       // Main Loop!
       CreateReadyFlagFile();
