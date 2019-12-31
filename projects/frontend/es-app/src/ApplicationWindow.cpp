@@ -28,3 +28,10 @@ void ApplicationWindow::Render(Transform4x4f& transform)
   mViewController.Render(transform);
   Window::Render(transform);
 }
+
+bool ApplicationWindow::UpdateHelpSystem()
+{
+  if (!Window::UpdateHelpSystem())
+    mViewController.updateHelpPrompts();
+  return true;
+}

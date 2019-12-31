@@ -32,7 +32,7 @@ class Window
 
     void displayScrollMessage(const std::string& title, const std::string& message);
 
-    Component* peekGui();
+    Gui* peekGui();
 
     void deleteAllGui();
 
@@ -90,6 +90,13 @@ class Window
         if (mGuiStack.back() == ui) return true;
       return false;
     }
+
+  protected:
+    /*!
+     * @brief Update the help system.
+     * @return True if the update system has been set, false otherwise
+     */
+    virtual bool UpdateHelpSystem();
 
   private:
     //void renderWaitingScreen(const std::string& text);

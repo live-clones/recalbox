@@ -34,10 +34,21 @@ Window::~Window()
   deleteAllGui();
 }
 
+bool Window::UpdateHelpSystem()
+{
+  Gui* gui = peekGui();
+  if (gui != nullptr)
+  {
+    gui->updateHelpPrompts();
+    return true;
+  }
+  return false;
+}
+
 void Window::pushGui(Gui* gui)
 {
   mGuiStack.push_back(gui);
-  gui->updateHelpPrompts();
+  UpdateHelpSystem();
 }
 
 void Window::displayMessage(const std::string& message)
@@ -51,7 +62,7 @@ void Window::displayScrollMessage(const std::string& title, const std::string& m
   mScrollMessages.push_back(message);
 }
 
-Component* Window::peekGui()
+Gui* Window::peekGui()
 {
   if (mGuiStack.empty())
     return nullptr;
@@ -69,6 +80,8 @@ void Window::deleteClosePendingGui()
       mGuiStack.erase(it--);
     }
   }
+  // Refresg help system
+  UpdateHelpSystem();
 }
 
 void Window::deleteAllGui()
@@ -111,8 +124,7 @@ bool Window::Initialize(unsigned int width, unsigned int height, bool initRender
   mBackgroundOverlay.setResize(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
 
   // update our help because font sizes probably changed
-  if (!mGuiStack.empty())
-    mGuiStack.back()->updateHelpPrompts();
+  UpdateHelpSystem();
 
   return true;
 }

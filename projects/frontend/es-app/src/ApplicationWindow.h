@@ -10,11 +10,24 @@
 class ApplicationWindow: public Window
 {
   private:
+    //! View controler
     ViewController mViewController;
 
+    //! True when the Application window is being closed ASAP
     bool mClosed;
 
+  protected:
+    /*!
+     * @brief Update the help system.
+     * @return True if the update system has been set, false otherwise
+     */
+    bool UpdateHelpSystem() override;
+
   public:
+    /*!
+     * @brief Constructor
+     * @param systemManager Systeme manager instance
+     */
     explicit ApplicationWindow(SystemManager& systemManager)
       : mViewController(*this, systemManager),
         mClosed(false)
