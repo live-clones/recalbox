@@ -125,9 +125,9 @@ class DolphinGenerator(Generator):
     # Check if Gamecube bios IPL.bin in folders
     @staticmethod
     def CheckGamecubeIpl():
-        ipl0 = "/usr/share/dolphin-emu/sys/GC/EUR/IPL.bin"
-        ipl1 = "/usr/share/dolphin-emu/sys/GC/JP/IPL.bin"
-        ipl2 = "/usr/share/dolphin-emu/sys/GC/USA/IPL.bin"
+        ipl0 = "/recalbox/share/bios/gamecube/EUR/IPL.bin"
+        ipl1 = "/recalbox/share/bios/gamecube/JP/IPL.bin"
+        ipl2 = "/recalbox/share/bios/gamecube/USA/IPL.bin"
         # if os.path? return "True" set "False" for disable "SkipIpl=Video boot intro"
         if os.path.exists(ipl0 or ipl1 or ipl2):
             return("False")
@@ -141,6 +141,22 @@ class DolphinGenerator(Generator):
         conf.loadFile(True)
         adapterStatus = conf.getOption("gamecube.realgamecubepads", "$")
         return adapterStatus
+
+    # Set Wii sensor bar position in SYSCONF if wii.sensorbar.position=0 (bottom) or =1 (top) set in recalbox.conf
+	# (source : https://wiibrew.org/wiki//shared2/sys/SYSCONF#BT_Settings)
+    @staticmethod
+    def SetSensorBarPosition():
+        conf = keyValueSettings(recalboxFiles.recalboxConf)
+        conf.loadFile(True)
+        sensorBarPosition = conf.getOption("wii.sensorbar.position", "$")
+        keyValue = '\x00' if sensorBarPosition == '0' else '\x01'
+        keyString = "BT.BAR"
+        if os.path.exists(recalboxFiles.dolphinSYSCONF):
+            with open(recalboxFiles.dolphinSYSCONF, 'rb+') as sysconf:
+                buf = sysconf.read()
+                keyAddr = buf.find(keyString) + len(keyString)
+                sysconf.seek(keyAddr)
+                sysconf.write(keyValue)
 
     def mainConfiguration(self):
         # Get Languages
@@ -197,6 +213,10 @@ class DolphinGenerator(Generator):
 
         # Save configuration
         dolphinSettings.saveFile()
+        
+        # Set Wii sensor bar position
+        self.SetSensorBarPosition()
+
 
     def gfxConfiguration(self, system):
         # Get Ratio
