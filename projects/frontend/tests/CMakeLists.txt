@@ -1,5 +1,5 @@
 # Googletest framework
-file(GLOB GOOGLETEST_SOURCES googletest/googletest/src/gtest-all.cc)
+file(GLOB GOOGLETEST_SOURCES googletest/src/gtest-all.cc)
 
 # Test code
 file(GLOB_RECURSE TESTS_SOURCES tests/*.cpp)
@@ -15,8 +15,8 @@ include_directories(
         ${SDL2_INCLUDE_DIR}
         ../es-core/src
         ../es-app/src
-        googletest/googletest/include
-        googletest/googletest
+        googletest/include
+        googletest
 )
 
 add_executable(
