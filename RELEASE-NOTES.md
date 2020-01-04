@@ -2,10 +2,34 @@
 
 ## Version 6.2
 
+### News
+- Add Bios checking capabilities to EmulationStation
+- Add License menu
+
 ### Improvements
+- Improve internal Scraper (ScreenScraper):
+  - Faster! Use your ScreenScraper's threads to parallelize workloads 
+  - Better! Lots of options, snaps vidéo, and more...
+  - Stronger! Improved reliability and strongness 
+- Improve overall Emulationstation's stability & reliability
+- Optimize memory requirements of EmulationStation
+- Optimize EmulationStation boot time (up to 20 times faster!)
 - Bump DosBox to r4290
 - Bump ScummVM to 2.1.0 and map D-pad when no analog available
 - Bump ResidualVM (2019-12)
+- Bump Odroid UBOOT to 2017/05 version 
+- Add 8bitdo N30 Pro 2 controller to pre-configured pads/joyticks
+- Add IPega PG-9037 pad
+- Improve pad processing in EmulationStation
+
+### Fixes
+- Fix Odroid XU4 fan issue
+- Fix Odroid XU4 sound issue
+- Fix EMMC boot on XU4
+- Fix x86/x64 Boot videos
+- Fix music popup crashes
+- Fix music loop play
+- Fix netplay popup crashes
 
 
 ## Version 6.1.1
