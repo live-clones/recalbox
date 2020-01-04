@@ -7,6 +7,7 @@ const char* MenuMessages::DISK_USAGE_HELP_MSG = "Show how much space is used on 
 const char* MenuMessages::STORAGE_DEVICE_HELP_MSG = "Select an external drive to store your roms, saves, configurations etc.\nUse a FAT32 formatted drive. The system does not format the drive. On first boot, with this option enabled, recalbox will create a '/recalbox' folder with all system files inside.";
 const char* MenuMessages::LANGUAGE_HELP_MSG = "Select your language. A reboot is needed to set this configuration active.";
 const char* MenuMessages::KEYBOARD_HELP_MSG = "Select your keyboard layout.";
+const char* MenuMessages::BIOS_HELP_MSG = "Scan and check all your BIOS files and report everything in a comprehensive way.";
 
 const char* MenuMessages::UPDATE_HELP_MSG = "Manage your recalbox updates. Select the update type. Activate update check.";
 const char* MenuMessages::START_UPDATE_HELP_MSG = "Check if an update is available, and start the update process.";

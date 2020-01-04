@@ -67,6 +67,29 @@ std::string Zip::Md5(int index) const
   return std::string();
 }
 
+std::string Zip::Md5Composite() const
+{
+  if (mArchive != nullptr)
+  {
+    MD5 md5;
+    for(int i = zip_get_num_entries(mArchive, 0); --i >= 0; )
+    {
+      zip_file_t* file = zip_fopen_index(mArchive, i, 0);
+      if (file != nullptr)
+      {
+        char buffer[1 << 20]; // 1Mb buffer
+        for (int read = 0; (read = (int) zip_fread(file, buffer, sizeof(buffer))) > 0;)
+          md5.update(buffer, read);
+        zip_fclose(file);
+      }
+    }
+    md5.finalize();
+    return md5.hexdigest();
+  }
+
+  return std::string();
+}
+
 long long Zip::CompressedSize(int index) const
 {
   if (mArchive != nullptr)

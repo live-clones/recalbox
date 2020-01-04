@@ -46,11 +46,17 @@ class Zip
     int Crc32(int index) const;
 
     /*!
-     * @brief Get Md2 of the entry at the given index
+     * @brief Get Md5 of the entry at the given index
      * @param index Entry index from 0 to Count()-1
      * @return Md5
      */
     std::string Md5(int index) const;
+
+    /*!
+     * @brief Get Md5 of all entry in the zip original ordering
+     * @return Md5
+     */
+    std::string Md5Composite() const;
 
     /*!
      * @brief Get compressed size of the entry at the given index

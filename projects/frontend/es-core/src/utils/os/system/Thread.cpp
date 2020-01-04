@@ -6,6 +6,7 @@
 Thread::Thread()
   : mName(),
     mHandle(0),
+    mId(0),
     mIsRunning(false),
     mIsDone(false)
 {
@@ -36,7 +37,7 @@ void Thread::Start(const std::string& name)
 void Thread::Stop()
 {
   mIsRunning = false;
-  if (mHandle != 0)
+  if (mHandle != 0 && SelfId() != mId)
   {
     Break();
     void* dummy;
@@ -48,9 +49,9 @@ void Thread::Stop()
 
 void Thread::Join()
 {
-  void* dummy;
-  if (mHandle != 0)
+  if (mHandle != 0 && SelfId() != mId)
   {
+    void* dummy;
     pthread_join(mHandle, &dummy);
     mHandle = 0;
   }
@@ -61,6 +62,7 @@ void Thread::Join()
 void* Thread::StartThread(void* thread_)
 {
   Thread& thread = *((Thread*)(thread_));
+  thread.mId = SelfId();
 
   LOG(LogDebug) << "Thread " << thread.mName << " started!";
 
@@ -70,5 +72,6 @@ void* Thread::StartThread(void* thread_)
 
   LOG(LogDebug) << "Thread " << thread.mName << " exited!";
 
+  thread.mId = 0;
   return nullptr;
 }

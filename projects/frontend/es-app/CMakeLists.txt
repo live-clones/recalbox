@@ -42,6 +42,8 @@ set(ES_HEADERS
         src/guis/GuiNetPlay.h
         src/guis/GuiHashStart.h
         src/guis/GuiLoading.h
+        src/guis/GuiBiosScan.h
+        src/guis/GuiBiosMd5.h
 
         # Bios
         src/bios/Bios.h
@@ -70,6 +72,7 @@ set(ES_HEADERS
         src/views/gamelist/IGameListView.h
         src/views/gamelist/ISimpleGameListView.h
         src/views/gamelist/GridGameListView.h
+        src/views/gamelist/SystemIcons.h
         src/views/SystemView.h
         src/views/ViewController.h
         src/views/SplashView.h
@@ -122,6 +125,8 @@ set(ES_SOURCES
         src/guis/MenuMessages.cpp
         src/guis/GuiNetPlay.cpp
         src/guis/GuiHashStart.cpp
+        src/guis/GuiBiosScan.cpp
+        src/guis/GuiBiosMd5.cpp
 
         # Bios
         src/bios/Bios.cpp
@@ -146,6 +151,7 @@ set(ES_SOURCES
         src/views/gamelist/IGameListView.cpp
         src/views/gamelist/ISimpleGameListView.cpp
         src/views/gamelist/GridGameListView.cpp
+        src/views/gamelist/SystemIcons.cpp
         src/views/SystemView.cpp
         src/views/ViewController.cpp
         src/views/SplashView.cpp

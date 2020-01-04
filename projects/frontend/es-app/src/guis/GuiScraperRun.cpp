@@ -133,6 +133,7 @@ void GuiScraperRun::ScrapingComplete(ScrapeResult reason)
   switch(reason)
   {
     case ScrapeResult::Ok:
+    case ScrapeResult::NotScraped:
     case ScrapeResult::NotFound:
     case ScrapeResult::FatalError:
     {

@@ -38,6 +38,12 @@ class BiosList
     BiosList(BiosList&& source) = default;
 
     /*!
+     * @brief Move operator (required by std::sort)
+     * @param source Source to move from
+     */
+    BiosList& operator =(BiosList&& source) = default;
+
+    /*!
      * @brief Deserialize constructor
      * @param systemNode System node to deserialize from
      */
@@ -58,4 +64,14 @@ class BiosList
      * @param index Index
      */
     void ScanAt(int index) { mBiosList[index].Scan(); }
+
+    /*
+     * Accessors
+     */
+
+    //! Get system long name
+    const std::string& FullName() const { return mSystemFullName; }
+    //! Get system short name
+    const std::string& Name() const { return mSystemName; }
+
 };

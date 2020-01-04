@@ -39,6 +39,7 @@
 #include "animations/LambdaAnimation.h"
 #include "GuiHashStart.h"
 #include "GuiScraperSelect.h"
+#include "GuiBiosScan.h"
 
 GuiMenu::GuiMenu(Window& window, SystemManager& systemManager)
   : Gui(window),
@@ -123,7 +124,13 @@ GuiMenu::GuiMenu(Window& window, SystemManager& systemManager)
                  [this] { menuAdvancedSettings(); }, mMenuTheme->menuIconSet.advanced);
     }
 
-	//ABOUT
+  // BIOS
+  if (!bartop) {
+    addEntryWithHelp(_("BIOS CHECKING").c_str(), _(MenuMessages::BIOS_HELP_MSG), mMenuTheme->menuText.color, true,
+                     [this] { mWindow.pushGui(new GuiBiosScan(mWindow, mSystemManager)); }, mMenuTheme->menuIconSet.controllers);
+  }
+
+  //ABOUT
 	addEntry(_("LICENSE").c_str(), mMenuTheme->menuText.color, true,
 	         [this] {
 		         mWindow.pushGui(new GuiMsgBoxScroll(mWindow, "RECALBOX", Strings::ScrambleSymetric2(std::string(MenuMessages::LICENCE_MSG, MenuMessages::LICENCE_MSG_SIZE), __MESSAGE_DECORATOR), _("OK"), nullptr, "", nullptr, "", nullptr, TextAlignment::Left));

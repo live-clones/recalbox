@@ -100,8 +100,10 @@ class Thread
   private:
     //! Thread name
     char mName[16];
-    //! eCos thread handle
+    //! Thread handle
     ThreadHandle mHandle;
+    //! Thread id
+    int mId;
     //! Running flag
     volatile bool mIsRunning;
     //! Completion flag

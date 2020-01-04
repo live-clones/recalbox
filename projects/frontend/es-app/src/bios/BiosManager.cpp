@@ -4,12 +4,22 @@
 
 #include <RootFolders.h>
 #include <utils/Log.h>
+#include <algorithm>
 #include "BiosManager.h"
+
+BiosManager* BiosManager::sInstance = nullptr;
 
 BiosManager::BiosManager()
   : mSender(this),
     mReporting(nullptr)
 {
+  if (sInstance == nullptr)
+    sInstance = this;
+  else
+  {
+    LOG(LogError) << "BiosManager multiple instance detected";
+    exit(-1);
+  }
 }
 
 void BiosManager::LoadFromFile()
@@ -30,6 +40,8 @@ void BiosManager::LoadFromFile()
     BiosList biosList(systemNode);
     mSystemBiosList.push_back(biosList);
   }
+
+  std::sort(mSystemBiosList.begin(), mSystemBiosList.end(), [](const BiosList& a, const BiosList& b) { return a.FullName() < b.FullName(); });
 }
 
 void BiosManager::Scan(IBiosScanReporting* reporting)
@@ -65,11 +77,13 @@ void BiosManager::ReceiveSyncCallback(const SDL_Event& event)
 {
   // Extract interface
   IBiosScanReporting* reporting = ((IBiosScanReporting*)event.user.data1);
-  if (reporting == nullptr) return;
 
   if (event.user.code < 0)
   {
-    reporting->ScanComplete();
+    if (reporting != nullptr)
+      reporting->ScanComplete();
+    // Allow the thread to be restarted
+    Thread::Stop();
   }
   else
   {
@@ -78,7 +92,8 @@ void BiosManager::ReceiveSyncCallback(const SDL_Event& event)
     int biosListIndex = (event.user.code >> 16) & 0xFFFF;
 
     // Call interface
-    reporting->ScanProgress(SystemBios(biosListIndex).BiosAt(biosIndex));
+    if (reporting != nullptr)
+      reporting->ScanProgress(SystemBios(biosListIndex).BiosAt(biosIndex));
   }
 }
 

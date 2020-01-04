@@ -39,7 +39,7 @@ DetailedGameListView::DetailedGameListView(Window&window, SystemManager& systemM
 
   mList.setPosition(mSize.x() * (0.50f + padding), mList.getPosition().y());
   mList.setSize(mSize.x() * (0.50f - padding), mList.getSize().y());
-  mList.setAlignment(TextListComponent<FileData*>::Alignment::Left);
+  mList.setAlignment(HorizontalAlignment::Left);
   mList.setCursorChangedCallback([&](const CursorState& state)
                                  {
                                    (void) state;

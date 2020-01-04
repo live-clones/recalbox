@@ -236,6 +236,9 @@ set(EMBEDDED_ASSET_SOURCES
 		${emulationstation-all_SOURCE_DIR}/data/converted/help__dpad_all_svg.cpp
 		${emulationstation-all_SOURCE_DIR}/data/converted/help__joystick_left_svg.cpp
 		${emulationstation-all_SOURCE_DIR}/data/converted/help__joystick_up_svg.cpp
+		${emulationstation-all_SOURCE_DIR}/data/converted/thumbs_up_green_svg.cpp
+		${emulationstation-all_SOURCE_DIR}/data/converted/thumbs_up_yellow_svg.cpp
+		${emulationstation-all_SOURCE_DIR}/data/converted/thumbs_down_red_svg.cpp
 
 		${emulationstation-all_SOURCE_DIR}/data/converted/ubuntu_condensed_ttf.cpp
 		${emulationstation-all_SOURCE_DIR}/data/converted/fontawesome_webfont_ttf.cpp

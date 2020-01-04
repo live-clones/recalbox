@@ -96,6 +96,12 @@ class Bios
          * @return True if the current MD5 is valid
          */
         bool IsValid() const { return mValid; }
+
+        /*!
+         * @brief String representation of the MD5
+         * @return string
+         */
+        std::string ToString() const;
     };
 
     //! Bios path (absolute)
@@ -163,4 +169,25 @@ class Bios
 
     //! Report light status
     ReportStatus LightStatus() const { return mReportStatus; }
+
+    //! Bios file name
+    std::string Filename() const;
+
+    //! Bios file path
+    const Path& Filepath() const { return mPath; }
+
+    //! Core list
+    const std::string& Cores() const { return mCores; }
+
+    //! Note
+    const std::string& Notes() const { return mNotes; }
+
+    //! Current bios MD5
+    std::string CurrentMD5() const { return mRealFileHash.ToString(); }
+
+    //! All MD5 list
+    std::vector<std::string> MD5List() const;
+
+    //! MD5 Count
+    int MD5Count() const { return (int)mHashes.size(); }
 };

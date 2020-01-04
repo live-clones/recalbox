@@ -26,11 +26,14 @@ class SystemManager :
     static constexpr const char* sWeightFilePath = "/recalbox/share/system/.emulationstation/.weights";
 
     //! Visible system, including virtual system (Arcade)
-    std::vector<SystemData*> sVisibleSystemVector;
+    std::vector<SystemData*> mVisibleSystemVector;
     //! Hidden system, just here to hold their own children
-    std::vector<SystemData*> sHiddenSystemVector;
+    std::vector<SystemData*> mHiddenSystemVector;
     //! ALL systems, visible and hidden
-    std::vector<SystemData*> sAllSystemVector;
+    std::vector<SystemData*> mAllSystemVector;
+
+    //! Al declared system names
+    std::vector<std::string> mAllDeclaredSystemShortNames;
 
     //! Progress interface called when loading/unloading
     IProgressInterface* mProgressInterface;
@@ -211,17 +214,23 @@ class SystemManager :
      * @brief Get All system list, visibles + hidden
      * @return System list
      */
-    const SystemList& GetAllSystemList() { return sAllSystemVector; }
+    const SystemList& GetAllSystemList() { return mAllSystemVector; }
     /*!
      * @brief Get visible-only system list
      * @return System list
      */
-    const SystemList& GetVisibleSystemList() { return sVisibleSystemVector; }
+    const SystemList& GetVisibleSystemList() { return mVisibleSystemVector; }
     /*!
      * @brief Get Hidden-only system list
      * @return System list
      */
-    const SystemList& GetHiddenSystemList() { return sHiddenSystemVector; }
+    const SystemList& GetHiddenSystemList() { return mHiddenSystemVector; }
+
+    /*!
+     * @brief Get all system (from es_systems.cfg) short names
+     * @return system name list
+     */
+    const Strings::Vector& GetDeclaredSystemShortNames() { return mAllDeclaredSystemShortNames; }
 
     /*!
      * @brief Get next system to the given system
@@ -230,10 +239,10 @@ class SystemManager :
      */
     SystemData* NextVisible(SystemData* to) const
     {
-      int size = (int)sVisibleSystemVector.size();
+      int size = (int)mVisibleSystemVector.size();
       for(int i = size; --i>=0; )
-        if (sVisibleSystemVector[i] == to)
-          return sVisibleSystemVector[(++i) % size];
+        if (mVisibleSystemVector[i] == to)
+          return mVisibleSystemVector[(++i) % size];
       return nullptr;
     }
 
@@ -244,10 +253,10 @@ class SystemManager :
      */
     SystemData* PreviousVisible(SystemData* to) const
     {
-      int size = (int)sVisibleSystemVector.size();
+      int size = (int)mVisibleSystemVector.size();
       for(int i = size; --i>=0; )
-        if (sVisibleSystemVector[i] == to)
-          return sVisibleSystemVector[(--i + size) % size];
+        if (mVisibleSystemVector[i] == to)
+          return mVisibleSystemVector[(--i + size) % size];
       return nullptr;
     }
 };

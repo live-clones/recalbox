@@ -1,14 +1,10 @@
 //
 // Created by bkg2k on 28/12/2019.
 //
-
-#ifndef EMULATIONSTATION_ALL_BIOSMANAGER_H
-#define EMULATIONSTATION_ALL_BIOSMANAGER_H
-
+#pragma once
 
 #include <vector>
 #include <utils/os/system/Thread.h>
-#include <utils/os/system/Mutex.h>
 #include <utils/sdl2/ISynchronousEvent.h>
 #include <utils/sdl2/SyncronousEvent.h>
 #include "BiosList.h"
@@ -17,6 +13,9 @@
 class BiosManager : private Thread, public ISynchronousEvent
 {
   private:
+    //! Instance
+    static BiosManager* sInstance;
+
     //! Path to bios.xml file
     static constexpr const char* sBiosFilePath = "system/.emulationstation/es_bios.xml";
 
@@ -53,6 +52,12 @@ class BiosManager : private Thread, public ISynchronousEvent
     BiosManager();
 
     /*!
+     * @brief Get unique instance
+     * @return Instance
+     */
+    static BiosManager& Instance() { return *sInstance; }
+
+    /*!
      * @brief Load all bios from bios.xml
      */
     void LoadFromFile();
@@ -73,6 +78,3 @@ class BiosManager : private Thread, public ISynchronousEvent
      */
     void Scan(IBiosScanReporting* reporting);
 };
-
-
-#endif //EMULATIONSTATION_ALL_BIOSMANAGER_H

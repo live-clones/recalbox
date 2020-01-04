@@ -725,3 +725,12 @@ std::string Strings::URLEncode(const std::string& source)
 
   return result;
 }
+
+int Strings::CountChar(const std::string& source, char c)
+{
+  int count = 0;
+  const char* p = source.c_str();
+  for (int i = source.length(); --i >= 0;)
+    if (p[i] == c) count++;
+  return count;
+}

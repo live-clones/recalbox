@@ -11,10 +11,20 @@
 #include <utils/Strings.h>
 #include <AudioManager.h>
 
+enum class HorizontalAlignment : char
+{
+    Left,
+    Center,
+    Right
+};
+
 struct TextListData
 {
-	unsigned int colorId;
-	std::shared_ptr<TextCache> textCache;
+  std::shared_ptr<TextCache> textCache;
+	signed char colorId;
+  signed char colorBackgroundId;
+  HorizontalAlignment hzAlignement;
+  bool useHzAlignment;
 };
 
 //A graphical list. Supports multiple colors for rows and scrolling.
@@ -43,19 +53,14 @@ public:
 	void Render(const Transform4x4f& parentTrans) override;
 	void applyTheme(const ThemeData& theme, const std::string& view, const std::string& element, ThemeProperties properties) override;
 
-	void add(const std::string& name, const T& obj, unsigned int colorId, bool toTheBeginning = false);
-	
-	enum class Alignment
-	{
-		Left,
-		Center,
-		Right
-	};
+	void add(const std::string& name, const T& obj, signed char colorId, bool toTheBeginning = false);
+  void add(const std::string& name, const T& obj, signed char colorId, signed char colorBackgroundId, HorizontalAlignment alignment);
+  void changeTextAt(int index, const std::string& name);
+  void changeBackgroundColorAt(int index, int colorIndex);
 
-	inline void setAlignment(Alignment align) { mAlignment = align; }
-
+  inline void setSelectedAt(int index, const T& object) { mEntries.at(index).object = object; }
+	inline void setAlignment(HorizontalAlignment align) { mAlignment = align; }
 	inline void setCursorChangedCallback(const std::function<void(CursorState state)>& func) { mCursorChangedCallback = func; }
-
 	inline void setFont(const std::shared_ptr<Font>& font)
 	{
 		mFont = font;
@@ -79,6 +84,7 @@ public:
 	inline void setColor(unsigned int id, unsigned int color) { mColors[id] = color; }
 	inline void setSound(AudioManager::AudioHandle sound) { mScrollSound = sound; }
 	inline void setLineSpacing(float lineSpacing) { mLineSpacing = lineSpacing; }
+  inline void setHorizontalMargin(float horizontalMargin) { mHorizontalMargin = horizontalMargin; }
 
 protected:
 	virtual void onScroll(int amt) { (void)amt; AudioManager::Instance().PlaySound(mScrollSound); }
@@ -92,7 +98,7 @@ private:
 	int mMarqueeOffset;
 	int mMarqueeTime;
 
-	Alignment mAlignment;
+	HorizontalAlignment mAlignment;
 	float mHorizontalMargin;
 
 	std::function<void(CursorState state)> mCursorChangedCallback;
@@ -105,7 +111,7 @@ private:
 	unsigned int mSelectorColor;
 	unsigned int mSelectedColor;
 	AudioManager::AudioHandle mScrollSound;
-	static const unsigned int COLOR_ID_COUNT = 2;
+	static constexpr unsigned int COLOR_ID_COUNT = 8;
 	unsigned int mColors[COLOR_ID_COUNT];
 
 	ImageComponent mSelectorImage;
@@ -116,7 +122,7 @@ TextListComponent<T>::TextListComponent(Window& window)
   :	IList<TextListData, T>(window),
     mMarqueeOffset(0),
     mMarqueeTime(-MARQUEE_DELAY),
-    mAlignment(Alignment::Center),
+    mAlignment(HorizontalAlignment::Center),
     mHorizontalMargin(0),
     mFont(Font::get(FONT_SIZE_MEDIUM)),
     mUppercase(false),
@@ -124,6 +130,7 @@ TextListComponent<T>::TextListComponent(Window& window)
     mSelectorOffsetY(0),
     mSelectorColor(0x000000FF),
     mSelectedColor(0),
+    mScrollSound(0),
     mColors{ 0x0000FFFF, 0x00FF00FF},
     mSelectorImage(window)
 {
@@ -159,10 +166,15 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
 	float y = 0;
 
 	int listCutoff = startEntry + screenCount;
-	if(listCutoff > size())
-		listCutoff = size();
+	if(listCutoff > size())	listCutoff = size();
 
-	// draw selector bar
+  // clip to inside margins
+  Vector3f dim(mSize.x(), mSize.y(), 0);
+  dim = trans * dim - trans.translation();
+  Renderer::pushClipRect(Vector2i((int)(trans.translation().x()/* + mHorizontalMargin*/), (int)trans.translation().y()),
+                         Vector2i((int)(dim.x() /*- mHorizontalMargin*/), (int)dim.y()));
+
+  // draw selector bar
 	if(startEntry < listCutoff)
 	{
 		if (mSelectorImage.hasImage()) {
@@ -174,17 +186,18 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
 		}
 	}
 
-	// clip to inside margins
-	Vector3f dim(mSize.x(), mSize.y(), 0);
-	dim = trans * dim - trans.translation();
-	Renderer::pushClipRect(Vector2i((int)(trans.translation().x() + mHorizontalMargin), (int)trans.translation().y()),
-		Vector2i((int)(dim.x() - mHorizontalMargin*2), (int)dim.y()));
-
 	for (int i = startEntry; i < listCutoff; i++)
 	{
 		typename IList<TextListData, T>::Entry& entry = mEntries.at((unsigned int)i);
 
-		unsigned int color;
+		if ((unsigned int)entry.data.colorBackgroundId < COLOR_ID_COUNT)
+    {
+      Renderer::setMatrix(trans);
+      Renderer::drawRect(0.f, (float)(i - startEntry) * entrySize + mSelectorOffsetY, mSize.x(), mSelectorHeight,
+                         mColors[entry.data.colorBackgroundId]);
+    }
+
+    unsigned int color;
 		if(mCursor == i && mSelectedColor)
 			color = mSelectedColor;
 		else
@@ -198,17 +211,17 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
 
 		Vector3f offset(0, y, 0);
 
-		switch(mAlignment)
+		switch(entry.data.useHzAlignment ? entry.data.hzAlignement : mAlignment)
 		{
-		case Alignment::Left:
+		case HorizontalAlignment::Left:
 			offset[0] = mHorizontalMargin;
 			break;
-		case Alignment::Center:
+		case HorizontalAlignment::Center:
 			offset[0] = (mSize.x() - entry.data.textCache->metrics.size.x()) / 2;
 			if(offset[0] < mHorizontalMargin)
 				offset[0] = mHorizontalMargin;
 			break;
-		case Alignment::Right:
+		case HorizontalAlignment::Right:
 			offset[0] = (mSize.x() - entry.data.textCache->metrics.size.x());
 			offset[0] -= mHorizontalMargin;
 			if(offset[0] < mHorizontalMargin)
@@ -219,7 +232,7 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
 		
 		if(mCursor == i)
 			offset[0] -= mMarqueeOffset;
-		
+
 		Transform4x4f drawTrans = trans;
 		drawTrans.translate(offset);
 		Renderer::setMatrix(drawTrans);
@@ -298,19 +311,48 @@ void TextListComponent<T>::Update(int deltaTime)
 
 //list management stuff
 template <typename T>
-void TextListComponent<T>::add(const std::string& name, const T& obj, unsigned int color, bool toTheBeginning)
+void TextListComponent<T>::add(const std::string& name, const T& obj, signed char color, bool toTheBeginning)
 {
-	assert(color < COLOR_ID_COUNT);
+	assert((unsigned int)color < COLOR_ID_COUNT);
 
 	typename IList<TextListData, T>::Entry entry;
 	entry.name = name;
 	entry.object = obj;
 	entry.data.colorId = color;
+  entry.data.colorBackgroundId = -1;
+	entry.data.useHzAlignment = false;
 	if (toTheBeginning) {
     ((IList< TextListData, T >*)this)->unshift(entry);
 	} else {
     ((IList< TextListData, T >*)this)->add(entry);
 	}
+}
+
+template <typename T>
+void TextListComponent<T>::add(const std::string& name, const T& obj, signed char color, signed char colorBackground, HorizontalAlignment align)
+{
+  assert((unsigned int)color < COLOR_ID_COUNT);
+
+  typename IList<TextListData, T>::Entry entry;
+  entry.name = name;
+  entry.object = obj;
+  entry.data.colorId = color;
+  entry.data.colorBackgroundId = colorBackground;
+  entry.data.useHzAlignment = true;
+  entry.data.hzAlignement = align;
+  ((IList< TextListData, T >*)this)->add(entry);
+}
+
+template <typename T>
+void TextListComponent<T>::changeTextAt(int index, const std::string& name)
+{
+  ((IList< TextListData, T >*)this)->changeCursorName(index, name);
+}
+
+template <typename T>
+void TextListComponent<T>::changeBackgroundColorAt(int index, int colorIndex)
+{
+  ((IList< TextListData, T >*)this)->getSelectedEntryAt(index).colorBackgroundId = colorIndex;
 }
 
 template <typename T>
@@ -355,11 +397,11 @@ void TextListComponent<T>::applyTheme(const ThemeData& theme, const std::string&
 		{
 			const std::string& str = elem->AsString("alignment");
 			if(str == "left")
-				setAlignment(Alignment::Left);
+				setAlignment(HorizontalAlignment::Left);
 			else if(str == "center")
-				setAlignment(Alignment::Center);
+				setAlignment(HorizontalAlignment::Center);
 			else if(str == "right")
-				setAlignment(Alignment::Right);
+				setAlignment(HorizontalAlignment::Right);
 			else
 				LOG(LogError) << "Unknown TextListComponent alignment \"" << str << "\"!";
 		}

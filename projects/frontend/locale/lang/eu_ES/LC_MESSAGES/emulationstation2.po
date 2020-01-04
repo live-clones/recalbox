@@ -1670,3 +1670,130 @@ msgstr ""
 
 msgid "Do not set"
 msgstr ""
+
+#. Bios
+msgid "BIOS CHECKING"
+msgstr ""
+
+msgid ""
+"Scan and check all your BIOS files and report everything in a comprehensive "
+"way."
+msgstr ""
+
+msgid "RESCAN"
+msgstr ""
+
+msgid "Rescan all bios files"
+msgstr ""
+
+msgid ""
+"EMULATOR %s MAY NOT WORK PROPERLY UNTIL ALL REQUIRED BIOS ARE MADE AVAILABLE!"
+msgstr ""
+
+msgid ""
+"%i EMULATORS MAY NOT WORK PROPERLY UNTIL ALL REQUIRED BIOS ARE MADE "
+"AVAILABLE!"
+msgstr ""
+
+msgid "CONGRATULATIONS! ALL EMULATORS SHOULD WORK PROPERLY!"
+msgstr ""
+
+msgid "%i BIOS NOT FOUND"
+msgstr ""
+
+msgid "%i NON-MATCHING BIOS FOUND"
+msgstr ""
+
+msgid "%i GOOD BIOS FOUND!"
+msgstr ""
+
+msgid "File Path"
+msgstr ""
+
+msgid "Mandatory"
+msgstr ""
+
+msgid "Must match MD5"
+msgstr ""
+
+msgid "File found ?"
+msgstr ""
+
+msgid "Matching MD5 ?"
+msgstr ""
+
+msgid "NOTE"
+msgstr ""
+
+msgid ""
+"This bios is required in order to run the emulator properly. You won't be "
+"able to run any games with the emulator/core above."
+msgstr ""
+
+msgid ""
+"This bios is not mandatory in most cases. The emulator will run properly "
+"unless you want to use features requiring this particular bios file."
+msgstr ""
+
+msgid ""
+"Your bios file does not match any known MD5. However, there are chances of "
+"getting the emulator running fine."
+msgstr ""
+
+msgid ""
+"Your bios file does not match any known MD5 but this is not required. So "
+"there are strong chances of getting everything running fine."
+msgstr ""
+
+msgid ""
+"Your bios file does match one of the known MD5. Everything will run fine!"
+msgstr ""
+
+msgid "MD5 LIST"
+msgstr ""
+
+msgid "Congratulation, all cores/emulators listed below will work flawlessly!"
+msgstr ""
+
+msgid ""
+"Cores/emulators listed below won't probably work until required bios are "
+"made available."
+msgstr ""
+
+msgid ""
+"Cores/emulators listed below may work in most cases, unless you use features "
+"requiring special bios."
+msgstr ""
+
+msgid "BIOS OK"
+msgstr ""
+
+msgid "BIOS UNSAFE"
+msgstr ""
+
+msgid "BIOS KO"
+msgstr ""
+
+msgid "BIOS NOT FOUND"
+msgstr ""
+
+msgid "MD5 OK"
+msgstr ""
+
+msgid "MD5 NOT OK"
+msgstr ""
+
+msgid "BROWSE"
+msgstr ""
+
+msgid "You bios' MD5"
+msgstr ""
+
+msgid "Known MD5 List"
+msgstr ""
+
+msgid "MY SYSTEMS"
+msgstr ""
+
+msgid "ALL SYSTEMS"
+msgstr ""

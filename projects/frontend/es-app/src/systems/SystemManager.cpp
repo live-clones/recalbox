@@ -255,7 +255,7 @@ bool SystemManager::LoadSystemList(XmlDocument &document, XmlNodeCollisionMap &c
 bool SystemManager::AddFavoriteSystem(const XmlNodeList& systemList)
 {
   // Favorite system
-  if (!sVisibleSystemVector.empty())
+  if (!mVisibleSystemVector.empty())
     for (const XmlNode system : systemList)
     {
       std::string name = Xml::AsString(system, "name", "");
@@ -265,8 +265,8 @@ bool SystemManager::AddFavoriteSystem(const XmlNodeList& systemList)
       if (name == "favorites")
       {
         LOG(LogInfo) << "creating favorite system";
-        SystemData *newSys = CreateFavoriteSystem("favorites", fullname, themeFolder, sVisibleSystemVector);
-        sVisibleSystemVector.push_back(newSys);
+        SystemData *newSys = CreateFavoriteSystem("favorites", fullname, themeFolder, mVisibleSystemVector);
+        mVisibleSystemVector.push_back(newSys);
       }
     }
 
@@ -279,41 +279,41 @@ bool SystemManager::AddArcadeMetaSystem()
   {
     bool includeNeogeo = RecalboxConf::Instance().AsBool("global.arcade.includeneogeo", true);
     // Lookup all non-empty arcade platforms
-    for (SystemData* system: sVisibleSystemVector)
+    for (SystemData* system: mVisibleSystemVector)
       if (system->getRootFolder()->hasGame())
         for(int i = system->PlatformCount(); --i >= 0; )
           if ((system->PlatformIds(i) == PlatformIds::PlatformId::ARCADE) ||
               (system->PlatformIds(i) == PlatformIds::PlatformId::NEOGEO && includeNeogeo))
           {
-            sHiddenSystemVector.push_back(system);
+            mHiddenSystemVector.push_back(system);
             break;
           }
 
     // Non empty?
-    if (!sHiddenSystemVector.empty())
+    if (!mHiddenSystemVector.empty())
     {
       // Remove Hidden systems fron the visible ist
       bool hideOriginals = RecalboxConf::Instance().AsBool("global.arcade.hideoriginals", true);
       if (hideOriginals)
-        for (SystemData* hidden: sHiddenSystemVector)
+        for (SystemData* hidden: mHiddenSystemVector)
         {
-          auto it = std::find(sVisibleSystemVector.begin(), sVisibleSystemVector.end(), hidden);
-          if (it != sVisibleSystemVector.end())
-            sVisibleSystemVector.erase(it);
+          auto it = std::find(mVisibleSystemVector.begin(), mVisibleSystemVector.end(), hidden);
+          if (it != mVisibleSystemVector.end())
+            mVisibleSystemVector.erase(it);
         }
       // Create meta-system
-      SystemData* arcade = CreateMetaSystem("arcade", "Arcade", "arcade", sHiddenSystemVector);
+      SystemData* arcade = CreateMetaSystem("arcade", "Arcade", "arcade", mHiddenSystemVector);
       LOG(LogInfo) << "creating Arcade meta-system";
-      int position = RecalboxConf::Instance().AsInt("global.arcade.position", 0) % (int)sVisibleSystemVector.size();
-      auto it = position >= 0 ? sVisibleSystemVector.begin() + position : sVisibleSystemVector.end() + (position + 1);
-      sVisibleSystemVector.insert(it, arcade);
+      int position = RecalboxConf::Instance().AsInt("global.arcade.position", 0) % (int)mVisibleSystemVector.size();
+      auto it = position >= 0 ? mVisibleSystemVector.begin() + position : mVisibleSystemVector.end() + (position + 1);
+      mVisibleSystemVector.insert(it, arcade);
       // Hide originals?
       if (!hideOriginals)
-        sHiddenSystemVector.clear();
+        mHiddenSystemVector.clear();
     }
   }
 
-  return !sHiddenSystemVector.empty();
+  return !mHiddenSystemVector.empty();
 }
 
 //creates systems from information located in a config file
@@ -357,6 +357,7 @@ bool SystemManager::LoadSystemConfigurations()
     SystemDescriptor descriptor;
     if (DeserializeSystemDescriptor(system, descriptor))
     {
+      mAllDeclaredSystemShortNames.push_back(descriptor.Name());
       // Push weighted system
       threadPool.PushFeed(descriptor, weight);
     }
@@ -367,16 +368,16 @@ bool SystemManager::LoadSystemConfigurations()
     mProgressInterface->SetMaximum(count);
   threadPool.Run(-2, false);
   // Push result
-  sVisibleSystemVector.resize(count, nullptr);
+  mVisibleSystemVector.resize(count, nullptr);
   int index = 0;
   for(SystemData* result = nullptr; threadPool.PopResult(result, index); )
-    sVisibleSystemVector[index] = result;
+    mVisibleSystemVector[index] = result;
   // Shrink & update weights
   for(int i = count; --i >= 0; )
   {
-    SystemData* system = sVisibleSystemVector[i];
+    SystemData* system = mVisibleSystemVector[i];
     if (system == nullptr)
-      sVisibleSystemVector.erase(sVisibleSystemVector.begin() + i);
+      mVisibleSystemVector.erase(mVisibleSystemVector.begin() + i);
     else
       weights.SetInt(system->getStartPath().ToString(), system->getRootFolder()->countAll(true));
   }
@@ -390,8 +391,8 @@ bool SystemManager::LoadSystemConfigurations()
   AddFavoriteSystem(systemList);
 
   // Set *all* service vector
-  for(SystemData* service : sVisibleSystemVector)       sAllSystemVector.push_back(service);
-  for(SystemData* service : sHiddenSystemVector) sAllSystemVector.push_back(service);
+  for(SystemData* service : mVisibleSystemVector)       mAllSystemVector.push_back(service);
+  for(SystemData* service : mHiddenSystemVector) mAllSystemVector.push_back(service);
 
   return true;
 }
@@ -453,16 +454,16 @@ bool SystemManager::ThreadPoolRunJob(SystemData*& feed)
 
 void SystemManager::DeleteAllSystems(bool updateGamelists)
 {
-  if (updateGamelists && !sAllSystemVector.empty())
+  if (updateGamelists && !mAllSystemVector.empty())
   {
     DateTime start;
 
     if (mProgressInterface != nullptr)
-      mProgressInterface->SetMaximum(sAllSystemVector.size());
+      mProgressInterface->SetMaximum(mAllSystemVector.size());
     // Create automatic thread-pool
     ThreadPool<SystemData*, bool> threadPool(this, "System-Save", false, 20);
     // Push system to process
-    for (SystemData* system : sAllSystemVector)
+    for (SystemData* system : mAllSystemVector)
       threadPool.PushFeed(system, 0);
     // Run the threadpool and automatically wait for all jobs to complete
     threadPool.Run(-2, false);
@@ -471,14 +472,14 @@ void SystemManager::DeleteAllSystems(bool updateGamelists)
     LOG(LogInfo) << "Gamelist update time: " << std::to_string((stop-start).TotalMilliseconds()) << "ms";
   }
 
-  sVisibleSystemVector.clear();
-  sAllSystemVector.clear();
-  sHiddenSystemVector.clear();
+  mVisibleSystemVector.clear();
+  mAllSystemVector.clear();
+  mHiddenSystemVector.clear();
 }
 
 SystemData *SystemManager::SystemByName(std::string &name)
 {
-  for (auto system: sVisibleSystemVector)
+  for (auto system: mVisibleSystemVector)
   {
     if (system->getName() == name)
     {
@@ -490,23 +491,23 @@ SystemData *SystemManager::SystemByName(std::string &name)
 
 SystemData *SystemManager::FavoriteSystem()
 {
-  for (int i = (int) sVisibleSystemVector.size(); --i >= 0;)
-    if (sVisibleSystemVector[i]->isFavorite())
-      return sVisibleSystemVector[i];
+  for (int i = (int) mVisibleSystemVector.size(); --i >= 0;)
+    if (mVisibleSystemVector[i]->isFavorite())
+      return mVisibleSystemVector[i];
   return nullptr;
 }
 
 int SystemManager::getVisibleSystemIndex(const std::string &name)
 {
-  for (int i = (int) sVisibleSystemVector.size(); --i >= 0;)
-    if (sVisibleSystemVector[i]->getName() == name)
+  for (int i = (int) mVisibleSystemVector.size(); --i >= 0;)
+    if (mVisibleSystemVector[i]->getName() == name)
       return i;
   return -1;
 }
 
 SystemData* SystemManager::FirstNonEmptySystem()
 {
-  for (auto &system : sVisibleSystemVector)
+  for (auto &system : mVisibleSystemVector)
     if (system->HasGame())
       return system;
 

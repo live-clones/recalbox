@@ -188,6 +188,11 @@ protected:
         return objects;
     }
 
+	inline UserData& getObjects(int atIndex)
+	{
+   	return mEntries.at(atIndex).object;
+	}
+
 	inline const std::string& getSelectedName() {
 		assert(size() > 0);
 		return mEntries.at(mCursor).name;
@@ -198,7 +203,25 @@ protected:
 		return mEntries.at(mCursor).object;
 	}
 
-	void setCursor(typename std::vector<Entry>::iterator& it) {
+  inline const UserData& getSelectedAt(int index) const
+  {
+    assert(size() > 0);
+    return mEntries.at(index).object;
+  }
+
+  inline EntryData& getSelectedEntry() const
+  {
+    assert(size() > 0);
+    return mEntries.at(mCursor).data;
+  }
+
+  inline EntryData& getSelectedEntryAt(int index)
+  {
+    assert(size() > 0);
+    return mEntries.at(index).data;
+  }
+
+  void setCursor(typename std::vector<Entry>::iterator& it) {
 		assert(it != mEntries.end());
 		mCursor = it - mEntries.begin();
 		onCursorChanged(CursorState::Stopped);
@@ -253,7 +276,7 @@ protected:
 	}
 
 	bool changeCursorName(int cursor, const std::string& name) {
-		if (cursor >= mEntries.size()) {
+		if ((unsigned int)cursor >= mEntries.size()) {
 			return false;
 		}
 
@@ -262,8 +285,8 @@ protected:
 		entry.data.textCache.reset();
 		return true;
 	}
-	
-	// entry management
+
+  // entry management
 	void add(const Entry& e) {
 		mEntries.push_back(e);
 	}

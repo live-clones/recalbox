@@ -121,19 +121,23 @@ msgid "%i SCRAPPING ENGINES"
 msgstr "%i MOTEURS DE SCRAPPING"
 
 msgid ""
-"Scrapping complete! {PROCESSED} games processed.\n\n"
+"Scrapping complete! {PROCESSED} games processed.\n"
+"\n"
 "{SUCCESS} game(s) scraped or updated\n"
 "{NOTFOUND} game(s) not found...\n"
-"{ERRORS} request/download errors\n\n"
+"{ERRORS} request/download errors\n"
+"\n"
 "{TEXTINFO} Text information updated\n"
 "{IMAGES} images and {VIDEOS} videos downloaded\n"
 "{MEDIASIZE} of media saved\n"
 "Now, EmulationStation is going to relaunch to update all gamelists."
 msgstr ""
-"Scrapping terminé! {PROCESSED} jeux traités.\n\n"
+"Scrapping terminé! {PROCESSED} jeux traités.\n"
+"\n"
 "{SUCCESS} jeu(x) scrapé(s) ou mis à jour\n"
 "{NOTFOUND} jeu(x) non trouvés...\n"
-"{ERRORS} erreur(s) de requête/téléchargement\n\n"
+"{ERRORS} erreur(s) de requête/téléchargement\n"
+"\n"
 "{TEXTINFO} information(s) texte mises à jour\n"
 "{IMAGES} images et {VIDEOS} videos téléchargée(s)\n"
 "{MEDIASIZE} de média sauvés\n"
@@ -141,23 +145,30 @@ msgstr ""
 
 msgid ""
 "You reached your daily quota of scrapping request.\n"
-"All your today's scrapes have been saved anyway.\n\n"
+"All your today's scrapes have been saved anyway.\n"
+"\n"
 "Start scrapping again tomorrow.\n"
 "Dont forget to select 'update' and not 'scrape all'"
 msgstr ""
-"Vous avez atteint la limite de votre quota journalier de requête de scrapping.\n"
-"Tous les scrapes d'aujourd'hui ont été sauvegardés.\n\n"
+"Vous avez atteint la limite de votre quota journalier de requête de "
+"scrapping.\n"
+"Tous les scrapes d'aujourd'hui ont été sauvegardés.\n"
+"\n"
 "Relancez le scrapping demain,\n"
 "sans oublier de choisir 'Mise à jour' et non pas 'Tout scraper'"
 
 msgid ""
 "Your share partition is almost full.\n"
-"The scraper stopped automatically.\n\n"
-"Remove unused games, media, files to make room before running the scraper again!"
+"The scraper stopped automatically.\n"
+"\n"
+"Remove unused games, media, files to make room before running the scraper "
+"again!"
 msgstr ""
 "Votre partition 'share' est presque pleine.\n"
-"Le scraper s'est arreté automatiquement.\n\n"
-"Supprimez des jeux, des medias ou autres fichiers pour faire de la place, puis relancez le scraper!"
+"Le scraper s'est arreté automatiquement.\n"
+"\n"
+"Supprimez des jeux, des medias ou autres fichiers pour faire de la place, "
+"puis relancez le scraper!"
 
 msgid "OK"
 msgstr "OK"
@@ -484,7 +495,7 @@ msgid "Emulator"
 msgstr "ÉMULATEUR"
 
 msgid "Core"
-msgstr "COEUR"
+msgstr "Core"
 
 msgid ""
 "YOU ARE GOING TO CONFIGURE A CONTROLLER. IF YOU HAVE ONLY ONE JOYSTICK, "
@@ -610,7 +621,7 @@ msgid "enter emulator"
 msgstr "ENTREZ L'ÉMULATEUR"
 
 msgid "enter core"
-msgstr "ENTREZ DANS LE NOYAU"
+msgstr "ENTREZ LE CORE"
 
 msgid "Ratio"
 msgstr "RATIO"
@@ -1826,6 +1837,147 @@ msgstr "Fourni par le core"
 
 msgid "Do not set"
 msgstr "Ne pas régler"
+
+#. Bios
+msgid "BIOS CHECKING"
+msgstr "VÉRIFICATION DES BIOS"
+
+msgid ""
+"Scan and check all your BIOS files and report everything in a comprehensive "
+"way."
+msgstr ""
+"Scanne et vérifie tous vos fichiers BIOS, puis affiche le tout de manière "
+"compréhensible"
+
+msgid "RESCAN"
+msgstr "RESCANNER"
+
+msgid "Rescan all bios files"
+msgstr "Rescanne tous les fichiers bios"
+
+msgid ""
+"EMULATOR %s MAY NOT WORK PROPERLY UNTIL ALL REQUIRED BIOS ARE MADE AVAILABLE!"
+msgstr ""
+"L'ÉMULATEUR %s PEUT NE PAS FONCTIONNER JUSQU'À CE QUE LES BIOS REQUIS SOIENT "
+"DISPONIBLES!"
+
+msgid ""
+"%i EMULATORS MAY NOT WORK PROPERLY UNTIL ALL REQUIRED BIOS ARE MADE "
+"AVAILABLE!"
+msgstr ""
+"%i ÉMULATEURS PEUVENT NE PAS FONCTIONNER JUSQU'À CE QUE LES BIOS REQUIS "
+"SOIENT DISPONIBLES!"
+
+msgid "CONGRATULATIONS! ALL EMULATORS SHOULD WORK PROPERLY!"
+msgstr "FÉLICITATION! TOUS LES ÉMULATEURS DEVRAIENT FONCTIONNER CORRECTEMENT!"
+
+msgid "%i BIOS NOT FOUND"
+msgstr "%i BIOS NON TROUVÉS"
+
+msgid "%i NON-MATCHING BIOS FOUND"
+msgstr "%i BIOS NON-CONCORDANTS"
+
+msgid "%i GOOD BIOS FOUND!"
+msgstr "%i BIOS CONCORDANTS TROUVÉS"
+
+msgid "File Path"
+msgstr "Chemin"
+
+msgid "Mandatory"
+msgstr "Obligatoire"
+
+msgid "Must match MD5"
+msgstr "MD5 Controlé"
+
+msgid "File found ?"
+msgstr "Bios trouvé ?"
+
+msgid "Matching MD5 ?"
+msgstr "MD5 Ok ?"
+
+msgid "NOTE"
+msgstr "NOTE"
+
+msgid ""
+"This bios is required in order to run the emulator properly. You won't be "
+"able to run any games with the emulator/core above."
+msgstr ""
+"Ce fichier bios est requis pour que l'émulateur puisse fonctionner "
+"correctement. Vous ne pourrez lancer aucun jeu avec les émulateurs/coeurs "
+"listés ci-dessus."
+
+msgid ""
+"This bios is not mandatory in most cases. The emulator will run properly "
+"unless you want to use features requiring this particular bios file."
+msgstr ""
+"Ce fichier bios n'est pas obligatoire dans la plupart des cas. L'émulateur "
+"fonctionnera correctement, sauf si vous utilisez une fonctionalité qui "
+"requiert ce fichier bios."
+
+msgid ""
+"Your bios file does not match any known MD5. However, there are chances of "
+"getting the emulator running fine."
+msgstr ""
+"Aucune concordance de ce fichier bios avec les MD5 connus. Cependant, il y "
+"des chances pour que l'émulateur fonctionne correctement quand même."
+
+msgid ""
+"Your bios file does not match any known MD5 but this is not required. So "
+"there are strong chances of getting everything running fine."
+msgstr ""
+"Aucune concordance de ce fichier bios avec les MD5 connus et ce n'est pas "
+"requis. Il y a de fortes chances que l'émulateur fonctionne correctement."
+
+msgid ""
+"Your bios file does match one of the known MD5. Everything will run fine!"
+msgstr "Ce fichier bios a été reconnu avec une concordance MD5. Parfait!"
+
+msgid "MD5 LIST"
+msgstr "LISTE MD5"
+
+msgid "Congratulation, all cores/emulators listed below will work flawlessly!"
+msgstr "Félicitation! Les cores/émulateurs listés ci-dessous fonctionneront parfaitement!"
+
+msgid "Cores/emulators listed below won't probably work until required bios are made available."
+msgstr "Les cores/émulateurs listés ci-dessous ne fonctionneront probablement pas tant que les bios requis ne sont pas disponibles."
+
+msgid "Cores/emulators listed below may work in most cases, unless you use features requiring special bios."
+msgstr "Les cores/émulateurs listés ci-dessous devraient fonctionner dans la plupart des cas."
+
+msgid "BIOS OK"
+msgstr "BIOS OK"
+
+msgid "BIOS UNSAFE"
+msgstr ""
+
+msgid "BIOS KO"
+msgstr "BIOS NON OK"
+
+msgid "BIOS NOT FOUND"
+msgstr "BIOS NON TROUVÉS"
+
+msgid "MD5 OK"
+msgstr ""
+
+msgid "MD5 NOT OK"
+msgstr "MD5 NON OK"
+
+msgid "BROWSE"
+msgstr "PARCOURIR"
+
+msgid "You bios' MD5"
+msgstr "Le MD5 de votre bios"
+
+msgid "Known MD5 List"
+msgstr "List des MD5 connus"
+
+#:
+msgid "MY SYSTEMS"
+msgstr "MES SYSTEMES"
+
+#:
+msgid "ALL SYSTEMS"
+msgstr "TOUS LES SYSTEMES"
 
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "

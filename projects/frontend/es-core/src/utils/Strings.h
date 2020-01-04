@@ -28,6 +28,8 @@ class Strings
 
     static size_t moveCursor(const std::string& _string, size_t _cursor, int _amount);
 
+    static int CountChar(const std::string& source, char c);
+
     static std::string ToLowerUTF8(const std::string& _string);
 
     static std::string ToUpperUTF8(const std::string& _string);
