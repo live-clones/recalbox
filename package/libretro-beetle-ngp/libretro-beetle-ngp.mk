@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_BEETLE_NGP_VERSION = 6130e4057c3d8f9172f0c49bb9b6c61bd1a572d5
+LIBRETRO_BEETLE_NGP_VERSION = 0fb6f525e4f2c9ee4b60c2e0816c8292776727b6
 LIBRETRO_BEETLE_NGP_SITE = $(call github,libretro,beetle-ngp-libretro,$(LIBRETRO_BEETLE_NGP_VERSION))
 
 define LIBRETRO_BEETLE_NGP_BUILD_CMDS
