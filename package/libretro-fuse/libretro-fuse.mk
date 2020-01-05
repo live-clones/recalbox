@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_FUSE_VERSION = 8184756a5ee4b97e0f47281d44db4ca076a2671b
+LIBRETRO_FUSE_VERSION = 37c8a3c8c0306f7f2d6a356c41bae96fc656d983
 LIBRETRO_FUSE_SITE = $(call github,libretro,fuse-libretro,$(LIBRETRO_FUSE_VERSION))
 
 ifeq ($(BR2_aarch64),y)
