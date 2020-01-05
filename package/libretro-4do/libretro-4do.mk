@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_4DO_VERSION = b6ad4bc8548f2f3792cd929ccf26d9078b73a1c0
+LIBRETRO_4DO_VERSION = ffb026896ad49a7a7654f103ef74a7ce5641eb06
 LIBRETRO_4DO_SITE = $(call github,libretro,4do-libretro,$(LIBRETRO_4DO_VERSION))
 
 ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_RPI3),y)
