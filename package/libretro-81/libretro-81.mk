@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_81_VERSION = 10fcd60ca341fa605c48179743b41195196a988c
+LIBRETRO_81_VERSION = 4352130bd2363954262a804b086f86b9d13d97f9
 LIBRETRO_81_SITE = $(call github,libretro,81-libretro,$(LIBRETRO_81_VERSION))
 
 define LIBRETRO_81_BUILD_CMDS
