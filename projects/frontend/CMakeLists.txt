@@ -57,7 +57,7 @@ find_package(FreeImage REQUIRED)
 find_package(SDL2MIXER REQUIRED)
 find_package(SDL2 REQUIRED) 
 #find_package(Boost REQUIRED COMPONENTS system filesystem date_time regex locale thread)
-find_package(Eigen3 REQUIRED)
+#find_package(Eigen3 REQUIRED)
 find_package(CURL REQUIRED)
 
 #add ALSA for Linux

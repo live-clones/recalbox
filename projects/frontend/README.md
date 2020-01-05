@@ -50,7 +50,7 @@ EmulationStation has a few dependencies. For building, you'll need CMake, SDL2, 
 **On Debian/Ubuntu:**
 All of this be easily installed with apt-get:
 ```bash
-sudo apt-get install libsdl2-dev libsdl2-mixer-dev libfreeimage-dev libfreetype6-dev libeigen3-dev libcurl4-openssl-dev libasound2-dev libgl1-mesa-dev build-essential cmake fonts-droid
+sudo apt-get install libsdl2-dev libsdl2-mixer-dev libfreeimage-dev libfreetype6-dev libcurl4-openssl-dev libasound2-dev libgl1-mesa-dev libzip-dev build-essential cmake fonts-droid
 ```
 
 Then, generate and build the Makefile with CMake:
@@ -65,8 +65,6 @@ make
 Complete Raspberry Pi build instructions at [emulationstation.org](http://emulationstation.org/gettingstarted.html#install_rpi_standalone).
 
 **On Windows:**
-
-[Eigen3](http://eigen.tuxfamily.org/index.php?title=Main_Page) (header-only library)
 
 [FreeImage](http://downloads.sourceforge.net/freeimage/FreeImage3154Win32.zip)
 
