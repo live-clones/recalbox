@@ -101,6 +101,9 @@ for oldSystemName in ${!renamedSystems[@]}; do
   for dir in $_SHARE/saves/${oldSystemName}/ ; do mv "${dir}" "$(dirname "$dir")/${renamedSystems[${oldSystemName}]}" \
     && recallog "RENAMED '${oldSystemName}' system to '${renamedSystems[${oldSystemName}]}' in ${dir}." \
     || { recallog "ERROR: couldn't rename '${oldSystemName}' to '${renamedSystems[${oldSystemName}]}' in ${dir}."; exit 1; }; done
+  for dir in $_SHARE/roms/${oldSystemName}/ ; do mv "${dir}" "$(dirname "$dir")/${renamedSystems[${oldSystemName}]}" \
+    && recallog "RENAMED '${oldSystemName}' system to '${renamedSystems[${oldSystemName}]}' in ${dir}." \
+    || { recallog "ERROR: couldn't rename '${oldSystemName}' to '${renamedSystems[${oldSystemName}]}' in ${dir}."; exit 1; }; done
   for dir in $_SHARE/system/.emulationstation/themes/*/${oldSystemName}/ ; do mv "${dir}" "$(dirname "$dir")/${renamedSystems[${oldSystemName}]}" \
     && recallog "RENAMED '${oldSystemName}' system to '${renamedSystems[${oldSystemName}]}' in ${dir}." \
     || { recallog "ERROR: couldn't rename '${oldSystemName}' to '${renamedSystems[${oldSystemName}]}' in ${dir}."; exit 1; }; done
