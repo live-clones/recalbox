@@ -45,28 +45,6 @@ xu4_fusing() {
     dd if=/dev/zero of="${RECALBOXIMG}" seek=$env_position count=32 bs=512 conv=notrunc || return 1
 }
 
-
-c2_fusing() {
-    BINARIES_DIR=$1
-    RECALBOXIMG=$2
-
-    if [ ! -f "${RECALBOXIMG}" ] ; then
-        echo "Can't fuse: missing ${RECALBOXIMG}"
-        exit 1
-    fi
-    # fusing
-    signed_bl1_position=1
-    signed_bl1_skip=0
-    uboot_position=97
-    BL1="${BINARIES_DIR}/bl1.bin.hardkernel"
-    UBOOT="${BINARIES_DIR}/u-boot.bin"
-
-    echo "fusing c2 image ..."
-    dd if=$BL1   of="$RECALBOXIMG" conv=fsync,notrunc bs=1   count=442
-    dd if=$BL1   of="$RECALBOXIMG" conv=fsync,notrunc bs=512 skip=1 seek=1
-    dd if=$UBOOT of="$RECALBOXIMG" conv=fsync,notrunc bs=512 seek=97
-}
-
 RECALBOX_BINARIES_DIR="${BINARIES_DIR}/recalbox"
 RECALBOX_TARGET_DIR="${TARGET_DIR}/recalbox"
 
@@ -120,7 +98,7 @@ case "${RECALBOX_TARGET}" in
 
         # recalbox.img
         support/scripts/genimage.sh -c "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/xu4/genimage.cfg" || exit 1
-	xu4_fusing "${BINARIES_DIR}" "${BINARIES_DIR}/recalbox.img" || exit 1
+        xu4_fusing "${BINARIES_DIR}" "${BINARIES_DIR}/recalbox.img" || exit 1
         sync || exit 1
         ;;
 
