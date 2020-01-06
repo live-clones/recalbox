@@ -150,5 +150,5 @@ fi
 
 # Computing hash sums to make have an update that can be dropped on a running Recalbox
 echo "Computing sha1 sums ..."
-for file in "${RECALBOX_BINARIES_DIR}"/* ; do sha1sum "${file}" > "${file}.sha1"; done
+(cd "${RECALBOX_BINARIES_DIR}" && for file in * ; do sha1sum "${file}" > "${file}.sha1"; done)
 [[ -e "${RECALBOX_BINARIES_DIR}/root.tar.xz" ]] && tar tf "${RECALBOX_BINARIES_DIR}/root.tar.xz" | sort > "${RECALBOX_BINARIES_DIR}/root.list"
