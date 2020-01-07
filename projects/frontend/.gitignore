@@ -21,6 +21,7 @@
 # Compiled executable
 emulationstation
 emulationstation_test
+md5zip
 
 # build tags
 es-app/src/EmulationStation.h

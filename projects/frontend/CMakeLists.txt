@@ -200,3 +200,6 @@ endif()
 
 # Tests
 add_subdirectory(tests)
+
+# md5zip
+add_subdirectory(tool-md5zip)
