@@ -96,7 +96,7 @@ void Bios::Scan()
   else
   {
     mStatus = Status::HashNotMatching;
-    mReportStatus = mHashMatchMandatory ? ReportStatus::Red : ReportStatus ::Yellow;
+    mReportStatus = mHashMatchMandatory && mMandatory ? ReportStatus::Red : ReportStatus ::Yellow;
   }
 }
 

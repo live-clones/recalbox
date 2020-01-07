@@ -47,9 +47,14 @@ class BiosManager : private Thread, public ISynchronousEvent
 
   public:
     /*!
-     * @brief Default bios
+     * @brief Default constructor
      */
     BiosManager();
+
+    /*!
+     * @brief Default destructor
+     */
+    ~BiosManager();
 
     /*!
      * @brief Get unique instance

@@ -22,6 +22,12 @@ BiosManager::BiosManager()
   }
 }
 
+BiosManager::~BiosManager()
+{
+  if (sInstance == this)
+    sInstance = nullptr;
+}
+
 void BiosManager::LoadFromFile()
 {
   Path xmlpath = RootFolders::TemplateRootFolder / sBiosFilePath;

@@ -437,7 +437,7 @@ void GuiBiosScan::UpdateBiosList()
   if (nonWorkingSystem != 0)
   {
     headerText = nonWorkingSystem == 1 ?
-      _("EMULATOR %s MAY NOT WORK PROPERLY UNTIL ALL REQUIRED BIOS ARE MADE AVAILABLE!") :
+                 Strings::Replace(_("EMULATOR %s MAY NOT WORK PROPERLY UNTIL ALL REQUIRED BIOS ARE MADE AVAILABLE!"), "%s", lastNonWorkingSystemName) :
       Strings::Replace(_("%i EMULATORS MAY NOT WORK PROPERLY UNTIL ALL REQUIRED BIOS ARE MADE AVAILABLE!"), "%i", Strings::ToString(nonWorkingSystem));
   }
   else headerText = _("CONGRATULATIONS! ALL EMULATORS SHOULD WORK PROPERLY!");
