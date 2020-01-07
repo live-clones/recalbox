@@ -33,7 +33,7 @@
     <bios path="7800 BIOS (U).rom" md5="0763F1FFB006DDBE32E52D497EE848AE" mandatory="false" core="prosystem" note="Display official Atari logo. Run only US games!" />
   </system>
   <system fullname="Sammy Atomiswave" platform="atomis">
-    <bios path="awbios.img" md5="0ec5ae5b5a5c4959fa8b43fcf8687f7c" core="flycast" />  
+    <bios path="awbios.zip" md5="a420c0e56135c2e7e87399c887d7ef4a" core="flycast" />  
   </system>
   <system fullname="Naomi" platform="naomi">
     <bios path="naomi.bin" md5="3bffafac42a7767d8dcecf771f5552ba" core="flycast" />  
@@ -56,7 +56,7 @@
     <bios path="quasi88/disk.rom"     md5="793f86784e5608352a5d7f03f03e0858" core="quasi88" note="Required to load disk images" />
     <bios path="quasi88/n88knj1.rom"  md5="d81c6d5d7ad1a4bbbd6ae22a01257603" core="quasi88" note="Required to view Kanji" />
     <bios path="quasi88/n88knj2.rom"  md5="41d2e2c0c0edfccf76fa1c3e38bc1cf2" core="quasi88" note="Required to view Kanji" />
-    <bios path="quasi88/n88jisho.rom" md5="2e548679423370262f36cbde38a22789" core="quasi88" />
+    <bios path="quasi88/n88jisho.rom" md5="2e548679423370262f36cbde38a22789" core="quasi88" mandatory="false" />
   </system>
   <system fullname="PC-9800 Series" platform="pc98">  
     <bios path="np2kai/bios.rom"       md5="052f5f6010877522f78803498a625727,0c052b1f1bfd0ece11286d2ff45d296f,
@@ -85,7 +85,7 @@
   <system fullname="Sega MEGA CD" platform="segacd">
     <bios path="bios_CD_E.bin" md5="e66fa1dc5820d254611fdcdba0662372" core="genesisplusgx,picodrive" />  
     <bios path="bios_CD_U.bin" md5="2efd74e3232ff260e371b99f84024f7f" core="genesisplusgx,picodrive" />  
-    <bios path="bios_CD_J.bin" md5="278a9397d192149e84e820ac621a8edd" core="genesisplusgx,picodrive" />  
+    <bios path="bios_CD_J.bin" md5="278a9397d192149e84e820ac621a8edd,bdeb4c47da613946d422d97d98b21cda" core="genesisplusgx,picodrive" />  
   </system>
   <system fullname="Family Computer Disk System" platform="fds">
     <bios path="disksys.rom" md5="ca30b50f880eb660a320674ed365ef7a" core="fceumm,nestopia" />  
@@ -188,7 +188,7 @@
     <bios path="keropi/iplromxv.dat" md5="0617321daa182c3f3d6f41fd02fb3275" core="px68k" mandatory="false" />  
   </system>
   <system fullname="Sharp X1" platform="x1">
-    <bios path="xmil/IPLROM.X1"  md5="eeeea1cd29c6e0e8b094790ae969bfa7" core="xmil" />  
+    <bios path="xmil/IPLROM.X1"  md5="eeeea1cd29c6e0e8b094790ae969bfa7,59074727a953fe965109b7dbe3298e30" core="xmil" />  
     <bios path="xmil/IPLROM.X1T" md5="56c28adcf1f3a2f87cf3d57c378013f5" core="xmil" />  
   </system>
   <system fullname="Playstation" platform="psx">
@@ -214,13 +214,14 @@
   <system fullname="Nintendo DS" platform="nds">
     <bios path="bios7.bin"    md5="df692a80a5b1bc90728bc3dfc76cd948" core="melonds,desmume" />  
     <bios path="bios9.bin"    md5="a392174eb3e572fed6447e956bde4b25" core="melonds,desmume" />  
-    <bios path="firmware.bin" md5="145eaef5bd3037cbc247c213bb3da1b3" core="melonds,desmume" />  
+    <bios path="firmware.bin" md5="145eaef5bd3037cbc247c213bb3da1b3,e45033d9b0fa6b0de071292bba7c9d13,
+    	                             3ad72b2c9a736b24953f2d391da4bfcc" core="melonds,desmume" />  
   </system>
   <system fullname="Palm Pilot" platform="palm">
-    <bios path="palmos40-en-m500.rom"   md5="f50e4d5e4d98dc831f2c34a9107651eb" core="mu" />  
+    <bios path="palmos40-en-m500.rom"   md5="f50e4d5e4d98dc831f2c34a9107651eb" core="mu" mandatory="false" />  
     <bios path="palmos41-en-m515.rom"   md5="83cb1d1c76e568b916dc2e7c0bf669f6" core="mu" />  
-    <bios path="palmos52-en-t3.rom.rom" md5="de46ec84d9aabf655eabdf9b00a3845d" core="mu" />  
-    <bios path="bootloader-dbvz.rom"    md5="9da101cd2317830649a31f8fa46debec" core="mu" />  
+    <bios path="palmos52-en-t3.rom.rom" md5="de46ec84d9aabf655eabdf9b00a3845d" core="mu" mandatory="false" />  
+    <bios path="bootloader-dbvz.rom"    md5="9da101cd2317830649a31f8fa46debec" core="mu" mandatory="false" />  
   </system>
   <system fullname="Tangerine Oric/Atmos" platform="oricatmos">
     <bios path="8dos.rom"     md5="4a1ff5f8719d67dafcf85ac61959cdb6" core="oricutron" />  
@@ -337,9 +338,9 @@
     <bios path="bios.gg" md5="672e104c3be3a238301aceffc3b23fd6" mandatory="false" core="genesisplusgx" />
   </system>
   <system fullname="Sega MasterSystem" platform="mastersystem">
-    <bios path="bios_E.sms" md5="840481177270d5642a14ca71ee72844c" mandatory="false" core="genesisplusgx" />
-    <bios path="bios_U.sms" md5="840481177270d5642a14ca71ee72844c" mandatory="false" core="genesisplusgx" />
-    <bios path="bios_J.sms" md5="24a519c53f67b00640d0048ef7089105" mandatory="false" core="genesisplusgx" />
+    <bios path="bios_E.sms" md5="840481177270d5642a14ca71ee72844c,4187d96beaf36385e681a3cf3bd1663d" mandatory="false" core="genesisplusgx" />
+    <bios path="bios_U.sms" md5="840481177270d5642a14ca71ee72844c,4187d96beaf36385e681a3cf3bd1663d" mandatory="false" core="genesisplusgx" />
+    <bios path="bios_J.sms" md5="24a519c53f67b00640d0048ef7089105,02cbb2e348945c9ac41e37502a58ca76" mandatory="false" core="genesisplusgx" />
   </system>
   <system fullname="Sega Megadrive/Genesis" platform="megadrive">
     <bios path="bios_MD.bin" md5="45e298905a08f9cfb38fd504cd6dbc84" mandatory="false" core="genesisplusgx" />
@@ -373,10 +374,10 @@
                                       cc46c7bacbbaf528a864113c76d9b9c9,53e2f417c6996df9af170e147df8e369" mandatory="false" core="fuse" note="Only required if you want to emulate Pentagon machines" />
   </system>
   <system fullname="Scorpion 256K (ZX Spectrum clone)" platform="zxspectrum">
-    <bios path="256s-0.rom" md5="b9fda5b6a747ff037365b0e2d8c4379a" mandatory="false" core="fuse" note="Only required if you want to emulate Scorpion 256K machine" />
-    <bios path="256s-1.rom" md5="643861ad34831b255bf2eb64e8b6ecb8" mandatory="false" core="fuse" note="Only required if you want to emulate Scorpion 256K machine" />
-    <bios path="256s-2.rom" md5="d8ad507b1c915a9acfe0d73957082926" mandatory="false" core="fuse" note="Only required if you want to emulate Scorpion 256K machine" />
-    <bios path="256s-3.rom" md5="ce0723f9bc02f4948c15d3b3230ae831" mandatory="false" core="fuse" note="Only required if you want to emulate Scorpion 256K machine" />
+    <bios path="fuse/256s-0.rom" md5="b9fda5b6a747ff037365b0e2d8c4379a" mandatory="false" core="fuse" note="Only required if you want to emulate Scorpion 256K machine" />
+    <bios path="fuse/256s-1.rom" md5="643861ad34831b255bf2eb64e8b6ecb8" mandatory="false" core="fuse" note="Only required if you want to emulate Scorpion 256K machine" />
+    <bios path="fuse/256s-2.rom" md5="d8ad507b1c915a9acfe0d73957082926" mandatory="false" core="fuse" note="Only required if you want to emulate Scorpion 256K machine" />
+    <bios path="fuse/256s-3.rom" md5="ce0723f9bc02f4948c15d3b3230ae831" mandatory="false" core="fuse" note="Only required if you want to emulate Scorpion 256K machine" />
   </system>
   <system fullname="Nintendo Gamecube" platform="gamecube">
     <bios path="gamecube/EUR/IPL.bin" md5="0cdda509e2da83c85bfe423dd87346cc" mandatory="false" core="dolphin" note="Only required if you want the European Gamecube menu and the boot animation" />
@@ -392,12 +393,12 @@
     <bios path="mpr-19367-mx.ic1" md5="1cd19988d1d72a3e7caa0b73234c96b4" core="mednafen_saturn" note="Required for Ultraman: Hikari no Kyojin Densetsu ROM Cartridge" />    
   </system>
   <system fullname="SNK Neo-Geo" platform="neogeo">
-    <bios path="/recalbox/share/roms/neogeo/neogeo.zip" md5="7aad6c46758db72e7d1466abac5d88e7,c1e0a738d266926f604186aa9d63e4db,
-    	                           0d6d9a16efbf8db3beb94a2a2aa8b6d4" hashMatchMandatory="false" core="fbneo,fba2x,mame2000,mame2003,mame2003-plus,mame2010,mame2015" />    
+    <bios path="/recalbox/share/roms/neogeo/neogeo.zip" md5="e023d0a4b5249fdff2a4620c28963944,8cbdff53661f41ddbe486a98915e1ec9,
+    	                                                       42e359e394f0be1d61b94ddca0efbe6c" hashMatchMandatory="false" core="fbneo,fba2x,mame2000,mame2003,mame2003-plus,mame2010,mame2015" />    
   </system>
   <system fullname="SNK Neo-Geo" platform="neogeocd">
-    <bios path="/recalbox/share/roms/neogeocd/neogeo.zip" md5="7aad6c46758db72e7d1466abac5d88e7,c1e0a738d266926f604186aa9d63e4db,
-    	                           0d6d9a16efbf8db3beb94a2a2aa8b6d4" hashMatchMandatory="false" core="fbneo,fba2x,mame2000,mame2003,mame2003-plus,mame2010,mame2015" />    
-    <bios path="/recalbox/share/roms/neogeocd/neocdz.zip" md5="c85b8132799f1b2ad3754a97947809d2" core="fbneo,fba2x,mame2000,mame2003,mame2003-plus,mame2010,mame2015" />    
+    <bios path="/recalbox/share/roms/neogeocd/neogeo.zip" md5="e023d0a4b5249fdff2a4620c28963944,8cbdff53661f41ddbe486a98915e1ec9,
+    	                                                         42e359e394f0be1d61b94ddca0efbe6c" hashMatchMandatory="false" core="fbneo,fba2x,mame2000,mame2003,mame2003-plus,mame2010,mame2015" />    
+    <bios path="/recalbox/share/roms/neogeocd/neocdz.zip" md5="f39572af7584cb5b3f70ae8cc848aba2,389dbeb0cb857c130414747462cf9d71" hashMatchMandatory="false" core="fbneo,fba2x,mame2000,mame2003,mame2003-plus,mame2010,mame2015" />    
   </system>
 </biosList>
