@@ -58,7 +58,7 @@ Strings::Vector RecalboxSystem::ExecuteSettingsCommand(const std::string& argume
   {
     while (feof(pipe) == 0)
       if (fgets(buffer, sizeof(buffer), pipe) != nullptr)
-        output.append(output);
+        output.append(buffer);
     pclose(pipe);
   }
   return Strings::Split(output, '\n');
