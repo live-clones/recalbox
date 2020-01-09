@@ -219,7 +219,7 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
                 LOG(LogWarning) << "Shutdown terminated with non-zero result!";
             }
             launchKodi = false;
-            delete s;
+            s->Close();
         });
         auto lbl = std::make_shared<TextComponent>(mWindow, "\uF1c3 " + _("KODI MEDIA CENTER"), menuTheme->menuText.font, menuTheme->menuText.color);
         row.addElement(lbl, true); // label
@@ -228,7 +228,7 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
         row.makeAcceptInputHandler([this, s] {
             auto netplay = new GuiNetPlay(mWindow, mSystemManager);
             mWindow.pushGui(netplay);
-            delete s;
+            s->Close();
         });
         auto lbl2 = std::make_shared<TextComponent>(mWindow, "\uF1c4 " + _("NETPLAY LOBBY"), menuTheme->menuText.font, menuTheme->menuText.color);
         row.addElement(lbl2, true); // label

@@ -561,8 +561,8 @@ void GuiMenu::menuControllers() {
         [this, s] {
           mWindow.pushGui(new GuiDetectDevice(mWindow, false, [this, s] {
             s->setSave(false);
-            delete s;
-            this->menuControllers();
+            s->Close();
+            menuControllers();
           }));
         }));
   });
@@ -1216,7 +1216,7 @@ void GuiMenu::menuNetworkSettings(){
       auto updateValue = [updateVal, SSID](const std::string &newVal) {
         RecalboxConf::Instance().SetString("wifi.ssid", newVal);
         updateVal(newVal);
-        delete SSID;
+        SSID->Close();
       };
       row.makeAcceptInputHandler([this, updateValue] {
         if (Settings::Instance().UseOSK())
