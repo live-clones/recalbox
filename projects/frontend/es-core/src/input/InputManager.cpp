@@ -135,7 +135,7 @@ void InputManager::LoadJoystickConfiguration(int index)
 
 int InputManager::ConfiguredDeviceCount()
 {
-  int num = 0;
+  int num = mKeyboard.IsConfigured() ? 1 : 0;
   for (auto& mInputConfig : mDevices)
     if (mInputConfig.second->IsConfigured())
       num++;
