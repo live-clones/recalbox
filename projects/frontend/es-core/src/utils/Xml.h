@@ -60,7 +60,7 @@ class Xml
      */
     static void AddAsString(XmlNode parent, const char* childname, const char* value)
     {
-      parent.append_child(childname).set_value(value);
+      parent.append_child(childname).text().set(value);
     }
 
     /*!
@@ -71,7 +71,7 @@ class Xml
      */
     static void AddAsString(XmlNode parent, const std::string& childname, const std::string& value)
     {
-      parent.append_child(childname.c_str()).set_value(value.c_str());
+      parent.append_child(childname.c_str()).text().set(value.c_str());
     }
 
     /*!

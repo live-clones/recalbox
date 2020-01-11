@@ -254,7 +254,7 @@ bool RecalboxSystem::launchKodi(Window& window)
   {
     case 10: // reboot code
     {
-      MainRunner::RequestQuit(MainRunner::ExitState::NormalReboot);;
+      MainRunner::RequestQuit(MainRunner::ExitState::NormalReboot);
       return true;
     }
     case 11: // shutdown code
@@ -453,10 +453,6 @@ std::pair<std::string, int> RecalboxSystem::getSDLBatteryInfo()
   switch (powerInfo)
   {
     case SDL_POWERSTATE_UNKNOWN:
-    {
-      percent = -1;
-      break;
-    }
     case SDL_POWERSTATE_NO_BATTERY:
     {
       percent = -1;
@@ -475,10 +471,6 @@ std::pair<std::string, int> RecalboxSystem::getSDLBatteryInfo()
       break;
     }
     case SDL_POWERSTATE_CHARGING:
-    {
-      result.first = "\uf1b4";
-      break;
-    }
     case SDL_POWERSTATE_CHARGED:
     {
       result.first = "\uf1b4";

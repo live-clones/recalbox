@@ -429,6 +429,32 @@ void SystemData::UpdateGamelistXml()
   try
   {
     /*
+     * Load or create gamelist node
+     */
+    Path xmlReadPath = getGamelistPath(false);
+    XmlDocument document;
+    bool forceAll = false;
+    if (xmlReadPath.Exists())
+    {
+      XmlDocument gameList;
+      XmlResult result = gameList.load_file(xmlReadPath.ToChars());
+      if (!result)
+      {
+        LOG(LogError) << "Could not parse " << xmlReadPath.ToString() << " file!";
+        // Create empty game list node
+        document.append_child("gameList");
+        forceAll = true;
+      }
+    }
+    else
+    {
+      // Create empty game list node
+      document.append_child("gameList");
+      forceAll = true;
+    }
+    XmlNode gameList = document.child("gameList");
+
+    /*
      * Get all folder & games in a flat storage
      */
     FolderData* rootFolder = getRootFolder();
@@ -443,47 +469,24 @@ void SystemData::UpdateGamelistXml()
      */
     std::unordered_map<std::string, const FileData*> fileLinks;
     bool ok = false;
-    for (const FileData* file : fileData)                                                      // For each File
-      if (file->Metadata().IsDirty())                                                          // with updated metadata
+    for (const FileData* file : fileData)                                              // For each File
+      if (file->Metadata().IsDirty() || forceAll)                                      // with updated metadata
         fileLinks[file->getPath().MakeRelative(getStartPath(), ok).ToString()] = file; // store the relative path
     // Nothing changed?
     if (fileLinks.empty()) return;
-
-    /*
-     * Load or create gamelist node
-     */
-    Path xmlReadPath = getGamelistPath(false);
-    XmlDocument document;
-    if (xmlReadPath.Exists())
-    {
-      XmlDocument gameList;
-      XmlResult result = gameList.load_file(xmlReadPath.ToChars());
-      if (!result)
-      {
-        LOG(LogError) << "Could not parse " << xmlReadPath.ToString() << " file!";
-        return;
-      }
-    }
-    else
-    {
-      // Create empty game list node
-      document.append_child("gameList");
-    }
-    XmlNode gameList = document.child("gameList");
 
     /*
      * Update pass #1 : Remove node from the gamelist where corresponding metadata have changed
      */
     for (XmlNode node : gameList)                                                   // For each gamelist entry
       if (fileLinks.find(Xml::AsString(node, "path", "")) != fileLinks.end())       // corresponding to an updated file
-        gameList.remove_child(
-          node);                                                // delete the entry from the gamelist
+        gameList.remove_child(node);                                                // delete the entry from the gamelist
 
     /*
      * Update pass #2 - Insert new/updated game/folder nodes into the gamelist node
      */
     for (const FileData* file : fileData)                                 // For each file
-      if (file->Metadata().IsDirty())                                     // If metadata have changed
+      if (file->Metadata().IsDirty() || forceAll)                         // If metadata have changed
         file->Metadata().Serialize(gameList,                              // Insert updated node
                                    file->getPath(), getStartPath());
 
