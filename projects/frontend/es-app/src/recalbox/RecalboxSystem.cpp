@@ -499,7 +499,8 @@ std::pair<std::string, int> RecalboxSystem::getSysBatteryInfo()
   if (!batteryCapacity.Exists())
     return std::make_pair("", -1);
 
-  int percent = std::stoi(Files::LoadFile(batteryCapacity));
+  int percent = 0;
+  Strings::ToInt(Files::LoadFile(batteryCapacity), percent);
   std::string status = Files::LoadFile(batteryStatus);
 
   if (status == "Discharging")

@@ -54,7 +54,12 @@ std::string StringMapFile::GetString(const std::string& key, const std::string& 
 int StringMapFile::GetInt(const std::string& key, int defaultvalue)
 {
   std::map<std::string, std::string>::iterator it = mMap.find(key);
-  if (it != mMap.end()) return std::stoi(it->second);
+  if (it != mMap.end())
+  {
+    int value;
+    if (Strings::ToInt(it->second, value))
+      return value;
+  }
   return defaultvalue;
 }
 
