@@ -14,7 +14,6 @@
 #include <VideoEngine.h>
 #include <guis/GuiDetectDevice.h>
 #include <utils/sdl2/SyncronousEventService.h>
-#include <scraping/new/ScraperFactory.h>
 #include <bios/BiosManager.h>
 #include "MainRunner.h"
 #include "EmulationStation.h"
@@ -358,8 +357,8 @@ bool MainRunner::DoWeHaveToUpdateGamelist(MainRunner::ExitState state)
   {
     case ExitState::Quit:
     case ExitState::NormalReboot:
-    case ExitState::Shutdown: return true;
-    case ExitState::Relaunch:
+    case ExitState::Shutdown:
+    case ExitState::Relaunch: return true;
     case ExitState::FatalError:
     case ExitState::FastReboot:
     case ExitState::FastShutdown: break;

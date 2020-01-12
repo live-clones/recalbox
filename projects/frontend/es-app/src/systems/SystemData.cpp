@@ -441,18 +441,15 @@ void SystemData::UpdateGamelistXml()
       if (!result)
       {
         LOG(LogError) << "Could not parse " << xmlReadPath.ToString() << " file!";
-        // Create empty game list node
-        document.append_child("gameList");
         forceAll = true;
       }
     }
     else
-    {
-      // Create empty game list node
-      document.append_child("gameList");
       forceAll = true;
-    }
+
     XmlNode gameList = document.child("gameList");
+    if (!gameList)
+      gameList = document.append_child("gameList");
 
     /*
      * Get all folder & games in a flat storage
@@ -491,13 +488,25 @@ void SystemData::UpdateGamelistXml()
                                    file->getPath(), getStartPath());
 
     /*
+     * Custom thread-safe writer
+     */
+    struct XmlWriter : public pugi::xml_writer
+    {
+      std::string mOutput;
+      void write(const void* data, size_t size) { mOutput.append((const char*)data, size); }
+    }
+    Writer;
+
+    /*
      * Write the list.
      * At this point, we're sure at least one node has been updated (or added and updated).
      */
     Path xmlWritePath(getGamelistPath(true));
     xmlWritePath.Directory().CreatePath();
-    if (document.save_file(xmlWritePath.ToChars()))
+    document.save(Writer);
+    if (Files::SaveFile(xmlWritePath, Writer.mOutput))
     {
+      LOG(LogWarning) << Writer.mOutput;
       LOG(LogInfo) << "Saved gamelist.xml for system " << getFullName() << ". Updated items: " << fileLinks.size()
                    << "/" << fileData.size();
     }

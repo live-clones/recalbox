@@ -200,6 +200,11 @@ class SystemManager :
     int getVisibleSystemIndex(const std::string& name);
 
     /*!
+     * @brief Update gamelist that contain modified game metadata
+     */
+    void UpdateAllSystems();
+
+    /*!
      * @brief Delete all systems and all sub-objects
      * @param updateGamelists
      */

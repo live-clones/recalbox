@@ -452,25 +452,28 @@ bool SystemManager::ThreadPoolRunJob(SystemData*& feed)
   return true;
 }
 
+void SystemManager::UpdateAllSystems()
+{
+  DateTime start;
+
+  if (mProgressInterface != nullptr)
+    mProgressInterface->SetMaximum(mAllSystemVector.size());
+  // Create automatic thread-pool
+  ThreadPool<SystemData*, bool> threadPool(this, "System-Save", false, 20);
+  // Push system to process
+  for (SystemData* system : mAllSystemVector)
+    threadPool.PushFeed(system, 0);
+  // Run the threadpool and automatically wait for all jobs to complete
+  threadPool.Run(-2, false);
+
+  DateTime stop;
+  LOG(LogInfo) << "Gamelist update time: " << std::to_string((stop-start).TotalMilliseconds()) << "ms";
+}
+
 void SystemManager::DeleteAllSystems(bool updateGamelists)
 {
   if (updateGamelists && !mAllSystemVector.empty())
-  {
-    DateTime start;
-
-    if (mProgressInterface != nullptr)
-      mProgressInterface->SetMaximum(mAllSystemVector.size());
-    // Create automatic thread-pool
-    ThreadPool<SystemData*, bool> threadPool(this, "System-Save", false, 20);
-    // Push system to process
-    for (SystemData* system : mAllSystemVector)
-      threadPool.PushFeed(system, 0);
-    // Run the threadpool and automatically wait for all jobs to complete
-    threadPool.Run(-2, false);
-
-    DateTime stop;
-    LOG(LogInfo) << "Gamelist update time: " << std::to_string((stop-start).TotalMilliseconds()) << "ms";
-  }
+    UpdateAllSystems();
 
   mVisibleSystemVector.clear();
   mAllSystemVector.clear();
@@ -513,3 +516,4 @@ SystemData* SystemManager::FirstNonEmptySystem()
 
   return nullptr;
 }
+
