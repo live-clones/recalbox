@@ -24,6 +24,6 @@ docker run -ti --rm \
 	-v "${PWD}/host:/share/host" \
 	-e "ARCH=${ARCH}" \
 	-e "PACKAGE=${PACKAGE}" \
-	-e "RECALBOX_VERSION=${RECALBOX_VERSION}" \
+	-e "RECALBOX_VERSION=${RECALBOX_VERSION:-development}" \
 	--user="`id -u`:`id -g`" \
 	"recalbox-dev" ${@}
