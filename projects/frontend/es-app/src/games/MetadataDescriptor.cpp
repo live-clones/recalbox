@@ -297,7 +297,7 @@ bool MetadataDescriptor::Deserialize(const XmlNode from, const Path& relativeTo)
       case MetadataFieldDescriptor::DataType::PPath:
       {
         value = Path(value).ToAbsolute(relativeTo).ToString();
-        AssignPString(*((std::string**)target), value);
+        AssignPPath(*((Path**)target), Path(value));
         break;
       }
       case MetadataFieldDescriptor::DataType::String:
@@ -309,7 +309,7 @@ bool MetadataDescriptor::Deserialize(const XmlNode from, const Path& relativeTo)
       case MetadataFieldDescriptor::DataType::Path:
       {
         value = Path(value).ToAbsolute(relativeTo).ToString();
-        *((std::string*)target) = value;
+        *((Path*)target) = value;
         break;
       }
       case MetadataFieldDescriptor::DataType::Int:

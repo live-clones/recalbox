@@ -426,66 +426,34 @@ void SystemData::UpdateGamelistXml()
   //we already have in the system from the XML, and then add it back from its GameData information...
   if (Settings::Instance().IgnoreGamelist()) return;
 
+  // Dirty?
+  if (getRootFolder() == nullptr) return;
+  if (!getRootFolder()->IsDirty()) return;
+
   try
   {
     /*
-     * Load or create gamelist node
+     * Get all folder & games in a flat storage
+     */
+    FileData::List fileList = getRootFolder()->getAllItemsRecursively(true);
+    FileData::List folderList = getRootFolder()->getAllFolders();
+    // Nothing to process?
+    if (fileList.empty()) return;
+
+    /*
+     * Create gamelist
      */
     Path xmlReadPath = getGamelistPath(false);
     XmlDocument document;
-    bool forceAll = false;
-    if (xmlReadPath.Exists())
-    {
-      XmlDocument gameList;
-      XmlResult result = gameList.load_file(xmlReadPath.ToChars());
-      if (!result)
-      {
-        LOG(LogError) << "Could not parse " << xmlReadPath.ToString() << " file!";
-        forceAll = true;
-      }
-    }
-    else
-      forceAll = true;
-
-    XmlNode gameList = document.child("gameList");
-    if (!gameList)
-      gameList = document.append_child("gameList");
+    XmlNode gameList = document.append_child("gameList");
 
     /*
-     * Get all folder & games in a flat storage
+     * Serialize folder and game nodes
      */
-    FolderData* rootFolder = getRootFolder();
-    if (rootFolder == nullptr) return;
-
-    FileData::List fileData = rootFolder->getAllItemsRecursively(true);
-    // Nothing to process?
-    if (fileData.empty()) return;
-
-    /*
-     * Create game/folder map for fast seeking using relative path as key
-     */
-    std::unordered_map<std::string, const FileData*> fileLinks;
-    bool ok = false;
-    for (const FileData* file : fileData)                                              // For each File
-      if (file->Metadata().IsDirty() || forceAll)                                      // with updated metadata
-        fileLinks[file->getPath().MakeRelative(getStartPath(), ok).ToString()] = file; // store the relative path
-    // Nothing changed?
-    if (fileLinks.empty()) return;
-
-    /*
-     * Update pass #1 : Remove node from the gamelist where corresponding metadata have changed
-     */
-    for (XmlNode node : gameList)                                                   // For each gamelist entry
-      if (fileLinks.find(Xml::AsString(node, "path", "")) != fileLinks.end())       // corresponding to an updated file
-        gameList.remove_child(node);                                                // delete the entry from the gamelist
-
-    /*
-     * Update pass #2 - Insert new/updated game/folder nodes into the gamelist node
-     */
-    for (const FileData* file : fileData)                                 // For each file
-      if (file->Metadata().IsDirty() || forceAll)                         // If metadata have changed
-        file->Metadata().Serialize(gameList,                              // Insert updated node
-                                   file->getPath(), getStartPath());
+    for (const FileData* folder : folderList)
+      folder->Metadata().Serialize(gameList, folder->getPath(), getStartPath());
+    for (const FileData* file : fileList)
+      file->Metadata().Serialize(gameList, file->getPath(), getStartPath());
 
     /*
      * Custom thread-safe writer
@@ -506,9 +474,8 @@ void SystemData::UpdateGamelistXml()
     document.save(Writer);
     if (Files::SaveFile(xmlWritePath, Writer.mOutput))
     {
-      LOG(LogWarning) << Writer.mOutput;
-      LOG(LogInfo) << "Saved gamelist.xml for system " << getFullName() << ". Updated items: " << fileLinks.size()
-                   << "/" << fileData.size();
+      LOG(LogInfo) << "Saved gamelist.xml for system " << getFullName() << ". Updated items: " << fileList.size()
+                   << "/" << fileList.size();
     }
     else LOG(LogError) << "Failed to save " << xmlWritePath.ToString();
   }

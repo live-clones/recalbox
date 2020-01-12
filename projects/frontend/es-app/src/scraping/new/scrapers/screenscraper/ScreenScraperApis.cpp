@@ -363,7 +363,7 @@ std::string ScreenScraperApis::ExtractMedia(const rapidjson::Value& medias, cons
       }
 
   // WTFH?!
-  LOG(LogError) << "Can't find media url!";
+  LOG(LogDebug) << "Can't find media url matching: " << type << " / " << region;
   return std::string();
 }
 

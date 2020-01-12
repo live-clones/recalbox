@@ -638,13 +638,17 @@ ScrapeResult
 ScreenScraperEngine::Engine::DownloadAndStoreMedia(ScrappingMethod method, const ScreenScraperApis::Game& sourceData,
                                                    FileData& game)
 {
+  bool ok = false;
   const Path rootFolder(game.getSystem()->getRootFolder()->getPath());
-  const std::string gameName = game.getPath().FilenameWithoutExtension();
+  const Path relativePath = game.getPath().MakeRelative(rootFolder, ok);
+  const std::string gameName = ok ? (relativePath.Directory() / game.getPath().FilenameWithoutExtension()).ToString()
+                                  : game.getPath().FilenameWithoutExtension();
 
   // Main image
   if (!sourceData.MediaSources.mImage.empty())
     if (!game.Metadata().Image().Exists() || method != ScrappingMethod::IncompleteKeep)
     {
+      game.Metadata().Image().Exists();
       Path AbsoluteImagePath = rootFolder / "media/images" / (gameName + '.' + sourceData.MediaSources.mImageFormat);
       long long size = 0;
 

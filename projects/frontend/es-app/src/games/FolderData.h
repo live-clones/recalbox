@@ -261,6 +261,13 @@ class FolderData : public FileData
      * @return Folder list
      */
     FileData::List getAllFolders() const;
+
+    /*!
+     * @brief Check if the folder (or one of its subfolders) contains at least one game
+     * with dirty metadata (modified)
+     * @return True if the folder is "dirty"
+     */
+    bool IsDirty() const;
 };
 
 

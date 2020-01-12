@@ -528,3 +528,15 @@ FileData::List FolderData::getAllFavorites(bool includefolders) const
 
   return result;
 }
+
+bool FolderData::IsDirty() const
+{
+  for (FileData* fd : mChildren)
+  {
+    if (fd->isFolder() && CastFolder(fd)->IsDirty())
+      return true;
+    if (fd->Metadata().IsDirty())
+      return true;
+  }
+  return false;
+}

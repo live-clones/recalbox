@@ -110,7 +110,7 @@ Path Path::operator/(const char* path) const
   Path result(*this);
   if (path != nullptr)
   {
-    if (*path != sSeparator)
+    if (path[0] != sSeparator && !mPath.empty())
       result.mPath.append(1, sSeparator);
     result.mPath.append(path);
     result.Normalize();
@@ -123,7 +123,7 @@ Path Path::operator/(const std::string& path) const
   Path result(*this);
   if (!path.empty())
   {
-    if (path[0] != sSeparator)
+    if (path[0] != sSeparator && !mPath.empty())
       result.mPath.append(1, sSeparator);
     result.mPath.append(path);
     result.Normalize();
@@ -136,7 +136,7 @@ Path Path::operator/(const Path& path) const
   Path result(*this);
   if (!path.IsEmpty())
   {
-    if (path.mPath[0] != sSeparator)
+    if (path.mPath[0] != sSeparator && !mPath.empty())
       result.mPath.append(1, sSeparator);
     result.mPath.append(path.mPath);
     result.Normalize();
