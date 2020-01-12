@@ -95,30 +95,37 @@ VideoEngine::VideoEngine()
 
 void VideoEngine::Run()
 {
-  while(IsRunning())
+  try
   {
-    // Wait for a video to play
-    mState = PlayerState::Idle;
-    mSignal.WaitSignal();
-    if (!IsRunning())
+    while(IsRunning())
     {
-      LOG(LogInfo) << "Video Engine stopped.";
-      break;
-    }
-
-    // Run the video
-    LOG(LogDebug) << "Video Engine start playing " << mFileName.ToString();
-    mState = PlayerState::StartPending;
-    if (InitializeDecoder())
-    {
-      if (mState == PlayerState::StartPending)
-        mState = PlayerState::Playing;
-      while (mState == PlayerState::Playing)
+      // Wait for a video to play
+      mState = PlayerState::Idle;
+      mSignal.WaitSignal();
+      if (!IsRunning())
       {
-        DecodeFrames();
+        LOG(LogInfo) << "Video Engine stopped.";
+        break;
       }
+
+      // Run the video
+      LOG(LogDebug) << "Video Engine start playing " << mFileName.ToString();
+      mState = PlayerState::StartPending;
+      if (InitializeDecoder())
+      {
+        if (mState == PlayerState::StartPending)
+          mState = PlayerState::Playing;
+        while (mState == PlayerState::Playing)
+        {
+          DecodeFrames();
+        }
+      }
+      FinalizeDecoder();
     }
-    FinalizeDecoder();
+  }
+  catch(const std::exception& e)
+  {
+    LOG(LogError) << "Video engine fatal exception: " << e.what() << ". Engine stopped until next ES launch!";
   }
 }
 
