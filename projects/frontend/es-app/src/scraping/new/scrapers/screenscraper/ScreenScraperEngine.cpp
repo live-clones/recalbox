@@ -643,7 +643,7 @@ ScreenScraperEngine::Engine::DownloadAndStoreMedia(ScrappingMethod method, const
 
   // Main image
   if (!sourceData.MediaSources.mImage.empty())
-    if (game.Metadata().Image().IsEmpty() || method != ScrappingMethod::IncompleteKeep)
+    if (!game.Metadata().Image().Exists() || method != ScrappingMethod::IncompleteKeep)
     {
       Path AbsoluteImagePath = rootFolder / "media/images" / (gameName + '.' + sourceData.MediaSources.mImageFormat);
       long long size = 0;
@@ -662,7 +662,7 @@ ScreenScraperEngine::Engine::DownloadAndStoreMedia(ScrappingMethod method, const
 
   // Thumbnail image
   if (!sourceData.MediaSources.mThumbnail.empty())
-    if (game.Metadata().Thumbnail().IsEmpty() || method != ScrappingMethod::IncompleteKeep)
+    if (!game.Metadata().Thumbnail().Exists() || method != ScrappingMethod::IncompleteKeep)
     {
       Path AbsoluteThumbnailPath = rootFolder / "media/thumbnails" / (gameName + '.' + sourceData.MediaSources.mThumbnailFormat);
       long long size = 0;
@@ -681,7 +681,7 @@ ScreenScraperEngine::Engine::DownloadAndStoreMedia(ScrappingMethod method, const
 
   // Video
   if (!sourceData.MediaSources.mVideo.empty())
-    if (game.Metadata().Thumbnail().IsEmpty() || method != ScrappingMethod::IncompleteKeep)
+    if (!game.Metadata().Video().Exists() || method != ScrappingMethod::IncompleteKeep)
     {
       Path AbsoluteVideoPath = rootFolder / "media/videos" / (gameName + '.' + sourceData.MediaSources.mVideoFormat);
       long long size = 0;

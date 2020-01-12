@@ -493,7 +493,7 @@ void SystemData::UpdateGamelistXml()
     struct XmlWriter : public pugi::xml_writer
     {
       std::string mOutput;
-      void write(const void* data, size_t size) { mOutput.append((const char*)data, size); }
+      void write(const void* data, size_t size) override { mOutput.append((const char*)data, size); }
     }
     Writer;
 
