@@ -72,16 +72,18 @@ Gui* Window::peekGui()
 
 void Window::deleteClosePendingGui()
 {
+  bool deleted = false;
   for(auto it = mGuiStack.begin(); it != mGuiStack.end(); it++)
-  {
     if ((*it)->IsPendingForDeletion())
     {
       delete *it;
       mGuiStack.erase(it--);
+      deleted = true;
     }
-  }
-  // Refresg help system
-  UpdateHelpSystem();
+
+  // Refresh help system
+  if (deleted)
+    UpdateHelpSystem();
 }
 
 void Window::deleteAllGui()

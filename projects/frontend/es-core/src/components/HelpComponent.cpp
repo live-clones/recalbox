@@ -85,31 +85,7 @@ void HelpComponent::UpdateHelps()
 	}
 
 	mGrid->setPosition(Vector3f(HelpItemStyle().Position().x(), HelpItemStyle().Position().y(), 0.0f));
-	//mGrid->setPosition(OFFSET_X, Renderer::getScreenHeight() - mGrid->getSize().y() - OFFSET_Y);
 }
-
-/*std::shared_ptr<TextureResource> HelpComponent::getIconTexture(const char* name)
-{
-	auto it = mIconCache.find(name);
-	if(it != mIconCache.end())
-		return it->second;
-
-	auto pathLookup = IconPathMap().find(name);
-	if(pathLookup == IconPathMap().end())
-	{
-		LOG(LogError) << "Unknown help icon \"" << name << "\"!";
-		return nullptr;
-	}
-	if(!ResourceManager::getInstance()->fileExists(pathLookup->second))
-	{
-		LOG(LogError) << "Help icon \"" << name << "\" - corresponding image file \"" << pathLookup->second.ToString() << "\" missing!";
-		return nullptr;
-	}
-
-	std::shared_ptr<TextureResource> tex = TextureResource::get(pathLookup->second);
-	mIconCache[std::string(name)] = tex;
-	return tex;
-}*/
 
 void HelpComponent::setOpacity(unsigned char opacity)
 {
