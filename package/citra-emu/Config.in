@@ -5,6 +5,7 @@ config BR2_PACKAGE_CITRA_EMU
 	select BR2_PACKAGE_FMT
 	select BR2_PACKAGE_BOOST
 	select BR2_PACKAGE_FFMPEG
+	select BR2_PACKAGE_RECALBOX_ROMFS_3DS
 	help
 	  Citra-emu a Emulator core for Nintendo 3DS.
 	  https://citra-emu.org/
