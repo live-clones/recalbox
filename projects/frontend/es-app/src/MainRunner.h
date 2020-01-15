@@ -3,9 +3,8 @@
 //
 #pragma once
 
-#include <string>
-#include <ApplicationWindow.h>
 #include <utils/sdl2/ISynchronousEvent.h>
+#include <ApplicationWindow.h>
 #include <utils/cplusplus/INoCopy.h>
 
 class AudioManager;

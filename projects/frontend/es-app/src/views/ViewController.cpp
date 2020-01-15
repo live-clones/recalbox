@@ -173,7 +173,7 @@ void ViewController::goToGameList(SystemData* system)
     }
 		if (!system->isFavorite())
 		{
-			updateFavorite(system, getGameListView(system).get()->getCursor());
+			updateFavorite(system, getGameListView(system)->getCursor());
 			mFavoritesOnly = Settings::Instance().FavoritesOnly();
 		}
 	}
@@ -184,7 +184,7 @@ void ViewController::goToGameList(SystemData* system)
 	mCurrentView = getGameListView(system).get();
 	playViewTransition();
 
-  RecalboxSystem::NotifyGame(*getGameListView(system).get()->getCursor(), false, false);
+  RecalboxSystem::NotifyGame(*getGameListView(system)->getCursor(), false, false);
 }
 
 void ViewController::updateFavorite(SystemData* system, FileData* file)

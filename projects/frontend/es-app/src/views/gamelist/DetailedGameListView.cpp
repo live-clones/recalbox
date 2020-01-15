@@ -2,7 +2,6 @@
 #include <VideoEngine.h>
 #include "views/gamelist/DetailedGameListView.h"
 #include "views/ViewController.h"
-#include "Window.h"
 #include "Settings.h"
 #include "animations/LambdaAnimation.h"
 #include "LocaleHelper.h"

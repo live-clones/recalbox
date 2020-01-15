@@ -22,7 +22,7 @@ set(ES_HEADERS
         src/systems/SystemManager.h
 
         # GuiComponents
-        src/components/AsyncReqComponent.h
+        #src/components/AsyncReqComponent.h
         src/components/RatingComponent.h
         src/components/ScraperSearchComponent.h
         src/components/TextListComponent.h
@@ -107,7 +107,7 @@ set(ES_SOURCES
         src/systems/SystemManager.cpp
 
         # GuiComponents
-        src/components/AsyncReqComponent.cpp
+        #src/components/AsyncReqComponent.cpp
         src/components/RatingComponent.cpp
         src/components/ScraperSearchComponent.cpp
 

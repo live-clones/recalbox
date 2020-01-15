@@ -2,7 +2,6 @@
 #include "views/gamelist/BasicGameListView.h"
 #include "views/ViewController.h"
 #include "Renderer.h"
-#include "Window.h"
 #include "themes/ThemeData.h"
 #include "systems/SystemData.h"
 #include "FileSorts.h"

@@ -3,7 +3,6 @@
 #include <systems/SystemManager.h>
 #include "guis/GuiGamelistOptions.h"
 #include "views/gamelist/ISimpleGameListView.h"
-#include "themes/ThemeData.h"
 #include "systems/SystemData.h"
 #include "Window.h"
 #include "views/ViewController.h"

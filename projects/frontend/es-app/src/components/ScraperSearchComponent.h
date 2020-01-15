@@ -3,7 +3,6 @@
 #include "components/base/Component.h"
 #include "components/ComponentGrid.h"
 #include "components/BusyComponent.h"
-#include <functional>
 #include <games/FileData.h>
 
 class ComponentList;

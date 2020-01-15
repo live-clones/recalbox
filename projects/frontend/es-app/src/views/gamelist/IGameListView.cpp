@@ -1,6 +1,5 @@
 #include "views/gamelist/IGameListView.h"
 #include "Window.h"
-#include "views/ViewController.h"
 
 bool IGameListView::ProcessInput(const InputCompactEvent& event)
 {

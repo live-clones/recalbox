@@ -54,7 +54,7 @@ class BiosManager : private Thread, public ISynchronousEvent
     /*!
      * @brief Default destructor
      */
-    ~BiosManager();
+    ~BiosManager() override;
 
     /*!
      * @brief Get unique instance
