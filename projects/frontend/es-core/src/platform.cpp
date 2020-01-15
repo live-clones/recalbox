@@ -2,16 +2,6 @@
 #include <cstring>
 #include "utils/Log.h"
 
-int runShutdownCommand()
-{
-  return system("poweroff");
-}
-
-int runRestartCommand()
-{
-  return system("reboot");
-}
-
 int runSystemCommand(const std::string& cmd_utf8)
 {
   //return system((cmd_utf8 + " 2> /recalbox/share/system/logs/es_launch_stderr.log | head -300 > /recalbox/share/system/logs/es_launch_stdout.log").c_str());

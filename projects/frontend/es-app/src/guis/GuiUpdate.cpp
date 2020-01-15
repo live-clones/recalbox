@@ -5,6 +5,7 @@
 #include "recalbox/RecalboxSystem.h"
 #include "LocaleHelper.h"
 #include <recalbox/RecalboxUpgrade.h>
+#include <MainRunner.h>
 
 GuiUpdate::GuiUpdate(Window& window)
   : Gui(window),
@@ -82,10 +83,7 @@ void GuiUpdate::Update(int deltaTime)
     }
     case State::Reboot:
     {
-      if (runRestartCommand() != 0)
-      {
-        LOG(LogWarning) << "Reboot terminated with non-zero result!";
-      }
+      MainRunner::RequestQuit(MainRunner::ExitState::NormalReboot);
       mState = State::Wait;
       break;
     }

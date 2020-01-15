@@ -324,10 +324,9 @@ void GuiMenu::menuSystem(){
 
     if (reboot) {
       mWindow.pushGui(
-          new GuiMsgBox(mWindow, _("THE SYSTEM WILL NOW REBOOT"), _("OK"), [] {
-            if (runRestartCommand() != 0) {
-              LOG(LogWarning) << "Reboot terminated with non-zero result!";
-            }
+          new GuiMsgBox(mWindow, _("THE SYSTEM WILL NOW REBOOT"), _("OK"), []
+          {
+            MainRunner::RequestQuit(MainRunner::ExitState::NormalReboot);
           })
       );
     }
@@ -1395,9 +1394,7 @@ void GuiMenu::menuAdvancedSettings(){
         mWindow.pushGui(
             new GuiMsgBox(mWindow, _("TURBO AND EXTREM OVERCLOCK PRESETS MAY CAUSE SYSTEM UNSTABILITIES, SO USE THEM AT YOUR OWN RISK.\nIF YOU CONTINUE, THE SYSTEM WILL REBOOT NOW."),
                 _("YES"), [] {
-                      if (runRestartCommand() != 0) {
-                        LOG(LogWarning) << "Reboot terminated with non-zero result!";
-                      }
+                      MainRunner::RequestQuit(MainRunner::ExitState::NormalReboot);
                     }, _("NO"), [] {
                   Settings::Instance().SetOverclock("none");
                   RecalboxSystem::setOverclock("none");
@@ -1406,9 +1403,7 @@ void GuiMenu::menuAdvancedSettings(){
       } else {
         mWindow.pushGui(
             new GuiMsgBox(mWindow, _("THE SYSTEM WILL NOW REBOOT"), _("OK"), [] {
-                      if (runRestartCommand() != 0) {
-                        LOG(LogWarning) << "Reboot terminated with non-zero result!";
-                      }
+                      MainRunner::RequestQuit(MainRunner::ExitState::NormalReboot);
                     }));
       }
     }
@@ -1546,9 +1541,7 @@ void GuiMenu::menuAdvancedSettings(){
         if (reboot) {
           mWindow.pushGui(
             new GuiMsgBox(mWindow, _("THE SYSTEM WILL NOW REBOOT"), _("OK"), [] {
-              if (runRestartCommand() != 0) {
-                LOG(LogWarning) << "Reboot terminated with non-zero result!";
-              }
+              MainRunner::RequestQuit(MainRunner::ExitState::NormalReboot);
             })
           );
         }

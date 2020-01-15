@@ -115,16 +115,20 @@ int main(int argc, char* argv[])
       case MainRunner::ExitState::FastReboot:
       {
         LOG(LogInfo) << "Rebooting system";
+        #ifndef DEBUG
         if (system("shutdown -r now") != 0)
           LOG(LogError) << "Error rebooting system";
+        #endif
         return 0;
       }
       case MainRunner::ExitState::Shutdown:
       case MainRunner::ExitState::FastShutdown:
       {
-        LOG(LogInfo) << "Rebooting system";
+        LOG(LogInfo) << "Rebooting system (fast)";
+        #ifndef DEBUG
         if (system("shutdown -h now") != 0)
           LOG(LogError) << "Error shutting system down";
+        #endif
         return 0;
       }
     }
