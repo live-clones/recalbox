@@ -25,6 +25,7 @@
 
 MainRunner::ExitState MainRunner::sRequestedExitState = MainRunner::ExitState::Quit;
 bool MainRunner::sQuitRequested = false;
+bool MainRunner::sForceReloadFromDisk = false;
 
 MainRunner::MainRunner(const std::string& executablePath, unsigned int width, unsigned int height)
   : mRequestedWidth(width),
@@ -69,8 +70,9 @@ MainRunner::ExitState MainRunner::Run()
     PlayLoadingSound(audioManager);
 
     // Try to load system configurations
-    if (!TryToLoadConfiguredSystems(systemManager))
+    if (!TryToLoadConfiguredSystems(systemManager, sForceReloadFromDisk))
       return ExitState::FatalError;
+    ResetForceReloadState();
 
     // Run kodi at startup?
     RecalboxConf& recalboxConf = RecalboxConf::Instance();
@@ -263,9 +265,9 @@ void MainRunner::PlayLoadingSound(AudioManager& audioManager)
   }
 }
 
-bool MainRunner::TryToLoadConfiguredSystems(SystemManager& systemManager)
+bool MainRunner::TryToLoadConfiguredSystems(SystemManager& systemManager, bool forceReloadFromDisk)
 {
-  if (!systemManager.LoadSystemConfigurations())
+  if (!systemManager.LoadSystemConfigurations(forceReloadFromDisk))
   {
     LOG(LogError) << "Error while parsing systems configuration file!";
     LOG(LogError) << "IT LOOKS LIKE YOUR SYSTEMS CONFIGURATION FILE HAS NOT BEEN SET UP OR IS INVALID. YOU'LL NEED TO DO THIS BY HAND, UNFORTUNATELY.\n\n"
@@ -345,10 +347,11 @@ void MainRunner::ReceiveSyncCallback(const SDL_Event& /*event*/)
   //sRequestedExitState = (ExitState)event.user.code;
 }
 
-void MainRunner::RequestQuit(MainRunner::ExitState requestedState)
+void MainRunner::RequestQuit(MainRunner::ExitState requestedState, bool forceReloadFromDisk)
 {
   sQuitRequested = true;
   sRequestedExitState = requestedState;
+  sForceReloadFromDisk = forceReloadFromDisk;
 }
 
 bool MainRunner::DoWeHaveToUpdateGamelist(MainRunner::ExitState state)

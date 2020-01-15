@@ -38,6 +38,9 @@ class SystemManager :
     //! Progress interface called when loading/unloading
     IProgressInterface* mProgressInterface;
 
+    //! The system manager is instructed to reload game list from disk, not only from gamelist.xml
+    bool mForceReload;
+
     /*!
      * Run though the system list and store system nodes into the given store.
      * If a system already exists in the store, the new system node is ignored
@@ -82,9 +85,10 @@ class SystemManager :
     /*!
      * @brief Create regular system from a SystemDescriptor object
      * @param systemDescriptor SystemDescriptor object
+     * @param forceLoad Force reloading list from disk and not only from gamelist.xml
      * @return New system
      */
-    static SystemData* CreateRegularSystem(const SystemDescriptor& systemDescriptor);
+    static SystemData* CreateRegularSystem(const SystemDescriptor& systemDescriptor, bool forceLoad);
 
     /*!
      * @brief Create Favorite system using favorites available in systems from a list
@@ -212,8 +216,9 @@ class SystemManager :
 
     /*!
      * @brief Load the system config file at getConfigPath(). Returns true if no errors were encountered. An example will be written if the file doesn't exist.
+     * @param ForeReload force reloading from disk
      */
-    bool LoadSystemConfigurations();
+    bool LoadSystemConfigurations(bool ForeReload);
 
     /*!
      * @brief Get All system list, visibles + hidden

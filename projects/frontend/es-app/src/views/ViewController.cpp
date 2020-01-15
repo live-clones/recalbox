@@ -485,14 +485,14 @@ bool ViewController::reloadGameListView(IGameListView* view, bool reloadTheme)
 	}
 	else
 	{
-    deleteAndReloadAll();
+    deleteAndReloadAll(false);
     return false;
   }
 }
 
-void ViewController::deleteAndReloadAll()
+void ViewController::deleteAndReloadAll(bool forceReloadFromDisk)
 {
-  MainRunner::RequestQuit(MainRunner::ExitState::Relaunch);
+  MainRunner::RequestQuit(MainRunner::ExitState::Relaunch, forceReloadFromDisk);
 }
 
 void ViewController::setInvalidGamesList(SystemData* system)

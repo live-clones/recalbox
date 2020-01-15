@@ -47,11 +47,18 @@ class MainRunner: private INoCopy, private ISynchronousEvent
     static ExitState sRequestedExitState;
     //! Quit request
     static bool sQuitRequested;
+    //! Force reload list requested
+    static bool sForceReloadFromDisk;
 
     /*!
      * @brief Reset last exit state
      */
     static void ResetExitState() { sQuitRequested = false; }
+
+    /*!
+     * @brief Reset last exit state
+     */
+    static void ResetForceReloadState() { sForceReloadFromDisk = false; }
 
     /*!
      * @brief Set the system locale
@@ -82,9 +89,10 @@ class MainRunner: private INoCopy, private ISynchronousEvent
     /*!
      * @brief Try loading system configuration.
      * @param systemManager System manager instance
+     * @param forceReloadFromDisk force reloading game list from disk
      * @return True if there is at least one system loaded
      */
-    static bool TryToLoadConfiguredSystems(SystemManager& systemManager);
+    static bool TryToLoadConfiguredSystems(SystemManager& systemManager, bool forceReloadFromDisk);
 
     /*!
      * @brief Check if Recalbox has been updated and push a display changelog popup
@@ -148,6 +156,7 @@ class MainRunner: private INoCopy, private ISynchronousEvent
     /*!
      * @brief Request the application to quit using a particular exitstate
      * @param requestedState Requested Exit State
+     * @param forceReloadFromDisk Force reload gamelist from disk
      */
-    static void RequestQuit(ExitState requestedState);
+    static void RequestQuit(ExitState requestedState, bool forceReloadFromDisk = false);
 };

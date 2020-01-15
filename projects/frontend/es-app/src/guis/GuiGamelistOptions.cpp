@@ -1,5 +1,4 @@
 #include <RecalboxConf.h>
-#include <systems/SystemManager.h>
 #include "GuiGamelistOptions.h"
 #include "GuiMetaDataEd.h"
 #include "Settings.h"
@@ -109,7 +108,7 @@ GuiGamelistOptions::GuiGamelistOptions(Window& window, SystemData* system)
         row.makeAcceptInputHandler([this] {
             mReloading = true;
             mWindow.pushGui(new GuiMsgBox(mWindow, _("REALLY UPDATE GAMES LISTS ?"),
-                                          _("YES"), [] { ViewController::Instance().deleteAndReloadAll(); },
+                                          _("YES"), [] { ViewController::deleteAndReloadAll(true); },
                                           _("NO"), [this] { mReloading = false; }
             ));
         });
@@ -154,7 +153,7 @@ GuiGamelistOptions::~GuiGamelistOptions()
 	}
 	else
 	{
-    ViewController::Instance().deleteAndReloadAll();
+    ViewController::deleteAndReloadAll(false);
 	}
 }
 

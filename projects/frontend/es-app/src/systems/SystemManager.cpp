@@ -13,7 +13,7 @@
 #include <utils/Files.h>
 #include <algorithm>
 
-SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDescriptor)
+SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDescriptor, bool forceLoad)
 {
   const Path defaultRomsPath = Path(Settings::Instance().DefaultRomsPath()).ToAbsolute();
   Path realPath = defaultRomsPath.IsEmpty() ? systemDescriptor.RomPath() : systemDescriptor.RomPath().ToAbsolute(defaultRomsPath);
@@ -28,7 +28,8 @@ SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDes
     LOG(LogInfo) << "Creating & populating system: " << systemDescriptor.FullName();
 
     // Populate items from disk
-    if (RecalboxConf::Instance().AsBool("emulationstation.gamelistonly", false))
+    bool gameListOnly = RecalboxConf::Instance().AsBool("emulationstation.gamelistonly", false) && !forceLoad;
+    if (!gameListOnly)
       result->populateFolder(&(result->mRootFolder), doppelgangerWatcher);
     // Populate items from gamelist.xml
     if (!Settings::Instance().IgnoreGamelist())
@@ -163,7 +164,7 @@ SystemData* SystemManager::ThreadPoolRunJob(SystemDescriptor& system)
 {
   try
   {
-    SystemData* newSys = CreateRegularSystem(system);
+    SystemData* newSys = CreateRegularSystem(system, mForceReload);
     if (newSys->getRootFolder()->countAll(false) == 0)
     {
       LOG(LogWarning) << "System \"" << system.Name() << "\" has no games! Ignoring it.";
@@ -317,8 +318,10 @@ bool SystemManager::AddArcadeMetaSystem()
 }
 
 //creates systems from information located in a config file
-bool SystemManager::LoadSystemConfigurations()
+bool SystemManager::LoadSystemConfigurations(bool forceReloadFromDisk)
 {
+  mForceReload = forceReloadFromDisk;
+
   // System store
   XmlNodeCollisionMap systemMap;    // System key to vector index
   XmlNodeList systemList;           // Sorted storage, keeping original system node ordering

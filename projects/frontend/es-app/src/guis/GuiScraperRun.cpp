@@ -87,7 +87,7 @@ void GuiScraperRun::onSizeChanged()
 void GuiScraperRun::finish()
 {
   mWindow.CloseAll();
-  MainRunner::RequestQuit(MainRunner::ExitState::Relaunch);
+  MainRunner::RequestQuit(MainRunner::ExitState::Relaunch, true);
 	mIsProcessing = false;
 }
 

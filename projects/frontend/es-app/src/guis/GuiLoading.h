@@ -8,8 +8,6 @@
 #include "components/BusyComponent.h"
 #include "components/NinePatchComponent.h"
 #include <utils/os/system/Thread.h>
-#include <utils/sdl2/ISynchronousEvent.h>
-#include <utils/sdl2/SyncronousEvent.h>
 
 template<class T> class GuiLoading: public Gui, private Thread, private ISynchronousEvent
 {
