@@ -1,7 +1,7 @@
 #include "components/ComponentGrid.h"
 #include "Renderer.h"
 #include "Settings.h"
-#include "Locale.h"
+#include "LocaleHelper.h"
 
 ComponentGrid::ComponentGrid(Window&window, const Vector2i& gridDimensions)
   : Component(window),

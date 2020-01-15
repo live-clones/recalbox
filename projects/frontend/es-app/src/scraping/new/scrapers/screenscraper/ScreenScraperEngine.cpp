@@ -6,7 +6,7 @@
 #include <RecalboxConf.h>
 #include <utils/hash/Md5.h>
 #include <utils/Zip.h>
-#include <Locale.h>
+#include <LocaleHelper.h>
 #include "ScreenScraperEngine.h"
 
 /*!

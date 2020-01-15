@@ -7,7 +7,7 @@
 #include "views/ViewController.h"
 #include "components/SwitchComponent.h"
 #include "guis/GuiSettings.h"
-#include "Locale.h"
+#include "LocaleHelper.h"
 #include "MenuMessages.h"
 #include "guis/GuiMsgBox.h"
 

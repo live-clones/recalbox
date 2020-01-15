@@ -1,6 +1,6 @@
 #include <Settings.h>
 #include "components/ComponentList.h"
-#include "Locale.h"
+#include "LocaleHelper.h"
 #include "MenuThemeData.h"
 
 #define TOTAL_HORIZONTAL_PADDING_PX 20

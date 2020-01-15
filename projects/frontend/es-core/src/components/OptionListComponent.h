@@ -8,7 +8,7 @@
 #include "components/ImageComponent.h"
 #include "components/MenuComponent.h"
 #include "utils/Log.h"
-#include "Locale.h"
+#include "LocaleHelper.h"
 #include "MenuThemeData.h"
 
 //Used to display a list of options.

@@ -3,7 +3,7 @@
 #include "Renderer.h"
 #include "Window.h"
 #include "utils/Log.h"
-#include "Locale.h"
+#include "LocaleHelper.h"
 #include "MenuThemeData.h"
 
 DateTimeComponent::DateTimeComponent(Window&window, Display dispMode)

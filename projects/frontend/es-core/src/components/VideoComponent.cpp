@@ -4,7 +4,7 @@
 #include "utils/Log.h"
 #include "Renderer.h"
 #include "themes/ThemeData.h"
-#include "Locale.h"
+#include "LocaleHelper.h"
 
 VideoComponent::VideoComponent(Window&window)
 : Component(window),

@@ -4,7 +4,7 @@
 #include "Window.h"
 #include "Renderer.h"
 
-#include "Locale.h"
+#include "LocaleHelper.h"
 #include "MenuThemeData.h"
 
 #define TEXT_PADDING_HORIZ 10

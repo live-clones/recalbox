@@ -3,7 +3,7 @@
 //
 
 #include "LibretroRatio.h"
-#include <Locale.h>
+#include <LocaleHelper.h>
 
 LibretroRatio *LibretroRatio::sInstance = nullptr;
 

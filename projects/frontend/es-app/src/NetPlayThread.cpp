@@ -7,7 +7,7 @@
 #include <recalbox/RecalboxSystem.h>
 #include <Settings.h>
 #include <views/ViewController.h>
-#include <Locale.h>
+#include <LocaleHelper.h>
 #include <utils/sdl2/SyncronousEventService.h>
 #include <guis/GuiInfoPopup.h>
 #include <rapidjson/document.h>

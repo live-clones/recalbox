@@ -1,7 +1,7 @@
 #include "RecalboxUpgrade.h"
 #include "Settings.h"
 #include "utils/Log.h"
-#include <Locale.h>
+#include <LocaleHelper.h>
 #include <components/BusyComponent.h>
 #include <utils/Files.h>
 #include <utils/Strings.h>

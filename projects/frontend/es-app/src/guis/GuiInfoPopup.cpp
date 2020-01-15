@@ -141,14 +141,9 @@ bool GuiInfoPopup::updateState()
 	int alpha = 0;
 
 	// compute fade in effect
-	if (curTime - mStartTime > mDuration)
+	if ((curTime - mStartTime > mDuration) || // we're past the popup duration, no need to render
+	    (curTime < mStartTime))               // if SDL reset
 	{
-		// we're past the popup duration, no need to render
-		running = false;
-		return false;
-	}
-	else if (curTime < mStartTime) {
-		// if SDL reset
 		running = false;
 		return false;
 	}

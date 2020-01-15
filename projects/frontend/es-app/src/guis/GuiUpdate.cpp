@@ -3,7 +3,7 @@
 
 #include "utils/Log.h"
 #include "recalbox/RecalboxSystem.h"
-#include "Locale.h"
+#include "LocaleHelper.h"
 #include <recalbox/RecalboxUpgrade.h>
 
 GuiUpdate::GuiUpdate(Window& window)

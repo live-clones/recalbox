@@ -3,7 +3,7 @@
 //
 
 #include <Renderer.h>
-#include <Locale.h>
+#include <LocaleHelper.h>
 #include "SplashView.h"
 
 SplashView::SplashView(Window& window)

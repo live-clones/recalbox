@@ -1,7 +1,7 @@
 #pragma once
 
 #include <guis/GuiMsgBoxScroll.h>
-#include <Locale.h>
+#include <LocaleHelper.h>
 #include "guis/Gui.h"
 #include "components/MenuComponent.h"
 

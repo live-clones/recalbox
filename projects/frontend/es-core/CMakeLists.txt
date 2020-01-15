@@ -15,7 +15,7 @@ set(CORE_HEADERS
 		src/input/InputManager.h
 		src/input/InputStack.h
 		src/utils/Log.h
-		src/Locale.h
+        src/LocaleHelper.h
 		src/Music.h
 		src/platform.h
 		src/Renderer.h

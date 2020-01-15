@@ -2,7 +2,7 @@
 #include "utils/Log.h"
 #include "Renderer.h"
 #include "themes/ThemeData.h"
-#include "Locale.h"
+#include "LocaleHelper.h"
 
 Vector2i ImageComponent::getTextureSize() const {
     if (mTexture) {

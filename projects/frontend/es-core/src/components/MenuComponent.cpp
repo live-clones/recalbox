@@ -2,7 +2,7 @@
 #include <recalbox/RecalboxSystem.h>
 #include "components/MenuComponent.h"
 #include "components/ButtonComponent.h"
-#include "Locale.h"
+#include "LocaleHelper.h"
 #include "MenuThemeData.h"
 
 #define BUTTON_GRID_VERT_PADDING Math::max(Renderer::getDisplayHeightAsFloat() * 0.008f, 2.0f)

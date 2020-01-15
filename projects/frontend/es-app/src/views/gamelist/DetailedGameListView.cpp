@@ -5,7 +5,7 @@
 #include "Window.h"
 #include "Settings.h"
 #include "animations/LambdaAnimation.h"
-#include "Locale.h"
+#include "LocaleHelper.h"
 
 DetailedGameListView::DetailedGameListView(Window&window, SystemManager& systemManager, FolderData* root)
 : BasicGameListView(window, systemManager, root),

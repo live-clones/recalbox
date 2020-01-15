@@ -3,7 +3,7 @@
 #include "Renderer.h"
 #include "resources/Font.h"
 #include "utils/Log.h"
-#include "Locale.h"
+#include "LocaleHelper.h"
 #include "MenuThemeData.h"
 
 #define MOVE_REPEAT_DELAY 500

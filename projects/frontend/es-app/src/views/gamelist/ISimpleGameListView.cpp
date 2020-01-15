@@ -8,7 +8,7 @@
 #include "Window.h"
 #include "views/ViewController.h"
 #include "Settings.h"
-#include "Locale.h"
+#include "LocaleHelper.h"
 
 ISimpleGameListView::ISimpleGameListView(Window& window, SystemManager& systemManager, FolderData* root)
   : IGameListView(window, root),
