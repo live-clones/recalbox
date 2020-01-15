@@ -396,7 +396,7 @@ std::vector<std::string> RecalboxSystem::getAvailableStorageDevices()
 std::string RecalboxSystem::getCurrentStorage()
 {
   Strings::Vector lines = ExecuteSettingsCommand("storage current");
-  return lines.empty() ? "INTERNAL" : lines[1];
+  return lines.empty() ? "INTERNAL" : lines[0];
 }
 
 bool RecalboxSystem::setStorage(const std::string& selected)
