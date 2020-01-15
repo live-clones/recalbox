@@ -51,8 +51,8 @@ void GuiUpdate::Update(int deltaTime)
 
   switch(mState)
   {
-    case State::Wait: break;
-    case State::CheckForUpdate: break;
+    case State::Wait:
+    case State::CheckForUpdate:
     case State::DoUpdate: break;
     case State::AskForUpdate:
     {

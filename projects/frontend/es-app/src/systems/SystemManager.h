@@ -169,7 +169,11 @@ class SystemManager :
     /*!
      * @brief constructor
      */
-    SystemManager() = default;
+    SystemManager()
+     : mProgressInterface(nullptr),
+       mForceReload(false)
+    {
+    }
 
     /*!
      * @brief Set the progress interface

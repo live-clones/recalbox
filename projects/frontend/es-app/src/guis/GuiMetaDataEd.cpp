@@ -1,5 +1,4 @@
 #include "guis/GuiMetaDataEd.h"
-#include "Renderer.h"
 #include "Settings.h"
 #include "guis/GuiMsgBox.h"
 #include <RecalboxConf.h>

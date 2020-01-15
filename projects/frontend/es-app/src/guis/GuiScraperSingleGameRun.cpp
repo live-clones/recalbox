@@ -4,7 +4,6 @@
 #include "components/TextComponent.h"
 #include "components/ButtonComponent.h"
 #include "components/MenuComponent.h"
-#include "Renderer.h"
 #include "Settings.h"
 #include "LocaleHelper.h"
 #include "MenuThemeData.h"

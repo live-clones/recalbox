@@ -13,7 +13,6 @@
 #include <utils/os/system/Thread.h>
 #include <utils/sdl2/ISynchronousEvent.h>
 #include <utils/sdl2/SyncronousEvent.h>
-#include "games/FileData.h"
 
 class TextComponent;
 class ButtonComponent;
