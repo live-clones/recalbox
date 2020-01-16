@@ -42,6 +42,9 @@ class Internationalizer
      */
     static StringSet sIndexes[sIndexCount];
 
+    //! Active locale
+    static std::string sActiveLocale;
+
     /*!
      * @brief Double Hash the given string and return both hash value as an integer
      * @param string String to hash

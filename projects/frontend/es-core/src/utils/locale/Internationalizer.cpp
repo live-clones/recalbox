@@ -10,6 +10,7 @@
 std::string Internationalizer::sMoFlatFile;
 std::vector<Internationalizer::StringPairLinks> Internationalizer::sStrings;
 Internationalizer::StringSet Internationalizer::sIndexes[sIndexCount];
+std::string Internationalizer::sActiveLocale = "NONE";
 
 // https://www.gnu.org/software/gettext/manual/html_node/MO-Files.html
 
@@ -134,14 +135,15 @@ bool Internationalizer::BuildFastLookupIndexes()
 bool Internationalizer::LoadMoFile(const std::string& culture, const Path& basepath, const std::string& applicationname)
 {
   // Check full culture
-  Path culturePath = basepath / culture / "LC_MESSAGES" / (applicationname + ".mo");
+  std::string realCulture = culture;
+  Path culturePath = basepath / realCulture / "LC_MESSAGES" / (applicationname + ".mo");
   if (!culturePath.Exists())
   {
     // Log
     LOG(LogWarning) << "Locale: " << culturePath.ToString() << " not found.";
     // Try to compose language only
-    if (culture.size() > 2)
-      culturePath = basepath / culture.substr(0, 2) / "LC_MESSAGES" / (applicationname + ".mo");
+    if (realCulture.size() > 2)
+      culturePath = basepath / (realCulture = realCulture.substr(0, 2)) / "LC_MESSAGES" / (applicationname + ".mo");
 
     // Final check
     if (!culturePath.Exists())
@@ -153,6 +155,7 @@ bool Internationalizer::LoadMoFile(const std::string& culture, const Path& basep
 
   // Load file
   LOG(LogInfo) << "Locale: Using " << culturePath.ToString();
+  sActiveLocale = realCulture;
   sMoFlatFile = Files::LoadFile(culturePath);
   return BuildStringIndexes();
 }
@@ -191,9 +194,11 @@ std::string Internationalizer::GetText(const char* key, int keyLength)
     if (Link.KeyLength == keyLength)
       if (Link.Hash1 == hash1)
         if (Link.Hash2 == hash2)
+          //return "Yâkädansé!";
           return std::string(Link.TranslatedString, Link.TranslatedLength);
   }
 
+  LOG(LogDebug) << "Locale: " << sActiveLocale << " - Missing translation of '" << key << "'";
   return std::string(key, keyLength);
 }
 
