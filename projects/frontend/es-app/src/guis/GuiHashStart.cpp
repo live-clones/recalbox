@@ -13,7 +13,7 @@ GuiHashStart::GuiHashStart(Window& window, SystemManager& systemManager)
   : Gui(window),
     mSystemManager(systemManager),
     mBusyAnim(window),
-    mMenu(window, _("HASH NOW").c_str()),
+    mMenu(window, _("HASH NOW")),
     mState(State::Wait)
 {
   addChild(&mMenu);

@@ -9,7 +9,7 @@
 class GuiSettings : public Gui
 {
 public:
-	GuiSettings(Window& window, const char* title);
+	GuiSettings(Window& window, const std::string& title);
 	~GuiSettings() override; // just calls save();
 
 	void save();
@@ -48,10 +48,10 @@ public:
 	bool ProcessInput(const InputCompactEvent& event) override;
 	bool getHelpPrompts(Help& help) override;
 
-	inline MenuComponent *getMenu() const { return &mMenu; }
+	const MenuComponent& getMenu() const { return mMenu; }
 
 private:
   bool doSave = true;
-	mutable MenuComponent mMenu;
+	MenuComponent mMenu;
 	std::vector< std::function<void()> > mSaveFuncs;
 };

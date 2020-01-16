@@ -2,6 +2,7 @@
 #include "components/MenuComponent.h"
 #include "MenuThemeData.h"
 #include <RecalboxConf.h>
+#include <utils/locale/LocaleHelper.h>
 
 GuiTextEditPopupKeyboard::GuiTextEditPopupKeyboard(Window&window, const std::string& title, const std::string& initValue,
 	const std::function<void(const std::string&)>& okCallback, bool multiLine, const std::string& acceptBtnText)

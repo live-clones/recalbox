@@ -55,9 +55,9 @@ GuiDetectDevice::GuiDetectDevice(Window& window, bool firstRun, const std::funct
 	mGrid.setEntry(mMsg1, Vector2i(0, 2), false, true);
 
 	if (firstRun)
-		mMsg2 = std::make_shared<TextComponent>(mWindow, _("PRESS F4 TO QUIT AT ANY TIME.").c_str(), menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Center);
+		mMsg2 = std::make_shared<TextComponent>(mWindow, _("PRESS F4 TO QUIT AT ANY TIME."), menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Center);
 	else
-		mMsg2 = std::make_shared<TextComponent>(mWindow, _("PRESS ESC OR THE HOTKEY TO CANCEL.").c_str(), menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Center);
+		mMsg2 = std::make_shared<TextComponent>(mWindow, _("PRESS ESC OR THE HOTKEY TO CANCEL."), menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Center);
 	mGrid.setEntry(mMsg2, Vector2i(0, 3), false, true);
 
 	// currently held device

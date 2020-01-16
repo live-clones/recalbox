@@ -14,6 +14,7 @@
 #include <rapidjson/rapidjson.h>
 #include <rapidjson/pointer.h>
 #include <utils/Files.h>
+#include <utils/locale/LocaleHelper.h>
 
 #define BUTTON_GRID_VERT_PADDING Renderer::getDisplayHeightAsFloat() * 0.025f
 #define BUTTON_GRID_HORIZ_PADDING 10
@@ -378,9 +379,10 @@ void GuiNetPlay::Render(const Transform4x4f& parentTrans)
 
 int GuiNetPlay::pingHost(const std::string& ip)
 {
+  int value = -1;
   std::pair<std::string, int> ping = RecalboxSystem::execute("ping -c 1 -w 1 " + ip + " | grep \"min/avg/max\" | cut -d '/' -f 5");
   if (!ping.first.empty())
-    return (int)strtol(ping.first.c_str(), nullptr, 10);
+    Strings::ToInt(ping.first, value);
   return -1;
 }
 

@@ -10,7 +10,7 @@
 GuiScraperSelect::GuiScraperSelect(Window& window, SystemManager& systemManager)
   :  Gui(window),
      mSystemManager(systemManager),
-     mMenu(window, _("SCRAPER").c_str())
+     mMenu(window, _("SCRAPER"))
 {
   addChild(&mMenu);
 

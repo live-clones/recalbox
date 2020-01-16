@@ -210,7 +210,7 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
     {
       if (netplay)
       {
-        auto s = new GuiSettings(mWindow, _("KODI/NETPLAY").c_str());
+        auto s = new GuiSettings(mWindow, _("KODI/NETPLAY"));
         auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
         ComponentListRow row;
         row.makeAcceptInputHandler([this, s] {
@@ -253,7 +253,7 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
     }
 		if (event.SelectPressed() && RecalboxConf::Instance().AsString("emulationstation.menu") != "none")
 		{
-		  auto s = new GuiSettings(mWindow, _("QUIT").c_str());
+		  auto s = new GuiSettings(mWindow, _("QUIT"));
 			auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 			ComponentListRow row;
 

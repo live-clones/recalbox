@@ -12,7 +12,7 @@
 
 GuiGamelistOptions::GuiGamelistOptions(Window& window, SystemData* system)
   :	Gui(window),
-		mMenu(window, _("OPTIONS").c_str()),
+		mMenu(window, _("OPTIONS")),
     mReloading(false),
     mSystem(system)
 {

@@ -33,7 +33,7 @@ bool RecalboxUpgrade::updateLastChangelogFile()
   std::string cmd =  "cp " + Settings::Instance().Changelog() + ' ' + Settings::Instance().LastChangelog();
   if (std::system(cmd.c_str()) != 0)
   {
-    LOG(LogWarning) << "Error executing " << cmd.c_str();
+    LOG(LogWarning) << "Error executing " << cmd;
     return false;
   }
   else

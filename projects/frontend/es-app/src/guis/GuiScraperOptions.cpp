@@ -14,7 +14,7 @@
 GuiScraperOptions::GuiScraperOptions(Window& window, SystemManager& systemManager)
   : Gui(window),
     mSystemManager(systemManager),
-    mMenu(window, _("SCRAPE NOW").c_str())
+    mMenu(window, _("SCRAPE NOW"))
 {
 	addChild(&mMenu);
 

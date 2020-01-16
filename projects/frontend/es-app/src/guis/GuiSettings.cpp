@@ -4,7 +4,7 @@
 #include "views/ViewController.h"
 #include "utils/locale/LocaleHelper.h"
 
-GuiSettings::GuiSettings(Window&window, const char* title)
+GuiSettings::GuiSettings(Window&window, const std::string& title)
   : Gui(window),
     mMenu(window, title)
 {

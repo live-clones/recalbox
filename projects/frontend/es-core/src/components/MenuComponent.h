@@ -9,7 +9,6 @@
 #include "components/ComponentGrid.h"
 #include "Window.h"
 #include "MenuThemeData.h"
-#include "utils/locale/LocaleHelper.h"
 #include "guis/GuiMsgBoxScroll.h"
 #include "DateTimeComponent.h"
 
@@ -25,8 +24,8 @@ std::shared_ptr<ImageComponent> makeArrow(Window&window);
 class MenuComponent : public Component
 {
 public:
-	MenuComponent(Window&window, const char* title, const std::shared_ptr<Font>& titleFont);
-  MenuComponent(Window&window, const char* title)
+	MenuComponent(Window&window, const std::string& title, const std::shared_ptr<Font>& titleFont);
+  MenuComponent(Window&window, const std::string& title)
     : MenuComponent(window, title, Font::get(FONT_SIZE_LARGE))
   {
   }
@@ -72,7 +71,7 @@ public:
 
 	void addButton(const std::string& label, const std::string& helpText, const std::function<void()>& callback);
 
-	void setTitle(const char* title, const std::shared_ptr<Font>& font = Font::get(FONT_SIZE_LARGE));
+	void setTitle(const std::string& title, const std::shared_ptr<Font>& font = Font::get(FONT_SIZE_LARGE));
 
 	inline void setCursorToList() { mGrid.setCursorTo(mList); }
 	inline void setCursorToButtons() { assert(mButtonGrid); mGrid.setCursorTo(mButtonGrid); }

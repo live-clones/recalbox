@@ -157,6 +157,6 @@ unsigned int ButtonComponent::getCurTextColor() const
 
 bool ButtonComponent::getHelpPrompts(Help& help)
 {
-	help.Set(HelpType::B, mHelpText.empty() ? mText.c_str() : mHelpText.c_str());
+	help.Set(HelpType::B, mHelpText.empty() ? mText : mHelpText);
 	return true;
 }

@@ -10,7 +10,7 @@
 
 #define TITLE_HEIGHT (mTitle->getFont()->getLetterHeight() + TITLE_VERT_PADDING)
 
-MenuComponent::MenuComponent(Window&window, const char* title, const std::shared_ptr<Font>& titleFont)
+MenuComponent::MenuComponent(Window&window, const std::string& title, const std::shared_ptr<Font>& titleFont)
   : Component(window),
     mBackground(window),
     mGrid(window, Vector2i(1, 3))
@@ -123,7 +123,7 @@ bool MenuComponent::ProcessInput(const InputCompactEvent& event)
 }
 
 
-void MenuComponent::setTitle(const char* title, const std::shared_ptr<Font>& font)
+void MenuComponent::setTitle(const std::string& title, const std::shared_ptr<Font>& font)
 {
     mTitle->setText(Strings::ToUpperUTF8(title));
     mTitle->setFont(font);

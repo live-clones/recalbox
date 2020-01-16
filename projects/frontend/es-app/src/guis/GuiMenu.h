@@ -31,8 +31,8 @@ public:
 	bool getHelpPrompts(Help& help) override;
 
 private:
-	void addEntry(const char* name, unsigned int color, bool add_arrow, const std::function<void()>& func, const Path& iconName = Path());
-	void addEntryWithHelp(const char* name, const std::string& help, unsigned int color, bool add_arrow, const std::function<void()>& func, const Path& iconName = Path());
+	void addEntry(const std::string& name, unsigned int color, bool add_arrow, const std::function<void()>& func, const Path& iconName = Path());
+	void addEntryWithHelp(const std::string& name, const std::string& help, unsigned int color, bool add_arrow, const std::function<void()>& func, const Path& iconName = Path());
 
 	void createInputTextRow(GuiSettings * gui, const std::string& title, const char* settingsID, bool password, const std::string& help);
 	void menuSystem();

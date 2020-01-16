@@ -43,7 +43,7 @@ private:
 	public:
 		OptionListPopup(Window& window, OptionListComponent<T>* parent, const std::string& title)
 		  : Gui(window),
-			  mMenu(window, title.c_str()),
+			  mMenu(window, title),
 			  mParent(parent)
 		{
 			auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
