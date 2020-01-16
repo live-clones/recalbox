@@ -1791,25 +1791,23 @@ bool GuiMenu::getHelpPrompts(Help& help)
   return true;
 }
 
-std::shared_ptr<OptionListComponent<std::string>> GuiMenu::createRatioOptionList(Window& window, const std::string& configname) {
-    auto ratio_choice = std::make_shared<OptionListComponent<std::string> >(window, _("GAME RATIO"), false);
-    std::string currentRatio = RecalboxConf::Instance().AsString(configname + ".ratio");
-    if (currentRatio.empty()) {
-        currentRatio = std::string("auto");
-    }
+std::shared_ptr<OptionListComponent<std::string>> GuiMenu::createRatioOptionList(Window& window, const std::string& configname)
+{
+  auto ratio_choice = std::make_shared<OptionListComponent<std::string> >(window, _("GAME RATIO"), false);
+  std::string currentRatio = RecalboxConf::Instance().AsString(configname + ".ratio");
+  if (currentRatio.empty()) currentRatio = std::string("auto");
 
-    std::map<std::string, std::string> *ratioMap = LibretroRatio::getInstance()->getRatio();
-    for (auto ratio = ratioMap->begin(); ratio != ratioMap->end(); ratio++) {
-        ratio_choice->add(_(ratio->first.c_str()), ratio->second, currentRatio == ratio->second);
-    }
+  for (auto& ratio : LibretroRatio::GetRatio())
+    ratio_choice->add(ratio.first, ratio.second, currentRatio == ratio.second);
 
-    return ratio_choice;
+  return ratio_choice;
 }
 
-void GuiMenu::clearLoadedInput() {
-    for (auto& i : mLoadedInput)
-    {
-        delete i;
-    }
-    mLoadedInput.clear();
+void GuiMenu::clearLoadedInput()
+{
+  for (auto& i : mLoadedInput)
+  {
+      delete i;
+  }
+  mLoadedInput.clear();
 }

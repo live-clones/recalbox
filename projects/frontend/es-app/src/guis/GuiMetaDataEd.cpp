@@ -224,13 +224,12 @@ GuiMetaDataEd::GuiMetaDataEd(Window& window,
           auto ratio_choice = std::make_shared<OptionListComponent<std::string> >(mWindow, "ratio", false,
                                                                                   FONT_SIZE_MEDIUM);
           row.addElement(ratio_choice, false);
-          std::map<std::string,
-                   std::string>* ratioMap = LibretroRatio::getInstance()->getRatio();
+          const std::map<std::string, std::string>& ratioMap = LibretroRatio::GetRatio();
           if (mMetaData.Ratio().empty())
           {
             mMetaData.SetRatio("auto");
           }
-          for (auto & ratio : *ratioMap)
+          for (auto& ratio : ratioMap)
           {
             ratio_choice->add(ratio.first, ratio.second, mMetaData.Ratio() == ratio.second);
           }
