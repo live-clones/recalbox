@@ -76,11 +76,11 @@ ScraperSearchComponent::ScraperSearchComponent(Window& window)
   mGrid.setEntry(mLabelPublisher, Vector2i(2, 2), false, false, Vector2i(1, 1));
   mLabelGenre = std::make_shared<TextComponent>(mWindow, Strings::ToUpperUTF8(_("Genre") + ":"), font, mdLblColor, TextAlignment::Right);
   mGrid.setEntry(mLabelGenre, Vector2i(2, 3), false, false, Vector2i(1, 1));
-  mLabelRating = std::make_shared<TextComponent>(mWindow, Strings::ToUpperASCII(_("Rating") + ":"), font, mdLblColor, TextAlignment::Right);
+  mLabelRating = std::make_shared<TextComponent>(mWindow, Strings::ToUpperUTF8(_("Rating") + ":"), font, mdLblColor, TextAlignment::Right);
   mGrid.setEntry(mLabelRating, Vector2i(4, 1), false, false, Vector2i(1, 1));
-  mLabelReleaseDate = std::make_shared<TextComponent>(mWindow, Strings::ToUpperASCII(_("Released") + ":"), font, mdLblColor, TextAlignment::Right);
+  mLabelReleaseDate = std::make_shared<TextComponent>(mWindow, Strings::ToUpperUTF8(_("Released") + ":"), font, mdLblColor, TextAlignment::Right);
   mGrid.setEntry(mLabelReleaseDate, Vector2i(4, 2), false, false, Vector2i(1, 1));
-  mLabelPlayers = std::make_shared<TextComponent>(mWindow, Strings::ToUpperASCII(_("Players") + ":"), font, mdLblColor, TextAlignment::Right);
+  mLabelPlayers = std::make_shared<TextComponent>(mWindow, Strings::ToUpperUTF8(_("Players") + ":"), font, mdLblColor, TextAlignment::Right);
   mGrid.setEntry(mLabelPlayers, Vector2i(4, 3), false, false, Vector2i(1, 1));
 
   // Value
@@ -170,7 +170,7 @@ void ScraperSearchComponent::UpdateInfoPane(const FileData* game)
     mResultThumbnail->setImage(image);
 
     // metadata
-		mValueRating->setValue(Strings::ToUpperASCII(game->Metadata().RatingAsString()));
+		mValueRating->setValue(game->Metadata().RatingAsString());
 		mValueReleaseDate->setValue(Strings::ToUpperASCII(game->Metadata().ReleaseDateAsString()));
 		mValueDeveloper->setText(Strings::ToUpperUTF8(game->Metadata().Developer()));
 		mValuePublisher->setText(Strings::ToUpperUTF8(game->Metadata().Publisher()));

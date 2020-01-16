@@ -110,7 +110,7 @@ void TextComponent::setOpacity(unsigned char opacity)
 
 void TextComponent::setText(const std::string& text)
 {
-  mText = text;
+  mText = mUppercase ? Strings::ToUpperUTF8(text) : text;
 	onTextChanged();
 }
 
@@ -189,11 +189,11 @@ void TextComponent::calculateExtent()
 {
 	if(mAutoCalcExtentX)
 	{
-		mSize = mFont->sizeText(mUppercase ? Strings::ToUpperASCII(mText) : mText, mLineSpacing);
+		mSize = mFont->sizeText(mText, mLineSpacing);
 	}else{
 		if(mAutoCalcExtentY)
 		{
-			mSize[1] = mFont->sizeWrappedText(mUppercase ? Strings::ToUpperASCII(mText) : mText, getSize().x(), mLineSpacing).y();
+			mSize[1] = mFont->sizeWrappedText(mText, getSize().x(), mLineSpacing).y();
 		}
 	}
 }

@@ -125,7 +125,7 @@ bool MenuComponent::ProcessInput(const InputCompactEvent& event)
 
 void MenuComponent::setTitle(const char* title, const std::shared_ptr<Font>& font)
 {
-    mTitle->setText(Strings::ToUpperASCII(title));
+    mTitle->setText(Strings::ToUpperUTF8(title));
     mTitle->setFont(font);
 }
 
@@ -171,7 +171,7 @@ void MenuComponent::onSizeChanged()
 
 void MenuComponent::addButton(const std::string& name, const std::string& helpText, const std::function<void()>& callback)
 {
-    mButtons.push_back(std::make_shared<ButtonComponent>(mWindow, Strings::ToUpperASCII(name), helpText, callback));
+    mButtons.push_back(std::make_shared<ButtonComponent>(mWindow, Strings::ToUpperUTF8(name), helpText, callback));
     updateGrid();
     updateSize();
 }

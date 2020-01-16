@@ -52,7 +52,7 @@ bool ButtonComponent::ProcessInput(const InputCompactEvent& event)
 
 void ButtonComponent::setText(const std::string& text, const std::string& helpText, bool upperCase, bool resize, bool doUpdateHelpPrompts)
 {
-	mText = upperCase ? Strings::ToUpperASCII(text) : text;
+	mText = upperCase ? Strings::ToUpperUTF8(text) : text;
 	mHelpText = helpText;
 
 	mTextCache = std::unique_ptr<TextCache>(mFont->buildTextCache(mText, 0, 0, getCurTextColor()));

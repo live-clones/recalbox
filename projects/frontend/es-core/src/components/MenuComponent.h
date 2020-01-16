@@ -59,7 +59,7 @@ public:
 	{
 		ComponentListRow row;
 		auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
-		row.addElement(std::make_shared<TextComponent>(mWindow, Strings::ToUpperASCII(_(label.c_str())), menuTheme->menuText.font, menuTheme->menuText.color), true);
+		row.addElement(std::make_shared<TextComponent>(mWindow, Strings::ToUpperUTF8(label), menuTheme->menuText.font, menuTheme->menuText.color), true);
 		row.addElement(comp, false, invert_when_selected);
 		if (acceptCallback) {
 			row.makeAcceptInputHandler(acceptCallback);

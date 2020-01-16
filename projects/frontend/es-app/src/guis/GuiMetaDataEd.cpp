@@ -90,7 +90,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window& window,
     // create ed and add it (and any related components) to mMenu
     // ed's value will be set below
     ComponentListRow row;
-    auto lbl = std::make_shared<TextComponent>(mWindow, Strings::ToUpperASCII(field.DisplayName()), menuTheme->menuText.font, menuTheme->menuText.color);
+    auto lbl = std::make_shared<TextComponent>(mWindow, Strings::ToUpperUTF8(field.DisplayName()), menuTheme->menuText.font, menuTheme->menuText.color);
 
     row.addElement(lbl, true); // label
     y += lbl->getFont()->getHeight();

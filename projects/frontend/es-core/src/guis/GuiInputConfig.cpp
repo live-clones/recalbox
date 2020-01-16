@@ -49,7 +49,7 @@ GuiInputConfig::GuiInputConfig(Window&window, InputDevice* target, const std::fu
 	else
 	  snprintf(strbuf, 256, _("GAMEPAD %i").c_str(), mTargetConfig->Identifier() + 1);
 	  
-	mSubtitle1 = std::make_shared<TextComponent>(mWindow, Strings::ToUpperASCII(strbuf), menuTheme->menuText.font, menuTheme->menuFooter.color, TextAlignment::Center);
+	mSubtitle1 = std::make_shared<TextComponent>(mWindow, Strings::ToUpperUTF8(strbuf), menuTheme->menuText.font, menuTheme->menuFooter.color, TextAlignment::Center);
 	mGrid.setEntry(mSubtitle1, Vector2i(0, 1), false, true);
 
 	mSubtitle2 = std::make_shared<TextComponent>(mWindow, "", menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Center);
@@ -274,7 +274,7 @@ void GuiInputConfig::setText(const std::string& msg, unsigned int color) {
 
 void GuiInputConfig::setText(const std::string& msg, unsigned int color, const int inputId) {
 	std::shared_ptr<TextComponent>& text = mMappings.at(inputId);
-	text->setText(Strings::ToUpperASCII(msg));
+	text->setText(Strings::ToUpperUTF8(msg));
 	text->setColor(color);
 }
 
