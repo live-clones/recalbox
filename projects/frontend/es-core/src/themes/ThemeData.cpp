@@ -802,9 +802,9 @@ std::map<std::string, std::string> ThemeData::getThemeSubSets(const std::string&
 		Path master = path / "theme.xml";
     if (master.Exists())
     {
-      dequepath.push_back(path);
+      dequepath.push_back(master);
       pugi::xml_document doc;
-      doc.load_file(path.ToChars());
+      doc.load_file(master.ToChars());
       pugi::xml_node root = doc.child("theme");
       crawlIncludes(root, sets, dequepath);
       findRegion(doc, sets);
@@ -822,7 +822,7 @@ void ThemeData::crawlIncludes(const pugi::xml_node& root, std::map<std::string, 
 		sets[node.attribute("name").as_string()] = node.attribute("subset").as_string();
 		
 		Path relPath(node.text().get());
-		Path path = relPath.ToAbsolute(dequepath.back());
+		Path path = relPath.ToAbsolute(dequepath.back().Directory());
 		dequepath.push_back(path);
 		pugi::xml_document includeDoc;
 		/*pugi::xml_parse_result result =*/ includeDoc.load_file(path.ToChars());
