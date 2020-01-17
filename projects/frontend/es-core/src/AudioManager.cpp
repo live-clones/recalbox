@@ -2,10 +2,8 @@
 
 #include <SDL.h>
 #include <views/SystemView.h>
-#include "utils/Log.h"
 #include "RecalboxConf.h"
 #include "Settings.h"
-#include "themes/ThemeData.h"
 #include "RootFolders.h"
 #include "utils/sdl2/SyncronousEventService.h"
 #include "utils/locale/LocaleHelper.h"
@@ -112,23 +110,6 @@ AudioManager::AudioHandle AudioManager::LoadSound(const Path& path)
   return handle;
 }
 
-AudioManager::AudioHandle AudioManager::LoadSound(const ThemeData& theme, const std::string& view, const std::string& elem)
-{
-  // Get handle
-  AudioHandle handle = Strings::ToHash64("Theme" + view + elem) | 1;
-
-  // Already exists
-  if (mSoundMap.find(handle) != mSoundMap.end())
-    return handle;
-
-  // Try to load
-  Sound* sound = Sound::BuildFromTheme(theme, view, elem);
-  if (sound == nullptr) return 0; // Not found
-  // Add and return the handle
-  mSoundMap[handle] = sound;
-  return handle;
-}
-
 AudioManager::AudioHandle AudioManager::LoadMusic(const Path& path)
 {
   // Get handle
@@ -139,30 +120,12 @@ AudioManager::AudioHandle AudioManager::LoadMusic(const Path& path)
     return handle;
 
   // Try to load
-  Music* music = Music::BuildFromPath(path);
+  Music* music = Music::LoadFromPath(path);
   if (music == nullptr) return 0; // Not found
   // Add and return the handle
   mMusicMap[handle] = music;
   return handle;
 }
-
-AudioManager::AudioHandle AudioManager::LoadMusic(const ThemeData& theme, const std::string& view, const std::string& elem)
-{
-  // Get handle
-  AudioHandle handle = Strings::ToHash64("Theme" + view + elem) | 1;
-
-  // Already exists
-  if (mMusicMap.find(handle) != mMusicMap.end())
-    return handle;
-
-  // Try to load
-  Music* music = Music::BuildFromTheme(theme, view, elem);
-  if (music == nullptr) return 0; // Not found
-  // Add and return the handle
-  mMusicMap[handle] = music;
-  return handle;
-}
-
 
 bool AudioManager::PlaySound(AudioManager::AudioHandle handle)
 {
@@ -202,41 +165,67 @@ void AudioManager::StartPlaying(const ThemeData& theme)
   {
     const ThemeElement* elem = theme.getElement("system", "directory", "sound");
     mThemeMusicFolder = ((elem == nullptr) || !elem->HasProperty("path")) ? Path::Empty : Path(elem->AsString("path"));
+    elem = theme.getElement("system", "bgsound", "sound");
+    mThemeMusic = ((elem == nullptr) || !elem->HasProperty("path")) ? Path::Empty : Path(elem->AsString("path"));
 
-    AudioHandle handle = LoadMusic(theme, "system", "bgsound");
-    // Found a music for the system
-    if (handle != 0)
-    {
-      PlayMusic(handle, true);
-      mCurrentMusic = handle;
-      return;
-    }
-    else PlayRandomMusic();
+    PlayRandomMusic();
   }
 }
 
-void AudioManager::PlayRandomMusic(bool allowTheSame)
-{
-  for(int i = 3; --i >= 0; )
+void AudioManager::PlayRandomMusic()
   {
-    // Find a random song in user directory or theme music directory
-    AudioHandle music = FetchRandomMusic(mThemeMusicFolder);
-    if (music == 0) return; // No music, exit
-    if (i == 0) allowTheSame = true; // Last chance, allow the same
-    if ((music != mCurrentMusic) || allowTheSame)
+  Path previousPath = Music::CurrentlyPlaying() != nullptr ? Music::CurrentlyPlaying()->FilePath() : Path::Empty;
+  AudioHandle musicToPlay = 0;
+  const char* log = "No music found.";
+
+  // check Theme music first
+  if (!mThemeMusic.IsEmpty())
+  {
+    musicToPlay = LoadMusic(mThemeMusic);
+    log = "Theme music found (Background).";
+  }
+
+  // Then check user folder
+  Path userMusics = Path(Settings::Instance().MusicDirectory());
+  if (musicToPlay == 0 && !userMusics.IsEmpty())
+  {
+    Path musicPath = FetchRandomMusic(userMusics, previousPath);
+    if (!musicPath.IsEmpty())
     {
-      PlayMusic(music, false);
-      mCurrentMusic = music;
-      int popupDuration = Settings::Instance().MusicPopupTime();
-      if (popupDuration != 0)
-      {
-        // Create music popup
-        std::shared_ptr<GuiInfoPopup> popup =
-          std::make_shared<GuiInfoPopup>(mWindow, _("Now playing") + ":\n" + mCurrentMusicTitle, popupDuration,10);
-        mWindow.setInfoPopup(popup);
-      }
-      return;
+      musicToPlay = LoadMusic(musicPath);
+      log = "User music found.";
     }
+  }
+
+  // Finally check theme folder
+  if (musicToPlay == 0 && !mThemeMusicFolder.IsEmpty())
+  {
+    Path musicPath = FetchRandomMusic(mThemeMusicFolder, previousPath);
+    if (!musicPath.IsEmpty())
+    {
+      musicToPlay = LoadMusic(musicPath);
+      log = "Theme music found (From theme folder).";
+    }
+  }
+
+  LOG(LogInfo) << "AudioManager: " << log;
+
+  // Do not relaunch currently playing song
+  if (mCurrentMusic == musicToPlay)
+    return;
+
+  // Play!
+  PlayMusic(musicToPlay, false);
+  mCurrentMusic = musicToPlay;
+
+  // Popup?
+  int popupDuration = Settings::Instance().MusicPopupTime();
+  if (popupDuration != 0)
+  {
+    // Create music popup
+    std::shared_ptr<GuiInfoPopup> popup =
+      std::make_shared<GuiInfoPopup>(mWindow, _("Now playing") + ":\n" + mCurrentMusicTitle, popupDuration,10);
+    mWindow.setInfoPopup(popup);
   }
 }
 
@@ -264,26 +253,31 @@ std::vector<Path> AudioManager::ListMusicInFolder(const Path& path)
   return musics;
 }
 
-AudioManager::AudioHandle AudioManager::FetchRandomMusic(const Path& themeMusicDirectory)
+Path AudioManager::FetchRandomMusic(const Path& from, const Path& previousPath)
 {
   // 1 check in User music directory
-  std::vector<Path> musics = ListMusicInFolder(Path(Settings::Instance().MusicDirectory()));
-  if (musics.empty() && !themeMusicDirectory.IsEmpty())
-    musics = ListMusicInFolder(themeMusicDirectory);
+  std::vector<Path> musics = ListMusicInFolder(from);
   if (musics.empty())
-    return 0;
+    return Path::Empty;
 
   // Adjust randomizer distribution
   if (mSystemRandomizer.b() != (int)musics.size() - 1)
     mSystemRandomizer = std::uniform_int_distribution<int>(0, (int)musics.size() - 1);
 
-  int randomIndex = mSystemRandomizer(mRandomGenerator);
-  AudioHandle music = LoadMusic(Path(musics.at(randomIndex)));
-  return music;
+  // Try to find a new music
+  for(int i = sMaxTries; --i >= 0; )
+  {
+    int randomIndex = mSystemRandomizer(mRandomGenerator);
+    if (!previousPath.IsEmpty() && (musics.at(randomIndex) == previousPath.ToString()))
+      continue;
+    return Path(musics.at(randomIndex));
+  }
+
+  return Path::Empty;
 }
 
 void AudioManager::ReceiveSyncCallback(const SDL_Event& event)
 {
   (void)event;
-  PlayRandomMusic(true);
+  PlayRandomMusic();
 }

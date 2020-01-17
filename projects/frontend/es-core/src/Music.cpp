@@ -4,31 +4,19 @@
 #include "themes/ThemeData.h"
 #include "AudioManager.h"
 
-Music* Music::BuildFromPath(const Path& path)
+Music* Music::sCurrentlyPlaying = nullptr;
+
+Music* Music::LoadFromPath(const Path& path)
 {
-  LOG(LogInfo) << "Load music " << path.ToString();
-  if (path.Exists()) return new Music(path);
+  LOG(LogInfo) << "Loading music " << path.ToString();
+  if (path.Exists())
+    return new Music(path);
   return nullptr;
-}
-
-Music* Music::BuildFromTheme(const ThemeData& theme, const std::string& view,
-                             const std::string& element)
-{
-  LOG(LogInfo) << "Load music [" << view << "." << element << "]";
-  const ThemeElement* elem = theme.getElement(view, element, "sound");
-  if ((elem == nullptr) || !elem->HasProperty("path"))
-  {
-    LOG(LogError) << view << '.' << element << " not found";
-    return nullptr;
-  }
-
-  return BuildFromPath(Path(elem->AsString("path")));
 }
 
 Music::Music(const Path& path)
   : mPath(path),
-    mMusic(nullptr),
-    mIsPlaying(false)
+    mMusic(nullptr)
 {
   Initialize();
 }
@@ -55,7 +43,11 @@ void Music::Initialize()
 
 void Music::Finalize()
 {
-  mIsPlaying = false;
+  // This one is currently playing?
+  if (sCurrentlyPlaying == this)
+    sCurrentlyPlaying = nullptr;
+
+  // Valid DSL music?
   if (mMusic != nullptr)
   {
     Mix_FreeMusic(mMusic);
@@ -71,7 +63,6 @@ static void MusicEndCallback()
 bool Music::Play(bool repeat)
 {
   if (mMusic == nullptr) return false;
-  mIsPlaying = true;
 
   LOG(LogInfo) << "Playing " << Name();
   if (Mix_FadeInMusic(mMusic, repeat ? -1 : 1, 1000) == -1)
@@ -79,6 +70,10 @@ bool Music::Play(bool repeat)
     LOG(LogInfo) << "Mix_PlayMusic Error: " << Mix_GetError();
     return false;
   }
+
+  // Record currently playing music
+  sCurrentlyPlaying = this;
+
   if (!repeat)
     Mix_HookMusicFinished(MusicEndCallback);
   return true;
@@ -86,6 +81,7 @@ bool Music::Play(bool repeat)
 
 void Music::Stop()
 {
+  sCurrentlyPlaying = nullptr;
   Mix_HookMusicFinished(nullptr);
   Mix_FadeOutMusic(1000);
   Mix_HaltMusic();

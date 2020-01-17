@@ -1,27 +1,11 @@
 #include "Sound.h"
 #include "AudioManager.h"
-#include "utils/Log.h"
 #include "Settings.h"
-#include "themes/ThemeData.h"
 
 Sound* Sound::BuildFromPath(const Path& path)
 {
   if (path.Exists()) return new Sound(path);
   return nullptr;
-}
-
-Sound* Sound::BuildFromTheme(const ThemeData& theme, const std::string& view, const std::string& element)
-{
-  LOG(LogInfo) << "Load sound [" << view << "." << element << "]";
-
-  const ThemeElement* elem = theme.getElement(view, element, "sound");
-  if ((elem == nullptr) || !elem->HasProperty("path"))
-  {
-    LOG(LogError) << view << '.' << element << " not found";
-    return nullptr;
-  }
-
-  return new Sound(Path(elem->AsString("path")));
 }
 
 Sound::Sound(const Path& path)

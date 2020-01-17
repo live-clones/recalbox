@@ -12,12 +12,12 @@ class ThemeData;
 class Music
 {
   private:
+    //! Current music playing
+    static Music*   sCurrentlyPlaying;
     //! Music path
     Path            mPath;
     //! SDL Music
     Mix_Music*      mMusic;
-    //! Play status
-    bool            mIsPlaying;
 
     /*!
      * @brief Load music into SDL structures
@@ -57,22 +57,26 @@ class Music
   	 * @brief Return music name
   	 * @return Music name
   	 */
-  	std::string Name() { return mPath.FilenameWithoutExtension(); }
+  	std::string Name() const { return mPath.FilenameWithoutExtension(); }
 
-  	/*!
+    /*!
+     * @brief Return music path
+     * @return Music path
+     */
+    const Path& FilePath() const { return mPath; }
+
+    /*!
   	 * @brief Build a new music file
      * @param path Music filepath
   	 * @return New music instance or null if the file does not exist
   	 */
-  	static Music* BuildFromPath(const Path & path);
-    /*!
-     * @brief Build a music from theme elements
-     * @param theme ThemeData structure
-     * @param view Theme view
-     * @param element Theme element
-  	 * @return New music instance or null if the theme element/file does not exist
-     */
-  	static Music* BuildFromTheme(const ThemeData& theme, const std::string& view, const std::string& element);
+  	static Music* LoadFromPath(const Path & path);
+
+  	/*!
+  	 * @brief Get the music currently playing
+  	 * @return Currentply playing music or nullptr
+  	 */
+  	static Music* CurrentlyPlaying() { return sCurrentlyPlaying; }
 };
 
 #endif

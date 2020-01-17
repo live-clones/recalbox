@@ -389,7 +389,10 @@ void TextListComponent<T>::applyTheme(const ThemeData& theme, const std::string&
 	setFont(Font::getFromTheme(elem, properties, mFont));
 	
 	if (hasFlag(properties, ThemeProperties::Sound) && elem->HasProperty("scrollSound"))
-		setSound(AudioManager::Instance().LoadSound(theme, "textlist", "scrollSound"));
+  {
+    Path soundPath = Path(elem->AsString("sound"));
+    setSound(AudioManager::Instance().LoadSound(soundPath));
+  }
 
 	if (hasFlag(properties, ThemeProperties::Alignment))
 	{

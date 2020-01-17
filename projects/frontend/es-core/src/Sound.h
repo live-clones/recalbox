@@ -1,7 +1,6 @@
 #ifndef _SOUND_H_
 #define _SOUND_H_
 
-#include <string>
 #include <map>
 #include <memory>
 #include "SDL_mixer.h"
@@ -40,15 +39,6 @@ class Sound
      * @return New sound instance or null if the file does not exist
      */
     static Sound* BuildFromPath(const Path & path);
-
-    /*!
-     * @brief Build a sound from theme elements
-     * @param theme ThemeData structure
-     * @param view Theme view
-     * @param element Theme element
-  	 * @return New music instance or null if the theme element/file does not exist
-     */
-    static Sound* BuildFromTheme(const ThemeData& theme, const std::string& view, const std::string& element);
 
     /*!
      * @brief Destructor

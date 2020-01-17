@@ -1,5 +1,4 @@
-#ifndef _AUDIOMANAGER_H_
-#define _AUDIOMANAGER_H_
+#pragma once
 
 #include <memory>
 
@@ -9,7 +8,6 @@
 #include "Sound.h"
 #include "Music.h"
 
-#include "Window.h"
 #include "utils/sdl2/SyncronousEvent.h"
 #include "utils/sdl2/ISynchronousEvent.h"
 
@@ -19,6 +17,9 @@ class AudioManager : private ISynchronousEvent
     typedef unsigned long long AudioHandle;
 
   private:
+    //! Max tries to find a different music to play
+    static constexpr int sMaxTries = 8;
+
     //! Unique instance
     static AudioManager* sInstance;
 
@@ -47,6 +48,8 @@ class AudioManager : private ISynchronousEvent
 
     //! Theme music folder
     Path mThemeMusicFolder;
+    //! Theme music
+    Path mThemeMusic;
 
     /*!
      * @brief Synchronous event receiver
@@ -73,16 +76,16 @@ class AudioManager : private ISynchronousEvent
 
     /*!
      * @brief Fetch a random music from the given folder
-     * @param themeMusicDirectory source folder
-     * @return Music handle to a random music
+     * @param from source folder
+     * @return Path to music
      */
-    AudioHandle FetchRandomMusic(const Path& themeMusicDirectory);
+    Path FetchRandomMusic(const Path& from, const Path& previousPath);
 
     /*!
      * @brief Play a new random music from theme/user music folder
      * @param allowTheSame Allow the same music to replay
      */
-    void PlayRandomMusic(bool allowTheSame = false);
+    void PlayRandomMusic();
   public:
     /*!
      * @brief Constructor - act as a singleton (Multiple instance is not possible)
@@ -115,29 +118,11 @@ class AudioManager : private ISynchronousEvent
     AudioHandle LoadSound(const Path& path);
 
     /*!
-     * @brief Load sound effect from tje given theme's view.element
-     * @param theme Theme object
-     * @param view View name
-     * @param elem Element name
-     * @return Non zero handle if the file has been successfully loaded
-     */
-    AudioHandle LoadSound(const ThemeData& theme, const std::string& view, const std::string& elem);
-
-    /*!
      * @brief Load music effect from the givenpath
      * @param path Music file path
      * @return Non zero handle if the file has been successfully loaded
      */
     AudioHandle LoadMusic(const Path& path);
-
-    /*!
-     * @brief Load music effect from tje given theme's view.element
-     * @param theme Theme object
-     * @param view View name
-     * @param elem Element name
-     * @return Non zero handle if the file has been successfully loaded
-     */
-    AudioHandle LoadMusic(const ThemeData& theme, const std::string& view, const std::string& elem);
 
     /*!
      * @brief Play sound
@@ -168,12 +153,10 @@ class AudioManager : private ISynchronousEvent
     /*!
      * @brief Deactivate the sound system to allow external application to run
      */
-    void Deactivate() { Finalize(); }
+    static void Deactivate() { Finalize(); }
 
     /*!
      * @brief Reactivate the sound system if it has been previously deactivated.
      */
     void Reactivate();
 };
-
-#endif

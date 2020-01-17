@@ -82,7 +82,6 @@ Settings::DataDescriptor Settings::sDescriptors[] =
   { Settings::DataType::String, offsetof(Settings::Data, mChangelog              ), "Changelog"              , "/recalbox/recalbox.changelog"                             , false },
   { Settings::DataType::String, offsetof(Settings::Data, mMusicDirectory         ), "MusicDirectory"         , "/recalbox/share/music/"                                   , true },
   { Settings::DataType::String, offsetof(Settings::Data, mArch                   ), "Arch"                   , ""                                                         , true },
-  { Settings::DataType::String, offsetof(Settings::Data, mMusicDirectory         ), "MusicDirectory"         , "/recalbox/share/music/"                                   , true },
   { Settings::DataType::String, offsetof(Settings::Data, mDefaultRomsPath        ), "DefaultRomsPath"        , ""                                                         , true },
 };
 
