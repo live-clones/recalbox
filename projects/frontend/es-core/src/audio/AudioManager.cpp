@@ -255,7 +255,7 @@ std::vector<Path> AudioManager::ListMusicInFolder(const Path& path)
 
 Path AudioManager::FetchRandomMusic(const Path& from, const Path& previousPath)
 {
-  // 1 check in User music directory
+  // Get musics from folders
   std::vector<Path> musics = ListMusicInFolder(from);
   if (musics.empty())
     return Path::Empty;

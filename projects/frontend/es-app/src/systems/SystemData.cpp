@@ -1,5 +1,5 @@
 #include "SystemData.h"
-#include "AudioManager.h"
+#include "audio/AudioManager.h"
 #include "VolumeControl.h"
 #include "utils/Log.h"
 #include <RecalboxConf.h>

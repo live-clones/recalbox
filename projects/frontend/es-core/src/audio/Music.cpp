@@ -2,7 +2,7 @@
 #include "utils/Log.h"
 #include "Settings.h"
 #include "themes/ThemeData.h"
-#include "AudioManager.h"
+#include "audio/AudioManager.h"
 
 Music* Music::sCurrentlyPlaying = nullptr;
 

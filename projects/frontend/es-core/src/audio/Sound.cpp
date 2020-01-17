@@ -1,5 +1,5 @@
 #include "Sound.h"
-#include "AudioManager.h"
+#include "audio/AudioManager.h"
 #include "Settings.h"
 
 Sound* Sound::BuildFromPath(const Path& path)

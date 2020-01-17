@@ -9,7 +9,7 @@
 #include <memory>
 #include <functional>
 #include <utils/Strings.h>
-#include <AudioManager.h>
+#include <audio/AudioManager.h>
 
 enum class HorizontalAlignment : char
 {

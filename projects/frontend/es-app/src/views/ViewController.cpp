@@ -12,7 +12,7 @@
 #include "animations/MoveCameraAnimation.h"
 #include "animations/LambdaAnimation.h"
 
-#include "AudioManager.h"
+#include "audio/AudioManager.h"
 
 #include <memory>
 #include <systems/SystemManager.h>

@@ -7,7 +7,7 @@
 #include <systems/SystemManager.h>
 #include <MainRunner.h>
 #include "guis/GuiMenu.h"
-#include "AudioManager.h"
+#include "audio/AudioManager.h"
 
 // buffer values for scrolling velocity (left, stopped, right)
 const int logoBuffersLeft[] = { -5, -2, -1 };

@@ -10,7 +10,7 @@
 #include "EmulationStation.h"
 #include "guis/GuiMenu.h"
 #include "Window.h"
-#include "Sound.h"
+#include "audio/Sound.h"
 #include "Settings.h"
 #include "recalbox/RecalboxSystem.h"
 #include "recalbox/RecalboxUpgrade.h"
@@ -18,7 +18,7 @@
 #include "guis/GuiDetectDevice.h"
 #include "guis/GuiUpdate.h"
 #include "views/ViewController.h"
-#include "AudioManager.h"
+#include "audio/AudioManager.h"
 #include "platform.h"
 
 #include "components/SwitchComponent.h"

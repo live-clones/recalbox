@@ -7,7 +7,7 @@
 #include <utils/Files.h>
 #include <utils/locale/Internationalizer.h>
 #include <utils/sdl2/SyncronousEventService.h>
-#include <AudioManager.h>
+#include <audio/AudioManager.h>
 #include <views/ViewController.h>
 #include <systems/SystemManager.h>
 #include <guis/GuiMsgBoxScroll.h>

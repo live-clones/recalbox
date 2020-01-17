@@ -4,7 +4,7 @@ set(CORE_HEADERS
 		src/components/base/Component.h
 		src/components/base/IComponent.h
 		src/AsyncHandle.h
-		src/AudioManager.h
+        src/audio/AudioManager.h
 		src/help/HelpStyle.h
 		src/help/Help.h
 		src/HttpReq.h
@@ -16,11 +16,11 @@ set(CORE_HEADERS
 		src/input/InputStack.h
 		src/utils/Log.h
 		src/utils/locale/LocaleHelper.h
-		src/Music.h
+		src/audio/Music.h
 		src/platform.h
 		src/Renderer.h
 		src/Settings.h
-		src/Sound.h
+		src/audio/Sound.h
 		src/RootFolders.h
 		src/MenuThemeData.h
 		src/VideoEngine.h
@@ -114,7 +114,7 @@ set(CORE_HEADERS
 set(CORE_SOURCES
 		src/components/base/Component.cpp
 		src/components/base/IComponent.cpp
-		src/AudioManager.cpp
+        src/audio/AudioManager.cpp
         src/help/HelpStyle.cpp
 		src/help/Help.cpp
 		src/HttpReq.cpp
@@ -125,11 +125,11 @@ set(CORE_SOURCES
 		src/input/InputManager.cpp
 		src/input/InputStack.cpp
 		src/utils/Log.cpp
-		src/Music.cpp
+		src/audio/Music.cpp
 		src/platform.cpp
 		src/Renderer.cpp
 		src/Settings.cpp
-		src/Sound.cpp
+		src/audio/Sound.cpp
 		src/RootFolders.cpp
 		src/MenuThemeData.cpp
 		src/VideoEngine.cpp
