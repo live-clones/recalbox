@@ -10,15 +10,13 @@
 #include <components/ScrollableContainer.h>
 #include <Settings.h>
 
-GuiInfoPopup::GuiInfoPopup(Window&window, const std::string& message, int duration, int icon)
+GuiInfoPopup::GuiInfoPopup(Window&window, const std::string& message, int duration, Icon icon)
   : Gui(window),
+    mGrid(window, Vector2i(2, 1)),
+    mFrame(window, Path(":/frame.png")),
     mDuration(duration * 1000),
-		mGrid(window, Vector2i(2, 1)),
-		mFrame(window, Path(":/frame.png")),
     running(true)
 {
-	bool noIcon = icon == 0;
-
 	float maxWidth = Renderer::getDisplayWidthAsFloat() * 0.2f;
 	float maxHeight = Renderer::getDisplayHeightAsFloat() * 0.4f;
 
@@ -36,66 +34,59 @@ GuiInfoPopup::GuiInfoPopup(Window&window, const std::string& message, int durati
 	int paddingX = (int) (Renderer::getDisplayWidthAsFloat() * 0.02f);
 	int paddingY = (int) (Renderer::getDisplayHeightAsFloat() * 0.02f);
 
-	float msgHeight;
+	std::string iconText;
+  switch (icon)
+  {
+    case Icon::Music   : iconText = "\uF1b0"; break;
+    case Icon::Help    : iconText = "\uF1c1"; break;
+    case Icon::Netplay : iconText = "\uF1c4"; break;
+    case Icon::Recalbox: iconText = "\uF200"; break;
+    case Icon::None:
+    default: break;
+  }
 
-	mMsgText = std::make_shared<TextComponent>(window, message, Font::get((int)FONT_SIZE_TEXT), menuTheme->menuText.color, TextAlignment::Left);
-
-
-	mMsgIcon = std::make_shared<TextComponent>(window, "", Font::get((int)FONT_SIZE_ICON), menuTheme->menuText.color, TextAlignment::Left);
-
-	switch (icon) {
-		case 0 :
-			mMsgIcon->setText("");
-			break;
-		case 10 :
-			mMsgIcon->setText("\uF1b0"); //icon music
-			break;
-		case 20 :
-			mMsgIcon->setText("\uF1c4"); //icon netplay
-			break;
-		case 50 :
-			mMsgIcon->setText("\uF200"); //icon recalbox
-			break;
-		default: break;
-	}
+  mMsgText = std::make_shared<TextComponent>(window, message, Font::get((int)FONT_SIZE_TEXT), menuTheme->menuText.color, TextAlignment::Left);
+	mMsgIcon = std::make_shared<TextComponent>(window, iconText, Font::get((int)FONT_SIZE_ICON), menuTheme->menuText.color, TextAlignment::Left);
 
 	mGrid.setEntry(mMsgText, Vector2i(1, 0), false, false);
 	mGrid.setEntry(mMsgIcon, Vector2i(0, 0), false, false);
 
-	if (noIcon){
+  float msgHeight;
+	if (icon == Icon::None)
+	{
 		mMsgText->setSize(maxWidth, 0);
 		msgHeight = Math::min(maxHeight, mMsgText->getSize().y());
 		mGrid.setColWidthPerc(1,1);
 	}
-
-	else {
+	else
+	{
 		mMsgText->setSize(maxWidth - mMsgIcon->getSize().y(), 0);
 		msgHeight = Math::min(maxHeight, Math::max(mMsgText->getSize().y(), mMsgIcon->getSize().y()));
 		mGrid.setColWidthPerc(0, (float)(mMsgIcon->getFont()->getSize() + paddingX) / maxWidth);
 	}
-
 	mGrid.setSize(maxWidth + (float)paddingX, msgHeight + (float)paddingY);
 
 	float posX = 0.0f, posY = 0.0f;
 
 	const std::string& posString = Settings::Instance().PopupPosition();
 
-	if (posString == "Top/Right"){
+	if (posString == "Top/Right")
+	{
 		posX = Renderer::getDisplayWidthAsFloat() * 0.98f - mGrid.getSize().x() * 0.98f;
 		posY = Renderer::getDisplayHeightAsFloat() * 0.02f;
 	}
-
-	else if (posString == "Bottom/Right"){
+	else if (posString == "Bottom/Right")
+	{
 		posX = Renderer::getDisplayWidthAsFloat() * 0.98f - mGrid.getSize().x() * 0.98f;
 		posY = Renderer::getDisplayHeightAsFloat() * 0.98f - mGrid.getSize().y()*0.98f;
 	}
-
-	else if (posString == "Bottom/Left"){
+	else if (posString == "Bottom/Left")
+	{
 		posX = Renderer::getDisplayWidthAsFloat() * 0.02f;
 		posY = Renderer::getDisplayHeightAsFloat() * 0.98f - mGrid.getSize().y()*0.98f;
 	}
-
-	else if (posString == "Top/Left"){
+	else if (posString == "Top/Left")
+	{
 		posX = Renderer::getDisplayWidthAsFloat() * 0.02f;
 		posY = Renderer::getDisplayHeightAsFloat() * 0.02f;
 	}
@@ -147,7 +138,8 @@ bool GuiInfoPopup::updateState()
 		running = false;
 		return false;
 	}
-	else if (curTime - mStartTime <= 500) {
+	else if (curTime - mStartTime <= 500)
+	{
 		alpha = ((curTime - mStartTime)*255/500);
 	}
 	else if (curTime - mStartTime < mDuration - 500)

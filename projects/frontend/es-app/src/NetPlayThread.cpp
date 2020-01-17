@@ -98,7 +98,7 @@ void NetPlayThread::ReceiveSyncCallback(const SDL_Event& event)
   int popupDuration = Settings::Instance().NetplayPopupTime();
   std::shared_ptr<GuiInfoPopup> popup = std::make_shared<GuiInfoPopup>(mWindow,
                                                                        mLastPopupText,
-                                                                       popupDuration, 10);
+                                                                       popupDuration, GuiInfoPopup::Icon::Netplay);
   mWindow.setInfoPopup(popup);
 }
 

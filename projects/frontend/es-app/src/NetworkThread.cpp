@@ -87,7 +87,7 @@ void NetworkThread::ReceiveSyncCallback(const SDL_Event& event)
   // Volatile popup
   if (!mPopupMessage.empty())
   {
-    std::shared_ptr<GuiInfoPopup> popup = std::make_shared<GuiInfoPopup>(mWindow, mPopupMessage, 30, 10);
+    std::shared_ptr<GuiInfoPopup> popup = std::make_shared<GuiInfoPopup>(mWindow, mPopupMessage, 120, GuiInfoPopup::Icon::Recalbox);
     mWindow.setInfoPopup(popup);
   }
 

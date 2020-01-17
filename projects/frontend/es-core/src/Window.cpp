@@ -317,7 +317,7 @@ bool Window::KonamiCode(InputDevice* config, InputEvent input, Window& window)
 
   if (this->mKonamiCount == sKonamiLength)
   {
-    auto s = std::make_shared<GuiInfoPopup>(*this, "I entered Konami Code and all I get is this lame popup", 4, 50);
+    auto s = std::make_shared<GuiInfoPopup>(*this, "I entered Konami Code and all I get is this lame popup", 4, GuiInfoPopup::Icon::Recalbox);
     this->setInfoPopup(s);
     return true;
   }
