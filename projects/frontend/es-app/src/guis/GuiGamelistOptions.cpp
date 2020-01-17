@@ -52,7 +52,7 @@ GuiGamelistOptions::GuiGamelistOptions(Window& window, SystemData* system)
 			}
 			return false;
 		};
-		mMenu.addRowWithHelp(row, _("JUMP TO LETTER"), _(MenuMessages::GAMELISTOPTION_JUMP_LETTER_MSG));
+		mMenu.addRowWithHelp(row, _("JUMP TO LETTER"), _(MENUMESSAGE_GAMELISTOPTION_JUMP_LETTER_MSG));
 	}
 
 	// sort list by
@@ -66,26 +66,26 @@ GuiGamelistOptions::GuiGamelistOptions(Window& window, SystemData* system)
 		mListSort->add(sortType.description, i, i == currentSortId);
 	}
 
-	mMenu.addWithLabel(mListSort, _("SORT GAMES BY"), _(MenuMessages::GAMELISTOPTION_SORT_GAMES_MSG));
+	mMenu.addWithLabel(mListSort, _("SORT GAMES BY"), _(MENUMESSAGE_GAMELISTOPTION_SORT_GAMES_MSG));
 	addSaveFunc([this, system] { RecalboxConf::Instance().SetInt(system->getName() + ".sort", mListSort->getSelected()); });
 
 	if (!system->isFavorite()) {
 	    // favorite only
         auto favorite_only = std::make_shared<SwitchComponent>(mWindow);
         favorite_only->setState(Settings::Instance().FavoritesOnly());
-        mMenu.addWithLabel(favorite_only, _("FAVORITES ONLY"), _(MenuMessages::GAMELISTOPTION_FAVORITES_ONLY_MSG));
+        mMenu.addWithLabel(favorite_only, _("FAVORITES ONLY"), _(MENUMESSAGE_GAMELISTOPTION_FAVORITES_ONLY_MSG));
         addSaveFunc([favorite_only] { Settings::Instance().SetFavoritesOnly(favorite_only->getState()); });
 
         // show hidden
         auto show_hidden = std::make_shared<SwitchComponent>(mWindow);
         show_hidden->setState(Settings::Instance().ShowHidden());
-        mMenu.addWithLabel(show_hidden, _("SHOW HIDDEN"), _(MenuMessages::GAMELISTOPTION_SHOW_HIDDEN_MSG));
+        mMenu.addWithLabel(show_hidden, _("SHOW HIDDEN"), _(MENUMESSAGE_GAMELISTOPTION_SHOW_HIDDEN_MSG));
         addSaveFunc([show_hidden] { Settings::Instance().SetShowHidden(show_hidden->getState()); });
 
     	// flat folders
         auto flat_folders = std::make_shared<SwitchComponent>(mWindow);
         flat_folders->setState(RecalboxConf::Instance().AsBool(system->getName() + ".flatfolder"));
-        mMenu.addWithLabel(flat_folders, _("SHOW FOLDERS CONTENT"), _(MenuMessages::GAMELISTOPTION_SHOW_FOLDER_CONTENT_MSG));
+        mMenu.addWithLabel(flat_folders, _("SHOW FOLDERS CONTENT"), _(MENUMESSAGE_GAMELISTOPTION_SHOW_FOLDER_CONTENT_MSG));
         addSaveFunc([flat_folders, system] { RecalboxConf::Instance().SetBool(system->getName() + ".flatfolder", flat_folders->getState()); });
     }
 
@@ -96,7 +96,7 @@ GuiGamelistOptions::GuiGamelistOptions(Window& window, SystemData* system)
 		row.addElement(std::make_shared<TextComponent>(mWindow, _("EDIT THIS GAME'S METADATA"), menuTheme->menuText.font, menuTheme->menuText.color), true);
 		row.addElement(makeArrow(mWindow), false);
 		row.makeAcceptInputHandler(std::bind(&GuiGamelistOptions::openMetaDataEd, this));
-		mMenu.addRowWithHelp(row, _("EDIT THIS GAME'S METADATA"), _(MenuMessages::GAMELISTOPTION_EDIT_METADATA_MSG));
+		mMenu.addRowWithHelp(row, _("EDIT THIS GAME'S METADATA"), _(MENUMESSAGE_GAMELISTOPTION_EDIT_METADATA_MSG));
 	}
 
 	if (!system->isFavorite()) {
@@ -112,7 +112,7 @@ GuiGamelistOptions::GuiGamelistOptions(Window& window, SystemData* system)
                                           _("NO"), [this] { mReloading = false; }
             ));
         });
-        mMenu.addRowWithHelp(row, _("UPDATE GAMES LISTS"), _(MenuMessages::UI_UPDATE_GAMELIST_HELP_MSG));
+        mMenu.addRowWithHelp(row, _("UPDATE GAMES LISTS"), _(MENUMESSAGE_UI_UPDATE_GAMELIST_HELP_MSG));
     }
 
 	// center the menu

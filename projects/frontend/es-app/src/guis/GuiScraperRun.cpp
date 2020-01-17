@@ -137,7 +137,7 @@ void GuiScraperRun::ScrapingComplete(ScrapeResult reason)
     case ScrapeResult::NotFound:
     case ScrapeResult::FatalError:
     {
-      finalReport = MenuMessages::SCRAPER_FINAL_POPUP;
+      finalReport = MENUMESSAGE_SCRAPER_FINAL_POPUP;
       finalReport = Strings::Replace(finalReport, "{PROCESSED}", Strings::ToString(mScraper->ScrapesTotal()));
       finalReport = Strings::Replace(finalReport, "{SUCCESS}", Strings::ToString(mScraper->ScrapesSuccessful()));
       finalReport = Strings::Replace(finalReport, "{NOTFOUND}", Strings::ToString(mScraper->ScrapesNotFound()));
@@ -157,12 +157,12 @@ void GuiScraperRun::ScrapingComplete(ScrapeResult reason)
     }
     case ScrapeResult::QuotaReached:
     {
-      finalReport = MenuMessages::SCRAPER_FINAL_QUOTA;
+      finalReport = MENUMESSAGE_SCRAPER_FINAL_QUOTA;
       break;
     }
     case ScrapeResult::DiskFull:
     {
-      finalReport = MenuMessages::SCRAPER_FINAL_DISKFULL;
+      finalReport = MENUMESSAGE_SCRAPER_FINAL_DISKFULL;
       break;
     }
   }

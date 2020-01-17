@@ -19,7 +19,7 @@ GuiScraperSelect::GuiScraperSelect(Window& window, SystemManager& systemManager)
   std::vector<std::string> scrapers = ScraperFactory::GetScraperList();
   for (auto& scraper : scrapers)
     mScrapers->add(scraper, scraper, scraper == Settings::Instance().Scraper());
-  mMenu.addWithLabel(mScrapers, _("SCRAPE FROM"), _(MenuMessages::SCRAPER_FROM_HELP_MSG));
+  mMenu.addWithLabel(mScrapers, _("SCRAPE FROM"), _(MENUMESSAGE_SCRAPER_FROM_HELP_MSG));
 
   mMenu.addButton(_("SCRAPE NOW"), "start", [&window, &systemManager] { window.pushGui(new GuiScraperOptions(window, systemManager)); });
   mMenu.addButton(_("BACK"), "back", [&] { Close(); });

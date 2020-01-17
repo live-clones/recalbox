@@ -136,7 +136,7 @@ GuiScraperOptions::GuiScraperOptions(Window& window, SystemManager& systemManage
   // scrape ratings
   mScrapeRatings = std::make_shared<SwitchComponent>(mWindow);
   mScrapeRatings->setState(Settings::Instance().ScrapeRatings());
-  mMenu.addWithLabel(mScrapeRatings, _("SCRAPE RATINGS"), _(MenuMessages::SCRAPER_RATINGS_HELP_MSG));
+  mMenu.addWithLabel(mScrapeRatings, _("SCRAPE RATINGS"), _(MENUMESSAGE_SCRAPER_RATINGS_HELP_MSG));
 
 	mMenu.addButton(_("START"), "start", std::bind(&GuiScraperOptions::pressedStart, this));
 	mMenu.addButton(_("BACK"), "back", [&] { Close(); });
