@@ -8,7 +8,7 @@
 #include "components/ImageComponent.h"
 #include "components/MenuComponent.h"
 #include "utils/Log.h"
-#include "LocaleHelper.h"
+#include "utils/locale/LocaleHelper.h"
 #include "MenuThemeData.h"
 
 //Used to display a list of options.
@@ -359,7 +359,7 @@ private:
 			// display # selected
 		  	char strbuf[256];
 			int x = getSelectedObjects().size();
-		  	snprintf(strbuf, 256, ngettext("%i SELECTED", "%i SELECTED", x).c_str(), x);
+		  	snprintf(strbuf, 256, _N("%i SELECTED", "%i SELECTED", x).c_str(), x);
 			mText.setText(strbuf);
 			mText.setSize(0, mText.getSize().y());
 			setSize(mText.getSize().x() + mRightArrow.getSize().x() + 24, mText.getSize().y());

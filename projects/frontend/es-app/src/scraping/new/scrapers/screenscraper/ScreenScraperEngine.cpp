@@ -6,7 +6,7 @@
 #include <RecalboxConf.h>
 #include <utils/hash/Md5.h>
 #include <utils/Zip.h>
-#include <LocaleHelper.h>
+#include <utils/locale/LocaleHelper.h>
 #include "ScreenScraperEngine.h"
 
 /*!
@@ -240,7 +240,7 @@ bool ScreenScraperEngine::RunOn(ScrappingMethod method, const SystemManager::Sys
   // Get screenscraper's thread
   ScreenScraperApis apis(this);
   int threadCount = apis.GetUserInformation().mThreads;
-  mDatabaseMessage = Strings::Replace(ngettext("ONLY 1 SCRAPPING ENGINE", "%i SCRAPPING ENGINES", threadCount), "%i", Strings::ToString(threadCount))
+  mDatabaseMessage = Strings::Replace(_N("ONLY 1 SCRAPPING ENGINE", "%i SCRAPPING ENGINES", threadCount), "%i", Strings::ToString(threadCount))
                      .append(" - ")
                      .append(_("PLEASE VISIT"))
                      .append(" HTTP://WWW.SCREENSCRAPER.FR");

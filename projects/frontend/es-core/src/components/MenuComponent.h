@@ -9,7 +9,7 @@
 #include "components/ComponentGrid.h"
 #include "Window.h"
 #include "MenuThemeData.h"
-#include "LocaleHelper.h"
+#include "utils/locale/LocaleHelper.h"
 #include "guis/GuiMsgBoxScroll.h"
 #include "DateTimeComponent.h"
 

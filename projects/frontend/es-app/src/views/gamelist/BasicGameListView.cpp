@@ -6,7 +6,7 @@
 #include "systems/SystemData.h"
 #include "FileSorts.h"
 #include "Settings.h"
-#include "LocaleHelper.h"
+#include "utils/locale/LocaleHelper.h"
 #include "SystemIcons.h"
 #include <recalbox/RecalboxSystem.h>
 

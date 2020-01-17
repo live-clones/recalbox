@@ -4,7 +4,7 @@
 #include "views/ViewController.h"
 #include "Settings.h"
 #include "animations/LambdaAnimation.h"
-#include "LocaleHelper.h"
+#include "utils/locale/LocaleHelper.h"
 
 DetailedGameListView::DetailedGameListView(Window&window, SystemManager& systemManager, FolderData* root)
 : BasicGameListView(window, systemManager, root),
@@ -394,7 +394,7 @@ void DetailedGameListView::setFolderInfo(FolderData* folder)
   char strbuf[256];
 
   FileData::List games = folder->getAllDisplayableItemsRecursively(false);
-  snprintf(strbuf, 256, ngettext("%i GAME AVAILABLE", "%i GAMES AVAILABLE", (int) games.size()).c_str(), games.size());
+  snprintf(strbuf, 256, _N("%i GAME AVAILABLE", "%i GAMES AVAILABLE", (int) games.size()).c_str(), games.size());
   mFolderName.setText(folder->getName() + " - " + strbuf);
 
   unsigned char idx = 0;

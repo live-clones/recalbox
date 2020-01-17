@@ -1,6 +1,6 @@
 #include "MetadataDescriptor.h"
 #include "MetadataFieldDescriptor.h"
-#include "LocaleHelper.h"
+#include "utils/locale/LocaleHelper.h"
 #include "utils/Log.h"
 
 // TODO: Use const char* instead

@@ -313,7 +313,7 @@ int VideoEngine::DecodeAudioFrame(AVCodecContext& audioContext, unsigned char* b
     while (packetSize > 0)
     {
       int gotFrame = 0;
-      int size = avcodec_decode_audio4(&audioContext, frame, &gotFrame, &packet);
+      int size = -1; //avcodec_decode_audio4(&audioContext, frame, &gotFrame, &packet);
       // if error, skip frame
       if (size < 0) { packetSize = 0; break; }
 

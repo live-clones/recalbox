@@ -2,7 +2,7 @@
 #include "views/gamelist/GridGameListView.h"
 #include "Window.h"
 #include "Settings.h"
-#include "LocaleHelper.h"
+#include "utils/locale/LocaleHelper.h"
 
 GridGameListView::GridGameListView(Window&window, FolderData* root)
   : ISimpleGameListView(window, mSystemManager, root),

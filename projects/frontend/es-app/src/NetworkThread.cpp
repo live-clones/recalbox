@@ -9,7 +9,7 @@
 #include "NetworkThread.h"
 #include "recalbox/RecalboxUpgrade.h"
 #include "RecalboxConf.h"
-#include "LocaleHelper.h"
+#include "utils/locale/LocaleHelper.h"
 
 NetworkThread::NetworkThread(Window&window)
   : mWindow(window),

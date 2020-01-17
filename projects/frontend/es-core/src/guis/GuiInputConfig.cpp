@@ -1,4 +1,4 @@
-#include "LocaleHelper.h"
+#include "utils/locale/LocaleHelper.h"
 #include "guis/GuiInputConfig.h"
 #include "Window.h"
 #include "utils/Log.h"

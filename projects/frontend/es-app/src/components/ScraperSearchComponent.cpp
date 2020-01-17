@@ -11,7 +11,7 @@
 #include "utils/Log.h"
 #include "guis/GuiTextEditPopup.h"
 #include "guis/GuiTextEditPopupKeyboard.h"
-#include "LocaleHelper.h"
+#include "utils/locale/LocaleHelper.h"
 #include "MenuThemeData.h"
 
 ScraperSearchComponent::ScraperSearchComponent(Window& window)

@@ -9,7 +9,7 @@
 #include "components/HelpComponent.h"
 #include "components/ImageComponent.h"
 #include "guis/GuiMsgBox.h"
-#include "LocaleHelper.h"
+#include "utils/locale/LocaleHelper.h"
 #include "MenuThemeData.h"
 #include "views/ViewController.h"
 

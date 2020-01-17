@@ -6,7 +6,7 @@
 #include "components/ComponentGrid.h"
 #include "components/ComponentList.h"
 #include "input/InputStack.h"
-#include "LocaleHelper.h"
+#include "utils/locale/LocaleHelper.h"
 
 class TextComponent;
 

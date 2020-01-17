@@ -8,7 +8,7 @@
 #include "themes/ThemeData.h"
 #include "RootFolders.h"
 #include "utils/sdl2/SyncronousEventService.h"
-#include "LocaleHelper.h"
+#include "utils/locale/LocaleHelper.h"
 #include <utils/Strings.h>
 
 AudioManager* AudioManager::sInstance;

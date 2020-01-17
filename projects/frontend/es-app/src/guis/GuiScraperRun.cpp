@@ -11,7 +11,7 @@
 #include "components/ScraperSearchComponent.h"
 #include "components/MenuComponent.h" // for makeButtonGrid
 #include "guis/GuiMsgBox.h"
-#include "LocaleHelper.h"
+#include "utils/locale/LocaleHelper.h"
 #include "MenuThemeData.h"
 #include "MenuMessages.h"
 

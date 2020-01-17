@@ -1,7 +1,7 @@
 #include "guis/GuiTextEditPopup.h"
 #include "components/MenuComponent.h"
 #include "components/ButtonComponent.h"
-#include "LocaleHelper.h"
+#include "utils/locale/LocaleHelper.h"
 #include "MenuThemeData.h"
 
 GuiTextEditPopup::GuiTextEditPopup(Window& window, const std::string& title, const std::string& initValue,

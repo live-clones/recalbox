@@ -3,7 +3,7 @@
 //
 
 #include <MenuThemeData.h>
-#include <LocaleHelper.h>
+#include <utils/locale/LocaleHelper.h>
 #include <components/TextComponent.h>
 #include <components/ButtonComponent.h>
 #include <components/ScrollableContainer.h>

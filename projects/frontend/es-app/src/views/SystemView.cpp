@@ -377,20 +377,20 @@ void SystemView::onCursorChanged(const CursorState& state)
 	setAnimation(infoFadeOut, 0, [this, favoritesCount, gameNoHiddenCount, hiddenCount] {
 		char strbuf[256];
 		if(favoritesCount == 0 && hiddenCount == 0) {
-			snprintf(strbuf, 256, ngettext("%i GAME AVAILABLE", "%i GAMES AVAILABLE", gameNoHiddenCount).c_str(), gameNoHiddenCount);
+			snprintf(strbuf, 256, _N("%i GAME AVAILABLE", "%i GAMES AVAILABLE", gameNoHiddenCount).c_str(), gameNoHiddenCount);
 		}else if (favoritesCount != 0 && hiddenCount == 0) {
 			snprintf(strbuf, 256,
-				(ngettext("%i GAME AVAILABLE", "%i GAMES AVAILABLE", gameNoHiddenCount) + ", " +
-				 ngettext("%i FAVORITE", "%i FAVORITES", favoritesCount)).c_str(), gameNoHiddenCount, favoritesCount);
+				(_N("%i GAME AVAILABLE", "%i GAMES AVAILABLE", gameNoHiddenCount) + ", " +
+         _N("%i FAVORITE", "%i FAVORITES", favoritesCount)).c_str(), gameNoHiddenCount, favoritesCount);
 		}else if (favoritesCount == 0 && hiddenCount != 0) {
 			snprintf(strbuf, 256,
-				(ngettext("%i GAME AVAILABLE", "%i GAMES AVAILABLE", gameNoHiddenCount) + ", " +
-				 ngettext("%i GAME HIDDEN", "%i GAMES HIDDEN", hiddenCount)).c_str(), gameNoHiddenCount, hiddenCount);
+				(_N("%i GAME AVAILABLE", "%i GAMES AVAILABLE", gameNoHiddenCount) + ", " +
+         _N("%i GAME HIDDEN", "%i GAMES HIDDEN", hiddenCount)).c_str(), gameNoHiddenCount, hiddenCount);
 		}else {
 			snprintf(strbuf, 256,
-				(ngettext("%i GAME AVAILABLE", "%i GAMES AVAILABLE", gameNoHiddenCount) + ", " +
-				 ngettext("%i GAME HIDDEN", "%i GAMES HIDDEN", hiddenCount) + ", " +
-				 ngettext("%i FAVORITE", "%i FAVORITES", favoritesCount)).c_str(), gameNoHiddenCount, hiddenCount, favoritesCount);
+				(_N("%i GAME AVAILABLE", "%i GAMES AVAILABLE", gameNoHiddenCount) + ", " +
+         _N("%i GAME HIDDEN", "%i GAMES HIDDEN", hiddenCount) + ", " +
+         _N("%i FAVORITE", "%i FAVORITES", favoritesCount)).c_str(), gameNoHiddenCount, hiddenCount, favoritesCount);
 		}
 		mSystemInfo.setText(strbuf);
 	}, false, 1);

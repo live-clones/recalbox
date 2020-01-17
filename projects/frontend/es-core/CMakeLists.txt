@@ -15,7 +15,7 @@ set(CORE_HEADERS
 		src/input/InputManager.h
 		src/input/InputStack.h
 		src/utils/Log.h
-        src/LocaleHelper.h
+		src/utils/locale/LocaleHelper.h
 		src/Music.h
 		src/platform.h
 		src/Renderer.h
@@ -42,6 +42,7 @@ set(CORE_HEADERS
         src/utils/os/system/IThreadPoolWorkerInterface.h
 		src/utils/os/system/Mutex.h
 		src/utils/datetime/HighResolutionTimer.h
+		src/utils/locale/Internationalizer.h
 		src/utils/math/Vectors.h
 		src/utils/math/Vector2i.h
 		src/utils/math/Vector2f.h
@@ -144,6 +145,7 @@ set(CORE_SOURCES
 		src/utils/os/system/Mutex.cpp
 		src/utils/os/fs/Path.cpp
 		src/utils/os/fs/StringMapFile.cpp
+		src/utils/locale/Internationalizer.cpp
 		src/utils/math/Vector2i.cpp
 		src/utils/math/Vector2f.cpp
 		src/utils/math/Vector3f.cpp

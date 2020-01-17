@@ -1,10 +1,12 @@
 //
 // Created by bkg2k on 13/11/2019.
 //
-#include <LocaleHelper.h>
+#include <utils/locale/LocaleHelper.h>
 #include <utils/os/fs/Path.h>
 #include <utils/Log.h>
 #include <utils/Files.h>
+#include <utils/locale/Internationalizer.h>
+#include <utils/sdl2/SyncronousEventService.h>
 #include <AudioManager.h>
 #include <views/ViewController.h>
 #include <systems/SystemManager.h>
@@ -13,7 +15,6 @@
 #include <RecalboxConf.h>
 #include <VideoEngine.h>
 #include <guis/GuiDetectDevice.h>
-#include <utils/sdl2/SyncronousEventService.h>
 #include <bios/BiosManager.h>
 #include "MainRunner.h"
 #include "EmulationStation.h"
@@ -324,15 +325,17 @@ void MainRunner::SetLocale(const std::string& executablePath)
   path = path.Directory(); // Get executable folder
   if (path.IsEmpty() || !path.Exists())
   {
-    LOG(LogError) << "Error getting path";
+    LOG(LogError) << "Error getting executable path (received: " << executablePath << ')';
   }
 
-  setlocale(LC_ALL,"");
-  path = path / "locale/lang";
-  bindtextdomain("emulationstation2", path.ToChars());
-  textdomain("emulationstation2");
+  // Get locale from configuration
+  std::string localeName = RecalboxConf::Instance().AsString("system.language", "en");
 
-  LOG(LogInfo) << "Locals set...";
+  // Set locale
+  if (!Internationalizer::InitializeLocale(localeName,
+                                           { path / "locale/lang", Path("/usr/share/locale") },
+                                           "emulationstation2"))
+    LOG(LogError) << "No locale found. Default text used.";
 }
 
 void MainRunner::SetArchitecture()

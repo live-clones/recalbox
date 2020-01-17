@@ -5,7 +5,7 @@
 #include "guis/GuiInputConfig.h"
 #include "components/TextComponent.h"
 #include <string>
-#include "LocaleHelper.h"
+#include "utils/locale/LocaleHelper.h"
 #include "MenuThemeData.h"
 
 #define HOLD_TIME 1000
@@ -42,7 +42,7 @@ GuiDetectDevice::GuiDetectDevice(Window& window, bool firstRun, const std::funct
 	
 	if(numDevices > 0) {
 	  char strbuf[256];
-	  snprintf(strbuf, 256, ngettext("%i GAMEPAD DETECTED", "%i GAMEPADS DETECTED", numDevices).c_str(), numDevices);
+	  snprintf(strbuf, 256, _N("%i GAMEPAD DETECTED", "%i GAMEPADS DETECTED", numDevices).c_str(), numDevices);
 	  deviceInfo = strbuf;
 	}
 	else

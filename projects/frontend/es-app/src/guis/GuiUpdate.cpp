@@ -3,7 +3,7 @@
 
 #include "utils/Log.h"
 #include "recalbox/RecalboxSystem.h"
-#include "LocaleHelper.h"
+#include "utils/locale/LocaleHelper.h"
 #include <recalbox/RecalboxUpgrade.h>
 #include <MainRunner.h>
 

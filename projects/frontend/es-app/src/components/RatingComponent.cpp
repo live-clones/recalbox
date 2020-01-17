@@ -1,4 +1,4 @@
-#include <LocaleHelper.h>
+#include <utils/locale/LocaleHelper.h>
 #include "components/RatingComponent.h"
 #include "Renderer.h"
 #include "Window.h"

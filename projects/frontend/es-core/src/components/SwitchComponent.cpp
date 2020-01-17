@@ -2,7 +2,7 @@
 #include "Renderer.h"
 #include "resources/Font.h"
 #include "Window.h"
-#include "LocaleHelper.h"
+#include "utils/locale/LocaleHelper.h"
 #include "MenuThemeData.h"
 
 SwitchComponent::SwitchComponent(Window&window)

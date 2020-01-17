@@ -8,7 +8,7 @@
 
 #include "components/OptionListComponent.h"
 #include "components/SwitchComponent.h"
-#include "LocaleHelper.h"
+#include "utils/locale/LocaleHelper.h"
 #include "Settings.h"
 
 GuiScraperOptions::GuiScraperOptions(Window& window, SystemManager& systemManager)

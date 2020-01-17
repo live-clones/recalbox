@@ -2,7 +2,7 @@
 #include "Window.h"
 #include "Settings.h"
 #include "views/ViewController.h"
-#include "LocaleHelper.h"
+#include "utils/locale/LocaleHelper.h"
 
 GuiSettings::GuiSettings(Window&window, const char* title)
   : Gui(window),

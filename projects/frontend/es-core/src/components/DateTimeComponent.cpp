@@ -3,7 +3,7 @@
 #include "Renderer.h"
 #include "Window.h"
 #include "utils/Log.h"
-#include "LocaleHelper.h"
+#include "utils/locale/LocaleHelper.h"
 #include "MenuThemeData.h"
 
 DateTimeComponent::DateTimeComponent(Window&window, Display dispMode)
@@ -192,10 +192,10 @@ std::string DateTimeComponent::getDisplayString(Display mode) const
 			TimeSpan diff = DateTime() - mTime;
 
 			if (diff.TotalSeconds() < 2) return _("just now");
-			if (diff.TotalSeconds() < 60) { snprintf(strbuf, sizeof(strbuf), ngettext("%i sec ago", "%i secs ago", diff.TotalSeconds()).c_str(), diff.TotalSeconds()); return strbuf; }
-			if (diff.TotalMinutes() < 60) { snprintf(strbuf, sizeof(strbuf), ngettext("%i min ago", "%i mins ago", diff.TotalMinutes()).c_str(), diff.TotalMinutes()); return strbuf; }
-			if (diff.TotalHours()   < 24) { snprintf(strbuf, sizeof(strbuf), ngettext("%i hour ago", "%i hours ago", diff.TotalHours()).c_str(), diff.TotalHours()); return strbuf; }
-			snprintf(strbuf, sizeof(strbuf), ngettext("%i day ago", "%i days ago", diff.TotalDays()).c_str(), diff.TotalDays());
+			if (diff.TotalSeconds() < 60) { snprintf(strbuf, sizeof(strbuf), _N("%i sec ago", "%i secs ago", diff.TotalSeconds()).c_str(), diff.TotalSeconds()); return strbuf; }
+			if (diff.TotalMinutes() < 60) { snprintf(strbuf, sizeof(strbuf), _N("%i min ago", "%i mins ago", diff.TotalMinutes()).c_str(), diff.TotalMinutes()); return strbuf; }
+			if (diff.TotalHours()   < 24) { snprintf(strbuf, sizeof(strbuf), _N("%i hour ago", "%i hours ago", diff.TotalHours()).c_str(), diff.TotalHours()); return strbuf; }
+			snprintf(strbuf, sizeof(strbuf), _N("%i day ago", "%i days ago", diff.TotalDays()).c_str(), diff.TotalDays());
 			return strbuf;
 		}
 	  default: break;

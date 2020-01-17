@@ -2,7 +2,7 @@
 // Created by bkg2k on 02/01/2020.
 //
 
-#include <LocaleHelper.h>
+#include <utils/locale/LocaleHelper.h>
 #include <MenuThemeData.h>
 #include <components/TextComponent.h>
 #include "components/MenuComponent.h" // for makeButtonGrid
