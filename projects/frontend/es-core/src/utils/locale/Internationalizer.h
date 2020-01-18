@@ -75,6 +75,15 @@ class Internationalizer
      */
     static bool BuildFastLookupIndexes();
 
+    /*!
+     * @brief Check if a string contains a NUL and return the NUL position
+     * @param string string to check
+     * @param length original length
+     * @param newlength new length or 0 if not found
+     * @return True if a NUL has been found
+     */
+    static bool HasPlural(const char* string, int length, int& newlength);
+
   public:
     /*!
      * @brief Initialize .mo file, regarding the application name

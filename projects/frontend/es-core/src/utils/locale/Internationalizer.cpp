@@ -61,7 +61,24 @@ std::string Internationalizer::sActiveLocale = "NONE";
 //               ...                                    ...
 //              |                                          |
 //              +------------------------------------------+
-             
+
+bool Internationalizer::HasPlural(const char* string, int length, int& newlength)
+{
+  for(int left = 0, right = length - 1; ++left <= --right; )
+    if (string[left] == 0)
+    {
+      newlength = left;
+      return true;
+    }
+    else if (string[right] == 0)
+    {
+      newlength = right;
+      return true;
+    }
+
+  return false;
+}
+
 bool Internationalizer::BuildStringIndexes()
 {
   // Everything is stored in the byte order of the generator
@@ -76,36 +93,64 @@ bool Internationalizer::BuildStringIndexes()
   int count = i32[2];
 
   // Read offsets
-  int keyOffset         = i32[3] / 4; // Assuming both string tables are 4 bytes aligned
-  int TranslationOffset = i32[4] / 4;
+  int keyTable        = i32[3] / 4; // Assuming both string tables are 4 bytes aligned
+  int TranslatedTable = i32[4] / 4;
 
   // Read original table
-  sStrings.reserve(count);
+  sStrings.reserve(count * 2);
   for(int i = count; --i >= 0; )
   {
-    int keylength = i32[keyOffset++];
-    int keyoffset = i32[keyOffset++];
-    if ((keyoffset >= (int)sMoFlatFile.size()) ||
-      (keyoffset + keylength >= (int)sMoFlatFile.size()))
+    // Get original string
+    int keyLength = i32[keyTable++];
+    int keyOffset = i32[keyTable++];
+    if ((keyOffset >= (int)sMoFlatFile.size()) ||
+        (keyOffset + keyLength >= (int)sMoFlatFile.size()))
     {
       LOG(LogError) << "Invalid .mo file. Index out of range";
       return false;
     }
-    const char* key = ((char*)i32) + keyoffset;
-    int h1 = 0, h2 = 0;
-    Hash(key, keylength, h1, h2);
+    const char* key = ((char*)i32) + keyOffset;
 
-    int translength = i32[TranslationOffset++];
-    int transoffset = i32[TranslationOffset++];
-    if ((transoffset >= (int)sMoFlatFile.size()) ||
-        (transoffset + translength >= (int)sMoFlatFile.size()))
+    // Get translated string
+    int transLength = i32[TranslatedTable++];
+    int transOffset = i32[TranslatedTable++];
+    if ((transOffset >= (int)sMoFlatFile.size()) ||
+        (transOffset + transLength >= (int)sMoFlatFile.size()))
     {
       LOG(LogError) << "Invalid .mo file. Index out of range";
       return false;
     }
-    const char* translated = ((char*)i32) + transoffset;
+    const char* translated = ((char*)i32) + transOffset;
 
-    sStrings.push_back({ key, translated, keylength, translength, h1, h2 });
+    int keySplit = 0;
+    if ((keyLength >= 3) && HasPlural(key, keyLength, keySplit))
+    {
+      // Check consistency
+      int translatedSplit = 0;
+      if (!HasPlural(translated, transLength, translatedSplit))
+      {
+        LOG(LogError) << "Inconsistent plural form in .mo file. Ignored";
+        return false;
+      }
+
+      // Add singular form
+      int h1 = 0, h2 = 0;
+      Hash(key, keySplit, h1, h2);
+      sStrings.push_back({key, translated, keySplit, translatedSplit, h1, h2 });
+
+      // Add plural form
+      key += keySplit + 1; keyLength -= keySplit + 1;
+      translated += translatedSplit + 1; transLength -= translatedSplit + 1;
+      Hash(key, keyLength, h1, h2);
+      sStrings.push_back({key, translated, keyLength, transLength, h1, h2 });
+    }
+    else
+    {
+      // Add normal strings
+      int h1 = 0, h2 = 0;
+      Hash(key, keyLength, h1, h2);
+      sStrings.push_back({key, translated, keyLength, transLength, h1, h2 });
+    }
   }
 
   return true;
@@ -202,6 +247,12 @@ std::string Internationalizer::GetText(const char* key, int keyLength)
   return std::string(key, keyLength);
 }
 
+/*
+ * This is NOT a non-reversible and secure hash algorithm.
+ * However this a simple, fast and efficient string hash algorithm.
+ * To prevent collisons, a double hash is performed so that there is no
+ * need to compare strings.
+ */
 void Internationalizer::Hash(const char* string, int length, int& hash1, int& hash2)
 {
   unsigned int h1 = -length, h2 = length;
