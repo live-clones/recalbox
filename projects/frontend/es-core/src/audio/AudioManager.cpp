@@ -173,45 +173,66 @@ void AudioManager::StartPlaying(const ThemeData& theme)
 }
 
 void AudioManager::PlayRandomMusic()
+{
+  enum class MusicSource
   {
+    None,        //!< Not selected yet
+    ThemeSystem, //!< Theme music for thiescurrent system
+    Theme,       //!< Theme musics
+    User,        //!< User musics
+  };
+
   Path previousPath = Music::CurrentlyPlaying() != nullptr ? Music::CurrentlyPlaying()->FilePath() : Path::Empty;
   AudioHandle musicToPlay = 0;
   const char* log = "No music found.";
+  MusicSource source = MusicSource::None;
 
   // check Theme music first
   if (!mThemeMusic.IsEmpty())
   {
     musicToPlay = LoadMusic(mThemeMusic);
     log = "Theme music found (Background).";
+    source = MusicSource::ThemeSystem;
   }
 
   // Then check user folder
   Path userMusics = Path(Settings::Instance().MusicDirectory());
-  if (musicToPlay == 0 && !userMusics.IsEmpty())
+  if (source == MusicSource::None && !userMusics.IsEmpty())
   {
     Path musicPath = FetchRandomMusic(userMusics, previousPath);
     if (!musicPath.IsEmpty())
     {
       musicToPlay = LoadMusic(musicPath);
       log = "User music found.";
+      source = MusicSource::User;
     }
   }
 
   // Finally check theme folder
-  if (musicToPlay == 0 && !mThemeMusicFolder.IsEmpty())
+  if (source == MusicSource::None && !mThemeMusicFolder.IsEmpty())
   {
     Path musicPath = FetchRandomMusic(mThemeMusicFolder, previousPath);
     if (!musicPath.IsEmpty())
     {
       musicToPlay = LoadMusic(musicPath);
       log = "Theme music found (From theme folder).";
+      source = MusicSource::ThemeSystem;
     }
   }
 
   LOG(LogInfo) << "AudioManager: " << log;
+  if (source == MusicSource::None)
+  {
+    LOG(LogError) << "No music source!";
+    return;
+  }
 
   // Do not relaunch currently playing song
   if (mCurrentMusic == musicToPlay)
+    return;
+
+  // Do not interrupt musics except for a theme system music
+  if (mCurrentMusic != 0 && source != MusicSource::ThemeSystem)
     return;
 
   // Play!
@@ -279,5 +300,6 @@ Path AudioManager::FetchRandomMusic(const Path& from, const Path& previousPath)
 void AudioManager::ReceiveSyncCallback(const SDL_Event& event)
 {
   (void)event;
+  mCurrentMusic = 0;
   PlayRandomMusic();
 }
