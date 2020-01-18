@@ -47,7 +47,7 @@ void Music::Finalize()
   if (sCurrentlyPlaying == this)
     sCurrentlyPlaying = nullptr;
 
-  // Valid DSL music?
+  // Valid SDL music?
   if (mMusic != nullptr)
   {
     Mix_FreeMusic(mMusic);

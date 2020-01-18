@@ -60,12 +60,12 @@ class AudioManager : private ISynchronousEvent
     /*!
      * @brief Initialize SDL audio
      */
-    static void Initialize();
+    void Initialize();
 
     /*!
      * @brief Finalize SDL audio and free sound & music objects
      */
-    static void Finalize();
+    void Finalize();
 
     /*!
      * @brief List music file from the given folder
@@ -86,6 +86,7 @@ class AudioManager : private ISynchronousEvent
      * @param allowTheSame Allow the same music to replay
      */
     void PlayRandomMusic();
+
   public:
     /*!
      * @brief Constructor - act as a singleton (Multiple instance is not possible)
@@ -151,9 +152,17 @@ class AudioManager : private ISynchronousEvent
     void StartPlaying(const ThemeData& theme);
 
     /*!
+     * @brief Clear cached musics/sounds
+     */
+    void ClearCaches();
+
+    /*!
      * @brief Deactivate the sound system to allow external application to run
      */
-    static void Deactivate() { Finalize(); }
+    void Deactivate()
+    {
+      Finalize();
+    }
 
     /*!
      * @brief Reactivate the sound system if it has been previously deactivated.
