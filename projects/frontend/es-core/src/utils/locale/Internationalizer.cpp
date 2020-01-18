@@ -5,6 +5,7 @@
 #include "Internationalizer.h"
 #include <utils/Log.h>
 #include <utils/Files.h>
+#include <cstring>
 
 // Instances
 std::string Internationalizer::sMoFlatFile;
@@ -207,6 +208,8 @@ bool Internationalizer::LoadMoFile(const std::string& culture, const Path& basep
 
 bool Internationalizer::InitializeLocale(const std::string& culture, const std::vector<Path>& basepath, const std::string& applicationname)
 {
+  CleanUp();
+
   // Check culture
   for(const Path& path : basepath)
     if (LoadMoFile(culture, path, applicationname))
@@ -307,4 +310,12 @@ void Internationalizer::Hash(const char* string, int length, int& hash1, int& ha
   // Store final hashes
   hash1 = (int)h1;
   hash2 = (int)h2;
+}
+
+void Internationalizer::CleanUp()
+{
+  sActiveLocale.clear();
+  memset(sIndexes, 0, sizeof(sIndexes));
+  sStrings.clear();
+  sMoFlatFile.clear();
 }

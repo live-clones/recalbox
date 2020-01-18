@@ -84,6 +84,11 @@ class Internationalizer
      */
     static bool HasPlural(const char* string, int length, int& newlength);
 
+    /*!
+     * @brief Clean up any previous data when reloading
+     */
+    static void CleanUp();
+
   public:
     /*!
      * @brief Initialize .mo file, regarding the application name
