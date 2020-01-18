@@ -79,6 +79,7 @@ void HelpComponent::UpdateHelps()
 		mGrid->setColWidthPerc(col, icons.at(i)->getSize().x() / width);
 		mGrid->setColWidthPerc(col + 1, ICON_TEXT_SPACING / width);
 		mGrid->setColWidthPerc(col + 2, labels.at(i)->getSize().x() / width);
+    mGrid->setColWidthPerc(col + 3, ENTRY_SPACING / width);
 
 		mGrid->setEntry(icons.at(i), Vector2i(col, 0), false, false);
 		mGrid->setEntry(labels.at(i), Vector2i(col + 2, 0), false, false);
