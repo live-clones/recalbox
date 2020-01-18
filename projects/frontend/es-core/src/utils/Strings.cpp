@@ -671,7 +671,7 @@ std::string Strings::ToHexa(int hex)
 {
   char Buffer[10];
   int Index = sizeof(Buffer);
-  do { Buffer[--Index] = HexaChars[hex & 0xF]; hex >>= 4; } while(hex != 0);
+  do { Buffer[--Index] = HexaChars[hex & 0xF]; hex = (int)((unsigned int)hex >> 4); } while(hex != 0);
   return std::string(Buffer + Index, sizeof(Buffer) - Index);
 }
 
@@ -679,7 +679,7 @@ std::string Strings::ToHexa(long long hex)
 {
   char Buffer[18];
   int Index = sizeof(Buffer);
-  do { Buffer[--Index] = HexaChars[hex & 0xF]; hex >>= 4; } while(hex != 0);
+  do { Buffer[--Index] = HexaChars[hex & 0xF]; hex = (long long)((unsigned long long)hex >> 4); } while(hex != 0);
   return std::string(Buffer + Index, sizeof(Buffer) - Index);
 }
 
@@ -688,7 +688,7 @@ std::string Strings::ToHexa(int hex, int length)
   char Buffer[10];
   if ((unsigned int)length > 8) length = 8;
   int Index = sizeof(Buffer);
-  do { Buffer[--Index] = HexaChars[hex & 0xF]; hex >>= 4; } while(--length != 0);
+  do { Buffer[--Index] = HexaChars[hex & 0xF]; hex = (int)((unsigned int)hex >> 4); } while(--length != 0);
   return std::string(Buffer + Index, sizeof(Buffer) - Index);
 }
 
@@ -697,7 +697,7 @@ std::string Strings::ToHexa(long long hex, int length)
   char Buffer[18];
   if ((unsigned int)length > 16) length = 16;
   int Index = sizeof(Buffer);
-  do { Buffer[--Index] = HexaChars[hex & 0xF]; hex >>= 4; } while(--length != 0);
+  do { Buffer[--Index] = HexaChars[hex & 0xF]; hex = (long long)((unsigned long long)hex >> 4); } while(--length != 0);
   return std::string(Buffer + Index, sizeof(Buffer) - Index);
 }
 
