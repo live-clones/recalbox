@@ -16,6 +16,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Bump DosBox to r4290
 - Bump ScummVM to 2.1.0
 - Bump ResidualVM (2019-12)
+- Rewrite scraper with more options & video support
+- Improve ES stability
+- Decrease ES's memory requirements
+- Optimize ES boot time
+
 
 ## [6.1.1]
 - Add zfast shaders
