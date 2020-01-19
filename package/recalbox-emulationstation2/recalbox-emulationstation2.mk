@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-RECALBOX_EMULATIONSTATION2_VERSION = 4e5f6f623caf37bd82ad220bcf528193714d47d4
+RECALBOX_EMULATIONSTATION2_VERSION = a8fdf7deb7c29add1347db01f53cfd6bb8bcdda1
 RECALBOX_EMULATIONSTATION2_SITE = https://gitlab.com/recalbox/recalbox-emulationstation.git
 RECALBOX_EMULATIONSTATION2_SITE_METHOD = git
 RECALBOX_EMULATIONSTATION2_LICENSE = MIT
