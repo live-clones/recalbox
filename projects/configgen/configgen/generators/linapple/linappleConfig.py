@@ -5,6 +5,7 @@ Created on Mar 6, 2016
 '''
 import os
 import re
+import subprocess
 
 joystick_translator = {
         # linapple : recalboxOS
@@ -159,6 +160,10 @@ class LinappleConfig(object):
             filename (str):
                 Path and filename of the current disk.
         '''
+        ''' force fullscreen on x86 x86_64 '''
+        cpu = subprocess.check_output(['uname', '-m']).lower()
+        self.settings['Fullscreen'] = '1' if 'x86' in cpu else '0'
+
         if filename:
             self.settings['Boot at Startup'] = '1'
             self.settings['Disk Image 1'] = filename
