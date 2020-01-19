@@ -20,6 +20,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Improve ES stability
 - Decrease ES's memory requirements
 - Optimize ES boot time
+- Fix fulscreen for oric and apple2 on x86/x86_64
+- Fix apple2 on x86/x86_64
 
 
 ## [6.1.1]
