@@ -47,8 +47,9 @@ class OricutronGenerator(Generator):
                 settings.setOption("sdljoy2_fire2", controller.inputs["b"].id)
 
         # force values
-        cpu = subprocess.check_output(['uname', '-m']).lower()
-        settings.setOption("fullscreen", "no" if "x86" in cpu else "yes")
+        # cpu = subprocess.check_output(['uname', '-m']).lower()
+        # settings.setOption("fullscreen", "yes" if "x86" in cpu else "yes")
+        settings.setOption("fullscreen", "yes")
         settings.setOption("rendermode", "soft")
 
         # default values
