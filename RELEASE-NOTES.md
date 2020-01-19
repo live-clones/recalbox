@@ -30,6 +30,8 @@
 - Fix music popup crashes
 - Fix music loop play
 - Fix netplay popup crashes
+- Fix apple2 not work on x86/x86_64
+- Fix fullscreeen on oricatmos and apple2 on x86/x86_64 
 
 
 ## Version 6.1.1
