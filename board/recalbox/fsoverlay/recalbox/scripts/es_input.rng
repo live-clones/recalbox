@@ -63,6 +63,8 @@
         <value>hotkey</value>
         <value>pageup</value>
         <value>pagedown</value>
+        <value>l1</value>
+        <value>r1</value>
         <value>l2</value>
         <value>r2</value>
         <value>l3</value>
