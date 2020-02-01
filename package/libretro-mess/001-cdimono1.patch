@@ -1,0 +1,31 @@
+--- a/src/mame/drivers/cdi.cpp	2020-01-07 16:43:04.000000000 +0100
++++ b/src/mame/drivers/cdi.cpp	2020-01-20 18:25:42.959027624 +0100
+@@ -723,7 +723,7 @@
+ *        Rom Load        *
+ *************************/
+ 
+-ROM_START( cdimono1 )
++ROM_START( cdi )
+ 	ROM_REGION(0x80000, "maincpu", 0) // these roms need byteswapping
+ 	ROM_SYSTEM_BIOS( 0, "mcdi200", "Magnavox CD-i 200" )
+ 	ROMX_LOAD( "cdi200.rom", 0x000000, 0x80000, CRC(40c4e6b9) SHA1(d961de803c89b3d1902d656ceb9ce7c02dccb40a), ROM_BIOS(0) )
+@@ -1018,7 +1018,7 @@
+ 
+ /*    YEAR  NAME      PARENT  COMPAT  MACHINE   INPUT     CLASS      INIT        COMPANY       FULLNAME */
+ // BIOS / System
+-CONS( 1991, cdimono1, 0,      0,      cdimono1, cdi,      cdi_state, empty_init, "Philips",    "CD-i (Mono-I) (PAL)",   MACHINE_IMPERFECT_GRAPHICS | MACHINE_IMPERFECT_SOUND | MACHINE_SUPPORTS_SAVE )
++CONS( 1991, cdi,      0,      0,      cdimono1, cdi,      cdi_state, empty_init, "Philips",    "CD-i (Mono-I) (PAL)",   MACHINE_IMPERFECT_GRAPHICS | MACHINE_IMPERFECT_SOUND | MACHINE_SUPPORTS_SAVE )
+ CONS( 1991, cdimono2, 0,      0,      cdimono2, cdimono2, cdi_state, empty_init, "Philips",    "CD-i (Mono-II) (NTSC)",   MACHINE_NOT_WORKING )
+ CONS( 1991, cdi910,   0,      0,      cdi910,   cdimono2, cdi_state, empty_init, "Philips",    "CD-i 910-17P Mini-MMC (PAL)",   MACHINE_NOT_WORKING )
+ CONS( 1991, cdi490a,  0,      0,      cdimono1, cdi,      cdi_state, empty_init, "Philips",    "CD-i 490",   MACHINE_NOT_WORKING )
+--- a/src/mame/mess.flt	2020-01-07 16:43:04.000000000 +0100
++++ b/src/mame/mess.flt	2020-01-20 18:26:02.882905147 +0100
+@@ -1007,7 +1007,7 @@
+ +sfach
+ +sfzbch
+ //cdi.cpp
+-+cdimono1
+++cdi
+ +cdimono2
+ +cdi910
+ +cdi490a
