@@ -6,6 +6,7 @@
 
 enum class EventType : unsigned int
 {
+  None = 0,
   Access = IN_ACCESS,
   Attrib = IN_ATTRIB,
   CloseWrite = IN_CLOSE_WRITE,

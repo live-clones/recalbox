@@ -9,7 +9,6 @@
 #include <vector>
 
 #include "FileSystemEvent.h"
-#include "IFileSystemWatcherNotification.h"
 
 /*!
  * @eventMask
@@ -42,66 +41,92 @@
 class FileSystemWatcher
 {
   public:
-    static constexpr int MAX_EVENTS = 256;
-    static constexpr int MAX_EPOLL_EVENTS = 1;
-    static constexpr int EVENT_SIZE = (int) (sizeof(inotify_event));
-
+    /*!
+     * @brief Default constructor
+     */
     FileSystemWatcher();
 
+    /*!
+     * @brief Default destructor
+     */
     ~FileSystemWatcher();
 
-    void watchDirectoryRecursively(const Path& path);
+    /*!
+     * @brief Recursively add every single file from the given path to the watch list
+     * @param path Path to watch
+     */
+    void WatchDirectoryRecursively(const Path& path);
 
-    void watchFile(const Path& file);
+    /*!
+     * @brief Add a single file to the watch list
+     * @param file File to watch
+     */
+    void WatchFile(const Path& file);
 
-    void unwatchFile(const Path& file);
+    /*!
+     * @brief Set the event we want to be notified of
+     * @param eventMask events
+     */
+    void SetEventMask(EventType eventMask) { mEventMask = eventMask; }
 
-    void ignoreFileOnce(const Path& file) { mOnceIgnoredDirectories.push_back(file); }
+    /*!
+     * @brief Get events to be notified of
+     * @return events
+     */
+    EventType EventMask() const { return mEventMask; }
 
-    void ignoreFile(const Path& file) { mIgnoredDirectories.push_back(file); }
-
-    void setEventMask(EventType eventMask) { mEventMask = eventMask; }
-
-    EventType getEventMask() const { return mEventMask; }
-
-    bool getNextEvent(FileSystemEvent& fsevent);
-
-    void stop();
-
-    bool hasStopped() const { return mStopped; }
+    /*!
+     * @brief Get next event if any
+     * @param fsevent Event structure filled in with the next event if available
+     * @return True if the fsevent structure has been filled with a valid event, false otherwise
+     */
+    bool GetNextEvent(FileSystemEvent& fsevent);
 
   private:
-    Path wdToPath(int wd)
-    { return mDirectorieMap[wd]; }
+    //! Max events
+    static constexpr int MAX_EVENTS = 256;
+    //! Max polled event at once
+    static constexpr int MAX_EPOLL_EVENTS = 1;
+    //! Event structure size
+    static constexpr int EVENT_SIZE = (int) (sizeof(inotify_event));
 
-    bool isIgnored(const Path& file);
+    /*!
+     * @brief Return a path from a "wd" identifier
+     * @param wd Identifier
+     * @return Path
+     */
+    Path wdToPath(int wd) const { return mDirectorieMap.at(wd); }
 
-    void removeWatch(int wd);
-
+    /*!
+     * @brief Read available events if any and return read size
+     * @return Read size
+     */
     ssize_t readEventsIntoBuffer();
 
+    /*!
+     * @brief Convert raw events to event structures
+     * @param length
+     * @param events
+     */
     void readEventsFromBuffer(int length, std::vector<FileSystemEvent>& events);
 
+    /*!
+     * @brief Filter events
+     * @param events events ot filter
+     */
     void filterEvents(std::vector<FileSystemEvent>& events);
 
-    void sendStopSignal();
-
   private:
-    EventType mEventMask;
-    int mThreadSleep;
-    Path::PathList mIgnoredDirectories;
-    Path::PathList mOnceIgnoredDirectories;
+    unsigned char mEventBuffer[MAX_EVENTS * (EVENT_SIZE + 16)];
     std::queue<FileSystemEvent> mEventQueue;
     std::map<int, Path> mDirectorieMap;
-    int mInotifyFd;
-    volatile bool mStopped;
-    int mEpollFd;
-    epoll_event mInotifyEpollEvent;
-    epoll_event mStopPipeEpollEvent;
-    epoll_event mEpollEvents[MAX_EPOLL_EVENTS];
-    unsigned char mEventBuffer[MAX_EVENTS * (EVENT_SIZE + 16)];
 
-    int mStopPipeFd[2];
+    epoll_event mEpollEvents[MAX_EPOLL_EVENTS];
+    epoll_event mInotifyEpollEvent;
+
+    EventType mEventMask;
+    int mInotifyFd;
+    int mEpollFd;
     const int mPipeReadIdx;
     const int mPipeWriteIdx;
 };

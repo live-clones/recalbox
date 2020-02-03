@@ -1979,6 +1979,14 @@ msgstr "MES SYSTEMES"
 msgid "ALL SYSTEMS"
 msgstr "TOUS LES SYSTEMES"
 
+#:
+msgid "EmulationStation has detected external changes on a gamelist file.\nTo avoid loss of data, EmulationStation is about to relaunch and reload all files."
+msgstr "EmulationStation a détecté des changements externes sur un fichier liste de jeux.\nPour éviter toute perte de donnée, EmulationStation va se relancer et recharger tous ses fichiers."
+
+#:
+msgid "EmulationStation has detected external changes on a theme file.\nTo avoid loss of data, EmulationStation is about to relaunch and reload all files."
+msgstr "EmulationStation a détecté des changements externes sur un fichier du theme.\nPour éviter toute perte de donnée, EmulationStation va se relancer et recharger tous ses fichiers."
+
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
 #~ "will turn the screen black."

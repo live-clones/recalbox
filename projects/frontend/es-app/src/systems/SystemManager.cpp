@@ -318,7 +318,7 @@ bool SystemManager::AddArcadeMetaSystem()
 }
 
 //creates systems from information located in a config file
-bool SystemManager::LoadSystemConfigurations(bool forceReloadFromDisk)
+bool SystemManager::LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool forceReloadFromDisk)
 {
   mForceReload = forceReloadFromDisk;
 
@@ -360,6 +360,7 @@ bool SystemManager::LoadSystemConfigurations(bool forceReloadFromDisk)
     SystemDescriptor descriptor;
     if (DeserializeSystemDescriptor(system, descriptor))
     {
+      // Add system name and watch gamelist
       mAllDeclaredSystemShortNames.push_back(descriptor.Name());
       // Push weighted system
       threadPool.PushFeed(descriptor, weight);
@@ -375,6 +376,7 @@ bool SystemManager::LoadSystemConfigurations(bool forceReloadFromDisk)
   int index = 0;
   for(SystemData* result = nullptr; threadPool.PopResult(result, index); )
     mVisibleSystemVector[index] = result;
+
   // Shrink & update weights
   for(int i = count; --i >= 0; )
   {
@@ -394,8 +396,12 @@ bool SystemManager::LoadSystemConfigurations(bool forceReloadFromDisk)
   AddFavoriteSystem(systemList);
 
   // Set *all* service vector
-  for(SystemData* service : mVisibleSystemVector)       mAllSystemVector.push_back(service);
+  for(SystemData* service : mVisibleSystemVector) mAllSystemVector.push_back(service);
   for(SystemData* service : mHiddenSystemVector) mAllSystemVector.push_back(service);
+
+  // Add gamelist watching
+  for(SystemData* system : mAllSystemVector)
+    gamelistWatcher.WatchFile(system->getGamelistPath(false));
 
   return true;
 }

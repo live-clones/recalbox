@@ -16,6 +16,7 @@
 #include <VideoEngine.h>
 #include <guis/GuiDetectDevice.h>
 #include <bios/BiosManager.h>
+#include <guis/GuiMsgBox.h>
 #include "MainRunner.h"
 #include "EmulationStation.h"
 #include "VolumeControl.h"
@@ -30,7 +31,8 @@ bool MainRunner::sForceReloadFromDisk = false;
 
 MainRunner::MainRunner(const std::string& executablePath, unsigned int width, unsigned int height)
   : mRequestedWidth(width),
-    mRequestedHeight(height)
+    mRequestedHeight(height),
+    mPendingExit(PendingExit::None)
 {
   OpenLogs();
   SetLocale(executablePath);
@@ -71,7 +73,8 @@ MainRunner::ExitState MainRunner::Run()
     PlayLoadingSound(audioManager);
 
     // Try to load system configurations
-    if (!TryToLoadConfiguredSystems(systemManager, sForceReloadFromDisk))
+    FileNotifier fileNotifier;
+    if (!TryToLoadConfiguredSystems(systemManager, fileNotifier, sForceReloadFromDisk))
       return ExitState::FatalError;
     ResetForceReloadState();
 
@@ -108,8 +111,11 @@ MainRunner::ExitState MainRunner::Run()
 
       // Main Loop!
       CreateReadyFlagFile();
-      exitState = MainLoop(window, systemManager);
+      fileNotifier.WatchFile(Path(sQuitNow).Directory())
+                  .SetEventNotifier(EventType::CloseWrite | EventType::Remove | EventType::Create, this);
+      exitState = MainLoop(window, systemManager, fileNotifier);
       ResetExitState();
+      fileNotifier.ResetEventNotifier();
       DeleteReadyFlagFile();
     }
     catch(std::exception& ex)
@@ -153,7 +159,7 @@ void MainRunner::DeleteReadyFlagFile()
   ready.Delete();
 }
 
-MainRunner::ExitState MainRunner::MainLoop(ApplicationWindow& window, SystemManager& systemManager)
+MainRunner::ExitState MainRunner::MainLoop(ApplicationWindow& window, SystemManager& systemManager, FileNotifier& fileNotifier)
 {
   // Allow joystick event
   SDL_JoystickEventState(SDL_ENABLE);
@@ -165,6 +171,10 @@ MainRunner::ExitState MainRunner::MainLoop(ApplicationWindow& window, SystemMana
   int lastTime = SDL_GetTicks();
   for(;;)
   {
+    // File watching
+    fileNotifier.CheckAndDispatch();
+
+    // SDL
     SDL_Event event;
     while (SDL_PollEvent(&event) != 0)
     {
@@ -221,12 +231,29 @@ MainRunner::ExitState MainRunner::MainLoop(ApplicationWindow& window, SystemMana
     window.Update(deltaTime);
     window.RenderAll();
 
-    // Immediate exit required? TODO: Filewatching!
-    if (mustExit.Exists()) return ExitState::Quit;
-
     // Quit Request?
     if (sQuitRequested)
       return sRequestedExitState;
+
+    // Quit pending?
+    switch(mPendingExit)
+    {
+      case PendingExit::None: break;
+      case PendingExit::GamelistChanged:
+      case PendingExit::ThemeChanged:
+      {
+        std::string text = (mPendingExit == PendingExit::GamelistChanged) ?
+          _("EmulationStation has detected external changes on a gamelist file.\nTo avoid loss of data, EmulationStation is about to relaunch and reload all files.") :
+          _("EmulationStation has detected external changes on a theme file.\nTo avoid loss of data, EmulationStation is about to relaunch and reload all files.");
+        GuiMsgBox* msgBox = new GuiMsgBox(window, text, _("OK"), [] { RequestQuit(ExitState::Relaunch); });
+        window.pushGui(msgBox);
+        break;
+      }
+      case PendingExit::MustExit: RequestQuit(ExitState::Quit);
+      case PendingExit::WaitingExit: break;
+    }
+    if (mPendingExit != PendingExit::None)
+      mPendingExit = PendingExit::WaitingExit; // Wait for exit
   }
 }
 
@@ -266,9 +293,9 @@ void MainRunner::PlayLoadingSound(AudioManager& audioManager)
   }
 }
 
-bool MainRunner::TryToLoadConfiguredSystems(SystemManager& systemManager, bool forceReloadFromDisk)
+bool MainRunner::TryToLoadConfiguredSystems(SystemManager& systemManager, FileNotifier& gamelistWatcher, bool forceReloadFromDisk)
 {
-  if (!systemManager.LoadSystemConfigurations(forceReloadFromDisk))
+  if (!systemManager.LoadSystemConfigurations(gamelistWatcher, forceReloadFromDisk))
   {
     LOG(LogError) << "Error while parsing systems configuration file!";
     LOG(LogError) << "IT LOOKS LIKE YOUR SYSTEMS CONFIGURATION FILE HAS NOT BEEN SET UP OR IS INVALID. YOU'LL NEED TO DO THIS BY HAND, UNFORTUNATELY.\n\n"
@@ -374,5 +401,21 @@ bool MainRunner::DoWeHaveToUpdateGamelist(MainRunner::ExitState state)
 
 void MainRunner::FileSystemWatcherNotification(EventType event, const Path& path, const DateTime& time)
 {
+  (void)time;
 
+  if (path == sQuitNow)
+    event = event | EventType::None;
+
+  if (mPendingExit == PendingExit::None)
+  {
+    if (((event & EventType::Create) != 0) && (path == sQuitNow))
+      mPendingExit = PendingExit::MustExit;
+    else if ((event & (EventType::Remove | EventType::Modify)) != 0)
+    {
+      if (path.Filename() == "gamelist.xml")
+        mPendingExit = PendingExit::GamelistChanged;
+      else if (path.ToString().find("themes") != std::string::npos)
+        mPendingExit = PendingExit::ThemeChanged;
+    }
+  }
 }

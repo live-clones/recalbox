@@ -7,19 +7,22 @@
 #include <ApplicationWindow.h>
 #include <utils/cplusplus/INoCopy.h>
 #include <utils/os/fs/watching/IFileSystemWatcherNotification.h>
+#include <utils/os/fs/watching/FileNotifier.h>
 
 class AudioManager;
 class SystemManager;
 
-class MainRunner: private INoCopy, private ISyncronousEvent, private IFileSystemWatcherNotification
+class MainRunner: private INoCopy, private ISynchronousEvent, private IFileSystemWatcherNotification
 {
   public:
-    //! Messages code
-    enum MessageCodes
+    //! Pending Exit
+    enum class PendingExit
     {
-       RefreshSplash,   //!< Splash screen must be redrawn
+       None,            //!< No Pending exit
        GamelistChanged, //!< At least one gamelist has changed. ES must reload
        ThemeChanged,    //!< Current theme has been modified. ES must reload
+       MustExit,        //!< External quit required
+       WaitingExit,     //!< Special wait state after a pending exit state has been processed
     };
     
     //! Runner exit state
@@ -43,10 +46,14 @@ class MainRunner: private INoCopy, private ISyncronousEvent, private IFileSystem
     unsigned int mRequestedWidth;
     //! Requested height
     unsigned int mRequestedHeight;
+
+    //! Pending exit
+    PendingExit mPendingExit;
     //! Quit request state
     static ExitState sRequestedExitState;
     //! Quit request
     static bool sQuitRequested;
+
     //! Force reload list requested
     static bool sForceReloadFromDisk;
 
@@ -89,10 +96,11 @@ class MainRunner: private INoCopy, private ISyncronousEvent, private IFileSystem
     /*!
      * @brief Try loading system configuration.
      * @param systemManager System manager instance
+     * @param gamelistWatcher FileNotifier to fill in with gamelist path
      * @param forceReloadFromDisk force reloading game list from disk
      * @return True if there is at least one system loaded
      */
-    static bool TryToLoadConfiguredSystems(SystemManager& systemManager, bool forceReloadFromDisk);
+    static bool TryToLoadConfiguredSystems(SystemManager& systemManager, FileNotifier& gamelistWatcher, bool forceReloadFromDisk);
 
     /*!
      * @brief Check if Recalbox has been updated and push a display changelog popup
@@ -108,9 +116,11 @@ class MainRunner: private INoCopy, private ISyncronousEvent, private IFileSystem
     /*!
      * @brief Main SDL event loop w/ UI update/refresh
      * @param window Main window
+     * @param systemManager System Manager
+     * @param fileNotifier gamelist file notifier
      * @return Exit state
      */
-    static ExitState MainLoop(ApplicationWindow& window, SystemManager& systemManager);
+    ExitState MainLoop(ApplicationWindow& window, SystemManager& systemManager, FileNotifier& fileNotifier);
 
     /*!
      * @brief Create ready flag file to notify all external software that

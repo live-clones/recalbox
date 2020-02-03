@@ -7,6 +7,7 @@
 #include <utils/Xml.h>
 #include <utils/cplusplus/INoCopy.h>
 #include <views/IProgressInterface.h>
+#include <utils/os/fs/watching/FileNotifier.h>
 
 class SystemManager :
   private INoCopy, // No copy allowed
@@ -32,7 +33,7 @@ class SystemManager :
     //! ALL systems, visible and hidden
     std::vector<SystemData*> mAllSystemVector;
 
-    //! Al declared system names
+    //! All declared system names
     std::vector<std::string> mAllDeclaredSystemShortNames;
 
     //! Progress interface called when loading/unloading
@@ -220,9 +221,10 @@ class SystemManager :
 
     /*!
      * @brief Load the system config file at getConfigPath(). Returns true if no errors were encountered. An example will be written if the file doesn't exist.
+     * @param gamelistWatcher FileNotifier to fill in with gamelist path
      * @param ForeReload force reloading from disk
      */
-    bool LoadSystemConfigurations(bool ForeReload);
+    bool LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool ForeReload);
 
     /*!
      * @brief Get All system list, visibles + hidden
