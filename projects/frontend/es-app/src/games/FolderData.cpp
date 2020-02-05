@@ -154,6 +154,30 @@ FileData::List FolderData::getAllFolders() const
   return result;
 }
 
+int FolderData::getItemsRecursively(FileData::List& to, IFilter* filter, bool includefolders) const
+{
+  int gameCount = 0;
+  for (FileData* fd : mChildren)
+  {
+    if (fd->isFolder())
+    {
+      int position = (int)to.size(); // TODO: Check if the insert is necessary
+      if (CastFolder(fd)->getItemsRecursively(to, filter, includefolders) > 1)
+        if (includefolders)
+          to.insert(to.begin() + position, fd); // Include folders iif it contains more than one game.
+    }
+    else if (fd->isGame())
+    {
+      if (filter->ApplyFilter(*fd))
+      {
+        to.push_back(fd);
+        gameCount++;
+      }
+    }
+  }
+  return gameCount;
+}
+
 int FolderData::getItemsRecursively(FileData::List& to, Filter includes, bool includefolders) const
 {
   int gameCount = 0;
@@ -341,7 +365,7 @@ bool FolderData::hasDetailedData() const
   return false;
 }
 
-FileData* FolderData::LookupGame(const std::string& item, SearchAttributes attributes, const std::string& path)
+FileData* FolderData::LookupGame(const std::string& item, SearchAttributes attributes, const std::string& path) const
 {
   // Recursively look for the game in subfolders too
   for (FileData* fd : mChildren)
@@ -397,7 +421,7 @@ FileData* FolderData::GetNextFavoriteTo(FileData* reference)
   return nullptr;
 }
 
-void FolderData::Sort(FileData::List& items, int (*comparer)(const FileData&, const FileData&), bool ascending)
+void FolderData::Sort(FileData::List& items, FileData::Comparer comparer, bool ascending)
 {
   if (items.size() > 1)
   {
@@ -408,7 +432,7 @@ void FolderData::Sort(FileData::List& items, int (*comparer)(const FileData&, co
   }
 }
 
-void FolderData::QuickSortAscending(FileData::List& items, int low, int high, int (*comparer)(const FileData&, const FileData&))
+void FolderData::QuickSortAscending(FileData::List& items, int low, int high, FileData::Comparer comparer)
 {
   int Low = low, High = high;
   const FileData& pivot = *items[(Low + High) >> 1];
@@ -426,7 +450,7 @@ void FolderData::QuickSortAscending(FileData::List& items, int low, int high, in
   if (Low < high) QuickSortAscending(items, Low, high, comparer);
 }
 
-void FolderData::QuickSortDescending(FileData::List& items, int low, int high, int (*comparer)(const FileData&, const FileData&))
+void FolderData::QuickSortDescending(FileData::List& items, int low, int high, FileData::Comparer comparer)
 {
   int Low = low, High = high;
   const FileData& pivot = *items[(Low + High) >> 1];
@@ -444,7 +468,7 @@ void FolderData::QuickSortDescending(FileData::List& items, int low, int high, i
   if (Low < high) QuickSortDescending(items, Low, high, comparer);
 }
 
-bool FolderData::Contains(const FileData* item, bool recurse)
+bool FolderData::Contains(const FileData* item, bool recurse) const
 {
   for (FileData* fd : mChildren)
   {
@@ -455,6 +479,16 @@ bool FolderData::Contains(const FileData* item, bool recurse)
     if (fd == item) return true;
   }
   return false;
+}
+
+FileData::List FolderData::getFilteredItemsRecursively(IFilter* filter, bool includefolders) const
+{
+  FileData::List result;
+  result.reserve((unsigned long)countItemsRecursively(Filter::All, includefolders)); // Allocate once
+  getItemsRecursively(result, filter, includefolders);
+  result.shrink_to_fit();
+
+  return result;
 }
 
 FileData::List FolderData::getFilteredItemsRecursively(Filter filters, bool includefolders) const

@@ -37,7 +37,7 @@ void DemoMode::init()
     const std::string& name = allSystems[i]->getName();
     bool includeSystem = mRecalboxConf.AsBool(name + ".demo.include");
     bool systemIsInIncludeList = !systemListExists || mRecalboxConf.isInList("global.demo.systemlist", name);
-    bool hasVisibleGame = allSystems[i]->getRootFolder()->hasVisibleGame();
+    bool hasVisibleGame = allSystems[i]->getRootFolder().hasVisibleGame();
     if ((includeSystem || systemIsInIncludeList) && hasVisibleGame)
     {
       mDemoSystems.push_back(allSystems[i]);
@@ -128,7 +128,7 @@ bool DemoMode::getRandomGame(FileData*& outputGame, int& outputDuration)
   SystemData* system = mDemoSystems[systemIndex];
 
   // Get filelist
-  FileData::List gameList = system->getRootFolder()->getAllDisplayableItemsRecursively(false);
+  FileData::List gameList = system->getRootFolder().getAllDisplayableItemsRecursively(false);
   if (gameList.empty())
   {
     LOG(LogError) << "NO game available for demo mode in system " << system->getName() << " !";

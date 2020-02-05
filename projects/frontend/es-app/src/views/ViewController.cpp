@@ -119,7 +119,7 @@ void ViewController::goToNextGameList()
 	SystemData* system = getState().getSystem();
 	assert(system);
 	SystemData* next = mSystemManager.NextVisible(system);
-	while(!next->getRootFolder()->hasChildren()) {
+	while(!next->getRootFolder().hasChildren()) {
 		next = mSystemManager.NextVisible(next);
 	}
   AudioManager::Instance().StartPlaying(next->getTheme());
@@ -133,7 +133,7 @@ void ViewController::goToPrevGameList()
 	SystemData* system = getState().getSystem();
 	assert(system);
 	SystemData* prev = mSystemManager.PreviousVisible(system);
-	while(!prev->getRootFolder()->hasChildren()) {
+	while(!prev->getRootFolder().hasChildren()) {
 		prev = mSystemManager.PreviousVisible(prev);
 	}
   AudioManager::Instance().StartPlaying(prev->getTheme());
@@ -171,7 +171,7 @@ void ViewController::goToGameList(SystemData* system)
       // system will no longer exists in the available list
       return;
     }
-		if (!system->isFavorite())
+		if (!system->IsFavorite())
 		{
 			updateFavorite(system, getGameListView(system)->getCursor());
 			mFavoritesOnly = Settings::Instance().FavoritesOnly();
@@ -193,7 +193,7 @@ void ViewController::updateFavorite(SystemData* system, FileData* file)
 	if (Settings::Instance().FavoritesOnly())
 	{
 		view->populateList(system->getRootFolder());
-		FileData* nextFavorite = system->getRootFolder()->GetNextFavoriteTo(file);
+		FileData* nextFavorite = system->getRootFolder().GetNextFavoriteTo(file);
 	  view->setCursor(nextFavorite != nullptr ? nextFavorite : file);
 	}
 
@@ -290,10 +290,23 @@ void ViewController::launch(FileData* game, Vector3f center, const std::string& 
 
 	auto launchFactory = [this, game, origCamera, netplay, core, ip, port] (const std::function<void(std::function<void()>)>& backAnimation) {
 		return [this, game, origCamera, backAnimation, netplay, core, ip, port] {
-      game->getSystem()->RunGame(mWindow, *game, netplay, core, ip, port);
+      game->getSystem()->RunGame(mWindow, mSystemManager, *game, netplay, core, ip, port);
 			mCamera = origCamera;
 			backAnimation([this] { mLockInput = false; });
 			this->onFileChanged(game, FileChangeType::Run);
+
+			// Re-sort last played system if it exists
+      SystemData* lastPlayedSystem = mSystemManager.LastPlayedSystem();
+      if (lastPlayedSystem != nullptr)
+      {
+        auto it = mGameListViews.find(lastPlayedSystem);
+        if (it != mGameListViews.end())
+        {
+          IGameListView* lastPlayedGameListView = it->second.get();
+          if (lastPlayedGameListView != nullptr)
+            lastPlayedGameListView->onFileChanged(&lastPlayedSystem->getRootFolder(), FileChangeType::Sorted);
+        }
+      }
 		};
 	};
 
@@ -330,15 +343,15 @@ std::shared_ptr<IGameListView> ViewController::getGameListView(SystemData* syste
 	std::shared_ptr<IGameListView> view;
 
 	//decide type
-	bool detailed = system->getRootFolder()->hasDetailedData();
+	bool detailed = system->getRootFolder().hasDetailedData();
 
 	if(detailed && ! (RecalboxConf::Instance().AsBool("emulationstation.forcebasicgamelistview")))
-		view = std::shared_ptr<IGameListView>(new DetailedGameListView(mWindow, mSystemManager, system->getRootFolder()));
+		view = std::shared_ptr<IGameListView>(new DetailedGameListView(mWindow, mSystemManager, *system));
 	else
-		view = std::shared_ptr<IGameListView>(new BasicGameListView(mWindow, mSystemManager, system->getRootFolder()));
+		view = std::shared_ptr<IGameListView>(new BasicGameListView(mWindow, mSystemManager, *system));
 
 	// uncomment for experimental "image grid" view
-	//view = std::shared_ptr<IGameListView>(new GridGameListView(mWindow, system->getRootFolder()));
+	//view = std::shared_ptr<IGameListView>(new GridGameListView(mWindow, system));
 
 	view->setTheme(system->getTheme());
 
@@ -458,7 +471,7 @@ void ViewController::Render(const Transform4x4f& parentTrans)
 
 bool ViewController::reloadGameListView(IGameListView* view, bool reloadTheme)
 {
-	if (view->getRoot()->countAll(false) > 0)
+	if (view->System().getRootFolder().countAll(false) > 0)
 	{
 		for (auto it = mGameListViews.begin(); it != mGameListViews.end(); it++)
 		{

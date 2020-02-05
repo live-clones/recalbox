@@ -6,8 +6,8 @@
 #include "animations/LambdaAnimation.h"
 #include "utils/locale/LocaleHelper.h"
 
-DetailedGameListView::DetailedGameListView(Window&window, SystemManager& systemManager, FolderData* root)
-: BasicGameListView(window, systemManager, root),
+DetailedGameListView::DetailedGameListView(Window&window, SystemManager& systemManager, SystemData& system)
+: BasicGameListView(window, systemManager, system),
   mImage(window),
   mVideo(window),
   mLblRating(window),
@@ -31,7 +31,6 @@ DetailedGameListView::DetailedGameListView(Window&window, SystemManager& systemM
   mFavorite(window),
   mDescContainer(window),
   mDescription(window),
-  mSystem(root->getSystem()),
   mSettings(RecalboxConf::Instance())
 {
   const float padding = 0.01f;
@@ -103,7 +102,7 @@ DetailedGameListView::DetailedGameListView(Window&window, SystemManager& systemM
   mLblPlayCount.setText(_("Times played") + ": ");
   addChild(&mLblPlayCount);
   addChild(&mPlayCount);
-  if (mSystem->getHasFavoritesInTheme())
+  if (mSystem.getHasFavoritesInTheme())
   {
     mLblFavorite.setText(_("Favorite") + ": ");
     addChild(&mLblFavorite);
@@ -145,7 +144,7 @@ void DetailedGameListView::onThemeChanged(const ThemeData& theme)
                                    "md_lbl_playcount"
                                  });
 
-  if (mSystem->getHasFavoritesInTheme())
+  if (mSystem.getHasFavoritesInTheme())
   {
     names.push_back("md_lbl_favorite");
   }
@@ -169,7 +168,7 @@ void DetailedGameListView::onThemeChanged(const ThemeData& theme)
     "md_playcount"
   };
 
-  if (mSystem->getHasFavoritesInTheme())
+  if (mSystem.getHasFavoritesInTheme())
   {
     names.push_back("md_favorite");
   }
@@ -500,7 +499,7 @@ std::vector<TextComponent*> DetailedGameListView::getMDLabels()
   ret.push_back(&mLblPlayers);
   ret.push_back(&mLblLastPlayed);
   ret.push_back(&mLblPlayCount);
-  if (mSystem->getHasFavoritesInTheme())
+  if (mSystem.getHasFavoritesInTheme())
   {
     ret.push_back(&mLblFavorite);
   }
@@ -519,7 +518,7 @@ std::vector<Component*> DetailedGameListView::getMDValues()
   ret.push_back(&mPlayers);
   ret.push_back(&mLastPlayed);
   ret.push_back(&mPlayCount);
-  if (mSystem->getHasFavoritesInTheme())
+  if (mSystem.getHasFavoritesInTheme())
   {
     ret.push_back(&mFavorite);
   }

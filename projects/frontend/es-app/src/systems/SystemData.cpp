@@ -1,4 +1,5 @@
 #include "SystemData.h"
+#include <systems/SystemManager.h>
 #include "audio/AudioManager.h"
 #include "VolumeControl.h"
 #include "utils/Log.h"
@@ -13,15 +14,15 @@
 
 EmulatorDescriptor EmulatorList::sEmptyEmulator("NO EMULATOR");
 
-SystemData::SystemData(const SystemDescriptor& descriptor, bool childOwnership, bool favorite)
+SystemData::SystemData(const SystemDescriptor& descriptor, bool childOwnership, Properties properties)
   : mDescriptor(descriptor), mRootFolder(childOwnership, descriptor.RomPath(), this),
-    mSortId(RecalboxConf::Instance().AsUInt(mDescriptor.Name() + ".sort")), mIsFavorite(favorite)
+    mSortId(RecalboxConf::Instance().AsUInt(mDescriptor.Name() + ".sort")), mProperties(properties)
 {
   // Set name
   mRootFolder.Metadata().SetName(mDescriptor.FullName());
 }
 
-void SystemData::RunGame(Window& window, FileData& game, const std::string& netplay, const std::string& core,
+void SystemData::RunGame(Window& window, SystemManager& systemManager, FileData& game, const std::string& netplay, const std::string& core,
                          const std::string& ip, const std::string& port)
 {
   (void) core;
@@ -82,10 +83,11 @@ void SystemData::RunGame(Window& window, FileData& game, const std::string& netp
   AudioManager::Instance().Reactivate();
   window.normalizeNextUpdate();
 
-  //update number of times the game has been launched
+  // Update number of times the game has been launched
   game.Metadata().IncPlaycount();
 
-  //update last played time
+  // Update last played time
+  systemManager.UpdateLastPlayedSystem(game);
   game.Metadata().SetLastplayedNow();
 }
 
@@ -309,18 +311,18 @@ void SystemData::overrideFolderInformation(FileData* folderdata)
 FileData* SystemData::LookupOrCreateGame(const Path& path, ItemType type, FileData::StringMap& doppelgangerWatcher)
 {
   // first, verify that path is within the system's root folder
-  FolderData* root = getRootFolder();
+  FolderData& root = mRootFolder;
 
-  if (!path.StartWidth(root->getPath()))
+  if (!path.StartWidth(root.getPath()))
   {
     LOG(LogError) << "File path \"" << path.ToString() << "\" is outside system path \"" << getStartPath().ToString()
                   << "\"";
     return nullptr;
   }
 
-  int itemStart = root->getPath().ItemCount();
+  int itemStart = root.getPath().ItemCount();
   int itemLast = path.ItemCount() - 1;
-  FolderData* treeNode = root;
+  FolderData* treeNode = &root;
   for (int itemIndex = itemStart; itemIndex <= itemLast; ++itemIndex)
   {
     // Get the key for duplicate detection. MUST MATCH KEYS USED IN populateRecursiveFolder.populateRecursiveFolder - Always fullpath
@@ -427,16 +429,15 @@ void SystemData::UpdateGamelistXml()
   if (Settings::Instance().IgnoreGamelist()) return;
 
   // Dirty?
-  if (getRootFolder() == nullptr) return;
-  if (!getRootFolder()->IsDirty()) return;
+  if (!getRootFolder().IsDirty()) return;
 
   try
   {
     /*
      * Get all folder & games in a flat storage
      */
-    FileData::List fileList = getRootFolder()->getAllItemsRecursively(true);
-    FileData::List folderList = getRootFolder()->getAllFolders();
+    FileData::List fileList = mRootFolder.getAllItemsRecursively(true);
+    FileData::List folderList = mRootFolder.getAllFolders();
     // Nothing to process?
     if (fileList.empty()) return;
 
@@ -483,4 +484,41 @@ void SystemData::UpdateGamelistXml()
   {
     LOG(LogError) << "Something went wrong while saving " << getFullName() << " : " << e.what();
   }
+}
+
+bool SystemData::IsFavorite()
+{
+  return (mProperties & Properties::Favorite) != 0;
+}
+
+bool SystemData::IsVirtual()
+{
+  return (mProperties & Properties::Virtual) != 0;
+}
+
+bool SystemData::IsSelfSorted()
+{
+  return (mProperties & Properties::SelfSorted) != 0;
+}
+
+bool SystemData::IsAlwaysFlat()
+{
+  return (mProperties & Properties::AlwaysFlat) != 0;
+}
+
+void SystemData::UpdateLastPlayedGame(FileData& updated)
+{
+  // Update game
+  updated.Metadata().SetLastplayedNow();
+
+  // Get all game
+  FileData::List all = mRootFolder.getAllItems(true);
+
+  // Build the doppelganger map
+  FileData::StringMap map;
+  for(FileData* game : all)
+    map[game->getPath().ToString()] = game;
+
+  // Add or not the updated game
+  LookupOrCreateGame(updated.getPath(), ItemType::Game, map);
 }

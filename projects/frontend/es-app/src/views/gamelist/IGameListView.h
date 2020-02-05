@@ -26,21 +26,21 @@ enum class FileChangeType
 class IGameListView : public Gui
 {
   protected:
-    FolderData* mRoot; // TODO: check if a & is more appropriate
-    SystemData* mSystem;
+    SystemData& mSystem;
     const ThemeData* mTheme;
 
   public:
-    IGameListView(Window&window, FolderData* root)
+    IGameListView(Window&window, SystemData& system)
       : Gui(window),
-        mRoot(root),
-        mSystem(root->getSystem()),
+        mSystem(system),
         mTheme(nullptr)
     {
       setSize(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
     }
 
     ~IGameListView() override = default;
+
+    const SystemData& System() const { return mSystem; }
 
     // Called when a new file is added, a file is removed, a file's metadata changes, or when file sort changed
     virtual void onFileChanged(FileData* file, FileChangeType change) = 0;
@@ -52,12 +52,8 @@ class IGameListView : public Gui
 
     inline const ThemeData& getTheme() const { return *mTheme; }
 
-    inline FolderData* getRoot() const { return mRoot; }
-
     virtual FileData* getCursor() = 0;
     virtual void setCursor(FileData*) = 0;
-
-    bool ProcessInput(const InputCompactEvent& event) override;
 
     virtual const char* getName() const = 0;
 
@@ -65,7 +61,7 @@ class IGameListView : public Gui
 
     virtual void updateInfoPanel() = 0;
 
-    virtual void populateList(const FolderData* folder) = 0;
+    virtual void populateList(const FolderData& folder) = 0;
     virtual void refreshList() = 0;
 
     virtual FileData::List getFileDataList() = 0;

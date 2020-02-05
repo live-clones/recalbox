@@ -1,6 +1,7 @@
 #pragma once
 
 #include "FileData.h"
+#include "IFilter.h"
 
 class FolderData : public FileData
 {
@@ -31,6 +32,14 @@ class FolderData : public FileData
      */
     int getItemsRecursively(FileData::List& to, Filter includes, bool includefolders) const;
     /*!
+     * Get filtered items recursively.
+     * @param to List to fill
+     * @param includes Get only items matching these filters
+     * @param includefolders Include folder as regular item, or just get their children
+     * @return Total amount of items (not including folders!)
+     */
+    int getItemsRecursively(FileData::List& to, IFilter* filter, bool includefolders) const;
+    /*!
      * Count all items recursively
      * @param includes Count only items matching these filters
      * @return Total amount of items (not including folders!)
@@ -59,7 +68,7 @@ class FolderData : public FileData
      * @param path Current tree path
      * @return First mathing game or nullptr
      */
-    FileData* LookupGame(const std::string& item, SearchAttributes attributes, const std::string& path);
+    FileData* LookupGame(const std::string& item, SearchAttributes attributes, const std::string& path) const;
 
     /*!
      * Highly optimized Quicksort, inpired from original Delphi 7 code
@@ -67,7 +76,7 @@ class FolderData : public FileData
      * @param high Highest element
      * @param comparer Compare method
      */
-    static void QuickSortAscending(FileData::List& items, int low, int high, int (*comparer)(const FileData&, const FileData&));
+    static void QuickSortAscending(FileData::List& items, int low, int high, FileData::Comparer comparer);
 
     /*!
      * Highly optimized Quicksort, inpired from original Delphi 7 code
@@ -75,7 +84,7 @@ class FolderData : public FileData
      * @param high Highest element
      * @param comparer Compare method
      */
-    static void QuickSortDescending(FileData::List& items, int low, int high, int (*comparer)(const FileData&, const FileData&));
+    static void QuickSortDescending(FileData::List& items, int low, int high, FileData::Comparer comparer);
 
   public:
     /*!
@@ -131,7 +140,7 @@ class FolderData : public FileData
      * @param attributes Compare item against hashes, filenames or filenames with extension
      * @return First mathing game or nullptr
      */
-    FileData* LookupGame(const std::string& item, SearchAttributes attributes) { return LookupGame(item, attributes, std::string()); }
+    FileData* LookupGame(const std::string& item, SearchAttributes attributes) const { return LookupGame(item, attributes, std::string()); }
 
     /*!
      * Return true if contain at least one game
@@ -173,7 +182,7 @@ class FolderData : public FileData
      * @param recurse True to search in subfolders
      * @return True if the item has been found
      */
-    bool Contains(const FileData* item, bool recurse);
+    bool Contains(const FileData* item, bool recurse) const;
 
     /*!
      * Quick sort items in the given list.
@@ -181,7 +190,7 @@ class FolderData : public FileData
      * @param comparer Comparison function
      * @param ascending True for ascending sort, false for descending.
      */
-    static void Sort(FileData::List& items, int (*comparer)(const FileData& a, const FileData& b), bool ascending);
+    static void Sort(FileData::List& items, FileData::Comparer comparer, bool ascending);
 
     /*!
      * Count filtered items recursively starting from the current folder
@@ -211,6 +220,12 @@ class FolderData : public FileData
      * @return List of filtered items
      */
     FileData::List getFilteredItemsRecursively(Filter filters, bool includefolders) const;
+    /*!
+     * Get filtered items recursively starting from the current folder
+     * @param includefolders True to include subfolders in the resulting list
+     * @return List of filtered items
+     */
+    FileData::List getFilteredItemsRecursively(IFilter* filter, bool includefolders) const;
     /*!
      * Get all items recursively starting from the current folder
      * @param includefolders True to include subfolders in the resulting list

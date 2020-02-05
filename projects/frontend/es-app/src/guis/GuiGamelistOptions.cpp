@@ -23,7 +23,7 @@ GuiGamelistOptions::GuiGamelistOptions(Window& window, SystemData* system)
 
 	mJumpToLetterList = std::make_shared<LetterList>(mWindow, _("JUMP TO LETTER"), false);
 
-    std::vector<FileSorts::SortType> & sortTypes = system->isFavorite() ? FileSorts::SortTypesForFavorites : FileSorts::SortTypes;
+    std::vector<FileSorts::SortType> & sortTypes = system->IsFavorite() ? FileSorts::SortTypesForFavorites : FileSorts::SortTypes;
 
 	std::vector<std::string> letters = getGamelist()->getAvailableLetters();
 	if (!letters.empty()) { // may happen if only contains folders
@@ -55,38 +55,50 @@ GuiGamelistOptions::GuiGamelistOptions(Window& window, SystemData* system)
 		mMenu.addRowWithHelp(row, _("JUMP TO LETTER"), _(MENUMESSAGE_GAMELISTOPTION_JUMP_LETTER_MSG));
 	}
 
-	// sort list by
-	unsigned int currentSortId = mSystem->getSortId();
-	if (currentSortId > sortTypes.size()) {
-		currentSortId = 0;
-	}
-	mListSort = std::make_shared<SortList>(mWindow, _("SORT GAMES BY"), false);
-	for (unsigned int i = 0; i < (unsigned int)sortTypes.size(); i++) {
-		const FileSorts::SortType& sortType = sortTypes.at(i);
-		mListSort->add(sortType.description, i, i == currentSortId);
-	}
+	if (!system->IsSelfSorted())
+  {
+    // sort list by
+    unsigned int currentSortId = mSystem->getSortId();
+    if (currentSortId > sortTypes.size())
+    {
+      currentSortId = 0;
+    }
+    mListSort = std::make_shared<SortList>(mWindow, _("SORT GAMES BY"), false);
+    for (unsigned int i = 0; i < (unsigned int) sortTypes.size(); i++)
+    {
+      const FileSorts::SortType& sortType = sortTypes.at(i);
+      mListSort->add(sortType.description, i, i == currentSortId);
+    }
 
-	mMenu.addWithLabel(mListSort, _("SORT GAMES BY"), _(MENUMESSAGE_GAMELISTOPTION_SORT_GAMES_MSG));
-	addSaveFunc([this, system] { RecalboxConf::Instance().SetInt(system->getName() + ".sort", mListSort->getSelected()); });
+    mMenu.addWithLabel(mListSort, _("SORT GAMES BY"), _(MENUMESSAGE_GAMELISTOPTION_SORT_GAMES_MSG));
+    addSaveFunc([this, system]
+                { RecalboxConf::Instance().SetInt(system->getName() + ".sort", mListSort->getSelected()); });
+  }
 
-	if (!system->isFavorite()) {
+	if (!system->IsFavorite())
+	{
 	    // favorite only
-        auto favorite_only = std::make_shared<SwitchComponent>(mWindow);
-        favorite_only->setState(Settings::Instance().FavoritesOnly());
-        mMenu.addWithLabel(favorite_only, _("FAVORITES ONLY"), _(MENUMESSAGE_GAMELISTOPTION_FAVORITES_ONLY_MSG));
-        addSaveFunc([favorite_only] { Settings::Instance().SetFavoritesOnly(favorite_only->getState()); });
+      auto favorite_only = std::make_shared<SwitchComponent>(mWindow);
+      favorite_only->setState(Settings::Instance().FavoritesOnly());
+      mMenu.addWithLabel(favorite_only, _("FAVORITES ONLY"), _(MENUMESSAGE_GAMELISTOPTION_FAVORITES_ONLY_MSG));
+      addSaveFunc([favorite_only] { Settings::Instance().SetFavoritesOnly(favorite_only->getState()); });
 
-        // show hidden
-        auto show_hidden = std::make_shared<SwitchComponent>(mWindow);
-        show_hidden->setState(Settings::Instance().ShowHidden());
-        mMenu.addWithLabel(show_hidden, _("SHOW HIDDEN"), _(MENUMESSAGE_GAMELISTOPTION_SHOW_HIDDEN_MSG));
-        addSaveFunc([show_hidden] { Settings::Instance().SetShowHidden(show_hidden->getState()); });
+      // show hidden
+      auto show_hidden = std::make_shared<SwitchComponent>(mWindow);
+      show_hidden->setState(Settings::Instance().ShowHidden());
+      mMenu.addWithLabel(show_hidden, _("SHOW HIDDEN"), _(MENUMESSAGE_GAMELISTOPTION_SHOW_HIDDEN_MSG));
+      addSaveFunc([show_hidden] { Settings::Instance().SetShowHidden(show_hidden->getState()); });
 
-    	// flat folders
+      if (!system->IsAlwaysFlat())
+      {
+        // flat folders
         auto flat_folders = std::make_shared<SwitchComponent>(mWindow);
         flat_folders->setState(RecalboxConf::Instance().AsBool(system->getName() + ".flatfolder"));
-        mMenu.addWithLabel(flat_folders, _("SHOW FOLDERS CONTENT"), _(MENUMESSAGE_GAMELISTOPTION_SHOW_FOLDER_CONTENT_MSG));
-        addSaveFunc([flat_folders, system] { RecalboxConf::Instance().SetBool(system->getName() + ".flatfolder", flat_folders->getState()); });
+        mMenu.addWithLabel(flat_folders, _("SHOW FOLDERS CONTENT"),
+                           _(MENUMESSAGE_GAMELISTOPTION_SHOW_FOLDER_CONTENT_MSG));
+        addSaveFunc([flat_folders, system]
+                    { RecalboxConf::Instance().SetBool(system->getName() + ".flatfolder", flat_folders->getState()); });
+      }
     }
 
 	// edit game metadata
@@ -99,7 +111,7 @@ GuiGamelistOptions::GuiGamelistOptions(Window& window, SystemData* system)
 		mMenu.addRowWithHelp(row, _("EDIT THIS GAME'S METADATA"), _(MENUMESSAGE_GAMELISTOPTION_EDIT_METADATA_MSG));
 	}
 
-	if (!system->isFavorite()) {
+	if (!system->IsFavorite()) {
         // update game list
         row.elements.clear();
         row.addElement(std::make_shared<TextComponent>(mWindow, _("UPDATE GAMES LISTS"), menuTheme->menuText.font,
@@ -127,8 +139,8 @@ GuiGamelistOptions::~GuiGamelistOptions()
 {
 	if (mReloading) return;
 
-	FolderData* root = getGamelist()->getRoot();
-	if (root->countAll(false) != 0)
+	const FolderData& root = getGamelist()->System().getRootFolder();
+	if (root.countAll(false) != 0)
 	{
 		if (mListSort->getSelected() != (int)mSystem->getSortId())
 		{
@@ -136,12 +148,12 @@ GuiGamelistOptions::~GuiGamelistOptions()
 			mSystem->setSortId((unsigned int)mListSort->getSelected());
 
 			// notify that the root folder has to be sorted
-			getGamelist()->onFileChanged(mSystem->getRootFolder(), FileChangeType::Sorted);
+			getGamelist()->onFileChanged(&mSystem->getRootFolder(), FileChangeType::Sorted);
 		}
 		else
 		{
 			// require list refresh
-			getGamelist()->onFileChanged(mSystem->getRootFolder(), FileChangeType::DisplayUpdated);
+			getGamelist()->onFileChanged(&mSystem->getRootFolder(), FileChangeType::DisplayUpdated);
 		}
 
 		// if states has changed, invalidate and reload game list
@@ -186,7 +198,7 @@ void GuiGamelistOptions::jumpToLetter() {
 		// apply sort
 		mSystem->setSortId(sortId);
 		// notify that the root folder has to be sorted
-		gamelist->onFileChanged(mSystem->getRootFolder(), FileChangeType::Sorted);
+		gamelist->onFileChanged(&mSystem->getRootFolder(), FileChangeType::Sorted);
 	}
 
 	gamelist->jumpToLetter(letter);

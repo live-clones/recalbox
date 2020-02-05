@@ -9,6 +9,7 @@ set(ES_HEADERS
         src/NetworkThread.h
         src/PlatformId.h
         src/VolumeControl.h
+        src/games/IFilter.h
         src/games/FileData.h
         src/games/FolderData.h
         src/games/EmptyData.h

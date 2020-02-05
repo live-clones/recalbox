@@ -11,7 +11,7 @@ class SystemManager;
 class ISimpleGameListView : public IGameListView
 {
 public:
-	ISimpleGameListView(Window& window, SystemManager& systemManager, FolderData* root);
+	ISimpleGameListView(Window& window, SystemManager& systemManager, SystemData& system);
 	~ISimpleGameListView() override = default;
 
 	// Called when a new file is added, a file is removed, a file's metadata changes, or when file sort changed
@@ -30,7 +30,7 @@ public:
 
 	inline void updateInfoPanel() override {}
 
-	inline void populateList(const FolderData* folder) override { (void)folder; }
+	inline void populateList(const FolderData& folder) override { (void)folder; }
 	inline void refreshList() override {};
 
 	bool getHelpPrompts(Help& help) override;

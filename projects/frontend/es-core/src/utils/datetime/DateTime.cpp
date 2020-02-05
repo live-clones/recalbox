@@ -57,7 +57,7 @@ int DateTime::DayPerMonth(int month, int year)
   return MaxDayInMonth[IsLeapYear(year)][month];
 }
 
-int DateTime::ElapsedDayFromEpoch(int year, int month, int day) const
+int DateTime::ElapsedDayFromEpoch(int year, int month, int day)
 {
   int Result = 0;
   // First, decrement the year and get the number of days
@@ -117,6 +117,12 @@ void DateTime::FillFromStartOfEra()
   _Hour = _Minute = _Second = 0;
   _Month = _Day = 1;
   _TimeZone = _DefaultTimeZone;
+}
+
+bool DateTime::IsZero() const
+{
+  return ((_Year | _Millis | _Hour | _Minute | _Second) == 0) &&
+    (_Month == 1) && (_Day == 1);
 }
 
 void DateTime::FillFromEpochTime(long long epochtime)

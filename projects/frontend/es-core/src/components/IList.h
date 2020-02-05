@@ -83,56 +83,6 @@ protected:
 
 	std::vector<Entry> mEntries;
 
-	/*!
-   * Highly optimized Quicksort, inpired from original Delphi 7 code
-   * @param low Lowest element
-   * @param high Highest element
-   * @param comparer Compare method
-   */
-  /*void QuickSortAscending(int low, int high, int (*comparer)(UserData const a, UserData const b))
-  {
-    int Low = low, High = high;
-    UserData Pivot = mEntries[(Low + High) >> 1].object;
-    do
-    {
-      while((*comparer)(mEntries[Low].object , Pivot) < 0) Low++;
-      while((*comparer)(mEntries[High].object, Pivot) > 0) High--;
-      if (Low <= High)
-      {
-
-        Entry Tmp = mEntries[Low]; mEntries[Low] = mEntries[High]; mEntries[High] = Tmp;
-        Low++; High--;
-      }
-    }while(Low <= High);
-    if (High > low) QuickSortAscending(low, High, comparer);
-    if (Low < high) QuickSortAscending(Low, high, comparer);
-  }*/
-
-  /*!
-   * Highly optimized Quicksort, inpired from original Delphi 7 code
-   * @param low Lowest element
-   * @param high Highest element
-   * @param comparer Compare method
-   */
-  /*void QuickSortDescending(int low, int high, int (*comparer)(UserData const a, UserData const b))
-  {
-    int Low = low, High = high;
-    UserData Pivot = mEntries[(Low + High) >> 1].object;
-    do
-    {
-      while((*comparer)(mEntries[Low].object , Pivot) > 0) Low++;
-      while((*comparer)(mEntries[High].object, Pivot) < 0) High--;
-      if (Low <= High)
-      {
-
-        Entry Tmp = mEntries[Low]; mEntries[Low] = mEntries[High]; mEntries[High] = Tmp;
-        Low++; High--;
-      }
-    }while(Low <= High);
-    if (High > low) QuickSortDescending(low, High, comparer);
-    if (Low < high) QuickSortDescending(Low, high, comparer);
-  }*/
-
   public:
     IList(Window& window, const ScrollTierList& tierList, LoopType loopType)
       : Gui(window),

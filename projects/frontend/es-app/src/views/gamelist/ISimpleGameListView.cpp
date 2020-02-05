@@ -9,15 +9,15 @@
 #include "Settings.h"
 #include "utils/locale/LocaleHelper.h"
 
-ISimpleGameListView::ISimpleGameListView(Window& window, SystemManager& systemManager, FolderData* root)
-  : IGameListView(window, root),
+ISimpleGameListView::ISimpleGameListView(Window& window, SystemManager& systemManager, SystemData& system)
+  : IGameListView(window, system),
     mSystemManager(systemManager),
     mHeaderText(window),
     mHeaderImage(window),
     mBackground(window),
     mThemeExtras(window)
 {
-  mFavoritesCount = getRoot()->getSystem()->FavoritesCount();
+  mFavoritesCount = system.FavoritesCount();
   mFavoritesOnly = mFavoritesCount > 0 && Settings::Instance().FavoritesOnly();
 
   mHeaderText.setText("Logo Text");
@@ -34,7 +34,7 @@ ISimpleGameListView::ISimpleGameListView(Window& window, SystemManager& systemMa
   mBackground.setResize(mSize.x(), mSize.y());
   mBackground.setDefaultZIndex(0);
 
-  mIsFavoriteSystem = getRoot()->getSystem() == mSystemManager.FavoriteSystem();
+  mIsFavoriteSystem = (&system == mSystemManager.FavoriteSystem());
 
   addChild(&mHeaderText);
   addChild(&mBackground);
@@ -85,13 +85,13 @@ void ISimpleGameListView::onFileChanged(FileData* file, FileChangeType change)
   if (file->isGame())
   {
     SystemData* favoriteSystem = mSystemManager.FavoriteSystem();
-    bool isInFavorite = favoriteSystem->getRootFolder()->Contains(file, true);
+    bool isInFavorite = favoriteSystem->getRootFolder().Contains(file, true);
     bool isFavorite = file->Metadata().Favorite();
 
     if (isInFavorite != isFavorite)
     {
-      if (isInFavorite) favoriteSystem->getRootFolder()->removeChild(file);
-      else favoriteSystem->getRootFolder()->addChild(file, false);
+      if (isInFavorite) favoriteSystem->getRootFolder().removeChild(file);
+      else favoriteSystem->getRootFolder().addChild(file, false);
       ViewController::Instance().setInvalidGamesList(mSystemManager.FavoriteSystem());
       ViewController::Instance().getSystemListView().manageFavorite();
       mFavoritesCount = mFavoritesCount + (isFavorite ? 1 : -1);
@@ -112,9 +112,9 @@ void ISimpleGameListView::onFileChanged(FileData* file, FileChangeType change)
   }
 
   int cursor = getCursorIndex();
-  if (RecalboxConf::Instance().AsBool(getRoot()->getSystem()->getName() + ".flatfolder"))
+  if (RecalboxConf::Instance().AsBool(mSystem.getName() + ".flatfolder"))
   {
-    populateList(getRoot());
+    populateList(mSystem.getRootFolder());
   }
   else
   {
@@ -143,7 +143,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
       if (folder->hasChildren())
       {
         mCursorStack.push(folder);
-        populateList(folder);
+        populateList(*folder);
         setCursorIndex(0);
       }
     }
@@ -161,7 +161,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
       // remove current folder from stack
       mCursorStack.pop();
 
-      FolderData* cursor = !mCursorStack.empty() ? mCursorStack.top() : getRoot();
+      FolderData& cursor = !mCursorStack.empty() ? *mCursorStack.top() : mSystem.getRootFolder();
       populateList(cursor);
 
       setCursor(selected);
@@ -171,7 +171,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
     else if (!hideSystemView)
     {
       onFocusLost();
-      ViewController::Instance().goToSystemView(getRoot()->getSystem());
+      ViewController::Instance().goToSystemView(&mSystem);
     }
     return true;
   }
@@ -187,9 +187,9 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
 
       if (favoriteSystem != nullptr) {
         if (md.Favorite()) {
-          favoriteSystem->getRootFolder()->addChild(cursor, false);
+          favoriteSystem->getRootFolder().addChild(cursor, false);
         } else {
-          favoriteSystem->getRootFolder()->removeChild(cursor);
+          favoriteSystem->getRootFolder().removeChild(cursor);
         }
 
         if (mIsFavoriteSystem) {
@@ -238,14 +238,14 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
   // JUMP TO NEXT LETTER
   if (event.L1Pressed())
   {
-    jumpToNextLetter(mSystem->getSortId() == 1 ? 1 : -1);
+    jumpToNextLetter(mSystem.getSortId() == 1 ? 1 : -1);
     return true;
   }
 
   // JUMP TO PREVIOUS LETTER
   if (event.R1Pressed())
   {
-      jumpToNextLetter(mSystem->getSortId() == 1 ? -1 : 1);
+      jumpToNextLetter(mSystem.getSortId() == 1 ? -1 : 1);
       return true;
   }
 
@@ -286,7 +286,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
 
   if (event.StartPressed())
   {
-    mWindow.pushGui(new GuiGamelistOptions(mWindow, getRoot()->getSystem()));
+    mWindow.pushGui(new GuiGamelistOptions(mWindow, &mSystem));
     return true;
   }
 
@@ -379,11 +379,11 @@ void ISimpleGameListView::jumpToNextLetter(int increment)
 void ISimpleGameListView::jumpToLetter(char letter)
 {
   // Jump to letter requires an alpha sort
-  if ( mSystem->getSortId() > 1) {
+  if ( mSystem.getSortId() > 1) {
     // apply sort
-    mSystem->setSortId(0);
+    mSystem.setSortId(0);
     // notify that the root folder has to be sorted
-    onFileChanged(mSystem->getRootFolder(), FileChangeType::Sorted);
+    onFileChanged(&mSystem.getRootFolder(), FileChangeType::Sorted);
   }
 
   FileData::List files = getFileDataList();
@@ -391,7 +391,7 @@ void ISimpleGameListView::jumpToLetter(char letter)
   unsigned long min, max;
   unsigned long mid = 0;
 
-  bool asc = mSystem->getSortId() == 0;
+  bool asc = mSystem.getSortId() == 0;
 
   // look for first game position
   for (min = 0; (min < files.size() - 1) && (files.at(min)->getType() != ItemType::Game) ; min++) ;

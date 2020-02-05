@@ -9,11 +9,12 @@
 #include "utils/locale/LocaleHelper.h"
 #include "SystemIcons.h"
 #include <recalbox/RecalboxSystem.h>
+#include <systems/SystemManager.h>
 
-BasicGameListView::BasicGameListView(Window& window, SystemManager& systemManager, FolderData* root)
-	: ISimpleGameListView(window, systemManager, root),
+BasicGameListView::BasicGameListView(Window& window, SystemManager& systemManager, SystemData& system)
+	: ISimpleGameListView(window, systemManager, system),
 	  mList(window),
-    mEmptyListItem(root->getSystem()),
+    mEmptyListItem(&system),
     mPopulatedFolder(nullptr),
 	  listingOffset(0)
 {
@@ -24,7 +25,7 @@ BasicGameListView::BasicGameListView(Window& window, SystemManager& systemManage
 
 	mEmptyListItem.Metadata().SetName(_("EMPTY LIST"));
 
-	populateList(root);
+	populateList(system.getRootFolder());
 }
 
 void BasicGameListView::onThemeChanged(const ThemeData& theme)
@@ -55,11 +56,11 @@ const char * BasicGameListView::getItemIcon(FileData* item)
 	return nullptr;
 }
 
-void BasicGameListView::populateList(const FolderData* folder)
+void BasicGameListView::populateList(const FolderData& folder)
 {
-	mPopulatedFolder = folder;
+	mPopulatedFolder = &folder;
 	mList.clear();
-	mHeaderText.setText(mSystem->getFullName());
+	mHeaderText.setText(mSystem.getFullName());
 
   // Default filter
   FileData::Filter filter = FileData::Filter::Normal | FileData::Filter::Favorite;
@@ -71,10 +72,8 @@ void BasicGameListView::populateList(const FolderData* folder)
     filter = FileData::Filter::Favorite;
 
   // Get items
-  bool flatfolders = (RecalboxConf::Instance().AsBool(getRoot()->getSystem()->getName() + ".flatfolder"));
-  int count = flatfolders ? folder->countFilteredItemsRecursively(filter, false) : folder->countFilteredItems(filter, true);
-  if (count == 0) filter |= FileData::Filter::Normal;
-	FileData::List items = flatfolders ? folder->getFilteredItemsRecursively(filter, false) : folder->getFilteredItems(filter, true);
+  bool flatfolders = mSystem.IsAlwaysFlat() || (RecalboxConf::Instance().AsBool(mSystem.getName() + ".flatfolder"));
+	FileData::List items = flatfolders ? folder.getFilteredItemsRecursively(filter, false) : folder.getFilteredItems(filter, true);
 	// Check emptyness
 	if (items.empty())
   {
@@ -83,8 +82,11 @@ void BasicGameListView::populateList(const FolderData* folder)
   }
 
   // Sort
-  const FileSorts::SortType& sortType = mSystem->getSortType(mSystem->isFavorite());
-  FolderData::Sort(items, sortType.comparisonFunction, sortType.ascending);
+  if (!mSystem.IsSelfSorted())
+  {
+    const FileSorts::SortType& sortType = mSystem.getSortType(mSystem.IsFavorite());
+    FolderData::Sort(items, sortType.comparisonFunction, sortType.ascending);
+  }
 
   // Add to list
   //mList.reserve(items.size()); // TODO: Reserve memory once
@@ -123,7 +125,7 @@ void BasicGameListView::setCursor(FileData* cursor)
 {
 	if(!mList.setCursor(cursor, listingOffset))
 	{
-		populateList(mRoot);
+		populateList(mSystem.getRootFolder());
 		mList.setCursor(cursor);
 
 		// update our cursor stack in case our cursor just got set to some folder we weren't in before
@@ -131,7 +133,7 @@ void BasicGameListView::setCursor(FileData* cursor)
 		{
 			std::stack<FolderData*> tmp;
 			FolderData* ptr = cursor->getParent();
-			while((ptr != nullptr) && ptr != mRoot)
+			while((ptr != nullptr) && ptr != &mSystem.getRootFolder())
 			{
 				tmp.push(ptr);
 				ptr = ptr->getParent();

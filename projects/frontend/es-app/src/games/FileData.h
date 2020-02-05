@@ -18,6 +18,7 @@ class FileData
   public:
     typedef std::unordered_map<std::string, FileData*> StringMap;
     typedef std::vector<FileData*> List;
+    typedef int (*Comparer)(const FileData& a, const FileData& b);
 
     //! Game filters
     enum class Filter

@@ -22,6 +22,19 @@ class SystemManager :
     //! Convenient alias for System list
     typedef std::vector<SystemData*> SystemList;
 
+    //! Multiplayer system internal name
+    static constexpr const char* sMultiplayerSystemShortName = "multiplayers";
+    //! Last Played system internal name
+    static constexpr const char* sLastPlayedSystemShortName = "lastplayed";
+    //! All games system internal name
+    static constexpr const char* sAllGamesSystemShortName = "allgames";
+    //! Multiplayer system internal name
+    static constexpr const char* sMultiplayerSystemFullName = "multiplayers";
+    //! Last Played system internal name
+    static constexpr const char* sLastPlayedSystemFullName = "lastplayed";
+    //! All games system internal name
+    static constexpr const char* sAllGamesSystemFullName = "allgames";
+
   private:
     //! File path to system weight file for fast loading/saving
     static constexpr const char* sWeightFilePath = "/recalbox/share/system/.emulationstation/.weights";
@@ -84,6 +97,41 @@ class SystemManager :
     bool AddArcadeMetaSystem();
 
     /*!
+     * @brief Add manually filtered meta system. Get item from Visible system vector and filter
+     * games using the provided filter
+     * @param filter Filter to apply
+     * @param comparer Comparer to sort items. If null, no sorting is applied
+     * @param identifier System identifier (short name)
+     * @param fullname System full name
+     * @return True if the system has been added
+     */
+    bool AddManuallyFilteredMetasystem(IFilter* filter, FileData::Comparer comparer, const std::string& identifier, const std::string& fullname, SystemData::Properties properties);
+
+    /*!
+     * @brief Add All-games meta system (all games from all visible systems)
+     * @return Alays true
+     */
+    bool AddAllGamesMetaSystem();
+
+    /*!
+     * @brief Add all games with min or max players > 1 (from all visible systems)
+     * @return Always true
+     */
+    bool AddMultiplayerMetaSystems();
+
+    /*!
+     * @brief Add last-played games from all systems (from all visible systems)
+     * @return Always true
+     */
+    bool AddLastPlayedMetaSystem();
+
+    /*!
+     * @brief All all special collections
+     * @return
+     */
+    bool AddSpecialCollectionsMetaSystems();
+
+    /*!
      * @brief Create regular system from a SystemDescriptor object
      * @param systemDescriptor SystemDescriptor object
      * @param forceLoad Force reloading list from disk and not only from gamelist.xml
@@ -108,10 +156,25 @@ class SystemManager :
      * @param fullName Target system fullname
      * @param themeFolder Theme folder name
      * @param systems System to fetch games to aggregate into a single list
+     * @param properties System properties
      * @return New meta-system
      */
     static SystemData* CreateMetaSystem(const std::string& name, const std::string& fullName,
-                                        const std::string& themeFolder, const std::vector<SystemData*>& systems);
+                                        const std::string& themeFolder, const std::vector<SystemData*>& systems,
+                                        SystemData::Properties properties);
+
+    /*!
+     * @brief Create meta-system aggregating games from multiple systems
+     * @param name Target system short name
+     * @param fullName Target system fullname
+     * @param themeFolder Theme folder name
+     * @param games Games to add
+     * @param properties System properties
+     * @return New meta-system
+     */
+    static SystemData* CreateMetaSystem(const std::string& name, const std::string& fullName,
+                                        const std::string& themeFolder, const FileData::List& games,
+                                        SystemData::Properties properties);
 
     /*!
      * @brief Write exemple configuration file when no configuration file are available
@@ -247,6 +310,23 @@ class SystemManager :
      * @return system name list
      */
     const Strings::Vector& GetDeclaredSystemShortNames() { return mAllDeclaredSystemShortNames; }
+
+    /*!
+     * @brief Update last-played system with the given game
+     * @param game Last played game
+     */
+    void UpdateLastPlayedSystem(FileData& game);
+
+    /*!
+     * @brief Get Last Played system
+     * @return Last played system or nullptr if it does not exist
+     */
+    SystemData* LastPlayedSystem()
+    {
+      int index = getVisibleSystemIndex(sLastPlayedSystemShortName);
+      if (index < 0) return nullptr;
+      return mVisibleSystemVector[index];
+    }
 
     /*!
      * @brief Get next system to the given system

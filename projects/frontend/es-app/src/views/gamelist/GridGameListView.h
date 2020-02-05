@@ -8,7 +8,7 @@
 class GridGameListView : public ISimpleGameListView
 {
 public:
-	GridGameListView(Window& window, FolderData* root);
+	GridGameListView(Window& window, SystemData& system);
 
 	FileData* getCursor() override { return mGrid.getSelected(); }
 	void setCursor(FileData*) override;
@@ -20,7 +20,7 @@ public:
 	bool getHelpPrompts(Help& help) override;
 
 protected:
-	void populateList(const FolderData* folder) override;
+	void populateList(const FolderData& folder) override;
 	void launch(FileData* game) override { ViewController::Instance().launch(game); }
 
 	ImageGridComponent<FileData*> mGrid;

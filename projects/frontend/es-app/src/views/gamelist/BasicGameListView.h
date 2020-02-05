@@ -8,7 +8,7 @@
 class BasicGameListView : public ISimpleGameListView
 {
 public:
-	BasicGameListView(Window& window, SystemManager& systemManager, FolderData* root);
+	BasicGameListView(Window& window, SystemManager& systemManager, SystemData& system);
 
 	// Called when a FileData* is added, has its metadata changed, or is removed
 	void onFileChanged(FileData* file, FileChangeType change) override;
@@ -23,8 +23,8 @@ public:
 
 	const char* getName() const override { return "basic"; }
 
-	void populateList(const FolderData* folder) override;
-	void refreshList() override { populateList(mPopulatedFolder); }
+	void populateList(const FolderData& folder) override;
+	void refreshList() override { populateList(*mPopulatedFolder); }
 
 	inline void updateInfoPanel() override {}
 

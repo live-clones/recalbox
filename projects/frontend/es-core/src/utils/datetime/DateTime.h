@@ -87,7 +87,7 @@ private:
    * Return elapsed days since the beginning of the era, using Bob Orlando's Algorithm
    * @return Elapsed days from the 0000/01/01
    */
-  int ElapsedDayFromEpoch(int year, int month, int day) const;
+  static int ElapsedDayFromEpoch(int year, int month, int day) ;
 
   /*!
    * Fill the current object from RTC values
@@ -217,6 +217,12 @@ public:
    * @param strtoparse string to parse
    */
   DateTime(const char* format, const std::string& strtoparse) { ParseFromString(format, strtoparse, *this); }
+
+  /*!
+   * @brief Zeroed datetime? (Start of era)
+   * @return True if the current datatime is at start of era
+   */
+  bool IsZero() const;
 
   /*!
    * Return the day of week of the current object, from 0 (monday) to 6 (sunday)

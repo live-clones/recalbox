@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <utils/cplusplus/INoCopy.h>
 #include "games/RootFolderData.h"
 #include "Window.h"
 #include "PlatformId.h"
@@ -9,8 +10,21 @@
 #include "EmulatorList.h"
 #include "SystemDescriptor.h"
 
-class SystemData
+class SystemManager;
+
+class SystemData : private INoCopy
 {
+  public:
+    //! System properties
+    enum class Properties
+    {
+      None       = 0, //!< No properties
+      Favorite   = 1, //!< This system is the "Favorite" system
+      Virtual    = 2, //!< This system is not a real system
+      SelfSorted = 4, //!< This system has its own sorting system. Must *not* be resorted
+      AlwaysFlat = 8, //!< This system is presented always flat
+    };
+
 	private:
     friend class SystemManager;
 
@@ -23,13 +37,13 @@ class SystemData
     //! Sorting index
     unsigned int mSortId;
     //! Is this system the favorite system?
-		bool mIsFavorite;
+    Properties mProperties;
 
     /*!
      * @brief Populate the system using all available folder/games by gathering recursively
      * all files mathing the extension list
      * @param folder Root folder to recurse in
-     * @param doppelgangerWatcher full path map to avoid symlink to inject a game more than once
+     * @param doppelgangerWatcher full path map to avoid adding a game more than once
      */
     void populateFolder(FolderData* folder, FileData::StringMap& doppelgangerWatcher);
 
@@ -38,9 +52,9 @@ class SystemData
      * @param System descriptor
      * @param childOwnership True og the system own all its children game/folder.
      * False if the system is a virtual system. Avoid games to be destroyed more than once
-     * @param favorite True if this is the favorite system.
+     * @param properties System properties
      */
-    SystemData(const SystemDescriptor& systemDescriptor, bool childOwnership, bool favorite);
+    SystemData(const SystemDescriptor& systemDescriptor, bool childOwnership, Properties properties);
 
     /*!
      * @brief Get localized text inside a text. Look for [lg] tags to mark start/end of localized texts
@@ -78,13 +92,13 @@ class SystemData
 
   public:
     //! Return the root folder object
-    RootFolderData* getRootFolder() { return &mRootFolder; };
+    const RootFolderData& getRootFolder() const { return mRootFolder; };
+    RootFolderData& getRootFolder() { return mRootFolder; };
     const std::string& getName() const { return mDescriptor.Name(); }
     const std::string& getFullName() const { return mDescriptor.FullName(); }
     const Path& getStartPath() const { return mDescriptor.RomPath(); }
     const std::string& ThemeFolder() const { return mDescriptor.ThemeFolder(); }
     bool getHasFavoritesInTheme() const { return mTheme.getHasFavoritesInTheme(); }
-    bool isFavorite() const { return mIsFavorite; }
     FileData::List getFavorites() const { return mRootFolder.getAllFavoritesRecursively(false); }
     unsigned int getSortId() const { return mSortId; };
     FileSorts::SortType getSortType(bool forFavorites) const { return forFavorites ? FileSorts::SortTypesForFavorites.at(mSortId) : FileSorts::SortTypes.at(mSortId); };
@@ -105,7 +119,7 @@ class SystemData
     int FavoritesCount() const{ return mRootFolder.countAllFavorites(false); };
     int HiddenCount() const{ return mRootFolder.countAllHidden(false); };
 
-    void RunGame(Window& window, FileData& game, const std::string& netplay, const std::string& core, const std::string& ip, const std::string& port);
+    void RunGame(Window& window, SystemManager& systemManager, FileData& game, const std::string& netplay, const std::string& core, const std::string& ip, const std::string& port);
 
     // Load or re-load theme.
     void loadTheme();
@@ -116,8 +130,28 @@ class SystemData
     static void demoFinalize(Window& window);
     bool DemoRunGame(const FileData& game, int duration, int infoscreenduration, const std::string& controlersConfig);
 
+    //! Is this system the "Favorite" system?
+    bool IsFavorite();
+
+    //! Is this system virtual?
+    bool IsVirtual();
+
+    //! Is this system selt sorted
+    bool IsSelfSorted();
+
+    //! Is this system always flat?
+    bool IsAlwaysFlat();
+
     /*!
      * @brief Write modified games back to the gamelist xml file
      */
     void UpdateGamelistXml();
+
+    /*!
+     * @brief Update game list with a single game on top of the list
+     * @param game game to insert or move
+     */
+    void UpdateLastPlayedGame(FileData& game);
 };
+
+DEFINE_BITFLAG_ENUM(SystemData::Properties, int)

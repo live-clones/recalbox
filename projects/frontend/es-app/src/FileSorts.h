@@ -9,11 +9,11 @@ class FileSorts
   public:
     struct SortType
     {
-      int (*comparisonFunction)(const FileData& a, const FileData& b);
+      FileData::Comparer comparisonFunction;
       bool ascending;
       std::string description;
 
-      SortType(int (*sortFunction)(const FileData& a, const FileData& b), bool sortAscending, const std::string & sortDescription)
+      SortType(FileData::Comparer sortFunction, bool sortAscending, const std::string & sortDescription)
         : comparisonFunction(sortFunction),
           ascending(sortAscending),
           description(sortDescription)

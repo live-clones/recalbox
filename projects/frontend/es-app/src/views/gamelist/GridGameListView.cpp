@@ -4,22 +4,22 @@
 #include "Settings.h"
 #include "utils/locale/LocaleHelper.h"
 
-GridGameListView::GridGameListView(Window&window, FolderData* root)
-  : ISimpleGameListView(window, mSystemManager, root),
+GridGameListView::GridGameListView(Window&window, SystemData& system)
+  : ISimpleGameListView(window, mSystemManager, system),
     mGrid(window)
 {
 	mGrid.setPosition(0, mSize.y() * 0.2f);
 	mGrid.setSize(mSize.x(), mSize.y() * 0.8f);
 	addChild(&mGrid);
 
-	populateList(root);
+	populateList(system.getRootFolder());
 }
 
 void GridGameListView::setCursor(FileData* file)
 {
 	if(!mGrid.setCursor(file))
 	{
-		populateList(file->getParent());
+		populateList(*file->getParent());
 		mGrid.setCursor(file);
 	}
 }
@@ -32,11 +32,11 @@ bool GridGameListView::ProcessInput(const InputCompactEvent& event)
 	return ISimpleGameListView::ProcessInput(event);
 }
 
-void GridGameListView::populateList(const FolderData* folder)
+void GridGameListView::populateList(const FolderData& folder)
 {
 	mGrid.clear();
 	bool favoritesOnly = Settings::Instance().FavoritesOnly();
-	FileData::List files = favoritesOnly ? folder->getAllFavorites(true) : folder->getAllDisplayableItems(true);
+	FileData::List files = favoritesOnly ? folder.getAllFavorites(true) : folder.getAllDisplayableItems(true);
 	for (FileData* fd : files)
 	{
 		mGrid.add(fd->getName(), fd->getThumbnailOrImagePath(), fd);

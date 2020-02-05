@@ -246,7 +246,7 @@ bool ScreenScraperEngine::RunOn(ScrappingMethod method, const SystemManager::Sys
                      .append(" HTTP://WWW.SCREENSCRAPER.FR");
   // Feed threadpool
   for(SystemData* system : systemList)
-    for(FileData* game : system->getRootFolder()->getAllDisplayableItemsRecursively(false))
+    for(FileData* game : system->getRootFolder().getAllDisplayableItemsRecursively(false))
       mRunner.PushFeed(game);
   mTotal = mRunner.PendingJobs();
   // Run!
@@ -639,7 +639,7 @@ ScreenScraperEngine::Engine::DownloadAndStoreMedia(ScrappingMethod method, const
                                                    FileData& game)
 {
   bool ok = false;
-  const Path rootFolder(game.getSystem()->getRootFolder()->getPath());
+  const Path rootFolder(game.getSystem()->getRootFolder().getPath());
   const Path relativePath = game.getPath().MakeRelative(rootFolder, ok);
   const std::string gameName = ok ? (relativePath.Directory() / game.getPath().FilenameWithoutExtension()).ToString()
                                   : game.getPath().FilenameWithoutExtension();

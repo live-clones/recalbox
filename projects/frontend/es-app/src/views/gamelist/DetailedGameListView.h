@@ -11,7 +11,7 @@
 class DetailedGameListView : public BasicGameListView
 {
 public:
-    DetailedGameListView(Window& window, SystemManager& systemManager, FolderData* root);
+    DetailedGameListView(Window& window, SystemManager& systemManager, SystemData& system);
 
     void onThemeChanged(const ThemeData& theme) override;
 
@@ -50,8 +50,6 @@ private:
 
     ScrollableContainer mDescContainer;
     TextComponent mDescription;
-
-    SystemData* mSystem;
 
     RecalboxConf& mSettings;
 

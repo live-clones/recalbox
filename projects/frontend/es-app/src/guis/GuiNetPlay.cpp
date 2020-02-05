@@ -391,8 +391,8 @@ FileData* GuiNetPlay::findGame(const std::string& gameNameOrHash)
   for (auto tmp : mSystemManager.GetAllSystemList())
     if (RecalboxConf::Instance().isInList("global.netplay.systems", tmp->getName()))
     {
-      FileData* result = tmp->getRootFolder()->LookupGame(gameNameOrHash, FileData::SearchAttributes::ByName |
-                                                                          FileData::SearchAttributes::ByHash);
+      FileData* result = tmp->getRootFolder().LookupGame(gameNameOrHash, FileData::SearchAttributes::ByName |
+                                                                         FileData::SearchAttributes::ByHash);
       if (result != nullptr) return result;
     }
   return nullptr;

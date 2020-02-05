@@ -102,7 +102,7 @@ ImplementSortMethod(compareLastPlayed)
   {
     if (ep1 != 0) return 1;
     if (ep2 != 0) return -1;
-    return  simpleCompareUppercase(file1.getName(), file2.getName());
+    return simpleCompareUppercase(file1.getName(), file2.getName());
   }
   return ep1 < ep2 ? -1 : 1;
 }

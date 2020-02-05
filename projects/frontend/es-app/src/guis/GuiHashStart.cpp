@@ -67,7 +67,7 @@ void GuiHashStart::Run()
 
     // Run through games
     int romCount = 0;
-    FileData::List games = system->getRootFolder()->getAllItems(true);
+    FileData::List games = system->getRootFolder().getAllItems(true);
     for (FileData* game : games)
     {
       // Check path
