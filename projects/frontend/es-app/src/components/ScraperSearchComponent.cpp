@@ -89,7 +89,7 @@ ScraperSearchComponent::ScraperSearchComponent(Window& window)
   mValuePublisher = std::make_shared<TextComponent>(mWindow, "", font, mdColor);
   mGrid.setEntry(mValuePublisher, Vector2i(3, 2), false, false, Vector2i(1, 1));
   mValueGenre = std::make_shared<TextComponent>(mWindow, "", font, mdColor);
-  mGrid.setEntry(mValueGenre, Vector2i(2, 3), false, false, Vector2i(1, 1));
+  mGrid.setEntry(mValueGenre, Vector2i(3, 3), false, false, Vector2i(1, 1));
   mValueRating = std::make_shared<RatingComponent>(mWindow, menuTheme->menuText.color);
   mGrid.setEntry(mValueRating, Vector2i(5, 1), false, false, Vector2i(1, 1));
   mValueReleaseDate = std::make_shared<DateTimeComponent>(mWindow);

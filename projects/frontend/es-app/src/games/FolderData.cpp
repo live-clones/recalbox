@@ -154,6 +154,33 @@ FileData::List FolderData::getAllFolders() const
   return result;
 }
 
+void FolderData::ClearSubChildList()
+{
+  for (int i = mChildren.size(); --i >= 0; )
+  {
+    FileData* fd = mChildren[i];
+    if (fd->isFolder())
+      CastFolder(fd)->ClearSubChildList();
+    else
+      mChildren[i] = nullptr;
+  }
+}
+
+void FolderData::BuildDoppelgangerMap(FileData::StringMap& doppelganger, bool includefolder) const
+{
+  for (FileData* fd : mChildren)
+  {
+    if (fd->isFolder())
+    {
+      CastFolder(fd)->BuildDoppelgangerMap(doppelganger, includefolder);
+      if (includefolder)
+        doppelganger[fd->getPath().ToString()] = fd;
+    }
+    else
+      doppelganger[fd->getPath().ToString()] = fd;
+  }
+}
+
 int FolderData::getItemsRecursively(FileData::List& to, IFilter* filter, bool includefolders) const
 {
   int gameCount = 0;
@@ -574,3 +601,4 @@ bool FolderData::IsDirty() const
   }
   return false;
 }
+

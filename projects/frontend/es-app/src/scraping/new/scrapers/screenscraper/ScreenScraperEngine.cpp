@@ -632,6 +632,18 @@ ScreenScraperEngine::Engine::StoreTextData(ScrappingMethod method, const ScreenS
       game.Metadata().SetRating(sourceData.mRating);
       mTextInfo++;
     }
+  if (!sourceData.mGenre.empty())
+    if (game.Metadata().Genre().empty() || method != ScrappingMethod::IncompleteKeep)
+    {
+      game.Metadata().SetGenre(sourceData.mGenre);
+      mTextInfo++;
+    }
+  if (sourceData.mGenreId !=  GameGenres::None)
+    if (game.Metadata().GenreId() == GameGenres::None || method != ScrappingMethod::IncompleteKeep)
+    {
+      game.Metadata().SetGenreId(sourceData.mGenreId);
+      mTextInfo++;
+    }
 }
 
 ScrapeResult

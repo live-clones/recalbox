@@ -131,6 +131,7 @@ void SystemView::addSystem(SystemData * it){
 
 	this->add(e);
 }
+
 void SystemView::populate()
 {
 	mEntries.clear();
@@ -159,12 +160,6 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
 {
 	if (event.AnythingPressed())
 	{
-		/*if(config->getDeviceId() == InputEvent::sKeyboardDevice && input.Id() == SDLK_r && ((SDL_GetModState() & KMOD_LCTRL) != 0) && Settings::Instance().getBool("Debug"))
-		{
-			LOG(LogInfo) << " Reloading all";
-			ViewController::get()->reloadAll();
-			return true;
-		}*/
 		switch (mCarousel.type)
 		{
 		case CarouselType::Vertical:
@@ -356,7 +351,6 @@ void SystemView::onCursorChanged(const CursorState& state)
 
 	
 	// animate mSystemInfo's opacity (fade out, wait, fade back in)
-
 	cancelAnimation(1);
 	cancelAnimation(2);
 

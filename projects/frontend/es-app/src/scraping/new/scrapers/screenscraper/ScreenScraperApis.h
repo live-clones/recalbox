@@ -8,6 +8,7 @@
 #include <utils/datetime/DateTime.h>
 #include <rapidjson/document.h>
 #include <scraping/new/ScrapeResult.h>
+#include <games/NormalizedGenres.h>
 
 
 class ScreenScraperApis
@@ -85,10 +86,16 @@ class ScreenScraperApis
       std::string mSynopsis;
       //! Players
       std::string mPlayers;
+      //! Genre
+      std::string mGenre;
       //! Editor
       DateTime mReleaseDate;
       //! Rating
       float mRating;
+      //! Normalized genre
+      GameGenres mGenreId;
+      //! Adult state
+      bool mAdult;
 
       //! Media Urls
       struct MediaUrl
@@ -193,6 +200,28 @@ class ScreenScraperApis
      * @return Best-matching url
      */
     static std::string ExtractMedia(const rapidjson::Value& medias, const char* type, const std::string& region, std::string& format, long long& size);
+
+    /*!
+     * @brief Extract best matching genre texts, comma-separated.
+     * @param array Json array of genres
+     * @param preferedlanguage Prefered language
+     * @return Genre strings, comma-separated
+     */
+    static std::string ExtractLocalizedGenre(const rapidjson::Value& array, const std::string& preferedlanguage);
+
+    /*!
+     * @brief Extract a normalized game genre
+     * @param array Json array of genres
+     * @return GameGenres value
+     */
+    static GameGenres ExtractNormalizedGenre(const rapidjson::Value& array);
+
+    /*!
+     * @brief Extract the adult state
+     * @param array Json array of genres
+     * @return True if the game is flagged Adult, false otherwise
+     */
+    static bool ExtractAdultState(const rapidjson::Value& array);
 
   public:
     /*!

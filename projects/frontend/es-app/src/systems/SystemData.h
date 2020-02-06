@@ -32,7 +32,7 @@ class SystemData : private INoCopy
     SystemDescriptor mDescriptor;
     //! Theme object
     ThemeData mTheme;
-    //! Root folder - Children are top level visible gale/folder of the system
+    //! Root folder - Children are top level visible game/folder of the system
     RootFolderData mRootFolder;
     //! Sorting index
     unsigned int mSortId;
@@ -50,11 +50,10 @@ class SystemData : private INoCopy
     /*!
      * @brief Private constructor, called from SystemManager
      * @param System descriptor
-     * @param childOwnership True og the system own all its children game/folder.
-     * False if the system is a virtual system. Avoid games to be destroyed more than once
+     * @param childOwnership Type of children management
      * @param properties System properties
      */
-    SystemData(const SystemDescriptor& systemDescriptor, bool childOwnership, Properties properties);
+    SystemData(const SystemDescriptor& systemDescriptor, RootFolderData::Ownership childOwnership, Properties properties);
 
     /*!
      * @brief Get localized text inside a text. Look for [lg] tags to mark start/end of localized texts
@@ -77,12 +76,13 @@ class SystemData : private INoCopy
 
     /*!
      * @brief Lookup an existing game entry (or create it) in the current system.
+     * @param root Game root path (usually system root path)
      * @param path Game path
      * @param type Type (folder/game)
      * @param doppelgangerWatcher Maps to avoid duplicate entries
      * @return Existing or newly created FileData
      */
-    FileData* LookupOrCreateGame(const Path& path, ItemType type, FileData::StringMap& doppelgangerWatcher);
+    FileData* LookupOrCreateGame(const Path& root, const Path& path, ItemType type, FileData::StringMap& doppelgangerWatcher);
 
     /*!
      * @brief Parse xml gamelist files and add games to the current system
@@ -131,16 +131,16 @@ class SystemData : private INoCopy
     bool DemoRunGame(const FileData& game, int duration, int infoscreenduration, const std::string& controlersConfig);
 
     //! Is this system the "Favorite" system?
-    bool IsFavorite();
+    bool IsFavorite() const;
 
     //! Is this system virtual?
-    bool IsVirtual();
+    bool IsVirtual() const;
 
     //! Is this system selt sorted
-    bool IsSelfSorted();
+    bool IsSelfSorted() const;
 
     //! Is this system always flat?
-    bool IsAlwaysFlat();
+    bool IsAlwaysFlat() const;
 
     /*!
      * @brief Write modified games back to the gamelist xml file
@@ -152,6 +152,13 @@ class SystemData : private INoCopy
      * @param game game to insert or move
      */
     void UpdateLastPlayedGame(FileData& game);
+
+    /*!
+     * @brief Rebuild a complete map path/FileData recursively
+     * @param doppelganger Map to fill in
+     * @param includefolder Include folder or not
+     */
+    void BuildDoppelgangerMap(FileData::StringMap& doppelganger, bool includefolder) const;
 };
 
 DEFINE_BITFLAG_ENUM(SystemData::Properties, int)

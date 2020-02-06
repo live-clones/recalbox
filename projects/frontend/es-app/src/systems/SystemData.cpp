@@ -14,7 +14,7 @@
 
 EmulatorDescriptor EmulatorList::sEmptyEmulator("NO EMULATOR");
 
-SystemData::SystemData(const SystemDescriptor& descriptor, bool childOwnership, Properties properties)
+SystemData::SystemData(const SystemDescriptor& descriptor, RootFolderData::Ownership childOwnership, Properties properties)
   : mDescriptor(descriptor), mRootFolder(childOwnership, descriptor.RomPath(), this),
     mSortId(RecalboxConf::Instance().AsUInt(mDescriptor.Name() + ".sort")), mProperties(properties)
 {
@@ -308,21 +308,20 @@ void SystemData::overrideFolderInformation(FileData* folderdata)
   }
 }
 
-FileData* SystemData::LookupOrCreateGame(const Path& path, ItemType type, FileData::StringMap& doppelgangerWatcher)
+FileData* SystemData::LookupOrCreateGame(const Path& root, const Path& path, ItemType type, FileData::StringMap& doppelgangerWatcher)
 {
-  // first, verify that path is within the system's root folder
-  FolderData& root = mRootFolder;
-
-  if (!path.StartWidth(root.getPath()))
+  if (!path.StartWidth(root))
   {
     LOG(LogError) << "File path \"" << path.ToString() << "\" is outside system path \"" << getStartPath().ToString()
                   << "\"";
     return nullptr;
   }
 
-  int itemStart = root.getPath().ItemCount();
+  bool isVirtual = IsVirtual();
+
+  int itemStart = root.ItemCount();
   int itemLast = path.ItemCount() - 1;
-  FolderData* treeNode = &root;
+  FolderData* treeNode = &mRootFolder;
   for (int itemIndex = itemStart; itemIndex <= itemLast; ++itemIndex)
   {
     // Get the key for duplicate detection. MUST MATCH KEYS USED IN populateRecursiveFolder.populateRecursiveFolder - Always fullpath
@@ -335,12 +334,18 @@ FileData* SystemData::LookupOrCreateGame(const Path& path, ItemType type, FileDa
       if (type == ItemType::Game) // Final file
       {
         FileData* game = item;
-        if (game == nullptr)
+        if (game == nullptr && !isVirtual)
         {
           // Add final game
           game = new FileData(path, this);
           doppelgangerWatcher[key] = game;
           treeNode->addChild(game, true);
+        }
+        else if (game != nullptr && isVirtual)
+        {
+          // Add existing game & remove from doppleganger
+          treeNode->addChild(game, false);
+          doppelgangerWatcher.erase(key);
         }
         return game;
       }
@@ -349,7 +354,7 @@ FileData* SystemData::LookupOrCreateGame(const Path& path, ItemType type, FileDa
         FolderData* folder = (FolderData*) item;
         if (folder == nullptr)
         {
-          // create missing folder
+          // Create missing folder in both case, virtual or not
           folder = new FolderData(Path(key), this);
           doppelgangerWatcher[key] = folder;
           treeNode->addChild(folder, true);
@@ -362,7 +367,7 @@ FileData* SystemData::LookupOrCreateGame(const Path& path, ItemType type, FileDa
       FolderData* folder = (FolderData*) item;
       if (folder == nullptr)
       {
-        // create missing folder
+        // Create missing folder in both case, virtual or not
         folder = new FolderData(Path(key), this);
         doppelgangerWatcher[key] = folder;
         treeNode->addChild(folder, true);
@@ -402,7 +407,7 @@ void SystemData::ParseGamelistXml(FileData::StringMap& doppelgangerWatcher)
 
         Path path = relativeTo / Xml::AsString(fileNode, "path", "");
 
-        FileData* file = LookupOrCreateGame(path, type, doppelgangerWatcher);
+        FileData* file = LookupOrCreateGame(mRootFolder.getPath(), path, type, doppelgangerWatcher);
         if (file == nullptr)
         {
           LOG(LogError) << "Error finding/creating FileData for \"" << path.ToString() << "\", skipping.";
@@ -486,24 +491,29 @@ void SystemData::UpdateGamelistXml()
   }
 }
 
-bool SystemData::IsFavorite()
+bool SystemData::IsFavorite() const
 {
   return (mProperties & Properties::Favorite) != 0;
 }
 
-bool SystemData::IsVirtual()
+bool SystemData::IsVirtual() const
 {
   return (mProperties & Properties::Virtual) != 0;
 }
 
-bool SystemData::IsSelfSorted()
+bool SystemData::IsSelfSorted() const
 {
   return (mProperties & Properties::SelfSorted) != 0;
 }
 
-bool SystemData::IsAlwaysFlat()
+bool SystemData::IsAlwaysFlat() const
 {
   return (mProperties & Properties::AlwaysFlat) != 0;
+}
+
+void SystemData::BuildDoppelgangerMap(FileData::StringMap& doppelganger, bool includefolder) const
+{
+  mRootFolder.BuildDoppelgangerMap(doppelganger, includefolder);
 }
 
 void SystemData::UpdateLastPlayedGame(FileData& updated)
@@ -511,14 +521,10 @@ void SystemData::UpdateLastPlayedGame(FileData& updated)
   // Update game
   updated.Metadata().SetLastplayedNow();
 
-  // Get all game
-  FileData::List all = mRootFolder.getAllItems(true);
-
   // Build the doppelganger map
   FileData::StringMap map;
-  for(FileData* game : all)
-    map[game->getPath().ToString()] = game;
+  BuildDoppelgangerMap(map, false);
 
   // Add or not the updated game
-  LookupOrCreateGame(updated.getPath(), ItemType::Game, map);
+  LookupOrCreateGame(updated.getSystem()->getRootFolder().getPath(), updated.getPath(), ItemType::Game, map);
 }

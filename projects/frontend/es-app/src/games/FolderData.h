@@ -17,6 +17,12 @@ class FolderData : public FileData
     void ClearChildList() { mChildren.clear(); }
 
     /*!
+     * @brief Clear the internal child list recusively but the folders
+     * keeping the folder structure
+     */
+    void ClearSubChildList();
+
+    /*!
      * @brief Get all folders recursively
      * @param Folder list
      * @return Total amount of games
@@ -283,6 +289,13 @@ class FolderData : public FileData
      * @return True if the folder is "dirty"
      */
     bool IsDirty() const;
+
+    /*!
+     * @brief Rebuild a complete map path/FileData recursively
+     * @param doppelganger Map to fill in
+     * @param includefolder include folder or not
+     */
+    void BuildDoppelgangerMap(FileData::StringMap& doppelganger, bool includefolder) const;
 };
 
 

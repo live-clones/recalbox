@@ -7,6 +7,7 @@
 #include <utils/os/system/Thread.h>
 #include "ScreenScraperApis.h"
 #include <utils/Log.h>
+#include <map>
 
 std::string ScreenScraperApis::BuildUrlCommon(ScreenScraperApis::Api api)
 {
@@ -59,23 +60,24 @@ ScreenScraperApis::User ScreenScraperApis::GetUserInformation()
   {
     rapidjson::Document json;
     json.Parse(output.c_str());
-    if (json.HasMember("response"))
-    {
-      const rapidjson::Value& response = json["response"];
-      if (response.HasMember("ssuser"))
+    if (!json.HasParseError())
+      if (json.HasMember("response"))
       {
-        const rapidjson::Value& ssuser = response["ssuser"];
-        if (ssuser.HasMember("maxthreads"))
-          if (!Strings::ToInt(ssuser["maxthreads"].GetString(), user.mThreads)) user.mThreads = 1;
-        if (ssuser.HasMember("requeststoday"))
-          if (!Strings::ToInt(ssuser["requeststoday"].GetString(), user.mRequestDone)) user.mRequestDone = 0;
-        if (ssuser.HasMember("maxrequestspermin"))
-          if (!Strings::ToInt(ssuser["maxrequestspermin"].GetString(), user.mMaxRatePerMin)) user.mMaxRatePerMin = 0;
-        if (ssuser.HasMember("maxrequestsperday"))
-          if (!Strings::ToInt(ssuser["maxrequestsperday"].GetString(), user.mMaxRatePerDay)) user.mMaxRatePerDay = 0;
-        if (ssuser.HasMember("favregion")) ssuser["favregion"].GetString();
+        const rapidjson::Value& response = json["response"];
+        if (response.HasMember("ssuser"))
+        {
+          const rapidjson::Value& ssuser = response["ssuser"];
+          if (ssuser.HasMember("maxthreads"))
+            if (!Strings::ToInt(ssuser["maxthreads"].GetString(), user.mThreads)) user.mThreads = 1;
+          if (ssuser.HasMember("requeststoday"))
+            if (!Strings::ToInt(ssuser["requeststoday"].GetString(), user.mRequestDone)) user.mRequestDone = 0;
+          if (ssuser.HasMember("maxrequestspermin"))
+            if (!Strings::ToInt(ssuser["maxrequestspermin"].GetString(), user.mMaxRatePerMin)) user.mMaxRatePerMin = 0;
+          if (ssuser.HasMember("maxrequestsperday"))
+            if (!Strings::ToInt(ssuser["maxrequestsperday"].GetString(), user.mMaxRatePerDay)) user.mMaxRatePerDay = 0;
+          if (ssuser.HasMember("favregion")) ssuser["favregion"].GetString();
+        }
       }
-    }
   }
   return user;
 }
@@ -131,104 +133,111 @@ void ScreenScraperApis::DeserializeGameInformation(const std::string& jsonstring
 {
   rapidjson::Document json;
   json.Parse(jsonstring.c_str());
-  if (json.HasMember("response"))
-  {
-    const rapidjson::Value& response = json["response"];
-    if (response.HasMember("jeu"))
+  if (!json.HasParseError())
+    if (json.HasMember("response"))
     {
-      const rapidjson::Value& jeu = response["jeu"];
-
-      // Deserialize text data
-      if (jeu.HasMember("noms"))
-        game.mName = ExtractRegionalizedText(jeu["noms"], mConfiguration.GetFavoriteRegion());
-      if (jeu.HasMember("synopsis"))
-       game.mSynopsis = ExtractLocalizedText(jeu["synopsis"], mConfiguration.GetFavoriteLanguage());
-      if (jeu.HasMember("editeur"))
-        game.mPublisher = jeu["editeur"]["text"].GetString();
-      if (jeu.HasMember("developpeur"))
-        game.mDeveloper = jeu["developpeur"]["text"].GetString();
-      if (jeu.HasMember("joueurs"))
-        game.mPlayers = jeu["joueurs"]["text"].GetString();
-      if (jeu.HasMember("dates"))
+      const rapidjson::Value& response = json["response"];
+      if (response.HasMember("jeu"))
       {
-        std::string dateTime = ExtractRegionalizedText(jeu["dates"], mConfiguration.GetFavoriteRegion());
-        if (!DateTime::ParseFromString("%yyyy-%MM-%dd", dateTime, game.mReleaseDate))
-          if (!DateTime::ParseFromString("%yyyy-%MM", dateTime, game.mReleaseDate))
-            DateTime::ParseFromString("%yyyy", dateTime, game.mReleaseDate);
-      }
-      if (jeu.HasMember("note"))
-      {
-        int rating;
-        game.mRating = (float) (Strings::ToInt(jeu["note"]["text"].GetString(), rating) ? rating : 0) / 20.0f;
-      }
+        const rapidjson::Value& jeu = response["jeu"];
 
-      // Deserialize media url
-      if (jeu.HasMember("medias"))
-      {
-        const rapidjson::Value& medias = jeu["medias"];
-
-        // Image
-        const char* type  = "mixrbv1"; // default to screenshot
-        const char* type2 = nullptr;   // No default type2
-        switch (mConfiguration.GetImageType())
+        // Deserialize text data
+        if (jeu.HasMember("noms"))
+          game.mName = ExtractRegionalizedText(jeu["noms"], mConfiguration.GetFavoriteRegion());
+        if (jeu.HasMember("synopsis"))
+         game.mSynopsis = ExtractLocalizedText(jeu["synopsis"], mConfiguration.GetFavoriteLanguage());
+        if (jeu.HasMember("editeur"))
+          game.mPublisher = jeu["editeur"]["text"].GetString();
+        if (jeu.HasMember("developpeur"))
+          game.mDeveloper = jeu["developpeur"]["text"].GetString();
+        if (jeu.HasMember("joueurs"))
+          game.mPlayers = jeu["joueurs"]["text"].GetString();
+        if (jeu.HasMember("dates"))
         {
-          case IConfiguration::Image::None: break;
-          case IConfiguration::Image::ScreenshotIngame: type = "ss"; break;
-          case IConfiguration::Image::ScreenshotTitle: type = "sstitle"; type2 = "ss"; break;
-          case IConfiguration::Image::Box2d: type = "box-2D"; break;
-          case IConfiguration::Image::Box3d: type = "box-3D"; break;
-          case IConfiguration::Image::MixV1: type = "mixrbv1"; break;
-          case IConfiguration::Image::MixV2: type = "mixrbv2"; break;
-          case IConfiguration::Image::Wheel: type = "wheel-hd"; type2 = "wheel"; break;
-          case IConfiguration::Image::Marquee: type = "screenmarqueesmall"; break;
+          std::string dateTime = ExtractRegionalizedText(jeu["dates"], mConfiguration.GetFavoriteRegion());
+          if (!DateTime::ParseFromString("%yyyy-%MM-%dd", dateTime, game.mReleaseDate))
+            if (!DateTime::ParseFromString("%yyyy-%MM", dateTime, game.mReleaseDate))
+              DateTime::ParseFromString("%yyyy", dateTime, game.mReleaseDate);
         }
-        if (mConfiguration.GetImageType() != IConfiguration::Image::None)
+        if (jeu.HasMember("genres"))
         {
-          game.MediaSources.mImage = ExtractMedia(medias, type, mConfiguration.GetFavoriteRegion(), game.MediaSources.mImageFormat, game.MediaSources.mImageSize);
-          if (game.MediaSources.mImage.empty() && type2 != nullptr)
-            game.MediaSources.mImage = ExtractMedia(medias, type2, mConfiguration.GetFavoriteRegion(), game.MediaSources.mImageFormat, game.MediaSources.mImageSize);
+          game.mGenre = ExtractLocalizedGenre(jeu["genres"], mConfiguration.GetFavoriteLanguage());
+          game.mGenreId = ExtractNormalizedGenre(jeu["genres"]);
+          game.mAdult = ExtractAdultState(jeu["genres"]);
+        }
+        if (jeu.HasMember("note"))
+        {
+          int rating;
+          game.mRating = (float) (Strings::ToInt(jeu["note"]["text"].GetString(), rating) ? rating : 0) / 20.0f;
         }
 
-        // Thumbnail
-        type  = "box-2D"; // default to screenshot
-        type2 = nullptr;   // No default type2
-        switch (mConfiguration.GetThumbnailType())
+        // Deserialize media url
+        if (jeu.HasMember("medias"))
         {
-          case IConfiguration::Image::None: break;
-          case IConfiguration::Image::ScreenshotIngame: type = "ss"; break;
-          case IConfiguration::Image::ScreenshotTitle: type = "sstitle"; type2 = "ss"; break;
-          case IConfiguration::Image::Box2d: type = "box-2D"; break;
-          case IConfiguration::Image::Box3d: type = "box-3D"; break;
-          case IConfiguration::Image::MixV1: type = "mixrbv1"; break;
-          case IConfiguration::Image::MixV2: type = "mixrbv2"; break;
-          case IConfiguration::Image::Wheel: type = "wheel-hd"; type2 = "wheel"; break;
-          case IConfiguration::Image::Marquee: type = "screenmarqueesmall"; break;
-        }
-        if (mConfiguration.GetThumbnailType() != IConfiguration::Image::None)
-        {
-          game.MediaSources.mThumbnail = ExtractMedia(medias, type, mConfiguration.GetFavoriteRegion(), game.MediaSources.mThumbnailFormat, game.MediaSources.mThumbnailSize);
-          if (game.MediaSources.mThumbnail.empty() && type2 != nullptr)
-            game.MediaSources.mThumbnail = ExtractMedia(medias, type2, mConfiguration.GetFavoriteRegion(), game.MediaSources.mThumbnailFormat, game.MediaSources.mThumbnailSize);
-        }
+          const rapidjson::Value& medias = jeu["medias"];
 
-        // Video
-        type = nullptr;
-        type2 = nullptr;
-        switch (mConfiguration.GetVideo())
-        {
-          case IConfiguration::Video::None: break;
-          case IConfiguration::Video::Raw: type = "video"; break;
-          case IConfiguration::Video::Optimized: type = "video-normalized"; type2 = "video"; break;
-        }
-        if (mConfiguration.GetVideo() != IConfiguration::Video::None)
-        {
-          game.MediaSources.mVideo = ExtractMedia(medias, type, std::string(), game.MediaSources.mVideoFormat, game.MediaSources.mVideoSize);
-          if (game.MediaSources.mVideo.empty() && type2 != nullptr)
-            game.MediaSources.mVideo = ExtractMedia(medias, type2, std::string(), game.MediaSources.mVideoFormat, game.MediaSources.mVideoSize);
+          // Image
+          const char* type  = "mixrbv1"; // default to screenshot
+          const char* type2 = nullptr;   // No default type2
+          switch (mConfiguration.GetImageType())
+          {
+            case IConfiguration::Image::None: break;
+            case IConfiguration::Image::ScreenshotIngame: type = "ss"; break;
+            case IConfiguration::Image::ScreenshotTitle: type = "sstitle"; type2 = "ss"; break;
+            case IConfiguration::Image::Box2d: type = "box-2D"; break;
+            case IConfiguration::Image::Box3d: type = "box-3D"; break;
+            case IConfiguration::Image::MixV1: type = "mixrbv1"; break;
+            case IConfiguration::Image::MixV2: type = "mixrbv2"; break;
+            case IConfiguration::Image::Wheel: type = "wheel-hd"; type2 = "wheel"; break;
+            case IConfiguration::Image::Marquee: type = "screenmarqueesmall"; break;
+          }
+          if (mConfiguration.GetImageType() != IConfiguration::Image::None)
+          {
+            game.MediaSources.mImage = ExtractMedia(medias, type, mConfiguration.GetFavoriteRegion(), game.MediaSources.mImageFormat, game.MediaSources.mImageSize);
+            if (game.MediaSources.mImage.empty() && type2 != nullptr)
+              game.MediaSources.mImage = ExtractMedia(medias, type2, mConfiguration.GetFavoriteRegion(), game.MediaSources.mImageFormat, game.MediaSources.mImageSize);
+          }
+
+          // Thumbnail
+          type  = "box-2D"; // default to screenshot
+          type2 = nullptr;   // No default type2
+          switch (mConfiguration.GetThumbnailType())
+          {
+            case IConfiguration::Image::None: break;
+            case IConfiguration::Image::ScreenshotIngame: type = "ss"; break;
+            case IConfiguration::Image::ScreenshotTitle: type = "sstitle"; type2 = "ss"; break;
+            case IConfiguration::Image::Box2d: type = "box-2D"; break;
+            case IConfiguration::Image::Box3d: type = "box-3D"; break;
+            case IConfiguration::Image::MixV1: type = "mixrbv1"; break;
+            case IConfiguration::Image::MixV2: type = "mixrbv2"; break;
+            case IConfiguration::Image::Wheel: type = "wheel-hd"; type2 = "wheel"; break;
+            case IConfiguration::Image::Marquee: type = "screenmarqueesmall"; break;
+          }
+          if (mConfiguration.GetThumbnailType() != IConfiguration::Image::None)
+          {
+            game.MediaSources.mThumbnail = ExtractMedia(medias, type, mConfiguration.GetFavoriteRegion(), game.MediaSources.mThumbnailFormat, game.MediaSources.mThumbnailSize);
+            if (game.MediaSources.mThumbnail.empty() && type2 != nullptr)
+              game.MediaSources.mThumbnail = ExtractMedia(medias, type2, mConfiguration.GetFavoriteRegion(), game.MediaSources.mThumbnailFormat, game.MediaSources.mThumbnailSize);
+          }
+
+          // Video
+          type = nullptr;
+          type2 = nullptr;
+          switch (mConfiguration.GetVideo())
+          {
+            case IConfiguration::Video::None: break;
+            case IConfiguration::Video::Raw: type = "video"; break;
+            case IConfiguration::Video::Optimized: type = "video-normalized"; type2 = "video"; break;
+          }
+          if (mConfiguration.GetVideo() != IConfiguration::Video::None)
+          {
+            game.MediaSources.mVideo = ExtractMedia(medias, type, std::string(), game.MediaSources.mVideoFormat, game.MediaSources.mVideoSize);
+            if (game.MediaSources.mVideo.empty() && type2 != nullptr)
+              game.MediaSources.mVideo = ExtractMedia(medias, type2, std::string(), game.MediaSources.mVideoFormat, game.MediaSources.mVideoSize);
+          }
         }
       }
     }
-  }
 }
 
 std::string ScreenScraperApis::ExtractRegionalizedText(const rapidjson::Value& array, const std::string& preferedregion)
@@ -286,6 +295,205 @@ std::string ScreenScraperApis::ExtractLocalizedText(const rapidjson::Value& arra
   // WTFH?!
   LOG(LogError) << "Can't find localized text!";
   return std::string();
+}
+
+
+std::string ScreenScraperApis::ExtractLocalizedGenre(const rapidjson::Value& array, const std::string& preferedlanguage)
+{
+  std::string result;
+
+  // Prefered first
+  for(auto& genre : array.GetArray())
+    for(auto& nom : genre["noms"].GetArray())
+      if (strcmp(nom["langue"].GetString(), preferedlanguage.c_str()) == 0)
+      {
+        if (!result.empty()) result.append(1, ',');
+        result.append(nom["text"].GetString());
+      }
+  if (!result.empty()) return result;
+
+  // Mmmmh... then us?
+  for(auto& genre : array.GetArray())
+    for(auto& nom : genre["noms"].GetArray())
+      if (strcmp(nom["langue"].GetString(), "en") == 0)
+      {
+        if (!result.empty()) result.append(1, ',');
+        result.append(nom["text"].GetString());
+      }
+  return result;
+}
+
+GameGenres ScreenScraperApis::ExtractNormalizedGenre(const rapidjson::Value& array)
+{
+  static std::map<int, GameGenres> sScreenScraperSubGenresToGameGenres
+  ({
+    { 2909, GameGenres::  ActionPlatformer             },
+    {    7, GameGenres::  ActionPlatformer             },
+    { 2915, GameGenres::  ActionPlatformer             },
+    { 2897, GameGenres::  ActionPlatformer             },
+    { 2937, GameGenres::  ActionPlatformShooter        },
+    { 3026, GameGenres::  ActionPlatformShooter        },
+    { 2887, GameGenres::  ActionPlatformShooter        },
+    { 2896, GameGenres::  ActionPlatformShooter        },
+    { 3024, GameGenres::  ActionFirstPersonShooter     },
+    { 2988, GameGenres::  ActionFirstPersonShooter     },
+    {   79, GameGenres::  ActionShootEmUp              },
+    { 2955, GameGenres::  ActionShootEmUp              },
+    { 2870, GameGenres::  ActionShootEmUp              },
+    { 2851, GameGenres::  ActionShootEmUp              },
+    { 2876, GameGenres::  ActionShootEmUp              },
+    { 2900, GameGenres::  ActionShootEmUp              },
+    { 2889, GameGenres::  ActionShootEmUp              },
+    { 2945, GameGenres::  ActionShootWithGun           },
+    {   32, GameGenres::  ActionShootWithGun           },
+    {   14, GameGenres::  ActionFighting               },
+    { 2874, GameGenres::  ActionFighting               },
+    { 2914, GameGenres::  ActionFighting               },
+    { 2920, GameGenres::  ActionFighting               },
+    { 2885, GameGenres::  ActionFighting               },
+    { 2957, GameGenres::  ActionFighting               },
+    { 2922, GameGenres::  ActionFighting               },
+    {    1, GameGenres::  ActionBeatEmUp               },
+    {  425, GameGenres::  ActionRythm                  },
+    { 2925, GameGenres::  ActionRythm                  },
+    { 3237, GameGenres::  AdventureGraphics            },
+    { 2648, GameGenres::  SimulationFishAndHunt        },
+    { 3192, GameGenres::  SimulationFishAndHunt        },
+    { 2895, GameGenres::  SimulationFishAndHunt        },
+    { 2893, GameGenres::  SimulationVehicle            },
+    { 2911, GameGenres::  SimulationVehicle            },
+    { 2953, GameGenres::  SimulationVehicle            },
+    { 2940, GameGenres::  SimulationVehicle            },
+    { 2910, GameGenres::  SimulationVehicle            },
+    { 2934, GameGenres::  SimulationVehicle            },
+    { 2938, GameGenres::  SimulationVehicle            },
+    { 2921, GameGenres::  SimulationVehicle            },
+    {   28, GameGenres::  SportRacing                  },
+    { 2924, GameGenres::  SportRacing                  },
+    { 2973, GameGenres::  SportRacing                  },
+    { 2871, GameGenres::  SportRacing                  },
+    { 2884, GameGenres::  SportRacing                  },
+    { 2943, GameGenres::  SportRacing                  },
+    { 2853, GameGenres::  SportSimulation              },
+    { 2852, GameGenres::  SportSimulation              },
+    { 3028, GameGenres::  SportSimulation              },
+    { 2901, GameGenres::  SportSimulation              },
+    { 2877, GameGenres::  SportSimulation              },
+    { 2970, GameGenres::  SportSimulation              },
+    { 2906, GameGenres::  SportSimulation              },
+    { 2847, GameGenres::  SportSimulation              },
+    { 2846, GameGenres::  SportSimulation              },
+    { 2913, GameGenres::  SportSimulation              },
+    { 2960, GameGenres::  SportSimulation              },
+    { 2933, GameGenres::  SportSimulation              },
+    { 2971, GameGenres::  SportSimulation              },
+    { 2878, GameGenres::  SportSimulation              },
+    { 2968, GameGenres::  SportSimulation              },
+    { 2966, GameGenres::  SportSimulation              },
+    { 2948, GameGenres::  SportSimulation              },
+    { 2875, GameGenres::  SportSimulation              },
+    { 2902, GameGenres::  SportSimulation              },
+    { 2867, GameGenres::  SportSimulation              },
+    { 2883, GameGenres::  SportSimulation              },
+    { 2650, GameGenres::  SportSimulation              },
+    { 2918, GameGenres::  SportSimulation              },
+    { 2929, GameGenres::  SportFight                   },
+    { 2919, GameGenres::  SportFight                   },
+    { 3034, GameGenres::  SportFight                   },
+    { 1861, GameGenres::  SportFight                   },
+    { 2947, GameGenres::  SportFight                   },
+  });
+
+  static std::map<int, GameGenres> sScreenScraperGenresToGameGenres
+  ({
+    { 2855, GameGenres::None           },
+    { 2904, GameGenres::None           },
+    { 2879, GameGenres::None           },
+    {   10, GameGenres::Action         },
+    { 2903, GameGenres::Action         },
+    { 2928, GameGenres::Action         },
+    { 2881, GameGenres::Action         },
+    { 2646, GameGenres::Action         },
+    { 3566, GameGenres::Action         },
+    { 2917, GameGenres::Action         },
+    {   13, GameGenres::Adventure      },
+    {    8, GameGenres::RPG            },
+    { 2890, GameGenres::Simulation     },
+    {   40, GameGenres::Simulation     },
+    {   27, GameGenres::Strategy       },
+    {  685, GameGenres::Sports         },
+    {   31, GameGenres::Flipper        },
+    {   33, GameGenres::Board          },
+    {   33, GameGenres::Board          },
+    { 2647, GameGenres::Board          },
+    { 2958, GameGenres::Board          },
+    { 2882, GameGenres::Board          },
+    { 2869, GameGenres::Board          },
+    { 2949, GameGenres::Board          },
+    { 2956, GameGenres::Board          },
+    { 2961, GameGenres::Board          },
+    {  171, GameGenres::Casual         },
+    {   42, GameGenres::DigitalCard    },
+    { 3511, GameGenres::PuzzleAndLogic },
+    {   26, GameGenres::PuzzleAndLogic },
+    { 2864, GameGenres::PuzzleAndLogic },
+    { 2891, GameGenres::PuzzleAndLogic },
+    { 2923, GameGenres::PuzzleAndLogic },
+    { 2912, GameGenres::PuzzleAndLogic },
+    { 2649, GameGenres::Trivia         },
+    { 2954, GameGenres::Trivia         },
+    { 2931, GameGenres::Trivia         },
+    { 2951, GameGenres::Trivia         },
+    { 2962, GameGenres::Trivia         },
+    { 2969, GameGenres::Trivia         },
+    { 2952, GameGenres::Trivia         },
+    { 2894, GameGenres::Trivia         },
+    { 2964, GameGenres::Trivia         },
+    { 2967, GameGenres::Trivia         },
+    {  320, GameGenres::Casino         },
+    { 2872, GameGenres::Casino         },
+    { 2950, GameGenres::Casino         },
+    { 2932, GameGenres::Casino         },
+    { 2860, GameGenres::Casino         },
+    { 2944, GameGenres::Casino         },
+    {   34, GameGenres::Compilation    },
+    { 2974, GameGenres::DemoScene      },
+    {   30, GameGenres::Educative      },
+  });
+  
+  // Lookup Sub-genre first
+  int id;
+  for(auto& object : array.GetArray())
+    if (Strings::ToInt(object["id"].GetString(), id))
+      if (sScreenScraperSubGenresToGameGenres.find(id) != sScreenScraperSubGenresToGameGenres.end())
+        return sScreenScraperSubGenresToGameGenres.at(id);
+
+  // Lookup genre except "Action"
+  for(auto& object : array.GetArray())
+    if (Strings::ToInt(object["id"].GetString(), id))
+      if (id != 10 && id != 413) // Action / Adult
+        if (sScreenScraperGenresToGameGenres.find(id) != sScreenScraperGenresToGameGenres.end())
+          return sScreenScraperGenresToGameGenres.at(id);
+
+  // Lookup what's available
+  for(auto& object : array.GetArray())
+    if (Strings::ToInt(object["id"].GetString(), id))
+      if (id != 413) // Adult
+        if (sScreenScraperGenresToGameGenres.find(id) != sScreenScraperGenresToGameGenres.end())
+          return sScreenScraperGenresToGameGenres.at(id);
+
+  return GameGenres::None;
+}
+
+bool ScreenScraperApis::ExtractAdultState(const rapidjson::Value& array)
+{
+  // Lookup Sub-genre first
+  int id;
+  for(auto& object : array.GetArray())
+    if (Strings::ToInt(object["id"].GetString(), id))
+      if (id == 413)
+        return true;
+  return false;
 }
 
 std::string ScreenScraperApis::ExtractMedia(const rapidjson::Value& medias, const char* type, const std::string& region, std::string& format, long long& size)
@@ -398,4 +606,3 @@ ScrapeResult ScreenScraperApis::GetMedia(const std::string& mediaurl, const Path
   }
   return result;
 }
-

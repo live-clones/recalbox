@@ -20,7 +20,7 @@ SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDes
   Path realPath = defaultRomsPath.IsEmpty() ? systemDescriptor.RomPath() : systemDescriptor.RomPath().ToAbsolute(defaultRomsPath);
 
   // Create system
-  SystemData* result = new SystemData(systemDescriptor, true, SystemData::Properties::None);
+  SystemData* result = new SystemData(systemDescriptor, RootFolderData::Ownership::All, SystemData::Properties::None);
 
   // Avoid files being added more than once even through symlinks
   {
@@ -54,7 +54,7 @@ SystemData* SystemManager::CreateFavoriteSystem(const std::string& name, const s
 
   SystemDescriptor descriptor;
   descriptor.SetInformation("", name, fullName, "", "", themeFolder);
-  SystemData* result = new SystemData(descriptor, false, SystemData::Properties::Virtual | SystemData::Properties::AlwaysFlat);
+  SystemData* result = new SystemData(descriptor, RootFolderData::Ownership::None, SystemData::Properties::Virtual | SystemData::Properties::AlwaysFlat);
 
   for (auto system : systems)
   {
@@ -74,23 +74,23 @@ SystemData* SystemManager::CreateFavoriteSystem(const std::string& name, const s
 
 SystemData* SystemManager::CreateMetaSystem(const std::string& name, const std::string& fullName,
                                             const std::string& themeFolder, const std::vector<SystemData*>& systems,
-                                            SystemData::Properties properties)
+                                            SystemData::Properties properties, FileData::StringMap& doppelganger)
 {
   std::vector<PlatformIds::PlatformId> platformIds;
   platformIds.push_back(PlatformIds::PlatformId::PLATFORM_IGNORE);
 
   SystemDescriptor descriptor;
   descriptor.SetInformation("", name, fullName, "", "", themeFolder);
-  SystemData* result = new SystemData(descriptor, false, SystemData::Properties::Virtual | properties);
+  SystemData* result = new SystemData(descriptor, RootFolderData::Ownership::FolderOnly, SystemData::Properties::Virtual | properties);
 
   for (auto system : systems)
   {
     FileData::List all = system->getRootFolder().getAllItems(true);
     if (!all.empty())
     {
-      LOG(LogWarning) << " Send games from " << system->getName() << " into Arcade";
+      LOG(LogWarning) << "Add games from " << system->getName() << " into " << fullName;
       for (auto fd : all)
-        result->mRootFolder.addChild(fd, false);
+        result->LookupOrCreateGame(fd->getSystem()->getRootFolder().getPath(), fd->getPath(), fd->getType(), doppelganger);
     }
   }
 
@@ -101,20 +101,20 @@ SystemData* SystemManager::CreateMetaSystem(const std::string& name, const std::
 
 SystemData* SystemManager::CreateMetaSystem(const std::string& name, const std::string& fullName,
                                             const std::string& themeFolder, const FileData::List& games,
-                                            SystemData::Properties properties)
+                                            SystemData::Properties properties, FileData::StringMap& doppelganger)
 {
   std::vector<PlatformIds::PlatformId> platformIds;
   platformIds.push_back(PlatformIds::PlatformId::PLATFORM_IGNORE);
 
   SystemDescriptor descriptor;
   descriptor.SetInformation("", name, fullName, "", "", themeFolder);
-  SystemData* result = new SystemData(descriptor, false, SystemData::Properties::Virtual | properties);
+  SystemData* result = new SystemData(descriptor, RootFolderData::Ownership::FolderOnly, SystemData::Properties::Virtual | properties);
 
   if (!games.empty())
   {
-    LOG(LogWarning) << " Send " << games.size() << " games from into " << fullName;
+    LOG(LogWarning) << "Add " << games.size() << " games into " << fullName;
     for (auto fd : games)
-      result->mRootFolder.addChild(fd, false);
+      result->LookupOrCreateGame(fd->getSystem()->getRootFolder().getPath(), fd->getPath(), fd->getType(), doppelganger);
   }
 
   result->loadTheme();
@@ -304,6 +304,8 @@ bool SystemManager::AddArcadeMetaSystem()
   if (RecalboxConf::Instance().AsBool("emulationstation.arcade", false))
   {
     bool includeNeogeo = RecalboxConf::Instance().AsBool("emulationstation.arcade.includeneogeo", true);
+    FileData::StringMap doppelganger;
+
     // Lookup all non-empty arcade platforms
     for (SystemData* system: mVisibleSystemVector)
       if (system->getRootFolder().hasGame())
@@ -312,6 +314,7 @@ bool SystemManager::AddArcadeMetaSystem()
               (system->PlatformIds(i) == PlatformIds::PlatformId::NEOGEO && includeNeogeo))
           {
             mHiddenSystemVector.push_back(system);
+            system->BuildDoppelgangerMap(doppelganger, false);
             break;
           }
 
@@ -327,12 +330,14 @@ bool SystemManager::AddArcadeMetaSystem()
           if (it != mVisibleSystemVector.end())
             mVisibleSystemVector.erase(it);
         }
+
       // Create meta-system
-      SystemData* arcade = CreateMetaSystem("arcade", "Arcade", "arcade", mHiddenSystemVector, SystemData::Properties::None);
+      SystemData* arcade = CreateMetaSystem("arcade", "Arcade", "arcade", mHiddenSystemVector, SystemData::Properties::None, doppelganger);
       LOG(LogInfo) << "creating Arcade meta-system";
       int position = RecalboxConf::Instance().AsInt("emulationstation.arcade.position", 0) % (int)mVisibleSystemVector.size();
       auto it = position >= 0 ? mVisibleSystemVector.begin() + position : mVisibleSystemVector.end() + (position + 1);
       mVisibleSystemVector.insert(it, arcade);
+
       // Hide originals?
       if (!hideOriginals)
         mHiddenSystemVector.clear();
@@ -340,21 +345,6 @@ bool SystemManager::AddArcadeMetaSystem()
   }
 
   return !mHiddenSystemVector.empty();
-}
-
-bool SystemManager::AddAllGamesMetaSystem()
-{
-  bool all = RecalboxConf::Instance().AsBool("emulationstation.collection.all", false);
-  if (all)
-  {
-    std::string theme = RecalboxConf::Instance().AsString("emulationstation.collection.all.theme", "default");
-    SystemData* allsystem = CreateMetaSystem(sAllGamesSystemShortName, _S(std::string(sAllGamesSystemFullName)), theme, mVisibleSystemVector, SystemData::Properties::None);
-    LOG(LogInfo) << "creating All Games meta-system";
-    int position = RecalboxConf::Instance().AsInt("emulationstation.collection.all.position", 0) % (int)mVisibleSystemVector.size();
-    auto it = position >= 0 ? mVisibleSystemVector.begin() + position : mVisibleSystemVector.end() + (position + 1);
-    mVisibleSystemVector.insert(it, allsystem);
-  }
-  return false;
 }
 
 bool SystemManager::AddManuallyFilteredMetasystem(IFilter* filter, FileData::Comparer comparer, const std::string& identifier, const std::string& fullname, SystemData::Properties properties)
@@ -366,15 +356,22 @@ bool SystemManager::AddManuallyFilteredMetasystem(IFilter* filter, FileData::Com
   if (collection)
   {
     // Get theme name
-    std::string theme = RecalboxConf::Instance().AsString(confPrefix + ".theme", "default");
+    std::string theme = RecalboxConf::Instance().AsString(confPrefix + ".theme", identifier);
     FileData::List allGames;
+    FileData::StringMap doppelganger;
+
     // Filter and insert items
     for(const SystemData* system : mVisibleSystemVector)
-    {
-      FileData::List list = system->getRootFolder().getFilteredItemsRecursively(filter, true);
-      allGames.reserve(allGames.size() + list.size());
-      allGames.insert(allGames.end(), list.begin(), list.end());
-    }
+      if (!system->IsVirtual())
+      {
+        FileData::List list = system->getRootFolder().getFilteredItemsRecursively(filter, true);
+        allGames.reserve(allGames.size() + list.size());
+        allGames.insert(allGames.end(), list.begin(), list.end());
+        // dopplegagner must be build using file only
+        // Let the virtual system re-create all intermediate folder
+        // ... and destroy them properly
+        system->BuildDoppelgangerMap(doppelganger, false);
+      }
 
     // Not empty?
     if (!allGames.empty())
@@ -389,8 +386,8 @@ bool SystemManager::AddManuallyFilteredMetasystem(IFilter* filter, FileData::Com
           allGames.resize(limit);
 
       // Create!
-      LOG(LogInfo) << "creating " << identifier << " meta-system";
-      SystemData* allsystem = CreateMetaSystem(sMultiplayerSystemShortName, _S(fullname), theme, allGames, properties);
+      LOG(LogInfo) << "creating " << fullname << " meta-system";
+      SystemData* allsystem = CreateMetaSystem(identifier, _S(fullname), theme, allGames, properties, doppelganger);
 
       // And add the system
       int position = RecalboxConf::Instance().AsInt(confPrefix + ".position", 0) % (int) mVisibleSystemVector.size();
@@ -401,6 +398,17 @@ bool SystemManager::AddManuallyFilteredMetasystem(IFilter* filter, FileData::Com
     }
   }
   return false;
+}
+
+bool SystemManager::AddAllGamesMetaSystem()
+{
+  class Filter: public IFilter
+  {
+    public:
+      bool ApplyFilter(const FileData&) const override { return true; }
+  } filter;
+  return AddManuallyFilteredMetasystem(&filter, nullptr, sAllGamesSystemShortName, sAllGamesSystemFullName,
+                                       SystemData::Properties::None);
 }
 
 bool SystemManager::AddMultiplayerMetaSystems()
@@ -419,19 +427,41 @@ bool SystemManager::AddLastPlayedMetaSystem()
   class Filter: public IFilter
   {
     public:
-      bool ApplyFilter(const FileData& file) const override { return !file.Metadata().LastPlayed().IsZero(); }
+      bool ApplyFilter(const FileData& file) const override { return file.Metadata().LastPlayedEpoc() != 0; }
   } filter;
   return AddManuallyFilteredMetasystem(&filter, nullptr, sLastPlayedSystemShortName, sLastPlayedSystemFullName,
                                        SystemData::Properties::SelfSorted | SystemData::Properties::AlwaysFlat);
 }
 
+bool SystemManager::AddGenresMetaSystem()
+{
+  const NormalizedGenres::GenreMap& genres = NormalizedGenres::GetShortNameMap();
+
+  class Filter : public IFilter
+  {
+    private:
+      GameGenres mGenre;
+    public:
+      explicit Filter(GameGenres genre) : mGenre(genre) {}
+      bool ApplyFilter(const FileData& file) const override { return file.Metadata().GenreId() == mGenre; }
+  };
+
+  for(auto& genre : genres)
+  {
+    Filter filter(genre.first);
+    AddManuallyFilteredMetasystem(&filter, nullptr, genre.second, NormalizedGenres::GetName(genre.first),
+                                  SystemData::Properties::SelfSorted | SystemData::Properties::AlwaysFlat);
+  }
+  return true;
+}
+
 bool SystemManager::AddSpecialCollectionsMetaSystems()
 {
-  // Add all game first to avoid embedding all other collections
   AddAllGamesMetaSystem();
-
   AddLastPlayedMetaSystem();
   AddMultiplayerMetaSystems();
+  AddGenresMetaSystem();
+
   return true;
 }
 
@@ -574,7 +604,7 @@ bool SystemManager::ThreadPoolRunJob(SystemData*& feed)
 {
   // Save changed game data back to xml
   if (!Settings::Instance().IgnoreGamelist())
-    if (!feed->IsVirtual() && feed->getRootFolder().hasChildrenOwnership())
+    if (!feed->IsVirtual())
       feed->UpdateGamelistXml();
 
   return true;
@@ -590,9 +620,11 @@ void SystemManager::UpdateAllSystems()
   ThreadPool<SystemData*, bool> threadPool(this, "System-Save", false, 20);
   // Push system to process
   for (SystemData* system : mAllSystemVector)
-    threadPool.PushFeed(system, 0);
+    if (!system->IsVirtual())
+      threadPool.PushFeed(system, 0);
   // Run the threadpool and automatically wait for all jobs to complete
-  threadPool.Run(-2, false);
+  if (threadPool.PendingJobs() != 0)
+    threadPool.Run(-2, false);
 
   DateTime stop;
   LOG(LogInfo) << "Gamelist update time: " << std::to_string((stop-start).TotalMilliseconds()) << "ms";

@@ -126,6 +126,12 @@ class SystemManager :
     bool AddLastPlayedMetaSystem();
 
     /*!
+     * @brief Try to add any déclared genre virtual system, including all game of the required genre
+     * @return Always true
+     */
+    bool AddGenresMetaSystem();
+
+    /*!
      * @brief All all special collections
      * @return
      */
@@ -157,11 +163,12 @@ class SystemManager :
      * @param themeFolder Theme folder name
      * @param systems System to fetch games to aggregate into a single list
      * @param properties System properties
+     * @param doppelganger Map to FileData
      * @return New meta-system
      */
     static SystemData* CreateMetaSystem(const std::string& name, const std::string& fullName,
                                         const std::string& themeFolder, const std::vector<SystemData*>& systems,
-                                        SystemData::Properties properties);
+                                        SystemData::Properties properties, FileData::StringMap& doppelganger);
 
     /*!
      * @brief Create meta-system aggregating games from multiple systems
@@ -170,11 +177,12 @@ class SystemManager :
      * @param themeFolder Theme folder name
      * @param games Games to add
      * @param properties System properties
+     * @param doppelganger Map to FileData
      * @return New meta-system
      */
     static SystemData* CreateMetaSystem(const std::string& name, const std::string& fullName,
                                         const std::string& themeFolder, const FileData::List& games,
-                                        SystemData::Properties properties);
+                                        SystemData::Properties properties, FileData::StringMap& doppelganger);
 
     /*!
      * @brief Write exemple configuration file when no configuration file are available
