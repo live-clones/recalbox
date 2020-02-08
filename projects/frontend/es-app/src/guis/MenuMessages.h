@@ -103,6 +103,11 @@ class MenuMessages
     #define MENUMESSAGE_ADVANCED_BASICGAMELISTVIEW_HELP_MSG "Always display the basic gamelist view, even if you have scraped your games."
     #define MENUMESSAGE_ADVANCED_EMULATOR_ADVANCED_HELP_MSG "Override global options like emulator, core, ratio and more for each available system in your recalbox."
     #define MENUMESSAGE_ADVANCED_BOOT_HELP_MSG "Configure boot options that make your recalbox boot straight into a system or into Kodi, lock a user to a single system, or directly show the gamelist."
+    #define MENUMESSAGE_ADVANCED_ALLGAMES_HELP_MSG "Show a 'all-games' system with all ames from all systems."
+    #define MENUMESSAGE_ADVANCED_MULTIPLAYERS_HELP_MSG "Show multiplayer games (all games playable by two or more players)."
+    #define MENUMESSAGE_ADVANCED_LASTPLAYED_HELP_MSG "Show last played games."
+    #define MENUMESSAGE_ADVANCED_VIRTUALSYSTEMS_HELP_MSG "Select virtual systems to show."
+    #define MENUMESSAGE_ADVANCED_VIRTUALGENRESYSTEMS_HELP_MSG "Select vitual systems per genre to show."
 
     #define MENUMESSAGE_ADVANCED_KODI_HELP_MSG "Enable or disable Kodi, customize the Kodi startup, enable the X button to start Kodi"
     #define MENUMESSAGE_ADVANCED_KODI_ENABLE_HELP_MSG "Enable or disable Kodi. If kodi is disabled, you won't be able to start it with the X button, or start it automatically at boot. The menu entry will be removed as well."

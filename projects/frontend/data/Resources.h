@@ -95,6 +95,174 @@ extern const uint8_t question_svg_data[];
 extern const uint16_t checkbox_unchecked_svg_size;
 extern const uint8_t checkbox_unchecked_svg_data[];
 
+extern const uint16_t genre__action_svg_size;
+extern const uint8_t genre__action_svg_data[];
+
+extern const uint16_t genre__rpgaction_svg_size;
+extern const uint8_t genre__rpgaction_svg_data[];
+
+extern const uint16_t genre__adventurerealtime3d_svg_size;
+extern const uint8_t genre__adventurerealtime3d_svg_data[];
+
+extern const uint16_t genre__flipper_svg_size;
+extern const uint8_t genre__flipper_svg_data[];
+
+extern const uint16_t genre__party_svg_size;
+extern const uint8_t genre__party_svg_data[];
+
+extern const uint16_t genre__actionshootemup_svg_size;
+extern const uint8_t genre__actionshootemup_svg_data[];
+
+extern const uint16_t genre__simulationbuildandmanagement_svg_size;
+extern const uint8_t genre__simulationbuildandmanagement_svg_data[];
+
+extern const uint16_t genre__adventuretext_svg_size;
+extern const uint8_t genre__adventuretext_svg_data[];
+
+extern const uint16_t genre__digitalcard_svg_size;
+extern const uint8_t genre__digitalcard_svg_data[];
+
+extern const uint16_t genre__casino_svg_size;
+extern const uint8_t genre__casino_svg_data[];
+
+extern const uint16_t genre__adventure_svg_size;
+extern const uint8_t genre__adventure_svg_data[];
+
+extern const uint16_t genre__sportsimulation_svg_size;
+extern const uint8_t genre__sportsimulation_svg_data[];
+
+extern const uint16_t genre__rpgdungeoncrawler_svg_size;
+extern const uint8_t genre__rpgdungeoncrawler_svg_data[];
+
+extern const uint16_t genre__puzzleandlogic_svg_size;
+extern const uint8_t genre__puzzleandlogic_svg_data[];
+
+extern const uint16_t genre__sportcompetitive_svg_size;
+extern const uint8_t genre__sportcompetitive_svg_data[];
+
+extern const uint16_t genre__actionfighting_svg_size;
+extern const uint8_t genre__actionfighting_svg_data[];
+
+extern const uint16_t genre__simulationscifi_svg_size;
+extern const uint8_t genre__simulationscifi_svg_data[];
+
+extern const uint16_t genre__simulationvehicle_svg_size;
+extern const uint8_t genre__simulationvehicle_svg_data[];
+
+extern const uint16_t genre__strategywargame_svg_size;
+extern const uint8_t genre__strategywargame_svg_data[];
+
+extern const uint16_t genre__adventuregraphical_svg_size;
+extern const uint8_t genre__adventuregraphical_svg_data[];
+
+extern const uint16_t genre__simulationlife_svg_size;
+extern const uint8_t genre__simulationlife_svg_data[];
+
+extern const uint16_t genre__strategyautobattler_svg_size;
+extern const uint8_t genre__strategyautobattler_svg_data[];
+
+extern const uint16_t genre__actionplatformshooter_svg_size;
+extern const uint8_t genre__actionplatformshooter_svg_data[];
+
+extern const uint16_t genre__demoscene_svg_size;
+extern const uint8_t genre__demoscene_svg_data[];
+
+extern const uint16_t genre__rpgtactical_svg_size;
+extern const uint8_t genre__rpgtactical_svg_data[];
+
+extern const uint16_t genre__actionbeatemup_svg_size;
+extern const uint8_t genre__actionbeatemup_svg_data[];
+
+extern const uint16_t genre__rpgmmo_svg_size;
+extern const uint8_t genre__rpgmmo_svg_data[];
+
+extern const uint16_t genre__casual_svg_size;
+extern const uint8_t genre__casual_svg_data[];
+
+extern const uint16_t genre__strategyrts_svg_size;
+extern const uint8_t genre__strategyrts_svg_data[];
+
+extern const uint16_t genre__sportfight_svg_size;
+extern const uint8_t genre__sportfight_svg_data[];
+
+extern const uint16_t genre__strategy4x_svg_size;
+extern const uint8_t genre__strategy4x_svg_data[];
+
+extern const uint16_t genre__adventureinteractivemovie_svg_size;
+extern const uint8_t genre__adventureinteractivemovie_svg_data[];
+
+extern const uint16_t genre__adventuresurvivalhorror_svg_size;
+extern const uint8_t genre__adventuresurvivalhorror_svg_data[];
+
+extern const uint16_t genre__board_svg_size;
+extern const uint8_t genre__board_svg_data[];
+
+extern const uint16_t genre__strategytowerdefense_svg_size;
+extern const uint8_t genre__strategytowerdefense_svg_data[];
+
+extern const uint16_t genre__rpgfirstpersonpartybased_svg_size;
+extern const uint8_t genre__rpgfirstpersonpartybased_svg_data[];
+
+extern const uint16_t genre__actionrythm_svg_size;
+extern const uint8_t genre__actionrythm_svg_data[];
+
+extern const uint16_t genre__trivia_svg_size;
+extern const uint8_t genre__trivia_svg_data[];
+
+extern const uint16_t genre__compilation_svg_size;
+extern const uint8_t genre__compilation_svg_data[];
+
+extern const uint16_t genre__rpg_svg_size;
+extern const uint8_t genre__rpg_svg_data[];
+
+extern const uint16_t genre__strategyartillery_svg_size;
+extern const uint8_t genre__strategyartillery_svg_data[];
+
+extern const uint16_t genre__educative_svg_size;
+extern const uint8_t genre__educative_svg_data[];
+
+extern const uint16_t genre__strategytbs_svg_size;
+extern const uint8_t genre__strategytbs_svg_data[];
+
+extern const uint16_t genre__adventurevisualnovel_svg_size;
+extern const uint8_t genre__adventurevisualnovel_svg_data[];
+
+extern const uint16_t genre__strategymoba_svg_size;
+extern const uint8_t genre__strategymoba_svg_data[];
+
+extern const uint16_t genre__simulation_svg_size;
+extern const uint8_t genre__simulation_svg_data[];
+
+extern const uint16_t genre__actionfirstpersonshooter_svg_size;
+extern const uint8_t genre__actionfirstpersonshooter_svg_data[];
+
+extern const uint16_t genre__sportracing_svg_size;
+extern const uint8_t genre__sportracing_svg_data[];
+
+extern const uint16_t genre__actionplatformer_svg_size;
+extern const uint8_t genre__actionplatformer_svg_data[];
+
+extern const uint16_t genre__actionstealth_svg_size;
+extern const uint8_t genre__actionstealth_svg_data[];
+
+extern const uint16_t genre__strategy_svg_size;
+extern const uint8_t genre__strategy_svg_data[];
+
+extern const uint16_t genre__sports_svg_size;
+extern const uint8_t genre__sports_svg_data[];
+
+extern const uint16_t genre__rpgjapanese_svg_size;
+extern const uint8_t genre__rpgjapanese_svg_data[];
+
+extern const uint16_t genre__actionshootwithgun_svg_size;
+extern const uint8_t genre__actionshootwithgun_svg_data[];
+
+extern const uint16_t genre__simulationfishandhunt_svg_size;
+extern const uint8_t genre__simulationfishandhunt_svg_data[];
+
+extern const uint16_t genre__actionbattleroyale_svg_size;
+extern const uint8_t genre__actionbattleroyale_svg_data[];
+
 extern const uint16_t help__dpad_down_svg_size;
 extern const uint8_t help__dpad_down_svg_data[];
 

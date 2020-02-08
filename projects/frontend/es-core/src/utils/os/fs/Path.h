@@ -355,6 +355,13 @@ class Path
     Path& operator = (const Path& src) = default;
 
     /*!
+     * @brief Default move assignator
+     * @param src source path
+     * @return destination path
+     */
+    Path& operator = (Path&& src) = default;
+
+    /*!
      * @brief copy assignator
      * @param src source path
      * @return destination path

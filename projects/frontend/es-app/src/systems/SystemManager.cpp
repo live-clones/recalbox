@@ -356,7 +356,7 @@ bool SystemManager::AddManuallyFilteredMetasystem(IFilter* filter, FileData::Com
   if (collection)
   {
     // Get theme name
-    std::string theme = RecalboxConf::Instance().AsString(confPrefix + ".theme", identifier);
+    std::string theme = RecalboxConf::Instance().AsString(confPrefix + ".theme", "auto-" + identifier);
     FileData::List allGames;
     FileData::StringMap doppelganger;
 
@@ -435,7 +435,7 @@ bool SystemManager::AddLastPlayedMetaSystem()
 
 bool SystemManager::AddGenresMetaSystem()
 {
-  const NormalizedGenres::GenreMap& genres = NormalizedGenres::GetShortNameMap();
+  const Genres::GenreMap& genres = Genres::GetShortNameMap();
 
   class Filter : public IFilter
   {
@@ -449,7 +449,7 @@ bool SystemManager::AddGenresMetaSystem()
   for(auto& genre : genres)
   {
     Filter filter(genre.first);
-    AddManuallyFilteredMetasystem(&filter, nullptr, genre.second, NormalizedGenres::GetName(genre.first),
+    AddManuallyFilteredMetasystem(&filter, nullptr, genre.second, Genres::GetName(genre.first),
                                   SystemData::Properties::SelfSorted | SystemData::Properties::AlwaysFlat);
   }
   return true;

@@ -8,7 +8,7 @@
 #include <utils/datetime/DateTime.h>
 #include <rapidjson/document.h>
 #include <scraping/new/ScrapeResult.h>
-#include <games/NormalizedGenres.h>
+#include <games/classifications/Genres.h>
 
 
 class ScreenScraperApis

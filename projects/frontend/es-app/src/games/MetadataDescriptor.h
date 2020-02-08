@@ -4,8 +4,9 @@
 #include <utils/Xml.h>
 #include <utils/datetime/DateTime.h>
 #include <utils/Strings.h>
+#include <games/classifications/Regions.h>
 #include "ItemType.h"
-#include "NormalizedGenres.h"
+#include "games/classifications/Genres.h"
 
 //#define _METADATA_STATS_
 
@@ -54,9 +55,9 @@ class MetadataDescriptor
     std::string* _Ratio;        //!< Specific screen ratio
     Path*        _Thumbnail;    //!< Thumbnail path
     Path*        _Video;        //!< Video path
-    std::string* _Region;       //!< Rom/Game Region
     float        _Rating;       //!< Rating from 0.0 to 1.0
     GameGenres   _GenreId;      //!< Normalized Genre
+    int          _Region;       //!< Rom/Game Region
     int          _Players;      //!< Players range: LSW:from - MSW:to (allow sorting by max players)
     int          _ReleaseDate;  //!< Release data (epoch)
     int          _Playcount;    //!< Play counter
@@ -240,9 +241,9 @@ class MetadataDescriptor
         _Ratio(nullptr),
         _Thumbnail(nullptr),
         _Video(nullptr),
-        _Region(nullptr),
         _Rating(0.0f),
         _GenreId(GameGenres::None),
+        _Region(0),
         _Players((1<<16)+1),
         _ReleaseDate(0),
         _Playcount(0),
@@ -314,9 +315,9 @@ class MetadataDescriptor
         _Ratio       (          source._Ratio      ),
         _Thumbnail   (          source._Thumbnail  ),
         _Video       (          source._Video      ),
-        _Region      (          source._Region     ),
         _Rating      (          source._Rating     ),
         _GenreId     (          source._GenreId    ),
+        _Region      (          source._Region     ),
         _Players     (          source._Players    ),
         _ReleaseDate (          source._ReleaseDate),
         _Playcount   (          source._Playcount  ),
@@ -338,7 +339,6 @@ class MetadataDescriptor
       source._Core      = nullptr;
       source._Ratio     = nullptr;
       source._Thumbnail = nullptr;
-      source._Region    = nullptr;
     }
 
     /*!
@@ -366,7 +366,7 @@ class MetadataDescriptor
       if (source._Ratio     != nullptr) _Ratio     = new std::string(*source._Ratio    );
       if (source._Thumbnail != nullptr) _Thumbnail = new Path       (*source._Thumbnail);
       if (source._Video     != nullptr) _Video     = new Path       (*source._Video    );
-      if (source._Region    != nullptr) _Region    = new std::string(*source._Region   );
+      _Region      = source._Region     ;
       _Rating      = source._Rating     ;
       _GenreId     = source._GenreId    ;
       _Players     = source._Players    ;
@@ -410,8 +410,7 @@ class MetadataDescriptor
       _Video       = source._Video      ; source._Video     = nullptr;
       _Developer   = std::move(source._Developer  );
       _Publisher   = std::move(source._Publisher  );
-      _Genre       = source._Genre      ; source._Region   = nullptr;
-      _Region      = source._Region     ; source._Region   = nullptr;
+      _Genre       = source._Genre      ; source._Genre     = nullptr;
       _Rating      = source._Rating     ;
       _GenreId     = source._GenreId    ;
       _Players     = source._Players    ;
@@ -472,7 +471,6 @@ class MetadataDescriptor
     const std::string& Developer()   const { return _Developer;                                   }
     const std::string& Publisher()   const { return _Publisher;                                   }
     const std::string& Genre()       const { return ReadPString(_Genre, DefaultValueEmpty);       }
-    const std::string& Region()      const { return ReadPString(_Region, DefaultValueEmpty);      }
 
     float              Rating()          const { return _Rating;                           }
     int                PlayerRange()     const { return _Players;                          }
@@ -483,6 +481,7 @@ class MetadataDescriptor
     int                PlayCount()       const { return _Playcount;                        }
     int                LastPlayedEpoc()  const { return _LastPlayed;                       }
     DateTime           LastPlayed()      const { return DateTime((long long)_LastPlayed);  }
+    int                Region()          const { return _Region;                                      }
     int                RomCrc32()        const { return _RomCrc32;                         }
     bool               Favorite()        const { return _Favorite;                         }
     bool               Hidden()          const { return _Hidden;                           }
@@ -504,7 +503,7 @@ class MetadataDescriptor
     std::string DeveloperAsString()   const { return _Developer;                                   }
     std::string PublisherAsString()   const { return _Publisher;                                   }
     std::string GenreAsString()       const { return ReadPString(_Genre, DefaultValueEmpty);       }
-    std::string RegionAsString()      const { return ReadPString(_Region, DefaultValueEmpty);      }
+    std::string RegionAsString()      const { return Regions::Serialize4Regions(_Region);          }
 
     std::string RatingAsString()      const { return Strings::ToString(_Rating, 4);                        }
     std::string PlayersAsString()     const { return IntToRange(_Players);                                 }
@@ -539,7 +538,7 @@ class MetadataDescriptor
       _Players = (max << 16) + min;
       _Dirty = true;
     }
-    void SetRegion(const std::string& region)           { AssignPString(_Region, region); _Dirty = true;                }
+    void SetRegion(int regions)                         { _Region = regions; _Dirty = true;                             }
     void SetRomCrc32(int romcrc32)                      { _RomCrc32 = romcrc32; _Dirty = true;                          }
     void SetFavorite(bool favorite)                     { _Favorite = favorite; _Dirty = true;                          }
     void SetHidden(bool hidden)                         { _Hidden = hidden; _Dirty = true;                              }
@@ -583,6 +582,7 @@ class MetadataDescriptor
     void SetRomCrc32AsString(const std::string& romcrc32)       { int c; if (HexToInt(romcrc32, c)) SetRomCrc32(c);                        }
     void SetPlayCountAsString(const std::string& playcount)     { int p; if (StringToInt(playcount, p)) { _Playcount = p; _Dirty = true; } }
     void SetGenreIdAsString(const std::string& genre)           { int g; if (StringToInt(genre, g)) { _GenreId = (GameGenres)g; _Dirty = true; } }
+    void SetRegionAsString(const std::string& region)           { _Region = (int)Regions::DeserializeRegion(region); _Dirty = true; }
 
     /*
      * Defaults

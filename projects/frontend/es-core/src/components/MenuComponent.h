@@ -69,6 +69,38 @@ public:
 		addRow(row, setCursorHere, true);
 	}
 
+	inline void addWithLabel(const std::shared_ptr<Component>& comp, const Path& iconPath, const std::string& label, const std::string& help = "", bool setCursorHere = false, bool invert_when_selected = true, const std::function<void()>& acceptCallback = nullptr)
+	{
+		ComponentListRow row;
+		auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+
+		if (!iconPath.IsEmpty())
+		{
+			// icon
+			auto icon = std::make_shared<ImageComponent>(mWindow);
+			icon->setImage(iconPath);
+			icon->setColorShift(menuTheme->menuText.color);
+			icon->setResize(0, menuTheme->menuText.font->getLetterHeight() * 1.25f);
+			row.addElement(icon, false, invert_when_selected);
+
+			// spacer between icon and text
+			auto spacer = std::make_shared<Component>(mWindow);
+			spacer->setSize(10, 0);
+			row.addElement(spacer, false, invert_when_selected);
+		}
+
+		row.addElement(std::make_shared<TextComponent>(mWindow, Strings::ToUpperUTF8(label), menuTheme->menuText.font, menuTheme->menuText.color), true);
+		row.addElement(comp, false, invert_when_selected);
+
+		if (acceptCallback) {
+			row.makeAcceptInputHandler(acceptCallback);
+		}
+		if (!help.empty()) {
+			row.makeHelpInputHandler(buildHelpGui(label, help));
+		}
+		addRow(row, setCursorHere, true);
+	}
+
 	void addButton(const std::string& label, const std::string& helpText, const std::function<void()>& callback);
 
 	void setTitle(const std::string& title, const std::shared_ptr<Font>& font = Font::get(FONT_SIZE_LARGE));

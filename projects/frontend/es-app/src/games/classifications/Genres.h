@@ -19,11 +19,11 @@ enum class GameGenres : int // Must be an int
     ActionFirstPersonShooter      = 0x0103, //!< - First person shooter (007, ...)
     ActionShootEmUp               = 0x0104, //!< - Shoot'em up/all (
     ActionShootWithGun            = 0x0105, //!< - On-screen shooters (Operation wolf, Duck Hunt, ...)
-    ActionFighting                = 0x0105, //!< - Fighting games (mortal kombat, street fighters, ...)
-    ActionBeatEmUp                = 0x0106, //!< - Beat'em up/all (Renegade, Double Dragon, ...)
-    ActionStealth                 = 0x0107, //!< - Stealth combat (MGS, Dishonored, ...)
-    ActionBattleRoyale            = 0x0108, //!< - Battle royale survivals (Fortnite, Apex legend, ...)
-    ActionRythm                   = 0x0109, //!< - Music/Rythm games (Dance Dance Revolution, ...)
+    ActionFighting                = 0x0106, //!< - Fighting games (mortal kombat, street fighters, ...)
+    ActionBeatEmUp                = 0x0107, //!< - Beat'em up/all (Renegade, Double Dragon, ...)
+    ActionStealth                 = 0x0108, //!< - Stealth combat (MGS, Dishonored, ...)
+    ActionBattleRoyale            = 0x0109, //!< - Battle royale survivals (Fortnite, Apex legend, ...)
+    ActionRythm                   = 0x010A, //!< - Music/Rythm games (Dance Dance Revolution, ...)
   Adventure                       = 0x0200, //!< Generic Adventure games
     AdventureText                 = 0x0201, //!< - Old-school text adventure (Zork, ...)
     AdventureGraphics             = 0x0202, //!< - Mainly Point-and-clicks
@@ -68,13 +68,15 @@ enum class GameGenres : int // Must be an int
   Casino                          = 0x0E00, //!< Casino games
   Compilation                     = 0x0F00, //!< Multi games
   DemoScene                       = 0x1000, //!< Amiga/ST/PC Demo from demo scene
-  Educative                       = 0x1000, //!< Educative games
+  Educative                       = 0x1100, //!< Educative games
 };
 
-class NormalizedGenres
+class Genres
 {
   public:
     typedef std::unordered_map<GameGenres, const char*> GenreMap;
+
+    static bool IsSubGenre(GameGenres genre) { return ((int)genre & 0xFF) != 0; }
 
     /*!
      * @brief Get genre resource path of the given genre

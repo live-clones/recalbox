@@ -1922,6 +1922,36 @@ msgid ""
 "files."
 msgstr ""
 
+msgid "VIRTUAL SYSTEMS"
+msgstr ""
+
+msgid "SHOW ALL-GAMES SYSTEM"
+msgstr ""
+
+msgid "SHOW MULTIPLAYER SYSTEM"
+msgstr ""
+
+msgid "SHOW LAST-PLAYED SYSTEM"
+msgstr ""
+
+msgid "VIRTUAL SYSTEMS PER GENRE"
+msgstr ""
+
+msgid "Show a 'all-games' system with all ames from all systems."
+msgstr ""
+
+msgid "Show multiplayer games (all games playable by two or more players)."
+msgstr ""
+
+msgid "Show last played games."
+msgstr ""
+
+msgid "Select virtual systems to show."
+msgstr ""
+
+msgid "Select vitual systems per genre to show."
+msgstr ""
+
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
 #~ "will turn the screen black."

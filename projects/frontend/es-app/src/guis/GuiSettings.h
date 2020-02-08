@@ -8,18 +8,22 @@
 // This is just a really simple template for a GUI that calls some save functions when closed.
 class GuiSettings : public Gui
 {
-public:
-	GuiSettings(Window& window, const std::string& title);
-	~GuiSettings() override; // just calls save();
+  public:
+    GuiSettings(Window& window, const std::string& title);
+    ~GuiSettings() override; // just calls save();
 
-	void save();
-	inline void updatePosition() {mMenu.setPosition((Renderer::getDisplayWidthAsFloat() - mMenu.getSize().x()) / 2, (Renderer::getDisplayHeightAsFloat() - mMenu.getSize().y()) / 2);};
-	inline void addRow(const ComponentListRow& row) { mMenu.addRow(row); updatePosition();};
-	inline void addRowWithHelp(ComponentListRow& row, const std::string& label, const std::string& help) { mMenu.addRowWithHelp(row, label, help); updatePosition();};
-	inline void addWithLabel(const std::shared_ptr<Component>& comp, const std::string& label, const std::string& help = "") {
-		mMenu.addWithLabel(comp, label, help, false, true, nullptr);
-		updatePosition();
-	};
+    void save();
+    inline void updatePosition() {mMenu.setPosition((Renderer::getDisplayWidthAsFloat() - mMenu.getSize().x()) / 2, (Renderer::getDisplayHeightAsFloat() - mMenu.getSize().y()) / 2);};
+    inline void addRow(const ComponentListRow& row) { mMenu.addRow(row); updatePosition();};
+    inline void addRowWithHelp(ComponentListRow& row, const std::string& label, const std::string& help) { mMenu.addRowWithHelp(row, label, help); updatePosition();};
+    inline void addWithLabel(const std::shared_ptr<Component>& comp, const std::string& label, const std::string& help = "") {
+      mMenu.addWithLabel(comp, label, help, false, true, nullptr);
+      updatePosition();
+    };
+    inline void addWithLabel(const std::shared_ptr<Component>& comp, const Path& iconPath, const std::string& label, const std::string& help = "") {
+      mMenu.addWithLabel(comp, iconPath, label, help, false, true, nullptr);
+      updatePosition();
+    };
     inline void addSubMenu(const std::string& label, const std::function<void()>& func, const std::string& help = "") {
 		ComponentListRow row;
 		row.makeAcceptInputHandler(func);

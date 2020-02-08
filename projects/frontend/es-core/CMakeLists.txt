@@ -211,64 +211,7 @@ set(CORE_SOURCES
         src/utils/hash/Md5.cpp
 )
 
-set(EMBEDDED_ASSET_SOURCES
-		${emulationstation-all_SOURCE_DIR}/data/ResourceUtil.cpp
-		${emulationstation-all_SOURCE_DIR}/data/converted/splash_svg.cpp
-		${emulationstation-all_SOURCE_DIR}/data/converted/window_icon_256_png.cpp
-		${emulationstation-all_SOURCE_DIR}/data/converted/button_png.cpp
-		${emulationstation-all_SOURCE_DIR}/data/converted/button_filled_png.cpp
-		${emulationstation-all_SOURCE_DIR}/data/converted/textinput_ninepatch_png.cpp
-		${emulationstation-all_SOURCE_DIR}/data/converted/textinput_ninepatch_active_png.cpp
-		${emulationstation-all_SOURCE_DIR}/data/converted/frame_png.cpp
-		${emulationstation-all_SOURCE_DIR}/data/converted/scroll_gradient_png.cpp
-		${emulationstation-all_SOURCE_DIR}/data/converted/recalbox_svg.cpp
-		${emulationstation-all_SOURCE_DIR}/data/converted/question_svg.cpp
-
-		${emulationstation-all_SOURCE_DIR}/data/converted/help__button_a_svg.cpp
-		${emulationstation-all_SOURCE_DIR}/data/converted/help__button_b_svg.cpp
-		${emulationstation-all_SOURCE_DIR}/data/converted/help__button_x_svg.cpp
-		${emulationstation-all_SOURCE_DIR}/data/converted/help__button_y_svg.cpp
-		${emulationstation-all_SOURCE_DIR}/data/converted/help__button_l_svg.cpp
-		${emulationstation-all_SOURCE_DIR}/data/converted/help__button_r_svg.cpp
-		${emulationstation-all_SOURCE_DIR}/data/converted/help__button_l2_svg.cpp
-		${emulationstation-all_SOURCE_DIR}/data/converted/help__button_r2_svg.cpp
-		${emulationstation-all_SOURCE_DIR}/data/converted/help__button_l3_svg.cpp
-		${emulationstation-all_SOURCE_DIR}/data/converted/help__button_r3_svg.cpp
-		${emulationstation-all_SOURCE_DIR}/data/converted/help__button_start_svg.cpp
-		${emulationstation-all_SOURCE_DIR}/data/converted/help__button_select_svg.cpp
-		${emulationstation-all_SOURCE_DIR}/data/converted/help__button_hotkey_svg.cpp
-		${emulationstation-all_SOURCE_DIR}/data/converted/help__dpad_up_svg.cpp
-		${emulationstation-all_SOURCE_DIR}/data/converted/help__dpad_down_svg.cpp
-		${emulationstation-all_SOURCE_DIR}/data/converted/help__dpad_left_svg.cpp
-		${emulationstation-all_SOURCE_DIR}/data/converted/help__dpad_right_svg.cpp
-		${emulationstation-all_SOURCE_DIR}/data/converted/help__dpad_updown_svg.cpp
-		${emulationstation-all_SOURCE_DIR}/data/converted/help__dpad_leftright_svg.cpp
-		${emulationstation-all_SOURCE_DIR}/data/converted/help__dpad_all_svg.cpp
-		${emulationstation-all_SOURCE_DIR}/data/converted/help__joystick_left_svg.cpp
-		${emulationstation-all_SOURCE_DIR}/data/converted/help__joystick_up_svg.cpp
-		${emulationstation-all_SOURCE_DIR}/data/converted/thumbs_up_green_svg.cpp
-		${emulationstation-all_SOURCE_DIR}/data/converted/thumbs_up_yellow_svg.cpp
-		${emulationstation-all_SOURCE_DIR}/data/converted/thumbs_down_red_svg.cpp
-
-		${emulationstation-all_SOURCE_DIR}/data/converted/ubuntu_condensed_ttf.cpp
-		${emulationstation-all_SOURCE_DIR}/data/converted/fontawesome_webfont_ttf.cpp
-		${emulationstation-all_SOURCE_DIR}/data/converted/arrow_svg.cpp
-		${emulationstation-all_SOURCE_DIR}/data/converted/option_arrow_svg.cpp
-		${emulationstation-all_SOURCE_DIR}/data/converted/checkbox_checked_svg.cpp
-		${emulationstation-all_SOURCE_DIR}/data/converted/checkbox_unchecked_svg.cpp
-		${emulationstation-all_SOURCE_DIR}/data/converted/star_filled_svg.cpp
-		${emulationstation-all_SOURCE_DIR}/data/converted/star_unfilled_svg.cpp
-		${emulationstation-all_SOURCE_DIR}/data/converted/on_svg.cpp
-		${emulationstation-all_SOURCE_DIR}/data/converted/off_svg.cpp
-		${emulationstation-all_SOURCE_DIR}/data/converted/fav_add_svg.cpp
-		${emulationstation-all_SOURCE_DIR}/data/converted/fav_remove_svg.cpp
-		${emulationstation-all_SOURCE_DIR}/data/converted/slider_knob_svg.cpp
-
-		${emulationstation-all_SOURCE_DIR}/data/converted/busy_0_png.cpp
-		${emulationstation-all_SOURCE_DIR}/data/converted/busy_1_png.cpp
-		${emulationstation-all_SOURCE_DIR}/data/converted/busy_2_png.cpp
-		${emulationstation-all_SOURCE_DIR}/data/converted/busy_3_png.cpp
-)
+file(GLOB_RECURSE EMBEDDED_ASSET_SOURCES ${emulationstation-all_SOURCE_DIR}/data/*.cpp)
 
 list(APPEND CORE_SOURCES ${EMBEDDED_ASSET_SOURCES})
 

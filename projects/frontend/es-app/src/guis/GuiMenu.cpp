@@ -1448,6 +1448,162 @@ void GuiMenu::menuAdvancedSettings(){
     s->addSubMenu(_("BOOT SETTINGS"), openGui, _(MENUMESSAGE_ADVANCED_BOOT_HELP_MSG));
   }
 
+  // VIRTUAL SYSTEMS
+  {
+    std::function<void()> openGui = [this] {
+      GuiSettings *virtualGui = new GuiSettings(mWindow, _("VIRTUAL SYSTEMS"));
+
+      // All games
+      bool allGames = RecalboxConf::Instance().AsBool("emulationstation.collection.allgames");
+      auto allGamesComp = std::make_shared<SwitchComponent>(mWindow, allGames);
+      virtualGui->addWithLabel(allGamesComp, _("SHOW ALL-GAMES SYSTEM"), _(MENUMESSAGE_ADVANCED_ALLGAMES_HELP_MSG));
+
+      // Multiplayers games
+      bool multiplayerGames = RecalboxConf::Instance().AsBool("emulationstation.collection.multiplayers");
+      auto multiplayerGamesComp = std::make_shared<SwitchComponent>(mWindow, multiplayerGames);
+      virtualGui->addWithLabel(multiplayerGamesComp, _("SHOW MULTIPLAYER SYSTEM"), _(MENUMESSAGE_ADVANCED_MULTIPLAYERS_HELP_MSG));
+
+      // Last-played games
+      bool lastPlayedGames = RecalboxConf::Instance().AsBool("emulationstation.collection.lastplayed");
+      auto lastPlayedGamesComp = std::make_shared<SwitchComponent>(mWindow, lastPlayedGames);
+      virtualGui->addWithLabel(lastPlayedGamesComp, _("SHOW LAST-PLAYED SYSTEM"), _(MENUMESSAGE_ADVANCED_LASTPLAYED_HELP_MSG));
+
+      {
+        std::function<void()> openGui = [this] {
+          GuiSettings *virtualGenreGui = new GuiSettings(mWindow, _("VIRTUAL SYSTEMS PER GENRE"));
+
+          GameGenres genres[] =
+            {
+              GameGenres::Action                       ,
+              GameGenres::ActionPlatformer             ,
+              GameGenres::ActionPlatformShooter        ,
+              GameGenres::ActionFirstPersonShooter     ,
+              GameGenres::ActionShootEmUp              ,
+              GameGenres::ActionShootWithGun           ,
+              GameGenres::ActionFighting               ,
+              GameGenres::ActionBeatEmUp               ,
+              GameGenres::ActionStealth                ,
+              GameGenres::ActionBattleRoyale           ,
+              GameGenres::ActionRythm                  ,
+              GameGenres::Adventure                    ,
+              GameGenres::AdventureText                ,
+              GameGenres::AdventureGraphics            ,
+              GameGenres::AdventureVisualNovels        ,
+              GameGenres::AdventureInteractiveMovie    ,
+              GameGenres::AdventureRealTime3D          ,
+              GameGenres::AdventureSurvivalHorror      ,
+              GameGenres::RPG                          ,
+              GameGenres::RPGAction                    ,
+              GameGenres::RPGMMO                       ,
+              GameGenres::RPGDungeonCrawler            ,
+              GameGenres::RPGTactical                  ,
+              GameGenres::RPGJapanese                  ,
+              GameGenres::RPGFirstPersonPartyBased     ,
+              GameGenres::Simulation                   ,
+              GameGenres::SimulationBuildAndManagement ,
+              GameGenres::SimulationLife               ,
+              GameGenres::SimulationFishAndHunt        ,
+              GameGenres::SimulationVehicle            ,
+              GameGenres::SimulationSciFi              ,
+              GameGenres::Strategy                     ,
+              GameGenres::Strategy4X                   ,
+              GameGenres::StrategyArtillery            ,
+              GameGenres::StrategyAutoBattler          ,
+              GameGenres::StrategyMOBA                 ,
+              GameGenres::StrategyRTS                  ,
+              GameGenres::StrategyTBS                  ,
+              GameGenres::StrategyTowerDefense         ,
+              GameGenres::StrategyWargame              ,
+              GameGenres::Sports                       ,
+              GameGenres::SportRacing                  ,
+              GameGenres::SportSimulation              ,
+              GameGenres::SportCompetitive             ,
+              GameGenres::SportFight                   ,
+              GameGenres::Flipper                      ,
+              GameGenres::Board                        ,
+              GameGenres::Casual                       ,
+              GameGenres::DigitalCard                  ,
+              GameGenres::PuzzleAndLogic               ,
+              GameGenres::Party                        ,
+              GameGenres::Trivia                       ,
+              GameGenres::Casino                       ,
+              GameGenres::Compilation                  ,
+              GameGenres::DemoScene                    ,
+              GameGenres::Educative                    ,
+            };
+
+          std::map<std::shared_ptr<SwitchComponent>, std::string> components;
+
+          // All games
+          Genres::GenreMap map = Genres::GetShortNameMap();
+          for(auto & genre : genres)
+          {
+            std::string shortName = map[genre];
+            std::string longName = Genres::GetName(genre);
+            std::string configuration = "emulationstation.collection." + shortName;
+            std::string prefix = Genres::IsSubGenre(genre) ? "    " : "";
+            Path icon = Path(Genres::GetResourcePath(genre));
+            bool active = RecalboxConf::Instance().AsBool(configuration);
+            auto component = std::make_shared<SwitchComponent>(mWindow, active);
+            virtualGenreGui->addWithLabel(component, icon, prefix + _S(longName), _S(longName));
+            components[component] = configuration;
+          }
+
+          virtualGenreGui->addSaveFunc(
+            [components]
+            {
+              bool modified = false;
+              for(auto& component : components)
+                if (RecalboxConf::Instance().AsBool(component.second) != component.first->getState())
+                {
+                  RecalboxConf::Instance().SetBool(component.second, component.first->getState());
+                  modified = true;
+                }
+              if (modified)
+              {
+                RecalboxConf::Instance().SaveRecalboxConf();
+                MainRunner::RequestQuit(MainRunner::ExitState::Relaunch);
+              }
+            });
+
+          mWindow.pushGui(virtualGenreGui);
+        };
+
+        virtualGui->addSubMenu(_("VIRTUAL SYSTEMS PER GENRE"), openGui, _(MENUMESSAGE_ADVANCED_VIRTUALGENRESYSTEMS_HELP_MSG));
+      }
+
+      virtualGui->addSaveFunc(
+        [allGames, multiplayerGames, lastPlayedGames, allGamesComp, multiplayerGamesComp, lastPlayedGamesComp]
+        {
+          bool modified = false;
+          if (allGames != allGamesComp->getState())
+          {
+            RecalboxConf::Instance().SetBool("emulationstation.collection.allgames", allGamesComp->getState());
+            modified = true;
+          }
+          if (multiplayerGames != multiplayerGamesComp->getState())
+          {
+            RecalboxConf::Instance().SetBool("emulationstation.collection.multiplayers",
+                                             multiplayerGamesComp->getState());
+            modified = true;
+          }
+          if (lastPlayedGames != lastPlayedGamesComp->getState())
+          {
+            RecalboxConf::Instance().SetBool("emulationstation.collection.lastplayed", lastPlayedGamesComp->getState());
+            modified = true;
+          }
+          if (modified)
+          {
+            RecalboxConf::Instance().SaveRecalboxConf();
+            MainRunner::RequestQuit(MainRunner::ExitState::Relaunch);
+          }
+        });
+      mWindow.pushGui(virtualGui);
+    };
+
+    s->addSubMenu(_("VIRTUAL SYSTEMS"), openGui, _(MENUMESSAGE_ADVANCED_VIRTUALSYSTEMS_HELP_MSG));
+  }
+
   // Custom config for systems
   {
     std::function<void()> openGuiD = [this, s] {

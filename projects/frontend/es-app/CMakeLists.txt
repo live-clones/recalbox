@@ -16,7 +16,8 @@ set(ES_HEADERS
         src/games/RootFolderData.h
         src/games/MetadataDescriptor.h
         src/games/MetadataFieldDescriptor.h
-        src/games/NormalizedGenres.h
+        src/games/classifications/Genres.h
+        src/games/classifications/Regions.h
         src/systems/EmulatorDescriptor.h
         src/systems/EmulatorList.h
         src/systems/SystemDescriptor.h
@@ -105,7 +106,8 @@ set(ES_SOURCES
         src/games/FileData.cpp
         src/games/FolderData.cpp
         src/games/MetadataDescriptor.cpp
-        src/games/NormalizedGenres.cpp
+        src/games/classifications/Genres.cpp
+        src/games/classifications/Regions.cpp
         src/systems/SystemData.cpp
         src/systems/SystemManager.cpp
 
