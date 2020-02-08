@@ -15,8 +15,11 @@
 EmulatorDescriptor EmulatorList::sEmptyEmulator("NO EMULATOR");
 
 SystemData::SystemData(const SystemDescriptor& descriptor, RootFolderData::Ownership childOwnership, Properties properties, FileSorts::Sorts fixedSort)
-  : mDescriptor(descriptor), mRootFolder(childOwnership, descriptor.RomPath(), this),
-    mSortId(RecalboxConf::Instance().AsInt(mDescriptor.Name() + ".sort")), mProperties(properties)
+  : mDescriptor(descriptor),
+    mRootFolder(childOwnership, descriptor.RomPath(), this),
+    mSortId(RecalboxConf::Instance().AsInt(mDescriptor.Name() + ".sort")),
+    mProperties(properties),
+    mFixedSort(fixedSort)
 {
   // Set name
   mRootFolder.Metadata().SetName(mDescriptor.FullName());
@@ -441,7 +444,7 @@ void SystemData::UpdateGamelistXml()
     /*
      * Get all folder & games in a flat storage
      */
-    FileData::List fileList = mRootFolder.getAllItemsRecursively(true);
+    FileData::List fileList = mRootFolder.getAllItemsRecursively(true, true);
     FileData::List folderList = mRootFolder.getAllFolders();
     // Nothing to process?
     if (fileList.empty()) return;

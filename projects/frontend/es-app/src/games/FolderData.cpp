@@ -181,21 +181,20 @@ void FolderData::BuildDoppelgangerMap(FileData::StringMap& doppelganger, bool in
   }
 }
 
-int FolderData::getItemsRecursively(FileData::List& to, IFilter* filter, bool includefolders) const
+int FolderData::getItemsRecursively(FileData::List& to, IFilter* filter, bool includefolders, bool includeadult) const
 {
   int gameCount = 0;
   for (FileData* fd : mChildren)
   {
     if (fd->isFolder())
     {
-      int position = (int)to.size(); // TODO: Check if the insert is necessary
-      if (CastFolder(fd)->getItemsRecursively(to, filter, includefolders) > 1)
+      if (CastFolder(fd)->getItemsRecursively(to, filter, includefolders, includeadult) > 1)
         if (includefolders)
-          to.insert(to.begin() + position, fd); // Include folders iif it contains more than one game.
+          to.push_back(fd); // Include folders iif it contains more than one game.
     }
     else if (fd->isGame())
     {
-      if (filter->ApplyFilter(*fd))
+      if (filter->ApplyFilter(*fd) && (includeadult || !fd->Metadata().Adult()))
       {
         to.push_back(fd);
         gameCount++;
@@ -205,17 +204,16 @@ int FolderData::getItemsRecursively(FileData::List& to, IFilter* filter, bool in
   return gameCount;
 }
 
-int FolderData::getItemsRecursively(FileData::List& to, Filter includes, bool includefolders) const
+int FolderData::getItemsRecursively(FileData::List& to, Filter includes, bool includefolders, bool includeadult) const
 {
   int gameCount = 0;
   for (FileData* fd : mChildren)
   {
     if (fd->isFolder())
     {
-      int position = (int)to.size(); // TODO: Check if the insert is necessary
-      if (CastFolder(fd)->getItemsRecursively(to, includes, includefolders) > 1)
+      if (CastFolder(fd)->getItemsRecursively(to, includes, includefolders, includeadult) > 1)
         if (includefolders)
-          to.insert(to.begin() + position, fd); // Include folders iif it contains more than one game.
+          to.push_back(fd); // Include folders iif it contains more than one game.
     }
     else if (fd->isGame())
     {
@@ -223,7 +221,7 @@ int FolderData::getItemsRecursively(FileData::List& to, Filter includes, bool in
       if (fd->Metadata().Hidden()) current |= Filter::Hidden;
       if (fd->Metadata().Favorite()) current |= Filter::Favorite;
       if (current == 0) current = Filter::Normal;
-      if ((current & includes) != 0)
+      if ((current & includes) != 0 && (includeadult || !fd->Metadata().Adult()))
       {
         to.push_back(fd);
         gameCount++;
@@ -233,14 +231,14 @@ int FolderData::getItemsRecursively(FileData::List& to, Filter includes, bool in
   return gameCount;
 }
 
-int FolderData::countItemsRecursively(Filter includes, bool includefolders) const
+int FolderData::countItemsRecursively(Filter includes, bool includefolders, bool includeadult) const
 {
   int result = 0;
   for (FileData* fd : mChildren)
   {
     if (fd->isFolder())
     {
-      int subCount = CastFolder(fd)->countItemsRecursively(includes, includefolders);
+      int subCount = CastFolder(fd)->countItemsRecursively(includes, includefolders, includeadult);
       result += subCount;
       if (subCount > 1)
         if (includefolders)
@@ -252,7 +250,7 @@ int FolderData::countItemsRecursively(Filter includes, bool includefolders) cons
       if (fd->Metadata().Hidden()) current |= Filter::Hidden;
       if (fd->Metadata().Favorite()) current |= Filter::Favorite;
       if (current == 0) current = Filter::Normal;
-      if ((current & includes) != 0)
+      if ((current & includes) != 0 && (includeadult || !fd->Metadata().Adult()))
         result++;
     }
   }
@@ -279,7 +277,7 @@ bool FolderData::hasVisibleGame() const
   return false;
 }
 
-int FolderData::getItems(FileData::List& to, Filter includes, bool includefolders) const
+int FolderData::getItems(FileData::List& to, Filter includes, bool includefolders, bool includeadult) const
 {
   int gameCount = 0;
   for (FileData* fd : mChildren)
@@ -299,14 +297,14 @@ int FolderData::getItems(FileData::List& to, Filter includes, bool includefolder
           if (item->Metadata().Hidden()) current |= Filter::Hidden;
           if (item->Metadata().Favorite()) current |= Filter::Favorite;
           if (current == 0) current = Filter::Normal;
-          if ((current & includes) != 0)
+          if ((current & includes) != 0 && (includeadult || !item->Metadata().Adult()))
             isolatedFile = item;
         }
       }
       if (isolatedFile != nullptr) to.push_back(isolatedFile);
       else
       if (includefolders)
-        if (folder->countItems(includes, includefolders) > 0) // Only add if it contains at leas one game
+        if (folder->countItems(includes, includefolders, includeadult) > 0) // Only add if it contains at leas one game
           to.push_back(fd);
     }
     else
@@ -315,7 +313,7 @@ int FolderData::getItems(FileData::List& to, Filter includes, bool includefolder
       if (fd->Metadata().Hidden()) current |= Filter::Hidden;
       if (fd->Metadata().Favorite()) current |= Filter::Favorite;
       if (current == 0) current = Filter::Normal;
-      if ((current & includes) != 0)
+      if ((current & includes) != 0  && (includeadult || !fd->Metadata().Adult()))
       {
         to.push_back(fd);
         gameCount++;
@@ -325,7 +323,7 @@ int FolderData::getItems(FileData::List& to, Filter includes, bool includefolder
   return gameCount;
 }
 
-int FolderData::countItems(Filter includes, bool includefolders) const
+int FolderData::countItems(Filter includes, bool includefolders, bool includeadult) const
 {
   int result = 0;
   for (FileData* fd : mChildren)
@@ -345,15 +343,15 @@ int FolderData::countItems(Filter includes, bool includefolders) const
           if (item->Metadata().Hidden()) current |= Filter::Hidden;
           if (item->Metadata().Favorite()) current |= Filter::Favorite;
           if (current == 0) current = Filter::Normal;
-          if ((current & includes) != 0)
+          if ((current & includes) != 0 && (includeadult || !item->Metadata().Adult()))
             isolatedFile = item;
         }
       }
       if (isolatedFile != nullptr) result++;
       else
-      if (includefolders)
-        if (folder->countItems(includes, includefolders) > 0) // Only add if it contains at leas one game
-          result++;
+        if (includefolders)
+          if (folder->countItems(includes, includefolders, includeadult) > 0) // Only add if it contains at leas one game
+            result++;
     }
     else if (fd->isGame())
     {
@@ -361,7 +359,7 @@ int FolderData::countItems(Filter includes, bool includefolders) const
       if (fd->Metadata().Hidden()) current |= Filter::Hidden;
       if (fd->Metadata().Favorite()) current |= Filter::Favorite;
       if (current == 0) current = Filter::Normal;
-      if ((current & includes) != 0)
+      if ((current & includes) != 0 && (includeadult || !fd->Metadata().Adult()))
         result++;
     }
   }
@@ -508,84 +506,84 @@ bool FolderData::Contains(const FileData* item, bool recurse) const
   return false;
 }
 
-FileData::List FolderData::getFilteredItemsRecursively(IFilter* filter, bool includefolders) const
+FileData::List FolderData::getFilteredItemsRecursively(IFilter* filter, bool includefolders, bool includeadult) const
 {
   FileData::List result;
-  result.reserve((unsigned long)countItemsRecursively(Filter::All, includefolders)); // Allocate once
-  getItemsRecursively(result, filter, includefolders);
+  result.reserve((unsigned long)countItemsRecursively(Filter::All, includefolders, includeadult)); // Allocate once
+  getItemsRecursively(result, filter, includefolders, includeadult);
   result.shrink_to_fit();
 
   return result;
 }
 
-FileData::List FolderData::getFilteredItemsRecursively(Filter filters, bool includefolders) const
+FileData::List FolderData::getFilteredItemsRecursively(Filter filters, bool includefolders, bool includeadult) const
 {
   FileData::List result;
-  result.reserve((unsigned long)countItemsRecursively(filters, includefolders)); // Allocate once
-  getItemsRecursively(result, filters, includefolders);
+  result.reserve((unsigned long)countItemsRecursively(filters, includefolders, includeadult)); // Allocate once
+  getItemsRecursively(result, filters, includefolders, includeadult);
 
   return result;
 }
 
-FileData::List FolderData::getAllItemsRecursively(bool includefolders) const
+FileData::List FolderData::getAllItemsRecursively(bool includefolders, bool includeadult) const
 {
   FileData::List result;
-  result.reserve((unsigned long)countItemsRecursively(Filter::All, includefolders)); // Allocate once
-  getItemsRecursively(result, Filter::All, includefolders);
+  result.reserve((unsigned long)countItemsRecursively(Filter::All, includefolders, includeadult)); // Allocate once
+  getItemsRecursively(result, Filter::All, includefolders, includeadult);
 
   return result;
 }
 
-FileData::List FolderData::getAllDisplayableItemsRecursively(bool includefolders) const
+FileData::List FolderData::getAllDisplayableItemsRecursively(bool includefolders, bool includeadult) const
 {
   FileData::List result;
-  result.reserve((unsigned long)countItemsRecursively(Filter::Normal | Filter::Favorite, includefolders)); // Allocate once
-  getItemsRecursively(result, Filter::Normal | Filter::Favorite, includefolders);
+  result.reserve((unsigned long)countItemsRecursively(Filter::Normal | Filter::Favorite, includefolders, includeadult)); // Allocate once
+  getItemsRecursively(result, Filter::Normal | Filter::Favorite, includefolders, includeadult);
 
   return result;
 }
 
-FileData::List FolderData::getAllFavoritesRecursively(bool includefolders) const
+FileData::List FolderData::getAllFavoritesRecursively(bool includefolders, bool includeadult) const
 {
   FileData::List result;
-  result.reserve((unsigned long)countItemsRecursively(Filter::Favorite, includefolders)); // Allocate once
-  getItemsRecursively(result, Filter::Favorite, includefolders);
+  result.reserve((unsigned long)countItemsRecursively(Filter::Favorite, includefolders, includeadult)); // Allocate once
+  getItemsRecursively(result, Filter::Favorite, includefolders, includeadult);
 
   return result;
 }
 
-FileData::List FolderData::getFilteredItems(Filter filters, bool includefolders) const
+FileData::List FolderData::getFilteredItems(Filter filters, bool includefolders, bool includeadult) const
 {
   FileData::List result;
-  result.reserve((unsigned long)countItems(filters, includefolders)); // Allocate once
-  getItems(result, filters, includefolders);
+  result.reserve((unsigned long)countItems(filters, includefolders, includeadult)); // Allocate once
+  getItems(result, filters, includefolders, includeadult);
 
   return result;
 }
 
-FileData::List FolderData::getAllItems(bool includefolders) const
+FileData::List FolderData::getAllItems(bool includefolders, bool includeadult) const
 {
   FileData::List result;
-  result.reserve((unsigned long)countItems(Filter::All, includefolders)); // Allocate once
-  getItems(result, Filter::All, includefolders);
+  result.reserve((unsigned long)countItems(Filter::All, includefolders, includeadult)); // Allocate once
+  getItems(result, Filter::All, includefolders, includeadult);
 
   return result;
 }
 
-FileData::List FolderData::getAllDisplayableItems(bool includefolders) const
+FileData::List FolderData::getAllDisplayableItems(bool includefolders, bool includeadult) const
 {
   FileData::List result;
-  result.reserve((unsigned long)countItems(Filter::Normal | Filter::Favorite, includefolders)); // Allocate once
-  getItems(result, Filter::Normal | Filter::Favorite, includefolders);
+  result.reserve((unsigned long)countItems(Filter::Normal | Filter::Favorite, includefolders, includeadult)); // Allocate once
+  getItems(result, Filter::Normal | Filter::Favorite, includefolders, includeadult);
 
   return result;
 }
 
-FileData::List FolderData::getAllFavorites(bool includefolders) const
+FileData::List FolderData::getAllFavorites(bool includefolders, bool includeadult) const
 {
   FileData::List result;
-  result.reserve((unsigned long)countItems(Filter::Favorite, includefolders)); // Allocate once
-  getItems(result, Filter::Favorite, includefolders);
+  result.reserve((unsigned long)countItems(Filter::Favorite, includefolders, includeadult)); // Allocate once
+  getItems(result, Filter::Favorite, includefolders, includeadult);
 
   return result;
 }

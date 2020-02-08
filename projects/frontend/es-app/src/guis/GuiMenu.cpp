@@ -1604,6 +1604,12 @@ void GuiMenu::menuAdvancedSettings(){
     s->addSubMenu(_("VIRTUAL SYSTEMS"), openGui, _(MENUMESSAGE_ADVANCED_VIRTUALSYSTEMS_HELP_MSG));
   }
 
+  // Adult games
+  auto adults = std::make_shared<SwitchComponent>(mWindow, RecalboxConf::Instance().AsBool("emulationstation.filteradultgames"));
+  s->addWithLabel(adults, _("HIDE ADULT GAMES IN ALL SYSTEMS"), _(MENUMESSAGE_GAMELISTOPTION_HIDE_ADULT_MSG));
+  s->addSaveFunc([adults]
+              { RecalboxConf::Instance().SetBool("emulationstation.filteradultgames", adults->getState()); });
+
   // Custom config for systems
   {
     std::function<void()> openGuiD = [this, s] {

@@ -36,7 +36,7 @@ class FolderData : public FileData
      * @param includefolders Include folder as regular item, or just get their children
      * @return Total amount of items (not including folders!)
      */
-    int getItemsRecursively(FileData::List& to, Filter includes, bool includefolders) const;
+    int getItemsRecursively(FileData::List& to, Filter includes, bool includefolders, bool includeadult) const;
     /*!
      * Get filtered items recursively.
      * @param to List to fill
@@ -44,13 +44,13 @@ class FolderData : public FileData
      * @param includefolders Include folder as regular item, or just get their children
      * @return Total amount of items (not including folders!)
      */
-    int getItemsRecursively(FileData::List& to, IFilter* filter, bool includefolders) const;
+    int getItemsRecursively(FileData::List& to, IFilter* filter, bool includefolders, bool includeadult) const;
     /*!
      * Count all items recursively
      * @param includes Count only items matching these filters
      * @return Total amount of items (not including folders!)
      */
-    int countItemsRecursively(Filter includes, bool includefolders) const;
+    int countItemsRecursively(Filter includes, bool includefolders, bool includeadult) const;
 
     /*!
      * Get all items recursively.
@@ -59,13 +59,13 @@ class FolderData : public FileData
      * @param includefolders Include folder as regular item, or just get their children
      * @return Total amount of items (not including folders!)
      */
-    int getItems(FileData::List& to, Filter includes, bool includefolders) const;
+    int getItems(FileData::List& to, Filter includes, bool includefolders, bool includeadult) const;
     /*!
      * Count all items recursively
      * @param includes Count only items matching these filters
      * @return Total amount of items (not including folders!)
      */
-    int countItems(Filter includes, bool includefolders) const;
+    int countItems(Filter includes, bool includefolders, bool includeadult) const;
 
     /*!
      * Lookup for a given game in the current tree
@@ -160,21 +160,24 @@ class FolderData : public FileData
 
     /*!
      * Get total games in all folders, including hidden
+     * @param includefolders True to include subfolders in the result
      * @return Game count
      */
-    int countAll(bool includefolders) const { return countItemsRecursively(Filter::All, includefolders); }
+    int countAll(bool includefolders, bool includeadult) const { return countItemsRecursively(Filter::All, includefolders, includeadult); }
 
     /*!
      * Get favorite games in all folders
+     * @param includefolders True to include subfolders in the result
      * @return Favorite game count
      */
-    int countAllFavorites(bool includefolders) const { return countItemsRecursively(Filter::Favorite, includefolders); }
+    int countAllFavorites(bool includefolders, bool includeadult) const { return countItemsRecursively(Filter::Favorite, includefolders, includeadult); }
 
     /*!
      * Get hidden games in all folders
+     * @param includefolders True to include subfolders in the result
      * @return Hidden game count
      */
-    int countAllHidden(bool includefolders) const { return countItemsRecursively(Filter::Hidden, includefolders); }
+    int countAllHidden(bool includefolders, bool includeadult) const { return countItemsRecursively(Filter::Hidden, includefolders, includeadult); }
 
     /*!
      * Return true if at least one game in the three has more metadata than just path & names
@@ -204,20 +207,20 @@ class FolderData : public FileData
      * @param includefolders True to include subfolders in the result
      * @return List of filtered items
      */
-    int countFilteredItemsRecursively(Filter filters, bool includefolders) const { return countItemsRecursively(filters, includefolders); }
+    int countFilteredItemsRecursively(Filter filters, bool includefolders, bool includeadult) const { return countItemsRecursively(filters, includefolders, includeadult); }
     /*!
      * Count filtered items from the current folder
      * @param filters Filter to apply
      * @param includefolders True to include subfolders in the result
      * @return List of filtered items
      */
-    int countFilteredItems(Filter filters, bool includefolders) const { return countItems(filters, includefolders); }
+    int countFilteredItems(Filter filters, bool includefolders, bool includeadult) const { return countItems(filters, includefolders, includeadult); }
     /*!
      * Count displayable items (normal + favorites) recursively starting from the current folder
      * @param includefolders True to include subfolders in the resulting list
      * @return Number of displayable items
      */
-    int countAllDisplayableItemsRecursively(bool includefolders) const { return countItemsRecursively(Filter::Normal | Filter::Favorite, includefolders); }
+    int countAllDisplayableItemsRecursively(bool includefolders, bool includeadult) const { return countItemsRecursively(Filter::Normal | Filter::Favorite, includefolders, includeadult); }
 
     /*!
      * Get filtered items recursively starting from the current folder
@@ -225,31 +228,31 @@ class FolderData : public FileData
      * @param includefolders True to include subfolders in the resulting list
      * @return List of filtered items
      */
-    FileData::List getFilteredItemsRecursively(Filter filters, bool includefolders) const;
+    FileData::List getFilteredItemsRecursively(Filter filters, bool includefolders, bool includeadult) const;
     /*!
      * Get filtered items recursively starting from the current folder
      * @param includefolders True to include subfolders in the resulting list
      * @return List of filtered items
      */
-    FileData::List getFilteredItemsRecursively(IFilter* filter, bool includefolders) const;
+    FileData::List getFilteredItemsRecursively(IFilter* filter, bool includefolders, bool includeadult) const;
     /*!
      * Get all items recursively starting from the current folder
      * @param includefolders True to include subfolders in the resulting list
      * @return List of filtered items
      */
-    FileData::List getAllItemsRecursively(bool includefolders) const;
+    FileData::List getAllItemsRecursively(bool includefolders, bool includeadult) const;
     /*!
      * Get all displayable items (normal + favorites) recursively starting from the current folder
      * @param includefolders True to include subfolders in the resulting list
      * @return List of filtered items
      */
-    FileData::List getAllDisplayableItemsRecursively(bool includefolders) const;
+    FileData::List getAllDisplayableItemsRecursively(bool includefolders, bool includeadult) const;
     /*!
      * Get all favorite items recursively starting from the current folder
      * @param includefolders True to include subfolders in the resulting list
      * @return List of filtered items
      */
-    FileData::List getAllFavoritesRecursively(bool includefolders) const;
+    FileData::List getAllFavoritesRecursively(bool includefolders, bool includeadult) const;
 
     /*!
      * Get filtered items from the current folder
@@ -257,25 +260,25 @@ class FolderData : public FileData
      * @param includefolders True to include subfolders in the resulting list
      * @return List of filtered items
      */
-    FileData::List getFilteredItems(Filter filters, bool includefolders) const;
+    FileData::List getFilteredItems(Filter filters, bool includefolders, bool includeadult) const;
     /*!
      * Get all items from the current folder
      * @param includefolders True to include subfolders in the resulting list
      * @return List of filtered items
      */
-    FileData::List getAllItems(bool includefolders) const;
+    FileData::List getAllItems(bool includefolders, bool includeadult) const;
     /*!
      * Get all displayable items (normal + favorites) from the current folder
      * @param includefolders True to include subfolders in the resulting list
      * @return List of filtered items
      */
-    FileData::List getAllDisplayableItems(bool includefolders) const;
+    FileData::List getAllDisplayableItems(bool includefolders, bool includeadult) const;
     /*!
      * Get all favorite items from the current folder
      * @param includefolders True to include subfolders in the resulting list
      * @return List of filtered items
      */
-    FileData::List getAllFavorites(bool includefolders) const;
+    FileData::List getAllFavorites(bool includefolders, bool includeadult) const;
 
     /*!
      * @brief Get all folders recursively

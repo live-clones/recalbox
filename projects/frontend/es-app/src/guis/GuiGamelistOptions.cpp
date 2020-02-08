@@ -72,7 +72,14 @@ GuiGamelistOptions::GuiGamelistOptions(Window& window, SystemData* system)
     });
   }
 
-	if (!system->IsFavorite())
+	// Adult games
+  auto adults = std::make_shared<SwitchComponent>(mWindow);
+  adults->setState(RecalboxConf::Instance().AsBool("emulationstation." + system->getName() + ".filteradultgames"));
+  mMenu.addWithLabel(adults, _("HIDE ADULT GAMES"), _(MENUMESSAGE_GAMELISTOPTION_HIDE_ADULT_MSG));
+  addSaveFunc([adults, system]
+              { RecalboxConf::Instance().SetBool("emulationstation." + system->getName() + ".filteradultgames", adults->getState()); });
+
+  if (!system->IsFavorite())
 	{
 	    // favorite only
       auto favorite_only = std::make_shared<SwitchComponent>(mWindow);
@@ -136,14 +143,11 @@ GuiGamelistOptions::~GuiGamelistOptions()
 {
 	if (mReloading) return;
 
-	const FolderData& root = getGamelist()->System().getRootFolder();
-	if (root.countAll(false) != 0)
+	const FolderData& root = mSystem->getRootFolder();
+	if (root.countAllDisplayableItemsRecursively(false, mSystem->IncludeOutAdultGames()) != 0)
 	{
 		if (mListSort->getSelected() != (int)mSystem->getSortId())
 		{
-			// apply sort
-			mSystem->setSortId(mListSort->getSelected());
-
 			// notify that the root folder has to be sorted
 			getGamelist()->onFileChanged(&mSystem->getRootFolder(), FileChangeType::Sorted);
 		}

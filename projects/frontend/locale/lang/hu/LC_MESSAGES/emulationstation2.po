@@ -1950,6 +1950,15 @@ msgstr ""
 msgid "Select vitual systems per genre to show."
 msgstr ""
 
+msgid "HIDE ADULT GAMES"
+msgstr ""
+
+msgid "HIDE ADULT GAMES IN ALL SYSTEMS"
+msgstr ""
+
+msgid "Hide games flagged as adult games."
+msgstr ""
+
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
 #~ "will turn the screen black."

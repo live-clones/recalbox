@@ -20,7 +20,7 @@ public:
 	bool getHelpPrompts(Help& help) override;
 
 protected:
-	void populateList(const FolderData& folder) override;
+	void populateList(const FolderData& folder) final;
 	void launch(FileData* game) override { ViewController::Instance().launch(game); }
 
 	ImageGridComponent<FileData*> mGrid;

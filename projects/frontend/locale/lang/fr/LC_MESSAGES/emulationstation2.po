@@ -2027,6 +2027,18 @@ msgstr "Selectionner les systèmes virtuels à afficher."
 msgid "Select vitual systems per genre to show."
 msgstr "Selectionner les systèmes virtuels par genre à afficher."
 
+#:
+msgid "HIDE ADULT GAMES"
+msgstr "CACHER LES JEUX POUR ADULTES"
+
+#:
+msgid "HIDE ADULT GAMES IN ALL SYSTEMS"
+msgstr "CACHER TOUS LES JEUX POUR ADULTES"
+
+#:
+msgid "Hide games flagged as adult games."
+msgstr "Cache les jeux marqués comme jeux pour adultes."
+
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
 #~ "will turn the screen black."

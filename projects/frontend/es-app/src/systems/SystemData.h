@@ -2,6 +2,7 @@
 
 #include <string>
 #include <utils/cplusplus/INoCopy.h>
+#include <RecalboxConf.h>
 #include "games/RootFolderData.h"
 #include "Window.h"
 #include "PlatformId.h"
@@ -94,14 +95,26 @@ class SystemData : private INoCopy
 
   public:
     //! Return the root folder object
-    const RootFolderData& getRootFolder() const { return mRootFolder; };
     RootFolderData& getRootFolder() { return mRootFolder; };
+    //! Return the root folder object (const version)
+    const RootFolderData& getRootFolder() const { return mRootFolder; };
+
+    /*!
+     * @brief Check if we must include adult games or not
+     * @return True to include adult games in game lists
+     */
+    bool IncludeOutAdultGames() const
+    {
+      return !(RecalboxConf::Instance().AsBool("emulationstation.filteradultgames") ||
+               RecalboxConf::Instance().AsBool("emulationstation." + mDescriptor.Name() + ".filteradultgames"));
+    }
+
     const std::string& getName() const { return mDescriptor.Name(); }
     const std::string& getFullName() const { return mDescriptor.FullName(); }
     const Path& getStartPath() const { return mDescriptor.RomPath(); }
     const std::string& ThemeFolder() const { return mDescriptor.ThemeFolder(); }
     bool getHasFavoritesInTheme() const { return mTheme.getHasFavoritesInTheme(); }
-    FileData::List getFavorites() const { return mRootFolder.getAllFavoritesRecursively(false); }
+    FileData::List getFavorites() const { return mRootFolder.getAllFavoritesRecursively(false, IncludeOutAdultGames()); }
     int getSortId() const { return mSortId; };
     void setSortId(const int sortId) { mSortId = sortId; };
 
@@ -116,9 +129,9 @@ class SystemData : private INoCopy
     Path getThemePath() const;
 
     bool HasGame() const { return mRootFolder.hasGame(); }
-    int GameCount() const { return mRootFolder.countAll(false); };
-    int FavoritesCount() const{ return mRootFolder.countAllFavorites(false); };
-    int HiddenCount() const{ return mRootFolder.countAllHidden(false); };
+    int GameCount() const { return mRootFolder.countAll(false, IncludeOutAdultGames()); };
+    int FavoritesCount() const{ return mRootFolder.countAllFavorites(false, IncludeOutAdultGames()); };
+    int HiddenCount() const{ return mRootFolder.countAllHidden(false, IncludeOutAdultGames()); };
 
     void RunGame(Window& window, SystemManager& systemManager, FileData& game, const std::string& netplay, const std::string& core, const std::string& ip, const std::string& port);
 

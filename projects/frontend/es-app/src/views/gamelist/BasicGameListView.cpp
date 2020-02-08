@@ -73,8 +73,9 @@ void BasicGameListView::populateList(const FolderData& folder)
 
   // Get items
   bool flatfolders = mSystem.IsAlwaysFlat() || (RecalboxConf::Instance().AsBool(mSystem.getName() + ".flatfolder"));
-  FileData::List items = flatfolders ? folder.getFilteredItemsRecursively(filter, false) : folder.getFilteredItems(
-    filter, true);
+  FileData::List items = flatfolders ?
+    folder.getFilteredItemsRecursively(filter, false, mSystem.IncludeOutAdultGames()) :
+    folder.getFilteredItems(filter, true, mSystem.IncludeOutAdultGames());
   // Check emptyness
   if (items.empty())
   {
