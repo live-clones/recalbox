@@ -7,7 +7,7 @@
 #include "Window.h"
 #include "PlatformId.h"
 #include "themes/ThemeData.h"
-#include "FileSorts.h"
+#include "games/FileSorts.h"
 #include "EmulatorList.h"
 #include "SystemDescriptor.h"
 

@@ -4,7 +4,7 @@
 #include "Renderer.h"
 #include "themes/ThemeData.h"
 #include "systems/SystemData.h"
-#include "FileSorts.h"
+#include "games/FileSorts.h"
 #include "Settings.h"
 #include "utils/locale/LocaleHelper.h"
 #include "SystemIcons.h"
@@ -14,6 +14,7 @@
 BasicGameListView::BasicGameListView(Window& window, SystemManager& systemManager, SystemData& system)
 	: ISimpleGameListView(window, systemManager, system),
 	  mList(window),
+	  mHasGenre(false),
     mEmptyListItem(&system),
     mPopulatedFolder(nullptr),
 	  listingOffset(0)
@@ -97,7 +98,9 @@ void BasicGameListView::populateList(const FolderData& folder)
   }
 
   // Add to list
+  mHasGenre = false;
   //mList.reserve(items.size()); // TODO: Reserve memory once
+
   for (FileData* fd : items)
 	{
     // Select fron icon
@@ -106,6 +109,12 @@ void BasicGameListView::populateList(const FolderData& folder)
   	std::string name = icon != nullptr ? icon + fd->getName() : fd->getName();
     // Store
 		mList.add(name, fd, fd->isFolder() ? 1 : 0, false);
+		// Attribuite analysis
+		if (fd->isGame())
+    {
+      if (fd->Metadata().GenreId() != GameGenres::None)
+        mHasGenre = true;
+    }
 	}
 }
 

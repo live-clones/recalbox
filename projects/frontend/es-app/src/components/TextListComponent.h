@@ -1,6 +1,7 @@
 #pragma once
 
 #include "components/IList.h"
+#include <components/ITextListComponentOverlay.h>
 #include "Renderer.h"
 #include "resources/Font.h"
 #include "utils/Log.h"
@@ -47,7 +48,9 @@ public:
 	using IList<TextListData, T>::stopScrolling;
 
 	explicit TextListComponent(Window& window);
-	
+
+	void SetOverlayInterface(ITextListComponentOverlay<T>* overlay) { mOverlay = overlay; }
+
 	bool ProcessInput(const InputCompactEvent& event) override;
 	void Update(int deltaTime) override;
 	void Render(const Transform4x4f& parentTrans) override;
@@ -86,53 +89,56 @@ public:
 	inline void setLineSpacing(float lineSpacing) { mLineSpacing = lineSpacing; }
   inline void setHorizontalMargin(float horizontalMargin) { mHorizontalMargin = horizontalMargin; }
 
+  inline float EntryHeight() const { return mFont->getSize() * mLineSpacing; }
+
 protected:
 	virtual void onScroll(int amt) { (void)amt; AudioManager::Instance().PlaySound(mScrollSound); }
 	virtual void onCursorChanged(const CursorState& state);
 
 private:
-	static const int MARQUEE_DELAY = 2000;
-	static const int MARQUEE_SPEED = 8;
-	static const int MARQUEE_RATE = 1;
+	static constexpr int MARQUEE_DELAY = 2000;
+	static constexpr int MARQUEE_SPEED = 8;
+	static constexpr int MARQUEE_RATE = 1;
+  static constexpr unsigned int COLOR_ID_COUNT = 8;
 
-	int mMarqueeOffset;
-	int mMarqueeTime;
+  ImageComponent mSelectorImage;
+  unsigned int mColors[COLOR_ID_COUNT];
+  std::shared_ptr<Font> mFont;
+  std::function<void(CursorState state)> mCursorChangedCallback;
+  AudioManager::AudioHandle mScrollSound;
 
+  ITextListComponentOverlay<T>* mOverlay;
+
+  int mMarqueeOffset;
+  int mMarqueeTime;
 	HorizontalAlignment mAlignment;
-	float mHorizontalMargin;
 
-	std::function<void(CursorState state)> mCursorChangedCallback;
-
-	std::shared_ptr<Font> mFont;
-	bool mUppercase;
+  float mHorizontalMargin;
 	float mLineSpacing;
 	float mSelectorHeight;
 	float mSelectorOffsetY;
 	unsigned int mSelectorColor;
 	unsigned int mSelectedColor;
-	AudioManager::AudioHandle mScrollSound;
-	static constexpr unsigned int COLOR_ID_COUNT = 8;
-	unsigned int mColors[COLOR_ID_COUNT];
-
-	ImageComponent mSelectorImage;
+  bool mUppercase;
 };
 
 template <typename T>
 TextListComponent<T>::TextListComponent(Window& window)
   :	IList<TextListData, T>(window),
+    mSelectorImage(window),
+    mColors{ 0x0000FFFF, 0x00FF00FF},
+    mFont(Font::get(FONT_SIZE_MEDIUM)),
+    mScrollSound(0),
+    mOverlay(nullptr),
     mMarqueeOffset(0),
     mMarqueeTime(-MARQUEE_DELAY),
     mAlignment(HorizontalAlignment::Center),
     mHorizontalMargin(0),
-    mFont(Font::get(FONT_SIZE_MEDIUM)),
-    mUppercase(false),
     mLineSpacing(1.5f),
     mSelectorOffsetY(0),
     mSelectorColor(0x000000FF),
     mSelectedColor(0),
-    mScrollSound(0),
-    mColors{ 0x0000FFFF, 0x00FF00FF},
-    mSelectorImage(window)
+    mUppercase(false)
 {
 	mSelectorHeight = mFont->getSize() * 1.5f;
 }
@@ -163,8 +169,6 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
 			startEntry = size() - screenCount;
 	}
 
-	float y = 0;
-
 	int listCutoff = startEntry + screenCount;
 	if(listCutoff > size())	listCutoff = size();
 
@@ -186,7 +190,19 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
 		}
 	}
 
-	for (int i = startEntry; i < listCutoff; i++)
+	// overlay?
+	float leftMargin = mOverlay != nullptr ? mOverlay->OverlayGetLeftOffset() : 0;
+	float rightMargin = mOverlay != nullptr ? mOverlay->OverlayGetRightOffset() : 0;
+  if (leftMargin != 0.0f || rightMargin != 0.0f)
+  {
+     Renderer::popClipRect();
+     Renderer::pushClipRect(Vector2i((int)(trans.translation().x() + leftMargin), (int)trans.translation().y()),
+                           Vector2i((int)(dim.x() - (leftMargin + rightMargin)), (int)dim.y()));
+  }
+
+	// Draw text items
+  float y = 0;
+  for (int i = startEntry; i < listCutoff; i++)
 	{
 		typename IList<TextListData, T>::Entry& entry = mEntries.at((unsigned int)i);
 
@@ -197,11 +213,7 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
                          mColors[entry.data.colorBackgroundId]);
     }
 
-    unsigned int color;
-		if(mCursor == i && mSelectedColor)
-			color = mSelectedColor;
-		else
-			color = mColors[entry.data.colorId];
+    unsigned int color = (mCursor == i && (mSelectedColor != 0)) ? mSelectedColor : mColors[entry.data.colorId];
 
 		if(!entry.data.textCache)
 			entry.data.textCache = std::unique_ptr<TextCache>(font->buildTextCache(mUppercase ? Strings::ToUpperUTF8(
@@ -209,28 +221,26 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
 
 		entry.data.textCache->setColor(color);
 
-		Vector3f offset(0, y, 0);
+		Vector3f offset(leftMargin, y, 0);
+		Vector2f size(mSize.x() - (leftMargin + rightMargin), entrySize);
 
 		switch(entry.data.useHzAlignment ? entry.data.hzAlignement : mAlignment)
 		{
-		case HorizontalAlignment::Left:
-			offset[0] = mHorizontalMargin;
-			break;
-		case HorizontalAlignment::Center:
-			offset[0] = (mSize.x() - entry.data.textCache->metrics.size.x()) / 2;
-			if(offset[0] < mHorizontalMargin)
-				offset[0] = mHorizontalMargin;
-			break;
-		case HorizontalAlignment::Right:
-			offset[0] = (mSize.x() - entry.data.textCache->metrics.size.x());
-			offset[0] -= mHorizontalMargin;
-			if(offset[0] < mHorizontalMargin)
-				offset[0] = mHorizontalMargin;
-			break;
+      case HorizontalAlignment::Left:
+        offset[0] = mHorizontalMargin;
+        break;
+      case HorizontalAlignment::Center:
+        offset[0] = (size.x() - entry.data.textCache->metrics.size.x()) / 2;
+        if(offset[0] < mHorizontalMargin) offset[0] = mHorizontalMargin;
+        break;
+      case HorizontalAlignment::Right:
+        offset[0] = (size.x() - entry.data.textCache->metrics.size.x()) - mHorizontalMargin;
+        if(offset[0] < mHorizontalMargin)	offset[0] = mHorizontalMargin;
+        break;
 		  default : break;
 		}
-		
-		if(mCursor == i)
+
+    if(mCursor == i)
 			offset[0] -= mMarqueeOffset;
 
 		Transform4x4f drawTrans = trans;
@@ -238,13 +248,41 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
 		Renderer::setMatrix(drawTrans);
 
 		font->renderTextCache(entry.data.textCache.get());
-		
-		y += entrySize;
-	}
 
+    y += entrySize;
+	}
 	Renderer::popClipRect();
 
-	listRenderTitleOverlay(trans);
+  // Overlay?
+  if (mOverlay != nullptr)
+  {
+    Renderer::pushClipRect(Vector2i((int) (trans.translation().x()/* + mHorizontalMargin*/), (int) trans.translation().y()),
+                           Vector2i((int) (dim.x() /*- mHorizontalMargin*/), (int) dim.y()));
+
+    // Draw overlay
+    y = 0;
+    for (int i = startEntry; i < listCutoff; i++)
+    {
+      typename IList<TextListData, T>::Entry& entry = mEntries.at(i);
+
+      Vector3f position(leftMargin, y, 0);
+      Vector2f size(mSize.x(), entrySize);
+
+      unsigned int color = (mCursor == i && (mSelectedColor != 0)) ? mSelectedColor : mColors[entry.data.colorId];
+
+      Transform4x4f drawTrans = trans;
+      drawTrans.translate(position);
+      Renderer::setMatrix(drawTrans);
+
+      mOverlay->OverlayApply(Vector2f(0), size, entry.object, color);
+
+      y += entrySize;
+    }
+
+    Renderer::popClipRect();
+  }
+
+  listRenderTitleOverlay(trans);
 
 	Component::renderChildren(trans);
 }

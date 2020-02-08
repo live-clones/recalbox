@@ -154,26 +154,26 @@ const std::vector<FileSorts::Sorts>& FileSorts::AvailableSorts(bool multisystem)
 
   //! Ordered multi-system sorts
   static std::vector<FileSorts::Sorts> sMulti =
-    {
-      Sorts::FileNameAscending,
-      Sorts::FileNameDescending,
-      Sorts::SystemAscending,
-      Sorts::SystemDescending,
-      Sorts::GenreAscending,
-      Sorts::GenreDescending,
-      Sorts::RatingAscending,
-      Sorts::RatingDescending,
-      Sorts::TimesPlayedAscending,
-      Sorts::TimesPlayedDescending,
-      Sorts::LastPlayedAscending,
-      Sorts::LastPlayedDescending,
-      Sorts::PlayersAscending,
-      Sorts::PlayersDescending,
-      Sorts::DevelopperAscending,
-      Sorts::DevelopperDescending,
-      Sorts::PublisherAscending,
-      Sorts::PublisherDescending,
-    };
+  {
+    Sorts::FileNameAscending,
+    Sorts::FileNameDescending,
+    Sorts::SystemAscending,
+    Sorts::SystemDescending,
+    Sorts::GenreAscending,
+    Sorts::GenreDescending,
+    Sorts::RatingAscending,
+    Sorts::RatingDescending,
+    Sorts::TimesPlayedAscending,
+    Sorts::TimesPlayedDescending,
+    Sorts::LastPlayedAscending,
+    Sorts::LastPlayedDescending,
+    Sorts::PlayersAscending,
+    Sorts::PlayersDescending,
+    Sorts::DevelopperAscending,
+    Sorts::DevelopperDescending,
+    Sorts::PublisherAscending,
+    Sorts::PublisherDescending,
+  };
 
   return multisystem ? sMulti : sSingle;
 }

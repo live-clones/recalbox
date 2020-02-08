@@ -33,6 +33,8 @@ DetailedGameListView::DetailedGameListView(Window&window, SystemManager& systemM
   mDescription(window),
   mSettings(RecalboxConf::Instance())
 {
+  //mList.SetOverlayInterface(this);
+
   const float padding = 0.01f;
 
   mList.setPosition(mSize.x() * (0.50f + padding), mList.getPosition().y());
@@ -531,6 +533,34 @@ void DetailedGameListView::Update(int deltatime)
     mVideo.setVideo(Path::Empty, 0, 0);
 
   Component::Update(deltatime);
+}
+
+void DetailedGameListView::OverlayApply(const Vector2f& position, const Vector2f& size, FileData*& data, unsigned int& color)
+{
+  (void)position;
+  (void)size;
+  (void)data;
+  (void)color;
+
+  /*if (mHasGenre)
+  {
+    float height = size.y() - 2.0f;
+
+    GameGenres genre = data->Metadata().GenreId();
+    if (genre != GameGenres::None)
+    {
+      const Path& path = Genres::GetResourcePath(genre);
+      Renderer::drawRect(position.x() + size.x() - 2 - height, position.y() + 1, height, height, color);
+    }
+  }*/
+}
+
+float DetailedGameListView::OverlayGetRightOffset()
+{
+  if (mHasGenre)
+    return mList.EntryHeight() * 1.2f;
+
+  return 0.0f;
 }
 
 

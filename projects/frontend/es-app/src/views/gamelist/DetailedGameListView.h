@@ -8,7 +8,7 @@
 #include "components/VideoComponent.h"
 #include "systems/SystemData.h"
 
-class DetailedGameListView : public BasicGameListView
+class DetailedGameListView : public BasicGameListView, public ITextListComponentOverlay<FileData*>
 {
 public:
     DetailedGameListView(Window& window, SystemManager& systemManager, SystemData& system);
@@ -63,4 +63,29 @@ private:
     void setScrappedFolderInfo(FileData* file);
     //void getFolderGames(FileData* folder, FileData::List &output);
     static void fadeOut(const std::vector<Component*>& comps, bool fadingOut);
+
+    /*
+     * ITextListComponentOverlay<FileData*> implementation
+     */
+
+    /*!
+     * @brief Apply (draw) an overlay in the given item rectangle and adjust rectangle position/size
+     * so that the text won't draw over the overlay if required
+     * @param position Top/Left of the item rectangle
+     * @param size  Width/Height of the item rectangle
+     * @param data Linked data
+     */
+    void OverlayApply(const Vector2f& position, const Vector2f& size, FileData*& data, unsigned int& color) override;
+
+    /*!
+     * @brief Get the left offset (margin to the text) if any
+     * @return left offset
+     */
+    float OverlayGetLeftOffset() override { return 0.0f; }
+
+    /*!
+     * @brief Get the right offset (margin from text to right limit) if any
+     * @return right offset
+     */
+    float OverlayGetRightOffset() override;
 };

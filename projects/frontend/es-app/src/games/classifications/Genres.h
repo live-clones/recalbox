@@ -75,6 +75,7 @@ class Genres
 {
   public:
     typedef std::unordered_map<GameGenres, const char*> GenreMap;
+    typedef std::unordered_map<GameGenres, Path> GenrePathMap;
 
     static bool IsSubGenre(GameGenres genre) { return ((int)genre & 0xFF) != 0; }
 
@@ -83,7 +84,7 @@ class Genres
      * @param genre Game genre
      * @return Path
      */
-    static Path GetResourcePath(GameGenres genre);
+    static const Path& GetResourcePath(GameGenres genre);
 
     /*!
      * @brief Get generic english name of the given genre

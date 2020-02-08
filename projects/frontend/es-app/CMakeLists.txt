@@ -3,7 +3,7 @@ project("emulationstation")
 set(ES_HEADERS
         src/DemoMode.h
         src/EmulationStation.h
-        src/FileSorts.h
+        src/games/FileSorts.h
         src/ItemType.h
         src/MameNameMap.h
         src/NetworkThread.h
@@ -29,6 +29,7 @@ set(ES_HEADERS
         src/components/RatingComponent.h
         src/components/ScraperSearchComponent.h
         src/components/TextListComponent.h
+        src/components/ITextListComponentOverlay.h
 
         # Guis
         src/guis/GuiMetaDataEd.h
@@ -98,7 +99,7 @@ set(ES_HEADERS
 set(ES_SOURCES
         src/main.cpp
         src/DemoMode.cpp
-        src/FileSorts.cpp
+        src/games/FileSorts.cpp
         src/MameNameMap.cpp
         src/NetworkThread.cpp
         src/PlatformId.cpp

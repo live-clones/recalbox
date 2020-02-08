@@ -36,6 +36,10 @@ protected:
   FileData* getEmptyListItem() override { return &mEmptyListItem; }
 
   TextListComponent<FileData*> mList;
+
+	//! At leas one game has a GenreID
+	bool mHasGenre;
+
 private:
   EmptyData mEmptyListItem;
   const FolderData *mPopulatedFolder;
