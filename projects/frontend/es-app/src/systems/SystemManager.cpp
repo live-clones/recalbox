@@ -74,14 +74,15 @@ SystemData* SystemManager::CreateFavoriteSystem(const std::string& name, const s
 
 SystemData* SystemManager::CreateMetaSystem(const std::string& name, const std::string& fullName,
                                             const std::string& themeFolder, const std::vector<SystemData*>& systems,
-                                            SystemData::Properties properties, FileData::StringMap& doppelganger)
+                                            SystemData::Properties properties, FileData::StringMap& doppelganger,
+                                            FileSorts::Sorts fixedSort)
 {
   std::vector<PlatformIds::PlatformId> platformIds;
   platformIds.push_back(PlatformIds::PlatformId::PLATFORM_IGNORE);
 
   SystemDescriptor descriptor;
   descriptor.SetInformation("", name, fullName, "", "", themeFolder);
-  SystemData* result = new SystemData(descriptor, RootFolderData::Ownership::FolderOnly, SystemData::Properties::Virtual | properties);
+  SystemData* result = new SystemData(descriptor, RootFolderData::Ownership::FolderOnly, SystemData::Properties::Virtual | properties, fixedSort);
 
   for (auto system : systems)
   {
@@ -101,14 +102,15 @@ SystemData* SystemManager::CreateMetaSystem(const std::string& name, const std::
 
 SystemData* SystemManager::CreateMetaSystem(const std::string& name, const std::string& fullName,
                                             const std::string& themeFolder, const FileData::List& games,
-                                            SystemData::Properties properties, FileData::StringMap& doppelganger)
+                                            SystemData::Properties properties, FileData::StringMap& doppelganger,
+                                            FileSorts::Sorts fixedSort)
 {
   std::vector<PlatformIds::PlatformId> platformIds;
   platformIds.push_back(PlatformIds::PlatformId::PLATFORM_IGNORE);
 
   SystemDescriptor descriptor;
   descriptor.SetInformation("", name, fullName, "", "", themeFolder);
-  SystemData* result = new SystemData(descriptor, RootFolderData::Ownership::FolderOnly, SystemData::Properties::Virtual | properties);
+  SystemData* result = new SystemData(descriptor, RootFolderData::Ownership::FolderOnly, SystemData::Properties::Virtual | properties, fixedSort);
 
   if (!games.empty())
   {
@@ -347,7 +349,7 @@ bool SystemManager::AddArcadeMetaSystem()
   return !mHiddenSystemVector.empty();
 }
 
-bool SystemManager::AddManuallyFilteredMetasystem(IFilter* filter, FileData::Comparer comparer, const std::string& identifier, const std::string& fullname, SystemData::Properties properties)
+bool SystemManager::AddManuallyFilteredMetasystem(IFilter* filter, FileData::Comparer comparer, const std::string& identifier, const std::string& fullname, SystemData::Properties properties, FileSorts::Sorts fixedSort)
 {
   std::string confPrefix("emulationstation.collection.");
   confPrefix += identifier;
@@ -387,7 +389,7 @@ bool SystemManager::AddManuallyFilteredMetasystem(IFilter* filter, FileData::Com
 
       // Create!
       LOG(LogInfo) << "creating " << fullname << " meta-system";
-      SystemData* allsystem = CreateMetaSystem(identifier, _S(fullname), theme, allGames, properties, doppelganger);
+      SystemData* allsystem = CreateMetaSystem(identifier, _S(fullname), theme, allGames, properties, doppelganger, fixedSort);
 
       // And add the system
       int position = RecalboxConf::Instance().AsInt(confPrefix + ".position", 0) % (int) mVisibleSystemVector.size();
@@ -430,7 +432,7 @@ bool SystemManager::AddLastPlayedMetaSystem()
       bool ApplyFilter(const FileData& file) const override { return file.Metadata().LastPlayedEpoc() != 0; }
   } filter;
   return AddManuallyFilteredMetasystem(&filter, nullptr, sLastPlayedSystemShortName, sLastPlayedSystemFullName,
-                                       SystemData::Properties::SelfSorted | SystemData::Properties::AlwaysFlat);
+                                       SystemData::Properties::FixedSort | SystemData::Properties::AlwaysFlat, FileSorts::Sorts::LastPlayedAscending);
 }
 
 bool SystemManager::AddGenresMetaSystem()
@@ -450,7 +452,7 @@ bool SystemManager::AddGenresMetaSystem()
   {
     Filter filter(genre.first);
     AddManuallyFilteredMetasystem(&filter, nullptr, genre.second, Genres::GetName(genre.first),
-                                  SystemData::Properties::SelfSorted | SystemData::Properties::AlwaysFlat);
+                                  SystemData::Properties::None);
   }
   return true;
 }

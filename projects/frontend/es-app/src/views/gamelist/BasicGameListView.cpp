@@ -58,9 +58,9 @@ const char * BasicGameListView::getItemIcon(FileData* item)
 
 void BasicGameListView::populateList(const FolderData& folder)
 {
-	mPopulatedFolder = &folder;
-	mList.clear();
-	mHeaderText.setText(mSystem.getFullName());
+  mPopulatedFolder = &folder;
+  mList.clear();
+  mHeaderText.setText(mSystem.getFullName());
 
   // Default filter
   FileData::Filter filter = FileData::Filter::Normal | FileData::Filter::Favorite;
@@ -73,19 +73,26 @@ void BasicGameListView::populateList(const FolderData& folder)
 
   // Get items
   bool flatfolders = mSystem.IsAlwaysFlat() || (RecalboxConf::Instance().AsBool(mSystem.getName() + ".flatfolder"));
-	FileData::List items = flatfolders ? folder.getFilteredItemsRecursively(filter, false) : folder.getFilteredItems(filter, true);
-	// Check emptyness
-	if (items.empty())
+  FileData::List items = flatfolders ? folder.getFilteredItemsRecursively(filter, false) : folder.getFilteredItems(
+    filter, true);
+  // Check emptyness
+  if (items.empty())
   {
-	  // Insert "EMPTY SYSTEM" item
+    // Insert "EMPTY SYSTEM" item
     items.push_back(&mEmptyListItem);
   }
 
   // Sort
   if (!mSystem.IsSelfSorted())
   {
-    const FileSorts::SortType& sortType = mSystem.getSortType(mSystem.IsFavorite());
-    FolderData::Sort(items, sortType.comparisonFunction, sortType.ascending);
+    int sortId = FileSorts::Clamp(mSystem.getSortId(), mSystem.IsVirtual());
+    FileSorts::Sorts sort = FileSorts::AvailableSorts(mSystem.IsVirtual())[sortId];
+    FolderData::Sort(items, FileSorts::Comparer(sort), FileSorts::IsAscending(sort));
+  }
+  else
+  {
+    FileSorts::Sorts sort = mSystem.FixedSort();
+    FolderData::Sort(items, FileSorts::Comparer(sort), FileSorts::IsAscending(sort));
   }
 
   // Add to list

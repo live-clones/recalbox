@@ -23,7 +23,7 @@ public:
 
 	const char* getName() const override { return "basic"; }
 
-	void populateList(const FolderData& folder) override;
+	void populateList(const FolderData& folder) final;
 	void refreshList() override { populateList(*mPopulatedFolder); }
 
 	inline void updateInfoPanel() override {}

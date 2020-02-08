@@ -105,7 +105,9 @@ class SystemManager :
      * @param fullname System full name
      * @return True if the system has been added
      */
-    bool AddManuallyFilteredMetasystem(IFilter* filter, FileData::Comparer comparer, const std::string& identifier, const std::string& fullname, SystemData::Properties properties);
+    bool AddManuallyFilteredMetasystem(IFilter* filter, FileData::Comparer comparer, const std::string& identifier,
+                                       const std::string& fullname, SystemData::Properties properties,
+                                       FileSorts::Sorts fixedSort = FileSorts::Sorts::FileNameAscending);
 
     /*!
      * @brief Add All-games meta system (all games from all visible systems)
@@ -168,7 +170,8 @@ class SystemManager :
      */
     static SystemData* CreateMetaSystem(const std::string& name, const std::string& fullName,
                                         const std::string& themeFolder, const std::vector<SystemData*>& systems,
-                                        SystemData::Properties properties, FileData::StringMap& doppelganger);
+                                        SystemData::Properties properties, FileData::StringMap& doppelganger,
+                                        FileSorts::Sorts fixedSort = FileSorts::Sorts::FileNameAscending);
 
     /*!
      * @brief Create meta-system aggregating games from multiple systems
@@ -182,7 +185,8 @@ class SystemManager :
      */
     static SystemData* CreateMetaSystem(const std::string& name, const std::string& fullName,
                                         const std::string& themeFolder, const FileData::List& games,
-                                        SystemData::Properties properties, FileData::StringMap& doppelganger);
+                                        SystemData::Properties properties, FileData::StringMap& doppelganger,
+                                        FileSorts::Sorts fixedSort = FileSorts::Sorts::FileNameAscending);
 
     /*!
      * @brief Write exemple configuration file when no configuration file are available

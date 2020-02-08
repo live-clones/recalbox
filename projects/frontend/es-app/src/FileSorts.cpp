@@ -2,35 +2,31 @@
 #include "FileSorts.h"
 #include "systems/SystemData.h"
 
-std::vector<FileSorts::SortType> FileSorts::SortTypes;
-std::vector<FileSorts::SortType> FileSorts::SortTypesForFavorites;
-bool FileSorts::mInitialized = FileSorts::Initialize();
+std::vector<FileSorts::SortType> FileSorts::sAllSorts;
+bool FileSorts::mInitialized = false;
 
 bool FileSorts::Initialize()
 {
   if (!mInitialized)
   {
-    SortTypes.push_back(SortType(&compareFileName, true, "\uF15d " + _("FILENAME")));
-    SortTypes.push_back(SortType(&compareFileName, false, "\uF15e " + _("FILENAME")));
-    SortTypes.push_back(SortType(&compareRating, true, "\uF165 " + _("RATING")));
-    SortTypes.push_back(SortType(&compareRating, false, "\uF164 " + _("RATING")));
-    SortTypes.push_back(SortType(&compareTimesPlayed, true, "\uF160 " + _("TIMES PLAYED")));
-    SortTypes.push_back(SortType(&compareTimesPlayed, false, "\uF161 " + _("TIMES PLAYED")));
-    SortTypes.push_back(SortType(&compareLastPlayed, true, "\uF160 " + _("LAST PLAYED")));
-    SortTypes.push_back(SortType(&compareLastPlayed, false, "\uF161 " + _("LAST PLAYED")));
-    SortTypes.push_back(SortType(&compareNumberPlayers, true, "\uF162 " + _("NUMBER OF PLAYERS")));
-    SortTypes.push_back(SortType(&compareNumberPlayers, false, "\uF163 " + _("NUMBER OF PLAYERS")));
-    SortTypes.push_back(SortType(&compareDevelopper, true, "\uF15d " + _("DEVELOPER")));
-    SortTypes.push_back(SortType(&compareDevelopper, false, "\uF15e " + _("DEVELOPER")));
-    SortTypes.push_back(SortType(&compareGenre, true, "\uF15d " + _("GENRE")));
-    SortTypes.push_back(SortType(&compareGenre, false, "\uF15e " + _("GENRE")));
-
-
-    // Keep FILENAME sort at the begining to keep the Jump to next / previous letter working the same way
-    SortTypesForFavorites.insert(SortTypesForFavorites.end(), SortTypes.begin(), SortTypes.begin() + 2);
-    SortTypesForFavorites.push_back(SortType(&compareSystemName, true, "\uF166 " + _("SYSTEM NAME")));
-    SortTypesForFavorites.push_back(SortType(&compareSystemName, false, "\uF167 " + _("SYSTEM NAME")));
-    SortTypesForFavorites.insert(SortTypesForFavorites.end(), SortTypes.begin() + 2, SortTypes.end());
+    sAllSorts.push_back(SortType(Sorts::FileNameAscending, &compareFileName, true, "\uF15d " + _("FILENAME")));
+    sAllSorts.push_back(SortType(Sorts::FileNameDescending, &compareFileName, false, "\uF15e " + _("FILENAME")));
+    sAllSorts.push_back(SortType(Sorts::RatingAscending, &compareRating, true, "\uF165 " + _("RATING")));
+    sAllSorts.push_back(SortType(Sorts::RatingDescending, &compareRating, false, "\uF164 " + _("RATING")));
+    sAllSorts.push_back(SortType(Sorts::TimesPlayedAscending, &compareTimesPlayed, true, "\uF160 " + _("TIMES PLAYED")));
+    sAllSorts.push_back(SortType(Sorts::TimesPlayedDescending, &compareTimesPlayed, false, "\uF161 " + _("TIMES PLAYED")));
+    sAllSorts.push_back(SortType(Sorts::LastPlayedAscending, &compareLastPlayed, true, "\uF160 " + _("LAST PLAYED")));
+    sAllSorts.push_back(SortType(Sorts::LastPlayedDescending, &compareLastPlayed, false, "\uF161 " + _("LAST PLAYED")));
+    sAllSorts.push_back(SortType(Sorts::PlayersAscending, &compareNumberPlayers, true, "\uF162 " + _("NUMBER OF PLAYERS")));
+    sAllSorts.push_back(SortType(Sorts::PlayersDescending, &compareNumberPlayers, false, "\uF163 " + _("NUMBER OF PLAYERS")));
+    sAllSorts.push_back(SortType(Sorts::DevelopperAscending, &compareDevelopper, true, "\uF15d " + _("DEVELOPER")));
+    sAllSorts.push_back(SortType(Sorts::DevelopperDescending, &compareDevelopper, false, "\uF15e " + _("DEVELOPER")));
+    sAllSorts.push_back(SortType(Sorts::PublisherAscending, &comparePublisher, true, "\uF15d " + _("PUBLISHER")));
+    sAllSorts.push_back(SortType(Sorts::PublisherDescending, &comparePublisher, false, "\uF15e " + _("PUBLISHER")));
+    sAllSorts.push_back(SortType(Sorts::GenreAscending, &compareGenre, true, "\uF15d " + _("GENRE")));
+    sAllSorts.push_back(SortType(Sorts::GenreDescending, &compareGenre, false, "\uF15e " + _("GENRE")));
+    sAllSorts.push_back(SortType(Sorts::SystemAscending, &compareSystemName, true, "\uF166 " + _("SYSTEM NAME")));
+    sAllSorts.push_back(SortType(Sorts::SystemDescending, &compareSystemName, false, "\uF167 " + _("SYSTEM NAME")));
   }
   mInitialized = true;
   return mInitialized;
@@ -58,8 +54,6 @@ static int compareFoldersAndGames(const FileData& fd1, const FileData& fd2)
 }
 
 #define CheckFoldersAndGames(f1, f2) { int folderComparison = compareFoldersAndGames(f1, f2); if (folderComparison != 0) return folderComparison; }
-
-//returns if file1 should come before file2
 
 ImplementSortMethod(compareSystemName)
 {
@@ -121,9 +115,104 @@ ImplementSortMethod(compareDevelopper)
   return simpleCompareUppercase(file1.Metadata().Developer(), file2.Metadata().Developer());
 }
 
+ImplementSortMethod(comparePublisher)
+{
+  CheckFoldersAndGames(file1, file2)
+  return simpleCompareUppercase(file1.Metadata().Publisher(), file2.Metadata().Publisher());
+}
+
 ImplementSortMethod(compareGenre)
 {
   CheckFoldersAndGames(file1, file2)
-  return simpleCompareUppercase(file1.Metadata().Genre(), file2.Metadata().Genre());
+  int genre = (int)(file1).Metadata().GenreId() - (int)(file2).Metadata().GenreId();
+  if (genre != 0) return genre;
+  return simpleCompareUppercase(file1.getName(), file2.getName());
+}
+
+const std::vector<FileSorts::Sorts>& FileSorts::AvailableSorts(bool multisystem)
+{
+  //! Ordered mono-system sorts
+  static std::vector<FileSorts::Sorts> sSingle =
+  {
+    Sorts::FileNameAscending,
+    Sorts::FileNameDescending,
+    Sorts::GenreAscending,
+    Sorts::GenreDescending,
+    Sorts::RatingAscending,
+    Sorts::RatingDescending,
+    Sorts::TimesPlayedAscending,
+    Sorts::TimesPlayedDescending,
+    Sorts::LastPlayedAscending,
+    Sorts::LastPlayedDescending,
+    Sorts::PlayersAscending,
+    Sorts::PlayersDescending,
+    Sorts::DevelopperAscending,
+    Sorts::DevelopperDescending,
+    Sorts::PublisherAscending,
+    Sorts::PublisherDescending,
+  };
+
+  //! Ordered multi-system sorts
+  static std::vector<FileSorts::Sorts> sMulti =
+    {
+      Sorts::FileNameAscending,
+      Sorts::FileNameDescending,
+      Sorts::SystemAscending,
+      Sorts::SystemDescending,
+      Sorts::GenreAscending,
+      Sorts::GenreDescending,
+      Sorts::RatingAscending,
+      Sorts::RatingDescending,
+      Sorts::TimesPlayedAscending,
+      Sorts::TimesPlayedDescending,
+      Sorts::LastPlayedAscending,
+      Sorts::LastPlayedDescending,
+      Sorts::PlayersAscending,
+      Sorts::PlayersDescending,
+      Sorts::DevelopperAscending,
+      Sorts::DevelopperDescending,
+      Sorts::PublisherAscending,
+      Sorts::PublisherDescending,
+    };
+
+  return multisystem ? sMulti : sSingle;
+}
+
+const std::string& FileSorts::Name(FileSorts::Sorts sort)
+{
+  // Lazy initialization
+  Initialize();
+
+  for(const FileSorts::SortType& sortType : sAllSorts)
+    if (sortType.Sort == sort)
+      return sortType.Description;
+
+  static std::string unknown("Unknown sort");
+  return unknown;
+}
+
+bool FileSorts::IsAscending(FileSorts::Sorts sort)
+{
+  // Lazy initialization
+  Initialize();
+
+  for(const FileSorts::SortType& sortType : sAllSorts)
+    if (sortType.Sort == sort)
+      return sortType.Ascending;
+
+  return false;
+}
+
+
+FileData::Comparer FileSorts::Comparer(FileSorts::Sorts sort)
+{
+  // Lazy initialization
+  Initialize();
+
+  for(const FileSorts::SortType& sortType : sAllSorts)
+    if (sortType.Sort == sort)
+      return sortType.Comparer;
+
+  return nullptr;
 }
 

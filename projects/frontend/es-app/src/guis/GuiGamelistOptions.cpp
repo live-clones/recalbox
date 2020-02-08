@@ -23,8 +23,6 @@ GuiGamelistOptions::GuiGamelistOptions(Window& window, SystemData* system)
 
 	mJumpToLetterList = std::make_shared<LetterList>(mWindow, _("JUMP TO LETTER"), false);
 
-    std::vector<FileSorts::SortType> & sortTypes = system->IsFavorite() ? FileSorts::SortTypesForFavorites : FileSorts::SortTypes;
-
 	std::vector<std::string> letters = getGamelist()->getAvailableLetters();
 	if (!letters.empty()) { // may happen if only contains folders
 
@@ -58,21 +56,20 @@ GuiGamelistOptions::GuiGamelistOptions(Window& window, SystemData* system)
 	if (!system->IsSelfSorted())
   {
     // sort list by
-    unsigned int currentSortId = mSystem->getSortId();
-    if (currentSortId > sortTypes.size())
-    {
-      currentSortId = 0;
-    }
+    int currentSortId = FileSorts::Clamp(mSystem->getSortId(), mSystem->IsVirtual());
     mListSort = std::make_shared<SortList>(mWindow, _("SORT GAMES BY"), false);
-    for (unsigned int i = 0; i < (unsigned int) sortTypes.size(); i++)
+    for(int i = 0; i < (int)FileSorts::AvailableSorts(system->IsVirtual()).size(); i++)
     {
-      const FileSorts::SortType& sortType = sortTypes.at(i);
-      mListSort->add(sortType.description, i, i == currentSortId);
+      FileSorts::Sorts sort = FileSorts::AvailableSorts(system->IsVirtual())[i];
+      mListSort->add(FileSorts::Name(sort), i, i == currentSortId);
     }
 
     mMenu.addWithLabel(mListSort, _("SORT GAMES BY"), _(MENUMESSAGE_GAMELISTOPTION_SORT_GAMES_MSG));
     addSaveFunc([this, system]
-                { RecalboxConf::Instance().SetInt(system->getName() + ".sort", mListSort->getSelected()); });
+    {
+      system->setSortId(mListSort->getSelected());
+      RecalboxConf::Instance().SetInt(system->getName() + ".sort", mListSort->getSelected());
+    });
   }
 
 	if (!system->IsFavorite())
@@ -145,7 +142,7 @@ GuiGamelistOptions::~GuiGamelistOptions()
 		if (mListSort->getSelected() != (int)mSystem->getSortId())
 		{
 			// apply sort
-			mSystem->setSortId((unsigned int)mListSort->getSelected());
+			mSystem->setSortId(mListSort->getSelected());
 
 			// notify that the root folder has to be sorted
 			getGamelist()->onFileChanged(&mSystem->getRootFolder(), FileChangeType::Sorted);
@@ -184,7 +181,7 @@ void GuiGamelistOptions::openMetaDataEd() {
 
 void GuiGamelistOptions::jumpToLetter() {
 	char letter = mJumpToLetterList->getSelected();
-	auto sortId = (unsigned int) mListSort->getSelected();
+	auto sortId = mListSort->getSelected();
 	IGameListView* gamelist = getGamelist();
 
 	// if sort is not alpha, need to force an alpha

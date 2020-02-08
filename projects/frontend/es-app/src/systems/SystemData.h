@@ -18,11 +18,11 @@ class SystemData : private INoCopy
     //! System properties
     enum class Properties
     {
-      None       = 0, //!< No properties
-      Favorite   = 1, //!< This system is the "Favorite" system
-      Virtual    = 2, //!< This system is not a real system
-      SelfSorted = 4, //!< This system has its own sorting system. Must *not* be resorted
-      AlwaysFlat = 8, //!< This system is presented always flat
+      None       =  0, //!< No properties
+      Favorite   =  1, //!< This system is the "Favorite" system
+      Virtual    =  2, //!< This system is not a real system
+      FixedSort  =  4, //!< This system has its own fixed sort
+      AlwaysFlat =  8, //!< This system is presented always flat
     };
 
 	private:
@@ -35,9 +35,11 @@ class SystemData : private INoCopy
     //! Root folder - Children are top level visible game/folder of the system
     RootFolderData mRootFolder;
     //! Sorting index
-    unsigned int mSortId;
+    int mSortId;
     //! Is this system the favorite system?
     Properties mProperties;
+    //! Fixed sort
+    FileSorts::Sorts mFixedSort;
 
     /*!
      * @brief Populate the system using all available folder/games by gathering recursively
@@ -53,7 +55,7 @@ class SystemData : private INoCopy
      * @param childOwnership Type of children management
      * @param properties System properties
      */
-    SystemData(const SystemDescriptor& systemDescriptor, RootFolderData::Ownership childOwnership, Properties properties);
+    SystemData(const SystemDescriptor& systemDescriptor, RootFolderData::Ownership childOwnership, Properties properties, FileSorts::Sorts fixedSort = FileSorts::Sorts::FileNameAscending);
 
     /*!
      * @brief Get localized text inside a text. Look for [lg] tags to mark start/end of localized texts
@@ -100,9 +102,8 @@ class SystemData : private INoCopy
     const std::string& ThemeFolder() const { return mDescriptor.ThemeFolder(); }
     bool getHasFavoritesInTheme() const { return mTheme.getHasFavoritesInTheme(); }
     FileData::List getFavorites() const { return mRootFolder.getAllFavoritesRecursively(false); }
-    unsigned int getSortId() const { return mSortId; };
-    FileSorts::SortType getSortType(bool forFavorites) const { return forFavorites ? FileSorts::SortTypesForFavorites.at(mSortId) : FileSorts::SortTypes.at(mSortId); };
-    void setSortId(const unsigned int sortId = 0) { mSortId = sortId; };
+    int getSortId() const { return mSortId; };
+    void setSortId(const int sortId) { mSortId = sortId; };
 
     PlatformIds::PlatformId PlatformIds(int index) const { return mDescriptor.Platform(index); }
     int PlatformCount() const { return mDescriptor.PlatformCount(); }
@@ -141,6 +142,8 @@ class SystemData : private INoCopy
 
     //! Is this system always flat?
     bool IsAlwaysFlat() const;
+
+    FileSorts::Sorts FixedSort() const { return mFixedSort; }
 
     /*!
      * @brief Write modified games back to the gamelist xml file

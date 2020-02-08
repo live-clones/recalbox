@@ -14,9 +14,9 @@
 
 EmulatorDescriptor EmulatorList::sEmptyEmulator("NO EMULATOR");
 
-SystemData::SystemData(const SystemDescriptor& descriptor, RootFolderData::Ownership childOwnership, Properties properties)
+SystemData::SystemData(const SystemDescriptor& descriptor, RootFolderData::Ownership childOwnership, Properties properties, FileSorts::Sorts fixedSort)
   : mDescriptor(descriptor), mRootFolder(childOwnership, descriptor.RomPath(), this),
-    mSortId(RecalboxConf::Instance().AsUInt(mDescriptor.Name() + ".sort")), mProperties(properties)
+    mSortId(RecalboxConf::Instance().AsInt(mDescriptor.Name() + ".sort")), mProperties(properties)
 {
   // Set name
   mRootFolder.Metadata().SetName(mDescriptor.FullName());
@@ -503,7 +503,7 @@ bool SystemData::IsVirtual() const
 
 bool SystemData::IsSelfSorted() const
 {
-  return (mProperties & Properties::SelfSorted) != 0;
+  return (mProperties & Properties::FixedSort) != 0;
 }
 
 bool SystemData::IsAlwaysFlat() const
