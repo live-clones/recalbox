@@ -23,6 +23,15 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fix fulscreen for oric and apple2 on x86/x86_64
 - Fix apple2 on x86/x86_64
 - Fix & Bump dolphin emulator on x86/x64
+- Adult game filtering in EmulationStation **
+- New sorting options: Publisher and system-name for all virtual systems
+- 3 new virtual systems: All-games, Last-Played and Multiplayers **
+- New virtual systems per genre
+- Region highligting in gamelist
+- Improved Genre & Region processing in EmulationStation 
+- Added missing texts into translated texts
+- Improved french translations
+- Fix duplicate folders in virtual systems
 
 ## [6.1.1]
 - Add zfast shaders

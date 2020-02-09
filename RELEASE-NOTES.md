@@ -5,12 +5,17 @@
 ### News
 - Add Bios checking capabilities to EmulationStation
 - Add License menu
+- Adult game filtering in EmulationStation **
+- New sorting options: Publisher and system-name for all virtual systems **
+- 3 new virtual systems: All-games, Last-Played and Multiplayers **
+- New virtual systems per genre (RPG, Shoot'em up, Pinballs, ...) **/*
+- Region highligting in gamelist (highlight games from your favorite region) **
 
 ### Improvements
 - Improve internal Scraper (ScreenScraper):
   - Faster! Use your ScreenScraper's threads to parallelize workloads 
   - Better! Lots of options, snaps vidéo, and more...
-  - Stronger! Improved reliability and strongness 
+  - Stronger! Improved reliability and strongness
 - Improve overall Emulationstation's stability & reliability
 - Optimize memory requirements of EmulationStation
 - Optimize EmulationStation boot time (up to 20 times faster!)
@@ -21,7 +26,10 @@
 - Add 8bitdo N30 Pro 2 controller to pre-configured pads/joyticks
 - Add IPega PG-9037 pad
 - Improve pad processing in EmulationStation
-- Fix & bump dolphin emulator
+- Bump & fix dolphin emulator
+- Improved Genre & Region processing in EmulationStation * 
+- Added missing texts into translated texts
+- Improved french translations
 
 ### Fixes
 - Fix Odroid XU4 fan issue
@@ -33,6 +41,10 @@
 - Fix netplay popup crashes
 - Fix apple2 not work on x86/x86_64
 - Fix fullscreeen on oricatmos and apple2 on x86/x86_64 
+- Fix duplicate folders in Arcade systems
+
+*  : Require to scrape missing data using the internal scraper 
+** : Availailable in both EmulationStation menu and configuration file 
 
 
 ## Version 6.1.1
