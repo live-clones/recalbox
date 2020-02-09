@@ -63,6 +63,7 @@ class ApplicationWindow: public Window
      */
     void GoToQuitScreen()
     {
+      deleteAllGui();
       mViewController.goToQuitScreen();
       RenderAll();
     }
