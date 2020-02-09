@@ -58,7 +58,7 @@ enum class GameGenres : int // Must be an int
     SportSimulation               = 0x0602, //!< - All physical/simulation sports
     SportCompetitive              = 0x0603, //!< - High competitive factor (Ball Jack, ...)
     SportFight                    = 0x0604, //!< - Fighting sports/violent sports (SpeedBall, WWE 2K Fight Nights, ...)
-  Flipper                         = 0x0700, //!< Flippers
+  Pinball                         = 0x0700, //!< Pinball
   Board                           = 0x0800, //!< Board games (chess, backgammon, othello, ...)
   Casual                          = 0x0900, //!< Simple interaction games for casual gaming
   DigitalCard                     = 0x0A00, //!< Card Collection/games (Hearthstone, Magic the Gathering, ...)

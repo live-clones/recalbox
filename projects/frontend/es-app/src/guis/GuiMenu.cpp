@@ -1519,7 +1519,7 @@ void GuiMenu::menuAdvancedSettings(){
               GameGenres::SportSimulation              ,
               GameGenres::SportCompetitive             ,
               GameGenres::SportFight                   ,
-              GameGenres::Flipper                      ,
+              GameGenres::Pinball                      ,
               GameGenres::Board                        ,
               GameGenres::Casual                       ,
               GameGenres::DigitalCard                  ,
