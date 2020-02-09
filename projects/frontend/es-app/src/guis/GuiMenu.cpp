@@ -1614,7 +1614,7 @@ void GuiMenu::menuAdvancedSettings(){
   {
     std::function<void()> openGuiD = [this, s] {
       s->save();
-      GuiSettings *configuration = new GuiSettings(mWindow, _("EMULATOR ADVANCED CONFIGURATION"));
+      GuiSettings *configuration = new GuiSettings(mWindow, _("ADVANCED EMULATOR CONFIGURATION"));
       // For each activated system
       std::vector<SystemData *> systems = mSystemManager.GetAllSystemList();
       for (auto& system : systems)

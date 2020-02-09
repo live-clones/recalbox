@@ -56,8 +56,8 @@ public:
 	void Render(const Transform4x4f& parentTrans) override;
 	void applyTheme(const ThemeData& theme, const std::string& view, const std::string& element, ThemeProperties properties) override;
 
-	void add(const std::string& name, const T& obj, signed char colorId, bool toTheBeginning = false);
-  void add(const std::string& name, const T& obj, signed char colorId, signed char colorBackgroundId, HorizontalAlignment alignment);
+	void add(const std::string& name, const T& obj, int colorId, bool toTheBeginning = false);
+  void add(const std::string& name, const T& obj, int colorId, signed char colorBackgroundId, HorizontalAlignment alignment);
   void changeTextAt(int index, const std::string& name);
   void changeBackgroundColorAt(int index, int colorIndex);
 
@@ -90,6 +90,7 @@ public:
   inline void setHorizontalMargin(float horizontalMargin) { mHorizontalMargin = horizontalMargin; }
 
   inline float EntryHeight() const { return mFont->getSize() * mLineSpacing; }
+  inline unsigned int Color(unsigned int id) const { return mColors[id]; }
 
 protected:
 	virtual void onScroll(int amt) { (void)amt; AudioManager::Instance().PlaySound(mScrollSound); }
@@ -349,7 +350,7 @@ void TextListComponent<T>::Update(int deltaTime)
 
 //list management stuff
 template <typename T>
-void TextListComponent<T>::add(const std::string& name, const T& obj, signed char color, bool toTheBeginning)
+void TextListComponent<T>::add(const std::string& name, const T& obj, int color, bool toTheBeginning)
 {
 	assert((unsigned int)color < COLOR_ID_COUNT);
 
@@ -367,7 +368,7 @@ void TextListComponent<T>::add(const std::string& name, const T& obj, signed cha
 }
 
 template <typename T>
-void TextListComponent<T>::add(const std::string& name, const T& obj, signed char color, signed char colorBackground, HorizontalAlignment align)
+void TextListComponent<T>::add(const std::string& name, const T& obj, int color, signed char colorBackground, HorizontalAlignment align)
 {
   assert((unsigned int)color < COLOR_ID_COUNT);
 

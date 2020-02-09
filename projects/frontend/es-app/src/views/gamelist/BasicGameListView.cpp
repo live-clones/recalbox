@@ -33,6 +33,9 @@ void BasicGameListView::onThemeChanged(const ThemeData& theme)
 {
 	ISimpleGameListView::onThemeChanged(theme);
 	mList.applyTheme(theme, getName(), "gamelist", ThemeProperties::All);
+	// Set color 2/3 50% transparent of color 0/1
+	mList.setColor(2, (mList.Color(0) & 0xFFFFFF00) | ((mList.Color(0) & 0xFF) >> 1));
+  mList.setColor(3, (mList.Color(1) & 0xFFFFFF00) | ((mList.Color(1) & 0xFF) >> 1));
 	sortChildren();
 }
 
@@ -77,6 +80,7 @@ void BasicGameListView::populateList(const FolderData& folder)
   FileData::List items = flatfolders ?
     folder.getFilteredItemsRecursively(filter, false, mSystem.IncludeOutAdultGames()) :
     folder.getFilteredItems(filter, true, mSystem.IncludeOutAdultGames());
+
   // Check emptyness
   if (items.empty())
   {
@@ -97,6 +101,20 @@ void BasicGameListView::populateList(const FolderData& folder)
     FolderData::Sort(items, FileSorts::Comparer(sort), FileSorts::IsAscending(sort));
   }
 
+  // Region filtering?
+  Regions::GameRegions currentRegion = Regions::Clamp((Regions::GameRegions)RecalboxConf::Instance().AsInt("emulationstation." + mSystem.getName() + ".regionfilter"));
+  bool activeRegionFiltering = false;
+  if (currentRegion != Regions::GameRegions::Unknown)
+  {
+    Regions::List availableRegion = AvailableRegionsInGames(items);
+    // Check if our region is in the available ones
+    for(Regions::GameRegions region : availableRegion)
+    {
+      activeRegionFiltering = (region == currentRegion);
+      if (activeRegionFiltering) break;
+    }
+  }
+
   // Add to list
   mHasGenre = false;
   //mList.reserve(items.size()); // TODO: Reserve memory once
@@ -107,8 +125,13 @@ void BasicGameListView::populateList(const FolderData& folder)
     const char* icon = getItemIcon(fd);
   	// Get name
   	std::string name = icon != nullptr ? icon + fd->getName() : fd->getName();
+  	// Region filtering?
+  	int colorIndexOffset = 0;
+  	if (activeRegionFiltering)
+  	  if (!Regions::IsIn4Regions(fd->Metadata().Region(), currentRegion))
+  	    colorIndexOffset = 2;
     // Store
-		mList.add(name, fd, fd->isFolder() ? 1 : 0, false);
+		mList.add(name, fd, colorIndexOffset + (fd->isFolder() ? 1 : 0), false);
 		// Attribuite analysis
 		if (fd->isGame())
     {
@@ -166,4 +189,55 @@ void BasicGameListView::setCursor(FileData* cursor)
 		}
 	}
   RecalboxSystem::NotifyGame(*getCursor(), false, false);
+}
+
+Regions::List BasicGameListView::AvailableRegionsInGames()
+{
+  bool regionIndexes[256];
+  memset(regionIndexes, 0, sizeof(regionIndexes));
+  // Run through all games
+  for(int i = (int)mList.size(); --i >= 0; )
+  {
+    const FileData& fd = *mList.getSelectedAt(i);
+    int fourRegions = fd.Metadata().Region();
+    // Set the 4 indexes corresponding to all 4 regions (Unknown regions will all point to index 0)
+    regionIndexes[(fourRegions >>  0) & 0xFF] = true;
+    regionIndexes[(fourRegions >>  8) & 0xFF] = true;
+    regionIndexes[(fourRegions >> 16) & 0xFF] = true;
+    regionIndexes[(fourRegions >> 24) & 0xFF] = true;
+  }
+  // Rebuild final list
+  Regions::List list;
+  for(int i = 0; i < (int)sizeof(regionIndexes); ++i )
+    if (regionIndexes[i])
+      list.push_back((Regions::GameRegions)i);
+  // Only unknown region?
+  if (list.size() == 1 && regionIndexes[0])
+    list.clear();
+  return list;
+}
+
+Regions::List BasicGameListView::AvailableRegionsInGames(FileData::List& fdList)
+{
+  bool regionIndexes[256];
+  memset(regionIndexes, 0, sizeof(regionIndexes));
+  // Run through all games
+  for(const FileData* fd : fdList)
+  {
+    int fourRegions = fd->Metadata().Region();
+    // Set the 4 indexes corresponding to all 4 regions (Unknown regions will all point to index 0)
+    regionIndexes[(fourRegions >>  0) & 0xFF] = true;
+    regionIndexes[(fourRegions >>  8) & 0xFF] = true;
+    regionIndexes[(fourRegions >> 16) & 0xFF] = true;
+    regionIndexes[(fourRegions >> 24) & 0xFF] = true;
+  }
+  // Rebuild final list
+  Regions::List list;
+  for(int i = (int)sizeof(regionIndexes); --i >= 0; )
+    if (regionIndexes[i])
+      list.push_back((Regions::GameRegions)i);
+  // Only unknown region?
+  if (list.size() == 1 && regionIndexes[0])
+    list.clear();
+  return list;
 }

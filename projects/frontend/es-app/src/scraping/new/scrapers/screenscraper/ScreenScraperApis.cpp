@@ -170,6 +170,15 @@ void ScreenScraperApis::DeserializeGameInformation(const std::string& jsonstring
           int rating;
           game.mRating = (float) (Strings::ToInt(jeu["note"]["text"].GetString(), rating) ? rating : 0) / 20.0f;
         }
+        // Rom infos
+        if (jeu.HasMember("rom"))
+        {
+          const rapidjson::Value& rom = jeu["rom"];
+          if (rom.HasMember("romregions"))
+            game.mRegion = rom["romregions"].GetString();
+          if (rom.HasMember("romcrc"))
+            game.mCrc = rom["romcrc"].GetString();
+        }
 
         // Deserialize media url
         if (jeu.HasMember("medias"))

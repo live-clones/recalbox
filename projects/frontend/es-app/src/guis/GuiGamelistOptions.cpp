@@ -79,31 +79,47 @@ GuiGamelistOptions::GuiGamelistOptions(Window& window, SystemData* system)
   addSaveFunc([adults, system]
               { RecalboxConf::Instance().SetBool("emulationstation." + system->getName() + ".filteradultgames", adults->getState()); });
 
+  // Region filter
+  Regions::List availableRegions = getGamelist()->AvailableRegionsInGames();
+  if (!availableRegions.empty())
+  {
+    Regions::GameRegions currentRegion = Regions::Clamp((Regions::GameRegions)RecalboxConf::Instance().AsInt("emulationstation." + system->getName() + ".regionfilter"));
+    mListRegion = std::make_shared<RegionList>(mWindow, _("HIGHLIGHT GAMES OF REGION..."), false);
+    for(auto region : availableRegions)
+    {
+      std::string regionName = (region == Regions::GameRegions::Unknown) ? _("NONE") : Regions::RegionFullName(region);
+      mListRegion->add(regionName, (int)region, region == currentRegion);
+    }
+    mMenu.addWithLabel(mListRegion, _("HIGHLIGHT GAMES OF REGION..."), _(MENUMESSAGE_GAMELISTOPTION_FILTER_REGION_MSG));
+    addSaveFunc([this, system]
+                { RecalboxConf::Instance().SetInt("emulationstation." + system->getName() + ".regionfilter", mListRegion->getSelected()); });
+  }
+
   if (!system->IsFavorite())
 	{
-	    // favorite only
-      auto favorite_only = std::make_shared<SwitchComponent>(mWindow);
-      favorite_only->setState(Settings::Instance().FavoritesOnly());
-      mMenu.addWithLabel(favorite_only, _("FAVORITES ONLY"), _(MENUMESSAGE_GAMELISTOPTION_FAVORITES_ONLY_MSG));
-      addSaveFunc([favorite_only] { Settings::Instance().SetFavoritesOnly(favorite_only->getState()); });
+    // favorite only
+    auto favorite_only = std::make_shared<SwitchComponent>(mWindow);
+    favorite_only->setState(Settings::Instance().FavoritesOnly());
+    mMenu.addWithLabel(favorite_only, _("FAVORITES ONLY"), _(MENUMESSAGE_GAMELISTOPTION_FAVORITES_ONLY_MSG));
+    addSaveFunc([favorite_only] { Settings::Instance().SetFavoritesOnly(favorite_only->getState()); });
 
-      // show hidden
-      auto show_hidden = std::make_shared<SwitchComponent>(mWindow);
-      show_hidden->setState(Settings::Instance().ShowHidden());
-      mMenu.addWithLabel(show_hidden, _("SHOW HIDDEN"), _(MENUMESSAGE_GAMELISTOPTION_SHOW_HIDDEN_MSG));
-      addSaveFunc([show_hidden] { Settings::Instance().SetShowHidden(show_hidden->getState()); });
+    // show hidden
+    auto show_hidden = std::make_shared<SwitchComponent>(mWindow);
+    show_hidden->setState(Settings::Instance().ShowHidden());
+    mMenu.addWithLabel(show_hidden, _("SHOW HIDDEN"), _(MENUMESSAGE_GAMELISTOPTION_SHOW_HIDDEN_MSG));
+    addSaveFunc([show_hidden] { Settings::Instance().SetShowHidden(show_hidden->getState()); });
 
-      if (!system->IsAlwaysFlat())
-      {
-        // flat folders
-        auto flat_folders = std::make_shared<SwitchComponent>(mWindow);
-        flat_folders->setState(RecalboxConf::Instance().AsBool(system->getName() + ".flatfolder"));
-        mMenu.addWithLabel(flat_folders, _("SHOW FOLDERS CONTENT"),
-                           _(MENUMESSAGE_GAMELISTOPTION_SHOW_FOLDER_CONTENT_MSG));
-        addSaveFunc([flat_folders, system]
-                    { RecalboxConf::Instance().SetBool(system->getName() + ".flatfolder", flat_folders->getState()); });
-      }
+    if (!system->IsAlwaysFlat())
+    {
+      // flat folders
+      auto flat_folders = std::make_shared<SwitchComponent>(mWindow);
+      flat_folders->setState(RecalboxConf::Instance().AsBool(system->getName() + ".flatfolder"));
+      mMenu.addWithLabel(flat_folders, _("SHOW FOLDERS CONTENT"),
+                         _(MENUMESSAGE_GAMELISTOPTION_SHOW_FOLDER_CONTENT_MSG));
+      addSaveFunc([flat_folders, system]
+                  { RecalboxConf::Instance().SetBool(system->getName() + ".flatfolder", flat_folders->getState()); });
     }
+  }
 
 	// edit game metadata
 	row.elements.clear();

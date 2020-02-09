@@ -569,6 +569,9 @@ bool ScreenScraperEngine::Engine::NeedScrapping(ScrappingMethod method, FileData
       if (game.Metadata().Developer().empty()) return true;
       if (game.Metadata().Publisher().empty()) return true;
       if (game.Metadata().Publisher().empty()) return true;
+      if (game.Metadata().GenreId() == GameGenres::None) return true;
+      if (game.Metadata().RomCrc32() == 0) return true;
+      if (game.Metadata().Region() == 0) return true;
 
       // Check required and missing media
       if (mConfiguration.GetImageType() != ScreenScraperApis::IConfiguration::Image::None)
@@ -643,8 +646,20 @@ ScreenScraperEngine::Engine::StoreTextData(ScrappingMethod method, const ScreenS
     if (game.Metadata().GenreId() == GameGenres::None || method != ScrappingMethod::IncompleteKeep)
     {
       game.Metadata().SetGenreId(sourceData.mGenreId);
+      game.Metadata().SetAdult(sourceData.mAdult);
       mTextInfo++;
     }
+  if (!sourceData.mRegion.empty())
+    if (game.Metadata().Region() == 0 || method != ScrappingMethod::IncompleteKeep)
+    {
+      game.Metadata().SetRegionAsString(sourceData.mRegion);
+      mTextInfo++;
+    }
+  if (!sourceData.mCrc.empty()) // Always set CRC if not empty
+  {
+    game.Metadata().SetRomCrc32AsString(sourceData.mCrc);
+    mTextInfo++;
+  }
 }
 
 ScrapeResult

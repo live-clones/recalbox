@@ -1970,6 +1970,12 @@ msgstr ""
 msgid "Hide games flagged as adult games."
 msgstr ""
 
+msgid "HIGHLIGHT GAMES OF REGION..."
+msgstr ""
+
+msgid "Highlight all games of a particular region and fade out all others."
+msgstr ""
+
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
 #~ "will turn the screen black."

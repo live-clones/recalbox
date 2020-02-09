@@ -1848,3 +1848,9 @@ msgstr ""
 
 msgid "Hide games flagged as adult games."
 msgstr ""
+
+msgid "HIGHLIGHT GAMES OF REGION..."
+msgstr ""
+
+msgid "Highlight all games of a particular region and fade out all others."
+msgstr ""

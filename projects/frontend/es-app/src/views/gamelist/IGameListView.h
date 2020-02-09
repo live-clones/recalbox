@@ -67,4 +67,10 @@ class IGameListView : public Gui
     virtual FileData::List getFileDataList() = 0;
     virtual std::vector<std::string> getAvailableLetters() = 0;
     virtual void jumpToLetter(char letter) = 0;
+
+    /*!
+     * @brief Get available regions from the current game list
+     * @return Region list (may be empty)
+     */
+    virtual Regions::List AvailableRegionsInGames() = 0;
 };

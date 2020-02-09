@@ -126,6 +126,7 @@ class MenuMessages
 
     #define MENUMESSAGE_GAMELISTOPTION_JUMP_LETTER_MSG "Select a letter and the listing will go directly on the first game starting with this letter."
     #define MENUMESSAGE_GAMELISTOPTION_SORT_GAMES_MSG "Select the way the game list is sortered (alphabetically, by notation...)."
+    #define MENUMESSAGE_GAMELISTOPTION_FILTER_REGION_MSG "Select a region to filter out games not matching the selected region."
     #define MENUMESSAGE_GAMELISTOPTION_HIDE_ADULT_MSG "Hide games flagged as adult games."
     #define MENUMESSAGE_GAMELISTOPTION_FAVORITES_ONLY_MSG "Switch between seing or not only the favorites games. To add a game in the favorite list, select the game and toggle its state using 'Y'."
     #define MENUMESSAGE_GAMELISTOPTION_SHOW_HIDDEN_MSG "Switch between seing or not the hidden games. To hide a game, edit its data and select 'Hide'."

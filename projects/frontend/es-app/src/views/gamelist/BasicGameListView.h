@@ -30,6 +30,18 @@ public:
 
 	FileData::List getFileDataList() override;
 
+  /*!
+   * @brief Get available regions from the current game list
+   * @return Region list (may be empty)
+   */
+  Regions::List AvailableRegionsInGames() override;
+
+  /*!
+   * @brief Get available regions from the given listt
+   * @return Region list (may be empty)
+   */
+  static Regions::List AvailableRegionsInGames(FileData::List& list);
+
 protected:
 	void launch(FileData* game) override { ViewController::Instance().launch(game); }
 

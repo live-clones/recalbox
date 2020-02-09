@@ -7,7 +7,6 @@
 #include <utils/Strings.h>
 #include "Regions.h"
 
-
 Regions::GameRegions Regions::FullNameToRegions(const std::string& region)
 {
   static std::unordered_map<std::string, GameRegions> sFullNameToRegions
@@ -1112,3 +1111,54 @@ Regions::GameRegions Regions::ExtractRegionsFromFileName(const Path& path)
   }
   return GameRegions::Unknown;
 }
+
+const Regions::List& Regions::AvailableRegions()
+{
+  //! Sorted regions, from most to least important
+  static List sRegions
+  ({
+     GameRegions::Unknown, // No region
+     GameRegions::WOR, // World
+     GameRegions::USA, // USA
+     GameRegions::EU,  // Europe
+     GameRegions::JP,  // Japan
+     GameRegions::AME, // Latin America
+     GameRegions::ASI, // Asia
+     GameRegions::FR,  // France
+     GameRegions::DE,  // Germany
+     GameRegions::ES,  // Spain
+     GameRegions::IT,  // Italy
+     GameRegions::NL,  // Netherlands
+     GameRegions::PT,  // Portugal
+     GameRegions::UK,  // United Kingdom
+     GameRegions::RU,  // Russia
+     GameRegions::CA,  // Canada
+     GameRegions::AU,  // Australia
+     GameRegions::CN,  // China
+     GameRegions::KR,  // Korea
+     GameRegions::BR,  // Brazil
+     GameRegions::DK,  // Denmark
+     GameRegions::SE,  // Sweden
+     GameRegions::NO,  // Norway
+     GameRegions::FI,  // Finland
+     GameRegions::CZ,  // Czechia
+     GameRegions::PL,  // Poland
+     GameRegions::GR,  // Greece
+     GameRegions::HU,  // Hungary
+     GameRegions::NZ,  // New Zealand
+     GameRegions::IL,  // Israel
+     GameRegions::BG,  // Bulgaria
+     GameRegions::CL,  // Chile
+  });
+
+  return sRegions;
+}
+
+bool Regions::IsIn4Regions(unsigned int regions, Regions::GameRegions region)
+{
+  if ((GameRegions)((regions >>  0) & 0xFF) == region) return true;
+  if ((GameRegions)((regions >>  8) & 0xFF) == region) return true;
+  if ((GameRegions)((regions >> 16) & 0xFF) == region) return true;
+  return (GameRegions) ((regions >> 24) & 0xFF) == region;
+}
+

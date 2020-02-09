@@ -18,18 +18,19 @@ public:
 	bool getHelpPrompts(Help& help) override;
 
 private:
-	void openMetaDataEd();
+  typedef OptionListComponent<char> LetterList;
+  typedef OptionListComponent<int> SortList;
+  typedef OptionListComponent<int> RegionList;
+
+  void openMetaDataEd();
 	void jumpToLetter();
 	
 	MenuComponent mMenu;
 
 	std::vector< std::function<void()> > mSaveFuncs;
-
-	typedef OptionListComponent<char> LetterList;
 	std::shared_ptr<LetterList> mJumpToLetterList;
-
-	typedef OptionListComponent<int> SortList;
 	std::shared_ptr<SortList> mListSort;
+  std::shared_ptr<RegionList> mListRegion;
 
 	bool mFavoriteState;
 	bool mHiddenState;

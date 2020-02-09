@@ -582,7 +582,7 @@ class MetadataDescriptor
     void SetRomCrc32AsString(const std::string& romcrc32)       { int c; if (HexToInt(romcrc32, c)) SetRomCrc32(c);                        }
     void SetPlayCountAsString(const std::string& playcount)     { int p; if (StringToInt(playcount, p)) { _Playcount = p; _Dirty = true; } }
     void SetGenreIdAsString(const std::string& genre)           { int g; if (StringToInt(genre, g)) { _GenreId = (GameGenres)g; _Dirty = true; } }
-    void SetRegionAsString(const std::string& region)           { _Region = (int)Regions::DeserializeRegion(region); _Dirty = true; }
+    void SetRegionAsString(const std::string& region)           { _Region = (int)Regions::Deserialize4Regions(region); _Dirty = true; }
 
     /*
      * Defaults

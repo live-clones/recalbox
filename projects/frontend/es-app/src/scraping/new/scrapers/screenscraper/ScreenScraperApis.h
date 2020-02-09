@@ -88,6 +88,10 @@ class ScreenScraperApis
       std::string mPlayers;
       //! Genre
       std::string mGenre;
+      //! Rom region
+      std::string mRegion;
+      //! Rom region
+      std::string mCrc;
       //! Editor
       DateTime mReleaseDate;
       //! Rating

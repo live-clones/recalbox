@@ -260,7 +260,10 @@ class Regions
         TW, // Taiwan
         USA, // USA
         ASI, // Asia
+        __Count
     };
+
+    typedef std::vector<GameRegions> List;
 
     /*!
      * @brief Get full region name (english)
@@ -310,5 +313,30 @@ class Regions
      * @return
      */
     static GameRegions ExtractRegionsFromFileName(const Path& path);
+
+    /*!
+     * @brief Check and clamp the value inside valid range
+     * @param region Region to check
+     * @return Clamped region
+     */
+    static GameRegions Clamp(GameRegions region)
+    {
+      for(GameRegions aregion : AvailableRegions())
+        if (region == aregion)
+          return region;
+      return GameRegions::Unknown;
+    }
+
+    /*!
+     * @brief Get list of available regions
+     * @return Regions
+     */
+    static const List& AvailableRegions();
+
+    /*!
+     * @brief Check if the given region is in one of the 4 compact regions
+     * @return true if region is in regions
+     */
+    static bool IsIn4Regions(unsigned int regions, GameRegions region);
 };
 

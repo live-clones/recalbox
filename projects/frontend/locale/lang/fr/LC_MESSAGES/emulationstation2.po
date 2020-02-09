@@ -973,7 +973,7 @@ msgid "GENRE"
 msgstr "GENRE"
 
 msgid "SHOW HIDDEN"
-msgstr "AFFICHER LES FICHIERS CACHÉS"
+msgstr "AFFICHER LES JEUX CACHÉS"
 
 msgid "SHOW FOLDERS CONTENT"
 msgstr "MONTRER LE CONTENU DES DOSSIERS"
@@ -1596,7 +1596,7 @@ msgid "AVAILABLE UPDATE"
 msgstr "MISE À JOUR DISPONIBLE"
 
 msgid "UPDATE CHANGELOG"
-msgstr "MISE À JOUR DU JOURNAL des m.a.j."
+msgstr "NOUVEAUTÉS DE LA MISE À JOUR"
 
 msgid "UPDATE TYPE"
 msgstr "TYPE DE MISE À JOUR"
@@ -1623,7 +1623,7 @@ msgid "HIDE SYSTEM VIEW"
 msgstr "CACHER LA VUE SYSTÈME"
 
 msgid "EMULATOR ADVANCED CONFIGURATION"
-msgstr "CONFIGURATION AVANCÉE DE L'ÉMULATEUR"
+msgstr ""
 
 msgid "ADVANCED EMULATOR CONFIGURATION"
 msgstr "CONFIGURATION AVANCÉE DE L'ÉMULATEUR"
@@ -1695,7 +1695,7 @@ msgid "NICKNAME"
 msgstr "SURNOM"
 
 msgid "RELAY SERVER"
-msgstr "SERVEUR  RELAI"
+msgstr "SERVEUR RELAI"
 
 msgid "Enable or disable connections throught relay servers."
 msgstr "Activer ou désactiver les connexions au travers de serveurs relai."
@@ -1744,7 +1744,7 @@ msgid "Host arch."
 msgstr "Arch. de l'hôte"
 
 msgid "Core ver."
-msgstr "Ver. du coeur (core)"
+msgstr "Ver. du core"
 
 msgid "RA ver."
 msgstr "Ver. de RA"
@@ -1753,22 +1753,22 @@ msgid "Can join"
 msgstr "Joignable"
 
 msgid "Rom and core match"
-msgstr "Les roms et Coeurs (core) =Ok."
+msgstr "Les roms et cores sont Ok."
 
 msgid "Rom, hash and core match"
-msgstr "Rom, hash et coeur (core)=Ok"
+msgstr "Rom, hash et cores Ok"
 
 msgid "No rom match"
-msgstr "Pas de corres. de rom"
+msgstr "Pas de corresp. de rom"
 
 msgid "No core match"
-msgstr "Pas de correspond. du core"
+msgstr "Pas de corresp. du core"
 
 msgid "Match"
 msgstr "Correspond"
 
 msgid "No Match"
-msgstr "Pas de Correspond."
+msgstr "Pas de Corresp."
 
 msgid "Rom file"
 msgstr "Fichier rom"
@@ -1817,7 +1817,7 @@ msgid "VERIFYING"
 msgstr "VÉRIFICATION"
 
 msgid "EMPTY LIST"
-msgstr "VIDER LA LISTE"
+msgstr "LISTE VIDE"
 
 #: Retroarch ratio
 msgid "Auto"
@@ -1936,13 +1936,23 @@ msgid "MD5 LIST"
 msgstr "LISTE MD5"
 
 msgid "Congratulation, all cores/emulators listed below will work flawlessly!"
-msgstr "Félicitation! Les cores/émulateurs listés ci-dessous fonctionneront parfaitement!"
+msgstr ""
+"Félicitation! Les cores/émulateurs listés ci-dessous fonctionneront "
+"parfaitement!"
 
-msgid "Cores/emulators listed below won't probably work until required bios are made available."
-msgstr "Les cores/émulateurs listés ci-dessous ne fonctionneront probablement pas tant que les bios requis ne sont pas disponibles."
+msgid ""
+"Cores/emulators listed below won't probably work until required bios are "
+"made available."
+msgstr ""
+"Les cores/émulateurs listés ci-dessous ne fonctionneront probablement pas "
+"tant que les bios requis ne sont pas disponibles."
 
-msgid "Cores/emulators listed below may work in most cases, unless you use features requiring special bios."
-msgstr "Les cores/émulateurs listés ci-dessous devraient fonctionner dans la plupart des cas."
+msgid ""
+"Cores/emulators listed below may work in most cases, unless you use features "
+"requiring special bios."
+msgstr ""
+"Les cores/émulateurs listés ci-dessous devraient fonctionner dans la plupart "
+"des cas."
 
 msgid "BIOS OK"
 msgstr "BIOS OK"
@@ -1971,73 +1981,82 @@ msgstr "Le MD5 de votre bios"
 msgid "Known MD5 List"
 msgstr "List des MD5 connus"
 
-#:
 msgid "MY SYSTEMS"
 msgstr "MES SYSTEMES"
 
-#:
 msgid "ALL SYSTEMS"
 msgstr "TOUS LES SYSTÈMES"
 
-#:
-msgid "EmulationStation has detected external changes on a gamelist file.\nTo avoid loss of data, EmulationStation is about to relaunch and reload all files."
-msgstr "EmulationStation a détecté des changements externes sur un fichier liste de jeux.\nPour éviter toute perte de donnée, EmulationStation va se relancer et recharger tous ses fichiers."
+msgid ""
+"EmulationStation has detected external changes on a gamelist file.\n"
+"To avoid loss of data, EmulationStation is about to relaunch and reload all "
+"files."
+msgstr ""
+"EmulationStation a détecté des changements externes sur un fichier liste de "
+"jeux.\n"
+"Pour éviter toute perte de donnée, EmulationStation va se relancer et "
+"recharger tous ses fichiers."
 
-#:
-msgid "EmulationStation has detected external changes on a theme file.\nTo avoid loss of data, EmulationStation is about to relaunch and reload all files."
-msgstr "EmulationStation a détecté des changements externes sur un fichier du theme.\nPour éviter toute perte de donnée, EmulationStation va se relancer et recharger tous ses fichiers."
+msgid ""
+"EmulationStation has detected external changes on a theme file.\n"
+"To avoid loss of data, EmulationStation is about to relaunch and reload all "
+"files."
+msgstr ""
+"EmulationStation a détecté des changements externes sur un fichier du "
+"theme.\n"
+"Pour éviter toute perte de donnée, EmulationStation va se relancer et "
+"recharger tous ses fichiers."
 
-#:
 msgid "VIRTUAL SYSTEMS"
 msgstr "SYSTÈMES VIRTUELS"
 
-#:
 msgid "SHOW ALL-GAMES SYSTEM"
 msgstr "MONTRER TOUS LES JEUX"
 
-#:
 msgid "SHOW MULTIPLAYER SYSTEM"
 msgstr "MONTRER LES JEUX MULTIJOUEURS"
 
-#:
 msgid "SHOW LAST-PLAYED SYSTEM"
 msgstr "MONTRER LES DERNIERS JEUX JOUÉS"
 
-#:
 msgid "VIRTUAL SYSTEMS PER GENRE"
 msgstr "SYSTÈMES VIRTUELS PAR GENRES"
 
-#:
-msgid  "Show a 'all-games' system with all ames from all systems."
+msgid "Show a 'all-games' system with all ames from all systems."
 msgstr "Ajoute un système qui contient tous les jeux de tous les systèmes."
 
-#:
-msgid  "Show multiplayer games (all games playable by two or more players)."
-msgstr "Ajoute un système qui contient tous les jeux multijoueurs (jouables par 2 joueurs et plus)."
+msgid "Show multiplayer games (all games playable by two or more players)."
+msgstr ""
+"Ajoute un système qui contient tous les jeux multijoueurs (jouables par 2 "
+"joueurs et plus)."
 
-#:
-msgid  "Show last played games."
-msgstr "Ajoute un système qui contient tous les derniers jeux joués, classés par date de derniere partie."
+msgid "Show last played games."
+msgstr ""
+"Ajoute un système qui contient tous les derniers jeux joués, classés par "
+"date de derniere partie."
 
-#:
 msgid "Select virtual systems to show."
 msgstr "Selectionner les systèmes virtuels à afficher."
 
-#:
 msgid "Select vitual systems per genre to show."
 msgstr "Selectionner les systèmes virtuels par genre à afficher."
 
-#:
 msgid "HIDE ADULT GAMES"
 msgstr "CACHER LES JEUX POUR ADULTES"
 
-#:
 msgid "HIDE ADULT GAMES IN ALL SYSTEMS"
 msgstr "CACHER TOUS LES JEUX POUR ADULTES"
 
-#:
 msgid "Hide games flagged as adult games."
 msgstr "Cache les jeux marqués comme jeux pour adultes."
+
+msgid "HIGHLIGHT GAMES OF REGION..."
+msgstr "FAIRE RESSORTIR LES JEUX DE LA REGION..."
+
+msgid "Highlight all games of a particular region and fade out all others."
+msgstr ""
+"Fait ressortir visuellement tous les jeux d'une région particulière et "
+"affiche les autres en demi transparence."
 
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
