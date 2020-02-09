@@ -1,0 +1,16 @@
+--- a/Source/Core/Core/ConfigManager.cpp	2019-12-03 04:03:49.000000000 +0100
++++ b/Source/Core/Core/ConfigManager.cpp	2020-01-01 18:24:10.065789699 +0100
+@@ -848,11 +848,8 @@
+ 
+ std::string SConfig::GetBootROMPath(const std::string& region_directory) const
+ {
+-  const std::string path =
+-      File::GetUserPath(D_GCUSER_IDX) + DIR_SEP + region_directory + DIR_SEP GC_IPL;
+-  if (!File::Exists(path))
+-    return File::GetSysDirectory() + GC_SYS_DIR + DIR_SEP + region_directory + DIR_SEP GC_IPL;
+-  return path;
++  File::GetUserPath(D_GCUSER_IDX); // on garde ça au cas ou..
++  return std::string("/recalbox/share/bios/gamecube") + DIR_SEP + region_directory + DIR_SEP GC_IPL;
+ }
+ 
+ struct SetGameMetadata

@@ -1,6 +1,8 @@
 #!/bin/sh
 
-matchbox-window-manager -use_titlebar no -use_desktop_mode no -use_lowlight no &
+### matchbox doesn't seems to correctly handle qt5 apps, at least for doplhin-emu,
+### replace it with openbox: http://openbox.org/wiki/Main_Page
+# matchbox-window-manager -use_titlebar no -use_desktop_mode no -use_lowlight no &
 
 # set the keyboard
 systemsetting="recalbox_settings"
@@ -26,5 +28,7 @@ hhpc -i 5 &
 export HOME=/recalbox/share/system
 export LC_ALL="${settings_lang}.UTF-8"
 
-# without windowed, time must be sleeped to wait that matchbox ended to initialize :-(
-exec emulationstation --windowed
+## without windowed, time must be sleeped to wait that matchbox ended to initialize :-(
+#exec emulationstation --windowed
+## Emulationstation must be started at the same time
+openbox --config-file /etc/openbox/rc.xml --startup "emulationstation --windowed"

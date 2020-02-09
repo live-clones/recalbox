@@ -2,15 +2,15 @@
 
 Put your Wii roms in this directory.
 
-Rom files must have a ".iso/.wbfs" extension.
+Rom files must have a ".iso/.wbfs/.wad" extension.
 
 Hotkeys Mapping:
-B:		Toggle Pause
+B:		Stop "for dolphin menu"
 L:		Take Screenshot
 A:		Reset
 Y:		Save to selected slot
 Y:		Load from selected slot
-R2:		Stop
+R2:		Toggle Pause
 Start:		Exit
 Dpad-Up:	Select State Slot 1
 Dpad-Down:	Select State Slot 2

@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system wii --extension '.iso .ISO .wbfs .WBFS' --fullname 'Wii' --platform wii --theme wii BR2_PACKAGE_DOLPHIN_EMU
+# ./scripts/linux/empack.py --system wii --extension '.iso .ISO .wbfs .WBFS .wad .WAD' --fullname 'Wii' --platform wii --theme wii BR2_PACKAGE_DOLPHIN_EMU
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_WII_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_WII = $(RECALBOX_ROMFS_WII_PKGDIR)/roms
 
 ifeq ($(BR2_PACKAGE_DOLPHIN_EMU),y)
 define CONFIGURE_WII
-	$(call RECALBOX_ROMFS_CALL_ADD_STANDALONE_SYSTEM,$(SYSTEM_XML_WII),Wii,$(SYSTEM_NAME_WII),.iso .ISO .wbfs .WBFS,wii,wii,$(SOURCE_ROMDIR_WII),$(@D))
+	$(call RECALBOX_ROMFS_CALL_ADD_STANDALONE_SYSTEM,$(SYSTEM_XML_WII),Wii,$(SYSTEM_NAME_WII),.iso .ISO .wbfs .WBFS .wad .WAD,wii,wii,$(SOURCE_ROMDIR_WII),$(@D))
 endef
 RECALBOX_ROMFS_WII_CONFIGURE_CMDS += $(CONFIGURE_WII)
 endif

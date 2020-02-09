@@ -43,6 +43,12 @@ ca30b50f880eb660a320674ed365ef7a  disksys.rom
 a860e8c0b6d573d191e4ec7db1b1e4f6  gba_bios.bin
 
 
+- GAMECUBE :
+0cdda509e2da83c85bfe423dd87346cc  gamecube/EUR/IPL.bin
+fc924a7c879b661abc37cec4f018fdf3  gamecube/JAP/IPL.bin
+339848a0b7c2124cf155276c1e79cbd0  gamecube/USA/IPL.bin
+
+
 - SUPER GAME BOY :
 d574d4f9c12f305074798f54c091a8b4  sgb_bios.bin
 

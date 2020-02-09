@@ -22,7 +22,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Optimize ES boot time
 - Fix fulscreen for oric and apple2 on x86/x86_64
 - Fix apple2 on x86/x86_64
-
+- Fix & Bump dolphin emulator on x86/x64
 
 ## [6.1.1]
 - Add zfast shaders

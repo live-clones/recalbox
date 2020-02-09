@@ -21,6 +21,7 @@
 - Add 8bitdo N30 Pro 2 controller to pre-configured pads/joyticks
 - Add IPega PG-9037 pad
 - Improve pad processing in EmulationStation
+- Fix & bump dolphin emulator
 
 ### Fixes
 - Fix Odroid XU4 fan issue
@@ -50,6 +51,7 @@
 - Bump FreeIntV to include latest fixes
 - Bump FBNeo to include latest fixes
 - Bump Retroarch to 1.8.1  to include latest fixes & optimizations
+- Bump Doplhin-emu on 5.0-11288 add automatic configuration and netplay compatibility
 
 ### Fixes
 - Fix Reicast on XU4 and PC platforms and fix wrong flycast entry on Rpi

@@ -5,14 +5,17 @@ Placez ici vos roms GameCube.
 Les roms doivent avoir l'extension ".iso/.gc/.gcz/.gcm"
 
 Hotkeys Mapping:
-B:		Pause
+B:		Stop "acceder au menu dolphin"
 L:		Screenshot
 A:		Reset
 Y:		Sauvegade sur slot sélectionné
 Y:		Chargement depuis slot sélectionné
-R2:		Stop
+R2:		Pause
 Start:		Exit
 Dpad-Haut:	Sélectionne State Slot 1
 Dpad-Bas:	Sélectionne State Slot 2
 Dpad-Gauche:	Augmente la vitesse d'émulation
 Dpad-Droite:	Diminue la vitesse d'émulation
+
+optionnel:
+placez vos bios gamecube dans le dossier /usr/share/dolphin-emu/sys/GC/ .
