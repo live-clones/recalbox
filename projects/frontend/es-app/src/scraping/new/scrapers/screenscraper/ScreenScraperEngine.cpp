@@ -578,6 +578,7 @@ bool ScreenScraperEngine::Engine::NeedScrapping(ScrappingMethod method, FileData
       if (mConfiguration.GetVideo() != ScreenScraperApis::IConfiguration::Video::None)
         if (game.Metadata().Video().IsEmpty()) return true;
       // TODO: Add more media checks here
+      return false;
     }
   }
 

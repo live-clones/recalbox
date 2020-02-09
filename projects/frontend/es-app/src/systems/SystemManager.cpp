@@ -521,7 +521,7 @@ bool SystemManager::LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool
   int count = threadPool.PendingJobs();
   if (mProgressInterface != nullptr)
     mProgressInterface->SetMaximum(count);
-  threadPool.Run(3-2, false);
+  threadPool.Run(-2, false);
   // Push result
   mVisibleSystemVector.resize(count, nullptr);
   int index = 0;
