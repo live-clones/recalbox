@@ -227,6 +227,13 @@ class ScreenScraperApis
      */
     static bool ExtractAdultState(const rapidjson::Value& array);
 
+    /*!
+     * @brief Decode inner string encoding, including XML and X encoding like
+     * &quot; \u0260 and \r\n
+     * @param raw Raw string, decoded in place
+     */
+    static void DecodeString(std::string& raw);
+
   public:
     /*!
      * @brief Constructor

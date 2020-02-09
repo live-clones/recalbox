@@ -45,5 +45,9 @@ class ScraperFactory
     static ScraperType GetScraperType(const std::string& scraperidentifier);
 
     static const std::vector<std::string>& GetScraperList();
+
+    static void ExtractFileNameUndecorated(FileData& game);
+
+    static void ExtractRegionFromFilename(FileData& game);
 };
 

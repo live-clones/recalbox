@@ -131,7 +131,7 @@ GuiMenu::GuiMenu(Window& window, SystemManager& systemManager)
   }
 
   //ABOUT
-	addEntry(_("LICENSE"), mMenuTheme->menuText.color, true,
+	addEntry(_("OPEN-SOURCE LICENSE"), mMenuTheme->menuText.color, true,
 	         [this] {
 		         mWindow.pushGui(new GuiMsgBoxScroll(mWindow, "RECALBOX", Strings::ScrambleSymetric2(std::string(MenuMessages::LICENCE_MSG, MenuMessages::LICENCE_MSG_SIZE), __MESSAGE_DECORATOR), _("OK"), nullptr, "", nullptr, "", nullptr, TextAlignment::Left));
 		 }, Path(":/question.svg"));
@@ -1142,7 +1142,7 @@ void GuiMenu::menuSoundSettings(){
       RecalboxSystem::setAudioOutputDevice(newVal);
     };
     optionsAudio->setSelectedChangedCallback(setAudioDevice);
-    s->addWithLabel(optionsAudio, _("OUTPUT DEVICE"));
+    s->addWithLabel(optionsAudio, _("OUTPUT DEVICE"), _(MENUMESSAGE_SOUND_DEVICE_HELP_MSG));
   }
   s->addSaveFunc([optionsAudio, currentDevice, sounds_enabled, volume] {
     RecalboxConf::Instance().SetInt("audio.volume", Math::roundi(volume->getSlider()));

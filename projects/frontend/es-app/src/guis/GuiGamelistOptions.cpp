@@ -151,6 +151,8 @@ GuiGamelistOptions::GuiGamelistOptions(Window& window, SystemData* system)
 	setSize(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
 	mMenu.setPosition((mSize.x() - mMenu.getSize().x()) / 2, (mSize.y() - mMenu.getSize().y()) / 2);
 
+  mMenu.addButton(_("CLOSE"), _("CLOSE"), [this] { Close(); });
+
 	mFavoriteState = Settings::Instance().FavoritesOnly();
 	mHiddenState = Settings::Instance().ShowHidden();
 }

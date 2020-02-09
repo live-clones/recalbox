@@ -9,6 +9,7 @@
 #include "MenuThemeData.h"
 #include <scraping/new/ScraperFactory.h>
 #include <recalbox/RecalboxSystem.h>
+#include <scraping/new/ScraperTools.h>
 
 GuiScraperSingleGameRun::GuiScraperSingleGameRun(Window&window, FileData& game, IScrappingComplete* notifier)
   : Gui(window),
@@ -103,3 +104,36 @@ bool GuiScraperSingleGameRun::getHelpPrompts(Help& help)
 	return mGrid.getHelpPrompts(help);
 }
 
+
+void GuiScraperSingleGameRun::GameResult(int index, int total, FileData* result)
+{
+  (void)index;
+  (void)total;
+
+  // Extract region?
+  if (RecalboxConf::Instance().AsBool("scraper.extractregionfromfilename"))
+    ScraperFactory::ExtractRegionFromFilename(*result);
+  // Overwrite name?
+  switch(ScraperTools::Clamp(RecalboxConf::Instance().AsInt("scraper.getnamefrom")))
+  {
+    case ScraperNameOptions::GetFromScraper: break;
+    case ScraperNameOptions::GetFromFilename:
+    {
+      result->Metadata().SetName(result->getPath().FilenameWithoutExtension());
+      break;
+    }
+    case ScraperNameOptions::GetFromFilenameUndecorated:
+    {
+      ScraperFactory::ExtractFileNameUndecorated(*result);
+      break;
+    }
+  }
+
+  // Update game data
+  mSearch->UpdateInfoPane(result);
+}
+
+void GuiScraperSingleGameRun::ScrapingComplete(ScrapeResult reason)
+{
+  (void)reason;
+}

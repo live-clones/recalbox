@@ -66,7 +66,7 @@ private:
    * @param total Total game to scrape
    * @param result Result object
    */
-  void GameResult(int index, int total, const FileData* result) override;
+  void GameResult(int index, int total, FileData* result) override;
 
   /*!
    * @brief Scraper site quota reached. Scrapping is being aborted immediately.

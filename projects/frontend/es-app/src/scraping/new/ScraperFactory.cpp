@@ -71,3 +71,39 @@ ScraperFactory::ScraperType ScraperFactory::GetScraperType(const std::string& sc
 
   return type;
 }
+
+void ScraperFactory::ExtractFileNameUndecorated(FileData& game)
+{
+  std::string name = game.getPath().FilenameWithoutExtension();
+
+  // Remove (text)
+  for(unsigned long pos = 0; (pos = name.find('(', pos)) != std::string::npos; )
+  {
+    unsigned long end = name.find(')', pos);
+    if (end != std::string::npos)
+    {
+      name.erase(pos, end - pos + 1);
+      while(pos < name.size() && name[pos] == ' ') name.erase(pos, 1);
+    }
+  }
+
+  // Remove [text]
+  for(unsigned long pos = 0; (pos = name.find('(', pos)) != std::string::npos; )
+  {
+    unsigned long end = name.find(')', pos);
+    if (end != std::string::npos)
+    {
+      name.erase(pos, end - pos + 1);
+      while(pos < name.size() && name[pos] == ' ') name.erase(pos, 1);
+    }
+  }
+
+  game.Metadata().SetName(Strings::Trim(name));
+}
+
+void ScraperFactory::ExtractRegionFromFilename(FileData& game)
+{
+  Regions::GameRegions region = Regions::ExtractRegionsFromFileName(game.getPath());
+  if (region != Regions::GameRegions::Unknown)
+    game.Metadata().SetRegion((int)region);
+}

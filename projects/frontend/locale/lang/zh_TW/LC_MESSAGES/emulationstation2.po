@@ -1883,6 +1883,94 @@ msgstr ""
 msgid "Highlight all games of a particular region and fade out all others."
 msgstr ""
 
+msgid ""
+"Select the source of your game name. Trust the scrapping database or get "
+"them from filename, raw or undecorated (without decoration in () or [] )."
+msgstr ""
+
+msgid ""
+"Try to extract game region from its filename when possible. Support long and "
+"short region game (JP or Japan, EU or Europe, ...)"
+msgstr ""
+
+msgid "GET GAME NAME FROM"
+msgstr ""
+
+msgid "GET REGION FROM FILENAME WHEN POSSIBLE"
+msgstr ""
+
+msgid "Scrapper results"
+msgstr ""
+
+msgid "Raw filename"
+msgstr ""
+
+msgid "Undecorated filename"
+msgstr ""
+
+msgid "OPEN-SOURCE LICENSE"
+msgstr ""
+
+msgid "SELECT IMAGE TYPE"
+msgstr ""
+
+msgid "In-game screenshot"
+msgstr ""
+
+msgid "Title screenshot"
+msgstr ""
+
+msgid "Clear logo"
+msgstr ""
+
+msgid "Marquee"
+msgstr ""
+
+msgid "ScreenScraper Mix V1"
+msgstr ""
+
+msgid "ScreenScraper Mix V2"
+msgstr ""
+
+msgid "SCRAPE IMAGE"
+msgstr ""
+
+msgid "SELECT THUMBNAIL TYPE"
+msgstr ""
+
+msgid "No thumbnail"
+msgstr ""
+
+msgid "SCRAPE THUMBNAIL"
+msgstr ""
+
+msgid "SELECT VIDEO TYPE"
+msgstr ""
+
+msgid "No video"
+msgstr ""
+
+msgid "Original video"
+msgstr ""
+
+msgid "Optimized/Normalized video"
+msgstr ""
+
+msgid "SCRAPE VIDEO"
+msgstr ""
+
+msgid "SELECT FAVORITE REGION"
+msgstr ""
+
+msgid "FAVORITE REGION"
+msgstr ""
+
+msgid "SELECT FAVORITE LANGUAGE"
+msgstr ""
+
+msgid "FAVORITE LANGUAGE"
+msgstr ""
+
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
 #~ "will turn the screen black."

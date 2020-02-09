@@ -14,7 +14,7 @@ class INotifyScrapeResult
      * @param total Total game to scrape
      * @param result Result object
      */
-    virtual void GameResult(int index, int total, const FileData* result) = 0;
+    virtual void GameResult(int index, int total, FileData* result) = 0;
 
     /*!
      * @brief Notify the caller of scrapping is being aborted immediately

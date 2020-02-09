@@ -2,6 +2,7 @@
 #include <scraping/new/ScraperFactory.h>
 #include <MainRunner.h>
 #include <recalbox/RecalboxSystem.h>
+#include <scraping/new/ScraperTools.h>
 #include "guis/GuiScraperRun.h"
 #include "Renderer.h"
 #include "utils/Log.h"
@@ -91,8 +92,27 @@ void GuiScraperRun::finish()
 	mIsProcessing = false;
 }
 
-void GuiScraperRun::GameResult(int index, int total, const FileData* result)
+void GuiScraperRun::GameResult(int index, int total, FileData* result)
 {
+  // Extract region?
+  if (RecalboxConf::Instance().AsBool("scraper.extractregionfromfilename"))
+    ScraperFactory::ExtractRegionFromFilename(*result);
+  // Overwrite name?
+  switch(ScraperTools::Clamp(RecalboxConf::Instance().AsInt("scraper.getnamefrom")))
+  {
+    case ScraperNameOptions::GetFromScraper: break;
+    case ScraperNameOptions::GetFromFilename:
+    {
+      result->Metadata().SetName(result->getPath().FilenameWithoutExtension());
+      break;
+    }
+    case ScraperNameOptions::GetFromFilenameUndecorated:
+    {
+      ScraperFactory::ExtractFileNameUndecorated(*result);
+      break;
+    }
+  }
+
   // update title
   mSystem->setText(Strings::ToUpperASCII(result->getSystem()->getFullName()));
 

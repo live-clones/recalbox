@@ -6,6 +6,7 @@
 #include <guis/Gui.h>
 #include <components/MenuComponent.h>
 #include <components/OptionListComponent.h>
+#include <scraping/new/ScraperTools.h>
 
 class SystemManager;
 class SwitchComponent;
@@ -17,10 +18,15 @@ class GuiScraperSelect : public Gui
     explicit GuiScraperSelect(Window& window, SystemManager& systemManager);
 
   private:
+    /*!
+     * @brief Save options
+     */
+    void SaveOptions();
+
     //! SystemManager instance
     SystemManager& mSystemManager;
-
-    std::shared_ptr<OptionListComponent<std::string>>     mScrapers;
-
+    std::shared_ptr<OptionListComponent<std::string>>        mScrapers;
+    std::shared_ptr<OptionListComponent<ScraperNameOptions>> mScrapeNameFrom;
+    std::shared_ptr<SwitchComponent>                         mExtractRegion;
     MenuComponent mMenu;
 };

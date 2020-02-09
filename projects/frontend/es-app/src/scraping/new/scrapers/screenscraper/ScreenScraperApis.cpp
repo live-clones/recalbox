@@ -145,7 +145,10 @@ void ScreenScraperApis::DeserializeGameInformation(const std::string& jsonstring
         if (jeu.HasMember("noms"))
           game.mName = ExtractRegionalizedText(jeu["noms"], mConfiguration.GetFavoriteRegion());
         if (jeu.HasMember("synopsis"))
-         game.mSynopsis = ExtractLocalizedText(jeu["synopsis"], mConfiguration.GetFavoriteLanguage());
+        {
+          game.mSynopsis = ExtractLocalizedText(jeu["synopsis"], mConfiguration.GetFavoriteLanguage());
+          DecodeString(game.mSynopsis);
+        }
         if (jeu.HasMember("editeur"))
           game.mPublisher = jeu["editeur"]["text"].GetString();
         if (jeu.HasMember("developpeur"))
@@ -613,4 +616,15 @@ ScrapeResult ScreenScraperApis::GetMedia(const std::string& mediaurl, const Path
     break;
   }
   return result;
+}
+
+void ScreenScraperApis::DecodeString(std::string& raw)
+{
+  // XML
+  raw = Strings::Replace(raw, "&quot;", "\"");
+  raw = Strings::Replace(raw, "&amp;", "&");
+  raw = Strings::Replace(raw, "&apos;", "'");
+  raw = Strings::Replace(raw, "&lt;", "<");
+  raw = Strings::Replace(raw, "&gt;", ">");
+  raw = Strings::Replace(raw, "&nbsp;", "\u0160");
 }

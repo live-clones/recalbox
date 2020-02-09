@@ -2058,19 +2058,127 @@ msgstr ""
 "Fait ressortir visuellement tous les jeux d'une région particulière et "
 "affiche les autres en demi transparence."
 
-#~ msgid ""
-#~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
-#~ "will turn the screen black."
-#~ msgstr ""
-#~ "Choisissez le comportement de l'économiseur d'écran: DIM réduira la "
-#~ "luminosité de l'écran, BLACK rendra l'écran noir."
+msgid ""
+"Select the source of your game name. Trust the scrapping database or get "
+"them from filename, raw or undecorated (without decoration in () or [] )."
+msgstr ""
+"Selectionner la source des noms de vos jeux. Faites confiance à la base de "
+"scrapping ou utilisez les noms de fichier, brut ou non décorés (sans les "
+"textes entre () ou [] )."
 
-#~ msgid "Rom found"
-#~ msgstr "Rom trouvée"
+msgid ""
+"Try to extract game region from its filename when possible. Support long and "
+"short region game (JP or Japan, EU or Europe, ...)"
+msgstr "Tente d'extraire la région du jeu à partir du nom de fichier. Supporte les noms longs et courts (JP ou Japan, EU ou Europe, ...)"
 
-#~ msgid ""
-#~ "Copy current system on another device.\n"
-#~ "Warning ! It will erase all data on target device."
-#~ msgstr ""
-#~ "Copier le système actuel sur un autre périphérique.\n"
-#~ "Attention ! Cela effacera tout le contenu de la cible."
+#:
+msgid "GET GAME NAME FROM"
+msgstr "OBTENIR LES NOMS À PARTIR DE"
+
+#:
+msgid "GET REGION FROM FILENAME WHEN POSSIBLE"
+msgstr "EXTRAIRE LES REGIONS DES NOMS DE FICHIER"
+
+#:
+msgid "Scrapper results"
+msgstr "Résultat du scrapper"
+
+#:
+msgid "Raw filename"
+msgstr "Nom de fichier brut"
+
+#:
+msgid "Undecorated filename"
+msgstr "Nom de fichier non-décoré"
+
+#:
+msgid "OPEN-SOURCE LICENSE"
+msgstr "LICENCE OPEN-SOURCE"
+
+#:
+msgid "SELECT IMAGE TYPE"
+msgstr "SELECTIONNEZ LE TYPE D'IMAGE"
+
+#:
+msgid "In-game screenshot"
+msgstr "écran en jeu"
+
+#:
+msgid "Title screenshot"
+msgstr "écra, titre"
+
+#:
+msgid "Clear logo"
+msgstr "Logo détouré"
+
+#:
+msgid "Marquee"
+msgstr "Marquee"
+
+#:
+msgid "ScreenScraper Mix V1"
+msgstr "Mix ScreenScraper V1"
+
+#:
+msgid "ScreenScraper Mix V2"
+msgstr "Mix ScreenScraper V2"
+
+#:
+msgid "SCRAPE IMAGE"
+msgstr "Image à scraper"
+
+#:
+msgid "SELECT THUMBNAIL TYPE"
+msgstr "SELECTIONNEZ LE TYPE DE VIGNETTE"
+
+#:
+msgid "No thumbnail"
+msgstr "Aucune vignette"
+
+#:
+msgid "SCRAPE THUMBNAIL"
+msgstr "Vignette à scraper"
+
+#:
+msgid "SELECT VIDEO TYPE"
+msgstr "SELECTIONNEZ LE TYPE DE VIDÉO"
+
+#:
+msgid "No video"
+msgstr "AUCUNE"
+
+#:
+msgid "Original video"
+msgstr "Vidéo normale"
+
+#:
+msgid "Optimized/Normalized video"
+msgstr "Vidéo optimisée/normalisée"
+
+#:
+msgid "SCRAPE VIDEO"
+msgstr "Vidéo à scraper"
+
+#:
+msgid "SELECT FAVORITE REGION"
+msgstr "SELECTIONNEZ VOTRE RÉGION PRÉFÉRÉE"
+
+#:
+msgid "FAVORITE REGION"
+msgstr "RÉGION PRÉFÉRÉE"
+
+#:
+msgid "SELECT FAVORITE LANGUAGE"
+msgstr "SELECTIONNEZ VOTRE LANGUE PRÉFÉRÉE"
+
+#:
+msgid "FAVORITE LANGUAGE"
+msgstr "LANGUE PRÉFÉRÉE"
+
+#:
+msgid "SYSTEM NAME"
+msgstr "NOM DE SYSTÈMES"
+
+#:
+msgid "PUBLISHER"
+msgstr "ÉDITEUR"

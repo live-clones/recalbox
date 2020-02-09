@@ -59,6 +59,7 @@ set(ES_HEADERS
         src/scraping/new/ScraperFactory.h
         src/scraping/new/INotifyScrapeResult.h
         src/scraping/new/ScrapeResult.h
+        src/scraping/new/ScraperTools.h
         src/scraping/new/scrapers/IScraperEngine.h
         src/scraping/new/scrapers/screenscraper/ScreenScraperEngine.h
         src/scraping/new/scrapers/screenscraper/ScreenScraperApis.h
@@ -140,6 +141,7 @@ set(ES_SOURCES
         src/bios/BiosManager.cpp
 
         # Scrapers
+        src/scraping/new/ScraperTools.cpp
         src/scraping/new/ScraperFactory.cpp
         src/scraping/new/scrapers/screenscraper/ScreenScraperEngine.cpp
         src/scraping/new/scrapers/screenscraper/ScreenScraperApis.cpp

@@ -7,7 +7,7 @@
 #include "components/NinePatchComponent.h"
 #include "components/TextComponent.h"
 
-class GuiScraperSingleGameRun : public Gui
+class GuiScraperSingleGameRun : public Gui, public INotifyScrapeResult
 {
   public:
     class IScrappingComplete
@@ -47,4 +47,21 @@ class GuiScraperSingleGameRun : public Gui
     bool ProcessInput(const InputCompactEvent& event) override;
     void Update(int deltaTime) override;
     bool getHelpPrompts(Help& help) override;
+
+    /*
+     * INotifyScrapeResult implementation
+     */
+
+    /*!
+     * @brief Notify a game has been scraped
+     * @param index Game index
+     * @param total Total game to scrape
+     * @param result Result object
+     */
+    void GameResult(int index, int total, FileData* result) override;
+
+    /*!
+     * @brief Scraper site quota reached. Scrapping is being aborted immediately.
+     */
+    void ScrapingComplete(ScrapeResult reason) override;
 };
