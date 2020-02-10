@@ -539,16 +539,16 @@ std::string RecalboxSystem::getJSONStringValue(const std::string& json, const st
 EmulatorDefaults RecalboxSystem::getEmulatorDefaults(const std::string& emulatorName)
 {
   EmulatorDefaults defaults;
-  auto initConfig = new RecalboxConf(true);
+  RecalboxConf initConfig(true);
   std::string json = runCmd("getEmulatorDefaults " + emulatorName);
 
-  defaults.emulator = initConfig->AsString(emulatorName + ".emulator");
+  defaults.emulator = initConfig.AsString(emulatorName + ".emulator");
   if (defaults.emulator.empty())
   {
     defaults.emulator = getJSONStringValue(json, "emulator");
   }
 
-  defaults.core = initConfig->AsString(emulatorName + ".core");
+  defaults.core = initConfig.AsString(emulatorName + ".core");
   if (defaults.core.empty())
   {
     defaults.core = getJSONStringValue(json, "core");
