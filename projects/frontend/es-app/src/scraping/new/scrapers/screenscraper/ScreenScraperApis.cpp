@@ -621,6 +621,14 @@ ScrapeResult ScreenScraperApis::GetMedia(const std::string& mediaurl, const Path
       }
     break;
   }
+
+  // Delete wrong files
+  if (to.Size() <= 256)
+  {
+    to.Delete();
+    size = 0;
+  }
+
   return result;
 }
 
