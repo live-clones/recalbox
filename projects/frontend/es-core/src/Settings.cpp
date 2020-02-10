@@ -49,7 +49,7 @@ Settings::DataDescriptor Settings::sDescriptors[] =
                                                           
   { Settings::DataType::String, offsetof(Settings::Data, mTransitionStyle        ), "TransitionStyle"        , "fade"                                                     , false },
   { Settings::DataType::String, offsetof(Settings::Data, mPopupPosition          ), "PopupPosition"          , "Top/Right"                                                , false },
-  { Settings::DataType::String, offsetof(Settings::Data, mThemeSet               ), "ThemeSet"               , ""                                                         , false },
+  { Settings::DataType::String, offsetof(Settings::Data, mThemeSet               ), "ThemeSet"               , "recalbox-next"                                            , false },
   { Settings::DataType::String, offsetof(Settings::Data, mThemeColorSet          ), "ThemeColorSet"          , ""                                                         , false },
   { Settings::DataType::String, offsetof(Settings::Data, mThemeIconSet           ), "ThemeIconSet"           , ""                                                         , false },
   { Settings::DataType::String, offsetof(Settings::Data, mThemeMenu              ), "ThemeMenu"              , ""                                                         , false },
