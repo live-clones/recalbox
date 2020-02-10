@@ -581,7 +581,7 @@ void GuiBiosScan::UpdateBiosDetail()
     const char* text = "Congratulation, all cores/emulators listed below will work flawlessly!";
     if (context.mBiosKO != 0) text = "Cores/emulators listed below won't probably work until required bios are made available.";
     else if (context.mBiosUnsafe != 0) text = "Cores/emulators listed below may work in most cases, unless you use features requiring special bios.";
-    mDetailText1Value->setValue(_(text));
+    mDetailText1Value->setValue(_S(std::string(text)));
     mDetailText2Label->setValue(_("Core") + " :");
     std::string cores = GetUniqueCoreList(*context.mBiosList);
     mDetailText2Value->setValue(cores);
