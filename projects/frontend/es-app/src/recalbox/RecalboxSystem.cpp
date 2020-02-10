@@ -416,7 +416,7 @@ bool RecalboxSystem::forgetBluetoothControllers()
 std::string RecalboxSystem::getRootPassword()
 {
   Strings::Vector lines = ExecuteSettingsCommand("getRootPassword");
-  return lines.empty() ? "" : lines[1];
+  return lines.empty() ? "" : lines[0];
 }
 
 std::pair<std::string, int> RecalboxSystem::execute(const std::string& command)
