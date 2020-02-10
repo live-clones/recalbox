@@ -95,7 +95,7 @@ bool RecalboxConf::SaveRecalboxConf()
   // Rename
   Path::Rename(recalboxConfFile, recalboxConfFileBackup);
   // Save new
-  Files::SaveFile(recalboxConfFile, Strings::Join(lines, "\r\n"));
+  Files::SaveFile(recalboxConfFile, Strings::Join(lines, "\n"));
 
   return true;
 }
