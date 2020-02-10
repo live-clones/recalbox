@@ -2012,6 +2012,12 @@ msgstr ""
 msgid "FAVORITE LANGUAGE"
 msgstr ""
 
+msgid "SYSTEM NAME"
+msgstr ""
+
+msgid "PUBLISHER"
+msgstr ""
+
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
 #~ "will turn the screen black."

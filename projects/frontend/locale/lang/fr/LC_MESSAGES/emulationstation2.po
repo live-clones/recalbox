@@ -2105,7 +2105,7 @@ msgstr "écran en jeu"
 
 #:
 msgid "Title screenshot"
-msgstr "écra, titre"
+msgstr "écran titre"
 
 #:
 msgid "Clear logo"

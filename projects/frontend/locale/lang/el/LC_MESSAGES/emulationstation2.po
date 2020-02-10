@@ -1902,3 +1902,9 @@ msgstr ""
 
 msgid "FAVORITE LANGUAGE"
 msgstr ""
+
+msgid "SYSTEM NAME"
+msgstr ""
+
+msgid "PUBLISHER"
+msgstr ""
