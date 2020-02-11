@@ -6,7 +6,7 @@
 #include <guis/Gui.h>
 #include <components/MenuComponent.h>
 #include <components/OptionListComponent.h>
-#include <scraping/new/ScraperTools.h>
+#include <scraping/ScraperTools.h>
 
 class SystemManager;
 class SwitchComponent;

@@ -4,7 +4,7 @@
 #include "components/NinePatchComponent.h"
 #include "components/ComponentGrid.h"
 #include "components/TextComponent.h"
-#include <scraping/new/scrapers/IScraperEngine.h>
+#include <scraping/scrapers/IScraperEngine.h>
 #include <components/ButtonComponent.h>
 
 class ScraperSearchComponent;

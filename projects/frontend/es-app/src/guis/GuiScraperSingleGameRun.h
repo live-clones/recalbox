@@ -1,6 +1,6 @@
 #pragma once
 
-#include <scraping/new/scrapers/IScraperEngine.h>
+#include <scraping/scrapers/IScraperEngine.h>
 #include <components/ButtonComponent.h>
 #include "guis/Gui.h"
 #include "components/ScraperSearchComponent.h"

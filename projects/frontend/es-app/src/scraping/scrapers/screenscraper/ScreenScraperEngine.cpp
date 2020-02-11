@@ -13,9 +13,9 @@
  * List of systems and their IDs from
  * https://www.screenscraper.fr/api/systemesListe.php?devid=xxx&devpassword=yyy&softname=zzz&output=XML
  */
-static const std::map<PlatformIds::PlatformId, int>& GetPlatformIDs()
+static const HashMap<PlatformIds::PlatformId, int>& GetPlatformIDs()
 {
-  static const std::map<PlatformIds::PlatformId, int> screenscraperPlatformidMap
+  static const HashMap<PlatformIds::PlatformId, int> screenscraperPlatformidMap
     {
       { PlatformIds::PlatformId::AMSTRAD_CPC,               65},
       { PlatformIds::PlatformId::AMSTRAD_GX4000,            87},
@@ -484,13 +484,12 @@ ScrapeResult ScreenScraperEngine::Engine::RequestGameInfo(ScreenScraperApis::Gam
 
     // Convert platform ID
     PlatformIds::PlatformId systemid = game.getSystem()->PlatformIds(i);
-    const std::map<PlatformIds::PlatformId, int>& Map = GetPlatformIDs();
-    if (Map.find(systemid) == Map.end())
-      return result.mResult;
-    int sssysid = Map.at(systemid);
+    const HashMap<PlatformIds::PlatformId, int>& Map = GetPlatformIDs();
+    int* sssysid = Map.try_get(systemid);
+    if (sssysid == nullptr) return result.mResult;
 
     // Call!
-    result = mCaller.GetGameInformation(sssysid, game.getPath(), crc32, md5, size);
+    result = mCaller.GetGameInformation(*sssysid, game.getPath(), crc32, md5, size);
     switch(result.mResult)
     {
       case ScrapeResult::NotFound: continue;
@@ -530,14 +529,13 @@ ScrapeResult ScreenScraperEngine::Engine::RequestZipGameInfo(ScreenScraperApis::
 
         // Convert platform ID
         PlatformIds::PlatformId systemid = game.getSystem()->PlatformIds(i);
-        const std::map<PlatformIds::PlatformId, int>& Map = GetPlatformIDs();
-        if (Map.find(systemid) == Map.end())
-          return result.mResult;
-        int sssysid = Map.at(systemid);
-        if (sssysid == 75) continue; // Arcade
+        const HashMap<PlatformIds::PlatformId, int>& Map = GetPlatformIDs();
+        int* sssysid = Map.try_get(systemid);
+        if (sssysid == nullptr) return result.mResult;
+        if (*sssysid == 75) continue; // Arcade
 
         // Call!
-        result = mCaller.GetGameInformation(sssysid, filePath, crc32, md5, size);
+        result = mCaller.GetGameInformation(*sssysid, filePath, crc32, md5, size);
         switch (result.mResult)
         {
           case ScrapeResult::NotFound: continue;

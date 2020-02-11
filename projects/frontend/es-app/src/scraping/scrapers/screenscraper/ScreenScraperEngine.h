@@ -3,7 +3,7 @@
 //
 #pragma once
 
-#include <scraping/new/scrapers/IScraperEngine.h>
+#include <scraping/scrapers/IScraperEngine.h>
 #include <utils/os/system/Mutex.h>
 #include <utils/sdl2/SyncronousEvent.h>
 #include <utils/os/system/ThreadPool.h>

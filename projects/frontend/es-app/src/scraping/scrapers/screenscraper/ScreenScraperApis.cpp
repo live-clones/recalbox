@@ -342,7 +342,7 @@ std::string ScreenScraperApis::ExtractLocalizedGenre(const rapidjson::Value& arr
 
 GameGenres ScreenScraperApis::ExtractNormalizedGenre(const rapidjson::Value& array)
 {
-  static std::map<int, GameGenres> sScreenScraperSubGenresToGameGenres
+  static HashMap<int, GameGenres> sScreenScraperSubGenresToGameGenres
   ({
     {  2909, GameGenres::  ActionPlatformer             },
     {     7, GameGenres::  ActionPlatformer             },
@@ -427,7 +427,7 @@ GameGenres ScreenScraperApis::ExtractNormalizedGenre(const rapidjson::Value& arr
     {  2947, GameGenres::  SportFight                   },
   });
 
-  static std::map<int, GameGenres> sScreenScraperGenresToGameGenres
+  static HashMap<int, GameGenres> sScreenScraperGenresToGameGenres
   ({
     { 2855, GameGenres::None           },
     { 2904, GameGenres::None           },
@@ -487,22 +487,31 @@ GameGenres ScreenScraperApis::ExtractNormalizedGenre(const rapidjson::Value& arr
   int id;
   for(auto& object : array.GetArray())
     if (Strings::ToInt(object["id"].GetString(), id))
-      if (sScreenScraperSubGenresToGameGenres.find(id) != sScreenScraperSubGenresToGameGenres.end())
-        return sScreenScraperSubGenresToGameGenres.at(id);
+    {
+      GameGenres* found = sScreenScraperSubGenresToGameGenres.try_get(id);
+      if (found != nullptr)
+        return *found;
+    }
 
   // Lookup genre except "Action"
   for(auto& object : array.GetArray())
     if (Strings::ToInt(object["id"].GetString(), id))
       if (id != 10 && id != 413) // Action / Adult
-        if (sScreenScraperGenresToGameGenres.find(id) != sScreenScraperGenresToGameGenres.end())
-          return sScreenScraperGenresToGameGenres.at(id);
+      {
+        GameGenres* found = sScreenScraperGenresToGameGenres.try_get(id);
+        if (found != nullptr)
+          return *found;
+      }
 
   // Lookup what's available
   for(auto& object : array.GetArray())
     if (Strings::ToInt(object["id"].GetString(), id))
       if (id != 413) // Adult
-        if (sScreenScraperGenresToGameGenres.find(id) != sScreenScraperGenresToGameGenres.end())
-          return sScreenScraperGenresToGameGenres.at(id);
+      {
+        GameGenres* found = sScreenScraperGenresToGameGenres.try_get(id);
+        if (found != nullptr)
+          return *found;
+      }
 
   return GameGenres::None;
 }

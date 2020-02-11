@@ -2,8 +2,8 @@
 // Created by bkg2k on 04/12/2019.
 //
 
-#include <scraping/new/scrapers/screenscraper/ScreenScraperEngine.h>
-#include <scraping/new/scrapers/thegamedb/TheGameDBEngine.h>
+#include <scraping/scrapers/screenscraper/ScreenScraperEngine.h>
+#include <scraping/scrapers/thegamedb/TheGameDBEngine.h>
 #include "ScraperFactory.h"
 
 ScraperFactory::~ScraperFactory()

@@ -1,5 +1,5 @@
 #include <systems/SystemManager.h>
-#include <scraping/new/ScraperFactory.h>
+#include <scraping/ScraperFactory.h>
 #include <RecalboxConf.h>
 #include "guis/GuiScraperOptions.h"
 #include "guis/GuiScraperRun.h"

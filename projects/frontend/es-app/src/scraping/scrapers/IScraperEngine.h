@@ -5,7 +5,7 @@
 
 #include <utils/cplusplus/INoCopy.h>
 #include <systems/SystemManager.h>
-#include <scraping/new/INotifyScrapeResult.h>
+#include <scraping/INotifyScrapeResult.h>
 
 enum class ScrappingMethod
 {

@@ -17,7 +17,7 @@
 #include <guis/GuiDetectDevice.h>
 #include <bios/BiosManager.h>
 #include <guis/GuiMsgBox.h>
-#include <scraping/new/ScraperFactory.h>
+#include <scraping/ScraperFactory.h>
 #include "MainRunner.h"
 #include "EmulationStation.h"
 #include "VolumeControl.h"

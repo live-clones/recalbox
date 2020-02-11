@@ -7,9 +7,9 @@
 #include "Settings.h"
 #include "utils/locale/LocaleHelper.h"
 #include "MenuThemeData.h"
-#include <scraping/new/ScraperFactory.h>
+#include <scraping/ScraperFactory.h>
 #include <recalbox/RecalboxSystem.h>
-#include <scraping/new/ScraperTools.h>
+#include <scraping/ScraperTools.h>
 
 GuiScraperSingleGameRun::GuiScraperSingleGameRun(Window&window, FileData& game, IScrappingComplete* notifier)
   : Gui(window),

@@ -57,14 +57,14 @@ set(ES_HEADERS
         src/bios/IBiosScanReporting.h
 
         # Scrapers
-        src/scraping/new/ScraperFactory.h
-        src/scraping/new/INotifyScrapeResult.h
-        src/scraping/new/ScrapeResult.h
-        src/scraping/new/ScraperTools.h
-        src/scraping/new/scrapers/IScraperEngine.h
-        src/scraping/new/scrapers/screenscraper/ScreenScraperEngine.h
-        src/scraping/new/scrapers/screenscraper/ScreenScraperApis.h
-        src/scraping/new/scrapers/thegamedb/TheGameDBEngine.h
+        src/scraping/ScraperFactory.h
+        src/scraping/INotifyScrapeResult.h
+        src/scraping/ScrapeResult.h
+        src/scraping/ScraperTools.h
+        src/scraping/scrapers/IScraperEngine.h
+        src/scraping/scrapers/screenscraper/ScreenScraperEngine.h
+        src/scraping/scrapers/screenscraper/ScreenScraperApis.h
+        src/scraping/scrapers/thegamedb/TheGameDBEngine.h
 
         #src/scraping/Scraper.h
         #src/scraping/GamesDBJSONScraper.h
@@ -143,11 +143,11 @@ set(ES_SOURCES
         src/bios/BiosManager.cpp
 
         # Scrapers
-        src/scraping/new/ScraperTools.cpp
-        src/scraping/new/ScraperFactory.cpp
-        src/scraping/new/scrapers/screenscraper/ScreenScraperEngine.cpp
-        src/scraping/new/scrapers/screenscraper/ScreenScraperApis.cpp
-        src/scraping/new/scrapers/thegamedb/TheGameDBEngine.cpp
+        src/scraping/ScraperTools.cpp
+        src/scraping/ScraperFactory.cpp
+        src/scraping/scrapers/screenscraper/ScreenScraperEngine.cpp
+        src/scraping/scrapers/screenscraper/ScreenScraperApis.cpp
+        src/scraping/scrapers/thegamedb/TheGameDBEngine.cpp
 
         #src/scraping/Scraper.cpp
         #src/scraping/GamesDBJSONScraper.cpp

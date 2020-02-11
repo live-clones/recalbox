@@ -2,8 +2,8 @@
 // Created by bkg2k on 29/12/2019.
 //
 
-#include <scraping/new/ScraperFactory.h>
-#include <scraping/new/ScraperTools.h>
+#include <scraping/ScraperFactory.h>
+#include <scraping/ScraperTools.h>
 #include <components/SwitchComponent.h>
 #include "GuiScraperSelect.h"
 #include "GuiScraperOptions.h"

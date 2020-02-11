@@ -1,8 +1,8 @@
 #include <systems/SystemManager.h>
-#include <scraping/new/ScraperFactory.h>
+#include <scraping/ScraperFactory.h>
 #include <MainRunner.h>
 #include <recalbox/RecalboxSystem.h>
-#include <scraping/new/ScraperTools.h>
+#include <scraping/ScraperTools.h>
 #include "guis/GuiScraperRun.h"
 #include "Renderer.h"
 #include "utils/Log.h"

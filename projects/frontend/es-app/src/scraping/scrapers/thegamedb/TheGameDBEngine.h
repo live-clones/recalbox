@@ -3,7 +3,7 @@
 //
 #pragma once
 
-#include <scraping/new/scrapers/IScraperEngine.h>
+#include <scraping/scrapers/IScraperEngine.h>
 
 class TheGameDBEngine : public IScraperEngine
 {

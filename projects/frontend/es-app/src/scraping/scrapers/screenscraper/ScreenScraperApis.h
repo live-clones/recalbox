@@ -7,7 +7,7 @@
 #include <utils/Http.h>
 #include <utils/datetime/DateTime.h>
 #include <rapidjson/document.h>
-#include <scraping/new/ScrapeResult.h>
+#include <scraping/ScrapeResult.h>
 #include <games/classifications/Genres.h>
 
 

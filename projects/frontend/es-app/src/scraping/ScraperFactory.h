@@ -4,7 +4,7 @@
 #pragma once
 
 #include <string>
-#include <scraping/new/scrapers/IScraperEngine.h>
+#include <scraping/scrapers/IScraperEngine.h>
 #include <utils/cplusplus/StaticLifeCycleControler.h>
 
 class ScraperFactory : public StaticLifeCycleControler<ScraperFactory>
