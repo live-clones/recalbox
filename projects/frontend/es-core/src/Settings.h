@@ -107,7 +107,7 @@ class Settings
       return "unknown";
     }
 
-    const DataDescriptor& LookupDescriptor(const char* name) const;
+    static const DataDescriptor& LookupDescriptor(const char* name) ;
 
     Settings();
 

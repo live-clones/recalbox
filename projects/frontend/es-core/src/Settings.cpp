@@ -139,7 +139,7 @@ void Settings::saveFile()
   doc.save_file(path.ToChars());
 }
 
-const Settings::DataDescriptor& Settings::LookupDescriptor(const char* name) const
+const Settings::DataDescriptor& Settings::LookupDescriptor(const char* name)
 {
   for(const DataDescriptor& desc : sDescriptors)
     if (strcmp(name, desc.mName) == 0)
