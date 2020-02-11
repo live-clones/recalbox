@@ -214,7 +214,7 @@ void Window::Update(int deltaTime)
       ss += "\nFont VRAM: " + Strings::ToString(fontVramUsageMb, 2) + " Tex VRAM: " +
             Strings::ToString(textureVramUsageMb, 2) + " Tex Max: " + Strings::ToString(textureTotalUsageMb, 2);
 
-      mFrameDataText = std::unique_ptr<TextCache>(mDefaultFonts.at(1)->buildTextCache(ss, 50.f, 50.f, 0xFF00FFFF));
+      mFrameDataText = std::unique_ptr<TextCache>(mDefaultFonts[1]->buildTextCache(ss, 50.f, 50.f, 0xFF00FFFF));
     }
 
     mFrameTimeElapsed = 0;
@@ -255,7 +255,7 @@ void Window::Render(Transform4x4f& transform)
   if (Settings::Instance().DrawFramerate() && mFrameDataText)
   {
     Renderer::setMatrix(Transform4x4f::Identity());
-    mDefaultFonts.at(1)->renderTextCache(mFrameDataText.get());
+    mDefaultFonts[1]->renderTextCache(mFrameDataText.get());
   }
 
   unsigned int screensaverTime = (unsigned int) Settings::Instance().ScreenSaverTime();

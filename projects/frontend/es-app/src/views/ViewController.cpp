@@ -49,7 +49,7 @@ void ViewController::goToStart()
 {
   std::string systemName = RecalboxConf::Instance().AsString("emulationstation.selectedsystem");
   int index = systemName.empty() ? -1 : mSystemManager.getVisibleSystemIndex(systemName);
-  SystemData* selectedSystem = index < 0 ? nullptr : mSystemManager.GetVisibleSystemList().at(index);
+  SystemData* selectedSystem = index < 0 ? nullptr : mSystemManager.GetVisibleSystemList()[index];
 
   if ((selectedSystem == nullptr) || !selectedSystem->HasGame())
     selectedSystem = mSystemManager.FirstNonEmptySystem();

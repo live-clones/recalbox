@@ -94,7 +94,7 @@ GuiTextEditPopupKeyboard::GuiTextEditPopupKeyboard(Window&window, const std::str
             });
             buttons.push_back(mShiftButton);
           }
-          else buttons.push_back(makeButton(lines.at(2 * i).at(j), lines.at(2 * i + 1).at(j)));
+          else buttons.push_back(makeButton(lines[2 * i][j], lines[2 * i + 1][j]));
         }
 			  buttonList.push_back(buttons);
 	    }

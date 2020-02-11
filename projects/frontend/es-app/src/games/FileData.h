@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vector>
-#include <unordered_map>
+#include <utils/storage/HashMap.h>
 #include <string>
 #include <utils/os/fs/Path.h>
 #include "MetadataDescriptor.h"
@@ -16,7 +16,7 @@ class FolderData;
 class FileData
 {
   public:
-    typedef std::unordered_map<std::string, FileData*> StringMap;
+    typedef HashMap<std::string, FileData*> StringMap;
     typedef std::vector<FileData*> List;
     typedef int (*Comparer)(const FileData& a, const FileData& b);
 

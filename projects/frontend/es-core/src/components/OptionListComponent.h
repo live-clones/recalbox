@@ -85,7 +85,7 @@ private:
 					// update selected value and close
 					row.makeAcceptInputHandler([this, &e]
 					{
-						mParent->mEntries.at(mParent->getSelectedId()).selected = false;
+						mParent->mEntries[mParent->getSelectedId()].selected = false;
 						e.selected = true;
 						mParent->onSelectedChanged();
 						Close();
@@ -103,9 +103,9 @@ private:
 			  mMenu.addButton(_("SELECT ALL"), "select all", [this, checkboxes, color] {
 					for (unsigned int i = 0; i < mParent->mEntries.size(); i++)
 					{
-						mParent->mEntries.at(i).selected = true;
-						checkboxes.at(i)->setImage(Path(CHECKED_PATH));
-						checkboxes.at(i)->setColor(color);
+						mParent->mEntries[i].selected = true;
+						checkboxes[i]->setImage(Path(CHECKED_PATH));
+						checkboxes[i]->setColor(color);
 					}
 					mParent->onSelectedChanged();
 				});
@@ -113,9 +113,9 @@ private:
 			  mMenu.addButton(_("SELECT NONE"), "select none", [this, checkboxes, color] {
 					for (unsigned int i = 0; i < mParent->mEntries.size(); i++)
 					{
-						mParent->mEntries.at(i).selected = false;
-						checkboxes.at(i)->setImage(Path(UNCHECKED_PATH));
-						checkboxes.at(i)->setColor(color);
+						mParent->mEntries[i].selected = false;
+						checkboxes[i]->setImage(Path(UNCHECKED_PATH));
+						checkboxes[i]->setColor(color);
 					}
 					mParent->onSelectedChanged();
 				});
@@ -226,8 +226,8 @@ public:
         if(next < 0)
           next += mEntries.size();
 
-        mEntries.at(i).selected = false;
-        mEntries.at(next).selected = true;
+        mEntries[i].selected = false;
+        mEntries[next].selected = true;
         onSelectedChanged();
         return true;
 
@@ -236,8 +236,8 @@ public:
         // move selection to next
         unsigned int i = getSelectedId();
         int next = (i + 1) % mEntries.size();
-        mEntries.at(i).selected = false;
-        mEntries.at(next).selected = true;
+        mEntries[i].selected = false;
+        mEntries[next].selected = true;
         onSelectedChanged();
         return true;
 
@@ -263,22 +263,19 @@ public:
 	{
 		assert(!mMultiSelect);
 		auto selected = getSelectedObjects();
-		if(selected.size() == 1){
-                    return selected.at(0);
-                }else {
-                    return T();
-                }
+		if(selected.size() == 1) return selected[0];
+    return T();
 	}
         
 	std::string getSelectedName()
 	{
-                assert(!mMultiSelect);
+    assert(!mMultiSelect);
 		for (auto& entry : mEntries)
 		{
 			if(entry.selected)
 				return entry.name;
 		}
-                return "";
+    return "";
 	}
 
 	void select(T object) {
@@ -339,7 +336,7 @@ private:
 		assert(!mMultiSelect);
 		for (unsigned int i = 0; i < mEntries.size(); i++)
 		{
-			if(mEntries.at(i).selected)
+			if(mEntries[i].selected)
 				return i;
 		}
 
@@ -382,7 +379,7 @@ private:
 		}
 
 		if (mSelectedChangedCallback) {
-			mSelectedChangedCallback(mEntries.at(getSelectedId()).object);
+			mSelectedChangedCallback(mEntries[getSelectedId()].object);
 		}
 	}
 

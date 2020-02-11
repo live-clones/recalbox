@@ -68,9 +68,9 @@ const Path& Genres::GetResourcePath(GameGenres genre)
     { GameGenres::Educative                     , Path(":/genre/educative.svg") }
   });
 
-  auto it = sNames.find(genre);
-  if (it != sNames.end())
-    return it->second;
+  Path* found = sNames.try_get(genre);
+  if (found != nullptr)
+    return *found;
 
   LOG(LogError) << "[Resource path] Unknown GameGenre " << (int)genre;
   return Path::Empty;
@@ -139,9 +139,9 @@ std::string Genres::GetName(GameGenres genre)
     { GameGenres::Educative                     , "Educative"                              },
   });
 
-  auto it = sNames.find(genre);
-  if (it != sNames.end())
-    return it->second;
+  const char** found = sNames.try_get(genre);
+  if (found != nullptr)
+    return *found;
 
   LOG(LogError) << "[Name] Unknown GameGenre " << (int)genre;
   return "Uknown";

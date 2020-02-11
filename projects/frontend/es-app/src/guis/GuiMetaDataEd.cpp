@@ -394,13 +394,13 @@ void GuiMetaDataEd::save()
 {
   for (int i = 0; i < (int)mEditors.size(); i++)
   {
-    if (mMetaDataEditable.at(i)->Type() != MetadataFieldDescriptor::DataType::PList)
+    if (mMetaDataEditable[i]->Type() != MetadataFieldDescriptor::DataType::PList)
     {
-      (mMetaData.*(mMetaDataEditable[i]->SetValueMethod()))(mEditors.at(i)->getValue());
+      (mMetaData.*(mMetaDataEditable[i]->SetValueMethod()))(mEditors[i]->getValue());
     }
     else
     {
-      std::shared_ptr<Component> ed = mEditors.at(i);
+      std::shared_ptr<Component> ed = mEditors[i];
       std::shared_ptr<OptionListComponent<std::string>> list = std::static_pointer_cast<OptionListComponent<std::string>>(ed);
       (mMetaData.*(mMetaDataEditable[i]->SetValueMethod()))(list->getSelected());
     }
@@ -422,7 +422,7 @@ void GuiMetaDataEd::ScrappingComplete(FileData& /*game*/)
   for (int i = 0; i < (int)mEditors.size(); i++)
   {
     GetValueMethodType method = mMetaDataEditable[i]->GetValueMethod();
-    mEditors.at(i)->setValue((mMetaData.*method)());
+    mEditors[i]->setValue((mMetaData.*method)());
   }
 }
 
@@ -433,7 +433,7 @@ void GuiMetaDataEd::close(bool closeAllWindows)
   for (int i = 0; i < (int)mEditors.size(); i++)
   {
     GetValueMethodType method = mMetaDataEditable[i]->GetValueMethod();
-    if ((mMetaData.*method)() != mEditors.at(i)->getValue())
+    if ((mMetaData.*method)() != mEditors[i]->getValue())
     {
       dirty = true;
       break;

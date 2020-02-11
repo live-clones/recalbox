@@ -365,7 +365,7 @@ FT_Face Font::getFaceForChar(UnicodeChar id)
 		{
 			// i == 0 -> mPath
 			// otherwise, take from fallbackFonts
-			const Path& path = (i == 0 ? mPath : fallbackFonts.at(i - 1));
+			const Path& path = (i == 0 ? mPath : fallbackFonts[i - 1]);
 			ResourceData data = ResourceManager::getInstance()->getFileData(path);
 			mFaceCache[i] = std::unique_ptr<FontFace>(new FontFace(std::move(data), mSize));
 			fit = mFaceCache.find(i);
@@ -747,7 +747,7 @@ TextCache* Font::buildTextCache(const std::string& text, Vector2f offset, unsign
 	unsigned int i = 0;
 	for (auto& it : vertMap)
 	{
-		TextCache::VertexList& vertList = cache->vertexLists.at(i);
+		TextCache::VertexList& vertList = cache->vertexLists[i];
 
 		vertList.textureIdPtr = &it.first->textureId;
 		vertList.verts = it.second;

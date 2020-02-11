@@ -466,7 +466,7 @@ bool SystemView::getHelpPrompts(Help& help)
 
 void SystemView::ApplyHelpStyle()
 {
-  HelpItemStyle().FromTheme(mEntries.at(mCursor).object->getTheme(), "system");
+  HelpItemStyle().FromTheme(mEntries[mCursor].object->getTheme(), "system");
 }
 
 void SystemView::onThemeChanged(const ThemeData& theme)
@@ -583,7 +583,7 @@ void SystemView::renderCarousel(const Transform4x4f& trans)
 		int opacity = Math::roundi(0x80 + ((0xFF - 0x80) * (1 - fabs(distance))));
 		opacity = Math::max((int) 0x80, opacity);
 
-		const std::shared_ptr<Component> &comp = mEntries.at(index).data.logo;
+		const std::shared_ptr<Component> &comp = mEntries[index].data.logo;
 		if (mCarousel.type == CarouselType::VerticalWheel) {
 			comp->setRotationDegrees(mCarousel.logoRotation * distance);
 			comp->setRotationOrigin(mCarousel.logoRotationOrigin);
@@ -592,9 +592,9 @@ void SystemView::renderCarousel(const Transform4x4f& trans)
 		comp->setOpacity(opacity);
     comp->Render(logoTrans);
 
-		if (mEntries.at(index).data.logotext)
+		if (mEntries[index].data.logotext)
 		{
-			const std::shared_ptr<Component> &comp2 = mEntries.at(index).data.logotext;
+			const std::shared_ptr<Component> &comp2 = mEntries[index].data.logotext;
 			if (mCarousel.type == CarouselType::VerticalWheel) {
 				comp2->setRotationDegrees(mCarousel.logoRotation * distance);
 				comp2->setRotationOrigin(mCarousel.logoRotationOrigin);
@@ -643,7 +643,7 @@ void SystemView::renderExtras(const Transform4x4f& trans, float lower, float upp
 
 			Renderer::pushClipRect(Vector2i((int)extrasTrans.translation()[0], (int)extrasTrans.translation()[1]),
 								   mSize.toInt());
-			SystemViewData data = mEntries.at(index).data;
+			SystemViewData data = mEntries[index].data;
 			for (unsigned int j = 0; j < data.backgroundExtras->getmExtras().size(); j++) {
 				Component *extra = data.backgroundExtras->getmExtras()[j];
 				if (extra->getZIndex() >= lower && extra->getZIndex() < upper) {

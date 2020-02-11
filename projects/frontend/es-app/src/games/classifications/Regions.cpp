@@ -3,13 +3,13 @@
 //
 
 #include <string>
-#include <unordered_map>
+#include <utils/storage/HashMap.h>
 #include <utils/Strings.h>
 #include "Regions.h"
 
 Regions::GameRegions Regions::FullNameToRegions(const std::string& region)
 {
-  static std::unordered_map<std::string, GameRegions> sFullNameToRegions
+  static HashMap<std::string, GameRegions> sFullNameToRegions
     ({
        //     { "djibouti", GameRegions::DJ},
        //     { "eritrea", GameRegions::ER},
@@ -262,16 +262,16 @@ Regions::GameRegions Regions::FullNameToRegions(const std::string& region)
        { "asia", GameRegions::ASI},
      });
 
-  auto it = sFullNameToRegions.find(Strings::ToLowerASCII(region));
-  if (it != sFullNameToRegions.end())
-    return it->second;
+  GameRegions* found = sFullNameToRegions.try_get(Strings::ToLowerASCII(region));
+  if (found != nullptr)
+    return *found;
 
   return GameRegions::Unknown;
 }
 
 const std::string& Regions::RegionFullName(Regions::GameRegions region)
 {
-  static std::unordered_map<GameRegions, const std::string> sRegionToFullName
+  static HashMap<GameRegions, const std::string> sRegionToFullName
     ({
 //       { GameRegions::DJ, "Djibouti" },
 //       { GameRegions::ER, "Eritrea" },
@@ -524,9 +524,9 @@ const std::string& Regions::RegionFullName(Regions::GameRegions region)
        { GameRegions::ASI, "Asia" },
      });
 
-  auto it = sRegionToFullName.find(region);
-  if (it != sRegionToFullName.end())
-    return it->second;
+  const std::string* found = sRegionToFullName.try_get(region);
+  if (found != nullptr)
+    return *found;
 
   static std::string sUnknown("Unknown Region");
   return sUnknown;
@@ -534,7 +534,7 @@ const std::string& Regions::RegionFullName(Regions::GameRegions region)
 
 const std::string& Regions::SerializeRegion(Regions::GameRegions region)
 {
-  static std::unordered_map<Regions::GameRegions, std::string> sRegionToRegionName
+  static HashMap<Regions::GameRegions, std::string> sRegionToRegionName
     ({
        //       { GameRegions::DJ, "dj" }, // Djibouti
        //       { GameRegions::ER, "er" }, // Eritrea
@@ -787,9 +787,9 @@ const std::string& Regions::SerializeRegion(Regions::GameRegions region)
        { GameRegions::ASI, "asi" }, // Asia
      });
 
-  auto it = sRegionToRegionName.find(region);
-  if (it != sRegionToRegionName.end())
-    return it->second;
+  std::string* found = sRegionToRegionName.try_get(region);
+  if (found != nullptr)
+    return *found;
 
   static std::string sWorld("wor");
   return sWorld;
@@ -797,7 +797,7 @@ const std::string& Regions::SerializeRegion(Regions::GameRegions region)
 
 Regions::GameRegions Regions::DeserializeRegion(const std::string& region)
 {
-  static std::unordered_map<std::string, GameRegions> sRegionNameToRegion
+  static HashMap<std::string, GameRegions> sRegionNameToRegion
     ({
 //       { "dj", GameRegions::DJ }, // Djibouti
 //       { "er", GameRegions::ER }, // Eritrea
@@ -1050,9 +1050,9 @@ Regions::GameRegions Regions::DeserializeRegion(const std::string& region)
        { "asi", GameRegions::ASI }, // Asia
      });
 
-  auto it = sRegionNameToRegion.find(region);
-  if (it != sRegionNameToRegion.end())
-    return it->second;
+  GameRegions* found = sRegionNameToRegion.try_get(region);
+  if (found != nullptr)
+    return *found;
 
   return GameRegions::Unknown;
 }

@@ -61,7 +61,7 @@ public:
   void changeTextAt(int index, const std::string& name);
   void changeBackgroundColorAt(int index, int colorIndex);
 
-  inline void setSelectedAt(int index, const T& object) { mEntries.at(index).object = object; }
+  inline void setSelectedAt(int index, const T& object) { mEntries[index].object = object; }
 	inline void setAlignment(HorizontalAlignment align) { mAlignment = align; }
 	inline void setCursorChangedCallback(const std::function<void(CursorState state)>& func) { mCursorChangedCallback = func; }
 	inline void setFont(const std::shared_ptr<Font>& font)
@@ -205,7 +205,7 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
   float y = 0;
   for (int i = startEntry; i < listCutoff; i++)
 	{
-		typename IList<TextListData, T>::Entry& entry = mEntries.at((unsigned int)i);
+		typename IList<TextListData, T>::Entry& entry = mEntries[i];
 
 		if ((unsigned int)entry.data.colorBackgroundId < COLOR_ID_COUNT)
     {
@@ -264,7 +264,7 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
     y = 0;
     for (int i = startEntry; i < listCutoff; i++)
     {
-      typename IList<TextListData, T>::Entry& entry = mEntries.at(i);
+      typename IList<TextListData, T>::Entry& entry = mEntries[i];
 
       Vector3f position(leftMargin, y, 0);
       Vector2f size(mSize.x(), entrySize);
@@ -329,7 +329,7 @@ void TextListComponent<T>::Update(int deltaTime)
 	if(!isScrolling() && size() > 0)
 	{
 		//if we're not scrolling and this object's text goes outside our size, marquee it!
-		const std::string& text = mEntries.at((unsigned int)mCursor).name;
+		const std::string& text = mEntries[mCursor].name;
 
 		Vector2f textSize = mFont->sizeText(text);
 

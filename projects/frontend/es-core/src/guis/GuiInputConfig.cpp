@@ -273,7 +273,7 @@ void GuiInputConfig::setText(const std::string& msg, unsigned int color) {
 }
 
 void GuiInputConfig::setText(const std::string& msg, unsigned int color, const int inputId) {
-	std::shared_ptr<TextComponent>& text = mMappings.at(inputId);
+	std::shared_ptr<TextComponent>& text = mMappings[inputId];
 	text->setText(Strings::ToUpperUTF8(msg));
 	text->setColor(color);
 }
@@ -282,9 +282,9 @@ void GuiInputConfig::setHelpMessage() {
 	std::string msg;
 	InputEvent input;
 	int inputId = mList->getCursorId();
-	FormInput formInput = mFormInputs.at(inputId);
+	FormInput formInput = mFormInputs[inputId];
 	bool assigned = mTargetConfig->GetEntryConfiguration(InputDevice::StringToEntry(formInput.name), input);
-	//std::shared_ptr<TextComponent>& text = mMappings.at(inputId);
+	//std::shared_ptr<TextComponent>& text = mMappings[inputId];
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 
 	if (assigned) {
@@ -311,7 +311,7 @@ void GuiInputConfig::setHelpMessage() {
 
 void GuiInputConfig::setPress() {
 	InputEvent input;
-	FormInput formInput = mFormInputs.at((unsigned int) mList->getCursorId());
+	FormInput formInput = mFormInputs[mList->getCursorId()];
 	if (mTargetConfig->GetEntryConfiguration(InputDevice::StringToEntry(formInput.name), input)) {
 		setAssignedTo(input);
 	} else {
@@ -320,7 +320,7 @@ void GuiInputConfig::setPress() {
 }
 
 bool GuiInputConfig::assign(InputEvent input) {
-	FormInput formInput = mFormInputs.at((unsigned int) mList->getCursorId());
+	FormInput formInput = mFormInputs[mList->getCursorId()];
 
 	// input is from InputConfig* mTargetConfig
 	// if this input is mapped to something other than "nothing" or the current row, error
@@ -346,7 +346,7 @@ bool GuiInputConfig::assign(InputEvent input) {
 }
 
 void GuiInputConfig::unAssign() {
-	FormInput formInput = mFormInputs.at((unsigned int) mList->getCursorId());
+	FormInput formInput = mFormInputs[mList->getCursorId()];
 
 	InputEvent input;
   mTargetConfig->GetEntryConfiguration(InputDevice::StringToEntry(formInput.name), input);
@@ -360,7 +360,7 @@ void GuiInputConfig::unAssign() {
 
 void GuiInputConfig::restaurePreviousAssignment() {
 	InputEvent input;
-	FormInput formInput = mFormInputs.at((unsigned int) mList->getCursorId());
+	FormInput formInput = mFormInputs[mList->getCursorId()];
 	if(mTargetConfig->GetEntryConfiguration(InputDevice::StringToEntry(formInput.name), input))
 		setAssignedTo(input);
 	else
@@ -368,7 +368,7 @@ void GuiInputConfig::restaurePreviousAssignment() {
 }
 
 bool GuiInputConfig::isAssigned() {
-	FormInput formInput = mFormInputs.at((unsigned int) mList->getCursorId());
+	FormInput formInput = mFormInputs[mList->getCursorId()];
 	return mTargetConfig->IsSet(InputDevice::StringToEntry(formInput.name));
 }
 

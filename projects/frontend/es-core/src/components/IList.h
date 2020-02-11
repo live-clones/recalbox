@@ -140,35 +140,35 @@ protected:
 
 	inline UserData& getObjects(int atIndex)
 	{
-   	return mEntries.at(atIndex).object;
+   	return mEntries[atIndex].object;
 	}
 
 	inline const std::string& getSelectedName() {
 		assert(size() > 0);
-		return mEntries.at(mCursor).name;
+		return mEntries[mCursor].name;
 	}
 
 	inline const UserData& getSelected() const {
 		assert(size() > 0);
-		return mEntries.at(mCursor).object;
+		return mEntries[mCursor].object;
 	}
 
   inline const UserData& getSelectedAt(int index) const
   {
     assert(size() > 0);
-    return mEntries.at(index).object;
+    return mEntries[index].object;
   }
 
   inline EntryData& getSelectedEntry() const
   {
     assert(size() > 0);
-    return mEntries.at(mCursor).data;
+    return mEntries[mCursor].data;
   }
 
   inline EntryData& getSelectedEntryAt(int index)
   {
     assert(size() > 0);
-    return mEntries.at(index).data;
+    return mEntries[index].data;
   }
 
   void setCursor(typename std::vector<Entry>::iterator& it) {
@@ -230,7 +230,7 @@ protected:
 			return false;
 		}
 
-		auto& entry = mEntries.at(cursor);
+		auto& entry = mEntries[cursor];
 		entry.name = name;
 		entry.data.textCache.reset();
 		return true;

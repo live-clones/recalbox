@@ -181,7 +181,7 @@ void DetailedGameListView::onThemeChanged(const ThemeData& theme)
   assert(names.size() == values.size());
   for (unsigned int i = 0; i < (unsigned int)values.size(); i++)
   {
-    values[i]->applyTheme(theme, getName(), names.at(i), ThemeProperties::All ^ ThemeProperties::Text);
+    values[i]->applyTheme(theme, getName(), names[i], ThemeProperties::All ^ ThemeProperties::Text);
   }
 
   mDescContainer.applyTheme(theme, getName(), "md_description", ThemeProperties::Position | ThemeProperties::Size | ThemeProperties::ZIndex);
@@ -196,8 +196,8 @@ void DetailedGameListView::onThemeChanged(const ThemeData& theme)
     for (int i = 0; i < (int) mFolderContent.size(); i++)
     {
       snprintf(strbuf, 256, "md_folder_image_%d", i);
-      mFolderContent.at((unsigned int) i)->applyTheme(theme, getName(), strbuf,
-                                                      ThemeProperties::Position | ThemeProperties::Size | ThemeProperties::ZIndex | ThemeProperties::Rotation);
+      mFolderContent[i]->applyTheme(theme, getName(), strbuf,
+                                    ThemeProperties::Position | ThemeProperties::Size | ThemeProperties::ZIndex | ThemeProperties::Rotation);
     }
   }
   else
@@ -230,7 +230,7 @@ void DetailedGameListView::onThemeChanged(const ThemeData& theme)
     {
       for (unsigned int y = 0; y < grid; y++)
       {
-        ImageComponent* img = mFolderContent.at(x + y * grid);
+        ImageComponent* img = mFolderContent[x + y * grid];
         img->setMaxSize(imgSize, imgSize);
         img->setPosition(left + imgSize * img->getOrigin().x() + (float)x * (1 + relativeMarge) * imgSize,
                          top + imgSize * img->getOrigin().y() + (float)y * (1 + relativeMarge) * imgSize);
@@ -404,14 +404,14 @@ void DetailedGameListView::setFolderInfo(FolderData* folder)
   {
     if (game->hasThumbnailOrImage())
     {
-      mFolderContent.at(idx)->setImage(game->getThumbnailOrImagePath());
+      mFolderContent[idx]->setImage(game->getThumbnailOrImagePath());
       if (++idx == mFolderContent.size())
         break;
     }
   }
   for (int i = idx; i < (int) mFolderContent.size(); i++)
   {
-    mFolderContent.at((unsigned int) i)->setImage(Path());
+    mFolderContent[i]->setImage(Path());
   }
   // Kill video on multi-thumbnail folder
   mVideo.setVideo(Path::Empty, 0, 0);

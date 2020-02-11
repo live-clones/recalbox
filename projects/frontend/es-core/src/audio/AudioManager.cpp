@@ -300,9 +300,9 @@ Path AudioManager::FetchRandomMusic(const Path& from, const Path& previousPath)
   for(int i = sMaxTries; --i >= 0; )
   {
     int randomIndex = mSystemRandomizer(mRandomGenerator);
-    if (!previousPath.IsEmpty() && (musics.at(randomIndex) == previousPath.ToString()))
+    if (!previousPath.IsEmpty() && (musics[randomIndex] == previousPath.ToString()))
       continue;
-    return Path(musics.at(randomIndex));
+    return Path(musics[randomIndex]);
   }
 
   return Path::Empty;

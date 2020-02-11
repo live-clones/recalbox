@@ -1,4 +1,5 @@
 #include <utils/Strings.h>
+#include <utils/storage/HashMap.h>
 #include "components/HelpComponent.h"
 #include "Renderer.h"
 #include "Settings.h"
@@ -10,21 +11,21 @@
 #define ICON_TEXT_SPACING Math::max(Renderer::getDisplayWidthAsFloat() * 0.004f, 2.0f) // space between [icon] and [text] (px)
 #define ENTRY_SPACING Math::max(Renderer::getDisplayWidthAsFloat() * 0.008f, 2.0f) // space between [text] and next [icon] (px)
 
-static const std::map<HelpType, Path>& IconPathMap()
+static const HashMap<HelpType, const char*>& IconPathMap()
 {
-  static const std::map<HelpType, Path> _IconPathMap =
+  static const HashMap<HelpType, const char*> _IconPathMap =
   {
-    { HelpType::UpDown,            Path(":/help/dpad_updown.svg") },
-    { HelpType::LeftRight,         Path(":/help/dpad_leftright.svg") },
-    { HelpType::AllDirections,     Path(":/help/dpad_all.svg") },
-    { HelpType::A,                 Path(":/help/button_a.svg") },
-    { HelpType::B,                 Path(":/help/button_b.svg") },
-    { HelpType::X,                 Path(":/help/button_x.svg") },
-    { HelpType::Y,                 Path(":/help/button_y.svg") },
-    { HelpType::L,                 Path(":/help/button_l.svg") },
-    { HelpType::R,                 Path(":/help/button_r.svg") },
-    { HelpType::Start,             Path(":/help/button_start.svg") },
-    { HelpType::Select,            Path(":/help/button_select.svg") },
+    { HelpType::UpDown,            ":/help/dpad_updown.svg" },
+    { HelpType::LeftRight,         ":/help/dpad_leftright.svg" },
+    { HelpType::AllDirections,     ":/help/dpad_all.svg" },
+    { HelpType::A,                 ":/help/button_a.svg" },
+    { HelpType::B,                 ":/help/button_b.svg" },
+    { HelpType::X,                 ":/help/button_x.svg" },
+    { HelpType::Y,                 ":/help/button_y.svg" },
+    { HelpType::L,                 ":/help/button_l.svg" },
+    { HelpType::R,                 ":/help/button_r.svg" },
+    { HelpType::Start,             ":/help/button_start.svg" },
+    { HelpType::Select,            ":/help/button_select.svg" },
   };
   return _IconPathMap;
 }
@@ -60,7 +61,11 @@ void HelpComponent::UpdateHelps()
       if (!imagePath.IsEmpty())
         icon->setImage(imagePath);
       else
-        icon->setImage(IconPathMap().at(Help::TypeFromIndex(i)));
+      {
+        const char** found = IconPathMap().try_get(Help::TypeFromIndex(i));
+        if (found != nullptr)
+          icon->setImage(Path(*found));
+      }
 
       icon->setColorShift(HelpItemStyle().IconColor());
       icon->setResize(0, height);
@@ -76,13 +81,13 @@ void HelpComponent::UpdateHelps()
 	for (int i = 0; i < (int)icons.size(); i++)
 	{
 		const int col = i*4;
-		mGrid->setColWidthPerc(col, icons.at(i)->getSize().x() / width);
+		mGrid->setColWidthPerc(col, icons[i]->getSize().x() / width);
 		mGrid->setColWidthPerc(col + 1, ICON_TEXT_SPACING / width);
-		mGrid->setColWidthPerc(col + 2, labels.at(i)->getSize().x() / width);
+		mGrid->setColWidthPerc(col + 2, labels[i]->getSize().x() / width);
     mGrid->setColWidthPerc(col + 3, ENTRY_SPACING / width);
 
-		mGrid->setEntry(icons.at(i), Vector2i(col, 0), false, false);
-		mGrid->setEntry(labels.at(i), Vector2i(col + 2, 0), false, false);
+		mGrid->setEntry(icons[i], Vector2i(col, 0), false, false);
+		mGrid->setEntry(labels[i], Vector2i(col + 2, 0), false, false);
 	}
 
 	mGrid->setPosition(Vector3f(HelpItemStyle().Position().x(), HelpItemStyle().Position().y(), 0.0f));

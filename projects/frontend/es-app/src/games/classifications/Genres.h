@@ -8,7 +8,7 @@
 // https://en.wikipedia.org/wiki/List_of_video_game_genres
 
 #include <utils/os/fs/Path.h>
-#include <unordered_map>
+#include <utils/storage/HashMap.h>
 
 enum class GameGenres : int // Must be an int
 {
@@ -74,8 +74,8 @@ enum class GameGenres : int // Must be an int
 class Genres
 {
   public:
-    typedef std::unordered_map<GameGenres, const char*> GenreMap;
-    typedef std::unordered_map<GameGenres, Path> GenrePathMap;
+    typedef HashMap<GameGenres, const char*> GenreMap;
+    typedef HashMap<GameGenres, Path> GenrePathMap;
 
     static bool IsSubGenre(GameGenres genre) { return ((int)genre & 0xFF) != 0; }
 

@@ -372,7 +372,7 @@ void ISimpleGameListView::jumpToNextLetter(int increment)
 
   if (pos < size) {
     pos = (pos + increment + size) % size;
-    jumpToLetter(letters.at(pos)[0]);
+    jumpToLetter(letters[pos][0]);
   }
 }
 
@@ -394,25 +394,25 @@ void ISimpleGameListView::jumpToLetter(char letter)
   bool asc = mSystem.getSortId() == 0;
 
   // look for first game position
-  for (min = 0; (min < files.size() - 1) && (files.at(min)->getType() != ItemType::Game) ; min++) ;
+  for (min = 0; (min < files.size() - 1) && (files[min]->getType() != ItemType::Game) ; min++) ;
 
   // look for last game position
-  for (max = files.size() - 1; (max != 0u) && (files.at(max)->getType() != ItemType::Game) ; max--) ;
+  for (max = files.size() - 1; (max != 0u) && (files[max]->getType() != ItemType::Game) ; max--) ;
 
   while(max >= min) {
     mid = ((max - min) / 2) + min;
 
     // game somehow has no first character to check
-    if (files.at(mid)->getName().empty()) {
+    if (files[mid]->getName().empty()) {
       continue;
     }
 
-    char checkLetter = (char) toupper(files.at(mid)->getName()[0]);
+    char checkLetter = (char) toupper(files[mid]->getName()[0]);
 
     if (asc) {
       if (checkLetter < letter) {
         min = mid + 1;
-      } else if (checkLetter > letter || (mid > 0 && (letter == toupper(files.at(mid - 1)->getName()[0])))) {
+      } else if (checkLetter > letter || (mid > 0 && (letter == toupper(files[mid - 1]->getName()[0])))) {
         max = mid - 1;
       } else {
         break; //exact match found
@@ -420,7 +420,7 @@ void ISimpleGameListView::jumpToLetter(char letter)
     } else {
       if (checkLetter > letter) {
         min = mid + 1;
-      } else if (checkLetter < letter || (mid > 0 && (letter == toupper(files.at(mid - 1)->getName()[0])))) {
+      } else if (checkLetter < letter || (mid > 0 && (letter == toupper(files[mid - 1]->getName()[0])))) {
         max = mid - 1;
       } else {
         break; //exact match found
@@ -428,5 +428,5 @@ void ISimpleGameListView::jumpToLetter(char letter)
     }
   }
 
-  setCursor(files.at(mid));
+  setCursor(files[mid]);
 }

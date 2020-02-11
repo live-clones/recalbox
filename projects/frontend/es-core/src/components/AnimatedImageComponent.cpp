@@ -60,7 +60,7 @@ void AnimatedImageComponent::Update(int deltaTime)
 
 	mFrameAccumulator += deltaTime;
 
-	while(mFrames.at(mCurrentFrame).second <= mFrameAccumulator)
+	while(mFrames[mCurrentFrame].second <= mFrameAccumulator)
 	{
 		mCurrentFrame++;
 
@@ -78,12 +78,12 @@ void AnimatedImageComponent::Update(int deltaTime)
 			}
 		}
 
-		mFrameAccumulator -= mFrames.at(mCurrentFrame).second;
+		mFrameAccumulator -= mFrames[mCurrentFrame].second;
 	}
 }
 
 void AnimatedImageComponent::Render(const Transform4x4f& trans)
 {
 	if (!mFrames.empty())
-    mFrames.at(mCurrentFrame).first->Render(getTransform() * trans);
+    mFrames[mCurrentFrame].first->Render(getTransform() * trans);
 }

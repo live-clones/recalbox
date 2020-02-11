@@ -138,14 +138,15 @@ void FileSystemWatcher::readEventsFromBuffer(int length, std::vector<FileSystemE
     }
 
     Path path = wdToPath(event->wd) / std::string(event->len != 0 ? event->name : "");
+    if (!path.IsEmpty())
+    {
+      if (path.IsDirectory())
+        event->mask |= IN_ISDIR;
+      FileSystemEvent fsEvent(event->wd, (EventType) event->mask, path, DateTime());
 
-    if (path.IsDirectory())
-      event->mask |= IN_ISDIR;
-    FileSystemEvent fsEvent(event->wd, (EventType)event->mask, path, DateTime());
-
-    if (!fsEvent.mPath.IsEmpty())
-      events.push_back(fsEvent); // else Event is not complete --> ignore
-
+      if (!fsEvent.mPath.IsEmpty())
+        events.push_back(fsEvent); // else Event is not complete --> ignore
+    }
     i += (int)(EVENT_SIZE + event->len);
   }
 }

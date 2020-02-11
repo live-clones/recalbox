@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include <map>
+#include <utils/storage/HashMap.h>
 #include <queue>
 #include <sys/inotify.h>
 #include <sys/epoll.h>
@@ -95,7 +95,7 @@ class FileSystemWatcher
      * @param wd Identifier
      * @return Path
      */
-    Path wdToPath(int wd) const { return mDirectorieMap.at(wd); }
+    Path wdToPath(int wd) const { Path* found = mDirectorieMap.try_get(wd); return found != nullptr ? *found : Path::Empty; }
 
     /*!
      * @brief Read available events if any and return read size
@@ -119,7 +119,7 @@ class FileSystemWatcher
   private:
     unsigned char mEventBuffer[MAX_EVENTS * (EVENT_SIZE + 16)];
     std::queue<FileSystemEvent> mEventQueue;
-    std::map<int, Path> mDirectorieMap;
+    HashMap<int, Path> mDirectorieMap;
 
     epoll_event mEpollEvents[MAX_EPOLL_EVENTS];
     epoll_event mInotifyEpollEvent;

@@ -196,7 +196,7 @@ void ImageGridComponent<T>::buildImages()
 		for (int x = 0; x < gridSize.x(); x++)
 		{
 			mImages.push_back(ImageComponent(mWindow));
-			ImageComponent& image = mImages.at(y * gridSize.x() + x);
+			ImageComponent& image = mImages[y * gridSize.x() + x];
 
 			image.setPosition((squareSize.x() + padding.x()) * ((float)x + 0.5f) + offset.x(), (squareSize.y() + padding.y()) * ((float)y + 0.5f) + offset.y());
 			image.setOrigin(0.5f, 0.5f);
@@ -229,14 +229,14 @@ void ImageGridComponent<T>::updateImages()
 	unsigned int i = (unsigned int)start;
 	for (unsigned int img = 0; img < mImages.size(); img++)
 	{
-		ImageComponent& image = mImages.at(img);
+		ImageComponent& image = mImages[img];
 		if(i >= (unsigned int)size())
 		{
 			image.setImage(Path());
 			continue;
 		}
 
-		Vector2f squareSize = getSquareSize(mEntries.at(i).data.texture);
+		Vector2f squareSize = getSquareSize(mEntries[i].data.texture);
 		if((int)i == mCursor)
 		{
 			image.setColorShift(0xFFFFFFFF);
@@ -246,7 +246,7 @@ void ImageGridComponent<T>::updateImages()
 			image.setResize(squareSize.x(), squareSize.y());
 		}
 
-		image.setImage(mEntries.at(i).data.texture);
+		image.setImage(mEntries[i].data.texture);
 		i++;
 	}
 }

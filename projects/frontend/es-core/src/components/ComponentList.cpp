@@ -69,18 +69,18 @@ bool ComponentList::ProcessInput(const InputCompactEvent& event)
 	if(size() == 0)
 		return false;
 
-	if(mEntries.at(mCursor).data.help_handler){
-		if(mEntries.at(mCursor).data.help_handler(event))
+	if(mEntries[mCursor].data.help_handler){
+		if(mEntries[mCursor].data.help_handler(event))
 			return true;
 	}
 	// give it to the current row's input handler
-	if(mEntries.at(mCursor).data.input_handler)
+	if(mEntries[mCursor].data.input_handler)
 	{
-		if(mEntries.at(mCursor).data.input_handler(event))
+		if(mEntries[mCursor].data.input_handler(event))
 			return true;
 	}else{
 		// no input handler assigned, do the default, which is to give it to the rightmost element in the row
-		auto& row = mEntries.at(mCursor).data;
+		auto& row = mEntries[mCursor].data;
 		if(!row.elements.empty())
 		{
 			if(row.elements.back().component->ProcessInput(event))
@@ -106,7 +106,7 @@ void ComponentList::Update(int deltaTime)
 	if(size() != 0)
 	{
 		// update our currently selected row
-		for (auto& element : mEntries.at(mCursor).data.elements)
+		for (auto& element : mEntries[mCursor].data.elements)
       element.component->Update(deltaTime);
 	}
 }
@@ -118,7 +118,7 @@ void ComponentList::onCursorChanged(const CursorState& state)
 	mSelectorBarOffset = 0;
 	for (int i = 0; i < mCursor; i++)
 	{
-		mSelectorBarOffset += getRowHeight(mEntries.at(i).data);
+		mSelectorBarOffset += getRowHeight(mEntries[i].data);
 	}
 
 	updateCameraOffset();
@@ -129,7 +129,7 @@ void ComponentList::onCursorChanged(const CursorState& state)
 		for (auto& mEntrie : mEntries)
 			mEntrie.data.elements.back().component->onFocusLost();
 		
-		mEntries.at(mCursor).data.elements.back().component->onFocusGained();
+		mEntries[mCursor].data.elements.back().component->onFocusGained();
 	}
 
 	if(mCursorChangedCallback)
@@ -144,14 +144,14 @@ void ComponentList::updateCameraOffset()
 	const float totalHeight = getTotalRowHeight();
 	if(totalHeight > mSize.y())
 	{
-		float target = mSelectorBarOffset + getRowHeight(mEntries.at(mCursor).data)/2 - (mSize.y() / 2);
+		float target = mSelectorBarOffset + getRowHeight(mEntries[mCursor].data)/2 - (mSize.y() / 2);
 
 		// clamp it
 		mCameraOffset = 0;
 		unsigned int i = 0;
 		while(mCameraOffset < target && i < mEntries.size())
 		{
-			mCameraOffset += getRowHeight(mEntries.at(i).data);
+			mCameraOffset += getRowHeight(mEntries[i].data);
 			i++;
 		}
 
@@ -191,7 +191,7 @@ void ComponentList::Render(const Transform4x4f& parentTrans)
 	bool drawAll;
 	for (int i = 0; i < (int)mEntries.size(); i++)
 	{
-		auto& entry = mEntries.at(i);
+		auto& entry = mEntries[i];
 		drawAll = !mFocused || i != mCursor;
 		for (auto& element : entry.data.elements)
 		{
@@ -211,13 +211,13 @@ void ComponentList::Render(const Transform4x4f& parentTrans)
 	// draw selector bar	
 	if(mFocused)
 	{			
-		const float selectedRowHeight = getRowHeight(mEntries.at(mCursor).data);
+		const float selectedRowHeight = getRowHeight(mEntries[mCursor].data);
 		//here we draw a bar then redraw the list entry
 		if ((selectorColor != bgColor) && ((selectorColor & 0xFF) != 0x00)) {
 			Renderer::drawRect(0.0f, mSelectorBarOffset, mSize.x(), selectedRowHeight, bgColor, GL_ZERO, GL_ONE_MINUS_SRC_COLOR);
 			Renderer::drawRect(0.0f, mSelectorBarOffset, mSize.x(), selectedRowHeight, selectorColor, GL_ONE, GL_ONE);
 		}
-		auto& entry = mEntries.at(mCursor);
+		auto& entry = mEntries[mCursor];
 		for (auto& element : entry.data.elements)
 		{
 
@@ -318,18 +318,18 @@ void ComponentList::textInput(const char* text)
 	if(size() == 0)
 		return;
 
-	mEntries.at(mCursor).data.elements.back().component->textInput(text);
+	mEntries[mCursor].data.elements.back().component->textInput(text);
 }
 
 bool ComponentList::getHelpPrompts(Help& help)
 {
 	if (size() == 0) return false;
-	mEntries.at(mCursor).data.elements.back().component->getHelpPrompts(help);
+	mEntries[mCursor].data.elements.back().component->getHelpPrompts(help);
 
 	if (size() > 1)
 		if (help.IsSet(HelpType::UpDown) || help.IsSet(HelpType::AllDirections)) help.Set(HelpType::UpDown, _("CHOOSE"));
 
-	if ((mEntries.at(mCursor).data.help_handler != nullptr) && Settings::Instance().HelpPopupTime() != 0)
+	if ((mEntries[mCursor].data.help_handler != nullptr) && Settings::Instance().HelpPopupTime() != 0)
 		help.Set(HelpType::Y, _("HELP"));
 
 	return true;

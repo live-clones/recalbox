@@ -35,7 +35,7 @@ GuiGamelistOptions::GuiGamelistOptions(Window& window, SystemData* system)
 
 		// if curChar not found in available letter, take first one
 		if (std::find(letters.begin(), letters.end(), std::string(1, curChar)) == letters.end()) {
-			curChar = letters.at(0)[0];
+			curChar = letters[0][0];
 		}
 
 		for (auto letter : letters) {

@@ -185,9 +185,6 @@ class InputManager
      */
     static void WriteDeviceXmlConfiguration(InputDevice& device);
 
-    //int getButtonCountByDevice(SDL_JoystickID identifier) const { return identifier == InputEvent::sKeyboardDevice ? mKeyboard.ButtonCount() : SDL_JoystickNumButtons(mJoysticks.at(identifier)); }
-    //int getAxisCountByDevice(SDL_JoystickID identifier) const { return identifier == InputEvent::sKeyboardDevice ? 0 : SDL_JoystickNumButtons(mJoysticks.at(identifier)); }
-
     /*!
      * @brief Get device by SDL Indetifier
      * @param deviceId Device identifier

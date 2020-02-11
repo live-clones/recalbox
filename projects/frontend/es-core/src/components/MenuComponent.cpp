@@ -202,15 +202,15 @@ std::shared_ptr<ComponentGrid> makeButtonGrid(Window&window, const std::vector< 
     float gridWidth = (float) BUTTON_GRID_HORIZ_PADDING * buttons.size(); // initialize to padding
     for (int i = 0; i < (int)buttons.size(); i++)
     {
-        grid->setEntry(buttons.at(i), Vector2i(i, 0), true, false);
-        gridWidth += buttons.at(i)->getSize().x();
+        grid->setEntry(buttons[i], Vector2i(i, 0), true, false);
+        gridWidth += buttons[i]->getSize().x();
     }
     for (int i = 0; i < (int)buttons.size(); i++)
     {
-        grid->setColWidthPerc(i, (buttons.at(i)->getSize().x() + BUTTON_GRID_HORIZ_PADDING) / gridWidth);
+        grid->setColWidthPerc(i, (buttons[i]->getSize().x() + BUTTON_GRID_HORIZ_PADDING) / gridWidth);
     }
     
-    grid->setSize(gridWidth, buttons.at(0)->getSize().y() + BUTTON_GRID_VERT_PADDING + 2);
+    grid->setSize(gridWidth, buttons[0]->getSize().y() + BUTTON_GRID_VERT_PADDING + 2);
     grid->setRowHeightPerc(1, 2 / grid->getSize().y()); // spacer row to deal with dropshadow to make buttons look centered
 
     return grid;
@@ -223,9 +223,9 @@ std::shared_ptr<ComponentGrid> makeButtonGrid(Window&window, const std::vector< 
 std::shared_ptr<ComponentGrid> makeMultiDimButtonGrid(Window&window, const std::vector< std::vector< std::shared_ptr<ButtonComponent> > >& buttons, const float outerWidth, const float outerHeight)
 {
 
-    const int sizeX = (int) buttons.at(0).size();
+    const int sizeX = (int) buttons[0].size();
     const int sizeY = (int) buttons.size();
-    const float buttonHeight = buttons.at(0).at(0)->getSize().y();
+    const float buttonHeight = buttons[0][0]->getSize().y();
     const float gridHeight = (buttonHeight + BUTTON_GRID_VERT_PADDING + 2) * (float)sizeY;
 
     float horizPadding = (float) BUTTON_GRID_HORIZ_PADDING;
@@ -249,7 +249,7 @@ std::shared_ptr<ComponentGrid> makeMultiDimButtonGrid(Window&window, const std::
     {
         for (int x = 0; x < sizeX; x++)
         {
-            const std::shared_ptr<ButtonComponent>& button = buttons.at(y).at(x);
+            const std::shared_ptr<ButtonComponent>& button = buttons[y][x];
             button->setSize(buttonWidth, buttonHeight);
             grid->setEntry(button, Vector2i(x, y), true, false);
         }

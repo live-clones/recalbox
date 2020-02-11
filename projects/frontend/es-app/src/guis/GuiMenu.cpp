@@ -247,8 +247,8 @@ void GuiMenu::menuSystem(){
       if (Strings::StartsWith(it, "DEV")) {
         std::vector<std::string> tokens = Strings::Split(it, ' ');
         if (tokens.size() >= 3) {
-          optionsStorage->add(tokens.at(2), it,
-              selectedStorage == std::string("DEV " + tokens.at(1)));
+          optionsStorage->add(tokens[2], it,
+              selectedStorage == std::string("DEV " + tokens[1]));
         }
       } else {
         optionsStorage->add(it, it, selectedStorage == it);
@@ -702,7 +702,7 @@ void GuiMenu::menuControllers() {
       std::string confName = sstm + "NAME";
       std::string confGuid = sstm + "GUID";
 
-      auto input_p1 = options.at(player);
+      auto input_p1 = options[player];
       std::string name;
       std::string selectedName = input_p1->getSelectedName();
 
@@ -1132,7 +1132,7 @@ void GuiMenu::menuSoundSettings(){
         std::string vname;
         for (unsigned int i=0; i<8; i++) {
           vname += ' ';
-          vname += tokens.at(i);
+          vname += tokens[i];
         }
         optionsAudio->add(vname, it, selectedAudio == it);
       } else {
@@ -1239,7 +1239,7 @@ void GuiMenu::menuNetworkSettings(){
               std::string vname;
               for (unsigned int i = 0; i < 8; i++) {
                 vname += ' ';
-                vname += tokens.at(i);
+                vname += tokens[i];
               }
               ed = std::make_shared<TextComponent>(mWindow, vname, mMenuTheme->menuText.font, mMenuTheme->menuText.color, TextAlignment::Left);
             } else {
