@@ -226,7 +226,10 @@ bool Internationalizer::InitializeLocale(const std::string& culture, const std::
 std::string Internationalizer::GetText(const char* key, int keyLength)
 {
   // Null ?
-  if (key == nullptr) return std::string(key, keyLength);
+  if (key == nullptr) return std::string();
+
+  // No locale?
+  if (sMoFlatFile.empty()) return std::string(key, keyLength);
 
   // Get index
   const StringSet& set = sIndexes[(int)key[0]];
