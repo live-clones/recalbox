@@ -114,7 +114,11 @@ ScreenScraperApis::GetGameInformation(int system, const Path& path, const std::s
         }
       }
       // Error?
-      if (game.mResult != ScrapeResult::Ok) break;
+      if (game.mResult != ScrapeResult::Ok)
+      {
+        LOG(LogError) << "ScrapeResult = " << (int)game.mResult;
+        break;
+      }
       if (output.empty())
       {
         LOG(LogError) << "Empty response, retrying...";
@@ -125,6 +129,7 @@ ScreenScraperApis::GetGameInformation(int system, const Path& path, const std::s
       DeserializeGameInformation(output, game);
       break;
     }
+    else LOG(LogError) << "Error executing HTTP request onto " << url;
   }
   return game;
 }
