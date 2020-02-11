@@ -35,6 +35,7 @@ set(CORE_HEADERS
 		src/themes/ThemeException.h
 
 		# Utils
+		src/utils/cplusplus/StaticLifeCycleControler.h
 		src/utils/os/fs/Path.h
 		src/utils/os/fs/StringMapFile.h
 		src/utils/os/fs/watching/EventType.h

@@ -1,9 +1,10 @@
 #pragma once
 
 #include <string>
+#include <utils/cplusplus/StaticLifeCycleControler.h>
 
 //This is a singleton for storing settings.
-class Settings
+class Settings : public StaticLifeCycleControler<Settings>
 {
   private:
     enum class DataType
@@ -109,15 +110,22 @@ class Settings
 
     static const DataDescriptor& LookupDescriptor(const char* name) ;
 
-    Settings();
-
     //Clear everything and load default values.
     void setDefaults();
 
     void loadFile();
 
   public:
-    static Settings& Instance();
+    /*!
+     * @brief Default constructor
+     */
+    Settings();
+
+    /*!
+     * @brief Default destructor
+     */
+    ~Settings() = default;
+
     void saveFile();
 
     /*

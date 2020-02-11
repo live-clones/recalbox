@@ -7,15 +7,13 @@
 #include <utils/os/system/Thread.h>
 #include <utils/sdl2/ISynchronousEvent.h>
 #include <utils/sdl2/SyncronousEvent.h>
+#include <utils/cplusplus/StaticLifeCycleControler.h>
 #include "BiosList.h"
 #include "IBiosScanReporting.h"
 
-class BiosManager : private Thread, public ISynchronousEvent
+class BiosManager : public StaticLifeCycleControler<BiosManager>, private Thread, public ISynchronousEvent
 {
   private:
-    //! Instance
-    static BiosManager* sInstance;
-
     //! Path to bios.xml file
     static constexpr const char* sBiosFilePath = "system/.emulationstation/es_bios.xml";
 
@@ -54,13 +52,7 @@ class BiosManager : private Thread, public ISynchronousEvent
     /*!
      * @brief Default destructor
      */
-    ~BiosManager() override;
-
-    /*!
-     * @brief Get unique instance
-     * @return Instance
-     */
-    static BiosManager& Instance() { return *sInstance; }
+    ~BiosManager() override = default;
 
     /*!
      * @brief Load all bios from bios.xml

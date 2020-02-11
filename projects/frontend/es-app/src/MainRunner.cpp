@@ -47,6 +47,9 @@ MainRunner::ExitState MainRunner::Run()
     // Shut-up joysticks :)
     SDL_JoystickEventState(SDL_DISABLE);
 
+    // Recalbox settings
+    Settings settings;
+
     // Initialize the renderer first,'cause many things depend on renderer width/height
     if (!Renderer::initialize((int)mRequestedWidth, (int)mRequestedHeight))
     {
@@ -94,7 +97,7 @@ MainRunner::ExitState MainRunner::Run()
       CommandThread commandThread(systemManager);
       // Start Video engine
       LOG(LogDebug) << "Launching Video engine";
-      VideoEngine::This().StartEngine();
+      VideoEngine videoEngine;
       // Start Neyplay thread
       LOG(LogDebug) << "Launching Netplay thread";
       NetPlayThread netPlayThread(window);
@@ -127,8 +130,6 @@ MainRunner::ExitState MainRunner::Run()
 
     // Exit
     window.GoToQuitScreen();
-    //window.renderShutdownScreen();
-    VideoEngine::This().StopVideo(true);
     window.deleteAllGui();
     systemManager.DeleteAllSystems(DoWeHaveToUpdateGamelist(exitState));
     Window::Finalize();

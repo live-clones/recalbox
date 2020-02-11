@@ -6,6 +6,7 @@
 #include <string>
 #include <utils/os/system/Thread.h>
 #include <utils/os/system/Mutex.h>
+#include <utils/cplusplus/StaticLifeCycleControler.h>
 #include <SDL_system.h>
 #include <resources/TextureData.h>
 
@@ -20,7 +21,7 @@ extern "C"
 #include <libswscale/swscale.h>          // libavfilter-dev
 }
 
-class VideoEngine : Thread
+class VideoEngine : public StaticLifeCycleControler<VideoEngine>, private Thread
 {
   public:
     /*!
@@ -237,11 +238,16 @@ class VideoEngine : Thread
     void FinalizeDecoder();
 
     /*!
+     * @brief Start the video engine. After calling this method, the player is ready to play video
+     */
+    void StartEngine() { Thread::Start("VideoEngine"); }
+
+  public:
+    /*!
      * @brief Default constructor
      */
     VideoEngine();
 
-  public:
     /*!
      * @brief Destructor
      */
@@ -272,12 +278,6 @@ class VideoEngine : Thread
     TextureData& GetDisplayableFrame();
 
     /*!
-     * @brief Get Instance
-     * @return Instance
-     */
-    static VideoEngine& This();
-
-    /*!
      * @brief Return true if the player is actually playing a video
      * @return True if a video is playing, false otherwise
      */
@@ -290,11 +290,6 @@ class VideoEngine : Thread
     bool IsIdle() { return (mState == PlayerState::Idle); }
 
     int GetVideoDurationMs() { return IsPlaying() ? mContext.TotalTime : 0; }
-
-    /*!
-     * @brief Start the video engine. After calling this method, the player is ready to play video
-     */
-    void StartEngine() { Thread::Start("VideoEngine"); }
 
     /*!
      * Pause the engine if it's actually playing a video. Otherwise do nothing.

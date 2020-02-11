@@ -7,25 +7,11 @@
 #include <algorithm>
 #include "BiosManager.h"
 
-BiosManager* BiosManager::sInstance = nullptr;
-
 BiosManager::BiosManager()
-  : mSender(this),
+  : StaticLifeCycleControler<BiosManager>("BiosManager"),
+    mSender(this),
     mReporting(nullptr)
 {
-  if (sInstance == nullptr)
-    sInstance = this;
-  else
-  {
-    LOG(LogError) << "BiosManager multiple instance detected";
-    exit(-1);
-  }
-}
-
-BiosManager::~BiosManager()
-{
-  if (sInstance == this)
-    sInstance = nullptr;
 }
 
 void BiosManager::LoadFromFile()

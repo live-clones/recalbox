@@ -40,12 +40,6 @@ static char* _FourCCToString(unsigned int fourcc)
   return FCC;
 }
 
-VideoEngine& VideoEngine::This()
-{
-  static VideoEngine instance;
-  return instance;
-}
-
 void VideoEngine::AudioPacketQueue::Enqueue(const AVPacket* packet)
 {
   AVPacketList* elt = nullptr;
@@ -89,8 +83,10 @@ bool VideoEngine::AudioPacketQueue::Dequeue(AVPacket& pkt)
 }
 
 VideoEngine::VideoEngine()
-  : mState(PlayerState::Idle)
+  : StaticLifeCycleControler<VideoEngine>("VideoEngine"),
+    mState(PlayerState::Idle)
 {
+  StartEngine();
 }
 
 void VideoEngine::Run()

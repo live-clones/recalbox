@@ -18,10 +18,9 @@
 #include <systems/SystemManager.h>
 #include <MainRunner.h>
 
-ViewController* ViewController::sInstance = nullptr;
-
 ViewController::ViewController(Window& window, SystemManager& systemManager)
-	: Gui(window),
+	: StaticLifeCycleControler<ViewController>("ViewController"),
+	  Gui(window),
 	  mSystemManager(systemManager),
 	  mCurrentView(nullptr),
 	  mSystemListView(window, systemManager),
@@ -31,14 +30,6 @@ ViewController::ViewController(Window& window, SystemManager& systemManager)
 	  mLockInput(false),
     mState()
 {
-  if (sInstance == nullptr)
-    sInstance = this;
-  else
-  {
-    LOG(LogError) << "ViewController multiple instance detected";
-    exit(-1);
-  }
-
   // Progress interface
   systemManager.SetProgressInterface(&mSplashView);
 
@@ -52,12 +43,6 @@ ViewController::ViewController(Window& window, SystemManager& systemManager)
   mSplashView.setPosition(0,0);
 
   mCurrentView = &mSplashView;
-}
-
-ViewController::~ViewController()
-{
-  if (sInstance == this)
-	  sInstance = nullptr;
 }
 
 void ViewController::goToStart()

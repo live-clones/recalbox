@@ -26,7 +26,7 @@ VideoComponent::VideoComponent(Window&window)
 
 void VideoComponent::resize()
 {
-  TextureData& texture = VideoEngine::This().GetDisplayableFrame();
+  TextureData& texture = VideoEngine::Instance().GetDisplayableFrame();
 
   const Vector2f textureSize(texture.width(), texture.height());
   if (textureSize.isZero()) return;
@@ -88,7 +88,7 @@ void VideoComponent::resize()
 
 void VideoComponent::setVideo(const Path& path, int delay, int loops)
 {
-  VideoEngine::This().StopVideo(false);
+  VideoEngine::Instance().StopVideo(false);
   mVideoPath = path;
   mVideoDelay = delay;
   mVideoLoop = loops;
@@ -188,8 +188,8 @@ void VideoComponent::ResetAnimations()
   // LOG(LogDebug) << "Timer reseted: State::Uninitialized " + DateTime().ToPreciseTimeStamp();
 
   // Stop the video
-  if (VideoEngine::This().IsPlaying())
-    VideoEngine::This().StopVideo();
+  if (VideoEngine::Instance().IsPlaying())
+    VideoEngine::Instance().StopVideo();
 }
 
 double VideoComponent::ProcessEffect(int elapsedms, bool in)
@@ -238,10 +238,10 @@ bool VideoComponent::ProcessDisplay(double& effect)
     case State::InitializeVideo:
     {
       // Start video if it's not started yet
-      if (VideoEngine::This().IsIdle())
-        VideoEngine::This().PlayVideo(mVideoPath);
+      if (VideoEngine::Instance().IsIdle())
+        VideoEngine::Instance().PlayVideo(mVideoPath);
       effect = 0.0;
-      if (VideoEngine::This().IsPlaying())
+      if (VideoEngine::Instance().IsPlaying())
       {
         resize();
         mState = State::StartVideo;
@@ -267,7 +267,7 @@ bool VideoComponent::ProcessDisplay(double& effect)
       // Video only
       video = true;
       effect = 1.0;
-      if ((mVideoLoop > 0) && (elapsed >= VideoEngine::This().GetVideoDurationMs() * mVideoLoop - mVideoEffect))
+      if ((mVideoLoop > 0) && (elapsed >= VideoEngine::Instance().GetVideoDurationMs() * mVideoLoop - mVideoEffect))
       {
         mState = State::StopVideo;
         mTimer.Initialize(0);
@@ -282,7 +282,7 @@ bool VideoComponent::ProcessDisplay(double& effect)
       if (elapsed >= mVideoEffect)
       {
         mState = State::Uninitialized;
-        VideoEngine::This().StopVideo();
+        VideoEngine::Instance().StopVideo();
         mTimer.Initialize(0);
         //LOG(LogDebug) << "Timer reseted: State::DisplayImage " + DateTime().ToPreciseTimeStamp() << " elapsed: " << elapsed;
       }
@@ -303,7 +303,7 @@ void VideoComponent::Render(const Transform4x4f& parentTrans)
 
   if (display)
   {
-    TextureData& videoFrame = VideoEngine::This().GetDisplayableFrame();
+    TextureData& videoFrame = VideoEngine::Instance().GetDisplayableFrame();
     videoFrame.uploadAndBind();
     // Bounds
     updateVertices(effect);

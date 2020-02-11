@@ -32,7 +32,7 @@ void SystemData::RunGame(Window& window, SystemManager& systemManager, FileData&
 
   LOG(LogInfo) << "Attempting to launch game...";
 
-  VideoEngine::This().StopVideo();
+  VideoEngine::Instance().StopVideo();
   AudioManager::Instance().Deactivate();
   VolumeControl::getInstance()->deinit();
 
@@ -101,7 +101,7 @@ std::string SystemData::demoInitialize(Window&)
   std::string controlersConfig = InputManager::Instance().GenerateConfiggenConfiguration();
   LOG(LogInfo) << "Controllers config : " << controlersConfig;
 
-  VideoEngine::This().StopVideo();
+  VideoEngine::Instance().StopVideo();
   AudioManager::Instance().Deactivate();
   VolumeControl::getInstance()->deinit();
 

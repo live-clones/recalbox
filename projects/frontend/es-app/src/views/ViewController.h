@@ -1,6 +1,7 @@
 #pragma once
 
 #include <utils/cplusplus/INoCopy.h>
+#include <utils/cplusplus/StaticLifeCycleControler.h>
 #include "views/gamelist/IGameListView.h"
 #include "views/SystemView.h"
 #include "SplashView.h"
@@ -8,14 +9,11 @@
 class SystemData;
 
 // Used to smoothly transition the camera between multiple views (e.g. from system to system, from gamelist to gamelist).
-class ViewController : public Gui, private INoCopy
+class ViewController : public StaticLifeCycleControler<ViewController>, public Gui, private INoCopy
 {
 public:
-	static ViewController& Instance() { return *sInstance; };
-	//inline static Window&getWindow(){return sInstance->mWindow;}
-
 	ViewController(Window& window, SystemManager& systemManager);
-  ~ViewController() override;
+  ~ViewController() override = default;
 
 	/*!
 	 * @brief Wake up the system if it is in a sleeping state
@@ -89,8 +87,6 @@ public:
 	IProgressInterface& GetProgressInterface() { return mSplashView; }
 
 private:
-	static ViewController* sInstance;
-
 	void playViewTransition();
 	int getSystemId(SystemData* system);
 

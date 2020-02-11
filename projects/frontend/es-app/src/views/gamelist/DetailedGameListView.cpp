@@ -316,7 +316,7 @@ void DetailedGameListView::updateInfoPanel()
 
   if (file == nullptr)
   {
-    VideoEngine::This().StopVideo(false);
+    VideoEngine::Instance().StopVideo(false);
     fadeOut(getFolderComponents(), true);
     fadeOut(getGameComponents(), true);
   }

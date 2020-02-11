@@ -86,15 +86,10 @@ Settings::DataDescriptor Settings::sDescriptors[] =
 };
 
 Settings::Settings()
+  : StaticLifeCycleControler<Settings>("Settings")
 {
   setDefaults();
   loadFile();
-}
-
-Settings& Settings::Instance()
-{
-  static Settings _Instance;
-  return _Instance;
 }
 
 void Settings::setDefaults()
