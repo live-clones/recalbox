@@ -49,7 +49,6 @@ void NetPlayThread::Run()
     LOG(LogInfo) << "NetPlayThread started";
 
     bool firstLoop = true;
-    bool enabled = RecalboxConf::Instance().AsBool("global.netplay");
     int popupDuration = Settings::Instance().NetplayPopupTime();
     if (popupDuration != 0)
     {
@@ -58,26 +57,30 @@ void NetPlayThread::Run()
 
       while (IsRunning())
       {
-        if (firstLoop && enabled)
+        bool enabled = RecalboxConf::Instance().AsBool("global.netplay");
+        if (Renderer::IsInitialized()) // Do not run while a game is running
         {
-          RefreshNetplayList(oldGames, true);
-          firstLoop = false;
-        }
-
-        if (enabled)
-          if (RefreshNetplayList(newGames, true))
+          if (firstLoop && enabled)
           {
-            for (const auto& tmp : newGames)
-            {
-              auto it = std::find(oldGames.begin(), oldGames.end(), tmp);
-              if (it == oldGames.end())
-              {
-                PopupTriggered(tmp.first, tmp.second);
-                break;
-              }
-            }
-            oldGames = newGames;
+            RefreshNetplayList(oldGames, true);
+            firstLoop = false;
           }
+
+          if (enabled)
+            if (RefreshNetplayList(newGames, true))
+            {
+              for (const auto& tmp : newGames)
+              {
+                auto it = std::find(oldGames.begin(), oldGames.end(), tmp);
+                if (it == oldGames.end())
+                {
+                  PopupTriggered(tmp.first, tmp.second);
+                  break;
+                }
+              }
+              oldGames = newGames;
+            }
+        }
 
         // Sleep a bit
         if (Sleep(enabled))

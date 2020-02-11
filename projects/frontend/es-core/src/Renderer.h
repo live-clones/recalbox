@@ -51,4 +51,6 @@ class Renderer
     static int getDisplayHeightAsInt() { return _DisplayHeight; }
     static float getDisplayWidthAsFloat() { return _DisplayWidthFloat; }
     static float getDisplayHeightAsFloat() { return _DisplayHeightFloat; }
+
+    static bool IsInitialized() { return sdlWindow != nullptr; }
 };
