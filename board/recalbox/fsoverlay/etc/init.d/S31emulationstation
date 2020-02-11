@@ -16,7 +16,7 @@ case "$1" in
 	enabled="`$systemsetting -command load -key system.es.atstartup`"
 	videoMode="`$systemsetting -command load -key system.es.videomode`"
 	if [ "$enabled" != "0" ];then
-		/recalbox/scripts/showlogo.sh & # In case the logo has been removed, let's put it back again
+		fbv -f -i /recalbox/system/resources/splash/logo-version.png & # In case the logo has been removed, let's put it back again
 		echo $videoMode | grep -qE "(CEA|DMT) [0-9]{1,2} (HDMI|DVI)"
 		[ $? = "0" ] && tvservice -e "$videoMode"
 		settings_lang="`$systemsetting -command load -key system.language`"
