@@ -31,7 +31,7 @@ bool TheGameDBEngine::RunOn(ScrappingMethod method, FileData& singleGame, INotif
   return false;
 }
 
-bool TheGameDBEngine::Abort()
+bool TheGameDBEngine::Abort(bool waitforcompletion)
 {
   return false;
 }

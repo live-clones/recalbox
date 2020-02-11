@@ -68,7 +68,7 @@ GuiScraperRun::GuiScraperRun(Window&window, SystemManager& systemManager, const 
   mFinalReport = std::make_shared<TextComponent>(mWindow, _("subtitle text"), menuTheme->menuFooter.font, menuTheme->menuText.color, TextAlignment::Center);
 
   // Create scraper and run!
-	mScraper = ScraperFactory::GetScraper(Settings::Instance().Scraper());
+	mScraper = ScraperFactory::Instance().GetScraper(Settings::Instance().Scraper());
 	mScraper->RunOn(method, systems, this, RecalboxSystem::GetMinimumFreeSpaceOnSharePartition());
 }
 

@@ -5,8 +5,9 @@
 
 #include <string>
 #include <scraping/new/scrapers/IScraperEngine.h>
+#include <utils/cplusplus/StaticLifeCycleControler.h>
 
-class ScraperFactory
+class ScraperFactory : public StaticLifeCycleControler<ScraperFactory>
 {
   public:
     //! Available scraper type
@@ -17,34 +18,35 @@ class ScraperFactory
     };
 
   private:
-    //! Scraper instance holder, for automatic destruction
-    class ScraperHolder
-    {
-      public:
-        //! Hold scraper instances
-        std::map<ScraperType, IScraperEngine*> mScrapers;
+    //! Hold scraper instances
+    std::map<ScraperType, IScraperEngine*> mScrapers;
 
-        /*!
-         * @brief Get or create new scraper instance and store it in the map
-         * @param type Scraper type to get/create
-         * @return IScraperEngine instance
-         */
-        IScraperEngine* Get(ScraperType type);
-
-        /*!
-         * @brief Destructor. Cleanup instantiated scrapers
-         */
-        ~ScraperHolder();
-    };
-
-    static ScraperHolder mScrapers;
+    /*!
+     * @brief Get or create new scraper instance and store it in the map
+     * @param type Scraper type to get/create
+     * @return IScraperEngine instance
+     */
+    IScraperEngine* Get(ScraperType type);
 
   public:
-    static IScraperEngine* GetScraper(const std::string& scraperidentifier);
+    /*!
+     * @brief Default constructor
+     */
+    ScraperFactory()
+      : StaticLifeCycleControler("ScraperFactory")
+    {
+    }
 
-    static ScraperType GetScraperType(const std::string& scraperidentifier);
+    /*!
+     * @brief Default destructor
+     */
+    ~ScraperFactory();
 
-    static const std::vector<std::string>& GetScraperList();
+    IScraperEngine* GetScraper(const std::string& scraperidentifier);
+
+    ScraperType GetScraperType(const std::string& scraperidentifier);
+
+    const std::vector<std::string>& GetScraperList();
 
     static void ExtractFileNameUndecorated(FileData& game);
 

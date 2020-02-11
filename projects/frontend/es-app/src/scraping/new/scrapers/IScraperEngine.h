@@ -45,9 +45,10 @@ class IScraperEngine : private INoCopy
 
     /*!
      * @brief Request the engine to abort as soon as possible!
+     * @param waitforcompletion If true, wait for completion before exit
      * @return True
      */
-    virtual bool Abort() = 0;
+    virtual bool Abort(bool waitforcompletion = false) = 0;
 
     /*!
      * @brief Check if the engine is running, allowing UI to know when the engine actually stops after an abort request

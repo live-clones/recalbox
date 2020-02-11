@@ -17,6 +17,7 @@
 #include <guis/GuiDetectDevice.h>
 #include <bios/BiosManager.h>
 #include <guis/GuiMsgBox.h>
+#include <scraping/new/ScraperFactory.h>
 #include "MainRunner.h"
 #include "EmulationStation.h"
 #include "VolumeControl.h"
@@ -85,6 +86,9 @@ MainRunner::ExitState MainRunner::Run()
     RecalboxConf& recalboxConf = RecalboxConf::Instance();
     if (recalboxConf.AsString("kodi.enabled") == "1" && recalboxConf.AsString("kodi.atstartup") == "1")
       RecalboxSystem::launchKodi(window);
+
+    // Scrapers
+    ScraperFactory scraperFactory;
 
     ExitState exitState;
     try

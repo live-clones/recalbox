@@ -55,7 +55,7 @@ GuiScraperSingleGameRun::GuiScraperSingleGameRun(Window&window, FileData& game, 
 
   // Create scraper and run!
   // Don't use the notification interface since the use can close this gui at any time.
-  mScraper = ScraperFactory::GetScraper(Settings::Instance().Scraper());
+  mScraper = ScraperFactory::Instance().GetScraper(Settings::Instance().Scraper());
   mScraper->RunOn(ScrappingMethod::All, game, nullptr, RecalboxSystem::GetMinimumFreeSpaceOnSharePartition());
 }
 

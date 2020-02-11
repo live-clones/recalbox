@@ -6,15 +6,13 @@
 #include <scraping/new/scrapers/thegamedb/TheGameDBEngine.h>
 #include "ScraperFactory.h"
 
-ScraperFactory::ScraperHolder ScraperFactory::mScrapers;
-
-ScraperFactory::ScraperHolder::~ScraperHolder()
+ScraperFactory::~ScraperFactory()
 {
   for(auto scraper : mScrapers)
     delete scraper.second;
 }
 
-IScraperEngine* ScraperFactory::ScraperHolder::Get(ScraperFactory::ScraperType type)
+IScraperEngine* ScraperFactory::Get(ScraperFactory::ScraperType type)
 {
   // Ensure valid type
   switch(type)
@@ -43,7 +41,7 @@ IScraperEngine* ScraperFactory::ScraperHolder::Get(ScraperFactory::ScraperType t
 IScraperEngine* ScraperFactory::GetScraper(const std::string& scraperidentifier)
 {
   // Get
-  IScraperEngine* engine = mScrapers.Get(GetScraperType(scraperidentifier));
+  IScraperEngine* engine = Get(GetScraperType(scraperidentifier));
   // (re)Initialize
   engine->Initialize();
 
@@ -107,3 +105,4 @@ void ScraperFactory::ExtractRegionFromFilename(FileData& game)
   if (region != Regions::GameRegions::Unknown)
     game.Metadata().SetRegion((int)region);
 }
+

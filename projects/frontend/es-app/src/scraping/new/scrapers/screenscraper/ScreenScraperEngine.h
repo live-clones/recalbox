@@ -301,15 +301,18 @@ class ScreenScraperEngine
 
     /*!
      * @brief Abort the current engine
+     * @param waitforcompletion If true, wait for completion before exit
      * @return True
      */
-    bool Abort() override
+    bool Abort(bool waitforcompletion = false) override
     {
       for(int i = sMaxEngines; --i >= 0; )
       {
         mEngines[i].Abort();
         mEngineSignal.Signal();
       }
+      if (waitforcompletion)
+        mRunner.WaitForCompletion();
       return true;
     }
 

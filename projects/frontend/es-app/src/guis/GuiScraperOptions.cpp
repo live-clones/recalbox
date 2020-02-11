@@ -33,7 +33,7 @@ GuiScraperOptions::GuiScraperOptions(Window& window, SystemManager& systemManage
 	mMenu.addWithLabel(mSystems, _("SYSTEMS"));
 
 	// Select option regarding the selected scraper
-	ScraperFactory::ScraperType type = ScraperFactory::GetScraperType(Settings::Instance().Scraper());
+	ScraperFactory::ScraperType type = ScraperFactory::Instance().GetScraperType(Settings::Instance().Scraper());
 
 	switch(type)
   {
@@ -165,7 +165,7 @@ void GuiScraperOptions::pressedStart()
 void GuiScraperOptions::start()
 {
   // Select option regarding the selected scraper
-  ScraperFactory::ScraperType type = ScraperFactory::GetScraperType(Settings::Instance().Scraper());
+  ScraperFactory::ScraperType type = ScraperFactory::Instance().GetScraperType(Settings::Instance().Scraper());
   // Save options
   switch(type)
   {

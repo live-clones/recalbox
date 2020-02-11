@@ -73,9 +73,10 @@ class TheGameDBEngine : public IScraperEngine
 
     /*!
      * @brief Abort the current engine
+     * @param waitforcompletion If true, wait for completion before exit
      * @return True
      */
-    bool Abort() override;
+    bool Abort(bool waitforcompletion) override;
 
     /*!
      * @brief Check if the engine is running, allowing UI to know when the engine actually stops after an abort request

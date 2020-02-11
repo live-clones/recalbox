@@ -18,7 +18,7 @@ GuiScraperSelect::GuiScraperSelect(Window& window, SystemManager& systemManager)
 
   // scrape from
   mScrapers = std::make_shared<OptionListComponent<std::string> >(mWindow, _("SCRAPE FROM"), false);
-  std::vector<std::string> scrapers = ScraperFactory::GetScraperList();
+  std::vector<std::string> scrapers = ScraperFactory::Instance().GetScraperList();
   for (auto& scraper : scrapers)
     mScrapers->add(scraper, scraper, scraper == Settings::Instance().Scraper());
   mMenu.addWithLabel(mScrapers, _("SCRAPE FROM"), _(MENUMESSAGE_SCRAPER_FROM_HELP_MSG));
