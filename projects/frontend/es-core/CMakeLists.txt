@@ -114,6 +114,8 @@ set(CORE_HEADERS
 
         # Hash
         src/utils/hash/Md5.h
+		src/utils/hash/Crc32.h
+		src/utils/hash/Crc32File.h
 )
 
 set(CORE_SOURCES
@@ -209,6 +211,8 @@ set(CORE_SOURCES
 
 		# Hash
         src/utils/hash/Md5.cpp
+		src/utils/hash/Crc32.cpp
+		src/utils/hash/Crc32File.cpp
 )
 
 file(GLOB_RECURSE EMBEDDED_ASSET_SOURCES ${emulationstation-all_SOURCE_DIR}/data/*.cpp)
