@@ -66,6 +66,9 @@ void GuiHashStart::Update(int deltaTime)
 {
   Component::Update(deltaTime);
 
+  // Avoid sleeping!
+  mWindow.doWake();
+
   // Read summary text
   mMutex.Lock();
   std::string text = mSummaryText;
