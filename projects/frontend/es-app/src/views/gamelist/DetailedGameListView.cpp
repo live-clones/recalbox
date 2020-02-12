@@ -394,7 +394,7 @@ void DetailedGameListView::setFolderInfo(FolderData* folder)
 {
   char strbuf[256];
 
-  FileData::List games = folder->getAllDisplayableItemsRecursively(false, folder->getSystem()->IncludeOutAdultGames());
+  FileData::List games = folder->getAllDisplayableItemsRecursively(false, folder->getSystem()->IncludeAdultGames());
   snprintf(strbuf, 256, _N("%i GAME AVAILABLE", "%i GAMES AVAILABLE", (int) games.size()).c_str(), games.size());
   mFolderName.setText(folder->getName() + " - " + strbuf);
 

@@ -246,7 +246,7 @@ bool ScreenScraperEngine::RunOn(ScrappingMethod method, const SystemManager::Sys
                      .append(" HTTP://WWW.SCREENSCRAPER.FR");
   // Feed threadpool
   for(SystemData* system : systemList)
-    for(FileData* game : system->getRootFolder().getAllDisplayableItemsRecursively(false, system->IncludeOutAdultGames()))
+    for(FileData* game : system->getRootFolder().getAllDisplayableItemsRecursively(false, system->IncludeAdultGames()))
       mRunner.PushFeed(game);
   mTotal = mRunner.PendingJobs();
   // Run!

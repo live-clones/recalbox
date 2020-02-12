@@ -103,7 +103,7 @@ class SystemData : private INoCopy
      * @brief Check if we must include adult games or not
      * @return True to include adult games in game lists
      */
-    bool IncludeOutAdultGames() const
+    bool IncludeAdultGames() const
     {
       return !(RecalboxConf::Instance().AsBool("emulationstation.filteradultgames") ||
                RecalboxConf::Instance().AsBool("emulationstation." + mDescriptor.Name() + ".filteradultgames"));
@@ -114,7 +114,7 @@ class SystemData : private INoCopy
     const Path& getStartPath() const { return mDescriptor.RomPath(); }
     const std::string& ThemeFolder() const { return mDescriptor.ThemeFolder(); }
     bool getHasFavoritesInTheme() const { return mTheme.getHasFavoritesInTheme(); }
-    FileData::List getFavorites() const { return mRootFolder.getAllFavoritesRecursively(false, IncludeOutAdultGames()); }
+    FileData::List getFavorites() const { return mRootFolder.getAllFavoritesRecursively(false, IncludeAdultGames()); }
     int getSortId() const { return mSortId; };
     void setSortId(const int sortId) { mSortId = sortId; };
 
@@ -129,9 +129,9 @@ class SystemData : private INoCopy
     Path getThemePath() const;
 
     bool HasGame() const { return mRootFolder.hasGame(); }
-    int GameCount() const { return mRootFolder.countAll(false, IncludeOutAdultGames()); };
-    int FavoritesCount() const{ return mRootFolder.countAllFavorites(false, IncludeOutAdultGames()); };
-    int HiddenCount() const{ return mRootFolder.countAllHidden(false, IncludeOutAdultGames()); };
+    int GameCount() const { return mRootFolder.countAll(false, IncludeAdultGames()); };
+    int FavoritesCount() const{ return mRootFolder.countAllFavorites(false, IncludeAdultGames()); };
+    int HiddenCount() const{ return mRootFolder.countAllHidden(false, IncludeAdultGames()); };
 
     void RunGame(Window& window, SystemManager& systemManager, FileData& game, const std::string& netplay, const std::string& core, const std::string& ip, const std::string& port);
 

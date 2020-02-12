@@ -173,7 +173,7 @@ GuiGamelistOptions::~GuiGamelistOptions()
 	if (mReloading) return;
 
 	const FolderData& root = mSystem->getRootFolder();
-	if (root.countAllDisplayableItemsRecursively(false, mSystem->IncludeOutAdultGames()) != 0)
+	if (root.countAllDisplayableItemsRecursively(false, mSystem->IncludeAdultGames()) != 0)
 	{
 		if (mListSort->getSelected() != (int)mSystem->getSortId())
 		{

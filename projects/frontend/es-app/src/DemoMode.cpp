@@ -128,8 +128,7 @@ bool DemoMode::getRandomGame(FileData*& outputGame, int& outputDuration)
   SystemData* system = mDemoSystems[systemIndex];
 
   // Get filelist
-  FileData::List gameList = system->getRootFolder().getAllDisplayableItemsRecursively(false,
-                                                                                      system->IncludeOutAdultGames());
+  FileData::List gameList = system->getRootFolder().getAllDisplayableItemsRecursively(false, system->IncludeAdultGames());
   if (gameList.empty())
   {
     LOG(LogError) << "NO game available for demo mode in system " << system->getName() << " !";

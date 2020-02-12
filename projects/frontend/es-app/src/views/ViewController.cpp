@@ -471,7 +471,7 @@ void ViewController::Render(const Transform4x4f& parentTrans)
 
 bool ViewController::reloadGameListView(IGameListView* view, bool reloadTheme)
 {
-	if (view->System().getRootFolder().countAll(false, view->System().IncludeOutAdultGames()) > 0)
+	if (view->System().getRootFolder().countAll(false, view->System().IncludeAdultGames()) > 0)
 	{
 		for (auto it = mGameListViews.begin(); it != mGameListViews.end(); it++)
 		{

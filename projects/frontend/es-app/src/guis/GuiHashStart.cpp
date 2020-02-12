@@ -6,6 +6,7 @@
 #include <recalbox/RecalboxSystem.h>
 #include <guis/GuiMsgBox.h>
 #include <systems/SystemManager.h>
+#include <utils/hash/Crc32File.h>
 #include "GuiHashStart.h"
 #include "components/OptionListComponent.h"
 
@@ -14,7 +15,10 @@ GuiHashStart::GuiHashStart(Window& window, SystemManager& systemManager)
     mSystemManager(systemManager),
     mBusyAnim(window),
     mMenu(window, _("HASH NOW")),
-    mState(State::Wait)
+    mState(State::Wait),
+    mThreadPool(this, "Crc32", false),
+    mTotalGames(0),
+    mRemaininglGames(0)
 {
   addChild(&mMenu);
 
@@ -38,72 +42,22 @@ GuiHashStart::GuiHashStart(Window& window, SystemManager& systemManager)
   {
     mWindow.pushGui(new GuiMsgBox(mWindow, _("THIS COULD TAKE A WHILE, CONFIRM?"), _("YES"), [this]
     {
-      Start("HashThread");
       mState = State::Hashing;
+      Start();
     }, _("NO"), [this] { mState = State::Exit; }));
   });
   mMenu.addButton(_("BACK"), "back", [&]
-  { Close(); });
+  { mState = State::Cancelled; });
 
   mMenu.setPosition((Renderer::getDisplayWidthAsFloat() - mMenu.getSize().x()) / 2,
                     (Renderer::getDisplayHeightAsFloat() - mMenu.getSize().y()) / 2);
 }
 
-void GuiHashStart::Run()
-{
-  bool forceAll = mFilter->getSelected() == "all";
-
-  // Run through systems...
-  for (auto system : mSystems->getSelectedObjects())
-  {
-    // Check if the system should be hashed
-    auto cmdResult = RecalboxSystem::execute("/recalbox/scripts/recalbox-hash.sh -s \"" + system->getName() + "\" -t");
-    if (cmdResult.second == 1)
-    {
-      LOG(LogInfo) << "system \"" << system->getName() << "\"  can't be hashed";
-      continue;
-    }
-    LOG(LogInfo) << "Hashing games from system \"" << system->getName() << "\"...";
-
-    // Run through games
-    int romCount = 0;
-    FileData::List games = system->getRootFolder().getAllItems(true, system->IncludeOutAdultGames());
-    for (FileData* game : games)
-    {
-      // Check path
-      const Path& path = Path(game->getPath());
-      if (!path.Exists())
-      {
-        LOG(LogWarning) << "File \"" << path.ToString() << "\" does not exist! Ignoring.";
-        continue;
-      }
-
-      // Update GUI text
-      std::string busyText = system->getFullName() + " " + std::to_string(++romCount) + " / " + std::to_string(games.size());
-      mMutex.Lock();
-      mBusyAnim.setText(busyText);
-      mMutex.UnLock();
-
-      // Hash already exists?
-      if (game->Metadata().RomCrc32() == 0 && !forceAll)
-        continue;
-
-      // Get hash
-      auto hashResult = RecalboxSystem::execute("/recalbox/scripts/recalbox-hash.sh -f \"" + path.ToString() + "\"");
-      game->Metadata().SetRomCrc32AsString(hashResult.first);
-    }
-    system->UpdateGamelistXml();
-  }
-  mState = State::Exit;
-}
-
 bool GuiHashStart::ProcessInput(const InputCompactEvent& event)
 {
-  if (mState == State::Hashing)
-    return false;
-
+  // Cancel or exit immediatelly on pressing A
   if (event.APressed())
-    Close();
+    mState = State::Cancelled;
 
   return Component::ProcessInput(event);
 }
@@ -111,9 +65,31 @@ bool GuiHashStart::ProcessInput(const InputCompactEvent& event)
 void GuiHashStart::Update(int deltaTime)
 {
   Component::Update(deltaTime);
+
+  // Read summary text
   mMutex.Lock();
-  mBusyAnim.Update(deltaTime);
+  std::string text = mSummaryText;
   mMutex.UnLock();
+
+  mBusyAnim.setText(text);
+  mBusyAnim.Update(deltaTime);
+
+  switch(mState)
+  {
+    case State::Wait:
+    case State::Hashing:break;
+    case State::Cancelled:
+    {
+      if (mRemaininglGames == 0)
+        mState = State::Exit;
+      break;
+    }
+    case State::Exit:
+    {
+      Close();
+      break;
+    }
+  }
 
   if (mState == State::Exit)
     Close();
@@ -133,10 +109,62 @@ void GuiHashStart::Render(const Transform4x4f& parentTrans)
     mBusyAnim.Render(trans);
 }
 
-
 bool GuiHashStart::getHelpPrompts(Help& help)
 {
   mMenu.getHelpPrompts(help);
   help.Set(HelpType::A, _("BACK"));
   return true;
+}
+
+void GuiHashStart::Start()
+{
+  bool forceAll = mFilter->getSelected() == "all";
+
+  // Run through systems...
+  for (auto system : mSystems->getSelectedObjects())
+  {
+    // Run through games
+    FileData::List games = system->getRootFolder().getAllItems(true, true);
+    for (FileData* game : games)
+      if (game->Metadata().RomCrc32() == 0 || forceAll)
+        mThreadPool.PushFeed(game);
+    mTotalGames = mThreadPool.PendingJobs();
+    mRemaininglGames = mTotalGames;
+  }
+
+  // Run!
+  mThreadPool.Run(-2, true);
+}
+
+FileData* GuiHashStart::ThreadPoolRunJob(FileData*& feed)
+{
+  if (mState == State::Hashing)
+  {
+    // Get hash
+    unsigned int result = 0;
+    if (Crc32File(feed->getPath()).Crc32(result))
+      feed->Metadata().SetRomCrc32((int) result);
+
+    std::string busyText(feed->getSystem()->getFullName());
+    busyText.append(1, ' ')
+            .append(Strings::ToString(mTotalGames - mRemaininglGames))
+            .append(1, '/')
+            .append(Strings::ToString(mTotalGames));
+
+    // Write summary text
+    mMutex.Lock();
+    mSummaryText = busyText;
+    mMutex.UnLock();
+  }
+
+  // Processed (or cancelled)
+  --mRemaininglGames;
+
+  return feed;
+}
+
+void GuiHashStart::ThreadPoolTick(int completed, int total)
+{
+  (void)completed;
+  (void)total;
 }

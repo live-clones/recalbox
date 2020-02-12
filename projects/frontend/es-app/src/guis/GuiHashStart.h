@@ -5,23 +5,24 @@
 
 #include "guis/Gui.h"
 #include "systems/SystemData.h"
+#include <utils/os/system/ThreadPool.h>
 #include <utils/os/system/Mutex.h>
-#include <utils/os/system/Thread.h>
 #include "components/MenuComponent.h"
 #include "components/BusyComponent.h"
 
 template<typename T>
 class OptionListComponent;
 
-class GuiHashStart : public Gui, private Thread
+class GuiHashStart : public Gui, private IThreadPoolWorkerInterface<FileData*, FileData*>
 {
   private:
     //! UI State
     enum class State
     {
-      Wait,    //!< Waiting for user input
-      Hashing, //!< Running hash on selected systems
-      Exit,    //!< Close this UI
+      Wait,      //!< Waiting for user input
+      Hashing,   //!< Running hash on selected systems
+      Cancelled, //!< Cancelled by the user, should close ASAP
+      Exit,      //!< Close this UI
     };
 
     //! SystemManager instance
@@ -36,18 +37,40 @@ class GuiHashStart : public Gui, private Thread
     //! Menu
     MenuComponent mMenu;
     //! GUI Global state
-    State mState;
+    volatile State mState;
     //! Protext mBysuAnim component access from both main & hash threads
     Mutex mMutex;
+    //! Thread pool for // CRC computations
+    ThreadPool<FileData*, FileData*> mThreadPool;
+    //! Total games
+    int mTotalGames;
+    //! Remaining games
+    int mRemaininglGames;
+    //! Output text
+    std::string mSummaryText;
+
+    /*!
+     * @brief Prepare files and start Crc computations
+     */
+    void Start();
 
     /*
      * Thread implementation
      */
 
     /*!
-     * @brief Main hash thread method
+     * @brief The main runner. Implement here the task to process a feed object
+     * @param feed Feed object to process
+     * @return Result Object
      */
-    void Run() override;
+    FileData* ThreadPoolRunJob(FileData*& feed) override;
+
+    /*!
+     * @brief Called asap by the main thread when a job complete, regarding the tick duration
+     * @param completed Currently completed jobs count
+     * @param total Total jobs
+     */
+    void ThreadPoolTick(int completed, int total) override;
 
   public:
     /*!
@@ -59,7 +82,14 @@ class GuiHashStart : public Gui, private Thread
     /*!
      * @brief Destructor
      */
-    ~GuiHashStart() override { Thread::Stop(); }
+    ~GuiHashStart() override
+    {
+      if (mState == State::Hashing)
+      {
+        mState = State::Cancelled;
+        mThreadPool.WaitForCompletion();
+      }
+    }
 
     /*!
      * @brief Process input event

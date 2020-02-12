@@ -86,7 +86,7 @@ SystemData* SystemManager::CreateMetaSystem(const std::string& name, const std::
 
   for (auto system : systems)
   {
-    FileData::List all = system->getRootFolder().getAllItems(true, system->IncludeOutAdultGames());
+    FileData::List all = system->getRootFolder().getAllItems(true, system->IncludeAdultGames());
     if (!all.empty())
     {
       LOG(LogWarning) << "Add games from " << system->getName() << " into " << fullName;
@@ -192,7 +192,7 @@ SystemData* SystemManager::ThreadPoolRunJob(SystemDescriptor& system)
   try
   {
     SystemData* newSys = CreateRegularSystem(system, mForceReload);
-    if (newSys->getRootFolder().countAll(false, newSys->IncludeOutAdultGames()) == 0)
+    if (newSys->getRootFolder().countAll(false, newSys->IncludeAdultGames()) == 0)
     {
       LOG(LogWarning) << "System \"" << system.Name() << "\" has no games! Ignoring it.";
       delete newSys;
@@ -367,7 +367,7 @@ bool SystemManager::AddManuallyFilteredMetasystem(IFilter* filter, FileData::Com
       if (!system->IsVirtual())
       {
         FileData::List list = system->getRootFolder().getFilteredItemsRecursively(filter, true,
-                                                                                  system->IncludeOutAdultGames());
+                                                                                  system->IncludeAdultGames());
         allGames.reserve(allGames.size() + list.size());
         allGames.insert(allGames.end(), list.begin(), list.end());
         // dopplegagner must be build using file only
@@ -536,7 +536,7 @@ bool SystemManager::LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool
       mVisibleSystemVector.erase(mVisibleSystemVector.begin() + i);
     else
       weights.SetInt(system->getStartPath().ToString(), system->getRootFolder().countAll(true,
-                                                                                         system->IncludeOutAdultGames()));
+                                                                                         system->IncludeAdultGames()));
   }
   weights.Save();
 
