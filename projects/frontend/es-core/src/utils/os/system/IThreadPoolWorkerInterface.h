@@ -28,5 +28,5 @@ template<class FeedObject, class ResultObject> class IThreadPoolWorkerInterface
      * @param completed Currently completed jobs count
      * @param total Total jobs
      */
-    virtual void ThreadPoolTick(int completed, int total) = 0;
+    virtual void ThreadPoolTick(int completed, int total) { (void)completed; (void)total; };
 };

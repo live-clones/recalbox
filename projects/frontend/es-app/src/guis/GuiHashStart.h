@@ -65,13 +65,6 @@ class GuiHashStart : public Gui, private IThreadPoolWorkerInterface<FileData*, F
      */
     FileData* ThreadPoolRunJob(FileData*& feed) override;
 
-    /*!
-     * @brief Called asap by the main thread when a job complete, regarding the tick duration
-     * @param completed Currently completed jobs count
-     * @param total Total jobs
-     */
-    void ThreadPoolTick(int completed, int total) override;
-
   public:
     /*!
      * @brief Constructor

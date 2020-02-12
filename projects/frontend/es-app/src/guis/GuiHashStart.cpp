@@ -163,8 +163,3 @@ FileData* GuiHashStart::ThreadPoolRunJob(FileData*& feed)
   return feed;
 }
 
-void GuiHashStart::ThreadPoolTick(int completed, int total)
-{
-  (void)completed;
-  (void)total;
-}
