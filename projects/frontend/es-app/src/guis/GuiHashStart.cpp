@@ -7,6 +7,7 @@
 #include <guis/GuiMsgBox.h>
 #include <systems/SystemManager.h>
 #include <utils/hash/Crc32File.h>
+#include <utils/Zip.h>
 #include "GuiHashStart.h"
 #include "components/OptionListComponent.h"
 
@@ -136,17 +137,26 @@ void GuiHashStart::Start()
   }
 
   // Run!
-  mThreadPool.Run(-2, true);
+  mThreadPool.Run(-4, true);
 }
 
 FileData* GuiHashStart::ThreadPoolRunJob(FileData*& feed)
 {
   if (mState == State::Hashing)
   {
-    // Get hash
-    unsigned int result = 0;
-    if (Crc32File(feed->getPath()).Crc32(result))
-      feed->Metadata().SetRomCrc32((int) result);
+    if (Strings::ToLowerASCII(feed->getPath().Extension()) == ".zip")
+    {
+      Zip zip(feed->getPath());
+      if (zip.Count() == 1)
+        feed->Metadata().SetRomCrc32(zip.Crc32(0));
+    }
+    else
+    {
+      // Hash file
+      unsigned int result = 0;
+      if (Crc32File(feed->getPath()).Crc32(result))
+        feed->Metadata().SetRomCrc32((int) result);
+    }
 
     std::string busyText(feed->getSystem()->getFullName());
     busyText.append(1, ' ')
@@ -161,7 +171,8 @@ FileData* GuiHashStart::ThreadPoolRunJob(FileData*& feed)
   }
 
   // Processed (or cancelled)
-  --mRemaininglGames;
+  if (--mRemaininglGames == 0)
+    mState = State::Exit;
 
   return feed;
 }
