@@ -9,6 +9,7 @@
 #include "utils/locale/LocaleHelper.h"
 #include "MenuMessages.h"
 #include "guis/GuiMsgBox.h"
+#include "GuiQuit.h"
 
 GuiGamelistOptions::GuiGamelistOptions(Window& window, SystemData* system)
   :	Gui(window),
@@ -18,7 +19,10 @@ GuiGamelistOptions::GuiGamelistOptions(Window& window, SystemData* system)
 {
 	ComponentListRow row;
 
-	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+  bool nomenu = RecalboxConf::Instance().AsString("emulationstation.menu") == "none";
+  bool bartop = RecalboxConf::Instance().AsString("emulationstation.menu") == "bartop";
+
+    auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 	addChild(&mMenu);
 
 	mJumpToLetterList = std::make_shared<LetterList>(mWindow, _("JUMP TO LETTER"), false);
@@ -123,8 +127,8 @@ GuiGamelistOptions::GuiGamelistOptions(Window& window, SystemData* system)
 
 	// edit game metadata
 	row.elements.clear();
-
-	if (RecalboxConf::Instance().AsString("emulationstation.menu") != "none" && RecalboxConf::Instance().AsString("emulationstation.menu") != "bartop"){
+	if (!nomenu && !bartop)
+	{
 		row.addElement(std::make_shared<TextComponent>(mWindow, _("EDIT THIS GAME'S METADATA"), menuTheme->menuText.font, menuTheme->menuText.color), true);
 		row.addElement(makeArrow(mWindow), false);
 		row.makeAcceptInputHandler(std::bind(&GuiGamelistOptions::openMetaDataEd, this));
@@ -146,6 +150,13 @@ GuiGamelistOptions::GuiGamelistOptions(Window& window, SystemData* system)
         });
         mMenu.addRowWithHelp(row, _("UPDATE GAMES LISTS"), _(MENUMESSAGE_UI_UPDATE_GAMELIST_HELP_MSG));
     }
+
+	// QUIT
+  row.elements.clear();
+  row.addElement(std::make_shared<TextComponent>(mWindow, _("QUIT"), menuTheme->menuText.font, menuTheme->menuText.color), true);
+  row.addElement(makeArrow(mWindow), false);
+  row.makeAcceptInputHandler([this] { GuiQuit::PushQuitGui(mWindow); });
+  mMenu.addRow(row);
 
 	// center the menu
 	setSize(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());

@@ -40,6 +40,7 @@
 #include "GuiHashStart.h"
 #include "GuiScraperSelect.h"
 #include "GuiBiosScan.h"
+#include "GuiQuit.h"
 
 GuiMenu::GuiMenu(Window& window, SystemManager& systemManager)
   : Gui(window),
@@ -1725,38 +1726,9 @@ void GuiMenu::menuAdvancedSettings(){
   mWindow.pushGui(s);
 }
 
-void GuiMenu::menuQuit(){
-  auto s = new GuiSettings(mWindow, _("QUIT"));
-
-  ComponentListRow row;
-
-  row.makeAcceptInputHandler([this] {
-    mWindow.pushGui(new GuiMsgBox(mWindow, _("REALLY SHUTDOWN?"), _("YES"), [] {
-      MainRunner::RequestQuit(MainRunner::ExitState::Shutdown);
-        }, _("NO"), nullptr));
-  });
-  row.addElement(std::make_shared<TextComponent>(mWindow, _("SHUTDOWN SYSTEM"), mMenuTheme->menuText.font, mMenuTheme->menuText.color), true);
-  s->addRow(row);
-
-  row.elements.clear();
-  row.makeAcceptInputHandler([this] {
-    mWindow.pushGui(new GuiMsgBox(mWindow, _("REALLY SHUTDOWN WITHOUT SAVING METADATAS?"), _("YES"), [] {
-      MainRunner::RequestQuit(MainRunner::ExitState::FastShutdown);
-        }, _("NO"), nullptr));
-  });
-  row.addElement(std::make_shared<TextComponent>(mWindow, _("FAST SHUTDOWN SYSTEM"), mMenuTheme->menuText.font, mMenuTheme->menuText.color), true);
-  s->addRow(row);
-
-  row.elements.clear();
-  row.makeAcceptInputHandler([this] {
-    mWindow.pushGui(new GuiMsgBox(mWindow, _("REALLY RESTART?"), _("YES"), [] {
-      MainRunner::RequestQuit(MainRunner::ExitState::NormalReboot);
-        }, _("NO"), nullptr));
-  });
-  row.addElement(std::make_shared<TextComponent>(mWindow, _("RESTART SYSTEM"), mMenuTheme->menuText.font, mMenuTheme->menuText.color), true);
-  s->addRow(row);
-
-  mWindow.pushGui(s);
+void GuiMenu::menuQuit()
+{
+  GuiQuit::PushQuitGui(mWindow);
 }
 
 void GuiMenu::popSystemConfigurationGui(SystemData *systemData) const {
