@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_GW_VERSION = 46b889c75bd5e8c71e506f546f1f4943913308d2
+LIBRETRO_GW_VERSION = 819b1dde560013003eeac86c2069c5be7af25c6d
 LIBRETRO_GW_SITE = $(call github,libretro,gw-libretro,$(LIBRETRO_GW_VERSION))
 
 define LIBRETRO_GW_BUILD_CMDS
