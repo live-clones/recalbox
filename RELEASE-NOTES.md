@@ -30,6 +30,8 @@
 - Improved Genre & Region processing in EmulationStation * 
 - Added missing texts into translated texts
 - Improved french translations
+- Faster-than-light CRC calculation for netplay 
+- Game sorting and Jump-to-letter are now unicode compatible
 
 ### Fixes
 - Fix Odroid XU4 fan issue
@@ -42,6 +44,8 @@
 - Fix apple2 not work on x86/x86_64
 - Fix fullscreeen on oricatmos and apple2 on x86/x86_64 
 - Fix duplicate folders in Arcade systems
+- Fix quit menu not being accessible when boot-on-gamelist is on
+- Fix some bah behaviors in favorite management
 
 *  : Require to scrape missing data using the internal scraper 
 ** : Availailable in both EmulationStation menu and configuration file 

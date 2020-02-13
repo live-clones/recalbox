@@ -32,6 +32,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added missing texts into translated texts
 - Improved french translations
 - Fix duplicate folders in virtual systems
+- Fix quit menu not being accessible when boot-on-gamelist is on
+- Faster CRC calculation for netplay 
+- Game sorting and Jump-to-letter now unicode compatible
 
 ## [6.1.1]
 - Add zfast shaders
