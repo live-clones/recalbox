@@ -5,7 +5,7 @@
 ################################################################################
 
 # https://github.com/libretro/yabause/tree/kronos/yabause/src/libretro
-LIBRETRO_KRONOS_VERSION = 29d9e81c531b17678dfa102a655bce780674d7bf
+LIBRETRO_KRONOS_VERSION = 5f9e89ebbadbaf4c69b82dd1b46375856d00f273
 LIBRETRO_KRONOS_SITE = $(call github,libretro,yabause,$(LIBRETRO_KRONOS_VERSION))
 
 define LIBRETRO_KRONOS_BUILD_CMDS
