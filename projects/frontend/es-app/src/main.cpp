@@ -7,7 +7,7 @@
 #include <utils/Log.h>
 #include "MainRunner.h"
 
-bool parseArgs(int argc, char* argv[], unsigned int* width, unsigned int* height)
+bool parseArgs(int argc, char* argv[], unsigned int& width, unsigned int& height, Settings& settings)
 {
   for (int i = 1; i < argc; i++)
   {
@@ -20,43 +20,43 @@ bool parseArgs(int argc, char* argv[], unsigned int* width, unsigned int* height
       }
 
       char* err;
-      *width = (unsigned int)strtol(argv[i + 1], &err, 10);
-      *height = (unsigned int)strtol(argv[i + 2], &err, 10);
+      width = (unsigned int)strtol(argv[i + 1], &err, 10);
+      height = (unsigned int)strtol(argv[i + 2], &err, 10);
       i += 2; // skip the argument value
     }
     else if (strcmp(argv[i], "--ignore-gamelist") == 0)
     {
-      Settings::Instance().SetIgnoreGamelist(true);
+      settings.SetIgnoreGamelist(true);
     }
     else if (strcmp(argv[i], "--draw-framerate") == 0)
     {
-      Settings::Instance().SetDrawFramerate(true);
+      settings.SetDrawFramerate(true);
     }
     else if (strcmp(argv[i], "--no-exit") == 0)
     {
-      Settings::Instance().SetShowExit(false);
+      settings.SetShowExit(false);
     }
     else if (strcmp(argv[i], "--debug") == 0)
     {
-      Settings::Instance().SetDebug(true);
-      Settings::Instance().SetHideConsole( false);
+      settings.SetDebug(true);
+      settings.SetHideConsole( false);
       Log::setReportingLevel(LogLevel::LogDebug);
     }
     else if (strcmp(argv[i], "--windowed") == 0)
     {
-      Settings::Instance().SetWindowed(true);
+      settings.SetWindowed(true);
     }
     else if (strcmp(argv[i], "--vsync") == 0)
     {
       bool vsync = (strcmp(argv[i + 1], "on") == 0 || strcmp(argv[i + 1], "1") == 0);
-      Settings::Instance().SetVSync(vsync);
+      settings.SetVSync(vsync);
       i++; // skip vsync value
     }
     else if (strcmp(argv[i], "--max-vram") == 0)
     {
       char* err;
       int maxVRAM = (int)strtol(argv[i + 1], &err, 10);
-      Settings::Instance().SetMaxVRAM(maxVRAM);
+      settings.SetMaxVRAM(maxVRAM);
     }
     else if (strcmp(argv[i], "--help") == 0 || strcmp(argv[i], "-h") == 0)
     {
@@ -93,10 +93,13 @@ bool parseArgs(int argc, char* argv[], unsigned int* width, unsigned int* height
 
 int main(int argc, char* argv[])
 {
+  // Settings instance
+  Settings settings;
+
   // Get arguments
   unsigned int width = 0;
   unsigned int height = 0;
-  if (!parseArgs(argc, argv, &width, &height))
+  if (!parseArgs(argc, argv, width, height, settings))
     return 0;
 
   for(;;)

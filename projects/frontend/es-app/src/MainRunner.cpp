@@ -48,9 +48,6 @@ MainRunner::ExitState MainRunner::Run()
     // Shut-up joysticks :)
     SDL_JoystickEventState(SDL_DISABLE);
 
-    // Recalbox settings
-    Settings settings;
-
     // Initialize the renderer first,'cause many things depend on renderer width/height
     if (!Renderer::initialize((int)mRequestedWidth, (int)mRequestedHeight))
     {
