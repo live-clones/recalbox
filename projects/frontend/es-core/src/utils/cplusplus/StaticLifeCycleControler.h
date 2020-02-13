@@ -18,7 +18,7 @@ template<class T> class NameHolder
 template<class T> class StaticLifeCycleControler
 {
   private:
-    //! Class name (or whatever instance identifier you's use)
+    //! Class name (or whatever instance identifier you'd use)
     static NameHolder<T> sNameHolder;
     //! Instance
     static T* sInstance;

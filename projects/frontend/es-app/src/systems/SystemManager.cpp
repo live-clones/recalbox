@@ -54,7 +54,7 @@ SystemData* SystemManager::CreateFavoriteSystem(const std::string& name, const s
 
   SystemDescriptor descriptor;
   descriptor.SetInformation("", name, fullName, "", "", themeFolder);
-  SystemData* result = new SystemData(descriptor, RootFolderData::Ownership::None, SystemData::Properties::Virtual | SystemData::Properties::AlwaysFlat);
+  SystemData* result = new SystemData(descriptor, RootFolderData::Ownership::None, SystemData::Properties::Virtual | SystemData::Properties::AlwaysFlat | SystemData::Properties::Favorite);
 
   for (auto system : systems)
   {
@@ -290,10 +290,10 @@ bool SystemManager::AddFavoriteSystem(const XmlNodeList& systemList)
       std::string fullname = Xml::AsString(system, "fullname", "");
       std::string themeFolder = Xml::AsString(system, "theme", "");
 
-      if (name == "favorites")
+      if (name == sFavoriteSystemShortName)
       {
         LOG(LogInfo) << "creating favorite system";
-        SystemData *newSys = CreateFavoriteSystem("favorites", fullname, themeFolder, mVisibleSystemVector);
+        SystemData *newSys = CreateFavoriteSystem(sFavoriteSystemShortName, fullname, themeFolder, mVisibleSystemVector);
         mVisibleSystemVector.push_back(newSys);
       }
     }

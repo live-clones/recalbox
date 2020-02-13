@@ -33,6 +33,7 @@ bool TheGameDBEngine::RunOn(ScrappingMethod method, FileData& singleGame, INotif
 
 bool TheGameDBEngine::Abort(bool waitforcompletion)
 {
+  (void)waitforcompletion;
   return false;
 }
 

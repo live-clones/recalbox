@@ -57,6 +57,5 @@ protected:
 	bool mFavoritesOnly;
 
 private:
-  bool mIsFavoriteSystem;
-  int mFavoritesCount;
+  bool IsFavoriteSystem() { return mSystem.IsFavorite(); }
 };

@@ -17,8 +17,8 @@ ISimpleGameListView::ISimpleGameListView(Window& window, SystemManager& systemMa
     mBackground(window),
     mThemeExtras(window)
 {
-  mFavoritesCount = system.FavoritesCount();
-  mFavoritesOnly = mFavoritesCount > 0 && Settings::Instance().FavoritesOnly();
+  int favoritesCount = system.FavoritesCount();
+  mFavoritesOnly = favoritesCount > 0 && Settings::Instance().FavoritesOnly();
 
   mHeaderText.setText("Logo Text");
   mHeaderText.setSize(mSize.x(), 0);
@@ -33,8 +33,6 @@ ISimpleGameListView::ISimpleGameListView(Window& window, SystemManager& systemMa
 
   mBackground.setResize(mSize.x(), mSize.y());
   mBackground.setDefaultZIndex(0);
-
-  mIsFavoriteSystem = (&system == mSystemManager.FavoriteSystem());
 
   addChild(&mHeaderText);
   addChild(&mBackground);
@@ -94,8 +92,7 @@ void ISimpleGameListView::onFileChanged(FileData* file, FileChangeType change)
       else favoriteSystem->getRootFolder().addChild(file, false);
       ViewController::Instance().setInvalidGamesList(mSystemManager.FavoriteSystem());
       ViewController::Instance().getSystemListView().manageFavorite();
-      mFavoritesCount = mFavoritesCount + (isFavorite ? 1 : -1);
-      if (mFavoritesCount == 0) { mFavoritesOnly = false; }
+      if (mSystem.FavoritesCount() == 0) mFavoritesOnly = false;
       updateHelpPrompts();
     }
   }
@@ -177,36 +174,34 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
   }
 
   // TOGGLE FAVORITES
-  if (event.YPressed()) {
+  if (event.YPressed())
+  {
     FileData* cursor = getCursor();
-    if (cursor->isGame() && cursor->getSystem()->getHasFavoritesInTheme()) {
+    if (cursor->isGame() && cursor->getSystem()->getHasFavoritesInTheme())
+    {
       MetadataDescriptor& md = cursor->Metadata();
       SystemData *favoriteSystem = mSystemManager.FavoriteSystem();
 
       md.SetFavorite(!md.Favorite());
 
-      if (favoriteSystem != nullptr) {
-        if (md.Favorite()) {
-          favoriteSystem->getRootFolder().addChild(cursor, false);
-        } else {
-          favoriteSystem->getRootFolder().removeChild(cursor);
-        }
+      if (favoriteSystem != nullptr)
+      {
+        if (md.Favorite()) favoriteSystem->getRootFolder().addChild(cursor, false);
+        else               favoriteSystem->getRootFolder().removeChild(cursor);
 
-        if (mIsFavoriteSystem) {
-          ViewController::Instance().setInvalidGamesList(cursor->getSystem());
-        } else {
-          ViewController::Instance().setInvalidGamesList(favoriteSystem);
-        }
-        ViewController::Instance().getSystemListView().manageFavorite();
+        ViewController::Instance().setInvalidGamesList(cursor->getSystem());
+        ViewController::Instance().setInvalidGamesList(favoriteSystem);
       }
+      ViewController::Instance().getSystemListView().manageFavorite();
+
+      // Reset favorite-only view if no more favorites
+      if (mSystem.FavoritesCount() == 0) mFavoritesOnly = false;
 
       // Reload to refresh the favorite icon
       int cursorPlace = getCursorIndex();
       refreshList();
       setCursorIndex(cursorPlace);
 
-      mFavoritesCount = mFavoritesCount + (md.Favorite() ? 1 : -1);
-      if (mFavoritesCount == 0) { mFavoritesOnly = false; }
       updateHelpPrompts();
     }
     RecalboxSystem::NotifyGame(*getCursor(), false, false);
@@ -290,9 +285,10 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
     return true;
   }
 
-  if (event.SelectPressed() && !mIsFavoriteSystem)
+  if (event.SelectPressed() && !IsFavoriteSystem())
   {
-    if (mFavoritesCount != 0) {
+    if (mSystem.FavoritesCount() != 0)
+    {
       mFavoritesOnly = !mFavoritesOnly;
       Settings::Instance().SetFavoritesOnly(mFavoritesOnly);
       refreshList();
@@ -319,7 +315,7 @@ bool ISimpleGameListView::getHelpPrompts(Help& help)
   if (RecalboxConf::Instance().AsBool("global.netplay") && (RecalboxConf::Instance().isInList("global.netplay.systems", getCursor()->getSystem()->getName())))
     help.Set(HelpType::X, _("NETPLAY"));
 
-  help.Set(HelpType::Y, mIsFavoriteSystem ? _("Remove from favorite") : _("Favorite"));
+  help.Set(HelpType::Y, IsFavoriteSystem() ? _("Remove from favorite") : _("Favorite"));
 
   if (!hideSystemView)
     help.Set(HelpType::A, _("BACK"));
@@ -329,10 +325,10 @@ bool ISimpleGameListView::getHelpPrompts(Help& help)
   if (Settings::Instance().QuickSystemSelect() && !hideSystemView)
     help.Set(HelpType::LeftRight, _("SYSTEM"));
 
-  if (!mIsFavoriteSystem)
+  if (!IsFavoriteSystem())
   {
     help.Set(HelpType::Start, _("OPTIONS"));
-    if (mFavoritesCount != 0)
+    if (mSystem.FavoritesCount() != 0)
       help.Set(HelpType::Select, mFavoritesOnly ? _("ALL GAMES") : _("FAVORITES ONLY"));
   }
 

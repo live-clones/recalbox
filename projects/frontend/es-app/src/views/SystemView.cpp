@@ -754,21 +754,20 @@ void SystemView::removeFavoriteSystem(){
 		}
 }
 
-void SystemView::manageFavorite(){
+void SystemView::manageFavorite()
+{
+  // Favorite system displayed?
 	bool hasFavorite = false;
 	for (auto& mEntrie : mEntries)
-		if(mEntrie.object->IsFavorite()){
+		if (mEntrie.object->IsFavorite())
+		{
 			hasFavorite = true;
 			break;
 		}
+  // Get favorite system
 	SystemData *favorite = mSystemManager.FavoriteSystem();
-	if(hasFavorite) {
-		if (favorite->FavoritesCount() == 0) {
-			removeFavoriteSystem();
-		}
-	}else {
-		if (favorite->FavoritesCount() > 0) {
-			addSystem(favorite);
-		}
-	}
+
+  // Add or remove system
+  if (hasFavorite && favorite->FavoritesCount() == 0) removeFavoriteSystem();
+  else if (!hasFavorite && favorite->FavoritesCount() > 0) addSystem(favorite);
 }

@@ -23,17 +23,19 @@ class SystemManager :
     typedef std::vector<SystemData*> SystemList;
 
     //! Multiplayer system internal name
+    static constexpr const char* sFavoriteSystemShortName = "favorites";
+    //! Multiplayer system internal name
     static constexpr const char* sMultiplayerSystemShortName = "multiplayers";
     //! Last Played system internal name
     static constexpr const char* sLastPlayedSystemShortName = "lastplayed";
     //! All games system internal name
     static constexpr const char* sAllGamesSystemShortName = "allgames";
     //! Multiplayer system internal name
-    static constexpr const char* sMultiplayerSystemFullName = "multiplayers";
+    static constexpr const char* sMultiplayerSystemFullName = "Multi Players";
     //! Last Played system internal name
-    static constexpr const char* sLastPlayedSystemFullName = "lastplayed";
+    static constexpr const char* sLastPlayedSystemFullName = "Last Played";
     //! All games system internal name
-    static constexpr const char* sAllGamesSystemFullName = "allgames";
+    static constexpr const char* sAllGamesSystemFullName = "All Games";
 
   private:
     //! File path to system weight file for fast loading/saving
