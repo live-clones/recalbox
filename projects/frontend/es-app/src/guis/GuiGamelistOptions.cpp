@@ -27,31 +27,26 @@ GuiGamelistOptions::GuiGamelistOptions(Window& window, SystemData* system)
 
 	mJumpToLetterList = std::make_shared<LetterList>(mWindow, _("JUMP TO LETTER"), false);
 
-	std::vector<std::string> letters = getGamelist()->getAvailableLetters();
-	if (!letters.empty()) { // may happen if only contains folders
+	std::string letters = getGamelist()->getAvailableLetters();
+	if (!letters.empty()) // may happen if only contains folders
+  {
+		// Get current unicode char
+		unsigned int currentUnicode = Strings::UpperChar(getGamelist()->getCursor()->getName());
 
-		// jump to letter
-		auto curChar = (char) toupper(getGamelist()->getCursor()->getName()[0]);
-
-		// if curChar not found in available letter, take first one
-		if (std::find(letters.begin(), letters.end(), std::string(1, curChar)) == letters.end()) {
-			curChar = letters[0][0];
-		}
-
-		for (auto letter : letters) {
-			mJumpToLetterList->add(letter, letter[0], letter[0] == curChar);
-		}
+		int position = 0;
+		while(position < (int)letters.size())
+    {
+		  unsigned int unicode = Strings::chars2Unicode(letters, position);
+      mJumpToLetterList->add(Strings::unicode2Chars(unicode), unicode, unicode == currentUnicode);
+    }
 
 		row.addElement(std::make_shared<TextComponent>(mWindow, _("JUMP TO LETTER"), menuTheme->menuText.font,
 													   menuTheme->menuText.color), true);
 		row.addElement(mJumpToLetterList, false);
-		row.input_handler = [&](const InputCompactEvent& event) {
-			if (event.BPressed()) {
-				jumpToLetter();
-				return true;
-			} else if (mJumpToLetterList->ProcessInput(event)) {
-				return true;
-			}
+		row.input_handler = [&](const InputCompactEvent& event)
+		{
+			if (event.BPressed()) { jumpToLetter(); return true; }
+			else if (mJumpToLetterList->ProcessInput(event)) return true;
 			return false;
 		};
 		mMenu.addRowWithHelp(row, _("JUMP TO LETTER"), _(MENUMESSAGE_GAMELISTOPTION_JUMP_LETTER_MSG));

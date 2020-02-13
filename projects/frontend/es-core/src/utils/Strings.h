@@ -8,6 +8,9 @@
 class Strings
 {
   private:
+    //! Limit to 16bits unicode
+    static constexpr int sUnicodeSize = 0x10000;
+
     static unsigned short _SmallToCapital[1 << (8 * sizeof(unsigned short))];
     static unsigned short _CapitalToSmall[1 << (8 * sizeof(unsigned short))];
 
@@ -18,7 +21,35 @@ class Strings
   public:
     typedef std::vector<std::string> Vector;
 
-    static unsigned int chars2Unicode(const std::string& _string, size_t& _cursor);
+    static unsigned int UpperChar(const std::string& utf8string)
+    {
+      int dummy = 0;
+      unsigned int unicode = chars2Unicode(utf8string, dummy);
+      if (unicode < sUnicodeSize) return _SmallToCapital[unicode] == 0 ? unicode : _SmallToCapital[unicode];
+      return unicode;
+    }
+
+    static unsigned int LowerChar(const std::string& utf8string)
+    {
+      int dummy = 0;
+      unsigned int unicode = chars2Unicode(utf8string, dummy);
+      if (unicode < sUnicodeSize) return _CapitalToSmall[unicode] == 0 ? unicode : _CapitalToSmall[unicode];
+      return unicode;
+    }
+
+    static unsigned int UpperChar(unsigned int unicode)
+    {
+      if (unicode < sUnicodeSize) return _SmallToCapital[unicode] == 0 ? unicode : _SmallToCapital[unicode];
+      return unicode;
+    }
+
+    static unsigned int LowerChar(unsigned int unicode)
+    {
+      if (unicode < sUnicodeSize) return _CapitalToSmall[unicode] == 0 ? unicode : _CapitalToSmall[unicode];
+      return unicode;
+    }
+
+    static unsigned int chars2Unicode(const std::string& _string, int& _cursor);
 
     static std::string unicode2Chars(unsigned int _unicode);
 

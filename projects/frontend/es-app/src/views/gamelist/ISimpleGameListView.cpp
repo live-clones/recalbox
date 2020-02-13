@@ -233,14 +233,14 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
   // JUMP TO NEXT LETTER
   if (event.L1Pressed())
   {
-    jumpToNextLetter(mSystem.getSortId() == 1 ? 1 : -1);
+    jumpToNextLetter(mSystem.getSortId() == 1);
     return true;
   }
 
   // JUMP TO PREVIOUS LETTER
   if (event.R1Pressed())
   {
-      jumpToNextLetter(mSystem.getSortId() == 1 ? -1 : 1);
+      jumpToNextLetter(mSystem.getSortId() == 1);
       return true;
   }
 
@@ -335,44 +335,63 @@ bool ISimpleGameListView::getHelpPrompts(Help& help)
   return true;
 }
 
-std::vector<std::string> ISimpleGameListView::getAvailableLetters()
+std::string ISimpleGameListView::getAvailableLetters()
 {
-  // TODO: Algorithm!!! Use 128 array bitflag - Use better returning type - kill all vectors
-  // TODO: Be consistent! Use gamelist items, not FileData
-  std::vector<std::string> letters;
-  std::set<std::string> setOfLetters;
-  FileData::List files = getFileDataList();
-  for (auto file : files) {
-    if (file->getType() == ItemType::Game)
-    {
-      setOfLetters.insert(std::string(1, toupper(file->getName()[0])));
-    }
-  }
+  constexpr int UnicodeSize = 0x10000;
+  FileData::List files = getFileDataList(); // All file
+  std::vector<unsigned int> unicode;        // 1 bit per unicode char used
+  unicode.resize(UnicodeSize / (sizeof(unsigned int) * 8), 0);
 
-  for (const auto& letter : setOfLetters)
+  for (auto file : files)
   {
-    letters.push_back(letter);
+    // Tag every first characters from every game name
+    unsigned int wc = Strings::UpperChar(file->getName());
+    if (wc < UnicodeSize) // Ignore extended unicodes
+      unicode[wc >> 5] |= 1 << (wc & 0x1F);
   }
 
-  std::sort(letters.begin(), letters.end());
-  return letters;
+  // Rebuild a self-sorted utf8 string with all tagged characters
+  int unicodeOffset = 0;
+  std::string result;
+  for(unsigned int i : unicode)
+  {
+    if (i != 0)
+      for (int bit = 0; bit < 32; ++bit)
+        if (((i >> bit) & 1) != 0)
+          result.append(Strings::unicode2Chars(unicodeOffset + bit));
+    unicodeOffset += 32;
+  }
+
+  return result;
 }
 
 
-void ISimpleGameListView::jumpToNextLetter(int increment)
+void ISimpleGameListView::jumpToNextLetter(bool forward)
 {
-  std::string letter = std::string(1, toupper(getCursor()->getName()[0]));
-  auto letters = getAvailableLetters();
-  unsigned long size = letters.size();
-  unsigned long pos = std::find(letters.begin(), letters.end(), letter) - letters.begin();
+  // Get current unicode
+  unsigned int currentUnicode = Strings::UpperChar(getCursor()->getName());
 
-  if (pos < size) {
-    pos = (pos + increment + size) % size;
-    jumpToLetter(letters[pos][0]);
-  }
+  // Get available unicodes
+  std::string letters = getAvailableLetters();
+  std::vector<unsigned int> availableUnicodes;
+  int position = 0;
+  while(position < (int)letters.size())
+    availableUnicodes.push_back(Strings::UpperChar(Strings::chars2Unicode(letters, position)));
+
+  // Lookup current unicode
+  position = 0;
+  for(int i = (int)availableUnicodes.size(); --i >= 0;)
+    if (availableUnicodes[i] == currentUnicode)
+    {
+      position = i;
+      break;
+    }
+
+  int size = (int)availableUnicodes.size();
+  jumpToLetter(availableUnicodes[(size + position + (forward ? 1 : -1)) % size]);
 }
 
-void ISimpleGameListView::jumpToLetter(char letter)
+void ISimpleGameListView::jumpToLetter(unsigned unicode)
 {
   // Jump to letter requires an alpha sort
   if ( mSystem.getSortId() > 1) {
@@ -387,7 +406,7 @@ void ISimpleGameListView::jumpToLetter(char letter)
   unsigned long min, max;
   unsigned long mid = 0;
 
-  bool asc = mSystem.getSortId() == 0;
+  bool asc = (mSystem.getSortId() == 0);
 
   // look for first game position
   for (min = 0; (min < files.size() - 1) && (files[min]->getType() != ItemType::Game) ; min++) ;
@@ -395,32 +414,26 @@ void ISimpleGameListView::jumpToLetter(char letter)
   // look for last game position
   for (max = files.size() - 1; (max != 0u) && (files[max]->getType() != ItemType::Game) ; max--) ;
 
-  while(max >= min) {
+  while(max >= min)
+  {
     mid = ((max - min) / 2) + min;
 
     // game somehow has no first character to check
-    if (files[mid]->getName().empty()) {
-      continue;
+    if (files[mid]->getName().empty()) continue;
+
+    unsigned int checkLetter = Strings::UpperChar(files[mid]->getName());
+
+    if (asc)
+    {
+      if (checkLetter < unicode) min = mid + 1;
+      else if (checkLetter > unicode || (mid > 0 && (unicode == Strings::UpperChar(files[mid - 1]->getName())))) max = mid - 1;
+      else break; //exact match found
     }
-
-    char checkLetter = (char) toupper(files[mid]->getName()[0]);
-
-    if (asc) {
-      if (checkLetter < letter) {
-        min = mid + 1;
-      } else if (checkLetter > letter || (mid > 0 && (letter == toupper(files[mid - 1]->getName()[0])))) {
-        max = mid - 1;
-      } else {
-        break; //exact match found
-      }
-    } else {
-      if (checkLetter > letter) {
-        min = mid + 1;
-      } else if (checkLetter < letter || (mid > 0 && (letter == toupper(files[mid - 1]->getName()[0])))) {
-        max = mid - 1;
-      } else {
-        break; //exact match found
-      }
+    else
+    {
+      if (checkLetter > unicode) min = mid + 1;
+      else if (checkLetter < unicode || (mid > 0 && (unicode == Strings::UpperChar(files[mid - 1]->getName())))) max = mid - 1;
+      else break; //exact match found
     }
   }
 

@@ -126,7 +126,7 @@ std::string Strings::ToUpperUTF8(const std::string& _string)
 }
 
 
-unsigned int Strings::chars2Unicode(const std::string& _string, size_t& _cursor)
+unsigned int Strings::chars2Unicode(const std::string& _string, int& _cursor)
 {
 	const char&  c      = _string[_cursor];
 	unsigned int result = '?';

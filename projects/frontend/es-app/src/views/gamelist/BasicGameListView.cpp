@@ -16,8 +16,7 @@ BasicGameListView::BasicGameListView(Window& window, SystemManager& systemManage
 	  mList(window),
 	  mHasGenre(false),
     mEmptyListItem(&system),
-    mPopulatedFolder(nullptr),
-	  listingOffset(0)
+    mPopulatedFolder(nullptr)
 {
 	mList.setSize(mSize.x(), mSize.y() * 0.8f);
 	mList.setPosition(0, mSize.y() * 0.2f);
@@ -143,13 +142,7 @@ void BasicGameListView::populateList(const FolderData& folder)
 
 FileData::List BasicGameListView::getFileDataList()
 {
-	FileData::List objects = mList.getObjects();
-	FileData::List slice;
-  for (auto it = objects.begin() + listingOffset; it != objects.end(); it++)
-  {
-    slice.push_back(*it);
-  }
-  return slice;
+	return mList.getObjects();
 }
 
 void BasicGameListView::setCursorIndex(int index)
@@ -163,7 +156,7 @@ void BasicGameListView::setCursorIndex(int index)
 
 void BasicGameListView::setCursor(FileData* cursor)
 {
-	if(!mList.setCursor(cursor, listingOffset))
+	if(!mList.setCursor(cursor, 0))
 	{
 		populateList(mSystem.getRootFolder());
 		mList.setCursor(cursor);

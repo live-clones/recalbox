@@ -34,10 +34,10 @@ public:
 	inline void refreshList() override {};
 
 	bool getHelpPrompts(Help& help) override;
-	std::vector<std::string> getAvailableLetters() override;
-	void jumpToLetter(char letter) override;
+	std::string getAvailableLetters() override;
+	void jumpToLetter(unsigned int unicode) override;
 
-	void jumpToNextLetter(int increment);
+	void jumpToNextLetter(bool forward);
 
 protected:
 	virtual void launch(FileData* game) = 0;

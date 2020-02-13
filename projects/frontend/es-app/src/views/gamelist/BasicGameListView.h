@@ -55,7 +55,6 @@ protected:
 private:
   EmptyData mEmptyListItem;
   const FolderData *mPopulatedFolder;
-  unsigned long listingOffset;
 
 	/*void addFavorites(const FileData::List& files, const FileSorts::SortType& sortType);
 	void getFavorites(const FileData::List& files, FileData::List& favorites);

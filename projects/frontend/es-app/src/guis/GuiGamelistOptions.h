@@ -18,7 +18,7 @@ public:
 	bool getHelpPrompts(Help& help) override;
 
 private:
-  typedef OptionListComponent<char> LetterList;
+  typedef OptionListComponent<unsigned int> LetterList;
   typedef OptionListComponent<int> SortList;
   typedef OptionListComponent<int> RegionList;
 
