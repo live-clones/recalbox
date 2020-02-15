@@ -57,6 +57,12 @@ set(CORE_HEADERS
 		src/utils/math/Vector4f.h
 		src/utils/math/Misc.h
 		src/utils/math/Transform4x4f.h
+		src/utils/storage/Allocator.h
+		src/utils/storage/Array.h
+		src/utils/storage/Common.h
+		src/utils/storage/HashMap.h
+		src/utils/storage/Queue.h
+		src/utils/storage/Stack.h
 		src/utils/Files.h
 		src/utils/Http.h
 		src/utils/Strings.h
