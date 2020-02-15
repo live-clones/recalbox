@@ -1,6 +1,6 @@
 #pragma once
 
-#include <vector>
+#include <utils/storage/Stack.h>
 #include <guis/Gui.h>
 #include <components/HelpComponent.h>
 #include <components/ImageComponent.h>
@@ -78,7 +78,7 @@ class Window
      * @brief Check if the window has
      * @return
      */
-    bool HasGui() const { return !mGuiStack.empty(); }
+    bool HasGui() const { return !mGuiStack.Empty(); }
 
     /*!
      * @brief Check if the given UI is on top of the screen
@@ -86,8 +86,8 @@ class Window
      */
     virtual bool AmIOnTopOfScreen(const Gui* ui) const
     {
-      if (!mGuiStack.empty())
-        if (mGuiStack.back() == ui) return true;
+      if (!mGuiStack.Empty())
+        if (mGuiStack.Peek() == ui) return true;
       return false;
     }
 
@@ -112,7 +112,7 @@ class Window
     ImageComponent mBackgroundOverlay;
     std::shared_ptr<InfoPopup> mInfoPopup;
 
-    std::vector<Gui*> mGuiStack;
+    Stack<Gui*> mGuiStack;
     Strings::Vector mMessages;
     Strings::Vector mScrollMessages;
     Strings::Vector mScrollTitle;

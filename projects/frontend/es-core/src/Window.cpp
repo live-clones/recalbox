@@ -17,6 +17,7 @@ Window::Window()
   : mHelp(*this),
     mBackgroundOverlay(*this),
     mInfoPopup(nullptr),
+    mGuiStack(16), // Allocate memory once for all gui
     mFrameTimeElapsed(0),
     mFrameCountElapsed(0),
     mAverageDeltaTime(10),
@@ -47,7 +48,7 @@ bool Window::UpdateHelpSystem()
 
 void Window::pushGui(Gui* gui)
 {
-  mGuiStack.push_back(gui);
+  mGuiStack.Push(gui);
   UpdateHelpSystem();
 }
 
@@ -64,20 +65,19 @@ void Window::displayScrollMessage(const std::string& title, const std::string& m
 
 Gui* Window::peekGui()
 {
-  if (mGuiStack.empty())
+  if (mGuiStack.Empty())
     return nullptr;
 
-  return mGuiStack.back();
+  return mGuiStack.Peek();
 }
 
 void Window::deleteClosePendingGui()
 {
   bool deleted = false;
-  for(auto it = mGuiStack.begin(); it != mGuiStack.end(); it++)
-    if ((*it)->IsPendingForDeletion())
+  for(int i = mGuiStack.Count(); --i >= 0;)
+    if (mGuiStack[i]->IsPendingForDeletion())
     {
-      delete *it;
-      mGuiStack.erase(it--);
+      delete mGuiStack.PopAt(i);
       deleted = true;
     }
 
@@ -88,12 +88,8 @@ void Window::deleteClosePendingGui()
 
 void Window::deleteAllGui()
 {
-  while(!mGuiStack.empty())
-  {
-    Gui* topGui = mGuiStack.back();
-    mGuiStack.pop_back();
-    delete topGui;
-  }
+  for(int i = mGuiStack.Count(); --i >= 0;)
+    delete mGuiStack.PopAt(i);
 }
 
 bool Window::Initialize(unsigned int width, unsigned int height, bool initRenderer)
@@ -140,8 +136,8 @@ void Window::Finalize()
 
 void Window::textInput(const char* text)
 {
-  if (!mGuiStack.empty())
-    mGuiStack.back()->textInput(text);
+  if (!mGuiStack.Empty())
+    mGuiStack.Peek()->textInput(text);
 }
 
 bool Window::ProcessInput(const InputCompactEvent& event)
@@ -227,8 +223,8 @@ void Window::Update(int deltaTime)
   deleteClosePendingGui();
 
   // Process highest GUI
-  if (!mGuiStack.empty())
-    mGuiStack.back()->Update(deltaTime);
+  if (!mGuiStack.Empty())
+    mGuiStack.Peek()->Update(deltaTime);
 }
 
 void Window::Render(Transform4x4f& transform)
@@ -236,10 +232,10 @@ void Window::Render(Transform4x4f& transform)
   mRenderedHelpPrompts = false;
 
   // draw only bottom and top of GuiStack (if they are different)
-  if (!mGuiStack.empty())
+  if (!mGuiStack.Empty())
   {
-    auto& bottom = mGuiStack.front();
-    auto& top = mGuiStack.back();
+    Gui* bottom = mGuiStack[0];
+    Gui* top = mGuiStack.Peek();
 
     bottom->Render(transform);
     if (bottom != top)
@@ -282,8 +278,10 @@ void Window::renderHelpPromptsEarly()
 
 bool Window::isProcessing()
 {
-  return count_if(mGuiStack.begin(), mGuiStack.end(), [](Component* c)
-  { return c->isProcessing(); }) > 0;
+  for(int i = mGuiStack.Count(); --i >= 0;)
+    if (mGuiStack[i]->isProcessing())
+      return true;
+  return false;
 }
 
 void Window::renderScreenSaver()
@@ -333,6 +331,6 @@ void Window::RenderAll()
 
 void Window::CloseAll()
 {
-  for(Gui* gui : mGuiStack)
-    gui->Close();
+  for(int i = mGuiStack.Count(); --i >= 0;)
+    mGuiStack[i]->Close();
 }
