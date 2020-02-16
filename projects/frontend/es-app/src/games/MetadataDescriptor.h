@@ -61,7 +61,7 @@ class MetadataDescriptor
     int          _Players;      //!< Players range: LSW:from - MSW:to (allow sorting by max players)
     int          _ReleaseDate;  //!< Release data (epoch)
     int          _Playcount;    //!< Play counter
-    int          _LastPlayed;   //!< Last time played (epoch)
+    unsigned int _LastPlayed;   //!< Last time played (epoch)
     int          _RomCrc32;     //!< Rom Crc32
     bool         _Favorite;     //!< Favorite gale
     bool         _Hidden;       //!< Hidden game
@@ -479,7 +479,7 @@ class MetadataDescriptor
     int                ReleaseDateEpoc() const { return _ReleaseDate;                      }
     DateTime           ReleaseDate()     const { return DateTime((long long)_ReleaseDate); }
     int                PlayCount()       const { return _Playcount;                        }
-    int                LastPlayedEpoc()  const { return _LastPlayed;                       }
+    unsigned int       LastPlayedEpoc()  const { return _LastPlayed;                       }
     DateTime           LastPlayed()      const { return DateTime((long long)_LastPlayed);  }
     int                Region()          const { return _Region;                                      }
     int                RomCrc32()        const { return _RomCrc32;                         }
@@ -631,7 +631,7 @@ class MetadataDescriptor
      */
 
     void IncPlaycount() { _Playcount++; _Dirty = true; }
-    void SetLastplayedNow() { _LastPlayed = (int)DateTime().ToEpochTime(); _Dirty = true; }
+    void SetLastplayedNow() { _LastPlayed = (unsigned int)DateTime().ToEpochTime(); _Dirty = true; }
 
     /*
      * Metadata FieldManagement Methods

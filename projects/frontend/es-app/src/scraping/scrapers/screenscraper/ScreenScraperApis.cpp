@@ -7,7 +7,6 @@
 #include <utils/os/system/Thread.h>
 #include "ScreenScraperApis.h"
 #include <utils/Log.h>
-#include <map>
 
 std::string ScreenScraperApis::BuildUrlCommon(ScreenScraperApis::Api api)
 {
@@ -58,6 +57,8 @@ ScreenScraperApis::User ScreenScraperApis::GetUserInformation()
   std::string output;
   if (mClient.Execute(BuildUrlCommon(Api::UserInfo), output))
   {
+    LOG(LogError) << "GetUserInfo: HTTP Result code = " << mClient.GetLastHttpResponseCode();
+
     rapidjson::Document json;
     json.Parse(output.c_str());
     if (!json.HasParseError())
@@ -116,7 +117,7 @@ ScreenScraperApis::GetGameInformation(int system, const Path& path, const std::s
       // Error?
       if (game.mResult != ScrapeResult::Ok)
       {
-        LOG(LogError) << "ScrapeResult = " << (int)game.mResult;
+        LOG(LogError) << "Media URL: " << url << " - HTTP Result code = " << mClient.GetLastHttpResponseCode();
         break;
       }
       if (output.empty())
@@ -635,6 +636,9 @@ ScrapeResult ScreenScraperApis::GetMedia(const std::string& mediaurl, const Path
       }
     break;
   }
+
+  if (result != ScrapeResult::Ok)
+    LOG(LogError) << "Media URL: " << mediaurl << " - HTTP Result code = " << mClient.GetLastHttpResponseCode();
 
   // Delete wrong files
   if (to.Size() <= 256)

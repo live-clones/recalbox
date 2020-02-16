@@ -90,14 +90,12 @@ ImplementSortMethod(compareTimesPlayed)
 ImplementSortMethod(compareLastPlayed)
 {
   CheckFoldersAndGames(file1, file2)
-  int ep1 = (file1).Metadata().LastPlayedEpoc();
-  int ep2 = (file2).Metadata().LastPlayedEpoc();
-  if ((ep1 == 0) || (ep2 == 0))
-  {
-    if (ep1 != 0) return 1;
-    if (ep2 != 0) return -1;
+  unsigned int ep1 = (file1).Metadata().LastPlayedEpoc();
+  unsigned int ep2 = (file2).Metadata().LastPlayedEpoc();
+  if (ep1 == 0) ep1 = 0xFFFFFFFF;
+  if (ep2 == 0) ep2 = 0xFFFFFFFF;
+  if (ep1 == ep2)
     return unicodeCompareUppercase(file1.getName(), file2.getName());
-  }
   return ep1 < ep2 ? -1 : 1;
 }
 
