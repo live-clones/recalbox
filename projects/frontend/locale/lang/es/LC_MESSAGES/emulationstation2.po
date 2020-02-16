@@ -1930,7 +1930,7 @@ msgstr ""
 msgid "BROWSE"
 msgstr ""
 
-msgid "You bios' MD5"
+msgid "Your bios' MD5"
 msgstr ""
 
 msgid "Known MD5 List"

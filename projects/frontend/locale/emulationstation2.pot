@@ -2061,7 +2061,7 @@ msgid "BROWSE"
 msgstr ""
 
 #:
-msgid "You bios' MD5"
+msgid "Your bios' MD5"
 msgstr ""
 
 #:

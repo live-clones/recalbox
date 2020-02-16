@@ -20,7 +20,7 @@ GuiBiosMd5::GuiBiosMd5(Window& window, const Bios& bios)
   std::string theMd5 = bios.CurrentMD5();
   if (bios.BiosStatus() != Bios::Status::FileNotFound)
   {
-    mList->add(_("You bios' MD5"), true, sColorIndexNormal, sColorIndexGray, HorizontalAlignment::Left);
+    mList->add(_("Your bios' MD5"), true, sColorIndexNormal, sColorIndexGray, HorizontalAlignment::Left);
     mList->add(theMd5, true, match ? sColorIndexNormal : sColorIndexHalf, match ? sColorIndexGreen : sColorIndexRed, HorizontalAlignment::Right);
   }
   // Display regular list

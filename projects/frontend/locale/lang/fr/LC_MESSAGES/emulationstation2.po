@@ -1975,7 +1975,7 @@ msgstr "MD5 NON OK"
 msgid "BROWSE"
 msgstr "PARCOURIR"
 
-msgid "You bios' MD5"
+msgid "Your bios' MD5"
 msgstr "Le MD5 de votre bios"
 
 msgid "Known MD5 List"
