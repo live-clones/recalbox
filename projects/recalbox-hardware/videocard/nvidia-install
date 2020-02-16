@@ -33,6 +33,7 @@ supportList390=($(grep -i "${gpuid}" /recalbox/system/hardware/videocard/nvidiac
 blacklistFile="/etc/modprobe.d/blacklist.conf"
 # check if driver 'nouveau' is already blacklisted
 if grep -q 'blacklist nouveau' "${blacklistFile}"; then
+	echo "driver 'nouveau' is already blacklisted"
 	exit 0
 fi
 
