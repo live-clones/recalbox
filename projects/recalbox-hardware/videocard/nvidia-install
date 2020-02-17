@@ -39,9 +39,9 @@ fi
 
 # detect/configure nvidia driver version to install
 if [ -n "${gpu}" ] && [ -n "${supportList440}" ]; then
-	nvver="440.31"
+	nvver="440.59"
 elif [ -n "${gpu}" ] && [ -n "${supportList390}" ]; then
-	nvver="390.116"
+	nvver="390.132"
 fi
 
 # set paths/vars
