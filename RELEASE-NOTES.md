@@ -33,6 +33,7 @@
 - Faster-than-light CRC calculation for netplay 
 - Game sorting and Jump-to-letter are now unicode compatible
 - Add support for nVidia proprietary drivers version 390 and 440
+- Bump oricatmos emulator on lastest version 
 
 ### Fixes
 - Fix Odroid XU4 fan issue

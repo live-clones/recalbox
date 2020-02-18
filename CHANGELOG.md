@@ -35,6 +35,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fix quit menu not being accessible when boot-on-gamelist is on
 - Faster CRC calculation for netplay 
 - Game sorting and Jump-to-letter now unicode compatible
+- Bump oricatmos emulator on lastest version
 
 ## [6.1.1]
 - Add zfast shaders
