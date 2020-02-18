@@ -36,6 +36,10 @@
 - Bump oricatmos emulator on lastest version 
 - Bump simcoupe emulator 
 - Simplify emulator/core selection UI
+- Bump retroarch to v1.8.2
+- Bump retroarch-cheats to v1.8.2
+- Bump libretro-assets on last version
+- Bump libretro-cores family
 
 ### Fixes
 - Fix Odroid XU4 fan issue
