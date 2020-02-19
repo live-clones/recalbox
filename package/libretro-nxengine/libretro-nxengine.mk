@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_NXENGINE_VERSION = 48ba50038b9e284e84c1be0629cf99d5eb3e8010
+LIBRETRO_NXENGINE_VERSION = f39250e54f20c616dd4403cb8d4cab14032530b5
 LIBRETRO_NXENGINE_SITE = $(call github,libretro,nxengine-libretro,$(LIBRETRO_NXENGINE_VERSION))
 
 define LIBRETRO_NXENGINE_BUILD_CMDS
