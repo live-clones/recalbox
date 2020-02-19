@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_PX68K_VERSION = 3cb3cc562a8da671f39b45078a672165d80e4e74
+LIBRETRO_PX68K_VERSION = 51ee79325a5aa5b3c86e6d62d888c255953fb8dc
 LIBRETRO_PX68K_SITE = $(call github,libretro,px68k-libretro,$(LIBRETRO_PX68K_VERSION))
 
 define LIBRETRO_PX68K_BUILD_CMDS
