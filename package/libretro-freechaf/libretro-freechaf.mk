@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_FREECHAF_VERSION = 0b3e90406e43f6bc78cec3fbd2bb4cad40ad06d5
+LIBRETRO_FREECHAF_VERSION = 8e46bf0cfb69fd7b3627f60dcadc96faaaad1fe6
 LIBRETRO_FREECHAF_SITE = $(call github,libretro,FreeChaF,$(LIBRETRO_FREECHAF_VERSION))
 
 define LIBRETRO_FREECHAF_BUILD_CMDS
