@@ -5,7 +5,7 @@
 ################################################################################
 
 # https://github.com/libretro/yabause/tree/yabasanshiro/yabause/src/libretro
-LIBRETRO_YABASANSHIRO_VERSION = 0698fd1036382f4f21072fe07eb34543a66aa7d2
+LIBRETRO_YABASANSHIRO_VERSION = 8406a5c11d7b6186a44c7fe48f493e6de5f8cb18
 LIBRETRO_YABASANSHIRO_SITE = $(call github,libretro,yabause,$(LIBRETRO_YABASANSHIRO_VERSION))
 
 ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_XU4),y)
