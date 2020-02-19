@@ -15,6 +15,7 @@ class GuiMetaDataEd : public Gui, public GuiScraperSingleGameRun::IScrappingComp
     void close(bool closeAllWindows);
 
     FileData& mGame;
+    SystemManager& mSystemManager;
 
     NinePatchComponent mBackground;
     ComponentGrid mGrid;
@@ -39,7 +40,7 @@ class GuiMetaDataEd : public Gui, public GuiScraperSingleGameRun::IScrappingComp
     void ScrappingComplete(FileData& game) override;
 
   public:
-    GuiMetaDataEd(Window&window, MetadataDescriptor& md, FileData& game,
+    GuiMetaDataEd(Window&window, SystemManager& systemManager, MetadataDescriptor& md, FileData& game,
                   const std::string& header, std::function<void()> savedCallback, std::function<void()> deleteFunc,
                   SystemData* system, bool main);
 

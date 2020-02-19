@@ -10,7 +10,6 @@
 #include "EmulationStation.h"
 #include "guis/GuiMenu.h"
 #include "Window.h"
-#include "audio/Sound.h"
 #include "Settings.h"
 #include "recalbox/RecalboxSystem.h"
 #include "recalbox/RecalboxUpgrade.h"
@@ -313,13 +312,13 @@ void GuiMenu::menuSystem(){
 
     if (language != language_choice->getSelected()) {
       RecalboxConf::Instance().SetString("system.language", language_choice->getSelected());
-      RecalboxConf::Instance().SaveRecalboxConf();
+      RecalboxConf::Instance().Save();
       reboot = true;
     }
 
     if (keyboard != keyboard_choice->getSelected()) {
       RecalboxConf::Instance().SetString("system.kblayout", keyboard_choice->getSelected());
-      RecalboxConf::Instance().SaveRecalboxConf();
+      RecalboxConf::Instance().Save();
       reboot = true;
     }
 
@@ -385,7 +384,7 @@ void GuiMenu::menuUpdates(){
     if(updatesTypeComp->getSelected() == "stable"){
       RecalboxConf::Instance().SetString("updates.type", updatesTypeComp->getSelected());
     }
-    RecalboxConf::Instance().SaveRecalboxConf();
+    RecalboxConf::Instance().Save();
   });
   mWindow.pushGui(updateGui);
 }
@@ -398,7 +397,7 @@ void GuiMenu::menuGameSettings(){
     s->addWithLabel(ratio_choice, _("GAME RATIO"), _(MENUMESSAGE_GAME_RATIO_HELP_MSG));
     s->addSaveFunc([ratio_choice] {
       RecalboxConf::Instance().SetString("global.ratio", ratio_choice->getSelected());
-      RecalboxConf::Instance().SaveRecalboxConf();
+      RecalboxConf::Instance().Save();
     });
   }
   // smoothing
@@ -423,7 +422,7 @@ void GuiMenu::menuGameSettings(){
   s->addWithLabel(quit_press_twice_enabled, _("PRESS TWICE TO QUIT GAME"), _(MENUMESSAGE_GAME_PRESS_TWICE_QUIT_HELP_MSG));
   s->addSaveFunc([quit_press_twice_enabled] {
       RecalboxConf::Instance().SetBool("global.quitpresstwice", quit_press_twice_enabled->getState());
-      RecalboxConf::Instance().SaveRecalboxConf();
+      RecalboxConf::Instance().Save();
     });
 
   // Shaders preset
@@ -445,7 +444,7 @@ void GuiMenu::menuGameSettings(){
   s->addWithLabel(integerscale_enabled, _("INTEGER SCALE (PIXEL PERFECT)"), _(MENUMESSAGE_GAME_INTEGER_SCALE_HELP_MSG));
   s->addSaveFunc([integerscale_enabled] {
     RecalboxConf::Instance().SetBool("global.integerscale", integerscale_enabled->getState());
-    RecalboxConf::Instance().SaveRecalboxConf();
+    RecalboxConf::Instance().Save();
   });
 
   shaders_choices->setSelectedChangedCallback(
@@ -480,7 +479,7 @@ void GuiMenu::menuGameSettings(){
             [retroachievements_enabled, retroachievements_hardcore_enabled] {
               RecalboxConf::Instance().SetBool("global.retroachievements", retroachievements_enabled->getState());
               RecalboxConf::Instance().SetBool("global.retroachievements.hardcore", retroachievements_hardcore_enabled->getState());
-              RecalboxConf::Instance().SaveRecalboxConf();
+              RecalboxConf::Instance().Save();
             });
         mWindow.pushGui(retroachievements);
       };
@@ -525,7 +524,7 @@ void GuiMenu::menuGameSettings(){
                 }
                 RecalboxConf::Instance().SetBool("global.netplay", netplay_enabled->getState());
                 RecalboxConf::Instance().SetString("global.netplay.relay", mitm);
-                RecalboxConf::Instance().SaveRecalboxConf();
+                RecalboxConf::Instance().Save();
               });
                     auto openHashNow = [this] { mWindow.pushGui(new GuiHashStart(mWindow, mSystemManager)); };
                     netplay->addSubMenu(_("HASH ROMS"), openHashNow, _(MENUMESSAGE_NP_HASH_HELP_MSG));
@@ -541,7 +540,7 @@ void GuiMenu::menuGameSettings(){
     RecalboxConf::Instance().SetBool("global.rewind", rewind_enabled->getState());
     RecalboxConf::Instance().SetString("global.shaderset", shaders_choices->getSelected());
     RecalboxConf::Instance().SetBool("global.autosave", autosave_enabled->getState());
-    RecalboxConf::Instance().SaveRecalboxConf();
+    RecalboxConf::Instance().Save();
   });
   mWindow.pushGui(s);
 }
@@ -1080,7 +1079,7 @@ void GuiMenu::menuUISettings(){
   st->addSubMenu(_("THEME CONFIGURATION"), openGui, _(MENUMESSAGE_UI_THEME_CONFIGURATION_MSG));
 
   st->addSaveFunc([] {
-    RecalboxConf::Instance().SaveRecalboxConf();
+    RecalboxConf::Instance().Save();
   });
 		mWindow.pushGui(st);
 	};
@@ -1154,7 +1153,7 @@ void GuiMenu::menuSoundSettings(){
     if (currentDevice != optionsAudio->getSelected()) {
       RecalboxConf::Instance().SetString("audio.device", optionsAudio->getSelected());
     }
-    RecalboxConf::Instance().SaveRecalboxConf();
+    RecalboxConf::Instance().Save();
   });
 
   mWindow.pushGui(s);
@@ -1285,7 +1284,7 @@ void GuiMenu::menuNetworkSettings(){
     }
 
     RecalboxConf::Instance().SetBool("wifi.enabled", wifienabled);
-    RecalboxConf::Instance().SaveRecalboxConf();
+    RecalboxConf::Instance().Save();
     RecalboxSystem::backupRecalboxConf();
   });
   mWindow.pushGui(s);
@@ -1368,7 +1367,7 @@ void GuiMenu::menuAdvancedSettings(){
       RecalboxSystem::setOverclock(overclock_choice->getSelected());
       reboot = true;
     }
-    RecalboxConf::Instance().SaveRecalboxConf();
+    RecalboxConf::Instance().Save();
     if (reboot) {
       if (std::find(overclockWarning.begin(), overclockWarning.end(), overclock_choice->getSelected()) != overclockWarning.end()) {
         mWindow.pushGui(
@@ -1441,7 +1440,7 @@ void GuiMenu::menuAdvancedSettings(){
             RecalboxConf::Instance().SetBool("emulationstation.bootongamelist", bootOnGamelistComp->getState());
             RecalboxConf::Instance().SetBool("emulationstation.hidesystemview", hidesystemviewComp->getState());
             RecalboxConf::Instance().SetBool("emulationstation.forcebasicgamelistview", basicgamelistviewComp->getState());
-            RecalboxConf::Instance().SaveRecalboxConf();
+            RecalboxConf::Instance().Save();
           });
       mWindow.pushGui(bootGui);
     };
@@ -1562,7 +1561,7 @@ void GuiMenu::menuAdvancedSettings(){
                 }
               if (modified)
               {
-                RecalboxConf::Instance().SaveRecalboxConf();
+                RecalboxConf::Instance().Save();
                 MainRunner::RequestQuit(MainRunner::ExitState::Relaunch);
               }
             });
@@ -1595,7 +1594,7 @@ void GuiMenu::menuAdvancedSettings(){
           }
           if (modified)
           {
-            RecalboxConf::Instance().SaveRecalboxConf();
+            RecalboxConf::Instance().Save();
             MainRunner::RequestQuit(MainRunner::ExitState::Relaunch);
           }
         });
@@ -1651,7 +1650,7 @@ void GuiMenu::menuAdvancedSettings(){
         RecalboxConf::Instance().SetBool("kodi.enabled", kodiEnabled->getState());
         RecalboxConf::Instance().SetBool("kodi.atstartup", kodiAtStart->getState());
         RecalboxConf::Instance().SetBool("kodi.xbutton", kodiX->getState());
-        RecalboxConf::Instance().SaveRecalboxConf();
+        RecalboxConf::Instance().Save();
       });
       mWindow.pushGui(kodiGui);
     };
@@ -1676,7 +1675,7 @@ void GuiMenu::menuAdvancedSettings(){
 
         if (securityEnabled->changed()) {
           RecalboxConf::Instance().SetBool("system.security.enabled", securityEnabled->getState());
-          RecalboxConf::Instance().SaveRecalboxConf();
+          RecalboxConf::Instance().Save();
           reboot = true;
         }
 
@@ -1714,14 +1713,14 @@ void GuiMenu::menuAdvancedSettings(){
   s->addWithLabel(manager, _("RECALBOX MANAGER"), _(MENUMESSAGE_ADVANCED_MANAGER_HELP_MSG));
   s->addSaveFunc([manager] {
     RecalboxConf::Instance().SetBool("system.manager.enabled", manager->getState());
-    RecalboxConf::Instance().SaveRecalboxConf();
+    RecalboxConf::Instance().Save();
   });
   // Recalbox API
   auto recalboxApi = std::make_shared<SwitchComponent>(mWindow, RecalboxConf::Instance().AsBool("system.api.enabled"));
   s->addWithLabel(recalboxApi, _("RECALBOX API"), _(MENUMESSAGE_ADVANCED_API_HELP_MSG));
   s->addSaveFunc([recalboxApi] {
     RecalboxConf::Instance().SetBool("system.api.enabled", recalboxApi->getState());
-    RecalboxConf::Instance().SaveRecalboxConf();
+    RecalboxConf::Instance().Save();
   });
   mWindow.pushGui(s);
 }
@@ -1731,62 +1730,43 @@ void GuiMenu::menuQuit()
   GuiQuit::PushQuitGui(mWindow);
 }
 
-void GuiMenu::popSystemConfigurationGui(SystemData *systemData) const {
-
+void GuiMenu::popSystemConfigurationGui(SystemData *systemData) const
+{
     // The system configuration
     GuiSettings *systemConfiguration = new GuiSettings(mWindow, systemData->getFullName());
 
-    EmulatorDefaults emulatorDefaults = RecalboxSystem::getEmulatorDefaults(systemData->getName());
+    std::string defaultEmulator;
+    std::string defaultCore;
+    mSystemManager.Emulators().GetSystemDefaultEmulator(*systemData, defaultEmulator, defaultCore);
 
     //Emulator choice
     auto emu_choice = std::make_shared<OptionListComponent<std::string>>(mWindow, _("Emulator"), false);
 
+    std::string currentEmulator = RecalboxConf::Instance().AsString(systemData->getName() + ".emulator");
+    if (currentEmulator.empty()) currentEmulator = defaultEmulator;
+    for (const std::string& emulatorName : mSystemManager.Emulators().GetEmulators(*systemData))
+    {
+      std::string displayName = emulatorName;
+      if (displayName == defaultEmulator) displayName.append(" (").append(_("DEFAULT")).append(1, ')');
+      emu_choice->add(displayName, emulatorName, emulatorName == currentEmulator);
+    }
+
     // Core choice
     auto core_choice = std::make_shared<OptionListComponent<std::string> >(mWindow, _("Core"), false);
 
-    std::string currentEmulator = RecalboxConf::Instance().AsString(systemData->getName() + ".emulator");
-
-    emu_choice->add(Strings::Replace(_("DEFAULT (%1%)"), "%1%", emulatorDefaults.emulator), "default", true);
-
-    for (int i = systemData->Emulators().Count(); --i >= 0;)
-    {
-      emu_choice->add(systemData->Emulators().At(i).Name(), systemData->Emulators().At(i).Name(),
-                      systemData->Emulators().At(i).Name() == currentEmulator);
-    }
-
     // when emulator changes, load new core list
-    emu_choice->setSelectedChangedCallback([systemData, emulatorDefaults, core_choice](const std::string& emulatorName) {
+    emu_choice->setSelectedChangedCallback([this, systemData, defaultEmulator, defaultCore, core_choice](const std::string& emulatorName)
+    {
         core_choice->clear();
 
-        if (emulatorName == "default") {
-            core_choice->add(Strings::Replace(_("DEFAULT (%1%)"), "%1%", emulatorDefaults.core), "default", true);
-            return ;
-        }
-        
-        const EmulatorDescriptor& emulator = systemData->Emulators().Named(emulatorName);
+        bool isDefaultEmulator = (emulatorName == defaultEmulator);
         std::string currentCore = RecalboxConf::Instance().AsString(systemData->getName() + ".core");
-
-        if (currentCore.empty()) {
-            currentCore = "default";
-        }
-
-        // update current core if it is not available in the emulator selected core list
-        if (currentCore != "default" && emulator.HasCore(currentCore)) {
-            if (emulatorName == emulatorDefaults.emulator) {
-                currentCore = emulatorDefaults.core;
-            } else {
-                // use first one
-                currentCore = emulator.Core(0);
-            }
-        }
-
-        for (int i = 0; i < emulator.CoreCount(); ++i)
+        if (currentCore.empty()) currentCore = defaultCore;
+        for (const std::string& coreName : mSystemManager.Emulators().GetCores(*systemData, emulatorName))
         {
-            // select at least first one in case of bad entry in config file
-            bool selected = currentCore == emulator.Core(i) || i == 0;
-            if (currentCore == "default" && emulatorName == emulatorDefaults.emulator)
-                selected = selected || (emulator.Core(i) == emulatorDefaults.core);
-            core_choice->add(emulator.Core(i), emulator.Core(i), selected);
+          std::string displayName = coreName;
+          if (displayName == defaultCore && isDefaultEmulator) displayName.append(" (").append(_("DEFAULT")).append(1, ')');
+          core_choice->add(displayName, coreName, coreName == currentCore);
         }
     });
 
@@ -1812,7 +1792,6 @@ void GuiMenu::popSystemConfigurationGui(SystemData *systemData) const {
     autosave_enabled->setState(RecalboxConf::Instance().AsBool(systemData->getName() + ".autosave", RecalboxConf::Instance().AsBool("global.autosave")));
     systemConfiguration->addWithLabel(autosave_enabled, _("AUTO SAVE/LOAD"), _(MENUMESSAGE_GAME_AUTOSAVELOAD_HELP_MSG));
 
-
     systemConfiguration->addSaveFunc(
             [systemData, smoothing_enabled, rewind_enabled, ratio_choice, emu_choice, core_choice, autosave_enabled] {
                 if (ratio_choice->changed()) {
@@ -1833,7 +1812,7 @@ void GuiMenu::popSystemConfigurationGui(SystemData *systemData) const {
                 if (autosave_enabled->changed()) {
                     RecalboxConf::Instance().SetBool(systemData->getName() + ".autosave", autosave_enabled->getState());
                 }
-                RecalboxConf::Instance().SaveRecalboxConf();
+                RecalboxConf::Instance().Save();
             });
     mWindow.pushGui(systemConfiguration);
 }

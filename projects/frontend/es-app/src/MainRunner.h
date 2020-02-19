@@ -57,6 +57,9 @@ class MainRunner: private INoCopy, private ISynchronousEvent, private IFileSyste
     //! Force reload list requested
     static bool sForceReloadFromDisk;
 
+    //! Recalbox configuration
+    RecalboxConf mConfiguration;
+
     /*!
      * @brief Reset last exit state
      */
@@ -71,7 +74,7 @@ class MainRunner: private INoCopy, private ISynchronousEvent, private IFileSyste
      * @brief Set the system locale
      * @param executablePath Path to current executable
      */
-    static void SetLocale(const std::string& executablePath);
+    void SetLocale(const std::string& executablePath);
 
     /*!
      * @brief Open the main logger

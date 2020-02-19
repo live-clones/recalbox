@@ -2182,3 +2182,7 @@ msgstr "NOM DE SYSTÈMES"
 #:
 msgid "PUBLISHER"
 msgstr "ÉDITEUR"
+
+#:
+msgid "DEFAULT"
+msgstr "PAR DEFAUT"

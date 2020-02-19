@@ -63,6 +63,7 @@ set(CORE_HEADERS
 		src/utils/storage/HashMap.h
 		src/utils/storage/Queue.h
 		src/utils/storage/Stack.h
+		src/utils/IniFile.h
 		src/utils/Files.h
 		src/utils/Http.h
 		src/utils/Strings.h
@@ -170,6 +171,7 @@ set(CORE_SOURCES
 		src/utils/math/Vector4f.cpp
 		src/utils/math/Misc.cpp
 		src/utils/math/Transform4x4f.cpp
+		src/utils/IniFile.cpp
 		src/utils/Http.cpp
 		src/utils/Files.cpp
 		src/utils/Strings.cpp

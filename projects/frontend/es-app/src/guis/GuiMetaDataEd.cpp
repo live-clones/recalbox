@@ -18,6 +18,7 @@
 #include "GuiScraperSingleGameRun.h"
 
 GuiMetaDataEd::GuiMetaDataEd(Window& window,
+                             SystemManager& systemManager,
                              MetadataDescriptor& md,
                              FileData& game,
                              const std::string& header,
@@ -27,6 +28,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window& window,
                              bool main)
   : Gui(window),
     mGame(game),
+    mSystemManager(systemManager),
     mBackground(window, Path(":/frame.png")),
     mGrid(window, Vector2i(1, 3)),
     mMetaData(md),
@@ -57,8 +59,6 @@ GuiMetaDataEd::GuiMetaDataEd(Window& window,
 
   mList = std::make_shared<ComponentList>(mWindow);
   mGrid.setEntry(mList, Vector2i(0, 1), true, true);
-
-  EmulatorDefaults emulatorDefaults = RecalboxSystem::getEmulatorDefaults(system->getName());
 
   auto emu_choice = std::make_shared<OptionListComponent<std::string>>(mWindow, _("Emulator"), false, FONT_SIZE_MEDIUM);
   auto core_choice = std::make_shared<OptionListComponent<std::string> >(mWindow, _("core"), false, FONT_SIZE_MEDIUM);
@@ -140,72 +140,35 @@ GuiMetaDataEd::GuiMetaDataEd(Window& window,
         if (field.Key() == "emulator")
         {
           row.addElement(emu_choice, false);
-          std::string currentEmulator = mMetaData.Emulator();
-          std::string mainConfigEmulator = RecalboxConf::Instance().AsString(system->getName() + ".emulator");
 
-          if (mainConfigEmulator.empty() || mainConfigEmulator == "default")
+          std::string defaultEmulator;
+          std::string defaultCore;
+          mSystemManager.Emulators().GetSystemDefaultEmulator(*system, defaultEmulator, defaultCore);
+
+          std::string currentEmulator = RecalboxConf::Instance().AsString(system->getName() + ".emulator");
+          if (currentEmulator.empty()) currentEmulator = defaultEmulator;
+          for (const std::string& emulatorName : mSystemManager.Emulators().GetEmulators(*system))
           {
-            mainConfigEmulator = emulatorDefaults.emulator;
-          }
-
-          emu_choice->add(Strings::Replace(_("DEFAULT (%1%)"), "%1%", mainConfigEmulator), "default", true);
-
-          for (int i = system->Emulators().Count(); --i >= 0; )
-          {
-            emu_choice->add(system->Emulators().At(i).Name(), system->Emulators().At(i).Name(),
-                            system->Emulators().At(i).Name() == currentEmulator);
+            std::string displayName = emulatorName;
+            if (displayName == defaultEmulator) displayName.append(" (").append(_("DEFAULT")).append(1, ')');
+            emu_choice->add(displayName, emulatorName, emulatorName == currentEmulator);
           }
 
           // when emulator changes, load new core list
-          emu_choice->setSelectedChangedCallback([this, system, emulatorDefaults, core_choice](const std::string& emulatorName)
-                                                 {
-                                                   core_choice->clear();
+          emu_choice->setSelectedChangedCallback([this, system, defaultEmulator, defaultCore, core_choice](const std::string& emulatorName)
+          {
+            core_choice->clear();
 
-                                                   if (emulatorName == "default")
-                                                   {
-                                                     std::string mainConfigCore = RecalboxConf::Instance().AsString(system->getName() + ".core");
-                                                     if (mainConfigCore.empty() || mainConfigCore == "default")
-                                                     {
-                                                       mainConfigCore = emulatorDefaults.core;
-                                                     }
-                                                     core_choice->add(
-                                                       Strings::Replace(_("DEFAULT (%1%)"), "%1%", mainConfigCore), "default", true);
-                                                     return;
-                                                   }
-
-                                                   const EmulatorDescriptor& emulator = system->Emulators().Named(emulatorName);
-                                                   std::string currentCore = mMetaData.Core();
-
-                                                   if (currentCore.empty())
-                                                   {
-                                                     currentCore = "default";
-                                                   }
-
-                                                   // update current core if it is not available in the emulator selected core list
-                                                   if (currentCore != "default" && emulator.HasCore(currentCore))
-                                                   {
-                                                     if (emulatorName == emulatorDefaults.emulator)
-                                                     {
-                                                       currentCore = emulatorDefaults.core;
-                                                     }
-                                                     else
-                                                     {
-                                                       // use first one
-                                                       currentCore = emulator.Core(0);
-                                                     }
-                                                   }
-
-                                                   for (int i = 0; i < emulator.CoreCount(); ++i)
-                                                   {
-                                                     // select at least first one in case of bad entry in config file
-                                                     bool selected = (currentCore == emulator.Core(i)) || (i == 0);
-                                                     if (currentCore == "default" && emulatorName == emulatorDefaults.emulator)
-                                                     {
-                                                       selected = selected || (emulator.Core(i) == emulatorDefaults.core);
-                                                     }
-                                                     core_choice->add(emulator.Core(i), emulator.Core(i), selected);
-                                                   }
-                                                 });
+            bool isDefaultEmulator = (emulatorName == defaultEmulator);
+            std::string currentCore = RecalboxConf::Instance().AsString(system->getName() + ".core");
+            if (currentCore.empty()) currentCore = defaultCore;
+            for (const std::string& coreName : mSystemManager.Emulators().GetCores(*system, emulatorName))
+            {
+              std::string displayName = coreName;
+              if (displayName == defaultCore && isDefaultEmulator) displayName.append(" (").append(_("DEFAULT")).append(1, ')');
+              core_choice->add(displayName, coreName, coreName == currentCore);
+            }
+          });
 
           ed = emu_choice;
         }
@@ -311,7 +274,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window& window,
     row.makeAcceptInputHandler([this, header, system]
                                {
                                  // call the same Gui with "main" set to "false"
-                                 mWindow.pushGui(new GuiMetaDataEd(mWindow, mMetaData, mGame, header, nullptr, nullptr, system, false));
+                                 mWindow.pushGui(new GuiMetaDataEd(mWindow, mSystemManager, mMetaData, mGame, header, nullptr, nullptr, system, false));
                                });
 
     mList->addRow(row);

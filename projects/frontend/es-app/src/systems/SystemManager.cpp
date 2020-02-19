@@ -200,6 +200,7 @@ SystemData* SystemManager::ThreadPoolRunJob(SystemDescriptor& system)
     }
     else
     {
+      mEmulatorManager.AddEmulatorList(*newSys, system.EmulatorTree());
       LOG(LogWarning) << "Adding \"" << system.Name() << "\" in system list.";
       return newSys;
     }

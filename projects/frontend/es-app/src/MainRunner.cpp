@@ -12,7 +12,6 @@
 #include <systems/SystemManager.h>
 #include <guis/GuiMsgBoxScroll.h>
 #include <recalbox/RecalboxUpgrade.h>
-#include <RecalboxConf.h>
 #include <VideoEngine.h>
 #include <guis/GuiDetectDevice.h>
 #include <bios/BiosManager.h>
@@ -80,8 +79,7 @@ MainRunner::ExitState MainRunner::Run()
     ResetForceReloadState();
 
     // Run kodi at startup?
-    RecalboxConf& recalboxConf = RecalboxConf::Instance();
-    if (recalboxConf.AsString("kodi.enabled") == "1" && recalboxConf.AsString("kodi.atstartup") == "1")
+    if (mConfiguration.AsString("kodi.enabled") == "1" && mConfiguration.AsString("kodi.atstartup") == "1")
       RecalboxSystem::launchKodi(window);
 
     // Scrapers
@@ -358,7 +356,7 @@ void MainRunner::SetLocale(const std::string& executablePath)
   }
 
   // Get locale from configuration
-  std::string localeName = RecalboxConf::Instance().AsString("system.language", "en");
+  std::string localeName = mConfiguration.AsString("system.language", "en");
 
   // Set locale
   if (!Internationalizer::InitializeLocale(localeName,

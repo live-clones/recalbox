@@ -2,6 +2,7 @@
 
 #include "SystemData.h"
 #include "SystemDescriptor.h"
+#include "EmulatorManager.h"
 #include <utils/os/system/IThreadPoolWorkerInterface.h>
 #include <RootFolders.h>
 #include <utils/Xml.h>
@@ -40,6 +41,9 @@ class SystemManager :
   private:
     //! File path to system weight file for fast loading/saving
     static constexpr const char* sWeightFilePath = "/recalbox/share/system/.emulationstation/.weights";
+
+    // Emulator manager
+    EmulatorManager mEmulatorManager;
 
     //! Visible system, including virtual system (Arcade)
     std::vector<SystemData*> mVisibleSystemVector;
@@ -369,5 +373,8 @@ class SystemManager :
           return mVisibleSystemVector[(--i + size) % size];
       return nullptr;
     }
+
+    //! Get emulator manager
+    const EmulatorManager& Emulators() const { return mEmulatorManager; }
 };
 

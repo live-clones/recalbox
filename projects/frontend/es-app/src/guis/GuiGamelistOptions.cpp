@@ -258,5 +258,5 @@ void GuiGamelistOptions::save() {
 		mSaveFunc();
 	}
 	Settings::Instance().saveFile();
-	RecalboxConf::Instance().SaveRecalboxConf();
+	RecalboxConf::Instance().Save();
 }

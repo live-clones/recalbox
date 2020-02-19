@@ -20,6 +20,7 @@ set(ES_HEADERS
         src/games/classifications/Regions.h
         src/systems/EmulatorDescriptor.h
         src/systems/EmulatorList.h
+        src/systems/EmulatorManager.h
         src/systems/SystemDescriptor.h
         src/systems/SystemData.h
         src/systems/SystemManager.h
@@ -111,6 +112,7 @@ set(ES_SOURCES
         src/games/MetadataDescriptor.cpp
         src/games/classifications/Genres.cpp
         src/games/classifications/Regions.cpp
+        src/systems/EmulatorManager.cpp
         src/systems/SystemData.cpp
         src/systems/SystemManager.cpp
 

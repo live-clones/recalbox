@@ -176,7 +176,7 @@ void GuiScraperOptions::start()
       RecalboxConf::Instance().SetString("scraper.screenscraper.video", mVideo->getSelected());
       RecalboxConf::Instance().SetString("scraper.screenscraper.region", mRegion->getSelected());
       RecalboxConf::Instance().SetString("scraper.screenscraper.language", mLanguage->getSelected());
-      RecalboxConf::Instance().SaveRecalboxConf();
+      RecalboxConf::Instance().Save();
       break;
     }
     case ScraperFactory::ScraperType::TheGameDB:

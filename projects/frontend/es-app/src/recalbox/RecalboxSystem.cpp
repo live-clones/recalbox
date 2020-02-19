@@ -5,7 +5,6 @@
  * Created on 29 novembre 2014, 03:1
  */
 
-#include "RecalboxConf.h"
 #include "RecalboxSystem.h"
 #include <sys/statvfs.h>
 #include "Settings.h"
@@ -514,66 +513,3 @@ std::pair<std::string, int> RecalboxSystem::getSysBatteryInfo()
 
   return result;
 }
-
-std::string RecalboxSystem::getJSONStringValue(const std::string& json, const std::string& key)
-{
-  int startPos = json.find("\"" + key + "\": ");
-
-  if (startPos > 0)
-  {
-    std::string token = json.substr(startPos + key.length() + 4, json.length());
-    if (token.substr(0, 4) != "null")
-    {
-      int endPos = token.find('\"', 1);
-
-      if (endPos > 0)
-      {
-        return token.substr(1, endPos - 1);
-      }
-    }
-
-  }
-  return "";
-}
-
-EmulatorDefaults RecalboxSystem::getEmulatorDefaults(const std::string& emulatorName)
-{
-  EmulatorDefaults defaults;
-  RecalboxConf initConfig(true);
-  std::string json = runCmd("getEmulatorDefaults " + emulatorName);
-
-  defaults.emulator = initConfig.AsString(emulatorName + ".emulator");
-  if (defaults.emulator.empty())
-  {
-    defaults.emulator = getJSONStringValue(json, "emulator");
-  }
-
-  defaults.core = initConfig.AsString(emulatorName + ".core");
-  if (defaults.core.empty())
-  {
-    defaults.core = getJSONStringValue(json, "core");
-  }
-
-  return defaults;
-}
-
-std::string RecalboxSystem::runCmd(const std::string& options)
-{
-  std::string cmd = Settings::Instance().RecalboxSettingScript() + " " + options;
-  FILE* pipe = popen(cmd.c_str(), "r");
-  char line[1024];
-
-  if (pipe == nullptr)
-  {
-    return "";
-  }
-
-  if (fgets(line, 1024, pipe) != nullptr)
-  {
-    strtok(line, "\n");
-    pclose(pipe);
-    return std::string(line);
-  }
-  return cmd;
-}
-
