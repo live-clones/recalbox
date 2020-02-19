@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_YABAUSE_VERSION = 08d09cb88a69ee4c2986693fb813e0eb58d71481
+LIBRETRO_YABAUSE_VERSION = 9be109f9032afa793d2a79b837c4cc232cea5929
 LIBRETRO_YABAUSE_SITE = $(call github,libretro,yabause,$(LIBRETRO_YABAUSE_VERSION))
 
 define LIBRETRO_YABAUSE_BUILD_CMDS
