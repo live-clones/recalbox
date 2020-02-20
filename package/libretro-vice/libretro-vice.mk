@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_VICE_VERSION = f3e7249b8b3e436b1387c2f3876ae5525c67ac21
+LIBRETRO_VICE_VERSION = 3ab6a83a65aace0fef10b1f83394bd814a0abf3f
 LIBRETRO_VICE_SITE = $(call github,libretro,vice-libretro,$(LIBRETRO_VICE_VERSION))
 
 LIBRETRO_VICE_SUBEMULATORS = x64 x64sc x128 xpet xplus4 xvic xcbm2
@@ -24,7 +24,7 @@ define LIBRETRO_VICE_BUILD_CMDS
 endef
 
 define LIBRETRO_VICE_INSTALL_EMULATOR
-	@echo "Installing $(1)..."; \
+#	@echo "Installing $(1)..."; \
 	$(INSTALL) -D $(@D)/vice_$(strip $(1))_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/vice_$(strip $(1))_libretro.so ;
 endef
