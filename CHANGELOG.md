@@ -36,6 +36,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Faster CRC calculation for netplay 
 - Game sorting and Jump-to-letter now unicode compatible
 - Bump oricatmos emulator on lastest version
+- Bump simcoupe emulator 
 
 ## [6.1.1]
 - Add zfast shaders
