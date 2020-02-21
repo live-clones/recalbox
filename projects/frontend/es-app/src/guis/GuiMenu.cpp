@@ -1619,7 +1619,7 @@ void GuiMenu::menuAdvancedSettings(){
       std::vector<SystemData *> systems = mSystemManager.GetAllSystemList();
       for (auto& system : systems)
       {
-        if (system != mSystemManager.FavoriteSystem()) {
+        if (!system->IsVirtual()) {
           SystemData *systemData = system;
           configuration->addSubMenu(system->getFullName(), [this, systemData] {
             popSystemConfigurationGui(systemData);
