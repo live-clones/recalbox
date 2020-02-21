@@ -181,7 +181,8 @@ void DemoMode::runDemo()
       Initialized = true;
     }
     // Run game
-    if (system->DemoRunGame(*game, duration, mInfoScreenDuration, controllerConfigs))
+    EmulatorData emulator = mSystemManager.Emulators().GetGameEmulator(*game);
+    if (system->DemoRunGame(*game, emulator, duration, mInfoScreenDuration, controllerConfigs))
     {
       mWindow.doWake();
       break;

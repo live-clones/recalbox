@@ -43,7 +43,7 @@ public:
   static Regions::List AvailableRegionsInGames(FileData::List& list);
 
 protected:
-	void launch(FileData* game) override { ViewController::Instance().launch(game); }
+	void launch(FileData* game) override { ViewController::Instance().LaunchCheck(game, nullptr, Vector3f()); }
 
   FileData* getEmptyListItem() override { return &mEmptyListItem; }
 

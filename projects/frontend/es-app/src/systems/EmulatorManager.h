@@ -13,7 +13,7 @@ class EmulatorManager : public INoCopy
 {
   private:
     //! System to emulator/core list
-    HashMap<std::string, const EmulatorList*> mSystemEmulators;
+    HashMap<std::string, const EmulatorList> mSystemEmulators;
 
     /*!
      * @brief Check if the given emulator and core exists for the given system
@@ -68,7 +68,7 @@ class EmulatorManager : public INoCopy
      */
     void AddEmulatorList(const SystemData& system, const EmulatorList& list)
     {
-      mSystemEmulators.insert_unique(std::string(system.getFullName()), &list);
+      mSystemEmulators.insert(std::string(system.getFullName()), list);
     }
 
     //! Class SystemManager needs to Add emulator lists
@@ -93,7 +93,15 @@ class EmulatorManager : public INoCopy
      * @param core Core name
      * @return True if emulator/core have been filled properly, false otherwise (error, non-existing system, ...)
      */
-    bool GetGameEmulatorFor(const FileData& game, std::string& emulator, std::string& core) const;
+    bool GetGameEmulator(const FileData& game, std::string& emulator, std::string& core) const;
+
+    /*!
+     * @brief Get final emulator/core names used to run the given game
+     * this method explore all config files and override to find out final names
+     * @param game Game to get emulator/core for
+     * @return Emulator/Core holder. May be invalid.
+     */
+    EmulatorData GetGameEmulator(const FileData& game) const;
 
     /*!
      * @brief Get emulator list for the given system. The first item is the default emulator

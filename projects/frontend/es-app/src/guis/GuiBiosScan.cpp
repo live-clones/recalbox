@@ -389,46 +389,41 @@ void GuiBiosScan::UpdateBiosList()
     mList->add((prefix != nullptr ? prefix : "\uF200 ") + Strings::ToUpperUTF8(biosList.FullName()), ListContext(), sColorIndexNormal, -1, HorizontalAlignment::Left);
     ListContext headerContext = ListContext(&biosList, nullptr);
 
+    totalBiosNotFound    += biosList.TotalFileNotFound();
+    totalBiosMatching    += biosList.TotalHashMatching();
+    totalBiosNonMatching += biosList.TotalHashNotMatching();
+
     // Bios
     for(int j = 0; j < biosList.BiosCount(); ++j)
     {
       const Bios& bios = biosList.BiosAt(j);
-      // Update bios statistics
-      switch(bios.LightStatus())
-      {
-        case Bios::ReportStatus::Green: headerContext.mBiosOK++; break;
-        case Bios::ReportStatus::Yellow: headerContext.mBiosUnsafe++; break;
-        case Bios::ReportStatus::Unknown:
-        case Bios::ReportStatus::Red: headerContext.mBiosKO++; break;
-      }
-      switch(bios.BiosStatus())
-      {
-        case Bios::Status::Unknown: break;
-        case Bios::Status::FileNotFound: totalBiosNotFound++; headerContext.mBiosNotFound++; break;
-        case Bios::Status::HashMatching: totalBiosMatching++; headerContext.mBiosMatching++; break;
-        case Bios::Status::HashNotMatching: totalBiosNonMatching++; headerContext.mBiosNotMatching++; break;
-      }
-      // Add bios item
       mList->add(Strings::ToUpperASCII(bios.Filename()) + sSuffixes[bios.LightStatus()], ListContext(&biosList, &bios), bios.BiosStatus() == Bios::Status::FileNotFound ? sColorIndexHalf : sColorIndexNormal, -1, HorizontalAlignment::Right);
     }
     mList->setSelectedAt(headerIndex, headerContext);
 
     // Update system statistics
-    if (headerContext.mBiosKO != 0)
+    switch(biosList.ReportStatus())
     {
-      nonWorkingSystem++;
-      lastNonWorkingSystemName = biosList.FullName();
-      mList->changeBackgroundColorAt(headerIndex, sColorIndexRed);
-    }
-    else if (headerContext.mBiosUnsafe != 0)
-    {
-      workingSystem++;
-      mList->changeBackgroundColorAt(headerIndex, sColorIndexYellow);
-    }
-    else
-    {
-      fullWorkingSystem++;
-      mList->changeBackgroundColorAt(headerIndex, sColorIndexGreen);
+      case Bios::ReportStatus::Green:
+      {
+        fullWorkingSystem++;
+        mList->changeBackgroundColorAt(headerIndex, sColorIndexGreen);
+        break;
+      }
+      case Bios::ReportStatus::Yellow:
+      {
+        workingSystem++;
+        mList->changeBackgroundColorAt(headerIndex, sColorIndexYellow);
+        break;
+      }
+      case Bios::ReportStatus::Unknown:
+      case Bios::ReportStatus::Red:
+      {
+        nonWorkingSystem++;
+        lastNonWorkingSystemName = biosList.FullName();
+        mList->changeBackgroundColorAt(headerIndex, sColorIndexRed);
+        break;
+      }
     }
   }
 
@@ -563,24 +558,30 @@ void GuiBiosScan::UpdateBiosDetail()
     mDetailText2Label->setValue("");
     mDetailText2Value->setValue("");
     const char* imagePath = ":/thumbs_up_green.svg";
-    if (context.mBiosKO != 0) imagePath = ":/thumbs_down_red.svg";
-    else if (context.mBiosUnsafe != 0) imagePath = ":/thumbs_up_yellow.svg";
+    const char* text = "Congratulation, all cores/emulators listed below will work flawlessly!";
+    if (context.mBiosList->TotalBiosKo() != 0)
+    {
+      imagePath = ":/thumbs_down_red.svg";
+      text = "Cores/emulators listed below won't probably work until required bios are made available.";
+    }
+    else if (context.mBiosList->TotalBiosUnsafe() != 0)
+    {
+      imagePath = ":/thumbs_up_yellow.svg";
+      text = "Cores/emulators listed below may work in most cases, unless you use features requiring special bios.";
+    }
     mDetailStatusImage->setImage(Path(imagePath));
     mDetailBiosOkLabel->setValue(_("BIOS OK"));
-    mDetailBiosOkValue->setValue(Strings::ToString(context.mBiosOK));
+    mDetailBiosOkValue->setValue(Strings::ToString(context.mBiosList->TotalBiosOk()));
     mDetailBiosUnsafeLabel->setValue(_("BIOS UNSAFE"));
-    mDetailBiosUnsafeValue->setValue(Strings::ToString(context.mBiosUnsafe));
+    mDetailBiosUnsafeValue->setValue(Strings::ToString(context.mBiosList->TotalBiosUnsafe()));
     mDetailBiosKOLabel->setValue(_("BIOS KO"));
-    mDetailBiosKOValue->setValue(Strings::ToString(context.mBiosKO));
+    mDetailBiosKOValue->setValue(Strings::ToString(context.mBiosList->TotalBiosKo()));
     mDetailBiosNotFoundLabel->setValue(_("BIOS NOT FOUND"));
-    mDetailBiosNotFoundValue->setValue(Strings::ToString(context.mBiosNotFound));
+    mDetailBiosNotFoundValue->setValue(Strings::ToString(context.mBiosList->TotalFileNotFound()));
     mDetailBiosMatchingLabel->setValue(_("MD5 OK"));
-    mDetailBiosMatchingValue->setValue(Strings::ToString(context.mBiosMatching));
+    mDetailBiosMatchingValue->setValue(Strings::ToString(context.mBiosList->TotalHashMatching()));
     mDetailBiosNotMatchingLabel->setValue(_("MD5 NOT OK"));
-    mDetailBiosNotMatchingValue->setValue(Strings::ToString(context.mBiosNotMatching));
-    const char* text = "Congratulation, all cores/emulators listed below will work flawlessly!";
-    if (context.mBiosKO != 0) text = "Cores/emulators listed below won't probably work until required bios are made available.";
-    else if (context.mBiosUnsafe != 0) text = "Cores/emulators listed below may work in most cases, unless you use features requiring special bios.";
+    mDetailBiosNotMatchingValue->setValue(Strings::ToString(context.mBiosList->TotalHashNotMatching()));
     mDetailText1Value->setValue(_S(std::string(text)));
     mDetailText2Label->setValue(_("Core") + " :");
     std::string cores = GetUniqueCoreList(*context.mBiosList);

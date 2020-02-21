@@ -10,6 +10,8 @@
 #include "games/FileSorts.h"
 #include "EmulatorList.h"
 #include "SystemDescriptor.h"
+#include "NetPlayData.h"
+#include "EmulatorData.h"
 
 class SystemManager;
 
@@ -133,7 +135,7 @@ class SystemData : private INoCopy
     int FavoritesCount() const{ return mRootFolder.countAllFavorites(false, IncludeAdultGames()); };
     int HiddenCount() const{ return mRootFolder.countAllHidden(false, IncludeAdultGames()); };
 
-    void RunGame(Window& window, SystemManager& systemManager, FileData& game, const std::string& netplay, const std::string& core, const std::string& ip, const std::string& port);
+    void RunGame(Window& window, SystemManager& systemManager, FileData& game, const EmulatorData& emulator, const NetPlayData* netplay);
 
     // Load or re-load theme.
     void loadTheme();
@@ -142,7 +144,7 @@ class SystemData : private INoCopy
 
     static std::string demoInitialize(Window& window);
     static void demoFinalize(Window& window);
-    bool DemoRunGame(const FileData& game, int duration, int infoscreenduration, const std::string& controlersConfig);
+    bool DemoRunGame(const FileData& game, const EmulatorData& emulator, int duration, int infoscreenduration, const std::string& controlersConfig);
 
     //! Is this system the "Favorite" system?
     bool IsFavorite() const;

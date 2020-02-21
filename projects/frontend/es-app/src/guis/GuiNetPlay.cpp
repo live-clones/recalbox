@@ -290,14 +290,14 @@ void GuiNetPlay::launch()
 
   LobbyGame game = mLobbyList[index];
 
-  Vector3f target(Renderer::getDisplayWidthAsFloat() / 2.0f, Renderer::getDisplayHeightAsFloat() / 2.0f, 0);
   if (!game.mCoreName.empty())
   {
     bool mitm = game.mHostMethod == 3;
     std::string& ip = mitm ? game.mMitmIp : game.mIp;
     int port = mitm ? game.mMitmPort : game.mPort;
 
-    ViewController::Instance().launch(game.mGame, target, "client", game.mCoreName, ip, std::to_string(port));
+    NetPlayData netplay(game.mCoreName, ip, port);
+    ViewController::Instance().LaunchCheck(game.mGame, &netplay, Vector3f());
     Close();
   }
 }

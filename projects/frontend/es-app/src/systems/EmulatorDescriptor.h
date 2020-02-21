@@ -8,12 +8,12 @@
 class EmulatorDescriptor
 {
   public:
-    static constexpr int sMaximumCores = 8;
+    static constexpr int sMaximumCores = 4;
 
   private:
     std::string mEmulator;
-    int mCoreCount;
     std::string mCores[sMaximumCores];
+    int mCoreCount;
 
   public:
     EmulatorDescriptor()

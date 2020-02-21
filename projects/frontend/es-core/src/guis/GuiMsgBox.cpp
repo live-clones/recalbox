@@ -41,6 +41,13 @@ GuiMsgBox::GuiMsgBox(Window& window, const std::string& text,
 }
 
 GuiMsgBox::GuiMsgBox(Window& window, const std::string& text,
+                     const std::string& name1, TextAlignment align)
+  : GuiMsgBox(window)
+{
+  build(text, align, name1, nullptr, std::string(), nullptr, std::string(), nullptr);
+}
+
+GuiMsgBox::GuiMsgBox(Window& window, const std::string& text,
                      const std::string& name1)
   : GuiMsgBox(window)
 {
@@ -58,8 +65,8 @@ void GuiMsgBox::build(const std::string& text, TextAlignment align,
                  const std::string& name2, const std::function<void()>& func2,
                  const std::string& name3, const std::function<void()>& func3)
 {
-	float width = Renderer::getDisplayWidthAsFloat() * 0.6f; // max width
-	float minWidth = Renderer::getDisplayWidthAsFloat() * 0.3f; // minimum width
+	float width = Renderer::getDisplayWidthAsFloat() * 0.7f; // max width
+	float minWidth = Renderer::getDisplayWidthAsFloat() * 0.4f; // minimum width
 	
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 	
@@ -71,25 +78,25 @@ void GuiMsgBox::build(const std::string& text, TextAlignment align,
 	mGrid.setEntry(mMsg, Vector2i(0, 0), false, false);
 
 	// create the buttons
-	mButtons.push_back(std::make_shared<ButtonComponent>(mWindow, name1, name1, std::bind(&GuiMsgBox::deleteMeAndCall, this, func1)));
+	mButtons.push_back(std::make_shared<ButtonComponent>(mWindow, name1, name1, std::bind(&GuiMsgBox::CloseAndCall, this, func1)));
 	if(!name2.empty())
-		mButtons.push_back(std::make_shared<ButtonComponent>(mWindow, name2, name3, std::bind(&GuiMsgBox::deleteMeAndCall, this, func2)));
+		mButtons.push_back(std::make_shared<ButtonComponent>(mWindow, name2, name2, std::bind(&GuiMsgBox::CloseAndCall, this, func2)));
 	if(!name3.empty())
-		mButtons.push_back(std::make_shared<ButtonComponent>(mWindow, name3, name3, std::bind(&GuiMsgBox::deleteMeAndCall, this, func3)));
+		mButtons.push_back(std::make_shared<ButtonComponent>(mWindow, name3, name3, std::bind(&GuiMsgBox::CloseAndCall, this, func3)));
 
 	// set accelerator automatically (button to press when "b" is pressed)
 	if(mButtons.size() == 1)
 	{
 		mAcceleratorFunc = mButtons.front()->getPressedFunc();
-	}else{
+	}
+	else
+	{
 		for (auto& button : mButtons)
-		{
 			if(Strings::ToUpperASCII(button->getText()) == "OK" || Strings::ToUpperASCII(button->getText()) == "NO")
 			{
 				mAcceleratorFunc = button->getPressedFunc();
 				break;
 			}
-		}
 	}
 
 	// put the buttons into a ComponentGrid
@@ -140,8 +147,9 @@ void GuiMsgBox::onSizeChanged()
 	mBackground.fitTo(mSize, Vector3f::Zero(), Vector2f(-32, -32));
 }
 
-void GuiMsgBox::deleteMeAndCall(const std::function<void()>& func)
+void GuiMsgBox::CloseAndCall(const std::function<void()>& func)
 {
 	Close();
 	if (func) func();
 }
+

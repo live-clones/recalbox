@@ -18,9 +18,11 @@ set(ES_HEADERS
         src/games/MetadataFieldDescriptor.h
         src/games/classifications/Genres.h
         src/games/classifications/Regions.h
+        src/systems/EmulatorData.h
         src/systems/EmulatorDescriptor.h
         src/systems/EmulatorList.h
         src/systems/EmulatorManager.h
+        src/systems/NetPlayData.h
         src/systems/SystemDescriptor.h
         src/systems/SystemData.h
         src/systems/SystemManager.h

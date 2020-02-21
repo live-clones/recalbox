@@ -17,18 +17,18 @@ class Bios
   public:
     enum class Status
     {
-      Unknown,         //<! Not yet scanned
-      FileNotFound,    //<! File does not exist
-      HashNotMatching, //<! File exists but Hash does not match any possible hashes
-      HashMatching,    //<! File exists and hash is also matching one of the possible hashes
+      Unknown,         //!< Not yet scanned
+      FileNotFound,    //!< File does not exist
+      HashNotMatching, //!< File exists but Hash does not match any possible hashes
+      HashMatching,    //!< File exists and hash is also matching one of the possible hashes
     };
 
     enum class ReportStatus
     {
-      Unknown,//<! Not yet scanned
-      Green,  //<! Bios is Ok
-      Yellow, //<! Not mandatory missing or hash mismatch (if allowed)
-      Red,    //<! File for found or hash mismatch (and not allowed)
+      Unknown, //!< Not yet scanned
+      Green,   //!< Bios is Ok
+      Yellow,  //!< Not mandatory missing or hash mismatch (if allowed)
+      Red,     //!< File for found or hash mismatch (and not allowed)
     };
 
   private:

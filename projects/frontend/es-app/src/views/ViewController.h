@@ -41,12 +41,30 @@ public:
 
 	void updateFavorite(SystemData* system, FileData* file);
 
-	// Plays a nice launch effect and launches the game at the end of it.
-	// Once the game terminates, plays a return effect.
-	void launch(FileData* game, Vector3f centerCameraOn = Vector3f(Renderer::getDisplayWidthAsFloat() / 2.0f, Renderer::getDisplayHeightAsFloat() / 2.0f, 0),
-			const std::string& netplay = "", const std::string& core = "", const std::string& ip = "", const std::string& port = "");
+    /*!
+     * @brief Check bios and call LaunchAnimated
+     * @param game game to launch
+     * @param netplay optional netplay data
+     * @param centerCameraOn optional camera target point
+     */
+    void LaunchCheck(FileData* game, const NetPlayData* netplay, const Vector3f& centerCameraOn, bool forceLaunch = false);
 
-	bool ProcessInput(const InputCompactEvent& event) override;
+    /*!
+     * @brief Run animation and call LaunchActually
+     * @param game game to launch
+     * @param netplay optional netplay data
+     * @param centerCameraOn optional camera target point
+     */
+	  void LaunchAnimated(FileData* game, const EmulatorData& emulator, const NetPlayData* netplay, const Vector3f& centerCameraOn);
+
+    /*!
+     * @brief Actually run the game :)
+     * @param game game to launch
+     * @param netplay optional netplay data
+     */
+    void LaunchActually(FileData* game, const EmulatorData& emulator, const NetPlayData* netplay);
+
+    bool ProcessInput(const InputCompactEvent& event) override;
 	void Update(int deltaTime) override;
 	void Render(const Transform4x4f& parentTrans) override;
 

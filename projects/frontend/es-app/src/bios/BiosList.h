@@ -65,6 +65,7 @@ class BiosList
      */
     void ScanAt(int index) { mBiosList[index].Scan(); }
 
+
     /*
      * Accessors
      */
@@ -74,4 +75,23 @@ class BiosList
     //! Get system short name
     const std::string& Name() const { return mSystemName; }
 
+    /*!
+     * @brief Get summary status of this bios list
+     * @return Resport status
+     */
+    Bios::ReportStatus ReportStatus() const;
+
+    //! Get total bios Ok
+    int TotalBiosOk() const;
+    //! Get total bios Ko
+    int TotalBiosKo() const;
+    //! Get total bios unsafe
+    int TotalBiosUnsafe() const;
+
+    //! Get total bios not found
+    int TotalFileNotFound() const;
+    //! Get total bios found with a matching hash
+    int TotalHashMatching() const;
+    //! Get total bios found with a non-matching hash
+    int TotalHashNotMatching() const;
 };

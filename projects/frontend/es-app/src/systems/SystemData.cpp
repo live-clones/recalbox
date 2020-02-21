@@ -3,6 +3,7 @@
 #include "audio/AudioManager.h"
 #include "VolumeControl.h"
 #include "utils/Log.h"
+#include "NetPlayData.h"
 #include <RecalboxConf.h>
 #include <RootFolders.h>
 #include <recalbox/RecalboxSystem.h>
@@ -25,11 +26,12 @@ SystemData::SystemData(const SystemDescriptor& descriptor, RootFolderData::Owner
   mRootFolder.Metadata().SetName(mDescriptor.FullName());
 }
 
-void SystemData::RunGame(Window& window, SystemManager& systemManager, FileData& game, const std::string& netplay, const std::string& core,
-                         const std::string& ip, const std::string& port)
+void SystemData::RunGame(Window& window,
+                         SystemManager& systemManager,
+                         FileData& game,
+                         const EmulatorData& emulator,
+                         const NetPlayData* netplay)
 {
-  (void) core;
-
   LOG(LogInfo) << "Attempting to launch game...";
 
   VideoEngine::Instance().StopVideo();
@@ -39,7 +41,6 @@ void SystemData::RunGame(Window& window, SystemManager& systemManager, FileData&
   std::string controlersConfig = InputManager::Instance().GenerateConfiggenConfiguration();
   LOG(LogInfo) << "Controllers config : " << controlersConfig;
   Window::Finalize();
-
 
   std::string command = mDescriptor.Command();
 
@@ -52,21 +53,25 @@ void SystemData::RunGame(Window& window, SystemManager& systemManager, FileData&
   command = Strings::Replace(command, "%SYSTEM%", game.getSystem()->getName());
   command = Strings::Replace(command, "%BASENAME%", basename);
   command = Strings::Replace(command, "%ROM_RAW%", rom_raw);
-  command = Strings::Replace(command, "%EMULATOR%", game.Metadata().Emulator());
-  command = Strings::Replace(command, "%CORE%", game.Metadata().Core());
+  command = Strings::Replace(command, "%EMULATOR%", emulator.Emulator());
+  command = Strings::Replace(command, "%CORE%", emulator.Core());
   command = Strings::Replace(command, "%RATIO%", game.Metadata().RatioAsString());
 
-  if (netplay == "client")
+  if (netplay != nullptr)
   {
-    command = Strings::Replace(command, "%NETPLAY%", "-netplay client -netplay_port " + port + " -netplay_ip " + ip);
-  }
-  else if (netplay == "host")
-  {
-    std::string hash = game.Metadata().RomCrc32AsString();
-    std::string hashcmd;
-    if (!hash.empty()) hashcmd = " -hash " + hash;
-    command = Strings::Replace(command, "%NETPLAY%", "-netplay host -netplay_port " +
-                                                     RecalboxConf::Instance().AsString("global.netplay.port") + hashcmd);
+    if (!netplay->IsServer())
+    {
+      std::string netplayLine = "-netplay client -netplay_port " + Strings::ToString(netplay->Port()) +
+                                " -netplay_ip " + netplay->Ip();
+      command = Strings::Replace(command, "%NETPLAY%", netplayLine);
+    }
+    else
+    {
+      std::string hash = game.Metadata().RomCrc32() != 0 ? " -hash " + game.Metadata().RomCrc32AsString() : "";
+      std::string netplayLine = "-netplay host -netplay_port " + Strings::ToString(netplay->Port()) + hash;
+                                " -netplay_ip " + netplay->Ip();
+      command = Strings::Replace(command, "%NETPLAY%", netplayLine + hash);
+    }
   }
   else command = Strings::Replace(command, "%NETPLAY%", "");
 
@@ -120,7 +125,7 @@ void SystemData::demoFinalize(Window& window)
 }
 
 bool
-SystemData::DemoRunGame(const FileData& game, int duration, int infoscreenduration, const std::string& controlersConfig)
+SystemData::DemoRunGame(const FileData& game, const EmulatorData& emulator, int duration, int infoscreenduration, const std::string& controlersConfig)
 {
   std::string command = mDescriptor.Command();
 
@@ -133,8 +138,8 @@ SystemData::DemoRunGame(const FileData& game, int duration, int infoscreendurati
   command = Strings::Replace(command, "%SYSTEM%", game.getSystem()->getName());
   command = Strings::Replace(command, "%BASENAME%", basename);
   command = Strings::Replace(command, "%ROM_RAW%", rom_raw);
-  command = Strings::Replace(command, "%EMULATOR%", game.Metadata().Emulator());
-  command = Strings::Replace(command, "%CORE%", game.Metadata().Core());
+  command = Strings::Replace(command, "%EMULATOR%", emulator.Emulator());
+  command = Strings::Replace(command, "%CORE%", emulator.Core());
   command = Strings::Replace(command, "%RATIO%", game.Metadata().RatioAsString());
   command = Strings::Replace(command, "%NETPLAY%", "");
 

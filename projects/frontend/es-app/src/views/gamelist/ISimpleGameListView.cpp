@@ -274,14 +274,14 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
     FileData* cursor = getCursor();
     if(cursor->isGame())
     {
-      Vector3f target(Renderer::getDisplayWidthAsFloat() / 2.0f, Renderer::getDisplayHeightAsFloat() / 2.0f, 0);
-      ViewController::Instance().launch(cursor, target, "host");
+      NetPlayData netplay(RecalboxConf::Instance().AsInt("global.netplay.port"));
+      ViewController::Instance().LaunchCheck(cursor, &netplay, Vector3f());
     }
   }
 
   if (event.StartPressed())
   {
-    mWindow.pushGui(new GuiGamelistOptions(mWindow, &mSystem));
+    mWindow.pushGui(new GuiGamelistOptions(mWindow, mSystem, mSystemManager));
     return true;
   }
 

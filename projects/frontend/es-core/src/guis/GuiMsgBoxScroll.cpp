@@ -20,7 +20,7 @@ GuiMsgBoxScroll::GuiMsgBoxScroll(Window& window,
 	(void)height;
 
 	float width = Renderer::getDisplayWidthAsFloat() * 0.8f; // max width
-	float minWidth = Renderer::getDisplayWidthAsFloat() * 0.3f; // minimum width
+	float minWidth = Renderer::getDisplayWidthAsFloat() * 0.4f; // minimum width
 
 
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();

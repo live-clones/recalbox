@@ -2186,3 +2186,11 @@ msgstr "ÉDITEUR"
 #:
 msgid "DEFAULT"
 msgstr "PAR DEFAUT"
+
+#:
+msgid "It seems that your game didn't start at all!\n\nIt's most likely due to either:\n- bad rom\n- missing/bad mandatory bios files\n- missing/bad optional BIOS files (but required for this very game)"
+msgstr "Il semblerait que votre jeu ne se soit pas lancé du tout!\n\nC'est très probablement du à:\n- Une mauvaise rom\n- Un bios obligatoire, mauvais ou manquant\n- Un bios optionnel mauvais ou manquant (mais requis par ce jeu!)"
+
+#:
+msgid "At least one mandatory BIOS is missing for %emulator%!\nYour game '%game%' will very likely not run at all until required BIOS are put in the expected folder.\n\nDo you want to launch the game anyway?"
+msgstr "Au moins un BIOS obligatoire est manquant pour %emulator%!\nLe jeu '%game%' ne fonctionnera très probablement pas jusqu'à ce que les BIOS requis soient placés dans le bon repertoire.\n\nVoulez-vous lancer le jeu malgré tout?"

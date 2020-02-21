@@ -17,6 +17,9 @@
 #include <memory>
 #include <systems/SystemManager.h>
 #include <MainRunner.h>
+#include <bios/BiosManager.h>
+#include <guis/GuiMsgBox.h>
+#include <utils/locale/LocaleHelper.h>
 
 ViewController::ViewController(Window& window, SystemManager& systemManager)
 	: StaticLifeCycleControler<ViewController>("ViewController"),
@@ -256,8 +259,66 @@ void ViewController::onFileChanged(FileData* file, FileChangeType change)
 	}
 }
 
-void ViewController::launch(FileData* game, Vector3f center, const std::string& netplay, const std::string& core, const std::string& ip, const std::string& port)
+void ViewController::LaunchCheck(FileData* game, const NetPlayData* netplaydata, const Vector3f& cameraTarget, bool forceLaunch)
 {
+  EmulatorData emulator = mSystemManager.Emulators().GetGameEmulator(*game);
+  if (!emulator.IsValid())
+  {
+    LOG(LogError) << "Empty emulator/core when running " << game->getPath().ToString() << '!';
+    return;
+  }
+
+  if (!forceLaunch)
+  {
+    const BiosList* biosList = BiosManager::Instance().SystemBios(game->getSystem()->getName());
+    if (biosList != nullptr)
+      if (biosList->TotalBiosKo() != 0)
+      {
+        // Build emulator name
+        std::string emulatorString = emulator.Emulator();
+        if (emulator.Emulator() != emulator.Core()) emulatorString.append(1, '/').append(emulator.Core());
+        // Build text
+        std::string text = _("At least one mandatory BIOS is missing for %emulator%!\nYour game '%game%' will very likely not run at all until required BIOS are put in the expected folder.\n\nDo you want to launch the game anyway?");
+        text = Strings::Replace(text, "%emulator%", emulatorString);
+        text = Strings::Replace(text, "%game%", game->getName());
+        // Show the dialog box
+        Gui* gui = new GuiMsgBox(mWindow,
+                                 text,
+                                 _("YES"),
+                                 [this, game, netplaydata, &cameraTarget] { LaunchCheck(game, netplaydata, cameraTarget, true); },
+                                 _("NO"),
+                                 nullptr);
+        mWindow.pushGui(gui);
+        return;
+      }
+  }
+
+  LaunchAnimated(game, emulator, netplaydata, cameraTarget);
+}
+
+void ViewController::LaunchActually(FileData* game, const EmulatorData& emulator, const NetPlayData* netplaydata)
+{
+  DateTime start;
+  game->getSystem()->RunGame(mWindow, mSystemManager, *game, emulator, netplaydata);
+  TimeSpan elapsed = DateTime() - start;
+
+  if (elapsed.TotalMilliseconds() <= 5000) // 5s
+  {
+    // Build text
+    std::string text = _("It seems that your game didn't start at all!\n\nIt's most likely due to either:\n- bad rom\n- missing/bad mandatory bios files\n- missing/bad optional BIOS files (but required for this very game)");
+    // Show the dialog box
+    Gui* gui = new GuiMsgBox(mWindow,
+                             text,
+                             _("OK"),
+                             TextAlignment::Left);
+    mWindow.pushGui(gui);
+    return;
+  }}
+
+void ViewController::LaunchAnimated(FileData* game, const EmulatorData& emulator, const NetPlayData* netplaydata, const Vector3f& cameraTarget)
+{
+  Vector3f center = cameraTarget.isZero() ? Vector3f(Renderer::getDisplayWidthAsFloat() / 2.0f, Renderer::getDisplayHeightAsFloat() / 2.0f, 0) : cameraTarget;
+
 	if(!game->isGame())
 	{
 		LOG(LogError) << "tried to launch something that isn't a game";
@@ -273,10 +334,13 @@ void ViewController::launch(FileData* game, Vector3f center, const std::string& 
 
 	std::string transition_style = Settings::Instance().TransitionStyle();
 
-	auto launchFactory = [this, game, origCamera, netplay, core, ip, port] (const std::function<void(std::function<void()>)>& backAnimation) {
-		return [this, game, origCamera, backAnimation, netplay, core, ip, port] {
-      game->getSystem()->RunGame(mWindow, mSystemManager, *game, netplay, core, ip, port);
-			mCamera = origCamera;
+	auto launchFactory = [this, game, origCamera, netplaydata, &emulator] (const std::function<void(std::function<void()>)>& backAnimation)
+	{
+		return [this, game, origCamera, backAnimation, netplaydata, emulator]
+		{
+		  LaunchActually(game, emulator, netplaydata);
+
+      mCamera = origCamera;
 			backAnimation([this] { mLockInput = false; });
 			this->onFileChanged(game, FileChangeType::Run);
 

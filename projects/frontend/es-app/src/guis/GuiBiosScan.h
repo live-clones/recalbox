@@ -28,33 +28,15 @@ class GuiBiosScan : public Gui, public IBiosScanReporting
     //! Small structure holding the context of every item
     struct ListContext
     {
-      int mBiosOK;
-      int mBiosUnsafe;
-      int mBiosKO;
-      int mBiosNotFound;
-      int mBiosMatching;
-      int mBiosNotMatching;
       const BiosList* mBiosList;
       const Bios* mBios;
       ListContext()
-        : mBiosOK(0),
-          mBiosUnsafe(0),
-          mBiosKO(0),
-          mBiosNotFound(0),
-          mBiosMatching(0),
-          mBiosNotMatching(0),
-          mBiosList(nullptr),
+        : mBiosList(nullptr),
           mBios(nullptr)
       {
       }
       ListContext(const BiosList* bioslist, const Bios* bios)
-        : mBiosOK(0),
-          mBiosUnsafe(0),
-          mBiosKO(0),
-          mBiosNotFound(0),
-          mBiosMatching(0),
-          mBiosNotMatching(0),
-          mBiosList(bioslist),
+        : mBiosList(bioslist),
           mBios(bios)
       {
       }

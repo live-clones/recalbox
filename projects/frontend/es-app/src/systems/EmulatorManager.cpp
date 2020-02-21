@@ -5,7 +5,7 @@
 #include <utils/locale/LocaleHelper.h>
 #include "EmulatorManager.h"
 
-bool EmulatorManager::GetGameEmulatorFor(const FileData& game, std::string& emulator, std::string& core) const
+bool EmulatorManager::GetGameEmulator(const FileData& game, std::string& emulator, std::string& core) const
 {
   // Get default emulator first
   bool Ok = GetSystemDefaultEmulator(*game.getSystem(), emulator, core);
@@ -22,15 +22,26 @@ bool EmulatorManager::GetGameEmulatorFor(const FileData& game, std::string& emul
   return Ok;
 }
 
+EmulatorData EmulatorManager::GetGameEmulator(const FileData& game) const
+{
+  std::string emulator;
+  std::string core;
+
+  if (GetGameEmulator(game, emulator, core))
+    return EmulatorData(emulator, core);
+
+  return EmulatorData("", "");
+}
+
 bool EmulatorManager::GetSystemDefaultEmulator(const SystemData& system, std::string& emulator,
                                                      std::string& core) const
 {
   emulator.clear();
   core.clear();
-  const EmulatorList** tryList = mSystemEmulators.try_get(system.getFullName());
+  const EmulatorList* tryList = mSystemEmulators.try_get(system.getFullName());
   if (tryList != nullptr)
   {
-    const EmulatorList& list = **tryList;
+    const EmulatorList& list = *tryList;
     if (list.HasAny())
     {
       // Get emulator name
@@ -156,10 +167,10 @@ void EmulatorManager::GetemulatorFromOverride(const FileData& game, std::string&
 
 bool EmulatorManager::CheckEmulatorAndCore(const SystemData& system, const std::string& emulator, const std::string& core) const
 {
-  const EmulatorList** tryList = mSystemEmulators.try_get(system.getFullName());
+  const EmulatorList* tryList = mSystemEmulators.try_get(system.getFullName());
   if (tryList != nullptr)
   {
-    const EmulatorList& list = **tryList;
+    const EmulatorList& list = *tryList;
     if (list.HasNamed(emulator))
       if (list.Named(emulator).HasCore(core))
         return true;
@@ -169,10 +180,10 @@ bool EmulatorManager::CheckEmulatorAndCore(const SystemData& system, const std::
 
 bool EmulatorManager::GuessEmulatorAndCore(const SystemData& system, std::string& emulator, std::string& core) const
 {
-  const EmulatorList** tryList = mSystemEmulators.try_get(system.getFullName());
+  const EmulatorList* tryList = mSystemEmulators.try_get(system.getFullName());
   if (tryList != nullptr)
   {
-    const EmulatorList& list = **tryList;
+    const EmulatorList& list = *tryList;
     // Emulator without core
     if (!emulator.empty() && core.empty())
     {
@@ -201,10 +212,10 @@ bool EmulatorManager::GuessEmulatorAndCore(const SystemData& system, std::string
 
 Strings::Vector EmulatorManager::GetEmulators(const SystemData& system) const
 {
-  const EmulatorList** tryList = mSystemEmulators.try_get(system.getFullName());
+  const EmulatorList* tryList = mSystemEmulators.try_get(system.getFullName());
   if (tryList != nullptr)
   {
-    const EmulatorList& list = **tryList;
+    const EmulatorList& list = *tryList;
     Strings::Vector result;
     for(int i = 0; i < list.Count(); ++i)
       result.push_back(list.At(i).Name());
@@ -217,10 +228,10 @@ Strings::Vector EmulatorManager::GetEmulators(const SystemData& system) const
 
 Strings::Vector EmulatorManager::GetCores(const SystemData& system, const std::string& emulator) const
 {
-  const EmulatorList** tryList = mSystemEmulators.try_get(system.getFullName());
+  const EmulatorList* tryList = mSystemEmulators.try_get(system.getFullName());
   if (tryList != nullptr)
   {
-    const EmulatorList& list = **tryList;
+    const EmulatorList& list = *tryList;
     if (list.HasNamed(emulator))
     {
       const EmulatorDescriptor& descriptor = list.Named(emulator);
@@ -234,3 +245,4 @@ Strings::Vector EmulatorManager::GetCores(const SystemData& system, const std::s
 
   return Strings::Vector();
 }
+

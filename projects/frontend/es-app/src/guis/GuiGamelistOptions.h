@@ -1,3 +1,4 @@
+#include <systems/SystemManager.h>
 #include "guis/Gui.h"
 #include "components/MenuComponent.h"
 #include "components/OptionListComponent.h"
@@ -8,7 +9,7 @@ class IGameListView;
 class GuiGamelistOptions : public Gui
 {
 public:
-	GuiGamelistOptions(Window&window, SystemData* system);
+	GuiGamelistOptions(Window&window, SystemData& system, SystemManager& systemManager);
 	~GuiGamelistOptions() override;
 
 	void save();
@@ -24,7 +25,9 @@ private:
 
   void openMetaDataEd();
 	void jumpToLetter();
-	
+
+  SystemData& mSystem;
+	SystemManager& mSystemManager;
 	MenuComponent mMenu;
 
 	std::vector< std::function<void()> > mSaveFuncs;
@@ -36,6 +39,5 @@ private:
 	bool mHiddenState;
 	bool mReloading;
 
-	SystemData* mSystem;
 	IGameListView* getGamelist();
 };

@@ -11,11 +11,12 @@
 #include "guis/GuiMsgBox.h"
 #include "GuiQuit.h"
 
-GuiGamelistOptions::GuiGamelistOptions(Window& window, SystemData* system)
+GuiGamelistOptions::GuiGamelistOptions(Window& window, SystemData& system, SystemManager& systemManager)
   :	Gui(window),
+    mSystem(system),
+    mSystemManager(systemManager),
 		mMenu(window, _("OPTIONS")),
-    mReloading(false),
-    mSystem(system)
+    mReloading(false)
 {
 	ComponentListRow row;
 
@@ -52,37 +53,37 @@ GuiGamelistOptions::GuiGamelistOptions(Window& window, SystemData* system)
 		mMenu.addRowWithHelp(row, _("JUMP TO LETTER"), _(MENUMESSAGE_GAMELISTOPTION_JUMP_LETTER_MSG));
 	}
 
-	if (!system->IsSelfSorted())
+	if (!system.IsSelfSorted())
   {
     // sort list by
-    int currentSortId = FileSorts::Clamp(mSystem->getSortId(), mSystem->IsVirtual());
+    int currentSortId = FileSorts::Clamp(mSystem.getSortId(), mSystem.IsVirtual());
     mListSort = std::make_shared<SortList>(mWindow, _("SORT GAMES BY"), false);
-    for(int i = 0; i < (int)FileSorts::AvailableSorts(system->IsVirtual()).size(); i++)
+    for(int i = 0; i < (int)FileSorts::AvailableSorts(system.IsVirtual()).size(); i++)
     {
-      FileSorts::Sorts sort = FileSorts::AvailableSorts(system->IsVirtual())[i];
+      FileSorts::Sorts sort = FileSorts::AvailableSorts(system.IsVirtual())[i];
       mListSort->add(FileSorts::Name(sort), i, i == currentSortId);
     }
 
     mMenu.addWithLabel(mListSort, _("SORT GAMES BY"), _(MENUMESSAGE_GAMELISTOPTION_SORT_GAMES_MSG));
-    addSaveFunc([this, system]
+    addSaveFunc([this, &system]
     {
-      system->setSortId(mListSort->getSelected());
-      RecalboxConf::Instance().SetInt(system->getName() + ".sort", mListSort->getSelected());
+      system.setSortId(mListSort->getSelected());
+      RecalboxConf::Instance().SetInt(system.getName() + ".sort", mListSort->getSelected());
     });
   }
 
 	// Adult games
   auto adults = std::make_shared<SwitchComponent>(mWindow);
-  adults->setState(RecalboxConf::Instance().AsBool("emulationstation." + system->getName() + ".filteradultgames"));
+  adults->setState(RecalboxConf::Instance().AsBool("emulationstation." + system.getName() + ".filteradultgames"));
   mMenu.addWithLabel(adults, _("HIDE ADULT GAMES"), _(MENUMESSAGE_GAMELISTOPTION_HIDE_ADULT_MSG));
-  addSaveFunc([adults, system]
-              { RecalboxConf::Instance().SetBool("emulationstation." + system->getName() + ".filteradultgames", adults->getState()); });
+  addSaveFunc([adults, &system]
+              { RecalboxConf::Instance().SetBool("emulationstation." + system.getName() + ".filteradultgames", adults->getState()); });
 
   // Region filter
   Regions::List availableRegions = getGamelist()->AvailableRegionsInGames();
   if (!availableRegions.empty())
   {
-    Regions::GameRegions currentRegion = Regions::Clamp((Regions::GameRegions)RecalboxConf::Instance().AsInt("emulationstation." + system->getName() + ".regionfilter"));
+    Regions::GameRegions currentRegion = Regions::Clamp((Regions::GameRegions)RecalboxConf::Instance().AsInt("emulationstation." + system.getName() + ".regionfilter"));
     mListRegion = std::make_shared<RegionList>(mWindow, _("HIGHLIGHT GAMES OF REGION..."), false);
     for(auto region : availableRegions)
     {
@@ -90,11 +91,11 @@ GuiGamelistOptions::GuiGamelistOptions(Window& window, SystemData* system)
       mListRegion->add(regionName, (int)region, region == currentRegion);
     }
     mMenu.addWithLabel(mListRegion, _("HIGHLIGHT GAMES OF REGION..."), _(MENUMESSAGE_GAMELISTOPTION_FILTER_REGION_MSG));
-    addSaveFunc([this, system]
-                { RecalboxConf::Instance().SetInt("emulationstation." + system->getName() + ".regionfilter", mListRegion->getSelected()); });
+    addSaveFunc([this, &system]
+                { RecalboxConf::Instance().SetInt("emulationstation." + system.getName() + ".regionfilter", mListRegion->getSelected()); });
   }
 
-  if (!system->IsFavorite())
+  if (!system.IsFavorite())
 	{
     // favorite only
     auto favorite_only = std::make_shared<SwitchComponent>(mWindow);
@@ -108,15 +109,15 @@ GuiGamelistOptions::GuiGamelistOptions(Window& window, SystemData* system)
     mMenu.addWithLabel(show_hidden, _("SHOW HIDDEN"), _(MENUMESSAGE_GAMELISTOPTION_SHOW_HIDDEN_MSG));
     addSaveFunc([show_hidden] { Settings::Instance().SetShowHidden(show_hidden->getState()); });
 
-    if (!system->IsAlwaysFlat())
+    if (!system.IsAlwaysFlat())
     {
       // flat folders
       auto flat_folders = std::make_shared<SwitchComponent>(mWindow);
-      flat_folders->setState(RecalboxConf::Instance().AsBool(system->getName() + ".flatfolder"));
+      flat_folders->setState(RecalboxConf::Instance().AsBool(system.getName() + ".flatfolder"));
       mMenu.addWithLabel(flat_folders, _("SHOW FOLDERS CONTENT"),
                          _(MENUMESSAGE_GAMELISTOPTION_SHOW_FOLDER_CONTENT_MSG));
-      addSaveFunc([flat_folders, system]
-                  { RecalboxConf::Instance().SetBool(system->getName() + ".flatfolder", flat_folders->getState()); });
+      addSaveFunc([flat_folders, &system]
+                  { RecalboxConf::Instance().SetBool(system.getName() + ".flatfolder", flat_folders->getState()); });
     }
   }
 
@@ -130,7 +131,7 @@ GuiGamelistOptions::GuiGamelistOptions(Window& window, SystemData* system)
 		mMenu.addRowWithHelp(row, _("EDIT THIS GAME'S METADATA"), _(MENUMESSAGE_GAMELISTOPTION_EDIT_METADATA_MSG));
 	}
 
-	if (!system->IsFavorite()) {
+	if (!system.IsFavorite()) {
         // update game list
         row.elements.clear();
         row.addElement(std::make_shared<TextComponent>(mWindow, _("UPDATE GAMES LISTS"), menuTheme->menuText.font,
@@ -167,18 +168,18 @@ GuiGamelistOptions::~GuiGamelistOptions()
 {
 	if (mReloading) return;
 
-	const FolderData& root = mSystem->getRootFolder();
-	if (root.countAllDisplayableItemsRecursively(false, mSystem->IncludeAdultGames()) != 0)
+	const FolderData& root = mSystem.getRootFolder();
+	if (root.countAllDisplayableItemsRecursively(false, mSystem.IncludeAdultGames()) != 0)
 	{
-		if (mListSort->getSelected() != (int)mSystem->getSortId())
+		if (mListSort->getSelected() != (int)mSystem.getSortId())
 		{
 			// notify that the root folder has to be sorted
-			getGamelist()->onFileChanged(&mSystem->getRootFolder(), FileChangeType::Sorted);
+			getGamelist()->onFileChanged(&mSystem.getRootFolder(), FileChangeType::Sorted);
 		}
 		else
 		{
 			// require list refresh
-			getGamelist()->onFileChanged(&mSystem->getRootFolder(), FileChangeType::DisplayUpdated);
+			getGamelist()->onFileChanged(&mSystem.getRootFolder(), FileChangeType::DisplayUpdated);
 		}
 
 		// if states has changed, invalidate and reload game list
@@ -197,7 +198,7 @@ GuiGamelistOptions::~GuiGamelistOptions()
 void GuiGamelistOptions::openMetaDataEd() {
 	// open metadata editor
 	FileData* file = getGamelist()->getCursor();
-	mWindow.pushGui(new GuiMetaDataEd(mWindow, file->Metadata(), *file, file->getPath().Filename(),
+	mWindow.pushGui(new GuiMetaDataEd(mWindow, mSystemManager, file->Metadata(), *file, file->getPath().Filename(),
 									 std::bind(&IGameListView::onFileChanged, getGamelist(), file, FileChangeType::MetadataChanged), [this, file]
 									 {
 				             file->getPath().Delete();
@@ -219,11 +220,11 @@ void GuiGamelistOptions::jumpToLetter() {
 		mListSort->select(sortId);
 	}
 
-	if (sortId != mSystem->getSortId()) {
+	if (sortId != mSystem.getSortId()) {
 		// apply sort
-		mSystem->setSortId(sortId);
+		mSystem.setSortId(sortId);
 		// notify that the root folder has to be sorted
-		gamelist->onFileChanged(&mSystem->getRootFolder(), FileChangeType::Sorted);
+		gamelist->onFileChanged(&mSystem.getRootFolder(), FileChangeType::Sorted);
 	}
 
 	gamelist->jumpToLetter(letter);
@@ -247,7 +248,7 @@ bool GuiGamelistOptions::getHelpPrompts(Help& help)
 }
 
 IGameListView* GuiGamelistOptions::getGamelist() {
-	return ViewController::Instance().getGameListView(mSystem).get();
+	return ViewController::Instance().getGameListView(&mSystem).get();
 }
 
 void GuiGamelistOptions::save() {
