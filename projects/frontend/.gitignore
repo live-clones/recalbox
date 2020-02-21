@@ -22,6 +22,7 @@
 emulationstation
 emulationstation_test
 md5zip
+pad2keyb
 
 # build tags
 es-app/src/EmulationStation.h

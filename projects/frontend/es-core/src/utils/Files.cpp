@@ -3,6 +3,8 @@
 //
 
 #include "Files.h"
+#include "fcntl.h"
+#include "unistd.h"
 
 std::string Files::LoadFile(const Path& path)
 {
@@ -10,22 +12,25 @@ std::string Files::LoadFile(const Path& path)
 
   if (path.Exists())
   {
-    FILE* f = fopen(path.ToChars(), "rb");
-    if (f != nullptr)
+    int fd = open(path.ToChars(), O_RDONLY);
+    if (fd >= 0)
     {
-      fseek(f, 0, SEEK_END);
-      long l = ftell(f);
-      result.resize(l, 0);
-      fseek(f, 0, SEEK_SET);
-      if (fread((void*)result.data(), l, 1, f) != 1)
-        result.clear();
-      fclose(f);
+      long l = lseek(fd, 0, SEEK_END);
+      if (l > 0)
+      {
+        result.resize(l, 0);
+        lseek(fd, 0, SEEK_SET);
+        if (read(fd, (void*)result.data(), l) != l)
+          result.clear();
+        close(fd);
+      }
     }
   }
 
   return result;
 }
 
+// TODO: convert to open/write/close
 bool Files::SaveFile(const Path& path, const std::string& content)
 {
   FILE* f = fopen(path.ToChars(), "wb");

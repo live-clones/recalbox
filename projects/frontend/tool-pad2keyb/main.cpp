@@ -1,0 +1,143 @@
+//
+// Created by bkg2k on 21/12/2019.
+//
+
+#include <cstring>
+#include <bits/types/siginfo_t.h>
+#include <csignal>
+
+#include <utils/Log.h>
+
+#include <Configuration.h>
+#include <VirtualKeyboard.h>
+#include <MappingConfiguration.h>
+#include <Pad.h>
+#include <PadConfiguration.h>
+
+Configuration ParseArguments(int argc, char *argv[])
+{
+  Configuration result {};
+
+  const struct ArgumentDescriptor
+  {
+    const char* Switch;
+    int SwitchLength;
+    const char** TargetValue;
+    bool Numbered;
+  }
+  Descriptors[] =
+  {
+    { __STRL("-rom") , &result.RomPath,      false },
+    { __STRL("-name"), &result.PadName[0],   true  },
+    { __STRL("-guid"), &result.PadGUID[0],   true  },
+    { __STRL("-dev") , &result.PadDevice[0], true  },
+  };
+
+  for(int index = -1; ++index < argc; )
+  {
+    const char* arg = argv[index];
+    if (strcmp(arg, "--debug") == 0) result.Debug = true;
+    else
+      for(int i = (int)(sizeof(Descriptors) / sizeof(ArgumentDescriptor)); --i >= 0; )
+      {
+        const ArgumentDescriptor& descriptor = Descriptors[i];
+        if (strncmp(arg, descriptor.Switch, descriptor.SwitchLength) == 0 && (index < argc - 1))
+        {
+          unsigned int number = 0;
+          if (descriptor.Numbered) number = (unsigned int)(arg[descriptor.SwitchLength] - 0x30u);
+          if (number < Pad2Keyb::MaxPadSupported)
+            Descriptors[i].TargetValue[number] = argv[++index];
+        }
+      }
+  }
+
+  return result;
+}
+
+static Pad* InitializedPad = nullptr;
+
+void SigTermHandler(int signum, siginfo_t *info, void *ptr)
+{
+  (void)signum;
+  (void)info;
+  (void)ptr;
+  // Kill the pad reader when receiving a SIGTERM
+  if (InitializedPad != nullptr)
+    InitializedPad->Release();
+}
+
+void CatchSigterm()
+{
+  static struct sigaction signalAction;
+
+  memset(&signalAction, 0, sizeof(signalAction));
+  signalAction.sa_sigaction = SigTermHandler;
+  signalAction.sa_flags = SA_SIGINFO;
+
+  sigaction(SIGTERM, &signalAction, nullptr);
+}
+
+int main(int argc, char *argv[])
+{
+  // Catch kill request
+  CatchSigterm();
+
+  // Keep it simple: Log are saved in emulationstation log file
+  Log::open();
+  LOG(LogInfo) << "Running pad2keyboard...";
+
+  // Parse command line arguments: get pad description
+  Configuration configuration = ParseArguments(argc, argv);
+  if (configuration.Debug) Log::setReportingLevel(LogLevel::LogDebug);
+  if (!configuration.Valid())
+  {
+    LOG(LogError) << "Missing arguments.";
+    return 1;
+  }
+
+  // Get pad => keyboard mapping - Checked at the very beginning to quit gracefully if no config is found
+  MappingConfiguration pad2KeybMapping(configuration.RomPath);
+  if (!pad2KeybMapping.Valid())
+  {
+    LOG(LogInfo) << "No pad2keyb configuration.";
+    return 0;
+  }
+
+  // Get pad mapping from /recalbox/share/system/.emulationstation/es_input.cfg
+  PadConfiguration padMapping(configuration);
+  if (!padMapping.Ready())
+  {
+    LOG(LogError) << "Cannot load pad configurations.";
+    return 1;
+  }
+  // Get pad event reader
+  Pad pad(padMapping, configuration);
+  if (!pad.Ready())
+  {
+    LOG(LogError) << "Cannot access pad.";
+    return 1;
+  }
+
+  // Create virtual keyboard device
+  VirtualKeyboard keyboard;
+  if (!keyboard.Ready())
+  {
+    LOG(LogError) << "Cannot create virtual keyboard.";
+    return 1;
+  }
+
+  InitializedPad = &pad; // Give SIGTERM intercepter an access to the Pad reader
+  Pad::Event event {};
+  while(pad.GetEvent(event))
+  {
+    VirtualKeyboard::Event keyboardEvent = pad2KeybMapping.Translate(event);
+    if (keyboardEvent.Key != 0) // Valid?
+    {
+      keyboard.Write(keyboardEvent);
+      //LOG(LogDebug) << "Key: " << keyboardEvent.Key << (keyboardEvent.Pressed ? " Pressed" : " Released");
+    }
+  }
+  InitializedPad = nullptr;
+
+  return 0;
+}
