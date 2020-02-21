@@ -159,31 +159,17 @@ std::vector<std::string> Bios::MD5List() const
   return result;
 }
 
-std::string Bios::Filename() const
+std::string Bios::Filename(bool shorten) const
 {
   bool ok;
-  /*
-  // Try to make relative to the bios folder
-  Path rootPath(RootFolders::DataRootFolder / "bios");
-  std::string result = mPath.MakeRelative(rootPath, ok).ToString();
-  // Failed? Try to make relative to the rom folder
-  if (!ok)
-  {
-    rootPath = RootFolders::DataRootFolder / "roms";
-    result = mPath.MakeRelative(rootPath, ok).ToString();
-  }
-
-  // Too long?
-  if (Strings::CountChar(result, '/') > 1)
-    result = std::string(".../").append(mPath.Filename());
-*/
 
   // Try to make relative to the bios folder
   Path rootPath(RootFolders::DataRootFolder);
   std::string result = mPath.MakeRelative(rootPath, ok).ToString();
   // Too long?
-  if (Strings::CountChar(result, '/') > 2)
-    result = std::string(".../").append(mPath.Filename());
+  if (shorten)
+    if (Strings::CountChar(result, '/') > 2)
+      result = std::string(".../").append(mPath.Filename());
 
   return result;
 }

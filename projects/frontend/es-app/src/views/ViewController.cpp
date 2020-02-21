@@ -270,27 +270,31 @@ void ViewController::LaunchCheck(FileData* game, const NetPlayData* netplaydata,
 
   if (!forceLaunch)
   {
-    const BiosList* biosList = BiosManager::Instance().SystemBios(game->getSystem()->getName());
-    if (biosList != nullptr)
-      if (biosList->TotalBiosKo() != 0)
-      {
-        // Build emulator name
-        std::string emulatorString = emulator.Emulator();
-        if (emulator.Emulator() != emulator.Core()) emulatorString.append(1, '/').append(emulator.Core());
-        // Build text
-        std::string text = _("At least one mandatory BIOS is missing for %emulator%!\nYour game '%game%' will very likely not run at all until required BIOS are put in the expected folder.\n\nDo you want to launch the game anyway?");
-        text = Strings::Replace(text, "%emulator%", emulatorString);
-        text = Strings::Replace(text, "%game%", game->getName());
-        // Show the dialog box
-        Gui* gui = new GuiMsgBox(mWindow,
-                                 text,
-                                 _("YES"),
-                                 [this, game, netplaydata, &cameraTarget] { LaunchCheck(game, netplaydata, cameraTarget, true); },
-                                 _("NO"),
-                                 nullptr);
-        mWindow.pushGui(gui);
-        return;
-      }
+    const BiosList& biosList = BiosManager::Instance().SystemBios(game->getSystem()->getName());
+    if (biosList.TotalBiosKo() != 0)
+    {
+      // Build emulator name
+      std::string emulatorString = emulator.Emulator();
+      if (emulator.Emulator() != emulator.Core()) emulatorString.append(1, '/').append(emulator.Core());
+      // Build text
+      std::string text = _("At least one mandatory BIOS is missing for %emulator%!\nYour game '%game%' will very likely not run at all until required BIOS are put in the expected folder.\n\nDo you want to launch the game anyway?");
+      text = Strings::Replace(text, "%emulator%", emulatorString);
+      text = Strings::Replace(text, "%game%", game->getName());
+      // Add bios names
+      text.append("\n\n")
+          .append(_("Missing bios list:"))
+          .append(1, ' ')
+          .append(Strings::Join(biosList.GetMissingBiosFileList(), "\n"));
+      // Show the dialog box
+      Gui* gui = new GuiMsgBox(mWindow,
+                               text,
+                               _("YES"),
+                               [this, game, netplaydata, &cameraTarget] { LaunchCheck(game, netplaydata, cameraTarget, true); },
+                               _("NO"),
+                               nullptr);
+      mWindow.pushGui(gui);
+      return;
+    }
   }
 
   LaunchAnimated(game, emulator, netplaydata, cameraTarget);

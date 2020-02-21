@@ -65,6 +65,11 @@ class BiosList
      */
     void ScanAt(int index) { mBiosList[index].Scan(); }
 
+    /*!
+     * @brief Get missing bios file list
+     * @return File list
+     */
+    std::vector<std::string> GetMissingBiosFileList() const;
 
     /*
      * Accessors

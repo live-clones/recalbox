@@ -97,3 +97,12 @@ Bios::ReportStatus BiosList::ReportStatus() const
   return Bios::ReportStatus::Unknown;
 }
 
+std::vector<std::string> BiosList::GetMissingBiosFileList() const
+{
+  std::vector<std::string> result;
+  for(const Bios& bios : mBiosList)
+    result.push_back(bios.Filename(false));
+
+  return result;
+}
+

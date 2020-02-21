@@ -170,8 +170,12 @@ class Bios
     //! Report light status
     ReportStatus LightStatus() const { return mReportStatus; }
 
-    //! Bios file name
-    std::string Filename() const;
+    /*!
+     * @brief Get bios name
+     * @param shorten Get a short name instead of the long path
+     * @return bios name
+     */
+    std::string Filename(bool shorten = true) const;
 
     //! Bios file path
     const Path& Filepath() const { return mPath; }

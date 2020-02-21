@@ -89,12 +89,13 @@ void BiosManager::ReceiveSyncCallback(const SDL_Event& event)
   }
 }
 
-const BiosList* BiosManager::SystemBios(const std::string& name)
+const BiosList& BiosManager::SystemBios(const std::string& name)
 {
   for(const BiosList& biosList : mSystemBiosList)
     if (biosList.Name() == name)
-      return &biosList;
+      return biosList;
 
-  return nullptr;
+  static BiosList sEmptyBiosList;
+  return sEmptyBiosList;
 }
 
