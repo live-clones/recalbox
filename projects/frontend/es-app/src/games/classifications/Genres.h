@@ -76,6 +76,7 @@ class Genres
   public:
     typedef HashMap<GameGenres, const char*> GenreMap;
     typedef HashMap<GameGenres, Path> GenrePathMap;
+    typedef std::vector<GameGenres> GenreList;
 
     static bool IsSubGenre(GameGenres genre) { return ((int)genre & 0xFF) != 0; }
 
@@ -95,9 +96,20 @@ class Genres
 
     /*!
      * @brief Get generic short name per genre
-     * @param genre Game genre
      * @return Short name (may be used in automatic configuration
      */
     static const GenreMap& GetShortNameMap();
+
+    /*!
+     * @brief Get generic english name per genre
+     * @return Long name map
+     */
+    static const GenreMap& GetLongNameMap();
+
+    /*!
+     * @brief Get ordered genre list
+     * @return Ordered genre list
+     */
+    static const GenreList& GetOrderedList();
 };
 

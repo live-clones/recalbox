@@ -71,6 +71,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window& window,
   for (; --fieldCount >= 0;)
   {
     const MetadataFieldDescriptor &field = fields[0];
+    if (field.EditType() == MetadataFieldDescriptor::EditableType::None) continue;
     fields++;
 
     std::shared_ptr<Component> ed;
@@ -78,7 +79,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window& window,
     // don't add statistics
     if (field.IsStatistic())
     {
-      continue;
+      continue; // TODO: Still usefull (== EditableType::None?)
     }
 
     // filter on main or secondary entries depending on the requested type
@@ -95,9 +96,9 @@ GuiMetaDataEd::GuiMetaDataEd(Window& window,
     row.addElement(lbl, true); // label
     y += lbl->getFont()->getHeight();
 
-    switch (field.Type())
+    switch (field.EditType())
     {
-      case MetadataFieldDescriptor::DataType::Rating:
+      case MetadataFieldDescriptor::EditableType::Rating:
       {
         ed = std::make_shared<RatingComponent>(window, menuTheme->menuText.color);
 
@@ -113,7 +114,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window& window,
 
         break;
       }
-      case MetadataFieldDescriptor::DataType::Date:
+      case MetadataFieldDescriptor::EditableType::Date:
       {
         ed = std::make_shared<DateTimeComponent>(mWindow);
         row.addElement(ed, false);
@@ -127,7 +128,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window& window,
 
         break;
       }
-      case MetadataFieldDescriptor::DataType::Bool:
+      case MetadataFieldDescriptor::EditableType::Switch:
       {
         auto switchComp = std::make_shared<SwitchComponent>(mWindow);
         GetValueMethodType method = field.GetValueMethod();
@@ -136,7 +137,8 @@ GuiMetaDataEd::GuiMetaDataEd(Window& window,
         row.addElement(ed, false);
         break;
       }
-      case MetadataFieldDescriptor::DataType::PList:
+      case MetadataFieldDescriptor::EditableType::ListMulti:
+      case MetadataFieldDescriptor::EditableType::List:
         if (field.Key() == "emulator")
         {
           row.addElement(emu_choice, false);
@@ -172,8 +174,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window& window,
 
           ed = emu_choice;
         }
-
-        if (field.Key() == "core")
+        else if (field.Key() == "core")
         {
           row.addElement(core_choice, false);
           ed = core_choice;
@@ -181,8 +182,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window& window,
           // force change event to load core list
           emu_choice->invalidate();
         }
-
-        if (field.Key() == "ratio")
+        else if (field.Key() == "ratio")
         {
           auto ratio_choice = std::make_shared<OptionListComponent<std::string> >(mWindow, "ratio", false,
                                                                                   FONT_SIZE_MEDIUM);
@@ -198,17 +198,21 @@ GuiMetaDataEd::GuiMetaDataEd(Window& window,
           }
           ed = ratio_choice;
         }
+        else if (field.Key() == "genreid")
+        {
+          auto genre_choice = std::make_shared<OptionListComponent<std::string> >(mWindow, "genre", false,
+                                                                                  FONT_SIZE_MEDIUM);
+          row.addElement(genre_choice, false);
+          Genres::GenreMap map = Genres::GetShortNameMap();
+          for(auto & genre : Genres::GetOrderedList())
+          {
+            std::string genreString = Strings::ToString((int)genre);
+            genre_choice->add((Genres::IsSubGenre(genre) ? "    " : "") + Genres::GetName(genre), genreString, mMetaData.GenreId() == genre);
+          }
+          ed = genre_choice;
+        }
         break;
-      case MetadataFieldDescriptor::DataType::Text:
-      case MetadataFieldDescriptor::DataType::String:
-      case MetadataFieldDescriptor::DataType::PString:
-      case MetadataFieldDescriptor::DataType::Int:
-      case MetadataFieldDescriptor::DataType::Float:
-      case MetadataFieldDescriptor::DataType::Path:
-      case MetadataFieldDescriptor::DataType::PPath:
-      case MetadataFieldDescriptor::DataType::Range:
-      case MetadataFieldDescriptor::DataType::Crc32:
-      default:
+      case MetadataFieldDescriptor::EditableType::Text:
       {
         // MD_STRING
         ed = std::make_shared<TextComponent>(window, "", menuTheme->menuText.font, menuTheme->menuText.color, TextAlignment::Right);
@@ -244,6 +248,8 @@ GuiMetaDataEd::GuiMetaDataEd(Window& window,
                                    });
         break;
       }
+      case MetadataFieldDescriptor::EditableType::None:
+      default: break;
     }
 
     assert(ed);

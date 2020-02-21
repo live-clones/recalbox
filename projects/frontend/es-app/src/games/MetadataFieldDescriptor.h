@@ -12,6 +12,18 @@ typedef void (MetadataDescriptor::*SetValueMethodType)(const std::string& value)
 class MetadataFieldDescriptor
 {
   public:
+    //! Edition type
+    enum class EditableType
+    {
+        None,      //! Not editable
+        List,      //!< Single-selection list
+        ListMulti, //!< Multi-selection list
+        Text,      //!< Simple text edit
+        Switch,    //!< Switch on/off
+        Date,      //!< Date picker
+        Rating,    //!< Special rating
+    };
+
     //! Data type
     enum class DataType
     {
@@ -40,6 +52,7 @@ class MetadataFieldDescriptor
     std::string               _DisplayPrompt;        //!< phrase displayed in editors when prompted to enter value (currently only for strings)
     int                       _Offset;               //!< Offset of the real field in the target Metadata structure
     DataType                  _Type;                 //!< Datatype
+    EditableType              _EditType;             //!< Editable type
     IsDefaultValueMethodType  _IsDefaultValueMethod; //!< Is Default value?
     GetValueMethodType        _GetMethod;            //!< String getter
     SetValueMethodType        _SetMethod;            //!< String getter
@@ -54,6 +67,7 @@ class MetadataFieldDescriptor
     const std::string&        DisplayPrompt()        const { return _DisplayPrompt;        } //!< phrase displayed in editors when prompted to enter value (currently only for strings)
     int                       Offset()               const { return _Offset;               } //!< Offset of the real field in the target Metadata structure
     DataType                  Type()                 const { return _Type;                 } //!< Datatype
+    EditableType              EditType()             const { return _EditType;             } //!< Editable type
     IsDefaultValueMethodType  IsDefaultValueMethod() const { return _IsDefaultValueMethod; } //!< Is Default value?
     GetValueMethodType        GetValueMethod()       const { return _GetMethod;            } //!< String getter
     SetValueMethodType        SetValueMethod()       const { return _SetMethod;            } //!< String setter
@@ -67,6 +81,7 @@ class MetadataFieldDescriptor
                             const std::string&        displayPrompt,
                             int                       offset,
                             DataType                  type,
+                            EditableType              edittype,
                             IsDefaultValueMethodType  isDefaultValueMethod,
                             GetValueMethodType        getMethod,
                             SetValueMethodType        setMethod,
@@ -78,6 +93,7 @@ class MetadataFieldDescriptor
         _DisplayPrompt(displayPrompt),
         _Offset(offset),
         _Type(type),
+        _EditType(edittype),
         _IsDefaultValueMethod(isDefaultValueMethod),
         _GetMethod(getMethod),
         _SetMethod(setMethod),

@@ -1472,71 +1472,11 @@ void GuiMenu::menuAdvancedSettings(){
         std::function<void()> openGui = [this] {
           GuiSettings *virtualGenreGui = new GuiSettings(mWindow, _("VIRTUAL SYSTEMS PER GENRE"));
 
-          GameGenres genres[] =
-            {
-              GameGenres::Action                       ,
-              GameGenres::ActionPlatformer             ,
-              GameGenres::ActionPlatformShooter        ,
-              GameGenres::ActionFirstPersonShooter     ,
-              GameGenres::ActionShootEmUp              ,
-              GameGenres::ActionShootWithGun           ,
-              GameGenres::ActionFighting               ,
-              GameGenres::ActionBeatEmUp               ,
-              GameGenres::ActionStealth                ,
-              GameGenres::ActionBattleRoyale           ,
-              GameGenres::ActionRythm                  ,
-              GameGenres::Adventure                    ,
-              GameGenres::AdventureText                ,
-              GameGenres::AdventureGraphics            ,
-              GameGenres::AdventureVisualNovels        ,
-              GameGenres::AdventureInteractiveMovie    ,
-              GameGenres::AdventureRealTime3D          ,
-              GameGenres::AdventureSurvivalHorror      ,
-              GameGenres::RPG                          ,
-              GameGenres::RPGAction                    ,
-              GameGenres::RPGMMO                       ,
-              GameGenres::RPGDungeonCrawler            ,
-              GameGenres::RPGTactical                  ,
-              GameGenres::RPGJapanese                  ,
-              GameGenres::RPGFirstPersonPartyBased     ,
-              GameGenres::Simulation                   ,
-              GameGenres::SimulationBuildAndManagement ,
-              GameGenres::SimulationLife               ,
-              GameGenres::SimulationFishAndHunt        ,
-              GameGenres::SimulationVehicle            ,
-              GameGenres::SimulationSciFi              ,
-              GameGenres::Strategy                     ,
-              GameGenres::Strategy4X                   ,
-              GameGenres::StrategyArtillery            ,
-              GameGenres::StrategyAutoBattler          ,
-              GameGenres::StrategyMOBA                 ,
-              GameGenres::StrategyRTS                  ,
-              GameGenres::StrategyTBS                  ,
-              GameGenres::StrategyTowerDefense         ,
-              GameGenres::StrategyWargame              ,
-              GameGenres::Sports                       ,
-              GameGenres::SportRacing                  ,
-              GameGenres::SportSimulation              ,
-              GameGenres::SportCompetitive             ,
-              GameGenres::SportFight                   ,
-              GameGenres::Pinball                      ,
-              GameGenres::Board                        ,
-              GameGenres::Casual                       ,
-              GameGenres::DigitalCard                  ,
-              GameGenres::PuzzleAndLogic               ,
-              GameGenres::Party                        ,
-              GameGenres::Trivia                       ,
-              GameGenres::Casino                       ,
-              GameGenres::Compilation                  ,
-              GameGenres::DemoScene                    ,
-              GameGenres::Educative                    ,
-            };
-
           std::map<std::shared_ptr<SwitchComponent>, std::string> components;
 
           // All games
           Genres::GenreMap map = Genres::GetShortNameMap();
-          for(auto & genre : genres)
+          for(auto & genre : Genres::GetOrderedList())
           {
             std::string shortName = map[genre];
             std::string longName = Genres::GetName(genre);
