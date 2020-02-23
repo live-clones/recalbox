@@ -38,16 +38,22 @@ bool EmulatorManager::GetSystemDefaultEmulator(const SystemData& system, std::st
 {
   emulator.clear();
   core.clear();
-  const EmulatorList* tryList = mSystemEmulators.try_get(system.getFullName());
+  const EmulatorList** tryList = mSystemEmulators.try_get(KeyFrom(system));
   if (tryList != nullptr)
   {
-    const EmulatorList& list = *tryList;
+    const EmulatorList& list = **tryList;
     if (list.HasAny())
     {
-      // Get emulator name
-      emulator = list.At(0).Name();
-      // Get core name, or duplicate emulator name
-      core = (list.At(0).HasAny()) ? list.At(0).Core(0) : emulator;
+      int priority = 255;
+      // Search for lowest priority core/emulator
+      for(int i = list.Count(); --i >= 0; )
+        for(int j = list.EmulatorAt(i).CoreCount(); --j >= 0; )
+          if (list.EmulatorAt(i).CorePriorityAt(j) < priority)
+          {
+            priority = list.EmulatorAt(i).CorePriorityAt(j);
+            core = list.EmulatorAt(i).CoreAt(j);
+            emulator = list.EmulatorAt(i).Name();
+          }
 
       LOG(LogDebug) << "Default emulator/core" << emulator << '/' << core;
       return true;
@@ -167,10 +173,10 @@ void EmulatorManager::GetemulatorFromOverride(const FileData& game, std::string&
 
 bool EmulatorManager::CheckEmulatorAndCore(const SystemData& system, const std::string& emulator, const std::string& core) const
 {
-  const EmulatorList* tryList = mSystemEmulators.try_get(system.getFullName());
+  const EmulatorList** tryList = mSystemEmulators.try_get(KeyFrom(system));
   if (tryList != nullptr)
   {
-    const EmulatorList& list = *tryList;
+    const EmulatorList& list = **tryList;
     if (list.HasNamed(emulator))
       if (list.Named(emulator).HasCore(core))
         return true;
@@ -180,17 +186,17 @@ bool EmulatorManager::CheckEmulatorAndCore(const SystemData& system, const std::
 
 bool EmulatorManager::GuessEmulatorAndCore(const SystemData& system, std::string& emulator, std::string& core) const
 {
-  const EmulatorList* tryList = mSystemEmulators.try_get(system.getFullName());
+  const EmulatorList** tryList = mSystemEmulators.try_get(KeyFrom(system));
   if (tryList != nullptr)
   {
-    const EmulatorList& list = *tryList;
+    const EmulatorList& list = **tryList;
     // Emulator without core
     if (!emulator.empty() && core.empty())
     {
       if (list.HasNamed(emulator))
         if (list.Named(emulator).CoreCount() == 1)
         {
-          core = list.Named(emulator).Core(0);
+          core = list.Named(emulator).CoreAt(0);
           LOG(LogDebug) << "Core " << core << " guessed from emulator " << emulator << " whish has only one core";
           return true;
         }
@@ -199,9 +205,9 @@ bool EmulatorManager::GuessEmulatorAndCore(const SystemData& system, std::string
     if (emulator.empty() && !core.empty())
     {
       for(int i = list.Count(); --i >= 0; )
-        if (list.At(i).HasCore(core))
+        if (list.EmulatorAt(i).HasCore(core))
         {
-          emulator = list.At(i).Name();
+          emulator = list.EmulatorAt(i).Name();
           LOG(LogDebug) << "Emulator " << emulator << " guessed from core " << core;
           return true;
         }
@@ -212,13 +218,35 @@ bool EmulatorManager::GuessEmulatorAndCore(const SystemData& system, std::string
 
 Strings::Vector EmulatorManager::GetEmulators(const SystemData& system) const
 {
-  const EmulatorList* tryList = mSystemEmulators.try_get(system.getFullName());
+
+  const EmulatorList** tryList = mSystemEmulators.try_get(KeyFrom(system));
   if (tryList != nullptr)
   {
-    const EmulatorList& list = *tryList;
+    const EmulatorList& list = **tryList;
+
+    // Get priorities
+    unsigned char emulatorPriorities[EmulatorList::sMaximumEmulators];
+    for(int i = EmulatorList::sMaximumEmulators; --i >= 0; ) emulatorPriorities[i] = 255;
+    for(int i = list.Count(); --i >= 0; )
+      for(int j = list.EmulatorAt(i).CoreCount(); --j >= 0; )
+        if (list.EmulatorAt(i).CorePriorityAt(j) < emulatorPriorities[i])
+          emulatorPriorities[i] = list.EmulatorAt(i).CorePriorityAt(j);
+
+    // Build a sorted output list
     Strings::Vector result;
-    for(int i = 0; i < list.Count(); ++i)
-      result.push_back(list.At(i).Name());
+    for(int round = list.Count(); --round >= 0; )
+    {
+      int lowestPriority = emulatorPriorities[0];
+      int index = 0;
+      for(int i = 0; i < list.Count(); ++i)
+        if (emulatorPriorities[i] < lowestPriority)
+        {
+          lowestPriority = emulatorPriorities[i];
+          index = i;
+        }
+      result.push_back(list.EmulatorAt(index).Name());
+      emulatorPriorities[index] = 255;
+    }
 
     return result;
   }
@@ -228,21 +256,46 @@ Strings::Vector EmulatorManager::GetEmulators(const SystemData& system) const
 
 Strings::Vector EmulatorManager::GetCores(const SystemData& system, const std::string& emulator) const
 {
-  const EmulatorList* tryList = mSystemEmulators.try_get(system.getFullName());
+  const EmulatorList** tryList = mSystemEmulators.try_get(KeyFrom(system));
   if (tryList != nullptr)
   {
-    const EmulatorList& list = *tryList;
+    const EmulatorList& list = **tryList;
     if (list.HasNamed(emulator))
     {
       const EmulatorDescriptor& descriptor = list.Named(emulator);
+      // Get priorities
+      unsigned char corePriorities[EmulatorDescriptor::sMaximumCores];
+      for(int i = EmulatorDescriptor::sMaximumCores; --i >= 0; ) corePriorities[i] = 255;
+      for(int i = descriptor.CoreCount(); --i >= 0; ) corePriorities[i] = descriptor.CorePriorityAt(i);
+
+      // Build a sorted output list
       Strings::Vector result;
-      for(int i = 0; i < descriptor.CoreCount(); ++i)
-        result.push_back(descriptor.Core(i));
+      for(int round = descriptor.CoreCount(); --round >= 0; )
+      {
+        int lowestPriority = corePriorities[0];
+        int index = 0;
+        for(int i = 0; i < descriptor.CoreCount(); ++i)
+          if (corePriorities[i] < lowestPriority)
+          {
+            lowestPriority = corePriorities[i];
+            index = i;
+          }
+        result.push_back(descriptor.CoreAt(index));
+        corePriorities[index] = 255;
+      }
 
       return result;
     }
   }
 
   return Strings::Vector();
+}
+
+std::string EmulatorManager::KeyFrom(const SystemData& system)
+{
+  std::string result(system.getFullName());
+  for(int i = system.PlatformCount(); --i >= 0; )
+    result.append(Strings::ToString((int)system.PlatformIds(i)));
+  return result;
 }
 

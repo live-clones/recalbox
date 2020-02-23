@@ -13,7 +13,14 @@ class EmulatorManager : public INoCopy
 {
   private:
     //! System to emulator/core list
-    HashMap<std::string, const EmulatorList> mSystemEmulators;
+    HashMap<std::string, const EmulatorList*> mSystemEmulators;
+
+    /*!
+     * @brief Get an unique key from the given system
+     * @param system System
+     * @return Resulting key
+     */
+    static std::string KeyFrom(const SystemData& system);
 
     /*!
      * @brief Check if the given emulator and core exists for the given system
@@ -66,9 +73,15 @@ class EmulatorManager : public INoCopy
      * @param system System
      * @param list Emulator (and core) list
      */
-    void AddEmulatorList(const SystemData& system, const EmulatorList& list)
+    void AddEmulatorList(const SystemData& system)
     {
-      mSystemEmulators.insert(std::string(system.getFullName()), list);
+      std::string key = KeyFrom(system);
+      if (mSystemEmulators.contains(key))
+      {
+        LOG(LogError) << "Fatal error: You cannot define 2 systems with the same fullname and the same platforms! ABORTING.";
+        exit(1);
+      }
+      mSystemEmulators.insert(key, &system.Emulators());
     }
 
     //! Class SystemManager needs to Add emulator lists

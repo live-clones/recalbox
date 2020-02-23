@@ -233,10 +233,10 @@ class SystemManager :
 
     /*!
      * @brief Load and parse a single gamelist, then return a complete fulfilled system
-     * @param feed System object from es_systems.cfg
+     * @param systemDescriptor System object from es_systems.cfg
      * @return New SystemData object or nullptr
      */
-    SystemData* ThreadPoolRunJob(SystemDescriptor& feed) override;
+    SystemData* ThreadPoolRunJob(SystemDescriptor& systemDescriptor) override;
 
     /*!
      * @brief Update a single gamelist from the metadata

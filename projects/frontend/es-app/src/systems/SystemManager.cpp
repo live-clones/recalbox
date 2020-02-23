@@ -134,7 +134,7 @@ void SystemManager::DeserializeEmulatorTree(XmlNode emulators, EmulatorList& emu
     XmlNode cores = emulator.child("cores");
     if (cores != nullptr)
       for (const auto& coreNode : cores.children("core"))
-        emulatorDescriptor.AddCore(coreNode.child_value());
+        emulatorDescriptor.AddCore(coreNode.child_value(), coreNode.attribute("priority").as_int(255));
     if (emulatorDescriptor.HasAny()) emulatorList.AddEmulator(emulatorDescriptor);
   }
 }
@@ -187,27 +187,27 @@ void SystemManager::ThreadPoolTick(int completed, int /*total*/)
     mProgressInterface->SetProgress(completed);
 }
 
-SystemData* SystemManager::ThreadPoolRunJob(SystemDescriptor& system)
+SystemData* SystemManager::ThreadPoolRunJob(SystemDescriptor& systemDescriptor)
 {
   try
   {
-    SystemData* newSys = CreateRegularSystem(system, mForceReload);
+    SystemData* newSys = CreateRegularSystem(systemDescriptor, mForceReload);
     if (newSys->getRootFolder().countAll(false, newSys->IncludeAdultGames()) == 0)
     {
-      LOG(LogWarning) << "System \"" << system.Name() << "\" has no games! Ignoring it.";
+      LOG(LogWarning) << "System \"" << systemDescriptor.Name() << "\" has no games! Ignoring it.";
       delete newSys;
       return nullptr;
     }
     else
     {
-      mEmulatorManager.AddEmulatorList(*newSys, system.EmulatorTree());
-      LOG(LogWarning) << "Adding \"" << system.Name() << "\" in system list.";
+      mEmulatorManager.AddEmulatorList(*newSys);
+      LOG(LogWarning) << "Adding \"" << systemDescriptor.Name() << "\" in system list.";
       return newSys;
     }
   }
   catch(std::exception& ex)
   {
-    LOG(LogError) << "System \"" << system.FullName() << "\" has raised an error. Ignored.";
+    LOG(LogError) << "System \"" << systemDescriptor.FullName() << "\" has raised an error. Ignored.";
     LOG(LogError) << "Exception: " << ex.what();
   }
   return nullptr;

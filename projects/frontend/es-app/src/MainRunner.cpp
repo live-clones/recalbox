@@ -119,6 +119,7 @@ MainRunner::ExitState MainRunner::Run()
       ResetExitState();
       fileNotifier.ResetEventNotifier();
       DeleteReadyFlagFile();
+      window.deleteAllGui();
     }
     catch(std::exception& ex)
     {
@@ -129,7 +130,6 @@ MainRunner::ExitState MainRunner::Run()
 
     // Exit
     window.GoToQuitScreen();
-    window.deleteAllGui();
     systemManager.DeleteAllSystems(DoWeHaveToUpdateGamelist(exitState));
     Window::Finalize();
 

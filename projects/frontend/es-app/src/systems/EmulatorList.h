@@ -25,7 +25,7 @@ class EmulatorList
 
     int Count() const { return mEmulatorCount; }
 
-    const EmulatorDescriptor& At(int index) const { return (unsigned int)index < (unsigned int)mEmulatorCount ? mEmulators[index] : sEmptyEmulator; }
+    const EmulatorDescriptor& EmulatorAt(int index) const { return (unsigned int)index < (unsigned int)mEmulatorCount ? mEmulators[index] : sEmptyEmulator; }
 
     const EmulatorDescriptor& Named(const std::string& name) const
     {

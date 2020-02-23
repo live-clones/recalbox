@@ -8,23 +8,27 @@
 class EmulatorDescriptor
 {
   public:
-    static constexpr int sMaximumCores = 4;
+    static constexpr int sMaximumCores = 8;
 
   private:
     std::string mEmulator;
     std::string mCores[sMaximumCores];
+    unsigned char mCorePriorities[sMaximumCores];
     int mCoreCount;
 
   public:
     EmulatorDescriptor()
-      : mCoreCount(0)
+      : mCorePriorities {},
+        mCoreCount(0)
     {
+      for(int i = sMaximumCores; --i >= 0; )
+        mCorePriorities[i] = 255;
     }
 
     explicit EmulatorDescriptor(const std::string& emulator)
-      : mEmulator(emulator),
-        mCoreCount(0)
+      : EmulatorDescriptor()
     {
+      mEmulator = emulator;
     }
 
     const std::string& Name() const { return mEmulator; }
@@ -41,12 +45,17 @@ class EmulatorDescriptor
       return false;
     }
 
-    const std::string& Core(int index) const { return (unsigned int)index < (unsigned int)mCoreCount ? mCores[index] : mCores[0]; }
+    const std::string& CoreAt(int index) const { return (unsigned int)index < (unsigned int)mCoreCount ? mCores[index] : mCores[0]; }
 
-    void AddCore(const std::string& core)
+    unsigned char CorePriorityAt(int index) const { return (unsigned int)index < (unsigned int)mCoreCount ? mCorePriorities[index] : 255; }
+
+    void AddCore(const std::string& core, int priority)
     {
       if (mCoreCount < sMaximumCores)
+      {
+        mCorePriorities[mCoreCount] = priority;
         mCores[mCoreCount++] = core;
+      }
       else
         LOG(LogError) << "Core " << core << " cannot be added to emulator " << mEmulator;
     }

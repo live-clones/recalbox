@@ -1677,44 +1677,61 @@ void GuiMenu::popSystemConfigurationGui(SystemData *systemData) const
 
     std::string defaultEmulator;
     std::string defaultCore;
-    mSystemManager.Emulators().GetSystemDefaultEmulator(*systemData, defaultEmulator, defaultCore);
-
-    //Emulator choice
-    auto emu_choice = std::make_shared<OptionListComponent<std::string>>(mWindow, _("Emulator"), false);
-
-    std::string currentEmulator = RecalboxConf::Instance().AsString(systemData->getName() + ".emulator");
-    if (currentEmulator.empty()) currentEmulator = defaultEmulator;
-    for (const std::string& emulatorName : mSystemManager.Emulators().GetEmulators(*systemData))
+    if (mSystemManager.Emulators().GetSystemDefaultEmulator(*systemData, defaultEmulator, defaultCore))
     {
-      std::string displayName = emulatorName;
-      if (displayName == defaultEmulator) displayName.append(" (").append(_("DEFAULT")).append(1, ')');
-      emu_choice->add(displayName, emulatorName, emulatorName == currentEmulator);
-    }
+      //Emulator choice
+      auto emu_choice = std::make_shared<OptionListComponent<std::string>>(mWindow, _("Emulator"), false);
 
-    // Core choice
-    auto core_choice = std::make_shared<OptionListComponent<std::string> >(mWindow, _("Core"), false);
+      std::string currentEmulator = RecalboxConf::Instance().AsString(systemData->getName() + ".emulator");
+      if (currentEmulator.empty()) currentEmulator = defaultEmulator;
+      std::string currentCore = RecalboxConf::Instance().AsString(systemData->getName() + ".core");
+      if (currentCore.empty()) currentCore = defaultCore;
 
-    // when emulator changes, load new core list
-    emu_choice->setSelectedChangedCallback([this, systemData, defaultEmulator, defaultCore, core_choice](const std::string& emulatorName)
-    {
-        core_choice->clear();
-
-        bool isDefaultEmulator = (emulatorName == defaultEmulator);
-        std::string currentCore = RecalboxConf::Instance().AsString(systemData->getName() + ".core");
-        if (currentCore.empty()) currentCore = defaultCore;
+      for (const std::string& emulatorName : mSystemManager.Emulators().GetEmulators(*systemData))
+      {
         for (const std::string& coreName : mSystemManager.Emulators().GetCores(*systemData, emulatorName))
         {
-          std::string displayName = coreName;
-          if (displayName == defaultCore && isDefaultEmulator) displayName.append(" (").append(_("DEFAULT")).append(1, ')');
-          core_choice->add(displayName, coreName, coreName == currentCore);
+          std::string displayName = emulatorName;
+          if (displayName != coreName) displayName.append(1, ' ').append(coreName);
+          if (defaultCore == coreName && defaultEmulator == emulatorName)
+            displayName.append(" (").append(_("DEFAULT")).append(1, ')');
+
+          std::string emulatorAndCore = emulatorName;
+          emulatorAndCore.append(1, ':').append(coreName);
+          emu_choice->add(displayName, emulatorAndCore, emulatorName == currentEmulator && coreName == currentCore);
         }
-    });
+      }
 
-    systemConfiguration->addWithLabel(emu_choice, _("Emulator"), _(MENUMESSAGE_ADVANCED_EMU_EMU_HELP_MSG));
-    systemConfiguration->addWithLabel(core_choice, _("Core"), _(MENUMESSAGE_ADVANCED_EMU_CORE_HELP_MSG));
+      systemConfiguration->addWithLabel(emu_choice, _("Emulator"), _(MENUMESSAGE_ADVANCED_EMU_EMU_HELP_MSG));
 
-    // force change event to load core list
-    emu_choice->invalidate(); 
+      // force change event to load core list
+      emu_choice->invalidate();
+
+      systemConfiguration->addSaveFunc(
+      [systemData, emu_choice, defaultEmulator, defaultCore]
+      {
+        if (emu_choice->changed())
+        {
+          // Split emulator & core
+          Strings::Vector split = Strings::Split(emu_choice->getValue(), ':');
+          if (split.size() == 2)
+          {
+            if (split[0] == defaultEmulator && split[1] == defaultCore)
+            {
+              RecalboxConf::Instance().SetString(systemData->getName() + ".emulator", "");
+              RecalboxConf::Instance().SetString(systemData->getName() + ".core", "");
+            }
+            else
+            {
+              RecalboxConf::Instance().SetString(systemData->getName() + ".emulator", split[0]);
+              RecalboxConf::Instance().SetString(systemData->getName() + ".core", split[1]);
+            }
+          }
+          else LOG(LogError) << "Error splitting emulator and core!";
+        }
+        RecalboxConf::Instance().Save();
+      });
+    }
 
     // Screen ratio choice
     auto ratio_choice = createRatioOptionList(mWindow, systemData->getName());
@@ -1733,7 +1750,7 @@ void GuiMenu::popSystemConfigurationGui(SystemData *systemData) const
     systemConfiguration->addWithLabel(autosave_enabled, _("AUTO SAVE/LOAD"), _(MENUMESSAGE_GAME_AUTOSAVELOAD_HELP_MSG));
 
     systemConfiguration->addSaveFunc(
-            [systemData, smoothing_enabled, rewind_enabled, ratio_choice, emu_choice, core_choice, autosave_enabled] {
+            [systemData, smoothing_enabled, rewind_enabled, ratio_choice, autosave_enabled] {
                 if (ratio_choice->changed()) {
                     RecalboxConf::Instance().SetString(systemData->getName() + ".ratio", ratio_choice->getSelected());
                 }
@@ -1742,12 +1759,6 @@ void GuiMenu::popSystemConfigurationGui(SystemData *systemData) const
                 }
                 if (smoothing_enabled->changed()) {
                     RecalboxConf::Instance().SetBool(systemData->getName() + ".smooth", smoothing_enabled->getState());
-                }
-                // always save both core and emulator
-                // this is required to distinguish default
-                if (emu_choice->changed() || core_choice->changed()) {
-                    RecalboxConf::Instance().SetString(systemData->getName() + ".emulator", emu_choice->getSelected());
-                    RecalboxConf::Instance().SetString(systemData->getName() + ".core", core_choice->getSelected());
                 }
                 if (autosave_enabled->changed()) {
                     RecalboxConf::Instance().SetBool(systemData->getName() + ".autosave", autosave_enabled->getState());

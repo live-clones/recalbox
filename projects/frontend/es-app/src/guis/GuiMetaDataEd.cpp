@@ -61,7 +61,6 @@ GuiMetaDataEd::GuiMetaDataEd(Window& window,
   mGrid.setEntry(mList, Vector2i(0, 1), true, true);
 
   auto emu_choice = std::make_shared<OptionListComponent<std::string>>(mWindow, _("Emulator"), false, FONT_SIZE_MEDIUM);
-  auto core_choice = std::make_shared<OptionListComponent<std::string> >(mWindow, _("core"), false, FONT_SIZE_MEDIUM);
 
   // Get list
   int fieldCount = 0;
@@ -141,46 +140,38 @@ GuiMetaDataEd::GuiMetaDataEd(Window& window,
       case MetadataFieldDescriptor::EditableType::List:
         if (field.Key() == "emulator")
         {
-          row.addElement(emu_choice, false);
-
           std::string defaultEmulator;
           std::string defaultCore;
-          mSystemManager.Emulators().GetSystemDefaultEmulator(*system, defaultEmulator, defaultCore);
+          if (!mSystemManager.Emulators().GetSystemDefaultEmulator(*system, defaultEmulator, defaultCore))
+            continue;
+
+          row.addElement(emu_choice, false);
 
           std::string currentEmulator = RecalboxConf::Instance().AsString(system->getName() + ".emulator");
           if (currentEmulator.empty()) currentEmulator = defaultEmulator;
+          std::string currentCore = RecalboxConf::Instance().AsString(system->getName() + ".core");
+          if (currentCore.empty()) currentCore = defaultCore;
+
           for (const std::string& emulatorName : mSystemManager.Emulators().GetEmulators(*system))
           {
-            std::string displayName = emulatorName;
-            if (displayName == defaultEmulator) displayName.append(" (").append(_("DEFAULT")).append(1, ')');
-            emu_choice->add(displayName, emulatorName, emulatorName == currentEmulator);
-          }
-
-          // when emulator changes, load new core list
-          emu_choice->setSelectedChangedCallback([this, system, defaultEmulator, defaultCore, core_choice](const std::string& emulatorName)
-          {
-            core_choice->clear();
-
-            bool isDefaultEmulator = (emulatorName == defaultEmulator);
-            std::string currentCore = RecalboxConf::Instance().AsString(system->getName() + ".core");
-            if (currentCore.empty()) currentCore = defaultCore;
             for (const std::string& coreName : mSystemManager.Emulators().GetCores(*system, emulatorName))
             {
-              std::string displayName = coreName;
-              if (displayName == defaultCore && isDefaultEmulator) displayName.append(" (").append(_("DEFAULT")).append(1, ')');
-              core_choice->add(displayName, coreName, coreName == currentCore);
+              std::string displayName = emulatorName;
+              if (displayName != coreName) displayName.append(1, ' ').append(coreName);
+              if (defaultCore == coreName && defaultEmulator == emulatorName)
+                displayName.append(" (").append(_("DEFAULT")).append(1, ')');
+
+              std::string emulatorAndCore = emulatorName;
+              emulatorAndCore.append(1, ':').append(coreName);
+              emu_choice->add(displayName, emulatorAndCore, emulatorName == currentEmulator && coreName == currentCore);
             }
-          });
+          }
 
           ed = emu_choice;
         }
         else if (field.Key() == "core")
         {
-          row.addElement(core_choice, false);
-          ed = core_choice;
-
-          // force change event to load core list
-          emu_choice->invalidate();
+          continue;
         }
         else if (field.Key() == "ratio")
         {
@@ -365,7 +356,29 @@ void GuiMetaDataEd::save()
   {
     if (mMetaDataEditable[i]->Type() != MetadataFieldDescriptor::DataType::PList)
     {
-      (mMetaData.*(mMetaDataEditable[i]->SetValueMethod()))(mEditors[i]->getValue());
+      if (mMetaDataEditable[i]->Key() == "emulator")
+      {
+        // Split emulator & core
+        Strings::Vector split = Strings::Split(mEditors[i]->getValue(), ':');
+        if (split.size() == 2)
+        {
+          std::string defaultEmulator;
+          std::string defaultCore;
+          mSystemManager.Emulators().GetGameEmulator(mGame, defaultEmulator, defaultCore);
+          if (split[0] == defaultEmulator && split[1] == defaultCore)
+          {
+            mMetaData.SetEmulator("");
+            mMetaData.SetCore("");
+          }
+          else
+          {
+            mMetaData.SetEmulator(split[0]);
+            mMetaData.SetCore(split[1]);
+          }
+        }
+        else LOG(LogError) << "Error splitting emulator and core!";
+      }
+      else (mMetaData.*(mMetaDataEditable[i]->SetValueMethod()))(mEditors[i]->getValue());
     }
     else
     {
