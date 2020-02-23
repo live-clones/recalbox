@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system amstradcpc --extension '.dsk .DSK .sna .SNA .tap .TAP .cdt .CDT .voc .VOC .m3u .M3U .zip .ZIP .7z .7Z .kcr .KCR' --fullname 'AmstradCPC' --platform amstradcpc --theme amstradcpc libretro:cap32:BR2_PACKAGE_LIBRETRO_CAP32 libretro:crocods:BR2_PACKAGE_LIBRETRO_CROCODS
+# ./scripts/linux/empack.py --force --system amstradcpc --extension '.dsk .DSK .sna .SNA .tap .TAP .cdt .CDT .voc .VOC .m3u .M3U .zip .ZIP .7z .7Z .kcr .KCR' --fullname 'AmstradCPC' --platform amstradcpc --theme amstradcpc 1:libretro:cap32:BR2_PACKAGE_LIBRETRO_CAP32 2:libretro:crocods:BR2_PACKAGE_LIBRETRO_CROCODS
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_AMSTRADCPC_SOURCE = 
@@ -32,13 +32,13 @@ define CONFIGURE_AMSTRADCPC_LIBRETRO_START
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_CROCODS),y)
 define CONFIGURE_AMSTRADCPC_LIBRETRO_CROCODS_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_AMSTRADCPC),crocods)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_AMSTRADCPC),crocods,2)
 endef
 endif
 
 ifeq ($(BR2_PACKAGE_LIBRETRO_CAP32),y)
 define CONFIGURE_AMSTRADCPC_LIBRETRO_CAP32_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_AMSTRADCPC),cap32)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_AMSTRADCPC),cap32,1)
 endef
 endif
 

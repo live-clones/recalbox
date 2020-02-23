@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system virtualboy --extension '.vb .VB .vboy .VBOY .bin .BIN .zip .ZIP .7z .7Z' --fullname 'Virtual Boy' --platform virtualboy --theme virtualboy libretro:mednafen_vb:BR2_PACKAGE_LIBRETRO_BEETLE_VB
+# ./scripts/linux/empack.py --force --system virtualboy --extension '.vb .VB .vboy .VBOY .bin .BIN .zip .ZIP .7z .7Z' --fullname 'Virtual Boy' --platform virtualboy --theme virtualboy 1:libretro:mednafen_vb:BR2_PACKAGE_LIBRETRO_BEETLE_VB
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_VIRTUALBOY_SOURCE = 
@@ -32,7 +32,7 @@ define CONFIGURE_VIRTUALBOY_LIBRETRO_START
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_BEETLE_VB),y)
 define CONFIGURE_VIRTUALBOY_LIBRETRO_MEDNAFEN_VB_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_VIRTUALBOY),mednafen_vb)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_VIRTUALBOY),mednafen_vb,1)
 endef
 endif
 

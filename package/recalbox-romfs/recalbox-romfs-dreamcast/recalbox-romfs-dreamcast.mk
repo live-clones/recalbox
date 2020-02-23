@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system dreamcast --extension '.gdi .GDI .cdi .CDI .chd .CHD' --fullname 'Sega Dreamcast' --platform dreamcast --theme dreamcast libretro:flycast:BR2_PACKAGE_LIBRETRO_FLYCAST reicast:reicast:BR2_PACKAGE_REICAST reicast:reicast:BR2_PACKAGE_REICAST_OLD
+# ./scripts/linux/empack.py --force --system dreamcast --extension '.gdi .GDI .cdi .CDI .chd .CHD' --fullname 'Sega Dreamcast' --platform dreamcast --theme dreamcast 3:libretro:flycast:BR2_PACKAGE_LIBRETRO_FLYCAST 2:reicast:reicast:BR2_PACKAGE_REICAST 1:reicast:reicast:BR2_PACKAGE_REICAST_OLD
 
 #
 # DO NOT CALL empack.py to regenerate this file! It cannot handle both REICAST package!
@@ -36,7 +36,7 @@ define CONFIGURE_DREAMCAST_REICAST_START
 endef
 ifneq ($(BR2_PACKAGE_REICAST)$(BR2_PACKAGE_REICAST_OLD),)
 define CONFIGURE_DREAMCAST_REICAST_REICAST_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_DREAMCAST),reicast)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_DREAMCAST),reicast,1)
 endef
 endif
 
@@ -51,7 +51,7 @@ define CONFIGURE_DREAMCAST_LIBRETRO_START
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_FLYCAST),y)
 define CONFIGURE_DREAMCAST_LIBRETRO_FLYCAST_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_DREAMCAST),flycast)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_DREAMCAST),flycast,3)
 endef
 endif
 

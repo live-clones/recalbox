@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system msx2 --extension '.rom .ROM .mx1 .MX1 .mx2 .MX2 .dsk .DSK .cas .CAS .m3u .M3U .zip .ZIP .7z .7Z' --fullname 'MSX2' --platform msx2 --theme msx2 libretro:bluemsx:BR2_PACKAGE_LIBRETRO_BLUEMSX libretro:fmsx:BR2_PACKAGE_LIBRETRO_FMSX
+# ./scripts/linux/empack.py --force --system msx2 --extension '.rom .ROM .mx1 .MX1 .mx2 .MX2 .dsk .DSK .cas .CAS .m3u .M3U .zip .ZIP .7z .7Z' --fullname 'MSX2' --platform msx2 --theme msx2 1:libretro:bluemsx:BR2_PACKAGE_LIBRETRO_BLUEMSX 2:libretro:fmsx:BR2_PACKAGE_LIBRETRO_FMSX
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_MSX2_SOURCE = 
@@ -32,13 +32,13 @@ define CONFIGURE_MSX2_LIBRETRO_START
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_FMSX),y)
 define CONFIGURE_MSX2_LIBRETRO_FMSX_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_MSX2),fmsx)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_MSX2),fmsx,2)
 endef
 endif
 
 ifeq ($(BR2_PACKAGE_LIBRETRO_BLUEMSX),y)
 define CONFIGURE_MSX2_LIBRETRO_BLUEMSX_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_MSX2),bluemsx)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_MSX2),bluemsx,1)
 endef
 endif
 

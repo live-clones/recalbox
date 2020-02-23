@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system atari800 --extension '.xfd .XFD .atr .ATR .atx .ATX .cdm .CDM .cas .CAS .bin .BIN .xex .XEX .zip .ZIP' --fullname 'Atari 800' --platform atari800 --theme atari800 libretro:atari800:BR2_PACKAGE_LIBRETRO_ATARI800
+# ./scripts/linux/empack.py --force --system atari800 --extension '.xfd .XFD .atr .ATR .atx .ATX .cdm .CDM .cas .CAS .bin .BIN .xex .XEX .zip .ZIP' --fullname 'Atari 800' --platform atari800 --theme atari800 1:libretro:atari800:BR2_PACKAGE_LIBRETRO_ATARI800
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_ATARI800_SOURCE = 
@@ -32,7 +32,7 @@ define CONFIGURE_ATARI800_LIBRETRO_START
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_ATARI800),y)
 define CONFIGURE_ATARI800_LIBRETRO_ATARI800_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_ATARI800),atari800)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_ATARI800),atari800,1)
 endef
 endif
 

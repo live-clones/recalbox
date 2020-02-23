@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system sega32x --extension '.32x .32X .smd .SMD .bin .BIN .zip .ZIP .7z .7Z' --fullname 'Sega 32X' --platform sega32x --theme sega32x libretro:picodrive:BR2_PACKAGE_LIBRETRO_PICODRIVE
+# ./scripts/linux/empack.py --force --system sega32x --extension '.32x .32X .smd .SMD .bin .BIN .zip .ZIP .7z .7Z' --fullname 'Sega 32X' --platform sega32x --theme sega32x 1:libretro:picodrive:BR2_PACKAGE_LIBRETRO_PICODRIVE
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_SEGA32X_SOURCE = 
@@ -32,7 +32,7 @@ define CONFIGURE_SEGA32X_LIBRETRO_START
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_PICODRIVE),y)
 define CONFIGURE_SEGA32X_LIBRETRO_PICODRIVE_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_SEGA32X),picodrive)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_SEGA32X),picodrive,1)
 endef
 endif
 

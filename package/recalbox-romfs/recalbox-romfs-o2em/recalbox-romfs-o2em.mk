@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system o2em --extension '.bin .BIN .zip .ZIP .7z .7Z' --fullname 'Odyssey2' --platform odyssey2 --theme odyssey2 libretro:o2em:BR2_PACKAGE_LIBRETRO_O2EM
+# ./scripts/linux/empack.py --force --system o2em --extension '.bin .BIN .zip .ZIP .7z .7Z' --fullname 'Odyssey2' --platform odyssey2 --theme odyssey2 1:libretro:o2em:BR2_PACKAGE_LIBRETRO_O2EM
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_O2EM_SOURCE = 
@@ -32,7 +32,7 @@ define CONFIGURE_O2EM_LIBRETRO_START
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_O2EM),y)
 define CONFIGURE_O2EM_LIBRETRO_O2EM_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_O2EM),o2em)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_O2EM),o2em,1)
 endef
 endif
 

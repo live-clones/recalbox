@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system fba_libretro --extension '.zip .ZIP .fba .FBA .7z .7Z' --fullname 'FinalBurn Alpha' --platform arcade --theme fba_libretro libretro:fbneo:BR2_PACKAGE_LIBRETRO_FBNEO
+# ./scripts/linux/empack.py --force --system fba_libretro --extension '.zip .ZIP .fba .FBA .7z .7Z' --fullname 'FinalBurn Alpha' --platform arcade --theme fba_libretro 1:libretro:fbneo:BR2_PACKAGE_LIBRETRO_FBNEO
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_FBA_LIBRETRO_SOURCE = 
@@ -32,7 +32,7 @@ define CONFIGURE_FBA_LIBRETRO_LIBRETRO_START
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_FBNEO),y)
 define CONFIGURE_FBA_LIBRETRO_LIBRETRO_FBNEO_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_FBA_LIBRETRO),fbneo)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_FBA_LIBRETRO),fbneo,1)
 endef
 endif
 

@@ -49,7 +49,7 @@ RECALBOX_ROMFS_CALL_START_EMULATOR = echo -e '<emulator name="$(2)">\n<cores>' >
 # function to add the core part of a XML
 # $1 = XML file
 # $2 = core name
-RECALBOX_ROMFS_CALL_ADD_CORE = echo -e '<core>$(2)</core>' >> $(1)
+RECALBOX_ROMFS_CALL_ADD_CORE = echo -e '<core priority="$(3)">$(2)</core>' >> $(1)
 
 # function to close the emulator part of a XML
 # $1 = XML file

@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system tic80 --extension '.tic .TIC .zip .ZIP .7z .7Z' --fullname 'TIC-80' --platform tic80 --theme tic80 libretro:tic80:BR2_PACKAGE_LIBRETRO_TIC80
+# ./scripts/linux/empack.py --force --system tic80 --extension '.tic .TIC .zip .ZIP .7z .7Z' --fullname 'TIC-80' --platform tic80 --theme tic80 1:libretro:tic80:BR2_PACKAGE_LIBRETRO_TIC80
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_TIC80_SOURCE = 
@@ -32,7 +32,7 @@ define CONFIGURE_TIC80_LIBRETRO_START
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_TIC80),y)
 define CONFIGURE_TIC80_LIBRETRO_TIC80_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_TIC80),tic80)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_TIC80),tic80,1)
 endef
 endif
 

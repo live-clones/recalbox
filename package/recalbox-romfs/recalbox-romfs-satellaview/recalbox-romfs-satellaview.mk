@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system satellaview --extension '.bs .BS .smc .SMC .sfc .SFC .zip .ZIP .7z .7Z' --fullname 'Satellaview' --platform satellaview --theme satellaview libretro:snes9x:BR2_PACKAGE_LIBRETRO_SNES9X
+# ./scripts/linux/empack.py --force --system satellaview --extension '.bs .BS .smc .SMC .sfc .SFC .zip .ZIP .7z .7Z' --fullname 'Satellaview' --platform satellaview --theme satellaview 1:libretro:snes9x:BR2_PACKAGE_LIBRETRO_SNES9X
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_SATELLAVIEW_SOURCE = 
@@ -32,7 +32,7 @@ define CONFIGURE_SATELLAVIEW_LIBRETRO_START
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_SNES9X),y)
 define CONFIGURE_SATELLAVIEW_LIBRETRO_SNES9X_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_SATELLAVIEW),snes9x)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_SATELLAVIEW),snes9x,1)
 endef
 endif
 

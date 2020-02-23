@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system atari7800 --extension '.a78 .A78 .bin .BIN .zip .ZIP .7z .7Z' --fullname 'Atari 7800' --platform atari7800 --theme atari7800 libretro:prosystem:BR2_PACKAGE_LIBRETRO_PROSYSTEM
+# ./scripts/linux/empack.py --force --system atari7800 --extension '.a78 .A78 .bin .BIN .zip .ZIP .7z .7Z' --fullname 'Atari 7800' --platform atari7800 --theme atari7800 1:libretro:prosystem:BR2_PACKAGE_LIBRETRO_PROSYSTEM
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_ATARI7800_SOURCE = 
@@ -32,7 +32,7 @@ define CONFIGURE_ATARI7800_LIBRETRO_START
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_PROSYSTEM),y)
 define CONFIGURE_ATARI7800_LIBRETRO_PROSYSTEM_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_ATARI7800),prosystem)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_ATARI7800),prosystem,1)
 endef
 endif
 

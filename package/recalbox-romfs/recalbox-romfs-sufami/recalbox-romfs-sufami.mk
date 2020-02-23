@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system sufami --extension '.st .ST .smc .SMC .sfc .SFC .fig .FIG .zip .ZIP .7z .7Z' --fullname 'SuFami Turbo' --platform sufami --theme sufami libretro:snes9x:BR2_PACKAGE_LIBRETRO_SNES9X
+# ./scripts/linux/empack.py --force --system sufami --extension '.st .ST .smc .SMC .sfc .SFC .fig .FIG .zip .ZIP .7z .7Z' --fullname 'SuFami Turbo' --platform sufami --theme sufami 1:libretro:snes9x:BR2_PACKAGE_LIBRETRO_SNES9X
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_SUFAMI_SOURCE = 
@@ -32,7 +32,7 @@ define CONFIGURE_SUFAMI_LIBRETRO_START
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_SNES9X),y)
 define CONFIGURE_SUFAMI_LIBRETRO_SNES9X_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_SUFAMI),snes9x)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_SUFAMI),snes9x,1)
 endef
 endif
 

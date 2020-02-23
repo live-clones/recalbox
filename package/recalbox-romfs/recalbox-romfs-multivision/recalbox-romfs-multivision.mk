@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system multivision --extension '.mv .MV .bin .BIN .zip .ZIP .7z .7Z' --fullname 'Othello Multivision' --platform multivision --theme multivision libretro:gearsystem:BR2_PACKAGE_LIBRETRO_GEARSYSTEM
+# ./scripts/linux/empack.py --force --system multivision --extension '.mv .MV .bin .BIN .zip .ZIP .7z .7Z' --fullname 'Othello Multivision' --platform multivision --theme multivision 1:libretro:gearsystem:BR2_PACKAGE_LIBRETRO_GEARSYSTEM
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_MULTIVISION_SOURCE = 
@@ -32,7 +32,7 @@ define CONFIGURE_MULTIVISION_LIBRETRO_START
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_GEARSYSTEM),y)
 define CONFIGURE_MULTIVISION_LIBRETRO_GEARSYSTEM_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_MULTIVISION),gearsystem)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_MULTIVISION),gearsystem,1)
 endef
 endif
 

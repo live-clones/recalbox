@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system saturn --extension '.cue .CUE .toc .TOC .m3u .M3U .ccd .CCD .chd .CHD .iso .ISO .mds .MDS .zip .ZIP .7z .7Z' --fullname 'Sega Saturn' --platform saturn --theme saturn libretro:mednafen_saturn:BR2_PACKAGE_LIBRETRO_BEETLE_SATURN libretro:kronos:BR2_PACKAGE_LIBRETRO_KRONOS libretro:yabasanshiro:BR2_PACKAGE_LIBRETRO_YABASANSHIRO libretro:yabause:BR2_PACKAGE_LIBRETRO_YABAUSE
+# ./scripts/linux/empack.py --force --system saturn --extension '.cue .CUE .toc .TOC .m3u .M3U .ccd .CCD .chd .CHD .iso .ISO .mds .MDS .zip .ZIP .7z .7Z' --fullname 'Sega Saturn' --platform saturn --theme saturn 1:libretro:mednafen_saturn:BR2_PACKAGE_LIBRETRO_BEETLE_SATURN 4:libretro:kronos:BR2_PACKAGE_LIBRETRO_KRONOS 3:libretro:yabasanshiro:BR2_PACKAGE_LIBRETRO_YABASANSHIRO 2:libretro:yabause:BR2_PACKAGE_LIBRETRO_YABAUSE
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_SATURN_SOURCE = 
@@ -32,25 +32,25 @@ define CONFIGURE_SATURN_LIBRETRO_START
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_YABASANSHIRO),y)
 define CONFIGURE_SATURN_LIBRETRO_YABASANSHIRO_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_SATURN),yabasanshiro)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_SATURN),yabasanshiro,3)
 endef
 endif
 
 ifeq ($(BR2_PACKAGE_LIBRETRO_KRONOS),y)
 define CONFIGURE_SATURN_LIBRETRO_KRONOS_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_SATURN),kronos)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_SATURN),kronos,4)
 endef
 endif
 
 ifeq ($(BR2_PACKAGE_LIBRETRO_BEETLE_SATURN),y)
 define CONFIGURE_SATURN_LIBRETRO_MEDNAFEN_SATURN_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_SATURN),mednafen_saturn)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_SATURN),mednafen_saturn,1)
 endef
 endif
 
 ifeq ($(BR2_PACKAGE_LIBRETRO_YABAUSE),y)
 define CONFIGURE_SATURN_LIBRETRO_YABAUSE_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_SATURN),yabause)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_SATURN),yabause,2)
 endef
 endif
 

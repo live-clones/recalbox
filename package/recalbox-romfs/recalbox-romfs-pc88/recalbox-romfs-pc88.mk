@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system pc88 --extension '.d88 .D88 .t88 .T88 .cmt .CMT .zip .ZIP .7z .7Z' --fullname 'NEC PC-88' --platform pc88 --theme pc88 libretro:quasi88:BR2_PACKAGE_LIBRETRO_QUASI88
+# ./scripts/linux/empack.py --force --system pc88 --extension '.d88 .D88 .t88 .T88 .cmt .CMT .zip .ZIP .7z .7Z' --fullname 'NEC PC-88' --platform pc88 --theme pc88 1:libretro:quasi88:BR2_PACKAGE_LIBRETRO_QUASI88
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_PC88_SOURCE = 
@@ -32,7 +32,7 @@ define CONFIGURE_PC88_LIBRETRO_START
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_QUASI88),y)
 define CONFIGURE_PC88_LIBRETRO_QUASI88_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_PC88),quasi88)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_PC88),quasi88,1)
 endef
 endif
 

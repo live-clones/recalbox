@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system segacd --extension '.cue .CUE .iso .ISO .chd .CHD' --fullname 'Sega CD' --platform segacd --theme segacd libretro:genesisplusgx:BR2_PACKAGE_LIBRETRO_GENESISPLUSGX libretro:picodrive:BR2_PACKAGE_LIBRETRO_PICODRIVE
+# ./scripts/linux/empack.py --force --system segacd --extension '.cue .CUE .iso .ISO .chd .CHD' --fullname 'Sega CD' --platform segacd --theme segacd 2:libretro:genesisplusgx:BR2_PACKAGE_LIBRETRO_GENESISPLUSGX 1:libretro:picodrive:BR2_PACKAGE_LIBRETRO_PICODRIVE
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_SEGACD_SOURCE = 
@@ -32,13 +32,13 @@ define CONFIGURE_SEGACD_LIBRETRO_START
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_GENESISPLUSGX),y)
 define CONFIGURE_SEGACD_LIBRETRO_GENESISPLUSGX_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_SEGACD),genesisplusgx)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_SEGACD),genesisplusgx,2)
 endef
 endif
 
 ifeq ($(BR2_PACKAGE_LIBRETRO_PICODRIVE),y)
 define CONFIGURE_SEGACD_LIBRETRO_PICODRIVE_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_SEGACD),picodrive)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_SEGACD),picodrive,1)
 endef
 endif
 

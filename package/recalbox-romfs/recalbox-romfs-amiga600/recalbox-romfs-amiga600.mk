@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system amiga600 --extension '.adf .Adf .ADF .ipf .IPF .Ipf .lha .LHA .lhz .LHZ .lzx .LZX .zip .ZIP .rp9 .RP9 .dms .DMS .fdi .FDI .hdf .HDF .hdz .HDZ .m3u .M3U' --fullname 'Amiga 600' --platform amiga --theme amiga600 amiberry:amiberry:BR2_PACKAGE_AMIBERRY libretro:puae:BR2_PACKAGE_LIBRETRO_UAE
+# ./scripts/linux/empack.py --force --system amiga600 --extension '.adf .Adf .ADF .ipf .IPF .Ipf .lha .LHA .lhz .LHZ .lzx .LZX .zip .ZIP .rp9 .RP9 .dms .DMS .fdi .FDI .hdf .HDF .hdz .HDZ .m3u .M3U' --fullname 'Amiga 600' --platform amiga --theme amiga600 1:amiberry:amiberry:BR2_PACKAGE_AMIBERRY 2:libretro:puae:BR2_PACKAGE_LIBRETRO_UAE
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_AMIGA600_SOURCE = 
@@ -32,7 +32,7 @@ define CONFIGURE_AMIGA600_AMIBERRY_START
 endef
 ifeq ($(BR2_PACKAGE_AMIBERRY),y)
 define CONFIGURE_AMIGA600_AMIBERRY_AMIBERRY_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_AMIGA600),amiberry)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_AMIGA600),amiberry,1)
 endef
 endif
 
@@ -47,7 +47,7 @@ define CONFIGURE_AMIGA600_LIBRETRO_START
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_UAE),y)
 define CONFIGURE_AMIGA600_LIBRETRO_PUAE_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_AMIGA600),puae)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_AMIGA600),puae,2)
 endef
 endif
 

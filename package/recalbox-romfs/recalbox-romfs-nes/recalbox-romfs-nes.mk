@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system nes --extension '.nes .NES .zip .ZIP .7z .7Z' --fullname 'Nintendo Entertainment System' --platform nes --theme nes libretro:fceumm:BR2_PACKAGE_LIBRETRO_FCEUMM libretro:fceunext:BR2_PACKAGE_LIBRETRO_FCEUNEXT libretro:nestopia:BR2_PACKAGE_LIBRETRO_NESTOPIA libretro:quicknes:BR2_PACKAGE_LIBRETRO_QUICKNES
+# ./scripts/linux/empack.py --force --system nes --extension '.nes .NES .zip .ZIP .7z .7Z' --fullname 'Nintendo Entertainment System' --platform nes --theme nes 3:libretro:fceumm:BR2_PACKAGE_LIBRETRO_FCEUMM 1:libretro:fceunext:BR2_PACKAGE_LIBRETRO_FCEUNEXT 2:libretro:nestopia:BR2_PACKAGE_LIBRETRO_NESTOPIA 4:libretro:quicknes:BR2_PACKAGE_LIBRETRO_QUICKNES
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_NES_SOURCE = 
@@ -32,25 +32,25 @@ define CONFIGURE_NES_LIBRETRO_START
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_FCEUNEXT),y)
 define CONFIGURE_NES_LIBRETRO_FCEUNEXT_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_NES),fceunext)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_NES),fceunext,1)
 endef
 endif
 
 ifeq ($(BR2_PACKAGE_LIBRETRO_QUICKNES),y)
 define CONFIGURE_NES_LIBRETRO_QUICKNES_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_NES),quicknes)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_NES),quicknes,4)
 endef
 endif
 
 ifeq ($(BR2_PACKAGE_LIBRETRO_FCEUMM),y)
 define CONFIGURE_NES_LIBRETRO_FCEUMM_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_NES),fceumm)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_NES),fceumm,3)
 endef
 endif
 
 ifeq ($(BR2_PACKAGE_LIBRETRO_NESTOPIA),y)
 define CONFIGURE_NES_LIBRETRO_NESTOPIA_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_NES),nestopia)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_NES),nestopia,2)
 endef
 endif
 

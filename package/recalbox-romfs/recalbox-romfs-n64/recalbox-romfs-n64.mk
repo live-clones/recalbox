@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system n64 --extension '.n64 .N64 .z64 .Z64 .v64 .V64 .zip .ZIP .7z .7Z' --fullname 'Nintendo 64' --platform n64 --theme n64 mupen64plus:gliden64:BR2_PACKAGE_MUPEN64PLUS_GLIDEN64 mupen64plus:n64:BR2_PACKAGE_MUPEN64PLUS_GLES2N64 mupen64plus:rice:BR2_PACKAGE_MUPEN64PLUS_GLES2RICE mupen64plus:glide64mk2:BR2_PACKAGE_MUPEN64PLUS_VIDEO_GLIDE64MK2 libretro:mupen64plus:BR2_PACKAGE_LIBRETRO_MUPEN64PLUS
+# ./scripts/linux/empack.py --force --system n64 --extension '.n64 .N64 .z64 .Z64 .v64 .V64 .zip .ZIP .7z .7Z' --fullname 'Nintendo 64' --platform n64 --theme n64 1:mupen64plus:gliden64:BR2_PACKAGE_MUPEN64PLUS_GLIDEN64 2:mupen64plus:n64:BR2_PACKAGE_MUPEN64PLUS_GLES2N64 3:mupen64plus:rice:BR2_PACKAGE_MUPEN64PLUS_GLES2RICE 4:mupen64plus:glide64mk2:BR2_PACKAGE_MUPEN64PLUS_VIDEO_GLIDE64MK2 5:libretro:mupen64plus:BR2_PACKAGE_LIBRETRO_MUPEN64PLUS
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_N64_SOURCE = 
@@ -32,7 +32,7 @@ define CONFIGURE_N64_LIBRETRO_START
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_MUPEN64PLUS),y)
 define CONFIGURE_N64_LIBRETRO_MUPEN64PLUS_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_N64),mupen64plus)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_N64),mupen64plus,5)
 endef
 endif
 
@@ -47,25 +47,25 @@ define CONFIGURE_N64_MUPEN64PLUS_START
 endef
 ifeq ($(BR2_PACKAGE_MUPEN64PLUS_GLES2RICE),y)
 define CONFIGURE_N64_MUPEN64PLUS_RICE_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_N64),rice)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_N64),rice,3)
 endef
 endif
 
 ifeq ($(BR2_PACKAGE_MUPEN64PLUS_VIDEO_GLIDE64MK2),y)
 define CONFIGURE_N64_MUPEN64PLUS_GLIDE64MK2_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_N64),glide64mk2)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_N64),glide64mk2,4)
 endef
 endif
 
 ifeq ($(BR2_PACKAGE_MUPEN64PLUS_GLES2N64),y)
 define CONFIGURE_N64_MUPEN64PLUS_N64_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_N64),n64)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_N64),n64,2)
 endef
 endif
 
 ifeq ($(BR2_PACKAGE_MUPEN64PLUS_GLIDEN64),y)
 define CONFIGURE_N64_MUPEN64PLUS_GLIDEN64_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_N64),gliden64)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_N64),gliden64,1)
 endef
 endif
 

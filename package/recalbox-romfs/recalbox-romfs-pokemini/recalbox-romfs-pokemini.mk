@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system pokemini --extension '.min .MIN .zip .ZIP' --fullname 'Pokémon Mini' --platform pokemini --theme pokemini libretro:pokemini:BR2_PACKAGE_LIBRETRO_POKEMINI
+# ./scripts/linux/empack.py --force --system pokemini --extension '.min .MIN .zip .ZIP' --fullname 'Pokémon Mini' --platform pokemini --theme pokemini 1:libretro:pokemini:BR2_PACKAGE_LIBRETRO_POKEMINI
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_POKEMINI_SOURCE = 
@@ -32,7 +32,7 @@ define CONFIGURE_POKEMINI_LIBRETRO_START
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_POKEMINI),y)
 define CONFIGURE_POKEMINI_LIBRETRO_POKEMINI_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_POKEMINI),pokemini)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_POKEMINI),pokemini,1)
 endef
 endif
 

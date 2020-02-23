@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system msxturbor --extension '.rom .ROM .mx1 .MX1 .mx2 .MX2 .dsk .DSK .cas .CAS .m3u .M3U .zip .ZIP .7z .7Z' --fullname 'MSXturboR' --platform msxturbor --theme msxturbor libretro:bluemsx:BR2_PACKAGE_LIBRETRO_BLUEMSX
+# ./scripts/linux/empack.py --force --system msxturbor --extension '.rom .ROM .mx1 .MX1 .mx2 .MX2 .dsk .DSK .cas .CAS .m3u .M3U .zip .ZIP .7z .7Z' --fullname 'MSXturboR' --platform msxturbor --theme msxturbor 1:libretro:bluemsx:BR2_PACKAGE_LIBRETRO_BLUEMSX
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_MSXTURBOR_SOURCE = 
@@ -32,7 +32,7 @@ define CONFIGURE_MSXTURBOR_LIBRETRO_START
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_BLUEMSX),y)
 define CONFIGURE_MSXTURBOR_LIBRETRO_BLUEMSX_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_MSXTURBOR),bluemsx)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_MSXTURBOR),bluemsx,1)
 endef
 endif
 

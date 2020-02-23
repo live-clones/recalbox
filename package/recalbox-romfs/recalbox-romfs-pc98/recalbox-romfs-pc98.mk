@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system pc98 --extension '.d98 .D98 .98d .98D .fdi .FDI .fdd .FDD .2hd .2HD .tfd .TFD .d88 .D88 .88d .88D .hdm .HDM .xdf .XDF .dup .DUP .cmd .CMD .hdi .HDI .thd .THD .nhd .NHD .hdd .HDD .hdn .HDN .zip .ZIP .7z .7Z' --fullname 'NEC PC-98' --platform pc98 --theme pc98 libretro:np2kai:BR2_PACKAGE_LIBRETRO_NP2KAI
+# ./scripts/linux/empack.py --force --system pc98 --extension '.d98 .D98 .98d .98D .fdi .FDI .fdd .FDD .2hd .2HD .tfd .TFD .d88 .D88 .88d .88D .hdm .HDM .xdf .XDF .dup .DUP .cmd .CMD .hdi .HDI .thd .THD .nhd .NHD .hdd .HDD .hdn .HDN .zip .ZIP .7z .7Z' --fullname 'NEC PC-98' --platform pc98 --theme pc98 1:libretro:np2kai:BR2_PACKAGE_LIBRETRO_NP2KAI
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_PC98_SOURCE = 
@@ -32,7 +32,7 @@ define CONFIGURE_PC98_LIBRETRO_START
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_NP2KAI),y)
 define CONFIGURE_PC98_LIBRETRO_NP2KAI_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_PC98),np2kai)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_PC98),np2kai,1)
 endef
 endif
 

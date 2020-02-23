@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system pcengine --extension '.pce .PCE .cue .CUE .sgx .SGX .ccd .CCD .zip .ZIP .7z .7Z' --fullname 'PC Engine' --platform pcengine --theme pcengine libretro:mednafen_supergrafx:BR2_PACKAGE_LIBRETRO_BEETLE_SUPERGRAFX libretro:mednafen_pce_fast:BR2_PACKAGE_LIBRETRO_BEETLE_PCE_FAST
+# ./scripts/linux/empack.py --force --system pcengine --extension '.pce .PCE .cue .CUE .sgx .SGX .ccd .CCD .zip .ZIP .7z .7Z' --fullname 'PC Engine' --platform pcengine --theme pcengine 1:libretro:mednafen_supergrafx:BR2_PACKAGE_LIBRETRO_BEETLE_SUPERGRAFX 2:libretro:mednafen_pce_fast:BR2_PACKAGE_LIBRETRO_BEETLE_PCE_FAST
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_PCENGINE_SOURCE = 
@@ -32,13 +32,13 @@ define CONFIGURE_PCENGINE_LIBRETRO_START
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_BEETLE_SUPERGRAFX),y)
 define CONFIGURE_PCENGINE_LIBRETRO_MEDNAFEN_SUPERGRAFX_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_PCENGINE),mednafen_supergrafx)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_PCENGINE),mednafen_supergrafx,1)
 endef
 endif
 
 ifeq ($(BR2_PACKAGE_LIBRETRO_BEETLE_PCE_FAST),y)
 define CONFIGURE_PCENGINE_LIBRETRO_MEDNAFEN_PCE_FAST_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_PCENGINE),mednafen_pce_fast)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_PCENGINE),mednafen_pce_fast,2)
 endef
 endif
 

@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system vectrex --extension '.vec .VEC .bin .BIN .zip .ZIP .7z .7Z' --fullname 'Vectrex' --platform vectrex --theme vectrex libretro:vecx:BR2_PACKAGE_LIBRETRO_VECX
+# ./scripts/linux/empack.py --force --system vectrex --extension '.vec .VEC .bin .BIN .zip .ZIP .7z .7Z' --fullname 'Vectrex' --platform vectrex --theme vectrex 1:libretro:vecx:BR2_PACKAGE_LIBRETRO_VECX
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_VECTREX_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_VECTREX = $(RECALBOX_ROMFS_VECTREX_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_VECX),)
 define CONFIGURE_MAIN_VECTREX_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_VECTREX),Vectrex,$(SYSTEM_NAME_VECTREX),.vec .VEC .bin .BIN .zip .ZIP  .7z .7Z,vectrex,vectrex)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_VECTREX),Vectrex,$(SYSTEM_NAME_VECTREX),.vec .VEC .bin .BIN .zip .ZIP .7z .7Z,vectrex,vectrex)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_VECX),)
@@ -32,7 +32,7 @@ define CONFIGURE_VECTREX_LIBRETRO_START
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_VECX),y)
 define CONFIGURE_VECTREX_LIBRETRO_VECX_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_VECTREX),vecx)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_VECTREX),vecx,1)
 endef
 endif
 

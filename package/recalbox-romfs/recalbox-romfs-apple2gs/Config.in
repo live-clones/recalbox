@@ -3,4 +3,4 @@ config BR2_PACKAGE_RECALBOX_ROMFS_APPLE2GS
 	select BR2_PACKAGE_RECALBOX_ROMS
 	depends on BR2_PACKAGE_GSPLUS
 	help
-	  share_init/roms and xml for apple IIGS
+	  share_init/roms and xml for apple2gs

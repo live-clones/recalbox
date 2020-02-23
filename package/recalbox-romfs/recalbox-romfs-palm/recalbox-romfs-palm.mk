@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system palm --extension '.prc .PRC .pdb .PDB .pqa .PQA .img .IMG' --fullname 'Palm' --platform palm --theme palm libretro:mu:BR2_PACKAGE_LIBRETRO_MU
+# ./scripts/linux/empack.py --force --system palm --extension '.prc .PRC .pdb .PDB .pqa .PQA .img .IMG' --fullname 'Palm' --platform palm --theme palm 1:libretro:mu:BR2_PACKAGE_LIBRETRO_MU
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_PALM_SOURCE = 
@@ -32,7 +32,7 @@ define CONFIGURE_PALM_LIBRETRO_START
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_MU),y)
 define CONFIGURE_PALM_LIBRETRO_MU_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_PALM),mu)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_PALM),mu,1)
 endef
 endif
 

@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system colecovision --extension '.col .COL .zip .ZIP' --fullname 'Colecovision' --platform colecovision --theme colecovision libretro:bluemsx:BR2_PACKAGE_LIBRETRO_BLUEMSX
+# ./scripts/linux/empack.py --force --system colecovision --extension '.col .COL .zip .ZIP' --fullname 'Colecovision' --platform colecovision --theme colecovision 1:libretro:bluemsx:BR2_PACKAGE_LIBRETRO_BLUEMSX
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_COLECOVISION_SOURCE = 
@@ -32,7 +32,7 @@ define CONFIGURE_COLECOVISION_LIBRETRO_START
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_BLUEMSX),y)
 define CONFIGURE_COLECOVISION_LIBRETRO_BLUEMSX_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_COLECOVISION),bluemsx)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_COLECOVISION),bluemsx,1)
 endef
 endif
 

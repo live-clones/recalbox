@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system jaguar --extension '.j64 .J64 .jag .JAG .rom .ROM .abs .ABS .cof .COF .bin .BIN .prg .PRG .zip .ZIP .7z .7Z' --fullname 'Atari Jaguar' --platform atarijaguar --theme jaguar libretro:virtualjaguar:BR2_PACKAGE_LIBRETRO_VIRTUALJAGUAR
+# ./scripts/linux/empack.py --force --system jaguar --extension '.j64 .J64 .jag .JAG .rom .ROM .abs .ABS .cof .COF .bin .BIN .prg .PRG .zip .ZIP .7z .7Z' --fullname 'Atari Jaguar' --platform atarijaguar --theme jaguar 1:libretro:virtualjaguar:BR2_PACKAGE_LIBRETRO_VIRTUALJAGUAR
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_JAGUAR_SOURCE = 
@@ -32,7 +32,7 @@ define CONFIGURE_JAGUAR_LIBRETRO_START
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_VIRTUALJAGUAR),y)
 define CONFIGURE_JAGUAR_LIBRETRO_VIRTUALJAGUAR_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_JAGUAR),virtualjaguar)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_JAGUAR),virtualjaguar,1)
 endef
 endif
 

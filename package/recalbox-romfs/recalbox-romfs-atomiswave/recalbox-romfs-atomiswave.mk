@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system atomiswave --extension '.lst .LST .dat .DAT .zip .ZIP .7z .7Z' --fullname 'Sammy Atomiswave' --platform atomiswave --theme atomiswave libretro:flycast:BR2_PACKAGE_LIBRETRO_FLYCAST
+# ./scripts/linux/empack.py --force --system atomiswave --extension '.lst .LST .dat .DAT .zip .ZIP .7z .7Z' --fullname 'Sammy Atomiswave' --platform atomiswave --theme atomiswave 1:libretro:flycast:BR2_PACKAGE_LIBRETRO_FLYCAST
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_ATOMISWAVE_SOURCE = 
@@ -32,7 +32,7 @@ define CONFIGURE_ATOMISWAVE_LIBRETRO_START
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_FLYCAST),y)
 define CONFIGURE_ATOMISWAVE_LIBRETRO_FLYCAST_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_ATOMISWAVE),flycast)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_ATOMISWAVE),flycast,1)
 endef
 endif
 

@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system thomson --extension '.fd .FD .sap .SAP .k7 .K7 .m7 .M7 .rom .ROM .zip .ZIP .7z .7Z' --fullname 'Thomson' --platform thomsonmoto --theme to8 libretro:theodore:BR2_PACKAGE_LIBRETRO_THEODORE
+# ./scripts/linux/empack.py --force --system thomson --extension '.fd .FD .sap .SAP .k7 .K7 .m7 .M7 .rom .ROM .zip .ZIP .7z .7Z' --fullname 'Thomson' --platform thomsonmoto --theme to8 1:libretro:theodore:BR2_PACKAGE_LIBRETRO_THEODORE
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_THOMSON_SOURCE = 
@@ -32,7 +32,7 @@ define CONFIGURE_THOMSON_LIBRETRO_START
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_THEODORE),y)
 define CONFIGURE_THOMSON_LIBRETRO_THEODORE_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_THOMSON),theodore)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_THOMSON),theodore,1)
 endef
 endif
 
@@ -57,4 +57,3 @@ define RECALBOX_ROMFS_THOMSON_CONFIGURE_CMDS
 endef
 
 $(eval $(generic-package))
-

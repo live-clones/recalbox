@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system x68000 --extension '.dim .DIM .img .IMG .d88 .D88 .88d .88D .hdm .HDM .dup .DUP .2hd .2HD .xdf .XDF .hdf .HDF .cmd .CMD .m3u .M3U .zip .ZIP .7z .7Z' --fullname 'Sharp X68000' --platform x68000 --theme x68000 libretro:px68k:BR2_PACKAGE_LIBRETRO_PX68K
+# ./scripts/linux/empack.py --force --system x68000 --extension '.dim .DIM .img .IMG .d88 .D88 .88d .88D .hdm .HDM .dup .DUP .2hd .2HD .xdf .XDF .hdf .HDF .cmd .CMD .m3u .M3U .zip .ZIP .7z .7Z' --fullname 'Sharp X68000' --platform x68000 --theme x68000 1:libretro:px68k:BR2_PACKAGE_LIBRETRO_PX68K
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_X68000_SOURCE = 
@@ -32,7 +32,7 @@ define CONFIGURE_X68000_LIBRETRO_START
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_PX68K),y)
 define CONFIGURE_X68000_LIBRETRO_PX68K_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_X68000),px68k)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_X68000),px68k,1)
 endef
 endif
 

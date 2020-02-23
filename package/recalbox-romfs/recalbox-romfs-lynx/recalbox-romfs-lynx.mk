@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system lynx --extension '.lnx .LNX .zip .ZIP .7z .7Z' --fullname 'Lynx' --platform atarilynx --theme lynx libretro:handy:BR2_PACKAGE_LIBRETRO_HANDY libretro:mednafen_lynx:BR2_PACKAGE_LIBRETRO_BEETLE_LYNX
+# ./scripts/linux/empack.py --force --system lynx --extension '.lnx .LNX .zip .ZIP .7z .7Z' --fullname 'Lynx' --platform atarilynx --theme lynx 1:libretro:handy:BR2_PACKAGE_LIBRETRO_HANDY 2:libretro:mednafen_lynx:BR2_PACKAGE_LIBRETRO_BEETLE_LYNX
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_LYNX_SOURCE = 
@@ -32,13 +32,13 @@ define CONFIGURE_LYNX_LIBRETRO_START
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_HANDY),y)
 define CONFIGURE_LYNX_LIBRETRO_HANDY_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_LYNX),handy)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_LYNX),handy,1)
 endef
 endif
 
 ifeq ($(BR2_PACKAGE_LIBRETRO_BEETLE_LYNX),y)
 define CONFIGURE_LYNX_LIBRETRO_MEDNAFEN_LYNX_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_LYNX),mednafen_lynx)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_LYNX),mednafen_lynx,2)
 endef
 endif
 

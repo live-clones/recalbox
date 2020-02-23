@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system cavestory --extension '.exe .EXE' --fullname 'Cave Story' --platform cavestory --theme cavestory libretro:nxengine:BR2_PACKAGE_LIBRETRO_NXENGINE
+# ./scripts/linux/empack.py --force --system cavestory --extension '.exe .EXE' --fullname 'Cave Story' --platform cavestory --theme cavestory 1:libretro:nxengine:BR2_PACKAGE_LIBRETRO_NXENGINE
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_CAVESTORY_SOURCE = 
@@ -32,7 +32,7 @@ define CONFIGURE_CAVESTORY_LIBRETRO_START
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_NXENGINE),y)
 define CONFIGURE_CAVESTORY_LIBRETRO_NXENGINE_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_CAVESTORY),nxengine)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_CAVESTORY),nxengine,1)
 endef
 endif
 

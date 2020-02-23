@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system gbc --extension '.gb .GB .gbc .GBC .zip .ZIP .7z .7Z' --fullname 'Game Boy Color' --platform gbc --theme gbc libretro:gambatte:BR2_PACKAGE_LIBRETRO_GAMBATTE libretro:tgbdual:BR2_PACKAGE_LIBRETRO_TGBDUAL libretro:mgba:BR2_PACKAGE_LIBRETRO_MGBA libretro:sameboy:BR2_PACKAGE_LIBRETRO_SAMEBOY
+# ./scripts/linux/empack.py --force --system gbc --extension '.gb .GB .gbc .GBC .zip .ZIP .7z .7Z' --fullname 'Game Boy Color' --platform gbc --theme gbc 1:libretro:gambatte:BR2_PACKAGE_LIBRETRO_GAMBATTE 2:libretro:tgbdual:BR2_PACKAGE_LIBRETRO_TGBDUAL 3:libretro:mgba:BR2_PACKAGE_LIBRETRO_MGBA 4:libretro:sameboy:BR2_PACKAGE_LIBRETRO_SAMEBOY
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_GBC_SOURCE = 
@@ -32,25 +32,25 @@ define CONFIGURE_GBC_LIBRETRO_START
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_MGBA),y)
 define CONFIGURE_GBC_LIBRETRO_MGBA_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_GBC),mgba)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_GBC),mgba,3)
 endef
 endif
 
 ifeq ($(BR2_PACKAGE_LIBRETRO_GAMBATTE),y)
 define CONFIGURE_GBC_LIBRETRO_GAMBATTE_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_GBC),gambatte)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_GBC),gambatte,1)
 endef
 endif
 
 ifeq ($(BR2_PACKAGE_LIBRETRO_TGBDUAL),y)
 define CONFIGURE_GBC_LIBRETRO_TGBDUAL_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_GBC),tgbdual)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_GBC),tgbdual,2)
 endef
 endif
 
 ifeq ($(BR2_PACKAGE_LIBRETRO_SAMEBOY),y)
 define CONFIGURE_GBC_LIBRETRO_SAMEBOY_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_GBC),sameboy)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_GBC),sameboy,4)
 endef
 endif
 

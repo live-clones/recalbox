@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system neogeocd --extension '.cue .CUE' --fullname 'Neo-Geo CD' --platform neogeocd --theme neogeocd libretro:fbneo:BR2_PACKAGE_LIBRETRO_FBNEO
+# ./scripts/linux/empack.py --force --system neogeocd --extension '.cue .CUE' --fullname 'Neo-Geo CD' --platform neogeocd --theme neogeocd 1:libretro:fbneo:BR2_PACKAGE_LIBRETRO_FBNEO
 # [ -extra \"--subsystem neocd\"] added manually afterwards on line 27
 
 # Name the 3 vars as the package requires
@@ -33,7 +33,7 @@ define CONFIGURE_NEOGEOCD_LIBRETRO_START
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_FBNEO),y)
 define CONFIGURE_NEOGEOCD_LIBRETRO_FBNEO_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_NEOGEOCD),fbneo)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_NEOGEOCD),fbneo,1)
 endef
 endif
 

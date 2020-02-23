@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system atarist --extension '.st .ST .stx .STX .ipf .IPF .zip .ZIP .7z .7Z' --fullname 'Atari ST' --platform atarist --theme atarist libretro:hatari:BR2_PACKAGE_LIBRETRO_HATARI
+# ./scripts/linux/empack.py --force --system atarist --extension '.st .ST .stx .STX .ipf .IPF .zip .ZIP .7z .7Z' --fullname 'Atari ST' --platform atarist --theme atarist 1:libretro:hatari:BR2_PACKAGE_LIBRETRO_HATARI
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_ATARIST_SOURCE = 
@@ -32,7 +32,7 @@ define CONFIGURE_ATARIST_LIBRETRO_START
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_HATARI),y)
 define CONFIGURE_ATARIST_LIBRETRO_HATARI_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_ATARIST),hatari)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_ATARIST),hatari,1)
 endef
 endif
 

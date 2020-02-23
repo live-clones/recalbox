@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system lutro --extension '.zip .ZIP .lua .LUA .lutro .LUTRO' --fullname 'Lutro' --platform lutro --theme lutro libretro:lutro:BR2_PACKAGE_LIBRETRO_LUTRO
+# ./scripts/linux/empack.py --force --system lutro --extension '.zip .ZIP .lua .LUA .lutro .LUTRO' --fullname 'Lutro' --platform lutro --theme lutro 1:libretro:lutro:BR2_PACKAGE_LIBRETRO_LUTRO
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_LUTRO_SOURCE = 
@@ -32,7 +32,7 @@ define CONFIGURE_LUTRO_LIBRETRO_START
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_LUTRO),y)
 define CONFIGURE_LUTRO_LIBRETRO_LUTRO_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_LUTRO),lutro)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_LUTRO),lutro,1)
 endef
 endif
 

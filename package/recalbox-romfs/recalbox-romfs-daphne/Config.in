@@ -3,4 +3,4 @@ config BR2_PACKAGE_RECALBOX_ROMFS_DAPHNE
 	select BR2_PACKAGE_RECALBOX_ROMS
 	depends on BR2_PACKAGE_HYPSEUS
 	help
-	  share_init/roms and xml for Hypseus (Daphne fork)
+	  share_init/roms and xml for daphne

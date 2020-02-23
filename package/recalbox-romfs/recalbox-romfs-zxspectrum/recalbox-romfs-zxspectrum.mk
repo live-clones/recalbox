@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system zxspectrum --extension '.tzx .TZX .tap .TAP .z80 .Z80 .rzx .RZX .scl .SCL .trd .TRD .zip .ZIP .7z .7Z' --fullname 'ZXSpectrum' --platform zxspectrum --theme zxspectrum libretro:fuse:BR2_PACKAGE_LIBRETRO_FUSE
+# ./scripts/linux/empack.py --force --system zxspectrum --extension '.tzx .TZX .tap .TAP .z80 .Z80 .rzx .RZX .scl .SCL .trd .TRD .zip .ZIP .7z .7Z' --fullname 'ZXSpectrum' --platform zxspectrum --theme zxspectrum 1:libretro:fuse:BR2_PACKAGE_LIBRETRO_FUSE
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_ZXSPECTRUM_SOURCE = 
@@ -32,7 +32,7 @@ define CONFIGURE_ZXSPECTRUM_LIBRETRO_START
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_FUSE),y)
 define CONFIGURE_ZXSPECTRUM_LIBRETRO_FUSE_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_ZXSPECTRUM),fuse)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_ZXSPECTRUM),fuse,1)
 endef
 endif
 

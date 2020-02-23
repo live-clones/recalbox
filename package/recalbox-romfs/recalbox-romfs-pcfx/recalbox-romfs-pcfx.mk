@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system pcfx --extension '.cue .CUE .ccd .CCD .toc .TOC .chd .CHD' --fullname 'NEC PC-FX' --platform pcfx --theme pcfx libretro:mednafen_pcfx:BR2_PACKAGE_LIBRETRO_BEETLE_PCFX
+# ./scripts/linux/empack.py --force --system pcfx --extension '.cue .CUE .ccd .CCD .toc .TOC .chd .CHD' --fullname 'NEC PC-FX' --platform pcfx --theme pcfx 1:libretro:mednafen_pcfx:BR2_PACKAGE_LIBRETRO_BEETLE_PCFX
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_PCFX_SOURCE = 
@@ -32,7 +32,7 @@ define CONFIGURE_PCFX_LIBRETRO_START
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_BEETLE_PCFX),y)
 define CONFIGURE_PCFX_LIBRETRO_MEDNAFEN_PCFX_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_PCFX),mednafen_pcfx)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_PCFX),mednafen_pcfx,1)
 endef
 endif
 

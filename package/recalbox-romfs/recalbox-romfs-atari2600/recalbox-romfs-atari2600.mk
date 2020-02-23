@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system atari2600 --extension '.a26 .A26 .bin .BIN .zip .ZIP .7z .7Z' --fullname 'Atari 2600' --platform atari2600 --theme atari2600 libretro:stella2014:BR2_PACKAGE_LIBRETRO_STELLA2014 libretro:stella:BR2_PACKAGE_LIBRETRO_STELLA
+# ./scripts/linux/empack.py --force --system atari2600 --extension '.a26 .A26 .bin .BIN .zip .ZIP .7z .7Z' --fullname 'Atari 2600' --platform atari2600 --theme atari2600 2:libretro:stella2014:BR2_PACKAGE_LIBRETRO_STELLA2014 1:libretro:stella:BR2_PACKAGE_LIBRETRO_STELLA
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_ATARI2600_SOURCE = 
@@ -32,13 +32,13 @@ define CONFIGURE_ATARI2600_LIBRETRO_START
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_STELLA),y)
 define CONFIGURE_ATARI2600_LIBRETRO_STELLA_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_ATARI2600),stella)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_ATARI2600),stella,1)
 endef
 endif
 
 ifeq ($(BR2_PACKAGE_LIBRETRO_STELLA2014),y)
 define CONFIGURE_ATARI2600_LIBRETRO_STELLA2014_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_ATARI2600),stella2014)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_ATARI2600),stella2014,2)
 endef
 endif
 

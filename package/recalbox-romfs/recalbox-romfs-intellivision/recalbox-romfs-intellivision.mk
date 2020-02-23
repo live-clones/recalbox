@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system intellivision --extension '.int .INT .rom .ROM .bin .BIN .zip .ZIP .7z .7Z' --fullname 'Mattel Intellivision' --platform intellivision --theme intellivision libretro:freeintv:BR2_PACKAGE_LIBRETRO_FREEINTV
+# ./scripts/linux/empack.py --force --system intellivision --extension '.int .INT .rom .ROM .bin .BIN .zip .ZIP .7z .7Z' --fullname 'Mattel Intellivision' --platform intellivision --theme intellivision 1:libretro:freeintv:BR2_PACKAGE_LIBRETRO_FREEINTV
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_INTELLIVISION_SOURCE = 
@@ -32,7 +32,7 @@ define CONFIGURE_INTELLIVISION_LIBRETRO_START
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_FREEINTV),y)
 define CONFIGURE_INTELLIVISION_LIBRETRO_FREEINTV_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_INTELLIVISION),freeintv)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_INTELLIVISION),freeintv,1)
 endef
 endif
 

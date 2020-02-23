@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system sg1000 --extension '.sg .SG .zip .ZIP .7z .7Z' --fullname 'Sega SG1000' --platform sg1000 --theme sg1000 libretro:genesisplusgx:BR2_PACKAGE_LIBRETRO_GENESISPLUSGX libretro:gearsystem:BR2_PACKAGE_LIBRETRO_GEARSYSTEM
+# ./scripts/linux/empack.py --force --system sg1000 --extension '.sg .SG .zip .ZIP .7z .7Z' --fullname 'Sega SG1000' --platform sg1000 --theme sg1000 1:libretro:genesisplusgx:BR2_PACKAGE_LIBRETRO_GENESISPLUSGX 2:libretro:gearsystem:BR2_PACKAGE_LIBRETRO_GEARSYSTEM
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_SG1000_SOURCE = 
@@ -32,13 +32,13 @@ define CONFIGURE_SG1000_LIBRETRO_START
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_GENESISPLUSGX),y)
 define CONFIGURE_SG1000_LIBRETRO_GENESISPLUSGX_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_SG1000),genesisplusgx)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_SG1000),genesisplusgx,1)
 endef
 endif
 
 ifeq ($(BR2_PACKAGE_LIBRETRO_GEARSYSTEM),y)
 define CONFIGURE_SG1000_LIBRETRO_GEARSYSTEM_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_SG1000),gearsystem)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_SG1000),gearsystem,2)
 endef
 endif
 

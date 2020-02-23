@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system supergrafx --extension '.pce .PCE .sgx .SGX .cue .CUE .ccd .CCD .chd .CHD .zip .ZIP .7z .7Z' --fullname 'Supergrafx' --platform supergrafx --theme supergrafx libretro:mednafen_supergrafx:BR2_PACKAGE_LIBRETRO_BEETLE_SUPERGRAFX
+# ./scripts/linux/empack.py --force --system supergrafx --extension '.pce .PCE .sgx .SGX .cue .CUE .ccd .CCD .chd .CHD .zip .ZIP .7z .7Z' --fullname 'Supergrafx' --platform supergrafx --theme supergrafx 1:libretro:mednafen_supergrafx:BR2_PACKAGE_LIBRETRO_BEETLE_SUPERGRAFX
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_SUPERGRAFX_SOURCE = 
@@ -32,7 +32,7 @@ define CONFIGURE_SUPERGRAFX_LIBRETRO_START
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_BEETLE_SUPERGRAFX),y)
 define CONFIGURE_SUPERGRAFX_LIBRETRO_MEDNAFEN_SUPERGRAFX_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_SUPERGRAFX),mednafen_supergrafx)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_SUPERGRAFX),mednafen_supergrafx,1)
 endef
 endif
 

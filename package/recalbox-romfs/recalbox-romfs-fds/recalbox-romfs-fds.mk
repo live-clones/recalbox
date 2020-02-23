@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system fds --extension '.fds .FDS .zip .ZIP .7z .7Z' --fullname 'Family Computer Disk System' --platform fds --theme fds libretro:fceumm:BR2_PACKAGE_LIBRETRO_FCEUMM libretro:nestopia:BR2_PACKAGE_LIBRETRO_NESTOPIA
+# ./scripts/linux/empack.py --force --system fds --extension '.fds .FDS .zip .ZIP .7z .7Z' --fullname 'Family Computer Disk System' --platform fds --theme fds 2:libretro:fceumm:BR2_PACKAGE_LIBRETRO_FCEUMM 1:libretro:nestopia:BR2_PACKAGE_LIBRETRO_NESTOPIA
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_FDS_SOURCE = 
@@ -32,13 +32,13 @@ define CONFIGURE_FDS_LIBRETRO_START
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_FCEUMM),y)
 define CONFIGURE_FDS_LIBRETRO_FCEUMM_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_FDS),fceumm)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_FDS),fceumm,2)
 endef
 endif
 
 ifeq ($(BR2_PACKAGE_LIBRETRO_NESTOPIA),y)
 define CONFIGURE_FDS_LIBRETRO_NESTOPIA_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_FDS),nestopia)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_FDS),nestopia,1)
 endef
 endif
 

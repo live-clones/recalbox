@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system 3do --extension '.iso .ISO .cue .CUE .chd .CHD' --fullname 'Panasonic 3DO' --platform 3do --theme 3do libretro:4do:BR2_PACKAGE_LIBRETRO_4DO
+# ./scripts/linux/empack.py --force --system 3do --extension '.iso .ISO .cue .CUE .chd .CHD' --fullname 'Panasonic 3DO' --platform 3do --theme 3do 1:libretro:4do:BR2_PACKAGE_LIBRETRO_4DO
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_3DO_SOURCE = 
@@ -32,7 +32,7 @@ define CONFIGURE_3DO_LIBRETRO_START
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_4DO),y)
 define CONFIGURE_3DO_LIBRETRO_4DO_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_3DO),4do)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_3DO),4do,1)
 endef
 endif
 

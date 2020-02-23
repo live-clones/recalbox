@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system macintosh --extension '.dsk .DSK .zip .ZIP .7z .7Z' --fullname 'Apple Macintosh' --platform macintosh --theme macintosh libretro:minivmac:BR2_PACKAGE_LIBRETRO_MINIVMAC
+# ./scripts/linux/empack.py --force --system macintosh --extension '.dsk .DSK .zip .ZIP .7z .7Z' --fullname 'Apple Macintosh' --platform macintosh --theme macintosh 1:libretro:minivmac:BR2_PACKAGE_LIBRETRO_MINIVMAC
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_MACINTOSH_SOURCE = 
@@ -32,7 +32,7 @@ define CONFIGURE_MACINTOSH_LIBRETRO_START
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_MINIVMAC),y)
 define CONFIGURE_MACINTOSH_LIBRETRO_MINIVMAC_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_MACINTOSH),minivmac)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_MACINTOSH),minivmac,1)
 endef
 endif
 

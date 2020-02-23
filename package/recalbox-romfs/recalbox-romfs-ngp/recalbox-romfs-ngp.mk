@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system ngp --extension '.ngc .NGC .ngp .NGP .npc .NPC .zip .ZIP .7z .7Z' --fullname 'Neo-Geo Pocket' --platform ngp --theme ngp libretro:mednafen_ngp:BR2_PACKAGE_LIBRETRO_BEETLE_NGP
+# ./scripts/linux/empack.py --force --system ngp --extension '.ngc .NGC .ngp .NGP .npc .NPC .zip .ZIP .7z .7Z' --fullname 'Neo-Geo Pocket' --platform ngp --theme ngp 1:libretro:mednafen_ngp:BR2_PACKAGE_LIBRETRO_BEETLE_NGP
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_NGP_SOURCE = 
@@ -32,7 +32,7 @@ define CONFIGURE_NGP_LIBRETRO_START
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_BEETLE_NGP),y)
 define CONFIGURE_NGP_LIBRETRO_MEDNAFEN_NGP_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_NGP),mednafen_ngp)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_NGP),mednafen_ngp,1)
 endef
 endif
 

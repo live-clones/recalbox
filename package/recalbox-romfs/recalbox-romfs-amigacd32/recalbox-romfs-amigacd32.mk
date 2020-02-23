@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system amigacd32 --extension '.uae .cue .CUE .ccd .CCD .iso .ISO .zip .ZIP' --fullname 'Amiga CD32' --platform amigacd32 --theme amigacd32 BR2_PACKAGE_AMIBERRY
+# ./scripts/linux/empack.py --force --system amigacd32 --extension '.uae .cue .CUE .ccd .CCD .iso .ISO .zip .ZIP' --fullname 'Amiga CD32' --platform amigacd32 --theme amigacd32 1:amiberry:amiberry:BR2_PACKAGE_AMIBERRY
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_AMIGACD32_SOURCE = 
@@ -21,11 +21,39 @@ SOURCE_ROMDIR_AMIGACD32 = $(RECALBOX_ROMFS_AMIGACD32_PKGDIR)/roms
 # variables are global across buildroot
 
 
-ifeq ($(BR2_PACKAGE_AMIBERRY),y)
-define CONFIGURE_AMIGACD32
-	$(call RECALBOX_ROMFS_CALL_ADD_STANDALONE_SYSTEM,$(SYSTEM_XML_AMIGACD32),Amiga CD32,$(SYSTEM_NAME_AMIGACD32),.uae .cue .CUE .ccd .CCD .iso .ISO .zip .ZIP,amigacd32,amigacd32,$(SOURCE_ROMDIR_AMIGACD32),$(@D))
+ifneq ($(BR2_PACKAGE_AMIBERRY),)
+define CONFIGURE_MAIN_AMIGACD32_START
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_AMIGACD32),Amiga CD32,$(SYSTEM_NAME_AMIGACD32),.uae .cue .CUE .ccd .CCD .iso .ISO .zip .ZIP,amigacd32,amigacd32)
 endef
-RECALBOX_ROMFS_AMIGACD32_CONFIGURE_CMDS += $(CONFIGURE_AMIGACD32)
+
+ifneq ($(BR2_PACKAGE_AMIBERRY),)
+define CONFIGURE_AMIGACD32_AMIBERRY_START
+	$(call RECALBOX_ROMFS_CALL_START_EMULATOR,$(SYSTEM_XML_AMIGACD32),amiberry)
+endef
+ifeq ($(BR2_PACKAGE_AMIBERRY),y)
+define CONFIGURE_AMIGACD32_AMIBERRY_AMIBERRY_DEF
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_AMIGACD32),amiberry,1)
+endef
 endif
+
+define CONFIGURE_AMIGACD32_AMIBERRY_END
+	$(call RECALBOX_ROMFS_CALL_END_EMULATOR,$(SYSTEM_XML_AMIGACD32))
+endef
+endif
+
+
+
+define CONFIGURE_MAIN_AMIGACD32_END
+	$(call RECALBOX_ROMFS_CALL_END_SYSTEM,$(SYSTEM_XML_AMIGACD32),$(SOURCE_ROMDIR_AMIGACD32),$(@D))
+endef
+endif
+
+define RECALBOX_ROMFS_AMIGACD32_CONFIGURE_CMDS
+	$(CONFIGURE_MAIN_AMIGACD32_START)
+	$(CONFIGURE_AMIGACD32_AMIBERRY_START)
+	$(CONFIGURE_AMIGACD32_AMIBERRY_AMIBERRY_DEF)
+	$(CONFIGURE_AMIGACD32_AMIBERRY_END)
+	$(CONFIGURE_MAIN_AMIGACD32_END)
+endef
 
 $(eval $(generic-package))

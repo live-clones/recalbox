@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system wswanc --extension '.ws .WS .wsc .WSC .zip .ZIP .7z .7Z' --fullname 'WonderSwan Color' --platform wonderswancolor --theme wonderswancolor libretro:mednafen_wswan:BR2_PACKAGE_LIBRETRO_BEETLE_WSWAN
+# ./scripts/linux/empack.py --force --system wswanc --extension '.ws .WS .wsc .WSC .zip .ZIP .7z .7Z' --fullname 'WonderSwan Color' --platform wonderswancolor --theme wonderswancolor 1:libretro:mednafen_wswan:BR2_PACKAGE_LIBRETRO_BEETLE_WSWAN
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_WSWANC_SOURCE = 
@@ -32,7 +32,7 @@ define CONFIGURE_WSWANC_LIBRETRO_START
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_BEETLE_WSWAN),y)
 define CONFIGURE_WSWANC_LIBRETRO_MEDNAFEN_WSWAN_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_WSWANC),mednafen_wswan)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_WSWANC),mednafen_wswan,1)
 endef
 endif
 

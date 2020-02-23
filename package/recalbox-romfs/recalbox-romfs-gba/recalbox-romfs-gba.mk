@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system gba --extension '.gba .GBA .zip .ZIP .7z .7Z' --fullname 'Game Boy Advance' --platform gba --theme gba libretro:gpsp:BR2_PACKAGE_LIBRETRO_GPSP libretro:mgba:BR2_PACKAGE_LIBRETRO_MGBA libretro:meteor:BR2_PACKAGE_LIBRETRO_METEOR
+# ./scripts/linux/empack.py --force --system gba --extension '.gba .GBA .zip .ZIP .7z .7Z' --fullname 'Game Boy Advance' --platform gba --theme gba 2:libretro:gpsp:BR2_PACKAGE_LIBRETRO_GPSP 1:libretro:mgba:BR2_PACKAGE_LIBRETRO_MGBA 3:libretro:meteor:BR2_PACKAGE_LIBRETRO_METEOR
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_GBA_SOURCE = 
@@ -32,19 +32,19 @@ define CONFIGURE_GBA_LIBRETRO_START
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_GPSP),y)
 define CONFIGURE_GBA_LIBRETRO_GPSP_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_GBA),gpsp)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_GBA),gpsp,2)
 endef
 endif
 
 ifeq ($(BR2_PACKAGE_LIBRETRO_MGBA),y)
 define CONFIGURE_GBA_LIBRETRO_MGBA_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_GBA),mgba)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_GBA),mgba,1)
 endef
 endif
 
 ifeq ($(BR2_PACKAGE_LIBRETRO_METEOR),y)
 define CONFIGURE_GBA_LIBRETRO_METEOR_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_GBA),meteor)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_GBA),meteor,3)
 endef
 endif
 
