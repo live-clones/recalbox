@@ -23,9 +23,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fix fulscreen for oric and apple2 on x86/x86_64
 - Fix apple2 on x86/x86_64
 - Fix & Bump dolphin emulator on x86/x64
-- Adult game filtering in EmulationStation **
+- Adult game filtering in EmulationStation
 - New sorting options: Publisher and system-name for all virtual systems
-- 3 new virtual systems: All-games, Last-Played and Multiplayers **
+- 3 new virtual systems: All-games, Last-Played and Multiplayers
 - New virtual systems per genre
 - Region highligting in gamelist
 - Improved Genre & Region processing in EmulationStation 
@@ -37,6 +37,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Game sorting and Jump-to-letter now unicode compatible
 - Bump oricatmos emulator on lastest version
 - Bump simcoupe emulator 
+- Fix some bad behaviors in favorite management
+- Add support for nVidia proprietary drivers version 390 and 440
+- Simplify emulator/core selection UI
 
 ## [6.1.1]
 - Add zfast shaders

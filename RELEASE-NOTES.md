@@ -35,6 +35,7 @@
 - Add support for nVidia proprietary drivers version 390 and 440
 - Bump oricatmos emulator on lastest version 
 - Bump simcoupe emulator 
+- Simplify emulator/core selection UI
 
 ### Fixes
 - Fix Odroid XU4 fan issue
@@ -48,7 +49,7 @@
 - Fix fullscreeen on oricatmos and apple2 on x86/x86_64 
 - Fix duplicate folders in Arcade systems
 - Fix quit menu not being accessible when boot-on-gamelist is on
-- Fix some bah behaviors in favorite management
+- Fix some bad behaviors in favorite management
 
 *  : Require to scrape missing data using the internal scraper 
 ** : Availailable in both EmulationStation menu and configuration file 
