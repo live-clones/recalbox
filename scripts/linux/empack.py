@@ -6,7 +6,7 @@ from distutils.dir_util import copy_tree
 
 
 class EmPack:
-    def __init__(self, system, extensions, emcoredef, fullname=None, platform=None, theme=None):
+    def __init__(self, system, extensions, emcoredef, fullname=None, platform=None, theme=None, force=False):
         # Set member variablers
         """
 
@@ -18,6 +18,7 @@ class EmPack:
         self._FullName = fullname if fullname is not None else self._System.title()
         self._Platform = platform if platform is not None else self._System
         self._Theme = theme if theme is not None else self._System
+        self._Force = force
 
         self._SingleMode = False
         self._SingleEmulatorBRPackage = ""
@@ -27,6 +28,7 @@ class EmPack:
         if not isinstance(emcoredef, list):
             raise
 
+        # Don't use single emulator!
         if len(emcoredef) == 1 and emcoredef[0].count(':') == 0:
             self._SingleMode = True
             self._SingleEmulatorBRPackage = emcoredef[0]
@@ -58,6 +60,8 @@ class EmPack:
 
     def setcmdline(self, system, extensions, emcoredef, fullname=None, platform=None, theme=None):
         cmdline = "{} ".format(sys.argv[0])
+        if self._Force:
+            cmdline += "--force "
         cmdline += "--system {} ".format(system)
         cmdline += "--extension '{}' ".format(extensions)
         cmdline += "--fullname '{}' ".format(fullname) if fullname is not None else ""
@@ -74,17 +78,17 @@ class EmPack:
         """
         superpackage = list()
         for item in emcorelist:
-            if item.count(':') != 2:
-                print >> sys.stderr, "{} must be follow the pattern emulator:core:BR2_PACKAGE_NAME".format(item)
+            if item.count(':') != 3:
+                print(sys.stderr, "{} must be follow the pattern priority:emulator:core:BR2_PACKAGE_NAME".format(item))
                 exit(1)
             try:
-                # split emulator:core:BR_VAR into dicts
-                emulator, core, brvar = item.split(':')
-                # print "{} splitted to {} {} {}".format(arg, emulator, core, brVar)
+                # split priority:emulator:core:BR_VAR into dicts
+                priority, emulator, core, brvar = item.split(':')
+                # print "{} splitted to {} {} {} {}".format(arg, priority, emulator, core, brVar)
                 if emulator not in self._MultiEmulatorBRPackage:
                     self._MultiEmulatorBRPackage[emulator] = dict()
 
-                self._MultiEmulatorBRPackage[emulator][core] = brvar
+                self._MultiEmulatorBRPackage[emulator][core] = (brvar, priority)
                 if brvar not in superpackage:
                     superpackage.append(brvar)
             except:
@@ -146,10 +150,10 @@ class EmPack:
         :returns: a multiline and indented string
         :rtype: string
         """
-        emulatorUp = emulator.upper()
+        #emulatorUp = emulator.upper()
         emulatorLo = emulator.lower()
         defineName = self.generatedefinename('START', emulator)
-        returnStr = "define {}\n".format(defineName)
+        #returnStr = "define {}\n".format(defineName)
         cond = self.listpackages()
         
         returnStr = "ifneq ({},)\n".format(cond)
@@ -157,15 +161,15 @@ class EmPack:
         returnStr += "\t$(call RECALBOX_ROMFS_CALL_START_EMULATOR,$(SYSTEM_XML_{}),{})\n".format(self._SystemUpper, emulatorLo)
         returnStr += "endef\n"
         
-        return (returnStr, defineName)
+        return returnStr, defineName
 
-    def addcore(self, emulator, core, brVar):
+    def addcore(self, emulator, core, brVar, priority):
         """ Returns the starting makefile block of a new emulator section in the es_settings.cfg
         The returned string looks like:
 
         ifeq(brVar,y)
         define XXX
-            echo -e '\t\t\t<core>core</core>' >> $(SYSTEM_XML_system)
+            echo -e '\t\t\t<core priority="number">core</core>' >> $(SYSTEM_XML_system)
 
         endef
         RECALBOX_ROMFS_system_CONFIGURE_CMDS += $(XXX)
@@ -176,22 +180,24 @@ class EmPack:
         :type core: string
         :param brVar: a BR2_PACKAGE_ like name
         :type brVar: string
+        :param priority: core priority (lower priority choosen first as default)
+        :type priority: int
         :returns: a multiline and indented string
         :rtype: string
         """
-        emulatorUp = emulator.upper()
-        emulatorLo = emulator.lower()
-        coreUp = core.upper()
+        #emulatorUp = emulator.upper()
+        #emulatorLo = emulator.lower()
+        #coreUp = core.upper()
         coreLo = core.lower()
         defineName = self.generatedefinename('DEF', emulator, core)
 
         returnStr = "ifeq ($({}),y)\n".format(brVar)
         returnStr += "define {}\n".format(defineName)
-        returnStr += "\t$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_{}),{})\n".format( self._SystemUpper,coreLo)
+        returnStr += "\t$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_{}),{},{})\n".format( self._SystemUpper,coreLo,priority)
         returnStr += "endef\n"
         returnStr += "endif\n\n"
 
-        return (returnStr, defineName)
+        return returnStr, defineName
 
     def endemulator(self, emulator):
         """ Returns the ending makefile block of a new emulator section in the es_settings.cfg
@@ -208,7 +214,7 @@ class EmPack:
         :returns: a multiline and indented string
         :rtype: string
         """
-        emulatorUp = emulator.upper()
+        #emulatorUp = emulator.upper()
         defineName = self.generatedefinename('END', emulator)
 
         returnStr = "define {}\n".format(defineName)
@@ -216,7 +222,7 @@ class EmPack:
         returnStr += "endef\n"
         returnStr += "endif\n\n"
 
-        return (returnStr, defineName)
+        return returnStr, defineName
 
     def writemakefile(self):
         print "== Creating new package dir structure:",
@@ -228,15 +234,16 @@ class EmPack:
                 print "Failed ... Could not make dir {}".format(self._RomsDir)
                 raise
         else:
-            print "{} already exists ... Are you sure of what you're doing ? Exiting ...".format(self._RomsDir)
-            sys.exit(1)
+            if not self._Force:
+                print "{} already exists ... Are you sure of what you're doing ? Exiting ...".format(self._RomsDir)
+                sys.exit(1)
 
         if self._SingleMode:
             skeletonFile = 'package/recalbox-romfs/recalbox-romfs_single_emulator.skeleton'
         else:
             skeletonFile = 'package/recalbox-romfs/recalbox-romfs_multicores.skeleton'
 
-        prtCmdLine = " ".join(sys.argv[:]) # Ugly, sadly ... Should be improved to reflect quotes
+        #prtCmdLine = " ".join(sys.argv[:]) # Ugly, sadly ... Should be improved to reflect quotes
 
         #
         # Replace known patterns
@@ -262,8 +269,8 @@ class EmPack:
                 definePart, defineName = self.addemulator(emulator)
                 superString += definePart
                 listDefines.append(defineName)
-                for core, brVar in cores.iteritems():
-                    definePart, defineName =  self.addcore(emulator, core, brVar)
+                for core, (brVar, priority) in cores.iteritems():
+                    definePart, defineName =  self.addcore(emulator, core, brVar, priority)
                     superString += definePart
                     listDefines.append(defineName)
 
@@ -285,7 +292,7 @@ class EmPack:
                 f.write(mkFile)
                 print "OK !"
             except:
-                print "Failed ... Couldn't write to {}. Aborting ...".format(outputFile)
+                print "Failed ... Couldn't write to {}. Aborting ...".format(mkFile)
                 raise
 
     def writeconfigin(self):
@@ -327,10 +334,12 @@ class EmPack:
             LISEZ_MOI = "{}/_lisezmoi.txt".format(self._RomsDir)
             READ_ME = "{}/_readme.txt".format(self._RomsDir)
             try:
-                with open(LISEZ_MOI, "w") as f:
-                    f.write("Remplir ce fichier")
-                with open(READ_ME, "w") as f:
-                    f.write("Please fill the file")
+                if not os.path.exists(LISEZ_MOI):
+                    with open(LISEZ_MOI, "w") as f:
+                        f.write("Remplir ce fichier")
+                if not os.path.exists(READ_ME):
+                    with open(READ_ME, "w") as f:
+                        f.write("Please fill the file")
                 print "OK !"
             except:
                 print "Failed ... couldn't create {} or {}".format(LISEZ_MOI, READ_ME)
@@ -368,10 +377,11 @@ if __name__ == '__main__':
     parser.add_argument("-p", "--platform", help="Sets the system platform. Defaults to the system name. ex: pc", type=str, required=False)
     parser.add_argument("-t", "--theme", help="Sets the theme name. Defaults to the system name. ex: nes", type=str, required=False)
     parser.add_argument("packageDetails", nargs='+', help="Either specify a BR2_PACKAGE_XXXXX for a standalone emulator (like reicast, ppsspp etc ...)\nOr write it like libretro:mame2003:BR2_PACKAGE_LIBRETRO_MAME2003 libretro:mame2000:BR2_PACKAGE_LIBRETRO_MAME2000 advancemame:advancemame:BR2_PACKAGE_ADVANCEMAME for a multiple emulators/cores system. The syntax in that case is emulator:core:BUILDROOT_CORE_PACKAGE", type=str)
+    parser.add_argument("--force", help="force overwriting any existing files", action="store_true", required=False)
 
     args = parser.parse_args()
 
-    ConfigEm = EmPack(args.system, args.extensions, args.packageDetails, fullname = args.fullname, platform = args.platform, theme = args.theme)
+    ConfigEm = EmPack(args.system, args.extensions, args.packageDetails, fullname = args.fullname, platform = args.platform, theme = args.theme, force = args.force)
     print ConfigEm
     ConfigEm.writemakefile()
     ConfigEm.writeconfigin()
