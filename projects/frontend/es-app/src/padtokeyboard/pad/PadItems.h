@@ -4,16 +4,6 @@
 #pragma once
 
 /*!
- * @brief All item types of standard modern pads
- */
-enum class PadItemTypes
-{
-  Button, //!< Pressed/Release button
-  Hat,    //!< Directional buttons bitflag
-  Axis,   //!< Analogic axis
-};
-
-/*!
  * @brief All item available on standard modern Pads
  */
 enum class PadItems : short

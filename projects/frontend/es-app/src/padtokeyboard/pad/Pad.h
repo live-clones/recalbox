@@ -26,13 +26,13 @@ class Pad
     Queue<Event> mEventQueue;
 
     //! Global configuration reference
-    const Configuration& mConfiguration;
+    const Configuration* mConfiguration;
     //! Pad configurations references
     const PadConfiguration& mPadConfiguration;
     //! SDL Index to Recalbox Index
-    int mSdlToRecalboxIndexex[PadConstants::MaxPadSupported];
+    int mSdlToRecalboxIndexex[Input::sMaxInputDevices];
     //! SDL Index to Recalbox Index
-    int mItemOnOff[PadConstants::MaxPadSupported];
+    int mItemOnOff[Input::sMaxInputDevices];
     //! Devices readiness
     bool mReady;
 
@@ -50,11 +50,23 @@ class Pad
     Pad(const PadConfiguration& padConfiguration, const Configuration& configuration);
 
     /*!
+     * @brief Constructor
+     * @param padConfiguration Pad Configuration
+     * @param orderedDevices ordered devices
+     */
+    explicit Pad(const PadConfiguration& padConfiguration);
+
+    /*!
      * @brief Get next pad event
      * @param event Output event
      * @return True if an event have been read. False if the devices have been released
      */
     bool GetEvent(Pad::Event& event);
+
+    /*!
+     * @brief Open all configured devices from the given ordered device list
+     */
+    void Open(const OrderedDevices& orderedDevices);
 
     /*!
      * @brief Check device readiness

@@ -10,7 +10,6 @@
 VirtualKeyboard::VirtualKeyboard()
   : mFileDescriptor(-1)
 {
-  Open();
 }
 
 VirtualKeyboard::~VirtualKeyboard()

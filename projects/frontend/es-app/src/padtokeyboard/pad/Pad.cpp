@@ -3,11 +3,11 @@
 //
 
 #include "Pad.h"
+#include <input/InputDevice.h>
 #include <SDL2/SDL.h>
 
-
 Pad::Pad(const PadConfiguration& padConfiguration, const Configuration& configuration)
-  : mConfiguration(configuration),
+  : mConfiguration(&configuration),
     mPadConfiguration(padConfiguration),
     mSdlToRecalboxIndexex {},
     mItemOnOff {},
@@ -16,7 +16,16 @@ Pad::Pad(const PadConfiguration& padConfiguration, const Configuration& configur
   Open();
 }
 
-void Pad::Open()
+Pad::Pad(const PadConfiguration& padConfiguration)
+  : mConfiguration(nullptr),
+    mPadConfiguration(padConfiguration),
+    mSdlToRecalboxIndexex {},
+    mItemOnOff {},
+    mReady(false)
+{
+}
+
+void Pad::Open(const OrderedDevices& orderedDevices)
 {
   // Allow joystick event
   SDL_Init(SDL_INIT_JOYSTICK);
@@ -26,7 +35,7 @@ void Pad::Open()
   // Bitflag for assigned pads
   int Assigned = 0;
   // Reset
-  for(int i = PadConstants::MaxPadSupported; --i >= 0; )
+  for(int i = Input::sMaxInputDevices; --i >= 0; )
   {
     mSdlToRecalboxIndexex[i] = -1;
     mItemOnOff[i] = 0;
@@ -46,13 +55,64 @@ void Pad::Open()
     SDL_JoystickGetGUIDString(SDL_JoystickGetGUID(joystick), guid, sizeof(guid));
 
     // SDL index too high?
-    if (joystickIndex >= PadConstants::MaxPadSupported) continue;
+    if (joystickIndex >= Input::sMaxInputDevices) continue;
 
     // Lookup
-    for(int i = 0; i < PadConstants::MaxPadSupported; ++i)
-      if (mConfiguration.Valid(i))                          // Configuration valid?
-        if (strcmp(name, mConfiguration.PadName[i]) == 0)   // Name matching?
-          if (strcmp(guid, mConfiguration.PadGUID[i]) == 0) // Guid matching?
+    for(int i = 0; i < orderedDevices.Count(); ++i)
+    {
+      const InputDevice& device = *(orderedDevices.Device(i));
+      if (strcmp(name, device.Name().c_str()) == 0)   // Name matching?
+        if (strcmp(guid, device.GUID().c_str()) == 0) // Guid matching?
+          if ((Assigned & (1 << i)) == 0)                 // Not yet assigned?
+          {
+            Assigned |= (1 << i);
+            mSdlToRecalboxIndexex[joystickIndex] = i;
+            break;
+          }
+    }
+  }
+
+  mReady = true;
+}
+
+
+void Pad::Open()
+{
+  // Allow joystick event
+  SDL_Init(SDL_INIT_JOYSTICK);
+  SDL_JoystickEventState(SDL_ENABLE);
+  SDL_JoystickUpdate();
+
+  // Bitflag for assigned pads
+  int Assigned = 0;
+  // Reset
+  for(int i = Input::sMaxInputDevices; --i >= 0; )
+  {
+    mSdlToRecalboxIndexex[i] = -1;
+    mItemOnOff[i] = 0;
+  }
+
+  // Compute SDL to Recalbox indexes
+  int count = SDL_NumJoysticks();
+  for(int j = 0; j < count; ++j)
+  {
+    // Get joystick
+    SDL_Joystick* joystick = SDL_JoystickOpen(j);
+    // Get global index
+    SDL_JoystickID joystickIndex = SDL_JoystickGetDeviceInstanceID(j);
+    // Get informations
+    const char* name = SDL_JoystickNameForIndex(j);
+    char guid[64];
+    SDL_JoystickGetGUIDString(SDL_JoystickGetGUID(joystick), guid, sizeof(guid));
+
+    // SDL index too high?
+    if (joystickIndex >= Input::sMaxInputDevices) continue;
+
+    // Lookup
+    for(int i = 0; i < Input::sMaxInputDevices; ++i)
+      if (mConfiguration->Valid(i))                          // Configuration valid?
+        if (strcmp(name, mConfiguration->PadName[i]) == 0)   // Name matching?
+          if (strcmp(guid, mConfiguration->PadGUID[i]) == 0) // Guid matching?
             if ((Assigned & (1 << i)) == 0)                 // Not yet assigned?
             {
               mSdlToRecalboxIndexex[joystickIndex] = i;
@@ -69,7 +129,8 @@ void Pad::Release()
   SDL_Event event;
   event.type = SDL_QUIT;
   SDL_PushEvent(&event);
-  SDL_Quit();
+  SDL_JoystickEventState(SDL_DISABLE);
+  SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
 }
 
 bool Pad::GetEvent(Pad::Event& event)
@@ -87,7 +148,7 @@ bool Pad::GetEvent(Pad::Event& event)
         case SDL_JOYAXISMOTION:
         {
           // Get pad mapping
-          if ((unsigned int) sdl.jaxis.which >= PadConstants::MaxPadSupported) break;
+          if ((unsigned int) sdl.jaxis.which >= Input::sMaxInputDevices) break;
           int index = mSdlToRecalboxIndexex[sdl.jaxis.which]; // Get Recalbox index
           if (index < 0) break;
           const PadConfiguration::PadAllItemConfiguration& pad = mPadConfiguration.Pad(index);
@@ -98,7 +159,7 @@ bool Pad::GetEvent(Pad::Event& event)
 
           // Check mapping
           for (const PadConfiguration::PadItemConfiguration& item : pad.Items)
-            if (item.Type == PadItemTypes::Axis)
+            if (item.Type == InputEvent::EventType::Axis)
               if (item.Id == sdl.jaxis.axis)
               {
                 // Axis On?
@@ -119,14 +180,14 @@ bool Pad::GetEvent(Pad::Event& event)
         case SDL_JOYHATMOTION:
         {
           // Get pad mapping
-          if ((unsigned int) sdl.jhat.which >= PadConstants::MaxPadSupported) break;
+          if ((unsigned int) sdl.jhat.which >= Input::sMaxInputDevices) break;
           int index = mSdlToRecalboxIndexex[sdl.jhat.which]; // Get Recalbox index
           if (index < 0) break;
           const PadConfiguration::PadAllItemConfiguration& pad = mPadConfiguration.Pad(index);
 
           // Check mapping
           for (const PadConfiguration::PadItemConfiguration& item : pad.Items)
-            if (item.Type == PadItemTypes::Hat)
+            if (item.Type == InputEvent::EventType::Hat)
               if (item.Id == sdl.jhat.hat)
               {
                 // Hat bit(s) On?
@@ -150,13 +211,13 @@ bool Pad::GetEvent(Pad::Event& event)
         case SDL_JOYBUTTONUP:
         {
           // Get pad mapping
-          if ((unsigned int) sdl.jbutton.which >= PadConstants::MaxPadSupported) break;
+          if ((unsigned int) sdl.jbutton.which >= Input::sMaxInputDevices) break;
           int index = mSdlToRecalboxIndexex[sdl.jbutton.which]; // Get Recalbox index
           if (index < 0) break;
           const PadConfiguration::PadAllItemConfiguration& pad = mPadConfiguration.Pad(index);
 
           for (const PadConfiguration::PadItemConfiguration& item : pad.Items)
-            if (item.Type == PadItemTypes::Button)
+            if (item.Type == InputEvent::EventType::Button)
               if (item.Id == sdl.jbutton.button)
               {
                 // Button On?

@@ -12,6 +12,7 @@
 #include <utils/Files.h>
 #include <Settings.h>
 #include <themes/ThemeException.h>
+#include <padtokeyboard/PadToKeyboardManager.h>
 
 EmulatorDescriptor EmulatorList::sEmptyEmulator("NO EMULATOR");
 
@@ -34,12 +35,13 @@ void SystemData::RunGame(Window& window,
 {
   LOG(LogInfo) << "Attempting to launch game...";
 
+  OrderedDevices controllers = InputManager::Instance().GenerateConfiguration();
+  std::string controlersConfig = InputManager::GenerateConfiggenConfiguration(controllers);
+  LOG(LogInfo) << "Controllers config : " << controlersConfig;
+
   VideoEngine::Instance().StopVideo();
   AudioManager::Instance().Deactivate();
   VolumeControl::getInstance()->deinit();
-
-  std::string controlersConfig = InputManager::Instance().GenerateConfiggenConfiguration();
-  LOG(LogInfo) << "Controllers config : " << controlersConfig;
   Window::Finalize();
 
   std::string command = mDescriptor.Command();
@@ -77,13 +79,20 @@ void SystemData::RunGame(Window& window,
 
   LOG(LogInfo) << "	" << command;
   printf("==============================================\n");
-  RecalboxSystem::NotifyGame(game, true, false);
-  int exitCode = runSystemCommand(command);
-  RecalboxSystem::NotifyGame(game, false, false);
+  {
+    PadToKeyboardManager padToKeyboard(controllers, game.getPath());
+    if (padToKeyboard.IsValid())
+      command.append(" -nodefaultkeymap");
+    RecalboxSystem::NotifyGame(game, true, false);
+
+    int exitCode = runSystemCommand(command);
+    if (exitCode != 0)
+      LOG(LogWarning) << "...launch terminated with nonzero exit code " << WEXITSTATUS(exitCode) << "!";
+
+    RecalboxSystem::NotifyGame(game, false, false);
+  }
   printf("==============================================\n");
 
-  if (exitCode != 0)
-    LOG(LogWarning) << "...launch terminated with nonzero exit code " << exitCode << "!";
 
   // Reinit
   window.Initialize();
@@ -103,7 +112,8 @@ std::string SystemData::demoInitialize(Window&)
 {
   LOG(LogInfo) << "Entering demo mode...";
 
-  std::string controlersConfig = InputManager::Instance().GenerateConfiggenConfiguration();
+  OrderedDevices controllers = InputManager::Instance().GenerateConfiguration();
+  std::string controlersConfig = InputManager::GenerateConfiggenConfiguration(controllers);
   LOG(LogInfo) << "Controllers config : " << controlersConfig;
 
   VideoEngine::Instance().StopVideo();

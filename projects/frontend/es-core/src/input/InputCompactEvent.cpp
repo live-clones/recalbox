@@ -4,6 +4,7 @@
 
 #include "InputCompactEvent.h"
 #include "InputDevice.h"
+#include "SDL2/SDL.h"
 
 bool InputCompactEvent::KeyDown() const
 {

@@ -18,11 +18,6 @@ class VirtualKeyboard
     int mFileDescriptor;
 
     /*!
-     * @brief Open the virtual keyboard /dev file
-     */
-    void Open();
-
-    /*!
      * @brief Close virtual keyboard
      */
     void Close();
@@ -45,6 +40,11 @@ class VirtualKeyboard
      * @brief Destructor
      */
     ~VirtualKeyboard();
+
+    /*!
+     * @brief Open the virtual keyboard /dev file
+     */
+    void Open();
 
     /*!
      * @brief Write an event (key press/release) to the virtual kayboard

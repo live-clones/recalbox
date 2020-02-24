@@ -5,6 +5,7 @@
 #include <map>
 #include <string>
 #include <input/InputDevice.h>
+#include <input/OrderedDevices.h>
 #include <utils/os/fs/Path.h>
 
 class Window;
@@ -133,9 +134,6 @@ class InputManager
     static InputDevice* LookupDevice(InputDeviceList& list);
 
   public:
-    //! Maximum players
-    static constexpr int sMaxPlayers = 10;
-
     /*!
      * @brief Default destructor
      */
@@ -189,18 +187,24 @@ class InputManager
     static void WriteDeviceXmlConfiguration(InputDevice& device);
 
     /*!
-     * @brief Get device by SDL Indetifier
+     * @brief Get device by SDL Identifier
      * @param deviceId Device identifier
      * @return Device configuration
      */
     InputDevice* GetDeviceConfiguration(int deviceId);
 
     /*!
+     * @brief Generate an ordered device list in function of player devices configuratons
+     * @return OrderedDevice object
+     */
+    OrderedDevices GenerateConfiguration();
+
+    /*!
      * @brief Generate all player configurations into a single string
      * ready to be used in the configgen
      * @return Configuration string
      */
-    std::string GenerateConfiggenConfiguration();
+    static std::string GenerateConfiggenConfiguration(const OrderedDevices& devices);
 
     static void LogRawEvent(const InputEvent& event);
 

@@ -9,11 +9,13 @@ set(CORE_HEADERS
 		src/help/Help.h
 		src/HttpReq.h
 		src/ImageIO.h
+		src/input/Input.h
 		src/input/InputDevice.h
 		src/input/InputEvent.h
 		src/input/InputCompactEvent.h
 		src/input/InputManager.h
 		src/input/InputStack.h
+		src/input/OrderedDevices.h
 		src/utils/Log.h
 		src/utils/locale/LocaleHelper.h
 		src/audio/Music.h

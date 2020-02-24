@@ -1,10 +1,10 @@
 # Test code
 file(GLOB_RECURSE SOURCES
         main.cpp
-        VirtualKeyboard.cpp
-        MappingConfiguration.cpp
-        PadConfiguration.cpp
-        Pad.cpp
+        ../es-app/src/padtokeyboard/keyboard/VirtualKeyboard.cpp
+        ../es-app/src/padtokeyboard/pad/MappingConfiguration.cpp
+        ../es-app/src/padtokeyboard/pad/PadConfiguration.cpp
+        ../es-app/src/padtokeyboard/pad/Pad.cpp
 )
 
 # Tested code & dependencies
@@ -15,6 +15,8 @@ file(GLOB_RECURSE DEPENDENCIES
         ../es-core/src/utils/Log.cpp
         ../es-core/src/utils/datetime/DateTime.cpp
         ../es-core/src/RootFolders.cpp
+        ../es-core/src/input/InputDevice.cpp
+        ../es-core/src/input/InputEvent.cpp
 )
 
 # Set up compiler flags for GCC
@@ -29,6 +31,7 @@ endif()
 include_directories(
         .
         ../es-core/src
+        ../es-app/src
         ../external
 )
 

@@ -8,11 +8,13 @@
 
 #include <utils/Log.h>
 
-#include "Configuration.h"
-#include "VirtualKeyboard.h"
-#include "MappingConfiguration.h"
-#include "Pad.h"
-#include "PadConfiguration.h"
+#define __STRL(x) x, sizeof(x)-1
+
+#include <padtokeyboard/Configuration.h>
+#include <padtokeyboard/keyboard/VirtualKeyboard.h>
+#include <padtokeyboard/pad/MappingConfiguration.h>
+#include <padtokeyboard/pad/Pad.h>
+#include <padtokeyboard/pad/PadConfiguration.h>
 
 Configuration ParseArguments(int argc, char *argv[])
 {
@@ -45,7 +47,7 @@ Configuration ParseArguments(int argc, char *argv[])
         {
           unsigned int number = 0;
           if (descriptor.Numbered) number = (unsigned int)(arg[descriptor.SwitchLength] - 0x30u);
-          if (number < PadConstants::MaxPadSupported)
+          if (number < Input::sMaxInputDevices)
             Descriptors[i].TargetValue[number] = argv[++index];
         }
       }
@@ -96,7 +98,7 @@ int main(int argc, char *argv[])
   }
 
   // Get pad => keyboard mapping - Checked at the very beginning to quit gracefully if no config is found
-  MappingConfiguration pad2KeybMapping(configuration.RomPath);
+  MappingConfiguration pad2KeybMapping(Path(configuration.RomPath));
   if (!pad2KeybMapping.Valid())
   {
     LOG(LogInfo) << "No pad2keyb configuration.";
@@ -120,6 +122,7 @@ int main(int argc, char *argv[])
 
   // Create virtual keyboard device
   VirtualKeyboard keyboard;
+  keyboard.Open();
   if (!keyboard.Ready())
   {
     LOG(LogError) << "Cannot create virtual keyboard.";

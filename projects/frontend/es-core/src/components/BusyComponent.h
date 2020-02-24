@@ -1,5 +1,6 @@
 #pragma once
 
+#include <utils/os/system/Mutex.h>
 #include "components/base/Component.h"
 #include "components/ComponentGrid.h"
 #include "components/NinePatchComponent.h"
@@ -11,7 +12,7 @@ class BusyComponent : public Component
 {
 public:
 	explicit BusyComponent(Window&window);
-	~BusyComponent() override;
+	~BusyComponent() override = default;
 
 	void onSizeChanged() override;
 	void setText(std::string txt);
@@ -25,7 +26,7 @@ private:
 	std::shared_ptr<AnimatedImageComponent> mAnimation;
 	std::shared_ptr<TextComponent> mText;
 
-	SDL_mutex *mutex;
+	Mutex mMutex;
 	bool mThreadMessagechanged;
 	std::string threadMessage;
 };

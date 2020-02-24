@@ -4,8 +4,6 @@
 #pragma once
 
 #include <string>
-#include <SDL.h>
-#include <utils/Strings.h>
 
 class InputEvent
 {
@@ -83,49 +81,13 @@ class InputEvent
      * @brief Convert current event to a string representation
      * @return String representation of the c urrent event
      */
-    std::string ToString() const
-    {
-      switch (mType)
-      {
-        case EventType::Button:  return std::string("Button ").append(Strings::ToString(mId));
-        case EventType::Axis:    return std::string("Axis ").append(Strings::ToString(mId)).append(1, (mValue > 0 ? '+' : '-'));
-        case EventType::Hat:     return std::string("Hat ").append(Strings::ToString(mId)).append(1, ' ').append(HatDir(mValue));
-        case EventType::Key:     return std::string("Key ").append(SDL_GetKeyName((SDL_Keycode) mId));
-        case EventType::Unknown:
-        default: break;
-      }
-      return std::string("Input to string error");
-    }
-
-    #ifndef SDL_JOYSTICK_IS_OVERRIDEN_BY_RECALBOX
-      #define SDL_JoystickAxisEventCodeById(mDevice, mId) (-1)
-      #define SDL_JoystickButtonEventCodeById(mDevice, mId) (-1)
-      #define SDL_JoystickHatEventCodeById(mDevice, mId) (-1)
-    #endif
-
+    std::string ToString() const;
 
     /*!
      * @brief Get the raw SDL2 code for the current event.
      * Some emulators require raw code in their configurations
      */
-    void StoreSDLCode()
-    {
-      switch (mType)
-      {
-        case EventType::Axis:
-          mCode = SDL_JoystickAxisEventCodeById(mDevice, mId);
-          break;
-        case EventType::Button:
-          mCode = SDL_JoystickButtonEventCodeById(mDevice, mId);
-          break;
-        case EventType::Hat:
-          mCode = SDL_JoystickHatEventCodeById(mDevice, mId);
-          break;
-        case EventType::Key:
-        case EventType::Unknown:
-        default: break;
-      }
-    }
+    void StoreSDLCode();
 
     /*
      * Helpers
@@ -133,12 +95,5 @@ class InputEvent
 
     static std::string TypeToString(InputEvent::EventType type);
     static EventType StringToType(const std::string& type);
-    static const char* HatDir(int val)
-    {
-      if ((val & SDL_HAT_UP) != 0)    return "up";
-      if ((val & SDL_HAT_DOWN) != 0)  return "down";
-      if ((val & SDL_HAT_LEFT) != 0)  return "left";
-      if ((val & SDL_HAT_RIGHT) != 0) return "right";
-      return "neutral?";
-    }
+    static const char* HatDir(int val);
 };

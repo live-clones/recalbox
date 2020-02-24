@@ -3,7 +3,9 @@
 //
 #pragma once
 
-#include "Configuration.h"
+#include <input/InputEvent.h>
+#include <input/OrderedDevices.h>
+#include "../Configuration.h"
 #include "PadItems.h"
 
 class PadConfiguration
@@ -12,11 +14,11 @@ class PadConfiguration
     //! Pad item configuration
     struct PadItemConfiguration
     {
-      PadItems Item;     //!< Pad item (up, x, j1left, ...)
-      PadItemTypes Type; //!< Pad item type (axis, hat, button, ...)
-      int Id;            //!< Identifier
-      int Value;         //!< "ON" value
-      int Code;          //!< Low level code
+      PadItems Item;              //!< Pad item (up, x, j1left, ...)
+      InputEvent::EventType Type; //!< Pad item type (axis, hat, button, ...)
+      int Id;                     //!< Identifier
+      int Value;                  //!< "ON" value
+      int Code;                   //!< Low level code
     };
 
     //! All item configurations
@@ -30,10 +32,10 @@ class PadConfiguration
     static constexpr const char* sInputFile = "/recalbox/share/system/.emulationstation/es_input.cfg";
 
     //! Configuration reference
-    const Configuration& mConfiguration;
+    const Configuration* mConfiguration;
 
     //! All pad configuration
-    PadAllItemConfiguration mPads[PadConstants::MaxPadSupported];
+    PadAllItemConfiguration mPads[Input::sMaxInputDevices];
 
     //! Ready flag
     bool mReady;
@@ -51,11 +53,22 @@ class PadConfiguration
     explicit PadConfiguration(const Configuration& configuration);
 
     /*!
+     * @brief Constructor
+     * @param configuration Global configuration
+     */
+    PadConfiguration();
+
+    /*!
      * @brief Get pad configuration bt index
      * @param index Index
      * @return Pad configuration
      */
-    const PadAllItemConfiguration& Pad(int index) const { return mPads[(unsigned int)index <= PadConstants::MaxPadSupported ? index : 0]; }
+    const PadAllItemConfiguration& Pad(int index) const { return mPads[(unsigned int)index <= Input::sMaxInputDevices ? index : 0]; }
+
+    /*!
+     * @brief Load pad configuration from es_input.cfg according to the global configuration
+     */
+    void Load(const OrderedDevices& orderedDevices);
 
     /*!
      * @brief Check if the pad configuration are loaded

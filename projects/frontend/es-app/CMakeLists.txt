@@ -28,7 +28,6 @@ set(ES_HEADERS
         src/systems/SystemManager.h
 
         # GuiComponents
-        #src/components/AsyncReqComponent.h
         src/components/RatingComponent.h
         src/components/ScraperSearchComponent.h
         src/components/TextListComponent.h
@@ -69,12 +68,6 @@ set(ES_HEADERS
         src/scraping/scrapers/screenscraper/ScreenScraperApis.h
         src/scraping/scrapers/thegamedb/TheGameDBEngine.h
 
-        #src/scraping/Scraper.h
-        #src/scraping/GamesDBJSONScraper.h
-        #src/scraping/GamesDBJSONScraperResources.h
-        #src/scrapers/MamedbScraper.h
-        #src/scraping/ScreenscraperScraper.h
-
         # Views
         src/views/gamelist/BasicGameListView.h
         src/views/gamelist/DetailedGameListView.h
@@ -99,6 +92,15 @@ set(ES_HEADERS
         src/NetPlayThread.h
         src/MainRunner.h
         src/ApplicationWindow.h
+
+        # Pad 2 Keyboard
+        src/padtokeyboard/Configuration.h
+        src/padtokeyboard/PadToKeyboardManager.h
+        src/padtokeyboard/keyboard/VirtualKeyboard.h
+        src/padtokeyboard/pad/Pad.h
+        src/padtokeyboard/pad/MappingConfiguration.h
+        src/padtokeyboard/pad/PadItems.h
+        src/padtokeyboard/pad/PadConfiguration.h
         )
 
 set(ES_SOURCES
@@ -119,7 +121,6 @@ set(ES_SOURCES
         src/systems/SystemManager.cpp
 
         # GuiComponents
-        #src/components/AsyncReqComponent.cpp
         src/components/RatingComponent.cpp
         src/components/ScraperSearchComponent.cpp
 
@@ -153,12 +154,6 @@ set(ES_SOURCES
         src/scraping/scrapers/screenscraper/ScreenScraperApis.cpp
         src/scraping/scrapers/thegamedb/TheGameDBEngine.cpp
 
-        #src/scraping/Scraper.cpp
-        #src/scraping/GamesDBJSONScraper.cpp
-        #src/scraping/GamesDBJSONScraperResources.cpp
-        #src/scrapers/MamedbScraper.cpp
-        #src/scraping/ScreenscraperScraper.cpp
-
         # Views
         src/views/gamelist/BasicGameListView.cpp
         src/views/gamelist/DetailedGameListView.cpp
@@ -177,6 +172,13 @@ set(ES_SOURCES
         src/NetPlayThread.cpp
         src/MainRunner.cpp
         src/ApplicationWindow.cpp
+
+        # Pad 2 Keyboard
+        src/padtokeyboard/PadToKeyboardManager.cpp
+        src/padtokeyboard/keyboard/VirtualKeyboard.cpp
+        src/padtokeyboard/pad/Pad.cpp
+        src/padtokeyboard/pad/MappingConfiguration.cpp
+        src/padtokeyboard/pad/PadConfiguration.cpp
         )
 
 #-------------------------------------------------------------------------------

@@ -21,8 +21,6 @@ BusyComponent::BusyComponent(Window&window)
   mGrid(window,Vector2i(5, 3)),
   mThreadMessagechanged(false)
 {
-	mutex = SDL_CreateMutex();
-
   auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 
   mBackground.setImagePath(menuTheme->menuBackground.path);
@@ -41,27 +39,26 @@ BusyComponent::BusyComponent(Window&window)
 	addChild(&mGrid);
 }
 
-BusyComponent::~BusyComponent() {
-	SDL_DestroyMutex(mutex);
-}
-
 void BusyComponent::setText(std::string txt)
 {
-	if (SDL_LockMutex(mutex) == 0) {
+	if (mMutex.Lock())
+	{
 		threadMessage = std::move(txt);
     mThreadMessagechanged = true;
-		SDL_UnlockMutex(mutex);
+		mMutex.UnLock();
 	}
 }
 
 void BusyComponent::Render(const Transform4x4f& parentTrans) {
-	if (SDL_LockMutex(mutex) == 0) {
-		if(mThreadMessagechanged) {
+  if (mMutex.Lock())
+  {
+		if(mThreadMessagechanged)
+		{
       mThreadMessagechanged = false;
 			mText->setText(threadMessage);
 			onSizeChanged();
 		}
-		SDL_UnlockMutex(mutex);
+    mMutex.UnLock();
 	}
   Component::Render(parentTrans);
 }

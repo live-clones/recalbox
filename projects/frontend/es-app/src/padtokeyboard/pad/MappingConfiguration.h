@@ -4,9 +4,8 @@
 #pragma once
 
 #include "PadItems.h"
-#include "PadConstants.h"
 #include "Pad.h"
-#include "VirtualKeyboard.h"
+#include "../keyboard/VirtualKeyboard.h"
 
 class MappingConfiguration
 {
@@ -28,7 +27,7 @@ class MappingConfiguration
     };
 
     //! Mapping
-    Mapping mMapping[PadConstants::MaxPadSupported];
+    Mapping mMapping[Input::sMaxInputDevices];
 
     /*!
      * @brief Load all configuration/overrides from root path to rom path
@@ -65,7 +64,7 @@ class MappingConfiguration
      * @brief Constructor
      * @param romPath Rom path, use to search for c onfiguration files
      */
-    explicit MappingConfiguration(const char* romPath);
+    explicit MappingConfiguration(const Path& romPath);
 
     /*!
      * @brief Translate a pad event into the configured keycode if any

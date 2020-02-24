@@ -9,7 +9,9 @@
 #include <utils/Log.h>
 #include <cstring>
 #include "MappingConfiguration.h"
-#include "VirtualKeyboard.h"
+#include "../keyboard/VirtualKeyboard.h"
+
+#define __STRL(x) x, sizeof(x)-1
 
 MappingConfiguration::Mapping::Mapping()
   : PadItemToKeyCodes {}
@@ -26,9 +28,9 @@ bool MappingConfiguration::Mapping::Valid() const
   return false;
 }
 
-MappingConfiguration::MappingConfiguration(const char* rompath)
+MappingConfiguration::MappingConfiguration(const Path& romPath)
 {
-  Load(Path(rompath));
+  Load(romPath);
 }
 
 void MappingConfiguration::Load(const Path& path, bool folder)
@@ -77,19 +79,19 @@ void MappingConfiguration::AssignMapping(const std::string& key, const std::stri
 
   if (ParsePadItems(key, padNum, padItem))
     if (ParseKeyCode(value, keyCode))
-      if (padNum < PadConstants::MaxPadSupported)
+      if (padNum < Input::sMaxInputDevices)
         mMapping[padNum].PadItemToKeyCodes[(int)padItem] = keyCode;
 }
 
 VirtualKeyboard::Event MappingConfiguration::Translate(Pad::Event& event) const
 {
-  if ((unsigned int)event.Pad >= PadConstants::MaxPadSupported) return { 0, false };
+  if ((unsigned int)event.Pad >= Input::sMaxInputDevices) return { 0, false };
   return { (short)mMapping[(int)event.Pad].PadItemToKeyCodes[(int)event.Item], event.On };
 }
 
 bool MappingConfiguration::Valid() const
 {
-  for(int i = PadConstants::MaxPadSupported; --i >= 0; )
+  for(int i = Input::sMaxInputDevices; --i >= 0; )
     if (mMapping[i].Valid())
       return true;
   return false;

@@ -6,6 +6,7 @@
 #include "pugixml/pugixml.hpp"
 #include "RootFolders.h"
 #include "SDL.h"
+#include "Input.h"
 
 #define KEYBOARD_GUID_STRING "-1"
 
@@ -344,17 +345,15 @@ InputDevice* InputManager::LookupDevice(InputDeviceList& list)
   return nullptr;
 }
 
-std::string InputManager::GenerateConfiggenConfiguration()
+OrderedDevices InputManager::GenerateConfiguration()
 {
+  OrderedDevices devices;
+
   InputDeviceList list;
   FillConfiguredDevicelist(list);
 
-  InputDevice* devices[sMaxPlayers];
-  for(int i = sMaxPlayers; --i >= 0;)
-    devices[i] = nullptr;
-
   // First loop, search for GUID + NAME. High Priority
-  for (int player = 0; player < sMaxPlayers; ++player)
+  for (int player = 0; player < Input::sMaxInputDevices; ++player)
   {
     std::string playerConfigName = Settings::Instance().InputName(player);
     std::string playerConfigGuid = Settings::Instance().InputGuid(player);
@@ -362,49 +361,51 @@ std::string InputManager::GenerateConfiggenConfiguration()
     InputDevice* device = LookupDevice(list, playerConfigGuid, playerConfigName);
     if (device != nullptr)
     {
-      devices[player] = device;
+      devices.SetDevice(player, device);
       LOG(LogInfo) << "Saved " << device->Name() << " for player " << player;
       break;
     }
   }
   // Second loop, search for NAME. High Priority
-  for (int player = 0; player < sMaxPlayers; ++player)
-    if (devices[player] == nullptr)
+  for (int player = 0; player < Input::sMaxInputDevices; ++player)
+    if (devices.Device(player) == nullptr)
     {
       std::string playerConfigName = Settings::Instance().InputName(player);
 
       InputDevice* device = LookupDevice(list, playerConfigName);
       if (device != nullptr)
       {
-        devices[player] = device;
+        devices.SetDevice(player, device);
         LOG(LogInfo) << "Saved " << device->Name() << " for player " << player;
         break;
       }
     }
   // Last loop, search for free controllers for remaining players.
-  for (int player = 0; player < sMaxPlayers; ++player)
-    if (devices[player] == nullptr)
+  for (int player = 0; player < Input::sMaxInputDevices; ++player)
+    if (devices.Device(player) == nullptr)
     {
       LOG(LogInfo) << "No config for player " << player;
       InputDevice* device = LookupDevice(list);
       if (device != nullptr)
       {
-        devices[player] = device;
+        devices.SetDevice(player, device);
         LOG(LogInfo) << "So i set " << device->Name() << " for player " << player;
         break;
       }
     }
-  // Shrink configuration so that there is no hole
-  for (int player = 0, i = 0; player < sMaxPlayers; ++player)
-  {
-    devices[i] = devices[player];
-    if (devices[i] != nullptr) ++i;
-  }
 
+  // Shrink configuration so that there is no hole
+  devices.Shrink();
+
+  return devices;
+}
+
+std::string InputManager::GenerateConfiggenConfiguration(const OrderedDevices& devices)
+{
   std::string command;
-  for (int player = 0; player < sMaxPlayers; ++player)
+  for (int player = 0; player < Input::sMaxInputDevices; ++player)
   {
-    InputDevice* device = devices[player];
+    const InputDevice* device = devices.Device(player);
     if (device != nullptr)
     {
       std::string p = " -p" + std::to_string(player + 1);
@@ -431,3 +432,4 @@ void InputManager::LogCompactEvent(const InputCompactEvent& event)
 {
   LOG(LogDebug) << "Compact Event: " << event.ToString();
 }
+

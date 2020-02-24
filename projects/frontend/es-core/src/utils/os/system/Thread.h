@@ -30,14 +30,14 @@ class Thread
      */
     void Start(const std::string& name);
 
-    /*!
+    virtual /*!
      * Stops the thread
      * @param donotjoin Don't call join to wait for the effective end
      */
     void Stop();
 
     /*!
-     * @brief Wait until thread deatj
+     * @brief Wait until thread death
      */
     void Join();
 

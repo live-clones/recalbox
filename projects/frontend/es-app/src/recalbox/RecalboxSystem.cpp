@@ -232,7 +232,8 @@ bool RecalboxSystem::launchKodi(Window& window)
   AudioManager::Instance().Deactivate();
   VolumeControl::getInstance()->deinit();
 
-  std::string commandline = InputManager::Instance().GenerateConfiggenConfiguration();
+  OrderedDevices controllers = InputManager::Instance().GenerateConfiguration();
+  std::string commandline = InputManager::GenerateConfiggenConfiguration(controllers);
   std::string command = "configgen -system kodi -rom '' " + commandline;
 
   Window::Finalize();
