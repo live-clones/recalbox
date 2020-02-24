@@ -35,7 +35,7 @@ Make sure your user belongs to the docker group -> `sudo usermod -a -G docker $U
 Clone the repository in your home:
 
 ```bash
-ARCH="rpi3" git clone https://gitlab.com/recalbox/recalbox.git recalbox-${ARCH}
+ARCH="rpi3" && git clone https://gitlab.com/recalbox/recalbox.git recalbox-${ARCH}
 ```
 
 Run the script that compiles the project in a Docker container:
