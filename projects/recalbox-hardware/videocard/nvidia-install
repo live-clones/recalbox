@@ -24,24 +24,39 @@ try_symlink_lib() {
 gpu=("$(lspci -d::0300 |awk -F'[' '{print $2}' |awk -F']' '{print $1}')")
 # "lspci -nd10de::0300" only list nvidia vendor and vga class devices
 gpuid=("$(lspci -nd10de::0300 | egrep -o "[[:xdigit:]]{4}:[[:xdigit:]]{4}" | cut -d ":" -f 2)")
+# get Intel igpu
+# if has intel igpu and nvidia gpu serie M you need optimus technologie is not compatible for a moment in recalbox
+igpu=("$(lspci -d8086::0300)")
 
 # check the compatibility of the graphics card with the driver version "440.31" then "390.116"
-supportList440=($(grep -i "${gpuid}" /recalbox/system/hardware/videocard/nvidiacheckcompatibility-440.txt))
-supportList390=($(grep -i "${gpuid}" /recalbox/system/hardware/videocard/nvidiacheckcompatibility-390.txt))
+supportList440=($(grep -i "${gpu} ${gpuid}" /recalbox/system/hardware/videocard/nvidiacheckcompatibility-440.txt))
+supportList390=($(grep -i "${gpu} ${gpuid}" /recalbox/system/hardware/videocard/nvidiacheckcompatibility-390.txt))
+
+# check the version
+nvidia440=("$(echo /usr/lib/extra/nvidia-4* |cut -d'-' -f 2)")
+nvidia390=("$(echo /usr/lib/extra/nvidia-3* |cut -d'-' -f 2)")
 
 # nouveau conflict with nvidia-drm
 blacklistFile="/etc/modprobe.d/blacklist.conf"
 # check if driver 'nouveau' is already blacklisted
 if grep -q 'blacklist nouveau' "${blacklistFile}"; then
-	echo "driver 'nouveau' is already blacklisted"
+	echo -e "driver 'nouveau' is already blacklisted\nNvdia-driver work with:\nGPU: ${gpu}, id: ${gpuid}"
 	exit 0
 fi
 
-# detect/configure nvidia driver version to install
-if [ -n "${gpu}" ] && [ -n "${supportList440}" ]; then
-	nvver="440.59"
-elif [ -n "${gpu}" ] && [ -n "${supportList390}" ]; then
-	nvver="390.132"
+# check if gpu/igpu duo 
+if [ "${gpu}" ] && [ "${igpu}" ]; then
+	echo -e "you need prime technologie for install nvidia driver\nGPU:${gpu},id ${gpuid}\nIGPU:\n${igpu},\nIs unsupported, skipping nvidia driver installation."
+	exit 0
+	else
+	# detect/configure nvidia driver version to install
+		if [ -n "${gpu}" ] && [ -n "${supportList440}" ]; then
+	        nvver="${nvidia440}"
+	        echo "${supportList440}"
+        elif [ -n "${gpu}" ] && [ -n "${supportList390}" ]; then
+	        nvver="${nvidia390}"
+	        echo "${supportList390}"
+        fi
 fi
 
 # set paths/vars
@@ -58,12 +73,11 @@ nvway=($(ls "${libs}"/extra/nvidia-${nvver} | grep libnvidia-egl-wayland.so | ta
 
 # is gpu compatible ?
 if [ -n "${nvver}" ]; then
-  echo "GPU: ${gpu}, id: ${gpuid}, driver: ${nvver}"
+	echo "GPU: ${gpu}, id: ${gpuid}, driver: ${nvver}"
 else
-  echo "GPU: '${gpu}' is unknown or unsupported, skipping nvidia driver installation"
-  exit 0
+	echo "GPU: '${gpu}' is unknown or unsupported, skipping nvidia driver installation"
+	exit 0
 fi
-
 # proceed installation
 mount -o remount, rw /
 echo "blacklist nouveau" >> "${blacklistFile}"
@@ -106,7 +120,7 @@ try_symlink_lib "${nvlibs}/libnvidia-eglcore.so" "${libs}/libnvidia-eglcore.so" 
 try_symlink_lib "${nvlibs}/libnvidia-glcore.so" "${libs}/libnvidia-glcore.so" "${nvver}"
 try_symlink_lib "${nvlibs}/libnvidia-glsi.so" "${libs}/libnvidia-glsi.so" "${nvver}"
 try_symlink_lib "${nvlibs}/libnvidia-tls.so" "${libs}/libnvidia-tls.so" "${nvver}"
-try_symlink_lib "${nvlibs}/libcuda.so" "${libs}/libcuda.so" "${nvver}"
+# try_symlink_lib "${nvlibs}/libcuda.so" "${libs}/libcuda.so" "${nvver}"
 try_symlink_lib "${nvlibs}/libnvcuvid.so" "${libs}/libnvcuvid.so" "${nvver}"
 try_symlink_lib "${nvlibs}/libnvidia-fatbinaryloader.so" "${libs}/libnvidia-fatbinaryloader.so" "${nvver}"
 try_symlink_lib "${nvlibs}/libnvidia-opencl.so" "${libs}/libnvidia-opencl.so" "${nvver}"
@@ -135,3 +149,4 @@ try_symlink "/usr/bin/nvidia-smi.${nvver}" "/usr/bin/nvidia-smi"
 
 mount -o remount, ro /
 echo "Done."
+
