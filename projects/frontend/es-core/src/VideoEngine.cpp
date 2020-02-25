@@ -5,7 +5,7 @@
 #include <SDL_audio.h>
 #include <utils/datetime/HighResolutionTimer.h>
 #include "VideoEngine.h"
-#include "utils/Log.h"
+//#include "utils/Log.h"
 
 #define PIXEL_FORMAT AV_PIX_FMT_RGBA
 

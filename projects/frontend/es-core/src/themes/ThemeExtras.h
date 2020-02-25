@@ -4,8 +4,8 @@
 #pragma once
 
 #include <algorithm>
-#include "ThemeData.h"
-#include "components/base/Component.h"
+#include <themes/ThemeData.h>
+#include <components/base/Component.h>
 
 class ThemeExtras : public Component
 {

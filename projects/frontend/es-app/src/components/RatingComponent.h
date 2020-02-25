@@ -1,7 +1,8 @@
 #pragma once
 
-#include "components/base/Component.h"
-#include "resources/TextureResource.h"
+#include <components/base/Component.h>
+#include <resources/TextureResource.h>
+#include <utils/Strings.h>
 
 #define NUM_RATING_STARS 5
 

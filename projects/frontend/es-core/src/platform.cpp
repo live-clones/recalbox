@@ -1,6 +1,6 @@
-#include "platform.h"
+#include <platform.h>
 #include <cstring>
-#include "utils/Log.h"
+#include <utils/Log.h>
 
 int runSystemCommand(const std::string& cmd_utf8)
 {

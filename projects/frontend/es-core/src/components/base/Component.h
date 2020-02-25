@@ -1,24 +1,28 @@
 #pragma once
 
-#include "input/InputDevice.h"
-#include <functional>
-#include "utils/math/Vectors.h"
-#include "help/HelpStyle.h"
-#include "themes/ThemeData.h"
-#include "themes/Properties.h"
-#include "help/Help.h"
+#include <utils/math/Transform4x4f.h>
+#include <utils/math/Vector2f.h>
+#include <utils/math/Vector3f.h>
+#include <themes/Properties.h>
 #include "IComponent.h"
+
+#include <functional>
+#include <vector>
 
 class Window;
 class Animation;
 class AnimationController;
 class ThemeData;
 class Font;
+class InputCompactEvent;
+class Help;
+class HelpStyle;
+class ThemeData;
 
 class Component: public IComponent
 {
   public:
-    explicit Component(Window&window);
+    explicit Component(Window& window);
     virtual ~Component();
 
     virtual void textInput(const char* text);
@@ -72,7 +76,7 @@ class Component: public IComponent
 
     float getRotation() const { return mRotation; }
     void setRotation(float rotation) { mRotation = rotation; }
-    inline void setRotationDegrees(float rotation) { setRotation(rotation * (float)M_PI / 180.0f); }
+    inline void setRotationDegrees(float rotation) { setRotation(rotation * (float)3.14159265359 / 180.0f); }
 
     inline float getScale() const { return mScale; }
     inline void setScale(float scale) { mScale = scale; }
@@ -152,16 +156,8 @@ class Component: public IComponent
     std::vector<Component*>* mChildren;
 
   protected:
-    static Help& HelpItems()
-    {
-      static Help sHelp;
-      return sHelp;
-    }
-    static HelpStyle& HelpItemStyle()
-    {
-      static HelpStyle sHelpStyle;
-      return sHelpStyle;
-    }
+    static Help& HelpItems();
+    static HelpStyle& HelpItemStyle();
 
     void renderChildren(const Transform4x4f& transform) const;
     void updateSelf(int deltaTime); // updates animations

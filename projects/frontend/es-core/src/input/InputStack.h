@@ -1,12 +1,12 @@
 #pragma once
 
-#include "InputDevice.h"
-#include "utils/sdl2/SyncronousEventService.h"
-#include <functional>
-#include <list>
-#include <utils/datetime/DateTime.h>
+#include <input/InputDevice.h>
+#include <utils/sdl2/SyncronousEventService.h>
 #include <utils/sdl2/ISyncTimer.h>
 #include <utils/sdl2/SyncTimer.h>
+#include <functional>
+#include <vector>
+#include <utils/datetime/DateTime.h>
 
 /*!
  * The purpose of this class is to catch the whole inputs sent by SDL when using a gamepad hat / joy / button
@@ -24,10 +24,10 @@ class InputStack : private ISyncTimer
     SyncTimer mTimer;
 
     //! Event list
-    std::list<InputEvent> mInputs;
+    std::vector<InputEvent> mInputs;
 
     //! Callbacl method
-    std::function<void(const std::list<InputEvent>& inputs)> mCallback;
+    std::function<void(const std::vector<InputEvent>& inputs)> mCallback;
 
     void TimerTick(int id) override
     {
@@ -39,7 +39,7 @@ class InputStack : private ISyncTimer
   public:
     bool hasInput(const InputEvent& input);
 
-    void push(const InputEvent& input, const std::function<void(const std::list<InputEvent>& inputs)>& func);
+    void push(const InputEvent& input, const std::function<void(const std::vector<InputEvent>& inputs)>& func);
 
     void debounce()
     {

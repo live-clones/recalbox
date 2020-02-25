@@ -406,3 +406,15 @@ void Component::onHide()
 	for (unsigned int i = 0; i < getChildCount(); i++)
         getChild(i)->onHide();
 }
+
+Help& Component::HelpItems()
+{
+  static Help sHelp;
+  return sHelp;
+}
+
+HelpStyle& Component::HelpItemStyle()
+{
+  static HelpStyle sHelpStyle;
+  return sHelpStyle;
+}

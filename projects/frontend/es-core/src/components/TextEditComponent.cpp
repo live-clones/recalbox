@@ -129,7 +129,7 @@ bool TextEditComponent::ProcessInput(const InputCompactEvent& event)
 			return true;
 		}
 
-		if (event.UpPressed())
+		/*if (event.UpPressed())
 		{
 			// TODO
 		}
@@ -137,7 +137,7 @@ bool TextEditComponent::ProcessInput(const InputCompactEvent& event)
 		{
 			// TODO
 		}
-		else if (event.LeftPressed() || event.RightPressed())
+		else*/ if (event.LeftPressed() || event.RightPressed())
 		{
 			mCursorRepeatDir = event.LeftPressed() ? -1 : 1;
 			mCursorRepeatTimer = -(CURSOR_REPEAT_START_DELAY - CURSOR_REPEAT_SPEED);
@@ -270,7 +270,7 @@ bool TextEditComponent::isMultiline()
 	return (getSize().y() > mFont->getHeight() * 1.25f);
 }
 
-Vector2f TextEditComponent::getTextAreaPos() const
+Vector2f TextEditComponent::getTextAreaPos()
 {
 	return { TEXT_PADDING_HORIZ / 2.0f, TEXT_PADDING_VERT / 2.0f };
 }

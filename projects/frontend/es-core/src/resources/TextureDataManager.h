@@ -1,12 +1,14 @@
 #pragma once
 
-#include "resources/ResourceManager.h"
-#include "platform.h"
-#include "resources/TextureData.h"
 #include <map>
+#include <list>
 #include <memory>
 #include <thread>
 #include <mutex>
+
+//#include "resources/ResourceManager.h"
+#include "platform.h"
+#include "resources/TextureData.h"
 #include <condition_variable>
 
 class TextureResource;

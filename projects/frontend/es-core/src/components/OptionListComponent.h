@@ -1,8 +1,6 @@
 #pragma once
 
 #include "components/base/Component.h"
-#include "resources/Font.h"
-#include "Renderer.h"
 #include "Window.h"
 #include "components/TextComponent.h"
 #include "components/ImageComponent.h"

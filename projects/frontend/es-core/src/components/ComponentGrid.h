@@ -1,6 +1,8 @@
 #pragma once
 
 #include "components/base/Component.h"
+#include <utils/math/Vector2i.h>
+#include <memory>
 
 enum class UpdateType : unsigned char // Take less memory in grid elements
 {

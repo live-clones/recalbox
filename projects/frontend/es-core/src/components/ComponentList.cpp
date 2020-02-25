@@ -1,7 +1,8 @@
 #include <Settings.h>
-#include "components/ComponentList.h"
-#include "utils/locale/LocaleHelper.h"
-#include "MenuThemeData.h"
+#include <components/ComponentList.h>
+#include <MenuThemeData.h>
+#include <help/Help.h>
+#include <utils/locale/LocaleHelper.h>
 
 #define TOTAL_HORIZONTAL_PADDING_PX 20
 
@@ -246,7 +247,7 @@ void ComponentList::Render(const Transform4x4f& parentTrans)
 	Renderer::popClipRect();
 }
 
-float ComponentList::getRowHeight(const ComponentListRow& row) const
+float ComponentList::getRowHeight(const ComponentListRow& row)
 {
 	// returns the highest component height found in the row
 	float height = 0;

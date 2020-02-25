@@ -1,7 +1,10 @@
-#include "resources/Font.h"
+#include <resources/Font.h>
 #include <vector>
-#include "Renderer.h"
-#include "utils/Log.h"
+#include <Renderer.h>
+#include <utils/Log.h>
+#include <resources/ResourceManager.h>
+#include <themes/ThemeElement.h>
+#include <utils/math/Misc.h>
 
 FT_Library Font::sLibrary = nullptr;
 
@@ -208,7 +211,7 @@ Font::Font(int size, const Path& path) : mSize(size), mPath(path)
 
 Font::~Font()
 {
-	unload(ResourceManager::getInstance());
+	unload(*ResourceManager::getInstance());
 }
 
 std::shared_ptr<Font> Font::get(int size, const Path& path)
@@ -345,7 +348,7 @@ const std::vector<Path>& getFallbackFontPaths()
 	if (fontPaths.empty())
   {
 	  for(auto& path : originalPath)
-	    if (ResourceManager::getInstance()->fileExists(path))
+	    if (ResourceManager::fileExists(path))
         fontPaths.push_back(path);
   }
 
@@ -366,7 +369,7 @@ FT_Face Font::getFaceForChar(UnicodeChar id)
 			// i == 0 -> mPath
 			// otherwise, take from fallbackFonts
 			const Path& path = (i == 0 ? mPath : fallbackFonts[i - 1]);
-			ResourceData data = ResourceManager::getInstance()->getFileData(path);
+			ResourceData data = ResourceManager::getFileData(path);
 			mFaceCache[i] = std::unique_ptr<FontFace>(new FontFace(std::move(data), mSize));
 			fit = mFaceCache.find(i);
 		}

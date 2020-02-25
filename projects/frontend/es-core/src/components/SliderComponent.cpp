@@ -1,10 +1,11 @@
-#include "components/SliderComponent.h"
+#include <components/SliderComponent.h>
 #include <cassert>
-#include "Renderer.h"
-#include "resources/Font.h"
-#include "utils/Log.h"
-#include "utils/locale/LocaleHelper.h"
-#include "MenuThemeData.h"
+#include <Renderer.h>
+#include <MenuThemeData.h>
+#include <help/Help.h>
+#include <input/InputCompactEvent.h>
+#include <utils/Log.h>
+#include <utils/locale/LocaleHelper.h>
 
 #define MOVE_REPEAT_DELAY 500
 #define MOVE_REPEAT_RATE 40

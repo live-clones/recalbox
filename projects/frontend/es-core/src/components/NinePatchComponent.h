@@ -34,7 +34,7 @@ public:
 	void applyTheme(const ThemeData& theme, const std::string& view, const std::string& element, ThemeProperties properties) override;
 
 private:
-	Vector2f getCornerSize() const;
+	static Vector2f getCornerSize() ;
 
 	void buildVertices();
 	void updateColors();

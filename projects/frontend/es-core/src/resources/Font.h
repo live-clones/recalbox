@@ -1,15 +1,22 @@
 #pragma once
 
 #include <string>
-#include "platform_gl.h"
+#include <memory>
+#include <map>
+
+#include <platform_gl.h>
 #include <ft2build.h>
+#include <themes/Properties.h>
+#include <resources/IReloadable.h>
+#include <utils/math/Vector2i.h>
+#include <utils/math/Vector2f.h>
+#include <utils/os/fs/Path.h>
+
 #include FT_FREETYPE_H
-#include "utils/math/Vectors.h"
-#include "resources/ResourceManager.h"
-#include "themes/ThemeData.h"
-#include "themes/Properties.h"
 
 class TextCache;
+class ThemeElement;
+class ResourceManager;
 
 #define FONT_SIZE_EXTRASMALL ((unsigned int)(0.030f * Math::min(Renderer::getDisplayHeightAsFloat(), Renderer::getDisplayWidthAsFloat())))
 #define FONT_SIZE_SMALL ((unsigned int)(0.035f * Math::min(Renderer::getDisplayHeightAsFloat(), Renderer::getDisplayWidthAsFloat())))
@@ -53,8 +60,8 @@ public:
 	float getHeight(float lineSpacing = 1.5f) const;
 	float getLetterHeight();
 
-  void reload(std::shared_ptr<ResourceManager>& ) override { rebuildTextures(); }
-  void unload(std::shared_ptr<ResourceManager>& ) override { unloadTextures(); }
+  void reload(ResourceManager& ) final { rebuildTextures(); }
+  void unload(ResourceManager& ) final { unloadTextures(); }
 
 	int getSize() const;
 	inline const Path& getPath() const { return mPath; }
@@ -97,10 +104,10 @@ private:
 
 	struct FontFace
 	{
-		const ResourceData data;
+		const std::string data;
 		FT_Face face;
 
-		FontFace(ResourceData&& d, int size);
+		FontFace(std::string&& d, int size);
 		virtual ~FontFace();
 	};
 

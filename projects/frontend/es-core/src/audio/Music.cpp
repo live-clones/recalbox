@@ -1,7 +1,5 @@
 #include "Music.h"
 #include "utils/Log.h"
-#include "Settings.h"
-#include "themes/ThemeData.h"
 #include "audio/AudioManager.h"
 
 Music* Music::sCurrentlyPlaying = nullptr;

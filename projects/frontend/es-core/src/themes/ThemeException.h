@@ -3,8 +3,9 @@
 //
 #pragma once
 
-#include <utils/os/fs/Path.h>
 #include <deque>
+
+#include <utils/os/fs/Path.h>
 
 class ThemeException : public std::exception
 {

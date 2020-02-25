@@ -37,7 +37,7 @@ public:
 	// The initial value is DISP_DATE.
 	void setDisplayMode(Display mode);
 
-	void setColor(unsigned int color) override; // Text color.
+	void setColor(unsigned int color) final; // Text color.
 	inline void setOriginColor(unsigned int color){mOriginColor = color;};
 	inline unsigned int getOriginColor() override{return mOriginColor;};
 	void setFont(const std::shared_ptr<Font>& font); // Font to display with. Default is Font::get(FONT_SIZE_MEDIUM).

@@ -6,7 +6,6 @@
 #include "components/ImageComponent.h"
 #include "components/MenuComponent.h"
 #include "components/ButtonComponent.h"
-#include "input/InputManager.h"
 #include "MenuThemeData.h"
 
 GuiInputConfig::~GuiInputConfig()
@@ -88,7 +87,7 @@ GuiInputConfig::GuiInputConfig(Window&window, InputDevice* target, const std::fu
 			{
 				if (!mInputStack.hasInput(event.RawEvent()))
 				{
-					mInputStack.push(event.RawEvent(), [this, formInput](const std::list<InputEvent>& inputs)
+					mInputStack.push(event.RawEvent(), [this, formInput](const std::vector<InputEvent>& inputs)
 					{
             for (auto input: inputs)
             {

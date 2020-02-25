@@ -1,11 +1,10 @@
-#include "Renderer.h"
 #include <stack>
-#include "platform.h"
-#include "platform_gl.h"
-#include "utils/Log.h"
-#include "ImageIO.h"
-#include "../data/Resources.h"
-#include "Settings.h"
+#include <Renderer.h>
+//#include <utils/Log.h>
+#include <ImageIO.h>
+#include <../data/Resources.h>
+#include <Settings.h>
+#include <utils/math/Misc.h>
 
 #ifdef USE_OPENGL_ES
   #define glOrtho glOrthof

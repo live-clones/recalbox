@@ -3,12 +3,10 @@ project("core")
 set(CORE_HEADERS
 		src/components/base/Component.h
 		src/components/base/IComponent.h
-		src/AsyncHandle.h
         src/audio/AudioManager.h
 		src/help/HelpStyle.h
 		src/help/Help.h
-		src/HttpReq.h
-		src/ImageIO.h
+        src/ImageIO.h
 		src/input/Input.h
 		src/input/InputDevice.h
 		src/input/InputEvent.h
@@ -110,6 +108,7 @@ set(CORE_HEADERS
 
 		# Resources
 		src/resources/Font.h
+		src/resources/IReloadable.h
 		src/resources/ResourceManager.h
 		src/resources/TextureResource.h
 		src/resources/TextureData.h
@@ -134,8 +133,7 @@ set(CORE_SOURCES
         src/audio/AudioManager.cpp
         src/help/HelpStyle.cpp
 		src/help/Help.cpp
-		src/HttpReq.cpp
-		src/ImageIO.cpp
+        src/ImageIO.cpp
 		src/input/InputDevice.cpp
 		src/input/InputEvent.cpp
 		src/input/InputCompactEvent.cpp

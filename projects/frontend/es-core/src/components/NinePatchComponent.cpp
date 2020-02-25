@@ -181,7 +181,7 @@ void NinePatchComponent::onSizeChanged()
 	buildVertices();
 }
 
-Vector2f NinePatchComponent::getCornerSize() const
+Vector2f NinePatchComponent::getCornerSize()
 {
 	return {16, 16 };
 }

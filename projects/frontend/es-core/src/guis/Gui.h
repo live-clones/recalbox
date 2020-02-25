@@ -12,7 +12,7 @@ class Gui : public Component
     bool mGuiClosePending;
 
   public:
-    Gui(Window& window)
+    explicit Gui(Window& window)
       : Component(window),
         mGuiClosePending(false)
     {

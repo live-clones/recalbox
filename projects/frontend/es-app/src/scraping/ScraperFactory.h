@@ -44,9 +44,9 @@ class ScraperFactory : public StaticLifeCycleControler<ScraperFactory>
 
     IScraperEngine* GetScraper(const std::string& scraperidentifier);
 
-    ScraperType GetScraperType(const std::string& scraperidentifier);
+    static ScraperType GetScraperType(const std::string& scraperidentifier);
 
-    const std::vector<std::string>& GetScraperList();
+    static const std::vector<std::string>& GetScraperList();
 
     static void ExtractFileNameUndecorated(FileData& game);
 

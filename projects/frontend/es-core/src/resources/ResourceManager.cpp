@@ -2,17 +2,17 @@
 #include "ResourceManager.h"
 #include "../data/Resources.h"
 
-std::shared_ptr<ResourceManager> ResourceManager::sInstance = nullptr;
+ResourceManager* ResourceManager::sInstance = nullptr;
 
-std::shared_ptr<ResourceManager>& ResourceManager::getInstance()
+ResourceManager* ResourceManager::getInstance()
 {
-	if(!sInstance)
-		sInstance = std::shared_ptr<ResourceManager>(new ResourceManager());
+	if (sInstance == nullptr)
+		sInstance = new ResourceManager();
 
 	return sInstance;
 }
 
-ResourceData ResourceManager::getFileData(const Path& path) const
+ResourceData ResourceManager::getFileData(const Path& path)
 {
 	//check if its embedded
 	if(res2hMap.find(path.ToString()) != res2hMap.end())
@@ -34,12 +34,12 @@ ResourceData ResourceManager::getFileData(const Path& path) const
 	}
 }
 
-ResourceData ResourceManager::loadFile(const Path& path) const
+ResourceData ResourceManager::loadFile(const Path& path)
 {
   return Files::LoadFile(path);
 }
 
-bool ResourceManager::fileExists(const Path& path) const
+bool ResourceManager::fileExists(const Path& path)
 {
 	//if it exists as an embedded file, return true
 	if(res2hMap.find(path.ToString()) != res2hMap.end())
@@ -55,7 +55,7 @@ void ResourceManager::unloadAll()
 	{
 		if(!iter->expired())
 		{
-			iter->lock()->unload(sInstance);
+			iter->lock()->unload(*sInstance);
 			iter++;
 		}else{
 			iter = mReloadables.erase(iter);
@@ -70,7 +70,7 @@ void ResourceManager::reloadAll()
 	{
 		if(!iter->expired())
 		{
-			iter->lock()->reload(sInstance);
+			iter->lock()->reload(*sInstance);
 			iter++;
 		}else{
 			iter = mReloadables.erase(iter);

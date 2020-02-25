@@ -304,7 +304,7 @@ class ScreenScraperEngine
      * @param waitforcompletion If true, wait for completion before exit
      * @return True
      */
-    bool Abort(bool waitforcompletion = false) override
+    bool Abort(bool waitforcompletion) override
     {
       for(int i = sMaxEngines; --i >= 0; )
       {

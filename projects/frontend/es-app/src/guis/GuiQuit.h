@@ -10,7 +10,7 @@ class GuiQuit : public GuiSettings
   private:
 
   public:
-    GuiQuit(Window& window);
+    explicit GuiQuit(Window& window);
 
     static void PushQuitGui(Window& window);
 };

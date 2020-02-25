@@ -278,8 +278,8 @@ bool ScreenScraperEngine::ThreadPoolRunJob(FileData*& feed)
       case ScrapeResult::NotScraped: break;
       case ScrapeResult::NotFound: mStatNotFound++; break;
       case ScrapeResult::FatalError: mStatErrors++; break;
-      case ScrapeResult::QuotaReached: Abort(); mSender.Call((int)ScrapeResult::QuotaReached); break;
-      case ScrapeResult::DiskFull: Abort(); mSender.Call((int)ScrapeResult::DiskFull); break;
+      case ScrapeResult::QuotaReached: Abort(false); mSender.Call((int)ScrapeResult::QuotaReached); break;
+      case ScrapeResult::DiskFull: Abort(false); mSender.Call((int)ScrapeResult::DiskFull); break;
     }
     // ... and recycle the Engine
     RecycleEngine(engineIndex);
@@ -581,6 +581,7 @@ bool ScreenScraperEngine::Engine::NeedScrapping(ScrappingMethod method, FileData
       // TODO: Add more media checks here
       return false;
     }
+    default: break;
   }
 
   // Unknown method

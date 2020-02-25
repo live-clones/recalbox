@@ -5,8 +5,8 @@
 #include <memory>
 #include "guis/Gui.h"
 #include "components/ImageComponent.h"
-#include "resources/Font.h"
 #include "Renderer.h"
+#include "resources/Font.h"
 
 enum class CursorState
 {

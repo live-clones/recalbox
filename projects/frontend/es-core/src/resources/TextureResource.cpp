@@ -103,7 +103,7 @@ bool TextureResource::bind()
 
 std::shared_ptr<TextureResource> TextureResource::get(const Path& path, bool tile, bool forceLoad, bool dynamic)
 {
-	std::shared_ptr<ResourceManager>& rm = ResourceManager::getInstance();
+	ResourceManager* rm = ResourceManager::getInstance();
 
 
 	if(path.IsEmpty())
@@ -191,7 +191,7 @@ size_t TextureResource::getTotalTextureSize()
 	return total;
 }
 
-void TextureResource::unload(std::shared_ptr<ResourceManager>& rm)
+void TextureResource::unload(ResourceManager& rm)
 {
 	(void)rm;
 
@@ -206,7 +206,7 @@ void TextureResource::unload(std::shared_ptr<ResourceManager>& rm)
 	data->releaseRAM();
 }
 
-void TextureResource::reload(std::shared_ptr<ResourceManager>& rm)
+void TextureResource::reload(ResourceManager& rm)
 {
 	(void)rm;
 

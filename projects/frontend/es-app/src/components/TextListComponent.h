@@ -3,7 +3,6 @@
 #include "components/IList.h"
 #include <components/ITextListComponentOverlay.h>
 #include "Renderer.h"
-#include "resources/Font.h"
 #include "utils/Log.h"
 #include "themes/ThemeData.h"
 #include <string>

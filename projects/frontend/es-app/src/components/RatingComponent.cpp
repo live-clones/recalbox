@@ -1,5 +1,6 @@
 #include <utils/locale/LocaleHelper.h>
-#include "components/RatingComponent.h"
+#include <components/RatingComponent.h>
+#include <themes/ThemeData.h>
 #include "Renderer.h"
 #include "Window.h"
 

@@ -3,8 +3,8 @@
 //
 #pragma once
 
-#include <input/InputCompactEvent.h>
-#include <utils/math/Transform4x4f.h>
+class InputCompactEvent;
+class Transform4x4f;
 
 class IComponent
 {

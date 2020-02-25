@@ -18,7 +18,7 @@ public:
 	void Render(const Transform4x4f& parentTrans) override;
 
 	void onFocusGained() override;
-	void onFocusLost() override;
+	void onFocusLost() final;
 
 	void onSizeChanged() override;
 
@@ -43,7 +43,7 @@ private:
 	void moveCursor(int amt);
 
 	bool isMultiline();
-	Vector2f getTextAreaPos() const;
+	static Vector2f getTextAreaPos() ;
 	Vector2f getTextAreaSize() const;
 
 	std::string mText;

@@ -10,6 +10,8 @@
 #include "utils/Log.h"
 #include "utils/math/Vectors.h"
 
+class TextComponent;
+
 class GuiInfoPopup : public Gui, public Window::InfoPopup
 {
   public:

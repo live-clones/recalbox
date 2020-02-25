@@ -1,8 +1,9 @@
 #pragma once
 
-#include "themes/ThemeData.h"
-#include "resources/Font.h"
-#include "Renderer.h"
+#include <utils/math/Misc.h>
+#include <themes/ThemeData.h>
+#include <resources/Font.h>
+#include <Renderer.h>
 
 struct MenuElement {
 	unsigned int color;

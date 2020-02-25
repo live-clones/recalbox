@@ -2,6 +2,7 @@
 
 #include "IList.h"
 #include <functional>
+#include <input/InputCompactEvent.h>
 
 struct ComponentListElement
 {
@@ -101,7 +102,7 @@ private:
 	void updateElementPosition(const ComponentListRow& row);
 	void updateElementSize(const ComponentListRow& row);
 	
-	float getRowHeight(const ComponentListRow& row) const;
+	static float getRowHeight(const ComponentListRow& row) ;
 
 	float mSelectorBarOffset;
 	float mCameraOffset;

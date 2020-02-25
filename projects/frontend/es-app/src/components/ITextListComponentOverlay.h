@@ -4,7 +4,6 @@
 #pragma once
 
 #include <utils/math/Vector2f.h>
-#include <utils/math/Vector3f.h>
 
 template<typename T> class ITextListComponentOverlay
 {

@@ -1,17 +1,12 @@
-#include "Window.h"
-#include "Renderer.h"
-#include "utils/Log.h"
-#include "Settings.h"
-#include <algorithm>
-#include <iomanip>
+#include <utils/locale/LocaleHelper.h>
+#include <Window.h>
+#include <Renderer.h>
+#include <Settings.h>
 #include <guis/GuiMsgBoxScroll.h>
 #include <guis/GuiInfoPopup.h>
-#include "components/HelpComponent.h"
-#include "components/ImageComponent.h"
-#include "guis/GuiMsgBox.h"
-#include "utils/locale/LocaleHelper.h"
-#include "MenuThemeData.h"
-#include "views/ViewController.h"
+#include <guis/GuiMsgBox.h>
+#include <MenuThemeData.h>
+#include <views/ViewController.h>
 
 Window::Window()
   : mHelp(*this),

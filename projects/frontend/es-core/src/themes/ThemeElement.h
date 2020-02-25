@@ -3,9 +3,10 @@
 //
 #pragma once
 
-#include <string>
-#include <utils/Strings.h>
 #include <map>
+#include <string>
+
+#include <utils/Strings.h>
 #include <utils/math/Vector2f.h>
 
 class ThemeElement

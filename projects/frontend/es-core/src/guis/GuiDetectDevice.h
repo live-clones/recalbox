@@ -1,8 +1,9 @@
 #pragma once
 
-#include "Gui.h"
-#include "components/NinePatchComponent.h"
-#include "components/ComponentGrid.h"
+#include <guis/Gui.h>
+#include <components/NinePatchComponent.h>
+#include <components/ComponentGrid.h>
+#include <input/InputDevice.h>
 
 class TextComponent;
 

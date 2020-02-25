@@ -1,8 +1,9 @@
-#include "HelpStyle.h"
-#include "themes/ThemeData.h"
-#include "themes/Properties.h"
-#include "Renderer.h"
-#include "resources/Font.h"
+#include <help/HelpStyle.h>
+#include <themes/ThemeData.h>
+#include <themes/Properties.h>
+#include <Renderer.h>
+#include <utils/math/Misc.h>
+#include <resources/Font.h>
 
 HelpStyle::HelpStyle()
   : mFont(Font::get(FONT_SIZE_SMALL)),

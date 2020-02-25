@@ -4,8 +4,8 @@
 #include <guis/Gui.h>
 #include <components/HelpComponent.h>
 #include <components/ImageComponent.h>
-#include "resources/Font.h"
-#include "input/InputManager.h"
+#include <resources/Font.h>
+#include <input/InputManager.h>
 
 class Window
 {

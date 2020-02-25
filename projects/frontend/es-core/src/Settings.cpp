@@ -1,10 +1,12 @@
-#include <utils/Strings.h>
 #include <cstring>
+
+#include <utils/Strings.h>
 #include <utils/Xml.h>
-#include "Settings.h"
-#include "utils/Log.h"
+#include <Settings.h>
+//#include "utils/Log.h"
+#include <RootFolders.h>
+
 #include "pugixml/pugixml.hpp"
-#include "RootFolders.h"
 
 #ifdef _RPI_
   #define __VSYNC__ "0"

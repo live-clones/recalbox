@@ -7,7 +7,6 @@
 #include "components/RatingComponent.h"
 #include "components/DateTimeComponent.h"
 #include "components/AnimatedImageComponent.h"
-#include "Settings.h"
 #include "utils/Log.h"
 #include "guis/GuiTextEditPopup.h"
 #include "guis/GuiTextEditPopupKeyboard.h"

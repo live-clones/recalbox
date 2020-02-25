@@ -3,7 +3,6 @@
 //
 #pragma once
 
-#include <string>
 #include <utils/os/system/Thread.h>
 #include <utils/os/system/Mutex.h>
 #include <utils/cplusplus/StaticLifeCycleControler.h>

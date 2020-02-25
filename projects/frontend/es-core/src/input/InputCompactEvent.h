@@ -4,7 +4,7 @@
 #pragma once
 
 #include <utils/cplusplus/Bitflags.h>
-#include "InputEvent.h"
+#include <input/InputEvent.h>
 
 class InputDevice;
 

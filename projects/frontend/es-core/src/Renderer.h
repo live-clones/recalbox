@@ -1,9 +1,11 @@
 #pragma once
 
+#include "platform_gl.h"
 #include <stack>
 #include <SDL.h>
-#include "platform_gl.h"
-#include "utils/math/Vectors.h"
+#include <utils/math/Vector4i.h>
+#include <utils/math/Vector2i.h>
+#include <utils/math/Transform4x4f.h>
 
 class Component;
 class Font;

@@ -35,8 +35,8 @@ public:
 
 protected:
 	TextureResource(const Path& path, bool tile, bool dynamic);
-	void unload(std::shared_ptr<ResourceManager>& rm) override;
-	void reload(std::shared_ptr<ResourceManager>& rm) override;
+	void unload(ResourceManager& rm) override;
+	void reload(ResourceManager& rm) override;
 
 private:
 	// mTextureData is used for textures that are not loaded from a file - these ones

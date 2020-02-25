@@ -1,10 +1,11 @@
-#include "components/VideoComponent.h"
+#include <components/VideoComponent.h>
 #include <VideoEngine.h>
+#include <Renderer.h>
+#include <help/Help.h>
+#include <themes/ThemeData.h>
 #include <utils/datetime/DateTime.h>
-#include "utils/Log.h"
-#include "Renderer.h"
-#include "themes/ThemeData.h"
-#include "utils/locale/LocaleHelper.h"
+#include <utils/Log.h>
+#include <utils/locale/LocaleHelper.h>
 
 VideoComponent::VideoComponent(Window&window)
 : Component(window),

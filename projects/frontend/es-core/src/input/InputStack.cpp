@@ -15,7 +15,7 @@ bool InputStack::hasInput(const InputEvent& input)
 	return false;
 }
 
-void InputStack::push(const InputEvent& input, const std::function<void(const std::list<InputEvent>& inputs)>& func)
+void InputStack::push(const InputEvent& input, const std::function<void(const std::vector<InputEvent>& inputs)>& func)
 {
   LOG(LogDebug) << "Push! " << input.ToString();
   // Debouncing

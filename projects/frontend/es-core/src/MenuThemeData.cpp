@@ -1,10 +1,5 @@
-#include "MenuThemeData.h"
-#include "Settings.h"
-#include "themes/ThemeData.h"
-
-#include <memory>
-#include "Renderer.h"
-#include "resources/Font.h"
+#include <MenuThemeData.h>
+#include <Settings.h>
 
 std::shared_ptr<MenuThemeData> MenuThemeData::sInstance = nullptr;
 

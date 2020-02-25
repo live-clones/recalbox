@@ -1,9 +1,9 @@
 #pragma once
 
 #include <string>
+#include <input/InputEvent.h>
+#include <input/InputCompactEvent.h>
 #include "pugixml/pugixml.hpp"
-#include "InputEvent.h"
-#include "InputCompactEvent.h"
 
 /*!
  * @brief Hold input configurations for a given device
