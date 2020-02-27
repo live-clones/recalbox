@@ -63,7 +63,7 @@ class LibretroCores:
 
     @staticmethod
     def configureAtari800(coreSettings):
-        coreSettings.setOption("atari800_system", '"800XL (64K)"')
+        coreSettings.setOption("atari800_system", '"130XE (128K)"')
 
         a800settings = keyValueSettings(recalboxFiles.atari800CustomConfig)
         a800settings.loadFile(True)
