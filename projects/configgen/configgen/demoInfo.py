@@ -18,6 +18,7 @@ class demoInformation:
     FORCE_HEIGHT = 0
 
     def __init__(self):
+        # Avoid static import to speed up  configgen loading
         self.time = __import__("time")
         self.pygame = __import__("pygame")
         import os
