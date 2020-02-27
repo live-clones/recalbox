@@ -356,10 +356,17 @@ void GuiMetaDataEd::save()
   {
     if (mMetaDataEditable[i]->Type() != MetadataFieldDescriptor::DataType::PList)
     {
+      (mMetaData.*(mMetaDataEditable[i]->SetValueMethod()))(mEditors[i]->getValue());
+    }
+    else
+    {
+      std::shared_ptr<Component> ed = mEditors[i];
+      std::shared_ptr<OptionListComponent<std::string>> list = std::static_pointer_cast<OptionListComponent<std::string>>(ed);
+
       if (mMetaDataEditable[i]->Key() == "emulator")
       {
         // Split emulator & core
-        Strings::Vector split = Strings::Split(mEditors[i]->getValue(), ':');
+        Strings::Vector split = Strings::Split(list->getSelected(), ':');
         if (split.size() == 2)
         {
           std::string defaultEmulator;
@@ -378,13 +385,7 @@ void GuiMetaDataEd::save()
         }
         else LOG(LogError) << "Error splitting emulator and core!";
       }
-      else (mMetaData.*(mMetaDataEditable[i]->SetValueMethod()))(mEditors[i]->getValue());
-    }
-    else
-    {
-      std::shared_ptr<Component> ed = mEditors[i];
-      std::shared_ptr<OptionListComponent<std::string>> list = std::static_pointer_cast<OptionListComponent<std::string>>(ed);
-      (mMetaData.*(mMetaDataEditable[i]->SetValueMethod()))(list->getSelected());
+      else (mMetaData.*(mMetaDataEditable[i]->SetValueMethod()))(list->getSelected());
     }
   }
 

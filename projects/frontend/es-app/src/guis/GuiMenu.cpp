@@ -1713,7 +1713,7 @@ void GuiMenu::popSystemConfigurationGui(SystemData *systemData) const
         if (emu_choice->changed())
         {
           // Split emulator & core
-          Strings::Vector split = Strings::Split(emu_choice->getValue(), ':');
+          Strings::Vector split = Strings::Split(emu_choice->getSelected(), ':');
           if (split.size() == 2)
           {
             if (split[0] == defaultEmulator && split[1] == defaultCore)
