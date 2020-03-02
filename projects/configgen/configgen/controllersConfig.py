@@ -45,8 +45,8 @@ class Controller:
             'y'             : { 'button' : 'x' },
             'start'         : { 'button' : 'start' },
             'select'        : { 'button' : 'back' },
-            'pageup'        : { 'button' : 'leftshoulder' },
-            'pagedown'      : { 'button' : 'rightshoulder' },
+            'l1'            : { 'button' : 'leftshoulder' },
+            'r1'            : { 'button' : 'rightshoulder' },
             'l2'            : { 'button' : 'lefttrigger',  'axis' : 'lefttrigger' },
             'r2'            : { 'button' : 'righttrigger', 'axis' : 'righttrigger' },
             'l3'            : { 'button' : 'leftstick' },
@@ -172,8 +172,11 @@ class Controller:
             uidname = controller.get("deviceGUID") + controller.get("deviceName")
             controllers[uidname] = controllerInstance
             for inp in controller.findall("input"):
-                inputInstance = Input(inp.get("name"), inp.get("type"), inp.get("id"), inp.get("value"), inp.get("code"))
-                controllerInstance.inputs[inp.get("name")] = inputInstance
+                name = inp.get("name")
+                if name == 'pageup': name = 'l1'
+                if name == 'pagedown': name = 'r1'
+                inputInstance = Input(name, inp.get("type"), inp.get("id"), inp.get("value"), inp.get("code"))
+                controllerInstance.inputs[name] = inputInstance
         return controllers
 
     # Load all controllers from the es_input.cfg
@@ -193,8 +196,11 @@ class Controller:
             deviceName = controller.get("deviceName")
             controllers[deviceName] = controllerInstance
             for inp in controller.findall("input"):
-                inputInstance = Input(inp.get("name"), inp.get("type"), inp.get("id"), inp.get("value"), inp.get("code"))
-                controllerInstance.inputs[inp.get("name")] = inputInstance
+                name = inp.get("name")
+                if name == 'pageup': name = 'l1'
+                if name == 'pagedown': name = 'r1'
+                inputInstance = Input(name, inp.get("type"), inp.get("id"), inp.get("value"), inp.get("code"))
+                controllerInstance.inputs[name] = inputInstance
         return controllers
 
 

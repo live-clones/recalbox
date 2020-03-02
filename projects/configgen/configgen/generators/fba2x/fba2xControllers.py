@@ -13,10 +13,10 @@ fbaSettings = unixSettings.UnixSettings(recalboxFiles.fbaCustom)
 
 # Map an emulationstation button name to the corresponding fba2x name
 fba4bnts = {'a': 'Y', 'b': 'X', 'x': 'B', 'y': 'A',
-            'pageup': 'L', 'pagedown': 'R',
+            'l1': 'L', 'r1': 'R',
             'start': 'START', 'select': 'SELECT'}
 fba6bnts = {'a': 'L', 'b': 'Y', 'x': 'X', 'y': 'A',
-            'pageup': 'B', 'pagedown': 'R',
+            'l1': 'B', 'r1': 'R',
             'start': 'START', 'select': 'SELECT'}
 
 # Map an emulationstation direction to the corresponding fba2x

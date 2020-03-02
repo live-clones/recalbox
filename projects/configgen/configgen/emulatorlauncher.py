@@ -75,7 +75,7 @@ def getGenerator(emulator):
             return lineAppleGeneratorOverride
         module = __import__("generators.linapple.linappleGenerator", fromlist=["LinappleGenerator"])
         generatorClass = getattr(module, "LinappleGenerator")
-        os = __import__("os")
+        import os
         return generatorClass(os.path.join(recalboxFiles.HOME_INIT, '.linapple'),
                               os.path.join(recalboxFiles.HOME     , '.linapple'))
     elif emulator == "kodi":
@@ -232,9 +232,8 @@ def getDefaultEmulator(targetSystem):
 
 def loadRecalboxSettings(rom, systemname):
 
-    os = __import__("os")
-
     # Save dir
+    import os
     dirname = os.path.join(recalboxFiles.savesDir, systemname)
     if not os.path.exists(dirname):
         os.makedirs(dirname)
@@ -291,10 +290,9 @@ def main(arguments):
 
         # Wrong way?
         if system.config['emulator'] not in recalboxFiles.recalboxBins:
-            strErr = "ERROR : {} is not a known emulator".format(system.config['emulator'])
-            sys = __import__("sys")
-            print >> sys.stderr, strErr
-            exit(2)
+            import sys
+            sys.stderr.write("ERROR : {} is not a known emulator".format(system.config['emulator']))
+            return 2, True
 
         # Generate all the config files required by the selected emulator
         command = getGenerator(system.config['emulator']).generate(system, arguments.rom, playersControllers, arguments.demo, recalboxSettings)
@@ -317,7 +315,7 @@ def main(arguments):
         return returnCode, not fixedScreenSize
     
     else:
-        sys = __import__("sys")
+        import sys
         sys.stderr.write("Unknown system: {}".format(systemName))
         return 1, True
 
@@ -404,11 +402,13 @@ if __name__ == '__main__':
     parser.add_argument("-netplay_port", help="host port (not used in client mode)", type=str, required=False)
     parser.add_argument("-hash", help="force rom crc", type=str, required=False)
     parser.add_argument("-extra", help="pass extra argument", type=str, required=False)
+    parser.add_argument("-nodefaultkeymap", help="disable libretro default keybindings", action="store_true", required=False)
 
     args = parser.parse_args()
     exitcode, waitNeeded = main(args)
     # Investigate : is this delay still required?
     if waitNeeded:
-        __import__("time").sleep(0.5)
+        import time
+        time.sleep(0.5)
     exit(exitcode)
 

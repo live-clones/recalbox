@@ -7,7 +7,7 @@ import ConfigParser
 hotkeysCombo = {
     "b":      "Stop", ## to unify the unique combination of Recalbox ;) 
 #    "b":      "Toggle Pause",
-    "pageup": "Take Screenshot",
+    "l1":     "Take Screenshot",
     "start":  "Exit",
     "a":      "Reset",
     "y":      "Save to selected slot",
@@ -37,7 +37,7 @@ def generateControllerConfig_emulatedwiimotes(playersControllers, system):
     wiiMapping = {
         'a':           'Buttons/2',         'b':             'Buttons/A',
         'x':           'Buttons/1',         'y':             'Buttons/B',
-        'pageup':      'Nunchuk/Buttons/Z', 'pagedown':      'Nunchuk/Buttons/C',
+        'l1':          'Nunchuk/Buttons/Z', 'r1':            'Nunchuk/Buttons/C',
         'select':      'Buttons/-',         'start':         'Buttons/+',
         'r2':          'Shake/Z',
         'joystick1up': 'Nunchuk/Stick/Up',  'joystick1left': 'Nunchuk/Stick/Left',
@@ -61,7 +61,7 @@ def generateControllerConfig_gamecube(playersControllers, system):
         'a':      'Buttons/X',  'b':        'Buttons/A',
         'x':      'Buttons/Y',  'y':        'Buttons/B',
         'r2':     'Buttons/Z',  'start':    'Buttons/Start',
-        'pageup': 'Triggers/L', 'pagedown': 'Triggers/R',
+        'l1':     'Triggers/L', 'r1':       'Triggers/R',
         'up': 'D-Pad/Up', 'down': 'D-Pad/Down', 'left': 'D-Pad/Left', 'right': 'D-Pad/Right',
         'joystick1up': 'Main Stick/Up', 'joystick1left': 'Main Stick/Left',
         'joystick2up': 'C-Stick/Up',    'joystick2left': 'C-Stick/Left'

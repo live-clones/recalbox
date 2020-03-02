@@ -17,8 +17,8 @@ class PisnesGenerator(Generator):
         "b": "B",
         "x": "X",
         "y": "Y",
-        "pageup": "L",
-        "pagedown": "R",
+        "l1": "L",
+        "r1": "R",
         "start": "START",
         "select": "SELECT",
     }

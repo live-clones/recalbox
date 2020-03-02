@@ -96,13 +96,13 @@ def generateControllerConfig(_, controllers):
         if controller.player != "1":
             continue
 
-        # dirty hack: if quit is same button than another key, force pagedown instead
+        # dirty hack: if quit is same button than another key, force r1 instead
         input_quit = controller.inputs[joystick_keys["KEY_QUIT"]]
         for propertyName, propertyValue in joystick_keys.iteritems():
             if propertyName != "KEY_QUIT" and propertyValue is not None:
                 inp = controller.inputs[propertyValue]
                 if inp.type == input_quit.type and inp.id == input_quit.id:
-                    joystick_keys["KEY_QUIT"] = "pagedown"
+                    joystick_keys["KEY_QUIT"] = "r1"
                     break
 
         for propertyName, keyboardValue in keyboard_keys.iteritems():
