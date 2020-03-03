@@ -15,6 +15,8 @@
 class Bios
 {
   public:
+    static constexpr int sMaxBiosPath = 2;
+
     enum class Status
     {
       Unknown,         //!< Not yet scanned
@@ -105,7 +107,7 @@ class Bios
     };
 
     //! Bios path (absolute)
-    Path mPath;
+    Path mPath[sMaxBiosPath];
     //! Core list
     std::string mCores;
     //! Optional notes
@@ -140,7 +142,7 @@ class Bios
      * @brief Is the curent bios valid?
      * @return True if
      */
-    bool IsValid() const { return !mPath.IsEmpty() && !mCores.empty() && !mHashes.empty(); }
+    bool IsValid() const { return !mPath[0].IsEmpty() && !mCores.empty() && !mHashes.empty(); }
 
     /*!
      * @brief Scan the bios & update internal status
@@ -178,7 +180,7 @@ class Bios
     std::string Filename(bool shorten = true) const;
 
     //! Bios file path
-    const Path& Filepath() const { return mPath; }
+    const Path& Filepath() const { return mPath[0]; }
 
     //! Core list
     const std::string& Cores() const { return mCores; }

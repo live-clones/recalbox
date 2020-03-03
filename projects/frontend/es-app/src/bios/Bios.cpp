@@ -56,29 +56,37 @@ Bios::Bios()
 
 void Bios::Scan()
 {
-  if (!mPath.Exists())
+  // Scan
+  bool found = false;
+  for(int i = sMaxBiosPath; --i >= 0;)
+  {
+    if (!mPath[i].Exists()) continue;
+    if (Strings::ToLowerASCII(mPath[i].Extension()) == ".zip")
+    {
+      // Get composite hash from the zip file
+      std::string md5string = Zip(mPath[i]).Md5Composite();
+      mRealFileHash = Md5Hash(md5string);
+    }
+    else
+    {
+      // Load bios
+      std::string biosContent = Files::LoadFile(mPath[i]);
+
+      // Compute md5
+      MD5 md5;
+      md5.update(biosContent.data(), biosContent.length());
+      md5.finalize();
+      mRealFileHash = Md5Hash(md5);
+    }
+    found = true;
+  }
+
+  // Not found
+  if (!found)
   {
     mStatus = Status::FileNotFound;
     mReportStatus = mMandatory ? ReportStatus::Red : ReportStatus::Yellow;
     return;
-  }
-
-  if (Strings::ToLowerASCII(mPath.Extension()) == ".zip")
-  {
-    // Get composite hash from the zip file
-    std::string md5string = Zip(mPath).Md5Composite();
-    mRealFileHash = Md5Hash(md5string);
-  }
-  else
-  {
-    // Load bios
-    std::string biosContent = Files::LoadFile(mPath);
-
-    // Compute md5
-    MD5 md5;
-    md5.update(biosContent.data(), biosContent.length());
-    md5.finalize();
-    mRealFileHash = Md5Hash(md5);
   }
 
   // Matching?
@@ -132,9 +140,15 @@ Bios::Bios(const XmlNode& biosNode)
   if (!cores) { LOG(LogError) << "Bios file's bios node is missing cores!"; return; }
 
   // Set mandatory fields
-  mPath = Path(path.value());
-  if (!mPath.IsAbsolute())
-    mPath = RootFolders::DataRootFolder / "bios" / path.value();
+  Strings::Vector list = Strings::Split(path.value(), '|');
+  for(int i = sMaxBiosPath; --i >= 0; )
+    if ((int)list.size() > i)
+    {
+      mPath[i] = Path(list[i]);
+      if (!mPath[i].IsAbsolute())
+        mPath[i] = RootFolders::DataRootFolder / "bios" / path.value();
+    }
+
   mCores = cores.value();
   Strings::Vector md5list = Strings::Split(hashes.value(), ',');
   for(std::string& md5string : md5list)
@@ -165,11 +179,11 @@ std::string Bios::Filename(bool shorten) const
 
   // Try to make relative to the bios folder
   Path rootPath(RootFolders::DataRootFolder);
-  std::string result = mPath.MakeRelative(rootPath, ok).ToString();
+  std::string result = mPath[0].MakeRelative(rootPath, ok).ToString();
   // Too long?
   if (shorten)
     if (Strings::CountChar(result, '/') > 2)
-      result = std::string(".../").append(mPath.Filename());
+      result = std::string(".../").append(mPath[0].Filename());
 
   return result;
 }
