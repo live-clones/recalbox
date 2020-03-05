@@ -86,6 +86,7 @@ int main(int argc, char *argv[])
 
   // Keep it simple: Log are saved in emulationstation log file
   Log::open();
+  Log::setReportingLevel(LogLevel::LogDebug);
   LOG(LogInfo) << "Running pad2keyboard...";
 
   // Parse command line arguments: get pad description
@@ -104,6 +105,7 @@ int main(int argc, char *argv[])
     LOG(LogInfo) << "No pad2keyb configuration.";
     return 0;
   }
+  LOG(LogInfo) << "[Pad2Keyboard] user mapping loaded loaded.";
 
   // Get pad mapping from /recalbox/share/system/.emulationstation/es_input.cfg
   PadConfiguration padMapping(configuration);
@@ -112,6 +114,8 @@ int main(int argc, char *argv[])
     LOG(LogError) << "Cannot load pad configurations.";
     return 1;
   }
+  LOG(LogInfo) << "[Pad2Keyboard] pad configuration loaded.";
+
   // Get pad event reader
   Pad pad(padMapping, configuration);
   if (!pad.Ready())
@@ -119,6 +123,7 @@ int main(int argc, char *argv[])
     LOG(LogError) << "Cannot access pad.";
     return 1;
   }
+  LOG(LogInfo) << "[Pad2Keyboard] Pad reader is ready.";
 
   // Create virtual keyboard device
   VirtualKeyboard keyboard;
@@ -128,16 +133,19 @@ int main(int argc, char *argv[])
     LOG(LogError) << "Cannot create virtual keyboard.";
     return 1;
   }
+  LOG(LogInfo) << "[Pad2Keyboard] Virtual keyboard is ready.";
 
   InitializedPad = &pad; // Give SIGTERM intercepter an access to the Pad reader
   Pad::Event event {};
   while(pad.GetEvent(event))
   {
+    LOG(LogWarning) << "Event read! " << (int)event.Item << " - " << (int)event.Pad << (int)event.On;
     VirtualKeyboard::Event keyboardEvent = pad2KeybMapping.Translate(event);
+    LOG(LogWarning) << "Translated! " << (int)keyboardEvent.Key << " - " << (int)keyboardEvent.Pressed;
     if (keyboardEvent.Key != 0) // Valid?
     {
       keyboard.Write(keyboardEvent);
-      //LOG(LogDebug) << "Key: " << keyboardEvent.Key << (keyboardEvent.Pressed ? " Pressed" : " Released");
+      LOG(LogDebug) << "Key: " << keyboardEvent.Key << (keyboardEvent.Pressed ? " Pressed" : " Released");
     }
   }
   InitializedPad = nullptr;

@@ -143,7 +143,14 @@ void PadConfiguration::Load(const OrderedDevices& orderedDevices)
 {
   for(PadAllItemConfiguration& pad : mPads)
     for(PadItemConfiguration& item : pad.Items)
-      item.Id = -1; // Invalidate every id
+    {
+      // Invalidate every entry
+      item.Item = PadItems::Invalid;
+      item.Id = -1;
+      item.Value = 0;
+      item.Code = 0;
+      item.Type = InputEvent::EventType::Unknown;
+    }
 
   // Lookup every configured pad
   for(int i = orderedDevices.Count(); --i >= 0; )

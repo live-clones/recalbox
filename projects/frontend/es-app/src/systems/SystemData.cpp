@@ -78,21 +78,22 @@ void SystemData::RunGame(Window& window,
   else command = Strings::Replace(command, "%NETPLAY%", "");
 
   LOG(LogInfo) << "	" << command;
-  printf("==============================================\n");
   {
     PadToKeyboardManager padToKeyboard(controllers, game.getPath());
+    padToKeyboard.StartMapping();
     if (padToKeyboard.IsValid())
       command.append(" -nodefaultkeymap");
     RecalboxSystem::NotifyGame(game, true, false);
 
+    printf("==============================================\n");
     int exitCode = runSystemCommand(command);
+    printf("==============================================\n");
     if (exitCode != 0)
       LOG(LogWarning) << "...launch terminated with nonzero exit code " << WEXITSTATUS(exitCode) << "!";
 
     RecalboxSystem::NotifyGame(game, false, false);
+    padToKeyboard.StopMapping();
   }
-  printf("==============================================\n");
-
 
   // Reinit
   window.Initialize();

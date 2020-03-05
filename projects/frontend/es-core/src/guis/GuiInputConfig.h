@@ -1,12 +1,12 @@
 #pragma once
 
 #include <utils/Strings.h>
-#include "Gui.h"
-#include "components/NinePatchComponent.h"
-#include "components/ComponentGrid.h"
-#include "components/ComponentList.h"
-#include "input/InputStack.h"
-#include "utils/locale/LocaleHelper.h"
+#include <guis/Gui.h>
+#include <components/NinePatchComponent.h>
+#include <components/ComponentGrid.h>
+#include <components/ComponentList.h>
+#include <input/InputStack.h>
+#include <utils/locale/LocaleHelper.h>
 
 class TextComponent;
 

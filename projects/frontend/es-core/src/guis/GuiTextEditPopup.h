@@ -1,9 +1,8 @@
-#include "Gui.h"
-
-#include "components/NinePatchComponent.h"
-#include "components/ComponentGrid.h"
-#include "components/TextEditComponent.h"
-#include "components/TextComponent.h"
+#include <guis/Gui.h>
+#include <components/NinePatchComponent.h>
+#include <components/ComponentGrid.h>
+#include <components/TextEditComponent.h>
+#include <components/TextComponent.h>
 
 class GuiTextEditPopup : public Gui
 {

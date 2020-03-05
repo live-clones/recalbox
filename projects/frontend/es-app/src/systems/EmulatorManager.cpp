@@ -9,15 +9,19 @@ bool EmulatorManager::GetGameEmulator(const FileData& game, std::string& emulato
 {
   // Get default emulator first
   bool Ok = GetSystemDefaultEmulator(*game.getSystem(), emulator, core);
+  LOG(LogDebug) << "From GetSystemDefaultEmulator " << emulator << "-" << core;
 
   // Then from the general config file
   GetEmulatorFromConfigFile(*game.getSystem(), emulator, core);
+  LOG(LogDebug) << "From GetEmulatorFromConfigFile " << emulator << "-" << core;
 
-  // Then from the gamelist.cfg file
+  // Then from the gamelist.xml file
   GetEmulatorFromGamelist(game, emulator, core);
+  LOG(LogDebug) << "From GetEmulatorFromGamelist " << emulator << "-" << core;
 
   // Then from file overrides
-  GetemulatorFromOverride(game, emulator, core);
+  GetEmulatorFromOverride(game, emulator, core);
+  LOG(LogDebug) << "From GetEmulatorFromOverride " << emulator << "-" << core;
 
   return Ok;
 }
@@ -114,7 +118,7 @@ void EmulatorManager::GetEmulatorFromGamelist(const FileData& game, std::string&
   }
 }
 
-void EmulatorManager::GetemulatorFromOverride(const FileData& game, std::string& emulator, std::string& core) const
+void EmulatorManager::GetEmulatorFromOverride(const FileData& game, std::string& emulator, std::string& core) const
 {
   std::string rawGlobalEmulator;
   std::string rawSystemEmulator;
@@ -140,11 +144,28 @@ void EmulatorManager::GetemulatorFromOverride(const FileData& game, std::string&
       std::string systemCore = configuration.AsString(keyCore);
 
       // Record non empty values
-      if (globalEmulator.empty()) rawGlobalEmulator = globalEmulator;
-      if (globalCore.empty()    ) rawGlobalCore     = globalCore;
-      if (systemEmulator.empty()) rawSystemEmulator = systemEmulator;
-      if (systemCore.empty()    ) rawSystemCore     = systemCore;
+      if (!globalEmulator.empty()) rawGlobalEmulator = globalEmulator;
+      if (!globalCore.empty()    ) rawGlobalCore     = globalCore;
+      if (!systemEmulator.empty()) rawSystemEmulator = systemEmulator;
+      if (!systemCore.empty()    ) rawSystemCore     = systemCore;
     }
+  }
+
+  // Get file config
+  IniFile configuration(game.getPath().ChangeExtension(game.getPath().Extension() + ".recalbox.conf"));
+  if (configuration.IsValid())
+  {
+    // Get values
+    std::string globalEmulator = configuration.AsString("global.emulator");
+    std::string systemEmulator = configuration.AsString(keyEmulator);
+    std::string globalCore = configuration.AsString("global.core");
+    std::string systemCore = configuration.AsString(keyCore);
+
+    // Record non empty values
+    if (!globalEmulator.empty()) rawGlobalEmulator = globalEmulator;
+    if (!globalCore.empty()    ) rawGlobalCore     = globalCore;
+    if (!systemEmulator.empty()) rawSystemEmulator = systemEmulator;
+    if (!systemCore.empty()    ) rawSystemCore     = systemCore;
   }
 
   // Get final tupple

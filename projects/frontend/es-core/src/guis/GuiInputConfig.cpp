@@ -1,12 +1,12 @@
-#include "utils/locale/LocaleHelper.h"
-#include "guis/GuiInputConfig.h"
-#include "Window.h"
-#include "utils/Log.h"
-#include "components/TextComponent.h"
-#include "components/ImageComponent.h"
-#include "components/MenuComponent.h"
-#include "components/ButtonComponent.h"
-#include "MenuThemeData.h"
+#include <utils/locale/LocaleHelper.h>
+#include <guis/GuiInputConfig.h>
+#include <Window.h>
+#include <utils/Log.h>
+#include <components/TextComponent.h>
+#include <components/ImageComponent.h>
+#include <components/MenuComponent.h>
+#include <components/ButtonComponent.h>
+#include <MenuThemeData.h>
 
 GuiInputConfig::~GuiInputConfig()
 {

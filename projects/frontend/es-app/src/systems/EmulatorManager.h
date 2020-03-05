@@ -66,7 +66,7 @@ class EmulatorManager : public INoCopy
      * @param emulator Emulator name to override with the one(s) from override files if they exists
      * @param core Core name to override with the one(s) from override files if they exists
      */
-    void GetemulatorFromOverride(const FileData& game, std::string& emulator, std::string& core) const;
+    void GetEmulatorFromOverride(const FileData& game, std::string& emulator, std::string& core) const;
 
     /*!
      * @brief Add a new emulator list for the given system

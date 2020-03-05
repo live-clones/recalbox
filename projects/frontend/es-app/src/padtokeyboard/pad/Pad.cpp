@@ -29,6 +29,7 @@ void Pad::Open(const OrderedDevices& orderedDevices)
 {
   // Allow joystick event
   SDL_Init(SDL_INIT_JOYSTICK);
+  SDL_SetHint(SDL_HINT_JOYSTICK_ALLOW_BACKGROUND_EVENTS, "1");
   SDL_JoystickEventState(SDL_ENABLE);
   SDL_JoystickUpdate();
 
@@ -52,6 +53,7 @@ void Pad::Open(const OrderedDevices& orderedDevices)
     // Get informations
     const char* name = SDL_JoystickNameForIndex(j);
     char guid[64];
+    memset(guid, 0, sizeof(guid));
     SDL_JoystickGetGUIDString(SDL_JoystickGetGUID(joystick), guid, sizeof(guid));
 
     // SDL index too high?
@@ -61,18 +63,20 @@ void Pad::Open(const OrderedDevices& orderedDevices)
     for(int i = 0; i < orderedDevices.Count(); ++i)
     {
       const InputDevice& device = *(orderedDevices.Device(i));
-      if (strcmp(name, device.Name().c_str()) == 0)   // Name matching?
-        if (strcmp(guid, device.GUID().c_str()) == 0) // Guid matching?
-          if ((Assigned & (1 << i)) == 0)                 // Not yet assigned?
-          {
-            Assigned |= (1 << i);
-            mSdlToRecalboxIndexex[joystickIndex] = i;
-            break;
-          }
+      if (device.Identifier() == joystickIndex) // Joystick index match?
+        if ((Assigned & (1 << i)) == 0)         // Not yet assigned?
+        {
+          Assigned |= (1 << i);
+          mSdlToRecalboxIndexex[joystickIndex] = i;
+          LOG(LogInfo) << "[Pad2Keyboard] " << name << " (" << guid << ") assigned as Pad #" << i;
+          break;
+        }
     }
   }
 
-  mReady = true;
+  mReady = (Assigned != 0);
+  if (!mReady)
+    LOG(LogWarning) << "[Pad2Keyboard] No Joystick assigned!";
 }
 
 
@@ -80,6 +84,7 @@ void Pad::Open()
 {
   // Allow joystick event
   SDL_Init(SDL_INIT_JOYSTICK);
+  SDL_SetHint(SDL_HINT_JOYSTICK_ALLOW_BACKGROUND_EVENTS, "1");
   SDL_JoystickEventState(SDL_ENABLE);
   SDL_JoystickUpdate();
 
@@ -102,8 +107,10 @@ void Pad::Open()
     SDL_JoystickID joystickIndex = SDL_JoystickGetDeviceInstanceID(j);
     // Get informations
     const char* name = SDL_JoystickNameForIndex(j);
+    LOG(LogInfo) << name;
     char guid[64];
     SDL_JoystickGetGUIDString(SDL_JoystickGetGUID(joystick), guid, sizeof(guid));
+    LOG(LogInfo) << guid;
 
     // SDL index too high?
     if (joystickIndex >= Input::sMaxInputDevices) continue;
@@ -125,12 +132,15 @@ void Pad::Open()
 
 void Pad::Release()
 {
+  SDL_JoystickEventState(SDL_DISABLE);
+
   mReady = false;
+
   SDL_Event event;
   event.type = SDL_QUIT;
   SDL_PushEvent(&event);
-  SDL_JoystickEventState(SDL_DISABLE);
-  SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
+
+  SDL_Quit();
 }
 
 bool Pad::GetEvent(Pad::Event& event)
@@ -143,6 +153,7 @@ bool Pad::GetEvent(Pad::Event& event)
   {
     bool ok = (SDL_WaitEvent(&sdl) == 1);
     if (ok)
+    {
       switch (sdl.type)
       {
         case SDL_JOYAXISMOTION:
@@ -238,6 +249,7 @@ bool Pad::GetEvent(Pad::Event& event)
         case SDL_QUIT: return false;
         default: break;
       }
+    }
 
     // Pop first of new events
     if (!mEventQueue.Empty())

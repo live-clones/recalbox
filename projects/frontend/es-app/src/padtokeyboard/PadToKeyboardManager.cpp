@@ -21,6 +21,7 @@ void PadToKeyboardManager::StartMapping()
     LOG(LogInfo) << "No pad2keyb configuration.";
     return;
   }
+  LOG(LogInfo) << "[Pad2Keyboard] user mapping loaded loaded.";
 
   // Get pad mapping from /recalbox/share/system/.emulationstation/es_input.cfg
   mPadConfiguration.Load(mConfiguration);
@@ -29,6 +30,7 @@ void PadToKeyboardManager::StartMapping()
     LOG(LogError) << "Cannot load pad configurations.";
     return;
   }
+  LOG(LogInfo) << "[Pad2Keyboard] pad configuration loaded.";
 
   // Get pad event reader
   mPadReader.Open(mConfiguration);
@@ -37,6 +39,7 @@ void PadToKeyboardManager::StartMapping()
     LOG(LogError) << "Cannot access pad.";
     return;
   }
+  LOG(LogInfo) << "[Pad2Keyboard] Pad reader is ready.";
 
   // Create virtual keyboard device
   mKeyboardWriter.Open();
@@ -45,6 +48,7 @@ void PadToKeyboardManager::StartMapping()
     LOG(LogError) << "Cannot create virtual keyboard.";
     return;
   }
+  LOG(LogInfo) << "[Pad2Keyboard] Virtual keyboard is ready.";
 
   // Validate
   mValid = true;
@@ -74,7 +78,9 @@ void PadToKeyboardManager::Run()
   Pad::Event event {};
   while(mPadReader.GetEvent(event))
   {
+    //LOG(LogWarning) << "Event read! " << (int)event.Item << " - " << (int)event.Pad << (int)event.On;
     VirtualKeyboard::Event keyboardEvent = mMappingConfiguration.Translate(event);
+    //LOG(LogWarning) << "Translated! " << (int)keyboardEvent.Key << " - " << (int)keyboardEvent.Pressed;
     if (keyboardEvent.Key != 0) // Valid?
     {
       mKeyboardWriter.Write(keyboardEvent);

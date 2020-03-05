@@ -1,11 +1,11 @@
-#include "guis/GuiDetectDevice.h"
-#include "Window.h"
-#include "Renderer.h"
-#include "guis/GuiInputConfig.h"
-#include "components/TextComponent.h"
 #include <string>
-#include "utils/locale/LocaleHelper.h"
-#include "MenuThemeData.h"
+#include <guis/GuiDetectDevice.h>
+#include <Window.h>
+#include <Renderer.h>
+#include <guis/GuiInputConfig.h>
+#include <components/TextComponent.h>
+#include <utils/locale/LocaleHelper.h>
+#include <MenuThemeData.h>
 
 #define HOLD_TIME 1000
 
