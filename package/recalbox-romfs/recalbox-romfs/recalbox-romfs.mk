@@ -143,22 +143,22 @@ endef
 # Add necessary dependencies
 # System: amiga600
 ifneq ($(BR2_PACKAGE_AMIBERRY)$(BR2_PACKAGE_LIBRETRO_UAE),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-amiga600
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-amiga600
 endif
  	
 # System: amiga1200
 ifneq ($(BR2_PACKAGE_AMIBERRY)$(BR2_PACKAGE_LIBRETRO_UAE),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-amiga1200
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-amiga1200
 endif
 
 # System: amigacd32
 ifneq ($(BR2_PACKAGE_AMIBERRY),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-amigacd32
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-amigacd32
 endif
 
 # System: amigacdtv
 #ifneq ($(BR2_PACKAGE_AMIBERRY)$(BR2_PACKAGE_LIBRETRO_UAE),)
-#        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-amigacdtv
+#    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-amigacdtv
 #endif
  	
 # System: amstradcpc
@@ -178,7 +178,7 @@ endif
 
 # System: atari2600
 ifneq ($(BR2_PACKAGE_LIBRETRO_STELLA2014)$(BR2_PACKAGE_LIBRETRO_STELLA),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-atari2600
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-atari2600
 endif
 
 # System: atari7800
@@ -188,32 +188,32 @@ endif
 
 # System: atarist
 ifneq ($(BR2_PACKAGE_LIBRETRO_HATARI),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-atarist
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-atarist
 endif
 
 # System: atomiswave
 ifneq ($(BR2_PACKAGE_LIBRETRO_FLYCAST),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-atomiswave
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-atomiswave
 endif
 
 # System: c64
 ifneq ($(BR2_PACKAGE_LIBRETRO_VICE),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-c64
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-c64
 endif
 
 # System: cavestory
 ifneq ($(BR2_PACKAGE_LIBRETRO_NXENGINE),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-cavestory
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-cavestory
 endif
 
 # System: channelf
 ifneq ($(BR2_PACKAGE_LIBRETRO_FREECHAF),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-channelf
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-channelf
 endif
 
 # System: colecovision
 ifneq ($(BR2_PACKAGE_LIBRETRO_BLUEMSX),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-colecovision
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-colecovision
 endif
 
 # System: daphne
@@ -228,30 +228,30 @@ endif
 
 # System: dreamcast
 ifneq ($(BR2_PACKAGE_LIBRETRO_FLYCAST)$(BR2_PACKAGE_REICAST),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-dreamcast
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-dreamcast
 endif
 ifneq ($(BR2_PACKAGE_LIBRETRO_FLYCAST)$(BR2_PACKAGE_REICAST_OLD),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-dreamcast
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-dreamcast
 endif
 
 # System: fba
 ifneq ($(BR2_PACKAGE_PIFBA),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-fba
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-fba
 endif
 
 # System: fba_libretro
 ifneq ($(BR2_PACKAGE_LIBRETRO_FBNEO),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-fba_libretro
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-fba_libretro
 endif
 
 # System: fds
 ifneq ($(BR2_PACKAGE_LIBRETRO_FCEUMM)$(BR2_PACKAGE_LIBRETRO_NESTOPIA),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-fds
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-fds
 endif
 
 # System: gamecube
 ifeq ($(BR2_PACKAGE_DOLPHIN_EMU),y)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-gamecube
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-gamecube
 endif
 
 # System: gamegear
@@ -261,7 +261,7 @@ endif
 
 # System: gb
 ifneq ($(BR2_PACKAGE_LIBRETRO_GAMBATTE)$(BR2_PACKAGE_LIBRETRO_TGBDUAL)$(BR2_PACKAGE_LIBRETRO_MGBA)$(BR2_PACKAGE_LIBRETRO_SAMEBOY),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-gb
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-gb
 endif
 
 # System: gba
@@ -271,7 +271,7 @@ endif
 
 # System: gbc
 ifneq ($(BR2_PACKAGE_LIBRETRO_GAMBATTE)$(BR2_PACKAGE_LIBRETRO_TGBDUAL)$(BR2_PACKAGE_LIBRETRO_MGBA)$(BR2_PACKAGE_LIBRETRO_SAMEBOY),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-gbc
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-gbc
 endif
 
 # System: gw
@@ -281,8 +281,13 @@ endif
 
 # System: gx4000
 ifneq ($(BR2_PACKAGE_LIBRETRO_CAP32),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-gx4000
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-gx4000
 endif
+
+# Sytem: intellivision
+ifneq ($(BR2_PACKAGE_LIBRETRO_FREEINTV),)
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-intellivision
+endif  
 
 # System: jaguar
 ifneq ($(BR2_PACKAGE_LIBRETRO_VIRTUALJAGUAR),)
@@ -301,7 +306,7 @@ endif
 
 # System: macintosh
 ifneq ($(BR2_PACKAGE_LIBRETRO_MINIVMAC),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-macintosh
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-macintosh
 endif
 
 # System: mame
@@ -311,12 +316,12 @@ endif
 
 # System: mastersystem
 ifneq ($(BR2_PACKAGE_LIBRETRO_GENESISPLUSGX)$(BR2_PACKAGE_LIBRETRO_PICODRIVE)$(BR2_PACKAGE_LIBRETRO_GEARSYSTEM),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-mastersystem
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-mastersystem
 endif
 
 # System: megadrive
 ifneq ($(BR2_PACKAGE_LIBRETRO_GENESISPLUSGX)$(BR2_PACKAGE_LIBRETRO_PICODRIVE),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-megadrive
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-megadrive
 endif
 
 # System: moonlight
@@ -326,32 +331,32 @@ endif
 
 # System: msx1
 ifneq ($(BR2_PACKAGE_LIBRETRO_FMSX)$(BR2_PACKAGE_LIBRETRO_BLUEMSX),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-msx1
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-msx1
 endif
 
 # System: msx2
 ifneq ($(BR2_PACKAGE_LIBRETRO_FMSX)$(BR2_PACKAGE_LIBRETRO_BLUEMSX),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-msx2
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-msx2
 endif
 
 # System: msxturbor
 ifneq ($(BR2_PACKAGE_LIBRETRO_BLUEMSX),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-msxturbor
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-msxturbor
 endif
 
 # System: multivision
 ifneq ($(BR2_PACKAGE_LIBRETRO_GEARSYSTEM),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-multivision
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-multivision
 endif
 
 # System: n64
 ifneq ($(BR2_PACKAGE_MUPEN64PLUS_GLIDEN64)$(BR2_PACKAGE_MUPEN64PLUS_GLES2N64)$(BR2_PACKAGE_MUPEN64PLUS_GLES2RICE)$(BR2_PACKAGE_MUPEN64PLUS_VIDEO_GLIDE64MK2)$(BR2_PACKAGE_LIBRETRO_MUPEN64PLUS),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-n64
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-n64
 endif
 
 # System: naomi
 ifneq ($(BR2_PACKAGE_LIBRETRO_FLYCAST),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-naomi
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-naomi
 endif
 
 # System: nds
@@ -361,12 +366,12 @@ endif
 
 # System: neogeo
 ifneq ($(BR2_PACKAGE_LIBRETRO_MAME2003)$(BR2_PACKAGE_LIBRETRO_MAME2000)$(BR2_PACKAGE_LIBRETRO_FBNEO)$(BR2_PACKAGE_PIFBA)$(BR2_PACKAGE_LIBRETRO_MAME2010)$(BR2_PACKAGE_LIBRETRO_MAME2015)$(BR2_PACKAGE_LIBRETRO_MAME2016),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-neogeo
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-neogeo
 endif
 
 # System: neogeocd
 ifneq ($(BR2_PACKAGE_LIBRETRO_FBNEO),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-neogeocd
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-neogeocd
 endif
 
 # System: nes
@@ -376,52 +381,52 @@ endif
 
 # System: ngp
 ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_NGP),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-ngp
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-ngp
 endif
 
 # System: ngpc
 ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_NGP),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-ngpc
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-ngpc
 endif
 
 # System: o2em
 ifneq ($(BR2_PACKAGE_LIBRETRO_O2EM),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-o2em
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-o2em
 endif
 
 # System: oricatmos
 ifneq ($(BR2_PACKAGE_ORICUTRON),)
-		RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-oricatmos
+	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-oricatmos
 endif
 
 # System: palm
 ifneq ($(BR2_PACKAGE_LIBRETRO_MU),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-palm
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-palm
 endif
 
 # System: pcengine
 ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_SUPERGRAFX)$(BR2_PACKAGE_LIBRETRO_BEETLE_PCE_FAST),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-pcengine
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-pcengine
 endif
 
 # System: pcenginecd
 ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_SUPERGRAFX)$(BR2_PACKAGE_LIBRETRO_BEETLE_PCE_FAST),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-pcenginecd
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-pcenginecd
 endif
 
 # System: pcfx
 ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_PCFX),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-pcfx
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-pcfx
 endif
 
 # System: pc88
 ifneq ($(BR2_PACKAGE_LIBRETRO_QUASI88),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-pc88
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-pc88
 endif
 
 # System: pc98
 ifneq ($(BR2_PACKAGE_LIBRETRO_NP2KAI),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-pc98
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-pc98
 endif
 
 # System: psp
@@ -436,7 +441,7 @@ endif
 
 # System: prboom
 ifneq ($(BR2_PACKAGE_LIBRETRO_PRBOOM),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-prboom
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-prboom
 endif
 
 # System: samcoupe
@@ -446,32 +451,32 @@ endif
 
 # System: saturn
 ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_SATURN)$(BR2_PACKAGE_LIBRETRO_KRONOS)$(BR2_PACKAGE_LIBRETRO_YABASANSHIRO)$(BR2_PACKAGE_LIBRETRO_YABAUSE),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-saturn
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-saturn
 endif
 
 # System: sega32x
 ifneq ($(BR2_PACKAGE_LIBRETRO_PICODRIVE),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-sega32x
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-sega32x
 endif
 
 # System: segacd
 ifneq ($(BR2_PACKAGE_LIBRETRO_GENESISPLUSGX)$(BR2_PACKAGE_LIBRETRO_PICODRIVE),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-segacd
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-segacd
 endif
 
 # System: sg1000
 ifneq ($(BR2_PACKAGE_LIBRETRO_GENESISPLUSGX)$(BR2_PACKAGE_LIBRETRO_GEARSYSTEM),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-sg1000
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-sg1000
 endif
 
 # System: scummvm
 ifeq ($(BR2_PACKAGE_SCUMMVM),y)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-scummvm
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-scummvm
 endif
 
 # System: snes
 ifneq ($(BR2_PACKAGE_LIBRETRO_SNES9X2002)$(BR2_PACKAGE_LIBRETRO_SNES9X2005)$(BR2_PACKAGE_LIBRETRO_SNES9X2010)$(BR2_PACKAGE_LIBRETRO_SNES9X),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-snes
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-snes
 endif
 
 # System: satellaview
@@ -481,7 +486,7 @@ endif
 
 # System: spectravideo
 ifneq ($(BR2_PACKAGE_LIBRETRO_BLUEMSX),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-spectravideo
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-spectravideo
 endif
 
 # System: sufami
@@ -491,7 +496,7 @@ endif
 
 # System: supergrafx
 ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_SUPERGRAFX),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-supergrafx
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-supergrafx
 endif
 
 # System: thomson
@@ -501,7 +506,7 @@ endif
 
 # System: tic80
 ifneq ($(BR2_PACKAGE_LIBRETRO_TIC80),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-tic80
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-tic80
 endif
 
 # System: vectrex
@@ -511,27 +516,27 @@ endif
 
 # System: virtualboy
 ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_VB),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-virtualboy
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-virtualboy
 endif
 
 # System: wii
 ifeq ($(BR2_PACKAGE_DOLPHIN_EMU),y)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-wii
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-wii
 endif
 
 # System: wswan
 ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_WSWAN),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-wswan
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-wswan
 endif
 
 # System: wswanc
 ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_WSWAN),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-wswanc
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-wswanc
 endif
 
 # System: x1
 ifneq ($(BR2_PACKAGE_LIBRETRO_XMIL),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-x1
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-x1
 endif
 
 # System: x68000
@@ -541,12 +546,12 @@ endif
 
 # System: zx81
 ifneq ($(BR2_PACKAGE_LIBRETRO_81),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-zx81
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-zx81
 endif
 
 # System: zxspectrum
 ifneq ($(BR2_PACKAGE_LIBRETRO_FUSE),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-zxspectrum
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-zxspectrum
 endif
 
 # System: 3do
