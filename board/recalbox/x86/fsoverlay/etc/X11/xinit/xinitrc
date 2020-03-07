@@ -20,6 +20,7 @@ xset s off
 # uncomment the line below, and replace output_name by the output that you want disable on ES startup (ex: HDMI-0)
 # xrandr --output output_name --off
 
+/usr/bin/externalscreen.sh &
 
 # auto hide cursor each 5 sec of inactivity
 hhpc -i 5 &

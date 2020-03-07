@@ -10,6 +10,8 @@
 - 3 new virtual systems: All-games, Last-Played and Multiplayers **
 - New virtual systems per genre (RPG, Shoot'em up, Pinballs, ...) **/*
 - Region highligting in gamelist (highlight games from your favorite region) **
+- Add laptop switch external screen function only for x86_64
+- Add GameCube Bios 
 
 ### Improvements
 - Improve internal Scraper (ScreenScraper):
