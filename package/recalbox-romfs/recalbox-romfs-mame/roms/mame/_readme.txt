@@ -10,7 +10,7 @@ Are also included in Recalbox:
 - libretro core mame2000: 0.37b5 mame romset
 - libretro core mame2010 (not available on rpi0/1): 0.139 mame romset
 - libretro core mame2015 0.160 mame romset
-- librerto core mame 0.216 mame romset
+- librerto core mame 0.219 mame romset
 - standalone emulator advancemame: 0.106 mame romset
 
 So, if you want to use a core different of the default one, you must edit your recalbox.conf file following instructions of this page:
