@@ -54,6 +54,7 @@
 - Fix duplicate folders in Arcade systems
 - Fix quit menu not being accessible when boot-on-gamelist is on
 - Fix some bad behaviors in favorite management
+- Fix reboot Emulationstation with webmanager 
 
 *  : Require to scrape missing data using the internal scraper 
 ** : Availailable in both EmulationStation menu and configuration file 

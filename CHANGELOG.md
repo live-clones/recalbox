@@ -44,6 +44,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Bump retroarch-cheats to v1.8.2
 - Bump libretro-assets on last version
 - Bump libretro-cores family
+- Fix reboot Emulationstation with webmanager 
 
 ## [6.1.1]
 - Add zfast shaders
