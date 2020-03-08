@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-LIBRETRO_XMIL_VERSION = b07506c0cae31d260db28cb079148857d6ca2e93
-LIBRETRO_XMIL_SITE = $(call github,r-type,xmil-libretro,$(LIBRETRO_XMIL_VERSION))
+LIBRETRO_XMIL_VERSION = a31e7b38ced8d53b3d3db7088d60fb0a9d5adc93
+LIBRETRO_XMIL_SITE = $(call github,libretro,xmil-libretro,$(LIBRETRO_XMIL_VERSION))
 
 define LIBRETRO_XMIL_BUILD_CMDS
 	$(SED) "s|--export-all-symbols||g" $(@D)/libretro/Makefile.libretro
