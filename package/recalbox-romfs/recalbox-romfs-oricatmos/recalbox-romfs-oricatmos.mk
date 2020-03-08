@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --system oricatmos --extension '.dsk .DSK .tap .TAP' --fullname 'Oric/Atmos' --platform oricatmos --theme oricatmos 1:oricutron:oricutron:BR2_PACKAGE_ORICUTRON
+# ./scripts/linux/empack.py --force --system oricatmos --extension '.dsk .DSK .tap .TAP' --fullname 'Oric/Atmos' --platform oricatmos --theme oric 1:oricutron:oricutron:BR2_PACKAGE_ORICUTRON
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_ORICATMOS_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_ORICATMOS = $(RECALBOX_ROMFS_ORICATMOS_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_ORICUTRON),)
 define CONFIGURE_MAIN_ORICATMOS_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_ORICATMOS),Oric/Atmos,$(SYSTEM_NAME_ORICATMOS),.dsk .DSK .tap .TAP,oricatmos,oricatmos)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_ORICATMOS),Oric/Atmos,$(SYSTEM_NAME_ORICATMOS),.dsk .DSK .tap .TAP,oricatmos,oric)
 endef
 
 ifneq ($(BR2_PACKAGE_ORICUTRON),)
