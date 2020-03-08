@@ -19,7 +19,7 @@ case "$1" in
 		;;
 	stop)
 		killall emulationstation
-		killall openbox
+		killall openbox & sleep 2s
 		;;
 	restart|reload)
 		"$0" stop
