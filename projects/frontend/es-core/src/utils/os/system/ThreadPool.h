@@ -5,7 +5,7 @@
 #include <utils/Log.h>
 #include "Thread.h"
 #include "Mutex.h"
-#include "IThreadPoolWorkerInterface.h"
+//#include "IThreadPoolWorkerInterface.h"
 
 template<class FeedObject, class ResultObject> class ThreadPool
 {

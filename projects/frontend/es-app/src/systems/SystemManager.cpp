@@ -501,7 +501,7 @@ bool SystemManager::LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool
   StringMapFile weights(sWeightFilePath);
   weights.Load();
   // Create automatic thread-pool
-  ThreadPool<SystemDescriptor, SystemData*> threadPool(this, "System-Loader", false, 20);
+  ThreadPool<SystemDescriptor, SystemData*> threadPool(this, "System-Load", false, 20);
   // Push system to process
   for (const XmlNode system : systemList)
   {

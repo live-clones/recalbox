@@ -99,7 +99,7 @@ class Thread
 
   private:
     //! Thread name
-    char mName[16];
+    char mName[16 + 1];
     //! Thread handle
     ThreadHandle mHandle;
     //! Thread id

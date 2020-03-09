@@ -11,6 +11,7 @@ Thread::Thread()
     mIsDone(false)
 {
   static int __TotalCount__ = 0;
+  memset(mName, 0, sizeof(mName));
   std::string strName = "thread " + std::to_string(++__TotalCount__);
   strncpy(mName, strName.c_str(), sizeof(mName));
 }
@@ -25,7 +26,7 @@ void Thread::Start(const std::string& name)
   Stop();
 
   if (!name.empty())
-    strncpy(mName, name.c_str(), sizeof(mName));
+    strncpy(mName, name.c_str(), sizeof(mName) - 1);
 
   mIsDone = false;
   mIsRunning = true;
