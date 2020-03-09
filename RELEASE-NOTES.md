@@ -13,6 +13,7 @@
 - Add laptop switch external screen function only for x86_64
 - Add GameCube Bios 
 - Add Nintendo 64DD platform
+- Add libretro mame for recent mame set 
 
 ### Improvements
 - Improve internal Scraper (ScreenScraper):
