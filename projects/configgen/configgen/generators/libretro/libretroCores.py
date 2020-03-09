@@ -15,6 +15,7 @@ class LibretroCores:
 
     @staticmethod
     def configureBlueMSX(coreSettings):
+        # Default core configuration - Actual value for legacy msx folder
         coreSettings.setOption("bluemsx_msxtype", '"Auto"')
 
     @staticmethod
@@ -41,10 +42,6 @@ class LibretroCores:
     @staticmethod
     def configureAmiga600(coreSettings):
         coreSettings.setOption("puae_model", '"A500PLUS"')
-
-    @staticmethod
-    def configureSpectravideo(coreSettings):
-        coreSettings.setOption("bluemsx_msxtype", '"SVI - Spectravideo SVI-328 MK2"')
 
     @staticmethod
     def configureAmstradCPC(coreSettings):
@@ -83,6 +80,23 @@ class LibretroCores:
         coreSettings.setOption("parallel-n64-boot-device", '"64DD IPL"')
         coreSettings.setOption("parallel-n64-64dd-hardware", '"enabled"')
 
+    @staticmethod
+    def configureSpectravideo(coreSettings):
+        coreSettings.setOption("bluemsx_msxtype", '"SVI - Spectravideo SVI-328 MK2"')
+
+    @staticmethod
+    def configureMsx1(coreSettings):
+        coreSettings.setOption("bluemsx_msxtype", '"MSX"')
+
+    @staticmethod
+    def configureMsx2(coreSettings):
+        coreSettings.setOption("bluemsx_msxtype", '"MSX2+"')
+
+    @staticmethod
+    def configureMsxTurboR(coreSettings):
+        coreSettings.setOption("bluemsx_msxtype", '"MSXturboR"')
+
+
     # Fill cores configuration
     def fillCoresConfiguration(self):
         recalbox = self.system.config
@@ -114,6 +128,9 @@ class LibretroCores:
             "gx4000"       : LibretroCores.configureAmstradGX4000,
             "spectravideo" : LibretroCores.configureSpectravideo,
             "64dd"         : LibretroCores.configure64DD,
+            "msx1"         : LibretroCores.configureMsx1,
+            "msx2"         : LibretroCores.configureMsx2,
+            "msxturbor"    : LibretroCores.configureMsxTurboR,
         }
 
         # Get handler and execute
