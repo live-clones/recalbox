@@ -28,7 +28,7 @@ GuiGamelistOptions::GuiGamelistOptions(Window& window, SystemData& system, Syste
 
 	mJumpToLetterList = std::make_shared<LetterList>(mWindow, _("JUMP TO LETTER"), false);
 
-	std::string letters = getGamelist()->getAvailableLetters();
+	std::vector<unsigned int> letters = getGamelist()->getAvailableLetters();
 	if (!letters.empty()) // may happen if only contains folders
   {
 		// Get current unicode char
@@ -37,7 +37,7 @@ GuiGamelistOptions::GuiGamelistOptions(Window& window, SystemData& system, Syste
 		int position = 0;
 		while(position < (int)letters.size())
     {
-		  unsigned int unicode = Strings::chars2Unicode(letters, position);
+		  unsigned int unicode = letters[position];
       mJumpToLetterList->add(Strings::unicode2Chars(unicode), unicode, unicode == currentUnicode);
     }
 

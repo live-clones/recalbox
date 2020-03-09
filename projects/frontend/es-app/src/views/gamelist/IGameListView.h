@@ -65,7 +65,7 @@ class IGameListView : public Gui
     virtual void refreshList() = 0;
 
     virtual FileData::List getFileDataList() = 0;
-    virtual std::string getAvailableLetters() = 0;
+    virtual std::vector<unsigned int> getAvailableLetters() = 0;
     virtual void jumpToLetter(unsigned int unicode) = 0;
 
     /*!

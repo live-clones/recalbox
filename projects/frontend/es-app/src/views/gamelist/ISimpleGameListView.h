@@ -34,7 +34,7 @@ public:
 	inline void refreshList() override {};
 
 	bool getHelpPrompts(Help& help) override;
-	std::string getAvailableLetters() override;
+	std::vector<unsigned int> getAvailableLetters() override;
 	void jumpToLetter(unsigned int unicode) override;
 
 	void jumpToNextLetter(bool forward);
