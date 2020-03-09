@@ -165,6 +165,7 @@ menu "Libretro Cores"
         source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-kronos/Config.in"
         source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-yabasanshiro/Config.in"
         source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-yabause/Config.in"
+        source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-parallel-n64/Config.in"
 endmenu
 endif
 menu "Doom packages"

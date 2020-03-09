@@ -2,8 +2,9 @@ config BR2_PACKAGE_LIBRETRO_PARALLEL_N64
 	bool "libretro-parallel-n64"
 	depends on BR2_PACKAGE_RETROARCH
 	depends on BR2_INSTALL_LIBSTDCPP
+	select BR2_PACKAGE_RECALBOX_ROMFS_64DD
 	help
-	  A libretro N64 emulator core for ARM.
+	  A libretro N64 and 64DD emulator core for ARM.
 
 	  http://www.libretro.com
 
