@@ -252,3 +252,7 @@ e64c755205bc3e79d1bc5b70128f688d  bootloader-en-m515.rom
 
 - APPLE IIGS :
 ba89edf2729a28a17cd9e0f7a0ac9a39  apple2gs.rom
+
+
+- NINTENDO 64DD :
+8d3d9f294b6e174bc7b1d2fd1c727530 64DD_IPL.bin
