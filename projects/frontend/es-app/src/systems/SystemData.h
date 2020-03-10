@@ -92,8 +92,9 @@ class SystemData : private INoCopy
     /*!
      * @brief Parse xml gamelist files and add games to the current system
      * @param doppelgangerWatcher Maps to avoid duplicate entries
+     * @param forceCheckFile True to force to check if file exists
      */
-    void ParseGamelistXml(FileData::StringMap& doppelgangerWatcher);
+    void ParseGamelistXml(FileData::StringMap& doppelgangerWatcher, bool forceCheckFile);
 
   public:
     //! Return the root folder object

@@ -29,12 +29,12 @@ SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDes
     LOG(LogInfo) << "Creating & populating system: " << systemDescriptor.FullName();
 
     // Populate items from disk
-    bool gameListOnly = RecalboxConf::Instance().AsBool("emulationstation.gamelistonly", false) && !forceLoad;
-    if (!gameListOnly)
+    bool loadFromDisk = forceLoad || !RecalboxConf::Instance().AsBool("emulationstation.gamelistonly", false);
+    if (loadFromDisk)
       result->populateFolder(&(result->mRootFolder), doppelgangerWatcher);
     // Populate items from gamelist.xml
     if (!Settings::Instance().IgnoreGamelist())
-      result->ParseGamelistXml(doppelgangerWatcher);
+      result->ParseGamelistXml(doppelgangerWatcher, forceLoad);
     // Overrides?
     FileData::List allFolders = result->getRootFolder().getAllFolders();
     for(auto folder : allFolders)

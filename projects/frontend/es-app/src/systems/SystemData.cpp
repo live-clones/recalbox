@@ -398,7 +398,7 @@ FileData* SystemData::LookupOrCreateGame(const Path& root, const Path& path, Ite
   return nullptr;
 }
 
-void SystemData::ParseGamelistXml(FileData::StringMap& doppelgangerWatcher)
+void SystemData::ParseGamelistXml(FileData::StringMap& doppelgangerWatcher, bool forceCheckFile)
 {
   try
   {
@@ -425,6 +425,9 @@ void SystemData::ParseGamelistXml(FileData::StringMap& doppelgangerWatcher)
         else continue; // Unknown node
 
         Path path = relativeTo / Xml::AsString(fileNode, "path", "");
+        if (forceCheckFile)
+          if (!path.Exists())
+            continue;
 
         FileData* file = LookupOrCreateGame(mRootFolder.getPath(), path, type, doppelgangerWatcher);
         if (file == nullptr)

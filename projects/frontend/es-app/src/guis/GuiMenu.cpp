@@ -879,7 +879,7 @@ void GuiMenu::menuUISettings(){
   st->addWithLabel(theme_set, _("THEME SET"), _(MENUMESSAGE_UI_THEME_HELP_MSG));
 
   std::function<void()> ReloadAll = [] () {
-    ViewController::deleteAndReloadAll(false);
+    MainRunner::RequestQuit(MainRunner::ExitState::Relaunch, false);
     MenuThemeData::getInstance();
     auto transi = ThemeData::getCurrent().getTransition();
     if (!transi.empty())
@@ -1087,8 +1087,8 @@ void GuiMenu::menuUISettings(){
 	// Game List Update
 	s->addSubMenu(_("UPDATE GAMES LISTS"), [this] {
     mWindow.pushGui(new GuiMsgBox(mWindow, _("REALLY UPDATE GAMES LISTS ?"), _("YES"), [] {
-      ViewController::deleteAndReloadAll(true);
-		}, _("NO"), nullptr));
+      MainRunner::RequestQuit(MainRunner::ExitState::Relaunch, true);
+    }, _("NO"), nullptr));
 	}, _(MENUMESSAGE_UI_UPDATE_GAMELIST_HELP_MSG));
 
   mWindow.pushGui(s);
