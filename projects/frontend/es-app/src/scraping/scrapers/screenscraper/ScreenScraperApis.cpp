@@ -57,7 +57,7 @@ ScreenScraperApis::User ScreenScraperApis::GetUserInformation()
   std::string output;
   if (mClient.Execute(BuildUrlCommon(Api::UserInfo), output))
   {
-    LOG(LogError) << "GetUserInfo: HTTP Result code = " << mClient.GetLastHttpResponseCode();
+    LOG(LogDebug) << "GetUserInfo: HTTP Result code = " << mClient.GetLastHttpResponseCode() << "\n" << output;
 
     rapidjson::Document json;
     json.Parse(output.c_str());
