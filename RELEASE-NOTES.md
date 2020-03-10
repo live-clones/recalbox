@@ -12,6 +12,7 @@
 - Region highligting in gamelist (highlight games from your favorite region) **
 - Add laptop switch external screen function only for x86_64
 - Add GameCube Bios 
+- Add Nintendo 64DD platform
 
 ### Improvements
 - Improve internal Scraper (ScreenScraper):

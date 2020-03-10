@@ -1,0 +1,5 @@
+## RECALBOX - SYSTEM 64DD ##
+
+Placez ici vos roms Nintendo 64DD.
+
+Les roms doivent avoir l'extension ".ndd"

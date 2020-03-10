@@ -46,6 +46,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Bump libretro-cores family
 - Fix reboot Emulationstation with webmanager 
 - Add laptop switch external screen function only for x86_64
+- Fix reboot Emulationstation with webmanager
+- Add Nintendo 64DD
 
 ## [6.1.1]
 - Add zfast shaders
