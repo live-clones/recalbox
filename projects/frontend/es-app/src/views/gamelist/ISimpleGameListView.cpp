@@ -1,6 +1,7 @@
 #include <RecalboxConf.h>
 #include <guis/GuiNetPlay.h>
 #include <systems/SystemManager.h>
+#include <usernotifications/NotificationManager.h>
 #include "guis/GuiGamelistOptions.h"
 #include "views/gamelist/ISimpleGameListView.h"
 #include "systems/SystemData.h"
@@ -144,7 +145,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
         setCursorIndex(0);
       }
     }
-    RecalboxSystem::NotifyGame(*getCursor(), false, false);
+    NotificationManager::Instance().Notify(*getCursor(), Notification::GamelistBrowsing);
     return true;
   }
 
@@ -163,7 +164,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
 
       setCursor(selected);
       //Sound::getFromTheme(getTheme(), getName(), "back")->play();
-      RecalboxSystem::NotifyGame(*getCursor(), false, false);
+      NotificationManager::Instance().Notify(*getCursor(), Notification::GamelistBrowsing);
     }
     else if (!hideSystemView)
     {
@@ -204,7 +205,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
 
       updateHelpPrompts();
     }
-    RecalboxSystem::NotifyGame(*getCursor(), false, false);
+    NotificationManager::Instance().Notify(*getCursor(), Notification::GamelistBrowsing);
     return true;
   }
 
@@ -214,7 +215,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
     if (Settings::Instance().QuickSystemSelect() && !hideSystemView) {
       onFocusLost();
       ViewController::Instance().goToNextGameList();
-      RecalboxSystem::NotifyGame(*getCursor(), false, false);
+      NotificationManager::Instance().Notify(*getCursor(), Notification::GamelistBrowsing);
       return true;
     }
   }
@@ -224,7 +225,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
     if (Settings::Instance().QuickSystemSelect() && !hideSystemView) {
       onFocusLost();
       ViewController::Instance().goToPrevGameList();
-      RecalboxSystem::NotifyGame(*getCursor(), false, false);
+      NotificationManager::Instance().Notify(*getCursor(), Notification::GamelistBrowsing);
       return true;
     }
   }
@@ -301,7 +302,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
   bool result = IGameListView::ProcessInput(event);
 
   if (event.AnythingPressed())
-      RecalboxSystem::NotifyGame(*getCursor(), false, false);
+    NotificationManager::Instance().Notify(*getCursor(), Notification::GamelistBrowsing);
 
   return result;
 }

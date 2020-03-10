@@ -31,6 +31,9 @@ class SystemData : private INoCopy
 	private:
     friend class SystemManager;
 
+    //! Parent manager
+    SystemManager& mSystemManager;
+
     //! Descriptor
     SystemDescriptor mDescriptor;
     //! Theme object
@@ -58,7 +61,7 @@ class SystemData : private INoCopy
      * @param childOwnership Type of children management
      * @param properties System properties
      */
-    SystemData(const SystemDescriptor& systemDescriptor, RootFolderData::Ownership childOwnership, Properties properties, FileSorts::Sorts fixedSort = FileSorts::Sorts::FileNameAscending);
+    SystemData(SystemManager& systemManager, const SystemDescriptor& systemDescriptor, RootFolderData::Ownership childOwnership, Properties properties, FileSorts::Sorts fixedSort = FileSorts::Sorts::FileNameAscending);
 
     /*!
      * @brief Get localized text inside a text. Look for [lg] tags to mark start/end of localized texts
@@ -178,6 +181,12 @@ class SystemData : private INoCopy
      * @param includefolder Include folder or not
      */
     void BuildDoppelgangerMap(FileData::StringMap& doppelganger, bool includefolder) const;
+
+    /*!
+     * @brief Get parent system manager
+     * @return
+     */
+    SystemManager& Manager() const { return mSystemManager; }
 };
 
 DEFINE_BITFLAG_ENUM(SystemData::Properties, int)

@@ -70,15 +70,9 @@ class RecalboxSystem
 
     static std::pair<std::string, int> getSysBatteryInfo();
 
-    static void NotifyGame(const FileData& game, bool play, bool demo) { NotifySystemAndGame(game.getSystem(), &game, play, demo); }
-
-    static void NotifySystem(const SystemData& system) { NotifySystemAndGame(&system, nullptr, false, false); }
-
   private:
     static std::string BuildSettingsCommand(const std::string& arguments);
 
     static Strings::Vector ExecuteSettingsCommand(const std::string& arguments);
-
-    static void NotifySystemAndGame(const SystemData* system, const FileData* game, bool play, bool demo);
 };
 

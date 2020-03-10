@@ -20,6 +20,7 @@
 #include <bios/BiosManager.h>
 #include <guis/GuiMsgBox.h>
 #include <utils/locale/LocaleHelper.h>
+#include <usernotifications/NotificationManager.h>
 
 ViewController::ViewController(Window& window, SystemManager& systemManager)
 	: StaticLifeCycleControler<ViewController>("ViewController"),
@@ -98,7 +99,7 @@ void ViewController::goToSystemView(SystemData* system)
 
 	playViewTransition();
 
-	RecalboxSystem::NotifySystem(*system);
+  NotificationManager::Instance().Notify(*system, Notification::SystemBrowsing);
 }
 
 void ViewController::goToNextGameList()
@@ -172,7 +173,7 @@ void ViewController::goToGameList(SystemData* system)
 	mCurrentView = getGameListView(system).get();
 	playViewTransition();
 
-  RecalboxSystem::NotifyGame(*getGameListView(system)->getCursor(), false, false);
+  NotificationManager::Instance().Notify(*getGameListView(system)->getCursor(), Notification::GamelistBrowsing);
 }
 
 void ViewController::updateFavorite(SystemData* system, FileData* file)

@@ -7,6 +7,7 @@
 #include <RecalboxConf.h>
 #include <RootFolders.h>
 #include <recalbox/RecalboxSystem.h>
+#include <usernotifications/NotificationManager.h>
 #include <VideoEngine.h>
 #include <utils/Strings.h>
 #include <utils/Files.h>
@@ -16,8 +17,9 @@
 
 EmulatorDescriptor EmulatorList::sEmptyEmulator("NO EMULATOR");
 
-SystemData::SystemData(const SystemDescriptor& descriptor, RootFolderData::Ownership childOwnership, Properties properties, FileSorts::Sorts fixedSort)
-  : mDescriptor(descriptor),
+SystemData::SystemData(SystemManager& systemManager, const SystemDescriptor& descriptor, RootFolderData::Ownership childOwnership, Properties properties, FileSorts::Sorts fixedSort)
+  : mSystemManager(systemManager),
+    mDescriptor(descriptor),
     mRootFolder(childOwnership, descriptor.RomPath(), this),
     mSortId(RecalboxConf::Instance().AsInt(mDescriptor.Name() + ".sort")),
     mProperties(properties),
@@ -83,7 +85,7 @@ void SystemData::RunGame(Window& window,
     padToKeyboard.StartMapping();
     if (padToKeyboard.IsValid())
       command.append(" -nodefaultkeymap");
-    RecalboxSystem::NotifyGame(game, true, false);
+    NotificationManager::Instance().Notify(game, Notification::RunGame);
 
     printf("==============================================\n");
     int exitCode = runSystemCommand(command);
@@ -91,7 +93,7 @@ void SystemData::RunGame(Window& window,
     if (exitCode != 0)
       LOG(LogWarning) << "...launch terminated with nonzero exit code " << WEXITSTATUS(exitCode) << "!";
 
-    RecalboxSystem::NotifyGame(game, false, false);
+    NotificationManager::Instance().Notify(game, Notification::EndGame);
     padToKeyboard.StopMapping();
   }
 
@@ -162,9 +164,9 @@ SystemData::DemoRunGame(const FileData& game, const EmulatorData& emulator, int 
   command += std::to_string(infoscreenduration);
 
   LOG(LogInfo) << "Demo command: " << command;
-  RecalboxSystem::NotifyGame(game, true, true);
+  NotificationManager::Instance().Notify(game, Notification::RunDemo);
   int exitCode = runSystemCommand(command);
-  RecalboxSystem::NotifyGame(game, false, false);
+  NotificationManager::Instance().Notify(game, Notification::EndDemo);
   LOG(LogInfo) << "Demo exit code :	" << exitCode;
 
 

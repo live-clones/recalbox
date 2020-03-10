@@ -151,7 +151,7 @@ class SystemManager :
      * @param forceLoad Force reloading list from disk and not only from gamelist.xml
      * @return New system
      */
-    static SystemData* CreateRegularSystem(const SystemDescriptor& systemDescriptor, bool forceLoad);
+    SystemData* CreateRegularSystem(const SystemDescriptor& systemDescriptor, bool forceLoad);
 
     /*!
      * @brief Create Favorite system using favorites available in systems from a list
@@ -161,8 +161,8 @@ class SystemManager :
      * @param systems System list from which to fetch favorite games
      * @return New favorite games
      */
-    static SystemData* CreateFavoriteSystem(const std::string& name, const std::string& fullName,
-                                            const std::string& themeFolder, const std::vector<SystemData*>& systems);
+    SystemData* CreateFavoriteSystem(const std::string& name, const std::string& fullName,
+                                     const std::string& themeFolder, const std::vector<SystemData*>& systems);
 
     /*!
      * @brief Create meta-system aggregating games from multiple systems
@@ -174,10 +174,10 @@ class SystemManager :
      * @param doppelganger Map to FileData
      * @return New meta-system
      */
-    static SystemData* CreateMetaSystem(const std::string& name, const std::string& fullName,
-                                        const std::string& themeFolder, const std::vector<SystemData*>& systems,
-                                        SystemData::Properties properties, FileData::StringMap& doppelganger,
-                                        FileSorts::Sorts fixedSort = FileSorts::Sorts::FileNameAscending);
+    SystemData* CreateMetaSystem(const std::string& name, const std::string& fullName,
+                                 const std::string& themeFolder, const std::vector<SystemData*>& systems,
+                                 SystemData::Properties properties, FileData::StringMap& doppelganger,
+                                 FileSorts::Sorts fixedSort = FileSorts::Sorts::FileNameAscending);
 
     /*!
      * @brief Create meta-system aggregating games from multiple systems
@@ -189,10 +189,10 @@ class SystemManager :
      * @param doppelganger Map to FileData
      * @return New meta-system
      */
-    static SystemData* CreateMetaSystem(const std::string& name, const std::string& fullName,
-                                        const std::string& themeFolder, const FileData::List& games,
-                                        SystemData::Properties properties, FileData::StringMap& doppelganger,
-                                        FileSorts::Sorts fixedSort = FileSorts::Sorts::FileNameAscending);
+    SystemData* CreateMetaSystem(const std::string& name, const std::string& fullName,
+                                 const std::string& themeFolder, const FileData::List& games,
+                                 SystemData::Properties properties, FileData::StringMap& doppelganger,
+                                 FileSorts::Sorts fixedSort = FileSorts::Sorts::FileNameAscending);
 
     /*!
      * @brief Write exemple configuration file when no configuration file are available

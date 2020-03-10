@@ -18,7 +18,7 @@ public:
 	/*!
 	 * @brief Wake up the system if it is in a sleeping state
 	 */
-	void WakeUp() { mWindow.doWake(); }
+	void WakeUp() { mWindow.DoWake(); }
 
 	// If a basic view detected a metadata change, it can request to recreate
 	// the current gamelist view (as it may change to be detailed).

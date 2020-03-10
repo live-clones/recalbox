@@ -6,6 +6,7 @@
 #include <guis/GuiNetPlay.h>
 #include <systems/SystemManager.h>
 #include <guis/GuiQuit.h>
+#include <usernotifications/NotificationManager.h>
 #include "guis/GuiMenu.h"
 #include "audio/AudioManager.h"
 
@@ -282,7 +283,7 @@ void SystemView::onCursorChanged(const CursorState& state)
 	updateHelpPrompts();
 
 	// update externs
-  RecalboxSystem::NotifySystem(*getSelected());
+  NotificationManager::Instance().Notify(*getSelected(), Notification::SystemBrowsing);
 
 	float startPos = mCamOffset;
 

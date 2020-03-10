@@ -10,6 +10,7 @@
 #include "SystemIcons.h"
 #include <recalbox/RecalboxSystem.h>
 #include <systems/SystemManager.h>
+#include <usernotifications/NotificationManager.h>
 
 BasicGameListView::BasicGameListView(Window& window, SystemManager& systemManager, SystemData& system)
 	: ISimpleGameListView(window, systemManager, system),
@@ -150,7 +151,7 @@ void BasicGameListView::setCursorIndex(int index)
   if (index >= mList.size()) index = mList.size() - 1;
   if (index < 0) index = 0;
 
-  RecalboxSystem::NotifyGame(*getCursor(), false, false);
+  NotificationManager::Instance().Notify(*getCursor(), Notification::GamelistBrowsing);
 	mList.setCursorIndex(index);
 }
 
@@ -181,7 +182,7 @@ void BasicGameListView::setCursor(FileData* cursor)
 			}
 		}
 	}
-  RecalboxSystem::NotifyGame(*getCursor(), false, false);
+  NotificationManager::Instance().Notify(*getCursor(), Notification::GamelistBrowsing);
 }
 
 Regions::List BasicGameListView::AvailableRegionsInGames()

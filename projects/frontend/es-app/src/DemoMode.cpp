@@ -184,7 +184,7 @@ void DemoMode::runDemo()
     EmulatorData emulator = mSystemManager.Emulators().GetGameEmulator(*game);
     if (system->DemoRunGame(*game, emulator, duration, mInfoScreenDuration, controllerConfigs))
     {
-      mWindow.doWake();
+      mWindow.DoWake();
       break;
     }
     // Exit required?

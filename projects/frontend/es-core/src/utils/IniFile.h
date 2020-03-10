@@ -125,6 +125,16 @@ class IniFile
      */
     bool IsValid() const { return mValid; }
 
+    /*!
+     * @brief Called after loading the file
+     */
+    virtual void OnLoad() {}
+
+    /*!
+     * @brief Called after saving the file
+     */
+    virtual void OnSave() {}
+
   private:
     //! Configuration map: key, value
     HashMap<std::string, std::string> mConfiguration;

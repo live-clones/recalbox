@@ -17,6 +17,7 @@
 #include <bios/BiosManager.h>
 #include <guis/GuiMsgBox.h>
 #include <scraping/ScraperFactory.h>
+#include <usernotifications/NotificationManager.h>
 #include "MainRunner.h"
 #include "EmulationStation.h"
 #include "VolumeControl.h"
@@ -45,6 +46,10 @@ MainRunner::ExitState MainRunner::Run()
 {
   try
   {
+    // Notification Manager
+    NotificationManager notificationManager;
+    notificationManager.Notify(Notification::Start, Strings::ToString(mRunCount));
+
     // Shut-up joysticks :)
     SDL_JoystickEventState(SDL_DISABLE);
 
@@ -132,9 +137,21 @@ MainRunner::ExitState MainRunner::Run()
     }
 
     // Exit
+    notificationManager.Notify(Notification::Stop, Strings::ToString(mRunCount));
     window.GoToQuitScreen();
     systemManager.DeleteAllSystems(DoWeHaveToUpdateGamelist(exitState));
     Window::Finalize();
+
+    switch(exitState)
+    {
+      case ExitState::Quit:
+      case ExitState::FatalError: NotificationManager::Instance().Notify(Notification::Quit, exitState == ExitState::FatalError ? "fatalerror" : "quitrequested"); break;
+      case ExitState::Relaunch: NotificationManager::Instance().Notify(Notification::Relaunch); break;
+      case ExitState::NormalReboot:
+      case ExitState::FastReboot: NotificationManager::Instance().Notify(Notification::Reboot, exitState == ExitState::FastReboot ? "fast" : "normal"); break;
+      case ExitState::Shutdown:
+      case ExitState::FastShutdown: NotificationManager::Instance().Notify(Notification::Shutdown, exitState == ExitState::FastShutdown ? "fast" : "normal"); break;
+    }
 
     return exitState;
   }

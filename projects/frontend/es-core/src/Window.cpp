@@ -3,10 +3,10 @@
 #include <Renderer.h>
 #include <Settings.h>
 #include <guis/GuiMsgBoxScroll.h>
-#include <guis/GuiInfoPopup.h>
 #include <guis/GuiMsgBox.h>
 #include <MenuThemeData.h>
 #include <views/ViewController.h>
+#include <usernotifications/NotificationManager.h>
 
 Window::Window()
   : mHelp(*this),
@@ -140,8 +140,7 @@ bool Window::ProcessInput(const InputCompactEvent& event)
   if (mSleeping)
   {
     // wake up
-    mTimeSinceLastInput = 0;
-    mSleeping = false;
+    DoWake();
     return false;
   }
 
@@ -153,11 +152,11 @@ bool Window::ProcessInput(const InputCompactEvent& event)
     return true;
   }
 
-  /*	if(peekGui() && !KonamiCode(config, input, this))
-    {
-      this->peekGui()->input(config, input);
-    }
-  */
+  if (KonamiCode(event))
+  {
+    // Surprise!
+  }
+
   return false;
 }
 
@@ -256,7 +255,8 @@ void Window::Render(Transform4x4f& transform)
     {
       renderScreenSaver();
       // go to sleep
-      mSleeping = true;
+      if (!isSleeping())
+        DoSleep();
     }
   }
   if (mInfoPopup)
@@ -286,34 +286,33 @@ void Window::renderScreenSaver()
   Renderer::drawRect(0, 0, Renderer::getDisplayWidthAsInt(), Renderer::getDisplayHeightAsInt(), 0x00000000 | opacity);
 }
 
-bool Window::KonamiCode(InputDevice* config, InputEvent input, Window& window)
+bool Window::KonamiCode(const InputCompactEvent& input)
 {
-  (void) window;
+  typedef bool (InputCompactEvent::*EventMethodPointer)() const;
 
-  if (input.Value() == 0) return false;
-
-  bool codeOk = false;
-
-  for (auto valstring : mInputVals)
+  static constexpr int sKonamiLength = 10;
+  static EventMethodPointer sKonami[sKonamiLength] =
   {
-    if (config->IsMatching(valstring, input) && (this->mKonami[this->mKonamiCount] == valstring))
-    {
-      this->mKonamiCount++;
-      codeOk = true;
-    }
+    &InputCompactEvent::AnyUpPressed,
+    &InputCompactEvent::AnyUpPressed,
+    &InputCompactEvent::AnyDownPressed,
+    &InputCompactEvent::AnyDownPressed,
+    &InputCompactEvent::AnyLeftPressed,
+    &InputCompactEvent::AnyRightPressed,
+    &InputCompactEvent::AnyLeftPressed,
+    &InputCompactEvent::AnyRightPressed,
+    &InputCompactEvent::BPressed,
+    &InputCompactEvent::APressed,
+  };
+  static int KonamiCount = 0;
+
+  if (!(input.*(sKonami[KonamiCount++]))()) KonamiCount = 0; // Reset on no matching
+  if (KonamiCount == sKonamiLength)
+  {
+    KonamiCount = 0;
+    return true; // Yes konami code!
   }
 
-  if (!codeOk)
-  {
-    this->mKonamiCount = 0; // current input is incorrect, reset counter
-  }
-
-  if (this->mKonamiCount == sKonamiLength)
-  {
-    auto s = std::make_shared<GuiInfoPopup>(*this, "I entered Konami Code and all I get is this lame popup", 4, GuiInfoPopup::Icon::Recalbox);
-    this->setInfoPopup(s);
-    return true;
-  }
   return false;
 }
 
@@ -328,4 +327,23 @@ void Window::CloseAll()
 {
   for(int i = mGuiStack.Count(); --i >= 0;)
     mGuiStack[i]->Close();
+}
+
+void Window::DoWake()
+{
+  if (mSleeping)
+  {
+    mTimeSinceLastInput = 0;
+    mSleeping = false;
+    NotificationManager::Instance().Notify(Notification::WakeUp, Strings::ToString(mTimeSinceLastInput));
+  }
+}
+
+void Window::DoSleep()
+{
+  if (!mSleeping)
+  {
+    mSleeping = true;
+    NotificationManager::Instance().Notify(Notification::Sleep, Strings::ToString(mTimeSinceLastInput));
+  }
 }

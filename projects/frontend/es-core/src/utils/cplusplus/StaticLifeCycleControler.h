@@ -41,6 +41,12 @@ template<class T> class StaticLifeCycleControler
      * @return static Instance
      */
     static T& Instance();
+
+    /*!
+     * @brief Check if the object is available
+     * @return True if the object has been instantiated
+     */
+    static bool IsInstantiated() { return sInstance !=  nullptr; }
 };
 
 template<class T>

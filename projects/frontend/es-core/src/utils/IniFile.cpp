@@ -66,6 +66,7 @@ bool IniFile::Load()
     if (IsValidKeyValue(line, key, value))
       mConfiguration[key] = value;
 
+  OnLoad();
   return !mConfiguration.empty();
 }
 
@@ -97,6 +98,7 @@ bool IniFile::Save()
   // Save new
   Files::SaveFile(mFilePath, Strings::Join(lines, "\n"));
 
+  OnSave();
   return true;
 }
 

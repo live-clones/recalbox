@@ -26,6 +26,7 @@ set(ES_HEADERS
         src/systems/SystemDescriptor.h
         src/systems/SystemData.h
         src/systems/SystemManager.h
+        src/usernotifications/NotificationManager.h
 
         # GuiComponents
         src/components/RatingComponent.h
@@ -119,6 +120,7 @@ set(ES_SOURCES
         src/systems/EmulatorManager.cpp
         src/systems/SystemData.cpp
         src/systems/SystemManager.cpp
+        src/usernotifications/NotificationManager.cpp
 
         # GuiComponents
         src/components/RatingComponent.cpp

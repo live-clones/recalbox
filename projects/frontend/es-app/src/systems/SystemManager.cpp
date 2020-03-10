@@ -20,7 +20,7 @@ SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDes
   Path realPath = defaultRomsPath.IsEmpty() ? systemDescriptor.RomPath() : systemDescriptor.RomPath().ToAbsolute(defaultRomsPath);
 
   // Create system
-  SystemData* result = new SystemData(systemDescriptor, RootFolderData::Ownership::All, SystemData::Properties::None);
+  SystemData* result = new SystemData(*this, systemDescriptor, RootFolderData::Ownership::All, SystemData::Properties::None);
 
   // Avoid files being added more than once even through symlinks
   {
@@ -54,7 +54,7 @@ SystemData* SystemManager::CreateFavoriteSystem(const std::string& name, const s
 
   SystemDescriptor descriptor;
   descriptor.SetInformation("", name, fullName, "", "", themeFolder);
-  SystemData* result = new SystemData(descriptor, RootFolderData::Ownership::None, SystemData::Properties::Virtual | SystemData::Properties::AlwaysFlat | SystemData::Properties::Favorite);
+  SystemData* result = new SystemData(*this, descriptor, RootFolderData::Ownership::None, SystemData::Properties::Virtual | SystemData::Properties::AlwaysFlat | SystemData::Properties::Favorite);
 
   for (auto system : systems)
   {
@@ -82,7 +82,7 @@ SystemData* SystemManager::CreateMetaSystem(const std::string& name, const std::
 
   SystemDescriptor descriptor;
   descriptor.SetInformation("", name, fullName, "", "", themeFolder);
-  SystemData* result = new SystemData(descriptor, RootFolderData::Ownership::FolderOnly, SystemData::Properties::Virtual | properties, fixedSort);
+  SystemData* result = new SystemData(*this, descriptor, RootFolderData::Ownership::FolderOnly, SystemData::Properties::Virtual | properties, fixedSort);
 
   for (auto system : systems)
   {
@@ -110,7 +110,7 @@ SystemData* SystemManager::CreateMetaSystem(const std::string& name, const std::
 
   SystemDescriptor descriptor;
   descriptor.SetInformation("", name, fullName, "", "", themeFolder);
-  SystemData* result = new SystemData(descriptor, RootFolderData::Ownership::FolderOnly, SystemData::Properties::Virtual | properties, fixedSort);
+  SystemData* result = new SystemData(*this, descriptor, RootFolderData::Ownership::FolderOnly, SystemData::Properties::Virtual | properties, fixedSort);
 
   if (!games.empty())
   {

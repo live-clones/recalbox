@@ -54,20 +54,14 @@ class Window
 
     bool isSleeping() const { return mSleeping; }
 
-    //void renderLoadingScreen();
-
     void renderHelpPromptsEarly(); // used to render HelpPrompts before a fade
     void UpdateHelp() { mHelp.UpdateHelps(); }
 
     void setInfoPopup(const std::shared_ptr<InfoPopup>& infoPopup) { mInfoPopup = infoPopup; }
 
-    //void renderShutdownScreen();
+    void DoSleep();
 
-    void doWake()
-    {
-      mTimeSinceLastInput = 0;
-      mSleeping = false;
-    }
+    void DoWake();
 
     /*!
      * @brief Close all gui
@@ -104,7 +98,7 @@ class Window
 
     static void renderScreenSaver();
 
-    bool KonamiCode(InputDevice* config, InputEvent input, Window& window);
+    static bool KonamiCode(const InputCompactEvent& input);
 
     HelpComponent mHelp;
     ImageComponent mBackgroundOverlay;
@@ -126,31 +120,6 @@ class Window
     bool mNormalizeNextUpdate;
     bool mSleeping;
     bool mRenderedHelpPrompts;
-
-    static constexpr int sKonamiLength = 10;
-    InputDevice::Entry mKonami[sKonamiLength] =
-    {
-      InputDevice::Entry::Up,
-      InputDevice::Entry::Up,
-      InputDevice::Entry::Down,
-      InputDevice::Entry::Down,
-      InputDevice::Entry::Left,
-      InputDevice::Entry::Right,
-      InputDevice::Entry::Left,
-      InputDevice::Entry::Right,
-      InputDevice::Entry::B,
-      InputDevice::Entry::A,
-    };
-    int mKonamiCount = 0;
-    const std::vector<InputDevice::Entry> mInputVals =
-    {
-      InputDevice::Entry::Up,
-      InputDevice::Entry::Down,
-      InputDevice::Entry::Left,
-      InputDevice::Entry::Right,
-      InputDevice::Entry::A,
-      InputDevice::Entry::B,
-    };
 
     /*!
      * @brief Delete GUI pending for deletion
