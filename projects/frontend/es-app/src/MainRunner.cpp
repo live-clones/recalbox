@@ -326,6 +326,9 @@ void MainRunner::OpenLogs()
 {
   atexit(&onExit); // Always close the log on exit
 
+  if (mConfiguration.AsBool("emulationstation.debuglogs", false))
+    Log::setReportingLevel(LogLevel::LogDebug);
+
   Log::open();
   LOG(LogInfo) << "EmulationStation - v" << PROGRAM_VERSION_STRING << ", built " << PROGRAM_BUILT_STRING;
 }

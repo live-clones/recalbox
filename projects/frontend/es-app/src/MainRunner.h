@@ -79,7 +79,7 @@ class MainRunner: private INoCopy, private ISynchronousEvent, private IFileSyste
     /*!
      * @brief Open the main logger
      */
-    static void OpenLogs();
+    void OpenLogs();
 
     /*!
      * @brief Check home folder existence
