@@ -102,10 +102,10 @@ int main(int argc, char* argv[])
   if (!parseArgs(argc, argv, width, height, settings))
     return 0;
 
-  for(;;)
+  for(int loopCount = 0;; loopCount)
   {
     // Start the runner
-    MainRunner runner(argv[0], width, height);
+    MainRunner runner(argv[0], width, height, loopCount);
     MainRunner::ExitState exitState = runner.Run();
 
     LOG(LogInfo) << "EmulationStation cleanly shutting down.";

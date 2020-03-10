@@ -29,10 +29,11 @@ MainRunner::ExitState MainRunner::sRequestedExitState = MainRunner::ExitState::Q
 bool MainRunner::sQuitRequested = false;
 bool MainRunner::sForceReloadFromDisk = false;
 
-MainRunner::MainRunner(const std::string& executablePath, unsigned int width, unsigned int height)
+MainRunner::MainRunner(const std::string& executablePath, unsigned int width, unsigned int height, int runCount)
   : mRequestedWidth(width),
     mRequestedHeight(height),
-    mPendingExit(PendingExit::None)
+    mPendingExit(PendingExit::None),
+    mRunCount(runCount)
 {
   OpenLogs();
   SetLocale(executablePath);
@@ -79,7 +80,7 @@ MainRunner::ExitState MainRunner::Run()
     ResetForceReloadState();
 
     // Run kodi at startup?
-    if (mConfiguration.AsString("kodi.enabled") == "1" && mConfiguration.AsString("kodi.atstartup") == "1")
+    if ((mRunCount == 0) && mConfiguration.AsBool("kodi.enabled") && mConfiguration.AsBool("kodi.atstartup"))
       RecalboxSystem::launchKodi(window);
 
     // Scrapers

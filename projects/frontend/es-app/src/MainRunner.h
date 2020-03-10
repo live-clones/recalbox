@@ -49,11 +49,14 @@ class MainRunner: private INoCopy, private ISynchronousEvent, private IFileSyste
 
     //! Pending exit
     PendingExit mPendingExit;
+
+    //! Run count
+    int mRunCount;
+
     //! Quit request state
     static ExitState sRequestedExitState;
     //! Quit request
     static bool sQuitRequested;
-
     //! Force reload list requested
     static bool sForceReloadFromDisk;
 
@@ -163,9 +166,10 @@ class MainRunner: private INoCopy, private ISynchronousEvent, private IFileSyste
      * @brief Constructor
      * @param executablePath current executable path
      * @param width Requested width
-     * @param height  Requested height
+     * @param height Requested height
+     * @param runCount Number of time the MainRunner has been run
      */
-    MainRunner(const std::string& executablePath, unsigned int width, unsigned int height);
+    MainRunner(const std::string& executablePath, unsigned int width, unsigned int height, int runCount);
 
     /*!
      * @brief Run the game!
