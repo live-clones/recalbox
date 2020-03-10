@@ -39,9 +39,9 @@ class MainRunner: private INoCopy, private ISynchronousEvent, private IFileSyste
 
   private:
     //! Temporary file used as flag of readyness
-    static constexpr const char* sReadyFile = "/tmp/emulationstation.ready";
+    static constexpr const char* sReadyFile = "/tmp/externalnotifications/emulationstation.ready";
     //! Temporary file used as quit request
-    static constexpr const char* sQuitNow = "/tmp/emulationstation.quitnow";
+    static constexpr const char* sQuitNow = "/tmp/externalnotifications/emulationstation.quitnow";
     //! Requested width
     unsigned int mRequestedWidth;
     //! Requested height

@@ -114,7 +114,9 @@ MainRunner::ExitState MainRunner::Run()
 
       // Main Loop!
       CreateReadyFlagFile();
-      fileNotifier.WatchFile(Path(sQuitNow).Directory())
+      Path externalNotificationFolder = Path(sQuitNow).Directory();
+      externalNotificationFolder.CreatePath();
+      fileNotifier.WatchFile(externalNotificationFolder)
                   .SetEventNotifier(EventType::CloseWrite | EventType::Remove | EventType::Create, this);
       exitState = MainLoop(window, systemManager, fileNotifier);
       ResetExitState();
@@ -414,7 +416,7 @@ void MainRunner::FileSystemWatcherNotification(EventType event, const Path& path
   {
     if (((event & EventType::Create) != 0) && (path == sQuitNow))
       mPendingExit = PendingExit::MustExit;
-    else if ((event & (EventType::Remove | EventType::Modify)) != 0)
+    else if ((event & (EventType::Remove | EventType::CloseWrite)) != 0)
     {
       if (path.Filename() == "gamelist.xml")
         mPendingExit = PendingExit::GamelistChanged;
