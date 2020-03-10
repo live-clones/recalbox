@@ -25,6 +25,11 @@ class LibretroCores:
     def configure4DO(coreSettings):
         coreSettings.setOption("4do_dsp_threaded", '"enabled"')
 
+    @staticmethod
+    def configurePARALLELN64(coreSettings):
+        coreSettings.setOption("parallel-n64-boot-device", '"Default"')
+        coreSettings.setOption("parallel-n64-64dd-hardware", '"disabled"')
+
     #
     # System specific configurations
     #
@@ -73,6 +78,11 @@ class LibretroCores:
         a800settings.setOption("BUILTIN_BASIC", "1")
         a800settings.saveFile()
 
+    @staticmethod
+    def configure64DD(coreSettings):
+        coreSettings.setOption("parallel-n64-boot-device", '"64DD IPL"')
+        coreSettings.setOption("parallel-n64-64dd-hardware", '"enabled"')
+
     # Fill cores configuration
     def fillCoresConfiguration(self):
         recalbox = self.system.config
@@ -84,6 +94,7 @@ class LibretroCores:
             "bluemsx" : LibretroCores.configureBlueMSX,
             "mame2003_plus": LibretroCores.configureMAME2003plus,
             "4do": LibretroCores.configure4DO,
+            "parallel_n64": LibretroCores.configurePARALLELN64,
         }
 
         # Get handler and execute
@@ -102,6 +113,7 @@ class LibretroCores:
             "amstradcpc"   : LibretroCores.configureAmstradCPC,
             "gx4000"       : LibretroCores.configureAmstradGX4000,
             "spectravideo" : LibretroCores.configureSpectravideo,
+            "64dd"         : LibretroCores.configure64DD,
         }
 
         # Get handler and execute
