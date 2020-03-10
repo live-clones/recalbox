@@ -20,9 +20,9 @@ def lookupEmulationStation():
 	# Run through all process
 	for p in psutil.process_iter():
 		if "emulationstation" in p.cmdline():
-			print("Emultion-station found")
+			print("Emulation-Station found")
 			return p
-	print("Emultion-station NOT found")
+	print("Emulation-Station NOT found")
 	return None
 
 
@@ -41,7 +41,9 @@ def killEmulationStationTree():
 
 		# Tell EmulationStation to quit demo/mode and/or to exit gracefully
 		try:
-			with open("/tmp/emulationstation.quitnow", "w") as sf:
+			import os
+			os.makedirs("/tmp/externalnotifications", exist_ok=True)
+			with open("/tmp/externalnotifications/emulationstation.quitnow", "w") as sf:
 				sf.write("exit")
 				sf.flush()
 				sf.close()

@@ -34,7 +34,7 @@ def DetectGPiCase(cases):
 
 # Main identification routine
 def Identify():
-    cases = __import__("cases")
+    import cases
     case = cases.NONE
 
     with open("/recalbox/recalbox.arch", "r") as sf:
@@ -86,7 +86,7 @@ def mainInstall():
     if previousCase == "" or previousPhase < phase or not machine:
 
         # import logger
-        logger = __import__("logger")
+        import logger
 
         # Auto-identifying
         logger.hardlog("Current case: " + case)
@@ -94,23 +94,23 @@ def mainInstall():
             case = Identify()
             logger.hardlog("Case detected: " + case)
 
-        installers = __import__("installer")
+        import installer
         if machine:
             # Machine initiated - process install phases
             if phase == 0:
-                needReboot = installers.processHardware(install, case, previousCase)
+                needReboot = installer.processHardware(install, case, previousCase)
             else:
-                case = installers.processSoftware(install, case)
+                case = installer.processSoftware(install, case)
         else:
             # Human action - process both hardware & software
-            needReboot = installers.processHardware(install, case, previousCase)
-            case = installers.processSoftware(install, case)
+            needReboot = installer.processHardware(install, case, previousCase)
+            case = installer.processSoftware(install, case)
 
         # Set new case value
         settings.setOption(caseKey, "{}:{}".format(case, phase))
 
         # Save settings
-        subprocess = __import__("subprocess")
+        import subprocess
         subprocess.call(["mount", "-o", "remount,rw", "/boot"])
         settings.saveFile()
 
@@ -122,16 +122,16 @@ def mainInstall():
     # No reboot after phase 0, make install image available
     if previousPhase == 0:
 
-        installers = __import__("installer")
-        picture = installers.getInstallPicture(previousCase)
+        import installer
+        picture = installer.getInstallPicture(previousCase)
         if picture is not None:
 
             # import logger
-            logger = __import__("logger")
+            import logger
             logger.hardlog("Request install picture")
 
             # Make temporary link to image
-            os = __import__("os")
+            import os
             pathToSymLink = "/tmp/.install.png"
             if os.path.exists(pathToSymLink):
                 os.remove(pathToSymLink)
