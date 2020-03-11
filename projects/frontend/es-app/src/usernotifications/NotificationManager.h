@@ -23,16 +23,36 @@ enum class Notification
     EndDemo,
     Sleep,
     WakeUp,
-    ThemeChanged,
+    ScrapStart,
+    ScrapStop,
+    GameScraped,
     ConfigurationChanged,
 };
+
+DEFINE_BITFLAG_ENUM(Notification, int)
 
 class NotificationManager : public StaticLifeCycleControler<NotificationManager>
 {
   private:
-  /*!
-   * @brief Struture to hold a bag of parameters
-   */
+    /*!
+     * @brief Script data
+     */
+    struct ScriptData
+    {
+      Path         mPath;      //!< Script path
+      Notification mFilter;    //!< Bitflag of notifications this script must reply to
+      bool         mSync;      //!< RunSynchronously?
+      bool         mPermanent; //!< Permanent script are run when ES starts. They must listen to event permanently.
+    };
+
+    //! Shortcut :)
+    typedef std::vector<ScriptData> ScriptList;
+    //! Shortcut 2 :)
+    typedef std::vector<const ScriptData*> RefScriptList;
+
+    /*!
+     * @brief Struture to hold a bag of parameters
+     */
     struct ParamBag
     {
       //! Action parameters
@@ -91,7 +111,7 @@ class NotificationManager : public StaticLifeCycleControler<NotificationManager>
     static Path sStatusFilePath;
 
     //! All available scripts
-    Path::PathList mScriptList;
+    ScriptList mScriptList;
 
     //! Previous data
     ParamBag mPreviousParamBag;
@@ -111,6 +131,31 @@ class NotificationManager : public StaticLifeCycleControler<NotificationManager>
     static Notification ActionFromString(const std::string& action);
 
     /*!
+     * @brief Extract notifications bitflag from file name.
+     * notifications must be eclosed by [] and comma separated
+     * Case insensitive
+     * @param path Path to extract notifications from
+     * @return Notifications bitflag
+     */
+    static Notification ExtractNotificationsFromPath(const Path& path);
+
+    /*!
+     * @brief Extract sync flag from file name.
+     * Sync flag must be '(sync)'. Case insensitive
+     * @param path
+     * @return
+     */
+    static bool ExtractSyncFlagFromPath(const Path& path);
+
+    /*!
+     * @brief Extract permanent flag from file name.
+     * Sync flag must be '(permanent)'. Case insensitive
+     * @param path
+     * @return
+     */
+    static bool ExtractPermanentFlagFromPath(const Path& path);
+
+    /*!
      * @brief Load all available scripts
      */
     void LoadScriptList();
@@ -120,7 +165,7 @@ class NotificationManager : public StaticLifeCycleControler<NotificationManager>
      * @param action Action to filter
      * @return Filtered list
      */
-    Path::PathList FilteredScriptList(Notification action);
+    RefScriptList FilteredScriptList(Notification action);
 
     /*!
      * @brief Update EmulationStation status file

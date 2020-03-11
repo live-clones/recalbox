@@ -36,7 +36,9 @@ const char* NotificationManager::ActionToString(Notification action)
     case Notification::EndDemo:              return "enddemo";
     case Notification::Sleep:                return "sleep";
     case Notification::WakeUp:               return "wakeup";
-    case Notification::ThemeChanged:         return "themechanged";
+    case Notification::ScrapStart:           return "scrapstart";
+    case Notification::ScrapStop:            return "scrapstop";
+    case Notification::GameScraped:          return "gamescraped";
     case Notification::ConfigurationChanged: return "configurationchanged";
     default: break;
   }
@@ -61,7 +63,7 @@ Notification NotificationManager::ActionFromString(const std::string& action)
     { "enddemo"             , Notification::EndDemo              },
     { "sleep"               , Notification::Sleep                },
     { "wakeup"              , Notification::WakeUp               },
-    { "themechanged"        , Notification::ThemeChanged         },
+    { "gamescraped"         , Notification::GameScraped          },
     { "configurationchanged", Notification::ConfigurationChanged },
   });
 
@@ -71,69 +73,89 @@ Notification NotificationManager::ActionFromString(const std::string& action)
   return sStringToAction[action];
 }
 
+bool NotificationManager::ExtractSyncFlagFromPath(const Path& path)
+{
+  const std::string& scriptName = Strings::ToLowerASCII(path.FilenameWithoutExtension());
+  return (scriptName.find("(sync)") == std::string::npos);
+}
+
+bool NotificationManager::ExtractPermanentFlagFromPath(const Path& path)
+{
+  const std::string& scriptName = Strings::ToLowerASCII(path.FilenameWithoutExtension());
+  return (scriptName.find("(permanent)") == std::string::npos);
+}
+
+Notification NotificationManager::ExtractNotificationsFromPath(const Path& path)
+{
+  // Extract events between [ and ] in filename
+  const std::string& scriptName = Strings::ToLowerASCII(path.FilenameWithoutExtension());
+  unsigned long start = scriptName.find('[');
+  unsigned long stop = scriptName.find(']');
+
+  if (((start | stop) == std::string::npos) || (stop - start <= 1)) return (Notification)-1;
+
+  Notification result = Notification::None;
+  // Split events
+  Strings::Vector events = Strings::Split(scriptName.substr(start + 1, stop - start - 1), ',');
+  // Extract notifications
+  for(const std::string& event : events)
+    result |= ActionFromString(event);
+  return result;
+}
+
 void NotificationManager::LoadScriptList()
 {
   Path scriptsFolder(sScriptPath);
   Path::PathList scripts = scriptsFolder.GetDirectoryContent();
+
   for(const Path& path : scripts)
     if (path.IsFile())
-      mScriptList.push_back(path);
+    {
+      bool permanent = ExtractPermanentFlagFromPath(path);
+      mScriptList.push_back({
+                              path,
+                              ExtractNotificationsFromPath(path),
+                              ExtractSyncFlagFromPath(path),
+                              permanent
+                            });
+      if (permanent)
+      {
+        system(path.MakeEscaped().c_str());
+        LOG(LogDebug) << "Run permanent UserScript: " << path.ToString();
+      }
+    }
 }
 
-Path::PathList NotificationManager::FilteredScriptList(Notification action)
+NotificationManager::RefScriptList NotificationManager::FilteredScriptList(Notification action)
 {
-  Path::PathList list;
+  RefScriptList result;
 
-  for(const Path& scriptPath : mScriptList)
-  {
-    // Extract events between [ and ] in filename
-    const std::string& scriptName = scriptPath.FilenameWithoutExtension();
-    unsigned long start = scriptName.find('[');
-    unsigned long stop = scriptName.find(']');
-    if (((start | stop) != std::string::npos) && (stop - start > 1))
-    {
-      // Split events
-      Strings::Vector events = Strings::Split(scriptName.substr(start + 1, stop - start - 1), ',');
-      // If one event match our current action, this script has to be launched
-      for(const std::string& event : events)
-        if (ActionFromString(event) == action)
-        {
-          list.push_back(scriptPath);
-          break;
-        }
-    }
-    else list.push_back(scriptPath); // No filtering, just add
-  }
+  for(const ScriptData& script : mScriptList)
+    if ((script.mFilter & action) != 0)
+      result.push_back(&script);
 
-  return list;
+  return result;
 }
 
 void NotificationManager::RunScripts(Notification action, const std::string& param)
 {
-  Path::PathList scripts = FilteredScriptList(action);
+  RefScriptList scripts = FilteredScriptList(action);
   if (scripts.empty()) return; // Nothing to launch
 
   // Build parameter
   std::string actionString(" -action ");
   actionString.append(ActionToString(action))
-              .append(" -statefile \"")
-              .append(sStatusFilePath.ToString())
-              .append(1, '"');
+              .append(" -statefile \"").append(sStatusFilePath.ToString()).append(1, '"');
   if (!param.empty())
-  {
-    actionString.append(" -param \"")
-                .append(param)
-                .append(1, '"');
-  }
+    actionString.append(" -param \"").append(param).append(1, '"');
 
-  for(const Path& script : scripts)
+  for(const ScriptData* script : scripts)
   {
     // Get command to execute
-    std::string command(script.MakeEscaped());
+    std::string command(script->mPath.MakeEscaped());
     command.append(actionString);
-
     // Async?
-    if ((script.FilenameWithoutExtension().find("(sync)") == std::string::npos)) command.append(" &");
+    if (script->mSync) command.append(" &");
 
     // Run!
     LOG(LogDebug) << "Run UserScript: " << command;
@@ -150,47 +172,42 @@ void NotificationManager::Notify(const SystemData* system, const FileData* game,
   ParamBag newBag(system, game, action, actionParameters);
   if (newBag != mPreviousParamBag)
   {
+    std::string emulator;
+    std::string core;
+
     // Build status file
     std::string output("Version=2.0\r\n");
-    output.append("Action=").append(ActionToString(action)).append("\r\n");
-    output.append("ActionData=").append(actionParameters).append("\r\n");
-    output.append("System=").append((system != nullptr) ? system->getFullName() : "").append("\r\n");
-    output.append("SystemId=").append((system != nullptr) ? system->getName() : "").append("\r\n");
-    output.append("Game=").append((game != nullptr) ? game->getName() : "").append("\r\n");
-    output.append("GamePath=").append((game != nullptr) ? game->getPath().ToString() : "").append("\r\n");
-    output.append("ImagePath=").append((game != nullptr) ? game->Metadata().Image().ToString() : "").append("\r\n");
+    output.append("Action=").append(ActionToString(action)).append("\r\n")
+          .append("ActionData=").append(actionParameters).append("\r\n")
+          .append("System=").append((system != nullptr) ? system->getFullName() : "").append("\r\n")
+          .append("SystemId=").append((system != nullptr) ? system->getName() : "").append("\r\n")
+          .append("Game=").append((game != nullptr) ? game->getName() : "").append("\r\n")
+          .append("GamePath=").append((game != nullptr) ? game->getPath().ToString() : "").append("\r\n")
+          .append("ImagePath=").append((game != nullptr) ? game->Metadata().Image().ToString() : "").append("\r\n");
     if (game != nullptr)
     {
-      output.append("IsFolder=").append(game->isFolder() ? "1" : "0").append("\r\n");
-      output.append("ThumbnailPath=").append(game->Metadata().Thumbnail().ToString()).append("\r\n");
-      output.append("VideoPath=").append(game->Metadata().Video().ToString()).append("\r\n");
-      output.append("Developer=").append(game->Metadata().Developer()).append("\r\n");
-      output.append("Publisher=").append(game->Metadata().Publisher()).append("\r\n");
-      output.append("Players=").append(game->Metadata().PlayersAsString()).append("\r\n");
-      output.append("Region=").append(game->Metadata().RegionAsString()).append("\r\n");
-      output.append("Genre=").append(game->Metadata().Genre()).append("\r\n");
-      output.append("GenreId=").append(game->Metadata().GenreIdAsString()).append("\r\n");
-      output.append("Favorite=").append(game->Metadata().Favorite() ? "1" : "0").append("\r\n");
-      output.append("Hidden=").append(game->Metadata().Hidden() ? "1" : "0").append("\r\n");
-      output.append("Adult=").append(game->Metadata().Adult() ? "1" : "0").append("\r\n");
+      output.append("IsFolder=").append(game->isFolder() ? "1" : "0").append("\r\n")
+            .append("ThumbnailPath=").append(game->Metadata().Thumbnail().ToString()).append("\r\n")
+            .append("VideoPath=").append(game->Metadata().Video().ToString()).append("\r\n")
+            .append("Developer=").append(game->Metadata().Developer()).append("\r\n")
+            .append("Publisher=").append(game->Metadata().Publisher()).append("\r\n")
+            .append("Players=").append(game->Metadata().PlayersAsString()).append("\r\n")
+            .append("Region=").append(game->Metadata().RegionAsString()).append("\r\n")
+            .append("Genre=").append(game->Metadata().Genre()).append("\r\n")
+            .append("GenreId=").append(game->Metadata().GenreIdAsString()).append("\r\n")
+            .append("Favorite=").append(game->Metadata().Favorite() ? "1" : "0").append("\r\n")
+            .append("Hidden=").append(game->Metadata().Hidden() ? "1" : "0").append("\r\n")
+            .append("Adult=").append(game->Metadata().Adult() ? "1" : "0").append("\r\n");
 
-      std::string emulator;
-      std::string core;
       if (game->getSystem()->Manager().Emulators().GetGameEmulator(*game, emulator, core))
-      {
-        output.append("Emulator=").append(emulator).append("\r\n");
-        output.append("Core=").append(core).append("\r\n");
-      }
+        output.append("Emulator=").append(emulator).append("\r\n")
+              .append("Core=").append(core).append("\r\n");
     }
     else if (system != nullptr && !system->IsVirtual())
     {
-      std::string emulator;
-      std::string core;
       if (system->Manager().Emulators().GetSystemDefaultEmulator(*system, emulator, core))
-      {
-        output.append("Emulator=").append(emulator).append("\r\n");
-        output.append("Core=").append(core).append("\r\n");
-      }
+        output.append("Emulator=").append(emulator).append("\r\n")
+              .append("Core=").append(core).append("\r\n");
     }
     // Mimic old behavior of "State"
     if (action == Notification::SystemBrowsing ||

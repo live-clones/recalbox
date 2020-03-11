@@ -3,6 +3,7 @@
 #include <MainRunner.h>
 #include <recalbox/RecalboxSystem.h>
 #include <scraping/ScraperTools.h>
+#include <usernotifications/NotificationManager.h>
 #include "guis/GuiScraperRun.h"
 #include "Renderer.h"
 #include "utils/Log.h"
@@ -66,6 +67,9 @@ GuiScraperRun::GuiScraperRun(Window&window, SystemManager& systemManager, const 
 
 	// Final report component
   mFinalReport = std::make_shared<TextComponent>(mWindow, _("subtitle text"), menuTheme->menuFooter.font, menuTheme->menuText.color, TextAlignment::Center);
+
+  // Scripts
+  NotificationManager::Instance().Notify(Notification::ScrapStart);
 
   // Create scraper and run!
 	mScraper = ScraperFactory::Instance().GetScraper(Settings::Instance().Scraper());
@@ -144,6 +148,9 @@ void GuiScraperRun::GameResult(int index, int total, FileData* result)
 
   // Update database message
   mDatabaseMessage->setText(mScraper->ScraperDatabaseMessage());
+
+  // Scripts
+  NotificationManager::Instance().Notify(*result, Notification::GameScraped);
 }
 
 void GuiScraperRun::ScrapingComplete(ScrapeResult reason)
@@ -195,5 +202,8 @@ void GuiScraperRun::ScrapingComplete(ScrapeResult reason)
     mButton->setText(_("CLOSE"), _("CLOSE"));
     mSearchComp->SetRunning(false);
   }
+
+  // Scripts
+  NotificationManager::Instance().Notify(Notification::ScrapStop, Strings::ToString(mScraper->ScrapesSuccessful()));
 }
 
