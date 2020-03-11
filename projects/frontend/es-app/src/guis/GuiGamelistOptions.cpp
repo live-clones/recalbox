@@ -35,12 +35,8 @@ GuiGamelistOptions::GuiGamelistOptions(Window& window, SystemData& system, Syste
 		// Get current unicode char
 		unsigned int currentUnicode = Strings::UpperChar(getGamelist()->getCursor()->getName());
 
-		int position = 0;
-		while(position < (int)letters.size())
-    {
-		  unsigned int unicode = letters[position];
+		for(unsigned int unicode : letters)
       mJumpToLetterList->add(Strings::unicode2Chars(unicode), unicode, unicode == currentUnicode);
-    }
 
 		row.addElement(std::make_shared<TextComponent>(mWindow, _("JUMP TO LETTER"), menuTheme->menuText.font,
 													   menuTheme->menuText.color), true);
