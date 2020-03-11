@@ -48,7 +48,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add laptop switch external screen function only for x86_64
 - Fix reboot Emulationstation with webmanager
 - Add Nintendo 64DD
-- Fix reboot Emulationstation with webmanager
 - Add libretro mame 
 
 ## [6.1.1]
