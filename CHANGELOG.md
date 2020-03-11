@@ -49,6 +49,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fix reboot Emulationstation with webmanager
 - Add Nintendo 64DD
 - Add libretro mame 
+- Add EmulationStation event-driver user scripts
 
 ## [6.1.1]
 - Add zfast shaders

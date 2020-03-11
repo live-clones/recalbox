@@ -14,6 +14,7 @@
 - Add GameCube Bios 
 - Add Nintendo 64DD platform
 - Add libretro mame for recent mame set 
+- Add EmulationStation event-driver user scripts
 
 ### Improvements
 - Improve internal Scraper (ScreenScraper):

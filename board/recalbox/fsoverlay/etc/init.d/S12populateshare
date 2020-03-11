@@ -55,7 +55,7 @@ IFS=$OLDIFS
 # there are almost empty, it's just for the structure
 # the user can delete the directory, it will recreate the structure
 # the user can delete files, files will not be recreated
-for FILE in music bios extractions kodi saves saves/amiga screenshots \
+for FILE in music bios extractions kodi saves saves/amiga screenshots userscripts \
             system/.config/lirc/lircd.conf \
             system/.config/residualvm/residualvm.ini \
             system/.config/scummvm/scummvm.ini \
