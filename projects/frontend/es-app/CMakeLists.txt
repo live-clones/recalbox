@@ -53,6 +53,20 @@ set(ES_HEADERS
         src/guis/GuiBiosMd5.h
         src/guis/GuiQuit.h
 
+        # MQTT
+        src/mqtt/Countdown.h
+        src/mqtt/MqttClient.h
+        src/mqtt/TcpNetwork.h
+        src/mqtt/MQTTClient/FP.h
+        src/mqtt/MQTTClient/MQTTClient.h
+        src/mqtt/MQTTClient/MQTTLogging.h
+        src/mqtt/MQTTPacket/MQTTConnect.h
+        src/mqtt/MQTTPacket/MQTTFormat.h
+        src/mqtt/MQTTPacket/MQTTPublish.h
+        src/mqtt/MQTTPacket/MQTTSubscribe.h
+        src/mqtt/MQTTPacket/MQTTPacket.h
+        src/mqtt/MQTTPacket/MQTTUnsubscribe.h
+
         # Bios
         src/bios/Bios.h
         src/bios/BiosList.h
@@ -143,6 +157,23 @@ set(ES_SOURCES
         src/guis/GuiBiosScan.cpp
         src/guis/GuiBiosMd5.cpp
         src/guis/GuiQuit.cpp
+
+        # MQTT
+        src/mqtt/MqttClient.cpp
+        src/mqtt/TcpNetwork.cpp
+        src/mqtt/MQTTClient/FP.h
+        src/mqtt/MQTTClient/MQTTClient.h
+        src/mqtt/MQTTClient/MQTTLogging.h
+        src/mqtt/MQTTPacket/MQTTConnectClient.c
+        src/mqtt/MQTTPacket/MQTTConnectServer.c
+        src/mqtt/MQTTPacket/MQTTDeserializePublish.c
+        src/mqtt/MQTTPacket/MQTTFormat.c
+        src/mqtt/MQTTPacket/MQTTPacket.c
+        src/mqtt/MQTTPacket/MQTTSerializePublish.c
+        src/mqtt/MQTTPacket/MQTTSubscribeClient.c
+        src/mqtt/MQTTPacket/MQTTSubscribeServer.c
+        src/mqtt/MQTTPacket/MQTTUnsubscribeClient.c
+        src/mqtt/MQTTPacket/MQTTUnsubscribeServer.c
 
         # Bios
         src/bios/Bios.cpp

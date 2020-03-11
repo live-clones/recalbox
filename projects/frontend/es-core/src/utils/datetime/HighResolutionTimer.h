@@ -36,7 +36,7 @@ class HighResolutionTimer
     /*!
      * @brief Restart the timer
      */
-    void Initialize(int initialValue) { mReference = getNanoSecondTimer() - initialValue; }
+    void Initialize(long long initialValue) { mReference = getNanoSecondTimer() - initialValue; }
 
     /*!
      * @brief Get timer value in nano-seconds
