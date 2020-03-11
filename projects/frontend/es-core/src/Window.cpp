@@ -228,15 +228,14 @@ void Window::Render(Transform4x4f& transform)
   // draw only bottom and top of GuiStack (if they are different)
   if (!mGuiStack.Empty())
   {
-    Gui* bottom = mGuiStack[0];
-    Gui* top = mGuiStack.Peek();
+    int stackSize = (int)mGuiStack.Count();
+    auto previous = stackSize > 1 ? mGuiStack[stackSize - 2] : nullptr;
+    auto top = mGuiStack.Peek();
 
-    bottom->Render(transform);
-    if (bottom != top)
-    {
-      mBackgroundOverlay.Render(transform);
-      top->Render(transform);
-    }
+    mBackgroundOverlay.Render(transform);
+    if (top->IsOverlay())
+      if (stackSize > 1 && previous != nullptr) previous->Render(transform);
+    top->Render(transform);
   }
 
   if (!mRenderedHelpPrompts)

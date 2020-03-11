@@ -125,6 +125,21 @@ std::string Strings::ToUpperUTF8(const std::string& _string)
   return result;
 }
 
+std::string Strings::UnicodeToUtf8(const std::vector<unsigned int>& unicodes)
+{
+  std::string result;
+  for(unsigned int unicode : unicodes)
+    result.append(unicode2Chars(unicode));
+  return result;
+}
+
+std::vector<unsigned int> Strings::Utf8ToUnicode(const std::string& utf8)
+{
+  std::vector<unsigned int> result;
+  for(int position = 0; position < (int)utf8.size(); )
+    result.push_back(chars2Unicode(utf8, position));
+  return result;
+}
 
 unsigned int Strings::chars2Unicode(const std::string& _string, int& _cursor)
 {
@@ -745,3 +760,4 @@ int Strings::CountChar(const std::string& source, char c)
     if (p[i] == c) count++;
   return count;
 }
+

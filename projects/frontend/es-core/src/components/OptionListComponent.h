@@ -323,6 +323,8 @@ public:
 		mSelectedChangedCallback = callback;
 	}
 
+	inline void setChangedCallback(const std::function<void()>& callback) { mChangedCallback = callback; };
+
 	bool changed(){
 		return firstSelected != getSelected();
 	}
@@ -379,6 +381,10 @@ private:
 		if (mSelectedChangedCallback) {
 			mSelectedChangedCallback(mEntries[getSelectedId()].object);
 		}
+
+		if (mChangedCallback) {
+			mChangedCallback();
+		}
 	}
 
 	bool getHelpPrompts(Help& help) override
@@ -411,4 +417,5 @@ private:
 
 	std::vector<OptionListData> mEntries;
 	std::function<void(const T&)> mSelectedChangedCallback;
+	std::function<void()> mChangedCallback;
 };

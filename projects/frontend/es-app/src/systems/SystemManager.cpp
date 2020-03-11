@@ -688,8 +688,51 @@ void SystemManager::UpdateLastPlayedSystem(FileData& game)
   int index = getVisibleSystemIndex(sLastPlayedSystemShortName);
   if (index < 0) return; // No last played system
   SystemData& system = *mVisibleSystemVector[index];
-
   // Update system
   system.UpdateLastPlayedGame(game);
 }
 
+void SystemManager::SearchResultQuickSortAscending(FolderData::ResultList& items, int low, int high)
+{
+  int Low = low, High = high;
+  const FolderData::FastSearchItem& pivot = items[(Low + High) >> 1];
+  do
+  {
+    while(items[Low].Distance  < pivot.Distance) Low++;
+    while(items[High].Distance > pivot.Distance) High--;
+    if (Low <= High)
+    {
+      FolderData::FastSearchItem Tmp = items[Low]; items[Low] = items[High]; items[High] = Tmp;
+      Low++; High--;
+    }
+  }while(Low <= High);
+  if (High > low) SearchResultQuickSortAscending(items, low, High);
+  if (Low < high) SearchResultQuickSortAscending(items, Low, high);
+}
+
+FileData::List SystemManager::searchTextInGames(FolderData::FastSearchContext context, const std::string& originaltext, int maxpersystem, int maxglobal)
+{
+  std::string lowercaseText = Strings::ToLowerUTF8(originaltext);
+
+  // Get search results
+  FolderData::ResultList searchResults;
+  searchResults.reserve(5000);
+  for(auto system : mVisibleSystemVector)
+  {
+    int maximumResultPerSystem = maxpersystem;
+    system->getRootFolder().FastSearch(context, lowercaseText, searchResults, maximumResultPerSystem);
+  }
+
+  // Sort results
+  if (searchResults.size() > 1)
+    SearchResultQuickSortAscending(searchResults, 0, (int)searchResults.size() - 1);
+
+  // Copy to final list
+  FileData::List results;
+  results.reserve(searchResults.size());
+  for(auto& sr : searchResults)
+    if (--maxglobal >= 0)
+      results.push_back(sr.Data);
+
+  return results;
+}

@@ -26,7 +26,7 @@ class ResourceManager;
 #define FONT_PATH_LIGHT ":/ubuntu_condensed.ttf"
 #define FONT_PATH_REGULAR ":/ubuntu_condensed.ttf"
 
-typedef unsigned long UnicodeChar;
+typedef unsigned int UnicodeChar;
 
 enum class TextAlignment : unsigned char
 {
@@ -41,110 +41,133 @@ enum class TextAlignment : unsigned char
 //The library is automatically initialized when it's needed.
 class Font : public IReloadable
 {
-public:
-	static void initLibrary();
+  private:
+    static FT_Library sLibrary;
+    static std::map< std::pair<Path, int>, std::weak_ptr<Font> > sFontMap;
 
-	static std::shared_ptr<Font> get(int size, const Path& path = getDefaultPath());
+    Font(int size, const Path& path);
 
-	virtual ~Font();
+    struct FontTexture
+    {
+      GLuint textureId;
+      Vector2i textureSize;
 
-	Vector2f sizeText(const std::string& text, float lineSpacing = 1.5f); // Returns the expected size of a string when rendered.  Extra spacing is applied to the Y axis.
-	TextCache* buildTextCache(const std::string& text, float offsetX, float offsetY, unsigned int color);
-	TextCache* buildTextCache(const std::string& text, Vector2f offset, unsigned int color, float xLen, TextAlignment alignment = TextAlignment::Left, float lineSpacing = 1.5f);
-	static void renderTextCache(TextCache* cache);
-	
-	std::string wrapText(std::string text, float xLen); // Inserts newlines into text to make it wrap properly.
-	Vector2f sizeWrappedText(const std::string& text, float xLen, float lineSpacing = 1.5f); // Returns the expected size of a string after wrapping is applied.
-	Vector2f getWrappedTextCursorOffset(const std::string& text, float xLen, size_t cursor, float lineSpacing = 1.5f); // Returns the position of of the cursor after moving "cursor" characters.
+      Vector2i writePos;
+      int rowHeight;
 
-	float getHeight(float lineSpacing = 1.5f) const;
-	float getLetterHeight();
+      FontTexture();
+      ~FontTexture();
+      bool findEmpty(const Vector2i& size, Vector2i& cursor_out);
 
-  void reload(ResourceManager& ) final { rebuildTextures(); }
-  void unload(ResourceManager& ) final { unloadTextures(); }
+      // you must call initTexture() after creating a FontTexture to get a textureId
+      void initTexture(); // initializes the OpenGL texture according to this FontTexture's settings, updating textureId
+      void deinitTexture(); // deinitializes the OpenGL texture if any exists, is automatically called in the destructor
+    };
 
-	int getSize() const;
-	inline const Path& getPath() const { return mPath; }
+    struct FontFace
+    {
+      const std::string data;
+      FT_Face face;
 
-	static Path getDefaultPath() { static Path defaultFont(FONT_PATH_REGULAR); return defaultFont; }
+      FontFace(std::string&& d, int size);
+      virtual ~FontFace();
+    };
 
-	static std::shared_ptr<Font> getFromTheme(const ThemeElement* elem, ThemeProperties properties, const std::shared_ptr<Font>& orig);
+    void rebuildTextures();
+    void unloadTextures();
 
-	size_t getMemUsage() const; // returns an approximation of VRAM used by this font's texture (in bytes)
-	static size_t getTotalMemUsage(); // returns an approximation of total VRAM used by font textures (in bytes)
+    std::vector<FontTexture> mTextures;
 
-	// utf8 stuff
-	static size_t getNextCursor(const std::string& str, size_t cursor);
-	static size_t getPrevCursor(const std::string& str, size_t cursor);
-	static size_t moveCursor(const std::string& str, size_t cursor, int moveAmt); // negative moveAmt = move backwards, positive = move forwards
-	static UnicodeChar readUnicodeChar(const std::string& str, size_t& cursor); // reads unicode character at cursor AND moves cursor to the next valid unicode char
+    void getTextureForNewGlyph(const Vector2i& glyphSize, FontTexture*& tex_out, Vector2i& cursor_out);
 
-private:
-	static FT_Library sLibrary;
-	static std::map< std::pair<Path, int>, std::weak_ptr<Font> > sFontMap;
+    std::map< unsigned int, std::unique_ptr<FontFace> > mFaceCache;
+    FT_Face getFaceForChar(UnicodeChar id);
+    void clearFaceCache();
 
-	Font(int size, const Path& path);
+  public:
+    struct Glyph
+    {
+      FontTexture* texture;
 
-	struct FontTexture
-	{
-		GLuint textureId;
-		Vector2i textureSize;
+      Vector2f texPos;
+      Vector2f texSize; // in texels!
 
-		Vector2i writePos;
-		int rowHeight;
+      Vector2f advance;
+      Vector2f bearing;
+    };
 
-		FontTexture();
-		~FontTexture();
-		bool findEmpty(const Vector2i& size, Vector2i& cursor_out);
+  private:
+    std::map<UnicodeChar, Glyph> mGlyphMap;
 
-		// you must call initTexture() after creating a FontTexture to get a textureId
-		void initTexture(); // initializes the OpenGL texture according to this FontTexture's settings, updating textureId
-		void deinitTexture(); // deinitializes the OpenGL texture if any exists, is automatically called in the destructor
-	};
+    Glyph* getGlyph(UnicodeChar id);
 
-	struct FontFace
-	{
-		const std::string data;
-		FT_Face face;
+    int mMaxGlyphHeight;
 
-		FontFace(std::string&& d, int size);
-		virtual ~FontFace();
-	};
+    const int mSize;
+    const Path mPath;
 
-	void rebuildTextures();
-	void unloadTextures();
+    //! Maximum bearing of charaters from 32 to 128
+    float mBearingMax;
+    //! Maximum size of charaters from 32 to 128
+    float mSizeMax;
 
-	std::vector<FontTexture> mTextures;
+    float getNewlineStartOffset(const std::string& text, unsigned int charStart, float xLen, TextAlignment alignment);
 
-	void getTextureForNewGlyph(const Vector2i& glyphSize, FontTexture*& tex_out, Vector2i& cursor_out);
+    friend TextCache;
 
-	std::map< unsigned int, std::unique_ptr<FontFace> > mFaceCache;
-	FT_Face getFaceForChar(UnicodeChar id);
-	void clearFaceCache();
+  public:
+    static void initLibrary();
 
-	struct Glyph
-	{
-		FontTexture* texture;
-		
-		Vector2f texPos;
-		Vector2f texSize; // in texels!
+    static std::shared_ptr<Font> get(int size, const Path& path = getDefaultPath());
 
-		Vector2f advance;
-		Vector2f bearing;
-	};
+    virtual ~Font();
 
-	std::map<UnicodeChar, Glyph> mGlyphMap;
+    Vector2f sizeText(const std::string& text, float lineSpacing = 1.5f); // Returns the expected size of a string when rendered.  Extra spacing is applied to the Y axis.
+    TextCache* buildTextCache(const std::string& text, float offsetX, float offsetY, unsigned int color, bool nospacing = false);
+    TextCache* buildTextCache(const std::string& text, Vector2f offset, unsigned int color, float xLen, TextAlignment alignment = TextAlignment::Left, float lineSpacing = 1.5f, bool nospacing = false);
+    static void renderTextCache(TextCache* cache);
+    void renderCharacter(unsigned int unicode, float x, float y, float wr, float hr, unsigned int color);
 
-	Glyph* getGlyph(UnicodeChar id);
+    std::string wrapText(std::string text, float xLen); // Inserts newlines into text to make it wrap properly.
+    Vector2f sizeWrappedText(const std::string& text, float xLen, float lineSpacing = 1.5f); // Returns the expected size of a string after wrapping is applied.
+    Vector2f getWrappedTextCursorOffset(const std::string& text, float xLen, size_t cursor, float lineSpacing = 1.5f); // Returns the position of of the cursor after moving "cursor" characters.
 
-	int mMaxGlyphHeight;
-	
-	const int mSize;
-	const Path mPath;
+    float getHeight(float lineSpacing = 1.5f) const;
+    float getLetterHeight();
 
-	float getNewlineStartOffset(const std::string& text, unsigned int charStart, float xLen, TextAlignment alignment);
+    void reload(ResourceManager&) final { rebuildTextures(); }
+    void unload(ResourceManager&) final { unloadTextures(); }
 
-	friend TextCache;
+    int getSize() const;
+    inline const Path& getPath() const { return mPath; }
+
+    static Path getDefaultPath() { static Path defaultFont(FONT_PATH_REGULAR); return defaultFont; }
+
+    static std::shared_ptr<Font> getFromTheme(const ThemeElement* elem, ThemeProperties properties, const std::shared_ptr<Font>& orig);
+
+    size_t getMemUsage() const; // returns an approximation of VRAM used by this font's texture (in bytes)
+    static size_t getTotalMemUsage(); // returns an approximation of total VRAM used by font textures (in bytes)
+
+    // utf8 stuff
+    static size_t getNextCursor(const std::string& str, size_t cursor);
+    static size_t getPrevCursor(const std::string& str, size_t cursor);
+    static size_t moveCursor(const std::string& str, size_t cursor, int moveAmt); // negative moveAmt = move backwards, positive = move forwards
+    static UnicodeChar readUnicodeChar(const std::string& str, size_t& cursor); // reads unicode character at cursor AND moves cursor to the next valid unicode char
+
+    /*!
+     * @brief Return the max bearing (distance from top to baseline)
+     * @return Max bearing value
+     */
+    float getMaxBearing() const { return mBearingMax; }
+
+    /*!
+     * @brief Return the max height of charaters (distance from top to bottom)
+     * @return Max height
+     */
+    float getMaxHeight() const { return mSizeMax; }
+
+
+    Glyph& Character(unsigned int unicode) { return *getGlyph(unicode); }
 };
 
 // Used to store a sort of "pre-rendered" string.

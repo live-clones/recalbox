@@ -35,7 +35,9 @@ class Gui : public Component
      */
     bool AmIOnTopOfScreen() const;
 
-    /*
-     * Partial IComponent implementation
+    /*!
+     * @brief Override and return true if the GUI is an overlay and the underlying GUI must me displayed under.
+     * @return True if the GUI is an overlay
      */
+    virtual bool IsOverlay() const { return false; }
 };

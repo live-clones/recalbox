@@ -113,7 +113,7 @@ private:
 	void updateCellComponent(const GridEntry& cell);
 	void updateSeparators();
 
-	GridEntry* getCellAt(int x, int y);
+
 	inline GridEntry* getCellAt(const Vector2i& pos) { return getCellAt(pos.x(), pos.y()); }
 	
 	Vector2i mGridSize;
@@ -124,4 +124,7 @@ private:
 	Vector2i mCursor;
 
 	std::function<bool(const InputCompactEvent&)> mUnhandledInputCallback;
+
+public:
+	GridEntry* getCellAt(int x, int y);
 };

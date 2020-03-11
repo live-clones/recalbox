@@ -1,3 +1,4 @@
+#include <guis/GuiArcadeVirtualKeyboard.h>
 #include "components/TextEditComponent.h"
 #include "utils/Log.h"
 #include "resources/Font.h"
@@ -6,12 +7,6 @@
 
 #include "utils/locale/LocaleHelper.h"
 #include "MenuThemeData.h"
-
-#define TEXT_PADDING_HORIZ 10
-#define TEXT_PADDING_VERT 2
-
-#define CURSOR_REPEAT_START_DELAY 500
-#define CURSOR_REPEAT_SPEED 28 // lower is faster
 
 TextEditComponent::TextEditComponent(Window&window)
 	: Component(window),
@@ -35,12 +30,14 @@ void TextEditComponent::onFocusGained()
 {
 	mFocused = true;
 	mBox.setImagePath(Path(":/textinput_ninepatch_active.png"));
+	startEditing();
 }
 
 void TextEditComponent::onFocusLost()
 {
 	mFocused = false;
 	mBox.setImagePath(Path(":/textinput_ninepatch.png"));
+	stopEditing();
 }
 
 void TextEditComponent::onSizeChanged()
@@ -58,22 +55,23 @@ void TextEditComponent::setValue(const std::string& val)
 
 void TextEditComponent::textInput(const char* text)
 {
-	if(mEditing)
-	{
-		mCursorRepeatDir = 0;
-		if(text[0] == '\b')
-		{
-			if(mCursor > 0)
-			{
-				size_t newCursor = Font::getPrevCursor(mText, mCursor);
-				mText.erase(mText.begin() + newCursor, mText.begin() + mCursor);
-				mCursor = newCursor;
-			}
-		}else{
-			mText.insert(mCursor, text);
-			mCursor += strlen(text);
-		}
-	}
+  //mText = text;
+  //mCursor = cursor > 0 ? cursor : mText.length();
+  mCursorRepeatDir = 0;
+  if(text[0] == '\b')
+  {
+    if(mCursor > 0)
+    {
+      size_t newCursor = Font::getPrevCursor(mText, mCursor);
+      mText.erase(mText.begin() + newCursor, mText.begin() + mCursor);
+      mCursor = newCursor;
+    }
+  }
+  else
+  {
+    mText.insert(mCursor, text);
+    mCursor += strlen(text);
+  }
 
 	onTextChanged();
 	onCursorChanged();
@@ -93,60 +91,73 @@ void TextEditComponent::stopEditing()
 	updateHelpPrompts();
 }
 
+void TextEditComponent::ArcadeVirtualKeyboardCanceled(GuiArcadeVirtualKeyboard& vk)
+{
+  (void)vk;
+}
+
+void TextEditComponent::ArcadeVirtualKeyboardValidated(GuiArcadeVirtualKeyboard& vk, const std::string& text)
+{
+  (void)vk;
+  (void)text;
+}
+
+void TextEditComponent::ArcadeVirtualKeyboardTextChange(GuiArcadeVirtualKeyboard& vk, const std::string& text)
+{
+  (void)vk;
+  setValue(text);
+  setCursor(text.length());
+}
+
 bool TextEditComponent::ProcessInput(const InputCompactEvent& event)
 {
 	if (event.AnythingReleased())
 	{
 		if (event.LeftReleased() || event.RightPressed())
 			mCursorRepeatDir = 0;
-
 		return false;
 	}
 
-	if (event.BPressed() && mFocused && !mEditing)
+	if (!event.IsKeyboard() && event.R1Pressed() && mFocused)
 	{
-		startEditing();
+    auto vk = new GuiArcadeVirtualKeyboard(mWindow, "", getValue(), this);
+    mWindow.pushGui(vk);
+		//startEditing();
 		return true;
 	}
 
-	if(mEditing)
-	{
-		if (event.KeyCode() == SDLK_RETURN)
-		{
-			if(isMultiline())
-			{
-				textInput("\n");
-			}else{
-				stopEditing();
-			}
-
-			return true;
-		}
-
-		if (event.KeyCode() == SDLK_ESCAPE || (event.Device().IsPad() && event.APressed()))
-		{
-			stopEditing();
-			return true;
-		}
-
-		/*if (event.UpPressed())
-		{
-			// TODO
-		}
-		else if (event.DownPressed())
-		{
-			// TODO
-		}
-		else*/ if (event.LeftPressed() || event.RightPressed())
-		{
-			mCursorRepeatDir = event.LeftPressed() ? -1 : 1;
-			mCursorRepeatTimer = -(CURSOR_REPEAT_START_DELAY - CURSOR_REPEAT_SPEED);
-			moveCursor(mCursorRepeatDir);
-		}
-
-		//consume all input when editing text
-		return true;
-	}
+  if (event.IsKeyboard())
+  {
+    LOG(LogDebug) << " Type: " << (int)event.RawEvent().Type() << " - Id: " << event.RawEvent().Id() << " - Device: " << event.RawEvent().Device() << " - Value: " << event.RawEvent().Value();
+    bool pressed = event.RawEvent().Value() != 0;
+    switch(event.RawEvent().Id())
+    {
+      case SDLK_BACKSPACE: if (pressed) textInput("\b"); break;
+      case SDLK_DELETE:
+      {
+        if (pressed)
+          if (mCursor < (int)mText.length())
+          {
+            size_t newCursor = Font::getNextCursor(mText, mCursor);
+            mText.erase(mText.begin() + mCursor, mText.begin() + newCursor);
+            onTextChanged();
+          }
+        break;
+      }
+      case SDLK_RETURN:
+      case SDLK_RETURN2: if (isMultiline()) textInput("\n"); else stopEditing(); break;
+      case SDLK_ESCAPE: stopEditing(); break;
+      case SDLK_LEFT:
+      case SDLK_RIGHT:
+      {
+        mCursorRepeatDir = event.RawEvent().Id() == SDLK_LEFT ? -1 : 1;
+        mCursorRepeatTimer = -(CURSOR_REPEAT_START_DELAY - CURSOR_REPEAT_SPEED);
+        moveCursor(mCursorRepeatDir);
+        break;
+      }
+    }
+    return true;
+  }
 
 	return false;
 }
@@ -193,6 +204,9 @@ void TextEditComponent::onTextChanged()
 
 	if(mCursor > (int)mText.length())
 		mCursor = mText.length();
+
+	if(mTextChangedCallback)
+		mTextChangedCallback();
 }
 
 void TextEditComponent::onCursorChanged()
@@ -268,11 +282,6 @@ void TextEditComponent::Render(const Transform4x4f& parentTrans)
 bool TextEditComponent::isMultiline()
 {
 	return (getSize().y() > mFont->getHeight() * 1.25f);
-}
-
-Vector2f TextEditComponent::getTextAreaPos()
-{
-	return { TEXT_PADDING_HORIZ / 2.0f, TEXT_PADDING_VERT / 2.0f };
 }
 
 Vector2f TextEditComponent::getTextAreaSize() const

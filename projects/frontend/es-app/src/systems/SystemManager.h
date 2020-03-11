@@ -376,5 +376,22 @@ class SystemManager :
 
     //! Get emulator manager
     const EmulatorManager& Emulators() const { return mEmulatorManager; }
+
+    /*!
+     * @brief Fasqt Search result Quick sort
+     * @param items Item to sort
+     * @param low Range low index
+     * @param high Range high index
+     */
+    static void SearchResultQuickSortAscending(FolderData::ResultList& items, int low, int high);
+
+    /*!
+     * @brief Search games from text
+     * @param text Text to search for
+     * @param maxpersystem Maximum results per system
+     * @param maxglobal Maximum results
+     * @return Sorted game found list
+     */
+    FileData::List searchTextInGames(FolderData::FastSearchContext context, const std::string& text, int maxpersystem, int maxglobal);
 };
 

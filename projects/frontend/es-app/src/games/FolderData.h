@@ -92,7 +92,38 @@ class FolderData : public FileData
      */
     static void QuickSortDescending(FileData::List& items, int low, int high, FileData::Comparer comparer);
 
+    /*!
+     * @brief Search text into the game name, returning the index of the text
+     * @param text text to search for
+     * @param fd FileData to search in
+     * @return Index of the text found, or -1
+     */
+    static int FastSearchText(const std::string& text, const std::string& into);
+
   public:
+    enum class FastSearchContext
+    {
+        Path,
+        Name,
+        Description,
+        Developer,
+        Publisher,
+        All,
+    };
+
+    /*!
+     * @brief Fast search data holder
+     */
+    struct FastSearchItem
+    {
+      int Distance;   // Distance of the found text
+      FileData* Data; // FileData object
+
+      FastSearchItem(int distance, FileData* data) : Distance(distance), Data(data) {}
+    };
+    //! Result list alias
+    typedef std::vector<FastSearchItem> ResultList;
+
     /*!
      * Constructor
      */
@@ -299,6 +330,15 @@ class FolderData : public FileData
      * @param includefolder include folder or not
      */
     void BuildDoppelgangerMap(FileData::StringMap& doppelganger, bool includefolder) const;
+
+    /*!
+     * @brief Search for all games containing 'text' and add them to 'result'
+     * @param context Field in which to search text for
+     * @param text Test to search for
+     * @param results Result list
+     * @param remaining Maximum results
+     */
+    void FastSearch(FastSearchContext context, const std::string& text, ResultList& results, int& remaining);
 };
 
 

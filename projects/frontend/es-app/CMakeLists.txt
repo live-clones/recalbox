@@ -52,6 +52,7 @@ set(ES_HEADERS
         src/guis/GuiBiosScan.h
         src/guis/GuiBiosMd5.h
         src/guis/GuiQuit.h
+        src/guis/GuiSearch.h
 
         # MQTT
         src/mqtt/Countdown.h
@@ -157,6 +158,7 @@ set(ES_SOURCES
         src/guis/GuiBiosScan.cpp
         src/guis/GuiBiosMd5.cpp
         src/guis/GuiQuit.cpp
+        src/guis/GuiSearch.cpp
 
         # MQTT
         src/mqtt/MqttClient.cpp

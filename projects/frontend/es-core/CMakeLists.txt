@@ -105,6 +105,8 @@ set(CORE_HEADERS
 		src/guis/GuiMsgBoxScroll.h
 		src/guis/GuiTextEditPopup.h
 		src/guis/GuiTextEditPopupKeyboard.h
+		src/guis/GuiArcadeVirtualKeyboard.h
+		src/guis/GuiArcadeVirtualKeyboardInterface.h
 
 		# Resources
 		src/resources/Font.h
@@ -206,6 +208,7 @@ set(CORE_SOURCES
 		src/guis/GuiMsgBoxScroll.cpp
 		src/guis/GuiTextEditPopup.cpp
 		src/guis/GuiTextEditPopupKeyboard.cpp
+		src/guis/GuiArcadeVirtualKeyboard.cpp
 
 		# Resources
 		src/resources/Font.cpp

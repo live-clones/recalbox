@@ -600,3 +600,52 @@ bool FolderData::IsDirty() const
   return false;
 }
 
+int FolderData::FastSearchText(const std::string& text, const std::string& into)
+{
+  const char* fdn = into.c_str();                        // Keep filedata name pointer for fast result computation
+  const char* tts = text.c_str();                        // Keep text pointer for fast search reset
+  int lmax = (int)into.size() - (int)text.size() + 1;    // MAximum byte to search in
+
+  for(const char* p = fdn - 1; --lmax >= 0; ++p)         // Run through the game name, straight forward
+    if ((*p | 0x20) == (*tts))                           // Try to catch the first char
+      for (const char* s = tts, *ip = p; ; )             // Got it, run through both string
+      {
+        const char c = *(++s);
+        if ((c != 0) && ((*(++ip) | 0x20) != c) ) break; // Chars are not equal, exit the inner loop
+        if (c == 0) return (int)(p - fdn);               // Chars are equal, got a zero terminal? Found it!
+      }
+  return -1;                                             // Nothing found
+}
+
+void FolderData::FastSearch(FastSearchContext context, const std::string& text, ResultList& results, int& remaining)
+{
+  for (FileData* fd : mChildren)
+    if (remaining <= 0) return;
+    else if (fd->isFolder())
+      CastFolder(fd)->FastSearch(context, text, results, remaining);
+    else
+    if (!fd->Metadata().Hidden())
+    {
+      int distance;
+      switch(context)
+      {
+        case FastSearchContext::Name       : distance = FastSearchText(text, fd->getName()); break;
+        case FastSearchContext::Path       : distance = FastSearchText(text, fd->getPath().ToString()); break;
+        case FastSearchContext::Description: distance = FastSearchText(text, fd->Metadata().Description()); break;
+        case FastSearchContext::Developer  : distance = FastSearchText(text, fd->Metadata().Developer()); break;
+        case FastSearchContext::Publisher  : distance = FastSearchText(text, fd->Metadata().Publisher()); break;
+        case FastSearchContext::All        :
+        {
+          distance = FastSearchText(text, fd->getName());
+          if (distance < 0) distance = FastSearchText(text, fd->getPath().ToString());
+          if (distance < 0) distance = FastSearchText(text, fd->Metadata().Description());
+          if (distance < 0) distance = FastSearchText(text, fd->Metadata().Developer());
+          if (distance < 0) distance = FastSearchText(text, fd->Metadata().Publisher());
+          break;
+        }
+      }
+      if (distance >= 0)
+        if (--remaining > 0)
+          results.push_back(FastSearchItem(distance, fd));
+    }
+}

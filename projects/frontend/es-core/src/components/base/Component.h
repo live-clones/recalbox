@@ -25,6 +25,11 @@ class Component: public IComponent
     explicit Component(Window& window);
     virtual ~Component();
 
+    /*!
+     * @brief Called from SDL in text input mode
+     * @param text Latest text
+     * @param cursor position
+     */
     virtual void textInput(const char* text);
 
     /*!

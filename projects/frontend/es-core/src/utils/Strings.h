@@ -152,6 +152,10 @@ class Strings
     static std::string ToHexa(long long hex, int length);
 
     static std::string URLEncode(const std::string& source);
+
+    static std::string UnicodeToUtf8(const std::vector<unsigned int>& unicodes);
+
+    static std::vector<unsigned int> Utf8ToUnicode(const std::string& utf8);
 };
 
 #endif // ES_CORE_UTILS_STRING_UTIL_H

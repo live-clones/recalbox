@@ -200,11 +200,18 @@ Font::Font(int size, const Path& path) : mSize(size), mPath(path)
 	mMaxGlyphHeight = 0;
 
 	if(sLibrary == nullptr)
-		initLibrary();
+    initLibrary();
 
 	// always initialize ASCII characters
-	for (UnicodeChar i = 32; i < 128; i++)
-		getGlyph(i);
+  mBearingMax = 0;
+  mSizeMax = 0;
+  for (UnicodeChar i = 32; i < 128; i++)
+  {
+    Glyph* g = getGlyph(i);
+    if (g->bearing.y() > mBearingMax) mBearingMax = g->bearing.y();
+    float height = g->texSize.y() * (float)g->texture->textureSize.y();
+    if ( height > mSizeMax) mSizeMax = height;
+  }
 
 	clearFaceCache();
 }
@@ -479,6 +486,75 @@ void Font::rebuildTextures()
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
+void Font::renderCharacter(unsigned int character, float x, float y, float wr, float hr, unsigned int color)
+{
+  // invalid character
+  if(character == 0) return;
+
+  Glyph* glyph = getGlyph(character);
+  if(glyph == nullptr) return;
+
+  struct Vertex
+  {
+    Vector2f pos;
+    Vector2f tex;
+  } vertices[6];
+
+  FontTexture* texture = glyph->texture;
+
+  float glyphWidth = glyph->texSize.x() * (float)glyph->texture->textureSize.x();
+  float glyphHeight = glyph->texSize.y() * (float)glyph->texture->textureSize.y();
+
+  Vector2f topLeft(0.0f + x, 0.0f + y);
+  Vector2f bottomRight(glyphWidth * wr + x, glyphHeight * hr + y);
+
+  vertices[0].pos.Set(topLeft.x(), topLeft.y());
+  vertices[1].pos.Set(topLeft.x(), bottomRight.y());
+  vertices[2].pos.Set(bottomRight.x(), topLeft.y());
+
+  vertices[3].pos.Set(bottomRight.x(), topLeft.y());
+  vertices[4].pos.Set(topLeft.x(), bottomRight.y());
+  vertices[5].pos.Set(bottomRight.x(), bottomRight.y());
+
+  float tx = glyph->texPos.x();
+  float ty = glyph->texPos.y();
+  float sx = tx + glyph->texSize.x();
+  float sy = ty + glyph->texSize.y();
+
+  vertices[0].tex.Set(tx, ty);
+  vertices[1].tex.Set(tx, sy);
+  vertices[2].tex.Set(sx, ty);
+
+  vertices[3].tex.Set(sx, ty);
+  vertices[4].tex.Set(tx, sy);
+  vertices[5].tex.Set(sx, sy);
+
+  GLubyte colors[6*4];
+  Renderer::buildGLColorArray(colors, color, 6);
+
+  glBindTexture(GL_TEXTURE_2D, texture->textureId);
+  glEnable(GL_TEXTURE_2D);
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+  glEnableClientState(GL_VERTEX_ARRAY);
+  glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+  glEnableClientState(GL_COLOR_ARRAY);
+
+  glVertexPointer(2, GL_FLOAT, sizeof(Vertex), &vertices[0].pos);
+  glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), &vertices[0].tex);
+  glColorPointer(4, GL_UNSIGNED_BYTE, 0, colors);
+
+  glDrawArrays(GL_TRIANGLES, 0, 6);
+
+  glDisableClientState(GL_VERTEX_ARRAY);
+  glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+  glDisableClientState(GL_COLOR_ARRAY);
+
+  glDisable(GL_TEXTURE_2D);
+  glDisable(GL_BLEND);
+}
+
 void Font::renderTextCache(TextCache* cache)
 {
 	if(cache == nullptr)
@@ -676,13 +752,13 @@ float Font::getNewlineStartOffset(const std::string& text, unsigned int charStar
 	}
 }
 
-TextCache* Font::buildTextCache(const std::string& text, Vector2f offset, unsigned int color, float xLen, TextAlignment alignment, float lineSpacing)
+TextCache* Font::buildTextCache(const std::string& text, Vector2f offset, unsigned int color, float xLen, TextAlignment alignment, float lineSpacing, bool nospacing)
 {
 	float x = offset[0] + (xLen != 0 ? getNewlineStartOffset(text, 0, xLen, alignment) : 0);
-	
-	float yTop = getGlyph((UnicodeChar)'S')->bearing.y();
-	float yBot = getHeight(lineSpacing);
-	float y = offset[1] + (yBot + yTop)/2.0f;
+
+  float yTop = mBearingMax; // getGlyph((UnicodeChar)'S')->bearing.y();
+  float yBot = getHeight(lineSpacing);
+  float y = offset[1] + (nospacing ? yTop : (yBot + yTop)/2.0f);
 
 	// vertices by texture
 	std::map< FontTexture*, std::vector<TextCache::Vertex> > vertMap;
@@ -764,9 +840,9 @@ TextCache* Font::buildTextCache(const std::string& text, Vector2f offset, unsign
 	return cache;
 }
 
-TextCache* Font::buildTextCache(const std::string& text, float offsetX, float offsetY, unsigned int color)
+TextCache* Font::buildTextCache(const std::string& text, float offsetX, float offsetY, unsigned int color, bool nospacing)
 {
-	return buildTextCache(text, Vector2f(offsetX, offsetY), color, 0.0f);
+	return buildTextCache(text, Vector2f(offsetX, offsetY), color, 0.0f, TextAlignment::Left, 1.5f, nospacing);
 }
 
 void TextCache::setColor(unsigned int color)

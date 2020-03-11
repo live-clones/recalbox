@@ -180,7 +180,7 @@ void Renderer::buildGLColorArray(GLubyte* ptr, unsigned int color, unsigned int 
 {
   unsigned int colorGl;
   setColor4bArray((GLubyte*) &colorGl, color);
-  for (unsigned int i = 0; i < vertCount; i++)
+  for (int i = (int)vertCount; --i >= 0; )
   {
     ((GLuint*) ptr)[i] = colorGl;
   }
