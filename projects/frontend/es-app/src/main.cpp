@@ -102,7 +102,7 @@ int main(int argc, char* argv[])
   if (!parseArgs(argc, argv, width, height, settings))
     return 0;
 
-  for(int loopCount = 0;; loopCount)
+  for(int loopCount = 0;; loopCount++)
   {
     // Start the runner
     MainRunner runner(argv[0], width, height, loopCount);
