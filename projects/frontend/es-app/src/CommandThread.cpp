@@ -109,6 +109,6 @@ void CommandThread::ReceiveSyncCallback(const SDL_Event& event)
   FileData* game = (FileData*)event.user.data1;
 
   ViewController::Instance().WakeUp();
-  ViewController::Instance().LaunchCheck(game, nullptr, Vector3f());
+  ViewController::Instance().LaunchCheck(game, NetPlayData(), Vector3f());
 }
 

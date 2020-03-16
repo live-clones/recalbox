@@ -33,7 +33,7 @@ void SystemData::RunGame(Window& window,
                          SystemManager& systemManager,
                          FileData& game,
                          const EmulatorData& emulator,
-                         const NetPlayData* netplay)
+                         const NetPlayData& netplay)
 {
   LOG(LogInfo) << "Attempting to launch game...";
 
@@ -61,23 +61,30 @@ void SystemData::RunGame(Window& window,
   command = Strings::Replace(command, "%CORE%", emulator.Core());
   command = Strings::Replace(command, "%RATIO%", game.Metadata().RatioAsString());
 
-  if (netplay != nullptr)
+  switch(netplay.NetplayMode())
   {
-    if (!netplay->IsServer())
+    case NetPlayData::Mode::None:
     {
-      std::string netplayLine = "-netplay client -netplay_port " + Strings::ToString(netplay->Port()) +
-                                " -netplay_ip " + netplay->Ip();
-      command = Strings::Replace(command, "%NETPLAY%", netplayLine);
+      command = Strings::Replace(command, "%NETPLAY%", "");
+      break;
     }
-    else
+    case NetPlayData::Mode::Client:
     {
-      std::string hash = game.Metadata().RomCrc32() != 0 ? " -hash " + game.Metadata().RomCrc32AsString() : "";
-      std::string netplayLine = "-netplay host -netplay_port " + Strings::ToString(netplay->Port()) + hash;
-                                " -netplay_ip " + netplay->Ip();
-      command = Strings::Replace(command, "%NETPLAY%", netplayLine + hash);
+      std::string netplayLine("-netplay client -netplay_port ");
+      netplayLine.append(Strings::ToString(netplay.Port())).append(" -netplay_ip ").append(netplay.Ip());
+      if (game.Metadata().RomCrc32() != 0) netplayLine.append(" -hash ").append(game.Metadata().RomCrc32AsString());
+      command = Strings::Replace(command, "%NETPLAY%", netplayLine);
+      break;
+    }
+    case NetPlayData::Mode::Server:
+    {
+      std::string netplayLine("-netplay host -netplay_port ");
+      netplayLine.append(Strings::ToString(netplay.Port()));
+      if (game.Metadata().RomCrc32() != 0) netplayLine.append(" -hash ").append(game.Metadata().RomCrc32AsString());
+      command = Strings::Replace(command, "%NETPLAY%", netplayLine);
+      break;
     }
   }
-  else command = Strings::Replace(command, "%NETPLAY%", "");
 
   LOG(LogInfo) << "	" << command;
   {

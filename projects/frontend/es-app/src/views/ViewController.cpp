@@ -260,7 +260,7 @@ void ViewController::onFileChanged(FileData* file, FileChangeType change)
 	}
 }
 
-void ViewController::LaunchCheck(FileData* game, const NetPlayData* netplaydata, const Vector3f& cameraTarget, bool forceLaunch)
+void ViewController::LaunchCheck(FileData* game, const NetPlayData& netplaydata, const Vector3f& cameraTarget, bool forceLaunch)
 {
   EmulatorData emulator = mSystemManager.Emulators().GetGameEmulator(*game);
   if (!emulator.IsValid())
@@ -301,7 +301,7 @@ void ViewController::LaunchCheck(FileData* game, const NetPlayData* netplaydata,
   LaunchAnimated(game, emulator, netplaydata, cameraTarget);
 }
 
-void ViewController::LaunchActually(FileData* game, const EmulatorData& emulator, const NetPlayData* netplaydata)
+void ViewController::LaunchActually(FileData* game, const EmulatorData& emulator, const NetPlayData& netplaydata)
 {
   DateTime start;
   game->getSystem()->RunGame(mWindow, mSystemManager, *game, emulator, netplaydata);
@@ -320,7 +320,7 @@ void ViewController::LaunchActually(FileData* game, const EmulatorData& emulator
     return;
   }}
 
-void ViewController::LaunchAnimated(FileData* game, const EmulatorData& emulator, const NetPlayData* netplaydata, const Vector3f& cameraTarget)
+void ViewController::LaunchAnimated(FileData* game, const EmulatorData& emulator, const NetPlayData& netplaydata, const Vector3f& cameraTarget)
 {
   Vector3f center = cameraTarget.isZero() ? Vector3f(Renderer::getDisplayWidthAsFloat() / 2.0f, Renderer::getDisplayHeightAsFloat() / 2.0f, 0) : cameraTarget;
 

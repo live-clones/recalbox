@@ -297,7 +297,7 @@ void GuiNetPlay::launch()
     int port = mitm ? game.mMitmPort : game.mPort;
 
     NetPlayData netplay(game.mCoreName, ip, port);
-    ViewController::Instance().LaunchCheck(game.mGame, &netplay, Vector3f());
+    ViewController::Instance().LaunchCheck(game.mGame, netplay, Vector3f());
     Close();
   }
 }

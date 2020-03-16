@@ -139,7 +139,7 @@ class SystemData : private INoCopy
     int FavoritesCount() const{ return mRootFolder.countAllFavorites(false, IncludeAdultGames()); };
     int HiddenCount() const{ return mRootFolder.countAllHidden(false, IncludeAdultGames()); };
 
-    void RunGame(Window& window, SystemManager& systemManager, FileData& game, const EmulatorData& emulator, const NetPlayData* netplay);
+    void RunGame(Window& window, SystemManager& systemManager, FileData& game, const EmulatorData& emulator, const NetPlayData& netplay);
 
     // Load or re-load theme.
     void loadTheme();

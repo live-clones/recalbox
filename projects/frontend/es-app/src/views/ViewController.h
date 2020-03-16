@@ -46,7 +46,7 @@ public:
      * @param netplay optional netplay data
      * @param centerCameraOn optional camera target point
      */
-    void LaunchCheck(FileData* game, const NetPlayData* netplay, const Vector3f& centerCameraOn, bool forceLaunch = false);
+    void LaunchCheck(FileData* game, const NetPlayData& netplay, const Vector3f& centerCameraOn, bool forceLaunch = false);
 
     /*!
      * @brief Run animation and call LaunchActually
@@ -54,14 +54,14 @@ public:
      * @param netplay optional netplay data
      * @param centerCameraOn optional camera target point
      */
-	  void LaunchAnimated(FileData* game, const EmulatorData& emulator, const NetPlayData* netplay, const Vector3f& centerCameraOn);
+	  void LaunchAnimated(FileData* game, const EmulatorData& emulator, const NetPlayData& netplay, const Vector3f& centerCameraOn);
 
     /*!
      * @brief Actually run the game :)
      * @param game game to launch
      * @param netplay optional netplay data
      */
-    void LaunchActually(FileData* game, const EmulatorData& emulator, const NetPlayData* netplay);
+    void LaunchActually(FileData* game, const EmulatorData& emulator, const NetPlayData& netplay);
 
     bool ProcessInput(const InputCompactEvent& event) override;
 	void Update(int deltaTime) override;

@@ -276,7 +276,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
     if(cursor->isGame())
     {
       NetPlayData netplay(RecalboxConf::Instance().AsInt("global.netplay.port"));
-      ViewController::Instance().LaunchCheck(cursor, &netplay, Vector3f());
+      ViewController::Instance().LaunchCheck(cursor, netplay, Vector3f());
     }
   }
 

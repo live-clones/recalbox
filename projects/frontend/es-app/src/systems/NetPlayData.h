@@ -7,6 +7,14 @@
 
 struct NetPlayData
 {
+  public:
+    enum class Mode
+    {
+      None,
+      Client,
+      Server,
+    };
+
   private:
     //! Shared netplay core
     std::string mCoreName;
@@ -15,7 +23,7 @@ struct NetPlayData
     //! Target port in client mode or local port in server mode
     int mPort;
     //! True = server, false = client
-    bool mMode;
+    Mode mMode;
 
   public:
     /*!
@@ -28,7 +36,7 @@ struct NetPlayData
       : mCoreName(coreName),
         mIP(ip),
         mPort(port),
-        mMode(false)
+        mMode(Mode::Client)
     {
     }
 
@@ -39,7 +47,18 @@ struct NetPlayData
       : mCoreName(),
         mIP(),
         mPort(port),
-        mMode(true)
+        mMode(Mode::Server)
+    {
+    }
+
+    /*!
+     * @brief Build a no-netplay instance
+     */
+    NetPlayData()
+      : mCoreName(),
+        mIP(),
+        mPort(0),
+        mMode(Mode::None)
     {
     }
 
@@ -57,5 +76,5 @@ struct NetPlayData
     int Port() const { return mPort; }
 
     //! Check if this is a server mode
-    bool IsServer() const { return mMode; }
+    Mode NetplayMode() const { return mMode; }
 };
