@@ -30,6 +30,7 @@ class LibretroCores:
     def configurePARALLELN64(coreSettings):
         coreSettings.setOption("parallel-n64-boot-device", '"Default"')
         coreSettings.setOption("parallel-n64-64dd-hardware", '"disabled"')
+        coreSettings.setOption("parallel-n64-gfxplugin", '"auto"')
 
     #
     # System specific configurations
@@ -79,6 +80,7 @@ class LibretroCores:
     def configure64DD(coreSettings):
         coreSettings.setOption("parallel-n64-boot-device", '"64DD IPL"')
         coreSettings.setOption("parallel-n64-64dd-hardware", '"enabled"')
+        coreSettings.setOption("parallel-n64-gfxplugin", '"gln64"')
 
     @staticmethod
     def configureSpectravideo(coreSettings):
