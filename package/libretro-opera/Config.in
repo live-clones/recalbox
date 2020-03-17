@@ -1,5 +1,5 @@
-config BR2_PACKAGE_LIBRETRO_4DO
-	bool "libretro-4do"
+config BR2_PACKAGE_LIBRETRO_OPERA
+	bool "libretro-opera"
 	depends on BR2_PACKAGE_RETROARCH
 	depends on BR2_INSTALL_LIBSTDCPP
 	select BR2_PACKAGE_RECALBOX_ROMFS_3DO
@@ -8,5 +8,5 @@ config BR2_PACKAGE_LIBRETRO_4DO
 
 	  http://www.libretro.com
 
-comment "LIBRETRO_4DO needs a toolchain w/ C++"
+comment "LIBRETRO_OPERA needs a toolchain w/ C++"
 	depends on !BR2_INSTALL_LIBSTDCPP
