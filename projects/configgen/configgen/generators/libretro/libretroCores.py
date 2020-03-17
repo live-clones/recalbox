@@ -23,8 +23,8 @@ class LibretroCores:
         coreSettings.setOption("mame2003-plus_analog", '"digital"')
 
     @staticmethod
-    def configure4DO(coreSettings):
-        coreSettings.setOption("4do_dsp_threaded", '"enabled"')
+    def configureOpera(coreSettings):
+        coreSettings.setOption("opera_dsp_threaded", '"enabled"')
 
     @staticmethod
     def configurePARALLELN64(coreSettings):
@@ -109,7 +109,7 @@ class LibretroCores:
         {
             "bluemsx" : LibretroCores.configureBlueMSX,
             "mame2003_plus": LibretroCores.configureMAME2003plus,
-            "4do": LibretroCores.configure4DO,
+            "opera": LibretroCores.configureOpera,
             "parallel_n64": LibretroCores.configurePARALLELN64,
         }
 

@@ -197,7 +197,7 @@ def getDefaultEmulator(targetSystem):
         "scummvm"       : Emulator(name='scummvm', emulator='scummvm', videomode='default'),
 
         # Consoles
-        "3do"           : Emulator(name='3do', emulator='libretro', core='4do'),
+        "3do"           : Emulator(name='3do', emulator='libretro', core='opera'),
         "amigacd32"     : Emulator(name='amigacd32', emulator='amiberry', core='amiberry'),
         "amigacdtv"     : Emulator(name='amigacdtv', emulator='amiberry', core='amiberry'),
         "channelf"      : Emulator(name='channelf', emulator='libretro', core='freechaf'),
