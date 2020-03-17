@@ -169,16 +169,19 @@
     <bios path="jopac.bin" md5="279008e4a0db2dc5f1c048853b033828" core="o2em" />  
   </system>
   <system fullname="Panasonic 3DO" platform="3do">
-    <bios path="panafz1.bin"                 md5="f47264dd47fe30f73ab3c010015c155b" core="4do" note="Panasonic FZ-1" /> 
-    <bios path="panafz10.bin"                md5="51f2f43ae2f3508a14d9f56597e2d3ce" mandatory="false" core="4do" note="Panasonic FZ-10" />  
-    <bios path="panafz10-patched.bin"        md5="1477bda80dc33731a65468c1f5bcbee9" mandatory="false" core="4do" note="Panasonic FZ-10 [RSA Patch]" />  
-    <bios path="panafz10e-anvil.bin"         md5="a48e6746bd7edec0f40cff078f0bb19f" mandatory="false" core="4do" note="Panasonic FZ-10-E [Anvil]" />  
-    <bios path="panafz10e-anvil-patched.bin" md5="cf11bbb5a16d7af9875cca9de9a15e09" mandatory="false" core="4do" note="Panasonic FZ-10-E [Anvil RSA Patch]" />  
-    <bios path="goldstar.bin"                md5="8639fd5e549bd6238cfee79e3e749114" mandatory="false" core="4do" note="Goldstar GDO-101M" />  
-    <bios path="sanyotry.bin"                md5="35fa1a1ebaaeea286dc5cd15487c13ea" mandatory="false" core="4do" note="Sanyo IMP-21J TRY" />  
-    <bios path="3do_arcade_saot.bin"         md5="8970fc987ab89a7f64da9f8a8c4333ff" mandatory="false" core="4do" note="Shootout At Old Tucson" />       
-    <bios path="panafz1-kanji.bin"           md5="b8dc97f778a6245c58e064b0312e8281" mandatory="false" core="4do" note="Panasonic FZ-1 Kanji ROM. Usefull for some Japaneese games" />  
-    <bios path="panafz10ja-anvil-kanji.bin"  md5="428577250f43edc902ea239c50d2240d" mandatory="false" core="4do" note="Panasonic FZ-10JA Kanji ROM. Usefull for some Japaneese games" />  
+    <bios path="panafz1.bin"                 md5="f47264dd47fe30f73ab3c010015c155b" core="opera" note="Panasonic FZ-1 (U)" /> 
+    <bios path="panafz1j.bin"                md5="a496cfdded3da562759be3561317b605" core="opera" note="Panasonic FZ-1 (J)" /> 
+    <bios path="panafz1j-norsa.bin"          md5="f6c71de7470d16abe4f71b1444883dc8" core="opera" note="Panasonic FZ-1 (J) (RSA check disabled)" /> 
+    <bios path="panafz10.bin"                md5="51f2f43ae2f3508a14d9f56597e2d3ce" mandatory="false" core="opera" note="Panasonic FZ-10 (U)" />  
+    <bios path="panafz10-norsa.bin"          md5="1477bda80dc33731a65468c1f5bcbee9" mandatory="false" core="opera" note="Panasonic FZ-10 (U) (RSA check disabled)" />  
+    <bios path="panafz10e-anvil.bin"         md5="a48e6746bd7edec0f40cff078f0bb19f" mandatory="false" core="opera" note="Panasonic FZ-10 (E) w/ ANVIL" />  
+    <bios path="panafz10e-anvil-norsa.bin"   md5="cf11bbb5a16d7af9875cca9de9a15e09" mandatory="false" core="opera" note="Panasonic FZ-10 (E) w/ ANVIL (RSA check disabled)" />  
+    <bios path="goldstar.bin"                md5="8639fd5e549bd6238cfee79e3e749114" mandatory="false" core="opera" note="Goldstar GDO-101M" />  
+    <bios path="sanyotry.bin"                md5="35fa1a1ebaaeea286dc5cd15487c13ea" mandatory="false" core="opera" note="Sanyo IMP-21J TRY" />  
+    <bios path="3do_arcade_saot.bin"         md5="8970fc987ab89a7f64da9f8a8c4333ff" mandatory="false" core="opera" note="Shootout At Old Tucson" />       
+    <bios path="panafz1-kanji.bin"           md5="b8dc97f778a6245c58e064b0312e8281" mandatory="false" core="opera" note="Panasonic FZ-1 (J) Kanji ROM. Useful for some Japanese games" />  
+    <bios path="panafz1j-kanji.bin"          md5="c23fb5d5e6bb1c240d02cf968972be37" mandatory="false" core="opera" note="Panasonic FZ-1 (J) Kanji ROM. Useful for some Japanese games" />  
+    <bios path="panafz10ja-anvil-kanji.bin"  md5="428577250f43edc902ea239c50d2240d" mandatory="false" core="opera" note="Panasonic FZ-10 (J) w/ ANVIL Kanji ROM. Useful for some Japanese games" />  
   </system>
   <system fullname="Sharp X68000" platform="x68000">
     <bios path="keropi/iplrom.dat"   md5="7fd4caabac1d9169e289f0f7bbf71d8e" core="px68k" />  
