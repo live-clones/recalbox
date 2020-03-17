@@ -164,11 +164,11 @@ bool Internationalizer::BuildFastLookupIndexes()
 
   for(int i = sIndexCount; --i >= 0; )
     sIndexes[i] = { -1, 0 };
-  int previousChar = sStrings[count - 1].KeyString[0];
+  unsigned int previousChar = (unsigned char)sStrings[count - 1].KeyString[0];
 
   for(int i = count; --i >= 0; )
   {
-    int currentChar = sStrings[i].KeyString[0];
+    unsigned int currentChar = (unsigned char)sStrings[i].KeyString[0];
     sIndexes[currentChar].Count++;
     if (currentChar != previousChar)
       sIndexes[previousChar].FirstIndex = i + 1;
@@ -232,23 +232,23 @@ std::string Internationalizer::GetText(const char* key, int keyLength)
   if (sMoFlatFile.empty()) return std::string(key, keyLength);
 
   // Get index
-  const StringSet& set = sIndexes[(int)key[0]];
+  const StringSet& set = sIndexes[(unsigned char)key[0]];
   int index = set.FirstIndex;
-  // Invalid ?
-  if (index < 0) return std::string(key, keyLength);
-
-  int hash1 = 0, hash2 = 0;
-  Hash(key, keyLength, hash1, hash2);
-  for(int i = set.Count; --i >= 0; )
+  // Valid ?
+  if (index >= 0)
   {
-    const StringPairLinks& Link = sStrings[index + i];
-    if (Link.KeyLength == keyLength)
-      if (Link.Hash1 == hash1)
-        if (Link.Hash2 == hash2)
-          //return "Yâkädansé!";
-          return std::string(Link.TranslatedString, Link.TranslatedLength);
+    int hash1 = 0, hash2 = 0;
+    Hash(key, keyLength, hash1, hash2);
+    for (int i = set.Count; --i >= 0;)
+    {
+      const StringPairLinks& Link = sStrings[index + i];
+      if (Link.KeyLength == keyLength)
+        if (Link.Hash1 == hash1)
+          if (Link.Hash2 == hash2)
+            //return "Yâkädansé!";
+            return std::string(Link.TranslatedString, Link.TranslatedLength);
+    }
   }
-
   LOG(LogDebug) << "Locale: " << sActiveLocale << " - Missing translation of '" << key << "'";
   return std::string(key, keyLength);
 }
