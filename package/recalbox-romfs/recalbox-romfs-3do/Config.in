@@ -1,6 +1,6 @@
 config BR2_PACKAGE_RECALBOX_ROMFS_3DO
 	bool "recalbox-romfs-3do"
 	select BR2_PACKAGE_RECALBOX_ROMS
-	depends on BR2_PACKAGE_LIBRETRO_4DO
+	depends on BR2_PACKAGE_LIBRETRO_OPERA
 	help
 	  share_init/roms and xml for 3do

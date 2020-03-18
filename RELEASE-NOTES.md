@@ -45,6 +45,7 @@
 - Bump retroarch-cheats to v1.8.2
 - Bump libretro-assets on last version
 - Bump libretro-cores family
+- Rename 4do to opera (newer libretro 3do core)
 
 ### Fixes
 - Fix Odroid XU4 fan issue

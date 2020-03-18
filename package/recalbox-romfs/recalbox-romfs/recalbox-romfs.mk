@@ -142,7 +142,7 @@ endef
 
 # Add necessary dependencies
 # System: 3do
-ifneq ($(BR2_PACKAGE_LIBRETRO_4DO),)
+ifneq ($(BR2_PACKAGE_LIBRETRO_OPERA),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-3do
 endif
 

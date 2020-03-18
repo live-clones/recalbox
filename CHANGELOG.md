@@ -50,6 +50,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add Nintendo 64DD
 - Add libretro mame 
 - Add EmulationStation event-driver user scripts
+- Rename 4do to opera (newer 3do emulator fork)
 
 ## [6.1.1]
 - Add zfast shaders
@@ -67,7 +68,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fix demo screen ratio
 - Fix Arcade system not available in GUI
 - Fix demo mode on PC (no infinite run)
-- Bump Retroarch to 1.7.9
 - Bump kernel firmwares
 - Fix emulationstation reporting wrong free space
 - Fix configgen exit in demo mode

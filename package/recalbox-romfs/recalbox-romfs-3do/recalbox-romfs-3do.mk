@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --system 3do --extension '.iso .ISO .cue .CUE .chd .CHD' --fullname 'Panasonic 3DO' --platform 3do --theme 3do 1:libretro:4do:BR2_PACKAGE_LIBRETRO_4DO
+# ./scripts/linux/empack.py --force --system 3do --extension '.iso .ISO .cue .CUE .chd .CHD' --fullname 'Panasonic 3DO' --platform 3do --theme 3do 1:libretro:opera:BR2_PACKAGE_LIBRETRO_OPERA
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_3DO_SOURCE = 
@@ -21,18 +21,18 @@ SOURCE_ROMDIR_3DO = $(RECALBOX_ROMFS_3DO_PKGDIR)/roms
 # variables are global across buildroot
 
 
-ifneq ($(BR2_PACKAGE_LIBRETRO_4DO),)
+ifneq ($(BR2_PACKAGE_LIBRETRO_OPERA),)
 define CONFIGURE_MAIN_3DO_START
 	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_3DO),Panasonic 3DO,$(SYSTEM_NAME_3DO),.iso .ISO .cue .CUE .chd .CHD,3do,3do)
 endef
 
-ifneq ($(BR2_PACKAGE_LIBRETRO_4DO),)
+ifneq ($(BR2_PACKAGE_LIBRETRO_OPERA),)
 define CONFIGURE_3DO_LIBRETRO_START
 	$(call RECALBOX_ROMFS_CALL_START_EMULATOR,$(SYSTEM_XML_3DO),libretro)
 endef
-ifeq ($(BR2_PACKAGE_LIBRETRO_4DO),y)
-define CONFIGURE_3DO_LIBRETRO_4DO_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_3DO),4do,1)
+ifeq ($(BR2_PACKAGE_LIBRETRO_OPERA),y)
+define CONFIGURE_3DO_LIBRETRO_OPERA_DEF
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_3DO),opera,1)
 endef
 endif
 
@@ -51,7 +51,7 @@ endif
 define RECALBOX_ROMFS_3DO_CONFIGURE_CMDS
 	$(CONFIGURE_MAIN_3DO_START)
 	$(CONFIGURE_3DO_LIBRETRO_START)
-	$(CONFIGURE_3DO_LIBRETRO_4DO_DEF)
+	$(CONFIGURE_3DO_LIBRETRO_OPERA_DEF)
 	$(CONFIGURE_3DO_LIBRETRO_END)
 	$(CONFIGURE_MAIN_3DO_END)
 endef
