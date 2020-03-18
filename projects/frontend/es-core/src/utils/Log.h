@@ -40,7 +40,7 @@ class Log
     Log& operator << (unsigned long v) { mMessage += Strings::ToString((unsigned long long)v); return *this; }
     Log& operator << (bool v) { mMessage += Strings::ToString(v); return *this; }
     Log& operator << (float v) { mMessage += Strings::ToString(v, 4); return *this; }
-
+    Log& operator << (const Strings::Vector& v) { for(const std::string& s : v) mMessage.append(s).append(1, ' '); return *this; }
 
   private:
     static FILE* sFile;

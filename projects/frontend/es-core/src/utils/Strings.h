@@ -85,6 +85,8 @@ class Strings
 
     static std::string Join(const std::vector<std::string>& _string, const std::string& joiner);
 
+    static std::string Join(const std::vector<const char*>& _string, const std::string& joiner);
+
     static std::string Format(const char* _string, ...);
 
     static std::string ScrambleSymetric(const std::string& _input, const std::string& key);

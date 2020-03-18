@@ -107,6 +107,7 @@ bool MappingConfiguration::ParseKeyCode(const std::string& value, int& code)
   }
   Translators[] =
   {
+    { __STRL("")           , 0        },
     { __STRL("esc")        , KEY_ESC        },
     { __STRL("1")          , KEY_1          },
     { __STRL("2")          , KEY_2          },

@@ -380,6 +380,17 @@ std::string Strings::Join(const std::vector<std::string>& _string, const std::st
   return result;
 }
 
+std::string Strings::Join(const std::vector<const char*>& _string, const std::string& joiner)
+{
+  std::string result;
+  for(const std::string& string : _string)
+  {
+    if (!result.empty()) result.append(joiner);
+    result.append(string);
+  }
+  return result;
+}
+
 std::string Strings::Format(const char* _string, ...)
 {
 	va_list	args;

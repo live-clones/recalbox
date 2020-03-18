@@ -150,7 +150,7 @@ void GuiScraperRun::GameResult(int index, int total, FileData* result)
   mDatabaseMessage->setText(mScraper->ScraperDatabaseMessage());
 
   // Scripts
-  NotificationManager::Instance().Notify(*result, Notification::GameScraped);
+  NotificationManager::Instance().Notify(*result, Notification::ScrapGame);
 }
 
 void GuiScraperRun::ScrapingComplete(ScrapeResult reason)

@@ -7,9 +7,15 @@
 #include <systems/SystemData.h>
 #include <systems/SystemManager.h>
 #include <VideoEngine.h>
+#include <sys/wait.h>
 #include "NotificationManager.h"
 
+/*
+ * Members
+ */
+std::string eol("\r\n");
 Path NotificationManager::sStatusFilePath("/tmp/es_state.inf");
+HashMap<std::string, pid_t> NotificationManager::sPermanentScriptsPID;
 
 NotificationManager::NotificationManager()
   : StaticLifeCycleControler<NotificationManager>("NotificationManager")
@@ -26,8 +32,8 @@ const char* NotificationManager::ActionToString(Notification action)
     case Notification::Stop:                 return "stop";
     case Notification::Shutdown:             return "shutdown";
     case Notification::Reboot:               return "reboot";
-    case Notification::Quit:                 return "quit";
     case Notification::Relaunch:             return "relaunch";
+    case Notification::Quit:                 return "quit";
     case Notification::SystemBrowsing:       return "systembrowsing";
     case Notification::GamelistBrowsing:     return "gamelistbrowsing";
     case Notification::RunGame:              return "rungame";
@@ -38,7 +44,7 @@ const char* NotificationManager::ActionToString(Notification action)
     case Notification::WakeUp:               return "wakeup";
     case Notification::ScrapStart:           return "scrapstart";
     case Notification::ScrapStop:            return "scrapstop";
-    case Notification::GameScraped:          return "gamescraped";
+    case Notification::ScrapGame:            return "scrapgame";
     case Notification::ConfigurationChanged: return "configurationchanged";
     default: break;
   }
@@ -63,7 +69,9 @@ Notification NotificationManager::ActionFromString(const std::string& action)
     { "enddemo"             , Notification::EndDemo              },
     { "sleep"               , Notification::Sleep                },
     { "wakeup"              , Notification::WakeUp               },
-    { "gamescraped"         , Notification::GameScraped          },
+    { "scrapstart"          , Notification::ScrapStart           },
+    { "scrapstop"           , Notification::ScrapStop            },
+    { "scrapgame"           , Notification::ScrapGame            },
     { "configurationchanged", Notification::ConfigurationChanged },
   });
 
@@ -76,13 +84,13 @@ Notification NotificationManager::ActionFromString(const std::string& action)
 bool NotificationManager::ExtractSyncFlagFromPath(const Path& path)
 {
   const std::string& scriptName = Strings::ToLowerASCII(path.FilenameWithoutExtension());
-  return (scriptName.find("(sync)") == std::string::npos);
+  return (scriptName.find("(sync)") != std::string::npos);
 }
 
 bool NotificationManager::ExtractPermanentFlagFromPath(const Path& path)
 {
   const std::string& scriptName = Strings::ToLowerASCII(path.FilenameWithoutExtension());
-  return (scriptName.find("(permanent)") == std::string::npos);
+  return (scriptName.find("(permanent)") != std::string::npos);
 }
 
 Notification NotificationManager::ExtractNotificationsFromPath(const Path& path)
@@ -112,17 +120,13 @@ void NotificationManager::LoadScriptList()
     if (path.IsFile())
     {
       bool permanent = ExtractPermanentFlagFromPath(path);
-      mScriptList.push_back({
-                              path,
-                              ExtractNotificationsFromPath(path),
-                              ExtractSyncFlagFromPath(path),
-                              permanent
-                            });
+      bool synced = ExtractSyncFlagFromPath(path) && !permanent;
       if (permanent)
       {
-        system(path.MakeEscaped().c_str());
+        RunProcess(path, {}, false, true);
         LOG(LogDebug) << "Run permanent UserScript: " << path.ToString();
       }
+      else mScriptList.push_back({ path, ExtractNotificationsFromPath(path), synced });
     }
 }
 
@@ -143,23 +147,112 @@ void NotificationManager::RunScripts(Notification action, const std::string& par
   if (scripts.empty()) return; // Nothing to launch
 
   // Build parameter
-  std::string actionString(" -action ");
-  actionString.append(ActionToString(action))
-              .append(" -statefile \"").append(sStatusFilePath.ToString()).append(1, '"');
+  Strings::Vector args;
+  args.push_back("-action");
+  args.push_back(ActionToString(action));
+  args.push_back("-statefile");
+  args.push_back(sStatusFilePath.ToString());
   if (!param.empty())
-    actionString.append(" -param \"").append(param).append(1, '"');
+  {
+    args.push_back("-param");
+    args.push_back(param);
+  }
 
   for(const ScriptData* script : scripts)
   {
-    // Get command to execute
-    std::string command(script->mPath.MakeEscaped());
-    command.append(actionString);
-    // Async?
-    if (script->mSync) command.append(" &");
-
     // Run!
-    LOG(LogDebug) << "Run UserScript: " << command;
-    system(command.c_str());
+    RunProcess(script->mPath, args, script->mSync, false);
+  }
+}
+
+void NotificationManager::BuildStateCommons(std::string& output, const SystemData* system, const FileData* game, Notification action, const std::string& actionParameters)
+{
+  // Build status file
+  output.append("Action=").append(ActionToString(action)).append(eol)
+        .append("ActionData=").append(actionParameters).append(eol);
+
+  // System
+  if (system != nullptr)
+    output.append("System=").append(system->getFullName()).append(eol)
+          .append("SystemId=").append(system->getName()).append(eol);
+  else
+    output.append("System=").append(eol)
+          .append("SystemId=").append(eol);
+
+  // Permanent game infos
+  if (game != nullptr)
+    output.append("Game=").append(game->getName()).append(eol)
+          .append("GamePath=").append(game->getPath().ToString()).append(eol)
+          .append("ImagePath=").append(game->Metadata().Image().ToString()).append(eol);
+  else
+    output.append("Game=").append(eol)
+          .append("GamePath=").append(eol)
+          .append("ImagePath=").append(eol);
+}
+
+void NotificationManager::BuildStateGame(std::string& output, const FileData* game)
+{
+  std::string emulator;
+  std::string core;
+
+  if (game == nullptr) return;
+  output.append("IsFolder=").append(game->isFolder() ? "1" : "0").append(eol)
+        .append("ThumbnailPath=").append(game->Metadata().Thumbnail().ToString()).append(eol)
+        .append("VideoPath=").append(game->Metadata().Video().ToString()).append(eol)
+        .append("Developer=").append(game->Metadata().Developer()).append(eol)
+        .append("Publisher=").append(game->Metadata().Publisher()).append(eol)
+        .append("Players=").append(game->Metadata().PlayersAsString()).append(eol)
+        .append("Region=").append(game->Metadata().RegionAsString()).append(eol)
+        .append("Genre=").append(game->Metadata().Genre()).append(eol)
+        .append("GenreId=").append(game->Metadata().GenreIdAsString()).append(eol)
+        .append("Favorite=").append(game->Metadata().Favorite() ? "1" : "0").append(eol)
+        .append("Hidden=").append(game->Metadata().Hidden() ? "1" : "0").append(eol)
+        .append("Adult=").append(game->Metadata().Adult() ? "1" : "0").append(eol);
+
+  if (game->getSystem()->Manager().Emulators().GetGameEmulator(*game, emulator, core))
+    output.append("Emulator=").append(emulator).append(eol)
+          .append("Core=").append(core).append(eol);
+}
+
+void NotificationManager::BuildStateSystem(std::string& output, const SystemData* system)
+{
+  std::string emulator;
+  std::string core;
+
+  if (system == nullptr) return;
+
+  if (!system->IsVirtual())
+    if (system->Manager().Emulators().GetSystemDefaultEmulator(*system, emulator, core))
+      output.append("Emulator=").append(emulator).append(eol)
+            .append("Core=").append(core).append(eol);
+}
+
+void NotificationManager::BuildStateCompatibility(std::string& output, Notification action)
+{
+  // Mimic old behavior of "State"
+  output.append("State=");
+  switch(action)
+  {
+    case Notification::RunGame: output.append("playing"); break;
+    case Notification::RunDemo: output.append("demo"); break;
+    case Notification::None:
+    case Notification::Start:
+    case Notification::Stop:
+    case Notification::Shutdown:
+    case Notification::Reboot:
+    case Notification::Relaunch:
+    case Notification::Quit:
+    case Notification::SystemBrowsing:
+    case Notification::GamelistBrowsing:
+    case Notification::EndGame:
+    case Notification::EndDemo:
+    case Notification::Sleep:
+    case Notification::WakeUp:
+    case Notification::ScrapStart:
+    case Notification::ScrapStop:
+    case Notification::ScrapGame:
+    case Notification::ConfigurationChanged:
+    default: output.append("selected"); break;
   }
 }
 
@@ -168,58 +261,118 @@ void NotificationManager::Notify(const SystemData* system, const FileData* game,
   if (VideoEngine::IsInstantiated())
     VideoEngine::Instance().StopVideo();
 
+  const std::string& notificationParameter = (game != nullptr) ? game->getPath().ToString() :
+                                             ((system != nullptr) ? system->getName() : actionParameters);
+
   // Check if it is the same event than in previous call
   ParamBag newBag(system, game, action, actionParameters);
   if (newBag != mPreviousParamBag)
   {
-    std::string emulator;
-    std::string core;
+    // Build all
+    std::string output("Version=2.0"); output.append(eol);
+    BuildStateCommons(output, system, game, action, actionParameters);
+    BuildStateGame(output, game);
+    BuildStateSystem(output, system);
+    BuildStateCompatibility(output, action);
 
-    // Build status file
-    std::string output("Version=2.0\r\n");
-    output.append("Action=").append(ActionToString(action)).append("\r\n")
-          .append("ActionData=").append(actionParameters).append("\r\n")
-          .append("System=").append((system != nullptr) ? system->getFullName() : "").append("\r\n")
-          .append("SystemId=").append((system != nullptr) ? system->getName() : "").append("\r\n")
-          .append("Game=").append((game != nullptr) ? game->getName() : "").append("\r\n")
-          .append("GamePath=").append((game != nullptr) ? game->getPath().ToString() : "").append("\r\n")
-          .append("ImagePath=").append((game != nullptr) ? game->Metadata().Image().ToString() : "").append("\r\n");
-    if (game != nullptr)
-    {
-      output.append("IsFolder=").append(game->isFolder() ? "1" : "0").append("\r\n")
-            .append("ThumbnailPath=").append(game->Metadata().Thumbnail().ToString()).append("\r\n")
-            .append("VideoPath=").append(game->Metadata().Video().ToString()).append("\r\n")
-            .append("Developer=").append(game->Metadata().Developer()).append("\r\n")
-            .append("Publisher=").append(game->Metadata().Publisher()).append("\r\n")
-            .append("Players=").append(game->Metadata().PlayersAsString()).append("\r\n")
-            .append("Region=").append(game->Metadata().RegionAsString()).append("\r\n")
-            .append("Genre=").append(game->Metadata().Genre()).append("\r\n")
-            .append("GenreId=").append(game->Metadata().GenreIdAsString()).append("\r\n")
-            .append("Favorite=").append(game->Metadata().Favorite() ? "1" : "0").append("\r\n")
-            .append("Hidden=").append(game->Metadata().Hidden() ? "1" : "0").append("\r\n")
-            .append("Adult=").append(game->Metadata().Adult() ? "1" : "0").append("\r\n");
-
-      if (game->getSystem()->Manager().Emulators().GetGameEmulator(*game, emulator, core))
-        output.append("Emulator=").append(emulator).append("\r\n")
-              .append("Core=").append(core).append("\r\n");
-    }
-    else if (system != nullptr && !system->IsVirtual())
-    {
-      if (system->Manager().Emulators().GetSystemDefaultEmulator(*system, emulator, core))
-        output.append("Emulator=").append(emulator).append("\r\n")
-              .append("Core=").append(core).append("\r\n");
-    }
-    // Mimic old behavior of "State"
-    if (action == Notification::SystemBrowsing ||
-        action == Notification::GamelistBrowsing ||
-        action == Notification::RunDemo ||
-        action == Notification::RunGame)
-      output.append("State=").append(action == Notification::RunGame ? "playing" : (action == Notification::RunDemo ? "demo" : "selected")).append("\r\n");
     // Save
     Files::SaveFile(Path(sStatusFilePath), output);
 
+    // MQTT notification
+    mMQTTClient.Send(sEventTopic, ActionToString(action));
+
     // Run scripts
-    RunScripts(action, actionParameters);
+    RunScripts(action, notificationParameter);
   }
   mPreviousParamBag = newBag;
 }
+
+std::string NotificationManager::BuildParamString(const std::string& command, const Strings::Vector& arguments)
+{
+  std::string result;
+  result.append(1, '"');
+  if (!command.empty()) result.append(command).append(1, ' ');
+  result.append(Strings::Join(arguments, " "));
+  result.append(1, '"');
+  return result;
+}
+
+void NotificationManager::RunProcess(const Path& target, const Strings::Vector& arguments, bool synchronous, bool permanent)
+{
+  // final argument array
+  std::vector<const char*> args;
+
+  std::string consolidated;
+  std::string targetEscaped = target.MakeEscaped();
+
+  // Extract extension
+  std::string ext = Strings::ToLowerASCII(target.Extension());
+  if (ext == ".sh")
+  {
+    consolidated = BuildParamString(targetEscaped, arguments);
+    args.push_back("/bin/sh"); args.push_back("-c"); args.push_back(consolidated.c_str());
+  }
+  else if (ext == ".ash")
+  {
+    consolidated = BuildParamString(targetEscaped, arguments);
+    args.push_back("/bin/ash"); args.push_back("-c"); args.push_back(consolidated.c_str());
+  }
+  else if (ext == ".py")
+  {
+    consolidated = BuildParamString(targetEscaped, arguments);
+    args.push_back("/usr/bin/python"); args.push_back("-m"); args.push_back(consolidated.c_str());
+  }
+  else if (ext == ".py2")
+  {
+    consolidated = BuildParamString(targetEscaped, arguments);
+    args.push_back("/usr/bin/python2"); args.push_back("-m"); args.push_back(consolidated.c_str());
+  }
+  else if (ext == ".py3")
+  {
+    consolidated = BuildParamString(targetEscaped, arguments);
+    args.push_back("/usr/bin/python3"); args.push_back("-m"); args.push_back(consolidated.c_str());
+  }
+  else
+  {
+    args.push_back(targetEscaped.c_str());
+    for (const std::string& argument : arguments) args.push_back(argument.c_str());
+  }
+
+  LOG(LogDebug) << "Run UserScript: " << Strings::Join(args, " ");
+
+  // Push final null
+  args.push_back(nullptr);
+
+  if (sPermanentScriptsPID.contains(target.ToString()))
+  {
+    // Stil running?
+    if (waitpid(sPermanentScriptsPID[target.ToString()], nullptr, WNOHANG) == 0)
+      return;
+    // Not running, remove pid
+    sPermanentScriptsPID.erase(target.ToString());
+  }
+
+  // Fork & run
+  pid_t pid = fork();
+  if (pid < 0) // Error
+  {
+    LOG(LogError) << "Error running " << target.ToString() << " (fork failed)";
+    return;
+  }
+  if (pid == 0) // child
+  {
+    execv(target.ToChars(), (char **)args.data());
+    LOG(LogError) << "Error running " << target.ToString() << " (run failed)";
+    exit(0);
+  }
+
+  // Wait for child?
+  if (synchronous)
+    wait(nullptr);
+
+  // Permanent?
+  if (permanent)
+    sPermanentScriptsPID.insert(target.ToString(), pid);
+}
+
+

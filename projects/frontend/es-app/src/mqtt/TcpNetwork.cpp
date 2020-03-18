@@ -49,19 +49,25 @@ int TCPNetwork::connect(const char* hostname, int port)
 
 int TCPNetwork::read(unsigned char* buffer, int len, int timeout_ms)
 {
-  struct timeval interval = {timeout_ms / 1000, (timeout_ms % 1000) * 1000};
+  if (mSocket == 0) return -1;
+
+  struct timeval interval =
+  {
+    timeout_ms / 1000,
+    (timeout_ms % 1000) * 1000
+  };
   if (interval.tv_sec < 0 || (interval.tv_sec == 0 && interval.tv_usec <= 0))
   {
     interval.tv_sec = 0;
     interval.tv_usec = 100;
   }
-  setsockopt(mSocket, SOL_SOCKET, SO_RCVTIMEO, (char *)&interval, sizeof(struct timeval));
+  setsockopt(mSocket, SOL_SOCKET, SO_RCVTIMEO, (char*) &interval, sizeof(struct timeval));
 
   int bytes = 0;
   int max_tries = 10;
   while (bytes < len && --max_tries >= 0)
   {
-    int rc = ::recv(mSocket, &buffer[bytes], (size_t)(len - bytes), 0);
+    int rc = ::recv(mSocket, &buffer[bytes], (size_t) (len - bytes), 0);
     if (rc == -1)
     {
       if (errno != EAGAIN && errno != EWOULDBLOCK) return -1;
@@ -74,10 +80,15 @@ int TCPNetwork::read(unsigned char* buffer, int len, int timeout_ms)
 
 int TCPNetwork::write(unsigned char* buffer, int len, int timeout)
 {
-  struct timeval tv { 0, timeout * 1000 };
-  setsockopt(mSocket, SOL_SOCKET, SO_SNDTIMEO, (char *)&tv,sizeof(struct timeval));
-  int	rc = ::write(mSocket, buffer, len);
-  return rc;
+  if (mSocket == 0) return -1;
+  struct timeval tv
+    {
+    0,
+    timeout * 1000
+  };
+  setsockopt(mSocket, SOL_SOCKET, SO_SNDTIMEO, (char*) &tv, sizeof(struct timeval));
+  if (send(mSocket, buffer, len, MSG_NOSIGNAL) == len) return 0;
+  return -1;
 }
 
 int TCPNetwork::disconnect()

@@ -5,28 +5,29 @@
 
 #include <utils/cplusplus/StaticLifeCycleControler.h>
 #include <systems/SystemData.h>
+#include <mqtt/MqttClient.h>
 
 enum class Notification
 {
-    None,
-    Start,
-    Stop,
-    Shutdown,
-    Reboot,
-    Relaunch,
-    Quit,
-    SystemBrowsing,
-    GamelistBrowsing,
-    RunGame,
-    RunDemo,
-    EndGame,
-    EndDemo,
-    Sleep,
-    WakeUp,
-    ScrapStart,
-    ScrapStop,
-    GameScraped,
-    ConfigurationChanged,
+    None                 = 0x00000, //<! Non triggered event
+    Start                = 0x00001, //<! ES start or restart. Parameter: start count
+    Stop                 = 0x00002, //<! ES stops. Parameter: start count
+    Shutdown             = 0x00004, //<! The whole system is required to shutdown
+    Reboot               = 0x00008, //<! The whole system is required to reboot
+    Relaunch             = 0x00010, //<! ES is going to relaunch
+    Quit                 = 0x00020, //<! ES is going to quit (ex: GPI case power button)
+    SystemBrowsing       = 0x00040, //<! The user is browsing system list and selected a new system. Parameter: system short name
+    GamelistBrowsing     = 0x00080, //<! The user is browsing the game list and selected a new game. Parameter: game path
+    RunGame              = 0x00100, //<! A game is going to launch. Parameter: game path
+    RunDemo              = 0x00200, //<! A game is going to launch in demo mode. Parameter: game path
+    EndGame              = 0x00400, //<! Game session end. Parameter: game path
+    EndDemo              = 0x00800, //<! Game demo session end. Parameter: game path
+    Sleep                = 0x01000, //<! EmulationStation is entering sleep state.
+    WakeUp               = 0x02000, //<! EmulationStation is waking up
+    ScrapStart           = 0x04000, //<! A multiple game scrapping session starts
+    ScrapStop            = 0x08000, //<! Scrapping session end. Parameter: scrapped game count
+    ScrapGame            = 0x10000, //<! A game has been scrapped. Parameter: game path
+    ConfigurationChanged = 0x20000, //<! The user changed something in the configuration.
 };
 
 DEFINE_BITFLAG_ENUM(Notification, int)
@@ -42,7 +43,6 @@ class NotificationManager : public StaticLifeCycleControler<NotificationManager>
       Path         mPath;      //!< Script path
       Notification mFilter;    //!< Bitflag of notifications this script must reply to
       bool         mSync;      //!< RunSynchronously?
-      bool         mPermanent; //!< Permanent script are run when ES starts. They must listen to event permanently.
     };
 
     //! Shortcut :)
@@ -106,6 +106,15 @@ class NotificationManager : public StaticLifeCycleControler<NotificationManager>
 
     //! Script folder
     static constexpr const char* sScriptPath = "/recalbox/share/userscripts";
+
+    //! MQTT Topic
+    static constexpr const char* sEventTopic = "/Recalbox/EmulationStation/Event";
+
+    // MQTT client
+    MqttClient mMQTTClient;
+
+    //! Permanent scripts PID
+    static HashMap<std::string, pid_t> sPermanentScriptsPID;
 
     //! Status file
     static Path sStatusFilePath;
@@ -182,6 +191,51 @@ class NotificationManager : public StaticLifeCycleControler<NotificationManager>
      * @param param Optional action parameter
      */
     void RunScripts(Notification action, const std::string& param);
+
+    /*!
+     * @brief Run the target using the given arguments.
+     * The target is run aither natively or using python or sh regarding the target extension
+     * @param target executable/scriupt to run
+     * @param arguments arguments passed to the target
+     */
+    static void RunProcess(const Path& target, const Strings::Vector& arguments, bool synchronous, bool permanent);
+
+    /*!
+     * @brief Build es_state.info Common information into output string
+     * @param output Output string
+     * @param system System or nullptr
+     * @param game Game or nullptr
+     * @param action Notification
+     * @param actionParameters Notification parameters or empty string
+     */
+    static void BuildStateCommons(std::string& output, const SystemData* system, const FileData* game, Notification action, const std::string& actionParameters);
+
+    /*!
+     * @brief Build es_state.info game information into output string
+     * @param output Output string
+     * @param game Game or nullptr
+     */
+    static void BuildStateGame(std::string& output, const FileData* game);
+
+    /*!
+     * @brief Build es_state.info system information into output string
+     * @param output Output string
+     * @param game System or nullptr
+     */
+    static void BuildStateSystem(std::string& output, const SystemData* system);
+
+    /*!
+     * @brief Build es_state.info compatibility key/values
+     * @param output Output string
+     */
+    static void BuildStateCompatibility(std::string& output, Notification action);
+
+    /*!
+     * @brief Build a parameter string from the given string array and add a string header
+     * @param header Header
+     * @param arguments Argument array
+     */
+    static std::string BuildParamString(const std::string& command, const Strings::Vector& arguments);
 
   public:
 
