@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --system ngpc --extension '.ngc .NGC .ngp .NGP .npc .NPC .zip .ZIP .7z .7Z' --fullname 'Neo-Geo Pocket Color' --platform ngpc --theme ngpc 1:libretro:mednafen_ngp:BR2_PACKAGE_LIBRETRO_BEETLE_NGP
+# ./scripts/linux/empack.py --force --system ngpc --extension '.ngc .NGC .ngp .NGP .ngpc .NGPC .npc .NPC .zip .ZIP .7z .7Z' --fullname 'Neo-Geo Pocket Color' --platform ngpc --theme ngpc 1:libretro:mednafen_ngp:BR2_PACKAGE_LIBRETRO_BEETLE_NGP 2:libretro:race:BR2_PACKAGE_LIBRETRO_RACE
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_NGPC_SOURCE = 

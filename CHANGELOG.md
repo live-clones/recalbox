@@ -51,6 +51,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add libretro mame 
 - Add EmulationStation event-driver user scripts
 - Rename 4do to opera (newer 3do emulator fork)
+- Add libretro-race (new ngp & ngpc performance emulator)
 
 ## [6.1.1]
 - Add zfast shaders
