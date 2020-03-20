@@ -15,6 +15,8 @@
 - Add Nintendo 64DD platform
 - Add libretro mame for recent mame set 
 - Add EmulationStation event-driver user scripts
+- Add Search feature and new Arcade-style virtual keyboard
+- Add Pad-To-Keyboard driver
 - New ngp & ngpc emulator focused on performance (fast) (libretro-race)
 
 ### Improvements
