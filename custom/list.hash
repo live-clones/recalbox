@@ -15,6 +15,7 @@ d2f9d3874553506921d9f347f6752203  package/ffmpeg/ffmpeg.mk
 051b3808d67729567e2aa0255df2ef8d  package/libcec/libcec.mk
 9bff5f6d3c9c6de92b5b69491b8cb3db  package/lirc-tools/lirc-tools.mk
 90b33f03c3af71cc22494db010c0f632  package/mesa3d/mesa3d.mk
+2ec18749f235a561a99f66e3bf6fba84  package/mosquitto/mosquitto.mk
 87b40531b2b16dba4d10dc0aa060f621  package/omxplayer/omxplayer.mk
 f38548efeaeaaa6515c91bc6ab7d9d54  package/rpi-firmware/cmdline.txt
 f01ea6ba5ccf7e7b094e83301984333d  package/rpi-firmware/config.txt

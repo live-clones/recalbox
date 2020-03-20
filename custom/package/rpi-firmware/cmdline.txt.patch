@@ -1,5 +1,5 @@
 diff --git a/package/rpi-firmware/cmdline.txt b/package/rpi-firmware/cmdline.txt
-index 155a546..c17675d 100644
+index 155a54693b..c17675d5cd 100644
 --- a/package/rpi-firmware/cmdline.txt
 +++ b/package/rpi-firmware/cmdline.txt
 @@ -1 +1 @@

@@ -1,0 +1,13 @@
+diff --git a/package/mosquitto/mosquitto.mk b/package/mosquitto/mosquitto.mk
+index ec5fc02f9f..c6bafbc254 100644
+--- a/package/mosquitto/mosquitto.mk
++++ b/package/mosquitto/mosquitto.mk
+@@ -87,7 +87,7 @@ endef
+ 
+ define MOSQUITTO_INSTALL_INIT_SYSV
+ 	$(INSTALL) -D -m 0755 package/mosquitto/S50mosquitto \
+-		$(TARGET_DIR)/etc/init.d/S50mosquitto
++		$(TARGET_DIR)/etc/init.d/S29mosquitto
+ endef
+ 
+ define MOSQUITTO_INSTALL_INIT_SYSTEMD

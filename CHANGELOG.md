@@ -52,6 +52,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add EmulationStation event-driver user scripts
 - Rename 4do to opera (newer 3do emulator fork)
 - Add libretro-race (new ngp & ngpc performance emulator)
+- Add mqtt server (mosquitto) + paho-mqtt python package
+- Add Pad-2-Keyboard driver
+- Add search feature and new arcade virtual keyboard
 
 ## [6.1.1]
 - Add zfast shaders
