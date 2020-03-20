@@ -5,7 +5,7 @@
 ################################################################################
 
 LIBRETRO_MU_VERSION = 4ac406874ccdc33ca3282299fda412f15ec544ad
-LIBRETRO_MU_SITE = $(call github,meepingsnesroms,mu,$(LIBRETRO_MU_VERSION))
+LIBRETRO_MU_SITE = $(call github,libretro,Mu,$(LIBRETRO_MU_VERSION))
 
 define LIBRETRO_MU_BUILD_CMDS
 	$(SED) "s|-O2|-O3|g" $(@D)/libretroBuildSystem/Makefile.libretro

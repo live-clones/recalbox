@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-VICE_VERSION = 3.3
+VICE_VERSION = 3.4
 VICE_SITE = https://sourceforge.net/projects/vice-emu/files/releases
 
 VICE_CONF_OPTS += \

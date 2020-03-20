@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_SAMEBOY_VERSION = fc754112163a2f6157c56092ea6e1fd64500c4cc
+LIBRETRO_SAMEBOY_VERSION = c9e547c1063fd62c40a4b7a86e7db99dc9089051
 LIBRETRO_SAMEBOY_SITE = $(call github,libretro,SameBoy,$(LIBRETRO_SAMEBOY_VERSION))
 LIBRETRO_SAMEBOY_DEPENDENCIES = rgbds
 
