@@ -15,6 +15,7 @@
 - Add Nintendo 64DD platform
 - Add libretro mame for recent mame set 
 - Add EmulationStation event-driver user scripts
+- New ngp & ngpc emulator focused on performance (fast) (libretro-race)
 
 ### Improvements
 - Improve internal Scraper (ScreenScraper):
