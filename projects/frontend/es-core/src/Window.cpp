@@ -235,6 +235,10 @@ void Window::Render(Transform4x4f& transform)
     mBackgroundOverlay.Render(transform);
     if (top->IsOverlay())
       if (stackSize > 1 && previous != nullptr) previous->Render(transform);
+
+    if (!mRenderedHelpPrompts && top->MustRenderOverHelpSystem())
+      renderHelpPromptsEarly();
+
     top->Render(transform);
   }
 

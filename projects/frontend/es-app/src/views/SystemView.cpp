@@ -9,6 +9,7 @@
 #include <usernotifications/NotificationManager.h>
 #include "guis/GuiMenu.h"
 #include "audio/AudioManager.h"
+#include <guis/GuiSearch.h>
 
 // buffer values for scrolling velocity (left, stopped, right)
 const int logoBuffersLeft[] = { -5, -2, -1 };
@@ -198,55 +199,56 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
 		}
     if (event.XPressed())
     {
-    bool kodiEnabled = RecalboxConf::Instance().AsBool("kodi.enabled");
-    bool kodiX = RecalboxConf::Instance().AsBool("kodi.xbutton");
-    bool netplay = RecalboxConf::Instance().AsBool("global.netplay");
+      bool kodiEnabled = RecalboxConf::Instance().AsBool("kodi.enabled");
+      bool kodiX = RecalboxConf::Instance().AsBool("kodi.xbutton");
+      bool netplay = RecalboxConf::Instance().AsBool("global.netplay");
 
-    if (kodiEnabled && kodiX && !launchKodi && !mWindow.HasGui())
-    {
-      if (netplay)
+      if (kodiEnabled && kodiX && !launchKodi && !mWindow.HasGui())
       {
-        auto s = new GuiSettings(mWindow, _("KODI/NETPLAY"));
-        auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
-        ComponentListRow row;
-        row.makeAcceptInputHandler([this, s] {
-            launchKodi = true;
-            if( ! RecalboxSystem::launchKodi(mWindow)) {
-                LOG(LogWarning) << "Shutdown terminated with non-zero result!";
-            }
-            launchKodi = false;
-            s->Close();
-        });
-        auto lbl = std::make_shared<TextComponent>(mWindow, "\uF1c3 " + _("KODI MEDIA CENTER"), menuTheme->menuText.font, menuTheme->menuText.color);
-        row.addElement(lbl, true); // label
-        s->addRow(row);
-        row.elements.clear();
-        row.makeAcceptInputHandler([this, s] {
-            auto netplay = new GuiNetPlay(mWindow, mSystemManager);
-            mWindow.pushGui(netplay);
-            s->Close();
-        });
-        auto lbl2 = std::make_shared<TextComponent>(mWindow, "\uF1c4 " + _("NETPLAY LOBBY"), menuTheme->menuText.font, menuTheme->menuText.color);
-        row.addElement(lbl2, true); // label
-        s->addRow(row);
-        mWindow.pushGui(s);
-      }
-      else
-      {
-        launchKodi = true;
-        if( ! RecalboxSystem::launchKodi(mWindow))
+        if (netplay)
         {
-            LOG(LogWarning) << "Shutdown terminated with non-zero result!";
+          auto s = new GuiSettings(mWindow, _("KODI/NETPLAY"));
+          auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+          ComponentListRow row;
+          row.makeAcceptInputHandler([this, s] {
+              launchKodi = true;
+              if( ! RecalboxSystem::launchKodi(mWindow)) {
+                  LOG(LogWarning) << "Shutdown terminated with non-zero result!";
+              }
+              launchKodi = false;
+              s->Close();
+          });
+          auto lbl = std::make_shared<TextComponent>(mWindow, "\uF1c3 " + _("KODI MEDIA CENTER"), menuTheme->menuText.font, menuTheme->menuText.color);
+          row.addElement(lbl, true); // label
+          s->addRow(row);
+          row.elements.clear();
+          row.makeAcceptInputHandler([this, s] {
+              auto netplay = new GuiNetPlay(mWindow, mSystemManager);
+              mWindow.pushGui(netplay);
+              s->Close();
+          });
+          auto lbl2 = std::make_shared<TextComponent>(mWindow, "\uF1c4 " + _("NETPLAY LOBBY"), menuTheme->menuText.font, menuTheme->menuText.color);
+          row.addElement(lbl2, true); // label
+          s->addRow(row);
+          mWindow.pushGui(s);
         }
-        launchKodi = false;
+        else
+        {
+          launchKodi = true;
+          if( ! RecalboxSystem::launchKodi(mWindow))
+          {
+              LOG(LogWarning) << "Shutdown terminated with non-zero result!";
+          }
+          launchKodi = false;
+        }
       }
-    } else if (netplay && !mWindow.HasGui()) {
-            auto netplayGui = new GuiNetPlay(mWindow, mSystemManager);
-            mWindow.pushGui(netplayGui);
+      else if (netplay && !mWindow.HasGui())
+      {
+        auto netplayGui = new GuiNetPlay(mWindow, mSystemManager);
+        mWindow.pushGui(netplayGui);
+      }
     }
 
-
-    }
 		if (event.SelectPressed() && RecalboxConf::Instance().AsString("emulationstation.menu") != "none")
 		{
 		  GuiQuit::PushQuitGui(mWindow);
@@ -257,6 +259,12 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
 			mWindow.pushGui(new GuiMenu(mWindow, mSystemManager));
 			return true;
 		}
+
+		if (event.R1Pressed())
+    {
+      mWindow.pushGui(new GuiSearch(mWindow, mSystemManager));
+      return true;
+    }
 
 	}
 	else if (event.AnyLeftReleased() || event.AnyRightReleased() || event.AnyUpReleased() || event.AnyDownReleased())
@@ -460,7 +468,8 @@ bool SystemView::getHelpPrompts(Help& help)
 	  help.Set(HelpType::X, _("NETPLAY"));
 
 	help.Set(HelpType::Select, _("QUIT"))
-	    .Set(HelpType::Start, _("MENU"));
+	    .Set(HelpType::Start, _("MENU"))
+	    .Set(HelpType::R, _("SEARCH"));
 
 	return true;
 }	

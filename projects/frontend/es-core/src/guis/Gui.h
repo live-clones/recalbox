@@ -40,4 +40,10 @@ class Gui : public Component
      * @return True if the GUI is an overlay
      */
     virtual bool IsOverlay() const { return false; }
+
+    /*!
+     * @brief If true, the help system is rendered under this gui
+     * @return True if the GUI must be rendered over the Help system
+     */
+    virtual bool MustRenderOverHelpSystem() const { return false; }
 };

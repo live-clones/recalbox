@@ -388,9 +388,30 @@ class GuiArcadeVirtualKeyboard : public Gui
      */
     bool IsOverlay() const override { return true; }
 
+    /*!
+     * @brief If true, the help system is rendered under this gui
+     * @return True if the GUI must be rendered over the Help system
+     */
+    bool MustRenderOverHelpSystem() const override { return true; }
+
   public:
+    /*!
+     * @brief Constructore
+     * @param window Target window
+     * @param title Title
+     * @param initValue Initial value
+     * @param okCallback Callback interface
+     */
     GuiArcadeVirtualKeyboard(Window& window, const std::string& title, const std::string& initValue,
                              GuiArcadeVirtualKeyboardInterface* okCallback);
+
+    /*!
+     * @brief Destructor
+     */
+    ~GuiArcadeVirtualKeyboard() override
+    {
+      SDL_StopTextInput();
+    }
 
     /*!
      * Get the current text text

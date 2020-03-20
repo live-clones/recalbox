@@ -5,6 +5,7 @@
 #include <components/ButtonComponent.h>
 #include <components/MenuComponent.h>
 #include <guis/GuiTextEditPopupKeyboard.h>
+#include <guis/GuiArcadeVirtualKeyboard.h>
 #include <views/ViewController.h>
 #include <RecalboxConf.h>
 #include "components/ScrollableContainer.h"
@@ -19,8 +20,9 @@ GuiSearch::GuiSearch(Window& window, SystemManager& systemManager)
 		: Gui(window),
 		  mSystemManager(systemManager),
 		  mBackground(window, Path(":/frame.png")),
-		  mGrid(window, Vector2i(3, 4)),
-		  mList(nullptr)
+		  mGrid(window, Vector2i(3, 3)),
+		  mList(nullptr),
+		  mJustOpen(true)
 {
 	addChild(&mBackground);
 	addChild(&mGrid);
@@ -37,14 +39,7 @@ GuiSearch::GuiSearch(Window& window, SystemManager& systemManager)
 	setPosition((Renderer::getDisplayWidthAsFloat() - mSize.x()) / 2,
 	            (Renderer::getDisplayHeightAsFloat() - mSize.y()) / 2);
 
-
-	mSearch->setCursorChangedCallback([this] {
-		populateGrid();
-	});
-
-	populateGrid();
-
-	mSearch->startEditing();
+	PopulateGrid("");
 }
 
 void GuiSearch::initGridsNStuff()
@@ -56,8 +51,7 @@ void GuiSearch::initGridsNStuff()
 
 	//init search textfield
 	mSearch = std::make_shared<TextEditComponent>(mWindow);
-
-	mGrid.setEntry(mSearch, Vector2i(0, 1), true, false, Vector2i(3, 1));
+	mGrid.setEntry(mSearch, Vector2i(0, 1), false, false, Vector2i(3, 1));
 
 	//init search option selector
 	mSearchChoices = std::make_shared<OptionListComponent<FolderData::FastSearchContext> >(mWindow,
@@ -74,17 +68,7 @@ void GuiSearch::initGridsNStuff()
 	mSearchChoices->setChangedCallback([this]{
 		mGrid.setColWidthPerc(1, mSearchChoices->getSize().x() / mSize.x());
 	});
-
-	mGrid.setEntry(mSearchChoices, Vector2i(1, 0), true, false, Vector2i(1, 1));
-
-
-	//init buttongrid
-	mButtons.push_back(std::make_shared<ButtonComponent>(mWindow, _("CLOSE"), _("CLOSE"), [this]
-	{ Close(); }));
-
-	mButtonGrid = makeButtonGrid(mWindow, mButtons);
-	mGrid.setEntry(mButtonGrid, Vector2i(0, 3), true, false, Vector2i(3, 1));
-
+	mGrid.setEntry(mSearchChoices, Vector2i(1, 0), false, false, Vector2i(1, 1));
 
 	//init big center grid with List and Meta
 	mGridMeta = std::make_shared<ComponentGrid>(mWindow, Vector2i(4, 3));
@@ -112,7 +96,6 @@ void GuiSearch::initGridsNStuff()
 	                              });
 
 	mGrid.setEntry(mGridMeta, Vector2i(0, 2), true, true, Vector2i(3, 1));
-
 	mGridMeta->setEntry(mText, Vector2i(0, 0), false, true, Vector2i(4, 3));
 
 
@@ -146,8 +129,6 @@ void GuiSearch::initGridsNStuff()
 
 	mResultSystemLogo = std::make_shared<ImageComponent>(mWindow);
 	mGridLogo->setEntry(mResultSystemLogo, Vector2i(1, 1), false, false, Vector2i(1, 1));
-
-
 
 	// selected result thumbnail + video
 	mResultThumbnail = std::make_shared<ImageComponent>(mWindow);
@@ -189,10 +170,23 @@ float GuiSearch::getButtonGridHeight() const
 
 bool GuiSearch::ProcessInput(const class InputCompactEvent & event)
 {
-	if (event.APressed() && !mSearch->isEditing())
+	if (event.BPressed())
 	{
 		Close();
+		return true;
 	}
+	if (event.APressed())
+  {
+	  mWindow.pushGui(new GuiArcadeVirtualKeyboard(mWindow, _("SEARCH"), mSearch->getValue(), this));
+	  return true;
+  }
+	if (event.StartPressed())
+  {
+	  launch();
+	  return true;
+  }
+	if (event.AnyLeftPressed() || event.AnyRightPressed()) return mSearchChoices->ProcessInput(event);
+
 	return Component::ProcessInput(event);
 }
 
@@ -207,34 +201,37 @@ void GuiSearch::onSizeChanged()
 {
 	mBackground.fitTo(mSize, Vector3f::Zero(), Vector2f(-32, -32));
 
+  mSearch->setSize(mSize.x() - 12, mSearch->getSize().y());
 
 	// update grid row/col sizes
+  mGrid.setColWidthPerc(0, 0.5f);
 	mGrid.setRowHeightPerc(0, TITLE_HEIGHT / mSize.y());
-	mGrid.setColWidthPerc(0, 0.5f);
-	mSearch->setSize(mSize.x() - 12, mSearch->getSize().y());
 	mGrid.setColWidthPerc(1, mSearchChoices->getSize().x() / mSize.x());
 	mGrid.setRowHeightPerc(1, (mSearch->getSize().y() + 8) / mSize.y());
-	mGrid.setRowHeightPerc(3, getButtonGridHeight() / mSize.y());
 
 	mGrid.setSize(mSize);
 }
 
 bool GuiSearch::getHelpPrompts(Help& help)
 {
-	//avoid launch showing when editing text
-	if (mList)
-	{
-		if (!mList->isEmpty() && !mSearch->isEditing())
-			help.Set(HelpType::B, _("LAUNCH"));
-	}
-
-  help.Set(HelpType::A, _("BACK"));
+  help.Clear()
+      .Set(HelpType::LeftRight, _("SEARCH IN..."))
+      .Set(HelpType::UpDown, _("SELECT"))
+      .Set(HelpType::A, _("KEYBOARD"))
+      .Set(HelpType::B, _("BACK"))
+      .Set(HelpType::Start, _("LAUNCH"));
 	return true;
 }
 
 void GuiSearch::Update(int deltaTime)
 {
 	Component::Update(deltaTime);
+
+	if (mJustOpen)
+  {
+    mWindow.pushGui(new GuiArcadeVirtualKeyboard(mWindow, _("SEARCH"), mSearch->getValue(), this));
+	  mJustOpen = false;
+  }
 }
 
 void GuiSearch::Render(const Transform4x4f& parentTrans)
@@ -247,18 +244,18 @@ void GuiSearch::Render(const Transform4x4f& parentTrans)
 	Renderer::drawRect(0.f, 0.f, mSize.x(), mSize.y(), 0x00000011);
 }
 
-void GuiSearch::populateGrid()
+void GuiSearch::PopulateGrid(const std::string& search)
 {
 	if (mList) {
 		mList->clear();
 	}
 
 
-	if (mSearch->getValue().length()>2) {
-		mSearchResults =  mSystemManager.searchTextInGames(mSearchChoices->getSelected(), mSearch->getValue(), 100, 500);
-		if (!mSearchResults.empty()) {
-
-
+	if (search.length()>2)
+	{
+		mSearchResults =  mSystemManager.searchTextInGames(mSearchChoices->getSelected(), search, 100, 500);
+		if (!mSearchResults.empty())
+		{
 			mText->setValue("");
 			ComponentListRow row;
 			std::shared_ptr<Component> ed;
@@ -279,12 +276,12 @@ void GuiSearch::populateGrid()
 			clear();
 			mGrid.getCellAt(0, 2)->canFocus = true;
 			populateGridMeta(0);
-		} else {
+		}
+		else
+		{
 			mText->setValue(_("NO RESULTS"));
 			clear();
-			if (mList) {
-				mList->clear();
-			}
+			if (mList) mList->clear();
 			//so we can jump to button if list is empty
 			mGrid.getCellAt(0, 2)->canFocus = false;
 		}
@@ -293,9 +290,7 @@ void GuiSearch::populateGrid()
 	{
 		mText->setValue(_("TYPE AT LEAST 3 CHARACTERS"));
 		clear();
-		if (mList) {
-			mList->clear();
-		}
+		if (mList) mList->clear();
 		mGrid.getCellAt(0, 2)->canFocus = false;
 	}
 }
@@ -365,7 +360,24 @@ void GuiSearch::ResizeGridLogo()
 
 void GuiSearch::launch()
 {
-	int index = mList->getCursor();
-	Vector3f target(Renderer::getDisplayWidthAsFloat() / 2.0f, Renderer::getDisplayHeightAsFloat() / 2.0f, 0);
-	ViewController::Instance().LaunchCheck(mSearchResults[index], nullptr, target);
+  if (mList->size() != 0)
+  {
+    int index = mList->getCursor();
+    Vector3f target(Renderer::getDisplayWidthAsFloat() / 2.0f, Renderer::getDisplayHeightAsFloat() / 2.0f, 0);
+    ViewController::Instance().LaunchCheck(mSearchResults[index], NetPlayData(), target);
+  }
+}
+
+void GuiSearch::ArcadeVirtualKeyboardTextChange(GuiArcadeVirtualKeyboard& /*vk*/, const std::string& text)
+{
+  mSearch->setValue(text);
+  PopulateGrid(text);
+}
+
+void GuiSearch::ArcadeVirtualKeyboardValidated(GuiArcadeVirtualKeyboard& /*vk*/, const std::string& /*text*/)
+{
+}
+
+void GuiSearch::ArcadeVirtualKeyboardCanceled(GuiArcadeVirtualKeyboard& /*vk*/)
+{
 }

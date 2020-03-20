@@ -5,6 +5,8 @@
 #include <Renderer.h>
 #include <utils/Strings.h>
 #include <input/InputCompactEvent.h>
+#include <help/Help.h>
+#include <utils/locale/LocaleHelper.h>
 #include "GuiArcadeVirtualKeyboard.h"
 #include "utils/Log.h"
 
@@ -43,7 +45,7 @@ GuiArcadeVirtualKeyboard::GuiArcadeVirtualKeyboard(Window& window, const std::st
     mMoveFast(false),
     mMoveOn(false),
     mValidateCallback(okCallback),
-    mWheelFont(Font::get(GetFontSize(sWheelFontRatio), Path("/recalbox/system/resources/fonts/6809chargen.ttf"))),
+    mWheelFont(Font::get(GetFontSize(sWheelFontRatio), Path(":/vk.ttf"))),
     mTitleFont(Font::get(GetFontSize(sTitleFontRatio))),
     mTextFont(Font::get(GetFontSize(sTextFontRatio))),
     mSelectedChar(TextureResource::get(Path(":/plaincircle30.png"), false, true, true))
@@ -75,6 +77,8 @@ GuiArcadeVirtualKeyboard::GuiArcadeVirtualKeyboard(Window& window, const std::st
 
   // Prepare title text
   PrepareTitle();
+
+  SDL_StartTextInput();
 }
 
 void GuiArcadeVirtualKeyboard::ChangeChar(bool fast, bool left, bool on)
@@ -197,21 +201,12 @@ bool GuiArcadeVirtualKeyboard::ProcessInput(const InputCompactEvent& event)
     else if (event.J1Left()) ChangeCursor(true, true, event.J1LeftPressed());
     else if (event.J1Right()) ChangeCursor(false, true, event.J1RightPressed());
     // Edit
-    else if (event.BPressed()) AddCharacter(GetSelectedCharacter());
-    else if (event.APressed()) CancelEditor();
+    else if (event.APressed()) AddCharacter(GetSelectedCharacter());
+    else if (event.BPressed()) CancelEditor();
     else if (event.StartPressed()) ValidateEditor();
     else if (event.YPressed()) Backspace();
     else if (event.XPressed()) Delete();
-    // Special case...
-    /*else if (input.type == InputType::Axis && input.value > 0)
-    {
-      input.value = -1;
-      if (config->isMappedTo("joystick1left", input)) ChangeCursor(false, true, input.value != 0);
-      else if (config->isMappedTo("joystick2left", input)) ChangeChar(true, false, input.value != 0);
-    }*/
   }
-  //if (input.type == InputType::Axis)
-  //  LOG(LogDebug) << (int)input.type << " - " << input.id << " - " << input.device << " - " << input.value;
 
   // VK consume everything
   return true;
@@ -272,6 +267,9 @@ void GuiArcadeVirtualKeyboard::Delete()
     mText.erase(mText.begin() + mCursor);
     AdjustCursor((int)mInnerEditor.w / 4);
     ResetCursorBlink();
+
+    if (mValidateCallback != nullptr)
+      mValidateCallback->ArcadeVirtualKeyboardTextChange(*this, Strings::UnicodeToUtf8(mText));
   }
 }
 
@@ -283,6 +281,9 @@ void GuiArcadeVirtualKeyboard::Backspace()
     mText.erase(mText.begin() + mCursor);
     AdjustCursor(-((int)mInnerEditor.w / 4));
     ResetCursorBlink();
+
+    if (mValidateCallback != nullptr)
+      mValidateCallback->ArcadeVirtualKeyboardTextChange(*this, Strings::UnicodeToUtf8(mText));
   }
 }
 
@@ -663,7 +664,7 @@ void GuiArcadeVirtualKeyboard::Render(const Transform4x4f& parentTrans)
       RenderWheel(mPreviousWheel, 1.0 + previous);
     RenderWheel(mCurrentWheel, 1.0 + current);
   }
-  else RenderWheel(mCurrentWheel, 1.0);
+  else RenderWheel(mCurrentWheel, 0.98);
 
   // Render textbox
   RenderTextBox();
@@ -677,8 +678,19 @@ void GuiArcadeVirtualKeyboard::Render(const Transform4x4f& parentTrans)
   }
 }
 
-bool GuiArcadeVirtualKeyboard::getHelpPrompts(Help& /*help*/)
+bool GuiArcadeVirtualKeyboard::getHelpPrompts(Help& help)
 {
+  help.Clear()
+      .Set(HelpType::A, _("SELECT"))
+      .Set(HelpType::B, _("CLOSE"))
+      .Set(HelpType::X, _("DELETE"))
+      .Set(HelpType::Y, _("BACKSPACE"))
+      .Set(HelpType::LR, _("CURSOR"))
+      .Set(HelpType::L2R2, _("FAST WHEEL"))
+      .Set(HelpType::UpDown, _("CHARSET"))
+      .Set(HelpType::LeftRight, _("WHEEL"))
+      //.Set(HelpType::Joy1LeftRight, _("FAST WHEEL"))
+      .Set(HelpType::Joy2LeftRight, _("FAST CURSOR"));
   return true;
 }
 

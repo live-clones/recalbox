@@ -17,8 +17,14 @@ enum class HelpType
   Y,             //!< Button Y
   L,             //!< Left Trigger
   R,             //!< Right Trigger
+  LR,            //!< Left/Right Trigger
+  L2R2,          //!< Left2/Right2 Trigger
   Start,         //!< Start button
   Select,        //!< Select button
+  Joy1UpDown,    //!< Joystick left - Up and Down
+  Joy1LeftRight, //!< Joystick left - Left and Right
+  Joy2UpDown,    //!< Joystick right - Up and Down
+  Joy2LeftRight, //!< Joystick right - Left and Right
   __Count,       //!< Total count of elements
 };
 
