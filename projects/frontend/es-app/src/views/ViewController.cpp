@@ -307,7 +307,7 @@ void ViewController::LaunchActually(FileData* game, const EmulatorData& emulator
   game->getSystem()->RunGame(mWindow, mSystemManager, *game, emulator, netplaydata);
   TimeSpan elapsed = DateTime() - start;
 
-  if (elapsed.TotalMilliseconds() <= 5000) // 5s
+  if (elapsed.TotalMilliseconds() <= 3000) // 3s
   {
     // Build text
     std::string text = _("It seems that your game didn't start at all!\n\nIt's most likely due to either:\n- bad rom\n- missing/bad mandatory bios files\n- missing/bad optional BIOS files (but required for this very game)");
