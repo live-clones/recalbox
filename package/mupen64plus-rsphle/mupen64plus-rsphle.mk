@@ -4,14 +4,8 @@
 #
 ################################################################################
 
-ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_XU4),y)
 MUPEN64PLUS_RSPHLE_VERSION = 2df8038d5f8fb722326c98d717b2d571a6d716ed
-MUPEN64PLUS_RSPHLE_SITE = $(call github,mupen64plus,mupen64plus-rsp-hle,$(MUPEN64PLUS_RSPHLE_VERSION))
-else
-MUPEN64PLUS_RSPHLE_VERSION = 5cfcc31366fc1b1f88bcbc270954b7fedcd27e21
-MUPEN64PLUS_RSPHLE_SITE = $(call github,ricrpi,mupen64plus-rsp-hle,$(MUPEN64PLUS_RSPHLE_VERSION))
-endif
-
+MUPEN64PLUS_RSPHLE_SITE = $(call github,mupen64plus,mupen64plus-rsp-hle,$(MUPEN64PLUS_RSPHLE_VERSION)
 MUPEN64PLUS_RSPHLE_LICENSE = MIT
 MUPEN64PLUS_RSPHLE_DEPENDENCIES = sdl2 alsa-lib mupen64plus-core
 MUPEN64PLUS_RSPHLE_INSTALL_STAGING = YES
