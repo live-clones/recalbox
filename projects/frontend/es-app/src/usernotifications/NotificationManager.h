@@ -237,6 +237,12 @@ class NotificationManager : public StaticLifeCycleControler<NotificationManager>
      */
     static std::string BuildParamString(const std::string& command, const Strings::Vector& arguments);
 
+    /*!
+     * @brief Check path extension and check if the extension is valid or not
+     * @param path Path to check extension
+     * @return True if the path has a valid extension
+     */
+    static bool HasValidExtension(const Path& path);
   public:
 
     /*!

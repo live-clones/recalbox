@@ -118,16 +118,17 @@ void NotificationManager::LoadScriptList()
 
   for(const Path& path : scripts)
     if (path.IsFile())
-    {
-      bool permanent = ExtractPermanentFlagFromPath(path);
-      bool synced = ExtractSyncFlagFromPath(path) && !permanent;
-      if (permanent)
+      if (HasValidExtension(path))
       {
-        RunProcess(path, {}, false, true);
-        LOG(LogDebug) << "Run permanent UserScript: " << path.ToString();
+        bool permanent = ExtractPermanentFlagFromPath(path);
+        bool synced = ExtractSyncFlagFromPath(path) && !permanent;
+        if (permanent)
+        {
+          RunProcess(path, {}, false, true);
+          LOG(LogDebug) << "Run permanent UserScript: " << path.ToString();
+        }
+        else mScriptList.push_back({ path, ExtractNotificationsFromPath(path), synced });
       }
-      else mScriptList.push_back({ path, ExtractNotificationsFromPath(path), synced });
-    }
 }
 
 NotificationManager::RefScriptList NotificationManager::FilteredScriptList(Notification action)
@@ -373,6 +374,17 @@ void NotificationManager::RunProcess(const Path& target, const Strings::Vector& 
   // Permanent?
   if (permanent)
     sPermanentScriptsPID.insert(target.ToString(), pid);
+}
+
+bool NotificationManager::HasValidExtension(const Path& path)
+{
+  std::string ext = Strings::ToLowerASCII(path.Extension());
+  return (ext.empty()) ||
+         (ext == ".sh" ) ||
+         (ext == ".ash") ||
+         (ext == ".py" ) ||
+         (ext == ".py2") ||
+         (ext == ".py3");
 }
 
 
