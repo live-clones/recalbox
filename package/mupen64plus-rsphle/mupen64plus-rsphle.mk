@@ -5,7 +5,7 @@
 ################################################################################
 
 MUPEN64PLUS_RSPHLE_VERSION = 2df8038d5f8fb722326c98d717b2d571a6d716ed
-MUPEN64PLUS_RSPHLE_SITE = $(call github,mupen64plus,mupen64plus-rsp-hle,$(MUPEN64PLUS_RSPHLE_VERSION)
+MUPEN64PLUS_RSPHLE_SITE = $(call github,mupen64plus,mupen64plus-rsp-hle,$(MUPEN64PLUS_RSPHLE_VERSION))
 MUPEN64PLUS_RSPHLE_LICENSE = MIT
 MUPEN64PLUS_RSPHLE_DEPENDENCIES = sdl2 alsa-lib mupen64plus-core
 MUPEN64PLUS_RSPHLE_INSTALL_STAGING = YES
