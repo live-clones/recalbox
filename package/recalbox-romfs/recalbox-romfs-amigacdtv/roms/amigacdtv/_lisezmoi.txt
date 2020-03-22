@@ -1,1 +1,14 @@
-Remplir ce fichier
+## RECALBOX - SYSTEM AMIGA CDTV ##
+
+Placez ici vos ISO amiga CDTV.
+
+Consultez la documentation à cette adresse : 
+https://github.com/recalbox/recalbox-os/wiki/Amiga-sur-Recalbox-(FR)
+
+Libretro P-UAE:
+Supported formats are:
+adf, adz, ipf, dms, fdi for floppy disk images
+iso, cue, ccd, nrg, mds for compact disc images
+hdf, hdz, lha for hard drive images
+m3u for multiple floppy disk image playlist
+zip for various content (FD, HDD, CD, WHDLoad)

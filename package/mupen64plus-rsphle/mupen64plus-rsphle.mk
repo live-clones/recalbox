@@ -5,7 +5,7 @@
 ################################################################################
 
 ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_XU4),y)
-MUPEN64PLUS_RSPHLE_VERSION = f01fed082abc2aeabd55c8fe685df4c83115e2c2
+MUPEN64PLUS_RSPHLE_VERSION = 2df8038d5f8fb722326c98d717b2d571a6d716ed
 MUPEN64PLUS_RSPHLE_SITE = $(call github,mupen64plus,mupen64plus-rsp-hle,$(MUPEN64PLUS_RSPHLE_VERSION))
 else
 MUPEN64PLUS_RSPHLE_VERSION = 5cfcc31366fc1b1f88bcbc270954b7fedcd27e21

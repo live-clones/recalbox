@@ -55,6 +55,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add mqtt server (mosquitto) + paho-mqtt python package
 - Add Pad-2-Keyboard driver
 - Add search feature and new arcade virtual keyboard
+- Bump Theodore core (add emulation of Thomson TO7 and TO7/70 computers)
+- Enable flycast con rpi3, xu4 and x86
 
 ## [6.1.1]
 - Add zfast shaders
