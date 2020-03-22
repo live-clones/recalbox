@@ -216,6 +216,8 @@ void Window::Update(int deltaTime)
   // Process GUI pending for deletion
   deleteClosePendingGui();
 
+  mHelp.Update(deltaTime);
+
   // Process highest GUI
   if (!mGuiStack.Empty())
     mGuiStack.Peek()->Update(deltaTime);

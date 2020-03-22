@@ -28,6 +28,9 @@ public:
 	ComponentGrid(Window&window, const Vector2i& gridDimensions);
 	~ComponentGrid() override;
 
+	int EntryCount() const { return (int)mCells.size(); }
+  void ClearEntries() { mCells.clear(); }
+
 	bool removeEntry(const std::shared_ptr<Component>& comp);
 
 	void setEntry(const std::shared_ptr<Component>& comp, const Vector2i& pos, bool canFocus, bool resize = true,

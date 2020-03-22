@@ -39,21 +39,23 @@ static const HashMap<HelpType, const char*>& IconPathMap()
 }
 
 HelpComponent::HelpComponent(Window&window)
-  : Component(window)
+  : Component(window),
+    mGrid(mWindow, Vector2i((int)Help::TypeCount() * 4, 1)),
+    mScrolling(Scrolling::Initialize),
+    mScrollingTimeAccumulator(0),
+    mScrollingLength(0),
+    mScrollingOffset(0)
 {
 }
 
 void HelpComponent::UpdateHelps()
 {
+  mGrid.ClearEntries();
 	if(!Settings::Instance().ShowHelpPrompts() || HelpItems().Empty())
-	{
-		mGrid.reset();
 		return;
-	}
 
 	const std::shared_ptr<Font>& font = HelpItemStyle().TextFont();
 
-	mGrid = std::make_shared<ComponentGrid>(mWindow, Vector2i((int)Help::TypeCount() * 4, 1));
 	// [icon] [spacer1] [text] [spacer2]
 
 	std::vector< std::shared_ptr<ImageComponent> > icons;
@@ -85,36 +87,89 @@ void HelpComponent::UpdateHelps()
       width += icon->getSize().x() + lbl->getSize().x() + ICON_TEXT_SPACING + ENTRY_SPACING;
     }
 
-	mGrid->setSize(width, height);
+	mGrid.setSize(width, height);
+  mScrollingLength = Math::roundi(width) - (Renderer::getDisplayWidthAsInt() - Math::roundi(2.0f * HelpItemStyle().Position().x()));
 	for (int i = 0; i < (int)icons.size(); i++)
 	{
 		const int col = i*4;
-		mGrid->setColWidthPerc(col, icons[i]->getSize().x() / width);
-		mGrid->setColWidthPerc(col + 1, ICON_TEXT_SPACING / width);
-		mGrid->setColWidthPerc(col + 2, labels[i]->getSize().x() / width);
-    mGrid->setColWidthPerc(col + 3, ENTRY_SPACING / width);
+		mGrid.setColWidthPerc(col, icons[i]->getSize().x() / width);
+		mGrid.setColWidthPerc(col + 1, ICON_TEXT_SPACING / width);
+		mGrid.setColWidthPerc(col + 2, labels[i]->getSize().x() / width);
+    mGrid.setColWidthPerc(col + 3, ENTRY_SPACING / width);
 
-		mGrid->setEntry(icons[i], Vector2i(col, 0), false, false);
-		mGrid->setEntry(labels[i], Vector2i(col + 2, 0), false, false);
+		mGrid.setEntry(icons[i], Vector2i(col, 0), false, false);
+		mGrid.setEntry(labels[i], Vector2i(col + 2, 0), false, false);
 	}
 
-	mGrid->setPosition(Vector3f(HelpItemStyle().Position().x(), HelpItemStyle().Position().y(), 0.0f));
+	mGrid.setPosition(Vector3f(HelpItemStyle().Position().x(), HelpItemStyle().Position().y(), 0.0f));
 }
 
 void HelpComponent::setOpacity(unsigned char opacity)
 {
 	Component::setOpacity(opacity);
 
-	for (unsigned int i = 0; i < mGrid->getChildCount(); i++)
-	{
-		mGrid->getChild(i)->setOpacity(opacity);
-	}
+	for (int i = (int)mGrid.getChildCount(); --i >= 0; )
+		mGrid.getChild(i)->setOpacity(opacity);
 }
 
 void HelpComponent::Render(const Transform4x4f& parentTrans)
 {
-	Transform4x4f trans = parentTrans * getTransform();
+	Transform4x4f trans = (parentTrans * getTransform()).translate({ (float)-mScrollingOffset, 0, 0 });
 
-	if(mGrid)
-    mGrid->Render(trans);
+	if (mGrid.EntryCount() != 0)
+    mGrid.Render(trans);
+}
+
+void HelpComponent::Update(int deltaTime)
+{
+  if (mGrid.EntryCount() != 0)
+    if (mScrollingLength > 10)
+      switch(mScrolling)
+      {
+        case Scrolling::Initialize:
+        {
+          mScrollingOffset = 0;
+          mScrollingTimeAccumulator = 0;
+          mScrolling = Scrolling::PauseLeft;
+          break;
+        }
+        case Scrolling::PauseLeft:
+        {
+          mScrollingOffset = 0;
+          if ((mScrollingTimeAccumulator += deltaTime) > sPauseTime)
+          {
+            mScrollingTimeAccumulator = 0;
+            mScrolling = Scrolling::ScrollToRight;
+          }
+          break;
+        }
+        case Scrolling::ScrollToRight:
+        {
+          if (++mScrollingOffset >= mScrollingLength)
+          {
+            mScrollingTimeAccumulator = 0;
+            mScrolling = Scrolling::PauseRight;
+          }
+          break;
+        }
+        case Scrolling::PauseRight:
+        {
+          mScrollingOffset = mScrollingLength - 1;
+          if ((mScrollingTimeAccumulator += deltaTime) > sPauseTime)
+          {
+            mScrollingTimeAccumulator = 0;
+            mScrolling = Scrolling::ScrollToLeft;
+          }
+          break;
+        }
+        case Scrolling::ScrollToLeft:
+        {
+          if (--mScrollingOffset <= 0)
+          {
+            mScrollingTimeAccumulator = 0;
+            mScrolling = Scrolling::PauseLeft;
+          }
+          break;
+        }
+      }
 }
