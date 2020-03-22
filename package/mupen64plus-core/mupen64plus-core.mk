@@ -53,7 +53,7 @@ define MUPEN64PLUS_CORE_BUILD_CMDS
 		LDFLAGS="$(TARGET_LDFLAGS) $(COMPILER_COMMONS_LDFLAGS_SO)" \
 		$(MAKE) CXX="$(TARGET_CXX)" CC="$(TARGET_CC)" LD="$(TARGET_LD)" RANLIB="$(TARGET_RANLIB)" AR="$(TARGET_AR)" CROSS_COMPILE="$(STAGING_DIR)/usr/bin/" AS="$(HOST_DIR)/bin/nasm" \
 			PREFIX="$(STAGING_DIR)/usr" \
-			SHAREDIR="$(STAGING_DIR)/usr/share/system/configs/mupen64/" \
+			SHAREDIR="$(TARGET_DIR)/usr/share/system/configs/mupen64/" \
 			PKG_CONFIG="$(HOST_DIR)/usr/bin/pkg-config" \
 			HOST_CPU="$(MUPEN64PLUS_CORE_HOST_CPU)" \
 			-C $(@D)/projects/unix all $(MUPEN64PLUS_CORE_PARAMS) OPTFLAGS="$(TARGET_CXXFLAGS)"
