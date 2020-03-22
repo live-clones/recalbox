@@ -685,10 +685,10 @@ bool GuiArcadeVirtualKeyboard::getHelpPrompts(Help& help)
       .Set(HelpType::B, _("CLOSE"))
       .Set(HelpType::X, _("DELETE"))
       .Set(HelpType::Y, _("BACKSPACE"))
-      .Set(HelpType::LR, _("CURSOR"))
+      .Set(HelpType::LR, _("MOVE CURSOR"))
       .Set(HelpType::L2R2, _("FAST WHEEL"))
-      .Set(HelpType::UpDown, _("CHARSET"))
-      .Set(HelpType::LeftRight, _("WHEEL"))
+      .Set(HelpType::UpDown, _("CHANGE CHARSET"))
+      .Set(HelpType::LeftRight, _("MOVE WHEEL"))
       //.Set(HelpType::Joy1LeftRight, _("FAST WHEEL"))
       .Set(HelpType::Joy2LeftRight, _("FAST CURSOR"));
   return true;

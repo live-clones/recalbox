@@ -2129,6 +2129,21 @@ msgid ""
 "Do you want to launch the game anyway?"
 msgstr ""
 
+msgid "BACKSPACE"
+msgstr ""
+
+msgid "FAST WHEEL"
+msgstr ""
+
+msgid "CHANGE CHARSET"
+msgstr ""
+
+msgid "MOVE WHEEL"
+msgstr ""
+
+msgid "FAST CURSOR"
+msgstr ""
+
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
 #~ "will turn the screen black."

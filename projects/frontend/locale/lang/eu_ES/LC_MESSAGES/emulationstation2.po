@@ -1968,3 +1968,18 @@ msgid ""
 "\n"
 "Do you want to launch the game anyway?"
 msgstr ""
+
+msgid "BACKSPACE"
+msgstr ""
+
+msgid "FAST WHEEL"
+msgstr ""
+
+msgid "CHANGE CHARSET"
+msgstr ""
+
+msgid "MOVE WHEEL"
+msgstr ""
+
+msgid "FAST CURSOR"
+msgstr ""

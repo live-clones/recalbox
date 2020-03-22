@@ -2275,3 +2275,24 @@ msgstr ""
 #:
 msgid "At least one mandatory BIOS is missing for %emulator%!\nYour game '%game%' will very likely not run at all until required BIOS are put in the expected folder.\n\nDo you want to launch the game anyway?"
 msgstr ""
+
+#:
+msgid "BACKSPACE"
+msgstr ""
+
+#:
+msgid "FAST WHEEL"
+msgstr ""
+
+#:
+msgid "CHANGE CHARSET"
+msgstr ""
+
+#:
+msgid "MOVE WHEEL"
+msgstr ""
+
+#:
+msgid "FAST CURSOR"
+msgstr ""
+

@@ -943,7 +943,7 @@ msgid "STOP EDITING"
 msgstr "ARRETER L'EDITION"
 
 msgid "MOVE CURSOR"
-msgstr "BOUGER LE CURSEUR"
+msgstr "DEPLACER LE CURSEUR"
 
 msgid "EDIT"
 msgstr "EDITER"
@@ -2194,3 +2194,24 @@ msgstr "Il semblerait que votre jeu ne se soit pas lancé du tout!\n\nC'est trè
 #:
 msgid "At least one mandatory BIOS is missing for %emulator%!\nYour game '%game%' will very likely not run at all until required BIOS are put in the expected folder.\n\nDo you want to launch the game anyway?"
 msgstr "Au moins un BIOS obligatoire est manquant pour %emulator%!\nLe jeu '%game%' ne fonctionnera très probablement pas jusqu'à ce que les BIOS requis soient placés dans le bon repertoire.\n\nVoulez-vous lancer le jeu malgré tout?"
+
+#:
+msgid "BACKSPACE"
+msgstr "BACKSPACE"
+
+#:
+msgid "FAST WHEEL"
+msgstr "ROUE RAPIDE"
+
+#:
+msgid "CHANGE CHARSET"
+msgstr "JEU DE CARAC."
+
+#:
+msgid "MOVE WHEEL"
+msgstr "TOURNER ROUE"
+
+#:
+msgid "FAST CURSOR"
+msgstr "CURSEUR RAPIDE"
+
