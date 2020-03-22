@@ -1,12 +1,12 @@
-config BR2_PACKAGE_LIBRETRO_PRBOOM
-	bool "libretro-prboom"
+config BR2_PACKAGE_LIBRETRO_BOOM3
+	bool "libretro-boom3"
 	depends on BR2_PACKAGE_RETROARCH
 	depends on BR2_INSTALL_LIBSTDCPP
 	select BR2_PACKAGE_RECALBOX_ROMFS_DOOM
 	help
-	  A libretro PrBoom core for ARM.
+	  A libretro Doom 3 core.
 
 	  http://www.libretro.com
 
-comment "LIBRETRO_PRBOOM needs a toolchain w/ C++"
+comment "LIBRETRO_BOOM3 needs a toolchain w/ C++"
 	depends on !BR2_INSTALL_LIBSTDCPP
