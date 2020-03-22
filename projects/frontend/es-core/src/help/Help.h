@@ -8,24 +8,26 @@
 //! Help types
 enum class HelpType
 {
-  AllDirections, //!< All 4 firections
-  UpDown,        //!< Up and Down
-  LeftRight,     //!< Left and Right
-  A,             //!< Button A
-  B,             //!< Button B
-  X,             //!< Button X
-  Y,             //!< Button Y
-  L,             //!< Left Trigger
-  R,             //!< Right Trigger
-  LR,            //!< Left/Right Trigger
-  L2R2,          //!< Left2/Right2 Trigger
-  Start,         //!< Start button
-  Select,        //!< Select button
-  Joy1UpDown,    //!< Joystick left - Up and Down
-  Joy1LeftRight, //!< Joystick left - Left and Right
-  Joy2UpDown,    //!< Joystick right - Up and Down
-  Joy2LeftRight, //!< Joystick right - Left and Right
-  __Count,       //!< Total count of elements
+  AllDirections,     //!< All 4 firections
+  UpDown,            //!< Up and Down
+  LeftRight,         //!< Left and Right
+  A,                 //!< Button A
+  B,                 //!< Button B
+  X,                 //!< Button X
+  Y,                 //!< Button Y
+  L,                 //!< Left Trigger
+  R,                 //!< Right Trigger
+  LR,                //!< Left/Right Trigger
+  L2R2,              //!< Left2/Right2 Trigger
+  Start,             //!< Start button
+  Select,            //!< Select button
+  Joy1AllDirections, //!< Joystick left - All directions
+  Joy1UpDown,        //!< Joystick left - Up and Down
+  Joy1LeftRight,     //!< Joystick left - Left and Right
+  Joy2AllDirections, //!< Joystick right - All directions
+  Joy2UpDown,        //!< Joystick right - Up and Down
+  Joy2LeftRight,     //!< Joystick right - Left and Right
+  __Count,           //!< Total count of elements
 };
 
 class Help

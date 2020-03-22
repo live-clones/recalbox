@@ -2,7 +2,7 @@
 
 #include "Resources.h"
 
-const uint32_t res2hNrOfFiles = 116;
+const uint32_t res2hNrOfFiles = 118;
 const Res2hEntry res2hFiles[res2hNrOfFiles] = {
     {":/option_arrow.svg", option_arrow_svg_size, option_arrow_svg_data},
     {":/arrow.svg", arrow_svg_size, arrow_svg_data},
@@ -93,22 +93,22 @@ const Res2hEntry res2hFiles[res2hNrOfFiles] = {
     {":/genre/simulationfishandhunt.svg", genre__simulationfishandhunt_svg_size, genre__simulationfishandhunt_svg_data},
     {":/genre/actionbattleroyale.svg", genre__actionbattleroyale_svg_size, genre__actionbattleroyale_svg_data},
     {":/help/dpad_down.svg", help__dpad_down_svg_size, help__dpad_down_svg_data},
-    {":/help/joystick_right_updown.svg", help__joystick_right_updown_svg_size, help__joystick_right_updown_svg_data},
     {":/help/button_x.svg", help__button_x_svg_size, help__button_x_svg_data},
     {":/help/button_hotkey.svg", help__button_hotkey_svg_size, help__button_hotkey_svg_data},
     {":/help/button_y.svg", help__button_y_svg_size, help__button_y_svg_data},
-    {":/help/joystick_right_leftright.svg", help__joystick_right_leftright_svg_size, help__joystick_right_leftright_svg_data},
     {":/help/joystick_left.svg", help__joystick_left_svg_size, help__joystick_left_svg_data},
     {":/help/button_l.svg", help__button_l_svg_size, help__button_l_svg_data},
+    {":/help/joystick_updown_L.svg", help__joystick_updown_L_svg_size, help__joystick_updown_L_svg_data},
     {":/help/button_l3.svg", help__button_l3_svg_size, help__button_l3_svg_data},
+    {":/help/joystick_all_R.svg", help__joystick_all_R_svg_size, help__joystick_all_R_svg_data},
     {":/help/dpad_updown.svg", help__dpad_updown_svg_size, help__dpad_updown_svg_data},
     {":/help/dpad_all.svg", help__dpad_all_svg_size, help__dpad_all_svg_data},
     {":/help/dpad_left.svg", help__dpad_left_svg_size, help__dpad_left_svg_data},
+    {":/help/joystick_leftright_R.svg", help__joystick_leftright_R_svg_size, help__joystick_leftright_R_svg_data},
     {":/help/button_b.svg", help__button_b_svg_size, help__button_b_svg_data},
     {":/help/button_lr.svg", help__button_lr_svg_size, help__button_lr_svg_data},
     {":/help/dpad_right.svg", help__dpad_right_svg_size, help__dpad_right_svg_data},
     {":/help/button_r.svg", help__button_r_svg_size, help__button_r_svg_data},
-    {":/help/joystick_left_updown.svg", help__joystick_left_updown_svg_size, help__joystick_left_updown_svg_data},
     {":/help/dpad_leftright.svg", help__dpad_leftright_svg_size, help__dpad_leftright_svg_data},
     {":/help/button_l2.svg", help__button_l2_svg_size, help__button_l2_svg_data},
     {":/help/button_r2.svg", help__button_r2_svg_size, help__button_r2_svg_data},
@@ -117,9 +117,11 @@ const Res2hEntry res2hFiles[res2hNrOfFiles] = {
     {":/help/button_a.svg", help__button_a_svg_size, help__button_a_svg_data},
     {":/help/button_start.svg", help__button_start_svg_size, help__button_start_svg_data},
     {":/help/button_l2r2.svg", help__button_l2r2_svg_size, help__button_l2r2_svg_data},
+    {":/help/joystick_all_L.svg", help__joystick_all_L_svg_size, help__joystick_all_L_svg_data},
     {":/help/button_r3.svg", help__button_r3_svg_size, help__button_r3_svg_data},
-    {":/help/joystick_left_leftright.svg", help__joystick_left_leftright_svg_size, help__joystick_left_leftright_svg_data},
-    {":/help/joystick_up.svg", help__joystick_up_svg_size, help__joystick_up_svg_data}
+    {":/help/joystick_leftright_L.svg", help__joystick_leftright_L_svg_size, help__joystick_leftright_L_svg_data},
+    {":/help/joystick_up.svg", help__joystick_up_svg_size, help__joystick_up_svg_data},
+    {":/help/joystick_updown_R.svg", help__joystick_updown_R_svg_size, help__joystick_updown_R_svg_data}
 };
 
 res2hMapType::value_type mapTemp[] = {
@@ -212,22 +214,22 @@ res2hMapType::value_type mapTemp[] = {
     std::make_pair(":/genre/simulationfishandhunt.svg", res2hFiles[86]),
     std::make_pair(":/genre/actionbattleroyale.svg", res2hFiles[87]),
     std::make_pair(":/help/dpad_down.svg", res2hFiles[88]),
-    std::make_pair(":/help/joystick_right_updown.svg", res2hFiles[89]),
-    std::make_pair(":/help/button_x.svg", res2hFiles[90]),
-    std::make_pair(":/help/button_hotkey.svg", res2hFiles[91]),
-    std::make_pair(":/help/button_y.svg", res2hFiles[92]),
-    std::make_pair(":/help/joystick_right_leftright.svg", res2hFiles[93]),
-    std::make_pair(":/help/joystick_left.svg", res2hFiles[94]),
-    std::make_pair(":/help/button_l.svg", res2hFiles[95]),
-    std::make_pair(":/help/button_l3.svg", res2hFiles[96]),
+    std::make_pair(":/help/button_x.svg", res2hFiles[89]),
+    std::make_pair(":/help/button_hotkey.svg", res2hFiles[90]),
+    std::make_pair(":/help/button_y.svg", res2hFiles[91]),
+    std::make_pair(":/help/joystick_left.svg", res2hFiles[92]),
+    std::make_pair(":/help/button_l.svg", res2hFiles[93]),
+    std::make_pair(":/help/joystick_updown_L.svg", res2hFiles[94]),
+    std::make_pair(":/help/button_l3.svg", res2hFiles[95]),
+    std::make_pair(":/help/joystick_all_R.svg", res2hFiles[96]),
     std::make_pair(":/help/dpad_updown.svg", res2hFiles[97]),
     std::make_pair(":/help/dpad_all.svg", res2hFiles[98]),
     std::make_pair(":/help/dpad_left.svg", res2hFiles[99]),
-    std::make_pair(":/help/button_b.svg", res2hFiles[100]),
-    std::make_pair(":/help/button_lr.svg", res2hFiles[101]),
-    std::make_pair(":/help/dpad_right.svg", res2hFiles[102]),
-    std::make_pair(":/help/button_r.svg", res2hFiles[103]),
-    std::make_pair(":/help/joystick_left_updown.svg", res2hFiles[104]),
+    std::make_pair(":/help/joystick_leftright_R.svg", res2hFiles[100]),
+    std::make_pair(":/help/button_b.svg", res2hFiles[101]),
+    std::make_pair(":/help/button_lr.svg", res2hFiles[102]),
+    std::make_pair(":/help/dpad_right.svg", res2hFiles[103]),
+    std::make_pair(":/help/button_r.svg", res2hFiles[104]),
     std::make_pair(":/help/dpad_leftright.svg", res2hFiles[105]),
     std::make_pair(":/help/button_l2.svg", res2hFiles[106]),
     std::make_pair(":/help/button_r2.svg", res2hFiles[107]),
@@ -236,9 +238,11 @@ res2hMapType::value_type mapTemp[] = {
     std::make_pair(":/help/button_a.svg", res2hFiles[110]),
     std::make_pair(":/help/button_start.svg", res2hFiles[111]),
     std::make_pair(":/help/button_l2r2.svg", res2hFiles[112]),
-    std::make_pair(":/help/button_r3.svg", res2hFiles[113]),
-    std::make_pair(":/help/joystick_left_leftright.svg", res2hFiles[114]),
-    std::make_pair(":/help/joystick_up.svg", res2hFiles[115])
+    std::make_pair(":/help/joystick_all_L.svg", res2hFiles[113]),
+    std::make_pair(":/help/button_r3.svg", res2hFiles[114]),
+    std::make_pair(":/help/joystick_leftright_L.svg", res2hFiles[115]),
+    std::make_pair(":/help/joystick_up.svg", res2hFiles[116]),
+    std::make_pair(":/help/joystick_updown_R.svg", res2hFiles[117])
 };
 
 res2hMapType res2hMap(mapTemp, mapTemp + sizeof mapTemp / sizeof mapTemp[0]);

@@ -28,10 +28,12 @@ static const HashMap<HelpType, const char*>& IconPathMap()
     { HelpType::L2R2,              ":/help/button_l2r2.svg" },
     { HelpType::Start,             ":/help/button_start.svg" },
     { HelpType::Select,            ":/help/button_select.svg" },
-    { HelpType::Joy1UpDown,        ":/help/joystick_left_updown.svg" },
-    { HelpType::Joy1LeftRight,     ":/help/joystick_left_leftright.svg" },
-    { HelpType::Joy2UpDown,        ":/help/joystick_right_updown.svg" },
-    { HelpType::Joy2LeftRight,     ":/help/joystick_right_leftright.svg" },
+    { HelpType::Joy1AllDirections, ":/help/joystick_all_L.svg" },
+    { HelpType::Joy1UpDown,        ":/help/joystick_updown_L.svg" },
+    { HelpType::Joy1LeftRight,     ":/help/joystick_leftright_L.svg" },
+    { HelpType::Joy2AllDirections, ":/help/joystick_all_R.svg" },
+    { HelpType::Joy2UpDown,        ":/help/joystick_updown_R.svg" },
+    { HelpType::Joy2LeftRight,     ":/help/joystick_leftright_R.svg" },
   };
   return _IconPathMap;
 }

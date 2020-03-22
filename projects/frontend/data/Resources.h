@@ -272,9 +272,6 @@ extern const uint8_t genre__actionbattleroyale_svg_data[];
 extern const uint16_t help__dpad_down_svg_size;
 extern const uint8_t help__dpad_down_svg_data[];
 
-extern const uint16_t help__joystick_right_updown_svg_size;
-extern const uint8_t help__joystick_right_updown_svg_data[];
-
 extern const uint16_t help__button_x_svg_size;
 extern const uint8_t help__button_x_svg_data[];
 
@@ -284,17 +281,20 @@ extern const uint8_t help__button_hotkey_svg_data[];
 extern const uint16_t help__button_y_svg_size;
 extern const uint8_t help__button_y_svg_data[];
 
-extern const uint16_t help__joystick_right_leftright_svg_size;
-extern const uint8_t help__joystick_right_leftright_svg_data[];
-
 extern const uint16_t help__joystick_left_svg_size;
 extern const uint8_t help__joystick_left_svg_data[];
 
 extern const uint16_t help__button_l_svg_size;
 extern const uint8_t help__button_l_svg_data[];
 
+extern const uint16_t help__joystick_updown_L_svg_size;
+extern const uint8_t help__joystick_updown_L_svg_data[];
+
 extern const uint16_t help__button_l3_svg_size;
 extern const uint8_t help__button_l3_svg_data[];
+
+extern const uint16_t help__joystick_all_R_svg_size;
+extern const uint8_t help__joystick_all_R_svg_data[];
 
 extern const uint16_t help__dpad_updown_svg_size;
 extern const uint8_t help__dpad_updown_svg_data[];
@@ -304,6 +304,9 @@ extern const uint8_t help__dpad_all_svg_data[];
 
 extern const uint16_t help__dpad_left_svg_size;
 extern const uint8_t help__dpad_left_svg_data[];
+
+extern const uint16_t help__joystick_leftright_R_svg_size;
+extern const uint8_t help__joystick_leftright_R_svg_data[];
 
 extern const uint16_t help__button_b_svg_size;
 extern const uint8_t help__button_b_svg_data[];
@@ -316,9 +319,6 @@ extern const uint8_t help__dpad_right_svg_data[];
 
 extern const uint16_t help__button_r_svg_size;
 extern const uint8_t help__button_r_svg_data[];
-
-extern const uint16_t help__joystick_left_updown_svg_size;
-extern const uint8_t help__joystick_left_updown_svg_data[];
 
 extern const uint16_t help__dpad_leftright_svg_size;
 extern const uint8_t help__dpad_leftright_svg_data[];
@@ -344,14 +344,20 @@ extern const uint8_t help__button_start_svg_data[];
 extern const uint16_t help__button_l2r2_svg_size;
 extern const uint8_t help__button_l2r2_svg_data[];
 
+extern const uint16_t help__joystick_all_L_svg_size;
+extern const uint8_t help__joystick_all_L_svg_data[];
+
 extern const uint16_t help__button_r3_svg_size;
 extern const uint8_t help__button_r3_svg_data[];
 
-extern const uint16_t help__joystick_left_leftright_svg_size;
-extern const uint8_t help__joystick_left_leftright_svg_data[];
+extern const uint16_t help__joystick_leftright_L_svg_size;
+extern const uint8_t help__joystick_leftright_L_svg_data[];
 
 extern const uint16_t help__joystick_up_svg_size;
 extern const uint8_t help__joystick_up_svg_data[];
+
+extern const uint16_t help__joystick_updown_R_svg_size;
+extern const uint8_t help__joystick_updown_R_svg_data[];
 
 struct Res2hEntry {
     const std::string relativeFileName;
