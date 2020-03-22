@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --system amigacdtv --extension '.adf .Adf .ADF .uae' --fullname 'Amiga CDTV' --platform amigacdtv --theme amigacdtv 1:amiberry:amiberry:BR2_PACKAGE_AMIBERRY
+# ./scripts/linux/empack.py --force --system amigacdtv --extension '.adf .Adf .ADF .uae .cue .CUE .ccd .CCD .iso .ISO .nrg .NRG .mds .MDS .zip .ZIP' --fullname 'Amiga CDTV' --platform amigacdtv --theme amigacdtv 1:amiberry:amiberry:BR2_PACKAGE_AMIBERRY
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_AMIGACDTV_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_AMIGACDTV = $(RECALBOX_ROMFS_AMIGACDTV_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_AMIBERRY),)
 define CONFIGURE_MAIN_AMIGACDTV_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_AMIGACDTV),Amiga CDTV,$(SYSTEM_NAME_AMIGACDTV),.adf .Adf .ADF .uae,amigacdtv,amigacdtv)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_AMIGACDTV),Amiga CDTV,$(SYSTEM_NAME_AMIGACDTV),.adf .Adf .ADF .uae .cue .CUE .ccd .CCD .iso .ISO .nrg .NRG .mds .MDS .zip .ZIP,amigacdtv,amigacdtv)
 endef
 
 ifneq ($(BR2_PACKAGE_AMIBERRY),)

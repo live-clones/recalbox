@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_ATARI800_VERSION = 8592478590485d0e65164487bbcb00415148aceb
+LIBRETRO_ATARI800_VERSION = 2322284eda10f565e67272ee93c785e1fe5c6887
 LIBRETRO_ATARI800_LICENSE = GPL
 LIBRETRO_ATARI800_SITE = $(call github,libretro,libretro-atari800,$(LIBRETRO_ATARI800_VERSION))
 

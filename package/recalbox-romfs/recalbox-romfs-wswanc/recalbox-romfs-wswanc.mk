@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --system wswanc --extension '.ws .WS .wsc .WSC .zip .ZIP .7z .7Z' --fullname 'WonderSwan Color' --platform wonderswancolor --theme wonderswancolor 1:libretro:mednafen_wswan:BR2_PACKAGE_LIBRETRO_BEETLE_WSWAN
+# ./scripts/linux/empack.py --force --system wswanc --extension '.ws .WS .wsc .WSC .pc2 .PC2 .zip .ZIP .7z .7Z' --fullname 'WonderSwan Color' --platform wonderswancolor --theme wonderswancolor 1:libretro:mednafen_wswan:BR2_PACKAGE_LIBRETRO_BEETLE_WSWAN
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_WSWANC_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_WSWANC = $(RECALBOX_ROMFS_WSWANC_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_WSWAN),)
 define CONFIGURE_MAIN_WSWANC_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_WSWANC),WonderSwan Color,$(SYSTEM_NAME_WSWANC),.ws .WS .wsc .WSC .zip .ZIP .7z .7Z,wonderswancolor,wonderswancolor)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_WSWANC),WonderSwan Color,$(SYSTEM_NAME_WSWANC),.ws .WS .wsc .WSC .pc2 .PC2 .zip .ZIP .7z .7Z,wonderswancolor,wonderswancolor)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_WSWAN),)

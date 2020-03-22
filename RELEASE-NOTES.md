@@ -18,6 +18,7 @@
 - Add Search feature and new Arcade-style virtual keyboard
 - Add Pad-To-Keyboard driver
 - New ngp & ngpc emulator focused on performance (fast) (libretro-race)
+- Libretro flycast also available on rpi3, xu4 and x86
 
 ### Improvements
 - Improve internal Scraper (ScreenScraper):
@@ -49,6 +50,7 @@
 - Bump libretro-assets on last version
 - Bump libretro-cores family
 - Rename 4do to opera (newer libretro 3do core)
+- Bump Theodore core (add emulation of Thomson TO7 and TO7/70 computers)
 
 ### Fixes
 - Fix Odroid XU4 fan issue

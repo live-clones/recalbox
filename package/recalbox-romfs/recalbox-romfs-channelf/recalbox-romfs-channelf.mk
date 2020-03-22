@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --system channelf --extension '.bin .BIN .rom .ROM .zip .ZIP .7z .7Z' --fullname 'Fairchild Channel F' --platform channelf --theme channelf 1:libretro:freechaf:BR2_PACKAGE_LIBRETRO_FREECHAF
+# ./scripts/linux/empack.py --force --system channelf --extension '.bin .BIN .rom .ROM .chf .CHF .zip .ZIP .7z .7Z' --fullname 'Fairchild Channel F' --platform channelf --theme channelf 1:libretro:freechaf:BR2_PACKAGE_LIBRETRO_FREECHAF
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_CHANNELF_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_CHANNELF = $(RECALBOX_ROMFS_CHANNELF_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_FREECHAF),)
 define CONFIGURE_MAIN_CHANNELF_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_CHANNELF),Fairchild Channel F,$(SYSTEM_NAME_CHANNELF),.bin .BIN .rom .ROM .zip .ZIP .7z .7Z,channelf,channelf)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_CHANNELF),Fairchild Channel F,$(SYSTEM_NAME_CHANNELF),.bin .BIN .rom .ROM .chf .CHF .zip .ZIP .7z .7Z,channelf,channelf)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_FREECHAF),)

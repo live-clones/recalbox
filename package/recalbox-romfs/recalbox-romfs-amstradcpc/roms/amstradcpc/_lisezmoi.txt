@@ -8,7 +8,4 @@ Ce système supporte également les roms compressées au format .zip/.7z.
 Attention toutefois, il ne s'agit que d'une archive. Les fichiers contenus dans les .zip/.7z doivent correspondre aux extensions citées précédemment.
 De plus, chaque fichier .zip/.7z ne doit contenir qu'une seule rom compressée.
 
-Pour activer le support du gamepad, veuillez entrer dans le menu Retroarch avec "Hotkey+B", puis modifiez l'option : 
-"Quick Menu/Core Input Options/User 1 Device type : Retropad" en "Amstrad Joystick"
-
 Pour utiliser les roms .kcr vous devez sélectionner le core crocods.

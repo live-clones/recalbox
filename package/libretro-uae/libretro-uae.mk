@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_UAE_VERSION = 51eca911a7879659612a7b7cc368cf6a3a49a823
+LIBRETRO_UAE_VERSION = 1a45e70b05688500e007addd29eeadfcfe1210bd
 LIBRETRO_UAE_SITE = $(call github,libretro,libretro-uae,$(LIBRETRO_UAE_VERSION))
 
 ifeq ($(BR2_PACKAGE_RPI_USERLAND),y)
@@ -33,8 +33,8 @@ endif
 define LIBRETRO_UAE_BUILD_CMDS
 	$(SED) "s|-O2|-O3|g" $(@D)/Makefile
 	$(SED) "s|^PLATFLAGS :=|PLATFLAGS := $(UAEPLATFLAGS)|g" $(@D)/Makefile
-	$(SED) "s+defined(WIIU)+defined(WIIU) || defined(AARCH64)+g" $(@D)/sources/src/machdep/maccess.h
-	$(SED) "s+defined(WIIU)+defined(WIIU) || defined(AARCH64)+g" $(@D)/sources/src/machdep/m68kops.h
+	$(SED) "s+defined(WIIU)+defined(WIIU) || defined(AARCH64)+g" $(@D)/retrodep/machdep/maccess.h
+	$(SED) "s+defined(WIIU)+defined(WIIU) || defined(AARCH64)+g" $(@D)/retrodep/machdep/m68kops.h
 	CFLAGS="$(TARGET_CFLAGS) $(LIBRETRO_UAE_COMPILER_COMMONS_CFLAGS)" \
 		CXXFLAGS="$(TARGET_CXXFLAGS) $(LIBRETRO_UAE_COMPILER_COMMONS_CXXFLAGS)" \
 		LDFLAGS="$(TARGET_LDFLAGS) $(LIBRETRO_UAE_COMPILER_COMMONS_LDFLAGS)" \
