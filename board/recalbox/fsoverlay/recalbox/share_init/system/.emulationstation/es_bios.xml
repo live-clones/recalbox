@@ -399,12 +399,12 @@
     <bios path="mpr-19367-mx.ic1" md5="1cd19988d1d72a3e7caa0b73234c96b4" core="mednafen_saturn" note="Required for Ultraman: Hikari no Kyojin Densetsu ROM Cartridge" />    
   </system>
   <system fullname="SNK Neo-Geo" platform="neogeo">
-    <bios path="/recalbox/share/roms/neogeo/neogeo.zip|bios/neogeo.zip" md5="e023d0a4b5249fdff2a4620c28963944,8cbdff53661f41ddbe486a98915e1ec9,
+    <bios path="/recalbox/share/roms/neogeo/neogeo.zip|/recalbox/share/bios/neogeo.zip" md5="e023d0a4b5249fdff2a4620c28963944,8cbdff53661f41ddbe486a98915e1ec9,
     	                                                       42e359e394f0be1d61b94ddca0efbe6c,c1e0a738d266926f604186aa9d63e4db" hashMatchMandatory="false" core="fbneo,fba2x,mame2000,mame2003,mame2003-plus,mame2010,mame2015" />    
   </system>
   <system fullname="SNK Neo-Geo" platform="neogeocd">
-    <bios path="/recalbox/share/roms/neogeocd/neogeo.zip|bios/neogeo.zip" md5="e023d0a4b5249fdff2a4620c28963944,8cbdff53661f41ddbe486a98915e1ec9,
+    <bios path="/recalbox/share/roms/neogeocd/neogeo.zip|/recalbox/share/bios/neogeo.zip" md5="e023d0a4b5249fdff2a4620c28963944,8cbdff53661f41ddbe486a98915e1ec9,
     	                                                         42e359e394f0be1d61b94ddca0efbe6c,7de395af329f683cb32696fb12ecb86f" hashMatchMandatory="false" core="fbneo,fba2x,mame2000,mame2003,mame2003-plus,mame2010,mame2015" />    
-    <bios path="/recalbox/share/roms/neogeocd/neocdz.zip|bios/neocdz.zip" md5="f39572af7584cb5b3f70ae8cc848aba2,389dbeb0cb857c130414747462cf9d71,c85b8132799f1b2ad3754a97947809d2" hashMatchMandatory="false" core="fbneo,fba2x,mame2000,mame2003,mame2003-plus,mame2010,mame2015" />    
+    <bios path="/recalbox/share/roms/neogeocd/neocdz.zip|/recalbox/share/bios/neocdz.zip" md5="f39572af7584cb5b3f70ae8cc848aba2,389dbeb0cb857c130414747462cf9d71,c85b8132799f1b2ad3754a97947809d2" hashMatchMandatory="false" core="fbneo,fba2x,mame2000,mame2003,mame2003-plus,mame2010,mame2015" />    
   </system>
 </biosList>
