@@ -10,7 +10,7 @@ class LibretroRetroarch:
     IS_TRUE = ("1", "true")
 
     # Warning: The values in the array must be exactly at the same index than
-    # https://github.com/libretro/RetroArch/blob/master/gfx/video_driver.c#L234
+    # https://github.com/libretro/RetroArch/blob/master/retroarch.c#L3042
     RATIO_INDEXES = \
     [
         "4/3",

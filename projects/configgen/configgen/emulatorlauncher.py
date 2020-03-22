@@ -192,8 +192,9 @@ def getDefaultEmulator(targetSystem):
 
         # Game engines
         "cavestory"     : Emulator(name='cavestory', emulator='libretro', core='nxengine'),
+        "doom"          : Emulator(name='doom', emulator='libretro', core='prboom'),
         "lutro"         : Emulator(name='lutro', emulator='libretro', core='lutro'),
-        "prboom"        : Emulator(name='prboom', emulator='libretro', core='prboom'),
+        "quake"         : Emulator(name='quake', emulator='libretro', core='tyrquake'),
         "scummvm"       : Emulator(name='scummvm', emulator='scummvm', videomode='default'),
 
         # Consoles
