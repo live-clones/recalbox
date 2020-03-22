@@ -24,7 +24,7 @@ define LIBRETRO_VICE_BUILD_CMDS
 endef
 
 define LIBRETRO_VICE_INSTALL_EMULATOR
-#	@echo "Installing $(1)..."; \
+	@echo "Installing $(1)..."; \
 	$(INSTALL) -D $(@D)/vice_$(strip $(1))_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/vice_$(strip $(1))_libretro.so ;
 endef
