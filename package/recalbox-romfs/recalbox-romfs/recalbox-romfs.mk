@@ -231,6 +231,11 @@ ifeq ($(BR2_PACKAGE_HYPSEUS),y)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-daphne
 endif
 
+# System: doom
+ifneq ($(BR2_PACKAGE_LIBRETRO_PRBOOM)$(BR2_PACKAGE_LIBRETRO_BOOM3),)
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-doom
+endif
+
 # System: dos
 ifeq ($(BR2_PACKAGE_DOSBOX),y)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-dos
@@ -447,11 +452,6 @@ endif
 # System: psx
 ifneq ($(BR2_PACKAGE_LIBRETRO_PCSX_REARMED)$(BR2_PACKAGE_LIBRETRO_BEETLE_PSX)$(BR2_PACKAGE_LIBRETRO_BEETLE_PSX_HW),)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-psx
-endif
-
-# System: prboom
-ifneq ($(BR2_PACKAGE_LIBRETRO_PRBOOM),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-prboom
 endif
 
 # System: samcoupe
