@@ -18,6 +18,7 @@
 - Add Search feature and new Arcade-style virtual keyboard
 - Add Pad-To-Keyboard driver
 - New ngp & ngpc emulator focused on performance (fast) (libretro-race)
+- Libretro flycast also available on rpi3, xu4 and x86
 
 ### Improvements
 - Improve internal Scraper (ScreenScraper):
