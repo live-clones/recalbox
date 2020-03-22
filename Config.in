@@ -99,6 +99,7 @@ menu "Libretro Cores"
         source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-beetle-vb/Config.in"
         source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-beetle-wswan/Config.in"
         source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-bluemsx/Config.in"
+        source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-boom3/Config.in"
         source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-cap32/Config.in"
         source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-crocods/Config.in"
         source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-desmume/Config.in"
@@ -169,10 +170,6 @@ menu "Libretro Cores"
         source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-yabause/Config.in"
 endmenu
 endif
-menu "Doom packages"
-        source "package/doom-wad/Config.in"
-        source "package/prboom/Config.in"
-endmenu
 endmenu
 menu "Kodi addons"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/kodi-plugin-video-youtube/Config.in"
