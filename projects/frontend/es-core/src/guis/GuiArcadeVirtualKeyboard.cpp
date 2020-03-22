@@ -202,8 +202,8 @@ bool GuiArcadeVirtualKeyboard::ProcessInput(const InputCompactEvent& event)
     else if (event.J1Left()) ChangeCursor(true, true, event.J1LeftPressed());
     else if (event.J1Right()) ChangeCursor(false, true, event.J1RightPressed());
     // Edit
-    else if (event.APressed()) AddCharacter(GetSelectedCharacter());
-    else if (event.BPressed()) CancelEditor();
+    else if (event.BPressed()) AddCharacter(GetSelectedCharacter());
+    else if (event.APressed()) CancelEditor();
     else if (event.StartPressed()) ValidateEditor();
     else if (event.YPressed()) Backspace();
     else if (event.XPressed()) Delete();
@@ -682,8 +682,8 @@ void GuiArcadeVirtualKeyboard::Render(const Transform4x4f& parentTrans)
 bool GuiArcadeVirtualKeyboard::getHelpPrompts(Help& help)
 {
   help.Clear()
-      .Set(HelpType::A, _("SELECT"))
-      .Set(HelpType::B, _("CLOSE"))
+      .Set(HelpType::B, _("SELECT"))
+      .Set(HelpType::A, _("CLOSE"))
       .Set(HelpType::X, _("DELETE"))
       .Set(HelpType::Y, _("BACKSPACE"))
       .Set(HelpType::LR, _("MOVE CURSOR"))
