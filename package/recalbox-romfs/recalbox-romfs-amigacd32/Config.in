@@ -1,6 +1,7 @@
 config BR2_PACKAGE_RECALBOX_ROMFS_AMIGACD32
 	bool "recalbox-romfs-amigacd32"
 	select BR2_PACKAGE_RECALBOX_ROMS
-	depends on BR2_PACKAGE_AMIBERRY
+	depends on BR2_PACKAGE_LIBRETRO_UAE \
+	  || BR2_PACKAGE_AMIBERRY
 	help
 	  share_init/roms and xml for amigacd32
