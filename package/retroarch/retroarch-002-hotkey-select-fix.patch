@@ -10,7 +10,7 @@
  
  /**
   * check_input_driver_block_hotkey:
-@@ -13123,11 +13126,17 @@
+@@ -17601,11 +17604,17 @@
                 && current_input->input_state(current_input_data, joypad_info,
                    &binds[0], port, RETRO_DEVICE_JOYPAD, 0, RARCH_ENABLE_HOTKEY))
           {
@@ -30,3 +30,26 @@
              input_driver_block_hotkey         = true;
              break;
           }
+@@ -17719,10 +17728,20 @@
+                current_input_data, joypad_info,
+                &binds, port,
+                RETRO_DEVICE_JOYPAD, 0, RARCH_ENABLE_HOTKEY))
+-         input_driver_block_libretro_input = true;
+-      else
++      {
++         if (hotkey_counter < HOTKEY_DELAY)
++            hotkey_counter++;
++         if (hotkey_counter >= HOTKEY_DELAY)
++         {
++            input_driver_block_libretro_input = true;
++         }
++      }
++         else
++      {
++         hotkey_counter = 0;
+          input_driver_block_hotkey         = true;
+    }
++   }
+ 
+    if (binds[RARCH_GAME_FOCUS_TOGGLE].valid)
+    {
