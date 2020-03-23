@@ -58,6 +58,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Bump Theodore core (add emulation of Thomson TO7 and TO7/70 computers)
 - Enable flycast con rpi3, xu4 and x86
 - Rename prboom system to doom
+- Enable amigacd32 emulation with libretro-uae
 
 ## [6.1.1]
 - Add zfast shaders
