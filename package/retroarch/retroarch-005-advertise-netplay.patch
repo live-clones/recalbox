@@ -1,11 +1,11 @@
---- a/network/netplay/netplay_frontend.c
-+++ b/network/netplay/netplay_frontend.c
-@@ -850,7 +850,7 @@
-                sizeof(architecture));
-          break;
-    }
--   snprintf(frontend_architecture, size, "%s %s", frontend->ident, architecture);
-+   snprintf(frontend_architecture, size, "%s %s@RECALBOX", frontend->ident, architecture);
- }
+--- a/retroarch.c
++++ b/retroarch.c
+@@ -4780,7 +4780,7 @@
+    frontend_drv =  
+       (const frontend_ctx_driver_t*)frontend_driver_get_cpu_architecture_str(
+             frontend_architecture_tmp, sizeof(frontend_architecture_tmp));
+-   snprintf(frontend_architecture, sizeof(frontend_architecture), "%s %s",
++   snprintf(frontend_architecture, sizeof(frontend_architecture), "%s %s@RECALBOX",
+          frontend_drv->ident, frontend_architecture_tmp);
  
- static void netplay_announce(void)
+ #ifdef HAVE_DISCORD
