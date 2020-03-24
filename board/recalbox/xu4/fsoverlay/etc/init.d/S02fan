@@ -2,19 +2,48 @@
 
 if test $1 = start
 then
-  # at 60 degres, put the fan at 40%
-  # at 70 degrees, put the fan at 50%
-  # at 80 degrees, put the fan at 95%
-  # the default noisy value is to do nothing until 68 degrees, and start at 50%
-  # the current temperature : /sys/devices/virtual/thermal/thermal_zone0/temp
-  # http://forum.odroid.com/viewtopic.php?f=52&t=16308
-  echo "1 40 50 95" > /sys/devices/odroid_fan.14/fan_speeds
-  echo   "60 70 80" > /sys/devices/odroid_fan.14/temp_levels
 
-  # default values :
-  # 1 51 71 91
-  #   68 73 85
+  # below 30°C, set the fan at 40%
+  #    at 30°C, set the fan at 55%
+  #    at 50°C, set the fan at 70%
+  #    at 75°C, set the fan at 99%
+  # Modif OlivierDroid92 du 16 Feb 2020 XU4
+  percent_fan_speeds=(40 55 70 99)
+  celcius_temperatures=(30 50 75)
+
+  # Recalbox legacy values:
+  #   percent fan speeds : 1 40 50 95  (eq. fan speed values : 2 102 127 242)
+  #   celcius temperatures : 60 70 80  (eq. trip point values : 60000 70000 80000)
+
+  # Default (hardkernel) values:
+  #   percent fan speeds : 0 47 71 94  (eq. fan speed values : 0 120 180 240)
+  #   celcius temperatures : 60 70 80  (eq. trip point values : 60000 70000 80000)
+
+  # Set target fan speeds (fan speed value = percent fan speed * 255 / 100)
+  fan_spd_val=""
+  for i in "${percent_fan_speeds[@]}"; do
+    fan_spd_val=${fan_spd_val:+$fan_spd_val }$(($i*255/100))
+  done
+  echo ${fan_spd_val} > /sys/devices/platform/pwm-fan/hwmon/hwmon0/fan_speed
+
+  # Set target temperatures (trip point value = celcius temperature * 1000)
+  TRIP_POINT_0=$((${celcius_temperatures[0]}*1000))
+  TRIP_POINT_1=$((${celcius_temperatures[1]}*1000))
+  TRIP_POINT_2=$((${celcius_temperatures[2]}*1000))
+
+  echo $TRIP_POINT_0 > /sys/devices/virtual/thermal/thermal_zone0/trip_point_0_temp
+  echo $TRIP_POINT_0 > /sys/devices/virtual/thermal/thermal_zone1/trip_point_0_temp
+  echo $TRIP_POINT_0 > /sys/devices/virtual/thermal/thermal_zone2/trip_point_0_temp
+  echo $TRIP_POINT_0 > /sys/devices/virtual/thermal/thermal_zone3/trip_point_0_temp
+
+  echo $TRIP_POINT_1 > /sys/devices/virtual/thermal/thermal_zone0/trip_point_1_temp
+  echo $TRIP_POINT_1 > /sys/devices/virtual/thermal/thermal_zone1/trip_point_1_temp
+  echo $TRIP_POINT_1 > /sys/devices/virtual/thermal/thermal_zone2/trip_point_1_temp
+  echo $TRIP_POINT_1 > /sys/devices/virtual/thermal/thermal_zone3/trip_point_1_temp
+
+  echo $TRIP_POINT_2 > /sys/devices/virtual/thermal/thermal_zone0/trip_point_2_temp
+  echo $TRIP_POINT_2 > /sys/devices/virtual/thermal/thermal_zone1/trip_point_2_temp
+  echo $TRIP_POINT_2 > /sys/devices/virtual/thermal/thermal_zone2/trip_point_2_temp
+  echo $TRIP_POINT_2 > /sys/devices/virtual/thermal/thermal_zone3/trip_point_2_temp
+
 fi
-
-
-
