@@ -26,6 +26,8 @@ define MUPEN64PLUS_GLES2RICE_BUILD_CMDS
 endef
 
 define MUPEN64PLUS_GLES2RICE_INSTALL_TARGET_CMDS
+# Next line is commented because we use a custom RiceVideoLinux.ini
+#	$(INSTALL) -D $(@D)/data/* $(TARGET_DIR)/recalbox/share_init/system/configs/mupen64/
 	$(SED) "s|-O2|-O3|g" $(@D)/projects/unix/Makefile
 	CFLAGS="$(TARGET_CFLAGS) $(COMPILER_COMMONS_CFLAGS_SO)" \
 		CXXFLAGS="$(TARGET_CXXFLAGS) $(COMPILER_COMMONS_CXXFLAGS_SO)" \
