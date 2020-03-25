@@ -26,7 +26,6 @@ MUPEN64PLUS_GLIDEN64_CONF_OPTS += -DGLES2=On
 endif
 
 define MUPEN64PLUS_GLIDEN64_INSTALL_TARGET_CMDS
-#	mkdir -p $(TARGET_DIR)/recalbox/share_init/system/configs/mupen64/
 	mkdir -p $(TARGET_DIR)/recalbox/share_init/system/configs/mupen64/hires_texture
 	$(INSTALL) -D $(@D)/src/plugin/release/mupen64plus-video-GLideN64.so \
 		$(TARGET_DIR)/usr/lib/mupen64plus/mupen64plus-video-gliden64.so

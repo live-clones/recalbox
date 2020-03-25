@@ -16,6 +16,7 @@ define MUPEN64PLUS_UICONSOLE_BUILD_CMDS
 		LDFLAGS="$(TARGET_LDFLAGS) $(COMPILER_COMMONS_LDFLAGS_SO)" \
 		$(MAKE) CXX="$(TARGET_CXX)" CC="$(TARGET_CC)" LD="$(TARGET_LD)" RANLIB="$(TARGET_RANLIB)" AR="$(TARGET_AR)" CROSS_COMPILE="$(STAGING_DIR)/usr/bin/" \
 			PREFIX="$(STAGING_DIR)/usr" \
+			SHAREDIR="/recalbox/share/system/configs/mupen64/" \
 			HOST_CPU="$(MUPEN64PLUS_CORE_HOST_CPU)" \
 			PKG_CONFIG="$(HOST_DIR)/usr/bin/pkg-config" \
 			APIDIR="$(STAGING_DIR)/usr/include/mupen64plus" \

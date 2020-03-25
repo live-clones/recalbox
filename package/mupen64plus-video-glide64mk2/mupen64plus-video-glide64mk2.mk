@@ -18,6 +18,7 @@ define MUPEN64PLUS_VIDEO_GLIDE64MK2_BUILD_CMDS
 		LDFLAGS="$(TARGET_LDFLAGS) $(COMPILER_COMMONS_LDFLAGS_SO)" \
 		$(MAKE) CXX="$(TARGET_CXX)" CC="$(TARGET_CC)" LD="$(TARGET_LD)" RANLIB="$(TARGET_RANLIB)" AR="$(TARGET_AR)" CROSS_COMPILE="$(STAGING_DIR)/usr/bin/" \
 			PREFIX="$(STAGING_DIR)/usr" \
+			SHAREDIR="/recalbox/share/system/configs/mupen64/" \
 			PKG_CONFIG="$(HOST_DIR)/usr/bin/pkg-config" \
 			HOST_CPU="$(MUPEN64PLUS_CORE_HOST_CPU)" \
 			APIDIR="$(STAGING_DIR)/usr/include/mupen64plus" \
@@ -28,13 +29,13 @@ define MUPEN64PLUS_VIDEO_GLIDE64MK2_BUILD_CMDS
 endef
 
 define MUPEN64PLUS_VIDEO_GLIDE64MK2_INSTALL_TARGET_CMDS
-	$(INSTALL) -D $(@D)/data/* $(TARGET_DIR)/recalbox/share_init/system/configs/mupen64/
 	$(SED) "s|-O2|-O3|g" $(@D)/projects/unix/Makefile
 	CFLAGS="$(TARGET_CFLAGS) $(COMPILER_COMMONS_CFLAGS_SO)" \
 		CXXFLAGS="$(TARGET_CXXFLAGS) $(COMPILER_COMMONS_CXXFLAGS_SO)" \
 		LDFLAGS="$(TARGET_LDFLAGS) $(COMPILER_COMMONS_LDFLAGS_SO)" \
 		$(MAKE) CXX="$(TARGET_CXX)" CC="$(TARGET_CC)" LD="$(TARGET_LD)" RANLIB="$(TARGET_RANLIB)" AR="$(TARGET_AR)" CROSS_COMPILE="$(STAGING_DIR)/usr/bin/" \
 			PREFIX="$(TARGET_DIR)/usr/" \
+			SHAREDIR="$(TARGET_DIR)/recalbox/share_init/system/configs/mupen64/" \
 			PKG_CONFIG="$(HOST_DIR)/usr/bin/pkg-config" \
 			HOST_CPU="$(MUPEN64PLUS_CORE_HOST_CPU)" \
 			APIDIR="$(STAGING_DIR)/usr/include/mupen64plus" \
