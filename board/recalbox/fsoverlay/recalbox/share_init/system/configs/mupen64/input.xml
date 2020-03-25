@@ -1,5 +1,6 @@
 <inputList>
 <input name="AnalogDeadzone" value="4096,4096" />
+<input name="AnalogPeak"     value="32768,32768" />
 <input name="a"        	     value="C Button R" />
 <input name="b"        	     value="A Button" />
 <input name="x"        	     value="C Button U" />
@@ -10,6 +11,8 @@
 <input name="pagedown" 	     value="R Trig" />
 <input name="l2"       	     value="Z Trig" />
 <input name="r2"       	     value="" />
+<input name="l3"             value="Mempak switch" />
+<input name="r3"             value="Rumblepak switch" />
 <input name="up"       	     value="DPad U" />
 <input name="down"     	     value="DPad D" />
 <input name="right"    	     value="DPad R" />

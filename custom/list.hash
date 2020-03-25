@@ -1,3 +1,4 @@
+7c8ea4b06f21918aeb84cd083b266b8c  package/binutils/binutils.mk
 --------------------------------  package/bluez5_utils/0002-bt_shell-APIs-shall-only-be-build-if-readline-is-pre.patch
 19140a13d0e2ab4a203801ada1d4120e  package/bluez5_utils/bluez5_utils.hash
 e67f118b5f106f6bc39307022af93d72  package/bluez5_utils/bluez5_utils.mk
