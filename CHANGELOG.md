@@ -41,8 +41,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fix some bad behaviors in favorite management
 - Add support for nVidia proprietary drivers version 390 and 440
 - Simplify emulator/core selection UI
-- Bump retroarch to v1.8.2
-- Bump retroarch-cheats to v1.8.2
+- Bump retroarch to v1.8.5
+- Bump retroarch-cheats to v1.8.5
 - Bump libretro-assets on last version
 - Bump libretro-cores family
 - Fix reboot Emulationstation with webmanager 
