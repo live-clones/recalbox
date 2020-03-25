@@ -12,6 +12,8 @@
 
 int TCPNetwork::connect(const char* hostname, int port)
 {
+  if (port == 0) port = 1883;
+
   struct sockaddr_in address {};
   int rc;
   struct addrinfo *result = nullptr;
@@ -87,8 +89,7 @@ int TCPNetwork::write(unsigned char* buffer, int len, int timeout)
     timeout * 1000
   };
   setsockopt(mSocket, SOL_SOCKET, SO_SNDTIMEO, (char*) &tv, sizeof(struct timeval));
-  if (send(mSocket, buffer, len, MSG_NOSIGNAL) == len) return 0;
-  return -1;
+  return send(mSocket, buffer, len, MSG_NOSIGNAL);
 }
 
 int TCPNetwork::disconnect()

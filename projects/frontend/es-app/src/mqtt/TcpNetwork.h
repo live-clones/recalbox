@@ -40,7 +40,7 @@ class TCPNetwork
      * @param buffer Buffer to write
      * @param len Buffer length
      * @param timeout Timeout in milliseconds
-     * @return 0 if no error, else errno value
+     * @return -1 on error, 0 on timeout, or number of byte read
      */
     int write(unsigned char* buffer, int len, int timeout);
 

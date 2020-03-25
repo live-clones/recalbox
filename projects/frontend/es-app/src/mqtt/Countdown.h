@@ -3,50 +3,44 @@
 //
 #pragma once
 
-#include <utils/datetime/HighResolutionTimer.h>
-
 /*!
- * @brief Pseudo timer interface for MqttClient
+ * @brief Fake timer interface for MqttClient
  */
 class Countdown
 {
-  private:
-    //! Nanosecond timer
-    HighResolutionTimer mTimer;
-
   public:
     /*!
      * @brief Default constructors
      */
-    Countdown() {}
+    Countdown() = default;
 
     /*!
      * @brief Initialize this timer with a millisecond countdown
      * @param ms Milliseconds
      */
-    Countdown(int ms) { mTimer.Initialize(-ms * 1000000); }
+    explicit Countdown(int ms) { (void)ms; }
 
     /*!
      * @brief Check if the timer is expired
      * @return True if the timer is expired
      */
-    bool expired() { return mTimer.GetNanoSeconds() >= 0; }
+    bool expired() const { return false; }
 
     /*!
      * @brief Reset this timer with a millisecond countdown
      * @param ms Milliseconds
      */
-    void countdown_ms(int ms) { mTimer.Initialize(-ms * 1000000); }
+    void countdown_ms(int ms) { (void)ms; }
 
     /*!
      * @brief Reset this timer with a second countdown
      * @param ms Seconds
      */
-    void countdown(int seconds) { mTimer.Initialize(-seconds * 1000000000); }
+    void countdown(int seconds) { (void)seconds; }
 
     /*!
      * @brief Get time left in millisecond
      * @return Left milliseconds
      */
-    int left_ms() { return -mTimer.GetMilliSeconds(); }
+    int left_ms() { return 100; }
 };
