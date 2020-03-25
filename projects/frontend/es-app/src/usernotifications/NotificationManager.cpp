@@ -224,8 +224,8 @@ void NotificationManager::BuildStateSystem(std::string& output, const SystemData
 
   if (!system->IsVirtual())
     if (system->Manager().Emulators().GetSystemDefaultEmulator(*system, emulator, core))
-      output.append("Emulator=").append(emulator).append(eol)
-            .append("Core=").append(core).append(eol);
+      output.append("DefaultEmulator=").append(emulator).append(eol)
+            .append("DefaultCore=").append(core).append(eol);
 }
 
 void NotificationManager::BuildStateCompatibility(std::string& output, Notification action)
