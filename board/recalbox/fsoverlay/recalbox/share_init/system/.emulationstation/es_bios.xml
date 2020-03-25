@@ -32,11 +32,11 @@
   <system fullname="Atari 7800" platform="atari7800">
     <bios path="7800 BIOS (U).rom" md5="0763F1FFB006DDBE32E52D497EE848AE" mandatory="false" core="prosystem" note="Display official Atari logo. Run only US games!" />
   </system>
-  <system fullname="Sammy Atomiswave" platform="atomis">
-    <bios path="awbios.zip" md5="a420c0e56135c2e7e87399c887d7ef4a" core="flycast" />  
+  <system fullname="Sammy Atomiswave" platform="atomiswave">
+    <bios path="dc/awbios.zip" md5="a420c0e56135c2e7e87399c887d7ef4a,abb0a508c83e689fc5e9230c623dabd0" core="flycast" />  
   </system>
   <system fullname="Naomi" platform="naomi">
-    <bios path="naomi.bin" md5="3bffafac42a7767d8dcecf771f5552ba" core="flycast" />  
+    <bios path="dc/naomi.zip" md5="7300a99a4fc856d1a3c36b4485789897" core="flycast" />  
   </system>
   <system fullname="Dreamcast" platform="dreamcast">
     <bios path="dc_boot.bin"  md5="e10c53c2f8b90bab96ead2d368858623,d552d8b577faa079e580659cd3517f86,
@@ -44,7 +44,13 @@
     <bios path="dc_flash.bin" md5="d6e11a23f1fa01cddb5dfccf7e4cc8d7,93a9766f14159b403178ac77417c6b68,
                                    0a93f7940c455905bea6e392dfde92a4,23df18aa53c8b30784cd9a84e061d008,
                                    69c036adfca4ebea0b0c6fa4acfc8538,74e3f69c2bb92bc1fc5d9a53dcf6ffe2,
-                                   2f818338f47701c606ade664a3e16a8a" hashMatchMandatory="false" core="reicast" />   
+                                   2f818338f47701c606ade664a3e16a8a" hashMatchMandatory="false" core="reicast" />
+    <bios path="dc/dc_boot.bin"  md5="e10c53c2f8b90bab96ead2d368858623,d552d8b577faa079e580659cd3517f86,
+                                   d407fcf70b56acb84b8c77c93b0e5327" hashMatchMandatory="false" core="flycast" />   
+    <bios path="dc/dc_flash.bin" md5="d6e11a23f1fa01cddb5dfccf7e4cc8d7,93a9766f14159b403178ac77417c6b68,
+                                   0a93f7940c455905bea6e392dfde92a4,23df18aa53c8b30784cd9a84e061d008,
+                                   69c036adfca4ebea0b0c6fa4acfc8538,74e3f69c2bb92bc1fc5d9a53dcf6ffe2,
+                                   2f818338f47701c606ade664a3e16a8a" hashMatchMandatory="false" core="flycast" />   
   </system>
   <system fullname="PC-8800 Series" platform="pc88">  
     <bios path="quasi88/n88.rom"      md5="22be239bc0c4298bc0561252eed98633" core="quasi88" note="BASIC rom" />
@@ -91,7 +97,7 @@
     <bios path="disksys.rom" md5="ca30b50f880eb660a320674ed365ef7a" core="fceumm,nestopia" />  
   </system>
   <system fullname="Game Boy Advance" platform="gba">
-    <bios path="gba_bios.bin" md5="a860e8c0b6d573d191e4ec7db1b1e4f6" core="gpsp,mgba,meteor" />  
+    <bios path="gba_bios.bin" md5="a860e8c0b6d573d191e4ec7db1b1e4f6" mandatory="false" core="gpsp,mgba,meteor" />  
   </system>
   <system fullname="Satellaview" platform="satellaview">
     <bios path="BS-X.bin" md5="fed4d8242cfbed61343d53d48432aced" core="snes9x" />  
@@ -400,7 +406,7 @@
   </system>
   <system fullname="SNK Neo-Geo" platform="neogeo">
     <bios path="/recalbox/share/roms/neogeo/neogeo.zip|/recalbox/share/bios/neogeo.zip" md5="e023d0a4b5249fdff2a4620c28963944,8cbdff53661f41ddbe486a98915e1ec9,
-    	                                                       42e359e394f0be1d61b94ddca0efbe6c,c1e0a738d266926f604186aa9d63e4db" hashMatchMandatory="false" core="fbneo,fba2x,mame2000,mame2003,mame2003-plus,mame2010,mame2015" />    
+    	                                                       42e359e394f0be1d61b94ddca0efbe6c,c1e0a738d266926f604186aa9d63e4db,d12bba59121229ff13702878b415cb7c" hashMatchMandatory="false" core="fbneo,fba2x,mame2000,mame2003,mame2003-plus,mame2010,mame2015" />    
   </system>
   <system fullname="SNK Neo-Geo" platform="neogeocd">
     <bios path="/recalbox/share/roms/neogeocd/neogeo.zip|/recalbox/share/bios/neogeo.zip" md5="e023d0a4b5249fdff2a4620c28963944,8cbdff53661f41ddbe486a98915e1ec9,
