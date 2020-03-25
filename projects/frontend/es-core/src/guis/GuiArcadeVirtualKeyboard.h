@@ -22,6 +22,13 @@ class GuiArcadeVirtualKeyboard : public Gui
 
       //! Number of char in the current wheel
       int mWheelCharCount;
+
+      Wheel()
+        : mIndex(0),
+          mAngle(0.0f),
+          mWheelCharCount(0)
+      {
+      }
     };
 
     /*!
