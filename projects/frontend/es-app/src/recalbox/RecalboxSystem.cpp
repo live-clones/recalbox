@@ -140,7 +140,7 @@ std::vector<std::string> RecalboxSystem::getAvailableAudioOutputDevices()
 
 std::string RecalboxSystem::getCurrentAudioOutputDevice()
 {
-  Strings::Vector lines = ExecuteSettingsCommand("lsaudio");
+  Strings::Vector lines = ExecuteSettingsCommand("getaudio");
   return lines.empty() ? "auto" : lines[0];
 }
 
