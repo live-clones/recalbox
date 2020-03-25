@@ -194,7 +194,7 @@ bool Internationalizer::LoadMoFile(const std::string& culture, const Path& basep
     // Final check
     if (!culturePath.Exists())
     {
-      LOG(LogError) << "Locale: " << culturePath.ToString() << " not found.";
+      LOG(LogDebug) << "Locale: " << culturePath.ToString() << " not found.";
       return false;
     }
   }

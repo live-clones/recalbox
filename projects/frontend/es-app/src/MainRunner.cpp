@@ -385,7 +385,7 @@ void MainRunner::SetLocale(const std::string& executablePath)
   if (!Internationalizer::InitializeLocale(localeName,
                                            { path / "locale/lang", Path("/usr/share/locale") },
                                            "emulationstation2"))
-    LOG(LogError) << "No locale found. Default text used.";
+    LOG(LogWarning) << "No locale found. Default text used.";
 }
 
 void MainRunner::SetArchitecture()

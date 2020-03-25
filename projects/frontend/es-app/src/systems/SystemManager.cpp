@@ -265,7 +265,7 @@ bool SystemManager::LoadSystemList(XmlDocument &document, XmlNodeCollisionMap &c
   // Load user configuration
   if (!filepath.Exists())
   {
-    LOG(LogError) << filepath.ToString() << " file does not exist!";
+    LOG(LogWarning) << filepath.ToString() << " file does not exist!";
     return false;
   }
 

@@ -37,10 +37,10 @@ FileSystemWatcher::~FileSystemWatcher()
 {
   epoll_ctl(mEpollFd, EPOLL_CTL_DEL, mInotifyFd, nullptr);
 
-  if (close(mInotifyFd) == 0)
+  if (close(mInotifyFd) != 0)
     LOG(LogError) << "Error closing notify fd.";
 
-  if (close(mEpollFd) == 0)
+  if (close(mEpollFd) != 0)
     LOG(LogError) << "Error closing poll fd.";
 }
 
