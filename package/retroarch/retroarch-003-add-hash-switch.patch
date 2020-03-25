@@ -1,23 +1,22 @@
 --- a/retroarch.c
 +++ b/retroarch.c
-@@ -802,6 +802,7 @@
+@@ -1043,6 +1043,7 @@
     RA_OPT_EOF_EXIT,
     RA_OPT_LOG_FILE,
     RA_OPT_MAX_FRAMES,
 +   RA_OPT_HASH,
     RA_OPT_MAX_FRAMES_SCREENSHOT,
-    RA_OPT_MAX_FRAMES_SCREENSHOT_PATH
- };
-@@ -17357,6 +17358,8 @@
+    RA_OPT_MAX_FRAMES_SCREENSHOT_PATH,
+    RA_OPT_SET_SHADER,
+@@ -26589,6 +26590,7 @@
  
        strlcat(buf, "      --nick=NICK       Picks a username (for use with netplay). "
              "Not mandatory.\n", sizeof(buf));
-+      puts("      --hash=HASH       Force a ROM hash. "
-+            "Not mandatory.");
++      puts("      --hash=HASH       Force a ROM hash. Not mandatory.");
        strlcat(buf, "  -r, --record=FILE     Path to record video file.\n        "
              "Using .mkv extension is recommended.\n", sizeof(buf));
        strlcat(buf, "      --recordconfig    Path to settings used during recording.\n", sizeof(buf));
-@@ -21851,6 +21853,7 @@
+@@ -26694,6 +26696,7 @@
        { "bps",                1, NULL, RA_OPT_BPS },
        { "ips",                1, NULL, RA_OPT_IPS },
        { "no-patch",           0, NULL, RA_OPT_NO_PATCH },
@@ -25,7 +24,7 @@
        { "detach",             0, NULL, 'D' },
        { "features",           0, NULL, RA_OPT_FEATURES },
        { "subsystem",          1, NULL, RA_OPT_SUBSYSTEM },
-@@ -22302,6 +22304,11 @@
+@@ -27152,6 +27155,11 @@
                 }
                 break;
  
@@ -39,7 +38,7 @@
                          &recording_width,
 --- a/retroarch.h
 +++ b/retroarch.h
-@@ -248,6 +248,7 @@
+@@ -234,6 +234,7 @@
        char ips[8192];
        char label[8192];
        char *remapfile;
@@ -49,53 +48,55 @@
     /* Recording. */
 --- a/tasks/task_content.c
 +++ b/tasks/task_content.c
-@@ -702,6 +702,7 @@
+@@ -660,6 +660,7 @@
        int64_t *length)
  {
-    uint8_t *ret_buf          = NULL;
-+   global_t *global          = global_get_ptr();
+    uint8_t *ret_buf           = NULL;
++   global_t *global           = global_get_ptr();
  
     RARCH_LOG("%s: %s.\n",
           msg_hash_to_str(MSG_LOADING_CONTENT_FILE), path);
-@@ -749,7 +750,13 @@
+@@ -707,7 +708,14 @@
           }
        }
        else
--         content_rom_crc = 0;
+-         p_content->rom_crc = 0;
 +         if(global) {
-+             content_rom_crc = global->name.hash;
++             p_content->rom_crc = global->name.hash;
 +             RARCH_LOG("OMG !!! We've loaded the command line hash !!!");
 +         }
 +         else
-+             content_rom_crc = 0;
-+             RARCH_LOG("Afterall CRC32: 0x%x .\n", (unsigned)content_rom_crc);
++             p_content->rom_crc = 0;
++             RARCH_LOG("Afterall CRC32: 0x%x .\n", (unsigned)p_content->rom_crc);
++
     }
  
     *buf = ret_buf;
-@@ -939,6 +946,7 @@
+@@ -899,6 +907,7 @@
  {
     unsigned i;
     retro_ctx_load_content_info_t load_info;
-+   global_t *global           = global_get_ptr();
++   global_t *global            = global_get_ptr();
     bool used_vfs_fallback_copy = false;
  #ifdef __WINRT__
     rarch_system_info_t *system = runloop_get_system_info();
-@@ -1087,6 +1095,10 @@
+@@ -1047,6 +1056,11 @@
  
           RARCH_LOG("%s\n", msg_hash_to_str(
                    MSG_CONTENT_LOADING_SKIPPED_IMPLEMENTATION_WILL_DO_IT));
-+          if(global) {
-+              content_rom_crc = global->name.hash;
-+              RARCH_LOG("OMG!!! We've loaded the command line hash!!! Look: 0x%x .\n", (unsigned)content_rom_crc);
-+          } else
-          pending_content_rom_crc      = true;
-          strlcpy(pending_content_rom_crc_path,
-                path, sizeof(pending_content_rom_crc_path));
-@@ -2406,6 +2418,7 @@
-             (const char*)pending_content_rom_crc_path);
-       RARCH_LOG("CRC32: 0x%x .\n", (unsigned)content_rom_crc);
++         if(global) {
++            p_content->rom_crc = global->name.hash;
++            RARCH_LOG("OMG!!! We've loaded the command line hash!!! Look: 0x%x .\n", (unsigned)p_content->rom_crc);
++         } else
++
+          strlcpy(p_content->pending_rom_crc_path,
+                path, sizeof(p_content->pending_rom_crc_path));
+          p_content->pending_rom_crc      = true;
+@@ -2455,6 +2469,7 @@
+             (const char*)p_content->pending_rom_crc_path);
+       RARCH_LOG("CRC32: 0x%x .\n", (unsigned)p_content->rom_crc);
     }
-+   RARCH_LOG("Called get_content_crc\n");
-    return content_rom_crc;
++   RARCH_LOG("Called content_get_crc\n");
+    return p_content->rom_crc;
  }
  
