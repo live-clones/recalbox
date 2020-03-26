@@ -8,7 +8,9 @@ c445390118f5d058dd372a8b2beb25a8  package/dropbear/S50dropbear
 04ab2c6ad3f5da17bd1a481a06b99271  package/e2fsprogs/e2fsprogs.hash
 fc5eeda08e636b90db05aa703cd3a783  package/e2fsprogs/e2fsprogs.mk
 0ea7196dd64fe170cd98610fd9d7b237  package/eigen/eigen.mk
+--------------------------------  package/ffmpeg/0001-bfin-disable-optimization.patch
 --------------------------------  package/ffmpeg/0002-ffmpeg-pthreads.patch
+9763f933b28916e8506987ee007ac6a6  package/ffmpeg/Config.in
 5a4534ba8235a617459fcb9f5fdabf4f  package/ffmpeg/ffmpeg.hash
 d2f9d3874553506921d9f347f6752203  package/ffmpeg/ffmpeg.mk
 6b31f620c36bb2d6c54cfaf71cc5a086  package/initscripts/init.d/rcK
