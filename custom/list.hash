@@ -25,6 +25,7 @@ e8c005a320789fa3249d29613ba359ee  package/rpi-firmware/rpi-firmware.hash
 76f5941c64fe63d71fdbafde3594ba78  package/sdl_sound/Config.in
 4c240a99b2eef3c2c77f9e7acdc1787d  package/sdl_sound/sdl_sound.mk
 a5ec225b9e4b39e8e92ff80f594ac098  package/skeleton-init-common/skeleton-init-common.mk
+8b23f2c671d35cf859f307a3f1ce344f  package/wiringpi/wiringpi.mk
 3dea03b60cf0b58d3b5836f0ebcc5bd3  package/x11r7/xdriver_xf86-video-amdgpu/xdriver_xf86-video-amdgpu.hash
 d2ae052f3d85d52977cbc600b647ec43  package/x11r7/xdriver_xf86-video-amdgpu/xdriver_xf86-video-amdgpu.mk
 b641120a4ac84defc59d317264838cba  package/x11r7/xdriver_xf86-video-ati/xdriver_xf86-video-ati.hash
