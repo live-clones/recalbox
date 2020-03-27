@@ -3,7 +3,9 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [6.2]
-- Add 5 boot videos : snes, mame, winners, explode and hologram
+- Add WiringPi progs abd libs
+- Bump ffmpeg to 4.4.2
+- Add 6 boot videos : snes, megadrive, mame, winners, explode and hologram
 - Add joystick rules for IPega PG-9037
 - Fix Odroid XU4 fan issue
 - Fix Odroid XU4 sound issue
