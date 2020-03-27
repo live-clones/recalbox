@@ -186,9 +186,19 @@ ifeq ($(BR2_PACKAGE_GSPLUS),y)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-apple2gs
 endif
 
+# System: atari800
+ifneq ($(BR2_PACKAGE_LIBRETRO_ATARI800),)
+	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-atari800
+endif
+
 # System: atari2600
 ifneq ($(BR2_PACKAGE_LIBRETRO_STELLA2014)$(BR2_PACKAGE_LIBRETRO_STELLA),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-atari2600
+endif
+
+# System: atari5200
+ifneq ($(BR2_PACKAGE_LIBRETRO_ATARI800),)
+	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-atari5200
 endif
 
 # System: atari7800
@@ -444,6 +454,11 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_NP2KAI),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-pc98
 endif
 
+# System: pokemini
+ifneq ($(BR2_PACKAGE_LIBRETRO_POKEMINI),)
+	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-pokemini
+endif
+
 # System: psp
 ifeq ($(BR2_PACKAGE_PPSSPP),y)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-psp
@@ -452,6 +467,11 @@ endif
 # System: psx
 ifneq ($(BR2_PACKAGE_LIBRETRO_PCSX_REARMED)$(BR2_PACKAGE_LIBRETRO_BEETLE_PSX)$(BR2_PACKAGE_LIBRETRO_BEETLE_PSX_HW),)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-psx
+endif
+
+# System: quake
+ifneq ($(BR2_PACKAGE_LIBRETRO_TYRQUAKE)$(BR2_PACKAGE_LIBRETRO_VITAQUAKE2)$(BR2_PACKAGE_LIBRETRO_VITAQUAKE3)$(BR2_PACKAGE_LIBRETRO_VITAVOYAGER),)
+        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-quake
 endif
 
 # System: samcoupe
@@ -519,6 +539,11 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_TIC80),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-tic80
 endif
 
+# System: uzebox
+ifneq ($(BR2_PACKAGE_LIBRETRO_UZEM),)
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-uzebox
+endif
+
 # System: vectrex
 ifneq ($(BR2_PACKAGE_LIBRETRO_VECX),)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-vectrex
@@ -562,26 +587,6 @@ endif
 # System: zxspectrum
 ifneq ($(BR2_PACKAGE_LIBRETRO_FUSE),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-zxspectrum
-endif
-
-# System: atari800
-ifneq ($(BR2_PACKAGE_LIBRETRO_ATARI800),)
-	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-atari800
-endif
-
-# System: atari5200
-ifneq ($(BR2_PACKAGE_LIBRETRO_ATARI800),)
-	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-atari5200
-endif
-
-# System: pokemini
-ifneq ($(BR2_PACKAGE_LIBRETRO_POKEMINI),)
-	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-pokemini
-endif
-
-# System: uzebox
-ifneq ($(BR2_PACKAGE_LIBRETRO_UZEM),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-uzebox
 endif
 
 $(eval $(generic-package))
