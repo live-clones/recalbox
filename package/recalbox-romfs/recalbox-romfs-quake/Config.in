@@ -1,0 +1,9 @@
+config BR2_PACKAGE_RECALBOX_ROMFS_QUAKE
+	bool "recalbox-romfs-quake"
+	select BR2_PACKAGE_RECALBOX_ROMS
+	depends on BR2_PACKAGE_LIBRETRO_TYRQUAKE \
+	  || BR2_PACKAGE_LIBRETRO_VITAQUAKE2 \
+	  || BR2_PACKAGE_LIBRETRO_VITAQUAKE3 \
+	  || BR2_PACKAGE_LIBRETRO_VITAVOYAGER
+	help
+	  share_init/roms and xml for quake
