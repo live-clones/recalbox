@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --system 64dd --extension '.ndd .NDD' --fullname 'Nintendo 64DD' --platform 64dd --theme 64dd 1:libretro:parallel_n64:BR2_PACKAGE_LIBRETRO_PARALLEL_N64
+# ./scripts/linux/empack.py --force --system 64dd --extension '.ndd .NDD' --fullname 'Nintendo 64DD' --platform 64dd --theme 64dd 1:libretro:parallel_n64:BR2_PACKAGE_LIBRETRO_PARALLEL_N64 2:libretro:mupen64plus_next:BR2_PACKAGE_LIBRETRO_MUPEN64PLUS_NX
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_64DD_SOURCE = 

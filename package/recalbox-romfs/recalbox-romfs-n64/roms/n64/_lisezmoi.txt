@@ -2,7 +2,7 @@
 
 Placez ici vos roms Nintendo 64.
 
-Les roms doivent avoir l'extension ".n64/.v64/.z64/.zip/.7z"
+Les roms doivent avoir l'extension ".n64/.v64/.z64/.bin/.u1/.ndd/.zip/.7z"
 
 Seuls les cores libretro permettent d'utiliser des ROM compressées au format .zip/.7z.
 Attention toutefois, il ne s'agit que d'une archive. Les fichiers contenus dans les .zip/.7z doivent correspondre aux extensions citées précédemment.
