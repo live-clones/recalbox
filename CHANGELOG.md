@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [6.2]
+- Fix Kodi after Ffmpeg bump
 - Add WiringPi progs abd libs
 - Bump ffmpeg to 4.4.2
 - Add 6 boot videos : snes, megadrive, mame, winners, explode and hologram
