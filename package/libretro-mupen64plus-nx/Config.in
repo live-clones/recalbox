@@ -2,6 +2,8 @@ config BR2_PACKAGE_LIBRETRO_MUPEN64PLUS_NX
 	bool "libretro-mupen64plus-nx"
 	depends on BR2_PACKAGE_RETROARCH
 	depends on BR2_INSTALL_LIBSTDCPP
+	select BR2_PACKAGE_RECALBOX_ROMFS_64DD
+	select BR2_PACKAGE_RECALBOX_ROMFS_N64
 	help
 	  A libretro N64 emulator core for ARM.
 
