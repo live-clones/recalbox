@@ -2,7 +2,7 @@
 
 Put your nintendo 64 roms in this directory.
 
-Rom files must have a ".n64/.v64/.z64/.zip/.7z" extension.
+Rom files must have a ".n64/.v64/.z64/.bin/.u1/.ndd/.zip/.7z" extension.
 
 Only libretro cores allow to use compressed roms on .zip/.7z.
 But, it is only an archive. Files inside the .zip/.7z must match with extensions mentioned above.
