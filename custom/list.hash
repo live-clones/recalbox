@@ -34,3 +34,4 @@ b641120a4ac84defc59d317264838cba  package/x11r7/xdriver_xf86-video-ati/xdriver_x
 754817e3552656c2a955e77e88688f66  package/x11r7/xdriver_xf86-video-ati/xdriver_xf86-video-ati.mk
 00f1333e3129989b007142ee3cb93ddc  support/scripts/mkusers
 2673dc3e7fbc4920c43ad91ad9214d3e  system/device_table.txt
+++++++++++++++++++++++++++++++++  package/kodi/0003-Fix-due-to-ffmpeg.patch
