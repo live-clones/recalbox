@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --system 64dd --extension '.ndd .NDD' --fullname 'Nintendo 64DD' --platform 64dd --theme 64dd 1:libretro:parallel_n64:BR2_PACKAGE_LIBRETRO_PARALLEL_N64 2:libretro:mupen64plus_next:BR2_PACKAGE_LIBRETRO_MUPEN64PLUS_NX
+# ./scripts/linux/empack.py --force --system 64dd --extension '.n64 .N64 .z64 .Z64 .v64 .V64 .bin .BIN .u1 .U1 .ndd .NDD' --fullname 'Nintendo 64DD' --platform 64dd --theme 64dd 1:libretro:parallel_n64:BR2_PACKAGE_LIBRETRO_PARALLEL_N64 2:libretro:mupen64plus_next:BR2_PACKAGE_LIBRETRO_MUPEN64PLUS_NX
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_64DD_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_64DD = $(RECALBOX_ROMFS_64DD_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_PARALLEL_N64),)
 define CONFIGURE_MAIN_64DD_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_64DD),Nintendo 64DD,$(SYSTEM_NAME_64DD),.ndd .NDD,64dd,64dd)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_64DD),Nintendo 64DD,$(SYSTEM_NAME_64DD),.n64 .N64 .z64 .Z64 .v64 .V64 .bin .BIN .u1 .U1 .ndd .NDD,64dd,64dd)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_PARALLEL_N64),)

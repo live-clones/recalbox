@@ -402,6 +402,7 @@
   </system>
   <system fullname="Nintendo 64DD" platform="64DD">
     <bios path="64DD_IPL.bin" md5="8d3d9f294b6e174bc7b1d2fd1c727530" mandatory="true" core="parallel_n64" note="64DD_IPL.bin - Required for Nintendo 64 DD"/>
+    <bios path="Mupen64plus/IPL.n64" md5="8d3d9f294b6e174bc7b1d2fd1c727530" mandatory="true" core="mupen64plus_next" note="IPL.n64 - Required for Nintendo 64 DD"/>
   </system>
   <system fullname="Sega Saturn" platform="saturn">
     <bios path="saturn_bios.bin"  md5="af5828fdff51384f99b3c4926be27762" mandatory="false" core="yabause" />
