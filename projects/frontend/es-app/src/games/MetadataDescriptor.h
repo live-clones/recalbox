@@ -26,8 +26,6 @@ class MetadataDescriptor
     #endif
 
     // Static default values
-    static const std::string DefaultValueEmulator;
-    static const std::string DefaultValueCore;
     static const std::string DefaultValueRatio;
     static const std::string DefaultValueEmpty;
     static const std::string DefaultValueRating;
@@ -461,8 +459,8 @@ class MetadataDescriptor
     ItemType Type() const { return _Type; }
 
     const std::string& Name()        const { return _Name;                                        }
-    const std::string& Emulator()    const { return ReadPString(_Emulator, DefaultValueEmulator); }
-    const std::string& Core()        const { return ReadPString(_Core, DefaultValueCore);         }
+    const std::string& Emulator()    const { return ReadPString(_Emulator, DefaultValueEmpty);    }
+    const std::string& Core()        const { return ReadPString(_Core, DefaultValueEmpty);        }
     const std::string& Ratio()       const { return ReadPString(_Ratio, DefaultValueRatio);       }
     const std::string& Description() const { return _Description;                                 }
     const Path&        Image()       const { return _Image;                                       }
@@ -493,8 +491,8 @@ class MetadataDescriptor
      */
 
     std::string NameAsString()        const { return _Name;                                        }
-    std::string EmulatorAsString()    const { return ReadPString(_Emulator, DefaultValueEmulator); }
-    std::string CoreAsString()        const { return ReadPString(_Core, DefaultValueCore);         }
+    std::string EmulatorAsString()    const { return ReadPString(_Emulator, DefaultValueEmpty);    }
+    std::string CoreAsString()        const { return ReadPString(_Core, DefaultValueEmpty);        }
     std::string RatioAsString()       const { return ReadPString(_Ratio, DefaultValueRatio);       }
     std::string DescriptionAsString() const { return _Description;                                 }
     std::string ImageAsString()       const { return _Image.ToString();                            }

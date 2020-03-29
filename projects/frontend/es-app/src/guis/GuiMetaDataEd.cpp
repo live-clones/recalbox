@@ -140,10 +140,11 @@ GuiMetaDataEd::GuiMetaDataEd(Window& window,
       case MetadataFieldDescriptor::EditableType::List:
         if (field.Key() == "emulator")
         {
-          std::string defaultEmulator;
-          std::string defaultCore;
-          if (!mSystemManager.Emulators().GetSystemDefaultEmulator(*system, defaultEmulator, defaultCore))
-            continue;
+          std::string defaultEmulator = mMetaData.Emulator();
+          std::string defaultCore = mMetaData.Core();
+          if (defaultCore.empty() || defaultEmulator.empty())
+            if (!mSystemManager.Emulators().GetSystemDefaultEmulator(*system, defaultEmulator, defaultCore))
+              continue;
 
           row.addElement(emu_choice, false);
 
