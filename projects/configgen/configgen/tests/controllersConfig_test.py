@@ -82,6 +82,9 @@ class TestControllersConfig(unittest.TestCase):
                                                                     "-1","FAKEUUID", "DEFAULTNAME", "", "0",
                                                                     "-1","FAKEUUID", "DEFAULTNAME", "","0",
                                                                     "-1","FAKEUUID", "DEFAULTNAME", "","0",
+                                                                    "-1","FAKEUUID", "DEFAULTNAME", "","0",
+                                                                    "-1","FAKEUUID", "DEFAULTNAME", "","0",
+                                                                    "-1","FAKEUUID", "DEFAULTNAME", "","0",
                                                                     "-1","FAKEUUID", "DEFAULTNAME", "","0")
 
         self.assertEquals(1, len(players))
