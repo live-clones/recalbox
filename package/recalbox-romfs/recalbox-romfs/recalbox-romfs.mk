@@ -469,6 +469,11 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_POKEMINI),)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-pokemini
 endif
 
+# System: ports
+ifneq ($(BR2_PACKAGE_LIBRETRO_MRBOOM),)
+        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-ports
+endif
+
 # System: psp
 ifeq ($(BR2_PACKAGE_PPSSPP),y)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-psp
