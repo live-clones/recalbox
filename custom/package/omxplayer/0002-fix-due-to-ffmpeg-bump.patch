@@ -1,0 +1,62 @@
+--- omxplayer-2ee17b22a6149a043a2e402580504f282c615373/DllAvFormat.h	2017-10-17 18:51:35.000000000 +0200
++++ omxplayer-2ee17b22a6149a043a2e402580504f282c615373/DllAvFormat.h	2020-03-29 19:44:12.624351825 +0200
+@@ -114,7 +114,7 @@
+   } 
+   virtual void av_register_all_dont_call() { *(volatile int* )0x0 = 0; } 
+   virtual AVInputFormat *av_find_input_format(const char *short_name) { return ::av_find_input_format(short_name); }
+-  virtual int url_feof(AVIOContext *s) { return ::url_feof(s); }
++  virtual int url_feof(AVIOContext *s) { return ::avio_feof(s); }
+   virtual void avformat_close_input(AVFormatContext **s) { ::avformat_close_input(s); }
+   virtual int av_read_frame(AVFormatContext *s, AVPacket *pkt) { return ::av_read_frame(s, pkt); }
+   virtual int av_read_play(AVFormatContext *s) { return ::av_read_play(s); }
+--- omxplayer-2ee17b22a6149a043a2e402580504f282c615373/OMXAudioCodecOMX.cpp	2017-10-17 18:51:35.000000000 +0200
++++ omxplayer-2ee17b22a6149a043a2e402580504f282c615373/OMXAudioCodecOMX.cpp	2020-03-29 19:44:53.824611416 +0200
+@@ -82,8 +82,8 @@
+   m_pCodecContext->debug = 0;
+   m_pCodecContext->workaround_bugs = 1;
+ 
+-  if (pCodec->capabilities & CODEC_CAP_TRUNCATED)
+-    m_pCodecContext->flags |= CODEC_FLAG_TRUNCATED;
++  if (pCodec->capabilities & AV_CODEC_CAP_TRUNCATED)
++    m_pCodecContext->flags |= AV_CODEC_FLAG_TRUNCATED;
+ 
+   m_channels = 0;
+   m_pCodecContext->channels = hints.channels;
+@@ -115,7 +115,7 @@
+   if( hints.extradata && hints.extrasize > 0 )
+   {
+     m_pCodecContext->extradata_size = hints.extrasize;
+-    m_pCodecContext->extradata = (uint8_t*)m_dllAvUtil.av_mallocz(hints.extrasize + FF_INPUT_BUFFER_PADDING_SIZE);
++    m_pCodecContext->extradata = (uint8_t*)m_dllAvUtil.av_mallocz(hints.extrasize + AV_INPUT_BUFFER_PADDING_SIZE);
+     memcpy(m_pCodecContext->extradata, hints.extradata, hints.extrasize);
+   }
+ 
+@@ -234,7 +234,7 @@
+ 
+   if (m_iBufferOutputAlloced < m_iBufferOutputUsed + outputSize)
+   {
+-     m_pBufferOutput = (BYTE*)m_dllAvUtil.av_realloc(m_pBufferOutput, m_iBufferOutputUsed + outputSize + FF_INPUT_BUFFER_PADDING_SIZE);
++     m_pBufferOutput = (BYTE*)m_dllAvUtil.av_realloc(m_pBufferOutput, m_iBufferOutputUsed + outputSize + AV_INPUT_BUFFER_PADDING_SIZE);
+      m_iBufferOutputAlloced = m_iBufferOutputUsed + outputSize;
+   }
+ 
+--- omxplayer-2ee17b22a6149a043a2e402580504f282c615373/OMXReader.cpp	2017-10-17 18:51:35.000000000 +0200
++++ omxplayer-2ee17b22a6149a043a2e402580504f282c615373/OMXReader.cpp	2020-03-29 19:45:43.184922581 +0200
+@@ -1025,7 +1025,7 @@
+   {
+     memset(pkt, 0, sizeof(OMXPacket));
+ 
+-    pkt->data = (uint8_t*) malloc(size + FF_INPUT_BUFFER_PADDING_SIZE);
++    pkt->data = (uint8_t*) malloc(size + AV_INPUT_BUFFER_PADDING_SIZE);
+     if(!pkt->data)
+     {
+       free(pkt);
+@@ -1033,7 +1033,7 @@
+     }
+     else
+     {
+-      memset(pkt->data + size, 0, FF_INPUT_BUFFER_PADDING_SIZE);
++      memset(pkt->data + size, 0, AV_INPUT_BUFFER_PADDING_SIZE);
+       pkt->size = size;
+       pkt->dts  = DVD_NOPTS_VALUE;
+       pkt->pts  = DVD_NOPTS_VALUE;

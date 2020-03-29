@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [6.2]
+- Fix Omxplayer after Ffmpeg bump
 - Fix Kodi after Ffmpeg bump
 - Add WiringPi progs abd libs
 - Bump ffmpeg to 4.4.2
