@@ -53,7 +53,7 @@ class Emulator:
             self.config['showFPS'] = False
             self.updateDrawFPS()
 
-        # Optionnal emulator args ONLY if security is disabled
+        # Optional emulator args ONLY if security is disabled
         security = recalboxSettings.getOption("system.security.enabled", '0')
         if security != '1' and settings.get('args', '') != '':
             shlex = __import__("shlex")

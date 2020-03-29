@@ -36,13 +36,19 @@ class TestControllersConfig(unittest.TestCase):
                                                                     "-1", uuid, "p3controller", "", "0",
                                                                     "-1", uuid, "p4controller", "","0",
                                                                     "-1", uuid, "p5controller", "","0")
-        self.assertEquals(5, len(players))
+                                                                    "-1", uuid, "p6controller", "","0")
+                                                                    "-1", uuid, "p7controller", "","0")
+                                                                    "-1", uuid, "p8controller", "","0")
+        self.assertEquals(8, len(players))
         self.assertEquals(uuid, players["1"].guid)
         self.assertEquals(players["1"].realName, "p1controller")
         self.assertEquals(players["2"].realName, "p2controller")
         self.assertEquals(players["3"].realName, "p3controller")
         self.assertEquals(players["4"].realName, "p4controller")
         self.assertEquals(players["5"].realName, "p5controller")
+        self.assertEquals(players["6"].realName, "p6controller")
+        self.assertEquals(players["7"].realName, "p7controller")
+        self.assertEquals(players["8"].realName, "p8controller")
         self.assertEquals(players["3"].configName, players["1"].configName)
 
     def test_associate_controllers_with_players_with_differentuuid(self):
@@ -56,6 +62,9 @@ class TestControllersConfig(unittest.TestCase):
                                                                     "-1", uuid3, "p3controller", "", "0",
                                                                     "-1", uuid4, "p4controller", "","0",
                                                                     "-1", uuid5, "p5controller", "","0")
+                                                                    "-1", uuid6, "p6controller", "","0")
+                                                                    "-1", uuid7, "p7controller", "","0")
+                                                                    "-1", uuid8, "p8controller", "","0")
         self.assertEquals(5, len(players))
         self.assertEquals(uuid1, players["1"].guid)
         self.assertEquals(uuid2, players["2"].guid)

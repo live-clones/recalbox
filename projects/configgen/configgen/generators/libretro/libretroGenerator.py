@@ -106,11 +106,11 @@ class LibretroGenerator(Generator):
         # Converted command args
         commandArray.extend(commandArgs)
 
-        # Optionnal arguments from es_systems.cfg
+        # Optional arguments from es_systems.cfg
         if 'extra' in system.config and system.config['extra'] is not None:
              commandArray.extend(system.config['extra'].split(" "))
 
-        # Optionnal arguments from recalbox.conf
+        # Optional arguments from recalbox.conf
         if 'args' in system.config and system.config['args'] is not None:
              commandArray.extend(system.config['args'])
              
