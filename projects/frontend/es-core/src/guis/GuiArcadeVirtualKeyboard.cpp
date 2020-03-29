@@ -10,7 +10,7 @@
 #include "GuiArcadeVirtualKeyboard.h"
 #include "utils/Log.h"
 
-const wchar_t* GuiArcadeVirtualKeyboard::sWheels[sWheelCount] =
+const wchar_t* const GuiArcadeVirtualKeyboard::sWheels[sWheelCount] =
 {
   GuiArcadeVirtualKeyboard::sWheelAlphaSmalls   ,
   GuiArcadeVirtualKeyboard::sWheelAlphaCaps     ,
@@ -111,7 +111,7 @@ void GuiArcadeVirtualKeyboard::ChangeWheel(int delta)
   mPreviousWheel = mCurrentWheel;
   mSavedAngles[mCurrentWheel.mIndex] = mCurrentWheel.mAngle;
   // Move
-  int newIndex = (mCurrentWheel.mIndex + sWheelCount + delta) % (int)(sizeof(sWheels) / sizeof(sWheels[0]));
+  int newIndex = mCurrentWheel.mIndex + delta;
 
   // Build new wheel
   BuildWheel(mCurrentWheel, newIndex);
@@ -119,6 +119,10 @@ void GuiArcadeVirtualKeyboard::ChangeWheel(int delta)
 
 void GuiArcadeVirtualKeyboard::BuildWheel(Wheel& wheel, int index)
 {
+  // Control index
+  if (index < 0) index = sWheelCount - 1;
+  if (index >= sWheelCount) index = 0;
+
   // Store index
   wheel.mIndex = index;
 

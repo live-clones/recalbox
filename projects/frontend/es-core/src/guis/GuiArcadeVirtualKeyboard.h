@@ -101,7 +101,7 @@ class GuiArcadeVirtualKeyboard : public Gui
      */
 
     //! Abvailable wheels
-    static const wchar_t* sWheels[sWheelCount];
+    static const wchar_t* const sWheels[sWheelCount];
 
     //! Individual wheel's saved angle
     double mSavedAngles[sWheelCount];
