@@ -38,6 +38,11 @@
   <system fullname="Naomi" platform="naomi">
     <bios path="dc/naomi.zip" md5="7300a99a4fc856d1a3c36b4485789897" core="flycast" />  
   </system>
+  <system fullname="Commodore 64" platform="c64">
+    <bios path="vice/JiffyDOS_C64.bin" md5="be09394f0576cf81fa8bacf634daf9a2" mandatory="false" core="vice_x64,vice_x64sc,vice_x128" note="JiffyDOS support" />
+    <bios path="vice/JiffyDOS_1541-II.bin" md5="1b1e985ea5325a1f46eb7fd9681707bf" mandatory="false" core="vice_x64,vice_x64sc,vice_x128" note="JiffyDOS support" />
+    <bios path="vice/JiffyDOS_1581.bin" md5="20b6885c6dc2d42c38754a365b043d71" mandatory="false" core="vice_x64,vice_x64sc,vice_x128" note="JiffyDOS support" />
+  </system>
   <system fullname="Dreamcast" platform="dreamcast">
     <bios path="dc_boot.bin"  md5="e10c53c2f8b90bab96ead2d368858623,d552d8b577faa079e580659cd3517f86,
                                    d407fcf70b56acb84b8c77c93b0e5327" hashMatchMandatory="false" core="reicast" />   
