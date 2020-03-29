@@ -375,6 +375,7 @@ void ISimpleGameListView::jumpToNextLetter(bool forward)
 
   // Get available unicodes
   std::vector<unsigned int> availableUnicodes = getAvailableLetters();
+  if (availableUnicodes.empty()) return;
 
   // Lookup current unicode
   int position = 0;
