@@ -165,6 +165,8 @@ GuiGamelistOptions::~GuiGamelistOptions()
 {
 	if (mReloading) return;
 
+	save();
+
 	const FolderData& root = mSystem.getRootFolder();
 	if (root.countAllDisplayableItemsRecursively(false, mSystem.IncludeAdultGames()) != 0)
 	{
@@ -228,9 +230,10 @@ void GuiGamelistOptions::jumpToLetter() {
 	Close();
 }
 
-bool GuiGamelistOptions::ProcessInput(const InputCompactEvent& event) {
-	if (event.APressed() || event.StartPressed()) {
-		save();
+bool GuiGamelistOptions::ProcessInput(const InputCompactEvent& event)
+{
+	if (event.APressed() || event.StartPressed())
+	{
 		Close();
 		return true;
 	}
