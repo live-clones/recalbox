@@ -189,8 +189,8 @@ bool GuiArcadeVirtualKeyboard::ProcessInput(const InputCompactEvent& event)
     // Change Char (must be tested BEFORE any other action, otherwise Circle won't stop rotating)
     if (event.Left() && !event.RightPressed() && !updown) ChangeChar(false, false, event.LeftPressed());
     else if (event.Right() && !event.LeftPressed() && !updown) ChangeChar(false, true, event.RightPressed());
-    else if (event.L2()) ChangeChar(true, true, event.L2Pressed());
-    else if (event.R2()) ChangeChar(true, false, event.R2Pressed());
+    else if (event.L2()) ChangeChar(true, false, event.L2Pressed());
+    else if (event.R2()) ChangeChar(true, true, event.R2Pressed());
     else if (event.J2Left()) ChangeChar(true, false, event.J2LeftPressed());
     else if (event.J2Right()) ChangeChar(true, true, event.J2RightPressed());
     // Change Circles
