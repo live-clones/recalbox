@@ -53,9 +53,14 @@ void BasicGameListView::onFileChanged(FileData* file, FileChangeType change)
 
 const char * BasicGameListView::getItemIcon(FileData* item)
 {
+  // Crossed out eye for hidden things
 	if (item->Metadata().Hidden()) return "\uF070 ";
+	// System icon, for Favorite games
 	if ((item->isGame()) && (item->Metadata().Favorite()))
 		return SystemIcons::GetIcon(item->getSystem()->getName());
+	// Open folder for folders
+	if (item->isFolder())
+	  return "\uF07C ";
 
 	return nullptr;
 }
