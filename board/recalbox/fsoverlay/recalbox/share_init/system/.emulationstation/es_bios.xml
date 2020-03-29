@@ -14,8 +14,8 @@
     <bios path="kick40068.A4000.rom" md5="9bdedde6a4f33555b4a270c8ca53297d" core="amiberry,libretro-uae" note="This bios is required only for A4000 emulation" /> 
   </system>
   <system fullname="Amiga CD32" platform="amigacd32">
-    <bios path="kick40060.CD32.rom"     md5="5f8924d013dd57a89cf349f4cdedc6b1" core="amiberry,libretro-uae" />
-    <bios path="kick40060.CD32.ext.rom" md5="bb72565701b1b6faece07d68ea5da639" core="amiberry,libretro-uae" />
+    <bios path="kick40060.CD32.rom"     md5="f2f241bf094168cfb9e7805dc2856433,5f8924d013dd57a89cf349f4cdedc6b1" hashMatchMandatory="false" core="amiberry,libretro-uae" mandatory="true" note="Use the combined ROM 'KS + extended v3.1 rev 40.060' or separate ROMs 'KS v3.1 rev 40.060 + Extended ROM rev 40.060'" />
+    <bios path="kick40060.CD32.ext.rom" md5="bb72565701b1b6faece07d68ea5da639" core="amiberry,libretro-uae" mandatory="false" note="Extended ROM rev 40.060" />
   </system>
   <system fullname="Apple IIGS" platform="apple2gs">
     <bios path="apple2gs.rom" md5="20a0334c447cb069a040ae5be1d938df,ba89edf2729a28a17cd9e0f7a0ac9a39" core="apple2gs" ></bios>
