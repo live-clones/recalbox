@@ -57,6 +57,9 @@ class TestControllersConfig(unittest.TestCase):
         uuid3 = "030000005e0400008e02000014010000"
         uuid4 = "03000000b50700000399000000010000"
         uuid5 = "0000000058626f782047616d65706101"
+        uuid6 = "00000000600000000000000000000006"
+        uuid7 = "00000000700000000000000000000007"
+        uuid8 = "00000000800000000000000000000008"
         players = controllersConfig.Controller.loadControllerConfig("-1", uuid1, "p1controller", "", "0",
                                                                     "-1", uuid2, "p2controller", "", "0",
                                                                     "-1", uuid3, "p3controller", "", "0",
