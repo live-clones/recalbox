@@ -35,9 +35,9 @@ class TestControllersConfig(unittest.TestCase):
                                                                     "-1", uuid, "p2controller", "", "0",
                                                                     "-1", uuid, "p3controller", "", "0",
                                                                     "-1", uuid, "p4controller", "","0",
-                                                                    "-1", uuid, "p5controller", "","0")
-                                                                    "-1", uuid, "p6controller", "","0")
-                                                                    "-1", uuid, "p7controller", "","0")
+                                                                    "-1", uuid, "p5controller", "","0",
+                                                                    "-1", uuid, "p6controller", "","0",
+                                                                    "-1", uuid, "p7controller", "","0",
                                                                     "-1", uuid, "p8controller", "","0")
         self.assertEquals(8, len(players))
         self.assertEquals(uuid, players["1"].guid)
@@ -61,16 +61,19 @@ class TestControllersConfig(unittest.TestCase):
                                                                     "-1", uuid2, "p2controller", "", "0",
                                                                     "-1", uuid3, "p3controller", "", "0",
                                                                     "-1", uuid4, "p4controller", "","0",
-                                                                    "-1", uuid5, "p5controller", "","0")
-                                                                    "-1", uuid6, "p6controller", "","0")
-                                                                    "-1", uuid7, "p7controller", "","0")
+                                                                    "-1", uuid5, "p5controller", "","0",
+                                                                    "-1", uuid6, "p6controller", "","0",
+                                                                    "-1", uuid7, "p7controller", "","0",
                                                                     "-1", uuid8, "p8controller", "","0")
-        self.assertEquals(5, len(players))
+        self.assertEquals(8, len(players))
         self.assertEquals(uuid1, players["1"].guid)
         self.assertEquals(uuid2, players["2"].guid)
         self.assertEquals(uuid3, players["3"].guid)
         self.assertEquals(uuid4, players["4"].guid)
         self.assertEquals(uuid5, players["5"].guid)
+        self.assertEquals(uuid5, players["6"].guid)
+        self.assertEquals(uuid5, players["7"].guid)
+        self.assertEquals(uuid5, players["8"].guid)
         self.assertEquals("13", players["1"].inputs["a"].id)
 
     def test_controllers_defaults(self):
