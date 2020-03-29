@@ -53,6 +53,7 @@
 - Bump libretro-cores family
 - Rename 4do to opera (newer libretro 3do core)
 - Bump Theodore core (add emulation of Thomson TO7 and TO7/70 computers)
+- Set vice_x64sc as default c64 emulator + JiffyDOS support
 
 ### Fixes
 - Fix Odroid XU4 fan issue
