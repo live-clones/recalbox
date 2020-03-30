@@ -233,6 +233,8 @@ class DolphinGenerator(Generator):
         # Settings
         gfxSettings.setOption(self.SECTION_SETTINGS, "ShowFPS", "True" if system.config['showFPS'] == 'true' else "False")
         gfxSettings.setOption(self.SECTION_SETTINGS, "AspectRatio", gameRatio)
+        gfxSettings.setOption(self.SECTION_SETTINGS, "HiresTextures", "True")
+        gfxSettings.setOption(self.SECTION_SETTINGS, "CacheHiresTextures", "True")
 
         # Save configuration
         gfxSettings.saveFile()
