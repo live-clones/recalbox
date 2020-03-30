@@ -141,7 +141,7 @@ bool Window::ProcessInput(const InputCompactEvent& event)
   {
     // wake up
     DoWake();
-    return false;
+    return true;
   }
 
   mTimeSinceLastInput = 0;
