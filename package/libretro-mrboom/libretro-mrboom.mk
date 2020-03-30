@@ -9,8 +9,11 @@ LIBRETRO_MRBOOM_SITE = $(call github,libretro,mrboom-libretro,$(LIBRETRO_MRBOOM_
 
 # Flag to fix build on arm platforms
 ifeq ($(BR2_ARM_CPU_HAS_NEON),y)
-LIBRETRO_MRBOOM_OPTIONS += "HAVE_NEON=1"
+LIBRETRO_MRBOOM_NEON += "HAVE_NEON=1"
+else
+LIBRETRO_MRBOOM_NEON += "HAVE_NEON=0"
 endif
+
 
 define LIBRETRO_MRBOOM_BUILD_CMDS
 	$(SED) "s|-O2|-O3|g" $(@D)/Makefile
