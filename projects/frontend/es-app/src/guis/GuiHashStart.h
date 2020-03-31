@@ -54,6 +54,11 @@ class GuiHashStart : public Gui, private IThreadPoolWorkerInterface<FileData*, F
      */
     void Start();
 
+    /*!
+     * @brief Close the Gui and display summary
+     */
+    void Quit();
+
     /*
      * Thread implementation
      */

@@ -65,38 +65,38 @@ bool GuiHashStart::ProcessInput(const InputCompactEvent& event)
 
 void GuiHashStart::Update(int deltaTime)
 {
-  Component::Update(deltaTime);
-
   // Avoid sleeping!
   mIsProcessing = true;
-
-  // Read summary text
-  mMutex.Lock();
-  std::string text = mSummaryText;
-  mMutex.UnLock();
-
-  mBusyAnim.setText(text);
-  mBusyAnim.Update(deltaTime);
 
   switch(mState)
   {
     case State::Wait:
-    case State::Hashing:break;
+    {
+      Component::Update(deltaTime);
+      break;
+    }
+    case State::Hashing:
+    {
+      // Read summary text
+      mMutex.Lock();
+      std::string text = mSummaryText;
+      mMutex.UnLock();
+
+      mBusyAnim.setText(text);
+      mBusyAnim.Update(deltaTime);
+      break;
+    }
     case State::Cancelled:
     {
       if (mRemaininglGames == 0)
         mState = State::Exit;
       break;
     }
-    case State::Exit:
-    {
-      Close();
-      break;
-    }
+    case State::Exit: break;
   }
 
   if (mState == State::Exit)
-    Close();
+    Quit();
 }
 
 void GuiHashStart::Render(const Transform4x4f& parentTrans)
@@ -137,7 +137,8 @@ void GuiHashStart::Start()
   }
 
   // Run!
-  mThreadPool.Run(-4, true);
+  if (mRemaininglGames != 0) mThreadPool.Run(-4, true);
+  else mState = State::Exit;
 }
 
 FileData* GuiHashStart::ThreadPoolRunJob(FileData*& feed)
@@ -175,5 +176,13 @@ FileData* GuiHashStart::ThreadPoolRunJob(FileData*& feed)
     mState = State::Exit;
 
   return feed;
+}
+
+void GuiHashStart::Quit()
+{
+  std::string message = (mTotalGames == 0) ? _("No missing hash found!") : _("%i missing hashes have been calculated!");
+  message = Strings::Replace(message, "%i", Strings::ToString(mTotalGames));
+  mWindow.displayMessage(message);
+  Close();
 }
 

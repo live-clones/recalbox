@@ -1983,3 +1983,9 @@ msgstr ""
 
 msgid "FAST CURSOR"
 msgstr ""
+
+msgid "No missing hash found!"
+msgstr ""
+
+msgid "%i missing hashes have been calculated!"
+msgstr ""

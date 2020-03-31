@@ -2215,3 +2215,10 @@ msgstr "TOURNER ROUE"
 msgid "FAST CURSOR"
 msgstr "CURSEUR RAPIDE"
 
+#:
+msgid "No missing hash found!"
+msgstr "Pas de hash manquant!"
+
+#:
+msgid "%i missing hashes have been calculated!"
+msgstr "%i hash manquants ont été calculés!"

@@ -2164,6 +2164,12 @@ msgstr ""
 msgid "FAST CURSOR"
 msgstr ""
 
+msgid "No missing hash found!"
+msgstr ""
+
+msgid "%i missing hashes have been calculated!"
+msgstr ""
+
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
 #~ "will turn the screen black."
