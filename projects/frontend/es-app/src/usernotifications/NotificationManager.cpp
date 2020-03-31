@@ -17,8 +17,9 @@ std::string eol("\r\n");
 Path NotificationManager::sStatusFilePath("/tmp/es_state.inf");
 HashMap<std::string, pid_t> NotificationManager::sPermanentScriptsPID;
 
-NotificationManager::NotificationManager()
-  : StaticLifeCycleControler<NotificationManager>("NotificationManager")
+NotificationManager::NotificationManager(char** environment)
+  : StaticLifeCycleControler<NotificationManager>("NotificationManager"),
+    mEnvironment(environment)
 {
   LoadScriptList();
 }
@@ -346,25 +347,34 @@ void NotificationManager::RunProcess(const Path& target, const Strings::Vector& 
 
   if (sPermanentScriptsPID.contains(target.ToString()))
   {
-    // Stil running?
+    // Still running?
     if (waitpid(sPermanentScriptsPID[target.ToString()], nullptr, WNOHANG) == 0)
       return;
     // Not running, remove pid
     sPermanentScriptsPID.erase(target.ToString());
   }
 
+  // Set high priority, so that the child process DOES NOT execute any thread until the execve
+  sched_param params {};
+  params.sched_priority = sched_get_priority_max(SCHED_FIFO);
+  pthread_setschedparam(pthread_self(), SCHED_FIFO, &params);
+
   // Fork & run
-  pid_t pid = fork();
+  pid_t pid = vfork();
+  if (pid == 0) // child
+  {
+    execve(target.ToChars(), (char **)args.data(), mEnvironment);
+    exit(0);
+  }
+
+  // Reset priority
+  params.sched_priority = sched_get_priority_max(SCHED_OTHER);
+  pthread_setschedparam(pthread_self(), SCHED_OTHER, &params);
+
   if (pid < 0) // Error
   {
     LOG(LogError) << "Error running " << target.ToString() << " (fork failed)";
     return;
-  }
-  if (pid == 0) // child
-  {
-    execv(target.ToChars(), (char **)args.data());
-    LOG(LogError) << "Error running " << target.ToString() << " (run failed)";
-    exit(0);
   }
 
   // Wait for child?

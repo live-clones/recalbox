@@ -91,7 +91,7 @@ bool parseArgs(int argc, char* argv[], unsigned int& width, unsigned int& height
   return true;
 }
 
-int main(int argc, char* argv[])
+int main(int argc, char* argv[], char** env)
 {
   // Settings instance
   Settings settings;
@@ -105,7 +105,7 @@ int main(int argc, char* argv[])
   for(int loopCount = 0;; ++loopCount)
   {
     // Start the runner
-    MainRunner runner(argv[0], width, height, loopCount);
+    MainRunner runner(argv[0], width, height, loopCount, env);
     MainRunner::ExitState exitState = runner.Run();
 
     LOG(LogInfo) << "EmulationStation cleanly shutting down.";

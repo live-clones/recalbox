@@ -125,6 +125,9 @@ class NotificationManager : public StaticLifeCycleControler<NotificationManager>
     //! Previous data
     ParamBag mPreviousParamBag;
 
+    //! Environement
+    char** mEnvironment;
+
     /*!
      * @brief Convert an Action into a string
      * @param action Action to convert
@@ -198,7 +201,7 @@ class NotificationManager : public StaticLifeCycleControler<NotificationManager>
      * @param target executable/scriupt to run
      * @param arguments arguments passed to the target
      */
-    static void RunProcess(const Path& target, const Strings::Vector& arguments, bool synchronous, bool permanent);
+    void RunProcess(const Path& target, const Strings::Vector& arguments, bool synchronous, bool permanent);
 
     /*!
      * @brief Build es_state.info Common information into output string
@@ -248,7 +251,7 @@ class NotificationManager : public StaticLifeCycleControler<NotificationManager>
     /*!
      * @brief Default constructor
      */
-    NotificationManager();
+    explicit NotificationManager(char* environement[]);
 
     /*!
      * @brief Update EmulationStation status file with game information

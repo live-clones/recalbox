@@ -17,7 +17,6 @@
 #include <bios/BiosManager.h>
 #include <guis/GuiMsgBox.h>
 #include <scraping/ScraperFactory.h>
-#include <usernotifications/NotificationManager.h>
 #include "MainRunner.h"
 #include "EmulationStation.h"
 #include "VolumeControl.h"
@@ -30,11 +29,12 @@ MainRunner::ExitState MainRunner::sRequestedExitState = MainRunner::ExitState::Q
 bool MainRunner::sQuitRequested = false;
 bool MainRunner::sForceReloadFromDisk = false;
 
-MainRunner::MainRunner(const std::string& executablePath, unsigned int width, unsigned int height, int runCount)
+MainRunner::MainRunner(const std::string& executablePath, unsigned int width, unsigned int height, int runCount, char** environment)
   : mRequestedWidth(width),
     mRequestedHeight(height),
     mPendingExit(PendingExit::None),
-    mRunCount(runCount)
+    mRunCount(runCount),
+    mNotificationManager(environment)
 {
   OpenLogs();
   SetLocale(executablePath);
@@ -47,8 +47,7 @@ MainRunner::ExitState MainRunner::Run()
   try
   {
     // Notification Manager
-    NotificationManager notificationManager;
-    notificationManager.Notify(Notification::Start, Strings::ToString(mRunCount));
+    mNotificationManager.Notify(Notification::Start, Strings::ToString(mRunCount));
 
     // Shut-up joysticks :)
     SDL_JoystickEventState(SDL_DISABLE);
@@ -137,7 +136,7 @@ MainRunner::ExitState MainRunner::Run()
     }
 
     // Exit
-    notificationManager.Notify(Notification::Stop, Strings::ToString(mRunCount));
+    mNotificationManager.Notify(Notification::Stop, Strings::ToString(mRunCount));
     window.GoToQuitScreen();
     systemManager.DeleteAllSystems(DoWeHaveToUpdateGamelist(exitState));
     Window::Finalize();

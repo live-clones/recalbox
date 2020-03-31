@@ -8,6 +8,8 @@
 #include <utils/cplusplus/INoCopy.h>
 #include <utils/os/fs/watching/IFileSystemWatcherNotification.h>
 #include <utils/os/fs/watching/FileNotifier.h>
+#include <usernotifications/NotificationManager.h>
+
 
 class AudioManager;
 class SystemManager;
@@ -62,6 +64,9 @@ class MainRunner: private INoCopy, private ISynchronousEvent, private IFileSyste
 
     //! Recalbox configuration
     RecalboxConf mConfiguration;
+
+    //! Nofitication manager
+    NotificationManager mNotificationManager;
 
     /*!
      * @brief Reset last exit state
@@ -169,7 +174,7 @@ class MainRunner: private INoCopy, private ISynchronousEvent, private IFileSyste
      * @param height Requested height
      * @param runCount Number of time the MainRunner has been run
      */
-    MainRunner(const std::string& executablePath, unsigned int width, unsigned int height, int runCount);
+    MainRunner(const std::string& executablePath, unsigned int width, unsigned int height, int runCount, char** environment);
 
     /*!
      * @brief Run the game!
