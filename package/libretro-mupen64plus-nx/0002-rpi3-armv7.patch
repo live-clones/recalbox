@@ -1,0 +1,31 @@
+diff --git a/Makefile b/Makefile
+index a1ab7fc..3efb820 100644
+--- a/Makefile
++++ b/Makefile
+@@ -85,7 +85,8 @@ else ifneq (,$(findstring rpi,$(platform)))
+       CPUFLAGS += -mcpu=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard
+       HAVE_NEON = 1
+    else ifneq (,$(findstring rpi3,$(platform)))
+-      CPUFLAGS += -march=armv8-a+crc -mtune=cortex-a53 -mfpu=neon-fp-armv8 -mfloat-abi=hard
++      #CPUFLAGS += -march=armv8-a+crc -mtune=cortex-a53 -mfpu=neon-fp-armv8 -mfloat-abi=hard
++      CPUFLAGS += -mcpu=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard
+       HAVE_NEON = 1
+    endif
+ 
+--- a/Makefile.common
++++ b/Makefile.common
+@@ -424,13 +424,7 @@
+ 
+ SOURCES_C += $(LIBRETRO_COMM_DIR)/libco/libco.c
+ 
+-ifneq (,$(findstring rpi3,$(platform)))
+-	SOURCES_CXX += $(VIDEODIR_GLIDEN64)/src/CRC32_ARMV8.cpp
+-else ifeq ($(platform), libnx)
+-	SOURCES_CXX += $(VIDEODIR_GLIDEN64)/src/CRC32_ARMV8.cpp
+-else
+-	SOURCES_CXX += $(ROOT_DIR)/custom/GLideN64/CRC.cpp
+-endif
++SOURCES_CXX += $(ROOT_DIR)/custom/GLideN64/CRC.cpp
+ 
+ ifeq ($(HAVE_NEON),1)
+ 	SOURCES_CXX   += $(VIDEODIR_GLIDEN64)/src/Neon/3DMathNeon.cpp \
