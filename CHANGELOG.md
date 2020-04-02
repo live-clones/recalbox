@@ -81,6 +81,7 @@ All notable changes to this project will be documented in this file.
 - Bump AdvanceMame to v3.9
 - Add OpenBOR
 - Add Solarus
+- Improve the management of external screens and selection from recalbox.conf by Chriskt78
 
 ## [6.1.1]
 - Add zfast shaders
