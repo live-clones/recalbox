@@ -2,34 +2,35 @@
 
 export DISPLAY=:0
 
+#Prefered output screen got from recalbox.conf
+OUTPUT_PREFERED=$(grep '^system.selected.external_screen=' /recalbox/share/system/recalbox.conf | awk 'BEGIN {FS="="} {print $2}')
+
 xrandrOutput=$(xrandr)
 
-PRIMARY=$(echo "${xrandrOutput}" | grep "connected primary" | awk '{print $1}')
-EXTERNAL=($(echo "${xrandrOutput}" | grep "connected" | grep -vE "(disconnected|connected primary)" | awk '{print $1}'))
-##-4k tv need resize screen because 3840 x 2160 in 30fps with retroarch cores
-UHDTV=($(echo "${xrandrOutput}" | grep "3840x2160" | grep "connected" | awk '{print $1}'))
-
-echo "Primary screen:"
-echo "  ${PRIMARY}"
-
-echo "Other screens (${#EXTERNAL[*]}):"
-
-for screen in ${EXTERNAL[*]}; do
-echo "  ${screen}"
+OUTPUT_RESOLUTION=$(echo "${xrandrOutput}" | grep " connected" | sed 's/ primary//;s/^\(.*\) connected \([0-9]*x[0-9]*\).*$/\1=\2/')
+echo "Connected screen(s):"
+for screen in ${OUTPUT_RESOLUTION[*]}; do
+  echo "  ${screen}"
 done
 
-if [ -n "$UHDTV" ] && [ -n "$PRIMARY" ]; then
-echo "4k tv found need resize on 1080p 60fps"
-xrandr --output $UHDTV --mode "1920x1080"
+if [ -n "$OUTPUT_PREFERED" ]; then
+  PREFERED_CONNECTED=$(echo "$xrandrOutput" | grep "$OUTPUT_PREFERED connected" | awk '{print $1}')
+  if [ -n "$PREFERED_CONNECTED" ]; then
+    echo "Prefered screen $OUTPUT_PREFERED"
+  else
+    echo "Prefered screen $OUTPUT_PREFERED disconnected"
+  fi
 fi
 
-if [ -n "$EXTERNAL" ] && [ -z "$UHDTV" ]; then
-echo "change to external screen"
-xrandr --output $PRIMARY --off --output $EXTERNAL --auto
-elif [ -n "$EXTERNAL" ] && [ -n "$UHDTV" ]; then
-echo "4k tv found need resize on 1080p 60fps"
-xrandr --output $PRIMARY --off --output $EXTERNAL --mode "1920x1080"
-else
-echo "no external screen found" 
-xrandr --output $PRIMARY --auto
+if [ -n "$OUTPUT_RESOLUTION" ]; then
+  if [[ -n "$OUTPUT_PREFERED" ]] && [[ -n "$PREFERED_CONNECTED" ]]; then
+    SELECTED_OUTPUT=$PREFERED_CONNECTED
+  else
+    SELECTED_OUTPUT=$(echo "$OUTPUT_RESOLUTION" | awk 'BEGIN {FS="="} NR==1 {print $1}')
+  fi
+  
+  echo "Force selected output $SELECTED_OUTPUT to FHD if UHD or WQHD, disable others"
+  XRANDR_CMD=$(echo "$OUTPUT_RESOLUTION" | awk -v SELECTED_OUTPUT="$SELECTED_OUTPUT" 'BEGIN {FS="="; printf "xrandr"} $1==SELECTED_OUTPUT {if (($2=="3840x2160")||($2=="2560x1440")) printf " --output " $1 " --mode 1920x1080"; else printf " --output " $1 " --auto";} $1!=SELECTED_OUTPUT {printf " --output " $1 " --off";} END {printf "\n";}') 
+  echo "$XRANDR_CMD"
+  $($XRANDR_CMD)
 fi

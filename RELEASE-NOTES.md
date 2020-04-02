@@ -72,6 +72,8 @@
 - Bump Amiberry to v3.1.3
 - Bump AdvanceMame to v3.9
 - Add volume control to XU4
+- Improve the management of external screens and selection from recalbox.conf by Chriskt78
+
 
 ### Fixes
 - Fix Odroid XU4 fan issue
