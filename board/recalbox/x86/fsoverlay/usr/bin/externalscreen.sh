@@ -2,35 +2,51 @@
 
 export DISPLAY=:0
 
-#Prefered output screen got from recalbox.conf
-OUTPUT_PREFERED=$(grep '^system.selected.external_screen=' /recalbox/share/system/recalbox.conf | awk 'BEGIN {FS="="} {print $2}')
-
 xrandrOutput=$(xrandr)
 
-OUTPUT_RESOLUTION=$(echo "${xrandrOutput}" | grep " connected" | sed 's/ primary//;s/^\(.*\) connected \([0-9]*x[0-9]*\).*$/\1=\2/')
-echo "Connected screen(s):"
-for screen in ${OUTPUT_RESOLUTION[*]}; do
-  echo "  ${screen}"
-done
+OUTPUT_MAXRES=$(echo "${xrandrOutput}" | awk '$1!~"[0-9]*x[0-9]*" {OUTPUT=$1; RESO=1;} $1~"[0-9]*x[0-9]*" && RESO==1 {print OUTPUT "=" $1; RESO++;}')
+if [ -z "$OUTPUT_MAXRES" ]; then
+  echo "No screen connected..."
+  exit
+else
+  echo "Connected screen(s):"
+  for screen in ${OUTPUT_MAXRES[*]}; do
+    echo "  ${screen}"
+  done
+fi
 
-if [ -n "$OUTPUT_PREFERED" ]; then
-  PREFERED_CONNECTED=$(echo "$xrandrOutput" | grep "$OUTPUT_PREFERED connected" | awk '{print $1}')
+#Prefered output screen and force resolution from recalbox.conf
+PREFERED=$(grep '^system.external_screen.prefered=' /recalbox/share/system/recalbox.conf | awk 'BEGIN {FS="="} {print $2}')
+FORCE_RES=$(grep '^system.external_screen.force_resolution=' /recalbox/share/system/recalbox.conf | awk 'BEGIN {FS="="} {print $2}')
+
+if [ -n "$PREFERED" ]; then
+  PREFERED_CONNECTED=$(echo "$OUTPUT_MAXRES" | grep "$PREFERED" | awk 'BEGIN {FS="="} {print $1}')
+fi
+if [[ -n "$PREFERED" ]] && [[ -n "$PREFERED_CONNECTED" ]]; then
+  SEL_OUTPUT="$PREFERED"
+else
+  SEL_OUTPUT=$(echo "$OUTPUT_MAXRES" | awk 'BEGIN {FS="="} NR==1 {print $1}')
+fi
+if [ -n "$PREFERED" ]; then
   if [ -n "$PREFERED_CONNECTED" ]; then
-    echo "Prefered screen $OUTPUT_PREFERED"
+    echo "Prefered screen $PREFERED"
   else
-    echo "Prefered screen $OUTPUT_PREFERED disconnected"
+    echo "Prefered screen $PREFERED disconnected, fallback to first connected screen $SEL_OUTPUT"
   fi
 fi
-
-if [ -n "$OUTPUT_RESOLUTION" ]; then
-  if [[ -n "$OUTPUT_PREFERED" ]] && [[ -n "$PREFERED_CONNECTED" ]]; then
-    SELECTED_OUTPUT=$PREFERED_CONNECTED
-  else
-    SELECTED_OUTPUT=$(echo "$OUTPUT_RESOLUTION" | awk 'BEGIN {FS="="} NR==1 {print $1}')
-  fi
   
-  echo "Force selected output $SELECTED_OUTPUT to FHD if UHD or WQHD, disable others"
-  XRANDR_CMD=$(echo "$OUTPUT_RESOLUTION" | awk -v SELECTED_OUTPUT="$SELECTED_OUTPUT" 'BEGIN {FS="="; printf "xrandr"} $1==SELECTED_OUTPUT {if (($2=="3840x2160")||($2=="2560x1440")) printf " --output " $1 " --mode 1920x1080"; else printf " --output " $1 " --auto";} $1!=SELECTED_OUTPUT {printf " --output " $1 " --off";} END {printf "\n";}') 
-  echo "$XRANDR_CMD"
-  $($XRANDR_CMD)
+if [ -n "$FORCE_RES" ]; then
+  FORCE_RES_EXISTS=$(echo "${xrandrOutput}" | awk -v SEL_OUTPUT="$SEL_OUTPUT" -v FORCE_RES="$FORCE_RES" '$1!~"[0-9]*x[0-9]*" {OUTPUT=$1; RESO=1;} ($1~"[0-9]*x[0-9]*") && (OUTPUT==SEL_OUTPUT) && ($1==FORCE_RES) {print $1; RESO++;}')
+  if [ -n "$FORCE_RES_EXISTS" ]; then
+    echo "Force selected output $SEL_OUTPUT to $FORCE_RES, disable others"
+    XRANDR_CMD=$(echo "$OUTPUT_MAXRES" | awk -v SEL_OUTPUT="$SEL_OUTPUT" -v FORCE_RES="$FORCE_RES" 'BEGIN {FS="="; printf "xrandr"} $1==SEL_OUTPUT {printf " --output " $1 " --mode " FORCE_RES;} $1!=SEL_OUTPUT {printf " --output " $1 " --off";} END {printf "\n";}') 
+  else
+    echo echo "Force resolution inexistant for selected output $SEL_OUTPUT, fallback to auto, disable other outputs"
+	XRANDR_CMD=$(echo "$OUTPUT_MAXRES" | awk -v SEL_OUTPUT="$SEL_OUTPUT" 'BEGIN {FS="="; printf "xrandr"} $1==SEL_OUTPUT {printf " --output " $1 " --auto";} $1!=SEL_OUTPUT {printf " --output " $1 " --off";} END {printf "\n";}')
+  fi
+else
+  echo "Force selected output $SEL_OUTPUT, disable others"
+  XRANDR_CMD=$(echo "$OUTPUT_MAXRES" | awk -v SEL_OUTPUT="$SEL_OUTPUT" 'BEGIN {FS="="; printf "xrandr"} $1==SEL_OUTPUT {printf " --output " $1 " --auto";} $1!=SEL_OUTPUT {printf " --output " $1 " --off";} END {printf "\n";}') 
 fi
+echo "$XRANDR_CMD"
+$($XRANDR_CMD)
