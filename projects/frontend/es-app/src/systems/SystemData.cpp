@@ -198,7 +198,7 @@ void SystemData::populateFolder(FolderData* folder, FileData::StringMap& doppelg
 
   try
   {
-    folder->populateRecursiveFolder(mDescriptor.Extension(), this, doppelgangerWatcher);
+    folder->populateRecursiveFolder(Strings::ToLowerASCII(mDescriptor.Extension()), this, doppelgangerWatcher);
   }
   catch (std::exception& ex)
   {

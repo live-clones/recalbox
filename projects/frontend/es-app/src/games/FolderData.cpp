@@ -77,7 +77,7 @@ void FolderData::populateRecursiveFolder(const std::string& filteredExtensions, 
     if (stem.empty()) continue;
 
     // and Extension
-    std::string extension = filePath.Extension();
+    std::string extension = Strings::ToLowerASCII(filePath.Extension());
 
     //fyi, folders *can* also match the extension and be added as games - this is mostly just to support higan
     //see issue #75: https://github.com/Aloshi/EmulationStation/issues/75
