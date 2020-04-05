@@ -262,6 +262,14 @@ case "${MODE}" in
 	    mount -t tmpfs -o size=128M tmpfs /recalbox/share
 	fi
 
+	IPADDR=$(ifconfig | grep 'inet addr' | grep -v '127.0.0.1' | sed 's/^.*inet addr:\([0-9.]*\).*$/\1/')
+	while test -z "${IPADDR}" -a "${NTRY}" -lt "${MAXTRY}" # wait ip present
+	do
+	    let NTRY++
+	    sleep 1
+	    IPADDR=$(ifconfig | grep 'inet addr' | grep -v '127.0.0.1' | sed 's/^.*inet addr:\([0-9.]*\).*$/\1/')
+	done
+
 	# Network mounts
 	# no fallback required, mounted on the share
 	mountNetwork > /tmp/mountNetwork.log 2> /tmp/mountNetwork.err # could be usefull to debug
