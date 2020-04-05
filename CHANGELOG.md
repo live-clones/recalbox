@@ -66,6 +66,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Enable amigacd32 emulation with libretro-uae
 - Set vice_x64sc as default c64 emulator + JiffyDOS support
 - ERTM enabled by default
+- Improve the management of external screens and selection from recalbox.conf by Chriskt78
 
 ## [6.1.1]
 - Add zfast shaders
