@@ -1,0 +1,77 @@
+--- a/src/osdep/amiberry.cpp	2020-04-04 22:22:17.299338827 +0200
++++ b/src/osdep/amiberry.cpp	2020-04-05 20:05:54.889759005 +0200
+@@ -266,7 +266,7 @@
+ 			debugfile = nullptr;
+ 		}
+ 
+-		sprintf(debugfilename, "%s/amiberry_log.txt", start_path_data);
++		strncpy(debugfilename, "/tmp/amiga/amiberry_log.txt", MAX_DPATH);
+ 		if (!debugfile)
+ 			debugfile = fopen(debugfilename, "wt");
+ 
+@@ -642,8 +642,7 @@
+ 
+ void fetch_saveimagepath(char* out, int size, int dir)
+ {
+-	strncpy(out, start_path_data, size - 1);
+-	strncat(out, "/savestates/", size - 1);
++	strncpy(out, "/recalbox/share/saves/amiga/", size);
+ }
+ 
+ void fetch_configurationpath(char* out, int size)
+@@ -697,14 +696,12 @@
+ 
+ void fetch_savestatepath(char* out, int size)
+ {
+-	strncpy(out, start_path_data, size - 1);
+-	strncat(out, "/savestates/", size - 1);
++	strncpy(out, "/recalbox/share/saves/amiga/", size);
+ }
+ 
+ void fetch_screenshotpath(char* out, int size)
+ {
+-	strncpy(out, start_path_data, size - 1);
+-	strncat(out, "/screenshots/", size - 1);
++	strncpy(out, "/recalbox/share/screenshots/", size);
+ }
+ 
+ int target_cfgfile_load(struct uae_prefs* p, const char* filename, int type, int isdefault)
+@@ -1024,8 +1021,8 @@
+ 	int i;
+ 	strncpy(currentDir, start_path_data, MAX_DPATH - 1);
+ 	snprintf(config_path, MAX_DPATH, "%s/conf/", start_path_data);
+-	snprintf(controllers_path, MAX_DPATH, "%s/controllers/", start_path_data);
+-	snprintf(retroarch_file, MAX_DPATH, "%s/conf/retroarch.cfg", start_path_data);
++	snprintf(controllers_path, MAX_DPATH, "%s/conf/", start_path_data);
++	strncpy(retroarch_file, "/recalbox/share/system/configs/retroarch/retroarchcustom.cfg", MAX_DPATH);
+ 
+ #ifdef ANDROID
+ 	char afepath[MAX_DPATH];
+@@ -1038,9 +1035,9 @@
+ 	else
+ 		snprintf(rom_path, MAX_DPATH, "%s/kickstarts/", start_path_data);
+ #else
+-	snprintf(rom_path, MAX_DPATH, "%s/kickstarts/", start_path_data);
++	strncpy(rom_path, "/recalbox/share/bios/", MAX_DPATH);
+ #endif
+-	snprintf(rp9_path, MAX_DPATH, "%s/rp9/", start_path_data);
++	snprintf(rp9_path, MAX_DPATH, "%s/conf/", start_path_data);
+ 	snprintf(path, MAX_DPATH, "%s/conf/amiberry.conf", start_path_data);
+ 
+ 	const auto fh = zfile_fopen(path, _T("r"), ZFD_NORMAL);
+@@ -1211,13 +1208,13 @@
+ #ifdef ANDROID
+     strncpy(start_path_data, getenv("EXTERNAL_FILES_DIR"), MAX_DPATH - 1);
+ #else
+-	getcwd(start_path_data, MAX_DPATH);
++	strncpy(start_path_data, "/tmp/amiga/", MAX_DPATH);
+ #endif
+ 	rename_old_adfdir();
+ 	load_amiberry_settings();
+ 	rp9_init();
+ 
+-	snprintf(savestate_fname, sizeof savestate_fname, "%s/savestates/default.ads", start_path_data);
++	strncpy(savestate_fname, "/recalbox/share/saves/amiga/default.ads", MAX_DPATH);
+ 	logging_init();
+ 
+ 	memset(&action, 0, sizeof action);
