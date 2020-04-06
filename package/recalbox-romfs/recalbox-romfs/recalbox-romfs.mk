@@ -167,9 +167,9 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_UAE)$(BR2_PACKAGE_AMIBERRY),)
 endif
 
 # System: amigacdtv
-#ifneq ($(BR2_PACKAGE_AMIBERRY)$(BR2_PACKAGE_LIBRETRO_UAE),)
-#    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-amigacdtv
-#endif
+ifneq ($(BR2_PACKAGE_LIBRETRO_UAE)$(BR2_PACKAGE_AMIBERRY),)
+        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-amigacdtv
+endif
  	
 # System: amstradcpc
 ifneq ($(BR2_PACKAGE_LIBRETRO_CAP32)$(BR2_PACKAGE_LIBRETRO_CROCODS),)
