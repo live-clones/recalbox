@@ -65,6 +65,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Rename prboom system to doom
 - Enable amigacd32 emulation with libretro-uae
 - Set vice_x64sc as default c64 emulator + JiffyDOS support
+- ERTM enabled by default
 
 ## [6.1.1]
 - Add zfast shaders
