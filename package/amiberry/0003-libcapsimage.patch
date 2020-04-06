@@ -1,0 +1,11 @@
+--- a/src/dlopen.cpp	2020-04-04 22:22:17.279338495 +0200
++++ b/src/dlopen.cpp	2020-04-05 18:59:06.426693256 +0200
+@@ -72,7 +72,7 @@
+ 		return NULL;
+ 	}
+ */
+-	UAE_DLHANDLE handle = uae_dlopen("./capsimg.so");
++	UAE_DLHANDLE handle = uae_dlopen("/usr/lib/libcapsimage.so");
+ #elif defined(WINUAE)
+ 	TCHAR path[MAX_DPATH];
+ 	_tcscpy(path, name);
