@@ -52,7 +52,9 @@ class TestFba2xController(unittest.TestCase):
                                                       -1, 0, "p5controller", "", "0",
                                                       -1, 0, "p6controller", "", "0",
                                                       -1, 0, "p7controller", "", "0",
-                                                      -1, 0, "p8controller", "", "0")
+                                                      -1, 0, "p8controller", "", "0",
+                                                      -1, 0, "p9controller", "", "0",
+                                                      -1, 0, "p10controller", "", "0")
         config = fba2xControllers.generateControllerConfig("1", controllers["1"])
         self.assertEquals(config['X_1'], '14')
         self.assertEquals(config['Y_1'], '13')
@@ -69,7 +71,9 @@ class TestFba2xController(unittest.TestCase):
                                                       -1, 0, "p5controller", "", "0",
                                                       -1, 0, "p6controller", "", "0",
                                                       -1, 0, "p7controller", "", "0",
-                                                      -1, 0, "p8controller", "", "0")
+                                                      -1, 0, "p8controller", "", "0",
+                                                      -1, 0, "p9controller", "", "0",
+                                                      -1, 0, "p10controller", "", "0")
         config = fba2xControllers.generateControllerConfig("1", controllers["1"], True)
         self.assertEquals(config['X_1'], '12')
         self.assertEquals(config['Y_1'], '14')
@@ -86,7 +90,9 @@ class TestFba2xController(unittest.TestCase):
                                                       -1, 0, "p5controller", "", "0",
                                                       -1, 0, "p6controller", "", "0",
                                                       -1, 0, "p7controller", "", "0",
-                                                      -1, 0, "p8controller", "", "0")
+                                                      -1, 0, "p8controller", "", "0",
+                                                      -1, 0, "p9controller", "", "0",
+                                                      -1, 0, "p10controller", "", "0")
         config = fba2xControllers.generateControllerConfig("1", controllers["1"])
         self.assertEquals(config['UP_1'], '4')
         self.assertEquals(config['DOWN_1'], '6')
@@ -101,7 +107,9 @@ class TestFba2xController(unittest.TestCase):
                                                       -1, 0, "p5controller", "", "0",
                                                       -1, 0, "p6controller", "", "0",
                                                       -1, 0, "p7controller", "", "0",
-                                                      -1, 0, "p8controller", "", "0")
+                                                      -1, 0, "p8controller", "", "0",
+                                                      -1, 0, "p9controller", "", "0",
+                                                      -1, 0, "p10controller", "", "0")
         config = fba2xControllers.generateControllerConfig("1", controllers["1"])
         self.assertEquals(config['HOTKEY'], '16')
         self.assertEquals(config['QUIT'], '3')
@@ -114,7 +122,9 @@ class TestFba2xController(unittest.TestCase):
                                                       -1, 0, "p5controller", "", "0",
                                                       -1, 0, "p6controller", "", "0",
                                                       -1, 0, "p7controller", "", "0",
-                                                      -1, 0, "p8controller", "", "0")
+                                                      -1, 0, "p8controller", "", "0",
+                                                      -1, 0, "p9controller", "", "0",
+                                                      -1, 0, "p10controller", "", "0")
         config = fba2xControllers.generateControllerConfig("1", controllers["1"])
         self.assertEquals(config['JA_UD_1'], '1')
         self.assertEquals(config['JA_LR_1'], '0')
@@ -124,10 +134,12 @@ class TestFba2xController(unittest.TestCase):
                                                       1, PS3UUID, "p2controller", "", "0",
                                                       -1, PS3UUID, "p3controller", "", "0",
                                                       -1, PS3UUID, "p4controller", "", "0",
+                                                      -1, PS3UUID, "p5controller", "", "0",
+                                                      -1, PS3UUID, "p6controller", "", "0",
+                                                      -1, PS3UUID, "p7controller", "", "0",
                                                       -1, PS3UUID, "p8controller", "", "0",
-                                                      -1, PS3UUID, "p8controller", "", "0",
-                                                      -1, PS3UUID, "p8controller", "", "0",
-                                                      -1, PS3UUID, "p8controller", "", "0")
+                                                      -1, PS3UUID, "p9controller", "", "0",
+                                                      -1, PS3UUID, "p10controller", "", "0")
         fba2xControllers.writeControllersConfig("fba", "sf2.zip", controllers)
 
         self.assertEquals(self.fbaSettings.load('SDLID_1'), '2')
@@ -149,7 +161,9 @@ class TestFba2xController(unittest.TestCase):
                                                       -1, 0, "p5controller", "", "0",
                                                       -1, 0, "p6controller", "", "0",
                                                       -1, 0, "p7controller", "", "0",
-                                                      -1, 0, "p8controller", "", "0")
+                                                      -1, 0, "p8controller", "", "0",
+                                                      -1, 0, "p9controller", "", "0",
+                                                      -1, 0, "p10controller", "", "0")
         config = fba2xControllers.generateControllerConfig("1", controllers["1"], True)
         self.assertFalse('RIGHT_1' in config)
         self.assertFalse('LEFT_1' in config)

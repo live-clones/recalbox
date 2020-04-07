@@ -273,7 +273,9 @@ def main(arguments):
                                                              arguments.p5index, arguments.p5guid, arguments.p5name, arguments.p5devicepath, arguments.p5nbaxes,
                                                              arguments.p6index, arguments.p6guid, arguments.p6name, arguments.p6devicepath, arguments.p6nbaxes,
                                                              arguments.p7index, arguments.p7guid, arguments.p7name, arguments.p7devicepath, arguments.p7nbaxes,
-                                                             arguments.p8index, arguments.p8guid, arguments.p8name, arguments.p8devicepath, arguments.p8nbaxes)
+                                                             arguments.p8index, arguments.p8guid, arguments.p8name, arguments.p8devicepath, arguments.p8nbaxes,
+                                                             arguments.p9index, arguments.p9guid, arguments.p9name, arguments.p9devicepath, arguments.p9nbaxes,
+                                                             arguments.p10index, arguments.p10guid, arguments.p10name, arguments.p10devicepath, arguments.p10nbaxes)
     else:
         playersControllers = dict()
         demoStartButtons = Controller.loadDemoConfig(arguments.p1index, arguments.p1guid, arguments.p1name, arguments.p1devicepath, arguments.p1nbaxes,
@@ -283,7 +285,9 @@ def main(arguments):
                                                      arguments.p5index, arguments.p5guid, arguments.p5name, arguments.p5devicepath, arguments.p5nbaxes,
                                                      arguments.p6index, arguments.p6guid, arguments.p6name, arguments.p6devicepath, arguments.p6nbaxes,
                                                      arguments.p7index, arguments.p7guid, arguments.p7name, arguments.p7devicepath, arguments.p7nbaxes,
-                                                     arguments.p8index, arguments.p8guid, arguments.p8name, arguments.p8devicepath, arguments.p8nbaxes)
+                                                     arguments.p8index, arguments.p8guid, arguments.p8name, arguments.p8devicepath, arguments.p8nbaxes,
+                                                     arguments.p9index, arguments.p9guid, arguments.p9name, arguments.p9devicepath, arguments.p9nbaxes,
+                                                     arguments.p10index, arguments.p10guid, arguments.p10name, arguments.p10devicepath, arguments.p10nbaxes)
 
     systemName = arguments.system
 
@@ -413,6 +417,16 @@ if __name__ == '__main__':
     parser.add_argument("-p8name", help="player8 controller name", type=str, required=False)
     parser.add_argument("-p8devicepath", help="player8 controller device", type=str, required=False)
     parser.add_argument("-p8nbaxes", help="player8 controller number of axes", type=str, required=False)
+    parser.add_argument("-p9index", help="player9 controller index", type=int, required=False)
+    parser.add_argument("-p9guid", help="player9 controller SDL2 guid", type=str, required=False)
+    parser.add_argument("-p9name", help="player9 controller name", type=str, required=False)
+    parser.add_argument("-p9devicepath", help="player9 controller device", type=str, required=False)
+    parser.add_argument("-p9nbaxes", help="player9 controller number of axes", type=str, required=False)
+    parser.add_argument("-p10index", help="player10 controller index", type=int, required=False)
+    parser.add_argument("-p10guid", help="player10 controller SDL2 guid", type=str, required=False)
+    parser.add_argument("-p10name", help="player10 controller name", type=str, required=False)
+    parser.add_argument("-p10devicepath", help="player10 controller device", type=str, required=False)
+    parser.add_argument("-p10nbaxes", help="player10 controller number of axes", type=str, required=False)
     parser.add_argument("-system", help="select the system to launch", type=str, required=True)
     parser.add_argument("-rom", help="rom absolute path", type=str, required=False)
     parser.add_argument("-emulator", help="force emulator", type=str, required=False)

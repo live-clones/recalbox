@@ -28,6 +28,8 @@ class TestCase(unittest.TestCase):
             "p6index", "p6guid", "p6name", "p6devicepath", "p6nbaxes",
             "p7index", "p7guid", "p7name", "p7devicepath", "p7nbaxes",
             "p8index", "p8guid", "p8name", "p8devicepath", "p8nbaxes",
+            "p9index", "p9guid", "p9name", "p9devicepath", "p9nbaxes",
+            "p10index", "p10guid", "p10name", "p10devicepath", "p10nbaxes",
             "system",  "rom", "emulator", "core", "ratio",
             "demo","netplay","netplay_ip","netplay_port",
             "hash"

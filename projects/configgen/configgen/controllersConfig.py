@@ -213,7 +213,9 @@ class Controller:
             p5index, p5guid, p5name, p5dev, p5nbaxes,
             p6index, p6guid, p6name, p6dev, p6nbaxes,
             p7index, p7guid, p7name, p7dev, p7nbaxes,
-            p8index, p8guid, p8name, p8dev, p8nbaxes):
+            p8index, p8guid, p8name, p8dev, p8nbaxes,
+            p9index, p9guid, p9name, p9dev, p9nbaxes,
+            p10index, p10guid, p10name, p10dev, p10nbaxes):
         result = dict()
         controllers = Controller.loadAllControllersConfig()
 
@@ -241,6 +243,12 @@ class Controller:
         newController = Controller.findBestControllerConfig(controllers, '8', p8guid, p8index, p8name, p8dev, p8nbaxes)
         if newController:
             result[p8dev] = newController.inputs["start"].code
+        newController = Controller.findBestControllerConfig(controllers, '9', p9guid, p9index, p9name, p9dev, p9nbaxes)
+        if newController:
+            result[p9dev] = newController.inputs["start"].code
+        newController = Controller.findBestControllerConfig(controllers, '10', p10guid, p10index, p10name, p10dev, p10nbaxes)
+        if newController:
+            result[p10dev] = newController.inputs["start"].code
         return result
 
 
@@ -253,7 +261,9 @@ class Controller:
             p5index, p5guid, p5name, p5dev, p5nbaxes,
             p6index, p6guid, p6name, p6dev, p6nbaxes,
             p7index, p7guid, p7name, p7dev, p7nbaxes,
-            p8index, p8guid, p8name, p8dev, p8nbaxes):
+            p8index, p8guid, p8name, p8dev, p8nbaxes,
+            p9index, p9guid, p9name, p9dev, p9nbaxes,
+            p10index, p10guid, p10name, p10dev, p10nbaxes):
         playerControllers = dict()
         controllers = Controller.loadAllControllersConfig()
 
@@ -281,6 +291,12 @@ class Controller:
         newController = Controller.findBestControllerConfig(controllers, '8', p8guid, p8index, p8name, p8dev, p8nbaxes)
         if newController:
             playerControllers["8"] = newController
+        newController = Controller.findBestControllerConfig(controllers, '9', p9guid, p9index, p9name, p9dev, p9nbaxes)
+        if newController:
+            playerControllers["9"] = newController
+        newController = Controller.findBestControllerConfig(controllers, '10', p10guid, p10index, p10name, p10dev, p10nbaxes)
+        if newController:
+            playerControllers["10"] = newController
         return playerControllers
 
     @staticmethod
@@ -288,7 +304,7 @@ class Controller:
         playerControllers = dict()
         controllers = Controller.loadAllControllersConfig()
 
-        for i in range(1, 8):
+        for i in range(1, 10):
             num = str(i)
             pguid = kwargs.get('p{}guid'.format(num), None)
             pindex = kwargs.get('p{}index'.format(num), None)

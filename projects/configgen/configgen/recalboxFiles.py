@@ -86,6 +86,8 @@ moonlightMapping[5] = moonlightCustom + '/mappingP5.conf'
 moonlightMapping[6] = moonlightCustom + '/mappingP6.conf'
 moonlightMapping[7] = moonlightCustom + '/mappingP7.conf'
 moonlightMapping[8] = moonlightCustom + '/mappingP8.conf'
+moonlightMapping[9] = moonlightCustom + '/mappingP9.conf'
+moonlightMapping[10] = moonlightCustom + '/mappingP10.conf'
 
 reicastCustom = CONF + '/reicast'
 reicastConfig = reicastCustom + '/emu.cfg'

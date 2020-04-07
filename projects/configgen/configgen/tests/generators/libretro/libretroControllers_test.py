@@ -68,7 +68,9 @@ class TestLibretroController(unittest.TestCase):
                                                       -1, 0, "p5controller","", "0",
                                                       -1, 0, "p6controller","", "0",
                                                       -1, 0, "p7controller","", "0",
-                                                      -1, 0, "p8controller","", "0")
+                                                      -1, 0, "p8controller","", "0",
+                                                      -1, 0, "p9controller","", "0",
+                                                      -1, 0, "p10controller","", "0")
         controllerConfig = libretroControllers.LibretroControllers(self.system, keyValueSettings(None, True), controllers)
         config = controllerConfig.fillControllersConfiguration()
         self.assertEquals(config['input_player1_select_btn'], '0')
@@ -89,7 +91,9 @@ class TestLibretroController(unittest.TestCase):
                                                             -1, 0, "p5controller","", "0",
                                                             -1, 0, "p6controller","", "0",
                                                             -1, 0, "p7controller","", "0",
-                                                            -1, 0, "p8controller","", "0")
+                                                            -1, 0, "p8controller","", "0",
+                                                            -1, 0, "p9controller","", "0",
+                                                            -1, 0, "p10controller","", "0")
         controllerConfig = libretroControllers.LibretroControllers(self.system, keyValueSettings(None, True), controllers)
         config = controllerConfig.fillControllersConfiguration()
         self.assertEquals(config['input_player1_l_y_plus_axis'], '+1')
@@ -106,7 +110,9 @@ class TestLibretroController(unittest.TestCase):
                                                             -1, 0, "p5controller","", "0",
                                                             -1, 0, "p6controller","", "0",
                                                             -1, 0, "p7controller","", "0",
-                                                            -1, 0, "p8controller","", "0")
+                                                            -1, 0, "p8controller","", "0",
+                                                            -1, 0, "p9controller","", "0",
+                                                            -1, 0, "p10controller","", "0")
         controllerConfig = libretroControllers.LibretroControllers(self.system, keyValueSettings(None, True), controllers)
         config = controllerConfig.fillControllersConfiguration()
         self.assertEquals(config['input_player1_up_axis'], '-1')
@@ -122,7 +128,9 @@ class TestLibretroController(unittest.TestCase):
                                                             -1, 0, "p5controller","", "0",
                                                             -1, 0, "p6controller","", "0",
                                                             -1, 0, "p7controller","", "0",
-                                                            -1, 0, "p8controller","", "0")
+                                                            -1, 0, "p8controller","", "0",
+                                                            -1, 0, "p9controller","", "0",
+                                                            -1, 0, "p10controller","", "0")
         controllerConfig = libretroControllers.LibretroControllers(self.system, keyValueSettings(None, True), controllers)
         config = controllerConfig.fillControllersConfiguration()
         self.assertEquals(config['input_exit_emulator_btn'], '7')
@@ -136,7 +144,9 @@ class TestLibretroController(unittest.TestCase):
                                                             -1, 0, "p5controller","", "0",
                                                             -1, 0, "p6controller","", "0",
                                                             -1, 0, "p7controller","", "0",
-                                                            -1, 0, "p8controller","", "0")
+                                                            -1, 0, "p8controller","", "0",
+                                                            -1, 0, "p9controller","", "0",
+                                                            -1, 0, "p10controller","", "0")
         controllerConfig = libretroControllers.LibretroControllers(self.system, keyValueSettings(None, True), controllers)
         config = controllerConfig.fillControllersConfiguration()
         self.assertTrue(config["input_player1_l2_btn"], "8")
@@ -156,7 +166,9 @@ class TestLibretroController(unittest.TestCase):
                                                             -1, 0, "p5controller","", "0",
                                                             -1, 0, "p6controller","", "0",
                                                             -1, 0, "p7controller","", "0",
-                                                            -1, 0, "p8controller","", "0")
+                                                            -1, 0, "p8controller","", "0",
+                                                            -1, 0, "p9controller","", "0",
+                                                            -1, 0, "p10controller","", "0")
         controllerConfig = libretroControllers.LibretroControllers(self.snes, keyValueSettings(None, True), controllers)
         config = controllerConfig.fillControllersConfiguration()
         self.assertTrue(config["input_player1_analog_dpad_mode"], "0")
@@ -175,7 +187,9 @@ class TestLibretroController(unittest.TestCase):
                                                             -1, 0, "p5controller","", "0",
                                                             -1, 0, "p6controller","", "0",
                                                             -1, 0, "p7controller","", "0",
-                                                            -1, 0, "p8controller","", "0")
+                                                            -1, 0, "p8controller","", "0",
+                                                            -1, 0, "p9controller","", "0",
+                                                            -1, 0, "p10controller","", "0")
         controllerConfig = libretroControllers.LibretroControllers(self.system, keyValueSettings(None, True), controllers)
         config = controllerConfig.fillControllersConfiguration()
         self.assertEquals(config['input_player1_r_y_plus_axis'], '+3')
@@ -191,7 +205,9 @@ class TestLibretroController(unittest.TestCase):
                                                             -1, 0, "p5controller","", "0",
                                                             -1, 0, "p6controller","", "0",
                                                             -1, 0, "p7controller","", "0",
-                                                            -1, 0, "p8controller","", "0")
+                                                            -1, 0, "p8controller","", "0",
+                                                            -1, 0, "p9controller","", "0",
+                                                            -1, 0, "p10controller","", "0")
         self.system.config["specials"] = "ipsumlorem"
         controllerConfig = libretroControllers.LibretroControllers(self.system, keyValueSettings(None, True), controllers)
         config = controllerConfig.fillControllersConfiguration()
@@ -208,7 +224,9 @@ class TestLibretroController(unittest.TestCase):
                                                             -1, 0, "p5controller","", "0",
                                                             -1, 0, "p6controller","", "0",
                                                             -1, 0, "p7controller","", "0",
-                                                            -1, 0, "p8controller","", "0")
+                                                            -1, 0, "p8controller","", "0",
+                                                            -1, 0, "p9controller","", "0",
+                                                            -1, 0, "p10controller","", "0")
         self.system.config["specials"] = "ipsumlorem"
         controllerConfig = libretroControllers.LibretroControllers(self.system, keyValueSettings(None, True), controllers)
         config = controllerConfig.fillControllersConfiguration()
@@ -262,7 +280,9 @@ class TestLibretroDualAnalogPSone(unittest.TestCase):
                                                             -1, 0, "p5controller","", "0",
                                                             -1, 0, "p6controller","", "0",
                                                             -1, 0, "p7controller","", "0",
-                                                            -1, 0, "p8controller","", "0")
+                                                            -1, 0, "p8controller","", "0",
+                                                            -1, 0, "p9controller","", "0",
+                                                            -1, 0, "p10controller","", "0")
         val = libretroControllers.LibretroControllers.getAnalogCoreMode(controllers['1'])
         self.assertEquals("analog", val)
 
