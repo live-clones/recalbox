@@ -140,18 +140,16 @@ GuiMetaDataEd::GuiMetaDataEd(Window& window,
       case MetadataFieldDescriptor::EditableType::List:
         if (field.Key() == "emulator")
         {
-          std::string defaultEmulator = mMetaData.Emulator();
-          std::string defaultCore = mMetaData.Core();
-          if (defaultCore.empty() || defaultEmulator.empty())
-            if (!mSystemManager.Emulators().GetSystemDefaultEmulator(*system, defaultEmulator, defaultCore))
-              continue;
+          std::string currentEmulator = mMetaData.Emulator();
+          std::string currentCore = mMetaData.Core();
+          std::string defaultEmulator;
+          std::string defaultCore;
+          if (!mSystemManager.Emulators().GetSystemDefaultEmulator(*system, defaultEmulator, defaultCore))
+            continue;
+          if (currentEmulator.empty()) currentEmulator = defaultEmulator;
+          if (currentCore.empty()) currentCore = defaultCore;
 
           row.addElement(emu_choice, false);
-
-          std::string currentEmulator = RecalboxConf::Instance().AsString(system->getName() + ".emulator");
-          if (currentEmulator.empty()) currentEmulator = defaultEmulator;
-          std::string currentCore = RecalboxConf::Instance().AsString(system->getName() + ".core");
-          if (currentCore.empty()) currentCore = defaultCore;
 
           for (const std::string& emulatorName : mSystemManager.Emulators().GetEmulators(*system))
           {
@@ -372,7 +370,7 @@ void GuiMetaDataEd::save()
         {
           std::string defaultEmulator;
           std::string defaultCore;
-          mSystemManager.Emulators().GetGameEmulator(mGame, defaultEmulator, defaultCore);
+          mSystemManager.Emulators().GetSystemDefaultEmulator(*mGame.getSystem(), defaultEmulator, defaultCore);
           if (split[0] == defaultEmulator && split[1] == defaultCore)
           {
             mMetaData.SetEmulator("");
