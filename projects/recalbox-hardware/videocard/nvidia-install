@@ -50,10 +50,10 @@ if [ "${gpu}" ] && [ "${igpu}" ]; then
 	exit 0
 	else
 	# detect/configure nvidia driver version to install
-		if [ -n "${gpu}" ] && [ -n "${supportList440}" ]; then
+		if [ -n "${gpu} ${gpuid}" ] && [ -n "${supportList440}" ]; then
 	        nvver="${nvidia440}"
 	        echo "${supportList440}"
-        elif [ -n "${gpu}" ] && [ -n "${supportList390}" ]; then
+        elif [ -n "${gpu} ${gpuid}" ] && [ -n "${supportList390}" ]; then
 	        nvver="${nvidia390}"
 	        echo "${supportList390}"
         fi
@@ -75,7 +75,7 @@ nvway=($(ls "${libs}"/extra/nvidia-${nvver} | grep libnvidia-egl-wayland.so | ta
 if [ -n "${nvver}" ]; then
 	echo "GPU: ${gpu}, id: ${gpuid}, driver: ${nvver}"
 else
-	echo "GPU: '${gpu}' is unknown or unsupported, skipping nvidia driver installation"
+	echo "GPU: ${gpu}, id: ${gpuid}, is unknown or unsupported, skipping nvidia driver installation"
 	exit 0
 fi
 # proceed installation
@@ -149,4 +149,3 @@ try_symlink "/usr/bin/nvidia-smi.${nvver}" "/usr/bin/nvidia-smi"
 
 mount -o remount, ro /
 echo "Done."
-
