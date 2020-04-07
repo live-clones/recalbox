@@ -69,13 +69,13 @@ class TestControllersConfig(unittest.TestCase):
         players = controllersConfig.Controller.loadControllerConfig("-1", uuid1, "p1controller", "", "0",
                                                                     "-1", uuid2, "p2controller", "", "0",
                                                                     "-1", uuid3, "p3controller", "", "0",
-                                                                    "-1", uuid4, "p4controller", "","0",
-                                                                    "-1", uuid5, "p5controller", "","0",
-                                                                    "-1", uuid6, "p6controller", "","0",
-                                                                    "-1", uuid7, "p7controller", "","0",
-                                                                    "-1", uuid8, "p8controller", "","0",
-                                                                    "-1", uuid9, "p9controller", "","0",
-                                                                    "-1", uuid10, "p10controller", "","0")
+                                                                    "-1", uuid4, "p4controller", "", "0",
+                                                                    "-1", uuid5, "p5controller", "", "0",
+                                                                    "-1", uuid6, "p6controller", "", "0",
+                                                                    "-1", uuid7, "p7controller", "", "0",
+                                                                    "-1", uuid8, "p8controller", "", "0",
+                                                                    "-1", uuid9, "p9controller", "", "0",
+                                                                    "-1", uuid10, "p10controller", "", "0")
         self.assertEquals(10, len(players))
         self.assertEquals(uuid1, players["1"].guid)
         self.assertEquals(uuid2, players["2"].guid)
