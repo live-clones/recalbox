@@ -20,10 +20,4 @@ define LIBRETRO_PCSX_REARMED_INSTALL_TARGET_CMDS
 		$(TARGET_DIR)/usr/lib/libretro/pcsx_rearmed_libretro.so
 endef
 
-define LIBRETRO_PCSX_REARMED_PRE_PATCH_FIXUP
-	$(SED) 's/\r//g' $(@D)/libpcsxcore/plugins.c
-endef
-
-LIBRETRO_PCSX_REARMED_PRE_PATCH_HOOKS += LIBRETRO_PCSX_REARMED_PRE_PATCH_FIXUP
-
 $(eval $(generic-package))
