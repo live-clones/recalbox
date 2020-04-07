@@ -34,13 +34,13 @@ class TestControllersConfig(unittest.TestCase):
         players = controllersConfig.Controller.loadControllerConfig("-1", uuid, "p1controller", "", "0",
                                                                     "-1", uuid, "p2controller", "", "0",
                                                                     "-1", uuid, "p3controller", "", "0",
-                                                                    "-1", uuid, "p4controller", "","0",
-                                                                    "-1", uuid, "p5controller", "","0",
-                                                                    "-1", uuid, "p6controller", "","0",
-                                                                    "-1", uuid, "p7controller", "","0",
-                                                                    "-1", uuid, "p8controller", "","0",
-                                                                    "-1", uuid, "p9controller", "","0",
-                                                                    "-1", uuid, "p10controller", "","0")
+                                                                    "-1", uuid, "p4controller", "", "0",
+                                                                    "-1", uuid, "p5controller", "", "0",
+                                                                    "-1", uuid, "p6controller", "", "0",
+                                                                    "-1", uuid, "p7controller", "", "0",
+                                                                    "-1", uuid, "p8controller", "", "0",
+                                                                    "-1", uuid, "p9controller", "", "0",
+                                                                    "-1", uuid, "p10controller", "", "0")
         self.assertEquals(10, len(players))
         self.assertEquals(uuid, players["1"].guid)
         self.assertEquals(players["1"].realName, "p1controller")
@@ -63,9 +63,9 @@ class TestControllersConfig(unittest.TestCase):
         uuid5  = "0000000058626f782047616d65706101"
         uuid6  = "030000006e0000084326234100000006"
         uuid7  = "030000007c0000947208574000000007"
-        uuid8  = "030000008e0000007345635000000008"
+        uuid8  = "030000008f0000007345635000000008"
         uuid9  = "030000009e0000007098734000000009"
-        uuid10 = "030000010e0000007408479000000010"
+        uuid10 = "030000010f0000007408479000000010"
         players = controllersConfig.Controller.loadControllerConfig("-1", uuid1, "p1controller", "", "0",
                                                                     "-1", uuid2, "p2controller", "", "0",
                                                                     "-1", uuid3, "p3controller", "", "0",
@@ -93,14 +93,14 @@ class TestControllersConfig(unittest.TestCase):
         uuid1 = "060000004c0500006802000000010000"
         players = controllersConfig.Controller.loadControllerConfig("0", uuid1, "p1controller", "", "0",
                                                                     "-1","FAKEUUID", "DEFAULTNAME", "", "0",
-                                                                    "-1","FAKEUUID", "DEFAULTNAME", "","0",
-                                                                    "-1","FAKEUUID", "DEFAULTNAME", "","0",
-                                                                    "-1","FAKEUUID", "DEFAULTNAME", "","0",
-                                                                    "-1","FAKEUUID", "DEFAULTNAME", "","0",
-                                                                    "-1","FAKEUUID", "DEFAULTNAME", "","0",
-                                                                    "-1","FAKEUUID", "DEFAULTNAME", "","0",
-                                                                    "-1","FAKEUUID", "DEFAULTNAME", "","0",
-                                                                    "-1","FAKEUUID", "DEFAULTNAME", "","0")
+                                                                    "-1","FAKEUUID", "DEFAULTNAME", "", "0",
+                                                                    "-1","FAKEUUID", "DEFAULTNAME", "", "0",
+                                                                    "-1","FAKEUUID", "DEFAULTNAME", "", "0",
+                                                                    "-1","FAKEUUID", "DEFAULTNAME", "", "0",
+                                                                    "-1","FAKEUUID", "DEFAULTNAME", "", "0",
+                                                                    "-1","FAKEUUID", "DEFAULTNAME", "", "0",
+                                                                    "-1","FAKEUUID", "DEFAULTNAME", "", "0",
+                                                                    "-1","FAKEUUID", "DEFAULTNAME", "", "0")
 
         self.assertEquals(1, len(players))
         self.assertEquals("0", players["1"].index)
