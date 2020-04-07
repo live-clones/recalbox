@@ -80,7 +80,7 @@ if [[ -f ${TARGET_DIR}$omx_fnt ]] ; then
 fi
 
 # Add the initrd to pi only
-[ -e "${BINARIES_DIR}/rpi-firmware/config.txt" ] && ! grep -q "initrd initrd.gz" "${BINARIES_DIR}/rpi-firmware/config.txt" && echo "initrd initrd.gz" >> "${BINARIES_DIR}/rpi-firmware/config.txt"
+#[ -e "${BINARIES_DIR}/rpi-firmware/config.txt" ] && ! grep -q "initrd initrd.gz" "${BINARIES_DIR}/rpi-firmware/config.txt" && echo "initrd initrd.gz" >> "${BINARIES_DIR}/rpi-firmware/config.txt"
 
 # Changelog
 cp "$BR2_EXTERNAL_RECALBOX_PATH/CHANGELOG.md" "${TARGET_DIR}/recalbox/recalbox.changelog"

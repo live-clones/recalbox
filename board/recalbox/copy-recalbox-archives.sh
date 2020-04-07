@@ -70,22 +70,28 @@ case "${RECALBOX_TARGET}" in
         cp -f "${BINARIES_DIR}/"*.dtb "${BINARIES_DIR}/rpi-firmware"
 	rm -rf "${BINARIES_DIR}/rpi-firmware/boot" || exit 1
 	mkdir -p "${BINARIES_DIR}/rpi-firmware/boot" || exit 1
-	cp "${BINARIES_DIR}/rpi-firmware/config.txt" "${BINARIES_DIR}/rpi-firmware/config.txt" || exit 1
-	cp "${BINARIES_DIR}/rpi-firmware/cmdline.txt" "${BINARIES_DIR}/rpi-firmware/cmdline.txt" || exit 1
-	KERNEL_VERSION=$(grep -E "^BR2_LINUX_KERNEL_VERSION=" "${BR2_CONFIG}" | sed -e s+'^BR2_LINUX_KERNEL_VERSION="\(.*\)"$'+'\1'+)
-	"${BUILD_DIR}/linux-${KERNEL_VERSION}/scripts/mkknlimg" "${BINARIES_DIR}/zImage" "${BINARIES_DIR}/rpi-firmware/boot/linux"
+	echo "generating zImage"
+	"${BUILD_DIR}/linux-custom/scripts/mkknlimg" "${BINARIES_DIR}/zImage" "${BINARIES_DIR}/rpi-firmware/boot/linux"
 	cp "${BINARIES_DIR}/initrd.gz" "${BINARIES_DIR}/rpi-firmware/boot" || exit 1
-	cp "${BINARIES_DIR}/rootfs.squashfs" "${BINARIES_DIR}/rpi-firmware/boot/recalbox.update" || exit 1
-	cp -pr "${BINARIES_DIR}/tools" "${BINARIES_DIR}/rpi-firmware/tools" || exit 1
+	cp "${BINARIES_DIR}/rootfs.squashfs" "${BINARIES_DIR}/rpi-firmware/boot/recalbox" || exit 1
 
 	echo "creating boot.tar.xz"
 	tar -I "xz -T0" -cf "${RECALBOX_BINARIES_DIR}/boot.tar.xz" -C "${BINARIES_DIR}/rpi-firmware" "." ||
 	{ echo "ERROR : unable to create boot.tar.xz" && exit 1 ;}
 
 	#recalbox.img
-        FILES=$(find "${BINARIES_DIR}/rpi-firmware" -maxdepth 1 -type f | sed -e s+"^${BINARIES_DIR}/rpi-firmware/\(.*\)$"+"    file \1 \{ image = 'rpi-firmware/\1' }"+ | tr '\n' '@')
-        sed -e s+'@files'+"${FILES}"+ "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/rpi/genimage.cfg" | tr '@' '\n' > "${BINARIES_DIR}/genimage.cfg" || exit 1
-        support/scripts/genimage.sh -c "${BINARIES_DIR}/genimage.cfg" || exit 1
+	GENIMAGE_TMP="${BUILD_DIR}/genimage.tmp"
+	rm -rf "${GENIMAGE_TMP}" || exit 1
+	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/rpi/genimage.cfg" "${BINARIES_DIR}/genimage.cfg.tmp" || exit 1
+	FILES=$(find "${BINARIES_DIR}/rpi-firmware" -type f | sed -e s+"^${BINARIES_DIR}/rpi-firmware/\(.*\)$"+"file \1 \{ image = 'rpi-firmware/\1' }"+ | tr '\n' '@')
+	cat "${BINARIES_DIR}/genimage.cfg.tmp" | sed -e s+'@files'+"${FILES}"+ | tr '@' '\n' > "${BINARIES_DIR}/genimage.cfg" || exit 1
+	rm -f "${BINARIES_DIR}/genimage.cfg.tmp" || exit 1
+	echo "generating image"
+	genimage --rootpath="${TARGET_DIR}" --inputpath="${BINARIES_DIR}" --outputpath="${RECALBOX_BINARIES_DIR}" --config="${BINARIES_DIR}/genimage.cfg" --tmppath="${GENIMAGE_TMP}" || exit 1
+	rm -f "${RECALBOX_BINARIES_DIR}/boot.vfat" || exit 1
+#	rm -f "${RECALBOX_BINARIES_DIR}/userdata.ext4" || exit 1
+	rm -f "${BINARIES_DIR}/rootfs.tar" || exit 1
+	rm -f "${BINARIES_DIR}/rootfs.squashfs" || exit 1
         sync || exit 1
         ;;
 
@@ -148,15 +154,15 @@ case "${RECALBOX_TARGET}" in
 esac
 
 # Compress the generated .img
-if mv -f ${BINARIES_DIR}/recalbox.img ${RECALBOX_IMG} ; then
+# Compress the generated .img
+if mv -f ${RECALBOX_BINARIES_DIR}/recalbox.img ${RECALBOX_IMG} ; then
     echo "Compressing ${RECALBOX_IMG} ... "
     xz --threads=0 "${RECALBOX_IMG}"
 else
     echo "Couldn't move recalbox.img or compress it"
     exit 1
 fi
-
 # Computing hash sums to make have an update that can be dropped on a running Recalbox
 echo "Computing sha1 sums ..."
 (cd "${RECALBOX_BINARIES_DIR}" && for file in * ; do sha1sum "${file}" > "${file}.sha1"; done)
-[[ -e "${RECALBOX_BINARIES_DIR}/root.tar.xz" ]] && tar tf "${RECALBOX_BINARIES_DIR}/root.tar.xz" | sort > "${RECALBOX_BINARIES_DIR}/root.list"
+#[[ -e "${RECALBOX_BINARIES_DIR}/root.tar.xz" ]] && tar tf "${RECALBOX_BINARIES_DIR}/root.tar.xz" | sort > "${RECALBOX_BINARIES_DIR}/root.list"
