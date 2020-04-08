@@ -14,7 +14,7 @@ enum class LogLevel
 	LogError   = 0, //!< Error messages
 	LogWarning = 1, //!< Warning messages
 	LogInfo    = 2, //!< Information message
-	LogDebug   = 3, //§< Debug message
+	LogDebug   = 3, //!< Debug message
 };
 
 class Log

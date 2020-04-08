@@ -20,7 +20,7 @@ Path Log::getLogPath(const char* filename)
 
 void Log::open(const char* filename)
 {
-	sFile = fopen(getLogPath(filename != nullptr ? filename : "es_log.txt").ToChars(), "w");
+	sFile = fopen(filename != nullptr ? filename : getLogPath("es_log.txt").ToChars(), "w");
 }
 
 Log& Log::get(LogLevel level)
