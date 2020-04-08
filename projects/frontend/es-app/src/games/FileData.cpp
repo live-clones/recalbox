@@ -2,6 +2,7 @@
 #include "systems/SystemData.h"
 
 #include <utils/Strings.h>
+#include <MameNameMapManager.h>
 
 FileData::FileData(ItemType type, const Path& path, SystemData* system)
 	: mSystem(system),
@@ -23,7 +24,7 @@ std::string FileData::getDisplayName() const
 	if (mSystem != nullptr)
 	  if ((mSystem->hasPlatformId(PlatformIds::PlatformId::ARCADE) || mSystem->hasPlatformId(PlatformIds::PlatformId::NEOGEO)))
     {
-      const char* newName = PlatformIds::getCleanMameName(stem);
+      const char* newName = MameNameMapManager::GetCleanMameName(stem);
       if (newName != nullptr)
         return newName;
     }

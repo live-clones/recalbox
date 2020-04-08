@@ -124,63 +124,6 @@ SystemData* SystemManager::CreateMetaSystem(const std::string& name, const std::
   return result;
 }
 
-void SystemManager::DeserializeEmulatorTree(XmlNode emulators, EmulatorList& emulatorList)
-{
-  emulatorList.Clear();
-  for (const auto& emulator : emulators.children("emulator"))
-  {
-    const std::string& emulatorName = Xml::AttributeAsString(emulator, "name", "");
-    EmulatorDescriptor emulatorDescriptor(emulatorName);
-    XmlNode cores = emulator.child("cores");
-    if (cores != nullptr)
-      for (const auto& coreNode : cores.children("core"))
-        emulatorDescriptor.AddCore(coreNode.child_value(), coreNode.attribute("priority").as_int(255));
-    if (emulatorDescriptor.HasAny()) emulatorList.AddEmulator(emulatorDescriptor);
-  }
-}
-
-bool SystemManager::DeserializeSystemDescriptor(XmlNode system, SystemDescriptor& systemDescriptor)
-{
-  systemDescriptor.ClearEmulators();
-  systemDescriptor.ClearPlatforms();
-
-  // Information
-  systemDescriptor.SetInformation(Xml::AsString(system, "path", ""),
-                                  Xml::AsString(system, "name", ""),
-                                  Xml::AsString(system, "fullname", ""),
-                                  Xml::AsString(system, "command", ""),
-                                  Xml::AsString(system, "extension", ""),
-                                  Xml::AsString(system, "theme", ""));
-
-  // Check
-  if (systemDescriptor.IsValid())
-  {
-    // Emulator tree
-    EmulatorList emulatorList;
-    DeserializeEmulatorTree(system.child("emulators"), emulatorList);
-    systemDescriptor.SetEmulatorList(emulatorList);
-
-    // Platform list
-    std::vector<std::string> platforms = Strings::Split(Xml::AsString(system, "platform", ""), ' ');
-    for (const auto &platform : platforms)
-    {
-      PlatformIds::PlatformId platformId = PlatformIds::getPlatformId(platform);
-      if (platformId == PlatformIds::PlatformId::PLATFORM_IGNORE)
-      {
-        systemDescriptor.ClearPlatforms();
-        systemDescriptor.AddPlatformIdentifiers(platformId);
-        break;
-      }
-      if (!systemDescriptor.AddPlatformIdentifiers(platformId))
-        LOG(LogError) << "Platform count for system " << systemDescriptor.Name() << " full. " << platform << " ignored!";
-    }
-    return true;
-  }
-
-  LOG(LogError) << "System \"" << systemDescriptor.Name() << "\" is missing name, path, extension, or command!";
-  return false;
-}
-
 void SystemManager::ThreadPoolTick(int completed, int /*total*/)
 {
   if (mProgressInterface != nullptr)
@@ -213,91 +156,15 @@ SystemData* SystemManager::ThreadPoolRunJob(SystemDescriptor& systemDescriptor)
   return nullptr;
 }
 
-bool SystemManager::LoadSystemXMLNodes(XmlNodeCollisionMap &collisionMap, XmlNodeList &nodeStore, const XmlDocument& document)
-{
-  bool result = false;
-  XmlNode systemList = document.child("systemList");
-  if (systemList != nullptr)
-    for (const XmlNode system : systemList.children("system"))
-    {
-      // At least one node found
-      result = true;
-
-      // Composite key: fullname + platform
-      std::string key = Xml::AsString(system, "fullname", "");
-      key += Xml::AsString(system, "platform", "");
-      LOG(LogDebug) << "Key: " << key;
-
-      // Already exist in the store ?
-      int index = (collisionMap.find(key) != collisionMap.end()) ? collisionMap[key] : -1;
-
-      // If the system does not exists, add it to the end of list.
-      // Replace the existing entry otherwise.
-      // This way, we keep the original ordering of first-in entries
-      if (index < 0)
-      {
-        collisionMap[key] = (int) nodeStore.size();
-        nodeStore.push_back(system);
-      } else nodeStore[index] = system;
-    }
-
-  if (!result)
-  {
-    LOG(LogError) << "missing or empty <systemList> tag!";
-  }
-
-  return result;
-}
-
-bool SystemManager::LoadXMLFile(XmlDocument& document, const Path& filepath)
-{
-  XmlResult result = document.load_file(filepath.ToChars());
-  if (!result)
-  {
-    LOG(LogError) << "Could not parse " << filepath.ToString() << " file!";
-    return false;
-  }
-  return true;
-}
-
-bool SystemManager::LoadSystemList(XmlDocument &document, XmlNodeCollisionMap &collisionMap, XmlNodeList &nodeStore, const Path &filepath)
-{
-  // Load user configuration
-  if (!filepath.Exists())
-  {
-    LOG(LogWarning) << filepath.ToString() << " file does not exist!";
-    return false;
-  }
-
-  LOG(LogInfo) << "Loading system config files " << filepath.ToString() << "...";
-  if (!LoadXMLFile(document, filepath)) return false;
-
-  bool result = LoadSystemXMLNodes(collisionMap, nodeStore, document);
-  if (!result)
-  {
-    LOG(LogWarning) << filepath.ToString() << " has no systems or systemList nodes";
-  }
-
-  return result;
-}
-
-bool SystemManager::AddFavoriteSystem(const XmlNodeList& systemList)
+bool SystemManager::AddFavoriteSystem()
 {
   // Favorite system
   if (!mVisibleSystemVector.empty())
-    for (const XmlNode system : systemList)
-    {
-      std::string name = Xml::AsString(system, "name", "");
-      std::string fullname = Xml::AsString(system, "fullname", "");
-      std::string themeFolder = Xml::AsString(system, "theme", "");
-
-      if (name == sFavoriteSystemShortName)
-      {
-        LOG(LogInfo) << "creating favorite system";
-        SystemData *newSys = CreateFavoriteSystem(sFavoriteSystemShortName, fullname, themeFolder, mVisibleSystemVector);
-        mVisibleSystemVector.push_back(newSys);
-      }
-    }
+  {
+    LOG(LogInfo) << "creating favorite system";
+    SystemData *newSys = CreateFavoriteSystem(sFavoriteSystemShortName, _("Favorites"), sFavoriteSystemShortName, mVisibleSystemVector);
+    mVisibleSystemVector.push_back(newSys);
+  }
 
   return true;
 }
@@ -474,24 +341,13 @@ bool SystemManager::LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool
 {
   mForceReload = forceReloadFromDisk;
 
-  // System store
-  XmlNodeCollisionMap systemMap;    // System key to vector index
-  XmlNodeList systemList;           // Sorted storage, keeping original system node ordering
-
-  // XML Documents - declared here to keep node memory allocated
-  XmlDocument templateDocument;
-  XmlDocument userDocument;
-
-  // Load user systems
-  bool userValid = LoadSystemList(userDocument, systemMap, systemList, UserConfigurationPath());
-  // Load template systems
-  bool templateValid = LoadSystemList(templateDocument, systemMap, systemList, TemplateConfigurationPath());
-
+  SystemDeserializer deserializer;
+  bool loaded = deserializer.LoadSystems();
   // Is there at least
-  if (!templateValid && !userValid)
+  if (!loaded)
   {
     LOG(LogError) << "No es_systems.cfg file available!";
-    GenerateExampleConfigurationFile(UserConfigurationPath());
+    GenerateExampleConfigurationFile(SystemDeserializer::UserConfigurationPath());
     return false;
   }
 
@@ -503,15 +359,14 @@ bool SystemManager::LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool
   // Create automatic thread-pool
   ThreadPool<SystemDescriptor, SystemData*> threadPool(this, "System-Load", false, 20);
   // Push system to process
-  for (const XmlNode system : systemList)
+  for (int index = 0; index < deserializer.Count(); ++index)
   {
-    // Get weight
-    std::string key = Xml::AsString(system, "path", "unknown");
-    int weight = weights.GetInt(key, 0);
     // Create system descriptor
     SystemDescriptor descriptor;
-    if (DeserializeSystemDescriptor(system, descriptor))
+    if (deserializer.Deserialize(index, descriptor))
     {
+      // Get weight
+      int weight = weights.GetInt(descriptor.RomPath().ToString(), 0);
       // Add system name and watch gamelist
       mAllDeclaredSystemShortNames.push_back(descriptor.Name());
       // Push weighted system
@@ -546,7 +401,7 @@ bool SystemManager::LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool
 
   // Add special systems
   AddArcadeMetaSystem();
-  AddFavoriteSystem(systemList);
+  AddFavoriteSystem();
   AddSpecialCollectionsMetaSystems();
 
   // Set *all* service vector

@@ -1,7 +1,7 @@
 #include <cstring>
 #include <utils/Strings.h>
 #include "PlatformId.h"
-#include <MameNameMap.h>
+#include <MameNameMapManager.h>
 
 namespace PlatformIds
 {
@@ -133,29 +133,5 @@ namespace PlatformIds
         return it.first;
 
     return "Unknown";
-  }
-
-  static void GenerateMameNameHashes()
-  {
-    for(int i = mameNameSize; --i >=0; )
-      mameNameHashes[i] = Strings::ToHash(mameNameToRealName[i * 2]);
-  }
-
-  const char* getCleanMameName(const std::string& from)
-  {
-    static bool HashGenerated = false;
-    if (!HashGenerated)
-    {
-      GenerateMameNameHashes();
-      HashGenerated = true;
-    }
-
-    int hash = Strings::ToHash(from);
-    for(int i = mameNameSize; --i >= 0; )
-      if (mameNameHashes[i] == hash)
-        if (strcmp(from.c_str(), mameNameToRealName[i << 1]) == 0)
-          return mameNameToRealName[(i << 1) + 1];
-
-    return nullptr;
   }
 }

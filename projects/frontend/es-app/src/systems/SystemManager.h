@@ -3,9 +3,9 @@
 #include "SystemData.h"
 #include "SystemDescriptor.h"
 #include "EmulatorManager.h"
+#include "SystemDeserializer.h"
 #include <utils/os/system/IThreadPoolWorkerInterface.h>
 #include <RootFolders.h>
-#include <utils/Xml.h>
 #include <utils/cplusplus/INoCopy.h>
 #include <views/IProgressInterface.h>
 #include <utils/os/fs/watching/FileNotifier.h>
@@ -16,14 +16,10 @@ class SystemManager :
   public IThreadPoolWorkerInterface<SystemData*, bool> // Multi-threaded system unloading
 {
   public:
-    //! Convenient alias for system collision map
-    typedef std::map<std::string, int> XmlNodeCollisionMap;
-    //! Convenient alias for XML node list
-    typedef std::vector<XmlNode> XmlNodeList;
     //! Convenient alias for System list
     typedef std::vector<SystemData*> SystemList;
 
-    //! Multiplayer system internal name
+    //! Favorite system internal name
     static constexpr const char* sFavoriteSystemShortName = "favorites";
     //! Multiplayer system internal name
     static constexpr const char* sMultiplayerSystemShortName = "multiplayers";
@@ -62,39 +58,11 @@ class SystemManager :
     bool mForceReload;
 
     /*!
-     * Run though the system list and store system nodes into the given store.
-     * If a system already exists in the store, the new system node is ignored
-     * @param collisionMap Collision map to keep track of nodes in the store
-     * @param nodeStore Node store to fill with unique system nodes
-     * @param document Source document
-     * @return true if the system list contains one or more system. False if the systemList node does not exist or is empty.
-     */
-    static bool LoadSystemXMLNodes(XmlNodeCollisionMap& collisionMap, XmlNodeList& nodeStore, const XmlDocument& document);
-
-    /*!
-     * Load systemList file into the given XML Document, then parse and store systems into the given node store
-     * Perform all file/xml checks.
-     * @param document Xml Document to store content to
-     * @param collisionMap Collision map to keep track of nodes in the store
-     * @param nodeStore System node store
-     * @return true if the operation is successful and at least one system has been processed. False otherwise
-     */
-    static bool LoadSystemList(XmlDocument& document, XmlNodeCollisionMap& collisionMap, XmlNodeList& nodeStore, const Path& filepath);
-
-    /*!
-     * Load and parse the given file to populate a property tree
-     * @param document Document to populate
-     * @param filepath Filepath to load & parse
-     * @return false if the file does not exist or if the file is not parsable.
-     */
-    static bool LoadXMLFile(XmlDocument& document, const Path& filepath);
-
-    /*!
      * @brief Create and add the favorite meta-system
      * @param systemList All system from which to fetch favorite games
      * @return True if the favorite system has been added
      */
-    bool AddFavoriteSystem(const XmlNodeList& systemList);
+    bool AddFavoriteSystem();
 
     /*!
      * @brief Add Arcade meta-system
@@ -199,33 +167,6 @@ class SystemManager :
      * @param path Configuration file path
      */
     static void GenerateExampleConfigurationFile(const Path& path);
-
-    /*!
-     * @brief Get User Configuration filepath
-     * @return User Configuration filepath
-     */
-    static Path UserConfigurationPath()     { return RootFolders::DataRootFolder / "system/.emulationstation/es_systems.cfg"; }
-
-    /*!
-     * @brief Get Template Configuration filepath
-     * @return Template Configuration filepath
-     */
-    static Path TemplateConfigurationPath() { return RootFolders::TemplateRootFolder / "system/.emulationstation/es_systems.cfg"; }
-
-    /*!
-     * @brief Deserialize an emulator node and all its tree into an EmulatorList object
-     * @param treeNode XML node to deserialize
-     * @param emulatorList target EmulatorList object
-     */
-    static void DeserializeEmulatorTree(XmlNode treeNode, EmulatorList& emulatorList);
-
-    /*!
-     * @brief Deserialize XML system node into a SystemDescriptor oject
-     * @param treeNode Node to deserialize
-     * @param systemDescriptor Target SystemDescriptor object
-     * @return True if the XML node has been successfully deserialized
-     */
-    static bool DeserializeSystemDescriptor(XmlNode treeNode, SystemDescriptor& systemDescriptor);
 
     /*
      * ThreadPoolWorkingInterface implementation

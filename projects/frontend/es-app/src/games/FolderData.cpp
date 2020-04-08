@@ -5,7 +5,7 @@
 #include "FolderData.h"
 #include "utils/Log.h"
 #include "systems/SystemData.h"
-#include "MameNameMap.h"
+#include "MameNameMapManager.h"
 #include <algorithm>
 
 #define CastFolder(f) ((FolderData*)(f))
@@ -89,8 +89,7 @@ void FolderData::populateRecursiveFolder(const std::string& filteredExtensions, 
       {
         if (isArcade)
         {
-          if (std::find(mameBioses.begin(), mameBioses.end(), stem) != mameBioses.end() ||
-              std::find(mameDevices.begin(), mameDevices.end(), stem) != mameDevices.end())
+          if (!MameNameMapManager::IsGame(stem))
             continue; // MAME Bios or Machine
         }
         // Get the key for duplicate detection. MUST MATCH KEYS USED IN Gamelist.findOrCreateFile - Always fullpath

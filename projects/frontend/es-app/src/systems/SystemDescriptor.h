@@ -3,6 +3,7 @@
 //
 #pragma once
 
+#include <systems/PlatformId.h>
 #include <utils/os/fs/Path.h>
 #include "EmulatorList.h"
 

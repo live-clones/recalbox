@@ -15,8 +15,6 @@
 #include <themes/ThemeException.h>
 #include <padtokeyboard/PadToKeyboardManager.h>
 
-EmulatorDescriptor EmulatorList::sEmptyEmulator("NO EMULATOR");
-
 SystemData::SystemData(SystemManager& systemManager, const SystemDescriptor& descriptor, RootFolderData::Ownership childOwnership, Properties properties, FileSorts::Sorts fixedSort)
   : mSystemManager(systemManager),
     mDescriptor(descriptor),

@@ -5,9 +5,9 @@ set(ES_HEADERS
         src/EmulationStation.h
         src/games/FileSorts.h
         src/ItemType.h
-        src/MameNameMap.h
+        src/MameNameMapManager.h
         src/NetworkThread.h
-        src/PlatformId.h
+        src/systems/PlatformId.h
         src/VolumeControl.h
         src/games/IFilter.h
         src/games/FileData.h
@@ -23,8 +23,9 @@ set(ES_HEADERS
         src/systems/EmulatorList.h
         src/systems/EmulatorManager.h
         src/systems/NetPlayData.h
-        src/systems/SystemDescriptor.h
         src/systems/SystemData.h
+        src/systems/SystemDescriptor.h
+        src/systems/SystemDeserializer.h
         src/systems/SystemManager.h
         src/usernotifications/NotificationManager.h
 
@@ -124,8 +125,9 @@ set(ES_SOURCES
         src/DemoMode.cpp
         src/games/FileSorts.cpp
         src/MameNameMap.cpp
+        src/MameNameMapManager.cpp
         src/NetworkThread.cpp
-        src/PlatformId.cpp
+        src/systems/PlatformId.cpp
         src/VolumeControl.cpp
         src/games/FileData.cpp
         src/games/FolderData.cpp
@@ -133,7 +135,9 @@ set(ES_SOURCES
         src/games/classifications/Genres.cpp
         src/games/classifications/Regions.cpp
         src/systems/EmulatorManager.cpp
+        src/systems/EmulatorList.cpp
         src/systems/SystemData.cpp
+        src/systems/SystemDeserializer.cpp
         src/systems/SystemManager.cpp
         src/usernotifications/NotificationManager.cpp
 

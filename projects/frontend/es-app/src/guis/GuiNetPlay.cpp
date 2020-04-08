@@ -11,6 +11,7 @@
 #include "components/MenuComponent.h"
 #include <NetPlayThread.h>
 #include <systems/SystemManager.h>
+#include <MameNameMapManager.h>
 #include <rapidjson/rapidjson.h>
 #include <rapidjson/pointer.h>
 #include <utils/Files.h>
@@ -160,7 +161,7 @@ void GuiNetPlay::populateGrid()
       static std::string arcadesCores("FinalBurn Neo,MAME 2000,MAME 2003,MAME 2003-Plus,MAME 2010,MAME 2015,MAME 2016");
       if (arcadesCores.find(gameName) != std::string::npos)
       {
-        const char* newName = PlatformIds::getCleanMameName(game.mGameName);
+        const char* newName = MameNameMapManager::GetCleanMameName(game.mGameName);
         if (newName != nullptr)
           gameName = newName;
       }
