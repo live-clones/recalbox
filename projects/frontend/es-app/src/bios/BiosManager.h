@@ -5,13 +5,19 @@
 
 #include <vector>
 #include <utils/os/system/Thread.h>
+#ifndef PURE_BIOS_ONLY
 #include <utils/sdl2/ISynchronousEvent.h>
 #include <utils/sdl2/SyncronousEvent.h>
+#endif
 #include <utils/cplusplus/StaticLifeCycleControler.h>
 #include "BiosList.h"
 #include "IBiosScanReporting.h"
 
-class BiosManager : public StaticLifeCycleControler<BiosManager>, private Thread, public ISynchronousEvent
+class BiosManager : public StaticLifeCycleControler<BiosManager>
+                  , private Thread
+#ifndef PURE_BIOS_ONLY
+                  , public ISynchronousEvent
+#endif
 {
   private:
     //! Path to bios.xml file
@@ -19,8 +25,10 @@ class BiosManager : public StaticLifeCycleControler<BiosManager>, private Thread
 
     //! Bios list per system
     std::vector<BiosList> mSystemBiosList;
+    #ifndef PURE_BIOS_ONLY
     //! Sync'ed event sender
     SyncronousEvent mSender;
+    #endif
     //! Current scan's reporting interface (also flag for an already running scan)
     IBiosScanReporting* mReporting;
 
@@ -33,6 +41,7 @@ class BiosManager : public StaticLifeCycleControler<BiosManager>, private Thread
      */
     void Run() override;
 
+    #ifndef PURE_BIOS_ONLY
     /*
      * ISynchronousInterface
      */
@@ -42,6 +51,7 @@ class BiosManager : public StaticLifeCycleControler<BiosManager>, private Thread
      * @param event SDL event with .user populated by the sender
      */
     void ReceiveSyncCallback(const SDL_Event& event) override;
+    #endif
 
   public:
     /*!
@@ -80,5 +90,5 @@ class BiosManager : public StaticLifeCycleControler<BiosManager>, private Thread
      * @brief Start scanning all bios and report result using the given interface
      * @param reporting Reporting interface
      */
-    void Scan(IBiosScanReporting* reporting);
+    void Scan(IBiosScanReporting* reporting, bool sync = false);
 };

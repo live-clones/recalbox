@@ -9,7 +9,9 @@
 
 BiosManager::BiosManager()
   : StaticLifeCycleControler<BiosManager>("BiosManager"),
-    mSender(this),
+    #ifndef PURE_BIOS_ONLY
+      mSender(this),
+    #endif
     mReporting(nullptr)
 {
 }
@@ -36,9 +38,14 @@ void BiosManager::LoadFromFile()
   std::sort(mSystemBiosList.begin(), mSystemBiosList.end(), [](const BiosList& a, const BiosList& b) { return a.FullName() < b.FullName(); });
 }
 
-void BiosManager::Scan(IBiosScanReporting* reporting)
+void BiosManager::Scan(IBiosScanReporting* reporting, bool sync)
 {
-  if (!IsRunning())
+  if (sync)
+  {
+    mReporting = reporting;
+    Run();
+  }
+  else if (!IsRunning())
   {
     mReporting = reporting;
     Thread::Start("Bios-Scan");
@@ -54,17 +61,22 @@ void BiosManager::Run()
     for(int i = 0; i < biosList.BiosCount(); ++i)
     {
       biosList.ScanAt(i);
-      mSender.Call((l << 16) + i, mReporting);
+      #ifndef PURE_BIOS_ONLY
+        mSender.Call((l << 16) + i, mReporting);
+      #endif
     }
   }
 
   // End of scan
-  mSender.Call(-1, mReporting);
+  #ifndef PURE_BIOS_ONLY
+    mSender.Call(-1, mReporting);
+  #endif
 
   // Nullify interface
   mReporting = nullptr;
 }
 
+#ifndef PURE_BIOS_ONLY
 void BiosManager::ReceiveSyncCallback(const SDL_Event& event)
 {
   // Extract interface
@@ -88,6 +100,7 @@ void BiosManager::ReceiveSyncCallback(const SDL_Event& event)
       reporting->ScanProgress(SystemBios(biosListIndex).BiosAt(biosIndex));
   }
 }
+#endif
 
 const BiosList& BiosManager::SystemBios(const std::string& name)
 {

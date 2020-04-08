@@ -139,7 +139,7 @@ class Bios
     explicit Bios(const XmlNode& biosNode);
 
     /*!
-     * @brief Is the curent bios valid?
+     * @brief Is the current bios valid?
      * @return True if
      */
     bool IsValid() const { return !mPath[0].IsEmpty() && !mCores.empty() && !mHashes.empty(); }
@@ -171,6 +171,32 @@ class Bios
 
     //! Report light status
     ReportStatus LightStatus() const { return mReportStatus; }
+
+    //! Report real status
+    const char* BiosStatusAsString() const
+    {
+      switch(mStatus)
+      {
+        case Status::Unknown: break;
+        case Status::FileNotFound: return "FileNotFound";
+        case Status::HashNotMatching: return "HashNotMatching";
+        case Status::HashMatching: return "HashMatching";
+      }
+      return "unknown";
+    }
+
+    //! Report light status
+    const char* LightStatusAsString() const
+    {
+      switch(mReportStatus)
+      {
+        case ReportStatus::Unknown: break;
+        case ReportStatus::Green: return "Green";
+        case ReportStatus::Yellow: return "Yellow";
+        case ReportStatus::Red: return "Red";
+      }
+      return "unknown";
+    }
 
     /*!
      * @brief Get bios name
