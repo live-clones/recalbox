@@ -321,9 +321,21 @@ std::string Strings::Replace(const std::string& _string, const std::string& _rep
 	std::string string = _string;
 
 	for(int pos = 0; (pos = string.find(_replace, pos)) != (int)std::string::npos; )
-		string = string.replace(pos, _replace.length(), _with.c_str(), _with.length());
+		string.replace(pos, _replace.length(), _with);
 
 	return string;
+}
+
+void Strings::ReplaceAllIn(std::string& _string, const char _replace, const char* _with, int _withlength)
+{
+  for(int pos = 0; (pos = _string.find(_replace, pos)) != (int)std::string::npos; pos += _withlength)
+    _string.replace(pos, 1, _with, _withlength);
+}
+
+void Strings::ReplaceAllIn(std::string& _string, const std::string& _replace, const std::string& _with)
+{
+  for(int pos = 0; (pos = _string.find(_replace, pos)) != (int)std::string::npos; pos += _with.size())
+    _string.replace(pos, _replace.length(), _with);
 }
 
 bool Strings::StartsWith(const std::string& _string, const std::string& _start)
@@ -370,7 +382,7 @@ std::string Strings::RemoveParenthesis(const std::string& _string)
 
 } // removeParenthesis
 
-Strings::Vector Strings::Split(const std::string& _string, char splitter)
+Strings::Vector Strings::Split(const std::string& _string, char splitter, bool multipleSplittersAsOne)
 {
   Vector vector;
   size_t       start = 0;
@@ -379,7 +391,7 @@ Strings::Vector Strings::Split(const std::string& _string, char splitter)
   while(comma != std::string::npos)
   {
     vector.push_back(_string.substr(start, comma - start));
-    start = comma + 1;
+    start = multipleSplittersAsOne ? _string.find_first_not_of(splitter, comma) : comma + 1;
     comma = _string.find(splitter, start);
   }
   if (start < _string.length())
@@ -487,7 +499,7 @@ bool Strings::ToLong(const std::string& source, int index, char stop, long long 
   bool Sign = (src[0] == '-');
   if (Sign) src++;
 
-  int Result = 0;
+  long long Result = 0;
   while ((unsigned int)(src[0] - 0x30) <= 9) { Result *= 10; Result += src[0] - 0x30; src++; }
   if (src[0] != stop) return false;
 
@@ -771,4 +783,17 @@ int Strings::CountChar(const std::string& source, char c)
     if (p[i] == c) count++;
   return count;
 }
+
+std::string Strings::Extract(const std::string& source, const char* starttag, const char* endtag, int starttagl, int endtagl)
+{
+  int start = source.find(starttag, 0, starttagl);
+  if (start != (int)std::string::npos)
+  {
+    int stop = source.find(endtag, start + starttagl, endtagl);
+    if (stop != (int)std::string::npos)
+      return source.substr(start + starttagl, stop - (start + starttagl));
+  }
+  return std::string();
+}
+
 

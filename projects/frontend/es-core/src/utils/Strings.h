@@ -75,6 +75,12 @@ class Strings
 
     static std::string Replace(const std::string& _string, const std::string& _replace, const std::string& _with);
 
+    static void ReplaceAllIn(std::string& _string, const std::string& _replace, const std::string& _with);
+
+    static void ReplaceAllIn(std::string& _string, char _replace, const char* _with, int _withlength);
+
+    static std::string Extract(const std::string& source, const char* starttag, const char* endtag, int starttagl, int endtagl);
+
     static bool StartsWith(const std::string& _string, const std::string& _start);
 
     static bool StartsWith(const std::string& _string, const char* _start, int length);
@@ -83,7 +89,7 @@ class Strings
 
     static std::string RemoveParenthesis(const std::string& _string);
 
-    static Vector Split(const std::string& _string, char splitter);
+    static Vector Split(const std::string& _string, char splitter, bool multipleSplittersAsOne = false);
 
     static std::string Join(const std::vector<std::string>& _string, const std::string& joiner);
 
