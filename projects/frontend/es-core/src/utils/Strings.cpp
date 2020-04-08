@@ -456,6 +456,7 @@ std::string Strings::ScrambleSymetric2(const std::string& _input, const std::str
 
 #define INT32BUFFERLEN 12
 #define INT64BUFFERLEN 22
+#define FLOATBUFFERLEN 40
 
 bool Strings::ToInt(const std::string& source, int index, char stop, int& out)
 {
@@ -596,31 +597,36 @@ static float Pow10[] =
 
 std::string Strings::ToString(float value, int precision)
 {
+  // Sign
+  bool sign = value < 0.0f;
+  if (sign) value = -value;
+
   // Extract integer part
   int integer = (int)value;
   // Extract floating part
   float fpart = value - (float)integer;
 
-  char Buffer[INT64BUFFERLEN * 2]; Buffer[INT64BUFFERLEN - 1] = 0;
-  int Index = INT64BUFFERLEN - 1;
+  char Buffer[FLOATBUFFERLEN * 2]; Buffer[FLOATBUFFERLEN - 1] = 0;
+  int Index = FLOATBUFFERLEN - 1;
 
   do { Buffer[--Index] = (char)(0x30 + (integer % 10)); integer /= 10; } while (integer != 0);
+  if (sign) Buffer[--Index] = '-';
 
   // check for display option after point
   if (precision > 0)
   {
     int Start = Index;
-    Buffer[INT64BUFFERLEN - 1] = '.';
+    Buffer[FLOATBUFFERLEN - 1] = '.';
     if (precision > 10) precision = 10;
 
-    Index = INT64BUFFERLEN + precision; Buffer[Index] = 0;
+    Index = FLOATBUFFERLEN + precision; Buffer[Index] = 0;
     fpart *= Pow10[precision]; integer = (int)fpart;
-    do { Buffer[--Index] = (char)(0x30 + (integer % 10)); integer /= 10; } while (integer != 0);
+    while(Index > FLOATBUFFERLEN) { Buffer[--Index] = (char)(0x30 + (integer % 10)); integer /= 10; }
 
-    return std::string(Buffer + Start, (INT64BUFFERLEN - Index) + precision);
+    return std::string(Buffer + Start, (FLOATBUFFERLEN - Start) + precision);
   }
 
-  return std::string(Buffer + Index, (INT64BUFFERLEN - 1) - Index);
+  return std::string(Buffer + Index, (FLOATBUFFERLEN - 1) - Index);
 }
 
 bool Strings::HexToInt(const std::string& from, int index, char stop, int& out)
