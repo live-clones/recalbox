@@ -23,6 +23,13 @@ std::string Files::LoadFile(const Path& path)
         l = read(fd, (void*)result.data(), l);
         result.resize(l);
       }
+      else if (l < 0)
+      {
+        char buffer[4096];
+        for(int r = 0; (r = read(fd, buffer, sizeof(buffer))) > 0; )
+          result.append(buffer, r);
+      }
+      close(fd);
     }
   }
 
