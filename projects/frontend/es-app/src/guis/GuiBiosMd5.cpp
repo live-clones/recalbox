@@ -150,7 +150,7 @@ bool GuiBiosMd5::getHelpPrompts(Help& help)
 
 bool GuiBiosMd5::ProcessInput(const InputCompactEvent& event)
 {
-  if (event.BPressed())
+  if (event.APressed())
   {
     Close();
     return true;
