@@ -19,6 +19,7 @@ HashMap<std::string, pid_t> NotificationManager::sPermanentScriptsPID;
 
 NotificationManager::NotificationManager(char** environment)
   : StaticLifeCycleControler<NotificationManager>("NotificationManager"),
+    mMQTTClient("recalbox-emulationstation"),
     mEnvironment(environment)
 {
   LoadScriptList();

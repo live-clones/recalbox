@@ -77,6 +77,8 @@ class Strings
 
     static bool StartsWith(const std::string& _string, const std::string& _start);
 
+    static bool StartsWith(const std::string& _string, const char* _start, int length);
+
     static bool EndsWith(const std::string& _string, const std::string& _end);
 
     static std::string RemoveParenthesis(const std::string& _string);

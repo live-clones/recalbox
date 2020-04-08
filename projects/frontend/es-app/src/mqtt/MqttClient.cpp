@@ -5,8 +5,9 @@
 #include "MqttClient.h"
 #include <utils/Log.h>
 
-MqttClient::MqttClient()
-  : Client(mNetwork, 100)
+MqttClient::MqttClient(const char* clientId)
+  : Client(mNetwork, 100),
+    mClientId(clientId)
 {
 }
 
@@ -25,7 +26,7 @@ bool MqttClient::EnsureConnection()
   {
     MQTTPacket_connectData data = MQTTPacket_connectData_initializer;
     data.MQTTVersion = 3;
-    data.clientID.cstring = (char*) "mbed-icraggs";
+    data.clientID.cstring = (char*) mClientId;
     int rc = connect(data);
     if (rc != 0)
     {

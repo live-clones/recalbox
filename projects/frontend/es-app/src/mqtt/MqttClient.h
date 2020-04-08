@@ -19,6 +19,9 @@ class MqttClient : MQTT::Client<TCPNetwork, Countdown>
     //! TCP socket simple wrapper
     TCPNetwork mNetwork;
 
+    //! Client identifier
+    const char* mClientId;
+
     /*!
      * @brief Lazy connection.
      * Check if we are connected, and if not, try to connect
@@ -35,7 +38,7 @@ class MqttClient : MQTT::Client<TCPNetwork, Countdown>
     /*!
      * @brief Default constructor
      */
-    MqttClient();
+    explicit MqttClient(const char* clientid);
 
     ~MqttClient()
     {

@@ -20,9 +20,8 @@ std::string Files::LoadFile(const Path& path)
       {
         result.resize(l, 0);
         lseek(fd, 0, SEEK_SET);
-        if (read(fd, (void*)result.data(), l) != l)
-          result.clear();
-        close(fd);
+        l = read(fd, (void*)result.data(), l);
+        result.resize(l);
       }
     }
   }

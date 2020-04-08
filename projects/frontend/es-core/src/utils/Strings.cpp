@@ -328,7 +328,12 @@ std::string Strings::Replace(const std::string& _string, const std::string& _rep
 
 bool Strings::StartsWith(const std::string& _string, const std::string& _start)
 {
-	return (_string.find(_start) <= 0); // TODO: strncmp faster?
+  return (strncmp(_string.c_str(), _start.c_str(), _start.size()) == 0);
+}
+
+bool Strings::StartsWith(const std::string& _string, const char* _start, int length)
+{
+  return (strncmp(_string.c_str(), _start, length) == 0);
 }
 
 bool Strings::EndsWith(const std::string& _string, const std::string& _end)
