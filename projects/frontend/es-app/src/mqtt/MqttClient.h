@@ -8,7 +8,7 @@
 #include <mqtt/MQTTClient/MQTTClient.h>
 #include "TcpNetwork.h"
 
-class MqttClient : MQTT::Client<TCPNetwork, Countdown>
+class MqttClient : MQTT::Client<TCPNetwork, Countdown, 16 << 10, 5>
 {
   private:
     //! MQTT Host

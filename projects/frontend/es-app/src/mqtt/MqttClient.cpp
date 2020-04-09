@@ -64,6 +64,7 @@ bool MqttClient::Send(const std::string& topic, const std::string& data)
   if (rc != 0)
   {
     LOG(LogError) << "Cannot send MQTT data: " << data;
+    Disconnect();
     return false;
   }
   return true;
