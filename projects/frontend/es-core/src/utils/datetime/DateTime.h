@@ -327,10 +327,10 @@ public:
   static bool FromHumanFormat(const std::string& from, DateTime& destination) { return ParseFromString("%dddd %dd, %MMMM %YYYY - %HH:%mm:%ss%zzzz", from, destination); }
 
   /*!
-   * Return the current DateTime in an ISO8601 string format: YYYY-MM-ddTHH:mm:ss+zzzz
+   * Return the current DateTime in an ISO8601 string format: YYYY-MM-ddTHH:mm:ss.fff+zzzz
    * @return
    */
-  std::string ToISO8601() const { return ToStringFormat("%YYYY-%MM-%ddT%HH:%mm:%ss%zzzz"); }
+  std::string ToISO8601() const { return ToStringFormat("%YYYY-%MM-%ddT%HH:%mm:%ss.%fff%zzzz"); }
 
   /*!
    * Return the current DateTime in an ISO8601 string format: YYYY-MM-ddTHH:mm:ss+zzzz
