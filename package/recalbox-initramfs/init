@@ -1,195 +1,92 @@
 #!/bin/busybox ash
 # Check https://github.com/jumperfly/initramfs-overlay/blob/master/src/init
 
-RECALSQUASH=recalbox.squashfs
+#!/bin/ash
 
-log () {
-    echo "(RECALBOX-irfs) $1"
-}
-
-getRootMethod () {
-    # No other choice than relying on the partition name :/
-    # NOOBS sets label boot, .img uses BOOT
-    #~ mount -o ro LABEL=BOOT /new_root/boot || return ""
-    mount LABEL=BOOT /new_root/boot || mount LABEL=boot /new_root/boot || return ""
-    while read param ; do
-        case ${param} in
-            boot=*) boot=${param#boot=};;
-        esac
-    done < /new_root/boot/recalbox-boot.conf
-    echo "${boot}"
-}
-
-checkValidKernel() {
-    # Make sure the the kernel is the one suited for the current boot type
-    # If it differs, replace and reboot
-    
-    # Il manque a tester : si mode squashfs mais que pas de squashfs présent, on boot en SD
-    log "Checking kernels ..."
-    bootType="$1"
-    if test "${bootType}" == "squashfs" -a -e /new_root/defaultroot/${RECALSQUASH}; then
-        log "Found a squashfs file + a squashfs specific kernel"
-        origKernel="zImage.squashfs"
-    else
-        log "Couldn't find a squashfs file, or squashfs boot is not set, defaulting to SD"
-        origKernel="zImage.sd"
-    fi
-    if test -e "/new_root/boot/${origKernel}" && ! diff -q "/new_root/boot/zImage" "/new_root/boot/${origKernel}" ; then
-        log "Kernels differ between zImage and $origKernel ! Copy the right one and reboot"
-        cp "/new_root/boot/${origKernel}" "/new_root/boot/zImage" || log "Copying the kernel failed :/"
-        umount -a
-        cp /new_root/boot/boot.log /new_root/boot/boot.log.kernelupdate
-        /sbin/reboot -f
-    fi
-    log "Kernels OK (zImage and $origKernel) ! Continuing ..."
-}
-
-checkAndUpgradeSquashfs () {
-    bootType="$1"
-    test "${bootType}" == "squashfs" && log "UPGRADE: set to squashfs ok !" || return 1
-    test -e /new_root/defaultroot/${RECALSQUASH}.upgrade && log "UPGRADE: found /new_root/defaultroot/${RECALSQUASH}.upgrade" || log "UPGRADE: no upgrade available"
-    if test "${bootType}" == "squashfs" -a -e /new_root/defaultroot/${RECALSQUASH}.upgrade ; then
-        log "Found an update, renaming versions"
-        # The very first upgrade has no .downgrade, so don't fail on the rm
-        test -e /new_root/defaultroot/${RECALSQUASH}.downgrade && rm /new_root/defaultroot/${RECALSQUASH}.downgrade
-        test -e /new_root/defaultroot/${RECALSQUASH} && mv /new_root/defaultroot/${RECALSQUASH} /new_root/defaultroot/${RECALSQUASH}.downgrade
-        mv /new_root/defaultroot/${RECALSQUASH}.upgrade /new_root/defaultroot/${RECALSQUASH} || log "Renaming failed :(" && return 1
-        log "Upgrade done"
-    else
-        log "No upgrade found"
-    fi
-}
-
-mount_overlay () {
-    mkdir -p /mnt/overlay /mnt/lower /mnt/root
-    
-    # Mount device for writeable overlay and workdir
-    log "Moving SD to /mnt/overlay"
-    #~ mount --move /new_root/defaultroot /mnt/overlay
-    
-    log "Mount squashfs in /mnt/lower"
-    mount -t squashfs -r /new_root/defaultroot/${RECALSQUASH} /mnt/lower
-    
-    # Clear upper overlay dir
-    #~ if [[ -e /mnt/overlay/upper ]]; then
-        #~ rm -rf /mnt/overlay/upper
-    #~ fi
-
-    # Create base directories if not present
-    log "mkdir upper and work"
-    for dir in upper work; do
-        mkdir -p /new_root/defaultroot/$dir
-    done
-
-    # Mount root file system (overlay)
-    #~ mount -t overlay -o ro,lowerdir=/mnt/overlay/persistent:/mnt/lower,upperdir=/mnt/overlay/root,workdir=/mnt/overlay/work overlay /mnt/root
-    log "Initializing the overlay"
-    mount -t overlay -o lowerdir=/mnt/lower,upperdir=/new_root/defaultroot/upper,workdir=/new_root/defaultroot/work overlay /mnt/root
-    mount --move /sys  /mnt/root/sys  || return 1
-    mount --move /proc /mnt/root/proc || return 1
-    mount --move /dev  /mnt/root/dev  || return 1
-    mount --move /new_root/boot /mnt/root/boot
-    log "Overlay ok. Switching root ..."
-    exec switch_root /mnt/root /sbin/init
+do_mount() {
+    if mount -o ro "${1}"           /boot_root; then return 0; fi
+    if mount -o ro "LABEL=RECALBOX" /boot_root; then return 0; fi # LEGACY BOOT FOR IMAGES BEFORE SQUASHFS
+    return 1
 }
 
 do_root() {
-    max_delay=5
-    
-    mkdir -p /sys /proc /new_root/boot /new_root/defaultroot /new_root/squashfs
-    mount -t proc -o nodev,noexec,nosuid proc /proc  || return 1
+    mkdir -p /boot_root /new_root /overlay_root /sys /proc || return 1
+    mount -t proc  -o nodev,noexec,nosuid proc  /proc || return 1
     mount -t sysfs -o nodev,noexec,nosuid sysfs /sys || return 1
 
     # read the parameters
     read -r cmdline < /proc/cmdline
     for param in ${cmdline} ; do
         case ${param} in
+            dev=*)   dev=${param#dev=};;
             label=*) label=${param#label=};;
-            root=*) root=${param#root=};;
-            console=*) console=${param#console=};;
-            ro) mountRO="-r";;
         esac
     done
 
     # look for devices
     mount -t devtmpfs none /dev
-    
-    # PC uses the label, NOOBS uses the root
-    if test -z "${label}" -a ! -z "${root}" ; then
-        # NOOBS case: root=/dev/mmcblk0pn
-        toMount="${root}"
-    elif test -z "${root}" -a ! -z "${label}" ; then
-        # PC case: label=RECALBOX
-        toMount="LABEL=${label}"
-    else
-        # Failsafe mode, if it's ever needed
-        # maybe give a try to /dev/root rather ?
-        toMount="LABEL=RECALBOX"
-    fi
-    
-    timeout=0
-    #~ while ! mount -r ${toMount} /new_root/defaultroot ; do
-    while ! mount ${toMount} /new_root/defaultroot ; do
-        log "Waiting for the root device"
-        sleep 1
-        let "timeout=$timeout + 1"
-        test $timeout -gt "5" && return 1
-    done
-    
-    # Find the root method -> /boot is mounted
-    rootMethod=`getRootMethod`
-    
-    rm > /new_root/boot/boot.log
-    rm /new_root/boot/boot.log.kernelupdate
-    if test -z "${mountRO}" ; then
-        exec >> /new_root/boot/boot.log
-        exec 2>&1
-    else
-        exec >/dev/kmsg
-        exec 2>&1
-    fi
-    log "Starting new boot log" > /new_root/boot/boot.log
-    log "Mounted: ${mountRO} ${toMount} as root source, booting to $rootMethod"
-    
-    # Update available ?
-    checkAndUpgradeSquashfs "$rootMethod"
-    
-    # The upgrade has to be done before we check the squashfs/sd kernel
-    checkValidKernel "$rootMethod"
-        
-    log "Trying to use root from: $rootMethod"
 
-    # Mount the squashfs if found
-    if test "${rootMethod}" == "squashfs" -a -e /new_root/defaultroot/${RECALSQUASH} ; then
-        mount_overlay && return 0 || return 1
-        
-        log "Found /new_root/defaultroot/${RECALSQUASH}"
-        mount -t squashfs -r /new_root/defaultroot/${RECALSQUASH} /new_root/squashfs || return 1
-        log "mounted /new_root/defaultroot/${RECALSQUASH}"
-        #~ mount none -t overlay -o lowerdir=/new_root/squashfs/,upperdir=/var/recalboxoverlay/root /new_root/squashfs/ || log "Overlay failed"
-        mount --move /sys  /new_root/squashfs/sys  || return 1
-        mount --move /proc /new_root/squashfs/proc || return 1
-        mount --move /dev  /new_root/squashfs/dev  || return 1
-        mount --move /new_root/boot /new_root/squashfs/boot || log "Couldn't move /boot"
-        log "remounted sys proc and dev. Switching root"
-        exec switch_root /new_root/squashfs /sbin/init || return 1
-        return 0
+    MOUNTARG=none
+    test -n "${dev}"   && MOUNTARG=${dev}
+    test -n "${label}" && MOUNTARG=LABEL=${label}
+
+    while ! do_mount "${MOUNTARG}"
+    do
+        echo "Waiting for the root device"
+        sleep 1
+    done
+
+    # update the squashfs
+    if test -e /boot_root/boot/recalbox.update
+    then
+      mount -o remount,rw /boot_root || return 1
+      mv /boot_root/boot/recalbox.update /boot_root/boot/recalbox || return 1
+      # remove the overlay when updating
+      if test -e /boot_root/boot/overlay
+      then
+	  mv /boot_root/boot/overlay /boot_root/boot/overlay.old || return 1
+      fi
+      mount -o remount,ro /boot_root || return 1
     fi
-    
+
+    # create an overlay on memory
+    mount -t tmpfs -o size=256M tmpfs /overlay_root || return 1
+    mkdir /overlay_root/base /overlay_root/overlay /overlay_root/work /overlay_root/saved || return 1
+
+    # fill the overlay with the stored one
+    if test -f /boot_root/boot/overlay
+    then
+	# the mount can fail if the fs was open in write and not correctly closed
+	if mount -o ro /boot_root/boot/overlay /overlay_root/saved
+	then
+	    cp -pr /overlay_root/saved/* /overlay_root/overlay || return 1
+	    umount /overlay_root/saved  || return 1
+	fi
+    fi
+
+    # mount the squashfs
+    mount /boot_root/boot/recalbox /overlay_root/base || return 1
+
+    # mount the future root in read write
+    if ! mount -t overlay overlay -o rw,lowerdir=/overlay_root/base,upperdir=/overlay_root/overlay,workdir=/overlay_root/work /new_root
+    then
+	# mount only as squashfs, no overlay (xu4 doesn't support overlayfs)
+	mount /boot_root/boot/recalbox /new_root || return 1
+    fi
+
     # moving current mounts
-    return 1
+    mount --move /boot_root    /new_root/boot    || return 1
+    mount --move /overlay_root /new_root/overlay || return 1
+    mount --move /sys  	       /new_root/sys  	 || return 1
+    mount --move /proc 	       /new_root/proc 	 || return 1
+    mount --move /dev  	       /new_root/dev  	 || return 1
+
+    # switch to the new root
+    exec switch_root /new_root /sbin/init || return 1
 }
 
 if ! do_root
 then
-    log "EPIC BOOT FAIL ! or defaulting to SD boot"
-    log "Remounting to the default root device"
-    mount --move /sys  /new_root/defaultroot/sys  || return 1
-    mount --move /proc /new_root/defaultroot/proc || return 1
-    mount --move /dev  /new_root/defaultroot/dev  || return 1
-    mount --move /new_root/boot /new_root/defaultroot/boot || log "Couldn't move /boot"
-    # switch to the new root
-    exec switch_root /new_root/defaultroot /sbin/init || return 1
-    #~ /bin/ash
+    echo "Recalbox cannot boot at initramfs stage. Please contact support!"
+    /bin/ash
 fi
-

@@ -75,10 +75,6 @@ case "${RECALBOX_TARGET}" in
 	cp "${BINARIES_DIR}/initrd.gz" "${BINARIES_DIR}/rpi-firmware/boot" || exit 1
 	cp "${BINARIES_DIR}/rootfs.squashfs" "${BINARIES_DIR}/rpi-firmware/boot/recalbox" || exit 1
 
-	echo "creating boot.tar.xz"
-	tar -I "xz -T0" -cf "${RECALBOX_BINARIES_DIR}/boot.tar.xz" -C "${BINARIES_DIR}/rpi-firmware" "." ||
-	{ echo "ERROR : unable to create boot.tar.xz" && exit 1 ;}
-
 	#recalbox.img
 	GENIMAGE_TMP="${BUILD_DIR}/genimage.tmp"
 	rm -rf "${GENIMAGE_TMP}" || exit 1
@@ -89,9 +85,7 @@ case "${RECALBOX_TARGET}" in
 	echo "generating image"
 	genimage --rootpath="${TARGET_DIR}" --inputpath="${BINARIES_DIR}" --outputpath="${RECALBOX_BINARIES_DIR}" --config="${BINARIES_DIR}/genimage.cfg" --tmppath="${GENIMAGE_TMP}" || exit 1
 	rm -f "${RECALBOX_BINARIES_DIR}/boot.vfat" || exit 1
-#	rm -f "${RECALBOX_BINARIES_DIR}/userdata.ext4" || exit 1
 	rm -f "${BINARIES_DIR}/rootfs.tar" || exit 1
-	rm -f "${BINARIES_DIR}/rootfs.squashfs" || exit 1
         sync || exit 1
         ;;
 
@@ -154,7 +148,6 @@ case "${RECALBOX_TARGET}" in
 esac
 
 # Compress the generated .img
-# Compress the generated .img
 if mv -f ${RECALBOX_BINARIES_DIR}/recalbox.img ${RECALBOX_IMG} ; then
     echo "Compressing ${RECALBOX_IMG} ... "
     xz --threads=0 "${RECALBOX_IMG}"
@@ -162,6 +155,20 @@ else
     echo "Couldn't move recalbox.img or compress it"
     exit 1
 fi
+
+# Compress the squashfs image
+#if mv -f "${BINARIES_DIR}/rootfs.squashfs" "${RECALBOX_BINARIES_DIR}/recalbox.upgrade" ; then
+#    echo "Compressing recalbox upgrade squashfs file ..."
+#    xz --threads=0 "${RECALBOX_BINARIES_DIR}/recalbox.upgrade"
+#else
+#    echo "Couldn't move recalbox.upgrade or compress it"
+#    exit 1
+#fi
+
+# Delete the squashfs image
+rm -f "${BINARIES_DIR}/rootfs.squashfs" || exit 1
+
+
 # Computing hash sums to make have an update that can be dropped on a running Recalbox
 echo "Computing sha1 sums ..."
 (cd "${RECALBOX_BINARIES_DIR}" && for file in * ; do sha1sum "${file}" > "${file}.sha1"; done)
