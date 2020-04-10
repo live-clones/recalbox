@@ -41,7 +41,7 @@ if [ -n "$FORCE_RES" ]; then
     echo "Force selected output $SEL_OUTPUT to $FORCE_RES, disable others"
     XRANDR_CMD=$(echo "$OUTPUT_MAXRES" | awk -v SEL_OUTPUT="$SEL_OUTPUT" -v FORCE_RES="$FORCE_RES" 'BEGIN {FS="="; printf "xrandr"} $1==SEL_OUTPUT {printf " --output " $1 " --mode " FORCE_RES;} $1!=SEL_OUTPUT {printf " --output " $1 " --off";} END {printf "\n";}') 
   else
-    echo echo "Force resolution inexistant for selected output $SEL_OUTPUT, fallback to auto, disable other outputs"
+    echo "Force resolution inexistant for selected output $SEL_OUTPUT, fallback to auto, disable other outputs"
 	XRANDR_CMD=$(echo "$OUTPUT_MAXRES" | awk -v SEL_OUTPUT="$SEL_OUTPUT" 'BEGIN {FS="="; printf "xrandr"} $1==SEL_OUTPUT {printf " --output " $1 " --auto";} $1!=SEL_OUTPUT {printf " --output " $1 " --off";} END {printf "\n";}')
   fi
 else
