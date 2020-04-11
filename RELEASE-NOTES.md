@@ -55,6 +55,14 @@
 - Rename 4do to opera (newer libretro 3do core)
 - Bump Theodore core (add emulation of Thomson TO7 and TO7/70 computers)
 - Set vice_x64sc as default c64 emulator + JiffyDOS support
+- Add support for pupular music formats in EmulationStation
+  - MP3 files
+  - High quality FLAC files
+  - OGG OPUS
+  - Amige Modules (and all derivatives traker formats)
+  - Wave (Raw audio format)
+  - MIDI file (soundfont file required)
+  More information available in share/music/readme.txt
 
 ### Fixes
 - Fix Odroid XU4 fan issue

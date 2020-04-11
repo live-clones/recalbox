@@ -67,6 +67,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Set vice_x64sc as default c64 emulator + JiffyDOS support
 - ERTM enabled by default
 - Bump Amiberry to v3.1.3
+- Bump mpg123 & fluidsynth libraries
+- Add support for mp3, opus, midi, modules, wave and flac in EmulationStation
 
 ## [6.1.1]
 - Add zfast shaders
