@@ -21,6 +21,7 @@
 - Libretro flycast also available on rpi3, xu4 and x86
 - Prboom system has been renamed to Doom
 - Libretro puae emulates amigacd32 now
+- Bump Amiberry to v3.1.3
 
 ### Improvements
 - Improve internal Scraper (ScreenScraper):
