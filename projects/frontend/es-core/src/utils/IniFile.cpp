@@ -102,25 +102,25 @@ bool IniFile::Save()
   return true;
 }
 
-std::string IniFile::AsString(const std::string& name)
+std::string IniFile::AsString(const std::string& name) const
 {
   std::string* item = mConfiguration.try_get(name);
   return (item != nullptr) ? *item : std::string();
 }
 
-std::string IniFile::AsString(const std::string& name, const std::string& defaultValue)
+std::string IniFile::AsString(const std::string& name, const std::string& defaultValue) const
 {
   std::string* item = mConfiguration.try_get(name);
   return (item != nullptr) ? *item : defaultValue;
 }
 
-bool IniFile::AsBool(const std::string& name, bool defaultValue)
+bool IniFile::AsBool(const std::string& name, bool defaultValue) const
 {
   std::string* item = mConfiguration.try_get(name);
   return (item != nullptr) ? (item->size() == 1 && (*item)[0] == '1') : defaultValue;
 }
 
-unsigned int IniFile::AsUInt(const std::string& name, unsigned int defaultValue)
+unsigned int IniFile::AsUInt(const std::string& name, unsigned int defaultValue) const
 {
   std::string* item = mConfiguration.try_get(name);
   if (item != nullptr)
@@ -133,7 +133,7 @@ unsigned int IniFile::AsUInt(const std::string& name, unsigned int defaultValue)
   return defaultValue;
 }
 
-int IniFile::AsInt(const std::string& name, int defaultValue)
+int IniFile::AsInt(const std::string& name, int defaultValue) const
 {
   std::string* item = mConfiguration.try_get(name);
   if (item != nullptr)
@@ -171,12 +171,12 @@ void IniFile::SetList(const std::string& name, const std::vector<std::string>& v
   mConfiguration[name] = Strings::Join(values, ",");
 }
 
-bool IniFile::isInList(const std::string& name, const std::string& value)
+bool IniFile::isInList(const std::string& name, const std::string& value) const
 {
   bool result = false;
   if (mConfiguration.count(name) != 0u)
   {
-    std::string s = mConfiguration[name];
+    std::string s = AsString(name);
     std::string delimiter = ",";
 
     size_t pos = 0;

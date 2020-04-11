@@ -33,7 +33,7 @@ class IniFile
      * @param name Key
      * @return Value or empty string if the key does not exist
      */
-    std::string AsString(const std::string &name);
+    std::string AsString(const std::string &name) const;
 
     /*!
      * @brief Get string value from the given key or return the default value
@@ -41,7 +41,7 @@ class IniFile
      * @param defaultValue Default value
      * @return Value or default value if the key does not exist
      */
-    std::string AsString(const std::string &name, const std::string &defaultValue);
+    std::string AsString(const std::string &name, const std::string &defaultValue) const;
 
     /*!
      * @brief Get boolean value from the given key or return the default value
@@ -49,7 +49,7 @@ class IniFile
      * @param defaultValue Default value (optional, false by default)
      * @return Value or default value if the key does not exist
      */
-    bool AsBool(const std::string& name, bool defaultValue = false);
+    bool AsBool(const std::string& name, bool defaultValue = false) const;
 
     /*!
      * @brief Get value as unsigned int from the given key or return the default value
@@ -57,7 +57,7 @@ class IniFile
      * @param defaultValue Default value (optional, 0 by default)
      * @return Value or default value if the key does not exist
      */
-    unsigned int AsUInt(const std::string& name, unsigned int defaultValue = 0);
+    unsigned int AsUInt(const std::string& name, unsigned int defaultValue = 0) const;
 
     /*!
      * @brief Get value as signed int from the given key or return the default value
@@ -65,7 +65,7 @@ class IniFile
      * @param defaultValue Default value (optional, 0 by default)
      * @return Value or default value if the key does not exist
      */
-    int AsInt(const std::string& name, int defaultValue = 0);
+    int AsInt(const std::string& name, int defaultValue = 0) const;
 
     /*!
      * @brief Set the value as string of the given key
@@ -108,7 +108,7 @@ class IniFile
      * @param value Value to seek for in the list
      * @return True if the list exists and the value is found. False otherwise
      */
-    bool isInList(const std::string &name, const std::string &value);
+    bool isInList(const std::string &name, const std::string &value) const;
 
     /*!
      * @brief Check if the given line is a valide 'key=value'
