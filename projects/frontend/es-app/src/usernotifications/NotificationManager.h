@@ -108,7 +108,7 @@ class NotificationManager : public StaticLifeCycleControler<NotificationManager>
     static constexpr const char* sScriptPath = "/recalbox/share/userscripts";
 
     //! MQTT Topic
-    static constexpr const char* sEventTopic = "/Recalbox/EmulationStation/Event";
+    static constexpr const char* sEventTopic = "Recalbox/EmulationStation/Event";
 
     // MQTT client
     MqttClient mMQTTClient;
