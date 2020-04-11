@@ -7,6 +7,7 @@
 #include <mqtt/Countdown.h>
 #include <mqtt/MQTTClient/MQTTClient.h>
 #include "TcpNetwork.h"
+#include <utils/Log.h>
 
 class MqttClient : MQTT::Client<TCPNetwork, Countdown, 16 << 10, 5>
 {
@@ -52,4 +53,28 @@ class MqttClient : MQTT::Client<TCPNetwork, Countdown, 16 << 10, 5>
      * @return True if the string has been sent w/o error
      */
     bool Send(const std::string& topic, const std::string& data);
+
+    /*!
+     * @brief Wait for message arrival
+     * @param timeout Timeout
+     */
+    void Yield(int timeout);
+
+    /*!
+     * @brief Subscribe and set callback to the given method
+     * @tparam T Callback's class
+     * @param topic Topic to subscibe to
+     * @param item
+     * @param method
+     */
+    template<class T> void Subscribe(const char* topic, T* item, void (T::*method)(MQTT::MessageData&))
+    {
+      EnsureConnection();
+      if (subscribe(topic, MQTT::QOS0, item, method) != 0)
+      {
+        LOG(LogError) << "Error subscribing to: " << topic;
+        return;
+      }
+      LOG(LogInfo) << "Subscribed to: " << topic;
+    }
 };

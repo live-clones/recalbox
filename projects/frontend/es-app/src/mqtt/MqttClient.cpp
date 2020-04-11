@@ -3,7 +3,6 @@
 //
 
 #include "MqttClient.h"
-#include <utils/Log.h>
 
 MqttClient::MqttClient(const char* clientId)
   : Client(mNetwork, 100),
@@ -31,6 +30,7 @@ bool MqttClient::EnsureConnection()
     if (rc != 0)
     {
       LOG(LogError) << "Cannot connect MQTT client (mqtt packet).";
+      Disconnect();
       return false;
     }
     LOG(LogInfo) << "Connected to MQTT server.";
@@ -68,4 +68,10 @@ bool MqttClient::Send(const std::string& topic, const std::string& data)
     return false;
   }
   return true;
+}
+
+void MqttClient::Yield(int timeout)
+{
+  EnsureConnection();
+  yield(timeout);
 }
