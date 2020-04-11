@@ -275,7 +275,7 @@ std::vector<Path> AudioManager::ListMusicInFolder(const Path& path)
 
     // Skip if no match
     std::string ext = Strings::ToLowerASCII(musicPath.Extension());
-    static std::string supportedExtensions = "|.mp3|.ogg|";
+    static std::string supportedExtensions = "|.wav|.mp3|.ogg|.flac|.midi|.mid|.mod|.s3m|.xm|.it|.669|.apun|.dsm|.far|.amf|.gdm|.imf|.med|.mtm|.okt|.stm|.stx|.ult|.uni|.opus|";
     if (supportedExtensions.find(ext) == std::string::npos) continue;
 
     // File matches, store it

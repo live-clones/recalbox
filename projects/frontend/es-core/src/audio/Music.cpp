@@ -28,6 +28,14 @@ void Music::Initialize()
 {
   if (mPath.IsEmpty()) return;
 
+  // Check midi file
+  std::string ext = Strings::ToLowerASCII(mPath.Extension());
+  if (ext == ".mid" || ext == ".midi")
+  {
+    Path soundfontPath = mPath.Directory() / "soundfont.sf2";
+    Mix_SetSoundFonts(soundfontPath.ToChars());
+  }
+
   //load wav file via SDL
   Mix_Music* gMusic = nullptr;
   gMusic = Mix_LoadMUS(mPath.ToChars());
