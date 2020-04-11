@@ -27,7 +27,7 @@ SDL2_MIXER_CONF_OPTS += --disable-music-flac
 endif
 
 ifeq ($(BR2_PACKAGE_FLUIDSYNTH),y)
-SDL2_MIXER_CONF_OPTS += --enable-music-midi-fluidsynth
+SDL2_MIXER_CONF_OPTS += --enable-music-midi-fluidsynth --disable-music-midi-timidity
 SDL2_MIXER_DEPENDENCIES += fluidsynth
 else
 SDL2_MIXER_CONF_OPTS += --disable-music-midi-fluidsynth
