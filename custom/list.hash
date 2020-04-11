@@ -24,6 +24,8 @@ f38548efeaeaaa6515c91bc6ab7d9d54  package/rpi-firmware/cmdline.txt
 f01ea6ba5ccf7e7b094e83301984333d  package/rpi-firmware/config.txt
 e8c005a320789fa3249d29613ba359ee  package/rpi-firmware/rpi-firmware.hash
 236dce96aa73189750ecca1f7f4fb293  package/rpi-firmware/rpi-firmware.mk
+055a05d7f6228658a9c357d4d458c1d0  package/sdl2_mixer/sdl2_mixer.hash
+95635b1c6a77e6c6e896e2f496919ce9  package/sdl2_mixer/sdl2_mixer.mk
 76f5941c64fe63d71fdbafde3594ba78  package/sdl_sound/Config.in
 4c240a99b2eef3c2c77f9e7acdc1787d  package/sdl_sound/sdl_sound.mk
 a5ec225b9e4b39e8e92ff80f594ac098  package/skeleton-init-common/skeleton-init-common.mk
