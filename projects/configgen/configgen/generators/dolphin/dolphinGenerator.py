@@ -198,6 +198,7 @@ class DolphinGenerator(Generator):
         dolphinSettings.setOption(self.SECTION_GENERAL, "ISOPaths", "2")
         dolphinSettings.setOption(self.SECTION_GENERAL, "ISOPath0", "/recalbox/share/roms/gamecube") 
         dolphinSettings.setOption(self.SECTION_GENERAL, "ISOPath1", "/recalbox/share/roms/wii")
+        dolphinSettings.setOption(self.SECTION_GENERAL, "RecursiveISOPaths", "True")
         # Interface
         dolphinSettings.setOption(self.SECTION_INTERFACE, "LanguageCode", language)
         dolphinSettings.setOption(self.SECTION_INTERFACE, "AutoHideCursor", "True")
