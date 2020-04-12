@@ -68,6 +68,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - ERTM enabled by default
 - Bump mpg123 & fluidsynth libraries
 - Add support for mp3, opus, midi, modules, wave and flac in EmulationStation
+- Bump Amiberry to v3.1.3
 
 ## [6.1.1]
 - Add zfast shaders

@@ -1,0 +1,22 @@
+--- a/Makefile	2020-04-05 18:01:37.295339897 +0200
++++ b/Makefile	2020-04-05 18:30:37.546180157 +0200
+@@ -217,7 +217,7 @@
+ # SDL2 options
+ #
+ all: guisan $(PROG)
+-SDL_CONFIG ?= sdl2-config
++SDL_CONFIG ?= $(STAGING_DIR)/usr/bin/sdl2-config
+ export SDL_CFLAGS := $(shell $(SDL_CONFIG) --cflags)
+ export SDL_LDFLAGS := $(shell $(SDL_CONFIG) --libs)
+ 
+@@ -228,8 +228,9 @@
+ # Common options
+ #
+ DEFS = $(XML_CFLAGS) -DAMIBERRY
++XML_CONFIG ?= $(STAGING_DIR)/usr/bin/xml2-config
+ CPPFLAGS += -Isrc -Isrc/osdep -Isrc/threaddep -Isrc/include -Isrc/archivers $(DEFS)
+-XML_CFLAGS := $(shell xml2-config --cflags )
++XML_CFLAGS := $(shell $(XML_CONFIG) --cflags )
+ LDFLAGS += -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed
+ 
+ ifndef DEBUG
