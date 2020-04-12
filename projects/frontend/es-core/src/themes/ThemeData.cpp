@@ -524,7 +524,7 @@ void ThemeData::parseElement(const pugi::xml_node& root, const std::map<std::str
 		if(typeIt == typeMap.end())
 			throw ThemeException("Unknown property type \"" + std::string(node.name()) + "\" (for element of type " + root.name() + ").", mPaths);
 		
-		std::string str = resolveSystemVariable(mSystemThemeFolder, node.text().as_string());
+    std::string str = Strings::Trim(resolveSystemVariable(mSystemThemeFolder, node.text().as_string()));
 
 		switch(typeIt->second)
 		{
@@ -552,7 +552,7 @@ void ThemeData::parseElement(const pugi::xml_node& root, const std::map<std::str
 		{
 			Path path = Path(str).ToAbsolute(mPaths.back().Directory());
 			std::string variable = node.text().get();
-			if(!ResourceManager::getInstance()->fileExists(path))
+			if(!ResourceManager::fileExists(path))
 			{
 				//too many warnings with region and system variable surcharge in themes
 				if (!root.attribute("region") && variable.find("$system") == std::string::npos)
