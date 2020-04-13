@@ -25,61 +25,76 @@ do_root() {
 
     # look for devices
     mount -t devtmpfs none /dev
+   
+    toMount="LABEL=RECALBOX"
+    test -n "${dev}"   && toMount=${dev}
+    test -n "${label}" && toMount=LABEL=${label}
 
-    MOUNTARG=none
-    test -n "${dev}"   && MOUNTARG=${dev}
-    test -n "${label}" && MOUNTARG=LABEL=${label}
-
-    while ! do_mount "${MOUNTARG}"
-    do
+    # Wait for device to be ready
+    if test -n "${toMount}" ; then
+        timeout=0
+        echo ${toMount}
+        while ! test -e ${toMount} ; do
+            echo "Waiting for the device ${toMount} ${timeout}"
+            sleep 1
+        done
+    fi
+echo "ls /dev/mmc*"    
+ls /dev/mmc*
+    
+    # Wait for boot mount to be ready
+    timeout=0
+    while ! mount -o ro ${toMount} /boot_root ; do
         echo "Waiting for the root device"
         sleep 1
+        let "timeout=$timeout + 1"
+        test $timeout -gt "10" && return 1
     done
+echo "ls /boot_root"    
+ls /boot_root
 
     # update the squashfs
-    if test -e /boot_root/boot/recalbox.update
-    then
-      mount -o remount,rw /boot_root || return 1
-      mv /boot_root/boot/recalbox.update /boot_root/boot/recalbox || return 1
-      # remove the overlay when updating
-      if test -e /boot_root/boot/overlay
-      then
-	  mv /boot_root/boot/overlay /boot_root/boot/overlay.old || return 1
-      fi
-      mount -o remount,ro /boot_root || return 1
+    if test -e /boot_root/boot/recalbox.update ; then
+        mount -o remount,rw /boot_root || return 1
+        mv /boot_root/boot/recalbox.update /boot_root/boot/recalbox || return 1
+        # remove the overlay when updating
+        if test -e /boot_root/boot/overlay ; then
+            mv /boot_root/boot/overlay /boot_root/boot/overlay.old || return 1
+        fi
+        mount -o remount,ro /boot_root || return 1
     fi
 
     # create an overlay on memory
     mount -t tmpfs -o size=256M tmpfs /overlay_root || return 1
-    mkdir /overlay_root/base /overlay_root/overlay /overlay_root/work /overlay_root/saved || return 1
+    mkdir /overlay_root/lower /overlay_root/upper /overlay_root/work /overlay_root/backup || return 1
 
-    # fill the overlay with the stored one
-    if test -f /boot_root/boot/overlay
-    then
-	# the mount can fail if the fs was open in write and not correctly closed
-	if mount -o ro /boot_root/boot/overlay /overlay_root/saved
-	then
-	    cp -pr /overlay_root/saved/* /overlay_root/overlay || return 1
-	    umount /overlay_root/saved  || return 1
-	fi
+    # Restore overlay backup
+    if test -f /boot_root/boot/backup ; then
+        # the mount can fail if the fs was open in write and not correctly closed
+        if mount -o ro /boot_root/boot/overlay /overlay_root/backup ; then
+            cp -pr /overlay_root/backup/* /overlay_root/upper || return 1
+            umount /overlay_root/backup  || return 1
+        fi
     fi
 
-    # mount the squashfs
-    mount /boot_root/boot/recalbox /overlay_root/base || return 1
+    # Mount the squashfs as overlay "lower" file-system
+    mount /boot_root/boot/recalbox /overlay_root/lower || return 1
 
-    # mount the future root in read write
-    if ! mount -t overlay overlay -o rw,lowerdir=/overlay_root/base,upperdir=/overlay_root/overlay,workdir=/overlay_root/work /new_root
-    then
-	# mount only as squashfs, no overlay (xu4 doesn't support overlayfs)
-	mount /boot_root/boot/recalbox /new_root || return 1
+    # Mount the future root in read write - CHECK RO LATER
+    if ! mount -t overlay overlay -o rw,lowerdir=/overlay_root/lower,upperdir=/overlay_root/upper,workdir=/overlay_root/work /new_root ; then
+        # Mount squashfs as new root when overlayfs is not supported
+        mount /boot_root/boot/recalbox /new_root || return 1
     fi
+
+echo "ls /new_root"    
+ls /new_root
 
     # moving current mounts
     mount --move /boot_root    /new_root/boot    || return 1
     mount --move /overlay_root /new_root/overlay || return 1
-    mount --move /sys  	       /new_root/sys  	 || return 1
-    mount --move /proc 	       /new_root/proc 	 || return 1
-    mount --move /dev  	       /new_root/dev  	 || return 1
+    mount --move /sys          /new_root/sys     || return 1
+    mount --move /proc         /new_root/proc    || return 1
+    mount --move /dev          /new_root/dev     || return 1
 
     # switch to the new root
     exec switch_root /new_root /sbin/init || return 1
