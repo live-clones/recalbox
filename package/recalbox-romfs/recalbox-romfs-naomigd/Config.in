@@ -1,0 +1,6 @@
+config BR2_PACKAGE_RECALBOX_ROMFS_NAOMIGD
+	bool "recalbox-romfs-naomigd"
+	select BR2_PACKAGE_RECALBOX_ROMS
+	depends on BR2_PACKAGE_LIBRETRO_FLYCAST
+	help
+	  share_init/roms and xml for naomigd

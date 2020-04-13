@@ -26,14 +26,14 @@
 ### Improvements
 - Improve internal Scraper (ScreenScraper):
   - Faster! Use your ScreenScraper's threads to parallelize workloads 
-  - Better! Lots of options, snaps vidéo, and more...
+  - Better! Lots of options, snaps video, and more...
   - Stronger! Improved reliability and strongness
 - Improve overall Emulationstation's stability & reliability
 - Optimize memory requirements of EmulationStation
 - Optimize EmulationStation boot time (up to 20 times faster!)
 - Bump DosBox to r4290
-- Bump ScummVM to 2.1.0 and map D-pad when no analog available
-- Bump ResidualVM (2019-12)
+- Bump ScummVM and map D-pad when no analog available
+- Bump ResidualVM
 - Bump Odroid UBOOT to 2017/05 version 
 - Add 8bitdo N30 Pro 2 controller to pre-configured pads/joyticks
 - Add IPega PG-9037 pad
@@ -63,6 +63,7 @@
   - Wave (Raw audio format)
   - MIDI file (soundfont file required)
   More information available in share/music/readme.txt
+  - Add naomigd system for your NAOMI GD-ROM games
 
 ### Fixes
 - Fix Odroid XU4 fan issue

@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --system naomi --extension '.lst .LST .dat .DAT .chd .CHD .zip .ZIP .7z .7Z' --fullname 'Sega NAOMI' --platform naomi --theme naomi 1:libretro:flycast:BR2_PACKAGE_LIBRETRO_FLYCAST
+# ./scripts/linux/empack.py --force --system naomi --extension '.lst .LST .dat .DAT .zip .ZIP .7z .7Z' --fullname 'Sega NAOMI' --platform naomi --theme naomi 1:libretro:flycast:BR2_PACKAGE_LIBRETRO_FLYCAST
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_NAOMI_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_NAOMI = $(RECALBOX_ROMFS_NAOMI_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_FLYCAST),)
 define CONFIGURE_MAIN_NAOMI_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_NAOMI),Sega NAOMI,$(SYSTEM_NAME_NAOMI),.lst .LST .dat .DAT .chd .CHD .zip .ZIP .7z .7Z,naomi,naomi)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_NAOMI),Sega NAOMI,$(SYSTEM_NAME_NAOMI),.lst .LST .dat .DAT .zip .ZIP .7z .7Z,naomi,naomi)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_FLYCAST),)

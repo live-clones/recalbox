@@ -1,8 +1,9 @@
-## RECALBOX - SYSTEM SEGA NAOMI ##
+## RECALBOX - SYSTEM SEGA NAOMI GD ##
 
-Placez ici vos roms naomi.
+Placez ici vos roms naomigd.
 
 Les roms doivent avoir l'extension ".lst/.dat/.zip/.7z"
+Les fichiers .chd nécessitent un fichier .zip pour être démarrés.
 
 Ce système supporte également les roms compressées au format .zip/.7z.
 Attention toutefois, il ne s'agit que d'une archive. Les fichiers contenus dans les .zip/.7z doivent correspondre aux extensions citées précédemment.

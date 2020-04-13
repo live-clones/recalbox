@@ -384,6 +384,11 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_FLYCAST),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-naomi
 endif
 
+# System: naomigd
+ifneq ($(BR2_PACKAGE_LIBRETRO_FLYCAST),)
+        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-naomigd
+endif
+
 # System: nds
 ifneq ($(BR2_PACKAGE_LIBRETRO_DESMUME)$(BR2_PACKAGE_LIBRETRO_MELONDS),)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-nds
