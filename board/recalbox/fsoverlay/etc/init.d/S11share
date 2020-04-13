@@ -47,6 +47,12 @@ getMaxTryConfig() {
     echo 7 # default value
 }
 
+mount -o remount,rw /boot
+echo "${INTERNALDEVICE}" > /boot/dev.txt
+INTERNALPREVIOUSDEVICE=$(/recalbox/scripts/recalbox-part.sh previous "${INTERNALDEVICE}")
+echo "${INTERNALPREVIOUSDEVICE}" > /boot/devprev.txt
+mount -o remount,ro /boot
+
 INTERNALDEVICETYPE="ext4" # faster than waiting udev to initialize to get the type
 MAXTRY=$(getMaxTryConfig "${SHARECONFFILE}")
 NTRY=0
