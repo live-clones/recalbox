@@ -69,11 +69,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Bump mpg123 & fluidsynth libraries
 - Add support for mp3, opus, midi, modules, wave and flac in EmulationStation
 - Bump Amiberry to v3.1.3
+- Add naomigd as a separate system
 
 ## [6.1.1]
 - Add zfast shaders
 - Fix reicast on XU4 & PC
-- Fix Flycast on RPi
 - Fix Amstrad GX4000 .cpr/.bin extensions
 - Fix libretro-uae bios list
 - Fix GPIO driver not loading
