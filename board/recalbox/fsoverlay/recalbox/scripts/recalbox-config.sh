@@ -386,6 +386,13 @@ if [ "$command" == "audio" ];then
         cardId=`echo $mode | sed "s+^\[\([0-9]\)\:\([0-9]\)\].*+\1+g"`
         deviceId=`echo $mode | sed "s+^\[\([0-9]\)\:\([0-9]\)\].*+\2+g"`
         recallog "setting audio output mode : '$mode' => $cardId $deviceId"
+        if [[ "${arch}" == "odroidxu4" && "${cardId}${deviceId}" == "00" ]]
+        then
+            # this is specific to the xu4
+            # bypass the creation of the .asoundrc file for the default 0,0 device as the asound.conf is just enough
+            recallog "bypass the creation of .asoundrc file"
+            exit 0
+        fi
         cat > /recalbox/share/system/.asoundrc << EOF
 pcm.!default {
         type hw
@@ -457,6 +464,8 @@ if [ "$command" == "volume" ];then
         # Odroids have no sound controller. Too bad, exit 0 anyway
         # Force the sound volume to every mixer on the default sound card
         for param in `amixer controls | grep -i Playback | cut -d ',' -f 1` ; do recallog "Setting volume for $param" ; amixer -q cset ${param} ${mode}% unmute ; done
+        # force unmute S/PDIF (HDMI) if any
+        for param in `amixer controls | grep -i IEC958 | cut -d ',' -f 1` ; do recallog "Force unmute on HDMI" ; amixer -q cset ${param} 100% unmute ; done
         exit 0
     fi
     exit 12
