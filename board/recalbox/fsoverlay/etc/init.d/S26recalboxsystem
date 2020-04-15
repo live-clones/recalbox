@@ -11,14 +11,8 @@ rb_volume_configure() {
     fi
 }
 
-rb_audio_save() {
-    recallog "Saving ALSA mixers configuration"
-    alsactl -f /recalbox/share/system/configs/asound.state store
-}
-
 rb_audio_configure() {
-    recallog "Restoring ALSA mixers configuration"
-    alsactl -f /recalbox/share/system/configs/asound.state restore
+    recallog "Restoring audio configuration"
     settingsAudio="`$systemsetting -command load -key audio.device`"
     if [[ "$settingsAudio" == "" ]];then
         settingsAudio="auto"
@@ -124,8 +118,6 @@ case "$1" in
 	( sleep 8 ; rb_xarcade2jstick ) &    # 0.1
 	;;
   stop)
-        rb_audio_save &
-
 	;;
   restart|reload)
 	;;
