@@ -54,6 +54,19 @@ determine_previous_part() {
     echo "${PART}" | sed -e s+"${XPART}$"+"${XPREVPART}"+
 }
 
+determine_next_part() {
+    PART="${1}"
+    XPART=$(echo "${1}" | sed -e s+'^.*\([0-9]\)$'+'\1'+)
+
+    # check that it is a number
+    if ! echo "${XPART}" | grep -qE '^[0-9]$' ; then
+       return 1
+    fi
+
+    XPREVPART=$(expr ${XPART} + 1)
+    echo "${PART}" | sed -e s+"${XPART}$"+"${XPREVPART}"+
+}
+
 PARTNAME=$1
 
 case "${PARTNAME}" in
@@ -71,6 +84,10 @@ case "${PARTNAME}" in
 
     "previous")
     determine_previous_part "$2"
+    ;;
+
+    "next")
+    determine_next_part "$2"
     ;;
 
     *)

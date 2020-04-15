@@ -9,6 +9,40 @@ do_mount() {
     return 1
 }
 
+check_update() {
+    # All update files?
+    if test -f /boot_root/boot/recalbox.update ; then
+        if test -f /boot_root/boot/linux.update ; then
+            if test -f /boot_root/boot/initrd.gz.update ; then
+                return 0
+            fi
+        fi
+    fi
+    return 1 
+}
+
+do_clean_overlay() {
+    # backup and clean up overlay
+    rm -rf /overlay_root/upper.old
+    mv /overlay_root/upper /overlay_root/upper.old
+    mkdir -p /overlay_root/upper
+}
+
+do_update() {
+    mount -o remount,rw /boot_root || return 1
+    # Backup current system
+    rm -rf /boot_root/boot/.old
+    mkdir -p /boot_root/boot/.old
+    mv /boot_root/boot/recalbox  /boot_root/boot/.old/recalbox  || return 1
+    mv /boot_root/boot/linux     /boot_root/boot/.old/linux     || return 1
+    mv /boot_root/boot/initrd.gz /boot_root/boot/.old/initrd.gz || return 1
+    # UPDATE!
+    mv /boot_root/boot/recalbox.update  /boot_root/boot/recalbox  || return 1
+    mv /boot_root/boot/linux.update     /boot_root/boot/linux     || return 1
+    mv /boot_root/boot/initrd.gz.update /boot_root/boot/initrd.gz || return 1
+    mount -o remount,ro /boot_root || return 1
+}
+
 do_root() {
     mkdir -p /boot_root /new_root /overlay_root /sys /proc || return 1
     mount -t proc  -o nodev,noexec,nosuid proc  /proc || return 1
@@ -27,67 +61,52 @@ do_root() {
     mount -t devtmpfs none /dev
    
     toMount="LABEL=RECALBOX"
-    test -n "${dev}"   && toMount=${dev}
+    isDevice="0"
+    test -n "${dev}"   && toMount=${dev} && isDevice="1"
     test -n "${label}" && toMount=LABEL=${label}
-
-    # Wait for device to be ready
-    if test -n "${toMount}" ; then
-        timeout=0
-        echo ${toMount}
-        while ! test -e ${toMount} ; do
-            echo "Waiting for the device ${toMount} ${timeout}"
-            sleep 1
-        done
-    fi
-echo "ls /dev/mmc*"    
-ls /dev/mmc*
-    
+  
     # Wait for boot mount to be ready
     timeout=0
-    while ! mount -o ro ${toMount} /boot_root ; do
+    while ! mount -t vfat -o ro ${toMount} /boot_root ; do
         echo "Waiting for the root device"
         sleep 1
-        let "timeout=$timeout + 1"
-        test $timeout -gt "10" && return 1
     done
-echo "ls /boot_root"    
-ls /boot_root
 
-    # update the squashfs
-    if test -e /boot_root/boot/recalbox.update ; then
-        mount -o remount,rw /boot_root || return 1
-        mv /boot_root/boot/recalbox.update /boot_root/boot/recalbox || return 1
-        # remove the overlay when updating
-        if test -e /boot_root/boot/overlay ; then
-            mv /boot_root/boot/overlay /boot_root/boot/overlay.old || return 1
-        fi
-        mount -o remount,ro /boot_root || return 1
+    # update
+    updated="0"
+    if check_update ; then
+        if ! do_update ; then return 1; fi
+        updated="1"
     fi
 
-    # create an overlay on memory
-    mount -t tmpfs -o size=256M tmpfs /overlay_root || return 1
-    mkdir /overlay_root/lower /overlay_root/upper /overlay_root/work /overlay_root/backup || return 1
-
-    # Restore overlay backup
-    if test -f /boot_root/boot/backup ; then
-        # the mount can fail if the fs was open in write and not correctly closed
-        if mount -o ro /boot_root/boot/overlay /overlay_root/backup ; then
-            cp -pr /overlay_root/backup/* /overlay_root/upper || return 1
-            umount /overlay_root/backup  || return 1
-        fi
+    # Get overlay mount
+    overlayToMount="LABEL=OVERLAY"
+    if test "$isDevice" -eq "1" ; then
+        deviceLength=$((${#toMount}-1))
+        overlayToMount=${toMount:0:$deviceLength}$((${toMount:$deviceLength}+2))
     fi
+
+    # Mount overlay partition
+    if ! mount -o rw ${overlayToMount} /overlay_root ; then
+        # Partition not available: Mount tmpfs partition
+        mount -t tmpfs -o size=128M tmpfs /overlay_root || return 1
+    fi    
+    # Backup and clean up overlay
+    if test "$updated" -eq "1" ; then
+        do_clean_overlay
+    fi
+
+    # Create overlay folders and user video folder
+    mkdir -p /overlay_root/lower /overlay_root/upper /overlay_root/work /overlay_root/bootvideos || return 1
 
     # Mount the squashfs as overlay "lower" file-system
     mount /boot_root/boot/recalbox /overlay_root/lower || return 1
 
-    # Mount the future root in read write - CHECK RO LATER
+    # Mount the future root in read write
     if ! mount -t overlay overlay -o rw,lowerdir=/overlay_root/lower,upperdir=/overlay_root/upper,workdir=/overlay_root/work /new_root ; then
         # Mount squashfs as new root when overlayfs is not supported
         mount /boot_root/boot/recalbox /new_root || return 1
     fi
-
-echo "ls /new_root"    
-ls /new_root
 
     # moving current mounts
     mount --move /boot_root    /new_root/boot    || return 1

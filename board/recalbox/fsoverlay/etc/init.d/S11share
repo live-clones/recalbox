@@ -1,7 +1,6 @@
 #!/bin/sh
 
-if test "$1" = "stop"
-then
+if test "$1" = "stop" ; then
     #Backup recalbox.conf to /boot partition
     mount -o remount,rw /boot
     cp /recalbox/share/system/recalbox.conf /boot/recalbox-backup.conf
@@ -16,9 +15,8 @@ then
     exit 0
 fi
 
-if test "$1" != "start"
-then
-  exit 0
+if test "$1" != "start" ; then
+    exit 0
 fi
 
 ###
@@ -39,19 +37,12 @@ getMaxTryConfig() {
     SHARECONFFILE=${1}
 
     X=$(grep -E '^sharewait=' "${SHARECONFFILE}" | sed -e s+'^sharewait='+''+)
-    if echo "${X}" | grep -qE '^[0-9][0-9]*$'
-    then
-	echo "${X}"
-	return
+    if echo "${X}" | grep -qE '^[0-9][0-9]*$' ; then
+        echo "${X}"
+        return
     fi
     echo 7 # default value
 }
-
-mount -o remount,rw /boot
-echo "${INTERNALDEVICE}" > /boot/dev.txt
-INTERNALPREVIOUSDEVICE=$(/recalbox/scripts/recalbox-part.sh previous "${INTERNALDEVICE}")
-echo "${INTERNALPREVIOUSDEVICE}" > /boot/devprev.txt
-mount -o remount,ro /boot
 
 INTERNALDEVICETYPE="ext4" # faster than waiting udev to initialize to get the type
 MAXTRY=$(getMaxTryConfig "${SHARECONFFILE}")
@@ -63,28 +54,47 @@ NTRY=0
 #
 # we don't remove data ;  only create a new partition if p3 is missing, and some free space is available only at the end of the disk
 #
-if ! test -e "${INTERNALDEVICE}"
-then
+if ! test -e "${INTERNALDEVICE}" ; then
     # but the system partition exists
     INTERNALPREVIOUSDEVICE=$(/recalbox/scripts/recalbox-part.sh previous "${INTERNALDEVICE}")
 
-    if test -e "${INTERNALPREVIOUSDEVICE}" # the partition n-1 must exist (just in case the parameter given is not wrong)
-    then
-	PARTPREFIX=$(/recalbox/scripts/recalbox-part.sh prefix "${INTERNALDEVICE}")
+    if test -e "${INTERNALPREVIOUSDEVICE}" ; then # the partition n-1 must exist (just in case the parameter given is not wrong) ; then
+        PARTPREFIX=$(/recalbox/scripts/recalbox-part.sh prefix "${INTERNALDEVICE}")
 
-	# create the internal partition
-	PSTART=$(parted -s "${PARTPREFIX}" -m unit b print free | tail -1 | grep -E 'free;$' | cut -d: -f 2)
-	if test -n "${PSTART}"
-	then
-	    parted -s "${PARTPREFIX}" -m unit b mkpart primary "${PSTART}" 100%
-	    if test -e "${INTERNALDEVICE}"
-	    then
-		#mkfs.vfat -F 32 -n SHARE /dev/mmcblk0p3 # if you replace this line, please change the INTERNALDEVICETYPE variable too in consequence
-		#fsck.fat /dev/mmcblk0p3 -a
-		mkfs.ext4 "${INTERNALDEVICE}" -q -F -L SHARE
-		e2fsck -f -p "${INTERNALDEVICE}"
-	    fi
-	fi
+        # create the internal partition
+        ALIGNSIZE=1048576 # Align partition on megabyte
+        POVERLAYSIZE=1073741824
+        PSHARESTARTB=$(parted -s "${PARTPREFIX}" -m unit b print free | tail -1 | grep -E ":free;$" | cut -d: -f 2)
+        PSHARESTART=${PSHARESTARTB/B/}
+        PSHARESTOPB=$(parted -s "${PARTPREFIX}" -m unit b print free | tail -1 | grep -E ":free;$" | cut -d: -f 3)
+        PSHARESTOP=${PSHARESTOPB/B/}
+        PSHARESTOP=$((PSHARESTOP-POVERLAYSIZE))
+        PSHARESTOP=$((PSHARESTOP/ALIGNSIZE))
+        PSHARESTOP=$((PSHARESTOP*ALIGNSIZE))
+        if test -n "${PSHARESTART}" ; then
+            # Create SHARE PARTITION
+            parted -a optimal -s "${PARTPREFIX}" -m unit b mkpart primary "${PSHARESTART}" "${PSHARESTOP}"
+            if test -e "${INTERNALDEVICE}" ; then
+                #mkfs.vfat -F 32 -n SHARE /dev/mmcblk0p3 # if you replace this line, please change the INTERNALDEVICETYPE variable too in consequence
+                #fsck.fat /dev/mmcblk0p3 -a
+                mkfs.ext4 "${INTERNALDEVICE}" -q -F -L SHARE2
+                e2fsck -f -p "${INTERNALDEVICE}"
+            fi
+            
+            # Create OVERLAY PARTITION - 1Gb
+            INTERNALNEXTDEVICE=$(/recalbox/scripts/recalbox-part.sh next "${INTERNALDEVICE}")
+            POVERLAYSTARTB=$(parted -s "${PARTPREFIX}" -m unit b print free | tail -1 | grep -E ":free;$" | cut -d: -f 2)
+            POVERLAYSTART=${POVERLAYSTARTB/B/}
+            POVERLAYSTART=$((POVERLAYSTART+ALIGNSIZE))
+            POVERLAYSTART=$((POVERLAYSTART-1))
+            POVERLAYSTART=$((POVERLAYSTART/ALIGNSIZE))
+            POVERLAYSTART=$((POVERLAYSTART*ALIGNSIZE))
+            parted -a optimal -s "${PARTPREFIX}" -m unit b mkpart primary "${POVERLAYSTART}" 100%
+            if test -e "${INTERNALNEXTDEVICE}" ; then
+                mkfs.ext4 "${INTERNALNEXTDEVICE}" -q -F -L OVERLAY
+                e2fsck -f -p "${INTERNALNEXTDEVICE}"
+            fi
+        fi
     fi
 fi
 #####
@@ -95,29 +105,22 @@ mountDeviceOrFallback() {
     RECALBOXFULLFS="/var/recalboxfs"
     FALLBACK=1
 
-    if test -n "${DEVICE}"
-    then
-	if mkdir -p "${RECALBOXFULLFS}"
-	then
-	    if /recalbox/scripts/recalbox-mount.sh "${TDEVICE}" 1 "${DEVICE}" "${RECALBOXFULLFS}"
-	    then
-		if mkdir -p "${RECALBOXFULLFS}/recalbox"
-		then
-		    if mount "${RECALBOXFULLFS}/recalbox" "/recalbox/share" -o "noatime"
-		    then
-			FALLBACK=0
-		    fi
-		fi
-	    fi
-	fi
+    if test -n "${DEVICE}" ; then
+        if mkdir -p "${RECALBOXFULLFS}" ; then
+            if /recalbox/scripts/recalbox-mount.sh "${TDEVICE}" 1 "${DEVICE}" "${RECALBOXFULLFS}" ; then
+                if mkdir -p "${RECALBOXFULLFS}/recalbox" ; then
+                    if mount "${RECALBOXFULLFS}/recalbox" "/recalbox/share" -o "noatime" ; then
+                              FALLBACK=0
+                    fi
+                fi
+            fi
+        fi
     fi
 
-    if test "${FALLBACK}" = 1
-    then
-	if ! /recalbox/scripts/recalbox-mount.sh "${INTERNALDEVICETYPE}" 1 "${INTERNALDEVICE}" /recalbox/share
-	then
-	    mount -t tmpfs -o size=128M tmpfs /recalbox/share
-	fi
+    if test "${FALLBACK}" = 1 ; then
+        if ! /recalbox/scripts/recalbox-mount.sh "${INTERNALDEVICETYPE}" 1 "${INTERNALDEVICE}" /recalbox/share ; then
+            mount -t tmpfs -o size=128M tmpfs /recalbox/share
+        fi
     fi
 }
 
@@ -145,84 +148,78 @@ mountNetwork() {
 
     # execute all commands in /boot/recalbox-boot.conf which are like : sharenetwork_cmd1=my command
     if ! grep -E '^[ ]*sharenetwork_[a-z]*[0-9][ ]*=' "${SHARECONFFILE}" |
-	    sed -e s+'^[ ]*sharenetwork_\([a-z]*\)[0-9][ ]*='+'\1 '+ |
-	    while read CTYPE CMD
-	    do
-		XTRY=5  # X tries and give up
-		XWAIT=4 # N seconds between each try
+        sed -e s+'^[ ]*sharenetwork_\([a-z]*\)[0-9][ ]*='+'\1 '+ |
+        while read CTYPE CMD ; do
+            XTRY=5  # X tries and give up
+            XWAIT=4 # N seconds between each try
 
-		while test "${XTRY}" -gt 0
-		do
-		    let XTRY--
+            while test "${XTRY}" -gt 0 ; do
+                let XTRY--
 
-		    CMD_EXEC=echo
-		    if test "${CTYPE}" = "cmd"
-		    then
-			CMD_EXEC="${CMD}"
-		    else
-			CMD_TARGET=$(echo "${CMD}" | sed -e s+'^\([^@]*\)@.*$'+'\1'+)
-			CMD_HOST=$(echo "${CMD}" | sed -e s+'^[^@]*@\([^:]*\):.*$'+'\1'+)
-			CMD_RDIR=$(echo "${CMD}" | sed -e s+'^[^@]*@[^:]*:\([^:]*\).*$'+'\1'+)
-			CMD_OPT=$(echo "${CMD}" | sed -e s+'^[^@]*@[^:]*:[^:]*'+''+ -e s+'^:'++)
+                CMD_EXEC=echo
+                if test "${CTYPE}" = "cmd" ; then
+                    CMD_EXEC="${CMD}"
+                else
+                    CMD_TARGET=$(echo "${CMD}" | sed -e s+'^\([^@]*\)@.*$'+'\1'+)
+                    CMD_HOST=$(echo "${CMD}" | sed -e s+'^[^@]*@\([^:]*\):.*$'+'\1'+)
+                    CMD_RDIR=$(echo "${CMD}" | sed -e s+'^[^@]*@[^:]*:\([^:]*\).*$'+'\1'+)
+                    CMD_OPT=$(echo "${CMD}" | sed -e s+'^[^@]*@[^:]*:[^:]*'+''+ -e s+'^:'++)
 
-			# MAP to the recalbox directory
-			CMD_TDIR="/recalbox/share"
-			case "${CMD_TARGET}" in
-			    "SHARE")
-				CMD_TDIR="/recalbox/share"
-			    ;;
-			    "ROMS")
-				CMD_TDIR="/recalbox/share/roms"
-			    ;;
-			    "SAVES")
-				CMD_TDIR="/recalbox/share/saves"
-			    ;;
-			    "BIOS")
-				CMD_TDIR="/recalbox/share/bios"
-			    ;;
-			    "MUSIC")
-				CMD_TDIR="/recalbox/share/music"
-			    ;;
-			esac
+                    # MAP to the recalbox directory
+                    CMD_TDIR="/recalbox/share"
+                    case "${CMD_TARGET}" in
+                        "SHARE")
+                            CMD_TDIR="/recalbox/share"
+                        ;;
+                        "ROMS")
+                            CMD_TDIR="/recalbox/share/roms"
+                        ;;
+                        "SAVES")
+                            CMD_TDIR="/recalbox/share/saves"
+                        ;;
+                        "BIOS")
+                            CMD_TDIR="/recalbox/share/bios"
+                        ;;
+                        "MUSIC")
+                            CMD_TDIR="/recalbox/share/music"
+                        ;;
+                    esac
 
-			case "${CTYPE}" in
-			    "nfs")
-				CMD_ADDOPT=
-				test -n "${CMD_OPT}" && CMD_ADDOPT=",${CMD_OPT}"
-				CMD_EXEC="mount -o port=2049,nolock,proto=tcp${CMD_ADDOPT} ${CMD_HOST}:${CMD_RDIR} ${CMD_TDIR}"
-				;;
-			    "smb")
-				CMD_ADDOPT=
-				test -n "${CMD_OPT}" && CMD_ADDOPT="-o ${CMD_OPT}"
-				CMD_EXEC="mount.cifs //${CMD_HOST}/${CMD_RDIR} ${CMD_TDIR} ${CMD_ADDOPT}"
-				;;
-			esac
-		    fi
+                    case "${CTYPE}" in
+                        "nfs")
+                            CMD_ADDOPT=
+                            test -n "${CMD_OPT}" && CMD_ADDOPT=",${CMD_OPT}"
+                            CMD_EXEC="mount -o port=2049,nolock,proto=tcp${CMD_ADDOPT} ${CMD_HOST}:${CMD_RDIR} ${CMD_TDIR}"
+                        ;;
+                        "smb")
+                            CMD_ADDOPT=
+                            test -n "${CMD_OPT}" && CMD_ADDOPT="-o ${CMD_OPT}"
+                            CMD_EXEC="mount.cifs //${CMD_HOST}/${CMD_RDIR} ${CMD_TDIR} ${CMD_ADDOPT}"
+                        ;;
+                    esac
+                fi
 
-		    echo "${CMD_EXEC}" >> /tmp/mountNetwork.log
-		    if ${CMD_EXEC}
-		    then
-			XTRY=0
-		    else
-			# give up
-			if test ${XTRY} = 0
-			then
-			    return 1
-			fi
-			sleep ${XWAIT} # wait n seconds between each try
-		    fi
-		done
-	    done
+                echo "${CMD_EXEC}" >> /tmp/mountNetwork.log
+                if ${CMD_EXEC} ; then
+                    XTRY=0
+                else
+                    # give up
+                    if test ${XTRY} = 0 ;   then
+                        return 1
+                    fi
+                    sleep ${XWAIT} # wait n seconds between each try
+                fi
+            done
+        done
     then
-	return 1
+        return 1
     fi
     return 0
 }
 
 RMODE="$SHAREDEVICE"
 
-if echo "${RMODE}" | grep -qE '^DEV '
-then
+if echo "${RMODE}" | grep -qE '^DEV ' ; then
     MODE="DEV"
     UUID=$(echo "${RMODE}" | sed -e s+'^DEV '++)
 else
@@ -231,74 +228,62 @@ fi
 
 case "${MODE}" in
     "DEV")
-	LDEVICE=$(blkid | grep " UUID=\"${UUID}\"")
-	while test -z "${LDEVICE}" -a "${NTRY}" -lt "${MAXTRY}" # wait the device that can take some seconds after udev started
-	do
-	    let NTRY++
-	    sleep 1
-	    LDEVICE=$(blkid | grep " UUID=\"${UUID}\"")
-	done
-	DEVICE=$(echo "${LDEVICE}" | sed -e s+'^\([^:]*\):.*$'+'\1'+)
-	TDEVICE=$(echo "${LDEVICE}" | sed -e s+'^.* TYPE="\([^"]*\)"$'+'\1'+)
-	mountDeviceOrFallback "${DEVICE}" "${TDEVICE}"
-	;;
+        LDEVICE=$(blkid | grep " UUID=\"${UUID}\"")
+        while test -z "${LDEVICE}" -a "${NTRY}" -lt "${MAXTRY}" # wait the device that can take some seconds after udev started
+        do
+            let NTRY++
+            sleep 1
+            LDEVICE=$(blkid | grep " UUID=\"${UUID}\"")
+        done
+        DEVICE=$(echo "${LDEVICE}" | sed -e s+'^\([^:]*\):.*$'+'\1'+)
+        TDEVICE=$(echo "${LDEVICE}" | sed -e s+'^.* TYPE="\([^"]*\)"$'+'\1'+)
+        mountDeviceOrFallback "${DEVICE}" "${TDEVICE}"
+        ;;
     "ANYEXTERNAL")
         PARTPREFIX=$(/recalbox/scripts/recalbox-part.sh prefix "${INTERNALDEVICE}")
-	LDEVICE=$(blkid | grep -vE "^${PARTPREFIX}" | head -1)
-	while test -z "${LDEVICE}" -a "${NTRY}" -lt "${MAXTRY}" # wait the device that can take some seconds after udev started
-	do
-	    let NTRY++
-	    sleep 1
-	    LDEVICE=$(blkid | grep -vE "^${PARTPREFIX}" | head -1)
-	done
-	DEVICE=$(echo "${LDEVICE}" | sed -e s+'^\([^:]*\):.*$'+'\1'+)
-	TDEVICE=$(echo "${LDEVICE}" | sed -e s+'^.* TYPE="\([^"]*\)"$'+'\1'+)
-	mountDeviceOrFallback "${DEVICE}" "${TDEVICE}"
-	;;
+        LDEVICE=$(blkid | grep -vE "^${PARTPREFIX}" | head -1)
+        while test -z "${LDEVICE}" -a "${NTRY}" -lt "${MAXTRY}" # wait the device that can take some seconds after udev started
+        do
+            let NTRY++
+            sleep 1
+            LDEVICE=$(blkid | grep -vE "^${PARTPREFIX}" | head -1)
+        done
+        DEVICE=$(echo "${LDEVICE}" | sed -e s+'^\([^:]*\):.*$'+'\1'+)
+        TDEVICE=$(echo "${LDEVICE}" | sed -e s+'^.* TYPE="\([^"]*\)"$'+'\1'+)
+        mountDeviceOrFallback "${DEVICE}" "${TDEVICE}"
+        ;;
     "RAM")
-	mount -t tmpfs -o size=128M tmpfs /recalbox/share
-	;;
+        mount -t tmpfs -o size=128M tmpfs /recalbox/share
+        ;;
     "NETWORK")
-	# first, INTERNAL mount, then, network mount over the NETWORK mounts
-	# to allow to mount over /recalbox/share, but only over /recalbox/share/roms if wanted
-	# mounting network mounts over usb key have not really sense
-	if ! /recalbox/scripts/recalbox-mount.sh "${INTERNALDEVICETYPE}" 1 "${INTERNALDEVICE}" /recalbox/share
-	then
-	    # fallback
-	    mount -t tmpfs -o size=128M tmpfs /recalbox/share
-	fi
+        # first, INTERNAL mount, then, network mount over the NETWORK mounts
+        # to allow to mount over /recalbox/share, but only over /recalbox/share/roms if wanted
+        # mounting network mounts over usb key have not really sense
+        if ! /recalbox/scripts/recalbox-mount.sh "${INTERNALDEVICETYPE}" 1 "${INTERNALDEVICE}" /recalbox/share ; then
+            # fallback
+            mount -t tmpfs -o size=128M tmpfs /recalbox/share
+        fi
 
-	# Network mounts
-	# no fallback required, mounted on the share
-	mountNetwork > /tmp/mountNetwork.log 2> /tmp/mountNetwork.err # could be usefull to debug
-	;;
+        # Network mounts
+        # no fallback required, mounted on the share
+        mountNetwork > /tmp/mountNetwork.log 2> /tmp/mountNetwork.err # could be usefull to debug
+        ;;
     "INTERNAL"|*)
-	if ! /recalbox/scripts/recalbox-mount.sh "${INTERNALDEVICETYPE}" 1 "${INTERNALDEVICE}" /recalbox/share
-	then
-	    # fallback
-	    # the internal partition is no more required in fact
-	    mount -t tmpfs -o size=128M tmpfs /recalbox/share
-	fi
-	;;
+        if ! /recalbox/scripts/recalbox-mount.sh "${INTERNALDEVICETYPE}" 1 "${INTERNALDEVICE}" /recalbox/share ; then
+            # fallback
+            # the internal partition is no more required in fact
+            mount -t tmpfs -o size=128M tmpfs /recalbox/share
+        fi
+        ;;
 esac
 
 # now, let mount delayed usbmount devices
 ls /var/run/usbmount.delay |
-    while read RULE
-    do
-	RTYPE=$(echo "${RULE}" | sed -e s+'^[0-9]*\.'++)
-	# source the udev context and apply the usbmount
-	(. "/var/run/usbmount.delay/${RULE}"
-	 /usr/share/usbmount/usbmount "${RTYPE}"
-	 rm "/var/run/usbmount.delay/${RULE}")
+    while read RULE ; do
+        RTYPE=$(echo "${RULE}" | sed -e s+'^[0-9]*\.'++)
+        # source the udev context and apply the usbmount
+        (. "/var/run/usbmount.delay/${RULE}"
+         /usr/share/usbmount/usbmount "${RTYPE}"
+         rm "/var/run/usbmount.delay/${RULE}")
     done
 touch /var/run/recalbox.share.mounted # reenable standard usbmount
-
-# append tmp boot log files to log files in share
-#logpath="/recalbox/share/system/logs"
-#for bootlogfile in /tmp/logappend-*.*
-#do
-#	destfile=`echo "$bootlogfile" | sed 's|/tmp/logappend-||'`
-#	cat "${bootlogfile}" >> "${logpath}/${destfile}"
-#	rm "${bootlogfile}"
-#done
