@@ -1,0 +1,11 @@
+
+config BR2_PACKAGE_XROAR
+	bool "xroar"
+	select BR2_PACKAGE_SDL
+        select BR2_PACKAGE_RECALBOX_ROMFS_DRAGON
+	help
+	  XRoar is a Dragon and CoCo emulator for Linux, Unix, Mac OS X and Windows.
+	  https://www.6809.org.uk/xroar/
+
+comment "XRoar needs a toolchain w/ sdl installed"
+        depends on BR2_PACKAGE_SDL2

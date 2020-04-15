@@ -1,3 +1,4 @@
+
 menu "Recalbox"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/dpi-pizero-gpicase/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/evwait/Config.in"
@@ -82,6 +83,7 @@ menu "Emulators"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/retroarch/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/scummvm/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/vice/Config.in"
+         source "$BR2_EXTERNAL_RECALBOX_PATH/package/xroar/Config.in"
 
 if BR2_PACKAGE_RETROARCH
 menu "Libretro Cores"

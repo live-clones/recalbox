@@ -1,0 +1,16 @@
+## RECALBOX - SYSTEM DRAGON 32/64 ##
+
+Placez ici vos roms Dragon 32/64.
+
+La dragon supporte plusieurs types de fichiers.
+La majorité des jeux sorti sur cet ordinateur sont dans le format d'une cassette, et portent l'extension ".cas" ou dans certains cas, ".wav, .bas, .asc".
+Ces formats sont automatiquement démarrés.
+
+Certains jeux sont sur un format disquette, et portent une des extensions suivantes: ".dmk, .jvc .os9, .dsk, .vdk"
+Ces jeux la nécessitent une surcharge avec certains paramètres. Pour cela allez voir sur le gitbook.
+
+/!\ L'émulateur de Dragon, XRoar, ne supporte pas les .zip. Il faut donc extraire les fichiers pour que le média soit reconnu.
+
+Certains jeux demandent d'utiliser un certain mode d'artéfacts, permettant d'utiliser plusieurs couleurs. Si le jeu semble avoir des bandes de noir et de blanc,
+il suffit de faire la combinaison Ctrl+A un certain nombre de fois jusqu'a atteindre le mode de couleur souhaité.
+

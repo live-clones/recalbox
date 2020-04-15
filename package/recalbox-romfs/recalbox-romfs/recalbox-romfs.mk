@@ -251,6 +251,11 @@ ifeq ($(BR2_PACKAGE_DOSBOX),y)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-dos
 endif
 
+# System: dragon
+ifeq ($(BR2_PACKAGE_XROAR),y)
+        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-dragon
+endif
+
 # System: dreamcast
 ifneq ($(BR2_PACKAGE_LIBRETRO_FLYCAST)$(BR2_PACKAGE_REICAST),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-dreamcast

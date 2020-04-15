@@ -1,0 +1,7 @@
+config BR2_PACKAGE_RECALBOX_ROMFS_DRAGON
+	bool "recalbox-romfs-dragon"
+	select BR2_PACKAGE_RECALBOX_ROMS
+	depends on BR2_PACKAGE_XROAR
+	help
+	  share_init/roms and configs for dragon
+

@@ -1,0 +1,10 @@
+Title: Dunjunz
+Author: 2017-2018 Ciaran Anscomb
+Publisher: 2018 Teipen Mwnci
+Platform: Dragon, Tandy CoCo 32K
+Run.tape: CLOADM
+Run.dragondos: BOOT
+Run.rsdos: DOS
+Description: 'Gauntlet' style game with separate player windows
+ 25 levels of monsters & magic for the Dragon 32/64 and Tandy Colour Computer.
+ 1-4 simultaneous players! Written in 100% Machine Code!
