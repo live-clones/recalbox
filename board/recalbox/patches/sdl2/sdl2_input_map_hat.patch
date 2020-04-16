@@ -1,33 +1,29 @@
-diff --git a/src/joystick/linux/SDL_sysjoystick.c b/src/joystick/linux/SDL_sysjoystick.c
-index c37a22d..4a30041 100644
---- a/src/joystick/linux/SDL_sysjoystick.c
-+++ b/src/joystick/linux/SDL_sysjoystick.c
-@@ -539,6 +539,8 @@ ConfigJoystick(SDL_Joystick * joystick, int fd)
+--- ./src/joystick/linux/SDL_sysjoystick.c	2020-04-13 23:23:07.249202728 +0200
++++ ./src/joystick/linux/SDL_sysjoystick.c	2020-04-13 23:27:36.110497028 +0200
+@@ -648,6 +648,8 @@
              }
          }
          for (i = ABS_HAT0X; i <= ABS_HAT3Y; i += 2) {
 +   	    joystick->hwdata->hat_map[i]   = (joystick->nhats)*2;
-+	    joystick->hwdata->hat_map[i+1] = (joystick->nhats)*2+1;
++        joystick->hwdata->hat_map[i+1] = (joystick->nhats)*2+1;
              if (test_bit(i, absbit) || test_bit(i + 1, absbit)) {
                  struct input_absinfo absinfo;
- 
-@@ -774,8 +776,7 @@ HandleInputEvents(SDL_Joystick * joystick)
+                 int hat_index = (i - ABS_HAT0X) / 2;
+@@ -915,8 +917,7 @@
                  case ABS_HAT2Y:
                  case ABS_HAT3X:
                  case ABS_HAT3Y:
 -                    code -= ABS_HAT0X;
--                    HandleHat(joystick, code / 2, code % 2, events[i].value);
+-                    HandleHat(joystick, joystick->hwdata->hats_indices[code / 2], code % 2, events[i].value);
 +                    HandleHat(joystick, joystick->hwdata->hat_map[code] / 2, joystick->hwdata->hat_map[code] % 2, events[i].value);
                      break;
                  default:
-                     events[i].value =
-diff --git a/src/joystick/linux/SDL_sysjoystick_c.h b/src/joystick/linux/SDL_sysjoystick_c.h
-index 16d16e2..d4f6f58 100644
---- a/src/joystick/linux/SDL_sysjoystick_c.h
-+++ b/src/joystick/linux/SDL_sysjoystick_c.h
-@@ -45,6 +45,7 @@ struct joystick_hwdata
+                     if (joystick->hwdata->abs_map[code] != 0xFF) {
+--- ./src/joystick/linux/SDL_sysjoystick_c.h	2019-07-25 06:32:36.000000000 +0200
++++ ./src/joystick/linux/SDL_sysjoystick_c.h	2020-04-13 23:20:13.034931795 +0200
+@@ -52,6 +52,7 @@
      /* Support for the Linux 2.4 unified input interface */
-     Uint8 key_map[KEY_MAX - BTN_MISC];
+     Uint8 key_map[KEY_MAX];
      Uint8 abs_map[ABS_MAX];
 +    Uint8 hat_map[ABS_MAX];
      struct axis_correct
