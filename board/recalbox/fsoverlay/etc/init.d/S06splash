@@ -21,15 +21,7 @@ done
 fbdevWidth=$(cut -d, -f1 /sys/class/graphics/fb0/virtual_size)
 fbdevHeight=$(cut -d, -f2 /sys/class/graphics/fb0/virtual_size)
 
-videoPath=$(sed -n "s/^system.splash.path=//p" /boot/recalbox-backup.conf)
-if [ -z "${videoPath}" ] || [ ${videoPath} -eq 0 ] || [ ${videoPath} -lt -1 ]; then
-  videoPath="/recalbox/system/resources/splash"
-  if [ ${fbdevHeight} -le 240 ]; then
-    videoPath="${videoPath}/240p"
-  fi
-fi
-
-videoLength=$(sed -n "s/^system.splash.length=//p" /boot/recalbox-backup.conf)
+videoLength="`$systemsetting -command load -key system.splash.length`"
 if [ -z "${videoLength}" ] || [ ${videoLength} -eq 0 ] || [ ${videoLength} -lt -1 ]; then
   videoLength=20
 fi
@@ -46,10 +38,24 @@ turnOffGPiCaseHDMI() {
   fi
 }
 
+systemsetting="recalbox_settings"
+
 # selectVideo
 #   takes no argument and outputs a random video from those available
 function selectVideo() {
-  IFS= find ${videoPath} -maxdepth 1 -name *.mp4 \
+  # What to play?  
+  whatToPlay="`$systemsetting -command load -key system.splash.select`"
+  if [ "$whatToPlay" != "all" ] && [ "$whatToPlay" != "recalbox" ] && [ "$whatToPlay" != "custom" ] ; then whatToPlay="all" ; fi
+  echo "Selected: ${whatToPlay}"
+  if [ "$whatToPlay" == "all" ] || [ "$whatToPlay" == "recalbox" ] ; then
+    videoPath="/recalbox/system/resources/splash"
+    if [ ${fbdevHeight} -le 240 ]; then videoPath="${videoPath}/240p" ; fi
+    find ${videoPath} -maxdepth 1 \( -name "*.mp4" -o -name "*.avi" -o -name "*.mkv" \) >> /tmp/.videolist  
+  fi
+  if [ "$whatToPlay" == "all" ] || [ "$whatToPlay" == "custom" ] ; then
+    find /overlay/bootvideos               -maxdepth 1 \( -name "*.mp4" -o -name "*.avi" -o -name "*.mkv" \) >> /tmp/.videolist  
+  fi
+  IFS= cat /tmp/.videolist \
     | while read line; do echo "$RANDOM ${line}"; done \
     | sort -n \
     | head -1 \

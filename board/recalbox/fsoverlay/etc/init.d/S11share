@@ -77,10 +77,10 @@ if ! test -e "${INTERNALDEVICE}" ; then
             if test -e "${INTERNALDEVICE}" ; then
                 #mkfs.vfat -F 32 -n SHARE /dev/mmcblk0p3 # if you replace this line, please change the INTERNALDEVICETYPE variable too in consequence
                 #fsck.fat /dev/mmcblk0p3 -a
-                mkfs.ext4 "${INTERNALDEVICE}" -q -F -L SHARE2
+                mkfs.ext4 "${INTERNALDEVICE}" -q -F -L SHARE
                 e2fsck -f -p "${INTERNALDEVICE}"
             fi
-            
+
             # Create OVERLAY PARTITION - 1Gb
             INTERNALNEXTDEVICE=$(/recalbox/scripts/recalbox-part.sh next "${INTERNALDEVICE}")
             POVERLAYSTARTB=$(parted -s "${PARTPREFIX}" -m unit b print free | tail -1 | grep -E ":free;$" | cut -d: -f 2)
