@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-VIRTUALGAMEPADS_VERSION = 3bb337f08bfcdefea958928e0d68bde1d5b8da30
+VIRTUALGAMEPADS_VERSION = v1.4.0
 VIRTUALGAMEPADS_BRANCH = recalbox
 VIRTUALGAMEPADS_SITE = $(call github,jehervy,node-virtual-gamepads,$(VIRTUALGAMEPADS_BRANCH),$(VIRTUALGAMEPADS_VERSION))
 VIRTUALGAMEPADS_DEPENDENCIES = nodejs
