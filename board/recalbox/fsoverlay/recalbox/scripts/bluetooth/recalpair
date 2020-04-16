@@ -8,7 +8,7 @@ set name [lindex $argv 1]
 
 eval exec "recallog \"Pairing bluetooth device $name with mac $address...\""
 
-spawn bluetoothctl -a
+spawn bluetoothctl
 expect -re $prompt
 
 send "remove $address\r"
