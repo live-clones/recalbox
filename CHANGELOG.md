@@ -10,6 +10,10 @@ All notable changes to this project will be documented in this file.
 - Automatic recovery after 3 boots failure
 - Brand new update system, easier than ever
 - Share partition is created in exfat on fresh install
+- Major system upgrade. See https://github.com/buildroot/buildroot/blob/2020.02/CHANGES#L1-L1427 for the full log
+- Bump virtualgamepads to v1.4.0 and added fixes for nodejs 12
+- Bump rpi-firmware to v1.20200212
+- Bump megatools to 1.10.2
 - Fix Omxplayer after Ffmpeg bump
 - Fix Kodi after Ffmpeg bump
 - Add WiringPi progs abd libs
