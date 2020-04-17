@@ -22,6 +22,7 @@
 - Prboom system has been renamed to Doom
 - Libretro puae emulates amigacd32 now
 - Bump Amiberry to v3.1.3
+- Bump AdvanceMame to v3.9
 
 ### Improvements
 - Improve internal Scraper (ScreenScraper):
