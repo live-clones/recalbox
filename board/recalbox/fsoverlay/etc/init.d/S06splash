@@ -21,7 +21,7 @@ done
 fbdevWidth=$(cut -d, -f1 /sys/class/graphics/fb0/virtual_size)
 fbdevHeight=$(cut -d, -f2 /sys/class/graphics/fb0/virtual_size)
 
-videoLength="`$systemsetting -command load -key system.splash.length`"
+videoLength="`$systemsetting -command load -key system.splash.length -source /boot/recalbox-backup.conf`"
 if [ -z "${videoLength}" ] || [ ${videoLength} -eq 0 ] || [ ${videoLength} -lt -1 ]; then
   videoLength=20
 fi
@@ -44,7 +44,7 @@ systemsetting="recalbox_settings"
 #   takes no argument and outputs a random video from those available
 function selectVideo() {
   # What to play?  
-  whatToPlay="`$systemsetting -command load -key system.splash.select`"
+  whatToPlay="`$systemsetting -command load -key system.splash.select -source /boot/recalbox-backup.conf`"
   if [ "$whatToPlay" != "all" ] && [ "$whatToPlay" != "recalbox" ] && [ "$whatToPlay" != "custom" ] ; then whatToPlay="all" ; fi
   echo "Selected: ${whatToPlay}"
   if [ "$whatToPlay" == "all" ] || [ "$whatToPlay" == "recalbox" ] ; then
