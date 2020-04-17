@@ -8,6 +8,7 @@ d428f583c595f5eb362c299b01d1eb4f  package/genimage/genimage.mk
 76f02a748149f1aa945aa418ea65b2bc  package/initscripts/init.d/rcS
 e459efac93dadd5c08fbe59ecd03bfd9  package/libcec/libcec.mk
 ebf2b3624c1427077933a903679ed7a9  package/lirc-tools/lirc-tools.mk
+95739ab1f017a49c4248a4e63d6ade69  package/mesa3d/mesa3d.mk
 cfc4ca8da37d658b18f2d7422b09048c  package/mpg123/mpg123.mk
 7dda00b9bb5a907cbaca47bb0dc9672f  package/mosquitto/mosquitto.mk
 f38548efeaeaaa6515c91bc6ab7d9d54  package/rpi-firmware/cmdline.txt
