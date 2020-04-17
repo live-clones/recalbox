@@ -11,14 +11,15 @@ do_mount() {
 
 check_update() {
     # All update files?
-    if test -f /boot_root/boot/recalbox.update ; then
-        if test -f /boot_root/boot/linux.update ; then
-            if test -f /boot_root/boot/initrd.gz.update ; then
+    mkdir -p /boot_root/update/
+    if test -f /boot_root/update/recalbox ; then
+        if test -f /boot_root/update/linux ; then
+            if test -f /boot_root/update/initrd.gz ; then
                 return 0
             fi
         fi
     fi
-    return 1 
+    return 1
 }
 
 do_clean_overlay() {
@@ -30,16 +31,10 @@ do_clean_overlay() {
 
 do_update() {
     mount -o remount,rw /boot_root || return 1
-    # Backup current system
-    rm -rf /boot_root/boot/.old
-    mkdir -p /boot_root/boot/.old
-    mv /boot_root/boot/recalbox  /boot_root/boot/.old/recalbox  || return 1
-    mv /boot_root/boot/linux     /boot_root/boot/.old/linux     || return 1
-    mv /boot_root/boot/initrd.gz /boot_root/boot/.old/initrd.gz || return 1
     # UPDATE!
-    mv /boot_root/boot/recalbox.update  /boot_root/boot/recalbox  || return 1
-    mv /boot_root/boot/linux.update     /boot_root/boot/linux     || return 1
-    mv /boot_root/boot/initrd.gz.update /boot_root/boot/initrd.gz || return 1
+    mv /boot_root/update/recalbox  /boot_root/boot/recalbox  || return 1
+    mv /boot_root/update/linux     /boot_root/boot/linux     || return 1
+    mv /boot_root/update/initrd.gz /boot_root/boot/initrd.gz || return 1
     mount -o remount,ro /boot_root || return 1
 }
 
