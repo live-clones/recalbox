@@ -1,7 +1,10 @@
 #!/bin/bash
 
-FILES_TO_UPGRADE="boot.tar.xz root.tar.xz boot.tar.xz.sha1 root.tar.xz.sha1 root.list"
-FILES_TO_CHECK="boot.tar.xz root.tar.xz"
+UPDATEARCH=`cat /recalbox/recalbox.arch`
+UPDATEFILE="recalbox-${UPDATEARCH}.img.xz"
+
+FILES_TO_UPGRADE="${UPDATEFILE} ${UPDATEFILE}.sha1"
+FILES_TO_CHECK="${UPDATEFILE}"
 ADDITIONAL_PARAMETERS="?source=recalbox"
 
 while [[ $# -gt 1 ]]
@@ -138,12 +141,13 @@ for file in $FILES_TO_CHECK; do
   echoerr "${file} checksum verified"
 done
 
-/recalbox/scripts/upgrade/recalbox-do-prereboot-upgrade.sh --upgrade-dir "$UPGRADE_DIR"
+( exec /recalbox/scripts/upgrade/recalbox-squashfs-upgrade.sh )
 if [ $? -ne 0 ];then
-  echoerr "Failed upgrading /boot and /lib/modules"
+  echoerr "Failed to start upgrade"
   exit 6
 fi
 
 touch "${UPGRADE_DIR}/okforupgrade.go"
 echoES "THE SYSTEM WILL NOW REBOOT"
 exit 0
+
