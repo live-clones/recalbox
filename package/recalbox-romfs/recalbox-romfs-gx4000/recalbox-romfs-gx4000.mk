@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --system gx4000 --extension '.dsk .DSK .m3u .M3U .zip .ZIP .7z .7Z .cpr .CPR .bin .BIN' --fullname 'Amstrad GX4000' --platform gx4000 --theme gx4000 1:libretro:cap32:BR2_PACKAGE_LIBRETRO_CAP32
+# ./scripts/linux/empack.py --force --system gx4000 --extension '.cpr .m3u .zip .7z' --fullname 'Amstrad GX4000' --platform gx4000 --theme gx4000 1:libretro:cap32:BR2_PACKAGE_LIBRETRO_CAP32
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_GX4000_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_GX4000 = $(RECALBOX_ROMFS_GX4000_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_CAP32),)
 define CONFIGURE_MAIN_GX4000_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_GX4000),Amstrad GX4000,$(SYSTEM_NAME_GX4000),.dsk .DSK .m3u .M3U .zip .ZIP .7z .7Z .cpr .CPR .bin .BIN,gx4000,gx4000)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_GX4000),Amstrad GX4000,$(SYSTEM_NAME_GX4000),.cpr .m3u .zip .7z,gx4000,gx4000)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_CAP32),)
