@@ -2,24 +2,15 @@ diff --git a/package/bluez5_utils/bluez5_utils.mk b/package/bluez5_utils/bluez5_
 index c608637..f5be751 100644
 --- a/package/bluez5_utils/bluez5_utils.mk
 +++ b/package/bluez5_utils/bluez5_utils.mk
-@@ -4,7 +4,7 @@
- #
- ################################################################################
- 
--BLUEZ5_UTILS_VERSION = 5.48
-+BLUEZ5_UTILS_VERSION = 5.43
- BLUEZ5_UTILS_SOURCE = bluez-$(BLUEZ5_UTILS_VERSION).tar.xz
- BLUEZ5_UTILS_SITE = $(BR2_KERNEL_MIRROR)/linux/bluetooth
- BLUEZ5_UTILS_INSTALL_STAGING = YES
-@@ -122,4 +122,12 @@ define BLUEZ5_UTILS_INSTALL_INIT_SYSTEMD
- 		$(TARGET_DIR)/etc/systemd/system/dbus-org.bluez.service
- endef
+@@ -118,4 +118,12 @@ else
+ BLUEZ5_UTILS_CONF_OPTS += --disable-systemd
+ endif
  
 +define BLUEZ5_UTILS_INSTALL_CONF_FILES
-+	mkdir -p $(TARGET_DIR)/etc/bluetooth
-+	for i in `find $(@D) -name *.conf` ; do \
-+		$(INSTALL) -D -m 755 $$i $(TARGET_DIR)/etc/bluetooth/ ; \
-+	done
++       mkdir -p $(TARGET_DIR)/etc/bluetooth
++       for i in `find $(@D) -name *.conf` ; do \
++               $(INSTALL) -D -m 755 $$i $(TARGET_DIR)/etc/bluetooth/ ; \
++       done
 +endef
 +BLUEZ5_UTILS_POST_INSTALL_TARGET_HOOKS += BLUEZ5_UTILS_INSTALL_CONF_FILES
 +
