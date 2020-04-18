@@ -32,7 +32,7 @@ define LIBRETRO_FBNEO_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/src/burner/libretro/fbneo_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/fbneo_libretro.so
 	mkdir -p $(TARGET_DIR)/recalbox/share_init/bios/fbneo/samples
-	cp "$(@D)/dats/*" $(TARGET_DIR)/recalbox/share_init/bios/fbneo
+	cp -R $(@D)/dats/* $(TARGET_DIR)/recalbox/share_init/bios/fbneo
 	cp -R $(@D)/metadata/* $(TARGET_DIR)/recalbox/share_init/bios/fbneo
 endef
 
