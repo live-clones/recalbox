@@ -170,12 +170,12 @@ float GuiSearch::getButtonGridHeight() const
 
 bool GuiSearch::ProcessInput(const class InputCompactEvent & event)
 {
-	if (event.BPressed())
+	if (event.APressed())
 	{
 		Close();
 		return true;
 	}
-	if (event.APressed())
+	if (event.BPressed())
   {
 	  mWindow.pushGui(new GuiArcadeVirtualKeyboard(mWindow, _("SEARCH"), mSearch->getValue(), this));
 	  return true;
@@ -217,8 +217,8 @@ bool GuiSearch::getHelpPrompts(Help& help)
   help.Clear()
       .Set(HelpType::LeftRight, _("SEARCH IN..."))
       .Set(HelpType::UpDown, _("SELECT"))
-      .Set(HelpType::A, _("KEYBOARD"))
-      .Set(HelpType::B, _("BACK"))
+      .Set(HelpType::A, _("BACK"))
+      .Set(HelpType::B, _("KEYBOARD"))
       .Set(HelpType::Start, _("LAUNCH"));
 	return true;
 }
@@ -259,7 +259,7 @@ void GuiSearch::PopulateGrid(const std::string& search)
 			mText->setValue("");
 			ComponentListRow row;
 			std::shared_ptr<Component> ed;
-			for (auto game : mSearchResults) {
+			for (auto *game : mSearchResults) {
 				row.elements.clear();
 				std::string gameName;
 
