@@ -17,6 +17,10 @@ class GuiScraperSelect : public Gui
   public:
     explicit GuiScraperSelect(Window& window, SystemManager& systemManager);
 
+    bool ProcessInput(const InputCompactEvent& event) override;
+
+    bool getHelpPrompts(Help& help) override;
+
   private:
     /*!
      * @brief Save options

@@ -44,3 +44,28 @@ void GuiScraperSelect::SaveOptions()
   RecalboxConf::Instance().SetInt("scraper.getnamefrom", (int)mScrapeNameFrom->getSelected());
   RecalboxConf::Instance().SetBool("scraper.extractregionfromfilename", mExtractRegion->getState());
 }
+
+bool GuiScraperSelect::ProcessInput(const InputCompactEvent& event)
+{
+  if (event.APressed())
+  {
+    Close();
+    return true;
+  }
+
+  if (event.StartPressed())
+  {
+    // close everything
+    mWindow.CloseAll();
+    return true;
+  }
+
+  return Component::ProcessInput(event);
+}
+
+bool GuiScraperSelect::getHelpPrompts(Help& help)
+{
+  help.Set(HelpType::A, _("BACK"))
+      .Set(HelpType::Start, _("CLOSE"));
+  return true;
+}

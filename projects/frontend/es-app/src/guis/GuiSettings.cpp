@@ -1,7 +1,6 @@
 #include "guis/GuiSettings.h"
 #include "Window.h"
 #include "Settings.h"
-#include "views/ViewController.h"
 #include "utils/locale/LocaleHelper.h"
 
 GuiSettings::GuiSettings(Window&window, const std::string& title)
