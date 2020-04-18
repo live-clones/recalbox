@@ -3,6 +3,14 @@
 
 #!/bin/ash
 
+do_splash() {
+    "echo splash"
+    for fbdev in /dev/fb[0-9]; do
+        [ -e "$fbdev" ] || break
+        fbsplash -s "/new_root/recalbox/system/resources/splash/logo.ppm" -d "$fbdev"
+    done
+}
+
 do_mount() {
     if mount -o ro "${1}"           /boot_root; then return 0; fi
     if mount -o ro "LABEL=RECALBOX" /boot_root; then return 0; fi # LEGACY BOOT FOR IMAGES BEFORE SQUASHFS
@@ -102,6 +110,9 @@ do_root() {
         # Mount squashfs as new root when overlayfs is not supported
         mount /boot_root/boot/recalbox /new_root || return 1
     fi
+
+    #splash
+    do_splash
 
     # moving current mounts
     mount --move /boot_root    /new_root/boot    || return 1

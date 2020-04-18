@@ -1,5 +1,5 @@
 diff --git a/package/mpg123/mpg123.mk b/package/mpg123/mpg123.mk
-index dd2d39d978..839ef4fde9 100644
+index dd2d39d..839ef4f 100644
 --- a/package/mpg123/mpg123.mk
 +++ b/package/mpg123/mpg123.mk
 @@ -4,10 +4,10 @@
