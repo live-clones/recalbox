@@ -4,6 +4,8 @@ fad4a9334552741586c0d33ac477ce65  package/dhcpcd/dhcpcd.mk
 c445390118f5d058dd372a8b2beb25a8  package/dropbear/S50dropbear
 dd1f6bdbde586c692b0a29a7feed14f3  package/genimage/genimage.hash
 d428f583c595f5eb362c299b01d1eb4f  package/genimage/genimage.mk
+669a965d005d7545ad408a8dc69012ba  package/fluidsynth/fluidsynth.hash
+15047ec39b36fdc73bd91899a099cc55  package/fluidsynth/fluidsynth.mk
 6b31f620c36bb2d6c54cfaf71cc5a086  package/initscripts/init.d/rcK
 76f02a748149f1aa945aa418ea65b2bc  package/initscripts/init.d/rcS
 e459efac93dadd5c08fbe59ecd03bfd9  package/libcec/libcec.mk
