@@ -1,4 +1,5 @@
 8fc8a6339c14a1fe72ac2a84b5812f11  boot/syslinux/syslinux.mk
+20cad3977b0ee4cc96821e8e7d2e6a7f  package/bluez5_utils/bluez5_utils.mk
 92048d2d2185b48c1e2097b9685c92f8  package/binutils/binutils.mk
 fad4a9334552741586c0d33ac477ce65  package/dhcpcd/dhcpcd.mk
 c445390118f5d058dd372a8b2beb25a8  package/dropbear/S50dropbear
