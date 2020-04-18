@@ -42,7 +42,7 @@ function hashFile () {
 #system=$1
 #rom=$2
 # Don't hash handhelds, CD, arcade
-forbiddenSystems='gb gbc gba n64 gamecube wii psx psp dreamcast segacd fba fba_libretro mame neogeo wswan wswanc ngp ngpc gamegear lynx pcenginecd scummvm 3do neogeocd pokemini atomiswave naomi saturn amigacd32 amigacdtv pcfx daphne palm saturn'
+forbiddenSystems='3do amigacd32 amigacdtv atomiswave daphne dreamcast fba fbneo gamecube gamegear gb gba gbc lynx mame n64 naomi naomigd neogeo neogeocd ngp ngpc palm pcenginecd pcfx pokemini psp psx saturn scummvm segacd wii wswan wswanc'
 forbiddenExtensions='m3u'
 pRoms=/recalbox/share/roms
 hashFilePath=/recalbox/share/system/configs/hashes

@@ -264,9 +264,9 @@ ifneq ($(BR2_PACKAGE_PIFBA),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-fba
 endif
 
-# System: fba_libretro
+# System: fbneo
 ifneq ($(BR2_PACKAGE_LIBRETRO_FBNEO),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-fba_libretro
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-fbneo
 endif
 
 # System: fds

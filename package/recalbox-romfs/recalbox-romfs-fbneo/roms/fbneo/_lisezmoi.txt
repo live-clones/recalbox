@@ -1,0 +1,10 @@
+## RECALBOX - SYSTEM FBNEO ##
+
+Placez ici vos roms FinalBurn Neo (support cps3, version plus recente, mais moins performant que piFBA).
+
+La version des roms doit etre 0.2.97.44
+
+Les roms doivent avoir l'extension ".iso/.zip/.7z"
+
+Fichiers spéciaux pour le core fba libretro :
+- Ajoutez vos fichiers samples dans le répertoire /recalbox/share/bios/fbneo/samples/
