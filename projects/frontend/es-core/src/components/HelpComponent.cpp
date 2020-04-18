@@ -13,7 +13,7 @@
 
 static const HashMap<HelpType, const char*>& IconPathMap()
 {
-  static const HashMap<HelpType, const char*> _IconPathMap =
+  static const HashMap<HelpType, const char*> sIconPathMap =
   {
     { HelpType::UpDown,            ":/help/dpad_updown.svg" },
     { HelpType::LeftRight,         ":/help/dpad_leftright.svg" },
@@ -35,7 +35,7 @@ static const HashMap<HelpType, const char*>& IconPathMap()
     { HelpType::Joy2UpDown,        ":/help/joystick_updown_R.svg" },
     { HelpType::Joy2LeftRight,     ":/help/joystick_leftright_R.svg" },
   };
-  return _IconPathMap;
+  return sIconPathMap;
 }
 
 HelpComponent::HelpComponent(Window&window)
@@ -89,6 +89,9 @@ void HelpComponent::UpdateHelps()
 
 	mGrid.setSize(width, height);
   mScrollingLength = Math::roundi(width) - (Renderer::getDisplayWidthAsInt() - Math::roundi(2.0f * HelpItemStyle().Position().x()));
+  mScrollingOffset = 0;
+  mScrollingTimeAccumulator = 0;
+  mScrolling = Scrolling::Initialize;
 	for (int i = 0; i < (int)icons.size(); i++)
 	{
 		const int col = i*4;
