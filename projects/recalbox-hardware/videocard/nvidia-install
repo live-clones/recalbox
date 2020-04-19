@@ -50,10 +50,10 @@ if [ "${gpu}" ] && [ "${igpu}" ]; then
 	exit 0
 	else
 	# detect/configure nvidia driver version to install
-		if [ -n "${gpu} ${gpuid}" ] && [ -n "${supportList440}" ]; then
+		if [ -n "${gpuid}" ] && [ -n "${supportList440}" ]; then
 	        nvver="${nvidia440}"
 	        echo "${supportList440}"
-        elif [ -n "${gpu} ${gpuid}" ] && [ -n "${supportList390}" ]; then
+        elif [ -n "${gpuid}" ] && [ -n "${supportList390}" ]; then
 	        nvver="${nvidia390}"
 	        echo "${supportList390}"
         fi
