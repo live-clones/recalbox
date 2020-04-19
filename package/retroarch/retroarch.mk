@@ -8,7 +8,7 @@ RETROARCH_VERSION = v1.8.5
 RETROARCH_SITE = git://github.com/libretro/RetroArch.git
 RETROARCH_SITE_METHOD = git
 RETROARCH_LICENSE = GPLv3+
-RETROARCH_CONF_OPTS += --disable-oss --enable-zlib --disable-opengl1 --disable-opengl
+RETROARCH_CONF_OPTS += --disable-oss --enable-zlib --disable-opengl1
 RETROARCH_DEPENDENCIES = host-pkgconf recalbox-system
 
 ifeq ($(BR2_PACKAGE_SDL2),y)
@@ -22,6 +22,10 @@ RETROARCH_DEPENDENCIES += sdl
 else
 RETROARCH_CONF_OPTS += --disable-sdl
 endif
+endif
+
+ifeq ($(BR2_PACKAGE_LIBDRM),y)
+RETROARCH_CONF_OPTS += --enable-kms
 endif
 
 # RPI 0 and 1
