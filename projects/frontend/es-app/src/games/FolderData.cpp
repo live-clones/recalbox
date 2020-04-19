@@ -38,7 +38,7 @@ void FolderData::removeChild(FileData* file)
     }
 }
 
-void FolderData::populateRecursiveFolder(const std::string& filteredExtensions, SystemData* systemData, FileData::StringMap& doppelgangerWatcher)
+void FolderData::populateRecursiveFolder(const std::string& originalFilteredExtensions, SystemData* systemData, FileData::StringMap& doppelgangerWatcher)
 {
   const Path& folderPath = getPath();
   if (!folderPath.IsDirectory())
@@ -61,6 +61,14 @@ void FolderData::populateRecursiveFolder(const std::string& filteredExtensions, 
       LOG(LogWarning) << "Skipping infinitely recursive symlink \"" << folderPath.ToString() << "\"";
       return;
     }
+  }
+
+  // Subsystem override
+  std::string filteredExtensions = originalFilteredExtensions;
+  if ((folderPath / ".system.cfg").Exists())
+  {
+    IniFile subSystem(folderPath / ".system.cfg");
+    filteredExtensions = subSystem.AsString("extensions", originalFilteredExtensions);
   }
 
   // Arcade system?

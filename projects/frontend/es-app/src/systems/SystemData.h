@@ -99,6 +99,13 @@ class SystemData : private INoCopy
      */
     void ParseGamelistXml(FileData::StringMap& doppelgangerWatcher, bool forceCheckFile);
 
+    /*!
+     * @brief Try to override command with the nearest one found in .system.cfg in folder or parent folders
+     * @param romPath Rom path to fetch .system.cfg from
+     * @param command Command to override
+     */
+    void OverrideCommand(const Path& romPath, std::string& command);
+
   public:
     //! Return the root folder object
     RootFolderData& getRootFolder() { return mRootFolder; };

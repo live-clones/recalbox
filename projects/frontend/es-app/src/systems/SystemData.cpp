@@ -27,6 +27,21 @@ SystemData::SystemData(SystemManager& systemManager, const SystemDescriptor& des
   mRootFolder.Metadata().SetName(mDescriptor.FullName());
 }
 
+void SystemData::OverrideCommand(const Path& romPath, std::string& command)
+{
+  Path parent = romPath.Directory();
+  if (parent != romPath)
+    OverrideCommand(parent, command);
+  
+  // Subsystem override
+  Path cfg = romPath.IsFile() ? romPath.ChangeExtension(romPath.Extension() + ".system.cfg") : romPath / ".system.cfg";
+  if (cfg.Exists())
+  {
+    IniFile subSystem(cfg);
+    command = subSystem.AsString("command", command);
+  }
+}
+
 void SystemData::RunGame(Window& window,
                          SystemManager& systemManager,
                          FileData& game,
