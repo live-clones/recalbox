@@ -4,11 +4,27 @@
 #!/bin/ash
 
 do_splash() {
-    "echo splash"
     for fbdev in /dev/fb[0-9]; do
         [ -e "$fbdev" ] || break
         fbsplash -s "/new_root/recalbox/system/resources/splash/logo.ppm" -d "$fbdev"
     done
+}
+
+check_safeboot() {
+    safeboot="/overlay_root/.safeboot"
+    if test -e "${safeboot}" ; then
+        safebootvalue=`cat "${safeboot}"`
+        let safebootvalue++
+	if test "${safebootvalue}" -gt 2 ; then
+            return 1
+        else
+            echo "${safebootvalue}" > "${safeboot}"
+        fi
+    else
+        echo "0" > "${safeboot}"
+    fi
+    sync
+    return 0
 }
 
 do_mount() {
@@ -62,12 +78,12 @@ do_root() {
 
     # look for devices
     mount -t devtmpfs none /dev
-   
+
     toMount="LABEL=RECALBOX"
     isDevice="0"
     test -n "${dev}"   && toMount=${dev} && isDevice="1"
     test -n "${label}" && toMount=LABEL=${label}
-  
+
     # Wait for boot mount to be ready
     timeout=0
     while ! mount -t vfat -o ro ${toMount} /boot_root ; do
@@ -93,9 +109,14 @@ do_root() {
     if ! mount -o rw ${overlayToMount} /overlay_root ; then
         # Partition not available: Mount tmpfs partition
         mount -t tmpfs -o size=128M tmpfs /overlay_root || return 1
-    fi    
+    fi
     # Backup and clean up overlay
     if test "$updated" -eq "1" ; then
+        do_clean_overlay
+    fi
+
+    # Clean overlay after 3 unsuccessfull boot attempts
+    if ! check_safeboot ; then
         do_clean_overlay
     fi
 

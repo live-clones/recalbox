@@ -41,7 +41,6 @@ gpu_mem_1024=448
 
 avoid_safe_mode=1
 
-#kernel=zImage
 kernel=boot/linux
 initramfs boot/initrd.gz
 
