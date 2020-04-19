@@ -18,6 +18,8 @@ done
 
 ## Global variables ##
 
+systemsetting="recalbox_settings"
+
 fbdevWidth=$(cut -d, -f1 /sys/class/graphics/fb0/virtual_size)
 fbdevHeight=$(cut -d, -f2 /sys/class/graphics/fb0/virtual_size)
 
@@ -38,15 +40,13 @@ turnOffGPiCaseHDMI() {
   fi
 }
 
-systemsetting="recalbox_settings"
-
 # selectVideo
 #   takes no argument and outputs a random video from those available
 function selectVideo() {
-  # What to play?  
+  # What to play?
+  systemsetting="recalbox_settings"
   whatToPlay="`$systemsetting -command load -key system.splash.select -source /boot/recalbox-backup.conf`"
   if [ "$whatToPlay" != "all" ] && [ "$whatToPlay" != "recalbox" ] && [ "$whatToPlay" != "custom" ] ; then whatToPlay="all" ; fi
-  echo "Selected: ${whatToPlay}"
   if [ "$whatToPlay" == "all" ] || [ "$whatToPlay" == "recalbox" ] ; then
     videoPath="/recalbox/system/resources/splash"
     if [ ${fbdevHeight} -le 240 ]; then videoPath="${videoPath}/240p" ; fi
@@ -60,6 +60,7 @@ function selectVideo() {
     | sort -n \
     | head -1 \
     | cut -d' ' -f2
+
 }
 
 # stopPlayerWhenTimeoutReached <playerPID> <timeout>
