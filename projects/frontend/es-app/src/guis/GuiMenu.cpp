@@ -492,7 +492,7 @@ void GuiMenu::menuGameSettings(){
           GuiSettings *netplay = new GuiSettings(mWindow, _("NETPLAY SETTINGS"));
           // netplay_enable
           auto netplay_enabled = std::make_shared<SwitchComponent>(mWindow);
-          netplay_enabled->setState(RecalboxConf::Instance().AsBool("global.netplay"));
+          netplay_enabled->setState(RecalboxConf::Instance().AsBool("global.netplay.active"));
           netplay->addWithLabel(netplay_enabled, _("NETPLAY"), _(MENUMESSAGE_NP_ONOFF_HELP_MSG));
 
           // netplay username
@@ -520,7 +520,7 @@ void GuiMenu::menuGameSettings(){
                 if (mitm == "none") {
                   mitm.clear();
                 }
-                RecalboxConf::Instance().SetBool("global.netplay", netplay_enabled->getState());
+                RecalboxConf::Instance().SetBool("global.netplay.active", netplay_enabled->getState());
                 RecalboxConf::Instance().SetString("global.netplay.relay", mitm);
                 RecalboxConf::Instance().Save();
               });
@@ -1670,8 +1670,8 @@ void GuiMenu::menuQuit()
 
 void GuiMenu::popSystemConfigurationGui(SystemData *systemData) const
 {
-    // The system configuration
-    GuiSettings *systemConfiguration = new GuiSettings(mWindow, systemData->getFullName());
+  // The system configuration
+  GuiSettings *systemConfiguration = new GuiSettings(mWindow, systemData->getFullName());
 
     std::string defaultEmulator;
     std::string defaultCore;
@@ -1680,95 +1680,95 @@ void GuiMenu::popSystemConfigurationGui(SystemData *systemData) const
       //Emulator choice
       auto emu_choice = std::make_shared<OptionListComponent<std::string>>(mWindow, _("Emulator"), false);
 
-      std::string currentEmulator = RecalboxConf::Instance().AsString(systemData->getName() + ".emulator");
-      if (currentEmulator.empty()) currentEmulator = defaultEmulator;
-      std::string currentCore = RecalboxConf::Instance().AsString(systemData->getName() + ".core");
-      if (currentCore.empty()) currentCore = defaultCore;
+    std::string currentEmulator = RecalboxConf::Instance().AsString(systemData->getName() + ".emulator");
+    if (currentEmulator.empty()) currentEmulator = defaultEmulator;
+    std::string currentCore = RecalboxConf::Instance().AsString(systemData->getName() + ".core");
+    if (currentCore.empty()) currentCore = defaultCore;
 
-      for (const std::string& emulatorName : mSystemManager.Emulators().GetEmulators(*systemData))
+    for (const std::string& emulatorName : mSystemManager.Emulators().GetEmulators(*systemData))
+    {
+      for (const std::string& coreName : mSystemManager.Emulators().GetCores(*systemData, emulatorName))
       {
-        for (const std::string& coreName : mSystemManager.Emulators().GetCores(*systemData, emulatorName))
-        {
-          std::string displayName = emulatorName;
-          if (displayName != coreName) displayName.append(1, ' ').append(coreName);
-          if (defaultCore == coreName && defaultEmulator == emulatorName)
-            displayName.append(" (").append(_("DEFAULT")).append(1, ')');
+        std::string displayName = emulatorName;
+        if (displayName != coreName) displayName.append(1, ' ').append(coreName);
+        if (defaultCore == coreName && defaultEmulator == emulatorName)
+          displayName.append(" (").append(_("DEFAULT")).append(1, ')');
 
-          std::string emulatorAndCore = emulatorName;
-          emulatorAndCore.append(1, ':').append(coreName);
-          emu_choice->add(displayName, emulatorAndCore, emulatorName == currentEmulator && coreName == currentCore);
-        }
+        std::string emulatorAndCore = emulatorName;
+        emulatorAndCore.append(1, ':').append(coreName);
+        emu_choice->add(displayName, emulatorAndCore, emulatorName == currentEmulator && coreName == currentCore);
       }
-
-      systemConfiguration->addWithLabel(emu_choice, _("Emulator"), _(MENUMESSAGE_ADVANCED_EMU_EMU_HELP_MSG));
-
-      // force change event to load core list
-      emu_choice->invalidate();
-
-      systemConfiguration->addSaveFunc(
-      [systemData, emu_choice, defaultEmulator, defaultCore]
-      {
-        if (emu_choice->changed())
-        {
-          // Split emulator & core
-          Strings::Vector split = Strings::Split(emu_choice->getSelected(), ':');
-          if (split.size() == 2)
-          {
-            if (split[0] == defaultEmulator && split[1] == defaultCore)
-            {
-              RecalboxConf::Instance().SetString(systemData->getName() + ".emulator", "");
-              RecalboxConf::Instance().SetString(systemData->getName() + ".core", "");
-            }
-            else
-            {
-              RecalboxConf::Instance().SetString(systemData->getName() + ".emulator", split[0]);
-              RecalboxConf::Instance().SetString(systemData->getName() + ".core", split[1]);
-            }
-          }
-          else LOG(LogError) << "Error splitting emulator and core!";
-        }
-        RecalboxConf::Instance().Save();
-      });
     }
 
-    // Screen ratio choice
-    auto ratio_choice = createRatioOptionList(mWindow, systemData->getName());
-    systemConfiguration->addWithLabel(ratio_choice, _("GAME RATIO"), _(MENUMESSAGE_GAME_RATIO_HELP_MSG));
-    // smoothing
-    auto smoothing_enabled = std::make_shared<SwitchComponent>(mWindow);
-    smoothing_enabled->setState(RecalboxConf::Instance().AsBool(systemData->getName() + ".smooth", RecalboxConf::Instance().AsBool("global.smooth")));
-    systemConfiguration->addWithLabel(smoothing_enabled, _("SMOOTH GAMES"), _(MENUMESSAGE_GAME_SMOOTH_HELP_MSG));
-    // rewind
-    auto rewind_enabled = std::make_shared<SwitchComponent>(mWindow);
-    rewind_enabled->setState(RecalboxConf::Instance().AsBool(systemData->getName() + ".rewind", RecalboxConf::Instance().AsBool("global.rewind")));
-    systemConfiguration->addWithLabel(rewind_enabled, _("REWIND"), _(MENUMESSAGE_GAME_REWIND_HELP_MSG));
-    // autosave
-    auto autosave_enabled = std::make_shared<SwitchComponent>(mWindow);
-    autosave_enabled->setState(RecalboxConf::Instance().AsBool(systemData->getName() + ".autosave", RecalboxConf::Instance().AsBool("global.autosave")));
-    systemConfiguration->addWithLabel(autosave_enabled, _("AUTO SAVE/LOAD"), _(MENUMESSAGE_GAME_AUTOSAVELOAD_HELP_MSG));
+    systemConfiguration->addWithLabel(emu_choice, _("Emulator"), _(MENUMESSAGE_ADVANCED_EMU_EMU_HELP_MSG));
+
+    // force change event to load core list
+    emu_choice->invalidate();
 
     systemConfiguration->addSaveFunc(
-            [systemData, smoothing_enabled, rewind_enabled, ratio_choice, autosave_enabled] {
-                if (ratio_choice->changed()) {
-                    RecalboxConf::Instance().SetString(systemData->getName() + ".ratio", ratio_choice->getSelected());
-                }
-                if (rewind_enabled->changed()) {
-                    RecalboxConf::Instance().SetBool(systemData->getName() + ".rewind", rewind_enabled->getState());
-                }
-                if (smoothing_enabled->changed()) {
-                    RecalboxConf::Instance().SetBool(systemData->getName() + ".smooth", smoothing_enabled->getState());
-                }
-                if (autosave_enabled->changed()) {
-                    RecalboxConf::Instance().SetBool(systemData->getName() + ".autosave", autosave_enabled->getState());
-                }
-                RecalboxConf::Instance().Save();
-            });
-    mWindow.pushGui(systemConfiguration);
+    [systemData, emu_choice, defaultEmulator, defaultCore]
+    {
+      if (emu_choice->changed())
+      {
+        // Split emulator & core
+        Strings::Vector split = Strings::Split(emu_choice->getSelected(), ':');
+        if (split.size() == 2)
+        {
+          if (split[0] == defaultEmulator && split[1] == defaultCore)
+          {
+            RecalboxConf::Instance().SetString(systemData->getName() + ".emulator", "");
+            RecalboxConf::Instance().SetString(systemData->getName() + ".core", "");
+          }
+          else
+          {
+            RecalboxConf::Instance().SetString(systemData->getName() + ".emulator", split[0]);
+            RecalboxConf::Instance().SetString(systemData->getName() + ".core", split[1]);
+          }
+        }
+        else LOG(LogError) << "Error splitting emulator and core!";
+      }
+      RecalboxConf::Instance().Save();
+    });
+  }
+
+  // Screen ratio choice
+  auto ratio_choice = createRatioOptionList(mWindow, systemData->getName());
+  systemConfiguration->addWithLabel(ratio_choice, _("GAME RATIO"), _(MENUMESSAGE_GAME_RATIO_HELP_MSG));
+  // smoothing
+  auto smoothing_enabled = std::make_shared<SwitchComponent>(mWindow);
+  smoothing_enabled->setState(RecalboxConf::Instance().AsBool(systemData->getName() + ".smooth", RecalboxConf::Instance().AsBool("global.smooth")));
+  systemConfiguration->addWithLabel(smoothing_enabled, _("SMOOTH GAMES"), _(MENUMESSAGE_GAME_SMOOTH_HELP_MSG));
+  // rewind
+  auto rewind_enabled = std::make_shared<SwitchComponent>(mWindow);
+  rewind_enabled->setState(RecalboxConf::Instance().AsBool(systemData->getName() + ".rewind", RecalboxConf::Instance().AsBool("global.rewind")));
+  systemConfiguration->addWithLabel(rewind_enabled, _("REWIND"), _(MENUMESSAGE_GAME_REWIND_HELP_MSG));
+  // autosave
+  auto autosave_enabled = std::make_shared<SwitchComponent>(mWindow);
+  autosave_enabled->setState(RecalboxConf::Instance().AsBool(systemData->getName() + ".autosave", RecalboxConf::Instance().AsBool("global.autosave")));
+  systemConfiguration->addWithLabel(autosave_enabled, _("AUTO SAVE/LOAD"), _(MENUMESSAGE_GAME_AUTOSAVELOAD_HELP_MSG));
+
+  systemConfiguration->addSaveFunc(
+          [systemData, smoothing_enabled, rewind_enabled, ratio_choice, autosave_enabled] {
+              if (ratio_choice->changed()) {
+                  RecalboxConf::Instance().SetString(systemData->getName() + ".ratio", ratio_choice->getSelected());
+              }
+              if (rewind_enabled->changed()) {
+                  RecalboxConf::Instance().SetBool(systemData->getName() + ".rewind", rewind_enabled->getState());
+              }
+              if (smoothing_enabled->changed()) {
+                  RecalboxConf::Instance().SetBool(systemData->getName() + ".smooth", smoothing_enabled->getState());
+              }
+              if (autosave_enabled->changed()) {
+                  RecalboxConf::Instance().SetBool(systemData->getName() + ".autosave", autosave_enabled->getState());
+              }
+              RecalboxConf::Instance().Save();
+          });
+  mWindow.pushGui(systemConfiguration);
 }
 
 void GuiMenu::onSizeChanged() {
-    mVersion.setSize(mSize.x(), 0);
-    mVersion.setPosition(0, mSize.y() - mVersion.getSize().y());
+  mVersion.setSize(mSize.x(), 0);
+  mVersion.setPosition(0, mSize.y() - mVersion.getSize().y());
 }
 
 void GuiMenu::addEntryWithHelp(const std::string& name, const std::string& help, unsigned int color, bool add_arrow, const std::function<void()> &func, const Path& iconPath) {

@@ -269,7 +269,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
   }
 
   // NETPLAY
-  if ((event.XPressed()) && (RecalboxConf::Instance().AsBool("global.netplay"))
+  if ((event.XPressed()) && (RecalboxConf::Instance().AsBool("global.netplay.active"))
       && (RecalboxConf::Instance().isInList("global.netplay.systems", getCursor()->getSystem()->getName())))
   {
     FileData* cursor = getCursor();
@@ -313,7 +313,7 @@ bool ISimpleGameListView::getHelpPrompts(Help& help)
 
   help.Set(HelpType::B, _("LAUNCH"));
 
-  if (RecalboxConf::Instance().AsBool("global.netplay") && (RecalboxConf::Instance().isInList("global.netplay.systems", getCursor()->getSystem()->getName())))
+  if (RecalboxConf::Instance().AsBool("global.netplay.active") && (RecalboxConf::Instance().isInList("global.netplay.systems", getCursor()->getSystem()->getName())))
     help.Set(HelpType::X, _("NETPLAY"));
 
   help.Set(HelpType::Y, IsFavoriteSystem() ? _("Remove from favorite") : _("Favorite"));
