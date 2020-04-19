@@ -625,7 +625,7 @@ void FolderData::FastSearch(FastSearchContext context, const std::string& text, 
     else
     if (!fd->Metadata().Hidden())
     {
-      int distance;
+      int distance = 0;
       switch(context)
       {
         case FastSearchContext::Name       : distance = FastSearchText(text, fd->getName()); break;

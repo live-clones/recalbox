@@ -37,7 +37,7 @@ SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDes
       result->ParseGamelistXml(doppelgangerWatcher, forceLoad);
     // Overrides?
     FileData::List allFolders = result->getRootFolder().getAllFolders();
-    for(auto folder : allFolders)
+    for(auto* folder : allFolders)
       SystemData::overrideFolderInformation(folder);
   } // Let the doppelgangerWatcher to free its memory ASAP
 
@@ -56,13 +56,13 @@ SystemData* SystemManager::CreateFavoriteSystem(const std::string& name, const s
   descriptor.SetInformation("", name, fullName, "", "", themeFolder);
   SystemData* result = new SystemData(*this, descriptor, RootFolderData::Ownership::None, SystemData::Properties::Virtual | SystemData::Properties::AlwaysFlat | SystemData::Properties::Favorite);
 
-  for (auto system : systems)
+  for (auto* system : systems)
   {
     FileData::List favs = system->getFavorites();
     if (!favs.empty())
     {
       LOG(LogWarning) << " Get " << favs.size() << " favorites for " << system->getName() << "!";
-      for (auto favorite : favs)
+      for (auto* favorite : favs)
         result->mRootFolder.addChild(favorite, false);
     }
   }
@@ -84,13 +84,13 @@ SystemData* SystemManager::CreateMetaSystem(const std::string& name, const std::
   descriptor.SetInformation("", name, fullName, "", "", themeFolder);
   SystemData* result = new SystemData(*this, descriptor, RootFolderData::Ownership::FolderOnly, SystemData::Properties::Virtual | properties, fixedSort);
 
-  for (auto system : systems)
+  for (auto* system : systems)
   {
     FileData::List all = system->getRootFolder().getAllItems(true, system->IncludeAdultGames());
     if (!all.empty())
     {
       LOG(LogWarning) << "Add games from " << system->getName() << " into " << fullName;
-      for (auto fd : all)
+      for (auto* fd : all)
         result->LookupOrCreateGame(fd->getSystem()->getRootFolder().getPath(), fd->getPath(), fd->getType(), doppelganger);
     }
   }
@@ -115,7 +115,7 @@ SystemData* SystemManager::CreateMetaSystem(const std::string& name, const std::
   if (!games.empty())
   {
     LOG(LogWarning) << "Add " << games.size() << " games into " << fullName;
-    for (auto fd : games)
+    for (auto* fd : games)
       result->LookupOrCreateGame(fd->getSystem()->getRootFolder().getPath(), fd->getPath(), fd->getType(), doppelganger);
   }
 
@@ -317,7 +317,7 @@ bool SystemManager::AddGenresMetaSystem()
       bool ApplyFilter(const FileData& file) const override { return file.Metadata().GenreId() == mGenre; }
   };
 
-  for(auto& genre : genres)
+  for(const auto& genre : genres)
   {
     Filter filter(genre.first);
     AddManuallyFilteredMetasystem(&filter, nullptr, genre.second, Genres::GetName(genre.first),
@@ -502,7 +502,7 @@ void SystemManager::DeleteAllSystems(bool updateGamelists)
 
 SystemData *SystemManager::SystemByName(std::string &name)
 {
-  for (auto system: mVisibleSystemVector)
+  for (auto *system: mVisibleSystemVector)
   {
     if (system->getName() == name)
     {
@@ -572,7 +572,7 @@ FileData::List SystemManager::searchTextInGames(FolderData::FastSearchContext co
   // Get search results
   FolderData::ResultList searchResults;
   searchResults.reserve(5000);
-  for(auto system : mVisibleSystemVector)
+  for(auto *system : mVisibleSystemVector)
   {
     int maximumResultPerSystem = maxpersystem;
     system->getRootFolder().FastSearch(context, lowercaseText, searchResults, maximumResultPerSystem);
