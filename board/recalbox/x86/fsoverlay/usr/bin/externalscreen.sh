@@ -16,8 +16,8 @@ else
 fi
 
 #Prefered output screen and force resolution from recalbox.conf
-PREFERED=$(grep '^system.external_screen.prefered=' /recalbox/share/system/recalbox.conf | awk 'BEGIN {FS="="} {print $2}')
-FORCE_RES=$(grep '^system.external_screen.force_resolution=' /recalbox/share/system/recalbox.conf | awk 'BEGIN {FS="="} {print $2}')
+PREFERED=$(recalbox_settings -command load -key system.externalscreen.prefered)
+FORCE_RES=$(recalbox_settings -command load -key system.externalscreen.forceresolution)
 
 if [ -n "$PREFERED" ]; then
   PREFERED_CONNECTED=$(echo "$OUTPUT_MAXRES" | grep "$PREFERED" | awk 'BEGIN {FS="="} {print $1}')
