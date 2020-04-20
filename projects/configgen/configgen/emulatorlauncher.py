@@ -221,6 +221,7 @@ def getDefaultEmulator(targetSystem):
         "wswanc"        : Emulator(name='wswanc', emulator='libretro', core='mednafen_wswan', ratio='16/10'),
 
         # Miscellaneous
+        "ports"         : Emulator(name='ports', emulator=''),
         "imageviewer"   : Emulator(name='imageviewer', emulator='libretro', core='imageviewer'),
         "kodi"          : Emulator(name='kodi', emulator='kodi', videomode='default'),
         "moonlight"     : Emulator(name='moonlight', emulator='moonlight'),
