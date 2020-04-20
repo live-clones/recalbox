@@ -7,10 +7,10 @@ index 8f9249454d..b830adfed2 100644
  endif
  
 +define BLUEZ5_UTILS_INSTALL_CONF_FILES
-+       mkdir -p $(TARGET_DIR)/etc/bluetooth
-+       for i in `find $(@D) -name *.conf` ; do \
-+               $(INSTALL) -D -m 755 $$i $(TARGET_DIR)/etc/bluetooth/ ; \
-+       done
++	mkdir -p $(TARGET_DIR)/etc/bluetooth
++	for i in `find $(@D) -name *.conf` ; do \
++		$(INSTALL) -D -m 755 $$i $(TARGET_DIR)/etc/bluetooth/ ; \
++	done
 +endef
 +BLUEZ5_UTILS_POST_INSTALL_TARGET_HOOKS += BLUEZ5_UTILS_INSTALL_CONF_FILES
 +
