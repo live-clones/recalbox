@@ -27,8 +27,8 @@ All notable changes to this project will be documented in this file.
 - Fix x86/x64 video splash
 - Add "system.splash.path" videos path override option to recalbox.conf
 - Bump DosBox to r4290
-- Bump ScummVM to 2.1.0
-- Bump ResidualVM (2019-12)
+- Bump ScummVM to 2.1.1
+- Bump ResidualVM (2020-03)
 - Rewrite scraper with more options & video support
 - Improve ES stability
 - Decrease ES's memory requirements
@@ -71,7 +71,7 @@ All notable changes to this project will be documented in this file.
 - Bump Theodore core (add emulation of Thomson TO7 and TO7/70 computers)
 - Enable flycast con rpi3, xu4 and x86
 - Rename prboom system to doom
-- Enable amigacd32 emulation with libretro-uae
+- Enable amigacd32 & amigacdtv emulation with libretro-uae
 - Set vice_x64sc as default c64 emulator + JiffyDOS support
 - ERTM enabled by default
 - Bump mpg123 & fluidsynth libraries
@@ -83,6 +83,8 @@ All notable changes to this project will be documented in this file.
 - Add Solarus
 - Improve the management of external screens and selection from recalbox.conf by Chriskt78
 - Add opengl on Retroarch for X86_64
+- Add libretro-mrboom as content-less core within ports system
+- Renamed fba_libretro system to fbneo
 
 ## [6.1.1]
 - Add zfast shaders

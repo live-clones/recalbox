@@ -23,10 +23,12 @@
 - New ngp & ngpc emulator focused on performance (fast) (libretro-race)
 - Libretro flycast also available on rpi3, xu4 and x86
 - Prboom system has been renamed to Doom
-- Libretro puae emulates amigacd32 now
 - Add new system: OpenBOR
 - Add new system: Solarus
 - Add opengl on Retroarch for X86_64
+- Bump Amiberry to v3.1.3
+- Fba_libretro has been renamed to Fbneo
+- New ports system with Mr. Boom (Bomberman clone) & Cave Story ready to be played
 
 ### Improvements
 - Share partition is created in exfat on fresh install, which is easier to access from Windows computers
