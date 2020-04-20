@@ -26,7 +26,6 @@ HYPERION_DEPENDENCIES += rpi-firmware
 HYPERION_DEPENDENCIES += libusb qt5base host-libusb rpi-firmware rpi-userland host-protobuf host-cmake
 
 define HYPERION_PROTOBUF_COMPILE
-  echo ${CMAKE_CXX_FLAGS}
 	mkdir -p "$(@D)/host-compile/"
 	cd "$(@D)/host-compile/" && $(HOST_MAKE_ENV) $(HOST_CONFIGURE_OPTS) $(HOST_DIR)/usr/bin/cmake "$(@D)/" \
 		-DENABLE_DISPMANX=OFF -DENABLE_OPENCV=OFF -DENABLE_QT5=ON --build "$(@D)/host-compile/" "$(@D)/"
