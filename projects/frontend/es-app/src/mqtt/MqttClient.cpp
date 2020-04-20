@@ -8,6 +8,7 @@ MqttClient::MqttClient(const char* clientId)
   : Client(mNetwork, 100),
     mClientId(clientId)
 {
+  Thread::Start("MqttClient");
 }
 
 bool MqttClient::EnsureConnection()
@@ -70,8 +71,13 @@ bool MqttClient::Send(const std::string& topic, const std::string& data)
   return true;
 }
 
-void MqttClient::Yield(int timeout)
+void MqttClient::Run()
 {
-  EnsureConnection();
-  yield(timeout);
+  while(IsRunning())
+  {
+    // Check connexion
+    EnsureConnection();
+    // Wait for messages & keep alive
+    yield(500);
+  }
 }

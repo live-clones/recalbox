@@ -8,8 +8,9 @@
 #include <mqtt/MQTTClient/MQTTClient.h>
 #include "TcpNetwork.h"
 #include <utils/Log.h>
+#include <utils/os/system/Thread.h>
 
-class MqttClient : MQTT::Client<TCPNetwork, Countdown, 16 << 10, 5>
+class MqttClient : Thread, MQTT::Client<TCPNetwork, Countdown, 16 << 10, 5>
 {
   private:
     //! MQTT Host
@@ -35,15 +36,26 @@ class MqttClient : MQTT::Client<TCPNetwork, Countdown, 16 << 10, 5>
      */
     void Disconnect();
 
+    /*
+     * Thread implementation
+     */
+
+    /*!
+     * Calls the inheriting object's Run() method.
+     * @note set fIsRunning false to exit
+     */
+    void Run() override;
+
   public:
     /*!
      * @brief Default constructor
      */
     explicit MqttClient(const char* clientid);
 
-    ~MqttClient()
+    ~MqttClient() override
     {
       Disconnect();
+      Thread::Stop();
     }
 
     /*!
@@ -53,12 +65,6 @@ class MqttClient : MQTT::Client<TCPNetwork, Countdown, 16 << 10, 5>
      * @return True if the string has been sent w/o error
      */
     bool Send(const std::string& topic, const std::string& data);
-
-    /*!
-     * @brief Wait for message arrival
-     * @param timeout Timeout
-     */
-    void Yield(int timeout);
 
     /*!
      * @brief Subscribe and set callback to the given method

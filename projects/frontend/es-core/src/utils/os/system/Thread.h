@@ -23,7 +23,6 @@ class Thread
      */
     virtual ~Thread();
 
-  public:
     /*!
      * Starts the thread
      * @param name Thread's name
