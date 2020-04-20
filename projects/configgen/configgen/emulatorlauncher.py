@@ -149,7 +149,7 @@ def getDefaultEmulator(targetSystem):
         "fbneo"         : Emulator(name='fbneo', emulator='libretro', core='fbneo'),
         "mame"          : Emulator(name='mame', emulator='libretro', core='mame2003_plus'),
         "naomi"         : Emulator(name='naomi', emulator='libretro', core='flycast'),
-        "naomigd"       : Emulator(name='naomi', emulator='libretro', core='flycast'),
+        "naomigd"       : Emulator(name='naomigd', emulator='libretro', core='flycast'),
         "neogeo"        : Emulator(name='neogeo', emulator='fba2x'),
         "neogeocd"      : Emulator(name='neogeocd', emulator='libretro', core='fbneo'),
         "stv"           : Emulator(name='stv', emulator='libretro', core='kronos'),
