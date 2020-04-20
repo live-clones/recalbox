@@ -146,11 +146,13 @@ def getDefaultEmulator(targetSystem):
         "atomiswave"    : Emulator(name='atomiswave', emulator='libretro', core='flycast'),
         "daphne"        : Emulator(name='daphne', emulator='daphne'),
         "fba"           : Emulator(name='fba', emulator='fba2x'),
-        "fba_libretro"  : Emulator(name='fba_libretro', emulator='libretro', core='fbneo'),
+        "fbneo"         : Emulator(name='fbneo', emulator='libretro', core='fbneo'),
         "mame"          : Emulator(name='mame', emulator='libretro', core='mame2003_plus'),
         "naomi"         : Emulator(name='naomi', emulator='libretro', core='flycast'),
+        "naomigd"       : Emulator(name='naomi', emulator='libretro', core='flycast'),
         "neogeo"        : Emulator(name='neogeo', emulator='fba2x'),
         "neogeocd"      : Emulator(name='neogeocd', emulator='libretro', core='fbneo'),
+        "stv"           : Emulator(name='stv', emulator='libretro', core='kronos'),
 
         # Atari
         "atari2600"     : Emulator(name='atari2600', emulator='libretro', core='stella'),
@@ -199,8 +201,8 @@ def getDefaultEmulator(targetSystem):
 
         # Consoles
         "3do"           : Emulator(name='3do', emulator='libretro', core='opera'),
-        "amigacd32"     : Emulator(name='amigacd32', emulator='amiberry', core='amiberry'),
-        "amigacdtv"     : Emulator(name='amigacdtv', emulator='amiberry', core='amiberry'),
+        "amigacd32"     : Emulator(name='amigacd32', emulator='libretro', core='puae'),
+        "amigacdtv"     : Emulator(name='amigacdtv', emulator='libretro', core='puae'),
         "channelf"      : Emulator(name='channelf', emulator='libretro', core='freechaf'),
         "colecovision"  : Emulator(name='colecovision', emulator='libretro', core='bluemsx'),
         "gx4000"        : Emulator(name='gx4000', emulator='libretro', core='cap32'),
