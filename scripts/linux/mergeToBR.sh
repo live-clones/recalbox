@@ -31,7 +31,7 @@ declare -x foundError
 #   → outputs the help message
 function printUsage() {
   echo -e "${c_yellow}Usage${c_reset}
-    $(basename $0) [-c|--check-only] [-f|--force] [-h|--help]
+    $(basename "$0") [-c|--check-only] [-f|--force] [-h|--help]
 
 ${c_yellow}Parameters${c_reset}
   -c, --check-only   check that changes can be applied, but don't actually apply them
@@ -91,15 +91,15 @@ function printSuccess() {
 # printTitle <message>
 #   → output helper
 function printTitle() {
-  local readonly message=$1
-  echo -e "${c_invert}>>> $(basename ${BASH_SOURCE} .sh) ${c_title}${message}${c_reset}"
+  local -r message=$1
+  echo -e "${c_invert}>>> $(basename "${BASH_SOURCE[0]}" .sh) ${c_title}${message}${c_reset}"
 }
 
 # hasExpectedChecksum <file> <hash>
 #   → is success if <file> MD5 checksum is <hash>
 function hasExpectedChecksum() {
-  local readonly file=$1
-  local readonly hash=$2
+  local -r file=$1
+  local -r hash=$2
   echo "${hash} ${BUILDROOT_DIR}/${file}" | md5sum --status --check
 }
 
@@ -107,7 +107,7 @@ function hasExpectedChecksum() {
 #   → is success if <file> is identical in ${CUSTOM_DIR} and in ${BUILDROOT_DIR}
 function isFileIdentical() {
   local readonly file=$1
-  diff -qN {${CUSTOM_DIR},${BUILDROOT_DIR}}/${file} > /dev/null
+  diff -qN {"${CUSTOM_DIR}","${BUILDROOT_DIR}"}/"${file}" > /dev/null
 }
 
 # checkFileToAdd <file>
@@ -118,13 +118,13 @@ function checkFileToAdd() {
   if [[ ! -f ${CUSTOM_DIR}/${file} ]]; then
     foundError=1
     printError "${c_white}${file}${c_reset} source file does not exist"
-  elif isFileIdentical ${file}; then
+  elif isFileIdentical "${file}"; then
     printIgnore "${c_white}${file}${c_reset} already added"
   elif [[ -f ${BUILDROOT_DIR}/${file} ]]; then
     foundError=1
     printError "${c_white}${file}${c_reset} target file already exists and is different than source file"
   else
-    filesToAdd+=(${file})
+    filesToAdd+=("${file}")
     printSuccess "${c_white}${file}${c_reset} can be added"
   fi
 }
@@ -132,17 +132,17 @@ function checkFileToAdd() {
 # checkFileToRemove <file>
 #   → check that <file> exists in Buildroot tree and that it has not already been removed
 function checkFileToRemove() {
-  local readonly file=$1
+  local -r file=$1
 
   if [[ ! -f ${BUILDROOT_DIR}/${file} ]]; then
-    if (cd ${BUILDROOT_DIR}; git status --porcelain ${file} | grep --silent "^ D "); then
+    if (cd "${BUILDROOT_DIR}"; git status --porcelain "${file}" | grep --silent "^ D "); then
       printIgnore "${c_white}${file}${c_reset} already removed"
     else
       foundError=1
       printError "${c_white}${file}${c_reset} file to remove does not exist"
     fi
   else
-    filesToRemove+=(${file})
+    filesToRemove+=("${file}")
     printSuccess "${c_white}${file}${c_reset} can be removed"
   fi
 }
@@ -150,25 +150,25 @@ function checkFileToRemove() {
 # checkFileToPatch <file> <hash>
 #   → checks that <file> exists in both custom and Buildroot trees, and that patch applies
 function checkFileToPatch() {
-  local readonly file=$1
-  local readonly hash=$2
+  local -r file=$1
+  local -r hash=$2
 
   if [[ ! -f ${CUSTOM_DIR}/${file} || ! -f ${BUILDROOT_DIR}/${file} ]]; then
     foundError=1
     [[ ! -f ${CUSTOM_DIR}/${file} ]] && printError "${c_white}${file}${c_reset} source file doesn't exist"
     [[ ! -f ${BUILDROOT_DIR}/${file} ]] && printError "${c_white}${file}${c_reset} target file doesn't exist"
-  elif isFileIdentical ${file}; then
+  elif isFileIdentical "${file}"; then
     printIgnore "${c_white}${file}${c_reset} already patched"
-  elif ! hasExpectedChecksum ${file} ${hash}; then
+  elif ! hasExpectedChecksum "${file}" "${hash}"; then
     foundError=1
     printError "${c_white}${file}${c_reset} target file does not have expected MD5 checksum"
   else
     # Let's try to apply the patch
-    if ! patch --dry-run --silent -p0 ${BUILDROOT_DIR}/${file} < ${CUSTOM_DIR}/${file}.patch > /dev/null; then
+    if ! patch --dry-run --silent -p0 "${BUILDROOT_DIR}/${file}" < "${CUSTOM_DIR}/${file}.patch" > /dev/null; then
       foundError=1
       printError "${c_white}${file}${c_reset} patch fails to apply"
     else
-      filesToPatch+=(${file})
+      filesToPatch+=("${file}")
       printSuccess "${c_white}${file}${c_reset} can be patched"
     fi
   fi
@@ -181,8 +181,9 @@ function addFiles() {
     echo -e "${c_white}No file to add.${c_reset} Skipping."
   else
     echo -e "${c_white}Adding files…${c_reset}"
-    for fileToAdd in ${filesToAdd[@]}; do
-      install -D {${CUSTOM_DIR},${BUILDROOT_DIR}}/${fileToAdd} \
+    for fileToAdd in "${filesToAdd[@]}"; do
+      # shellcheck disable=SC2015
+      install -D {"${CUSTOM_DIR}","${BUILDROOT_DIR}"}/"${fileToAdd}" \
         && printSuccess "${fileToAdd}" \
         || { printError "${fileToAdd}"; return 1; }
     done
@@ -196,7 +197,8 @@ function removeFiles() {
     echo -e "${c_white}No file to remove.${c_reset} Skipping."
   else
     echo -e "${c_white}Removing files…${c_reset}"
-    for fileToRemove in ${filesToRemove[@]}; do
+    for fileToRemove in "${filesToRemove[@]}"; do
+      # shellcheck disable=SC2015
       rm "${BUILDROOT_DIR}/${fileToRemove}" \
         && printSuccess "${fileToRemove}" \
         || { printError "${fileToRemove}"; return 1; }
@@ -211,8 +213,9 @@ function applyPatches() {
     echo -e "${c_white}No patch to apply.${c_reset} Skipping."
   else
     echo -e "${c_white}Applying patches…${c_reset}"
-    for fileToPatch in ${filesToPatch[@]}; do
+    for fileToPatch in "${filesToPatch[@]}"; do
       patchFile="${fileToPatch}.patch"
+      # shellcheck disable=SC2015
       patch --silent -p0 "${BUILDROOT_DIR}/${fileToPatch}" < "${CUSTOM_DIR}/${patchFile}"  \
         && printSuccess "${fileToPatch}" \
         || { printError "${fileToPatch}"; return 1; }
@@ -243,19 +246,21 @@ done
 printTitle "1. Check environment"
 
 # Check that ${hashFile} exist
+# shellcheck disable=SC2015
 [[ -f ${hashFile} ]] \
   && printSuccess "${c_white}${hashFile}${c_reset} is present" \
   || { printError "${c_white}${hashFile}${c_reset} is missing"; exit 1; }
 
 # Check that ${hashFile} is exhaustive
-for file in $(find ${CUSTOM_DIR} -type f | grep -v "^${hashFile}$" | grep -v '.patch$'); do
+for file in $(find "${CUSTOM_DIR}" -type f | grep -v "^${hashFile}$" | grep -v '.patch$'); do
   file=${file/${CUSTOM_DIR}\//}
-  if ! grep -q "${file}$" ${hashFile}; then
+  if ! grep -q "${file}$" "${hashFile}"; then
     printWarning "${c_white}${file}${c_reset} exists in custom tree, but is not listed in '${hashFile}'. It might be a mistake."
   fi
 done
 
 # Check that Buildroot tree exists
+# shellcheck disable=SC2015
 [[ -d ${BUILDROOT_DIR} && -d ${BUILDROOT_DIR}/package ]] \
   && printSuccess "${c_white}${BUILDROOT_DIR}${c_reset} is a valid Buildroot tree" \
   || { printError "${c_white}${BUILDROOT_DIR}${c_reset} is not a valid Buildroot tree"; exit 1; }
@@ -271,18 +276,18 @@ while read -u 3 -r line; do
   file=$(echo "${line}" | cut -d ' ' -f 3)
 
   if [[ ${hash} == "--------------------------------" ]] ; then
-    checkFileToRemove ${file}
+    checkFileToRemove "${file}"
   elif [[ ${hash} == "++++++++++++++++++++++++++++++++" ]] ; then
-    checkFileToAdd ${file}
+    checkFileToAdd "${file}"
   else
     if [[ ! ${hash} =~ [[:alnum:]]{32} ]]; then
       foundError=1
       printError "${c_white}${file}${c_reset} hash is not a MD5 sum"
     else
-      checkFileToPatch ${file} ${hash}
+      checkFileToPatch "${file}" "${hash}"
     fi
   fi
-done 3< <(grep -Ev '(^ *$|^#)' ${hashFile})
+done 3< <(grep -Ev '(^ *$|^#)' "${hashFile}")
 
 if [[ ${optionCheckOnly} = 1 ]]; then
   exit ${foundError}
