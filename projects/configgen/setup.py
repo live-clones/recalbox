@@ -26,6 +26,7 @@ setup(name='recalbox-configgen',
         'configgen.generators.amiberry',
         'configgen.generators.daphne',
         'configgen.generators.oricutron',
+        'configgen.generators.openbor',
         'configgen.generators.simcoupe',
         'configgen.settings',
         'configgen.utils']

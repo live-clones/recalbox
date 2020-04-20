@@ -98,6 +98,10 @@ def getGenerator(emulator):
         module = __import__("generators.pcsx.pcsxGenerator", fromlist=["PcsxGenerator"])
         generatorClass = getattr(module, "PcsxGenerator")
         return generatorClass()
+    elif emulator == "openbor":
+        module = __import__("generators.openbor.openborGenerator", fromlist=["OpenborGenerator"])
+        generatorClass = getattr(module, "OpenborGenerator")
+        return generatorClass()
     elif emulator == "pisnes":
         module = __import__("generators.pisnes.pisnesGenerator", fromlist=["PisnesGenerator"])
         generatorClass = getattr(module, "PisnesGenerator")
@@ -198,6 +202,7 @@ def getDefaultEmulator(targetSystem):
         "lutro"         : Emulator(name='lutro', emulator='libretro', core='lutro'),
         "quake"         : Emulator(name='quake', emulator='libretro', core='tyrquake'),
         "scummvm"       : Emulator(name='scummvm', emulator='scummvm', videomode='default'),
+        "openbor"       : Emulator(name='openbor', emulator='openbor'),
 
         # Consoles
         "3do"           : Emulator(name='3do', emulator='libretro', core='opera'),

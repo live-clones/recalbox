@@ -36,6 +36,7 @@ recalboxBins =\
     'amiberry'    : '/usr/bin/amiberry',
     'daphne'      : '/usr/bin/hypseus',
     'oricutron'   : '/usr/bin/oricutron/oricutron',
+    'openbor'     : '/usr/bin/OpenBOR',
     'simcoupe'    : '/usr/bin/simcoupe',
     'pcsx_rearmed': '/usr/bin/pcsx_rearmed',
     'pisnes'      : '/usr/bin/pisnes',
@@ -127,6 +128,9 @@ daphneHomedir = ROMS + '/daphne'
 daphneDatadir = '/usr/share/daphne'
 
 oricutronConfig = HOME + '/.config/oricutron.cfg'
+
+openborConfig = HOME + '/configs/openbor/default.cfg'
+openborConfigOrigin = HOME + '/configs/openbor/default.cfg.origin'
 
 gsplusConfig = HOME + '/.config/gsplus.cfg'
 
