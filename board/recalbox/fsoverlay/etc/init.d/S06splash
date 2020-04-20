@@ -149,14 +149,17 @@ showInstallBackground() {
 
 ## Main ##
 
-if [ -f /tmp/.install.png ]; then
-  showInstallBackground &
-elif [ "$(head -c 3 /recalbox/recalbox.arch)" = "rpi" ]; then
-  ( turnOffGPiCaseHDMI; playWithOMX; showIntroBackground ) &
-elif [ "$(head -c 3 /recalbox/recalbox.arch)" = "x86" ]; then
-  ( playWithMPlayer; showIntroBackground ) &
-else
-  ( playWithFFPlay; showIntroBackground ) &
+INTERNALDEVICE=$(/recalbox/scripts/recalbox-part.sh "share_internal")
+if test -e "${INTERNALDEVICE}" ; then
+  if [ -f /tmp/.install.png ]; then
+    showInstallBackground &
+  elif [ "$(head -c 3 /recalbox/recalbox.arch)" = "rpi" ]; then
+    ( turnOffGPiCaseHDMI; playWithOMX; showIntroBackground ) &
+  elif [ "$(head -c 3 /recalbox/recalbox.arch)" = "x86" ]; then
+    ( playWithMPlayer; showIntroBackground ) &
+  else
+    ( playWithFFPlay; showIntroBackground ) &
+  fi
 fi
 
 exit 0

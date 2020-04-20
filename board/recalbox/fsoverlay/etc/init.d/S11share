@@ -95,7 +95,6 @@ if ! test -e "${INTERNALDEVICE}" ; then
                 mkfs.ext4 "${INTERNALNEXTDEVICE}" -q -F -L OVERLAY
                 e2fsck -f -p "${INTERNALNEXTDEVICE}"
             fi
-            killall recalbox-create-share.sh
         fi
     fi
 fi

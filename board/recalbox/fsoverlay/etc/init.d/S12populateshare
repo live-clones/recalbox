@@ -139,3 +139,5 @@ test ! -e /recalbox/share/system/recalbox.changelog.done && cp /recalbox/recalbo
 # build the cores list if it doesn't exist
 [ ! -e /recalbox/share/system/configs/retroarch.corenames ] && upgradeRetroarchCoreNames -f /recalbox/share/system/configs/retroarch.corenames
 # END
+killall recalbox-create-share.sh
+
