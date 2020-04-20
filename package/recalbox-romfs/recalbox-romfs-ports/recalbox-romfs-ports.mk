@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --system ports --extension '.port .PORT' --fullname 'Ports' --platform ports --theme ports 1:libretro:mrboom:BR2_PACKAGE_LIBRETRO_MRBOOM
+# ./scripts/linux/empack.py --force --system ports --extension '.port .PORT' --fullname 'Ports' --platform pc --theme ports 1:libretro:mrboom:BR2_PACKAGE_LIBRETRO_MRBOOM
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_PORTS_SOURCE = 

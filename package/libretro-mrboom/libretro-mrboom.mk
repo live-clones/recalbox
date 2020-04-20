@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_MRBOOM_VERSION = a47e81ce1c4126a977780f6b0d797990161ddd20
+LIBRETRO_MRBOOM_VERSION = 4273564fce7ecc850c424f02a3571393b30ae0ec
 LIBRETRO_MRBOOM_SITE = $(call github,libretro,mrboom-libretro,$(LIBRETRO_MRBOOM_VERSION))
 
 # Flag to fix build on arm platforms
