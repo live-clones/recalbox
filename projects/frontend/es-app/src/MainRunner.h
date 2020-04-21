@@ -85,9 +85,9 @@ class MainRunner: private INoCopy, private ISynchronousEvent, private IFileSyste
     void SetLocale(const std::string& executablePath);
 
     /*!
-     * @brief Open the main logger
+     * @brief Display Intro
      */
-    void OpenLogs();
+    void Intro();
 
     /*!
      * @brief Check home folder existence

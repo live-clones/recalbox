@@ -36,7 +36,7 @@ MainRunner::MainRunner(const std::string& executablePath, unsigned int width, un
     mRunCount(runCount),
     mNotificationManager(environment)
 {
-  OpenLogs();
+  Intro();
   SetLocale(executablePath);
   CheckHomeFolder();
   SetArchitecture();
@@ -341,14 +341,13 @@ void onExit()
   Log::close();
 }
 
-void MainRunner::OpenLogs()
+void MainRunner::Intro()
 {
   atexit(&onExit); // Always close the log on exit
 
   if (mConfiguration.AsBool("emulationstation.debuglogs", false))
     Log::setReportingLevel(LogLevel::LogDebug);
 
-  Log::open();
   LOG(LogInfo) << "EmulationStation - v" << PROGRAM_VERSION_STRING << ", built " << PROGRAM_BUILT_STRING;
 }
 

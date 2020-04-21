@@ -93,6 +93,8 @@ bool parseArgs(int argc, char* argv[], unsigned int& width, unsigned int& height
 
 int main(int argc, char* argv[], char** env)
 {
+  Log::open();
+
   // Settings instance
   Settings settings;
 
