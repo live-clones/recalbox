@@ -44,7 +44,7 @@ getMaxTryConfig() {
     echo 7 # default value
 }
 
-INTERNALDEVICETYPE="ext4" # faster than waiting udev to initialize to get the type
+INTERNALDEVICETYPE="exfat" # faster than waiting udev to initialize to get the type
 MAXTRY=$(getMaxTryConfig "${SHARECONFFILE}")
 NTRY=0
 
@@ -76,10 +76,7 @@ if ! test -e "${INTERNALDEVICE}" ; then
             # Create SHARE PARTITION
             parted -a optimal -s "${PARTPREFIX}" -m unit b mkpart primary "${PSHARESTART}" "${PSHARESTOP}"
             if test -e "${INTERNALDEVICE}" ; then
-                #mkfs.vfat -F 32 -n SHARE /dev/mmcblk0p3 # if you replace this line, please change the INTERNALDEVICETYPE variable too in consequence
-                #fsck.fat /dev/mmcblk0p3 -a
-                mkfs.ext4 "${INTERNALDEVICE}" -q -F -L SHARE
-                e2fsck -f -p "${INTERNALDEVICE}"
+                mkexfatfs -n SHARE "${INTERNALDEVICE}"
             fi
 
             # Create OVERLAY PARTITION - 1Gb
