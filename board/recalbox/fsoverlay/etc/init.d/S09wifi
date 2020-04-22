@@ -96,7 +96,15 @@ enable_wifi() {
   # start wpa_supplicant
   killall -q wpa_supplicant
   sleep 2 # prevents a race condition on killall
-  wpa_supplicant -B -i "$interface" -c "$wpa_file"
+  {
+    recallog "Wifi: try with default driver"
+    wpa_supplicant -B -i "$interface" -c "$wpa_file"
+  } || {
+    recallog "Wifi: retry with old driver"
+    wpa_supplicant -B -i "$interface" -c "$wpa_file" -Dwext
+  }
+
+
 
   # clear wpa_supplicant configuration and rebuild
   wpa_drop_all_networks
