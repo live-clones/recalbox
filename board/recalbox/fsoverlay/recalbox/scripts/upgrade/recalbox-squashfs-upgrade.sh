@@ -25,7 +25,7 @@ echo "go"
   # Mount
   fbv -f -i /recalbox/system/resources/offline-install-2.jpg &
   sleep 1
-  mount -o loop,offset=512 "/recalbox/share/system/upgrade/${UPDATEFILE2}" /mnt/ || return 1
+  mount -o loop,offset=1048576 "/recalbox/share/system/upgrade/${UPDATEFILE2}" /mnt/ || return 1
 
   fbv -f -i /recalbox/system/resources/offline-install-3.jpg &
   sleep 1

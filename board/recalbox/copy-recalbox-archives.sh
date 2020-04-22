@@ -27,7 +27,7 @@ xu4_fusing() {
     bl2_position=31
     uboot_position=63
     tzsw_position=1503
-    env_position=2015 
+    env_position=2015
 
     echo "BL1 fusing"
     dd if="${BINARIES_DIR}/bl1.bin.hardkernel"  of="${RECALBOXIMG}" seek=$signed_bl1_position conv=notrunc || return 1
@@ -66,11 +66,11 @@ echo -e "\n----- Generating images/recalbox files -----\n"
 case "${RECALBOX_TARGET}" in
     RPI0|RPI1|RPI2|RPI3)
 
-        # boot.tar.xz
+        # /boot
+	echo "generating boot"
         cp -f "${BINARIES_DIR}/"*.dtb "${BINARIES_DIR}/rpi-firmware"
 	rm -rf "${BINARIES_DIR}/rpi-firmware/boot" || exit 1
 	mkdir -p "${BINARIES_DIR}/rpi-firmware/boot" || exit 1
-	echo "generating zImage"
 	"${BUILD_DIR}/linux-custom/scripts/mkknlimg" "${BINARIES_DIR}/zImage" "${BINARIES_DIR}/rpi-firmware/boot/linux"
 	cp "${BINARIES_DIR}/initrd.gz" "${BINARIES_DIR}/rpi-firmware/boot" || exit 1
 	cp "${BINARIES_DIR}/rootfs.squashfs" "${BINARIES_DIR}/rpi-firmware/boot/recalbox" || exit 1
@@ -86,29 +86,40 @@ case "${RECALBOX_TARGET}" in
 	genimage --rootpath="${TARGET_DIR}" --inputpath="${BINARIES_DIR}" --outputpath="${RECALBOX_BINARIES_DIR}" --config="${BINARIES_DIR}/genimage.cfg" --tmppath="${GENIMAGE_TMP}" || exit 1
 	rm -f "${RECALBOX_BINARIES_DIR}/boot.vfat" || exit 1
 	rm -f "${BINARIES_DIR}/rootfs.tar" || exit 1
-        sync || exit 1
-        ;;
+	rm -f "${BINARIES_DIR}/rootfs.squashfs" || exit 1
+	sync || exit 1
+	;;
 
     XU4)
-        for F in bl1.bin.hardkernel bl2.bin.hardkernel.720k_uboot tzsw.bin.hardkernel u-boot.bin.hardkernel
-        do
-            cp "${BUILD_DIR}/uboot-xu4-odroidxu4-v2017.05/sd_fuse/${F}" "${BINARIES_DIR}" || exit 1
-        done
+	rm -rf "${BINARIES_DIR}/xu4-firmware" || exit 1
+	mkdir -p "${BINARIES_DIR}/xu4-firmware/boot" || exit 1
 
-        # /boot
-        cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/xu4/boot.ini" ${BINARIES_DIR}/boot.ini || exit 1
+	for F in bl1.bin.hardkernel bl2.bin.hardkernel.720k_uboot tzsw.bin.hardkernel u-boot.bin.hardkernel
+	do
+	    cp "${BUILD_DIR}/uboot-xu4-odroidxu4-v2017.05/sd_fuse/${F}" "${BINARIES_DIR}/xu4-firmware/" || exit 1
+	done
 
-        # root.tar.xz
-        cp "${BINARIES_DIR}/rootfs.tar.xz" "${RECALBOX_BINARIES_DIR}/root.tar.xz" || exit 1
+	# /boot
+	echo "generating boot"
+	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/xu4/boot.ini" "${BINARIES_DIR}/xu4-firmware/boot.ini" || exit 1
+	cp "${BINARIES_DIR}/exynos5422-odroidxu4.dtb" "${BINARIES_DIR}/xu4-firmware/boot" || exit 1
+	cp "${BINARIES_DIR}/recalbox-boot.conf" "${BINARIES_DIR}/xu4-firmware" || exit 1
+	cp "${BINARIES_DIR}/initrd.gz" "${BINARIES_DIR}/xu4-firmware/boot/" || exit 1
+	cp "${BINARIES_DIR}/zImage" "${BINARIES_DIR}/xu4-firmware/boot/linux" || exit 1
+	cp "${BINARIES_DIR}/rootfs.squashfs" "${BINARIES_DIR}/xu4-firmware/boot/recalbox" || exit 1
 
-        # boot.tar.xz
-        (cd "${BINARIES_DIR}" && tar -cJf "${RECALBOX_BINARIES_DIR}/boot.tar.xz" boot.ini zImage exynos5422-odroidxu4.dtb recalbox-boot.conf) || exit 1
-
-        # recalbox.img
-        support/scripts/genimage.sh -c "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/xu4/genimage.cfg" || exit 1
-        xu4_fusing "${BINARIES_DIR}" "${BINARIES_DIR}/recalbox.img" || exit 1
-        sync || exit 1
-        ;;
+	# recalbox.img
+	GENIMAGE_TMP="${BUILD_DIR}/genimage.tmp"
+	rm -rf "${GENIMAGE_TMP}" || exit 1
+	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/xu4/genimage.cfg" "${BINARIES_DIR}" || exit 1
+	echo "generating image"
+	genimage --rootpath="${TARGET_DIR}" --inputpath="${BINARIES_DIR}" --outputpath="${RECALBOX_BINARIES_DIR}" --config="${BINARIES_DIR}/genimage.cfg" --tmppath="${GENIMAGE_TMP}" || exit 1
+	rm -f "${RECALBOX_BINARIES_DIR}/boot.vfat" || exit 1
+	rm -f "${BINARIES_DIR}/rootfs.tar" || exit 1
+	rm -f "${BINARIES_DIR}/rootfs.squashfs" || exit 1
+	xu4_fusing "${BINARIES_DIR}" "${RECALBOX_BINARIES_DIR}/recalbox.img" || exit 1
+	sync || exit 1
+	;;
 
       X86|X86_64)
         # /boot
@@ -156,20 +167,6 @@ else
     exit 1
 fi
 
-# Compress the squashfs image
-#if mv -f "${BINARIES_DIR}/rootfs.squashfs" "${RECALBOX_BINARIES_DIR}/recalbox.upgrade" ; then
-#    echo "Compressing recalbox upgrade squashfs file ..."
-#    xz --threads=0 "${RECALBOX_BINARIES_DIR}/recalbox.upgrade"
-#else
-#    echo "Couldn't move recalbox.upgrade or compress it"
-#    exit 1
-#fi
-
-# Delete the squashfs image
-rm -f "${BINARIES_DIR}/rootfs.squashfs" || exit 1
-
-
 # Computing hash sums to make have an update that can be dropped on a running Recalbox
 echo "Computing sha1 sums ..."
 (cd "${RECALBOX_BINARIES_DIR}" && for file in * ; do sha1sum "${file}" > "${file}.sha1"; done)
-#[[ -e "${RECALBOX_BINARIES_DIR}/root.tar.xz" ]] && tar tf "${RECALBOX_BINARIES_DIR}/root.tar.xz" | sort > "${RECALBOX_BINARIES_DIR}/root.list"
