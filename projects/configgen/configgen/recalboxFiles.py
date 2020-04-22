@@ -37,6 +37,7 @@ recalboxBins =\
     'daphne'      : '/usr/bin/hypseus',
     'oricutron'   : '/usr/bin/oricutron/oricutron',
     'openbor'     : '/usr/bin/OpenBOR',
+    'solarus'     : '/usr/bin/solarus-run',
     'simcoupe'    : '/usr/bin/simcoupe',
     'pcsx_rearmed': '/usr/bin/pcsx_rearmed',
     'pisnes'      : '/usr/bin/pisnes',
