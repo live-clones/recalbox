@@ -1,0 +1,37 @@
+{
+    "os_list": [
+        {
+            "name": "Recalbox {{version}} (Pi 0/1)",
+            "description": "The official retro-gaming OS! Turn your Raspberry Pi into an all-in-one and plug-n-play retro-gaming console, supporting 100+ gaming systems!",
+            "url": "https://recalbox-releases.s3.nl-ams.scw.cloud/stable/v2/upgrade/rpi1/recalbox-rpi1.img.xz",
+            "icon": "https://download.recalbox.com/recalbox.svg",
+            "extract_size": {{rpi1ExtractSize}},
+            "extract_sha256": "{{rpi1ExtractSha256}}",
+            "image_download_size": {{rpi1ImageDownloadSize}},
+            "image_download_sha256": "{{rpi1ImageDownloadSha256}}",
+            "release_date": "{{releaseDate}}"
+        },
+        {
+            "name": "Recalbox {{version}} (Pi 2)",
+            "description": "The official retro-gaming OS! Turn your Raspberry Pi into an all-in-one and plug-n-play retro-gaming console, supporting 100+ gaming systems!",
+            "url": "https://recalbox-releases.s3.nl-ams.scw.cloud/stable/v2/upgrade/rpi2/recalbox-rpi2.img.xz",
+            "icon": "https://download.recalbox.com/recalbox.svg",
+            "extract_size": {{rpi2ExtractSize}},
+            "extract_sha256": "{{rpi2ExtractSha256}}",
+            "image_download_size": {{rpi2ImageDownloadSize}},
+            "image_download_sha256": "{{rpi2ImageDownloadSha256}}",
+            "release_date": "{{releaseDate}}"
+        },
+        {
+            "name": "Recalbox {{version}} (Pi 3)",
+            "description": "The official retro-gaming OS! Turn your Raspberry Pi into an all-in-one and plug-n-play retro-gaming console, supporting 100+ gaming systems!",
+            "url": "https://recalbox-releases.s3.nl-ams.scw.cloud/stable/v2/upgrade/rpi3/recalbox-rpi3.img.xz",
+            "icon": "https://download.recalbox.com/recalbox.svg",
+            "extract_size": {{rpi3ExtractSize}},
+            "extract_sha256": "{{rpi3ExtractSha256}}",
+            "image_download_size": {{rpi3ImageDownloadSize}},
+            "image_download_sha256": "{{rpi3ImageDownloadSha256}}",
+            "release_date": "{{releaseDate}}"
+        }
+    ]
+}
