@@ -24,7 +24,6 @@ if [ "${SKIP_IMAGES}" == "true" ]; then
 fi
 
 # Noobs compatibility
-
 if [ "${RELEASE_TYPE}" == "prod" ]; then
   UPGRADE_DIR="${IMAGE_DIR}/"
   SOURCE_NOOBS_DIR="./noobs/"
@@ -43,6 +42,7 @@ if [ "${RELEASE_TYPE}" == "prod" ]; then
     done
   done
 fi
+
 # Template html
 cp "${RELEASE_TYPE}.template.html" "${RELEASE_DIR}/index.html"
 

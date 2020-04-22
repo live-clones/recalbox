@@ -46,30 +46,76 @@ lint commits:
   script: test/lint/commits
   allow_failure: true
 
-# Build
-
+# Build Template
 .build_template: &build_definition
   stage: build
   script:
     - export RECALBOX_VERSION="${CI_COMMIT_TAG:-${CI_COMMIT_REF_SLUG:0:12} (${CI_COMMIT_SHA:0:8}) ${CI_PIPELINE_ID} ${ARCH} $(date '+%Y/%m/%d %H:%M:%S')}"
     - docker build -t "recalbox-${ARCH}" .
     - docker run --rm -v `pwd`:/work -v /recalbox-builds/dl:/share/dl -v "/recalbox-builds/ccaches/ccache-${ARCH}:/share/ccache" -e "ARCH=${ARCH}" -e "RECALBOX_VERSION=${RECALBOX_VERSION}" -e "RECALBOX_CCACHE_ENABLED=true" "recalbox-${ARCH}" 2>&1 | tee build.log | grep '>>>' || tac build.log | grep '>>>' -m 1 -B 9999 | tac
-    - export DIST_DIR="dist/${ARCH}"
-    - mkdir -p "${DIST_DIR}"
-    - cp output/images/recalbox/* "${DIST_DIR}"
+    - export BUILD_DIR="build-${CI_PIPELINE_ID}"
+    - export ARTIFACT_DIR="${BUILD_DIR}/${ARCH}"
+    - mkdir -p "${ARTIFACT_DIR}"
+    - cp output/images/recalbox/* "${ARTIFACT_DIR}"
     - rm -rf output/
-    - echo "${RECALBOX_VERSION}" >> "${DIST_DIR}/recalbox.version"
-    - cp CHANGELOG.md "${DIST_DIR}/recalbox.changelog"
+    - echo "${RECALBOX_VERSION}" >> "${ARTIFACT_DIR}/recalbox.version"
+    - cp CHANGELOG.md "${ARTIFACT_DIR}/recalbox.changelog"
+    - ./updatesv3/bucket.sh upload "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_KEY}" "recalbox-build" "${BUILD_DIR}"
   after_script:
     - rm -rf buildroot
   artifacts:
-    name: dist-${ARCH}-${CI_BUILD_ID}
+    name: ${ARCH}-${CI_PIPELINE_ID}
     when: always
     paths:
-      - dist
       - build.log
     expire_in: 2 mos
 
+# Build Template
+fake_build:
+  stage: build
+  script:
+    - export ARCH='fake'
+    - export RECALBOX_VERSION="${CI_COMMIT_TAG:-${CI_COMMIT_REF_SLUG:0:12} (${CI_COMMIT_SHA:0:8}) ${CI_PIPELINE_ID} ${ARCH} $(date '+%Y/%m/%d %H:%M:%S')}"
+    - export BUILD_DIR="build-${CI_PIPELINE_ID}"
+    - export ARTIFACT_DIR="${BUILD_DIR}/${ARCH}"
+    - mkdir -p "${ARTIFACT_DIR}"
+    - echo "animage" > "${ARTIFACT_DIR}/image.tar.xz"
+    - echo "root" > "${ARTIFACT_DIR}/root.tar.xz"
+    - rm -rf output/
+    - echo "${RECALBOX_VERSION}" >> "${ARTIFACT_DIR}/recalbox.version"
+    - cp CHANGELOG.md "${ARTIFACT_DIR}/recalbox.changelog"
+    - ./updatesv3/bucket.sh upload "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_KEY}" "recalbox-build" "${BUILD_DIR}"
+  after_script:
+    - rm -rf buildroot
+  artifacts:
+    name: ${ARCH}-${CI_PIPELINE_ID}
+    when: always
+    paths:
+      - build.log
+    expire_in: 2 mos
+    
+# Release Template
+.release_template: &release_definition
+  stage: release
+  variables:
+    DEPLOY_TYPE: type of the deployment (prod, review)
+    SKIP_IMAGES: Release or without images if true
+    BUCKET: Bucket to deploy to
+    BUCKET_PATH: path in the bucket
+  script:
+    - export DOWNLOAD_DIR="build-${CI_PIPELINE_ID}"
+    - export RELEASE_DIR="${BUCKET_PATH}"
+    - ./updatesv3/bucket.sh download "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_KEY}" "recalbox-build" "${DOWNLOAD_DIR}"
+    - mv "${DOWNLOAD_DIR}" "${RELEASE_DIR}"
+    - cd updatesv2
+    - ./prepare_assets.sh "${DEPLOY_TYPE}" "../release" "${RELEASE_DIR}" netlify "${SKIP_IMAGES}"
+    - echo "Releasing files"
+    - cd ..
+    - ./updatesv3/bucket.sh upload "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_KEY}" "${BUCKET}" "${RELEASE_DIR}"
+    - if [ "${DEPLOY_TYPE}" = "prod" ]; then docker run --rm -v $(pwd):/work -w /work node:10 bash -c "./upload_to_netlify.sh '${NETLIFY_AUTH_TOKEN}' 'netlify' '${NETLIFY_PROJECT_ID}'"; fi
+
+
+# Build
 build rpi1:
   <<: *build_definition
   only:
@@ -170,21 +216,6 @@ build odroidxu4 for test:
 
 ### Release
 
-.release_template: &release_definition
-  stage: release
-  variables:
-    DEPLOY_TYPE: type of the deployment (prod, review)
-    SKIP_IMAGES: Release or without images if true
-    BUCKET: Bucket to deploy to
-    BUCKET_PATH: path in the bucket
-  script:
-    - cd updatesv2
-    - ./prepare_assets.sh "${DEPLOY_TYPE}" "../dist" release netlify "${SKIP_IMAGES}"
-    - echo "Releasing files"
-    - ./upload_to_bucket.sh "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_KEY}" "${BUCKET}" "release" "${BUCKET_PATH}"
-    - if [ "${DEPLOY_TYPE}" = "prod" ]; then docker run --rm -v $(pwd):/work -w /work node:10 bash -c "./upload_to_netlify.sh '${NETLIFY_AUTH_TOKEN}' 'netlify' '${NETLIFY_PROJECT_ID}'"; fi
-
-
 release prod:
   <<: *release_definition
   when: manual
@@ -215,15 +246,14 @@ release review:
 ### Clean
 
 clean review:
-  image: registry.gitlab.com/recalbox/ops/rancher-cli:0.6.2
   stage: clean
   when: manual
-  dependencies: []
   only:
     - branches
   script:
-    - echo "cleaning ${ARCHIVE_IMAGE} from ${REVIEW_STACK_NAME}/${CI_ENVIRONMENT_SLUG}"
-    - rancher rm "${REVIEW_STACK_NAME}/${CI_ENVIRONMENT_SLUG}"
+    - export BUILD_DIR="build-${CI_PIPELINE_ID}"
+    - echo "Removing ${BUILD_DIR} from recalbox-build"
+    - ./updatesv3/bucket.sh delete "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_KEY}" "recalbox-build" "${BUILD_DIR}"
   environment:
     name: review/${CI_COMMIT_REF_SLUG}
     action: stop

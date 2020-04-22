@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [6.2]
+- Fixed ci artifact upload for gigantic files
 - Add joystick rules for IPega PG-9037
 - Fix Odroid XU4 fan issue
 - Fix Odroid XU4 sound issue
