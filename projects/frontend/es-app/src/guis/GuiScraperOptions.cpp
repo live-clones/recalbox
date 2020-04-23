@@ -118,9 +118,13 @@ GuiScraperOptions::GuiScraperOptions(Window& window, SystemManager& systemManage
       mLanguage->add(_("Türkçe")    , "tr", languageCode == "tr");
       mMenu.addWithLabel(mLanguage, _("FAVORITE LANGUAGE"));
 
-      //mMixImages = std::make_shared<SwitchComponent>(mWindow);
-      //mMixImages->setState(true);
-      //mMenu.addWithLabel(mMixImages, _("USE COMPOSED VISUALS"));
+      bool manuals = RecalboxConf::Instance().AsBool("scraper.screenscraper.manuals", false);
+      mManual = std::make_shared<SwitchComponent>(mWindow, manuals);
+      mMenu.addWithLabel(mManual, _("FETCH GAME MANUALS"));
+
+      bool maps = RecalboxConf::Instance().AsBool("scraper.screenscraper.maps", false);
+      mMaps = std::make_shared<SwitchComponent>(mWindow, maps);
+      mMenu.addWithLabel(mMaps, _("FETCH GAME MAPS"));
 
       break;
     }
@@ -176,6 +180,8 @@ void GuiScraperOptions::start()
       RecalboxConf::Instance().SetString("scraper.screenscraper.video", mVideo->getSelected());
       RecalboxConf::Instance().SetString("scraper.screenscraper.region", mRegion->getSelected());
       RecalboxConf::Instance().SetString("scraper.screenscraper.language", mLanguage->getSelected());
+      RecalboxConf::Instance().SetBool("scraper.screenscraper.manual", mManual->getState());
+      RecalboxConf::Instance().SetBool("scraper.screenscraper.maps", mMaps->getState());
       RecalboxConf::Instance().Save();
       break;
     }
@@ -185,9 +191,6 @@ void GuiScraperOptions::start()
     }
   }
   Settings::Instance().SetScrapeRatings(mScrapeRatings->getState());
-  /*if(Settings::Instance().Scraper() == "Screenscraper") {
-		Settings::Instance().SetMixImages(mMixImages->getState());
-	}*/
 
   GuiScraperRun* gsm = new GuiScraperRun(mWindow, mSystemManager, mSystems->getSelectedObjects(), mScrapingMethod->getSelected());
   mWindow.pushGui(gsm);

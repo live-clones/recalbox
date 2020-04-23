@@ -44,7 +44,7 @@ GuiScraperRun::GuiScraperRun(Window&window, SystemManager& systemManager, const 
   mSystem = std::make_shared<TextComponent>(mWindow, _("SYSTEM"), menuTheme->menuText.font, menuTheme->menuText.color, TextAlignment::Center);
 	mGrid.setEntry(mSystem, Vector2i(0, 1), false, true);
 
-	mSubtitle = std::make_shared<TextComponent>(mWindow, _("subtitle text"), menuTheme->menuFooter.font, menuTheme->menuFooter.color, TextAlignment::Center);
+	mSubtitle = std::make_shared<TextComponent>(mWindow, "", menuTheme->menuFooter.font, menuTheme->menuFooter.color, TextAlignment::Center);
 	mGrid.setEntry(mSubtitle, Vector2i(0, 2), false, true);
 
 	mSearchComp = std::make_shared<ScraperSearchComponent>(mWindow);
@@ -91,6 +91,7 @@ void GuiScraperRun::onSizeChanged()
 
 void GuiScraperRun::finish()
 {
+  mScraper->Abort(true);
   mWindow.CloseAll();
   MainRunner::RequestQuit(MainRunner::ExitState::Relaunch, true);
 	mIsProcessing = false;

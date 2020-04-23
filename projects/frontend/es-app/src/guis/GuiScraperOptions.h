@@ -27,6 +27,8 @@ private:
   //! SystemManager instance
 	SystemManager& mSystemManager;
 
+  std::shared_ptr<SwitchComponent>                      mMaps;
+  std::shared_ptr<SwitchComponent>                      mManual;
   std::shared_ptr<OptionListComponent<std::string>>     mImage;
   std::shared_ptr<OptionListComponent<std::string>>     mThumbnail;
   std::shared_ptr<OptionListComponent<std::string>>     mVideo;

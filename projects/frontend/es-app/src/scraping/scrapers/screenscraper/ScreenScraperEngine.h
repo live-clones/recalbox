@@ -7,6 +7,7 @@
 #include <utils/os/system/Mutex.h>
 #include <utils/sdl2/SyncronousEvent.h>
 #include <utils/os/system/ThreadPool.h>
+#include <games/MetadataFieldDescriptor.h>
 #include "ScreenScraperApis.h"
 
 class ScreenScraperEngine
@@ -88,6 +89,20 @@ class ScreenScraperEngine
          * @return True if the quota is reached and the scrapping must stop ASAP. False in any other case
          */
         ScrapeResult DownloadAndStoreMedia(ScrappingMethod method, const ScreenScraperApis::Game& sourceData, FileData& game);
+
+        /*!
+         * @brief Download and store one media
+         * @param gameName Relatiove game path to the system rom folder
+         * @param method Scrapping method
+         * @param game Game being scrapped
+         * @param mediaFolder Base media folder (roms/<system>/media/<mediatype>)
+         * @param media Media being downloaded
+         * @param format MEdia format (file extension)
+         * @return Scrape result
+         */
+        ScrapeResult DownloadMedia(const std::string& gameName, ScrappingMethod method, FileData& game,
+                                   const Path& mediaFolder, const std::string& media, const std::string& format,
+                                   SetPathMethodType pathSetter);
 
       public:
         explicit Engine(ScreenScraperApis::IConfiguration* configuration)
@@ -177,6 +192,10 @@ class ScreenScraperEngine
     bool mWantMarquee;
     //! Wheel
     bool mWantWheel;
+    //! Marquee
+    bool mWantManual;
+    //! Wheel
+    bool mWantMaps;
 
     //! Live stats: Total
     int mTotal;
@@ -369,6 +388,12 @@ class ScreenScraperEngine
 
     //! Check if wheel are required
     bool GetWantWheel() const override { return mWantWheel; }
+
+    //! Check if manual are required
+    bool GetWantManual() const override { return mWantManual; }
+
+    //! Check if maps are required
+    bool GetWantMaps() const override { return mWantMaps; }
 
     /*
      * ISynchronousEvent implementation

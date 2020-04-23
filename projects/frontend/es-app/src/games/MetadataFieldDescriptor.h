@@ -8,6 +8,8 @@ typedef bool (MetadataDescriptor::*IsDefaultValueMethodType)() const;
 typedef std::string (MetadataDescriptor::*GetValueMethodType)() const;
 //! Method pointer to string setters
 typedef void (MetadataDescriptor::*SetValueMethodType)(const std::string& value);
+//! Method pointer to string setters
+typedef void (MetadataDescriptor::*SetPathMethodType)(const Path& value);
 
 class MetadataFieldDescriptor
 {

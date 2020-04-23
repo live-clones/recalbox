@@ -59,6 +59,10 @@ class ScreenScraperApis
         virtual bool GetWantMarquee() const = 0;
         //! Check if wheel are required
         virtual bool GetWantWheel() const = 0;
+        //! Check if marquee are required
+        virtual bool GetWantManual() const = 0;
+        //! Check if wheel are required
+        virtual bool GetWantMaps() const = 0;
     };
 
     //! User object (reduced to Recalbox needs)
@@ -124,6 +128,34 @@ class ScreenScraperApis
         std::string mVideoFormat;
         //! Video
         long long mVideoSize;
+
+        //! Marquee
+        std::string mMarquee;
+        //! Marquee file format
+        std::string mMarqueeFormat;
+        //! Marquee
+        long long mMarqueeSize;
+
+        //! Wheel
+        std::string mWheel;
+        //! Wheel file format
+        std::string mWheelFormat;
+        //! Wheel
+        long long mWheelSize;
+
+        //! Manual
+        std::string mManual;
+        //! Manual file format
+        std::string mManualFormat;
+        //! Manual
+        long long mManualSize;
+
+        //! Maps
+        std::string mMaps;
+        //! Maps file format
+        std::string mMapsFormat;
+        //! Maps
+        long long mMapsSize;
       }
       MediaSources;
     };

@@ -134,6 +134,8 @@ ScreenScraperEngine::ScreenScraperEngine()
     mVideo(ScreenScraperApis::IConfiguration::Video::None),
     mWantMarquee(false),
     mWantWheel(false),
+    mWantManual(false),
+    mWantMaps(false),
     mTotal(0),
     mCount(0),
     mStatScraped(0),
@@ -204,7 +206,9 @@ void ScreenScraperEngine::Initialize()
   if (value == "normal") mVideo = ScreenScraperApis::IConfiguration::Video::Raw;
   else if (value == "optimized") mVideo = ScreenScraperApis::IConfiguration::Video::Optimized;
   mWantMarquee = RecalboxConf::Instance().AsBool("scraper.screenscraper.marquee", false);
-  mWantWheel = RecalboxConf::Instance().AsBool("scraper.screenscraper.wheel", false);
+  mWantWheel   = RecalboxConf::Instance().AsBool("scraper.screenscraper.wheel", false);
+  mWantManual  = RecalboxConf::Instance().AsBool("scraper.screenscraper.manual", false);
+  mWantMaps    = RecalboxConf::Instance().AsBool("scraper.screenscraper.maps", false);
 }
 
 bool ScreenScraperEngine::RunOn(ScrappingMethod method, FileData& singleGame, INotifyScrapeResult* notifyTarget,
@@ -554,6 +558,8 @@ ScrapeResult ScreenScraperEngine::Engine::RequestZipGameInfo(ScreenScraperApis::
 
 bool ScreenScraperEngine::Engine::NeedScrapping(ScrappingMethod method, FileData& game)
 {
+  const Path rootMediaPath = game.getSystem()->getRootFolder().getPath() / "media";
+  const std::string gameFile = game.getPath().FilenameWithoutExtension();
   switch(method)
   {
     case ScrappingMethod::All: return true;
@@ -578,6 +584,29 @@ bool ScreenScraperEngine::Engine::NeedScrapping(ScrappingMethod method, FileData
         if (game.Metadata().Thumbnail().IsEmpty()) return true;
       if (mConfiguration.GetVideo() != ScreenScraperApis::IConfiguration::Video::None)
         if (game.Metadata().Video().IsEmpty()) return true;
+      if (mConfiguration.GetWantMarquee())
+      {
+        Path marqueePath = rootMediaPath / "marquees";
+        if ((!(rootMediaPath / (gameFile + ".jpg")).Exists()) &&
+            (!(rootMediaPath / (gameFile + ".png")).Exists())) return true;
+      }
+      if (mConfiguration.GetWantWheel())
+      {
+        Path marqueePath = rootMediaPath / "wheels";
+        if ((!(rootMediaPath / (gameFile + ".jpg")).Exists()) &&
+            (!(rootMediaPath / (gameFile + ".png")).Exists())) return true;
+      }
+      if (mConfiguration.GetWantManual())
+      {
+        Path marqueePath = rootMediaPath / "manuals";
+        if (!(rootMediaPath / (gameFile + ".pdf")).Exists()) return true;
+      }
+      if (mConfiguration.GetWantMaps())
+      {
+        Path marqueePath = rootMediaPath / "maps";
+        if ((!(rootMediaPath / (gameFile + ".jpg")).Exists()) &&
+            (!(rootMediaPath / (gameFile + ".png")).Exists())) return true;
+      }
       // TODO: Add more media checks here
       return false;
     }
@@ -661,6 +690,35 @@ ScreenScraperEngine::Engine::StoreTextData(ScrappingMethod method, const ScreenS
   }
 }
 
+ScrapeResult ScreenScraperEngine::Engine::DownloadMedia(const std::string& gameName, ScrappingMethod method, FileData& game,
+  const Path& mediaFolder, const std::string& media, const std::string& format, SetPathMethodType pathSetter)
+{
+  if (!media.empty())
+    if (!game.Metadata().Image().Exists() || method != ScrappingMethod::IncompleteKeep)
+    {
+      Path AbsoluteImagePath = mediaFolder / (gameName + '.' + format);
+      long long size = 0;
+
+      switch(mCaller.GetMedia(media, AbsoluteImagePath, size))
+      {
+        case ScrapeResult::Ok:
+        {
+          if (pathSetter != nullptr)
+            (game.Metadata().*pathSetter)(AbsoluteImagePath);
+          mImages++;
+          mMediaSize += size;
+          break;
+        }
+        case ScrapeResult::NotScraped: break;
+        case ScrapeResult::NotFound: LOG(LogError) << "Missing media!"; break;
+        case ScrapeResult::DiskFull: return ScrapeResult::DiskFull;
+        case ScrapeResult::QuotaReached: return ScrapeResult::QuotaReached;
+        case ScrapeResult::FatalError: break;
+      }
+    }
+  return ScrapeResult::Ok;
+}
+
 ScrapeResult
 ScreenScraperEngine::Engine::DownloadAndStoreMedia(ScrappingMethod method, const ScreenScraperApis::Game& sourceData,
                                                    FileData& game)
@@ -670,63 +728,35 @@ ScreenScraperEngine::Engine::DownloadAndStoreMedia(ScrappingMethod method, const
   const Path relativePath = game.getPath().MakeRelative(rootFolder, ok);
   const std::string gameName = ok ? (relativePath.Directory() / game.getPath().FilenameWithoutExtension()).ToString()
                                   : game.getPath().FilenameWithoutExtension();
+  const Path mediaFolder = rootFolder / "media";
 
   // Main image
-  if (!sourceData.MediaSources.mImage.empty())
-    if (!game.Metadata().Image().Exists() || method != ScrappingMethod::IncompleteKeep)
-    {
-      game.Metadata().Image().Exists();
-      Path AbsoluteImagePath = rootFolder / "media/images" / (gameName + '.' + sourceData.MediaSources.mImageFormat);
-      long long size = 0;
-
-      switch(mCaller.GetMedia(sourceData.MediaSources.mImage, AbsoluteImagePath, size))
-      {
-        case ScrapeResult::Ok: game.Metadata().SetImagePath(AbsoluteImagePath); mImages++; mMediaSize += size; break;
-        case ScrapeResult::NotScraped: break;
-        case ScrapeResult::NotFound: LOG(LogError) << "Missing media!"; break;
-        case ScrapeResult::DiskFull: return ScrapeResult::DiskFull;
-        case ScrapeResult::QuotaReached: return ScrapeResult::QuotaReached;
-        case ScrapeResult::FatalError: break;
-      }
-    }
-  if (mAbortRequest) return ScrapeResult::Ok;
+  ScrapeResult result = DownloadMedia(gameName, method, game, mediaFolder / "images", sourceData.MediaSources.mImage, sourceData.MediaSources.mImageFormat, &MetadataDescriptor::SetImagePath);
+  if (result != ScrapeResult::Ok || mAbortRequest) return result;
 
   // Thumbnail image
-  if (!sourceData.MediaSources.mThumbnail.empty())
-    if (!game.Metadata().Thumbnail().Exists() || method != ScrappingMethod::IncompleteKeep)
-    {
-      Path AbsoluteThumbnailPath = rootFolder / "media/thumbnails" / (gameName + '.' + sourceData.MediaSources.mThumbnailFormat);
-      long long size = 0;
-
-      switch(mCaller.GetMedia(sourceData.MediaSources.mThumbnail, AbsoluteThumbnailPath, size))
-      {
-        case ScrapeResult::Ok: game.Metadata().SetThumbnailPath(AbsoluteThumbnailPath); mImages++;  mMediaSize += size; break;
-        case ScrapeResult::NotScraped: break;
-        case ScrapeResult::NotFound: LOG(LogError) << "Missing media!"; break;
-        case ScrapeResult::DiskFull: return ScrapeResult::DiskFull;
-        case ScrapeResult::QuotaReached: return ScrapeResult::QuotaReached;
-        case ScrapeResult::FatalError: break;
-      }
-    }
-  if (mAbortRequest) return ScrapeResult::Ok;
+  result = DownloadMedia(gameName, method, game, mediaFolder / "thumbnails", sourceData.MediaSources.mThumbnail, sourceData.MediaSources.mThumbnailFormat, &MetadataDescriptor::SetThumbnailPath);
+  if (result != ScrapeResult::Ok || mAbortRequest) return result;
 
   // Video
-  if (!sourceData.MediaSources.mVideo.empty())
-    if (!game.Metadata().Video().Exists() || method != ScrappingMethod::IncompleteKeep)
-    {
-      Path AbsoluteVideoPath = rootFolder / "media/videos" / (gameName + '.' + sourceData.MediaSources.mVideoFormat);
-      long long size = 0;
+  result = DownloadMedia(gameName, method, game, mediaFolder / "videos", sourceData.MediaSources.mVideo, sourceData.MediaSources.mVideoFormat, &MetadataDescriptor::SetVideoPath);
+  if (result != ScrapeResult::Ok || mAbortRequest) return result;
 
-      switch(mCaller.GetMedia(sourceData.MediaSources.mVideo, AbsoluteVideoPath, size))
-      {
-        case ScrapeResult::Ok: game.Metadata().SetVideoPath(AbsoluteVideoPath); mVideos++;  mMediaSize += size; break;
-        case ScrapeResult::NotScraped: break;
-        case ScrapeResult::NotFound: LOG(LogError) << "Missing media!"; break;
-        case ScrapeResult::DiskFull: return ScrapeResult::DiskFull;
-        case ScrapeResult::QuotaReached: return ScrapeResult::QuotaReached;
-        case ScrapeResult::FatalError: break;
-      }
-    }
+  // Marquee
+  result = DownloadMedia(gameName, method, game, mediaFolder / "marquees", sourceData.MediaSources.mMarquee, sourceData.MediaSources.mMarqueeFormat, nullptr);
+  if (result != ScrapeResult::Ok || mAbortRequest) return result;
+
+  // Wheel
+  result = DownloadMedia(gameName, method, game, mediaFolder / "wheels", sourceData.MediaSources.mWheel, sourceData.MediaSources.mWheelFormat, nullptr);
+  if (result != ScrapeResult::Ok || mAbortRequest) return result;
+
+  // Manual
+  result = DownloadMedia(gameName, method, game, mediaFolder / "manuals", sourceData.MediaSources.mManual, sourceData.MediaSources.mManualFormat, nullptr);
+  if (result != ScrapeResult::Ok || mAbortRequest) return result;
+
+  // Maps
+  result = DownloadMedia(gameName, method, game, mediaFolder / "maps", sourceData.MediaSources.mMaps, sourceData.MediaSources.mMapsFormat, nullptr);
+  if (result != ScrapeResult::Ok || mAbortRequest) return result;
 
   // TODO: Add more image download & save here
 
