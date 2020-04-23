@@ -1,0 +1,6 @@
+config BR2_PACKAGE_RECALBOX_ROMFS_SOLARUS
+	bool "recalbox-romfs-solarus"
+	select BR2_PACKAGE_RECALBOX_ROMS
+	depends on BR2_PACKAGE_RECALBOX_SOLARUS
+	help
+	  share_init/roms and xml for solarus

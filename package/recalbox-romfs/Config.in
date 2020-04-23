@@ -78,6 +78,7 @@ source "$BR2_EXTERNAL_RECALBOX_PATH/package/recalbox-romfs/recalbox-romfs-sega32
 source "$BR2_EXTERNAL_RECALBOX_PATH/package/recalbox-romfs/recalbox-romfs-segacd/Config.in"
 source "$BR2_EXTERNAL_RECALBOX_PATH/package/recalbox-romfs/recalbox-romfs-sg1000/Config.in"
 source "$BR2_EXTERNAL_RECALBOX_PATH/package/recalbox-romfs/recalbox-romfs-snes/Config.in"
+source "$BR2_EXTERNAL_RECALBOX_PATH/package/recalbox-romfs/recalbox-romfs-solarus/Config.in"
 source "$BR2_EXTERNAL_RECALBOX_PATH/package/recalbox-romfs/recalbox-romfs-spectravideo/Config.in"
 source "$BR2_EXTERNAL_RECALBOX_PATH/package/recalbox-romfs/recalbox-romfs-sufami/Config.in"
 source "$BR2_EXTERNAL_RECALBOX_PATH/package/recalbox-romfs/recalbox-romfs-supergrafx/Config.in"

@@ -1,0 +1,7 @@
+## RECALBOX - SYSTEME SOLARUS ##
+
+Placez vos roms solarus dans ce repertoire.
+
+Les roms doivent avoir pour extension ".solarus".
+
+Téléchargez les jeux solarus sur le site officiel: https://www.solarus-games.org

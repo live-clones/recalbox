@@ -519,6 +519,11 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_SNES9X),)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-satellaview
 endif
 
+# System: openbor
+ifeq ($(BR2_PACKAGE_RECALBOX_SOLARUS),y)
+        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-solarus
+endif
+
 # System: spectravideo
 ifneq ($(BR2_PACKAGE_LIBRETRO_BLUEMSX),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-spectravideo
