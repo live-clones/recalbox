@@ -104,7 +104,7 @@ case "${RECALBOX_TARGET}" in
 	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/xu4/boot.ini" "${BINARIES_DIR}/xu4-firmware/boot.ini" || exit 1
 	cp "${BINARIES_DIR}/exynos5422-odroidxu4.dtb" "${BINARIES_DIR}/xu4-firmware/boot" || exit 1
 	cp "${BINARIES_DIR}/recalbox-boot.conf" "${BINARIES_DIR}/xu4-firmware" || exit 1
-	cp "${BINARIES_DIR}/initrd.gz" "${BINARIES_DIR}/xu4-firmware/boot/" || exit 1
+	cp "${BINARIES_DIR}/uInitrd" "${BINARIES_DIR}/xu4-firmware/boot/" || exit 1
 	cp "${BINARIES_DIR}/zImage" "${BINARIES_DIR}/xu4-firmware/boot/linux" || exit 1
 	cp "${BINARIES_DIR}/rootfs.squashfs" "${BINARIES_DIR}/xu4-firmware/boot/recalbox" || exit 1
 
