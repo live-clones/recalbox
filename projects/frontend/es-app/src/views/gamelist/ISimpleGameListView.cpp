@@ -145,7 +145,6 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
         setCursorIndex(0);
       }
     }
-    NotificationManager::Instance().Notify(*getCursor(), Notification::GamelistBrowsing);
     return true;
   }
 
@@ -164,7 +163,6 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
 
       setCursor(selected);
       //Sound::getFromTheme(getTheme(), getName(), "back")->play();
-      NotificationManager::Instance().Notify(*getCursor(), Notification::GamelistBrowsing);
     }
     else if (!hideSystemView)
     {
@@ -205,7 +203,6 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
 
       updateHelpPrompts();
     }
-    NotificationManager::Instance().Notify(*getCursor(), Notification::GamelistBrowsing);
     return true;
   }
 
@@ -215,7 +212,6 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
     if (Settings::Instance().QuickSystemSelect() && !hideSystemView) {
       onFocusLost();
       ViewController::Instance().goToNextGameList();
-      NotificationManager::Instance().Notify(*getCursor(), Notification::GamelistBrowsing);
       return true;
     }
   }
@@ -225,7 +221,6 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
     if (Settings::Instance().QuickSystemSelect() && !hideSystemView) {
       onFocusLost();
       ViewController::Instance().goToPrevGameList();
-      NotificationManager::Instance().Notify(*getCursor(), Notification::GamelistBrowsing);
       return true;
     }
   }
@@ -300,9 +295,6 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
   }
 
   bool result = IGameListView::ProcessInput(event);
-
-  if (event.AnythingPressed())
-    NotificationManager::Instance().Notify(*getCursor(), Notification::GamelistBrowsing);
 
   return result;
 }

@@ -29,6 +29,8 @@ class IGameListView : public Gui
     SystemData& mSystem;
     const ThemeData* mTheme;
 
+    virtual void DoUpdateGameInformation() = 0;
+
   public:
     IGameListView(Window&window, SystemData& system)
       : Gui(window),
@@ -59,7 +61,7 @@ class IGameListView : public Gui
 
     void ApplyHelpStyle() override;
 
-    virtual void updateInfoPanel() = 0;
+    void updateInfoPanel();
 
     virtual void populateList(const FolderData& folder) = 0;
     virtual void refreshList() = 0;

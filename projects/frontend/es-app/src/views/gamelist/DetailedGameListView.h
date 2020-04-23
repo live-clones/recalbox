@@ -19,7 +19,7 @@ public:
 
     void Update(int deltatime) override;
 
-    void updateInfoPanel() final;
+    void DoUpdateGameInformation() final;
 
 protected:
     void launch(FileData* game) override;

@@ -28,10 +28,10 @@ public:
 
 	bool ProcessInput(const InputCompactEvent& event) override;
 
-	inline void updateInfoPanel() override {}
+	//inline void DoUpdateGameInformation() override {}
 
-	inline void populateList(const FolderData& folder) override { (void)folder; }
-	inline void refreshList() override {};
+	//inline void populateList(const FolderData& folder) override { (void)folder; }
+	//inline void refreshList() override {};
 
 	bool getHelpPrompts(Help& help) override;
 	std::vector<unsigned int> getAvailableLetters() override;

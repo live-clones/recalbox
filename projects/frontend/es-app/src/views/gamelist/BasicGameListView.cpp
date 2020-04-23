@@ -156,7 +156,6 @@ void BasicGameListView::setCursorIndex(int index)
   if (index >= mList.size()) index = mList.size() - 1;
   if (index < 0) index = 0;
 
-  NotificationManager::Instance().Notify(*getCursor(), Notification::GamelistBrowsing);
 	mList.setCursorIndex(index);
 }
 
@@ -187,7 +186,6 @@ void BasicGameListView::setCursor(FileData* cursor)
 			}
 		}
 	}
-  NotificationManager::Instance().Notify(*getCursor(), Notification::GamelistBrowsing);
 }
 
 Regions::List BasicGameListView::AvailableRegionsInGames()

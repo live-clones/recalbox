@@ -310,7 +310,7 @@ void DetailedGameListView::initMDValues()
   mDescContainer.setSize(mDescContainer.getSize().x(), mSize.y() - mDescContainer.getPosition().y());
 }
 
-void DetailedGameListView::updateInfoPanel()
+void DetailedGameListView::DoUpdateGameInformation()
 {
   FileData* file = (mList.size() == 0 || mList.isScrolling()) ? nullptr : mList.getSelected();
 
@@ -359,7 +359,7 @@ bool DetailedGameListView::switchDisplay(bool isGame)
 std::vector<Component*> DetailedGameListView::getFolderComponents()
 {
   std::vector<Component*> comps;
-  for (auto img: mFolderContent)
+  for (auto* img: mFolderContent)
   {
     comps.push_back(img);
   }
@@ -462,7 +462,7 @@ void DetailedGameListView::setScrappedFolderInfo(FileData* file)
 
 void DetailedGameListView::fadeOut(const std::vector<Component*>& comps, bool fadingOut)
 {
-  for (auto comp : comps)
+  for (auto* comp : comps)
   {
     // an animation is playing
     //   then animate if reverse != fadingOut
