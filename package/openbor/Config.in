@@ -1,0 +1,12 @@
+config BR2_PACKAGE_OPENBOR
+	bool "openbor"
+	select BR2_PACKAGE_SDL2
+	select BR2_PACKAGE_SDL2_GFX
+	select BR2_PACKAGE_RECALBOX_ROMFS_OPENBOR
+	help
+	  OpenBOR is the ultimate 2D side scrolling engine
+	  for beat em' ups, shooters, and more!
+	  http://www.chronocrash.com
+
+comment "OPENBOR needs a toolchain w/ OpenGl, SDL2"
+	depends on BR2_PACKAGE_SDL2
