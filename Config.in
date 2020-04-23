@@ -82,6 +82,7 @@ menu "Emulators"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/retroarch/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/scummvm/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/vice/Config.in"
+         source "$BR2_EXTERNAL_RECALBOX_PATH/package/solarus-recalbox/Config.in"
 
 if BR2_PACKAGE_RETROARCH
 menu "Libretro Cores"

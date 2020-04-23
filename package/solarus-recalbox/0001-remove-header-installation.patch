@@ -1,0 +1,25 @@
+--- a/cmake/AddInstallTargets.cmake	2019-07-18 20:03:56.000000000 +0200
++++ b/cmake/AddInstallTargets.cmake.new	2019-07-26 14:06:05.213022554 +0200
+@@ -24,13 +24,13 @@
+   RUNTIME DESTINATION ${SOLARUS_EXECUTABLE_INSTALL_DESTINATION}
+ )
+ # Install headers: useful for projects that use Solarus as a library.
+-install(DIRECTORY
+-  "${CMAKE_BINARY_DIR}/include/solarus"  # For config.h.
+-  "${CMAKE_SOURCE_DIR}/include/solarus"
+-  DESTINATION ${SOLARUS_HEADERS_INSTALL_DESTINATION}
+-)
++#install(DIRECTORY
++#  "${CMAKE_BINARY_DIR}/include/solarus"  # For config.h.
++#  "${CMAKE_SOURCE_DIR}/include/solarus"
++#  DESTINATION ${SOLARUS_HEADERS_INSTALL_DESTINATION}
++#)
+ # Linux Manpage
+-if(UNIX AND NOT APPLE)
+-  install (FILES ${CMAKE_CURRENT_SOURCE_DIR}/solarus-run.6
+-    DESTINATION ${SOLARUS_MANUAL_INSTALL_DESTINATION}/man6)
+-endif(UNIX AND NOT APPLE)
++#if(UNIX AND NOT APPLE)
++#  install (FILES ${CMAKE_CURRENT_SOURCE_DIR}/solarus-run.6
++#    DESTINATION ${SOLARUS_MANUAL_INSTALL_DESTINATION}/man6)
++#endif(UNIX AND NOT APPLE)
