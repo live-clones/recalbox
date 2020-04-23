@@ -94,5 +94,7 @@ int TCPNetwork::write(unsigned char* buffer, int len, int timeout)
 
 int TCPNetwork::disconnect()
 {
-  return ::close(mSocket);
+  int socket = mSocket;
+  mSocket = 0;
+  return ::close(socket);
 }
