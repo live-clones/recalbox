@@ -59,7 +59,7 @@ bool EmulatorManager::GetSystemDefaultEmulator(const SystemData& system, std::st
             emulator = list.EmulatorAt(i).Name();
           }
 
-      LOG(LogDebug) << "Default emulator/core" << emulator << '/' << core;
+      LOG(LogDebug) << "Default emulator/core: " << emulator << '/' << core;
       return true;
     }
   }

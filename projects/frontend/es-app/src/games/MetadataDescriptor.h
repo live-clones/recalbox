@@ -41,7 +41,7 @@ class MetadataDescriptor
     //! Folder node <folder></folder>
     static const std::string FolderNodeIdentifier;
 
-    // Please keep field ordered by typpe size to reduce alignment padding
+    // Please keep field ordered by type size to reduce alignment padding
     std::string  _Name;         //!< Name as simple string
     std::string  _Description;  //!< Description, multiline text
     Path         _Image;        //!< Image path

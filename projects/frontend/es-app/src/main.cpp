@@ -19,7 +19,7 @@ bool parseArgs(int argc, char* argv[], unsigned int& width, unsigned int& height
         return false;
       }
 
-      char* err;
+      char* err = nullptr;
       width = (unsigned int)strtol(argv[i + 1], &err, 10);
       height = (unsigned int)strtol(argv[i + 2], &err, 10);
       i += 2; // skip the argument value
@@ -54,7 +54,7 @@ bool parseArgs(int argc, char* argv[], unsigned int& width, unsigned int& height
     }
     else if (strcmp(argv[i], "--max-vram") == 0)
     {
-      char* err;
+      char* err = nullptr;
       int maxVRAM = (int)strtol(argv[i + 1], &err, 10);
       settings.SetMaxVRAM(maxVRAM);
     }
