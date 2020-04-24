@@ -35,10 +35,12 @@ do_mount() {
 
 check_update() {
     # All update files?
+    mount -o remount,rw /boot_root || return 1
     mkdir -p /boot_root/update/
+    mount -o remount,ro /boot_root || return 1
     if test -f /boot_root/update/recalbox ; then
         if test -f /boot_root/update/linux ; then
-            if test -f /boot_root/update/initrd.gz ; then
+            if [ -f /boot_root/update/initrd.gz ] || [ -f /boot_root/update/uInitrd ] ; then
                 return 0
             fi
         fi
@@ -58,7 +60,13 @@ do_update() {
     # UPDATE!
     mv /boot_root/update/recalbox  /boot_root/boot/recalbox  || return 1
     mv /boot_root/update/linux     /boot_root/boot/linux     || return 1
-    mv /boot_root/update/initrd.gz /boot_root/boot/initrd.gz || return 1
+    if test -f "/boot_root/update/initrd.gz" ; then
+      mv /boot_root/update/initrd.gz /boot_root/boot/initrd.gz || return 1
+    fi
+    if test -f "/boot_root/update/uInitrd" ; then
+      mv /boot_root/update/uInitrd /boot_root/boot/uInitrd || return 1
+    fi
+
     mount -o remount,ro /boot_root || return 1
 }
 
@@ -122,7 +130,6 @@ do_root() {
 
     # Create overlay folders and user video folder
     mkdir -p /overlay_root/lower /overlay_root/upper /overlay_root/work /overlay_root/bootvideos || return 1
-
     # Mount the squashfs as overlay "lower" file-system
     mount /boot_root/boot/recalbox /overlay_root/lower || return 1
 

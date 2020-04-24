@@ -27,7 +27,7 @@ xu4_fusing() {
     bl2_position=31
     uboot_position=63
     tzsw_position=1503
-    env_position=2015
+    env_position=2015 
 
     echo "BL1 fusing"
     dd if="${BINARIES_DIR}/bl1.bin.hardkernel"  of="${RECALBOXIMG}" seek=$signed_bl1_position conv=notrunc || return 1

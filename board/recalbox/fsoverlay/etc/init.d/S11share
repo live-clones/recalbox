@@ -72,6 +72,7 @@ if ! test -e "${INTERNALDEVICE}" ; then
         PSHARESTOP=$((PSHARESTOP/ALIGNSIZE))
         PSHARESTOP=$((PSHARESTOP*ALIGNSIZE))
         if test -n "${PSHARESTART}" ; then
+            touch /tmp/newshare
             /recalbox/scripts/recalbox-create-share.sh &
             # Create SHARE PARTITION
             parted -a optimal -s "${PARTPREFIX}" -m unit b mkpart primary "${PSHARESTART}" "${PSHARESTOP}"
