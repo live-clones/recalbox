@@ -140,9 +140,9 @@ SDL2_CONF_OPTS += --disable-video-kmsdrm
 endif
 
 ifeq ($(BR2_PACKAGE_XSERVER_XORG_SERVER),)
-    ifeq ($(BR2_PACKAGE_MESA3D_OPENGL_EGL),y)
-        TARGET_CFLAGS += -DEGL_NO_X11
-    endif
+	ifeq ($(BR2_PACKAGE_MESA3D_OPENGL_EGL),y)
+		TARGET_CFLAGS += -DEGL_NO_X11
+	endif
 endif
 
 $(eval $(autotools-package))
