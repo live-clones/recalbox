@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-ADVANCEMAME_VERSION = v3.7
+ADVANCEMAME_VERSION = v3.9
 ADVANCEMAME_SITE = $(call github,amadvance,advancemame,$(ADVANCEMAME_VERSION))
 ADVANCEMAME_LICENSE = GPLv2
 
@@ -22,7 +22,6 @@ ADVANCEMAME_CONF_OPTS += \
 	--prefix=$(TARGET_DIR)/usr \
 	--exec-prefix=$(TARGET_DIR)/usr \
 	--enable-pthreads \
-	--prefix=$(TARGET_DIR)/usr \
 	--disable-oss \
 	--enable-mraw \
 	--enable-mevent

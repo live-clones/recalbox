@@ -11,7 +11,7 @@ display_artwork_bezel yes
 display_artwork_crop no
 display_artwork_overlay yes
 device_video auto
-device_joystick auto
+device_joystick sdl
 device_keyboard none
 misc_quiet yes
 misc_safequit no
