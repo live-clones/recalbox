@@ -1,0 +1,47 @@
+--- mk_arcade_joystick_rpi-v0.1.7/mk_arcade_joystick_rpi.c.orig	2020-04-22 17:24:11.345479046 +0200
++++ mk_arcade_joystick_rpi-v0.1.7/mk_arcade_joystick_rpi.c	2020-04-22 17:28:39.014957636 +0200
+@@ -28,6 +28,7 @@
+ 
+ #include <linux/kernel.h>
+ #include <linux/delay.h>
++#include <linux/version.h>
+ #include <linux/module.h>
+ #include <linux/init.h>
+ #include <linux/input.h>
+@@ -64,6 +65,10 @@
+ 
+ #define BSC1_BASE		(PERI_BASE + 0x804000)
+ 
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(4,15,0)
++#define HAVE_TIMER_SETUP
++#endif
++
+ /*
+  * MCP23017 Defines
+  */
+@@ -372,8 +377,13 @@
+  * mk_timer() initiates reads of console pads data.
+  */
+ 
++#ifdef HAVE_TIMER_SETUP
++static void mk_timer(struct timer_list *t) {
++    struct mk *mk = from_timer(mk, t, timer);
++#else
+ static void mk_timer(unsigned long private) {
+     struct mk *mk = (void *) private;
++#endif
+     mk_process_packet(mk);
+     mod_timer(&mk->timer, jiffies + MK_REFRESH_TIME);
+ }
+@@ -567,7 +577,11 @@
+     }
+ 
+     mutex_init(&mk->mutex);
++#ifdef HAVE_TIMER_SETUP
++    timer_setup(&mk->timer, mk_timer, 0);
++#else
+     setup_timer(&mk->timer, mk_timer, (long) mk);
++#endif
+ 
+     for (i = 0; i < n_pads && i < MK_MAX_DEVICES; i++) {
+         if (!pads[i])

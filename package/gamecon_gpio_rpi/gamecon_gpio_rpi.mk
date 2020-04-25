@@ -4,16 +4,16 @@
 #
 ################################################################################
 
-GAMECON_GPIO_RPI_VERSION = 1.2
-GAMECON_GPIO_RPI_SOURCE = gamecon-gpio-rpi-dkms_$(GAMECON_GPIO_RPI_VERSION)_all.deb
-GAMECON_GPIO_RPI_SITE = http://www.niksula.hut.fi/~mhiienka/Rpi
+GAMECON_GPIO_RPI_VERSION = d70ac2459443f2bd96e8d99bf5dd5b84658ffe77
+GAMECON_GPIO_RPI_SITE = $(call github,marqs85,gamecon_gpio_rpi,$(GAMECON_GPIO_RPI_VERSION))
 
 GAMECON_GPIO_RPI_DEPENDENCIES = linux
 
-define GAMECON_GPIO_RPI_EXTRACT_CMDS
-	cp $(GAMECON_GPIO_RPI_PKGDIR)/gamecon_gpio_rpi.c $(@D)
-	cp $(GAMECON_GPIO_RPI_PKGDIR)/Makefile $(@D)
+define GAMECON_GPIO_RPI_COPY_CMDS
+	cp -r $(@D)/gamecon_gpio_rpi-1.4/* $(@D)/.
 endef
+
+GAMECON_GPIO_RPI_CONFIGURE_CMDS += $(GAMECON_GPIO_RPI_COPY_CMDS)
 
 define GAMECON_GPIO_RPI_BUILD_CMDS
 	$(MAKE) -C $(@D) $(LINUX_MAKE_FLAGS) KERNELDIR=$(LINUX_DIR)
