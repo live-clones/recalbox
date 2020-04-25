@@ -209,6 +209,12 @@ GuiBiosScan::GuiBiosScan(Window& window, SystemManager& systemManager)
   setPosition((Renderer::getDisplayWidthAsFloat() - mSize.x()) / 2, (Renderer::getDisplayHeightAsFloat() - mSize.y()) / 2);
 
   UpdateBiosList();
+
+  if (BiosManager::Instance().SystemCount() == 0)
+  {
+    mWindow.displayMessage("BIOS DATABASE NOT FOUND OR DAMAGED!\n\nRestore or reinstall your Recalbox!");
+    Close();
+  }
 }
 
 void GuiBiosScan::onSizeChanged()
@@ -362,6 +368,14 @@ void GuiBiosScan::UpdateBiosList()
   int previousCursorIndex = mList->isEmpty() ? -1 : mList->getCursorIndex();
   mList->clear();
 
+  // Check
+  const BiosManager& biosManager = BiosManager::Instance();
+  if (biosManager.SystemCount() == 0)
+  {
+    mList->add(Strings::ToUpperUTF8(_("EMPTY LIST")), ListContext(), sColorIndexNormal, -1, HorizontalAlignment::Center);
+    return;
+  }
+
   // Statistics
   int fullWorkingSystem = 0;
   int workingSystem = 0;
@@ -372,7 +386,6 @@ void GuiBiosScan::UpdateBiosList()
   int totalBiosNonMatching = 0;
 
   // Fill the system list
-  const BiosManager& biosManager = BiosManager::Instance();
   for(int i = 0; i < biosManager.SystemCount(); ++i)
   {
     // Fill bios list
