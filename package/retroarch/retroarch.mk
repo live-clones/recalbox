@@ -48,14 +48,21 @@ ifeq ($(BR2_ARM_CPU_HAS_NEON),y)
 RETROARCH_CONF_OPTS += --enable-neon
 endif
 
-# Add dispamnx renderer and no opengl1.1 for Pi
+# Add dispamnx renderer and no opengl1.1 for Pi, but not for RPI4
 ifeq ($(BR2_PACKAGE_RPI_FIRMWARE),y)
-RETROARCH_CONF_OPTS += --enable-dispmanx
+ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_RPI4),)
+	RETROARCH_CONF_OPTS += --enable-dispmanx
+endif
 endif
 
 # odroid xu4
 ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_XU4),y)
 RETROARCH_CONF_OPTS += --enable-floathard
+endif
+
+# rpi4
+ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_RPI4),y)
+RETROARCH_CONF_OPTS += --enable-opengles3 --disable-videocore
 endif
 
 # x86 : SSE
