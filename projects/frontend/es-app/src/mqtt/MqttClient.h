@@ -4,13 +4,12 @@
 #pragma once
 
 #include <string>
-#include <mqtt/Countdown.h>
-#include <mqtt/MQTTClient/MQTTClient.h>
 #include "TcpNetwork.h"
 #include <utils/Log.h>
 #include <utils/os/system/Thread.h>
+#include <mqtt/paho/cpp/async_client.h>
 
-class MqttClient : Thread, MQTT::Client<TCPNetwork, Countdown, 16 << 10, 5>
+class MqttClient : mqtt::iaction_listener
 {
   private:
     //! MQTT Host
@@ -18,33 +17,11 @@ class MqttClient : Thread, MQTT::Client<TCPNetwork, Countdown, 16 << 10, 5>
     //! MQTT Port
     static constexpr int sMqttPort = 1883;
 
-    //! TCP socket simple wrapper
-    TCPNetwork mNetwork;
+    //! MQTT Client
+    mqtt::async_client mMqtt;
 
-    //! Client identifier
-    const char* mClientId;
-
-    /*!
-     * @brief Lazy connection.
-     * Check if we are connected, and if not, try to connect
-     * @return Connection status
-     */
-    bool EnsureConnection();
-
-    /*!
-     * @brief Disconnect al
-     */
-    void Disconnect();
-
-    /*
-     * Thread implementation
-     */
-
-    /*!
-     * Calls the inheriting object's Run() method.
-     * @note set fIsRunning false to exit
-     */
-    void Run() override;
+    //! Initial connection token
+    mqtt::token_ptr mOriginalTocken;
 
   public:
     /*!
@@ -52,11 +29,7 @@ class MqttClient : Thread, MQTT::Client<TCPNetwork, Countdown, 16 << 10, 5>
      */
     explicit MqttClient(const char* clientid);
 
-    ~MqttClient() override
-    {
-      Disconnect();
-      Thread::Stop();
-    }
+    ~MqttClient() override = default;
 
     /*!
      * @brief Send a string to the specified topic
@@ -66,6 +39,17 @@ class MqttClient : Thread, MQTT::Client<TCPNetwork, Countdown, 16 << 10, 5>
      */
     bool Send(const std::string& topic, const std::string& data);
 
+  private:
+    /*
+     * mqtt::iaction_listener implementation
+     */
+
+    // Connection failure
+    void on_failure(const mqtt::token& asyncActionToken) override;
+
+    // Connection success
+    void on_success(const mqtt::token& asyncActionToken) override;
+
     /*!
      * @brief Subscribe and set callback to the given method
      * @tparam T Callback's class
@@ -73,7 +57,7 @@ class MqttClient : Thread, MQTT::Client<TCPNetwork, Countdown, 16 << 10, 5>
      * @param item
      * @param method
      */
-    template<class T> void Subscribe(const char* topic, T* item, void (T::*method)(MQTT::MessageData&))
+    /*template<class T> void Subscribe(const char* topic, T* item, void (T::*method)(MQTT::MessageData&))
     {
       EnsureConnection();
       if (subscribe(topic, MQTT::QOS0, item, method) != 0)
@@ -82,5 +66,6 @@ class MqttClient : Thread, MQTT::Client<TCPNetwork, Countdown, 16 << 10, 5>
         return;
       }
       LOG(LogInfo) << "Subscribed to: " << topic;
-    }
+
+    }*/
 };

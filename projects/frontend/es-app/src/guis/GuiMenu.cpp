@@ -216,7 +216,7 @@ void GuiMenu::createInputTextRow(GuiSettings *gui, const std::string& title, con
 
 void GuiMenu::menuSystem(){
 
-  auto s = new GuiSettings(mWindow, _("SYSTEM SETTINGS"));
+  auto* s = new GuiSettings(mWindow, _("SYSTEM SETTINGS"));
 
   auto version = std::make_shared<TextComponent>(mWindow,
       RecalboxUpgrade::getVersion(),
@@ -388,7 +388,7 @@ void GuiMenu::menuUpdates(){
 }
 
 void GuiMenu::menuGameSettings(){
-  auto s = new GuiSettings(mWindow, _("GAMES SETTINGS"));
+  auto* s = new GuiSettings(mWindow, _("GAMES SETTINGS"));
   if (RecalboxConf::Instance().AsString("emulationstation.menu") != "bartop") {
     // Screen ratio choice
     auto ratio_choice = createRatioOptionList(mWindow, "global");
@@ -579,7 +579,7 @@ void GuiMenu::menuControllers() {
     else
     {
       GuiSettings *pairGui = new GuiSettings(mWindow, _("PAIR A BLUETOOTH CONTROLLER"));
-      for (auto & controllerString : controllers)
+      for (const auto & controllerString : controllers)
       {
         ComponentListRow controllerRow;
         std::function<void()> pairController = [this, controllerString]
@@ -727,11 +727,11 @@ void GuiMenu::menuControllers() {
 }
 
 void GuiMenu::menuUISettings(){
-  auto s = new GuiSettings(mWindow, _("UI SETTINGS"));
+  auto* s = new GuiSettings(mWindow, _("UI SETTINGS"));
 
 
   std::function<void()> openGuiSS = [this] {
-	  auto ss = new GuiSettings(mWindow, _("SCREENSAVER"));
+	  auto* ss = new GuiSettings(mWindow, _("SCREENSAVER"));
 
 	  // screensaver time
 	  auto screensaver_time = std::make_shared<SliderComponent>(mWindow, 0.f, 30.f, 1.f, "m");
@@ -758,7 +758,7 @@ void GuiMenu::menuUISettings(){
 
 	  // add systems (all with a platformid specified selected)
 	  auto systems = std::make_shared<OptionListComponent<std::string> >(mWindow, _("SYSTEMS TO SHOW IN DEMO"), true);
-	  for (auto it : mSystemManager.GetAllSystemList()) {
+	  for (auto* it : mSystemManager.GetAllSystemList()) {
 		  if (!it->hasPlatformId(PlatformIds::PlatformId::PLATFORM_IGNORE))
 			  systems->add(it->getFullName(), it->getName(),
 			               RecalboxConf::Instance().isInList("global.demo.systemlist", it->getName()) &&
@@ -845,7 +845,7 @@ void GuiMenu::menuUISettings(){
   });
 
   std::function<void()> openGuiTheme = [this] {
-		auto st = new GuiSettings(mWindow, _("THEME"));
+		auto* st = new GuiSettings(mWindow, _("THEME"));
 
   // carousel transition option
   auto move_carousel = std::make_shared<SwitchComponent>(mWindow);
@@ -945,7 +945,7 @@ void GuiMenu::menuUISettings(){
 
   // theme config
   std::function<void()> openGui = [this, theme_set, ReloadAll] {
-    auto themeconfig = new GuiSettings(mWindow, _("THEME CONFIGURATION"));
+    auto* themeconfig = new GuiSettings(mWindow, _("THEME CONFIGURATION"));
 
     auto SelectedTheme = theme_set->getSelected();
 
@@ -1095,7 +1095,7 @@ void GuiMenu::menuUISettings(){
 }
 
 void GuiMenu::menuSoundSettings(){
-  auto s = new GuiSettings(mWindow, _("SOUND SETTINGS"));
+  auto* s = new GuiSettings(mWindow, _("SOUND SETTINGS"));
 
   // volume
   auto setVolume = [](const float &newVal) {
@@ -1158,7 +1158,7 @@ void GuiMenu::menuSoundSettings(){
 }
 
 void GuiMenu::menuNetworkSettings(){
-  auto s = new GuiSettings(mWindow, _("NETWORK SETTINGS"));
+  auto* s = new GuiSettings(mWindow, _("NETWORK SETTINGS"));
   auto status = std::make_shared<TextComponent>(mWindow, RecalboxSystem::ping() ? _( "CONNECTED")
       : _("NOT CONNECTED"), mMenuTheme->menuText.font, mMenuTheme->menuText.color);
   s->addWithLabel(status, _("STATUS"), _(MENUMESSAGE_NETWORK_STATUS_HELP_MSG));
@@ -1295,7 +1295,7 @@ void GuiMenu::menuScrapper()
 
 void GuiMenu::menuAdvancedSettings(){
 
-  auto s = new GuiSettings(mWindow, _("ADVANCED SETTINGS"));
+  auto* s = new GuiSettings(mWindow, _("ADVANCED SETTINGS"));
 
   // Overclock choice
   auto overclock_choice = std::make_shared<OptionListComponent<std::string> >(mWindow, _("OVERCLOCK"), false);
@@ -1474,7 +1474,7 @@ void GuiMenu::menuAdvancedSettings(){
 
           // All games
           Genres::GenreMap map = Genres::GetShortNameMap();
-          for(auto & genre : Genres::GetOrderedList())
+          for(const auto & genre : Genres::GetOrderedList())
           {
             std::string shortName = map[genre];
             std::string longName = Genres::GetName(genre);
@@ -1491,7 +1491,7 @@ void GuiMenu::menuAdvancedSettings(){
             [components]
             {
               bool modified = false;
-              for(auto& component : components)
+              for(const auto & component : components)
                 if (RecalboxConf::Instance().AsBool(component.second) != component.first->getState())
                 {
                   RecalboxConf::Instance().SetBool(component.second, component.first->getState());
@@ -1838,7 +1838,7 @@ std::shared_ptr<OptionListComponent<std::string>> GuiMenu::createRatioOptionList
   std::string currentRatio = RecalboxConf::Instance().AsString(configname + ".ratio");
   if (currentRatio.empty()) currentRatio = std::string("auto");
 
-  for (auto& ratio : LibretroRatio::GetRatio())
+  for (const auto & ratio : LibretroRatio::GetRatio())
     ratio_choice->add(ratio.first, ratio.second, currentRatio == ratio.second);
 
   return ratio_choice;
