@@ -64,7 +64,9 @@ RECALBOX_IMG="${RECALBOX_BINARIES_DIR}/recalbox-${RECALBOX_TARGET_LOWER}.img"
 echo -e "\n----- Generating images/recalbox files -----\n"
 
 case "${RECALBOX_TARGET}" in
-    RPI0|RPI1|RPI2|RPI3)
+    RPI0|RPI1|RPI2|RPI3|RPI4)
+        # root.tar.xz
+        cp "${BINARIES_DIR}/rootfs.tar.xz" "${RECALBOX_BINARIES_DIR}/root.tar.xz" || exit 1
 
         # /boot
 	echo "generating boot"
