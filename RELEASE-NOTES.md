@@ -21,7 +21,8 @@
 - Libretro flycast also available on rpi3, xu4 and x86
 - Prboom system has been renamed to Doom
 - Libretro puae emulates amigacd32 now
-- Bump Amiberry to v3.1.3
+- Add new system: OpenBOR
+- Add new system: Solarus
 
 ### Improvements
 - Improve internal Scraper (ScreenScraper):
@@ -63,7 +64,9 @@
   - Wave (Raw audio format)
   - MIDI file (soundfont file required)
   More information available in share/music/readme.txt
-  - Add naomigd system for your NAOMI GD-ROM games
+- Add naomigd system for your NAOMI GD-ROM games
+- Bump Amiberry to v3.1.3
+- Bump AdvanceMame to v3.9
 
 ### Fixes
 - Fix Odroid XU4 fan issue

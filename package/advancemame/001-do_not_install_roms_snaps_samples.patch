@@ -2,7 +2,7 @@ diff --git a/advance/advance.mak b/advance/advance.mak
 index 1838019..ce4cb2e 100644
 --- a/advance/advance.mak
 +++ b/advance/advance.mak
-@@ -88,17 +88,17 @@ OBJ_DIRS += $(OBJ)
+@@ -91,17 +91,17 @@ OBJ_DIRS += $(OBJ)
  INSTALL_BINFILES += $(MAME_INSTALL_BINFILES)
  INSTALL_DATAFILES += $(MAME_INSTALL_DATAFILES)
  INSTALL_MANFILES += $(MAME_INSTALL_MANFILES)
@@ -27,7 +27,7 @@ index 1838019..ce4cb2e 100644
  endif
  ifneq ($(wildcard $(srcdir)/advance/menu.mak),)
  OBJ_DIRS += $(MENUOBJ)
-@@ -363,14 +363,14 @@ install-dirs:
+@@ -378,14 +378,14 @@ install-dirs:
  	-$(INSTALL_DATA_DIR) $(pkgdir)
  	-$(INSTALL_DATA_DIR) $(pkgdocdir)
  	-$(INSTALL_MAN_DIR) $(mandir)/man1
