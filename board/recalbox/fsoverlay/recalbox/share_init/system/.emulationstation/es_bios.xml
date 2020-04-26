@@ -4,7 +4,7 @@
     <bios path="kick33180.A500.rom"     md5="85ad74194e87c08904327de1a9443b7a" core="amiberry" />    
     <bios path="kick34005.A500.rom"     md5="82a21c1890cae844b3df741f2762d48d" core="amiberry,libretro-uae" />    
     <bios path="kick37175.A500.rom"     md5="dc10d7bdd1b6f450773dfb558477c230" core="amiberry,libretro-uae" />    
-    <bios path="kick40063.A600.rom"     md5="0b839c665635a249c5736118c68a69a7" core="amiberry,libretro-uae" />  
+    <bios path="kick40063.A600.rom"     md5="e40a5dfb3d017ba8779faba30cbd1c8e" core="amiberry,libretro-uae" />  
     <bios path="kick02019.AROS.ext.rom" md5="4fa7042d73d0f77bf5723cf8430989bf" core="amiberry" note="AROS Free bios" />  
     <bios path="kick02019.AROS.rom"     md5="186d23cccd9fbd6336d0f988b39dce4d" core="amiberry"  note="AROS Free bios" />  
   </system>
@@ -33,7 +33,7 @@
     <bios path="5200.rom" md5="281f20ea4320404ec820fb7ec0693b38" core="atari800" />  
   </system>
   <system fullname="Atari 7800" platform="atari7800">
-    <bios path="7800 BIOS (U).rom" md5="0763F1FFB006DDBE32E52D497EE848AE" mandatory="false" core="prosystem" note="Display official Atari logo. Run only US games!" />
+    <bios path="7800 BIOS (U).rom" md5="0763F1FFB006DDBE32E52D497EE848AE" mandatory="false" core="prosystem" note="RUN ONLY US GAMES! Display official Atari logo." />
   </system>
   <system fullname="Sammy Atomiswave" platform="atomiswave">
     <bios path="dc/awbios.zip" md5="a420c0e56135c2e7e87399c887d7ef4a,abb0a508c83e689fc5e9230c623dabd0" core="flycast" />  
@@ -355,9 +355,14 @@
     <bios path="bios.gg" md5="672e104c3be3a238301aceffc3b23fd6" mandatory="false" core="genesisplusgx" />
   </system>
   <system fullname="Sega MasterSystem" platform="mastersystem">
-    <bios path="bios_E.sms" md5="840481177270d5642a14ca71ee72844c,4187d96beaf36385e681a3cf3bd1663d" mandatory="false" core="genesisplusgx" />
-    <bios path="bios_U.sms" md5="840481177270d5642a14ca71ee72844c,4187d96beaf36385e681a3cf3bd1663d" mandatory="false" core="genesisplusgx" />
-    <bios path="bios_J.sms" md5="24a519c53f67b00640d0048ef7089105,02cbb2e348945c9ac41e37502a58ca76" mandatory="false" core="genesisplusgx" />
+    <bios path="bios_E.sms" md5="840481177270d5642a14ca71ee72844c,4187d96beaf36385e681a3cf3bd1663d,
+                                 e8b26871629b938887757a64798df6dc,02cbb2e348945c9ac41e37502a58ca76,
+                                 5cd8f62cd8786af0226e6d2248279338,08b81aa6be18b92daef1b875deecf824,
+                                 bdb34f2c471e5d0c358eeec621f9d029" mandatory="false" core="genesisplusgx" />
+    <bios path="bios_U.sms" md5="840481177270d5642a14ca71ee72844c,b264bef9bda264ffe83afcebac21b81f
+                                 e8b26871629b938887757a64798df6dc,02cbb2e348945c9ac41e37502a58ca76,
+                                 5cd8f62cd8786af0226e6d2248279338,08b81aa6be18b92daef1b875deecf824" mandatory="false" core="genesisplusgx" />
+    <bios path="bios_J.sms" md5="24a519c53f67b00640d0048ef7089105" mandatory="false" core="genesisplusgx" />
   </system>
   <system fullname="Sega Megadrive/Genesis" platform="megadrive">
     <bios path="bios_MD.bin" md5="45e298905a08f9cfb38fd504cd6dbc84" mandatory="false" core="genesisplusgx" />
