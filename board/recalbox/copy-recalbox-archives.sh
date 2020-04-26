@@ -145,7 +145,7 @@ case "${RECALBOX_TARGET}" in
 	syslinux -i "${BINARIES_DIR}/recalbox-boot.img" -d /boot/syslinux
 	rm -rf "${GENIMAGE_TMP}" || exit 1
 	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/x86/genimage.cfg" "${BINARIES_DIR}" || exit 1
-	echo "creating ${BATOCERA_BINARIES_DIR}/recalbox.img"
+	echo "creating ${RECALBOX_BINARIES_DIR}/recalbox.img"
 	genimage --rootpath="${TARGET_DIR}" --inputpath="${BINARIES_DIR}" --outputpath="${RECALBOX_BINARIES_DIR}" --config="${BINARIES_DIR}/genimage.cfg" --tmppath="${GENIMAGE_TMP}" || exit 1
 	rm -f "${BINARIES_DIR}/recalbox-boot.img" || exit 1
         rm -f "${RECALBOX_BINARIES_DIR}/boot.vfat" || exit 1
