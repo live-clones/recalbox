@@ -46,3 +46,8 @@ initramfs boot/initrd.gz
 
 # Raise the first security limit up to 70° instead of 60°
 temp_soft_limit=70
+
+# rpi4 configuration
+[pi4]
+dtoverlay=vc4-fkms-v3d
+max_framebuffers=2
