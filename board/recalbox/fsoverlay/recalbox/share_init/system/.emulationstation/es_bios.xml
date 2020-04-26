@@ -4,7 +4,7 @@
     <bios path="kick33180.A500.rom"     md5="85ad74194e87c08904327de1a9443b7a" core="amiberry" />    
     <bios path="kick34005.A500.rom"     md5="82a21c1890cae844b3df741f2762d48d" core="amiberry,libretro-uae" />    
     <bios path="kick37175.A500.rom"     md5="dc10d7bdd1b6f450773dfb558477c230" core="amiberry,libretro-uae" />    
-    <bios path="kick40063.A600.rom"     md5="0b839c665635a249c5736118c68a69a7" core="amiberry,libretro-uae" />  
+    <bios path="kick40063.A600.rom"     md5="e40a5dfb3d017ba8779faba30cbd1c8e" core="amiberry,libretro-uae" />  
     <bios path="kick02019.AROS.ext.rom" md5="4fa7042d73d0f77bf5723cf8430989bf" core="amiberry" note="AROS Free bios" />  
     <bios path="kick02019.AROS.rom"     md5="186d23cccd9fbd6336d0f988b39dce4d" core="amiberry"  note="AROS Free bios" />  
   </system>
