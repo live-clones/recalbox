@@ -71,6 +71,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Bump Amiberry to v3.1.3
 - Add naomigd as a separate system
 - Bump AdvanceMame to v3.9
+- Add OpenBOR
+- Add Solarus
 
 ## [6.1.1]
 - Add zfast shaders
