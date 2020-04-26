@@ -18,3 +18,4 @@ if test -e "/boot/update/${UPDATEFILE}"; then
   ( exec /recalbox/scripts/upgrade/recalbox-squashfs-upgrade.sh )
   exit 0
 fi
+
