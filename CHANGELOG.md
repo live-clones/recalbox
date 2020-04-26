@@ -82,6 +82,7 @@ All notable changes to this project will be documented in this file.
 - Add OpenBOR
 - Add Solarus
 - Improve the management of external screens and selection from recalbox.conf by Chriskt78
+- Add opengl on Retroarch for X86_64
 
 ## [6.1.1]
 - Add zfast shaders
