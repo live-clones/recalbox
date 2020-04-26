@@ -67,6 +67,7 @@
 - Add naomigd system for your NAOMI GD-ROM games
 - Bump Amiberry to v3.1.3
 - Bump AdvanceMame to v3.9
+- Add volume control to XU4
 
 ### Fixes
 - Fix Odroid XU4 fan issue
@@ -82,6 +83,8 @@
 - Fix quit menu not being accessible when boot-on-gamelist is on
 - Fix some bad behaviors in favorite management
 - Fix reboot Emulationstation with webmanager 
+- Fix volume issues in boot video
+- Fix REICAST bug on XU4
 
 *  : Require to scrape missing data using the internal scraper 
 ** : Availailable in both EmulationStation menu and configuration file 
