@@ -26,6 +26,7 @@
 - Libretro puae emulates amigacd32 now
 - Add new system: OpenBOR
 - Add new system: Solarus
+- Add opengl on Retroarch for X86_64
 
 ### Improvements
 - Share partition is created in exfat on fresh install, which is easier to access from Windows computers
