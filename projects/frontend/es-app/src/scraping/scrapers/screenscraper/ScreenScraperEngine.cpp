@@ -170,8 +170,8 @@ void ScreenScraperEngine::Initialize()
   mCount = 0;
 
     // Credentials
-  mLogin = RecalboxConf::Instance().AsString("scraper.screenscraper.user", "");
-  mPassword = RecalboxConf::Instance().AsString("scraper.screenscraper.password", "");
+  mLogin = Strings::Trim(RecalboxConf::Instance().AsString("scraper.screenscraper.user", ""));
+  mPassword = Strings::Trim(RecalboxConf::Instance().AsString("scraper.screenscraper.password", ""));
 
   // Language & region
   std::string locale = Strings::ToLowerASCII(RecalboxConf::Instance().AsString("system.language", "en_US"));
