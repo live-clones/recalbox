@@ -5,23 +5,23 @@
 
 #include "Unicode.h"
 
-unsigned short Strings::_SmallToCapital[1 << (8 * sizeof(unsigned short))];
-unsigned short Strings::_CapitalToSmall[1 << (8 * sizeof(unsigned short))];
+unsigned short Strings::sSmallToCapital[1 << (8 * sizeof(unsigned short))];
+unsigned short Strings::sCapitalToSmall[1 << (8 * sizeof(unsigned short))];
 
-bool Strings::_Initialized = Strings::_Initialize();
+bool Strings::sInitialized = Strings::sInitialize();
 
-bool Strings::_Initialize()
+bool Strings::sInitialize()
 {
-  if (!_Initialized)
+  if (!sInitialized)
   {
-    memset(_SmallToCapital, 0, sizeof(_SmallToCapital));
-    memset(_CapitalToSmall, 0, sizeof(_CapitalToSmall));
+    memset(sSmallToCapital, 0, sizeof(sSmallToCapital));
+    memset(sCapitalToSmall, 0, sizeof(sCapitalToSmall));
 
     for(int i = (int)(sizeof(UnicodeConverterTable) / sizeof(UnicodeConverterTable[0])); --i >= 0;)
     {
       const UnicodeConverter& c = UnicodeConverterTable[i];
-      _SmallToCapital[c.Small] = c.Capital;
-      _CapitalToSmall[c.Capital] = c.Small;
+      sSmallToCapital[c.Small] = c.Capital;
+      sCapitalToSmall[c.Capital] = c.Small;
 
       // This test code ensure every single tuple encodes on the same amount of bytes
       /*std::string a = unicode2Chars((unsigned int)c.Small);
@@ -50,7 +50,7 @@ std::string Strings::ToLowerUTF8(const std::string& _string)
     else if((c & 0xE0) == 0xC0) // 110xxxxx, two byte character
     {
       // Unicode lowercase
-      unsigned short u = _CapitalToSmall[(unsigned short)((c & 0x1F) <<  6) | ((result[cursor + 1] & 0x3F))];
+      unsigned short u = sCapitalToSmall[(unsigned short)((c & 0x1F) << 6) | ((result[cursor + 1] & 0x3F))];
       if (u != 0)
       {
         result[cursor + 0] = (char)(((u >>  6) & 0xFF) | 0xC0);
@@ -61,9 +61,9 @@ std::string Strings::ToLowerUTF8(const std::string& _string)
     else if((c & 0xF0) == 0xE0) // 1110xxxx, three byte character
     {
       // 1110xxxx 10xxxxxx 10xxxxxx
-      unsigned short u = _CapitalToSmall[(unsigned short)((result[cursor + 0] & 0x0F) << 12) |
-                                                         ((result[cursor + 1] & 0x3F) <<  6) |
-                                                         ((result[cursor + 2] & 0x3F))];
+      unsigned short u = sCapitalToSmall[(unsigned short)((result[cursor + 0] & 0x0F) << 12) |
+                                         ((result[cursor + 1] & 0x3F) <<  6) |
+                                         ((result[cursor + 2] & 0x3F))];
       if (u != 0)
       {
         result[cursor + 0] += (char)(((u >> 12) & 0xFF) | 0xE0);
@@ -96,7 +96,7 @@ std::string Strings::ToUpperUTF8(const std::string& _string)
     else if((c & 0xE0) == 0xC0) // 110xxxxx, two byte character
     {
       // Unicode lowercase
-      unsigned short u = _SmallToCapital[(unsigned short)((c & 0x1F) <<  6) | ((result[cursor + 1] & 0x3F))];
+      unsigned short u = sSmallToCapital[(unsigned short)((c & 0x1F) << 6) | ((result[cursor + 1] & 0x3F))];
       if (u != 0)
       {
         result[cursor + 0] = (char)(((u >>  6) & 0xFF) | 0xC0);
@@ -107,7 +107,7 @@ std::string Strings::ToUpperUTF8(const std::string& _string)
     else if((c & 0xF0) == 0xE0) // 1110xxxx, three byte character
     {
       // 1110xxxx 10xxxxxx 10xxxxxx
-      unsigned short u = _SmallToCapital[(unsigned short)((result[cursor + 0] & 0x0F) << 12) |
+      unsigned short u = sSmallToCapital[(unsigned short)((result[cursor + 0] & 0x0F) << 12) |
                                          ((result[cursor + 1] & 0x3F) <<  6) |
                                          ((result[cursor + 2] & 0x3F))];
       if (u != 0)
@@ -149,7 +149,7 @@ unsigned int Strings::chars2Unicode(const std::string& _string, int& _cursor)
 	if((c & 0x80) == 0) // 0xxxxxxx, one byte character
 	{
 		// 0xxxxxxx
-		result = (unsigned int)((_string[_cursor]       )      );
+		result = (unsigned int)((unsigned char)_string[_cursor]);
 		_cursor++;
 	}
 	else if((c & 0xE0) == 0xC0) // 110xxxxx, two byte character
@@ -357,8 +357,6 @@ std::string Strings::RemoveParenthesis(const std::string& _string)
 {
 	static const char remove[4] = { '(', ')', '[', ']' };
 	std::string       string = _string;
-	size_t            start;
-	size_t            end;
 	bool              done = false;
 
 	while(!done)
@@ -367,8 +365,8 @@ std::string Strings::RemoveParenthesis(const std::string& _string)
 
 		for(int i = 0; i < (int)sizeof(remove); i += 2)
 		{
-			end   = string.find_first_of(remove[i + 1]);
-			start = string.find_last_of( remove[i + 0], end);
+      size_t end   = string.find_first_of(remove[i + 1]);
+      size_t start = string.find_last_of( remove[i + 0], end);
 
 			if((start != std::string::npos) && (end != std::string::npos))
 			{
@@ -658,7 +656,7 @@ bool Strings::HexToInt(const std::string& from, int index, char stop, int& out)
   int Result = 0;
   for (;; src++)
   {
-    int v = src[0];
+    int v = (unsigned char)src[0];
     if ((unsigned int)(v - 0x30) <= 9) { Result <<= 4; Result += v - 0x30; }
     else
     {

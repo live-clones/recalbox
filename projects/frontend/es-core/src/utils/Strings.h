@@ -11,12 +11,12 @@ class Strings
     //! Limit to 16bits unicode
     static constexpr int sUnicodeSize = 0x10000;
 
-    static unsigned short _SmallToCapital[1 << (8 * sizeof(unsigned short))];
-    static unsigned short _CapitalToSmall[1 << (8 * sizeof(unsigned short))];
+    static unsigned short sSmallToCapital[1 << (8 * sizeof(unsigned short))];
+    static unsigned short sCapitalToSmall[1 << (8 * sizeof(unsigned short))];
 
-    static bool _Initialized;
+    static bool sInitialized;
 
-    static bool _Initialize();
+    static bool sInitialize();
 
   public:
     typedef std::vector<std::string> Vector;
@@ -25,7 +25,7 @@ class Strings
     {
       int dummy = 0;
       unsigned int unicode = chars2Unicode(utf8string, dummy);
-      if (unicode < sUnicodeSize) return _SmallToCapital[unicode] == 0 ? unicode : _SmallToCapital[unicode];
+      if (unicode < sUnicodeSize) return sSmallToCapital[unicode] == 0 ? unicode : sSmallToCapital[unicode];
       return unicode;
     }
 
@@ -33,19 +33,19 @@ class Strings
     {
       int dummy = 0;
       unsigned int unicode = chars2Unicode(utf8string, dummy);
-      if (unicode < sUnicodeSize) return _CapitalToSmall[unicode] == 0 ? unicode : _CapitalToSmall[unicode];
+      if (unicode < sUnicodeSize) return sCapitalToSmall[unicode] == 0 ? unicode : sCapitalToSmall[unicode];
       return unicode;
     }
 
     static unsigned int UpperChar(unsigned int unicode)
     {
-      if (unicode < sUnicodeSize) return _SmallToCapital[unicode] == 0 ? unicode : _SmallToCapital[unicode];
+      if (unicode < sUnicodeSize) return sSmallToCapital[unicode] == 0 ? unicode : sSmallToCapital[unicode];
       return unicode;
     }
 
     static unsigned int LowerChar(unsigned int unicode)
     {
-      if (unicode < sUnicodeSize) return _CapitalToSmall[unicode] == 0 ? unicode : _CapitalToSmall[unicode];
+      if (unicode < sUnicodeSize) return sCapitalToSmall[unicode] == 0 ? unicode : sCapitalToSmall[unicode];
       return unicode;
     }
 
