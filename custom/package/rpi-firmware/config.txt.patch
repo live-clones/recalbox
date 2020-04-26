@@ -59,11 +59,16 @@ index 58cc966a87..771a0f2b17 100644
 +
 +kernel=boot/linux
 +initramfs boot/initrd.gz
++
++# Raise the first security limit up to 70° instead of 60°
++temp_soft_limit=70
  
 -# How much memory in MB to assign to the GPU on Pi models having
 -# 256, 512 or 1024 MB total memory
 -gpu_mem_256=100
 -gpu_mem_512=100
 -gpu_mem_1024=100
-+# Raise the first security limit up to 70° instead of 60°
-+temp_soft_limit=70
++# rpi4 configuration
++[pi4]
++dtoverlay=vc4-fkms-v3d
++max_framebuffers=2
