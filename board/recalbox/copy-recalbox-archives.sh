@@ -27,7 +27,7 @@ xu4_fusing() {
     bl2_position=31
     uboot_position=63
     tzsw_position=1503
-    env_position=2015 
+    env_position=2015
 
     echo "BL1 fusing"
     dd if="${BINARIES_DIR}/bl1.bin.hardkernel"  of="${RECALBOXIMG}" seek=$signed_bl1_position conv=notrunc || return 1
@@ -129,7 +129,6 @@ case "${RECALBOX_TARGET}" in
 	cp "${BINARIES_DIR}/bzImage" "${BINARIES_DIR}/boot/linux" || exit 1
 	cp "${BINARIES_DIR}/initrd.gz" "${BINARIES_DIR}/boot" || exit 1
 	cp "${BINARIES_DIR}/rootfs.squashfs" "${BINARIES_DIR}/boot/recalbox" || exit 1
-	#cp -pr "${BINARIES_DIR}/tools"       "${BINARIES_DIR}/boot/"                || exit 1
 
 	# get UEFI files
 	mkdir -p "${BINARIES_DIR}/EFI/syslinux" || exit 1
