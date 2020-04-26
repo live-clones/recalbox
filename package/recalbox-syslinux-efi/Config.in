@@ -1,0 +1,5 @@
+config BR2_PACKAGE_RECALBOX_SYSLINUX_EFI
+	bool "recalbox-syslinux-efi"
+	help
+	  Precompiled syslinux EFI binaries from Archlinux
+	  https://www.archlinux.org/packages/core/x86_64/syslinux/
