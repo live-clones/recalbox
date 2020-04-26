@@ -1,5 +1,5 @@
 diff --git a/package/ffmpeg/Config.in b/package/ffmpeg/Config.in
-index 2d94c5712a..0c71415276 100644
+index 2d94c57..0c71415 100644
 --- a/package/ffmpeg/Config.in
 +++ b/package/ffmpeg/Config.in
 @@ -7,8 +7,6 @@ config BR2_PACKAGE_FFMPEG_ARCH_SUPPORTS

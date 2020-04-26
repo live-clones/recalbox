@@ -33,7 +33,8 @@ done
 OLDIFS=$IFS
 IFS=','
 # 
-for DIRS in /usr/share/retroarch/assets,system/.config/retroarch/assets
+for DIRS in /usr/share/retroarch/assets,system/.config/retroarch/assets \
+            /overlay/bootvideos,bootvideos 
 do
     set -- $DIRS
     TARGET=$1
@@ -138,3 +139,7 @@ test ! -e /recalbox/share/system/recalbox.changelog.done && cp /recalbox/recalbo
 # build the cores list if it doesn't exist
 [ ! -e /recalbox/share/system/configs/retroarch.corenames ] && upgradeRetroarchCoreNames -f /recalbox/share/system/configs/retroarch.corenames
 # END
+if [ -e /tmp/newshare ]; then
+    killall recalbox-create-share.sh
+    reboot
+fi

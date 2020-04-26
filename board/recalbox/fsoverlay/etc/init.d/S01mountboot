@@ -2,10 +2,31 @@
 
 # mount the /boot partition in read only
 
+function shouldUpdate {
+  grep -q "dtparam=audio=on" /boot/config.txt && grep -q "initramfs initrd.gz" /boot/config.txt && return 1
+  return 0
+}
+
+function updateBoot {
+  sed -i '/^dtparam=/{h;s/=.*/=audio=on/};${x;/^$/{s//dtparam=audio=on/;H};x}' /boot/config.txt
+  sed -i '/^initramfs/{h;s/=.*/ initrd.gz/};${x;/^$/{s//initramfs initrd.gz/;H};x}' /boot/config.txt
+}
+
 case "$1" in
   start)
     BOOTPART=$(/recalbox/scripts/recalbox-part.sh boot) || exit 1
+    if test $? -ne 0
+    then
+      exit 1
+    fi
     mount | cut -d ' ' -f 3 | grep -q '/boot' || mount "${BOOTPART}" -o ro /boot || exit 1
+    # Update /boot/config.txt if needed
+    if shouldUpdate
+    then
+      mount "${BOOTPART}" /boot -o remount,rw || exit 1
+      updateBoot
+      mount -o remount,ro /boot || exit 1
+    fi
     ;;
   stop)
     umount /boot || exit 1

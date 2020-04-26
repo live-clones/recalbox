@@ -1,5 +1,5 @@
 diff --git a/package/wiringpi/wiringpi.mk b/package/wiringpi/wiringpi.mk
-index f2e9e246d9..60e4d98cd9 100644
+index f2e9e24..60e4d98 100644
 --- a/package/wiringpi/wiringpi.mk
 +++ b/package/wiringpi/wiringpi.mk
 @@ -12,34 +12,20 @@ WIRINGPI_LICENSE = LGPL-3.0+

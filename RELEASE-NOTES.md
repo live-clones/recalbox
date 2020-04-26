@@ -1,8 +1,11 @@
 # Release notes
 
-## Version 6.2
+## Version 7.0
 
 ### News
+- Recalbox system is now a firmware, more robust than ever
+- Brand new update system, easier than ever
+- Automatic recovery after 3 boots failure
 - Add Bios checking capabilities to EmulationStation
 - Add License menu
 - Adult game filtering in EmulationStation **
@@ -25,6 +28,7 @@
 - Add new system: Solarus
 
 ### Improvements
+- Share partition is created in exfat on fresh install, which is easier to access from Windows computers
 - Improve internal Scraper (ScreenScraper):
   - Faster! Use your ScreenScraper's threads to parallelize workloads 
   - Better! Lots of options, snaps video, and more...

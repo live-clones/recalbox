@@ -65,74 +65,95 @@ echo -e "\n----- Generating images/recalbox files -----\n"
 
 case "${RECALBOX_TARGET}" in
     RPI0|RPI1|RPI2|RPI3)
-        # root.tar.xz
-        cp "${BINARIES_DIR}/rootfs.tar.xz" "${RECALBOX_BINARIES_DIR}/root.tar.xz" || exit 1
 
-        # boot.tar.xz
+        # /boot
+	echo "generating boot"
         cp -f "${BINARIES_DIR}/"*.dtb "${BINARIES_DIR}/rpi-firmware"
-        cp "${BINARIES_DIR}/zImage" "${BINARIES_DIR}/rpi-firmware/zImage"
-        tar -cJf "${RECALBOX_BINARIES_DIR}/boot.tar.xz" -C "${BINARIES_DIR}/rpi-firmware" "." ||
-            { echo "ERROR : unable to create boot.tar.xz" && exit 1 ;}
+	rm -rf "${BINARIES_DIR}/rpi-firmware/boot" || exit 1
+	mkdir -p "${BINARIES_DIR}/rpi-firmware/boot" || exit 1
+	"${BUILD_DIR}/linux-custom/scripts/mkknlimg" "${BINARIES_DIR}/zImage" "${BINARIES_DIR}/rpi-firmware/boot/linux"
+	cp "${BINARIES_DIR}/initrd.gz" "${BINARIES_DIR}/rpi-firmware/boot" || exit 1
+	cp "${BINARIES_DIR}/rootfs.squashfs" "${BINARIES_DIR}/rpi-firmware/boot/recalbox" || exit 1
 
-        # recalbox.img
-        FILES=$(find "${BINARIES_DIR}/rpi-firmware" -maxdepth 1 -type f | sed -e s+"^${BINARIES_DIR}/rpi-firmware/\(.*\)$"+"    file \1 \{ image = 'rpi-firmware/\1' }"+ | tr '\n' '@')
-        sed -e s+'@files'+"${FILES}"+ "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/rpi/genimage.cfg" | tr '@' '\n' > "${BINARIES_DIR}/genimage.cfg" || exit 1
-        support/scripts/genimage.sh -c "${BINARIES_DIR}/genimage.cfg" || exit 1
-        sync || exit 1
-        ;;
+	#recalbox.img
+	GENIMAGE_TMP="${BUILD_DIR}/genimage.tmp"
+	rm -rf "${GENIMAGE_TMP}" || exit 1
+	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/rpi/genimage.cfg" "${BINARIES_DIR}/genimage.cfg.tmp" || exit 1
+	FILES=$(find "${BINARIES_DIR}/rpi-firmware" -type f | sed -e s+"^${BINARIES_DIR}/rpi-firmware/\(.*\)$"+"file \1 \{ image = 'rpi-firmware/\1' }"+ | tr '\n' '@')
+	cat "${BINARIES_DIR}/genimage.cfg.tmp" | sed -e s+'@files'+"${FILES}"+ | tr '@' '\n' > "${BINARIES_DIR}/genimage.cfg" || exit 1
+	rm -f "${BINARIES_DIR}/genimage.cfg.tmp" || exit 1
+	echo "generating image"
+	genimage --rootpath="${TARGET_DIR}" --inputpath="${BINARIES_DIR}" --outputpath="${RECALBOX_BINARIES_DIR}" --config="${BINARIES_DIR}/genimage.cfg" --tmppath="${GENIMAGE_TMP}" || exit 1
+	rm -f "${RECALBOX_BINARIES_DIR}/boot.vfat" || exit 1
+	rm -f "${BINARIES_DIR}/rootfs.tar" || exit 1
+	rm -f "${BINARIES_DIR}/rootfs.squashfs" || exit 1
+	sync || exit 1
+	;;
 
     XU4)
-        for F in bl1.bin.hardkernel bl2.bin.hardkernel.720k_uboot tzsw.bin.hardkernel u-boot.bin.hardkernel
-        do
-            cp "${BUILD_DIR}/uboot-xu4-odroidxu4-v2017.05/sd_fuse/${F}" "${BINARIES_DIR}" || exit 1
-        done
+	rm -rf "${BINARIES_DIR}/xu4-firmware" || exit 1
+	mkdir -p "${BINARIES_DIR}/xu4-firmware/boot" || exit 1
 
-        # /boot
-        cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/xu4/boot.ini" ${BINARIES_DIR}/boot.ini || exit 1
+	for F in bl1.bin.hardkernel bl2.bin.hardkernel.720k_uboot tzsw.bin.hardkernel u-boot.bin.hardkernel
+	do
+	    cp "${BUILD_DIR}/uboot-xu4-odroidxu4-v2017.05/sd_fuse/${F}" "${BINARIES_DIR}/xu4-firmware/" || exit 1
+	done
 
-        # root.tar.xz
-        cp "${BINARIES_DIR}/rootfs.tar.xz" "${RECALBOX_BINARIES_DIR}/root.tar.xz" || exit 1
+	# /boot
+	echo "generating boot"
+	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/xu4/boot.ini" "${BINARIES_DIR}/xu4-firmware/boot.ini" || exit 1
+	cp "${BINARIES_DIR}/exynos5422-odroidxu4.dtb" "${BINARIES_DIR}/xu4-firmware/boot" || exit 1
+	cp "${BINARIES_DIR}/recalbox-boot.conf" "${BINARIES_DIR}/xu4-firmware" || exit 1
+	cp "${BINARIES_DIR}/uInitrd" "${BINARIES_DIR}/xu4-firmware/boot/" || exit 1
+	cp "${BINARIES_DIR}/zImage" "${BINARIES_DIR}/xu4-firmware/boot/linux" || exit 1
+	cp "${BINARIES_DIR}/rootfs.squashfs" "${BINARIES_DIR}/xu4-firmware/boot/recalbox" || exit 1
 
-        # boot.tar.xz
-        (cd "${BINARIES_DIR}" && tar -cJf "${RECALBOX_BINARIES_DIR}/boot.tar.xz" boot.ini zImage exynos5422-odroidxu4.dtb recalbox-boot.conf) || exit 1
+	# recalbox.img
+	GENIMAGE_TMP="${BUILD_DIR}/genimage.tmp"
+	rm -rf "${GENIMAGE_TMP}" || exit 1
+	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/xu4/genimage.cfg" "${BINARIES_DIR}" || exit 1
+	echo "generating image"
+	genimage --rootpath="${TARGET_DIR}" --inputpath="${BINARIES_DIR}" --outputpath="${RECALBOX_BINARIES_DIR}" --config="${BINARIES_DIR}/genimage.cfg" --tmppath="${GENIMAGE_TMP}" || exit 1
+	rm -f "${RECALBOX_BINARIES_DIR}/boot.vfat" || exit 1
+	rm -f "${BINARIES_DIR}/rootfs.tar" || exit 1
+	rm -f "${BINARIES_DIR}/rootfs.squashfs" || exit 1
+	xu4_fusing "${BINARIES_DIR}" "${RECALBOX_BINARIES_DIR}/recalbox.img" || exit 1
+	sync || exit 1
+	;;
 
-        # recalbox.img
-        support/scripts/genimage.sh -c "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/xu4/genimage.cfg" || exit 1
-        xu4_fusing "${BINARIES_DIR}" "${BINARIES_DIR}/recalbox.img" || exit 1
-        sync || exit 1
-        ;;
+	X86|X86_64)
+	# /boot
+	rm -rf ${BINARIES_DIR}/boot || exit 1
+	mkdir -p ${BINARIES_DIR}/boot || exit 1
+	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/x86/boot/syslinux.cfg" ${BINARIES_DIR/}/boot/syslinux.cfg || exit 1
+	cp "${BINARIES_DIR}/bzImage" "${BINARIES_DIR}/boot/linux" || exit 1
+	cp "${BINARIES_DIR}/initrd.gz" "${BINARIES_DIR}/boot" || exit 1
+	cp "${BINARIES_DIR}/rootfs.squashfs" "${BINARIES_DIR}/boot/recalbox" || exit 1
+	#cp -pr "${BINARIES_DIR}/tools"       "${BINARIES_DIR}/boot/"                || exit 1
 
-      X86|X86_64)
-        # /boot
-        rm -rf ${BINARIES_DIR}/boot || exit 1
-        mkdir -p ${BINARIES_DIR}/boot/grub || exit 1
-        cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/grub2/grub.cfg" ${BINARIES_DIR}/boot/grub/grub.cfg || exit 1
-        cp "${BINARIES_DIR}/bzImage" "${BINARIES_DIR}/boot" || exit 1
-        cp "${BINARIES_DIR}/initrd.gz" "${BINARIES_DIR}/boot" || exit 1
+	# get UEFI files
+	mkdir -p "${BINARIES_DIR}/EFI/syslinux" || exit 1
+	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/x86/boot/syslinux.cfg" ${BINARIES_DIR/}/EFI/syslinux/syslinux.cfg || exit 1
 
-        # root.tar.xz
-        cp "${BINARIES_DIR}/rootfs.tar.xz" "${RECALBOX_BINARIES_DIR}/root.tar.xz" || exit 1
+	# recalbox.img
+	# rename the squashfs : the .update is the version that will be renamed at boot to replace the old version
+	GENIMAGE_TMP="${BUILD_DIR}/genimage.tmp"
+	rm -rf "${GENIMAGE_TMP}" || exit 1
+	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/x86/genimage-boot.cfg" "${BINARIES_DIR}" || exit 1
+	echo "creating ${BINARIES_DIR}/recalbox-boot.img"
+	genimage --rootpath="${TARGET_DIR}" --inputpath="${BINARIES_DIR}" --outputpath="${BINARIES_DIR}" --config="${BINARIES_DIR}/genimage-boot.cfg" --tmppath="${GENIMAGE_TMP}" || exit 1
+	syslinux -i "${BINARIES_DIR}/recalbox-boot.img" -d /boot/syslinux
+	rm -rf "${GENIMAGE_TMP}" || exit 1
+	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/x86/genimage.cfg" "${BINARIES_DIR}" || exit 1
+	echo "creating ${BATOCERA_BINARIES_DIR}/recalbox.img"
+	genimage --rootpath="${TARGET_DIR}" --inputpath="${BINARIES_DIR}" --outputpath="${RECALBOX_BINARIES_DIR}" --config="${BINARIES_DIR}/genimage.cfg" --tmppath="${GENIMAGE_TMP}" || exit 1
+	rm -f "${BINARIES_DIR}/recalbox-boot.img" || exit 1
+        rm -f "${RECALBOX_BINARIES_DIR}/boot.vfat" || exit 1
+        rm -f "${BINARIES_DIR}/rootfs.tar" || exit 1
+        rm -f "${BINARIES_DIR}/rootfs.squashfs" || exit 1
+	sync || exit 1
+	;;
 
-        # get UEFI files
-        mkdir -p "${BINARIES_DIR}/EFI/BOOT" || exit 1
-        cp "${BINARIES_DIR}/bootx64.efi" "${BINARIES_DIR}/EFI/BOOT" || exit 1
-        if [[ ${RECALBOX_TARGET} == "X86_64" ]] ; then 
-            cp "${BINARIES_DIR}/bootia32.efi" "${BINARIES_DIR}/EFI/BOOT" || exit 1
-            genimg=genimage-x86-64.cfg
-        else
-            genimg=genimage-x86.cfg
-        fi
-
-        cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/grub2/grub.cfg" "${BINARIES_DIR}/EFI/BOOT" || exit 1
-
-        # boot.tar.xz
-        (cd "${BINARIES_DIR}" && tar -cJf "${RECALBOX_BINARIES_DIR}/boot.tar.xz" EFI boot recalbox-boot.conf) || exit 1
-
-        # recalbox.img
-        cp "${HOST_DIR}/usr/lib/grub/i386-pc/boot.img" "${BINARIES_DIR}" || exit 1
-        support/scripts/genimage.sh -c "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/grub2/${genimg}" || exit 1
-        sync || exit 1
-        ;;
     *)
         echo "Outch. Unknown target ${RECALBOX_TARGET} (see copy-recalbox-archives.sh)" >&2
         bash
@@ -140,7 +161,7 @@ case "${RECALBOX_TARGET}" in
 esac
 
 # Compress the generated .img
-if mv -f ${BINARIES_DIR}/recalbox.img ${RECALBOX_IMG} ; then
+if mv -f ${RECALBOX_BINARIES_DIR}/recalbox.img ${RECALBOX_IMG} ; then
     echo "Compressing ${RECALBOX_IMG} ... "
     xz --threads=0 "${RECALBOX_IMG}"
 else
@@ -151,4 +172,3 @@ fi
 # Computing hash sums to make have an update that can be dropped on a running Recalbox
 echo "Computing sha1 sums ..."
 (cd "${RECALBOX_BINARIES_DIR}" && for file in * ; do sha1sum "${file}" > "${file}.sha1"; done)
-[[ -e "${RECALBOX_BINARIES_DIR}/root.tar.xz" ]] && tar tf "${RECALBOX_BINARIES_DIR}/root.tar.xz" | sort > "${RECALBOX_BINARIES_DIR}/root.list"

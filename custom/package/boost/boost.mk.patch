@@ -1,5 +1,5 @@
 diff --git a/package/boost/boost.mk b/package/boost/boost.mk
-index 9ad83d5aeb..ddb7800c74 100644
+index 9ad83d5..ddb7800 100644
 --- a/package/boost/boost.mk
 +++ b/package/boost/boost.mk
 @@ -11,6 +11,8 @@ BOOST_INSTALL_STAGING = YES

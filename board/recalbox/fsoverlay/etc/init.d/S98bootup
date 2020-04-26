@@ -1,0 +1,11 @@
+#!/bin/ash
+
+if [ "$1" != "start" ]; then
+  exit 0
+fi
+
+# Reset safeboot counter
+safeboot="/overlay/.safeboot"
+echo "0" > "${safeboot}"
+
+exit 0
