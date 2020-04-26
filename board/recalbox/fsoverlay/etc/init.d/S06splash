@@ -79,8 +79,6 @@ function playWithMPlayer() {
   if ! which mplayer > /dev/null; then
     return
   fi
-  # init alsa audio
-  alsactl init
   # disable framebuffer cursor
   echo -e '\033[?17;0;0c' > /dev/tty1
   # play media in fullscreen
@@ -115,8 +113,9 @@ function playWithOMX() {
   if ! which omxplayer.bin > /dev/null; then
     return
   fi
+  volume=$(amixer cget name='PCM Playback Volume' | grep "  : values=" | cut -d'=' -f 2)
   omx_fnt="--font=/usr/share/fonts/dejavu/DejaVuSans-BoldOblique.ttf"
-  omx_opt="--adev both --no-keys --layer=10000 --aspect-mode=fill"
+  omx_opt="--adev both --no-keys --layer=10000 --aspect-mode=fill --vol $volume"
   omx_srt="--no-ghost-box --lines=1 --align=left $omx_fnt --font-size=20 --subtitles=/recalbox/system/resources/splash/recalboxintro.srt"
   /usr/bin/omxplayer.bin ${omx_opt} ${omx_srt} ${videoFile} &
   if [ ${videoLength} -ne -1 ]; then
