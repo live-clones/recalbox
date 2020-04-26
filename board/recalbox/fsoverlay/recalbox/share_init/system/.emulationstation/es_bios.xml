@@ -406,7 +406,7 @@
     <bios path="gamecube/JAP/IPL.bin" md5="fc924a7c879b661abc37cec4f018fdf3" mandatory="false" core="dolphin" note="Only required if you want the Japanese Gamecube menu and the boot animation" />
     <bios path="gamecube/USA/IPL.bin" md5="339848a0b7c2124cf155276c1e79cbd0" mandatory="false" core="dolphin" note="Only required if you want the US Gamecube menu and the boot animation" />
   </system>
-  <system fullname="Nintendo 64DD" platform="64DD">
+  <system fullname="Nintendo 64DD" platform="64dd">
     <bios path="64DD_IPL.bin" md5="8d3d9f294b6e174bc7b1d2fd1c727530" mandatory="true" core="parallel_n64" note="64DD_IPL.bin - Required for Nintendo 64 DD"/>
     <bios path="Mupen64plus/IPL.n64" md5="8d3d9f294b6e174bc7b1d2fd1c727530" mandatory="true" core="mupen64plus_next" note="IPL.n64 - Required for Nintendo 64 DD"/>
   </system>
