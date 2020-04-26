@@ -1,0 +1,21 @@
+#!/bin/ash
+
+# load/save alsa state
+
+case "$1" in
+    start)
+        alsactl -f /boot/asound.state restore
+        ;;
+    stop)
+        mount -o remount,rw /boot
+        alsactl -f /boot/asound.state store
+        mount -o remount,ro /boot
+        ;;
+    *)
+        echo "Usage: $0 {start|stop}"
+        exit 1
+        ;;
+esac
+
+
+exit 0

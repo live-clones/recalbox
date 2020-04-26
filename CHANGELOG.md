@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [6.2]
+ 
+- Apply sound volume settings to splash video on Pi
+- Fix REICAST bug on XU4
+- Add volume control to XU4
 - Fix Omxplayer after Ffmpeg bump
 - Fix Kodi after Ffmpeg bump
 - Add WiringPi progs abd libs
