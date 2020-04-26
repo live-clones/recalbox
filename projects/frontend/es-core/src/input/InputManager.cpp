@@ -308,7 +308,7 @@ void InputManager::FillConfiguredDevicelist(std::vector<InputDevice*>& list)
 
 InputDevice* InputManager::LookupDevice(InputDeviceList& list, const std::string& guid, const std::string& name)
 {
-  for(auto device : list)
+  for(auto* device : list)
   {
     if (device->IsConfigured())
       if (guid == device->GUID() && name == device->Name())
@@ -322,7 +322,7 @@ InputDevice* InputManager::LookupDevice(InputDeviceList& list, const std::string
 
 InputDevice* InputManager::LookupDevice(InputDeviceList& list, const std::string& name)
 {
-  for(auto device : list)
+  for(auto* device : list)
   {
     if (device->IsConfigured())
       if (name == device->Name())

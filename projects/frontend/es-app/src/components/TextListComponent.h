@@ -158,7 +158,7 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
 	int startEntry = 0;
 
 	//number of entries that can fit on the screen simultaniously
-	int screenCount = (int)(mSize.y() / entrySize + 0.5f);
+	int screenCount = (int)mSize.y() / (int)entrySize; //(int)(mSize.y() / entrySize + 0.5f);
 	
 	if(size() >= screenCount)
 	{
@@ -202,8 +202,11 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
 
 	// Draw text items
   float y = 0;
-  for (int i = startEntry; i < listCutoff; i++)
+  for (int i = startEntry; i <= listCutoff; i++)
 	{
+    // Last line might be out of list due to display constraints
+    if (i >= size()) continue;
+
 		typename IList<TextListData, T>::Entry& entry = mEntries[i];
 
 		if ((unsigned int)entry.data.colorBackgroundId < COLOR_ID_COUNT)
