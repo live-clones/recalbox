@@ -33,7 +33,7 @@
     <bios path="5200.rom" md5="281f20ea4320404ec820fb7ec0693b38" core="atari800" />  
   </system>
   <system fullname="Atari 7800" platform="atari7800">
-    <bios path="7800 BIOS (U).rom" md5="0763F1FFB006DDBE32E52D497EE848AE" mandatory="false" core="prosystem" note="Display official Atari logo. Run only US games!" />
+    <bios path="7800 BIOS (U).rom" md5="0763F1FFB006DDBE32E52D497EE848AE" mandatory="false" core="prosystem" note="RUN ONLY US GAMES! Display official Atari logo." />
   </system>
   <system fullname="Sammy Atomiswave" platform="atomiswave">
     <bios path="dc/awbios.zip" md5="a420c0e56135c2e7e87399c887d7ef4a,abb0a508c83e689fc5e9230c623dabd0" core="flycast" />  
