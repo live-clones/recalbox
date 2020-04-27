@@ -41,6 +41,26 @@ define RECALBOX_ROMFS_CALL_ADD_SYSTEM
     '<emulators>' > $(1)
 endef
 
+# function to add the new port
+# $1 = XML file
+# $2 = full system name
+# $3 = short system name
+# $4 = e=list of extensions ex : .zip .ZIP
+# $5 = platform
+# $6 = theme
+# $7 = extra configgen command line args
+define RECALBOX_ROMFS_CALL_ADD_PORT
+    echo -e '<system>\n' \
+    '<fullname>$(2)</fullname>\n' \
+    "<name>$(3)</name>\n" \
+    '<path>/recalbox/share/roms/ports/$(2)</path>\n' \
+    '<extension>$(4)</extension>\n' \
+    "<command>$(CONFIGGEN_STD_CMD)$(7)</command>\n" \
+    '<platform>$(5)</platform>\n' \
+    '<theme>$(6)</theme>\n' \
+    '<emulators>' > $(1)
+endef
+
 # function to add the emulator part of a XML
 # $1 = XML file
 # $2 = emulator name name
@@ -67,6 +87,17 @@ RECALBOX_ROMFS_CALL_STANDALONE_EMULATOR = echo -e '<emulator name="$(2)"/>' >> $
 define RECALBOX_ROMFS_CALL_END_SYSTEM
     echo -e '</emulators>\n</system>' >> $(1)
     cp -R $(2) $(3)
+endef
+
+# function to add the new system
+# $1 = XML file
+# $2 = system rom source dir
+# $3 = system rom destination dir
+# $4 = system name
+define RECALBOX_ROMFS_CALL_END_PORT
+    echo -e '</emulators>\n</system>' >> $(1)
+    cp -R $(2) $(3)
+    mv $(3)/roms/ports/gamelist.xml $(3)/roms/ports/$(4)_gamelist.xml
 endef
 
 # function to add a new system that only has a standalone emulator
@@ -128,6 +159,7 @@ RECALBOX_ROMFS_CONFIGURE_CMDS += $(RECALBOX_ROMFS_ES_SYSTEMS)
 # Copy rom dirs
 define RECALBOX_ROMFS_ROM_DIRS
 	cp -R $(@D)/../recalbox-romfs-*/roms $(@D)
+    python2 $(BR2_EXTERNAL_RECALBOX_PATH)/scripts/linux/merge_gamelists.py -i $(@D)/roms/ports -o $(@D)/roms/ports/gamelist.xml
 
 endef
 RECALBOX_ROMFS_CONFIGURE_CMDS += $(RECALBOX_ROMFS_ROM_DIRS)
@@ -469,9 +501,9 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_POKEMINI),)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-pokemini
 endif
 
-# System: ports
+# System: mrboom
 ifneq ($(BR2_PACKAGE_LIBRETRO_MRBOOM),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-ports
+        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-mrboom
 endif
 
 # System: psp

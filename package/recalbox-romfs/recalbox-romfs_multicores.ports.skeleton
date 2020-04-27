@@ -1,0 +1,42 @@
+################################################################################
+#
+# recalbox-romfs-%SYSTEM_LOWER%
+#
+################################################################################
+
+# Package generated with :
+# %COMMAND_LINE%
+
+# Name the 3 vars as the package requires
+RECALBOX_ROMFS_%SYSTEM_UPPER%_SOURCE = 
+RECALBOX_ROMFS_%SYSTEM_UPPER%_SITE = 
+RECALBOX_ROMFS_%SYSTEM_UPPER%_INSTALL_STAGING = NO
+# Set the system name
+SYSTEM_NAME_%SYSTEM_UPPER% = %SYSTEM_LOWER%
+SYSTEM_XML_%SYSTEM_UPPER% = $(@D)/$(SYSTEM_NAME_%SYSTEM_UPPER%).xml
+# System rom path
+SOURCE_ROMDIR_%SYSTEM_UPPER% = $(RECALBOX_ROMFS_%SYSTEM_UPPER%_PKGDIR)/roms
+
+# CONFIGGEN_STD_CMD is defined in recalbox-romfs, so take good care that
+# variables are global across buildroot
+
+
+ifneq (%SUPER_PACKAGE%,)
+define CONFIGURE_MAIN_%SYSTEM_UPPER%_START
+	$(call RECALBOX_ROMFS_CALL_ADD_PORT,$(SYSTEM_XML_%SYSTEM_UPPER%),%FULLNAME%,$(SYSTEM_NAME_%SYSTEM_UPPER%),%SYSTEM_EXTENSIONS%,%PLATFORM%,%THEME%)
+endef
+
+%EMULATORS_AND_CORES%
+
+define CONFIGURE_MAIN_%SYSTEM_UPPER%_END
+	$(call RECALBOX_ROMFS_CALL_END_PORT,$(SYSTEM_XML_%SYSTEM_UPPER%),$(SOURCE_ROMDIR_%SYSTEM_UPPER%),$(@D),%SYSTEM_LOWER%)
+endef
+endif
+
+define RECALBOX_ROMFS_%SYSTEM_UPPER%_CONFIGURE_CMDS
+	$(CONFIGURE_MAIN_%SYSTEM_UPPER%_START)
+	%EMULATORS_DEFINES%
+	$(CONFIGURE_MAIN_%SYSTEM_UPPER%_END)
+endef
+
+$(eval $(generic-package))
