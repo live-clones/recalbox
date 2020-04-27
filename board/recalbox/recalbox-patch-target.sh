@@ -22,6 +22,9 @@ ln -sf "/recalbox/share_init/system/.emulationstation/es_systems.cfg" "${TARGET_
 ln -sf "/recalbox/share_init/system/.emulationstation/themes" "${TARGET_DIR}/etc/emulationstation/themes" || exit 1
 ln -sf "/recalbox/share/cheats" "${TARGET_DIR}/recalbox/share_init/cheats/custom" || exit 1
 
+# allow exfat share partition to mount. It needs a blank directory
+rm -f "${TARGET_DIR}/recalbox/share/.keep" || exit 1
+
 # we don't want the kodi startup script
 rm -f "${TARGET_DIR}/etc/init.d/S50kodi" || exit 1
 
