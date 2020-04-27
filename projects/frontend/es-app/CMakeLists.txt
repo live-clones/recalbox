@@ -6,7 +6,7 @@ set(ES_HEADERS
         src/games/FileSorts.h
         src/ItemType.h
         src/MameNameMapManager.h
-        src/NetworkThread.h
+        src/Upgrade.h
         src/systems/PlatformId.h
         src/games/IFilter.h
         src/games/FileData.h
@@ -172,7 +172,7 @@ set(ES_SOURCES
         src/games/FileSorts.cpp
         src/MameNameMap.cpp
         src/MameNameMapManager.cpp
-        src/NetworkThread.cpp
+        src/Upgrade.cpp
         src/systems/PlatformId.cpp
         src/games/FileData.cpp
         src/games/FolderData.cpp
@@ -310,7 +310,7 @@ endif ()
 # define target
 include_directories(${COMMON_INCLUDE_DIRS} src src/mqtt/paho/c src/mqtt/paho/cpp)
 add_executable(emulationstation ${ES_SOURCES} ${ES_HEADERS})
-target_link_libraries(emulationstation ${COMMON_LIBRARIES} es-core)
+target_link_libraries(emulationstation ${COMMON_LIBRARIES} es-core resolv)
 
 # special properties for Windows builds
 if (MSVC)

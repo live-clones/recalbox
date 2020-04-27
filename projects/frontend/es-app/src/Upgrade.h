@@ -5,21 +5,32 @@
 #include <utils/sdl2/SyncronousEvent.h>
 #include <utils/os/system/Mutex.h>
 
-class NetworkThread: private Thread, private ISynchronousEvent
+class Upgrade: private Thread, private ISynchronousEvent
 {
   public:
     /*!
      * @brief Constructor
      * @param window main Window
      */
-    explicit NetworkThread(Window& window);
+    explicit Upgrade(Window& window);
 
     /*!
      * @brief Destructor
      */
-    ~NetworkThread() override;
+    ~Upgrade() override;
 
   private:
+    //! Release DNS
+    static constexpr const char* sReleaseDNS = "stable.download.recalbox.com";
+    //! Review DNS
+    static constexpr const char* sReviewDNS = "review.download.recalbox.com";
+
+    //! Get remote version template URL
+    static constexpr const char* sGetVersionUrl = "https://#DOMAIN#/stable/v2/upgrade/rpi3/recalbox.version?source=recalbox";
+
+    //! Local version file
+    static constexpr const char* sLocalVersionFile = "/recalbox/recalbox.version";
+
     //! MainWindow
     Window& mWindow;
     //! Syncronous event to display popup
@@ -50,6 +61,16 @@ class NetworkThread: private Thread, private ISynchronousEvent
      * @param event SDL event
      */
     void ReceiveSyncCallback(const SDL_Event& event) override;
+
+    /*!
+     * @brief Get update url from DNS TXT records
+     */
+    static std::string GetUpdateUrl();
+
+    /*!
+     * @brief Get remote version
+     */
+    static std::string GetRemoteVersion();
 };
 
 

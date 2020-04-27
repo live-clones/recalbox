@@ -20,7 +20,8 @@
 #include <audio/AudioController.h>
 #include "MainRunner.h"
 #include "EmulationStation.h"
-#include "NetworkThread.h"
+#include "VolumeControl.h"
+#include "Upgrade.h"
 #include "CommandThread.h"
 #include "netplay/NetPlayThread.h"
 #include "DemoMode.h"
@@ -105,7 +106,7 @@ MainRunner::ExitState MainRunner::Run()
     {
       // Start update thread
       LOG(LogDebug) << "Launching Network thread";
-      NetworkThread networkThread(window);
+      Upgrade networkThread(window);
       // Start the socket server
       LOG(LogDebug) << "Launching Command thread";
       CommandThread commandThread(systemManager);
