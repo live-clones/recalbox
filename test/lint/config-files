@@ -7,6 +7,14 @@ fi
 
 RECALBOX_ROOT=$(realpath $(dirname $(readlink -f "$0"))/../..)
 
-xmllint --noout --relaxng \
-  ${RECALBOX_ROOT}/board/recalbox/fsoverlay/recalbox/scripts/es_input.rng \
+set -e # Exit non-zero if any command fails
+
+# es_input.cfg
+xmllint --noout \
+  --relaxng ${RECALBOX_ROOT}/board/recalbox/fsoverlay/recalbox/scripts/es_input.rng \
   ${RECALBOX_ROOT}/board/recalbox/fsoverlay/recalbox/share_init/system/.emulationstation/es_input.cfg
+
+# es_bios.xml
+xmllint --noout \
+  --schema ${RECALBOX_ROOT}/board/recalbox/fsoverlay/recalbox/share_init/system/.emulationstation/es_bios.xsd \
+  ${RECALBOX_ROOT}/board/recalbox/fsoverlay/recalbox/share_init/system/.emulationstation/es_bios.xml
