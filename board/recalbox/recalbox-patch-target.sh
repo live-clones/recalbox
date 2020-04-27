@@ -11,8 +11,6 @@ RECALBOX_BINARIES_DIR="${BINARIES_DIR}/recalbox"
 RECALBOX_TARGET_DIR="${TARGET_DIR}/recalbox"
 
 sed -i "s|root:x:0:0:root:/root:/bin/sh|root:x:0:0:root:/recalbox/share/system:/bin/sh|g" "${TARGET_DIR}/etc/passwd" || exit 1
-rm -rf "${TARGET_DIR}/etc/dropbear" || exit 1
-ln -sf "/recalbox/share/system/ssh" "${TARGET_DIR}/etc/dropbear" || exit 1
 
 rm -rf "${TARGET_DIR}/etc/timezone" || exit 1
 ln -sf "/var/timezone" "${TARGET_DIR}/etc/timezone" || exit 1
