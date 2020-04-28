@@ -1,12 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## [6.2]
- 
+## [7.0]
 - Apply sound volume settings to splash video on Pi
 - Fix REICAST bug on XU4
 - Add volume control to XU4
-## [7.0]
 - Recalbox system is now a squashfs firmware
 - Automatic recovery after 3 boots failure
 - Brand new update system, easier than ever
