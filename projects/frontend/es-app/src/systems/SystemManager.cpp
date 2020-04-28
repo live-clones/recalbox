@@ -173,6 +173,7 @@ bool SystemManager::AddArcadeMetaSystem()
 {
   if (RecalboxConf::Instance().AsBool("emulationstation.arcade", false))
   {
+    std::vector<SystemData*> arcades;
     bool includeNeogeo = RecalboxConf::Instance().AsBool("emulationstation.arcade.includeneogeo", true);
     FileData::StringMap doppelganger;
 
@@ -183,18 +184,18 @@ bool SystemManager::AddArcadeMetaSystem()
           if ((system->PlatformIds(i) == PlatformIds::PlatformId::ARCADE) ||
               (system->PlatformIds(i) == PlatformIds::PlatformId::NEOGEO && includeNeogeo))
           {
-            mHiddenSystemVector.push_back(system);
+            arcades.push_back(system);
             system->BuildDoppelgangerMap(doppelganger, false);
             break;
           }
 
     // Non empty?
-    if (!mHiddenSystemVector.empty())
+    if (!arcades.empty())
     {
       // Remove Hidden systems fron the visible list
       bool hideOriginals = RecalboxConf::Instance().AsBool("emulationstation.arcade.hideoriginals", true);
       if (hideOriginals)
-        for (SystemData* hidden: mHiddenSystemVector)
+        for (SystemData* hidden: arcades)
         {
           auto it = std::find(mVisibleSystemVector.begin(), mVisibleSystemVector.end(), hidden);
           if (it != mVisibleSystemVector.end())
@@ -202,7 +203,7 @@ bool SystemManager::AddArcadeMetaSystem()
         }
 
       // Create meta-system
-      SystemData* arcade = CreateMetaSystem("arcade", "Arcade", "arcade", mHiddenSystemVector, SystemData::Properties::None, doppelganger);
+      SystemData* arcade = CreateMetaSystem("arcade", "Arcade", "arcade", mHiddenSystemVector, SystemData::Properties::Virtual, doppelganger);
       LOG(LogInfo) << "creating Arcade meta-system";
       int position = RecalboxConf::Instance().AsInt("emulationstation.arcade.position", 0) % (int)mVisibleSystemVector.size();
       auto it = position >= 0 ? mVisibleSystemVector.begin() + position : mVisibleSystemVector.end() + (position + 1);
@@ -212,6 +213,48 @@ bool SystemManager::AddArcadeMetaSystem()
       if (!hideOriginals)
         mHiddenSystemVector.clear();
     }
+  }
+
+  return !mHiddenSystemVector.empty();
+}
+
+bool SystemManager::AddPorts()
+{
+  std::vector<SystemData*> ports;
+  FileData::StringMap doppelganger;
+
+  // Lookup all non-empty arcade platforms
+  for (SystemData* system: mVisibleSystemVector)
+    if (system->PlatformCount() == 1)
+      if ((system->PlatformIds(0) > PlatformIds::PlatformId::PORT_START) &&
+          (system->PlatformIds(0) < PlatformIds::PlatformId::PORT_STOP))
+        if (system->getRootFolder().hasGame())
+        {
+          ports.push_back(system);
+          system->BuildDoppelgangerMap(doppelganger, false);
+        }
+
+  // Non empty?
+  if (!ports.empty())
+  {
+    // Remove port systems fron the visible list and add to the hidden list
+    for (SystemData* port: ports)
+    {
+      auto it = std::find(mVisibleSystemVector.begin(), mVisibleSystemVector.end(), port);
+      if (it != mVisibleSystemVector.end())
+        mVisibleSystemVector.erase(it);
+      mHiddenSystemVector.push_back(port);
+    }
+
+    // Create meta-system
+    SystemData* portSystem = CreateMetaSystem("ports", "Ports", "ports", ports, SystemData::Properties::Virtual, doppelganger);
+    LOG(LogInfo) << "creating Ports";
+    // Seek defaulot position
+    int position = 0;
+    while((position < (int)mVisibleSystemVector.size()) && (portSystem->getFullName() > mVisibleSystemVector[position]->getFullName())) position++;
+    position = RecalboxConf::Instance().AsInt("emulationstation.ports.position", position) % (int)mVisibleSystemVector.size();
+    auto it = position >= 0 ? mVisibleSystemVector.begin() + position : mVisibleSystemVector.end() + (position + 1);
+    mVisibleSystemVector.insert(it, portSystem);
   }
 
   return !mHiddenSystemVector.empty();
@@ -328,6 +371,7 @@ bool SystemManager::AddGenresMetaSystem()
 
 bool SystemManager::AddSpecialCollectionsMetaSystems()
 {
+  AddPorts();
   AddAllGamesMetaSystem();
   AddLastPlayedMetaSystem();
   AddMultiplayerMetaSystems();

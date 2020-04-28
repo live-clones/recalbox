@@ -71,6 +71,12 @@ class SystemManager :
     bool AddArcadeMetaSystem();
 
     /*!
+     * @brief Add ports meta-system
+     * @return True if the ports system has been added
+     */
+    bool AddPorts();
+
+    /*!
      * @brief Add manually filtered meta system. Get item from Visible system vector and filter
      * games using the provided filter
      * @param filter Filter to apply
