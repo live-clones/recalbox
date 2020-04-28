@@ -129,7 +129,7 @@ do_root() {
     fi
 
     # Create overlay folders and user video folder
-    mkdir -p /overlay_root/lower /overlay_root/upper /overlay_root/work /overlay_root/bootvideos || return 1
+    mkdir -p /overlay_root/lower /overlay_root/upper /overlay_root/work /overlay_root/bootvideos /overlay_root/dropbear || return 1
     # Mount the squashfs as overlay "lower" file-system
     mount /boot_root/boot/recalbox /overlay_root/lower || return 1
 
