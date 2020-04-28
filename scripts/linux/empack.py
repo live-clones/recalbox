@@ -45,7 +45,7 @@ class EmPack:
         self._PackageName = "recalbox-romfs-{}".format(self._System)
         self._PackageDir = "package/recalbox-romfs/{}".format(self._PackageName)
         if self._port:
-            self._RomsDir = "{}/{}/ports/{}".format(self._PackageDir, 'roms', self._System)
+            self._RomsDir = "{}/{}/ports/{}".format(self._PackageDir, 'roms', self._FullName)
         else:
             self._RomsDir = "{}/{}/{}".format(self._PackageDir, 'roms', self._System)
         self._Makefile = '{}/{}.mk'.format(self._PackageDir, self._PackageName)
@@ -233,11 +233,11 @@ class EmPack:
         return returnStr, defineName
 
     def writemakefile(self):
-        print("== Creating new package dir structure:")
+        print("== Creating new package dir structure: {}".format(self._RomsDir))
         if not os.path.exists(self._RomsDir):
             try:
                 os.makedirs(self._RomsDir)
-                print("OK !")
+                print("{} created !".format(self._RomsDir))
             except:
                 print("Failed ... Could not make dir {}".format(self._RomsDir))
                 raise

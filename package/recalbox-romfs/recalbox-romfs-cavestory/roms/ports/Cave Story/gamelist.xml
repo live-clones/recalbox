@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<gameList>
+ <game>
+  <path>./CaveStory/Doukutsu.exe</path>
+  <name>Cave Story</name>
+  <desc>You wake up in a dark cave with no memory of who you are, where you came from or why you're in such a place. Uncovering Mimiga Village you discover that the once-carefree Mimigas are in danger at the hands of a maniacal scientist. The Mimigas’ only hope rest squarely on the shoulders of a quiet, amnesiac boy who can't remember his own name.
+Run, jump, shoot, fly and explore your way through a massive action-adventure reminiscent of classic 8- and 16-bit games. Take control and learn the origins of this world’s power, stop the delusional villain and save the Mimiga!</desc>
+  <rating>0.8</rating>
+  <releasedate>19990101T000000</releasedate>
+  <developer>Daisuke Amaya</developer>
+  <publisher>Daisuke Amaya</publisher>
+  <genre>Platform</genre>
+  <players>1</players>
+  <image>./media/images/cavestory.png</image>
+ </game>
+</gameList>

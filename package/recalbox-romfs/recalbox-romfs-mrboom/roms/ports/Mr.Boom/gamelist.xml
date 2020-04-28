@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<gameList>
+ <game>
+  <path>./mrboom.mrboom</path>
+  <name>Mr. Boom</name>
+  <desc>Bomberman clone. Gameplay is exactly the same and even the graphic style seems very similar to Bomberman.</desc>
+  <rating>0.8</rating>
+  <releasedate>19990101T000000</releasedate>
+  <developer>Remdy Software</developer>
+  <publisher>Remdy Software</publisher>
+  <genre>Strategy</genre>
+  <players>1-8</players>
+  <image>./media/images/mrboom.png</image>
+ </game>
+</gameList>

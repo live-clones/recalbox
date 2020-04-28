@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --system cavestory --extension '.exe .EXE' --fullname 'Cave Story' --platform cavestory --theme cavestory 1:libretro:nxengine:BR2_PACKAGE_LIBRETRO_NXENGINE
+# ./scripts/linux/empack.py --force --port --system cavestory --extension '.exe' --fullname 'Cave Story' --platform cavestory --theme cavestory 1:libretro:nxengine:BR2_PACKAGE_LIBRETRO_NXENGINE
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_CAVESTORY_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_CAVESTORY = $(RECALBOX_ROMFS_CAVESTORY_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_NXENGINE),)
 define CONFIGURE_MAIN_CAVESTORY_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_CAVESTORY),Cave Story,$(SYSTEM_NAME_CAVESTORY),.exe .EXE,cavestory,cavestory)
+	$(call RECALBOX_ROMFS_CALL_ADD_PORT,$(SYSTEM_XML_CAVESTORY),Cave Story,$(SYSTEM_NAME_CAVESTORY),.exe,cavestory,cavestory)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_NXENGINE),)
@@ -44,7 +44,7 @@ endif
 
 
 define CONFIGURE_MAIN_CAVESTORY_END
-	$(call RECALBOX_ROMFS_CALL_END_SYSTEM,$(SYSTEM_XML_CAVESTORY),$(SOURCE_ROMDIR_CAVESTORY),$(@D))
+	$(call RECALBOX_ROMFS_CALL_END_PORT,$(SYSTEM_XML_CAVESTORY),$(SOURCE_ROMDIR_CAVESTORY),$(@D),cavestory)
 endef
 endif
 

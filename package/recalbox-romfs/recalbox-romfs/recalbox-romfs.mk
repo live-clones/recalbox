@@ -97,7 +97,7 @@ endef
 define RECALBOX_ROMFS_CALL_END_PORT
     echo -e '</emulators>\n</system>' >> $(1)
     cp -R $(2) $(3)
-    mv $(3)/roms/ports/gamelist.xml $(3)/roms/ports/$(4)_gamelist.xml
+    #mv $(3)/roms/ports/gamelist.xml $(3)/roms/ports/$(4)_gamelist.xml
 endef
 
 # function to add a new system that only has a standalone emulator
@@ -159,7 +159,7 @@ RECALBOX_ROMFS_CONFIGURE_CMDS += $(RECALBOX_ROMFS_ES_SYSTEMS)
 # Copy rom dirs
 define RECALBOX_ROMFS_ROM_DIRS
 	cp -R $(@D)/../recalbox-romfs-*/roms $(@D)
-    python2 $(BR2_EXTERNAL_RECALBOX_PATH)/scripts/linux/merge_gamelists.py -i $(@D)/roms/ports -o $(@D)/roms/ports/gamelist.xml
+    #python2 $(BR2_EXTERNAL_RECALBOX_PATH)/scripts/linux/merge_gamelists.py -i $(@D)/roms/ports -o $(@D)/roms/ports/gamelist.xml
 
 endef
 RECALBOX_ROMFS_CONFIGURE_CMDS += $(RECALBOX_ROMFS_ROM_DIRS)
