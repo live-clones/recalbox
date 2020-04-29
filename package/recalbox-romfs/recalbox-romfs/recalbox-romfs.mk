@@ -503,7 +503,7 @@ endif
 
 # System: mrboom
 ifneq ($(BR2_PACKAGE_LIBRETRO_MRBOOM),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-mrboom
+#    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-mrboom
 endif
 
 # System: psp
@@ -518,7 +518,7 @@ endif
 
 # System: quake
 ifneq ($(BR2_PACKAGE_LIBRETRO_TYRQUAKE)$(BR2_PACKAGE_LIBRETRO_VITAQUAKE2)$(BR2_PACKAGE_LIBRETRO_VITAQUAKE3)$(BR2_PACKAGE_LIBRETRO_VITAVOYAGER),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-quake
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-quake
 endif
 
 # System: samcoupe
