@@ -1,0 +1,59 @@
+#!/bin/sh
+# Start/Stop fbcp 
+
+PIDFILE=/var/run/miniTFT.pid
+NAME="S32miniTFT"
+RUN_AS=`id -u root`
+CMD="/recalbox/scripts/miniTFTSupport.sh"
+systemsetting="recalbox_settings"
+
+#some useful system constants
+DEV="/dev/fb1"
+FFMPEG="/usr/bin/ffmpeg"
+
+#some useful video constants
+LogoFolder='/recalbox/share/system/tft_logos'
+DefaultStopLogo='RBvideos/recalboxIntroExplode.mp4'
+tftResolution="$(${systemsetting} -command load -key system.secondminitft.resolution)"
+tftType="$(${systemsetting} -command load -key system.secondminitft.type)"	
+
+if [[ "${tftType}" = "ogst" ]]; then
+	DEV="/dev/fb_"
+fi
+
+do_start() {
+    recallog "Starting ${NAME}"
+    start-stop-daemon --start --background --user $RUN_AS --pidfile $PIDFILE --make-pidfile --chuid $RUN_AS --startas $CMD -- -n
+}
+
+do_stop() {
+	killall ffmpeg 2>/dev/null >/dev/null
+	#display stop video
+	dd if=/dev/zero of="${DEV}" 2>/dev/null >/dev/null   #clear before draw
+	"${FFMPEG}" -re -i "${LogoFolder}"/"${tftResolution}"/"${DefaultStopLogo}" -pix_fmt rgb565le -f fbdev "${DEV}" 2>/dev/null >/dev/null &
+	dd if=/dev/zero of="${DEV}" 2>/dev/null >/dev/null   #clear before draw
+	echo "Stopping tft support"
+    start-stop-daemon --stop --pidfile $PIDFILE
+}
+
+
+case "$1" in
+start)
+        recallog "Starting $NAME"
+        do_start
+    ;;
+stop)
+    recallog "Stopping $NAME"
+    do_stop
+    ;;
+restart)
+    recallog "Restarting $NAME"
+    do_stop
+    do_start
+    ;;
+*)
+    echo "Usage: /etc/init.d/${NAME} {start|stop|restart}"
+    exit 2
+    ;;
+esac
+exit 0
