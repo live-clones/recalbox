@@ -22,7 +22,7 @@ source "$BR2_EXTERNAL_RECALBOX_PATH/package/recalbox-romfs/recalbox-romfs-cavest
 source "$BR2_EXTERNAL_RECALBOX_PATH/package/recalbox-romfs/recalbox-romfs-channelf/Config.in"
 source "$BR2_EXTERNAL_RECALBOX_PATH/package/recalbox-romfs/recalbox-romfs-colecovision/Config.in"
 source "$BR2_EXTERNAL_RECALBOX_PATH/package/recalbox-romfs/recalbox-romfs-daphne/Config.in"
-source "$BR2_EXTERNAL_RECALBOX_PATH/package/recalbox-romfs/recalbox-romfs-doom1&2/Config.in"
+source "$BR2_EXTERNAL_RECALBOX_PATH/package/recalbox-romfs/recalbox-romfs-doom/Config.in"
 source "$BR2_EXTERNAL_RECALBOX_PATH/package/recalbox-romfs/recalbox-romfs-doom3/Config.in"
 source "$BR2_EXTERNAL_RECALBOX_PATH/package/recalbox-romfs/recalbox-romfs-dos/Config.in"
 source "$BR2_EXTERNAL_RECALBOX_PATH/package/recalbox-romfs/recalbox-romfs-dreamcast/Config.in"

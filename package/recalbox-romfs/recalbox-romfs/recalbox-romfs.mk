@@ -273,9 +273,9 @@ ifeq ($(BR2_PACKAGE_HYPSEUS),y)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-daphne
 endif
 
-# System: doom1&2
+# System: doom
 ifneq ($(BR2_PACKAGE_LIBRETRO_PRBOOM),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-doom1&2
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-doom
 endif
 
 # System: doom3
