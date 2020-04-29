@@ -175,7 +175,7 @@ build odroidxu4 for test:
     - cd updatesv2
     - ./prepare_assets.sh "${DEPLOY_TYPE}" "../dist" release netlify "${SKIP_IMAGES}"
     - echo "Releasing files"
-    - ./upload_to_bucket.sh "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_KEY}" "${BUCKET}" "release" "${BUCKET_PATH}"
+    - ./upload_to_bucket.sh "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "${BUCKET}" "release" "${BUCKET_PATH}"
     - if [ "${DEPLOY_TYPE}" = "prod" ]; then docker run --rm -v $(pwd):/work -w /work node:10 bash -c "./upload_to_netlify.sh '${NETLIFY_AUTH_TOKEN}' 'netlify' '${NETLIFY_PROJECT_ID}'"; fi
 
 

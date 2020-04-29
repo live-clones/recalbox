@@ -7,7 +7,7 @@ if [ -z "${1}" -o -z "${2}" -o -z "${3}" -o -z "${4}" ]; then
 fi
 
 AWS_ACCESS_KEY_ID="${1}"
-AWS_SECRET_ACCESS_KEY="${2}"
+AWS_SECRET_ACCESS_TOKEN="${2}"
 BUCKET="${3}"
 RELEASE_DIR="${4}"
 PATH_IN_BUCKET="${5:-}"
@@ -21,7 +21,7 @@ bucket_location = nl-ams
 
 # Login credentials
 access_key = ${AWS_ACCESS_KEY_ID}
-secret_key = ${AWS_SECRET_ACCESS_KEY}
+secret_key = ${AWS_SECRET_ACCESS_TOKEN}
 EOF
 
 for FOLDER_TO_UPLOAD in $(ls ${RELEASE_DIR}); do
