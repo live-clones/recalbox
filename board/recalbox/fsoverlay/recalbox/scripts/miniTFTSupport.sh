@@ -214,9 +214,9 @@ do_start() {
                                 TFTGameImage="${LogoFolder}"/"${tftResolution}"/"${DefaultImage}"
                             fi
                             if [[ -z "${TFTVideoPath}" ]]; then 
-                                FRAMEBUFFER="${fbDevice}" fbv --stretch --delay 1 "${TFTGameImage}" &> /dev/null &
+                                FRAMEBUFFER="${fbDevice}" fbv --stretch --enlarge --ignore-aspect --delay 1 "${TFTGameImage}" &> /dev/null &
                             else
-                                FRAMEBUFFER="${fbDevice}" fbv --stretch --delay 1 "${TFTGameImage}" &> /dev/null &
+                                FRAMEBUFFER="${fbDevice}" fbv --stretch --enlarge --ignore-aspect --delay 1 "${TFTGameImage}" &> /dev/null &
                                 usleep "${tempoLong}"
                                 "${FFMPEG}" -re -stream_loop -1 -i "${TFTVideoPath}" -s "${tftFullResolution}" -c:v rawvideo -pix_fmt rgb565le -f fbdev "${fbDevice}" &> /dev/null &
                             fi
@@ -247,7 +247,7 @@ do_start() {
                             "${FFMPEG}" -re -i "${LogoFolder}"/"${tftResolution}"/"${LogoFile}" -c:v rawvideo -pix_fmt rgb565le -f fbdev "${fbDevice}" &> /dev/null
                             dd if=/dev/zero of="${fbDevice}" &> /dev/null   #clear before draw
                             usleep "${tempoShort}"
-                            FRAMEBUFFER="${fbDevice}" fbv --stretch --delay 1 "${TFTGameImage}" &> /dev/null
+                            FRAMEBUFFER="${fbDevice}" fbv --stretch --enlarge --ignore-aspect --delay 1 "${TFTGameImage}" &> /dev/null
                         fi
                         ;;
                 esac                
