@@ -503,7 +503,7 @@ endif
 
 # System: mrboom
 ifneq ($(BR2_PACKAGE_LIBRETRO_MRBOOM),)
-#    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-mrboom
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-mrboom
 endif
 
 # System: psp
