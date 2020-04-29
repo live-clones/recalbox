@@ -1,0 +1,6 @@
+## RECALBOX - SYSTEM QUAKE ##
+
+Placez ici vos jeux QUAKE 1, 2 et 3 (ou Star Trek Voyager: Elite Force Holomatch).
+
+Les jeux QUAKE 1, 2 et Star Trek Voyager doivent avoir l'extension ".pak"
+Les jeux QUAKE 3 doivent avoir l'extension ".pk3"

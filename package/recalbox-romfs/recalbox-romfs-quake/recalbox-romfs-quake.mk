@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --system quake --extension '.pak .PAK .pk3 .PK3 .zip .ZIP .7z .7Z' --fullname 'Quake' --platform quake --theme quake 1:libretro:tyrquake:BR2_PACKAGE_LIBRETRO_TYRQUAKE 2:libretro:vitaquake2:BR2_PACKAGE_LIBRETRO_VITAQUAKE2 3:libretro:vitaquake3:BR2_PACKAGE_LIBRETRO_VITAQUAKE3 4:libretro:vitavoyager:BR2_PACKAGE_LIBRETRO_VITAVOYAGER
+# ./scripts/linux/empack.py --force --port --system quake --extension '.pak .pk3 .zip .7z' --fullname 'Quake' --platform quake --theme quake 1:libretro:tyrquake:BR2_PACKAGE_LIBRETRO_TYRQUAKE 2:libretro:vitaquake2:BR2_PACKAGE_LIBRETRO_VITAQUAKE2 3:libretro:vitaquake3:BR2_PACKAGE_LIBRETRO_VITAQUAKE3 4:libretro:vitavoyager:BR2_PACKAGE_LIBRETRO_VITAVOYAGER
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_QUAKE_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_QUAKE = $(RECALBOX_ROMFS_QUAKE_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_TYRQUAKE)$(BR2_PACKAGE_LIBRETRO_VITAQUAKE2)$(BR2_PACKAGE_LIBRETRO_VITAQUAKE3)$(BR2_PACKAGE_LIBRETRO_VITAVOYAGER),)
 define CONFIGURE_MAIN_QUAKE_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_QUAKE),Quake,$(SYSTEM_NAME_QUAKE),.pak .PAK .pk3 .PK3 .zip .ZIP .7z .7Z,quake,quake)
+	$(call RECALBOX_ROMFS_CALL_ADD_PORT,$(SYSTEM_XML_QUAKE),Quake,$(SYSTEM_NAME_QUAKE),.pak .pk3 .zip .7z,quake,quake)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_TYRQUAKE)$(BR2_PACKAGE_LIBRETRO_VITAQUAKE2)$(BR2_PACKAGE_LIBRETRO_VITAQUAKE3)$(BR2_PACKAGE_LIBRETRO_VITAVOYAGER),)
@@ -62,7 +62,7 @@ endif
 
 
 define CONFIGURE_MAIN_QUAKE_END
-	$(call RECALBOX_ROMFS_CALL_END_SYSTEM,$(SYSTEM_XML_QUAKE),$(SOURCE_ROMDIR_QUAKE),$(@D))
+	$(call RECALBOX_ROMFS_CALL_END_PORT,$(SYSTEM_XML_QUAKE),$(SOURCE_ROMDIR_QUAKE),$(@D),quake)
 endef
 endif
 
