@@ -363,7 +363,6 @@ OrderedDevices InputManager::GenerateConfiguration()
     {
       devices.SetDevice(player, device);
       LOG(LogInfo) << "Saved " << device->Name() << " for player " << player;
-      break;
     }
   }
   // Second loop, search for NAME. High Priority
@@ -377,7 +376,6 @@ OrderedDevices InputManager::GenerateConfiguration()
       {
         devices.SetDevice(player, device);
         LOG(LogInfo) << "Saved " << device->Name() << " for player " << player;
-        break;
       }
     }
   // Last loop, search for free controllers for remaining players.
@@ -390,7 +388,6 @@ OrderedDevices InputManager::GenerateConfiguration()
       {
         devices.SetDevice(player, device);
         LOG(LogInfo) << "So i set " << device->Name() << " for player " << player;
-        break;
       }
     }
 
