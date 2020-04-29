@@ -1,0 +1,30 @@
+diff --git a/boot/syslinux/syslinux.mk b/boot/syslinux/syslinux.mk
+index 1349641..fd7e0e9 100644
+--- a/boot/syslinux/syslinux.mk
++++ b/boot/syslinux/syslinux.mk
+@@ -74,18 +74,21 @@ define SYSLINUX_INSTALL_TARGET_CMDS
+ 		-C $(@D) $(SYSLINUX_TARGET) install
+ endef
+ 
++#Recalbox needs syslinux
+ # That 'syslinux' binary is an installer actually built for the target.
+ # However, buildroot makes no usage of it, so better delete it than have it
+ # installed at the wrong place
+-define SYSLINUX_POST_INSTALL_CLEANUP
+-	rm -rf $(HOST_DIR)/bin/syslinux
+-endef
+-SYSLINUX_POST_INSTALL_TARGET_HOOKS += SYSLINUX_POST_INSTALL_CLEANUP
++#define SYSLINUX_POST_INSTALL_CLEANUP
++#	rm -rf $(HOST_DIR)/bin/syslinux
++#endef
++#SYSLINUX_POST_INSTALL_TARGET_HOOKS += SYSLINUX_POST_INSTALL_CLEANUP
+ 
+ SYSLINUX_IMAGES-$(BR2_TARGET_SYSLINUX_ISOLINUX) += bios/core/isolinux.bin
+ SYSLINUX_IMAGES-$(BR2_TARGET_SYSLINUX_PXELINUX) += bios/core/pxelinux.bin
+ SYSLINUX_IMAGES-$(BR2_TARGET_SYSLINUX_MBR) += bios/mbr/mbr.bin
+ SYSLINUX_IMAGES-$(BR2_TARGET_SYSLINUX_EFI) += $(SYSLINUX_EFI_BITS)/efi/syslinux.efi
++#Recalbox needs gptmbr.bin
++SYSLINUX_IMAGES-y += bios/mbr/gptmbr.bin
+ 
+ SYSLINUX_C32 = $(call qstrip,$(BR2_TARGET_SYSLINUX_C32))
+ 
