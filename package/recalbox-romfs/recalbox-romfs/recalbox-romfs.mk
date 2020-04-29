@@ -180,7 +180,7 @@ endif
 
 # System: 64dd
 ifneq ($(BR2_PACKAGE_LIBRETRO_PARALLEL_N64)$(BR2_PACKAGE_LIBRETRO_MUPEN64PLUS_NX),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-64dd
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-64dd
 endif
 
 # System: amiga600
@@ -195,12 +195,12 @@ endif
 
 # System: amigacd32
 ifneq ($(BR2_PACKAGE_LIBRETRO_UAE)$(BR2_PACKAGE_AMIBERRY),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-amigacd32
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-amigacd32
 endif
 
 # System: amigacdtv
 ifneq ($(BR2_PACKAGE_LIBRETRO_UAE)$(BR2_PACKAGE_AMIBERRY),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-amigacdtv
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-amigacdtv
 endif
  	
 # System: amstradcpc
@@ -273,9 +273,14 @@ ifeq ($(BR2_PACKAGE_HYPSEUS),y)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-daphne
 endif
 
-# System: doom
-ifneq ($(BR2_PACKAGE_LIBRETRO_PRBOOM)$(BR2_PACKAGE_LIBRETRO_BOOM3),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-doom
+# System: doom1&2
+ifneq ($(BR2_PACKAGE_LIBRETRO_PRBOOM),)
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-doom1&2
+endif
+
+# System: doom3
+ifneq ($(BR2_PACKAGE_LIBRETRO_BOOM3),)
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-doom3
 endif
 
 # System: dos
@@ -418,7 +423,7 @@ endif
 
 # System: naomigd
 ifneq ($(BR2_PACKAGE_LIBRETRO_FLYCAST),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-naomigd
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-naomigd
 endif
 
 # System: nds
@@ -458,7 +463,7 @@ endif
 
 # System: openbor
 ifeq ($(BR2_PACKAGE_OPENBOR),y)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-openbor
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-openbor
 endif
 
 # System: oricatmos
@@ -516,9 +521,19 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_PCSX_REARMED)$(BR2_PACKAGE_LIBRETRO_BEETLE_PSX)$(B
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-psx
 endif
 
-# System: quake
-ifneq ($(BR2_PACKAGE_LIBRETRO_TYRQUAKE)$(BR2_PACKAGE_LIBRETRO_VITAQUAKE2)$(BR2_PACKAGE_LIBRETRO_VITAQUAKE3)$(BR2_PACKAGE_LIBRETRO_VITAVOYAGER),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-quake
+# System: quake1
+ifneq ($(BR2_PACKAGE_LIBRETRO_TYRQUAKE),)
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-quake1
+endif
+
+# System: quake2
+ifneq ($(BR2_PACKAGE_LIBRETRO_VITAQUAKE2),)
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-quake2
+endif
+
+# System: quake3
+ifneq ($(BR2_PACKAGE_LIBRETRO_VITAQUAKE3),)
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-quake3
 endif
 
 # System: samcoupe
@@ -561,14 +576,19 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_SNES9X),)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-satellaview
 endif
 
-# System: openbor
+# System: solarus
 ifeq ($(BR2_PACKAGE_RECALBOX_SOLARUS),y)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-solarus
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-solarus
 endif
 
 # System: spectravideo
 ifneq ($(BR2_PACKAGE_LIBRETRO_BLUEMSX),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-spectravideo
+endif
+
+# System: startrekvoyager
+ifneq ($(BR2_PACKAGE_LIBRETRO_VITAVOYAGER),)
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-startrekvoyager
 endif
 
 # System: sufami

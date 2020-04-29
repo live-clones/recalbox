@@ -1,7 +1,0 @@
-config BR2_PACKAGE_RECALBOX_ROMFS_DOOM
-	bool "recalbox-romfs-doom"
-	select BR2_PACKAGE_RECALBOX_ROMS
-	depends on BR2_PACKAGE_LIBRETRO_PRBOOM \
-	  || BR2_PACKAGE_LIBRETRO_BOOM3
-	help
-	  share_init/roms and xml for doom

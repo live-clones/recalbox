@@ -1,0 +1,5 @@
+## RECALBOX - SYSTEM QUAKE 2 ##
+
+Placez ici vos jeux QUAKE 2.
+
+Les jeux QUAKE 2 doivent avoir l'extension ".pak"

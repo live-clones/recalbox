@@ -1,0 +1,5 @@
+## RECALBOX - SYSTEM QUAKE 3 ##
+
+Placez ici vos jeux QUAKE 3.
+
+Les jeux QUAKE 3 doivent avoir l'extension ".pk3"

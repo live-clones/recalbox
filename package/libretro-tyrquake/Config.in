@@ -2,7 +2,7 @@ config BR2_PACKAGE_LIBRETRO_TYRQUAKE
 	bool "libretro-tyrquake"
 	depends on BR2_PACKAGE_RETROARCH
 	depends on BR2_INSTALL_LIBSTDCPP
-	select BR2_PACKAGE_RECALBOX_ROMFS_QUAKE
+	select BR2_PACKAGE_RECALBOX_ROMFS_QUAKE1
 	help
 	  A libretro Quake 1 core.
 
