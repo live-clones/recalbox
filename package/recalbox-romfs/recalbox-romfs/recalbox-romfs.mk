@@ -59,6 +59,7 @@ define RECALBOX_ROMFS_CALL_ADD_PORT
     '<platform>$(5)</platform>\n' \
     '<theme>$(6)</theme>\n' \
     '<emulators>' > $(1)
+    sed -i -e 's/\&/\&amp;/g' $(1)
 endef
 
 # function to add the emulator part of a XML
