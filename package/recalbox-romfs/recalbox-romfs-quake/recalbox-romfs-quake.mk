@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --system quake1 --extension '.pak .zip .7z' --fullname 'Quake 1' --platform quake --theme quake 1:libretro:tyrquake:BR2_PACKAGE_LIBRETRO_TYRQUAKE
+# ./scripts/linux/empack.py --force --system quake --extension '.pak .zip .7z' --fullname 'Quake' --platform quake --theme quake 1:libretro:tyrquake:BR2_PACKAGE_LIBRETRO_TYRQUAKE
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_QUAKE1_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_QUAKE1 = $(RECALBOX_ROMFS_QUAKE1_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_TYRQUAKE),)
 define CONFIGURE_MAIN_QUAKE1_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_QUAKE1),Quake 1,$(SYSTEM_NAME_QUAKE1),.pak .zip .7z,quake,quake)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_QUAKE1),Quake,$(SYSTEM_NAME_QUAKE1),.pak .zip .7z,quake,quake)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_TYRQUAKE),)
