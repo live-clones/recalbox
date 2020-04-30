@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_VITAQUAKE2_VERSION = ada859a88612f5bd107a7bd9aa2dbfef9ad2b3ae
+LIBRETRO_VITAQUAKE2_VERSION = 0a5456eab2603be35de6c079551b5139e38a9046
 LIBRETRO_VITAQUAKE2_SITE = $(call github,libretro,vitaquake2,$(LIBRETRO_VITAQUAKE2_VERSION))
 
 define LIBRETRO_VITAQUAKE2_BUILD_CMDS

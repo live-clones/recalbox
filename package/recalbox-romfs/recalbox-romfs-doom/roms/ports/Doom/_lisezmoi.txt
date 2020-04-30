@@ -1,6 +1,6 @@
-## RECALBOX - SYSTEM DOOM ##
+## RECALBOX - SYSTEM DOOM 1 & 2 ##
 
 Placez ici vos jeux DOOM 1 et 2 (et les mods associés).
 Placez vos soundtracks dans le répertoire ./game-musics
 
-Les jeux DOOM doivent avoir l'extension ".wad/.iwad/.pwad/.lmp/.pk4"
+Les jeux DOOM 1 et 2 doivent avoir l'extension ".wad/.iwad/.pwad/.lmp/"

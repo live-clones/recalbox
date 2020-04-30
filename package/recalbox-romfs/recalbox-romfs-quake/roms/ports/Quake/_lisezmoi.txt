@@ -1,0 +1,5 @@
+## RECALBOX - SYSTEM QUAKE 1 ##
+
+Placez ici vos jeux QUAKE 1.
+
+Les jeux QUAKE 1 doivent avoir l'extension ".pak"

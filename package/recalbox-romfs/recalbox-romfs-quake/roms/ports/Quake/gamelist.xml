@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<gameList>
+	<game>
+		<path>./id1/Quake (Shareware).7z</path>
+		<name>Quake</name>
+		<desc>
+In Quake, the player takes the role of the protagonist known as Ranger who was sent into a portal in order to stop an enemy code-named "Quake". The government had been experimenting with teleportation technology and developed a working prototype called a "Slipgate"; the mysterious Quake compromised the Slipgate by connecting it with its own teleportation system, using it to send death squads to the "Human" dimension in order to test the martial capabilities of humanity.    The sole surviving protagonist in "Operation Counterstrike" is Ranger, who must advance, starting each of the four episodes from an overrun human military base, before fighting his way into other dimensions, reaching them via the Slipgate or their otherworld equivalent. After passing through the Slipgate, Ranger's main objective is to collect four magic runes from four dimensions of Quake; these are the key to stopping the enemy later discovered as Shub-Niggurath and ending the invasion of Earth.
+</desc>
+		<image>./media/images/Quake (Shareware).png</image>
+		<rating>0.88</rating>
+		<releasedate>19960101T000000</releasedate>
+		<developer>id Software</developer>
+		<publisher>id Software, Inc.</publisher>
+		<genre>Shooter / 1st person</genre>
+		<players>1-16</players>
+	</game>
+</gameList>

@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --port --system doom --extension '.wad .iwad .pwad .lmp .pk4 .zip .7z' --fullname 'Doom' --platform doom --theme doom 1:libretro:prboom:BR2_PACKAGE_LIBRETRO_PRBOOM 2:libretro:boom3:BR2_PACKAGE_LIBRETRO_BOOM3
+# ./scripts/linux/empack.py --force --port --system doom --extension '.wad .iwad .pwad .lmp .zip .7z' --fullname 'Doom' --platform doom --theme doom 1:libretro:prboom:BR2_PACKAGE_LIBRETRO_PRBOOM
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_DOOM_SOURCE = 
@@ -21,24 +21,18 @@ SOURCE_ROMDIR_DOOM = $(RECALBOX_ROMFS_DOOM_PKGDIR)/roms
 # variables are global across buildroot
 
 
-ifneq ($(BR2_PACKAGE_LIBRETRO_PRBOOM)$(BR2_PACKAGE_LIBRETRO_BOOM3),)
+ifneq ($(BR2_PACKAGE_LIBRETRO_PRBOOM),)
 define CONFIGURE_MAIN_DOOM_START
-	$(call RECALBOX_ROMFS_CALL_ADD_PORT,$(SYSTEM_XML_DOOM),Doom,$(SYSTEM_NAME_DOOM),.wad .iwad .pwad .lmp .pk4 .zip .7z,doom,doom)
+	$(call RECALBOX_ROMFS_CALL_ADD_PORT,$(SYSTEM_XML_DOOM),Doom,$(SYSTEM_NAME_DOOM),.wad .iwad .pwad .lmp .zip .7z,doom,doom)
 endef
 
-ifneq ($(BR2_PACKAGE_LIBRETRO_PRBOOM)$(BR2_PACKAGE_LIBRETRO_BOOM3),)
+ifneq ($(BR2_PACKAGE_LIBRETRO_PRBOOM),)
 define CONFIGURE_DOOM_LIBRETRO_START
 	$(call RECALBOX_ROMFS_CALL_START_EMULATOR,$(SYSTEM_XML_DOOM),libretro)
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_PRBOOM),y)
 define CONFIGURE_DOOM_LIBRETRO_PRBOOM_DEF
 	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_DOOM),prboom,1)
-endef
-endif
-
-ifeq ($(BR2_PACKAGE_LIBRETRO_BOOM3),y)
-define CONFIGURE_DOOM_LIBRETRO_BOOM3_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_DOOM),boom3,2)
 endef
 endif
 
@@ -58,7 +52,6 @@ define RECALBOX_ROMFS_DOOM_CONFIGURE_CMDS
 	$(CONFIGURE_MAIN_DOOM_START)
 	$(CONFIGURE_DOOM_LIBRETRO_START)
 	$(CONFIGURE_DOOM_LIBRETRO_PRBOOM_DEF)
-	$(CONFIGURE_DOOM_LIBRETRO_BOOM3_DEF)
 	$(CONFIGURE_DOOM_LIBRETRO_END)
 	$(CONFIGURE_MAIN_DOOM_END)
 endef
