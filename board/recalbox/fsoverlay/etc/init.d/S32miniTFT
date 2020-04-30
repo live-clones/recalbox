@@ -12,7 +12,7 @@ fbDevice="/dev/fb1"
 FFMPEG="/usr/bin/ffmpeg"
 
 #some useful video constants
-LogoFolder='/recalbox/share/system/tft_logos'
+LogoFolder='/recalbox/share_init/system/tft_logos'
 DefaultStopLogo='RBvideos/recalboxIntroExplode.mp4'
 tftResolution="$(${systemsetting} -command load -key system.secondminitft.resolution)"
 tftType="$(${systemsetting} -command load -key system.secondminitft.type)"

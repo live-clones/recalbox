@@ -3,7 +3,7 @@
 ###################################
 
 #some useful video constants
-LogoFolder='/recalbox/share/system/tft_logos'
+LogoFolder='/recalbox/share_init/system/tft_logos'
 #DefaultLogo='RBvideos/recalboxIntro.mp4'
 DefaultLogo='RBvideos/introRecalboxWinners.mp4'
 DefaultStartLogo='RBvideos/recalboxHologram.mp4'
