@@ -18,7 +18,7 @@ tempoShort="25000"
 tempoLong="1000000"
 
 #file wich contains path to boot/shutdown/system videos (in /recalbox/share/system to be easily editable by user)
-functionFile="/recalbox/share/system/miniTFTVideosCfg.sh"
+functionFile="/recalbox/share/system/configs/minitftscreen/miniTFTVideosCfg.sh"
 
 #get configuration from recalbox.conf
 tftEnabled="$(${systemsetting} -command load -key system.secondminitft.enabled)"
