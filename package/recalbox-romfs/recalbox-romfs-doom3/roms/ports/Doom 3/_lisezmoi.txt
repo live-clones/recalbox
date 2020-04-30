@@ -1,0 +1,5 @@
+## RECALBOX - SYSTEM DOOM 3 ##
+
+Placez ici vos jeux DOOM 3.
+
+Les jeux DOOM 3 doivent avoir l'extension ".pk4"
