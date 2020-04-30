@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_OPENLARA_VERSION = 2c9e0a8ff49afcc6c1cd8c9e0ad8604312e79207
+LIBRETRO_OPENLARA_VERSION = c7fd002610c551cfbbfa4947ea9c3a2574fe51c5
 LIBRETRO_OPENLARA_SITE = $(call github,libretro,OpenLara,$(LIBRETRO_OPENLARA_VERSION))
 
 define LIBRETRO_OPENLARA_BUILD_CMDS
