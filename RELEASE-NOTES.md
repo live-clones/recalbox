@@ -30,6 +30,7 @@
 - New ports system with Mr. Boom (8-player Bomberman clone) ready to be played
 - CaveStory is now included and moved to ports
 - Prboom system has been renamed to Doom and moved to ports
+- Quake 1 (shareware) added to ports
 
 ### Improvements
 - Share partition is created in exfat on fresh install, which is easier to access from Windows computers
