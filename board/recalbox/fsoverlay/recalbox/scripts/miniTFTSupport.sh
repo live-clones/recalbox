@@ -73,7 +73,7 @@ if [[ "${imgIgnoreAspectEnabled}" == "1" ]] ; then
 else
     imgIgnoreAspect=""
 fi
-recallog "fbv options : ${imgStretch} ${imgEnlarge} ${imgIgnoreAspect}" "${imgAlpha}"
+recallog "fbv options : ${imgStretch} ${imgEnlarge} ${imgIgnoreAspect} ${imgAlpha}"
 
 #get Videos function and variables
 source "${functionFile}"
