@@ -82,6 +82,7 @@ namespace PlatformIds
     PALM_PDA,
     PANASONIC_3DO,
     PORT_START,      // Placeholder for first port
+    PORT_2048,
     PORT_BOOM3,
     PORT_CAVE_STORY,
     PORT_ECWOLF,
@@ -93,6 +94,7 @@ namespace PlatformIds
     PORT_VITAQUAKE3,
     PORT_VITAVOYAGER,
     PORT_XRICK,
+    PORT_SMW,
     PORT_STOP,       // Placeholder for last port
     SAMMY_ATOMISWAVE,
     SEGA_32X,

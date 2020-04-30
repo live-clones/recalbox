@@ -28,7 +28,7 @@ namespace PlatformIds
       { "wonderswan"      , PlatformId::BANDAI_WONDERSWAN         },
       { "wonderswancolor" , PlatformId::BANDAI_WONDERSWAN_COLOR   },
       { "colecovision"    , PlatformId::COLECOVISION              },
-      { "c64"             , PlatformId::COMMODORE_64              }, // commodore 64,
+      { "c64"             , PlatformId::COMMODORE_64              }, // Commodore 64,
       { "amiga"           , PlatformId::COMMODORE_AMIGA           },
       { "amigacd32"       , PlatformId::COMMODORE_CD32            },
       { "amigacdtv"       , PlatformId::COMMODORE_CDTV            },
@@ -52,27 +52,27 @@ namespace PlatformIds
       { "msxturbor"       , PlatformId::MICROSOFT_MSXTURBOR       },
       { "pc88"            , PlatformId::NEC_PC88                  },
       { "pc98"            , PlatformId::NEC_PC98                  },
-      { "pcengine"        , PlatformId::NEC_PCENGINE              }, // turbografx-16/pcengine
+      { "pcengine"        , PlatformId::NEC_PCENGINE              }, // Turbografx-16/PCEngine
       { "pcenginecd"      , PlatformId::NEC_PCENGINE_CD           },
       { "pcfx"            , PlatformId::NEC_PCFX                  },
       { "supergrafx"      , PlatformId::NEC_SUPERGRAFX            },
       { "neogeo"          , PlatformId::NEOGEO                    },
       { "neogeocd"        , PlatformId::NEOGEO_CD                 },
-      { "ngp"             , PlatformId::NEOGEO_POCKET             }, // neo geo pocket
-      { "ngpc"            , PlatformId::NEOGEO_POCKET_COLOR       }, // neo geo pocket color
+      { "ngp"             , PlatformId::NEOGEO_POCKET             }, // Neo Geo Pocket
+      { "ngpc"            , PlatformId::NEOGEO_POCKET_COLOR       }, // Neo geo Pocket Color
       { "n3ds"            , PlatformId::NINTENDO_3DS              }, // nintendo 3DS
       { "n64"             , PlatformId::NINTENDO_64               }, // Nintendo 64
-      { "nds"             , PlatformId::NINTENDO_DS               }, // nintendo DS
+      { "nds"             , PlatformId::NINTENDO_DS               }, // Nintendo DS
       { "fds"             , PlatformId::NINTENDO_FDS              }, // Nintendo Family Computer Disk System
       { "gw"              , PlatformId::NINTENDO_GAME_AND_WATCH   },
-      { "gb"              , PlatformId::NINTENDO_GAMEBOY          }, // game boy
-      { "gba"             , PlatformId::NINTENDO_GAMEBOY_ADVANCE  }, // game boy advance
-      { "gbc"             , PlatformId::NINTENDO_GAMEBOY_COLOR    }, // game boy color
-      { "gc"              , PlatformId::NINTENDO_GAMECUBE         }, // gamecube
-      { "nes"             , PlatformId::NINTENDO_NES              }, // nintendo entertainment system
+      { "gb"              , PlatformId::NINTENDO_GAMEBOY          }, // Game Boy
+      { "gba"             , PlatformId::NINTENDO_GAMEBOY_ADVANCE  }, // Game Boy Advance
+      { "gbc"             , PlatformId::NINTENDO_GAMEBOY_COLOR    }, // Game Boy Color
+      { "gc"              , PlatformId::NINTENDO_GAMECUBE         }, // Gamecube
+      { "nes"             , PlatformId::NINTENDO_NES              }, // Nintendo Entertainment System
       { "pokemini"        , PlatformId::NINTENDO_POKEMINI         },
       { "satellaview"     , PlatformId::NINTENDO_SATELLAVIEW      },
-      { "snes"            , PlatformId::NINTENDO_SNES             }, // super nintendo entertainment system
+      { "snes"            , PlatformId::NINTENDO_SNES             }, // Super Nintendo Entertainment System
       { "sufami"          , PlatformId::NINTENDO_SUFAMITURBO      },
       { "virtualboy"      , PlatformId::NINTENDO_VIRTUAL_BOY      },
       { "wii"             , PlatformId::NINTENDO_WII              },
@@ -80,27 +80,30 @@ namespace PlatformIds
       { "uzebox"          , PlatformId::OSH_UZEBOX                },
       { "palm"            , PlatformId::PALM_PDA                  },
       { "3do"             , PlatformId::PANASONIC_3DO             },
-      { "boom3"           , PlatformId::PORT_BOOM3                },
+      { "2048"            , PlatformId::PORT_2048                 },
       { "cavestory"       , PlatformId::PORT_CAVE_STORY           },
-      { "ecworlf"         , PlatformId::PORT_ECWOLF               },
+      { "doom"            , PlatformId::PORT_PRBOOM               },
+      { "doom3"           , PlatformId::PORT_BOOM3                },
+      { "wolfenstein3d"   , PlatformId::PORT_ECWOLF               },
       { "mrboom"          , PlatformId::PORT_MRBOOM               },
       { "openlara"        , PlatformId::PORT_OPENLARA             },
-      { "doom"            , PlatformId::PORT_PRBOOM               },
-      { "tyrquake"        , PlatformId::PORT_TYRQUAKE             },
-      { "vitaquake2"      , PlatformId::PORT_VITAQUAKE2           },
-      { "vitaquake3"      , PlatformId::PORT_VITAQUAKE3           },
-      { "vitavoyager"     , PlatformId::PORT_VITAVOYAGER          },
-      { "xrick      "     , PlatformId::PORT_XRICK                },
+      { "quake"           , PlatformId::PORT_TYRQUAKE             },
+      { "quake2"          , PlatformId::PORT_VITAQUAKE2           },
+      { "quake3"          , PlatformId::PORT_VITAQUAKE3           },
+      { "rickdangerous"   , PlatformId::PORT_XRICK                },
+      { "startrekvoyager" , PlatformId::PORT_VITAVOYAGER          },
+      { "supermariowar"   , PlatformId::PORT_SMW                  },
       { "atomiswave"      , PlatformId::SAMMY_ATOMISWAVE          },
       { "sega32x"         , PlatformId::SEGA_32X                  },
       { "segacd"          , PlatformId::SEGA_CD                   },
       { "dreamcast"       , PlatformId::SEGA_DREAMCAST            },
       { "gamegear"        , PlatformId::SEGA_GAME_GEAR            },
-      { "genesis"         , PlatformId::SEGA_GENESIS              }, // sega genesis
-      { "mastersystem"    , PlatformId::SEGA_MASTER_SYSTEM        }, // sega master system
-      { "megadrive"       , PlatformId::SEGA_MEGA_DRIVE           }, // sega megadrive
-      { "naomi"           , PlatformId::SEGA_NAOMI                }, // sega arcade
-      { "saturn"          , PlatformId::SEGA_SATURN               }, // sega saturn
+      { "genesis"         , PlatformId::SEGA_GENESIS              }, // Sega Genesis
+      { "mastersystem"    , PlatformId::SEGA_MASTER_SYSTEM        }, // Sega Master system
+      { "megadrive"       , PlatformId::SEGA_MEGA_DRIVE           }, // Sega Megadrive
+      { "naomi"           , PlatformId::SEGA_NAOMI                }, // Sega Arcade
+      { "naomigd"         , PlatformId::SEGA_NAOMI                }, // Sega Arcade
+      { "saturn"          , PlatformId::SEGA_SATURN               }, // Sega Saturn
       { "sg1000"          , PlatformId::SEGA_SG1000               }, // Sega SG1000
       { "x1"              , PlatformId::SHARP_X1                  },
       { "x68000"          , PlatformId::SHARP_X68000              },
