@@ -521,9 +521,9 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_PCSX_REARMED)$(BR2_PACKAGE_LIBRETRO_BEETLE_PSX)$(B
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-psx
 endif
 
-# System: quake1
+# System: quake
 ifneq ($(BR2_PACKAGE_LIBRETRO_TYRQUAKE),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-quake1
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-quake
 endif
 
 # System: quake2

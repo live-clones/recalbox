@@ -1,0 +1,4 @@
+Fichiers de bande son
+TyrQuake prend en charge la lecture de la bande originale du jeu de base et des CD des packs de missions officiels.
+
+Le CD audio doit être extrait dans des fichiers au format OGG et placé dans un sous-dossier nommé music du dossier approprié (id1, hipnotic ou rogue). Les pistes de CD extraites doivent être nommées trackXX.ogg, correspondant à l'index des pistes de CD d'origine pour chaque piste audio. Étant donné que la première piste du CD est dans tous les cas la piste de données, la première piste audio commencera toujours par la piste 02, qui devrait se refléter dans le nom de fichier des fichiers audio extraits.
