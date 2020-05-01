@@ -2,6 +2,18 @@
 #      Useful Functions           #
 ###################################
 
+#some useful video constants
+LogoFolder='/recalbox/share_init/system/tft_logos'
+#DefaultLogo='RBvideos/recalboxIntro.mp4'
+DefaultLogo='RBvideos/introRecalboxWinners.mp4'
+DefaultStartLogo='RBvideos/recalboxHologram.mp4'
+DefaultStopLogo='RBvideos/recalboxIntroExplode.mp4'
+DefaultImage='noimage.png'
+LogoFile=""
+Loop=false
+#defined but not actually used
+DefaultLogoLoop=false
+
 #change to your own videos by modifying each "LogoFile" variable.
 
 selectSystemVideo()

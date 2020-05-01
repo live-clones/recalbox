@@ -12,24 +12,13 @@ NAME="miniTFTSupport.sh"
 #some useful system constants
 fbDevice="/dev/fb1"
 FFMPEG="/usr/bin/ffmpeg"
+scriptPID="$(cat /var/run/miniTFT.pid)"
 systemsetting="recalbox_settings"
 tempoShort="25000"
 tempoLong="1000000"
 
-#file wich contains path to system videos (in /recalbox/share/system to be easily editable by user)
-functionFile="/recalbox/share/system/miniTFTVideosCfg.sh"
-
-#some useful video constants
-LogoFolder='/recalbox/share/system/tft_logos'
-#DefaultLogo='RBvideos/recalboxIntro.mp4'
-DefaultLogo='RBvideos/introRecalboxWinners.mp4'
-DefaultStartLogo='RBvideos/recalboxHologram.mp4'
-DefaultStopLogo='RBvideos/recalboxIntroExplode.mp4'
-DefaultImage='noimage.png'
-LogoFile=""
-Loop=false
-#defined but not actually used
-DefaultLogoLoop=false
+#file wich contains path to boot/shutdown/system videos (in /recalbox/share/system to be easily editable by user)
+functionFile="/recalbox/share/system/configs/minitftscreen/miniTFTVideosCfg.sh"
 
 #get configuration from recalbox.conf
 tftEnabled="$(${systemsetting} -command load -key system.secondminitft.enabled)"
@@ -53,6 +42,40 @@ case "${tftResolution}" in
 esac
 recallog "Full Resolution => ${tftFullResolution}"
 
+#get image processing option fot fbv
+imgStretchEnabled="$(${systemsetting} -command load -key system.secondminitft.imageStretchEnabled)"
+recallog "Reading system.secondminitft.imageStretchEnabled => ${imgStretchEnabled}"
+imgEnlargeEnabled="$(${systemsetting} -command load -key system.secondminitft.imageEnlargeEnabled)"
+recallog "Reading system.secondminitft.imageEnlargeEnabled => ${imgEnlargeEnabled}"
+imgAlphaEnabled="$(${systemsetting} -command load -key system.secondminitft.imageAlphaEnabled)"
+recallog "Reading  system.secondminitft.imageAlphaEnabled => ${imgAlphaEnabled}"
+imgIgnoreAspectEnabled="$(${systemsetting} -command load -key system.secondminitft.imageIgnoreAspectEnabled)"
+recallog "Reading system.secondminitft.imageIgnoreAspectEnabled => ${imgIgnoreAspectEnabled}"
+
+
+if [[ "${imgStretchEnabled}" == "1" ]] ; then
+    imgStretch="--stretch"
+else
+    imgStretch=""
+fi
+if [[ "${imgEnlargeEnabled}" == "1" ]] ; then
+    imgEnlarge="--enlarge"
+else
+    imgEnlarge=""
+fi
+if [[ "${imgAlphaEnabled}" == "1" ]] ; then
+    imgAlpha="--alpha"
+else
+    imgAlpha=""
+fi
+if [[ "${imgIgnoreAspectEnabled}" == "1" ]] ; then
+    imgIgnoreAspect="--ignore-aspect"
+else
+    imgIgnoreAspect=""
+fi
+recallog "fbv options : ${imgStretch} ${imgEnlarge} ${imgIgnoreAspect} ${imgAlpha}"
+
+#get Videos function and variables
 source "${functionFile}"
 
 do_start() {
@@ -105,9 +128,7 @@ do_start() {
         #display start video
         dd if=/dev/zero of="${fbDevice}" &> /dev/null   #clear before draw
         #to save time intro video is backgrounded and killable with any action
-        killall ffmpeg &> /dev/null
-        #echo "${FFMPEG}" -re -i "${LogoFolder}"/"${tftResolution}"/"${DefaultStartLogo}" -pix_fmt rgb565le -f fbdev "${fbDevice}" &> /dev/null
-        
+        pkill -P "${scriptPID}" &> /dev/null
         "${FFMPEG}" -re -i "${LogoFolder}"/"${tftResolution}"/"${DefaultStartLogo}" -pix_fmt rgb565le -f fbdev "${fbDevice}" &> /dev/null
         
         #initialize
@@ -136,7 +157,6 @@ do_start() {
                 # action in TFTAction : systembrowsing, gamelistbrowsing, rungame, rundemo, endgame, enddemo
                 # Used variables TFTGameImage, TFTVideoPath, TFTGame, TFTESSystem, TFTESState
                 case "${TFTAction}" in
-                #case "${eventES}" in
                     sleep)
                         case "${tftType}" in
                             ogst)
@@ -156,9 +176,7 @@ do_start() {
                         esac    
                         ;;
                     wakeup)
-                        if [[ "$(pidof ffmpeg)" ]]; then
-                            killall ffmpeg &> /dev/null
-                        fi
+                        pkill -P "${scriptPID}" &> /dev/null
                         #delete screen on wakeup
                         dd if=/dev/zero of="${fbDevice}" &> /dev/null   #clear before draw
                         case "${tftType}" in
@@ -185,9 +203,8 @@ do_start() {
                         selectSystemVideo;
                         previousTFTGameBrowse=""
                         previousTFTGameRun=""
-                        if [[ "$(pidof ffmpeg)" ]]; then
-                            #kill -9 "$(pidof ffmpeg)"
-                            killall ffmpeg &> /dev/null
+                        if [[ "$(pgrep -P ${scriptPID})" ]]; then
+                            pkill -P "${scriptPID}" &> /dev/null
                             dd if=/dev/zero of="${fbDevice}" &> /dev/null   #clear before draw
                             usleep "${tempoShort}"
                         fi
@@ -202,9 +219,8 @@ do_start() {
                         if [[ "${TFTGame}" != "${previousTFTGameBrowse}" ]]; then
                             previousTFTGameBrowse="${TFTGame}"
                             previousTFTESSystem=""
-                            if [[ "$(pidof ffmpeg)" ]] ; then
-                                #kill -9 "$(pidof ffmpeg)" &> /dev/null
-                                killall ffmpeg &> /dev/null
+							if [[ "$(pgrep -P ${scriptPID})" ]]; then
+								pkill -P "${scriptPID}" &> /dev/null
                                 dd if=/dev/zero of="${fbDevice}" &> /dev/null   #clear before draw
                                 usleep "${tempoShort}"
                             fi
@@ -214,10 +230,10 @@ do_start() {
                                 TFTGameImage="${LogoFolder}"/"${tftResolution}"/"${DefaultImage}"
                             fi
                             if [[ -z "${TFTVideoPath}" ]]; then 
-                                FRAMEBUFFER="${fbDevice}" fbv --stretch --enlarge --ignore-aspect --delay 1 "${TFTGameImage}" &> /dev/null &
+								FRAMEBUFFER="${fbDevice}" fbv "${imgStretch}" "${imgIgnoreAspect}" "${imgEnlarge}" "${imgAlpha}" --delay 1 "${TFTGameImage}" &> /dev/null &
                             else
-                                FRAMEBUFFER="${fbDevice}" fbv --stretch --enlarge --ignore-aspect --delay 1 "${TFTGameImage}" &> /dev/null &
-                                usleep "${tempoLong}"
+								FRAMEBUFFER="${fbDevice}" fbv "${imgStretch}" "${imgIgnoreAspect}" "${imgEnlarge}" "${imgAlpha}" --delay 1 "${TFTGameImage}" &> /dev/null &
+                                usleep "${tempoLong}" #display image for a bit of time 
                                 "${FFMPEG}" -re -stream_loop -1 -i "${TFTVideoPath}" -s "${tftFullResolution}" -c:v rawvideo -pix_fmt rgb565le -f fbdev "${fbDevice}" &> /dev/null &
                             fi
                         fi
@@ -234,8 +250,8 @@ do_start() {
                         if [[ "${TFTGame}" != "${previousTFTGameRun}" ]]; then
                             previousTFTGameRun="${TFTGame}"
                             previousTFTESSystem=""
-                            if [[ "$(pidof ffmpeg)" ]] ; then
-                                killall ffmpeg &> /dev/null
+	                        if [[ "$(pgrep -P ${scriptPID})" ]]; then
+	                            pkill -P "${scriptPID}" &> /dev/null
                                 dd if=/dev/zero of="${fbDevice}" &> /dev/null   #clear before draw
                                 usleep "${tempoShort}"
                             fi
@@ -247,7 +263,7 @@ do_start() {
                             "${FFMPEG}" -re -i "${LogoFolder}"/"${tftResolution}"/"${LogoFile}" -c:v rawvideo -pix_fmt rgb565le -f fbdev "${fbDevice}" &> /dev/null
                             dd if=/dev/zero of="${fbDevice}" &> /dev/null   #clear before draw
                             usleep "${tempoShort}"
-                            FRAMEBUFFER="${fbDevice}" fbv --stretch --enlarge --ignore-aspect --delay 1 "${TFTGameImage}" &> /dev/null
+                            FRAMEBUFFER="${fbDevice}" fbv "${imgStretch}" "${imgIgnoreAspect}" "${imgEnlarge}" "${imgAlpha}" --delay 1 "${TFTGameImage}" &> /dev/null
                         fi
                         ;;
                 esac                
