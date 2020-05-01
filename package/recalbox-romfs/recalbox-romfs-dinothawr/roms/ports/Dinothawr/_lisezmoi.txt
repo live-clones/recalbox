@@ -1,0 +1,5 @@
+## RECALBOX - SYSTEM DINOTHAWR ##
+
+Ce système est le premier jeu de libretro autonome.
+Les fichiers du jeu ont été téléchargés à partir de
+http://themaister.net/dinothawr/dinothawr-data.zip

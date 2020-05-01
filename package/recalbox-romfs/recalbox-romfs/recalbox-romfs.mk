@@ -279,6 +279,11 @@ ifeq ($(BR2_PACKAGE_HYPSEUS),y)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-daphne
 endif
 
+# System: dinothawr
+ifneq ($(BR2_PACKAGE_LIBRETRO_DINOTHAWR),)
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-dinothawr
+endif
+
 # System: doom
 ifneq ($(BR2_PACKAGE_LIBRETRO_PRBOOM),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-doom
