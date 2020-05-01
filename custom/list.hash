@@ -14,6 +14,8 @@ fc5eeda08e636b90db05aa703cd3a783  package/e2fsprogs/e2fsprogs.mk
 9763f933b28916e8506987ee007ac6a6  package/ffmpeg/Config.in
 5a4534ba8235a617459fcb9f5fdabf4f  package/ffmpeg/ffmpeg.hash
 d2f9d3874553506921d9f347f6752203  package/ffmpeg/ffmpeg.mk
+dd1f6bdbde586c692b0a29a7feed14f3  package/genimage/genimage.hash
+d428f583c595f5eb362c299b01d1eb4f  package/genimage/genimage.mk
 6b31f620c36bb2d6c54cfaf71cc5a086  package/initscripts/init.d/rcK
 76f02a748149f1aa945aa418ea65b2bc  package/initscripts/init.d/rcS
 051b3808d67729567e2aa0255df2ef8d  package/libcec/libcec.mk
