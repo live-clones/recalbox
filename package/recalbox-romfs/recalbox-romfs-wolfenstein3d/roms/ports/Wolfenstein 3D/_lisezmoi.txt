@@ -1,0 +1,10 @@
+## RECALBOX - SYSTEM WOLFENSTEIN3D ##
+
+Placez ici vos jeux WOLFENSTEIN 3D.
+
+Les jeux Wolfenstein 3D doivent avoir l'extension ".wl6/.n3d/.sod/.sdm/.wl1/.pk3/.exe"
+
+ECWolf peut exécuter le contenu suivant:
+Wolfenstein 3D
+Spear of Destiny
+Super 3D Noah’s Ark
