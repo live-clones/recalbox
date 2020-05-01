@@ -86,7 +86,7 @@ namespace PlatformIds
       { "doom3"           , PlatformId::PORT_BOOM3                },
       { "wolfenstein3d"   , PlatformId::PORT_ECWOLF               },
       { "mrboom"          , PlatformId::PORT_MRBOOM               },
-      { "openlara"        , PlatformId::PORT_OPENLARA             },
+      { "tombraider"      , PlatformId::PORT_OPENLARA             },
       { "quake"           , PlatformId::PORT_TYRQUAKE             },
       { "quake2"          , PlatformId::PORT_VITAQUAKE2           },
       { "quake3"          , PlatformId::PORT_VITAQUAKE3           },
