@@ -16,7 +16,7 @@ define LIBRETRO_2048_BUILD_CMDS
 endef
 
 define LIBRETRO_2048_INSTALL_TARGET_CMDS
-	$(INSTALL) -D $(@D)/2048_libretro_unix.so \
+	$(INSTALL) -D $(@D)/2048_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/2048_libretro.so
 endef
 
