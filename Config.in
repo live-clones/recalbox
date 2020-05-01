@@ -88,9 +88,10 @@ menu "Emulators"
 
 if BR2_PACKAGE_RETROARCH
 menu "Libretro Cores"
+        source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-81/Config.in"
+        source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-2048/Config.in"
         source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-atari800/Config.in"
         source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-freeintv/Config.in"
-        source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-81/Config.in"
         source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-beetle-lynx/Config.in"
         source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-beetle-ngp/Config.in"
         source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-beetle-pce-fast/Config.in"

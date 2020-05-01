@@ -174,6 +174,11 @@ define RECALBOX_ROMFS_INSTALL_TARGET_CMDS
 endef
 
 # Add necessary dependencies
+# System: 2048
+ifneq ($(BR2_PACKAGE_LIBRETRO_2048),)
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-2048
+endif
+
 # System: 3do
 ifneq ($(BR2_PACKAGE_LIBRETRO_OPERA),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-3do
