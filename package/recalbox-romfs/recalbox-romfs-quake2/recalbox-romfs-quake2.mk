@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --system quake2 --extension '.pak .zip .7z' --fullname 'Quake 2' --platform quake --theme quake 1:libretro:vitaquake2:BR2_PACKAGE_LIBRETRO_VITAQUAKE2
+# ./scripts/linux/empack.py --force --port --system quake2 --extension '.pak .zip .7z' --fullname 'Quake 2' --platform quake2 --theme quake 1:libretro:vitaquake2:BR2_PACKAGE_LIBRETRO_VITAQUAKE2
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_QUAKE2_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_QUAKE2 = $(RECALBOX_ROMFS_QUAKE2_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_VITAQUAKE2),)
 define CONFIGURE_MAIN_QUAKE2_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_QUAKE2),Quake 2,$(SYSTEM_NAME_QUAKE2),.pak .zip .7z,quake,quake)
+	$(call RECALBOX_ROMFS_CALL_ADD_PORT,$(SYSTEM_XML_QUAKE2),Quake 2,$(SYSTEM_NAME_QUAKE2),.pak .zip .7z,quake2,quake)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_VITAQUAKE2),)
@@ -44,7 +44,7 @@ endif
 
 
 define CONFIGURE_MAIN_QUAKE2_END
-	$(call RECALBOX_ROMFS_CALL_END_SYSTEM,$(SYSTEM_XML_QUAKE2),$(SOURCE_ROMDIR_QUAKE2),$(@D))
+	$(call RECALBOX_ROMFS_CALL_END_PORT,$(SYSTEM_XML_QUAKE2),$(SOURCE_ROMDIR_QUAKE2),$(@D),quake2)
 endef
 endif
 

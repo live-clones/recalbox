@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --port --system doom3 --extension '.pk4 .zip .7z' --fullname 'Doom 3' --platform doom --theme doom 1:libretro:boom3:BR2_PACKAGE_LIBRETRO_BOOM3
+# ./scripts/linux/empack.py --force --port --system doom3 --extension '.pk4 .zip .7z' --fullname 'Doom 3' --platform doom3 --theme doom 1:libretro:boom3:BR2_PACKAGE_LIBRETRO_BOOM3
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_DOOM3_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_DOOM3 = $(RECALBOX_ROMFS_DOOM3_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_BOOM3),)
 define CONFIGURE_MAIN_DOOM3_START
-	$(call RECALBOX_ROMFS_CALL_ADD_PORT,$(SYSTEM_XML_DOOM3),Doom 3,$(SYSTEM_NAME_DOOM3),.pk4 .zip .7z,doom,doom)
+	$(call RECALBOX_ROMFS_CALL_ADD_PORT,$(SYSTEM_XML_DOOM3),Doom 3,$(SYSTEM_NAME_DOOM3),.pk4 .zip .7z,doom3,doom)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_BOOM3),)

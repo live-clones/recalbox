@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --port --system rickdangerous --extension '.zip .7z' --fullname 'Rick Dangerous' --platform xrick --theme xrick 1:libretro:xrick:BR2_PACKAGE_LIBRETRO_XRICK
+# ./scripts/linux/empack.py --force --port --system rickdangerous --extension '.zip .7z' --fullname 'Rick Dangerous' --platform rickdangerous --theme xrick 1:libretro:xrick:BR2_PACKAGE_LIBRETRO_XRICK
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_RICKDANGEROUS_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_RICKDANGEROUS = $(RECALBOX_ROMFS_RICKDANGEROUS_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_XRICK),)
 define CONFIGURE_MAIN_RICKDANGEROUS_START
-	$(call RECALBOX_ROMFS_CALL_ADD_PORT,$(SYSTEM_XML_RICKDANGEROUS),Rick Dangerous,$(SYSTEM_NAME_RICKDANGEROUS),.zip .7z,xrick,xrick)
+	$(call RECALBOX_ROMFS_CALL_ADD_PORT,$(SYSTEM_XML_RICKDANGEROUS),Rick Dangerous,$(SYSTEM_NAME_RICKDANGEROUS),.zip .7z,rickdangerous,xrick)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_XRICK),)
