@@ -537,6 +537,11 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_VITAQUAKE3),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-quake3
 endif
 
+# System: rickdangerous
+ifneq ($(BR2_PACKAGE_LIBRETRO_XRICK),)
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-rickdangerous
+endif
+
 # System: samcoupe
 ifeq ($(BR2_PACKAGE_SIMCOUPE),y)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-samcoupe
