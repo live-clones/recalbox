@@ -81,21 +81,6 @@ namespace PlatformIds
     OSH_UZEBOX,
     PALM_PDA,
     PANASONIC_3DO,
-    PORT_START,      // Placeholder for first port
-    PORT_2048,
-    PORT_BOOM3,
-    PORT_CAVE_STORY,
-    PORT_ECWOLF,
-    PORT_MRBOOM,
-    PORT_OPENLARA,
-    PORT_PRBOOM,
-    PORT_TYRQUAKE,
-    PORT_VITAQUAKE2,
-    PORT_VITAQUAKE3,
-    PORT_VITAVOYAGER,
-    PORT_XRICK,
-    PORT_SMW,
-    PORT_STOP,       // Placeholder for last port
     SAMMY_ATOMISWAVE,
     SEGA_32X,
     SEGA_CD,
@@ -121,6 +106,26 @@ namespace PlatformIds
     STREAM_MOONLIGHT,
     TANDERINE_ORICATMOS,
     THOMSON_MOTO,
+    PORT_START,      // Placeholder for first port
+    PORT_2048,
+    PORT_BOOM3,
+    PORT_CAVE_STORY,
+    PORT_CRAFT,
+    PORT_DINOTHAWR,
+    PORT_ECWOLF,
+    PORT_MRBOOM,
+    PORT_OPENLARA,
+    PORT_CANNONBALL, 
+    PORT_PRBOOM,
+    PORT_REMINISCENCE,
+    PORT_TYRQUAKE,
+    PORT_VITAQUAKE2,
+    PORT_VITAQUAKE3,
+    PORT_VITAVOYAGER,
+    PORT_XRICK,
+    PORT_SMW,
+    PORT_THEPOWDERTOY,
+    PORT_STOP,       // Placeholder for last port
 
     PLATFORM_IGNORE, // do not allow scraping for this system
     PLATFORM_COUNT
