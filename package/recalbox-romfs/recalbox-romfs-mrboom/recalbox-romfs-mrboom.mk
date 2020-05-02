@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --port --system mrboom --extension '.mrboom' --fullname 'Mr. Boom' --platform mrboom --theme mrboom 1:libretro:mrboom:BR2_PACKAGE_LIBRETRO_MRBOOM
+# ./scripts/linux/empack.py --force --port --system mrboom --extension '.game' --fullname 'Mr. Boom' --platform mrboom --theme mrboom 1:libretro:mrboom:BR2_PACKAGE_LIBRETRO_MRBOOM
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_MRBOOM_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_MRBOOM = $(RECALBOX_ROMFS_MRBOOM_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_MRBOOM),)
 define CONFIGURE_MAIN_MRBOOM_START
-	$(call RECALBOX_ROMFS_CALL_ADD_PORT,$(SYSTEM_XML_MRBOOM),Mr. Boom,$(SYSTEM_NAME_MRBOOM),.mrboom,mrboom,mrboom)
+	$(call RECALBOX_ROMFS_CALL_ADD_PORT,$(SYSTEM_XML_MRBOOM),Mr. Boom,$(SYSTEM_NAME_MRBOOM),.game,mrboom,mrboom)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_MRBOOM),)

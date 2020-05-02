@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <gameList>
  <game>
-  <path>./mrboom.mrboom</path>
+  <path>./mrboom.game</path>
   <name>Mr. Boom</name>
   <desc>Bomberman clone. Gameplay is exactly the same and even the graphic style seems very similar to Bomberman.</desc>
   <rating>0.8</rating>
