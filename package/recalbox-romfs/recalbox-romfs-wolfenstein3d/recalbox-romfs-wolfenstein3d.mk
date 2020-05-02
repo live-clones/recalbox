@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --port --system wolfenstein3d --extension '.wl6 .n3d .sod .sdm .wl1 .pk3 .exe .zip .7z' --fullname 'Wolfenstein 3D' --platform wolfenstein3d --theme wolfenstein3d 1:libretro:ecwolf:BR2_PACKAGE_LIBRETRO_ECWOLF
+# ./scripts/linux/empack.py --force --port --system wolfenstein3d --extension '.exe .zip .7z' --fullname 'Wolfenstein 3D' --platform wolfenstein3d --theme wolfenstein3d 1:libretro:ecwolf:BR2_PACKAGE_LIBRETRO_ECWOLF
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_WOLFENSTEIN3D_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_WOLFENSTEIN3D = $(RECALBOX_ROMFS_WOLFENSTEIN3D_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_ECWOLF),)
 define CONFIGURE_MAIN_WOLFENSTEIN3D_START
-	$(call RECALBOX_ROMFS_CALL_ADD_PORT,$(SYSTEM_XML_WOLFENSTEIN3D),Wolfenstein 3D,$(SYSTEM_NAME_WOLFENSTEIN3D),.wl6 .n3d .sod .sdm .wl1 .pk3 .exe .zip .7z,wolfenstein3d,wolfenstein3d)
+	$(call RECALBOX_ROMFS_CALL_ADD_PORT,$(SYSTEM_XML_WOLFENSTEIN3D),Wolfenstein 3D,$(SYSTEM_NAME_WOLFENSTEIN3D),.exe .zip .7z,wolfenstein3d,wolfenstein3d)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_ECWOLF),)
