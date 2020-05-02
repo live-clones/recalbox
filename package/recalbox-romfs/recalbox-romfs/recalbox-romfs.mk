@@ -322,6 +322,11 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_FCEUMM)$(BR2_PACKAGE_LIBRETRO_NESTOPIA),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-fds
 endif
 
+# System: flashback
+ifneq ($(BR2_PACKAGE_LIBRETRO_REMINISCENCE),)
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-flashback
+endif
+
 # System: gamecube
 ifeq ($(BR2_PACKAGE_DOLPHIN_EMU),y)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-gamecube
