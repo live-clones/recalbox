@@ -1,4 +1,4 @@
-## RECALBOX - SYSTEM DOOM ##
+## RECALBOX - SYSTEM FLASHBACK ##
 
 Put your Flashback games in this directory.
 
@@ -10,3 +10,8 @@ Content that can be loaded by the REminiscence core have the following file exte
 .aba (DOS (Demo) Map Data)
 .seq (DOS CD Map Data)
 //.lev (Amiga Map Data)
+
+Fichiers de données:
+- Fichiers de données de jeu PC
+- Fichiers Amiga .mod (pour la musique)
+- VOICE.VCE pour le dialogue dans le jeu (facultatif)
