@@ -2,7 +2,7 @@
 
 Placez ici vos jeux WOLFENSTEIN 3D.
 
-Les jeux Wolfenstein 3D doivent avoir l'extension ".exe"
+Les jeux Wolfenstein 3D doivent avoir l'extension ".pk3/.exe"
 
 ECWolf peut exécuter le contenu suivant:
 Wolfenstein 3D
