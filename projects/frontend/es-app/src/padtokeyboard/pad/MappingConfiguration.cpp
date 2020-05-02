@@ -9,7 +9,6 @@
 #include <utils/Log.h>
 #include <cstring>
 #include "MappingConfiguration.h"
-#include "../keyboard/VirtualKeyboard.h"
 
 #define __STRL(x) x, sizeof(x)-1
 
@@ -56,22 +55,29 @@ void MappingConfiguration::Load(const Path& path, bool folder)
     int end = (int)content.find('\n', start);
     if (end < 0) end = content.length();
     int equal = (int)content.find('=', start);
-    if (equal >= 0 && equal < end)
+    if (equal > start && equal < end)
     {
       // Extract and trim key/values
-      std::string key = Strings::ToLowerASCII(Strings::Trim(content.substr(start, equal - start), " \t\r\n"));
-      std::string value = Strings::ToLowerASCII(Strings::Trim(content.substr(equal + 1, end - (equal + 1)), " \t\r\n"));
-      if (key.length() > 0)
+      std::string key = Strings::Trim(content.substr(start, equal - start), " \t\r\n");
+      std::string value = Strings::Trim(content.substr(equal + 1, end - (equal + 1)), " \t\r\n");
+      // Extract comment if any
+      std::string comment;
+      int commentPos = value.find(";;");
+      if (commentPos != (int)std::string::npos)
       {
-        if (key[0] != '#' && key[0] != ';')
-          AssignMapping(key, value);
+        comment = Strings::Trim(value.substr(commentPos + 2), " \t\r\n");
+        value = Strings::Trim(value.erase(commentPos, UINT32_MAX), " \t\r\n");
       }
+      // Store mapping
+      if (key.length() > 0)
+        if (key[0] != '#' && key[0] != ';')
+          AssignMapping(Strings::ToLowerASCII(key), Strings::ToLowerASCII(value), comment);
     }
     start = end + 1;
   }
 }
 
-void MappingConfiguration::AssignMapping(const std::string& key, const std::string& value)
+void MappingConfiguration::AssignMapping(const std::string& key, const std::string& value, const std::string& comment)
 {
   PadItems padItem = PadItems::Invalid;
   int padNum = 0;
@@ -80,7 +86,11 @@ void MappingConfiguration::AssignMapping(const std::string& key, const std::stri
   if (ParsePadItems(key, padNum, padItem))
     if (ParseKeyCode(value, keyCode))
       if (padNum < Input::sMaxInputDevices)
-        mMapping[padNum].PadItemToKeyCodes[(int)padItem] = keyCode;
+      {
+        mMapping[padNum].PadItemToKeyCodes[(int) padItem] = keyCode;
+        if (!comment.empty())
+          mMapping[padNum].PadItemToKeyDoc[(int) padItem] = comment;
+      }
 }
 
 VirtualKeyboard::Event MappingConfiguration::Translate(Pad::Event& event) const
@@ -270,6 +280,22 @@ bool MappingConfiguration::ParsePadItems(const std::string& value, int& padNum, 
 
   LOG(LogWarning) << "Unknown pad item: " << value;
   return false;
+}
+
+const MappingConfiguration::Hints& MappingConfiguration::HintList() const
+{
+  static Hints result;
+  result.clear();
+
+  for(int device = 0; device < Input::sMaxInputDevices; ++device )
+  {
+    const Mapping& mapping = mMapping[device];
+    for (int index = 0; index < (int) PadItems::__Count; ++index)
+      if (mapping.PadItemToKeyCodes[index] != 0 && !mapping.PadItemToKeyDoc[index].empty())
+        result.push_back({{ device, (PadItems)index },&mapping.PadItemToKeyDoc[index] });
+  }
+
+  return result;
 }
 
 
