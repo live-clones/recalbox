@@ -196,6 +196,8 @@ class ScreenScraperEngine
     bool mWantManual;
     //! Wheel
     bool mWantMaps;
+    //! Pad 2 keyboard
+    bool mWantP2K;
 
     //! Live stats: Total
     int mTotal;
@@ -394,6 +396,9 @@ class ScreenScraperEngine
 
     //! Check if maps are required
     bool GetWantMaps() const override { return mWantMaps; }
+
+    //! Check if p2k are required
+    bool GetWantP2K() const override { return mWantP2K; }
 
     /*
      * ISynchronousEvent implementation

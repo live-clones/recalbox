@@ -1978,3 +1978,12 @@ msgstr ""
 
 msgid "%i missing hashes have been calculated!"
 msgstr ""
+
+msgid "DOWNLOAD GAME MANUALS"
+msgstr ""
+
+msgid "DOWNLOAD GAME MAPS"
+msgstr ""
+
+msgid "INSTALL PAD-2-KEYBOARD CONFIGURATIONS"
+msgstr ""

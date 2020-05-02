@@ -174,6 +174,10 @@ void ScreenScraperApis::DeserializeGameInformation(const std::string& jsonstring
           game.mGenreId = ExtractNormalizedGenre(jeu["genres"]);
           game.mAdult = ExtractAdultState(jeu["genres"]);
         }
+        if (jeu.HasMember("sp2kcfg"))
+        {
+          game.mP2k = jeu["sp2kcfg"].GetString();
+        }
         if (jeu.HasMember("note"))
         {
           int rating = 0;

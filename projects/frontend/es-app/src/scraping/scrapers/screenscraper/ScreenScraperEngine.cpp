@@ -7,6 +7,7 @@
 #include <utils/hash/Md5.h>
 #include <utils/Zip.h>
 #include <utils/locale/LocaleHelper.h>
+#include <utils/Files.h>
 #include "ScreenScraperEngine.h"
 
 /*!
@@ -132,7 +133,6 @@ static const HashMap<PlatformIds::PlatformId, int>& GetPlatformIDs()
   return screenscraperPlatformidMap;
 }
 
-
 ScreenScraperEngine::ScreenScraperEngine()
   : mRunner(this, "Scraper-ssfr", false),
     mEngines
@@ -152,6 +152,7 @@ ScreenScraperEngine::ScreenScraperEngine()
     mWantWheel(false),
     mWantManual(false),
     mWantMaps(false),
+    mWantP2K(false),
     mTotal(0),
     mCount(0),
     mStatScraped(0),
@@ -225,6 +226,7 @@ void ScreenScraperEngine::Initialize()
   mWantWheel   = RecalboxConf::Instance().AsBool("scraper.screenscraper.wheel", false);
   mWantManual  = RecalboxConf::Instance().AsBool("scraper.screenscraper.manual", false);
   mWantMaps    = RecalboxConf::Instance().AsBool("scraper.screenscraper.maps", false);
+  mWantP2K     = RecalboxConf::Instance().AsBool("scraper.screenscraper.p2k", false);
 }
 
 bool ScreenScraperEngine::RunOn(ScrappingMethod method, FileData& singleGame, INotifyScrapeResult* notifyTarget,
@@ -603,25 +605,30 @@ bool ScreenScraperEngine::Engine::NeedScrapping(ScrappingMethod method, FileData
       if (mConfiguration.GetWantMarquee())
       {
         Path marqueePath = rootMediaPath / "marquees";
-        if ((!(rootMediaPath / (gameFile + ".jpg")).Exists()) &&
-            (!(rootMediaPath / (gameFile + ".png")).Exists())) return true;
+        if ((!(marqueePath / (gameFile + ".jpg")).Exists()) &&
+            (!(marqueePath / (gameFile + ".png")).Exists())) return true;
       }
       if (mConfiguration.GetWantWheel())
       {
-        Path marqueePath = rootMediaPath / "wheels";
-        if ((!(rootMediaPath / (gameFile + ".jpg")).Exists()) &&
-            (!(rootMediaPath / (gameFile + ".png")).Exists())) return true;
+        Path wheelPath = rootMediaPath / "wheels";
+        if ((!(wheelPath / (gameFile + ".jpg")).Exists()) &&
+            (!(wheelPath / (gameFile + ".png")).Exists())) return true;
       }
       if (mConfiguration.GetWantManual())
       {
-        Path marqueePath = rootMediaPath / "manuals";
-        if (!(rootMediaPath / (gameFile + ".pdf")).Exists()) return true;
+        Path manuelPath = rootMediaPath / "manuals";
+        if (!(manuelPath / (gameFile + ".pdf")).Exists()) return true;
       }
       if (mConfiguration.GetWantMaps())
       {
-        Path marqueePath = rootMediaPath / "maps";
-        if ((!(rootMediaPath / (gameFile + ".jpg")).Exists()) &&
-            (!(rootMediaPath / (gameFile + ".png")).Exists())) return true;
+        Path mapPath = rootMediaPath / "maps";
+        if ((!(mapPath / (gameFile + ".jpg")).Exists()) &&
+            (!(mapPath / (gameFile + ".png")).Exists())) return true;
+      }
+      if (mConfiguration.GetWantP2K())
+      {
+        Path p2kPath = game.getPath().ChangeExtension(game.getPath().Extension() + ".p2k.cfg");
+        if (!p2kPath.Exists()) return true;
       }
       // TODO: Add more media checks here
       return false;
@@ -703,6 +710,17 @@ ScreenScraperEngine::Engine::StoreTextData(ScrappingMethod method, const ScreenS
   {
     game.Metadata().SetRomCrc32AsString(sourceData.mCrc);
     mTextInfo++;
+  }
+
+  // Store P2k file
+  if (!sourceData.mP2k.empty())
+  {
+    Path p2kPath = game.getPath().ChangeExtension(game.getPath().Extension() + ".p2k.cfg");
+    if (!p2kPath.Exists() || method != ScrappingMethod::IncompleteKeep)
+    {
+      Files::SaveFile(p2kPath, sourceData.mP2k);
+      mTextInfo++;
+    }
   }
 }
 

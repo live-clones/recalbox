@@ -2222,3 +2222,15 @@ msgstr "Pas de hash manquant!"
 #:
 msgid "%i missing hashes have been calculated!"
 msgstr "%i hash manquants ont été calculés!"
+
+#:
+msgid "DOWNLOAD GAME MANUALS"
+msgstr "TÉLÉCHARGER LES MANUELS"
+
+#:
+msgid "DOWNLOAD GAME MAPS"
+msgstr "TÉLÉCHARGER LES CARTES"
+
+#:
+msgid "INSTALL PAD-2-KEYBOARD CONFIGURATIONS"
+msgstr "INSTALLER LES CONFIGURATIONS PAD VERS CLAVIER"

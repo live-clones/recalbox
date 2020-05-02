@@ -120,11 +120,15 @@ GuiScraperOptions::GuiScraperOptions(Window& window, SystemManager& systemManage
 
       bool manuals = RecalboxConf::Instance().AsBool("scraper.screenscraper.manuals", false);
       mManual = std::make_shared<SwitchComponent>(mWindow, manuals);
-      mMenu.addWithLabel(mManual, _("FETCH GAME MANUALS"));
+      mMenu.addWithLabel(mManual, _("DOWNLOAD GAME MANUALS"));
 
       bool maps = RecalboxConf::Instance().AsBool("scraper.screenscraper.maps", false);
       mMaps = std::make_shared<SwitchComponent>(mWindow, maps);
-      mMenu.addWithLabel(mMaps, _("FETCH GAME MAPS"));
+      mMenu.addWithLabel(mMaps, _("DOWNLOAD GAME MAPS"));
+
+      bool p2k = RecalboxConf::Instance().AsBool("scraper.screenscraper.p2k", false);
+      mP2k = std::make_shared<SwitchComponent>(mWindow, p2k);
+      mMenu.addWithLabel(mP2k, _("INSTALL PAD-2-KEYBOARD CONFIGURATIONS"));
 
       break;
     }
@@ -182,6 +186,7 @@ void GuiScraperOptions::start()
       RecalboxConf::Instance().SetString("scraper.screenscraper.language", mLanguage->getSelected());
       RecalboxConf::Instance().SetBool("scraper.screenscraper.manual", mManual->getState());
       RecalboxConf::Instance().SetBool("scraper.screenscraper.maps", mMaps->getState());
+      RecalboxConf::Instance().SetBool("scraper.screenscraper.p2k", mP2k->getState());
       RecalboxConf::Instance().Save();
       break;
     }

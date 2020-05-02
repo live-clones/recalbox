@@ -63,6 +63,8 @@ class ScreenScraperApis
         virtual bool GetWantManual() const = 0;
         //! Check if wheel are required
         virtual bool GetWantMaps() const = 0;
+        //! Check if p2k are required
+        virtual bool GetWantP2K() const = 0;
     };
 
     //! User object (reduced to Recalbox needs)
@@ -96,6 +98,8 @@ class ScreenScraperApis
       std::string mRegion;
       //! Rom region
       std::string mCrc;
+      //! Pad2Keyboard
+      std::string mP2k;
       //! Editor
       DateTime mReleaseDate;
       //! Rating
