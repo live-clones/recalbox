@@ -174,6 +174,11 @@ define RECALBOX_ROMFS_INSTALL_TARGET_CMDS
 endef
 
 # Add necessary dependencies
+# System: 2048
+ifneq ($(BR2_PACKAGE_LIBRETRO_2048),)
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-2048
+endif
+
 # System: 3do
 ifneq ($(BR2_PACKAGE_LIBRETRO_OPERA),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-3do
@@ -274,6 +279,11 @@ ifeq ($(BR2_PACKAGE_HYPSEUS),y)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-daphne
 endif
 
+# System: dinothawr
+ifneq ($(BR2_PACKAGE_LIBRETRO_DINOTHAWR),)
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-dinothawr
+endif
+
 # System: doom
 ifneq ($(BR2_PACKAGE_LIBRETRO_PRBOOM),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-doom
@@ -310,6 +320,11 @@ endif
 # System: fds
 ifneq ($(BR2_PACKAGE_LIBRETRO_FCEUMM)$(BR2_PACKAGE_LIBRETRO_NESTOPIA),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-fds
+endif
+
+# System: flashback
+ifneq ($(BR2_PACKAGE_LIBRETRO_REMINISCENCE),)
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-flashback
 endif
 
 # System: gamecube
@@ -537,6 +552,11 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_VITAQUAKE3),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-quake3
 endif
 
+# System: rickdangerous
+ifneq ($(BR2_PACKAGE_LIBRETRO_XRICK),)
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-rickdangerous
+endif
+
 # System: samcoupe
 ifeq ($(BR2_PACKAGE_SIMCOUPE),y)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-samcoupe
@@ -630,6 +650,11 @@ endif
 # System: wii
 ifeq ($(BR2_PACKAGE_DOLPHIN_EMU),y)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-wii
+endif
+
+# System: wolfenstein3d
+ifneq ($(BR2_PACKAGE_LIBRETRO_ECWOLF),)
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-wolfenstein3d
 endif
 
 # System: wswan

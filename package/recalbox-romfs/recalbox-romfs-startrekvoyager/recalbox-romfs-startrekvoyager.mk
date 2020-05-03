@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --system startrekvoyager --extension '.pak .zip .7z' --fullname 'Star Trek Voyager' --platform quake --theme quake 1:libretro:vitavoyager:BR2_PACKAGE_LIBRETRO_VITAVOYAGER
+# ./scripts/linux/empack.py --force --port --system startrekvoyager --extension '.pak .zip .7z' --fullname 'Star Trek Voyager' --platform startrekvoyager --theme quake 1:libretro:vitavoyager:BR2_PACKAGE_LIBRETRO_VITAVOYAGER
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_STARTREKVOYAGER_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_STARTREKVOYAGER = $(RECALBOX_ROMFS_STARTREKVOYAGER_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_VITAVOYAGER),)
 define CONFIGURE_MAIN_STARTREKVOYAGER_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_STARTREKVOYAGER),Star Trek Voyager,$(SYSTEM_NAME_STARTREKVOYAGER),.pak .zip .7z,quake,quake)
+	$(call RECALBOX_ROMFS_CALL_ADD_PORT,$(SYSTEM_XML_STARTREKVOYAGER),Star Trek Voyager,$(SYSTEM_NAME_STARTREKVOYAGER),.pak .zip .7z,startrekvoyager,quake)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_VITAVOYAGER),)
@@ -44,7 +44,7 @@ endif
 
 
 define CONFIGURE_MAIN_STARTREKVOYAGER_END
-	$(call RECALBOX_ROMFS_CALL_END_SYSTEM,$(SYSTEM_XML_STARTREKVOYAGER),$(SOURCE_ROMDIR_STARTREKVOYAGER),$(@D))
+	$(call RECALBOX_ROMFS_CALL_END_PORT,$(SYSTEM_XML_STARTREKVOYAGER),$(SOURCE_ROMDIR_STARTREKVOYAGER),$(@D),startrekvoyager)
 endef
 endif
 

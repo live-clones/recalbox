@@ -1,0 +1,3 @@
+## RECALBOX - SYSTEM DINOTHAWR ##
+
+Ce système est le premier jeu de libretro autonome. Aucune rom n'est requise.
