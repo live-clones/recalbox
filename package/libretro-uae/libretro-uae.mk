@@ -46,6 +46,7 @@ define LIBRETRO_UAE_BUILD_CMDS
 	$(SED) 's/"kick40060.CD32.ext"/"kick40060.CD32.ext.rom"/g' $(@D)/libretro/libretro-glue.h
 	$(SED) 's/kick33180.A500/kick33180.A500.rom/g' $(@D)/whdload/WHDLoad_files/S/Startup-Sequence
 	$(SED) 's/kick34005.A500/kick34005.A500.rom/g' $(@D)/whdload/WHDLoad_files/S/Startup-Sequence
+	$(SED) 's/kick40063.A600/kick40063.A600.rom/g' $(@D)/whdload/WHDLoad_files/S/Startup-Sequence
 	$(SED) 's/kick40068.A1200/kick40068.A1200.rom/g' $(@D)/whdload/WHDLoad_files/S/Startup-Sequence
 	CFLAGS="$(TARGET_CFLAGS) $(LIBRETRO_UAE_COMPILER_COMMONS_CFLAGS)" \
 		CXXFLAGS="$(TARGET_CXXFLAGS) $(LIBRETRO_UAE_COMPILER_COMMONS_CXXFLAGS)" \
