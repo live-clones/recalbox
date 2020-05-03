@@ -1,5 +1,31 @@
-## RECALBOX - SYSTEM QUAKE 1 ##
+## RECALBOX - SYSTEM QUAKE ##
 
 Placez ici vos jeux QUAKE 1.
 
-Les jeux QUAKE 1 doivent avoir l'extension ".pak"
+Les jeux Quake 1 doivent avoir l'extension ".pak"
+
+Quake a besoin de la structure suivante: 
+id1/  
+├── pak0.pak ## shareware data  
+├── pak1.pak ## registered data  
+├── music/  
+│   ├── track02.ogg  
+│   ├── ...  
+│   └── track11.ogg  
+│  
+hipnotic/  
+├── pak0.pak  
+├── music/  
+│   ├── track02.ogg  
+│   ├── ...  
+│   └── track09.ogg  
+│  
+rogue/  
+├── pak0.pak  
+├── music/  
+│   ├── track02.ogg  
+│   ├── ...  
+│   └── track09.ogg  
+│  
+dopa/  
+└──  pak0.pak

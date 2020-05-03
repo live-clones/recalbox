@@ -84,8 +84,13 @@ All notable changes to this project will be documented in this file.
 - Add opengl on Retroarch for X86_64
 - Add libretro-mrboom as content-less core within ports system
 - Renamed fba_libretro system to fbneo
-- Add Quake 1 shareware within ports
 - Move CaveStory and Doom into ports
+- Add Quake 1 port with libretro-tyrquake
+- Add 2048 port with libretro-2048
+- Add Dinothawr port with libretro-dinothawr
+- Add Rick Dangerous port with libretro-xrick
+- Add Flashback port with libretro-reminiscence (need full game files to be added)
+- Add Wolfenstein 3D port with libretro-ecwolf (full game files go all in the same directory)
 
 ## [6.1.1]
 - Add zfast shaders
