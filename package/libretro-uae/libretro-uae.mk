@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_UAE_VERSION = 987251c661e1fc55035cf08ddae8e6fd1cc81bfc
+LIBRETRO_UAE_VERSION = a715669f8345fe2b277d9fe5698f2704403e64c5
 LIBRETRO_UAE_SITE = $(call github,libretro,libretro-uae,$(LIBRETRO_UAE_VERSION))
 
 ifeq ($(BR2_PACKAGE_RPI_USERLAND),y)
@@ -56,6 +56,7 @@ endef
 define LIBRETRO_UAE_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/puae_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/puae_libretro.so
+	mkdir -p $(TARGET_DIR)/recalbox/share_init/bios/uae_data
 endef
 
 $(eval $(generic-package))
