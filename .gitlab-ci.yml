@@ -73,42 +73,36 @@ lint commits:
 build rpi1:
   <<: *build_definition
   only:
-    - master
     - tags
   variables:
     ARCH: 'rpi1'
 build rpi2:
   <<: *build_definition
   only:
-    - master
     - tags
   variables:
     ARCH: 'rpi2'
 build rpi3:
   <<: *build_definition
   only:
-    - master
     - tags
   variables:
     ARCH: 'rpi3'
 build x86_64:
   <<: *build_definition
   only:
-    - master
     - tags
   variables:
     ARCH: 'x86_64'
 build x86:
   <<: *build_definition
   only:
-    - master
     - tags
   variables:
     ARCH: 'x86'
 build odroidxu4:
   <<: *build_definition
   only:
-    - master
     - tags
   variables:
     ARCH: 'odroidxu4'
