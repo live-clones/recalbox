@@ -5,7 +5,7 @@
 ################################################################################
 
 # https://github.com/libretro/yabause/tree/kronos/yabause/src/libretro
-LIBRETRO_KRONOS_VERSION = 0c242b049de6f39ca1a0e567be500c2bd3df58e0
+LIBRETRO_KRONOS_VERSION = edef20c1c68076d10a95a081c7646c069d966abd
 LIBRETRO_KRONOS_SITE = $(call github,libretro,yabause,$(LIBRETRO_KRONOS_VERSION))
 
 ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_X86),y)
