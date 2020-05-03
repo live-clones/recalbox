@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_VICE_VERSION = e5453f453364122524a0a92f404b98e370f64328
+LIBRETRO_VICE_VERSION = fdb9eefb3a79f817a9243aa2bbdabf6ef4e7e94a
 LIBRETRO_VICE_SITE = $(call github,libretro,vice-libretro,$(LIBRETRO_VICE_VERSION))
 
 LIBRETRO_VICE_SUBEMULATORS = x64 x64sc x128 xpet xplus4 xvic xcbm2
@@ -36,7 +36,6 @@ endef
 
 define LIBRETRO_VICE_PRE_PATCH_FIXUP
 	$(SED) "s|-O2|-O3|g" $(@D)/Makefile.libretro
-	$(SED) 's/\r//g' $(@D)/libretro/libretro-core.c
 endef
 
 LIBRETRO_VICE_PRE_PATCH_HOOKS += LIBRETRO_VICE_PRE_PATCH_FIXUP

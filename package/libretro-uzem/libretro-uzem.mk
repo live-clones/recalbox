@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_UZEM_VERSION = fdecf52e6b7927c9d3f3bce6aa78db16d45480ef
+LIBRETRO_UZEM_VERSION = 8f0067725dba5fdbb37badbbb64a2dda1018eff5
 LIBRETRO_UZEM_SITE = $(call github,libretro,libretro-uzem,$(LIBRETRO_UZEM_VERSION))
 
 define LIBRETRO_UZEM_BUILD_CMDS
