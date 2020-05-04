@@ -1,0 +1,12 @@
+config BR2_PACKAGE_LIBRETRO_DOSBOX_CORE
+	bool "libretro-dosbox-core"
+	depends on BR2_PACKAGE_RETROARCH
+	depends on BR2_INSTALL_LIBSTDCPP
+	select BR2_PACKAGE_RECALBOX_ROMFS_DOS
+	help
+	  A libretro dosbox-core emulator.
+
+	  http://www.libretro.com
+
+comment "LIBRETRO_DOSBOX_CORE needs a toolchain w/ C++"
+	depends on !BR2_INSTALL_LIBSTDCPP
