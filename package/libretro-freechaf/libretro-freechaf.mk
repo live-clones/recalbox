@@ -5,7 +5,7 @@
 ################################################################################
 
 LIBRETRO_FREECHAF_VERSION = 4776971885c4de84c81ead55335b976027b9724e
-LIBRETRO_FREECHAF_SITE = https://github.com/libretro/FreeChaF.git
+LIBRETRO_FREECHAF_SITE = git://github.com/libretro/FreeChaF.git
 LIBRETRO_FREECHAF_SITE_METHOD=git
 LIBRETRO_FREECHAF_GIT_SUBMODULES=y
 
