@@ -221,6 +221,17 @@ bool MappingConfiguration::ParseKeyCode(const std::string& value, int& code)
     { __STRL("pagedown")   , KEY_PAGEDOWN   },
     { __STRL("insert")     , KEY_INSERT     },
     { __STRL("delete")     , KEY_DELETE     },
+    { __STRL("s01")        , KEY_GRAVE      },
+    { __STRL("s02")        , KEY_MINUS      },
+    { __STRL("s03")        , KEY_EQUAL      },
+    { __STRL("s04")        , KEY_LEFTBRACE  },
+    { __STRL("s05")        , KEY_RIGHTBRACE },
+    { __STRL("s06")        , KEY_SEMICOLON  },
+    { __STRL("s07")        , KEY_APOSTROPHE },
+    { __STRL("s08")        , KEY_BACKSLASH  },
+    { __STRL("s09")        , KEY_COMMA      },
+    { __STRL("s10")        , KEY_DOT        },
+    { __STRL("s11")        , KEY_SLASH      },
   };
 
   // Lookup keycode
