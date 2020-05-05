@@ -5,14 +5,14 @@
 ################################################################################
 
 LIBRETRO_FREECHAF_VERSION = 4776971885c4de84c81ead55335b976027b9724e
-LIBRETRO_FREECHAF_SITE = $(call github,libretro,FreeChaF,$(LIBRETRO_FREECHAF_VERSION))
+LIBRETRO_FREECHAF_SITE = git://github.com/libretro/FreeChaF.git
+LIBRETRO_FREECHAF_GIT_SUBMODULES=y
 
 define LIBRETRO_FREECHAF_BUILD_CMDS
 	$(SED) "s|-O2|-O3|g" $(@D)/Makefile
 	# Currently, FreeChaF crash when compiled with LTO.
 	# As it might be a compiler or a code issue, try to reactivate LTO
 	# on next toolchain or code bump.
-	#$(SED) "s|float time = 0.0;|static float time = 0.0;|g" $(@D)/src/audio.c
 	CFLAGS="$(TARGET_CFLAGS) $(COMPILER_COMMONS_CFLAGS_NOLTO)" \
 		CXXFLAGS="$(TARGET_CXXFLAGS) $(COMPILER_COMMONS_CXXFLAGS_NOLTO)" \
 		LDFLAGS="$(TARGET_LDFLAGS) $(COMPILER_COMMONS_LDFLAGS_NOLTO)" \
