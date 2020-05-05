@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-#Version:5.0-12001
-DOLPHIN_EMU_VERSION = 907b1302b01bc6c717ab52541f0410d50623e23a
+#Version: 5.0-12015
+DOLPHIN_EMU_VERSION = 1bedbdf3c07999f8a9fb88f64e19107e6f59b3b7
 DOLPHIN_EMU_SITE = $(call github,dolphin-emu,dolphin,$(DOLPHIN_EMU_VERSION))
 DOLPHIN_EMU_LICENCE = GPLv2+
 DOLPHIN_EMU_DEPENDENCIES = xserver_xorg-server libevdev ffmpeg zlib libpng lzo libusb libcurl sfml bluez5_utils qt5base hidapi
