@@ -30,6 +30,7 @@ SYSLINUX_EFI_BITS = efi64
 else
 SYSLINUX_EFI_BITS = efi32
 endif # 64-bit
+
 SYSLINUX_DEPENDENCIES += gnu-efi
 SYSLINUX_TARGET += $(SYSLINUX_EFI_BITS)
 SYSLINUX_EFI_ARGS = \
@@ -87,8 +88,9 @@ SYSLINUX_IMAGES-$(BR2_TARGET_SYSLINUX_ISOLINUX) += bios/core/isolinux.bin
 SYSLINUX_IMAGES-$(BR2_TARGET_SYSLINUX_PXELINUX) += bios/core/pxelinux.bin
 SYSLINUX_IMAGES-$(BR2_TARGET_SYSLINUX_MBR) += bios/mbr/mbr.bin
 SYSLINUX_IMAGES-$(BR2_TARGET_SYSLINUX_EFI) += $(SYSLINUX_EFI_BITS)/efi/syslinux.efi
-#Recalbox needs gptmbr.bin
+#Recalbox needed files
 SYSLINUX_IMAGES-y += bios/mbr/gptmbr.bin
+SYSLINUX_IMAGES-y += efi64/com32/elflink/ldlinux/ldlinux.e64
 
 SYSLINUX_C32 = $(call qstrip,$(BR2_TARGET_SYSLINUX_C32))
 

@@ -29,7 +29,7 @@ check_safeboot() {
 
 do_mount() {
     if mount -o ro "${1}"           /boot_root; then return 0; fi
-    if mount -o ro "LABEL=RECALBOX" /boot_root; then return 0; fi # LEGACY BOOT FOR IMAGES BEFORE SQUASHFS
+    if mount -o ro "LABEL=RECALBOX" /boot_root; then return 0; fi
     return 1
 }
 

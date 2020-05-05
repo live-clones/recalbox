@@ -1,8 +1,16 @@
 diff --git a/boot/syslinux/syslinux.mk b/boot/syslinux/syslinux.mk
-index 1349641..fd7e0e9 100644
+index 1349641..5e9ec1a 100644
 --- a/boot/syslinux/syslinux.mk
 +++ b/boot/syslinux/syslinux.mk
-@@ -74,18 +74,21 @@ define SYSLINUX_INSTALL_TARGET_CMDS
+@@ -30,6 +30,7 @@ SYSLINUX_EFI_BITS = efi64
+ else
+ SYSLINUX_EFI_BITS = efi32
+ endif # 64-bit
++
+ SYSLINUX_DEPENDENCIES += gnu-efi
+ SYSLINUX_TARGET += $(SYSLINUX_EFI_BITS)
+ SYSLINUX_EFI_ARGS = \
+@@ -74,18 +75,22 @@ define SYSLINUX_INSTALL_TARGET_CMDS
  		-C $(@D) $(SYSLINUX_TARGET) install
  endef
  
@@ -23,8 +31,9 @@ index 1349641..fd7e0e9 100644
  SYSLINUX_IMAGES-$(BR2_TARGET_SYSLINUX_PXELINUX) += bios/core/pxelinux.bin
  SYSLINUX_IMAGES-$(BR2_TARGET_SYSLINUX_MBR) += bios/mbr/mbr.bin
  SYSLINUX_IMAGES-$(BR2_TARGET_SYSLINUX_EFI) += $(SYSLINUX_EFI_BITS)/efi/syslinux.efi
-+#Recalbox needs gptmbr.bin
++#Recalbox needed files
 +SYSLINUX_IMAGES-y += bios/mbr/gptmbr.bin
++SYSLINUX_IMAGES-y += efi64/com32/elflink/ldlinux/ldlinux.e64
  
  SYSLINUX_C32 = $(call qstrip,$(BR2_TARGET_SYSLINUX_C32))
  

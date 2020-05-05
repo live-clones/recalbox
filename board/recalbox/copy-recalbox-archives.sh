@@ -124,29 +124,31 @@ case "${RECALBOX_TARGET}" in
 	X86|X86_64)
 	# /boot
 	rm -rf ${BINARIES_DIR}/boot || exit 1
-	mkdir -p ${BINARIES_DIR}/boot || exit 1
-	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/x86/boot/syslinux.cfg" ${BINARIES_DIR/}/boot/syslinux.cfg || exit 1
-	cp "${BINARIES_DIR}/bzImage" "${BINARIES_DIR}/boot/linux" || exit 1
-	cp "${BINARIES_DIR}/initrd.gz" "${BINARIES_DIR}/boot" || exit 1
+	mkdir -p ${BINARIES_DIR}/boot/grub || exit 1
+	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/grub2/grub.cfg" ${BINARIES_DIR}/boot/grub/grub.cfg || exit 1
+        cp "${BINARIES_DIR}/bzImage" "${BINARIES_DIR}/boot/linux" || exit 1
+        cp "${BINARIES_DIR}/initrd.gz" "${BINARIES_DIR}/boot" || exit 1
 	cp "${BINARIES_DIR}/rootfs.squashfs" "${BINARIES_DIR}/boot/recalbox" || exit 1
 
 	# get UEFI files
-	mkdir -p "${BINARIES_DIR}/EFI/syslinux" || exit 1
-	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/x86/boot/syslinux.cfg" ${BINARIES_DIR/}/EFI/syslinux/syslinux.cfg || exit 1
+	mkdir -p "${BINARIES_DIR}/EFI/BOOT" || exit 1
+	cp "${BINARIES_DIR}/bootx64.efi" "${BINARIES_DIR}/EFI/BOOT" || exit 1
+	if [[ ${RECALBOX_TARGET} == "X86_64" ]] ; then
+        	cp "${BINARIES_DIR}/bootia32.efi" "${BINARIES_DIR}/EFI/BOOT" || exit 1
+		genimg=genimage-x86-64.cfg
+	else
+		genimg=genimage-x86.cfg
+	fi
+	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/grub2/grub.cfg" "${BINARIES_DIR}/EFI/BOOT" || exit 1
 
 	# recalbox.img
-	# rename the squashfs : the .update is the version that will be renamed at boot to replace the old version
+	cp "${HOST_DIR}/usr/lib/grub/i386-pc/boot.img" "${BINARIES_DIR}" || exit 1
 	GENIMAGE_TMP="${BUILD_DIR}/genimage.tmp"
 	rm -rf "${GENIMAGE_TMP}" || exit 1
-	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/x86/genimage-boot.cfg" "${BINARIES_DIR}" || exit 1
-	echo "creating ${BINARIES_DIR}/recalbox-boot.img"
-	genimage --rootpath="${TARGET_DIR}" --inputpath="${BINARIES_DIR}" --outputpath="${BINARIES_DIR}" --config="${BINARIES_DIR}/genimage-boot.cfg" --tmppath="${GENIMAGE_TMP}" || exit 1
-	syslinux -i "${BINARIES_DIR}/recalbox-boot.img" -d /boot/syslinux
-	rm -rf "${GENIMAGE_TMP}" || exit 1
-	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/x86/genimage.cfg" "${BINARIES_DIR}" || exit 1
-	echo "creating ${RECALBOX_BINARIES_DIR}/recalbox.img"
+	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/grub2/${genimg}" "${BINARIES_DIR}/genimage.cfg" || exit 1
+	echo "generating image"
 	genimage --rootpath="${TARGET_DIR}" --inputpath="${BINARIES_DIR}" --outputpath="${RECALBOX_BINARIES_DIR}" --config="${BINARIES_DIR}/genimage.cfg" --tmppath="${GENIMAGE_TMP}" || exit 1
-	rm -f "${BINARIES_DIR}/recalbox-boot.img" || exit 1
+
         rm -f "${RECALBOX_BINARIES_DIR}/boot.vfat" || exit 1
         rm -f "${BINARIES_DIR}/rootfs.tar" || exit 1
         rm -f "${BINARIES_DIR}/rootfs.squashfs" || exit 1

@@ -19,6 +19,9 @@ elif [[ $1 == "-f" ]] ; then
   forcePatch=1
 fi
 
+[[ -z $BUILDROOT_DIR && ! -d ./buildroot ]] && echo "You must set the env var BUILDROOT_DIR to the location of the buildroot dir to use this script" && exit 1
+[[ -z $BUILDROOT_DIR && -d ./buildroot ]] && BUILDROOT_DIR="./buildroot"
+
 declare -x foundError
 
 function applyPatches() {
