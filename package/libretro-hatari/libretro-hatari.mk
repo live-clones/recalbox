@@ -22,4 +22,10 @@ define LIBRETRO_HATARI_INSTALL_TARGET_CMDS
 		$(TARGET_DIR)/usr/lib/libretro/hatari_libretro.so
 endef
 
+define LIBRETRO_HATARI_PRE_PATCH_FIXUP
+	$(SED) 's/\r//g' $(@D)/Makefile.libretro
+endef
+
+LIBRETRO_HATARI_PRE_PATCH_HOOKS += LIBRETRO_HATARI_PRE_PATCH_FIXUP
+
 $(eval $(generic-package))
