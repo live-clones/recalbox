@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_QUASI88_VERSION = 58fbdddcd1a33c0b230df0b342041d9b21240b4b
+LIBRETRO_QUASI88_VERSION = 5346e8130c5c130725782da2bfc05a19ba28c384
 LIBRETRO_QUASI88_SITE = $(call github,libretro,quasi88-libretro,$(LIBRETRO_QUASI88_VERSION))
 
 define LIBRETRO_QUASI88_BUILD_CMDS
