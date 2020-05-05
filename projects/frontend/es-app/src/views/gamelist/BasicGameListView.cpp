@@ -22,11 +22,17 @@ BasicGameListView::BasicGameListView(Window& window, SystemManager& systemManage
 	mList.setSize(mSize.x(), mSize.y() * 0.8f);
 	mList.setPosition(0, mSize.y() * 0.2f);
 	mList.setDefaultZIndex(20);
-	addChild(&mList);
+
+  addChild(&mList);
 
 	mEmptyListItem.Metadata().SetName(_("EMPTY LIST"));
-
 	populateList(system.getRootFolder());
+
+  mList.setCursorChangedCallback([&](const CursorState& state)
+                                 {
+                                   (void) state;
+                                   updateInfoPanel();
+                                 });
 }
 
 void BasicGameListView::onThemeChanged(const ThemeData& theme)

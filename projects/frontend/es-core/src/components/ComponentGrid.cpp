@@ -7,26 +7,35 @@
 
 ComponentGrid::ComponentGrid(Window&window, const Vector2i& gridDimensions)
   : Component(window),
-    mGridSize(gridDimensions),
+    mGridSize({ 0, 0}),
     mCursor(0, 0),
+    mHighlightRowFrom(0),
+    mHighlightRowTo(0),
+    mHighlightColumnFrom(0),
+    mHighlightColumnTo(0),
+    mHighlightRows(false),
+    mHighlightColumns(false),
     mUnhandledInputCallback(nullptr)
 {
-    assert(gridDimensions.x() > 0 && gridDimensions.y() > 0);
+  SetGridDimensions(gridDimensions);
+}
 
-    mCells.reserve(gridDimensions.x() * gridDimensions.y());
+void ComponentGrid::SetGridDimensions(const Vector2i& gridDimensions)
+{
+  if (gridDimensions.x() == 0 || gridDimensions.y() == 0)
+    return;
 
-    mColWidths = new float[gridDimensions.x()];
-    mRowHeights = new float[gridDimensions.y()];
-    for (int x = 0; x < gridDimensions.x(); x++)
-        mColWidths[x] = 0;
-    for (int y = 0; y < gridDimensions.y(); y++)
-        mRowHeights[y] = 0;
+  mGridSize = gridDimensions;
+
+  mCells.clear();
+  mCells.reserve(gridDimensions.x() * gridDimensions.y());
+
+  mColWidths.resize(gridDimensions.x(), 0.0f);
+  mRowHeights.resize(gridDimensions.y(), 0.0f);
 }
 
 ComponentGrid::~ComponentGrid()
 {
-    delete[] mRowHeights;
-    delete[] mColWidths;
 }
 
 float ComponentGrid::getColWidth(int col)
@@ -35,9 +44,9 @@ float ComponentGrid::getColWidth(int col)
         return mColWidths[col] * mSize.x();
 
     // calculate automatic width
-    float freeWidthPerc = 1;
+    float freeWidthPerc = 1.0f;
     int between = 0;
-    for (int x = 0; x < mGridSize.x(); x++)
+    for (int x = mGridSize.x(); --x >= 0; )
     {
         freeWidthPerc -= mColWidths[x]; // if it's 0 it won't do anything
         if(mColWidths[x] == 0)
@@ -53,13 +62,12 @@ float ComponentGrid::getRowHeight(int row)
         return mRowHeights[row] * mSize.y();
 
     // calculate automatic height
-    float freeHeightPerc = 1;
+    float freeHeightPerc = 1.0f;
     int between = 0;
-    for (int y = 0; y < mGridSize.y(); y++)
+    for (int y = mGridSize.y(); --y >= 0; )
     {
-        freeHeightPerc -= mRowHeights[y]; // if it's 0 it won't do anything
-        if(mRowHeights[y] == 0)
-            between++;
+      freeHeightPerc -= mRowHeights[y]; // if it's 0 it won't do anything
+      if(mRowHeights[y] == 0) between++;
     }
     
     return (freeHeightPerc * mSize.y()) / (float)between;
@@ -361,15 +369,80 @@ void ComponentGrid::Update(int deltaTime)
 
 void ComponentGrid::Render(const Transform4x4f& parentTrans)
 {
-    Transform4x4f trans = parentTrans * getTransform();
+  Transform4x4f trans = parentTrans * getTransform();
+  Renderer::setMatrix(trans);
 
-    renderChildren(trans);
+  // Render rows
+  if (mHighlightRows)
+  {
+    float x = mPosition.x() + getColWidth(0, mHighlightColumnFrom - 1);
+    float w = getColWidth(mHighlightColumnFrom, mHighlightColumnTo);
+    float y = mPosition.y() + getRowHeight(0, mHighlightRowFrom - 1);
+    for (int i = mHighlightRowFrom - 1; ++i <= mHighlightRowTo; )
+    {
+      float h = getRowHeight(i);
+      Renderer::drawRect(x, y, w, h, (i & 1) ? 0xFFFFFF18 : 0x00000018);
+      y += h;
+    }
+  }
+
+  if (mHighlightColumns)
+  {
+    float y = mPosition.y() + getRowHeight(0, mHighlightRowFrom - 1);
+    float h = getRowHeight(mHighlightRowFrom, mHighlightRowTo);
+    float x = mPosition.x() + getColWidth(0, mHighlightColumnFrom - 1);
+    for (int i = mHighlightColumnFrom - 1; ++i < mHighlightColumnTo; )
+    {
+      float w = getColWidth(i);
+      Renderer::drawRect(x, y, w, h, (i & 1) ? 0xFFFFFF18 : 0x00000018);
+      x += w;
+    }
+  }
+
+
+
+
+
+  // Render rows
+/*  if (mHighlightColumns)
+  {
+    float x = mPosition.x() + mSize.x();
+    for (int i = mGridSize.x(); --i >= 0;)
+    {
+      float width = getColWidth(i);
+      x -= width;
+      Renderer::drawRect(x, mPosition.y(), width, mSize.y(), (i & 1) ? 0xFFFFFF18 : 0x00000018);
+    }
+  }*/
+/*
+  if (mHighlightRows)
+  {
+    float y = getRowHeight(0, mHighlightRowTo);
+    for (int i = mHighlightRowTo; --i >= mHighlightRowFrom; )
+    {
+      float height = getRowHeight(i);
+      y -= height;
+      Renderer::drawRect(0.0f, y, mSize.x(), height, (i & 1) ? 0xFFFFFF18 : 0x00000018);
+    }
+  }
+
+  // Render rows
+  if (mHighlightColumns)
+  {
+    float x = getColWidth(0, mHighlightColumnTo);
+    for (int i = mHighlightColumnTo; --i >= mHighlightColumnFrom;)
+    {
+      float width = getColWidth(i);
+      x -= width;
+      Renderer::drawRect(x, 0.0f, width, mSize.y(), (i & 1) ? 0xFFFFFF18 : 0x00000018);
+    }
+  }
+*/
+  renderChildren(trans);
     
     // draw cell separators
     if(!mLines.empty())
     {
-        Renderer::setMatrix(trans);
-
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glEnableClientState(GL_VERTEX_ARRAY);
@@ -440,3 +513,4 @@ bool ComponentGrid::getHelpPrompts(Help& help)
 
   return true;
 }
+

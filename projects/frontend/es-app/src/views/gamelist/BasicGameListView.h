@@ -26,7 +26,10 @@ public:
 	void populateList(const FolderData& folder) final;
 	void refreshList() override { populateList(*mPopulatedFolder); }
 
-	void DoUpdateGameInformation() override {}
+	void DoUpdateGameInformation() override
+	{
+	  mWindow.UpdateHelpSystem();
+	}
 
 	FileData::List getFileDataList() override;
 

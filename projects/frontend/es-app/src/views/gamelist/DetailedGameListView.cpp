@@ -40,11 +40,11 @@ DetailedGameListView::DetailedGameListView(Window&window, SystemManager& systemM
   mList.setPosition(mSize.x() * (0.50f + padding), mList.getPosition().y());
   mList.setSize(mSize.x() * (0.50f - padding), mList.getSize().y());
   mList.setAlignment(HorizontalAlignment::Left);
-  mList.setCursorChangedCallback([&](const CursorState& state)
+  /*mList.setCursorChangedCallback([&](const CursorState& state)
                                  {
                                    (void) state;
                                    updateInfoPanel();
-                                 });
+                                 });*/
 
   // folder components
   for (int y = 0; y < 3; y++)
@@ -339,6 +339,8 @@ void DetailedGameListView::DoUpdateGameInformation()
       switchDisplay(!isFolder);
     }
   }
+
+  mWindow.UpdateHelpSystem();
 }
 
 bool DetailedGameListView::switchToFolderScrappedDisplay()

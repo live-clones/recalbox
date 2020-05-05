@@ -77,6 +77,10 @@ class Component: public IComponent
     const Vector2f& getSize() const {	return mSize; }
     inline void setSize(const Vector2f& size) { setSize(size.x(), size.y()); }
     void setSize(float w, float h);
+
+    /*!
+     * @brief Called when the component size is changed
+     */
     virtual void onSizeChanged() {};
 
     float getRotation() const { return mRotation; }
@@ -138,7 +142,11 @@ class Component: public IComponent
     // You probably want to keep this behavior for any derived classes as well as add your own.
     virtual void applyTheme(const ThemeData& theme, const std::string& view, const std::string& element, ThemeProperties properties);
 
-    // Returns a list of help prompts.
+    /*!
+     * @brief Fill help list
+     * @param help Help list to fill
+     * @return True if the method filled the list, false otherwise
+     */
     virtual bool getHelpPrompts(Help& help) { (void)help; return false; };
 
     // Called whenever help prompts change.

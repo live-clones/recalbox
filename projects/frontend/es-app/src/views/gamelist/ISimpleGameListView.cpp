@@ -1,7 +1,7 @@
 #include <RecalboxConf.h>
 #include <guis/GuiNetPlay.h>
 #include <systems/SystemManager.h>
-#include <usernotifications/NotificationManager.h>
+#include <guis/GuiControlHints.h>
 #include "guis/GuiGamelistOptions.h"
 #include "views/gamelist/ISimpleGameListView.h"
 #include "systems/SystemData.h"
@@ -46,7 +46,7 @@ void ISimpleGameListView::onThemeChanged(const ThemeData& theme)
   mHeaderText.applyTheme(theme, getName(), "logoText", ThemeProperties::All);
 
   // Remove old theme extras
-  for (auto extra : mThemeExtras.getmExtras()) {
+  for (auto* extra : mThemeExtras.getmExtras()) {
     removeChild(extra);
   }
   mThemeExtras.getmExtras().clear();
@@ -56,7 +56,7 @@ void ISimpleGameListView::onThemeChanged(const ThemeData& theme)
 
   // Add new theme extras
 
-  for (auto extra : mThemeExtras.getmExtras()) {
+  for (auto* extra : mThemeExtras.getmExtras()) {
     addChild(extra);
   }
 
@@ -273,6 +273,15 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
       NetPlayData netplay(RecalboxConf::Instance().AsInt("global.netplay.port"));
       ViewController::Instance().LaunchCheck(cursor, netplay, Vector3f());
     }
+    return true;
+  }
+  else if (event.XPressed())
+  {
+    FileData* fd = getCursor();
+    if (fd != nullptr)
+      if (fd->HasP2K())
+        mWindow.pushGui(new GuiControlHints(mWindow, fd->getPath()));
+    return true;
   }
 
   if (event.StartPressed())
@@ -307,6 +316,13 @@ bool ISimpleGameListView::getHelpPrompts(Help& help)
 
   if (RecalboxConf::Instance().AsBool("global.netplay.active") && (RecalboxConf::Instance().isInList("global.netplay.systems", getCursor()->getSystem()->getName())))
     help.Set(HelpType::X, _("NETPLAY"));
+  else
+  {
+    FileData* fd = getCursor();
+    if (fd != nullptr)
+      if (fd->HasP2K())
+        help.Set(HelpType::X, _("P2K CONTROLS"));
+  }
 
   help.Set(HelpType::Y, IsFavoriteSystem() ? _("Remove from favorite") : _("Favorite"));
 
@@ -314,13 +330,15 @@ bool ISimpleGameListView::getHelpPrompts(Help& help)
     help.Set(HelpType::A, _("BACK"));
 
   help.Set(HelpType::UpDown, _("CHOOSE"));
+  //help.Set(HelpType::LR, _("MOVE FAST"));
+  //help.Set(HelpType::L2R2, _("NEXT/PREV. LETTER"));
 
   if (Settings::Instance().QuickSystemSelect() && !hideSystemView)
     help.Set(HelpType::LeftRight, _("SYSTEM"));
 
+  help.Set(HelpType::Start, _("OPTIONS"));
   if (!IsFavoriteSystem())
   {
-    help.Set(HelpType::Start, _("OPTIONS"));
     if (mSystem.FavoritesCount() != 0)
       help.Set(HelpType::Select, mFavoritesOnly ? _("ALL GAMES") : _("FAVORITES ONLY"));
   }
@@ -335,7 +353,7 @@ std::vector<unsigned int> ISimpleGameListView::getAvailableLetters()
   std::vector<unsigned int> unicode;        // 1 bit per unicode char used
   unicode.resize(UnicodeSize / (sizeof(unsigned int) * 8), 0);
 
-  for (auto file : files)
+  for (auto* file : files)
     if (file->isGame())
     {
       // Tag every first characters from every game name

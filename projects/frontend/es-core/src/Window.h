@@ -85,7 +85,6 @@ class Window
       return false;
     }
 
-  protected:
     /*!
      * @brief Update the help system.
      * @return True if the update system has been set, false otherwise

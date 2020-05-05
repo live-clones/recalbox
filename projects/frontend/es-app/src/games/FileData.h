@@ -131,6 +131,18 @@ class FileData
      * @return Smart name of the current item, or file/folder name
      */
     std::string getDisplayName() const;
+
+    /*!
+     * @brief Get Pad2Keyboard configuration file path
+     * @return Pad2Keyboard configuration file path
+     */
+    Path P2KPath() const { return mPath.ChangeExtension(mPath.Extension() + ".p2k.cfg"); }
+
+    /*!
+     * @brief Check if Pad2Keyboard configuration file exists
+     * @return Trie if the Pad2Keyboard configuration file exists
+     */
+    bool HasP2K() const { return P2KPath().Exists(); };
 };
 
 DEFINE_BITFLAG_ENUM(FileData::Filter, int)

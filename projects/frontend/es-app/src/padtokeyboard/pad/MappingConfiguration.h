@@ -6,7 +6,6 @@
 #include "PadItems.h"
 #include "Pad.h"
 #include "../keyboard/VirtualKeyboard.h"
-#include <utils/storage/HashMap.h>
 
 class MappingConfiguration
 {
@@ -34,6 +33,12 @@ class MappingConfiguration
        * @return
        */
       bool Valid() const;
+
+      /*!
+       * @brief Count valid mappings
+       * @return Valid mapping count
+       */
+      int Count() const;
     };
 
     //! Mapping
@@ -99,4 +104,10 @@ class MappingConfiguration
      * @return True if the mapping is configured.
      */
     bool Valid() const;
+
+    /*!
+     * @brief Return mapping count
+     * @return Mapping count
+     */
+    int Count() const;
 };

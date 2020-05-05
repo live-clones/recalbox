@@ -27,6 +27,15 @@ bool MappingConfiguration::Mapping::Valid() const
   return false;
 }
 
+int MappingConfiguration::Mapping::Count() const
+{
+  int count = 0;
+  for(int i = (int)PadItems::__Count; --i >= 0; )
+    if (PadItemToKeyCodes[i] != 0)
+      count++;
+  return count;
+}
+
 MappingConfiguration::MappingConfiguration(const Path& romPath)
 {
   Load(romPath);
@@ -84,13 +93,14 @@ void MappingConfiguration::AssignMapping(const std::string& key, const std::stri
   int keyCode = 0;
 
   if (ParsePadItems(key, padNum, padItem))
+  {
     if (ParseKeyCode(value, keyCode))
       if (padNum < Input::sMaxInputDevices)
       {
         mMapping[padNum].PadItemToKeyCodes[(int) padItem] = keyCode;
-        if (!comment.empty())
-          mMapping[padNum].PadItemToKeyDoc[(int) padItem] = comment;
+        mMapping[padNum].PadItemToKeyDoc[(int) padItem] = comment;
       }
+  }
 }
 
 VirtualKeyboard::Event MappingConfiguration::Translate(Pad::Event& event) const
@@ -105,6 +115,14 @@ bool MappingConfiguration::Valid() const
     if (mMapping[i].Valid())
       return true;
   return false;
+}
+
+int MappingConfiguration::Count() const
+{
+  int count = 0;
+  for(int device = 0; device < Input::sMaxInputDevices; ++device )
+    count += mMapping[device].Count();
+  return count;
 }
 
 bool MappingConfiguration::ParseKeyCode(const std::string& value, int& code)
@@ -291,7 +309,7 @@ const MappingConfiguration::Hints& MappingConfiguration::HintList() const
   {
     const Mapping& mapping = mMapping[device];
     for (int index = 0; index < (int) PadItems::__Count; ++index)
-      if (mapping.PadItemToKeyCodes[index] != 0 && !mapping.PadItemToKeyDoc[index].empty())
+      if (mapping.PadItemToKeyCodes[index] != 0)
         result.push_back({{ device, (PadItems)index },&mapping.PadItemToKeyDoc[index] });
   }
 

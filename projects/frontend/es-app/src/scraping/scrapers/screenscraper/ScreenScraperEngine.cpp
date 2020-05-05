@@ -627,8 +627,7 @@ bool ScreenScraperEngine::Engine::NeedScrapping(ScrappingMethod method, FileData
       }
       if (mConfiguration.GetWantP2K())
       {
-        Path p2kPath = game.getPath().ChangeExtension(game.getPath().Extension() + ".p2k.cfg");
-        if (!p2kPath.Exists()) return true;
+        if (!game.P2KPath().Exists()) return true;
       }
       // TODO: Add more media checks here
       return false;
@@ -715,7 +714,7 @@ ScreenScraperEngine::Engine::StoreTextData(ScrappingMethod method, const ScreenS
   // Store P2k file
   if (!sourceData.mP2k.empty())
   {
-    Path p2kPath = game.getPath().ChangeExtension(game.getPath().Extension() + ".p2k.cfg");
+    Path p2kPath = game.P2KPath();
     if (!p2kPath.Exists() || method != ScrappingMethod::IncompleteKeep)
     {
       Files::SaveFile(p2kPath, sourceData.mP2k);
