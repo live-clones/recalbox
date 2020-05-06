@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-MUPEN64PLUS_INPUT_SDL_VERSION = 73f00a0a6e27e3d44151f41d48f35a8279d36449
+MUPEN64PLUS_INPUT_SDL_VERSION = 954a5dc74267d67ef065f41472eaaf6970fb1c85
 MUPEN64PLUS_INPUT_SDL_SITE = $(call github,mupen64plus,mupen64plus-input-sdl,$(MUPEN64PLUS_INPUT_SDL_VERSION))
 MUPEN64PLUS_INPUT_SDL_LICENSE = MIT
 MUPEN64PLUS_INPUT_SDL_DEPENDENCIES = sdl2 alsa-lib mupen64plus-core
