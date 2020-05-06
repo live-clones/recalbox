@@ -1,0 +1,105 @@
+--- libcapsimage-4.2/CAPSImage/CapsLdr.cpp.orig	2020-05-04 14:18:32.882240861 +0200
++++ libcapsimage-4.2/CAPSImage/CapsLdr.cpp	2020-05-04 14:29:15.212318390 +0200
+@@ -262,7 +262,8 @@
+ // find chunk type
+ int CCapsLoader::GetChunkType(PCAPSCHUNK pc)
+ {
+-	for (int pos=0; chunklist[pos].name; pos++)
++  int pos;
++	for (pos=0; chunklist[pos].name; pos++)
+ 		if (!memcmp(chunklist[pos].name, pc->cg.file.name, sizeof(pc->cg.file.name)))
+ 			break;
+ 
+--- libcapsimage-4.2/CAPSImage/CapsEFDC.cpp.orig	2020-05-04 14:18:32.882240861 +0200
++++ libcapsimage-4.2/CAPSImage/CapsEFDC.cpp	2020-05-04 14:29:15.212318390 +0200
+@@ -411,8 +411,9 @@
+ // precalculate timing constants
+ void FdcSetTiming(PCAPSFDC pc)
+ {
++  int drv;
+ 	// drive specific values
+-	for (int drv=0; drv < pc->drivecnt; drv++) {
++	for (drv=0; drv < pc->drivecnt; drv++) {
+ 		PCAPSDRIVE pd=pc->drive+drv;
+ 
+ 		// clock cycles per revolution
+--- libcapsimage-4.2/CAPSImage/CapsAPI.cpp.orig	2020-05-04 14:36:23.528370159 +0200
++++ libcapsimage-4.2/CAPSImage/CapsAPI.cpp	2020-05-04 14:36:37.980236987 +0200
+@@ -46,7 +46,8 @@
+ // add image container
+ SDWORD __cdecl CAPSAddImage()
+ {
+-	for (int pos=0; pos < img.GetSize(); pos++)
++  int pos;
++	for (pos=0; pos < img.GetSize(); pos++)
+ 		if (!img[pos])
+ 			break;
+ 
+--- libcapsimage-4.2/CAPSImage/CapsEFDC.cpp.orig	2020-05-05 00:06:00.777233144 +0200
++++ libcapsimage-4.2/CAPSImage/CapsEFDC.cpp	2020-05-05 00:06:23.649021613 +0200
+@@ -2229,7 +2229,8 @@
+ 				}
+ 
+ 				// select data bits for CRC source byte value; needed without separate clock and data shifters
+-				for (int value=0, mask=0x4000; mask; mask>>=2) {
++        int value, mask;
++				for (value=0, mask=0x4000; mask; mask>>=2) {
+ 					value<<=1;
+ 					if (amdecode & mask)
+ 						value|=1;
+--- libcapsimage-4.2/CAPSImage/DiskImg.cpp.orig	2020-05-05 00:07:21.540486199 +0200
++++ libcapsimage-4.2/CAPSImage/DiskImg.cpp	2020-05-05 00:07:41.068305595 +0200
+@@ -533,7 +533,8 @@
+ // read network ordered value
+ UDWORD CDiskImage::ReadValue(PUBYTE buf, int cnt)
+ {
+-	for (UDWORD val=0; cnt > 0; cnt--) {
++  UWORD val;
++	for (val=0; cnt > 0; cnt--) {
+ 		val<<=8;
+ 		val|=*buf++;
+ 	}
+--- libcapsimage-4.2/CAPSImage/CapsImgS.cpp.orig	2020-05-05 00:08:24.487904026 +0200
++++ libcapsimage-4.2/CAPSImage/CapsImgS.cpp	2020-05-05 00:11:17.534303595 +0200
+@@ -705,8 +705,8 @@
+ 			pti->timecnt=12500;
+ 
+ 	pti->timebuf=new UDWORD[pti->timecnt+1];
+-
+-	for (int pos=0; pos < pti->timecnt; pos++) {
++  int pos;
++	for (pos=0; pos < pti->timecnt; pos++) {
+ 		UDWORD val=1000;
+ 
+ 		if (pos & 512)
+@@ -734,7 +734,8 @@
+ 
+ 	pti->timebuf=new UDWORD[pti->timecnt+1];
+ 
+-	for (int pos=0; pos < pti->timecnt; pos++) {
++  int pos;
++	for (pos=0; pos < pti->timecnt; pos++) {
+ 		pti->timebuf[pos]=1000;
+ 	}
+ 
+@@ -1370,8 +1371,9 @@
+ 	if (pstr->strstart >= (uint32_t)di.pdt->datasize)
+ 		return imgeShort;
+ 
++  int bls;
+ 	// find the next gap stream stored
+-	for (int bls=pstr->actblock+1; bls < di.blockcount; bls++) {
++	for (bls=pstr->actblock+1; bls < di.blockcount; bls++) {
+ 		if (di.block[bls].flag & (CAPS_BF_GP0 | CAPS_BF_GP1))
+ 			break;
+ 	}
+@@ -1404,7 +1406,8 @@
+ 	uint8_t *buf=di.data;
+ 	int end=0;
+ 
+-	for (uint32_t ofs=pstr->strstart; !end && ofs < pstr->strend; ) {
++  uint32_t ofs;
++	for (ofs=pstr->strstart; !end && ofs < pstr->strend; ) {
+ 		int code=buf[ofs++];
+ 
+ 		// read code, sizeof(count), count
