@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_STELLA_VERSION = f3f06179407ca9528d1c16cccb0582c4f1cd7c87
+LIBRETRO_STELLA_VERSION = dd7dbaecbcfff349b8a1933f13cdd3a2fdd9c0f9
 LIBRETRO_STELLA_SITE = $(call github,stella-emu,stella,$(LIBRETRO_STELLA_VERSION))
 
 define LIBRETRO_STELLA_BUILD_CMDS
