@@ -11,7 +11,7 @@ case "$1" in
 		if [ "$enabled" != "0" ];then
 			settings_lang="`$systemsetting -command load -key system.language`"
 			recallog "starting emulationstation with lang = $settings_lang"
-			command="HOME=/recalbox/share/system startx"
+			command="HOME=/overlay startx"
 			recallog "Starting emulationstation with command : "
 			recallog "$command"
 			eval $command >> $log &

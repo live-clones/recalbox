@@ -5,17 +5,22 @@ then
   exit 0
 fi
 
-UPDATEARCH=`cat /recalbox/recalbox.arch`
-UPDATEFILE="recalbox-${UPDATEARCH}.img.xz"
+UPDATEFILE="rbx_no_upgrade"
 
-if test -e "/boot/update/${UPDATEFILE}"; then
+for file in /boot/update/recalbox-*.img.xz; do
+  if [[ -f $file ]]; then
+    UPDATEFILE=${file}
+    break
+  fi
+done
+
+if test -e "${UPDATEFILE}"; then
   killall S06splash
   dd if=/dev/zero of=/dev/fb0 > /dev/null 2>&1
   fbv -f -i /recalbox/system/resources/offline-install-0.jpg &
   mount -o remount,rw /boot
-  mv /boot/update/${UPDATEFILE} /recalbox/share/system/upgrade/
+  mv ${UPDATEFILE} /recalbox/share/system/upgrade/
   mount -o remount,ro /boot
   ( exec /recalbox/scripts/upgrade/recalbox-squashfs-upgrade.sh )
   exit 0
 fi
-
