@@ -52,8 +52,8 @@ All notable changes to this project will be documented in this file.
 - Fix some bad behaviors in favorite management
 - Add support for nVidia proprietary drivers version 390 and 440
 - Simplify emulator/core selection UI
-- Bump retroarch to v1.8.5
-- Bump retroarch-cheats to v1.8.5
+- Bump retroarch to v1.8.6
+- Bump retroarch-cheats to v1.8.6
 - Bump libretro-assets on last version
 - Bump libretro-cores family
 - Fix reboot Emulationstation with webmanager 
@@ -91,6 +91,7 @@ All notable changes to this project will be documented in this file.
 - Add Rick Dangerous port with libretro-xrick
 - Add Flashback port with libretro-reminiscence (need full game files to be added)
 - Add Wolfenstein 3D port with libretro-ecwolf (full game files go all in the same directory)
+- Add libretro-mupen64plus-nx on rpi for n64 & 64dd emulation
 
 ## [6.1.1]
 - Add zfast shaders

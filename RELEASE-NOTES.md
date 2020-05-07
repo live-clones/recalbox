@@ -36,6 +36,7 @@
 - Rick Dangerous game added to ports
 - Flashback game engine added to ports (need full game files to be added)
 - Wolfenstein 3D game engine added to ports (full game files go all in the same directory)
+- Add libretro's mupen64plus-nx, an improved n64/64dd emulator (rpi only for now)
 
 ### Improvements
 - Share partition is created in exfat on fresh install, which is easier to access from Windows computers
@@ -63,8 +64,8 @@
 - Bump oricatmos emulator on lastest version 
 - Bump simcoupe emulator 
 - Simplify emulator/core selection UI
-- Bump retroarch to v1.8.5
-- Bump retroarch-cheats to v1.8.5
+- Bump retroarch to v1.8.6
+- Bump retroarch-cheats to v1.8.6
 - Bump libretro-assets on last version
 - Bump libretro-cores family
 - Rename 4do to opera (newer libretro 3do core)
