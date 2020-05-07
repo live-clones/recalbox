@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_TIC80_VERSION = fa90f0debd7a7c0e04f3d9e3beb629d23b470acb
+LIBRETRO_TIC80_VERSION = 225b67a39a2359e74fdf54c9e3f1ba0ebf267b73
 LIBRETRO_TIC80_SITE = git://github.com/nesbox/TIC-80.git
 LIBRETRO_TIC80_LICENSE = MIT
 LIBRETRO_TIC80_GIT_SUBMODULES=y

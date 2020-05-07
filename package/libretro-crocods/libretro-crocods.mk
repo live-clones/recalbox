@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_CROCODS_VERSION = fc161752446368195f9718a4ff749db9387e0747
+LIBRETRO_CROCODS_VERSION = 01ccf53d170721d35691df693986411dbae8327c
 LIBRETRO_CROCODS_SITE = $(call github,libretro,libretro-crocods,$(LIBRETRO_CROCODS_VERSION))
 
 define LIBRETRO_CROCODS_BUILD_CMDS

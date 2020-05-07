@@ -91,6 +91,7 @@ All notable changes to this project will be documented in this file.
 - Add Rick Dangerous port with libretro-xrick
 - Add Flashback port with libretro-reminiscence (need full game files to be added)
 - Add Wolfenstein 3D port with libretro-ecwolf (full game files go all in the same directory)
+- Add libretro-mupen64plus-nx for n64 & 64dd emulation (rpi only for now)
 
 ## [6.1.1]
 - Add zfast shaders

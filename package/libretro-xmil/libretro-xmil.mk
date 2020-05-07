@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_XMIL_VERSION = a31e7b38ced8d53b3d3db7088d60fb0a9d5adc93
+LIBRETRO_XMIL_VERSION = e6a5150921c1c8e81085aa20d534fcf40f91d333
 LIBRETRO_XMIL_SITE = $(call github,libretro,xmil-libretro,$(LIBRETRO_XMIL_VERSION))
 
 define LIBRETRO_XMIL_BUILD_CMDS
@@ -18,7 +18,7 @@ endef
 
 define LIBRETRO_XMIL_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/libretro/x1_libretro.so \
-		$(TARGET_DIR)/usr/lib/libretro/xmil_libretro.so
+		$(TARGET_DIR)/usr/lib/libretro/x1_libretro.so
 	mkdir -p $(TARGET_DIR)/recalbox/share_init/bios/xmil
 endef
 

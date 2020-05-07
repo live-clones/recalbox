@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-AMIBERRY_VERSION = 3.1.3
-AMIBERRY_SITE = $(call github,midwan,amiberry,v$(AMIBERRY_VERSION))
+AMIBERRY_VERSION = v3.1.3.1
+AMIBERRY_SITE = $(call github,midwan,amiberry,$(AMIBERRY_VERSION))
 AMIBERRY_DEPENDENCIES = sdl2 sdl2_image sdl2_ttf libcapsimage libmpeg2 mpg123 flac
 
 ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_RPI3),y)

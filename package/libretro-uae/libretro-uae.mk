@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_UAE_VERSION = 987251c661e1fc55035cf08ddae8e6fd1cc81bfc
+LIBRETRO_UAE_VERSION = a715669f8345fe2b277d9fe5698f2704403e64c5
 LIBRETRO_UAE_SITE = $(call github,libretro,libretro-uae,$(LIBRETRO_UAE_VERSION))
 
 ifeq ($(BR2_PACKAGE_RPI_USERLAND),y)
@@ -46,6 +46,7 @@ define LIBRETRO_UAE_BUILD_CMDS
 	$(SED) 's/"kick40060.CD32.ext"/"kick40060.CD32.ext.rom"/g' $(@D)/libretro/libretro-glue.h
 	$(SED) 's/kick33180.A500/kick33180.A500.rom/g' $(@D)/whdload/WHDLoad_files/S/Startup-Sequence
 	$(SED) 's/kick34005.A500/kick34005.A500.rom/g' $(@D)/whdload/WHDLoad_files/S/Startup-Sequence
+	$(SED) 's/kick40063.A600/kick40063.A600.rom/g' $(@D)/whdload/WHDLoad_files/S/Startup-Sequence
 	$(SED) 's/kick40068.A1200/kick40068.A1200.rom/g' $(@D)/whdload/WHDLoad_files/S/Startup-Sequence
 	CFLAGS="$(TARGET_CFLAGS) $(LIBRETRO_UAE_COMPILER_COMMONS_CFLAGS)" \
 		CXXFLAGS="$(TARGET_CXXFLAGS) $(LIBRETRO_UAE_COMPILER_COMMONS_CXXFLAGS)" \
@@ -56,6 +57,7 @@ endef
 define LIBRETRO_UAE_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/puae_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/puae_libretro.so
+	mkdir -p $(TARGET_DIR)/recalbox/share_init/bios/uae_data
 endef
 
 $(eval $(generic-package))

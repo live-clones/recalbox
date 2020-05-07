@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_RACE_VERSION = fc41e50aeff2be5c9d5c70757a2d77c4ecf13ef1
+LIBRETRO_RACE_VERSION = 7ad607340bfc188ed819e15386366c4cd890cc18
 LIBRETRO_RACE_SITE = $(call github,libretro,RACE,$(LIBRETRO_RACE_VERSION))
 
 define LIBRETRO_RACE_BUILD_CMDS
