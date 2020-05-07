@@ -24,6 +24,7 @@ video_smooth = true
 
 savestate_auto_save = false
 savestate_auto_load = false
+savestate_file_compression = enabled
 
 video_shader_dir = /recalbox/share_init/shaders/
 screenshot_directory = /recalbox/share/screenshots/

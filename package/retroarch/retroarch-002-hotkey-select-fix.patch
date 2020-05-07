@@ -1,6 +1,6 @@
 --- a/retroarch.c
 +++ b/retroarch.c
-@@ -15314,6 +15314,9 @@
+@@ -15681,6 +15681,9 @@
        pad_connection_listener->connected(port, driver);
  }
  
@@ -10,7 +10,7 @@
  
  /**
   * check_input_driver_block_hotkey:
-@@ -17601,11 +17604,17 @@
+@@ -17968,11 +17971,17 @@
                 && current_input->input_state(current_input_data, joypad_info,
                    &binds[0], port, RETRO_DEVICE_JOYPAD, 0, RARCH_ENABLE_HOTKEY))
           {
@@ -30,7 +30,7 @@
              input_driver_block_hotkey         = true;
              break;
           }
-@@ -17719,10 +17728,20 @@
+@@ -18086,10 +18095,20 @@
                 current_input_data, joypad_info,
                 &binds, port,
                 RETRO_DEVICE_JOYPAD, 0, RARCH_ENABLE_HOTKEY))

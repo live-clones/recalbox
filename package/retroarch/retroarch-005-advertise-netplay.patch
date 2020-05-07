@@ -1,6 +1,6 @@
 --- a/retroarch.c
 +++ b/retroarch.c
-@@ -4780,7 +4780,7 @@
+@@ -4791,7 +4791,7 @@
     frontend_drv =  
        (const frontend_ctx_driver_t*)frontend_driver_get_cpu_architecture_str(
              frontend_architecture_tmp, sizeof(frontend_architecture_tmp));
