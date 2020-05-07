@@ -43,7 +43,9 @@
   </system>
   <system fullname="Commodore 64" platform="c64">
     <bios path="vice/JiffyDOS_C64.bin" md5="be09394f0576cf81fa8bacf634daf9a2" mandatory="false" core="vice_x64,vice_x64sc,vice_x128" note="JiffyDOS support" />
+    <bios path="vice/JiffyDOS_C128.bin" md5="cbbd1bbcb5e4fd8046b6030ab71fc021" mandatory="false" core="vice_x64,vice_x64sc,vice_x128" note="JiffyDOS support" />
     <bios path="vice/JiffyDOS_1541-II.bin" md5="1b1e985ea5325a1f46eb7fd9681707bf" mandatory="false" core="vice_x64,vice_x64sc,vice_x128" note="JiffyDOS support" />
+    <bios path="vice/JiffyDOS_1571_repl310654.bin" md5="41c6cc528e9515ffd0ed9b180f8467c0" mandatory="false" core="vice_x64,vice_x64sc,vice_x128" note="JiffyDOS support" />
     <bios path="vice/JiffyDOS_1581.bin" md5="20b6885c6dc2d42c38754a365b043d71" mandatory="false" core="vice_x64,vice_x64sc,vice_x128" note="JiffyDOS support" />
   </system>
   <system fullname="Dreamcast" platform="dreamcast">

@@ -5,8 +5,7 @@
 ################################################################################
 
 HYPSEUS_VERSION = 41fc33edaa8273cbf1ad807b57d8c2a7ae143351
-HYPSEUS_REPO = btolab
-HYPSEUS_SITE = $(call github,$(HYPSEUS_REPO),hypseus,$(HYPSEUS_VERSION))
+HYPSEUS_SITE = $(call github,btolab,hypseus,$(HYPSEUS_VERSION))
 HYPSEUS_LICENSE = GPL3
 HYPSEUS_DEPENDENCIES = sdl2 sdl2_image sdl2_ttf zlib libogg libvorbis libmpeg2
 

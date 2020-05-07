@@ -17,4 +17,4 @@
 +static INLINE	void	main_memory_vram_mapping( void )
  {
    if( misc_ctrl & MISC_CTRL_EVRAM ){		/* 拡張アクセスモード */
- 
+   

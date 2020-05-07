@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_VICE_VERSION = e5453f453364122524a0a92f404b98e370f64328
+LIBRETRO_VICE_VERSION = 764add2091b5b1724fe8a6ef2029d3c5cb0cbc92
 LIBRETRO_VICE_SITE = $(call github,libretro,vice-libretro,$(LIBRETRO_VICE_VERSION))
 
 LIBRETRO_VICE_SUBEMULATORS = x64 x64sc x128 xpet xplus4 xvic xcbm2
@@ -16,7 +16,7 @@ define LIBRETRO_VICE_BUILD_EMULATOR
 		CXXFLAGS="$(TARGET_CXXFLAGS) $(COMPILER_COMMONS_CXXFLAGS_SO)" \
 		LDFLAGS="$(TARGET_LDFLAGS) $(COMPILER_COMMONS_LDFLAGS_SO)" \
 		SHARED="$(TARGET_SHARED)" \
-		$(MAKE) CXX="$(TARGET_CXX)" CC="$(TARGET_CC)" -C $(@D)/ -f Makefile.libretro platform="$(RETROARCH_LIBRETRO_PLATFORM)" EMUTYPE=$(strip $(1));
+		$(MAKE) CXX="$(TARGET_CXX)" CC="$(TARGET_CC)" -C $(@D)/ -f Makefile platform="$(RETROARCH_LIBRETRO_PLATFORM)" EMUTYPE=$(strip $(1));
 endef
 
 define LIBRETRO_VICE_BUILD_CMDS
@@ -35,8 +35,7 @@ define LIBRETRO_VICE_INSTALL_TARGET_CMDS
 endef
 
 define LIBRETRO_VICE_PRE_PATCH_FIXUP
-	$(SED) "s|-O2|-O3|g" $(@D)/Makefile.libretro
-	$(SED) 's/\r//g' $(@D)/libretro/libretro-core.c
+	$(SED) "s|-O2|-O3|g" $(@D)/Makefile
 endef
 
 LIBRETRO_VICE_PRE_PATCH_HOOKS += LIBRETRO_VICE_PRE_PATCH_FIXUP

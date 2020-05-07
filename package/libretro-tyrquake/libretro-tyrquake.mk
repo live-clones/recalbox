@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_TYRQUAKE_VERSION = 8c6ec56b95860726ab8faae0356751adb90f395c
+LIBRETRO_TYRQUAKE_VERSION = 7f175ba5c51c65e815a239ff32fb4aae6564c0a7
 LIBRETRO_TYRQUAKE_SITE = $(call github,libretro,tyrquake,$(LIBRETRO_TYRQUAKE_VERSION))
 
 define LIBRETRO_TYRQUAKE_BUILD_CMDS
