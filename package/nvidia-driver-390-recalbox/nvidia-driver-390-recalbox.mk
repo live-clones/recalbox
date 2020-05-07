@@ -206,12 +206,20 @@ define NVIDIA_DRIVER_390_RECALBOX_INSTALL_TARGET_CMDS
 endef
 
 # recalbox hardware script will handle kernel module version
+ifeq ($(BR2_x86_64),y)
 define NVIDIA_DRIVER_390_RECALBOX_POST_INSTALL_TARGET_KERNEL_MODULES
 	mv $(TARGET_DIR)/lib/modules/$(LINUX_VERSION)/extra/nvidia-drm.ko $(TARGET_DIR)/lib/modules/$(LINUX_VERSION)/extra/nvidia-drm.ko.$(NVIDIA_DRIVER_390_RECALBOX_VERSION)
 	mv $(TARGET_DIR)/lib/modules/$(LINUX_VERSION)/extra/nvidia-modeset.ko $(TARGET_DIR)/lib/modules/$(LINUX_VERSION)/extra/nvidia-modeset.ko.$(NVIDIA_DRIVER_390_RECALBOX_VERSION)
 	mv $(TARGET_DIR)/lib/modules/$(LINUX_VERSION)/extra/nvidia-uvm.ko $(TARGET_DIR)/lib/modules/$(LINUX_VERSION)/extra/nvidia-uvm.ko.$(NVIDIA_DRIVER_390_RECALBOX_VERSION)
 	mv $(TARGET_DIR)/lib/modules/$(LINUX_VERSION)/extra/nvidia.ko $(TARGET_DIR)/lib/modules/$(LINUX_VERSION)/extra/nvidia.ko.$(NVIDIA_DRIVER_390_RECALBOX_VERSION)
 endef
+else
+define NVIDIA_DRIVER_390_RECALBOX_POST_INSTALL_TARGET_KERNEL_MODULES
+	mv $(TARGET_DIR)/lib/modules/$(LINUX_VERSION)/extra/nvidia-drm.ko $(TARGET_DIR)/lib/modules/$(LINUX_VERSION)/extra/nvidia-drm.ko.$(NVIDIA_DRIVER_390_RECALBOX_VERSION)
+	mv $(TARGET_DIR)/lib/modules/$(LINUX_VERSION)/extra/nvidia-modeset.ko $(TARGET_DIR)/lib/modules/$(LINUX_VERSION)/extra/nvidia-modeset.ko.$(NVIDIA_DRIVER_390_RECALBOX_VERSION)
+	mv $(TARGET_DIR)/lib/modules/$(LINUX_VERSION)/extra/nvidia.ko $(TARGET_DIR)/lib/modules/$(LINUX_VERSION)/extra/nvidia.ko.$(NVIDIA_DRIVER_390_RECALBOX_VERSION)
+endef
+endif
 
 NVIDIA_DRIVER_390_RECALBOX_POST_INSTALL_TARGET_HOOKS += NVIDIA_DRIVER_390_RECALBOX_POST_INSTALL_TARGET_KERNEL_MODULES
 
