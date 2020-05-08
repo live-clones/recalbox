@@ -50,6 +50,7 @@ lint commits:
 
 .build_template: &build_definition
   stage: build
+  when: manual
   script:
     - export RECALBOX_VERSION="${CI_COMMIT_TAG:-${CI_COMMIT_REF_SLUG:0:12} (${CI_COMMIT_SHA:0:8}) ${CI_PIPELINE_ID} ${ARCH} $(date '+%Y/%m/%d %H:%M:%S')}"
     - docker build -t "recalbox-${ARCH}" .
