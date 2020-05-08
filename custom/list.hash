@@ -4,13 +4,11 @@
 #   * a line of minus signs ('-') indicates a file that we remove from Buildroot external tree
 #   * a line of plus signs ('+') indicates a file that we add to the Buildroot external tree
 
-8fc8a6339c14a1fe72ac2a84b5812f11  boot/syslinux/syslinux.mk
+bebf5922f3fcd58aa3d3316f053e556c  boot/syslinux/syslinux.mk
 20cad3977b0ee4cc96821e8e7d2e6a7f  package/bluez5_utils/bluez5_utils.mk
 92048d2d2185b48c1e2097b9685c92f8  package/binutils/binutils.mk
 fad4a9334552741586c0d33ac477ce65  package/dhcpcd/dhcpcd.mk
 c445390118f5d058dd372a8b2beb25a8  package/dropbear/S50dropbear
-dd1f6bdbde586c692b0a29a7feed14f3  package/genimage/genimage.hash
-d428f583c595f5eb362c299b01d1eb4f  package/genimage/genimage.mk
 669a965d005d7545ad408a8dc69012ba  package/fluidsynth/fluidsynth.hash
 15047ec39b36fdc73bd91899a099cc55  package/fluidsynth/fluidsynth.mk
 6b31f620c36bb2d6c54cfaf71cc5a086  package/initscripts/init.d/rcK
