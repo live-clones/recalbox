@@ -17,8 +17,9 @@ class Zip
     /*!
      * @brief Constructor
      * @param zipfile Zip file to open
+     * @param write open/or create the zip archive in read/write mode
      */
-    explicit Zip(const Path& zipfile);
+    explicit Zip(const Path& zipfile, bool write = false);
 
     /*!
      * @brief Destructor
@@ -37,6 +38,13 @@ class Zip
      * @return File Path
      */
     Path FileName(int index) const;
+
+    /*!
+     * @brief Get content of the entry at the given index
+     * @param index Entry index from 0 to Count()-1
+     * @return Content
+     */
+    std::string Content(int index) const;
 
     /*!
      * @brief Get crc32 of the entry at the given index
@@ -71,5 +79,21 @@ class Zip
      * @return Uncompressed size
      */
     long long UncompressedSize(int index) const;
+
+    /*!
+     * @brief Add a file to the current archive
+     * @param file file to add
+     * @param base base folder to remove from the file path
+     * @return True if the file has been added successfully
+     */
+    bool Add(const Path& file, const Path& base);
+
+    /*!
+     * @brief Add a content to the current archive
+     * @param content content to zip
+     * @param path entity path
+     * @return True if the content has been added successfully
+     */
+    bool Add(const std::string& content, const std::string path);
 };
 

@@ -433,7 +433,8 @@ void MainRunner::FileSystemWatcherNotification(EventType event, const Path& path
       mPendingExit = PendingExit::MustExit;
     else if ((event & (EventType::Remove | EventType::CloseWrite)) != 0)
     {
-      if (path.Filename() == "gamelist.xml")
+      std::string name = path.Filename();
+      if (name == "gamelist.xml" || name == "gamelist.zip")
         mPendingExit = PendingExit::GamelistChanged;
       else if (path.ToString().find("themes") != std::string::npos)
         mPendingExit = PendingExit::ThemeChanged;

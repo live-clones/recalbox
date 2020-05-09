@@ -5,10 +5,10 @@
 #include <utils/hash/Md5.h>
 #include "Zip.h"
 
-Zip::Zip(const Path& zipfile)
+Zip::Zip(const Path& zipfile, bool write)
 {
-  int err;
-  mArchive = zip_open(zipfile.ToChars(), ZIP_RDONLY, &err);
+  int err = 0;
+  mArchive = zip_open(zipfile.ToChars(), write ? (ZIP_CREATE | ZIP_TRUNCATE) : ZIP_RDONLY, &err);
 }
 
 Zip::~Zip()
@@ -114,3 +114,61 @@ long long Zip::UncompressedSize(int index) const
   return 0;
 }
 
+bool Zip::Add(const Path& file, const Path& base)
+{
+  // Get source
+  zip_source* source = zip_source_file_create(file.ToChars(), 0, 0, nullptr);
+  if (source == nullptr)  return false;
+
+  // Add
+  bool dummy = false;
+  int index =  zip_file_add(mArchive, file.MakeRelative(base, dummy).ToChars(), source, ZIP_FL_ENC_UTF_8);
+  if (index < 0)
+  {
+    zip_source_free(source); // Delete source only on failure
+    return false;
+  }
+
+  // Set compression
+  zip_set_file_compression(mArchive, index, ZIP_CM_BZIP2, 9);
+
+  return true;
+}
+
+bool Zip::Add(const std::string& content, const std::string path)
+{
+  // Get source
+  zip_source* source = zip_source_buffer(mArchive, content.data(), content.length(), 0);
+  if (source == nullptr)  return false;
+
+  // Add
+  int index =  zip_file_add(mArchive, path.data(), source, ZIP_FL_ENC_UTF_8);
+  if (index < 0)
+  {
+    zip_source_free(source); // Delete source only on failure
+    return false;
+  }
+
+  // Set compression
+  zip_set_file_compression(mArchive, index, ZIP_CM_BZIP2, 9);
+
+  return true;
+}
+
+std::string Zip::Content(int index) const
+{
+  if (mArchive != nullptr)
+  {
+    zip_file_t* file = zip_fopen_index(mArchive, index, 0);
+    if (file != nullptr)
+    {
+      std::string result;
+      char buffer[1 << 20]; // 1Mb buffer
+      for(int read = 0; (read = (int)zip_fread(file, buffer, sizeof(buffer))) > 0; )
+        result.append(buffer, read);
+      zip_fclose(file);
+      return result;
+    }
+  }
+  return std::string();
+}
