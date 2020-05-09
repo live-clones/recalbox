@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_THEODORE_VERSION = e9b9d5b9a941333df33a0689510834ff67ed6a3b
+LIBRETRO_THEODORE_VERSION = 4cc59e04fbb9632583100ff74d73c613f52c9621
 LIBRETRO_THEODORE_SITE = $(call github,Zlika,theodore,$(LIBRETRO_THEODORE_VERSION))
 
 define LIBRETRO_THEODORE_BUILD_CMDS
