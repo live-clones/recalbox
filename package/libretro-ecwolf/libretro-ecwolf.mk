@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_ECWOLF_VERSION = 674cf32cb0719a981fc831b6c5b98ef5aef93732
+LIBRETRO_ECWOLF_VERSION = 5aeb2557633a74bf588cbbfe322a8911629a57e1
 LIBRETRO_ECWOLF_SITE = $(call github,libretro,ecwolf,$(LIBRETRO_ECWOLF_VERSION))
 
 define LIBRETRO_ECWOLF_BUILD_CMDS
