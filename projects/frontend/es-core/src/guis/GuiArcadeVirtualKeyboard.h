@@ -217,7 +217,26 @@ class GuiArcadeVirtualKeyboard : public Gui
      */
     static int GetFontSize(float ratio)
     {
-       return ((int) (ratio * Math::min(Renderer::getDisplayHeightAsFloat(), Renderer::getDisplayWidthAsFloat())));
+      int iRatio = (int)(ratio * Math::min(Renderer::getDisplayHeightAsFloat(), Renderer::getDisplayWidthAsFloat()));
+      switch(getRaspberryVersion())
+      {
+        case RaspberryGeneration::UndetectedYet:
+        case RaspberryGeneration::NotRaspberry:
+        case RaspberryGeneration::Pi4:
+        case RaspberryGeneration::NotYetKnown:break;
+        case RaspberryGeneration::Pi0:
+        case RaspberryGeneration::Pi1:
+        case RaspberryGeneration::Pi2:
+        case RaspberryGeneration::Pi3:
+        case RaspberryGeneration::Pi3plus:
+        {
+          int max = (int)(sWheelFontRatio * 800);
+          if (iRatio > max)
+            iRatio = max;
+          break;
+        }
+      }
+       return iRatio;
     }
 
     /*!
