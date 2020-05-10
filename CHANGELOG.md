@@ -13,7 +13,7 @@ All notable changes to this project will be documented in this file.
 - Fix Omxplayer after Ffmpeg bump
 - Fix Kodi after Ffmpeg bump
 - Add WiringPi progs abd libs
-- Bump ffmpeg to 4.4.2
+- Bump ffmpeg to 4.4.2 (ffmpeg, ffplay, ffprobe)
 - Add 6 boot videos : snes, megadrive, mame, winners, explode and hologram
 - Add joystick rules for IPega PG-9037
 - Fix Odroid XU4 fan issue
