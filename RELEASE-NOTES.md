@@ -84,6 +84,7 @@
 - Bump AdvanceMame to v3.9
 - Add volume control to XU4
 - Improve the management of external screens and selection from recalbox.conf by Chriskt78
+- Add support for zipped gamelist.xml
 
 
 ### Fixes
