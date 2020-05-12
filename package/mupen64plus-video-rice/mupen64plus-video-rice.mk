@@ -1,13 +1,13 @@
 ################################################################################
 #
-# mupen64plus video rice
+# MUPEN64PLUS-VIDEO-RICE
 #
 ################################################################################
 
 MUPEN64PLUS_VIDEO_RICE_VERSION = e409d749a53bd6fbb764ef4012614d21779a20fb
 MUPEN64PLUS_VIDEO_RICE_SITE = $(call github,mupen64plus,mupen64plus-video-rice,$(MUPEN64PLUS_VIDEO_RICE_VERSION))
 MUPEN64PLUS_VIDEO_RICE_LICENSE = MIT
-MUPEN64PLUS_VIDEO_RICE_DEPENDENCIES = sdl2 alsa-lib rpi-userland mupen64plus-core
+MUPEN64PLUS_VIDEO_RICE_DEPENDENCIES = sdl2 alsa-lib mupen64plus-core
 MUPEN64PLUS_VIDEO_RICE_INSTALL_STAGING = YES
 
 define MUPEN64PLUS_VIDEO_RICE_BUILD_CMDS
