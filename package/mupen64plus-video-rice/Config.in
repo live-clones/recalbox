@@ -1,4 +1,4 @@
-config BR2_PACKAGE_MUPEN64PLUS_RICE
+config BR2_PACKAGE_MUPEN64PLUS_VIDEO_RICE
 	bool "mupen 64 plus rice plugin"
 	depends on BR2_INSTALL_LIBSTDCPP
 	depends on BR2_PACKAGE_SDL2
@@ -9,5 +9,5 @@ config BR2_PACKAGE_MUPEN64PLUS_RICE
 	  mupen64plus rice plugin
 	  https://github.com/mupen64plus/mupen64plus-video-rice
 
-comment "BR2_PACKAGE_MUPEN64PLUS_RICE needs a toolchain w/ C++, ALSA and SDL2"
+comment "BR2_PACKAGE_MUPEN64PLUS_VIDEO_RICE needs a toolchain w/ C++, ALSA and SDL2"
 	depends on !BR2_INSTALL_LIBSTDCPP || !BR2_PACKAGE_SDL2 || !BR2_PACKAGE_ALSA_LIB
