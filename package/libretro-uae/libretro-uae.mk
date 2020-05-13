@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_UAE_VERSION = 067de39c8898fcc937f45353c7a100c839663c6d
+LIBRETRO_UAE_VERSION = 25b42b237c778dbd295cf6f4b26899b2816fbdaa
 LIBRETRO_UAE_SITE = $(call github,libretro,libretro-uae,$(LIBRETRO_UAE_VERSION))
 
 ifeq ($(BR2_PACKAGE_RPI_USERLAND),y)
@@ -44,10 +44,10 @@ define LIBRETRO_UAE_BUILD_CMDS
 	$(SED) 's/"kick34005.CDTV"/"kick34005.CDTV.rom"/g' $(@D)/libretro/libretro-glue.h
 	$(SED) 's/"kick40060.CD32"/"kick40060.CD32.rom"/g' $(@D)/libretro/libretro-glue.h
 	$(SED) 's/"kick40060.CD32.ext"/"kick40060.CD32.ext.rom"/g' $(@D)/libretro/libretro-glue.h
-	$(SED) 's/kick33180.A500/kick33180.A500.rom/g' $(@D)/whdload/WHDLoad_files/S/Startup-Sequence
-	$(SED) 's/kick34005.A500/kick34005.A500.rom/g' $(@D)/whdload/WHDLoad_files/S/Startup-Sequence
-	$(SED) 's/kick40063.A600/kick40063.A600.rom/g' $(@D)/whdload/WHDLoad_files/S/Startup-Sequence
-	$(SED) 's/kick40068.A1200/kick40068.A1200.rom/g' $(@D)/whdload/WHDLoad_files/S/Startup-Sequence
+	$(SED) 's/kick33180.A500/kick33180.A500.rom/g' $(@D)/whdload/WHDLoad_files/S/KSCopy
+	$(SED) 's/kick34005.A500/kick34005.A500.rom/g' $(@D)/whdload/WHDLoad_files/S/KSCopy
+	$(SED) 's/kick40063.A600/kick40063.A600.rom/g' $(@D)/whdload/WHDLoad_files/S/KSCopy
+	$(SED) 's/kick40068.A1200/kick40068.A1200.rom/g' $(@D)/whdload/WHDLoad_files/S/KSCopy
 	CFLAGS="$(TARGET_CFLAGS) $(LIBRETRO_UAE_COMPILER_COMMONS_CFLAGS)" \
 		CXXFLAGS="$(TARGET_CXXFLAGS) $(LIBRETRO_UAE_COMPILER_COMMONS_CXXFLAGS)" \
 		LDFLAGS="$(TARGET_LDFLAGS) $(LIBRETRO_UAE_COMPILER_COMMONS_LDFLAGS)" \
