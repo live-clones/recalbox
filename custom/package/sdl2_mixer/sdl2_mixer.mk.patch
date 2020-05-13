@@ -1,5 +1,5 @@
 diff --git a/package/sdl2_mixer/sdl2_mixer.mk b/package/sdl2_mixer/sdl2_mixer.mk
-index c990847..50cc9c5 100644
+index f349b8ca80..50cc9c5992 100644
 --- a/package/sdl2_mixer/sdl2_mixer.mk
 +++ b/package/sdl2_mixer/sdl2_mixer.mk
 @@ -12,7 +12,12 @@ SDL2_MIXER_LICENSE_FILES = COPYING.txt

@@ -1,5 +1,5 @@
 diff --git a/boot/syslinux/syslinux.mk b/boot/syslinux/syslinux.mk
-index 1349641..5e9ec1a 100644
+index 67bc69254e..41189cba15 100644
 --- a/boot/syslinux/syslinux.mk
 +++ b/boot/syslinux/syslinux.mk
 @@ -30,6 +30,7 @@ SYSLINUX_EFI_BITS = efi64

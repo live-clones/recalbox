@@ -5,8 +5,8 @@
 #   * a line of plus signs ('+') indicates a file that we add to the Buildroot external tree
 
 bebf5922f3fcd58aa3d3316f053e556c  boot/syslinux/syslinux.mk
-20cad3977b0ee4cc96821e8e7d2e6a7f  package/bluez5_utils/bluez5_utils.mk
 92048d2d2185b48c1e2097b9685c92f8  package/binutils/binutils.mk
+20cad3977b0ee4cc96821e8e7d2e6a7f  package/bluez5_utils/bluez5_utils.mk
 fad4a9334552741586c0d33ac477ce65  package/dhcpcd/dhcpcd.mk
 c445390118f5d058dd372a8b2beb25a8  package/dropbear/S50dropbear
 669a965d005d7545ad408a8dc69012ba  package/fluidsynth/fluidsynth.hash
@@ -22,16 +22,16 @@ b508e6d0b23687606edbb191db189ee8  package/intel-mediasdk/intel-mediasdk.hash
 e459efac93dadd5c08fbe59ecd03bfd9  package/libcec/libcec.mk
 411c881d8d83c11bd9c544a33a218245  package/libclc/libclc.mk
 ebf2b3624c1427077933a903679ed7a9  package/lirc-tools/lirc-tools.mk
-cfc4ca8da37d658b18f2d7422b09048c  package/mpg123/mpg123.mk
 7dda00b9bb5a907cbaca47bb0dc9672f  package/mosquitto/mosquitto.mk
+cfc4ca8da37d658b18f2d7422b09048c  package/mpg123/mpg123.mk
 f38548efeaeaaa6515c91bc6ab7d9d54  package/rpi-firmware/cmdline.txt
 f01ea6ba5ccf7e7b094e83301984333d  package/rpi-firmware/config.txt
 635322bdc7c4e8d244105c762bd173d5  package/rpi-firmware/rpi-firmware.hash
 5be9652e767c6fbff1a647c3abd5e14e  package/rpi-firmware/rpi-firmware.mk
-76f5941c64fe63d71fdbafde3594ba78  package/sdl_sound/Config.in
-7255c6ecc9f8bd6a511a495b1c8c1d0a  package/sdl_sound/sdl_sound.mk
 50dc2a2f96841baf8df5f6482323275f  package/sdl2/sdl2.mk
 92d54b262be45808e8892ccc6214bd25  package/sdl2_mixer/sdl2_mixer.mk
+76f5941c64fe63d71fdbafde3594ba78  package/sdl_sound/Config.in
+7255c6ecc9f8bd6a511a495b1c8c1d0a  package/sdl_sound/sdl_sound.mk
 503c8043fd40aa5486cd99bc9ccfdc75  package/skeleton-init-common/skeleton-init-common.mk
 5fc4f4800b19ccbd3403b530e5496880  support/scripts/mkusers
 2673dc3e7fbc4920c43ad91ad9214d3e  system/device_table.txt

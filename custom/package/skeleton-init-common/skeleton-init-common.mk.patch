@@ -1,8 +1,8 @@
 diff --git a/package/skeleton-init-common/skeleton-init-common.mk b/package/skeleton-init-common/skeleton-init-common.mk
-index 8228a81..51aa132 100644
+index 4a67f51c19..afab79b463 100644
 --- a/package/skeleton-init-common/skeleton-init-common.mk
 +++ b/package/skeleton-init-common/skeleton-init-common.mk
-@@ -72,7 +72,7 @@ endif
+@@ -78,7 +78,7 @@ endif
  define SKELETON_INIT_COMMON_SET_ROOT_PASSWD
  	$(SED) s,^root:[^:]*:,root:$(SKELETON_INIT_COMMON_ROOT_PASSWORD):, $(TARGET_DIR)/etc/shadow
  endef
