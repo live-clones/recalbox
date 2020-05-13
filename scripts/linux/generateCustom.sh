@@ -139,16 +139,17 @@ listGitChanges '^ M' | while read -r filePath; do
   echo -e "${c_yellow}[modified]${c_reset} ${BUILDROOT_DIR}/${filePath}"
 
   modifiedFile="${BUILDROOT_DIR}/${filePath}"
-  originalFile="${CUSTOM_DIR}/${filePath}"
-  patchFile="${originalFile}.patch"
+  customFile="${CUSTOM_DIR}/${filePath}"
+  patchFile="${customFile}.patch"
 
   # Create directory in 'custom' tree
-  mkdir -p "$(dirname "${originalFile}")"
+  mkdir -p "$(dirname "${customFile}")"
   # Save patch file to 'custom' tree
   (cd "${BUILDROOT_DIR}"; git diff "${filePath}") > "${patchFile}"
-  # Reverse-apply the patch to the modified file to obtain the original file,
-  # and save it to the 'custom' tree
-  patch -p0 --reverse --silent "${modifiedFile}" --input "${patchFile}" --output "${originalFile}"
-  # Add original file MD5 sum to hashFile
-  (cd "${CUSTOM_DIR}"; md5sum "${filePath}") >> "${hashFile}"
+  # Save the patched file to 'custom' tree
+  cp "$modifiedFile" "$customFile"
+  # Reverse-apply the patch to the modified file to obtain the original hash
+  patch -p0 --reverse --silent "${modifiedFile}" --input "${patchFile}" --output - | \
+    md5sum | \
+    sed "s#-\$#${filePath}#" >> "${hashFile}"
 done
