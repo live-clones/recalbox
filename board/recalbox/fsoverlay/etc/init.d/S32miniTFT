@@ -18,6 +18,17 @@ DefaultStopLogo='RBvideos/recalboxIntroExplode.mp4'
 tftResolution="$(${systemsetting} -command load -key system.secondminitft.resolution)"
 tftType="$(${systemsetting} -command load -key system.secondminitft.type)"
 
+#needed to use scaling with ffmpeg
+case "${tftResolution}" in
+    240p)    tftFullResolution=("-vf" "scale=320:-1,setdar=4/3,pad=width=320:height=240:x=0:y=15:color=black")  ;;
+    320p)    tftFullResolution=("-s" "480x320")  ;;
+esac
+
+#force to 320p to keep only 1 videos directory
+#ffmpg will be used to resize
+tftResolution=320p
+
+
 if [ "${tftType}" = "ogst" ]; then
     fbDevice="/dev/fb_"
 fi
@@ -31,7 +42,8 @@ do_stop() {
     pkill -P "${scriptPID}" &> /dev/null
     #display stop video
     dd if=/dev/zero of="${fbDevice}" &> /dev/null    #clear before draw
-    "${FFMPEG}" -re -i "${LogoFolder}"/"${tftResolution}"/"${DefaultStopLogo}" -pix_fmt rgb565le -f fbdev "${fbDevice}"  &> /dev/null &
+    "${FFMPEG}" -re -i "${LogoFolder}"/"${tftResolution}"/"${DefaultStopLogo}" "${tftFullResolution[@]}" -c:v rawvideo -pix_fmt rgb565le -f fbdev "${fbDevice}" &> /dev/null &
+    #"${FFMPEG}" -re -i "${LogoFolder}"/"${tftResolution}"/"${DefaultStopLogo}" -s "${tftFullResolution}" -aspect 4:3 -pix_fmt rgb565le -f fbdev "${fbDevice}"  &> /dev/null &
     dd if=/dev/zero of="${fbDevice}" &> /dev/null #clear before draw
     echo "Stopping tft support"
     start-stop-daemon --stop --pidfile $PIDFILE

@@ -37,10 +37,16 @@ fi
 
 #needed to use scaling with ffmpeg
 case "${tftResolution}" in
-    240p)    tftFullResolution="320x240"  ;;
-    320p)    tftFullResolution="480x320"  ;;
+    240p)    tftFullResolution=("-vf" "scale=320:-1,setdar=4/3,pad=width=320:height=240:x=0:y=15:color=black")  
+             tftScreenResolution="320x240"  ;;
+    320p)    tftFullResolution=("-s" "480x320")
+             tftScreenResolution="480x320"  ;;
 esac
 recallog "Full Resolution => ${tftFullResolution}"
+
+#force to 320p to keep only 1 videos directory
+#ffmpg will be used to resize
+tftResolution=320p
 
 #get image processing option fot fbv
 imgStretchEnabled="$(${systemsetting} -command load -key system.secondminitft.imageStretchEnabled)"
@@ -129,7 +135,10 @@ do_start() {
         dd if=/dev/zero of="${fbDevice}" &> /dev/null   #clear before draw
         #to save time intro video is backgrounded and killable with any action
         pkill -P "${scriptPID}" &> /dev/null
-        "${FFMPEG}" -re -i "${LogoFolder}"/"${tftResolution}"/"${DefaultStartLogo}" -pix_fmt rgb565le -f fbdev "${fbDevice}" &> /dev/null
+	#echo "${FFMPEG}" -re -i "${LogoFolder}"/"${tftResolution}"/"${DefaultStartLogo}" "${tftFullResolution[@]}"  -c:v rawvideo -pix_fmt rgb565le -f fbdev "${fbDevice}"
+        "${FFMPEG}" -re -i "${LogoFolder}"/"${tftResolution}"/"${DefaultStartLogo}" "${tftFullResolution[@]}" -c:v rawvideo -pix_fmt rgb565le -f fbdev "${fbDevice}" &> /dev/null
+        #&> /dev/null
+        #"${FFMPEG}" -re -i "${LogoFolder}"/"${tftResolution}"/"${DefaultStartLogo}" -vf "scale=320:-1,setdar=4/3,pad=width=320:height=240:x=0:y=15:color=black" -c:v rawvideo -pix_fmt rgb565le -f fbdev "${fbDevice}"
         
         #initialize
         LTIME=""
@@ -210,7 +219,7 @@ do_start() {
                         fi
                         dd if=/dev/zero of="${fbDevice}" &> /dev/null   #clear before draw
                         usleep "${tempoShort}"
-                        "${FFMPEG}" -re -stream_loop -1 -i "${LogoFolder}"/"${tftResolution}"/"${LogoFile}" -c:v rawvideo -pix_fmt rgb565le -f fbdev "${fbDevice}" &> /dev/null &
+                        "${FFMPEG}" -re -stream_loop -1 -i "${LogoFolder}"/"${tftResolution}"/"${LogoFile}"  "${tftFullResolution[@]}" -c:v rawvideo -pix_fmt rgb565le -f fbdev "${fbDevice}" &> /dev/null &
                         ;;
                     gamelistbrowsing|endgame|enddemo)
                         TFTGameImage="$(sed -n 's/^ImagePath=\([^\r]\+\)\r\?$/\1/p' /tmp/es_state.inf)"
@@ -234,7 +243,13 @@ do_start() {
                             else
 								FRAMEBUFFER="${fbDevice}" fbv "${imgStretch}" "${imgIgnoreAspect}" "${imgEnlarge}" "${imgAlpha}" --delay 1 "${TFTGameImage}" &> /dev/null &
                                 usleep "${tempoLong}" #display image for a bit of time 
-                                "${FFMPEG}" -re -stream_loop -1 -i "${TFTVideoPath}" -s "${tftFullResolution}" -c:v rawvideo -pix_fmt rgb565le -f fbdev "${fbDevice}" &> /dev/null &
+                                #compute display settings for scraped video
+                                widthVideo=$(ffprobe -v error -select_streams v:0 -show_entries stream=width -of csv=s=x:p=0  ${TFTVideoPath})
+                                #echo ${widthVideo}
+                                heightVideo=$(ffprobe -v error -select_streams v:0 -show_entries stream=height,width -of csv=s=x:p=0  ${TFTVideoPath})
+                                #echo ${heightVideo}
+                                
+                                "${FFMPEG}" -re -stream_loop -1 -i "${TFTVideoPath}" -s "${tftScreenResolution}" -aspect 4:3 -c:v rawvideo -pix_fmt rgb565le -f fbdev "${fbDevice}" &> /dev/null &
                             fi
                         fi
                         ;;
@@ -260,7 +275,7 @@ do_start() {
                             fi
                             dd if=/dev/zero of="${fbDevice}" &> /dev/null   #clear before draw
                             usleep "${tempoShort}"
-                            "${FFMPEG}" -re -i "${LogoFolder}"/"${tftResolution}"/"${LogoFile}" -c:v rawvideo -pix_fmt rgb565le -f fbdev "${fbDevice}" &> /dev/null
+                            "${FFMPEG}" -re -i "${LogoFolder}"/"${tftResolution}"/"${LogoFile}" -s "${tftFullResolution[@]}" -aspect 4:3 -c:v rawvideo -pix_fmt rgb565le -f fbdev "${fbDevice}" &> /dev/null
                             dd if=/dev/zero of="${fbDevice}" &> /dev/null   #clear before draw
                             usleep "${tempoShort}"
                             FRAMEBUFFER="${fbDevice}" fbv "${imgStretch}" "${imgIgnoreAspect}" "${imgEnlarge}" "${imgAlpha}" --delay 1 "${TFTGameImage}" &> /dev/null
