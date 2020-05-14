@@ -39,6 +39,8 @@
 - Add libretro's mupen64plus-nx, an improved n64/64dd emulator (rpi only for now)
 
 ### Improvements
+- Bump Buildroot to version 2020.02
+- Bump KODI to Leia 18.5
 - Share partition is created in exfat on fresh install, which is easier to access from Windows computers
 - Improve internal Scraper (ScreenScraper):
   - Faster! Use your ScreenScraper's threads to parallelize workloads 
