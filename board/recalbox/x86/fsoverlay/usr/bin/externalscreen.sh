@@ -4,7 +4,7 @@ export DISPLAY=:0
 
 xrandrOutput=$(xrandr)
 
-OUTPUT_MAXRES=$(echo "${xrandrOutput}" | awk '$1!~"[0-9]*x[0-9]*" {OUTPUT=$1; RESO=1;} $1~"[0-9]*x[0-9]*" && RESO==1 {print OUTPUT "=" $1; RESO++;}')
+OUTPUT_MAXRES=$(echo "${xrandrOutput}" | awk '$1!~"[0-9]*x[0-9]*i?" {OUTPUT=$1; RESO=1;} $1~"[0-9]*x[0-9]*i?" && RESO==1 {print OUTPUT "=" $1; RESO++;}')
 if [ -z "$OUTPUT_MAXRES" ]; then
   echo "No screen connected..."
   exit
@@ -36,7 +36,7 @@ if [ -n "$PREFERED" ]; then
 fi
   
 if [ -n "$FORCE_RES" ]; then
-  FORCE_RES_EXISTS=$(echo "${xrandrOutput}" | awk -v SEL_OUTPUT="$SEL_OUTPUT" -v FORCE_RES="$FORCE_RES" '$1!~"[0-9]*x[0-9]*" {OUTPUT=$1; RESO=1;} ($1~"[0-9]*x[0-9]*") && (OUTPUT==SEL_OUTPUT) && ($1==FORCE_RES) {print $1; RESO++;}')
+  FORCE_RES_EXISTS=$(echo "${xrandrOutput}" | awk -v SEL_OUTPUT="$SEL_OUTPUT" -v FORCE_RES="$FORCE_RES" '$1!~"[0-9]*x[0-9]*i?" {OUTPUT=$1; RESO=1;} ($1~"[0-9]*x[0-9]*i?") && (OUTPUT==SEL_OUTPUT) && ($1==FORCE_RES) {print $1; RESO++;}')
   if [ -n "$FORCE_RES_EXISTS" ]; then
     echo "Force selected output $SEL_OUTPUT to $FORCE_RES, disable others"
     XRANDR_CMD=$(echo "$OUTPUT_MAXRES" | awk -v SEL_OUTPUT="$SEL_OUTPUT" -v FORCE_RES="$FORCE_RES" 'BEGIN {FS="="; printf "xrandr"} $1==SEL_OUTPUT {printf " --output " $1 " --mode " FORCE_RES;} $1!=SEL_OUTPUT {printf " --output " $1 " --off";} END {printf "\n";}') 
