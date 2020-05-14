@@ -1,9 +1,9 @@
 diff --git a/package/dhcpcd/dhcpcd.mk b/package/dhcpcd/dhcpcd.mk
-index dc5c69b..100ba67 100644
+index 63dbbee86c..d1d480d3f8 100644
 --- a/package/dhcpcd/dhcpcd.mk
 +++ b/package/dhcpcd/dhcpcd.mk
-@@ -38,7 +38,7 @@ endef
- 
+@@ -42,7 +42,7 @@ endef
+ ifeq ($(BR2_PACKAGE_NETWORK_MANAGER),)
  define DHCPCD_INSTALL_INIT_SYSV
  	$(INSTALL) -m 755 -D package/dhcpcd/S41dhcpcd \
 -		$(TARGET_DIR)/etc/init.d/S41dhcpcd

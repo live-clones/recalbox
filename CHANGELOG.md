@@ -10,6 +10,9 @@ All notable changes to this project will be documented in this file.
 - Automatic recovery after 3 boots failure
 - Brand new update system, easier than ever
 - Share partition is created in exfat on fresh install
+- Major system upgrade. See https://github.com/buildroot/buildroot/blob/2020.02/CHANGES#L1-L1427 for the full log
+- Bump virtualgamepads to v1.4.0 and added fixes for nodejs 12
+- Bump rpi-firmware to v1.20200212
 - Fix Omxplayer after Ffmpeg bump
 - Fix Kodi after Ffmpeg bump
 - Add WiringPi progs abd libs
@@ -92,6 +95,7 @@ All notable changes to this project will be documented in this file.
 - Add Flashback port with libretro-reminiscence (need full game files to be added)
 - Add Wolfenstein 3D port with libretro-ecwolf (full game files go all in the same directory)
 - Add libretro-mupen64plus-nx for n64 & 64dd emulation (rpi only for now)
+- Bump buildroot to 2020.02
 
 ## [6.1.1]
 - Add zfast shaders

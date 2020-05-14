@@ -1,22 +1,23 @@
 #!/bin/bash
 
-hashSource="custom/list.hash"
-scriptName=$(basename $0 .sh)
-forcePatch=0
+### Global variables ###
 
-if [[ $1 == "-h" ]] ; then
-  echo "
-This script considers the recalbox repo as a buildroot external tree
-It will list the $hashSource file (which is the output of md5sum ) and patch a buildroot treee with it
-The buildroot tree path must be specified through the BUILDROOT_DIR variable.
-Example of use : BUILDROOT_DIR=~/git/buildroot/ scripts/linux/mergeToBR.sh
+BUILDROOT_DIR=${BUILDROOT_DIR:-"./buildroot"}
+CUSTOM_DIR=${CUSTOM_DIR:-"./custom"}
+hashFile="${CUSTOM_DIR}/list.hash"
 
-Parameters:
-  -f would force apply valid files + patches but not merge the custom tree inside buildroot, even if the merge can't be done
-"
-  exit -1
-elif [[ $1 == "-f" ]] ; then
-  forcePatch=1
+### Colours ###
+
+if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+  c_reset='\033[0m'
+  c_white='\033[0;1m'
+  c_title='\033[7;1m'
+  c_invert='\033[7m'
+  c_gray='\033[1;30m'
+  c_red='\033[1;31m'
+  c_bg_red='\033[41;1m'
+  c_green='\033[1;32m'
+  c_yellow='\033[1;33m'
 fi
 
 [[ -z $BUILDROOT_DIR && ! -d ./buildroot ]] && echo "You must set the env var BUILDROOT_DIR to the location of the buildroot dir to use this script" && exit 1
@@ -24,166 +25,287 @@ fi
 
 declare -x foundError
 
-function applyPatches() {
-  filesList="$1"
-  for fileToPatch in $filesList; do
-    patchFile="${fileToPatch}.patch"
-    echo "$patchFile -> $fileToPatch"
-    patch -p0 "buildroot/$fileToPatch" < "custom/$patchFile"
-  done
+### Functions ###
+
+# printUsage
+#   → outputs the help message
+function printUsage() {
+  echo -e "${c_yellow}Usage${c_reset}
+    $(basename "$0") [-c|--check-only] [-f|--force] [-h|--help]
+
+${c_yellow}Parameters${c_reset}
+  -c, --check-only   check that changes can be applied, but don't actually apply them
+  -f, --force        apply changes, even if not all of them can be applied
+  -h, --help         display this message
+
+${c_yellow}Overview${c_reset}
+  This script applies customizations to a (usually clean/unmodified) Buildroot tree.
+
+  It reads a specially-crafted file named 'list.hash' that indicates, for each file, if we want to:
+    • add it to the Buildroot tree
+    • remove it from the Buildroot tree
+    • patch it
+
+  This 'list.hash' file can be automatically generated from a dirty/modified Buildroot tree by
+  the 'generateCustom.sh' script. It can also be written manually, in which case, see header
+  comments in '${hashFile}' for details about its content.
+
+  This script expects:
+    • a valid Buildroot tree
+    • a directory that reproduces the Buildroot tree file hierarchy, but with patch files instead
+    • a 'list.hash' file to list changes to apply
+
+${c_yellow}Environment variables${c_reset}
+  BUILDROOT_DIR      indicates the Buildroot tree (default: './buildroot')
+  CUSTOM_DIR         indicates where the customizations are (default: './custom')"
 }
 
-function removeFiles() {
-  filesList="$1"
-  for fileToRemove in $filesList; do
-    patchFile="${fileToPatch}.patch"
-    echo "Removing $fileToRemove"
-    [[ -f "${BUILDROOT_DIR}/$fileToRemove" ]] && rm "${BUILDROOT_DIR}/$fileToRemove"
-  done
+# printError <message>
+#   → output helper
+function printError() {
+  local readonly message=$1
+  echo -e "${c_red}[error]${c_reset} ${message}"
 }
-####
-echo -e "\e[7m>>> $scriptName 1. Doing basic checks ...\e[27m"
-####
 
-if [[ ! -f $hashSource ]] ; then
-  echo "$hashSource is missing" 
-  exit 1
-fi
+# printIgnore <message>
+#   → output helper
+function printIgnore() {
+  local readonly message=$1
+  echo -e "${c_gray}[ignore]${c_reset} ${message}"
+}
 
-if [[ -z "$BUILDROOT_DIR" ]] ; then
-  echo "BUILDROOT_DIR is not set"
-  exit 2
-fi
+# printWarning <message>
+#   → output helper
+function printWarning() {
+  local readonly message=$1
+  echo -e "${c_yellow}[warning]${c_reset} ${message}"
+}
 
+# printSuccess <message>
+#   → output helper
+function printSuccess() {
+  local readonly message=$1
+  echo -e "${c_green}[success]${c_reset} ${message}"
+}
 
-if [[ ! -d "$BUILDROOT_DIR" || ! -d "$BUILDROOT_DIR/package" ]] ; then
-  echo "$BUILDROOT_DIR is not a valid buildroot dir"
-  exit 3
-fi
+# printTitle <message>
+#   → output helper
+function printTitle() {
+  local -r message=$1
+  echo -e "${c_invert}>>> $(basename "${BASH_SOURCE[0]}" .sh) ${c_title}${message}${c_reset}"
+}
 
-####
-echo -e "\e[7m>>> $scriptName 2. Compare source and destination ...\e[27m"
-####
+# hasExpectedChecksum <file> <hash>
+#   → is success if <file> MD5 checksum is <hash>
+function hasExpectedChecksum() {
+  local -r file=$1
+  local -r hash=$2
+  echo "${hash} ${BUILDROOT_DIR}/${file}" | md5sum --status --check
+}
 
-foundError=0
-filesToPatch=""
-filesToRework=""
-filesToRemove=""
-filesOK=""
-# Make sure source and dest files match
-# Need to read for file descriptor 3 not to messup the loop
-while read -u 3 -r line ; do
-  # A hash made of * is to specify files that do not exist in buildroot and should be copied over
-  hash=$(echo "$line" | cut -d ' ' -f 1)
-  file=$(echo "$line" | cut -d ' ' -f 3)
+# isFileIdentical <file>
+#   → is success if <file> is identical in ${CUSTOM_DIR} and in ${BUILDROOT_DIR}
+function isFileIdentical() {
+  local readonly file=$1
+  diff -qN {"${CUSTOM_DIR}","${BUILDROOT_DIR}"}/"${file}" > /dev/null
+}
 
-  # If the hash is empty, make sure the dest file doesn't exist
-  if [[ -z $hash ]] ; then
-    echo "Error: a hash can't be empty for file $file"
+# checkFileToAdd <file>
+#   → checks if <file> exists in custom tree and that a different one does not exist in Buildroot tree
+function checkFileToAdd() {
+  local readonly file=$1
+
+  if [[ ! -f ${CUSTOM_DIR}/${file} ]]; then
     foundError=1
-    continue
+    printError "${c_white}${file}${c_reset} source file does not exist"
+  elif isFileIdentical "${file}"; then
+    printIgnore "${c_white}${file}${c_reset} already added"
+  elif [[ -f ${BUILDROOT_DIR}/${file} ]]; then
+    foundError=1
+    printError "${c_white}${file}${c_reset} target file already exists and is different than source file"
+  else
+    filesToAdd+=("${file}")
+    printSuccess "${c_white}${file}${c_reset} can be added"
   fi
-    
-  if [[ $hash == "--------------------------------" ]] ; then
-    # File to remove
-    filesToRemove="$file $filesToRemove"
-    continue
-  elif [[ $hash == "++++++++++++++++++++++++++++++++" ]] ; then
-    # File to add
-    echo "OK for merge: $file"
-    filesOK="$file $filesOK"
-    continue
-  fi
-  
-  # Check if source and dest file exist
-  [[ ! -f custom/$file ]] && echo "Error: custom/$file doesn't exist" >&2 && foundError=1
-  [[ ! -f $BUILDROOT_DIR/$file ]] && echo "Error: $BUILDROOT_DIR/$file doesn't exist" >&2 && foundError=1
+}
 
-  # Check if the buildroot file matches. We don't check the md5 dest file if the source has no md5 -> copy a new file from source to dest
-  tryToPatch=0
-  if [[ ! -z $hash && $hash != `md5sum $BUILDROOT_DIR/$file | cut -d ' ' -f 1` || -z $hash ]] ; then
-    if diff -qN "custom/$file" "$BUILDROOT_DIR/$file" >/dev/null; then
-      echo "file already patched: $BUILDROOT_DIR/$file" >&2
-    else
-      # For a pfile needing patch, we only patch if the dest file is EXACTLY the one expected
-      [[ ! -z $hash ]] && echo "File doesn't have the expected md5: $file" >&2 && tryToPatch=1
-      # When adding a new file to buildroot, and the dest file is not the same as the original one, raise an error
-      # The dest file can eventually exist if the script was already run before. But the dest file MUSTN'T be modified
-      [[ -z $hash && -f $BUILDROOT_DIR/$file ]] && echo "File is not supposed to exist and differs from source: $BUILDROOT_DIR/$file" >&2 && foundError=1 && filesToRework="$file $filesToRework"
-    fi
-   else
-    echo "OK for merge: $file"
-    filesOK="$file $filesOK"
-  fi
+# checkFileToRemove <file>
+#   → check that <file> exists in Buildroot tree and that it has not already been removed
+function checkFileToRemove() {
+  local -r file=$1
 
-  # Try to apply the diff
-  if [[ $tryToPatch == 1 ]] ; then
-    patchFile="custom/${file}.patch"
-    echo -n "  Test patch ... "
-    if patch --dry-run -p0 "buildroot/$file" >/dev/null < "$patchFile" ; then
-      echo "Ok ! Adding it to patch party ..." 
-      filesToPatch="$file $filesToPatch"
+  if [[ ! -f ${BUILDROOT_DIR}/${file} ]]; then
+    if (cd "${BUILDROOT_DIR}"; git status --porcelain "${file}" | grep --silent "^ D "); then
+      printIgnore "${c_white}${file}${c_reset} already removed"
     else
-      echo "KO !!!"
-      filesToRework="$file $filesToRework"
       foundError=1
+      printError "${c_white}${file}${c_reset} file to remove does not exist"
+    fi
+  else
+    filesToRemove+=("${file}")
+    printSuccess "${c_white}${file}${c_reset} can be removed"
+  fi
+}
+
+# checkFileToPatch <file> <hash>
+#   → checks that <file> exists in both custom and Buildroot trees, and that patch applies
+function checkFileToPatch() {
+  local -r file=$1
+  local -r hash=$2
+
+  if [[ ! -f ${CUSTOM_DIR}/${file} || ! -f ${BUILDROOT_DIR}/${file} ]]; then
+    foundError=1
+    [[ ! -f ${CUSTOM_DIR}/${file} ]] && printError "${c_white}${file}${c_reset} source file doesn't exist"
+    [[ ! -f ${BUILDROOT_DIR}/${file} ]] && printError "${c_white}${file}${c_reset} target file doesn't exist"
+  elif isFileIdentical "${file}"; then
+    printIgnore "${c_white}${file}${c_reset} already patched"
+  elif ! hasExpectedChecksum "${file}" "${hash}"; then
+    foundError=1
+    printError "${c_white}${file}${c_reset} target file does not have expected MD5 checksum"
+  else
+    # Let's try to apply the patch
+    if ! patch --dry-run --silent -p0 "${BUILDROOT_DIR}/${file}" < "${CUSTOM_DIR}/${file}.patch" > /dev/null; then
+      foundError=1
+      printError "${c_white}${file}${c_reset} patch fails to apply"
+    else
+      filesToPatch+=("${file}")
+      printSuccess "${c_white}${file}${c_reset} can be patched"
     fi
   fi
-done 3< <(grep -v '^#' $hashSource)
+}
 
-# Check that every source file is listed in the hash file
-for file in `find custom/ -type f | grep -v 'custom/list.hash' | grep -v '.patch$'` ; do
-  file=`echo $file | sed 's+^custom/++'`
-  ! grep -q "$file$" $hashSource && echo "Error: $file is not listed in $hashSource" >&2 && foundError=1
+# addFiles
+#   → apply file additions to Buildroot tree
+function addFiles() {
+  if [[ -z ${filesToAdd[0]} ]]; then
+    echo -e "${c_white}No file to add.${c_reset} Skipping."
+  else
+    echo -e "${c_white}Adding files…${c_reset}"
+    for fileToAdd in "${filesToAdd[@]}"; do
+      # shellcheck disable=SC2015
+      install -D {"${CUSTOM_DIR}","${BUILDROOT_DIR}"}/"${fileToAdd}" \
+        && printSuccess "${fileToAdd}" \
+        || { printError "${fileToAdd}"; return 1; }
+    done
+  fi
+}
+
+# removeFiles
+#   → apply file deletions to Buildroot tree
+function removeFiles() {
+  if [[ -z ${filesToRemove[0]} ]]; then
+    echo -e "${c_white}No file to remove.${c_reset} Skipping."
+  else
+    echo -e "${c_white}Removing files…${c_reset}"
+    for fileToRemove in "${filesToRemove[@]}"; do
+      # shellcheck disable=SC2015
+      rm "${BUILDROOT_DIR}/${fileToRemove}" \
+        && printSuccess "${fileToRemove}" \
+        || { printError "${fileToRemove}"; return 1; }
+    done
+  fi
+}
+
+# applyPatches
+#   → actually apply patches to Buildroot tree
+function applyPatches() {
+  if [[ -z ${filesToPatch[0]} ]]; then
+    echo -e "${c_white}No patch to apply.${c_reset} Skipping."
+  else
+    echo -e "${c_white}Applying patches…${c_reset}"
+    for fileToPatch in "${filesToPatch[@]}"; do
+      patchFile="${fileToPatch}.patch"
+      # shellcheck disable=SC2015
+      patch --silent -p0 "${BUILDROOT_DIR}/${fileToPatch}" < "${CUSTOM_DIR}/${patchFile}"  \
+        && printSuccess "${fileToPatch}" \
+        || { printError "${fileToPatch}"; return 1; }
+    done
+  fi
+}
+
+### Parameters parsing ###
+
+while [[ -n $1 ]]; do
+  case $1 in
+    "-f"|"--force")
+      optionForce=1
+      ;;
+    "-c"|"--check-only")
+      optionCheckOnly=1
+      ;;
+    "-h"|"--help"|*)
+      printUsage
+      exit 64 # EX_USAGE
+      ;;
+  esac
+  shift
 done
 
-echo "Valid files: $filesOK"
-echo "Valid patches: $filesToPatch"
-echo "Files that need to be reworked: $filesToRework"
-echo "Files to remove: $filesToRemove"
+### Step 1: Basic checks (environment, prerequisites) ###
 
-if [[ $foundError != 0 && $forcePatch != 1 ]] ; then
-  echo "Some errors were found. Can't patch buildroot. Abotring ..." >&2
-  echo "No actions have been done, $BUILDROOT_DIR is still neat and clean" >&2
-  exit 4
-elif [[ $foundError != 0 && $forcePatch == 1 ]] ; then
-  # Patch required files
-  echo -e "\e[7m>>> $scriptName 3. Force copying valid files + patching files despite of errors ...\e[27m"
-  applyPatches "$filesOK"
-  applyPatches "$filesToPatch"
-  echo "Some errors were found, and patching was forced. Abotring ..." >&2
-  echo "$BUILDROOT_DIR has been modified"
-  exit 5
+printTitle "1. Check environment"
+
+# Check that ${hashFile} exist
+# shellcheck disable=SC2015
+[[ -f ${hashFile} ]] \
+  && printSuccess "${c_white}${hashFile}${c_reset} is present" \
+  || { printError "${c_white}${hashFile}${c_reset} is missing"; exit 1; }
+
+# Check that ${hashFile} is exhaustive
+for file in $(find "${CUSTOM_DIR}" -type f | grep -v "^${hashFile}$" | grep -v '.patch$'); do
+  file=${file/${CUSTOM_DIR}\//}
+  if ! grep -q "${file}$" "${hashFile}"; then
+    printWarning "${c_white}${file}${c_reset} exists in custom tree, but is not listed in '${hashFile}'. It might be a mistake."
+  fi
+done
+
+# Check that Buildroot tree exists
+# shellcheck disable=SC2015
+[[ -d ${BUILDROOT_DIR} && -d ${BUILDROOT_DIR}/package ]] \
+  && printSuccess "${c_white}${BUILDROOT_DIR}${c_reset} is a valid Buildroot tree" \
+  || { printError "${c_white}${BUILDROOT_DIR}${c_reset} is not a valid Buildroot tree"; exit 1; }
+
+### Step 2: Check that patches can be applied
+
+printTitle "2. Check that changes can be applied"
+
+# we use file descriptor 3 here, to not mess with stdin, stdout, stderr, …
+# we cannot use a pipe here, otherwise all variables defined above are empty when the loop exits
+while read -u 3 -r line; do
+  hash=$(echo "${line}" | cut -d ' ' -f 1)
+  file=$(echo "${line}" | cut -d ' ' -f 3)
+
+  if [[ ${hash} == "--------------------------------" ]] ; then
+    checkFileToRemove "${file}"
+  elif [[ ${hash} == "++++++++++++++++++++++++++++++++" ]] ; then
+    checkFileToAdd "${file}"
+  else
+    if [[ ! ${hash} =~ [[:alnum:]]{32} ]]; then
+      foundError=1
+      printError "${c_white}${file}${c_reset} hash is not a MD5 sum"
+    else
+      checkFileToPatch "${file}" "${hash}"
+    fi
+  fi
+done 3< <(grep -Ev '(^ *$|^#)' "${hashFile}")
+
+if [[ ${optionCheckOnly} = 1 ]]; then
+  exit ${foundError}
 fi
 
-####
-echo -e "\e[7m>>> $scriptName 3. All checks done, merging trees ...\e[27m"
-####
-
-foundError=0
-# Ready to serve !
-grep -v '^#' $hashSource | while read line ; do
-  #echo $line
-  hash=$(echo "$line" | tr -d '*' | cut -d ' ' -f 1)
-  file=$(echo "$line" | cut -d ' ' -f 3)
-  # Deleted files have no patch
-  [[ $hash == "--------------------------------" ]] && continue
-  # Don't copy files that will be patched
-  [[ $filesToPatch == *"$file"* ]] && echo "Skipping $file as it will be patched" && continue
-  if  cp "custom/$file" "$BUILDROOT_DIR/$file" ; then
-    echo "Copied: $file"
+if [[ ${foundError} = 1 ]] ; then
+  if [[ ${optionForce} = 1 ]]; then
+    printWarning "Errors were found during the dry run. Only valid modifications will be applied below."
   else
-    echo "Error: copying custom/$file to $BUILDROOT_DIR/$file failed"
-    foundError=1 
+    printTitle "${c_bg_red}🚫 Aborting"
+    echo "Some errors were found. Cannot patch Buildroot tree. Aborting." >&2
+    echo "No actions have been done, '${BUILDROOT_DIR}' is still neat and clean" >&2
+    exit 1
   fi
-done
+fi
 
-# Patch required files
-echo -e "\e[7m>>> $scriptName 5. Task Patch or remove flagged files ...\e[27m"
-applyPatches "$filesToPatch"
-removeFiles "$filesToRemove"
+printTitle "3. Apply changes to Buildroot tree"
 
-echo -e "\e[7m>>> $scriptName 5. Task completed !\e[27m"
-[[ $foundError == 1 ]] && echo "But there were some errors. Please check and correct them"
+addFiles && removeFiles && applyPatches
 
-exit $foundError
+exit ${foundError}

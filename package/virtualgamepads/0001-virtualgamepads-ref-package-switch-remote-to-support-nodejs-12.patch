@@ -1,0 +1,17 @@
+diff --git a/package.json b/package.json
+index 374da7f..5ed058a 100644
+--- a/package.json
++++ b/package.json
+@@ -13,9 +13,9 @@
+     "express": "^4.17.1",
+     "ioctl": "^2.0.1",
+     "socket.io": "^2.3.0",
+-    "ref": "git://github.com/TooTallNate/ref.git#924437f94b0f24323008990319871ffcbfc75cd",
++    "ref": "lxe/ref#node-12",
+-    "ref-struct": "^1.1.0",
++    "ref-struct": "lxe/ref-struct#node-12",
+-    "ref-array": "^1.2.0",
++    "ref-array": "lxe/ref-array#node-12",
+     "winston": "^3.2.1",
+     "forever-monitor": "^2.0.0"
+   },

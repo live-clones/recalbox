@@ -9,7 +9,7 @@ if ! [ -x ${CHECK_PACKAGE_BIN} ]; then
   exit 1
 fi
 
-${CHECK_PACKAGE_BIN} \
+${CHECK_PACKAGE_BIN} --br2-external \
   ${RECALBOX_ROOT}/package/**/*.hash ${RECALBOX_ROOT}/custom/package/**/*.hash \
   ${RECALBOX_ROOT}/package/**/*.mk ${RECALBOX_ROOT}/custom/package/**/*.mk \
   ${RECALBOX_ROOT}/package/**/Config.in ${RECALBOX_ROOT}/custom/package/**/Config.in

@@ -1,44 +1,37 @@
-8fc8a6339c14a1fe72ac2a84b5812f11  boot/syslinux/syslinux.mk
-7c8ea4b06f21918aeb84cd083b266b8c  package/binutils/binutils.mk
---------------------------------  package/bluez5_utils/0002-bt_shell-APIs-shall-only-be-build-if-readline-is-pre.patch
-19140a13d0e2ab4a203801ada1d4120e  package/bluez5_utils/bluez5_utils.hash
-e67f118b5f106f6bc39307022af93d72  package/bluez5_utils/bluez5_utils.mk
-4b4f874a9cb6397ff31fdee7d1029a4d  package/boost/boost.mk
-e1574895e6b1031a7439ee527b6662bf  package/dhcpcd/dhcpcd.mk
+# This is the list of patches to apply to the Buildroot external tree
+# First column is either:
+#   * a MD5 sum of the file to patch (i.e. the target file)
+#   * a line of minus signs ('-') indicates a file that we remove from Buildroot external tree
+#   * a line of plus signs ('+') indicates a file that we add to the Buildroot external tree
+
+bebf5922f3fcd58aa3d3316f053e556c  boot/syslinux/syslinux.mk
+92048d2d2185b48c1e2097b9685c92f8  package/binutils/binutils.mk
+20cad3977b0ee4cc96821e8e7d2e6a7f  package/bluez5_utils/bluez5_utils.mk
+fad4a9334552741586c0d33ac477ce65  package/dhcpcd/dhcpcd.mk
 c445390118f5d058dd372a8b2beb25a8  package/dropbear/S50dropbear
-04ab2c6ad3f5da17bd1a481a06b99271  package/e2fsprogs/e2fsprogs.hash
-fc5eeda08e636b90db05aa703cd3a783  package/e2fsprogs/e2fsprogs.mk
-0ea7196dd64fe170cd98610fd9d7b237  package/eigen/eigen.mk
---------------------------------  package/ffmpeg/0001-bfin-disable-optimization.patch
---------------------------------  package/ffmpeg/0002-ffmpeg-pthreads.patch
-9763f933b28916e8506987ee007ac6a6  package/ffmpeg/Config.in
-5a4534ba8235a617459fcb9f5fdabf4f  package/ffmpeg/ffmpeg.hash
-d2f9d3874553506921d9f347f6752203  package/ffmpeg/ffmpeg.mk
-dd1f6bdbde586c692b0a29a7feed14f3  package/genimage/genimage.hash
-d428f583c595f5eb362c299b01d1eb4f  package/genimage/genimage.mk
+669a965d005d7545ad408a8dc69012ba  package/fluidsynth/fluidsynth.hash
+15047ec39b36fdc73bd91899a099cc55  package/fluidsynth/fluidsynth.mk
 6b31f620c36bb2d6c54cfaf71cc5a086  package/initscripts/init.d/rcK
 76f02a748149f1aa945aa418ea65b2bc  package/initscripts/init.d/rcS
-051b3808d67729567e2aa0255df2ef8d  package/libcec/libcec.mk
-9bff5f6d3c9c6de92b5b69491b8cb3db  package/lirc-tools/lirc-tools.mk
-2ec18749f235a561a99f66e3bf6fba84  package/mosquitto/mosquitto.mk
-c5e16941eed3a509bf4cecea076eba48  package/mpg123/mpg123.hash
-16b7c31ccde95e12ba1ae7721cd9a5d7  package/mpg123/mpg123.mk
-87b40531b2b16dba4d10dc0aa060f621  package/omxplayer/omxplayer.mk
+2cca49cbd08d01209ec28349799bed96  package/intel-gmmlib/intel-gmmlib.hash
+fa8f1083e48002d1436202e5ce83b388  package/intel-gmmlib/intel-gmmlib.mk
+315f9dfdcdb0d4ba22f9fd9927822bf4  package/intel-mediadriver/intel-mediadriver.hash
+985b990824ea675ece5a45e0c3067847  package/intel-mediadriver/intel-mediadriver.mk
+b508e6d0b23687606edbb191db189ee8  package/intel-mediasdk/intel-mediasdk.hash
+9c39b95b9d4091ca9d71c03105c51395  package/intel-mediasdk/intel-mediasdk.mk
+e459efac93dadd5c08fbe59ecd03bfd9  package/libcec/libcec.mk
+411c881d8d83c11bd9c544a33a218245  package/libclc/libclc.mk
+ebf2b3624c1427077933a903679ed7a9  package/lirc-tools/lirc-tools.mk
+7dda00b9bb5a907cbaca47bb0dc9672f  package/mosquitto/mosquitto.mk
+cfc4ca8da37d658b18f2d7422b09048c  package/mpg123/mpg123.mk
 f38548efeaeaaa6515c91bc6ab7d9d54  package/rpi-firmware/cmdline.txt
 f01ea6ba5ccf7e7b094e83301984333d  package/rpi-firmware/config.txt
-e8c005a320789fa3249d29613ba359ee  package/rpi-firmware/rpi-firmware.hash
-236dce96aa73189750ecca1f7f4fb293  package/rpi-firmware/rpi-firmware.mk
-055a05d7f6228658a9c357d4d458c1d0  package/sdl2_mixer/sdl2_mixer.hash
-95635b1c6a77e6c6e896e2f496919ce9  package/sdl2_mixer/sdl2_mixer.mk
+635322bdc7c4e8d244105c762bd173d5  package/rpi-firmware/rpi-firmware.hash
+5be9652e767c6fbff1a647c3abd5e14e  package/rpi-firmware/rpi-firmware.mk
+50dc2a2f96841baf8df5f6482323275f  package/sdl2/sdl2.mk
+92d54b262be45808e8892ccc6214bd25  package/sdl2_mixer/sdl2_mixer.mk
 76f5941c64fe63d71fdbafde3594ba78  package/sdl_sound/Config.in
-4c240a99b2eef3c2c77f9e7acdc1787d  package/sdl_sound/sdl_sound.mk
-a5ec225b9e4b39e8e92ff80f594ac098  package/skeleton-init-common/skeleton-init-common.mk
-8b23f2c671d35cf859f307a3f1ce344f  package/wiringpi/wiringpi.mk
-3dea03b60cf0b58d3b5836f0ebcc5bd3  package/x11r7/xdriver_xf86-video-amdgpu/xdriver_xf86-video-amdgpu.hash
-d2ae052f3d85d52977cbc600b647ec43  package/x11r7/xdriver_xf86-video-amdgpu/xdriver_xf86-video-amdgpu.mk
-b641120a4ac84defc59d317264838cba  package/x11r7/xdriver_xf86-video-ati/xdriver_xf86-video-ati.hash
-754817e3552656c2a955e77e88688f66  package/x11r7/xdriver_xf86-video-ati/xdriver_xf86-video-ati.mk
-00f1333e3129989b007142ee3cb93ddc  support/scripts/mkusers
+7255c6ecc9f8bd6a511a495b1c8c1d0a  package/sdl_sound/sdl_sound.mk
+503c8043fd40aa5486cd99bc9ccfdc75  package/skeleton-init-common/skeleton-init-common.mk
+5fc4f4800b19ccbd3403b530e5496880  support/scripts/mkusers
 2673dc3e7fbc4920c43ad91ad9214d3e  system/device_table.txt
-++++++++++++++++++++++++++++++++  package/kodi/0003-Fix-due-to-ffmpeg.patch
-++++++++++++++++++++++++++++++++  package/omxplayer/0002-fix-due-to-ffmpeg-bump.patch

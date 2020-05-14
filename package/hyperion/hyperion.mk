@@ -5,7 +5,7 @@
 ################################################################################
 
 HYPERION_SITE = git://github.com/hyperion-project/hyperion.git
-HYPERION_VERSION = 49a9ca998d11552d8e88eb30cc3455be66789f83
+HYPERION_VERSION = 205f2fb30e23bdce83f7271c25ffd4b79aedc43e
 HYPERION_LICENSE = MIT
 HYPERION_SITE_METHOD = git
 HYPERION_GIT_SUBMODULES = YES
@@ -18,14 +18,17 @@ HYPERION_CONF_OPTS += -DBCM_INCLUDE_DIR="$(STAGING_DIR)/usr/" \
 	-Wno-dev \
 	-DUSE_SYSTEM_PROTO_LIBS=ON \
 	-DPROTOBUF_PROTOC_EXECUTABLE="$(HOST_DIR)/bin/protoc" \
+	-DENABLE_OPENCV=OFF \
+	-DENABLE_QT5=ON \
 	--build "$(@D)/output/" "$(@D)/"
 
 HYPERION_DEPENDENCIES += rpi-firmware
-HYPERION_DEPENDENCIES += libusb qt host-libusb rpi-firmware rpi-userland host-protobuf host-cmake
+HYPERION_DEPENDENCIES += libusb qt5base host-libusb rpi-firmware rpi-userland host-protobuf host-cmake
 
 define HYPERION_PROTOBUF_COMPILE
 	mkdir -p "$(@D)/host-compile/"
-	cd "$(@D)/host-compile/" && $(HOST_MAKE_ENV) $(HOST_CONFIGURE_OPTS) $(HOST_DIR)/usr/bin/cmake "$(@D)/" -DENABLE_DISPMANX=OFF --build "$(@D)/host-compile/" "$(@D)/"
+	cd "$(@D)/host-compile/" && $(HOST_MAKE_ENV) $(HOST_CONFIGURE_OPTS) $(HOST_DIR)/usr/bin/cmake "$(@D)/" \
+		-DENABLE_DISPMANX=OFF -DENABLE_OPENCV=OFF -DENABLE_QT5=ON --build "$(@D)/host-compile/" "$(@D)/"
 endef
 define HYPERION_RPI_FIXUP
 	sed -i 's/hyperion//' $(@D)/libsrc/effectengine/CMakeLists.txt

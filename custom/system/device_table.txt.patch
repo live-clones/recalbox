@@ -1,14 +1,12 @@
 diff --git a/system/device_table.txt b/system/device_table.txt
-index dc1af51..0701159 100644
+index dc1af51810..96c4c7bbcb 100644
 --- a/system/device_table.txt
 +++ b/system/device_table.txt
-@@ -11,7 +11,8 @@
+@@ -11,7 +11,6 @@
  /etc					d	755	0	0	-	-	-	-	-
  /root					d	700	0	0	-	-	-	-	-
  /var/www				d	755	33	33	-	-	-	-	-
 -/etc/shadow				f	600	0	0	-	-	-	-	-
-+# recalbox doesn't use the /etc/shadow
-+#/etc/shadow				f	600	0	0	-	-	-	-	-
  /etc/passwd				f	644	0	0	-	-	-	-	-
  /etc/network/if-up.d			d	755	0	0	-	-	-	-	-
  /etc/network/if-pre-up.d		d	755	0	0	-	-	-	-	-

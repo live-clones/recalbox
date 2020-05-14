@@ -6,7 +6,7 @@
 
 FREEIMAGE_VERSION = 3.18.0
 FREEIMAGE_LIB_VERSION = 3
-FREEIMAGE_SITE = http://downloads.sourceforge.net/freeimage
+FREEIMAGE_SITE = http://downloads.sourceforge.net/project/freeimage/Source%20Distribution/$(FREEIMAGE_VERSION)
 FREEIMAGE_SOURCE = FreeImage3180.zip
 FREEIMAGE_LICENSE = GPLv2
 FREEIMAGE_INSTALL_STAGING = YES
@@ -14,7 +14,7 @@ FREEIMAGE_INSTALL_STAGING = YES
 FREEIMAGE_CFLAGS= $(TARGET_CFLAGS)
 
 define FREEIMAGE_EXTRACT_CMDS
-	unzip -q -o -d $(BUILD_DIR) $(DL_DIR)/$(FREEIMAGE_SOURCE)
+	unzip -q -o -d $(BUILD_DIR) $(DL_DIR)/freeimage/$(FREEIMAGE_SOURCE)
 	cp -r $(BUILD_DIR)/FreeImage/* $(@D)
 	rm -rf $(BUILD_DIR)/FreeImage
 endef
