@@ -516,7 +516,7 @@ if [ "$command" == "wifi" ]; then
     if [[ "$mode" == "list" ]]; then
 	wpa_cli -i wlan0 scan > /dev/null || exit 1
 	sleep 3 # wait a bit until some results come in
-	wpa_cli -i wlan0 scan_results | tail -n +2 | sed -r 's/^([^ \t]*[ \t]*){4}(.*)$/\2/' | sort -u -f || exit 1
+	wpa_cli -i wlan0 scan_results | tail -n +2 | sed -r 's/^([^ \t]*[ \t]*){4}(.*)$/\2/' | awk '!a[$0]++' || exit 1
 	exit 0
     fi
 fi
