@@ -361,7 +361,7 @@
                                  e8b26871629b938887757a64798df6dc,02cbb2e348945c9ac41e37502a58ca76,
                                  5cd8f62cd8786af0226e6d2248279338,08b81aa6be18b92daef1b875deecf824,
                                  bdb34f2c471e5d0c358eeec621f9d029" mandatory="false" core="genesisplusgx" />
-    <bios path="bios_U.sms" md5="840481177270d5642a14ca71ee72844c,b264bef9bda264ffe83afcebac21b81f
+    <bios path="bios_U.sms" md5="840481177270d5642a14ca71ee72844c,b264bef9bda264ffe83afcebac21b81f,
                                  e8b26871629b938887757a64798df6dc,02cbb2e348945c9ac41e37502a58ca76,
                                  5cd8f62cd8786af0226e6d2248279338,08b81aa6be18b92daef1b875deecf824" mandatory="false" core="genesisplusgx" />
     <bios path="bios_J.sms" md5="24a519c53f67b00640d0048ef7089105" mandatory="false" core="genesisplusgx" />
