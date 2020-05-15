@@ -219,7 +219,7 @@ do_start() {
                         fi
                         dd if=/dev/zero of="${fbDevice}" &> /dev/null   #clear before draw
                         usleep "${tempoShort}"
-                        "${FFMPEG}" -re -stream_loop -1 -i "${LogoFolder}"/"${tftResolution}"/"${LogoFile}"  "${tftFullResolution[@]}" -c:v rawvideo -pix_fmt rgb565le -f fbdev "${fbDevice}" &> /dev/null &
+                        "${FFMPEG}" -re -stream_loop "${Loop}" -i "${LogoFolder}"/"${tftResolution}"/"${LogoFile}"  "${tftFullResolution[@]}" -c:v rawvideo -pix_fmt rgb565le -f fbdev "${fbDevice}" &> /dev/null &
                         ;;
                     gamelistbrowsing|endgame|enddemo)
                         TFTGameImage="$(sed -n 's/^ImagePath=\([^\r]\+\)\r\?$/\1/p' /tmp/es_state.inf)"
