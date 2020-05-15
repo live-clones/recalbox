@@ -1,0 +1,10 @@
+diff --git a/system/skeleton/etc/passwd b/system/skeleton/etc/passwd
+index d8281d2585..50e0d5ca4f 100644
+--- a/system/skeleton/etc/passwd
++++ b/system/skeleton/etc/passwd
+@@ -1,4 +1,4 @@
+-root:x:0:0:root:/root:/bin/sh
++root:x:0:0:root:/recalbox/share/system:/bin/sh
+ daemon:x:1:1:daemon:/usr/sbin:/bin/false
+ bin:x:2:2:bin:/bin:/bin/false
+ sys:x:3:3:sys:/dev:/bin/false
