@@ -15,7 +15,10 @@ public:
 
 	void onThemeChanged(const ThemeData& theme) override;
 
-	FileData* getCursor() override { return mList.getSelected(); }
+  virtual int Count() const override { return mList.Count(); };
+  virtual bool IsEmpty() const override { return mList.IsEmpty(); };
+
+  FileData* getCursor() override { return mList.getSelected(); }
 	int getCursorIndex() override { return mList.getCursorIndex(); }
 	int getCursorIndexMax() override {	return mList.size() - 1; }
 	void setCursor(FileData* file) override;

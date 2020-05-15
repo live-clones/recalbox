@@ -1,6 +1,5 @@
 #include <usernotifications/NotificationManager.h>
 #include "views/gamelist/IGameListView.h"
-#include "Window.h"
 
 void IGameListView::setTheme(const ThemeData& theme)
 {
@@ -10,6 +9,8 @@ void IGameListView::setTheme(const ThemeData& theme)
 
 void IGameListView::updateInfoPanel()
 {
+  if (IsEmpty()) return;
+
   NotificationManager::Instance().Notify(*getCursor(), Notification::GamelistBrowsing);
   DoUpdateGameInformation();
 }

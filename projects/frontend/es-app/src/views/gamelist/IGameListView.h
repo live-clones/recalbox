@@ -54,6 +54,8 @@ class IGameListView : public Gui
 
     inline const ThemeData& getTheme() const { return *mTheme; }
 
+    virtual int Count() const = 0;
+    virtual bool IsEmpty() const  = 0;
     virtual FileData* getCursor() = 0;
     virtual void setCursor(FileData*) = 0;
 

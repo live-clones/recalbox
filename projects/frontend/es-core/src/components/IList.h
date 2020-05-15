@@ -138,7 +138,11 @@ protected:
         return objects;
     }
 
-	inline UserData& getObjects(int atIndex)
+  inline int Count() const { return (int)mEntries.size(); }
+
+  inline bool IsEmpty() const { return mEntries.size() == 0; }
+
+  inline UserData& getObjects(int atIndex)
 	{
    	return mEntries[atIndex].object;
 	}
