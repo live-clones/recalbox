@@ -43,7 +43,7 @@ void InputManager::Finalize()
 {
   if (!IsInitialized()) return;
 
-  ClearAllConfigurations();
+  //ClearAllConfigurations();
 
   SDL_JoystickEventState(SDL_DISABLE);
   SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
