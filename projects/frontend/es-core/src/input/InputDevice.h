@@ -3,7 +3,8 @@
 #include <string>
 #include <input/InputEvent.h>
 #include <input/InputCompactEvent.h>
-#include "pugixml/pugixml.hpp"
+#include <SDL2/SDL_joystick.h>
+#include <pugixml/pugixml.hpp>
 
 /*!
  * @brief Hold input configurations for a given device
@@ -44,7 +45,7 @@ class InputDevice
   private:
     InputEvent mInputEvents[(int)Entry::__Count]; //!< Entry configurations
     std::string mDeviceName;                      //!< Device name: Keyboard or Pad/joystick name
-    std::string mDeviceGUID;                      //!< GUID
+    SDL_JoystickGUID mDeviceGUID;                 //!< GUID
     int mDeviceId;                                //!< SDL2 Joystick Identifier
     int mDeviceIndex;                             //!< SDL2 Joystick Index
     int mDeviceNbAxes;                            //!< Axis count
@@ -70,7 +71,8 @@ class InputDevice
      * @return Empty InputDevice
      */
     InputDevice()
-      : mDeviceId(0),
+      : mDeviceGUID {},
+        mDeviceId(0),
         mDeviceIndex(0),
         mDeviceNbAxes(0),
         mDeviceNbHats(0),
@@ -91,7 +93,7 @@ class InputDevice
      * @param deviceNbHats Number of hats
      * @param deviceNbButtons Numper of buttons
      */
-    InputDevice(int deviceId, int deviceIndex, const std::string& deviceName, const std::string& deviceGUID,
+    InputDevice(int deviceId, int deviceIndex, const std::string& deviceName, const SDL_JoystickGUID& deviceGUID,
                 int deviceNbAxes, int deviceNbHats, int deviceNbButtons);
 
     /*!
@@ -112,7 +114,7 @@ class InputDevice
      */
 
     const std::string& Name() const { return mDeviceName; }
-    const std::string& GUID() const { return mDeviceGUID; }
+    std::string        GUID() const { char sguid[64]; SDL_JoystickGetGUIDString(mDeviceGUID, sguid, sizeof(sguid)); return sguid; }
     int Identifier()          const { return mDeviceId; };
     int Index()               const { return mDeviceIndex; };
     int AxeCount()            const { return mDeviceNbAxes; };

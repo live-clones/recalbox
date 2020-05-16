@@ -62,7 +62,7 @@ void Pad::Open(const OrderedDevices& orderedDevices)
     // Lookup
     for(int i = 0; i < orderedDevices.Count(); ++i)
     {
-      const InputDevice& device = *(orderedDevices.Device(i));
+      const InputDevice& device = orderedDevices.Device(i);
       if (device.Identifier() == joystickIndex) // Joystick index match?
         if ((Assigned & (1 << i)) == 0)         // Not yet assigned?
         {

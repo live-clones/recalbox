@@ -1,12 +1,12 @@
 #pragma once
 
 #include <SDL.h>
-#include <vector>
-#include <map>
 #include <string>
 #include <input/InputDevice.h>
 #include <input/OrderedDevices.h>
 #include <utils/os/fs/Path.h>
+#include <utils/storage/HashMap.h>
+#include <utils/storage/Array.h>
 
 class Window;
 
@@ -14,15 +14,15 @@ class InputManager
 {
   private:
     //! Device list
-    typedef std::vector<InputDevice*> InputDeviceList;
+    typedef Array<InputDevice> InputDeviceList;
 
     //! Joystick deadzone, in the 0-32767 range
     static constexpr int sJoystickDeadZone = 23000;
 
     //! SDL Identifier to Joystick structures
-    std::map<SDL_JoystickID, SDL_Joystick*> mJoysticks;
+    HashMap<SDL_JoystickID, SDL_Joystick*> mJoysticks;
     //! SDL Identifier to device configurations
-    std::map<SDL_JoystickID, InputDevice*> mDevices;
+    HashMap<SDL_JoystickID, InputDevice> mDevices;
     //! Default Keyboard
     InputDevice mKeyboard;
 
@@ -115,7 +115,7 @@ class InputManager
      * @param name Name to look for
      * @return Device instance if found, nullptr otherwise
      */
-    static InputDevice* LookupDevice(InputDeviceList& list, const std::string& guid, const std::string& name);
+    static bool LookupDevice(InputDeviceList& list, const std::string& guid, const std::string& name, InputDevice& output);
 
     /*!
      * @brief Lookup a device matching name in the given list
@@ -123,7 +123,7 @@ class InputManager
      * @param name Name to look for
      * @return Device instance if found, nullptr otherwise
      */
-    static InputDevice* LookupDevice(InputDeviceList& list, const std::string& name);
+    static bool LookupDevice(InputDeviceList& list, const std::string& name, InputDevice& output);
 
     /*!
      * @brief Lookup a device in the given list
@@ -131,7 +131,7 @@ class InputManager
      * @param name Name to look for
      * @return Device instance if found, nullptr otherwise
      */
-    static InputDevice* LookupDevice(InputDeviceList& list);
+    static bool LookupDevice(InputDeviceList& list, InputDevice& output);
 
   public:
     /*!
@@ -191,7 +191,7 @@ class InputManager
      * @param deviceId Device identifier
      * @return Device configuration
      */
-    InputDevice* GetDeviceConfiguration(int deviceId);
+    InputDevice& GetDeviceConfiguration(int deviceId);
 
     /*!
      * @brief Generate an ordered device list in function of player devices configuratons

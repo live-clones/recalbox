@@ -155,7 +155,7 @@ void PadConfiguration::Load(const OrderedDevices& orderedDevices)
   // Lookup every configured pad
   for(int i = orderedDevices.Count(); --i >= 0; )
   {
-    const InputDevice& inputDevice = *(orderedDevices.Device(i));
+    const InputDevice& inputDevice = orderedDevices.Device(i);
     PadAllItemConfiguration& pad = mPads[i];
 
     static const struct ItemNameTranslator

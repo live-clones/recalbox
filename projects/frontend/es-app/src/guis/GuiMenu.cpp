@@ -647,24 +647,26 @@ void GuiMenu::menuControllers() {
     const std::string& configuratedGuid = Settings::Instance().InputGuid(player);
     bool found = false;
     // For each available and configured input
-    for (auto it = 0; it < InputManager::Instance().DeviceCount(); it++) {
-      InputDevice *config = InputManager::Instance().GetDeviceConfiguration(it);
-      if (config->IsConfigured()) {
-        // create name
-        std::string displayName = '#' + Strings::ToString(config->Identifier()) + ' ';
-        const std::string& deviceName = config->Name();
-        if (deviceName.size() > 25) {
-          displayName += deviceName.substr(0, 16) + "..." +
-                 deviceName.substr(deviceName.size() - 5, deviceName.size() - 1);
-        } else {
-          displayName += deviceName;
-        }
+    for (auto it = 0; it < InputManager::Instance().DeviceCount(); it++)
+    {
+      InputDevice& device = InputManager::Instance().GetDeviceConfiguration(it);
+      if (device.IsConfigured())
+      {
+        const std::string& name = device.Name();
+        std::string uuid = device.GUID();
 
-        bool foundFromConfig = configuratedName == config->Name() && configuratedGuid == config->GUID();
-        int deviceID = config->Identifier();
+        // create name
+        std::string displayName = '#' + Strings::ToString(device.Identifier()) + ' ';
+        if (name.size() > 25)
+          displayName += name.substr(0, 16) + "..." + name.substr(name.size() - 5, name.size() - 1);
+        else
+          displayName += name;
+
+        bool foundFromConfig = configuratedName == name && configuratedGuid == uuid;
+        int deviceID = device.Identifier();
         // Si la manette est configurée, qu'elle correspond a la configuration, et qu'elle n'est pas
         // deja selectionnée on l'ajoute en séléctionnée
-        StrInputConfig *newInputConfig = new StrInputConfig(config->Name(), config->GUID());
+        StrInputConfig *newInputConfig = new StrInputConfig(name, uuid);
         mLoadedInput.push_back(newInputConfig);
 
         if (foundFromConfig
@@ -672,10 +674,10 @@ void GuiMenu::menuControllers() {
           && !found) {
           found = true;
           alreadyTaken.push_back(deviceID);
-          LOG(LogWarning) << "adding entry for player" << player << " (selected): " << config->Name() << "  " << config->GUID();
+          LOG(LogWarning) << "adding entry for player" << player << " (selected): " << name << "  " << uuid;
           inputOptionList->add(displayName, newInputConfig, true);
         } else {
-          LOG(LogWarning) << "adding entry for player" << player << " (not selected): " << config->Name() << "  " << config->GUID();
+          LOG(LogWarning) << "adding entry for player" << player << " (not selected): " << name << "  " << uuid;
           inputOptionList->add(displayName, newInputConfig, false);
         }
       }

@@ -1,4 +1,3 @@
-#include <algorithm>
 #include "InputManager.h"
 #include "InputDevice.h"
 #include "Settings.h"
@@ -8,7 +7,7 @@
 #include "SDL.h"
 #include "Input.h"
 
-#define KEYBOARD_GUID_STRING "-1"
+#define KEYBOARD_GUID_STRING { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF }
 
 InputManager::InputManager()
   : mKeyboard(InputEvent::sKeyboardDevice, -1, "Keyboard", KEYBOARD_GUID_STRING, 0, 0, 125)
@@ -28,22 +27,22 @@ InputManager& InputManager::Instance()
   return _instance;
 }
 
-InputDevice* InputManager::GetDeviceConfiguration(int deviceId)
+InputDevice& InputManager::GetDeviceConfiguration(int deviceId)
 {
   // Already exists?
-  auto result =  mDevices.find(deviceId);
-  if (result != mDevices.end())
-    return result->second;
+  InputDevice* device = mDevices.try_get(deviceId);
+  if (device != nullptr)
+    return *device;
 
   LOG(LogError) << "Unexisting device!";
-  return nullptr;
+  return mKeyboard;
 }
 
 void InputManager::Finalize()
 {
   if (!IsInitialized()) return;
 
-  //ClearAllConfigurations();
+  ClearAllConfigurations();
 
   SDL_JoystickEventState(SDL_DISABLE);
   SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
@@ -51,8 +50,9 @@ void InputManager::Finalize()
 
 void InputManager::Initialize()
 {
-  if (IsInitialized())
-    Finalize();
+  if (IsInitialized()) return;
+
+  Finalize();
 
   SDL_SetHint(SDL_HINT_JOYSTICK_ALLOW_BACKGROUND_EVENTS,
               Settings::Instance().BackgroundJoystickInput() ? "1" : "0");
@@ -92,8 +92,6 @@ void InputManager::ClearAllConfigurations()
   mJoysticks.clear();
 
   // Delete InputDevices
-  for (auto& mInputConfig : mDevices)
-    delete mInputConfig.second;
   mDevices.clear();
 }
 
@@ -122,23 +120,29 @@ void InputManager::LoadJoystickConfiguration(int index)
   mJoysticks[identifier] = joy;
 
   // Create device configuration
-  mDevices[identifier] = new InputDevice(identifier,
-                                         index,
-                                         SDL_JoystickName(joy),
-                                         DeviceGUIDString(joy),
-                                         SDL_JoystickNumAxes(joy),
-                                         SDL_JoystickNumHats(joy),
-                                         SDL_JoystickNumButtons(joy));
-  LOG(LogWarning) << "Added joystick " << SDL_JoystickName(joy) << " (GUID: " << DeviceGUIDString(joy) << ", instance ID: " << identifier << ", device index: " << index << ")";
+  InputDevice device(identifier,
+                     index,
+                     SDL_JoystickName(joy),
+                     SDL_JoystickGetGUID(joy),
+                     SDL_JoystickNumAxes(joy),
+                     SDL_JoystickNumHats(joy),
+                     SDL_JoystickNumButtons(joy));
+
   // Try to load from configuration file
-  if (!LookupDeviceXmlConfiguration(*mDevices[identifier])) LOG(LogWarning) << "Unknown joystick " << SDL_JoystickName(joy);
+  if (!LookupDeviceXmlConfiguration(device))
+    LOG(LogWarning) << "Unknown joystick " << SDL_JoystickName(joy);
+
+  // Store
+  mDevices[identifier] = device;
+  LOG(LogWarning) << "Added joystick " << SDL_JoystickName(joy) << " (GUID: " << DeviceGUIDString(joy) << ", instance ID: " << identifier << ", device index: " << index << ")";
+
 }
 
 int InputManager::ConfiguredDeviceCount()
 {
   int num = mKeyboard.IsConfigured() ? 1 : 0;
   for (auto& mInputConfig : mDevices)
-    if (mInputConfig.second->IsConfigured())
+    if (mInputConfig.second.IsConfigured())
       num++;
 
   return num;
@@ -152,26 +156,26 @@ InputCompactEvent InputManager::ManageAxisEvent(const SDL_JoyAxisEvent& axis)
               (axis.value > sJoystickDeadZone ? 1 : 0) ;
 
   // Check if the axis enter or exit from the dead area
-  InputDevice* device = GetDeviceConfiguration(axis.which);
+  InputDevice& device = GetDeviceConfiguration(axis.which);
   InputEvent event(axis.which, InputEvent::EventType::Axis, axis.axis, value);
-  if (value != device->PreviousAxisValues(axis.axis))
+  if (value != device.PreviousAxisValues(axis.axis))
   {
-    device->SetPreviousAxisValues(axis.axis, value);
-    return device->ConvertToCompact(event);
+    device.SetPreviousAxisValues(axis.axis, value);
+    return device.ConvertToCompact(event);
   }
-  return {InputCompactEvent::Entry::Nothing, InputCompactEvent::Entry::Nothing, *device, event };
+  return { InputCompactEvent::Entry::Nothing, InputCompactEvent::Entry::Nothing, device, event };
 }
 
 InputCompactEvent InputManager::ManageButtonEvent(const SDL_JoyButtonEvent& button)
 {
-  InputDevice* device = GetDeviceConfiguration(button.which);
-  return device->ConvertToCompact(InputEvent(button.which, InputEvent::EventType::Button, button.button, button.state == SDL_PRESSED ? 1 : 0));
+  InputDevice& device = GetDeviceConfiguration(button.which);
+  return device.ConvertToCompact(InputEvent(button.which, InputEvent::EventType::Button, button.button, button.state == SDL_PRESSED ? 1 : 0));
 }
 
 InputCompactEvent InputManager::ManageHatEvent(const SDL_JoyHatEvent& hat)
 {
-  InputDevice* device = GetDeviceConfiguration(hat.which);
-  return device->ConvertToCompact(InputEvent(hat.which, InputEvent::EventType::Hat, hat.hat, hat.value));
+  InputDevice& device = GetDeviceConfiguration(hat.which);
+  return device.ConvertToCompact(InputEvent(hat.which, InputEvent::EventType::Hat, hat.hat, hat.value));
 }
 
 InputCompactEvent InputManager::ManageKeyEvent(const SDL_KeyboardEvent& key, bool down)
@@ -296,59 +300,60 @@ void InputManager::WriteDeviceXmlConfiguration(InputDevice& device)
   doc.save_file(path.ToChars());
 }
 
-void InputManager::FillConfiguredDevicelist(std::vector<InputDevice*>& list)
+void InputManager::FillConfiguredDevicelist(InputDeviceList& list)
 {
   for(auto& item : mDevices)
+    if (item.second.IsConfigured())
+      list.Add(item.second);
+}
+
+bool InputManager::LookupDevice(InputDeviceList& list, const std::string& guid, const std::string& name, InputDevice& output)
+{
+  for(int i = list.Count(); --i>= 0; )
   {
-    InputDevice& device = *item.second;
+    const InputDevice& device = list[i];
     if (device.IsConfigured())
-      list.push_back(&device);
-  }
-}
-
-InputDevice* InputManager::LookupDevice(InputDeviceList& list, const std::string& guid, const std::string& name)
-{
-  for(auto* device : list)
-  {
-    if (device->IsConfigured())
-      if (guid == device->GUID() && name == device->Name())
+      if (guid == device.GUID() && name == device.Name())
       {
-        list.erase(std::find(list.begin(), list.end(), device)); // ...
-        return device;
+        output = device;
+        list.Delete(i);
+        return true;
       }
   }
-  return nullptr;
+  return false;
 }
 
-InputDevice* InputManager::LookupDevice(InputDeviceList& list, const std::string& name)
+bool InputManager::LookupDevice(InputDeviceList& list, const std::string& name, InputDevice& output)
 {
-  for(auto* device : list)
+  for(int i = list.Count(); --i>= 0; )
   {
-    if (device->IsConfigured())
-      if (name == device->Name())
+    const InputDevice& device = list[i];
+    if (device.IsConfigured())
+      if (name == device.Name())
       {
-        list.erase(std::find(list.begin(), list.end(), device)); // ...
-        return device;
+        output = device;
+        list.Delete(i);
+        return true;
       }
   }
-  return nullptr;
+  return false;
 }
 
-InputDevice* InputManager::LookupDevice(InputDeviceList& list)
+bool InputManager::LookupDevice(InputDeviceList& list, InputDevice& output)
 {
-  if (!list.empty())
+  if (!list.Empty())
   {
-    InputDevice* device = list[0];
-    list.erase(list.begin()); // ...
-    return device;
+    output = list[0];
+    list.Delete(0);
+    return true;
   }
-  return nullptr;
+  return false;
 }
 
 OrderedDevices InputManager::GenerateConfiguration()
 {
+  InputDevice device;
   OrderedDevices devices;
-
   InputDeviceList list;
   FillConfiguredDevicelist(list);
 
@@ -358,41 +363,37 @@ OrderedDevices InputManager::GenerateConfiguration()
     std::string playerConfigName = Settings::Instance().InputName(player);
     std::string playerConfigGuid = Settings::Instance().InputGuid(player);
 
-    InputDevice* device = LookupDevice(list, playerConfigGuid, playerConfigName);
-    if (device != nullptr)
+    if (LookupDevice(list, playerConfigGuid, playerConfigName, device))
     {
       devices.SetDevice(player, device);
-      LOG(LogInfo) << "Saved " << device->Name() << " for player " << player;
+      LOG(LogInfo) << "Set " << device.Name() << " for player " << player << " (configured Name/Guid)";
     }
   }
   // Second loop, search for NAME. High Priority
   for (int player = 0; player < Input::sMaxInputDevices; ++player)
-    if (devices.Device(player) == nullptr)
+    if (!devices.IsConfigured(player))
     {
       std::string playerConfigName = Settings::Instance().InputName(player);
 
-      InputDevice* device = LookupDevice(list, playerConfigName);
-      if (device != nullptr)
+      if (LookupDevice(list, playerConfigName, device))
       {
         devices.SetDevice(player, device);
-        LOG(LogInfo) << "Saved " << device->Name() << " for player " << player;
+        LOG(LogInfo) << "Set " << device.Name() << " for player " << player << " (configured Name only)";
       }
     }
   // Last loop, search for free controllers for remaining players.
   for (int player = 0; player < Input::sMaxInputDevices; ++player)
-    if (devices.Device(player) == nullptr)
+    if (!devices.IsConfigured(player))
     {
-      LOG(LogInfo) << "No config for player " << player;
-      InputDevice* device = LookupDevice(list);
-      if (device != nullptr)
+      if (LookupDevice(list, device))
       {
         devices.SetDevice(player, device);
-        LOG(LogInfo) << "So i set " << device->Name() << " for player " << player;
+        LOG(LogInfo) << "Set " << device.Name() << " for player " << player << " (default)";
       }
     }
 
   // Shrink configuration so that there is no hole
-  devices.Shrink();
+  //devices.Shrink();
 
   return devices;
 }
@@ -402,17 +403,17 @@ std::string InputManager::GenerateConfiggenConfiguration(const OrderedDevices& d
   std::string command;
   for (int player = 0; player < Input::sMaxInputDevices; ++player)
   {
-    const InputDevice* device = devices.Device(player);
-    if (device != nullptr)
+    if (devices.IsConfigured(player))
     {
+      const InputDevice& device = devices.Device(player);
       std::string p = " -p" + std::to_string(player + 1);
-      command.append(p + "index " + std::to_string(device->Index()));
-      command.append(p + "guid " + device->GUID());
-      command.append(p + "name \"" + device->Name() + "\"");
-      command.append(p + "nbaxes " + std::to_string(device->AxeCount()));
+      command.append(p + "index " + std::to_string(device.Index()));
+      command.append(p + "guid " + device.GUID());
+      command.append(p + "name \"" + device.Name() + "\"");
+      command.append(p + "nbaxes " + std::to_string(device.AxeCount()));
 
       #ifdef SDL_JOYSTICK_IS_OVERRIDEN_BY_RECALBOX
-        command.append(p + "devicepath " + SDL_JoystickDevicePathById(device->Index()));
+        command.append(p + "devicepath " + SDL_JoystickDevicePathById(device.Index()));
       #endif
     }
   }

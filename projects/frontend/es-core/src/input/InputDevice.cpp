@@ -70,7 +70,7 @@ InputDevice::Entry InputDevice::StringToEntry(const std::string& entry)
   }
 }
 
-InputDevice::InputDevice(int deviceId, int deviceIndex, const std::string& deviceName, const std::string& deviceGUID, int deviceNbAxes, int deviceNbHats, int deviceNbButtons)
+InputDevice::InputDevice(int deviceId, int deviceIndex, const std::string& deviceName, const SDL_JoystickGUID& deviceGUID, int deviceNbAxes, int deviceNbHats, int deviceNbButtons)
   : mDeviceName(deviceName),
     mDeviceGUID(deviceGUID),
     mDeviceId(deviceId),
@@ -252,10 +252,10 @@ void InputDevice::SaveToXml(pugi::xml_node parent) const
     cfg.append_attribute("deviceName") = mDeviceName.c_str();
   }
 
-  cfg.append_attribute("deviceGUID") = mDeviceGUID.c_str();
-    cfg.append_attribute("deviceNbAxes") = mDeviceNbAxes;
-    cfg.append_attribute("deviceNbHats") = mDeviceNbHats;
-    cfg.append_attribute("deviceNbButtons") = mDeviceNbButtons;
+  cfg.append_attribute("deviceGUID") = GUID().c_str();
+  cfg.append_attribute("deviceNbAxes") = mDeviceNbAxes;
+  cfg.append_attribute("deviceNbHats") = mDeviceNbHats;
+  cfg.append_attribute("deviceNbButtons") = mDeviceNbButtons;
 
   for (int i = (int)Entry::__Count; --i >= 0; )
   {
@@ -343,7 +343,7 @@ InputCompactEvent InputDevice::ConvertToCompact(const InputEvent& event)
       }
     }
 
-  return {on, off, *this, event};
+  return { on, off, *this, event };
 }
 
 InputCompactEvent::Entry InputDevice::ConvertEntry(InputDevice::Entry entry)
