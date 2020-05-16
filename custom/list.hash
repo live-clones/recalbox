@@ -4,6 +4,8 @@
 #   * a line of minus signs ('-') indicates a file that we remove from Buildroot external tree
 #   * a line of plus signs ('+') indicates a file that we add to the Buildroot external tree
 
+--------------------------------  package/sdl2/0001-src-core-linux-SDL_threadprio.c-fix-build-without-th.patch
+--------------------------------  package/sdl2/0002-fix-busy-loop-in-dlopen.patch
 bebf5922f3fcd58aa3d3316f053e556c  boot/syslinux/syslinux.mk
 92048d2d2185b48c1e2097b9685c92f8  package/binutils/binutils.mk
 20cad3977b0ee4cc96821e8e7d2e6a7f  package/bluez5_utils/bluez5_utils.mk
@@ -29,6 +31,7 @@ f38548efeaeaaa6515c91bc6ab7d9d54  package/rpi-firmware/cmdline.txt
 f01ea6ba5ccf7e7b094e83301984333d  package/rpi-firmware/config.txt
 635322bdc7c4e8d244105c762bd173d5  package/rpi-firmware/rpi-firmware.hash
 5be9652e767c6fbff1a647c3abd5e14e  package/rpi-firmware/rpi-firmware.mk
+4a6b23e7921b96113d2d455c98c5b801  package/sdl2/sdl2.hash
 50dc2a2f96841baf8df5f6482323275f  package/sdl2/sdl2.mk
 92d54b262be45808e8892ccc6214bd25  package/sdl2_mixer/sdl2_mixer.mk
 76f5941c64fe63d71fdbafde3594ba78  package/sdl_sound/Config.in
