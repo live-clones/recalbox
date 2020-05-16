@@ -18,6 +18,7 @@ fi
 #Prefered output screen and force resolution from recalbox.conf
 PREFERED=$(recalbox_settings -command load -key system.externalscreen.prefered)
 FORCE_RES=$(recalbox_settings -command load -key system.externalscreen.forceresolution)
+UHDTV=($(echo "${xrandrOutput}" | grep "3840x2160" | grep "connected" | awk '{print $1}'))
 
 if [ -n "$PREFERED" ]; then
   PREFERED_CONNECTED=$(echo "$OUTPUT_MAXRES" | grep "$PREFERED" | awk 'BEGIN {FS="="} {print $1}')
@@ -34,19 +35,24 @@ if [ -n "$PREFERED" ]; then
     echo "Prefered screen $PREFERED disconnected, fallback to first connected screen $SEL_OUTPUT"
   fi
 fi
-  
-if [ -n "$FORCE_RES" ]; then
-  FORCE_RES_EXISTS=$(echo "${xrandrOutput}" | awk -v SEL_OUTPUT="$SEL_OUTPUT" -v FORCE_RES="$FORCE_RES" '$1!~"[0-9]*x[0-9]*i?" {OUTPUT=$1; RESO=1;} ($1~"[0-9]*x[0-9]*i?") && (OUTPUT==SEL_OUTPUT) && ($1==FORCE_RES) {print $1; RESO++;}')
-  if [ -n "$FORCE_RES_EXISTS" ]; then
-    echo "Force selected output $SEL_OUTPUT to $FORCE_RES, disable others"
-    XRANDR_CMD=$(echo "$OUTPUT_MAXRES" | awk -v SEL_OUTPUT="$SEL_OUTPUT" -v FORCE_RES="$FORCE_RES" 'BEGIN {FS="="; printf "xrandr"} $1==SEL_OUTPUT {printf " --output " $1 " --mode " FORCE_RES;} $1!=SEL_OUTPUT {printf " --output " $1 " --off";} END {printf "\n";}') 
+
+if [ -z "$UHDTV" ]; then
+  if [ -n "$FORCE_RES" ]; then
+    FORCE_RES_EXISTS=$(echo "${xrandrOutput}" | awk -v SEL_OUTPUT="$SEL_OUTPUT" -v FORCE_RES="$FORCE_RES" '$1!~"[0-9]*x[0-9]*i?" {OUTPUT=$1; RESO=1;} ($1~"[0-9]*x[0-9]*i?") && (OUTPUT==SEL_OUTPUT) && ($1==FORCE_RES) {print $1; RESO++;}')
+    if [ -n "$FORCE_RES_EXISTS" ]; then
+      echo "Force selected output $SEL_OUTPUT to $FORCE_RES, disable others"
+      XRANDR_CMD=$(echo "$OUTPUT_MAXRES" | awk -v SEL_OUTPUT="$SEL_OUTPUT" -v FORCE_RES="$FORCE_RES" 'BEGIN {FS="="; printf "xrandr"} $1==SEL_OUTPUT {printf " --output " $1 " --mode " FORCE_RES;} $1!=SEL_OUTPUT {printf " --output " $1 " --off";} END {printf "\n";}') 
+    else
+      echo "Force resolution inexistant for selected output $SEL_OUTPUT, fallback to auto, disable other outputs"
+      XRANDR_CMD=$(echo "$OUTPUT_MAXRES" | awk -v SEL_OUTPUT="$SEL_OUTPUT" 'BEGIN {FS="="; printf "xrandr"} $1==SEL_OUTPUT {printf " --output " $1 " --auto";} $1!=SEL_OUTPUT {printf " --output " $1 " --off";} END {printf "\n";}')
+    fi
   else
-    echo "Force resolution inexistant for selected output $SEL_OUTPUT, fallback to auto, disable other outputs"
-	XRANDR_CMD=$(echo "$OUTPUT_MAXRES" | awk -v SEL_OUTPUT="$SEL_OUTPUT" 'BEGIN {FS="="; printf "xrandr"} $1==SEL_OUTPUT {printf " --output " $1 " --auto";} $1!=SEL_OUTPUT {printf " --output " $1 " --off";} END {printf "\n";}')
+    echo "Force selected output $SEL_OUTPUT, disable others"
+    XRANDR_CMD=$(echo "$OUTPUT_MAXRES" | awk -v SEL_OUTPUT="$SEL_OUTPUT" 'BEGIN {FS="="; printf "xrandr"} $1==SEL_OUTPUT {printf " --output " $1 " --auto";} $1!=SEL_OUTPUT {printf " --output " $1 " --off";} END {printf "\n";}') 
   fi
 else
-  echo "Force selected output $SEL_OUTPUT, disable others"
-  XRANDR_CMD=$(echo "$OUTPUT_MAXRES" | awk -v SEL_OUTPUT="$SEL_OUTPUT" 'BEGIN {FS="="; printf "xrandr"} $1==SEL_OUTPUT {printf " --output " $1 " --auto";} $1!=SEL_OUTPUT {printf " --output " $1 " --off";} END {printf "\n";}') 
+  echo "force resolution of UHDTV in HD"
+  XRANDR_CMD=$(xrandr --output "$UHDTV" --mode "1920x1080")
 fi
 echo "$XRANDR_CMD"
 $($XRANDR_CMD)
