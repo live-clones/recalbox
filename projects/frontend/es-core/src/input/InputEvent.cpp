@@ -33,7 +33,7 @@ InputEvent::EventType InputEvent::StringToType(const std::string& type)
   return EventType::Unknown;
 }
 
-#ifndef SDL_JOYSTICK_IS_OVERRIDEN_BY_RECALBOX
+#if !defined(SDL_JOYSTICK_IS_OVERRIDEN_BY_RECALBOX) && !defined(_RPI_)
 int SDL_JoystickAxisEventCodeById(int, int) { return -1; }
 int SDL_JoystickButtonEventCodeById(int, int) { return -1; }
 int SDL_JoystickHatEventCodeById(int, int) { return -1; }

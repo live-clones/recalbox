@@ -412,7 +412,7 @@ std::string InputManager::GenerateConfiggenConfiguration(const OrderedDevices& d
       command.append(p + "name \"" + device.Name() + "\"");
       command.append(p + "nbaxes " + std::to_string(device.AxeCount()));
 
-      #ifdef SDL_JOYSTICK_IS_OVERRIDEN_BY_RECALBOX
+      #if defined(SDL_JOYSTICK_IS_OVERRIDEN_BY_RECALBOX) || defined(_RPI_)
         command.append(p + "devicepath " + SDL_JoystickDevicePathById(device.Index()));
       #endif
     }
