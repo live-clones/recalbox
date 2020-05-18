@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --system solarus --extension '.zip .solarus' --fullname 'Solarus' --platform solarus --theme solarus 1:solarus:solarus:BR2_PACKAGE_SOLARUS_RECALBOX
+# ./scripts/linux/empack.py --force --system solarus --extension '.zip .solarus' --fullname 'Solarus' --platform solarus --theme solarus 1:solarus:solarus:BR2_PACKAGE_RECALBOX_SOLARUS
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_SOLARUS_SOURCE = 
@@ -21,16 +21,16 @@ SOURCE_ROMDIR_SOLARUS = $(RECALBOX_ROMFS_SOLARUS_PKGDIR)/roms
 # variables are global across buildroot
 
 
-ifneq ($(BR2_PACKAGE_SOLARUS_RECALBOX),)
+ifneq ($(BR2_PACKAGE_RECALBOX_SOLARUS),)
 define CONFIGURE_MAIN_SOLARUS_START
 	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_SOLARUS),Solarus,$(SYSTEM_NAME_SOLARUS),.zip .solarus,solarus,solarus)
 endef
 
-ifneq ($(BR2_PACKAGE_SOLARUS_RECALBOX),)
+ifneq ($(BR2_PACKAGE_RECALBOX_SOLARUS),)
 define CONFIGURE_SOLARUS_SOLARUS_START
 	$(call RECALBOX_ROMFS_CALL_START_EMULATOR,$(SYSTEM_XML_SOLARUS),solarus)
 endef
-ifeq ($(BR2_PACKAGE_SOLARUS_RECALBOX),y)
+ifeq ($(BR2_PACKAGE_RECALBOX_SOLARUS),y)
 define CONFIGURE_SOLARUS_SOLARUS_SOLARUS_DEF
 	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_SOLARUS),solarus,1)
 endef
