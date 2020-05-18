@@ -598,7 +598,7 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_SNES9X),)
 endif
 
 # System: solarus
-ifeq ($(BR2_PACKAGE_RECALBOX_SOLARUS),y)
+ifeq ($(BR2_PACKAGE_SOLARUS_RECALBOX),y)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-solarus
 endif
 
