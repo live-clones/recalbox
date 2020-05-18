@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --system dos --extension '.pc .dos .cue' --fullname 'Dos (x86)' --platform pc --theme pc 1:dosbox:dosbox:BR2_PACKAGE_DOSBOX 2:libretro:dosbox_core:BR2_PACKAGE_LIBRETRO_DOSBOX_CORE
+# ./scripts/linux/empack.py --force --system dos --extension '.pc .dos .cue .conf' --fullname 'Dos (x86)' --platform pc --theme pc 1:dosbox:dosbox:BR2_PACKAGE_DOSBOX 2:libretro:dosbox_core:BR2_PACKAGE_LIBRETRO_DOSBOX_CORE
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_DOS_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_DOS = $(RECALBOX_ROMFS_DOS_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_DOSBOX)$(BR2_PACKAGE_LIBRETRO_DOSBOX_CORE),)
 define CONFIGURE_MAIN_DOS_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_DOS),Dos (x86),$(SYSTEM_NAME_DOS),.pc .dos .cue,pc,pc)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_DOS),Dos (x86),$(SYSTEM_NAME_DOS),.pc .dos .cue .conf,pc,pc)
 endef
 
 ifneq ($(BR2_PACKAGE_DOSBOX)$(BR2_PACKAGE_LIBRETRO_DOSBOX_CORE),)

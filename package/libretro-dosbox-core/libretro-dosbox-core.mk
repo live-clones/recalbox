@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_DOSBOX_CORE_VERSION = b36bcdd9e3c97ecc67482054a1be9805df050b3c
+LIBRETRO_DOSBOX_CORE_VERSION = 7cb3896e0988ce365cc96ffd27f4a15cd98e6a76
 LIBRETRO_DOSBOX_CORE_SITE = git://github.com/libretro/dosbox-core.git
 LIBRETRO_DOSBOX_CORE_DEPENDENCIES = sdl sdl_net
 LIBRETRO_DOSBOX_CORE_SITE_METHOD = git
