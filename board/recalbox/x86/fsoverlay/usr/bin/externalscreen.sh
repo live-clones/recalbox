@@ -41,12 +41,24 @@ if [ -n "$FORCE_RES" ]; then
     echo "Force selected output $SEL_OUTPUT to $FORCE_RES, disable others"
     XRANDR_CMD=$(echo "$OUTPUT_MAXRES" | awk -v SEL_OUTPUT="$SEL_OUTPUT" -v FORCE_RES="$FORCE_RES" 'BEGIN {FS="="; printf "xrandr"} $1==SEL_OUTPUT {printf " --output " $1 " --mode " FORCE_RES;} $1!=SEL_OUTPUT {printf " --output " $1 " --off";} END {printf "\n";}') 
   else
-    echo "Force resolution inexistant for selected output $SEL_OUTPUT, fallback to auto, disable other outputs"
-	XRANDR_CMD=$(echo "$OUTPUT_MAXRES" | awk -v SEL_OUTPUT="$SEL_OUTPUT" 'BEGIN {FS="="; printf "xrandr"} $1==SEL_OUTPUT {printf " --output " $1 " --auto";} $1!=SEL_OUTPUT {printf " --output " $1 " --off";} END {printf "\n";}')
+    SEL_OUTPUT_VERT_PIX=$(echo "$OUTPUT_MAXRES" | grep "$SEL_OUTPUT" | sed 's/^.*x\([0-9]*\)$/\1/')
+  if [ "$SEL_OUTPUT_VERT_PIX" -gt "1080" ]; then
+    echo "Force resolution inexistant for selected output $SEL_OUTPUT, fallback to FHD, disable other outputs"
+    XRANDR_CMD=$(echo "$OUTPUT_MAXRES" | awk -v SEL_OUTPUT="$SEL_OUTPUT" 'BEGIN {FS="="; printf "xrandr"} $1==SEL_OUTPUT {printf " --output " $1 " --mode 1920x1080";} $1!=SEL_OUTPUT {printf " --output " $1 " --off";} END {printf "\n";}')
+  else
+      echo "Force resolution inexistant for selected output $SEL_OUTPUT, fallback to auto, disable other outputs"
+    XRANDR_CMD=$(echo "$OUTPUT_MAXRES" | awk -v SEL_OUTPUT="$SEL_OUTPUT" 'BEGIN {FS="="; printf "xrandr"} $1==SEL_OUTPUT {printf " --output " $1 " --auto";} $1!=SEL_OUTPUT {printf " --output " $1 " --off";} END {printf "\n";}')
+  fi
   fi
 else
-  echo "Force selected output $SEL_OUTPUT, disable others"
-  XRANDR_CMD=$(echo "$OUTPUT_MAXRES" | awk -v SEL_OUTPUT="$SEL_OUTPUT" 'BEGIN {FS="="; printf "xrandr"} $1==SEL_OUTPUT {printf " --output " $1 " --auto";} $1!=SEL_OUTPUT {printf " --output " $1 " --off";} END {printf "\n";}') 
+  SEL_OUTPUT_VERT_PIX=$(echo "$OUTPUT_MAXRES" | grep "$SEL_OUTPUT" | sed 's/^.*x\([0-9]*\)$/\1/')
+  if [ "$SEL_OUTPUT_VERT_PIX" -gt "1080" ]; then
+    echo "Force selected output $SEL_OUTPUT limited to FHD, disable others"
+    XRANDR_CMD=$(echo "$OUTPUT_MAXRES" | awk -v SEL_OUTPUT="$SEL_OUTPUT" 'BEGIN {FS="="; printf "xrandr"} $1==SEL_OUTPUT {printf " --output " $1 " --mode 1920x1080";} $1!=SEL_OUTPUT {printf " --output " $1 " --off";} END {printf "\n";}') 
+  else
+    echo "Force selected output $SEL_OUTPUT, disable others"
+    XRANDR_CMD=$(echo "$OUTPUT_MAXRES" | awk -v SEL_OUTPUT="$SEL_OUTPUT" 'BEGIN {FS="="; printf "xrandr"} $1==SEL_OUTPUT {printf " --output " $1 " --auto";} $1!=SEL_OUTPUT {printf " --output " $1 " --off";} END {printf "\n";}') 
+  fi
 fi
 echo "$XRANDR_CMD"
 $($XRANDR_CMD)
