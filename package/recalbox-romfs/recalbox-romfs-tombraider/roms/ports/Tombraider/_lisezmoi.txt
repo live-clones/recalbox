@@ -1,0 +1,5 @@
+## RECALBOX - SYSTEM TOMB RAIDER ##
+
+Placez ici vos jeux Tomb Raider dans ce dossier.
+
+Les jeux Tomb Raider doivent avoir l'extension ".phd .psx .tr2"

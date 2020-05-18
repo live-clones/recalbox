@@ -1,6 +1,0 @@
-config BR2_PACKAGE_RECALBOX_ROMFS_OPENLARA
-	bool "recalbox-romfs-openlara"
-	select BR2_PACKAGE_RECALBOX_ROMS
-	depends on BR2_PACKAGE_LIBRETRO_OPENLARA
-	help
-	  share_init/roms and xml for openlara
