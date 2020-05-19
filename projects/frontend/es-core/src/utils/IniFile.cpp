@@ -63,7 +63,7 @@ bool IniFile::Load()
   // Get key/value
   std::string key, value;
   for (std::string& line : lines)
-    if (IsValidKeyValue(line, key, value))
+    if (IsValidKeyValue(Strings::Trim(line, " \t\r\n"), key, value))
       mConfiguration[key] = value;
 
   OnLoad();
