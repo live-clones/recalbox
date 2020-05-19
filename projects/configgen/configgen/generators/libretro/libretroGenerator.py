@@ -94,6 +94,16 @@ class LibretroGenerator(Generator):
         if configFileName is None:
             configFileName = newConfigFileName
 
+        # Manage special scummvm roms
+        # To keep compatibility with existing scummvm scraping systems as well as with the standalone core,
+        # rom may contain the upper folder game_folder.scummvm
+        # In such case we must look for the inner file.scummvm and use it instead
+        if system.config['core'] == 'scummvm':
+            if os.path.isdir(rom):
+                scummfiles = [fn for fn in os.listdir(rom) if fn.endswith('.scummvm')]
+                if len(scummfiles) == 1:
+                    rom = os.path.join(rom, scummfiles[0])
+
         # Retroarch core on the filesystem
         retroarchCore = recalboxFiles.retroarchCores + system.config['core'] + recalboxFiles.libretroExt
 
