@@ -16,6 +16,8 @@ define LIBRETRO_SCUMMVM_BUILD_CMDS
 endef
 
 define LIBRETRO_SCUMMVM_INSTALL_TARGET_CMDS
+	mkdir -p $(TARGET_DIR)/usr/share/libretro-scummvm
+	unzip -o $(@D)/backends/platform/libretro/aux-data/scummvm.zip -d $(TARGET_DIR)/usr/share/libretro-scummvm
 	$(INSTALL) -D $(@D)/backends/platform/libretro/build/scummvm_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/scummvm_libretro.so
 endef
