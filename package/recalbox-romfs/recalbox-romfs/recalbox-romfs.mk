@@ -583,8 +583,8 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_GENESISPLUSGX)$(BR2_PACKAGE_LIBRETRO_GEARSYSTEM),)
 endif
 
 # System: scummvm
-ifeq ($(BR2_PACKAGE_SCUMMVM),y)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-scummvm
+ifneq ($(BR2_PACKAGE_SCUMMVM)$(BR2_PACKAGE_RESIDUALVM)$(BR2_PACKAGE_LIBRETRO_SCUMMVM),)
+        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-scummvm
 endif
 
 # System: snes

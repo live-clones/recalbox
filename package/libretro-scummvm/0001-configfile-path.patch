@@ -1,0 +1,11 @@
+--- a/backends/platform/libretro/libretro_os.cpp	2020-03-28 17:15:40.000000000 +0100
++++ b/backends/platform/libretro/libretro_os.cpp	2020-05-19 17:10:31.166267941 +0200
+@@ -768,7 +768,7 @@
+ 
+       virtual Common::String getDefaultConfigFileName()
+       {
+-         return s_systemDir + "/scummvm.ini";
++         return "/recalbox/share/system/configs/scummvm/libretro-scummvm.ini";
+       }
+ 
+       virtual void logMessage(LogMessageType::Type type, const char *message)
