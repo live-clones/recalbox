@@ -380,6 +380,9 @@ FileData* SystemData::LookupOrCreateGame(const Path& root, const Path& path, Ite
     std::string key = path.UptoItem(itemIndex);
     FileData* item = (doppelgangerWatcher.find(key) != doppelgangerWatcher.end()) ? doppelgangerWatcher[key] : nullptr;
 
+    // Some ScummVM folder/games may create inconsistent folders
+    if (!treeNode->isFolder()) return nullptr;
+
     // Last path component?
     if (itemIndex == itemLast)
     {
