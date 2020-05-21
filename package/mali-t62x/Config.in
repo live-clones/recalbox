@@ -4,6 +4,8 @@ config BR2_PACKAGE_MALI_T62X
 	select BR2_PACKAGE_MALI_OPENGLES_SDK
 	select BR2_PACKAGE_HAS_LIBEGL
 	select BR2_PACKAGE_HAS_LIBGLES
+  select BR2_PACKAGE_LIBDRM_EXYNOS
+  select BR2_PACKAGE_LIBDRM
 	help
 	  Install the binary user-space components for the
 	  ARM Mali Midgard T62X GPU. This package requires a
@@ -19,6 +21,16 @@ config BR2_PACKAGE_PROVIDES_LIBEGL
 config BR2_PACKAGE_PROVIDES_LIBGLES
 	default "mali-t62x"
 
+choice
+	prompt "Driver flavor"
+config BR2_PACKAGE_MALI_T62X_FBDEV
+	bool "fbdev"
+config BR2_PACKAGE_MALI_T62X_GBM
+	bool "GBM"
+  select BR2_PACKAGE_WAYLAND
+config BR2_PACKAGE_MALI_T62X_BIGMALI
+	bool "BigMali"
+endchoice
 endif
 
 comment "mali-t62x"
