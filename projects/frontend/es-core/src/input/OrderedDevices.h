@@ -17,7 +17,7 @@ class OrderedDevices
      */
     InputDevice mDevicesIndexes[Input::sMaxInputDevices];
     //! Configured device count
-    int mConfiguredBitFlags;
+    unsigned int mConfiguredBitFlags;
     //! Configured device count
     int mCount;
 
@@ -65,17 +65,18 @@ class OrderedDevices
 
     /*!
      * @brief Shrink devices so there is no hole between
-     * DEPRECATED
      */
-    /*void Shrink()
+    void Shrink()
     {
       int count = 0;
-      for (auto Device : mDevicesIndexes)
+      for (int i = 0; i < Input::sMaxInputDevices; i++)
       {
-        mDevicesIndexes[count] = Device;
-        if (mDevicesIndexes[count] != nullptr) ++count;
+        if (!IsConfigured(i)) continue;
+        if (count != i) mDevicesIndexes[count] = mDevicesIndexes[i];
+        count++;
       }
       mCount = count;
-    }*/
+      mConfiguredBitFlags = 0xFFFFFFFF >> (32 - count);
+    }
 };
 

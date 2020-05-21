@@ -393,7 +393,7 @@ OrderedDevices InputManager::GenerateConfiguration()
     }
 
   // Shrink configuration so that there is no hole
-  //devices.Shrink();
+  devices.Shrink();
 
   return devices;
 }
