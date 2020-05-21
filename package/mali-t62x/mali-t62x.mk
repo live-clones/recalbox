@@ -22,7 +22,6 @@ MALI_T62X_SOURCE = malit62x$(MALI_T62X_VERSION)linux1$(MALI_T62X_FLAVOR).tar.gz
 MALI_T62X_SITE = https://developer.arm.com/-/media/Files/downloads/mali-drivers/user-space/odroid-xu3
 endif
 
-
 MALI_T62X_INSTALL_STAGING = YES
 MALI_T62X_PROVIDES = libegl libgles
 
@@ -35,7 +34,7 @@ define MALI_T62X_EXTRACT_CMDS
 endef
 define MALI_T62X_INSTALL_STAGING_CMDS
 	$(INSTALL) -D $(@D)/libmali.so $(MALI_T62X_STAGING_DIR)/libmali.so
-	ln -rsf $(MALI_T62X_STAGING_DIR)/libmali.so $(MALI_T62X_STAGING_DIR)/libEGL.so 
+	ln -rsf $(MALI_T62X_STAGING_DIR)/libmali.so $(MALI_T62X_STAGING_DIR)/libEGL.so
 	ln -rsf $(MALI_T62X_STAGING_DIR)/libmali.so $(MALI_T62X_STAGING_DIR)/libEGL.so.1
 	ln -rsf $(MALI_T62X_STAGING_DIR)/libmali.so $(MALI_T62X_STAGING_DIR)/libgbm.so
 	ln -rsf $(MALI_T62X_STAGING_DIR)/libmali.so $(MALI_T62X_STAGING_DIR)/libgbm.so.1
@@ -48,7 +47,7 @@ define MALI_T62X_INSTALL_STAGING_CMDS
 endef
 define MALI_T62X_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/libmali.so $(MALI_T62X_TARGET_DIR)/libmali.so
-	ln -rsf $(MALI_T62X_TARGET_DIR)/libmali.so $(MALI_T62X_TARGET_DIR)/libEGL.so 
+	ln -rsf $(MALI_T62X_TARGET_DIR)/libmali.so $(MALI_T62X_TARGET_DIR)/libEGL.so
 	ln -rsf $(MALI_T62X_TARGET_DIR)/libmali.so $(MALI_T62X_TARGET_DIR)/libEGL.so.1
 	ln -rsf $(MALI_T62X_TARGET_DIR)/libmali.so $(MALI_T62X_TARGET_DIR)/libgbm.so
 	ln -rsf $(MALI_T62X_TARGET_DIR)/libmali.so $(MALI_T62X_TARGET_DIR)/libgbm.so.1

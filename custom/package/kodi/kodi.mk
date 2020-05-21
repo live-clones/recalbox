@@ -94,15 +94,15 @@ endif
 # Graphic Buffer Management (no X11)
 ifeq ($(BR2_PACKAGE_KODI_PLATFORM_GBM_GL),y)
 KODI_CONF_OPTS += \
-       -DCORE_PLATFORM_NAME=gbm \
-       -DGBM_RENDER_SYSTEM=gl
+	-DCORE_PLATFORM_NAME=gbm \
+	-DGBM_RENDER_SYSTEM=gl
 KODI_DEPENDENCIES += libegl libglu libinput libxkbcommon mesa3d
 endif
 
 ifeq ($(BR2_PACKAGE_KODI_PLATFORM_GBM_GLES),y)
 KODI_CONF_OPTS += \
-       -DCORE_PLATFORM_NAME=gbm \
-       -DGBM_RENDER_SYSTEM=gles
+	-DCORE_PLATFORM_NAME=gbm \
+	-DGBM_RENDER_SYSTEM=gles
 KODI_DEPENDENCIES += libgles libinput libxkbcommon
 # GLES is provided by mali-t62x (odroid-xu4)
 ifeq ($(BR2_PACKAGE_MALI_T62X),y)
