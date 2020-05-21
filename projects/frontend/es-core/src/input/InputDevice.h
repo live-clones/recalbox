@@ -44,7 +44,8 @@ class InputDevice
 
   private:
     InputEvent mInputEvents[(int)Entry::__Count]; //!< Entry configurations
-    std::string mDeviceName;                      //!< Device name: Keyboard or Pad/joystick name
+    char mDeviceName[128];                        //!< Device name: Keyboard or Pad/joystick name
+    int mDeviceNameLength;                        //!< Device name length in char
     SDL_JoystickGUID mDeviceGUID;                 //!< GUID
     int mDeviceId;                                //!< SDL2 Joystick Identifier
     int mDeviceIndex;                             //!< SDL2 Joystick Index
@@ -71,7 +72,9 @@ class InputDevice
      * @return Empty InputDevice
      */
     InputDevice()
-      : mDeviceGUID {},
+      : mDeviceName {},
+        mDeviceNameLength(0),
+        mDeviceGUID {},
         mDeviceId(0),
         mDeviceIndex(0),
         mDeviceNbAxes(0),
@@ -93,8 +96,8 @@ class InputDevice
      * @param deviceNbHats Number of hats
      * @param deviceNbButtons Numper of buttons
      */
-    InputDevice(int deviceId, int deviceIndex, const std::string& deviceName, const SDL_JoystickGUID& deviceGUID,
-                int deviceNbAxes, int deviceNbHats, int deviceNbButtons);
+    InputDevice(SDL_JoystickID deviceId, int deviceIndex, const std::string& deviceName,
+                const SDL_JoystickGUID& deviceGUID, int deviceNbAxes, int deviceNbHats, int deviceNbButtons);
 
     /*!
      * @brief Copy constructor
@@ -113,13 +116,13 @@ class InputDevice
      * Accessors
      */
 
-    const std::string& Name() const { return mDeviceName; }
-    std::string        GUID() const { char sguid[64]; SDL_JoystickGetGUIDString(mDeviceGUID, sguid, sizeof(sguid)); return sguid; }
-    int Identifier()          const { return mDeviceId; };
-    int Index()               const { return mDeviceIndex; };
-    int AxeCount()            const { return mDeviceNbAxes; };
-    int HatCount()            const { return mDeviceNbHats; };
-    int ButtonCount()         const { return mDeviceNbButtons; };
+    std::string Name() const { return std::string(mDeviceName, mDeviceNameLength); }
+    std::string GUID() const { char sguid[64]; SDL_JoystickGetGUIDString(mDeviceGUID, sguid, sizeof(sguid)); return sguid; }
+    int Identifier()   const { return mDeviceId; };
+    int Index()        const { return mDeviceIndex; };
+    int AxeCount()     const { return mDeviceNbAxes; };
+    int HatCount()     const { return mDeviceNbHats; };
+    int ButtonCount()  const { return mDeviceNbButtons; };
     //std::string getSDLPowerLevel();
     //std::string getSysPowerLevel();
 

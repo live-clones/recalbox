@@ -19,10 +19,12 @@ class InputManager
     //! Joystick deadzone, in the 0-32767 range
     static constexpr int sJoystickDeadZone = 23000;
 
+    //! Index to DSL Identifiers
+    SDL_JoystickID mIndexToId[Input::sMaxInputDevices];
     //! SDL Identifier to Joystick structures
-    HashMap<SDL_JoystickID, SDL_Joystick*> mJoysticks;
+    HashMap<SDL_JoystickID, SDL_Joystick*> mIdToSdlJoysticks;
     //! SDL Identifier to device configurations
-    HashMap<SDL_JoystickID, InputDevice> mDevices;
+    HashMap<SDL_JoystickID, InputDevice> mIdToDevices;
     //! Default Keyboard
     InputDevice mKeyboard;
 
@@ -41,7 +43,7 @@ class InputManager
      * @brief Get the initialization state
      * @return True if the manager is initialized
      */
-    bool IsInitialized() const { return !mDevices.empty(); }
+    bool IsInitialized() const { return !mIdToDevices.empty(); }
 
     /*!
      * @brief Get the GUID string of an SDL joystik
@@ -158,7 +160,7 @@ class InputManager
     /*!
      * Get number of initialized devices
      */
-    int DeviceCount() const { return mJoysticks.size(); }
+    int DeviceCount() const { return mIdToDevices.size(); }
 
     /*!
      * @brief Parse an SDL event and generate an InputCompactEvent accordingly
@@ -191,7 +193,14 @@ class InputManager
      * @param deviceId Device identifier
      * @return Device configuration
      */
-    InputDevice& GetDeviceConfiguration(int deviceId);
+    InputDevice& GetDeviceConfigurationFromId(SDL_JoystickID deviceId);
+
+    /*!
+     * @brief Get device by SDL Identifier
+     * @param deviceId Device identifier
+     * @return Device configuration
+     */
+    InputDevice& GetDeviceConfigurationFromIndex(int index) { return GetDeviceConfigurationFromId(mIndexToId[index]); }
 
     /*!
      * @brief Generate an ordered device list in function of player devices configuratons

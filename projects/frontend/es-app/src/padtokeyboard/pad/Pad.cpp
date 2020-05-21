@@ -49,7 +49,7 @@ void Pad::Open(const OrderedDevices& orderedDevices)
     // Get joystick
     SDL_Joystick* joystick = SDL_JoystickOpen(j);
     // Get global index
-    SDL_JoystickID joystickIndex = SDL_JoystickGetDeviceInstanceID(j);
+    SDL_JoystickID joystickIndex = SDL_JoystickInstanceID(joystick);
     // Get informations
     const char* name = SDL_JoystickNameForIndex(j);
     char guid[64];

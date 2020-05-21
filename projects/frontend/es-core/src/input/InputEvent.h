@@ -28,6 +28,8 @@ class InputEvent
   public:
     //! Define virtual default keyboard device
     static constexpr int sKeyboardDevice = -1;
+    //! Define empty device device
+    static constexpr int sEmptyDevice = -2;
 
     /*!
      * @brief Default constructor

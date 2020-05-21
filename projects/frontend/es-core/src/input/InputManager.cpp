@@ -8,9 +8,11 @@
 #include "Input.h"
 
 #define KEYBOARD_GUID_STRING { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF }
+#define EMPTY_GUID_STRING { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }
 
 InputManager::InputManager()
-  : mKeyboard(InputEvent::sKeyboardDevice, -1, "Keyboard", KEYBOARD_GUID_STRING, 0, 0, 125)
+  : mIndexToId {}
+  , mKeyboard(InputEvent::sKeyboardDevice, -1, "Keyboard", KEYBOARD_GUID_STRING, 0, 0, 125)
 {
   // Create keyboard
   LoadDefaultKeyboardConfiguration();
@@ -27,15 +29,16 @@ InputManager& InputManager::Instance()
   return _instance;
 }
 
-InputDevice& InputManager::GetDeviceConfiguration(int deviceId)
+InputDevice& InputManager::GetDeviceConfigurationFromId(SDL_JoystickID deviceId)
 {
   // Already exists?
-  InputDevice* device = mDevices.try_get(deviceId);
+  InputDevice* device = mIdToDevices.try_get(deviceId);
   if (device != nullptr)
     return *device;
 
   LOG(LogError) << "Unexisting device!";
-  return mKeyboard;
+  static InputDevice sEmptyDevice(InputEvent::sEmptyDevice, -1, "Empty Device", EMPTY_GUID_STRING, 0, 0, 0);
+  return sEmptyDevice;
 }
 
 void InputManager::Finalize()
@@ -50,8 +53,6 @@ void InputManager::Finalize()
 
 void InputManager::Initialize()
 {
-  if (IsInitialized()) return;
-
   Finalize();
 
   SDL_SetHint(SDL_HINT_JOYSTICK_ALLOW_BACKGROUND_EVENTS,
@@ -87,12 +88,12 @@ void InputManager::LoadDefaultKeyboardConfiguration()
 void InputManager::ClearAllConfigurations()
 {
   // Close SDL devices
-  for (auto& mJoystick : mJoysticks)
+  for (auto& mJoystick : mIdToSdlJoysticks)
     SDL_JoystickClose(mJoystick.second);
-  mJoysticks.clear();
+  mIdToSdlJoysticks.clear();
 
   // Delete InputDevices
-  mDevices.clear();
+  mIdToDevices.clear();
 }
 
 void InputManager::LoadAllJoysticksConfiguration()
@@ -117,7 +118,8 @@ void InputManager::LoadJoystickConfiguration(int index)
   SDL_Joystick* joy = SDL_JoystickOpen(index);
   if (joy == nullptr) return;
   SDL_JoystickID identifier = SDL_JoystickInstanceID(joy);
-  mJoysticks[identifier] = joy;
+  mIdToSdlJoysticks[identifier] = joy;
+  mIndexToId[index] = identifier;
 
   // Create device configuration
   InputDevice device(identifier,
@@ -133,7 +135,7 @@ void InputManager::LoadJoystickConfiguration(int index)
     LOG(LogWarning) << "Unknown joystick " << SDL_JoystickName(joy);
 
   // Store
-  mDevices[identifier] = device;
+  mIdToDevices[identifier] = device;
   LOG(LogWarning) << "Added joystick " << SDL_JoystickName(joy) << " (GUID: " << DeviceGUIDString(joy) << ", instance ID: " << identifier << ", device index: " << index << ")";
 
 }
@@ -141,7 +143,7 @@ void InputManager::LoadJoystickConfiguration(int index)
 int InputManager::ConfiguredDeviceCount()
 {
   int num = mKeyboard.IsConfigured() ? 1 : 0;
-  for (auto& mInputConfig : mDevices)
+  for (auto& mInputConfig : mIdToDevices)
     if (mInputConfig.second.IsConfigured())
       num++;
 
@@ -156,7 +158,7 @@ InputCompactEvent InputManager::ManageAxisEvent(const SDL_JoyAxisEvent& axis)
               (axis.value > sJoystickDeadZone ? 1 : 0) ;
 
   // Check if the axis enter or exit from the dead area
-  InputDevice& device = GetDeviceConfiguration(axis.which);
+  InputDevice& device = GetDeviceConfigurationFromId(axis.which);
   InputEvent event(axis.which, InputEvent::EventType::Axis, axis.axis, value);
   if (value != device.PreviousAxisValues(axis.axis))
   {
@@ -168,13 +170,13 @@ InputCompactEvent InputManager::ManageAxisEvent(const SDL_JoyAxisEvent& axis)
 
 InputCompactEvent InputManager::ManageButtonEvent(const SDL_JoyButtonEvent& button)
 {
-  InputDevice& device = GetDeviceConfiguration(button.which);
+  InputDevice& device = GetDeviceConfigurationFromId(button.which);
   return device.ConvertToCompact(InputEvent(button.which, InputEvent::EventType::Button, button.button, button.state == SDL_PRESSED ? 1 : 0));
 }
 
 InputCompactEvent InputManager::ManageHatEvent(const SDL_JoyHatEvent& hat)
 {
-  InputDevice& device = GetDeviceConfiguration(hat.which);
+  InputDevice& device = GetDeviceConfigurationFromId(hat.which);
   return device.ConvertToCompact(InputEvent(hat.which, InputEvent::EventType::Hat, hat.hat, hat.value));
 }
 
@@ -302,7 +304,7 @@ void InputManager::WriteDeviceXmlConfiguration(InputDevice& device)
 
 void InputManager::FillConfiguredDevicelist(InputDeviceList& list)
 {
-  for(auto& item : mDevices)
+  for(auto& item : mIdToDevices)
     if (item.second.IsConfigured())
       list.Add(item.second);
 }

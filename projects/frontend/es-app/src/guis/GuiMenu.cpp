@@ -649,7 +649,7 @@ void GuiMenu::menuControllers() {
     // For each available and configured input
     for (auto it = 0; it < InputManager::Instance().DeviceCount(); it++)
     {
-      InputDevice& device = InputManager::Instance().GetDeviceConfiguration(it);
+      InputDevice& device = InputManager::Instance().GetDeviceConfigurationFromIndex(it);
       if (device.IsConfigured())
       {
         const std::string& name = device.Name();
