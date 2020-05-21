@@ -142,7 +142,7 @@ endef
 
 ifeq ($(BR2_PACKAGE_MALI_OPENGLES_SDK),y)
 RETROARCH_PRE_CONFIGURE_HOOKS += RETROARCH_MALI_FIXUP
-RETROARCH_CONF_OPTS += --enable-opengles --enable-mali_fbdev
+RETROARCH_CONF_OPTS += --enable-opengles --disable-wayland
 endif
 
 #ifeq ($(BR2_i386),y)
