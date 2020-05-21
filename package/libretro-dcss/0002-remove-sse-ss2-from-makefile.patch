@@ -1,0 +1,20 @@
+--- a/crawl-ref/Makefile.libretro	2019-10-12 14:45:17.000000000 +0200
++++ b/crawl-ref/Makefile.libretro	2020-05-21 01:06:02.160479678 +0200
+@@ -27,7 +27,7 @@
+ ifneq (,$(findstring unix,$(platform)))
+    TARGET := $(TARGET_NAME)_libretro.so
+ 	fpic := -fPIC
+-   COMMONFLAGS += -msse -msse2 -DUNIX
++   COMMONFLAGS +=  -DUNIX
+ 	LDFLAGS += -lpthread
+    LDFLAGS += -shared -Wl,--version-script=libretro/link.T -Wl,--no-undefined
+    ifneq (,$(findstring Haiku,$(shell uname -s)))
+@@ -79,7 +79,7 @@
+    CC = gcc
+    CXX = g++
+    TARGET := $(TARGET_NAME)_libretro.dll
+-   COMMONFLAGS += -msse -msse2  -DTARGET_OS_WINDOWS
++   COMMONFLAGS +=   -DTARGET_OS_WINDOWS
+    LDFLAGS += -shared -static-libgcc -static-libstdc++ -Wl,--version-script=libretro/link.T -lwinmm -lgdi32
+ endif
+ 

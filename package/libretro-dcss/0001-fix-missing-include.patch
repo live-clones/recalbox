@@ -1,0 +1,10 @@
+--- a/crawl-ref/source/mon-info.h	2019-10-12 14:45:17.000000000 +0200
++++ b/crawl-ref/source/mon-info.h	2020-05-21 01:05:48.320346491 +0200
+@@ -2,6 +2,7 @@
+ #define MON_INFO_H
+ 
+ #include "mon-util.h"
++#include <functional>
+ 
+ #define SPECIAL_WEAPON_KEY "special_weapon_name"
+ 
