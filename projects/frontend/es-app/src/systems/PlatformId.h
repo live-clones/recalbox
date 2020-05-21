@@ -111,6 +111,7 @@ namespace PlatformIds
     PORT_BOOM3,
     PORT_CAVE_STORY,
     PORT_CRAFT,
+    PORT_CRAWL,
     PORT_DINOTHAWR,
     PORT_ECWOLF,
     PORT_MRBOOM,

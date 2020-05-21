@@ -111,6 +111,7 @@ namespace PlatformIds
       { "dinothawr"       , PlatformId::PORT_DINOTHAWR            },
       { "doom"            , PlatformId::PORT_PRBOOM               },
       { "doom3"           , PlatformId::PORT_BOOM3                },
+      { "dungeoncrawlstonesoup" , PlatformId::PORT_CRAWL          },
       { "flashback"       , PlatformId::PORT_REMINISCENCE         },
       { "minecraft"       , PlatformId::PORT_CRAFT                },
       { "mrboom"          , PlatformId::PORT_MRBOOM               },
