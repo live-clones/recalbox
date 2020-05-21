@@ -244,9 +244,10 @@ def getDefaultEmulator(targetSystem):
         # Miscellaneous
         "ports"          : Emulator(name='ports', emulator=''),
         "2048"           : Emulator(name='2048', emulator='libretro', core='2048'),
-        "minecraft"      : Emulator(name='minecraft', emulator='libretro', core='craft'),
+        "dungeoncrawlstonesoup" : Emulator(name='dungeoncrawlstonesoup', emulator='libretro', core='stonesoup'),
         "imageviewer"    : Emulator(name='imageviewer', emulator='libretro', core='imageviewer'),
         "kodi"           : Emulator(name='kodi', emulator='kodi', videomode='default'),
+        "minecraft"      : Emulator(name='minecraft', emulator='libretro', core='craft'),
         "moonlight"      : Emulator(name='moonlight', emulator='moonlight'),
         "mrboom"         : Emulator(name='mrboom', emulator='libretro', core='mrboom'),
         "outrun"         : Emulator(name='outrun', emulator='libretro', core='cannonball'),
