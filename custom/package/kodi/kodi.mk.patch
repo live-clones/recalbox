@@ -1,0 +1,34 @@
+diff --git a/package/kodi/kodi.mk b/package/kodi/kodi.mk
+index 2f2a92a889..e9189d47cd 100644
+--- a/package/kodi/kodi.mk
++++ b/package/kodi/kodi.mk
+@@ -90,6 +90,29 @@ ifeq ($(BR2_ENABLE_LOCALE),)
+ KODI_DEPENDENCIES += libiconv
+ endif
+ 
++# See https://github.com/xbmc/xbmc/blob/master/docs/README.Linux.md
++# Graphic Buffer Management (no X11)
++ifeq ($(BR2_PACKAGE_KODI_PLATFORM_GBM_GL),y)
++KODI_CONF_OPTS += \
++	-DCORE_PLATFORM_NAME=gbm \
++	-DGBM_RENDER_SYSTEM=gl
++KODI_DEPENDENCIES += libegl libglu libinput libxkbcommon mesa3d
++endif
++
++ifeq ($(BR2_PACKAGE_KODI_PLATFORM_GBM_GLES),y)
++KODI_CONF_OPTS += \
++	-DCORE_PLATFORM_NAME=gbm \
++	-DGBM_RENDER_SYSTEM=gles
++KODI_DEPENDENCIES += libgles libinput libxkbcommon
++# GLES is provided by mali-t62x (odroid-xu4)
++ifeq ($(BR2_PACKAGE_MALI_T62X),y)
++KODI_DEPENDENCIES += mali-t62x
++# GLES is provided by mesa
++else ifeq ($(BR2_PACKAGE_MESA3D),y)
++KODI_DEPENDENCIES += mesa3d
++endif
++endif
++
+ ifeq ($(BR2_PACKAGE_KODI_PLATFORM_RBPI),y)
+ # These CPU-specific options are only used on rbpi:
+ # https://github.com/xbmc/xbmc/blob/Krypton/project/cmake/scripts/rbpi/ArchSetup.cmake#L13
