@@ -307,6 +307,11 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_FLYCAST)$(BR2_PACKAGE_REICAST_OLD),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-dreamcast
 endif
 
+# System: dungeoncrawlstonesoup
+ifneq ($(BR2_PACKAGE_LIBRETRO_CRAWL),)
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-dungeoncrawlstonesoup
+endif
+
 # System: fba
 ifneq ($(BR2_PACKAGE_PIFBA),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-fba
