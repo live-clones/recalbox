@@ -38,6 +38,7 @@
 - Wolfenstein 3D game engine added to ports (full game files go all in the same directory)
 - Add libretro's mupen64plus-nx, an improved n64/64dd emulator (rpi only for now)
 - Add libretro's scummvm version as an alternative to the standalone emulator
+- Add libretro's pcsx_rearmed on pc too
 
 ### Improvements
 - Bump Buildroot to version 2020.02

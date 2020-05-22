@@ -97,6 +97,7 @@ All notable changes to this project will be documented in this file.
 - Add libretro-mupen64plus-nx for n64 & 64dd emulation (rpi only for now)
 - Bump buildroot to 2020.02
 - Add libretro-scummvm on all platforms
+- Add libretro-pcsx_rearmed on pc
 
 ## [6.1.1]
 - Add zfast shaders

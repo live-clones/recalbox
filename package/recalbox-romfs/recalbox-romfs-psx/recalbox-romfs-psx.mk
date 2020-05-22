@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --system psx --extension '.img .IMG .pbp .PBP .cue .CUE .iso .ISO .ccd .CCD .cbn .CBN .m3u .M3U .chd .CHD' --fullname 'Sony Playstation 1' --platform psx --theme psx 2:libretro:pcsx_rearmed:BR2_PACKAGE_LIBRETRO_PCSX_REARMED 3:libretro:mednafen_psx:BR2_PACKAGE_LIBRETRO_BEETLE_PSX 4:libretro:mednafen_psx_hw:BR2_PACKAGE_LIBRETRO_BEETLE_PSX_HW 1:pcsx_rearmed:pcsx_rearmed:BR2_PACKAGE_PCSX_REARMED
+# ./scripts/linux/empack.py --force --system psx --extension '.img .pbp .cue .iso .ccd .cbn .m3u .chd' --fullname 'Sony Playstation 1' --platform psx --theme psx 2:libretro:pcsx_rearmed:BR2_PACKAGE_LIBRETRO_PCSX_REARMED 3:libretro:mednafen_psx:BR2_PACKAGE_LIBRETRO_BEETLE_PSX 4:libretro:mednafen_psx_hw:BR2_PACKAGE_LIBRETRO_BEETLE_PSX_HW 1:pcsx_rearmed:pcsx_rearmed:BR2_PACKAGE_PCSX_REARMED
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_PSX_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_PSX = $(RECALBOX_ROMFS_PSX_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_PCSX_REARMED)$(BR2_PACKAGE_LIBRETRO_BEETLE_PSX)$(BR2_PACKAGE_LIBRETRO_BEETLE_PSX_HW)$(BR2_PACKAGE_PCSX_REARMED),)
 define CONFIGURE_MAIN_PSX_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_PSX),Sony Playstation 1,$(SYSTEM_NAME_PSX),.img .IMG .pbp .PBP .cue .CUE .iso .ISO .ccd .CCD .cbn .CBN .m3u .M3U .chd .CHD,psx,psx)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_PSX),Sony Playstation 1,$(SYSTEM_NAME_PSX),.img .pbp .cue .iso .ccd .cbn .m3u .chd,psx,psx)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_PCSX_REARMED)$(BR2_PACKAGE_LIBRETRO_BEETLE_PSX)$(BR2_PACKAGE_LIBRETRO_BEETLE_PSX_HW)$(BR2_PACKAGE_PCSX_REARMED),)
