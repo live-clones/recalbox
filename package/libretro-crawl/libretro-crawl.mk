@@ -22,6 +22,8 @@ endef
 define LIBRETRO_CRAWL_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/crawl-ref/stonesoup_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/stonesoup_libretro.so
+	mkdir -p "$(TARGET_DIR)/recalbox/share_init/roms/ports/Dungeon Crawl Stone Soup/dat"
+	cp -R $(@D)/crawl-ref/source/dat/* "$(TARGET_DIR)/recalbox/share_init/roms/ports/Dungeon Crawl Stone Soup/dat"
 endef
 
 $(eval $(generic-package))
