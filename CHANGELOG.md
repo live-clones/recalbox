@@ -99,6 +99,7 @@ All notable changes to this project will be documented in this file.
 - Bump buildroot to 2020.02
 - Add libretro-scummvm on all platforms
 - Add libretro-pcsx_rearmed on pc
+- Add Netflix Kodi video plugin
 
 ## [6.1.1]
 - Add zfast shaders

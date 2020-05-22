@@ -1,0 +1,15 @@
+config BR2_PACKAGE_KODI_PLUGIN_VIDEO_NETFLIX
+	bool "kodi-plugin-video-netflix"
+	default y
+	depends on BR2_PACKAGE_KODI
+	select BR2_PACKAGE_KODI_PLUGIN_SCRIPT_ADDON_SIGNALS
+	select BR2_PACKAGE_PYTHON_HASHLIB
+	select BR2_PACKAGE_PYTHON_SIX
+	select BR2_PACKAGE_PYTHON_PYCRYTODOMEX
+	select BR2_PACKAGE_KODI_PLUGIN_SCRIPT_ADDON_SIGNALS
+	select BR2_PACKAGE_KODI_PLUGIN_SCRIPT_INPUTSTREAMHELPER
+	select BR2_PACKAGE_KODI_PLUGIN_SCRIPT_FUTURE
+	help
+	  Kodi Netflix Plugin
+
+	  source https://github.com/CastagnaIT/plugin.video.netflix/

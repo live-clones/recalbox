@@ -1,0 +1,8 @@
+config BR2_PACKAGE_KODI_PLUGIN_SCRIPT_FUTURE
+	bool "kodi-plugin-script-future"
+	default n
+	depends on BR2_PACKAGE_KODI
+	help
+	  Kodi Future script plugin
+
+	  https://kodi.wiki/view/Add-on:Future
