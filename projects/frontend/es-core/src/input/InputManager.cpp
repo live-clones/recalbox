@@ -6,6 +6,7 @@
 #include "RootFolders.h"
 #include "SDL.h"
 #include "Input.h"
+#include "Sdl2Extentions.h"
 
 #define KEYBOARD_GUID_STRING { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF }
 #define EMPTY_GUID_STRING { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }
@@ -408,15 +409,12 @@ std::string InputManager::GenerateConfiggenConfiguration(const OrderedDevices& d
     if (devices.IsConfigured(player))
     {
       const InputDevice& device = devices.Device(player);
-      std::string p = " -p" + std::to_string(player + 1);
-      command.append(p + "index " + std::to_string(device.Index()));
-      command.append(p + "guid " + device.GUID());
-      command.append(p + "name \"" + device.Name() + "\"");
-      command.append(p + "nbaxes " + std::to_string(device.AxeCount()));
-
-      #if defined(SDL_JOYSTICK_IS_OVERRIDEN_BY_RECALBOX) || defined(_RPI_)
-        command.append(p + "devicepath " + SDL_JoystickDevicePathById(device.Index()));
-      #endif
+      std::string p(" -p"); p.append(Strings::ToString(player + 1));
+      command.append(p).append("index ").append(Strings::ToString(device.Index()))
+             .append(p).append("guid ").append(device.GUID())
+             .append(p).append("name \"").append(device.Name() + "\"")
+             .append(p).append("nbaxes ").append(Strings::ToString(device.AxeCount()))
+             .append(p).append("devicepath ").append(SDL_JoystickDevicePathById(device.Index()));
     }
   }
   LOG(LogInfo) << "Configure emulators command : " << command;

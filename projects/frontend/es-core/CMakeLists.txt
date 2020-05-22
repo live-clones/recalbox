@@ -14,6 +14,7 @@ set(CORE_HEADERS
 		src/input/InputManager.h
 		src/input/InputStack.h
 		src/input/OrderedDevices.h
+		src/input/Sdl2Extentions.h
 		src/utils/Log.h
 		src/utils/locale/LocaleHelper.h
 		src/audio/Music.h
@@ -141,6 +142,7 @@ set(CORE_SOURCES
 		src/input/InputCompactEvent.cpp
 		src/input/InputManager.cpp
 		src/input/InputStack.cpp
+		src/input/Sdl2Extentions.cpp
 		src/utils/Log.cpp
 		src/audio/Music.cpp
 		src/platform.cpp

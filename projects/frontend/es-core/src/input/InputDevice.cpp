@@ -273,9 +273,7 @@ void InputDevice::SaveToXml(pugi::xml_node parent) const
     input.append_attribute("type") = InputEvent::TypeToString(entry.Type()).c_str();
     input.append_attribute("id").set_value(entry.Id());
     input.append_attribute("value").set_value(entry.Value());
-    if(entry.Code() != -1) {
-      input.append_attribute("code").set_value(entry.Code());
-    }
+    input.append_attribute("code").set_value(entry.Code());
   }
 }
 

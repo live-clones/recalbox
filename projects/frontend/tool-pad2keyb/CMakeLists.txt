@@ -17,6 +17,7 @@ file(GLOB_RECURSE DEPENDENCIES
         ../es-core/src/RootFolders.cpp
         ../es-core/src/input/InputDevice.cpp
         ../es-core/src/input/InputEvent.cpp
+        ../es-core/src/input/Sdl2Extentions.cpp
 )
 
 # Set up compiler flags for GCC

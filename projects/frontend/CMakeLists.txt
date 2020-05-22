@@ -85,18 +85,10 @@ if(CMAKE_COMPILER_IS_GNUCXX)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -DDEBUG -Wno-attributes -Wswitch-enum -Wswitch -O0 -g -Wall -Wextra -ffunction-sections -fdata-sections -Wl,--gc-sections") #support C++11 for std::, optimize
 		set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -DDEBUG -Wswitch-enum -Wswitch -O0 -g -Wall -Wextra -ffunction-sections -fdata-sections -Wl,--gc-sections")
 	else()
-		set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-attributes -O3 -Wall -Wextra -ffunction-sections -fdata-sections -Wl,--gc-sections -DPAHO_MQTT_STATIC=1 -DHIGH_PERFORMANCE=1")
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wno-attributes -O3 -Wall -Wextra -ffunction-sections -fdata-sections -Wl,--gc-sections") #support C++11 for std::, optimize
+		set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -D_RECALBOX_ -Wno-attributes -O3 -Wall -Wextra -ffunction-sections -fdata-sections -Wl,--gc-sections -DPAHO_MQTT_STATIC=1 -DHIGH_PERFORMANCE=1")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_RECALBOX_ -std=c++11 -Wno-attributes -O3 -Wall -Wextra -ffunction-sections -fdata-sections -Wl,--gc-sections") #support C++11 for std::, optimize
 		set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -O3 -Wall -Wextra -ffunction-sections -fdata-sections -Wl,--gc-sections")  #-s = strip binary
 	endif()
-endif()
-
-if(APPLE AND NOT CMAKE_COMPILER_IS_GNUCXX)
-    #set up compiler flags
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wno-attributes -O3") #support C++11 for std::, optimize
-    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -O3")  #-s = strip binary
-
-    #set(CMAKE_CXX_FLAGS "-std=c++11 -stdlib=libc++")
 endif()
 
 if(${GLSystem} MATCHES "Desktop OpenGL")
@@ -207,3 +199,13 @@ add_subdirectory(tests)
 
 # md5zip
 add_subdirectory(tool-md5zip)
+
+message(
+        "=========================================================================================================\n"
+        "\n"
+        "C    Flags : ${CMAKE_C_FLAGS}\n"
+        "C++  Flags : ${CMAKE_CXX_FLAGS}\n"
+        "Link Flags : ${CMAKE_EXE_LINKER_FLAGS}\n"
+        "\n"
+        "=========================================================================================================\n"
+)

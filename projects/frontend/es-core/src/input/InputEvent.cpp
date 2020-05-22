@@ -2,7 +2,8 @@
 // Created by bkg2k on 28/10/2019.
 //
 
-#include "InputEvent.h"
+#include <input/InputEvent.h>
+#include <input/Sdl2Extentions.h>
 #include <utils/Log.h>
 #include <SDL2/SDL.h>
 
@@ -32,12 +33,6 @@ InputEvent::EventType InputEvent::StringToType(const std::string& type)
   LOG(LogError) << "Unknown string Input type: " << type;
   return EventType::Unknown;
 }
-
-#if !defined(SDL_JOYSTICK_IS_OVERRIDEN_BY_RECALBOX) && !defined(_RPI_)
-int SDL_JoystickAxisEventCodeById(int, int) { return -1; }
-int SDL_JoystickButtonEventCodeById(int, int) { return -1; }
-int SDL_JoystickHatEventCodeById(int, int) { return -1; }
-#endif
 
 void InputEvent::StoreSDLCode()
 {
