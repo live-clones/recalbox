@@ -1,0 +1,13 @@
+--- kodi-plugin-script-inputstreamhelper-0.4.7/script.module.inputstreamhelper/lib/inputstreamhelper/widevine/arm.py.orig	2020-05-23 23:24:06.316205985 +0200
++++ kodi-plugin-script-inputstreamhelper-0.4.7/script.module.inputstreamhelper/lib/inputstreamhelper/widevine/arm.py	2020-05-23 23:24:22.863967147 +0200
+@@ -23,9 +23,7 @@
+ 
+ def chromeos_offset(bin_path):
+     """Calculate the Chrome OS losetup start offset using fdisk/parted."""
+-    if cmd_exists('fdisk'):
+-        cmd = ['fdisk', bin_path, '-l']
+-    else:  # parted
++    if cmd_exists('parted'):
+         cmd = ['parted', '-s', bin_path, 'unit s print']
+ 
+     output = run_cmd(cmd, sudo=False)
