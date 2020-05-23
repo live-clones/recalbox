@@ -203,15 +203,11 @@ bool SystemManager::AddArcadeMetaSystem()
         }
 
       // Create meta-system
-      SystemData* arcade = CreateMetaSystem("arcade", "Arcade", "arcade", mHiddenSystemVector, SystemData::Properties::Virtual, doppelganger);
+      SystemData* arcade = CreateMetaSystem("arcade", "Arcade", "arcade", arcades, SystemData::Properties::Virtual, doppelganger);
       LOG(LogInfo) << "creating Arcade meta-system";
       int position = RecalboxConf::Instance().AsInt("emulationstation.arcade.position", 0) % (int)mVisibleSystemVector.size();
       auto it = position >= 0 ? mVisibleSystemVector.begin() + position : mVisibleSystemVector.end() + (position + 1);
       mVisibleSystemVector.insert(it, arcade);
-
-      // Hide originals?
-      if (!hideOriginals)
-        mHiddenSystemVector.clear();
     }
   }
 
