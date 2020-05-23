@@ -28,9 +28,9 @@ class Window
 
     void pushGui(Gui* gui);
 
-    void displayMessage(const std::string& message);
+    void displayMessage(const std::string& message, bool urgent = true);
 
-    void displayScrollMessage(const std::string& title, const std::string& message);
+    void displayScrollMessage(const std::string& title, const std::string& message, bool urgent = true);
 
     Gui* peekGui();
 

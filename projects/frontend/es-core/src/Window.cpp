@@ -47,13 +47,17 @@ void Window::pushGui(Gui* gui)
   UpdateHelpSystem();
 }
 
-void Window::displayMessage(const std::string& message)
+void Window::displayMessage(const std::string& message, bool urgent)
 {
+  if (!urgent && !mMessages.empty()) return;
+
   mMessages.push_back(message);
 }
 
-void Window::displayScrollMessage(const std::string& title, const std::string& message)
+void Window::displayScrollMessage(const std::string& title, const std::string& message, bool urgent)
 {
+  if (!urgent && !mScrollMessages.empty()) return;
+
   mScrollTitle.push_back(title);
   mScrollMessages.push_back(message);
 }
