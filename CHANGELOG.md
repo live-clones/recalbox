@@ -100,6 +100,7 @@ All notable changes to this project will be documented in this file.
 - Add libretro-scummvm on all platforms
 - Add libretro-pcsx_rearmed on pc
 - Add Netflix Kodi video plugin
+- Bump kodi.plugin.video.youtube to 6.8.2
 
 ## [6.1.1]
 - Add zfast shaders
