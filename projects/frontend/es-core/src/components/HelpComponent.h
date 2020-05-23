@@ -50,6 +50,9 @@ class HelpComponent : public Component
       ScrollToLeft,  //!< Scrolling to the left
     };
 
+    //! Previous Help object
+    Help mHelp;
+
     //! Grid component, 4 cells per Help item
   	ComponentGrid mGrid;
 

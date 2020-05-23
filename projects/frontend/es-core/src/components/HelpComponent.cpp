@@ -50,8 +50,13 @@ HelpComponent::HelpComponent(Window&window)
 
 void HelpComponent::UpdateHelps()
 {
+  // No change?
+  if (mHelp == HelpItems())
+    return;
+
   mGrid.ClearEntries();
-	if(!Settings::Instance().ShowHelpPrompts() || HelpItems().Empty())
+  mHelp = HelpItems();
+	if(!Settings::Instance().ShowHelpPrompts() || mHelp.Empty())
 		return;
 
 	const std::shared_ptr<Font>& font = HelpItemStyle().TextFont();
@@ -64,7 +69,7 @@ void HelpComponent::UpdateHelps()
 	float width = 0;
 	const float height = Math::round(font->getLetterHeight() * 1.25f);
 	for (int i = 0; i < Help::TypeCount(); ++i)
-    if (HelpItems().IsSet(Help::TypeFromIndex(i)))
+    if (mHelp.IsSet(Help::TypeFromIndex(i)))
     {
       auto icon = std::make_shared<ImageComponent>(mWindow);
       const Path imagePath = HelpItemStyle().ImagePath(Help::TypeFromIndex(i));
@@ -81,7 +86,7 @@ void HelpComponent::UpdateHelps()
       icon->setResize(0, height);
       icons.push_back(icon);
 
-      auto lbl = std::make_shared<TextComponent>(mWindow, Strings::ToUpperUTF8(HelpItems().Text(Help::TypeFromIndex(i))), font, HelpItemStyle().TextColor());
+      auto lbl = std::make_shared<TextComponent>(mWindow, Strings::ToUpperUTF8(mHelp.Text(Help::TypeFromIndex(i))), font, HelpItemStyle().TextColor());
       labels.push_back(lbl);
 
       width += icon->getSize().x() + lbl->getSize().x() + ICON_TEXT_SPACING + ENTRY_SPACING;
