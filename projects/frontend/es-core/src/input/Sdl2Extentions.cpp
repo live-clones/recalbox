@@ -7,4 +7,4 @@
 int SDL_JoystickAxisEventCodeById(int, int) { return -1; }
 int SDL_JoystickButtonEventCodeById(int, int) { return -1; }
 int SDL_JoystickHatEventCodeById(int, int) { return -1; }
-std::string SDL_JoystickDevicePathById(int) { return "/dev/js0"; }
+extern DECLSPEC const char *SDLCALL SDL_JoystickDevicePathById(int) { return "/dev/js0"; }

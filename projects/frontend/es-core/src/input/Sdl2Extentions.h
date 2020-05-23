@@ -5,6 +5,7 @@
 #pragma once
 
 #include <string>
+#include <SDL2/SDL.h>
 
 /*
  * Define fake SDL2 extended methods when compiling in debug environment
@@ -14,7 +15,7 @@
   int SDL_JoystickAxisEventCodeById(int, int);
   int SDL_JoystickButtonEventCodeById(int, int);
   int SDL_JoystickHatEventCodeById(int, int);
-  std::string SDL_JoystickDevicePathById(int);
+  extern DECLSPEC const char *SDLCALL SDL_JoystickDevicePathById(int);
   #ifdef _RECALBOX_
     #pragma GCC error "Mandatory SDL2 Extensions unavailable!"
   #endif
