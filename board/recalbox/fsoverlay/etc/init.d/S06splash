@@ -112,6 +112,22 @@ function playWithFFPlay() {
   fi
 }
 
+# playWithFFMpeg
+#   starts playing a video on the framebuffer via ffmpeg
+function playWithFFMpeg() {
+  local videoFile="$(selectVideo)"
+
+  if ! which ffmpeg > /dev/null; then
+    return
+  fi
+  ffmpeg_opts="-hide_banner -pix_fmt bgra"
+  ffmpeg_srt="subtitles=/recalbox/system/resources/splash/recalboxintro.srt:force_style='FontName=/usr/share/fonts/dejavu/DejaVuSans-BoldOblique.ttf,Fontsize=10'"
+  ffmpeg -i "${videoFile}" -vf "${ffmpeg_srt}" ${ffmpeg_opts} -s ${fbdevWidth}x${fbdevHeight} -f fbdev /dev/fb0 > /dev/null 2>&1 &
+  if [ ${videoLength} -ne -1 ]; then
+    stopPlayerWhenTimeoutReached $! ${videoLength}
+  fi
+}
+
 # playWithOMX
 #   starts playing an intro video via OMX player
 function playWithOMX() {
@@ -157,6 +173,8 @@ if test -e "${INTERNALDEVICE}" ; then
     ( turnOffGPiCaseHDMI; playWithOMX; showIntroBackground ) &
   elif [ "$(head -c 3 /recalbox/recalbox.arch)" = "x86" ]; then
     ( playWithMPlayer; showIntroBackground ) &
+  elif [ "$(head /recalbox/recalbox.arch)" = "odroidxu4" ]; then
+    ( playWithFFMpeg; showIntroBackground ) &
   else
     ( playWithFFPlay; showIntroBackground ) &
   fi
