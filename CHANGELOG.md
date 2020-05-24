@@ -101,6 +101,7 @@ All notable changes to this project will be documented in this file.
 - Add libretro-pcsx_rearmed on pc
 - Add Netflix Kodi video plugin
 - Bump kodi.plugin.video.youtube to 6.8.2
+- Utility `tvservice -l` can list PC video modes
 
 ## [6.1.1]
 - Add zfast shaders

@@ -1,5 +1,19 @@
 #!/bin/bash
 
+# display available modes
+if [ "$1" = "-l" ]; then
+  if ! command -v xrandr >/dev/null; then
+    echo "xrandr missing" >&2
+    exit 1
+  fi
+  if ! pgrep X >/dev/null; then
+    echo "X not started" >&2
+    exit 1
+  fi
+  XAUTHORITY=$(pgrep -a X | sed 's/^.*-auth \([^\s]\)/\1/') DISPLAY=:0 xrandr
+  exit $?
+fi
+
 FILEMODES="/sys/class/graphics/fb0/modes"
 
 echo "["
