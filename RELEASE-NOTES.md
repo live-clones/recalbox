@@ -24,7 +24,7 @@
 - Libretro flycast also available on rpi3, xu4 and x86
 - Add new system: OpenBOR
 - Add new system: Solarus
-- Add opengl on Retroarch for X86_64
+- Add opengl on Retroarch for X86(_64)
 - Bump Amiberry to v3.1.3
 - Fba_libretro has been renamed to Fbneo
 - New ports system with Mr. Boom (8-player Bomberman clone) ready to be played
@@ -69,7 +69,7 @@
 - Bump oricatmos emulator on lastest version 
 - Bump simcoupe emulator 
 - Simplify emulator/core selection UI
-- Bump retroarch to v1.8.6
+- Bump retroarch to v1.8.7
 - Bump retroarch-cheats to v1.8.6
 - Bump libretro-assets on last version
 - Bump libretro-cores family

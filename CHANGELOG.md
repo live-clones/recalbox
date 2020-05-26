@@ -29,8 +29,8 @@ All notable changes to this project will be documented in this file.
 - Fix x86/x64 video splash
 - Add "system.splash.path" videos path override option to recalbox.conf
 - Bump DosBox to r4290
-- Bump ScummVM to 2.1.1
-- Bump ResidualVM (2020-03)
+- Bump ScummVM to 2.1.2
+- Bump ResidualVM (2020-05)
 - Rewrite scraper with more options & video support
 - Improve ES stability
 - Decrease ES's memory requirements
@@ -55,7 +55,7 @@ All notable changes to this project will be documented in this file.
 - Fix some bad behaviors in favorite management
 - Add support for nVidia proprietary drivers version 390 and 440
 - Simplify emulator/core selection UI
-- Bump retroarch to v1.8.6
+- Bump retroarch to v1.8.7
 - Bump retroarch-cheats to v1.8.6
 - Bump libretro-assets on last version
 - Bump libretro-cores family
@@ -84,7 +84,7 @@ All notable changes to this project will be documented in this file.
 - Add OpenBOR
 - Add Solarus
 - Improve the management of external screens and selection from recalbox.conf by Chriskt78
-- Add opengl on Retroarch for X86_64
+- Add opengl on Retroarch for X86(_64)
 - Add libretro-mrboom as content-less core within ports system
 - Renamed fba_libretro system to fbneo
 - Move CaveStory and Doom into ports
