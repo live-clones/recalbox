@@ -35,6 +35,7 @@ config BR2_PACKAGE_KODI_PLATFORM_SUPPORTS_GBM_GLES
 	depends on BR2_PACKAGE_HAS_LIBGLES
 	depends on BR2_PACKAGE_HAS_UDEV
 	depends on !BR2_PACKAGE_RPI_USERLAND
+	depends on !BR2_cortex_a72
 	select BR2_PACKAGE_KODI_PLATFORM_SUPPORTS
 
 config BR2_PACKAGE_KODI_PLATFORM_SUPPORTS_RBPI4
@@ -44,8 +45,9 @@ config BR2_PACKAGE_KODI_PLATFORM_SUPPORTS_RBPI4
 	# https://github.com/xbmc/xbmc/blob/Krypton/project/cmake/scripts/rbpi/ArchSetup.cmake#L12
 	depends on BR2_cortex_a72
 	depends on !BR2_PACKAGE_RPI_USERLAND
+	depends on BR2_PACKAGE_HAS_LIBGLES
 	depends on BR2_PACKAGE_HAS_UDEV # libinput
-  depends on BR2_PACKAGE_MESA3D_GBM
+	depends on BR2_PACKAGE_MESA3D_GBM
 	select BR2_PACKAGE_KODI_PLATFORM_SUPPORTS
 
 config BR2_PACKAGE_KODI_PLATFORM_SUPPORTS_RBPI
