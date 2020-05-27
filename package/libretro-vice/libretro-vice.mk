@@ -4,10 +4,10 @@
 #
 ################################################################################
 
-LIBRETRO_VICE_VERSION = 255a4511d9cc6defdf6f2b4833a7fe3f6b41d4a0
+LIBRETRO_VICE_VERSION = 461527f0ba52439223f1439ecb4a2006d6560735
 LIBRETRO_VICE_SITE = $(call github,libretro,vice-libretro,$(LIBRETRO_VICE_VERSION))
 
-LIBRETRO_VICE_SUBEMULATORS = x64 x64sc x128 xpet xplus4 xvic xcbm2
+LIBRETRO_VICE_SUBEMULATORS = x64 x64sc x128 xpet xplus4 xvic xcbm2 xscpu64
 
 define LIBRETRO_VICE_BUILD_EMULATOR
 	find $(@D) -name *.o -delete; \
@@ -31,7 +31,7 @@ endef
 
 define LIBRETRO_VICE_INSTALL_TARGET_CMDS
 	$(foreach emulator, $(LIBRETRO_VICE_SUBEMULATORS), $(call LIBRETRO_VICE_INSTALL_EMULATOR, $(emulator)))
-	mkdir -p $(TARGET_DIR)/recalbox/share_init/bios/vice
+	mkdir -p $(TARGET_DIR)/recalbox/share_init/bios/vice/SCPU64
 endef
 
 define LIBRETRO_VICE_PRE_PATCH_FIXUP
