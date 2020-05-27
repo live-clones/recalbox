@@ -107,7 +107,7 @@ ifeq ($(BR2_PACKAGE_HAS_LIBOPENVG),y)
 RETROARCH_DEPENDENCIES += libopenvg
 endif
 
-ifeq ($(BR2_PACKAGE_LIBUSB=y),y)
+ifeq ($(BR2_PACKAGE_LIBUSB),y)
 RETROARCH_CONF_OPTS += --enable-libusb
 RETROARCH_DEPENDENCIES += libusb
 else
