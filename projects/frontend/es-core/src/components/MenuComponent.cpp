@@ -106,13 +106,13 @@ bool MenuComponent::ProcessInput(const InputCompactEvent& event)
 {
   if (Component::ProcessInput(event)) return true;
 
-  if (event.DownPressed())
+  if (event.AnyDownPressed())
   {
     mGrid.setCursorTo(mList);
     mList->setCursorIndex(0);
     return true;
   }
-  else if (event.UpPressed())
+  else if (event.AnyUpPressed())
   {
     mList->setCursorIndex(mList->size() - 1);
     if(!mButtons.empty()) mGrid.moveCursor(Vector2i(0, 1));
