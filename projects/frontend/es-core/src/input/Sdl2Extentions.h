@@ -16,7 +16,7 @@
   int SDL_JoystickButtonEventCodeById(int, int);
   int SDL_JoystickHatEventCodeById(int, int);
   extern DECLSPEC const char *SDLCALL SDL_JoystickDevicePathById(int);
-  #ifdef _RECALBOX_
+  #ifdef _RECALBOX_PRODUCTION_BUILD_
     #pragma GCC error "Mandatory SDL2 Extensions unavailable!"
   #endif
 #endif

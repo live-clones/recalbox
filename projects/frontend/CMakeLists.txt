@@ -78,6 +78,10 @@ if(CMAKE_COMPILER_IS_GNUCXX)
             message(SEND_ERROR "You need at least G++ 4.7 to compile EmulationStation!")
     endif()
 
+    if(OPTION_RECALBOX_PRODUCTION_BUILD)
+        set(RECALBOX_PRODUCTION_BUILD "-D_RECALBOX_PRODUCTION_BUILD_=1")
+    endif()
+
     #set up compiler flags for GCC
 	if (CMAKE_BUILD_TYPE MATCHES Debug)
         # -fsanitize=address -fsanitize-address-use-after-scope
@@ -85,8 +89,8 @@ if(CMAKE_COMPILER_IS_GNUCXX)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -DDEBUG -Wno-attributes -Wswitch-enum -Wswitch -O0 -g -Wall -Wextra -ffunction-sections -fdata-sections -Wl,--gc-sections") #support C++11 for std::, optimize
 		set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -DDEBUG -Wswitch-enum -Wswitch -O0 -g -Wall -Wextra -ffunction-sections -fdata-sections -Wl,--gc-sections")
 	else()
-		set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -D_RECALBOX_ -Wno-attributes -O3 -Wall -Wextra -ffunction-sections -fdata-sections -Wl,--gc-sections -DPAHO_MQTT_STATIC=1 -DHIGH_PERFORMANCE=1")
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_RECALBOX_ -std=c++11 -Wno-attributes -O3 -Wall -Wextra -ffunction-sections -fdata-sections -Wl,--gc-sections") #support C++11 for std::, optimize
+		set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${RECALBOX_PRODUCTION_BUILD} -Wno-attributes -O3 -Wall -Wextra -ffunction-sections -fdata-sections -Wl,--gc-sections -DPAHO_MQTT_STATIC=1 -DHIGH_PERFORMANCE=1")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${RECALBOX_PRODUCTION_BUILD} -std=c++11 -Wno-attributes -O3 -Wall -Wextra -ffunction-sections -fdata-sections -Wl,--gc-sections") #support C++11 for std::, optimize
 		set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -O3 -Wall -Wextra -ffunction-sections -fdata-sections -Wl,--gc-sections")  #-s = strip binary
 	endif()
 endif()
