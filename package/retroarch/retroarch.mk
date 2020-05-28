@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-RETROARCH_VERSION = v1.8.7
+RETROARCH_VERSION = v1.8.8
 RETROARCH_SITE = git://github.com/libretro/RetroArch.git
 RETROARCH_SITE_METHOD = git
 RETROARCH_LICENSE = GPLv3+
@@ -107,7 +107,7 @@ ifeq ($(BR2_PACKAGE_HAS_LIBOPENVG),y)
 RETROARCH_DEPENDENCIES += libopenvg
 endif
 
-ifeq ($(BR2_PACKAGE_LIBUSB=y),y)
+ifeq ($(BR2_PACKAGE_LIBUSB),y)
 RETROARCH_CONF_OPTS += --enable-libusb
 RETROARCH_DEPENDENCIES += libusb
 else
