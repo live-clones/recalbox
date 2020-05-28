@@ -47,6 +47,8 @@
     <bios path="vice/JiffyDOS_1541-II.bin" md5="1b1e985ea5325a1f46eb7fd9681707bf" mandatory="false" core="vice_x64,vice_x64sc,vice_x128" note="JiffyDOS support" />
     <bios path="vice/JiffyDOS_1571_repl310654.bin" md5="41c6cc528e9515ffd0ed9b180f8467c0" mandatory="false" core="vice_x64,vice_x64sc,vice_x128" note="JiffyDOS support" />
     <bios path="vice/JiffyDOS_1581.bin" md5="20b6885c6dc2d42c38754a365b043d71" mandatory="false" core="vice_x64,vice_x64sc,vice_x128" note="JiffyDOS support" />
+    <bios path="vice/SCPU64/scpu-dos-1.4.bin" md5="cda2fcd2e1f0412029383e51dd472095" mandatory="false" core="xscpu64" note="1.4 SuperCPU dos from SuperCPU64" />
+    <bios path="vice/SCPU64/scpu-dos-2.04.bin" md5="b2869f8678b8b274227f35aad26ba509" mandatory="false" core="xscpu64" note="2.04 SuperCPU dos from SuperCPU128" />
   </system>
   <system fullname="Dreamcast" platform="dreamcast">
     <bios path="dc_boot.bin"  md5="e10c53c2f8b90bab96ead2d368858623,d552d8b577faa079e580659cd3517f86,
