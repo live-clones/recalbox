@@ -4,9 +4,9 @@
 #include "utils/Log.h"
 #include "pugixml/pugixml.hpp"
 #include "RootFolders.h"
-#include "SDL.h"
 #include "Input.h"
-#include "Sdl2Extentions.h"
+#include "SDL2/SDL.h"
+#include "SDL2/SDL_joystick.h"
 
 #define KEYBOARD_GUID_STRING { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF }
 #define EMPTY_GUID_STRING { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }
@@ -414,7 +414,14 @@ std::string InputManager::GenerateConfiggenConfiguration(const OrderedDevices& d
              .append(p).append("guid ").append(device.GUID())
              .append(p).append("name \"").append(device.Name() + "\"")
              .append(p).append("nbaxes ").append(Strings::ToString(device.AxeCount()))
-             .append(p).append("devicepath ").append(SDL_JoystickDevicePathById(device.Index()));
+             #ifdef SDL_JOYSTICK_IS_OVERRIDEN_BY_RECALBOX
+               .append(p).append("devicepath ").append(SDL_JoystickDevicePathById(device.Index()))
+             #else
+               #ifdef _RECALBOX_PRODUCTION_BUILD_
+                 #pragma GCC error "SDL_JOYSTICK_IS_OVERRIDEN_BY_RECALBOX undefined in production build!"
+               #endif
+             #endif
+             ;
     }
   }
   LOG(LogInfo) << "Configure emulators command : " << command;

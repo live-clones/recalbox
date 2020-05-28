@@ -3,9 +3,9 @@
 //
 
 #include <input/InputEvent.h>
-#include <input/Sdl2Extentions.h>
 #include <utils/Log.h>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_joystick.h>
 
 std::string InputEvent::TypeToString(EventType type)
 {
@@ -36,15 +36,22 @@ InputEvent::EventType InputEvent::StringToType(const std::string& type)
 
 void InputEvent::StoreSDLCode()
 {
-  switch (mType)
-  {
-    case EventType::Axis: mCode = SDL_JoystickAxisEventCodeById(mDevice, mId); break;
-    case EventType::Button: mCode = SDL_JoystickButtonEventCodeById(mDevice, mId); break;
-    case EventType::Hat: mCode = SDL_JoystickHatEventCodeById(mDevice, mId); break;
-    case EventType::Key:
-    case EventType::Unknown:
-    default: break;
-  }
+  #ifdef SDL_JOYSTICK_IS_OVERRIDEN_BY_RECALBOX
+    switch (mType)
+    {
+      case EventType::Axis: mCode = SDL_JoystickAxisEventCodeById(mDevice, mId); break;
+      case EventType::Button: mCode = SDL_JoystickButtonEventCodeById(mDevice, mId); break;
+      case EventType::Hat: mCode = SDL_JoystickHatEventCodeById(mDevice, mId); break;
+      case EventType::Key:
+      case EventType::Unknown:
+      default: break;
+    }
+  #else
+    mCode = -1337;
+    #ifdef _RECALBOX_PRODUCTION_BUILD_
+      #pragma GCC error "SDL_JOYSTICK_IS_OVERRIDEN_BY_RECALBOX undefined in production build!"
+    #endif
+  #endif
 }
 
 std::string InputEvent::ToString() const
