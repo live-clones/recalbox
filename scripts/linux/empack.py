@@ -8,7 +8,7 @@ from distutils.dir_util import copy_tree
 
 
 class EmPack:
-    def __init__(self, system, extensions, emcoredef, fullname=None, platform=None, theme=None, force=False, port=False):
+    def __init__(self, system, extensions, emcoredef, fullname=None, platform=None, theme=None, force=False, port=False, rompath=None):
         # Set member variablers
         """
 
@@ -21,7 +21,8 @@ class EmPack:
         self._Platform = platform if platform is not None else self._System
         self._Theme = theme if theme is not None else self._System
         self._Force = force
-        self._port = port
+        self._Port = port
+        self._RomPath = rompath
 
         self._SingleMode = False
         self._SingleEmulatorBRPackage = ""
@@ -40,11 +41,11 @@ class EmPack:
             self._SingleMode = False
             self._BRVarsList = self.initmultiem(emcoredef)
 
-        self._CommandLine = self.setcmdline(system, extensions, emcoredef, fullname, platform, theme)
+        self._CommandLine = self.setcmdline(system, extensions, emcoredef, fullname, platform, theme, rompath)
         self._SystemUpper = self._System.upper()
         self._PackageName = "recalbox-romfs-{}".format(self._System)
         self._PackageDir = "package/recalbox-romfs/{}".format(self._PackageName)
-        if self._port:
+        if self._Port:
             self._RomsDir = "{}/{}/ports/{}".format(self._PackageDir, 'roms', self._FullName)
         else:
             self._RomsDir = "{}/{}/{}".format(self._PackageDir, 'roms', self._System)
@@ -57,24 +58,26 @@ class EmPack:
                 fullname: {}
                 platform: {}
                 theme: {}
+                rompath: {}
                 singleMode: {}
                 single emulator package: {}
                 multi emulator packages: {}
                 ------
                 list of BR package variables: {}
-                """.format(self._System, self._Extensions, self._FullName, self._Platform, self._Theme, self._SingleMode, self._SingleEmulatorBRPackage, self._MultiEmulatorBRPackage, self._BRVarsList)
+                """.format(self._System, self._Extensions, self._FullName, self._Platform, self._Theme, self._RomPath, self._SingleMode, self._SingleEmulatorBRPackage, self._MultiEmulatorBRPackage, self._BRVarsList)
 
-    def setcmdline(self, system, extensions, emcoredef, fullname=None, platform=None, theme=None):
+    def setcmdline(self, system, extensions, emcoredef, fullname=None, platform=None, theme=None, rompath=None):
         cmdline = "{} ".format(sys.argv[0])
         if self._Force:
             cmdline += "--force "
-        if self._port:
+        if self._Port:
             cmdline += "--port "
         cmdline += "--system {} ".format(system)
         cmdline += "--extension '{}' ".format(extensions)
         cmdline += "--fullname '{}' ".format(fullname) if fullname is not None else ""
         cmdline += "--platform {} ".format(platform) if platform is not None else ""
         cmdline += "--theme {} ".format(theme) if theme is not None else ""
+        cmdline += "--rompath {} ".format(rompath) if rompath is not None else ""
         cmdline += " ".join(emcoredef)
         return cmdline
 
@@ -249,10 +252,13 @@ class EmPack:
         if self._SingleMode:
             skeletonFile = 'package/recalbox-romfs/recalbox-romfs_single_emulator.skeleton'
         else:
-            if self._port:
-                skeletonFile = 'package/recalbox-romfs/recalbox-romfs_multicores.ports.skeleton'
+            if self._RomPath is not None:
+                skeletonFile = 'package/recalbox-romfs/recalbox-romfs_multicores.rompath.skeleton'
             else:
-                skeletonFile = 'package/recalbox-romfs/recalbox-romfs_multicores.skeleton'
+                if self._Port:
+                    skeletonFile = 'package/recalbox-romfs/recalbox-romfs_multicores.ports.skeleton'
+                else:
+                    skeletonFile = 'package/recalbox-romfs/recalbox-romfs_multicores.skeleton'
 
         #prtCmdLine = " ".join(sys.argv[:]) # Ugly, sadly ... Should be improved to reflect quotes
 
@@ -268,6 +274,7 @@ class EmPack:
         mkFile = mkFile.replace('%FULLNAME%', self._FullName)
         mkFile = mkFile.replace('%PLATFORM%', self._Platform)
         mkFile = mkFile.replace('%THEME%', self._Theme)
+        mkFile = mkFile.replace('%ROMPATH%', self._RomPath)
 
         #
         # patterns : additionnal actions for multicore systems
@@ -387,13 +394,14 @@ if __name__ == '__main__':
     parser.add_argument("-f", "--fullname", help="Sets the nice full name of the system. Defaults to the system name with a first upper case. ex: 'SEGA Master System'", type=str, required=False)
     parser.add_argument("-p", "--platform", help="Sets the system platform. Defaults to the system name. ex: pc", type=str, required=False)
     parser.add_argument("-t", "--theme", help="Sets the theme name. Defaults to the system name. ex: nes", type=str, required=False)
+    parser.add_argument("-r", "--rompath", help="Sets the full rompath instead of /recalbox/share/roms/<system>. ex: /recalbox/share/screenshots", type=str, required=False)
     parser.add_argument("packageDetails", nargs='+', help="Either specify a BR2_PACKAGE_XXXXX for a standalone emulator (like reicast, ppsspp etc ...)\nOr write it like libretro:mame2003:BR2_PACKAGE_LIBRETRO_MAME2003 libretro:mame2000:BR2_PACKAGE_LIBRETRO_MAME2000 advancemame:advancemame:BR2_PACKAGE_ADVANCEMAME for a multiple emulators/cores system. The syntax in that case is emulator:core:BUILDROOT_CORE_PACKAGE", type=str)
     parser.add_argument("--force", help="force overwriting any existing files", action="store_true", required=False)
     parser.add_argument("--port", help="This system is a port, not a regular system", action="store_true", required=False)
 
     args = parser.parse_args()
 
-    ConfigEm = EmPack(args.system, args.extensions, args.packageDetails, fullname = args.fullname, platform = args.platform, theme = args.theme, force = args.force, port = args.port)
+    ConfigEm = EmPack(args.system, args.extensions, args.packageDetails, fullname = args.fullname, platform = args.platform, theme = args.theme, force = args.force, port = args.port, rompath = args.rompath)
     print(ConfigEm)
     ConfigEm.writemakefile()
     ConfigEm.writeconfigin()

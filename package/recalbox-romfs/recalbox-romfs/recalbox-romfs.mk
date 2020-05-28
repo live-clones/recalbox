@@ -41,6 +41,27 @@ define RECALBOX_ROMFS_CALL_ADD_SYSTEM
     '<emulators>' > $(1)
 endef
 
+# function to add the new system
+# $1 = XML file
+# $2 = full system name
+# $3 = short system name
+# $4 = e=list of extensions ex : .zip .ZIP
+# $5 = platform
+# $6 = theme
+# $7 = full rom path
+# $8 = extra configgen command line args
+define RECALBOX_ROMFS_CALL_ADD_SYSTEM_ROMPATH
+    echo -e '<system>\n' \
+    '<fullname>$(2)</fullname>\n' \
+    "<name>$(3)</name>\n" \
+    '<path>$(7)</path>\n' \
+    '<extension>$(4)</extension>\n' \
+    "<command>$(CONFIGGEN_STD_CMD)$(8)</command>\n" \
+    '<platform>$(5)</platform>\n' \
+    '<theme>$(6)</theme>\n' \
+    '<emulators>' > $(1)
+endef
+
 # function to add the new port
 # $1 = XML file
 # $2 = full system name
