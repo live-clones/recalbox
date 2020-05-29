@@ -1,62 +1,6 @@
---- rpi-userland-tools-06bc6daa02137ca72b7a2104afad81e82a44de17/CMakeLists.txt.orig	2020-05-27 21:36:13.670021513 +0200
-+++ rpi-userland-tools-06bc6daa02137ca72b7a2104afad81e82a44de17/CMakeLists.txt	2020-05-27 21:42:13.048807304 +0200
-@@ -29,7 +29,6 @@
- include_directories(interface/vmcs_host/linux)
- include_directories(interface/vmcs_host)
- include_directories(interface/vmcs_host/khronos)
--include_directories(interface/khronos/include)
- include_directories(${PROJECT_BINARY_DIR})
- include_directories(interface/vchiq_arm)
- #include_directories(tools/inet_transport)
-@@ -43,7 +42,6 @@
- add_definitions(-D_REENTRANT)
- add_definitions(-DUSE_VCHIQ_ARM -DVCHI_BULK_ALIGN=1 -DVCHI_BULK_GRANULARITY=1)
- add_definitions(-DOMX_SKIP64BIT)
--add_definitions(-DEGL_SERVER_DISPMANX)
- add_definitions(-D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64)
- add_definitions(-D_GNU_SOURCE)
- 
-@@ -53,36 +51,15 @@
- 
- # add_definitions(-DKHRONOS_CLIENT_LOGGING)
- 
--# Check for OpenWF-C value set via command line
--if(KHRONOS_EGL_PLATFORM MATCHES "openwfc")
--   add_definitions(-DKHRONOS_EGL_PLATFORM_OPENWFC)
--endif()
--
- # List of subsidiary CMakeLists
- add_subdirectory(interface/vcos)
- add_subdirectory(interface/vmcs_host)
- add_subdirectory(interface/vchiq_arm)
--if(NOT ARM64)
--   add_subdirectory(interface/khronos)
--endif()
-+#if(NOT ARM64)
-+#   add_subdirectory(interface/khronos)
-+#endif()
- 
- #add_subdirectory(opensrc/tools/lua)
--if(BUILD_MMAL)
--   include_directories(interface/mmal)
--   add_subdirectory(interface/mmal)
--   add_subdirectory(containers)
--endif()
--
--# VidTex supports Android and Linux
--if(NOT ARM64)
--   if(BUILD_MMAL_APPS)
--   add_subdirectory(host_applications/android/apps/vidtex)
--   endif(BUILD_MMAL_APPS)
--endif()
--
--if(NOT ARM64)
--   add_subdirectory(middleware/openmaxil)
--endif()
- 
- # 3d demo code
- #if(NOT ANDROID)
-@@ -120,7 +97,8 @@
+--- userland-06bc6daa02137ca72b7a2104afad81e82a44de17/CMakeLists.txt	2020-01-14 18:33:59.000000000 +0100
++++ rpi-userland-tools-06bc6daa02137ca72b7a2104afad81e82a44de17/CMakeLists.txt	2020-05-29 20:12:11.539090585 +0200
+@@ -120,7 +120,8 @@
  include(FindPkgConfig QUIET)
  if(PKG_CONFIG_FOUND)
  	# Produce a pkg-config file
@@ -66,18 +10,24 @@
  		configure_file("pkgconfig/${PCFILE}.in" "${PCFILE}" @ONLY)
  		install(FILES       "${CMAKE_CURRENT_BINARY_DIR}/${PCFILE}"
  			DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig")
---- rpi-userland-tools-06bc6daa02137ca72b7a2104afad81e82a44de17/host_applications/linux/CMakeLists.txt.orig	2020-05-27 21:55:52.936844639 +0200
-+++ rpi-userland-tools-06bc6daa02137ca72b7a2104afad81e82a44de17/host_applications/linux/CMakeLists.txt	2020-05-27 21:56:00.460735325 +0200
-@@ -4,7 +4,6 @@
- add_subdirectory(apps/gencmd)
- add_subdirectory(apps/tvservice)
- add_subdirectory(apps/vcmailbox)
--add_subdirectory(apps/raspicam)
- add_subdirectory(libs/sm)
- if(NOT ARM64)
-    add_subdirectory(apps/smem)
---- rpi-userland-tools-06bc6daa02137ca72b7a2104afad81e82a44de17/makefiles/cmake/vmcs.cmake.orig	2020-05-27 22:10:45.379897982 +0200
-+++ rpi-userland-tools-06bc6daa02137ca72b7a2104afad81e82a44de17/makefiles/cmake/vmcs.cmake	2020-05-27 22:11:07.399578822 +0200
+--- userland-06bc6daa02137ca72b7a2104afad81e82a44de17/interface/khronos/CMakeLists.txt	2020-05-29 18:00:24.892946520 +0200
++++ rpi-userland-tools-06bc6daa02137ca72b7a2104afad81e82a44de17/interface/khronos/CMakeLists.txt	2020-05-29 20:14:33.601982310 +0200
+@@ -78,8 +78,6 @@
+ target_link_libraries(WFC EGL)
+ target_link_libraries(OpenVG EGL)
+ 
+-install(TARGETS EGL GLESv2 OpenVG WFC khrn_client DESTINATION lib)
+-install(TARGETS EGL_static GLESv2_static khrn_static DESTINATION lib)
+ configure_file("${CMAKE_CURRENT_SOURCE_DIR}/egl/egl.pc.in"
+   "${CMAKE_CURRENT_BINARY_DIR}/egl/egl.pc" @ONLY)
+ install(FILES "${CMAKE_CURRENT_BINARY_DIR}/egl/egl.pc"
+@@ -100,4 +98,3 @@
+ target_link_libraries(brcmWFC brcmEGL)
+ target_link_libraries(brcmOpenVG brcmEGL)
+ 
+-install(TARGETS brcmEGL brcmGLESv2 brcmOpenVG brcmWFC DESTINATION lib)
+--- userland-06bc6daa02137ca72b7a2104afad81e82a44de17/makefiles/cmake/vmcs.cmake	2020-01-14 18:33:59.000000000 +0100
++++ rpi-userland-tools-06bc6daa02137ca72b7a2104afad81e82a44de17/makefiles/cmake/vmcs.cmake	2020-05-29 20:12:11.539090585 +0200
 @@ -74,8 +74,5 @@
  install(DIRECTORY ${vmcs_root}/interface/peer      DESTINATION ${VMCS_INSTALL_PREFIX}/include/interface FILES_MATCHING PATTERN "*.h")
  install(DIRECTORY ${vmcs_root}/interface/vmcs_host DESTINATION ${VMCS_INSTALL_PREFIX}/include/interface FILES_MATCHING PATTERN "*.h" PATTERN "${vmcs_root}/interface/vmcs_host/khronos" EXCLUDE)
@@ -86,4 +36,12 @@
 -install(DIRECTORY ${vmcs_root}/interface/vmcs_host/khronos/IL  DESTINATION ${VMCS_INSTALL_PREFIX}/include     FILES_MATCHING PATTERN "*.h")
 -
  install(DIRECTORY ${vmcs_root}/host_applications/linux/libs/bcm_host/include     DESTINATION ${VMCS_INSTALL_PREFIX}       FILES_MATCHING PATTERN "*.h")
+ 
+--- userland-06bc6daa02137ca72b7a2104afad81e82a44de17/interface/vmcs_host/CMakeLists.txt	2020-01-14 18:33:59.000000000 +0100
++++ rpi-userland-tools-06bc6daa02137ca72b7a2104afad81e82a44de17/interface/vmcs_host/CMakeLists.txt	2020-05-29 20:12:11.539090585 +0200
+@@ -32,5 +32,4 @@
+ 
+ #target_link_libraries(bufman WFC)
+ 
+-install(TARGETS ${INSTALL_TARGETS} DESTINATION lib)
  
