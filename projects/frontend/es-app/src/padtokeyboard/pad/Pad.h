@@ -4,6 +4,7 @@
 #pragma once
 
 #include <utils/storage/Queue.h>
+#include <utils/storage/HashMap.h>
 #include "PadConfiguration.h"
 #include "PadItems.h"
 
@@ -30,7 +31,7 @@ class Pad
     //! Pad configurations references
     const PadConfiguration& mPadConfiguration;
     //! SDL Index to Recalbox Index
-    int mSdlToRecalboxIndexex[Input::sMaxInputDevices];
+    HashMap<SDL_JoystickID, int> mSdlToRecalboxIndexex;
     //! SDL Index to Recalbox Index
     int mItemOnOff[Input::sMaxInputDevices];
     //! Devices readiness

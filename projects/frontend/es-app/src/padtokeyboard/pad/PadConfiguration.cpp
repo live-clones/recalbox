@@ -218,7 +218,6 @@ void PadConfiguration::Load(const OrderedDevices& orderedDevices)
     pad.Items[(int)PadItems::J1Down] .Item  = PadItems::J1Down;
     pad.Items[(int)PadItems::J2Right].Item  = PadItems::J2Right;
     pad.Items[(int)PadItems::J2Down] .Item  = PadItems::J2Down;
-    break;
   }
 
   mReady = true;

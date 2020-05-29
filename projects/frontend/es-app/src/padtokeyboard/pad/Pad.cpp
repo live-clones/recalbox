@@ -65,7 +65,7 @@ void Pad::Open(const OrderedDevices& orderedDevices)
         {
           Assigned |= (1 << i);
           mSdlToRecalboxIndexex[joystickIdentifier] = i;
-          LOG(LogInfo) << "[Pad2Keyboard] " << name << " (" << guid << ") assigned as Pad #" << i;
+          LOG(LogInfo) << "[Pad2Keyboard] "<< joystickIdentifier << ':' << name << " (" << guid << ") assigned as Pad #" << i;
           break;
         }
     }
@@ -156,9 +156,9 @@ bool Pad::GetEvent(Pad::Event& event)
         case SDL_JOYAXISMOTION:
         {
           // Get pad mapping
-          if ((unsigned int) sdl.jaxis.which >= Input::sMaxInputDevices) break;
-          int index = mSdlToRecalboxIndexex[sdl.jaxis.which]; // Get Recalbox index
-          if (index < 0) break;
+          int* pindex = mSdlToRecalboxIndexex.try_get(sdl.jaxis.which);
+          int index = (pindex != nullptr) ? *pindex : -1;
+          if ((unsigned int) index >= Input::sMaxInputDevices) break;
           const PadConfiguration::PadAllItemConfiguration& pad = mPadConfiguration.Pad(index);
 
           // Get actual direction
@@ -188,9 +188,9 @@ bool Pad::GetEvent(Pad::Event& event)
         case SDL_JOYHATMOTION:
         {
           // Get pad mapping
-          if ((unsigned int) sdl.jhat.which >= Input::sMaxInputDevices) break;
-          int index = mSdlToRecalboxIndexex[sdl.jhat.which]; // Get Recalbox index
-          if (index < 0) break;
+          int* pindex = mSdlToRecalboxIndexex.try_get(sdl.jhat.which);
+          int index = (pindex != nullptr) ? *pindex : -1;
+          if ((unsigned int) index >= Input::sMaxInputDevices) break;
           const PadConfiguration::PadAllItemConfiguration& pad = mPadConfiguration.Pad(index);
 
           // Check mapping
@@ -219,9 +219,9 @@ bool Pad::GetEvent(Pad::Event& event)
         case SDL_JOYBUTTONUP:
         {
           // Get pad mapping
-          if ((unsigned int) sdl.jbutton.which >= Input::sMaxInputDevices) break;
-          int index = mSdlToRecalboxIndexex[sdl.jbutton.which]; // Get Recalbox index
-          if (index < 0) break;
+          int* pindex = mSdlToRecalboxIndexex.try_get(sdl.jbutton.which);
+          int index = (pindex != nullptr) ? *pindex : -1;
+          if ((unsigned int) index >= Input::sMaxInputDevices) break;
           const PadConfiguration::PadAllItemConfiguration& pad = mPadConfiguration.Pad(index);
 
           for (const PadConfiguration::PadItemConfiguration& item : pad.Items)
