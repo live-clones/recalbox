@@ -108,7 +108,7 @@ case "${TFTESSystem}" in
     colecovision)    LogoFile='ColecoVision/VideoSnaps/logo.mp4' && Loop=-1  ;;
     3do)             LogoFile='3DO/VideoSnaps/logo.mp4' && Loop=-1  ;;
     # Misc               
-    doom)            LogoFile="${DefaultLogo}" && Loop="${DefaultLogoLoop}" ;;
+    ports|doom)            LogoFile="${DefaultLogo}" && Loop="${DefaultLogoLoop}" ;;
     #doom)            LogoFile="recalbox.png" && Loop=0 ;;
     cavestory)       LogoFile="${DefaultLogo}" && Loop="${DefaultLogoLoop}" ;; # tbd
     lutro)           LogoFile="${DefaultLogo}" && Loop="${DefaultLogoLoop}" ;; # tbd
