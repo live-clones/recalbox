@@ -49,14 +49,14 @@ recallog "Full Resolution => ${tftFullResolution}"
 tftResolution=320p
 
 #get image processing option fot fbv
-imgStretchEnabled="$(${systemsetting} -command load -key system.secondminitft.imageStretchEnabled)"
-recallog "Reading system.secondminitft.imageStretchEnabled => ${imgStretchEnabled}"
-imgEnlargeEnabled="$(${systemsetting} -command load -key system.secondminitft.imageEnlargeEnabled)"
-recallog "Reading system.secondminitft.imageEnlargeEnabled => ${imgEnlargeEnabled}"
-imgAlphaEnabled="$(${systemsetting} -command load -key system.secondminitft.imageAlphaEnabled)"
-recallog "Reading  system.secondminitft.imageAlphaEnabled => ${imgAlphaEnabled}"
-imgIgnoreAspectEnabled="$(${systemsetting} -command load -key system.secondminitft.imageIgnoreAspectEnabled)"
-recallog "Reading system.secondminitft.imageIgnoreAspectEnabled => ${imgIgnoreAspectEnabled}"
+imgStretchEnabled="$(${systemsetting} -command load -key system.secondminitft.imagestretchenabled)"
+recallog "Reading system.secondminitft.imagestretchenabled => ${imgStretchEnabled}"
+imgEnlargeEnabled="$(${systemsetting} -command load -key system.secondminitft.imageenlargeenabled)"
+recallog "Reading system.secondminitft.imageenlargeenabled => ${imgEnlargeEnabled}"
+imgAlphaEnabled="$(${systemsetting} -command load -key system.secondminitft.imagealphaenabled)"
+recallog "Reading  system.secondminitft.imagealphaenabled => ${imgAlphaEnabled}"
+imgIgnoreAspectEnabled="$(${systemsetting} -command load -key system.secondminitft.imageignoreaspectenabled)"
+recallog "Reading system.secondminitft.imageignoreaspectenabled => ${imgIgnoreAspectEnabled}"
 
 
 if [[ "${imgStretchEnabled}" == "1" ]] ; then
