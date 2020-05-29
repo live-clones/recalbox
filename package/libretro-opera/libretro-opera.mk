@@ -11,7 +11,7 @@ ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_RPI3),y)
 LIBRETRO_OPERA_PLATFORM=rpi3
 LIBRETRO_OPERA_PLATFORM_CPU=cortex-a53
 LIBRETRO_OPERA_PLATFORM_OPT=-mfpu=neon-vfpv4 -fdata-sections -ffunction-sections -Wl,--gc-sections -fno-unroll-loops -fmerge-all-constants
-else ($(BR2_PACKAGE_RECALBOX_TARGET_RPI4),y)
+else ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_RPI4),y)
 LIBRETRO_OPERA_PLATFORM=rpi4
 LIBRETRO_OPERA_PLATFORM_CPU=cortex-a72
 LIBRETRO_OPERA_PLATFORM_OPT=-mfpu=neon-vfpv4 -fdata-sections -ffunction-sections -Wl,--gc-sections -fno-unroll-loops -fmerge-all-constants
