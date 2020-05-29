@@ -69,7 +69,7 @@ private:
 	std::vector< std::shared_ptr<TextComponent> > mMappings;
 	std::shared_ptr<ComponentGrid> mButtonGrid;
 
-	InputDevice* mTargetConfig;
+	InputDevice* mTargetDevice;
 	InputStack mInputStack;
 
 	bool mCursorOnList;

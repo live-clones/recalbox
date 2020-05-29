@@ -656,24 +656,24 @@ void GuiMenu::menuControllers() {
         std::string uuid = device.GUID();
 
         // create name
-        std::string displayName = '#' + Strings::ToString(device.Identifier()) + ' ';
+        std::string displayName = '#' + Strings::ToString(device.Index()) + ' ';
         if (name.size() > 25)
           displayName += name.substr(0, 16) + "..." + name.substr(name.size() - 5, name.size() - 1);
         else
           displayName += name;
 
         bool foundFromConfig = configuratedName == name && configuratedGuid == uuid;
-        int deviceID = device.Identifier();
+        int deviceIndex = device.Index();
         // Si la manette est configurée, qu'elle correspond a la configuration, et qu'elle n'est pas
         // deja selectionnée on l'ajoute en séléctionnée
         StrInputConfig *newInputConfig = new StrInputConfig(name, uuid);
         mLoadedInput.push_back(newInputConfig);
 
         if (foundFromConfig
-          && std::find(alreadyTaken.begin(), alreadyTaken.end(), deviceID) == alreadyTaken.end()
+          && std::find(alreadyTaken.begin(), alreadyTaken.end(), deviceIndex) == alreadyTaken.end()
           && !found) {
           found = true;
-          alreadyTaken.push_back(deviceID);
+          alreadyTaken.push_back(deviceIndex);
           LOG(LogWarning) << "adding entry for player" << player << " (selected): " << name << "  " << uuid;
           inputOptionList->add(displayName, newInputConfig, true);
         } else {

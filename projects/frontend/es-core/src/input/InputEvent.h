@@ -19,11 +19,11 @@ class InputEvent
     };
 
   private:
-    int       mDevice; //!< SDL Device index or -1 for keyboard
-    EventType mType;   //!< Event type
-    int       mId;     //!< Event identifier
-    int       mValue;  //!< Event value - type dependent
-    int       mCode;   //!< SDL Raw code
+    int       mDeviceIdentifier; //!< SDL Device Identifier or -1 for keyboard
+    EventType mType;             //!< Event type
+    int       mId;               //!< Event identifier
+    int       mValue;            //!< Event value - type dependent
+    int       mCode;             //!< SDL Raw code
 
   public:
     //! Define virtual default keyboard device
@@ -35,7 +35,7 @@ class InputEvent
      * @brief Default constructor
      */
     InputEvent()
-      : mDevice(sKeyboardDevice),
+      : mDeviceIdentifier(sKeyboardDevice),
         mType(EventType::Unknown),
         mId(-1),
         mValue(-999),
@@ -52,7 +52,7 @@ class InputEvent
      * @param conf True if the input event is configured
      */
     InputEvent(int dev, EventType type, int id, int val)
-      : mDevice(dev),
+      : mDeviceIdentifier(dev),
         mType(type),
         mId(id),
         mValue(val),
@@ -64,7 +64,7 @@ class InputEvent
      * Accessors
      */
 
-    int Device()     const { return mDevice; }
+    int Device()     const { return mDeviceIdentifier; }
     EventType Type() const { return mType; }
     int Id()         const { return mId; }
     int Value()      const { return mValue; }
@@ -89,7 +89,7 @@ class InputEvent
      * @brief Get the raw SDL2 code for the current event.
      * Some emulators require raw code in their configurations
      */
-    void StoreSDLCode();
+    void StoreSDLCode(int deviceIndex);
 
     /*
      * Helpers

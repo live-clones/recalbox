@@ -49,25 +49,22 @@ void Pad::Open(const OrderedDevices& orderedDevices)
     // Get joystick
     SDL_Joystick* joystick = SDL_JoystickOpen(j);
     // Get global index
-    SDL_JoystickID joystickIndex = SDL_JoystickInstanceID(joystick);
+    SDL_JoystickID joystickIdentifier = SDL_JoystickInstanceID(joystick);
     // Get informations
     const char* name = SDL_JoystickNameForIndex(j);
     char guid[64];
     memset(guid, 0, sizeof(guid));
     SDL_JoystickGetGUIDString(SDL_JoystickGetGUID(joystick), guid, sizeof(guid));
 
-    // SDL index too high?
-    if (joystickIndex >= Input::sMaxInputDevices) continue;
-
     // Lookup
     for(int i = 0; i < orderedDevices.Count(); ++i)
     {
       const InputDevice& device = orderedDevices.Device(i);
-      if (device.Identifier() == joystickIndex) // Joystick index match?
+      if (device.Index() == j) // Joystick index match?
         if ((Assigned & (1 << i)) == 0)         // Not yet assigned?
         {
           Assigned |= (1 << i);
-          mSdlToRecalboxIndexex[joystickIndex] = i;
+          mSdlToRecalboxIndexex[joystickIdentifier] = i;
           LOG(LogInfo) << "[Pad2Keyboard] " << name << " (" << guid << ") assigned as Pad #" << i;
           break;
         }
