@@ -84,9 +84,9 @@ case "${TFTESSystem}" in
     mame)            LogoFile='RBvideos/introRecalboxMame.mp4' && Loop=-1  ;;
     advancemame)     LogoFile='MAME/VideoSnaps/logo.mp4' && Loop=-1  ;;
     #fba)             LogoFile='FBA/VideoSnaps/logo.mp4' && Loop=-1  ;;
-    fba)             LogoFile='RBvideos/introRBCapcom.mp4' && Loop=-1  ;;
+    fbneo|fba|fba_libretro)             LogoFile='RBvideos/introRBCapcom.mp4' && Loop=-1  ;;
     #fba_libretro)    LogoFile='FBA/VideoSnaps/logo.mp4' && Loop=-1  ;;
-    fba_libretro)    LogoFile='RBvideos/introRBCapcom.mp4' && Loop=-1  ;;
+    #fba_libretro)    LogoFile='RBvideos/introRBCapcom.mp4' && Loop=-1  ;;
     daphne)          LogoFile="${DefaultLogo}" && Loop="${DefaultLogoLoop}"  ;; # tbd
     # Various computers  
     amstradcpc)      LogoFile='CPC/VideoSnaps/logo.mp4' && Loop=-1  ;;
