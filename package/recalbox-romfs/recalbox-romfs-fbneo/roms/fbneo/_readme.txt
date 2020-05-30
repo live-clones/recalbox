@@ -6,5 +6,5 @@ The roms version must be 0.2.97.44
 
 Rom files must have an ".iso/.zip/.7z" extension.
 
-Special files for fba libretro core :
+Special files for fbneo core :
 - Add your samples files in /recalbox/share/bios/fbneo/samples/
