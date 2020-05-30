@@ -123,9 +123,11 @@ writeHashFileHeader
 
 # Process added files
 listGitChanges '^??' | while read -r filePath; do
+[ ! -d "$(dirname "${CUSTOM_DIR}/${filePath}")" ] && mkdir -p "$(dirname "${CUSTOM_DIR}/${filePath}")"
   echo -e "${c_green}[added]${c_reset}    ${BUILDROOT_DIR}/${filePath}"
-  cp "${BUILDROOT_DIR}/${filePath}" "${CUSTOM_DIR}/${filePath}"
+  cp -p "${BUILDROOT_DIR}/${filePath}" "${CUSTOM_DIR}/${filePath}"
   echo "++++++++++++++++++++++++++++++++  ${filePath}" >> "${hashFile}"
+  chmod 644 "${CUSTOM_DIR}/${filePath}"
 done
 
 # Process removed files
@@ -152,4 +154,5 @@ listGitChanges '^ M' | while read -r filePath; do
   patch -p0 --reverse --silent "${modifiedFile}" --input "${patchFile}" --output - | \
     md5sum | \
     sed "s#-\$#${filePath}#" >> "${hashFile}"
+  chmod 644 "${patchFile}"
 done

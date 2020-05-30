@@ -1,0 +1,25 @@
+--- ppsspp/SDL/SDLMain.cpp.orig	2020-05-28 21:16:31.582345425 +0200
++++ ppsspp/SDL/SDLMain.cpp	2020-05-28 21:23:10.719340220 +0200
+@@ -686,9 +686,7 @@
+ 		printf("Init from thread error: '%s'\n", error_message.c_str());
+ 	}
+ 
+-#ifdef MOBILE_DEVICE
+ 	SDL_ShowCursor(SDL_DISABLE);
+-#endif
+ 
+ 	if (!useEmuThread) {
+ 		NativeInitGraphics(graphicsContext);
+@@ -777,12 +775,6 @@
+ 					// Set variable here in case fullscreen was toggled by hotkey
+ 					g_Config.bFullScreen = fullscreen;
+ 
+-					// Hide/Show cursor correctly toggling fullscreen
+-					if (lastUIState == UISTATE_INGAME && fullscreen && !g_Config.bShowTouchControls) {
+-						SDL_ShowCursor(SDL_DISABLE);
+-					} else if (lastUIState != UISTATE_INGAME || !fullscreen) {
+-						SDL_ShowCursor(SDL_ENABLE);
+-					}
+ 					break;
+ 				}
+ 

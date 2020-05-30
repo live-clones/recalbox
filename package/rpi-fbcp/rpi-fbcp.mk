@@ -6,7 +6,7 @@
 
 RPI_FBCP_VERSION = c1d05f8d8e02641726691f95d9cd85a76a33af85
 RPI_FBCP_SITE = $(call github,ian57,rpi-fbcp,$(RPI_FBCP_VERSION))
-RPI_FBCP_DEPENDENCIES += rpi-userland
+RPI_FBCP_DEPENDENCIES += rpi-firmware
 
 define RPI_FBCP_CROSS_FIXUP
 	$(SED) 's|/opt/vc/include|$(STAGING_DIR)/usr/include|g' $(@D)/CMakeLists.txt
