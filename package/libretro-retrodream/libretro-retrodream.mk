@@ -17,7 +17,7 @@ define LIBRETRO_RETRODREAM_BUILD_CMDS
 endef
 
 define LIBRETRO_RETRODREAM_INSTALL_TARGET_CMDS
-	$(INSTALL) -D $(@D)/retrodream_libretro.so \
+	$(INSTALL) -D $(@D)/deps/libretro/retrodream_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/retrodream_libretro.so
 endef
 
