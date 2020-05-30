@@ -61,7 +61,7 @@ define ADVANCEMAME_ADD_PI_LINK
 	$(SED) "s/^CONF_LIBS=.*/& -lbcm_host -lvcos -lvchostif/" $(@D)/Makefile ;
 endef
 
-ifeq ($(BR2_PACKAGE_RPI_FIRMWARE),y)
+ifeq ($(BR2_PACKAGE_RPI_USERLAND),y)
 ADVANCEMAME_DEPENDENCIES += rpi-firmware rpi-userland
 ADVANCEMAME_CONF_OPTS += --enable-vc \
 	--with-vc-prefix=$(STAGING_DIR)/usr

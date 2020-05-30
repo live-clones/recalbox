@@ -35,6 +35,19 @@ config BR2_PACKAGE_KODI_PLATFORM_SUPPORTS_GBM_GLES
 	depends on BR2_PACKAGE_HAS_LIBGLES
 	depends on BR2_PACKAGE_HAS_UDEV
 	depends on !BR2_PACKAGE_RPI_USERLAND
+	depends on !BR2_cortex_a72
+	select BR2_PACKAGE_KODI_PLATFORM_SUPPORTS
+
+config BR2_PACKAGE_KODI_PLATFORM_SUPPORTS_RBPI4
+	bool
+	default y
+	# List of valid CPUs can be found here:
+	# https://github.com/xbmc/xbmc/blob/Krypton/project/cmake/scripts/rbpi/ArchSetup.cmake#L12
+	depends on BR2_cortex_a72
+	depends on !BR2_PACKAGE_RPI_USERLAND
+	depends on BR2_PACKAGE_HAS_LIBGLES
+	depends on BR2_PACKAGE_HAS_UDEV # libinput
+	depends on BR2_PACKAGE_MESA3D_GBM
 	select BR2_PACKAGE_KODI_PLATFORM_SUPPORTS
 
 config BR2_PACKAGE_KODI_PLATFORM_SUPPORTS_RBPI
@@ -235,8 +248,14 @@ config BR2_PACKAGE_KODI_PLATFORM_GBM_GLES
 	select BR2_PACKAGE_LIBINPUT
 	select BR2_PACKAGE_LIBXKBCOMMON
 
+config BR2_PACKAGE_KODI_PLATFORM_RBPI4
+	bool "Raspberry Pi4 only"
+	depends on BR2_PACKAGE_KODI_PLATFORM_SUPPORTS_RBPI4
+	select BR2_PACKAGE_LIBINPUT
+	select BR2_PACKAGE_LIBXKBCOMMON
+
 config BR2_PACKAGE_KODI_PLATFORM_RBPI
-	bool "Raspberry Pi"
+	bool "Raspberry Pi (not 4)"
 	depends on BR2_PACKAGE_KODI_PLATFORM_SUPPORTS_RBPI
 	select BR2_PACKAGE_LIBINPUT
 	select BR2_PACKAGE_LIBXKBCOMMON

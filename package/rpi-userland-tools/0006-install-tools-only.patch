@@ -1,0 +1,47 @@
+--- userland-06bc6daa02137ca72b7a2104afad81e82a44de17/CMakeLists.txt	2020-01-14 18:33:59.000000000 +0100
++++ rpi-userland-tools-06bc6daa02137ca72b7a2104afad81e82a44de17/CMakeLists.txt	2020-05-29 20:12:11.539090585 +0200
+@@ -120,7 +120,8 @@
+ include(FindPkgConfig QUIET)
+ if(PKG_CONFIG_FOUND)
+ 	# Produce a pkg-config file
+-	foreach(PCFILE bcm_host.pc brcmegl.pc brcmglesv2.pc brcmvg.pc vcsm.pc mmal.pc)
++	#foreach(PCFILE bcm_host.pc brcmegl.pc brcmglesv2.pc brcmvg.pc vcsm.pc mmal.pc)
++	foreach(PCFILE bcm_host.pc brcmvg.pc vcsm.pc)
+ 		configure_file("pkgconfig/${PCFILE}.in" "${PCFILE}" @ONLY)
+ 		install(FILES       "${CMAKE_CURRENT_BINARY_DIR}/${PCFILE}"
+ 			DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig")
+--- userland-06bc6daa02137ca72b7a2104afad81e82a44de17/interface/khronos/CMakeLists.txt	2020-05-29 18:00:24.892946520 +0200
++++ rpi-userland-tools-06bc6daa02137ca72b7a2104afad81e82a44de17/interface/khronos/CMakeLists.txt	2020-05-29 23:12:22.780034071 +0200
+@@ -78,16 +78,10 @@
+ target_link_libraries(WFC EGL)
+ target_link_libraries(OpenVG EGL)
+ 
+-install(TARGETS EGL GLESv2 OpenVG WFC khrn_client DESTINATION lib)
+-install(TARGETS EGL_static GLESv2_static khrn_static DESTINATION lib)
+ configure_file("${CMAKE_CURRENT_SOURCE_DIR}/egl/egl.pc.in"
+   "${CMAKE_CURRENT_BINARY_DIR}/egl/egl.pc" @ONLY)
+-install(FILES "${CMAKE_CURRENT_BINARY_DIR}/egl/egl.pc"
+-  DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig")
+ configure_file("${CMAKE_CURRENT_SOURCE_DIR}/glxx/glesv2.pc.in"
+   "${CMAKE_CURRENT_BINARY_DIR}/glxx/glesv2.pc" @ONLY)
+-install(FILES "${CMAKE_CURRENT_BINARY_DIR}/glxx/glesv2.pc"
+-  DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig")
+ 
+ # recommended names to use to avoid conflicts with mesa libs
+ add_library(brcmEGL ${SHARED} ${EGL_SOURCE})
+@@ -100,4 +94,3 @@
+ target_link_libraries(brcmWFC brcmEGL)
+ target_link_libraries(brcmOpenVG brcmEGL)
+ 
+-install(TARGETS brcmEGL brcmGLESv2 brcmOpenVG brcmWFC DESTINATION lib)
+--- userland-06bc6daa02137ca72b7a2104afad81e82a44de17/makefiles/cmake/vmcs.cmake	2020-01-14 18:33:59.000000000 +0100
++++ rpi-userland-tools-06bc6daa02137ca72b7a2104afad81e82a44de17/makefiles/cmake/vmcs.cmake	2020-05-29 20:12:11.539090585 +0200
+@@ -74,8 +74,5 @@
+ install(DIRECTORY ${vmcs_root}/interface/peer      DESTINATION ${VMCS_INSTALL_PREFIX}/include/interface FILES_MATCHING PATTERN "*.h")
+ install(DIRECTORY ${vmcs_root}/interface/vmcs_host DESTINATION ${VMCS_INSTALL_PREFIX}/include/interface FILES_MATCHING PATTERN "*.h" PATTERN "${vmcs_root}/interface/vmcs_host/khronos" EXCLUDE)
+ 
+-install(DIRECTORY ${vmcs_root}/interface/khronos/include       DESTINATION ${VMCS_INSTALL_PREFIX}     FILES_MATCHING PATTERN "*.h")
+-install(DIRECTORY ${vmcs_root}/interface/vmcs_host/khronos/IL  DESTINATION ${VMCS_INSTALL_PREFIX}/include     FILES_MATCHING PATTERN "*.h")
+-
+ install(DIRECTORY ${vmcs_root}/host_applications/linux/libs/bcm_host/include     DESTINATION ${VMCS_INSTALL_PREFIX}       FILES_MATCHING PATTERN "*.h")
+ 

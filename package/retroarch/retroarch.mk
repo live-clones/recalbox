@@ -33,11 +33,14 @@ ifeq ($(BR2_arm1176jzf_s),y)
 RETROARCH_CONF_OPTS += --enable-floathard
 endif
 
-# RPI 2 and 3
+# RPI 2, 3 and 4
 ifeq ($(BR2_cortex_a7),y)
 RETROARCH_CONF_OPTS += --enable-floathard
 endif
 ifeq ($(BR2_arm)$(BR2_cortex_a53),yy)
+RETROARCH_CONF_OPTS += --enable-floathard
+endif
+ifeq ($(BR2_arm)$(BR2_cortex_a72),yy)
 RETROARCH_CONF_OPTS += --enable-floathard
 endif
 
@@ -45,14 +48,21 @@ ifeq ($(BR2_ARM_CPU_HAS_NEON),y)
 RETROARCH_CONF_OPTS += --enable-neon
 endif
 
-# Add dispamnx renderer and no opengl1.1 for Pi
+# Add dispamnx renderer and no opengl1.1 for Pi, but not for RPI4
 ifeq ($(BR2_PACKAGE_RPI_FIRMWARE),y)
+ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_RPI4),)
 RETROARCH_CONF_OPTS += --enable-dispmanx
+endif
 endif
 
 # odroid xu4
 ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_XU4),y)
 RETROARCH_CONF_OPTS += --enable-floathard
+endif
+
+# rpi4
+ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_RPI4),y)
+RETROARCH_CONF_OPTS += --enable-opengles3 --disable-videocore --enable-kms
 endif
 
 # x86 : SSE
@@ -225,12 +235,20 @@ ifeq ($(BR2_arm)$(BR2_cortex_a53),yy)
 RETROARCH_LIBRETRO_PLATFORM += armv8
 endif
 
+ifeq ($(BR2_aarch64)$(BR2_cortex_a72),yy)
+RETROARCH_LIBRETRO_PLATFORM += unix
+endif
+
+ifeq ($(BR2_arm)$(BR2_cortex_a72),yy)
+RETROARCH_LIBRETRO_PLATFORM += armv8-a
+endif
+
 ifeq ($(BR2_ARM_CPU_HAS_NEON),y)
 RETROARCH_LIBRETRO_PLATFORM += neon
 endif
 
 # SPECIFIC PLATFORM
-# Will be equal to rpi1, rpi2, rpi3 if we are on rpi.
+# Will be equal to rpi1, rpi2, rpi3, rpi4 if we are on rpi.
 # Will be equal to RETROARCH_LIBRETRO_PLATFORM otherwise
 ifeq ($(RECALBOX_SYSTEM_PLATFORM)),rpi2)
 RETROARCH_LIBRETRO_BOARD=$(RECALBOX_SYSTEM_PLATFORM)
@@ -238,4 +256,7 @@ else ifeq ($(RECALBOX_SYSTEM_PLATFORM)),rpi3)
 RETROARCH_LIBRETRO_BOARD=$(RECALBOX_SYSTEM_PLATFORM)
 else
 RETROARCH_LIBRETRO_BOARD=$(RETROARCH_LIBRETRO_PLATFORM)
+endif
+ifeq ($(RECALBOX_SYSTEM_PLATFORM)),rpi4)
+RETROARCH_LIBRETRO_BOARD=$(RECALBOX_SYSTEM_PLATFORM)
 endif

@@ -1,0 +1,15 @@
+--- reicast-ad61f95dd6b4c6218846a25de6194550311a5d28/shell/linux/Makefile.orig	2020-05-26 22:52:56.396875000 +0200
++++ reicast-ad61f95dd6b4c6218846a25de6194550311a5d28/shell/linux/Makefile	2020-05-26 22:57:39.200531227 +0200
+@@ -259,7 +259,11 @@
+ 
+ CXXFLAGS += -fno-rtti -fpermissive -fno-operator-names
+ 
+-INCS += -I$(RZDCY_SRC_DIR) -I$(RZDCY_SRC_DIR)/deps -I$(RZDCY_SRC_DIR)/khronos
++ifneq (,$(findstring mesa,$(platform)))
++    INCS += -I$(RZDCY_SRC_DIR) -I$(RZDCY_SRC_DIR)/deps
++else
++    INCS += -I$(RZDCY_SRC_DIR) -I$(RZDCY_SRC_DIR)/deps -I$(RZDCY_SRC_DIR)/khronos
++endif
+ 
+ LIBS += -lm -lrt
+ LIBS  += -lpthread

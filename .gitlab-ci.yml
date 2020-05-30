@@ -96,6 +96,13 @@ build rpi3:
     - tags
   variables:
     ARCH: 'rpi3'
+build rpi4:
+  <<: *build_definition
+  only:
+    - master
+    - tags
+  variables:
+    ARCH: 'rpi4'
 build x86_64:
   <<: *build_definition
   when: manual
@@ -148,6 +155,15 @@ build rpi3 for test:
     - master
   variables:
     ARCH: 'rpi3'
+build rpi4 for test:
+  <<: *build_definition
+  when: manual
+  only:
+    - branches
+  except:
+    - master
+  variables:
+    ARCH: 'rpi4'
 build x86_64 for test:
   <<: *build_definition
   when: manual

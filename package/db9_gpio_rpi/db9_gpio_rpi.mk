@@ -4,25 +4,17 @@
 #
 ################################################################################
 
-DB9_GPIO_RPI_VERSION = 1.0
-DB9_GPIO_RPI_SOURCE = db9-gpio-rpi-dkms_$(DB9_GPIO_RPI_VERSION)_all.deb
-DB9_GPIO_RPI_SITE = http://www.niksula.hut.fi/~mhiienka/Rpi
+DB9_GPIO_RPI_VERSION = 6f257ff226b866a37b0ea6d6f0a7f91b5b73c421
+DB9_GPIO_RPI_SITE = $(call github,marqs85,db9_gpio_rpi,$(DB9_GPIO_RPI_VERSION))
 
 DB9_GPIO_RPI_DEPENDENCIES = linux
+DB9_GPIO_RPI_STRIP_COMPONENTS = 1
 
-define DB9_GPIO_RPI_EXTRACT_CMDS
-	cp $(DB9_GPIO_RPI_PKGDIR)/db9_gpio_rpi.c $(@D)
-	cp $(DB9_GPIO_RPI_PKGDIR)/Makefile $(@D)
+define DB9_GPIO_RPI_COPY_CMDS
+	cp -r $(@D)/db9_gpio_rpi-1.2/* $(@D)/.
 endef
 
-# Needed because can't pass cflags to cc
-define DB9_GPIO_RPI_RPI2_HOOK
-	$(SED) "s/#define BCM2708_PERI_BASE 0x20000000/#define BCM2708_PERI_BASE 0x3F000000/g" $(@D)/db9_gpio_rpi.c
-endef
-
-ifeq ($(BR2_cortex_a7)$(BR2_cortex_a53),y)
-DB9_GPIO_RPI_PRE_CONFIGURE_HOOKS += DB9_GPIO_RPI_RPI2_HOOK
-endif
+DB9_GPIO_RPI_CONFIGURE_CMDS += $(DB9_GPIO_RPI_COPY_CMDS)
 
 define DB9_GPIO_RPI_BUILD_CMDS
 	$(MAKE) -C $(@D) $(LINUX_MAKE_FLAGS) KERNELDIR=$(LINUX_DIR)

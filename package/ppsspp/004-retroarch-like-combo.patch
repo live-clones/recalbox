@@ -1,36 +1,30 @@
-diff --git a/Common/KeyMap.cpp b/Common/KeyMap.cpp
-index bd81b1f..4242bc3 100644
---- a/Common/KeyMap.cpp
-+++ b/Common/KeyMap.cpp
-@@ -651,6 +651,7 @@ const KeyMap_IntStrPair psp_button_names[] = {
+--- ppsspp/Common/KeyMap.cpp.orig	2020-05-28 21:44:42.721537142 +0200
++++ ppsspp/Common/KeyMap.cpp	2020-05-28 21:45:39.901099549 +0200
+@@ -685,6 +685,7 @@
  	{VIRTKEY_SAVE_STATE, "Save State"},
  	{VIRTKEY_LOAD_STATE, "Load State"},
  	{VIRTKEY_NEXT_SLOT,  "Next Slot"},
-+	{VIRTKEY_PREV_SLOT,  "Previous Slot"},
- #if !defined(_WIN32) && !defined(MOBILE_DEVICE)
++	{VIRTKEY_PREVIOUS_SLOT,  "Previous Slot"},
+ #if !defined(MOBILE_DEVICE)
  	{VIRTKEY_TOGGLE_FULLSCREEN, "Toggle Fullscreen"},
  #endif
-diff --git a/Common/KeyMap.h b/Common/KeyMap.h
-index abc4f77..445f931 100644
---- a/Common/KeyMap.h
-+++ b/Common/KeyMap.h
-@@ -51,6 +51,7 @@ enum {
- 	VIRTKEY_AXIS_SWAP = 0x10012,
- 	VIRTKEY_DEVMENU = 0x10013,
- 	VIRTKEY_FRAME_ADVANCE = 0x10014,
-+	VIRTKEY_PREV_SLOT  = 0x10015,
+--- ppsspp/Common/KeyMap.h.orig	2020-05-28 21:45:51.705009247 +0200
++++ ppsspp/Common/KeyMap.h	2020-05-28 21:46:37.912655899 +0200
+@@ -61,6 +61,7 @@
+ 	VIRTKEY_OPENCHAT = 0x4000001D,
+ 	VIRTKEY_ANALOG_ROTATE_CW = 0x4000001E,
+ 	VIRTKEY_ANALOG_ROTATE_CCW = 0x4000001F,
++	VIRTKEY_PREVIOUS_SLOT = 0x40000020,
  	VIRTKEY_LAST,
  	VIRTKEY_COUNT = VIRTKEY_LAST - VIRTKEY_FIRST
  };
-diff --git a/Core/SaveState.cpp b/Core/SaveState.cpp
-index d39b0da..15f95f8 100644
---- a/Core/SaveState.cpp
-+++ b/Core/SaveState.cpp
-@@ -409,6 +409,11 @@ namespace SaveState
+--- ppsspp/Core/SaveState.cpp.orig	2020-05-28 22:19:22.077226611 +0200
++++ ppsspp/Core/SaveState.cpp	2020-05-28 22:01:11.058000065 +0200
+@@ -431,6 +431,11 @@
  		g_Config.iCurrentStateSlot = (g_Config.iCurrentStateSlot + 1) % NUM_SLOTS;
  	}
  
-+	void PrevSlot()
++	void PreviousSlot()
 +	{
 +		g_Config.iCurrentStateSlot = (g_Config.iCurrentStateSlot - 1) % NUM_SLOTS;
 +	}
@@ -38,23 +32,19 @@ index d39b0da..15f95f8 100644
  	void LoadSlot(const std::string &gameFilename, int slot, Callback callback, void *cbUserData)
  	{
  		std::string fn = GenerateSaveSlotFilename(gameFilename, slot, STATE_EXTENSION);
-diff --git a/Core/SaveState.h b/Core/SaveState.h
-index a471910..690b43f 100644
---- a/Core/SaveState.h
-+++ b/Core/SaveState.h
-@@ -34,6 +34,7 @@ namespace SaveState
+--- ppsspp/Core/SaveState.h.orig	2020-05-28 21:48:48.191660560 +0200
++++ ppsspp/Core/SaveState.h	2020-05-28 21:49:02.383552196 +0200
+@@ -41,6 +41,7 @@
  
  	// Cycle through the 5 savestate slots
  	void NextSlot();
-+	void PrevSlot();
++	void PreviousSlot();
  	void SaveSlot(const std::string &gameFilename, int slot, Callback callback, void *cbUserData = 0);
  	void LoadSlot(const std::string &gameFilename, int slot, Callback callback, void *cbUserData = 0);
- 	// Checks whether there's an existing save in the specified slot.
-diff --git a/SDL/SDLJoystick.cpp b/SDL/SDLJoystick.cpp
-index 36576d0..4e5dbb6 100644
---- a/SDL/SDLJoystick.cpp
-+++ b/SDL/SDLJoystick.cpp
-@@ -4,9 +4,15 @@
+ 	bool UndoSaveSlot(const std::string &gameFilename, int slot);
+--- ppsspp/SDL/SDLJoystick.cpp.orig	2020-05-28 22:20:53.860397353 +0200
++++ ppsspp/SDL/SDLJoystick.cpp	2020-05-28 21:58:59.347002527 +0200
+@@ -5,9 +5,15 @@
  
  #include <iostream>
  #include <string>
@@ -70,7 +60,7 @@ index 36576d0..4e5dbb6 100644
  static int SDLJoystickEventHandlerWrapper(void* userdata, SDL_Event* event)
  {
  	static_cast<SDLJoystick *>(userdata)->ProcessInput(*event);
-@@ -54,6 +60,10 @@ void SDLJoystick::setUpControllers() {
+@@ -46,6 +52,10 @@
  	}
  	if (controllers.size() > 0) {
  		cout << "pad 1 has been assigned to control pad: " << SDL_GameControllerName(controllers.front()) << endl;
@@ -81,7 +71,7 @@ index 36576d0..4e5dbb6 100644
  	}
  }
  
-@@ -138,7 +148,12 @@ void SDLJoystick::ProcessInput(SDL_Event &event){
+@@ -146,7 +156,12 @@
  				key.flags = KEY_DOWN;
  				key.keyCode = code;
  				key.deviceId = DEVICE_ID_PAD_0 + getDeviceIndex(event.cbutton.which);
@@ -94,7 +84,7 @@ index 36576d0..4e5dbb6 100644
  			}
  		}
  		break;
-@@ -151,6 +166,10 @@ void SDLJoystick::ProcessInput(SDL_Event &event){
+@@ -159,6 +174,10 @@
  				key.keyCode = code;
  				key.deviceId = DEVICE_ID_PAD_0 + getDeviceIndex(event.cbutton.which);
  				NativeKey(key);
@@ -105,7 +95,7 @@ index 36576d0..4e5dbb6 100644
  			}
  		}
  		break;
-@@ -181,6 +200,10 @@ void SDLJoystick::ProcessInput(SDL_Event &event){
+@@ -189,6 +208,10 @@
  		setUpController(event.cdevice.which);
  		if (prevNumControllers == 0 && controllers.size() > 0) {
  			cout << "pad 1 has been assigned to control pad: " << SDL_GameControllerName(controllers.front()) << endl;
@@ -116,7 +106,7 @@ index 36576d0..4e5dbb6 100644
  		}
  		break;
  	}
-@@ -194,3 +217,29 @@ int SDLJoystick::getDeviceIndex(int instanceId) {
+@@ -202,3 +225,29 @@
  	}
  	return it->second;
  }
@@ -146,11 +136,9 @@ index 36576d0..4e5dbb6 100644
 +	}
 +	return NKCODE_UNKNOWN;
 +}
-diff --git a/SDL/SDLJoystick.h b/SDL/SDLJoystick.h
-index c5d8113..e384f81 100644
---- a/SDL/SDLJoystick.h
-+++ b/SDL/SDLJoystick.h
-@@ -28,4 +28,7 @@ class SDLJoystick{
+--- ppsspp/SDL/SDLJoystick.h.orig	2020-05-28 22:01:22.141915719 +0200
++++ ppsspp/SDL/SDLJoystick.h	2020-05-28 22:02:30.865392772 +0200
+@@ -28,4 +28,7 @@
  	bool registeredAsEventHandler;
  	std::vector<SDL_GameController *> controllers;
  	std::map<int, int> controllerDeviceMap;
@@ -158,19 +146,17 @@ index c5d8113..e384f81 100644
 +	bool checkGuideCombo();
 +	keycode_t findGuideRealButton(const char* mapping);
  };
-diff --git a/UI/EmuScreen.cpp b/UI/EmuScreen.cpp
-index 882d9bb..e8f3166 100644
---- a/UI/EmuScreen.cpp
-+++ b/UI/EmuScreen.cpp
-@@ -81,6 +81,7 @@ AVIDump avi;
+--- ppsspp/UI/EmuScreen.cpp.orig	2020-05-28 22:09:02.906410588 +0200
++++ ppsspp/UI/EmuScreen.cpp	2020-05-28 22:15:42.831301073 +0200
+@@ -95,6 +95,7 @@
  static bool frameStep_;
  static int lastNumFlips;
  static bool startDumping;
 +static bool hkPressed;
  
- static void __EmuScreenVblank()
- {
-@@ -411,7 +412,7 @@ void EmuScreen::onVKeyDown(int virtualKeyCode) {
+ extern bool g_TakeScreenshot;
+ 
+@@ -536,7 +537,7 @@
  		break;
  
  	case VIRTKEY_PAUSE:
@@ -179,19 +165,19 @@ index 882d9bb..e8f3166 100644
  		break;
  
  	case VIRTKEY_FRAME_ADVANCE:
-@@ -478,6 +479,10 @@ void EmuScreen::onVKeyDown(int virtualKeyCode) {
+@@ -634,6 +635,10 @@
  		SaveState::NextSlot();
  		NativeMessageReceived("savestate_displayslot", "");
  		break;
-+	case VIRTKEY_PREV_SLOT:
-+		SaveState::PrevSlot();
++	case VIRTKEY_PREVIOUS_SLOT:
++		SaveState::PreviousSlot();
 +		NativeMessageReceived("savestate_displayslot", "");
 +		break;
  	case VIRTKEY_TOGGLE_FULLSCREEN:
  		System_SendMessage("toggle_fullscreen", "");
  		break;
-@@ -515,11 +520,63 @@ void EmuScreen::onVKeyUp(int virtualKeyCode) {
- 		setVKeyAnalogY(CTRL_STICK_RIGHT, VIRTKEY_AXIS_RIGHT_Y_MIN, VIRTKEY_AXIS_RIGHT_Y_MAX);
+@@ -738,11 +743,63 @@
+ 		__CtrlSetAnalogY(0.0f, 0);
  		break;
  
 +	case VIRTKEY_PAUSE:
@@ -236,7 +222,7 @@ index 882d9bb..e8f3166 100644
 +		retval =  true;
 +	}
 +	if (buttons & CTRL_DOWN) {
-+		onVKeyDown(VIRTKEY_PREV_SLOT);
++		onVKeyDown(VIRTKEY_PREVIOUS_SLOT);
 +		retval =  true;
 +	}
 +	if (buttons & CTRL_LEFT) {
@@ -254,7 +240,7 @@ index 882d9bb..e8f3166 100644
  // Handles control rotation due to internal screen rotation.
  static void SetPSPAxis(char axis, float value, int stick) {
  	switch (g_Config.iInternalScreenRotation) {
-@@ -633,8 +690,9 @@ void EmuScreen::pspKey(int pspKeyCode, int flags) {
+@@ -856,8 +913,9 @@
  		}
  	} else {
  		// ILOG("pspKey %i %i", pspKeyCode, flags);
@@ -266,11 +252,9 @@ index 882d9bb..e8f3166 100644
  		if (flags & KEY_UP)
  			__CtrlButtonUp(pspKeyCode);
  	}
-diff --git a/UI/EmuScreen.h b/UI/EmuScreen.h
-index 15d08da..b628970 100644
---- a/UI/EmuScreen.h
-+++ b/UI/EmuScreen.h
-@@ -58,6 +58,7 @@ class EmuScreen : public UIScreen {
+--- ppsspp/UI/EmuScreen.h.orig	2020-05-28 22:16:06.579068725 +0200
++++ ppsspp/UI/EmuScreen.h	2020-05-28 22:16:54.458606465 +0200
+@@ -65,6 +65,7 @@
  	void pspKey(int pspKeyCode, int flags);
  	void onVKeyDown(int virtualKeyCode);
  	void onVKeyUp(int virtualKeyCode);

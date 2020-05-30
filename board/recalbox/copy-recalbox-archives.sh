@@ -64,11 +64,10 @@ RECALBOX_IMG="${RECALBOX_BINARIES_DIR}/recalbox-${RECALBOX_TARGET_LOWER}.img"
 echo -e "\n----- Generating images/recalbox files -----\n"
 
 case "${RECALBOX_TARGET}" in
-    RPI0|RPI1|RPI2|RPI3)
-
-        # /boot
+    RPI0|RPI1|RPI2|RPI3|RPI4)
+	# /boot
 	echo "generating boot"
-        cp -f "${BINARIES_DIR}/"*.dtb "${BINARIES_DIR}/rpi-firmware"
+	cp -f "${BINARIES_DIR}/"*.dtb "${BINARIES_DIR}/rpi-firmware"
 	rm -rf "${BINARIES_DIR}/rpi-firmware/boot" || exit 1
 	mkdir -p "${BINARIES_DIR}/rpi-firmware/boot" || exit 1
 	"${BUILD_DIR}/linux-custom/scripts/mkknlimg" "${BINARIES_DIR}/zImage" "${BINARIES_DIR}/rpi-firmware/boot/linux"
