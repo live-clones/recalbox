@@ -4,8 +4,10 @@
 #
 ################################################################################
 
-LIBRETRO_MRBOOM_VERSION = 4273564fce7ecc850c424f02a3571393b30ae0ec
-LIBRETRO_MRBOOM_SITE = $(call github,libretro,mrboom-libretro,$(LIBRETRO_MRBOOM_VERSION))
+LIBRETRO_MRBOOM_VERSION = 441ba41151f2a688c6d9a2c1a34ff2106d8c57f8
+LIBRETRO_MRBOOM_SITE = git://github.com/libretro/mrboom-libretro.git
+LIBRETRO_MRBOOM_SITE_METHOD=git
+LIBRETRO_MRBOOM_GIT_SUBMODULES=y
 
 # Flag to fix build on arm platforms
 ifeq ($(BR2_ARM_CPU_HAS_NEON),y)
