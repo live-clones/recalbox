@@ -9,7 +9,7 @@ from distutils.dir_util import copy_tree
 
 class EmPack:
     def __init__(self, system, extensions, emcoredef, fullname=None, platform=None, theme=None, force=False, port=False, rompath=None):
-        # Set member variablers
+        # Set member variable
         """
 
         :type emcoredef: list
@@ -22,7 +22,7 @@ class EmPack:
         self._Theme = theme if theme is not None else self._System
         self._Force = force
         self._Port = port
-        self._RomPath = rompath
+        self._RomPath = rompath if rompath is not None else ""
 
         self._SingleMode = False
         self._SingleEmulatorBRPackage = ""
@@ -395,9 +395,9 @@ if __name__ == '__main__':
     parser.add_argument("-p", "--platform", help="Sets the system platform. Defaults to the system name. ex: pc", type=str, required=False)
     parser.add_argument("-t", "--theme", help="Sets the theme name. Defaults to the system name. ex: nes", type=str, required=False)
     parser.add_argument("-r", "--rompath", help="Sets the full rompath instead of /recalbox/share/roms/<system>. ex: /recalbox/share/screenshots", type=str, required=False)
-    parser.add_argument("packageDetails", nargs='+', help="Either specify a BR2_PACKAGE_XXXXX for a standalone emulator (like reicast, ppsspp etc ...)\nOr write it like libretro:mame2003:BR2_PACKAGE_LIBRETRO_MAME2003 libretro:mame2000:BR2_PACKAGE_LIBRETRO_MAME2000 advancemame:advancemame:BR2_PACKAGE_ADVANCEMAME for a multiple emulators/cores system. The syntax in that case is emulator:core:BUILDROOT_CORE_PACKAGE", type=str)
     parser.add_argument("--force", help="force overwriting any existing files", action="store_true", required=False)
     parser.add_argument("--port", help="This system is a port, not a regular system", action="store_true", required=False)
+    parser.add_argument("packageDetails", nargs='+', help="Either specify a BR2_PACKAGE_XXXXX for a standalone emulator (like reicast, ppsspp etc ...)\nOr write it like libretro:mame2003:BR2_PACKAGE_LIBRETRO_MAME2003 libretro:mame2000:BR2_PACKAGE_LIBRETRO_MAME2000 advancemame:advancemame:BR2_PACKAGE_ADVANCEMAME for a multiple emulators/cores system. The syntax in that case is emulator:core:BUILDROOT_CORE_PACKAGE", type=str)
 
     args = parser.parse_args()
 
