@@ -256,12 +256,13 @@ bool InputManager::LookupDeviceXmlConfiguration(InputDevice& device)
     for (pugi::xml_node item = root.child("inputConfig"); item != nullptr; item = item.next_sibling("inputConfig"))
     {
       // check the guid
-      bool guid = strcmp(device.GUID().c_str(), item.attribute("deviceGUID").value()) == 0;
-      bool name = strcmp(device.Name().c_str(), item.attribute("deviceName").value()) == 0;
-      if (guid || name)
+      bool guid    = strcmp(device.GUID().c_str(), item.attribute("deviceGUID").value()) == 0;
+      bool name    = strcmp(device.Name().c_str(), item.attribute("deviceName").value()) == 0;
+      bool axes    = (device.AxeCount() == item.attribute("deviceNbAxes").as_int());
+      bool hats    = (device.HatCount() == item.attribute("deviceNbHats").as_int());
+      bool buttons = (device.ButtonCount() == item.attribute("deviceNbButtons").as_int());
+      if (guid && name && axes && hats && buttons)
       {
-        if (!name) LOG(LogInfo) << "Approximative device found using guid=" << item.attribute("deviceGUID").value()
-                                << " name=" << item.attribute("deviceName").value() << ")";
         int loaded = device.LoadFromXml(item);
         LOG(LogInfo) << "Loaded " << loaded << " configuration entries for device " << device.Name();
         return true;
@@ -288,7 +289,10 @@ void InputManager::WriteDeviceXmlConfiguration(InputDevice& device)
       if (root != nullptr)
         for (pugi::xml_node item = root.child("inputConfig"); item != nullptr; item = item.next_sibling("inputConfig"))
           if (strcmp(device.GUID().c_str(), item.attribute("deviceGUID").value()) == 0 &&
-              strcmp(device.Name().c_str(), item.attribute("deviceName").value()) == 0)
+              strcmp(device.Name().c_str(), item.attribute("deviceName").value()) == 0 &&
+              device.AxeCount() == item.attribute("deviceNbAxes").as_int() &&
+              device.HatCount() == item.attribute("deviceNbHats").as_int() &&
+              device.ButtonCount() == item.attribute("deviceNbButtons").as_int())
           {
             root.remove_child(item);
             break;
@@ -414,6 +418,8 @@ std::string InputManager::GenerateConfiggenConfiguration(const OrderedDevices& d
              .append(p).append("guid ").append(device.GUID())
              .append(p).append("name \"").append(device.Name() + "\"")
              .append(p).append("nbaxes ").append(Strings::ToString(device.AxeCount()))
+             .append(p).append("nbhats ").append(Strings::ToString(device.HatCount()))
+             .append(p).append("nbbuttons ").append(Strings::ToString(device.ButtonCount()))
              #ifdef SDL_JOYSTICK_IS_OVERRIDEN_BY_RECALBOX
                .append(p).append("devicepath ").append(SDL_JoystickDevicePathById(device.Index()))
              #else
