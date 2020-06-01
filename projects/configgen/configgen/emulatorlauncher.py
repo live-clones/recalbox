@@ -293,28 +293,28 @@ def main(arguments):
     if not arguments.demo:
         demoStartButtons = dict()
         # Read the controller configuration
-        playersControllers = Controller.loadControllerConfig(arguments.p1index, arguments.p1guid, arguments.p1name, arguments.p1devicepath, arguments.p1nbaxes,
-                                                             arguments.p2index, arguments.p2guid, arguments.p2name, arguments.p2devicepath, arguments.p2nbaxes,
-                                                             arguments.p3index, arguments.p3guid, arguments.p3name, arguments.p3devicepath, arguments.p3nbaxes,
-                                                             arguments.p4index, arguments.p4guid, arguments.p4name, arguments.p4devicepath, arguments.p4nbaxes,
-                                                             arguments.p5index, arguments.p5guid, arguments.p5name, arguments.p5devicepath, arguments.p5nbaxes,
-                                                             arguments.p6index, arguments.p6guid, arguments.p6name, arguments.p6devicepath, arguments.p6nbaxes,
-                                                             arguments.p7index, arguments.p7guid, arguments.p7name, arguments.p7devicepath, arguments.p7nbaxes,
-                                                             arguments.p8index, arguments.p8guid, arguments.p8name, arguments.p8devicepath, arguments.p8nbaxes,
-                                                             arguments.p9index, arguments.p9guid, arguments.p9name, arguments.p9devicepath, arguments.p9nbaxes,
-                                                             arguments.p10index, arguments.p10guid, arguments.p10name, arguments.p10devicepath, arguments.p10nbaxes)
+        playersControllers = Controller.loadControllerConfig(arguments.p1index, arguments.p1guid, arguments.p1name, arguments.p1devicepath, arguments.p1nbaxes, arguments.p1nbhats, arguments.p1nbbuttons,
+                                                             arguments.p2index, arguments.p2guid, arguments.p2name, arguments.p2devicepath, arguments.p2nbaxes, arguments.p2nbhats, arguments.p2nbbuttons,
+                                                             arguments.p3index, arguments.p3guid, arguments.p3name, arguments.p3devicepath, arguments.p3nbaxes, arguments.p3nbhats, arguments.p3nbbuttons,
+                                                             arguments.p4index, arguments.p4guid, arguments.p4name, arguments.p4devicepath, arguments.p4nbaxes, arguments.p4nbhats, arguments.p4nbbuttons,
+                                                             arguments.p5index, arguments.p5guid, arguments.p5name, arguments.p5devicepath, arguments.p5nbaxes, arguments.p5nbhats, arguments.p5nbbuttons,
+                                                             arguments.p6index, arguments.p6guid, arguments.p6name, arguments.p6devicepath, arguments.p6nbaxes, arguments.p6nbhats, arguments.p6nbbuttons,
+                                                             arguments.p7index, arguments.p7guid, arguments.p7name, arguments.p7devicepath, arguments.p7nbaxes, arguments.p7nbhats, arguments.p7nbbuttons,
+                                                             arguments.p8index, arguments.p8guid, arguments.p8name, arguments.p8devicepath, arguments.p8nbaxes, arguments.p8nbhats, arguments.p8nbbuttons,
+                                                             arguments.p9index, arguments.p9guid, arguments.p9name, arguments.p9devicepath, arguments.p9nbaxes, arguments.p9nbhats, arguments.p9nbbuttons,
+                                                             arguments.p10index, arguments.p10guid, arguments.p10name, arguments.p10devicepath, arguments.p10nbaxes, arguments.p10nbhats, arguments.p10nbbuttons)
     else:
         playersControllers = dict()
-        demoStartButtons = Controller.loadDemoConfig(arguments.p1index, arguments.p1guid, arguments.p1name, arguments.p1devicepath, arguments.p1nbaxes,
-                                                     arguments.p2index, arguments.p2guid, arguments.p2name, arguments.p2devicepath, arguments.p2nbaxes,
-                                                     arguments.p3index, arguments.p3guid, arguments.p3name, arguments.p3devicepath, arguments.p3nbaxes,
-                                                     arguments.p4index, arguments.p4guid, arguments.p4name, arguments.p4devicepath, arguments.p4nbaxes,
-                                                     arguments.p5index, arguments.p5guid, arguments.p5name, arguments.p5devicepath, arguments.p5nbaxes,
-                                                     arguments.p6index, arguments.p6guid, arguments.p6name, arguments.p6devicepath, arguments.p6nbaxes,
-                                                     arguments.p7index, arguments.p7guid, arguments.p7name, arguments.p7devicepath, arguments.p7nbaxes,
-                                                     arguments.p8index, arguments.p8guid, arguments.p8name, arguments.p8devicepath, arguments.p8nbaxes,
-                                                     arguments.p9index, arguments.p9guid, arguments.p9name, arguments.p9devicepath, arguments.p9nbaxes,
-                                                     arguments.p10index, arguments.p10guid, arguments.p10name, arguments.p10devicepath, arguments.p10nbaxes)
+        demoStartButtons = Controller.loadDemoConfig(arguments.p1index, arguments.p1guid, arguments.p1name, arguments.p1devicepath, arguments.p1nbaxes, arguments.p1nbhats, arguments.p1nbbuttons,
+                                                     arguments.p2index, arguments.p2guid, arguments.p2name, arguments.p2devicepath, arguments.p2nbaxes, arguments.p2nbhats, arguments.p2nbbuttons,
+                                                     arguments.p3index, arguments.p3guid, arguments.p3name, arguments.p3devicepath, arguments.p3nbaxes, arguments.p3nbhats, arguments.p3nbbuttons,
+                                                     arguments.p4index, arguments.p4guid, arguments.p4name, arguments.p4devicepath, arguments.p4nbaxes, arguments.p4nbhats, arguments.p4nbbuttons,
+                                                     arguments.p5index, arguments.p5guid, arguments.p5name, arguments.p5devicepath, arguments.p5nbaxes, arguments.p5nbhats, arguments.p5nbbuttons,
+                                                     arguments.p6index, arguments.p6guid, arguments.p6name, arguments.p6devicepath, arguments.p6nbaxes, arguments.p6nbhats, arguments.p6nbbuttons,
+                                                     arguments.p7index, arguments.p7guid, arguments.p7name, arguments.p7devicepath, arguments.p7nbaxes, arguments.p7nbhats, arguments.p7nbbuttons,
+                                                     arguments.p8index, arguments.p8guid, arguments.p8name, arguments.p8devicepath, arguments.p8nbaxes, arguments.p8nbhats, arguments.p8nbbuttons,
+                                                     arguments.p9index, arguments.p9guid, arguments.p9name, arguments.p9devicepath, arguments.p9nbaxes, arguments.p9nbhats, arguments.p9nbbuttons,
+                                                     arguments.p10index, arguments.p10guid, arguments.p10name, arguments.p10devicepath, arguments.p10nbaxes, arguments.p10nbhats, arguments.p10nbbuttons)
 
     systemName = arguments.system
 
@@ -404,56 +404,15 @@ def config_upgrade(version):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='emulator-launcher script')
-    parser.add_argument("-p1index", help="player1 controller index", type=int, required=False)
-    parser.add_argument("-p1guid", help="player1 controller SDL2 guid", type=str, required=False)
-    parser.add_argument("-p1name", help="player1 controller name", type=str, required=False)
-    parser.add_argument("-p1devicepath", help="player1 controller device", type=str, required=False)
-    parser.add_argument("-p1nbaxes", help="player1 controller number of axes", type=str, required=False)
-    parser.add_argument("-p2index", help="player2 controller index", type=int, required=False)
-    parser.add_argument("-p2guid", help="player2 controller SDL2 guid", type=str, required=False)
-    parser.add_argument("-p2name", help="player2 controller name", type=str, required=False)
-    parser.add_argument("-p2devicepath", help="player2 controller device", type=str, required=False)
-    parser.add_argument("-p2nbaxes", help="player2 controller number of axes", type=str, required=False)
-    parser.add_argument("-p3index", help="player3 controller index", type=int, required=False)
-    parser.add_argument("-p3guid", help="player3 controller SDL2 guid", type=str, required=False)
-    parser.add_argument("-p3name", help="player3 controller name", type=str, required=False)
-    parser.add_argument("-p3devicepath", help="player3 controller device", type=str, required=False)
-    parser.add_argument("-p3nbaxes", help="player3 controller number of axes", type=str, required=False)
-    parser.add_argument("-p4index", help="player4 controller index", type=int, required=False)
-    parser.add_argument("-p4guid", help="player4 controller SDL2 guid", type=str, required=False)
-    parser.add_argument("-p4name", help="player4 controller name", type=str, required=False)
-    parser.add_argument("-p4devicepath", help="player4 controller device", type=str, required=False)
-    parser.add_argument("-p4nbaxes", help="player4 controller number of axes", type=str, required=False)
-    parser.add_argument("-p5index", help="player5 controller index", type=int, required=False)
-    parser.add_argument("-p5guid", help="player5 controller SDL2 guid", type=str, required=False)
-    parser.add_argument("-p5name", help="player5 controller name", type=str, required=False)
-    parser.add_argument("-p5devicepath", help="player5 controller device", type=str, required=False)
-    parser.add_argument("-p5nbaxes", help="player5 controller number of axes", type=str, required=False)
-    parser.add_argument("-p6index", help="player6 controller index", type=int, required=False)
-    parser.add_argument("-p6guid", help="player6 controller SDL2 guid", type=str, required=False)
-    parser.add_argument("-p6name", help="player6 controller name", type=str, required=False)
-    parser.add_argument("-p6devicepath", help="player6 controller device", type=str, required=False)
-    parser.add_argument("-p6nbaxes", help="player6 controller number of axes", type=str, required=False)
-    parser.add_argument("-p7index", help="player7 controller index", type=int, required=False)
-    parser.add_argument("-p7guid", help="player7 controller SDL2 guid", type=str, required=False)
-    parser.add_argument("-p7name", help="player7 controller name", type=str, required=False)
-    parser.add_argument("-p7devicepath", help="player7 controller device", type=str, required=False)
-    parser.add_argument("-p7nbaxes", help="player7 controller number of axes", type=str, required=False)
-    parser.add_argument("-p8index", help="player8 controller index", type=int, required=False)
-    parser.add_argument("-p8guid", help="player8 controller SDL2 guid", type=str, required=False)
-    parser.add_argument("-p8name", help="player8 controller name", type=str, required=False)
-    parser.add_argument("-p8devicepath", help="player8 controller device", type=str, required=False)
-    parser.add_argument("-p8nbaxes", help="player8 controller number of axes", type=str, required=False)
-    parser.add_argument("-p9index", help="player9 controller index", type=int, required=False)
-    parser.add_argument("-p9guid", help="player9 controller SDL2 guid", type=str, required=False)
-    parser.add_argument("-p9name", help="player9 controller name", type=str, required=False)
-    parser.add_argument("-p9devicepath", help="player9 controller device", type=str, required=False)
-    parser.add_argument("-p9nbaxes", help="player9 controller number of axes", type=str, required=False)
-    parser.add_argument("-p10index", help="player10 controller index", type=int, required=False)
-    parser.add_argument("-p10guid", help="player10 controller SDL2 guid", type=str, required=False)
-    parser.add_argument("-p10name", help="player10 controller name", type=str, required=False)
-    parser.add_argument("-p10devicepath", help="player10 controller device", type=str, required=False)
-    parser.add_argument("-p10nbaxes", help="player10 controller number of axes", type=str, required=False)
+    for i in range(1, 11):
+        option = "-p{}".format(i)
+        parser.add_argument("{}index".format(option), help="player{} controller index".format(i), type=int, required=False)
+        parser.add_argument("{}guid".format(option), help="player{} controller SDL2 guid".format(i), type=str, required=False)
+        parser.add_argument("{}name".format(option), help="player{} controller name".format(i), type=str, required=False)
+        parser.add_argument("{}devicepath".format(option), help="player{} controller device".format(i), type=str, required=False)
+        parser.add_argument("{}nbaxes".format(option), help="player{} controller number of axes".format(i), type=str, required=False)
+        parser.add_argument("{}nbhats".format(option), help="player{} controller number of hats".format(i), type=str, required=False)
+        parser.add_argument("{}nbbuttons".format(option), help="player{} controller number of buttons".format(i), type=str, required=False)
     parser.add_argument("-system", help="select the system to launch", type=str, required=True)
     parser.add_argument("-rom", help="rom absolute path", type=str, required=False)
     parser.add_argument("-emulator", help="force emulator", type=str, required=False)

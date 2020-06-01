@@ -169,8 +169,11 @@ class Controller:
                                             nbaxes=controller.get("deviceNbAxes"),
                                             nbhats=controller.get("deviceNbHats"),
                                             nbbuttons=controller.get("deviceNbButtons"))
-            uidname = controller.get("deviceGUID") + controller.get("deviceName")
-            controllers[uidname] = controllerInstance
+            compositeId = "{}-{}-{}:{}:{}".format(controllerInstance.configName, controllerInstance.guid,
+                                                  controllerInstance.nbaxes, controllerInstance.nbhats,
+                                                  controllerInstance.nbbuttons)
+            #print("Creating CompositeID: " + compositeId)
+            controllers[compositeId] = controllerInstance
             for inp in controller.findall("input"):
                 name = inp.get("name")
                 if name == 'pageup': name = 'l1'
@@ -180,73 +183,73 @@ class Controller:
         return controllers
 
     # Load all controllers from the es_input.cfg
-    @staticmethod
-    def loadAllControllersByNameConfig():
-        controllers = dict()
-        tree = ET.parse(esInputs)
-        root = tree.getroot()
-        for controller in root.findall(".//inputConfig"):
-            controllerInstance = Controller(controller.get("deviceName"), controller.get("type"),
-                                            controller.get("deviceGUID"), "0",
-                                            inputs=None,
-                                            dev=None,
-                                            nbaxes=controller.get("deviceNbAxes"),
-                                            nbhats=controller.get("deviceNbHats"),
-                                            nbbuttons=controller.get("deviceNbButtons"))
-            deviceName = controller.get("deviceName")
-            controllers[deviceName] = controllerInstance
-            for inp in controller.findall("input"):
-                name = inp.get("name")
-                if name == 'pageup': name = 'l1'
-                if name == 'pagedown': name = 'r1'
-                inputInstance = Input(name, inp.get("type"), inp.get("id"), inp.get("value"), inp.get("code"))
-                controllerInstance.inputs[name] = inputInstance
-        return controllers
+    # @staticmethod
+    # def loadAllControllersByNameConfig():
+    #     controllers = dict()
+    #     tree = ET.parse(esInputs)
+    #     root = tree.getroot()
+    #     for controller in root.findall(".//inputConfig"):
+    #         controllerInstance = Controller(controller.get("deviceName"), controller.get("type"),
+    #                                         controller.get("deviceGUID"), "0",
+    #                                         inputs=None,
+    #                                         dev=None,
+    #                                         nbaxes=controller.get("deviceNbAxes"),
+    #                                         nbhats=controller.get("deviceNbHats"),
+    #                                         nbbuttons=controller.get("deviceNbButtons"))
+    #         deviceName = controller.get("deviceName")
+    #         controllers[deviceName] = controllerInstance
+    #         for inp in controller.findall("input"):
+    #             name = inp.get("name")
+    #             if name == 'pageup': name = 'l1'
+    #             if name == 'pagedown': name = 'r1'
+    #             inputInstance = Input(name, inp.get("type"), inp.get("id"), inp.get("value"), inp.get("code"))
+    #             controllerInstance.inputs[name] = inputInstance
+    #     return controllers
 
 
     # Get a device/start code map, for demo mode
     @staticmethod
-    def loadDemoConfig(p1index, p1guid, p1name, p1dev, p1nbaxes, 
-            p2index, p2guid, p2name, p2dev, p2nbaxes, 
-            p3index, p3guid, p3name, p3dev, p3nbaxes,
-            p4index, p4guid, p4name, p4dev, p4nbaxes, 
-            p5index, p5guid, p5name, p5dev, p5nbaxes,
-            p6index, p6guid, p6name, p6dev, p6nbaxes,
-            p7index, p7guid, p7name, p7dev, p7nbaxes,
-            p8index, p8guid, p8name, p8dev, p8nbaxes,
-            p9index, p9guid, p9name, p9dev, p9nbaxes,
-            p10index, p10guid, p10name, p10dev, p10nbaxes):
+    def loadDemoConfig(p1index, p1guid, p1name, p1dev, p1nbaxes, p1nbhats, p1nbbuttons,
+            p2index, p2guid, p2name, p2dev, p2nbaxes, p2nbhats, p2nbbuttons,
+            p3index, p3guid, p3name, p3dev, p3nbaxes, p3nbhats, p3nbbuttons,
+            p4index, p4guid, p4name, p4dev, p4nbaxes, p4nbhats, p4nbbuttons,
+            p5index, p5guid, p5name, p5dev, p5nbaxes, p5nbhats, p5nbbuttons,
+            p6index, p6guid, p6name, p6dev, p6nbaxes, p6nbhats, p6nbbuttons,
+            p7index, p7guid, p7name, p7dev, p7nbaxes, p7nbhats, p7nbbuttons,
+            p8index, p8guid, p8name, p8dev, p8nbaxes, p8nbhats, p8nbbuttons,
+            p9index, p9guid, p9name, p9dev, p9nbaxes, p9nbhats, p9nbbuttons,
+            p10index, p10guid, p10name, p10dev, p10nbaxes, p10nbhats, p10nbbuttons):
         result = dict()
         controllers = Controller.loadAllControllersConfig()
 
-        newController = Controller.findBestControllerConfig(controllers, '1', p1guid, p1index, p1name, p1dev, p1nbaxes)
+        newController = Controller.findBestControllerConfig(controllers, '1', p1guid, p1index, p1name, p1dev, p1nbaxes, p1nbhats, p1nbbuttons)
         if newController:
             result[p1dev] = newController.inputs["start"].code
-        newController = Controller.findBestControllerConfig(controllers, '2', p2guid, p2index, p2name, p2dev, p2nbaxes)
+        newController = Controller.findBestControllerConfig(controllers, '2', p2guid, p2index, p2name, p2dev, p2nbaxes, p2nbhats, p2nbbuttons)
         if newController:
             result[p2dev] = newController.inputs["start"].code
-        newController = Controller.findBestControllerConfig(controllers, '3', p3guid, p3index, p3name, p3dev, p3nbaxes)
+        newController = Controller.findBestControllerConfig(controllers, '3', p3guid, p3index, p3name, p3dev, p3nbaxes, p3nbhats, p3nbbuttons)
         if newController:
             result[p3dev] = newController.inputs["start"].code
-        newController = Controller.findBestControllerConfig(controllers, '4', p4guid, p4index, p4name, p4dev, p4nbaxes)
+        newController = Controller.findBestControllerConfig(controllers, '4', p4guid, p4index, p4name, p4dev, p4nbaxes, p4nbhats, p4nbbuttons)
         if newController:
             result[p4dev] = newController.inputs["start"].code
-        newController = Controller.findBestControllerConfig(controllers, '5', p5guid, p5index, p5name, p5dev, p5nbaxes)
+        newController = Controller.findBestControllerConfig(controllers, '5', p5guid, p5index, p5name, p5dev, p5nbaxes, p5nbhats, p5nbbuttons)
         if newController:
             result[p5dev] = newController.inputs["start"].code
-        newController = Controller.findBestControllerConfig(controllers, '6', p6guid, p6index, p6name, p6dev, p6nbaxes)
+        newController = Controller.findBestControllerConfig(controllers, '6', p6guid, p6index, p6name, p6dev, p6nbaxes, p6nbhats, p6nbbuttons)
         if newController:
             result[p6dev] = newController.inputs["start"].code
-        newController = Controller.findBestControllerConfig(controllers, '7', p7guid, p7index, p7name, p7dev, p7nbaxes)
+        newController = Controller.findBestControllerConfig(controllers, '7', p7guid, p7index, p7name, p7dev, p7nbaxes, p7nbhats, p7nbbuttons)
         if newController:
             result[p7dev] = newController.inputs["start"].code
-        newController = Controller.findBestControllerConfig(controllers, '8', p8guid, p8index, p8name, p8dev, p8nbaxes)
+        newController = Controller.findBestControllerConfig(controllers, '8', p8guid, p8index, p8name, p8dev, p8nbaxes, p8nbhats, p8nbbuttons)
         if newController:
             result[p8dev] = newController.inputs["start"].code
-        newController = Controller.findBestControllerConfig(controllers, '9', p9guid, p9index, p9name, p9dev, p9nbaxes)
+        newController = Controller.findBestControllerConfig(controllers, '9', p9guid, p9index, p9name, p9dev, p9nbaxes, p9nbhats, p9nbbuttons)
         if newController:
             result[p9dev] = newController.inputs["start"].code
-        newController = Controller.findBestControllerConfig(controllers, '10', p10guid, p10index, p10name, p10dev, p10nbaxes)
+        newController = Controller.findBestControllerConfig(controllers, '10', p10guid, p10index, p10name, p10dev, p10nbaxes, p10nbhats, p10nbbuttons)
         if newController:
             result[p10dev] = newController.inputs["start"].code
         return result
@@ -254,47 +257,47 @@ class Controller:
 
     # Create a controller array with the player id as a key
     @staticmethod
-    def loadControllerConfig(p1index, p1guid, p1name, p1dev, p1nbaxes, 
-            p2index, p2guid, p2name, p2dev, p2nbaxes, 
-            p3index, p3guid, p3name, p3dev, p3nbaxes,
-            p4index, p4guid, p4name, p4dev, p4nbaxes, 
-            p5index, p5guid, p5name, p5dev, p5nbaxes,
-            p6index, p6guid, p6name, p6dev, p6nbaxes,
-            p7index, p7guid, p7name, p7dev, p7nbaxes,
-            p8index, p8guid, p8name, p8dev, p8nbaxes,
-            p9index, p9guid, p9name, p9dev, p9nbaxes,
-            p10index, p10guid, p10name, p10dev, p10nbaxes):
+    def loadControllerConfig(p1index, p1guid, p1name, p1dev, p1nbaxes, p1nbhats, p1nbbuttons,
+            p2index, p2guid, p2name, p2dev, p2nbaxes, p2nbhats, p2nbbuttons,
+            p3index, p3guid, p3name, p3dev, p3nbaxes, p3nbhats, p3nbbuttons,
+            p4index, p4guid, p4name, p4dev, p4nbaxes, p4nbhats, p4nbbuttons,
+            p5index, p5guid, p5name, p5dev, p5nbaxes, p5nbhats, p5nbbuttons,
+            p6index, p6guid, p6name, p6dev, p6nbaxes, p6nbhats, p6nbbuttons,
+            p7index, p7guid, p7name, p7dev, p7nbaxes, p7nbhats, p7nbbuttons,
+            p8index, p8guid, p8name, p8dev, p8nbaxes, p8nbhats, p8nbbuttons,
+            p9index, p9guid, p9name, p9dev, p9nbaxes, p9nbhats, p9nbbuttons,
+            p10index, p10guid, p10name, p10dev, p10nbaxes, p10nbhats, p10nbbuttons):
         playerControllers = dict()
         controllers = Controller.loadAllControllersConfig()
 
-        newController = Controller.findBestControllerConfig(controllers, '1', p1guid, p1index, p1name, p1dev, p1nbaxes)
+        newController = Controller.findBestControllerConfig(controllers, '1', p1guid, p1index, p1name, p1dev, p1nbaxes, p1nbhats, p1nbbuttons)
         if newController:
             playerControllers["1"] = newController
-        newController = Controller.findBestControllerConfig(controllers, '2', p2guid, p2index, p2name, p2dev, p2nbaxes)
+        newController = Controller.findBestControllerConfig(controllers, '2', p2guid, p2index, p2name, p2dev, p2nbaxes, p2nbhats, p2nbbuttons)
         if newController:
             playerControllers["2"] = newController
-        newController = Controller.findBestControllerConfig(controllers, '3', p3guid, p3index, p3name, p3dev, p3nbaxes)
+        newController = Controller.findBestControllerConfig(controllers, '3', p3guid, p3index, p3name, p3dev, p3nbaxes, p3nbhats, p3nbbuttons)
         if newController:
             playerControllers["3"] = newController
-        newController = Controller.findBestControllerConfig(controllers, '4', p4guid, p4index, p4name, p4dev, p4nbaxes)
+        newController = Controller.findBestControllerConfig(controllers, '4', p4guid, p4index, p4name, p4dev, p4nbaxes, p4nbhats, p4nbbuttons)
         if newController:
             playerControllers["4"] = newController
-        newController = Controller.findBestControllerConfig(controllers, '5', p5guid, p5index, p5name, p5dev, p5nbaxes)
+        newController = Controller.findBestControllerConfig(controllers, '5', p5guid, p5index, p5name, p5dev, p5nbaxes, p5nbhats, p5nbbuttons)
         if newController:
             playerControllers["5"] = newController
-        newController = Controller.findBestControllerConfig(controllers, '6', p6guid, p6index, p6name, p6dev, p6nbaxes)
+        newController = Controller.findBestControllerConfig(controllers, '6', p6guid, p6index, p6name, p6dev, p6nbaxes, p6nbhats, p6nbbuttons)
         if newController:
             playerControllers["6"] = newController
-        newController = Controller.findBestControllerConfig(controllers, '7', p7guid, p7index, p7name, p7dev, p7nbaxes)
+        newController = Controller.findBestControllerConfig(controllers, '7', p7guid, p7index, p7name, p7dev, p7nbaxes, p7nbhats, p7nbbuttons)
         if newController:
             playerControllers["7"] = newController
-        newController = Controller.findBestControllerConfig(controllers, '8', p8guid, p8index, p8name, p8dev, p8nbaxes)
+        newController = Controller.findBestControllerConfig(controllers, '8', p8guid, p8index, p8name, p8dev, p8nbaxes, p8nbhats, p8nbbuttons)
         if newController:
             playerControllers["8"] = newController
-        newController = Controller.findBestControllerConfig(controllers, '9', p9guid, p9index, p9name, p9dev, p9nbaxes)
+        newController = Controller.findBestControllerConfig(controllers, '9', p9guid, p9index, p9name, p9dev, p9nbaxes, p9nbhats, p9nbbuttons)
         if newController:
             playerControllers["9"] = newController
-        newController = Controller.findBestControllerConfig(controllers, '10', p10guid, p10index, p10name, p10dev, p10nbaxes)
+        newController = Controller.findBestControllerConfig(controllers, '10', p10guid, p10index, p10name, p10dev, p10nbaxes, p10nbhats, p10nbbuttons)
         if newController:
             playerControllers["10"] = newController
         return playerControllers
@@ -304,38 +307,37 @@ class Controller:
         playerControllers = dict()
         controllers = Controller.loadAllControllersConfig()
 
-        for i in range(1, 10):
+        for i in range(1, 11):
             num = str(i)
             pguid = kwargs.get('p{}guid'.format(num), None)
             pindex = kwargs.get('p{}index'.format(num), None)
             pname = kwargs.get('p{}name'.format(num), None)
-            pdev = kwargs.get('p{}dev'.format(num), None)
+            pdev = kwargs.get('p{}devicepath'.format(num), None)
             pnbaxes = kwargs.get('p{}nbaxes'.format(num), None)
-            if pdev is None:
-                pdev = kwargs.get('p{}devicepath'.format(num), None)
-            newController = Controller.findBestControllerConfig(controllers, num, pguid, pindex, pname, pdev, pnbaxes)
+            pnbhats = kwargs.get('p{}nbhats'.format(num), None)
+            pnbbuttons = kwargs.get('p{}nbbuttons'.format(num), None)
+            newController = Controller.findBestControllerConfig(controllers, num, pguid, pindex, pname, pdev, pnbaxes, pnbhats, pnbbuttons)
             if newController:
                 playerControllers[num] = newController
         return playerControllers
 
     @staticmethod
-    def findBestControllerConfig(controllers, x, pxguid, pxindex, pxname, pxdev, pxnbaxes):
+    def findBestControllerConfig(controllers, x, pxguid, pxindex, pxname, pxdev, pxnbaxes, pxnbhats, pxnbbuttons):
+        compositeId = "{}-{}-{}:{}:{}".format(pxname, pxguid, pxnbaxes, pxnbhats, pxnbbuttons)
+        #print("Looking up CompositeID: " + compositeId)
+        if compositeId in controllers:
+            controller = controllers[compositeId]
+            #print("Found " + str(controller))
+            return Controller(controller.configName, controller.type, controller.guid, x, pxindex, pxname,
+                              controller.inputs, pxdev, controller.nbaxes, controller.nbhats, controller.nbbuttons)
+
         # when there will have more joysticks, use hash tables
-        for controllerGUID in controllers:
-            controller = controllers[controllerGUID]
-            if controller.guid == pxguid and controller.configName == pxname:
-                return Controller(controller.configName, controller.type, controller.guid, x, pxindex, pxname,
-                                  controller.inputs, pxdev, controller.nbaxes, controller.nbhats, controller.nbbuttons)
-        for controllerGUID in controllers:
-            controller = controllers[controllerGUID]
-            if controller.guid == pxguid:
-                return Controller(controller.configName, controller.type, controller.guid, x, pxindex, pxname,
-                                  controller.inputs, pxdev, pxnbaxes, controller.nbhats, controller.nbbuttons)
-        for controllerGUID in controllers:
-            controller = controllers[controllerGUID]
-            if controller.configName == pxname:
-                return Controller(controller.configName, controller.type, pxguid, x, pxindex, pxname,
-                                  controller.inputs, pxdev, pxnbaxes, controller.nbhats, controller.nbbuttons)
+        # for controllerID in controllers:
+        #     controller = controllers[controllerID]
+        #     if controller.guid == pxguid and controller.configName == pxname and \
+        #         pxnbaxes == controller.nbaxes and pxnbhats == controller.nbhats and pxnbbuttons == controller.nbbuttons:
+        #         return Controller(controller.configName, controller.type, controller.guid, x, pxindex, pxname,
+        #                           controller.inputs, pxdev, controller.nbaxes, controller.nbhats, controller.nbbuttons)
         return None
 
     @staticmethod
