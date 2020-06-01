@@ -97,7 +97,7 @@ class TestLinappleConfig(runtest.TestCase):
         self.assertDictContentEqual(config_user.settings,
                                     config_load.settings)
         
-    @runtest.fixture_joystick(linapple_fixture.Joystick, 5)
+    @runtest.fixture_joystick(linapple_fixture.Joystick, 10)
     def test03_joysticks(self):
         # Load settings from system configuration file and apply 
         # expected results

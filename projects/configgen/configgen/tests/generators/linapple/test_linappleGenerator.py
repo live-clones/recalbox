@@ -42,7 +42,7 @@ class TestLinappleGenerator(runtest.TestCase):
     def tearDown(self):
         super(self.__class__, self).tearDown()
     
-    @runtest.fixture_joystick(linapple_fixture.Joystick, 5)
+    @runtest.fixture_joystick(linapple_fixture.Joystick, 10)
     def test_main(self):
         # Override LinappleGenerator to echo the command instead than really 
         # executing it.
@@ -59,6 +59,17 @@ class TestLinappleGenerator(runtest.TestCase):
         # user configuration. 
         self.args.update(self.params)
         self.args["extra"] = ""
+
+        # PATCH
+        self.args["nodefaultkeymap"] = False
+        for i in range(1, 11):
+            p = "p{}".format(i)
+            ax = "{}nbaxes".format(p)
+            ha = "{}nbhats".format(p)
+            bu = "{}nbbuttons".format(p)
+            self.args[ax] = "*"
+            self.args[ha] = "*"
+            self.args[bu] = "*"
 
         # Call main functions with args updated with fixture parameters and
         # outpout redirected into a string.

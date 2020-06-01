@@ -28,7 +28,7 @@ def fixture_joystick(cls_fix, *args_fix, **kwargs_fix):
     return decorator
 
 class FixtureJoystick(object):
-    def __init__(self, players=5):
+    def __init__(self, players=10):
         # Compute ljust size for display
         ctrls, max_len = Controller.loadAllControllersConfig().values(), 0
         for c in ctrls: 
@@ -45,7 +45,9 @@ class FixtureJoystick(object):
             "p{}guid".format(player) : controller.guid,
             "p{}name".format(player) : controller.configName,
             "p{}devicepath".format(player) : '/dev/input/js{}'.format(index),
-            "p{}nbaxes".format(player) : '0',
+            "p{}nbaxes".format(player) : '*',
+            "p{}nbhats".format(player): '*',
+            "p{}nbbuttons".format(player): '*',
         }
         return params
     

@@ -45,7 +45,7 @@ class TestLibretro4ControllerIndex(unittest.TestCase):
         self.snes = Emulator(name='snes', videomode='4', core='snes9x2002', shaders='', ratio='auto', smooth='2', rewind='false', emulator='libretro')
 
     def test_4_controller(self):
-        controllerConfig = libretroControllers.LibretroControllers(self.snes, keyValueSettings(None, True), self.controllers4)
+        controllerConfig = libretroControllers.LibretroControllers(self.snes, keyValueSettings(None, True), self.controllers4, False)
         config = controllerConfig.fillControllersConfiguration()
         self.assertEquals(config["input_player1_joypad_index"], 0)
         self.assertEquals(config["input_player2_joypad_index"], 1)
@@ -53,7 +53,7 @@ class TestLibretro4ControllerIndex(unittest.TestCase):
         self.assertEquals(config["input_player4_joypad_index"], 3)
 
     def test_reversed_controller(self):
-        controllerConfig = libretroControllers.LibretroControllers(self.snes, keyValueSettings(None, True), self.controllers4reversed)
+        controllerConfig = libretroControllers.LibretroControllers(self.snes, keyValueSettings(None, True), self.controllers4reversed, False)
         config = controllerConfig.fillControllersConfiguration()
         self.assertEquals(config["input_player1_joypad_index"], 3)
         self.assertEquals(config["input_player2_joypad_index"], 2)
@@ -61,7 +61,7 @@ class TestLibretro4ControllerIndex(unittest.TestCase):
         self.assertEquals(config["input_player4_joypad_index"], 0)
 
     def test_2_last_controllers(self):
-        controllerConfig = libretroControllers.LibretroControllers(self.snes, keyValueSettings(None, True), self.controllers2weird)
+        controllerConfig = libretroControllers.LibretroControllers(self.snes, keyValueSettings(None, True), self.controllers2weird, False)
         config = controllerConfig.fillControllersConfiguration()
         self.assertEquals(config["input_player2_joypad_index"], 2)
         self.assertEquals(config["input_player3_joypad_index"], 3)

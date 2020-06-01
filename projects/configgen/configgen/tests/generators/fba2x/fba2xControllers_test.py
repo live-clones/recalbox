@@ -45,16 +45,16 @@ class TestFba2xController(unittest.TestCase):
         self.assertEquals(config['Y_1'], '10')
 
     def test_generate_ps3_controller_buttons(self):
-        controllers = Controller.loadControllerConfig(0, PS3UUID, "p1controller", "", "0",
-                                                      -1, 0, "p2controller", "", "0",
-                                                      -1, 0, "p3controller", "", "0",
-                                                      -1, 0, "p4controller", "", "0",
-                                                      -1, 0, "p5controller", "", "0",
-                                                      -1, 0, "p6controller", "", "0",
-                                                      -1, 0, "p7controller", "", "0",
-                                                      -1, 0, "p8controller", "", "0",
-                                                      -1, 0, "p9controller", "", "0",
-                                                      -1, 0, "p10controller", "", "0")
+        controllers = Controller.loadControllerConfig(0, PS3UUID, "PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", "", "6", "1", "20",
+                                                      -1, 0, "p2controller", "", "0", "0", "0",
+                                                      -1, 0, "p3controller", "", "0", "0", "0",
+                                                      -1, 0, "p4controller", "", "0", "0", "0",
+                                                      -1, 0, "p5controller", "", "0", "0", "0",
+                                                      -1, 0, "p6controller", "", "0", "0", "0",
+                                                      -1, 0, "p7controller", "", "0", "0", "0",
+                                                      -1, 0, "p8controller", "", "0", "0", "0",
+                                                      -1, 0, "p9controller", "", "0", "0", "0",
+                                                      -1, 0, "p10controller", "", "0", "0", "0")
         config = fba2xControllers.generateControllerConfig("1", controllers["1"])
         self.assertEquals(config['X_1'], '14')
         self.assertEquals(config['Y_1'], '13')
@@ -64,16 +64,16 @@ class TestFba2xController(unittest.TestCase):
         self.assertEquals(config['R_1'], '11')
 
     def test_generate_ps3_controller_6buttons(self):
-        controllers = Controller.loadControllerConfig(0, PS3UUID, "p1controller", "", "0",
-                                                      -1, 0, "p2controller", "", "0",
-                                                      -1, 0, "p3controller", "", "0",
-                                                      -1, 0, "p4controller", "", "0",
-                                                      -1, 0, "p5controller", "", "0",
-                                                      -1, 0, "p6controller", "", "0",
-                                                      -1, 0, "p7controller", "", "0",
-                                                      -1, 0, "p8controller", "", "0",
-                                                      -1, 0, "p9controller", "", "0",
-                                                      -1, 0, "p10controller", "", "0")
+        controllers = Controller.loadControllerConfig(0, PS3UUID, "PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", "", "6", "1", "20",
+                                                      -1, 0, "p2controller", "", "0", "0", "0",
+                                                      -1, 0, "p3controller", "", "0", "0", "0",
+                                                      -1, 0, "p4controller", "", "0", "0", "0",
+                                                      -1, 0, "p5controller", "", "0", "0", "0",
+                                                      -1, 0, "p6controller", "", "0", "0", "0",
+                                                      -1, 0, "p7controller", "", "0", "0", "0",
+                                                      -1, 0, "p8controller", "", "0", "0", "0",
+                                                      -1, 0, "p9controller", "", "0", "0", "0",
+                                                      -1, 0, "p10controller", "", "0", "0", "0")
         config = fba2xControllers.generateControllerConfig("1", controllers["1"], True)
         self.assertEquals(config['X_1'], '12')
         self.assertEquals(config['Y_1'], '14')
@@ -83,16 +83,16 @@ class TestFba2xController(unittest.TestCase):
         self.assertEquals(config['R_1'], '11')
 
     def test_generate_ps3_controller_directions(self):
-        controllers = Controller.loadControllerConfig(0, PS3UUID, "p1controller", "", "0",
-                                                      -1, 0, "p2controller", "", "0",
-                                                      -1, 0, "p3controller", "", "0",
-                                                      -1, 0, "p4controller", "", "0",
-                                                      -1, 0, "p5controller", "", "0",
-                                                      -1, 0, "p6controller", "", "0",
-                                                      -1, 0, "p7controller", "", "0",
-                                                      -1, 0, "p8controller", "", "0",
-                                                      -1, 0, "p9controller", "", "0",
-                                                      -1, 0, "p10controller", "", "0")
+        controllers = Controller.loadControllerConfig(0, PS3UUID, "PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", "", "6", "1", "20",
+                                                      -1, 0, "p2controller", "", "0", "0", "0",
+                                                      -1, 0, "p3controller", "", "0", "0", "0",
+                                                      -1, 0, "p4controller", "", "0", "0", "0",
+                                                      -1, 0, "p5controller", "", "0", "0", "0",
+                                                      -1, 0, "p6controller", "", "0", "0", "0",
+                                                      -1, 0, "p7controller", "", "0", "0", "0",
+                                                      -1, 0, "p8controller", "", "0", "0", "0",
+                                                      -1, 0, "p9controller", "", "0", "0", "0",
+                                                      -1, 0, "p10controller", "", "0", "0", "0")
         config = fba2xControllers.generateControllerConfig("1", controllers["1"])
         self.assertEquals(config['UP_1'], '4')
         self.assertEquals(config['DOWN_1'], '6')
@@ -100,46 +100,46 @@ class TestFba2xController(unittest.TestCase):
         self.assertEquals(config['RIGHT_1'], '5')
 
     def test_generate_ps3_controller_specials(self):
-        controllers = Controller.loadControllerConfig(0, PS3UUID, "p1controller", "", "0",
-                                                      -1, 0, "p2controller", "", "0",
-                                                      -1, 0, "p3controller", "", "0",
-                                                      -1, 0, "p4controller", "", "0",
-                                                      -1, 0, "p5controller", "", "0",
-                                                      -1, 0, "p6controller", "", "0",
-                                                      -1, 0, "p7controller", "", "0",
-                                                      -1, 0, "p8controller", "", "0",
-                                                      -1, 0, "p9controller", "", "0",
-                                                      -1, 0, "p10controller", "", "0")
+        controllers = Controller.loadControllerConfig(0, PS3UUID, "PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", "", "6", "1", "20",
+                                                      -1, 0, "p2controller", "", "0", "0", "0",
+                                                      -1, 0, "p3controller", "", "0", "0", "0",
+                                                      -1, 0, "p4controller", "", "0", "0", "0",
+                                                      -1, 0, "p5controller", "", "0", "0", "0",
+                                                      -1, 0, "p6controller", "", "0", "0", "0",
+                                                      -1, 0, "p7controller", "", "0", "0", "0",
+                                                      -1, 0, "p8controller", "", "0", "0", "0",
+                                                      -1, 0, "p9controller", "", "0", "0", "0",
+                                                      -1, 0, "p10controller", "", "0", "0", "0")
         config = fba2xControllers.generateControllerConfig("1", controllers["1"])
         self.assertEquals(config['HOTKEY'], '16')
         self.assertEquals(config['QUIT'], '3')
 
     def test_generate_ps3_controller_joystick(self):
-        controllers = Controller.loadControllerConfig(0, PS3UUID, "p1controller", "", "0",
-                                                      -1, 0, "p2controller", "", "0",
-                                                      -1, 0, "p3controller", "", "0",
-                                                      -1, 0, "p4controller", "", "0",
-                                                      -1, 0, "p5controller", "", "0",
-                                                      -1, 0, "p6controller", "", "0",
-                                                      -1, 0, "p7controller", "", "0",
-                                                      -1, 0, "p8controller", "", "0",
-                                                      -1, 0, "p9controller", "", "0",
-                                                      -1, 0, "p10controller", "", "0")
+        controllers = Controller.loadControllerConfig(0, PS3UUID, "PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", "", "6", "1", "20",
+                                                      -1, 0, "p2controller", "", "0", "0", "0",
+                                                      -1, 0, "p3controller", "", "0", "0", "0",
+                                                      -1, 0, "p4controller", "", "0", "0", "0",
+                                                      -1, 0, "p5controller", "", "0", "0", "0",
+                                                      -1, 0, "p6controller", "", "0", "0", "0",
+                                                      -1, 0, "p7controller", "", "0", "0", "0",
+                                                      -1, 0, "p8controller", "", "0", "0", "0",
+                                                      -1, 0, "p9controller", "", "0", "0", "0",
+                                                      -1, 0, "p10controller", "", "0", "0", "0")
         config = fba2xControllers.generateControllerConfig("1", controllers["1"])
         self.assertEquals(config['JA_UD_1'], '1')
         self.assertEquals(config['JA_LR_1'], '0')
 
     def test_write_controller_config(self):
-        controllers = Controller.loadControllerConfig(2, PS3UUID, "p1controller", "", "0",
-                                                      1, PS3UUID, "p2controller", "", "0",
-                                                      -1, PS3UUID, "p3controller", "", "0",
-                                                      -1, PS3UUID, "p4controller", "", "0",
-                                                      -1, PS3UUID, "p5controller", "", "0",
-                                                      -1, PS3UUID, "p6controller", "", "0",
-                                                      -1, PS3UUID, "p7controller", "", "0",
-                                                      -1, PS3UUID, "p8controller", "", "0",
-                                                      -1, PS3UUID, "p9controller", "", "0",
-                                                      -1, PS3UUID, "p10controller", "", "0")
+        controllers = Controller.loadControllerConfig(2, PS3UUID, "PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", "", "*", "*", "*",
+                                                      1, PS3UUID, "PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", "", "*", "*", "*",
+                                                      -1, PS3UUID, "PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", "", "*", "*", "*",
+                                                      -1, PS3UUID, "PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", "", "*", "*", "*",
+                                                      -1, PS3UUID, "PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", "", "*", "*", "*",
+                                                      -1, PS3UUID, "PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", "", "*", "*", "*",
+                                                      -1, PS3UUID, "PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", "", "*", "*", "*",
+                                                      -1, PS3UUID, "PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", "", "*", "*", "*",
+                                                      -1, PS3UUID, "PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", "", "*", "*", "*",
+                                                      -1, PS3UUID, "PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", "", "*", "*", "*")
         fba2xControllers.writeControllersConfig("fba", "sf2.zip", controllers)
 
         self.assertEquals(self.fbaSettings.load('SDLID_1'), '2')
@@ -154,16 +154,16 @@ class TestFba2xController(unittest.TestCase):
         self.assertTrue(fba2xControllers.is6btn("/recalbox/share/sf2.zip"))
 
     def test_generate_only_axis_controller_doesnt_put_zero_in_directions(self):
-        controllers = Controller.loadControllerConfig(0, GPIOUUID, "p1controller", "", "0",
-                                                      -1, 0, "p2controller", "", "0",
-                                                      -1, 0, "p3controller", "", "0",
-                                                      -1, 0, "p4controller", "", "0",
-                                                      -1, 0, "p5controller", "", "0",
-                                                      -1, 0, "p6controller", "", "0",
-                                                      -1, 0, "p7controller", "", "0",
-                                                      -1, 0, "p8controller", "", "0",
-                                                      -1, 0, "p9controller", "", "0",
-                                                      -1, 0, "p10controller", "", "0")
+        controllers = Controller.loadControllerConfig(0, GPIOUUID, "GPIO Controller 1","", "2", "0", "8",
+                                                      -1, 0, "p2controller", "", "0", "0", "0",
+                                                      -1, 0, "p3controller", "", "0", "0", "0",
+                                                      -1, 0, "p4controller", "", "0", "0", "0",
+                                                      -1, 0, "p5controller", "", "0", "0", "0",
+                                                      -1, 0, "p6controller", "", "0", "0", "0",
+                                                      -1, 0, "p7controller", "", "0", "0", "0",
+                                                      -1, 0, "p8controller", "", "0", "0", "0",
+                                                      -1, 0, "p9controller", "", "0", "0", "0",
+                                                      -1, 0, "p10controller", "", "0", "0", "0")
         config = fba2xControllers.generateControllerConfig("1", controllers["1"], True)
         self.assertFalse('RIGHT_1' in config)
         self.assertFalse('LEFT_1' in config)

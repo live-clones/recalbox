@@ -51,12 +51,12 @@ fba2xGen = Fba2xGenerator()
 
 class TestLibretroGenerator(unittest.TestCase):
     def test_generate_system_no_custom_settings(self):
-        command = fba2xGen.generate(fbaSystem, rom, dict(), False, keyValueSettings("", False))
+        command = fba2xGen.generate(fbaSystem, rom, dict(), False, False, keyValueSettings("", False))
         self.assertEquals(command.videomode, '4')
         self.assertEquals(command.array,['/usr/bin/fba2x', '--configfile', FBA2X_CUSTOM_CFG_FILE,'--logfile','/recalbox/share/system/logs//fba2x.log','MyRom.zip'])
 
     def test_generate_system_custom_settings(self):
-        command = fba2xGen.generate(fbaSystemCustom, rom, dict(), False, keyValueSettings("", False))
+        command = fba2xGen.generate(fbaSystemCustom, rom, dict(), False, False, keyValueSettings("", False))
         self.assertEquals(command.videomode, '6')
         self.assertEquals(command.array, ['/usr/bin/fba2x', '--configfile', 'lol','--logfile','/recalbox/share/system/logs//fba2x.log', 'MyRom.zip'])
 

@@ -174,6 +174,10 @@ class Controller:
                                                   controllerInstance.nbbuttons)
             #print("Creating CompositeID: " + compositeId)
             controllers[compositeId] = controllerInstance
+            # Only for unit tests: allow tests not to know device specifications
+            compositeId = "{}-{}-{}:{}:{}".format(controllerInstance.configName, controllerInstance.guid,
+                                                  '*', '*', '*')
+            controllers[compositeId] = controllerInstance
             for inp in controller.findall("input"):
                 name = inp.get("name")
                 if name == 'pageup': name = 'l1'
