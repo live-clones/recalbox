@@ -1,0 +1,4 @@
+{
+  "version": "{{version}}",
+  "release_date": "{{releaseDate}}"
+}
