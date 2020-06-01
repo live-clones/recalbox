@@ -8,10 +8,70 @@ function exitWithUsage {
   echo "This script generates assets for external OS installers (imagers)"
   echo "such as NOOBS, PINN or Raspberry Pi Imager."
   echo
-  echo "  --images-dir <images_dir>             path to Recalbox images"
-  echo "                                        (should have a subdirectory per architecture)"
+  echo "  --images-dir <images_dir>            path to Recalbox images"
   echo "  --destination-dir <destination_dir>  path where assets will be generated"
+  echo
+  echo "The <images_dir> expects the following file hierarchy:"
+  echo
+  echo "    <images_dir>/"
+  echo "    ├─ rpi1/"
+  echo "    │  └─ boot.tar.xz"
+  echo "    │  └─ root.tar.xz"
+  echo "    │  └─ recalbox-rpi1.img.xz"
+  echo "    ├─ rpi2/"
+  echo "    │  └─ boot.tar.xz"
+  echo "    │  └─ root.tar.xz"
+  echo "    │  └─ recalbox-rpi2.img.xz"
+  echo "    └─ rpi3/"
+  echo "       └─ boot.tar.xz"
+  echo "       └─ root.tar.xz"
+  echo "       └─ recalbox-rpi3.img.xz"
+  echo
   exit 64
+}
+
+function generateNoobsAssets {
+  local templateDir="$(dirname $(readlink -f $0))/templates/noobs"
+  local destinationDir="${params[destinationDir]}/noobs"
+  declare -A metadata
+
+  echo ">>> Generating assets for NOOBS (in ${destinationDir})"
+
+  # Gather required information from images directory
+
+  metadata[version]=${CI_COMMIT_REF_NAME}
+  metadata[releaseDate]=$(date +%Y-%m-%d)
+
+  for arch in rpi1 rpi2 rpi3; do
+    # Fetch info regarding extracted boot and root images (boot.tar and root.tar, after XZ decompression)
+    unxz --keep "${params[imagesDir]}/${arch}/boot.tar.xz"
+    unxz --keep "${params[imagesDir]}/${arch}/root.tar.xz"
+    metadata["${arch}BootUncompressedTarballSize"]=$(du -m "${params[imagesDir]}/${arch}/boot.tar" | cut -f 1)
+    metadata["${arch}RootUncompressedTarballSize"]=$(du -m "${params[imagesDir]}/${arch}/root.tar" | cut -f 1)
+    rm "${params[imagesDir]}/${arch}/boot.tar"
+    rm "${params[imagesDir]}/${arch}/root.tar"
+  done
+
+  # Create assets in destination directory
+
+  mkdir -p ${destinationDir}
+
+  cp -n "${templateDir}/recalbox.png" "${destinationDir}/recalbox.png"
+  cp -n "${templateDir}/marketing.tar" "${destinationDir}/marketing.tar"
+  cp -n "${templateDir}/partition_setup.sh" "${destinationDir}/partition_setup.sh"
+
+  cat "${templateDir}/os.json" \
+  | sed -e "s|{{version}}|${metadata[version]}|" \
+        -e "s|{{releaseDate}}|${metadata[releaseDate]}|" \
+  > "${destinationDir}/os.json"
+
+  for arch in rpi1 rpi2 rpi3; do
+    mkdir -p "${destinationDir}/${arch}"
+    cat "${templateDir}/partitions.json" \
+    | sed -e "s|{{bootUncompressedTarballSize}}|${metadata["${arch}BootUncompressedTarballSize"]}|" \
+          -e "s|{{rootUncompressedTarballSize}}|${metadata["${arch}RootUncompressedTarballSize"]}|" \
+    > "${destinationDir}/${arch}/partitions.json"
+  done
 }
 
 function generateRaspberryPiImagerAssets {
@@ -87,4 +147,5 @@ fi
 
 ## MAIN ##
 
+generateNoobsAssets
 generateRaspberryPiImagerAssets
