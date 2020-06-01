@@ -130,15 +130,15 @@ case "${RECALBOX_TARGET}" in
 	cp "${BINARIES_DIR}/rootfs.squashfs" "${BINARIES_DIR}/boot/recalbox" || exit 1
 
 	# get UEFI files
-	mkdir -p "${BINARIES_DIR}/EFI/BOOT" || exit 1
-	cp "${BINARIES_DIR}/bootx64.efi" "${BINARIES_DIR}/EFI/BOOT" || exit 1
 	if [[ ${RECALBOX_TARGET} == "X86_64" ]] ; then
-        	cp "${BINARIES_DIR}/bootia32.efi" "${BINARIES_DIR}/EFI/BOOT" || exit 1
+		mkdir -p "${BINARIES_DIR}/EFI/BOOT" || exit 1
+		cp "${BINARIES_DIR}/bootia32.efi" "${BINARIES_DIR}/EFI/BOOT" || exit 1
+		cp "${BINARIES_DIR}/bootx64.efi" "${BINARIES_DIR}/EFI/BOOT" || exit 1
+		cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/grub2/grub.cfg" "${BINARIES_DIR}/EFI/BOOT" || exit 1
 		genimg=genimage-x86-64.cfg
 	else
 		genimg=genimage-x86.cfg
 	fi
-	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/grub2/grub.cfg" "${BINARIES_DIR}/EFI/BOOT" || exit 1
 
 	# recalbox.img
 	cp "${HOST_DIR}/usr/lib/grub/i386-pc/boot.img" "${BINARIES_DIR}" || exit 1
