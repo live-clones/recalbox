@@ -101,10 +101,11 @@ class LibretroControllers:
         'select': 'select'
     }
 
-    def __init__(self, system, settings, controllers):
+    def __init__(self, system, settings, controllers, nodefaultkeymap):
         self.system = system
         self.settings = settings
         self.controllers = controllers
+        self.nodefaultkeymap = nodefaultkeymap
 
     # Fill controllers configuration
     def fillControllersConfiguration(self):
@@ -254,6 +255,13 @@ class LibretroControllers:
             specialvalue = self.retroarchspecials["start"]
             inp = controller.inputs["start"]
             settings.setOption("input_%s%s" % (specialvalue, self.typetoname[inp.type]), self.getConfigValue(inp))
+
+        # No default keymap?
+        if self.nodefaultkeymap:
+            for btnkey in self.retroarchbtns:
+                settings.setOption("input_player%s_%s" % (controller.player, self.retroarchbtns[btnkey]), '"nul"')
+            for dirkey in self.retroarchdirs:
+                settings.setOption("input_player%s_%s" % (controller.player, self.retroarchdirs[dirkey]), '"nul"')
 
         # Assign pad to player
         settings.setOption("input_player{}_joypad_index".format(playerIndex), controller.index)

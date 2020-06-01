@@ -11,7 +11,7 @@ import glob
 class ScummVMGenerator(Generator):
     # Main entry of the module
     # Return scummvm command
-    def generate(self, system, rom, playersControllers, demo, recalboxSettings):
+    def generate(self, system, rom, playersControllers, demo, nodefaultkeymap, recalboxSettings):
         # Create a temporary gamecontrollerdb.txt file with controllers mapping
         Controller.generateSDLGameDBAllControllers(playersControllers, "/tmp/gamecontrollerdb.txt")
         # If ResidualVM extension, redirect to ResidualVM emulator

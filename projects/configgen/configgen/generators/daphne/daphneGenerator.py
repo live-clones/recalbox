@@ -8,9 +8,9 @@ import daphneControllers
 class DaphneGenerator(Generator):
     # Main entry of the module
     # Configure daphne and return a command
-    def generate(self, system, rom, controllers, demo, recalboxSettings):
+    def generate(self, system, rom, playersControllers, demo, nodefaultkeymap, recalboxSettings):
         if not system.config['configfile']:
-            daphneControllers.generateControllerConfig(system, controllers)
+            daphneControllers.generateControllerConfig(system, playersControllers)
 
         romName = os.path.splitext(os.path.basename(rom))[0]
         frameFile = rom + "/" + romName + ".txt"

@@ -54,7 +54,7 @@ class PcsxGenerator(Generator):
         return '\\' + hex(int(button) + 0xA0)[1:]
 
 
-    def generate(self, system, rom, playersControllers, demo, recalboxSettings):
+    def generate(self, system, rom, playersControllers, demo, nodefaultkeymap, recalboxSettings):
 
         config = PcsxGenerator.Loadconfiguration()
 

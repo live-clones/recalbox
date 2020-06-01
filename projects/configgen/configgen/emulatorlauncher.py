@@ -335,7 +335,7 @@ def main(arguments):
             return 2, True
 
         # Generate all the config files required by the selected emulator
-        command = getGenerator(system.config['emulator']).generate(system, arguments.rom, playersControllers, arguments.demo, recalboxSettings)
+        command = getGenerator(system.config['emulator']).generate(system, arguments.rom, playersControllers, arguments.demo, arguments.nodefaultkeymap, recalboxSettings)
 
         # The next line is commented and will eventually be used instead of the previous one
         # if we even want the binary to be set from here rather than from the generator

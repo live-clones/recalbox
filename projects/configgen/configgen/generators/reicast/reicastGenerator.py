@@ -46,7 +46,7 @@ class ReicastGenerator(Generator):
             return False
 
     # Configure reicast and return a command
-    def generate(self, system, rom, playersControllers, demo, recalboxSettings):
+    def generate(self, system, rom, playersControllers, demo, nodefaultkeymap, recalboxSettings):
         if not system.config['configfile']:
             # Write emu.cfg to map joysticks, init with the default emu.cfg
             Config = ConfigParser.ConfigParser()

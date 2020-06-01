@@ -13,7 +13,7 @@ class OpenborGenerator(Generator):
         recalbox = system.config
         return key in recalbox and recalbox[key] in self.IS_TRUE
 
-    def generate(self, system, rom, playersControllers, demo, recalboxSettings):
+    def generate(self, system, rom, playersControllers, demo, nodefaultkeymap, recalboxSettings):
 
         """
         Load, override keys and save back emulator's configuration file

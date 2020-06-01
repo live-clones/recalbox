@@ -45,7 +45,7 @@ class PisnesGenerator(Generator):
         # Save configuration back
         config.saveFile()
 
-    def generate(self, system, rom, playersControllers, demo, recalboxSettings):
+    def generate(self, system, rom, playersControllers, demo, nodefaultkeymap, recalboxSettings):
 
         config = PisnesGenerator.Loadconfiguration()
 

@@ -16,7 +16,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')
 class LibretroConfiguration:
 
     # constructor
-    def __init__(self, system, controllers, rom, demo, recalboxSettings):
+    def __init__(self, system, controllers, rom, demo, nodefaultkeymap, recalboxSettings):
         # Default files
         self.retroarchCustomOriginFile = recalboxFiles.retroarchCustomOrigin
         self.retroarchCustomFile = recalboxFiles.retroarchCustom
@@ -32,6 +32,7 @@ class LibretroConfiguration:
         self.system = system
         self.controllers = controllers
         self.demo = demo
+        self.nodefaultkeymap = nodefaultkeymap
 
     # Config file overriding
     def overrideLibretroConfigurationFiles(self, customOrigin, custom):
@@ -93,7 +94,7 @@ class LibretroConfiguration:
         retroarch = LibretroRetroarch(self.system, retroarchConfig, self.controllers, self.demo, self.recalboxSettings)
         retroarch.fillRetroarchConfiguration()
         # Configure controllers
-        controllers = LibretroControllers(self.system, retroarchConfig, self.controllers)
+        controllers = LibretroControllers(self.system, retroarchConfig, self.controllers, self.nodefaultkeymap)
         controllers.fillControllersConfiguration()
 
         # Save settings

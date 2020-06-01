@@ -239,7 +239,7 @@ class DolphinGenerator(Generator):
         # Save configuration
         gfxSettings.saveFile()
 
-    def generate(self, system, rom, playersControllers, demo, recalboxSettings):
+    def generate(self, system, rom, playersControllers, demo, nodefaultkeymap, recalboxSettings):
         if not system.config['configfile']:
             # Controllers
             dolphinControllers.generateControllerConfig(system, playersControllers)

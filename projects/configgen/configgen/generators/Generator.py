@@ -4,7 +4,7 @@ from abc import ABCMeta, abstractmethod
 class Generator(object):
     __metaclass__ = ABCMeta
     @abstractmethod
-    def generate(self, system, rom, playersControllers, demo, recalboxSettings):
+    def generate(self, system, rom, playersControllers, demo, nodefaultkeymap, recalboxSettings):
         pass
     
     #@abstractmethod

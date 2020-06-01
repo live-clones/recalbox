@@ -108,7 +108,7 @@ class GSplusGenerator(Generator):
         self.addDpadItem('right', 'right', controller.inputs, to)
         pass
 
-    def generate(self, system, rom, playersControllers, demo, recalboxSettings):
+    def generate(self, system, rom, playersControllers, demo, nodefaultkeymap, recalboxSettings):
         """
         Load, override keys and save back emulator's configuration file
         This way, any modification is kept accross emulator launches

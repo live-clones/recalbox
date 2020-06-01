@@ -156,7 +156,7 @@ class AmiberryGenerator(Generator):
 
     # Main entry of the module
     # Return command
-    def generate(self, system, rom, playersControllers, demo, recalboxSettings):
+    def generate(self, system, rom, playersControllers, demo, nodefaultkeymap, recalboxSettings):
         # Get rom type and associated configuration file if any
         rom, romType, romHasUAE = RomType.Identify(rom)
 

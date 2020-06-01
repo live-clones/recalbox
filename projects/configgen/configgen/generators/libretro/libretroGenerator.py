@@ -74,9 +74,9 @@ class LibretroGenerator(Generator):
 
     # Create configuration file
     @staticmethod
-    def createConfigurationFile(system, playersControllers, rom, demo, recalboxSettings):
+    def createConfigurationFile(system, playersControllers, rom, demo, nodefaultkeymap, recalboxSettings):
         # Setup system configuration
-        configuration = libretroConfigurations.LibretroConfiguration(system, playersControllers, rom, demo, recalboxSettings)
+        configuration = libretroConfigurations.LibretroConfiguration(system, playersControllers, rom, demo, nodefaultkeymap, recalboxSettings)
         retroarchConfig, retroarchOverrides = configuration.createRetroarchConfiguration()
         coreConfig = configuration.createCoreConfiguration()
         commandArgs = configuration.getCommandLineArguments(retroarchConfig, coreConfig)
@@ -86,11 +86,11 @@ class LibretroGenerator(Generator):
                commandArgs
 
     # Configure retroarch and return a command
-    def generate(self, system, rom, playersControllers, demo, recalboxSettings):
+    def generate(self, system, rom, playersControllers, demo, nodefaultkeymap, recalboxSettings):
         configFileName = system.config.get("configfile", None)
 
         # Set recalbox default config file if no user defined one
-        newConfigFileName, overrideFileName, commandArgs = self.createConfigurationFile(system, playersControllers, rom, demo, recalboxSettings)
+        newConfigFileName, overrideFileName, commandArgs = self.createConfigurationFile(system, playersControllers, rom, demo, nodefaultkeymap, recalboxSettings)
         if configFileName is None:
             configFileName = newConfigFileName
 
