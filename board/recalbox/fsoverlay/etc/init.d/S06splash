@@ -169,14 +169,17 @@ INTERNALDEVICE=$(/recalbox/scripts/recalbox-part.sh "share_internal")
 if test -e "${INTERNALDEVICE}" ; then
   if [ -f /tmp/.install.png ]; then
     showInstallBackground &
-  elif [ "$(head -c 3 /recalbox/recalbox.arch)" = "rpi" ]; then
-    ( turnOffGPiCaseHDMI; playWithOMX; showIntroBackground ) &
-  elif [ "$(head -c 3 /recalbox/recalbox.arch)" = "x86" ]; then
-    ( playWithMPlayer; showIntroBackground ) &
-  elif [ "$(head /recalbox/recalbox.arch)" = "odroidxu4" ]; then
-    ( playWithFFMpeg; showIntroBackground ) &
   else
-    ( playWithFFPlay; showIntroBackground ) &
+    case "$(cat /recalbox/recalbox.arch)" in
+      rpi4|odroidxu4)
+        ( playWithFFMpeg; showIntroBackground ) & ;;
+      rpi*)
+        ( turnOffGPiCaseHDMI; playWithOMX; showIntroBackground ) & ;;
+      x86*)
+        ( playWithMPlayer; showIntroBackground ) & ;;
+      *)
+        ( playWithFFPlay; showIntroBackground ) & ;;
+    esac
   fi
 fi
 
