@@ -90,11 +90,11 @@ bool ComponentList::ProcessInput(const InputCompactEvent& event)
 	}
 
 	// input handler didn't consume the input - try to scroll
-	if (event.UpPressed())	      return listInput(-1);
-	else if (event.DownPressed()) return listInput(1);
+	if (event.AnyUpPressed())	      return listInput(-1);
+	else if (event.AnyDownPressed()) return listInput(1);
 	else if (event.L1Pressed())   return listInput(-7);
 	else if (event.R1Pressed())   return listInput(7);
-	else if (event.UpReleased() || event.DownReleased() || event.L1Released() || event.R1Released())
+	else if (event.AnyUpReleased() || event.AnyDownReleased() || event.L1Released() || event.R1Released())
 	  listInput(0);
 
 	return false;
