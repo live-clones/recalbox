@@ -60,6 +60,23 @@ class InputEvent
     {
     }
 
+    /*!
+     * @brief Full constructor. Build an immutable Inpout event object
+     * @param dev Device index
+     * @param t Type
+     * @param i Identifier
+     * @param val Value
+     * @param conf True if the input event is configured
+     */
+    InputEvent(int dev, EventType type, int id, int val, int code)
+      : mDeviceIdentifier(dev),
+        mType(type),
+        mId(id),
+        mValue(val),
+        mCode(code)
+    {
+    }
+
     /*
      * Accessors
      */

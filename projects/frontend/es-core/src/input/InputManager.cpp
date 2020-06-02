@@ -133,11 +133,39 @@ void InputManager::LoadJoystickConfiguration(int index)
 
   // Try to load from configuration file
   if (!LookupDeviceXmlConfiguration(device))
-    LOG(LogWarning) << "Unknown joystick " << SDL_JoystickName(joy);
+  {
+    bool autoConfigured = false;
+    SDL_GameController* gamepad = SDL_GameControllerOpen(index);
+    if (gamepad != nullptr)
+    {
+      // Try to autoconfigure the gamepad
+      char* sdlMapping = SDL_GameControllerMappingForGUID(SDL_JoystickGetGUID(joy));
+      std::string conf = sdlMapping;
+      SDL_free(sdlMapping);
+      autoConfigured = device.LoadAutoConfiguration(conf);
+      SDL_GameControllerClose(gamepad);
+      // Write configuration so that the configgen can read it
+      if (autoConfigured)
+        WriteDeviceXmlConfiguration(device);
+    }
+
+    if (!autoConfigured)
+      LOG(LogWarning) << "Unknown joystick " << SDL_JoystickName(joy)
+                      << " (GUID: " << DeviceGUIDString(joy) << ", Instance ID: " << identifier
+                      << ", Device Index: " << index
+                      << ", Axis: " << SDL_JoystickNumAxes(joy)
+                      << ", Hats: " << SDL_JoystickNumHats(joy)
+                      << ", Buttons: " << SDL_JoystickNumButtons(joy) << ")";
+  }
 
   // Store
   mIdToDevices[identifier] = device;
-  LOG(LogWarning) << "Added joystick " << SDL_JoystickName(joy) << " (GUID: " << DeviceGUIDString(joy) << ", instance ID: " << identifier << ", device index: " << index << ")";
+  LOG(LogWarning) << "Added joystick " << SDL_JoystickName(joy)
+                  << " (GUID: " << DeviceGUIDString(joy) << ", Instance ID: " << identifier
+                  << ", Device Index: " << index
+                  << ", Axis: " << SDL_JoystickNumAxes(joy)
+                  << ", Hats: " << SDL_JoystickNumHats(joy)
+                  << ", Buttons: " << SDL_JoystickNumButtons(joy) << ")";
 
 }
 
@@ -251,10 +279,20 @@ bool InputManager::LookupDeviceXmlConfiguration(InputDevice& device)
     return false;
   }
 
+  LOG(LogDebug) << "Looking for configuration for " << device.Name() << " (UUID: " << device.GUID()
+                << ") - Axis: " << device.AxeCount()
+                << " - Hats: " << device.HatCount()
+                << " - Buttons: " << device.ButtonCount();
+
   pugi::xml_node root = doc.child("inputList");
   if (root != nullptr)
     for (pugi::xml_node item = root.child("inputConfig"); item != nullptr; item = item.next_sibling("inputConfig"))
     {
+      LOG(LogDebug) << "Trying " << item.attribute("deviceGUID").value()
+                    << " (UUID: " << item.attribute("deviceName").value()
+                    << ") - Axis: " << item.attribute("deviceNbAxes").as_int()
+                    << " - Hats: " << item.attribute("deviceNbHats").as_int()
+                    << " - Buttons: " << item.attribute("deviceNbButtons").as_int();
       // check the guid
       bool guid    = strcmp(device.GUID().c_str(), item.attribute("deviceGUID").value()) == 0;
       bool name    = strcmp(device.Name().c_str(), item.attribute("deviceName").value()) == 0;
@@ -443,4 +481,5 @@ void InputManager::LogCompactEvent(const InputCompactEvent& event)
 {
   LOG(LogDebug) << "Compact Event: " << event.ToString();
 }
+
 

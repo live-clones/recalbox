@@ -1,7 +1,8 @@
 #include "InputDevice.h"
 #include <string>
-#include "utils/Log.h"
-#include "utils/Strings.h"
+#include <utils/Log.h>
+#include <utils/Strings.h>
+#include <utils/storage/HashMap.h>
 
 std::string InputDevice::EntryToString(InputDevice::Entry entry)
 {
@@ -206,6 +207,163 @@ InputDevice::Entry InputDevice::GetMatchedEntry(InputEvent input) const
     }
 
   return Entry::None;
+}
+
+bool InputDevice::LoadAutoConfiguration(const std::string& configuration)
+{
+  bool result = false;
+
+  LOG(LogInfo) << "Autoconfiguration from " << configuration;
+  Strings::Vector mappingList = Strings::Split(configuration, ',');
+  for(const std::string& mapping : mappingList)
+  {
+    size_t pos = mapping.find(':');
+    if (pos == std::string::npos) continue;
+    std::string key = mapping.substr(0, pos);
+    std::string value = mapping.substr(pos + 1);
+
+    static HashMap<std::string, Entry> mapper
+    ({
+       { "dpup",          Entry::Up },
+       { "dpright",       Entry::Right },
+       { "dpdown",        Entry::Down },
+       { "dpleft",        Entry::Left },
+       { "a",             Entry::B }, // A <=> B and X <=> Y to match ES buttons.
+       { "b",             Entry::A },
+       { "x",             Entry::Y },
+       { "y",             Entry::X },
+       { "back",          Entry::Select },
+       { "start",         Entry::Start },
+       { "guide",         Entry::Hotkey },
+       { "leftshoulder",  Entry::L1 },
+       { "rightshoulder", Entry::R1 },
+       { "lefttrigger",   Entry::L2 },
+       { "righttrigger",  Entry::R2 },
+       { "leftstick",     Entry::L3 },
+       { "rightstick",    Entry::R3 },
+       { "leftx",         Entry::Joy1AxisH },
+       { "lefty",         Entry::Joy1AxisV },
+       { "rightx",        Entry::Joy2AxisH },
+       { "righty",        Entry::Joy2AxisV },
+    });
+
+    Entry* entry = mapper.try_get(key);
+    if (entry == nullptr || value.empty())
+    {
+      LOG(LogError) << "Unknown mapping: " << mapping;
+      continue;
+    }
+
+    InputEvent::EventType typeEnum = InputEvent::EventType::Unknown;
+    int id = -1;
+    int val = 0;
+    int code = -1;
+
+    bool parsed = false;
+    switch(value[0])
+    {
+      case 'a':
+      {
+        if (Strings::ToInt(value, 1, id))
+        {
+          typeEnum = InputEvent::EventType::Axis;
+          val = -1;
+          #ifdef SDL_JOYSTICK_IS_OVERRIDEN_BY_RECALBOX
+            code = SDL_JoystickAxisEventCodeById(mDeviceIndex, id);
+          #else
+            #ifdef _RECALBOX_PRODUCTION_BUILD_
+              #pragma GCC error "SDL_JOYSTICK_IS_OVERRIDEN_BY_RECALBOX undefined in production build!"
+            #endif
+          #endif
+          parsed = true;
+          LOG(LogInfo) << "Auto-Assign " << EntryToString(*entry) << " to Axis " << id << " (Code: " << code << ')';
+        }
+        break;
+      }
+      case 'b':
+      {
+        if (Strings::ToInt(value, 1, id))
+        {
+          typeEnum = InputEvent::EventType::Button;
+          val = 1;
+          #ifdef SDL_JOYSTICK_IS_OVERRIDEN_BY_RECALBOX
+          code = SDL_JoystickButtonEventCodeById(mDeviceIndex, id);
+          #else
+            #ifdef _RECALBOX_PRODUCTION_BUILD_
+              #pragma GCC error "SDL_JOYSTICK_IS_OVERRIDEN_BY_RECALBOX undefined in production build!"
+            #endif
+          #endif
+          parsed = true;
+          LOG(LogInfo) << "Auto-Assign " << EntryToString(*entry) << " to Button " << id << " (Code: " << code << ')';
+        }
+        break;
+      }
+      case 'h':
+      {
+        if (Strings::ToInt(value, 1, '.', id))
+          if (Strings::ToInt(value, 3, val))
+          {
+            typeEnum = InputEvent::EventType::Hat;
+            #ifdef SDL_JOYSTICK_IS_OVERRIDEN_BY_RECALBOX
+            code = SDL_JoystickHatEventCodeById(mDeviceIndex, id);
+            #else
+              #ifdef _RECALBOX_PRODUCTION_BUILD_
+                #pragma GCC error "SDL_JOYSTICK_IS_OVERRIDEN_BY_RECALBOX undefined in production build!"
+              #endif
+            #endif
+            parsed = true;
+            LOG(LogInfo) << "Auto-Assign " << EntryToString(*entry) << " to Hat " << id << '/' << val << " (Code: " << code << ')';
+          }
+        break;
+      }
+      default:
+      {
+      }
+    }
+    if (!parsed)
+    {
+      LOG(LogError) << "Error parsing mapping: " << mapping;
+      continue;
+    }
+
+    Set(*entry, InputEvent(mDeviceId, typeEnum, id, val, code));
+    result = true; // At least one mapping has been done
+  }
+
+  // Manage pads with only one analog joystick and no dpad
+  if (mInputEvents[(int)Entry::Up].Type() == InputEvent::EventType::Unknown)
+    if (mInputEvents[(int)Entry::Right].Type() == InputEvent::EventType::Unknown)
+      if (mInputEvents[(int)Entry::Down].Type() == InputEvent::EventType::Unknown)
+        if (mInputEvents[(int)Entry::Left].Type() == InputEvent::EventType::Unknown)
+          if (mInputEvents[(int)Entry::Joy1AxisH].Type() != InputEvent::EventType::Unknown)
+            if (mInputEvents[(int)Entry::Joy1AxisV].Type() != InputEvent::EventType::Unknown)
+            {
+              const InputEvent& V = mInputEvents[(int)Entry::Joy1AxisV];
+              const InputEvent& H = mInputEvents[(int)Entry::Joy1AxisH];
+
+              // Add DPAD configuration
+              mInputEvents[(int)Entry::Up] = V;
+              mInputEvents[(int)Entry::Down] = InputEvent(mDeviceId, V.Type(), V.Id(), -V.Value(), V.Code());
+              mInputEvents[(int)Entry::Left] = H;
+              mInputEvents[(int)Entry::Right] = InputEvent(mDeviceId, H.Type(), H.Id(), -H.Value(), H.Code());
+              mConfigurationBits |= (1 << (int)Entry::Up) | (1 << (int)Entry::Right) |
+                                    (1 << (int)Entry::Down) | (1 << (int)Entry::Left);
+
+              // Remove left analog configuration
+              mInputEvents[(int)Entry::Joy1AxisV] = mInputEvents[(int)Entry::Joy1AxisH] = InputEvent();
+              mConfigurationBits &= ~((1 << (int)Entry::Joy1AxisV) | (1 << (int)Entry::Joy1AxisH));
+
+              LOG(LogInfo) << "No DPAD detected. First analog joystick moved to DPAD";
+            }
+
+  // Still no HK? Use select
+  if (mInputEvents[(int)Entry::Hotkey].Type() == InputEvent::EventType::Unknown)
+  {
+    LOG(LogInfo) << "Not hotkey button guessed. Using SELECT as Hotkey";
+    mInputEvents[(int) Entry::Hotkey] = mInputEvents[(int) Entry::Select];
+  }
+
+  return result;
 }
 
 int InputDevice::LoadFromXml(pugi::xml_node root)

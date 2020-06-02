@@ -183,6 +183,12 @@ class InputDevice
      */
 
     /*!
+     * @brief Load from SDL configuration string
+     * @param configuration Configuration string
+     */
+    bool LoadAutoConfiguration(const std::string& configuration);
+
+    /*!
      * @brief Load the configuration from the given XML
      * @param root Root node to read configuration from
      * @return Number of loaded configuration entry
