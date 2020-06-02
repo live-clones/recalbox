@@ -1,0 +1,11 @@
+--- kodi-18.5-Leia/xbmc/cores/AudioEngine/Sinks/AESinkALSA.cpp.orig	2020-06-02 16:17:08.525823263 +0200
++++ kodi-18.5-Leia/xbmc/cores/AudioEngine/Sinks/AESinkALSA.cpp	2020-06-02 16:17:27.713562176 +0200
+@@ -674,7 +674,7 @@
+       if (i == AE_FMT_RAW || i == AE_FMT_MAX)
+         continue;
+ 
+-      if (m_passthrough && i != AE_FMT_S16BE && i != AE_FMT_S16LE)
++      if (i != AE_FMT_S16LE)
+ 	continue;
+ 
+       fmt = AEFormatToALSAFormat(i);
