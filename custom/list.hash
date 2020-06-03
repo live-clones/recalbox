@@ -27,6 +27,9 @@ b508e6d0b23687606edbb191db189ee8  package/intel-mediasdk/intel-mediasdk.hash
 37b3490c1e87a43d5bb6ac81e9672b9e  package/kodi/kodi.mk
 e459efac93dadd5c08fbe59ecd03bfd9  package/libcec/libcec.mk
 411c881d8d83c11bd9c544a33a218245  package/libclc/libclc.mk
+391e64bf70e16f8c6f57361b31e76b98  package/linux-firmware/Config.in
+3097c587867e27880956f8ac3068aa31  package/linux-firmware/linux-firmware.hash
+4039b616349e8127acda96c5b537a7e6  package/linux-firmware/linux-firmware.mk
 ebf2b3624c1427077933a903679ed7a9  package/lirc-tools/lirc-tools.mk
 65687cf75f764d5f0cbe2a6df7782975  package/luajit/Config.in
 7dda00b9bb5a907cbaca47bb0dc9672f  package/mosquitto/mosquitto.mk
