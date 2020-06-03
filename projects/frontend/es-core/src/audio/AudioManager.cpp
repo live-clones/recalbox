@@ -101,7 +101,7 @@ void AudioManager::Reactivate()
   Initialize();
 
   if (RecalboxConf::Instance().AsBool("audio.bgmusic"))
-    PlayMusic(mCurrentMusic, false);
+    PlayRandomMusic();
 }
 
 AudioManager::AudioHandle AudioManager::LoadSound(const Path& path)
@@ -255,9 +255,7 @@ void AudioManager::PlayRandomMusic()
   if (popupDuration != 0)
   {
     // Create music popup
-    std::shared_ptr<GuiInfoPopup> popup =
-      std::make_shared<GuiInfoPopup>(mWindow, _("Now playing") + ":\n" + mCurrentMusicTitle, popupDuration, GuiInfoPopup::Icon::Music);
-    mWindow.setInfoPopup(popup);
+    mWindow.AddInfoPopup(new GuiInfoPopup(mWindow, _("Now playing") + ":\n" + mCurrentMusicTitle, popupDuration, GuiInfoPopup::Icon::Music));
   }
 }
 
