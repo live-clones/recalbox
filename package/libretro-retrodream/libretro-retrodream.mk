@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_RETRODREAM_VERSION = 22d84415d884e734961c49b735567eeb2c198a90
+LIBRETRO_RETRODREAM_VERSION = 15b5f54f08b1b26685c73a18824d2aca3b4792b7
 LIBRETRO_RETRODREAM_SITE = $(call github,libretro,retrodream,$(LIBRETRO_RETRODREAM_VERSION))
 LIBRETRO_RETRODREAM_LICENSE = GPLv3
 
