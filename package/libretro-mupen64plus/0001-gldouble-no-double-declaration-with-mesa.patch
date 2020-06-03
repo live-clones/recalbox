@@ -1,0 +1,12 @@
+--- libretro-mupen64plus-ab8134ac90a567581df6de4fc427dd67bfad1b17/libretro-common/include/glsm/glsm.h.orig	2020-06-03 09:06:47.116173341 +0200
++++ libretro-mupen64plus-ab8134ac90a567581df6de4fc427dd67bfad1b17/libretro-common/include/glsm/glsm.h	2020-06-03 09:07:19.307721901 +0200
+@@ -32,7 +32,9 @@
+ RETRO_BEGIN_DECLS
+ 
+ #ifdef HAVE_OPENGLES2
++#ifndef GL_NV_path_rendering
+ typedef GLfloat GLdouble;
++#endif
+ typedef GLclampf GLclampd;
+ #endif
+ 
