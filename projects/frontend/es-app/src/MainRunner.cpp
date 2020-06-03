@@ -215,7 +215,7 @@ MainRunner::ExitState MainRunner::MainLoop(ApplicationWindow& window, SystemMana
         case SDL_JOYDEVICEREMOVED:
         {
           // Convert event
-          InputCompactEvent compactEvent = InputManager::Instance().ManageSDLEvent(event);
+          InputCompactEvent compactEvent = InputManager::Instance().ManageSDLEvent(window, event);
           // Process
           if (!compactEvent.Empty()) window.ProcessInput(compactEvent);
           // Quit?

@@ -15,7 +15,7 @@ GuiInfoPopup::GuiInfoPopup(Window&window, const std::string& message, int durati
     mGrid(window, Vector2i(2, 1)),
     mFrame(window, Path(":/frame.png")),
     mDuration(duration * 1000),
-    running(true)
+    mRunning(true)
 {
 	float maxWidth = Renderer::getDisplayWidthAsFloat() * 0.2f;
 	float maxHeight = Renderer::getDisplayHeightAsFloat() * 0.4f;
@@ -41,6 +41,7 @@ GuiInfoPopup::GuiInfoPopup(Window&window, const std::string& message, int durati
     case Icon::Help    : iconText = "\uF1c1"; break;
     case Icon::Netplay : iconText = "\uF1c4"; break;
     case Icon::Recalbox: iconText = "\uF200"; break;
+    case Icon::Pads    : iconText = "\uF2ee"; break;
     case Icon::None:
     default: break;
   }
@@ -72,26 +73,31 @@ GuiInfoPopup::GuiInfoPopup(Window&window, const std::string& message, int durati
 
 	if (posString == "Top/Right")
 	{
+    mCorner = Corner::TopRight;
 		posX = Renderer::getDisplayWidthAsFloat() * 0.98f - mGrid.getSize().x() * 0.98f;
-		posY = Renderer::getDisplayHeightAsFloat() * 0.02f;
+		posY = Renderer::getDisplayHeightAsFloat();
 	}
 	else if (posString == "Bottom/Right")
 	{
+    mCorner = Corner::BottomRight;
 		posX = Renderer::getDisplayWidthAsFloat() * 0.98f - mGrid.getSize().x() * 0.98f;
-		posY = Renderer::getDisplayHeightAsFloat() * 0.98f - mGrid.getSize().y()*0.98f;
+		posY = - mGrid.getSize().y();
 	}
 	else if (posString == "Bottom/Left")
 	{
+    mCorner = Corner::BottomLeft;
 		posX = Renderer::getDisplayWidthAsFloat() * 0.02f;
-		posY = Renderer::getDisplayHeightAsFloat() * 0.98f - mGrid.getSize().y()*0.98f;
+		posY = - mGrid.getSize().y();
 	}
 	else if (posString == "Top/Left")
 	{
+    mCorner = Corner::TopLeft;
 		posX = Renderer::getDisplayWidthAsFloat() * 0.02f;
-		posY = Renderer::getDisplayHeightAsFloat() * 0.02f;
+		posY = Renderer::getDisplayHeightAsFloat();
 	}
 
 	setPosition(posX, posY, 0);
+  setSize(mGrid.getSize());
 
 	mFrame.setImagePath(menuTheme->menuBackground.path);
 	mFrame.setCenterColor(mFrameColor);
@@ -111,16 +117,39 @@ void GuiInfoPopup::Render(const Transform4x4f& parentTrans)
 
 	// we use identity as we want to render on a specific window position, not on the view
 	Transform4x4f trans = getTransform() * Transform4x4f::Identity();
-	if(running && updateState())
-	{
-		// if we're still supposed to be rendering it
-		Renderer::setMatrix(trans);
-		renderChildren(trans);
-	}
+
+  Renderer::setMatrix(trans);
+  renderChildren(trans);
 }
 
-bool GuiInfoPopup::updateState()
+void GuiInfoPopup::Update(int delta)
 {
+  updateChildren(delta);
+
+  // Update position
+  switch(mCorner)
+  {
+    case Corner::TopRight:
+    case Corner::TopLeft:
+    {
+      float targetY = Renderer::getDisplayHeightAsFloat() * 0.02f + mTargetOffset;
+      float diff = (mPosition.y() - targetY) * .90f;
+      if (diff >= -2.0f && diff <= 2.0f) diff = 0;
+      mPosition.y() = targetY + diff;
+      break;
+    }
+    case Corner::BottomRight:
+    case Corner::BottomLeft:
+    {
+      float targetY = Renderer::getDisplayHeightAsFloat() * 0.98f - mSize.y() - mTargetOffset;
+      float diff = (mPosition.y() - targetY) * .90f;
+      if (diff >= -2.0f && diff <= 2.0f) diff = 0;
+      mPosition.y() = targetY + diff;
+      break;
+    }
+  }
+
+  // Update fade and timer
 	int curTime = SDL_GetTicks();
 
 	// we only init the actual time when we first start to render
@@ -135,8 +164,8 @@ bool GuiInfoPopup::updateState()
 	if ((curTime - mStartTime > mDuration) || // we're past the popup duration, no need to render
 	    (curTime < mStartTime))               // if SDL reset
 	{
-		running = false;
-		return false;
+		mRunning = false;
+		return;
 	}
 	else if (curTime - mStartTime <= 500)
 	{
@@ -159,5 +188,26 @@ bool GuiInfoPopup::updateState()
 	// apply fade in effect to popup frame
 	mFrame.setEdgeColor((mFrameColor & 0xffffff00) | alpha);
 	mFrame.setCenterColor((mFrameColor & 0xffffff00) | alpha);
-	return true;
 }
+
+void GuiInfoPopup::SlideOffset(int size)
+{
+  // Update position
+  switch(mCorner)
+  {
+    case Corner::TopRight:
+    case Corner::TopLeft:
+    {
+      mTargetOffset -= size;
+      break;
+    }
+    case Corner::BottomRight:
+    case Corner::BottomLeft:
+    {
+      mTargetOffset += size;
+      break;
+    }
+  }
+}
+
+

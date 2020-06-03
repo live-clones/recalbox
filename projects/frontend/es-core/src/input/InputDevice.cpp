@@ -541,3 +541,13 @@ InputCompactEvent::Entry InputDevice::ConvertEntry(InputDevice::Entry entry)
   return InputCompactEvent::Entry::Nothing;
 }
 
+bool InputDevice::EqualsTo(const InputDevice& to) const
+{
+  return (strcmp(mDeviceName, to.mDeviceName) == 0) &&
+         (memcmp(&mDeviceGUID, &to.mDeviceGUID, sizeof(SDL_JoystickGUID)) == 0) &&
+         (mDeviceNbAxes == to.mDeviceNbAxes) &&
+         (mDeviceNbHats == to.mDeviceNbHats) &&
+         (mDeviceNbButtons == to.mDeviceNbButtons)
+         ;
+}
+

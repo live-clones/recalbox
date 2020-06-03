@@ -57,10 +57,12 @@ class InputManager
      */
     void ClearAllConfigurations();
 
+    std::vector<InputDevice> BuildCurrentDeviceList();
+
     /*!
      * @brief Load all joystick and load configurations
      */
-    void LoadAllJoysticksConfiguration();
+    void LoadAllJoysticksConfiguration(std::vector<InputDevice> previous, Window& window);
 
     /*!
      * @brief Load joystick configuration (by index)
@@ -149,8 +151,9 @@ class InputManager
 
     /*!
      * @brief Initialize the InputManager
+     * @param window Main window
      */
-    void Initialize();
+    void Initialize(Window& window);
 
     /*!
      * Finalize the input manager and free all resources
@@ -168,7 +171,7 @@ class InputManager
      * @param resultEvent InputCompactEvent to fill with event information
      * @return True if the resultEvent is valid, false otherwise
      */
-    InputCompactEvent ManageSDLEvent(const SDL_Event& ev);
+    InputCompactEvent ManageSDLEvent(Window& window, const SDL_Event& ev);
 
     /*!
      * @brief Get number of configured devices, either manually or from Xml configuration file

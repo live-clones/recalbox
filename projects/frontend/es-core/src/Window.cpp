@@ -2,6 +2,7 @@
 #include <Window.h>
 #include <Renderer.h>
 #include <Settings.h>
+#include <guis/GuiInfoPopup.h>
 #include <guis/GuiMsgBoxScroll.h>
 #include <guis/GuiMsgBox.h>
 #include <MenuThemeData.h>
@@ -11,7 +12,7 @@
 Window::Window()
   : mHelp(*this),
     mBackgroundOverlay(*this),
-    mInfoPopup(nullptr),
+    mInfoPopups(sMaxInfoPopups),
     mGuiStack(16), // Allocate memory once for all gui
     mFrameTimeElapsed(0),
     mFrameCountElapsed(0),
@@ -107,7 +108,7 @@ bool Window::Initialize(unsigned int width, unsigned int height, bool initRender
   LOG(LogInfo) << " ARB_texture_non_power_of_two: "
                << (glExts.find("ARB_texture_non_power_of_two") != std::string::npos ? "OK" : "MISSING");
 
-  InputManager::Instance().Initialize();
+  InputManager::Instance().Initialize(*this);
   ResourceManager::getInstance()->reloadAll();
 
   //keep a reference to the default fonts, so they don't keep getting destroyed/recreated
@@ -225,6 +226,9 @@ void Window::Update(int deltaTime)
   // Process highest GUI
   if (!mGuiStack.Empty())
     mGuiStack.Peek()->Update(deltaTime);
+
+  // Process popups
+  InfoPopupsUpdate(deltaTime);
 }
 
 void Window::Render(Transform4x4f& transform)
@@ -268,10 +272,8 @@ void Window::Render(Transform4x4f& transform)
         DoSleep();
     }
   }
-  if (mInfoPopup)
-  {
-    mInfoPopup->Render(transform);
-  }
+
+  InfoPopupsDisplay(transform);
 }
 
 void Window::renderHelpPromptsEarly()
@@ -355,4 +357,58 @@ void Window::DoSleep()
     mSleeping = true;
     NotificationManager::Instance().Notify(Notification::Sleep, Strings::ToString(mTimeSinceLastInput));
   }
+}
+
+void Window::InfoPopupsMakeRoom()
+{
+  while(mInfoPopups.Count() >= sMaxInfoPopups)
+    InfoPopupsRemove(0);
+}
+
+void Window::AddInfoPopup(GuiInfoPopup* infoPopup)
+{
+  InfoPopupsMakeRoom();
+
+  // Get target position
+  int targetOffset = 0;
+  int offset = (int)Renderer::getDisplayHeightAsFloat() * 0.01;
+  if (offset < 2) offset = 2;
+  for(int i = mInfoPopups.Count(); --i >= 0;)
+    targetOffset += mInfoPopups[i]->getSize().y() + offset;
+  infoPopup->SetOffset(targetOffset);
+
+  mInfoPopups.Add(infoPopup);
+}
+
+void Window::InfoPopupsRemove(int index)
+{
+  GuiInfoPopup* popup = mInfoPopups[index];
+
+  // Get current popup size
+  int size = (int)Renderer::getDisplayHeightAsFloat() * 0.01;
+  if (size < 2) size = 2;
+  size += popup->getSize().y();
+
+  mInfoPopups.Delete(index); // Delete pointer
+  delete popup; // Delete object
+
+  // Move other popups
+  for(int i = mInfoPopups.Count(); --i >= index;)
+    mInfoPopups[i]->SlideOffset(size);
+}
+
+void Window::InfoPopupsUpdate(int delta)
+{
+  for(int i = mInfoPopups.Count(); --i >= 0;)
+  {
+    mInfoPopups[i]->Update(delta);
+    if (mInfoPopups[i]->TimeOut())
+      InfoPopupsRemove(i);
+  }
+}
+
+void Window::InfoPopupsDisplay(Transform4x4f& transform)
+{
+  for(int i = mInfoPopups.Count(); --i >= 0;)
+    mInfoPopups[i]->Render(transform);
 }

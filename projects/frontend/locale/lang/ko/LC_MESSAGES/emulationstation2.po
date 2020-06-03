@@ -14,7 +14,7 @@ msgstr "새로운 업데이트를 사용할 수 있습니다."
 msgid "DOWNLOADED"
 msgstr "다운로드 완료"
 
-msgid "UPDATE VERSION:"
+msgid "NEW VERSION:"
 msgstr "업데이트 버젼:"
 
 msgid "UPDATE CHANGELOG:"
@@ -2094,6 +2094,28 @@ msgid "DOWNLOAD GAME MAPS"
 msgstr ""
 
 msgid "INSTALL PAD-2-KEYBOARD CONFIGURATIONS"
+msgstr ""
+
+#
+msgid ""
+"You're strongly recommended to update your Recalbox.\n"
+"No support will be provided for older versions!"
+msgstr ""
+
+#
+msgid " has been plugged!"
+msgstr ""
+
+#
+msgid "Ready to play!"
+msgstr ""
+
+#
+msgid "Not configured yet! Press a button to enter the configuration window."
+msgstr ""
+
+#
+msgid " has been unplugged!"
 msgstr ""
 
 #~ msgid ""

@@ -12,9 +12,17 @@
 
 class TextComponent;
 
-class GuiInfoPopup : public Gui, public Window::InfoPopup
+class GuiInfoPopup : public Gui
 {
   public:
+    enum class Corner
+    {
+      TopLeft,
+      TopRight,
+      BottomRight,
+      BottomLeft,
+    };
+
     enum class Icon
     {
       None,     //!< No icon
@@ -22,12 +30,29 @@ class GuiInfoPopup : public Gui, public Window::InfoPopup
       Help,     //!< Help icon
       Netplay,  //!< Netplay logo
       Recalbox, //!< Recalbox logo
+      Pads,     //!< Joystick logo
     };
 
     GuiInfoPopup(Window& window, const std::string& message, int duration, Icon icon);
-    ~GuiInfoPopup() override = default;
+    virtual ~GuiInfoPopup() override = default;
+    void Update(int delta) override;
     void Render(const Transform4x4f& parentTrans) override;
-    inline void stop() { running = false; };
+    inline void stop() { mRunning = false; };
+
+    /*!
+     * @brief Set initial target offset, relative to the selected corner
+     * @param offset target offset
+     */
+    void SetOffset(int offset) { mTargetOffset = offset; }
+
+    /*!
+     * @brief Slide target offset from the givent amount of pixels
+     * @param offset
+     */
+    void SlideOffset(int size);
+
+    //! Popup must be closed?
+    bool TimeOut() const { return !mRunning; }
 
   private:
     ComponentGrid mGrid;
@@ -35,10 +60,10 @@ class GuiInfoPopup : public Gui, public Window::InfoPopup
     std::shared_ptr<TextComponent> mMsgText;
     std::shared_ptr<TextComponent> mMsgIcon;
     unsigned int mFrameColor;
+    Corner mCorner;
+    int mTargetOffset;
     int mDuration;
     int maxAlpha;
     int mStartTime;
-    bool running;
-
-    bool updateState();
+    bool mRunning;
 };

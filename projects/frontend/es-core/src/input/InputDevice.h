@@ -118,6 +118,8 @@ class InputDevice
 
     std::string Name() const { return std::string(mDeviceName, mDeviceNameLength); }
     std::string GUID() const { char sguid[64]; SDL_JoystickGetGUIDString(mDeviceGUID, sguid, sizeof(sguid)); return sguid; }
+    const char* RawName() const { return mDeviceName; }
+    const SDL_JoystickGUID& RawGUID() const { return mDeviceGUID; }
     int Identifier()   const { return mDeviceId; };
     int Index()        const { return mDeviceIndex; };
     int AxeCount()     const { return mDeviceNbAxes; };
@@ -266,4 +268,11 @@ class InputDevice
      * @return converted entry
      */
     static Entry StringToEntry(const std::string& entry);
+
+    /*!
+     * @brief Compare the current device to the given one
+     * @param to compare to this device
+     * @return True if name, uid, buttons, hat and axis are matching. False otherwise
+     */
+    bool EqualsTo(const InputDevice& to) const;
 };

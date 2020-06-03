@@ -7,6 +7,10 @@
 #include "Input.h"
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_joystick.h"
+#include "Window.h"
+#include <algorithm>
+#include <guis/GuiInfoPopup.h>
+#include <utils/locale/LocaleHelper.h>
 
 #define KEYBOARD_GUID_STRING { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF }
 #define EMPTY_GUID_STRING { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }
@@ -52,8 +56,10 @@ void InputManager::Finalize()
   SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
 }
 
-void InputManager::Initialize()
+void InputManager::Initialize(Window& window)
 {
+  std::vector<InputDevice> previousList = BuildCurrentDeviceList();
+
   Finalize();
 
   SDL_SetHint(SDL_HINT_JOYSTICK_ALLOW_BACKGROUND_EVENTS,
@@ -62,7 +68,7 @@ void InputManager::Initialize()
   SDL_JoystickEventState(SDL_ENABLE);
 
   ClearAllConfigurations();
-  LoadAllJoysticksConfiguration();
+  LoadAllJoysticksConfiguration(previousList, window);
 }
 
 void InputManager::LoadDefaultKeyboardConfiguration()
@@ -97,13 +103,79 @@ void InputManager::ClearAllConfigurations()
   mIdToDevices.clear();
 }
 
-void InputManager::LoadAllJoysticksConfiguration()
+std::vector<InputDevice> InputManager::BuildCurrentDeviceList()
+{
+  std::vector<InputDevice> result;
+  for(const auto& item : mIdToDevices)
+    result.push_back(item.second);
+  std::sort(result.begin(), result.end(), [] (const InputDevice& a, const InputDevice& b)
+  {
+    int r = strcmp(a.RawName(), b.RawName());
+    if (r < 0) return true;
+    r =  memcmp(&a.RawGUID(), &b.RawGUID(), sizeof(SDL_JoystickGUID));
+    if (r < 0) return true;
+    if (a.AxeCount() < b.AxeCount()) return true;
+    if (a.HatCount() < b.HatCount()) return true;
+    return (a.ButtonCount() < b.ButtonCount());
+  });
+
+  return result;
+}
+
+void InputManager::LoadAllJoysticksConfiguration(std::vector<InputDevice> previous, Window& window)
 {
   int numJoysticks = SDL_NumJoysticks();
   for (int i = 0; i < numJoysticks; i++)
-  {
     LoadJoystickConfiguration(i);
+
+  std::vector<InputDevice> current = BuildCurrentDeviceList();
+
+  static bool firstTime = true;
+  if (!firstTime)
+  {
+    if (current.size() > previous.size())
+    {
+      while (current.size() > previous.size())
+      {
+        // Joystick added
+        int index = 0;
+        while (index < (int) previous.size() && previous[index].EqualsTo(current[index]))
+          index++;
+
+        // Build the text
+        std::string text = current[index].Name();
+        text.append(1, ' ');
+        text.append(_("has been plugged!"));
+        text.append("\n\n");
+        if (current[index].IsConfigured()) text.append(_("Ready to play!"));
+        else text.append(_("Not configured yet! Press a button to enter the configuration window."));
+        current.erase(current.begin() + index);
+
+        GuiInfoPopup* popup = new GuiInfoPopup(window, text, 10, GuiInfoPopup::Icon::Pads);
+        window.AddInfoPopup(popup);
+      }
+    }
+    else
+    {
+      while (current.size() < previous.size())
+      {
+        // Joystick removed
+        int index = 0;
+        while (index < (int) current.size() && previous[index].EqualsTo(current[index]))
+          index++;
+
+        // Build the text
+        std::string text = previous[index].Name();
+        text.append(1, ' ');
+        text.append(_("has been unplugged!"));
+        previous.erase(previous.begin() + index);
+
+        GuiInfoPopup* popup = new GuiInfoPopup(window, text, 10, GuiInfoPopup::Icon::Pads);
+        window.AddInfoPopup(popup);
+      }
+    }
   }
+  firstTime = false;
 }
 
 std::string InputManager::DeviceGUIDString(SDL_Joystick* joystick)
@@ -239,7 +311,7 @@ InputCompactEvent InputManager::ManageKeyEvent(const SDL_KeyboardEvent& key, boo
   return mKeyboard.ConvertToCompact(event);
 }
 
-InputCompactEvent InputManager::ManageSDLEvent(const SDL_Event& ev)
+InputCompactEvent InputManager::ManageSDLEvent(Window& window, const SDL_Event& ev)
 {
   switch (ev.type)
   {
@@ -253,7 +325,7 @@ InputCompactEvent InputManager::ManageSDLEvent(const SDL_Event& ev)
     case SDL_JOYDEVICEREMOVED:
     {
       LOG(LogInfo) << "Reinitialize because of joystick added/removed.";
-      Initialize();
+      Initialize(window);
       break;
     }
   }

@@ -7,15 +7,11 @@
 #include <resources/Font.h>
 #include <input/InputManager.h>
 
+class GuiInfoPopup;
+
 class Window
 {
   public:
-    class InfoPopup
-    {
-      public:
-        virtual void Render(const Transform4x4f& parentTrans) = 0;
-    };
-
     /*!
      * @brief Default constructor
      */
@@ -57,11 +53,15 @@ class Window
     void renderHelpPromptsEarly(); // used to render HelpPrompts before a fade
     void UpdateHelp() { mHelp.UpdateHelps(); }
 
-    void setInfoPopup(const std::shared_ptr<InfoPopup>& infoPopup) { mInfoPopup = infoPopup; }
-
     void DoSleep();
 
     void DoWake();
+
+    /*!
+     * @brief Add new popup to dysplay list
+     * @param infoPopup Popup to add to displayu list
+     */
+    void AddInfoPopup(GuiInfoPopup* infoPopup);
 
     /*!
      * @brief Close all gui
@@ -92,6 +92,11 @@ class Window
     virtual bool UpdateHelpSystem();
 
   private:
+    //! Maximum popup info
+    static constexpr int sMaxInfoPopups = 10;
+    //! Maximum displayable popup info
+    static constexpr int sMaxDisplayableInfoPopups = 4;
+
     // Returns true if at least one component on the stack is processing
     bool isProcessing();
 
@@ -101,7 +106,7 @@ class Window
 
     HelpComponent mHelp;
     ImageComponent mBackgroundOverlay;
-    std::shared_ptr<InfoPopup> mInfoPopup;
+    Array<GuiInfoPopup*> mInfoPopups;
 
     Stack<Gui*> mGuiStack;
     Strings::Vector mMessages;
@@ -124,4 +129,28 @@ class Window
      * @brief Delete GUI pending for deletion
      */
     void deleteClosePendingGui();
+
+    /*!
+     * @brief Ensure there is at least one room to add a new infopopup
+     */
+    void InfoPopupsMakeRoom();
+
+    /*!
+     * @brief Remove the info popup at the given index and restack
+     * the whole list so that there no hole
+     * @param index
+     */
+    void InfoPopupsRemove(int index);
+
+    /*!
+     * @brief Update info popup & timers
+     * Delete on timeout
+     * @param delta elapsed milliseconds
+     */
+    void InfoPopupsUpdate(int delta);
+
+    /*!
+     * @brief Display info popups
+     */
+    void InfoPopupsDisplay(Transform4x4f& transform);
 };

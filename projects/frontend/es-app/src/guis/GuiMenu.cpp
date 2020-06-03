@@ -352,7 +352,7 @@ void GuiMenu::menuUpdates(){
         const std::string& message = changelog;
         std::string updateVersion = RecalboxUpgrade::getUpdateVersion();
         mWindow.displayScrollMessage(_("AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"),
-            _("UPDATE VERSION:") + ' ' + updateVersion + "\n" +
+            _("NEW VERSION:") + ' ' + updateVersion + "\n" +
             _("UPDATE CHANGELOG:") + "\n" + message);
       } else {
         mWindow.displayMessage(_("AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"));

@@ -17,7 +17,7 @@ msgid "DOWNLOADED"
 msgstr ""
 
 #:
-msgid "UPDATE VERSION:"
+msgid "NEW VERSION:"
 msgstr ""
 
 #: 
@@ -2314,4 +2314,24 @@ msgstr ""
 
 #:
 msgid "INSTALL PAD-2-KEYBOARD CONFIGURATIONS"
+msgstr ""
+
+#
+msgid "You're strongly recommended to update your Recalbox.\nNo support will be provided for older versions!"
+msgstr ""
+
+#
+msgid " has been plugged!"
+msgstr ""
+
+#
+msgid "Ready to play!"
+msgstr ""
+
+#
+msgid "Not configured yet! Press a button to enter the configuration window."
+msgstr ""
+
+#
+msgid " has been unplugged!"
 msgstr ""

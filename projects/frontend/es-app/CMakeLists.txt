@@ -45,7 +45,7 @@ set(ES_HEADERS
         src/guis/GuiScraperOptions.h
         src/guis/GuiScraperSingleGameRun.h
         src/guis/GuiUpdate.h
-        src/guis/GuiInfoPopup.h
+        ../es-core/src/guis/GuiInfoPopup.h
         src/guis/MenuMessages.h
         src/guis/GuiNetPlay.h
         src/guis/GuiHashStart.h
@@ -197,7 +197,7 @@ set(ES_SOURCES
         src/guis/GuiScraperOptions.cpp
         src/guis/GuiScraperSingleGameRun.cpp
         src/guis/GuiUpdate.cpp
-        src/guis/GuiInfoPopup.cpp
+        ../es-core/src/guis/GuiInfoPopup.cpp
         src/guis/MenuMessages.cpp
         src/guis/GuiNetPlay.cpp
         src/guis/GuiHashStart.cpp

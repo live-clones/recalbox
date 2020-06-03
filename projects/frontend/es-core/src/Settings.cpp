@@ -41,12 +41,12 @@ Settings::DataDescriptor Settings::sDescriptors[] =
   { Settings::DataType::Bool  , offsetof(Settings::Data, mThemeHasHelpSystem     ), "ThemeHasHelpSystem"     , "0", true  },
 
   { Settings::DataType::Int   , offsetof(Settings::Data, mScreenSaverTime        ), "ScreenSaverTime"        , "300000", false }, // 5 minutes
-  { Settings::DataType::Int   , offsetof(Settings::Data, mMusicPopupTime         ), "MusicPopupTime"         , "3"     , false },
+  { Settings::DataType::Int   , offsetof(Settings::Data, mMusicPopupTime         ), "MusicPopupTime"         , "5"     , false },
   { Settings::DataType::Int   , offsetof(Settings::Data, mScraperResizeWidth     ), "ScraperResizeWidth"     , "400"   , false },
   { Settings::DataType::Int   , offsetof(Settings::Data, mScraperResizeHeight    ), "ScraperResizeHeight"    , "0"     , false },
   { Settings::DataType::Int   , offsetof(Settings::Data, mSystemVolume           ), "SystemVolume"           , "96"    , false },
-  { Settings::DataType::Int   , offsetof(Settings::Data, mHelpPopupTime          ), "HelpPopupTime"          , "4"     , false },
-  { Settings::DataType::Int   , offsetof(Settings::Data, mNetplayPopupTime       ), "NetplayPopupTime"       , "4"     , false },
+  { Settings::DataType::Int   , offsetof(Settings::Data, mHelpPopupTime          ), "HelpPopupTime"          , "5"    , false },
+  { Settings::DataType::Int   , offsetof(Settings::Data, mNetplayPopupTime       ), "NetplayPopupTime"       , "5"     , false },
   { Settings::DataType::Int   , offsetof(Settings::Data, mMaxVRAM                ), "MaxVRAM"                , "80"    , false },
                                                           
   { Settings::DataType::String, offsetof(Settings::Data, mTransitionStyle        ), "TransitionStyle"        , "fade"                                                     , false },
@@ -58,7 +58,7 @@ Settings::DataDescriptor Settings::sDescriptors[] =
   { Settings::DataType::String, offsetof(Settings::Data, mThemeSystemView        ), "ThemeSystemView"        , ""                                                         , false },
   { Settings::DataType::String, offsetof(Settings::Data, mThemeGamelistView      ), "ThemeGamelistView"      , ""                                                         , false },
   { Settings::DataType::String, offsetof(Settings::Data, mThemeRegionName        ), "ThemeRegionName"        , "eu"                                                       , false },
-  { Settings::DataType::String, offsetof(Settings::Data, mScreenSaverBehavior    ), "ScreenSaverBehavior"    , "dim"                                                      , false },
+  { Settings::DataType::String, offsetof(Settings::Data, mScreenSaverBehavior    ), "ScreenSaverBehavior"    , "demo"                                                      , false },
   { Settings::DataType::String, offsetof(Settings::Data, mScraper                ), "Scraper"                , "Screenscraper"                                            , false },
   { Settings::DataType::String, offsetof(Settings::Data, mLang                   ), "Lang"                   , "en_US"                                                    , false },
   { Settings::DataType::String, offsetof(Settings::Data, mInputName[0]              ), "INPUT P1NAME"               , "DEFAULT"                                                  , false },

@@ -45,9 +45,10 @@ void NetworkThread::Run()
         // Popup, always shown
         mPopupMessage = _("AN UPDATE IS AVAILABLE FOR YOUR RECALBOX");
         mPopupMessage += "\n";
-        mPopupMessage = _("UPDATE VERSION:");
-        mPopupMessage += " ";
         mPopupMessage += updateVersion;
+        mPopupMessage += "\n\n";
+        mPopupMessage += _("You're strongly recommended to update your Recalbox.\nNo support will be provided for older versions!");
+
 
         // Message box only if the option is on
         if (RecalboxConf::Instance().AsBool("updates.enabled"))
@@ -57,7 +58,7 @@ void NetworkThread::Run()
           while (mWindow.HasGui())
             sleep(5);
 
-          mMessageBoxMessage = _("UPDATE VERSION:");
+          mMessageBoxMessage = _("NEW VERSION:");
           mMessageBoxMessage += " ";
           mMessageBoxMessage += updateVersion;
           if (!changelog.empty())
@@ -86,10 +87,7 @@ void NetworkThread::ReceiveSyncCallback(const SDL_Event& event)
 
   // Volatile popup
   if (!mPopupMessage.empty())
-  {
-    std::shared_ptr<GuiInfoPopup> popup = std::make_shared<GuiInfoPopup>(mWindow, mPopupMessage, 120, GuiInfoPopup::Icon::Recalbox);
-    mWindow.setInfoPopup(popup);
-  }
+    mWindow.AddInfoPopup(new GuiInfoPopup(mWindow, mPopupMessage, 120, GuiInfoPopup::Icon::Recalbox));
 
   // Messagebox
   if (!mMessageBoxMessage.empty())

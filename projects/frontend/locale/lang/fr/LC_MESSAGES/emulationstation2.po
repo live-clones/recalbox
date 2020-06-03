@@ -14,7 +14,7 @@ msgstr "UNE MISE À JOUR EST DISPONIBLE POUR VOTRE RECALBOX"
 msgid "DOWNLOADED"
 msgstr "TÉLÉCHARGÉ"
 
-msgid "UPDATE VERSION:"
+msgid "NEW VERSION:"
 msgstr "VERSION MISE ­À JOUR:"
 
 msgid "UPDATE CHANGELOG:"
@@ -2069,168 +2069,184 @@ msgstr ""
 msgid ""
 "Try to extract game region from its filename when possible. Support long and "
 "short region game (JP or Japan, EU or Europe, ...)"
-msgstr "Tente d'extraire la région du jeu à partir du nom de fichier. Supporte les noms longs et courts (JP ou Japan, EU ou Europe, ...)"
+msgstr ""
+"Tente d'extraire la région du jeu à partir du nom de fichier. Supporte les "
+"noms longs et courts (JP ou Japan, EU ou Europe, ...)"
 
-#:
 msgid "GET GAME NAME FROM"
 msgstr "OBTENIR LES NOMS À PARTIR DE"
 
-#:
 msgid "GET REGION FROM FILENAME WHEN POSSIBLE"
 msgstr "EXTRAIRE LES REGIONS DES NOMS DE FICHIER"
 
-#:
 msgid "Scrapper results"
 msgstr "Résultat du scrapper"
 
-#:
 msgid "Raw filename"
 msgstr "Nom de fichier brut"
 
-#:
 msgid "Undecorated filename"
 msgstr "Nom de fichier non-décoré"
 
-#:
 msgid "OPEN-SOURCE LICENSE"
 msgstr "LICENCE OPEN-SOURCE"
 
-#:
 msgid "SELECT IMAGE TYPE"
 msgstr "SELECTIONNEZ LE TYPE D'IMAGE"
 
-#:
 msgid "In-game screenshot"
 msgstr "écran en jeu"
 
-#:
 msgid "Title screenshot"
 msgstr "écran titre"
 
-#:
 msgid "Clear logo"
 msgstr "Logo détouré"
 
-#:
 msgid "Marquee"
 msgstr "Marquee"
 
-#:
 msgid "ScreenScraper Mix V1"
 msgstr "Mix ScreenScraper V1"
 
-#:
 msgid "ScreenScraper Mix V2"
 msgstr "Mix ScreenScraper V2"
 
-#:
 msgid "SCRAPE IMAGE"
 msgstr "Image à scraper"
 
-#:
 msgid "SELECT THUMBNAIL TYPE"
 msgstr "SELECTIONNEZ LE TYPE DE VIGNETTE"
 
-#:
 msgid "No thumbnail"
 msgstr "Aucune vignette"
 
-#:
 msgid "SCRAPE THUMBNAIL"
 msgstr "Vignette à scraper"
 
-#:
 msgid "SELECT VIDEO TYPE"
 msgstr "SELECTIONNEZ LE TYPE DE VIDÉO"
 
-#:
 msgid "No video"
 msgstr "AUCUNE"
 
-#:
 msgid "Original video"
 msgstr "Vidéo normale"
 
-#:
 msgid "Optimized/Normalized video"
 msgstr "Vidéo optimisée/normalisée"
 
-#:
 msgid "SCRAPE VIDEO"
 msgstr "Vidéo à scraper"
 
-#:
 msgid "SELECT FAVORITE REGION"
 msgstr "SELECTIONNEZ VOTRE RÉGION PRÉFÉRÉE"
 
-#:
 msgid "FAVORITE REGION"
 msgstr "RÉGION PRÉFÉRÉE"
 
-#:
 msgid "SELECT FAVORITE LANGUAGE"
 msgstr "SELECTIONNEZ VOTRE LANGUE PRÉFÉRÉE"
 
-#:
 msgid "FAVORITE LANGUAGE"
 msgstr "LANGUE PRÉFÉRÉE"
 
-#:
 msgid "SYSTEM NAME"
 msgstr "NOM DE SYSTÈMES"
 
-#:
 msgid "PUBLISHER"
 msgstr "ÉDITEUR"
 
-#:
 msgid "DEFAULT"
 msgstr "PAR DEFAUT"
 
-#:
-msgid "It seems that your game didn't start at all!\n\nIt's most likely due to either:\n- bad rom\n- missing/bad mandatory bios files\n- missing/bad optional BIOS files (but required for this very game)"
-msgstr "Il semblerait que votre jeu ne se soit pas lancé du tout!\n\nC'est très probablement du à:\n- Une mauvaise rom\n- Un bios obligatoire, mauvais ou manquant\n- Un bios optionnel mauvais ou manquant (mais requis par ce jeu!)"
+msgid ""
+"It seems that your game didn't start at all!\n"
+"\n"
+"It's most likely due to either:\n"
+"- bad rom\n"
+"- missing/bad mandatory bios files\n"
+"- missing/bad optional BIOS files (but required for this very game)"
+msgstr ""
+"Il semblerait que votre jeu ne se soit pas lancé du tout!\n"
+"\n"
+"C'est très probablement du à:\n"
+"- Une mauvaise rom\n"
+"- Un bios obligatoire, mauvais ou manquant\n"
+"- Un bios optionnel mauvais ou manquant (mais requis par ce jeu!)"
 
-#:
-msgid "At least one mandatory BIOS is missing for %emulator%!\nYour game '%game%' will very likely not run at all until required BIOS are put in the expected folder.\n\nDo you want to launch the game anyway?"
-msgstr "Au moins un BIOS obligatoire est manquant pour %emulator%!\nLe jeu '%game%' ne fonctionnera très probablement pas jusqu'à ce que les BIOS requis soient placés dans le bon repertoire.\n\nVoulez-vous lancer le jeu malgré tout?"
+msgid ""
+"At least one mandatory BIOS is missing for %emulator%!\n"
+"Your game '%game%' will very likely not run at all until required BIOS are "
+"put in the expected folder.\n"
+"\n"
+"Do you want to launch the game anyway?"
+msgstr ""
+"Au moins un BIOS obligatoire est manquant pour %emulator%!\n"
+"Le jeu '%game%' ne fonctionnera très probablement pas jusqu'à ce que les "
+"BIOS requis soient placés dans le bon repertoire.\n"
+"\n"
+"Voulez-vous lancer le jeu malgré tout?"
 
-#:
 msgid "BACKSPACE"
 msgstr "BACKSPACE"
 
-#:
 msgid "FAST WHEEL"
 msgstr "ROUE RAPIDE"
 
-#:
 msgid "CHANGE CHARSET"
 msgstr "JEU DE CARAC."
 
-#:
 msgid "MOVE WHEEL"
 msgstr "TOURNER ROUE"
 
-#:
 msgid "FAST CURSOR"
 msgstr "CURSEUR RAPIDE"
 
-#:
 msgid "No missing hash found!"
 msgstr "Pas de hash manquant!"
 
-#:
 msgid "%i missing hashes have been calculated!"
 msgstr "%i hash manquants ont été calculés!"
 
-#:
 msgid "DOWNLOAD GAME MANUALS"
 msgstr "TÉLÉCHARGER LES MANUELS"
 
-#:
 msgid "DOWNLOAD GAME MAPS"
 msgstr "TÉLÉCHARGER LES CARTES"
 
-#:
 msgid "INSTALL PAD-2-KEYBOARD CONFIGURATIONS"
 msgstr "INSTALLER LES CONFIGURATIONS PAD VERS CLAVIER"
+
+#
+msgid ""
+"You're strongly recommended to update your Recalbox.\n"
+"No support will be provided for older versions!"
+msgstr ""
+"Il vous est fortement recommandé de mettre à jour votre Recalbox\n"
+"Aucun support ne sera disponible sur les anciennes versions!"
+
+#
+msgid " has been plugged!"
+msgstr ""
+
+#
+msgid "Ready to play!"
+msgstr "Prêt pour le jeu!"
+
+#
+msgid "Not configured yet! Press a button to enter the configuration window."
+msgstr ""
+"Non configuré! Appuyez sur un bouton pour lancer la fenêtre de configuration."
+
+#
+msgid " has been unplugged!"
+msgstr ""
+
+#
+#~ msgid "has been plugged!"
+#~ msgstr "vient d'être branché!"
+
+#
+#~ msgid "has been unplugged!"
+#~ msgstr "à été débranché"

@@ -14,8 +14,8 @@ msgstr "EIN UPDATE FÜR DEINE RECALBOX IST VERFÜGBAR"
 msgid "DOWNLOADED"
 msgstr "HERUNTERGELADEN"
 
-msgid "UPDATE VERSION:"
-msgstr "UPDATE VERSION:"
+msgid "NEW VERSION:"
+msgstr ""
 
 msgid "UPDATE CHANGELOG:"
 msgstr "CHANGELOG DES UPDATES:"
@@ -2137,6 +2137,28 @@ msgid "DOWNLOAD GAME MAPS"
 msgstr ""
 
 msgid "INSTALL PAD-2-KEYBOARD CONFIGURATIONS"
+msgstr ""
+
+#
+msgid ""
+"You're strongly recommended to update your Recalbox.\n"
+"No support will be provided for older versions!"
+msgstr ""
+
+#
+msgid " has been plugged!"
+msgstr ""
+
+#
+msgid "Ready to play!"
+msgstr ""
+
+#
+msgid "Not configured yet! Press a button to enter the configuration window."
+msgstr ""
+
+#
+msgid " has been unplugged!"
 msgstr ""
 
 #~ msgid ""
