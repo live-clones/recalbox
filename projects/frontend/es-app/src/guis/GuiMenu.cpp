@@ -1459,7 +1459,7 @@ void GuiMenu::menuAdvancedSettings(){
       virtualGui->addWithLabel(allGamesComp, _("SHOW ALL-GAMES SYSTEM"), _(MENUMESSAGE_ADVANCED_ALLGAMES_HELP_MSG));
 
       // Multiplayers games
-      bool multiplayerGames = RecalboxConf::Instance().AsBool("emulationstation.collection.multiplayers");
+      bool multiplayerGames = RecalboxConf::Instance().AsBool("emulationstation.collection.multiplayer");
       auto multiplayerGamesComp = std::make_shared<SwitchComponent>(mWindow, multiplayerGames);
       virtualGui->addWithLabel(multiplayerGamesComp, _("SHOW MULTIPLAYER SYSTEM"), _(MENUMESSAGE_ADVANCED_MULTIPLAYERS_HELP_MSG));
 
@@ -1523,7 +1523,7 @@ void GuiMenu::menuAdvancedSettings(){
           }
           if (multiplayerGames != multiplayerGamesComp->getState())
           {
-            RecalboxConf::Instance().SetBool("emulationstation.collection.multiplayers",
+            RecalboxConf::Instance().SetBool("emulationstation.collection.multiplayer",
                                              multiplayerGamesComp->getState());
             modified = true;
           }

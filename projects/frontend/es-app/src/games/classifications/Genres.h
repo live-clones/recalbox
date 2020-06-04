@@ -46,7 +46,7 @@ enum class GameGenres : int // Must be an int
     SimulationSciFi               = 0x0405, //!< - Space Opera (Elite, Homeworld)
   Strategy                        = 0x0500, //!< Generic strategy games
     Strategy4X                    = 0x0501, //!< - eXplore, eXpand, eXploit, eXterminate (Civilization, ...)
-    StrategyArtillery             = 0x0502, //!< - multiplayers artillery games, turn by turn (Scortched Tanks, Worms, ...)
+    StrategyArtillery             = 0x0502, //!< - multiplayer artillery games, turn by turn (Scortched Tanks, Worms, ...)
     StrategyAutoBattler           = 0x0503, //!< - Auto-battle tacticals (Dota undergrounds, Heartstone Battlegrounds, ...)
     StrategyMOBA                  = 0x0504, //!< - Multiplayer Online Battle Arena (Dota 2, Smite, ...)
     StrategyRTS                   = 0x0505, //!< - Real Time Strategy (Warcrafs, Dune, C&C, ...)

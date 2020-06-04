@@ -22,7 +22,7 @@ class SystemManager :
     //! Favorite system internal name
     static constexpr const char* sFavoriteSystemShortName = "favorites";
     //! Multiplayer system internal name
-    static constexpr const char* sMultiplayerSystemShortName = "multiplayers";
+    static constexpr const char* sMultiplayerSystemShortName = "multiplayer";
     //! Last Played system internal name
     static constexpr const char* sLastPlayedSystemShortName = "lastplayed";
     //! All games system internal name
