@@ -17,6 +17,15 @@ class AudioManager : private ISynchronousEvent
     typedef unsigned long long AudioHandle;
 
   private:
+    //! Music source
+    enum class MusicSource
+    {
+        None,        //!< Not selected yet
+        ThemeSystem, //!< Theme music for thiescurrent system
+        Theme,       //!< Theme musics
+        User,        //!< User musics
+    };
+
     //! Max tries to find a different music to play
     static constexpr int sMaxTries = 8;
 
@@ -35,6 +44,8 @@ class AudioManager : private ISynchronousEvent
     AudioHandle mCurrentMusic;
     //! Last popup text
     std::string mCurrentMusicTitle;
+    //! Current music source
+    MusicSource mCurrentMusicSource;
 
     //! Reserved SDL Event
     SyncronousEvent mSender;

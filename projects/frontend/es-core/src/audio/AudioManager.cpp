@@ -14,6 +14,7 @@ AudioManager* AudioManager::sInstance;
 AudioManager::AudioManager(Window& window)
   : mWindow(window),
     mCurrentMusic(0),
+    mCurrentMusicSource(MusicSource::None),
     mSender(SyncronousEventService::Instance().ObtainSyncCallback(this)),
     mRandomGenerator(mRandomDevice()),
     mSystemRandomizer()
@@ -66,6 +67,7 @@ void AudioManager::Initialize()
 {
   ClearCaches();
   mCurrentMusic = 0;
+  mCurrentMusicSource = MusicSource::None;
 
   if (SDL_InitSubSystem(SDL_INIT_AUDIO) != 0)
   {
@@ -185,14 +187,6 @@ void AudioManager::StartPlaying(const ThemeData& theme)
 
 void AudioManager::PlayRandomMusic()
 {
-  enum class MusicSource
-  {
-    None,        //!< Not selected yet
-    ThemeSystem, //!< Theme music for thiescurrent system
-    Theme,       //!< Theme musics
-    User,        //!< User musics
-  };
-
   Path previousPath = Music::CurrentlyPlaying() != nullptr ? Music::CurrentlyPlaying()->FilePath() : Path::Empty;
   AudioHandle musicToPlay = 0;
   const char* log = "No music found.";
@@ -243,12 +237,14 @@ void AudioManager::PlayRandomMusic()
     return;
 
   // Do not interrupt musics except for a theme system music
-  if (mCurrentMusic != 0 && source != MusicSource::ThemeSystem)
-    return;
+  if (mCurrentMusic != 0)
+    if ((source != MusicSource::ThemeSystem) && (source == mCurrentMusicSource))
+      return;
 
   // Play!
   PlayMusic(musicToPlay, false);
   mCurrentMusic = musicToPlay;
+  mCurrentMusicSource = source;
 
   // Popup?
   int popupDuration = Settings::Instance().MusicPopupTime();
