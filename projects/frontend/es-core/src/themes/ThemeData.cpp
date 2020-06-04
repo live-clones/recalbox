@@ -15,29 +15,29 @@
 
 std::vector<std::string>& ThemeData::SupportedViews()
 {
-  static std::vector<std::string> _SupportedViews =
+  static std::vector<std::string> sSupportedViews =
   {
     { "system"  },
     { "basic"   },
     { "detailed"},
     { "menu"    },
   };
-  return _SupportedViews;
+  return sSupportedViews;
 }
 
 std::vector<std::string>& ThemeData::SupportedFeatures()
 {
-  static std::vector<std::string> _SupportedFeatures =
+  static std::vector<std::string> sSupportedFeatures =
   {
     {"carousel" },
     {"z-index"  },
   };
-  return _SupportedFeatures;
+  return sSupportedFeatures;
 }
 
 std::map< std::string, std::map<std::string, ThemeData::ElementProperty> >& ThemeData::ElementMap()
 {
-  static std::map< std::string, std::map<std::string, ThemeData::ElementProperty> > _ElementMap =
+  static std::map< std::string, std::map<std::string, ThemeData::ElementProperty> > sElementMap =
   {
     { "image",
       {
@@ -252,7 +252,7 @@ std::map< std::string, std::map<std::string, ThemeData::ElementProperty> >& Them
       },
     }
   };
-  return _ElementMap;
+  return sElementMap;
 }
 
 // helper
@@ -333,7 +333,7 @@ void ThemeData::parseIncludes(const pugi::xml_node& root)
 			{
 			
 				Path path = Path(str).ToAbsolute(mPaths.back().Directory());
-				if(!ResourceManager::getInstance()->fileExists(path))
+				if(!ResourceManager::fileExists(path))
 					throw ThemeException("Included file \"" + str + "\" not found! (resolved to \"" + path.ToString() + "\")", mPaths);
 
 				errorString += "    from included file \"" + str + "\":\n    ";
@@ -460,7 +460,7 @@ void ThemeData::parseView(const pugi::xml_node& root, ThemeView& view)
 		auto elemTypeIt = elementMap.find(node.name());
 		if(elemTypeIt == elementMap.end())
 			throw ThemeException("Unknown element of type \"" + std::string(node.name()) + "\"!", mPaths);
-    auto& subElementMap = elemTypeIt->second;
+    const auto & subElementMap = elemTypeIt->second;
 
 		if (parseRegion(node))
 		{
@@ -530,7 +530,7 @@ void ThemeData::parseElement(const pugi::xml_node& root, const std::map<std::str
 		{
 		case ElementProperty::NormalizedPair:
 		{
-      float x,y;
+      float x = 0, y = 0;
       if (Strings::ToFloat(str, 0, ' ', x))
       {
         size_t pos = str.find(' ');
@@ -575,7 +575,7 @@ void ThemeData::parseElement(const pugi::xml_node& root, const std::map<std::str
     }
 		case ElementProperty::Float:
 		{
-			float floatVal;
+			float floatVal = 0;
 			if (!Strings::ToFloat(str, floatVal))
         throw ThemeException("invalid float value (property \"" + std::string(node.name()) + "\", value \"" + str + "\")", mPaths);
 		  element.AddFloatProperty(node.name(), floatVal);
@@ -714,7 +714,7 @@ std::vector<Component*> ThemeData::makeExtras(const ThemeData& theme, const std:
 	if(viewIt == theme.mViews.end())
 		return comps;
 	
-	for (auto& key : viewIt->second.orderedKeys)
+	for (const auto & key : viewIt->second.orderedKeys)
 	{
 		const ThemeElement& elem = viewIt->second.elements.at(key);
 		if(elem.Extra())
@@ -880,7 +880,7 @@ Path ThemeData::getThemeFromCurrentSet(const std::string& system)
 std::string ThemeData::getTransition() const
 {
 	std::string result;
-	auto elem = getElement("system", "systemcarousel", "carousel");
+	const auto* elem = getElement("system", "systemcarousel", "carousel");
 	if (elem != nullptr) {
 		if (elem->HasProperty("defaultTransition")) {
 			if (elem->AsString("defaultTransition") == "instant") {
@@ -901,6 +901,6 @@ std::string ThemeData::getTransition() const
 }
 
 bool ThemeData::isFolderHandled() const {
-	auto elem = getElement("detailed", "md_folder_name", "text");
+	const auto* elem = getElement("detailed", "md_folder_name", "text");
 	return elem != nullptr ? elem->HasProperty("pos") : false;
 }
