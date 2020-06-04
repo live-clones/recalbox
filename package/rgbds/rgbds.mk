@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-RGBDS_VERSION = v0.3.8
+RGBDS_VERSION = v0.4.0
 RGBDS_SITE = $(call github,rednex,rgbds,$(RGBDS_VERSION))
 RGBDS_DEPENDENCIES = libpng
 RGBDS_INSTALL_TARGET = NO
