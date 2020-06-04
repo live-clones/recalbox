@@ -8,6 +8,7 @@
 #include <guis/GuiArcadeVirtualKeyboard.h>
 #include <views/ViewController.h>
 #include <RecalboxConf.h>
+#include <views/gamelist/SystemIcons.h>
 #include "components/ScrollableContainer.h"
 #include "GuiSearch.h"
 
@@ -170,22 +171,47 @@ float GuiSearch::getButtonGridHeight() const
 
 bool GuiSearch::ProcessInput(const class InputCompactEvent & event)
 {
-	if (event.APressed())
+  if (event.APressed())
 	{
 		Close();
 		return true;
 	}
-	if (event.BPressed())
+  else if (event.R1Pressed())
   {
 	  mWindow.pushGui(new GuiArcadeVirtualKeyboard(mWindow, _("SEARCH"), mSearch->getValue(), this));
 	  return true;
   }
-	if (event.StartPressed())
+  else if (event.BPressed())
   {
 	  launch();
 	  return true;
   }
-	if (event.AnyLeftPressed() || event.AnyRightPressed()) return mSearchChoices->ProcessInput(event);
+  else if (event.YPressed() && !mSearchResults.empty())
+  {
+    FileData* cursor = mSearchResults[mList->getCursor()];
+    if (cursor->isGame() && cursor->getSystem()->getHasFavoritesInTheme())
+    {
+      MetadataDescriptor& md = cursor->Metadata();
+      SystemData *favoriteSystem = mSystemManager.FavoriteSystem();
+
+      md.SetFavorite(!md.Favorite());
+
+      if (favoriteSystem != nullptr)
+      {
+        if (md.Favorite()) favoriteSystem->getRootFolder().addChild(cursor, false);
+        else               favoriteSystem->getRootFolder().removeChild(cursor);
+
+        ViewController::Instance().setInvalidGamesList(cursor->getSystem());
+        ViewController::Instance().setInvalidGamesList(favoriteSystem);
+      }
+      ViewController::Instance().getSystemListView().manageFavorite();
+
+      populateGridMeta(mList->getCursor());
+    }
+    return true;
+  }
+
+  if (event.AnyLeftPressed() || event.AnyRightPressed()) return mSearchChoices->ProcessInput(event);
 
 	return Component::ProcessInput(event);
 }
@@ -218,9 +244,12 @@ bool GuiSearch::getHelpPrompts(Help& help)
       .Set(HelpType::LeftRight, _("SEARCH IN..."))
       .Set(HelpType::UpDown, _("SELECT"))
       .Set(HelpType::A, _("BACK"))
-      .Set(HelpType::B, _("KEYBOARD"))
-      .Set(HelpType::Start, _("LAUNCH"));
-	return true;
+      .Set(HelpType::R, _("KEYBOARD"))
+      .Set(HelpType::B, _("LAUNCH"));
+  if (!mList->isEmpty())
+    help.Set(HelpType::Y, mSearchResults[mList->getCursor()]->Metadata().Favorite() ? _("Remove from favorite") : _("Favorite"));
+
+  return true;
 }
 
 void GuiSearch::Update(int deltaTime)
@@ -263,7 +292,8 @@ void GuiSearch::PopulateGrid(const std::string& search)
 				row.elements.clear();
 				std::string gameName;
 
-				gameName = game->Metadata().Name();
+				gameName = SystemIcons::GetIcon(game->getSystem()->getName());
+				gameName.append(game->Metadata().Name());
 
 				ed = std::make_shared<TextComponent>(mWindow, gameName, mMenuTheme->menuText.font,
 				                                     mMenuTheme->menuText.color,
@@ -337,6 +367,8 @@ void GuiSearch::populateGridMeta(int i)
 	mGridLogoAndMD->setColWidthPerc(0, (float)width / mGridLogoAndMD->getSize().x());
 	mGridLogoAndMD->getCellAt(0, 2)->resize = true;
 	mGridLogoAndMD->getCellAt(0, 4)->resize = true;
+
+  updateHelpPrompts();
 }
 
 void GuiSearch::ResizeGridLogo()

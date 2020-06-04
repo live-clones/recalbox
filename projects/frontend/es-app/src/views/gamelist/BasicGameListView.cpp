@@ -10,7 +10,6 @@
 #include "SystemIcons.h"
 #include <recalbox/RecalboxSystem.h>
 #include <systems/SystemManager.h>
-#include <usernotifications/NotificationManager.h>
 
 BasicGameListView::BasicGameListView(Window& window, SystemManager& systemManager, SystemData& system)
 	: ISimpleGameListView(window, systemManager, system),

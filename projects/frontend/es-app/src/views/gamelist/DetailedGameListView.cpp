@@ -435,8 +435,8 @@ void DetailedGameListView::setGameInfo(FileData* file)
   int videoLoop  = (int) mSettings.AsUInt("emulationstation.videosnaps.loop", VideoComponent::DEFAULT_VIDEOLOOP);
 
   mImage.setImage(file->Metadata().Image());
-  if (!mSettings.AsUInt("system.secondminitft.enabled", false) ||
-      !mSettings.AsUInt("system.secondminitft.disablevideoines", false))
+  if (!mSettings.AsBool("system.secondminitft.enabled", false) ||
+      !mSettings.AsBool("system.secondminitft.disablevideoines", false))
     mVideo.setVideo(file->Metadata().Video(), videoDelay, videoLoop);
 
   LOG(LogDebug) << "Set " << file->Metadata().Video().ToString() << " for " << file->Metadata().Name() << " => " << file->getPath().ToString();
