@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_SAMEBOY_VERSION = 50f6f92b6f6ab8b778d0e1f41b4ed437e7e43bea
+LIBRETRO_SAMEBOY_VERSION = 44d8b16c107c79205331c53c93c1f25386e88bf8
 LIBRETRO_SAMEBOY_SITE = $(call github,libretro,SameBoy,$(LIBRETRO_SAMEBOY_VERSION))
 
 define LIBRETRO_SAMEBOY_BUILD_CMDS
