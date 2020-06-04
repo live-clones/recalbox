@@ -309,7 +309,6 @@ do_start() {
 #      Main                       #
 ###################################
 
-tftEnabled="$(${systemsetting}  -command load -key system.secondMiniTFT.enabled)"
 if [ "$tftEnabled" != "0" ];then
     recallog "Starting $NAME"
     do_start
