@@ -240,16 +240,20 @@ void GuiSearch::onSizeChanged()
 
 bool GuiSearch::getHelpPrompts(Help& help)
 {
-  help.Clear()
-      .Set(HelpType::LeftRight, _("SEARCH IN..."))
-      .Set(HelpType::UpDown, _("SELECT"))
-      .Set(HelpType::A, _("BACK"))
-      .Set(HelpType::R, _("KEYBOARD"))
-      .Set(HelpType::B, _("LAUNCH"));
-  if (!mList->isEmpty())
-    help.Set(HelpType::Y, mSearchResults[mList->getCursor()]->Metadata().Favorite() ? _("Remove from favorite") : _("Favorite"));
-
-  return true;
+  help.Clear();
+  if (AmIOnTopOfScreen())
+  {
+    help.Set(HelpType::LeftRight, _("SEARCH IN..."))
+        .Set(HelpType::UpDown, _("SELECT"))
+        .Set(HelpType::A, _("BACK"))
+        .Set(HelpType::R, _("KEYBOARD"))
+        .Set(HelpType::B, _("LAUNCH"));
+    if (!mList->isEmpty())
+      help.Set(HelpType::Y,
+               mSearchResults[mList->getCursor()]->Metadata().Favorite() ? _("Remove from favorite") : _("Favorite"));
+    return true;
+  }
+  return false;
 }
 
 void GuiSearch::Update(int deltaTime)
