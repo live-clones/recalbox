@@ -198,8 +198,9 @@ void ViewController::playViewTransition()
 	if(target == -mCamera.translation() && !isAnimationPlaying(0))
 		return;
 
-	std::string transition_style = Settings::Instance().TransitionStyle();
-	if(transition_style == "fade")
+	std::string transitionTheme = ThemeData::getCurrent().getTransition();
+	if (transitionTheme.empty()) transitionTheme = Settings::Instance().TransitionStyle();
+	if(transitionTheme == "fade")
 	{
 		// fade
 		// stop whatever's currently playing, leaving mFadeOpacity wherever it is
@@ -227,7 +228,7 @@ void ViewController::playViewTransition()
 		}else{
 			advanceAnimation(0, (int)(mFadeOpacity * FADE_DURATION));
 		}
-	} else if (transition_style == "slide"){
+	} else if (transitionTheme == "slide"){
 		// slide or simple slide
 		setAnimation(new MoveCameraAnimation(mCamera, target));
 		updateHelpPrompts(); // update help prompts immediately
@@ -337,7 +338,8 @@ void ViewController::LaunchAnimated(FileData* game, const EmulatorData& emulator
 	stopAnimation(1); // make sure the fade in isn't still playing
 	mLockInput = true;
 
-	std::string transition_style = Settings::Instance().TransitionStyle();
+  std::string transitionTheme = ThemeData::getCurrent().getTransition();
+  if (transitionTheme.empty()) transitionTheme = Settings::Instance().TransitionStyle();
 
 	auto launchFactory = [this, game, origCamera, netplaydata, &emulator] (const std::function<void(std::function<void()>)>& backAnimation)
 	{
@@ -364,7 +366,7 @@ void ViewController::LaunchAnimated(FileData* game, const EmulatorData& emulator
 		};
 	};
 
-	if(transition_style == "fade")
+	if(transitionTheme == "fade")
 	{
 		// fade out, launch game, fade back in
 		auto fadeFunc = [this](float t) {
@@ -373,7 +375,7 @@ void ViewController::LaunchAnimated(FileData* game, const EmulatorData& emulator
 		setAnimation(new LambdaAnimation(fadeFunc, 800), 0, launchFactory([this, fadeFunc](const std::function<void()>& finishedCallback) {
 			setAnimation(new LambdaAnimation(fadeFunc, 800), 0, finishedCallback, true);
 		}));
-	} else if (transition_style == "slide"){
+	} else if (transitionTheme == "slide"){
 
 		// move camera to zoom in on center + fade out, launch game, come back in
 		setAnimation(new LaunchAnimation(mCamera, mFadeOpacity, center, 1500), 0, launchFactory([this, center](const std::function<void()>& finishedCallback) {

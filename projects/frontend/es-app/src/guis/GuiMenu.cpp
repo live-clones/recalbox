@@ -883,9 +883,6 @@ void GuiMenu::menuUISettings(){
   std::function<void()> ReloadAll = [] () {
     MainRunner::RequestQuit(MainRunner::ExitState::Relaunch, false);
     MenuThemeData::getInstance();
-    auto transi = ThemeData::getCurrent().getTransition();
-    if (!transi.empty())
-      Settings::Instance().SetTransitionStyle(transi);
     Settings::Instance().SetThemeChanged(false);
   };
 
