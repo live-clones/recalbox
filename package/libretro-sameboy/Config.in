@@ -2,7 +2,6 @@ config BR2_PACKAGE_LIBRETRO_SAMEBOY
 	bool "libretro-sameboy"
 	depends on BR2_PACKAGE_RETROARCH
 	depends on BR2_INSTALL_LIBSTDCPP
-	select BR2_PACKAGE_RGBDS
 	select BR2_PACKAGE_RECALBOX_ROMFS_GB
 	select BR2_PACKAGE_RECALBOX_ROMFS_GBC
 	help
@@ -10,5 +9,5 @@ config BR2_PACKAGE_LIBRETRO_SAMEBOY
 
 	  http://www.libretro.com
 
-comment "LIBRETRO_TGBDUAL needs a toolchain w/ C++"
+comment "LIBRETRO_SAMEBOY needs a toolchain w/ C++"
 	depends on !BR2_INSTALL_LIBSTDCPP
