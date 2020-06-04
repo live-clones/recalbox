@@ -62,7 +62,7 @@ const char * BasicGameListView::getItemIcon(FileData* item)
   // Crossed out eye for hidden things
 	if (item->Metadata().Hidden()) return "\uF070 ";
 	// System icon, for Favorite games
-	if ((item->isGame()) && (item->Metadata().Favorite()))
+	if ((item->isGame()) && (mSystem.IsVirtual() || item->Metadata().Favorite()))
 		return SystemIcons::GetIcon(item->getSystem()->getName());
 	// Open folder for folders
 	if (item->isFolder())
@@ -129,7 +129,6 @@ void BasicGameListView::populateList(const FolderData& folder)
   // Add to list
   mHasGenre = false;
   //mList.reserve(items.size()); // TODO: Reserve memory once
-
   for (FileData* fd : items)
 	{
     // Select fron icon

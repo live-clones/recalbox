@@ -62,9 +62,5 @@ private:
   EmptyData mEmptyListItem;
   const FolderData *mPopulatedFolder;
 
-	/*void addFavorites(const FileData::List& files, const FileSorts::SortType& sortType);
-	void getFavorites(const FileData::List& files, FileData::List& favorites);
-	void addItem(FileData* file, bool toTheBeginning = false);*/
-
-	static const char * getItemIcon(FileData* item);
+	const char * getItemIcon(FileData* item);
 };
