@@ -2,13 +2,13 @@
 // Created by bkg2k on 01/01/2020.
 //
 
-#include <map>
+#include <utils/storage/HashMap.h>
 #include "SystemIcons.h"
 
-static const std::map<std::string, const char*>& FavoritesIconsMap()
+static const HashMap<std::string, const char*>& FavoritesIconsMap()
 {
-  static const std::map<std::string, const char*> _FavoritesIconsMap =
-    {
+  static const HashMap<std::string, const char*> _FavoritesIconsMap
+  ({
       {"2048",               "\uF28c "},
       {"3do",                "\uF28d "},
       {"3ds",                "\uF28e "},
@@ -164,16 +164,14 @@ static const std::map<std::string, const char*>& FavoritesIconsMap()
       {"zx81",               "\uF250 "},
       {"zxspectrum",         "\uF251 "},
       {"zxspectrum3",        "\uF2f1 "},
-    };
+  });
   return _FavoritesIconsMap;
 }
 
 const char* SystemIcons::GetIcon(const std::string& systemShortName)
 {
-  const std::map<std::string, const char*>& map = FavoritesIconsMap();
-  auto it = map.find(systemShortName);
-  if (it != map.end())
-    return it->second;
+  const char** result = FavoritesIconsMap().try_get(systemShortName);
+  if (result != nullptr) return *result;
   return nullptr;
 }
 
