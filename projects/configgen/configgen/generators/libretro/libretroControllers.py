@@ -262,6 +262,13 @@ class LibretroControllers:
                 settings.setOption("input_player%s_%s" % (controller.player, self.retroarchbtns[btnkey]), '"nul"')
             for dirkey in self.retroarchdirs:
                 settings.setOption("input_player%s_%s" % (controller.player, self.retroarchdirs[dirkey]), '"nul"')
+            settings.setOption("input_enable_hotkey", '"nul"')
+        else:
+            for btnkey in self.retroarchbtns:
+                settings.removeOption("input_player%s_%s" % (controller.player, self.retroarchbtns[btnkey]))
+            for dirkey in self.retroarchdirs:
+                settings.removeOption("input_player%s_%s" % (controller.player, self.retroarchdirs[dirkey]))
+            settings.setOption("input_enable_hotkey", '"escape"')
 
         # Assign pad to player
         settings.setOption("input_player{}_joypad_index".format(playerIndex), controller.index)
