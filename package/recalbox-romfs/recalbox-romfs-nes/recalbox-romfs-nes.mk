@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --system nes --extension '.nes .NES .zip .ZIP .7z .7Z' --fullname 'Nintendo Entertainment System' --platform nes --theme nes 3:libretro:fceumm:BR2_PACKAGE_LIBRETRO_FCEUMM 1:libretro:fceunext:BR2_PACKAGE_LIBRETRO_FCEUNEXT 2:libretro:nestopia:BR2_PACKAGE_LIBRETRO_NESTOPIA 4:libretro:quicknes:BR2_PACKAGE_LIBRETRO_QUICKNES
+# ./scripts/linux/empack.py --force --system nes --extension '.nes .unf .unif .zip .7z' --fullname 'Nintendo Entertainment System' --platform nes --theme nes 1:libretro:nestopia:BR2_PACKAGE_LIBRETRO_NESTOPIA 2:libretro:fceumm:BR2_PACKAGE_LIBRETRO_FCEUMM 3:libretro:fceunext:BR2_PACKAGE_LIBRETRO_FCEUNEXT 4:libretro:quicknes:BR2_PACKAGE_LIBRETRO_QUICKNES
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_NES_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_NES = $(RECALBOX_ROMFS_NES_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_FCEUMM)$(BR2_PACKAGE_LIBRETRO_FCEUNEXT)$(BR2_PACKAGE_LIBRETRO_NESTOPIA)$(BR2_PACKAGE_LIBRETRO_QUICKNES),)
 define CONFIGURE_MAIN_NES_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_NES),Nintendo Entertainment System,$(SYSTEM_NAME_NES),.nes .NES .zip .ZIP .7z .7Z,nes,nes)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_NES),Nintendo Entertainment System,$(SYSTEM_NAME_NES),.nes .unf .unif .zip .7z,nes,nes)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_FCEUMM)$(BR2_PACKAGE_LIBRETRO_FCEUNEXT)$(BR2_PACKAGE_LIBRETRO_NESTOPIA)$(BR2_PACKAGE_LIBRETRO_QUICKNES),)
@@ -32,7 +32,7 @@ define CONFIGURE_NES_LIBRETRO_START
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_FCEUNEXT),y)
 define CONFIGURE_NES_LIBRETRO_FCEUNEXT_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_NES),fceunext,1)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_NES),fceunext,3)
 endef
 endif
 
@@ -44,13 +44,13 @@ endif
 
 ifeq ($(BR2_PACKAGE_LIBRETRO_FCEUMM),y)
 define CONFIGURE_NES_LIBRETRO_FCEUMM_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_NES),fceumm,3)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_NES),fceumm,2)
 endef
 endif
 
 ifeq ($(BR2_PACKAGE_LIBRETRO_NESTOPIA),y)
 define CONFIGURE_NES_LIBRETRO_NESTOPIA_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_NES),nestopia,2)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_NES),nestopia,1)
 endef
 endif
 
