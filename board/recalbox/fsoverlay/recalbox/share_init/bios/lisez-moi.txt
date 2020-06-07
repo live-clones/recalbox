@@ -233,15 +233,15 @@ ac9804d4c0e9d07e33472e3726ed15c3  sl31253.bin
 
 
 - TANGERINE ORIC/ATMOS :
-4a1ff5f8719d67dafcf85ac61959cdb6  oricutron/8dos.rom
-ebe418ec8a6c85d5ac32956c9a96c179  oricutron/basic10.rom
 a330779c42ad7d0c4ac6ef9e92788ec6  oricutron/basic11b.rom
-364bf095e0dc4222d75354d50b8cddfc  oricutron/hyperbas.rom
+ebe418ec8a6c85d5ac32956c9a96c179  oricutron/basic10.rom
+2b6498fd29a0adbf1c529762c02c33ab  oricutron/bd500.rom
 5136f764a7dbd1352519351fbb53a9f3  oricutron/jasmin.rom
 df864344d2a2091c3f952bd1c5ce1707  oricutron/microdis.rom
 8712a22e7e078de3343667d9fc1f2390  oricutron/pravetzt.rom
+5f3cd5a4307fed7a9dfe8faa4c044273  oricutron/8dos2.rom
 2324c9cc227c1327a72a667c97ed2990  oricutron/teleass.rom
-0a814078410353744e2947a8e9342e4e  oricutron/telmatic.rom
+364bf095e0dc4222d75354d50b8cddfc  oricutron/hyperbas.rom
 9a432244d9ee4a49e8ddcde64af94e05  oricutron/telmon24.rom
 
 

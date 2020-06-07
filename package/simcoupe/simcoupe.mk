@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-SIMCOUPE_VERSION = f277fa9c5ad8136403725e5fbc7a57bf89b601da
+SIMCOUPE_VERSION = e0e8a792bbab8e3d2e0881160650a16e68d41871
 SIMCOUPE_SITE = $(call github,simonowen,simcoupe,$(SIMCOUPE_VERSION))
 SIMCOUPE_DEPENDENCIES = sdl2
 

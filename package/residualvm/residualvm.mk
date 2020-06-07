@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-RESIDUALVM_VERSION = 421b333df0585bc1cc2cdbcc51cadb7b68bfc793
+RESIDUALVM_VERSION = d420f9dc15b64064d936cae26ab054f7dab13e15
 RESIDUALVM_SITE = $(call github,residualvm,residualvm,$(RESIDUALVM_VERSION))
 RESIDUALVM_LICENSE = GPL2
 RESIDUALVM_DEPENDENCIES = sdl2 zlib jpeg libmpeg2 libogg libvorbis flac libmad libpng libtheora \

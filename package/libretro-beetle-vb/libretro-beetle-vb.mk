@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_BEETLE_VB_VERSION = 504179e386e9ba1ec01414ba9a7732864f85bd8a
+LIBRETRO_BEETLE_VB_VERSION = 005c4c8b5dbecc2dfecf81b61ecb497ee05c52cf
 LIBRETRO_BEETLE_VB_SITE = $(call github,libretro,beetle-vb-libretro,$(LIBRETRO_BEETLE_VB_VERSION))
 
 define LIBRETRO_BEETLE_VB_BUILD_CMDS

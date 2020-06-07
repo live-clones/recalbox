@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_BLUEMSX_VERSION = e5a3805ace33b6a6e6ddb7121e0082880076892f
+LIBRETRO_BLUEMSX_VERSION = 1d441d908e73cf0fa7f52c42686f6c9e8cd254ed
 LIBRETRO_BLUEMSX_SITE = $(call github,libretro,blueMSX-libretro,$(LIBRETRO_BLUEMSX_VERSION))
 
 define LIBRETRO_BLUEMSX_BUILD_CMDS

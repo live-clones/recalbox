@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_2048_VERSION = a4870814dd98d66d4b8a51c961fe423b44331d92
+LIBRETRO_2048_VERSION = 57d43274dfc00cf3f32fe78032a6769c90890399
 LIBRETRO_2048_SITE = $(call github,libretro,libretro-2048,$(LIBRETRO_2048_VERSION))
 
 define LIBRETRO_2048_BUILD_CMDS

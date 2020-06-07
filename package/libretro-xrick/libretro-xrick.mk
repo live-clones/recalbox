@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_XRICK_VERSION = f5d7b06a54060ec8a867f666b8e7b379629a7512
+LIBRETRO_XRICK_VERSION = 8ad7c58b7ace25a964fa4573fe6a47b43d6bf050
 LIBRETRO_XRICK_SITE = $(call github,libretro,xrick-libretro,$(LIBRETRO_XRICK_VERSION))
 
 define LIBRETRO_XRICK_BUILD_CMDS

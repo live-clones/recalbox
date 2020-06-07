@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_BEETLE_PCFX_VERSION = 7bba6699d6f903bd701b0aa525d845de8427fee6
+LIBRETRO_BEETLE_PCFX_VERSION = f0d284854a1973196c36590505f70c3404cc37b4
 LIBRETRO_BEETLE_PCFX_SITE = $(call github,libretro,beetle-pcfx-libretro,$(LIBRETRO_BEETLE_PCFX_VERSION))
 
 define LIBRETRO_BEETLE_PCFX_BUILD_CMDS

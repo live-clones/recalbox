@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_OPERA_VERSION = 27bc2653ed469072a6a95102a8212a35fbb1e590
+LIBRETRO_OPERA_VERSION = cc00f9c68cb8947210f60ece441b9830a1c32bd7
 LIBRETRO_OPERA_SITE = $(call github,libretro,opera-libretro,$(LIBRETRO_OPERA_VERSION))
 
 ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_RPI3),y)
