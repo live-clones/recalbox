@@ -98,6 +98,7 @@ build rpi3:
     ARCH: 'rpi3'
 build rpi4:
   <<: *build_definition
+  when: manual
   only:
     - master
     - tags
