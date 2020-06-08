@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<gameList>
+  <provider>
+    <System>TIC-80</System>
+    <software>Skraper</software>
+    <database>ScreenScraper.fr</database>
+    <web>http://www.screenscraper.fr</web>
+  </provider>
+  <game id="195296" source="ScreenScraper.fr">
+    <path>./8 Bit Panda (Bruno Oliveira).tic</path>
+    <name>8 Bit Panda</name>
+    <desc>8 Bit Panda is a classic platformer for the TIC-80 fantasy console. You can move, run, jump and get powerups. It has 17 levels distributed across 6 major areas (isles).</desc>
+    <releasedate>20170828T000000</releasedate>
+    <developer>Bruno Oliveira</developer>
+    <publisher>Bruno Oliveira</publisher>
+    <genre>Platform</genre>
+    <players>1</players>
+    <hash>562E2DFD</hash>
+    <image>./media/images/8 Bit Panda (Bruno Oliveira).png</image>
+    <genreid>257</genreid>
+  </game>
+  <game id="195328" source="ScreenScraper.fr">
+    <path>./Cauliflower Power (librorumque).tic</path>
+    <name>Cauliflower Power</name>
+    <desc>Since the ancient times, the humanity knew very well about the exceptional values of the cauliflower plant: nutritional, medicinal, or aesthetic. Some even went as far as to claim it can ward off demonic spirit, boosts the intellectual power, or becomes a decent booze if you know what to do. Yet only in 2027, in a sudden flash of enlightenment, Dr. P.Golabek of CDDA Labs realized the true potential hidden in the unloved part of his meal. There was more to the boiled curd of the brassica oleracea than what it seemed on the surface. The discovery didn't go unnoticed, and instead of bringing prosperity and nutrition, the wondrous plant became outlawed along with significant number of unrelated species of brassicaceae family. The time has come to put an end to it and let the cauliflower bloom everywhere! Welcome to the Cauliflower Research Liberation Front, comrade!</desc>
+    <rating>0.7</rating>
+    <releasedate>20180615T000000</releasedate>
+    <developer>librorumque</developer>
+    <publisher>librorumque</publisher>
+    <genre>Puzzle-Game / Glide-Puzzle-Game</genre>
+    <players>1</players>
+    <hash>E3B1F1A6</hash>
+    <image>./media/images/Cauliflower Power (librorumque).png</image>
+    <genreid>2816</genreid>
+  </game>
+  <game id="195205" source="ScreenScraper.fr">
+    <path>./Secret Agents (msx80).tic</path>
+    <name>Secret Agents</name>
+    <releasedate />
+    <hash>659D7614</hash>
+    <image>./media/images/Secret Agents (msx80).png</image>
+  </game>
+  <game id="195281" source="ScreenScraper.fr">
+    <path>./Shadow Over The Twelve Lands (Bruno Oliveira).tic</path>
+    <name>Shadow Over The Twelve Lands</name>
+    <desc>This is a retro CRPG game where you control a party of adventurers through an epic quest that starts out with a small mistake where you essentially doom the entire world to a decade of disasters. But worry not, because you are going to fix things now and defeat the great evil you unleashed upon the world.</desc>
+    <rating>0.75</rating>
+    <releasedate>20190622T000000</releasedate>
+    <developer>Bruno Oliveira</developer>
+    <publisher>Bruno Oliveira</publisher>
+    <genre>Dungeon Crawler RPG-Role playing games</genre>
+    <players>1</players>
+    <hash>032DF202</hash>
+    <image>./media/images/Shadow Over The Twelve Lands (Bruno Oliveira).png</image>
+    <genreid>768</genreid>
+  </game>
+  <game id="204322" source="ScreenScraper.fr">
+    <path>./Todor (Andraaspar).tic</path>
+    <name>Todor</name>
+    <rating>0.85</rating>
+    <releasedate>20191019T000000</releasedate>
+    <developer>András Parditka</developer>
+    <publisher>András Parditka</publisher>
+    <genre>Platform</genre>
+    <players>1</players>
+    <hash>802FC6DD</hash>
+    <image>./media/images/Todor (Andraaspar).png</image>
+    <genreid>257</genreid>
+  </game>
+</gameList>

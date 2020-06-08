@@ -1,0 +1,11 @@
+Este fichero ZIP contiene tres ficheros DSK:
+
+- ianna-3dos.dsk: es una imagen DSK de 720KB. Puedes usarla en cualquier
+  emulador que soporte disqueteras de tipo "double sided, 80-track". La
+  mayoría acepta por defecto este tipo de disquetera, pero por ejemplo
+  FUSE no. Puedes cambiarlo en Options -> Disk options.
+
+- ianna-sidea.dsk / ianna-sideb.dsk: estas son imágenes DSK de 180KB. Puedes
+  transferirlas a un disquete de 3" y usarlas en un Spectrum +3 sin ningún
+  tipo de modificación. La cara A cargará la pantalla de presentación y el
+  código principal del juego, y entonces te pedirá que cambies a la cara B.

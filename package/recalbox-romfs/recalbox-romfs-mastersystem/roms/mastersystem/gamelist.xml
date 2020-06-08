@@ -1,33 +1,116 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <gameList>
-	<game>
-		<path>./Digger Chan (Aypok).sms</path>
-		<name>Digger Chan</name>
-		<desc>
-Digger Chan is a brand new "homebrew" game created exclusively for the classic 8-bit Sega Master System game consoles. It will be the first new game to be released on cartridge for the Master System since 1998!
-Digger Chan Screen Shot 1 Digger Chan Screen Shot 2
-
-You play as Digger Chan working for M.O.O. Milk Co, and it's your job to go around the globe fixing the milk pipelines buried deep beneath the ground. Everyone loves having fresh cool milk available on tap, and the customers get displeased when there are problems with the pipelines, cutting off their supply of milk.
-
-Getting down to the pipelines is not an easy job, digging is exhausting with only sporadic bottles of milk available to collect and quench your thirst. As if that wasn't enough to worry about, rival milk companies have hidden deadly explosives in your path to disrupt your work!
-</desc>
-		<image>./media/images/Digger Chan (Aypok).png</image>
-		<releasedate>20060101T000000</releasedate>
-		<developer>Playgeneration</developer>
-		<publisher>Playgeneration</publisher>
-		<genre>Platform</genre>
-	</game>
-	<game>
-		<path>./Pong Master 4k.sms</path>
-		<name>Pong Master 4k</name>
-		<desc>
-An implementation of the classic game of Pong for the Sega Master System. Probably the first game for this console to ever be coded in C.
-</desc>
-		<image>./media/images/Pong Master 4k.png</image>
-		<releasedate>20120101T000000</releasedate>
-		<developer>Haroldo Pinheiro</developer>
-		<publisher>homebrew</publisher>
-		<genre>Action</genre>
-		<players>2</players>
-	</game>
+  <provider>
+    <System>Master System</System>
+    <software>Skraper</software>
+    <database>ScreenScraper.fr</database>
+    <web>http://www.screenscraper.fr</web>
+  </provider>
+  <game id="200439" source="ScreenScraper.fr">
+    <path>./AstroForce.sms</path>
+    <name>Astro Force</name>
+    <desc>There is a lot going on in Astro Force – as you fly over the various landscapes which change up regularly, you will see rivers, buildings, roads, and more. Bosses are obviously larger than you and are going to take more than a few shots to bring down. They each have their own offensive weapons just waiting to take your ship down.</desc>
+    <rating>0.75</rating>
+    <releasedate>20170327T000000</releasedate>
+    <developer>Enrique Ruiz</developer>
+    <publisher>Enrique Ruiz</publisher>
+    <genre>Shoot'em up / Vertical-Shoot'em Up</genre>
+    <players>1</players>
+    <hash>1BAD75C5</hash>
+    <image>./media/images/AstroForce.png</image>
+    <genreid>260</genreid>
+  </game>
+  <game id="64897" source="ScreenScraper.fr">
+    <path>./Digger Chan (Aypok).sms</path>
+    <name>Digger Chan</name>
+    <desc>Digger Chan is a brand new "homebrew" game created exclusively for the classic 8-bit Sega Master System game consoles. It will be the first new game to be released on cartridge for the Master System since 1998! 
+Digger Chan Screen Shot 1 Digger Chan Screen Shot 2 
+ 
+You play as Digger Chan working for M.O.O. Milk Co, and it's your job to go around the globe fixing the milk pipelines buried deep beneath the ground. Everyone loves having fresh cool milk available on tap, and the customers get displeased when there are problems with the pipelines, cutting off their supply of milk. 
+ 
+Getting down to the pipelines is not an easy job, digging is exhausting with only sporadic bottles of milk available to collect and quench your thirst. As if that wasn't enough to worry about, rival milk companies have hidden deadly explosives in your path to disrupt your work!</desc>
+    <releasedate>20060101T000000</releasedate>
+    <developer>Playgeneration</developer>
+    <publisher>Playgeneration</publisher>
+    <genre>Platform</genre>
+    <players>1</players>
+    <hash>C4CA6878</hash>
+    <image>./media/images/Digger Chan (Aypok).png</image>
+    <genreid>257</genreid>
+  </game>
+  <game id="200437" source="ScreenScraper.fr">
+    <path>./Galactic Revenge.sms</path>
+    <name>Galactic Revenge</name>
+    <desc>It's the year 33XXX. Dirty aliens from a faraway galaxy emptied your refrigerator and killed your boyfriend. Confident in their superiority, they also had the nerve to steal your beloved Master System. 
+ 
+NOW THEY'VE GONE TOO FAR... 
+ 
+Your are Olivia Gun. Get your blastin' shoes on and pick from three killer outfits. Wield fire, spread shots, lasers, and even shurikens. 
+Wipe the grins off their faces as you jump, shoot, and fight your way through their ship and turn them into scrap as payback for their heinous deeds!</desc>
+    <rating>0.85</rating>
+    <releasedate>20170327T000000</releasedate>
+    <developer>Enrique Ruiz</developer>
+    <publisher>Mikgames</publisher>
+    <genre>Shoot'em up / Vertical-Shoot'em Up</genre>
+    <players>1</players>
+    <hash>4D69CD2C</hash>
+    <image>./media/images/Galactic Revenge.png</image>
+    <genreid>260</genreid>
+  </game>
+  <game id="203792" source="ScreenScraper.fr">
+    <path>./Papi Commando In CPP Land [recalbox].sms</path>
+    <name>Papi Commando in Ceplusplus Land</name>
+    <desc>Papi Commando is back in this new platform shooter. 
+ 
+This demo lets you play the 3 first levels. Collect coins, avoid or shoot enemies and try to complete all levels!</desc>
+    <releasedate />
+    <developer>Studio Vetea</developer>
+    <publisher>Studio Vetea</publisher>
+    <genre>Shooter / Run and Gun-Shooter</genre>
+    <players>1</players>
+    <hash>64CDD447</hash>
+    <image>./media/images/Papi Commando In CPP Land [recalbox].png</image>
+    <genreid>258</genreid>
+  </game>
+  <game id="64913" source="ScreenScraper.fr">
+    <path>./Pong Master 4k.sms</path>
+    <name>Pong Master 4k</name>
+    <desc>An implementation of the classic game of Pong for the Sega Master System. Probably the first game for this console to ever be coded in C.</desc>
+    <releasedate>20120101T000000</releasedate>
+    <developer>Haroldo Pinheiro</developer>
+    <publisher>Homebrew</publisher>
+    <genre>Action</genre>
+    <players>2</players>
+    <hash>F87D50FD</hash>
+    <image>./media/images/Pong Master 4k.png</image>
+    <genreid>256</genreid>
+  </game>
+  <game id="200427" source="ScreenScraper.fr">
+    <path>./SilverValley.sms</path>
+    <name>Silver Valley</name>
+    <desc>One of the greatest run &amp; jump &amp; shoot &amp; fight game on MasterSystem!</desc>
+    <rating>0.9</rating>
+    <releasedate>20171231T000000</releasedate>
+    <developer>Enrique Ruiz</developer>
+    <publisher>Mikgames</publisher>
+    <genre>Plateform / Fighter Scrolling-Platform</genre>
+    <players>1</players>
+    <hash>2774B5CC</hash>
+    <image>./media/images/SilverValley.png</image>
+    <genreid>258</genreid>
+  </game>
+  <game id="200096" source="ScreenScraper.fr">
+    <path>./WingWarriors.sms</path>
+    <name>WingWarriors</name>
+    <desc>It's a classic shoting game with some bullet-hell reminiscences. 6 stages with 3 bosses, 3 different players to choose from, and a lot of bullets to avoid.</desc>
+    <rating>0.85</rating>
+    <releasedate>20190101T000000</releasedate>
+    <developer>Francisco Javier Del Pino Cuesta</developer>
+    <publisher>Kitmaker Entertainment</publisher>
+    <genre>Shoot'em up / Vertical-Shoot'em Up</genre>
+    <players>1</players>
+    <hash>8C384703</hash>
+    <image>./media/images/WingWarriors.png</image>
+    <genreid>260</genreid>
+  </game>
 </gameList>

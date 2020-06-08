@@ -1,159 +1,217 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <gameList>
-	  <game>
+  <provider>
+    <System>Family Computer</System>
+    <software>Skraper</software>
+    <database>ScreenScraper.fr</database>
+    <web>http://www.screenscraper.fr</web>
+  </provider>
+  <game id="97386" source="ScreenScraper.fr">
+    <path>./2048 (tsone).nes</path>
+    <name>2048</name>
+    <desc>2048 is an originally Smartphone Game. You must play with tile to add them pair by pair to obtain 2048.</desc>
+    <releasedate>20140621T000000</releasedate>
+    <developer>tsone</developer>
+    <publisher>tsone</publisher>
+    <genre>Puzzle-Game</genre>
+    <players>1</players>
+    <hash>73E0D658</hash>
+    <image>./media/images/2048 (tsone).png</image>
+    <genreid>2816</genreid>
+  </game>
+  <game id="97387" source="ScreenScraper.fr">
+    <path>./BladeBuster (High Level Challenge).nes</path>
+    <name>Blade Buster</name>
+    <desc>Blade Buster is a new homebrew NES shoot'em up by the doujin group High Level Challenge. The game is based on the two time attack modes from the 1990 Turbografx-16 vertical shoot'em up Super Star Soldier, in which you try to achieve the highest possible score in either 2 or 5 minutes. So there are only two short stages in the game, with the boss battles at the end of each one. Aside from the standard enemies, boxes, and gems, there are various hidden bonuses you can get for extra points.</desc>
+    <releasedate>20100101T000000</releasedate>
+    <developer>High Level Challenge</developer>
+    <publisher>High Level Challenge</publisher>
+    <genre>Shoot'em up / Vertical-Shoot'em Up</genre>
+    <players>1</players>
+    <hash>3ABA6565</hash>
+    <image>./media/images/BladeBuster (High Level Challenge).png</image>
+    <genreid>260</genreid>
+  </game>
+  <game id="97388" source="ScreenScraper.fr">
+    <path>./Chase (Shiru).nes</path>
+    <name>Chase</name>
+    <desc>You play as a green faced thief and must move around in a Pacman like maze collecting all the golden gems to finish the level. Just watch out for the enemy police around you that increase in number with each level, or it's a life lost!</desc>
+    <releasedate>20140913T000000</releasedate>
+    <developer>Shiru</developer>
+    <publisher>Shiru</publisher>
+    <genre>Action / Labyrinth-Action</genre>
+    <players>1</players>
+    <hash>B887529D</hash>
+    <image>./media/images/Chase (Shiru).png</image>
+    <genreid>258</genreid>
+  </game>
+  <game id="202430" source="ScreenScraper.fr">
+    <path>./Cheril Perils Classic (MojonTwins).nes</path>
+    <name>Cheril Perils Classic</name>
+    <desc>Cheril arrives to the city and it's full of zombies! And they won't let you go until you kill them all! And not only that, you'll have to clean the Factory and the Forest of Badajoz as well! That forest again! Will you ever be able to escape that forest? 
+ 
+In easy mode just jump on top of the baddies to clean every stage. In resonators mode, you'll have to activate a resonator to freeze the baddies for a while before you can jump on top of them to kil them all.</desc>
+    <rating>0.75</rating>
+    <releasedate>20200301T000000</releasedate>
+    <developer>Mojontwins</developer>
+    <publisher>Mojontwins</publisher>
+    <genre>Plateform / Run Jump-Platform</genre>
+    <players>1</players>
+    <hash>8132AFD5</hash>
+    <image>./media/images/Cheril Perils Classic (MojonTwins).png</image>
+    <genreid>257</genreid>
+  </game>
+  <game id="97389" source="ScreenScraper.fr">
+    <path>./Driar (Stefan Adolfsson - David Eriksson).nes</path>
+    <name>Driar</name>
+    <desc>You move the Driar the dinosaur through the levels, completing them when you collect all the stars. You avoid the stationary obstacles and enemies that move in a fixed path aided only by your jump and sprint buttons. The one thing of note (and not apparent from the screenshots) is that the levels wrap around left-right and sometimes you'll need to utilise this - the most difficult occurrences being when you have to judge a jump from one side of the screen to the other.</desc>
+    <releasedate>20120101T000000</releasedate>
+    <developer>Stefan Adolfsson</developer>
+    <publisher>Stefan Adolfsson</publisher>
+    <genre>Platform</genre>
+    <players>1</players>
+    <hash>2C31CE23</hash>
+    <image>./media/images/Driar (Stefan Adolfsson - David Eriksson).png</image>
+    <genreid>257</genreid>
+  </game>
+  <game id="97390" source="ScreenScraper.fr">
+    <path>./Lan Master (Shiru).nes</path>
+    <name>Lan Master</name>
+    <desc>Lan Master is a puzzle game for NES, inspired by the game NetWalk. The goal is to connect all of the computers on each level. Rotate the pieces and connect the wires before the timer runs out! 
+ 
+There are fifty levels in all, with increasing difficulty. A password system is included so whether you're playing in an emulator or on a console, you can come back later and pick up where you left off.</desc>
+    <releasedate>20140614T000000</releasedate>
+    <developer>Shiru</developer>
+    <publisher>Shiru</publisher>
+    <genre>Puzzle-Game</genre>
+    <hash>32D113B5</hash>
+    <image>./media/images/Lan Master (Shiru).png</image>
+    <genreid>2816</genreid>
+  </game>
+  <game id="97391" source="ScreenScraper.fr">
+    <path>./Lawn Mower (Shiru).nes</path>
+    <name>Lawn Mower</name>
+    <desc>Lawn Mower is a homebrew, published by The NES Dump, which was released in the United States of America for the Nintendo NES.The goal of this game is to mow all the grass before you run out of gas. Collect gas cans to keep yourself from running on empty.</desc>
+    <releasedate>20110528T000000</releasedate>
+    <developer>Shiru</developer>
+    <publisher>Shiru</publisher>
+    <genre>Action</genre>
+    <players>1</players>
+    <hash>5ED924F3</hash>
+    <image>./media/images/Lawn Mower (Shiru).png</image>
+    <genreid>256</genreid>
+  </game>
+  <game id="199992" source="ScreenScraper.fr">
+    <path>./Nova The Squirrel.nes</path>
+    <name>Nova The Squirrel</name>
+    <desc>Explore 33 levels and fight 7 bosses across five different worlds in an attempt to save the world of Latte from the evil "Scheme Team". 
+ 
+    Copy the abilities of your enemies. (10 in all!) 
+    Over 35 different types of enemies, plus variants. 
+    Interesting puzzle mechanics. 
+    Fancy soundtrack full of effects, by Vuurniac Squarewave. 
+        Composer's Bandcamp, YouTube 
+        Squirrel Domino music by maple 
+    Modern design: no lives or time limits, tons of checkpoints. 
+    A collectible in every stage for those wanting a challenge. 
+    Bonus challenge levels after the main game. 
+    Bonus game: Double Action Blaster Guys.</desc>
+    <rating>0.7</rating>
+    <releasedate>20190830T000000</releasedate>
+    <developer>NovaSquirrel</developer>
+    <publisher>NovaSquirrel</publisher>
+    <genre>Plateform / Run Jump-Platform</genre>
+    <players>1</players>
+    <hash>0B752BEE</hash>
+    <image>./media/images/Nova The Squirrel.png</image>
+    <genreid>257</genreid>
+  </game>
+  <game id="97392" source="ScreenScraper.fr">
+    <path>./Sir Ababol (2013)(The Mojon Twins)[!].nes</path>
+    <name>Sir Ababol</name>
+    <desc>At the end of the 11th Century, a young crusader named Sir Ababol from Manchester City traveled accross the ever green prairies in the French Britain, climbed the infinite heights at the Pirineos and arrived to the Alcoraz River. There, he witnessed completely astonished how St. George from Capadocia, also known as the dragon guy, helped Christians conquer territories held by the infidels. 
+Control Sir Ababol accross the Monegrian fields and gather 24 ababol flowers. To be able to progress in your journey you'll need some keys you will be able to use to open several doors to gain access to different sections. You can jump on the baddies to get rid of them, too. Be patient, think before you jump, and you'll be successful!</desc>
+    <releasedate>20130101T000000</releasedate>
+    <developer>Shiru</developer>
+    <publisher>The Mojon Twins</publisher>
+    <genre>Platform</genre>
+    <players>1</players>
+    <hash>5E7E4C60</hash>
+    <image>./media/images/Sir Ababol (2013)(The Mojon Twins)[!].png</image>
+    <genreid>257</genreid>
+  </game>
+  <game id="97393" source="ScreenScraper.fr">
+    <path>./Steemerz v02 (fauxgame) (FR).nes</path>
+    <name>Streemerz (Français)</name>
+    <desc>Try climbing to the top of this one by throwing streamers and climbing them. On your way up you better watch out for the various pie throwing clowns, burning candles and bouncing balls, because if they get you, you'll die a little each time. 
+ 
+These were the orders given to you, Operative JOE when you were ordered to infiltrate the evil MASTER Y's floating fortress to destroy the TIGER ARMY's top secret weapon.</desc>
+    <rating>0.5</rating>
+    <releasedate>20120101T000000</releasedate>
+    <developer>Faux Game</developer>
+    <publisher>Faux Game</publisher>
+    <genre>Platform</genre>
+    <players>1</players>
+    <hash>1E8915EA</hash>
+    <image>./media/images/Steemerz v02 (fauxgame) (FR).png</image>
+    <genreid>257</genreid>
+  </game>
+  <game id="97393" source="ScreenScraper.fr">
+    <path>./Steemerz v02 (fauxgame).nes</path>
+    <name>Streemerz (English)</name>
+    <desc>Try climbing to the top of this one by throwing streamers and climbing them. On your way up you better watch out for the various pie throwing clowns, burning candles and bouncing balls, because if they get you, you'll die a little each time. 
+ 
+These were the orders given to you, Operative JOE when you were ordered to infiltrate the evil MASTER Y's floating fortress to destroy the TIGER ARMY's top secret weapon.</desc>
+    <rating>0.5</rating>
+    <releasedate>20120101T000000</releasedate>
+    <developer>Faux Game</developer>
+    <publisher>Faux Game</publisher>
+    <genre>Platform</genre>
+    <players>1</players>
+    <hash>DBFCA8FB</hash>
+    <image>./media/images/Steemerz v02 (fauxgame) (FR).png</image>
+    <genreid>257</genreid>
+  </game>
+  <game id="97394" source="ScreenScraper.fr">
+    <path>./Tiger Jenny (Ludosity).nes</path>
+    <name>Tiger Jenny</name>
+    <desc>Tiger Jenny is a NES game set in the same universe as "Ittle Dew" it takes place a thousand years before the events of that game. 
+Battle your way through the forests to seek vengeance on the Turnip Witch who dwells in her castle. 
+ 
+Note that this game actually runs on the real hardware, it's not just an imitation. 
+Therefore the release is in nes rom format so you'll need an emulator to play it.</desc>
+    <releasedate>20140101T000000</releasedate>
+    <developer>Ludosity</developer>
+    <publisher>Ludosity</publisher>
+    <genre>Platform</genre>
+    <players>1</players>
+    <hash>64BAF729</hash>
+    <image>./media/images/Tiger Jenny (Ludosity).png</image>
+    <genreid>257</genreid>
+  </game>
+  <game id="195395" source="ScreenScraper.fr">
     <path>./Underground Adventure (Arcade) [NESMaker].nes</path>
     <name>Underground Adventure</name>
-    <desc>Follow Harry & Jack's adventures in mysterious caves. Collect all gems to complete levels. Escapes monsters and complete all levels to reach the final exit!</desc>
+    <desc>Follow Harry &amp; Jack's adventures in mysterious caves. Collect all gems to complete levels. Escapes monsters and complete all levels to reach the final exit!</desc>
+    <releasedate />
     <developer>dale_coop</developer>
-    <genre>Plateforme</genre>
+    <genre>Platform</genre>
     <players>1-2</players>
+    <hash>868D6460</hash>
     <image>./media/images/Underground Adventure (Arcade) [NESMaker].png</image>
+    <genreid>257</genreid>
   </game>
-	<game>
-		<path>./2048 (tsone).nes</path>
-		<name>2048</name>
-		<desc>
-2048 is an originally Smartphone Game. You must play with tile to add them pair by pair to obtain 2048.
-</desc>
-		<image>./media/images/2048 (tsone).png</image>
-		<developer>tsone</developer>
-		<publisher>tsone</publisher>
-		<genre>Puzzle-Game</genre>
-	</game>
-	<game>
-		<path>./BladeBuster (High Level Challenge).nes</path>
-		<name>Blade Buster</name>
-		<desc>
-Blade Buster is a new homebrew NES shoot ?em up by the doujin group High Level Challenge. The game is based on the two time attack modes from the 1990 Turbografx-16 vertical shoot ?em up Super Star Soldier, in which you try to achieve the highest possible score in either 2 or 5 minutes. So there are only two short stages in the game, with the boss battles at the end of each one. Aside from the standard enemies, boxes, and gems, there are various hidden bonuses you can get for extra points.
-</desc>
-		<image>./media/images/BladeBuster (High Level Challenge).png</image>
-		<releasedate>20100101T000000</releasedate>
-		<developer>High Level Challenge</developer>
-		<publisher>High Level Challenge</publisher>
-		<genre>Shoot'em up / Vertical</genre>
-	</game>
-	<game>
-		<path>./Chase (Shiru).nes</path>
-		<name>Chase</name>
-		<desc>
-You play as a green faced thief and must move around in a Pacman like maze collecting all the golden gems to finish the level. Just watch out for the enemy police around you that increase in number with each level, or it's a life lost!
-</desc>
-		<image>./media/images/Chase (Shiru).png</image>
-		<releasedate>20120101T000000</releasedate>
-		<developer>Shiru</developer>
-		<publisher>Shiru</publisher>
-		<genre>Action / Labyrinth</genre>
-		<players />
-	</game>
-	<game>
-		<path>./Driar (Stefan Adolfsson - David Eriksson).nes</path>
-		<name>Driar</name>
-		<desc>
-You move the Driar the dinosaur through the levels, completing them when you collect all the stars. You avoid the stationary obstacles and enemies that move in a fixed path aided only by your jump and sprint buttons. The one thing of note (and not apparent from the screenshots) is that the levels wrap around left-right and sometimes you'll need to utilise this - the most difficult occurrences being when you have to judge a jump from one side of the screen to the other.
-</desc>
-		<image>./media/images/Driar (Stefan Adolfsson - David Eriksson).png</image>
-		<releasedate>20120101T000000</releasedate>
-		<developer>Stefan Adolfsson - David Eriks</developer>
-		<publisher>Stefan Adolfsson - David Eriks</publisher>
-		<genre />
-		<players />
-	</game>
-	<game>
-		<path>./Lan Master (Shiru).nes</path>
-		<name>Lan Master</name>
-		<desc>
-Lan Master is a puzzle game for NES, inspired by the game NetWalk. The goal is to connect all of the computers on each level. Rotate the pieces and connect the wires before the timer runs out!
-
-There are fifty levels in all, with increasing difficulty. A password system is included so whether you're playing in an emulator or on a console, you can come back later and pick up where you left off.
-</desc>
-		<image>./media/images/Lan Master (Shiru).png</image>
-		<developer>Shiru</developer>
-		<publisher>Shiru</publisher>
-		<genre>Puzzle-Game</genre>
-		<players />
-	</game>
-	<game>
-		<path>./Lawn Mower (Shiru).nes</path>
-		<name>Lawn Mower</name>
-		<desc>
-Lawn Mower is a homebrew, published by The NES Dump, which was released in the United States of America for the Nintendo NES.The goal of this game is to mow all the grass before you run out of gas. Collect gas cans to keep yourself from running on empty.
-</desc>
-		<image>./media/images/Lawn Mower (Shiru).png</image>
-		<releasedate>20110101T000000</releasedate>
-		<developer>Shiru</developer>
-		<publisher>Shiru</publisher>
-		<genre>Action</genre>
-	</game>
-	<game>
-		<path>./Sir Ababol (2013)(The Mojon Twins)[!].nes</path>
-		<name>Sir Ababol</name>
-		<desc>
-Sir Ababol controlled through the Monegros for all ababoles. To progress in your adventure you'll have to go find a set of keys that you can use to open doors and access other locations. Once you've gathered 24 ababoles finish your mission.
-
-Jump up the bat, dogs and warriors to kill them, and avoid touching the water is bad. To recover some encouragement, you can eat one of the chicken thighs "monegro's fried chicken" magic they appear scattered around the stage.
-
-Briconsejo: be patient and do not go crazy!
-
-Sir Control Ababol Monegrian accross the fields and gather flowers ababol 24. To be Able to progress in your journey you'll need some keys you will be Able to use to open several doors to gain access to different sections. You can jump on the baddies to get rid of them, too. Be patient, think before you jump, and you'll be successful!
-</desc>
-		<image>./media/images/Sir Ababol (2013)(The Mojon Twins)[!].png</image>
-		<releasedate>20130101T000000</releasedate>
-		<developer>Shiru</developer>
-		<publisher>The Mojon Twins</publisher>
-		<genre>Platform</genre>
-	</game>
-	<game>
-		<path>./Steemerz v02 (fauxgame).nes</path>
-		<name>Steemerz</name>
-		<desc>
-"Try climbing to the top of this one by throwing streamers and climbing them. On your way up you better watch out for the various pie throwing clowns, burning candles and bouncing balls, because if they get you, you'll die a little each time."
-
-These were the orders given to you, Operative JOE when you were ordered to infiltrate the evil MASTER Y's floating fortress to destroy the TIGER ARMY's top secret weapon.
-</desc>
-		<image>./media/images/Steemerz v02 (fauxgame).png</image>
-		<releasedate>20120101T000000</releasedate>
-		<developer>Faux Game</developer>
-		<publisher>Faux Game</publisher>
-		<genre>Platform</genre>
-	</game>
-	<game>
-		<path>./Steemerz v02 (fauxgame) (FR).nes</path>
-		<name>Steemerz (French)</name>
-		<desc>
-"Try climbing to the top of this one by throwing streamers and climbing them. On your way up you better watch out for the various pie throwing clowns, burning candles and bouncing balls, because if they get you, you'll die a little each time."
-
-These were the orders given to you, Operative JOE when you were ordered to infiltrate the evil MASTER Y's floating fortress to destroy the TIGER ARMY's top secret weapon.
-</desc>
-		<image>./media/images/Steemerz v02 (fauxgame) (FR).png</image>
-		<releasedate>20120101T000000</releasedate>
-		<developer>Faux Game</developer>
-		<publisher>Faux Game</publisher>
-		<genre>Platform</genre>
-	</game>
-	<game>
-		<path>./Tiger Jenny (Ludosity).nes</path>
-		<name>Tiger Jenny</name>
-		<desc>
-Tiger Jenny is a NES game set in the same universe as "Ittle Dew" it takes place a thousand years before the events of that game.
-Battle your way through the forests to seek vengeance on the Turnip Witch who dwells in her castle.
-</desc>
-		<image>./media/images/Tiger Jenny (Ludosity).png</image>
-		<releasedate>20140101T000000</releasedate>
-		<developer>Ludosity</developer>
-		<publisher>Ludosity</publisher>
-		<genre>Platform</genre>
-	</game>
-	<game>
-		<path>./Zooming Secretary (Shiru).nes</path>
-		<name>Zooming Secretary</name>
-		<desc>
-Playing the role of a secretary in her trial period at a new job, you have to work your way through an increasingly difficult week without being fired for failing to answer calls on time. Each single screen level (wrapping on both horizontal and vertical axes) consists of an arrangement of platforms and staircases upon which are placed a number of phones and filing cabinets. When a phone rings, the topic that the call is about is represented by a symbol above the handset - and your task is to run to the matching filing cabinet then answer the call before the phone rings off. It starts of simple enough, with day one based on a symmetrical level with only two phones and two cabinets, but the difficulty soon ramps up with devious platform placement and a variety of obstructive NPC's thrown into the mix. The boss slows you down with his unhelpful remarks (just like in real life) and chatting with the office gossip-girl can leave you confused and swap over the topic currently held in your single-track mind. Then there's the delivery guy knocking people over and the oh-so-essential and distracting office romance - although thankfully there is also a coffee machine to provide you with a caffeine-fuelled speed boost to help you overcome all these obstacles. It's a simple yet compulsive concept that would work equally well as a browser-based casual game or modern console indie title, so to see Zooming Secretary make it's debut on the original 'family computer' is particularly exciting.
-</desc>
-		<image>./media/images/Zooming Secretary (Shiru).png</image>
-		<rating>0</rating>
-		<releasedate>20110101T000000</releasedate>
-		<developer>Shiru</developer>
-		<publisher>Shiru</publisher>
-		<genre>Action</genre>
-	</game>
+  <game id="71573" source="ScreenScraper.fr">
+    <path>./Zooming Secretary (Shiru).nes</path>
+    <name>Zooming Secretary</name>
+    <desc>Playing the role of a secretary in her trial period at a new job, you have to work your way through an increasingly difficult week without being fired for failing to answer calls on time. Each single screen level (wrapping on both horizontal and vertical axes) consists of an arrangement of platforms and staircases upon which are placed a number of phones and filing cabinets. When a phone rings, the topic that the call is about is represented by a symbol above the handset - and your task is to run to the matching filing cabinet then answer the call before the phone rings off. It starts of simple enough, with day one based on a symmetrical level with only two phones and two cabinets, but the difficulty soon ramps up with devious platform placement and a variety of obstructive NPC's thrown into the mix. The boss slows you down with his unhelpful remarks (just like in real life) and chatting with the office gossip-girl can leave you confused and swap over the topic currently held in your single-track mind. Then there's the delivery guy knocking people over and the oh-so-essential and distracting office romance - although thankfully there is also a coffee machine to provide you with a caffeine-fuelled speed boost to help you overcome all these obstacles. It's a simple yet compulsive concept that would work equally well as a browser-based casual game or modern console indie title, so to see Zooming Secretary make it's debut on the original 'family computer' is particularly exciting.</desc>
+    <releasedate>20110101T000000</releasedate>
+    <developer>Shiru</developer>
+    <publisher>Shiru</publisher>
+    <genre>Action</genre>
+    <players>1</players>
+    <hash>947972D0</hash>
+    <image>./media/images/Zooming Secretary (Shiru).png</image>
+    <genreid>256</genreid>
+  </game>
 </gameList>

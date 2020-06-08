@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<gameList>
+  <provider>
+    <System>Game Boy Color</System>
+    <software>Skraper</software>
+    <database>ScreenScraper.fr</database>
+    <web>http://www.screenscraper.fr</web>
+  </provider>
+  <game id="200052" source="ScreenScraper.fr">
+    <path>./WingWarriors.gb</path>
+    <name>WingWarriors</name>
+    <desc>It's a classic shooting game with some bullet-hell reminiscences. 6 stages with 3 bosses, 3 different players to choose from, and a lot of bullets to avoid.</desc>
+    <rating>0.85</rating>
+    <releasedate>20190101T000000</releasedate>
+    <developer>Francisco Javier Del Pino Cuesta</developer>
+    <publisher>Kitmaker Entertainment</publisher>
+    <genre>Shoot'em up / Vertical-Shoot'em Up</genre>
+    <players>1</players>
+    <hash>04E04980</hash>
+    <image>./media/images/WingWarriors.png</image>
+    <genreid>260</genreid>
+  </game>
+</gameList>

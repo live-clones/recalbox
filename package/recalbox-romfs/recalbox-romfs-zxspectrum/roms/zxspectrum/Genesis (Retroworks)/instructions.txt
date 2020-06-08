@@ -1,0 +1,71 @@
+GENESIS: Dawn of a new day
+
+They never took the Dork menace very seriously. First they thought they would never dare to attack, then that we would easily beat them... mankind never learns. Now the Earth is invaded by those creatures, and you are the pilot in charge of saving everyone. Does it sound familiar to you? Maybe one of those combat simulators said something similar.
+
+But things could never be that easy. When they first attacked, the definitive weapon was designed, something that could free us from the Dork: the Genesis spaceship. But, why building it in the Earth? That would be too simple. It is much better to outsource the job to other planets, and then we would assemble the ship. Well, they never expected the invasion to be that fast, and they did not think that someone would have to go and collect the Genesis parts... Guess who.
+
+So this is the situation. You are on your good old spaceship, in a secret hangar, getting ready to try to escape from Earth, visit five planets to gather the Genesis parts, assemble it and finally come back home, to free the planet from an angry alien invasion... all on your own.
+
+THE GAME
+
+Your mission is quite simple: kill as many enemies as possible, while trying to stay alive. First, you must escape from Earth, to visit five planets and get a part of the Genesis on each one. Once you have successfully assembled the spaceship, you will use it to get back to Earth and free us from the Dork menace.
+
+Your ship has two different shoot types: normal shoot, which will be used to fire the weapons equipped by your ship at any time, and a megablast, which will kill every enemy around you. To activate the megablast,  keep the fire button pressed, until the power bar located on the lower-right side of the screen is filled up. The bomb will be launched when you release the fire button. You have an unlimited number of normal shoots and a very limited amount of available megablasts, so use them wisely.
+
+Somewhere in the planets you will find capsules that, when shot, will release power ups for your ship. Those power ups are determined by the character found inside them:
+
++1: Add a megablast to your inventory
+D: Doubles the shooting capacity of your ship, so you will be able to shoot twice as many shoots without reloading. Keep in mind that, if you change your weapon, you will be back to the normal shooting capacity.
+T: Triple shoot
+S: A highly destructive laser
+M: Homing missile. It will go directly to your enemies, following their heat trace.
+B: Bomb, added to your normal shoot
+C: Megashoot. Little is known about the capabilities of this weapon. All we know is that, if you get it, you will be able to shoot in all directions.
+
+CONTROLS
+
+You may control your ship using a Kempston or Sinclair joystick, or the keyboard, using the following keys (not redefineable):
+
+	O: left
+	P: right
+	Q: up
+	A: down
+	Space: fire
+
+Press fire on the main menu, and the game will automatically detect which type of control you are using.
+
+You may decide if your ship will move with or without inertia, pressing I on the main menu.
+
+You may also decide the type of in-game sound (music&FX, only music, only FX, silence), pressing S on the main menu.
+
+SOME WORDS OF ADVICE
+
+- Do not always try to kill all enemies.
+- Sometimes you will find alternative paths in a level. Explore all options, some paths are way easier.
+- Final enemies, even though they look invincible, follow some simple behaviour rules. If you can understand them, you will know their weak points.
+- Insist, insist and insist. You can get it.
+
+LOADING INSTRUCTIONS
+
+The game requires a 128k Spectrum to run. Follow these instructions:
+
+- ZX Spectrum 128, +2, +2A, +2B, +3 (tape): Select LOADER on the main menu, then press PLAY on tape. The game will be automatically loaded.
+
+- ZX Spectrum +3 (disk): Insert the disk on drive A:, and select LOADER on the main menu. The game will be automatically loaded.
+
+CREDITS
+
+Idea and code: utopian
+Graphics: sejuan, anjuel, pagantipaco
+Music, sound effects, player: WYZ
+Betatesting: tbrazil, Ivanzx, Metalbrain and the rest of the RetroWorks team.
+Intro music (+3 version): Riskej
+
+Dedicated to Rafa. I hope someday you will play this game and have some fun with it.
+
+Also dedicated to the loving memory of Johnatan “Joffa” Smith. I hope this is good enough to be worth your time, wherever you are.
+
+THANKS
+To Derek Smith, Johnatan Cauldwell, Rusell Kay, and everyone else sharing their knowledge and code. Probably this game would have never existed without you.
+
+To anyone who has taken the time to provide even the smallest idea or hint to this game. Thank you for having made this dream come true.

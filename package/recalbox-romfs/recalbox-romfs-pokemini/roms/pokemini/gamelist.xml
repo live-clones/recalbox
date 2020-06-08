@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<gameList>
+  <provider>
+    <System>Pokémon mini</System>
+    <software>Skraper</software>
+    <database>ScreenScraper.fr</database>
+    <web>http://www.screenscraper.fr</web>
+  </provider>
+  <game id="200028" source="ScreenScraper.fr">
+    <path>./cortex.min</path>
+    <name>Cortex</name>
+    <desc>Cortex is a puzzle game in which you have to clear all blocks from a room by pushing 3 or more matching blocks together to make them disappear. Features a total of 40 levels.</desc>
+    <rating>0.7</rating>
+    <releasedate>20061231T000000</releasedate>
+    <developer>PlayerOne</developer>
+    <publisher>PlayerOne</publisher>
+    <genre>Puzzle-Game / Glide-Puzzle-Game</genre>
+    <players>1</players>
+    <hash>892B1B54</hash>
+    <image>./media/images/cortex.png</image>
+    <genreid>2816</genreid>
+  </game>
+  <game id="200030" source="ScreenScraper.fr">
+    <path>./galactix.min</path>
+    <name>Galactix</name>
+    <desc>Kill those damn Aliens once again, and kill them all!</desc>
+    <rating>0.75</rating>
+    <releasedate />
+    <developer>Lupin, Okkie, p0p</developer>
+    <publisher>Lupin, Okkie, p0p</publisher>
+    <genre>Shoot'em up / Vertical-Shoot'em Up</genre>
+    <players>1</players>
+    <hash>4E6305B7</hash>
+    <image>./media/images/galactix.png</image>
+    <genreid>260</genreid>
+  </game>
+  <game id="200026" source="ScreenScraper.fr">
+    <path>./PsychicSeeds.min</path>
+    <name>Psychic Seeds</name>
+    <desc>Group Exeggcute and head towards the finish. 
+Try to find the hidden pokéball in each stage. 
+30 levels of platform puzzling action and over 30 Pokémon to catch!</desc>
+    <rating>0.8</rating>
+    <releasedate>20150616T000000</releasedate>
+    <developer>Justburn &amp; Palkone</developer>
+    <publisher>Justburn &amp; Palkone</publisher>
+    <genre>Puzzle-Game</genre>
+    <players>1</players>
+    <hash>E2B0D791</hash>
+    <image>./media/images/PsychicSeeds.png</image>
+    <genreid>2816</genreid>
+  </game>
+</gameList>

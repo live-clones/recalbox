@@ -1,0 +1,8 @@
+PAPI COMMANDO IN CPP LAND (demo)
+================================
+
+Studio Vetea kindly authorized Recalbox to distribute "Papi Commando in CPP Land".
+You're not entitled to share this game on your own website without author's written permission.
+
+This game is still in WIP stage.
+Final version will be available later on the Studio Vetea site: https://vetea.itch.io/

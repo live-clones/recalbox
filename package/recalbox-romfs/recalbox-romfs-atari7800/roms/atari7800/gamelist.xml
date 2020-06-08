@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<gameList>
+  <provider>
+    <System>Atari 7800</System>
+    <software>Skraper</software>
+    <database>ScreenScraper.fr</database>
+    <web>http://www.screenscraper.fr</web>
+  </provider>
+  <game id="38003" source="ScreenScraper.fr">
+    <path>./BonQ (Ken Siders).a78</path>
+    <name>B*nq</name>
+    <desc>b*nQ is an attempt to bring Q*bert to the Atari 7800. In the game, you must hop from one block to the next, changing its color, without getting stomped by the enemies or hopping off the pyramid. After you have changed all the block's colors, it is off to the next level.</desc>
+    <releasedate>20050421T000000</releasedate>
+    <developer>Ken Siders</developer>
+    <publisher>AtariAge</publisher>
+    <genre>Action</genre>
+    <players>1-2</players>
+    <hash>B08668B0</hash>
+    <image>./media/images/BonQ (Ken Siders).png</image>
+    <genreid>256</genreid>
+  </game>
+  <game id="200495" source="ScreenScraper.fr">
+    <path>./DungeonStalker [v1.245] (Steve Engelhardt).a78</path>
+    <name>DungeonStalker</name>
+    <desc>Everyone knows  The Dungeon, the last subterranean vestige of a long collapsed and long forgotten castle.  The children of your village have always loved to scare each other with songs of skeletal warriors, a thousand years dead, that stalk its silent corridors. As children become adults and traditions grow, it has become the custom for boys on the verge of manhood to prove their worth, venturing into the darkness to retrieve some small trinket. Usually it's just a few old coins picked up near the entrance, along with a hastily concocted story of bravery and derring-do. 
+ 
+As your seventeenth birthday approached, it was clear that it was never going to be a straightforward cash grab for you. As eldest daughter of the chieftain, you always had a lot more to prove; always the best shot, the best sword, the fastest rider and the bravest warrior. Th at's why you're down here; shivering, terri ed and pointing a loaded arrow at anything that moves. And things are moving in the darkness. At  first it was just the bats, but as you venture deeper, the unmistakable sound of footsteps echoes in the gloom - bone footsteps.  Th e children's songs were right - the dead do stalk these halls! 
+ 
+Welcome to Dungeon Stalker. Get ready for an exciting arcade-style adventure;  fighting monsters and collecting treasure as you journey ever deeper into th e Dungeon!</desc>
+    <rating>0.75</rating>
+    <releasedate>20150101T000000</releasedate>
+    <developer>Steve Engelhardt &amp; Mike Saarna</developer>
+    <publisher>AtariAge</publisher>
+    <genre>Action / Labyrinth-Action</genre>
+    <players>1</players>
+    <hash>01301127</hash>
+    <image>./media/images/DungeonStalker [v1.245] (Steve Engelhardt).png</image>
+    <genreid>258</genreid>
+  </game>
+  <game id="200213" source="ScreenScraper.fr">
+    <path>./Meteor Shower (PacManPlus).A78</path>
+    <name>Meteor Shower</name>
+    <desc>Meteors are falling to Earth! Defend Earth's surface by blasting away at the falling rocks... But beware! Alien forces have learned what was happening and are taking advantage of our vulnerability to attack us! 
+ 
+These are your targets: 
+ 
+    Rocks: A small rock gives you twice as many points as a big one. And small rocks that land unhit cost you twice as many points. When big rocks are hit they usually split in two. 
+    Spinners: If a spinner lands, it costs you one laser base. Spinners make audible alarm signals. 
+    Dive Bombers: These guided missiles try to home in on your base, and change course as they fall. Dive Bombers make a beeping sound as they attack. They are worth 8 big rocks when hit. 
+    Saucers: When your score is over 20,000, Saucers occasionally fly past, dropping bombs on your active base location. You get no points for hit-ting the bombs, but each Saucer hit is worth 10 large rocks. Saucers make a distinctive sound as they fly across. Experienced players will find that at a certain score range, a second Saucer will appear as well. 
+</desc>
+    <rating>0.7</rating>
+    <releasedate>20120101T000000</releasedate>
+    <developer>Robert DeCrescenzo</developer>
+    <publisher>AtariAge</publisher>
+    <genre>Shoot'em Up</genre>
+    <players>1-2</players>
+    <hash>8052CCB3</hash>
+    <image>./media/images/Meteor Shower (PacManPlus).png</image>
+    <genreid>260</genreid>
+  </game>
+</gameList>

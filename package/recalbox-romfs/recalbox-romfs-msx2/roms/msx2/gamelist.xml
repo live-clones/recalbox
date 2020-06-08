@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<gameList>
+  <provider>
+    <System>MSX2</System>
+    <software>Skraper</software>
+    <database>ScreenScraper.fr</database>
+    <web>http://www.screenscraper.fr</web>
+  </provider>
+  <game id="202418" source="ScreenScraper.fr">
+    <path>./Brunilda [v1.1] (Retroworks).rom</path>
+    <name>Amores de Brunilda ,Los </name>
+    <desc>The first time I came to this village and met its inhabitants, I realized that something strange was haunting their minds. That evening, the air was so cold that I could even feel it inside my bones. Everybody began to return to their homes, locking their doors tight for the night, hoping not be surprised defenseless against their most horrifying terrors. 
+ 
+It seemed that these people had no soul, that they had turned away from God, abandoned themselves to superstition. 
+ 
+I tried hard to forget that feeling, but my partner could not. He was younger and not yet mastered his terrors. However, my main concern was to find a place to spend the night. I wasn't worried about monsters nor demons, but the cold: another night sleeping rough and my bones would be rankling all the way to Santiago</desc>
+    <rating>0.9</rating>
+    <releasedate>20131223T000000</releasedate>
+    <developer>RetroWorks</developer>
+    <publisher>RetroWorks</publisher>
+    <genre>Role playing games</genre>
+    <players>1</players>
+    <hash>9EB9BAD0</hash>
+    <image>./media/images/Brunilda [v1.1] (Retroworks).png</image>
+    <genreid>768</genreid>
+  </game>
+  <game id="200441" source="ScreenScraper.fr">
+    <path>./The Sword of Ianna (Retroworks).rom</path>
+    <name>The Sword of Ianna</name>
+    <desc>Evil has awoken. 
+ 
+After centuries of calm, peace has abandoned the steppes of Dasht-e Kavir and Dashr-e Lut. Orcs, dark knights and other evil creatures ambush and attack travelers in the roads, and they even dare to get close to undefended villages. It is rumored that the chimneys from Dal Gurak's tower are smoking again, and the shamans are sharing the news with bated breath, as if they were afraid of making the bad omen come true. 
+ 
+You are Jarkum, a barbarian from the lineage of Arram. Your ancestor Tukaram was chosen by the goddess Ianna to end the darkness created by Asherat, the Lord of Chaos. Now, everything poitnts to a return of the same evil, although you do not dare to say it aloud to avoid attracting bad luck. However, when an old shaman came to your tent, you knew something was going wrong.</desc>
+    <rating>0.85</rating>
+    <releasedate>20170101T000000</releasedate>
+    <developer>RetroWorks</developer>
+    <publisher>RetroWorks</publisher>
+    <genre>Action / Adventure-Action</genre>
+    <players>1</players>
+    <hash>3E9AEB2B</hash>
+    <image>./media/images/The Sword of Ianna (Retroworks).png</image>
+    <genreid>256</genreid>
+  </game>
+</gameList>

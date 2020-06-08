@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<gameList>
+  <provider>
+    <System>Atari 2600</System>
+    <software>Skraper</software>
+    <database>ScreenScraper.fr</database>
+    <web>http://www.screenscraper.fr</web>
+  </provider>
+  <game id="200014" source="ScreenScraper.fr">
+    <path>./anguna.bin</path>
+    <name>Anguna 2600</name>
+    <desc>You have been captured by monsters. 
+Again? Yes, again. 
+How does this keep happening to you? 
+This time, you were on a mission to 
+kill the evil Goblin King, 
+the latest monster to terrorize the land. 
+But as usual, somehow you got 
+yourself caught by his henchmen. 
+Luckily, the monsters aren't any smarter 
+this time around. 
+If they were any smarter, they would 
+have taken your sword away. 
+Now you must battle your way 
+out of the prison dungeon, 
+navigate your way through the land, 
+and find and defeat the Goblin King. 
+Good Luck!</desc>
+    <rating>0.8</rating>
+    <releasedate>20150101T000000</releasedate>
+    <developer>Nathan Tolbert</developer>
+    <publisher>Bite The Chili</publisher>
+    <genre>Role playing games</genre>
+    <players>1</players>
+    <hash>D18E91A1</hash>
+    <image>./media/images/anguna.png</image>
+    <genreid>768</genreid>
+  </game>
+  <game id="106808" source="ScreenScraper.fr">
+    <path>./CaveIn230.bin</path>
+    <name>Cave In</name>
+    <desc>An Adventure type game created by Steve Engelhardt in 2009. 
+ 
+Here are the differences between the three difficulty levels: 
+ 
+Game 1 - Beginner 
+Enemies move at normal speed and never have a fast attack 
+No health reduction when changing rooms 
+Keys are always hidden in the same rooms 
+You start out with your gun, and you will never lose it. 
+ 
+Game 2 - Intermediate 
+Enemies move at normal speed with occasional fast attacks 
+1 point health reduction when you change rooms only after you are down to 3 health blocks left 
+Key locations are randomized 
+You start out with no gun - you will have to find it, either in the hidden room or dropped by an enemy. 
+ 
+Game 3 - Advanced 
+Enemies move at top speed all the time 
+1 point health reduction when you change rooms at all times 
+Key locations are randomized 
+You start out with no gun - you will have to find it, either in the hidden room or dropped by an enemy. 
+Falling rocks in the locked caves will fall twice as fast</desc>
+    <releasedate>20091223T000000</releasedate>
+    <publisher>Spectravision</publisher>
+    <hash>9734537E</hash>
+    <image>./media/images/CaveIn230.png</image>
+  </game>
+  <game id="51234" source="ScreenScraper.fr">
+    <path>./Halo2600_Final.bin</path>
+    <name>Halo 2600</name>
+    <desc>The year is 2552. Planet Earth still exists, but overpopulation has forced many of her former residents to colonize other worlds. After contact with an outer colony was lost, a battlegroup was sent to investigate and was almost completely destroyed; only one badly damaged ship returned to tell of a seemingly unstoppable alien warship that had effortlessly annihilated their forces. 
+ 
+This was humankind's first encounter with a group of aliens they eventually came to know as the Covenant, a collective of alien races bent on wiping out humanity. A desperate plan is set in motion: board a Covenant vessel and learn the location of the Covenant home world. But before the mission begins, Covenant forces strike and annihilate the attack force. 
+ 
+The Covenant are now on Earth's doorstep. One ship escapes and makes a blind jump into deep space, hoping to lead the Covenant away from Earth. The ship crashes on Halo--an artificial ring world that is actually a weapon capable of destroying all life in the galaxy should it fall into the hands of the Covenant. 
+ 
+You are the Master Chief--all that remains of a classified military project to build a series of genetically enhanced super- soldiers. You are humanity's last and best hope against the Covenant--but you're woefully out-matched, and survival is not guaranteed. Can you battle your way through the massive world that is Halo, defeat the Covenant, and save humanity?</desc>
+    <releasedate>20100731T000000</releasedate>
+    <developer>Ed Fries</developer>
+    <publisher>CGE Services Corporation</publisher>
+    <genre>Shoot'em Up</genre>
+    <players>1</players>
+    <hash>3978A823</hash>
+    <image>./media/images/Halo2600_Final.png</image>
+    <genreid>260</genreid>
+  </game>
+  <game id="200106" source="ScreenScraper.fr">
+    <path>./THE END 2600_PAL60.bin</path>
+    <name>The End 2600</name>
+    <desc>To destroy aliens attempting to steal bricks from your 3 defense bases. 
+The aliens will arrange stolen bricks to spell out "END" at the top of the screen</desc>
+    <rating>0.8</rating>
+    <releasedate />
+    <developer>RaymanC</developer>
+    <publisher>RaymanC</publisher>
+    <genre>Shoot'em up / Vertical-Shoot'em Up</genre>
+    <players>1</players>
+    <hash>1ABB3A9F</hash>
+    <image>./media/images/THE END 2600_PAL60.png</image>
+    <genreid>260</genreid>
+  </game>
+</gameList>

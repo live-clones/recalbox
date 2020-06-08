@@ -1,0 +1,7 @@
+Los únicos requisitos específicos de la versión MSX2 de "Los amores de Brunilda" son:
+
+- Un MSX2 o posterior, real o emulado
+- 128 KB de VRAM
+- Sonido SCC, Mapper Konami5 (solo para el emulador)
+
+¡Esperemos que lo disfrutes!

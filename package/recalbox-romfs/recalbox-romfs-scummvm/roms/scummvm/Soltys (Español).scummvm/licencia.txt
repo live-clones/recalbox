@@ -1,0 +1,30 @@
+Soltys, versión PC DOS en castellano v1.0
+-----------------------------------------
+(C) Laboratorium Komputerowe Avalon 1995-2011
+---------------------------------------------
+
+ 1) Puedes distribuir este juego de forma gratuita en cualquier medio, siempre
+y cuando se mantengan intactas esta licencia y todos los avisos de copyright
+asociados al juego.
+
+ 2) Puedes cobrar un precio razonable por la copia de este archivo, y puedes
+distribuirlo como parte de una distribución de software más grande y
+posiblemente comercial (como en una distribución de Linux o en el disco de una
+revista). Deberás otorgar la atribución adecuada y aseguarte de que esta
+licencia, todos los avisos de copyright asociados al juego, y descargos de
+responsabilidad sigan intactos.
+
+ 3) No puedes cobrar por el juego en sí. Esto incluye la reventa del mismo 
+como un artículo individual.
+
+ 4) Puedes modificar el juego tanto como quieras. También puedes distribuir
+versiones modificadas bajo las condiciones indicadas en esta licencia, pero con
+el requisito adicional de que tu obra esté marcada con un aviso perfectamente
+visible que indique que se trata de una versión modificada.
+
+ 5) Todos los contenidos del juego son (C) de Laboratorium Komputerowe Avalon.
+
+ 6) LOS DATOS DE JUEGO INCLUIDOS EN ESTE ARCHIVO SE PROVEEN "TAL CUAL", SIN
+NINGUNA GARANTÍA EXPLÍCITA O IMPLICADA, INCLUYENDO, PERO NO LIMITÁNDOSE, A
+CUALQUIER GARANTÍA IMPLICADA EN LA MERCANTIBILIDAD, Y DESTINADA A UN
+PROPÓSITO CONCRETO.

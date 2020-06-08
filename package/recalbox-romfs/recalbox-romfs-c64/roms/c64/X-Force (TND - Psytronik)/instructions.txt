@@ -1,0 +1,76 @@
+X-FORCE - A Game by Richard Bayliss
+
+LOADING:
+--------
+
+Disk: Insert disk and type LOAD "*",8,1 (RETURN).  When the READY prompt appears type RUN (RETURN).  The game will now load and run automatically.  Follow the standard loading procedure to access the other versions of the game and bonus programs on the disk.
+
+Tape: Insert tape and press SHIFT and RUN STOP.  Press PLAY on tape.  The game will now load and run automatically.  You will need to RESET your C64 in order to load each different version of the game on the tape.
+
+Note: The disk contains THREE different versions of X-Force.  The 2015 edition features music by Richard Bayliss, the Commodore Format Archive edition contains music by FeekZoid and the Crazy Hack edition features special game modifications added by Vinny Mainolfi.
+
+
+THE STORY:
+----------
+
+It is the year 3064.  Long range probes sent from Earth have discovered the planet Darx, a seemingly lifeless planet rich in mineral deposits.  These minerals are desperately needed in order to construct a shield to defend our planet from a possible future alien invasion.  An X-Force ship is dispatched to the planet Darx, with you, it's Commander put into hypersleep for the long journey.  Your mission: To mine the minerals we need and bring them back to Earth...
+
+It turns out however that the planet Darx is not as lifeless as was initially thought.  Your X-Force ship is intercepted by an alien mothership on approach to the planet.  You are taken prisoner and your craft is held deep inside the alien stronghold.
+
+Fortunately, you manage to blast your way from captivity using a concealed laser and locate your captured craft.  As luck would have it, your ship is being held in the alien mines!  You fill the hold of your craft with the minerals that are needed before attempting your escape.  Firing up your thrusters you take off in a bid for freedom, away from Darx and back to Mother Earth.
+
+
+THE GAME:
+---------
+
+The aim of the game is to escape the 16 underground sectors of the planet Darx. Each sector consists of obstacles that block your path, and vicious alien hordes that patrol each sector.  The aliens will not fire at you, but they will move in their own set formations that you must avoid.  Each sector has also been armed with laser gates. Should you hit an alien, a laser gate or any other part of the scenery, your ship will be destroyed and you will lose a life.  Shoot the aliens for bonus points and to clear them from your path.
+
+At the end of each sector you will face an alien battlecruiser.  These are armed with powerful lasers that can destroy your ship with just one hit so avoid them at all costs!  The battlecruisers move slowly in a set formation and can take a lot of hits before they are destroyed.  Each battlecruiser has its own special firing pattern that you must learn in order to both avoid its lasers, and to judge when the best time to attack is.  If you let the battlecruiser pass without destroying it you will still complete the level but you won't receive any bonus points.  If you manage to destroy the battlecruiser you will earn an extra life!
+
+
+POWER-UPS:
+----------
+
+As you progress through each level you will encounter pods that you can pick up during your mission. These will help or hinder your progress:
+
+
+* Pink pods - Upgrade / Downgrade single bullet
+
+* Green pods - Upgrade / Downgrade double bullets
+
+* Blue pods - Temporary shield
+
+* Yellow pods - Temporary speed boost
+
+* Grey pods - Avoid at all costs, these are alien bombs	that will destroy your ship.
+
+
+Can you escape all 16 sectors and return back to Earth, or will aliens of Darx be too strong for you?  The fate of Earth is in your hands!
+
+
+X-FORCE CREDITS:
+----------------
+
+Programming + SFX: Richard Bayliss
+
+Music: Richard Bayliss & FeekZoid
+
+Graphics: Saul Cross
+
+Loading Bitmaps: Carl Mason & Vinny Mainolfi
+
+Crazy Hacks: Vinny Mainolfi
+
+NTSC Bug Fixing: Dirk Schmitt
+
+Packaging: Jason 'Kenz' Mackenzie
+
+Cover Art: Oliver Frey
+
+Disk / Tape Turbo Loader system: Martin Piper
+
+Published in 2015 on tape + disk by www.psytronik.net
+All Rights Reserved.
+
+For more games by Richard visit www.tnd64.unikat.sk
+

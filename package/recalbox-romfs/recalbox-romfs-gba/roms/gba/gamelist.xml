@@ -1,103 +1,134 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <gameList>
-	<game>
-		<path>./Anguna (Nathan Tolbert and Chris Hildenbrand).gba</path>
-		<name>Anguna - Warriors of Virtue</name>
-		<desc>
-It is a short but exciting action-adventure game, reminiscent of the original Legend of Zelda.
-Anguna includes: 5 dungeons and a large overworld to explore, Multiple weapons and items including: a sword, bow &amp; arrows, bear traps, dynamite, lantern, magic boots, and more, Many hidden rooms, secrets, and powerups, Lots of interesting enemies and boss monsters
-
+  <provider>
+    <System>Game Boy Advance</System>
+    <software>Skraper</software>
+    <database>ScreenScraper.fr</database>
+    <web>http://www.screenscraper.fr</web>
+  </provider>
+  <game id="97398" source="ScreenScraper.fr">
+    <path>./Anguna (Nathan Tolbert and Chris Hildenbrand).gba</path>
+    <name>Anguna - Warriors Of Virtue</name>
+    <desc>It is a short but exciting action-adventure game, reminiscent of the original Legend of Zelda. 
+Anguna includes: 5 dungeons and a large overworld to explore, Multiple weapons and items including: a sword, bow &amp; arrows, bear traps, dynamite, lantern, magic boots, and more, Many hidden rooms, secrets, and powerups, Lots of interesting enemies and boss monsters 
 </desc>
-		<image>./media/images/Anguna (Nathan Tolbert and Chris Hildenbrand).png</image>
-		<releasedate>20080101T000000</releasedate>
-		<developer>Nathan Tolbert and Chris Hilde</developer>
-		<publisher>Nathan Tolbert</publisher>
-		<genre>Adventure</genre>
-		<players></players>
-	</game>
-	<game>
-		<path>./GEMini (Mr Smayds).gba</path>
-		<name>GEMini</name>
-		<desc>
-Bejeweled style match-3 for the GameBoy Advance.
-</desc>
-		<image>./media/images/GEMini (Mr Smayds).png</image>
-		<developer>Mr Smayds</developer>
-		<publisher>Mr Smayds</publisher>
-		<genre>Puzzle-Game</genre>
-	</game>
-	<game>
-		<path>./SpaceTwins.gba</path>
-		<name>Space Twins</name>
-		<desc>
-Very professional and solid platform/puzzle game for Gameboy Advance.
-</desc>
-		<image>./media/images/SpaceTwins.png</image>
-		<developer>9wires</developer>
-		<publisher>9wires</publisher>
-		<genre>Puzzle-Game</genre>
-	</game>
-	<game>
-		<path>./Uranus.gba</path>
-		<name>Uranus</name>
-		<desc>
-First game of "Uranus" serie from ZoneGN. This is a vertical scrolling space shooter. Very good from what I've played (using VisualBoyAdvance), with good graphics, music, and the action was pretty fierce as well.
-</desc>
-		<image>./media/images/Uranus.png</image>
-		<developer>ZoneGN</developer>
-		<publisher>ZoneGN</publisher>
-		<genre>Shoot'em up / Vertical</genre>
-		<players></players>
-	</game>
-	<game>
-		<path>./Uranus Zero.gba</path>
-		<name>Uranus Zero</name>
-		<desc>
-Third game of "Uranus" serie from ZoneGN. This is a vertical scrolling space shooter. Very good from what I've played (using VisualBoyAdvance), with good graphics, music, and the action was pretty fierce as well.
-</desc>
-		<image>./media/images/Uranus Zero.png</image>
-		<developer>ZoneGN</developer>
-		<publisher>ZoneGN</publisher>
-		<genre>Shoot'em up / Vertical</genre>
-		<players></players>
-	</game>
-	<game>
-		<path>./Uranus Zero EV.gba</path>
-		<name>Uranus Zero EV</name>
-		<desc>
-Third game of "Uranus" serie from ZoneGN, in his "easy version". This is a vertical scrolling space shooter. Very good from what I've played (using VisualBoyAdvance), with good graphics, music, and the action was pretty fierce as well.
-</desc>
-		<image>./media/images/Uranus Zero EV.png</image>
-		<releasedate>20030101T000000</releasedate>
-		<developer>ZoneGN</developer>
-		<publisher>ZoneGN</publisher>
-		<genre>Shoot'em Up</genre>
-		<players></players>
-	</game>
-	<game>
-		<path>./Uranus2.gba</path>
-		<name>Uranus 2</name>
-		<desc>
-Second game of "Uranus" serie from ZoneGN. This is a vertical scrolling space shooter. Very good from what I've played (using VisualBoyAdvance), with good graphics, music, and the action was pretty fierce as well.
-</desc>
-		<image>./media/images/Uranus2.png</image>
-		<developer>ZoneGN</developer>
-		<publisher>ZoneGN</publisher>
-		<genre>Shoot'em up / Vertical</genre>
-		<players></players>
-	</game>
-	<game>
-		<path>./Waimanu (disjointedstudio).gba</path>
-		<name>Waimanu</name>
-		<desc>
-Waimanu for Gameboy Advance - Planet Earth is threatened by Wekas, evil alien Jellies who invaded the planet with the intent of colonizing it. Daring Waimanu will face them to defend the fate of our planet!
-
-Waimanu can push blocks and make them slide, and sliding blocks can squash Wekas between them. He can also destroy blocks that can't be moved because they're against a wall or if there's another block behind them. Also Wekas can destroy blocks whenever they want to try to reach our hero.
-</desc>
-		<image>./media/images/Waimanu (disjointedstudio).png</image>
-		<developer></developer>
-		<publisher></publisher>
-		<genre>Puzzle-Game</genre>
-		<players></players>
-	</game>
+    <rating>0.4</rating>
+    <releasedate>20151106T000000</releasedate>
+    <developer>Nathan Tolbert and Chris Hildenbrand</developer>
+    <publisher>Nathan Tolbert</publisher>
+    <genre>Adventure</genre>
+    <players>1</players>
+    <hash>3346891F</hash>
+    <image>./media/images/Anguna (Nathan Tolbert and Chris Hildenbrand).png</image>
+    <genreid>512</genreid>
+  </game>
+  <game id="97399" source="ScreenScraper.fr">
+    <path>./GEMini (Mr Smayds).gba</path>
+    <name>Gemini</name>
+    <desc>Bejeweled style match-3 for the GameBoy Advance.</desc>
+    <releasedate />
+    <developer>Mr Smayds</developer>
+    <publisher>Mr Smayds</publisher>
+    <genre>Puzzle-Game</genre>
+    <players>1</players>
+    <hash>2CC69929</hash>
+    <image>./media/images/GEMini (Mr Smayds).png</image>
+    <genreid>2816</genreid>
+  </game>
+  <game id="204258" source="ScreenScraper.fr">
+    <path>./Lindsi Luna Blast (PortableDev).gba</path>
+    <name>Lindsi Luna Blast</name>
+    <desc>L'héroïne, Lindsi, est une jeune fille dynamique qui adore l'action. Nana, la personne présentée dans les menus du jeu et copine avec Lindsi, l'envoie dans différentes missions. Ce jeu est réalisé en collaboration avec le graphiste Nhut. Il s'agit d'un hommage au jeu « City Hunter » sur PC-Engine, donc « old school ».</desc>
+    <releasedate>20061021T000000</releasedate>
+    <developer>PortableDev</developer>
+    <publisher>PortableDev</publisher>
+    <genre>Platform</genre>
+    <players>1</players>
+    <hash>B5F9FCA0</hash>
+    <image>./media/images/Lindsi Luna Blast (PortableDev).png</image>
+    <genreid>257</genreid>
+  </game>
+  <game id="97400" source="ScreenScraper.fr">
+    <path>./SpaceTwins.gba</path>
+    <name>Space Twins</name>
+    <desc>Very professional and solid platform/puzzle game for Gameboy Advance.</desc>
+    <releasedate>20090427T000000</releasedate>
+    <developer>9wires</developer>
+    <publisher>9wires</publisher>
+    <genre>Puzzle-Game</genre>
+    <players>1</players>
+    <hash>0EDC97D9</hash>
+    <image>./media/images/SpaceTwins.png</image>
+    <genreid>2816</genreid>
+  </game>
+  <game id="97401" source="ScreenScraper.fr">
+    <path>./Uranus Zero EV.gba</path>
+    <name>Uranus Zero Ev</name>
+    <desc>Third game of "Uranus" serie from ZoneGN, in his "easy version".nnThis is a vertical scrolling space shooter. Very good from what I've played (using VisualBoyAdvance), with good graphics, music, and the action was pretty fierce as well.</desc>
+    <releasedate>20030101T000000</releasedate>
+    <developer>ZoneGN</developer>
+    <publisher>ZoneGN</publisher>
+    <genre>Shoot'em Up</genre>
+    <hash>ADBCBA92</hash>
+    <image>./media/images/Uranus Zero EV.png</image>
+    <genreid>260</genreid>
+  </game>
+  <game id="97402" source="ScreenScraper.fr">
+    <path>./Uranus Zero.gba</path>
+    <name>Uranus Zero</name>
+    <desc>Third game of "Uranus" serie from ZoneGN.nnThis is a vertical scrolling space shooter. Very good from what I've played (using VisualBoyAdvance), with good graphics, music, and the action was pretty fierce as well.</desc>
+    <releasedate />
+    <developer>ZoneGN</developer>
+    <publisher>ZoneGN</publisher>
+    <genre>Shoot'em up / Vertical-Shoot'em Up</genre>
+    <hash>117183CC</hash>
+    <image>./media/images/Uranus Zero.png</image>
+    <genreid>260</genreid>
+  </game>
+  <game id="97403" source="ScreenScraper.fr">
+    <path>./Uranus.gba</path>
+    <name>Uranus</name>
+    <desc>First game of "Uranus" serie from ZoneGN. 
+ 
+This is a vertical scrolling space shooter. Very good from what I've played (using VisualBoyAdvance), with good graphics, music, and the action was pretty fierce as well.</desc>
+    <releasedate />
+    <developer>ZoneGN</developer>
+    <publisher>ZoneGN</publisher>
+    <genre>Shoot'em up / Vertical-Shoot'em Up</genre>
+    <players>1</players>
+    <hash>8152384D</hash>
+    <image>./media/images/Uranus.png</image>
+    <genreid>260</genreid>
+  </game>
+  <game id="97404" source="ScreenScraper.fr">
+    <path>./Uranus2.gba</path>
+    <name>Uranus2</name>
+    <desc>Second game of "Uranus" serie from ZoneGN. 
+ 
+This is a vertical scrolling space shooter. Very good from what I've played (using VisualBoyAdvance), with good graphics, music, and the action was pretty fierce as well.</desc>
+    <releasedate />
+    <developer>ZoneGN</developer>
+    <publisher>ZoneGN</publisher>
+    <genre>Shoot'em up / Vertical-Shoot'em Up</genre>
+    <players>1</players>
+    <hash>C6DF1C9B</hash>
+    <image>./media/images/Uranus2.png</image>
+    <genreid>260</genreid>
+  </game>
+  <game id="97408" source="ScreenScraper.fr">
+    <path>./Waimanu (disjointedstudio).gba</path>
+    <name>Waimanu - Grinding Blocks Adventure</name>
+    <desc>Waimanu for Gameboy Advance - Planet Earth is threatened by Wekas, evil alien Jellies who invaded the planet with the intent of colonizing it. Daring Waimanu will face them to defend the fate of our planet! 
+ 
+Waimanu can push blocks and make them slide, and sliding blocks can squash Wekas between them. He can also destroy blocks that can't be moved because they're against a wall or if there's another block behind them. Also Wekas can destroy blocks whenever they want to try to reach our hero.</desc>
+    <rating>0.7</rating>
+    <releasedate>20130709T000000</releasedate>
+    <developer>Disjointed Studios</developer>
+    <publisher>Disjointed Studios</publisher>
+    <genre>Puzzle-Game</genre>
+    <players>1</players>
+    <hash>0FE153C5</hash>
+    <image>./media/images/Waimanu (disjointedstudio).png</image>
+    <genreid>2816</genreid>
+  </game>
 </gameList>

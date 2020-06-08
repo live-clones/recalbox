@@ -1,0 +1,88 @@
+INTRODUCTION
+
+This special version of TRANCE SECTOR is a collaborative project between The New Dimension, RGCD, Psytronik and Kiken Corporation. The game includes both the 32 standard levels from the Psytronik commercial release together with the 32 levels from the special 'Challenge/Competition Edition'. TRANCE SECTOR ULTIMATE also features a completely new set of graphics and a remixed soundtrack. This version of the game was created for release at the 2015 Gubbdata demoparty organised by Genesis Project, and is available for free download and for purchase as a limited edition collector's cartridge.
+
+
+STORY
+
+Signals from a distant, unnamed planet have been intercepted by the Earth Defence Force. These have revealed details of an intergalactic threat from a race that call themselves the Cygma Elite. An EDF strike team was immediately mobilised and sent to explore the planet to find out more about the alien threat. The team discovered that the Cygma Elite have built a series of weapons factories that are producing nuclear pods. These deadly pods have been stored in a huge 32 level facility known as the TRANCE SECTOR. Reports from our team indicate that the Cygma Elite are planning to use the hundreds of pods stored within the TRANCE SECTOR to create an Armageddon Bomb - a devastating device that poses a threat not only to Earth, but our entire Solar System!
+
+Your mission: Enter the TRANCE SECTOR and disable the nuclear pods on each of the 32 levels, causing a cascade reaction that will destroy the facility and the Cygma Elite homeworld - before they destroy US!
+
+
+LOADING TRANCE SECTOR ULTIMATE
+
+To load the TRANCE SECTOR ULTIMATE cartridge, turn off your C64/128, insert the cartridge and turn the computer back on. The game will load automatically.
+
+If you are presented with a blank screen or graphic garbage, please try turning off the C64 and re-inserting the cartridge again. Issues like this are most likely due to an oxidised cartridge port (after all, we are talking about 30 year old technology here), so please check and clean the port - or even try the game on another C64 - before contacting us for a replacement.
+
+TRANCE SECTOR ULTIMATE has been tested on both PAL and NTSC machines, and works on the C64, C128 and C64GS (there is no keyboard input required to play). Although it runs on NTSC hardware, it does play fractionally faster and will be harder as a direct result of this.  As such, the game is labelled as NTSC compatible, but designed for PAL systems.
+
+
+STARTING THE GAME
+
+Press fire on the joystick plugged in to port 2 to progress past the intro screen. At the title screen, there are various commands that can be given by moving the joystick.
+
+* Push UP to see the help screen.
+* Push LEFT or RIGHT to select in game SFX or MUSIC. Note the flashing icons either side of the logo.
+* Press FIRE to progress to the level-set selection screen. Push UP or DOWN to select the levels you want to play, then press FIRE to start.
+
+
+IN-GAME CONTROLS
+
+Joystick (Port 2) directions or Q A O P on the keyboard move your ship.
+RUN/STOP pauses the game.
+RESTORE quits back to the title screen.
+
+
+HOW TO PLAY
+
+Your goal is to pilot your continuously moving EDF Interceptor and fly over all of the nuclear pods in each level of the TRANCE SECTOR to deactivate them. The Cygma Elite have no intention of making this easy for you though; each level is full of hazards, obstacles and deadly robotic Seeker missiles determined to end your mission prematurely.
+
+The robotic Seekers missiles move around the borders of each level and launch at your craft if they match its vertical or horizontal position. Seekers can only be destroyed by collecting a Bomb bonus.
+
+Electronic Stabilizers freeze your ship in position for a short time - but often that is long enough to ensure a messy demise from a Seeker!
+
+Panic Trap Buttons put all Seekers on increased alert, making them fly faster and launch more often. Best avoided!
+
+Blockers are huge structural pillars within the TRANCE SECTOR's levels that will destroy your craft on collision.
+
+Magnetic Belts push you in a defined direction, so stay alert.
+
+Pay attention to the timer - if the clock reaches zero, you'll lose a life!
+
+It's not all bad though - there are a few bonus items to collect that can help you succeed:
+
+Shields can be picked up and protect you from Seeker missiles for a few seconds. The shield does not protect you from collision with a Blocker. Note that you start each life with a shield temporarily activated.
+
+Bonus bubbles randomly appear and should be collected whenever possible. They start out empty, and over time they cycle their contents through Points, a Seeker Bomb or the letters E, X, T, R and A. If not collected, the bonus bubble will eventually disappear.
+
+Points (100, 200, 500) award additional score and Bombs destroy all of the Seekers currently on screen. Collecting a full set of letters gives you an EXTRA life (the letters you have collected so far are displayed at the top of the screen).
+
+Note that additional bonus points are awarded for time left on the clock on completion of a level.
+
+
+CREDITS
+
+TRANCE SECTOR ULTIMATE is a TND production, Copyright 2012-15. Published on limited edition 64KB C64 cartridge by RGCD, 2015.
+
+Richard Bayliss - Design/Code/Music
+Saul Cross - Graphics
+Akira Kei - Logo Design, Box and Poster Artwork
+Dr. Martin Wendt, Georg Rottensteiner and Achim Volkers - Technical Support
+James Monkman - TSU Concept/Manual/Testing
+Tim Harris & Raymond Lejuez - Cartridge Hardware
+
+Special thanks to Dirk Schmitt for help with the NTSC fix.
+
+
+LINKS
+
+For more information on the team involved in this C64 release, visit:
+
+tnd64.unikat.sk (TND Homepage)
+www.rgcd.co.uk (RGCD homepage) 
+
+Official RGCD/Psytronik forum for general feedback can be found at:
+
+www.lemon64.com/forum/index.php

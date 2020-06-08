@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<gameList>
+  <provider>
+    <System>Game Boy</System>
+    <software>Skraper</software>
+    <database>ScreenScraper.fr</database>
+    <web>http://www.screenscraper.fr</web>
+  </provider>
+  <game id="200481" source="ScreenScraper.fr">
+    <path>./Into the Blue.gb</path>
+    <name>Into the Blue</name>
+    <desc>If you have ever owned a Game Boy, you have almost certainly spent many hours with playing “Tetris”. And if you have ever played “Tetris”, you will almost certainly recognize some kind of resemblance when you first play “Into the Blue”. You will discover even more similarities if you compare it to “Tetris Attack”, a lesser known variant of the same principle. In both “Tetris Attack” and “Into the Blue”, you have a vertical playfield with panels raising from the bottom. The panels can be rearranged and will disappear if three (or more) matching panels are lined up in a horizontal or vertical row. The game is over if a panel touches the upper border of the playfield.</desc>
+    <rating>0.75</rating>
+    <releasedate />
+    <developer>Jonas Fischbach</developer>
+    <publisher>Jonas Fischbach</publisher>
+    <genre>Puzzle-Game / Fall-Puzzle-Game</genre>
+    <players>1</players>
+    <hash>7714E96E</hash>
+    <image>./media/images/Into the Blue.png</image>
+    <genreid>2816</genreid>
+  </game>
+  <game id="200479" source="ScreenScraper.fr">
+    <path>./Retroid.gb</path>
+    <name>Retroid</name>
+    <desc>“Retroid” is a Game Boy game based on the classic arcade game that was originally published as “Breakout” by Atari and later brought to perfection as “Arkanoid” by the Japanese software firm Taito. The player controls a paddle at the bottom of the screen that reflects a ball to destroy bricks at the top of the screen.</desc>
+    <rating>0.75</rating>
+    <releasedate>20170101T000000</releasedate>
+    <developer>Jonas Fischbach</developer>
+    <publisher>Jonas Fischbach</publisher>
+    <genre>Action / Breakout games-Action</genre>
+    <players>1</players>
+    <hash>9F759F25</hash>
+    <image>./media/images/Retroid.png</image>
+    <genreid>256</genreid>
+  </game>
+  <game id="200501" source="ScreenScraper.fr">
+    <path>./Tuff.gb</path>
+    <name>Tuff</name>
+    <desc>In this beautiful platform game, you're a tiny cubic creature running and jumping to collect stuff while avoiding enemies. 
+</desc>
+    <rating>0.75</rating>
+    <releasedate>20140101T000000</releasedate>
+    <developer>BonsaiDen</developer>
+    <publisher>BonsaiDen</publisher>
+    <genre>Plateform / Run Jump-Platform</genre>
+    <players>1</players>
+    <hash>E9140A3B</hash>
+    <image>./media/images/Tuff.png</image>
+    <genreid>257</genreid>
+  </game>
+</gameList>

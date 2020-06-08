@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<gameList>
+  <provider>
+    <System>Colecovision</System>
+    <software>Skraper</software>
+    <database>ScreenScraper.fr</database>
+    <web>http://www.screenscraper.fr</web>
+  </provider>
+  <game id="204256" source="ScreenScraper.fr">
+    <path>./Mazezam.col</path>
+    <name>MazezaM Challenge</name>
+    <desc>MazezaM Challenge (il faut dire « mé-zam ») est un puzzle game basé sur le jeu MazezaM de Malcolm Tyrrell. L'objectif de ce jeu est de guider le héros au travers de 30 niveaux. Vous arrivez dans chaque niveau par la gauche et vous devez rejoindre la droite en poussant les objets à gauche ou à droite uniquement.</desc>
+    <releasedate>20200506T000000</releasedate>
+    <developer>PortableDev</developer>
+    <publisher>PortableDev</publisher>
+    <genre>Puzzle-Game</genre>
+    <players>1</players>
+    <hash>C6030AB9</hash>
+    <image>./media/images/Mazezam.png</image>
+    <genreid>2816</genreid>
+  </game>
+</gameList>

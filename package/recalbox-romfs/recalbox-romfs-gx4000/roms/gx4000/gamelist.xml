@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<gameList>
+  <provider>
+    <System>GX4000</System>
+    <software>Skraper</software>
+    <database>ScreenScraper.fr</database>
+    <web>http://www.screenscraper.fr</web>
+  </provider>
+  <game id="200475" source="ScreenScraper.fr">
+    <path>./Baba's Palace (Rafael Castillo, John McKlain &amp; Dragon).cpr</path>
+    <name>Baba's Palace</name>
+    <desc>Baba's Palace is a logic game with arcade aesthetics and has up to 100 levels. The player can handle Shaolin Kid and Little Indian to solve puzzles and clear enemies from levels, allowing you to advance to the next level as you descend into the depths of the Baba Yaga witch palace in search of a great secret. 
+ 
+You can solve levels by working collaboratively with our two heroes! But beware, do not lose hope, you will need to be tenacious and think very well all your movements…</desc>
+    <rating>0.9</rating>
+    <releasedate>20180101T000000</releasedate>
+    <developer>Rafael Castillo, John McKlain &amp; Dragon</developer>
+    <publisher>Rafael Castillo, John McKlain &amp; Dragon</publisher>
+    <genre>Puzzle-Game / Glide-Puzzle-Game</genre>
+    <players>1</players>
+    <hash>B958801E</hash>
+    <image>./media/images/Baba's Palace (Rafael Castillo, John McKlain &amp; Dragon).png</image>
+    <genreid>2816</genreid>
+  </game>
+</gameList>

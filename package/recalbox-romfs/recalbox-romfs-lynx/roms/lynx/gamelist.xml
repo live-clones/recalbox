@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<gameList>
+  <provider>
+    <System>Lynx</System>
+    <software>Skraper</software>
+    <database>ScreenScraper.fr</database>
+    <web>http://www.screenscraper.fr</web>
+  </provider>
+  <game id="204415" source="ScreenScraper.fr">
+    <path>./SiIas Adventure (Krzysztof Kluczek).lnx</path>
+    <name>SiIas Adventure</name>
+    <desc>The Atari Lynx is getting a new First-Person dungeon crawler called Silas Adventure. You take control of the hero who has amnesia and a sword. That is all you need in an unfamiliar dungeon with skeletons roaming the halls. 
+ 
+Take up the adventure to learn more about this mysterious world.</desc>
+    <rating>0.9</rating>
+    <releasedate>20191208T000000</releasedate>
+    <developer>Krzysztof Kluczek</developer>
+    <publisher>Krzysztof Kluczek</publisher>
+    <players>1</players>
+    <hash>91D1C4D0</hash>
+    <image>./media/images/SiIas Adventure (Krzysztof Kluczek).png</image>
+    <genreid>768</genreid>
+  </game>
+  <game id="200100" source="ScreenScraper.fr">
+    <path>./Nutmeg.lnx</path>
+    <name>Super Nutmeg</name>
+    <desc>Super Nutmeg is an enhanced version of Photon Storm's HTML5 game Nutmeg. The original game is a one button jump and run game. You can find this original game playing the classic mode. 
+ 
+What is so Super on Super Nutmeg? Super Nutmeg is a sidescrolling jump and run game. Resuce your buddies, fight the evil kidnapper, collect stars, earn powers and avoid enemies at any cost. As usual, a simple but yet slightly entertaining story. Powerups will make you climb ropes and jump higher, which can be of advantage in later levels and fighting the boss.</desc>
+    <rating>0.7</rating>
+    <releasedate>20180101T000000</releasedate>
+    <developer>RetroGuru</developer>
+    <publisher>RetroGuru</publisher>
+    <genre>Plateform / Run Jump Scrolling-Platform</genre>
+    <players>1</players>
+    <hash>4EF25EA7</hash>
+    <image>./media/images/Nutmeg.png</image>
+    <genreid>257</genreid>
+  </game>
+</gameList>

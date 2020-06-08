@@ -1,17 +1,75 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <gameList>
-	<game>
-		<path>./Joe Contre Les Pharaons (J Boulinguez) (FR).dsk</path>
-		<name>Joe Contre Les Pharaons</name>
-		<desc>
-You are Joe, an adventurer, exploring pyramids in quete of keys and gold. But, these areas are full of traps and monsters.
-So will you be able to clean the 2 levels of this game ?!
-</desc>
-		<image>./media/images/Joe Contre Les Pharaons (J Boulinguez) (FR).png</image>
-		<rating>1</rating>
-		<releasedate>19880102T000000</releasedate>
-		<developer>Jérôme Boulinguez</developer>
-		<publisher>Amstrad 100%</publisher>
-		<genre>Action / Labyrinth</genre>
-	</game>
+  <provider>
+    <System>CPC</System>
+    <software>Skraper</software>
+    <database>ScreenScraper.fr</database>
+    <web>http://www.screenscraper.fr</web>
+  </provider>
+  <game id="117064" source="ScreenScraper.fr">
+    <path>./Joe Contre Les Pharaons (J Boulinguez) (FR).dsk</path>
+    <name>Joe Contre Les Pharaons</name>
+    <desc>You are Joe, an adventurer, exploring pyramids in quete of keys and gold. But, these areas are full of traps and monsters. 
+So will you be able to clean the 2 levels of this game ?!</desc>
+    <rating>1</rating>
+    <releasedate>19880201T000000</releasedate>
+    <developer>Jérôme Boulinguez</developer>
+    <publisher>Amstrad 100%</publisher>
+    <genre>Action / Labyrinth-Action</genre>
+    <players>1</players>
+    <hash>222E2098</hash>
+    <image>./media/images/Joe Contre Les Pharaons (J Boulinguez) (FR).png</image>
+    <genreid>258</genreid>
+  </game>
+  <game id="127291" source="ScreenScraper.fr">
+    <path>./Relentless (Axelay).dsk</path>
+    <name>Relentless</name>
+    <desc>An accident involving a dimension portal and a very large explosion has blasted a hole between dimensions!  From outof the 7th dimension a series of strange and unbelievable environments have been projected, along with streams of bizarre &amp; aggressive beings.  It's up to you to collapse these dimensional protrusions by blasting your way to the end zone, but watch out, the enemy are Relentless! 
+ 
+As its name implies, get ready for the most relentless 16 kilobytes of action you will ever get. Straight away, you are plunged into relentless, non-stop shoot-'em-up action with smooth 50fps scrolling.</desc>
+    <rating>0.9</rating>
+    <releasedate>20130701T000000</releasedate>
+    <developer>Axelay</developer>
+    <genre>Shoot'em up / Horizontal</genre>
+    <players>1</players>
+    <hash>ABF2EE24</hash>
+    <image>./media/images/Relentless (Axelay).png</image>
+    <genreid>260</genreid>
+  </game>
+  <game id="200463" source="ScreenScraper.fr">
+    <path>./The Dawn Of Kernel (Juan J. Martínez).dsk</path>
+    <name>The Dawn of Kernel</name>
+    <desc>A distress call has been received from the mining base on planet K3R-NL of the Leonis system. A virus has infected their network, causing a life support malfunction that has forced all personnel to evacuate the base. 
+ 
+The message includes an unauthorised payload: KERNEL LIVES 
+ 
+The Dawn of Kernel is a flip-screen shoot'em up requiring skill and reflexes to navigate a complex map full of deadly enemies controlled by a rogue Artificial Intelligence.</desc>
+    <rating>0.8</rating>
+    <releasedate>20180723T000000</releasedate>
+    <developer>Juan J. Martinez</developer>
+    <publisher>Polyplay</publisher>
+    <genre>Platform</genre>
+    <players>1</players>
+    <hash>6F9690C7</hash>
+    <image>./media/images/The Dawn Of Kernel (Juan J. Martínez).png</image>
+    <genreid>257</genreid>
+  </game>
+  <game id="118993" source="ScreenScraper.fr">
+    <path>./UWOL 2 (Mojon-Twins).dsk</path>
+    <name>Uwol 2</name>
+    <desc>When, at the end, he could gather a good amount of money and exited the Storm Palace, Uwol thought that he had finally succeeded. He began walking his way home, when he was suddenly hit by a Fanty guardian from inside the Palace and fell rolling down a very steep slope, only to end landing in the middle of Phantomas' Electric Garden. Besides, to top it all, during the fall he had lost EVERY coin he had just gathered from inside the Palace. Great. Stupendous. So much work, a full game, four ports to different systems, a lot of good reviews and awards? all for nothing. 
+ 
+Uwol, feeling completely downhearted, though that it would be O.K. if he just went accross the Electric Garden and returned home to keep pittying himself. Nevertheless, he soon discovered a bunch of mysterious pipes scattered accross the whole garden, and they looked just like those in the good ol' Super Mario Bros ? he were so much alike that they even leaded to obscure caves full of COINS! 
+ 
+Now the decision is yours: Will you just escape the Electric Gardens in the Storm Palace, o will you take your chance to gather as much coins as you can before leaving?</desc>
+    <rating>0.7</rating>
+    <releasedate>20110101T000000</releasedate>
+    <developer>The Mojon Twins</developer>
+    <publisher>The Mojon Twins</publisher>
+    <genre>Plateform / Run Jump-Platform</genre>
+    <players>1</players>
+    <hash>18588DC1</hash>
+    <image>./media/images/UWOL 2 (Mojon-Twins).png</image>
+    <genreid>257</genreid>
+  </game>
 </gameList>

@@ -1,0 +1,27 @@
+ ____        _           _       _____      _                                
+|  _ \      | |         ( )     |  __ \    | |                               
+| |_) | __ _| |__   __ _|/ ___  | |__) |_ _| | __ _  ___ ___                 
+|  _ < / _` | '_ \ / _` | / __| |  ___/ _` | |/ _` |/ __/ _ |                
+| |_) | (_| | |_) | (_| | \__ \ | |  | (_| | | (_| | (_|  __/                
+|____/ \__,_|_.__/ \__,_| |___/ |_|   \__,_|_|\__,_|\___\___|                
+
+BABA'S PALACE 
+
+
+Authors
+-------
+Code & Gfx Copyright (C) 2017 Rafael Castillo (@Azicuetano)
+Music & Fx Copyright (C) 2017 John McKlain (@elmcklain)
+
+
+Third Party source code used
+----------------------------
+Exomizer 2 Z80 decoder by Metalbrain, optimized by Antonio Villena and Urusergi. Compression algoritm by Magnus Lind.
+decompress - Function to call Exomizer 2 Z80 decoder function from OUTLAWS, by Retrobytes Productions - GNU General Public License.
+uitoa - Integer to string conversion written by Bela Torok - GNU General Public License.
+waitAKey (esperaUnaTecla) - Function provided by Ronaldo on amstrad.es forums.
+wait_n_VSYNCs - Function from CPCtelera examples medium > textscroll - GNU Lesser General Public License.
+wait4UserKeypress - Function from CPCtelera examples easy > random - GNU Lesser General Public License.
+
+
+BABA'S PALACE IS RELEASED UNDER GNU GENERAL PUBLIC LICENSE, VERSION 3. SOURCE CODE IS INCLUDED.

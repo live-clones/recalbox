@@ -1,0 +1,15 @@
+[en]
+ 
+ 
+The Commodore Plus/4 is a home computer released by Commodore International in 1984. The "Plus/4" name refers to the four-application ROM resident office suite (word processor, spreadsheet, database, and graphing); it was billed as "the productivity computer with software built-in."
+
+Internally, the Plus/4 shared the same basic architecture as the lower-end Commodore 16 and 116 models, and was able to use software and peripherals designed for them. The Plus/4 was incompatible with the Commodore 64's software and some of its hardware. Although the Commodore 64 was more established than the Plus/4 it was aimed at the more business oriented part of the personal computer market. 
+ 
+[fr]
+ 
+ 
+Le Commodore Plus/4 est un micro-ordinateur domestique de Commodore International, sortit en 1984. The nom "Plus/4" fait référence au 4 applications de bureautique residentes en ROM (Traitement de texte, Tableur, Base de donnée et Graphiques). Il etait vendu comme un "Ordinateur productif avec logiciel intégrés".
+
+En interne, le Plus/4 partageait la même architecture de base que les modèles peu couteux Commodore 16 et 116, et il etait compatible avec leurs logiciels et leurs périphériques. Par contre, le Plus/4 etait incompatible avec le Commodore 64. Même si le Commodore 64 etait bien plus répandu que le Plus/4, ce dernier ciblait plutôt la partie business du marché des micro-ordinateurs.
+ 
+[]

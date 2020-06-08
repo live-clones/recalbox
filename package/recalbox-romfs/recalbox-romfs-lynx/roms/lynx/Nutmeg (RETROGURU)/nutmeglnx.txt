@@ -1,0 +1,176 @@
+                _______          __                         
+                \      \  __ ___/  |_  _____   ____   ____  
+                /   |   \|  |  \   __\/     \_/ __ \ / ___\ 
+               /    |    \  |  /|  | |  Y Y  \  ___// /_/  >
+               \____|__  /____/ |__| |__|_|  /\___  >___  / 
+                       \/                  \/     \/_____/  
+
+                   === BY RETROGURU AND PHOTON STORM ===
+         Released for the Atari Lynx 30th Birthday Programming Competition
+  https://atarigamer.com/pages/atari-lynx-30th-birthday-programming-competition
+ ._______.
+ |  ___  |_________
+  ) ) ( (
+ | |   | | LICENSE
+  ) )_( (__________
+ |_______|
+
+ Nutmeg is FREEWARE. All rights remain within the development teams!
+
+ No money in any form should be charged for the game! Distribution on third party
+ pages is welcome, please try to link to our homepage located at www.retroguru.com
+ in exchange to show your appreciation.
+
+ Distribution on compilations, CD's, DVD's or other media is only allowed with a
+ written permission. Contact information is available on the Retroguru homepage.
+
+ Creating a physical release for distribution needs a written permission.
+
+ Modifications should be not spread in a way that they may lead to the conclusion
+ that Retroguru is responsible for the modification.
+
+ ._______.
+ |  ___  |_______
+  ) ) ( (
+ | |   | | ABOUT
+  ) )_( (________
+ |_______|
+
+ Nutmeg is an extended version of Photon Storm's HTML5 game Nutmeg, which is a
+ one button side scrolling jump and run game. The first five levels are the
+ original ones. Other levels are new and an original creation.
+ 
+ Retroguru kindly thanks Richard Davey (Photon Storm) and Ilija Melentijevic
+ for permission to pick up on Nutmeg. 
+ 
+ ._______.
+ |  ___  |_______
+  ) ) ( (
+ | |   | | STORY
+  ) )_( (________
+ |_______|
+
+ Help Nutmeg the duck rescue his buddies, who were suddenly kidnapped
+ out of nothing.
+ 
+ The kidnapped blue ducks have been scattered in different places. The
+ flying vehicle of the bad guy that kidnapped your friends left a track 
+ of golden stars. You can collect them to gain points at the end of every
+ level, and possibly follow them to suggest the easiest path. Remember
+ that not all stars can be kept (at least not safely) and pay attention
+ to false hints. Also mind obstacles and enemies, who lead to a certain
+ death.
+
+ There are 4 worlds with each 5 levels... but can you find the hidden
+ world? Find small clues while playing the first four worlds and make
+ sure to really rescue all your friends.
+ 
+ At the end of every level you get a life, extra points for collected
+ stars and a bonus for the remaining time. Learn each level by heart and
+ keep the timing in mind before you aim for better scores. The way to 
+ success is difficult.
+ 
+ If you lose your last life you can choose to continue the game from the
+ level you just played, but your score resets to zero. When you lose all
+ your lives or if you beat all the levels of a world, if you achieved a
+ high score for that world, it will be shown on the high score screen.
+
+ High scores remain saved after shutting down the game only if you play the
+ game using a game cart with integrated save EEPROM, an HQ SD cart with save
+ game enabled, or an emulator with support for saving EEPROM.
+
+ There are some cheat codes that can help you a little in mastering the game,
+ but they don't make it any easier, and won’t help you too much with getting
+ a high score.
+
+ If you find cheats, please keep them for yourself ;-)   
+
+ ._______.
+ |  ___  |___________
+  ) ) ( (
+ | |   | | CONTROLS
+  ) )_( (____________
+ |_______|
+
+ Controls:
+ 
+ MUTE/UNMUTE MUSIC = OPT2
+ ROTATE SCREEN     = PAUSE + OPT2
+ RESET HIGHSCORES  = OPT1 + OPT2
+ 
+ Menu controls: 
+ 
+ UP     = UP BUTTON
+ DOWN   = DOWN BUTTON
+ LEFT   = LEFT BUTTON
+ RIGHT  = RIGHT BUTTON
+ SELECT = A BUTTON
+ BACK   = B BUTTON
+
+ Game controls:
+ 
+ JUMP          = A BUTTON, B BUTTON or ANY DIRECTION KEY 
+ PAUSE/UNPAUSE = PAUSE BUTTON
+ BACK TO MENU  = PAUSE + OPT1
+
+ Hint: Hold a jump button for multiple jumps in a row.
+
+ ._______.
+ |  ___  |___________
+  ) ) ( (
+ | |   | | SETUP
+  ) )_( (____________
+ |_______|
+
+ Nutmeg for Atari Lynx can be played on a real Atari Lynx writing an EEPROM Lynx cart
+ of at least 256 KB with the nutmeg.lnx file (removing the starting 64 bytes header),
+ or using a RetroHD SD cart.
+
+ It can also be played on Lynx emulators, but most emulators will have sound issues. 
+
+ The game saves higscores if a Lynx cart with an extra 128 bytes EEPROM chip is in
+ use. Emulators need to support EEPROM emulation.
+ 
+ To enable saves on a RetroHQ SD cart, a file named nutmeg.sav of 128 bytes must be
+ created on the SD in the /saves/ folder (the content of the file is not important and 
+ will be overwritten at first use).
+   
+ ._______.
+ |  ___  |___________
+  ) ) ( (
+ | |   | | CHANGELOG
+  ) )_( (____________
+ |_______|
+
+ * v1.00 - for Atari Lynx 30th Birthday Programming Competition (August 2019) 
+
+  ._______.
+ |  ___  |___________
+  ) ) ( (
+ | |   | | CREDITS
+  ) )_( (____________
+ |_______|
+
+ Original game and artwork:
+ * Ilija  Melentijevic (Ilkke)
+ * Richard Davey (Photon Storm)
+
+ Lynx version - Retroguru Team:
+ * Gisberto Rondinella (nop90) - Coding, levels design and testing
+ * Shahzad Sahaib (Kojote) - Project management, production and testing
+ * Krzysztof Matys (Koyot1222) - GFX design
+ * Adam Moley (wecanrewind) - GFX design
+ * Jonathan Dodd (dulcahn) - GFX design
+ * Roland Voss (Triace) - Musics (Amiga MOD Track format)  
+ * Johan Letfors (Vedder)  - Musics (Amiga MOD Track format)
+ * Lars Persson (Anotherguest) - Testing
+ * Denny Mueller (Mulle) - Testing    
+
+ Lynx version - External contributors:
+ * Brian Hall (BHall408) - Testing
+ * Sampo Rintanen (Turbo Laser Lynx) - Testing
+ * Giada Rondinella - Level 5-4 design    
+ * Daniele Rondinella - Level 5-5 design    
+
+[EOF/OUT OF TIME]
+

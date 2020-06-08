@@ -1,0 +1,10 @@
+THE END 2600 
+Created for the Atari 2600 by C-Centeno 2019 aka Rayman_C
+
+License Terms
+
+1. I hereby grant you permission to distribute the game "THE END 2600" for the Atari 2600 as part of Recalbox.
+2. You are free to copy, share and distribute "THE END 2600" as long as this license file is not removed or modified in any way. 
+3. You are not allowed to sell or distribute "THE END 2600" in any commercial project.
+
+Questions or comments can be sent to ccsoftmail@yahoo.com

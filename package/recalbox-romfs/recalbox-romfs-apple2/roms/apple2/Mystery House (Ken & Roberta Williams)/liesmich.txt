@@ -1,0 +1,50 @@
+MYSTERY-HOUSE
+=============
+
+(c) Ken & Roberta Williams - Die Gründer von Sierra On-Line
+
+"Mystery House" ist nichts Geringeres als das allererste Grafik-Adventure-Spiel und wurde von Ken und Roberta Williams entwickelt, die zwei Jahre später die Firma "Sierra On-Line" gründeten.
+
+Obwohl für dieses Spiel eine Tastatur erforderlich ist, haben wir beschlossen, es hinzuzufügen, weil es den Vorläufer einer ganzen Reihe von Spielen darstellt, die uns damals zum Vibrieren und Reisen brachten: Point-and-Click-Adventure-Spiele.
+
+Natürlich machten Ken & Roberta dieses Spiel 1987 frei im öffentlichen Bereich verteilbar, und obwohl es nicht von einer Lizenzdatei begleitet wird, zeigt das Spiel beim Start einen Text über die freie Verteilung an.
+
+
+SYNOPSE
+========
+
+Das Spiel beginnt in der Nähe eines verlassenen viktorianischen Herrenhauses. Der Spieler wird im Haus eingesperrt und hat keine andere Wahl, als es zu erkunden. Das Herrenhaus verfügt über mehrere Räume und sieben Personen. Tragische Ereignisse beginnen und Leichen tauchen auf. Es wird offensichtlich, dass ein Mörder frei herumläuft, und der Spieler muss herausfinden, wer es sein könnte, wenn er nicht sein nächstes Opfer werden will. Das Haus enthält auch einen verborgenen Schatz, den der Spieler finden muss.
+
+Während er sich im Haus bewegt, kann der Spieler viele Gegenstände aufheben, die es ihm ermöglichen, Fortschritte zu machen, aber auch, sich zu verteidigen. Eines der wichtigsten Dinge ist, dass er einen Weg finden muss, sich schnell gegen die Dunkelheit zu verteidigen, da der Bildschirm bei Einbruch der Dunkelheit dunkler wird.
+
+(Einzelnachweise : https://en.wikipedia.org/wiki/Mystery_House)
+
+
+MYSTERY-HOUSE-SPIEL-LÖSUNG 
+=========================
+
+Um das Inventar zu sehen, geben Sie 'inventory' ein. Um zu speichern, geben Sie 'save game' ein. Wenn das Spiel Ihnen sagt, dass es dunkel ist, geben Sie 'light candle' ein.
+
+    Go stairs, open door, go door
+    Take note, read note, drop note
+    South, get candle, north
+    West, open cabinet, look cabinet, get matches, close cabinet
+    Light candle, open refrigerator, look refrigerator, take pitcher, close refrigerator
+    Look sink, get butterknife, water on, get water, east, save
+    East, take note, read note, drop note
+    Open door, east, south, look body
+    Open door, go door, look room, pour water, look hole, take key, north, save
+    Go stairs, west, go door, look body, go door, west, go door, take note, read note, drop note
+    Go door, east, east, east, go door, take dagger, go door
+    East, go door, look body, go door, west, west, save
+    North, go stairs, take hammer, go door, unlock chest, open chest, look chest, get gun
+    Go door, go stairs, north, go door, use butterknife, take picture, press button, east
+    Look body, take towel, go door, north, south, south, go stairs, save
+    West, move cabinet, break wall, go hole, go stairs, south
+    Look body, take key, go hole, north, up, look telescope, down, down, save, north, north, north, north, up, open door, up, save
+    East, go stairs, north, go stairs, open trapdoor, climb ladder
+    Kill daisy, with gun
+    Take note, read note, drop note
+    Go trapdoor, go stairs, north, go door, go wall, down, down, remove algae, take brick, get jewels, north, go stairs, go hole, east, unlock door, open door, north, go stairs
+
+(Einzelnachweise : http://www.sierrahelp.com/Walkthroughs/MysteryHouseWalkthrough.html)

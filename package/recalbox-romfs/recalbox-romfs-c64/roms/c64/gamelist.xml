@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<gameList>
+  <provider>
+    <System>Commodore 64</System>
+    <software>Skraper</software>
+    <database>ScreenScraper.fr</database>
+    <web>http://www.screenscraper.fr</web>
+  </provider>
+  <game id="200489" source="ScreenScraper.fr">
+    <path>./Commodore Plus4/adventure_park.prg</path>
+    <name>Adventure Park</name>
+    <desc>Adventure Park doesn't sound like a side view action platform game. That is what it is though. The action takes place on single screens, there is no scrolling, and you must collect diamonds on each screen before advancing. There are some rooms that will feature more than one exit as well causing you to have to decide which way to advance. 
+ 
+There is no interaction with enemies so get images of pulling some Mario combos like you did in Super Mario Bros on the Nintendo Entertainment System. That isn't happening here. Your only defense is to avoid the enemies and collect your diamonds before moving on.</desc>
+    <rating>0.75</rating>
+    <releasedate>20190904T000000</releasedate>
+    <developer>Skoro &amp; Kichi</developer>
+    <publisher>Skoro &amp; Kichi</publisher>
+    <genre>Plateform / Run Jump-Platform</genre>
+    <players>1</players>
+    <hash>1CF135A4</hash>
+    <image>./media/images/Commodore Plus4/adventure_park.png</image>
+    <genreid>257</genreid>
+  </game>
+  <game id="200487" source="ScreenScraper.fr">
+    <path>./Commodore Plus4/adventures_in_time_j.d64</path>
+    <name>Adventures in Time</name>
+    <desc>During a walk in the woods one day our hero, a curious yellow snorkel-shaking bouncy thing, discovered some ancient ruins. Inside the ruins he found something rather unexpected - an ultra-super modern TIME SCRAMBLING MACHINE. Being a curious little fellow our hero reached out to touch a tantalizing red button on the control panel ... A bright flash - and so begins his ADVENTURES IN TIME!</desc>
+    <rating>0.8</rating>
+    <releasedate>20100422T000000</releasedate>
+    <developer>Kichy &amp; Luca</developer>
+    <genre>Plateform / Run Jump-Platform</genre>
+    <players>1</players>
+    <hash>70CAAD19</hash>
+    <image>./media/images/Commodore Plus4/adventures_in_time_j.png</image>
+    <genreid>257</genreid>
+  </game>
+  <game id="200493" source="ScreenScraper.fr">
+    <path>./Commodore Plus4/digiloi.prg</path>
+    <name>Digiloi</name>
+    <desc>Digiloi is a bigger leap ahead: a complete action game in PETSCIIvision, with gigantic characters and a very colorful scenario of shiny metallic bulbs and intricated jungle. The Plus/4 version of his own original C64 game would have simply seen as a natural consequence, but the author himself did find the present (again!) of a new speed for his code, achieving a surprising 30% faster version of the game.Now you all know how to spend your Xmas holidays: save the whole planet by disabling the master computer, find three floppy keys and insert them in the terminal. PETSCIIblast'em all!</desc>
+    <rating>0.85</rating>
+    <releasedate>20181227T000000</releasedate>
+    <developer>Dr. TerrorZ</developer>
+    <publisher>Dr. TerrorZ</publisher>
+    <genre>Action / Adventure-Action</genre>
+    <players>1</players>
+    <hash>DB108FC3</hash>
+    <image>./media/images/Commodore Plus4/digiloi.png</image>
+    <genreid>256</genreid>
+  </game>
+  <game id="189692" source="ScreenScraper.fr">
+    <path>./Rescuing Orc (Juan J. Martínez).d64</path>
+    <name>Rescuing Orc</name>
+    <desc>When your best friend Orc (an orc, coincidentally) didn't show up for tea after a couple of weeks, it was pretty clear something had happened to him. 
+ 
+Armed with your trusty sword, enter the dangerous World of Magica where things are not always what they seem, including you: a goblin with good character! 
+ 
+This is a mission to find what happened to your friend, starting deep in the Black Forest and exploring 5 different areas, from the perilous Rocky Mountains to the dark corridors of Bluestone Keep.</desc>
+    <rating>0.8</rating>
+    <releasedate />
+    <developer>Juan J. Martinez</developer>
+    <publisher>Polyplay</publisher>
+    <genre>Platform</genre>
+    <players>1</players>
+    <hash>65935F7E</hash>
+    <image>./media/images/Rescuing Orc (Juan J. Martínez).png</image>
+    <genreid>257</genreid>
+  </game>
+  <game id="116722" source="ScreenScraper.fr">
+    <path>./Transe Sector Ultimate.crt</path>
+    <name>Trance Sector Ultimate</name>
+    <desc>All planets of the solar system are under threat from the Cygma Elite. They have built a massive factory on an unnamed planet, called the "Trance Sector". They also threaten to use the facility to store enough nuclear pods in order to cause a sonic boom. The armageddon bomb is on its way. Should it be activated, all planets of the Solar System will be wiped out. This is where your help is required ... 
+ 
+You have been transported across to the unnamed planet, where the 32 storey Trance Sector is placed. Your mission is to enter the factory, and dispose of all of the dangerous podules. One problem gets in your way. The deadly high-intelligent security systems. Should a seeker spot your ship in its tracks, a rocket gets fired towards you. GET OUT THE WAY if you can. Other obstacles are out there to either help you or slow you down (Press up on the front end to show the help screen). Can you destroy all 32 floors of the Trance Sector, or will all of the planets feel the fate of armageddon? ... You are our only hope.</desc>
+    <rating>0.75</rating>
+    <releasedate>20130101T000000</releasedate>
+    <developer>TND &amp; RGCD</developer>
+    <publisher>TND &amp; RGCD</publisher>
+    <genre>Puzzle-Game / Glide-Puzzle-Game</genre>
+    <players>1</players>
+    <hash>18E7AA9E</hash>
+    <image>./media/images/Transe Sector Ultimate.png</image>
+    <genreid>2816</genreid>
+  </game>
+  <game id="122175" source="ScreenScraper.fr">
+    <path>./Vortex Crystals - (Tape, Be Patient!).tap</path>
+    <name>Vortex Crystals</name>
+    <desc>Scientists have transported energy crystals, which purpose is to help rescue planet Earth from a future alien invasion - unaware that one of the scientists was bitten by a small green and slimy, but deadly alien. He then was turned into a huger version of the species. Now he resides inside a control room of the Vortex Complex - A high security building, where the crystals on Earth are stored. Security forces have been destroyed by beaming aliens. An invasion is about to happen. 
+The Prime Minister has sent a member of special forces to enter the Vortex Complex. This is where you come in ... 
+ 
+Your mission is to enter 16 different high security rooms inside the Vortex Complex. You must pick up and destroy all of the crystals in each room with your strong hands. After you have destroyed the last crystal, you must have enough ammo to shoot dead an alien, and pick up an exit pass. Then flee for the open door, to the next room. You have 20 minutes before the security systems will trigger a toxic gas, killing you instantly. Watch out for the aliens, spikes and falling through holes. Can you make your way through all 16 rooms of the Vortex complex and encounter the slimy green alien, or will you be too late? Good luck ... You'll need it - most definitely.</desc>
+    <rating>0.75</rating>
+    <releasedate>20170101T000000</releasedate>
+    <developer>TND</developer>
+    <publisher>TND</publisher>
+    <genre>Platform</genre>
+    <players>1</players>
+    <hash>46561799</hash>
+    <image>./media/images/Vortex Crystals - (Tape, Be Patient!).png</image>
+    <genreid>257</genreid>
+  </game>
+  <game id="200020" source="ScreenScraper.fr">
+    <path>./wolfling14.prg</path>
+    <name>Wolfling</name>
+    <desc>Ling awakes in Baron Baranov's dungeon. The baron fears all creatures of the 
+night and Ling knows that her dark heritage is the reason for her 
+imprisonment. Can she escape from the dungeon? Can she break her curse?</desc>
+    <rating>0.8</rating>
+    <releasedate>20190609T000000</releasedate>
+    <developer>Lazycow</developer>
+    <publisher>Lazycow</publisher>
+    <genre>Plateform / Fighter Scrolling-Platform</genre>
+    <players>1</players>
+    <hash>42694E3E</hash>
+    <image>./media/images/wolfling14.png</image>
+    <genreid>258</genreid>
+  </game>
+  <game id="200219" source="ScreenScraper.fr">
+    <path>./x-force_2015.prg</path>
+    <name>X-Force</name>
+    <desc>It has been discovered the planet Darx is rich in minerals that Earth needs to use to construct a shield to protect our planet from a possible alien invasion. You are sent on a mission to the planet Darx to extract the minerals we desperately need for our planetary defence shield. 
+Darx was not an uninhabited planet however. Your ship is detected on approach and an alien mothership dispatches forces that capture your vessel. You must use your wits, cunning and reflexes to avoid the aliens and escape from the 16 underground sectors of the planet Darx. You must avoid laser gates on the way and grab any floating pods that can enhance your firepower.</desc>
+    <rating>0.8</rating>
+    <releasedate>20150101T000000</releasedate>
+    <developer>TND</developer>
+    <publisher>TND</publisher>
+    <genre>Shoot'em up / Horizontal-Shoot'em Up</genre>
+    <players>1</players>
+    <hash>D71E79D4</hash>
+    <image>./media/images/x-force_2015.png</image>
+    <genreid>260</genreid>
+  </game>
+  <game id="200491" source="ScreenScraper.fr">
+    <path>./Commodore Plus4/xplode_man.prg</path>
+    <name>Xplode Man</name>
+    <desc>You have the ability to drop bombs that are on a timer and will explode, the explosion blows up things around you like the brick walls and also the other people wandering around, blow these guys up before they blow you up or more realistically bump into you as you turn into a black charred skeleton and you die!</desc>
+    <rating>0.9</rating>
+    <releasedate>20141201T000000</releasedate>
+    <developer>Skoro &amp; Kichi</developer>
+    <publisher>Skoro &amp; Kichi</publisher>
+    <genre>Action / Labyrinth-Action</genre>
+    <players>1</players>
+    <hash>E4C7741D</hash>
+    <image>./media/images/Commodore Plus4/xplode_man.png</image>
+    <genreid>258</genreid>
+  </game>
+  <game id="200197" source="ScreenScraper.fr">
+    <path>./Zap_Fight_2_Special_Edition.d64</path>
+    <name>Zap Fight 2</name>
+    <desc>The alien empire from Planet XTro  has launched an attack on planet Earth (Like they always did in this type of scenario). Enter a fearless fighter pilot, to defend the home planet - Erm, that is you in fact :) ... Battle through enemy ridden landscapes and make a real mess out of the alien scum. Pick up power stars to gain power ups. Avoid shooting our medi-ships, or we will trigger a self destruct device on your ship. - Save our beloved planet!</desc>
+    <rating>0.8</rating>
+    <releasedate>20170122T000000</releasedate>
+    <developer>Alf Yngve, Martin Piper, Richard Bayliss</developer>
+    <publisher>TND</publisher>
+    <genre>Shoot'em up / Vertical-Shoot'em Up</genre>
+    <players>1</players>
+    <hash>9FE9B21F</hash>
+    <image>./media/images/Zap_Fight_2_Special_Edition.png</image>
+    <genreid>260</genreid>
+  </game>
+</gameList>

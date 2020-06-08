@@ -1,0 +1,54 @@
+Beware humans because THE END is near......
+
+DESCRIPTION
+-----------
+THE END 2600 is a homebrew game 
+based on the 1980 Konami version of the arcade game THE END. 
+
+GAME OBJECTIVE
+--------------
+To destroy aliens attempting to steal bricks from your 3 defense bases.
+The aliens will arrange stolen bricks to spell out  "END" at the top of the screen.
+
+SETTING THE CONSOLE CONTROLS
+----------------------------
+1. Place the cartridge firmly into 
+   the cartridge slot at the top of the Atari unit.
+2. Turn the ON/OFF switch to ON.
+3. Set the LEFT DIFFICULTY SWITCH:
+   Position A (Expert): you begin the game with 6 aliens and fast alien bullets.
+   Position B (Novice): you begin the game with 3 aliens and slow alien bullets.
+4. To begin play, press the GAME RESET switch on the console or the red button on your joystick. 
+
+THE JOYSTICK CONTROLLER
+-----------------------
+THE END 2600 is a one-player game. 
+Plug the joystick controller into the jack labelled "1" on the left side of your ATARI 2600.
+Use your joystick to move your spaceship left of right and press the button to fire to the aliens. 
+
+END OF GAME
+-----------
+Game is over when all your spaceships are destroyed or "END" is spelled out by the aliens.
+To play again, simply press the GAME RESET or the red button on your joystick.
+
+SCORING
+-------
+Each alien destroyed scores 40, 60 or 100 points.
+Destroying aliens carrying a stolen brick scores double.
+
+Destroying MotherShip scores 10 to 100 points. 
+The same amount will be awarded as bonus for each brick needed to complete the word "END" 
+
+You start the game with 3 spaceships and an extra ship will be awarded when you reach 5,000 points. 
+
+HINTS AND TIPS
+--------------
+Each level is represented by a wave and every 5 waves represent a round.
+At the end of every 5 waves, the MotherShip will come down to attack your spaceship.
+
+You must hit the MotherShip at the center to destroy it.
+When you destroy the MotherShip, a new round of waves begins and the aliens will have to start spelling "END" all over again.
+
+To complete the first wave you will have to kill 45 aliens.
+Then on the second wave, you will have to kill 50 aliens, on the third wave you will have to kill 55 aliens and so on....
+

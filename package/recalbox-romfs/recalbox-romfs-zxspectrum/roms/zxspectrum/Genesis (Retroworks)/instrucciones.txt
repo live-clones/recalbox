@@ -1,0 +1,71 @@
+GENESIS: Dawn of a new day
+
+Nunca se tomaron demasiado en serio la amenaza Dork. Primero pensaron que no se atreverían a atacar, después que les venceríamos fácilmente... la humanidad nunca escarmienta. Ahora la Tierra está invadida por esas infectas criaturas, y tú eres el piloto encargado de salvarla. ¿No te suena eso de alguno de los simuladores de combate en los que te entrenabas?
+
+Pero la cosa no podía ser tan sencilla, no. Al empezar el ataque se diseñó el arma definitiva, que podría librarnos de los Dork: la nave Genesis. Pero, ¿para qué construirla en la Tierra? Eso sería demasiado sencillo. Mucho mejor subcontratar el trabajo a otros planetas, y luego ya ensamblaríamos nosotros la nave. Claro, nunca contaron con que la invasión sería tan rápida, y que alguien tendría que ir a recoger las piezas de la Genesis... Adivina quién.
+
+Así están las cosas.  Estás a los mandos de tu vieja nave, en un hangar secreto, preparándote para intentar escapar de la Tierra, recorrer cinco planetas para recoger las piezas de la Genesis, ensamblarla y finalmente volver a casa, para liberar tú solo a tu planeta de una invasión de alienígenas cabreados.
+
+OBJETIVO DEL JUEGO
+
+Tu misión es sencilla: matar a todos los enemigos posibles, escapando vivo en el intento. Primero debes escapar de la Tierra, para recorrer cinco planetas y recoger en cada uno una pieza de la Genesis. Cuando hayas ensamblado la nave, volverás en ella a la Tierra, para liberarla de la amenaza Dork.
+
+Tu nave posee dos tipos de disparo: el disparo normal, que usarás para lanzar las armas que equipe tu nave en cada momento, y una bomba de barrido, que eliminará todos los enemigos que se encuentren en tu radio de visión. Para activar la bomba de barrido, debes mantener pulsado el botón de disparo, hasta que se llene una barra de energía que se encuentra en la parte inferior derecha de la pantalla. La bomba se lanzará en cuanto dejes de pulsar el botón de disparo. Posees un número ilimitado de disparos normales, y un número muy limitado de bombas de barrido, así que úsalas con inteligencia.
+
+A lo largo de los distintos planetas encontrarás cápsulas que, al ser disparadas, liberarán mejoras para tu nave. Estas mejoras estarán determinadas por el carácter que se encuentre dentro del power-up:
+
++1: Añade una bomba de barrido a tu inventario
+D: Duplica la capacidad de disparo de tu nave. Ten en cuenta que, si cambias de arma, volverás a la capacidad normal de disparo.
+T: Tres disparos a la vez
+S: Láser, de gran capacidad destructiva
+M: Misil. Orientado por calor, se dirigirá directamente a tus enemigos.
+B: Bomba, que se añade a un disparo normal
+C: Megadisparo. Poco se sabe de las posibilidades de este arma, sólo te han comentado que, en caso de conseguirla, serás capaz de eliminar enemigos en todas direcciones.
+
+CONTROLES
+
+Podrás controlar tu nave usando joystick Kempston, Sinclair o el teclado, con la siguiente asignación de teclas (no redefinibles):
+
+	O: izquierda
+	P: derecha
+	Q: arriba
+	A: abajo
+	Espacio: disparo
+
+En el menú principal, pulsa disparo en el control seleccionado, y el juego lo detectará automáticamente.
+
+Puedes decidir si quieres que tu nave se comporte conforme a las leyes físicas de la inercia o no, pulsando la tecla I en el menú principal.
+
+También puedes seleccionar el tipo de sonido durante el juego (música y efectos, sólo música, sólo efectos, silencio), pulsando la tecla S en el menú principal.
+
+CONSEJOS
+
+- No siempre es buena idea intentar eliminar a todos los enemigos. Una retirada a tiempo es una victoria.
+- En ocasiones deberás probar diferentes caminos en un nivel. Explora todas las opciones, hay caminos mucho más sencillos que otros.
+- Los enemigos de final de fase, aunque parezcan invencibles, siguen pautas de comportamiento relativamente simples. Si las descubres, conocerás sus debilidades.
+- Insiste, insiste e insiste. Puedes conseguirlo.
+
+INSTRUCCIONES DE CARGA
+
+El juego requiere un Spectrum de 128k para funcionar. Éstas son las instrucciones de carga: 
+
+- ZX Spectrum 128, +2, +2A, +2B, +3 (cinta): Selecciona CARGADOR o LOADER del menú principal, y pulsa PLAY en el cassete. El juego se cargará automáticamente. 
+
+- ZX Spectrum +3 (disco): Inserta el disco en la unidad A:, y selecciona CARGADOR o LOADER en el menú principal. El juego se cargará automáticamente.
+
+CRÉDITOS
+
+Idea y código: utopian
+Gráficos: sejuan, anjuel, pagantipaco
+Música, efectos de sonido, player: WYZ
+Betatesting: tbrazil, Ivanzx, Metalbrain y el resto del equipo de RetroWorks
+Música de presentación (versión +3): Riskej
+
+Dedicado a Rafa. Espero que cuando seas mayor puedas probarlo y disfrutarlo.
+
+Dedicado también a la memoria de Johnatan “Joffa” Smith. Espero haber llegado al menos a la suela de tus zapatos, y que el juego sea digno de dedicártelo.
+
+AGRADECIMIENTOS
+A Derek Smith, Johnatan Cauldwell, Rusell Kay, y todos quienes comparten sus conocimientos y su código. Este juego difícilmente habría sido posible sin vosotros.
+
+A todos los que en algún momento han aportado, aunque sea una mínima idea, a este juego. Gracias por haber hecho realidad un sueño.

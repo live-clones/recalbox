@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<gameList>
+  <provider>
+    <System>Apple II</System>
+    <software>Skraper</software>
+    <database>ScreenScraper.fr</database>
+    <web>http://www.screenscraper.fr</web>
+  </provider>
+  <game id="53385" source="ScreenScraper.fr">
+    <path>./Mystery House (Ken &amp; Roberta Williams).DSK</path>
+    <name>Hi-Res Adventure 1 - Mystery House</name>
+    <desc>This game is an historical piece of video gaming all by itself! 
+ 
+Mystery House is an adventure game released by On-Line Systems in 1980. It was designed, written and illustrated by Roberta Williams and programmed by Ken Williams for the Apple II. Mystery House is the very first graphical adventure game and the first game produced by On-Line Systems, the company which would evolve into Sierra On-Line. It is one of the earliest horror video games.  
+ 
+The game starts near an abandoned Victorian mansion. The player is soon locked inside the house with no other option than to explore. The mansion contains many interesting rooms and seven other people: Tom, a plumber; Sam, a mechanic; Sally, a seamstress; Dr. Green, a surgeon; Joe, a gravedigger; Bill, a butcher; and Daisy, a cook. 
+ 
+Initially, the player has to search the house in order to find a hidden cache of jewels. However, terrible events start happening and dead bodies (of the other people) begin appearing. It becomes obvious that there is a murderer on the loose in the house, and the player must discover who it is or become the next victim.</desc>
+    <rating>1</rating>
+    <releasedate>19800505T000000</releasedate>
+    <developer>Ken &amp; Roberta Willians</developer>
+    <publisher>Sierra</publisher>
+    <genre>Adventure</genre>
+    <players>1</players>
+    <hash>4B0017CC</hash>
+    <image>./media/images/Mystery House (Ken &amp; Roberta Williams).png</image>
+    <genreid>512</genreid>
+  </game>
+  <game id="204419" source="ScreenScraper.fr">
+    <path>./Lamb Chops (TanRuNomad).do</path>
+    <name>Lamb Chop Source</name>
+    <desc>You're a sheep farmer and your flock has escaped from their fencing. Armed with a shotgun, you must protect them from the natural (and unnatural) forest inhabitants as they make their way home. 
+You get extra men every 1,000 points. You lose a life by touching any creature (except the sheep) or by losing 3 sheep per level. 
+The game gets progressively harder until level 20. If you make it that far you get a better game over screen when you die. Oh, and don't shoot the sheep, friendly fire is enabled.</desc>
+    <rating>0.6</rating>
+    <releasedate>20130101T000000</releasedate>
+    <developer>TanRuNomad</developer>
+    <genre>Action</genre>
+    <players>1</players>
+    <hash>4EEABCED</hash>
+    <image>./media/images/Lamb Chops (TanRuNomad).png</image>
+    <genreid>256</genreid>
+  </game>
+  <game id="204421" source="ScreenScraper.fr">
+    <path>./Retro Fever (TanRuNomad).dsk</path>
+    <name>Retro Fever</name>
+    <desc>You play as an Apple II enthusiast trying to add to their collection. In other words, you play as you! 
+Objectives include collecting the computers from a recycling center, fixing them in a repair shop, and protecting them from the yellowing effects of the sun! Standing in your way is an evil businessman who only wants the computers to resell on eBay for inflated prices! Other obstacles include reckless drivers, overgrown lab rats, and your angry wife who wants you to sell your “junk”. 
+This game has it all!</desc>
+    <rating>0.7</rating>
+    <releasedate>20140101T000000</releasedate>
+    <developer>TanRuNomad</developer>
+    <genre>Action</genre>
+    <players>1</players>
+    <hash>B55B4F2F</hash>
+    <image>./media/images/Retro Fever (TanRuNomad).png</image>
+    <genreid>256</genreid>
+  </game>
+</gameList>

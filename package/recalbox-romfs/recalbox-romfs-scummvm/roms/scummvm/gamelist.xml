@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<gameList>
+  <provider>
+    <System>ScummVM</System>
+    <software>Skraper</software>
+    <database>ScreenScraper.fr</database>
+    <web>http://www.screenscraper.fr</web>
+  </provider>
+  <game id="156558" source="ScreenScraper.fr">
+    <path>./Beneath a Steel Sky (English).scummvm</path>
+    <name>Beneath a Steel Sky (English)</name>
+    <desc>In futuristic Australia, there are giant cities owned solely by corporations, separated by a giant wasteland known as The Gap. When Robert Foster's Gap-dwelling tribe is killed by soldiers from Union City who capture him, everything changes for him. After a narrow escape from the helicopter bringing him there as it inexplicably crashes, Robert and his droid Joey must search the decaying city, attempting to befriend both the snobby rich and the frustrated poor as the two attempt to get out of the city, but in the middle of everything they uncover the dark truth about LINC, the bizarre computer which makes the city tick.
+
+Using the then revolutionary Virtual Theatre engine, BASS' characters can move freely independent of the player, allowing the game world to be much more dynamic than anything seen before (other than Virtual Theatre's debut game, the less popular Lure of the Temptress). Otherwise, the engine provides tried and true point-and-click adventure gameplay.</desc>
+    <releasedate>19940301T000000</releasedate>
+    <developer>Revolution Software Ltd.</developer>
+    <publisher>Virgin</publisher>
+    <genre>Adventure</genre>
+    <hash>062674EF</hash>
+    <image>./media/images/Beneath a Steel Sky (English).png</image>
+    <genreid>512</genreid>
+  </game>
+  <game id="156921" source="ScreenScraper.fr">
+    <path>./Flight of the Amazon Queen (English).scummvm</path>
+    <name>Flight of the Amazon Queen (English)</name>
+    <desc>Joe King is the hero of this point and click adventure. His plane is carrying actress Faye Russell when it crash lands in a remote jungle, and he must battle through 100 screens of adventure and puzzle. The game's feel is influenced by hammy B-movies, and the characters are quite stereotyped and comic. As standard in point and click adventures, a set of icons at the bottom of the screen allow you to interact with visible characters and items in the main view area.</desc>
+    <rating>0.75</rating>
+    <releasedate>19950101T000000</releasedate>
+    <developer>Interactive Binary Illusions</developer>
+    <publisher>Renegade Software</publisher>
+    <genre>Adventure-Adventure / Point and Click</genre>
+    <players>1</players>
+    <hash>A2EDB4BA</hash>
+    <image>./media/images/Flight of the Amazon Queen (English).png</image>
+    <genreid>514</genreid>
+  </game>
+  <game id="156921" source="ScreenScraper.fr">
+    <path>./Flight of the Amazon Queen (Français).scummvm</path>
+    <name>Flight of the Amazon Queen (Français)</name>
+    <desc>Joe King is the hero of this point and click adventure. His plane is carrying actress Faye Russell when it crash lands in a remote jungle, and he must battle through 100 screens of adventure and puzzle. The game's feel is influenced by hammy B-movies, and the characters are quite stereotyped and comic. As standard in point and click adventures, a set of icons at the bottom of the screen allow you to interact with visible characters and items in the main view area.</desc>
+    <rating>0.75</rating>
+    <releasedate>19950101T000000</releasedate>
+    <developer>Interactive Binary Illusions</developer>
+    <publisher>Renegade Software</publisher>
+    <genre>Adventure-Adventure / Point and Click</genre>
+    <players>1</players>
+    <hash>A2EDB4BA</hash>
+    <image>./media/images/Flight of the Amazon Queen (English).png</image>
+    <genreid>514</genreid>
+  </game>
+  <game id="99756" source="ScreenScraper.fr">
+    <path>./Lure of the Tempress (English).scummvm</path>
+    <name>Lure Of The Temptress (English)</name>
+    <desc>Lure of the Temptress is Revolution Softwares debut point-and-click adventure game published by Virgin Interactive Entertainment. It was released in June 1992 for Atari ST, MS-DOS and Amiga. The player assumes the role of a young peasant named Diermot who has to overthrow an evil sorceress. Lure of the Temptress is the first game built with the Virtual Theatre engine, which Revolution used in the subsequent games Beneath a Steel Sky and the first two games in the Broken Sword series. It was received favourably by critics, a commercial success and re-released as freeware on April 1, 2003.</desc>
+    <rating>0.55</rating>
+    <releasedate>19920101T000000</releasedate>
+    <developer>Revolution Software Ltd.</developer>
+    <publisher>Virgin</publisher>
+    <genre>Adventure / Point and Click-Adventure</genre>
+    <players>1</players>
+    <hash>225FB3BF</hash>
+    <image>./media/images/Lure of the Tempress (English).png</image>
+    <genreid>514</genreid>
+  </game>
+  <game id="99756" source="ScreenScraper.fr">
+    <path>./Lure of the Tempress (Español).scummvm</path>
+    <name>Lure Of The Temptress (Español)</name>
+    <desc>Lure of the Temptress is Revolution Softwares debut point-and-click adventure game published by Virgin Interactive Entertainment. It was released in June 1992 for Atari ST, MS-DOS and Amiga. The player assumes the role of a young peasant named Diermot who has to overthrow an evil sorceress. Lure of the Temptress is the first game built with the Virtual Theatre engine, which Revolution used in the subsequent games Beneath a Steel Sky and the first two games in the Broken Sword series. It was received favourably by critics, a commercial success and re-released as freeware on April 1, 2003.</desc>
+    <rating>0.55</rating>
+    <releasedate>19920101T000000</releasedate>
+    <developer>Revolution Software Ltd.</developer>
+    <publisher>Virgin</publisher>
+    <genre>Adventure / Point and Click-Adventure</genre>
+    <players>1</players>
+    <hash>225FB3BF</hash>
+    <image>./media/images/Lure of the Tempress (English).png</image>
+    <genreid>514</genreid>
+  </game>
+  <game id="99756" source="ScreenScraper.fr">
+    <path>./Lure of the Tempress (Français).scummvm</path>
+    <name>Lure Of The Temptress (Français)</name>
+    <desc>Lure of the Temptress is Revolution Softwares debut point-and-click adventure game published by Virgin Interactive Entertainment. It was released in June 1992 for Atari ST, MS-DOS and Amiga. The player assumes the role of a young peasant named Diermot who has to overthrow an evil sorceress. Lure of the Temptress is the first game built with the Virtual Theatre engine, which Revolution used in the subsequent games Beneath a Steel Sky and the first two games in the Broken Sword series. It was received favourably by critics, a commercial success and re-released as freeware on April 1, 2003.</desc>
+    <rating>0.55</rating>
+    <releasedate>19920101T000000</releasedate>
+    <developer>Revolution Software Ltd.</developer>
+    <publisher>Virgin</publisher>
+    <genre>Adventure / Point and Click-Adventure</genre>
+    <players>1</players>
+    <hash>225FB3BF</hash>
+    <image>./media/images/Lure of the Tempress (English).png</image>
+    <genreid>514</genreid>
+  </game>
+  <game id="156287" source="ScreenScraper.fr">
+    <path>./Soltys (English).scummvm</path>
+    <name>Soltys (English)</name>
+    <desc>(In)famous for jokes about it, the Polish city of Wachock is the place where the story of the Polish adventure game Soltys takes place.
+
+You play the head of the village of Wachock and your aim is to find the missing husband of your daughter (who apparently isn't very attractive if you know what I mean). Scared of his future, Leon decides to run away from the wedding and you are responsible for bringing this poor guy back.</desc>
+    <releasedate />
+    <developer>L.K. Avalon</developer>
+    <publisher>L.K. Avalon</publisher>
+    <genre>Adventure</genre>
+    <hash>32EF545E</hash>
+    <image>./media/images/Soltys (English).png</image>
+    <genreid>512</genreid>
+  </game>
+  <game id="156287" source="ScreenScraper.fr">
+    <path>./Soltys (Español).scummvm</path>
+    <name>Soltys (Español)</name>
+    <desc>(In)famous for jokes about it, the Polish city of Wachock is the place where the story of the Polish adventure game Soltys takes place.
+
+You play the head of the village of Wachock and your aim is to find the missing husband of your daughter (who apparently isn't very attractive if you know what I mean). Scared of his future, Leon decides to run away from the wedding and you are responsible for bringing this poor guy back.</desc>
+    <releasedate />
+    <developer>L.K. Avalon</developer>
+    <publisher>L.K. Avalon</publisher>
+    <genre>Adventure</genre>
+    <hash>32EF545E</hash>
+    <image>./media/images/Soltys (English).png</image>
+    <genreid>512</genreid>
+  </game>
+</gameList>

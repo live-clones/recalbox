@@ -1,0 +1,23 @@
+ ____        _           _       _____      _                                
+|  _ \      | |         ( )     |  __ \    | |                               
+| |_) | __ _| |__   __ _|/ ___  | |__) |_ _| | __ _  ___ ___                 
+|  _ < / _` | '_ \ / _` | / __| |  ___/ _` | |/ _` |/ __/ _ |                
+| |_) | (_| | |_) | (_| | \__ \ | |  | (_| | | (_| | (_|  __/                
+|____/ \__,_|_.__/ \__,_| |___/ |_|   \__,_|_|\__,_|\___\___|                
+
+BABA'S PALACE 
+
+
+ABOUT MASS STORAGE VERSION
+--------------------------
+babaspalace_mass-storage-by-joseman_2017.dsk is a binary adapted by Joseman (@sJoseman) to guarantee compatibility with rom extensions and roms mass storage (like M4).
+
+Thanks Joseman!!! :)
+
+
+
+ABOUT GX400 VERSION
+-------------------
+This is a special version in cartridge format modified by Dragon to ensure full compatibility with the gx400 system. This version is adapted to be fully functional with the game-pad of the GX400 console, and allows both the entry of level codes and access to the context menu from the game-pad.
+
+Thanks Dragon!!! :D

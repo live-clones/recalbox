@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<gameList>
+  <provider>
+    <System>Atari 8bit</System>
+    <software>Skraper</software>
+    <database>ScreenScraper.fr</database>
+    <web>http://www.screenscraper.fr</web>
+  </provider>
+  <game id="54610" source="ScreenScraper.fr">
+    <path>./Crownland (Wisniewski, Piotr).xex</path>
+    <name>Crownland</name>
+    <desc>In a nutshell, Crownland is a slickly produced Mario-style run 'n' jump game for the 8-Bit Atari. In fact I'd be as bold as to say that Crownland is the machine's best platform game to date with it's superb visuals and fast-paced console quality game-play it's almost worthy of being described as the Atari equivalent of Mayhem in Monsterland.</desc>
+    <rating>0.9</rating>
+    <releasedate>20070101T000000</releasedate>
+    <publisher>Wisniewski, Piotr</publisher>
+    <genre>Platform</genre>
+    <players>1</players>
+    <hash>6DA484C8</hash>
+    <image>./media/images/Crownland (Wisniewski, Piotr).png</image>
+    <genreid>257</genreid>
+  </game>
+  <game id="200108" source="ScreenScraper.fr">
+    <path>./Ridiculous Reality final.xex</path>
+    <name>Ridiculous Reality</name>
+    <desc>Ridiculous Reality is a puzzle-platform game. The goal of this game is to complete all levels where the hero must gather all keys. After all the keys are collected the exit door will open and the hero can go through to the next level.Each level consists of separate rooms arranged in a matrix. The arrangement of the rooms can be changed after switching into map mode. In this matrix map mode, the player can move rooms in sliding puzzle style, using one empty space with no room. It means that the configuration of all rooms can be set in many different ways.The hero is moving in a standard room-view mode. The movement between two contiguous rooms is possible only when there is continuity between them - meaning their contiguous borders must be the same, corridors and walls must match each other. When there is no continuity, the passage will be blocked.</desc>
+    <rating>0.9</rating>
+    <releasedate>20121209T000000</releasedate>
+    <developer>MatoSimi</developer>
+    <publisher>MatoSimi</publisher>
+    <genre>Puzzle-Game</genre>
+    <players>1</players>
+    <hash>4FE239F4</hash>
+    <image>./media/images/Ridiculous Reality final.png</image>
+    <genreid>2816</genreid>
+  </game>
+  <game id="200124" source="ScreenScraper.fr">
+    <path>./Time Pilot.xex</path>
+    <name>Time Pilot</name>
+    <desc>Players assume the role of a pilot of a futuristic fighter jet trying to rescue fellow pilots trapped in different time eras. In each level, players battle enemy aircraft and then a stronger aircraft. Players' fighter jet is in the center of the screen at all times. Players eventually battle a mothership of the time period they are in; once the mothership is defeated, they move onto the next time period. Parachuting pilots will occasionally appear and award players points if collected.</desc>
+    <rating>0.8</rating>
+    <releasedate>20180101T000000</releasedate>
+    <developer>Solo &amp; Laoo</developer>
+    <publisher>New Generation 2018</publisher>
+    <genre>Shoot'em Up</genre>
+    <players>1</players>
+    <hash>76210F03</hash>
+    <image>./media/images/Time Pilot.png</image>
+    <genreid>260</genreid>
+  </game>
+</gameList>

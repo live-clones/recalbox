@@ -1,0 +1,54 @@
+		**** Relentless ****
+
+		      Loading
+
+IMPORTANT: Do not attempt to insert or remove the game
+ROM from the expansion port with the power on.
+
+Insert the ROM into the expansion port and turn the power
+on. Type |relent and press return to start the game.
+
+		       Story
+
+Blast your way to the end zone, but watch out, the enemy
+are Relentless!
+
+		      Gameplay
+
+Avoid walls and bullets, destroy the enemy ships and
+turrets.  Destroying an entire wave of ships will reward
+you with a points bonus dependent on the level of the
+bonus meter.  The bonus meter is raised by destroying a
+wave, but drains slowly over time.  Destroy waves quickly
+for a high score!
+
+		    Instructions
+
+Select difficulty and controls by using the function keys
+(numeric key pad on CPC464) from the title screen.
+
+The available control options are:
+		Joystick	Keys	Cursor
+Move Up		Joy1 Up		Q	Cur Up
+Move Down	Joy1 Down	A	Cur Down
+Move Left	Joy1 Left	O	Cur Left
+Move Right	Joy1 Right	P	Cur Right
+Fire		Joy1 Fire1	Space	Space
+
+
+		      Credits
+
+	Code & Sfx		Axelay
+	Graphics		rexbeng
+	Music			Tom&Jerry
+
+		       Tools
+
+	Winape			Executioner
+	Exomizer		Magnus Lind
+	Z80 decompressor	Metalbrain
+	Arkos tracker		Targhan
+
+		  Special Thanks
+		   endangermice
+		      Grimm

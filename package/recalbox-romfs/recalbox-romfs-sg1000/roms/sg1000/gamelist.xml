@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<gameList>
+  <provider>
+    <System>SG-1000</System>
+    <software>Skraper</software>
+    <database>ScreenScraper.fr</database>
+    <web>http://www.screenscraper.fr</web>
+  </provider>
+  <game id="202429" source="ScreenScraper.fr">
+    <path>./Cheril Perils Classic (MojonTwins) [PAL].sg</path>
+    <name>Cheril Perils Classic</name>
+    <desc>Cheril arrives to the city and it's full of zombies! And they won't let you go until you kill them all! And not only that, you'll have to clean the Factory and the Forest of Badajoz as well! That forest again! Will you ever be able to escape that forest? 
+ 
+In easy mode just jump on top of the baddies to clean every stage. In resonators mode, you'll have to activate a resonator to freeze the baddies for a while before you can jump on top of them to kil them all.</desc>
+    <rating>0.7</rating>
+    <releasedate>20200301T000000</releasedate>
+    <developer>Mojontwins</developer>
+    <publisher>Mojontwins</publisher>
+    <genre>Plateform / Run Jump-Platform</genre>
+    <players>1</players>
+    <hash>B260B74E</hash>
+    <image>./media/images/Cheril Perils Classic (MojonTwins) [PAL].png</image>
+    <genreid>257</genreid>
+  </game>
+</gameList>

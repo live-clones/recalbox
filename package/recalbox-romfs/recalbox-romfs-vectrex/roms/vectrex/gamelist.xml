@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<gameList>
+  <provider>
+    <System>Vectrex</System>
+    <software>Skraper</software>
+    <database>ScreenScraper.fr</database>
+    <web>http://www.screenscraper.fr</web>
+  </provider>
+  <game id="200032" source="ScreenScraper.fr">
+    <path>./THRUST.BIN</path>
+    <name>Thrust</name>
+    <desc>The player has to penetrate various planets to attach a tow-bar to Kylstron Pods, and get out alive. In doing so you can stop the Intergalactic Empire from achieving its evil plan. The game is difficult enough to make a gamer curse, but fun enough to make one smile too!</desc>
+    <rating>0.75</rating>
+    <releasedate>20160101T000000</releasedate>
+    <developer>Ville Krumlinde</developer>
+    <publisher>Pakrat</publisher>
+    <genre>Shoot'em Up</genre>
+    <players>1</players>
+    <hash>E6EAF7C4</hash>
+    <image>./media/images/THRUST.png</image>
+    <genreid>260</genreid>
+  </game>
+  <game id="200034" source="ScreenScraper.fr">
+    <path>./VECZ.BIN</path>
+    <name>VecZ</name>
+    <desc>SIMPLE ENTER THE VECZ AND TRY TO DESTROY ITS EMPIRE! AND OF COURSE: IT IS NOT ABOUT SHOOTEMUP ALL - IT IS ABOUT SURVIVE AND SHOOTEMUP IS ONLY ONE TACTIC!</desc>
+    <rating>0.9</rating>
+    <releasedate />
+    <developer>René Bauer</developer>
+    <publisher>Madtronix</publisher>
+    <genre>Shoot'em up / Vertical-Shoot'em Up</genre>
+    <players>1</players>
+    <hash>1D86F3AC</hash>
+    <image>./media/images/VECZ.png</image>
+    <genreid>260</genreid>
+  </game>
+</gameList>

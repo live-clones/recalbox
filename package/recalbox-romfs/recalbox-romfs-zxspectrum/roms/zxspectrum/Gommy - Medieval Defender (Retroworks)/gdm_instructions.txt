@@ -1,0 +1,65 @@
+====================================
+===   GOMMY, MEDIEVAL DEFENDER   ===
+====================================
+---         INSTRUCTIONS         ---
+====================================
+
+(C) Retroworks 2009
+(C) Pagantipaco 2009
+
+http://www.retroworks.es
+
+(ooooooooooooooooooooooooooooooo)
+    HISTORY.
+(ooooooooooooooooooooooooooooooo)
+
+In the medieval age wars used to be a routine and in Gommyland castle, everything was
+ready for the enemy invasion. The kingdom was at stake, and at dawn the enemy armies
+stood in front of the wall. Gommy took his armor and got ready to defend the place
+together with his mates... but everything wasn't so easy: his superiors, the king,
+vassals, servants and soldiers had disappeared.
+
+He looked everywhere for them but the battle was about to start. What to do? Finally,
+he decided to start the battle and beat everyone who dared to climb the high and
+imposing walls of the castle.
+
+Will you help him in his mission?
+
+(ooooooooooooooooooooooooooooooo)
+   CONTROLS
+(ooooooooooooooooooooooooooooooo)
+
+P - Right
+O - Left
+SPACE - Drop object
+H - Hold
+G - End game
+
+(ooooooooooooooooooooooooooooooo)
+   GAME OBJECTIVE
+(ooooooooooooooooooooooooooooooo)
+
+Your mission is to repel the enemy attack dropping objects from the top of the wall.
+First you must take an object from one of the sides of the screen, aim and drop.
+
+Whatever happens, try at all cost not to let any enemy soldier reach the top of the
+wall, and don't let any sharp object hit Gommy.
+
+(ooooooooooooooooooooooooooooooo)
+    CREDITS
+(ooooooooooooooooooooooooooooooo)
+
+Pagantipaco: graphics, engine coding and cover.
+WYZ: music & WYZPlayer.
+Metalbrain: image decompression.
+Coding help: WYZ, Metalbrain, Utopian, Benway.
+Tests: IvanZX, TBrazil.
+
+I want to thank the whole RetroWorks team for their suport in the development
+of this project, and also to the now extinct CEZGS where this project was born
+shortly before it ended.
+
+========================================================================
+NOTA: Gommy (aka Gominolo) is a creation of
+      Francisco Javier Velasco (aka Pagantipaco).
+========================================================================

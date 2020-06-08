@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<gameList>
+  <provider>
+    <System>Genesis</System>
+    <software>Skraper</software>
+    <database>ScreenScraper.fr</database>
+    <web>http://www.screenscraper.fr</web>
+  </provider>
+  <game id="203806" source="ScreenScraper.fr">
+    <path>./Bomb on Basic City SE (Studio Vetea).bin</path>
+    <name>Bomb on Basic City : Special Edition</name>
+    <desc>Bomb on Basic City is an addicting arcade bomber game for the Sega Genesis/Mega Drive. Papi is back with a vengeance in the new version : Bomb on Basic City Special Edition. Take flight in Papi's bomber to fight the C++ Invasion Forces and reclaim your homeland in this action packed arcade bomber!</desc>
+    <releasedate>20080101T000000</releasedate>
+    <developer>Studio Vetea</developer>
+    <publisher>Studio Vetea</publisher>
+    <genre>Shoot'em Up</genre>
+    <players>1-2</players>
+    <hash>076232FD</hash>
+    <image>./media/images/Bomb on Basic City SE (Studio Vetea).png</image>
+    <genreid>260</genreid>
+  </game>
+  <game id="143861" source="ScreenScraper.fr">
+    <path>./Bug Hunt (Mun).bin</path>
+    <name>Bug Hunt</name>
+    <desc>Originally created for PC by John Bell (Lazy Brain Games) Bug Hunt had already proved very popular on the NEC PC-Engine in the Neo Coding Compo in 2013. It is now time for the 16-bit SEGA to get a version of the game and whatâ€™s more, itâ€™s free! This is once again courtesy of Afromonkeys (Jack Nolddor and Davidian), who, as usual, have also given us a quality conversion. We had already mentioned Chase, a NES game portage by the same creators, which proved to be a pleasant surprise. Note that this version of Bug Hunt is compatible with the Mega Mouse so that you can enjoy the same experience as the PC version.</desc>
+    <rating>0.7</rating>
+    <releasedate>20150101T000000</releasedate>
+    <developer>Mun</developer>
+    <genre>Action</genre>
+    <players>1</players>
+    <hash>20175DE8</hash>
+    <image>./media/images/Bug Hunt (Mun).png</image>
+    <genreid>256</genreid>
+  </game>
+  <game id="204324" source="ScreenScraper.fr">
+    <path>./Gluf (Retrosouls).bin</path>
+    <name>Gluf</name>
+    <desc>GLUF is the next best thing in Megadrive fun! It's an arcade puzzle game in which you need to colour all the different platforms without touching any of the enemies found throughout, while also keeping an eye on your energy levels. The graphics are superb, the animation is spot on, and the gameplay is addictive, yes you've got to play it!</desc>
+    <rating>0.75</rating>
+    <releasedate>20200514T000000</releasedate>
+    <developer>RetroSouls</developer>
+    <publisher>RetroSouls</publisher>
+    <genre>Puzzle-Game</genre>
+    <players>1</players>
+    <hash>CE5AFAC9</hash>
+    <image>./media/images/Gluf (Retrosouls).png</image>
+    <genreid>2816</genreid>
+  </game>
+  <game id="204435" source="ScreenScraper.fr">
+    <path>./Griel's Quest for the Holy Porron (Mun).bin</path>
+    <name>Griel's Quest for the Holy Porron</name>
+    <desc>The evil Kbrah, a pretty happy villain, kidnaps princesses and moves them from castle to castle! 
+He plays horrible, violent videogames for hours and hours. And plays in a band that could wake the dead! 
+He throws parties for his evil friends. Parties that sometimes end badly... 
+ 
+The next morning, at Dudeh's Castle, the King yield for Griel! 
+"My porrón! IT HAS BEEN STOLEN! The Princess has been taken too!" 
+"Griel, the kingdom is lost without the Holy Porrón. You must recover it as soon as possible! This looks like it has been masterminded by Kbrah, my archenemy, it must have been him."}, 
+ 
+Obiously, rou're Griel, and you must solve all the puzzles the evil Kbrah has put in your way!</desc>
+    <rating>0.8</rating>
+    <releasedate>20170101T000000</releasedate>
+    <developer>Mun</developer>
+    <genre>Puzzle-Game</genre>
+    <players>1</players>
+    <hash>E1C3E75C</hash>
+    <image>./media/images/Griel's Quest for the Holy Porron (Mun).png</image>
+    <genreid>2816</genreid>
+  </game>
+  <game id="189651" source="ScreenScraper.fr">
+    <path>./L'Abbaye des Morts (Mun).bin</path>
+    <name>L'Abbaye des Morts</name>
+    <desc>In the 13th century, the Catholic Church used it's soldiers to expel the members of the religious order of the Cathars from the Languedoc region of France. You, as Jean Raymond, have run from these soldiers and hidden in a Abbey. But it turns out the Abbey was built over catacombs of evil. Collect the twelve Cathar crosses to expel the evil from this building. 
+ 
+l'Abbaye des Morts (Abbey of the Dead) is a game designed to look and control like a ZX Spectrum game. It's gameplay is inspired by games like Manic Miner and Jet Set Willy. You must move through room after room to find and gather the twelve crosses. Red hearts will grant you extra lives and stone pillars with a cross near the top act as checkpoints. Ring bells or move switches to open further passages. Avoid anything that is moving as it's touch will lose you a life. Lose all your lives and the game is over.</desc>
+    <rating>0.85</rating>
+    <releasedate>20170101T000000</releasedate>
+    <developer>Mun</developer>
+    <publisher>Locomalito</publisher>
+    <genre>Platform</genre>
+    <players>1</players>
+    <hash>C5366255</hash>
+    <image>./media/images/L'Abbaye des Morts (Mun).png</image>
+    <genreid>257</genreid>
+  </game>
+  <game id="200018" source="ScreenScraper.fr">
+    <path>./Misplaced (Retrosouls).bin</path>
+    <name>Misplaced</name>
+    <desc>My name is Hara... 
+ 
+Every day I start in the same way, I wake up on a small strange island that hovers somewhere in the clouds. And today one of these identical days...</desc>
+    <rating>0.65</rating>
+    <releasedate />
+    <developer>Denis Grachev</developer>
+    <publisher>RetroSouls</publisher>
+    <genre>Puzzle-Game</genre>
+    <players>1</players>
+    <hash>D79FD3EC</hash>
+    <image>./media/images/Misplaced (Retrosouls).png</image>
+    <genreid>2816</genreid>
+  </game>
+  <game id="200016" source="ScreenScraper.fr">
+    <path>./Old Towers (Retrosouls).bin</path>
+    <name>Old Towers</name>
+    <desc>You play as a little explorers in a towers full of deadly traps and ugly skullz. Your only weapons to help you win: quick-thinking and skill.</desc>
+    <rating>0.9</rating>
+    <releasedate>20190318T000000</releasedate>
+    <developer>Denis Grachev</developer>
+    <publisher>RetroSouls</publisher>
+    <genre>Puzzle-Game-Puzzle-Game / Glide</genre>
+    <players>1</players>
+    <hash>D875E97D</hash>
+    <image>./media/images/Old Towers (Retrosouls).png</image>
+    <genreid>2816</genreid>
+  </game>
+  <game id="143943" source="ScreenScraper.fr">
+    <path>./Papi commando Remix Deluxe (Studio Vetea).bin</path>
+    <name>Papi Commando</name>
+    <desc>This action game support two players at once and features a big boss at the end.</desc>
+    <releasedate>20150101T000000</releasedate>
+    <developer>Studio Vetea</developer>
+    <publisher>Studio Vetea</publisher>
+    <genre>Shooter</genre>
+    <players>1-2</players>
+    <hash>8B37F0B7</hash>
+    <image>./media/images/Papi commando Remix Deluxe (Studio Vetea).png</image>
+    <genreid>256</genreid>
+  </game>
+  <game id="202421" source="ScreenScraper.fr">
+    <path>./Yazzie (Retrosouls).bin</path>
+    <name>Yazzie</name>
+    <desc>You play as the careless gold seeker who has wandered into a strange mansion full of traps. You need to help the gold digger collect all the gold, avoid the enemies and try not to fall into a deadly trap. 
+ 
+Good Luck!</desc>
+    <rating>0.9</rating>
+    <releasedate />
+    <developer>RetroSouls</developer>
+    <publisher>RetroSouls</publisher>
+    <genre>Action-Action / Labyrinth</genre>
+    <players>1</players>
+    <hash>93D5AD8A</hash>
+    <image>./media/images/Yazzie (Retrosouls).png</image>
+    <genreid>258</genreid>
+  </game>
+</gameList>

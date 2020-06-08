@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<gameList>
+  <provider>
+    <System>Atari 5200</System>
+    <software>Skraper</software>
+    <database>ScreenScraper.fr</database>
+    <web>http://www.screenscraper.fr</web>
+  </provider>
+  <game id="190908" source="ScreenScraper.fr">
+    <path>./BeefDrop (Ken Siders &amp; Jeff Wierer).bin</path>
+    <name>Beef Drop</name>
+    <desc>The object of Beef Drop VE is to score as many points as possible by making hamburgers. To do so, Chef Pete must completely walk over each ingredient (buns, patties, lettuce, and more) in order to drop it to the next level. When all of the ingredients reach the tray at the bottom of the screen, the hamburger is complete! Assemble all four hamburgers to advance to the next round. 
+ 
+But in this fast food joint, the food itself can be fatal. While Chef Pete is scrambling to make his burgers, his mortal foes, Frank, Mr. Yolk and Dr. Dill chase him relentlessly. If any of them catch Chef Pete, he loses a life. If Chef Pete loses all his lives, the game is over. 
+ 
+Pete is not without recourse, however. By pressing either fire button, he can sprinkle a dash of pepper on his foes. The spicy substance stuns his foes for a few seconds, giving Pete a chance to make a quick escape. But pepper is precious, and Pete only starts with five dashes of pepper. Collecting an ice cream cone, coffee cup or french fries earns Pete one additional dash of pepper.</desc>
+    <rating>0.75</rating>
+    <releasedate>20040101T000000</releasedate>
+    <developer>Ken Siders</developer>
+    <publisher>AtariAge</publisher>
+    <genre>Action</genre>
+    <players>1</players>
+    <hash>BE745CD4</hash>
+    <image>./media/images/BeefDrop (Ken Siders &amp; Jeff Wierer).png</image>
+    <genreid>256</genreid>
+  </game>
+</gameList>
