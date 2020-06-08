@@ -62,7 +62,7 @@ class InputManager
     /*!
      * @brief Load all joystick and load configurations
      */
-    void LoadAllJoysticksConfiguration(std::vector<InputDevice> previous, Window& window);
+    void LoadAllJoysticksConfiguration(std::vector<InputDevice> previous, Window& window, bool padplugged);
 
     /*!
      * @brief Load joystick configuration (by index)
@@ -153,7 +153,7 @@ class InputManager
      * @brief Initialize the InputManager
      * @param window Main window
      */
-    void Initialize(Window& window);
+    void Initialize(Window& window, bool padplugged = false);
 
     /*!
      * Finalize the input manager and free all resources

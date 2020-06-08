@@ -56,7 +56,7 @@ void InputManager::Finalize()
   SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
 }
 
-void InputManager::Initialize(Window& window)
+void InputManager::Initialize(Window& window, bool padplugged)
 {
   std::vector<InputDevice> previousList = BuildCurrentDeviceList();
 
@@ -68,7 +68,7 @@ void InputManager::Initialize(Window& window)
   SDL_JoystickEventState(SDL_ENABLE);
 
   ClearAllConfigurations();
-  LoadAllJoysticksConfiguration(previousList, window);
+  LoadAllJoysticksConfiguration(previousList, window, padplugged);
 }
 
 void InputManager::LoadDefaultKeyboardConfiguration()
@@ -122,7 +122,7 @@ std::vector<InputDevice> InputManager::BuildCurrentDeviceList()
   return result;
 }
 
-void InputManager::LoadAllJoysticksConfiguration(std::vector<InputDevice> previous, Window& window)
+void InputManager::LoadAllJoysticksConfiguration(std::vector<InputDevice> previous, Window& window, bool padplugged)
 {
   int numJoysticks = SDL_NumJoysticks();
   for (int i = 0; i < numJoysticks; i++)
@@ -130,8 +130,7 @@ void InputManager::LoadAllJoysticksConfiguration(std::vector<InputDevice> previo
 
   std::vector<InputDevice> current = BuildCurrentDeviceList();
 
-  static bool firstTime = true;
-  if (!firstTime)
+  if (padplugged)
   {
     if (current.size() > previous.size())
     {
@@ -175,7 +174,6 @@ void InputManager::LoadAllJoysticksConfiguration(std::vector<InputDevice> previo
       }
     }
   }
-  firstTime = false;
 }
 
 std::string InputManager::DeviceGUIDString(SDL_Joystick* joystick)
@@ -325,7 +323,7 @@ InputCompactEvent InputManager::ManageSDLEvent(Window& window, const SDL_Event& 
     case SDL_JOYDEVICEREMOVED:
     {
       LOG(LogInfo) << "Reinitialize because of joystick added/removed.";
-      Initialize(window);
+      Initialize(window, true);
       break;
     }
   }
