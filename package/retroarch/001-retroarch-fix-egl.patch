@@ -1,6 +1,6 @@
 --- a/Makefile.common
 +++ b/Makefile.common
-@@ -1136,7 +1136,7 @@
+@@ -1134,7 +1134,7 @@
  else
     OBJ += gfx/drivers_context/drm_ctx.o
  endif

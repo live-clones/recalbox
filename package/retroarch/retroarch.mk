@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-RETROARCH_VERSION = v1.8.8
+RETROARCH_VERSION = a88bf59b274bf55573cbeffc08a85caf06cc121c
 RETROARCH_SITE = git://github.com/libretro/RetroArch.git
 RETROARCH_SITE_METHOD = git
 RETROARCH_LICENSE = GPLv3+
@@ -193,12 +193,6 @@ endef
 define RETROARCH_INSTALL_TARGET_CMDS
 	$(MAKE) CXX="$(TARGET_CXX)" -C $(@D) DESTDIR=$(TARGET_DIR) install
 endef
-
-define RETROARCH_PRE_PATCH_FIXUP
-	$(SED) 's/\r//g' $(@D)/network/netplay/netplay_frontend.c
-endef
-
-RETROARCH_PRE_PATCH_HOOKS += RETROARCH_PRE_PATCH_FIXUP
 
 $(eval $(generic-package))
 
