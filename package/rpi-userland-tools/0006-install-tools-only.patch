@@ -36,12 +36,11 @@
 -install(TARGETS brcmEGL brcmGLESv2 brcmOpenVG brcmWFC DESTINATION lib)
 --- userland-06bc6daa02137ca72b7a2104afad81e82a44de17/makefiles/cmake/vmcs.cmake	2020-01-14 18:33:59.000000000 +0100
 +++ rpi-userland-tools-06bc6daa02137ca72b7a2104afad81e82a44de17/makefiles/cmake/vmcs.cmake	2020-05-29 20:12:11.539090585 +0200
-@@ -74,8 +74,5 @@
+@@ -74,7 +74,6 @@
  install(DIRECTORY ${vmcs_root}/interface/peer      DESTINATION ${VMCS_INSTALL_PREFIX}/include/interface FILES_MATCHING PATTERN "*.h")
  install(DIRECTORY ${vmcs_root}/interface/vmcs_host DESTINATION ${VMCS_INSTALL_PREFIX}/include/interface FILES_MATCHING PATTERN "*.h" PATTERN "${vmcs_root}/interface/vmcs_host/khronos" EXCLUDE)
  
 -install(DIRECTORY ${vmcs_root}/interface/khronos/include       DESTINATION ${VMCS_INSTALL_PREFIX}     FILES_MATCHING PATTERN "*.h")
--install(DIRECTORY ${vmcs_root}/interface/vmcs_host/khronos/IL  DESTINATION ${VMCS_INSTALL_PREFIX}/include     FILES_MATCHING PATTERN "*.h")
--
- install(DIRECTORY ${vmcs_root}/host_applications/linux/libs/bcm_host/include     DESTINATION ${VMCS_INSTALL_PREFIX}       FILES_MATCHING PATTERN "*.h")
+ install(DIRECTORY ${vmcs_root}/interface/vmcs_host/khronos/IL  DESTINATION ${VMCS_INSTALL_PREFIX}/include     FILES_MATCHING PATTERN "*.h")
  
+ install(DIRECTORY ${vmcs_root}/host_applications/linux/libs/bcm_host/include     DESTINATION ${VMCS_INSTALL_PREFIX}       FILES_MATCHING PATTERN "*.h")
