@@ -83,31 +83,34 @@ class InputEventManager:
             return None
 
     def hasUserEvent(self):
-        flags = self.updateAvailableEvents()
-        for i in range(0, self.EVENT_MAXIMUM - 1):
-            if (flags & (1 << i)) != 0:
-                event = self.getEvent(i)
-                while event:
-                    (_, _, eventType, eventCode, eventValue) = struct.unpack(self.EVENT_FORMAT, event)
-                    #if eventType != 0 or eventCode != 0 or eventValue != 0:
-                    #    print("From {} - Type {} - Code {} - Value {}".format(i, eventType, eventCode, eventValue))
-                    # mouse button UP or keyboard's key UP or pad button UP
-                    if eventType == 1 and eventValue == 0:
-                        # Keyboard: Return or pad Return
-                        if eventCode == 96 or eventCode == 28:
-                            return InputEvents.PLAY
-                        if i in self.eventToStart:
-                            if eventCode == self.eventToStart[i]:
-                                return InputEvents.PLAY
-                        return InputEvents.OTHER
-                    # mouse move
-                    if eventType == 2 and eventCode in (0, 1):
-                        return InputEvents.OTHER
-                    # dpad returned in neutral position
-                    if eventType == 3 and eventValue == 0:
-                        return InputEvents.OTHER
-                    # do not check analog joysticks since they may generate unexpected micro-moves events
+        try:
+            flags = self.updateAvailableEvents()
+            for i in range(0, self.EVENT_MAXIMUM - 1):
+                if (flags & (1 << i)) != 0:
                     event = self.getEvent(i)
+                    while event:
+                        (_, _, eventType, eventCode, eventValue) = struct.unpack(self.EVENT_FORMAT, event)
+                        #if eventType != 0 or eventCode != 0 or eventValue != 0:
+                        #    print("From {} - Type {} - Code {} - Value {}".format(i, eventType, eventCode, eventValue))
+                        # mouse button UP or keyboard's key UP or pad button UP
+                        if eventType == 1 and eventValue == 0:
+                            # Keyboard: Return or pad Return
+                            if eventCode == 96 or eventCode == 28:
+                                return InputEvents.PLAY
+                            if i in self.eventToStart:
+                                if eventCode == self.eventToStart[i]:
+                                    return InputEvents.PLAY
+                            return InputEvents.OTHER
+                        # mouse move
+                        if eventType == 2 and eventCode in (0, 1):
+                            return InputEvents.OTHER
+                        # dpad returned in neutral position
+                        if eventType == 3 and eventValue == 0:
+                            return InputEvents.OTHER
+                        # do not check analog joysticks since they may generate unexpected micro-moves events
+                        event = self.getEvent(i)
+        except IOError:
+            pass
         return InputEvents.NONE
 
 
