@@ -19,4 +19,8 @@ ifeq ($(BR2_PACKAGE_RPI_FIRMWARE),y)
 MOONLIGHT_EMBEDDED_DEPENDENCIES += rpi-firmware
 endif
 
+ifeq ($(BR2_PACKAGE_RPI_USERLAND_TOOLS),y)
+MOONLIGHT_EMBEDDED_DEPENDENCIES += rpi-userland-tools
+endif
+
 $(eval $(cmake-package))
