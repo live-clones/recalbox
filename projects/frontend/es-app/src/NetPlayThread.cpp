@@ -99,7 +99,7 @@ void NetPlayThread::ReceiveSyncCallback(const SDL_Event& event)
 {
   (void)event;
   int popupDuration = Settings::Instance().NetplayPopupTime();
-  mWindow.AddInfoPopup(new GuiInfoPopup(mWindow, mLastPopupText, popupDuration, GuiInfoPopup::Icon::Netplay));
+  mWindow.AddInfoPopup(new GuiInfoPopup(mWindow, mLastPopupText, popupDuration, GuiInfoPopup::PopupType::Netplay));
 }
 
 bool NetPlayThread::Sleep(bool& enabled)

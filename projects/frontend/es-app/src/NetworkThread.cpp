@@ -87,7 +87,7 @@ void NetworkThread::ReceiveSyncCallback(const SDL_Event& event)
 
   // Volatile popup
   if (!mPopupMessage.empty())
-    mWindow.AddInfoPopup(new GuiInfoPopup(mWindow, mPopupMessage, 120, GuiInfoPopup::Icon::Recalbox));
+    mWindow.AddInfoPopup(new GuiInfoPopup(mWindow, mPopupMessage, 120, GuiInfoPopup::PopupType::Recalbox));
 
   // Messagebox
   if (!mMessageBoxMessage.empty())

@@ -10,10 +10,12 @@
 #include <components/ScrollableContainer.h>
 #include <Settings.h>
 
-GuiInfoPopup::GuiInfoPopup(Window&window, const std::string& message, int duration, Icon icon)
+GuiInfoPopup::GuiInfoPopup(Window&window, const std::string& message, int duration, PopupType icon)
   : Gui(window),
     mGrid(window, Vector2i(2, 1)),
     mFrame(window, Path(":/frame.png")),
+    mType(icon),
+    mTargetOffset(0),
     mDuration(duration * 1000),
     mRunning(true)
 {
@@ -37,12 +39,12 @@ GuiInfoPopup::GuiInfoPopup(Window&window, const std::string& message, int durati
 	std::string iconText;
   switch (icon)
   {
-    case Icon::Music   : iconText = "\uF1b0"; break;
-    case Icon::Help    : iconText = "\uF1c1"; break;
-    case Icon::Netplay : iconText = "\uF1c4"; break;
-    case Icon::Recalbox: iconText = "\uF200"; break;
-    case Icon::Pads    : iconText = "\uF2ee"; break;
-    case Icon::None:
+    case PopupType::Music   : iconText = "\uF1b0"; break;
+    case PopupType::Help    : iconText = "\uF1c1"; break;
+    case PopupType::Netplay : iconText = "\uF1c4"; break;
+    case PopupType::Recalbox: iconText = "\uF200"; break;
+    case PopupType::Pads    : iconText = "\uF2ee"; break;
+    case PopupType::None:
     default: break;
   }
 
@@ -52,8 +54,8 @@ GuiInfoPopup::GuiInfoPopup(Window&window, const std::string& message, int durati
 	mGrid.setEntry(mMsgText, Vector2i(1, 0), false, false);
 	mGrid.setEntry(mMsgIcon, Vector2i(0, 0), false, false);
 
-  float msgHeight;
-	if (icon == Icon::None)
+  float msgHeight = 0.0f;
+	if (icon == PopupType::None)
 	{
 		mMsgText->setSize(maxWidth, 0);
 		msgHeight = Math::min(maxHeight, mMsgText->getSize().y());
@@ -132,7 +134,7 @@ void GuiInfoPopup::Update(int delta)
     case Corner::TopRight:
     case Corner::TopLeft:
     {
-      float targetY = Renderer::getDisplayHeightAsFloat() * 0.02f + mTargetOffset;
+      float targetY = Renderer::getDisplayHeightAsFloat() * 0.02f + (float)mTargetOffset;
       float diff = (mPosition.y() - targetY) * .90f;
       if (diff >= -2.0f && diff <= 2.0f) diff = 0;
       mPosition.y() = targetY + diff;
@@ -141,7 +143,7 @@ void GuiInfoPopup::Update(int delta)
     case Corner::BottomRight:
     case Corner::BottomLeft:
     {
-      float targetY = Renderer::getDisplayHeightAsFloat() * 0.98f - mSize.y() - mTargetOffset;
+      float targetY = Renderer::getDisplayHeightAsFloat() * 0.98f - mSize.y() - (float)mTargetOffset;
       float diff = (mPosition.y() - targetY) * .90f;
       if (diff >= -2.0f && diff <= 2.0f) diff = 0;
       mPosition.y() = targetY + diff;

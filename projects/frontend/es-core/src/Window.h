@@ -133,7 +133,7 @@ class Window
     /*!
      * @brief Ensure there is at least one room to add a new infopopup
      */
-    void InfoPopupsMakeRoom();
+    void InfoPopupsShrink();
 
     /*!
      * @brief Remove the info popup at the given index and restack

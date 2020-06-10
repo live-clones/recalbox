@@ -239,8 +239,8 @@ void Window::Render(Transform4x4f& transform)
   if (!mGuiStack.Empty())
   {
     int stackSize = (int)mGuiStack.Count();
-    auto previous = stackSize > 1 ? mGuiStack[stackSize - 2] : nullptr;
-    auto top = mGuiStack.Peek();
+    auto* previous = stackSize > 1 ? mGuiStack[stackSize - 2] : nullptr;
+    auto* top = mGuiStack.Peek();
 
     mBackgroundOverlay.Render(transform);
     if (top->IsOverlay())
@@ -359,25 +359,33 @@ void Window::DoSleep()
   }
 }
 
-void Window::InfoPopupsMakeRoom()
+void Window::InfoPopupsShrink()
 {
+  int types = 0;
+  for(int i = mInfoPopups.Count(); --i >= 0; )
+    if ((types & (1 << (int)mInfoPopups[i]->Type())) == 0)
+      types |= (1 << (int)mInfoPopups[i]->Type());
+    else
+      mInfoPopups.Delete(i);
+
+  // Security
   while(mInfoPopups.Count() >= sMaxInfoPopups)
     InfoPopupsRemove(0);
 }
 
 void Window::AddInfoPopup(GuiInfoPopup* infoPopup)
 {
-  InfoPopupsMakeRoom();
-
   // Get target position
   int targetOffset = 0;
-  int offset = (int)Renderer::getDisplayHeightAsFloat() * 0.01;
+  int offset = (int)(Renderer::getDisplayHeightAsFloat() * 0.01f);
   if (offset < 2) offset = 2;
   for(int i = mInfoPopups.Count(); --i >= 0;)
-    targetOffset += mInfoPopups[i]->getSize().y() + offset;
+    targetOffset += (int)mInfoPopups[i]->getSize().y() + offset;
   infoPopup->SetOffset(targetOffset);
 
   mInfoPopups.Add(infoPopup);
+
+  InfoPopupsShrink();
 }
 
 void Window::InfoPopupsRemove(int index)
@@ -385,9 +393,9 @@ void Window::InfoPopupsRemove(int index)
   GuiInfoPopup* popup = mInfoPopups[index];
 
   // Get current popup size
-  int size = (int)Renderer::getDisplayHeightAsFloat() * 0.01;
+  int size = (int)(Renderer::getDisplayHeightAsFloat() * 0.01f);
   if (size < 2) size = 2;
-  size += popup->getSize().y();
+  size += (int)popup->getSize().y();
 
   mInfoPopups.Delete(index); // Delete pointer
   delete popup; // Delete object

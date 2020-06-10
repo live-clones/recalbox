@@ -251,7 +251,7 @@ void AudioManager::PlayRandomMusic()
   if (popupDuration != 0)
   {
     // Create music popup
-    mWindow.AddInfoPopup(new GuiInfoPopup(mWindow, _("Now playing") + ":\n" + mCurrentMusicTitle, popupDuration, GuiInfoPopup::Icon::Music));
+    mWindow.AddInfoPopup(new GuiInfoPopup(mWindow, _("Now playing") + ":\n" + mCurrentMusicTitle, popupDuration, GuiInfoPopup::PopupType::Music));
   }
 }
 

@@ -23,7 +23,7 @@ class GuiInfoPopup : public Gui
       BottomLeft,
     };
 
-    enum class Icon
+    enum class PopupType
     {
       None,     //!< No icon
       Music,    //!< Music icon
@@ -33,8 +33,8 @@ class GuiInfoPopup : public Gui
       Pads,     //!< Joystick logo
     };
 
-    GuiInfoPopup(Window& window, const std::string& message, int duration, Icon icon);
-    virtual ~GuiInfoPopup() override = default;
+    GuiInfoPopup(Window& window, const std::string& message, int duration, PopupType icon);
+    ~GuiInfoPopup() override = default;
     void Update(int delta) override;
     void Render(const Transform4x4f& parentTrans) override;
     inline void stop() { mRunning = false; };
@@ -54,12 +54,15 @@ class GuiInfoPopup : public Gui
     //! Popup must be closed?
     bool TimeOut() const { return !mRunning; }
 
+    PopupType Type() const { return mType; }
+
   private:
     ComponentGrid mGrid;
     NinePatchComponent mFrame;
     std::shared_ptr<TextComponent> mMsgText;
     std::shared_ptr<TextComponent> mMsgIcon;
     unsigned int mFrameColor;
+    PopupType mType;
     Corner mCorner;
     int mTargetOffset;
     int mDuration;

@@ -150,7 +150,7 @@ void InputManager::LoadAllJoysticksConfiguration(std::vector<InputDevice> previo
         else text.append(_("Not configured yet! Press a button to enter the configuration window."));
         current.erase(current.begin() + index);
 
-        GuiInfoPopup* popup = new GuiInfoPopup(window, text, 10, GuiInfoPopup::Icon::Pads);
+        GuiInfoPopup* popup = new GuiInfoPopup(window, text, 10, GuiInfoPopup::PopupType::Pads);
         window.AddInfoPopup(popup);
       }
     }
@@ -169,7 +169,7 @@ void InputManager::LoadAllJoysticksConfiguration(std::vector<InputDevice> previo
         text.append(_("has been unplugged!"));
         previous.erase(previous.begin() + index);
 
-        GuiInfoPopup* popup = new GuiInfoPopup(window, text, 10, GuiInfoPopup::Icon::Pads);
+        GuiInfoPopup* popup = new GuiInfoPopup(window, text, 10, GuiInfoPopup::PopupType::Pads);
         window.AddInfoPopup(popup);
       }
     }
