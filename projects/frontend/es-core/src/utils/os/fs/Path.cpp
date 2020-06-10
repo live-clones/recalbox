@@ -393,17 +393,17 @@ Path Path::ToCanonical() const
 
 Path Path::Home()
 {
-  static Path _HomePath;
+  static Path sHomePath;
 
-  if (_HomePath.IsEmpty())                               // Build only once
+  if (sHomePath.IsEmpty())                               // Build only once
   {
     char* envHome = getenv("HOME");              // Get home
-    if (envHome != nullptr) _HomePath.mPath = envHome; // Store home
-    if (_HomePath.IsEmpty()) _HomePath = Cwd();          // Fallback to current working directory
-    _HomePath.Normalize();                             // Normalize
+    if (envHome != nullptr) sHomePath.mPath = envHome; // Store home
+    if (sHomePath.IsEmpty()) sHomePath = Cwd();          // Fallback to current working directory
+    sHomePath.Normalize();                             // Normalize
   }
 
-  return _HomePath;
+  return sHomePath;
 }
 
 Path Path::Cwd()
@@ -423,7 +423,7 @@ Path::PathList Path::GetDirectoryContent() const
   DIR* dir = opendir(mPath.c_str());
   if(dir != nullptr)
   {
-    const struct dirent* entry;
+    const struct dirent* entry = nullptr;
     // loop over all files in the directory
     while((entry = readdir(dir)) != nullptr)
     {
