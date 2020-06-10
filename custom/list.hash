@@ -4,8 +4,13 @@
 #   * a line of minus signs ('-') indicates a file that we remove from Buildroot external tree
 #   * a line of plus signs ('+') indicates a file that we add to the Buildroot external tree
 
+++++++++++++++++++++++++++++++++  package/mesa3d/0005-vc4_bufmgr-fix-time_t-printf.patch
+++++++++++++++++++++++++++++++++  package/mesa3d/0006-pan_bo.h-add-time.h-include-for-time_t.patch
+++++++++++++++++++++++++++++++++  package/mesa3d/0007-v3d_bufmgr-fix-time_t-printf.patch
+++++++++++++++++++++++++++++++++  package/mesa3d/0007-vc4-add-meson-option-to-disable-optional-neon-suppor.patch
 ++++++++++++++++++++++++++++++++  package/sdl2/0001-src-video-directfb-SDL_DirectFB_render.c-fix-build.patch
 ++++++++++++++++++++++++++++++++  package/sdl2/0002-src-video-kmsdrm-SDL_kmsdrmvideo.c-fix-build.patch
+--------------------------------  package/mesa3d/0006-util-remove-the-dependency-on-kcmp.h.patch
 --------------------------------  package/sdl2/0001-src-core-linux-SDL_threadprio.c-fix-build-without-th.patch
 --------------------------------  package/sdl2/0002-fix-busy-loop-in-dlopen.patch
 bebf5922f3fcd58aa3d3316f053e556c  boot/syslinux/syslinux.mk
@@ -32,6 +37,9 @@ e459efac93dadd5c08fbe59ecd03bfd9  package/libcec/libcec.mk
 4039b616349e8127acda96c5b537a7e6  package/linux-firmware/linux-firmware.mk
 ebf2b3624c1427077933a903679ed7a9  package/lirc-tools/lirc-tools.mk
 65687cf75f764d5f0cbe2a6df7782975  package/luajit/Config.in
+82b30d32b9ec1f56a8c89145c18f533c  package/mesa3d/Config.in
+0fb52f1266a0fec5536c8b04be257fe8  package/mesa3d/mesa3d.hash
+95739ab1f017a49c4248a4e63d6ade69  package/mesa3d/mesa3d.mk
 7dda00b9bb5a907cbaca47bb0dc9672f  package/mosquitto/mosquitto.mk
 cfc4ca8da37d658b18f2d7422b09048c  package/mpg123/mpg123.mk
 f38548efeaeaaa6515c91bc6ab7d9d54  package/rpi-firmware/cmdline.txt
