@@ -1,13 +1,17 @@
 diff --git a/package/rpi-firmware/rpi-firmware.mk b/package/rpi-firmware/rpi-firmware.mk
-index 6fee60b08c..10a83abb5f 100644
+index 6fee60b08c..882a0fe2c1 100644
 --- a/package/rpi-firmware/rpi-firmware.mk
 +++ b/package/rpi-firmware/rpi-firmware.mk
-@@ -4,7 +4,7 @@
+@@ -4,7 +4,11 @@
  #
  ################################################################################
  
 -RPI_FIRMWARE_VERSION = 01ecfd2ba2b7cf3a2f4aa75ada895ee4a3e729f5
++ifeq ($(BR2_TOOLCHAIN_HEADERS_AT_LEAST_5_4),y)
++RPI_FIRMWARE_VERSION = 2ebdbbb1c304ec6325ae4e9afba10dbe4e4ce651
++else
 +RPI_FIRMWARE_VERSION = 1.20200212
++endif
  RPI_FIRMWARE_SITE = $(call github,raspberrypi,firmware,$(RPI_FIRMWARE_VERSION))
  RPI_FIRMWARE_LICENSE = BSD-3-Clause
  RPI_FIRMWARE_LICENSE_FILES = boot/LICENCE.broadcom

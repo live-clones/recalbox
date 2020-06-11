@@ -1,5 +1,5 @@
 diff --git a/package/rpi-firmware/config.txt b/package/rpi-firmware/config.txt
-index 58cc966a87..723c830e34 100644
+index 58cc966a87..3cdcfce4f0 100644
 --- a/package/rpi-firmware/config.txt
 +++ b/package/rpi-firmware/config.txt
 @@ -1,20 +1,55 @@
@@ -70,7 +70,7 @@ index 58cc966a87..723c830e34 100644
 -gpu_mem_1024=100
 +# rpi4 configuration
 +[pi4]
-+dtoverlay=vc4-fkms-v3d
++dtoverlay=vc4-kms-v3d-pi4
 +max_framebuffers=1
 +hdmi_enable_4kp60=1
-+gpu_mem=944
++gpu_mem_1024=448
