@@ -5,4 +5,4 @@ config BR2_PACKAGE_JSTEST2
 	help
 	  Command line tool to test the joysticks with sdl2
 
-	  https://github.com/Grumbel/sdl-jstest
+	  https://gitlab.com/sdl-jstest/sdl-jstest
