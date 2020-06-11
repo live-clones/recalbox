@@ -1,12 +1,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: recalbox-emulationstation\n"
-"Language: pt-br\n"
+"Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: POEditor.com\n"
+"X-Generator: Poedit 2.3.1\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
 
 msgid "AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"
 msgstr "UMA ATUALIZAÇÃO ESTÁ DISPONÍVEL PARA SEU RECALBOX"
@@ -105,22 +109,22 @@ msgstr[0] "%i DADOS DO JOGO IGNORADO."
 msgstr[1] "%i DADOS DOS JOGOS IGNORADOS."
 
 msgid "ESTIMATED TIME: "
-msgstr ""
+msgstr "TEMPO ESTIMADO "
 
 msgid "ELAPSED TIME: "
-msgstr ""
+msgstr "TEMPO DECORRIDO "
 
 msgid "COMPLETE!"
-msgstr ""
+msgstr "TERMINADO!"
 
 msgid "PLEASE VISIT"
-msgstr ""
+msgstr "POR FAVOR, VISITE"
 
 msgid "ONLY 1 SCRAPPING ENGINE"
-msgstr ""
+msgstr "APENAS 1 MOTOR DE SCRAPE"
 
 msgid "%i SCRAPPING ENGINES"
-msgstr ""
+msgstr "%i MOTORES DE SCRAPE"
 
 msgid ""
 "Scrapping complete! {PROCESSED} games processed.\n"
@@ -134,6 +138,16 @@ msgid ""
 "{MEDIASIZE} of media saved\n"
 "Now, EmulationStation is going to relaunch to update all gamelists."
 msgstr ""
+"Scrapping completo! {PROCESSED} jogos processados.\n"
+"\n"
+"{SUCCESS} jogo(s) scrapedos ou actualizados\n"
+"{NOTFOUND} jogo(s) não encontrados...\n"
+"{ERRORS} pedidos/Baixas em errors\n"
+"\n"
+"{TEXTINFO} Informações de textos actualizados\n"
+"{IMAGES} imagems e {VIDEOS} videos baixados\n"
+"{MEDIASIZE} de medias guardados\n"
+"Agora, EmulationStation vai relançar para actualizar as gamelists."
 
 msgid ""
 "You reached your daily quota of scrapping request.\n"
@@ -142,6 +156,11 @@ msgid ""
 "Start scrapping again tomorrow.\n"
 "Dont forget to select 'update' and not 'scrape all'"
 msgstr ""
+"Atingiu a sua quota diária de pedido de scrape.\n"
+"De qualquer forma, todos os seus scrapes de hoje foram guardados.\n"
+"\n"
+"Comece um scrape de novo amanhã.\n"
+"Não se esqueça de seleccionar \"actualizar\" e não \"scrapar tudo\"."
 
 msgid ""
 "Your share partition is almost full.\n"
@@ -150,6 +169,11 @@ msgid ""
 "Remove unused games, media, files to make room before running the scraper "
 "again!"
 msgstr ""
+"A sua partição share está quase cheia.\n"
+"O scraper parou automaticamente.\n"
+"\n"
+"Remova os jogos não utilizados, medias, ficheiros para criar espaço antes de "
+"voltar a executar o scraper!"
 
 msgid "OK"
 msgstr "OK"
@@ -292,7 +316,7 @@ msgid "AUTO SAVE/LOAD"
 msgstr "CARREGAR/SALVAR AUTOMÁTICO"
 
 msgid "PRESS TWICE TO QUIT GAME"
-msgstr ""
+msgstr "PRESSIONA DUAS VEZES PARA SAIR"
 
 msgid "SHADERS SET"
 msgstr "CONJUNTO DE FILTROS DE IMAGEM"
@@ -515,7 +539,7 @@ msgid "PAIR A BLUETOOTH CONTROLLER"
 msgstr "PAREAR CONTROLE BLUETOOTH"
 
 msgid "CONTROLLERS LINKS HAVE BEEN DELETED."
-msgstr "OS LINKS COM OS CONTROLES FORAM EXCLUÍDOS"
+msgstr "OS LINKS COM OS CONTROLES FORAM EXCLUÍDOS."
 
 msgid "FORGET BLUETOOTH CONTROLLERS"
 msgstr "ESQUECER CONTROLES BLUETOOTH"
@@ -581,7 +605,7 @@ msgstr ""
 "CONTINUAR MESMO ASSIM?"
 
 msgid "NO GAMES FIT THAT CRITERIA."
-msgstr "NENHUM JOGO SE ENCAIXA NOS CRITÉRIOS"
+msgstr "NENHUM JOGO SE ENCAIXA NOS CRITÉRIOS."
 
 msgid "REALLY UPDATE?"
 msgstr "DESEJA ATUALIZAR O SISTEMA?"
@@ -874,10 +898,10 @@ msgid "NO GAMEPADS DETECTED"
 msgstr "NENHUM CONTROLE DETECTADO"
 
 msgid "HOLD A BUTTON ON YOUR DEVICE TO CONFIGURE IT."
-msgstr "SEGURE UM BOTÃO NO CONTROLE PARA CONFIGURÁ-LO"
+msgstr "SEGURE UM BOTÃO NO CONTROLE PARA CONFIGURÁ-LO."
 
 msgid "PRESS F4 TO QUIT AT ANY TIME."
-msgstr "APERTE F4 PARA SAIR A QUALQUER MOMENTO"
+msgstr "APERTE F4 PARA SAIR A QUALQUER MOMENTO."
 
 msgid "PRESS ESC OR THE HOTKEY TO CANCEL."
 msgstr "APERTE ESC OU HOTKEY PARA CANCELAR."
@@ -989,7 +1013,7 @@ msgstr[0] "%i JOGO OCULTO"
 msgstr[1] "%i JOGOS OCULTOS"
 
 msgid "Start kodi media player."
-msgstr "Iniciar o Kodi Media Player"
+msgstr "Iniciar o Kodi Media Player."
 
 msgid ""
 "Select the language for your recalbox, select an external drive to store "
@@ -1113,7 +1137,7 @@ msgstr ""
 "automaticamente o último estado salvo ao iniciá-lo."
 
 msgid "Press twice the buttons to end the game and go back to main menu."
-msgstr ""
+msgstr "Pressione duas vezes a tecla para sair do jogo e voltar ao menu."
 
 msgid ""
 "Integer scaling is scaling by a factor of a whole number, such as 2x, 3x, "
@@ -1216,7 +1240,7 @@ msgstr ""
 "lista de jogos a partir deste menu."
 
 msgid "Configure screensaver"
-msgstr ""
+msgstr "Configurar o modo inactivo"
 
 msgid "Start the screensaver after N minutes."
 msgstr "Iniciar o protetor de tela após N minutos."
@@ -1225,6 +1249,8 @@ msgid ""
 "Set the screensaver behavior. DIM will reduce the screen light, BLACK will "
 "turn the screen black, DEMO will launch demo mode."
 msgstr ""
+"Defina o comportamento do modo inactivo. DIM irá reduzir a luz do ecrã, "
+"BLACK irá tornar o ecrã preto, DEMO irá lançar o modo de demonstração."
 
 msgid ""
 "Shows a help at the bottom of the screen which displays commands you can use."
@@ -1305,7 +1331,7 @@ msgid ""
 "ogg format in the 'musics' directory of your recalbox."
 msgstr ""
 "Ativa ou desativa a música de fundo. Você pode adicionar suas músicas nos "
-"formatos mp3, ou ogg no diretório 'musics' do seu recalbox"
+"formatos mp3, ou ogg no diretório 'musics' do seu recalbox."
 
 msgid "Select your output device. Only HDMI and JACK are supported."
 msgstr "Seleciona dispositivo de saída. Somente HDMI e cabo P2 são suportados."
@@ -1349,15 +1375,14 @@ msgstr "Digite o nome da sua SSID caso oculta ou não estiver listada"
 msgid "Private key of your WIFI network."
 msgstr "Senha da sua rede WIFI."
 
-#, fuzzy
 msgid ""
 "Get informations and visual for your games. The scraper downloads metadata "
 "and visuals for your games from different servers and enhances the user "
 "experience in EmulationStation completely."
 msgstr ""
-"Obtém informações e imagens para seus jogos. O banco de dados baixa "
-"metadados e imagens para seus jogos de diferentes servidores melhorando "
-"completamente a experiência do usuário no EmulationStation."
+"Obtém informações e imagens para seus jogos. O scraper baixa metadados e "
+"imagens para seus jogos de diferentes servidores melhorando completamente a "
+"experiência do usuário no EmulationStation."
 
 msgid ""
 "Select a server to scrape from. The SCREENSCRAPER server is recommended and "
@@ -1795,7 +1820,7 @@ msgid "A Recalbox friend has started a Netplay game!"
 msgstr "Um amigo do Recalbox iniciou um jogo em rede!"
 
 msgid "Add a clock in the main menu."
-msgstr "Adicionar relógio no menu"
+msgstr "Adicionar relógio no menu ."
 
 #. UPGRADE PROCESS
 msgid "UPGRADING"
@@ -1808,307 +1833,345 @@ msgid "VERIFYING"
 msgstr "VERIFICANDO"
 
 msgid "EMPTY LIST"
-msgstr ""
+msgstr "LISTA VAZIA"
 
 #: Retroarch ratio
 msgid "Auto"
-msgstr ""
+msgstr "Automatico"
 
 msgid "Square pixel"
-msgstr ""
+msgstr "Pixel quadrado"
 
 msgid "Retroarch Config"
-msgstr ""
+msgstr "Configuração Retroarch"
 
 msgid "Retroarch Custom"
-msgstr ""
+msgstr "Personalizações Retroarch"
 
 msgid "Core provided"
-msgstr ""
+msgstr "Core fornecido"
 
 msgid "Do not set"
-msgstr ""
+msgstr "Deixar por padrão"
 
 #. Bios
 msgid "BIOS CHECKING"
-msgstr ""
+msgstr "VERIFICACAO DOS BIOS"
 
 msgid ""
 "Scan and check all your BIOS files and report everything in a comprehensive "
 "way."
 msgstr ""
+"Faça um scan e verifique todos os seus ficheiros BIOS e relate tudo de uma "
+"forma comprehensivo."
 
 msgid "RESCAN"
-msgstr ""
+msgstr "SCAN DE NOVO"
 
 msgid "Rescan all bios files"
-msgstr ""
+msgstr "NOVO SCAN DE TODOS OS FICHEIROS BIOS"
 
 msgid ""
 "EMULATOR %s MAY NOT WORK PROPERLY UNTIL ALL REQUIRED BIOS ARE MADE AVAILABLE!"
 msgstr ""
+"EMULADOR %s PODE NAO FUNCIONAR CORRETAMENTA ATE TODOS OS BIOS REQUERIDOS "
+"ESTEJAM DISPONIVEIS!"
 
 msgid ""
 "%i EMULATORS MAY NOT WORK PROPERLY UNTIL ALL REQUIRED BIOS ARE MADE "
 "AVAILABLE!"
 msgstr ""
+"%i EMULADORS PODEM NAO FUNCIONAR CORRETAMENTA ATE TODOS OS BIOS REQUERIDOS "
+"ESTEJAM DISPONIVEIS!"
 
 msgid "CONGRATULATIONS! ALL EMULATORS SHOULD WORK PROPERLY!"
-msgstr ""
+msgstr "PARABENS! TODOS OS EMULADORES DEVERIAM FUNCIONAR CORRETAMENTE!"
 
 msgid "%i BIOS NOT FOUND"
-msgstr ""
+msgstr "%i BIOS NAO ENCONTRADO"
 
 msgid "%i NON-MATCHING BIOS FOUND"
-msgstr ""
+msgstr "%i BIOS NAO CORRESPONDENTE ENCONTRADO"
 
 msgid "%i GOOD BIOS FOUND!"
-msgstr ""
+msgstr "%i BONS BIOS ENCONTRADOS!"
 
 msgid "File Path"
-msgstr ""
+msgstr "Caminho de ficheiro"
 
 msgid "Mandatory"
-msgstr ""
+msgstr "Obrigatorio"
 
 msgid "Must match MD5"
-msgstr ""
+msgstr "MD5 Deve corresponder"
 
 msgid "File found ?"
-msgstr ""
+msgstr "Ficheiro encontrado ?"
 
 msgid "Matching MD5 ?"
-msgstr ""
+msgstr "MD5 correspondente ?"
 
 msgid "NOTE"
-msgstr ""
+msgstr "NOTA"
 
 msgid ""
 "This bios is required in order to run the emulator properly. You won't be "
 "able to run any games with the emulator/core above."
 msgstr ""
+"Este bios é necessária para que o emulador funcione correctamente. Você não "
+"poderá jogar nenhum jogo com o emulador/core acima."
 
 msgid ""
 "This bios is not mandatory in most cases. The emulator will run properly "
 "unless you want to use features requiring this particular bios file."
 msgstr ""
+"Esta bios não é obrigatória na maioria dos casos. O emulador funcionará "
+"correctamente, a menos que pretenda utilizar funcionalidades que exijam este "
+"ficheiro bios em particular."
 
 msgid ""
 "Your bios file does not match any known MD5. However, there are chances of "
 "getting the emulator running fine."
 msgstr ""
+"O seu ficheiro bios não corresponde a nenhum MD5 conhecido. No entanto, há "
+"hipóteses de conseguir que o emulador funcione bem."
 
 msgid ""
 "Your bios file does not match any known MD5 but this is not required. So "
 "there are strong chances of getting everything running fine."
 msgstr ""
+"O seu ficheiro bios não corresponde a nenhum MD5 conhecido, mas isto não é "
+"necessário. Portanto, há fortes probabilidades de conseguir que tudo corra "
+"bem."
 
 msgid ""
 "Your bios file does match one of the known MD5. Everything will run fine!"
 msgstr ""
+"O seu ficheiro bios corresponde a um dos MD5 conhecidos. Tudo vai correr bem!"
 
 msgid "MD5 LIST"
-msgstr ""
+msgstr "LISTA MD5"
 
 msgid "Congratulation, all cores/emulators listed below will work flawlessly!"
 msgstr ""
+"Parabéns, todos os cores/emuladores listados abaixo funcionarão sem falhas!"
 
 msgid ""
 "Cores/emulators listed below won't probably work until required bios are "
 "made available."
 msgstr ""
+"Os cores/emuladores listados abaixo provavelmente não funcionarão até que o "
+"bios necessário esteja disponível."
 
 msgid ""
 "Cores/emulators listed below may work in most cases, unless you use features "
 "requiring special bios."
 msgstr ""
+"Os cores/emuladores listados abaixo podem funcionar na maioria dos casos, a "
+"menos que você use características que exijam bios especiais."
 
 msgid "BIOS OK"
-msgstr ""
+msgstr "BIOS OK"
 
 msgid "BIOS UNSAFE"
-msgstr ""
+msgstr "BIOS NAO SEGURO"
 
 msgid "BIOS KO"
-msgstr ""
+msgstr "BIOS KO"
 
 msgid "BIOS NOT FOUND"
-msgstr ""
+msgstr "BIOS NAO ENCONTRADO"
 
 msgid "MD5 OK"
-msgstr ""
+msgstr "MD5 OK"
 
 msgid "MD5 NOT OK"
-msgstr ""
+msgstr "MD5 NAO OK"
 
 msgid "BROWSE"
-msgstr ""
+msgstr "NAVEGAR"
 
 msgid "Your bios' MD5"
-msgstr ""
+msgstr "MD5 do vosso BIOS"
 
 msgid "Known MD5 List"
-msgstr ""
+msgstr "Lista dos MD5 conhecidos"
 
 msgid "MY SYSTEMS"
-msgstr ""
+msgstr "MEUS SISTEMAS"
 
 msgid "ALL SYSTEMS"
-msgstr ""
+msgstr "TODOS SISTEMAS"
 
 msgid ""
 "EmulationStation has detected external changes on a gamelist file.\n"
 "To avoid loss of data, EmulationStation is about to relaunch and reload all "
 "files."
 msgstr ""
+"A EmulationStation detectou alterações externas num ficheiro da gamelist.\n"
+"Para evitar a perca de dados, a EmulationStation está prestes a relançar e "
+"recarregar todos os arquivos."
 
 msgid ""
 "EmulationStation has detected external changes on a theme file.\n"
 "To avoid loss of data, EmulationStation is about to relaunch and reload all "
 "files."
 msgstr ""
+"A EmulationStation detectou alterações externas num ficheiro do tema.\n"
+"Para evitar a perca de dados, a EmulationStation está prestes a relançar e "
+"recarregar todos os arquivos."
 
 msgid "VIRTUAL SYSTEMS"
-msgstr ""
+msgstr "SISTEMAS VIRTUAIS"
 
 msgid "SHOW ALL-GAMES SYSTEM"
-msgstr ""
+msgstr "MOSTRAR O SISTEMA TODOS OS JOGOS"
 
 msgid "SHOW MULTIPLAYER SYSTEM"
-msgstr ""
+msgstr "MOTRAR O SISTEMA MULTI-JOGADORES"
 
 msgid "SHOW LAST-PLAYED SYSTEM"
-msgstr ""
+msgstr "MOSTRAR O SISTEMA ULTIMOS JOGADOS"
 
 msgid "VIRTUAL SYSTEMS PER GENRE"
-msgstr ""
+msgstr "SISTEMAS VIRTUAIS POR GENRO"
 
 msgid "Show a 'all-games' system with all ames from all systems."
 msgstr ""
+"Mostrar um \"todos os jogos\" sistema com todos os jogos de todos os sistemas"
 
 msgid "Show multiplayer games (all games playable by two or more players)."
 msgstr ""
+"Mostrar os jogos multi-jogadores (todos os jogos jogavel por 2 ou mais "
+"jogadores)"
 
 msgid "Show last played games."
-msgstr ""
+msgstr "Mostra os ultimos jogos jogados"
 
 msgid "Select virtual systems to show."
-msgstr ""
+msgstr "Seleciona Sistemas virtuais a mostrar"
 
 msgid "Select vitual systems per genre to show."
-msgstr ""
+msgstr "Seleciona Sistemas por genro para mostrar"
 
 msgid "HIDE ADULT GAMES"
-msgstr ""
+msgstr "ESCONDER JOGOS PARA ADULTOS"
 
 msgid "HIDE ADULT GAMES IN ALL SYSTEMS"
-msgstr ""
+msgstr "ESCONDER JOGOS PARA ADULTOS EN TODOS OS SISTEMAS"
 
 msgid "Hide games flagged as adult games."
-msgstr ""
+msgstr "Esconder jogos assinalado como jogos para adultos"
 
 msgid "HIGHLIGHT GAMES OF REGION..."
-msgstr ""
+msgstr "DESTACAR REGIAO DOS JOGOS"
 
 msgid "Highlight all games of a particular region and fade out all others."
 msgstr ""
+"Destacar todos os jogos de uma determinada região e desvanecer todos os "
+"outros."
 
 msgid ""
 "Select the source of your game name. Trust the scrapping database or get "
 "them from filename, raw or undecorated (without decoration in () or [] )."
 msgstr ""
+"Seleccione a fonte do nome do seu jogo. Confie na base de dados de scrapping "
+"ou obtenha-os a partir do nome do arquivo, em bruto ou não (sem decoração em "
+"() ou [] )."
 
 msgid ""
 "Try to extract game region from its filename when possible. Support long and "
 "short region game (JP or Japan, EU or Europe, ...)"
 msgstr ""
+"Tente extrair a região do seu nome de arquivo, sempre que possível. Suporta "
+"nome de região longa e curta (JP ou Japão, UE ou Europa, ...)"
 
 msgid "GET GAME NAME FROM"
-msgstr ""
+msgstr "OBTER O NOME DO JOGO A PARTIR DE"
 
 msgid "GET REGION FROM FILENAME WHEN POSSIBLE"
-msgstr ""
+msgstr "OBTER REGIAO A PARTIR DO NOME DE ARQUIVO QUANDO POSSIVEL"
 
 msgid "Scrapper results"
-msgstr ""
+msgstr "Resultados do scrapper"
 
 msgid "Raw filename"
-msgstr ""
+msgstr "Nome do ficheiro em bruto"
 
 msgid "Undecorated filename"
-msgstr ""
+msgstr "Nome de arquivo não decorado"
 
 msgid "OPEN-SOURCE LICENSE"
-msgstr ""
+msgstr "LICENCA OPEN-SOURCE"
 
 msgid "SELECT IMAGE TYPE"
-msgstr ""
+msgstr "SELECCIONE O TIPO DE IMAGEM"
 
 msgid "In-game screenshot"
-msgstr ""
+msgstr "Screenshot een jogo"
 
 msgid "Title screenshot"
-msgstr ""
+msgstr "Titulo do screenshot"
 
 msgid "Clear logo"
-msgstr ""
+msgstr "Logótipo claro"
 
 msgid "Marquee"
-msgstr ""
+msgstr "Marquee"
 
 msgid "ScreenScraper Mix V1"
-msgstr ""
+msgstr "ScreenScraper Mix V1"
 
 msgid "ScreenScraper Mix V2"
-msgstr ""
+msgstr "ScreenScraper Mix V2"
 
 msgid "SCRAPE IMAGE"
-msgstr ""
+msgstr "IMAGEM DO SCRAPE"
 
 msgid "SELECT THUMBNAIL TYPE"
-msgstr ""
+msgstr "SELECCIONE O TIPO DE MINIATURA"
 
 msgid "No thumbnail"
-msgstr ""
+msgstr "Nenhuma miniatura"
 
 msgid "SCRAPE THUMBNAIL"
-msgstr ""
+msgstr "SCRAPAR MINIATURA"
 
 msgid "SELECT VIDEO TYPE"
-msgstr ""
+msgstr "SELECIONAR O TIPO DE VIDEO"
 
 msgid "No video"
-msgstr ""
+msgstr "Nenhum video"
 
 msgid "Original video"
-msgstr ""
+msgstr "Video original"
 
 msgid "Optimized/Normalized video"
-msgstr ""
+msgstr "Video optimizado/normalisado"
 
 msgid "SCRAPE VIDEO"
-msgstr ""
+msgstr "SCRAPAR VIDEO"
 
 msgid "SELECT FAVORITE REGION"
-msgstr ""
+msgstr "SELECCIONAR REGIAO PREFERIDA"
 
 msgid "FAVORITE REGION"
-msgstr ""
+msgstr "REGIAO PREFERIDA"
 
 msgid "SELECT FAVORITE LANGUAGE"
-msgstr ""
+msgstr "SELECCIONAR LINGUA PREFERIDA"
 
 msgid "FAVORITE LANGUAGE"
-msgstr ""
+msgstr "LINDUA PREFERIDA"
 
 msgid "SYSTEM NAME"
-msgstr ""
+msgstr "NOME DO SISTEMA"
 
 msgid "PUBLISHER"
-msgstr ""
+msgstr "EDITOR"
 
 msgid "DEFAULT"
-msgstr ""
+msgstr "POR PADRAO"
 
 msgid ""
 "It seems that your game didn't start at all!\n"
@@ -2118,6 +2181,13 @@ msgid ""
 "- missing/bad mandatory bios files\n"
 "- missing/bad optional BIOS files (but required for this very game)"
 msgstr ""
+"Parece que o seu jogo não começou de todo!\n"
+"\n"
+"O mais provável é que isso se deva a qualquer um dos dois:\n"
+"- mau rom\n"
+"- ficheiros bios obrigatórios em falta/mau\n"
+"- ficheiros BIOS em falta/mau BIOS opcionais (mas necessários para este "
+"mesmo jogo)"
 
 msgid ""
 "At least one mandatory BIOS is missing for %emulator%!\n"
@@ -2126,58 +2196,67 @@ msgid ""
 "\n"
 "Do you want to launch the game anyway?"
 msgstr ""
+"Falta pelo menos uma BIOS obrigatória para o %emulador%!\n"
+"O seu jogo '%game%' muito provavelmente não funcionará de todo até que a "
+"BIOS obrigatória seja colocada na pasta esperada.\n"
+"\n"
+"Quer lançar o jogo de qualquer forma?"
 
 msgid "BACKSPACE"
-msgstr ""
+msgstr "VOLTAR"
 
 msgid "FAST WHEEL"
-msgstr ""
+msgstr "RODA RAPIDA"
 
 msgid "CHANGE CHARSET"
-msgstr ""
+msgstr "ALTERAÇÃO DO VALOR"
 
 msgid "MOVE WHEEL"
-msgstr ""
+msgstr "MOVER A RODA"
 
 msgid "FAST CURSOR"
-msgstr ""
+msgstr "CURSOR RÁPIDO"
 
 msgid "No missing hash found!"
-msgstr ""
+msgstr "Não foi encontrado hash em falta!"
 
 msgid "%i missing hashes have been calculated!"
-msgstr ""
+msgstr "Foram calculados os hashes em falta!"
 
 msgid "DOWNLOAD GAME MANUALS"
-msgstr ""
+msgstr "DESCARREGAR MANUAIS DE JOGOS"
 
 msgid "DOWNLOAD GAME MAPS"
-msgstr ""
+msgstr "DESCARREGAR MAPA DOS JOGOS"
 
 msgid "INSTALL PAD-2-KEYBOARD CONFIGURATIONS"
-msgstr ""
+msgstr "INSTALAR CONFIGURAÇÕES DE PAD-2-KEYBOARD"
 
 #
 msgid ""
 "You're strongly recommended to update your Recalbox.\n"
 "No support will be provided for older versions!"
 msgstr ""
+"É fortemente recomendado que actualize a sua Recalbox.\n"
+"Não será fornecido qualquer suporte para versões mais antigas!"
 
 #
 msgid " has been plugged!"
-msgstr ""
+msgstr " foi ligado !"
 
 #
 msgid "Ready to play!"
-msgstr ""
+msgstr "Pronto para jogar"
 
 #
 msgid "Not configured yet! Press a button to enter the configuration window."
 msgstr ""
+"Ainda não configurado! Pressione um botão para entrar na janela de "
+"configuração."
 
 #
 msgid " has been unplugged!"
-msgstr ""
+msgstr " foi desligado !"
 
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
