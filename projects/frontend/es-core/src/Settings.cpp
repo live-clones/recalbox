@@ -3,13 +3,12 @@
 #include <utils/Strings.h>
 #include <utils/Xml.h>
 #include <Settings.h>
-//#include "utils/Log.h"
 #include <RootFolders.h>
 
 #include "pugixml/pugixml.hpp"
 
 #ifdef _RPI_
-  #define __VSYNC__ "0"
+  #define __VSYNC__ "1"
 #else
   #define __VSYNC__ "1"
 #endif
