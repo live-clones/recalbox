@@ -1,23 +1,30 @@
 diff --git a/package/kodi/kodi.mk b/package/kodi/kodi.mk
-index 2f2a92a889..67d7c3b9c7 100644
+index 2f2a92a889..79f6b2f66e 100644
 --- a/package/kodi/kodi.mk
 +++ b/package/kodi/kodi.mk
-@@ -6,8 +6,13 @@
+@@ -6,8 +6,20 @@
  
  # When updating the version, please also update kodi-jsonschemabuilder
  # and kodi-texturepacker
 -KODI_VERSION = 18.5-Leia
++# rpi 0/1/2, xu4 and PC
 +ifeq ($(BR2_PACKAGE_KODI_FLAVOR_XBMC),y)
 +KODI_VERSION = 18.7.1-Leia
  KODI_SITE = $(call github,xbmc,xbmc,$(KODI_VERSION))
 +else ifeq ($(BR2_PACKAGE_KODI_FLAVOR_POPCORNMIX),y)
++# rpi3
++ifeq ($(BR2_cortex_a53),y)
 +KODI_VERSION = newclock5_18.7.1-Leia
++# rpi4
++else ifeq ($(BR2_cortex_a72),y)
++KODI_VERSION = leia_pi4_18.7.1-Leia
++endif
 +KODI_SITE = $(call github,popcornmix,xbmc,$(KODI_VERSION))
 +endif
  KODI_LICENSE = GPL-2.0
  KODI_LICENSE_FILES = LICENSE.md
  # needed for binary addons
-@@ -90,6 +95,29 @@ ifeq ($(BR2_ENABLE_LOCALE),)
+@@ -90,6 +102,29 @@ ifeq ($(BR2_ENABLE_LOCALE),)
  KODI_DEPENDENCIES += libiconv
  endif
  
@@ -47,7 +54,7 @@ index 2f2a92a889..67d7c3b9c7 100644
  ifeq ($(BR2_PACKAGE_KODI_PLATFORM_RBPI),y)
  # These CPU-specific options are only used on rbpi:
  # https://github.com/xbmc/xbmc/blob/Krypton/project/cmake/scripts/rbpi/ArchSetup.cmake#L13
-@@ -169,6 +197,13 @@ ifeq ($(BR2_TOOLCHAIN_HAS_LIBATOMIC),y)
+@@ -169,6 +204,13 @@ ifeq ($(BR2_TOOLCHAIN_HAS_LIBATOMIC),y)
  KODI_CXX_FLAGS += -latomic
  endif
  
@@ -61,7 +68,7 @@ index 2f2a92a889..67d7c3b9c7 100644
  ifeq ($(BR2_PACKAGE_KODI_PLATFORM_RBPI),y)
  KODI_CONF_OPTS += -DCORE_PLATFORM_NAME=rbpi
  KODI_DEPENDENCIES += libinput libxkbcommon rpi-userland
-@@ -315,10 +350,6 @@ ifeq ($(BR2_PACKAGE_LIRC_TOOLS),y)
+@@ -315,10 +357,6 @@ ifeq ($(BR2_PACKAGE_LIRC_TOOLS),y)
  KODI_DEPENDENCIES += lirc-tools
  endif
  
