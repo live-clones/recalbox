@@ -6,8 +6,13 @@
 
 # When updating the version, please also update kodi-jsonschemabuilder
 # and kodi-texturepacker
-KODI_VERSION = 18.5-Leia
+ifeq ($(BR2_PACKAGE_KODI_FLAVOR_XBMC),y)
+KODI_VERSION = 18.7.1-Leia
 KODI_SITE = $(call github,xbmc,xbmc,$(KODI_VERSION))
+else ifeq ($(BR2_PACKAGE_KODI_FLAVOR_POPCORNMIX),y)
+KODI_VERSION = newclock5_18.7.1-Leia
+KODI_SITE = $(call github,popcornmix,xbmc,$(KODI_VERSION))
+endif
 KODI_LICENSE = GPL-2.0
 KODI_LICENSE_FILES = LICENSE.md
 # needed for binary addons
@@ -343,10 +348,6 @@ endif
 
 ifeq ($(BR2_PACKAGE_LIRC_TOOLS),y)
 KODI_DEPENDENCIES += lirc-tools
-endif
-
-ifeq ($(BR2_PACKAGE_KODI_LIBTHEORA),y)
-KODI_DEPENDENCIES += libtheora
 endif
 
 # kodi needs libva & libva-glx

@@ -10,6 +10,8 @@
 ++++++++++++++++++++++++++++++++  package/mesa3d/0007-vc4-add-meson-option-to-disable-optional-neon-suppor.patch
 ++++++++++++++++++++++++++++++++  package/sdl2/0001-src-video-directfb-SDL_DirectFB_render.c-fix-build.patch
 ++++++++++++++++++++++++++++++++  package/sdl2/0002-src-video-kmsdrm-SDL_kmsdrmvideo.c-fix-build.patch
+--------------------------------  package/kodi/0003-Add-missing-cassert-includes.patch
+--------------------------------  package/kodi/0004-Backport-Add-missing-cstddef-includes.patch
 --------------------------------  package/mesa3d/0006-util-remove-the-dependency-on-kcmp.h.patch
 --------------------------------  package/sdl2/0001-src-core-linux-SDL_threadprio.c-fix-build-without-th.patch
 --------------------------------  package/sdl2/0002-fix-busy-loop-in-dlopen.patch
@@ -29,6 +31,7 @@ fa8f1083e48002d1436202e5ce83b388  package/intel-gmmlib/intel-gmmlib.mk
 b508e6d0b23687606edbb191db189ee8  package/intel-mediasdk/intel-mediasdk.hash
 9c39b95b9d4091ca9d71c03105c51395  package/intel-mediasdk/intel-mediasdk.mk
 3ef1299888a70ba37fd7cc99f059da29  package/kodi/Config.in
+69b28350745b63548fcc7654e717d02f  package/kodi/kodi.hash
 37b3490c1e87a43d5bb6ac81e9672b9e  package/kodi/kodi.mk
 e459efac93dadd5c08fbe59ecd03bfd9  package/libcec/libcec.mk
 411c881d8d83c11bd9c544a33a218245  package/libclc/libclc.mk
