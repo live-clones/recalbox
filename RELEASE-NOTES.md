@@ -25,6 +25,9 @@
 - Add new system: OpenBOR
 - Add new system: Solarus
 - Add opengl on Retroarch for X86(_64)
+- Add Jaguar emulator on Xu4 and Pi4 (libretro-virtualjaguar)
+- Add PC-FX emulator on Pi4 (libretro-beetle-pcfx)
+- Add Saturn emulator on Xu4 (libretro-yabasanshiro)
 - Bump Amiberry to v3.1.3
 - Fba_libretro has been renamed to Fbneo
 - New ports system with Mr. Boom (8-player Bomberman clone) ready to be played
@@ -132,7 +135,9 @@
 
 ### Improvements
 - Bump Buildroot to version 2020.02
-- Bump KODI to Leia 18.5
+- Bump Kernel to v4.19 on all RaspberryPi (but the Pi4)
+- Bump Kernel to v5.4 to x86/x64 and RaspberryPi 4
+- Bump KODI to Leia 18.7
 - Share partition is created in exfat on fresh install, which is easier to access from Windows computers
 - Improve internal Scraper (ScreenScraper):
   - Faster! Use your ScreenScraper's threads to parallelize workloads 
