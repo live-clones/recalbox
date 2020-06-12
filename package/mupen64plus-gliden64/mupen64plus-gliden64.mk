@@ -41,13 +41,19 @@ endef
 define MUPEN64PLUS_GLIDEN64_PRE_CONFIGURE_FIXUP
 	chmod +x $(@D)/src/getRevision.sh
 	sh $(@D)/src/getRevision.sh
-	$(SED) 's|/opt/vc/include|$(STAGING_DIR)/usr/include|g' $(@D)/src/CMakeLists.txt
-	$(SED) 's|/opt/vc/lib|$(STAGING_DIR)/usr/lib|g' $(@D)/src/CMakeLists.txt
 	#must be removed during the next bump and use -DUSE_SYSTEM_LIBS=On option (not available in the public release 2.0)
 	$(SED) 's|elseif(BCMHOST)|elseif(UNIX OR BCMHOST)|g' $(@D)/src/GLideNHQ/CMakeLists.txt
 endef
 
+define MUPEN64PLUS_GLIDEN64_PRE_CONFIGURE_RPI_FIXUP
+	$(SED) 's|/opt/vc/include|$(STAGING_DIR)/usr/include|g' $(@D)/src/CMakeLists.txt
+	$(SED) 's|/opt/vc/lib|$(STAGING_DIR)/usr/lib|g' $(@D)/src/CMakeLists.txt
+endef
+
 MUPEN64PLUS_GLIDEN64_PRE_CONFIGURE_HOOKS += MUPEN64PLUS_GLIDEN64_PRE_CONFIGURE_FIXUP
+ifeq ($(BR2_PACKAGE_RPI_USERLAND),y)
+MUPEN64PLUS_GLIDEN64_PRE_CONFIGURE_HOOKS += MUPEN64PLUS_GLIDEN64_PRE_CONFIGURE_RPI_FIXUP
+endif
 
 MUPEN64PLUS_GLIDEN64_CONF_OPTS += -DCMAKE_C_ARCHIVE_CREATE="<CMAKE_AR> qcs <TARGET> <LINK_FLAGS> <OBJECTS>"
 MUPEN64PLUS_GLIDEN64_CONF_OPTS += -DCMAKE_C_ARCHIVE_FINISH=true
