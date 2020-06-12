@@ -30,6 +30,7 @@ fa8f1083e48002d1436202e5ce83b388  package/intel-gmmlib/intel-gmmlib.mk
 985b990824ea675ece5a45e0c3067847  package/intel-mediadriver/intel-mediadriver.mk
 b508e6d0b23687606edbb191db189ee8  package/intel-mediasdk/intel-mediasdk.hash
 9c39b95b9d4091ca9d71c03105c51395  package/intel-mediasdk/intel-mediasdk.mk
+4884572ad60bd7953f2b3099157fe407  package/kodi-jsonschemabuilder/kodi-jsonschemabuilder.mk
 3ef1299888a70ba37fd7cc99f059da29  package/kodi/Config.in
 69b28350745b63548fcc7654e717d02f  package/kodi/kodi.hash
 37b3490c1e87a43d5bb6ac81e9672b9e  package/kodi/kodi.mk
