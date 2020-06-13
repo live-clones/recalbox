@@ -4,16 +4,18 @@ import sys
 import os.path
 import unittest
 import shutil
-import controllersConfig as controllersConfig
-import settings.unixSettings as unixSettings
-import recalboxFiles
+import configgen.controllersConfig as controllersConfig
+import configgen.settings.unixSettings as unixSettings
+from configgen import recalboxFiles
 
-from Emulator import Emulator
-from generators.libretro.libretroGenerator import LibretroGenerator
+from configgen.Emulator import Emulator
+from configgen.generators.libretro.libretroGenerator import LibretroGenerator
 
-import generators.libretro.libretroConfigurations as libretroConfigurations
-import generators.libretro.libretroGenerator as libretroGenerator
-from settings.keyValueSettings import keyValueSettings
+import configgen.generators.libretro.libretroConfigurations as libretroConfigurations
+import configgen.generators.libretro.libretroGenerator as libretroGenerator
+from configgen.settings.keyValueSettings import keyValueSettings
+
+from configgen.tests.generators.FakeArguments import Arguments
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
 
@@ -66,7 +68,7 @@ class TestLibretroGenerator(unittest.TestCase):
         libretroConfigurations.libretroSettings = unixSettings.UnixSettings(RETROARCH_CUSTOM_CFG_FILE, separator=' ')
 
     def test_generate_system_no_custom_settings(self):
-        command = libretroGen.generate(self.snes, rom, dict(), False, False, keyValueSettings("", False))
+        command = libretroGen.generate(self.snes, dict(), keyValueSettings("", False), Arguments(rom))
         self.assertEquals(command.videomode, '4')
         self.assertEquals(command.array,
                           [recalboxFiles.recalboxBins["libretro"], '-L', '/usr/lib/libretro/snes9x2002_libretro.so', '--config',
@@ -75,7 +77,7 @@ class TestLibretroGenerator(unittest.TestCase):
                            'MyRom.nes'])
 
     def test_generate_system_custom_settings(self):
-        command = libretroGen.generate(self.nes, rom, dict(), False, False, keyValueSettings("", False))
+        command = libretroGen.generate(self.nes, dict(), keyValueSettings("", False), Arguments(rom))
         self.assertEquals(command.videomode, '6')
         self.assertEquals(command.array,
                           [recalboxFiles.recalboxBins["libretro"], '-L', '/usr/lib/libretro/snes9x2005_libretro.so', '--config', '/myconfigfile.cfg',
@@ -84,7 +86,7 @@ class TestLibretroGenerator(unittest.TestCase):
                            'MyRom.nes'])
 
     def test_generate_forced_input_config(self):
-        command = libretroGen.generate(self.nes, rom, dict(), False, False, keyValueSettings("", False))
+        command = libretroGen.generate(self.nes, dict(), keyValueSettings("", False), Arguments(rom))
         self.assertEquals(command.videomode, '6')
         self.assertEquals(command.array,
                           [recalboxFiles.recalboxBins["libretro"], '-L', '/usr/lib/libretro/snes9x2005_libretro.so', '--config', '/myconfigfile.cfg',
@@ -132,10 +134,10 @@ class TestLibretroGenerator(unittest.TestCase):
                                                                         -1, 0, "p9controller","","0", "0", "0",
                                                                         -1, 0, "p10controller","","0", "0", "0")
 
-        command = libretroGen.generate(self.snes, rom, controllers, False, False, keyValueSettings("", False))
+        command = libretroGen.generate(self.snes, controllers, keyValueSettings("", False), Arguments(rom))
         self.assertEquals(libretroConfigurations.libretroSettings.load('input_menu_toggle_btn'), '14')
         self.snes2.config['specials'] = "none"
-        command = libretroGen.generate(self.snes2, rom, controllers, False, False, keyValueSettings("", False))
+        command = libretroGen.generate(self.snes2, controllers, keyValueSettings("", False), Arguments(rom))
         self.assertEquals(libretroConfigurations.libretroSettings.load('input_menu_toggle_btn'), None)
 
 
