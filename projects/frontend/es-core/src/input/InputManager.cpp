@@ -81,12 +81,18 @@ void InputManager::LoadDefaultKeyboardConfiguration()
   mKeyboard.Set(InputDevice::Entry::Right, InputEvent(InputEvent::sKeyboardDevice, InputEvent::EventType::Key, SDLK_RIGHT, 1));
 
   mKeyboard.Set(InputDevice::Entry::A, InputEvent(InputEvent::sKeyboardDevice, InputEvent::EventType::Key, SDLK_RETURN, 1));
-  mKeyboard.Set(InputDevice::Entry::B, InputEvent(InputEvent::sKeyboardDevice, InputEvent::EventType::Key, SDLK_ESCAPE, 1));
-  mKeyboard.Set(InputDevice::Entry::Start, InputEvent(InputEvent::sKeyboardDevice, InputEvent::EventType::Key, SDLK_F1, 1));
-  mKeyboard.Set(InputDevice::Entry::Select, InputEvent(InputEvent::sKeyboardDevice, InputEvent::EventType::Key, SDLK_F2, 1));
+  mKeyboard.Set(InputDevice::Entry::B, InputEvent(InputEvent::sKeyboardDevice, InputEvent::EventType::Key, SDLK_BACKSPACE, 1));
+  mKeyboard.Set(InputDevice::Entry::X, InputEvent(InputEvent::sKeyboardDevice, InputEvent::EventType::Key, SDLK_RSHIFT, 1));
+  mKeyboard.Set(InputDevice::Entry::Y, InputEvent(InputEvent::sKeyboardDevice, InputEvent::EventType::Key, SDLK_RCTRL, 1));
+  mKeyboard.Set(InputDevice::Entry::Start, InputEvent(InputEvent::sKeyboardDevice, InputEvent::EventType::Key, SDLK_ESCAPE, 1));
+  mKeyboard.Set(InputDevice::Entry::Select, InputEvent(InputEvent::sKeyboardDevice, InputEvent::EventType::Key, SDLK_SELECT, 1));
 
-  mKeyboard.Set(InputDevice::Entry::L1, InputEvent(InputEvent::sKeyboardDevice, InputEvent::EventType::Key, SDLK_RIGHTBRACKET, 1));
-  mKeyboard.Set(InputDevice::Entry::R1, InputEvent(InputEvent::sKeyboardDevice, InputEvent::EventType::Key, SDLK_LEFTBRACKET, 1));
+  mKeyboard.Set(InputDevice::Entry::L1, InputEvent(InputEvent::sKeyboardDevice, InputEvent::EventType::Key, SDLK_PAGEUP, 1));
+  mKeyboard.Set(InputDevice::Entry::R1, InputEvent(InputEvent::sKeyboardDevice, InputEvent::EventType::Key, SDLK_PAGEDOWN, 1));
+
+  mKeyboard.Set(InputDevice::Entry::Hotkey, InputEvent(InputEvent::sKeyboardDevice, InputEvent::EventType::Key, SDLK_LALT, 1));
+
+  WriteDeviceXmlConfiguration(mKeyboard);
 
   // Load configuration
   LookupDeviceXmlConfiguration(mKeyboard);
@@ -364,11 +370,11 @@ bool InputManager::LookupDeviceXmlConfiguration(InputDevice& device)
                     << " - Hats: " << item.attribute("deviceNbHats").as_int()
                     << " - Buttons: " << item.attribute("deviceNbButtons").as_int();
       // check the guid
-      bool guid    = strcmp(device.GUID().c_str(), item.attribute("deviceGUID").value()) == 0;
+      bool guid    = (strcmp(device.GUID().c_str(), item.attribute("deviceGUID").value()) == 0) || device.IsKeyboard();
       bool name    = strcmp(device.Name().c_str(), item.attribute("deviceName").value()) == 0;
-      bool axes    = (device.AxeCount() == item.attribute("deviceNbAxes").as_int());
-      bool hats    = (device.HatCount() == item.attribute("deviceNbHats").as_int());
-      bool buttons = (device.ButtonCount() == item.attribute("deviceNbButtons").as_int());
+      bool axes    = (device.AxeCount() == item.attribute("deviceNbAxes").as_int()) || device.IsKeyboard();
+      bool hats    = (device.HatCount() == item.attribute("deviceNbHats").as_int()) || device.IsKeyboard();
+      bool buttons = (device.ButtonCount() == item.attribute("deviceNbButtons").as_int()) || device.IsKeyboard();
       if (guid && name && axes && hats && buttons)
       {
         int loaded = device.LoadFromXml(item);
