@@ -41,5 +41,5 @@ enum class RaspberryModel
   FourB       = 0x11,
 };
 
-int runSystemCommand(const std::string& cmd_utf8); // run a utf-8 encoded in the shell (requires wstring conversion on Windows)
+int runSystemCommand(const std::string& cmd_utf8, bool debug); // run a utf-8 encoded in the shell (requires wstring conversion on Windows)
 RaspberryGeneration getRaspberryVersion();

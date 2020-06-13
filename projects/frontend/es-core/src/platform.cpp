@@ -1,11 +1,29 @@
 #include <platform.h>
 #include <cstring>
 #include <utils/Log.h>
+#include <utils/Files.h>
 
-int runSystemCommand(const std::string& cmd_utf8)
+int runSystemCommand(const std::string& cmd_utf8, bool debug)
 {
-  //return system((cmd_utf8 + " 2> /recalbox/share/system/logs/es_launch_stderr.log | head -300 > /recalbox/share/system/logs/es_launch_stdout.log").c_str());
-  int exitcode = system((cmd_utf8 + " > /recalbox/share/system/logs/es_launch_stdout.log 2> /recalbox/share/system/logs/es_launch_stderr.log").c_str());
+  static std::string output("/recalbox/share/system/logs/es_launch_stdout.log");
+  static std::string outerr("/recalbox/share/system/logs/es_launch_stderr.log");
+
+  // Run command
+  std::string cmd(cmd_utf8);
+  cmd.append(" > ").append(output)
+     .append(" 2> ").append(outerr);
+  int exitcode = system(cmd.data());
+
+  // Get logs
+  if (debug)
+  {
+    std::string content = Files::LoadFile(Path(output));
+    if (!content.empty()) LOG(LogInfo) << "Configgen Output:\n" << content;
+    content = Files::LoadFile(Path(outerr));
+    if (!content.empty()) LOG(LogInfo) << "Configgen Errors:\n" << content;
+  }
+
+  // Return state
   return exitcode;
 }
 

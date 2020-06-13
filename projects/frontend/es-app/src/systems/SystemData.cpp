@@ -66,20 +66,20 @@ void SystemData::RunGame(Window& window,
   const std::string basename = game.getPath().FilenameWithoutExtension();
   const std::string rom_raw = game.getPath().ToString();
 
-  command = Strings::Replace(command, "%ROM%", rom);
-  command = Strings::Replace(command, "%CONTROLLERSCONFIG%", controlersConfig);
-  command = Strings::Replace(command, "%SYSTEM%", game.getSystem()->getName());
-  command = Strings::Replace(command, "%BASENAME%", basename);
-  command = Strings::Replace(command, "%ROM_RAW%", rom_raw);
-  command = Strings::Replace(command, "%EMULATOR%", emulator.Emulator());
-  command = Strings::Replace(command, "%CORE%", emulator.Core());
-  command = Strings::Replace(command, "%RATIO%", game.Metadata().RatioAsString());
+  Strings::ReplaceAllIn(command, "%ROM%", rom);
+  Strings::ReplaceAllIn(command, "%CONTROLLERSCONFIG%", controlersConfig);
+  Strings::ReplaceAllIn(command, "%SYSTEM%", game.getSystem()->getName());
+  Strings::ReplaceAllIn(command, "%BASENAME%", basename);
+  Strings::ReplaceAllIn(command, "%ROM_RAW%", rom_raw);
+  Strings::ReplaceAllIn(command, "%EMULATOR%", emulator.Emulator());
+  Strings::ReplaceAllIn(command, "%CORE%", emulator.Core());
+  Strings::ReplaceAllIn(command, "%RATIO%", game.Metadata().RatioAsString());
 
   switch(netplay.NetplayMode())
   {
     case NetPlayData::Mode::None:
     {
-      command = Strings::Replace(command, "%NETPLAY%", "");
+      Strings::ReplaceAllIn(command, "%NETPLAY%", "");
       break;
     }
     case NetPlayData::Mode::Client:
@@ -87,7 +87,7 @@ void SystemData::RunGame(Window& window,
       std::string netplayLine("-netplay client -netplay_port ");
       netplayLine.append(Strings::ToString(netplay.Port())).append(" -netplay_ip ").append(netplay.Ip());
       if (game.Metadata().RomCrc32() != 0) netplayLine.append(" -hash ").append(game.Metadata().RomCrc32AsString());
-      command = Strings::Replace(command, "%NETPLAY%", netplayLine);
+      Strings::ReplaceAllIn(command, "%NETPLAY%", netplayLine);
       break;
     }
     case NetPlayData::Mode::Server:
@@ -95,7 +95,7 @@ void SystemData::RunGame(Window& window,
       std::string netplayLine("-netplay host -netplay_port ");
       netplayLine.append(Strings::ToString(netplay.Port()));
       if (game.Metadata().RomCrc32() != 0) netplayLine.append(" -hash ").append(game.Metadata().RomCrc32AsString());
-      command = Strings::Replace(command, "%NETPLAY%", netplayLine);
+      Strings::ReplaceAllIn(command, "%NETPLAY%", netplayLine);
       break;
     }
   }
@@ -108,11 +108,15 @@ void SystemData::RunGame(Window& window,
       command.append(" -nodefaultkeymap");
     NotificationManager::Instance().Notify(game, Notification::RunGame);
 
+    bool debug = RecalboxConf::Instance().AsBool("emulationstation.debuglogs");
+    if (debug)
+      command.append(" -verbose");
+
     printf("==============================================\n");
-    int exitCode = runSystemCommand(command);
+    int exitCode = WEXITSTATUS(runSystemCommand(command, debug));
     printf("==============================================\n");
     if (exitCode != 0)
-      LOG(LogWarning) << "...launch terminated with nonzero exit code " << WEXITSTATUS(exitCode) << "!";
+      LOG(LogWarning) << "...launch terminated with nonzero exit code " << exitCode << "!";
 
     NotificationManager::Instance().Notify(game, Notification::EndGame);
     padToKeyboard.StopMapping();
@@ -184,16 +188,19 @@ SystemData::DemoRunGame(const FileData& game, const EmulatorData& emulator, int 
   command += " -demoinfoduration ";
   command += std::to_string(infoscreenduration);
 
+  bool debug = RecalboxConf::Instance().AsBool("emulationstation.debuglogs");
+  if (debug)
+    command.append(" -verbose");
+
   LOG(LogInfo) << "Demo command: " << command;
   NotificationManager::Instance().Notify(game, Notification::RunDemo);
-  int exitCode = runSystemCommand(command);
+  int exitCode = WEXITSTATUS(runSystemCommand(command, debug));
   NotificationManager::Instance().Notify(game, Notification::EndDemo);
   LOG(LogInfo) << "Demo exit code :	" << exitCode;
 
 
   // Configgen returns an exitcode 0x33 when the user interact with any pad/mouse
-  // this exitcode returns here byte-swapped or shifted. Need further investigation
-  if (exitCode == 0x3300)
+  if (exitCode == 0x33)
   {
     LOG(LogInfo) << "Exiting demo upon user request";
     return true;
