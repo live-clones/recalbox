@@ -129,10 +129,10 @@ class DolphinGenerator(Generator):
         ipl1 = "/recalbox/share/bios/gamecube/JP/IPL.bin"
         ipl2 = "/recalbox/share/bios/gamecube/USA/IPL.bin"
         # if os.path? return "True" set "False" for disable "SkipIpl=Video boot intro"
-        if os.path.exists(ipl0 or ipl1 or ipl2):
-            return("False")
+        if os.path.exists(ipl0) or os.path.exists(ipl1) or os.path.exists(ipl2):
+            return "False"
         else:
-            return("True")
+            return "True"
 
     # GameCube Controller Adapter for Wii U in Dolphin controllers if realgamecubepads=1 set in recalbox.conf
     @staticmethod
@@ -239,7 +239,7 @@ class DolphinGenerator(Generator):
         # Save configuration
         gfxSettings.saveFile()
 
-    def generate(self, system, rom, playersControllers, demo, nodefaultkeymap, recalboxSettings):
+    def generate(self, system, playersControllers, recalboxSettings, args):
         if not system.config['configfile']:
             # Controllers
             dolphinControllers.generateControllerConfig(system, playersControllers)
@@ -247,7 +247,7 @@ class DolphinGenerator(Generator):
             self.mainConfiguration()
             self.gfxConfiguration(system)
 
-        commandArray = [recalboxFiles.recalboxBins[system.config['emulator']], "-e", rom]
+        commandArray = [recalboxFiles.recalboxBins[system.config['emulator']], "-e", args.rom]
         if 'args' in system.config and system.config['args'] is not None:
              commandArray.extend(system.config['args'])
         return Command.Command(videomode=system.config['videomode'], array=commandArray, env={"XDG_CONFIG_HOME":recalboxFiles.CONF, "XDG_DATA_HOME":recalboxFiles.SAVES})

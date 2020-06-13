@@ -7,42 +7,50 @@ USERWANNAPLAY = 0x77
 
 # Set a specific video mode
 def runCommand(command, args, demoStartButtons, recalboxSettings, fixedScreenSize):
+    global proc
 
     # Switch video mode if required
-    videoMode = None
     chosenMode = None
     if not fixedScreenSize:
-        videoMode = __import__("utils.videoMode", fromlist=[None])
+        import utils.videoMode as videoMode
         chosenMode = videoMode.setVideoMode(command.videomode, command.delay)
 
     # Update environment
-    os = __import__("os")
+    import os
     command.env.update(os.environ)
     print("running command: "+" ".join(command.array))
 
-    # Get signals
-    signal = __import__("signal")
-    signal.signal(signal.SIGINT, signal_handler)
-
-    # Run eulator process
-    subprocess = __import__("subprocess")
+    # Run emulator process
+    import subprocess
     proc = subprocess.Popen(command.array, env=command.env, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=command.cwdPath)
+
+    # Signal handling
+    def signal_handler(_, __):
+        print('Exiting')
+        if proc:
+            print('killing runner.proc')
+            proc.kill()
+
+    # Get signals
+    import signal
+    signal.signal(signal.SIGINT, signal_handler)
 
     # Run demo mode is required
     demo = None
     if args.demo:
-        demoManager = __import__("demoManager")
+        import demoManager
         demo = demoManager.DemoManager(proc, args, demoStartButtons)
 
     exitcode = -1
     try:
         out, err = proc.communicate()
         exitcode = proc.returncode
-        sys = __import__("sys")
-        sys.stdout.write(out)
-        sys.stderr.write(err)
-    except:
-        print("emulator exited")
+        if args.verbose:
+            import sys
+            sys.stdout.write(out)
+            sys.stderr.write(err)
+    except Exception as e:
+        print("Emulator exited unexpectedly!\nException: {}".format(e))
 
     userQuit = False
     userWannaPlay = False
@@ -56,16 +64,10 @@ def runCommand(command, args, demoStartButtons, recalboxSettings, fixedScreenSiz
 
     if not fixedScreenSize:
         if chosenMode != 'default':
+            import utils.videoMode as videoMode
             videoMode.setPreffered(recalboxSettings)
 
     if userQuit: return USERQUIT
     if userWannaPlay: return USERWANNAPLAY
     return exitcode
-
-
-def signal_handler(_, __):
-    print('Exiting')
-    if proc:
-        print('killing runner.proc')
-        proc.kill()
 

@@ -9,13 +9,13 @@ from generators.Generator import Generator
 class MupenGenerator(Generator):
     # Main entry of the module
     # Configure mupen and return a command
-    def generate(self, system, rom, playersControllers, demo, nodefaultkeymap, recalboxSettings):
+    def generate(self, system, playersControllers, recalboxSettings, args):
         # Settings recalbox default config file if no user defined one
         if not system.config['configfile']:
             # Using recalbox config file
             system.config['configfile'] = recalboxFiles.mupenCustom
             # Write configuration file
-            mupenConfig.writeMupenConfig(system, playersControllers, rom)
+            mupenConfig.writeMupenConfig(system, playersControllers, args.rom)
             #  Write controllers configuration files
             mupenControllers.writeControllersConfig(playersControllers)
 
@@ -26,6 +26,6 @@ class MupenGenerator(Generator):
 	    "--datadir", recalboxFiles.mupenConf]
         if 'args' in system.config and system.config['args'] is not None:
             commandArray.extend(system.config['args'])
-        commandArray.append(rom)
+        commandArray.append(args.rom)
 
         return Command.Command(videomode=system.config['videomode'], array=commandArray, env={"SDL_VIDEO_GL_DRIVER":"/usr/lib/libGLESv2.so", "SDL_VIDEO_EGL_DRIVER":"/usr/lib/libGLESv2.so"})

@@ -1,5 +1,3 @@
-import subprocess
-
 import Command
 import recalboxFiles
 from generators.Generator import Generator
@@ -8,7 +6,7 @@ from settings.keyValueSettings import keyValueSettings
 
 class OricutronGenerator(Generator):
 
-    def generate(self, system, rom, playersControllers, demo, nodefaultkeymap, recalboxSettings):
+    def generate(self, system, playersControllers, recalboxSettings, args):
 
         """
         Load, override keys and save back emulator's configuration file
@@ -61,17 +59,17 @@ class OricutronGenerator(Generator):
         settings.setDefaultOption("aratio", "yes")
 
         # tape/disk selection
-        romType = rom[-4:].lower()
+        romType = args.rom[-4:].lower()
         if romType == ".tap":
             settings.setOption("disktype", "none")  # No drive to boot tapes
-            settings.setOption("tapeimage", "'{}'".format(rom))
+            settings.setOption("tapeimage", "'{}'".format(args.rom))
             settings.setOption("diskimage", "")
         else:
             drive = settings.getOption("disktype", "microdisc")  # microdisc is the original Oric drive.
             if drive == "none":
                 drive = "microdisc"  # force drive
             settings.setOption("disktype", drive)
-            settings.setOption("diskimage", "'{}'".format(rom))
+            settings.setOption("diskimage", "'{}'".format(args.rom))
             settings.setOption("tapeimage", "")
 
         settings.saveFile()

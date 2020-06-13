@@ -6,7 +6,7 @@ import recalboxFiles
 
 class SimCoupeGenerator(Generator):
 
-    def generate(self, system, rom, playersControllers, demo, nodefaultkeymap, recalboxSettings):
+    def generate(self, system, playersControllers, recalboxSettings, args):
 
         """
         Load, override keys and save back emulator's configuration file
@@ -19,7 +19,7 @@ class SimCoupeGenerator(Generator):
         settings.setOption("FilterGui", "1")                              # Nice looking GUI
         settings.setOption("InPath", recalboxFiles.ROMS + "/samcoupe")    # default input path
         settings.setOption("OutPath", recalboxFiles.SAVES + "/samcoupe")  # default output path
-        settings.setOption("Disk1", rom)                                  # rom
+        settings.setOption("Disk1", args.rom)                                  # rom
         settings.setOption("Fullscreen", "Yes")                           # Fullscreen
         settings.setOption("FirstRun", "No")                              # no first-launch nag-screen #1
         settings.setOption("CfgVersion", "4")                             # no first launch nag-screen #2

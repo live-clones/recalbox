@@ -10,19 +10,19 @@ import glob
 class ResidualVMGenerator(Generator):
     # Main entry of the module
     # Return residualvm command
-    def generate(self, system, rom, playersControllers, demo, nodefaultkeymap, recalboxSettings):
+    def generate(self, system, playersControllers, recalboxSettings, args):
         # Create a temporary gamecontrollerdb.txt file with controllers mapping
         Controller.generateSDLGameDBAllControllers(playersControllers, "/tmp/gamecontrollerdb.txt")
         # Find rom path
-        if os.path.isdir(rom):
+        if os.path.isdir(args.rom):
           # rom is a directory: must contains a <game name>.residualvm file
-          romPath = rom
+          romPath = args.rom
           romFile = glob.glob(romPath + "/*.residualvm")[0]
           romName = os.path.splitext(os.path.basename(romFile))[0]
         else:
           # rom is a file: split in directory and file name
-          romPath = os.path.dirname(rom)
-          romName = os.path.splitext(os.path.basename(rom))[0]
+          romPath = os.path.dirname(args.rom)
+          romName = os.path.splitext(os.path.basename(args.rom))[0]
         commandArray = [recalboxFiles.recalboxBins[system.config['emulator']], 
                         "--fullscreen",
                         "--joystick=0",

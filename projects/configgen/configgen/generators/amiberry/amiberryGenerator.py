@@ -156,9 +156,9 @@ class AmiberryGenerator(Generator):
 
     # Main entry of the module
     # Return command
-    def generate(self, system, rom, playersControllers, demo, nodefaultkeymap, recalboxSettings):
+    def generate(self, system, playersControllers, recalboxSettings, args):
         # Get rom type and associated configuration file if any
-        rom, romType, romHasUAE = RomType.Identify(rom)
+        rom, romType, romHasUAE = RomType.Identify(args.rom)
 
         # Get subsystem - Force A1200 with WHDL
         subSystem = SubSystems.A1200 if romType == RomType.WHDL else system.name

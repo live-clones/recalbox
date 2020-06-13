@@ -8,13 +8,13 @@ import daphneControllers
 class DaphneGenerator(Generator):
     # Main entry of the module
     # Configure daphne and return a command
-    def generate(self, system, rom, playersControllers, demo, nodefaultkeymap, recalboxSettings):
+    def generate(self, system, playersControllers, recalboxSettings, args):
         if not system.config['configfile']:
             daphneControllers.generateControllerConfig(system, playersControllers)
 
-        romName = os.path.splitext(os.path.basename(rom))[0]
-        frameFile = rom + "/" + romName + ".txt"
-        commandsFile = rom + "/" + romName + ".commands"
+        romName = os.path.splitext(os.path.basename(args.rom))[0]
+        frameFile = args.rom + "/" + romName + ".txt"
+        commandsFile = args.rom + "/" + romName + ".commands"
         # the command to run  
         commandArray = [recalboxFiles.recalboxBins[system.config['emulator']],
             romName, "vldp",

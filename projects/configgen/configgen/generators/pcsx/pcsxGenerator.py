@@ -54,7 +54,7 @@ class PcsxGenerator(Generator):
         return '\\' + hex(int(button) + 0xA0)[1:]
 
 
-    def generate(self, system, rom, playersControllers, demo, nodefaultkeymap, recalboxSettings):
+    def generate(self, system, playersControllers, recalboxSettings, args):
 
         config = PcsxGenerator.Loadconfiguration()
 
@@ -74,7 +74,7 @@ class PcsxGenerator(Generator):
 
         PcsxGenerator.SaveConfiguration(config)
 
-        commandArray = [recalboxFiles.recalboxBins[system.config['emulator']], "-cdfile", rom]
+        commandArray = [recalboxFiles.recalboxBins[system.config['emulator']], "-cdfile", args.rom]
 
         if 'args' in system.config and system.config['args'] is not None:
             commandArray.extend(system.config['args'])

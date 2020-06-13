@@ -2,25 +2,16 @@
 import Command
 import recalboxFiles
 from generators.Generator import Generator
-import os.path
 
 
 class ViceGenerator(Generator):
     # Main entry of the module
     # Return command
-    def generate(self, system, rom, playersControllers, demo, nodefaultkeymap, recalboxSettings):
-        # Settings recalbox default config file if no user defined one
-        if not system.config['configfile']:
-            # Using recalbox config file
-            #system.config['configfile'] = recalboxFiles.mupenCustom
-            pass
-        # Find rom path
-        romPath = os.path.dirname(rom)
-        romName = os.path.splitext(os.path.basename(rom))[0]
+    def generate(self, system, playersControllers, recalboxSettings, args):
 
-        commandArray = [recalboxFiles.recalboxBins[system.config['emulator']], 
+        commandArray = [recalboxFiles.recalboxBins[system.config['emulator']],
                         "-config", recalboxFiles.viceConfig,
-                        "-autostart", rom]
+                        "-autostart", args.rom]
         if 'args' in system.config and system.config['args'] is not None:
             commandArray.extend(system.config['args'])
 

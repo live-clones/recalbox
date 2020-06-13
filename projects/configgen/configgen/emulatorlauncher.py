@@ -335,7 +335,7 @@ def main(arguments):
             return 2, True
 
         # Generate all the config files required by the selected emulator
-        command = getGenerator(system.config['emulator']).generate(system, arguments.rom, playersControllers, arguments.demo, arguments.nodefaultkeymap, recalboxSettings)
+        command = getGenerator(system.config['emulator']).generate(system, playersControllers, recalboxSettings, arguments)
 
         # The next line is commented and will eventually be used instead of the previous one
         # if we even want the binary to be set from here rather than from the generator
@@ -427,6 +427,7 @@ if __name__ == '__main__':
     parser.add_argument("-hash", help="force rom crc", type=str, required=False)
     parser.add_argument("-extra", help="pass extra argument", type=str, required=False)
     parser.add_argument("-nodefaultkeymap", help="disable libretro default keybindings", action="store_true", required=False)
+    parser.add_argument("-verbose", help="verbose logging", action="store_true", required=False)
 
     args = parser.parse_args()
     exitcode, waitNeeded = main(args)

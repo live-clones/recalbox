@@ -45,7 +45,7 @@ class PisnesGenerator(Generator):
         # Save configuration back
         config.saveFile()
 
-    def generate(self, system, rom, playersControllers, demo, nodefaultkeymap, recalboxSettings):
+    def generate(self, system, playersControllers, recalboxSettings, args):
 
         config = PisnesGenerator.Loadconfiguration()
 
@@ -75,6 +75,6 @@ class PisnesGenerator(Generator):
         commandArray = [recalboxFiles.recalboxBins[system.config['emulator']]]
         if 'args' in system.config and system.config['args'] is not None:
             commandArray.extend(system.config['args'])
-        commandArray.append(rom)
+        commandArray.append(args.rom)
 
         return Command.Command(videomode=system.config['videomode'], array=commandArray)

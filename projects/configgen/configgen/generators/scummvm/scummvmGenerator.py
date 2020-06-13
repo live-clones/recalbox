@@ -11,13 +11,13 @@ import glob
 class ScummVMGenerator(Generator):
     # Main entry of the module
     # Return scummvm command
-    def generate(self, system, rom, playersControllers, demo, nodefaultkeymap, recalboxSettings):
+    def generate(self, system, playersControllers, recalboxSettings, args):
         # Create a temporary gamecontrollerdb.txt file with controllers mapping
         Controller.generateSDLGameDBAllControllers(playersControllers, "/tmp/gamecontrollerdb.txt")
         # If ResidualVM extension, redirect to ResidualVM emulator
-        if rom.endswith(".residualvm"):
+        if args.rom.endswith(".residualvm"):
             system.config['emulator'] = 'residualvm'
-            return ResidualVMGenerator().generate(system, rom, playersControllers, demo, recalboxSettings)
+            return ResidualVMGenerator().generate(system, playersControllers, recalboxSettings, args)
 
         # Settings recalbox default config file if no user defined one
         if not system.config['configfile']:
@@ -26,15 +26,15 @@ class ScummVMGenerator(Generator):
             pass
         
         # Find rom path
-        if os.path.isdir(rom):
+        if os.path.isdir(args.rom):
           # rom is a directory: must contains a <game name>.scummvm file
-          romPath = rom
+          romPath = args.rom
           romFile = glob.glob(romPath + "/*.scummvm")[0]
           romName = os.path.splitext(os.path.basename(romFile))[0]
         else:
           # rom is a file: split in directory and file name
-          romPath = os.path.dirname(rom)
-          romName = os.path.splitext(os.path.basename(rom))[0]
+          romPath = os.path.dirname(args.rom)
+          romName = os.path.splitext(os.path.basename(args.rom))[0]
         commandArray = [recalboxFiles.recalboxBins[system.config['emulator']], 
                         "--fullscreen",
                         "--joystick=0",

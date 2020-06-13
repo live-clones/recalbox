@@ -12,7 +12,7 @@ class SolarusGenerator(Generator):
         recalbox = system.config
         return key in recalbox and recalbox[key] in self.IS_TRUE
 
-    def generate(self, system, rom, playersControllers, demo, nodefaultkeymap, recalboxSettings):
+    def generate(self, system, playersControllers, recalboxSettings, args):
 
         """
         Load, override keys and save back emulator's configuration file
@@ -31,7 +31,7 @@ class SolarusGenerator(Generator):
         args.append("-quit-combo={}+{}".format(controllers.HotKey(), controllers.Start()))
 
         # Rom
-        args.append(rom)
+        args.append(args.rom)
 
         commandArray = [recalboxFiles.recalboxBins[system.config['emulator']]]
         commandArray.extend(args)

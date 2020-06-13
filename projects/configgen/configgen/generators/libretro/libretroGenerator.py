@@ -86,11 +86,11 @@ class LibretroGenerator(Generator):
                commandArgs
 
     # Configure retroarch and return a command
-    def generate(self, system, rom, playersControllers, demo, nodefaultkeymap, recalboxSettings):
+    def generate(self, system, playersControllers, recalboxSettings, args):
         configFileName = system.config.get("configfile", None)
 
         # Set recalbox default config file if no user defined one
-        newConfigFileName, overrideFileName, commandArgs = self.createConfigurationFile(system, playersControllers, rom, demo, nodefaultkeymap, recalboxSettings)
+        newConfigFileName, overrideFileName, commandArgs = self.createConfigurationFile(system, playersControllers, args.rom, args.demo, args.nodefaultkeymap, recalboxSettings)
         if configFileName is None:
             configFileName = newConfigFileName
 
@@ -98,17 +98,23 @@ class LibretroGenerator(Generator):
         # To keep compatibility with existing scummvm scraping systems as well as with the standalone core,
         # rom may contain the upper folder game_folder.scummvm
         # In such case we must look for the inner file.scummvm and use it instead
+        rom = args.rom
         if system.config['core'] == 'scummvm':
-            if os.path.isdir(rom):
-                scummfiles = [fn for fn in os.listdir(rom) if fn.endswith('.scummvm')]
+            if os.path.isdir(args.rom):
+                scummfiles = [fn for fn in os.listdir(args.rom) if fn.endswith('.scummvm')]
                 if len(scummfiles) == 1:
-                    rom = os.path.join(rom, scummfiles[0])
+                    rom = os.path.join(args.rom, scummfiles[0])
 
         # Retroarch core on the filesystem
         retroarchCore = recalboxFiles.retroarchCores + system.config['core'] + recalboxFiles.libretroExt
 
         # The command to run
-        commandArray = [recalboxFiles.recalboxBins[system.config['emulator']], "-L", retroarchCore, "--config", configFileName]
+        commandArray = [recalboxFiles.recalboxBins[system.config['emulator']]]
+        # Verbose?
+        if args.verbose:
+            commandArray.extend(["--verbose"])
+        # Core & config
+        commandArray.extend(["-L", retroarchCore, "--config", configFileName])
         # Extra configs - pass in-place override last
         commandArray.extend(self.getAppendConfigs(system, rom, overrideFileName))
         # Netplay mode

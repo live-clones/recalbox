@@ -7,7 +7,7 @@ import kodiConfig
 class KodiGenerator(Generator):
     # Main entry of the module
     # Configure kodi inputs and return the command to run
-    def generate(self, system, rom, playersControllers, demo, nodefaultkeymap, recalboxSettings):
+    def generate(self, system, playersControllers, recalboxSettings, args):
         if not system.config['configfile']:
             kodiConfig.writeKodiControllersConfig(playersControllers)
         commandArray = [recalboxFiles.recalboxBins[system.config['emulator']]]

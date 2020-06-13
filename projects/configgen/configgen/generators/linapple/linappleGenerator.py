@@ -62,25 +62,7 @@ class LinappleGenerator(Generator):
 
         return True
 
-    def generate(self, system, rom, playersControllers, demo, nodefaultkeymap, recalboxSettings):
-        """
-        Configure linapple inputs and return the command line to run.
-        
-        Args:
-            system (Emulator):
-                Emulator object containing a config dictionay with all
-                parameters set in EmulationStation.
-            rom (str) :
-                Path and filename of the rom to run.
-            playerControllers (dict):
-                Dictionary of controllers connected (1 to 5).
-            recalboxSettings (keyValueSettings):
-                recalbox.conf settings
-            
-        Returns (configgen.Command, None) :
-            Returns Command object containing needed parameter to launch the 
-            emulator or None if an error occured.
-        """
+    def generate(self, system, playersControllers, recalboxSettings, args):
         # Check resources
         if not self.check_resources(): 
             return
@@ -94,11 +76,12 @@ class LinappleGenerator(Generator):
             config = LinappleConfig(filename=filename)
             # Adjust configuration 
             config.joysticks(playersControllers)
-            config.system(system, rom)
+            config.system(system, args.rom)
             # Save changes 
             config.save(filename=usr_conf)
 
         commandArray = [ recalboxFiles.recalboxBins[system.config['emulator']] ]
+
         if 'args' in system.config and system.config['args'] is not None:
             commandArray.extend(system.config['args'])
 

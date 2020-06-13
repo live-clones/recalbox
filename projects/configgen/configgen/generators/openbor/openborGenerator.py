@@ -13,7 +13,7 @@ class OpenborGenerator(Generator):
         recalbox = system.config
         return key in recalbox and recalbox[key] in self.IS_TRUE
 
-    def generate(self, system, rom, playersControllers, demo, nodefaultkeymap, recalboxSettings):
+    def generate(self, system, playersControllers, recalboxSettings, args):
 
         """
         Load, override keys and save back emulator's configuration file
@@ -42,7 +42,7 @@ class OpenborGenerator(Generator):
         settings.changeSettingsFile(recalboxFiles.openborConfig)
         settings.saveFile()
 
-        commandArray = [recalboxFiles.recalboxBins[system.config['emulator']], rom]
+        commandArray = [recalboxFiles.recalboxBins[system.config['emulator']], args.rom]
 
         if 'args' in system.config and system.config['args'] is not None:
             commandArray.extend(system.config['args'])

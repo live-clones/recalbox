@@ -46,7 +46,7 @@ class ReicastGenerator(Generator):
             return False
 
     # Configure reicast and return a command
-    def generate(self, system, rom, playersControllers, demo, nodefaultkeymap, recalboxSettings):
+    def generate(self, system, playersControllers, recalboxSettings, args):
         if not system.config['configfile']:
             # Write emu.cfg to map joysticks, init with the default emu.cfg
             Config = ConfigParser.ConfigParser()
@@ -73,7 +73,7 @@ class ReicastGenerator(Generator):
         commandArray = [recalboxFiles.recalboxBins[system.config['emulator']]]
         if 'args' in system.config and system.config['args'] is not None:
             commandArray.extend(system.config['args'])
-        commandArray.append(rom)
+        commandArray.append(args.rom)
         # Here is the trick to make reicast find files :
         # emu.cfg is in $XDG_CONFIG_DIRS or $XDG_CONFIG_HOME. The latter is better
         # VMU will be in $XDG_DATA_HOME because it needs rw access -> /recalbox/share/saves/dreamcast

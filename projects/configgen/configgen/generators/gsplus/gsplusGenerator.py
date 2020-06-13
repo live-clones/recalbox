@@ -108,7 +108,7 @@ class GSplusGenerator(Generator):
         self.addDpadItem('right', 'right', controller.inputs, to)
         pass
 
-    def generate(self, system, rom, playersControllers, demo, nodefaultkeymap, recalboxSettings):
+    def generate(self, system, playersControllers, recalboxSettings, args):
         """
         Load, override keys and save back emulator's configuration file
         This way, any modification is kept accross emulator launches
@@ -119,7 +119,7 @@ class GSplusGenerator(Generator):
         settings.loadFile(True)
 
         # Seek multidisk games
-        disks = GSplusGenerator.SeekMultiDisks(rom)
+        disks = GSplusGenerator.SeekMultiDisks(args.rom)
         diskDrive = 1
         for disk in disks:
             settings.setOption("s7d{}".format(diskDrive), disk)
