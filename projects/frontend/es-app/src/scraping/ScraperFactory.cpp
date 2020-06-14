@@ -53,7 +53,7 @@ const std::vector<std::string>& ScraperFactory::GetScraperList()
   static std::vector<std::string> _List =
   {
     "Screenscraper",
-    "TheGamesDB",
+    //"TheGamesDB",
   };
   return _List;
 }
