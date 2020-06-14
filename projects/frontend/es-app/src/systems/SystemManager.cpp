@@ -613,10 +613,11 @@ FileData::List SystemManager::searchTextInGames(FolderData::FastSearchContext co
   FolderData::ResultList searchResults;
   searchResults.reserve(5000);
   for(auto *system : mVisibleSystemVector)
-  {
-    int maximumResultPerSystem = maxpersystem;
-    system->getRootFolder().FastSearch(context, lowercaseText, searchResults, maximumResultPerSystem);
-  }
+    if (!system->IsVirtual())
+    {
+      int maximumResultPerSystem = maxpersystem;
+      system->getRootFolder().FastSearch(context, lowercaseText, searchResults, maximumResultPerSystem);
+    }
 
   // Sort results
   if (searchResults.size() > 1)
