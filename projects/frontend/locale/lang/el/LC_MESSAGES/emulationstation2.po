@@ -1980,3 +1980,7 @@ msgstr ""
 #
 msgid " has been unplugged!"
 msgstr ""
+
+#
+msgid "Remove from favorite"
+msgstr ""

@@ -2234,7 +2234,7 @@ msgstr ""
 
 #
 msgid " has been plugged!"
-msgstr "a été branché!"
+msgstr " a été branché!"
 
 #
 msgid "Ready to play!"
@@ -2247,12 +2247,8 @@ msgstr ""
 
 #
 msgid " has been unplugged!"
-msgstr ""
+msgstr " a été débranché!"
 
 #
-#~ msgid "has been plugged!"
-#~ msgstr "vient d'être branché!"
-
-#
-#~ msgid "has been unplugged!"
-#~ msgstr "à été débranché"
+msgid "Remove from favorite"
+msgstr "Retirer des favoris"

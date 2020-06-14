@@ -2161,6 +2161,10 @@ msgstr ""
 msgid " has been unplugged!"
 msgstr ""
 
+#
+msgid "Remove from favorite"
+msgstr ""
+
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
 #~ "will turn the screen black."
