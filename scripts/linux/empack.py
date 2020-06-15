@@ -252,7 +252,7 @@ class EmPack:
         if self._SingleMode:
             skeletonFile = 'package/recalbox-romfs/recalbox-romfs_single_emulator.skeleton'
         else:
-            if self._RomPath is not None:
+            if len(self._RomPath) > 0:
                 skeletonFile = 'package/recalbox-romfs/recalbox-romfs_multicores.rompath.skeleton'
             else:
                 if self._Port:
