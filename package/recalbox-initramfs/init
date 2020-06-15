@@ -66,6 +66,9 @@ do_update() {
     if test -f "/boot_root/update/uInitrd" ; then
       mv /boot_root/update/uInitrd /boot_root/boot/uInitrd || return 1
     fi
+    if test -f "/boot_root/update/recalbox-config.txt" ; then
+      mv /boot_root/update/recalbox-config.txt /boot_root/recalbox-config.txt || return 1
+    fi
 
     mount -o remount,ro /boot_root || return 1
 }

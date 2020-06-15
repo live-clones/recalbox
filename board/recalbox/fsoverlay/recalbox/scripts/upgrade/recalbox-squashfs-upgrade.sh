@@ -45,19 +45,25 @@ function do_update() {
   # Files copy
   fbv -f -i /recalbox/system/resources/offline-install-4.jpg &
   sleep 1
-  cp /mnt/boot/recalbox /boot/update/recalbox || return 1
+  # mandatory files
+  for file in boot/recalbox boot/linux boot/initrd.gz; do
+    cp "/mnt/$file" "/boot/update/$(basename $file)" || return 1
+  done
+  # optional files
+  # shellcheck disable=SC2043
+  for file in recalbox-config.txt; do
+    [[ -f "/mnt/$file" ]] && cp "/mnt/$file" "/boot/update/$(basename $file)"
+  done
   fbv -f -i /recalbox/system/resources/offline-install-5.jpg &
   sleep 1
-  cp /mnt/boot/linux /boot/update/linux || return 1
-  fbv -f -i /recalbox/system/resources/offline-install-6.jpg &
-  sleep 1
-  cp /mnt/boot/initrd.gz /boot/update/initrd.gz || return 1
 
   # Umount
   umount /mnt/ || return 1
 
   # Clean up
   rm "${UPDATEFILE2}" || return 1
+  fbv -f -i /recalbox/system/resources/offline-install-6.jpg &
+  sleep 1
 
   return 0
 
