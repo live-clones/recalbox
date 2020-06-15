@@ -1,0 +1,49 @@
+#############################################################
+# Boot loader configuration                                 #
+# This file can be modified to your needs                   #
+#############################################################
+
+# uncomment if you get no picture on HDMI for a default "safe" mode
+#hdmi_safe=1                                                                                                                                                                                                 
+
+disable_overscan=1
+
+# uncomment to force a specific HDMI mode (this will force VGA)
+#hdmi_group=1
+#hdmi_mode=1
+
+# Sound output. Set to 0 or comment for autodetect, 1 for DVI, 2 to force HDMI.
+#hdmi_drive=2
+
+config_hdmi_boost=0
+
+# force hdmi while the tv can take time before sending the signal on the hdmi output
+hdmi_force_hotplug=1
+
+# uncomment for composite PAL
+#sdtv_mode=2
+
+# uncomment for lirc-rpi
+#dtoverlay=lirc-rpi
+
+# enable fake-kms overlay
+# possible alternatives are
+# * vc4-kms-v3d
+# * vc4-kms-v3d-pi4
+dtoverlay=vc4-fkms-v3d
+
+# allow only one framebuffer (the one marked 0, closest to the power input)
+max_framebuffers=1
+
+# allow 4k 60hz
+hdmi_enable_4kp60=1
+
+# total amount of GPU memory
+gpu_mem=448
+
+###########################
+# do not remove this line !
+include recalbox-config.txt
+
+# custom config                                                                                                                                                                                              
+[all]

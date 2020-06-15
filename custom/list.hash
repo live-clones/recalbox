@@ -48,7 +48,6 @@ ebf2b3624c1427077933a903679ed7a9  package/lirc-tools/lirc-tools.mk
 7dda00b9bb5a907cbaca47bb0dc9672f  package/mosquitto/mosquitto.mk
 cfc4ca8da37d658b18f2d7422b09048c  package/mpg123/mpg123.mk
 f38548efeaeaaa6515c91bc6ab7d9d54  package/rpi-firmware/cmdline.txt
-f01ea6ba5ccf7e7b094e83301984333d  package/rpi-firmware/config.txt
 635322bdc7c4e8d244105c762bd173d5  package/rpi-firmware/rpi-firmware.hash
 5be9652e767c6fbff1a647c3abd5e14e  package/rpi-firmware/rpi-firmware.mk
 4a6b23e7921b96113d2d455c98c5b801  package/sdl2/sdl2.hash
