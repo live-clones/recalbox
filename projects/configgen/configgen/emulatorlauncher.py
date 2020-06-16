@@ -205,6 +205,7 @@ def getDefaultEmulator(targetSystem):
         "dinothawr"      : Emulator(name='dinothawr', emulator='libretro', core='dinothawr'),
         "doom"           : Emulator(name='doom', emulator='libretro', core='prboom'),
         "doom3"          : Emulator(name='doom3', emulator='libretro', core='boom3'),
+        "easyrpg"        : Emulator(name='easyrpg', emulator='libretro', core='easyrpg'),
         "flashback"      : Emulator(name='flashback', emulator='libretro', core='reminiscence'),
         "lutro"          : Emulator(name='lutro', emulator='libretro', core='lutro'),
         "openbor"        : Emulator(name='openbor', emulator='openbor'),
