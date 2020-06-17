@@ -333,6 +333,11 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_CRAWL),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-dungeoncrawlstonesoup
 endif
 
+# System: easyrpg
+ifneq ($(BR2_PACKAGE_LIBRETRO_EASYRPG),)
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-easyrpg
+endif
+
 # System: fba
 ifneq ($(BR2_PACKAGE_PIFBA),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-fba

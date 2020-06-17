@@ -1,0 +1,6 @@
+config BR2_PACKAGE_LIBXMP_LITE
+	bool "libxmp-lite"
+	help
+	  Libxmp is a library that renders
+	  module files to PCM data.
+	  https://github.com/cmatsuoka/libxmp

@@ -1,0 +1,26 @@
+config BR2_PACKAGE_LIBRETRO_EASYRPG
+	bool "libretro-easyrpg"
+	depends on BR2_PACKAGE_RETROARCH
+	depends on BR2_INSTALL_LIBSTDCPP
+	select BR2_PACKAGE_LIBLCF
+	select BR2_PACKAGE_PIXMAN
+	select BR2_PACKAGE_LIBPNG
+	select BR2_PACKAGE_ZLIB
+	select BR2_PACKAGE_FMT
+	select BR2_PACKAGE_FREETYPE
+	select BR2_PACKAGE_MPG123
+	select BR2_PACKAGE_WILDMIDI
+	select BR2_PACKAGE_LIBVORBIS
+	select BR2_PACKAGE_LIBOGG
+	select BR2_PACKAGE_OPUSFILE
+	select BR2_PACKAGE_FLUIDSYNTH_LIBSNDFILE
+	select BR2_PACKAGE_LIBXMP_LITE
+	select BR2_PACKAGE_SPEEXDSP
+	select BR2_PACKAGE_RECALBOX_ROMFS_EASYRPG
+	help
+	  A libretro EasyRPG game engine.
+
+	  https://github.com/EasyRPG/Player
+
+comment "LIBRETRO_EASYRPG needs a toolchain w/ C++"
+	depends on !BR2_INSTALL_LIBSTDCPP

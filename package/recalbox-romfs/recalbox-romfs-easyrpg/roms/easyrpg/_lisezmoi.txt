@@ -1,0 +1,9 @@
+## RECALBOX - SYSTEM EASYRPG ##
+
+Placez ici vos roms EASYRPG.
+
+Les roms doivent avoir l'extension ".ini"
+
+Ce système supporte également les roms compressées au format .zip/.7z.
+Attention toutefois, il ne s'agit que d'une archive. Les fichiers contenus dans les .zip/.7z doivent correspondre aux extensions citées précédemment.
+De plus, chaque fichier .zip/.7z ne doit contenir qu'une seule rom compressée.
