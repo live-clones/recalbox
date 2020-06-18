@@ -1,304 +1,299 @@
-#!/bin/sh
+#!/bin/bash
 
-if test "$1" = "stop" ; then
-    #Backup recalbox.conf to /boot partition
-    mount -o remount,rw /boot
-    cp /recalbox/share/system/recalbox.conf /boot/recalbox-backup.conf
-    sed -i '1s/^/#THIS IS A BACKUP OF RECALBOX.CONF\n#PLEASE DO NOT MAKE ANY CHANGE HERE !!!\n\n\n/' /boot/recalbox-backup.conf
-    mount -o remount,ro /boot
-    sync
-    recallog "recalbox.conf saved to /boot partition"
-    # umount all network configs
-    # don't just remount the one of the config in case the config changed
-    umount -a -t nfs
-    umount -a -t cifs
-    exit 0
+if [ "$1" = "stop" ]; then
+  # Backup recalbox.conf to /boot partition
+  mount -o remount,rw /boot
+  cp /recalbox/share/system/recalbox.conf /boot/recalbox-backup.conf
+  sed -i '1s/^/#THIS IS A BACKUP OF RECALBOX.CONF\n#PLEASE DO NOT MAKE ANY CHANGE HERE !!!\n\n\n/' /boot/recalbox-backup.conf
+  mount -o remount,ro /boot
+  sync
+  recallog "recalbox.conf saved to /boot partition"
+  # umount all network configs
+  # don't just remount the one of the config in case the config changed
+  umount -a -t nfs
+  umount -a -t cifs
+  exit 0
 fi
 
-if test "$1" != "start" ; then
-    exit 0
+if [ "$1" != "start" ]; then
+  exit 0
 fi
 
-###
-# SHARECONFFILE
-# can contain :
-# INTERNAL     => /dev/mmcblk0p3
-# RAM          => tmpfs
-# ANYEXTERNAL  => any device found not starting by /dev/mmcblk0p (use it when you've several usb keys, but plug only one at a time)
-# DEV [FSUUID] => a device having the FSUID uuid
-###
+# Declare some constants
+bootConfigFile="/boot/recalbox-boot.conf"
 
-SHARECONFFILE="/boot/recalbox-boot.conf"
-INTERNALDEVICE=$(/recalbox/scripts/recalbox-part.sh "share_internal")
-SHAREDEVICE=`cat ${SHARECONFFILE} | grep "^sharedevice=" | head -n1 | cut -d'=' -f2`
-[[ "$?" -ne "0" || "$SHAREDEVICE" == "" ]] && SHAREDEVICE=INTERNAL
+# Detect (or predict) partitions
+bootPartition=$(/recalbox/scripts/recalbox-part.sh boot)
+sharePartition=$(/recalbox/scripts/recalbox-part.sh share)
+overlayPartition=$(/recalbox/scripts/recalbox-part.sh overlay)
+bootDevice=$(/recalbox/scripts/recalbox-part.sh prefix "${bootPartition}")
 
-getMaxTryConfig() {
-    SHARECONFFILE=${1}
+# maxWaitFromConfig
+#   → outputs the `sharewait` directive value from /boot/recalbox-boot.conf
+#     (default: 7 in `DEV [FSUUID]` and `ANYEXTERNAL` mode, 20 in `NETWORK` mode)
+maxWaitFromConfig() {
+  local sharewaitValue=$(sed -nr 's/^sharewait=([0-9]+).*$/\1/p' "${bootConfigFile}")
 
-    X=$(grep -E '^sharewait=' "${SHARECONFFILE}" | sed -e s+'^sharewait='+''+)
-    if echo "${X}" | grep -qE '^[0-9][0-9]*$' ; then
-        echo "${X}"
-        return
-    fi
-    echo 7 # default value
+  case "${shareDeviceMode}" in
+    "NETWORK") local defaultValue="20" ;;
+    *) local defaultValue="7" ;;
+  esac
+  echo ${sharewaitValue:-${defaultValue}}
 }
 
-INTERNALDEVICETYPE="exfat" # faster than waiting udev to initialize to get the type
-MAXTRY=$(getMaxTryConfig "${SHARECONFFILE}")
-NTRY=0
+# createMissingPartitions
+#   → creates SHARE and OVERLAY partitions on internal device (SD-card or internal HDD)
+#     displays a loading screen during the process
+#     uses same partition type as BOOT partition (primary or logical) to ensure partition numbers continuity
+#     creates their filesystem (exfat for SHARE, ext4 for OVERLAY)
+createMissingPartitions() {
+  alignSize=$((1024 * 1024)) # Align partition on megabyte
+  overlayPartitionSize=$((1024 * 1024 * 1024)) # OVERLAY partition will be 1GB
+  defaultPartedOptions="-m -s -a optimal '${bootDevice}' unit b"
+  partitionType=$(/recalbox/scripts/recalbox-part.sh type "${bootPartition}")
 
-##### BUT FIRST, create the internal partition if it doesn't exist
-# command that can be used for test to remove the 3rd partition : parted -s -m /dev/mmcblk0 rm 3
-# create the internal partition if it doesn't exist
-#
-# we don't remove data ;  only create a new partition if p3 is missing, and some free space is available only at the end of the disk
-#
-if ! test -e "${INTERNALDEVICE}" ; then
-    # but the system partition exists
-    INTERNALPREVIOUSDEVICE=$(/recalbox/scripts/recalbox-part.sh previous "${INTERNALDEVICE}")
+  # Utility helper to compute optimized partition alignment
+  alignToUpperBlock() {
+    local address="${1}"
+    echo $(( (${address} + ${alignSize}) / ${alignSize} * ${alignSize} ))
+  }
 
-    if test -e "${INTERNALPREVIOUSDEVICE}" ; then # the partition n-1 must exist (just in case the parameter given is not wrong) ; then
-        PARTPREFIX=$(/recalbox/scripts/recalbox-part.sh prefix "${INTERNALDEVICE}")
+  # Display SHARE creation splash screen
+  if [ -f /tmp/.install.sh ]; then
+      ( /tmp/.install.sh createshare ) &
+  else
+      touch /tmp/newshare
+      /recalbox/scripts/recalbox-create-share.sh &
+  fi
 
-        # create the internal partition
-        ALIGNSIZE=1048576 # Align partition on megabyte
-        POVERLAYSIZE=1073741824
-        PSHARESTARTB=$(parted -s "${PARTPREFIX}" -m unit b print free | tail -1 | grep -E ":free;$" | cut -d: -f 2)
-        PSHARESTART=${PSHARESTARTB/B/}
-        PSHARESTOPB=$(parted -s "${PARTPREFIX}" -m unit b print free | tail -1 | grep -E ":free;$" | cut -d: -f 3)
-        PSHARESTOP=${PSHARESTOPB/B/}
-        PSHARESTOP=$((PSHARESTOP-POVERLAYSIZE))
-        PSHARESTOP=$((PSHARESTOP/ALIGNSIZE))
-        PSHARESTOP=$((PSHARESTOP*ALIGNSIZE))
-        if test -n "${PSHARESTART}" ; then
-            # Installation image
-            if [ -f /tmp/.install.sh ]; then
-                ( /tmp/.install.sh createshare ) &
-            else
-                touch /tmp/newshare
-                /recalbox/scripts/recalbox-create-share.sh &    
-            fi
-            # Create SHARE PARTITION
-            parted -a optimal -s "${PARTPREFIX}" -m unit b mkpart primary ntfs "${PSHARESTART}" "${PSHARESTOP}"
-            if test -e "${INTERNALDEVICE}" ; then
-                mkexfatfs -n SHARE "${INTERNALDEVICE}"
-            fi
+  # Determine last free (available) space on device
+  freeSpaceStart=$(parted ${defaultPartedOptions} print free | grep ':free;$' | tail -1 | cut -d: -f2 | sed 's/B$//')
+  freeSpaceEnd=$(parted ${defaultPartedOptions} print free | grep ':free;$' | tail -1 | cut -d: -f3 | sed 's/B$//')
 
-            # Installation image
-            if [ -f /tmp/.install.sh ]; then
-                ( /tmp/.install.sh createoverlay ) &
-            fi
-            # Create OVERLAY PARTITION - 1Gb
-            INTERNALNEXTDEVICE=$(/recalbox/scripts/recalbox-part.sh next "${INTERNALDEVICE}")
-            POVERLAYSTARTB=$(parted -s "${PARTPREFIX}" -m unit b print free | tail -1 | grep -E ":free;$" | cut -d: -f 2)
-            POVERLAYSTART=${POVERLAYSTARTB/B/}
-            POVERLAYSTART=$((POVERLAYSTART+ALIGNSIZE))
-            POVERLAYSTART=$((POVERLAYSTART-1))
-            POVERLAYSTART=$((POVERLAYSTART/ALIGNSIZE))
-            POVERLAYSTART=$((POVERLAYSTART*ALIGNSIZE))
-            parted -a optimal -s "${PARTPREFIX}" -m unit b mkpart primary "${POVERLAYSTART}" 100%
-            if test -e "${INTERNALNEXTDEVICE}" ; then
-                mkfs.ext4 "${INTERNALNEXTDEVICE}" -q -F -L OVERLAY
-                e2fsck -f -p "${INTERNALNEXTDEVICE}"
-            fi
-        fi
-    fi
-fi
-#####
+  # Determine new partitions boundaries
+  sharePartitionStart=$(alignToUpperBlock "${freeSpaceStart}")
+  overlayPartitionStart=$(alignToUpperBlock $(( ${freeSpaceEnd} - ${overlayPartitionSize} )))
+  sharePartitionEnd=$(( ${overlayPartitionStart} - ${alignSize} )) # keep 1MB between partitions, since using `${overlayPartitionStart} - 1` can actually fail on some disks, despite being strictly correct
+  overlayPartitionEnd="100%"
 
+  # Create SHARE partition and filesystem
+  parted ${defaultPartedOptions} mkpart ${partitionType} ntfs ${sharePartitionStart} ${sharePartitionEnd} # ExFAT uses the same type code than NTFS (0x07) in MBR partition tables
+  mkexfatfs -n SHARE "${sharePartition}"
+
+  # Display OVERLAY creation splash screen
+  if [ -f /tmp/.install.sh ]; then
+      ( /tmp/.install.sh createoverlay ) &
+  fi
+
+  # Create OVERLAY partition and filesystem
+  parted ${defaultPartedOptions} mkpart ${partitionType} ${overlayPartitionStart} ${overlayPartitionEnd}
+  mkfs.ext4 "${overlayPartition}" -q -F -L OVERLAY
+  e2fsck -f -p "${overlayPartition}"
+}
+
+# TODO: rewrite and document
 mountDeviceOrFallback() {
-    DEVICE=$1
-    TDEVICE=$2
-    RECALBOXFULLFS="/var/recalboxfs"
-    FALLBACK=1
+  device=$1
+  filesystemType=$2
+  RECALBOXFULLFS="/var/recalboxfs"
+  FALLBACK=1
 
-    if test -n "${DEVICE}" ; then
-        if mkdir -p "${RECALBOXFULLFS}" ; then
-            if /recalbox/scripts/recalbox-mount.sh "${TDEVICE}" 1 "${DEVICE}" "${RECALBOXFULLFS}" ; then
-                if mkdir -p "${RECALBOXFULLFS}/recalbox" ; then
-                    if mount "${RECALBOXFULLFS}/recalbox" "/recalbox/share" -o "noatime" ; then
-                              FALLBACK=0
-                    fi
-                fi
-            fi
+  if test -n "${device}" ; then
+    if mkdir -p "${RECALBOXFULLFS}" ; then
+      if /recalbox/scripts/recalbox-mount.sh "${filesystemType}" 1 "${device}" "${RECALBOXFULLFS}" ; then
+        if mkdir -p "${RECALBOXFULLFS}/recalbox" ; then
+          if mount "${RECALBOXFULLFS}/recalbox" "/recalbox/share" -o "noatime" ; then
+            FALLBACK=0
+          fi
         fi
+      fi
     fi
+  fi
 
-    if test "${FALLBACK}" = 1 ; then
-        if ! /recalbox/scripts/recalbox-mount.sh "${INTERNALDEVICETYPE}" 1 "${INTERNALDEVICE}" /recalbox/share ; then
-            mount -t tmpfs -o size=128M tmpfs /recalbox/share
-        fi
+  if test "${FALLBACK}" = 1 ; then
+    if ! /recalbox/scripts/recalbox-mount.sh exfat 1 "${sharePartition}" /recalbox/share ; then
+      mount -t tmpfs -o size=128M tmpfs /recalbox/share
     fi
+  fi
 }
 
+# blkidForUUID <UUID>
+#   → outputs the output line of `blkid` for the device with given <UUID>
+blkidForUUID() {
+  local UUID="${1}"
+
+  blkid | grep " UUID=\"${UUID}\""
+}
+
+# waitForDeviceWithUUID <UUID>
+#   → sleeps until device with given <UUID> is available
+waitForDeviceWithUUID() {
+  local UUID="${1}"
+  local wait="$(maxWaitFromConfig)"
+
+  while [ -z "$(blkidForUUID "${UUID}")" -a "${wait}" -gt 0 ]; do
+    wait=$(( ${wait} - 1 ))
+    sleep 1
+  done
+}
+
+# firstBlkidForExternalDevice
+#   → outputs the output line of `blkid` for any given storage device which is not the one already used to boot (thus, probably external)
+firstBlkidForExternalDevice() {
+  blkid | grep -v "^${bootDevice}" | head -1
+}
+
+# waitForAnyExternalDevice
+#   → sleeps until an external storage device is available
+waitForAnyExternalDevice() {
+  local wait="$(maxWaitFromConfig)"
+
+  while [ -z "$(firstBlkidForExternalDevice)" -a "${wait}" -gt 0 ]; do
+    wait=$(( ${wait} - 1 ))
+    sleep 1
+  done
+}
+
+# executeNetworkMountDirective <directiveType> <directive>
+#   → process a `sharenetwork_*` directive
+#     <directiveType> can be one of "smb", "nfs" or "cmd"
+#     when <directiveType> is "cmd", <directive> is a plain old command to run
+#     when <directiveType> is "smb" or "nfs", <directive> must match the following format:
+#       <SHARE|ROMS|SAVES|BIOS|MUSIC>@<remote host>:<remote directory>:<mount options>
+#     returns: 0 on success
+#              1 on command execution error (retries should be performed)
+#              2 on input error (no retry should be performed, they will fail too)
+executeNetworkMountDirective() {
+  local directiveType="$(echo ${1} | sed -r 's/[0-9]+$//')" # Note: for backward-compatibility (or user-preference), `directiveType` may be suffixed with a number (e.g. `_smb1`, `_smb2`) but it's ignored (like it has actually always been, despite being documented)
+  local directive="${2}"
+  local logFile="/tmp/mountNetwork.log"
+
+  if [ "${directiveType}" = "cmd" ]; then
+    commandToRun="${directive}"
+  else
+    IFS=$'\t' read target remoteHost remotePath mountOptions < <(
+      echo "${directive}" | sed -r 's|^([^@]+)@([^:]+):([^:]+):?(.*)|\1\t\2\t\3\t\4|'
+    )
+    case "${target}" in
+      "SHARE") mountPoint="/recalbox/share" ;;
+      "ROMS") mountPoint="/recalbox/share/roms" ;;
+      "SAVES") mountPoint="/recalbox/share/saves" ;;
+      "BIOS") mountPoint="/recalbox/share/bios" ;;
+      "MUSIC") mountPoint="/recalbox/share/music" ;;
+      *)
+        echo "Invalid mount target '${target}'. Ignoring directive 'sharenetwork_${1}=${directive}'." | tee -a "${logFile}" >&2
+        return 2
+        ;;
+    esac
+
+    case "${directiveType}" in
+      "nfs")
+        defaultMountOptions="-o port=2049,nolock,proto=tcp"
+        [ -n "${mountOptions}" ] && mountOptions=",${mountOptions}"
+        commandToRun="mount ${defaultMountOptions}${mountOptions} ${remoteHost}:${remotePath} ${mountPoint}"
+        ;;
+      "smb")
+        [ -n "${mountOptions}" ] && mountOptions="-o ${mountOptions}"
+        commandToRun="mount.cifs ${mountOptions} //${remoteHost}/${remotePath} ${mountPoint}"
+        ;;
+      *)
+        echo "Invalid directive type '${directiveType}'. Ignoring directive 'sharenetwork_${1}=${directive}'." | tee -a "${logFile}" >&2
+        return 2
+        ;;
+    esac
+  fi
+
+  echo "${commandToRun}" >> "${logFile}"
+  eval ${commandToRun}
+}
+
+# mountNetwork
+#   → execute all `sharenetwork_*` commands in recalbox-boot.conf, retrying them for a while if they failed
 mountNetwork() {
-    # /boot/recalbox-boot.conf examples :
-    # sharedevice=NETWORK
-    #
-    # Basic commands : sharenetwork_<nfs|smb><[0-9]>=<SHARE|ROMS|SAVES|BIOS>@<host>:<remote directory>:<mount options>
-    #
-    # sharenetwork_nfs1=SHARE@192.168.0.1:/Documents/recalbox
-    # or
-    # sharenetwork_nfs1=ROMS@192.168.0.1:/Documents/recalbox/roms
-    # sharenetwork_nfs2=SAVES@192.168.0.1:/Documents/recalbox/saves
-    # or
-    # sharenetwork_smb1=SHARE@192.168.0.1:Documents/recalbox:guest
-    #
-    # Advanced commands : sharenetwork_cmd<[0-9]>=<command to run>
-    # sharenetwork_cmd1=mount -o port=2049,nolock,proto=tcp 192.168.0.1:/Documents/recalbox /recalbox/share
-    # or
-    # sharenetwork_cmd1=mount -o port=2049,nolock,proto=tcp 192.168.0.1:/Documents/recalbox/roms /recalbox/share/roms
-    # sharenetwork_cmd2=mount -o port=2049,nolock,proto=tcp 192.168.0.1:/Documents/recalbox/saves /recalbox/share/saves
-    # or
-    # sharenetwork_cmd1=mount.cifs //192.168.0.1/recalbox /recalbox/share -o guest
+  sed -nr 's/^sharenetwork_([^=]+)=(.*)$/\1\t\2/p' "${bootConfigFile}" | while read directiveType directive; do
+    local wait="$(maxWaitFromConfig)"
 
-
-    # execute all commands in /boot/recalbox-boot.conf which are like : sharenetwork_cmd1=my command
-    if ! grep -E '^[ ]*sharenetwork_[a-z]*[0-9][ ]*=' "${SHARECONFFILE}" |
-        sed -e s+'^[ ]*sharenetwork_\([a-z]*\)[0-9][ ]*='+'\1 '+ |
-        while read CTYPE CMD ; do
-            XTRY=5  # X tries and give up
-            XWAIT=4 # N seconds between each try
-
-            while test "${XTRY}" -gt 0 ; do
-                let XTRY--
-
-                CMD_EXEC=echo
-                if test "${CTYPE}" = "cmd" ; then
-                    CMD_EXEC="${CMD}"
-                else
-                    CMD_TARGET=$(echo "${CMD}" | sed -e s+'^\([^@]*\)@.*$'+'\1'+)
-                    CMD_HOST=$(echo "${CMD}" | sed -e s+'^[^@]*@\([^:]*\):.*$'+'\1'+)
-                    CMD_RDIR=$(echo "${CMD}" | sed -e s+'^[^@]*@[^:]*:\([^:]*\).*$'+'\1'+)
-                    CMD_OPT=$(echo "${CMD}" | sed -e s+'^[^@]*@[^:]*:[^:]*'+''+ -e s+'^:'++)
-
-                    # MAP to the recalbox directory
-                    CMD_TDIR="/recalbox/share"
-                    case "${CMD_TARGET}" in
-                        "SHARE")
-                            CMD_TDIR="/recalbox/share"
-                        ;;
-                        "ROMS")
-                            CMD_TDIR="/recalbox/share/roms"
-                        ;;
-                        "SAVES")
-                            CMD_TDIR="/recalbox/share/saves"
-                        ;;
-                        "BIOS")
-                            CMD_TDIR="/recalbox/share/bios"
-                        ;;
-                        "MUSIC")
-                            CMD_TDIR="/recalbox/share/music"
-                        ;;
-                    esac
-
-                    case "${CTYPE}" in
-                        "nfs")
-                            CMD_ADDOPT=
-                            test -n "${CMD_OPT}" && CMD_ADDOPT=",${CMD_OPT}"
-                            CMD_EXEC="mount -o port=2049,nolock,proto=tcp${CMD_ADDOPT} ${CMD_HOST}:${CMD_RDIR} ${CMD_TDIR}"
-                        ;;
-                        "smb")
-                            CMD_ADDOPT=
-                            test -n "${CMD_OPT}" && CMD_ADDOPT="-o ${CMD_OPT}"
-                            CMD_EXEC="mount.cifs //${CMD_HOST}/${CMD_RDIR} ${CMD_TDIR} ${CMD_ADDOPT}"
-                        ;;
-                    esac
-                fi
-
-                echo "${CMD_EXEC}" >> /tmp/mountNetwork.log
-                if ${CMD_EXEC} ; then
-                    XTRY=0
-                else
-                    # give up
-                    if test ${XTRY} = 0 ;   then
-                        return 1
-                    fi
-                    sleep ${XWAIT} # wait n seconds between each try
-                fi
-            done
-        done
-    then
-        return 1
-    fi
-    return 0
+    while [ ${wait} -gt 0 ]; do
+      if executeNetworkMountDirective "${directiveType}" "${directive}" || [ $? = 2 ] ; then # do not retry if executeNetworkMountDirective succeeded or returned 2 (input error)
+        break
+      else
+        wait=$(( ${wait} - 1 ))
+        sleep 1
+      fi
+    done
+  done
 }
 
-RMODE="$SHAREDEVICE"
+# mountTmpfs
+#   → mounts a 128MB tmpfs as SHARE
+mountTmpfs() {
+  mount -t tmpfs -o size=128M tmpfs /recalbox/share
+}
 
-if echo "${RMODE}" | grep -qE '^DEV ' ; then
-    MODE="DEV"
-    UUID=$(echo "${RMODE}" | sed -e s+'^DEV '++)
-else
-    MODE=${RMODE}
+# mountInternal
+#   → mounts internal drive (SD-card or internal HDD) as SHARE
+#     fallback to a tmpfs if it fails
+mountInternal() {
+  if ! /recalbox/scripts/recalbox-mount.sh exfat 1 "${sharePartition}" /recalbox/share ; then
+    mountTmpfs # as fallback
+  fi
+}
+
+########
+# MAIN #
+########
+
+# Create SHARE and OVERLAY partitions if they do not exist
+# (we do this regardless of `sharedevice` mode configured below)
+if [ ! -b "${sharePartition}" ]; then
+  createMissingPartitions
 fi
 
-case "${MODE}" in
-    "DEV")
-        LDEVICE=$(blkid | grep " UUID=\"${UUID}\"")
-        while test -z "${LDEVICE}" -a "${NTRY}" -lt "${MAXTRY}" # wait the device that can take some seconds after udev started
-        do
-            let NTRY++
-            sleep 1
-            LDEVICE=$(blkid | grep " UUID=\"${UUID}\"")
-        done
-        DEVICE=$(echo "${LDEVICE}" | sed -e s+'^\([^:]*\):.*$'+'\1'+)
-        TDEVICE=$(echo "${LDEVICE}" | sed -e s+'^.* TYPE="\([^"]*\)"$'+'\1'+)
-        mountDeviceOrFallback "${DEVICE}" "${TDEVICE}"
-        ;;
-    "ANYEXTERNAL")
-        PARTPREFIX=$(/recalbox/scripts/recalbox-part.sh prefix "${INTERNALDEVICE}")
-        LDEVICE=$(blkid | grep -vE "^${PARTPREFIX}" | head -1)
-        while test -z "${LDEVICE}" -a "${NTRY}" -lt "${MAXTRY}" # wait the device that can take some seconds after udev started
-        do
-            let NTRY++
-            sleep 1
-            LDEVICE=$(blkid | grep -vE "^${PARTPREFIX}" | head -1)
-        done
-        DEVICE=$(echo "${LDEVICE}" | sed -e s+'^\([^:]*\):.*$'+'\1'+)
-        TDEVICE=$(echo "${LDEVICE}" | sed -e s+'^.* TYPE="\([^"]*\)"$'+'\1'+)
-        mountDeviceOrFallback "${DEVICE}" "${TDEVICE}"
-        ;;
-    "RAM")
-        mount -t tmpfs -o size=128M tmpfs /recalbox/share
-        ;;
-    "NETWORK")
-        # first, INTERNAL mount, then, network mount over the NETWORK mounts
-        # to allow to mount over /recalbox/share, but only over /recalbox/share/roms if wanted
-        # mounting network mounts over usb key have not really sense
-        if ! /recalbox/scripts/recalbox-mount.sh "${INTERNALDEVICETYPE}" 1 "${INTERNALDEVICE}" /recalbox/share ; then
-            # fallback
-            mount -t tmpfs -o size=128M tmpfs /recalbox/share
-        fi
-        
-        IPADDR=$(ifconfig | grep 'inet addr' | grep -v '127.0.0.1' | sed 's/^.*inet addr:\([0-9.]*\).*$/\1/')
-        while test -z "${IPADDR}" -a "${NTRY}" -lt "${MAXTRY}" # wait ip present
-        do
-            let NTRY++
-            sleep 1
-            IPADDR=$(ifconfig | grep 'inet addr' | grep -v '127.0.0.1' | sed 's/^.*inet addr:\([0-9.]*\).*$/\1/')
-        done
-        # Network mounts
-        # no fallback required, mounted on the share
-        mountNetwork > /tmp/mountNetwork.log 2> /tmp/mountNetwork.err # could be usefull to debug
-        ;;
-    "INTERNAL"|*)
-        if ! /recalbox/scripts/recalbox-mount.sh "${INTERNALDEVICETYPE}" 1 "${INTERNALDEVICE}" /recalbox/share ; then
-            # fallback
-            # the internal partition is no more required in fact
-            mount -t tmpfs -o size=128M tmpfs /recalbox/share
-        fi
-        ;;
+# Read `sharedevice` in /boot/recalbox-boot.conf, it can contain:
+#   INTERNAL     => [default] the partition immediately following the partition mounted as /boot, on the same disk (e.g. `/dev/mmcblk0p2` if `/dev/mmcblk0p1` is mounted as `/boot`)
+#   RAM          => tmpfs
+#   ANYEXTERNAL  => any device found other than the one used to boot
+#   DEV [FSUUID] => a device having the FSUUID uuid
+#   NETWORK      => mount from network (either NFS, SMB or with completely custom mount commands)
+# (read detailed user documentation in recalbox-boot.conf)
+shareDeviceMode=$(sed -nr 's/^sharedevice=(.+)$/\1/p' ${bootConfigFile})
+[ $? -ne "0" -o -z "${shareDeviceMode}" ] && shareDeviceMode="INTERNAL"
+
+# Mount SHARE from configured source in /boot/recalbox-boot.conf
+case "${shareDeviceMode}" in
+  "DEV "*)
+    UUID=$(echo "${shareDeviceMode}" | sed 's/^DEV //')
+    waitForDeviceWithUUID "${UUID}"
+    device=$(blkidForUUID "${UUID}" | cut -d: -f1)
+    filesystemType=$(blkidForUUID "${UUID}" | sed -r 's/^.* TYPE="([^"]*)".*/\1/')
+    mountDeviceOrFallback "${device}" "${filesystemType}"
+    ;;
+  "ANYEXTERNAL")
+    waitForAnyExternalDevice
+    device=$(firstBlkidForExternalDevice | cut -d: -f1)
+    filesystemType=$(firstBlkidForExternalDevice | sed 's|^.* TYPE="\([^"]*\)".*$|\1|')
+    mountDeviceOrFallback "${device}" "${filesystemType}"
+    ;;
+  "RAM")
+    mountTmpfs
+    ;;
+  "NETWORK")
+    mountInternal # this allows network mounts for some targets only (roms, saves, bios, music, …)
+    mountNetwork > /tmp/mountNetwork.log 2> /tmp/mountNetwork.err
+    ;;
+  "INTERNAL"|*)
+    mountInternal
+    ;;
 esac
 
-# now, let mount delayed usbmount devices
+# Now, let's mount delayed usbmount devices
 ls /var/run/usbmount.delay |
     while read RULE ; do
         RTYPE=$(echo "${RULE}" | sed -e s+'^[0-9]*\.'++)
-        # source the udev context and apply the usbmount
-        (. "/var/run/usbmount.delay/${RULE}"
-         /usr/share/usbmount/usbmount "${RTYPE}"
-         rm "/var/run/usbmount.delay/${RULE}")
+        (
+            source "/var/run/usbmount.delay/${RULE}"
+            /usr/share/usbmount/usbmount "${RTYPE}"
+            rm "/var/run/usbmount.delay/${RULE}"
+        )
     done
 touch /var/run/recalbox.share.mounted # reenable standard usbmount

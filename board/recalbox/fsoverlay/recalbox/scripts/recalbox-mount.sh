@@ -1,142 +1,84 @@
 #!/bin/bash
 
-# rbmount [FSTYPE] [RWREQUIRED] [MOUNTDEVICE] [MOUNTPOINT]
+# This script is a wrapper for `mount` that automtatically sets mount options for
+# each filesystem type. It also performs an additional check after mount to ensure
+# the filesystem is writeable (if not, it tries to repair it and mounts it again).
 
-print_usage() {
-    echo "${0} [FSTYPE] [RWREQUIRED] [MOUNTDEVICE] [MOUNTPOINT]" >&2
+if [ $# -ne 4 ]; then
+  echo "${0} <filesystemType> <readwriteRequired> <mountDevice> <mountPoint>" >&2
+  exit 64
+else
+  filesystemType="$1"
+  readwriteRequired="$2"
+  mountDevice="$3"
+  mountPoint="$4"
+fi
+
+loadDependencies() {
+  case "${filesystemType}" in
+    "exfat") modprobe fuse &> /dev/null ;;
+  esac
 }
 
-if test $# -ne 4
-then
-    print_usage "${0}"
-    exit 1
-fi
+mountOptions() {
+  local defaultMountOptions="noatime"
+  local windowsMask="fmask=0133,dmask=0022" # Correct access rights for NTFS/FAT/ExFAT (755 for directories, 644 for files)
+                                            # (otherwise default would be 777 (umask=0))
 
-FSTYPE="$1"
-RWREQUIRED="$2"
-MOUNTDEVICE="$3"
-MOUNTPOINT="$4"
-FSMOUNTOPT="noatime"
-TESTFILE="${MOUNTPOINT}/recalbox.fsrw.test"
+  case "${filesystemType}" in
+    "vfat") echo "${defaultMountOptions},${windowsMask},iocharset=utf8,flush" ;;
+    "ntfs") echo "${defaultMountOptions},${windowsMask}" ;;
+    "exfat") echo "${defaultMountOptions},${windowsMask},nonempty" ;;
+    *) echo "${defaultMountOptions}"
+  esac
+}
 
-# for non vfat and ntfs systems, it's easy
-if test "${FSTYPE}" != "vfat" -a "${FSTYPE}" != "ntfs" -a "${FSTYPE}" != "exfat"
-then
-    if mount "${MOUNTDEVICE}" "${MOUNTPOINT}" -o "${FSMOUNTOPT}"
-    then
-	exit 0
-    fi
-    exit 1
-fi
+performMount() {
+  case "${filesystemType}" in
+    "vfat") mount "${mountDevice}" "${mountPoint}" -o "$(mountOptions)" ;;
+    "ntfs") mount.ntfs-3g "${mountDevice}" "${mountPoint}" -o "$(mountOptions)" ;;
+    "exfat") mount.exfat "${mountDevice}" "${mountPoint}" -o "$(mountOptions)" ;;
+    *) mount "${mountDevice}" "${mountPoint}" -o "$(mountOptions)" ;;
+  esac || exit 1
+}
 
-# vfat and ntfs
+exitSuccessfullyIfFilesystemIsWritable() {
+  local testFile="${mountPoint}/recalbox.fsrw.test"
 
-# Set correct access rights (755 for directories, 644 for files)
-#   default is 777 for NTFS and ExFAT otherwise (umask=0)
-FSMOUNTOPT="${FSMOUNTOPT},fmask=0133,dmask=0022"
-
-# change options
-case "${FSTYPE}" in
-    "vfat")
-	FSMOUNTOPT="${FSMOUNTOPT},iocharset=utf8,flush"
-	;;
-    "exfat")
-	# required for exfat
-	# note that we can't just put in /etc/modules.conf because it is loaded too late after udev and share mounting
-	modprobe fuse
-	FSMOUNTOPT="${FSMOUNTOPT},nonempty"
-	;;
-esac
-
-# try to mount
-case "${FSTYPE}" in
-    "vfat")
-	if ! mount "${MOUNTDEVICE}" "${MOUNTPOINT}" -o "${FSMOUNTOPT}"
-	    then
-	    exit 1
-	fi
-	;;
-    "ntfs")
-	if ! mount.ntfs-3g "${MOUNTDEVICE}" "${MOUNTPOINT}" -o "${FSMOUNTOPT}"
-	    then
-	    exit 1
-	fi
-	;;
-    "exfat")
-	if ! mount.exfat "${MOUNTDEVICE}" "${MOUNTPOINT}" -o "${FSMOUNTOPT}"
-	    then
-	    exit 1
-	fi
-	;;
-esac
-
-# for vfat, we don't continue if an fsck is required because it takes time
-# for ntfs, it's fast when it works
-if test "${RWREQUIRED}" != 1 -a "${FSTYPE}" = "vfat"
-then
-    exit 0 # success even if it's readonly
-fi
-
-# check if the fs is rw because in some case, even if asked rw, fs will be mount in ro because of ntfs errors
-if touch "${TESTFILE}"
-then
-    rm "${TESTFILE}"
+  if touch "${testFile}"; then
+    rm "${testFile}"
     exit 0 # that ok ;-)
-fi
+  fi
+}
 
-# try to fix. It doesn't work in 100% of the case : in the worst case, you've to plug on a windows environement and run an fsck
-if ! umount "${MOUNTPOINT}"
-then
-    exit 1
-fi
+# Load FS-related required dependencies
+loadDependencies
 
-# fix
-case "${FSTYPE}" in
-    "vfat")
-	fsck.vfat -a "${MOUNTDEVICE}" > "/dev/tty0" # write it on the terminal while it can take time
-	;;
-    "ntfs")
-	ntfsfix -d "${MOUNTDEVICE}"
-	;;
-    "exfat")
-	fsck.exfat "${MOUNTDEVICE}" > "/dev/tty0" # write it on the terminal while it can take time
-	;;
+# Mount filesystem and check that the filesystem is writable
+# (in some cases, even if asked read-write, it may be mounted read-only as a fallback if errors occured... usually with NTFS)
+performMount && exitSuccessfullyIfFilesystemIsWritable
+
+# ℹ️ At this point, the mounted filesystem is actually read-only, probably because it was un-cleanly un-mounted.
+
+# Try to repair the filesystem
+# (it doesn't work 100%... in the worst case, user will have to to plug their disk on a Windows environement to perform a native fsck)
+umount "${mountPoint}" || exit 1
+case "${filesystemType}" in
+  "vfat") fsck.vfat -a "${mountDevice}" > /dev/tty0 ;; # output to terminal since it can take some time
+  "ntfs") ntfsfix -d "${mountDevice}" ;;
+  "exfat") fsck.exfat "${mountDevice}" > /dev/tty0 ;; # output to terminal since it can take some time
 esac
 
-# new try to mount
-case "${FSTYPE}" in
-    "vfat")
-	if ! mount "${MOUNTDEVICE}" "${MOUNTPOINT}" -o "${FSMOUNTOPT}"
-	    then
-	    exit 1
-	fi
-	;;
-    "ntfs")
-	if ! mount.ntfs-3g "${MOUNTDEVICE}" "${MOUNTPOINT}" -o "${FSMOUNTOPT}"
-	    then
-	    exit 1
-	fi
-	;;
-    "exfat")
-	if ! mount.exfat "${MOUNTDEVICE}" "${MOUNTPOINT}" -o "${FSMOUNTOPT}"
-	    then
-	    exit 1
-	fi
-	;;
-esac
+# Try to mount filesystem and check if it's writeable, again
+performMount && exitSuccessfullyIfFilesystemIsWritable
 
-# new try to write
-if touch "${TESTFILE}"
-then
-    rm "${TESTFILE}"
-    exit 0 # that ok ;-)
+# ℹ️ At this point, even after repair, the filesystem couldn't be mounted read-write
+
+# Discard the mount and exit with error if read-write was mandatory
+if [ "${readwriteRequired}" = 1 ]; then
+  umount "${mountPoint}"
+  exit 1
 fi
 
-# if we really want rw
-if test "${RWREQUIRED}" = 1
-then
-    umount "${MOUNTPOINT}"
-    exit 1
-fi
-
-exit 0 # ok, but in read only
+# Filesystem has been mounted read-only, it's probably unclean but it's acceptable
+exit 0
