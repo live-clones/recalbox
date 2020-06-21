@@ -56,8 +56,8 @@ All notable changes to this project will be documented in this file.
 - Fix some bad behaviors in favorite management
 - Add support for nVidia proprietary drivers version 390 and 440
 - Simplify emulator/core selection UI
-- Bump retroarch to v1.8.8
-- Bump retroarch-cheats to v1.8.8
+- Bump retroarch to v1.8.9
+- Bump retroarch-cheats to v1.8.9
 - Bump libretro-assets on last version
 - Bump libretro-cores family
 - Fix reboot Emulationstation with webmanager 
