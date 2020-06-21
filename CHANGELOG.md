@@ -13,10 +13,6 @@ All notable changes to this project will be documented in this file.
 - Major system upgrade. See https://github.com/buildroot/buildroot/blob/2020.02/CHANGES#L1-L1427 for the full log
 - Bump virtualgamepads to v1.4.0 and added fixes for nodejs 12
 - Bump rpi-firmware to v1.20200212
-## [6.2]
-- Major system upgrade. See https://github.com/buildroot/buildroot/blob/2020.02/CHANGES#L1-L1427 for the full log
-- Bump virtualgamepads to v1.4.0 and added fixes for nodejs 12
-- Bump rpi-firmware to v1.20200212
 - Bump megatools to 1.10.2
 - Fix Omxplayer after Ffmpeg bump
 - Fix Kodi after Ffmpeg bump
@@ -83,7 +79,7 @@ All notable changes to this project will be documented in this file.
 - ERTM enabled by default
 - Bump mpg123 & fluidsynth libraries
 - Add support for mp3, opus, midi, modules, wave and flac in EmulationStation
-- Bump Amiberry to v3.1.3
+- Bump Amiberry to v3.1.3.1
 - Add naomigd as a separate system
 - Bump AdvanceMame to v3.9
 - Add OpenBOR
@@ -100,6 +96,8 @@ All notable changes to this project will be documented in this file.
 - Add Flashback port with libretro-reminiscence (need full game files to be added)
 - Add Wolfenstein 3D port with libretro-ecwolf (full game files go all in the same directory)
 - Add Dungeon Crawl Stone Soup with libretro-crawl
+- Add Out Run port with libretro-cannonball
+- Add libretro's port of EasyRPG Player (2000 and 2003)
 - Add libretro-mupen64plus-nx for n64 & 64dd emulation (rpi only for now)
 - Bump buildroot to 2020.02
 - Add libretro-scummvm on all platforms

@@ -1,0 +1,7 @@
+## RECALBOX - SYSTEM OUTRUN ##
+
+Placez ici vos jeux Out Run.
+
+Les jeux Out Run doivent avoir l'extension ".88"
+
+https://docs.libretro.com/library/cannonball/

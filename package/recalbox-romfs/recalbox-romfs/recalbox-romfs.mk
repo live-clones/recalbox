@@ -558,6 +558,11 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_MRBOOM),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-mrboom
 endif
 
+# System: outrun
+ifneq ($(BR2_PACKAGE_LIBRETRO_CANNONBALL),)
+        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-outrun
+endif
+
 # System: psp
 ifeq ($(BR2_PACKAGE_PPSSPP),y)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-psp

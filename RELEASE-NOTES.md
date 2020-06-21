@@ -25,7 +25,6 @@
 - Add new system: OpenBOR
 - Add new system: Solarus
 - Add opengl on Retroarch for X86(_64)
-- Bump Amiberry to v3.1.3
 - Fba_libretro has been renamed to Fbneo
 - New ports system with Mr. Boom (8-player Bomberman clone) ready to be played
 - CaveStory is now included and moved to ports
@@ -37,6 +36,8 @@
 - Flashback game engine added to ports (need full game files to be added)
 - Wolfenstein 3D game engine added to ports (full game files go all in the same directory)
 - Dungeon Crawl Stone Soup added to ports
+- Out Run game engine added to ports
+- Add libretro's EasyRPG 2000 & 2003 Player
 - Add libretro's mupen64plus-nx, an improved n64/64dd emulator (rpi only for now)
 - Add libretro's scummvm version as an alternative to the standalone emulator
 - Add libretro's pcsx_rearmed on pc too
@@ -174,7 +175,7 @@
   - MIDI file (soundfont file required)
   More information available in share/music/readme.txt
 - Add naomigd system for your NAOMI GD-ROM games
-- Bump Amiberry to v3.1.3
+- Bump Amiberry to v3.1.3.1
 - Bump AdvanceMame to v3.9
 - Add volume control to XU4
 - Improve the management of external screens and selection from recalbox.conf by Chriskt78
