@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --system satellaview --extension '.bs .BS .smc .SMC .sfc .SFC .zip .ZIP .7z .7Z' --fullname 'Satellaview' --platform satellaview --theme satellaview 1:libretro:snes9x:BR2_PACKAGE_LIBRETRO_SNES9X
+# ./scripts/linux/empack.py --force --system satellaview --extension '.bs .smc .sfc .zip .7z' --fullname 'Satellaview' --platform satellaview --theme satellaview 1:libretro:snes9x:BR2_PACKAGE_LIBRETRO_SNES9X 1:libretro:mesen_s:BR2_PACKAGE_LIBRETRO_MESEN_S
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_SATELLAVIEW_SOURCE = 
@@ -21,15 +21,21 @@ SOURCE_ROMDIR_SATELLAVIEW = $(RECALBOX_ROMFS_SATELLAVIEW_PKGDIR)/roms
 # variables are global across buildroot
 
 
-ifneq ($(BR2_PACKAGE_LIBRETRO_SNES9X),)
+ifneq ($(BR2_PACKAGE_LIBRETRO_SNES9X)$(BR2_PACKAGE_LIBRETRO_MESEN_S),)
 define CONFIGURE_MAIN_SATELLAVIEW_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_SATELLAVIEW),Satellaview,$(SYSTEM_NAME_SATELLAVIEW),.bs .BS .smc .SMC .sfc .SFC .zip .ZIP .7z .7Z,satellaview,satellaview)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_SATELLAVIEW),Satellaview,$(SYSTEM_NAME_SATELLAVIEW),.bs .smc .sfc .zip .7z,satellaview,satellaview)
 endef
 
-ifneq ($(BR2_PACKAGE_LIBRETRO_SNES9X),)
+ifneq ($(BR2_PACKAGE_LIBRETRO_SNES9X)$(BR2_PACKAGE_LIBRETRO_MESEN_S),)
 define CONFIGURE_SATELLAVIEW_LIBRETRO_START
 	$(call RECALBOX_ROMFS_CALL_START_EMULATOR,$(SYSTEM_XML_SATELLAVIEW),libretro)
 endef
+ifeq ($(BR2_PACKAGE_LIBRETRO_MESEN_S),y)
+define CONFIGURE_SATELLAVIEW_LIBRETRO_MESEN_S_DEF
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_SATELLAVIEW),mesen_s,1)
+endef
+endif
+
 ifeq ($(BR2_PACKAGE_LIBRETRO_SNES9X),y)
 define CONFIGURE_SATELLAVIEW_LIBRETRO_SNES9X_DEF
 	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_SATELLAVIEW),snes9x,1)
@@ -51,6 +57,7 @@ endif
 define RECALBOX_ROMFS_SATELLAVIEW_CONFIGURE_CMDS
 	$(CONFIGURE_MAIN_SATELLAVIEW_START)
 	$(CONFIGURE_SATELLAVIEW_LIBRETRO_START)
+	$(CONFIGURE_SATELLAVIEW_LIBRETRO_MESEN_S_DEF)
 	$(CONFIGURE_SATELLAVIEW_LIBRETRO_SNES9X_DEF)
 	$(CONFIGURE_SATELLAVIEW_LIBRETRO_END)
 	$(CONFIGURE_MAIN_SATELLAVIEW_END)

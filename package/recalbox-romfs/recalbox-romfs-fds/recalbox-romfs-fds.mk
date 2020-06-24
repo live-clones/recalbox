@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --system fds --extension '.fds .FDS .zip .ZIP .7z .7Z' --fullname 'Family Computer Disk System' --platform fds --theme fds 2:libretro:fceumm:BR2_PACKAGE_LIBRETRO_FCEUMM 1:libretro:nestopia:BR2_PACKAGE_LIBRETRO_NESTOPIA
+# ./scripts/linux/empack.py --force --system fds --extension '.fds.zip .7z' --fullname 'Family Computer Disk System' --platform fds --theme fds 1:libretro:nestopia:BR2_PACKAGE_LIBRETRO_NESTOPIA 2:libretro:fceumm:BR2_PACKAGE_LIBRETRO_FCEUMM 3:libretro:mesen:BR2_PACKAGE_LIBRETRO_MESEN
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_FDS_SOURCE = 
@@ -21,12 +21,12 @@ SOURCE_ROMDIR_FDS = $(RECALBOX_ROMFS_FDS_PKGDIR)/roms
 # variables are global across buildroot
 
 
-ifneq ($(BR2_PACKAGE_LIBRETRO_FCEUMM)$(BR2_PACKAGE_LIBRETRO_NESTOPIA),)
+ifneq ($(BR2_PACKAGE_LIBRETRO_NESTOPIA)$(BR2_PACKAGE_LIBRETRO_FCEUMM)$(BR2_PACKAGE_LIBRETRO_MESEN),)
 define CONFIGURE_MAIN_FDS_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_FDS),Family Computer Disk System,$(SYSTEM_NAME_FDS),.fds .FDS .zip .ZIP .7z .7Z,fds,fds)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_FDS),Family Computer Disk System,$(SYSTEM_NAME_FDS),.fds.zip .7z,fds,fds)
 endef
 
-ifneq ($(BR2_PACKAGE_LIBRETRO_FCEUMM)$(BR2_PACKAGE_LIBRETRO_NESTOPIA),)
+ifneq ($(BR2_PACKAGE_LIBRETRO_NESTOPIA)$(BR2_PACKAGE_LIBRETRO_FCEUMM)$(BR2_PACKAGE_LIBRETRO_MESEN),)
 define CONFIGURE_FDS_LIBRETRO_START
 	$(call RECALBOX_ROMFS_CALL_START_EMULATOR,$(SYSTEM_XML_FDS),libretro)
 endef
@@ -39,6 +39,12 @@ endif
 ifeq ($(BR2_PACKAGE_LIBRETRO_NESTOPIA),y)
 define CONFIGURE_FDS_LIBRETRO_NESTOPIA_DEF
 	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_FDS),nestopia,1)
+endef
+endif
+
+ifeq ($(BR2_PACKAGE_LIBRETRO_MESEN),y)
+define CONFIGURE_FDS_LIBRETRO_MESEN_DEF
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_FDS),mesen,3)
 endef
 endif
 
@@ -59,6 +65,7 @@ define RECALBOX_ROMFS_FDS_CONFIGURE_CMDS
 	$(CONFIGURE_FDS_LIBRETRO_START)
 	$(CONFIGURE_FDS_LIBRETRO_FCEUMM_DEF)
 	$(CONFIGURE_FDS_LIBRETRO_NESTOPIA_DEF)
+	$(CONFIGURE_FDS_LIBRETRO_MESEN_DEF)
 	$(CONFIGURE_FDS_LIBRETRO_END)
 	$(CONFIGURE_MAIN_FDS_END)
 endef

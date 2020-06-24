@@ -106,17 +106,16 @@
     <bios path="bios_CD_J.bin" md5="278a9397d192149e84e820ac621a8edd,bdeb4c47da613946d422d97d98b21cda" core="genesisplusgx,picodrive" />  
   </system>
   <system fullname="Family Computer Disk System" platform="fds">
-    <bios path="disksys.rom" md5="ca30b50f880eb660a320674ed365ef7a" core="fceumm,nestopia" />  
+    <bios path="disksys.rom" md5="ca30b50f880eb660a320674ed365ef7a" core="fceumm,nestopia,mesen" />  
   </system>
   <system fullname="Game Boy Advance" platform="gba">
     <bios path="gba_bios.bin" md5="a860e8c0b6d573d191e4ec7db1b1e4f6" mandatory="false" core="gpsp,mgba,meteor" />  
   </system>
   <system fullname="Satellaview" platform="satellaview">
-    <bios path="BS-X.bin" md5="fed4d8242cfbed61343d53d48432aced" core="snes9x" />  
+    <bios path="BS-X.bin" md5="fed4d8242cfbed61343d53d48432aced" mandatory="true" core="snes9x,mesen_s" />  
   </system>
-  <system fullname="Sufami Turbo" platform="sufami">
-    <bios path="BS-X.bin" md5="fed4d8242cfbed61343d53d48432aced" mandatory="false" core="snes9x" />  
-    <bios path="STBIOS.bin" md5="d3a44ba7d42a74d3ac58cb9c14c6a5ca" mandatory="false" core="snes9x" />  
+  <system fullname="Sufami Turbo" platform="sufami">  
+    <bios path="STBIOS.bin" md5="d3a44ba7d42a74d3ac58cb9c14c6a5ca" mandatory="true" core="snes9x" />  
   </system>
   <system fullname="NEC PC-Engine" platform="pcengine">
     <bios path="gexpress.pce" md5="6d2cb14fc3e1f65ceb135633d1694122" mandatory="false" core="mednafen_supergrafx,mednafen_pce_fast" />  
@@ -373,14 +372,19 @@
   </system>
   <system fullname="Nintendo Gameboy" platform="gb">
     <bios path="gb_bios.bin"  md5="32fbbd84168d3482956eb3c5051637f5" mandatory="false" core="mgba,gambatte" />
-    <bios path="dmg_boot.bin" md5="32fbbd84168d3482956eb3c5051637f5" mandatory="false" core="sameboy" />
+    <bios path="dmg_boot.bin" md5="32fbbd84168d3482956eb3c5051637f5" mandatory="false" core="sameboy,mesen_s" />
+  </system>
+  <system fullname="Nintendo Super Gameboy" platform="gb">
+    <bios path="sgb_bios.bin" md5="d574d4f9c12f305074798f54c091a8b4" mandatory="false" core="mgba,mesen_s" />
+    <bios path="sgb2_boot.bin" md5="b4331a9e612b4738867a30af9c96df52" mandatory="false" core="mesen_s" />
   </system>
   <system fullname="Nintendo Gameboy Color" platform="gbc">
     <bios path="gbc_bios.bin" md5="dbfce9db9deaa2567f6a84fde55f9680" mandatory="false" core="mgba,gambatte" />
-    <bios path="cgb_boot.bin" md5="dbfce9db9deaa2567f6a84fde55f9680" mandatory="false" core="sameboy" />
+    <bios path="cgb_boot.bin" md5="dbfce9db9deaa2567f6a84fde55f9680" mandatory="false" core="sameboy,mesen_s" />
   </system>
   <system fullname="Nintendo Super Gameboy" platform="gbc">
-    <bios path="sgb_bios.bin" md5="d574d4f9c12f305074798f54c091a8b4" mandatory="false" core="mgba" />
+    <bios path="sgb_bios.bin" md5="d574d4f9c12f305074798f54c091a8b4" mandatory="false" core="mgba,mesen_s" />
+    <bios path="sgb2_boot.bin" md5="b4331a9e612b4738867a30af9c96df52" mandatory="false" core="mesen_s" />
   </system>
   <system fullname="Pentagon 128/512/1024 (ZX Spectrum clone)" platform="zxspectrum">
     <bios path="fuse/128p-0.rom" md5="a249565f03b98d004ee7f019570069cd" mandatory="false" core="fuse" note="Only required if you want to emulate Pentagon machines" />

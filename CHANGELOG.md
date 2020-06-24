@@ -104,6 +104,8 @@ All notable changes to this project will be documented in this file.
 - Add libretro-pcsx_rearmed on pc
 - Add Netflix Kodi video plugin
 - Bump kodi.plugin.video.youtube to 6.8.2
+- Add libretro-mesen on rpi4, xu4 and pc
+- Add libretro-mesen-s on rpi4, xu4 and pc
 
 ## [6.1.1]
 - Add zfast shaders

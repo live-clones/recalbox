@@ -1,0 +1,15 @@
+config BR2_PACKAGE_LIBRETRO_MESEN_S
+	bool "libretro-mesen-s"
+	depends on BR2_PACKAGE_RETROARCH
+	depends on BR2_INSTALL_LIBSTDCPP
+	select BR2_PACKAGE_RECALBOX_ROMFS_SNES
+	select BR2_PACKAGE_RECALBOX_ROMFS_SATELLAVIEW
+	select BR2_PACKAGE_RECALBOX_ROMFS_GB
+	select BR2_PACKAGE_RECALBOX_ROMFS_GBC
+	help
+	  A cross-platform SNES emulator.
+
+	  https://github.com/SourMesen/Mesen-S
+
+comment "LIBRETRO_MESEN_S needs a toolchain w/ C++"
+	depends on !BR2_INSTALL_LIBSTDCPP

@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --system nes --extension '.nes .unf .unif .zip .7z' --fullname 'Nintendo Entertainment System' --platform nes --theme nes 1:libretro:nestopia:BR2_PACKAGE_LIBRETRO_NESTOPIA 2:libretro:fceumm:BR2_PACKAGE_LIBRETRO_FCEUMM 3:libretro:fceunext:BR2_PACKAGE_LIBRETRO_FCEUNEXT 4:libretro:quicknes:BR2_PACKAGE_LIBRETRO_QUICKNES
+# ./scripts/linux/empack.py --force --system nes --extension '.nes .unf .unif .zip .7z' --fullname 'Nintendo Entertainment System' --platform nes --theme nes 1:libretro:nestopia:BR2_PACKAGE_LIBRETRO_NESTOPIA 2:libretro:fceumm:BR2_PACKAGE_LIBRETRO_FCEUMM 3:libretro:fceunext:BR2_PACKAGE_LIBRETRO_FCEUNEXT 4:libretro:quicknes:BR2_PACKAGE_LIBRETRO_QUICKNES 5:libretro:mesen:BR2_PACKAGE_LIBRETRO_MESEN
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_NES_SOURCE = 
@@ -21,12 +21,12 @@ SOURCE_ROMDIR_NES = $(RECALBOX_ROMFS_NES_PKGDIR)/roms
 # variables are global across buildroot
 
 
-ifneq ($(BR2_PACKAGE_LIBRETRO_FCEUMM)$(BR2_PACKAGE_LIBRETRO_FCEUNEXT)$(BR2_PACKAGE_LIBRETRO_NESTOPIA)$(BR2_PACKAGE_LIBRETRO_QUICKNES),)
+ifneq ($(BR2_PACKAGE_LIBRETRO_NESTOPIA)$(BR2_PACKAGE_LIBRETRO_FCEUMM)$(BR2_PACKAGE_LIBRETRO_FCEUNEXT)$(BR2_PACKAGE_LIBRETRO_QUICKNES)$(BR2_PACKAGE_LIBRETRO_MESEN),)
 define CONFIGURE_MAIN_NES_START
 	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_NES),Nintendo Entertainment System,$(SYSTEM_NAME_NES),.nes .unf .unif .zip .7z,nes,nes)
 endef
 
-ifneq ($(BR2_PACKAGE_LIBRETRO_FCEUMM)$(BR2_PACKAGE_LIBRETRO_FCEUNEXT)$(BR2_PACKAGE_LIBRETRO_NESTOPIA)$(BR2_PACKAGE_LIBRETRO_QUICKNES),)
+ifneq ($(BR2_PACKAGE_LIBRETRO_NESTOPIA)$(BR2_PACKAGE_LIBRETRO_FCEUMM)$(BR2_PACKAGE_LIBRETRO_FCEUNEXT)$(BR2_PACKAGE_LIBRETRO_QUICKNES)$(BR2_PACKAGE_LIBRETRO_MESEN),)
 define CONFIGURE_NES_LIBRETRO_START
 	$(call RECALBOX_ROMFS_CALL_START_EMULATOR,$(SYSTEM_XML_NES),libretro)
 endef
@@ -54,6 +54,12 @@ define CONFIGURE_NES_LIBRETRO_NESTOPIA_DEF
 endef
 endif
 
+ifeq ($(BR2_PACKAGE_LIBRETRO_MESEN),y)
+define CONFIGURE_NES_LIBRETRO_MESEN_DEF
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_NES),mesen,5)
+endef
+endif
+
 define CONFIGURE_NES_LIBRETRO_END
 	$(call RECALBOX_ROMFS_CALL_END_EMULATOR,$(SYSTEM_XML_NES))
 endef
@@ -73,6 +79,7 @@ define RECALBOX_ROMFS_NES_CONFIGURE_CMDS
 	$(CONFIGURE_NES_LIBRETRO_QUICKNES_DEF)
 	$(CONFIGURE_NES_LIBRETRO_FCEUMM_DEF)
 	$(CONFIGURE_NES_LIBRETRO_NESTOPIA_DEF)
+	$(CONFIGURE_NES_LIBRETRO_MESEN_DEF)
 	$(CONFIGURE_NES_LIBRETRO_END)
 	$(CONFIGURE_MAIN_NES_END)
 endef

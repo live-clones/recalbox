@@ -180,6 +180,8 @@
 - Add volume control to XU4
 - Improve the management of external screens and selection from recalbox.conf by Chriskt78
 - Add support for zipped gamelist.xml
+- Add libetro's Mesen, accurate NES & FDS emulator (rpi4, xu4, x86(_64) only)
+- Add libetro's Mesen-S, accurate SNES, Satellaview, GB/GBC & Super GameBoy emulator (rpi4, xu4, x86(_64) only)
 
 
 ### Fixes
