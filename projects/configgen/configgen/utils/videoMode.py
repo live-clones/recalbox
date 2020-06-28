@@ -1,11 +1,7 @@
 #!/usr/bin/env python
 import os
 import sys
-import re
-import time
 from utils.recallog import recallog
-import subprocess
-import json
 
 
 # Set a specific video mode
@@ -34,6 +30,7 @@ def setVideoMode(videoMode, delay=0.5):
 
     if cmd:
         os.system(cmd)
+        import time
         time.sleep(delay)
         return cmd
     else:
@@ -42,6 +39,7 @@ def setVideoMode(videoMode, delay=0.5):
 
 
 def createVideoModeLine(videoMode):
+    import re
     # pattern (CEA|DMT) [0-9]{1,2} HDMI
     if re.match("^(CEA|DMT) [0-9]{1,2}( HDMI)?$", videoMode):
         return "tvservice -e '{}'".format(videoMode)
@@ -65,9 +63,11 @@ def isSupported(group="CEA", mode='', drive="HDMI"):
         recallog("Error: {} is an unknown drive. Can't switch to {} {} {}".format(drive, group, mode, drive))
         sys.exit(1)
 
+    import subprocess
     proc = subprocess.Popen(["tvservice -j -m {}".format(group)], stdout=subprocess.PIPE, shell=True)
     (out, err) = proc.communicate()
     # print "program output:", out
+    import json
     tvmodes = json.loads(out)
 
     for tvmode in tvmodes:
@@ -100,10 +100,12 @@ def checkAutoMode(expectedMode=None):
     # state 0x400000 [LCD], 320x240 @ 0.00Hz, progressive
     # state 0x120006 [DVI DMT (58) RGB full 16:10], 1680x1050 @ 60.00Hz, progressive
 
+    import subprocess
     proc = subprocess.Popen(["tvservice -s"], stdout=subprocess.PIPE, shell=True)
     (out, err) = proc.communicate()
 
     # This one does match what i need ! Everything ! Passes the 5 cases listed above
+    import re
     regex = r".*\[([A-Z]{3,4}) ?(.*[^0-9:]?) ?([0-9]{1,2})?:?([0-9]{1,2})?\], ([0-9]{3,4})x([0-9]{3,4}) @ ([0-9.]{1,6})Hz, (progressive|interlaced).*"
 
     matches = re.match(regex, out)
@@ -139,16 +141,19 @@ def checkAutoMode(expectedMode=None):
 def getCurrentResulution():
     # This is really dirty, I must admit ...
     # Call tvservice -s
+    import subprocess
     proc = subprocess.Popen(["tvservice -s"], stdout=subprocess.PIPE, shell=True)
     (out, err) = proc.communicate()
     # print "program output:", out
     # If it's a valid json : we're not on pi, so we have the current resolution
     try:
+        import json
         tvmodes = json.loads(out)
         print tvmodes
         return tvmodes[0]["width"], tvmodes[0]["height"]
     except ValueError:
         # else we're on pi, parse the output
+        import re
         regex = r".*\[([A-Z]{3,4}) ?(.*[^0-9:]?) ?([0-9]{1,2})?:?([0-9]{1,2})?\], ([0-9]{3,4})x([0-9]{3,4}) @ ([0-9.]{1,6})Hz, (progressive|interlaced).*"
 
         matches = re.match(regex, out)

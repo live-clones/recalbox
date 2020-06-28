@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+
 proc = None
 
 # return code when demo mode ends upon user request
@@ -10,8 +11,10 @@ def runCommand(command, args, demoStartButtons, recalboxSettings, fixedScreenSiz
     global proc
 
     # Switch video mode if required
-    chosenMode = None
-    if not fixedScreenSize:
+    from configgen.utils.architecture import Architecture
+    arch = Architecture()
+    chosenMode = 'default'
+    if not fixedScreenSize and arch.isSupportingTvService:
         import utils.videoMode as videoMode
         chosenMode = videoMode.setVideoMode(command.videomode, command.delay)
 
