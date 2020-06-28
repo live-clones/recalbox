@@ -15,11 +15,23 @@ class DosBoxGenerator(Generator):
         gameConfFile = gameDir + "/dosbox.cfg"
            
         commandArray = [recalboxFiles.recalboxBins[system.config['emulator']], 
-			"-userconf", 
+			"-userconf",
+            "-fullscreen"
 			"-exit", 
 			"""{}""".format(batFile),
 			"-c", """set ROOT={}""".format(gameDir),
 			"-vkeybd", "/usr/share/dosbox"]
+
+        from utils.resolutions import ResolutionParser
+        resolution = ResolutionParser(system.config['videomode'])
+        if resolution.isSet:
+            extraConf = "[sdl]\nfullscreen=true\nvsync=true\nfullresolution={}\n".format(resolution.string)
+            extraConfPath = recalboxFiles.dosboxConfig + ".extra"
+            with open(extraConfPath, "w") as f:
+                f.write(extraConf)
+            commandArray.append("-conf")
+            commandArray.append(extraConfPath)
+
         if os.path.isfile(gameConfFile):
             commandArray.append("-conf")
             commandArray.append("""{}""".format(gameConfFile))
