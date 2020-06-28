@@ -5,6 +5,7 @@ from generators.Generator import Generator
 import os.path
 import daphneControllers
 
+
 class DaphneGenerator(Generator):
     # Main entry of the module
     # Configure daphne and return a command
@@ -23,6 +24,12 @@ class DaphneGenerator(Generator):
             "-useoverlaysb", "2",
             "-datadir", recalboxFiles.daphneDatadir,
             "-homedir", recalboxFiles.daphneHomedir]
+
+        from utils.resolutions import ResolutionParser
+        resolution = ResolutionParser(system.config['videomode'])
+        if resolution.isSet:
+            commandArray.extend(["-x", str(resolution.width), "-y", str(resolution.height)])
+
         if 'args' in system.config and system.config['args'] is not None:
             commandArray.extend(system.config['args'])
         if os.path.isfile(commandsFile):
