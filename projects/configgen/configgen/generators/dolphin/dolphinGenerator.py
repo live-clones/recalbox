@@ -85,6 +85,7 @@ class DolphinGenerator(Generator):
     SECTION_GENERAL = "General"
     SECTION_INTERFACE = "Interface"
     SECTION_NETPLAY = "NetPlay"
+    SECTION_DISPLAY = "Display"
     ## Setting on GFX.ini
     SECTION_SETTINGS = "Settings"
     SECTION_HARDWARE = "Hardware"
@@ -158,7 +159,7 @@ class DolphinGenerator(Generator):
                 sysconf.seek(keyAddr)
                 sysconf.write(keyValue)
 
-    def mainConfiguration(self):
+    def mainConfiguration(self, system):
         # Get Languages
         language = self.GetLanguage()
         systemLanguage = self.GetEmulationstationLanguage()
@@ -176,6 +177,12 @@ class DolphinGenerator(Generator):
         dolphinSettings = IniSettings(recalboxFiles.dolphinIni, True)
         dolphinSettings.loadFile(True)
 
+        # Resolution
+        from utils.resolutions import ResolutionParser
+        resolution = ResolutionParser(system.config['videomode'])
+        if resolution.isSet:
+            dolphinSettings.setOption(self.SECTION_DISPLAY, "FullscreenResolution", resolution.string)
+            dolphinSettings.setOption(self.SECTION_ANALYTICS, "Fullscreen", "True")
         # Analytics
         dolphinSettings.setOption(self.SECTION_ANALYTICS, "Enabled", "True")
         dolphinSettings.setOption(self.SECTION_ANALYTICS, "PermissionAsked", "True")
@@ -244,7 +251,7 @@ class DolphinGenerator(Generator):
             # Controllers
             dolphinControllers.generateControllerConfig(system, playersControllers)
 
-            self.mainConfiguration()
+            self.mainConfiguration(system)
             self.gfxConfiguration(system)
 
         commandArray = [recalboxFiles.recalboxBins[system.config['emulator']], "-e", args.rom]

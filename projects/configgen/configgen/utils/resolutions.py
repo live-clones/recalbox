@@ -223,3 +223,6 @@ class ResolutionParser:
     def height(self): # type: () -> int
         return self.__Height
 
+    @property
+    def string(self): # type: () -> str
+        return "{}x{}".format(self.__Width, self.__Height)
