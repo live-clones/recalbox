@@ -28,6 +28,12 @@ class AmiberryGlobalConfig:
         settings.setDefaultOption("speedup_timelimit_nonjit", "-5000")
         settings.setDefaultOption("speedup_timelimit_jit_turbo", "0")
         settings.setDefaultOption("speedup_timelimit_nonjit_turbo", "0")
+        settings.setDefaultOption("default_horizontal_centering", "1")
+        settings.setDefaultOption("default_vertical_centering", "1")
+        settings.setDefaultOption("default_correct_aspect_ratio", "1")
+        settings.setDefaultOption("default_frame_skip", "1")
+        settings.setDefaultOption("default_fullscreen", "1")
+        settings.setDefaultOption("default_scaling_method", "-1")
 
         # Forced values
         settings.setOption("Quickstart", "1")
