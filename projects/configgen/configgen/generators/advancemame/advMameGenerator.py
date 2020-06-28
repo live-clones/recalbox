@@ -15,7 +15,7 @@ class AdvMameGenerator(Generator):
         if not system.config['configfile']:
             # Using recalbox config file
             system.config['configfile'] = recalboxFiles.advancemameConfig
-            advMameControllers.writeControllersConfig(system, playersControllers)
+            advMameControllers.writeConfig(system, playersControllers, args.rom)
             
         if 'args' in system.config and system.config['args'] is not None:
             commandArray.extend(system.config['args'])

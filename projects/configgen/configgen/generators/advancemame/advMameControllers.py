@@ -49,9 +49,19 @@ advanceCombo = {
 	'l2' :'ui_mode_pred'
 }
 
-def writeControllersConfig(_, controllers):
+def writeConfig(system, controllers, rom):
 	finalConfig = getDefaultConfig()
-	
+
+	# Write rom path
+	import os
+	finalConfig["dir_rom"] = os.path.dirname(rom)
+	finalConfig["dir_image"] = os.path.join(os.path.dirname(rom), "media/images")
+	finalConfig["dir_snap"] = recalboxFiles.screenshotsDir
+
+	# misc options
+	finalConfig["display_vsync"] = "yes" if system.config['showFPS'] == 'true' else "no"
+	finalConfig["display_resize"] = "yes" if system.config['integerscale'] == '1' else "no"
+
 	# Looks like advmame sets the joystick order on the eventId from /dev/input/eventX or /dev/input/jsX, not using SDL. So we should reorder that
 	orderedControllers = dict()
 	for key, controller in controllers.iteritems():
