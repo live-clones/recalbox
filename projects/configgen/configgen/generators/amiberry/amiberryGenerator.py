@@ -19,10 +19,10 @@ class AmiberryGenerator(Generator):
     {
         "Disc 1" : ["Disc 2" , "Disc 3" , "Disc 4" ],
         "Disk 1" : ["Disk 2" , "Disk 3" , "Disk 4" ],
-        "Disc A" : ["Disc B" , "Disc C" , "Disc D" ],
-        "Disk A" : ["Disk B" , "Disk C" , "Disk D" ],
         "disc 1" : ["disc 2" , "disc 3" , "disc 4" ],
         "disk 1" : ["disk 2" , "disk 3" , "disk 4" ],
+        "Disc A" : ["Disc B" , "Disc C" , "Disc D" ],
+        "Disk A" : ["Disk B" , "Disk C" , "Disk D" ],
         "disc A" : ["disc B" , "disc C" , "disc D" ],
         "disk A" : ["disk B" , "disk C" , "disk D" ],
         "Disc 01": ["Disc 02", "Disc 03", "Disc 04"],
@@ -168,7 +168,7 @@ class AmiberryGenerator(Generator):
         globalOverride = os.path.join(os.path.dirname(rom), ".amiberry.conf")
         globalConfig = AmiberryGlobalConfig(globalOverride,
                                             os.path.join(recalboxFiles.amiberryMountPoint, "conf/amiberry.conf"))
-        globalConfig.createGlobalSettings()
+        globalConfig.createGlobalSettings(args.verbose)
 
         # Build default command
         settingsFullPath = os.path.join(recalboxFiles.amiberryMountPoint, "conf/uaeconfig.uae")

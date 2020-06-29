@@ -12,7 +12,7 @@ class AmiberryGlobalConfig:
         self.globalSettingsFile = finalGlobalSettingsFile
         self.userSettingsFile = userGlobalSettingsFile
 
-    def createGlobalSettings(self):
+    def createGlobalSettings(self, verbose): # type: (bool) -> None
         # Load user settings first
         settings = keyValueSettings(self.userSettingsFile)
         settings.loadFile(True)
@@ -34,6 +34,7 @@ class AmiberryGlobalConfig:
         settings.setDefaultOption("default_frame_skip", "1")
         settings.setDefaultOption("default_fullscreen", "1")
         settings.setDefaultOption("default_scaling_method", "-1")
+        settings.setDefaultOption("write_logfile", "yes" if verbose else "no")
 
         # Forced values
         settings.setOption("Quickstart", "1")
