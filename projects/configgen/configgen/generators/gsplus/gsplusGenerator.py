@@ -108,6 +108,11 @@ class GSplusGenerator(Generator):
         self.addDpadItem('right', 'right', controller.inputs, to)
         pass
 
+    # return true if the option is considered defined
+    @staticmethod
+    def defined(key, dictio):
+        return key in dictio and isinstance(dictio[key], str) and len(dictio[key]) > 0
+
     def generate(self, system, playersControllers, recalboxSettings, args):
         """
         Load, override keys and save back emulator's configuration file
@@ -141,6 +146,10 @@ class GSplusGenerator(Generator):
             options.append(str(resolution.width))
             options.append("-y")
             options.append(str(resolution.height))
+
+        if self.defined('shaders', system.config) and system.config['shaders'] == 'scanlines':
+            options.append("-scanline")
+            options.append("40")
 
         # controller settings
         joystickOptions = []
