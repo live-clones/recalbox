@@ -24,7 +24,7 @@ class DosBoxGenerator(Generator):
 
         from utils.resolutions import ResolutionParser
         resolution = ResolutionParser(system.config['videomode'])
-        if resolution.isSet:
+        if resolution.isSet and resolution.selfProcess:
             extraConf = "[sdl]\nfullscreen=true\nvsync=true\nfullresolution={}\n".format(resolution.string)
             extraConfPath = recalboxFiles.dosboxConfig + ".extra"
             with open(extraConfPath, "w") as f:

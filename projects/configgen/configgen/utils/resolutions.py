@@ -1,3 +1,4 @@
+from utils.architecture import Architecture
 
 
 class ResolutionParser:
@@ -165,6 +166,7 @@ class ResolutionParser:
 
     def __init__(self, resolution): # type: (str) -> None
         self.__parse(resolution)
+        self.__archtitecture = Architecture()
         pass
     
     def __parse(self, resolution): # type: (str) -> None
@@ -212,8 +214,12 @@ class ResolutionParser:
         return False
 
     @property
-    def isSet(self):
+    def isSet(self): # type: () -> bool
         return self.__Width != 0 and self.__Height != 0
+
+    @property
+    def selfProcess(self): # type: () -> bool
+        return not self.__archtitecture.isSupportingTvService
 
     @property
     def width(self): # type: () -> int

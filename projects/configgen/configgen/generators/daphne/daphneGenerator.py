@@ -27,7 +27,7 @@ class DaphneGenerator(Generator):
 
         from utils.resolutions import ResolutionParser
         resolution = ResolutionParser(system.config['videomode'])
-        if resolution.isSet:
+        if resolution.isSet and resolution.selfProcess:
             commandArray.extend(["-x", str(resolution.width), "-y", str(resolution.height)])
 
         if 'args' in system.config and system.config['args'] is not None:

@@ -180,7 +180,7 @@ class DolphinGenerator(Generator):
         # Resolution
         from utils.resolutions import ResolutionParser
         resolution = ResolutionParser(system.config['videomode'])
-        if resolution.isSet:
+        if resolution.isSet and resolution.selfProcess:
             dolphinSettings.setOption(self.SECTION_DISPLAY, "FullscreenResolution", resolution.string)
             dolphinSettings.setOption(self.SECTION_ANALYTICS, "Fullscreen", "True")
         # Analytics
