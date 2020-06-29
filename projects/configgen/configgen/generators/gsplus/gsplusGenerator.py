@@ -133,6 +133,15 @@ class GSplusGenerator(Generator):
                    "-ssdir", recalboxFiles.SCREENSHOTS,
                    "-config", recalboxFiles.gsplusConfig]
 
+        # Screen resolution
+        from utils.resolutions import ResolutionParser
+        resolution = ResolutionParser(system.config['videomode'])
+        if resolution.isSet and resolution.selfProcess:
+            options.append("-x")
+            options.append(str(resolution.width))
+            options.append("-y")
+            options.append(str(resolution.height))
+
         # controller settings
         joystickOptions = []
         for index in playersControllers:
