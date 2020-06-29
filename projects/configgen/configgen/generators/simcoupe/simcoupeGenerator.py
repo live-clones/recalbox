@@ -6,6 +6,16 @@ import recalboxFiles
 
 class SimCoupeGenerator(Generator):
 
+    # return true if the option is considered defined
+    @staticmethod
+    def defined(key, dictio):
+        return key in dictio and isinstance(dictio[key], str) and len(dictio[key]) > 0
+
+    # return true if the option is considered enabled (for boolean options)
+    @staticmethod
+    def enabled(key, dictio):
+        return key in dictio and (dictio[key] == '1' or dictio[key] == 'true')
+
     def generate(self, system, playersControllers, recalboxSettings, args):
 
         """
@@ -16,13 +26,19 @@ class SimCoupeGenerator(Generator):
         settings = keyValueSettings('/recalbox/share/system/.simcoupe/SimCoupe.cfg')
         settings.loadFile(True)
 
-        settings.setOption("FilterGui", "1")                              # Nice looking GUI
-        settings.setOption("InPath", recalboxFiles.ROMS + "/samcoupe")    # default input path
-        settings.setOption("OutPath", recalboxFiles.SAVES + "/samcoupe")  # default output path
-        settings.setOption("Disk1", args.rom)                                  # rom
-        settings.setOption("Fullscreen", "Yes")                           # Fullscreen
-        settings.setOption("FirstRun", "No")                              # no first-launch nag-screen #1
-        settings.setOption("CfgVersion", "4")                             # no first launch nag-screen #2
+        settings.setOption("FilterGUI", "1")                                    # Nice looking GUI
+        settings.setOption("InPath", recalboxFiles.ROMS + "/samcoupe")          # default input path
+        settings.setOption("OutPath", recalboxFiles.SAVES + "/samcoupe")        # default output path
+        settings.setOption("Disk1", args.rom)                                   # rom
+        settings.setOption("Fullscreen", "Yes")                                 # Fullscreen
+        settings.setOption("FirstRun", "No")                                    # no first-launch nag-screen #1
+        settings.setOption("CfgVersion", "4")                                   # no first launch nag-screen #2
+        smooth = "Yes" if self.enabled('smooth', system.config) else "No"
+        settings.setOption("Filter", smooth)                                    # no first launch nag-screen #2
+
+        settings.setOption("scanlines", "no")
+        if self.defined('shaders', system.config) and system.config['shaders'] == 'scanlines':
+            settings.setOption("Scanlines", "Yes")
 
         for index in playersControllers:
             controller = playersControllers[index]
