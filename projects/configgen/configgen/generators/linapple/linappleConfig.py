@@ -1,11 +1,11 @@
-'''
+"""
 Created on Mar 6, 2016
 
 @author: Laurent Marchelli
-'''
+"""
 import os
 import re
-import subprocess
+
 
 joystick_translator = {
         # linapple : recalboxOS
@@ -22,64 +22,59 @@ joystick_translator = {
     }
 
 class LinappleConfig(object):
-    '''
+    """
     Class managing linapple emulator configuration file.
-    
-    Customize the linappple configuration file (linapple.conf) with devices 
+
+    Customize the linappple configuration file (linapple.conf) with devices
     informations provided by configgen classes.
-    
+
     Args:
         filename (str):
             Configuration path and filename.
-            
-    '''
+
+    """
     def __init__(self, filename):
+        self.settings = {}
+        self.filename = filename
         self.load(filename)
     
     def load(self, filename=None):
-        '''
+        """
         Load settings from the requested configuration file.
-        
+
         Args:
-            filename (str, None): 
-                Configuration path and file name. 
+            filename (str, None):
+                Configuration path and file name.
                 If None provided, self.filename is used.
-        
+
         Returns (None):
 
         Notes:
             Commented and blank lines are stripped from the extraction.
-        '''
-        if filename:
-            self.filename = filename
-        else:
-            filename = self.filename
-        
-        settings = {}
-        patten = re.compile(r"^\s*(?P<name>\w+( \w+)*)\s*=" \
+        """
+        patten = re.compile(r"^\s*(?P<name>\w+( \w+)*)\s*="
                             r"\s*(?P<value>[^\s]*).*$")
         with open(filename, 'r' ) as lines:
             for l in lines:
                 m = patten.match(l)
-                if m : settings[m.group('name')] = m.group('value')
+                if m : self.settings[m.group('name')] = m.group('value')
 
-        self.settings = settings
-    
+
     def save(self, filename=None):
-        '''
+        """
         Save all settings into a configuration file.
-        
-        Settings are written in alphabetical order in the configuration 
-        file using the linapple parameters convention. 
+
+        Settings are written in alphabetical order in the configuration
+        file using the linapple parameters convention.
         (see : Registry.cpp funct RegSaveKeyValue)
-        
+
         Args:
-            filename (str, None): 
-                Configuration path and file name. 
+            filename (str, None):
+                Configuration path and file name.
                 If None provided, self.filename is used.
 
         Returns (None):
-        '''
+        """
         if filename:
             self.filename = filename
         else:
@@ -90,13 +85,13 @@ class LinappleConfig(object):
                 file_out.write('\t{}=\t{}\n'.format(k,v))
 
     def joysticks(self, controllers):
-        '''
+        """
         Configure linapple joysticks (2) with given controllers.
-        
+
         Args:
             controllers (dict):
                 Dictionary of controllers connected (1 to 5).
-        '''
+        """
         # Disable both joysticks
         self.settings['Joystick 0'] = '0'
         self.settings['Joystick 1'] = '0'
@@ -114,7 +109,6 @@ class LinappleConfig(object):
             transl = [(a, r) for (a, r) in joystick_translator.items() 
                       if a.startswith(joy_i)]
             for a, r in transl:
-                value = None
                 for i in r:
                     value = inputs.get(i, None)
                     if value is None: continue
@@ -125,14 +119,14 @@ class LinappleConfig(object):
                     break
                 # If the input does not have the expected button we should
                 # log the Error before exiting
-                else: assert(False)
+                else: assert False
                 self.settings[a] = value.id
             
             # Enable Joystick
             self.settings['Joy{}Index'.format(e)] = str(c.index)
             self.settings['Joystick {}'.format(e)] = '1'
             
-        # Configure extended buttons informations
+        # Configure extended buttons information
         if self.settings['Joystick 0'] == '1':
             inputs = joysticks[0][1].inputs
             for a in ('JoyExitButton0', 'JoyExitButton1'):
@@ -150,19 +144,16 @@ class LinappleConfig(object):
                                                 jexit0 != jexit1) else '0'
     
     def system(self, system, filename):
-        '''
+        """
         Configure Recalbox system settings
-            
+
         Args:
             system (Emulator):
                 Emulator object containing a config dictionay with all
                 parameters set in EmulationStation.
             filename (str):
                 Path and filename of the current disk.
-        '''
-        ''' force fullscreen on x86 x86_64 '''
-        cpu = subprocess.check_output(['uname', '-m']).lower()
-        self.settings['Fullscreen'] = '1' if 'x86' in cpu else '0'
+        """
 
         if filename:
             self.settings['Boot at Startup'] = '1'
@@ -181,8 +172,23 @@ class LinappleConfig(object):
         else:
             self.settings['Save State Filename'] = ''
             self.settings['Save State On Exit'] = '0'
-    
-        
+
+        # Screen resolution
+        from utils.resolutions import ResolutionParser
+        resolution = ResolutionParser(system.config['videomode'])
+        if resolution.isSet and resolution.selfProcess:
+            self.settings['Fullscreen'] = '1'
+            self.settings['Screen Width'] = str(resolution.width)
+            self.settings['Screen Height'] = str(resolution.height)
+        else:
+            ''' force fullscreen on x86 x86_64 '''
+            from utils.architecture import Architecture
+            arch = Architecture()
+            self.settings['Fullscreen'] = '1' if arch.isX64 or arch.isX86 else '0'
+            self.settings['Screen Width'] = '800'
+            self.settings['Screen Height'] = '600'
+
+
 # Local Variables:
 # tab-width:4
 # indent-tabs-mode:nil
