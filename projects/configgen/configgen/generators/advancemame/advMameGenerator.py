@@ -15,11 +15,13 @@ class AdvMameGenerator(Generator):
         if not system.config['configfile']:
             # Using recalbox config file
             system.config['configfile'] = recalboxFiles.advancemameConfig
-            advMameControllers.writeConfig(system, playersControllers, args.rom)
+            advMameControllers.writeConfig(system, playersControllers, args)
             
         if 'args' in system.config and system.config['args'] is not None:
             commandArray.extend(system.config['args'])
-        
+
+        if args.verbose:
+            commandArray.append("-log")
         commandArray.extend( ['-cfg', system.config['configfile']] )
         commandArray.append(romName)
         

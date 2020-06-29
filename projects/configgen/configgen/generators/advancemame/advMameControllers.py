@@ -49,13 +49,13 @@ advanceCombo = {
 	'l2' :'ui_mode_pred'
 }
 
-def writeConfig(system, controllers, rom):
+def writeConfig(system, controllers, args):
 	finalConfig = getDefaultConfig()
 
 	# Write rom path
 	import os
-	finalConfig["dir_rom"] = os.path.dirname(rom)
-	finalConfig["dir_image"] = os.path.join(os.path.dirname(rom), "media/images")
+	finalConfig["dir_rom"] = os.path.dirname(args.rom)
+	finalConfig["dir_image"] = os.path.join(os.path.dirname(args.rom), "media/images")
 	finalConfig["dir_snap"] = recalboxFiles.screenshotsDir
 
 	# misc options
