@@ -1,5 +1,5 @@
 diff --git a/package/bluez5_utils/bluez5_utils.mk b/package/bluez5_utils/bluez5_utils.mk
-index 8f9249454d..b830adfed2 100644
+index e328f52eaf..a2a1538d22 100644
 --- a/package/bluez5_utils/bluez5_utils.mk
 +++ b/package/bluez5_utils/bluez5_utils.mk
 @@ -118,4 +118,12 @@ else

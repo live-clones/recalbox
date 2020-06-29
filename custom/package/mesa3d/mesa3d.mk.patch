@@ -1,5 +1,5 @@
 diff --git a/package/mesa3d/mesa3d.mk b/package/mesa3d/mesa3d.mk
-index 2a22d2fddc..e726bd33b3 100644
+index 000ec1c1ef..40e01cba1c 100644
 --- a/package/mesa3d/mesa3d.mk
 +++ b/package/mesa3d/mesa3d.mk
 @@ -5,7 +5,7 @@
@@ -21,8 +21,8 @@ index 2a22d2fddc..e726bd33b3 100644
  
  ifeq ($(BR2_PACKAGE_MESA3D_LLVM),y)
  MESA3D_DEPENDENCIES += host-llvm llvm
-@@ -69,6 +68,12 @@ MESA3D_CONF_OPTS += \
- 	-Dgallium-xa=false
+@@ -75,6 +74,12 @@ else
+ MESA3D_CONF_OPTS += -Dgallium-vc4-neon=disabled
  endif
  
 +ifeq ($(BR2_ARM_CPU_HAS_NEON),y)
@@ -34,56 +34,7 @@ index 2a22d2fddc..e726bd33b3 100644
  # Drivers
  
  #Gallium Drivers
-@@ -162,7 +167,22 @@ endef
- MESA3D_POST_INSTALL_STAGING_HOOKS += MESA3D_REMOVE_OPENGL_HEADERS
- endif
- 
--MESA3D_PLATFORMS = surfaceless
-+ifeq ($(BR2_PACKAGE_MESA3D_NEEDS_X11),y)
-+MESA3D_DEPENDENCIES += \
-+	xlib_libX11 \
-+	xlib_libXext \
-+	xlib_libXdamage \
-+	xlib_libXfixes \
-+	xlib_libXrandr \
-+	xlib_libXxf86vm \
-+	xorgproto \
-+	libxcb
-+MESA3D_PLATFORMS += x11
-+endif
-+ifeq ($(BR2_PACKAGE_WAYLAND),y)
-+MESA3D_DEPENDENCIES += wayland wayland-protocols
-+MESA3D_PLATFORMS += wayland
-+endif
- ifeq ($(BR2_PACKAGE_MESA3D_DRI_DRIVER),y)
- MESA3D_PLATFORMS += drm
- else ifeq ($(BR2_PACKAGE_MESA3D_GALLIUM_DRIVER_V3D),y)
-@@ -184,23 +204,7 @@ MESA3D_PLATFORMS += drm
- else ifeq ($(BR2_PACKAGE_MESA3D_GALLIUM_DRIVER_RADEONSI),y)
- MESA3D_PLATFORMS += drm
- endif
--ifeq ($(BR2_PACKAGE_WAYLAND),y)
--MESA3D_DEPENDENCIES += wayland wayland-protocols
--MESA3D_PLATFORMS += wayland
--MESA3D_CONF_OPTS += -Dwayland-scanner-path=$(HOST_DIR)/bin/wayland-scanner
--endif
--ifeq ($(BR2_PACKAGE_MESA3D_NEEDS_X11),y)
--MESA3D_DEPENDENCIES += \
--	xlib_libX11 \
--	xlib_libXext \
--	xlib_libXdamage \
--	xlib_libXfixes \
--	xlib_libXrandr \
--	xlib_libXxf86vm \
--	xorgproto \
--	libxcb
--MESA3D_PLATFORMS += x11
--endif
-+MESA3D_PLATFORMS += surfaceless
- 
- MESA3D_CONF_OPTS += \
- 	-Dplatforms=$(subst $(space),$(comma),$(MESA3D_PLATFORMS))
-@@ -236,6 +240,13 @@ else
+@@ -242,6 +247,13 @@ else
  MESA3D_CONF_OPTS += -Dgallium-xvmc=false
  endif
  
@@ -97,7 +48,7 @@ index 2a22d2fddc..e726bd33b3 100644
  ifeq ($(BR2_PACKAGE_LIBUNWIND),y)
  MESA3D_CONF_OPTS += -Dlibunwind=true
  MESA3D_DEPENDENCIES += libunwind
-@@ -257,4 +268,11 @@ else
+@@ -263,4 +275,11 @@ else
  MESA3D_CONF_OPTS += -Dlmsensors=false
  endif
  
