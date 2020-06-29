@@ -6,6 +6,11 @@ from settings.keyValueSettings import keyValueSettings
 
 class OricutronGenerator(Generator):
 
+    # return true if the option is considered defined
+    @staticmethod
+    def defined(key, dictio):
+        return key in dictio and isinstance(dictio[key], str) and len(dictio[key]) > 0
+
     def generate(self, system, playersControllers, recalboxSettings, args):
 
         """
@@ -57,6 +62,10 @@ class OricutronGenerator(Generator):
         settings.setDefaultOption("serial", "modem")
         settings.setDefaultOption("serial_address", "$31c")
         settings.setDefaultOption("aratio", "yes")
+
+        settings.setOption("scanlines", "no")
+        if self.defined('shaders', system.config) and system.config['shaders'] == 'scanlines':
+            settings.setOption("scanlines", "yes")
 
         # tape/disk selection
         romType = args.rom[-4:].lower()
