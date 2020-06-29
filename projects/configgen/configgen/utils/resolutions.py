@@ -160,22 +160,73 @@ class ResolutionParser:
         85: (1280, 720),
         86: (1366, 768),
     }
-    
+
+    __NAMED = \
+    {
+        "nhd": (640, 360),
+        "qhd": (960, 540),
+        "hd": (1280, 720),
+        "hd+": (1600, 900),
+        "fhd": (1920, 1080),
+        "wqhd": (2560, 1440),
+        "qhd+": (3200, 1800),
+        "4k uhd": (3840, 2160),
+
+        "qqvga": (160, 120),
+        "hqvga": (240, 160),
+        "qvga": (320, 240),
+        "wqvga": (384, 240),
+        "hvga": (480, 320),
+        "vga": (640, 480),
+        "wvga": (768, 480),
+        "fwvga": (854, 480),
+        "svga": (800, 600),
+        "wsvga": (1024, 576),
+        "dvga": (960, 640),
+
+        "xga": (1024, 768),
+        "wxga": (1280, 768),
+        "fwxga": (1366, 768),
+        "xga+": (1152, 864),
+        "wxga+": (1440, 900),
+        "sxga": (1280, 1024),
+        "wsxga": (1440, 960),
+        "sxga+": (1400, 1050),
+        "wsxga+": (1680, 1050),
+        "uxga": (1600, 1200),
+        "wuxga": (1920, 1200),
+
+        "qwxga": (2048, 1152),
+        "qxga": (2048, 1536),
+        "wqxga": (2560, 1600),
+        "qsxga": (2560, 2048),
+        "wqsxga": (3200, 2048),
+        "quxga": (3200, 2400),
+        "wquxga": (3840, 2400),
+    }
+
     __Width = 0  # type: int
     __Height = 0  # type: int
 
     def __init__(self, resolution): # type: (str) -> None
         self.__parse(resolution)
         self.__archtitecture = Architecture()
-        pass
-    
+
     def __parse(self, resolution): # type: (str) -> None
         if len(resolution) > 0 and resolution not in ("auto", "default"):
-            if not self.__parseWidthHeight(resolution):
-                if not self.__parseTvServiceResolution(resolution):
-                    print("Unknown resolution: {}".format(resolution))
-        pass
-    
+            if not self.__parseNamedResolutions(resolution):
+                if not self.__parseWidthHeight(resolution):
+                    if not self.__parseTvServiceResolution(resolution):
+                        print("Unknown resolution: {}".format(resolution))
+
+    def __parseNamedResolutions(self, resolution): # type: (str) -> bool
+        if resolution in self.__NAMED:
+            (w, h) = self.__NAMED[resolution]
+            self.__Width = w
+            self.__Height = h
+            return True
+        return False
+
     def __parseWidthHeight(self, resolution): # type: (str) -> bool
         try:
             (mode, sindex, _) = resolution.split(' ')
