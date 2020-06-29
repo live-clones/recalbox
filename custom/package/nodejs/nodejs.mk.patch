@@ -1,0 +1,149 @@
+From patchwork Tue Feb 18 03:15:21 2020
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-Patchwork-Submitter: James Hilliard <james.hilliard1@gmail.com>
+X-Patchwork-Id: 1239736
+Return-Path: <buildroot-bounces@busybox.net>
+X-Original-To: incoming-buildroot@patchwork.ozlabs.org
+Delivered-To: patchwork-incoming-buildroot@bilbo.ozlabs.org
+Authentication-Results: ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=busybox.net (client-ip=140.211.166.138;
+ helo=whitealder.osuosl.org;
+ envelope-from=buildroot-bounces@busybox.net;
+ receiver=<UNKNOWN>)
+Authentication-Results: ozlabs.org;
+ dmarc=fail (p=none dis=none) header.from=gmail.com
+Authentication-Results: ozlabs.org;
+ dkim=fail reason="signature verification failed" (2048-bit key;
+ unprotected) header.d=gmail.com header.i=@gmail.com
+ header.a=rsa-sha256 header.s=20161025 header.b=FEFsK5+W; 
+ dkim-atps=neutral
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by ozlabs.org (Postfix) with ESMTPS id 48M5b00F36z9sNg
+ for <incoming-buildroot@patchwork.ozlabs.org>;
+ Tue, 18 Feb 2020 14:15:32 +1100 (AEDT)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id E1FBE85045;
+ Tue, 18 Feb 2020 03:15:29 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
+ by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id fTRB57avxTsR; Tue, 18 Feb 2020 03:15:28 +0000 (UTC)
+Received: from ash.osuosl.org (ash.osuosl.org [140.211.166.34])
+ by whitealder.osuosl.org (Postfix) with ESMTP id 65ECD84C20;
+ Tue, 18 Feb 2020 03:15:28 +0000 (UTC)
+X-Original-To: buildroot@lists.busybox.net
+Delivered-To: buildroot@osuosl.org
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by ash.osuosl.org (Postfix) with ESMTP id 07C3E1BF968
+ for <buildroot@lists.busybox.net>;
+ Tue, 18 Feb 2020 03:15:28 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by silver.osuosl.org (Postfix) with ESMTP id F105D203F2
+ for <buildroot@lists.busybox.net>;
+ Tue, 18 Feb 2020 03:15:27 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from silver.osuosl.org ([127.0.0.1])
+ by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 2--8H3Aak5dh for <buildroot@lists.busybox.net>;
+ Tue, 18 Feb 2020 03:15:27 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
+ [209.85.166.68])
+ by silver.osuosl.org (Postfix) with ESMTPS id 40A2620004
+ for <buildroot@buildroot.org>; Tue, 18 Feb 2020 03:15:27 +0000 (UTC)
+Received: by mail-io1-f68.google.com with SMTP id z193so20704933iof.1
+ for <buildroot@buildroot.org>; Mon, 17 Feb 2020 19:15:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025; 
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=OXdrw3FxExWf0ADIczhyQ72Ll5t0dqvL/CsG0ODvgao=;
+ b=FEFsK5+WHmnCgGBY0XZxWnlsjVxbAQ8JW0CCbX81zsA0UEdYGIOOoQvLz//8I5h2Pi
+ NYWu01Ui4ep9WqTmyECofxKhP1PZZj6eICFLRickT7a1S5AJTeiHiAaBd/qpErPVPDuA
+ stDk5lnv8CF2dfsdEyR+KLbW9UlOx/P4ubKP2U2dCklNlVOWqbMqV2kNZ+jxa0esKuKF
+ 8JLVpWWlm27Q6mAkLuuAEbE6Ukff6bIfZQj0N/sY6K10RnF88N2BWMf7b9YeBAUzw7Ym
+ h4n0MRsXnUUQn/5z3moCuf9uQS2r+lsR813ulpgjTx7lsLcVofaUJh04BUREAXZbcBiz
+ HnVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=OXdrw3FxExWf0ADIczhyQ72Ll5t0dqvL/CsG0ODvgao=;
+ b=ZXRpMpq7nKljMb1h8Y7Dos4DifcVsmXAZFC6CbJa1V/m0hZcmaWUX9bPoquVIfTofv
+ 7h0FL110+Pz6BUyu23ZGMdTZHpT2PCyA+f1AuaInoazlYFTNyhj7mrb2aD2XYdYaZh3D
+ 4sTTOTDcOv1YZ7AG7lfGEndMfe/aSK/9ye4ulxqD3QqapPP4aRa3KaauuNwtFO58cOUV
+ gJowPV8oktc9sDDvYdja46gF36oNjJtfv9us1pavlnp3Ca3/aWtUXrEmaJbQnFJkuySL
+ RNhRpg7ztJTftfVvOJqAVWKxmvSYnRHluLbMNV2CJqA+ClUu/atpfD3KH2Kcq2Cx50c6
+ aPNg==
+X-Gm-Message-State: APjAAAXyaD4BJgdQNgJsYA2yUiVALNVEnpmlvGVJgJrs8mzC5l7bgYVN
+ fX6myJkBIaRsiLxfRpbL1T388Ejc
+X-Google-Smtp-Source: APXvYqxuRfbfXvffDJIR1fjOqGXSE0e3iG577PG8VmGB3L5J1k+IX3o+nGfgbSbyCK6H5l+WJnkN6A==
+X-Received: by 2002:a02:9988:: with SMTP id a8mr15362041jal.33.1581995725909; 
+ Mon, 17 Feb 2020 19:15:25 -0800 (PST)
+Received: from james-x399.localdomain (71-33-129-6.hlrn.qwest.net.
+ [71.33.129.6]) by smtp.gmail.com with ESMTPSA id
+ z24sm786739ilf.31.2020.02.17.19.15.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 17 Feb 2020 19:15:25 -0800 (PST)
+From: James Hilliard <james.hilliard1@gmail.com>
+To: buildroot@buildroot.org
+Date: Mon, 17 Feb 2020 20:15:21 -0700
+Message-Id: <20200218031521.32988-1-james.hilliard1@gmail.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Subject: [Buildroot] [PATCH v5 1/1] package/nodejs: Use zlib headers from
+ HOST_ZLIB_SRCDIR for host-nodejs
+X-BeenThere: buildroot@busybox.net
+X-Mailman-Version: 2.1.29
+Precedence: list
+List-Id: Discussion and development of buildroot <buildroot.busybox.net>
+List-Unsubscribe: <http://lists.busybox.net/mailman/options/buildroot>,
+ <mailto:buildroot-request@busybox.net?subject=unsubscribe>
+List-Archive: <http://lists.busybox.net/pipermail/buildroot/>
+List-Post: <mailto:buildroot@busybox.net>
+List-Help: <mailto:buildroot-request@busybox.net?subject=help>
+List-Subscribe: <http://lists.busybox.net/mailman/listinfo/buildroot>,
+ <mailto:buildroot-request@busybox.net?subject=subscribe>
+Cc: James Hilliard <james.hilliard1@gmail.com>,
+ Martin Bark <martin@barkynet.com>,
+ Thomas Preston <thomas.preston@codethink.co.uk>,
+ Daniel Price <daniel.price@gmail.com>
+Errors-To: buildroot-bounces@busybox.net
+Sender: "buildroot" <buildroot-bounces@busybox.net>
+
+The nodejs configure.py file orders zlib headers before the bundled ICU
+headers. The zlib headers happen to be located in the system include
+directory, next to some system ICU headers (not bundled). If these are
+built before nodejs is, nodejs will get confused and try to use the
+system ICU headers instead of the bundled ones.
+
+Fix this by using headers from HOST_ZLIB_SRCDIR so that the ICU headers
+in the system include directory are not used.
+
+Signed-off-by: Thomas Preston <thomas.preston@codethink.co.uk>
+Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
+Tested-by: Johan Derycke <johanderycke@gmail.com>
+---
+Changes v4 -> v5:
+  - use headers from HOST_ZLIB_SRCDIR
+  - use shared zlib instead of static zlib
+---
+ package/nodejs/nodejs.mk | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/package/nodejs/nodejs.mk b/package/nodejs/nodejs.mk
+index 7f875058b3..e919c1d922 100644
+--- a/package/nodejs/nodejs.mk
++++ b/package/nodejs/nodejs.mk
+@@ -64,6 +64,8 @@ define HOST_NODEJS_CONFIGURE_CMDS
+ 		--shared-openssl-includes=$(HOST_DIR)/include/openssl \
+ 		--shared-openssl-libpath=$(HOST_DIR)/lib \
+ 		--shared-zlib \
++		--shared-zlib-includes=$(HOST_ZLIB_SRCDIR) \
++		--shared-zlib-libpath=$(HOST_DIR)/lib \
+ 		--no-cross-compiling \
+ 		--with-intl=small-icu \
+ 	)
