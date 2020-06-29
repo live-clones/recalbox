@@ -23,7 +23,19 @@ class MupenGenerator(Generator):
 	    "--corelib", "/usr/lib/libmupen64plus.so.2.0.0",
 	    "--gfx", "/usr/lib/mupen64plus/mupen64plus-video-{}.so".format(system.config['core']),
 	    "--configdir", recalboxFiles.mupenConf,
-	    "--datadir", recalboxFiles.mupenConf]
+	    "--datadir", recalboxFiles.mupenConf,
+        "--sshortdir", recalboxFiles.SCREENSHOTS]
+
+        # Screen resolution
+        from utils.resolutions import ResolutionParser
+        resolution = ResolutionParser(system.config['videomode'])
+        if resolution.isSet and resolution.selfProcess:
+            commandArray.extend(["--fullscreen", "--resolution", resolution.string])
+
+        # Verbose
+        if args.verbose:
+            commandArray.append("--verbose")
+
         if 'args' in system.config and system.config['args'] is not None:
             commandArray.extend(system.config['args'])
         commandArray.append(args.rom)
