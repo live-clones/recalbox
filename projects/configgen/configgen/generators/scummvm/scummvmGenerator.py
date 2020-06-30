@@ -9,6 +9,17 @@ import glob
 
 
 class ScummVMGenerator(Generator):
+
+    # return true if the option is considered defined
+    @staticmethod
+    def defined(key, dictio):
+        return key in dictio and isinstance(dictio[key], str) and len(dictio[key]) > 0
+
+    # return true if the option is considered enabled (for boolean options)
+    @staticmethod
+    def enabled(key, dictio):
+        return key in dictio and (dictio[key] == '1' or dictio[key] == 'true')
+
     # Main entry of the module
     # Return scummvm command
     def generate(self, system, playersControllers, recalboxSettings, args):
@@ -35,12 +46,15 @@ class ScummVMGenerator(Generator):
           # rom is a file: split in directory and file name
           romPath = os.path.dirname(args.rom)
           romName = os.path.splitext(os.path.basename(args.rom))[0]
-        commandArray = [recalboxFiles.recalboxBins[system.config['emulator']], 
+
+        smooth = "--filtering" if self.enabled('smooth', system.config) else "--no-filtering"
+        commandArray = [recalboxFiles.recalboxBins[system.config['emulator']],
                         "--fullscreen",
                         "--joystick=0",
                         "--extrapath=/usr/share/scummvm",
                         "--savepath="+recalboxFiles.scummvmSaves,
-                        "--path=""{}""".format(romPath)]
+                        "--path=""{}""".format(romPath),
+                        smooth]
         if 'args' in system.config and system.config['args'] is not None:
             commandArray.extend(system.config['args'])
         commandArray.append("""{}""".format(romName))
