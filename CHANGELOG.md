@@ -10,7 +10,7 @@ All notable changes to this project will be documented in this file.
 - Automatic recovery after 3 boots failure
 - Brand new update system, easier than ever
 - Share partition is created in exfat on fresh install
-- Major system upgrade. See https://github.com/buildroot/buildroot/blob/2020.02/CHANGES#L1-L1427 for the full log
+- Major system upgrade. See https://github.com/buildroot/buildroot/blob/2020.02.3/CHANGES for the full log
 - Bump virtualgamepads to v1.4.0 and added fixes for nodejs 12
 - Bump rpi-firmware to v1.20200212
 - Bump megatools to 1.10.2
@@ -99,7 +99,7 @@ All notable changes to this project will be documented in this file.
 - Add Out Run port with libretro-cannonball
 - Add libretro's port of EasyRPG Player (2000 and 2003)
 - Add libretro-mupen64plus-nx for n64 & 64dd emulation (rpi only for now)
-- Bump buildroot to 2020.02
+- Bump buildroot to 2020.02.3
 - Add libretro-scummvm on all platforms
 - Add libretro-pcsx_rearmed on pc
 - Add Netflix Kodi video plugin
