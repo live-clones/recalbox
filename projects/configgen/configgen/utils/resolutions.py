@@ -3,7 +3,7 @@ from utils.architecture import Architecture
 
 class ResolutionParser:
 
-    __CEA = \ 
+    __CEA = \
     {
         1: (640, 480),
         2: (640, 480),
