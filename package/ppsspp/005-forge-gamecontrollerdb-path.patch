@@ -1,0 +1,11 @@
+--- a/SDL/SDLJoystick.old	2020-06-30 20:39:34.003482391 +0200
++++ b/SDL/SDLJoystick.cpp	2020-06-30 20:39:47.607614686 +0200
+@@ -26,7 +26,7 @@
+ 		SDL_Init(SDL_INIT_JOYSTICK | SDL_INIT_VIDEO | SDL_INIT_GAMECONTROLLER);
+ 	}
+ 
+-	const char *dbPath = "gamecontrollerdb.txt";
++	const char *dbPath = "/recalbox/share/system/configs/ppsspp/gamecontrollerdb.txt";
+ 	cout << "loading control pad mappings from " << dbPath << ": ";
+ 
+ 	size_t size;
