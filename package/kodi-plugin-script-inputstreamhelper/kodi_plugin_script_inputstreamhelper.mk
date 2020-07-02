@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-KODI_PLUGIN_SCRIPT_INPUTSTREAMHELPER_VERSION = 0.4.7
+KODI_PLUGIN_SCRIPT_INPUTSTREAMHELPER_VERSION = 0.5.0
 KODI_PLUGIN_SCRIPT_INPUTSTREAMHELPER_SOURCE = script.module.inputstreamhelper-$(KODI_PLUGIN_SCRIPT_INPUTSTREAMHELPER_VERSION).zip
 KODI_PLUGIN_SCRIPT_INPUTSTREAMHELPER_SITE = https://mirrors.kodi.tv/addons/krypton/script.module.inputstreamhelper
 KODI_PLUGIN_SCRIPT_INPUTSTREAMHELPER_PLUGIN_NAME = script.module.inputstreamhelper
