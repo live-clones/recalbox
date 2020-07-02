@@ -22,11 +22,11 @@ class ScreenScraperEngine
     {
       private:
         //! Tell if the engine is running
-        bool mRunning;
+        volatile bool mRunning;
         //! True if the current scrape is requested to abort
-        bool mAbortRequest;
+        volatile bool mAbortRequest;
         //! Quota reached
-        bool mQuotaReached;
+        volatile bool mQuotaReached;
         //! Statistics: Text infos
         int mTextInfo;
         //! Statistics: Images
@@ -116,13 +116,14 @@ class ScreenScraperEngine
             mCaller(configuration),
             mConfiguration(*configuration)
         {
-          Initialize();
+          Initialize(false);
         }
 
         /*!
          * @brief Reset the engine
+         * @param noabort True to not reinitialize the abort flag
          */
-        void Initialize();
+        void Initialize(bool noabort);
 
         /*!
          * @brief Scrape a single game
@@ -135,6 +136,9 @@ class ScreenScraperEngine
          * @brief Abort the current engine. The engine is required to quit its current scrapping ASAP
          */
         void Abort() { mAbortRequest = true; }
+
+        //! Check if the engine has been aborted
+        bool IsAborted() const { return mAbortRequest; }
 
         //! Check if the engine is running
         bool IsRunning() const { return mRunning; }

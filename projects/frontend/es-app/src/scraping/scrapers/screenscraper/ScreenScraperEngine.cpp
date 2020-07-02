@@ -282,31 +282,34 @@ bool ScreenScraperEngine::ThreadPoolRunJob(FileData*& feed)
   int engineIndex = ObtainEngine();
   if (engineIndex >= 0)
   {
-    // Process the scrape in this thread, allocated ans fired automatically by the threadpool
+    // Process the scrape in this thread, allocated and fired automatically by the threadpool
     LOG(LogDebug) << "Got engine #" << engineIndex << " for " << feed->getPath().ToString();
     Engine& engine = mEngines[engineIndex];
-    engine.Initialize();
-    switch(engine.Scrape(mMethod, *feed))
+    if (!engine.IsAborted())
     {
-      case ScrapeResult::Ok:
+      engine.Initialize(true);
+      switch(engine.Scrape(mMethod, *feed))
       {
-        mTextInfo += engine.StatsTextInfo();
-        mImages += engine.StatsImages();
-        mVideos += engine.StatsVideos();
-        mMediaSize += engine.StatsMediaSize();
-        mStatScraped++;
-        break;
+        case ScrapeResult::Ok:
+        {
+          mTextInfo += engine.StatsTextInfo();
+          mImages += engine.StatsImages();
+          mVideos += engine.StatsVideos();
+          mMediaSize += engine.StatsMediaSize();
+          mStatScraped++;
+          break;
+        }
+        case ScrapeResult::NotScraped: break;
+        case ScrapeResult::NotFound: mStatNotFound++; break;
+        case ScrapeResult::FatalError: mStatErrors++; break;
+        case ScrapeResult::QuotaReached: Abort(false); mSender.Call((int)ScrapeResult::QuotaReached); break;
+        case ScrapeResult::DiskFull: Abort(false); mSender.Call((int)ScrapeResult::DiskFull); break;
       }
-      case ScrapeResult::NotScraped: break;
-      case ScrapeResult::NotFound: mStatNotFound++; break;
-      case ScrapeResult::FatalError: mStatErrors++; break;
-      case ScrapeResult::QuotaReached: Abort(false); mSender.Call((int)ScrapeResult::QuotaReached); break;
-      case ScrapeResult::DiskFull: Abort(false); mSender.Call((int)ScrapeResult::DiskFull); break;
+      // Then, signal the main thread with the engine number.
+      mSender.Call(feed);
     }
     // ... and recycle the Engine
     RecycleEngine(engineIndex);
-    // Then, signal the main thread with the engine number.
-    mSender.Call(feed);
     return true;
   }
   else LOG(LogError) << "No more engine available!";
@@ -385,10 +388,11 @@ void ScreenScraperEngine::RecycleEngine(int index)
   }
 }
 
-void ScreenScraperEngine::Engine::Initialize()
+void ScreenScraperEngine::Engine::Initialize(bool noabort)
 {
   mRunning = false;
-  mAbortRequest = false;
+  if (!noabort)
+    mAbortRequest = false;
   mQuotaReached = false;
   mTextInfo = 0;
   mImages = 0;
