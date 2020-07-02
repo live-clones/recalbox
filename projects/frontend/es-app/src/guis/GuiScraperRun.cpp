@@ -91,9 +91,11 @@ void GuiScraperRun::onSizeChanged()
 
 void GuiScraperRun::finish()
 {
+  bool running = mScraper->IsRunning();
   mScraper->Abort(true);
   mWindow.CloseAll();
-  MainRunner::RequestQuit(MainRunner::ExitState::Relaunch, true);
+  if (!running) // Don't reboot on user abortion
+    MainRunner::RequestQuit(MainRunner::ExitState::Relaunch, true);
 	mIsProcessing = false;
 }
 
