@@ -1,0 +1,13 @@
+config BR2_PACKAGE_LIBRETRO_CRAFT
+	bool "libretro-craft"
+	depends on BR2_PACKAGE_RETROARCH
+	depends on BR2_INSTALL_LIBSTDCPP
+	select BR2_PACKAGE_RECALBOX_ROMFS_MINECRAFT
+	help
+	  A simple Minecraft clone written in C
+	  using modern OpenGL (shaders).
+
+	  http://www.libretro.com
+
+comment "LIBRETRO_CRAFT needs a toolchain w/ C++"
+	depends on !BR2_INSTALL_LIBSTDCPP

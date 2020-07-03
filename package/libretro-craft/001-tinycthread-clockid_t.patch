@@ -1,0 +1,10 @@
+--- a/deps/tinycthread/tinycthread.h
++++ b/deps/tinycthread/tinycthread.h
+@@ -24,6 +24,7 @@
+ #ifndef _TINYCTHREAD_H_
+ #define _TINYCTHREAD_H_
+ 
++#include <sys/types.h>
+ /**
+ * @file
+ * @mainpage TinyCThread API Reference

@@ -433,6 +433,11 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_GENESISPLUSGX)$(BR2_PACKAGE_LIBRETRO_PICODRIVE),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-megadrive
 endif
 
+# System: minecraft
+ifneq ($(BR2_PACKAGE_LIBRETRO_CRAFT),)
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-minecraft
+endif
+
 # System: moonlight
 ifeq ($(BR2_PACKAGE_MOONLIGHT_EMBEDDED),y)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-moonlight
