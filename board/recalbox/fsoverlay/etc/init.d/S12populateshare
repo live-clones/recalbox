@@ -9,9 +9,18 @@ source /recalbox/scripts/recalbox-includes.sh
 
 IN=/recalbox/share_init
 OUT=/recalbox/share
-# force the creation of some directories
+
+# Uncompress directories' content
 for DIR in cheats \
-           themes \
+           shaders
+do           
+    if test ! -e "$OUT""/""$DIR"; then
+        tar xJf "$IN""/""$DIR".tar.xz -C "$OUT""/"
+    fi    
+done  
+
+# force the creation of some directories
+for DIR in themes \
            system/.cache \
            system/.config/lirc \
            system/.config/residualvm \

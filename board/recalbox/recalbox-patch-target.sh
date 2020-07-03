@@ -22,7 +22,6 @@ ln -sf "/var/localtime" "${TARGET_DIR}/etc/localtime" || exit 1
 mkdir -p ${TARGET_DIR}/etc/emulationstation || exit 1
 ln -sf "/recalbox/share_init/system/.emulationstation/es_systems.cfg" "${TARGET_DIR}/etc/emulationstation/es_systems.cfg" || exit 1
 ln -sf "/recalbox/share_init/system/.emulationstation/themes" "${TARGET_DIR}/etc/emulationstation/themes" || exit 1
-ln -sf "/recalbox/share/cheats" "${TARGET_DIR}/recalbox/share_init/cheats/custom" || exit 1
 
 # remove useless files
 FILES_TO_REMOVE=("${TARGET_DIR}/lib/firmware/netronome")
@@ -44,16 +43,13 @@ rm -rf "${TARGET_DIR}/boot/grub" || exit 1
 
 # reorder the boot scripts for the network boot
 if [ -e "${TARGET_DIR}/etc/init.d/S10udev" ]; then
-  mv "${TARGET_DIR}/etc/init.d/S10udev" "${TARGET_DIR}/etc/init.d/S05udev" || exit 1 # move to make number spaces
+    mv "${TARGET_DIR}/etc/init.d/S10udev" "${TARGET_DIR}/etc/init.d/S05udev" || exit 1 # move to make number spaces
 fi
 if [ -e "${TARGET_DIR}/etc/init.d/S30dbus" ]; then
-  mv "${TARGET_DIR}/etc/init.d/S30dbus" "${TARGET_DIR}/etc/init.d/S06dbus" || exit 1 # move really before for network (connman prerequisite)
+    mv "${TARGET_DIR}/etc/init.d/S30dbus" "${TARGET_DIR}/etc/init.d/S06dbus" || exit 1 # move really before for network (connman prerequisite)
 fi
 if [ -e "${TARGET_DIR}/etc/init.d/S40network" ]; then
-  mv "${TARGET_DIR}/etc/init.d/S40network" "${TARGET_DIR}/etc/init.d/S07network" || exit 1 # move to make ifaces up sooner, mainly mountable/unmountable before/after share
-fi
-if [ -e "${TARGET_DIR}/etc/init.d/S45connman" ]; then
-  mv "${TARGET_DIR}/etc/init.d/S45connman" "${TARGET_DIR}/etc/init.d/S08connman" || exit 1 # move to make before share
+    mv "${TARGET_DIR}/etc/init.d/S40network" "${TARGET_DIR}/etc/init.d/S07network" || exit 1 # move to make ifaces up sooner, mainly mountable/unmountable before/after share
 fi
 
 # remove kodi default joystick configuration files
@@ -72,7 +68,7 @@ ln -sf "/run/recalbox.shadow" "${TARGET_DIR}/etc/shadow" || exit 1
 
 # Add the date while the version can be nightly or unstable
 if [ ! -f "${TARGET_DIR}/recalbox/recalbox.version" ]; then
-  echo "development" > "${TARGET_DIR}/recalbox/recalbox.version"
+    echo "development" > "${TARGET_DIR}/recalbox/recalbox.version"
 fi
 RVERSION=$(cat "${TARGET_DIR}/recalbox/recalbox.version")
 
@@ -85,7 +81,7 @@ convert "${TARGET_DIR}/recalbox/system/resources/splash/logo.png" -fill white -p
 echo -e "1\n00:00:00,000 --> 00:00:03,000\n${TGVERSION}" > "${TARGET_DIR}/recalbox/system/resources/splash/recalboxintro.srt"
 omx_fnt="/usr/share/fonts/dejavu/DejaVuSans-BoldOblique.ttf"
 if [[ -f ${TARGET_DIR}$omx_fnt ]] ; then
-	sed -i "s|omx_fnt=\"\"|omx_fnt=\"--font=$omx_fnt\"|g" "${TARGET_DIR}/etc/init.d/S06splash"
+    sed -i "s|omx_fnt=\"\"|omx_fnt=\"--font=$omx_fnt\"|g" "${TARGET_DIR}/etc/init.d/S06splash"
 fi
 
 # Add the initrd to pi only
@@ -93,3 +89,25 @@ fi
 
 # Changelog
 cp "$BR2_EXTERNAL_RECALBOX_PATH/CHANGELOG.md" "${TARGET_DIR}/recalbox/recalbox.changelog"
+
+# Generate biols list
+cd "${TARGET_DIR}/recalbox/share_init" && find bios > "${TARGET_DIR}/recalbox/share_init/embedded.list"
+
+# Compress folders
+# 
+# BEWARE Developpers: Once the tar.xz is created, it is not updated.
+# This does not matter when the build starts from scratch.
+# However, while in development cycles, you may want to update one or more folders
+# To do so, untar those files before running your next build.
+for DIR in cheats \
+           shaders
+do
+    FDIR="${TARGET_DIR}/recalbox/share_init/${DIR}"
+    if test ! -e "${FDIR}.tar.gz"; then
+        rm -rf "${FDIR}.tar"
+        cd "${TARGET_DIR}/recalbox/share_init" && \
+            tar -cf "${DIR}.tar" "${DIR}" && \
+            xz -f -9 -e --threads=0 "${DIR}.tar"
+    fi
+    rm -rf "${FDIR}"
+done
