@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-MUPEN64PLUS_CORE_VERSION = 4edc53c2d5aee33605b3a151d405882030ba94f3
+MUPEN64PLUS_CORE_VERSION = a29b44251addc242cd2b98bd78d80f441afbcdf8
 MUPEN64PLUS_CORE_SITE = $(call github,mupen64plus,mupen64plus-core,$(MUPEN64PLUS_CORE_VERSION))
 MUPEN64PLUS_CORE_LICENSE = GPLv2+
 MUPEN64PLUS_CORE_DEPENDENCIES = sdl2 alsa-lib libpng freetype host-nasm host-binutils

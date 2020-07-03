@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-MUPEN64PLUS_VIDEO_RICE_VERSION = e409d749a53bd6fbb764ef4012614d21779a20fb
+MUPEN64PLUS_VIDEO_RICE_VERSION = 772fdd9ecacf3669d7e50ea59ce4ef1f2c26b99b
 MUPEN64PLUS_VIDEO_RICE_SITE = $(call github,mupen64plus,mupen64plus-video-rice,$(MUPEN64PLUS_VIDEO_RICE_VERSION))
 MUPEN64PLUS_VIDEO_RICE_LICENSE = MIT
 MUPEN64PLUS_VIDEO_RICE_DEPENDENCIES = sdl2 alsa-lib mupen64plus-core
