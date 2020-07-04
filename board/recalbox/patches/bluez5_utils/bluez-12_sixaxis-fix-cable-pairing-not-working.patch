@@ -1,0 +1,34 @@
+
+    Subject: [PATCH 1/3] plugins/sixaxis: Fix cable pairing not working
+    From: Bastien Nocera <hadess@xxxxxxxxxx>
+    Date: Tue, 7 Nov 2017 19:23:54 +0100
+    Cc: Bastien Nocera <hadess@xxxxxxxxxx>
+
+In 6c467e9, get_pairing_type() was modified to return a structure that's
+allocated on the stack. While not a problem for the direct callers,
+as the function is defined as "inline", function that expected to return
+this structure themselves would fail, as the stack would be trampled
+upon on function exit.
+
+Make such a function (get_pairing_type_for_device()) in the sixaxis
+plugin be inline as well so that its caller doesn't get garbage inside
+of cable pairing information from a struct.
+---
+ plugins/sixaxis.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/plugins/sixaxis.c b/plugins/sixaxis.c
+index 89cd8f1f5..9d0fdb5d3 100644
+--- a/plugins/sixaxis.c
++++ b/plugins/sixaxis.c
+@@ -435,7 +435,7 @@ static bool setup_device(int fd, const char *sysfs_path,
+ 	return true;
+ }
+ 
+-static const struct cable_pairing *
++static inline const struct cable_pairing *
+ get_pairing_type_for_device(struct udev_device *udevice, uint16_t *bus,
+ 						char **sysfs_path)
+ {
+-- 
+2.14.3
