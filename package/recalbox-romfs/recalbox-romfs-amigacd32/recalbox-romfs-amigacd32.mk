@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --system amigacd32 --extension '.uae .cue .CUE .ccd .CCD .iso .ISO .nrg .NRG .mds .MDS .m3u .M3U .zip .ZIP' --fullname 'Amiga CD32' --platform amigacd32 --theme amigacd32 1:libretro:puae:BR2_PACKAGE_LIBRETRO_UAE 2:amiberry:amiberry:BR2_PACKAGE_AMIBERRY
+# ./scripts/linux/empack.py --force --system amigacd32 --extension '.uae .cue .CUE .ccd .CCD .iso .ISO .nrg .NRG .mds .MDS .m3u .M3U .zip .ZIP' --fullname 'Amiga CD32' --platform amigacd32 --theme amigacd32 2:libretro:puae:BR2_PACKAGE_LIBRETRO_UAE 1:amiberry:amiberry:BR2_PACKAGE_AMIBERRY
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_AMIGACD32_SOURCE = 
@@ -32,7 +32,7 @@ define CONFIGURE_AMIGACD32_AMIBERRY_START
 endef
 ifeq ($(BR2_PACKAGE_AMIBERRY),y)
 define CONFIGURE_AMIGACD32_AMIBERRY_AMIBERRY_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_AMIGACD32),amiberry,2)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_AMIGACD32),amiberry,1)
 endef
 endif
 
@@ -47,7 +47,7 @@ define CONFIGURE_AMIGACD32_LIBRETRO_START
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_UAE),y)
 define CONFIGURE_AMIGACD32_LIBRETRO_PUAE_DEF
-	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_AMIGACD32),puae,1)
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_AMIGACD32),puae,2)
 endef
 endif
 
