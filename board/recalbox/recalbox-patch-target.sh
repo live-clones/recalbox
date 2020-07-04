@@ -24,6 +24,12 @@ ln -sf "/recalbox/share_init/system/.emulationstation/es_systems.cfg" "${TARGET_
 ln -sf "/recalbox/share_init/system/.emulationstation/themes" "${TARGET_DIR}/etc/emulationstation/themes" || exit 1
 ln -sf "/recalbox/share/cheats" "${TARGET_DIR}/recalbox/share_init/cheats/custom" || exit 1
 
+# remove useless files
+FILES_TO_REMOVE=("${TARGET_DIR}/lib/firmware/netronome")
+for file in ${FILES_TO_REMOVE[*]}; do
+  [ -e "$file" ] && rm -rf "$file"
+done
+
 # allow exfat share partition to mount. It needs a blank directory
 rm -f "${TARGET_DIR}/recalbox/share/.keep" || exit 1
 
