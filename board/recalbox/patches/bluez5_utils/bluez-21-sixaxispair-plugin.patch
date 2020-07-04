@@ -1,12 +1,11 @@
 diff --git a/Makefile.plugins b/Makefile.plugins
 index febe61e..64098ce 100644
---- a/Makefile.plugins
-+++ b/Makefile.plugins
-@@ -122,5 +122,9 @@ plugins_sixaxis_la_SOURCES = plugins/sixaxis.c
- plugins_sixaxis_la_LDFLAGS = $(AM_LDFLAGS) -module -avoid-version \
- 						-no-undefined @UDEV_LIBS@
- plugins_sixaxis_la_CFLAGS = $(AM_CFLAGS) -fvisibility=hidden @UDEV_CFLAGS@
--plugins_sixaxis_la_LIBADD = lib/libbluetooth-internal.la
+--- a/Makefile.plugins	2020-07-04 17:53:30.987122410 +0200
++++ b/Makefile.plugins	2020-07-04 17:54:55.178514586 +0200
+@@ -111,4 +111,9 @@
+ 						-no-undefined
+ plugins_sixaxis_la_LIBADD = $(UDEV_LIBS) lib/libbluetooth-internal.la
+ plugins_sixaxis_la_CFLAGS = $(AM_CFLAGS) -fvisibility=hidden
 +plugin_LTLIBRARIES += plugins/sixaxispair.la
 +plugins_sixaxispair_la_SOURCES = plugins/sixaxispair.c
 +plugins_sixaxispair_la_LDFLAGS = $(AM_LDFLAGS) -module -avoid-version \

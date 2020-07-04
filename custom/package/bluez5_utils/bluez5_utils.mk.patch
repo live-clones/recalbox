@@ -1,8 +1,16 @@
 diff --git a/package/bluez5_utils/bluez5_utils.mk b/package/bluez5_utils/bluez5_utils.mk
-index e328f52eaf..a2a1538d22 100644
+index e328f52eaf..984aff36ce 100644
 --- a/package/bluez5_utils/bluez5_utils.mk
 +++ b/package/bluez5_utils/bluez5_utils.mk
-@@ -118,4 +118,12 @@ else
+@@ -11,6 +11,7 @@ BLUEZ5_UTILS_SITE = $(BR2_KERNEL_MIRROR)/linux/bluetooth
+ BLUEZ5_UTILS_INSTALL_STAGING = YES
+ BLUEZ5_UTILS_LICENSE = GPL-2.0+, LGPL-2.1+
+ BLUEZ5_UTILS_LICENSE_FILES = COPYING COPYING.LIB
++BLUEZ5_UTILS_AUTORECONF = YES
+ 
+ BLUEZ5_UTILS_DEPENDENCIES = \
+ 	$(if $(BR2_PACKAGE_BLUEZ5_UTILS_HEADERS),bluez5_utils-headers) \
+@@ -118,4 +119,12 @@ else
  BLUEZ5_UTILS_CONF_OPTS += --disable-systemd
  endif
  
