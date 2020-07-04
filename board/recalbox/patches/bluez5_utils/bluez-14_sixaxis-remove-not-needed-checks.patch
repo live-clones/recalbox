@@ -10,27 +10,15 @@ This check is now needed only for DualShock 4.
 
 diff --git a/profiles/input/server.c b/profiles/input/server.c
 index eb3fcf8..101108b 100644
---- a/profiles/input/server.c
-+++ b/profiles/input/server.c
-@@ -131,18 +131,10 @@ static bool dev_is_sixaxis(const bdaddr_t *src, const bdaddr_t *dst)
- 	vid = btd_device_get_vendor(device);
+--- bluez5_utils-5.54/profiles/input/server.c	2020-07-04 22:20:40.219070704 +0200
++++ bluez5_utils-5.54/profiles/input/server.c	2020-07-04 22:21:23.375189660 +0200
+@@ -134,8 +134,7 @@
  	pid = btd_device_get_product(device);
-
--	/* DualShock 3 */
--	if (vid == 0x054c && pid == 0x0268)
--		return true;
--
- 	/* DualShock 4 */
- 	if (vid == 0x054c && pid == 0x05c4)
+ 
+ 	cp = get_pairing(vid, pid);
+-	if (cp && (cp->type == CABLE_PAIRING_SIXAXIS ||
+-					cp->type == CABLE_PAIRING_DS4))
++	if (cp && cp->type == CABLE_PAIRING_DS4)
  		return true;
-
--	/* Navigation Controller */
--	if (vid == 0x054c && pid == 0x042f)
--		return true;
--
+ 
  	return false;
- }
-
--- 
-2.1.4
-
