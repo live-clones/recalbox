@@ -1,0 +1,12 @@
+config BR2_PACKAGE_KODI_SCRIPT_MODULE_REQUESTS
+	bool "kodi-script-requests"
+	default n
+	depends on BR2_PACKAGE_KODI
+	select BR2_PACKAGE_KODI_SCRIPT_MODULE_CERTIFI
+	select BR2_PACKAGE_KODI_SCRIPT_MODULE_CHARDET
+	select BR2_PACKAGE_KODI_SCRIPT_MODULE_IDNA
+	select BR2_PACKAGE_KODI_SCRIPT_MODULE_URLLIB3
+	help
+	  Kodi Requests script module
+
+	  https://gitlab.com/recalbox/recalbox-configgen/-/pipelines

@@ -1,0 +1,8 @@
+config BR2_PACKAGE_KODI_SCRIPT_MODULE_URLLIB3
+	bool "kodi-script-module-future"
+	default n
+	depends on BR2_PACKAGE_KODI
+	help
+	  Kodi Urllib3 script module
+
+	  https://kodi.wiki/view/Add-on:Urllib3
