@@ -66,10 +66,10 @@
 diff -u output/build/gsplus-480572054518112647c8fae5d7ea7046a6d6ecfb/src/options.c output/build/gsplus-modified/src/options.c
 --- a/src/options.c	2019-10-05 18:05:31.529515885 +0200
 +++ b/src/options.c	2019-10-05 19:16:46.660531875 +0200
-@@ -81,7 +81,14 @@
- extern int g_joystick_button_3;       // defined in joystick_driver.c
+@@ -82,7 +82,14 @@
  extern int g_joystick_button_hk;      // defined in joystick_driver.c
  extern int g_joystick_button_start;   // defined in joystick_driver.c
+ extern byte g_temp_boot_slot;         // defined in config.c
 -
 +extern int g_joystick_dpad_up_button;
 +extern int g_joystick_dpad_down_button;
@@ -82,7 +82,7 @@ diff -u output/build/gsplus-480572054518112647c8fae5d7ea7046a6d6ecfb/src/options
  
  // DEPRECATED: force bit depth (15/16/24) for X-Windows, might still work.
  extern int g_force_depth;             // defined in sim65816.c
-@@ -324,6 +331,81 @@
+@@ -325,6 +332,81 @@
          glogf("%s Setting joystick Button start to Gamepad %d", parse_log_prefix, tmp1);
          g_joystick_button_start = tmp1;
          i++;

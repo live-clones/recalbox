@@ -22,16 +22,17 @@
  }
 --- a/src/options.c	2019-05-11 17:32:24.000000000 +0200
 +++ b/src/options.c	2019-05-24 17:56:02.385012030 +0200
-@@ -79,6 +79,8 @@
+@@ -79,6 +79,9 @@
  extern int g_joystick_button_1;       // defined in joystick_driver.c
  extern int g_joystick_button_2;       // defined in joystick_driver.c
  extern int g_joystick_button_3;       // defined in joystick_driver.c
 +extern int g_joystick_button_hk;      // defined in joystick_driver.c
 +extern int g_joystick_button_start;   // defined in joystick_driver.c
++extern byte g_temp_boot_slot;         // defined in config.c
  
  
  // DEPRECATED: force bit depth (15/16/24) for X-Windows, might still work.
-@@ -304,6 +306,24 @@
+@@ -304,6 +306,33 @@
          glogf("%s Setting joystick Button 3 to Gamepad %d", parse_log_prefix, tmp1);
          g_joystick_button_3 = tmp1;
          i++;
@@ -52,6 +53,15 @@
 +        tmp1 = strtol(argv[i+1], 0, 0); // no bounds check, not sure what ids we get
 +        glogf("%s Setting joystick Button start to Gamepad %d", parse_log_prefix, tmp1);
 +        g_joystick_button_start = tmp1;
++        i++;
++    } else if(!strcmp("-slot", argv[i])) {
++        if((i+1) >= argc) {
++          glogf("%s Error, option '-slot' missing argument", parse_log_prefix);
++          exit(1);
++        }
++        tmp1 = strtol(argv[i+1], 0, 0); // no bounds check, not sure what ids we get
++        glogf("%s Setting boot slot to %d", parse_log_prefix, tmp1);
++        g_temp_boot_slot = tmp1;
 +        i++;
      } else if(!strcmp("-dhr140", argv[i])) {
        glogf("%s Using simple dhires color map", parse_log_prefix);
