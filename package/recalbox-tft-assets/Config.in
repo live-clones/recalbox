@@ -1,0 +1,4 @@
+config BR2_PACKAGE_RECALBOX_TFT_ASSETS
+	bool "Recalbox TFT assets"
+	help
+	  Install the recalbox tft assets
