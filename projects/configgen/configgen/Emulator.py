@@ -62,14 +62,15 @@ class Emulator:
             self.config['args'] = None
 
     def updateDrawFPS(self):
+        value = 'false'
         try:
             import xml.etree.ElementTree as ET
             esConfig = ET.parse(recalboxFiles.esSettings)
             value = esConfig.find("./bool[@name='DrawFramerate']").attrib["value"]
         except:
-            value = 'false'
-        if value not in ['false', 'true']:
-            value = 'false'
+            pass
+        if value == '1': value = 'true'
+        if value not in ['false', 'true']: value = 'false'
         self.config['showFPS'] = value
 
     def updateShaders(self, shaderSet):

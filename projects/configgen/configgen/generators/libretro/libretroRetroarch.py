@@ -331,6 +331,7 @@ class LibretroRetroarch:
         # Display FPS
         fps = self.isEnabled("showFPS")
         settings.setOption("fps_show", self.TRUE if fps else self.FALSE)
+        settings.setOption("fps_update_interval", "256")
 
         # Display framecount
         framecount = self.isEnabled("framecount")
