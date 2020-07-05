@@ -170,7 +170,7 @@
   - MP3 files
   - High quality FLAC files
   - OGG OPUS
-  - Amige Modules (and all derivatives traker formats)
+  - Amiga Modules (and all derivatives traker formats)
   - Wave (Raw audio format)
   - MIDI file (soundfont file required)
   More information available in share/music/readme.txt
@@ -181,8 +181,9 @@
 - Improve the management of external screens and selection from recalbox.conf by Chriskt78
 - Add support for zipped gamelist.xml
 - Add libetro's Mesen, accurate NES & FDS emulator (rpi4, xu4, x86(_64) only)
-- Add libetro's Mesen-S, accurate SNES, Satellaview, GB/GBC & Super GameBoy emulator (rpi4, xu4, x86(_64) only)
-
+- Add libetro's Mesen-S, accurate SNES, Satellaview, GB/GBC & Super GameBoy emulator (rpi4, xu4, x86/x64 only)
+- Improve common options support in several standalone emulators
+- Improve Apple IIGS slot detection & auto-boot
 
 ### Fixes
 - Fix Odroid XU4 fan issue

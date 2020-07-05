@@ -106,6 +106,8 @@ All notable changes to this project will be documented in this file.
 - Bump kodi.plugin.video.youtube to 6.8.2
 - Add libretro-mesen on rpi4, xu4 and pc
 - Add libretro-mesen-s on rpi4, xu4 and pc
+- Improved Apple IIGS autoboot support
+- Improved support of vsync/integer scale/smooth for several standalone emulators
 
 ## [6.1.1]
 - Add zfast shaders
