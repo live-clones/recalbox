@@ -113,6 +113,14 @@ class GSplusGenerator(Generator):
     def defined(key, dictio):
         return key in dictio and isinstance(dictio[key], str) and len(dictio[key]) > 0
 
+    @staticmethod
+    def clearDisks(settings):
+        for i in range(1, 3):
+            settings.removeOption("s5d{}".format(i))
+            settings.removeOption("s6d{}".format(i))
+        for i in range(1, 33):
+            settings.removeOption("s7d{}".format(i))
+
     def generate(self, system, playersControllers, recalboxSettings, args):
         """
         Load, override keys and save back emulator's configuration file
@@ -123,11 +131,21 @@ class GSplusGenerator(Generator):
         settings = keyValueSettings(recalboxFiles.gsplusConfig, True)
         settings.loadFile(True)
 
+        # Try to guess the best drive
+        size = os.path.getsize(args.rom) >> 10
+        if size == 140: # Probably Apple II software on 5.25" disk
+            slot = 6
+        elif size == 800: # Most likely an Apple IIGS 3.5" disk
+            slot = 5
+        else: # Apple IIGS hard disk image or unknown size, let the emulator decide!
+            slot = 7
+
         # Seek multidisk games
         disks = GSplusGenerator.SeekMultiDisks(args.rom)
         diskDrive = 1
+        self.clearDisks(settings)
         for disk in disks:
-            settings.setOption("s7d{}".format(diskDrive), disk)
+            settings.setOption("s{}d{}".format(slot, diskDrive), disk)
             diskDrive += 1
 
         # Save config file
@@ -136,7 +154,9 @@ class GSplusGenerator(Generator):
         # Default options
         options = ["-fullscreen",
                    "-ssdir", recalboxFiles.SCREENSHOTS,
-                   "-config", recalboxFiles.gsplusConfig]
+                   "-config", recalboxFiles.gsplusConfig,
+                   "-mem", "14680064",
+                   "-slot", str(slot)]
 
         # Screen resolution
         from utils.resolutions import ResolutionParser
