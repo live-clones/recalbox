@@ -37,7 +37,7 @@ class ResidualVMGenerator(Generator):
             commandArray.extend(system.config['args'])
         commandArray.append("""{}""".format(romName))
 
-        return Command.Command(videomode='default', array=commandArray, env={"SDL_VIDEO_GL_DRIVER":"/usr/lib/libGLESv2.so","SDL_VIDEO_EGL_DRIVER":"/usr/lib/libGLESv2.so"})
+        return Command.Command(videomode='default', array=commandArray, env={"SDL_VIDEO_GL_DRIVER":"/usr/lib/libGLESv2.so","SDL_VIDEO_EGL_DRIVER":"/usr/lib/libEGL.so"})
 
     # return true if the option is considered defined
     @staticmethod

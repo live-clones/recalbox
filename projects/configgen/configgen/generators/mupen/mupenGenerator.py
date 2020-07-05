@@ -40,4 +40,4 @@ class MupenGenerator(Generator):
             commandArray.extend(system.config['args'])
         commandArray.append(args.rom)
 
-        return Command.Command(videomode=system.config['videomode'], array=commandArray, env={"SDL_VIDEO_GL_DRIVER":"/usr/lib/libGLESv2.so", "SDL_VIDEO_EGL_DRIVER":"/usr/lib/libGLESv2.so"})
+        return Command.Command(videomode=system.config['videomode'], array=commandArray, env={"SDL_VIDEO_GL_DRIVER":"/usr/lib/libGLESv2.so", "SDL_VIDEO_EGL_DRIVER":"/usr/lib/libEGL.so"})
