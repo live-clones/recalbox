@@ -137,8 +137,8 @@ class DemoTimer(threading.Thread):
     def terminateProcess(self, refresh, time):
         try:
             self.proc.terminate()
-        except OSError:
-            pass
+        except Exception as ex:
+            print("Error terminating process: {}".format(ex))
 
         # Wait for the process to quit
         if self.proc.poll() is None:
@@ -151,44 +151,48 @@ class DemoTimer(threading.Thread):
             # Still alive?
             if self.proc.poll() is None:
                 try:
-                    signal = __import__("signal")
-                    os.kill(self.proc.pid, signal.SIGKILL)
-                except OSError:
-                    pass
+                    import signal
+                    self.proc.send_signal(signal.SIGKILL)
+                except Exception as ex:
+                    print("Error sending kill signal: {}".format(ex))
 
     def run(self):
-        time = __import__("time")
+        import time
         refresh = 0.2  # refresh time in second
         outDuration = self.outScreenDuration * int(1.0 / refresh)
         duration = (self.duration * int(1.0 / refresh)) + outDuration
         outScreen = None
-        while duration > 0:
-            duration -= 1
-            time.sleep(refresh)
-            # User action?
-            event = self.inputs.hasUserEvent()
-            if event == InputEvents.PLAY:
-                self.userWannaPlay = True
-                print("Demo mode ends because the user want to play the current game")
-                break
-            if event == InputEvents.OTHER:
-                self.userQuit = True
-                print("Demo mode ends upon user request")
-                break
-            # Not yet in outscreen?
-            if outScreen is None:
-                # Process quitted prematurely?
-                if self.proc.poll() is not None:
-                    print("Emulator quitted prematurely")
+        try:
+            while duration > 0:
+                duration -= 1
+                time.sleep(refresh)
+                # User action?
+                event = self.inputs.hasUserEvent()
+                if event == InputEvents.PLAY:
+                    self.userWannaPlay = True
+                    print("Demo mode ends because the user want to play the current game")
                     break
-                # Outscreen?
-                if duration < outDuration:
-                    try:
-                        outScreen = demoInformation()
-                        outScreen.display()
-                    except Exception:
-                        duration = 0
-                    self.terminateProcess(refresh, time)
+                if event == InputEvents.OTHER:
+                    self.userQuit = True
+                    print("Demo mode ends upon user request")
+                    break
+                # Not yet in outscreen?
+                if outScreen is None:
+                    # Process quitted prematurely?
+                    if self.proc.poll() is not None:
+                        print("Emulator quitted prematurely")
+                        break
+                    # Outscreen?
+                    if duration < outDuration:
+                        try:
+                            outScreen = demoInformation()
+                            outScreen.display()
+                        except Exception as ex:
+                            print("Error diplaying demo info screen: {}".format(ex))
+                            duration = 0
+                        self.terminateProcess(refresh, time)
+        except Exception as ex:
+            print("Demo exited unexpectedly: {}".format(ex))
 
         if outScreen is not None:
             del outScreen

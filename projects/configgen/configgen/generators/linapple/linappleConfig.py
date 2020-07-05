@@ -4,7 +4,6 @@ Created on Mar 6, 2016
 @author: Laurent Marchelli
 """
 import os
-import re
 
 
 joystick_translator = {
@@ -52,6 +51,7 @@ class LinappleConfig(object):
         Notes:
             Commented and blank lines are stripped from the extraction.
         """
+        import re
         patten = re.compile(r"^\s*(?P<name>\w+( \w+)*)\s*="
                             r"\s*(?P<value>[^\s]*).*$")
         with open(filename, 'r' ) as lines:
@@ -176,17 +176,21 @@ class LinappleConfig(object):
         # Screen resolution
         from utils.resolutions import ResolutionParser
         resolution = ResolutionParser(system.config['videomode'])
+        self.settings['Fullscreen'] = '1'
         if resolution.isSet and resolution.selfProcess:
-            self.settings['Fullscreen'] = '1'
             self.settings['Screen Width'] = str(resolution.width)
             self.settings['Screen Height'] = str(resolution.height)
         else:
-            ''' force fullscreen on x86 x86_64 '''
-            from utils.architecture import Architecture
-            arch = Architecture()
-            self.settings['Fullscreen'] = '1' if arch.isX64 or arch.isX86 else '0'
-            self.settings['Screen Width'] = '800'
-            self.settings['Screen Height'] = '600'
+            xy = "800,600"
+            try:
+                with open("/sys/class/graphics/fb0/virtual_size", "r") as f:
+                    xy = f.read()
+            except Exception as ex:
+                print("Can't read resolution: {}".format(ex))
+
+            (x, y) = xy.split(',')
+            self.settings['Screen Width'] = x
+            self.settings['Screen Height'] = y
 
 
 # Local Variables:
