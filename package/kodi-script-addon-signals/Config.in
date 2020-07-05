@@ -1,8 +1,0 @@
-config BR2_PACKAGE_KODI_SCRIPT_ADDON_SIGNALS
-	bool "kodi-script-addon-signals"
-	default n
-	depends on BR2_PACKAGE_KODI
-	help
-	  Kodi Addon Signals plugin
-
-	  https://kodi.wiki/view/Add-on:Addon_Signals

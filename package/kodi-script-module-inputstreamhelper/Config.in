@@ -1,0 +1,9 @@
+config BR2_PACKAGE_KODI_SCRIPT_MODULE_INPUTSTREAMHELPER
+	bool "kodi-script-module-inputstreamhelper"
+	default n
+	depends on BR2_PACKAGE_KODI
+	select BR2_PACKAGE_LIBNSS
+	help
+	  Kodi inputstreamhelper script module
+
+	  https://kodi.wiki/view/Add-on:InputStream_Helper
