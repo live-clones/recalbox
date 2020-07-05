@@ -90,9 +90,6 @@ fi
 # Changelog
 cp "$BR2_EXTERNAL_RECALBOX_PATH/CHANGELOG.md" "${TARGET_DIR}/recalbox/recalbox.changelog"
 
-# Generate biols list
-cd "${TARGET_DIR}/recalbox/share_init" && find bios > "${TARGET_DIR}/recalbox/share_init/embedded.list"
-
 # Compress folders
 # 
 # BEWARE Developpers: Once the tar.xz is created, it is not updated.
@@ -104,10 +101,11 @@ for DIR in cheats \
 do
     FDIR="${TARGET_DIR}/recalbox/share_init/${DIR}"
     if test ! -e "${FDIR}.tar.gz"; then
-        rm -rf "${FDIR}.tar"
+        rm -f "${FDIR}.tar"
         cd "${TARGET_DIR}/recalbox/share_init" && \
             tar -cf "${DIR}.tar" "${DIR}" && \
             xz -f -9 -e --threads=0 "${DIR}.tar"
     fi
+    rm -f "${FDIR}.tar"
     rm -rf "${FDIR}"
 done
