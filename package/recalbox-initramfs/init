@@ -121,9 +121,12 @@ do_root() {
         # Partition not available: Mount tmpfs partition
         mount -t tmpfs -o size=128M tmpfs /overlay_root || return 1
     fi
-    # Backup and clean up overlay
+    # Backup, clean up overlay and reboot
     if test "$updated" -eq "1" ; then
         do_clean_overlay
+        umount /boot_root
+        sync
+        reboot -f
     fi
 
     # Clean overlay after 3 unsuccessfull boot attempts
