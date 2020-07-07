@@ -27,12 +27,12 @@ do_update() {
   if [ $RESULT -ne 0 ]; then
     losetup /dev/loop1 "${UPDATEFILE}" -o $((2048 * 512)) || return 2
   fi
-  mount /dev/loop1 /mnt || return 1
+  mount /dev/loop1 /mnt || return 3
 
   echo "remounting /boot R/W"
   fbv -f -i /recalbox/system/resources/offline-install-3.jpg &
   sleep 1
-  mount -o remount,rw /boot/ || return 1
+  mount -o remount,rw /boot/ || return 4
 
   # Files copy
   echo "copying update boot files"
@@ -51,7 +51,8 @@ do_update() {
   sleep 1
 
   # Umount
-  umount /mnt/ || return 1
+  echo "unmount image"
+  umount /mnt/ || return 8
 
   # Clean up
   echo "cleanup"
