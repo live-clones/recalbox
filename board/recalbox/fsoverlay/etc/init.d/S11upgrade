@@ -15,6 +15,7 @@ for file in /boot/update/recalbox-*.img.xz; do
 done
 
 if test -e "${UPDATEFILE}"; then
+  recallog -f upgrade.log "upgrade found! moving ${UPDATEFILE} to SHARE as $(basename "${UPDATEFILE_UNCOMPRESSED}")"
   killall S06splash
   dd if=/dev/zero of=/dev/fb0 > /dev/null 2>&1
   fbv -f -i /recalbox/system/resources/offline-install-0.jpg &

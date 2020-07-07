@@ -14,6 +14,7 @@ function do_update() {
   done
 
   # Stop ES
+  echo "stopping emulationstation"
   /etc/init.d/S31emulationstation stop
   dd if=/dev/zero of=/dev/fb0 > /dev/null 2>&1
   fbv -f -i /recalbox/system/resources/offline-install-0.jpg &
@@ -29,6 +30,7 @@ function do_update() {
   fi
 
   # Mount
+  echo "mount image"
   fbv -f -i /recalbox/system/resources/offline-install-2.jpg &
   sleep 1
   losetup /dev/loop1 "${UPDATEFILE2}" -o 1048576
@@ -38,11 +40,13 @@ function do_update() {
   fi
   mount /dev/loop1 /mnt || return 1
 
+  echo "remounting /boot R/W"
   fbv -f -i /recalbox/system/resources/offline-install-3.jpg &
   sleep 1
   mount -o remount,rw /boot/ || return 1
 
   # Files copy
+  echo "copying update boot files"
   fbv -f -i /recalbox/system/resources/offline-install-4.jpg &
   if [ -f /mnt/boot.lst ]; then
     while read -r file; do 
@@ -69,16 +73,28 @@ function do_update() {
 
 }
 
-if do_update; then
+log() {
+  while read -r line; do
+    /usr/bin/recallog -f upgrade.log -e "$line"
+  done
+}
+
+# redirect STDOUT and STDERR to recallog
+exec &> >(log)
+echo "starting upgrade"
+
+do_update
+RC=$?
+if [ $RC -eq 0 ]; then
   # Reboot
+  echo "upgrade successfull, rebooting"
   fbv -f -i /recalbox/system/resources/offline-install-7.jpg &
   sleep 1
-  reboot
 else
+  echo "upgrade failed return code $RC" >&2
   fbv -f -i /recalbox/system/resources/offline-install-error.jpg &
   sleep 10
-  reboot
 fi
-
+sync
+reboot
 exit 0
-
