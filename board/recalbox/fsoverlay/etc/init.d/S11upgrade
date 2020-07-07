@@ -10,6 +10,7 @@ UPDATEFILE="rbx_no_upgrade"
 for file in /boot/update/recalbox-*.img.xz; do
   if [[ -f $file ]]; then
     UPDATEFILE=${file}
+    UPDATEFILE_UNCOMPRESSED=${file::-3}
     break
   fi
 done
@@ -19,8 +20,9 @@ if test -e "${UPDATEFILE}"; then
   killall S06splash
   dd if=/dev/zero of=/dev/fb0 > /dev/null 2>&1
   fbv -f -i /recalbox/system/resources/offline-install-0.jpg &
+  unxz -c "${UPDATEFILE}" >"/recalbox/share/system/upgrade/$(basename "$UPDATEFILE_UNCOMPRESSED")"
   mount -o remount,rw /boot
-  mv ${UPDATEFILE} /recalbox/share/system/upgrade/
+  rm "${UPDATEFILE}"
   mount -o remount,ro /boot
   ( exec /recalbox/scripts/upgrade/recalbox-squashfs-upgrade.sh )
   exit 0
