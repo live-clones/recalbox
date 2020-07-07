@@ -15,7 +15,7 @@ check_safeboot() {
     if test -e "${safeboot}" ; then
         safebootvalue=`cat "${safeboot}"`
         let safebootvalue++
-	if test "${safebootvalue}" -gt 2 ; then
+            if test "${safebootvalue}" -gt 2 ; then
             return 1
         else
             echo "${safebootvalue}" > "${safeboot}"
@@ -38,12 +38,13 @@ check_update() {
     mount -o remount,rw /boot_root || return 1
     mkdir -p /boot_root/update/
     mount -o remount,ro /boot_root || return 1
-    if test -f /boot_root/update/recalbox ; then
-        if test -f /boot_root/update/linux ; then
-            if [ -f /boot_root/update/initrd.gz ] || [ -f /boot_root/update/uInitrd ] ; then
-                return 0
-            fi
+    if [ -f /boot_root/update/boot.lst ]; then
+      while read -r file; do
+        if [ ! -f "/boot_root/update/$file" ]; then
+          return 1
         fi
+      done < /boot_root/update/boot.lst
+      return 0
     fi
     return 1
 }
@@ -58,18 +59,13 @@ do_clean_overlay() {
 do_update() {
     mount -o remount,rw /boot_root || return 1
     # UPDATE!
-    mv /boot_root/update/recalbox  /boot_root/boot/recalbox  || return 1
-    mv /boot_root/update/linux     /boot_root/boot/linux     || return 1
-    if test -f "/boot_root/update/initrd.gz" ; then
-      mv /boot_root/update/initrd.gz /boot_root/boot/initrd.gz || return 1
+    if [ -f /boot_root/update/boot.lst ]; then
+      # filelist mode
+      while read -r file; do
+        mv "/boot_root/update/$file" "/boot_root/$file" || return 1
+      done < /boot_root/update/boot.lst
+      rm /boot_root/update/boot.lst
     fi
-    if test -f "/boot_root/update/uInitrd" ; then
-      mv /boot_root/update/uInitrd /boot_root/boot/uInitrd || return 1
-    fi
-    if test -f "/boot_root/update/recalbox-config.txt" ; then
-      mv /boot_root/update/recalbox-config.txt /boot_root/recalbox-config.txt || return 1
-    fi
-
     mount -o remount,ro /boot_root || return 1
 }
 

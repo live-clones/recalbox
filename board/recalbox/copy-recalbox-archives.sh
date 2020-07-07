@@ -45,6 +45,14 @@ xu4_fusing() {
     dd if=/dev/zero of="${RECALBOXIMG}" seek=$env_position count=32 bs=512 conv=notrunc || return 1
 }
 
+# $1 boot directory
+generate_boot_file_list() {
+  pushd "$1" >/dev/null
+  find . -type f -printf '%P\n'
+  popd >/dev/null
+}
+
+
 RECALBOX_BINARIES_DIR="${BINARIES_DIR}/recalbox"
 RECALBOX_TARGET_DIR="${TARGET_DIR}/recalbox"
 
@@ -74,6 +82,9 @@ case "${RECALBOX_TARGET}" in
 		|| cp "${BINARIES_DIR}/zImage" "${BINARIES_DIR}/rpi-firmware/boot/linux"
 	cp "${BINARIES_DIR}/initrd.gz" "${BINARIES_DIR}/rpi-firmware/boot" || exit 1
 	cp "${BINARIES_DIR}/rootfs.squashfs" "${BINARIES_DIR}/rpi-firmware/boot/recalbox" || exit 1
+
+	generate_boot_file_list "${BINARIES_DIR}/rpi-firmware/" | \
+		grep -v -E '^(boot.lst|config.txt|recalbox-boot.conf)$' >"${BINARIES_DIR}/rpi-firmware/boot.lst"
 
 	#recalbox.img
 	GENIMAGE_TMP="${BUILD_DIR}/genimage.tmp"
@@ -108,6 +119,9 @@ case "${RECALBOX_TARGET}" in
 	cp "${BINARIES_DIR}/zImage" "${BINARIES_DIR}/xu4-firmware/boot/linux" || exit 1
 	cp "${BINARIES_DIR}/rootfs.squashfs" "${BINARIES_DIR}/xu4-firmware/boot/recalbox" || exit 1
 
+	generate_boot_file_list "${BINARIES_DIR}/xu4-firmware/" | \
+		grep -v -E '^(boot.lst|boot.ini|recalbox-boot.conf)$' >"${BINARIES_DIR}/boot.lst"
+
 	# recalbox.img
 	GENIMAGE_TMP="${BUILD_DIR}/genimage.tmp"
 	rm -rf "${GENIMAGE_TMP}" || exit 1
@@ -140,6 +154,9 @@ case "${RECALBOX_TARGET}" in
 	else
 		genimg=genimage-x86.cfg
 	fi
+
+	generate_boot_file_list "${BINARIES_DIR}/boot/" | \
+		grep -v -E '^(boot.lst|recalbox-boot.conf)$' >"${BINARIES_DIR}/boot.lst"
 
 	# recalbox.img
 	cp "${HOST_DIR}/usr/lib/grub/i386-pc/boot.img" "${BINARIES_DIR}" || exit 1

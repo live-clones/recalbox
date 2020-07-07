@@ -44,16 +44,16 @@ function do_update() {
 
   # Files copy
   fbv -f -i /recalbox/system/resources/offline-install-4.jpg &
-  sleep 1
-  # mandatory files
-  for file in boot/recalbox boot/linux boot/initrd.gz; do
-    cp "/mnt/$file" "/boot/update/$(basename $file)" || return 1
-  done
-  # optional files
-  # shellcheck disable=SC2043
-  for file in recalbox-config.txt; do
-    [[ -f "/mnt/$file" ]] && cp "/mnt/$file" "/boot/update/$(basename $file)"
-  done
+  if [ -f /mnt/boot.lst ]; then
+    while read -r file; do 
+      echo "  processing $file"
+      [[ ! -d /boot/update/$(dirname "$file") ]] && mkdir -p "/boot/update/$(dirname "$file")"
+      cp "/mnt/$file" "/boot/update/$file" || return 5
+    done < /mnt/boot.lst
+    cp /mnt/boot.lst /boot/update/ || return 6
+  else
+    return 7
+  fi
   fbv -f -i /recalbox/system/resources/offline-install-5.jpg &
   sleep 1
 
