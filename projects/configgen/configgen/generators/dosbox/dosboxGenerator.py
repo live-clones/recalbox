@@ -6,6 +6,12 @@ import os.path
 
 
 class DosBoxGenerator(Generator):
+
+    # return true if the option is considered enabled (for boolean options)
+    @staticmethod
+    def defined(key, dictio):
+        return key in dictio and isinstance(dictio[key], str) and len(dictio[key]) > 0
+
     # Main entry of the module
     # Return command
     def generate(self, system, playersControllers, recalboxSettings, args):
@@ -21,6 +27,14 @@ class DosBoxGenerator(Generator):
 			"""{}""".format(batFile),
 			"-c", """set ROOT={}""".format(gameDir),
 			"-vkeybd", "/usr/share/dosbox"]
+
+        if self.defined('shaders', system.config):
+            if system.config['shaders'] == 'scanlines':
+                commandArray.append("-forcescaler")
+                commandArray.append("scan3x")
+            elif system.config['shaders'] == 'retro':
+                commandArray.append("-forcescaler")
+                commandArray.append("rgb3x")
 
         from utils.resolutions import ResolutionParser
         resolution = ResolutionParser(system.config['videomode'])

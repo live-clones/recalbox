@@ -154,6 +154,11 @@ class AmiberryGenerator(Generator):
         kl = recalboxSettings.getOption("system.kblayout", recalboxSettings.getOption("system.language", "us")[-2:]).lower()
         return kl
 
+    # return true if the option is considered enabled (for boolean options)
+    @staticmethod
+    def defined(key, dictio):
+        return key in dictio and isinstance(dictio[key], str) and len(dictio[key]) > 0
+
     # Main entry of the module
     # Return command
     def generate(self, system, playersControllers, recalboxSettings, args):
@@ -168,7 +173,8 @@ class AmiberryGenerator(Generator):
         globalOverride = os.path.join(os.path.dirname(rom), ".amiberry.conf")
         globalConfig = AmiberryGlobalConfig(globalOverride,
                                             os.path.join(recalboxFiles.amiberryMountPoint, "conf/amiberry.conf"))
-        globalConfig.createGlobalSettings(args.verbose)
+        scanline = self.defined('shaders', system.config) and system.config['shaders'] == 'scanlines'
+        globalConfig.createGlobalSettings(args.verbose, scanline)
 
         # Build default command
         settingsFullPath = os.path.join(recalboxFiles.amiberryMountPoint, "conf/uaeconfig.uae")
@@ -182,7 +188,7 @@ class AmiberryGenerator(Generator):
 
         # Load default settings
         configFile.SetDefaultPath(subSystem)
-        configFile.SetUI(AmiberryGenerator.GetKeyboardLayout(recalboxSettings))
+        configFile.SetUI(AmiberryGenerator.GetKeyboardLayout(recalboxSettings), system.config['showFPS'] == 'true')
         configFile.SetInput(subSystem)
         configFile.SetJoystick(subSystem, playersControllers)
         configFile.SetCPU(subSystem, needSlowCPU)

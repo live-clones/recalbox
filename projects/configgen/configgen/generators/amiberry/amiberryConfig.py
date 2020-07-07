@@ -40,9 +40,9 @@ class ConfigGenerator:
             self.settings.setOption("pcmcia_mb_rom_file", ":ENABLED")
             self.settings.setOption("ide_mb_rom_file", ":ENABLED")
 
-    def SetUI(self, keyboardLayout):
+    def SetUI(self, keyboardLayout, showfps):
         self.settings.setOption("use_gui", "no")
-        self.settings.setOption("show_leds", "yes")  # Set yes for debug, no for production
+        self.settings.setOption("show_leds", "yes" if showfps else "no")
         # Valid for amiberry?
         if keyboardLayout not in ["us", "fr", "de", "dk", "es", "se", "it"]:
             keyboardLayout = "us"

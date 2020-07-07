@@ -48,13 +48,15 @@ class ScummVMGenerator(Generator):
           romName = os.path.splitext(os.path.basename(args.rom))[0]
 
         smooth = "--filtering" if self.enabled('smooth', system.config) else "--no-filtering"
+        scanline = "--gfx-mode=DotMatrix" if self.defined('shaders', system.config) and system.config['shaders'] == 'scanlines' else ""
         commandArray = [recalboxFiles.recalboxBins[system.config['emulator']],
                         "--fullscreen",
                         "--joystick=0",
                         "--extrapath=/usr/share/scummvm",
                         "--savepath="+recalboxFiles.scummvmSaves,
+                        "--subtitles"
                         "--path=""{}""".format(romPath),
-                        smooth]
+                        smooth, scanline]
         if 'args' in system.config and system.config['args'] is not None:
             commandArray.extend(system.config['args'])
         commandArray.append("""{}""".format(romName))

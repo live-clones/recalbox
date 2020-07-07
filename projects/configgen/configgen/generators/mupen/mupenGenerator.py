@@ -24,7 +24,7 @@ class MupenGenerator(Generator):
 	    "--gfx", "/usr/lib/mupen64plus/mupen64plus-video-{}.so".format(system.config['core']),
 	    "--configdir", recalboxFiles.mupenConf,
 	    "--datadir", recalboxFiles.mupenConf,
-        "--sshortdir", recalboxFiles.SCREENSHOTS]
+        "--sshotdir", recalboxFiles.SCREENSHOTS]
 
         # Screen resolution
         from utils.resolutions import ResolutionParser

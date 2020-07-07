@@ -12,15 +12,15 @@ class AmiberryGlobalConfig:
         self.globalSettingsFile = finalGlobalSettingsFile
         self.userSettingsFile = userGlobalSettingsFile
 
-    def createGlobalSettings(self, verbose): # type: (bool) -> None
+    def createGlobalSettings(self, verbose, scanline): # type: (bool, bool) -> None
         # Load user settings first
         settings = keyValueSettings(self.userSettingsFile)
         settings.loadFile(True)
 
         # Set default settings if they do not exists
         settings.setDefaultOption("read_config_descriptions", "yes")
-        settings.setDefaultOption("write_logfile", "yes")
-        settings.setDefaultOption("scanlines_by_default", "no")
+        settings.setDefaultOption("write_logfile", "yes" if verbose else "no")
+        settings.setDefaultOption("scanlines_by_default", "yes" if scanline else "no")
         settings.setDefaultOption("speedup_cycles_jit_pal", "10000")
         settings.setDefaultOption("speedup_cycles_jit_ntsc", "6667")
         settings.setDefaultOption("speedup_cycles_nonjit", "256")
@@ -34,7 +34,6 @@ class AmiberryGlobalConfig:
         settings.setDefaultOption("default_frame_skip", "1")
         settings.setDefaultOption("default_fullscreen", "1")
         settings.setDefaultOption("default_scaling_method", "-1")
-        settings.setDefaultOption("write_logfile", "yes" if verbose else "no")
 
         # Forced values
         settings.setOption("Quickstart", "1")
