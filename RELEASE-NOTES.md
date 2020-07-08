@@ -41,6 +41,7 @@
 - Add libretro's mupen64plus-nx, an improved n64/64dd emulator (rpi only for now)
 - Add libretro's scummvm version as an alternative to the standalone emulator
 - Add libretro's pcsx_rearmed on pc too
+- Add naomigd system for your NAOMI GD-ROM games
 - Libretro puae emulates amigacd32 now
 - Add *LOTS* of awesome homebrews (more info in related subfolders):
   - A2600: Arguna (Nathan Tolbert)
@@ -166,7 +167,7 @@
 - Rename 4do to opera (newer libretro 3do core)
 - Bump Theodore core (add emulation of Thomson TO7 and TO7/70 computers)
 - Set vice_x64sc as default c64 emulator + JiffyDOS support
-- Add support for pupular music formats in EmulationStation
+- Add support for popular music formats in EmulationStation
   - MP3 files
   - High quality FLAC files
   - OGG OPUS
@@ -174,7 +175,6 @@
   - Wave (Raw audio format)
   - MIDI file (soundfont file required)
   More information available in share/music/readme.txt
-- Add naomigd system for your NAOMI GD-ROM games
 - Bump Amiberry to v3.1.3.1
 - Bump AdvanceMame to v3.9
 - Add volume control to XU4
@@ -182,8 +182,20 @@
 - Add support for zipped gamelist.xml
 - Add libetro's Mesen, accurate NES & FDS emulator (rpi4, xu4, x86(_64) only)
 - Add libetro's Mesen-S, accurate SNES, Satellaview, GB/GBC & Super GameBoy emulator (rpi4, xu4, x86/x64 only)
-- Improve common options support in several standalone emulators
 - Improve Apple IIGS slot detection & auto-boot
+- Improve the following standalone emulators:
+  - AdvanceMame: Support roms in sub-folders, integer scale & show FPS
+  - Amiberry (Amiga): Center screen, show FPS (LED bar) & Support scanline shader
+  - DosBox (DOS): Support retro & scanline shaders
+  - GSPlus (Apple IIGS): Support scanline shader
+  - Linapple (Apple II): Support all screen resolutions
+  - Oricutron (Oric): Support scanline shader
+  - Simcoupé (SAM Coupé): Support scanline shader & smooth rendering
+  - ScummVM: Support scanline shader & smooth rendering
+- Auto discover and configure multi-disk games for:
+  - Amiberry (Amiga): up to 4 disks loaded at once
+  - GSPlus (Apple IIGS): from 2 up to 32 disks loaded at once, depending on floppy types
+  - Quasi88 (PC88): up to 6 disks loaded at once
 
 ### Fixes
 - Fix Odroid XU4 fan issue
@@ -201,6 +213,7 @@
 - Fix reboot Emulationstation with webmanager 
 - Fix volume issues in boot video
 - Fix REICAST bug on XU4
+- Fix FPS show/hide in Retroarch
 
 *  : Require to scrape missing data using the internal scraper 
 ** : Availailable in both EmulationStation menu and configuration file 
