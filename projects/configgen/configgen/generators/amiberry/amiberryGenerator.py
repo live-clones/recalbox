@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-import glob
 import os.path
 import subprocess
 
@@ -15,22 +14,6 @@ from generators.amiberry.amiberrySubSystems import SubSystems
 
 class AmiberryGenerator(Generator):
 
-    MultiDiscMap = \
-    {
-        "Disc 1" : ["Disc 2" , "Disc 3" , "Disc 4" ],
-        "Disk 1" : ["Disk 2" , "Disk 3" , "Disk 4" ],
-        "disc 1" : ["disc 2" , "disc 3" , "disc 4" ],
-        "disk 1" : ["disk 2" , "disk 3" , "disk 4" ],
-        "Disc A" : ["Disc B" , "Disc C" , "Disc D" ],
-        "Disk A" : ["Disk B" , "Disk C" , "Disk D" ],
-        "disc A" : ["disc B" , "disc C" , "disc D" ],
-        "disk A" : ["disk B" , "disk C" , "disk D" ],
-        "Disc 01": ["Disc 02", "Disc 03", "Disc 04"],
-        "Disk 01": ["Disk 02", "Disk 03", "Disk 04"],
-        "disc 01": ["disc 02", "disc 03", "disc 04"],
-        "disk 01": ["disk 02", "disk 03", "disk 04"],
-    }
-
     # Generate RP9 Arguments
     @staticmethod
     def getRP9Arguments(rom, system, _):
@@ -43,35 +26,9 @@ class AmiberryGenerator(Generator):
     # Generate ADF Arguments
     @staticmethod
     def getADFArguments(rom, system, configFile):
-        # Set disk #1
-        disks = [rom]
-        _, ext = os.path.splitext(rom)
-
-        # Seek for next disks
-        for first in AmiberryGenerator.MultiDiscMap.keys():
-            pos = rom.find(first)
-            if pos > 0:
-                nextDiskPattern = AmiberryGenerator.MultiDiscMap[first]
-                for i in range(3):
-                    Found = False
-                    nextDisk = rom[:pos] + nextDiskPattern[i] + rom[pos  +len(nextDiskPattern[i]):]
-                    if os.path.exists(nextDisk):
-                        disks.append(nextDisk)
-                        Found = True
-                    else:
-                        # Try to seek for next disk with a different tailing text (TOSEC case)
-                        nextDisk = rom[:pos] + nextDiskPattern[i] + "*" + ext
-                        nextDisk = nextDisk.replace("[", "[[]").replace("]", "[]]")
-                        files = glob.glob(nextDisk)
-                        if files is not None:
-                            files.sort()  # Sort to get shortest name first
-                            if len(files) > 0:
-                                disks.append(files[0])
-                                Found = True
-                    if not Found:
-                        break  # Needless to seek for next file
-
-        configFile.SetFloppies(system, disks)
+        from utils.diskCollector import DiskCollector
+        collector = DiskCollector(rom, 4, True)
+        configFile.SetFloppies(system, collector.disks)
         return []
 
     # Generate WHDL Arguments

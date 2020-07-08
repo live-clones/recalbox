@@ -129,6 +129,22 @@ class LibretroGenerator(Generator):
         # Optional arguments from recalbox.conf
         if 'args' in system.config and system.config['args'] is not None:
              commandArray.extend(system.config['args'])
-             
-        commandArray.append(rom)
+
+        # Sub-system roms (pc88)
+        roms = self.buildRomArguments(rom, system.config['core'], args.verbose)
+        commandArray.extend(roms)
+
         return Command.Command(videomode=system.config['videomode'], array=commandArray)
+
+    @staticmethod
+    def buildRomArguments(rom, core, verbose): # type: (str, str, bool) -> list
+        # quasi88 (Pc88) use retroarch subsystem's to load multiple content
+        if core == "quasi88":
+            from utils.diskCollector import DiskCollector
+            collector = DiskCollector(rom, 6, verbose)
+            if collector.Count > 1:
+                roms = ["--subsystem", "pc88_{}_disk".format(collector.Count)]
+                roms.extend(collector.Disks)
+                return roms
+
+        return [rom]

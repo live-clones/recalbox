@@ -1,4 +1,3 @@
-import glob
 import os
 
 import Command
@@ -9,57 +8,15 @@ from settings.keyValueSettings import keyValueSettings
 
 class GSplusGenerator(Generator):
 
-    MultiDiscMap = \
-    {
-        "Disc 1" : ["Disc 2" , "Disc 3" , "Disc 4" ],
-        "Disk 1" : ["Disk 2" , "Disk 3" , "Disk 4" ],
-        "Disc A" : ["Disc B" , "Disc C" , "Disc D" ],
-        "Disk A" : ["Disk B" , "Disk C" , "Disk D" ],
-        "disc 1" : ["disc 2" , "disc 3" , "disc 4" ],
-        "disk 1" : ["disk 2" , "disk 3" , "disk 4" ],
-        "disc A" : ["disc B" , "disc C" , "disc D" ],
-        "disk A" : ["disk B" , "disk C" , "disk D" ],
-        "Disc 01": ["Disc 02", "Disc 03", "Disc 04"],
-        "Disk 01": ["Disk 02", "Disk 03", "Disk 04"],
-        "disc 01": ["disc 02", "disc 03", "disc 04"],
-        "disk 01": ["disk 02", "disk 03", "disk 04"],
-    }
-
     # Generate ADF Arguments
     @staticmethod
-    def SeekMultiDisks(rom):
-        # Set disk #1
-        disks = [rom]
-        _, ext = os.path.splitext(rom)
-
-        # Seek for next disks
-        for first in GSplusGenerator.MultiDiscMap.keys():
-            pos = rom.find(first)
-            if pos > 0:
-                nextDiskPattern = GSplusGenerator.MultiDiscMap[first]
-                for i in range(10):
-                    Found = False
-                    nextDisk = rom[:pos] + nextDiskPattern[i] + rom[pos  +len(nextDiskPattern[i]):]
-                    if os.path.exists(nextDisk):
-                        disks.append(nextDisk)
-                        Found = True
-                    else:
-                        # Try to seek for next disk with a different tailing text (TOSEC case)
-                        nextDisk = rom[:pos] + nextDiskPattern[i] + "*" + ext
-                        files = glob.glob(nextDisk)
-                        if files is not None:
-                            files.sort()  # Sort to get shortest name first
-                            if len(files) > 0:
-                                disks.append(files[0])
-                                Found = True
-                    if not Found:
-                        break  # Needless to seek for next file
-
-        return disks
+    def SeekMultiDisks(rom, disks): # type: (str, int) -> list
+        from utils.diskCollector import DiskCollector
+        collector = DiskCollector(rom, disks, True)
+        return collector.disks
 
     @staticmethod
-    def addJoyItem(option, item, _type, inputs, to):
-        # -> option: str, item: str, input:s: dict, to: list
+    def addJoyItem(option, item, _type, inputs, to): # type: (str, str, str, input, list) -> None
         if item in inputs:
             if inputs[item].type == _type:
                 to.append(option)
@@ -135,13 +92,16 @@ class GSplusGenerator(Generator):
         size = os.path.getsize(args.rom) >> 10
         if size == 140: # Probably Apple II software on 5.25" disk
             slot = 6
+            disks = 2
         elif size == 800: # Most likely an Apple IIGS 3.5" disk
             slot = 5
+            disks = 2
         else: # Apple IIGS hard disk image or unknown size, let the emulator decide!
             slot = 7
+            disks = 32
 
         # Seek multidisk games
-        disks = GSplusGenerator.SeekMultiDisks(args.rom)
+        disks = GSplusGenerator.SeekMultiDisks(args.rom, disks)
         diskDrive = 1
         self.clearDisks(settings)
         for disk in disks:
