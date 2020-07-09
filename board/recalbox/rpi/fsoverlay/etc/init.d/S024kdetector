@@ -5,11 +5,14 @@ if [ "$1" != start ] || ! grep -q rpi4 /recalbox/recalbox.arch; then
   exit 1
 fi
 
-DESIRED_CEA_RESOLUTION=("1920x1080.*60Hz" "1280x720.*60Hz")
-DESIRED_DMT_RESOLUTION=("1600x900.*60Hz" "1280x1024.*60Hz" "1280x720.*60Hz")
+DESIRED_CEA_RESOLUTION=("1920x1080.*60Hz.*progressive" "1920x1080.*60Hz.*interlaced" \
+                        "1280x720.*60Hz.*progressive" "1280x720.*60Hz.*interlaced")
+DESIRED_DMT_RESOLUTION=("1600x900.*60Hz.*progressive" "1600x900.*60Hz.*interlaced" \
+                        "1280x1024.*60Hz.*progressive" "1280x1024.*60Hz.*interlaced" \
+                        "1280x720.*60Hz.*progressive" "1280x720.*60Hz.*interlaced")
 
 found_best_cea_resolution() {
-  local MODE,resolution
+  local MODE resolution
   for resolution in ${DESIRED_CEA_RESOLUTION[*]} ; do
     MODE=$(tvservice -m CEA |grep -E "$resolution" | sed 's/.*mode\s\([0-9]\+\).*/\1/')
     if [ -n "$MODE" ]; then
@@ -21,7 +24,7 @@ found_best_cea_resolution() {
 }
 
 found_best_dmt_resolution() {
-  local MODE,resolution
+  local MODE resolution
   for resolution in ${DESIRED_DMT_RESOLUTION[*]} ; do
     MODE=$(tvservice -m DMT |grep -E "$resolution" | sed 's/.*mode\s\([0-9]\+\).*/\1/')
     if [ -n "$MODE" ]; then
