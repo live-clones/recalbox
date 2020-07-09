@@ -131,13 +131,13 @@ class LibretroGenerator(Generator):
              commandArray.extend(system.config['args'])
 
         # Sub-system roms (pc88)
-        roms = self.buildRomArguments(rom, system.config['core'], args.verbose)
+        roms = self.buildRomArguments(rom, system.config['core'], args.verbose, args.demo)
         commandArray.extend(roms)
 
         return Command.Command(videomode=system.config['videomode'], array=commandArray)
 
     @staticmethod
-    def buildRomArguments(rom, core, verbose): # type: (str, str, bool) -> list
+    def buildRomArguments(rom, core, verbose, demo): # type: (str, str, bool, bool) -> list
         # quasi88 (Pc88) use retroarch subsystem's to load multiple content
         if core == "quasi88":
             from utils.diskCollector import DiskCollector
@@ -146,5 +146,12 @@ class LibretroGenerator(Generator):
                 roms = ["--subsystem", "pc88_{}_disk".format(collector.Count)]
                 roms.extend(collector.Disks)
                 return roms
+
+        # Demo mode: take the first disk, always
+        if demo:
+            from utils.diskCollector import DiskCollector
+            collector = DiskCollector(rom, 6, verbose)
+            if collector.Count > 1:
+                return [collector.Disks[0]]
 
         return [rom]
