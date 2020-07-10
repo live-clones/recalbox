@@ -15,6 +15,13 @@ FFMPEG="/usr/bin/ffmpeg"
 #some useful video constants
 LogoFolder='/recalbox/share_init/system/tft_logos'
 DefaultStopLogo='RBvideos/recalboxIntroExplode.mp4'
+
+#get configuration from recalbox.conf
+tftEnabled="$(${systemsetting} -command load -key system.secondminitft.enabled)"
+recallog "S32mini TFT : Reading system.secondminitft.enabled => ${tftEnabled}"
+
+
+
 tftResolution="$(${systemsetting} -command load -key system.secondminitft.resolution)"
 tftType="$(${systemsetting} -command load -key system.secondminitft.type)"
 
@@ -52,20 +59,31 @@ do_stop() {
 
 case "$1" in
 start)
+    if [ "${tftEnabled}" == "1" ]; then
         recallog "Starting $NAME"
         do_start
+    else
+        recallog "$NAME not enabled"
+    fi
     ;;
 stop)
-    recallog "Stopping $NAME"
-    do_stop
+    if [ "${tftEnabled}" == "1" ]; then
+        recallog "Stopping $NAME"
+        do_stop
+    else
+        recallog "$NAME not enabled"
+    fi
     ;;
 restart)
-    recallog "Restarting $NAME"
-    pkill -P "${scriptPID}" &> /dev/null
-    echo "Stopping tft support"
-    start-stop-daemon --stop --pidfile $PIDFILE
-    
-    do_start
+    if [ "${tftEnabled}" == "1" ]; then
+        recallog "Restarting $NAME"
+        pkill -P "${scriptPID}" &> /dev/null
+        echo "Stopping tft support"
+        start-stop-daemon --stop --pidfile $PIDFILE
+        do_start
+    else
+        recallog "$NAME not enabled"
+    fi
     ;;
 *)
     echo "Usage: /etc/init.d/${NAME} {start|stop|restart}"

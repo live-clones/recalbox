@@ -21,8 +21,6 @@ tempoLong="1000000"
 functionFile="/recalbox/share/system/configs/minitftscreen/miniTFTVideosCfg.sh"
 
 #get configuration from recalbox.conf
-tftEnabled="$(${systemsetting} -command load -key system.secondminitft.enabled)"
-recallog "Reading system.secondminitft.enabled => ${tftEnabled}"
 tftResolution="$(${systemsetting} -command load -key system.secondminitft.resolution)"
 recallog "Reading system.secondminitft.resolution => ${tftResolution}"
 tftType="$(${systemsetting} -command load -key system.secondminitft.type)"    
@@ -309,9 +307,4 @@ do_start() {
 #      Main                       #
 ###################################
 
-if [ "$tftEnabled" != "0" ];then
-    recallog "Starting $NAME"
-    do_start
-else
-    recallog "Will not start $NAME : system.secondMiniTFT.enabled is set to 0"
-fi
+do_start
