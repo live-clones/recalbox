@@ -84,9 +84,9 @@ case "${TFTESSystem}" in
     mame)            LogoFile='RBvideos/introRecalboxMame.mp4' && Loop=-1  ;;
     advancemame)     LogoFile='MAME/VideoSnaps/logo.mp4' && Loop=-1  ;;
     #fba)             LogoFile='FBA/VideoSnaps/logo.mp4' && Loop=-1  ;;
-    fba)             LogoFile='RBvideos/introRBCapcom.mp4' && Loop=-1  ;;
+    fbneo|fba|fba_libretro)             LogoFile='RBvideos/introRBCapcom.mp4' && Loop=-1  ;;
     #fba_libretro)    LogoFile='FBA/VideoSnaps/logo.mp4' && Loop=-1  ;;
-    fba_libretro)    LogoFile='RBvideos/introRBCapcom.mp4' && Loop=-1  ;;
+    #fba_libretro)    LogoFile='RBvideos/introRBCapcom.mp4' && Loop=-1  ;;
     daphne)          LogoFile="${DefaultLogo}" && Loop="${DefaultLogoLoop}"  ;; # tbd
     # Various computers  
     amstradcpc)      LogoFile='CPC/VideoSnaps/logo.mp4' && Loop=-1  ;;
@@ -108,7 +108,7 @@ case "${TFTESSystem}" in
     colecovision)    LogoFile='ColecoVision/VideoSnaps/logo.mp4' && Loop=-1  ;;
     3do)             LogoFile='3DO/VideoSnaps/logo.mp4' && Loop=-1  ;;
     # Misc               
-    doom)            LogoFile="${DefaultLogo}" && Loop="${DefaultLogoLoop}" ;;
+    ports|doom)            LogoFile="${DefaultLogo}" && Loop="${DefaultLogoLoop}" ;;
     #doom)            LogoFile="recalbox.png" && Loop=0 ;;
     cavestory)       LogoFile="${DefaultLogo}" && Loop="${DefaultLogoLoop}" ;; # tbd
     lutro)           LogoFile="${DefaultLogo}" && Loop="${DefaultLogoLoop}" ;; # tbd
