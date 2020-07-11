@@ -139,6 +139,11 @@ try_symlink "${nvkern}/nvidia-modeset.ko.${nvver}" "${nvkern}/nvidia-modeset.ko"
 try_symlink "${nvkern}/nvidia-uvm.ko.${nvver}" "${nvkern}/nvidia-uvm.ko"
 
 ##
+# run depmod to regenerate modules.dep
+##
+depmod -a
+
+##
 # install/symlink binaries and config files
 ##
 try_symlink "/usr/share/glvnd/egl_vendor.d/10_nvidia.json.${nvver}" "/usr/share/glvnd/egl_vendor.d/10_nvidia.json"
