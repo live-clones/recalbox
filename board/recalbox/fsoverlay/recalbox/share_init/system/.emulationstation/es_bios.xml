@@ -65,16 +65,16 @@
                                    2f818338f47701c606ade664a3e16a8a" hashMatchMandatory="false" core="flycast" />   
   </system>
   <system fullname="PC-8800 Series" platform="pc88">  
-    <bios path="quasi88/n88.rom"      md5="22be239bc0c4298bc0561252eed98633" core="quasi88" note="BASIC rom" />
-    <bios path="quasi88/n88_0.rom"    md5="e28fe3f520bea594350ea8fb00395370" core="quasi88" note="BASIC rom #1" />
-    <bios path="quasi88/n88_1.rom"    md5="e844534dfe5744b381444dbe61ef1b66" core="quasi88" note="BASIC rom #2" />
-    <bios path="quasi88/n88_2.rom"    md5="6548fa45061274dee1ea8ae1e9e93910" core="quasi88" note="BASIC rom #3" />
-    <bios path="quasi88/n88_3.rom"    md5="fc4b76a402ba501e6ba6de4b3e8b4273" core="quasi88" note="BASIC rom #4" />
-    <bios path="quasi88/n88n.rom"     md5="5d6854624dd01cd791f58727fc43a525" core="quasi88" note="N BASIC rom" />
-    <bios path="quasi88/disk.rom"     md5="793f86784e5608352a5d7f03f03e0858" core="quasi88" note="Required to load disk images" />
-    <bios path="quasi88/n88knj1.rom"  md5="d81c6d5d7ad1a4bbbd6ae22a01257603" core="quasi88" note="Required to view Kanji" />
-    <bios path="quasi88/n88knj2.rom"  md5="41d2e2c0c0edfccf76fa1c3e38bc1cf2" core="quasi88" note="Required to view Kanji" />
-    <bios path="quasi88/n88jisho.rom" md5="2e548679423370262f36cbde38a22789" core="quasi88" mandatory="false" />
+    <bios path="quasi88/n88.rom"      md5="22be239bc0c4298bc0561252eed98633,f7cba6a308c2718dbe97e60e46ddd66a,4f984e04a99d56c4cfe36115415d6eb8" core="quasi88" note="BASIC rom" />																	
+    <bios path="quasi88/n88_0.rom"    md5="e28fe3f520bea594350ea8fb00395370,c254685f00ca9c31b97203d6ef19f5e2,d675a2ca186c6efcd6277b835de4c7e5" core="quasi88" note="BASIC rom #1" />
+    <bios path="quasi88/n88_1.rom"    md5="e844534dfe5744b381444dbe61ef1b66,a8e298da7ac947669bcb1ff25cee0a83" core="quasi88" note="BASIC rom #2" />
+    <bios path="quasi88/n88_2.rom"    md5="6548fa45061274dee1ea8ae1e9e93910,9d03154fd9abfc28c4e6d4dc705e6e23" core="quasi88" note="BASIC rom #3" />
+    <bios path="quasi88/n88_3.rom"    md5="fc4b76a402ba501e6ba6de4b3e8b4273,e1791f8154f1cdf22b576a1a365b6e1f" core="quasi88" note="BASIC rom #4" />
+    <bios path="quasi88/n88n.rom"     md5="5d6854624dd01cd791f58727fc43a525,93cd1d78b7b9c50b80041ed330332ece,2ff07b8769367321128e03924af668a0" core="quasi88" note="N BASIC rom" />
+    <bios path="quasi88/disk.rom"     md5="793f86784e5608352a5d7f03f03e0858,01b1af474fcabe93c40d779b234a3825" core="quasi88" note="Required to load disk images" />
+    <bios path="quasi88/n88knj1.rom"  md5="d81c6d5d7ad1a4bbbd6ae22a01257603" mandatory="false" hashMatchMandatory="false" core="quasi88" note="Required to view Kanji" />
+    <!--bios path="quasi88/n88knj2.rom"  md5="41d2e2c0c0edfccf76fa1c3e38bc1cf2,898a3b7b6c3326e8b2069765bca2b944" mandatory="false" hashMatchMandatory="false" core="quasi88" note="Required to view Kanji" /-->
+    <!--bios path="quasi88/n88jisho.rom" md5="2e548679423370262f36cbde38a22789" core="quasi88" mandatory="false" /-->
   </system>
   <system fullname="PC-9800 Series" platform="pc98">  
     <bios path="np2kai/bios.rom"       md5="052f5f6010877522f78803498a625727,0c052b1f1bfd0ece11286d2ff45d296f,
