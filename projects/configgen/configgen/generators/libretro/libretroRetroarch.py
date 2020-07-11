@@ -229,10 +229,13 @@ class LibretroRetroarch:
         # Screen resolution
         from utils.resolutions import ResolutionParser
         resolution = ResolutionParser(recalbox['videomode'])
+        settings.setOption("video_fullscreen", self.TRUE)
         if resolution.isSet and resolution.selfProcess:
-            settings.setOption("video_fullscreen", self.TRUE)
             settings.setOption("video_fullscreen_x", str(resolution.width))
             settings.setOption("video_fullscreen_y", str(resolution.height))
+        else:
+            settings.removeOption("video_fullscreen_x")
+            settings.removeOption("video_fullscreen_y")
 
         # AI System
         aiOn = self.getOption("translate", "1")
