@@ -20,21 +20,21 @@ class SolarusGenerator(Generator):
         """
 
         # Default args
-        args = ["-fullscreen=yes", "-cursor-visible=no"]
+        arguments = ["-fullscreen=yes", "-cursor-visible=no"]
 
         # Filtering?
         if self.isEnabled(system, "smooth"):
-            args.append("-bilinear-filtering")
+            arguments.append("-bilinear-filtering")
 
         # Pad configuration
         controllers = SolarusControllers(playersControllers)
-        args.append("-quit-combo={}+{}".format(controllers.HotKey(), controllers.Start()))
+        arguments.append("-quit-combo={}+{}".format(controllers.HotKey(), controllers.Start()))
 
         # Rom
-        args.append(args.rom)
+        arguments.append(args.rom)
 
         commandArray = [recalboxFiles.recalboxBins[system.config['emulator']]]
-        commandArray.extend(args)
+        commandArray.extend(arguments)
 
         if 'args' in system.config and system.config['args'] is not None:
             commandArray.extend(system.config['args'])
