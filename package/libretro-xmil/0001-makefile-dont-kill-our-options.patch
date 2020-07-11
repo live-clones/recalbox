@@ -1,0 +1,13 @@
+--- a/libretro/Makefile.libretro	2020-07-11 15:09:10.413516342 +0200
++++ b/libretro/Makefile.libretro2	2020-07-11 15:21:48.452477127 +0200
+@@ -39,8 +39,8 @@
+ CORE_DIR := .
+ 
+ ifneq (,$(filter $(platform), unix unix-armv7-hardfloat-neon))
+-	CFLAGS = -g -O2 
+-	CXXFLAGS = -g -O2  -fno-merge-constants 
++	CFLAGS += -g -O2 
++	CXXFLAGS += -g -O2  -fno-merge-constants 
+ 	TARGET := $(TARGET_NAME)_libretro.so
+ 	fpic := -fPIC
+ 	SHARED := -shared -Wl,--no-undefined -Wl,--version-script=link.T
