@@ -76,7 +76,7 @@ class OrderedDevices
         count++;
       }
       mCount = count;
-      mConfiguredBitFlags = 0xFFFFFFFF >> (32 - count);
+      mConfiguredBitFlags = count != 0 ? 0xFFFFFFFFU >> (32 - count) : 0;
     }
 };
 
