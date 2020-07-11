@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import argparse
+
 from Emulator import Emulator
 import utils.runner as runner
 import recalboxFiles
@@ -318,6 +319,13 @@ def main(arguments):
                                                      arguments.p10index, arguments.p10guid, arguments.p10name, arguments.p10devicepath, arguments.p10nbaxes, arguments.p10nbhats, arguments.p10nbbuttons)
 
     systemName = arguments.system
+
+    # Cleanup extraction folder
+    if arguments.demo:
+        import glob
+        import os
+        for extractedFile in glob.glob("/recalbox/share/extractions/*"):
+            os.remove(extractedFile)
 
     # Main Program
     # A generator will configure its emulator, and return a command
