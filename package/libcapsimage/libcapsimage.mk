@@ -30,6 +30,7 @@ define LIBCAPSIMAGE_INSTALL_TARGET_CMDS
 	cp $(@D)/CAPSImage/libcapsimage.so.4.2 \
 		$(TARGET_DIR)/usr/lib
 	ln -sf /usr/lib/libcapsimage.so.4.2 $(TARGET_DIR)/usr/lib/libcapsimage.so.4
+	ln -sf /usr/lib/libcapsimage.so.4.2 $(TARGET_DIR)/usr/lib/libcapsimage.so
 endef
 
 define LIBCAPSIMAGE_PRE_CONFIGURE_FIXUP
