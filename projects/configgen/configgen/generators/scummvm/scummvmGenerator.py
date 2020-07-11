@@ -54,7 +54,7 @@ class ScummVMGenerator(Generator):
                         "--joystick=0",
                         "--extrapath=/usr/share/scummvm",
                         "--savepath="+recalboxFiles.scummvmSaves,
-                        "--subtitles"
+                        "--subtitles",
                         "--path=""{}""".format(romPath),
                         smooth, scanline]
         if 'args' in system.config and system.config['args'] is not None:
