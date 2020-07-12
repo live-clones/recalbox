@@ -3,6 +3,7 @@
 #include <Renderer.h>
 #include <help/Help.h>
 #include <themes/ThemeData.h>
+#include <utils/datetime/DateTime.h>
 #include <utils/Log.h>
 #include <utils/locale/LocaleHelper.h>
 
@@ -19,8 +20,7 @@ VideoComponent::VideoComponent(Window&window)
   mFadeOpacity(0),
   mVideoDelay(DEFAULT_VIDEODELAY),
   mVideoEffect(DEFAULT_VIDEOEFFET),
-  mVideoLoop(DEFAULT_VIDEOLOOP),
-  mDecodeAudio(false)
+  mVideoLoop(DEFAULT_VIDEOLOOP)
 {
   updateColors();
 }
@@ -87,13 +87,12 @@ void VideoComponent::resize()
   }
 }
 
-void VideoComponent::setVideo(const Path& path, int delay, int loops, bool decodeAudio)
+void VideoComponent::setVideo(const Path& path, int delay, int loops)
 {
   VideoEngine::Instance().StopVideo(false);
   mVideoPath = path;
   mVideoDelay = delay;
   mVideoLoop = loops;
-  mDecodeAudio = decodeAudio;
   ResetAnimations();
 }
 
@@ -241,7 +240,7 @@ bool VideoComponent::ProcessDisplay(double& effect)
     {
       // Start video if it's not started yet
       if (VideoEngine::Instance().IsIdle())
-        VideoEngine::Instance().PlayVideo(mVideoPath, mDecodeAudio);
+        VideoEngine::Instance().PlayVideo(mVideoPath);
       effect = 0.0;
       if (VideoEngine::Instance().IsPlaying())
       {
@@ -380,7 +379,7 @@ void VideoComponent::applyTheme(const ThemeData& theme, const std::string& view,
 
   if (hasFlag(properties, ThemeProperties::Path) && elem->HasProperty("path"))
   {
-    setVideo(Path(elem->AsString("path")), DEFAULT_VIDEODELAY, DEFAULT_VIDEOLOOP, RecalboxConf::Instance().AsBool("emulationstation.videosnaps.sound"));
+    setVideo(Path(elem->AsString("path")), DEFAULT_VIDEODELAY, DEFAULT_VIDEOLOOP);
   }
 
   if (hasFlag(properties, ThemeProperties::Color) && elem->HasProperty("color"))

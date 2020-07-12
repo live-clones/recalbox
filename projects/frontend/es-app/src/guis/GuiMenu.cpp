@@ -1138,16 +1138,6 @@ void GuiMenu::menuUISettings(){
 void GuiMenu::menuSoundSettings(){
   auto* s = new GuiSettings(mWindow, _("SOUND SETTINGS"));
 
-  // disable sounds
-  auto sounds_enabled = std::make_shared<SwitchComponent>(mWindow);
-  sounds_enabled->setState(RecalboxConf::Instance().AsBool("audio.bgmusic"));
-  s->addWithLabel(sounds_enabled, _("FRONTEND MUSIC"), _(MENUMESSAGE_SOUND_FRONTEND_MUSIC_HELP_MSG));
-
-  // video sounds
-  auto videosounds_enabled = std::make_shared<SwitchComponent>(mWindow);
-  videosounds_enabled->setState(RecalboxConf::Instance().AsBool("emulationstation.videosnaps.sound"));
-  s->addWithLabel(videosounds_enabled, _("VIDEOSNAP SOUND"), _(MENUMESSAGE_VIDEOSOUND_FRONTEND_MUSIC_HELP_MSG));
-
   // volume
   auto volume = std::make_shared<SliderComponent>(mWindow, 0.f, 100.f, 1.f, "%");
   volume->setSlider((float) AudioController::Instance().GetVolume());
@@ -1157,6 +1147,11 @@ void GuiMenu::menuSoundSettings(){
                                        { AudioController::Instance().SetVolume(Math::roundi(newVal)); });
     s->addWithLabel(volume, _("SYSTEM VOLUME"), _(MENUMESSAGE_SOUND_VOLUME_HELP_MSG));
   }
+
+  // disable sounds
+  auto sounds_enabled = std::make_shared<SwitchComponent>(mWindow);
+  sounds_enabled->setState(RecalboxConf::Instance().AsBool("audio.bgmusic"));
+  s->addWithLabel(sounds_enabled, _("FRONTEND MUSIC"), _(MENUMESSAGE_SOUND_FRONTEND_MUSIC_HELP_MSG));
 
   // audio device
   auto optionsAudio = std::make_shared<OptionListComponent<std::string> >(mWindow, _("OUTPUT DEVICE"),
@@ -1190,13 +1185,10 @@ void GuiMenu::menuSoundSettings(){
     s->addWithLabel(optionsAudio, _("OUTPUT DEVICE"), _(MENUMESSAGE_SOUND_DEVICE_HELP_MSG));
   }
   
-  s->addSaveFunc([optionsAudio, currentDevice, sounds_enabled, videosounds_enabled, volume]
-  {
+  s->addSaveFunc([optionsAudio, currentDevice, sounds_enabled, volume] {
     RecalboxConf::Instance().SetInt("audio.volume", Math::roundi(volume->getSlider()));
 
     RecalboxConf::Instance().SetBool("audio.bgmusic", sounds_enabled->getState());
-    RecalboxConf::Instance().SetBool("emulationstation.videosnaps.sound", videosounds_enabled->getState());
-
     if (!sounds_enabled->getState())
       AudioManager::Instance().StopAll();
     if (currentDevice != optionsAudio->getSelected()) {

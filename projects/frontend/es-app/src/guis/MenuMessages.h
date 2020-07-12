@@ -76,7 +76,6 @@ class MenuMessages
     #define MENUMESSAGE_SOUND_HELP_MSG "Configure the sound options of your recalbox."
     #define MENUMESSAGE_SOUND_VOLUME_HELP_MSG "Set the volume of the sound output for the frontend and the games."
     #define MENUMESSAGE_SOUND_FRONTEND_MUSIC_HELP_MSG "Enable or disable the frontend music. You can add your own music as mp3, or ogg format in the 'musics' directory of your recalbox."
-    #define MENUMESSAGE_VIDEOSOUND_FRONTEND_MUSIC_HELP_MSG "Enable or disable videosnap sound and music. You must have scraped videos in order to hear the difference."
     #define MENUMESSAGE_SOUND_DEVICE_HELP_MSG "Select your output device. Only HDMI and JACK are supported."
 
     #define MENUMESSAGE_NETWORK_HELP_MSG "Configure the network options of your recalbox.\nCheck your network status and IP address, set the hostname and configure the WIFI."
