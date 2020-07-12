@@ -64,6 +64,8 @@ class VideoComponent : public Component
     //! Video loop (0 for infinite loop)
     int mVideoLoop;
 
+    bool mDecodeAudio;
+
     //! High reolution timer for time computations
     HighResolutionTimer mTimer;
 
@@ -99,8 +101,9 @@ class VideoComponent : public Component
      * @param path Path to video file
      * @param delay Delay before actually playing the video in milliseconds
      * @param loops Number of loops (0 = infinite loops)
+     * @param decode audio
      */
-    void setVideo(const Path& path, int delay, int loops);
+    void setVideo(const Path& path, int delay, int loops, bool decodeAudio = false);
 
     void setOpacity(unsigned char opacity) override;
 

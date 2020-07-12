@@ -87,12 +87,13 @@ void VideoComponent::resize()
   }
 }
 
-void VideoComponent::setVideo(const Path& path, int delay, int loops)
+void VideoComponent::setVideo(const Path& path, int delay, int loops, bool decodeAudio)
 {
   VideoEngine::Instance().StopVideo(false);
   mVideoPath = path;
   mVideoDelay = delay;
   mVideoLoop = loops;
+  mDecodeAudio = decodeAudio;
   ResetAnimations();
 }
 
@@ -240,7 +241,7 @@ bool VideoComponent::ProcessDisplay(double& effect)
     {
       // Start video if it's not started yet
       if (VideoEngine::Instance().IsIdle())
-        VideoEngine::Instance().PlayVideo(mVideoPath);
+        VideoEngine::Instance().PlayVideo(mVideoPath, mDecodeAudio);
       effect = 0.0;
       if (VideoEngine::Instance().IsPlaying())
       {

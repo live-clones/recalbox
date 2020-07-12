@@ -8,6 +8,7 @@
 #include <utils/cplusplus/StaticLifeCycleControler.h>
 #include <SDL_system.h>
 #include <resources/TextureData.h>
+#include <SDL_audio.h>
 
 extern "C"
 {
@@ -139,6 +140,9 @@ class VideoEngine : public StaticLifeCycleControler<VideoEngine>, private Thread
         //! Video duration in milliseconds
         int TotalTime;
 
+        //! Source audio Frame in native pixel format
+        AVFrame* AudioFrame;
+
         PlayerContext()
           : AudioVideoContext(nullptr),
             AudioStreamIndex(-1),
@@ -163,14 +167,14 @@ class VideoEngine : public StaticLifeCycleControler<VideoEngine>, private Thread
         void Dispose()
         {
           if (AudioVideoContext != nullptr ) avformat_close_input(&AudioVideoContext);
-          if (AudioCodecContext != nullptr ) avcodec_close(AudioCodecContext);
-          if (VideoCodecContext != nullptr ) avcodec_close(VideoCodecContext);
-          if (ResamplerContext != nullptr  ) swr_free(&ResamplerContext);
+          if (AudioCodecContext != nullptr ) avcodec_free_context(&AudioCodecContext);
+          if (VideoCodecContext != nullptr ) avcodec_free_context(&VideoCodecContext);if (ResamplerContext != nullptr) swr_free(&ResamplerContext);
           if (ColorsSpaceContext != nullptr) sws_freeContext(ColorsSpaceContext);
           if (Frame != nullptr             ) av_frame_free(&Frame);
           if (FrameRGB[0] != nullptr       ) av_frame_free(&FrameRGB[0]);
           if (FrameRGB[1] != nullptr       ) av_frame_free(&FrameRGB[1]);
           if (FrameBuffer != nullptr       ) av_free(FrameBuffer);
+          if (AudioFrame != nullptr        ) av_frame_free(&AudioFrame);
 
           AudioVideoContext = nullptr;
           AudioCodec = VideoCodec = nullptr;
@@ -194,6 +198,8 @@ class VideoEngine : public StaticLifeCycleControler<VideoEngine>, private Thread
 
     //! Video filename
     Path mFileName;
+
+    bool mDecodeSound{};
 
     //! Video playing state
     volatile PlayerState mState;
@@ -230,7 +236,7 @@ class VideoEngine : public StaticLifeCycleControler<VideoEngine>, private Thread
 
     void DecodeAudioFrameOnDemand(unsigned char * stream, int len);
 
-    int DecodeAudioFrame(AVCodecContext& audioContext, unsigned char* buffer, int size);
+    int DecodeAudioFrame(AVCodecContext& audioContext, AVFrame *frame, unsigned char* buffer, int size);
 
     void DecodeFrames();
 
@@ -261,7 +267,7 @@ class VideoEngine : public StaticLifeCycleControler<VideoEngine>, private Thread
      * If a video is already playing, a call to stop is performed playing the new video
      * @param videopath Path to the video file ot play
      */
-    void PlayVideo(const Path& videopath);
+    void PlayVideo(const Path& videopath, bool decodeSound = false);
 
     /*!
      * @brief Stop the currently playing video file.
