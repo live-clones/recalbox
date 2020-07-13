@@ -35,7 +35,8 @@ class ScummVMGenerator(Generator):
             # Using recalbox config file
             #system.config['configfile'] = recalboxFiles.mupenCustom
             pass
-        
+
+
         # Find rom path
         if os.path.isdir(args.rom):
           # rom is a directory: must contains a <game name>.scummvm file
@@ -48,17 +49,20 @@ class ScummVMGenerator(Generator):
           romName = os.path.splitext(os.path.basename(args.rom))[0]
 
         smooth = "--filtering" if self.enabled('smooth', system.config) else "--no-filtering"
-        scanline = "--gfx-mode=DotMatrix" if self.defined('shaders', system.config) and system.config['shaders'] == 'scanlines' else ""
         commandArray = [recalboxFiles.recalboxBins[system.config['emulator']],
                         "--fullscreen",
+                        "--subtitles",
                         "--joystick=0",
+                        smooth,
                         "--extrapath=/usr/share/scummvm",
                         "--savepath="+recalboxFiles.scummvmSaves,
-                        "--subtitles",
-                        "--path=""{}""".format(romPath),
-                        smooth, scanline]
+                        "--path=""{}""".format(romPath)]
+        if self.defined('shaders', system.config) and system.config['shaders'] == 'scanlines':
+            commandArray.append("--gfx-mode=DotMatrix")
+
         if 'args' in system.config and system.config['args'] is not None:
             commandArray.extend(system.config['args'])
+
         commandArray.append("""{}""".format(romName))
 
         return Command.Command(videomode='default', array=commandArray, env={"SDL_VIDEO_GL_DRIVER":"/usr/lib/libGLESv2.so"})
