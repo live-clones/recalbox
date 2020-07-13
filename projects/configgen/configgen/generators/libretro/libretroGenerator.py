@@ -138,13 +138,25 @@ class LibretroGenerator(Generator):
 
     @staticmethod
     def buildRomArguments(rom, core, verbose, demo): # type: (str, str, bool, bool) -> list
-        # Remove old x68k config - Should find a better way later
-        # Loading multi disk should go this way
-        if os.path.exists(recalboxFiles.BIOS + "/keropi/config"):
-            try:
-                os.remove(recalboxFiles.BIOS + "/keropi/config")
-            except Exception as ex:
-                print("Exception: {}".format(ex))
+        # x68000
+        if core == "px68k":
+            # Open configuration
+            x68kconfig = os.path.join(recalboxFiles.BIOS, "keropi/config")
+            from settings.iniSettings import IniSettings
+            settings = IniSettings(x68kconfig, False)
+            # HDD or floppy disk?
+            size = os.path.getsize(rom) >> 20
+            if size >= 2:
+                # HDD
+                settings.setOption("WinX68k", "HDD0", rom)
+            else:
+                # Floppy
+                from utils.diskCollector import DiskCollector
+                collector = DiskCollector(rom, 2, verbose)
+                settings.setOption("WinX68k", "FDD0", collector.disks[0])
+                if collector.Count > 1:
+                    settings.setOption("WinX68k", "FDD1", collector.disks[1])
+            settings.saveFile()
 
         # quasi88 (Pc88) use retroarch subsystem's to load multiple content
         if core == "quasi88":
