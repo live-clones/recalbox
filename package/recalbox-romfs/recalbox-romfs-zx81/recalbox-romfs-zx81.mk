@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --system zx81 --extension '.tzx .TZX .p .P .zip .ZIP .7z .7Z' --fullname 'ZX81' --platform zx81 --theme zx81 1:libretro:81:BR2_PACKAGE_LIBRETRO_81
+# ./scripts/linux/empack.py --force --system zx81 --extension '.tzx .p .t81 .zip .7z' --fullname 'ZX81' --platform zx81 --theme zx81 1:libretro:81:BR2_PACKAGE_LIBRETRO_81
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_ZX81_SOURCE = 
