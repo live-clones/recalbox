@@ -67,7 +67,7 @@ class DiskCollector:
 
     @staticmethod
     def getAllDisks(suffix):
-        diskPattern = suffix.replace("[", "[[]").replace("]", "[]]") + '*'
+        diskPattern = suffix.replace("[", "|").replace("]", "[]]").replace("|", "[[]") + '*'
         import glob
         return glob.glob(diskPattern)
 
