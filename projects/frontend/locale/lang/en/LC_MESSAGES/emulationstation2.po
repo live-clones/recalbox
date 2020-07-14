@@ -495,7 +495,7 @@ msgid "REALLY SHUTDOWN?"
 msgstr "SHUTDOWN SYSTEM NOW?"
 
 msgid "SHUTDOWN SYSTEM"
-msgstr "reboot system now"
+msgstr "SHUTDOWN SYSTEM"
 
 msgid "DEFAULT (%1%)"
 msgstr "DEFAULT (%1%)"
