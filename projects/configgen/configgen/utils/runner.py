@@ -15,17 +15,21 @@ def runCommand(command, args, demoStartButtons, recalboxSettings, fixedScreenSiz
     arch = Architecture()
     chosenMode = 'default'
     if not fixedScreenSize and arch.isSupportingTvService:
+        print("Calling tvservice")
         import utils.videoMode as videoMode
         chosenMode = videoMode.setVideoMode(command.videomode, command.delay)
 
     # Update environment
     import os
     command.env.update(os.environ)
-    print("running command: "+" ".join(command.array))
+    print("Running command: {}".format(command))
 
     # Run emulator process
-    import subprocess
-    proc = subprocess.Popen(command.array, env=command.env, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=command.cwdPath)
+    try:
+        import subprocess
+        proc = subprocess.Popen(command.array, bufsize=-1, env=command.env, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=command.cwdPath)
+    except Exception as e:
+        print("Error running command!\nException: {}".format(e))
 
     # Signal handling
     def signal_handler(_, __):
@@ -41,6 +45,7 @@ def runCommand(command, args, demoStartButtons, recalboxSettings, fixedScreenSiz
     # Run demo mode is required
     demo = None
     if args.demo:
+        print("Running demo manager")
         import demoManager
         demo = demoManager.DemoManager(proc, args, demoStartButtons)
 
@@ -48,6 +53,7 @@ def runCommand(command, args, demoStartButtons, recalboxSettings, fixedScreenSiz
     try:
         out, err = proc.communicate()
         exitcode = proc.returncode
+        print("Process exitcode: {}".format(exitcode))
         if args.verbose:
             import sys
             sys.stdout.write(out)

@@ -349,7 +349,6 @@ def main(arguments):
         # The next line is commented and will eventually be used instead of the previous one
         # if we even want the binary to be set from here rather than from the generator
         # command.array.insert(0, recalboxFiles.recalboxBins[system.config['emulator']])
-        print(command)
         returnCode = runner.runCommand(command, arguments, demoStartButtons, recalboxSettings, fixedScreenSize)
 
         # Rerun emulator in play mode
