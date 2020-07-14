@@ -67,25 +67,28 @@ class OricutronGenerator(Generator):
         if self.defined('shaders', system.config) and system.config['shaders'] == 'scanlines':
             settings.setOption("scanlines", "yes")
 
+        # Erase disk/tape
+        settings.setOption("diskimage", "")
+        settings.setOption("tapeimage", "")
+        # Select disk drive
+        drive = settings.getOption("disktype", "microdisc")  # microdisc is the original Oric drive.
+        if drive == "none":
+            drive = "microdisc"  # force drive
+            settings.setOption("disktype", drive)
+
+        settings.saveFile()
+
         # tape/disk selection
         romType = args.rom[-4:].lower()
         if romType == ".tap":
-            settings.setOption("disktype", "none")  # No drive to boot tapes
-            settings.setOption("tapeimage", "'{}'".format(args.rom))
-            settings.setOption("diskimage", "")
+            arguments = ["--tape", args.rom]
         else:
-            drive = settings.getOption("disktype", "microdisc")  # microdisc is the original Oric drive.
-            if drive == "none":
-                drive = "microdisc"  # force drive
-            settings.setOption("disktype", drive)
-            settings.setOption("diskimage", "'{}'".format(args.rom))
-            settings.setOption("tapeimage", "")
-
-        settings.saveFile()
+            arguments = ["--disk", args.rom]
 
         commandArray = [recalboxFiles.recalboxBins[system.config['emulator']],
                         "--turbotape on"  # One of the only options not available in config file
                         ]
+        commandArray.extend(arguments)
 
         if 'args' in system.config and system.config['args'] is not None:
             commandArray.extend(system.config['args'])
