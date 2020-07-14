@@ -376,7 +376,7 @@ bool SystemManager::AddSpecialCollectionsMetaSystems()
   return true;
 }
 
-//creates systems from information located in a config file
+// Creates systems from information located in a config file
 bool SystemManager::LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool forceReloadFromDisk)
 {
   mForceReload = forceReloadFromDisk;
@@ -405,12 +405,16 @@ bool SystemManager::LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool
     SystemDescriptor descriptor;
     if (deserializer.Deserialize(index, descriptor))
     {
-      // Get weight
-      int weight = weights.GetInt(descriptor.RomPath().ToString(), 0);
-      // Add system name and watch gamelist
-      mAllDeclaredSystemShortNames.push_back(descriptor.Name());
-      // Push weighted system
-      threadPool.PushFeed(descriptor, weight);
+      if (!RecalboxConf::Instance().AsBool(descriptor.Name() + ".ignore"))
+      {
+        // Get weight
+        int weight = weights.GetInt(descriptor.RomPath().ToString(), 0);
+        // Add system name and watch gamelist
+        mAllDeclaredSystemShortNames.push_back(descriptor.Name());
+        // Push weighted system
+        threadPool.PushFeed(descriptor, weight);
+      }
+      else LOG(LogInfo) << descriptor.FullName() << " ignored in configuration.";
     }
   }
   // Run the threadpool and automatically wait for all jobs to complete
