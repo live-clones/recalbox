@@ -316,6 +316,8 @@ class LibretroRetroarch:
         # Special cases
         if len(self.controllers) > 2 and self.system.config['core'] == 'snes9x2010':
             settings.setOption("input_libretro_device_p2", "257")
+        # Fuse case - Force keyboard as P3
+        settings.setOption("input_libretro_device_p3", "259" if self.system.config['core'] == 'fuse' else '1')
 
         # Retroachievements (not in demo mode!)
         hasRetroAch = self.isEnabled("retroachievements") and not self.demo
