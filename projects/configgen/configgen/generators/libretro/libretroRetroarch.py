@@ -310,14 +310,23 @@ class LibretroRetroarch:
         settings.setOption("savefile_directory", recalboxFiles.savesDir + self.system.name)
 
         # Extend Controller configurations
+        for i in range(0, 11):
+            settings.setOption("input_libretro_device_p{}".format(i), "1")
         core = self.system.config['core']
-        settings.setOption("input_libretro_device_p1", self.CORE_TO_PLAYER1_DEVICE[core] if core in self.CORE_TO_PLAYER1_DEVICE else "1")
-        settings.setOption("input_libretro_device_p2", self.CORE_TO_PLAYER2_DEVICE[core] if core in self.CORE_TO_PLAYER2_DEVICE else "1")
-        # Special cases
+        # Generic
+        if core in self.CORE_TO_PLAYER1_DEVICE:
+          settings.setOption("input_libretro_device_p1", self.CORE_TO_PLAYER1_DEVICE[core])
+        if core in self.CORE_TO_PLAYER2_DEVICE:
+          settings.setOption("input_libretro_device_p2", self.CORE_TO_PLAYER2_DEVICE[core])
+        # Sens9x2010 case
         if len(self.controllers) > 2 and self.system.config['core'] == 'snes9x2010':
             settings.setOption("input_libretro_device_p2", "257")
         # Fuse case - Force keyboard as P3
-        settings.setOption("input_libretro_device_p3", "259" if self.system.config['core'] == 'fuse' else '1')
+        if self.system.config['core'] == 'fuse':
+            settings.setOption("input_libretro_device_p3", "259")
+        # 81 case - Force keyboard as P2
+        if self.system.config['core'] == '81':
+            settings.setOption("input_libretro_device_p2", "259")
 
         # Retroachievements (not in demo mode!)
         hasRetroAch = self.isEnabled("retroachievements") and not self.demo
