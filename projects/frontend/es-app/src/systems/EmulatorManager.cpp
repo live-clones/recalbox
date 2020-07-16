@@ -5,23 +5,35 @@
 #include <utils/locale/LocaleHelper.h>
 #include "EmulatorManager.h"
 
+bool EmulatorManager::GetDefaultEmulator(const SystemData& system, std::string& emulator, std::string& core) const
+{
+  LOG(LogDebug) << "Get system's emulator for " << system.getFullName();
+  bool Ok = GetSystemDefaultEmulator(system, emulator, core);
+  if (!Ok)
+    LOG(LogError) << "Cannot get default emulator!";
+  return Ok;
+}
+
 bool EmulatorManager::GetGameEmulator(const FileData& game, std::string& emulator, std::string& core) const
 {
+  LOG(LogDebug) << "Get game's emulator for " << game.getPath().ToString();
+
   // Get default emulator first
   bool Ok = GetSystemDefaultEmulator(*game.getSystem(), emulator, core);
-  LOG(LogDebug) << "From GetSystemDefaultEmulator " << emulator << "-" << core;
+  if (Ok)
+  {
+    // Then from the general config file
+    GetEmulatorFromConfigFile(*game.getSystem(), emulator, core);
 
-  // Then from the general config file
-  GetEmulatorFromConfigFile(*game.getSystem(), emulator, core);
-  LOG(LogDebug) << "From GetEmulatorFromConfigFile " << emulator << "-" << core;
+    // Then from the gamelist.xml file
+    GetEmulatorFromGamelist(game, emulator, core);
 
-  // Then from the gamelist.xml file
-  GetEmulatorFromGamelist(game, emulator, core);
-  LOG(LogDebug) << "From GetEmulatorFromGamelist " << emulator << "-" << core;
+    // Then from file overrides
+    GetEmulatorFromOverride(game, emulator, core);
+  }
+  else LOG(LogError) << "Cannot get default emulator!";
 
-  // Then from file overrides
-  GetEmulatorFromOverride(game, emulator, core);
-  LOG(LogDebug) << "From GetEmulatorFromOverride " << emulator << "-" << core;
+  LOG(LogDebug) << "Final game's emulator for " << game.getPath().ToString() << " : " << emulator << "-" << core;
 
   return Ok;
 }
@@ -59,7 +71,7 @@ bool EmulatorManager::GetSystemDefaultEmulator(const SystemData& system, std::st
             emulator = list.EmulatorAt(i).Name();
           }
 
-      LOG(LogDebug) << "Default emulator/core: " << emulator << '/' << core;
+      LOG(LogDebug) << "  From SystemList: " << emulator << '/' << core;
       return true;
     }
   }
@@ -78,7 +90,7 @@ void EmulatorManager::GetEmulatorFromConfigFile(const SystemData& system, std::s
     {
       emulator = rawemulator;
       core = rawcore;
-      LOG(LogDebug) << "Emulator/core from configuration file" << emulator << '/' << core;
+      LOG(LogDebug) << "  From configuration file" << emulator << '/' << core;
     }
     else
     {
@@ -86,7 +98,7 @@ void EmulatorManager::GetEmulatorFromConfigFile(const SystemData& system, std::s
       {
         emulator = rawemulator;
         core = rawcore;
-        LOG(LogDebug) << "Emulator/core guessed from configuration file" << emulator << '/' << core;
+        LOG(LogDebug) << "  Guessed from configuration file" << emulator << '/' << core;
       }
     }
   }
@@ -104,7 +116,7 @@ void EmulatorManager::GetEmulatorFromGamelist(const FileData& game, std::string&
     {
       emulator = rawemulator;
       core = rawcore;
-      LOG(LogDebug) << "Emulator/core from Gamelist.xml" << emulator << '/' << core;
+      LOG(LogDebug) << " From Gamelist.xml" << emulator << '/' << core;
     }
     else
     {
@@ -112,7 +124,7 @@ void EmulatorManager::GetEmulatorFromGamelist(const FileData& game, std::string&
       {
         emulator = rawemulator;
         core = rawcore;
-        LOG(LogDebug) << "Emulator/core guessed from Gamelist.xml" << emulator << '/' << core;
+        LOG(LogDebug) << "  Guessed from Gamelist.xml" << emulator << '/' << core;
       }
     }
   }
@@ -178,7 +190,7 @@ void EmulatorManager::GetEmulatorFromOverride(const FileData& game, std::string&
     {
       emulator = finalEmulator;
       core = finalCore;
-      LOG(LogDebug) << "Emulator/core from override files" << emulator << '/' << core;
+      LOG(LogDebug) << " From override files" << emulator << '/' << core;
     }
     else
     {
@@ -186,7 +198,7 @@ void EmulatorManager::GetEmulatorFromOverride(const FileData& game, std::string&
       {
         emulator = finalEmulator;
         core = finalCore;
-        LOG(LogDebug) << "Emulator/core guessed from override files" << emulator << '/' << core;
+        LOG(LogDebug) << "  Guessed from override files" << emulator << '/' << core;
       }
     }
   }

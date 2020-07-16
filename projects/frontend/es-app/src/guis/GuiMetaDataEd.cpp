@@ -144,7 +144,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window& window,
           std::string currentCore = mMetaData.Core();
           std::string defaultEmulator;
           std::string defaultCore;
-          if (!mSystemManager.Emulators().GetSystemDefaultEmulator(*system, defaultEmulator, defaultCore))
+          if (!mSystemManager.Emulators().GetDefaultEmulator(*system, defaultEmulator, defaultCore))
             continue;
           if (currentEmulator.empty()) currentEmulator = defaultEmulator;
           if (currentCore.empty()) currentCore = defaultCore;
@@ -370,7 +370,7 @@ void GuiMetaDataEd::save()
         {
           std::string defaultEmulator;
           std::string defaultCore;
-          mSystemManager.Emulators().GetSystemDefaultEmulator(*mGame.getSystem(), defaultEmulator, defaultCore);
+          mSystemManager.Emulators().GetDefaultEmulator(*mGame.getSystem(), defaultEmulator, defaultCore);
           if (split[0] == defaultEmulator && split[1] == defaultCore)
           {
             mMetaData.SetEmulator("");

@@ -45,6 +45,15 @@ class EmulatorManager : public INoCopy
     bool GuessEmulatorAndCore(const SystemData& system, std::string& emulator, std::string& core) const;
 
     /*!
+     * @brief Get default emulator/core for the given system
+     * @param system System to get default emulator/core from
+     * @param emulator Filled in Emulator name
+     * @param core Filled in Core name
+     * @return True if emulator and core have been filled, false otherwise (error, non-existing system, ...)
+     */
+    bool GetSystemDefaultEmulator(const SystemData& system, std::string& emulator, std::string& core) const;
+
+    /*!
      * @brief Try to override emulator/core from values from recalbox.conf file
      * @param system System to extract emulator/core from
      * @param emulator Emulator name to override if '<system>.emulator=value' exists in the configuration file
@@ -96,7 +105,7 @@ class EmulatorManager : public INoCopy
      * @param core Filled in Core name
      * @return True if emulator and core have been filled, false otherwise (error, non-existing system, ...)
      */
-    bool GetSystemDefaultEmulator(const SystemData& system, std::string& emulator, std::string& core) const;
+    bool GetDefaultEmulator(const SystemData& system, std::string& emulator, std::string& core) const;
 
     /*!
      * @brief Get final emulator/core names used to run the given game

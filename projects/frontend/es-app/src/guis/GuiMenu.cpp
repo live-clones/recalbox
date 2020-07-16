@@ -1680,20 +1680,17 @@ void GuiMenu::popSystemConfigurationGui(SystemData *systemData) const
   // The system configuration
   GuiSettings *systemConfiguration = new GuiSettings(mWindow, systemData->getFullName());
 
-    std::string defaultEmulator;
-    std::string defaultCore;
-    if (mSystemManager.Emulators().GetSystemDefaultEmulator(*systemData, defaultEmulator, defaultCore))
-    {
-      //Emulator choice
-      auto emu_choice = std::make_shared<OptionListComponent<std::string>>(mWindow, _("Emulator"), false);
+  std::string defaultEmulator;
+  std::string defaultCore;
+  if (mSystemManager.Emulators().GetDefaultEmulator(*systemData, defaultEmulator, defaultCore))
+  {
+    //Emulator choice
+    auto emu_choice = std::make_shared<OptionListComponent<std::string>>(mWindow, _("Emulator"), false);
 
-    std::string currentEmulator = RecalboxConf::Instance().AsString(systemData->getName() + ".emulator");
-    if (currentEmulator.empty()) currentEmulator = defaultEmulator;
-    std::string currentCore = RecalboxConf::Instance().AsString(systemData->getName() + ".core");
-    if (currentCore.empty()) currentCore = defaultCore;
+    std::string currentEmulator = RecalboxConf::Instance().AsString(systemData->getName() + ".emulator", defaultEmulator);
+    std::string currentCore = RecalboxConf::Instance().AsString(systemData->getName() + ".core", defaultCore);
 
     for (const std::string& emulatorName : mSystemManager.Emulators().GetEmulators(*systemData))
-    {
       for (const std::string& coreName : mSystemManager.Emulators().GetCores(*systemData, emulatorName))
       {
         std::string displayName = emulatorName;
@@ -1703,9 +1700,10 @@ void GuiMenu::popSystemConfigurationGui(SystemData *systemData) const
 
         std::string emulatorAndCore = emulatorName;
         emulatorAndCore.append(1, ':').append(coreName);
-        emu_choice->add(displayName, emulatorAndCore, emulatorName == currentEmulator && coreName == currentCore);
+        bool match = emulatorName == currentEmulator && coreName == currentCore;
+        if (match) LOG(LogDebug) << "Selected emulator/core: " << emulatorAndCore;
+        emu_choice->add(displayName, emulatorAndCore, match);
       }
-    }
 
     systemConfiguration->addWithLabel(emu_choice, _("Emulator"), _(MENUMESSAGE_ADVANCED_EMU_EMU_HELP_MSG));
 
