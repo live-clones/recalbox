@@ -9,15 +9,15 @@
   #define glOrtho glOrthof
 #endif
 
-bool Renderer::initialCursorState = false;
+bool Renderer::sInitialCursorState = false;
 
-SDL_Window* Renderer::sdlWindow = nullptr;
-SDL_GLContext Renderer::sdlContext = nullptr;
+SDL_Window* Renderer::sSdlWindow = nullptr;
+SDL_GLContext Renderer::sSdlContext = nullptr;
 
-int Renderer::_DisplayWidth = 0;
-int Renderer::_DisplayHeight = 0;
-float Renderer::_DisplayWidthFloat = 0.0f;
-float Renderer::_DisplayHeightFloat = 0.0f;
+int Renderer::sDisplayWidth = 0;
+int Renderer::sDisplayHeight = 0;
+float Renderer::sDisplayWidthFloat = 0.0f;
+float Renderer::sDisplayHeightFloat = 0.0f;
 
 bool Renderer::createSurface()
 {
@@ -30,7 +30,7 @@ bool Renderer::createSurface()
   }
 
   //hide mouse cursor
-  initialCursorState = SDL_ShowCursor(0) == 1;
+  sInitialCursorState = SDL_ShowCursor(0) == 1;
 
   SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
   SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
@@ -48,17 +48,17 @@ bool Renderer::createSurface()
 
   SDL_DisplayMode dispMode;
   SDL_GetDesktopDisplayMode(0, &dispMode);
-  if (_DisplayWidth == 0)  _DisplayWidth = dispMode.w;
-  if (_DisplayHeight == 0) _DisplayHeight = dispMode.h;
-  _DisplayWidthFloat = (float)_DisplayWidth;
-  _DisplayHeightFloat = (float)_DisplayHeight;
+  if (sDisplayWidth == 0) sDisplayWidth = dispMode.w;
+  if (sDisplayHeight == 0) sDisplayHeight = dispMode.h;
+  sDisplayWidthFloat = (float)sDisplayWidth;
+  sDisplayHeightFloat = (float)sDisplayHeight;
 
-  sdlWindow = SDL_CreateWindow("EmulationStation",
-                               SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-                               _DisplayWidth, _DisplayHeight,
+  sSdlWindow = SDL_CreateWindow("EmulationStation",
+                                SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+                                sDisplayWidth, sDisplayHeight,
                                SDL_WINDOW_OPENGL | (Settings::Instance().Windowed() ? 0 : SDL_WINDOW_FULLSCREEN));
 
-  if (sdlWindow == nullptr)
+  if (sSdlWindow == nullptr)
   {
     LOG(LogError) << "Error creating SDL window!\n\t" << SDL_GetError();
     return false;
@@ -89,12 +89,12 @@ bool Renderer::createSurface()
                                                         rmask, gmask, bmask, amask);
     if (logoSurface != nullptr)
     {
-      SDL_SetWindowIcon(sdlWindow, logoSurface);
+      SDL_SetWindowIcon(sSdlWindow, logoSurface);
       SDL_FreeSurface(logoSurface);
     }
   }
 
-  sdlContext = SDL_GL_CreateContext(sdlWindow);
+  sSdlContext = SDL_GL_CreateContext(sSdlWindow);
 
   // vsync
   if (Settings::Instance().VSync())
@@ -107,7 +107,11 @@ bool Renderer::createSurface()
     // if vsync is requested, try late swap tearing; if that doesn't work, try normal vsync
     // if that doesn't work, report an error
     /*if (SDL_GL_SetSwapInterval(-1) == 0) LOG(LogInfo) << "Adaptative VSync' activated.";
-    else*/ if (SDL_GL_SetSwapInterval(1) == 0) LOG(LogInfo) << "Normal VSync' activated.";
+    else*/
+    if (SDL_GL_SetSwapInterval(1) == 0)
+    {
+      LOG(LogInfo) << "Normal VSync' activated.";
+    }
     else LOG(LogWarning) << "Tried to enable vsync, but failed! (" << SDL_GetError() << ")";
   }
   else LOG(LogInfo) << "No VSync requiested";
@@ -117,20 +121,20 @@ bool Renderer::createSurface()
 
 void Renderer::swapBuffers()
 {
-  SDL_GL_SwapWindow(sdlWindow);
+  SDL_GL_SwapWindow(sSdlWindow);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void Renderer::destroySurface()
 {
-  SDL_GL_DeleteContext(sdlContext);
-  sdlContext = nullptr;
+  SDL_GL_DeleteContext(sSdlContext);
+  sSdlContext = nullptr;
 
-  SDL_DestroyWindow(sdlWindow);
-  sdlWindow = nullptr;
+  SDL_DestroyWindow(sSdlWindow);
+  sSdlWindow = nullptr;
 
   //show mouse cursor
-  SDL_ShowCursor(initialCursorState ? 1 : 0);
+  SDL_ShowCursor(sInitialCursorState ? 1 : 0);
 
   SDL_Quit();
 }
@@ -138,19 +142,19 @@ void Renderer::destroySurface()
 bool Renderer::initialize(int w, int h)
 {
   if (w != 0)
-    _DisplayWidth = w;
+    sDisplayWidth = w;
   if (h != 0)
-    _DisplayHeight = h;
+    sDisplayHeight = h;
 
   bool createdSurface = createSurface();
 
   if (!createdSurface)
     return false;
 
-  glViewport(0, 0, _DisplayWidth, _DisplayHeight);
+  glViewport(0, 0, sDisplayWidth, sDisplayHeight);
 
   glMatrixMode(GL_PROJECTION);
-  glOrtho(0, _DisplayWidth, _DisplayHeight, 0, -1.0, 1.0);
+  glOrtho(0, sDisplayWidth, sDisplayHeight, 0, -1.0, 1.0);
   glMatrixMode(GL_MODELVIEW);
   glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
@@ -164,8 +168,8 @@ void Renderer::finalize()
 
 std::stack<Vector4i>& Renderer::ClipStack()
 {
-  static std::stack<Vector4i> _ClippingStack;
-  return _ClippingStack;
+  static std::stack<Vector4i> sClippingStack;
+  return sClippingStack;
 }
 
 void Renderer::setColor4bArray(GLubyte* array, unsigned int color)
@@ -178,7 +182,7 @@ void Renderer::setColor4bArray(GLubyte* array, unsigned int color)
 
 void Renderer::buildGLColorArray(GLubyte* ptr, unsigned int color, unsigned int vertCount)
 {
-  unsigned int colorGl;
+  unsigned int colorGl = 0;
   setColor4bArray((GLubyte*) &colorGl, color);
   for (int i = (int)vertCount; --i >= 0; )
   {
@@ -190,15 +194,15 @@ void Renderer::pushClipRect(Vector2i pos, Vector2i dim)
 {
   Vector4i box(pos.x(), pos.y(), dim.x(), dim.y());
   if (box[2] == 0)
-    box[2] = Renderer::_DisplayWidth - box.x();
+    box[2] = Renderer::sDisplayWidth - box.x();
   if (box[3] == 0)
-    box[3] = Renderer::_DisplayHeight - box.y();
+    box[3] = Renderer::sDisplayHeight - box.y();
 
   //glScissor starts at the bottom left of the window
   //so (0, 0, 1, 1) is the bottom left pixel
   //everything else uses y+ = down, so flip it to be consistent
   //rect.pos.y = Renderer::getScreenHeight() - rect.pos.y - rect.size.y;
-  box[1] = Renderer::_DisplayHeight - box.y() - box[3];
+  box[1] = Renderer::sDisplayHeight - box.y() - box[3];
 
   //make sure the box fits within clipStack.top(), and clip further accordingly
   if (!ClipStack().empty())

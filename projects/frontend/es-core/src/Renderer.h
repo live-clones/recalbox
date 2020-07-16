@@ -16,15 +16,15 @@ class Font;
 class Renderer
 {
   private:
-    static bool initialCursorState;
+    static bool sInitialCursorState;
 
-    static SDL_Window* sdlWindow;
-    static SDL_GLContext sdlContext;
+    static SDL_Window* sSdlWindow;
+    static SDL_GLContext sSdlContext;
 
-    static int _DisplayWidth;
-    static int _DisplayHeight;
-    static float _DisplayWidthFloat;
-    static float _DisplayHeightFloat;
+    static int sDisplayWidth;
+    static int sDisplayHeight;
+    static float sDisplayWidthFloat;
+    static float sDisplayHeightFloat;
 
     static std::stack<Vector4i>& ClipStack();
 
@@ -49,10 +49,10 @@ class Renderer
 
     static void swapBuffers();
 
-    static int getDisplayWidthAsInt() { return _DisplayWidth; }
-    static int getDisplayHeightAsInt() { return _DisplayHeight; }
-    static float getDisplayWidthAsFloat() { return _DisplayWidthFloat; }
-    static float getDisplayHeightAsFloat() { return _DisplayHeightFloat; }
+    static int getDisplayWidthAsInt() { return sDisplayWidth; }
+    static int getDisplayHeightAsInt() { return sDisplayHeight; }
+    static float getDisplayWidthAsFloat() { return sDisplayWidthFloat; }
+    static float getDisplayHeightAsFloat() { return sDisplayHeightFloat; }
 
-    static bool IsInitialized() { return sdlWindow != nullptr; }
+    static bool IsInitialized() { return sSdlWindow != nullptr; }
 };
