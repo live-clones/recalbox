@@ -141,9 +141,6 @@ do_root() {
         mount /boot_root/boot/recalbox /new_root || return 1
     fi
 
-    #splash
-    do_splash
-
     # moving current mounts
     mount --move /boot_root    /new_root/boot    || return 1
     mount --move /overlay_root /new_root/overlay || return 1
