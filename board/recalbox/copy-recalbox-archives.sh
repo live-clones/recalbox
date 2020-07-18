@@ -105,11 +105,6 @@ case "${RECALBOX_TARGET}" in
 	rm -rf "${BINARIES_DIR}/xu4-firmware" || exit 1
 	mkdir -p "${BINARIES_DIR}/xu4-firmware/boot" || exit 1
 
-	for F in bl1.bin.hardkernel bl2.bin.hardkernel.720k_uboot tzsw.bin.hardkernel u-boot.bin.hardkernel
-	do
-	    cp "${BUILD_DIR}/uboot-xu4-odroidxu4-v2017.05/sd_fuse/${F}" "${BINARIES_DIR}/xu4-firmware/" || exit 1
-	done
-
 	# /boot
 	echo "generating boot"
 	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/xu4/boot.ini" "${BINARIES_DIR}/xu4-firmware/boot.ini" || exit 1
@@ -121,6 +116,11 @@ case "${RECALBOX_TARGET}" in
 
 	generate_boot_file_list "${BINARIES_DIR}/xu4-firmware/" | \
 		grep -v -E '^(boot.lst|boot.ini|recalbox-boot.conf)$' >"${BINARIES_DIR}/boot.lst"
+
+	for F in bl1.bin.hardkernel bl2.bin.hardkernel.720k_uboot tzsw.bin.hardkernel u-boot.bin.hardkernel
+	do
+	    cp "${BUILD_DIR}/uboot-xu4-odroidxu4-v2017.05/sd_fuse/${F}" "${BINARIES_DIR}/xu4-firmware/" || exit 1
+	done
 
 	# recalbox.img
 	GENIMAGE_TMP="${BUILD_DIR}/genimage.tmp"
