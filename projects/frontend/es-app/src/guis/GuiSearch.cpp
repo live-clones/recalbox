@@ -296,7 +296,8 @@ void GuiSearch::PopulateGrid(const std::string& search)
 				row.elements.clear();
 				std::string gameName;
 
-				gameName = SystemIcons::GetIcon(game->getSystem()->getName());
+				const char* icon = SystemIcons::GetIcon(game->getSystem()->getName());
+				if (icon != nullptr) gameName.append(icon);
 				gameName.append(game->Metadata().Name());
 
 				ed = std::make_shared<TextComponent>(mWindow, gameName, mMenuTheme->menuText.font,
