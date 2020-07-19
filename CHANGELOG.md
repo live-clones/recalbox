@@ -100,6 +100,7 @@ All notable changes to this project will be documented in this file.
 - Add libretro's port of EasyRPG Player (2000 and 2003)
 - Add libretro-mupen64plus-nx for n64 & 64dd emulation (rpi only for now)
 - Bump buildroot to 2020.02.3
+- Bump Mesa3D to 20.1.3
 - Add libretro-scummvm on all platforms
 - Add libretro-pcsx_rearmed on pc
 - Add Netflix Kodi video plugin
