@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+
 import recalboxFiles
 from settings.unixSettings import UnixSettings
 from utils.videoMode import *
@@ -103,9 +104,11 @@ def setRealResolution(videoConfig):
 
     group, mode, drive = videoSetting.split(' ')
 
+    import subprocess
     proc = subprocess.Popen(["tvservice -j -m {}".format(group)], stdout=subprocess.PIPE, shell=True)
     (out, err) = proc.communicate()
     #print "program output:", out
+    import json
     tvmodes = json.loads(out)
 
     for tvmode in tvmodes:
