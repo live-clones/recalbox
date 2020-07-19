@@ -1,14 +1,14 @@
 diff --git a/package/mesa3d/mesa3d.hash b/package/mesa3d/mesa3d.hash
-index 3237135b1c..c8eda7b2ba 100644
+index 3237135b1c..1524315f45 100644
 --- a/package/mesa3d/mesa3d.hash
 +++ b/package/mesa3d/mesa3d.hash
 @@ -1,6 +1,6 @@
 -# From https://lists.freedesktop.org/archives/mesa-announce/2020-February/000570.html
 -sha256 1da467e6ae2799a517e242462331eafd29ae77d9872f3a845df81f7c308e8fe4  mesa-19.3.4.tar.xz
 -sha512 2bbb3dc8f1d839f11fe12cc959393cd69607fa6714b2166b80299e0559d2d3b0ac38ed4e15ac3e5f472264eb24536d1901d350f7409f3a7e00d6f4ccbb2312fb  mesa-19.3.4.tar.xz
-+# From https://lists.freedesktop.org/archives/mesa-announce/2020-May/000585.html
-+sha256  2109055d7660514fc4c1bcd861bcba9db00c026119ae222720111732dba27c83  mesa-20.1.0.tar.xz
-+sha512  f49230d18febe1bfd7c6282ab95fc244530f5cef56df0f804d8bece8a70bafcb445b8b83df96ad1b4c5af022c4e39a71f19a8f7e47b1fb09ada2b1a1317ff3be  mesa-20.1.0.tar.xz
++# From https://lists.freedesktop.org/archives/mesa-announce/2020-July/000590.html
++sha256  9872b8d46bee822177ffbe4292addff7bdb84cefc1fe776b8e6b2881a8362bf1  mesa-20.1.3.tar.xz
++sha512  c3134cda6a07041c2cacd783663c0618e97f907bb0e67718a5c8fb03f4608ba47f0cd5adb6f0400a44f15fd70f3b41d66da1376035ba4e4f4f97a1843dcb1f77  mesa-20.1.3.tar.xz
  
  # License
 -sha256 d8d662974fc86e2e640362015e42de3fcc161d435a9f2111ecd8561412feca73  docs/license.html

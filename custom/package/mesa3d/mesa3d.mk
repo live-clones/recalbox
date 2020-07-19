@@ -5,7 +5,7 @@
 ################################################################################
 
 # When updating the version, please also update mesa3d-headers
-MESA3D_VERSION = 20.1.0
+MESA3D_VERSION = 20.1.3
 MESA3D_SOURCE = mesa-$(MESA3D_VERSION).tar.xz
 MESA3D_SITE = https://mesa.freedesktop.org/archive
 MESA3D_LICENSE = MIT, SGI, Khronos
@@ -26,6 +26,12 @@ MESA3D_DEPENDENCIES = \
 MESA3D_CONF_OPTS = \
 	-Dgallium-omx=disabled \
 	-Dpower8=false
+
+# Codesourcery ARM 2014.05 fail to link libmesa_dri_drivers.so with --as-needed linker
+# flag due to a linker bug between binutils 2.24 and 2.25 (2.24.51.20140217).
+ifeq ($(BR2_TOOLCHAIN_EXTERNAL_CODESOURCERY_ARM),y)
+MESA3D_CONF_OPTS += -Db_asneeded=false
+endif
 
 ifeq ($(BR2_PACKAGE_MESA3D_LLVM),y)
 MESA3D_DEPENDENCIES += host-llvm llvm
@@ -66,12 +72,6 @@ else
 MESA3D_CONF_OPTS += \
 	-Dglx=disabled \
 	-Dgallium-xa=false
-endif
-
-ifeq ($(BR2_ARM_CPU_HAS_NEON),y)
-MESA3D_CONF_OPTS += -Dgallium-vc4-neon=auto
-else
-MESA3D_CONF_OPTS += -Dgallium-vc4-neon=disabled
 endif
 
 ifeq ($(BR2_ARM_CPU_HAS_NEON),y)
@@ -188,7 +188,6 @@ endif
 ifeq ($(BR2_PACKAGE_WAYLAND),y)
 MESA3D_DEPENDENCIES += wayland wayland-protocols
 MESA3D_PLATFORMS += wayland
-MESA3D_CONF_OPTS += -Dwayland-scanner-path=$(HOST_DIR)/bin/wayland-scanner
 endif
 ifeq ($(BR2_PACKAGE_MESA3D_DRI_DRIVER),y)
 MESA3D_PLATFORMS += drm
