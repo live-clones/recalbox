@@ -20,7 +20,7 @@ class Input:
 class Controller:
     def __init__(self, configName, type_, guid, player, index="-1", realName="", inputs=None, dev=None, nbaxes=None, nbhats=None, nbbuttons=None):
         self.type = type_
-        self.configName = configName
+        self.configName = configName # type: str
         self.index = index
         self.realName = realName
         self.guid = guid
@@ -81,7 +81,7 @@ class Controller:
             nameMapping.update(nameMappingForceHatToAxis)
             
         # Need to remove commas from the device name
-        strOut = "{},{},platform:Linux,".format(self.guid, self.configName.replace(',', ' '))
+        strOut = "{},{},platform:Linux,".format(self.guid, self.configName.encode("utf-8").replace(',', ' '))
         
         for idx, inp in self.inputs.iteritems():
             if inp.name in nameMapping and inp.type in typePrefix and inp.type in nameMapping[inp.name] :
@@ -169,13 +169,13 @@ class Controller:
                                             nbaxes=controller.get("deviceNbAxes"),
                                             nbhats=controller.get("deviceNbHats"),
                                             nbbuttons=controller.get("deviceNbButtons"))
-            compositeId = "{}-{}-{}:{}:{}".format(controllerInstance.configName, controllerInstance.guid,
+            compositeId = "{}-{}-{}:{}:{}".format(controllerInstance.configName.encode('utf-8'), controllerInstance.guid,
                                                   controllerInstance.nbaxes, controllerInstance.nbhats,
                                                   controllerInstance.nbbuttons)
             #print("Creating CompositeID: " + compositeId)
             controllers[compositeId] = controllerInstance
             # Only for unit tests: allow tests not to know device specifications
-            compositeId = "{}-{}-{}:{}:{}".format(controllerInstance.configName, controllerInstance.guid,
+            compositeId = "{}-{}-{}:{}:{}".format(controllerInstance.configName.encode('utf-8'), controllerInstance.guid,
                                                   '*', '*', '*')
             controllers[compositeId] = controllerInstance
             for inp in controller.findall("input"):
