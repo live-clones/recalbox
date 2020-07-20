@@ -81,7 +81,7 @@
               36293e23fe0c86cb115d59b653c13876,3af0ae018c5710eec6e2891064814138,
               50274bb5dcb707e4450011b09accffcb,c70ee9df11794bd5cc8aadb3721b4a03,
               cd237e16e7e77c06bb58540e9e9fca68,e246140dec5124c5e404869a84caefce" hashMatchMandatory="false" core="np2kai" />
-    <bios path="np2kai/font.bmp"       md5="0c8624e9ced7cca8769e5c7b0dd4279b" hashMatchMandatory="false" core="np2kai" />
+    <bios path="np2kai/font.bmp"       md5="0c8624e9ced7cca8769e5c7b0dd4279b,7da1e5b7c482d4108d22a5b09631d967" hashMatchMandatory="false" core="np2kai" />
     <bios path="np2kai/font.rom"       md5="38d32748ae49d1815b0614970849fd40,38d32748ae49d1815b0614970849fd40,
               4133b0be0d470920da60b9ed28d2614f,693fd1da3239d4bbeafc77d211718fc5,
               829b963e21334e0fc2092ebd58f2ab4a,add4a225048c85ca2bc588696c6ecdc5,
@@ -93,12 +93,12 @@
               42c271f8b720e796a484cc1165ff4914,524473c1a5a03b17e21d86a0408ff827,
               a77fc2bc7c696dd68dba18e02f89d386,caf90f22197aed6f14c471c21e64658d,
               caf90f22197aed6f14c471c21e64658d" hashMatchMandatory="false" core="np2kai" />
-    <bios path="np2kai/2608_bd.wav"    md5="9c6637930b1779abe00b8b63e4e41f50" mandatory="false" hashMatchMandatory="false" core="np2kai" />
-    <bios path="np2kai/2608_hh.wav"    md5="73548a1391631ff54a1f7c838d67917e" mandatory="false" hashMatchMandatory="false" core="np2kai" />
-    <bios path="np2kai/2608_rim.wav"   md5="43d54b3e05c081fa280c9bace3af1043" mandatory="false" hashMatchMandatory="false" core="np2kai" />
-    <bios path="np2kai/2608_sd.wav"    md5="08124ccb84a9f65e2affc29581e690c9" mandatory="false" hashMatchMandatory="false" core="np2kai" />
-    <bios path="np2kai/2608_tom.wav"   md5="0faed5664a2dd8b1b2308e8a50ac25ea" mandatory="false" hashMatchMandatory="false" core="np2kai" />
-    <bios path="np2kai/2608_top.wav"   md5="3721ace646ffd56439aebbb2154e9263" mandatory="false" hashMatchMandatory="false" core="np2kai" />
+    <bios path="np2kai/2608_bd.wav"    md5="9c6637930b1779abe00b8b63e4e41f50,d94546e70f17fd899be8df3544ab6cbb" mandatory="false" hashMatchMandatory="false" core="np2kai" />
+    <bios path="np2kai/2608_hh.wav"    md5="73548a1391631ff54a1f7c838d67917e,08c54a0c1f774a5538a848a6665a34b4" mandatory="false" hashMatchMandatory="false" core="np2kai" />
+    <bios path="np2kai/2608_rim.wav"   md5="43d54b3e05c081fa280c9bace3af1043,465ea0768b27da404aec45dfc501404b" mandatory="false" hashMatchMandatory="false" core="np2kai" />
+    <bios path="np2kai/2608_sd.wav"    md5="08124ccb84a9f65e2affc29581e690c9,d71004351c8bbfdad53b18222c061d49" mandatory="false" hashMatchMandatory="false" core="np2kai" />
+    <bios path="np2kai/2608_tom.wav"   md5="0faed5664a2dd8b1b2308e8a50ac25ea,96a4ead13f364734f79b0c58af2f0e1f" mandatory="false" hashMatchMandatory="false" core="np2kai" />
+    <bios path="np2kai/2608_top.wav"   md5="3721ace646ffd56439aebbb2154e9263,593cff6597ab9380d822b8f824fd2c28" mandatory="false" hashMatchMandatory="false" core="np2kai" />
   </system>
   <system fullname="Sega MEGA CD" platform="segacd">
     <bios path="bios_CD_E.bin" md5="e66fa1dc5820d254611fdcdba0662372" core="genesisplusgx,picodrive" />  
@@ -428,11 +428,13 @@
   </system>
   <system fullname="SNK Neo-Geo" platform="neogeo">
     <bios path="/recalbox/share/roms/neogeo/neogeo.zip|/recalbox/share/bios/neogeo.zip" md5="e023d0a4b5249fdff2a4620c28963944,8cbdff53661f41ddbe486a98915e1ec9,
-    	                                                       42e359e394f0be1d61b94ddca0efbe6c,c1e0a738d266926f604186aa9d63e4db,d12bba59121229ff13702878b415cb7c" hashMatchMandatory="false" core="fbneo,fba2x,mame2000,mame2003,mame2003-plus,mame2010,mame2015" />
+    	                                                       42e359e394f0be1d61b94ddca0efbe6c,c1e0a738d266926f604186aa9d63e4db,
+                                                             d12bba59121229ff13702878b415cb7c,2b4ffdf24d5d4f24c4b116c50c4bafc3" hashMatchMandatory="false" core="fbneo,fba2x,mame2000,mame2003,mame2003-plus,mame2010,mame2015" />
   </system>
   <system fullname="SNK Neo-Geo" platform="neogeocd">
     <bios path="/recalbox/share/roms/neogeocd/neogeo.zip|/recalbox/share/bios/neogeo.zip" md5="e023d0a4b5249fdff2a4620c28963944,8cbdff53661f41ddbe486a98915e1ec9,
-    	                                                         42e359e394f0be1d61b94ddca0efbe6c,7de395af329f683cb32696fb12ecb86f" hashMatchMandatory="false" core="fbneo,fba2x,mame2000,mame2003,mame2003-plus,mame2010,mame2015" />    
+    	                                                         42e359e394f0be1d61b94ddca0efbe6c,7de395af329f683cb32696fb12ecb86f,
+                                                               2b4ffdf24d5d4f24c4b116c50c4bafc3" hashMatchMandatory="false" core="fbneo,fba2x,mame2000,mame2003,mame2003-plus,mame2010,mame2015" />    
     <bios path="/recalbox/share/roms/neogeocd/neocdz.zip|/recalbox/share/bios/neocdz.zip" md5="f39572af7584cb5b3f70ae8cc848aba2,389dbeb0cb857c130414747462cf9d71,c85b8132799f1b2ad3754a97947809d2" hashMatchMandatory="false" core="fbneo,fba2x,mame2000,mame2003,mame2003-plus,mame2010,mame2015" />    
   </system>
 </biosList>
