@@ -66,6 +66,8 @@ do_update() {
       done < /boot_root/update/boot.lst
       rm /boot_root/update/boot.lst
     fi
+    # delete content of /boot_root/update/
+    find /boot_root/update/ -mindepth 1 -delete
     mount -o remount,ro /boot_root || return 1
 }
 
