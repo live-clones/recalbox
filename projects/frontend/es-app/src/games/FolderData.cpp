@@ -82,6 +82,7 @@ void FolderData::populateRecursiveFolder(const std::string& originalFilteredExte
   {
     // Get file
     std::string stem = filePath.FilenameWithoutExtension();
+    if (stem == "gamelist") continue; // Ignore gamelist.zip/xml
     if (stem.empty()) continue;
 
     // and Extension
