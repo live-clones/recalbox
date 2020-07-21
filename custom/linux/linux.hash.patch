@@ -1,0 +1,11 @@
+diff --git a/linux/linux.hash b/linux/linux.hash
+index 8c0a7a813b..c49a9d0a5d 100644
+--- a/linux/linux.hash
++++ b/linux/linux.hash
+@@ -1,5 +1,5 @@
+ # From https://www.kernel.org/pub/linux/kernel/v5.x/sha256sums.asc
+-sha256  2667b90a42d42557aca9e3d37bba1b4e71809b9523958e6870ada311c4790744  linux-5.4.43.tar.xz
++sha256  037efa531120b1c20ff55e78cd3e17288b1804b3a57dc31de760837b3bea5d3a  linux-5.4.52.tar.xz
+ # From https://www.kernel.org/pub/linux/kernel/v4.x/sha256sums.asc
+ sha256  49474956a6149c16cbcba862d1f4db54835a32d336063c75094f669f1c34c65e  linux-4.4.225.tar.xz
+ sha256  e547748c548b0f55f665bc78cfec322e7b96f41527b5e4b5d79430fdaa57c3e8  linux-4.9.225.tar.xz

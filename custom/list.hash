@@ -17,6 +17,8 @@
 --------------------------------  package/sdl2/0001-src-core-linux-SDL_threadprio.c-fix-build-without-th.patch
 --------------------------------  package/sdl2/0002-fix-busy-loop-in-dlopen.patch
 bebf5922f3fcd58aa3d3316f053e556c  boot/syslinux/syslinux.mk
+9d62d4b0209a493d400c4b9e7af450cb  linux/Config.in
+887392b8c6a44a3567b44b292d510ae5  linux/linux.hash
 6486da257b2a96c3db33a2bc1d75045f  package/binutils/binutils.mk
 53e3a49a7e3113103224a3e8dce99a6d  package/bluez5_utils/bluez5_utils.mk
 fad4a9334552741586c0d33ac477ce65  package/dhcpcd/dhcpcd.mk
