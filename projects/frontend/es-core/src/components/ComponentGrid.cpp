@@ -298,7 +298,7 @@ bool ComponentGrid::moveCursor(Vector2i dir)
 
         Vector2i curDirPos = mCursor;
 
-        GridEntry* cursorEntry;
+        GridEntry* cursorEntry = nullptr;
         //spread out on search axis+
         while(mCursor.x() < mGridSize.x() && mCursor.y() < mGridSize.y()
             && mCursor.x() >= 0 && mCursor.y() >= 0)
@@ -381,7 +381,7 @@ void ComponentGrid::Render(const Transform4x4f& parentTrans)
     for (int i = mHighlightRowFrom - 1; ++i <= mHighlightRowTo; )
     {
       float h = getRowHeight(i);
-      Renderer::drawRect(x, y, w, h, (i & 1) ? 0xFFFFFF18 : 0x00000018);
+      Renderer::drawRect(x, y, w, h, (i & 1) != 0 ? 0xFFFFFF18 : 0x00000018);
       y += h;
     }
   }
@@ -394,7 +394,7 @@ void ComponentGrid::Render(const Transform4x4f& parentTrans)
     for (int i = mHighlightColumnFrom - 1; ++i < mHighlightColumnTo; )
     {
       float w = getColWidth(i);
-      Renderer::drawRect(x, y, w, h, (i & 1) ? 0xFFFFFF18 : 0x00000018);
+      Renderer::drawRect(x, y, w, h, (i & 1) != 0 ? 0xFFFFFF18 : 0x00000018);
       x += w;
     }
   }

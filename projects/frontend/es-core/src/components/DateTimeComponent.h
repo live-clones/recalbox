@@ -13,6 +13,7 @@ public:
 		Date,
 		DateTime,
 		Time,
+		RealTime,
 		RelativeToNow,
 	};
 

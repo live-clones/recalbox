@@ -35,17 +35,18 @@ MenuComponent::MenuComponent(Window&window, const std::string& title, const std:
 
 	mGrid.setEntry(mTitle, Vector2i(0, 0), false);
 
-
-
-	if (title == _("MAIN MENU") ) {
-
-		auto headerGrid = std::make_shared<ComponentGrid>(mWindow, Vector2i(3, 1));
+	//if (title == _("MAIN MENU") )
+	{
+		auto headerGrid = std::make_shared<ComponentGrid>(mWindow, Vector2i(5, 1));
+    headerGrid->setColWidthPerc(0, 0.02);
+    headerGrid->setColWidthPerc(4, 0.02);
 
 		std::string arch = Settings::Instance().Arch();
-		if (arch == "x86" || arch == "x86_64") {
-
+		if (arch == "x86" || arch == "x86_64")
+		{
 			auto batt = RecalboxSystem::getSysBatteryInfo(); // TODO: Remove ascending core=>app
-			if (batt.second != -1) {
+			if (batt.second != -1)
+			{
 				auto batDisplay = std::make_shared<TextComponent>(mWindow);
 				batDisplay->setFont(menuTheme->menuText.font);
 				if (batt.second <= 15)
@@ -54,23 +55,21 @@ MenuComponent::MenuComponent(Window&window, const std::string& title, const std:
 					batDisplay->setColor(menuTheme->menuText.color);
 				batDisplay->setText(" " + batt.first + " " + std::to_string(batt.second) + "%");
 				batDisplay->setHorizontalAlignment(TextAlignment::Left);
-				headerGrid->setEntry(batDisplay, Vector2i(0, 0), false);
-
+				headerGrid->setEntry(batDisplay, Vector2i(1, 0), false);
 			}
 		}
 
 		if (Settings::Instance().ShowClock()) {
 
 			mDateTime = std::make_shared<DateTimeComponent>(mWindow);
-			mDateTime->setDisplayMode(DateTimeComponent::Display::Time);
+			mDateTime->setDisplayMode(DateTimeComponent::Display::RealTime);
 			mDateTime->setHorizontalAlignment(TextAlignment::Right);
 			mDateTime->setFont(menuTheme->menuText.font);
 			mDateTime->setColor(menuTheme->menuText.color);
-			headerGrid->setEntry(mDateTime, Vector2i(2, 0), false);
+			headerGrid->setEntry(mDateTime, Vector2i(3, 0), false);
 		}
 
 		mGrid.setEntry(headerGrid, Vector2i(0, 0), false);
-
 	}
 
 
@@ -222,7 +221,6 @@ std::shared_ptr<ComponentGrid> makeButtonGrid(Window&window, const std::vector< 
 
 std::shared_ptr<ComponentGrid> makeMultiDimButtonGrid(Window&window, const std::vector< std::vector< std::shared_ptr<ButtonComponent> > >& buttons, const float outerWidth, const float outerHeight)
 {
-
     const int sizeX = (int) buttons[0].size();
     const int sizeY = (int) buttons.size();
     const float buttonHeight = buttons[0][0]->getSize().y();

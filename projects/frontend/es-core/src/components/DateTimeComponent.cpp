@@ -105,7 +105,7 @@ bool DateTimeComponent::ProcessInput(const InputCompactEvent& event)
 
 void DateTimeComponent::Update(int deltaTime)
 {
-	if(mDisplayMode == Display::RelativeToNow || mDisplayMode == Display::Time)
+	if(mDisplayMode == Display::RelativeToNow || mDisplayMode == Display::RealTime)
 	{
 		mRelativeUpdateAccumulator += deltaTime;
 		if(mRelativeUpdateAccumulator > 1000)
@@ -185,6 +185,7 @@ std::string DateTimeComponent::getDisplayString(Display mode) const
 	  case Display::Date: return mTime.ToStringFormat("%YYYY/%MM/%dd");
     case Display::DateTime: return mTime.ToStringFormat("%YYYY/%MM/%dd %HH:%mm:%ss");
     case Display::Time: return mTime.ToStringFormat("%HH:%mm:%ss");
+    case Display::RealTime: return DateTime().ToStringFormat("%HH:%mm:%ss");
     case Display::RelativeToNow:
 		{
 			if(mTime.Year() == 0) return _("never");
