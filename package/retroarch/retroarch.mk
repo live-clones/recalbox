@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-RETROARCH_VERSION = v1.8.9
+# Version 1.8.9 + exit-on-error fix
+RETROARCH_VERSION = c3ee17c842cbf1e684f890485671eb4e2984c14d
 RETROARCH_SITE = git://github.com/libretro/RetroArch.git
 RETROARCH_SITE_METHOD = git
 RETROARCH_LICENSE = GPLv3+
