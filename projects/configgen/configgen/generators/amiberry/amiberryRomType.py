@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 import fnmatch
-import glob
 import os
 import subprocess
 
@@ -45,10 +44,10 @@ class RomType:
                 romExt = ".hd"
                 rom = romGame + ".hd"
             else:
-                for f in glob.glob(romGame + ".*"):
-                    romGame, romExt = os.path.splitext(f)
-                    if romExt in RomType.VALID_EXTENSIONS:
-                        rom = romGame + romExt
+                for ext in RomType.VALID_EXTENSIONS:
+                    if os.path.exists(romGame + ext):
+                        romExt = ext
+                        rom = romGame + ext
                         break
             if romExt == ".uae":
                 romHasUAE = True
@@ -68,7 +67,7 @@ class RomType:
                 romType = RomType.DISK
             elif romExt == ".lha" or romExt == ".lzh" or romExt == ".lzx":
                 romType = RomType.WHDL
-            elif romExt in [".iso", ".bin", ".cue", ".ccd", ".nrg", ".mds", ".chd"]:
+            elif romExt in (".iso", ".bin", ".cue", ".ccd", ".nrg", ".mds", ".chd"):
                 romType = RomType.CDROM
             elif romExt == ".hdf":
                 romType = RomType.HDF
@@ -119,4 +118,5 @@ class RomType:
 
         return rom, romType, romHasUAE
 
-
+if __name__ == '__main__':
+    r, t, u = RomType.Identify("/recalbox/share/roms/amiga1200/[WHDL ZIP]/Zool 2 (AGA).uae")
