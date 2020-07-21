@@ -1,0 +1,12 @@
+--- a/gfx/drivers_context/vc_egl_ctx.c	2020-07-21 22:20:35.487586237 +0200
++++ b/gfx/drivers_context/vc_egl_ctx.c2	2020-07-21 22:20:46.751708701 +0200
+@@ -78,6 +78,9 @@
+    PFNEGLDESTROYIMAGEKHRPROC peglDestroyImageKHR;
+ } vc_ctx_data_t;
+ 
++static bool gfx_ctx_vc_bind_api(void *data,
++      enum gfx_ctx_api api, unsigned major, unsigned minor);
++
+ /* TODO/FIXME - static globals */
+ static enum gfx_ctx_api vc_api = GFX_CTX_NONE;
+ 
