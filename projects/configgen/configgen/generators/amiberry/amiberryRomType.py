@@ -117,6 +117,3 @@ class RomType:
                 romHasUAE = True
 
         return rom, romType, romHasUAE
-
-if __name__ == '__main__':
-    r, t, u = RomType.Identify("/recalbox/share/roms/amiga1200/[WHDL ZIP]/Zool 2 (AGA).uae")

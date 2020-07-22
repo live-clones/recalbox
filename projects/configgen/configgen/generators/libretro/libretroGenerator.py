@@ -167,6 +167,25 @@ class LibretroGenerator(Generator):
                 roms.extend(collector.Disks)
                 return roms
 
+        # Vic20 core with split cartridges
+        if core == "vice_xvic":
+            rom, romExt = os.path.splitext(rom)
+            cartridges = \
+            {
+                ".20": "-cart2",
+                ".40": "-cart4",
+                ".60": "-cart6",
+                ".a0": "-cartA",
+                ".b0": "-cartB",
+            }
+            if romExt in cartridges:
+                carts = []
+                for ext in cartridges:
+                    if os.path.exists(rom + ext):
+                        carts.append(cartridges[ext])
+                        carts.append('"' + rom + ext + '"')
+                return ['xvic {}'.format(' '.join(carts))]
+
         # Demo mode: take the first disk, always
         if demo:
             from utils.diskCollector import DiskCollector
