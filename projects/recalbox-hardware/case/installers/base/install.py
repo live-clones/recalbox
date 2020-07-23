@@ -26,5 +26,5 @@ class InstallBase:
         pass
 
     @abstractmethod
-    def GetInstallPicture(self, case):
+    def GetInstallScript(self, case):
         pass

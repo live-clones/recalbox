@@ -22,6 +22,6 @@ class Install(InstallBase):
 
         return ""
 
-    def GetInstallPicture(self, case):
+    def GetInstallScript(self, case):
 
         return None

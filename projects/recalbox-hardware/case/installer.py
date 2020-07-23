@@ -57,7 +57,7 @@ def processSoftware(install, case):
     return case
 
 
-def getInstallPicture(case):
+def getInstallScript(case):
 
     for moduleName, caseNames in MODULES.iteritems():
         if case in caseNames:
@@ -65,7 +65,7 @@ def getInstallPicture(case):
             module = __import__(moduleName, fromlist=["Install"])
             installClass = getattr(module, "Install")
             installer = installClass()
-            return installer.GetInstallPicture(case)
+            return installer.GetInstallScript(case)
 
     return None
 

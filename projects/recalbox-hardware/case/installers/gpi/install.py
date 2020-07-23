@@ -110,19 +110,9 @@ class Install(InstallBase):
                 logger.hardlog("GPi: Music popup disabled")
 
                 # Install GPi XBOX360 config
-                srcTree = XmlTree.parse(self.BASE_SOURCE_FOLDER + "assets/es_input.fragment.xml")
-                srcRoot = srcTree.getroot()
-                dstTree = XmlTree.parse("/recalbox/share/system/.emulationstation/es_input.cfg")
-                dstRoot = dstTree.getroot()
-                for sourceController in srcRoot.findall(".//inputConfig"):
-                    for controller in dstRoot.findall(".//inputConfig"):
-                        if  controller.get("deviceName") == sourceController.get("deviceName") and \
-                            controller.get("deviceGUID") == sourceController.get("deviceGUID"):
-                            dstRoot.remove(controller)
-                            dstRoot.append(sourceController)
                 os.system("rm -f /recalbox/share/system/.emulationstation/es_input.cfg.org")
                 os.system("mv /recalbox/share/system/.emulationstation/es_input.cfg /recalbox/share/system/.emulationstation/es_input.cfg.org")
-                dstTree.write("/recalbox/share/system/.emulationstation/es_input.cfg", "UTF-8", True, None, "xml")
+                os.system("mv " + self.BASE_SOURCE_FOLDER + "assets/es_input.fragment.xml /recalbox/share/system/.emulationstation/es_input.cfg")
                 logger.hardlog("GPi: controller updated")
 
                 # Install Theme
@@ -267,6 +257,6 @@ class Install(InstallBase):
         return ""
 
 
-    def GetInstallPicture(self, case):
+    def GetInstallScript(self, case):
 
-        return self.BASE_SOURCE_FOLDER + "assets/install.png"
+        return self.BASE_SOURCE_FOLDER + "assets/phaseInstaller.sh"

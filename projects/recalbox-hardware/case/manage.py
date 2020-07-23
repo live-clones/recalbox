@@ -123,16 +123,16 @@ def mainInstall():
     if previousPhase == 0:
 
         import installer
-        picture = installer.getInstallPicture(previousCase)
+        picture = installer.getInstallScript(previousCase)
         if picture is not None:
 
             # import logger
             import logger
-            logger.hardlog("Request install picture")
+            logger.hardlog("Request install script")
 
-            # Make temporary link to image
+            # Make temporary link to install script
             import os
-            pathToSymLink = "/tmp/.install.png"
+            pathToSymLink = "/tmp/.install.sh"
             if os.path.exists(pathToSymLink):
                 os.remove(pathToSymLink)
             os.symlink(picture, pathToSymLink)
