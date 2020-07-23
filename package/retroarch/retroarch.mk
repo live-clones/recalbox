@@ -10,7 +10,7 @@ RETROARCH_SITE = git://github.com/libretro/RetroArch.git
 RETROARCH_SITE_METHOD = git
 RETROARCH_LICENSE = GPLv3+
 RETROARCH_CONF_OPTS += --disable-oss --enable-zlib --disable-opengl1
-RETROARCH_DEPENDENCIES = host-pkgconf recalbox-system
+RETROARCH_DEPENDENCIES = host-pkgconf recalbox-system flac
 
 ifeq ($(BR2_PACKAGE_SDL2),y)
 RETROARCH_CONF_OPTS += --enable-sdl2
