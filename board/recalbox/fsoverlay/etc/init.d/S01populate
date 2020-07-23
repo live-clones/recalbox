@@ -4,31 +4,12 @@ if [ "$1" != "start" ]; then
   exit 0
 fi
 
+# create system directories
+mkdir -p /var/lib/sixad/profiles /var/lib/bluetooth /var/lib/samba/private /var/cache \
+         /var/lib/dbus /var/run /run/udev/ /var/log
+
 # sixad
-mkdir -p /var/lib/sixad/profiles
 cp /etc/sixad.profile /var/lib/sixad/profiles/default
 
-# custom network config
-mkdir -p /var/lib/connman
-ln -sf /recalbox/share/system/network-connman.config /var/lib/connman/recalbox-custom.config
-ln -sf /boot/network-connman.config /var/lib/connman/recalbox-boot-custom.config
-
-# bluetooth
-mkdir -p /var/lib/bluetooth
-
 # samba
-mkdir -p /var/lib/samba/private
 chmod 0755 /var/lib/samba
-mkdir -p /var/cache
-
-# dbus
-mkdir -p /var/lib/dbus
-
-# usbmount, acpid
-mkdir -p /var/run
-
-# Udev custom rules
-mkdir -p /run/udev/
-
-# xorg
-mkdir -p /var/log
