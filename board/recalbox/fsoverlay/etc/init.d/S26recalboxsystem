@@ -6,7 +6,7 @@ config_script=/recalbox/scripts/recalbox-config.sh
 rb_volume_configure() {
     settingsVolume="`$systemsetting -command load -key audio.volume`"
     if [ "$settingsVolume" != "" ];then
-	recallog "setting audio volume to $settingsVolume"
+        recallog "setting audio volume to $settingsVolume"
         eval $config_script "volume" "$settingsVolume" 2>&1 | recallog
     fi
 }
@@ -24,26 +24,26 @@ rb_audio_configure() {
 rb_gpio_configure() {
     settings_gpio_mk="`$systemsetting -command load -key controllers.gpio.enabled`"
     if [ "$settings_gpio_mk" == "1" ];then
-	settings_gpio_map="`$systemsetting -command load -key controllers.gpio.args`"
-	[ "$settings_gpio_map" == "" ] && settings_gpio_map="map=1,2"
-	recallog "enabling mk_arcade_joystick_rpi"
+        settings_gpio_map="`$systemsetting -command load -key controllers.gpio.args`"
+        [ "$settings_gpio_map" == "" ] && settings_gpio_map="map=1,2"
+        recallog "enabling mk_arcade_joystick_rpi"
         eval $config_script "module" "load" mk_arcade_joystick_rpi "$settings_gpio_map" 2>&1 | recallog
     else
-	# mk disabled let's check for db9
-	settings_db9="`$systemsetting -command load -key controllers.db9.enabled`"
-	if [ "$settings_db9" == "1" ];then
-            settings_db9_map="`$systemsetting -command load -key controllers.db9.args`"
-            recallog "enabling db9"
-            eval $config_script "module" "load" db9_gpio_rpi "$settings_db9_map" 2>&1 | recallog
-	else 
-	    # db9 and mk disabled let's check for gamecon
+        # mk disabled let's check for db9
+        settings_db9="`$systemsetting -command load -key controllers.db9.enabled`"
+        if [ "$settings_db9" == "1" ];then
+                settings_db9_map="`$systemsetting -command load -key controllers.db9.args`"
+                recallog "enabling db9"
+                eval $config_script "module" "load" db9_gpio_rpi "$settings_db9_map" 2>&1 | recallog
+        else 
+            # db9 and mk disabled let's check for gamecon
             settings_gamecon="`$systemsetting -command load -key controllers.gamecon.enabled`"
             if [ "$settings_gamecon" == "1" ];then
                 settings_gamecon_map="`$systemsetting -command load -key controllers.gamecon.args`"
                 recallog "enabling gamecon"
                 eval $config_script "module" "load" gamecon_gpio_rpi "$settings_gamecon_map" 2>&1 | recallog
-	    fi
-	fi
+            fi
+        fi
     fi
 }
 
@@ -52,13 +52,13 @@ rb_keyboad_lang() {
     settings_kb="`$systemsetting -command load -key system.kblayout`"
     if [[ "$settings_kb" != "" ]];then
         recallog "setting keyboard layout to ${settings_kb}"
-	loadkeys "$settings_kb" 2>&1 | recallog
+        loadkeys "$settings_kb" 2>&1 | recallog
     else
         keyboardmap=`echo "$settings_lang" | cut -c1-2`
-	if [[ "$keyboardmap" != "" ]]; then
+        if [[ "$keyboardmap" != "" ]]; then
             recallog "setting keyboard layout to ${keyboardmap}"
             loadkeys "$keyboardmap" 2>&1 | recallog
-	fi
+        fi
     fi
 }
 
@@ -101,26 +101,26 @@ rb_xarcade2jstick() {
 
 case "$1" in
   start)
-	recallog "starting new log"
+    recallog "starting new log"
 
-	# Dos carriage return characters
-	recallog "converting dos to unix carriage return characters"
-	sed -i 's/\r//g' /recalbox/share/system/recalbox.conf
-	
-	# configure
-	rb_gpio_configure&    # 0.9 start by the gpio while it's the longer
-	rb_keyboad_lang&      # 0.7
+    # Dos carriage return characters
+    recallog "converting dos to unix carriage return characters"
+    sed -i 's/\r//g' /recalbox/share/system/recalbox.conf
+    
+    # configure
+    rb_gpio_configure&    # 0.9 start by the gpio while it's the longer
+    rb_keyboad_lang&      # 0.7
 
-	( rb_volume_configure ; rb_audio_configure ) &  # 1.0
-	rb_timezone&          # 0.4
-	rb_hostname&          # 0.4
-	wait
-	( sleep 8 ; rb_xarcade2jstick ) &    # 0.1
-	;;
+    ( rb_volume_configure ; rb_audio_configure ) &  # 1.0
+    rb_timezone&          # 0.4
+    rb_hostname&          # 0.4
+    wait
+    ( sleep 8 ; rb_xarcade2jstick ) &    # 0.1
+    ;;
   stop)
-	;;
+    ;;
   restart|reload)
-	;;
+    ;;
   *)
 esac
 
