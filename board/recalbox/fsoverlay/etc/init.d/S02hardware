@@ -1,8 +1,25 @@
 #!/bin/ash
 
+# Main
 if [ "$1" == "start" ]; then
+
+  # GPI case? Deactivate HDMI to save energy
+  case=$(sed -n 's/^case=\(.*\)/\1/p' /boot/recalbox-boot.conf)
+  if [ "${case}" = "GPiV1:1" ]; then
+    recallog "GPi case detected: turning HDMI off"
+    tvservice -o
+  fi
+
+  # Video cards
   if [ "$(uname -m)" == "x86_64" ]; then
     /recalbox/system/hardware/videocard/nvidia-install
   fi
+
+  # Cases
   python2.7 /recalbox/system/hardware/case/manage.pyc "" 1 1 0
+
+  # Installation image
+  if [ -f /tmp/.install.sh ]; then
+    ( /tmp/.install.sh initialize ) &
+  fi
 fi

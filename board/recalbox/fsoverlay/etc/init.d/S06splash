@@ -157,24 +157,18 @@ showIntroBackground() {
   sleep 1
 }
 
-# showInstallBackground
-#   displays our install background via the framebuffer
-showInstallBackground() {
-  fbv -f -i /tmp/.install.png
-}
-
 ## Main ##
 
 INTERNALDEVICE=$(/recalbox/scripts/recalbox-part.sh "share_internal")
 if test -e "${INTERNALDEVICE}" ; then
-  if [ -f /tmp/.install.png ]; then
-    showInstallBackground &
+  if [ -f /tmp/.install.sh ]; then
+    recallog "Install in progress. Don't play boot video"
   else
     case "$(cat /recalbox/recalbox.arch)" in
       rpi4|odroidxu4)
         ( playWithFFMpeg; showIntroBackground ) & ;;
       rpi*)
-        ( turnOffGPiCaseHDMI; playWithOMX; showIntroBackground ) & ;;
+        ( playWithOMX; showIntroBackground ) & ;;
       x86*)
         ( playWithMPlayer; showIntroBackground ) & ;;
       *)
