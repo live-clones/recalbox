@@ -116,13 +116,18 @@ function playWithFFPlay() {
 #   starts playing a video on the framebuffer via ffmpeg
 function playWithFFMpeg() {
   local videoFile="$(selectVideo)"
+  local variant="$1"
 
   if ! which ffmpeg > /dev/null; then
     return
   fi
+  case "$variant" in
+    sdl2)  local output_opts=(-f sdl2 Splash) ;;
+    fbdev) local output_opts=(-f fbdev /dev/fb0) ;;
+  esac
   ffmpeg_opts="-hide_banner -pix_fmt bgra"
   ffmpeg_srt="subtitles=/recalbox/system/resources/splash/recalboxintro.srt:force_style='FontName=/usr/share/fonts/dejavu/DejaVuSans-BoldOblique.ttf,Fontsize=10'"
-  ffmpeg -i "${videoFile}" -vf "${ffmpeg_srt}" ${ffmpeg_opts} -s ${fbdevWidth}x${fbdevHeight} -f sdl2 "Splash" -f alsa hw:0,0
+  ffmpeg -i "${videoFile}" -vf "${ffmpeg_srt}" ${ffmpeg_opts} -s ${fbdevWidth}x${fbdevHeight} ${output_opts[*]} -f alsa hw:0,0 >/dev/null 2>&1 &
   if [ ${videoLength} -ne -1 ]; then
     stopPlayerWhenTimeoutReached $! ${videoLength}
   fi
@@ -165,8 +170,10 @@ if test -e "${INTERNALDEVICE}" ; then
     recallog "Install in progress. Don't play boot video"
   else
     case "$(cat /recalbox/recalbox.arch)" in
-      rpi4|odroidxu4)
-        ( playWithFFMpeg; showIntroBackground ) & ;;
+      rpi4)
+        ( playWithFFMpeg sdl2; showIntroBackground ) & ;;
+      odroidxu4)
+        ( playWithFFMpeg fbdev; showIntroBackground ) & ;;
       rpi*)
         ( playWithOMX; showIntroBackground ) & ;;
       x86*)
