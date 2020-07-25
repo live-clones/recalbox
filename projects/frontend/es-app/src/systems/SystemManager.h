@@ -9,6 +9,7 @@
 #include <utils/cplusplus/INoCopy.h>
 #include <views/IProgressInterface.h>
 #include <utils/os/fs/watching/FileNotifier.h>
+#include <utils/os/system/Mutex.h>
 
 class SystemManager :
   private INoCopy, // No copy allowed
@@ -38,8 +39,10 @@ class SystemManager :
     //! File path to system weight file for fast loading/saving
     static constexpr const char* sWeightFilePath = "/recalbox/share/system/.emulationstation/.weights";
 
-    // Emulator manager
+    //! Emulator manager
     EmulatorManager mEmulatorManager;
+    //! Emulator manager guard
+    Mutex mEmulatorGuard;
 
     //! Visible system, including virtual system (Arcade)
     std::vector<SystemData*> mVisibleSystemVector;

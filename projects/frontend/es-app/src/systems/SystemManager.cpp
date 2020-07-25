@@ -143,7 +143,9 @@ SystemData* SystemManager::ThreadPoolRunJob(SystemDescriptor& systemDescriptor)
     }
     else
     {
+      mEmulatorGuard.Lock();
       mEmulatorManager.AddEmulatorList(*newSys);
+      mEmulatorGuard.UnLock();
       LOG(LogWarning) << "Adding \"" << systemDescriptor.Name() << "\" in system list.";
       return newSys;
     }
@@ -538,6 +540,9 @@ void SystemManager::DeleteAllSystems(bool updateGamelists)
 {
   if (updateGamelists && !mAllSystemVector.empty())
     UpdateAllSystems();
+
+  for(SystemData* system : mAllSystemVector)
+    delete system;
 
   mVisibleSystemVector.clear();
   mAllSystemVector.clear();
