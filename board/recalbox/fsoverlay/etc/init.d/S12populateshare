@@ -43,23 +43,20 @@ do
     fi
 done
 
-# link folders
+# link folders using mount point so that is works on any partition
 OLDIFS=$IFS
 IFS=','
-# 
 for DIRS in /usr/share/retroarch/assets,system/.config/retroarch/assets \
             /overlay/bootvideos,bootvideos 
 do
     set -- $DIRS
     TARGET=$1
     SOURCE=$OUT/$2
-    echo "TARGET: $TARGET"
-    echo "SOURCE: $SOURCE"
-    if test ! -e "$OUT""/""$SOURCE"
+    if test ! -e "$SOURCE"
     then
-        echo $(dirname "$SOURCE")
-        ln -s "$TARGET" $(dirname "$SOURCE")
+	mkdir -p "$SOURCE"
     fi
+    mount --bind "$TARGET" "$SOURCE"
 done
 IFS=$OLDIFS
 
@@ -100,30 +97,25 @@ done
 for DIR in roms system/configs overlays
 do
     [ ! -e "$OUT""/""$DIR" ] && mkdir "$OUT""/""$DIR"
-    find "$IN""/""$DIR" -mindepth 1 -maxdepth 1 -type d |
-        while read SUBDIR
-        do
-            BNAME=$(basename "$SUBDIR")
-            TDIR="$OUT""/""$DIR""/""$BNAME"
-            if test ! -e "$TDIR" # ASSUME THAT PARENTS ARE LISTED BEFORE CHILDREN
+    recreatedFolders=$(find "$IN""/""$DIR" -mindepth 1 -maxdepth 1 -type d)
+    for SUBDIR in $recreatedFolders
+    do
+        BNAME=$(echo ${SUBDIR##*/})
+        TDIR="$OUT""/""$DIR""/""$BNAME"
+        if test ! -e "$TDIR" # ASSUME THAT PARENTS ARE LISTED BEFORE CHILDREN
+        then
+            cp -r "$SUBDIR" "$TDIR"
+        fi
+        # Sync overlays with roms
+	if [ $DIR == "roms" ]; then
+	    TDIR="$OUT""/overlays/""$BNAME"
+            if test ! -e "$TDIR"
             then
-                cp -r "$SUBDIR" "$TDIR"
+                mkdir "$TDIR"
             fi
-        done
-done
-
-# Sync overlays with roms
-find "$OUT""/roms" -mindepth 1 -maxdepth 1 -type d |
-while read SUBDIR
-do
-	BNAME=$(basename "$SUBDIR")
-	TDIR="$OUT""/overlays/""$BNAME"
-	if test ! -e "$TDIR" # ASSUME THAT PARENTS ARE LISTED BEFORE CHILDREN
-	then
-		mkdir "$TDIR"
 	fi
+    done
 done
-
 
 # recalbox.conf : upgrade if necessary
 doRecalboxUpgrades
@@ -144,12 +136,18 @@ fi
 # bluetooth : now gotta tar/untar, the directory structure for bluez5 is more complex
 # once untar, delete the cache folder. The exclude tar option of busybox is dreadful
 btTar=/recalbox/share/system/bluetooth/bluetooth.tar
-tar xvf "$btTar" -C / 2>/dev/null 
+if test -e "$btTar"
+then
+    tar xvf "$btTar" -C / 2>/dev/null 
+fi
 
 # udev : create a link for rules persistance
-mkdir -p /recalbox/share/system/udev/rules.d
-rm -rf /run/udev/rules.d
-ln -s /recalbox/share/system/udev/rules.d/ /run/udev/
+if test ! -e /recalbox/share/system/udev/rules.d
+then
+    mkdir -p /recalbox/share/system/udev/rules.d
+fi
+mkdir -p /run/udev/rules.d
+mount --bind /recalbox/share/system/udev/rules.d /run/udev/rules.d
 test ! -e /recalbox/share/system/recalbox.changelog.done && cp /recalbox/recalbox.changelog /recalbox/share/system/recalbox.changelog.done
 
 # create a uuid if it's missing
