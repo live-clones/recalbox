@@ -6,10 +6,12 @@
 #include <utils/locale/LocaleHelper.h>
 #include "SplashView.h"
 
+#define FONT_SIZE_LOADING ((unsigned int)(0.065f * Math::min(Renderer::getDisplayHeightAsFloat(), Renderer::getDisplayWidthAsFloat())))
+
 SplashView::SplashView(Window& window)
   : Gui(window),
     mLogo(window, true, true),
-    mLoading(window, _("LOADING..."), Font::get(FONT_SIZE_MEDIUM), 0),
+    mLoading(window, _("LOADING..."), Font::get(FONT_SIZE_LOADING), 0),
     mSystemCount(0),
     mSystemLoaded(0)
 {
@@ -34,8 +36,8 @@ void SplashView::Render(const Transform4x4f& parentTrans)
 
   Renderer::drawRect(0, 0, Renderer::getDisplayWidthAsInt(), Renderer::getDisplayHeightAsInt(), 0xFFFFFFFF);
 
-  int w = (int)(Renderer::getDisplayWidthAsFloat() / 10.0f);
-  int h = (int)(Renderer::getDisplayHeightAsFloat() / 80.0f);
+  int w = (int)(Renderer::getDisplayWidthAsFloat() / (Renderer::IsSmallResolution() ? 5.0f : 10.0f));
+  int h = (int)(Renderer::getDisplayHeightAsFloat() / (Renderer::IsSmallResolution() ? 70.0f : 80.0f));
   int x = (int)((Renderer::getDisplayWidthAsFloat() - (float)w) / 2.0f);
   int y = (int)(Renderer::getDisplayHeightAsFloat() * 0.9f);
   Renderer::drawRect(x, y, w, h, 0xC0C0C0FF);
