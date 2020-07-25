@@ -19,18 +19,17 @@ GuiInfoPopup::GuiInfoPopup(Window&window, const std::string& message, int durati
     mDuration(duration * 1000),
     mRunning(true)
 {
-	float maxWidth = Renderer::getDisplayWidthAsFloat() * 0.2f;
-	float maxHeight = Renderer::getDisplayHeightAsFloat() * 0.4f;
+	float maxWidth = Renderer::getDisplayWidthAsFloat() * (Renderer::IsSmallResolution() ? 0.4f : 0.2f);
+	float maxHeight = Renderer::getDisplayHeightAsFloat() * (Renderer::IsSmallResolution() ? 0.5f : 0.4f);
 
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 
 	maxAlpha = (int)menuTheme->menuBackground.color & 0xFF;
 	mFrameColor = menuTheme->menuBackground.color;
 
-	unsigned int FONT_SIZE_ICON = (unsigned int)(0.04f * Math::min(Renderer::getDisplayHeightAsFloat(),
-                                                                Renderer::getDisplayWidthAsFloat()));
-	unsigned int FONT_SIZE_TEXT = (unsigned int)(0.02f * Math::min(Renderer::getDisplayHeightAsFloat(),
-                                                                Renderer::getDisplayWidthAsFloat()));
+	float hwSize = Math::min(Renderer::getDisplayHeightAsFloat(), Renderer::getDisplayWidthAsFloat());
+	unsigned int FONT_SIZE_ICON = (unsigned int)((Renderer::IsSmallResolution() ? 0.08f : 0.04f) * hwSize);
+	unsigned int FONT_SIZE_TEXT = (unsigned int)((Renderer::IsSmallResolution() ? 0.04f : 0.02f) * hwSize);
 
 	// add a padding to the box
 	int paddingX = (int) (Renderer::getDisplayWidthAsFloat() * 0.02f);
