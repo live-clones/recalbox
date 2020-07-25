@@ -94,8 +94,8 @@ enable_wifi() {
   ifconfig "$interface" up
 
   # start wpa_supplicant
-  killall -q wpa_supplicant
-  sleep 2 # prevents a race condition on killall
+  pid=$(pgrep wpa_supplicant)
+  while kill -0 $pid 2> /dev/null; do sleep 0.2; done; # Prevent race conditions
   {
     recallog "Wifi: try with default driver"
     wpa_supplicant -B -i "$interface" -c "$wpa_file"
@@ -103,7 +103,6 @@ enable_wifi() {
     recallog "Wifi: retry with old driver"
     wpa_supplicant -B -i "$interface" -c "$wpa_file" -Dwext
   }
-
 
 
   # clear wpa_supplicant configuration and rebuild
@@ -133,7 +132,7 @@ start() {
   if [ -f "$config_file" ]; then
     if [ `egrep "^wifi.enabled" ${config_file}|sed "s/wifi.enabled=//g"` -ne 0  ]; then
       recallog "Wifi option enabled, trying to configure"
-      sleep 2 # wait a bit to be sure tmpfs is initialized
+      #sleep 2 # wait a bit to be sure tmpfs is initialized
       enable_wifi
     else
       recallog "Wifi option disabled"
@@ -146,12 +145,12 @@ start() {
   # If share over network, let's add a timeout of 10 seconds (max) for slow networks
   if [ `grep -c "^sharedevice=NETWORK$" ${config_file}` -ne 0 ]; then
     try=0
-    until [ ! $try -lt 10 ]
+    until [ ! $try -lt 20 ]
     do
       if [ `ifconfig |grep -v "127.0.0.1"|grep -c "inet addr"` -gt 0 ]; then
         break # Of course if network is OK, don't wait anymore!
       fi
-      sleep 1
+      sleep 0.5
       try=`expr $try + 1`
     done
   fi
