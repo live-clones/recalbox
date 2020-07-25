@@ -36,9 +36,8 @@ recallog "Running MIGRATIONS..."
 
 declare -A renamedCores
 renamedCores=([catsfc]=snes9x2005 [pocketsnes]=snes9x2002 [snes9x_next]=snes9x2010 [pce]=mednafen_pce_fast [vb]=mednafen_vb [imame]=mame2000 [mame078]=mame2003 [fba]=fbneo [fbalpha]=fbneo [glupen64]=mupen64plus [4do]=opera)
-for oldCoreName in ${!renamedCores[@]}; do
+for oldCoreName in ${!renamedCores[@]}; do 
   sed -i "s/\.core=${oldCoreName}\s*$/.core=${renamedCores[${oldCoreName}]}/" $_SHARE/${recalboxConfPath} \
-    && recallog "RENAMED '${oldCoreName}' core to '${renamedCores[${oldCoreName}]}' in $_SHARE/${recalboxConfPath}." \
     || { recallog "ERROR: couldn't replace '${oldCoreName}' by '${renamedCores[${oldCoreName}]}' in $_SHARE/${recalboxConfPath}."; exit 1; }
 done
 
@@ -48,7 +47,6 @@ done
 sed -i \
   's/deviceGUID="03000000030000000300000002000000">/deviceGUID="03000000030000000300000002000000" deviceNbAxes="2" deviceNbHats="0" deviceNbButtons="8">/g' \
   $_SHARE/${esInputCfgPath} \
-  && recallog "UPDATED Virtual Gamepad configuration to new 'es_input.cfg' format." \
   || { recallog "ERROR: failed to update Virtual Gamepad in 'es_input.cfg'."; exit 1; }
 
 ### Migration 3 [20190409115114]
@@ -67,42 +65,41 @@ sed -i \
   -e 's/## 1 or 2, depending on the manager version you wish/## Currently, only version 2 is available/g' \
   -e 's/system.manager.version=1\s*$/system.manager.version=2/g' \
   $_SHARE/${recalboxConfPath} \
-    && recallog "BUMPED webmanager version in $_SHARE/${recalboxConfPath}." \
     || { recallog "ERROR: couldn't change webmanager version in $_SHARE/${recalboxConfPath}."; exit 1; }
 
 ### Migration 5 [20200322100000]
 # Change systems that have been renamed
 declare -A renamedSystems
 renamedSystems=([prboom]=doom [fba_libretro]=fbneo)
+mount -o remount,rw /
 for oldSystemName in ${!renamedSystems[@]}; do
   sed -i "s/^${oldSystemName}./${renamedSystems[${oldSystemName}]}./" $_SHARE/${recalboxConfPath} \
-    && recallog "RENAMED '${oldSystemName}' system to '${renamedSystems[${oldSystemName}]}' in $_SHARE/${recalboxConfPath}." \
     || { recallog "ERROR: couldn't replace '${oldSystemName}' by '${renamedSystems[${oldSystemName}]}' in $_SHARE/${recalboxConfPath}."; exit 1; }
-  for dir in $_SHARE/themes/*/${oldSystemName}/ ; do mv "${dir}" "$(dirname "$dir")/${renamedSystems[${oldSystemName}]}" \
+  for dir in $_SHARE/themes/*/${oldSystemName}/ ; do if [ -e "${dir}" ] ; then mv "${dir}" "$(dirname "$dir")/${renamedSystems[${oldSystemName}]}" \
     && recallog "RENAMED '${oldSystemName}' system to '${renamedSystems[${oldSystemName}]}' in ${dir}." \
-    || { recallog "ERROR: couldn't rename '${oldSystemName}' to '${renamedSystems[${oldSystemName}]}' in ${dir}."; }; done
-  for dir in $_SHARE/saves/${oldSystemName}/ ; do mv "${dir}" "$(dirname "$dir")/${renamedSystems[${oldSystemName}]}" \
+    || { recallog "ERROR: couldn't rename '${oldSystemName}' to '${renamedSystems[${oldSystemName}]}' in ${dir}."; }; fi ; done
+  for dir in $_SHARE/saves/${oldSystemName}/ ; do if [ -e "${dir}" ] ; then mv "${dir}" "$(dirname "$dir")/${renamedSystems[${oldSystemName}]}" \
     && recallog "RENAMED '${oldSystemName}' system to '${renamedSystems[${oldSystemName}]}' in ${dir}." \
-    || { recallog "ERROR: couldn't rename '${oldSystemName}' to '${renamedSystems[${oldSystemName}]}' in ${dir}."; }; done
-  for dir in $_SHARE/roms/${oldSystemName}/ ; do mv "${dir}" "$(dirname "$dir")/${renamedSystems[${oldSystemName}]}" \
+    || { recallog "ERROR: couldn't rename '${oldSystemName}' to '${renamedSystems[${oldSystemName}]}' in ${dir}."; }; fi ; done
+  for dir in $_SHARE/roms/${oldSystemName}/ ; do if [ -e "${dir}" ] ; then mv "${dir}" "$(dirname "$dir")/${renamedSystems[${oldSystemName}]}" \
     && recallog "RENAMED '${oldSystemName}' system to '${renamedSystems[${oldSystemName}]}' in ${dir}." \
-    || { recallog "ERROR: couldn't rename '${oldSystemName}' to '${renamedSystems[${oldSystemName}]}' in ${dir}."; }; done
-  for dir in $_SHARE/system/.emulationstation/themes/*/${oldSystemName}/ ; do mv "${dir}" "$(dirname "$dir")/${renamedSystems[${oldSystemName}]}" \
+    || { recallog "ERROR: couldn't rename '${oldSystemName}' to '${renamedSystems[${oldSystemName}]}' in ${dir}."; }; fi ; done
+  for dir in $_SHARE/system/.emulationstation/themes/*/${oldSystemName}/ ; do if [ -e "${dir}" ] ; then mv "${dir}" "$(dirname "$dir")/${renamedSystems[${oldSystemName}]}" \
     && recallog "RENAMED '${oldSystemName}' system to '${renamedSystems[${oldSystemName}]}' in ${dir}." \
-    || { recallog "ERROR: couldn't rename '${oldSystemName}' to '${renamedSystems[${oldSystemName}]}' in ${dir}."; }; done
-  mount -o remount,rw /
-  for dir in $_SHAREINIT/themes/*/${oldSystemName}/ ; do mv "${dir}" "$(dirname "$dir")/${renamedSystems[${oldSystemName}]}" \
+    || { recallog "ERROR: couldn't rename '${oldSystemName}' to '${renamedSystems[${oldSystemName}]}' in ${dir}."; }; fi ; done
+  for dir in $_SHAREINIT/themes/*/${oldSystemName}/ ; do if [ -e "${dir}" ] ; then mv "${dir}" "$(dirname "$dir")/${renamedSystems[${oldSystemName}]}" \
     && recallog "RENAMED '${oldSystemName}' system to '${renamedSystems[${oldSystemName}]}' in ${dir}." \
-    || { recallog "ERROR: couldn't rename '${oldSystemName}' to '${renamedSystems[${oldSystemName}]}' in ${dir}."; }; done
-  for dir in $_SHAREINIT/saves/${oldSystemName}/ ; do mv "${dir}" "$(dirname "$dir")/${renamedSystems[${oldSystemName}]}" \
+    || { recallog "ERROR: couldn't rename '${oldSystemName}' to '${renamedSystems[${oldSystemName}]}' in ${dir}."; }; fi ; done
+  for dir in $_SHAREINIT/saves/${oldSystemName}/ ; do if [ -e "${dir}" ] ; then mv "${dir}" "$(dirname "$dir")/${renamedSystems[${oldSystemName}]}" \
     && recallog "RENAMED '${oldSystemName}' system to '${renamedSystems[${oldSystemName}]}' in ${dir}." \
-    || { recallog "ERROR: couldn't rename '${oldSystemName}' to '${renamedSystems[${oldSystemName}]}' in ${dir}."; }; done
-  for dir in $_SHAREINIT/roms/${oldSystemName}/ ; do mv "${dir}" "$(dirname "$dir")/${renamedSystems[${oldSystemName}]}" \
+    || { recallog "ERROR: couldn't rename '${oldSystemName}' to '${renamedSystems[${oldSystemName}]}' in ${dir}."; }; fi ; done
+  for dir in $_SHAREINIT/roms/${oldSystemName}/ ; do if [ -e "${dir}" ] ; then mv "${dir}" "$(dirname "$dir")/${renamedSystems[${oldSystemName}]}" \
     && recallog "RENAMED '${oldSystemName}' system to '${renamedSystems[${oldSystemName}]}' in ${dir}." \
-    || { recallog "ERROR: couldn't rename '${oldSystemName}' to '${renamedSystems[${oldSystemName}]}' in ${dir}."; }; done
-  for dir in $_SHAREINIT/system/.emulationstation/themes/*/${oldSystemName}/ ; do mv "${dir}" "$(dirname "$dir")/${renamedSystems[${oldSystemName}]}" \
+    || { recallog "ERROR: couldn't rename '${oldSystemName}' to '${renamedSystems[${oldSystemName}]}' in ${dir}."; }; fi ;done
+  for dir in $_SHAREINIT/system/.emulationstation/themes/*/${oldSystemName}/ ; do if [ -e "${dir}" ] ; then mv "${dir}" "$(dirname "$dir")/${renamedSystems[${oldSystemName}]}" \
     && recallog "RENAMED '${oldSystemName}' system to '${renamedSystems[${oldSystemName}]}' in ${dir}." \
-    || { recallog "ERROR: couldn't rename '${oldSystemName}' to '${renamedSystems[${oldSystemName}]}' in ${dir}."; }; done
-  mount -o remount,ro /
+    || { recallog "ERROR: couldn't rename '${oldSystemName}' to '${renamedSystems[${oldSystemName}]}' in ${dir}."; }; fi ; done
 done
+mount -o remount,ro /
+
 
