@@ -15,7 +15,7 @@ HelpStyle::HelpStyle()
 
 void HelpStyle::FromTheme(const ThemeData& theme, const std::string& view)
 {
-	auto elem = theme.getElement(view, "help", "helpsystem");
+	const auto *elem = theme.getElement(view, "help", "helpsystem");
 	if(elem == nullptr)
 		return;
 

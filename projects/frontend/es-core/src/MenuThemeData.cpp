@@ -151,7 +151,8 @@ MenuThemeData::MenuThemeData()
 
     if (elem->HasProperty("iconFastShutdown"))
           mCurrent->menuIconSet.fastshutdown = elem->AsString("iconFastShutdown");
+
+    if (elem->HasProperty("iconLicense"))
+      mCurrent->menuIconSet.fastshutdown = elem->AsString("iconLicense");
 	}
-		
-	
 }

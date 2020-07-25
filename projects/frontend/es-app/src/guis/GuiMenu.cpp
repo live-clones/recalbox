@@ -132,7 +132,7 @@ GuiMenu::GuiMenu(Window& window, SystemManager& systemManager)
 	addEntry(_("OPEN-SOURCE LICENSE"), mMenuTheme->menuText.color, true,
 	         [this] {
 		         mWindow.pushGui(new GuiMsgBoxScroll(mWindow, "RECALBOX", Strings::ScrambleSymetric2(std::string(MenuMessages::LICENCE_MSG, MenuMessages::LICENCE_MSG_SIZE), __MESSAGE_DECORATOR), _("OK"), nullptr, "", nullptr, "", nullptr, TextAlignment::Left));
-		 }, Path(":/question.svg"));
+		 }, mMenuTheme->menuIconSet.license /*Path(":/question.svg")*/);
 
     //QUIT
     addEntry(_("QUIT"), mMenuTheme->menuText.color, true,
