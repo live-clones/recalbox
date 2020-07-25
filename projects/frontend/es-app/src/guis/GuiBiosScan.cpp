@@ -227,15 +227,16 @@ void GuiBiosScan::onSizeChanged()
   float footerPercent = mFooter->getFont()->getLetterHeight() * 2.6f / mSize.y();
   float buttonPercent = (mButtonGrid->getSize().y() * 1.2f) / mSize.y();
 
-  float spacerPercent = 0.02f;
+  float spacerPercent = Renderer::IsSmallResolution() ? 0.0f : 0.02f;
   float systemPercent = mDetailSystemLabel->getFont()->getLetterHeight() * 2.6f / mSize.y();
   float corePercent = mDetailCoreLabel->getFont()->getLetterHeight() * 2.6f / mSize.y();
-  float pathPercent = mDetailPathLabel->getFont()->getLetterHeight() * 2.6f / mSize.y();
+  float pathPercent = Renderer::IsSmallResolution() ? 0.01f : mDetailPathLabel->getFont()->getLetterHeight() * 2.6f / mSize.y();
   float mandatoryPercent = mDetailMandatoryLabel->getFont()->getLetterHeight() * 2.6f / mSize.y();
   float filePercent = mDetailFileFoundLabel->getFont()->getLetterHeight() * 2.6f / mSize.y();
   float remarkPercent = mDetailText1Value->getFont()->getLetterHeight() * 8.6f / mSize.y();
   float notePercent = mDetailText2Label->getFont()->getLetterHeight() * 2.6f / mSize.y();
   float remainingPercent = 1.0f - (titlePercent + headerPercent + spacerPercent * 3 + systemPercent + corePercent + pathPercent + mandatoryPercent + filePercent + remarkPercent + notePercent + footerPercent + buttonPercent);
+  if (remainingPercent < 0.0f) remainingPercent = 0.0f;
 
   mGrid.setRowHeightPerc(0, titlePercent, false);
   mGrid.setRowHeightPerc(1, headerPercent, false);
@@ -483,8 +484,11 @@ void GuiBiosScan::UpdateBiosDetail()
     mDetailSystemValue->setValue(context.mBiosList->FullName());
     mDetailCoreLabel->setValue(_("Core") + " :");
     mDetailCoreValue->setValue(context.mBios->Cores());
-    mDetailPathLabel->setValue(_("File Path") + " :");
-    mDetailPathValue->setValue(context.mBios->Filepath().ToString());
+    if (!Renderer::IsSmallResolution())
+    {
+      mDetailPathLabel->setValue(_("File Path") + " :");
+      mDetailPathValue->setValue(context.mBios->Filepath().ToString());
+    }
     mDetailMandatoryLabel->setValue(_("Mandatory") + " :");
     mDetailMandatoryValue->setValue(context.mBios->IsMandatory() ? _("YES") : _("NO"));
     mDetailHashMustMatchLabel->setValue(_("Must match MD5") + " :");
