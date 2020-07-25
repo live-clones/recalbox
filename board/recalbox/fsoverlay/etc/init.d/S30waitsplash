@@ -7,11 +7,11 @@ wait_splash_end() {
 	systemsetting="recalbox_settings"
 
 	videoLength="`$systemsetting -command load -key system.splash.length -source /boot/recalbox-backup.conf`"
-	if [ ${videoLength} -ne 0 ] ; then
+	if [ "${videoLength}" -eq -1 ] ; then
 
-		mp_pid=$(pgrep -f S06splash)
+		mp_pid=$(pgrep -f mpv)
 		while kill -0 $mp_pid 2>/dev/null; do
-			sleep 1
+			sleep 0.1
 		done
 	fi
 }
