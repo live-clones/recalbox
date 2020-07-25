@@ -27,7 +27,7 @@ public:
 
   void setState(bool state);
 	std::string getValue() const override;
-	bool changed();
+	bool changed() const;
 
 	bool getHelpPrompts(Help& help) override;
 

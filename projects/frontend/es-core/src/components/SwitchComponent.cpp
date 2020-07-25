@@ -13,7 +13,7 @@ SwitchComponent::SwitchComponent(Window&window)
 {
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 	mImage.setImage(mState ? menuTheme->iconSet.on : menuTheme->iconSet.off);
-	mImage.setResize(0, Font::get(FONT_SIZE_MEDIUM)->getLetterHeight());
+	mImage.setResize(0, Font::get(FONT_SIZE_MEDIUM)->getLetterHeight() * (Renderer::IsSmallResolution() ? 1.4f : 1.0f));
 	mImage.setColorShift(menuTheme->menuText.color);
 	mOriginColor = menuTheme->menuText.color;
 	mSize = mImage.getSize();
@@ -71,6 +71,7 @@ std::string SwitchComponent::getValue() const {
   return mState ? "true" : "false";
 }
 
-bool SwitchComponent::changed() {
+bool SwitchComponent::changed() const
+{
 	return mInitialState != mState;
 }
