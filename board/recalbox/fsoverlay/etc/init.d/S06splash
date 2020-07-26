@@ -1,31 +1,37 @@
-#!/bin/ash
+#!/bin/bash
+# vim: syntax=bash
+# vim: filetype=sh
 
 if [ "$1" != "start" ]; then
   exit 0
 fi
 
-# on some sytems, fb0 is not immediatly loaded,
-# so, give it a chance by waiting a bit (5 seconds, then fail hard)
-count=0
-until [ -e /dev/fb0 ]; do
-  if [ ${count} -ge 50 ]; then
-    exit 1
-  else
-    sleep 0.1
-    let count++
-  fi
-done
+# first boot
+if [ -f /tmp/.install.sh ]; then
+  recallog "Install in progress. Don't play boot video"
+fi
 
 ## Global variables ##
-
 systemsetting="recalbox_settings"
+machineArch=$(arch)
 
-fbdevWidth=$(cut -d, -f1 /sys/class/graphics/fb0/virtual_size)
+# define some paths
+originalVideoPath="/recalbox/system/resources/splash"
+originalSmallVideoPath="${originalVideoPath}/240p"
+customVideoPath="/overlay/bootvideos"
+
+# get output video size
 fbdevHeight=$(cut -d, -f2 /sys/class/graphics/fb0/virtual_size)
 
-videoLength="`$systemsetting -command load -key system.splash.length -source /boot/recalbox-backup.conf`"
-if [ -z "${videoLength}" ] || [ ${videoLength} -eq 0 ] || [ ${videoLength} -lt -1 ]; then
+## -1 : Video will be stopped when emulationstation is ready to start.
+##  0 : All the video will be played before emulationstation start (default)
+## >0 : Time the video will be played before emulationstation start (in seconds)
+timeout="$($systemsetting -command load -key system.splash.length -source /boot/recalbox-backup.conf)"
+# in specific case, force playing for 20s
+if [ -z "${timeout}" ] || [ "${timeout}" -eq 0 ] || [ "${timeout}" -lt -1 ]; then
   videoLength=20
+else
+  videoLength="$timeout"
 fi
 
 ## Functions ##
@@ -33,8 +39,7 @@ fi
 # turnOffGPiCaseHDMI
 #   takes no argument, power off HDMI port to save energy when running in a GPi case
 turnOffGPiCaseHDMI() {
-  case=$(sed -n 's/^case=\(.*\)/\1/p' /boot/recalbox-boot.conf)
-  if [ "${case}" = "GPiV1:1" ]; then
+  if grep -q -E '^case=GPiV1:1' /boot/recalbox-boot.conf; then
     recallog "GPi case detected: turning HDMI off"
     tvservice -o
   fi
@@ -42,113 +47,28 @@ turnOffGPiCaseHDMI() {
 
 # selectVideo
 #   takes no argument and outputs a random video from those available
-function selectVideo() {
+selectVideo() {
   # What to play?
-  systemsetting="recalbox_settings"
-  whatToPlay="`$systemsetting -command load -key system.splash.select -source /boot/recalbox-backup.conf`"
+  local videoSearchPath=()
+  local whatToPlay
+  local videos
+  local num_videos
+  whatToPlay="$($systemsetting -command load -key system.splash.select -source /boot/recalbox-backup.conf)"
   if [ "$whatToPlay" != "all" ] && [ "$whatToPlay" != "recalbox" ] && [ "$whatToPlay" != "custom" ] ; then whatToPlay="all" ; fi
-  if [ "$whatToPlay" == "all" ] || [ "$whatToPlay" == "recalbox" ] ; then
-    videoPath="/recalbox/system/resources/splash"
-    if [ ${fbdevHeight} -le 240 ]; then videoPath="${videoPath}/240p" ; fi
-    find ${videoPath} -maxdepth 1 \( -name "*.mp4" -o -name "*.avi" -o -name "*.mkv" \) >> /tmp/.videolist  
-  fi
-  if [ "$whatToPlay" == "all" ] || [ "$whatToPlay" == "custom" ] ; then
-    find /overlay/bootvideos               -maxdepth 1 \( -name "*.mp4" -o -name "*.avi" -o -name "*.mkv" \) >> /tmp/.videolist  
-  fi
-  IFS= cat /tmp/.videolist \
-    | while read line; do echo "$RANDOM ${line}"; done \
-    | sort -n \
-    | head -1 \
-    | cut -d' ' -f2
 
-}
-
-# stopPlayerWhenTimeoutReached <playerPID> <timeout>
-#   stops player running with PID <playerPID> when <timeout> reached
-function stopPlayerWhenTimeoutReached() {
-  local playerPID="$1"
-  local timeout="$2"
-  local count=0
-
-  [ ${timeout} -eq -1 ] && return
-  until [ ${count} -ge ${timeout} ]; do
-    sleep 1
-    let count++
-  done
-  kill -9 ${playerPID}
-}
-
-# playWithMPlayer
-# starts playing a video on the framebuffer via mplayer
-function playWithMPlayer() {
-  local videoFile="$(selectVideo)"
-  
-  if ! which mplayer > /dev/null; then
-    return
+  if [ "$whatToPlay" = "all" ] || [ "$whatToPlay" = "recalbox" ]; then
+    [ "${fbdevHeight}" -le 240 ] && videoSearchPath+=("$originalSmallVideoPath") || videoSearchPath+=("$originalVideoPath")
   fi
-  # disable framebuffer cursor
-  echo -e '\033[?17;0;0c' > /dev/tty1
-  # play media in fullscreen
-  mp_subs="/recalbox/system/resources/splash/recalboxintro.srt"
-  mplayer -vo fbdev2 -fs -zoom -x ${fbdevWidth} -y ${fbdevHeight} -sub "${mp_subs}" "${videoFile}" > /dev/null 2>&1 &
-  if [ ${videoLength} -ne -1 ]; then
-    stopPlayerWhenTimeoutReached $! ${videoLength}
+  if [ "$whatToPlay" = "all" ] || [ "$whatToPlay" = "custom" ]; then
+    videoSearchPath+=("$customVideoPath")
   fi
-}
 
-# playWithFFPlay
-#   starts playing a video on the framebuffer via ffplay
-function playWithFFPlay() {
-  local videoFile="$(selectVideo)"
-
-  if ! which ffplay > /dev/null; then
-    return
-  fi
-  ffplay_opts="-hide_banner -autoexit"
-  ffplay_srt="subtitles=/recalbox/system/resources/splash/recalboxintro.srt:force_style='FontName=/usr/share/fonts/dejavu/DejaVuSans-BoldOblique.ttf,Fontsize=10'"
-  ffplay ${ffplay_opts} -x ${fbdevWidth} -y ${fbdevHeight} -vf "${ffplay_srt}" "${videoFile}" > /dev/null 2>&1 &
-  if [ ${videoLength} -ne -1 ]; then
-    stopPlayerWhenTimeoutReached $! ${videoLength}
-  fi
-}
-
-# playWithFFMpeg
-#   starts playing a video on the framebuffer via ffmpeg
-function playWithFFMpeg() {
-  local videoFile="$(selectVideo)"
-  local variant="$1"
-
-  if ! which ffmpeg > /dev/null; then
-    return
-  fi
-  case "$variant" in
-    sdl2)  local output_opts=(-f sdl2 Splash) ;;
-    fbdev) local output_opts=(-f fbdev /dev/fb0) ;;
-  esac
-  ffmpeg_opts="-hide_banner -pix_fmt bgra"
-  ffmpeg_srt="subtitles=/recalbox/system/resources/splash/recalboxintro.srt:force_style='FontName=/usr/share/fonts/dejavu/DejaVuSans-BoldOblique.ttf,Fontsize=10'"
-  ffmpeg -i "${videoFile}" -vf "${ffmpeg_srt}" ${ffmpeg_opts} -s ${fbdevWidth}x${fbdevHeight} ${output_opts[*]} -f alsa hw:0,0 >/dev/null 2>&1 &
-  if [ ${videoLength} -ne -1 ]; then
-    stopPlayerWhenTimeoutReached $! ${videoLength}
-  fi
-}
-
-# playWithOMX
-#   starts playing an intro video via OMX player
-function playWithOMX() {
-  local videoFile="$(selectVideo)"
-
-  if ! which omxplayer > /dev/null; then
-    return
-  fi
-  volume=$(amixer cget name='PCM Playback Volume' | grep "  : values=" | cut -d'=' -f 2)
-  omx_fnt="--font=/usr/share/fonts/dejavu/DejaVuSans-BoldOblique.ttf"
-  omx_opt="--adev both --no-keys --layer=10000 --aspect-mode=fill --vol $volume"
-  omx_srt="--no-ghost-box --lines=1 --align=left $omx_fnt --font-size=20 --subtitles=/recalbox/system/resources/splash/recalboxintro.srt"
-  /usr/bin/omxplayer ${omx_opt} ${omx_srt} ${videoFile} &
-  if [ ${videoLength} -ne -1 ]; then
-    stopPlayerWhenTimeoutReached $! ${videoLength}
-  fi
+  # lookup selected directories and put it in videos var 
+  mapfile -t videos < <(find "${videoSearchPath[@]}" -maxdepth 1 \( -name "*.mp4" -o -name "*.avi" -o -name "*.mkv" \))
+  # get number of available videos
+  num_videos=${#videos[*]}
+  # select one randomly
+  echo "${videos[$((RANDOM%num_videos))]}"
 }
 
 # showIntroBackground
@@ -162,26 +82,53 @@ showIntroBackground() {
   sleep 1
 }
 
+# findConnectedConnectors
+#   returns a list of connected connectors (using mpv)
+findConnectedConnectors() {
+  grep -l ^connected /sys/class/drm/card*/status | sed 's/.*card\([0-9]\+\)-\([^\/]\+\).*/\1.\2/'
+}
+
+
+# playVideoOnOneScreen
+#   play a video on a specific display
+# intput: 
+# * filename to play
+# * optins regarding output screen (--ao=alsa  --vo=drm  --drm-connector=1.DVI-I-1)
+playVideoOnOneScreen() {
+  local options
+  # shellcheck disable=SC2206
+  options+=($2) # get space delimited options as is
+  options+=(--sub-file /recalbox/system/resources/splash/recalboxintro.srt)
+  options+=("$1")
+  if [ "$timeout" -gt 0 ]; then
+    nohup timeout "$videoLength" bash -c "mpv ${options[*]}" \; showIntroBackground &
+  else
+    nohup bash -c "mpv ${options[*]}" \; showIntroBackground &
+  fi
+}
+
+# playVideo
+#   select all screen and run playVideoOnOneScreen for each connected screen
+# intput: 
+# * filename to play
+playVideo() {
+  local conn
+  if [[ "$machineArch" =~ x86 ]]; then
+    # on x86 and x86_64, find connected monitors and play video on all of them
+    findConnectedConnectors |while read -r conn; do
+      playVideoOnOneScreen "$1" "-ao=alsa --vo=drm --drm-connector=$conn"
+    done
+  else
+    # on rpi, xu4, simply play
+    playVideoOnOneScreen "$1"
+  fi
+}
+
 ## Main ##
 
 INTERNALDEVICE=$(/recalbox/scripts/recalbox-part.sh "share_internal")
 if test -e "${INTERNALDEVICE}" ; then
-  if [ -f /tmp/.install.sh ]; then
-    recallog "Install in progress. Don't play boot video"
-  else
-    case "$(cat /recalbox/recalbox.arch)" in
-      rpi4)
-        ( playWithFFMpeg sdl2; showIntroBackground ) & ;;
-      odroidxu4)
-        ( playWithFFMpeg fbdev; showIntroBackground ) & ;;
-      rpi*)
-        ( playWithOMX; showIntroBackground ) & ;;
-      x86*)
-        ( playWithMPlayer; showIntroBackground ) & ;;
-      *)
-        ( playWithFFPlay; showIntroBackground ) & ;;
-    esac
-  fi
+  playVideo "$(selectVideo)"
 fi
 
 exit 0
