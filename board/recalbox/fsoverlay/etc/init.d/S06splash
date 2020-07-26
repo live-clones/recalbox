@@ -6,8 +6,10 @@ if [ "$1" != "start" ]; then
   exit 0
 fi
 
+INTERNALDEVICE=$(/recalbox/scripts/recalbox-part.sh "share_internal")
+
 # first boot
-if [ -f /tmp/.install.sh ]; then
+if [ -f /tmp/.install.sh ] || [ ! -e "$INTERNALDEVICE" ]; then
   recallog "Install in progress. Don't play boot video"
 fi
 
