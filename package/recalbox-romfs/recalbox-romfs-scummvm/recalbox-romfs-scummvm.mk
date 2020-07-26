@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --system scummvm --extension '.scummvm' --fullname 'ScummVM' --platform scummvm --theme scummvm 1:scummvm:scummvm:BR2_PACKAGE_SCUMMVM 2:residualvm:residualvm:BR2_PACKAGE_RESIDUALVM 3:libretro:scummvm:BR2_PACKAGE_LIBRETRO_SCUMMVM
+# ./scripts/linux/empack.py --force --system scummvm --extension '.scummvm .residualvm' --fullname 'ScummVM' --platform scummvm --theme scummvm 1:scummvm:scummvm:BR2_PACKAGE_SCUMMVM 2:residualvm:residualvm:BR2_PACKAGE_RESIDUALVM 3:libretro:scummvm:BR2_PACKAGE_LIBRETRO_SCUMMVM
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_SCUMMVM_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_SCUMMVM = $(RECALBOX_ROMFS_SCUMMVM_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_SCUMMVM)$(BR2_PACKAGE_RESIDUALVM)$(BR2_PACKAGE_LIBRETRO_SCUMMVM),)
 define CONFIGURE_MAIN_SCUMMVM_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_SCUMMVM),ScummVM,$(SYSTEM_NAME_SCUMMVM),.scummvm,scummvm,scummvm)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_SCUMMVM),ScummVM,$(SYSTEM_NAME_SCUMMVM),.scummvm .residualvm,scummvm,scummvm)
 endef
 
 ifneq ($(BR2_PACKAGE_SCUMMVM)$(BR2_PACKAGE_RESIDUALVM)$(BR2_PACKAGE_LIBRETRO_SCUMMVM),)
