@@ -4,29 +4,29 @@
 # so wait for splash to finish before launching ES
 
 wait_splash_end() {
-	systemsetting="recalbox_settings"
+  systemsetting="recalbox_settings"
 
   videoLength="$($systemsetting -command load -key system.splash.length -source /boot/recalbox-backup.conf)"
   ##  0 : Video will be stopped when emulationstation is ready to start.
   ## -1 : All the video will be played before emulationstation start (default)
   ## >0 : Time the video will be played before emulationstation start (in seconds)
-	if [ "${videoLength}" -eq 0 ]; then
+  if [ "${videoLength}" -eq 0 ]; then
     pkill mpv
   fi
   # TODO: implement a failsafe timeout
-	while pgrep mpv >/dev/null 2>&1 ; do
-		sleep 0.1
-	done
+  while pgrep mpv >/dev/null 2>&1 ; do
+    sleep 0.1
+  done
 }
 
 case "$1" in
-	start)
-		wait_splash_end
-		;;
-	*)
-		echo "Usage: $0 {start}"
-		exit 1
-		;;
+  start)
+    wait_splash_end
+    ;;
+  *)
+    echo "Usage: $0 {start}"
+    exit 1
+    ;;
 esac
 
 exit 0

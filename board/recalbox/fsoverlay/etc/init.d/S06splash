@@ -65,7 +65,7 @@ selectVideo() {
     videoSearchPath+=("$customVideoPath")
   fi
 
-  # lookup selected directories and put it in videos var 
+  # lookup selected directories and put it in videos var
   mapfile -t videos < <(find "${videoSearchPath[@]}" -maxdepth 1 \( -name "*.mp4" -o -name "*.avi" -o -name "*.mkv" \))
   # get number of available videos
   num_videos=${#videos[*]}
@@ -93,7 +93,7 @@ findConnectedConnectors() {
 
 # playVideoOnOneScreen
 #   play a video on a specific display
-# intput: 
+# intput:
 # * filename to play
 # * optins regarding output screen (--ao=alsa  --vo=drm  --drm-connector=1.DVI-I-1)
 playVideoOnOneScreen() {
@@ -111,7 +111,7 @@ playVideoOnOneScreen() {
 
 # playVideo
 #   select all screen and run playVideoOnOneScreen for each connected screen
-# intput: 
+# intput:
 # * filename to play
 playVideo() {
   local conn
