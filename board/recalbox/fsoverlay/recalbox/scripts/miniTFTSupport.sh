@@ -77,7 +77,7 @@ if [[ "${imgIgnoreAspectEnabled}" == "1" ]] ; then
 else
     imgIgnoreAspect=""
 fi
-recallog "fbv options : ${imgStretch} ${imgEnlarge} ${imgIgnoreAspect} ${imgAlpha}"
+recallog "fbv2 options : ${imgStretch} ${imgEnlarge} ${imgIgnoreAspect} ${imgAlpha}"
 
 #get Videos function and variables
 source "${functionFile}"
@@ -253,9 +253,9 @@ do_start() {
                                 TFTGameImage="${LogoFolder}"/"${tftResolution}"/"${DefaultImage}"
                             fi
                             if [[ -z "${TFTVideoPath}" ]]; then 
-								FRAMEBUFFER="${fbDevice}" fbv "${imgStretch}" "${imgIgnoreAspect}" "${imgEnlarge}" "${imgAlpha}" --delay 1 "${TFTGameImage}" &> /dev/null &
+								FRAMEBUFFER="${fbDevice}" fbv2 -i "${imgStretch}" "${imgIgnoreAspect}" "${imgEnlarge}" "${imgAlpha}" --delay 1 "${TFTGameImage}"
                             else
-								FRAMEBUFFER="${fbDevice}" fbv "${imgStretch}" "${imgIgnoreAspect}" "${imgEnlarge}" "${imgAlpha}" --delay 1 "${TFTGameImage}" &> /dev/null &
+								FRAMEBUFFER="${fbDevice}" fbv2 -i "${imgStretch}" "${imgIgnoreAspect}" "${imgEnlarge}" "${imgAlpha}" --delay 1 "${TFTGameImage}"
                                 usleep "${tempoLong}" #display image for a bit of time 
                                 #compute display settings for scraped video
                                 widthVideo=$(ffprobe -v error -select_streams v:0 -show_entries stream=width -of csv=s=x:p=0  ${TFTVideoPath})
@@ -292,7 +292,7 @@ do_start() {
                             "${FFMPEG}" -re -i "${LogoFolder}"/"${tftResolution}"/"${LogoFile}" -s "${tftFullResolution[@]}" -aspect 4:3 -c:v rawvideo -pix_fmt rgb565le -f fbdev "${fbDevice}" &> /dev/null
                             dd if=/dev/zero of="${fbDevice}" &> /dev/null   #clear before draw
                             usleep "${tempoShort}"
-                            FRAMEBUFFER="${fbDevice}" fbv "${imgStretch}" "${imgIgnoreAspect}" "${imgEnlarge}" "${imgAlpha}" --delay 1 "${TFTGameImage}" &> /dev/null
+                            FRAMEBUFFER="${fbDevice}" fbv2 -i "${imgStretch}" "${imgIgnoreAspect}" "${imgEnlarge}" "${imgAlpha}" --delay 1 "${TFTGameImage}"
                         fi
                         ;;
                 esac                

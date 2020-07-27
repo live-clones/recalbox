@@ -15,12 +15,12 @@ do_update() {
   echo "stopping emulationstation"
   /etc/init.d/S31emulationstation stop
   dd if=/dev/zero of=/dev/fb0 > /dev/null 2>&1
-  fbv -f -i /recalbox/system/resources/offline-install-1.jpg &
+  fbv2 -f -i /recalbox/system/resources/offline-install-1.jpg
   sleep 1
 
   # Mount
   echo "mount image"
-  fbv -f -i /recalbox/system/resources/offline-install-2.jpg &
+  fbv2 -f -i /recalbox/system/resources/offline-install-2.jpg
   sleep 1
   losetup /dev/loop1 "${UPDATEFILE}" -o 1048576
   RESULT=$?
@@ -30,13 +30,13 @@ do_update() {
   mount /dev/loop1 /mnt || return 3
 
   echo "remounting /boot R/W"
-  fbv -f -i /recalbox/system/resources/offline-install-3.jpg &
+  fbv2 -f -i /recalbox/system/resources/offline-install-3.jpg
   sleep 1
   mount -o remount,rw /boot/ || return 4
 
   # Files copy
   echo "copying update boot files"
-  fbv -f -i /recalbox/system/resources/offline-install-4.jpg &
+  fbv2 -f -i /recalbox/system/resources/offline-install-4.jpg
   if [ -f /mnt/boot.lst ]; then
     while read -r file; do 
       echo "  processing $file"
@@ -47,7 +47,7 @@ do_update() {
   else
     return 7
   fi
-  fbv -f -i /recalbox/system/resources/offline-install-5.jpg &
+  fbv2 -f -i /recalbox/system/resources/offline-install-5.jpg
   sleep 1
 
   # Umount
@@ -57,7 +57,7 @@ do_update() {
   # Clean up
   echo "cleanup"
   rm "${UPDATEFILE}" || return 9
-  fbv -f -i /recalbox/system/resources/offline-install-6.jpg &
+  fbv2 -f -i /recalbox/system/resources/offline-install-6.jpg
   sleep 1
 
   return 0
@@ -79,11 +79,11 @@ RC=$?
 if [ $RC -eq 0 ]; then
   # Reboot
   echo "upgrade successfull, rebooting"
-  fbv -f -i /recalbox/system/resources/offline-install-7.jpg &
+  fbv2 -f -i /recalbox/system/resources/offline-install-7.jpg
   sleep 1
 else
   echo "upgrade failed return code $RC" >&2
-  fbv -f -i /recalbox/system/resources/offline-install-error.jpg &
+  fbv2 -f -i /recalbox/system/resources/offline-install-error.jpg
   sleep 10
 fi
 sync
