@@ -8,8 +8,8 @@ fi
 
 INTERNALDEVICE=$(/recalbox/scripts/recalbox-part.sh "share_internal")
 
-# first boot
-if [ -f /tmp/.install.sh ] || [ ! -e "$INTERNALDEVICE" ]; then
+# first boot or upgrade
+if [ -f /tmp/.install.sh ] || [ ! -e "$INTERNALDEVICE" ] || ls /boot/update/recalbox-*.img.xz >/dev/null 2>&1 ; then
   recallog "Install in progress. Don't play boot video"
   exit 0
 fi
@@ -129,9 +129,6 @@ playVideo() {
 
 ## Main ##
 
-INTERNALDEVICE=$(/recalbox/scripts/recalbox-part.sh "share_internal")
-if test -e "${INTERNALDEVICE}" ; then
-  playVideo "$(selectVideo)"
-fi
+playVideo "$(selectVideo)"
 
 exit 0
