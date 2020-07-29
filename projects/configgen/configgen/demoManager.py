@@ -5,6 +5,11 @@ import struct
 
 from demoInfo import demoInformation
 
+def Log(txt): # type: (str) -> None
+    print(txt)
+    #with open("/recalbox/share/system/out.txt", "a") as f:
+    #    f.write(txt + '\n')
+    #    f.flush()
 
 class InputEvents:
 
@@ -49,7 +54,7 @@ class InputEventManager:
             for i in range(0, self.EVENT_MAXIMUM - 1):
                 if (newFlags & (1 << i)) != 0:
                     self.openFileDescriptor(i)
-        #print("Scan: "+hex(newFlags))
+        #Log("Scan: "+hex(newFlags))
         return newFlags
 
     def openFileDescriptor(self, index):
@@ -60,20 +65,20 @@ class InputEventManager:
             # Configure NON blocking I/O
             fcntl = __import__("fcntl")
             fcntl.fcntl(self.fileDescriptors[index], fcntl.F_SETFL, fcntl.fcntl(self.fileDescriptors[index], fcntl.F_GETFL) | os.O_NONBLOCK)
-            print("Opened " + name)
+            Log("Opened " + name)
             if name in self.startMap:
                 self.eventToStart[index] = int(self.startMap[name])
         except IOError:
-            print("Open error")
+            Log("Open error")
             pass
 
     def closeFileDescriptor(self, index):
         try:
             if self.fileDescriptors[index] is not None:
                 self.fileDescriptors[index].close()
-            print("Closed " + "/dev/input/event" + str(index))
+            Log("Closed " + "/dev/input/event" + str(index))
         except IOError:
-            print("close error")
+            Log("close error")
             pass
 
     def getEvent(self, index):
@@ -91,7 +96,7 @@ class InputEventManager:
                     while event:
                         (_, _, eventType, eventCode, eventValue) = struct.unpack(self.EVENT_FORMAT, event)
                         #if eventType != 0 or eventCode != 0 or eventValue != 0:
-                        #    print("From {} - Type {} - Code {} - Value {}".format(i, eventType, eventCode, eventValue))
+                        #    Log("From {} - Type {} - Code {} - Value {}".format(i, eventType, eventCode, eventValue))
                         # mouse button UP or keyboard's key UP or pad button UP
                         if eventType == 1 and eventValue == 0:
                             # Keyboard: Return or pad Return
@@ -137,12 +142,14 @@ class DemoTimer(threading.Thread):
     def terminateProcess(self, refresh, time):
         try:
             self.proc.terminate()
+            Log("Terminated")
         except Exception as ex:
-            print("Error terminating process: {}".format(ex))
+            Log("Error terminating process: {}".format(ex))
 
         # Wait for the process to quit
         if self.proc.poll() is None:
             duration = 10 * int(1.0 / refresh) # 10 seconds waiting for process death
+            Log("Wait for terminate")
             while duration > 0:
                 duration -= 1
                 time.sleep(refresh)
@@ -150,11 +157,12 @@ class DemoTimer(threading.Thread):
                     break
             # Still alive?
             if self.proc.poll() is None:
+                Log("Kill!")
                 try:
                     import signal
                     self.proc.send_signal(signal.SIGKILL)
                 except Exception as ex:
-                    print("Error sending kill signal: {}".format(ex))
+                    Log("Error sending kill signal: {}".format(ex))
 
     def run(self):
         import time
@@ -165,34 +173,36 @@ class DemoTimer(threading.Thread):
         try:
             while duration > 0:
                 duration -= 1
+                #Log("Duration: {}".format(duration))
                 time.sleep(refresh)
                 # User action?
                 event = self.inputs.hasUserEvent()
                 if event == InputEvents.PLAY:
                     self.userWannaPlay = True
-                    print("Demo mode ends because the user want to play the current game")
+                    Log("Demo mode ends because the user want to play the current game")
                     break
                 if event == InputEvents.OTHER:
                     self.userQuit = True
-                    print("Demo mode ends upon user request")
+                    Log("Demo mode ends upon user request")
                     break
                 # Not yet in outscreen?
                 if outScreen is None:
                     # Process quitted prematurely?
                     if self.proc.poll() is not None:
-                        print("Emulator quitted prematurely")
+                        Log("Emulator quitted prematurely")
                         break
                     # Outscreen?
                     if duration < outDuration:
+                        self.terminateProcess(refresh, time)
+                        Log("Need info screen")
                         try:
                             outScreen = demoInformation()
                             outScreen.display()
                         except Exception as ex:
-                            print("Error diplaying demo info screen: {}".format(ex))
+                            Log("Error diplaying demo info screen: {}".format(ex))
                             duration = 0
-                        self.terminateProcess(refresh, time)
         except Exception as ex:
-            print("Demo exited unexpectedly: {}".format(ex))
+            Log("Demo exited unexpectedly: {}".format(ex))
 
         if outScreen is not None:
             del outScreen
