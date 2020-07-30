@@ -82,18 +82,18 @@ class IniSettings:
         if not os.path.exists(folder):
             os.makedirs(folder)
         firstSection = True
-        with open(self.settingsFile, 'w+') as sf:
+        with open(self.settingsFile, 'wb+') as sf:
             for section in sorted(self.regions.iterkeys()):
                 if firstSection: firstSection = False
-                else: sf.write('\n')
-                sf.write('[' + str(section) + ']\n')
+                else: sf.write('\n'.encode("utf-8"))
+                sf.write(('[' + str(section) + ']\n').encode("utf-8"))
                 region = self.regions[section]
                 if self.extraSpaces:
                     for key in sorted(region.iterkeys()):
-                        sf.write(key + " = " + str(region[key]) + '\n')
+                        sf.write((key + " = " + str(region[key]) + '\n').encode("utf-8"))
                 else:
                     for key in sorted(region.iterkeys()):
-                        sf.write(key + "=" + str(region[key]) + '\n')
+                        sf.write((key + "=" + str(region[key]) + '\n').encode("utf-8"))
 
     def loadFile(self, clear = False):
         import re
@@ -105,14 +105,14 @@ class IniSettings:
                 with open(self.settingsFile) as lines:
                     lastSection = "default"
                     for line in lines:
-                        m = re.match(r'^([^#;].*)\s?=\s?(.+)$', line)
+                        m = re.match(r'^([^#;].*)\s?=\s?(.+)$', line.decode("utf-8"))
                         if m:
                             key = m.group(1).strip()
                             value = m.group(2).strip()
                             self.setOption(lastSection, key, value)
                             #print("Value: -{}:{}={}-".format(lastSection, key, value))
                         else:
-                            m = re.match(r'^\[(.*)\]', line)
+                            m = re.match(r'^\[(.*)\]', line.decode("utf-8"))
                             if m:
                                 lastSection = m.group(1).strip()
                                 #print("Section: -{}-".format(lastSection))

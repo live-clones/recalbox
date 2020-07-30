@@ -65,13 +65,13 @@ class keyValueSettings:
         folder = os.path.dirname(self.settingsFile)
         if not os.path.exists(folder):
             os.makedirs(folder)
-        with open(self.settingsFile, 'w+') as sf:
+        with open(self.settingsFile, 'wb+') as sf:
             if self.extraSpaces:
                 for key in sorted(self.settings.iterkeys()):
-                    sf.write(key + " = " + str(self.settings[key]) + '\n')
+                    sf.write((key + " = " + str(self.settings[key]) + '\n').encode("utf-8"))
             else:
                 for key in sorted(self.settings.iterkeys()):
-                    sf.write(key + "=" + str(self.settings[key]) + '\n')
+                    sf.write((key + "=" + str(self.settings[key]) + '\n').encode("utf-8"))
 
     def loadFile(self, clear = False):
         import re
