@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --system apple2 --extension '.nib .NIB .do .DO .po .PO .dsk .DSK' --fullname 'Apple II' --platform apple2 --theme apple2 1:linapple:linapple:BR2_PACKAGE_LINAPPLE_PIE
+# ./scripts/linux/empack.py --force --system apple2 --extension '.nib .NIB .do .DO .po .PO .dsk .DSK' --fullname 'Apple II' --platform apple2 --theme apple2 1:linapple:linapple:BR2_PACKAGE_LINAPPLE_PIE 2:gsplus:gsplus:BR2_PACKAGE_GSPLUS
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_APPLE2_SOURCE = 
@@ -21,12 +21,12 @@ SOURCE_ROMDIR_APPLE2 = $(RECALBOX_ROMFS_APPLE2_PKGDIR)/roms
 # variables are global across buildroot
 
 
-ifneq ($(BR2_PACKAGE_LINAPPLE_PIE),)
+ifneq ($(BR2_PACKAGE_LINAPPLE_PIE)$(BR2_PACKAGE_GSPLUS),)
 define CONFIGURE_MAIN_APPLE2_START
 	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_APPLE2),Apple II,$(SYSTEM_NAME_APPLE2),.nib .NIB .do .DO .po .PO .dsk .DSK,apple2,apple2)
 endef
 
-ifneq ($(BR2_PACKAGE_LINAPPLE_PIE),)
+ifneq ($(BR2_PACKAGE_LINAPPLE_PIE)$(BR2_PACKAGE_GSPLUS),)
 define CONFIGURE_APPLE2_LINAPPLE_START
 	$(call RECALBOX_ROMFS_CALL_START_EMULATOR,$(SYSTEM_XML_APPLE2),linapple)
 endef
@@ -37,6 +37,21 @@ endef
 endif
 
 define CONFIGURE_APPLE2_LINAPPLE_END
+	$(call RECALBOX_ROMFS_CALL_END_EMULATOR,$(SYSTEM_XML_APPLE2))
+endef
+endif
+
+ifneq ($(BR2_PACKAGE_LINAPPLE_PIE)$(BR2_PACKAGE_GSPLUS),)
+define CONFIGURE_APPLE2_GSPLUS_START
+	$(call RECALBOX_ROMFS_CALL_START_EMULATOR,$(SYSTEM_XML_APPLE2),gsplus)
+endef
+ifeq ($(BR2_PACKAGE_GSPLUS),y)
+define CONFIGURE_APPLE2_GSPLUS_GSPLUS_DEF
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_APPLE2),gsplus,2)
+endef
+endif
+
+define CONFIGURE_APPLE2_GSPLUS_END
 	$(call RECALBOX_ROMFS_CALL_END_EMULATOR,$(SYSTEM_XML_APPLE2))
 endef
 endif
@@ -53,6 +68,9 @@ define RECALBOX_ROMFS_APPLE2_CONFIGURE_CMDS
 	$(CONFIGURE_APPLE2_LINAPPLE_START)
 	$(CONFIGURE_APPLE2_LINAPPLE_LINAPPLE_DEF)
 	$(CONFIGURE_APPLE2_LINAPPLE_END)
+	$(CONFIGURE_APPLE2_GSPLUS_START)
+	$(CONFIGURE_APPLE2_GSPLUS_GSPLUS_DEF)
+	$(CONFIGURE_APPLE2_GSPLUS_END)
 	$(CONFIGURE_MAIN_APPLE2_END)
 endef
 

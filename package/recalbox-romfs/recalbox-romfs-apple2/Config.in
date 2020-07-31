@@ -1,6 +1,7 @@
 config BR2_PACKAGE_RECALBOX_ROMFS_APPLE2
 	bool "recalbox-romfs-apple2"
 	select BR2_PACKAGE_RECALBOX_ROMS
-	depends on BR2_PACKAGE_LINAPPLE_PIE
+	depends on BR2_PACKAGE_LINAPPLE_PIE \
+	  || BR2_PACKAGE_GSPLUS
 	help
 	  share_init/roms and xml for apple2
