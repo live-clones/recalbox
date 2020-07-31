@@ -83,7 +83,7 @@ bool DateTimeComponent::ProcessInput(const InputCompactEvent& event)
 			return true;
 		}
 
-		if (event.RightPressed())
+		if (event.AnyRightPressed())
 		{
 			mEditIndex++;
 			if(mEditIndex >= (int)mCursorBoxes.size())
@@ -91,7 +91,7 @@ bool DateTimeComponent::ProcessInput(const InputCompactEvent& event)
 			return true;
 		}
 		
-		if (event.LeftPressed())
+		if (event.AnyLeftPressed())
 		{
 			mEditIndex--;
 			if(mEditIndex < 0)

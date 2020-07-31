@@ -40,16 +40,16 @@ bool SliderComponent::ProcessInput(const InputCompactEvent& event)
 {
 	if (event.AnyLeft())
 	{
-		if (event.LeftPressed()) setSlider(mValue - mSingleIncrement);
+		if (event.AnyLeftPressed()) setSlider(mValue - mSingleIncrement);
 
-		mMoveRate = event.LeftPressed() ? -mSingleIncrement : 0;
+		mMoveRate = event.AnyLeftPressed() ? -mSingleIncrement : 0;
 		mMoveAccumulator = -MOVE_REPEAT_DELAY;
 	}
 	if (event.AnyRight())
 	{
-		if (event.RightPressed()) setSlider(mValue + mSingleIncrement);
+		if (event.AnyRightPressed()) setSlider(mValue + mSingleIncrement);
 
-		mMoveRate = event.RightPressed() ? mSingleIncrement : 0;
+		mMoveRate = event.AnyRightPressed() ? mSingleIncrement : 0;
 		mMoveAccumulator = -MOVE_REPEAT_DELAY;
 	}
 

@@ -113,14 +113,14 @@ bool TextEditComponent::ProcessInput(const InputCompactEvent& event)
 {
 	if (event.AnythingReleased())
 	{
-		if (event.LeftReleased() || event.RightPressed())
+		if (event.LeftReleased() || event.RightReleased())
 			mCursorRepeatDir = 0;
 		return false;
 	}
 
 	if (!event.IsKeyboard() && event.R1Pressed() && mFocused)
 	{
-    auto vk = new GuiArcadeVirtualKeyboard(mWindow, "", getValue(), this);
+    auto* vk = new GuiArcadeVirtualKeyboard(mWindow, "", getValue(), this);
     mWindow.pushGui(vk);
 		//startEditing();
 		return true;
