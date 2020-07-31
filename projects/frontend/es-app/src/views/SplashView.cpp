@@ -11,7 +11,7 @@
 SplashView::SplashView(Window& window)
   : Gui(window),
     mLogo(window, true, true),
-    mLoading(window, _("LOADING..."), Font::get(Renderer::IsSmallResolution() ? FONT_SIZE_LOADING : FONT_SIZE_MEDIUM), 0),
+    mLoading(window, _("LOADING..."), Font::get(Renderer::IsSmallResolution() ? (int)(FONT_SIZE_LOADING) : (int)(FONT_SIZE_MEDIUM)), 0),
     mSystemCount(0),
     mSystemLoaded(0)
 {
