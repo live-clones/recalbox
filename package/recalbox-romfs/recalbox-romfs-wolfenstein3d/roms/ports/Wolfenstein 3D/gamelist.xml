@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <gameList>
   <provider>
     <System>PC Dos</System>
@@ -9,6 +9,11 @@
   <game id="0" source="ScreenScraper.fr">
     <path>./CATALOG.EXE</path>
     <name>CATALOG</name>
+    <hidden>true</hidden>
+  </game>
+  <game id="0" source="ScreenScraper.fr">
+    <path>./ecwolf.pk3</path>
+    <name>ecwolf</name>
     <hidden>true</hidden>
   </game>
   <game id="152368" source="ScreenScraper.fr">
@@ -25,7 +30,7 @@ Die, Führer, Die! is, chronologically, the final episode. Fighting through Nazi
     <releasedate>19920505T000000</releasedate>
     <developer>id Software</developer>
     <publisher>Apogee</publisher>
-    <genre>Shooter / 1st person-Shooter</genre>
+    <genre>Shooter-Shooter / 1st person</genre>
     <players>1</players>
     <hash>213D5D76</hash>
     <image>./media/images/WOLF3D.png</image>
