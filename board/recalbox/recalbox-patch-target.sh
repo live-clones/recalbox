@@ -75,6 +75,7 @@ RVERSION=$(cat "${TARGET_DIR}/recalbox/recalbox.version")
 # bootsplash
 TGVERSION="${RVERSION} $(date "+%Y/%m/%d %H:%M")"
 convert "${TARGET_DIR}/recalbox/system/resources/splash/logo.png" -fill white -pointsize 30 -annotate +50+1020 "${TGVERSION}" "${TARGET_DIR}/recalbox/system/resources/splash/logo-version.png" || exit 1
+convert "${TARGET_DIR}/recalbox/system/resources/splash/240p/logo.png" -fill white -pointsize 12 -annotate +8+170 "${TGVERSION}" "${TARGET_DIR}/recalbox/system/resources/splash/240p/logo-version.png" || exit 1
 convert "${TARGET_DIR}/recalbox/system/resources/splash/logo.png" -fill white -pointsize 60 -gravity center -annotate +0+0 "Upgrading the system\nPlease wait..." "${TARGET_DIR}/recalbox/system/resources/splash/logo-upgrade.png" || exit 1
 
 # Splash video subtitle
