@@ -43,7 +43,8 @@ struct MenuIconElement {
   Path license;
 };
 
-struct MenuTheme {
+struct MenuTheme
+{
 	MenuElement menuBackground{ 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, Path(":/frame.png"), Path(":/scroll_gradient.png"), nullptr};
 	MenuElement menuTitle{ 0x555555FF, 0x555555FF, 0x555555FF, 0xFFFFFFFF, Path::Empty, Path::Empty, Font::get(FONT_SIZE_LARGE)};
 	MenuElement menuFooter{ 0xC6C6C6FF, 0xC6C6C6FF, 0xC6C6C6FF, 0xFFFFFFFF, Path::Empty, Path::Empty, Font::get(FONT_SIZE_SMALL)};
