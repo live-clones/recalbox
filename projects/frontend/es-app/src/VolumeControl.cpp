@@ -68,7 +68,7 @@ void VolumeControl::init()
 			//ok. attach to defualt card
 			if (snd_mixer_attach(mixerHandle, getMixerCard()) >= 0)
 			{
-				LOG(LogDebug) << "VolumeControl::init() - Attached to default card";
+				LOG(LogDebug) << "VolumeControl::init() - Attached to " << getMixerCard() << " card";
 				//ok. register simple element class
 				if (snd_mixer_selem_register(mixerHandle, nullptr, nullptr) >= 0)
 				{
