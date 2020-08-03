@@ -14,6 +14,7 @@ def writeMupenConfig(system, controllers, rom):
     setPaths()
     writeHotKeyConfig(controllers)
     setRealResolution(system.config['videomode'].strip())
+    setIpl64DD(system)
     # ~ mupenSettings.save('Fullscreen', "True")
     # ~ mupenSettings.save('ScreenWidth', "")
     # ~ mupenSettings.save('ScreenHeight', "")
@@ -124,3 +125,10 @@ def setPaths():
     mupenSettings.save('ScreenshotPath', recalboxFiles.SCREENSHOTS)
     mupenSettings.save('SaveStatePath', recalboxFiles.mupenSaves)
     mupenSettings.save('SaveSRAMPath', recalboxFiles.mupenSaves)
+
+def setIpl64DD(system):
+    #Set ipl only for n64
+    if system.name == "64dd":
+        mupenSettings.save("IPL-ROM", "/recalbox/share/bios/64DD_IPL.bin")
+    elif system.name == "n64":
+        mupenSettings.save("IPL-ROM", "")
