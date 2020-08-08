@@ -101,6 +101,7 @@ set(CORE_HEADERS
 		src/components/MenuComponent.h
 		src/components/NinePatchComponent.h
 		src/components/OptionListComponent.h
+		src/components/ProgressBarComponent.h
 		src/components/ScrollableContainer.h
 		src/components/SliderComponent.h
 		src/components/SwitchComponent.h
@@ -213,6 +214,7 @@ set(CORE_SOURCES
 		src/components/VideoComponent.cpp
 		src/components/MenuComponent.cpp
 		src/components/NinePatchComponent.cpp
+		src/components/ProgressBarComponent.cpp
 		src/components/ScrollableContainer.cpp
 		src/components/SliderComponent.cpp
 		src/components/SwitchComponent.cpp
