@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-RETROARCH_ASSETS_VERSION = 33f26cea64280aad73d5ff5336afcfc1f8ff5a0a
+RETROARCH_ASSETS_VERSION = 7a9a84956099404e26e2010ffd913b247e1e2dd4
 RETROARCH_ASSETS_SITE = $(call github,libretro,retroarch-assets,$(RETROARCH_ASSETS_VERSION))
 RETROARCH_ASSETS_LICENSE = GPL
 RETROARCH_ASSETS_DEPENDENCIES = retroarch
