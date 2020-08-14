@@ -23,7 +23,7 @@
 #include "components/TextComponent.h"
 #include "components/OptionListComponent.h"
 #include "components/MenuComponent.h"
-#include "VolumeControl.h"
+#include "audio/VolumeControl.h"
 
 #include "guis/GuiTextEditPopup.h"
 #include "guis/GuiTextEditPopupKeyboard.h"

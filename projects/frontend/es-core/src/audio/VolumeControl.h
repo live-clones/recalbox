@@ -7,6 +7,7 @@ Singleton pattern. Call getInstance() to get an object.
 */
 class VolumeControl
 {
+  private:
     int originalVolume;
     int internalVolume;
 

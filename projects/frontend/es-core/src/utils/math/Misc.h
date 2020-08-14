@@ -21,6 +21,7 @@ class Math
     static float min         (float _num1, float _num2) { return (_num1 < _num2) ? _num1 : _num2; }
     static float max         (float _num1, float _num2) { return (_num1 > _num2) ? _num1 : _num2; }
     static float clamp       (float _num, float _min, float _max) { return max(min(_num, _max), _min); }
+    static int   clampi      (int _num, int _min, int _max) { return max(min(_num, _max), _min); }
     static float round       (float _num) { _num += 0.5f; int num = (int)_num; return (float)num; }
     static int   roundi      (float _num) { _num += 0.5f; return  (int)_num; }
 

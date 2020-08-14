@@ -17,9 +17,10 @@
 #include <bios/BiosManager.h>
 #include <guis/GuiMsgBox.h>
 #include <scraping/ScraperFactory.h>
+#include <audio/AudioController.h>
 #include "MainRunner.h"
 #include "EmulationStation.h"
-#include "VolumeControl.h"
+#include "audio/VolumeControl.h"
 #include "NetworkThread.h"
 #include "CommandThread.h"
 #include "NetPlayThread.h"
@@ -46,6 +47,17 @@ MainRunner::ExitState MainRunner::Run()
 {
   try
   {
+    // Audio controller
+    AudioController audioController;
+    audioController.SetVolume(Settings::Instance().SystemVolume());
+    std::string originalAudioDevice = RecalboxConf::Instance().AsString("audio.device");
+    std::string fixedAudioDevice = audioController.SetDefaultPlayback(originalAudioDevice);
+    if (fixedAudioDevice != originalAudioDevice)
+    {
+      RecalboxConf::Instance().SetString("audio.device", fixedAudioDevice);
+      RecalboxConf::Instance().Save();
+    }
+
     // Notification Manager
     mNotificationManager.Notify(Notification::Start, Strings::ToString(mRunCount));
 

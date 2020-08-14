@@ -28,8 +28,12 @@ const char* VolumeControl::getMixerCard()
 }
 
 VolumeControl::VolumeControl()
-	: originalVolume(0), internalVolume(0)
-    , mixerIndex(0), mixerHandle(nullptr), mixerElem(nullptr), mixerSelemId(nullptr)
+	: originalVolume(0)
+	, internalVolume(0)
+  , mixerIndex(0)
+  , mixerHandle(nullptr)
+  , mixerElem(nullptr)
+  , mixerSelemId(nullptr)
 {
 	init();
 
@@ -69,7 +73,7 @@ void VolumeControl::init()
 			if (snd_mixer_attach(mixerHandle, getMixerCard()) >= 0)
 			{
 				LOG(LogDebug) << "VolumeControl::init() - Attached to " << getMixerCard() << " card";
-				//ok. register simple element class
+				// ok. register simple element class
 				if (snd_mixer_selem_register(mixerHandle, nullptr, nullptr) >= 0)
 				{
 					LOG(LogDebug) << "VolumeControl::init() - Registered simple element class";

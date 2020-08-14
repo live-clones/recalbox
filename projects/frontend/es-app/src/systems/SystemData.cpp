@@ -1,7 +1,7 @@
 #include "SystemData.h"
 #include <systems/SystemManager.h>
 #include "audio/AudioManager.h"
-#include "VolumeControl.h"
+#include "audio/VolumeControl.h"
 #include "utils/Log.h"
 #include "NetPlayData.h"
 #include <RecalboxConf.h>

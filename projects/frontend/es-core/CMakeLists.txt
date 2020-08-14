@@ -3,7 +3,6 @@ project("core")
 set(CORE_HEADERS
 		src/components/base/Component.h
 		src/components/base/IComponent.h
-        src/audio/AudioManager.h
 		src/help/HelpStyle.h
 		src/help/Help.h
         src/ImageIO.h
@@ -16,11 +15,9 @@ set(CORE_HEADERS
 		src/input/OrderedDevices.h
 		src/utils/Log.h
 		src/utils/locale/LocaleHelper.h
-		src/audio/Music.h
 		src/platform.h
 		src/Renderer.h
 		src/Settings.h
-		src/audio/Sound.h
 		src/RootFolders.h
 		src/MenuThemeData.h
 		src/VideoEngine.h
@@ -33,6 +30,18 @@ set(CORE_HEADERS
 		src/themes/ThemeElement.h
 		src/themes/ThemeExtras.h
 		src/themes/ThemeException.h
+
+		# Audio
+		src/audio/AudioManager.h
+		src/audio/AudioController.h
+		src/audio/IAudioController.h
+		src/audio/Music.h
+		src/audio/Sound.h
+		src/audio/VolumeControl.h
+		src/audio/alsa/AlsaController.h
+		src/audio/alsa/AlsaMixer.h
+		src/audio/alsa/AlsaCard.h
+		src/audio/alsa/NameFiltering.h
 
 		# Utils
 		src/utils/cplusplus/StaticLifeCycleControler.h
@@ -132,7 +141,6 @@ set(CORE_HEADERS
 set(CORE_SOURCES
 		src/components/base/Component.cpp
 		src/components/base/IComponent.cpp
-        src/audio/AudioManager.cpp
         src/help/HelpStyle.cpp
 		src/help/Help.cpp
         src/ImageIO.cpp
@@ -142,11 +150,9 @@ set(CORE_SOURCES
 		src/input/InputManager.cpp
 		src/input/InputStack.cpp
 		src/utils/Log.cpp
-		src/audio/Music.cpp
 		src/platform.cpp
 		src/Renderer.cpp
 		src/Settings.cpp
-		src/audio/Sound.cpp
 		src/RootFolders.cpp
 		src/MenuThemeData.cpp
 		src/VideoEngine.cpp
@@ -156,6 +162,17 @@ set(CORE_SOURCES
 		src/utils/sdl2/SyncronousEvent.cpp
 		src/themes/ThemeData.cpp
 		src/themes/ThemeExtras.cpp
+
+		# Audio
+		src/audio/AudioManager.cpp
+		src/audio/AudioController.cpp
+		src/audio/Music.cpp
+		src/audio/Sound.cpp
+		src/audio/VolumeControl.cpp
+		src/audio/alsa/AlsaController.cpp
+		src/audio/alsa/AlsaMixer.cpp
+		src/audio/alsa/AlsaCard.cpp
+		src/audio/alsa/NameFiltering.cpp
 
 		# Utils
 		src/utils/os/system/Thread.cpp

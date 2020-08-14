@@ -8,7 +8,6 @@ set(ES_HEADERS
         src/MameNameMapManager.h
         src/NetworkThread.h
         src/systems/PlatformId.h
-        src/VolumeControl.h
         src/games/IFilter.h
         src/games/FileData.h
         src/games/FolderData.h
@@ -170,7 +169,6 @@ set(ES_SOURCES
         src/MameNameMapManager.cpp
         src/NetworkThread.cpp
         src/systems/PlatformId.cpp
-        src/VolumeControl.cpp
         src/games/FileData.cpp
         src/games/FolderData.cpp
         src/games/MetadataDescriptor.cpp

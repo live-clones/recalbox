@@ -10,7 +10,7 @@
 #include "Settings.h"
 #include "utils/Log.h"
 #include "audio/AudioManager.h"
-#include "VolumeControl.h"
+#include "audio/VolumeControl.h"
 
 #include <ifaddrs.h>
 #include <netinet/in.h>
