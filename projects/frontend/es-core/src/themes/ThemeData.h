@@ -4,6 +4,7 @@
 #include <deque>
 #include <string>
 #include <utils/os/fs/Path.h>
+#include <RecalboxConf.h>
 #include "pugixml/pugixml.hpp"
 #include "ThemeElement.h"
 
@@ -102,7 +103,25 @@ class ThemeData
 
     static std::string resolveSystemVariable(const std::string& systemThemeFolder, const std::string& path)
     {
-      return Strings::Replace(path, "$system", systemThemeFolder);
+      std::string lccc = Strings::ToLowerASCII(RecalboxConf::Instance().AsString("system.language"));
+      std::string lc = "en";
+      std::string cc = "us";
+      if (lccc.size() >= 5)
+      {
+        size_t pos = lccc.find('_');
+        if (pos >=2 && pos < lccc.size() - 1)
+        {
+          lc = lccc.substr(0, pos);
+          cc = lccc.substr(pos + 1);
+        }
+      }
+
+      std::string result = path;
+      Strings::ReplaceAllIn(result, "$system", systemThemeFolder);
+      Strings::ReplaceAllIn(result, "$language", lc);
+      Strings::ReplaceAllIn(result, "$country", cc);
+
+      return result;
     }
 
     std::map<std::string, ThemeView> mViews;
