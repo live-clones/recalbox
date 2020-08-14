@@ -86,7 +86,8 @@ class OricutronGenerator(Generator):
             arguments = ["--disk", args.rom]
 
         commandArray = [recalboxFiles.recalboxBins[system.config['emulator']],
-                        "--turbotape on"  # One of the only options not available in config file
+                        "--turbotape", "on",  # One of the only options not available in config file
+                        "--vsynchack", "on"  # This one too
                         ]
         commandArray.extend(arguments)
 
