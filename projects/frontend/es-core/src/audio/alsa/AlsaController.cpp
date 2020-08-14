@@ -116,7 +116,7 @@ void AlsaController::Initialize()
 HashMap<int, std::string> AlsaController::GetPlaybackList() const
 {
   HashMap<int, std::string> result;
-  result[-1] = "Default";
+  result[-1] = "Default output";
   for(const AlsaCard& playback : mPlaybacks)
   {
     int cardIndex = playback.Identifier() << 16;
@@ -124,12 +124,12 @@ HashMap<int, std::string> AlsaController::GetPlaybackList() const
     for(int i = playback.DeviceCount(); --i >= 0; )
     {
       int cardDeviceIndex = (playback.Identifier() << 16) | playback.DeviceAt(i).Identifier();
-      if (playback.Name() != playback.DeviceAt(i).Name())
+      if (playback.Name() != playback.DeviceAt(i).Name() && !playback.Name().empty())
         // Complete form "Card (Device)"
-        result[cardDeviceIndex] = playback.Name() + '(' + playback.DeviceAt(i).Name()+ ')';
+        result[cardDeviceIndex] = playback.Name() + " (" + playback.DeviceAt(i).Name()+ ')';
       else
         // Simplified form "Card"
-        result[cardDeviceIndex] = playback.Name();
+        result[cardDeviceIndex] = playback.DeviceAt(i).Name();
     }
   }
 
@@ -149,7 +149,7 @@ std::string AlsaController::SetDefaultPlayback(const std::string& playbackName)
   }
   LOG(LogError) << "Cannot find audio device " << playbackName;
   SetDefaultPlayback(0);
-  return "Default";
+  return "Default output";
 }
 
 void AlsaController::SetDefaultPlayback(int identifier)
@@ -183,8 +183,12 @@ void AlsaController::SetDefaultPlayback(int identifier)
   if (identifier == -1)
   {
     asoundrcPath.Delete();
+    setenv("AUDIODEV", "", 1);
     return;
   }
+
+  // No sound card?
+  if (mPlaybacks.empty()) return;
 
   int deviceIdentifier = identifier & 0xFFFF;
   int cardIdentifier = (identifier >> 16) & 0xFFFF;
@@ -208,6 +212,8 @@ void AlsaController::SetDefaultPlayback(int identifier)
     Strings::ReplaceAllIn(asoundrcContent, "{@CARD@}", Strings::ToString(cardIdentifier));
     Strings::ReplaceAllIn(asoundrcContent, "{@DEVICE@}", Strings::ToString(deviceIdentifier));
     Files::SaveFile(asoundrcPath, asoundrcContent);
+    // Set env
+    setenv("AUDIODEV", ("hw:" + Strings::ToString(cardIdentifier) + ',' + Strings::ToString(deviceIdentifier)).data(), 1);
   }
   else
   {

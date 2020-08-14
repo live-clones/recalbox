@@ -23,7 +23,7 @@
 #include "components/TextComponent.h"
 #include "components/OptionListComponent.h"
 #include "components/MenuComponent.h"
-#include "audio/VolumeControl.h"
+#include "audio/AudioController.h"
 
 #include "guis/GuiTextEditPopup.h"
 #include "guis/GuiTextEditPopupKeyboard.h"
@@ -1098,10 +1098,10 @@ void GuiMenu::menuSoundSettings(){
 
   // volume
   auto setVolume = [](const float &newVal) {
-    VolumeControl::getInstance()->setVolume(Math::roundi(newVal));
+    AudioController::Instance().SetVolume(Math::roundi(newVal));
   };
   auto volume = std::make_shared<SliderComponent>(mWindow, 0.f, 100.f, 1.f, "%");
-  volume->setSlider((float) VolumeControl::getInstance()->getVolume());
+  volume->setSlider((float)Math::clampi(Settings::Instance().SystemVolume(), 0, 100));
   volume->setSelectedChangedCallback(setVolume);
   s->addWithLabel(volume, _("SYSTEM VOLUME"), _(MENUMESSAGE_SOUND_VOLUME_HELP_MSG));
 
@@ -1114,29 +1114,29 @@ void GuiMenu::menuSoundSettings(){
   auto optionsAudio = std::make_shared<OptionListComponent<std::string> >(mWindow, _("OUTPUT DEVICE"),
                                       false, FONT_SIZE_EXTRASMALL);
   std::string currentDevice = RecalboxConf::Instance().AsString("audio.device");
-  if (currentDevice.empty()) currentDevice = "auto";
 
-  std::vector<std::string> availableAudio = RecalboxSystem::getAvailableAudioOutputDevices();
-  std::string selectedAudio = RecalboxSystem::getCurrentAudioOutputDevice();
+  // Transform/Sort playback list
+  HashMap<int, std::string> playbacksMap = AudioController::Instance().GetPlaybackList();
+  std::vector<std::string> availableAudio;
+  // Scan default
+  for(const auto& playback : playbacksMap)
+    if (playback.first == -1) // default item
+      availableAudio.push_back(playback.second);
+  // Add all remaining stuff
+  for(const auto& playback : playbacksMap)
+    if (playback.first != -1) // default item
+      availableAudio.push_back(playback.second);
+  // Sort
+  std::sort(availableAudio.begin() + 1, availableAudio.end());
 
-  if (RecalboxConf::Instance().AsString("emulationstation.menu") != "bartop") {
+  if (RecalboxConf::Instance().AsString("emulationstation.menu") != "bartop")
+  {
     for (auto& it : availableAudio)
-    {
-      std::vector<std::string> tokens = Strings::Split(it, ' ');
-
-      if(tokens.size()>= 8){
-        std::string vname;
-        for (unsigned int i=0; i<8; i++) {
-          vname += ' ';
-          vname += tokens[i];
-        }
-        optionsAudio->add(vname, it, selectedAudio == it);
-      } else {
-        optionsAudio->add(it, it, selectedAudio == it);
-      }
-    }
+        optionsAudio->add(_S(it), it, currentDevice == it);
     auto setAudioDevice = [](const std::string &newVal) {
-      RecalboxSystem::setAudioOutputDevice(newVal);
+      AudioManager::Instance().Deactivate();
+      AudioController::Instance().SetDefaultPlayback(newVal);
+      AudioManager::Instance().Reactivate();
     };
     optionsAudio->setSelectedChangedCallback(setAudioDevice);
     s->addWithLabel(optionsAudio, _("OUTPUT DEVICE"), _(MENUMESSAGE_SOUND_DEVICE_HELP_MSG));

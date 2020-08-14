@@ -150,7 +150,7 @@ void InputManager::LoadAllJoysticksConfiguration(std::vector<InputDevice> previo
         // Build the text
         std::string text = current[index].Name();
         text.append(1, ' ');
-        text.append(_("has been plugged!"));
+        text.append(_(" has been plugged!"));
         text.append("\n\n");
         if (current[index].IsConfigured()) text.append(_("Ready to play!"));
         else text.append(_("Not configured yet! Press a button to enter the configuration window."));
@@ -172,7 +172,7 @@ void InputManager::LoadAllJoysticksConfiguration(std::vector<InputDevice> previo
         // Build the text
         std::string text = previous[index].Name();
         text.append(1, ' ');
-        text.append(_("has been unplugged!"));
+        text.append(_(" has been unplugged!"));
         previous.erase(previous.begin() + index);
 
         GuiInfoPopup* popup = new GuiInfoPopup(window, text, 10, GuiInfoPopup::PopupType::Pads);

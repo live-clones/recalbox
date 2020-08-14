@@ -34,7 +34,7 @@ class AlsaMixer
     AlsaMixer(int id, const std::string& name, int cardReference)
     {
       mMixerId = id;
-      mMixerName = NameFiltering::Filter(name);
+      mMixerName = NameFiltering::Filter(name, NameFiltering::Source::Mixer);
       mCardReference = cardReference;
 
       mMixerHandle = nullptr;

@@ -10,7 +10,6 @@
 #include "Settings.h"
 #include "utils/Log.h"
 #include "audio/AudioManager.h"
-#include "audio/VolumeControl.h"
 
 #include <ifaddrs.h>
 #include <netinet/in.h>
@@ -130,41 +129,6 @@ std::vector<std::string> RecalboxSystem::getAvailableWiFiSSID(bool activatedWifi
   return res;
 }
 
-std::vector<std::string> RecalboxSystem::getAvailableAudioOutputDevices()
-{
-  return ExecuteSettingsCommand("lsaudio");
-}
-
-std::string RecalboxSystem::getCurrentAudioOutputDevice()
-{
-  Strings::Vector lines = ExecuteSettingsCommand("getaudio");
-  return lines.empty() ? "auto" : lines[0];
-}
-
-bool RecalboxSystem::setAudioOutputDevice(const std::string& selected)
-{
-  AudioManager::Instance().Deactivate();
-  VolumeControl::getInstance()->deinit();
-
-  std::string cmd = Settings::Instance().RecalboxSettingScript() + ' ' + "audio" + " '" + selected + '\'';
-  int exitcode = system(cmd.c_str());
-  if (selected.find('[') != std::string::npos)
-  {
-    int p1 = selected.find(':');
-    int p2 = selected.find(']');
-    std::string acard = selected.substr(1, p1 - 1);
-    std::string adevice = selected.substr(p1 + 1, p2 - p1 - 1);
-    std::string alsaAudioDev = "hw:" + acard + "," + adevice;
-    setenv("AUDIODEV", alsaAudioDev.c_str(), 1);
-  }
-  else
-    setenv("AUDIODEV", "hw:0,0", 1);
-  VolumeControl::getInstance()->init();
-  AudioManager::Instance().Reactivate();
-
-  return exitcode == 0;
-}
-
 bool RecalboxSystem::setOverscan(bool enable)
 {
   std::string cmd =Settings::Instance().RecalboxSettingScript() + " overscan";
@@ -209,7 +173,6 @@ bool RecalboxSystem::launchKodi(Window& window)
   LOG(LogInfo) << "Attempting to launch kodi...";
 
   AudioManager::Instance().Deactivate();
-  VolumeControl::getInstance()->deinit();
 
   OrderedDevices controllers = InputManager::Instance().GenerateConfiguration();
   std::string commandline = InputManager::GenerateConfiggenConfiguration(controllers);
@@ -224,7 +187,6 @@ bool RecalboxSystem::launchKodi(Window& window)
   }
 
   window.Initialize();
-  VolumeControl::getInstance()->init();
   AudioManager::Instance().Reactivate();
   window.normalizeNextUpdate();
 

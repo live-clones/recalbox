@@ -19,7 +19,7 @@ class AlsaDevice
     AlsaDevice(int id, const std::string& name, int subdevices)
     {
       mDeviceId = id;
-      mDeviceName = NameFiltering::Filter(name);
+      mDeviceName = NameFiltering::Filter(name, NameFiltering::Source::Device);
       mSubDeviceCount = subdevices;
     }
 

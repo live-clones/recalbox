@@ -20,7 +20,6 @@
 #include <audio/AudioController.h>
 #include "MainRunner.h"
 #include "EmulationStation.h"
-#include "audio/VolumeControl.h"
 #include "NetworkThread.h"
 #include "CommandThread.h"
 #include "NetPlayThread.h"
@@ -81,7 +80,6 @@ MainRunner::ExitState MainRunner::Run()
     }
 
     // Initialize audio manager
-    VolumeControl::getInstance()->init();
     AudioManager audioManager(window);
 
     // Display "loading..." screen

@@ -28,13 +28,7 @@ class RecalboxSystem
 
     static std::string getRootPassword();
 
-    static bool setAudioOutputDevice(const std::string& device);
-
     static std::vector<std::string> getAvailableWiFiSSID(bool activateWifi);
-
-    static std::vector<std::string> getAvailableAudioOutputDevices();
-
-    static std::string getCurrentAudioOutputDevice();
 
     static bool setOverscan(bool enable);
 

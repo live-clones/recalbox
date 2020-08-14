@@ -2252,3 +2252,7 @@ msgstr " a été débranché!"
 #
 msgid "Remove from favorite"
 msgstr "Retirer des favoris"
+
+#
+msgid "Default output"
+msgstr "Sortie par défaut"

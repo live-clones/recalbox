@@ -26,7 +26,7 @@ class AlsaCard
     AlsaCard(int identifier, const char* name)
     {
       mCardIdentifier = identifier;
-      mCardName = NameFiltering::Filter(name);
+      mCardName = NameFiltering::Filter(name, NameFiltering::Source::Card);
     }
 
     //! Add a new mixer to the mixer list attached to the current card

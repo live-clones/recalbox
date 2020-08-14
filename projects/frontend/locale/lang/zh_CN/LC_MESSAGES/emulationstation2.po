@@ -2094,6 +2094,10 @@ msgstr ""
 msgid "Remove from favorite"
 msgstr ""
 
+#
+msgid "Default output"
+msgstr ""
+
 #~ msgid "UPDATE VERSION:"
 #~ msgstr "更新版本："
 

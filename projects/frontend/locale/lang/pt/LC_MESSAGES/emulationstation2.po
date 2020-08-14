@@ -2262,6 +2262,10 @@ msgstr " foi desligado !"
 msgid "Remove from favorite"
 msgstr ""
 
+#
+msgid "Default output"
+msgstr ""
+
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
 #~ "will turn the screen black."

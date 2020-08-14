@@ -2339,3 +2339,7 @@ msgstr ""
 #
 msgid "Remove from favorite"
 msgstr ""
+
+#
+msgid "Default output"
+msgstr ""

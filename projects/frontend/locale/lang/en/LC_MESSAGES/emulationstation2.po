@@ -2241,3 +2241,7 @@ msgstr " has been unplugged!"
 #
 msgid "Remove from favorite"
 msgstr "Remove from favorite"
+
+#
+msgid "Default output"
+msgstr ""

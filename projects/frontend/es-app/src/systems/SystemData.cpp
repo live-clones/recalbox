@@ -1,7 +1,6 @@
 #include "SystemData.h"
 #include <systems/SystemManager.h>
 #include "audio/AudioManager.h"
-#include "audio/VolumeControl.h"
 #include "utils/Log.h"
 #include "NetPlayData.h"
 #include <RecalboxConf.h>
@@ -57,7 +56,6 @@ void SystemData::RunGame(Window& window,
 
   VideoEngine::Instance().StopVideo();
   AudioManager::Instance().Deactivate();
-  VolumeControl::getInstance()->deinit();
   Window::Finalize();
 
   std::string command = mDescriptor.Command();
@@ -124,7 +122,6 @@ void SystemData::RunGame(Window& window,
 
   // Reinit
   window.Initialize();
-  VolumeControl::getInstance()->init();
   AudioManager::Instance().Reactivate();
   window.normalizeNextUpdate();
 
@@ -146,7 +143,6 @@ std::string SystemData::demoInitialize(Window&)
 
   VideoEngine::Instance().StopVideo();
   AudioManager::Instance().Deactivate();
-  VolumeControl::getInstance()->deinit();
 
   Window::Finalize();
 
@@ -157,7 +153,6 @@ void SystemData::demoFinalize(Window& window)
 {
   // Reinit
   window.Initialize();
-  VolumeControl::getInstance()->init();
   AudioManager::Instance().Reactivate();
   window.normalizeNextUpdate();
 }

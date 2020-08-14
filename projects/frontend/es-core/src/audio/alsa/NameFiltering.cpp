@@ -5,12 +5,16 @@
 #include "NameFiltering.h"
 #include <utils/Strings.h>
 
-std::string NameFiltering::Filter(const std::string& source)
+std::string NameFiltering::Filter(const std::string& sourceString, Source from)
 {
-  std::string result = source;
+  std::string result = sourceString;
 
   // Pi3 replacement
-  if (result == "bcm2835 ALSA") return "Headphones";
+  if (result == "bcm2835 ALSA")
+  {
+    if (from == Source::Card) return "";
+    return "Headphones";
+  }
   if (result == "bcm2835 IEC958/HDMI") return "HDMI";
 
   // Pi4 filtering
