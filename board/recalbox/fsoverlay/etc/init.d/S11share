@@ -49,13 +49,13 @@ maxWaitFromConfig() {
 createMissingPartitions() {
   alignSize=$((1024 * 1024)) # Align partition on megabyte
   overlayPartitionSize=$((1024 * 1024 * 1024)) # OVERLAY partition will be 1GB
-  defaultPartedOptions="-m -s -a optimal '${bootDevice}' unit b"
+  defaultPartedOptions=("-m" "-s" "-a" "optimal" "${bootDevice}" "unit" "b")
   partitionType=$(/recalbox/scripts/recalbox-part.sh type "${bootPartition}")
 
   # Utility helper to compute optimized partition alignment
   alignToUpperBlock() {
     local address="${1}"
-    echo $(( (${address} + ${alignSize}) / ${alignSize} * ${alignSize} ))
+    echo $(( (address + alignSize) / alignSize * alignSize ))
   }
 
   # Display SHARE creation splash screen
@@ -67,17 +67,17 @@ createMissingPartitions() {
   fi
 
   # Determine last free (available) space on device
-  freeSpaceStart=$(parted ${defaultPartedOptions} print free | grep ':free;$' | tail -1 | cut -d: -f2 | sed 's/B$//')
-  freeSpaceEnd=$(parted ${defaultPartedOptions} print free | grep ':free;$' | tail -1 | cut -d: -f3 | sed 's/B$//')
+  freeSpaceStart=$(parted "${defaultPartedOptions[@]}" print free | grep ':free;$' | tail -1 | cut -d: -f2 | sed 's/B$//')
+  freeSpaceEnd=$(parted "${defaultPartedOptions[@]}" print free | grep ':free;$' | tail -1 | cut -d: -f3 | sed 's/B$//')
 
   # Determine new partitions boundaries
   sharePartitionStart=$(alignToUpperBlock "${freeSpaceStart}")
-  overlayPartitionStart=$(alignToUpperBlock $(( ${freeSpaceEnd} - ${overlayPartitionSize} )))
-  sharePartitionEnd=$(( ${overlayPartitionStart} - ${alignSize} )) # keep 1MB between partitions, since using `${overlayPartitionStart} - 1` can actually fail on some disks, despite being strictly correct
+  overlayPartitionStart=$(alignToUpperBlock $(( freeSpaceEnd - overlayPartitionSize )))
+  sharePartitionEnd=$(( overlayPartitionStart - alignSize )) # keep 1MB between partitions, since using `${overlayPartitionStart} - 1` can actually fail on some disks, despite being strictly correct
   overlayPartitionEnd="100%"
 
   # Create SHARE partition and filesystem
-  parted ${defaultPartedOptions} mkpart ${partitionType} ntfs ${sharePartitionStart} ${sharePartitionEnd} # ExFAT uses the same type code than NTFS (0x07) in MBR partition tables
+  parted "${defaultPartedOptions[@]}" mkpart "${partitionType}" ntfs "${sharePartitionStart}" "${sharePartitionEnd}" # ExFAT uses the same type code than NTFS (0x07) in MBR partition tables
   mkexfatfs -n SHARE "${sharePartition}"
 
   # Display OVERLAY creation splash screen
@@ -86,7 +86,7 @@ createMissingPartitions() {
   fi
 
   # Create OVERLAY partition and filesystem
-  parted ${defaultPartedOptions} mkpart ${partitionType} ${overlayPartitionStart} ${overlayPartitionEnd}
+  parted "${defaultPartedOptions[@]}" mkpart "${partitionType}" "${overlayPartitionStart}" "${overlayPartitionEnd}"
   mkfs.ext4 "${overlayPartition}" -q -F -L OVERLAY
   e2fsck -f -p "${overlayPartition}"
 }
@@ -129,10 +129,10 @@ blkidForUUID() {
 #   → sleeps until device with given <UUID> is available
 waitForDeviceWithUUID() {
   local UUID="${1}"
-  local wait="$(maxWaitFromConfig)"
+  local maxwait="$(maxWaitFromConfig)"
 
-  while [ -z "$(blkidForUUID "${UUID}")" -a "${wait}" -gt 0 ]; do
-    wait=$(( ${wait} - 1 ))
+  while [ -z "$(blkidForUUID "${UUID}")" ] && [ "${maxwait}" -gt 0 ]; do
+    maxwait=$(( maxwait - 1 ))
     sleep 1
   done
 }
@@ -146,10 +146,10 @@ firstBlkidForExternalDevice() {
 # waitForAnyExternalDevice
 #   → sleeps until an external storage device is available
 waitForAnyExternalDevice() {
-  local wait="$(maxWaitFromConfig)"
+  local maxwait="$(maxWaitFromConfig)"
 
-  while [ -z "$(firstBlkidForExternalDevice)" -a "${wait}" -gt 0 ]; do
-    wait=$(( ${wait} - 1 ))
+  while [ -z "$(firstBlkidForExternalDevice)" ] && [ "${maxwait}" -gt 0 ]; do
+    maxwait=$(( maxwait - 1 ))
     sleep 1
   done
 }
@@ -171,7 +171,7 @@ executeNetworkMountDirective() {
   if [ "${directiveType}" = "cmd" ]; then
     commandToRun="${directive}"
   else
-    IFS=$'\t' read target remoteHost remotePath mountOptions < <(
+    IFS=$'\t' read -r target remoteHost remotePath mountOptions < <(
       echo "${directive}" | sed -r 's|^([^@]+)@([^:]+):([^:]+):?(.*)|\1\t\2\t\3\t\4|'
     )
     case "${target}" in
@@ -204,20 +204,20 @@ executeNetworkMountDirective() {
   fi
 
   echo "${commandToRun}" >> "${logFile}"
-  eval ${commandToRun}
+  eval "${commandToRun}"
 }
 
 # mountNetwork
 #   → execute all `sharenetwork_*` commands in recalbox-boot.conf, retrying them for a while if they failed
 mountNetwork() {
   sed -nr 's/^sharenetwork_([^=]+)=(.*)$/\1\t\2/p' "${bootConfigFile}" | while read directiveType directive; do
-    local wait="$(maxWaitFromConfig)"
+    local maxwait="$(maxWaitFromConfig)"
 
-    while [ ${wait} -gt 0 ]; do
+    while [ "${maxwait}" -gt 0 ]; do
       if executeNetworkMountDirective "${directiveType}" "${directive}" || [ $? = 2 ] ; then # do not retry if executeNetworkMountDirective succeeded or returned 2 (input error)
         break
       else
-        wait=$(( ${wait} - 1 ))
+        maxwait=$(( maxwait - 1 ))
         sleep 1
       fi
     done
@@ -247,6 +247,7 @@ mountInternal() {
 # (we do this regardless of `sharedevice` mode configured below)
 if [ ! -b "${sharePartition}" ]; then
   createMissingPartitions
+  reboot
 fi
 
 # Read `sharedevice` in /boot/recalbox-boot.conf, it can contain:
@@ -288,7 +289,7 @@ esac
 
 # Now, let's mount delayed usbmount devices
 ls /var/run/usbmount.delay |
-    while read RULE ; do
+    while read -r RULE ; do
         RTYPE=$(echo "${RULE}" | sed -e s+'^[0-9]*\.'++)
         (
             source "/var/run/usbmount.delay/${RULE}"
