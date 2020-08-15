@@ -46,7 +46,7 @@ class LibretroCores:
 
     @staticmethod
     def configureAmstradCPC(coreSettings):
-        coreSettings.setOption("cap32_model", '"6128+"')
+        coreSettings.setOption("cap32_model", '"6128"')
 
     @staticmethod
     def configureAmstradGX4000(coreSettings):
