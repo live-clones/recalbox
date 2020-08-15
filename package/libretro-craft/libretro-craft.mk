@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_CRAFT_VERSION = 1b0da2b133a528f352c4b6dc24a464c652e39630
+LIBRETRO_CRAFT_VERSION = 3f1d38299dccb74ad0726b1c743a0c34fde01e80
 LIBRETRO_CRAFT_SITE = $(call github,libretro,Craft,$(LIBRETRO_CRAFT_VERSION))
 
 ifeq ($(BR2_PACKAGE_HAS_LIBGL),y)

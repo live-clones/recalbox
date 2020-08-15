@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_PARALLEL_N64_VERSION = 9dd669e2f63b320c5942f2fe0b2df275dba99393
+LIBRETRO_PARALLEL_N64_VERSION = cfb9789e13ccbeaabd928203566346c05709d501
 LIBRETRO_PARALLEL_N64_SITE = $(call github,libretro,parallel-n64,$(LIBRETRO_PARALLEL_N64_VERSION))
 
 ifeq ($(BR2_PACKAGE_RPI_USERLAND),y)
