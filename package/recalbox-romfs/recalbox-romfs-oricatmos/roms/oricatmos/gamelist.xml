@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<gameList>
+  <provider>
+    <System>Oric 1 - Atmos</System>
+    <software>Skraper</software>
+    <database>ScreenScraper.fr</database>
+    <web>http://www.screenscraper.fr</web>
+  </provider>
+  <game id="213489" source="ScreenScraper.fr">
+    <path>./Oricium (José María Enguita).tap</path>
+    <name>Oricium</name>
+    <desc>Oricium is a fast, lateral scrolling shoot-em-up with a touch of puzzle game. Its difficulty curve is smooth, so it is easy to go through the first levels. However it quickly becomes challenging, so don't judge it just after playing 5 minutes. 
+ 
+Oricium started as an experiment to see if it was possible to produce a fast scrolling game, including details such as masked sprites, animations, pseudo-paralax scrolling, many simultaneous enemies, fast action, and many more. 
+ 
+Of course the first inspiration came from the well-known Andrew Braybrook's game Uridium, but soon the gameplay departed from the original.</desc>
+    <rating>0.7</rating>
+    <releasedate>20140701T000000</releasedate>
+    <developer>José María (Chema) Enguita</developer>
+    <publisher>Defense Force</publisher>
+    <genre>Shoot'em Up-Puzzle-Game-Shoot'em up / Horizontal</genre>
+    <players>1</players>
+    <hash>BFCC6132</hash>
+    <image>./media/images/Oricium (José María Enguita).png</image>
+    <genreid>260</genreid>
+  </game>
+  <game id="104303" source="ScreenScraper.fr">
+    <path>./Pulsoids (Twilighte).tap</path>
+    <name>Pulsoids</name>
+    <desc>PULSOIDS is an arcade game for one or two players (Alternating). 
+Each player must clear the screen of tiles by deflecting pulsoids (Energy pulses) off their energy mirror (Bat). Each player starts with one pulse. However, Aliens also play in this arena, entering from the eye at the top of the screen. If a pulsoid collides with it, the alien will be destroyed and the Pulsoid will split into two. Bonuses also fall for some tiles that are destroyed. Collect them to earn extra power-ups and increase your score.</desc>
+    <rating>0.75</rating>
+    <releasedate>20021201T000000</releasedate>
+    <developer>Jonathan Bristow</developer>
+    <publisher>Oric.org</publisher>
+    <genre>Action-Action / Breakout games</genre>
+    <players>1-2</players>
+    <hash>3FA4CEF6</hash>
+    <image>./media/images/Pulsoids (Twilighte).png</image>
+    <genreid>256</genreid>
+  </game>
+</gameList>
