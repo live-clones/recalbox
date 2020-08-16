@@ -18,8 +18,10 @@ function exitWithUsage {
   echo "    │  └─ recalbox-rpi1.img.xz"
   echo "    ├─ rpi2/"
   echo "    │  └─ recalbox-rpi2.img.xz"
-  echo "    └─ rpi3/"
-  echo "       └─ recalbox-rpi3.img.xz"
+  echo "    ├─ rpi3/"
+  echo "    │  └─ recalbox-rpi3.img.xz"
+  echo "    └─ rpi4/"
+  echo "       └─ recalbox-rpi4.img.xz"
   echo
   exit 64
 }
@@ -33,7 +35,7 @@ function generateNoobsAssets {
 
   # Create destination directory hierarchy
 
-  for arch in rpi1 rpi2 rpi3; do
+  for arch in rpi1 rpi2 rpi3 rpi4; do
     mkdir -p "${destinationDir}/${arch}"
   done
 
@@ -42,7 +44,7 @@ function generateNoobsAssets {
   metadata[version]=${CI_COMMIT_REF_NAME}
   metadata[releaseDate]=$(date +%Y-%m-%d)
 
-  for arch in rpi1 rpi2 rpi3; do
+  for arch in rpi1 rpi2 rpi3 rpi4; do
     local tempMountPoint=$(mktemp -d)
     local diskImage="${params[imagesDir]}/${arch}/recalbox-${arch}.img"
     local tarball="${destinationDir}/${arch}/boot.tar"
@@ -70,7 +72,7 @@ function generateNoobsAssets {
         -e "s|{{releaseDate}}|${metadata[releaseDate]}|" \
   > "${destinationDir}/os.json"
 
-  for arch in rpi1 rpi2 rpi3; do
+  for arch in rpi1 rpi2 rpi3 rpi4; do
     cat "${templateDir}/partitions.json" \
     | sed -e "s|{{uncompressedTarballSize}}|${metadata["${arch}UncompressedTarballSize"]}|" \
     > "${destinationDir}/${arch}/partitions.json"
@@ -89,7 +91,7 @@ function generateRaspberryPiImagerAssets {
   metadata[version]=${CI_COMMIT_REF_NAME}
   metadata[releaseDate]=$(date +%Y-%m-%d)
 
-  for arch in rpi1 rpi2 rpi3; do
+  for arch in rpi1 rpi2 rpi3 rpi4; do
     # Fetch info regarding image downloads (XZ-compressed Recalbox image)
     metadata["${arch}ImageDownloadSize"]=$(stat --format=%s "${params[imagesDir]}/${arch}/recalbox-${arch}.img.xz")
     metadata["${arch}ImageDownloadSha256"]=$(sha256sum "${params[imagesDir]}/${arch}/recalbox-${arch}.img.xz" | cut -d' ' -f1)
@@ -110,15 +112,19 @@ function generateRaspberryPiImagerAssets {
         -e "s|{{rpi1ExtractSize}}|${metadata[rpi1ExtractSize]}|" \
         -e "s|{{rpi2ExtractSize}}|${metadata[rpi2ExtractSize]}|" \
         -e "s|{{rpi3ExtractSize}}|${metadata[rpi3ExtractSize]}|" \
+        -e "s|{{rpi4ExtractSize}}|${metadata[rpi4ExtractSize]}|" \
         -e "s|{{rpi1ExtractSha256}}|${metadata[rpi1ExtractSha256]}|" \
         -e "s|{{rpi2ExtractSha256}}|${metadata[rpi2ExtractSha256]}|" \
         -e "s|{{rpi3ExtractSha256}}|${metadata[rpi3ExtractSha256]}|" \
+        -e "s|{{rpi4ExtractSha256}}|${metadata[rpi4ExtractSha256]}|" \
         -e "s|{{rpi1ImageDownloadSize}}|${metadata[rpi1ImageDownloadSize]}|" \
         -e "s|{{rpi2ImageDownloadSize}}|${metadata[rpi2ImageDownloadSize]}|" \
         -e "s|{{rpi3ImageDownloadSize}}|${metadata[rpi3ImageDownloadSize]}|" \
+        -e "s|{{rpi4ImageDownloadSize}}|${metadata[rpi4ImageDownloadSize]}|" \
         -e "s|{{rpi1ImageDownloadSha256}}|${metadata[rpi1ImageDownloadSha256]}|" \
         -e "s|{{rpi2ImageDownloadSha256}}|${metadata[rpi2ImageDownloadSha256]}|" \
         -e "s|{{rpi3ImageDownloadSha256}}|${metadata[rpi3ImageDownloadSha256]}|" \
+        -e "s|{{rpi4ImageDownloadSha256}}|${metadata[rpi4ImageDownloadSha256]}|" \
   > "${destinationDir}/os_list_imagingutility_recalbox.json"
   cp -n "${templateDir}/recalbox.svg" "${destinationDir}/recalbox.svg"
 }

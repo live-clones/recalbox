@@ -58,6 +58,22 @@
               "tarballs": [
                   "https://download.recalbox.com/noobs/rpi3/boot.tar.xz"
               ]
+          },
+          {
+              "os_name": "Recalbox - Pi4",
+              "description": "The official retro-gaming OS! Turn your Raspberry Pi into an all-in-one and plug-n-play retro-gaming console, supporting 100+ gaming systems!",
+              "nominal_size": 4096,
+              "icon": "https://download.recalbox.com/noobs/recalboxOS.png",
+              "marketing_info": "https://download.recalbox.com/noobs/marketing.tar",
+              "partition_setup": "https://download.recalbox.com/noobs/partition_setup.sh",
+              "partitions_info": "https://download.recalbox.com/noobs/rpi4/partitions.json",
+              "os_info": "https://download.recalbox.com/noobs/os.json",
+              "supported_models": [
+                  "Pi 4"
+              ],
+              "tarballs": [
+                  "https://download.recalbox.com/noobs/rpi4/boot.tar.xz"
+              ]
           }
       ]
   }
