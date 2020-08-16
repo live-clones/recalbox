@@ -247,7 +247,6 @@ mountInternal() {
 # (we do this regardless of `sharedevice` mode configured below)
 if [ ! -b "${sharePartition}" ]; then
   createMissingPartitions
-  reboot
 fi
 
 # Read `sharedevice` in /boot/recalbox-boot.conf, it can contain:
