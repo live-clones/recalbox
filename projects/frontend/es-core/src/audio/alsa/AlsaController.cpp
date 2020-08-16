@@ -219,7 +219,7 @@ void AlsaController::SetDefaultPlayback(int identifier)
   {
     LOG(LogError) << "Cannot set default playback to card " << cardIdentifier << " device " << deviceIdentifier << " because: not found!";
     // Set default card/default device
-    SetDefaultPlayback(0);
+    SetDefaultPlayback(-1);
   }
 }
 
