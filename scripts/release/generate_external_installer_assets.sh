@@ -15,16 +15,10 @@ function exitWithUsage {
   echo
   echo "    <images_dir>/"
   echo "    ├─ rpi1/"
-  echo "    │  └─ boot.tar.xz"
-  echo "    │  └─ root.tar.xz"
   echo "    │  └─ recalbox-rpi1.img.xz"
   echo "    ├─ rpi2/"
-  echo "    │  └─ boot.tar.xz"
-  echo "    │  └─ root.tar.xz"
   echo "    │  └─ recalbox-rpi2.img.xz"
   echo "    └─ rpi3/"
-  echo "       └─ boot.tar.xz"
-  echo "       └─ root.tar.xz"
   echo "       └─ recalbox-rpi3.img.xz"
   echo
   exit 64
@@ -37,24 +31,35 @@ function generateNoobsAssets {
 
   echo ">>> Generating assets for NOOBS (in ${destinationDir})"
 
+  # Create destination directory hierarchy
+
+  for arch in rpi1 rpi2 rpi3; do
+    mkdir -p "${destinationDir}/${arch}"
+  done
+
   # Gather required information from images directory
 
   metadata[version]=${CI_COMMIT_REF_NAME}
   metadata[releaseDate]=$(date +%Y-%m-%d)
 
   for arch in rpi1 rpi2 rpi3; do
-    # Fetch info regarding extracted boot and root images (boot.tar and root.tar, after XZ decompression)
-    unxz --keep "${params[imagesDir]}/${arch}/boot.tar.xz"
-    unxz --keep "${params[imagesDir]}/${arch}/root.tar.xz"
-    metadata["${arch}BootUncompressedTarballSize"]=$(du -m "${params[imagesDir]}/${arch}/boot.tar" | cut -f 1)
-    metadata["${arch}RootUncompressedTarballSize"]=$(du -m "${params[imagesDir]}/${arch}/root.tar" | cut -f 1)
-    rm "${params[imagesDir]}/${arch}/boot.tar"
-    rm "${params[imagesDir]}/${arch}/root.tar"
+    local tempMountPoint=$(mktemp -d)
+    local diskImage="${params[imagesDir]}/${arch}/recalbox-${arch}.img"
+    local tarball="${destinationDir}/${arch}/boot.tar"
+    # Generate tarball of the filesystem from disk image (as `boot.tar.xz`)
+    unxz --keep "${diskImage}.xz"
+    mount -o loop,offset=$((512*2048)) "${diskImage}" "${tempMountPoint}"
+    tar -C "${tempMountPoint}" -cvf "${tarball}" . > /dev/null
+    # Fetch info regarding uncompressed tarball (before XZ compression, will be checked by NOOBS after XZ decompression)
+    metadata["${arch}UncompressedTarballSize"]=$(du -m "${tarball}" | cut -f 1)
+    # Compress tarball (will create a `.tar.xz` file and delete the `.tar`)
+    xz "${tarball}"
+    # Cleanup
+    umount "${tempMountPoint}"
+    rm "${diskImage}"
   done
 
   # Create assets in destination directory
-
-  mkdir -p ${destinationDir}
 
   cp -n "${templateDir}/recalbox.png" "${destinationDir}/recalbox.png"
   cp -n "${templateDir}/marketing.tar" "${destinationDir}/marketing.tar"
@@ -66,10 +71,8 @@ function generateNoobsAssets {
   > "${destinationDir}/os.json"
 
   for arch in rpi1 rpi2 rpi3; do
-    mkdir -p "${destinationDir}/${arch}"
     cat "${templateDir}/partitions.json" \
-    | sed -e "s|{{bootUncompressedTarballSize}}|${metadata["${arch}BootUncompressedTarballSize"]}|" \
-          -e "s|{{rootUncompressedTarballSize}}|${metadata["${arch}RootUncompressedTarballSize"]}|" \
+    | sed -e "s|{{uncompressedTarballSize}}|${metadata["${arch}UncompressedTarballSize"]}|" \
     > "${destinationDir}/${arch}/partitions.json"
   done
 }

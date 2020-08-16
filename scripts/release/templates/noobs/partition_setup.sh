@@ -2,17 +2,17 @@
 
 set -ex
 
-if [ -z "$part1" ] || [ -z "$part2" ] || [ -z "$part3" ]; then
-  printf "Error: missing environment variable part1 or part2 or part3\n" 1>&2
-  exit 1
-fi
+[ -z "${part1}" ] && echo "Error: missing environment variable \${part1}" 1>&2 && exit 1
+[ -z "${part2}" ] && echo "Error: missing environment variable \${part2}" 1>&2 && exit 1
+[ -z "${part3}" ] && echo "Error: missing environment variable \${part3}" 1>&2 && exit 1
 
-mkdir -p /tmp/1 /tmp/2
+bootPartition="${part1}" # already mounted by NOOBS as `/mnt2`, best name ever
+sharePartition="${part2}"
+overlayPartition="${part3}"
 
-mount "$part1" /tmp/1
-mount "$part2" /tmp/2
-
-sed /tmp/1/cmdline.txt -i -e "s|root=/dev/[^ ]*|root=${part2}|"
-
-umount /tmp/1
-umount /tmp/2
+# Since NOOBS does not create partition like our downloadable image, we have to
+# modify our kernel parameters to use a different partition to boot from. This
+# is defined in `/cmdline.txt` (from the `rpi-firmware` package in Buildroot,
+# that we patch in `custom`) and we set it to the value of the first partition,
+# as given by NOOBS as ${part1}.
+sed "/mnt2/cmdline.txt" -i -e "s|dev=/dev/[^ ]*|dev=${bootPartition}|"

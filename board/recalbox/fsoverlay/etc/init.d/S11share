@@ -242,6 +242,17 @@ mountInternal() {
   fi
 }
 
+# partitionHasAFilesystem <partition>
+#   → returns success (0) if a filesystem is detected in the given partition (block device)
+#     returns failure (1) otherwise
+#   NOTE: Busybox implementation of `blkid` is very scarce: it supports no option at all
+#         and symply displays all tags when a filesystem is detected, nothing otherwise
+partitionHasAFilesystem() {
+  local partition="${1}"
+
+  [ -n "$(blkid "${partition}")" ]
+}
+
 ########
 # MAIN #
 ########
@@ -250,6 +261,13 @@ mountInternal() {
 # (we do this regardless of `sharedevice` mode configured below)
 if [ ! -b "${sharePartition}" ]; then
   createMissingPartitions
+fi
+
+# Create ExFAT filesystem in SHARE partition if it does not exist
+# (this is the case on first boot after NOOBS partition, because
+# NOOBS does not support creating ExFAT filesystems)
+if ! partitionHasAFilesystem "${sharePartition}"; then
+  mkexfatfs -n SHARE "${sharePartition}"
 fi
 
 # Read `sharedevice` in /boot/recalbox-boot.conf, it can contain:

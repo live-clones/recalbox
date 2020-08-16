@@ -23,8 +23,7 @@
                   "Pi Zero"
               ],
               "tarballs": [
-                  "https://recalbox-releases.s3.nl-ams.scw.cloud/stable/v1/noobs/rpi1/boot.tar.xz",
-                  "https://recalbox-releases.s3.nl-ams.scw.cloud/stable/v1/noobs/rpi1/root.tar.xz"
+                  "https://download.recalbox.com/noobs/rpi1/boot.tar.xz"
               ]
           },
           {
@@ -40,8 +39,7 @@
                   "Pi 2"
               ],
               "tarballs": [
-                  "https://recalbox-releases.s3.nl-ams.scw.cloud/stable/v1/noobs/rpi2/boot.tar.xz",
-                  "https://recalbox-releases.s3.nl-ams.scw.cloud/stable/v1/noobs/rpi2/root.tar.xz"
+                  "https://download.recalbox.com/noobs/rpi2/boot.tar.xz"
               ]
           },
           {
@@ -58,8 +56,7 @@
                   "Pi Compute Module 3"
               ],
               "tarballs": [
-                  "https://recalbox-releases.s3.nl-ams.scw.cloud/stable/v1/noobs/rpi3/boot.tar.xz",
-                  "https://recalbox-releases.s3.nl-ams.scw.cloud/stable/v1/noobs/rpi3/root.tar.xz"
+                  "https://download.recalbox.com/noobs/rpi3/boot.tar.xz"
               ]
           }
       ]
@@ -110,20 +107,33 @@
 
 ## `partitions.json`
 
-This file is downloaded from URL defined by the `partitions_info` field in `os_list_v3.json` and is used to configure how `parted` and `mkfs` will partition the disk.
+This file is downloaded from URL defined by the `partitions_info` field in `os_list_v3.json` and is used to configure how to partition the disk then eventually create and populate filesystems into those partitions.
 
-Fields read from `partitioninfo.cpp`:
-* `filesystem_type` ⇒ `fat`/`swap`/`ntfs` (default is for "Linux native", _a.k.a_ ext3/4)
+Fields (mostly read from `partitioninfo.cpp`):
+* `filesystem_type` ⇒ filesystem type to create in the partition, can be one of:
+  * `fat`/`ntfs`/`ext4`: filesystem will be created using some flavour or `mkfs` and content from the tarball will be un-tar'ed into it
+  * `raw`: `mkfs` won't be used, filesystem will be copied (using `dd`) from the `tarball` (not actually a tarball in this case: just a XZ-compressed raw disk image)
+  * `partclone`: `mkfs` won't be used, filesystem will be copied (using `partclone.restore`) from the `tarball` (not actually a tarball in this case: just a XZ-compressed [partclone](https://partclone.org) image)
+  * `unformatted`: `mkfs` won't be used, filesystem won't be created in the partition
 * `mkfs_options` ⇒ additional options passed to `mkfs`
-* `label` ⇒ partition label, must match a tarball filename (from the `tarballs` field in `os_list_v3.json`)
-* `tarball`
-* `want_maximised` ⇒ take all available space
-* `empty_fs` ⇒ created empty
+* `label` ⇒ partition label
+* `tarball` ⇒ URL of tarball to download (unless `filesystem_type` is `unformatted`), can be overriden if `tarballs` is present and contains enough entries (see [here in NOOBS source code](https://github.com/raspberrypi/noobs/blob/134417fba944a44c3a1b1de42c290d8bdfd0c6f5/recovery/mainwindow.cpp#L1567-L1580))
+* `want_maximised` ⇒ take all available space (available space will be equally split between all partitions with `want_maximised` set to `true`, see [here in NOOBS source code](https://github.com/raspberrypi/noobs/blob/134417fba944a44c3a1b1de42c290d8bdfd0c6f5/recovery/multiimagewritethread.cpp#L136-L137))
+* `empty_fs` ⇒ create partition and filesystem but don't populate it using a tarball
 * `offset_in_sectors`
-* `partition_size_nominal` ⇒ partition size in MB
-* `requires_partition_number`
-* `uncompressed_tarball_size` ⇒ uncompressed tarball size in MB (used to display accurante download and installation progress)
+* `partition_size_nominal` ⇒ partition size in MB (or "minimum partition size", when `want_maximised` is `true`)
+* `requires_partition_number` ⇒ claim a specific partition number (must be unique, must not be 1 nor 5, and the same OS cannot require both partition 2 and partition 4, see [here in NOOBS source code](https://github.com/raspberrypi/noobs/blob/134417fba944a44c3a1b1de42c290d8bdfd0c6f5/recovery/multiimagewritethread.cpp#L101-L121))
+* `uncompressed_tarball_size` ⇒ uncompressed tarball size in MB (used to display accurate download and installation progress)
 * `active`
+* `partition_type` ⇒ partition type written in the partition table, actually represents the expected filesystem in the partition (see https://en.wikipedia.org/wiki/Partition_type) ; if unset, it can be infered from `filesystem_type` (if `filesystem_type` is `swap` or contains `fat` or `ntfs`, and defaults to Linux native `ext4` otherwise, see [here in NOOBS source code](https://github.com/raspberrypi/noobs/blob/134417fba944a44c3a1b1de42c290d8bdfd0c6f5/recovery/partitioninfo.cpp#L18-L28))
+
+NOOBS actually creates:
+* partition 1 (primary) -> FAT32 partition labeled RECOVERY (~900MB)
+* partition 2 (extended), which contains:
+  * partition 5 (logical) -> EXT4 partition labeled SETTINGS (32MB) for NOOBS data persistence
+  * … here NOOBS inserts more logical partitions based on the content of `partitions.json` of each OS it installs (if many partitions have `want_maximised`, they will share the available space equally, as we can see [here in NOOBS source code](https://github.com/raspberrypi/noobs/blob/134417fba944a44c3a1b1de42c290d8bdfd0c6f5/recovery/multiimagewritethread.cpp#L136-L137))
+
+> _Note: extended partition may be partition 4 if partition 2 is claimed by one of the installed OS using `requires_partition_number` (see [here in NOOBS source code](https://github.com/raspberrypi/noobs/blob/134417fba944a44c3a1b1de42c290d8bdfd0c6f5/recovery/multiimagewritethread.cpp#L357))
 
 ## `os.json`
 
@@ -144,6 +154,19 @@ Fields read from `osinfo.cpp`:
     * `kernel` ⇒ seen in existing entries of `os_list_v3.json` but there's no sign of it in NOOBS code
     * `url` ⇒ seen in existing entries of `os_list_v3.json` but there's no sign of it in NOOBS code
   </details>
+
+## `partition_setup.sh`
+
+This script is started by NOOBS after creating all partitions, with partitions as parameters (both ARGV parameters and as environment variables).
+
+This is a [comment from NOOBS source code](https://github.com/raspberrypi/noobs/blob/134417fba944a44c3a1b1de42c290d8bdfd0c6f5/recovery/multiimagewritethread.cpp#L576-L582) that documents it:
+
+> Parameters to the partition-setup script are supplied both as
+> command line parameters and set as environement variables.
+>
+> Boot partition is mounted, working directory is set to its mnt folder.
+>
+> `partition_setup.sh part1=/dev/mmcblk0p3 id1=LABEL=BOOT part2=/dev/mmcblk0p4 id2=UUID=550e8400-e29b-41d4-a716-446655440000`
 
 # Raspberry Pi Imager
 
