@@ -5,7 +5,7 @@
 ################################################################################
 
 # acf84e235ff5716822905dc5107e7fe8fa6b9509 = Latest working comits on RPi2/3
-LIBRETRO_GEARSYSTEM_VERSION = 00a8674ee614699501737154394e98af574d984b
+LIBRETRO_GEARSYSTEM_VERSION = acf84e235ff5716822905dc5107e7fe8fa6b9509
 LIBRETRO_GEARSYSTEM_SITE = $(call github,drhelius,Gearsystem,$(LIBRETRO_GEARSYSTEM_VERSION))
 
 define LIBRETRO_GEARSYSTEM_BUILD_CMDS
