@@ -41,7 +41,7 @@ void Music::Initialize()
   gMusic = Mix_LoadMUS(mPath.ToChars());
   if (gMusic == nullptr)
   {
-    LOG(LogError) << "Error loading sound \"" << mPath.ToString() << "\"!\n" << "	" << SDL_GetError();
+    LOG(LogError) << "Error loading music \"" << mPath.ToString() << "\"!\n" << "	" << SDL_GetError();
     return;
   }
   mMusic = gMusic;
