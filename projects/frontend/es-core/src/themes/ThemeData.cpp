@@ -334,7 +334,10 @@ void ThemeData::parseIncludes(const pugi::xml_node& root)
 			
 				Path path = Path(str).ToAbsolute(mPaths.back().Directory());
 				if(!ResourceManager::fileExists(path))
-					throw ThemeException("Included file \"" + str + "\" not found! (resolved to \"" + path.ToString() + "\")", mPaths);
+        {
+          LOG(LogWarning) << "Included file \"" << str << "\" not found! (resolved to \"" << path.ToString() << "\")";
+          continue;
+        }
 
 				errorString += "    from included file \"" + str + "\":\n    ";
 
