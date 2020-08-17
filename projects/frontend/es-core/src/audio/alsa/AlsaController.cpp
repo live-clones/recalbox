@@ -53,9 +53,16 @@ void AlsaController::Initialize()
       for (snd_mixer_elem_t* elem = snd_mixer_first_elem(handle); elem != nullptr; elem = snd_mixer_elem_next(elem))
       {
         snd_mixer_selem_get_id(elem, sid);
-        if (snd_mixer_selem_has_playback_volume(elem) == 0) continue;
-        LOG(LogDebug) << "  Simple Mixer control '" << snd_mixer_selem_id_get_name(sid) <<"'," << snd_mixer_selem_id_get_index(sid);
-        card.AddMixer(AlsaMixer((int)snd_mixer_selem_id_get_index(sid), snd_mixer_selem_id_get_name(sid), cardNum));
+        if (snd_mixer_selem_has_playback_volume(elem) != 0)
+        {
+          LOG(LogDebug) << "  Mixer control (Volume) '" << snd_mixer_selem_id_get_name(sid) << "'," << snd_mixer_selem_id_get_index(sid);
+          card.AddVolumeControl(AlsaVolume((int) snd_mixer_selem_id_get_index(sid), snd_mixer_selem_id_get_name(sid), cardNum));
+        }
+        if (snd_mixer_selem_has_playback_switch(elem) != 0)
+        {
+          LOG(LogDebug) << "  Mixer control (Switch) '" << snd_mixer_selem_id_get_name(sid) << "'," << snd_mixer_selem_id_get_index(sid);
+          card.AddSwitch(AlsaSwitch((int) snd_mixer_selem_id_get_index(sid), snd_mixer_selem_id_get_name(sid), cardNum));
+        }
       }
 
       snd_mixer_detach(handle, param.data());
@@ -119,7 +126,7 @@ HashMap<int, std::string> AlsaController::GetPlaybackList() const
   result[-1] = "Default output";
   for(const AlsaCard& playback : mPlaybacks)
   {
-    int cardIndex = playback.Identifier() << 16;
+    int cardIndex = playback.Identifier() << 16 | 0xFFFF;
     result[cardIndex] = playback.Name() + " (default output)";
     for(int i = playback.DeviceCount(); --i >= 0; )
     {
@@ -152,6 +159,47 @@ std::string AlsaController::SetDefaultPlayback(const std::string& playbackName)
   return "Default output";
 }
 
+bool AlsaController::LookupCardDevice(int identifier, int& cardIndex, int& deviceIndex)
+{
+  int deviceIdentifier = ((identifier & 0xFFFF) << 16) >> 16;
+  int cardIdentifier = (identifier >> 16) & 0xFFFF;
+  LOG(LogInfo) << "Requested ALSA output Card #" << cardIdentifier << " Device #" << deviceIdentifier;
+
+  bool found = false;
+  for(int i = 0; i < (int)mPlaybacks.size(); ++i)
+  {
+    const AlsaCard& playback = mPlaybacks[i];
+    // Lookup card or take the first
+    if (playback.Identifier() == cardIdentifier || cardIdentifier < 0)
+    {
+      cardIndex = i;
+      deviceIndex = -1;
+      found = (playback.DeviceCount() == 0); // No device = found
+      // Lookup device identifier
+      for(int j = playback.DeviceCount(); !found && --j >= 0; )
+        if (deviceIdentifier == playback.DeviceAt(j).Identifier())
+        {
+          deviceIndex = j;
+          found = true;
+        }
+      // Default device requested?
+      if (!found && deviceIdentifier < 0)
+      {
+        deviceIndex = 0;
+        deviceIdentifier = playback.DeviceAt(0).Identifier();
+        found = true;
+      }
+
+      break;
+    }
+  }
+
+  if (found) { LOG(LogInfo) << "Found ALSA output Card #" << cardIdentifier << " Device #" << deviceIdentifier; }
+  else { LOG(LogError) << "ALSA output Card#" << cardIdentifier << " device#" << deviceIdentifier << " NOT FOUND!"; }
+
+  return found;
+}
+
 void AlsaController::SetDefaultPlayback(int identifier)
 {
   static Path asoundrcPath("/recalbox/share/system/.asoundrc");
@@ -179,45 +227,40 @@ void AlsaController::SetDefaultPlayback(int identifier)
     "        card {@CARD@}\n" \
     "}\n";
 
-  // Default - Let ALSA deciding
+  // Default card & device - Let ALSA deciding
   if (identifier == -1)
   {
+    LOG(LogInfo) << "Default alsa output selected. Removing .asoundrc & AUDIOENV";
     asoundrcPath.Delete();
-    setenv("AUDIODEV", "", 1);
+    unsetenv("AUDIODEV");
     return;
   }
 
   // No sound card?
   if (mPlaybacks.empty()) return;
 
-  int deviceIdentifier = identifier & 0xFFFF;
-  int cardIdentifier = (identifier >> 16) & 0xFFFF;
-
-  bool found = false;
-  for(AlsaCard& playback : mPlaybacks)
+  int deviceIndex = -1;
+  int cardIndex = -1;
+  if (LookupCardDevice(identifier, cardIndex, deviceIndex))
   {
-    if (playback.Identifier() == cardIdentifier)
-    {
-      found = (playback.DeviceCount() == 0);
-      for(int i = playback.DeviceCount(); !found && --i >= 0; )
-        if (deviceIdentifier == playback.DeviceAt(i).Identifier()) found = true;
-      break;
-    }
-  }
-
-  if (found)
-  {
+    int cardIdentifier = mPlaybacks[cardIndex].Identifier();
+    int deviceIdentifier = deviceIndex >= 0 ? mPlaybacks[cardIndex].DeviceAt(deviceIndex).Identifier() : -1;
     // Build & save ~/.asoundrc
-    std::string asoundrcContent(deviceIdentifier == 0 ? asoundrcPatternCardOnly : asoundrcPatternCardAndDevice);
+    std::string asoundrcContent(deviceIndex < 0 ? asoundrcPatternCardOnly : asoundrcPatternCardAndDevice);
     Strings::ReplaceAllIn(asoundrcContent, "{@CARD@}", Strings::ToString(cardIdentifier));
-    Strings::ReplaceAllIn(asoundrcContent, "{@DEVICE@}", Strings::ToString(deviceIdentifier));
+    if (deviceIndex >= 0)
+      Strings::ReplaceAllIn(asoundrcContent, "{@DEVICE@}", Strings::ToString(deviceIdentifier));
     Files::SaveFile(asoundrcPath, asoundrcContent);
     // Set env
     setenv("AUDIODEV", ("hw:" + Strings::ToString(cardIdentifier) + ',' + Strings::ToString(deviceIdentifier)).data(), 1);
+    // Activate
+    mPlaybacks[cardIndex].SwitchOn();
+    // Final lof
+    LOG(LogInfo) << "ALSA output set to Card #" << cardIdentifier << " (index: " << cardIndex << ") Device #" << deviceIdentifier << " 'index: " << deviceIndex << ')';
   }
   else
   {
-    LOG(LogError) << "Cannot set default playback to card " << cardIdentifier << " device " << deviceIdentifier << " because: not found!";
+    LOG(LogError) << "Error setting ALSA output. Try to set default.";
     // Set default card/default device
     SetDefaultPlayback(-1);
   }

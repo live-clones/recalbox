@@ -7,49 +7,6 @@
 #include "AlsaMixer.h"
 #include <alsa/asoundlib.h>
 
-void AlsaMixer::SetVolume(int volume)
-{
-  snd_mixer_elem_t* mixerElement = OpenMixer();
-  if (mixerElement != nullptr)
-  {
-    volume = Math::clampi(volume, 0, 100);
-    long minVolume = 0, maxVolume = 0;
-    if (snd_mixer_selem_get_playback_volume_range(mixerElement, &minVolume, &maxVolume) == 0)
-    {
-      long rawVolume = (volume * (maxVolume - minVolume) / 100) + minVolume;
-      if (snd_mixer_selem_set_playback_volume_all(mixerElement, rawVolume) < 0)
-        LOG(LogError) << "Failed to set mixer volume for " << mMixerName;
-    }
-    else LOG(LogError) << "Failed to get volume range for " << mMixerName;
-    CloseMixer();
-  }
-}
-
-int AlsaMixer::GetVolume()
-{
-  int volume = 0;
-
-  snd_mixer_elem_t* mixerElement = OpenMixer();
-  if (mixerElement != nullptr)
-  {
-    long minVolume = 0, maxVolume = 0;
-    if (snd_mixer_selem_get_playback_volume_range(mixerElement, &minVolume, &maxVolume) == 0)
-    {
-      long rawVolume = 0;
-      if (snd_mixer_selem_get_playback_volume(mixerElement, SND_MIXER_SCHN_MONO, &rawVolume) == 0)
-      {
-        rawVolume -= minVolume;
-        volume = Math::clampi(Math::ceili(((float)rawVolume * 100.0f) / (float)(maxVolume - minVolume)), 0, 100);
-      }
-      else LOG(LogError) << "Failed to get mixer volume for " << mMixerName;
-    }
-    else LOG(LogError) << "Failed to get volume range for " << mMixerName;
-    CloseMixer();
-  }
-
-  return volume;
-}
-
 snd_mixer_elem_t* AlsaMixer::OpenMixer()
 {
   // Sets simple-mixer index and name

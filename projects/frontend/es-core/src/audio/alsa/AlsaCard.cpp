@@ -6,6 +6,12 @@
 
 void AlsaCard::SetVolume(int volume)
 {
-  for(AlsaMixer& mixer : mMixers)
+  for(AlsaVolume& mixer : mVolumes)
     mixer.SetVolume(volume);
+}
+
+void AlsaCard::SwitchOn()
+{
+  for(AlsaSwitch& mixer : mSwitches)
+    mixer.SwitchOn();
 }

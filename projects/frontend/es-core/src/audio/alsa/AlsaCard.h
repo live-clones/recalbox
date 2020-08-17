@@ -5,17 +5,19 @@
 
 #include <string>
 #include <vector>
-#include "AlsaMixer.h"
 #include "AlsaDevice.h"
 #include "NameFiltering.h"
+#include "AlsaVolume.h"
+#include "AlsaSwitch.h"
 
 class AlsaCard
 {
   private:
-    int mCardIdentifier;              //!< Card identifier/index in ALSA
-    std::string mCardName;            //!< Displayable Card name
-    std::vector<AlsaMixer> mMixers;   //!< Available mixers for this card
-    std::vector<AlsaDevice> mDevices; //!< Device list
+    int mCardIdentifier;               //!< Card identifier/index in ALSA
+    std::string mCardName;             //!< Displayable Card name
+    std::vector<AlsaVolume> mVolumes;  //!< Available mixers for volume control
+    std::vector<AlsaSwitch> mSwitches; //!< Available mixers for switching output on/off
+    std::vector<AlsaDevice> mDevices;  //!< Device list
 
   public:
     /*!
@@ -30,7 +32,9 @@ class AlsaCard
     }
 
     //! Add a new mixer to the mixer list attached to the current card
-    void AddMixer(const AlsaMixer& mixer) { mMixers.push_back(mixer); }
+    void AddVolumeControl(const AlsaVolume& mixer) { mVolumes.push_back(mixer); }
+    //! Add a new mixer to the mixer list attached to the current card
+    void AddSwitch(const AlsaSwitch& mixer) { mSwitches.push_back(mixer); }
 
     //! Add a new device to the device list attached to the current card
     void AddDevice(const AlsaDevice& device) { mDevices.push_back(device); }
@@ -41,17 +45,28 @@ class AlsaCard
     const std::string& Name() const { return mCardName; }
 
     //! Get mixer count
-    int MixerCount() const { return mMixers.size(); }
+    int VolumeCount() const { return mVolumes.size(); }
     //! Get mixer reference at position index (from 0 to MixerCount()-1)
-    const AlsaMixer& MixerAt(int index) const { return mMixers[index]; }
+    const AlsaVolume& VolumeAt(int index) const { return mVolumes[index]; }
+
+    //! Get switch count
+    int SwitchesCount() const { return mSwitches.size(); }
+    //! Get switch reference at position index (from 0 to SwitchCount()-1)
+    const AlsaSwitch& SwitchAt(int index) const { return mSwitches[index]; }
+
     //! Get device count
     int DeviceCount() const { return mDevices.size(); }
     //! Get device reference at position index (from 0 to DeviceCount()-1)
     const AlsaDevice& DeviceAt(int index) const { return mDevices[index]; }
 
     /*!
-     * @brief Set volume to all underlaying mixers
+     * @brief Set volume to all underlaying volume mixers
      * @param volume volume to set from 0 to 100 (clamped if OOB)
      */
     void SetVolume(int volume);
+
+    /*!
+     * @brief Switch on all underlaying switch mixers
+     */
+    void SwitchOn();
 };

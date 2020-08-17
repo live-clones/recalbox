@@ -12,7 +12,19 @@ class AlsaController: public IAudioController, public StaticLifeCycleControler<A
   private:
     std::vector<AlsaCard> mPlaybacks;
 
+    /*!
+     * @brief Initialize ALSA and fetch all cards/devices
+     */
     void Initialize();
+
+    /*!
+     * @brief Lookup card and device from an opaque identifier
+     * @param identifier Opaque identifier
+     * @param cardIndex Output card index if found
+     * @param deviceIndex Output device index if found
+     * @return True if the card & device have been found, false otherwise
+     */
+    bool LookupCardDevice(int identifier, int& cardIndex, int& deviceIndex);
 
   public:
     AlsaController()

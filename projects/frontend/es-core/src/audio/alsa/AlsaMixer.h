@@ -15,6 +15,7 @@ class AlsaMixer
     int mMixerId;           //!< Mixer ID
     int mCardReference;     //!< Reference index of the parent sound provider
 
+  protected:
     // Mixer objects
     snd_mixer_t* mMixerHandle;
 
@@ -32,27 +33,15 @@ class AlsaMixer
   public:
     //! Default constructor
     AlsaMixer(int id, const std::string& name, int cardReference)
+      : mMixerName(name)
+      , mMixerId(id)
+      , mCardReference(cardReference)
+      , mMixerHandle(nullptr)
     {
-      mMixerId = id;
-      mMixerName = NameFiltering::Filter(name, NameFiltering::Source::Mixer);
-      mCardReference = cardReference;
-
-      mMixerHandle = nullptr;
     }
 
     //! Get mixer identifier
     int Identifier() const { return mMixerId; }
     //! Get mixer name
     const std::string& Name() const { return mMixerName; }
-
-    /*!
-     * @brief Set volume
-     * @param volume volume to set from 0 to 100 (clamped if OOB)
-     */
-    void SetVolume(int volume);
-
-    /*!
-     * @brief Get current volume in 0-100 range
-     */
-    int GetVolume();
 };

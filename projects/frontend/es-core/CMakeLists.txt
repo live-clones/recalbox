@@ -37,9 +37,11 @@ set(CORE_HEADERS
 		src/audio/IAudioController.h
 		src/audio/Music.h
 		src/audio/Sound.h
+		src/audio/alsa/AlsaCard.h
 		src/audio/alsa/AlsaController.h
 		src/audio/alsa/AlsaMixer.h
-		src/audio/alsa/AlsaCard.h
+		src/audio/alsa/AlsaSwitch.h
+		src/audio/alsa/AlsaVolume.h
 		src/audio/alsa/NameFiltering.h
 
 		# Utils
@@ -167,9 +169,11 @@ set(CORE_SOURCES
 		src/audio/AudioController.cpp
 		src/audio/Music.cpp
 		src/audio/Sound.cpp
+		src/audio/alsa/AlsaCard.cpp
 		src/audio/alsa/AlsaController.cpp
 		src/audio/alsa/AlsaMixer.cpp
-		src/audio/alsa/AlsaCard.cpp
+		src/audio/alsa/AlsaSwitch.cpp
+		src/audio/alsa/AlsaVolume.cpp
 		src/audio/alsa/NameFiltering.cpp
 
 		# Utils
