@@ -202,7 +202,7 @@ bool AlsaController::LookupCardDevice(int identifier, int& cardIndex, int& devic
 
 void AlsaController::SetDefaultPlayback(int identifier)
 {
-  static Path asoundrcPath("/recalbox/share/system/.asoundrc");
+  static Path asoundrcPath("/overlay/.configs/.asoundrc");
 
   const char* asoundrcPatternCardAndDevice =
     "pcm.!default {\n" \
