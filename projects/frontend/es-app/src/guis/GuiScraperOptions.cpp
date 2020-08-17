@@ -25,12 +25,13 @@ GuiScraperOptions::GuiScraperOptions(Window& window, SystemManager& systemManage
 	mMenu.addWithLabel(mScrapingMethod, _("FILTER"));
 
 	// add systems (all with a platformid specified selected)
-	mSystems = std::make_shared< OptionListComponent<SystemData*> >(mWindow, _("SCRAPE THESE SYSTEMS"), true);
-	for (auto *it : mSystemManager.GetVisibleSystemList())
-		if(!it->hasPlatformId(PlatformIds::PlatformId::PLATFORM_IGNORE))
-		  if (!it->IsVirtual() || it->IsFavorite()) // Allow scrapping favorites, but not virtual systems
-			  mSystems->add(it->getFullName(), it, it->PlatformCount() != 0);
-	mMenu.addWithLabel(mSystems, _("SYSTEMS"));
+  mSystems = std::make_shared< OptionListComponent<SystemData*> >(mWindow, _("SCRAPE THESE SYSTEMS"), true);
+  for (auto *it : mSystemManager.GetVisibleSystemList())
+    if(!it->hasPlatformId(PlatformIds::PlatformId::PLATFORM_IGNORE))
+      if (!it->IsVirtual() || it->IsFavorite() || it->IsPorts()) // Allow scrapping favorites, but not virtual systems
+        if (it->HasGame())
+          mSystems->add(it->getFullName(), it, it->PlatformCount() != 0);
+  mMenu.addWithLabel(mSystems, _("SYSTEMS"));
 
 	// Select option regarding the selected scraper
 	ScraperFactory::ScraperType type = ScraperFactory::GetScraperType(Settings::Instance().Scraper());

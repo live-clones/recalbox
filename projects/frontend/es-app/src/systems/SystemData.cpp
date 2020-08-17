@@ -599,6 +599,11 @@ bool SystemData::IsFavorite() const
   return (mProperties & Properties::Favorite) != 0;
 }
 
+bool SystemData::IsPorts() const
+{
+  return (mProperties & Properties::Ports) != 0;
+}
+
 bool SystemData::IsVirtual() const
 {
   return (mProperties & Properties::Virtual) != 0;

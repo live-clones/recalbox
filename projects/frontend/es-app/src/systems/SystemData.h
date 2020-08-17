@@ -22,10 +22,11 @@ class SystemData : private INoCopy
     enum class Properties
     {
       None       =  0, //!< No properties
-      Favorite   =  1, //!< This system is the "Favorite" system
-      Virtual    =  2, //!< This system is not a real system
-      FixedSort  =  4, //!< This system has its own fixed sort
-      AlwaysFlat =  8, //!< This system is presented always flat
+      Ports      =  1, //!< This system is the special "Ports" system
+      Favorite   =  2, //!< This system is the special "Favorite" system
+      Virtual    =  4, //!< This system is not a real system
+      FixedSort  =  8, //!< This system has its own fixed sort
+      AlwaysFlat = 16, //!< This system is presented always flat
     };
 
 	private:
@@ -159,6 +160,9 @@ class SystemData : private INoCopy
 
     //! Is this system the "Favorite" system?
     bool IsFavorite() const;
+
+    //! Is this system the "Ports" system?
+    bool IsPorts() const;
 
     //! Is this system virtual?
     bool IsVirtual() const;
