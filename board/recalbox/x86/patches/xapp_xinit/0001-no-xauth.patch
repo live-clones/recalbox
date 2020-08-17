@@ -1,0 +1,11 @@
+--- xinit-1.4.1/startx.cpp.orig	2020-08-17 16:58:39.318600991 +0200
++++ xinit-1.4.1/startx.cpp	2020-08-17 16:58:55.242909046 +0200
+@@ -126,7 +126,7 @@
+ fi
+ 
+ #else
+-enable_xauth=1
++enable_xauth=0
+ #endif
+ 
+ XCOMM Automatically determine an unused $DISPLAY
