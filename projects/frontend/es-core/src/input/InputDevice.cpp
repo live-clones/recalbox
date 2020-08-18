@@ -103,21 +103,30 @@ void InputDevice::LoadFrom(const InputDevice& source)
   *this = source;
 }
 
-/*
-std::string InputDevice::getSDLPowerLevel()
+std::string InputDevice::NameExtented() const
 {
-  SDL_Joystick* joy;
-  //joy = InputManager::getInstance()->getJoystickByJoystickID(getDeviceId());
-  joy = SDL_JoystickOpen(getDeviceId());
+  std::string result(mDeviceName, mDeviceNameLength);
+  std::string powerLevel = PowerLevel();
+  if (!powerLevel.empty())
+  {
+    result.append(1, ' ');
+    result.append(powerLevel);
+  }
+  return result;
+}
+
+std::string InputDevice::PowerLevel() const
+{
+  SDL_Joystick* joy = SDL_JoystickOpen(mDeviceIndex);
   SDL_JoystickPowerLevel power = SDL_JoystickCurrentPowerLevel(joy);
   switch(power)
   {
-    case SDL_JOYSTICK_POWER_EMPTY:   return "\uF1b6";
-    case SDL_JOYSTICK_POWER_FULL:    return "\uF1b7";
+    case SDL_JOYSTICK_POWER_UNKNOWN: return "";
+    case SDL_JOYSTICK_POWER_EMPTY:   return "\uF1b5";
     case SDL_JOYSTICK_POWER_LOW:     return "\uF1b1";
-    case SDL_JOYSTICK_POWER_MAX:     return "\uF1ba";
     case SDL_JOYSTICK_POWER_MEDIUM:  return "\uF1b8";
-    case SDL_JOYSTICK_POWER_UNKNOWN: return "\uF1b9";
+    case SDL_JOYSTICK_POWER_FULL:    return "\uF1b7";
+    case SDL_JOYSTICK_POWER_MAX:     return "\uF1ba";
     case SDL_JOYSTICK_POWER_WIRED:   return "\uF1b4";
     default: break;
   }
@@ -125,7 +134,7 @@ std::string InputDevice::getSDLPowerLevel()
   return "";
 }
 
-std::string InputDevice::getSysPowerLevel()
+/*std::string InputDevice::getSysPowerLevel()
 {
   SDL_Joystick* joy;
   //joy = InputManager::getInstance()->getJoystickByJoystickID(getDeviceId());

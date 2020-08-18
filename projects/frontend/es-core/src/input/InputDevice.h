@@ -117,6 +117,7 @@ class InputDevice
      */
 
     std::string Name() const { return std::string(mDeviceName, mDeviceNameLength); }
+    std::string NameExtented() const;
     std::string GUID() const { char sguid[64]; SDL_JoystickGetGUIDString(mDeviceGUID, sguid, sizeof(sguid)); return sguid; }
     const char* RawName() const { return mDeviceName; }
     const SDL_JoystickGUID& RawGUID() const { return mDeviceGUID; }
@@ -125,7 +126,7 @@ class InputDevice
     int AxeCount()     const { return mDeviceNbAxes; };
     int HatCount()     const { return mDeviceNbHats; };
     int ButtonCount()  const { return mDeviceNbButtons; };
-    //std::string getSDLPowerLevel();
+    std::string PowerLevel() const;
     //std::string getSysPowerLevel();
 
     bool IsKeyboard() const { return mDeviceId == InputEvent::sKeyboardDevice; }

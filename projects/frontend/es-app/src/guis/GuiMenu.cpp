@@ -652,7 +652,7 @@ void GuiMenu::menuControllers() {
       InputDevice& device = InputManager::Instance().GetDeviceConfigurationFromIndex(it);
       if (device.IsConfigured())
       {
-        const std::string& name = device.Name();
+        const std::string& name = device.NameExtented();
         std::string uuid = device.GUID();
 
         // create name
