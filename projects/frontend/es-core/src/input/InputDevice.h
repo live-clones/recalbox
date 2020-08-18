@@ -47,6 +47,7 @@ class InputDevice
     char mDeviceName[128];                        //!< Device name: Keyboard or Pad/joystick name
     int mDeviceNameLength;                        //!< Device name length in char
     SDL_JoystickGUID mDeviceGUID;                 //!< GUID
+    SDL_Joystick* mDeviceSDL;                     //!< SDL2 structure
     int mDeviceId;                                //!< SDL2 Joystick Identifier
     int mDeviceIndex;                             //!< SDL2 Joystick Index
     int mDeviceNbAxes;                            //!< Axis count
@@ -75,6 +76,7 @@ class InputDevice
       : mDeviceName {},
         mDeviceNameLength(0),
         mDeviceGUID {},
+        mDeviceSDL(nullptr),
         mDeviceId(0),
         mDeviceIndex(0),
         mDeviceNbAxes(0),
@@ -96,7 +98,7 @@ class InputDevice
      * @param deviceNbHats Number of hats
      * @param deviceNbButtons Numper of buttons
      */
-    InputDevice(SDL_JoystickID deviceId, int deviceIndex, const std::string& deviceName,
+    InputDevice(SDL_Joystick* device, SDL_JoystickID deviceId, int deviceIndex, const std::string& deviceName,
                 const SDL_JoystickGUID& deviceGUID, int deviceNbAxes, int deviceNbHats, int deviceNbButtons);
 
     /*!

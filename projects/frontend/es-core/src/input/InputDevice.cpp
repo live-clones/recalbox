@@ -71,10 +71,11 @@ InputDevice::Entry InputDevice::StringToEntry(const std::string& entry)
   }
 }
 
-InputDevice::InputDevice(SDL_JoystickID deviceId, int deviceIndex, const std::string& deviceName, const SDL_JoystickGUID& deviceGUID, int deviceNbAxes, int deviceNbHats, int deviceNbButtons)
+InputDevice::InputDevice(SDL_Joystick* device, SDL_JoystickID deviceId, int deviceIndex, const std::string& deviceName, const SDL_JoystickGUID& deviceGUID, int deviceNbAxes, int deviceNbHats, int deviceNbButtons)
   : mDeviceName {},
     mDeviceNameLength(0),
     mDeviceGUID(deviceGUID),
+    mDeviceSDL(device),
     mDeviceId(deviceId),
     mDeviceIndex(deviceIndex),
     mDeviceNbAxes(deviceNbAxes),
@@ -117,20 +118,21 @@ std::string InputDevice::NameExtented() const
 
 std::string InputDevice::PowerLevel() const
 {
-  SDL_Joystick* joy = SDL_JoystickOpen(mDeviceIndex);
-  SDL_JoystickPowerLevel power = SDL_JoystickCurrentPowerLevel(joy);
-  switch(power)
+  if (mDeviceSDL != nullptr)
   {
-    case SDL_JOYSTICK_POWER_UNKNOWN: return "";
-    case SDL_JOYSTICK_POWER_EMPTY:   return "\uF1b5";
-    case SDL_JOYSTICK_POWER_LOW:     return "\uF1b1";
-    case SDL_JOYSTICK_POWER_MEDIUM:  return "\uF1b8";
-    case SDL_JOYSTICK_POWER_FULL:    return "\uF1b7";
-    case SDL_JOYSTICK_POWER_MAX:     return "\uF1ba";
-    case SDL_JOYSTICK_POWER_WIRED:   return "\uF1b4";
-    default: break;
+    SDL_JoystickPowerLevel power = SDL_JoystickCurrentPowerLevel(mDeviceSDL);
+    switch (power)
+    {
+      case SDL_JOYSTICK_POWER_UNKNOWN: return "";
+      case SDL_JOYSTICK_POWER_EMPTY:   return "\uF1b5";
+      case SDL_JOYSTICK_POWER_LOW:     return "\uF1b1";
+      case SDL_JOYSTICK_POWER_MEDIUM:  return "\uF1b8";
+      case SDL_JOYSTICK_POWER_FULL:    return "\uF1b7";
+      case SDL_JOYSTICK_POWER_MAX:     return "\uF1ba";
+      case SDL_JOYSTICK_POWER_WIRED:   return "\uF1b4";
+      default: break;
+    }
   }
-
   return "";
 }
 
@@ -218,9 +220,20 @@ InputDevice::Entry InputDevice::GetMatchedEntry(InputEvent input) const
   return Entry::None;
 }
 
-bool InputDevice::LoadAutoConfiguration(const std::string& configuration)
+bool InputDevice::LoadAutoConfiguration(const std::string& originalConfiguration)
 {
   bool result = false;
+
+  std::string configuration(originalConfiguration);
+  // Hard-patch for XBox360 & clone mapping
+  if (GUID() == "030000005e0400008e02000014010000")
+  {
+    configuration = "a:b0,b:b1,x:b2,y:b3,back:b8,start:b9,guide:b10," \
+                    "dpdown:h0.4,dpleft:h0.8,dpright:h0.2,dpup:h0.1," \
+                    "leftshoulder:b4,rightshoulder:b5,lefttrigger:b6,righttrigger:b7,leftstick:b11,rightstick:b12," \
+                    "leftx:a0,lefty:a1,rightx:a2,righty:a3,";
+    LOG(LogWarning) << "XBox360 mapping hard patched from " << originalConfiguration << " to " << configuration;
+  }
 
   LOG(LogInfo) << "Autoconfiguration from " << configuration;
   Strings::Vector mappingList = Strings::Split(configuration, ',');

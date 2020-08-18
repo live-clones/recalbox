@@ -17,7 +17,7 @@
 
 InputManager::InputManager()
   : mIndexToId {}
-  , mKeyboard(InputEvent::sKeyboardDevice, -1, "Keyboard", KEYBOARD_GUID_STRING, 0, 0, 125)
+  , mKeyboard(nullptr, InputEvent::sKeyboardDevice, -1, "Keyboard", KEYBOARD_GUID_STRING, 0, 0, 125)
 {
   // Create keyboard
   LoadDefaultKeyboardConfiguration();
@@ -42,7 +42,7 @@ InputDevice& InputManager::GetDeviceConfigurationFromId(SDL_JoystickID deviceId)
     return *device;
 
   LOG(LogError) << "Unexisting device!";
-  static InputDevice sEmptyDevice(InputEvent::sEmptyDevice, -1, "Empty Device", EMPTY_GUID_STRING, 0, 0, 0);
+  static InputDevice sEmptyDevice(nullptr, InputEvent::sEmptyDevice, -1, "Empty Device", EMPTY_GUID_STRING, 0, 0, 0);
   return sEmptyDevice;
 }
 
@@ -199,7 +199,8 @@ void InputManager::LoadJoystickConfiguration(int index)
   mIndexToId[index] = identifier;
 
   // Create device configuration
-  InputDevice device(identifier,
+  InputDevice device(joy,
+                     identifier,
                      index,
                      SDL_JoystickName(joy),
                      SDL_JoystickGetGUID(joy),
