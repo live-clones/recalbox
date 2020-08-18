@@ -216,7 +216,7 @@ void InputManager::LoadJoystickConfiguration(int index)
     {
       // Try to autoconfigure the gamepad
       char* sdlMapping = SDL_GameControllerMappingForGUID(SDL_JoystickGetGUID(joy));
-      std::string conf = sdlMapping;
+      std::string conf(sdlMapping != nullptr ? sdlMapping : "");
       SDL_free(sdlMapping);
       autoConfigured = device.LoadAutoConfiguration(conf);
       SDL_GameControllerClose(gamepad);
