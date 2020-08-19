@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<gameList>
+  <provider>
+    <System>Solarus</System>
+    <software>Skraper</software>
+    <database>ScreenScraper.fr</database>
+    <web>http://www.screenscraper.fr</web>
+  </provider>
+  <game id="213492" source="ScreenScraper.fr">
+    <path>./yarntown.solarus</path>
+    <name>Yarntown</name>
+    <desc>You've come on the night of the hunt. The streets of this cursed, gothic town are overrun with beasts, and what has become of the men who tried to hunt them before. Explore the twisting roads, go toe to toe with powerful foes, and uncover Yarntown's dark secrets. 
+ 
+Yarntown is a 2D hommage to Bloodborne, a dark fantasy video game released on Playstation 4 in 2015. Bloodborne is as renowned for its demanding and merciless gameplay as for its incredible gothico-victorian atmosphere. This quest recreates only a part of the original game, because this is just a little side project.</desc>
+    <rating>0.85</rating>
+    <releasedate>20200718T000000</releasedate>
+    <developer>Max Mraz</developer>
+    <publisher>Solarus</publisher>
+    <genre>Role playing games-Action RPG</genre>
+    <players>1</players>
+    <hash>DBED6CB3</hash>
+    <image>./media/images/yarntown.png</image>
+    <genreid>768</genreid>
+  </game>
+</gameList>
