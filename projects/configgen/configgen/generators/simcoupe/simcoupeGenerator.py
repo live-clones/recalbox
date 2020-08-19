@@ -37,7 +37,7 @@ class SimCoupeGenerator(Generator):
         settings.setOption("Filter", smooth)                                    # no first launch nag-screen #2
 
         settings.setOption("scanlines", "no")
-        if self.defined('shaders', system.config) and system.config['shaders'] == 'scanlines':
+        if self.defined('shaderset', system.config) and system.config['shaderset'] == 'scanlines':
             settings.setOption("Scanlines", "Yes")
 
         for index in playersControllers:

@@ -64,7 +64,7 @@ class OricutronGenerator(Generator):
         settings.setDefaultOption("aratio", "yes")
 
         settings.setOption("scanlines", "no")
-        if self.defined('shaders', system.config) and system.config['shaders'] == 'scanlines':
+        if self.defined('shaderset', system.config) and system.config['shaderset'] == 'scanlines':
             settings.setOption("scanlines", "yes")
 
         # Erase disk/tape

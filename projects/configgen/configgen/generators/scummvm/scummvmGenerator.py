@@ -57,7 +57,7 @@ class ScummVMGenerator(Generator):
                         "--extrapath=/usr/share/scummvm",
                         "--savepath="+recalboxFiles.scummvmSaves,
                         "--path=""{}""".format(romPath)]
-        if self.defined('shaders', system.config) and system.config['shaders'] == 'scanlines':
+        if self.defined('shaderset', system.config) and system.config['shaderset'] == 'scanlines':
             commandArray.append("--gfx-mode=DotMatrix")
 
         if 'args' in system.config and system.config['args'] is not None:

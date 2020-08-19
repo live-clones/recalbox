@@ -28,11 +28,11 @@ class DosBoxGenerator(Generator):
 			"-c", """set ROOT={}""".format(gameDir),
 			"-vkeybd", "/usr/share/dosbox"]
 
-        if self.defined('shaders', system.config):
-            if system.config['shaders'] == 'scanlines':
+        if self.defined('shaderset', system.config):
+            if system.config['shaderset'] == 'scanlines':
                 commandArray.append("-forcescaler")
                 commandArray.append("scan3x")
-            elif system.config['shaders'] == 'retro':
+            elif system.config['shaderset'] == 'retro':
                 commandArray.append("-forcescaler")
                 commandArray.append("rgb3x")
 

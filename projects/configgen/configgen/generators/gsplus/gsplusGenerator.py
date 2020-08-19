@@ -127,7 +127,7 @@ class GSplusGenerator(Generator):
             options.append("-y")
             options.append(str(resolution.height))
 
-        if self.defined('shaders', system.config) and system.config['shaders'] == 'scanlines':
+        if self.defined('shaderset', system.config) and system.config['shaderset'] == 'scanlines':
             options.append("-scanline")
             options.append("40")
 
