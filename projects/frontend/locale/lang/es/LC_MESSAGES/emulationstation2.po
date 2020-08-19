@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.3.1\n"
+"X-Generator: Poedit 2.4.1\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"
@@ -105,17 +105,17 @@ msgstr[1] "¡INFORMACIÓN DE %i JUEGOS OBTENIDA CORRECTAMENTE!"
 
 msgid "%i GAME SKIPPED."
 msgid_plural "%i GAMES SKIPPED."
-msgstr[0] "%i JUEGO OMITIDO"
-msgstr[1] "%i JUEGOS OMITIDOS"
+msgstr[0] "%i JUEGO OMITIDO."
+msgstr[1] "%i JUEGOS OMITIDOS."
 
 msgid "ESTIMATED TIME: "
-msgstr "HORA PREVISTA:"
+msgstr "TIEMPO ESTIMADO: "
 
 msgid "ELAPSED TIME: "
-msgstr "TIEMPO TRANSCURRIDO:"
+msgstr "TIEMPO TRANSCURRIDO: "
 
 msgid "COMPLETE!"
-msgstr "COMPLETADA!"
+msgstr "¡COMPLETADA!"
 
 msgid "PLEASE VISIT"
 msgstr "POR FAVOR VISITA"
@@ -138,7 +138,7 @@ msgid ""
 "{MEDIASIZE} of media saved\n"
 "Now, EmulationStation is going to relaunch to update all gamelists."
 msgstr ""
-"Scrapping completo! {PROCESSED} juegos procesados.\n"
+"¡Scrapping completo! {PROCESSED} juegos procesados.\n"
 "\n"
 "{SUCCESS} juego(s) scraped o actualizado\n"
 "{NOTFOUND} juego(s) no encontrado(s) ...\n"
@@ -537,7 +537,7 @@ msgid "PAIR A BLUETOOTH CONTROLLER"
 msgstr "VINCULAR MANDO BLUETOOTH"
 
 msgid "CONTROLLERS LINKS HAVE BEEN DELETED."
-msgstr "MANDOS VINCULADOS BORRADOS"
+msgstr "MANDOS VINCULADOS BORRADOS."
 
 msgid "FORGET BLUETOOTH CONTROLLERS"
 msgstr "DESVINCULAR MANDOS BLUETOOTH"
@@ -546,10 +546,10 @@ msgid "INPUT P%i"
 msgstr "ENTRADA P%i"
 
 msgid "CHOOSE"
-msgstr "SELECCIONAR"
+msgstr "ELEGIR"
 
 msgid "SELECT"
-msgstr "SELECT"
+msgstr "SELECCIONAR"
 
 msgid "OPTIONS"
 msgstr "OPCIONES"
@@ -590,7 +590,7 @@ msgid "USER DECIDES ON CONFLICTS"
 msgstr "DECIDIR EN CASO DE CONFLICTOS"
 
 msgid "START"
-msgstr "START"
+msgstr "COMENZAR"
 
 msgid ""
 "WARNING: SOME OF YOUR SELECTED SYSTEMS DO NOT HAVE A PLATFORM SET. RESULTS "
@@ -659,7 +659,7 @@ msgid "enter path to thumbnail"
 msgstr "ingresar ruta de miniatura"
 
 msgid "enter rating"
-msgstr " ingresar calificación"
+msgstr "ingresar calificación"
 
 msgid "Release date"
 msgstr "Fecha de lanzamiento"
@@ -910,7 +910,7 @@ msgid "LOADING..."
 msgstr "CARGANDO..."
 
 msgid "PLEASE WAIT..."
-msgstr "ESPERAR..."
+msgstr "ESPERA POR FAVOR..."
 
 msgid "REALLY SHUTDOWN WITHOUT SAVING METADATAS?"
 msgstr "¿APAGAR SIN GUARDAR DATOS?"
@@ -966,7 +966,7 @@ msgid "RATING"
 msgstr "CLASIFICACIÓN"
 
 msgid "TIMES PLAYED"
-msgstr "JUGADO"
+msgstr "VECES JUGADO"
 
 msgid "LAST PLAYED"
 msgstr "ÚLTIMA VEZ JUGADO"
@@ -1011,7 +1011,7 @@ msgstr[0] "%i JUEGO OCULTO"
 msgstr[1] "%i JUEGOS OCULTOS"
 
 msgid "Start kodi media player."
-msgstr "Iniciar KODI"
+msgstr "Iniciar KODI."
 
 msgid ""
 "Select the language for your recalbox, select an external drive to store "
@@ -1019,7 +1019,7 @@ msgid ""
 "on your drive"
 msgstr ""
 "Seleccionar idioma, seleccionar disco externo para guardar juegos y "
-"configuraciones, comprobar versión actual y espacio libre."
+"configuraciones, comprobar versión actual y espacio libre"
 
 msgid "Shows your current recalboxOS version."
 msgstr "Mostrar versión actual de RecalboxOS."
@@ -1265,7 +1265,7 @@ msgstr ""
 "conectados. Desactivar en caso de tener un teclado real conectado."
 
 msgid "Choose if carousel will be animated or not during transitions"
-msgstr "Elegir si el carrusel estará animado o no durante transiciones."
+msgstr "Elegir si el carrusel estará animado o no durante transiciones"
 
 msgid ""
 "Select the type of transition that occurs when you start a game. INSTANT "
@@ -1352,16 +1352,16 @@ msgid ""
 msgstr ""
 "Activar o desactivar WIFI.\n"
 "Al desactivar WIFI, SSID y contraseñas son guardadas y utilizadas al "
-"reactivar."
+"reactivar"
 
 msgid "The name of your recalbox in your local network"
-msgstr "Nombre de Recalbox en la red de área local."
+msgstr "Nombre de Recalbox en la red de área local"
 
 msgid "SSID (WIFI Name) of your network."
 msgstr "SSID (Nombre del WIFI) de la red."
 
 msgid "Type the name of your SSID if it is hidden or not listed"
-msgstr "Ingresar nombre de SSID, si está oculto o no aparece."
+msgstr "Ingresa nombre de SSID, si está oculto o no aparece"
 
 msgid "Private key of your WIFI network."
 msgstr "Contraseña la red WIFI."
@@ -1463,7 +1463,7 @@ msgid ""
 "start Kodi"
 msgstr ""
 "Activar o desactivar KODI, personalizar el arranque de KODI, activar el "
-"botón X para iniciar KODI."
+"botón X para iniciar KODI"
 
 msgid ""
 "Enable or disable Kodi. If kodi is disabled, you won't be able to start it "
@@ -1871,19 +1871,19 @@ msgstr ""
 "REQUERIDOS ESTÁN DISPONIBLES!"
 
 msgid "CONGRATULATIONS! ALL EMULATORS SHOULD WORK PROPERLY!"
-msgstr "¡FELICIDADES! ¡TODOS LOS EMULADORES DEBEN FUNCIONAR CORRECTAMENTE!"
+msgstr "¡FELICIDADES! ¡TODOS LOS EMULADORES DEBERÍAN FUNCIONAR CORRECTAMENTE!"
 
 msgid "%i BIOS NOT FOUND"
 msgstr "%i BIOS NO ENCONTRADO"
 
 msgid "%i NON-MATCHING BIOS FOUND"
-msgstr "%i BIOS NO COINCIDIDA ENCONTRADA"
+msgstr "%i BIOS SIN COINCIDENCIA ENCONTRADA"
 
 msgid "%i GOOD BIOS FOUND!"
-msgstr "%i BUEN BIOS ENCONTRADO!"
+msgstr "%i BIOS CORRECTO ENCONTRADO!"
 
 msgid "File Path"
-msgstr "Camino de archivo"
+msgstr "Ruta del fichero"
 
 msgid "Mandatory"
 msgstr "Obligatorio"
@@ -1895,7 +1895,7 @@ msgid "File found ?"
 msgstr "Archivo encontrado ?"
 
 msgid "Matching MD5 ?"
-msgstr "Coincidencia MD5?"
+msgstr "MD5 correcto?"
 
 msgid "NOTE"
 msgstr "NOTA"
@@ -1986,7 +1986,7 @@ msgid "Known MD5 List"
 msgstr "Lista de MD5 conocidos"
 
 msgid "MY SYSTEMS"
-msgstr "Mis sistemas"
+msgstr "MIS SISTEMAS"
 
 msgid "ALL SYSTEMS"
 msgstr "TODOS LOS SISTEMAS"
@@ -2014,7 +2014,7 @@ msgid "VIRTUAL SYSTEMS"
 msgstr "SISTEMAS VIRTUALES"
 
 msgid "SHOW ALL-GAMES SYSTEM"
-msgstr "MOSTRAR SISTEMA DE TODOS LOS JUEGOS"
+msgstr "MOSTRAR TODOS LOS JUEGOS DE LOS SISTEMAS"
 
 msgid "SHOW MULTIPLAYER SYSTEM"
 msgstr "MOSTRAR SISTEMAS MULTIJUGADOR"
@@ -2172,7 +2172,7 @@ msgid ""
 "- missing/bad mandatory bios files\n"
 "- missing/bad optional BIOS files (but required for this very game)"
 msgstr ""
-"¡Parece que tu juego no comenzó en absoluto!\n"
+"¡Parece que tu juego no inició correctamente!\n"
 "\n"
 "Lo más probable es que se deba a:\n"
 "- mala rom\n"
@@ -2228,16 +2228,16 @@ msgid ""
 "You're strongly recommended to update your Recalbox.\n"
 "No support will be provided for older versions!"
 msgstr ""
-"Estás recomienda encarecidamente actualizar su Recalbox.\n"
+"Se recomienda encarecidamente actualizar tu Recalbox.\n"
 "¡No se proporcionará soporte para versiones anteriores!"
 
 #
 msgid " has been plugged!"
-msgstr " ha sido enchufado!"
+msgstr " ¡ha sido enchufado!"
 
 #
 msgid "Ready to play!"
-msgstr "Listo para jugar!"
+msgstr "¡Listo para jugar!"
 
 #
 msgid "Not configured yet! Press a button to enter the configuration window."
@@ -2247,15 +2247,15 @@ msgstr ""
 
 #
 msgid " has been unplugged!"
-msgstr " ha sido desconectado!"
+msgstr " ¡ha sido desconectado!"
 
 #
 msgid "Remove from favorite"
-msgstr "Eliminar de favoritos"
+msgstr "Quitar de favoritos"
 
 #
 msgid "Default output"
-msgstr ""
+msgstr "Salida por defecto"
 
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
