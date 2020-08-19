@@ -62,6 +62,10 @@ class LibretroGenerator(Generator):
         overlayFile = "{}/{}/{}.cfg".format(recalboxFiles.OVERLAYS, system.name, romName)
         if os.path.isfile(overlayFile):
             configs.append(overlayFile)
+        else:
+            overlayFile = "{}/{}/{}.cfg".format(recalboxFiles.OVERLAYS, system.name, system.name)
+            if os.path.isfile(overlayFile):
+                configs.append(overlayFile)
 
         # In-place override takes priority over all
         if os.path.isfile(externalOverrides):
