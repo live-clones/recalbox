@@ -333,6 +333,17 @@ void GuiMenu::menuSystem(){
   mWindow.pushGui(s);
 }
 
+static Path::PathList GetShaderList()
+{
+  Path shaders("/recalbox/share/shaders");
+  Path::PathList files = shaders.GetDirectoryContent();
+  Path::PathList glslp;
+  for(const Path& path : files)
+    if (path.Extension() == ".glslp")
+      glslp.push_back(path);
+  return glslp;
+}
+
 void GuiMenu::menuUpdates(){
   GuiSettings *updateGui = new GuiSettings(mWindow, _("UPDATES"));
   // Enable updates
@@ -423,19 +434,28 @@ void GuiMenu::menuGameSettings(){
       RecalboxConf::Instance().Save();
     });
 
-  // Shaders preset
+  // Shaders
+  auto shaders_choices = std::make_shared<OptionListComponent<std::string> >(mWindow, _("SHADERS"), false);
+  Path::PathList shaderList = GetShaderList();
+  std::string currentShader = RecalboxConf::Instance().AsString("global.shaders");
+  shaders_choices->add(_("NONE"), "", currentShader.empty());
+  for(const Path& path : shaderList)
+    shaders_choices->add(Strings::Replace(path.FilenameWithoutExtension(), "_", " "), path.ToString(), currentShader == path.ToString());
+  s->addWithLabel(shaders_choices, _("SHADERS"), _(MENUMESSAGE_GAME_SHADERS_HELP_MSG));
 
-  auto shaders_choices = std::make_shared<OptionListComponent<std::string> >(mWindow,
-      _("SHADERS SET"), false);
-  std::string currentShader = RecalboxConf::Instance().AsString("global.shaderset");
+  // Shaders preset
+  auto shaderSet_choices = std::make_shared<OptionListComponent<std::string> >(mWindow,
+                                                                               _("SHADERS SET"), false);
+  currentShader = RecalboxConf::Instance().AsString("global.shaderset");
   if (currentShader.empty()) {
     currentShader = std::string("none");
   }
 
-  shaders_choices->add(_("NONE"), "none", currentShader == "none");
-  shaders_choices->add(_("SCANLINES"), "scanlines", currentShader == "scanlines");
-  shaders_choices->add(_("RETRO"), "retro", currentShader == "retro");
-  s->addWithLabel(shaders_choices, _("SHADERS SET"), _(MENUMESSAGE_GAME_SHADERS_HELP_MSG));
+  shaderSet_choices->add(_("NONE"), "none", currentShader == "none");
+  shaderSet_choices->add(_("SCANLINES"), "scanlines", currentShader == "scanlines");
+  shaderSet_choices->add(_("RETRO"), "retro", currentShader == "retro");
+  s->addWithLabel(shaderSet_choices, _("SHADERS SET"), _(MENUMESSAGE_GAME_SHADERSET_HELP_MSG));
+
   // Integer scale
   auto integerscale_enabled = std::make_shared<SwitchComponent>(mWindow);
   integerscale_enabled->setState(RecalboxConf::Instance().AsBool("global.integerscale"));
@@ -445,7 +465,7 @@ void GuiMenu::menuGameSettings(){
     RecalboxConf::Instance().Save();
   });
 
-  shaders_choices->setSelectedChangedCallback(
+  shaderSet_choices->setSelectedChangedCallback(
       [integerscale_enabled](const std::string& selectedShader) {
         integerscale_enabled->setState(selectedShader != "none");
       });
@@ -533,10 +553,11 @@ void GuiMenu::menuGameSettings(){
     }
 
   }
-  s->addSaveFunc([smoothing_enabled, rewind_enabled, shaders_choices, autosave_enabled] {
+  s->addSaveFunc([smoothing_enabled, rewind_enabled, shaderSet_choices, shaders_choices, autosave_enabled] {
     RecalboxConf::Instance().SetBool("global.smooth", smoothing_enabled->getState());
     RecalboxConf::Instance().SetBool("global.rewind", rewind_enabled->getState());
-    RecalboxConf::Instance().SetString("global.shaderset", shaders_choices->getSelected());
+    RecalboxConf::Instance().SetString("global.shaderset", shaderSet_choices->getSelected());
+    RecalboxConf::Instance().SetString("global.shaders", shaders_choices->getSelected());
     RecalboxConf::Instance().SetBool("global.autosave", autosave_enabled->getState());
     RecalboxConf::Instance().Save();
   });
@@ -1752,20 +1773,41 @@ void GuiMenu::popSystemConfigurationGui(SystemData *systemData) const
   autosave_enabled->setState(RecalboxConf::Instance().AsBool(systemData->getName() + ".autosave", RecalboxConf::Instance().AsBool("global.autosave")));
   systemConfiguration->addWithLabel(autosave_enabled, _("AUTO SAVE/LOAD"), _(MENUMESSAGE_GAME_AUTOSAVELOAD_HELP_MSG));
 
+  // Shaders
+  auto shaders_choices = std::make_shared<OptionListComponent<std::string> >(mWindow, _("SHADERS"), false);
+  Path::PathList shaderList = GetShaderList();
+  std::string currentShader = RecalboxConf::Instance().AsString(systemData->getName() + ".shaders");
+  shaders_choices->add(_("NONE"), "", currentShader.empty());
+  for(const Path& path : shaderList)
+    shaders_choices->add(Strings::Replace(path.FilenameWithoutExtension(), "_", " "), path.ToString(), currentShader == path.ToString());
+  systemConfiguration->addWithLabel(shaders_choices, _("SHADERS"), _(MENUMESSAGE_GAME_SHADERS_HELP_MSG));
+
+  // Shaders preset
+  auto shaderSet_choices = std::make_shared<OptionListComponent<std::string> >(mWindow,
+                                                                               _("SHADERS SET"), false);
+  currentShader = RecalboxConf::Instance().AsString(systemData->getName() + ".shaderset");
+  if (currentShader.empty()) {
+    currentShader = std::string("none");
+  }
+  shaderSet_choices->add(_("NONE"), "none", currentShader == "none");
+  shaderSet_choices->add(_("SCANLINES"), "scanlines", currentShader == "scanlines");
+  shaderSet_choices->add(_("RETRO"), "retro", currentShader == "retro");
+  systemConfiguration->addWithLabel(shaderSet_choices, _("SHADERS SET"), _(MENUMESSAGE_GAME_SHADERSET_HELP_MSG));
+
   systemConfiguration->addSaveFunc(
-          [systemData, smoothing_enabled, rewind_enabled, ratio_choice, autosave_enabled] {
-              if (ratio_choice->changed()) {
+          [systemData, smoothing_enabled, rewind_enabled, ratio_choice, autosave_enabled, shaders_choices, shaderSet_choices] {
+              if (ratio_choice->changed())
                   RecalboxConf::Instance().SetString(systemData->getName() + ".ratio", ratio_choice->getSelected());
-              }
-              if (rewind_enabled->changed()) {
+              if (rewind_enabled->changed())
                   RecalboxConf::Instance().SetBool(systemData->getName() + ".rewind", rewind_enabled->getState());
-              }
-              if (smoothing_enabled->changed()) {
+              if (smoothing_enabled->changed())
                   RecalboxConf::Instance().SetBool(systemData->getName() + ".smooth", smoothing_enabled->getState());
-              }
-              if (autosave_enabled->changed()) {
+              if (autosave_enabled->changed())
                   RecalboxConf::Instance().SetBool(systemData->getName() + ".autosave", autosave_enabled->getState());
-              }
+              if (shaders_choices->changed())
+                RecalboxConf::Instance().SetString(systemData->getName() + ".shaders", shaders_choices->getSelected());
+              if (shaderSet_choices->changed())
+                RecalboxConf::Instance().SetString(systemData->getName() + ".shaderset", shaderSet_choices->getSelected());
               RecalboxConf::Instance().Save();
           });
   mWindow.pushGui(systemConfiguration);
