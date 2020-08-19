@@ -1,7 +1,6 @@
 #include "guis/GuiMetaDataEd.h"
 #include "Settings.h"
 #include "guis/GuiMsgBox.h"
-#include <RecalboxConf.h>
 #include <components/SwitchComponent.h>
 #include <LibretroRatio.h>
 
@@ -182,7 +181,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window& window,
           {
             mMetaData.SetRatio("auto");
           }
-          for (auto& ratio : ratioMap)
+          for (const auto& ratio : ratioMap)
           {
             ratio_choice->add(ratio.first, ratio.second, mMetaData.Ratio() == ratio.second);
           }
@@ -194,7 +193,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window& window,
                                                                                   FONT_SIZE_MEDIUM);
           row.addElement(genre_choice, false);
           Genres::GenreMap map = Genres::GetShortNameMap();
-          for(auto & genre : Genres::GetOrderedList())
+          for(const auto& genre : Genres::GetOrderedList())
           {
             std::string genreString = Strings::ToString((int)genre);
             genre_choice->add((Genres::IsSubGenre(genre) ? "    " : "") + Genres::GetName(genre), genreString, mMetaData.GenreId() == genre);
@@ -396,6 +395,7 @@ void GuiMetaDataEd::save()
 
 void GuiMetaDataEd::fetch()
 {
+  save();
   mWindow.pushGui(new GuiScraperSingleGameRun(mWindow, mGame, this));
 }
 
