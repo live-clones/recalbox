@@ -199,6 +199,8 @@
   - Amiberry (Amiga): up to 4 disks loaded at once
   - GSPlus (Apple IIGS): from 2 up to 32 disks loaded at once, depending on floppy types
   - Quasi88 (PC88): up to 6 disks loaded at once
+- Improve shader management in EmulationStation
+- Improve GPI support  
 
 ### Fixes
 - Fix Odroid XU4 fan issue
@@ -217,6 +219,7 @@
 - Fix volume issues in boot video
 - Fix REICAST bug on XU4
 - Fix FPS show/hide in Retroarch
+- Fix multiple audio issues
 
 *  : Require to scrape missing data using the internal scraper 
 ** : Availailable in both EmulationStation menu and configuration file 

@@ -109,6 +109,9 @@ All notable changes to this project will be documented in this file.
 - Add libretro-mesen-s on rpi4, xu4 and pc
 - Improved Apple IIGS autoboot support
 - Improved support of vsync/integer scale/smooth for several standalone emulators
+- Add shader management in EmulationStation
+- Fix audio issues
+- Improve GPI support
 
 ## [6.1.1]
 - Add zfast shaders
