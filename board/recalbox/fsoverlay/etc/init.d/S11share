@@ -180,6 +180,10 @@ executeNetworkMountDirective() {
       "SAVES") mountPoint="/recalbox/share/saves" ;;
       "BIOS") mountPoint="/recalbox/share/bios" ;;
       "MUSIC") mountPoint="/recalbox/share/music" ;;
+      "OVERLAYS") mountPoint="/recalbox/share/overlays" ;;
+      "SCREENSHOTS") mountPoint="/recalbox/share/screenshots" ;;
+      "SHADERS") mountPoint="/recalbox/share/shaders" ;;
+      "SCRIPTS") mountPoint="/recalbox/share/userscripts" ;;
       *)
         echo "Invalid mount target '${target}'. Ignoring directive 'sharenetwork_${1}=${directive}'." | tee -a "${logFile}" >&2
         return 2
