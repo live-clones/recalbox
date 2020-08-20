@@ -1,0 +1,4 @@
+shaders = "1"
+
+shader0 = "shaders_glsl/crtnes/crt-nes-mini.glsl"
+filter_linear0 = true
