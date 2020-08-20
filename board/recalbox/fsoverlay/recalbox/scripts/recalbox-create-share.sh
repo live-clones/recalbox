@@ -5,15 +5,13 @@ if [[ -f /tmp/.install.png ]] ; then
 	exit 0
 fi
 
-touch /tmp/newshare
+# Stop
+if [ "$1" = "stop" ]; then
+	killall mpv
+	exit 0
+fi
 
-dd if=/dev/zero of=/dev/fb0 > /dev/null 2>&1
-FILES=/recalbox/system/resources/creating-share*.jpg
-while true ; do
-  for f in $FILES
-  do
-    fbv -f -i $f &
-    sleep 0.1
-  done
-done
+# Start
+touch /tmp/newshare
+mpv --loop --fs --really-quiet --fps 5 --no-correct-pts /recalbox/system/resources/creating-share.mp4 &
 exit 0

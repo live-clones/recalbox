@@ -62,8 +62,7 @@ createMissingPartitions() {
   if [ -f /tmp/.install.sh ]; then
       ( /tmp/.install.sh createshare ) &
   else
-      touch /tmp/newshare
-      /recalbox/scripts/recalbox-create-share.sh &
+      /recalbox/scripts/recalbox-create-share.sh
   fi
 
   # Determine last free (available) space on device

@@ -158,6 +158,6 @@ test ! -e /recalbox/share/system/recalbox.changelog.done && cp /recalbox/recalbo
 
 # END
 if [ -e /tmp/newshare ]; then
-    killall recalbox-create-share.sh
+    /recalbox/scripts/recalbox-create-share.sh stop
     #reboot
 fi
