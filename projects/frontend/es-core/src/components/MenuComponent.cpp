@@ -153,7 +153,7 @@ void MenuComponent::updateSize()
         }
     }
 
-    float width = Math::min(Renderer::getDisplayHeightAsFloat(), Renderer::getDisplayWidthAsFloat() * 0.90f);
+    float width = Math::min(Renderer::getDisplayHeightAsFloat() * 1.2f, Renderer::getDisplayWidthAsFloat() * 0.90f);
     setSize(width, height);
 }
 
