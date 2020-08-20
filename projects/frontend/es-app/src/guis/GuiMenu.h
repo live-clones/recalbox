@@ -53,7 +53,9 @@ private:
 	TextComponent mVersion;
 	std::shared_ptr<MenuTheme> mMenuTheme;
 
-
+  static const Path sShadersPath;
+  static Path::PathList GetShaderList();
+  static void ReadShaderFolder(const Path& root, Path::PathList& glslp);
 	static std::shared_ptr<OptionListComponent<std::string>> createRatioOptionList(Window& window,
                                                                         const std::string& configname) ;
 

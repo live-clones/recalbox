@@ -333,14 +333,23 @@ void GuiMenu::menuSystem(){
   mWindow.pushGui(s);
 }
 
-static Path::PathList GetShaderList()
+const Path GuiMenu::sShadersPath("/recalbox/share/shaders");
+
+void GuiMenu::ReadShaderFolder(const Path& root, Path::PathList& glslp)
 {
-  Path shaders("/recalbox/share/shaders");
-  Path::PathList files = shaders.GetDirectoryContent();
-  Path::PathList glslp;
+  Path::PathList files = root.GetDirectoryContent();
   for(const Path& path : files)
     if (path.Extension() == ".glslp")
       glslp.push_back(path);
+    else if (path.IsDirectory())
+      ReadShaderFolder(path, glslp);
+}
+
+Path::PathList GuiMenu::GetShaderList()
+{
+  Path::PathList glslp;
+  ReadShaderFolder(sShadersPath, glslp);
+  std::sort(glslp.begin(), glslp.end());
   return glslp;
 }
 
@@ -440,7 +449,13 @@ void GuiMenu::menuGameSettings(){
   std::string currentShader = RecalboxConf::Instance().AsString("global.shaders");
   shaders_choices->add(_("NONE"), "", currentShader.empty());
   for(const Path& path : shaderList)
-    shaders_choices->add(Strings::Replace(path.FilenameWithoutExtension(), "_", " "), path.ToString(), currentShader == path.ToString());
+  {
+    bool ok = false;
+    std::string shaderName = path.MakeRelative(sShadersPath, ok).ToString();
+    Strings::ReplaceAllIn(shaderName, '/', " - ", 3);
+    Strings::ReplaceAllIn(shaderName, '_', " ", 1);
+    shaders_choices->add(shaderName, path.ToString(), currentShader == path.ToString());
+  }
   s->addWithLabel(shaders_choices, _("SHADERS"), _(MENUMESSAGE_GAME_SHADERS_HELP_MSG));
 
   // Shaders preset
@@ -1699,7 +1714,7 @@ void GuiMenu::menuQuit()
 void GuiMenu::popSystemConfigurationGui(SystemData *systemData) const
 {
   // The system configuration
-  GuiSettings *systemConfiguration = new GuiSettings(mWindow, systemData->getFullName());
+  GuiSettings* systemConfiguration = new GuiSettings(mWindow, systemData->getFullName());
 
   std::string defaultEmulator;
   std::string defaultCore;
@@ -1708,7 +1723,8 @@ void GuiMenu::popSystemConfigurationGui(SystemData *systemData) const
     //Emulator choice
     auto emu_choice = std::make_shared<OptionListComponent<std::string>>(mWindow, _("Emulator"), false);
 
-    std::string currentEmulator = RecalboxConf::Instance().AsString(systemData->getName() + ".emulator", defaultEmulator);
+    std::string currentEmulator = RecalboxConf::Instance().AsString(systemData->getName() + ".emulator",
+                                                                    defaultEmulator);
     std::string currentCore = RecalboxConf::Instance().AsString(systemData->getName() + ".core", defaultCore);
 
     for (const std::string& emulatorName : mSystemManager.Emulators().GetEmulators(*systemData))
@@ -1731,30 +1747,32 @@ void GuiMenu::popSystemConfigurationGui(SystemData *systemData) const
     // force change event to load core list
     emu_choice->invalidate();
 
-    systemConfiguration->addSaveFunc(
-    [systemData, emu_choice, defaultEmulator, defaultCore]
-    {
-      if (emu_choice->changed())
-      {
-        // Split emulator & core
-        Strings::Vector split = Strings::Split(emu_choice->getSelected(), ':');
-        if (split.size() == 2)
-        {
-          if (split[0] == defaultEmulator && split[1] == defaultCore)
-          {
-            RecalboxConf::Instance().SetString(systemData->getName() + ".emulator", "");
-            RecalboxConf::Instance().SetString(systemData->getName() + ".core", "");
-          }
-          else
-          {
-            RecalboxConf::Instance().SetString(systemData->getName() + ".emulator", split[0]);
-            RecalboxConf::Instance().SetString(systemData->getName() + ".core", split[1]);
-          }
-        }
-        else LOG(LogError) << "Error splitting emulator and core!";
-      }
-      RecalboxConf::Instance().Save();
-    });
+    systemConfiguration->addSaveFunc([systemData, emu_choice, defaultEmulator, defaultCore]
+                                     {
+                                       if (emu_choice->changed())
+                                       {
+                                         // Split emulator & core
+                                         Strings::Vector split = Strings::Split(emu_choice->getSelected(), ':');
+                                         if (split.size() == 2)
+                                         {
+                                           if (split[0] == defaultEmulator && split[1] == defaultCore)
+                                           {
+                                             RecalboxConf::Instance().SetString(systemData->getName() + ".emulator",
+                                                                                "");
+                                             RecalboxConf::Instance().SetString(systemData->getName() + ".core", "");
+                                           }
+                                           else
+                                           {
+                                             RecalboxConf::Instance().SetString(systemData->getName() + ".emulator",
+                                                                                split[0]);
+                                             RecalboxConf::Instance().SetString(systemData->getName() + ".core",
+                                                                                split[1]);
+                                           }
+                                         }
+                                         else LOG(LogError) << "Error splitting emulator and core!";
+                                       }
+                                       RecalboxConf::Instance().Save();
+                                     });
   }
 
   // Screen ratio choice
@@ -1762,15 +1780,18 @@ void GuiMenu::popSystemConfigurationGui(SystemData *systemData) const
   systemConfiguration->addWithLabel(ratio_choice, _("GAME RATIO"), _(MENUMESSAGE_GAME_RATIO_HELP_MSG));
   // smoothing
   auto smoothing_enabled = std::make_shared<SwitchComponent>(mWindow);
-  smoothing_enabled->setState(RecalboxConf::Instance().AsBool(systemData->getName() + ".smooth", RecalboxConf::Instance().AsBool("global.smooth")));
+  smoothing_enabled->setState(RecalboxConf::Instance().AsBool(systemData->getName() + ".smooth",
+                                                              RecalboxConf::Instance().AsBool("global.smooth")));
   systemConfiguration->addWithLabel(smoothing_enabled, _("SMOOTH GAMES"), _(MENUMESSAGE_GAME_SMOOTH_HELP_MSG));
   // rewind
   auto rewind_enabled = std::make_shared<SwitchComponent>(mWindow);
-  rewind_enabled->setState(RecalboxConf::Instance().AsBool(systemData->getName() + ".rewind", RecalboxConf::Instance().AsBool("global.rewind")));
+  rewind_enabled->setState(RecalboxConf::Instance().AsBool(systemData->getName() + ".rewind",
+                                                           RecalboxConf::Instance().AsBool("global.rewind")));
   systemConfiguration->addWithLabel(rewind_enabled, _("REWIND"), _(MENUMESSAGE_GAME_REWIND_HELP_MSG));
   // autosave
   auto autosave_enabled = std::make_shared<SwitchComponent>(mWindow);
-  autosave_enabled->setState(RecalboxConf::Instance().AsBool(systemData->getName() + ".autosave", RecalboxConf::Instance().AsBool("global.autosave")));
+  autosave_enabled->setState(RecalboxConf::Instance().AsBool(systemData->getName() + ".autosave",
+                                                             RecalboxConf::Instance().AsBool("global.autosave")));
   systemConfiguration->addWithLabel(autosave_enabled, _("AUTO SAVE/LOAD"), _(MENUMESSAGE_GAME_AUTOSAVELOAD_HELP_MSG));
 
   // Shaders
@@ -1778,8 +1799,14 @@ void GuiMenu::popSystemConfigurationGui(SystemData *systemData) const
   Path::PathList shaderList = GetShaderList();
   std::string currentShader = RecalboxConf::Instance().AsString(systemData->getName() + ".shaders");
   shaders_choices->add(_("NONE"), "", currentShader.empty());
-  for(const Path& path : shaderList)
-    shaders_choices->add(Strings::Replace(path.FilenameWithoutExtension(), "_", " "), path.ToString(), currentShader == path.ToString());
+  for (const Path& path : shaderList)
+  {
+    bool ok = false;
+    std::string shaderName = path.MakeRelative(sShadersPath, ok).ToString();
+    Strings::ReplaceAllIn(shaderName, '/', " - ", 3);
+    Strings::ReplaceAllIn(shaderName, '_', " ", 1);
+    shaders_choices->add(shaderName, path.ToString(), currentShader == path.ToString());
+  }
   systemConfiguration->addWithLabel(shaders_choices, _("SHADERS"), _(MENUMESSAGE_GAME_SHADERS_HELP_MSG));
 
   // Shaders preset
