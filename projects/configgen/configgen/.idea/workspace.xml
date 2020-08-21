@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="096fcf09-cced-4cf6-926e-09115f4570ac" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generators/linapple/linappleConfig.py" beforeDir="false" afterPath="$PROJECT_DIR$/generators/linapple/linappleConfig.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/generators/linapple/test_linappleGenerator.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/generators/linapple/test_linappleGenerator.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,7 +60,29 @@
       <recent name="$PROJECT_DIR$/generators/pcsx" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.emulatorlauncher supermodel">
+  <component name="RunManager" selected="Python.Unit tests">
+    <configuration name="Unit tests" type="PythonConfigurationType" factoryName="Python">
+      <module name="configgen" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="/usr/bin/python2.7" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/.." />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="runtest" />
+      <option name="PARAMETERS" value="discover -v -p &quot;*test*&quot;" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="true" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <module name="configgen" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -215,6 +239,7 @@
     </configuration>
     <list>
       <item itemvalue="Python.emulatorlauncher" />
+      <item itemvalue="Python.Unit tests" />
       <item itemvalue="Python.emulatorlauncher linapple" />
       <item itemvalue="Python.emulatorlauncher openbor" />
       <item itemvalue="Python.emulatorlauncher supermodel" />
@@ -492,6 +517,7 @@
       <workItem from="1597875143400" duration="639000" />
       <workItem from="1598003554699" duration="171000" />
       <workItem from="1598006772235" duration="960000" />
+      <workItem from="1598038297367" duration="49000" />
     </task>
     <servers />
   </component>
@@ -511,18 +537,18 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="738" y="362" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1597482504878">
+    <state x="738" y="362" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1598038345370">
       <screen x="0" y="48" width="2560" height="1311" />
     </state>
-    <state x="738" y="362" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.48.2560.1311@0.48.2560.1311" timestamp="1597482504878" />
+    <state x="738" y="362" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.48.2560.1311@0.48.2560.1311" timestamp="1598038345370" />
     <state x="955" y="506" width="641" height="395" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1592072278832">
       <screen x="0" y="48" width="2560" height="1311" />
     </state>
     <state x="955" y="506" width="641" height="395" key="#com.intellij.fileTypes.FileTypeChooser/0.48.2560.1311@0.48.2560.1311" timestamp="1592072278832" />
-    <state x="1012" y="496" width="527" height="415" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1595351356448">
+    <state x="1012" y="496" width="527" height="415" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1598038329453">
       <screen x="0" y="48" width="2560" height="1311" />
     </state>
-    <state x="1012" y="496" width="527" height="415" key="#com.intellij.ide.util.TreeClassChooserDialog/0.48.2560.1311@0.48.2560.1311" timestamp="1595351356448" />
+    <state x="1012" y="496" width="527" height="415" key="#com.intellij.ide.util.TreeClassChooserDialog/0.48.2560.1311@0.48.2560.1311" timestamp="1598038329453" />
     <state x="963" y="441" width="626" height="525" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1596128643789">
       <screen x="0" y="48" width="2560" height="1311" />
     </state>
@@ -535,38 +561,38 @@
       <screen x="0" y="48" width="2560" height="1311" />
     </state>
     <state x="1063" y="462" width="497" height="483" key="FileChooserDialogImpl/0.48.2560.1311@0.48.2560.1311" timestamp="1593370446934" />
-    <state width="2514" height="445" key="GridCell.Tab.0.bottom" timestamp="1597588451085">
+    <state width="2514" height="445" key="GridCell.Tab.0.bottom" timestamp="1598038286055">
       <screen x="0" y="48" width="2560" height="1311" />
     </state>
-    <state width="2514" height="445" key="GridCell.Tab.0.bottom/0.48.2560.1311@0.48.2560.1311" timestamp="1597588451085" />
-    <state width="2514" height="445" key="GridCell.Tab.0.center" timestamp="1597588451084">
+    <state width="2514" height="445" key="GridCell.Tab.0.bottom/0.48.2560.1311@0.48.2560.1311" timestamp="1598038286055" />
+    <state width="2514" height="445" key="GridCell.Tab.0.center" timestamp="1598038286054">
       <screen x="0" y="48" width="2560" height="1311" />
     </state>
-    <state width="2514" height="445" key="GridCell.Tab.0.center/0.48.2560.1311@0.48.2560.1311" timestamp="1597588451084" />
-    <state width="2514" height="445" key="GridCell.Tab.0.left" timestamp="1597588451084">
+    <state width="2514" height="445" key="GridCell.Tab.0.center/0.48.2560.1311@0.48.2560.1311" timestamp="1598038286054" />
+    <state width="2514" height="445" key="GridCell.Tab.0.left" timestamp="1598038286053">
       <screen x="0" y="48" width="2560" height="1311" />
     </state>
-    <state width="2514" height="445" key="GridCell.Tab.0.left/0.48.2560.1311@0.48.2560.1311" timestamp="1597588451084" />
-    <state width="2514" height="445" key="GridCell.Tab.0.right" timestamp="1597588451085">
+    <state width="2514" height="445" key="GridCell.Tab.0.left/0.48.2560.1311@0.48.2560.1311" timestamp="1598038286053" />
+    <state width="2514" height="445" key="GridCell.Tab.0.right" timestamp="1598038286054">
       <screen x="0" y="48" width="2560" height="1311" />
     </state>
-    <state width="2514" height="445" key="GridCell.Tab.0.right/0.48.2560.1311@0.48.2560.1311" timestamp="1597588451085" />
-    <state width="2514" height="445" key="GridCell.Tab.1.bottom" timestamp="1597588451087">
+    <state width="2514" height="445" key="GridCell.Tab.0.right/0.48.2560.1311@0.48.2560.1311" timestamp="1598038286054" />
+    <state width="2514" height="445" key="GridCell.Tab.1.bottom" timestamp="1598038286058">
       <screen x="0" y="48" width="2560" height="1311" />
     </state>
-    <state width="2514" height="445" key="GridCell.Tab.1.bottom/0.48.2560.1311@0.48.2560.1311" timestamp="1597588451087" />
-    <state width="2514" height="445" key="GridCell.Tab.1.center" timestamp="1597588451086">
+    <state width="2514" height="445" key="GridCell.Tab.1.bottom/0.48.2560.1311@0.48.2560.1311" timestamp="1598038286058" />
+    <state width="2514" height="445" key="GridCell.Tab.1.center" timestamp="1598038286056">
       <screen x="0" y="48" width="2560" height="1311" />
     </state>
-    <state width="2514" height="445" key="GridCell.Tab.1.center/0.48.2560.1311@0.48.2560.1311" timestamp="1597588451086" />
-    <state width="2514" height="445" key="GridCell.Tab.1.left" timestamp="1597588451086">
+    <state width="2514" height="445" key="GridCell.Tab.1.center/0.48.2560.1311@0.48.2560.1311" timestamp="1598038286056" />
+    <state width="2514" height="445" key="GridCell.Tab.1.left" timestamp="1598038286056">
       <screen x="0" y="48" width="2560" height="1311" />
     </state>
-    <state width="2514" height="445" key="GridCell.Tab.1.left/0.48.2560.1311@0.48.2560.1311" timestamp="1597588451086" />
-    <state width="2514" height="445" key="GridCell.Tab.1.right" timestamp="1597588451087">
+    <state width="2514" height="445" key="GridCell.Tab.1.left/0.48.2560.1311@0.48.2560.1311" timestamp="1598038286056" />
+    <state width="2514" height="445" key="GridCell.Tab.1.right" timestamp="1598038286057">
       <screen x="0" y="48" width="2560" height="1311" />
     </state>
-    <state width="2514" height="445" key="GridCell.Tab.1.right/0.48.2560.1311@0.48.2560.1311" timestamp="1597588451087" />
+    <state width="2514" height="445" key="GridCell.Tab.1.right/0.48.2560.1311@0.48.2560.1311" timestamp="1598038286057" />
     <state x="769" y="339" key="SettingsEditor" timestamp="1593370487334">
       <screen x="0" y="48" width="2560" height="1311" />
     </state>
@@ -606,7 +632,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/generators/linapple/linappleConfig.py</url>
-          <line>110</line>
+          <line>116</line>
           <option name="timeStamp" value="16" />
         </line-breakpoint>
       </breakpoints>
@@ -615,6 +641,7 @@
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/configgen$emulatorlauncher.coverage" NAME="emulatorlauncher Coverage Results" MODIFIED="1585589138879" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/.." />
     <SUITE FILE_PATH="coverage/configgen$amiberry_romtype.coverage" NAME="amiberry.romtype Coverage Results" MODIFIED="1595351592309" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/configgen$Unit_test.coverage" NAME="Unit test Coverage Results" MODIFIED="1598038063914" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/.." />
     <SUITE FILE_PATH="coverage/configgen$emulatorlauncher_linapple.coverage" NAME="emulatorlauncher linapple Coverage Results" MODIFIED="1596128836524" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/.." />
     <SUITE FILE_PATH="coverage/configgen$emulatorlauncher_openbor.coverage" NAME="emulatorlauncher openbor Coverage Results" MODIFIED="1592422145061" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/.." />
     <SUITE FILE_PATH="coverage/configgen$utils_disks.coverage" NAME="utils.diskCollector Coverage Results" MODIFIED="1594646118128" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
