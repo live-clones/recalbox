@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="c9bf57cb-13b3-4826-b831-12cf108b15eb" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/recalbox_configgen$runtest.coverage" NAME="runtest.__main__ Coverage Results" MODIFIED="1549731730851" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/recalbox_configgen$runtest___main__.coverage" NAME="runtest.__main__ Coverage Results" MODIFIED="1551216925517" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1P6oqGXCVMepZXBNkDcawvjw85c" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../recalbox-hardware" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/configgen/tests/generators" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="runtest" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="recalbox-configgen" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="/usr/bin/python2.7" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="runtest" />
+      <option name="PARAMETERS" value="discover -v -p &quot;*test*&quot;" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="true" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c9bf57cb-13b3-4826-b831-12cf108b15eb" name="Default Changelist" comment="" />
+      <created>1544300748336</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1544300748336</updated>
+      <workItem from="1544300751524" duration="765000" />
+      <workItem from="1545335551150" duration="44000" />
+      <workItem from="1545335633584" duration="307000" />
+      <workItem from="1545991272376" duration="1791000" />
+      <workItem from="1546015787447" duration="2087000" />
+      <workItem from="1546867540014" duration="2821000" />
+      <workItem from="1547192470247" duration="430000" />
+      <workItem from="1547192921106" duration="7000" />
+      <workItem from="1547228053935" duration="444000" />
+      <workItem from="1549197809489" duration="2680000" />
+      <workItem from="1549218264994" duration="30000" />
+      <workItem from="1549661743164" duration="25326000" />
+      <workItem from="1549910571771" duration="1512000" />
+      <workItem from="1550044576399" duration="184000" />
+      <workItem from="1550172424148" duration="222000" />
+      <workItem from="1550173178963" duration="142000" />
+      <workItem from="1550214014181" duration="684000" />
+      <workItem from="1550217740101" duration="597000" />
+      <workItem from="1550224010279" duration="3556000" />
+      <workItem from="1550231762744" duration="843000" />
+      <workItem from="1550262133067" duration="3965000" />
+      <workItem from="1550306028942" duration="15089000" />
+      <workItem from="1550390940060" duration="2416000" />
+      <workItem from="1550515590555" duration="1086000" />
+      <workItem from="1550603147656" duration="1024000" />
+      <workItem from="1550662561756" duration="1181000" />
+      <workItem from="1551216616342" duration="909000" />
+      <workItem from="1551297922122" duration="11000" />
+      <workItem from="1551297955645" duration="1549000" />
+      <workItem from="1551442745829" duration="483000" />
+      <workItem from="1551526117456" duration="9000" />
+      <workItem from="1555256912137" duration="2524000" />
+      <workItem from="1555260478101" duration="195000" />
+      <workItem from="1555260676266" duration="141000" />
+      <workItem from="1555260821048" duration="211000" />
+      <workItem from="1555261088385" duration="1009000" />
+      <workItem from="1555262132063" duration="199000" />
+      <workItem from="1555262364253" duration="3460000" />
+      <workItem from="1555271774112" duration="13000" />
+      <workItem from="1559944426508" duration="92000" />
+      <workItem from="1565204097377" duration="53000" />
+      <workItem from="1570308503732" duration="654000" />
+      <workItem from="1587378663907" duration="2492000" />
+      <workItem from="1591036371075" duration="10616000" />
+      <workItem from="1591203555827" duration="11000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state width="1485" height="506" key="DebuggerActiveHint" timestamp="1591045809535">
+      <screen x="0" y="48" width="2560" height="1311" />
+    </state>
+    <state width="1485" height="506" key="DebuggerActiveHint/0.48.2560.1311@0.48.2560.1311" timestamp="1591045809535" />
+    <state width="1248" height="445" key="GridCell.Tab.0.bottom" timestamp="1591081083360">
+      <screen x="0" y="48" width="2560" height="1311" />
+    </state>
+    <state width="1248" height="445" key="GridCell.Tab.0.bottom/0.48.2560.1311@0.48.2560.1311" timestamp="1591081083360" />
+    <state width="1248" height="445" key="GridCell.Tab.0.center" timestamp="1591081083359">
+      <screen x="0" y="48" width="2560" height="1311" />
+    </state>
+    <state width="1248" height="445" key="GridCell.Tab.0.center/0.48.2560.1311@0.48.2560.1311" timestamp="1591081083359" />
+    <state width="1248" height="445" key="GridCell.Tab.0.left" timestamp="1591081083358">
+      <screen x="0" y="48" width="2560" height="1311" />
+    </state>
+    <state width="1248" height="445" key="GridCell.Tab.0.left/0.48.2560.1311@0.48.2560.1311" timestamp="1591081083358" />
+    <state width="1248" height="445" key="GridCell.Tab.0.right" timestamp="1591081083359">
+      <screen x="0" y="48" width="2560" height="1311" />
+    </state>
+    <state width="1248" height="445" key="GridCell.Tab.0.right/0.48.2560.1311@0.48.2560.1311" timestamp="1591081083359" />
+    <state width="1248" height="445" key="GridCell.Tab.1.bottom" timestamp="1591081083363">
+      <screen x="0" y="48" width="2560" height="1311" />
+    </state>
+    <state width="1248" height="445" key="GridCell.Tab.1.bottom/0.48.2560.1311@0.48.2560.1311" timestamp="1591081083363" />
+    <state width="1248" height="445" key="GridCell.Tab.1.center" timestamp="1591081083362">
+      <screen x="0" y="48" width="2560" height="1311" />
+    </state>
+    <state width="1248" height="445" key="GridCell.Tab.1.center/0.48.2560.1311@0.48.2560.1311" timestamp="1591081083361" />
+    <state width="1248" height="445" key="GridCell.Tab.1.left" timestamp="1591081083361">
+      <screen x="0" y="48" width="2560" height="1311" />
+    </state>
+    <state width="1248" height="445" key="GridCell.Tab.1.left/0.48.2560.1311@0.48.2560.1311" timestamp="1591081083361" />
+    <state width="1248" height="445" key="GridCell.Tab.1.right" timestamp="1591081083362">
+      <screen x="0" y="48" width="2560" height="1311" />
+    </state>
+    <state width="1248" height="445" key="GridCell.Tab.1.right/0.48.2560.1311@0.48.2560.1311" timestamp="1591081083362" />
+    <state x="928" y="442" width="704" height="522" key="find.popup" timestamp="1591044953079">
+      <screen x="0" y="48" width="2560" height="1311" />
+    </state>
+    <state x="928" y="442" width="704" height="522" key="find.popup/0.48.2560.1311@0.48.2560.1311" timestamp="1591044953079" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/recalbox_configgen$runtest___main__.coverage" NAME="runtest.__main__ Coverage Results" MODIFIED="1555260050028" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/recalbox_configgen$runtest.coverage" NAME="runtest Coverage Results" MODIFIED="1591046389744" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+  </component>
+</project>
