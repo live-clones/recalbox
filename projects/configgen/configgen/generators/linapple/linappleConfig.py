@@ -21,6 +21,12 @@ joystick_translator = {
     }
 
 class LinappleConfig(object):
+
+    __resolutionFile = "/sys/class/graphics/fb0/virtual_size"
+
+    def setResolutionFile(self, resolutionFile):
+        self.__resolutionFile = resolutionFile
+
     """
     Class managing linapple emulator configuration file.
 
@@ -183,7 +189,7 @@ class LinappleConfig(object):
         else:
             xy = "800,600"
             try:
-                with open("/sys/class/graphics/fb0/virtual_size", "r") as f:
+                with open(__resolutionFile, "r") as f:
                     xy = f.read()
             except Exception as ex:
                 print("Can't read resolution: {}".format(ex))

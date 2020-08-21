@@ -53,6 +53,7 @@ class TestLinappleGenerator(runtest.TestCase):
         # Load settings from system configuration file and apply 
         # expected results
         config_init = LinappleConfig(self.path_init_conf)
+        config_init.setResolutionFile("/nofile")
         config_init.settings.update(self.results)
 
         # Run tested function with updated arguments and load settings from
