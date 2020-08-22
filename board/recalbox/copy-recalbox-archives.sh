@@ -137,29 +137,30 @@ case "${RECALBOX_TARGET}" in
 
 	X86|X86_64)
 	# /boot
-	rm -rf ${BINARIES_DIR}/boot || exit 1
-	mkdir -p ${BINARIES_DIR}/boot/grub || exit 1
-	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/grub2/grub.cfg" ${BINARIES_DIR}/boot/grub/grub.cfg || exit 1
-        cp "${BINARIES_DIR}/bzImage" "${BINARIES_DIR}/boot/linux" || exit 1
-        cp "${BINARIES_DIR}/initrd.gz" "${BINARIES_DIR}/boot" || exit 1
-	cp "${BINARIES_DIR}/rootfs.squashfs" "${BINARIES_DIR}/boot/recalbox" || exit 1
+	rm -rf ${BINARIES_DIR}/pc-boot/ || exit 1
+	mkdir -p ${BINARIES_DIR}/pc-boot/boot/grub || exit 1
+	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/grub2/grub.cfg" ${BINARIES_DIR}/pc-boot/boot/grub/grub.cfg || exit 1
+	cp "${BINARIES_DIR}/bzImage" "${BINARIES_DIR}/pc-boot/boot/linux" || exit 1
+	cp "${BINARIES_DIR}/initrd.gz" "${BINARIES_DIR}/pc-boot/boot" || exit 1
+	cp "${BINARIES_DIR}/rootfs.squashfs" "${BINARIES_DIR}/pc-boot/boot/recalbox" || exit 1
+	cp "${BINARIES_DIR}/recalbox-boot.conf" "${BINARIES_DIR}/pc-boot/" || exit 1
 
 	# get UEFI files
 	if [[ ${RECALBOX_TARGET} == "X86_64" ]] ; then
-		mkdir -p "${BINARIES_DIR}/EFI/BOOT" || exit 1
-		cp "${BINARIES_DIR}/bootia32.efi" "${BINARIES_DIR}/EFI/BOOT" || exit 1
-		cp "${BINARIES_DIR}/bootx64.efi" "${BINARIES_DIR}/EFI/BOOT" || exit 1
-		cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/grub2/grub.cfg" "${BINARIES_DIR}/EFI/BOOT" || exit 1
+		mkdir -p "${BINARIES_DIR}/pc-boot/EFI/BOOT" || exit 1
+		cp "${BINARIES_DIR}/bootia32.efi" "${BINARIES_DIR}/pc-boot/EFI/BOOT" || exit 1
+		cp "${BINARIES_DIR}/bootx64.efi" "${BINARIES_DIR}/pc-boot/EFI/BOOT" || exit 1
+		cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/grub2/grub.cfg" "${BINARIES_DIR}/pc-boot/EFI/BOOT" || exit 1
 		genimg=genimage-x86-64.cfg
 	else
 		genimg=genimage-x86.cfg
 	fi
 
-	generate_boot_file_list "${BINARIES_DIR}/boot/" | \
-		grep -v -E '^(boot.lst|recalbox-boot.conf)$' >"${BINARIES_DIR}/boot.lst"
+	generate_boot_file_list "${BINARIES_DIR}/pc-boot/" | \
+		grep -v -E '^(boot.lst|recalbox-boot.conf)$' >"${BINARIES_DIR}/pc-boot/boot.lst"
 
 	# recalbox.img
-	cp "${HOST_DIR}/usr/lib/grub/i386-pc/boot.img" "${BINARIES_DIR}" || exit 1
+	cp "${HOST_DIR}/usr/lib/grub/i386-pc/boot.img" "${BINARIES_DIR}/" || exit 1
 	GENIMAGE_TMP="${BUILD_DIR}/genimage.tmp"
 	rm -rf "${GENIMAGE_TMP}" || exit 1
 	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/grub2/${genimg}" "${BINARIES_DIR}/genimage.cfg" || exit 1
