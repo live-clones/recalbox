@@ -279,8 +279,9 @@ class LibretroRetroarch:
         # Shaders?
         hasShaders = self.isDefined("shaders")
         settings.setOption("video_shader_enable", self.TRUE if hasShaders else self.FALSE)
+        settings.setOption("video_shader_dir", os.path.dirname(recalbox["shaders"])  if hasShaders else "")
         if hasShaders:
-            settings.setOption("video_shader", recalbox["shaders"])
+            settings.setOption("video_shader", os.path.basename(recalbox["shaders"]))
 
         # Screen ratio
         hasRatio = self.isDefined("ratio")
