@@ -189,7 +189,7 @@ class LinappleConfig(object):
         else:
             xy = "800,600"
             try:
-                with open(__resolutionFile, "r") as f:
+                with open(self.__resolutionFile, "r") as f:
                     xy = f.read()
             except Exception as ex:
                 print("Can't read resolution: {}".format(ex))
