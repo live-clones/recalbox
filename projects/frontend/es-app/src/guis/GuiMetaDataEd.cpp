@@ -18,21 +18,18 @@
 
 GuiMetaDataEd::GuiMetaDataEd(Window& window,
                              SystemManager& systemManager,
-                             MetadataDescriptor& md,
                              FileData& game,
-                             const std::string& header,
-                             std::function<void()> saveCallback,
-                             std::function<void()> deleteFunc,
-                             SystemData* system,
+                             IGameListView* gamelistview,
+                             IMetaDataAction* actions,
                              bool main)
   : Gui(window),
     mGame(game),
     mSystemManager(systemManager),
     mBackground(window, Path(":/frame.png")),
     mGrid(window, Vector2i(1, 3)),
-    mMetaData(md),
-    mSavedCallback(std::move(saveCallback)),
-    mDeleteFunc(std::move(deleteFunc))
+    mMetaData(game.Metadata()),
+    mGameListView(gamelistview),
+    mActions(actions)
 {
   addChild(&mBackground);
   addChild(&mGrid);
@@ -143,16 +140,16 @@ GuiMetaDataEd::GuiMetaDataEd(Window& window,
           std::string currentCore = mMetaData.Core();
           std::string defaultEmulator;
           std::string defaultCore;
-          if (!mSystemManager.Emulators().GetDefaultEmulator(*system, defaultEmulator, defaultCore))
+          if (!mSystemManager.Emulators().GetDefaultEmulator(*mGame.getSystem(), defaultEmulator, defaultCore))
             continue;
           if (currentEmulator.empty()) currentEmulator = defaultEmulator;
           if (currentCore.empty()) currentCore = defaultCore;
 
           row.addElement(emu_choice, false);
 
-          for (const std::string& emulatorName : mSystemManager.Emulators().GetEmulators(*system))
+          for (const std::string& emulatorName : mSystemManager.Emulators().GetEmulators(*mGame.getSystem()))
           {
-            for (const std::string& coreName : mSystemManager.Emulators().GetCores(*system, emulatorName))
+            for (const std::string& coreName : mSystemManager.Emulators().GetCores(*mGame.getSystem(), emulatorName))
             {
               std::string displayName = emulatorName;
               if (displayName != coreName) displayName.append(1, ' ').append(coreName);
@@ -266,10 +263,10 @@ GuiMetaDataEd::GuiMetaDataEd(Window& window,
     bracket->setResize(Vector2f(0, lbl->getFont()->getLetterHeight()));
     row.addElement(bracket, false);
 
-    row.makeAcceptInputHandler([this, header, system]
+    row.makeAcceptInputHandler([this]
                                {
                                  // call the same Gui with "main" set to "false"
-                                 mWindow.pushGui(new GuiMetaDataEd(mWindow, mSystemManager, mMetaData, mGame, header, nullptr, nullptr, system, false));
+                                 mWindow.pushGui(new GuiMetaDataEd(mWindow, mSystemManager, mGame, nullptr, nullptr, false));
                                });
 
     mList->addRow(row);
@@ -289,11 +286,11 @@ GuiMetaDataEd::GuiMetaDataEd(Window& window,
 
   buttons.push_back(std::make_shared<ButtonComponent>(mWindow, _("CANCEL"), _("CANCEL"), [&] { Close(); }));
 
-  if (main && mDeleteFunc)
+  if (main && mActions != nullptr)
   {
     auto deleteFileAndSelf = [&]
     {
-      mDeleteFunc();
+      mActions->Delete(mGameListView, mGame);
       Close();
     };
     auto deleteBtnFunc = [this, deleteFileAndSelf]
@@ -387,10 +384,8 @@ void GuiMetaDataEd::save()
     }
   }
 
-  if (mSavedCallback)
-  {
-    mSavedCallback();
-  }
+  if (mActions != nullptr)
+    mActions->Modified(mGameListView, mGame);
 }
 
 void GuiMetaDataEd::fetch()

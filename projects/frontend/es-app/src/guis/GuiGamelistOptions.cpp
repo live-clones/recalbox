@@ -197,14 +197,7 @@ GuiGamelistOptions::~GuiGamelistOptions()
 void GuiGamelistOptions::openMetaDataEd() {
 	// open metadata editor
 	FileData* file = getGamelist()->getCursor();
-	mWindow.pushGui(new GuiMetaDataEd(mWindow, mSystemManager, file->Metadata(), *file, file->getPath().Filename(),
-									 std::bind(&IGameListView::onFileChanged, getGamelist(), file, FileChangeType::MetadataChanged), [this, file]
-									 {
-				             file->getPath().Delete();
-				             if (file->getParent() != nullptr)
-			                 file->getParent()->removeChild(file); //unlink it so list repopulations triggered from onFileChanged won't see it
-				             getGamelist()->onFileChanged(file, FileChangeType::Removed); //tell the view
-                	 }, file->getSystem(), true));
+	mWindow.pushGui(new GuiMetaDataEd(mWindow, mSystemManager, *file, getGamelist(), this, true));
 }
 
 void GuiGamelistOptions::jumpToLetter() {
@@ -260,4 +253,18 @@ void GuiGamelistOptions::save() {
 	}
 	Settings::Instance().saveFile();
 	RecalboxConf::Instance().Save();
+}
+
+void GuiGamelistOptions::Delete(IGameListView* gamelistview, FileData& game)
+{
+  game.getPath().Delete();
+  if (game.getParent() != nullptr)
+    game.getParent()->removeChild(&game); //unlink it so list repopulations triggered from onFileChanged won't see it
+
+  gamelistview->onFileChanged(&game, FileChangeType::Removed); //tell the view
+}
+
+void GuiGamelistOptions::Modified(IGameListView* gamelistview, FileData& game)
+{
+  gamelistview->onFileChanged(&game, FileChangeType::MetadataChanged);
 }

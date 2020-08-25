@@ -6,9 +6,18 @@
 
 #include <functional>
 #include <systems/SystemData.h>
+#include <views/gamelist/IGameListView.h>
 
 class GuiMetaDataEd : public Gui, public GuiScraperSingleGameRun::IScrappingComplete
 {
+  public:
+    class IMetaDataAction
+    {
+      public:
+        virtual void Delete(IGameListView* gamelistview, FileData& game) = 0;
+        virtual void Modified(IGameListView* gamelistview, FileData& game) = 0;
+    };
+
   private:
     void save();
     void fetch();
@@ -30,19 +39,17 @@ class GuiMetaDataEd : public Gui, public GuiScraperSingleGameRun::IScrappingComp
     std::vector< const MetadataFieldDescriptor* > mMetaDataEditable;
 
     MetadataDescriptor& mMetaData;
-    std::function<void()> mSavedCallback;
-    std::function<void()> mDeleteFunc;
+    IGameListView* mGameListView;
+    IMetaDataAction* mActions;
 
     /*
      * GuiScraperSingleGameRun::IScrappingCommplete
      */
-
     void ScrappingComplete(FileData& game) override;
 
   public:
-    GuiMetaDataEd(Window&window, SystemManager& systemManager, MetadataDescriptor& md, FileData& game,
-                  const std::string& header, std::function<void()> savedCallback, std::function<void()> deleteFunc,
-                  SystemData* system, bool main);
+    GuiMetaDataEd(Window&window, SystemManager& systemManager, FileData& game,
+                  IGameListView* gamelistview, IMetaDataAction* actions , bool main);
 
     bool ProcessInput(const InputCompactEvent& event) override;
     void onSizeChanged() override;

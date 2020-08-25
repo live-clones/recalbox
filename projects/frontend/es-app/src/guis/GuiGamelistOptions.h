@@ -3,10 +3,11 @@
 #include "components/MenuComponent.h"
 #include "components/OptionListComponent.h"
 #include "games/FileSorts.h"
+#include "GuiMetaDataEd.h"
 
 class IGameListView;
 
-class GuiGamelistOptions : public Gui
+class GuiGamelistOptions : public Gui, private GuiMetaDataEd::IMetaDataAction
 {
 public:
 	GuiGamelistOptions(Window&window, SystemData& system, SystemManager& systemManager);
@@ -40,4 +41,10 @@ private:
 	bool mReloading;
 
 	IGameListView* getGamelist();
+
+    /*
+     * GuiMetaDataEd::IMetaDataAction implementation
+     */
+    void Delete(IGameListView* gamelistview, FileData& game) override;
+    void Modified(IGameListView* gamelistview, FileData& game) override;
 };
