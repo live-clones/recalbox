@@ -291,7 +291,7 @@ void GuiNetPlay::launch()
 
   LobbyGame game = mLobbyList[index];
 
-  if (!game.mCoreName.empty())
+  if (!game.mCoreName.empty() && game.mGame != nullptr)
   {
     bool mitm = game.mHostMethod == 3;
     std::string& ip = mitm ? game.mMitmIp : game.mIp;
