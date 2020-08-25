@@ -1,0 +1,4 @@
+## RECALBOX - SYSTEM IMAGEVIEWER ##
+
+Ce système sert à visualiser vos captures d'écran réalisées en jeu, avec la combinaison de touches Hotkey+L.
+Ces dernières sont stockées dans "recalbox/share/screenshots".
