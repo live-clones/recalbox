@@ -26,7 +26,7 @@ class Settings : public StaticLifeCycleControler<Settings>
       bool          mPrivate;
     };
 
-    static DataDescriptor sDescriptors[];
+    static DataDescriptor const sDescriptors[];
 
     struct Data
     {
@@ -59,7 +59,6 @@ class Settings : public StaticLifeCycleControler<Settings>
       int mMusicPopupTime;
       int mScraperResizeWidth;
       int mScraperResizeHeight;
-      int mSystemVolume;
       int mHelpPopupTime;
       int mNetplayPopupTime;
       int mMaxVRAM;
@@ -163,7 +162,6 @@ class Settings : public StaticLifeCycleControler<Settings>
     int MusicPopupTime          () const { return mData.mMusicPopupTime;           }
     int ScraperResizeWidth      () const { return mData.mScraperResizeWidth;       }
     int ScraperResizeHeight     () const { return mData.mScraperResizeHeight;      }
-    int SystemVolume            () const { return mData.mSystemVolume;             }
     int HelpPopupTime           () const { return mData.mHelpPopupTime;            }
     int NetplayPopupTime        () const { return mData.mNetplayPopupTime;         }
     int MaxVRAM                 () const { return mData.mMaxVRAM;                  }
@@ -228,7 +226,6 @@ class Settings : public StaticLifeCycleControler<Settings>
     void SetMusicPopupTime         (int  value) { mData.mMusicPopupTime           = value; }
     void SetScraperResizeWidth     (int  value) { mData.mScraperResizeWidth       = value; }
     void SetScraperResizeHeight    (int  value) { mData.mScraperResizeHeight      = value; }
-    void SetSystemVolume           (int  value) { mData.mSystemVolume             = value; }
     void SetHelpPopupTime          (int  value) { mData.mHelpPopupTime            = value; }
     void SetNetplayPopupTime       (int  value) { mData.mNetplayPopupTime         = value; }
     void SetMaxVRAM                (int  value) { mData.mMaxVRAM                  = value; }

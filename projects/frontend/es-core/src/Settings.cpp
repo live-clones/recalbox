@@ -13,7 +13,7 @@
   #define __VSYNC__ "1"
 #endif
 
-Settings::DataDescriptor Settings::sDescriptors[] =
+Settings::DataDescriptor const Settings::sDescriptors[] =
 {
   { Settings::DataType::Bool  , offsetof(Settings::Data, mBackgroundJoystickInput), "BackgroundJoystickInput", "0", false },
   { Settings::DataType::Bool  , offsetof(Settings::Data, mDrawFramerate          ), "DrawFramerate"          , "0", false },
@@ -43,7 +43,6 @@ Settings::DataDescriptor Settings::sDescriptors[] =
   { Settings::DataType::Int   , offsetof(Settings::Data, mMusicPopupTime         ), "MusicPopupTime"         , "5"     , false },
   { Settings::DataType::Int   , offsetof(Settings::Data, mScraperResizeWidth     ), "ScraperResizeWidth"     , "400"   , false },
   { Settings::DataType::Int   , offsetof(Settings::Data, mScraperResizeHeight    ), "ScraperResizeHeight"    , "0"     , false },
-  { Settings::DataType::Int   , offsetof(Settings::Data, mSystemVolume           ), "SystemVolume"           , "96"    , false },
   { Settings::DataType::Int   , offsetof(Settings::Data, mHelpPopupTime          ), "HelpPopupTime"          , "5"    , false },
   { Settings::DataType::Int   , offsetof(Settings::Data, mNetplayPopupTime       ), "NetplayPopupTime"       , "5"     , false },
   { Settings::DataType::Int   , offsetof(Settings::Data, mMaxVRAM                ), "MaxVRAM"                , "80"    , false },
@@ -105,7 +104,7 @@ Settings::Settings()
 
 void Settings::setDefaults()
 {
-  for(DataDescriptor& desc : sDescriptors)
+  for(const DataDescriptor& desc : sDescriptors)
   {
     void* targetPointer = (char*)&mData + desc.mTarget;
     switch(desc.mType)
@@ -125,7 +124,7 @@ void Settings::saveFile()
   pugi::xml_document doc;
   pugi::xml_node config = doc.append_child("config");
 
-  for(DataDescriptor& desc : sDescriptors)
+  for(const DataDescriptor& desc : sDescriptors)
     if (!desc.mPrivate)
     {
       pugi::xml_node node = config.append_child(DataTypeToString(desc.mType));

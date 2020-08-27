@@ -48,7 +48,7 @@ MainRunner::ExitState MainRunner::Run()
   {
     // Audio controller
     AudioController audioController;
-    audioController.SetVolume(Settings::Instance().SystemVolume());
+    audioController.SetVolume(audioController.GetVolume());
     std::string originalAudioDevice = RecalboxConf::Instance().AsString("audio.device");
     std::string fixedAudioDevice = audioController.SetDefaultPlayback(originalAudioDevice);
     if (fixedAudioDevice != originalAudioDevice)

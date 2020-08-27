@@ -2,8 +2,10 @@
 // Created by bkg2k on 13/08/2020.
 //
 
-#include <Settings.h>
+#include <RecalboxConf.h>
 #include <utils/Files.h>
+#include <utils/cplusplus/StaticLifeCycleControler.h>
+#include <utils/math/Misc.h>
 #include "AlsaController.h"
 
 void AlsaController::Initialize()
@@ -268,7 +270,7 @@ void AlsaController::SetDefaultPlayback(int identifier)
 
 int AlsaController::GetVolume()
 {
-  return Settings::Instance().SystemVolume();
+  return Math::clampi(RecalboxConf::Instance().AsInt("audio.volume"),0, 100);
 }
 
 void AlsaController::SetVolume(int volume)

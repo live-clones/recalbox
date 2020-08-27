@@ -1133,12 +1133,9 @@ void GuiMenu::menuSoundSettings(){
   auto* s = new GuiSettings(mWindow, _("SOUND SETTINGS"));
 
   // volume
-  auto setVolume = [](const float &newVal) {
-    AudioController::Instance().SetVolume(Math::roundi(newVal));
-  };
   auto volume = std::make_shared<SliderComponent>(mWindow, 0.f, 100.f, 1.f, "%");
-  volume->setSlider((float)Math::clampi(Settings::Instance().SystemVolume(), 0, 100));
-  volume->setSelectedChangedCallback(setVolume);
+  volume->setSlider((float)AudioController::Instance().GetVolume());
+  volume->setSelectedChangedCallback([](const float &newVal) { AudioController::Instance().SetVolume(Math::roundi(newVal)); });
   s->addWithLabel(volume, _("SYSTEM VOLUME"), _(MENUMESSAGE_SOUND_VOLUME_HELP_MSG));
 
   // disable sounds
