@@ -158,6 +158,8 @@ class ThemeElement
 
     bool HasProperty(const std::string& prop) const { return (mProperties.find(prop) != mProperties.end()); }
 
+    bool HasProperties() const { return !mProperties.empty(); }
+
     const std::string& Type() const { return mType; }
 
     bool Extra() const { return mExtra; }

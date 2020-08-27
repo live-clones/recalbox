@@ -4,6 +4,7 @@
 
 #include "Genres.h"
 #include <utils/Log.h>
+#include <cstring>
 
 const Path& Genres::GetResourcePath(GameGenres genre)
 {
@@ -144,7 +145,6 @@ const Genres::GenreMap& Genres::GetLongNameMap()
 
 std::string Genres::GetName(GameGenres genre)
 {
-
   const char** found = GetLongNameMap().try_get(genre);
   if (found != nullptr)
     return *found;
@@ -281,5 +281,13 @@ const Genres::GenreList& Genres::GetOrderedList()
    });
 
   return sNames;
+}
+
+GameGenres Genres::LookupFromName(const std::string& name)
+{
+  for(const auto& item : GetShortNameMap())
+    if (strcmp(name.data(), item.second) == 0)
+      return item.first;
+  return GameGenres::None;
 }
 

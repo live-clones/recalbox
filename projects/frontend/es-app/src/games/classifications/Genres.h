@@ -95,6 +95,13 @@ class Genres
     static std::string GetName(GameGenres genre);
 
     /*!
+     * @brief Lookup game genre from its name
+     * @param name Name
+     * @return GameGenre (None if not found)
+     */
+    static GameGenres LookupFromName(const std::string& name);
+
+    /*!
      * @brief Get generic short name per genre
      * @return Short name (may be used in automatic configuration
      */

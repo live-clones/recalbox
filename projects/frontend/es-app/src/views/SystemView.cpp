@@ -31,7 +31,8 @@ SystemView::SystemView(Window& window, SystemManager& systemManager)
 	setSize(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
 }
 
-void SystemView::addSystem(SystemData * it){
+void SystemView::addSystem(SystemData * it)
+{
 	if(!(it)->getRootFolder().hasChildren()){
 		return;
 	}
@@ -45,7 +46,8 @@ void SystemView::addSystem(SystemData * it){
 	e.object = it;
 
 	// make logo
-	if(theme.getElement("system", "logo", "image") != nullptr)
+	const ThemeElement* logoElement = theme.getElement("system", "logo", "image");
+	if(logoElement != nullptr && logoElement->HasProperties())
 	{
 		ImageComponent* logo = new ImageComponent(mWindow, false, false);
 		logo->setMaxSize(mCarousel.logoSize * mCarousel.logoScale);
@@ -67,18 +69,38 @@ void SystemView::addSystem(SystemData * it){
 		}
 
 	}else{
-		// no logo in theme; use text
-		TextComponent* text = new TextComponent(mWindow,
-                                            (it)->getName(),
-                                            Font::get(FONT_SIZE_LARGE),
-                                            0x000000FF,
-                                            TextAlignment::Center);
-		text->setSize(mCarousel.logoSize * mCarousel.logoScale);
-		e.data.logo = std::shared_ptr<Component>(text);
-    if (mCarousel.type == CarouselType::Vertical || mCarousel.type == CarouselType::VerticalWheel)
-			text->setHorizontalAlignment(mCarousel.logoAlignment);
-    else
-			text->setVerticalAlignment(mCarousel.logoAlignment);
+	  GameGenres genre = Genres::LookupFromName(it->getName());
+	  if (genre == GameGenres::None)
+    {
+      // no logo in theme; use text
+      TextComponent* text = new TextComponent(mWindow, (it)->getFullName(), Font::get(FONT_SIZE_LARGE), 0x000000FF,
+                                              TextAlignment::Center);
+      text->setSize(mCarousel.logoSize * mCarousel.logoScale);
+      e.data.logo = std::shared_ptr<Component>(text);
+      if (mCarousel.type == CarouselType::Vertical || mCarousel.type == CarouselType::VerticalWheel)
+        text->setHorizontalAlignment(mCarousel.logoAlignment);
+      else
+        text->setVerticalAlignment(mCarousel.logoAlignment);
+    }
+	  else
+    {
+      ImageComponent* logo = new ImageComponent(mWindow, false, false);
+      logo->setMaxSize(mCarousel.logoSize * mCarousel.logoScale);
+      logo->setImage(Genres::GetResourcePath(genre));
+      e.data.logo = std::shared_ptr<Component>(logo);
+
+      TextComponent* text = new TextComponent(mWindow,
+                                              (it)->getFullName(),
+                                              Font::get(FONT_SIZE_MEDIUM),
+                                              0xE6E6E6FF,
+                                              TextAlignment::Center);
+      text->setSize(mCarousel.logoSize * mCarousel.logoScale);
+      e.data.logotext = std::shared_ptr<Component>(text);
+      if (mCarousel.type == CarouselType::Vertical || mCarousel.type == CarouselType::VerticalWheel)
+        text->setHorizontalAlignment(mCarousel.logoAlignment);
+      else
+        text->setVerticalAlignment(mCarousel.logoAlignment);
+  }
 	}
 
   if (mCarousel.type == CarouselType::Vertical || mCarousel.type == CarouselType::VerticalWheel)
@@ -138,10 +160,8 @@ void SystemView::populate()
 {
 	mEntries.clear();
 
-	for (auto& it : mSystemManager.GetVisibleSystemList())
-	{
+	for (const auto& it : mSystemManager.GetVisibleSystemList())
 		addSystem(it);
-	}
 }
 
 void SystemView::goToSystem(SystemData* system, bool animate)
@@ -207,7 +227,7 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
       {
         if (netplay)
         {
-          auto s = new GuiSettings(mWindow, _("KODI/NETPLAY"));
+          auto* s = new GuiSettings(mWindow, _("KODI/NETPLAY"));
           auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
           ComponentListRow row;
           row.makeAcceptInputHandler([this, s] {
@@ -223,7 +243,7 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
           s->addRow(row);
           row.elements.clear();
           row.makeAcceptInputHandler([this, s] {
-              auto netplay = new GuiNetPlay(mWindow, mSystemManager);
+              auto* netplay = new GuiNetPlay(mWindow, mSystemManager);
               mWindow.pushGui(netplay);
               s->Close();
           });
@@ -244,7 +264,7 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
       }
       else if (netplay && !mWindow.HasGui())
       {
-        auto netplayGui = new GuiNetPlay(mWindow, mSystemManager);
+        auto* netplayGui = new GuiNetPlay(mWindow, mSystemManager);
         mWindow.pushGui(netplayGui);
       }
     }
@@ -362,7 +382,7 @@ void SystemView::onCursorChanged(const CursorState& state)
 	if(endPos == mCamOffset && endPos == mExtrasCamOffset)
 		return;
 
-	Animation* anim;
+	Animation* anim = nullptr;
     bool move_carousel = Settings::Instance().MoveCarousel();
 	std::string transition_style = Settings::Instance().TransitionStyle();
 	if(transition_style == "fade")
