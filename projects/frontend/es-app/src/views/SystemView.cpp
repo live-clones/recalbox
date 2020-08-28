@@ -100,7 +100,7 @@ void SystemView::addSystem(SystemData * it)
         text->setHorizontalAlignment(mCarousel.logoAlignment);
       else
         text->setVerticalAlignment(mCarousel.logoAlignment);
-  }
+    }
 	}
 
   if (mCarousel.type == CarouselType::Vertical || mCarousel.type == CarouselType::VerticalWheel)

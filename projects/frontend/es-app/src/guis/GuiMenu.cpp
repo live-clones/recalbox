@@ -1134,9 +1134,13 @@ void GuiMenu::menuSoundSettings(){
 
   // volume
   auto volume = std::make_shared<SliderComponent>(mWindow, 0.f, 100.f, 1.f, "%");
-  volume->setSlider((float)AudioController::Instance().GetVolume());
-  volume->setSelectedChangedCallback([](const float &newVal) { AudioController::Instance().SetVolume(Math::roundi(newVal)); });
-  s->addWithLabel(volume, _("SYSTEM VOLUME"), _(MENUMESSAGE_SOUND_VOLUME_HELP_MSG));
+  volume->setSlider((float) AudioController::Instance().GetVolume());
+  if (!AudioController::Instance().HasSpecialAudio())
+  {
+    volume->setSelectedChangedCallback([](const float& newVal)
+                                       { AudioController::Instance().SetVolume(Math::roundi(newVal)); });
+    s->addWithLabel(volume, _("SYSTEM VOLUME"), _(MENUMESSAGE_SOUND_VOLUME_HELP_MSG));
+  }
 
   // disable sounds
   auto sounds_enabled = std::make_shared<SwitchComponent>(mWindow);
@@ -1162,7 +1166,7 @@ void GuiMenu::menuSoundSettings(){
   // Sort
   std::sort(availableAudio.begin() + 1, availableAudio.end());
 
-  if (RecalboxConf::Instance().AsString("emulationstation.menu") != "bartop")
+  if (!AudioController::Instance().HasSpecialAudio() && RecalboxConf::Instance().AsString("emulationstation.menu") != "bartop")
   {
     for (auto& it : availableAudio)
         optionsAudio->add(_S(it), it, currentDevice == it);
@@ -1174,6 +1178,7 @@ void GuiMenu::menuSoundSettings(){
     optionsAudio->setSelectedChangedCallback(setAudioDevice);
     s->addWithLabel(optionsAudio, _("OUTPUT DEVICE"), _(MENUMESSAGE_SOUND_DEVICE_HELP_MSG));
   }
+  
   s->addSaveFunc([optionsAudio, currentDevice, sounds_enabled, volume] {
     RecalboxConf::Instance().SetInt("audio.volume", Math::roundi(volume->getSlider()));
 

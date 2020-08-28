@@ -17,12 +17,17 @@ class AudioController: public StaticLifeCycleControler<AudioController>
       return sAlsaController;
     }
 
+    // Underlaying audio controler
     IAudioController& mController;
+
+    // Has special ausio settings?
+    bool mHasSpecialAudio;
 
   public:
     AudioController()
       : StaticLifeCycleControler("AudioController")
       , mController(GetAudioController())
+      , mHasSpecialAudio(Path("/etc/asound.conf").Exists())
     {
     }
 
@@ -36,14 +41,14 @@ class AudioController: public StaticLifeCycleControler<AudioController>
      * @brief Set the default card/device
      * @param identifier opaque identifier from GetPlaybackList()
      */
-    void SetDefaultPlayback(int identifier) { mController.SetDefaultPlayback(identifier); }
+    void SetDefaultPlayback(int identifier) { if (!mHasSpecialAudio) mController.SetDefaultPlayback(identifier); }
 
     /*!
      * @brief Set the default card/device
      * @param playbackName playback name from GetPlaybackList()
      * @return playbackName or default value if playbackName is invalid
      */
-    std::string SetDefaultPlayback(const std::string& playbackName) { return mController.SetDefaultPlayback(playbackName); }
+    std::string SetDefaultPlayback(const std::string& playbackName) { return (!mHasSpecialAudio ? mController.SetDefaultPlayback(playbackName) : std::string()); }
 
     /*!
      * @brief Get volume from the given playback
@@ -55,5 +60,11 @@ class AudioController: public StaticLifeCycleControler<AudioController>
      * @brief Set volume to the given playback
      * @param volume Volume percent
      */
-    void SetVolume(int volume) { mController.SetVolume(volume); }
+    void SetVolume(int volume) { if (!mHasSpecialAudio) mController.SetVolume(volume); }
+
+    /*!
+     * @brief Check if there is a special audio configuration
+     * @return True if there is a special audio configuration
+     */
+    bool HasSpecialAudio() const { return mHasSpecialAudio; }
 };
