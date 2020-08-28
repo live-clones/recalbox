@@ -283,10 +283,10 @@ void ViewController::LaunchCheck(FileData* game, const NetPlayData& netplaydata,
       text = Strings::Replace(text, "%emulator%", emulatorString);
       text = Strings::Replace(text, "%game%", game->getName());
       // Add bios names
-      text.append("\n\n")
+      /*text.append("\n\n")
           .append(_("Missing bios list:"))
           .append(1, ' ')
-          .append(Strings::Join(biosList.GetMissingBiosFileList(), "\n"));
+          .append(Strings::Join(biosList.GetMissingBiosFileList(), "\n"));*/
       // Show the dialog box
       Gui* gui = new GuiMsgBox(mWindow,
                                text,

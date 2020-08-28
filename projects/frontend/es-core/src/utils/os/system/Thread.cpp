@@ -10,9 +10,9 @@ Thread::Thread()
     mIsRunning(false),
     mIsDone(false)
 {
-  static int __TotalCount__ = 0;
+  static int sTotalCount = 0;
   memset(mName, 0, sizeof(mName));
-  std::string strName = "thread " + std::to_string(++__TotalCount__);
+  std::string strName = "thread " + std::to_string(++sTotalCount);
   strncpy(mName, strName.c_str(), sizeof(mName));
 }
 
@@ -41,7 +41,7 @@ void Thread::Stop()
   if (mHandle != 0 && SelfId() != mId)
   {
     Break();
-    void* dummy;
+    void* dummy = nullptr;
     pthread_join(mHandle, &dummy);
     mHandle = 0;
   }
@@ -52,7 +52,7 @@ void Thread::Join()
 {
   if (mHandle != 0 && SelfId() != mId)
   {
-    void* dummy;
+    void* dummy = nullptr;
     pthread_join(mHandle, &dummy);
     mHandle = 0;
   }
