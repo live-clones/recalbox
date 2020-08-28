@@ -58,17 +58,7 @@ class Install(InstallBase):
             logger.hardlog("Installing GPi Case V1 software")
 
             try:
-                # Install safe shutdown
                 os.system("mount -o remount,rw /")
-                script = self.BASE_SOURCE_FOLDER + "assets/recalbox_SafeShutdown_gpi.py"
-                try:
-                    with open("/etc/init.d/S99RetroFlag", 'w+') as sf:
-                        sf.write("python {} &".format(script))
-                    os.chmod("/etc/init.d/S99RetroFlag", 0o755)
-                    os.system("/etc/init.d/S99RetroFlag")
-                    logger.hardlog("GPi: safe shutdown installed")
-                except Exception as e:
-                    logger.hardlog("GPi: error installing safe shutdown ({})".format(e.message))
 
                 # Switch default resolution
                 os.system("sed -i -E 's/([a-z\.]*)videomode=.*/\\1videomode=default/g' /recalbox/share/system/recalbox.conf")
