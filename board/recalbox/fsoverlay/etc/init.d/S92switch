@@ -16,6 +16,11 @@ case "$1" in
         else
             recallog "script $RUN already started ["$BTD_PID"]!"
         fi
+      	# GPI case special shutdown script  	
+        if grep -q -E '^case=GPiV1:1' /boot/recalbox-boot.conf; then
+		    recallog "GPi case detected: running shutdown script"
+    		python /recalbox/system/hardware/case/installers/gpi/assets/recalbox_SafeShutdown_gpi.py &
+  		fi
     ;;
     stop)
         recallog "Stopping $NAME"
