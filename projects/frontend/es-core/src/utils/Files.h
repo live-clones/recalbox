@@ -13,6 +13,15 @@ class Files
     static std::string LoadFile(const Path& path);
 
     /*!
+     * @brief Load partial content of a file into a string
+     * @param path File to load
+     * @param from Offset to read from
+     * @param size Size to read
+     * @return Partial file content
+     */
+    static std::string LoadFile(const Path& path, long long from, long long size);
+
+    /*!
      * @brief Save the given string into a file
      * @param path File path
      * @param content String ot save

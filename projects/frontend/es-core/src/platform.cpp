@@ -17,10 +17,38 @@ int runSystemCommand(const std::string& cmd_utf8, bool debug)
   // Get logs
   if (debug)
   {
-    std::string content = Files::LoadFile(Path(output));
-    if (!content.empty()) LOG(LogInfo) << "Configgen Output:\n" << content;
-    content = Files::LoadFile(Path(outerr));
-    if (!content.empty()) LOG(LogInfo) << "Configgen Errors:\n" << content;
+    Path outPath(output);
+    Path errPath(outerr);
+
+    static constexpr int sLogSizeLimit = 2 << 20; // 2Mb
+
+    // stdout
+    if (outPath.Size() > sLogSizeLimit)
+    {
+      long long size = outPath.Size();
+      std::string start = Files::LoadFile(outPath, 0, sLogSizeLimit / 2);
+      std::string stop = Files::LoadFile(outPath, size - (sLogSizeLimit / 2), sLogSizeLimit / 2);
+      LOG(LogInfo) << "Configgen Output:\n" << start << "\n...\n" << stop;
+    }
+    else
+    {
+      std::string content = Files::LoadFile(outPath);
+      if (!content.empty()) LOG(LogInfo) << "Configgen Output:\n" << content;
+    }
+
+    // stderr
+    if (errPath.Size() > sLogSizeLimit)
+    {
+      long long size = errPath.Size();
+      std::string start = Files::LoadFile(errPath, 0, sLogSizeLimit / 2);
+      std::string stop = Files::LoadFile(errPath, size - (sLogSizeLimit / 2), sLogSizeLimit / 2);
+      LOG(LogInfo) << "Configgen Errors:\n" << start << "\n...\n" << stop;
+    }
+    else
+    {
+      std::string content = Files::LoadFile(errPath);
+      if (!content.empty()) LOG(LogInfo) << "Configgen Errors:\n" << content;
+    }
   }
 
   // Return state

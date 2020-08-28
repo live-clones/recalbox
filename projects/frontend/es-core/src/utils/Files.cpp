@@ -37,6 +37,31 @@ std::string Files::LoadFile(const Path& path)
   return result;
 }
 
+std::string Files::LoadFile(const Path& path, long long from, long long size)
+{
+  std::string result;
+
+  if (path.Exists())
+  {
+    int fd = open(path.ToChars(), O_RDONLY);
+    if (fd >= 0)
+    {
+      long l = lseek(fd, from, SEEK_END);
+      if (l > 0)
+      {
+        result.resize(size, 0);
+        lseek(fd, 0, SEEK_SET);
+        l = read(fd, (void*)result.data(), size);
+        if (l < 0) l = 0; // Return empty string on error
+        result.resize(l);
+      }
+      close(fd);
+    }
+  }
+
+  return result;
+}
+
 // TODO: convert to open/write/close
 bool Files::SaveFile(const Path& path, const std::string& content)
 {
