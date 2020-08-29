@@ -23,11 +23,17 @@ class AudioController: public StaticLifeCycleControler<AudioController>
     // Has special ausio settings?
     bool mHasSpecialAudio;
 
+    /*!
+     * @brief Check if the current machine has a special audio configuration
+     * @return True if the current machine has a special audio configuration
+     */
+    static bool GetSpecialAudio();
+
   public:
     AudioController()
       : StaticLifeCycleControler("AudioController")
       , mController(GetAudioController())
-      , mHasSpecialAudio(Path("/etc/asound.conf").Exists())
+      , mHasSpecialAudio(GetSpecialAudio())
     {
     }
 
