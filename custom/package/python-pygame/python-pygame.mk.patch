@@ -1,0 +1,19 @@
+diff --git a/package/python-pygame/python-pygame.mk b/package/python-pygame/python-pygame.mk
+index 8deb42a90c..b58651d739 100644
+--- a/package/python-pygame/python-pygame.mk
++++ b/package/python-pygame/python-pygame.mk
+@@ -6,10 +6,10 @@
+ 
+ # stable 1.9.1 release requires V4L which has been wiped out of recent Linux
+ # kernels, so use latest mercurial revision until next stable release is out.
+-PYTHON_PYGAME_VERSION = d61ea8eabd56
+-PYTHON_PYGAME_SOURCE = pygame-$(PYTHON_PYGAME_VERSION).tar.gz
+-PYTHON_PYGAME_SITE = https://bitbucket.org/pygame/pygame
+-PYTHON_PYGAME_SITE_METHOD = hg
++PYTHON_PYGAME_VERSION = 1.9.4
++#PYTHON_PYGAME_SOURCE = pygame-$(PYTHON_PYGAME_VERSION).tar.gz
++PYTHON_PYGAME_SITE = https://github.com/pygame/pygame
++PYTHON_PYGAME_SITE_METHOD = git
+ PYTHON_PYGAME_SETUP_TYPE = distutils
+ PYTHON_PYGAME_LICENSE = LGPL-2.1+
+ PYTHON_PYGAME_LICENSE_FILES = LGPL
