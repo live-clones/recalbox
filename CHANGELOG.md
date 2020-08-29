@@ -61,7 +61,7 @@ All notable changes to this project will be documented in this file.
 - Bump libretro-assets on last version
 - Bump libretro-cores family
 - Fix reboot Emulationstation with webmanager 
-- Add laptop switch external screen function only for x86_64
+- Add laptop switch external screen function only for x86_64 x86
 - Fix reboot Emulationstation with webmanager
 - Add Nintendo 64DD
 - Add libretro mame 
