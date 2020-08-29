@@ -1,0 +1,24 @@
+#!/bin/bash
+# save overlay_tmp to persistent overlay at first boot
+log() {
+  while read -r line; do
+    /usr/bin/recallog -e "$line"
+  done
+}
+
+if mount | grep /overlay | grep -q tmpfs; then
+  exec &> >(log)
+  overlay_part=$(/recalbox/scripts/recalbox-part.sh overlay)
+  echo "starting overlay sync to $overlay_part"
+
+  mkdir /tmp/overlay
+  mount "$overlay_part" /tmp/overlay || {
+    echo "can't mount persistent overlay..."
+    exit 1
+  }
+
+  rsync -avP --exclude lower /overlay/ /tmp/overlay/
+  umount /tmp/overlay
+
+  echo "overlay sync done"
+fi
