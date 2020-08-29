@@ -191,6 +191,8 @@ std::string DateTimeComponent::getDisplayString(Display mode) const
 			if(mTime.Year() == 0) return _("never");
 
 			TimeSpan diff = DateTime() - mTime;
+			if (diff.IsNegative() || diff.TotalDays() > 3560)
+			  diff = TimeSpan(0);
 
 			if (diff.TotalSeconds() < 2) return _("just now");
 			if (diff.TotalSeconds() < 60) { snprintf(strbuf, sizeof(strbuf), _N("%i sec ago", "%i secs ago", diff.TotalSeconds()).c_str(), diff.TotalSeconds()); return strbuf; }
