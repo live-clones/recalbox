@@ -2251,11 +2251,35 @@ msgstr " wurde ausgestöpselt !"
 
 #
 msgid "Remove from favorite"
-msgstr ""
+msgstr "Aus Favoriten entfernen"
 
 #
 msgid "Default output"
-msgstr ""
+msgstr "Standardausgabe"
+
+#
+msgid "ARCADE VIRTUAL SYSTEM"
+msgstr "VIRTUELLES ARCADE-SYSTEM"
+
+#
+msgid "BETWEEN %1 AND %2"
+msgstr "ZWISCHEN %1 UND %2"
+
+#
+msgid "ENABLE ARCADE VIRTUAL SYSTEM"
+msgstr "VIRTUELLES ARCADE-SYSTEM AKTIVIEREN"
+
+#
+msgid "HIDE ORIGINAL SYSTEMS"
+msgstr "ORIGINALSYSTEME AUSBLENDEN"
+
+#
+msgid "INCLUDE NEO-GEO"
+msgstr "NEO-GEO EINSCHLIESSEN"
+
+#
+msgid "POSITION"
+msgstr "POSITION"
 
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "

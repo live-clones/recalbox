@@ -2244,4 +2244,28 @@ msgstr "Remove from favorite"
 
 #
 msgid "Default output"
-msgstr ""
+msgstr "Default output"
+
+#
+msgid "ARCADE VIRTUAL SYSTEM"
+msgstr "ARCADE VIRTUAL SYSTEM"
+
+#
+msgid "BETWEEN %1 AND %2"
+msgstr "BETWEEN %1 AND %2"
+
+#
+msgid "ENABLE ARCADE VIRTUAL SYSTEM"
+msgstr "ENABLE ARCADE VIRTUAL SYSTEM"
+
+#
+msgid "HIDE ORIGINAL SYSTEMS"
+msgstr "HIDE ORIGINAL SYSTEMS"
+
+#
+msgid "INCLUDE NEO-GEO"
+msgstr "INCLUDE NEO-GEO"
+
+#
+msgid "POSITION"
+msgstr "POSITION"

@@ -2189,6 +2189,30 @@ msgstr ""
 msgid "Default output"
 msgstr ""
 
+#
+msgid "ARCADE VIRTUAL SYSTEM"
+msgstr ""
+
+#
+msgid "BETWEEN %1 AND %2"
+msgstr ""
+
+#
+msgid "ENABLE ARCADE VIRTUAL SYSTEM"
+msgstr ""
+
+#
+msgid "HIDE ORIGINAL SYSTEMS"
+msgstr ""
+
+#
+msgid "INCLUDE NEO-GEO"
+msgstr ""
+
+#
+msgid "POSITION"
+msgstr ""
+
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
 #~ "will turn the screen black."

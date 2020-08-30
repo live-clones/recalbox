@@ -38,6 +38,7 @@
 #include "GuiScraperSelect.h"
 #include "GuiBiosScan.h"
 #include "GuiQuit.h"
+#include "GuiMenuArcadeVirtualSystem.h"
 
 GuiMenu::GuiMenu(Window& window, SystemManager& systemManager)
   : Gui(window),
@@ -1561,6 +1562,7 @@ void GuiMenu::menuAdvancedSettings(){
         };
 
         virtualGui->addSubMenu(_("VIRTUAL SYSTEMS PER GENRE"), openGui, _(MENUMESSAGE_ADVANCED_VIRTUALGENRESYSTEMS_HELP_MSG));
+        virtualGui->addSubMenu(_("ARCADE VIRTUAL SYSTEM"), [this] { mWindow.pushGui(new GuiMenuArcadeVirtualSystem(mWindow, mSystemManager)); }, _(MENUMESSAGE_ADVANCED_ARCADEVIRTUALSYSTEM_HELP_MSG));
       }
 
       virtualGui->addSaveFunc(

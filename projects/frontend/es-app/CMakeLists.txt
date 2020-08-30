@@ -38,6 +38,7 @@ set(ES_HEADERS
         src/guis/GuiMetaDataEd.h
         src/guis/GuiGamelistOptions.h
         src/guis/GuiMenu.h
+        src/guis/GuiMenuArcadeVirtualSystem.h
         src/guis/GuiSettings.h
         src/guis/GuiScraperRun.h
         src/guis/GuiScraperSelect.h
@@ -189,6 +190,7 @@ set(ES_SOURCES
         src/guis/GuiMetaDataEd.cpp
         src/guis/GuiGamelistOptions.cpp
         src/guis/GuiMenu.cpp
+        src/guis/GuiMenuArcadeVirtualSystem.cpp
         src/guis/GuiSettings.cpp
         src/guis/GuiScraperRun.cpp
         src/guis/GuiScraperSelect.cpp

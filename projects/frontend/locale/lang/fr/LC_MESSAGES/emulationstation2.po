@@ -2256,3 +2256,27 @@ msgstr "Retirer des favoris"
 #
 msgid "Default output"
 msgstr "Sortie par défaut"
+
+#
+msgid "ARCADE VIRTUAL SYSTEM"
+msgstr "SYSTÈME VIRTUAL ARCADE"
+
+#
+msgid "BETWEEN %1 AND %2"
+msgstr "ENTRE %1 ET %2"
+
+#
+msgid "ENABLE ARCADE VIRTUAL SYSTEM"
+msgstr "ACTIVE LE SYSTÈME VIRTUEL ARCADE"
+
+#
+msgid "HIDE ORIGINAL SYSTEMS"
+msgstr "CACHER LES SYSTÈMES ORIGINELS"
+
+#
+msgid "INCLUDE NEO-GEO"
+msgstr "INCLURE LA NÉO-GÉO"
+
+#
+msgid "POSITION"
+msgstr "POSITION"

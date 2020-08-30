@@ -2264,7 +2264,31 @@ msgstr ""
 
 #
 msgid "Default output"
-msgstr ""
+msgstr "Saída padrão"
+
+#
+msgid "ARCADE VIRTUAL SYSTEM"
+msgstr "Sistema virtual de arcade"
+
+#
+msgid "BETWEEN %1 AND %2"
+msgstr "Entre %1 e %2"
+
+#
+msgid "ENABLE ARCADE VIRTUAL SYSTEM"
+msgstr "Habilitar sistema virtual de arcade"
+
+#
+msgid "HIDE ORIGINAL SYSTEMS"
+msgstr "Esconder sistemas originais"
+
+#
+msgid "INCLUDE NEO-GEO"
+msgstr "Incluir neo-geo"
+
+#
+msgid "POSITION"
+msgstr "Posição"
 
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
