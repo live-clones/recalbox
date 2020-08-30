@@ -12,6 +12,7 @@ public:
   SwitchComponent(Window&window, bool state)
     : SwitchComponent(window)
   {
+    mInitialState = state;
     mState = state;
     onStateChanged();
   }
