@@ -112,6 +112,8 @@ All notable changes to this project will be documented in this file.
 - Add shader management in EmulationStation
 - Fix audio issues
 - Improve GPI support
+- Add videosnaps sound & menu on/off
+- Add arcade system management in EmulationStation
 
 ## [6.1.1]
 - Add zfast shaders

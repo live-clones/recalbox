@@ -200,7 +200,9 @@
   - GSPlus (Apple IIGS): from 2 up to 32 disks loaded at once, depending on floppy types
   - Quasi88 (PC88): up to 6 disks loaded at once
 - Improve shader management in EmulationStation
-- Improve GPI support  
+- Improve GPI support
+- Add Arcade virtual system in EmulationStation
+- Add videosnaps sound & on/off switch in EmulationStation menus
 
 ### Fixes
 - Fix Odroid XU4 fan issue
