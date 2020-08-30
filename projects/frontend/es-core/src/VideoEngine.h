@@ -6,7 +6,6 @@
 #include <utils/os/system/Thread.h>
 #include <utils/os/system/Mutex.h>
 #include <utils/cplusplus/StaticLifeCycleControler.h>
-#include <SDL_system.h>
 #include <resources/TextureData.h>
 #include <SDL_audio.h>
 
@@ -160,7 +159,8 @@ class VideoEngine : public StaticLifeCycleControler<VideoEngine>, private Thread
             Width(0),
             Height(0),
             FrameTime(0),
-            TotalTime(0)
+            TotalTime(0),
+            AudioFrame(nullptr)
         {
         }
 
@@ -168,7 +168,8 @@ class VideoEngine : public StaticLifeCycleControler<VideoEngine>, private Thread
         {
           if (AudioVideoContext != nullptr ) avformat_close_input(&AudioVideoContext);
           if (AudioCodecContext != nullptr ) avcodec_free_context(&AudioCodecContext);
-          if (VideoCodecContext != nullptr ) avcodec_free_context(&VideoCodecContext);if (ResamplerContext != nullptr) swr_free(&ResamplerContext);
+          if (VideoCodecContext != nullptr ) avcodec_free_context(&VideoCodecContext);
+          if (ResamplerContext != nullptr) swr_free(&ResamplerContext);
           if (ColorsSpaceContext != nullptr) sws_freeContext(ColorsSpaceContext);
           if (Frame != nullptr             ) av_frame_free(&Frame);
           if (FrameRGB[0] != nullptr       ) av_frame_free(&FrameRGB[0]);
@@ -192,14 +193,13 @@ class VideoEngine : public StaticLifeCycleControler<VideoEngine>, private Thread
         }
     };
 
-  private:
     //! Signal used to unlock the thread and actually run the video decoding
     Mutex mSignal;
 
     //! Video filename
     Path mFileName;
 
-    bool mDecodeSound{};
+    bool mDecodeSound;
 
     //! Video playing state
     volatile PlayerState mState;
@@ -211,8 +211,6 @@ class VideoEngine : public StaticLifeCycleControler<VideoEngine>, private Thread
     TextureData mTexture;
 
     static constexpr int SDL_AUDIO_BUFFER_SIZE = 4096;
-
-  private:
 
     /*!
      * Thread main loop
@@ -267,7 +265,7 @@ class VideoEngine : public StaticLifeCycleControler<VideoEngine>, private Thread
      * If a video is already playing, a call to stop is performed playing the new video
      * @param videopath Path to the video file ot play
      */
-    void PlayVideo(const Path& videopath, bool decodeSound = false);
+    void PlayVideo(const Path& videopath, bool decodeSound);
 
     /*!
      * @brief Stop the currently playing video file.
@@ -304,5 +302,5 @@ class VideoEngine : public StaticLifeCycleControler<VideoEngine>, private Thread
     /*!
      * Resume the engine if it's actually paused. Otherwise do nothing.
      */
-    void ResumeEngine() { if (mState == PlayerState::Paused) mState = PlayerState::Playing; }
+    void ResumeEngine() __attribute((unused)) { if (mState == PlayerState::Paused) mState = PlayerState::Playing; }
 };

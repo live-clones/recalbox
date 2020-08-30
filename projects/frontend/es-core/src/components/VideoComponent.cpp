@@ -3,7 +3,6 @@
 #include <Renderer.h>
 #include <help/Help.h>
 #include <themes/ThemeData.h>
-#include <utils/datetime/DateTime.h>
 #include <utils/Log.h>
 #include <utils/locale/LocaleHelper.h>
 
@@ -20,7 +19,8 @@ VideoComponent::VideoComponent(Window&window)
   mFadeOpacity(0),
   mVideoDelay(DEFAULT_VIDEODELAY),
   mVideoEffect(DEFAULT_VIDEOEFFET),
-  mVideoLoop(DEFAULT_VIDEOLOOP)
+  mVideoLoop(DEFAULT_VIDEOLOOP),
+  mDecodeAudio(false)
 {
   updateColors();
 }
@@ -380,7 +380,7 @@ void VideoComponent::applyTheme(const ThemeData& theme, const std::string& view,
 
   if (hasFlag(properties, ThemeProperties::Path) && elem->HasProperty("path"))
   {
-    setVideo(Path(elem->AsString("path")), DEFAULT_VIDEODELAY, DEFAULT_VIDEOLOOP);
+    setVideo(Path(elem->AsString("path")), DEFAULT_VIDEODELAY, DEFAULT_VIDEOLOOP, RecalboxConf::Instance().AsBool("emulationstation.videosnaps.sound"));
   }
 
   if (hasFlag(properties, ThemeProperties::Color) && elem->HasProperty("color"))

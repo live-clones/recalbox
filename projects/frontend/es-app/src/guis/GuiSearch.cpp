@@ -333,7 +333,7 @@ void GuiSearch::PopulateGrid(const std::string& search)
 void GuiSearch::clear()
 {
 	mResultThumbnail->setImage(Path::Empty);
-	mResultVideo->setVideo(Path::Empty, 0, 0);
+	mResultVideo->setVideo(Path::Empty, 0, 0, false);
 	mResultSystemLogo->setImage(Path::Empty);
 	mResultDesc->setText("");
 	mMDPublisherLabel->setText("");
@@ -346,9 +346,12 @@ void GuiSearch::clear()
 void GuiSearch::populateGridMeta(int i)
 {
 	//screenshot & video
-	mResultThumbnail->setImage(mSearchResults[i]->Metadata().Image());
+  int videoDelay = RecalboxConf::Instance().AsInt("emulationstation.videosnaps.delay", VideoComponent::DEFAULT_VIDEODELAY);
+  int videoLoop  = RecalboxConf::Instance().AsInt("emulationstation.videosnaps.loop", VideoComponent::DEFAULT_VIDEOLOOP);
+
+  mResultThumbnail->setImage(mSearchResults[i]->Metadata().Image());
 	mResultThumbnail->setMaxSize(mGridMeta->getColWidth(2) * 0.9f, mGridMeta->getRowHeight(1)*0.9f);
-	mResultVideo->setVideo(mSearchResults[i]->Metadata().Video(), 2000, 1);
+	mResultVideo->setVideo(mSearchResults[i]->Metadata().Video(), videoDelay, videoLoop, RecalboxConf::Instance().AsBool("emulationstation.videosnaps.sound"));
 	mResultVideo->setMaxSize(mGridMeta->getColWidth(2) * 0.9f, mGridMeta->getRowHeight(1)*0.9f);
 
 	//system logo retieved from theme

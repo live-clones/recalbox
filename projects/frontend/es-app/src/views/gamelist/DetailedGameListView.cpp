@@ -416,7 +416,7 @@ void DetailedGameListView::setFolderInfo(FolderData* folder)
     mFolderContent[i]->setImage(Path());
   }
   // Kill video on multi-thumbnail folder
-  mVideo.setVideo(Path::Empty, 0, 0);
+  mVideo.setVideo(Path::Empty, 0, 0, false);
 }
 
 void DetailedGameListView::setGameInfo(FileData* file)
@@ -437,7 +437,7 @@ void DetailedGameListView::setGameInfo(FileData* file)
   mImage.setImage(file->Metadata().Image());
   if (!mSettings.AsBool("system.secondminitft.enabled", false) ||
       !mSettings.AsBool("system.secondminitft.disablevideoines", false))
-    mVideo.setVideo(file->Metadata().Video(), videoDelay, videoLoop);
+    mVideo.setVideo(file->Metadata().Video(), videoDelay, videoLoop, RecalboxConf::Instance().AsBool("emulationstation.videosnaps.sound"));
 
   LOG(LogDebug) << "Set " << file->Metadata().Video().ToString() << " for " << file->Metadata().Name() << " => " << file->getPath().ToString();
 
@@ -448,7 +448,7 @@ void DetailedGameListView::setGameInfo(FileData* file)
 void DetailedGameListView::setScrappedFolderInfo(FileData* file)
 {
   mImage.setImage(file->Metadata().Image());
-  mVideo.setVideo(Path::Empty, 0, 0);
+  mVideo.setVideo(Path::Empty, 0, 0, false);
   mDescription.setText(file->Metadata().Description());
   mDescContainer.reset();
 }
@@ -534,7 +534,7 @@ std::vector<Component*> DetailedGameListView::getMDValues()
 void DetailedGameListView::Update(int deltatime)
 {
   if (mList.isScrolling())
-    mVideo.setVideo(Path::Empty, 0, 0);
+    mVideo.setVideo(Path::Empty, 0, 0, false);
 
   Component::Update(deltatime);
 }

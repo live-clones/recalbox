@@ -103,7 +103,7 @@ class VideoComponent : public Component
      * @param loops Number of loops (0 = infinite loops)
      * @param decode audio
      */
-    void setVideo(const Path& path, int delay, int loops, bool decodeAudio = false);
+    void setVideo(const Path& path, int delay, int loops, bool decodeAudio);
 
     void setOpacity(unsigned char opacity) override;
 
