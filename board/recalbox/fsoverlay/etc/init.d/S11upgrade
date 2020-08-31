@@ -18,7 +18,7 @@ done
 if test -e "${UPDATEFILE}"; then
   recallog -f upgrade.log "upgrade found! moving ${UPDATEFILE} to SHARE as $(basename "${UPDATEFILE_UNCOMPRESSED}")"
   killall S06splash
-  fbv2 -f -i /recalbox/system/resources/offline-install-0.jpg
+  fbv2 -k -i /recalbox/system/resources/offline-install-0.jpg
   unxz -c "${UPDATEFILE}" >"/recalbox/share/system/upgrade/$(basename "$UPDATEFILE_UNCOMPRESSED")"
   mount -o remount,rw /boot
   rm "${UPDATEFILE}"
