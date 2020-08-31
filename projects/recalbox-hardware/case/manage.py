@@ -28,6 +28,15 @@ def DetectGPiCase(cases):
 
     return cases.NONE
 
+# --------- NesPi 4
+
+def DetectNesPi4Case(cases):
+    gpiUsbPath = "2-1:1.0"
+    if read(gpiUsbPath, "modalias") == "usb:v152Dp0562d0214dc00dsc00dp00ic08isc06ip62in00":
+        return cases.NESPI4
+
+    return cases.NONE
+
 # --------- Nuxii
 
 # --------- Main
@@ -42,6 +51,9 @@ def Identify():
 
     if board == "rpi0" or board == "rpi1":
         case = DetectGPiCase(cases)
+
+    if board == "rpi4":
+        case = DetectNesPi4Case(cases)
 
     return case
 
