@@ -4,9 +4,10 @@
 #!/bin/ash
 
 do_splash() {
+    img="$1"
     for fbdev in /dev/fb[0-9]; do
         [ -e "$fbdev" ] || break
-        fbsplash -s "/new_root/recalbox/system/resources/splash/logo.ppm" -d "$fbdev"
+        fbsplash -s "${img}" -d "$fbdev"
     done
 }
 
@@ -87,6 +88,11 @@ do_root() {
 
     # look for devices
     mount -t devtmpfs none /dev
+
+    sleep 1
+    # Background display for supported devices
+    # eg: gpicase
+    fgrep -q "GPi Case" /sys/bus/usb/devices/*/product && do_splash /usr/share/backgrounds/gpi.ppm
 
     toMount="LABEL=RECALBOX"
     isDevice="0"
