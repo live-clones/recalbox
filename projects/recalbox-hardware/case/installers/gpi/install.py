@@ -1,6 +1,5 @@
 import os
 import logger
-import xml.etree.ElementTree as XmlTree
 from installers.base.install import InstallBase
 from settings import keyValueSettings
 
@@ -114,6 +113,13 @@ class Install(InstallBase):
                 else:
                     logger.hardlog("GPi: GPi-case theme NOT installed")
 
+                # install boot image
+                sourcePpm = self.BASE_SOURCE_FOLDER + "assets/gpi.ppm"
+                if os.system("cp -r {} /boot/boot.ppm".format(sourcePpm)) == 0:
+                    logger.hardlog("GPi: GPi-case boot image installed")
+                else:
+                    logger.hardlog("GPi: GPi-case boot image NOT installed")
+
                 # Copy sound configuration
                 os.system("sed -i -E 's/name=|SystemVolume| value=|.*|/name=|SystemVolume| value=|90|/g' /recalbox/share/system/.emulationstation/es_settings.cfg".replace('|', '"'))
                 soundConfiguration = self.BASE_SOURCE_FOLDER + "assets/asound.conf"
@@ -199,11 +205,15 @@ class Install(InstallBase):
             os.system("sed -E 's/name=|ThemeSet| value=|.*|/name=|ThemeSet| value=|recalbox-next|/g' /recalbox/share/system/.emulationstation/es_settings.cfg".replace('|', '"'))
             logger.hardlog("GPi: GPi-case theme uninstalled")
 
+            # Remove boot image
+            os.system("rm -f /boot/boot.ppm")
+            logger.hardlog("GPi: GPi-case boot image uninstalled")
+
             # Uninstall GPi pad
             os.system("rm -f /recalbox/share/system/.emulationstation/es_input.cfg.gpi")
             os.system("mv /recalbox/share/system/.emulationstation/es_input.cfg /recalbox/share/system/.emulationstation/es_input.cfg.gpi")
             os.system("mv /recalbox/share/system/.emulationstation/es_input.cfg.org /recalbox/share/system/.emulationstation/es_input.cfg")
-            logger.hardlog("GPi: Controller  uninstalled")
+            logger.hardlog("GPi: Controller uninstalled")
 
             # Re-enable kodi
             os.system("sed -i -E 's/kodi.enabled=.*/kodi.enabled=1/g' /recalbox/share/system/recalbox.conf")
