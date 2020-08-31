@@ -6,7 +6,6 @@
 
 ++++++++++++++++++++++++++++++++  package/mesa3d/0002-c99_math-import-isinf-for-uclibc-based-toolchains.patch
 ++++++++++++++++++++++++++++++++  package/mesa3d/0004-vc4-add-meson-option-to-disable-optional-neon-suppor.patch
-++++++++++++++++++++++++++++++++  package/python-pygame/python-pygame.hash_
 ++++++++++++++++++++++++++++++++  package/sdl2/0001-src-video-directfb-SDL_DirectFB_render.c-fix-build.patch
 ++++++++++++++++++++++++++++++++  package/sdl2/0002-src-video-kmsdrm-SDL_kmsdrmvideo.c-fix-build.patch
 --------------------------------  package/kodi/0003-Add-missing-cassert-includes.patch
