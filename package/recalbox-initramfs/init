@@ -89,11 +89,6 @@ do_root() {
     # look for devices
     mount -t devtmpfs none /dev
 
-    sleep 1
-    # Background display for supported devices
-    # eg: gpicase
-    fgrep -q "GPi Case" /sys/bus/usb/devices/*/product && do_splash /usr/share/backgrounds/gpi.ppm
-
     toMount="LABEL=RECALBOX"
     isDevice="0"
     test -n "${dev}"   && toMount=${dev} && isDevice="1"
@@ -105,6 +100,10 @@ do_root() {
         echo "Waiting for the root device"
         sleep 1
     done
+
+    # Background display for supported devices
+    # eg: gpicase
+    test -e /boot_root/boot.ppm && do_splash /boot_root/boot.ppm
 
     # update
     updated="0"
