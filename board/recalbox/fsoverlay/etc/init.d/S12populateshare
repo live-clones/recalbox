@@ -47,14 +47,15 @@ done
 OLDIFS=$IFS
 IFS=','
 for DIRS in /usr/share/retroarch/assets,system/.config/retroarch/assets \
-            /overlay/bootvideos,bootvideos 
+            /overlay/bootvideos,bootvideos \
+            /boot/update,update
 do
     set -- $DIRS
     TARGET=$1
     SOURCE=$OUT/$2
     if test ! -e "$SOURCE"
     then
-	mkdir -p "$SOURCE"
+	   mkdir -p "$SOURCE"
     fi
     mount --bind "$TARGET" "$SOURCE"
 done
