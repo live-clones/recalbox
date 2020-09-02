@@ -266,5 +266,7 @@ void GuiGamelistOptions::Delete(IGameListView* gamelistview, FileData& game)
 
 void GuiGamelistOptions::Modified(IGameListView* gamelistview, FileData& game)
 {
-  gamelistview->onFileChanged(&game, FileChangeType::MetadataChanged);
+  gamelistview->refreshList();
+  gamelistview->setCursor(&game);
+  //gamelistview->onFileChanged(&game, FileChangeType::MetadataChanged);
 }
