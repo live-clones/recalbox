@@ -2269,3 +2269,15 @@ msgstr "INCLUDE NEO-GEO"
 #
 msgid "POSITION"
 msgstr "POSITION"
+
+#
+msgid "PREDEFINED PASSWORDS"
+msgstr ""
+
+#
+msgid "VALIDATE"
+msgstr ""
+
+#
+msgid "PASSWORD #%i"
+msgstr ""

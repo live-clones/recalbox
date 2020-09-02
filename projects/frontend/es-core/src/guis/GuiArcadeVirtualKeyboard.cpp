@@ -564,7 +564,7 @@ void GuiArcadeVirtualKeyboard::RenderWheelChar(const Wheel& wheel, double center
   float wr = 1.0f * sizeRatio * (float)(sizeratio * sizeratio);
   float hr = 1.0f * sizeRatio * (float)(sizeratio * sizeratio);
 
-  unsigned int unicode = sWheels[wheel.mIndex][charindex];
+  unsigned int unicode = (unsigned int)sWheels[wheel.mIndex][charindex];
   Font::Glyph& glyph = mWheelFont->Character(unicode);
 
   float glyphWidth = glyph.texSize.x() * (float)glyph.texture->textureSize.x();
@@ -687,7 +687,8 @@ bool GuiArcadeVirtualKeyboard::getHelpPrompts(Help& help)
 {
   help.Clear()
       .Set(HelpType::B, _("SELECT"))
-      .Set(HelpType::A, _("CLOSE"))
+      .Set(HelpType::Start, _("VALIDATE"))
+      .Set(HelpType::A, _("CANCEL"))
       .Set(HelpType::X, _("DELETE"))
       .Set(HelpType::Y, _("BACKSPACE"))
       .Set(HelpType::LR, _("MOVE CURSOR"))

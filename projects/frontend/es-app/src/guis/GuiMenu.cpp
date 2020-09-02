@@ -39,6 +39,7 @@
 #include "GuiBiosScan.h"
 #include "GuiQuit.h"
 #include "GuiMenuArcadeVirtualSystem.h"
+#include "GuiNetPlayEditPasswords.h"
 
 GuiMenu::GuiMenu(Window& window, SystemManager& systemManager)
   : Gui(window),
@@ -524,8 +525,10 @@ void GuiMenu::menuGameSettings(){
     if (RecalboxConf::Instance().AsString("emulationstation.menu") != "bartop") {
       // Netplay
       {
-        std::function<void()> openGui = [this] {
+        std::function<void()> openGui = [this]
+        {
           GuiSettings *netplay = new GuiSettings(mWindow, _("NETPLAY SETTINGS"));
+
           // netplay_enable
           auto netplay_enabled = std::make_shared<SwitchComponent>(mWindow);
           netplay_enabled->setState(RecalboxConf::Instance().AsBool("global.netplay.active"));
@@ -549,6 +552,8 @@ void GuiMenu::menuGameSettings(){
           mitm_choices->add(_("NEW YORK"), "nyc", currentMitm == "nyc");
           mitm_choices->add(_("MADRID"), "madrid", currentMitm == "madrid");
           netplay->addWithLabel(mitm_choices, _("NETPLAY MITM"), _(MENUMESSAGE_NP_RELAY_HELP_MSG));
+
+          netplay->addSubMenu(_("PREDEFINED PASSWORDS"), [this] { mWindow.pushGui(new GuiNetPlayEditPasswords(mWindow)); });
 
           netplay->addSaveFunc(
               [netplay_enabled, mitm_choices] {

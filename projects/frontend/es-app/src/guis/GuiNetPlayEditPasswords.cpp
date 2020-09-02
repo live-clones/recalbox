@@ -1,0 +1,93 @@
+#include <RecalboxConf.h>
+#include "guis/GuiNetPlayEditPasswords.h"
+
+#include <guis/GuiArcadeVirtualKeyboard.h>
+#include "components/SwitchComponent.h"
+#include "utils/locale/LocaleHelper.h"
+#include "Settings.h"
+
+GuiNetPlayEditPasswords::GuiNetPlayEditPasswords(Window& window)
+  : Gui(window),
+    mCurrentPasswordIndex(0),
+    mMenu(window, _("PREDEFINED PASSWORDS"))
+{
+	addChild(&mMenu);
+
+  auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+
+  for(int i = 0; i < sPasswordCount; i++)
+  {
+    static const char* sDefaultPassword[sPasswordCount]
+    {
+      "|P/4/C-M/4/N|",
+      "[SpAcE.iNvAdErS]",
+      ">sUpEr.MaRiO.bRoSs<",
+      "{SoNiC.tHe.HeDgEhOg}",
+      "(Q/B/E/R/T-@;&?@#)",
+      "~AnOtHeR.wOrLd!~",
+      R"((/T\E/T\R/I\S))",
+      "$m00n.p4tR0l$",
+      "*M.E.T.A.L.S.L.U.G*",
+      "0ùTrùN-hAn60ùT",
+      "[L*E*M*M*I*N*G*S]",
+      "@-G|a|U|n|L|e|T-@",
+      ":°BuBBLe°B00BLe°:",
+      "§>CaStLeVaNiA<§",
+      "=B@mBeR.J4cK=",
+    };
+
+    std::string password = RecalboxConf::Instance().AsString("netplay.password." + Strings::ToString(i), sDefaultPassword[i]);
+    mPasswords[i] = std::make_shared<TextComponent>(mWindow, password, menuTheme->menuText.font, menuTheme->menuText.color);
+    mMenu.addWithLabel(mPasswords[i], Strings::Replace(_("PASSWORD #%i"), "%i", Strings::ToString(i)),
+                       "", false, true, [this, i]
+                       {
+                         mCurrentPasswordIndex = i;
+                         Gui* vk = new GuiArcadeVirtualKeyboard(mWindow, Strings::Replace(_("PASSWORD #%i"), "%i",
+                                                                Strings::ToString(i)), mPasswords[i]->getValue(), this);
+                         mWindow.pushGui(vk);
+                       });
+  }
+
+	mMenu.addButton(_("OK"), "OK", [&]
+	{
+    for(int i = sPasswordCount; --i >= 0; )
+      RecalboxConf::Instance().SetString("netplay.password." + Strings::ToString(i), mPasswords[i]->getValue());
+    RecalboxConf::Instance().Save();
+    Close();
+	});
+
+	mMenu.setPosition((Renderer::getDisplayWidthAsFloat() - mMenu.getSize().x()) / 2, (Renderer::getDisplayHeightAsFloat() - mMenu.getSize().y()) / 2);
+}
+
+bool GuiNetPlayEditPasswords::ProcessInput(const InputCompactEvent& event)
+{
+  if (event.APressed())
+  {
+    Close();
+    return true;
+  }
+
+  return Component::ProcessInput(event);
+}
+
+bool GuiNetPlayEditPasswords::getHelpPrompts(Help& help)
+{
+	mMenu.getHelpPrompts(help);
+	help.Set(HelpType::A, _("BACK"))
+	    .Set(HelpType::B, _("EDIT"));
+	return true;
+}
+
+void GuiNetPlayEditPasswords::ArcadeVirtualKeyboardTextChange(GuiArcadeVirtualKeyboard&, const std::string&)
+{
+}
+
+void GuiNetPlayEditPasswords::ArcadeVirtualKeyboardValidated(GuiArcadeVirtualKeyboard&, const std::string& text)
+{
+  mPasswords[mCurrentPasswordIndex]->setText(text);
+  mMenu.onSizeChanged();
+}
+
+void GuiNetPlayEditPasswords::ArcadeVirtualKeyboardCanceled(GuiArcadeVirtualKeyboard& vk)
+{
+}

@@ -2280,3 +2280,15 @@ msgstr "INCLURE LA NÉO-GÉO"
 #
 msgid "POSITION"
 msgstr "POSITION"
+
+#
+msgid "PREDEFINED PASSWORDS"
+msgstr "MOTS DE PASSE PRÉDÉFINIS"
+
+#
+msgid "VALIDATE"
+msgstr "VALIDER"
+
+#
+msgid "PASSWORD #%i"
+msgstr "MOT DE PASSE N°%i"

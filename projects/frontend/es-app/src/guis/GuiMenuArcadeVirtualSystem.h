@@ -5,7 +5,6 @@
 #include "components/MenuComponent.h"
 
 template<typename T>
-
 class OptionListComponent;
 class SwitchComponent;
 
@@ -13,19 +12,25 @@ class SwitchComponent;
 // Allows the user to set various parameters.
 class GuiMenuArcadeVirtualSystem : public Gui
 {
-public:
-	explicit GuiMenuArcadeVirtualSystem(Window& window, SystemManager& systemManager);
+  public:
+    explicit GuiMenuArcadeVirtualSystem(Window& window, SystemManager& systemManager);
 
-	bool getHelpPrompts(Help& help) override;
+    bool getHelpPrompts(Help& help) override;
 
-private:
-  //! SystemManager instance
-	SystemManager& mSystemManager;
+    /*
+     * Component implementation
+     */
 
-  std::shared_ptr<SwitchComponent>          mArcadeOnOff;
-  std::shared_ptr<SwitchComponent>          mIncludeNeoGeo;
-  std::shared_ptr<SwitchComponent>          mHideOriginals;
-	std::shared_ptr<OptionListComponent<int>> mPosition;
+    bool ProcessInput(const InputCompactEvent& event) override;
 
-	MenuComponent mMenu;
+  private:
+    //! SystemManager instance
+    SystemManager& mSystemManager;
+
+    std::shared_ptr<SwitchComponent>          mArcadeOnOff;
+    std::shared_ptr<SwitchComponent>          mIncludeNeoGeo;
+    std::shared_ptr<SwitchComponent>          mHideOriginals;
+    std::shared_ptr<OptionListComponent<int>> mPosition;
+
+    MenuComponent mMenu;
 };

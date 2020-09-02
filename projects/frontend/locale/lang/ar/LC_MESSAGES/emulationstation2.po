@@ -2077,3 +2077,15 @@ msgstr ""
 #
 msgid "POSITION"
 msgstr ""
+
+#
+msgid "PREDEFINED PASSWORDS"
+msgstr ""
+
+#
+msgid "VALIDATE"
+msgstr ""
+
+#
+msgid "PASSWORD #%i"
+msgstr ""

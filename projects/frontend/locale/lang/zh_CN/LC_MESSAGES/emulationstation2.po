@@ -2122,6 +2122,18 @@ msgstr ""
 msgid "POSITION"
 msgstr ""
 
+#
+msgid "PREDEFINED PASSWORDS"
+msgstr ""
+
+#
+msgid "VALIDATE"
+msgstr ""
+
+#
+msgid "PASSWORD #%i"
+msgstr ""
+
 #~ msgid "UPDATE VERSION:"
 #~ msgstr "更新版本："
 

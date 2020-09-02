@@ -48,6 +48,7 @@ set(ES_HEADERS
         ../es-core/src/guis/GuiInfoPopup.h
         src/guis/MenuMessages.h
         src/guis/GuiNetPlay.h
+        src/guis/GuiNetPlayEditPasswords.h
         src/guis/GuiHashStart.h
         src/guis/GuiLoading.h
         src/guis/GuiBiosScan.h
@@ -200,6 +201,7 @@ set(ES_SOURCES
         ../es-core/src/guis/GuiInfoPopup.cpp
         src/guis/MenuMessages.cpp
         src/guis/GuiNetPlay.cpp
+        src/guis/GuiNetPlayEditPasswords.cpp
         src/guis/GuiHashStart.cpp
         src/guis/GuiBiosScan.cpp
         src/guis/GuiBiosMd5.cpp

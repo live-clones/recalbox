@@ -60,10 +60,20 @@ GuiMenuArcadeVirtualSystem::GuiMenuArcadeVirtualSystem(Window& window, SystemMan
 	mMenu.setPosition((Renderer::getDisplayWidthAsFloat() - mMenu.getSize().x()) / 2, (Renderer::getDisplayHeightAsFloat() - mMenu.getSize().y()) / 2);
 }
 
+bool GuiMenuArcadeVirtualSystem::ProcessInput(const InputCompactEvent& event)
+{
+  if (event.APressed())
+  {
+    Close();
+    return true;
+  }
+
+  return Component::ProcessInput(event);
+}
+
 bool GuiMenuArcadeVirtualSystem::getHelpPrompts(Help& help)
 {
 	mMenu.getHelpPrompts(help);
-	help.Set(HelpType::A, _("BACK"))
-	    .Set(HelpType::B, _("OK"));
+	help.Set(HelpType::A, _("BACK"));
 	return true;
 }

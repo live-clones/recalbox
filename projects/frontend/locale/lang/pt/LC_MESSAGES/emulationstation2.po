@@ -2290,6 +2290,18 @@ msgstr "Incluir neo-geo"
 msgid "POSITION"
 msgstr "Posição"
 
+#
+msgid "PREDEFINED PASSWORDS"
+msgstr ""
+
+#
+msgid "VALIDATE"
+msgstr ""
+
+#
+msgid "PASSWORD #%i"
+msgstr ""
+
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
 #~ "will turn the screen black."
