@@ -152,30 +152,13 @@ void GuiNetPlay::populateGrid()
     ComponentListRow row;
     std::shared_ptr<Component> ed;
 
+    std::sort(mLobbyList.begin(), mLobbyList.end(), [](const LobbyGame& game1, const LobbyGame& game2) { return game1.mFormattedName < game2.mFormattedName; });
+
     for (auto& game : mLobbyList)
     {
       row.elements.clear();
 
-      // Get game name
-      std::string gameName = game.mGameName;
-      static std::string arcadesCores("FinalBurn Neo,MAME 2000,MAME 2003,MAME 2003-Plus,MAME 2010,MAME 2015,MAME 2016");
-      if (arcadesCores.find(gameName) != std::string::npos)
-      {
-        const char* newName = MameNameMapManager::GetCleanMameName(game.mGameName);
-        if (newName != nullptr)
-          gameName = newName;
-      }
-
-      std::string text;
-      if (game.mGame != nullptr)
-      {
-        if (game.mGame->getHash() == game.mGameCRC)          text = "\uf1c0 " + gameName;
-        else if (!getCoreInfo(game.mCoreName).first.empty()) text = "\uf1c1 " + gameName;
-        else text = "\uf1c2 " + gameName;
-      }
-      else text = "\uf1c2 " + gameName;
-
-      ed = std::make_shared<TextComponent>(mWindow, text, mMenuTheme->menuText.font, mMenuTheme->menuText.color,
+      ed = std::make_shared<TextComponent>(mWindow, GetFormattedName(game), mMenuTheme->menuText.font, mMenuTheme->menuText.color,
                                            TextAlignment::Left);
       row.addElement(ed, true);
       row.makeAcceptInputHandler([this]
@@ -235,8 +218,7 @@ void GuiNetPlay::populateGridMeta(int i)
 
   std::string username = game.mUserName.empty() ? "N/A" : game.mUserName;
   std::string frontend = game.mFrontEnd;
-
-  frontend = Strings::Replace(frontend, "@RECALBOX", " \uF200");
+  if (game.mIsRecalbox) frontend.append(" \uF200");
 
   mMetaTextUsername->setText(username);
   mMetaTextCountry->setText(game.mCountry.empty() ? "N/A" : game.mCountry);
@@ -381,10 +363,16 @@ void GuiNetPlay::Render(const Transform4x4f& parentTrans)
 int GuiNetPlay::pingHost(const std::string& ip)
 {
   int value = -1;
-  std::pair<std::string, int> ping = RecalboxSystem::execute("ping -c 1 -w 1 " + ip + " | grep \"min/avg/max\" | cut -d '/' -f 5");
-  if (!ping.first.empty())
-    Strings::ToInt(ping.first, value);
-  return -1;
+  std::pair<std::string, int> ping = RecalboxSystem::execute("ping -c 1 -w 5 " + ip);
+  std::string ms = Strings::Extract(ping.first, "min/avg/max = ", "/", sizeof("min/avg/max = ") - 1, 1);
+  if (!ms.empty())
+  {
+    float fvalue = 0;
+    Strings::ToFloat(ping.first, fvalue);
+    value = (int)value;
+  }
+
+  return value;
 }
 
 FileData* GuiNetPlay::findGame(const std::string& gameNameOrHash)
@@ -416,13 +404,9 @@ void GuiNetPlay::parseLobby()
         LobbyGame game;
         const rapidjson::Value& fields = item["fields"];
 
-        // Atm, Ignore protected games
-        if (fields["has_password"].GetBool())
-          continue;
-
         // Take only recalbox games
-        if (strstr(fields["frontend"].GetString(), "@RECALBOX") == nullptr)
-          continue;
+        //if (strstr(fields["frontend"].GetString(), "@RECALBOX") == nullptr)
+        //  continue;
 
         FileData* tmp = nullptr;
         if (fields["game_crc"] != "00000000")
@@ -444,6 +428,12 @@ void GuiNetPlay::parseLobby()
         game.mHostMethod = fields["host_method"].GetInt();
         game.mMitmIp = fields["mitm_ip"].GetString();
         game.mMitmPort = fields["mitm_port"].GetInt();
+        game.mNeedPlayerPassword = fields["has_password"].GetBool();
+        game.mNeedViewerPassword = fields["has_spectate_password"].GetBool();
+        game.mIsRecalbox = (strstr(game.mFrontEnd.data(), "@RECALBOX") != nullptr);
+        if (game.mIsRecalbox)
+          Strings::ReplaceAllIn(game.mFrontEnd, "@RECALBOX", "");
+        game.mFormattedName = GetFormattedName(game);
 
         mLobbyList.push_back(game);
       }
@@ -486,4 +476,38 @@ void GuiNetPlay::ReceiveSyncCallback(const SDL_Event& event)
       break;
     }
   }
+}
+
+std::string GuiNetPlay::GetFormattedName(const LobbyGame& game)
+{
+  // Get game name
+  std::string gameName = game.mGameName;
+  static std::string arcadesCores("FinalBurn Neo,MAME 2000,MAME 2003,MAME 2003-Plus,MAME 2010,MAME 2015,MAME 2016");
+  if (arcadesCores.find(gameName) != std::string::npos)
+  {
+    const char* newName = MameNameMapManager::GetCleanMameName(game.mGameName);
+    if (newName != nullptr)
+      gameName = newName;
+  }
+
+  // Add decorations
+  if (game.mNeedPlayerPassword)
+  {
+    gameName.insert(0, "\uf070 ");
+    if (game.mNeedViewerPassword)
+      gameName.insert(0, "\uf070");
+  }
+  if (game.mIsRecalbox)
+    gameName.insert(0, " \uf200");
+
+  // Matching status
+  if (game.mGame != nullptr)
+  {
+    if (game.mGame->getHash() == game.mGameCRC)          gameName.insert(0, "\uf1c0 ");
+    else if (!getCoreInfo(game.mCoreName).first.empty()) gameName.insert(0, "\uf1c1 ");
+    else gameName.insert(0, "\uf1c2 ");
+  }
+  else gameName.insert(0, "\uf1c2 ");
+
+  return gameName;
 }

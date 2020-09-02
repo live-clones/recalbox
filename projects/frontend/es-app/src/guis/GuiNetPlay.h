@@ -24,6 +24,7 @@ class LobbyGame
 {
   public:
     FileData*   mGame;
+    std::string mFormattedName;
     std::string mGameName;
     std::string mGameCRC;
     std::string mCoreName;
@@ -38,13 +39,19 @@ class LobbyGame
     int         mMitmPort;
     int         mHostMethod;
     int         mPingTimeInMs;
+    bool        mNeedPlayerPassword;
+    bool        mNeedViewerPassword;
+    bool        mIsRecalbox;
 
     LobbyGame()
       : mGame(nullptr),
         mPort(0),
         mMitmPort(0),
         mHostMethod(0),
-        mPingTimeInMs(0)
+        mPingTimeInMs(0),
+        mNeedPlayerPassword(false),
+        mNeedViewerPassword(false),
+        mIsRecalbox(false)
     {
     }
 };
@@ -128,6 +135,13 @@ class GuiNetPlay : public Gui, private Thread, private ISynchronousEvent
      * @brief Get the playable games from the lobby and fill the list
      */
     void parseLobby();
+
+    /*!
+     * @brief Get formatted name w/ icons
+     * @param game Gamer to get data from
+     * @return Formatted game name
+     */
+    static std::string GetFormattedName(const LobbyGame& game);
 
     //! SystemManager instance
     SystemManager& mSystemManager;
