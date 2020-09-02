@@ -13,18 +13,18 @@
 - 3 new virtual systems: All-games, Last-Played and Multiplayers **
 - New virtual systems per genre (RPG, Shoot'em up, Pinballs, ...) **/*
 - Region highligting in gamelist (highlight games from your favorite region) **
-- Add laptop switch external screen function only for x86_64
+- Add laptop switch to external screen (x86_64)
 - Add GameCube Bios 
 - Add Nintendo 64DD platform
 - Add libretro mame for recent mame set 
-- Add EmulationStation event-driver user scripts
+- Add EmulationStation event-driven user scripts
 - Add Search feature and new Arcade-style virtual keyboard
 - Add Pad-To-Keyboard driver
 - New ngp & ngpc emulator focused on performance (fast) (libretro-race)
 - Libretro flycast also available on rpi3, xu4 and x86
 - Add new system: OpenBOR
 - Add new system: Solarus
-- Add opengl on Retroarch for X86(_64)
+- Add opengl on Retroarch for x86/x64
 - Fba_libretro has been renamed to Fbneo
 - New ports system with Mr. Boom (8-player Bomberman clone) ready to be played
 - CaveStory is now included and moved to ports
@@ -181,7 +181,7 @@
 - Bump Amiberry to v3.1.3.1
 - Bump AdvanceMame to v3.9
 - Add volume control to XU4
-- Improve the management of external screens and selection from recalbox.conf by Chriskt78
+- Improve the management of external screens and selection from recalbox.conf (by Chriskt78)
 - Add support for zipped gamelist.xml
 - Add libetro's Mesen, accurate NES & FDS emulator (rpi4, xu4, x86(_64) only)
 - Add libetro's Mesen-S, accurate SNES, Satellaview, GB/GBC & Super GameBoy emulator (rpi4, xu4, x86/x64 only)
@@ -199,10 +199,14 @@
   - Amiberry (Amiga): up to 4 disks loaded at once
   - GSPlus (Apple IIGS): from 2 up to 32 disks loaded at once, depending on floppy types
   - Quasi88 (PC88): up to 6 disks loaded at once
-- Improve shader management in EmulationStation
-- Improve GPI support
+- Improve shader management in EmulationStation (Add raw shader selection)
+- Improve GPI support (boot image, installation phases, ...)
 - Add Arcade virtual system in EmulationStation
 - Add videosnaps sound & on/off switch in EmulationStation menus
+- Add automatic detection & management of RetroFlag's NESPi4 case
+- Add animation while creating/populating SHARE partition
+- Moved shaders into user's SHARE partition
+- Moved Libretro's cheat into SHARE partition
 
 ### Fixes
 - Fix Odroid XU4 fan issue
@@ -212,8 +216,8 @@
 - Fix music popup crashes
 - Fix music loop play
 - Fix netplay popup crashes
-- Fix apple2 not work on x86/x86_64
-- Fix fullscreeen on oricatmos and apple2 on x86/x86_64 
+- Fix Apple2 not working on x86/x64
+- Fix fullscreeen on Oric/Atmos and Apple2 on x86/x64 
 - Fix duplicate folders in Arcade systems
 - Fix quit menu not being accessible when boot-on-gamelist is on
 - Fix some bad behaviors in favorite management
@@ -222,6 +226,8 @@
 - Fix REICAST bug on XU4
 - Fix FPS show/hide in Retroarch
 - Fix multiple audio issues
+- Fix Gamelist reset when editing Metadata
+- Fix multiple crashes in EmulationStation
 
 *  : Require to scrape missing data using the internal scraper 
 ** : Availailable in both EmulationStation menu and configuration file 

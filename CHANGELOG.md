@@ -114,6 +114,8 @@ All notable changes to this project will be documented in this file.
 - Improve GPI support
 - Add videosnaps sound & menu on/off
 - Add arcade system management in EmulationStation
+- Fix gamelist reset when editing metadata
+- Add support for NESPI4
 
 ## [6.1.1]
 - Add zfast shaders
