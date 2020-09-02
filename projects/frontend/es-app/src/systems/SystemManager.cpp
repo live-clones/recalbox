@@ -446,9 +446,9 @@ bool SystemManager::LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool
   LOG(LogInfo) << "Gamelist load time: " << std::to_string((stop-start).TotalMilliseconds()) << "ms";
 
   // Add special systems
-  AddArcadeMetaSystem();
   AddFavoriteSystem();
   AddSpecialCollectionsMetaSystems();
+  AddArcadeMetaSystem(); // Must be latest
 
   // Set *all* service vector
   for(SystemData* service : mVisibleSystemVector) mAllSystemVector.push_back(service);
