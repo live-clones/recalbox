@@ -9,7 +9,7 @@
 #include "components/TextComponent.h"
 #include "components/ButtonComponent.h"
 #include "components/MenuComponent.h"
-#include <NetPlayThread.h>
+#include <netplay/NetPlayThread.h>
 #include <systems/SystemManager.h>
 #include <MameNameMapManager.h>
 #include <rapidjson/rapidjson.h>
@@ -279,7 +279,7 @@ void GuiNetPlay::launch()
     std::string& ip = mitm ? game.mMitmIp : game.mIp;
     int port = mitm ? game.mMitmPort : game.mPort;
 
-    NetPlayData netplay(game.mCoreName, ip, port);
+    NetPlayData netplay(game.mCoreName, ip, port, "", "");
     ViewController::Instance().LaunchCheck(game.mGame, netplay, Vector3f());
     Close();
   }

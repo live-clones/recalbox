@@ -3,6 +3,7 @@
 #include "guis/Gui.h"
 #include "components/MenuComponent.h"
 #include "components/TextComponent.h"
+#include <netplay/DefaultPasswords.h>
 #include "guis/GuiArcadeVirtualKeyboardInterface.h"
 
 // The starting point for a multi-game scrape.
@@ -15,11 +16,8 @@ class GuiNetPlayEditPasswords : public Gui, private GuiArcadeVirtualKeyboardInte
     bool getHelpPrompts(Help& help) override;
 
   private:
-    //! Max passwords
-    static constexpr int sPasswordCount = 15;
-
     //! Password storage
-    std::shared_ptr<TextComponent> mPasswords[sPasswordCount];
+    std::shared_ptr<TextComponent> mPasswords[DefaultPasswords::sPasswordCount];
 
     //! Current password index being edited
     int mCurrentPasswordIndex;

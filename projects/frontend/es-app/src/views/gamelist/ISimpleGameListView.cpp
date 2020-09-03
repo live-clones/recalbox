@@ -2,6 +2,7 @@
 #include <guis/GuiNetPlay.h>
 #include <systems/SystemManager.h>
 #include <guis/GuiControlHints.h>
+#include <guis/GuiNetPlayHostPasswords.h>
 #include "guis/GuiGamelistOptions.h"
 #include "views/gamelist/ISimpleGameListView.h"
 #include "systems/SystemData.h"
@@ -268,11 +269,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
       && (RecalboxConf::Instance().isInList("global.netplay.systems", getCursor()->getSystem()->getName())))
   {
     FileData* cursor = getCursor();
-    if(cursor->isGame())
-    {
-      NetPlayData netplay(RecalboxConf::Instance().AsInt("global.netplay.port"));
-      ViewController::Instance().LaunchCheck(cursor, netplay, Vector3f());
-    }
+    mWindow.pushGui(new GuiNetPlayHostPasswords(mWindow, *cursor));
     return true;
   }
   else if (event.XPressed())

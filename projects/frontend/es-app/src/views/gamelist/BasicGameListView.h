@@ -15,8 +15,8 @@ public:
 
 	void onThemeChanged(const ThemeData& theme) override;
 
-  virtual int Count() const override { return mList.Count(); };
-  virtual bool IsEmpty() const override { return mList.IsEmpty(); };
+  int Count() const override { return mList.Count(); };
+  bool IsEmpty() const override { return mList.IsEmpty(); };
 
   FileData* getCursor() override { return mList.getSelected(); }
 	int getCursorIndex() override { return mList.getCursorIndex(); }

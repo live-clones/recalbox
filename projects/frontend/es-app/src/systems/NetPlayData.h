@@ -20,6 +20,10 @@ struct NetPlayData
     std::string mCoreName;
     //! Target IP in client mode
     std::string mIP;
+    //! Player password
+    std::string mPlayerPassword;
+    //! Viewer password
+    std::string mViewerPassword;
     //! Target port in client mode or local port in server mode
     int mPort;
     //! True = server, false = client
@@ -32,9 +36,11 @@ struct NetPlayData
      * @param ip Target ip
      * @param port Target port
      */
-    NetPlayData(const std::string& coreName, const std::string& ip, int port)
+    NetPlayData(const std::string& coreName, const std::string& ip, int port, const std::string& playerPassword, const std::string& viewerPassword)
       : mCoreName(coreName),
         mIP(ip),
+        mPlayerPassword(playerPassword),
+        mViewerPassword(viewerPassword),
         mPort(port),
         mMode(Mode::Client)
     {
@@ -43,9 +49,11 @@ struct NetPlayData
     /*!
      * @brief Build a host netplay client
      */
-    explicit NetPlayData(int port)
+    explicit NetPlayData(int port, const std::string& playerPassword, const std::string& viewerPassword)
       : mCoreName(),
         mIP(),
+        mPlayerPassword(playerPassword),
+        mViewerPassword(viewerPassword),
         mPort(port),
         mMode(Mode::Server)
     {
@@ -57,6 +65,8 @@ struct NetPlayData
     NetPlayData()
       : mCoreName(),
         mIP(),
+        mPlayerPassword(),
+        mViewerPassword(),
         mPort(0),
         mMode(Mode::None)
     {
@@ -71,6 +81,12 @@ struct NetPlayData
 
     //! Get IP
     const std::string& Ip() const { return mIP; }
+
+    //! Player password
+    const std::string& PlayerPassword() const { return mPlayerPassword; }
+
+    //! Viewer password
+    const std::string& ViewerPassword() const { return mViewerPassword; }
 
     //! Get target/local port
     int Port() const { return mPort; }

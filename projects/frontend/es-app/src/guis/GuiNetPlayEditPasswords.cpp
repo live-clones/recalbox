@@ -15,28 +15,9 @@ GuiNetPlayEditPasswords::GuiNetPlayEditPasswords(Window& window)
 
   auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 
-  for(int i = 0; i < sPasswordCount; i++)
+  for(int i = 0; i < DefaultPasswords::sPasswordCount; i++)
   {
-    static const char* sDefaultPassword[sPasswordCount]
-    {
-      "|P/4/C-M/4/N|",
-      "[SpAcE.iNvAdErS]",
-      ">sUpEr.MaRiO.bRoSs<",
-      "{SoNiC.tHe.HeDgEhOg}",
-      "(Q/B/E/R/T-@;&?@#)",
-      "~AnOtHeR.wOrLd!~",
-      R"((/T\E/T\R/I\S))",
-      "$m00n.p4tR0l$",
-      "*M.E.T.A.L.S.L.U.G*",
-      "0ùTrùN-hAn60ùT",
-      "[L*E*M*M*I*N*G*S]",
-      "@-G|a|U|n|L|e|T-@",
-      ":°BuBBLe°B00BLe°:",
-      "§>CaStLeVaNiA<§",
-      "=B@mBeR.J4cK=",
-    };
-
-    std::string password = RecalboxConf::Instance().AsString("netplay.password." + Strings::ToString(i), sDefaultPassword[i]);
+    std::string password = RecalboxConf::Instance().AsString("netplay.password." + Strings::ToString(i), DefaultPasswords::sDefaultPassword[i]);
     mPasswords[i] = std::make_shared<TextComponent>(mWindow, password, menuTheme->menuText.font, menuTheme->menuText.color);
     mMenu.addWithLabel(mPasswords[i], Strings::Replace(_("PASSWORD #%i"), "%i", Strings::ToString(i)),
                        "", false, true, [this, i]
@@ -50,7 +31,7 @@ GuiNetPlayEditPasswords::GuiNetPlayEditPasswords(Window& window)
 
 	mMenu.addButton(_("OK"), "OK", [&]
 	{
-    for(int i = sPasswordCount; --i >= 0; )
+    for(int i = DefaultPasswords::sPasswordCount; --i >= 0; )
       RecalboxConf::Instance().SetString("netplay.password." + Strings::ToString(i), mPasswords[i]->getValue());
     RecalboxConf::Instance().Save();
     Close();
@@ -88,6 +69,6 @@ void GuiNetPlayEditPasswords::ArcadeVirtualKeyboardValidated(GuiArcadeVirtualKey
   mMenu.onSizeChanged();
 }
 
-void GuiNetPlayEditPasswords::ArcadeVirtualKeyboardCanceled(GuiArcadeVirtualKeyboard& vk)
+void GuiNetPlayEditPasswords::ArcadeVirtualKeyboardCanceled(GuiArcadeVirtualKeyboard&)
 {
 }

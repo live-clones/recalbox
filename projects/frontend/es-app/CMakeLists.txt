@@ -49,6 +49,7 @@ set(ES_HEADERS
         src/guis/MenuMessages.h
         src/guis/GuiNetPlay.h
         src/guis/GuiNetPlayEditPasswords.h
+        src/guis/GuiNetPlayHostPasswords.h
         src/guis/GuiHashStart.h
         src/guis/GuiLoading.h
         src/guis/GuiBiosScan.h
@@ -99,7 +100,8 @@ set(ES_HEADERS
         src/recalbox/RecalboxUpgrade.h
         src/LibretroRatio.h
         src/CommandThread.h
-        src/NetPlayThread.h
+        src/netplay/NetPlayThread.h
+        src/netplay/DefaultPasswords.h
         src/MainRunner.h
         src/ApplicationWindow.h
 
@@ -202,6 +204,7 @@ set(ES_SOURCES
         src/guis/MenuMessages.cpp
         src/guis/GuiNetPlay.cpp
         src/guis/GuiNetPlayEditPasswords.cpp
+        src/guis/GuiNetPlayHostPasswords.cpp
         src/guis/GuiHashStart.cpp
         src/guis/GuiBiosScan.cpp
         src/guis/GuiBiosMd5.cpp
@@ -240,7 +243,8 @@ set(ES_SOURCES
         src/recalbox/RecalboxUpgrade.cpp
         src/LibretroRatio.cpp
         src/CommandThread.cpp
-        src/NetPlayThread.cpp
+        src/netplay/NetPlayThread.cpp
+        src/netplay/DefaultPasswords.cpp
         src/MainRunner.cpp
         src/ApplicationWindow.cpp
 

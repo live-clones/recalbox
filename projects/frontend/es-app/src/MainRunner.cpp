@@ -22,7 +22,7 @@
 #include "EmulationStation.h"
 #include "NetworkThread.h"
 #include "CommandThread.h"
-#include "NetPlayThread.h"
+#include "netplay/NetPlayThread.h"
 #include "DemoMode.h"
 
 MainRunner::ExitState MainRunner::sRequestedExitState = MainRunner::ExitState::Quit;
