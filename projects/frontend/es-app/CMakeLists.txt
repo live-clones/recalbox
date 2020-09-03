@@ -50,6 +50,7 @@ set(ES_HEADERS
         src/guis/GuiNetPlay.h
         src/guis/GuiNetPlayEditPasswords.h
         src/guis/GuiNetPlayHostPasswords.h
+        src/guis/GuiNetPlayClientPasswords.h
         src/guis/GuiHashStart.h
         src/guis/GuiLoading.h
         src/guis/GuiBiosScan.h
@@ -205,6 +206,7 @@ set(ES_SOURCES
         src/guis/GuiNetPlay.cpp
         src/guis/GuiNetPlayEditPasswords.cpp
         src/guis/GuiNetPlayHostPasswords.cpp
+        src/guis/GuiNetPlayClientPasswords.cpp
         src/guis/GuiHashStart.cpp
         src/guis/GuiBiosScan.cpp
         src/guis/GuiBiosMd5.cpp

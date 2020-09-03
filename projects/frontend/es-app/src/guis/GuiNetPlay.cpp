@@ -9,6 +9,7 @@
 #include "components/TextComponent.h"
 #include "components/ButtonComponent.h"
 #include "components/MenuComponent.h"
+#include "GuiNetPlayClientPasswords.h"
 #include <netplay/NetPlayThread.h>
 #include <systems/SystemManager.h>
 #include <MameNameMapManager.h>
@@ -275,12 +276,7 @@ void GuiNetPlay::launch()
 
   if (!game.mCoreName.empty() && game.mGame != nullptr)
   {
-    bool mitm = game.mHostMethod == 3;
-    std::string& ip = mitm ? game.mMitmIp : game.mIp;
-    int port = mitm ? game.mMitmPort : game.mPort;
-
-    NetPlayData netplay(game.mCoreName, ip, port, "", "");
-    ViewController::Instance().LaunchCheck(game.mGame, netplay, Vector3f());
+    mWindow.pushGui(new GuiNetPlayClientPasswords(mWindow, game));
     Close();
   }
 }
@@ -317,7 +313,7 @@ bool GuiNetPlay::ProcessInput(const InputCompactEvent& event)
 
 void GuiNetPlay::updateSize()
 {
-  const float height = Renderer::getDisplayHeightAsFloat() * 0.7f;
+  const float height = Renderer::getDisplayHeightAsFloat() * 0.8f;
   const float width = Renderer::getDisplayWidthAsFloat() * 0.9f;
   setSize(width, height);
 }
@@ -363,7 +359,7 @@ void GuiNetPlay::Render(const Transform4x4f& parentTrans)
 int GuiNetPlay::pingHost(const std::string& ip)
 {
   int value = -1;
-  std::pair<std::string, int> ping = RecalboxSystem::execute("ping -c 1 -w 5 " + ip);
+  std::pair<std::string, int> ping = RecalboxSystem::execute("ping -c 1 -w 1 " + ip);
   std::string ms = Strings::Extract(ping.first, "min/avg/max = ", "/", sizeof("min/avg/max = ") - 1, 1);
   if (!ms.empty())
   {
@@ -447,13 +443,13 @@ void GuiNetPlay::Run()
   LOG(LogDebug) << "Lobby Thread: Start getting lobby list";
   parseLobby();
   mSender.Call((int)MessageType::LobbyLoaded);
-  if (!IsRunning()) return;
 
   LOG(LogDebug) << "Lobby Thread: Start pinging players";
   for (auto& game : mLobbyList)
   {
-    if (!IsRunning()) return;
+    if (!IsRunning()) break;
     game.mPingTimeInMs = pingHost(game.mIp);
+    if (!IsRunning()) break;
     mSender.Call((int)MessageType::Ping);
   }
 

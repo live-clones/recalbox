@@ -28,6 +28,8 @@ struct NetPlayData
     int mPort;
     //! True = server, false = client
     Mode mMode;
+    //! Join as viewer in client mode
+    bool mAsViewer;
 
   public:
     /*!
@@ -36,13 +38,14 @@ struct NetPlayData
      * @param ip Target ip
      * @param port Target port
      */
-    NetPlayData(const std::string& coreName, const std::string& ip, int port, const std::string& playerPassword, const std::string& viewerPassword)
+    NetPlayData(const std::string& coreName, const std::string& ip, int port, const std::string& playerPassword, const std::string& viewerPassword, bool asViewer)
       : mCoreName(coreName),
         mIP(ip),
         mPlayerPassword(playerPassword),
         mViewerPassword(viewerPassword),
         mPort(port),
-        mMode(Mode::Client)
+        mMode(Mode::Client),
+        mAsViewer(asViewer)
     {
     }
 
@@ -55,7 +58,8 @@ struct NetPlayData
         mPlayerPassword(playerPassword),
         mViewerPassword(viewerPassword),
         mPort(port),
-        mMode(Mode::Server)
+        mMode(Mode::Server),
+        mAsViewer(false)
     {
     }
 
@@ -68,7 +72,8 @@ struct NetPlayData
         mPlayerPassword(),
         mViewerPassword(),
         mPort(0),
-        mMode(Mode::None)
+        mMode(Mode::None),
+        mAsViewer(false)
     {
     }
 
@@ -93,4 +98,7 @@ struct NetPlayData
 
     //! Check if this is a server mode
     Mode NetplayMode() const { return mMode; }
+
+    //! Viewer only?
+    bool ISViewerOnly() const { return mAsViewer; }
 };

@@ -12,7 +12,7 @@
 
 GuiNetPlayHostPasswords::GuiNetPlayHostPasswords(Window& window, FileData& game)
   : Gui(window),
-    mMenu(window, _("GAME PASSWORDS"))
+    mMenu(window, _("GAME PROTECTION"))
 {
 	addChild(&mMenu);
 

@@ -2134,6 +2134,58 @@ msgstr ""
 msgid "PASSWORD #%i"
 msgstr ""
 
+#
+msgid "PASSWORD REQUIRED"
+msgstr ""
+
+#
+msgid "PLAYER"
+msgstr ""
+
+#
+msgid "VIEWER-ONLY"
+msgstr ""
+
+#
+msgid "JOIN AS"
+msgstr ""
+
+#
+msgid "CHOOSE PASSWORD"
+msgstr ""
+
+#
+msgid "EDIT PASSWORDS"
+msgstr ""
+
+#
+msgid "GAME PASSWORDS"
+msgstr ""
+
+#
+msgid "SET PLAYER PASSWORD"
+msgstr ""
+
+#
+msgid "SET VIEWER PASSWORD"
+msgstr ""
+
+#
+msgid "CHOOSE PLAYER PASSWORD"
+msgstr ""
+
+#
+msgid "CHOOSE VIEWER-ONLY PASSWORD"
+msgstr ""
+
+#
+msgid "GAME PROTECTION"
+msgstr ""
+
+#
+msgid "JOIN NETPLAY GAME"
+msgstr ""
+
 #~ msgid "UPDATE VERSION:"
 #~ msgstr "更新版本："
 
