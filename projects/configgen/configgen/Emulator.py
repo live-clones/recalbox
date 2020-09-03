@@ -20,17 +20,20 @@ class Emulator:
         self.config['args']       = None
         self.config['hash']       = None
 
-    def configure(self, recalboxSettings, emulator='default', core='default', ratio='auto', netplay=None, netplay_ip=None, netplay_port=None, hash_=None, extra=None):
+    def configure(self, recalboxSettings, arguments):
         self.config['specials'] = recalboxSettings.getOption('system.emulators.specialkeys', 'default')
         self.config['netplay_nickname'] = recalboxSettings.getOption('global.netplay.nickname', 'default')
-        self.config['netplaymode'] = netplay
-        self.config['netplay_ip'] = netplay_ip
-        self.config['netplay_port'] = netplay_port
-        self.config['hash'] = hash_
-        self.config['extra'] = extra
+        self.config['netplaymode'] = arguments.netplay
+        self.config['netplay_ip'] = arguments.netplay_ip
+        self.config['netplay_port'] = arguments.netplay_port
+        self.config['netplay_playerpassword'] = '1' if arguments.netplay_playerpassword else '0'
+        self.config['netplay_viewerpassword'] = '1' if arguments.netplay_viewerpassword else '0'
+        self.config['netplay_vieweronly'] = '1' if arguments.netplay_vieweronly else '0'
+        self.config['hash'] = arguments.hash
+        self.config['extra'] = arguments.extra
         self.updateConfiguration(recalboxSettings.getOptionSubset("global."), recalboxSettings)
         self.updateConfiguration(recalboxSettings.getOptionSubset("{}.".format(self.name)), recalboxSettings)
-        self.updateForcedConfig(emulator, core, ratio)
+        self.updateForcedConfig(arguments.emulator, arguments.core, arguments.ratio)
 
     def updateConfiguration(self, settings, recalboxSettings):
         systemSettings = self.config

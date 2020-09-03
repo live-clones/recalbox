@@ -353,6 +353,9 @@ class LibretroRetroarch:
         settings.setOption("framecount_show", self.TRUE if framecount else self.FALSE)
 
         # Netplay management
+        settings.removeOption("netplay_password")
+        settings.removeOption("netplay_spectate_password")
+        settings.removeOption("netplay_start_as_spectator")
         if self.isDefined("netplaymode"):
             mode = self.system.config["netplaymode"]
             if mode in self.NETPLAY_MODES:
@@ -362,3 +365,8 @@ class LibretroRetroarch:
                     if mitm is not None:
                         settings.setOption("netplay_use_mitm_server", self.TRUE)
                         settings.setOption("netplay_mitm_server", mitm)
+                if mode == 'client':
+                    settings.setOption("netplay_start_as_spectator", self.system.config["netplay_vieweronly"])
+                # Netplay passwords
+                settings.setOption("netplay_password", self.system.config["netplay_playerpassword"])
+                settings.setOption("netplay_spectate_password", self.system.config["netplay_vierwerpassword"])

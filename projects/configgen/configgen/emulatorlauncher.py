@@ -335,7 +335,7 @@ def main(arguments):
         recalboxSettings, fixedScreenSize = loadRecalboxSettings(arguments.rom, system.name)
 
         # Configure attributes
-        system.configure(recalboxSettings, arguments.emulator, arguments.core, arguments.ratio, arguments.netplay, arguments.netplay_ip, arguments.netplay_port, arguments.hash, arguments.extra)
+        system.configure(recalboxSettings, arguments)
 
         # Wrong way?
         if system.config['emulator'] not in recalboxFiles.recalboxBins:
@@ -432,6 +432,9 @@ if __name__ == '__main__':
     parser.add_argument("-netplay", help="host/client", type=str, required=False)
     parser.add_argument("-netplay_ip", help="host IP", type=str, required=False)
     parser.add_argument("-netplay_port", help="host port (not used in client mode)", type=str, required=False)
+    parser.add_argument("-netplay_playerpassword", help="player password", type=str, required=False)
+    parser.add_argument("-netplay_viewerpassword", help="viewer password", type=str, required=False)
+    parser.add_argument("-netplay_vieweronly", help="start as viewer only", action="store_true", required=False)
     parser.add_argument("-hash", help="force rom crc", type=str, required=False)
     parser.add_argument("-extra", help="pass extra argument", type=str, required=False)
     parser.add_argument("-nodefaultkeymap", help="disable libretro default keybindings", action="store_true", required=False)
