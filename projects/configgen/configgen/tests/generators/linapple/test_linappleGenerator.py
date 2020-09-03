@@ -15,6 +15,7 @@ import linapple_fixture
 # Import needed configgen modules
 import configgen.emulatorlauncher as emulatorlauncher
 import configgen.generators.linapple.linappleGenerator as linappleGenerator
+import configgen.generators.linapple.linappleConfig as linConfig
 from configgen.generators.linapple.linappleConfig import LinappleConfig
 from configgen.generators.linapple.linappleGenerator import LinappleGenerator
 
@@ -52,8 +53,8 @@ class TestLinappleGenerator(runtest.TestCase):
         
         # Load settings from system configuration file and apply 
         # expected results
+        linConfig.setResolutionFile("/nofile")
         config_init = LinappleConfig(self.path_init_conf)
-        config_init.setResolutionFile("/nofile")
         config_init.settings.update(self.results)
 
         # Run tested function with updated arguments and load settings from
@@ -63,6 +64,9 @@ class TestLinappleGenerator(runtest.TestCase):
 
         # PATCH
         self.args["nodefaultkeymap"] = False
+        self.args["netplay_playerpassword"] = ""
+        self.args["netplay_viewerpassword"] = ""
+        self.args["netplay_vieweronly"] = False
         for i in range(1, 11):
             p = "p{}".format(i)
             ax = "{}nbaxes".format(p)
