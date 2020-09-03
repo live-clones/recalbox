@@ -116,6 +116,8 @@ All notable changes to this project will be documented in this file.
 - Add arcade system management in EmulationStation
 - Fix gamelist reset when editing metadata
 - Add support for NESPI4
+- Add password management in netplay
+- Add spectator mode in netplay
 
 ## [6.1.1]
 - Add zfast shaders

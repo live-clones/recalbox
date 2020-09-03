@@ -205,8 +205,16 @@
 - Add videosnaps sound & on/off switch in EmulationStation menus
 - Add automatic detection & management of RetroFlag's NESPi4 case
 - Add animation while creating/populating SHARE partition
-- Moved shaders into user's SHARE partition
-- Moved Libretro's cheat into SHARE partition
+- Move shaders into user's SHARE partition
+- Move Libretro's cheat into SHARE partition
+- Improved NetPlay:
+  - Removed filtering of non-Recalbox players in netplay game lists
+  - Add spectator mode management
+  - Add password-protected game management (both player & spectator)
+  - Add 15 pre-configured & editable passwords for fast selection
+  - Available netplay games sorted by state/name
+  - Add Recalbox icon in front of game names
+  - Add Password icon for password-protected games
 
 ### Fixes
 - Fix Odroid XU4 fan issue
