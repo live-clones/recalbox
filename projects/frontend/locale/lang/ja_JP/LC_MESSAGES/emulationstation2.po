@@ -2114,6 +2114,10 @@ msgstr ""
 msgid "JOIN NETPLAY GAME"
 msgstr ""
 
+#
+msgid "SEARCH IN..."
+msgstr ""
+
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
 #~ "will turn the screen black."

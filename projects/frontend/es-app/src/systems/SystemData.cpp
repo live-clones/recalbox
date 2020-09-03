@@ -86,7 +86,7 @@ void SystemData::RunGame(Window& window,
       netplayLine.append(Strings::ToString(netplay.Port())).append(" -netplay_ip ").append(netplay.Ip());
       if (!netplay.PlayerPassword().empty()) netplayLine.append(" -netplay_playerpassword ").append(1, '"').append(netplay.PlayerPassword()).append(1, '"');
       if (!netplay.ViewerPassword().empty()) netplayLine.append(" -netplay_viewerpassword ").append(1, '"').append(netplay.ViewerPassword()).append(1, '"');
-      if (!netplay.ISViewerOnly()) netplayLine.append(" -netplay_vieweronly");
+      if (netplay.IsViewerOnly()) netplayLine.append(" -netplay_vieweronly");
       if (game.Metadata().RomCrc32() != 0) netplayLine.append(" -hash ").append(game.Metadata().RomCrc32AsString());
       Strings::ReplaceAllIn(command, "%NETPLAY%", netplayLine);
       break;
@@ -95,8 +95,8 @@ void SystemData::RunGame(Window& window,
     {
       std::string netplayLine("-netplay host -netplay_port ");
       netplayLine.append(Strings::ToString(netplay.Port()));
-      if (!netplay.PlayerPassword().empty()) netplayLine.append(" -playerpassword ").append(netplay.PlayerPassword());
-      if (!netplay.ViewerPassword().empty()) netplayLine.append(" -viewerpassword ").append(netplay.ViewerPassword());
+      if (!netplay.PlayerPassword().empty()) netplayLine.append(" -playerpassword ").append(1, '"').append(netplay.PlayerPassword()).append(1, '"');
+      if (!netplay.ViewerPassword().empty()) netplayLine.append(" -viewerpassword ").append(1, '"').append(netplay.ViewerPassword()).append(1, '"');
       if (game.Metadata().RomCrc32() != 0) netplayLine.append(" -hash ").append(game.Metadata().RomCrc32AsString());
       Strings::ReplaceAllIn(command, "%NETPLAY%", netplayLine);
       break;

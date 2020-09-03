@@ -100,5 +100,5 @@ struct NetPlayData
     Mode NetplayMode() const { return mMode; }
 
     //! Viewer only?
-    bool ISViewerOnly() const { return mAsViewer; }
+    bool IsViewerOnly() const { return mAsViewer; }
 };

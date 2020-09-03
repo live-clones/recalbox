@@ -11,6 +11,7 @@
 #include <views/gamelist/SystemIcons.h>
 #include "components/ScrollableContainer.h"
 #include "GuiSearch.h"
+#include "GuiNetPlayHostPasswords.h"
 
 #define BUTTON_GRID_VERT_PADDING Renderer::getDisplayHeightAsFloat() * 0.025f
 #define BUTTON_GRID_HORIZ_PADDING 10
@@ -186,29 +187,40 @@ bool GuiSearch::ProcessInput(const class InputCompactEvent & event)
 	  launch();
 	  return true;
   }
-  else if (event.YPressed() && !mSearchResults.empty())
+  if (!mSearchResults.empty())
   {
     FileData* cursor = mSearchResults[mList->getCursor()];
-    if (cursor->isGame() && cursor->getSystem()->getHasFavoritesInTheme())
+
+    // NETPLAY
+    if ((event.XPressed()) && (RecalboxConf::Instance().AsBool("global.netplay.active"))
+        && (RecalboxConf::Instance().isInList("global.netplay.systems", cursor->getSystem()->getName())))
     {
-      MetadataDescriptor& md = cursor->Metadata();
-      SystemData *favoriteSystem = mSystemManager.FavoriteSystem();
-
-      md.SetFavorite(!md.Favorite());
-
-      if (favoriteSystem != nullptr)
-      {
-        if (md.Favorite()) favoriteSystem->getRootFolder().addChild(cursor, false);
-        else               favoriteSystem->getRootFolder().removeChild(cursor);
-
-        ViewController::Instance().setInvalidGamesList(cursor->getSystem());
-        ViewController::Instance().setInvalidGamesList(favoriteSystem);
-      }
-      ViewController::Instance().getSystemListView().manageFavorite();
-
-      populateGridMeta(mList->getCursor());
+      mWindow.pushGui(new GuiNetPlayHostPasswords(mWindow, *cursor));
+      return true;
     }
-    return true;
+    if (event.YPressed())
+    {
+      if (cursor->isGame() && cursor->getSystem()->getHasFavoritesInTheme())
+      {
+        MetadataDescriptor& md = cursor->Metadata();
+        SystemData* favoriteSystem = mSystemManager.FavoriteSystem();
+
+        md.SetFavorite(!md.Favorite());
+
+        if (favoriteSystem != nullptr)
+        {
+          if (md.Favorite()) favoriteSystem->getRootFolder().addChild(cursor, false);
+          else favoriteSystem->getRootFolder().removeChild(cursor);
+
+          ViewController::Instance().setInvalidGamesList(cursor->getSystem());
+          ViewController::Instance().setInvalidGamesList(favoriteSystem);
+        }
+        ViewController::Instance().getSystemListView().manageFavorite();
+
+        populateGridMeta(mList->getCursor());
+      }
+      return true;
+    }
   }
 
   if (event.AnyLeftPressed() || event.AnyRightPressed()) return mSearchChoices->ProcessInput(event);
@@ -246,10 +258,11 @@ bool GuiSearch::getHelpPrompts(Help& help)
     help.Set(HelpType::LeftRight, _("SEARCH IN..."))
         .Set(HelpType::UpDown, _("SELECT"))
         .Set(HelpType::A, _("BACK"))
-        .Set(HelpType::R, _("KEYBOARD"))
-        .Set(HelpType::B, _("LAUNCH"));
+        .Set(HelpType::R, _("KEYBOARD"));
     if (!mList->isEmpty())
-      help.Set(HelpType::Y,
+      help.Set(HelpType::B, _("LAUNCH"))
+          .Set(HelpType::X, _("NETPLAY"))
+          .Set(HelpType::Y,
                mSearchResults[mList->getCursor()]->Metadata().Favorite() ? _("Remove from favorite") : _("Favorite"));
     return true;
   }
