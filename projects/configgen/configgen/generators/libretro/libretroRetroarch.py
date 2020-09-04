@@ -369,4 +369,4 @@ class LibretroRetroarch:
                     settings.setOption("netplay_start_as_spectator", self.system.config["netplay_vieweronly"])
                 # Netplay passwords
                 settings.setOption("netplay_password", self.system.config["netplay_playerpassword"])
-                settings.setOption("netplay_spectate_password", self.system.config["netplay_vierwerpassword"])
+                settings.setOption("netplay_spectate_password", self.system.config["netplay_viewerpassword"])
