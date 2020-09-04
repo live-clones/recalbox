@@ -28,11 +28,11 @@ playVideo() {
   if [[ "$machineArch" =~ x86 ]]; then
     # on x86 and x86_64, find connected monitors and play video on all of them
     findConnectedConnectors | while read -r conn; do
-      mpv --loop --fs --really-quiet --fps 5 --no-correct-pts -ao=alsa --vo=drm --drm-connector=$conn /recalbox/system/resources/creating-share.mp4 &
+      mpv --loop --really-quiet --fps 5 --no-correct-pts -ao=alsa --vo=drm --drm-connector=$conn /recalbox/system/resources/creating-share.mp4 &
     done
   else
     # on rpi, xu4, simply play
-    mpv --loop --fs --really-quiet --fps 5 --no-correct-pts /recalbox/system/resources/creating-share.mp4 &
+    mpv --loop --really-quiet --fps 5 --no-correct-pts /recalbox/system/resources/creating-share.mp4 &
   fi
 }
 
