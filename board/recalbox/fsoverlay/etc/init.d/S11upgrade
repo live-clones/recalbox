@@ -5,19 +5,17 @@ then
   exit 0
 fi
 
-UPDATEFILE="rbx_no_upgrade"
+ARCH=$(cat /recalbox/recalbox.arch)
+if [ "$ARCH" = "odroidxu4" ]; then
+  # HACK: for odroidxu4, the ARCH is xu4
+  ARCH=xu4
+fi
 
-for file in /boot/update/recalbox-*.img.xz; do
-  if [[ -f $file ]]; then
-    UPDATEFILE=${file}
-    UPDATEFILE_UNCOMPRESSED=${file::-3}
-    break
-  fi
-done
-
-if test -e "${UPDATEFILE}"; then
+file="/boot/update/recalbox-$ARCH.img.xz"
+if [[ -f $file ]]; then
+  UPDATEFILE=${file}
+  UPDATEFILE_UNCOMPRESSED=${file::-3}
   recallog -f upgrade.log "upgrade found! moving ${UPDATEFILE} to SHARE as $(basename "${UPDATEFILE_UNCOMPRESSED}")"
-  killall S06splash
   fbv2 -k -i /recalbox/system/resources/offline-install-0.jpg
   unxz -c "${UPDATEFILE}" >"/recalbox/share/system/upgrade/$(basename "$UPDATEFILE_UNCOMPRESSED")"
   mount -o remount,rw /boot
