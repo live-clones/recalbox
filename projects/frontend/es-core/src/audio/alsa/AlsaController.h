@@ -26,13 +26,22 @@ class AlsaController: public IAudioController, public StaticLifeCycleControler<A
      */
     bool LookupCardDevice(int identifier, int& cardIndex, int& deviceIndex);
 
+    //! Default output name
+    static constexpr const char* sDefaultOutput = "Default output";
+
   public:
+    /*!
+     * @brief Default constructor
+     */
     AlsaController()
       : StaticLifeCycleControler("AlsaController")
     {
       Initialize();
     }
 
+    /*!
+     * @brief Destructor
+     */
     ~AlsaController() override = default;
 
     /*

@@ -125,7 +125,7 @@ void AlsaController::Initialize()
 HashMap<int, std::string> AlsaController::GetPlaybackList() const
 {
   HashMap<int, std::string> result;
-  result[-1] = "Default output";
+  result[-1] = sDefaultOutput;
   for(const AlsaCard& playback : mPlaybacks)
   {
     int cardIndex = playback.Identifier() << 16 | 0xFFFF;
@@ -157,8 +157,8 @@ std::string AlsaController::SetDefaultPlayback(const std::string& playbackName)
     }
   }
   LOG(LogError) << "Cannot find audio device " << playbackName;
-  SetDefaultPlayback(0);
-  return "Default output";
+  SetDefaultPlayback(-1);
+  return sDefaultOutput;
 }
 
 bool AlsaController::LookupCardDevice(int identifier, int& cardIndex, int& deviceIndex)
