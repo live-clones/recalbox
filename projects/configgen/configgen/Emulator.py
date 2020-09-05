@@ -26,9 +26,9 @@ class Emulator:
         self.config['netplaymode'] = arguments.netplay
         self.config['netplay_ip'] = arguments.netplay_ip
         self.config['netplay_port'] = arguments.netplay_port
-        self.config['netplay_playerpassword'] = '1' if arguments.netplay_playerpassword else '0'
-        self.config['netplay_viewerpassword'] = '1' if arguments.netplay_viewerpassword else '0'
-        self.config['netplay_vieweronly'] = '1' if arguments.netplay_vieweronly else '0'
+        self.config['netplay_playerpassword'] = arguments.netplay_playerpassword
+        self.config['netplay_viewerpassword'] = arguments.netplay_viewerpassword
+        self.config['netplay_vieweronly'] = arguments.netplay_vieweronly
         self.config['hash'] = arguments.hash
         self.config['extra'] = arguments.extra
         self.updateConfiguration(recalboxSettings.getOptionSubset("global."), recalboxSettings)

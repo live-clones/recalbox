@@ -366,7 +366,7 @@ class LibretroRetroarch:
                         settings.setOption("netplay_use_mitm_server", self.TRUE)
                         settings.setOption("netplay_mitm_server", mitm)
                 if mode == 'client':
-                    settings.setOption("netplay_start_as_spectator", self.system.config["netplay_vieweronly"])
+                    settings.setOption("netplay_start_as_spectator", self.TRUE if self.system.config["netplay_vieweronly"] else self.FALSE)
                 # Netplay passwords
-                settings.setOption("netplay_password", self.system.config["netplay_playerpassword"])
-                settings.setOption("netplay_spectate_password", self.system.config["netplay_viewerpassword"])
+                settings.setOption("netplay_password", '"' + self.system.config["netplay_playerpassword"] + '"')
+                settings.setOption("netplay_spectate_password", '"' + self.system.config["netplay_viewerpassword"] + '"')
