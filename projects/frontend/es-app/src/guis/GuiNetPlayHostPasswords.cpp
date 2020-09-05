@@ -12,6 +12,7 @@
 
 GuiNetPlayHostPasswords::GuiNetPlayHostPasswords(Window& window, FileData& game)
   : Gui(window),
+    mGame(game),
     mMenu(window, _("GAME PROTECTION"))
 {
 	addChild(&mMenu);
@@ -37,7 +38,7 @@ GuiNetPlayHostPasswords::GuiNetPlayHostPasswords(Window& window, FileData& game)
   mMenu.addWithLabel(mPlayerPassword, _("CHOOSE PLAYER PASSWORD"));
   mMenu.addWithLabel(mViewerPassword, _("CHOOSE VIEWER-ONLY PASSWORD"));
 
-	mMenu.addButton(_("START"), "", [&]
+	mMenu.addButton(_("START"), "", [this]
 	{
 	  // Save
     RecalboxConf::Instance().SetBool("netplay.password.useforplayer", mPlayerPasswordOnOff->getState());
@@ -47,16 +48,16 @@ GuiNetPlayHostPasswords::GuiNetPlayHostPasswords(Window& window, FileData& game)
     RecalboxConf::Instance().Save();
 
     // Run game
-    if(game.isGame())
+    if(mGame.isGame())
     {
       std::string playerPassword, viewerPassword;
       if (mPlayerPasswordOnOff->getState())
-        playerPassword = RecalboxConf::Instance().AsString("netplay.password." + Strings::ToString(mPlayerPassword->getSelected()));
+        playerPassword = RecalboxConf::Instance().AsString("netplay.password." + Strings::ToString(mPlayerPassword->getSelected()), DefaultPasswords::sDefaultPassword[mPlayerPassword->getSelected()]);
       if (mViewerPasswordOnOff->getState())
-        viewerPassword = RecalboxConf::Instance().AsString("netplay.password." + Strings::ToString(mViewerPassword->getSelected()));
+        viewerPassword = RecalboxConf::Instance().AsString("netplay.password." + Strings::ToString(mViewerPassword->getSelected()), DefaultPasswords::sDefaultPassword[mPlayerPassword->getSelected()]);
 
       NetPlayData netplay(RecalboxConf::Instance().AsInt("global.netplay.port"), playerPassword, viewerPassword);
-      ViewController::Instance().LaunchCheck(&game, netplay, Vector3f());
+      ViewController::Instance().LaunchCheck(&mGame, netplay, Vector3f());
     }
     // Close window
     Close();

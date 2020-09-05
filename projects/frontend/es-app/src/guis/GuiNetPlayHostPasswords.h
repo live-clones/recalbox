@@ -20,6 +20,9 @@ class GuiNetPlayHostPasswords : public Gui
     bool getHelpPrompts(Help& help) override;
 
   private:
+    //! Target game
+    FileData& mGame;
+
     //! Player password on/off
     std::shared_ptr<SwitchComponent> mPlayerPasswordOnOff;
     //! Viewer password on/off

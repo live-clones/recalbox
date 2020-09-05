@@ -275,10 +275,7 @@ void GuiNetPlay::launch()
   LobbyGame game = mLobbyList[index];
 
   if (!game.mCoreName.empty() && game.mGame != nullptr)
-  {
     mWindow.pushGui(new GuiNetPlayClientPasswords(mWindow, game));
-    Close();
-  }
 }
 
 std::pair<std::string, std::string> GuiNetPlay::getCoreInfo(const std::string& name)

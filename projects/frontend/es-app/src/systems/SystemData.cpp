@@ -95,8 +95,8 @@ void SystemData::RunGame(Window& window,
     {
       std::string netplayLine("-netplay host -netplay_port ");
       netplayLine.append(Strings::ToString(netplay.Port()));
-      if (!netplay.PlayerPassword().empty()) netplayLine.append(" -playerpassword ").append(1, '"').append(netplay.PlayerPassword()).append(1, '"');
-      if (!netplay.ViewerPassword().empty()) netplayLine.append(" -viewerpassword ").append(1, '"').append(netplay.ViewerPassword()).append(1, '"');
+      if (!netplay.PlayerPassword().empty()) netplayLine.append(" -netplay_playerpassword ").append(1, '"').append(netplay.PlayerPassword()).append(1, '"');
+      if (!netplay.ViewerPassword().empty()) netplayLine.append(" -netplay_viewerpassword ").append(1, '"').append(netplay.ViewerPassword()).append(1, '"');
       if (game.Metadata().RomCrc32() != 0) netplayLine.append(" -hash ").append(game.Metadata().RomCrc32AsString());
       Strings::ReplaceAllIn(command, "%NETPLAY%", netplayLine);
       break;
