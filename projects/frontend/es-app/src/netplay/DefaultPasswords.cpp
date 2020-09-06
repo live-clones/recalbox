@@ -15,10 +15,10 @@ const char* DefaultPasswords::sDefaultPassword[sPasswordCount]
   R"((/T\E/T\R/I\S))",
   "$m00n.p4tR0l$",
   "*M.E.T.A.L.S.L.U.G*",
-  "0ùTrùN-hAn60ùT",
+  "0uTruN-hAn60uT",
   "[L*E*M*M*I*N*G*S]",
   "@-G|a|U|n|L|e|T-@",
-  ":°BuBBLe°B00BLe°:",
-  "§>CaStLeVaNiA<§",
+  "%.BuBBLe.B00BLe.%",
+  "!.CaStLeVaNiA.!",
   "=B@mBeR.J4cK=",
 };
