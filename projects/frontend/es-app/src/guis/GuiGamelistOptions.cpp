@@ -11,6 +11,7 @@
 #include "MenuMessages.h"
 #include "guis/GuiMsgBox.h"
 #include "GuiQuit.h"
+#include "GuiMenu.h"
 
 GuiGamelistOptions::GuiGamelistOptions(Window& window, SystemData& system, SystemManager& systemManager)
   :	Gui(window),
@@ -144,7 +145,14 @@ GuiGamelistOptions::GuiGamelistOptions(Window& window, SystemData& system, Syste
         mMenu.addRowWithHelp(row, _("UPDATE GAMES LISTS"), _(MENUMESSAGE_UI_UPDATE_GAMELIST_HELP_MSG));
     }
 
-	// QUIT
+  // Main menu
+  row.elements.clear();
+  row.addElement(std::make_shared<TextComponent>(mWindow, _("MAIN MENU"), menuTheme->menuText.font, menuTheme->menuText.color), true);
+  row.addElement(makeArrow(mWindow), false);
+  row.makeAcceptInputHandler([this] { mWindow.pushGui(new GuiMenu(mWindow, mSystemManager)); });
+  mMenu.addRow(row);
+
+  // QUIT
   row.elements.clear();
   row.addElement(std::make_shared<TextComponent>(mWindow, _("QUIT"), menuTheme->menuText.font, menuTheme->menuText.color), true);
   row.addElement(makeArrow(mWindow), false);
