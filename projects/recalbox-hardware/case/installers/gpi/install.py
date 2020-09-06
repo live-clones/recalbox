@@ -153,6 +153,9 @@ class Install(InstallBase):
                     "rgui_thumbnail_delay": "0",
                     "rgui_thumbnail_downscaler": "0",
                     "video_font_size": "18",
+                    "menu_widget_scale_auto": "false",
+                    "menu_widget_scale_factor": "2.800000",
+                    "menu_widget_scale_factor_windowed": "2.800000",
                 }
                 for fileName in ("/recalbox/share/system/configs/retroarch/retroarchcustom.cfg.origin",
                                  "/recalbox/share/system/configs/retroarch/retroarchcustom.cfg"):
