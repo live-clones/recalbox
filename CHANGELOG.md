@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [7.0]
+- Update tft-waveshare overlays (support of 3.5 rev B and rev C tft screen)
 - Add support of second mini TFT screen for OGST Case and SPI/DPI Small TFT screen on Rpis 1/2/3
 - Apply sound volume settings to splash video on Pi
 - Fix REICAST bug on XU4
