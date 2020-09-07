@@ -21,7 +21,7 @@ define TFT_WAVESHARE_INSTALL_TARGET_CMDS
 	$(INSTALL) -D -m 0644 $(@D)/waveshare35b-v2.dtbo $(BINARIES_DIR)/rpi-firmware/overlays/waveshare35b-v2.dtbo
 	$(INSTALL) -D -m 0644 $(@D)/waveshare35b-v2.dts $(BINARIES_DIR)/rpi-firmware/overlays/waveshare35b-v2.dts
 	$(INSTALL) -D -m 0644 $(@D)/waveshare35b.dtbo $(BINARIES_DIR)/rpi-firmware/overlays/waveshare35a.dtbo
-	$(INSTALL) -D -m 0644 $(@D)/waveshare35b.dts $(BINARIES_DIR)/rpi-firmware/overlays/waveshare35b.dts	
+	$(INSTALL) -D -m 0644 $(@D)/waveshare35b.dts $(BINARIES_DIR)/rpi-firmware/overlays/waveshare35b.dts
 	$(INSTALL) -D -m 0644 $(@D)/waveshare35c.dtbo $(BINARIES_DIR)/rpi-firmware/overlays/waveshare35c.dtbo
 	$(INSTALL) -D -m 0644 $(@D)/waveshare35c.dts $(BINARIES_DIR)/rpi-firmware/overlays/waveshare35c.dts
 endef
