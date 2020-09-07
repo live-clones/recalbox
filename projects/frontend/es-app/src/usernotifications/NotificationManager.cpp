@@ -9,12 +9,13 @@
 #include <VideoEngine.h>
 #include <sys/wait.h>
 #include "NotificationManager.h"
+#include <spawn.h>
 
 /*
  * Members
  */
-std::string eol("\r\n");
-Path NotificationManager::sStatusFilePath("/tmp/es_state.inf");
+const std::string eol("\r\n");
+const Path NotificationManager::sStatusFilePath("/tmp/es_state.inf");
 HashMap<std::string, pid_t> NotificationManager::sPermanentScriptsPID;
 
 NotificationManager::NotificationManager(char** environment)
@@ -129,7 +130,11 @@ void NotificationManager::LoadScriptList()
           RunProcess(path, {}, false, true);
           LOG(LogDebug) << "Run permanent UserScript: " << path.ToString();
         }
-        else mScriptList.push_back({ path, ExtractNotificationsFromPath(path), synced });
+        else
+        {
+          mScriptList.push_back({ path, ExtractNotificationsFromPath(path), synced });
+          LOG(LogDebug) << "Scan UserScript: " << path.ToString();
+        }
       }
 }
 
@@ -290,56 +295,24 @@ void NotificationManager::Notify(const SystemData* system, const FileData* game,
   mPreviousParamBag = newBag;
 }
 
-std::string NotificationManager::BuildParamString(const std::string& command, const Strings::Vector& arguments)
-{
-  std::string result;
-  result.append(1, '"');
-  if (!command.empty()) result.append(command).append(1, ' ');
-  result.append(Strings::Join(arguments, " "));
-  result.append(1, '"');
-  return result;
-}
-
 void NotificationManager::RunProcess(const Path& target, const Strings::Vector& arguments, bool synchronous, bool permanent)
 {
   // final argument array
   std::vector<const char*> args;
 
-  std::string consolidated;
-  std::string targetEscaped = target.MakeEscaped();
+  std::string command;
 
   // Extract extension
   std::string ext = Strings::ToLowerASCII(target.Extension());
-  if (ext == ".sh")
-  {
-    consolidated = BuildParamString(targetEscaped, arguments);
-    args.push_back("/bin/sh"); args.push_back("-c"); args.push_back(consolidated.c_str());
-  }
-  else if (ext == ".ash")
-  {
-    consolidated = BuildParamString(targetEscaped, arguments);
-    args.push_back("/bin/ash"); args.push_back("-c"); args.push_back(consolidated.c_str());
-  }
-  else if (ext == ".py")
-  {
-    consolidated = BuildParamString(targetEscaped, arguments);
-    args.push_back("/usr/bin/python"); args.push_back("-m"); args.push_back(consolidated.c_str());
-  }
-  else if (ext == ".py2")
-  {
-    consolidated = BuildParamString(targetEscaped, arguments);
-    args.push_back("/usr/bin/python2"); args.push_back("-m"); args.push_back(consolidated.c_str());
-  }
-  else if (ext == ".py3")
-  {
-    consolidated = BuildParamString(targetEscaped, arguments);
-    args.push_back("/usr/bin/python3"); args.push_back("-m"); args.push_back(consolidated.c_str());
-  }
-  else
-  {
-    args.push_back(targetEscaped.c_str());
-    for (const std::string& argument : arguments) args.push_back(argument.c_str());
-  }
+  if      (ext == ".sh")  { command = "/bin/sh";          args.push_back(command.data()); }
+  else if (ext == ".ash") { command = "/bin/ash";         args.push_back(command.data()); }
+  else if (ext == ".py")  { command = "/usr/bin/python";  args.push_back(command.data()); }
+  else if (ext == ".py2") { command = "/usr/bin/python2"; args.push_back(command.data()); }
+  else if (ext == ".py3") { command = "/usr/bin/python3"; args.push_back(command.data()); }
+  else { command = target.ToString(); }
+
+  args.push_back(target.ToChars());
+  for (const std::string& argument : arguments) args.push_back(argument.c_str());
 
   LOG(LogDebug) << "Run UserScript: " << Strings::Join(args, " ");
 
@@ -355,32 +328,24 @@ void NotificationManager::RunProcess(const Path& target, const Strings::Vector& 
     sPermanentScriptsPID.erase(target.ToString());
   }
 
-  // Set high priority, so that the child process DOES NOT execute any thread until the execve
-  sched_param params {};
-  params.sched_priority = sched_get_priority_max(SCHED_FIFO);
-  pthread_setschedparam(pthread_self(), SCHED_FIFO, &params);
+  pid_t pid = 0;
+  posix_spawnattr_t spawn_attr;
+  posix_spawnattr_init(&spawn_attr);
+  int status = posix_spawn(&pid, command.data(), nullptr, &spawn_attr, (char **) args.data(), mEnvironment);
+  posix_spawnattr_destroy(&spawn_attr);
 
-  // Fork & run
-  pid_t pid = vfork();
-  if (pid == 0) // child
+  if (status != 0) // Error
   {
-    execve(target.ToChars(), (char **)args.data(), mEnvironment);
-    exit(0);
-  }
-
-  // Reset priority
-  params.sched_priority = sched_get_priority_max(SCHED_OTHER);
-  pthread_setschedparam(pthread_self(), SCHED_OTHER, &params);
-
-  if (pid < 0) // Error
-  {
-    LOG(LogError) << "Error running " << target.ToString() << " (fork failed)";
+    LOG(LogError) << "Error running " << target.ToString() << " (spawn failed)";
     return;
   }
 
   // Wait for child?
   if (synchronous)
-    wait(nullptr);
+  {
+    if (waitpid(pid, &status, 0) != pid)
+      LOG(LogError) << "Error waiting for " << target.ToString() << " to complete. (waitpid failed)";
+  }
 
   // Permanent?
   if (permanent)

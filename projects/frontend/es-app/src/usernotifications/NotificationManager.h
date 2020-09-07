@@ -68,7 +68,7 @@ class NotificationManager : public StaticLifeCycleControler<NotificationManager>
        * @brief Default constructor
        */
       ParamBag()
-        : mActionParameters(""),
+        : mActionParameters(),
           mSystemData(nullptr),
           mFileData(nullptr),
           mAction(Notification::None)
@@ -95,7 +95,7 @@ class NotificationManager : public StaticLifeCycleControler<NotificationManager>
        * @param compareTo Structure to compare against
        * @return True if at least one field is not equal
        */
-      bool operator != (const ParamBag& compareTo)
+      bool operator != (const ParamBag& compareTo) const
       {
         return ((mAction != compareTo.mAction) ||
                 (mSystemData != compareTo.mSystemData) ||
@@ -117,7 +117,7 @@ class NotificationManager : public StaticLifeCycleControler<NotificationManager>
     static HashMap<std::string, pid_t> sPermanentScriptsPID;
 
     //! Status file
-    static Path sStatusFilePath;
+    static const Path sStatusFilePath;
 
     //! All available scripts
     ScriptList mScriptList;
@@ -232,13 +232,6 @@ class NotificationManager : public StaticLifeCycleControler<NotificationManager>
      * @param output Output string
      */
     static void BuildStateCompatibility(std::string& output, Notification action);
-
-    /*!
-     * @brief Build a parameter string from the given string array and add a string header
-     * @param header Header
-     * @param arguments Argument array
-     */
-    static std::string BuildParamString(const std::string& command, const Strings::Vector& arguments);
 
     /*!
      * @brief Check path extension and check if the extension is valid or not
