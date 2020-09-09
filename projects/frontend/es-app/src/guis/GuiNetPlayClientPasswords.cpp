@@ -47,9 +47,9 @@ GuiNetPlayClientPasswords::GuiNetPlayClientPasswords(Window& window, LobbyGame& 
       if (mPasswords->getSelected() >= 0)
       {
         if (mJoinAs->getSelected() == PasswordType::Player)
-          playerPassword = RecalboxConf::Instance().AsString("netplay.password." + Strings::ToString(mPasswords->getSelected()));
+          playerPassword = RecalboxConf::Instance().AsString("netplay.password." + Strings::ToString(mPasswords->getSelected()), DefaultPasswords::sDefaultPassword[mPasswords->getSelected()]);
         else if (mJoinAs->getSelected() == PasswordType::Viewer)
-          viewerPassword = RecalboxConf::Instance().AsString("netplay.password." + Strings::ToString(mPasswords->getSelected()));
+          viewerPassword = RecalboxConf::Instance().AsString("netplay.password." + Strings::ToString(mPasswords->getSelected()), DefaultPasswords::sDefaultPassword[mPasswords->getSelected()]);
       }
 
       bool mitm = mLobbyGame.mHostMethod == 3;
@@ -62,7 +62,7 @@ GuiNetPlayClientPasswords::GuiNetPlayClientPasswords(Window& window, LobbyGame& 
     // Close window
     Close();
 	});
-  mMenu.addButton(_("EDIT PASSWORDS"), "", [&]
+  mMenu.addButton(_("EDIT PASSWORDS"), "", [this]
   {
     mWindow.pushGui(new GuiNetPlayEditPasswords(mWindow));
   });
