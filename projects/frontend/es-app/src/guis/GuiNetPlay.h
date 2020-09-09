@@ -27,7 +27,8 @@ class LobbyGame
     std::string mFormattedName;
     std::string mGameName;
     std::string mGameCRC;
-    std::string mCoreName;
+    std::string mCoreLongName;
+    std::string mCoreShortName;
     std::string mCoreVersion;
     std::string mUserName;
     std::string mFrontEnd;
@@ -75,8 +76,6 @@ class GuiNetPlay : public Gui, private Thread, private ISynchronousEvent
 
     void launch();
 
-    static std::pair<std::string, std::string> getCoreInfo(const std::string& name);
-
     float getButtonGridHeight() const;
 
     void updateSize();
@@ -92,6 +91,37 @@ class GuiNetPlay : public Gui, private Thread, private ISynchronousEvent
     void Render(const Transform4x4f& parentTrans) override;
 
   private:
+    //! Immutable core information
+    struct CoreInfo
+    {
+      private:
+        //! Long name (i.e. "MAME 2003-Plus")
+        std::string mLongName;
+        //! Short name (i.e. "mame2003+")
+        std::string mShortName;
+        //! Version
+        std::string mVersion;
+
+      public:
+        CoreInfo(const std::string& longName, const std::string& shortName, const std::string& version)
+          : mLongName(longName)
+          , mShortName(shortName)
+          , mVersion(version)
+        {
+        }
+
+        CoreInfo() = default;
+
+        //! Long name
+        const std::string& LongName() const { return mLongName; }
+        //! Short name
+        const std::string& ShortName() const { return mShortName; }
+        //! Version
+        const std::string& Version() const { return mVersion; }
+        //! Empty?
+        bool Empty() const { return mLongName.empty(); }
+    };
+
     enum class MessageType
     {
       LobbyLoaded,
@@ -122,29 +152,45 @@ class GuiNetPlay : public Gui, private Thread, private ISynchronousEvent
      * @param ip IP to ping
      * @return time in milliseconds
      */
-    static int pingHost(const std::string& ip);
+    static int PingHost(const std::string& ip);
 
     /*!
      * @brief Look for a game in all gamelist available
      * @param game game or hash
      * @return FileData of the game is found, otherwise nullptr
      */
-    FileData* findGame(const std::string& game);
+    FileData* FindGame(const std::string& game);
 
     /*!
      * @brief Get the playable games from the lobby and fill the list
      */
-    void parseLobby();
+    void ParseLobby();
+
+    /*!
+     * @brief Load core map from recalbox so that we can translate
+     * long core names to short core names
+     */
+    void LoadCoreMap();
 
     /*!
      * @brief Get formatted name w/ icons
      * @param game Gamer to get data from
      * @return Formatted game name
      */
-    static std::string GetFormattedName(const LobbyGame& game);
+    std::string GetFormattedName(const LobbyGame& game);
+
+    /*!
+     * @brief Get core information
+     * @param name Long name to lookup
+     * @return Core information
+     */
+    const CoreInfo& GetCoreInfo(const std::string& name);
 
     //! SystemManager instance
     SystemManager& mSystemManager;
+
+    //! Core information list
+    std::vector<CoreInfo> mCoreList;
 
     /*!
      * @brief Netplayable Game list

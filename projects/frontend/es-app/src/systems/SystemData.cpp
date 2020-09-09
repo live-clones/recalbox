@@ -63,6 +63,7 @@ void SystemData::RunGame(Window& window,
   const std::string rom = game.getPath().MakeEscaped();
   const std::string basename = game.getPath().FilenameWithoutExtension();
   const std::string rom_raw = game.getPath().ToString();
+  const std::string& core = netplay.NetplayMode() == NetPlayData::Mode::Client ? netplay.CoreName() : emulator.Core();
 
   Strings::ReplaceAllIn(command, "%ROM%", rom);
   Strings::ReplaceAllIn(command, "%CONTROLLERSCONFIG%", controlersConfig);
@@ -70,7 +71,7 @@ void SystemData::RunGame(Window& window,
   Strings::ReplaceAllIn(command, "%BASENAME%", basename);
   Strings::ReplaceAllIn(command, "%ROM_RAW%", rom_raw);
   Strings::ReplaceAllIn(command, "%EMULATOR%", emulator.Emulator());
-  Strings::ReplaceAllIn(command, "%CORE%", emulator.Core());
+  Strings::ReplaceAllIn(command, "%CORE%", core);
   Strings::ReplaceAllIn(command, "%RATIO%", game.Metadata().RatioAsString());
 
   switch(netplay.NetplayMode())
