@@ -663,6 +663,11 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_SUPERGRAFX),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-supergrafx
 endif
 
+# System: thepowdertoy
+ifneq ($(BR2_PACKAGE_LIBRETRO_THEPOWDERTOY),)
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-thepowdertoy
+endif
+
 # System: thomson
 ifneq ($(BR2_PACKAGE_LIBRETRO_THEODORE),)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-thomson

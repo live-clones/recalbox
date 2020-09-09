@@ -1,0 +1,12 @@
+config BR2_PACKAGE_LIBRETRO_THEPOWDERTOY
+	bool "libretro-thepowdertoy"
+	depends on BR2_PACKAGE_RETROARCH
+	depends on BR2_INSTALL_LIBSTDCPP
+	select BR2_PACKAGE_RECALBOX_ROMFS_THEPOWDERTOY
+	help
+	  The Powder Toy is a free physics sandbox game.
+
+	  http://www.libretro.com
+
+comment "LIBRETRO_THEPOWDERTOY needs a toolchain w/ C++"
+	depends on !BR2_INSTALL_LIBSTDCPP

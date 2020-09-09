@@ -1,0 +1,5 @@
+## RECALBOX - SYSTEM THE POWDER TOY ##
+
+Ce système est un port de The Powder Toy. Aucune rom n'est requise.
+
+Les fichiers de sauvegarde en poudre compressée ".cps" peuvent également être chargés directement.
