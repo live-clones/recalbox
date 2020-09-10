@@ -2292,71 +2292,71 @@ msgstr "Posição"
 
 #
 msgid "PREDEFINED PASSWORDS"
-msgstr ""
+msgstr "SENHAS PREDEFINIDAS"
 
 #
 msgid "VALIDATE"
-msgstr ""
+msgstr "VALIDAR"
 
 #
 msgid "PASSWORD #%i"
-msgstr ""
+msgstr "SENHA #%i"
 
 #
 msgid "PASSWORD REQUIRED"
-msgstr ""
+msgstr "SENHA REQUERIDA"
 
 #
 msgid "PLAYER"
-msgstr ""
+msgstr "JOGADOR"
 
 #
 msgid "VIEWER-ONLY"
-msgstr ""
+msgstr "ESPECTADOR"
 
 #
 msgid "JOIN AS"
-msgstr ""
+msgstr "JUNTAR-SE COMO"
 
 #
 msgid "CHOOSE PASSWORD"
-msgstr ""
+msgstr "ESCOLHER SENHA"
 
 #
 msgid "EDIT PASSWORDS"
-msgstr ""
+msgstr "EDITAR SENHAS"
 
 #
 msgid "GAME PASSWORDS"
-msgstr ""
+msgstr "SENHAS DO JOGO"
 
 #
 msgid "SET PLAYER PASSWORD"
-msgstr ""
+msgstr "DEFINIR SENHA DO JOGADOR"
 
 #
 msgid "SET VIEWER PASSWORD"
-msgstr ""
+msgstr "DEFINIR SENHA DO ESPECTADOR"
 
 #
 msgid "CHOOSE PLAYER PASSWORD"
-msgstr ""
+msgstr "ESCOLHER SENHA DO JOGADOR"
 
 #
 msgid "CHOOSE VIEWER-ONLY PASSWORD"
-msgstr ""
+msgstr "ESCOLHER SENHA DO ESPECTADOR"
 
 #
 msgid "GAME PROTECTION"
-msgstr ""
+msgstr "PROTEÇÃO DO JOGO"
 
 #
 msgid "JOIN NETPLAY GAME"
-msgstr ""
+msgstr "JUNTAR-SE A UM JOGO NETPLAY"
 
 #
 msgid "SEARCH IN..."
-msgstr ""
+msgstr "BUSCAR EM..."
 
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "

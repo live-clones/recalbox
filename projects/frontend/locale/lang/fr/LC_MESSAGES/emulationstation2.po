@@ -1964,7 +1964,7 @@ msgid "BIOS OK"
 msgstr "BIOS OK"
 
 msgid "BIOS UNSAFE"
-msgstr ""
+msgstr "BIOS INCERTAINS"
 
 msgid "BIOS KO"
 msgstr "BIOS NON OK"

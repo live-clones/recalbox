@@ -2272,68 +2272,68 @@ msgstr "POSITION"
 
 #
 msgid "PREDEFINED PASSWORDS"
-msgstr ""
+msgstr "PREDEFINED PASSWORDS"
 
 #
 msgid "VALIDATE"
-msgstr ""
+msgstr "VALIDATE"
 
 #
 msgid "PASSWORD #%i"
-msgstr ""
+msgstr "PASSWORD #%i"
 
 #
 msgid "PASSWORD REQUIRED"
-msgstr ""
+msgstr "PASSWORD REQUIRED"
 
 #
 msgid "PLAYER"
-msgstr ""
+msgstr "PLAYER"
 
 #
 msgid "VIEWER-ONLY"
-msgstr ""
+msgstr "VIEWER-ONLY"
 
 #
 msgid "JOIN AS"
-msgstr ""
+msgstr "JOIN AS"
 
 #
 msgid "CHOOSE PASSWORD"
-msgstr ""
+msgstr "CHOOSE PASSWORD"
 
 #
 msgid "EDIT PASSWORDS"
-msgstr ""
+msgstr "EDIT PASSWORDS"
 
 #
 msgid "GAME PASSWORDS"
-msgstr ""
+msgstr "GAME PASSWORDS"
 
 #
 msgid "SET PLAYER PASSWORD"
-msgstr ""
+msgstr "SET PLAYER PASSWORD"
 
 #
 msgid "SET VIEWER PASSWORD"
-msgstr ""
+msgstr "SET VIEWER PASSWORD"
 
 #
 msgid "CHOOSE PLAYER PASSWORD"
-msgstr ""
+msgstr "CHOOSE PLAYER PASSWORD"
 
 #
 msgid "CHOOSE VIEWER-ONLY PASSWORD"
-msgstr ""
+msgstr "CHOOSE VIEWER-ONLY PASSWORD"
 
 #
 msgid "GAME PROTECTION"
-msgstr ""
+msgstr "GAME PROTECTION"
 
 #
 msgid "JOIN NETPLAY GAME"
-msgstr ""
+msgstr "JOIN NETPLAY GAME"
 
 #
 msgid "SEARCH IN..."
-msgstr ""
+msgstr "SEARCH IN..."
