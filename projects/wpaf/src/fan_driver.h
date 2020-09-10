@@ -12,6 +12,7 @@ typedef struct {
   fan_handler * (*init)(uint32_t address);
   void (*on)(fan_handler *);
   void (*off)(fan_handler *);
+  void (*close)(fan_handler *);
 } fan_interface ;
 
 #define PCF8574_CONTROLLER 0

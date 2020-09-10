@@ -18,6 +18,7 @@ fan_interface pcf8574_interface = {
     &pcf8574_fan_init,
     &pcf8574_fan_on,
     &pcf8574_fan_off,
+    &pcf8574_fan_close,
 };
 
 // initialize i2c
@@ -35,4 +36,9 @@ void pcf8574_fan_on(fan_handler * pcf8574_handler) {
 // disable fan
 void pcf8574_fan_off(fan_handler * pcf8574_handler) {
   wiringPiI2CWrite(pcf8574_handler->fd, 0x01 | wiringPiI2CRead(pcf8574_handler->fd));
+}
+
+void pcf8574_fan_close(fan_handler * pcf8574_handler) {
+  close(pcf8574_handler->fd);
+  free(pcf8574_handler);
 }

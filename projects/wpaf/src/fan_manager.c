@@ -9,32 +9,23 @@
 
 #include "config.h"
 
-#include "pcf8574_fan_controller.h"
 #include "cpu_controller.h"
+#include "fan_driver.h"
 
 #define HYST_LOW  40 
 #define HYST_HIGH 50
 
-#define FAN_DISABLED 0
-#define FAN_ENABLED 1
-
-#define FAN_ADDRESS 0x20
-
-
-void start_fan_manager(uint32_t fan_controller_id) {
+/*
+ * This is sample fan manager
+ * works for CC fans (aka on/off)
+ * need to implement need functions for PWM (modulated speed fan)
+ */ 
+void start_fan_manager(fan_interface * fan, fan_handler * handler) {
 
   float temp;
   bool fan_status = false;
-  fan_interface * fan;
-  fan_handler * handler;
 
   // initialize
-  switch(fan_controller_id) {
-    case PCF8574_CONTROLLER:
-      fan = &pcf8574_interface;
-      break;
-  }
-  handler = fan->init(FAN_ADDRESS) ;
   fan->off(handler) ;
 
   // cpu fan controller main loop

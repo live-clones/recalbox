@@ -16,6 +16,7 @@ void gui_init(oled_interface * oled, oled_handler * handler,uint32_t columns, ui
 void gui_clear(oled_interface * oled, oled_handler * handler);
 void gui_point(oled_handler*, uint32_t, uint32_t, uint32_t);
 void gui_draw(oled_interface *, oled_handler *);
+void gui_partial_draw(oled_interface *, oled_handler *, uint32_t, uint32_t, uint32_t, uint32_t);
 void gui_char(oled_handler * handler, uint32_t x, uint32_t y, const char character,
                    sFONT* Font, uint32_t background_color, uint32_t foreground_color);
 void gui_string(oled_handler * handler, uint32_t x, uint32_t y, const char * string,

@@ -16,7 +16,9 @@ typedef struct {
   void (*close)(oled_handler *);
   void (*clear)(oled_handler *);
   void (*send_buffer)(oled_handler *);
+  void (*send_partial_buffer)(oled_handler *, uint32_t, uint32_t, uint32_t, uint32_t); ;
   void (*set_screen_size)(oled_handler *, uint32_t, uint32_t);
+  void (*horizontal_scroll)(oled_handler *, uint32_t, uint32_t, uint32_t);
 } oled_interface ;
 
 #define SSD1306_CONTROLLER 0

@@ -14,8 +14,10 @@
 oled_handler * ssd1306_oled_init(uint32_t oled_address);
 void ssd1306_oled_clear(oled_handler *);
 void ssd1306_oled_send_buffer(oled_handler *);
+void ssd1306_oled_send_partial_buffer(oled_handler *, uint32_t, uint32_t, uint32_t, uint32_t);
 void ssd1306_set_screen_size(oled_handler *, uint32_t, uint32_t);
 void ssd1306_oled_close(oled_handler *);
+void ssd1306_oled_hscroll(oled_handler *, uint32_t, uint32_t, uint32_t );
 
 extern oled_interface ssd1306_interface;
 

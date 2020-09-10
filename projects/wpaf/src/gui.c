@@ -29,6 +29,10 @@ void gui_draw(oled_interface * oled, oled_handler * handler) {
   oled->send_buffer(handler);
 }
 
+void gui_partial_draw(oled_interface * oled, oled_handler * handler, uint32_t start_x, uint32_t start_y, uint32_t end_x, uint32_t end_y) {
+  oled->send_partial_buffer(handler, start_x, start_y, end_x, end_y);
+}
+
 // draw one ASCII character
 void gui_char(oled_handler * handler, uint32_t x, uint32_t y, const char character,
                  sFONT* Font, uint32_t background_color, uint32_t foreground_color) {

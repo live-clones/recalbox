@@ -7,6 +7,7 @@
 fan_handler * pcf8574_fan_init(uint32_t address);
 void pcf8574_fan_on(fan_handler *);
 void pcf8574_fan_off(fan_handler *);
+void pcf8574_fan_close(fan_handler *);
 
 extern fan_interface pcf8574_interface;
 

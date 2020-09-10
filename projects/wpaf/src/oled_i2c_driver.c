@@ -17,7 +17,6 @@ int oled_write_memory(uint32_t fd, int value) {
 }
 
 int oled_write_command(uint32_t fd, int command, int value) {
-  printf("send(0x%x) 0x%x\n", command, value);
   return wiringPiI2CWriteReg8(fd, command, value);
 }
 
