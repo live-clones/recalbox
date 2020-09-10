@@ -1,0 +1,17 @@
+Waveshare PoE and Fan - Oled and fan controller
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This program can handle OLED sreen and fan of waveshare's PoE hat model B.
+
+For this program to work, you have to enable an overlay, in your /boot/config.txt:
+
+dtparam=i2c1=on
+
+then reboot. Then load the i2c-dev kernel module:
+
+modprobe i2c-dev
+
+Compatible hardware
+~~~~~~~~~~~~~~~~~~~
+
+- Waveshare PoE Hat B
