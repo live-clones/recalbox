@@ -1,0 +1,2 @@
+#!/bin/ash
+/usr/bin/ffmpeg -f x11grab -framerate 1 -video_size $(export DISPLAY=:0 && /usr/bin/xrandr | /bin/egrep ' connected [0-9]+x[0-9]+' | /bin/egrep -o '[0-9]+x[0-9]+') -i :0.0 -vframes 1 -vcodec png $2
