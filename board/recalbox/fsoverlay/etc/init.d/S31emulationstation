@@ -5,7 +5,7 @@
 systemsetting="recalbox_settings"
 
 PIDFILE=/var/run/emulationstation.pid
-ESBIN=/usr/bin/emulationstation
+ESBIN=/usr/bin/emulationstation-starter
 
 scr_msg() {
 	printf "\r%20s%10s" "${1}" " " > /dev/tty0 # with spaces at the begining for screen not displaying the left ; and spaces on right to erase old msg
@@ -30,9 +30,9 @@ case "$1" in
 		settings_lang="`$systemsetting -command load -key system.language`"
 		recallog "starting emulationstation with lang = $settings_lang"
 		if grep -q rpi4 /recalbox/recalbox.arch; then
-			HOME=/recalbox/share/system LANG="${settings_lang}.UTF-8" SDL_VIDEO_GL_DRIVER=/usr/lib/libGLESv2.so SDL_VIDEO_EGL_DRIVER=/usr/lib/libEGL.so SDL_NOMOUSE=1 start-stop-daemon -S -q -m -p /var/run/emulationstation.pid  --exec /usr/bin/emulationstation &
+			HOME=/recalbox/share/system LANG="${settings_lang}.UTF-8" SDL_VIDEO_GL_DRIVER=/usr/lib/libGLESv2.so SDL_VIDEO_EGL_DRIVER=/usr/lib/libEGL.so SDL_NOMOUSE=1 start-stop-daemon -S -q -m -p /var/run/emulationstation.pid  --exec "$ESBIN" &
 		else
-			HOME=/recalbox/share/system LANG="${settings_lang}.UTF-8" SDL_VIDEO_GL_DRIVER=/usr/lib/libGLESv2.so SDL_VIDEO_EGL_DRIVER=/usr/lib/libGLESv2.so SDL_NOMOUSE=1 start-stop-daemon -S -q -m -p /var/run/emulationstation.pid  --exec /usr/bin/emulationstation &
+			HOME=/recalbox/share/system LANG="${settings_lang}.UTF-8" SDL_VIDEO_GL_DRIVER=/usr/lib/libGLESv2.so SDL_VIDEO_EGL_DRIVER=/usr/lib/libGLESv2.so SDL_NOMOUSE=1 start-stop-daemon -S -q -m -p /var/run/emulationstation.pid  --exec "$ESBIN" &
 		fi
 	fi
 	;;

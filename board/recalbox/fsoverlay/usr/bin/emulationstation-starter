@@ -1,0 +1,9 @@
+#!/bin/bash
+
+rc=1
+
+while [ $rc != 0 ]; do
+  /usr/bin/emulationstation
+  rc=$?
+  recallog "emulationstation exited code $rc"
+done
