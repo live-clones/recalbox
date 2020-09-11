@@ -6,9 +6,12 @@
 #include "Files.h"
 
 Http::Http() noexcept
-  : mHandle(nullptr),
-    mLastReturnCode(0),
-    mContentSize(0)
+  : mHandle(nullptr)
+  , mIDownload(nullptr)
+  , mContentSize(0)
+  , mContentLength(0)
+  , mLastReturnCode(0)
+  , mCancel(false)
 {
   mHandle = curl_easy_init();
   if (mHandle != nullptr)
@@ -63,12 +66,32 @@ bool Http::Execute(const std::string& url, const Path& output)
   return false;
 }
 
+bool Http::Execute(const std::string& url, const Path& output, Http::IDownload* interface)
+{
+  mIDownload = interface;
+  return Execute(url, output);
+}
+
 size_t Http::WriteCallback(char* ptr, size_t size, size_t nmemb, void* userdata)
 {
   Http& This = *((Http*)userdata);
+
   // Always store into the string
   This.mResultHolder.append(ptr, size * nmemb);
   This.mContentSize += (long long)(size * nmemb);
+
+  // Get content length
+  if (This.mContentLength == 0)
+  {
+    double contentLength;
+    curl_easy_getinfo(This.mHandle, CURLINFO_CONTENT_LENGTH_DOWNLOAD, &contentLength);
+    This.mContentLength = (long long)contentLength;
+  }
+
+  // Callback?
+  if (This.mIDownload != nullptr)
+    This.mIDownload->DownloadProgress(This, This.mContentSize, This.mContentLength);
+
   // Should flush?
   if (!This.mResultFile.IsEmpty())
     if (This.mResultHolder.length() > sMaxDataKeptInRam || (size * nmemb) == 0)
@@ -79,5 +102,12 @@ size_t Http::WriteCallback(char* ptr, size_t size, size_t nmemb, void* userdata)
       // Clear the string
       This.mResultHolder.clear();
     }
-  return size * nmemb;
+
+  return This.mCancel ? 0 : size * nmemb;
 }
+
+void Http::Cancel()
+{
+  mCancel = true;
+}
+

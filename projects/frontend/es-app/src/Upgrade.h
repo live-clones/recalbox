@@ -19,6 +19,27 @@ class Upgrade: private Thread, private ISynchronousEvent
      */
     ~Upgrade() override;
 
+    /*!
+     * @brief Return remote version.
+     * @return Remote version
+     */
+    static std::string NewVersion() { return mRemoteVersion.empty() ? mLocalVersion : mRemoteVersion; }
+
+    /*!
+     * @brief Return remote version.
+     * @return Remote version
+     */
+    static std::string DownloadUrl();
+
+    /*!
+     * @brief Check if there is a pending update
+     */
+    static bool PendingUpdate()
+    {
+      if (mRemoteVersion.empty()) return false;
+      return mRemoteVersion != mLocalVersion;
+    }
+
   private:
     //! Release DNS
     static constexpr const char* sReleaseDNS = "stable.download.recalbox.com";
@@ -26,10 +47,14 @@ class Upgrade: private Thread, private ISynchronousEvent
     static constexpr const char* sReviewDNS = "review.download.recalbox.com";
 
     //! Get remote version template URL
-    static constexpr const char* sGetVersionUrl = "https://#DOMAIN#/stable/v2/upgrade/rpi3/recalbox.version?source=recalbox";
+    static constexpr const char* sVersionPatternUrl = "https://#DOMAIN#/stable/v2/upgrade/#ARCH#/recalbox.version?source=recalbox";
+    //! Get file download template url
+    static constexpr const char* sDownloadPatternUrl = "https://#DOMAIN#/stable/v2/upgrade/#ARCH#/recalbox-#ARCH#.img.xz?source=recalbox";
 
     //! Local version file
     static constexpr const char* sLocalVersionFile = "/recalbox/recalbox.version";
+    //! Local version arch
+    static constexpr const char* sLocalArchFile = "/recalbox/recalbox.arch";
 
     //! MainWindow
     Window& mWindow;
@@ -41,6 +66,12 @@ class Upgrade: private Thread, private ISynchronousEvent
     std::string mPopupMessage;
     //! Build MessageBox message
     std::string mMessageBoxMessage;
+    //! Download URL
+    static std::string mDomainName;
+    //! Remote version
+    static std::string mRemoteVersion;
+    //! Local version
+    static std::string mLocalVersion;
 
     /*
      * Thread implementation
@@ -65,7 +96,7 @@ class Upgrade: private Thread, private ISynchronousEvent
     /*!
      * @brief Get update url from DNS TXT records
      */
-    static std::string GetUpdateUrl();
+    static std::string GetDomainName();
 
     /*!
      * @brief Get remote version

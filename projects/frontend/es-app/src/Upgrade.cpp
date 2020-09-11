@@ -11,17 +11,19 @@
 #include <utils/Http.h>
 #include <utils/Files.h>
 #include "Upgrade.h"
-#include "recalbox/RecalboxUpgrade.h"
 #include "RecalboxConf.h"
 #include "utils/locale/LocaleHelper.h"
+
+std::string Upgrade::mDomainName;
+std::string Upgrade::mRemoteVersion;
+std::string Upgrade::mLocalVersion;
+
 
 Upgrade::Upgrade(Window& window)
   : mWindow(window),
     mSender(this)
 {
-  GetUpdateUrl();
   Thread::Start("Upgrade");
-  mSignal.Signal();
 }
 
 Upgrade::~Upgrade()
@@ -45,47 +47,32 @@ void Upgrade::Run()
       waitForSeconds = 3600;
 
       // Do we have to update?
-      std::string remoteVersion = GetRemoteVersion();
-      std::string localVersion = Files::LoadFile(Path(sLocalVersionFile));
-      if (!remoteVersion.empty() && (remoteVersion != localVersion))
+      mRemoteVersion = GetRemoteVersion();
+      mLocalVersion = Files::LoadFile(Path(sLocalVersionFile));
+      if (!mRemoteVersion.empty() && (mRemoteVersion != mLocalVersion))
       {
-        LOG(LogInfo) << "[Update] Remote version " << remoteVersion << " does not match local version " << localVersion << ". Update available!";
-      }
-
-      /*if (RecalboxUpgrade::canUpdate())
-      {
-        std::string updateVersion = RecalboxUpgrade::getUpdateVersion();
+        LOG(LogInfo) << "[Update] Remote version " << mRemoteVersion << " does not match local version " << mLocalVersion << ". Update available!";
 
         // Popup, always shown
         mPopupMessage = _("AN UPDATE IS AVAILABLE FOR YOUR RECALBOX");
         mPopupMessage += "\n";
-        mPopupMessage += updateVersion;
+        mPopupMessage += mRemoteVersion;
         mPopupMessage += "\n\n";
         mPopupMessage += _("You're strongly recommended to update your Recalbox.\nNo support will be provided for older versions!");
-
 
         // Message box only if the option is on
         if (RecalboxConf::Instance().AsBool("updates.enabled"))
         {
-          std::string changelog = RecalboxUpgrade::getUpdateChangelog();
-
           while (mWindow.HasGui())
             sleep(5);
 
           mMessageBoxMessage = _("NEW VERSION:");
           mMessageBoxMessage += " ";
-          mMessageBoxMessage += updateVersion;
-          if (!changelog.empty())
-          {
-            mMessageBoxMessage += "\n";
-            mMessageBoxMessage += _("UPDATE CHANGELOG:");
-            mMessageBoxMessage += "\n";
-            mMessageBoxMessage += changelog;
-          }
+          mMessageBoxMessage += mRemoteVersion;
         }
 
         mSender.Call();
-      }*/
+      }
     }
   }
   catch(std::exception& ex)
@@ -100,16 +87,17 @@ void Upgrade::ReceiveSyncCallback(const SDL_Event& event)
   (void)event;
 
   // Volatile popup
-  if (!mPopupMessage.empty())
-    mWindow.AddInfoPopup(new GuiInfoPopup(mWindow, mPopupMessage, 60, GuiInfoPopup::PopupType::Recalbox));
+  mWindow.AddInfoPopup(new GuiInfoPopup(mWindow, mPopupMessage, 60, GuiInfoPopup::PopupType::Recalbox));
 
   // Messagebox
   if (!mMessageBoxMessage.empty())
     mWindow.displayScrollMessage(_("AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"), mMessageBoxMessage, false);
 }
 
-std::string Upgrade::GetUpdateUrl()
+std::string Upgrade::GetDomainName()
 {
+  if (!mDomainName.empty()) return mDomainName;
+
   // Select DNS to query
   std::string target = RecalboxConf::Instance().AsString("updates.type", "stable");
   std::string domain(target == "stable" ? sReleaseDNS :sReviewDNS);
@@ -123,24 +111,48 @@ std::string Upgrade::GetUpdateUrl()
     ns_initparse(buffer, l, &msg);
     ns_rr rr;
     if (ns_parserr(&msg, ns_s_an, 0, &rr) == 0)
-      return std::string((char*)(ns_rr_rdata(rr) + 1));
+    {
+      mDomainName = std::string((char*) (ns_rr_rdata(rr) + 1));
+      LOG(LogDebug) << "[Update] Domain: " << mDomainName;
+    }
   }
-  return std::string();
+
+  return mDomainName;
 }
 
 std::string Upgrade::GetRemoteVersion()
 {
   // Get domain
-  std::string domain = GetUpdateUrl();
-  if (domain.empty()) return domain;
-  LOG(LogDebug) << "[Update] Domain: " << domain;
+  GetDomainName();
+
+  // Get arch
+  std::string arch = Files::LoadFile(Path(sLocalArchFile));
+  Strings::ReplaceAllIn(arch, "odroidxu4", "xu4");
 
   // Get version
-  std::string url = Strings::Replace(sGetVersionUrl, "#DOMAIN#", domain);
+  std::string url = Strings::Replace(sVersionPatternUrl, "#DOMAIN#", mDomainName);
+  Strings::ReplaceAllIn(url, "#ARCH#", arch);
   std::string version;
   if (!Http().Execute(url, version)) version.clear();
+  version = Strings::Trim(version, " \t\r\n");
   LOG(LogDebug) << "[Update] Remote version: " << version << " (" << url << ')';
 
   // Return version
   return version;
+}
+
+std::string Upgrade::DownloadUrl()
+{
+  // Get domain
+  GetDomainName();
+
+  // Get arch
+  std::string arch = Files::LoadFile(Path(sLocalArchFile));
+  Strings::ReplaceAllIn(arch, "odroidxu4", "xu4");
+
+  // Get url
+  std::string url = Strings::Replace(sDownloadPatternUrl, "#DOMAIN#", mDomainName);
+  Strings::ReplaceAllIn(url, "#ARCH#", arch);
+
+  return url;
 }

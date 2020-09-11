@@ -111,6 +111,7 @@ set(CORE_HEADERS
 		# Guis
 		src/guis/Gui.h
 		src/guis/GuiDetectDevice.h
+		src/guis/GuiInfoPopup.h
 		src/guis/GuiInputConfig.h
 		src/guis/GuiMsgBox.h
 		src/guis/GuiMsgBoxScroll.h
@@ -224,6 +225,7 @@ set(CORE_SOURCES
 		# Guis
 		src/guis/Gui.cpp
 		src/guis/GuiDetectDevice.cpp
+		src/guis/GuiInfoPopup.cpp
 		src/guis/GuiInputConfig.cpp
 		src/guis/GuiMsgBox.cpp
 		src/guis/GuiMsgBoxScroll.cpp

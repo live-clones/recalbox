@@ -11,8 +11,8 @@ class ProgressBarComponent : public Component
   private:
     std::shared_ptr<Font> mFont;
 
-    int mMaxValue;
-    int mCurrentValue;
+    long long mMaxValue;
+    long long mCurrentValue;
 
     unsigned int mEmptyColor;
     unsigned int mFillColor;
@@ -22,25 +22,25 @@ class ProgressBarComponent : public Component
     void Render(const Transform4x4f& parentTrans) override;
 
   public:
-    ProgressBarComponent(Window&window, int maxvalue);
+    ProgressBarComponent(Window&window, long long maxvalue);
 
-	  void setMaxValue(int maxvalue)
+	  void setMaxValue(long long maxvalue)
     {
 	    if (maxvalue < 1) maxvalue = 1;
 	    if (maxvalue < mCurrentValue) maxvalue = mCurrentValue;
 	    mMaxValue = maxvalue;
     }
 
-    void setCurrentValue(int value)
+    void setCurrentValue(long long value)
     {
 	    if (value < 0) value = 0;
 	    if (value > mMaxValue) value = mMaxValue;
 	    mCurrentValue = value;
     }
 
-    int getMaxValue() const { return mMaxValue; }
+    long long getMaxValue() const { return mMaxValue; }
 
-	  int getCurrentValue() const { return mCurrentValue; }
+	  long long getCurrentValue() const { return mCurrentValue; }
 
 	  std::string getText() const { return Strings::ToString((float)mCurrentValue * 100.0f / (float)mMaxValue, 2).append(1, '%'); }
 };

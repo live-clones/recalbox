@@ -2349,6 +2349,22 @@ msgstr "BEITRETEN ZUM SPIEL ALS"
 msgid "SEARCH IN..."
 msgstr "SUCHE IN ..."
 
+#
+msgid "DOWNLOADING UPDATE..."
+msgstr "HERUNTERLADEN DES UPDATES..."
+
+#
+msgid "We're downloading Recalbox version %s!\n\nOnce the download is complete, Recalbox will reboot and start installing the new version.\nTypical installations take about 5-10mn. DO NOT reboot or power off Recalbox until the installation is complete."
+msgstr "Wir laden gerade die Recalbox-Version %s!\n\nSobald der Download abgeschlossen ist, startet Recalbox neu und beginnt mit der Installation der neuen Version.\nTypische Installationen dauern etwa 5-10 Minuten. Starten Sie Recalbox NICHT neu oder schalten Sie es aus, bevor die Installation abgeschlossen ist."
+
+#
+msgid "REBOOT IN %s"
+msgstr "NEUSTART IN %s"
+
+#
+msgid "Error downloading Recalbox %s... Please retry later!"
+msgstr "Fehler beim Herunterladen von Recalbox %s... Bitte versuchen Sie es später noch einmal !"
+
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
 #~ "will turn the screen black."

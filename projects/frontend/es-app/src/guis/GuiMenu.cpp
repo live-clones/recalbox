@@ -4,6 +4,7 @@
 #include <systems/SystemManager.h>
 #include <MainRunner.h>
 #include <input/Input.h>
+#include <Upgrade.h>
 
 #include "EmulationStation.h"
 #include "guis/GuiMenu.h"
@@ -13,7 +14,6 @@
 #include "recalbox/RecalboxUpgrade.h"
 #include "guis/GuiMsgBox.h"
 #include "guis/GuiDetectDevice.h"
-#include "guis/GuiUpdate.h"
 #include "views/ViewController.h"
 #include "audio/AudioManager.h"
 #include "platform.h"
@@ -40,6 +40,7 @@
 #include "GuiQuit.h"
 #include "GuiMenuArcadeVirtualSystem.h"
 #include "GuiNetPlayEditPasswords.h"
+#include "GuiUpdateRecalbox.h"
 
 GuiMenu::GuiMenu(Window& window, SystemManager& systemManager)
   : Gui(window),
@@ -362,7 +363,7 @@ void GuiMenu::menuUpdates(){
   updates_enabled->setState(RecalboxConf::Instance().AsBool("updates.enabled"));
   updateGui->addWithLabel(updates_enabled, _("CHECK UPDATES"), _(MENUMESSAGE_UPDATE_CHECK_HELP_MSG));
   // Display available update version
-  if (RecalboxUpgrade::canUpdate()) {
+  if (Upgrade::PendingUpdate()) {
     auto updateVersion = std::make_shared<TextComponent>(mWindow,
         _("YES"), mMenuTheme->menuText.font, mMenuTheme->menuText.color);
     updateGui->addWithLabel(updateVersion, _("AVAILABLE UPDATE"), _(MENUMESSAGE_UPDATE_VERSION_HELP_MSG));
@@ -372,7 +373,7 @@ void GuiMenu::menuUpdates(){
       std::string changelog = RecalboxUpgrade::getUpdateChangelog();
       if (!changelog.empty()) {
         const std::string& message = changelog;
-        std::string updateVersion = RecalboxUpgrade::getUpdateVersion();
+        std::string updateVersion = Upgrade::NewVersion();
         mWindow.displayScrollMessage(_("AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"),
             _("NEW VERSION:") + ' ' + updateVersion + "\n" +
             _("UPDATE CHANGELOG:") + "\n" + message);
@@ -382,7 +383,7 @@ void GuiMenu::menuUpdates(){
     }, _(MENUMESSAGE_UPDATE_CHANGELOG_HELP_MSG));
     // Start update
     updateGui->addSubMenu(_("START UPDATE"), [this] {
-      mWindow.pushGui(new GuiUpdate(mWindow));
+      mWindow.pushGui(new GuiUpdateRecalbox(mWindow, Upgrade::DownloadUrl(), Upgrade::NewVersion()));
     }, _(MENUMESSAGE_START_UPDATE_HELP_MSG));
   }
 

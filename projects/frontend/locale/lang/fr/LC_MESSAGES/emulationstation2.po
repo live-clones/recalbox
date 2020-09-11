@@ -2348,3 +2348,19 @@ msgstr "REJOINDRE UNE PARTIE NETPLAY"
 #
 msgid "SEARCH IN..."
 msgstr "CHERCHER DANS..."
+
+#
+msgid "DOWNLOADING UPDATE..."
+msgstr "TÉLÉCHARGEMENT DE MISE À JOUR..."
+
+#
+msgid "We're downloading Recalbox version %s!\n\nOnce the download is complete, Recalbox will reboot and start installing the new version.\nTypical installations take about 5-10mn. DO NOT reboot or power off Recalbox until the installation is complete."
+msgstr "Nous téléchargeons Recalbox version %s!\n\nUne fois le téléchargement terminé, Recalbox va redémarrer et commencer l'installation de la nouvelle version.\nUne installation dure en moyenne 5 à 10mn. N'eteignez ou ne redémarrez JAMAIS Recalbox durant l'installation!"
+
+#
+msgid "REBOOT IN %s"
+msgstr "REDÉMARRAGE DANS %s"
+
+#
+msgid "Error downloading Recalbox %s... Please retry later!"
+msgstr "Erreur de téléchargement de Recalbox %s... Veuillez rééssayer plus tard!"

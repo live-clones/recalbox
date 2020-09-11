@@ -2435,3 +2435,19 @@ msgstr ""
 #
 msgid "SEARCH IN..."
 msgstr ""
+
+#
+msgid "DOWNLOADING UPDATE..."
+msgstr ""
+
+#
+msgid "We're downloading Recalbox version %s!\n\nOnce the download is complete, Recalbox will reboot and start installing the new version.\nTypical installations take about 5-10mn. DO NOT reboot or power off Recalbox until the installation is complete."
+msgstr ""
+
+#
+msgid "REBOOT IN %s"
+msgstr ""
+
+#
+msgid "Error downloading Recalbox %s... Please retry later!"
+msgstr ""

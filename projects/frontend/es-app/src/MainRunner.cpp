@@ -20,7 +20,6 @@
 #include <audio/AudioController.h>
 #include "MainRunner.h"
 #include "EmulationStation.h"
-#include "VolumeControl.h"
 #include "Upgrade.h"
 #include "CommandThread.h"
 #include "netplay/NetPlayThread.h"

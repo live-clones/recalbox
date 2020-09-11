@@ -45,7 +45,7 @@ set(ES_HEADERS
         src/guis/GuiScraperOptions.h
         src/guis/GuiScraperSingleGameRun.h
         src/guis/GuiUpdate.h
-        ../es-core/src/guis/GuiInfoPopup.h
+        src/guis/GuiUpdateRecalbox.h
         src/guis/MenuMessages.h
         src/guis/GuiNetPlay.h
         src/guis/GuiNetPlayEditPasswords.h
@@ -201,7 +201,7 @@ set(ES_SOURCES
         src/guis/GuiScraperOptions.cpp
         src/guis/GuiScraperSingleGameRun.cpp
         src/guis/GuiUpdate.cpp
-        ../es-core/src/guis/GuiInfoPopup.cpp
+        src/guis/GuiUpdateRecalbox.cpp
         src/guis/MenuMessages.cpp
         src/guis/GuiNetPlay.cpp
         src/guis/GuiNetPlayEditPasswords.cpp
