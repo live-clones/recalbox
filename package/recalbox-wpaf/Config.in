@@ -1,0 +1,5 @@
+config BR2_PACKAGE_RECALBOX_WPAF
+	bool "recalbox-wpaf"
+	select BR2_PACKAGE_BCM2835
+	help
+	  Recalbox Fan controller

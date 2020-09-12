@@ -58,6 +58,7 @@ All notable changes to this project will be documented in this file.
 
 - Fix pisnes crash on launch (#1838)
 - Fix simcoupe compilation issue (#1833)
+- Add recalbox-wpaf fan controller (#1832)
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
