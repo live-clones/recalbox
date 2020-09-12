@@ -15,6 +15,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add recalbox overlays for all systems!
 - Add LowRes NX virtual console on all boards
 - Add CHD support for Mega CD Games with Picodrive core
+- Add recalbox-wpaf tool for controlling various RPI fan controllers
 
 ### Improvements
 - Bump Retroarch to v1.9.3
