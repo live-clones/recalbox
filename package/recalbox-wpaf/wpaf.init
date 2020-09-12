@@ -1,0 +1,34 @@
+#!/bin/bash
+
+WPAF_BIN=/usr/bin/wpaf
+SYSTEM_SETTINGS=/usr/bin/recalbox_settings
+
+should_start() {
+  if [ "$($SYSTEM_SETTINGS -command load -key hat.wpaf.enabled)" = "1" ]; then
+    return 0
+  fi
+  return 1
+}
+
+start_wpaf() {
+  local board
+  board=$($SYSTEM_SETTINGS -command load -key hat.wpaf.board)
+  modprobe i2c-dev
+  recallog "starting wpaf for $board board"
+  $WPAF_BIN -b "$board" >/dev/null 2>&1 &
+}
+
+case "$1" in
+  start)
+    if should_start; then
+      start_wpaf
+    fi
+    ;;
+  stop)
+    pkill wpaf
+    ;;
+esac
+    
+
+
+
