@@ -1,0 +1,120 @@
+#!/bin/bash
+true=0
+false=1
+
+CONFIGTXT=/boot/recalbox-user-config.txt
+CONFIGFILE=/overlay/.configs/wpaf
+WPAF_BIN=/usr/bin/wpaf
+SYSTEM_SETTINGS=/usr/bin/recalbox_settings
+
+setup_wspoehatb() {
+  grep -q -E '^dtparam=i2c1=on' "$CONFIGTXT" || echo "dtparam=i2c1=on" >>"$CONFIGTXT"
+}
+
+setup_argonforty() {
+  grep -q -E '^dtparam=i2c_arm=on' "$CONFIGTXT" || echo "dtparam=i2c_arm=on" >>"$CONFIGTXT"
+  grep -q -E '^enable_uart=1' "$CONFIGTXT" || echo "enable_uart=1" >>"$CONFIGTXT"
+}
+
+setup_piboy() {
+    :
+}
+
+setup_rpipoeplus() {
+  grep -q -E '^dtoverlay=rpi-poe-plus' "$CONFIGTXT" || echo "dtoverlay=rpi-poe-plus" >>"$CONFIGTXT"
+  grep -q -E '^blacklist rpi_poe_fan' /etc/modprobe.d/blacklist.conf || \
+      echo "blacklist rpi_poe_fan" >>/etc/modprobe.d/blacklist.conf
+}
+
+setup_fanshim() {
+  grep -q -E '^dtoverlay=pwm$' "$CONFIGTXT" || echo "dtoverlay=pwm" >>"$CONFIGTXT"
+}
+
+
+start_fanshim() {
+  echo 0 >/sys/class/pwm/pwmchip0/export
+}
+
+is_setup_done() {
+  [ ! -f "$CONFIGFILE" ] && return "$false"
+  local setup_board
+  local config_board
+  setup_board=$(grep ^board= "$CONFIGFILE" | cut -d = -f 2)
+  config_board=$($SYSTEM_SETTINGS -command load -key hat.wpaf.board)
+  if [ -z "$setup_board" ]; then
+    echo "no setup found for $config_board, doing it right now"
+    return $false
+  fi
+  if [ "$setup_board" != "$config_board" ]; then
+    echo "old $setup_board board found, now configuring for $config_board"
+    return $false
+  fi
+  return $true
+}
+
+do_setup_for_board() {
+  mount -o remount,rw /
+  mount -o remount,rw /boot
+  if [ "$(type -t "setup_$1")" != function ]; then
+    echo "no setup for $1" >&2
+  else
+    recallog "doing wpaf setup for board $1"
+    "setup_$1"
+  fi
+  echo "board=$1" >$CONFIGFILE
+  mount -o remount,ro /
+  mount -o remount,ro /boot
+}
+
+do_start_for_board() {
+  [[ "$(type -t "start_$1")" = function ]] && "start_$1" # start specific init sequence for board
+}
+
+is_enabled() {
+  if [ "$($SYSTEM_SETTINGS -command load -key hat.wpaf.enabled)" = "1" ]; then
+    return 0
+  fi
+  return 1
+}
+
+
+do_setup() {
+  if ! is_setup_done; then
+    do_setup_for_board "$1"
+  fi
+}
+
+start_wpaf() {
+  local board
+  board=$($SYSTEM_SETTINGS -command load -key hat.wpaf.board)
+  do_setup "$board"
+  do_start_for_board "$board"
+  recallog "starting wpaf for $board board"
+  start-stop-daemon -x "$WPAF_BIN" -b -N 5 -m -p /var/run/wpaf.pid -S -- -b "$board"
+}
+
+stop_wpaf() {
+  local board
+  board=$($SYSTEM_SETTINGS -command load -key hat.wpaf.board)
+  do_setup "$board"
+  recallog "stopping wpaf for $board board"
+  start-stop-daemon -K -p /var/run/wpaf.pid
+}
+
+#
+# Service starts here
+#
+is_enabled || exit
+
+case "$1" in
+  start)
+    start_wpaf
+    ;;
+  stop)
+    stop_wpaf
+    ;;
+esac
+    
+
+
+
