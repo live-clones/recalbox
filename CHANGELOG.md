@@ -104,6 +104,7 @@ All notable changes to this project will be documented in this file.
 - Fix and made translatable "No comment availble" text in p2k popup (#1911)
 - Fix EmuTOS and arcade dats location (#1921)
 - Add gamelink overload for gb and gbc (#1808)
+- Add recalbox-wpaf fan controller (#1832)
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
