@@ -20,6 +20,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add CHD support for Mega CD Games with Picodrive core
 - Add Saturn on Raspberry pi4 (libretro core: Yabasanshiro)
 - Add gamelink overload for gb and gbc
+- Add recalbox-wpaf tool for controlling various RPI fan controllers
 
 ### Improvements
 - Bump libretro MGBA (Gameboy Advance core)
