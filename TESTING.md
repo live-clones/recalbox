@@ -91,6 +91,9 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 
 - [ ] Test vanilla image on rpi1 and rpi zero, experience should be good (#1841)
 - [ ] Test simcoupé emulator (#1833)
+- [ ] Enable hat.wpaf.enabled recalbox.conf key and set a supported RPI board name (#1832)
+  - [ ] hat configuration should be set accordingly (usually /boot/recalbox-user-config.txt)
+  - [ ] fan should be controlled by wpaf
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
