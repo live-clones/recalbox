@@ -79,6 +79,7 @@ All notable changes to this project will be documented in this file.
 - Rework bluetooth scripts (#1482)
 - Use xz compression method for squashfs (#1848)
 - Fix simcoupe compilation issue (#1833)
+- Add recalbox-wpaf fan controller (#1832)
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
