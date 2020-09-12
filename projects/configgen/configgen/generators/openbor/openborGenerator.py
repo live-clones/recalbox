@@ -32,7 +32,7 @@ class OpenborGenerator(Generator):
         settings.setOption("FullScreen", "1")
 
         # Configuration
-        settings.setOption("PixelPefect", "1" if self.isEnabled(system, "integerscale") else "0")
+        settings.setOption("PixelPerfect", "1" if self.isEnabled(system, "integerscale") else "0")
         settings.setOption("DebugInfo", "1" if self.isEnabled(system, "showFPS") else "0")
 
         # Pad configuration
