@@ -110,6 +110,7 @@ All notable changes to this project will be documented in this file.
 - Remove Flycast from x86 (#1902)
 - Remove all .nvmem and .nvmem2 files (#1901)
 - Build SDL2 without HIDAPI support (#1845)
+- Add recalbox-wpaf fan controller (#1832)
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)

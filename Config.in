@@ -269,4 +269,7 @@ endmenu
 menu "Small TFT Screen"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/rpi-fbcp/Config.in"
 endmenu
+menu "Pi Hats"
+         source "$BR2_EXTERNAL_RECALBOX_PATH/package/recalbox-wpaf/Config.in"
+endmenu
 endmenu
