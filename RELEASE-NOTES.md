@@ -3,45 +3,66 @@
 ## Version 7.0
 
 ### News
-- Recalbox system is now a firmware, more robust than ever
-- Brand new update system, easier than ever
-- Automatic recovery after 3 boots failure
-- Add Bios checking capabilities to EmulationStation
-- Add License menu
-- Adult game filtering in EmulationStation **
-- New sorting options: Publisher and system-name for all virtual systems **
-- 3 new virtual systems: All-games, Last-Played and Multiplayers **
-- New virtual systems per genre (RPG, Shoot'em up, Pinballs, ...) **/*
-- Region highligting in gamelist (highlight games from your favorite region) **
-- Add laptop switch to external screen (x86_64)
-- Add GameCube Bios 
-- Add Nintendo 64DD platform
-- Add libretro mame for recent mame set 
+- New compatible board: Raspberry Pi4
+- Recalbox system is now a firmware, more robust than ever:
+  - Automatic recovery after 3 boots failure (reset to factory settings)
+  - Brand new update system, easier and faster
+- Share partition is created in exfat on fresh install. Access your share partition from your Windows PC!
+- Add BIOS Window in EmulationStation to list missing/incorrect Bios:
+- Add new BIOS XML list aware of mandatory/optionnal bios and multiple working Bios signatures.
+- Add sorting options: Publisher and system-name for all virtual systems **
+- Add 3 new virtual systems: All-games, Last-Played and Multiplayers **
+- Add virtual systems per genre (RPG, Shoot'em up, Pinballs, ...) **/*
+- Add Region highligting in gamelist (highlight games from your favorite region) **
+- Add Adult game filtering in EmulationStation **
+- Add laptop switch to external screen (x86/x64)
 - Add EmulationStation event-driven user scripts
-- Add Search feature and new Arcade-style virtual keyboard
-- Add Pad-To-Keyboard driver
-- New ngp & ngpc emulator focused on performance (fast) (libretro-race)
-- Libretro flycast also available on rpi3, xu4 and x86
-- Add new system: OpenBOR
-- Add new system: Solarus
-- Add opengl on Retroarch for x86/x64
-- Fba_libretro has been renamed to Fbneo
-- New ports system with Mr. Boom (8-player Bomberman clone) ready to be played
-- CaveStory is now included and moved to ports
-- Prboom system has been renamed to Doom and moved to ports
-- Quake 1 game engine added to ports
-- 2048 game added to ports
-- Dinothawr game added to ports
-- Rick Dangerous game added to ports
-- Flashback game engine added to ports (need full game files to be added)
-- Wolfenstein 3D game engine added to ports (full game files go all in the same directory)
-- Dungeon Crawl Stone Soup added to ports
-- Out Run game engine added to ports
-- Add libretro's EasyRPG 2000 & 2003 Player
-- Add libretro's mupen64plus-nx, an improved n64/64dd emulator (rpi only for now)
-- Add libretro's pcsx_rearmed on pc too
-- Add naomigd system for your NAOMI GD-ROM games
-- Libretro puae emulates amigacd32 now
+- Add Search feature (with a brand new Arcade-style virtual keyboard!)
+- Add Pad-To-Keyboard driver. Play keyboard computer games with your pad!
+- Add License menu
+- Add support for nVidia proprietary drivers version 390 and 440 (x86/x64)
+- Add Arcade virtual system in EmulationStation
+- Add automatic detection & management of RetroFlag's NESPi4 case
+- Add animation while creating/populating SHARE partition
+- Add BIOS check *before* running a game.
+- Add Screenshot from the Webmanager for Xu4 and x86/x64.
+- Add new Netplay-able systems: Atari2600, PCEngine CD, PC-FX, Family Disc System, TIC-80, Sega CD & Mr.Boom
+- Add new systems:
+  - Add Nintendo 64DD platform
+  - Add OpenBOR (Beat'em up engine)
+  - Add Solarus (RPG engine)
+  - Add EasyRPG (RPG engine, using libretro-easyrpg, compatible w/ RPG Maker 2000 & 2003)
+  - Add naomigd system for your NAOMI GD-ROM games
+  - Add Amiga CD32 on x86/x64 (w/ libretro-puae core)
+  - Add Naomi on Pi3 (w/ libretro-flycast)
+- Add new emulators/cores:
+  - Add libretro's pcsx_rearmed on pc too
+  - Add libretro's mupen64plus-nx, an improved n64/64dd emulator (rpi only for now)
+  - Add libetro's Mesen, accurate NES & FDS emulator (rpi4, xu4, x86/x64 only)
+  - Add libetro's Mesen-S, accurate SNES, Satellaview, GB/GBC & Super GameBoy emulator (rpi4, xu4, x86/x64 only)
+  - Add libretro mame for recent mame set 
+  - Add libretro-race, an ngp & ngpc emulator focused on performance
+  - Add Libretro-flycast on on rpi3, xu4 and x86
+- Add PORTS system:
+  - CaveStory moves to ports and is now included, ready to play
+  - Add Mr. Boom (8-player Bomberman clone), ready to play
+  - Prboom (Former DOOM system) moves to ports
+  - Add Quake 1 game engine, ready to play
+  - Add 2048 game, ready to play
+  - Add Dinothawr game, ready to play
+  - Add XRick (Rick Dangerous clone) game, ready to play
+  - Add Flashback game. Requires full game files to be added (read the .txt)
+  - Add Wolfenstein 3D game, ready to play
+  - Add Out Run game. Required arcade rom to be played (read the .txt)
+- Add support for popular music formats in EmulationStation
+  - MP3 files
+  - High quality FLAC files
+  - OGG OPUS
+  - Amiga Modules (and all derivatives traker formats)
+  - Wave (Raw audio format)
+  - MIDI file (soundfont file required)
+    More information available in share/music/readme.txt
+- Add new "networkable" folders in share (overlays, shaders, scripts, screenshots)
 - Add *LOTS* of awesome homebrews (more info in related subfolders):
   - A2600: Arguna (Nathan Tolbert)
   - A2600: Halo2600 (Ed Fries, former VP of Microsoft XBox division)
@@ -136,8 +157,40 @@
 
 ### Improvements
 - Bump Buildroot to version 2020.02
-- Bump KODI to Leia 18.5
-- Share partition is created in exfat on fresh install, which is easier to access from Windows computers
+- Bump KODI to Leia 18.7.1:
+  - 4k x265 available on Pi4, x86/x64
+  - Netflix plugin included (need manual activation)
+- Bump cores/emulators:
+  - Bump DosBox to r4290
+  - Bump ScummVM and map D-pad when no analog available
+  - Bump ResidualVM
+  - Bump Dolphin emulator
+  - Bump libretro-cores family
+  - Bump oricatmos emulator on lastest version 
+  - Bump simcoupe emulator 
+  - Bump Amiberry to v3.1.3.1
+  - Bump AdvanceMame to v3.9
+  - Bump Theodore core (add emulation of Thomson TO7 and TO7/70 computers)
+- Bump retroarch to v1.9.0
+- Bump retroarch-cheats to v1.9.0
+- Bump libretro-assets on last version
+- Bump Odroid UBOOT to 2017/05 version 
+- Move x86/x64 graphic backend from GLES to OpenGL. Improve overall quality.
+- Improved NetPlay:
+  - Removed filtering of non-Recalbox players in netplay game lists
+  - Add spectator mode management
+  - Add password-protected game management (both player & spectator)
+  - Add 15 pre-configured & editable passwords for quick selection
+  - Available netplay games sorted by state/name
+  - Add Recalbox icon in front of game names
+  - Add Password icon for password-protected games
+  - Add automatic core switch on client side to match host selected core
+- Improve sound management:
+  - Simplified output device selection
+  - Volume control is working for boot-videos
+- Rename Fba_libretro to Fbneo (updated to the new official logo)
+- Rename 4do to Opera (newer libretro 3do core)
+- Manage GameCube Bios 
 - Improve internal Scraper (ScreenScraper):
   - Faster! Use your ScreenScraper's threads to parallelize workloads 
   - Better! Lots of options, snaps video, and more...
@@ -145,45 +198,16 @@
 - Improve overall Emulationstation's stability & reliability
 - Optimize memory requirements of EmulationStation
 - Optimize EmulationStation boot time (up to 20 times faster!)
-- Bump DosBox to r4290
-- Bump ScummVM and map D-pad when no analog available
-- Bump ResidualVM
-- Bump Odroid UBOOT to 2017/05 version 
-- Add 8bitdo N30 Pro 2 controller to pre-configured pads/joyticks
-- Add IPega PG-9037 pad
-- Improve pad processing in EmulationStation
-- Bump & fix dolphin emulator
+- Improve pad processing in EmulationStation. Perform auto-mapping of 70% of commonly available pads (incluxing all 8BitDo)
 - Improved Genre & Region processing in EmulationStation * 
-- Added missing texts into translated texts
-- Improved french translations
+- Improved translations:
+  - Fix some bad translations in FR, ES, PT, IT & DE texts
+  - Fix missing translations in FR, ES, PT, IT & DE texts
 - Faster-than-light CRC calculation for netplay 
 - Game sorting and Jump-to-letter are now unicode compatible
-- Add support for nVidia proprietary drivers version 390 and 440
-- Bump oricatmos emulator on lastest version 
-- Bump simcoupe emulator 
 - Simplify emulator/core selection UI
-- Bump retroarch to v1.9.0
-- Bump retroarch-cheats to v1.9.0
-- Bump libretro-assets on last version
-- Bump libretro-cores family
-- Rename 4do to opera (newer libretro 3do core)
-- Bump Theodore core (add emulation of Thomson TO7 and TO7/70 computers)
 - Set vice_x64sc as default c64 emulator + JiffyDOS support
-- Add support for popular music formats in EmulationStation
-  - MP3 files
-  - High quality FLAC files
-  - OGG OPUS
-  - Amiga Modules (and all derivatives traker formats)
-  - Wave (Raw audio format)
-  - MIDI file (soundfont file required)
-  More information available in share/music/readme.txt
-- Bump Amiberry to v3.1.3.1
-- Bump AdvanceMame to v3.9
-- Add volume control to XU4
 - Improve the management of external screens and selection from recalbox.conf (by Chriskt78)
-- Add support for zipped gamelist.xml
-- Add libetro's Mesen, accurate NES & FDS emulator (rpi4, xu4, x86(_64) only)
-- Add libetro's Mesen-S, accurate SNES, Satellaview, GB/GBC & Super GameBoy emulator (rpi4, xu4, x86/x64 only)
 - Improve Apple IIGS slot detection & auto-boot
 - Improve the following standalone emulators:
   - AdvanceMame: Support roms in sub-folders, integer scale & show FPS
@@ -198,22 +222,11 @@
   - Amiberry (Amiga): up to 4 disks loaded at once
   - GSPlus (Apple IIGS): from 2 up to 32 disks loaded at once, depending on floppy types
   - Quasi88 (PC88): up to 6 disks loaded at once
-- Improve shader management in EmulationStation (Add raw shader selection)
 - Improve GPI support (boot image, installation phases, ...)
-- Add Arcade virtual system in EmulationStation
-- Add videosnaps sound & on/off switch in EmulationStation menus
-- Add automatic detection & management of RetroFlag's NESPi4 case
-- Add animation while creating/populating SHARE partition
+- Improve shader management in EmulationStation (Add raw shader selection)
 - Move shaders into user's SHARE partition
 - Move Libretro's cheat into SHARE partition
-- Improved NetPlay:
-  - Removed filtering of non-Recalbox players in netplay game lists
-  - Add spectator mode management
-  - Add password-protected game management (both player & spectator)
-  - Add 15 pre-configured & editable passwords for fast selection
-  - Available netplay games sorted by state/name
-  - Add Recalbox icon in front of game names
-  - Add Password icon for password-protected games
+- Improved WIFI & Bluetooth management
 
 ### Fixes
 - Fix Odroid XU4 fan issue
