@@ -39,7 +39,6 @@
 - Out Run game engine added to ports
 - Add libretro's EasyRPG 2000 & 2003 Player
 - Add libretro's mupen64plus-nx, an improved n64/64dd emulator (rpi only for now)
-- Add libretro's scummvm version as an alternative to the standalone emulator
 - Add libretro's pcsx_rearmed on pc too
 - Add naomigd system for your NAOMI GD-ROM games
 - Libretro puae emulates amigacd32 now

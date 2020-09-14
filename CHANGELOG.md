@@ -31,8 +31,8 @@ All notable changes to this project will be documented in this file.
 - Fix x86/x64 video splash
 - Add "system.splash.path" videos path override option to recalbox.conf
 - Bump DosBox to r4290
-- Bump ScummVM to 2.1.2
-- Bump ResidualVM (2020-05)
+- Bump ScummVM to 2.2.0
+- Bump ResidualVM (2020-09)
 - Rewrite scraper with more options & video support
 - Improve ES stability
 - Decrease ES's memory requirements
