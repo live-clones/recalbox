@@ -9,7 +9,7 @@ LIBRETRO_CHEATS_SITE = $(call github,libretro,libretro-database,$(LIBRETRO_CHEAT
 
 define LIBRETRO_CHEATS_INSTALL_TARGET_CMDS
 	mkdir -p $(TARGET_DIR)/recalbox/share_init/cheats
-	cp -r $(@D)/cht \
+	cp -r $(@D)/cht/* \
 		$(TARGET_DIR)/recalbox/share_init/cheats
 endef
 

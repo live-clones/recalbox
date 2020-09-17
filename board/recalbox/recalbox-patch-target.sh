@@ -22,6 +22,7 @@ ln -sf "/var/localtime" "${TARGET_DIR}/etc/localtime" || exit 1
 mkdir -p ${TARGET_DIR}/etc/emulationstation || exit 1
 ln -sf "/recalbox/share_init/system/.emulationstation/es_systems.cfg" "${TARGET_DIR}/etc/emulationstation/es_systems.cfg" || exit 1
 ln -sf "/recalbox/share_init/system/.emulationstation/themes" "${TARGET_DIR}/etc/emulationstation/themes" || exit 1
+ln -sf "/recalbox/share/cheats" "${TARGET_DIR}/recalbox/share_init/cheats/custom" || exit 1
 
 # remove useless files
 FILES_TO_REMOVE=("${TARGET_DIR}/lib/firmware/netronome")
@@ -97,8 +98,7 @@ cp "$BR2_EXTERNAL_RECALBOX_PATH/CHANGELOG.md" "${TARGET_DIR}/recalbox/recalbox.c
 # This does not matter when the build starts from scratch.
 # However, while in development cycles, you may want to update one or more folders
 # To do so, untar those files before running your next build.
-for DIR in cheats \
-           shaders
+for DIR in shaders
 do
     FDIR="${TARGET_DIR}/recalbox/share_init/${DIR}"
     if test ! -e "${FDIR}.tar.gz"; then

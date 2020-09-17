@@ -16,8 +16,7 @@ IN=/recalbox/share_init
 OUT=/recalbox/share
 
 # Uncompress directories' content
-for DIR in cheats \
-           shaders
+for DIR in shaders
 do           
     if test ! -e "$OUT""/""$DIR"; then
         tar xJf "$IN""/""$DIR".tar.xz -C "$OUT""/"
@@ -25,7 +24,8 @@ do
 done  
 
 # force the creation of some directories
-for DIR in themes \
+for DIR in cheats \
+           themes \
            system/.cache \
            system/.config/lirc \
            system/.config/residualvm \
