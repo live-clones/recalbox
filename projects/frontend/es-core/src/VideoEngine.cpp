@@ -266,12 +266,12 @@ bool VideoEngine::InitializeDecoder()
   mContext.Height = mContext.AudioVideoContext->streams[mContext.VideoStreamIndex]->codecpar->height;
   int argbSize = av_image_get_buffer_size(PIXEL_FORMAT, mContext.Width, mContext.Height, 8);
   if (argbSize < 1) RETURN_ERROR("Error getting video frame size", false);
-  auto FrameBuffer = (unsigned char*)av_malloc(argbSize);
-  if (FrameBuffer == nullptr) RETURN_ERROR("Error allocating frame buffer", false);
+  mContext.FrameBuffer = (unsigned char*)av_malloc(argbSize);
+  if (mContext.FrameBuffer == nullptr) RETURN_ERROR("Error allocating frame buffer", false);
 
-  if (av_image_fill_arrays(&mContext.FrameRGB[0]->data[0], &mContext.FrameRGB[0]->linesize[0], FrameBuffer, PIXEL_FORMAT, mContext.Width, mContext.Height, 1) < 0)
+  if (av_image_fill_arrays(&mContext.FrameRGB[0]->data[0], &mContext.FrameRGB[0]->linesize[0], mContext.FrameBuffer, PIXEL_FORMAT, mContext.Width, mContext.Height, 1) < 0)
     RETURN_ERROR("Error setting frame buffer", false);
-  if (av_image_fill_arrays(&mContext.FrameRGB[1]->data[0], &mContext.FrameRGB[1]->linesize[0], FrameBuffer, PIXEL_FORMAT, mContext.Width, mContext.Height, 1) < 0)
+  if (av_image_fill_arrays(&mContext.FrameRGB[1]->data[0], &mContext.FrameRGB[1]->linesize[0], mContext.FrameBuffer, PIXEL_FORMAT, mContext.Width, mContext.Height, 1) < 0)
     RETURN_ERROR("Error setting frame buffer", false);
 
   // Initialize audio callback
