@@ -249,7 +249,7 @@ bool SystemManager::AddPorts()
     LOG(LogInfo) << "creating Ports";
     // Seek defaulot position
     int position = 0;
-    while((position < (int)mVisibleSystemVector.size()) && (portSystem->getFullName() > mVisibleSystemVector[position]->getFullName())) position++;
+    while((position < (int)mVisibleSystemVector.size()) && (portSystem->getName() > mVisibleSystemVector[position]->getName())) position++;
     position = RecalboxConf::Instance().AsInt("emulationstation.ports.position", position) % (int)mVisibleSystemVector.size();
     auto it = position >= 0 ? mVisibleSystemVector.begin() + position : mVisibleSystemVector.end() + (position + 1);
     mVisibleSystemVector.insert(it, portSystem);
