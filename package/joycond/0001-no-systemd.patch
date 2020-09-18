@@ -1,0 +1,12 @@
+--- joycond-3969af9dcdc2b8199716ec08220df5d9ef7cfc6a/CMakeLists.txt.orig	2020-09-18 22:11:50.942324286 +0200
++++ joycond-3969af9dcdc2b8199716ec08220df5d9ef7cfc6a/CMakeLists.txt	2020-09-18 22:27:56.669210543 +0200
+@@ -31,9 +31,3 @@
+ install(FILES udev/89-joycond.rules udev/72-joycond.rules DESTINATION /lib/udev/rules.d/
+         PERMISSIONS OWNER_WRITE OWNER_READ GROUP_READ WORLD_READ 
+         )
+-install(FILES systemd/joycond.service DESTINATION /etc/systemd/system
+-        PERMISSIONS OWNER_WRITE OWNER_READ GROUP_READ WORLD_READ
+-        )
+-install(FILES systemd/joycond.conf DESTINATION /etc/modules-load.d
+-        PERMISSIONS OWNER_WRITE OWNER_READ GROUP_READ WORLD_READ
+-        )

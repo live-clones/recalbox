@@ -1,0 +1,35 @@
+#!/bin/bash
+#
+# Start joycond
+#
+# userspace daemon to combine joy-cons from the hid-nintendo kernel driver
+#
+systemsetting="recalbox_settings"
+
+start() {
+  if [ "$($systemsetting -command load -key controllers.joycond.enabled -default 1)" -eq 1 ]; then
+    echo -n "Starting joycond: "
+    start-stop-daemon -b -S -q -m -p /var/run/joycond.pid --exec /usr/bin/joycond
+    echo "OK"
+  fi
+}
+
+stop() {
+  echo -n "Stopping joycond: "
+  start-stop-daemon -K -q -p /var/run/lirc.pid
+  echo "OK"
+}
+
+case "$1" in
+  start) start ;;
+  stop) stop ;;
+  restart|reload)
+    stop
+    start
+  ;;
+  *)
+    echo "Usage: $0 {start|stop|restart}"
+    exit 1
+esac
+
+exit $?

@@ -12,6 +12,7 @@
 - Show feature slides during install
 - Add Super Cassette Vision core
 - Add Libretro NeoCD core (w/ CHD support)
+- Add Nintendo Switch joycon support (both solo or combined mode)
 
 ### Improvements
 - Bump Amiberry to version 3.3

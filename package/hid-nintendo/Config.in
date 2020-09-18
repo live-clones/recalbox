@@ -1,0 +1,5 @@
+config BR2_PACKAGE_HID_NINTENDO
+	bool "hid-nintendo"
+	depends on BR2_LINUX_KERNEL
+	help
+	  A Nintendo HID kernel module.

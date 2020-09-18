@@ -58,6 +58,7 @@ Every case must be checked before a release.
 - [ ] Add Super Cassette Vision core => Test this core and report bugs/improvements to Maaax
 - [ ] Add libretro neocd core => test this core with cue/bin, cue/iso and chd
 - [ ] BR2020.11 - Check bluetooth pairing
+- [ ] Test Nintendo switch joycons and combined joycons
 
 
 ## [7.1-Reloaded]
