@@ -813,6 +813,7 @@ void GuiMenu::menuUISettings(){
 	  ss->addSaveFunc([systems] {
 		  std::vector<std::string> names = systems->getSelectedObjects();
 		  RecalboxConf::Instance().SetList("global.demo.systemlist", names);
+      RecalboxConf::Instance().Save();
 	  });
 	  mWindow.pushGui(ss);
   };
