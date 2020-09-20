@@ -322,7 +322,13 @@ std::vector<std::string> RecalboxSystem::scanBluetooth()
 
 bool RecalboxSystem::pairBluetooth(const std::string& controller)
 {
-  std::string cmd = Settings::Instance().RecalboxSettingScript() + " hiddpair " + controller;
+  std::string escapedController(controller);
+  Strings::ReplaceAllIn(escapedController, "(", "\\(");
+  Strings::ReplaceAllIn(escapedController, ")", "\\)");
+  Strings::ReplaceAllIn(escapedController, "*", "\\*");
+  Strings::ReplaceAllIn(escapedController, "'", "\\'");
+  Strings::ReplaceAllIn(escapedController, "\"", "\\\"");
+  std::string cmd = Settings::Instance().RecalboxSettingScript() + " hiddpair " + escapedController;
   int exitcode = system(cmd.c_str());
   return exitcode == 0;
 }
