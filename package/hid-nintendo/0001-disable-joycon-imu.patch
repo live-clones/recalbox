@@ -1,0 +1,10 @@
+--- hid-nintendo-5371d385c93e0e6ed34b6a8990d4c960a58bc88d/src/hid-nintendo.c
++++ hid-nintendo-5371d385c93e0e6ed34b6a8990d4c960a58bc88d/src/hid-nintendo.c
+@@ -1673,6 +1673,7 @@
+ 	__set_bit(MSC_TIMESTAMP, ctlr->imu_input->mscbit);
+ 	__set_bit(INPUT_PROP_ACCELEROMETER, ctlr->imu_input->propbit);
+ 
++	return 0; // disable IMU
+ 	ret = input_register_device(ctlr->imu_input);
+ 	if (ret)
+ 		return ret;
