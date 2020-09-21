@@ -555,10 +555,10 @@ if [[ "$command" == "hcitoolscan" ]]; then
 fi
 
 if [[ "$command" == "hiddpair" ]]; then
-    name="${@:4}"
+    name="${*:4}"
     mac1="$3"
-    mac=`echo $mac1 | grep -oEi "([0-9A-F]{2}[:-]){5}([0-9A-F]{2})" | tr '[:lower:]' '[:upper:]'`
-    macLowerCase=`echo $mac | tr '[:upper:]' '[:lower:]'`
+    mac=$(echo "$mac1" | grep -oEi "([0-9A-F]{2}[:-]){5}([0-9A-F]{2})" | tr '[:lower:]' '[:upper:]')
+    macLowerCase=$(echo "$mac" | tr '[:upper:]' '[:lower:]')
     if [ "$?" != "0" ]; then
         exit 1
     fi
@@ -566,18 +566,17 @@ if [[ "$command" == "hiddpair" ]]; then
     /recalbox/scripts/bluetooth/test-device remove "$mac"
 
     recallog "pairing $name $mac"
-    echo $name | grep -i "8Bitdo\|other"
-    if [ "$?" == "0" ]; then
+    echo "$name" | grep -i "8Bitdo\|other"
+    if [ "$?" -eq "0" ]; then
         recallog "8Bitdo detected"
-        cat "/run/udev/rules.d/99-8bitdo.rules" | grep -i "$mac" >> /dev/null
-        if [ "$?" != "0" ]; then
+        if ! grep -q -i "$mac" /run/udev/rules.d/99-8bitdo.rules; then
             recallog "adding rule for $mac"
             echo "SUBSYSTEM==\"input\", ATTRS{uniq}==\"$macLowerCase\", MODE=\"0666\", ENV{ID_INPUT_JOYSTICK}=\"1\"" >> "/run/udev/rules.d/99-8bitdo.rules"
         fi
     fi
 
-    /recalbox/scripts/bluetooth/recalpair $mac "$name"
-    hcitool con | grep $mac1
+    /recalbox/scripts/bluetooth/recalpair "$mac" "$name"
+    hcitool con | grep "$mac1"
     if [[ $? == "0" ]]; then
         connected=0
         recallog "bluetooth : $mac1 connected !"
