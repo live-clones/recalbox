@@ -15,48 +15,29 @@ oled_interface ssd1306_interface = {
   &ssd1306_oled_send_buffer,
   &ssd1306_oled_send_partial_buffer,
   &ssd1306_set_screen_size,
-  &ssd1306_oled_hscroll
+  &ssd1306_oled_hscroll,
+  &ssd1306_oled_reset,
 };
 
-oled_handler * ssd1306_oled_init(uint32_t oled_address) {
+// allocate handler
+oled_handler * ssd1306_oled_init() {
   oled_handler * handler = malloc(sizeof(oled_handler));
-  int i;
-  int init_sequence[24]= {
-    0xAE,
-    0x2E,// end scroll
-    0x40,//---set low column address
-    0xB0,//---set high column address
-    0xC8,//-not offset
-    0x81,
-    0xff,
-    0xa1,
-    0xa6,
-    0xa8,
-    0x1f,
-    0xd3,
-    0x00,
-    0xd5,
-    0xf0,
-    0xd9,
-    0x22,
-    0xda,
-    0x02,
-    0xdb,
-    0x49,
-    0x8d,
-    0x14,
-    0xaf
-  };
+  return handler;
+}
 
-  handler->fd = wiringPiI2CSetup(oled_address);
+// reset ssd1306
+// init sequence is passed through extra_data in handler
+void ssd1306_oled_reset(oled_handler * oled) {
+  int i;
+  SSD1306_data_struct * data = oled->extra_data;
+  oled->fd = wiringPiI2CSetup(data->oled_address);
   
-  for(i=0; i<24; i++) {
-    oled_write_register(handler->fd, init_sequence[i]);
+  for(i=0; i<data->oled_init_sequence_length; i++) {
+    oled_write_register(oled->fd, data->oled_init_sequence[i]);
   }
 
-  ssd1306_oled_clear(handler);
-  ssd1306_set_screen_size(handler, 0, 0);
-  return handler;
+  ssd1306_oled_clear(oled);
+  ssd1306_set_screen_size(oled, 0, 0);
 } 
 
 void ssd1306_oled_clear(oled_handler * oled) {
@@ -103,6 +84,8 @@ void ssd1306_oled_send_partial_buffer(oled_handler * oled, uint32_t x, uint32_t 
     }
   }
 }
+
+// free handler
 void ssd1306_oled_close(oled_handler * oled) {
   if (oled->buffer) free(oled->buffer);
   if (oled->fd) close(oled->fd);

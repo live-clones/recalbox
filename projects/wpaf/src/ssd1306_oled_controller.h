@@ -11,7 +11,14 @@
 #define OLED_COLUMN  OLED_WIDTH
 #define OLED_PAGE    OLED_HEIGHT / 8
 
-oled_handler * ssd1306_oled_init(uint32_t oled_address);
+typedef struct ssd1306_extra_data_struct {
+  int oled_init_sequence[256];
+  int oled_init_sequence_length;
+  int oled_address;
+} SSD1306_data_struct;
+
+oled_handler * ssd1306_oled_init();
+void ssd1306_oled_reset(oled_handler *);
 void ssd1306_oled_clear(oled_handler *);
 void ssd1306_oled_send_buffer(oled_handler *);
 void ssd1306_oled_send_partial_buffer(oled_handler *, uint32_t, uint32_t, uint32_t, uint32_t);
