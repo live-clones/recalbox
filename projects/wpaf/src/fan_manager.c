@@ -15,6 +15,8 @@
 #define HYST_LOW  40 
 #define HYST_HIGH 50
 
+extern int verbose_flag;
+
 /*
  * This is sample fan manager
  * works for CC fans (aka on/off)
@@ -33,15 +35,18 @@ void start_fan_manager(fan_interface * fan, fan_handler * handler) {
     temp = get_cpu_temp();
     if (temp > HYST_HIGH && !fan_status) {
       fan->on(handler);
-      printf("fan on\n");
+      if (verbose_flag)
+        printf("fan on\n");
       fan_status = true;
     }
     if (temp < HYST_LOW && fan_status) {
       fan->off(handler);
-      printf("fan off\n");
+      if (verbose_flag)
+        printf("fan off\n");
       fan_status = false;
     }
-    printf("cpu: %.2f\n", temp);
+    if (verbose_flag)
+      printf("cpu: %.2f\n", temp);
     sleep(1);
   }
 }

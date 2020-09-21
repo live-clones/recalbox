@@ -36,6 +36,9 @@ void wait_for_all() {
   printf("Fork [%i] ended with code %i\n", pid, status);
 }
 
+// flags
+int verbose_flag;
+
 /*
  * Main
  **/
@@ -51,11 +54,23 @@ int main(int argc, char ** argv) {
 
 void parse_args(int argc, char **argv) {
   int opt;
-
+  int option_index;
+  static struct option long_options[] =
+    {
+      /* These options set a flag. */
+      {"verbose", no_argument,       &verbose_flag, 1},
+      {"quiet",   no_argument,       &verbose_flag, 0},
+      /* These options don’t set a flag.
+         We distinguish them by their indices. */
+      {"help",    no_argument,       0, 'h'},
+      {"list",    no_argument,       0, 'l'},
+      {"board",   required_argument, 0, 'b'},
+      {0, 0, 0, 0}
+    };
   // put ':' in the starting of the
   // string so that program can
   //distinguish between '?' and ':'
-  while((opt = getopt(argc, argv, ":lhb:")) != -1) {
+  while((opt = getopt_long(argc, argv, ":lhb:", long_options, &option_index)) != -1) {
     switch(opt) {
       case 'h':
         show_help();
@@ -91,10 +106,11 @@ void list_known_boards() {
 
 void show_help() {
   printf("wpaf [-b BOARD_ID | -h | -l]\n\n");
-  printf("  -l              list known boards\n");
-  printf("  -h              show help\n\n");
-  printf("  -b board_id     start wpaf for board_id\n\n");
-  printf("board_id can be obtained from list of known boards (-l)\n");
+  printf("  -l,--list               list known boards\n");
+  printf("  -h,--help               show help\n\n");
+  printf("  -b,--board=board_id     start wpaf for board_id\n");
+  printf("                          board_id can be obtained from list of known boards (-l)\n\n");
+  printf("  --verbose               verbose mode\n");
 }
 
 /* main routine
