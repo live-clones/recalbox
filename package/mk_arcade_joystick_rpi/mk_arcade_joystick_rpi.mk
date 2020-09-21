@@ -9,19 +9,23 @@ MK_ARCADE_JOYSTICK_RPI_SITE = https://gitlab.com/recalbox/mk_arcade_joystick_rpi
 MK_ARCADE_JOYSTICK_RPI_SITE_METHOD = git
 MK_ARCADE_JOYSTICK_RPI_DEPENDENCIES = linux
 
-# Needed beacause can't pass cflags to cc
+# Needed because can't pass cflags to cc
 define MK_ARCADE_JOYSTICK_RPI_RPI2_HOOK
 	$(SED) "s/#define PERI_BASE        0x20000000/#define PERI_BASE        0x3F000000/g" $(@D)/mk_arcade_joystick_rpi.c
 endef
 
-ifeq ($(BR2_cortex_a7),y)
+define MK_ARCADE_JOYSTICK_RPI_RPI4_HOOK
+	$(SED) "s/#define PERI_BASE        0x20000000/#define PERI_BASE        0xFE000000/g" $(@D)/mk_arcade_joystick_rpi.c
+endef
+
+ifeq ($(BR2_cortex_a7),y) #rpi2
 MK_ARCADE_JOYSTICK_RPI_PRE_CONFIGURE_HOOKS += MK_ARCADE_JOYSTICK_RPI_RPI2_HOOK
 endif
-ifeq ($(BR2_cortex_a53),y)
+ifeq ($(BR2_cortex_a53),y) #rpi3
 MK_ARCADE_JOYSTICK_RPI_PRE_CONFIGURE_HOOKS += MK_ARCADE_JOYSTICK_RPI_RPI2_HOOK
 endif
-ifeq ($(BR2_cortex_a72),y)
-MK_ARCADE_JOYSTICK_RPI_PRE_CONFIGURE_HOOKS += MK_ARCADE_JOYSTICK_RPI_RPI2_HOOK
+ifeq ($(BR2_cortex_a72),y) #rpi4
+MK_ARCADE_JOYSTICK_RPI_PRE_CONFIGURE_HOOKS += MK_ARCADE_JOYSTICK_RPI_RPI4_HOOK
 endif
 
 define MK_ARCADE_JOYSTICK_RPI_MAKE_HOOK
