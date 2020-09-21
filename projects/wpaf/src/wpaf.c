@@ -41,40 +41,40 @@ void wait_for_all() {
  **/
 int main(int argc, char ** argv) {
   int boardid;
-  
+
   parse_args(argc, argv);
-    
+
   boardid = get_boardid_from_name(arguments.board);
 
   return start_wpaf(boardid);
 }
 
 void parse_args(int argc, char **argv) {
-  int opt; 
-      
-  // put ':' in the starting of the 
-  // string so that program can  
-  //distinguish between '?' and ':'  
-  while((opt = getopt(argc, argv, ":lhb:")) != -1) {  
-    switch(opt) {  
-      case 'h':  
+  int opt;
+
+  // put ':' in the starting of the
+  // string so that program can
+  //distinguish between '?' and ':'
+  while((opt = getopt(argc, argv, ":lhb:")) != -1) {
+    switch(opt) {
+      case 'h':
         show_help();
         exit(0);
-        break;  
-      case 'b':  
+        break;
+      case 'b':
         arguments.board = optarg;
-        break;  
+        break;
       case 'l':
         list_known_boards();
         exit(0);
-      case ':':  
-        printf("option needs a value\n");  
-        break;  
-      case '?':  
-         printf("unknown option: %c\n", optopt); 
-         break;  
-    }  
-  }  
+      case ':':
+        printf("option needs a value\n");
+        break;
+      case '?':
+         printf("unknown option: %c\n", optopt);
+         break;
+    }
+  }
 }
 
 int get_boardid_from_name(char * board_name) {
@@ -95,7 +95,7 @@ void show_help() {
   printf("  -h              show help\n\n");
   printf("  -b board_id     start wpaf for board_id\n\n");
   printf("board_id can be obtained from list of known boards (-l)\n");
-} 
+}
 
 /* main routine
  */
@@ -104,7 +104,7 @@ uint32_t start_wpaf(uint32_t boardid) {
   board_handler * handler = board->init();
 
   char string_buffer[256];
-  char recalbox_version[256];
+  char recalbox_version[50];
   char recalbox_string[256];
   pid_t pid = fork();
 
@@ -119,7 +119,7 @@ uint32_t start_wpaf(uint32_t boardid) {
    * get recalbox version from fs
    */
   FILE * fd = fopen("/recalbox/recalbox.version", "r");
-  if (fd) 
+  if (fd)
     fgets(recalbox_version, sizeof(recalbox_version), fd);
   fclose(fd);
   snprintf(recalbox_string, sizeof(recalbox_string), "RecalboxOS %s", recalbox_version);
