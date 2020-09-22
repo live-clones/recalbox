@@ -66,7 +66,9 @@ class VideoEngine : public StaticLifeCycleControler<VideoEngine>, private Thread
         void Reset()
         {
           AVPacket packet;
-          while(Dequeue(packet));
+          while(Dequeue(packet)) {
+              av_packet_unref(&packet);
+          }
           First = Last = nullptr;
           Count = Size = 0;
         }
@@ -241,6 +243,8 @@ class VideoEngine : public StaticLifeCycleControler<VideoEngine>, private Thread
      */
     void StartEngine() { Thread::Start("VideoEngine"); }
 
+    bool mDecodeAudio;
+
   public:
     /*!
      * @brief Default constructor
@@ -261,7 +265,7 @@ class VideoEngine : public StaticLifeCycleControler<VideoEngine>, private Thread
      * If a video is already playing, a call to stop is performed playing the new video
      * @param videopath Path to the video file ot play
      */
-    void PlayVideo(const Path& videopath);
+    void PlayVideo(const Path& videopath, bool decodeAudio = false);
 
     /*!
      * @brief Stop the currently playing video file.

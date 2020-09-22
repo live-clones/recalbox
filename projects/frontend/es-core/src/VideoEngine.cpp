@@ -125,7 +125,7 @@ void VideoEngine::Run()
   }
 }
 
-void VideoEngine::PlayVideo(const Path& videopath)
+void VideoEngine::PlayVideo(const Path& videopath, bool decodeAudio)
 {
   LOG(LogDebug) << "Video Engine requested to play " << videopath.ToString();
 
@@ -135,6 +135,7 @@ void VideoEngine::PlayVideo(const Path& videopath)
   // Start the new video
   if (!videopath.IsEmpty())
   {
+    mDecodeAudio = decodeAudio;
     mFileName = videopath;
     mSignal.Signal();
   }
@@ -331,7 +332,8 @@ int VideoEngine::DecodeAudioFrame(AVCodecContext& audioContext, unsigned char* b
       return dataSize;
     }
 
-    if (!mContext.AudioQueue.Dequeue(packet)) return -1;
+    // TODO find a good way to unref packet after usage here (av_packet_unref(&packet)
+    if (!mDecodeAudio || !mContext.AudioQueue.Dequeue(packet)) return -1;
 
     packetData = packet.data;
     packetSize = packet.size;
@@ -429,7 +431,7 @@ void VideoEngine::DecodeFrames()
           ++VideoFrameCount;
         }
       }
-      else if (packet.stream_index == mContext.AudioStreamIndex)
+      else if (mDecodeAudio && packet.stream_index == mContext.AudioStreamIndex)
       {
         mContext.AudioQueue.Enqueue(&packet);
         ++AudioFrameCount;
