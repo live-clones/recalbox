@@ -28,12 +28,6 @@ check_safeboot() {
     return 0
 }
 
-do_mount() {
-    if mount -o ro "${1}"           /boot_root; then return 0; fi
-    if mount -o ro "LABEL=RECALBOX" /boot_root; then return 0; fi
-    return 1
-}
-
 check_update() {
     # All update files?
     mount -o remount,rw /boot_root || return 1
@@ -144,7 +138,7 @@ do_root() {
     mount /boot_root/boot/recalbox /overlay_root/lower || return 1
 
     # Mount the future root in read write
-    if ! mount -t overlay overlay -o rw,lowerdir=/overlay_root/lower,upperdir=/overlay_root/upper,workdir=/overlay_root/work /new_root ; then
+    if ! mount -t overlay overlay -o ro,lowerdir=/overlay_root/lower,upperdir=/overlay_root/upper,workdir=/overlay_root/work /new_root ; then
         # Mount squashfs as new root when overlayfs is not supported
         mount /boot_root/boot/recalbox /new_root || return 1
     fi
