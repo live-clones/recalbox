@@ -38,7 +38,7 @@ do_update() {
   echo "copying update boot files"
   fbv2 -k -i /recalbox/system/resources/offline-install-4.jpg
   if [ -f /mnt/boot.lst ]; then
-    while read -r file; do 
+    while read -r file; do
       echo "  processing $file"
       [[ ! -d /boot/update/$(dirname "$file") ]] && mkdir -p "/boot/update/$(dirname "$file")"
       cp "/mnt/$file" "/boot/update/$file" || return 5
@@ -53,10 +53,6 @@ do_update() {
   # Umount
   echo "unmount image"
   umount /mnt/ || return 8
-
-  # Clean up
-  echo "cleanup"
-  rm "${UPDATEFILE}" || return 9
   fbv2 -k -i /recalbox/system/resources/offline-install-6.jpg
   sleep 1
 
@@ -77,6 +73,10 @@ echo "starting upgrade"
 do_update
 RC=$?
 if [ $RC -eq 0 ]; then
+  if [ -f "/boot/update/pre-upgrade.sh" ]; then
+    echo "running pre-upgrade script"
+    bash /boot/update/pre-upgrade.sh
+  fi
   # Reboot
   echo "upgrade successfull, rebooting"
   fbv2 -k -i /recalbox/system/resources/offline-install-7.jpg
