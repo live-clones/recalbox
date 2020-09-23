@@ -286,6 +286,7 @@ bool VideoComponent::ProcessDisplay(double& effect)
         VideoEngine::Instance().StopVideo();
         mTimer.Initialize(0);
         //LOG(LogDebug) << "Timer reseted: State::DisplayImage " + DateTime().ToPreciseTimeStamp() << " elapsed: " << elapsed;
+        video = false;
       }
       break;
     }
