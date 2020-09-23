@@ -2363,8 +2363,20 @@ msgid "DOWNLOADING UPDATE..."
 msgstr "BAIXANDO ATUALIZAÇÃO..."
 
 #
-msgid "We're downloading Recalbox version %s!\n\nOnce the download is complete, Recalbox will reboot and start installing the new version.\nTypical installations take about 5-10mn. DO NOT reboot or power off Recalbox until the installation is complete."
-msgstr "Estamos baixando o Recalbox versão %s!\n\nQuando o download for concluído, o Recalbox será reiniciado e começará a instalar a nova versão.\nInstalações normais demoram cerca de 5-10 minutos. NÃO reinicie ou desligue o Recalbox até que a instalação seja concluída"
+msgid ""
+"We're downloading Recalbox version %s!\n"
+"\n"
+"Once the download is complete, Recalbox will reboot and start installing the "
+"new version.\n"
+"Typical installations take about 5-10mn. DO NOT reboot or power off Recalbox "
+"until the installation is complete."
+msgstr ""
+"Estamos baixando o Recalbox versão %s!\n"
+"\n"
+"Quando o download for concluído, o Recalbox será reiniciado e começará a "
+"instalar a nova versão.\n"
+"Instalações normais demoram cerca de 5-10 minutos. NÃO reinicie ou desligue "
+"o Recalbox até que a instalação seja concluída"
 
 #
 msgid "REBOOT IN %s"
@@ -2373,6 +2385,14 @@ msgstr "REINÍCIO EM %s"
 #
 msgid "Error downloading Recalbox %s... Please retry later!"
 msgstr "Erro ao baixar o Recalbox %s... Por favor, tente mais tarde!"
+
+#
+msgid "ALL"
+msgstr "TUDO"
+
+#
+msgid "TYPE AT LEAST 3 CHARACTERS"
+msgstr "DIGITE PELO MENOS 3 CARACTERES"
 
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "

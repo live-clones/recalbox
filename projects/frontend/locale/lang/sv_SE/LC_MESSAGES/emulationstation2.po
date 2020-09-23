@@ -2131,3 +2131,11 @@ msgstr ""
 #
 msgid "Error downloading Recalbox %s... Please retry later!"
 msgstr ""
+
+#
+msgid "ALL"
+msgstr ""
+
+#
+msgid "TYPE AT LEAST 3 CHARACTERS"
+msgstr ""

@@ -2323,6 +2323,14 @@ msgstr ""
 msgid "Error downloading Recalbox %s... Please retry later!"
 msgstr ""
 
+#
+msgid "ALL"
+msgstr ""
+
+#
+msgid "TYPE AT LEAST 3 CHARACTERS"
+msgstr ""
+
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
 #~ "will turn the screen black."

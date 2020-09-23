@@ -2212,6 +2212,14 @@ msgstr ""
 msgid "Error downloading Recalbox %s... Please retry later!"
 msgstr ""
 
+#
+msgid "ALL"
+msgstr ""
+
+#
+msgid "TYPE AT LEAST 3 CHARACTERS"
+msgstr ""
+
 #~ msgid "UPDATE VERSION:"
 #~ msgstr "更新版本："
 

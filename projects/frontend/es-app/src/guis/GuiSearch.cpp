@@ -60,11 +60,11 @@ void GuiSearch::initGridsNStuff()
 	                                                                                       _("SEARCH BY"), false);
 	FolderData::FastSearchContext currentSearch = FolderData::FastSearchContext::Name;
 
-	mSearchChoices->add(_("NAME"), FolderData::FastSearchContext::Name, currentSearch == FolderData::FastSearchContext::Name);
-	mSearchChoices->add(_("DESCRIPTION"), FolderData::FastSearchContext::Description, currentSearch == FolderData::FastSearchContext::Description);
+	mSearchChoices->add(_("Name"), FolderData::FastSearchContext::Name, currentSearch == FolderData::FastSearchContext::Name);
+	mSearchChoices->add(_("Description"), FolderData::FastSearchContext::Description, currentSearch == FolderData::FastSearchContext::Description);
 	mSearchChoices->add(_("DEVELOPER"), FolderData::FastSearchContext::Developer, currentSearch == FolderData::FastSearchContext::Developer);
 	mSearchChoices->add(_("PUBLISHER"), FolderData::FastSearchContext::Publisher, currentSearch == FolderData::FastSearchContext::Publisher);
-	mSearchChoices->add(_("FILE NAME"), FolderData::FastSearchContext::Path, currentSearch == FolderData::FastSearchContext::Path);
+	mSearchChoices->add(_("FILENAME"), FolderData::FastSearchContext::Path, currentSearch == FolderData::FastSearchContext::Path);
 	mSearchChoices->add(_("ALL"), FolderData::FastSearchContext::All, currentSearch == FolderData::FastSearchContext::All);
 
 	mSearchChoices->setChangedCallback([this]{

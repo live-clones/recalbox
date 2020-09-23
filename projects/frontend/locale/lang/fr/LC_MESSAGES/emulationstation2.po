@@ -2364,3 +2364,11 @@ msgstr "REDÉMARRAGE DANS %s"
 #
 msgid "Error downloading Recalbox %s... Please retry later!"
 msgstr "Erreur de téléchargement de Recalbox %s... Veuillez rééssayer plus tard!"
+
+#
+msgid "ALL"
+msgstr "TOUS"
+
+#
+msgid "TYPE AT LEAST 3 CHARACTERS"
+msgstr "TAPEZ AU MOINS 3 CARACTÈRES"
