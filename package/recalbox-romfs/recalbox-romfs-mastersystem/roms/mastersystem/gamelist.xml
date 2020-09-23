@@ -14,7 +14,7 @@
     <releasedate>20170327T000000</releasedate>
     <developer>Enrique Ruiz</developer>
     <publisher>Enrique Ruiz</publisher>
-    <genre>Shoot'em up / Vertical-Shoot'em Up</genre>
+    <genre>Shoot'em Up-Shoot'em up / Vertical</genre>
     <players>1</players>
     <hash>1BAD75C5</hash>
     <image>./media/images/AstroForce.png</image>
@@ -51,7 +51,7 @@ Wipe the grins off their faces as you jump, shoot, and fight your way through th
     <releasedate>20170327T000000</releasedate>
     <developer>Enrique Ruiz</developer>
     <publisher>Mikgames</publisher>
-    <genre>Shoot'em up / Vertical-Shoot'em Up</genre>
+    <genre>Shoot'em Up-Shoot'em up / Vertical</genre>
     <players>1</players>
     <hash>4D69CD2C</hash>
     <image>./media/images/Galactic Revenge.png</image>
@@ -66,7 +66,7 @@ This demo lets you play the 3 first levels. Collect coins, avoid or shoot enemie
     <releasedate />
     <developer>Studio Vetea</developer>
     <publisher>Studio Vetea</publisher>
-    <genre>Shooter / Run and Gun-Shooter</genre>
+    <genre>Shooter-Shooter / Run and Gun</genre>
     <players>1</players>
     <hash>64CDD447</hash>
     <image>./media/images/Papi Commando In CPP Land [recalbox].png</image>
@@ -93,11 +93,11 @@ This demo lets you play the 3 first levels. Collect coins, avoid or shoot enemie
     <releasedate>20171231T000000</releasedate>
     <developer>Enrique Ruiz</developer>
     <publisher>Mikgames</publisher>
-    <genre>Plateform / Fighter Scrolling-Platform</genre>
+    <genre>Platform-Plateform / Fighter Scrolling</genre>
     <players>1</players>
     <hash>2774B5CC</hash>
     <image>./media/images/SilverValley.png</image>
-    <genreid>258</genreid>
+    <genreid>257</genreid>
   </game>
   <game id="200096" source="ScreenScraper.fr">
     <path>./WingWarriors.sms</path>
@@ -107,7 +107,7 @@ This demo lets you play the 3 first levels. Collect coins, avoid or shoot enemie
     <releasedate>20190101T000000</releasedate>
     <developer>Francisco Javier Del Pino Cuesta</developer>
     <publisher>Kitmaker Entertainment</publisher>
-    <genre>Shoot'em up / Vertical-Shoot'em Up</genre>
+    <genre>Shoot'em Up-Shoot'em up / Vertical</genre>
     <players>1</players>
     <hash>8C384703</hash>
     <image>./media/images/WingWarriors.png</image>

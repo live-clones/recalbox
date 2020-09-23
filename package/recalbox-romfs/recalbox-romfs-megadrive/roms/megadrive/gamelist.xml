@@ -24,8 +24,9 @@
     <name>Bug Hunt</name>
     <desc>Originally created for PC by John Bell (Lazy Brain Games) Bug Hunt had already proved very popular on the NEC PC-Engine in the Neo Coding Compo in 2013. It is now time for the 16-bit SEGA to get a version of the game and whatâ€™s more, itâ€™s free! This is once again courtesy of Afromonkeys (Jack Nolddor and Davidian), who, as usual, have also given us a quality conversion. We had already mentioned Chase, a NES game portage by the same creators, which proved to be a pleasant surprise. Note that this version of Bug Hunt is compatible with the Mega Mouse so that you can enjoy the same experience as the PC version.</desc>
     <rating>0.7</rating>
-    <releasedate>20150101T000000</releasedate>
-    <developer>Mun</developer>
+    <releasedate>20150131T000000</releasedate>
+    <developer>The AfroMonkeys</developer>
+    <publisher>The AfroMonkeys</publisher>
     <genre>Action</genre>
     <players>1</players>
     <hash>20175DE8</hash>

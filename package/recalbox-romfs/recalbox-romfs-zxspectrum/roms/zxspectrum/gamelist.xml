@@ -21,7 +21,7 @@ To disconnect the host computer, you should turn off each and every one of the s
     <releasedate>20110101T000000</releasedate>
     <developer>RetroWorks</developer>
     <publisher>RetroWorks</publisher>
-    <genre>Action / Adventure-Action</genre>
+    <genre>Action-Action / Adventure</genre>
     <players>1</players>
     <hash>5718676D</hash>
     <image>./media/images/Cray-5 (Retroworks).png</image>
@@ -37,7 +37,7 @@ Your ship has two different shoot types: normal shoot, which will be used to fir
     <releasedate>20100101T000000</releasedate>
     <developer>RetroWorks</developer>
     <publisher>RetroWorks</publisher>
-    <genre>Shoot'em up / Horizontal-Shoot'em Up</genre>
+    <genre>Shoot'em Up-Shoot'em up / Horizontal</genre>
     <hash>982C67A4</hash>
     <image>./media/images/Genesis (Retroworks).png</image>
     <genreid>260</genreid>
@@ -85,7 +85,7 @@ You must leave immediately and go to Kashgar. Evil does not rest, and you are ou
     <releasedate>20170101T000000</releasedate>
     <developer>RetroWorks</developer>
     <publisher>RetroWorks</publisher>
-    <genre>Action / Adventure-Action</genre>
+    <genre>Action-Action / Adventure</genre>
     <players>1</players>
     <hash>448410CC</hash>
     <image>./media/images/Sword Of Ianna (Retroworks).png</image>

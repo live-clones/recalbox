@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <gameList>
   <provider>
     <System>Lynx</System>
@@ -16,6 +16,7 @@ Take up the adventure to learn more about this mysterious world.</desc>
     <releasedate>20191208T000000</releasedate>
     <developer>Krzysztof Kluczek</developer>
     <publisher>Krzysztof Kluczek</publisher>
+    <genre>Role playing games-Dungeon Crawler RPG</genre>
     <players>1</players>
     <hash>91D1C4D0</hash>
     <image>./media/images/SiIas Adventure (Krzysztof Kluczek).png</image>
@@ -31,7 +32,7 @@ What is so Super on Super Nutmeg? Super Nutmeg is a sidescrolling jump and run g
     <releasedate>20180101T000000</releasedate>
     <developer>RetroGuru</developer>
     <publisher>RetroGuru</publisher>
-    <genre>Plateform / Run Jump Scrolling-Platform</genre>
+    <genre>Plateform / Run Jump Scrolling</genre>
     <players>1</players>
     <hash>4EF25EA7</hash>
     <image>./media/images/Nutmeg.png</image>

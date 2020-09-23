@@ -16,7 +16,7 @@ There is no interaction with enemies so get images of pulling some Mario combos 
     <releasedate>20190904T000000</releasedate>
     <developer>Skoro &amp; Kichi</developer>
     <publisher>Skoro &amp; Kichi</publisher>
-    <genre>Plateform / Run Jump-Platform</genre>
+    <genre>Platform-Plateform / Run Jump</genre>
     <players>1</players>
     <hash>1CF135A4</hash>
     <image>./media/images/Commodore Plus4/adventure_park.png</image>
@@ -29,7 +29,7 @@ There is no interaction with enemies so get images of pulling some Mario combos 
     <rating>0.8</rating>
     <releasedate>20100422T000000</releasedate>
     <developer>Kichy &amp; Luca</developer>
-    <genre>Plateform / Run Jump-Platform</genre>
+    <genre>Platform-Plateform / Run Jump</genre>
     <players>1</players>
     <hash>70CAAD19</hash>
     <image>./media/images/Commodore Plus4/adventures_in_time_j.png</image>
@@ -43,7 +43,7 @@ There is no interaction with enemies so get images of pulling some Mario combos 
     <releasedate>20181227T000000</releasedate>
     <developer>Dr. TerrorZ</developer>
     <publisher>Dr. TerrorZ</publisher>
-    <genre>Action / Adventure-Action</genre>
+    <genre>Action-Action / Adventure</genre>
     <players>1</players>
     <hash>DB108FC3</hash>
     <image>./media/images/Commodore Plus4/digiloi.png</image>
@@ -77,7 +77,7 @@ You have been transported across to the unnamed planet, where the 32 storey Tran
     <releasedate>20130101T000000</releasedate>
     <developer>TND &amp; RGCD</developer>
     <publisher>TND &amp; RGCD</publisher>
-    <genre>Puzzle-Game / Glide-Puzzle-Game</genre>
+    <genre>Puzzle-Game-Puzzle-Game / Glide</genre>
     <players>1</players>
     <hash>18E7AA9E</hash>
     <image>./media/images/Transe Sector Ultimate.png</image>
@@ -110,11 +110,11 @@ imprisonment. Can she escape from the dungeon? Can she break her curse?</desc>
     <releasedate>20190609T000000</releasedate>
     <developer>Lazycow</developer>
     <publisher>Lazycow</publisher>
-    <genre>Plateform / Fighter Scrolling-Platform</genre>
+    <genre>Platform-Plateform / Fighter Scrolling</genre>
     <players>1</players>
     <hash>42694E3E</hash>
     <image>./media/images/wolfling14.png</image>
-    <genreid>258</genreid>
+    <genreid>257</genreid>
   </game>
   <game id="200219" source="ScreenScraper.fr">
     <path>./x-force_2015.prg</path>
@@ -125,7 +125,7 @@ Darx was not an uninhabited planet however. Your ship is detected on approach an
     <releasedate>20150101T000000</releasedate>
     <developer>TND</developer>
     <publisher>TND</publisher>
-    <genre>Shoot'em up / Horizontal-Shoot'em Up</genre>
+    <genre>Shoot'em Up-Shoot'em up / Horizontal</genre>
     <players>1</players>
     <hash>D71E79D4</hash>
     <image>./media/images/x-force_2015.png</image>
@@ -139,7 +139,7 @@ Darx was not an uninhabited planet however. Your ship is detected on approach an
     <releasedate>20141201T000000</releasedate>
     <developer>Skoro &amp; Kichi</developer>
     <publisher>Skoro &amp; Kichi</publisher>
-    <genre>Action / Labyrinth-Action</genre>
+    <genre>Action-Action / Labyrinth</genre>
     <players>1</players>
     <hash>E4C7741D</hash>
     <image>./media/images/Commodore Plus4/xplode_man.png</image>
@@ -153,7 +153,7 @@ Darx was not an uninhabited planet however. Your ship is detected on approach an
     <releasedate>20170122T000000</releasedate>
     <developer>Alf Yngve, Martin Piper, Richard Bayliss</developer>
     <publisher>TND</publisher>
-    <genre>Shoot'em up / Vertical-Shoot'em Up</genre>
+    <genre>Shoot'em Up-Shoot'em up / Vertical</genre>
     <players>1</players>
     <hash>9FE9B21F</hash>
     <image>./media/images/Zap_Fight_2_Special_Edition.png</image>

@@ -15,7 +15,7 @@ So will you be able to clean the 2 levels of this game ?!</desc>
     <releasedate>19880201T000000</releasedate>
     <developer>Jérôme Boulinguez</developer>
     <publisher>Amstrad 100%</publisher>
-    <genre>Action / Labyrinth-Action</genre>
+    <genre>Action-Action / Labyrinth</genre>
     <players>1</players>
     <hash>222E2098</hash>
     <image>./media/images/Joe Contre Les Pharaons (J Boulinguez) (FR).png</image>
@@ -30,7 +30,7 @@ As its name implies, get ready for the most relentless 16 kilobytes of action yo
     <rating>0.9</rating>
     <releasedate>20130701T000000</releasedate>
     <developer>Axelay</developer>
-    <genre>Shoot'em up / Horizontal</genre>
+    <genre>Shoot'em Up-Shoot'em up / Horizontal</genre>
     <players>1</players>
     <hash>ABF2EE24</hash>
     <image>./media/images/Relentless (Axelay).png</image>
@@ -66,7 +66,7 @@ Now the decision is yours: Will you just escape the Electric Gardens in the Stor
     <releasedate>20110101T000000</releasedate>
     <developer>The Mojon Twins</developer>
     <publisher>The Mojon Twins</publisher>
-    <genre>Plateform / Run Jump-Platform</genre>
+    <genre>Platform-Plateform / Run Jump</genre>
     <players>1</players>
     <hash>18588DC1</hash>
     <image>./media/images/UWOL 2 (Mojon-Twins).png</image>

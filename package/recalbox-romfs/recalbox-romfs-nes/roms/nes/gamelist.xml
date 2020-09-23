@@ -26,7 +26,7 @@
     <releasedate>20100101T000000</releasedate>
     <developer>High Level Challenge</developer>
     <publisher>High Level Challenge</publisher>
-    <genre>Shoot'em up / Vertical-Shoot'em Up</genre>
+    <genre>Shoot'em Up-Shoot'em up / Vertical</genre>
     <players>1</players>
     <hash>3ABA6565</hash>
     <image>./media/images/BladeBuster (High Level Challenge).png</image>
@@ -39,7 +39,7 @@
     <releasedate>20140913T000000</releasedate>
     <developer>Shiru</developer>
     <publisher>Shiru</publisher>
-    <genre>Action / Labyrinth-Action</genre>
+    <genre>Action-Action / Labyrinth</genre>
     <players>1</players>
     <hash>B887529D</hash>
     <image>./media/images/Chase (Shiru).png</image>
@@ -55,7 +55,7 @@ In easy mode just jump on top of the baddies to clean every stage. In resonators
     <releasedate>20200301T000000</releasedate>
     <developer>Mojontwins</developer>
     <publisher>Mojontwins</publisher>
-    <genre>Plateform / Run Jump-Platform</genre>
+    <genre>Platform-Plateform / Run Jump</genre>
     <players>1</players>
     <hash>8132AFD5</hash>
     <image>./media/images/Cheril Perils Classic (MojonTwins).png</image>
@@ -120,7 +120,7 @@ There are fifty levels in all, with increasing difficulty. A password system is 
     <releasedate>20190830T000000</releasedate>
     <developer>NovaSquirrel</developer>
     <publisher>NovaSquirrel</publisher>
-    <genre>Plateform / Run Jump-Platform</genre>
+    <genre>Platform-Plateform / Run Jump</genre>
     <players>1</players>
     <hash>0B752BEE</hash>
     <image>./media/images/Nova The Squirrel.png</image>
@@ -142,7 +142,7 @@ Control Sir Ababol accross the Monegrian fields and gather 24 ababol flowers. To
   </game>
   <game id="97393" source="ScreenScraper.fr">
     <path>./Steemerz v02 (fauxgame) (FR).nes</path>
-    <name>Streemerz (Français)</name>
+    <name>Streemerz</name>
     <desc>Try climbing to the top of this one by throwing streamers and climbing them. On your way up you better watch out for the various pie throwing clowns, burning candles and bouncing balls, because if they get you, you'll die a little each time. 
  
 These were the orders given to you, Operative JOE when you were ordered to infiltrate the evil MASTER Y's floating fortress to destroy the TIGER ARMY's top secret weapon.</desc>
@@ -153,12 +153,12 @@ These were the orders given to you, Operative JOE when you were ordered to infil
     <genre>Platform</genre>
     <players>1</players>
     <hash>1E8915EA</hash>
-    <image>./media/images/Steemerz v02 (fauxgame) (FR).png</image>
+    <image>./media/images/Steemerz v02 (fauxgame).png</image>
     <genreid>257</genreid>
   </game>
   <game id="97393" source="ScreenScraper.fr">
     <path>./Steemerz v02 (fauxgame).nes</path>
-    <name>Streemerz (English)</name>
+    <name>Streemerz</name>
     <desc>Try climbing to the top of this one by throwing streamers and climbing them. On your way up you better watch out for the various pie throwing clowns, burning candles and bouncing balls, because if they get you, you'll die a little each time. 
  
 These were the orders given to you, Operative JOE when you were ordered to infiltrate the evil MASTER Y's floating fortress to destroy the TIGER ARMY's top secret weapon.</desc>
@@ -169,7 +169,7 @@ These were the orders given to you, Operative JOE when you were ordered to infil
     <genre>Platform</genre>
     <players>1</players>
     <hash>DBFCA8FB</hash>
-    <image>./media/images/Steemerz v02 (fauxgame) (FR).png</image>
+    <image>./media/images/Steemerz v02 (fauxgame).png</image>
     <genreid>257</genreid>
   </game>
   <game id="97394" source="ScreenScraper.fr">
@@ -193,7 +193,7 @@ Therefore the release is in nes rom format so you'll need an emulator to play it
     <path>./Underground Adventure (Arcade) [NESMaker].nes</path>
     <name>Underground Adventure</name>
     <desc>Follow Harry &amp; Jack's adventures in mysterious caves. Collect all gems to complete levels. Escapes monsters and complete all levels to reach the final exit!</desc>
-    <releasedate />
+    <releasedate>20190310T000000</releasedate>
     <developer>dale_coop</developer>
     <genre>Platform</genre>
     <players>1-2</players>

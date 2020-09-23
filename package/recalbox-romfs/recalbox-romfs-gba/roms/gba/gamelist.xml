@@ -68,7 +68,8 @@ Anguna includes: 5 dungeons and a large overworld to explore, Multiple weapons a
     <releasedate>20030101T000000</releasedate>
     <developer>ZoneGN</developer>
     <publisher>ZoneGN</publisher>
-    <genre>Shoot'em Up</genre>
+    <genre>Shoot'em up / Vertical-Shoot'em Up</genre>
+    <players>1</players>
     <hash>ADBCBA92</hash>
     <image>./media/images/Uranus Zero EV.png</image>
     <genreid>260</genreid>
@@ -80,7 +81,8 @@ Anguna includes: 5 dungeons and a large overworld to explore, Multiple weapons a
     <releasedate />
     <developer>ZoneGN</developer>
     <publisher>ZoneGN</publisher>
-    <genre>Shoot'em up / Vertical-Shoot'em Up</genre>
+    <genre>Shoot'em Up-Shoot'em up / Vertical</genre>
+    <players>1</players>
     <hash>117183CC</hash>
     <image>./media/images/Uranus Zero.png</image>
     <genreid>260</genreid>
@@ -94,7 +96,7 @@ This is a vertical scrolling space shooter. Very good from what I've played (usi
     <releasedate />
     <developer>ZoneGN</developer>
     <publisher>ZoneGN</publisher>
-    <genre>Shoot'em up / Vertical-Shoot'em Up</genre>
+    <genre>Shoot'em Up-Shoot'em up / Vertical</genre>
     <players>1</players>
     <hash>8152384D</hash>
     <image>./media/images/Uranus.png</image>
@@ -109,7 +111,7 @@ This is a vertical scrolling space shooter. Very good from what I've played (usi
     <releasedate />
     <developer>ZoneGN</developer>
     <publisher>ZoneGN</publisher>
-    <genre>Shoot'em up / Vertical-Shoot'em Up</genre>
+    <genre>Shoot'em Up-Shoot'em up / Vertical</genre>
     <players>1</players>
     <hash>C6DF1C9B</hash>
     <image>./media/images/Uranus2.png</image>
