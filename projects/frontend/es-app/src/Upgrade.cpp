@@ -112,7 +112,7 @@ std::string Upgrade::GetDomainName()
     ns_rr rr;
     if (ns_parserr(&msg, ns_s_an, 0, &rr) == 0)
     {
-      mDomainName = std::string((char*) (ns_rr_rdata(rr) + 1));
+      mDomainName = std::string((char*) (ns_rr_rdata(rr) + 1), (int)ns_rr_rdata(rr)[0]);
       LOG(LogDebug) << "[Update] Domain: " << mDomainName;
     }
   }
