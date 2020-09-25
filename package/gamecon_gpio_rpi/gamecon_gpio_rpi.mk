@@ -4,9 +4,9 @@
 #
 ################################################################################
 
-#GAMECON_GPIO_RPI_VERSION = d70ac2459443f2bd96e8d99bf5dd5b84658ffe77
-GAMECON_GPIO_RPI_VERSION = 5fe34e2fb05d0480439553a9d287ceebce2fc9f9
-GAMECON_GPIO_RPI_SITE = $(call github,marqs85,gamecon_gpio_rpi,$(GAMECON_GPIO_RPI_VERSION))
+GAMECON_GPIO_RPI_VERSION = v1.4.0-rb
+GAMECON_GPIO_RPI_SITE = https://gitlab.com/recalbox/gamecon_gpio_rpi.git
+GAMECON_GPIO_RPI_SITE_METHOD = git
 
 GAMECON_GPIO_RPI_DEPENDENCIES = linux
 
