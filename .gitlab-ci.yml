@@ -42,7 +42,7 @@ lint buildroot:
 
 lint commits:
   <<: *lint_definition
-  image: node:8
+  image: node:14.11
   before_script:
     - npm install -g @commitlint/cli @commitlint/config-conventional
   script: test/lint/commits
@@ -52,6 +52,8 @@ lint commits:
 
 .build_template: &build_definition
   stage: build
+  before_script:
+    - source scripts/release/functions.sh
   script:
     - export RECALBOX_VERSION="${CI_COMMIT_TAG:-${CI_COMMIT_REF_SLUG:0:12} (${CI_COMMIT_SHA:0:8}) ${CI_PIPELINE_ID} ${ARCH} $(date '+%Y/%m/%d %H:%M:%S')}"
     - docker build -t "recalbox-${ARCH}" .
@@ -62,13 +64,13 @@ lint commits:
     - rm -rf output/
     - echo "${RECALBOX_VERSION}" >> "${DIST_DIR}/recalbox.version"
     - cp CHANGELOG.md "${DIST_DIR}/recalbox.changelog"
+    - uploadFolderToBucket "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "recalbox-builds" "dist" "${CI_PIPELINE_ID}"
   after_script:
     - rm -rf buildroot
   artifacts:
-    name: dist-${ARCH}-${CI_BUILD_ID}
+    name: dist-${ARCH}-${CI_PIPELINE_ID}
     when: always
     paths:
-      - dist
       - build.log
     expire_in: 2 mos
 
@@ -202,13 +204,14 @@ build odroidxu4 for test:
     SKIP_IMAGES: Release or without images if true
     BUCKET: Bucket to deploy to
     BUCKET_PATH: path in the bucket
+  before_script:
+    - source scripts/release/functions.sh
   script:
-    - cd updatesv2
-    - ./prepare_assets.sh "${DEPLOY_TYPE}" "../dist" release netlify "${SKIP_IMAGES}"
+    - downloadBucketFolderTo "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "recalbox-builds" "builds" "${CI_PIPELINE_ID}"
+    - mkdir release
+    - ./scripts/release/generate_external_installer_assets.sh --images-dir builds --destination-dir release
     - echo "Releasing files"
-    - ./upload_to_bucket.sh "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "${BUCKET}" "release" "${BUCKET_PATH}"
-    - if [ "${DEPLOY_TYPE}" = "prod" ]; then docker run --rm -v $(pwd):/work -w /work node:10 bash -c "./upload_to_netlify.sh '${NETLIFY_AUTH_TOKEN}' 'netlify' '${NETLIFY_PROJECT_ID}'"; fi
-
+    - uploadFolderToBucket "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "${BUCKET}" "release" "${BUCKET_PATH}"
 
 release prod:
   <<: *release_definition
