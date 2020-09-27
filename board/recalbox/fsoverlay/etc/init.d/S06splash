@@ -92,6 +92,20 @@ findConnectedConnectors() {
   grep -l ^connected /sys/class/drm/card*/status | sed 's/.*card\([0-9]\+\)-\([^\/]\+\).*/\1.\2/'
 }
 
+# start mpv then show the background (aka pacman screen)
+# $1 timeout
+# $2 array of options for mpv
+runInBackground() {
+  local timeout="$1"; shift
+  local options=("$@")
+
+  if [ "$timeout" -gt 0 ]; then
+    timeout "$videoLength" mpv "${options[@]}"
+  else
+    mpv "${options[@]}"
+  fi
+  showIntroBackground
+}
 
 # playVideoOnOneScreen
 #   play a video on a specific display
@@ -104,11 +118,7 @@ playVideoOnOneScreen() {
   options+=($2) # get space delimited options as is
   options+=(--sub-file /recalbox/system/resources/splash/recalboxintro.srt --really-quiet)
   options+=("$1")
-  if [ "$timeout" -gt 0 ]; then
-    nohup timeout "$videoLength" bash -c "mpv ${options[*]}" \; showIntroBackground &
-  else
-    nohup bash -c "mpv ${options[*]}" \; showIntroBackground &
-  fi
+  runInBackground "$timeout" "${options[@]}" >/dev/null 2>&1 &
 }
 
 # playVideo
