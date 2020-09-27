@@ -801,13 +801,12 @@ void GuiMenu::menuUISettings(){
 		  Settings::Instance().SetScreenSaverBehavior(screensaver_behavior->getSelected());
 	  });
 
-	  // add systems (all with a platformid specified selected)
+	  // add systems
 	  auto systems = std::make_shared<OptionListComponent<std::string> >(mWindow, _("SYSTEMS TO SHOW IN DEMO"), true);
 	  for (auto* it : mSystemManager.GetAllSystemList()) {
 		  if (!it->hasPlatformId(PlatformIds::PlatformId::PLATFORM_IGNORE))
 			  systems->add(it->getFullName(), it->getName(),
-			               RecalboxConf::Instance().isInList("global.demo.systemlist", it->getName()) &&
-			               it->PlatformCount() != 0);
+			               RecalboxConf::Instance().isInList("global.demo.systemlist", it->getName()));
 	  }
 	  ss->addWithLabel(systems, _("SYSTEMS FOR DEMO"));
 	  ss->addSaveFunc([systems] {
