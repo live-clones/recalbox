@@ -23,7 +23,7 @@
                   "Pi Zero"
               ],
               "tarballs": [
-                  "https://download.recalbox.com/noobs/rpi1/boot.tar.xz"
+                  "https://download.recalbox.com/rpi1/boot.tar.xz"
               ]
           },
           {
@@ -39,7 +39,7 @@
                   "Pi 2"
               ],
               "tarballs": [
-                  "https://download.recalbox.com/noobs/rpi2/boot.tar.xz"
+                  "https://download.recalbox.com/rpi2/boot.tar.xz"
               ]
           },
           {
@@ -56,7 +56,7 @@
                   "Pi Compute Module 3"
               ],
               "tarballs": [
-                  "https://download.recalbox.com/noobs/rpi3/boot.tar.xz"
+                  "https://download.recalbox.com/rpi3/boot.tar.xz"
               ]
           },
           {
@@ -72,7 +72,7 @@
                   "Pi 4"
               ],
               "tarballs": [
-                  "https://download.recalbox.com/noobs/rpi4/boot.tar.xz"
+                  "https://download.recalbox.com/rpi4/boot.tar.xz"
               ]
           }
       ]
@@ -215,7 +215,7 @@ Each entry in this file represents an OS. Here is the list of fields each entry 
   * `icon` ⇒ logo of the OS
   * `extract_size` ⇒ size of image in bytes, once uncompressed
   * `extract_sha256` ⇒ SHA256 hash of image, once uncompressed
-  * `image_download_size` ⇒ size of downloaded image (compressed)
+  * `image_download_size` ⇒ size of downloaded image (compressed) in bytes
   * `image_download_sha256` ⇒ SHA256 hash of image (compressed)
   * `release_date` ⇒ release date in `YYY-MM-DD` format
   * `subitems_url` ⇒ URL to a file describing "flavours" of this OS: they can define exactly the same fields and will replace the entry declaring `subitems_url`

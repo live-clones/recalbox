@@ -15,13 +15,17 @@ function exitWithUsage {
   echo
   echo "    <images_dir>/"
   echo "    ├─ rpi1/"
-  echo "    │  └─ recalbox-rpi1.img.xz"
+  echo "    │  ├─ recalbox-rpi1.img.xz"
+  echo "    │  └─ boot.tar.xz"
   echo "    ├─ rpi2/"
-  echo "    │  └─ recalbox-rpi2.img.xz"
+  echo "    │  ├─ recalbox-rpi2.img.xz"
+  echo "    │  └─ boot.tar.xz"
   echo "    ├─ rpi3/"
-  echo "    │  └─ recalbox-rpi3.img.xz"
+  echo "    │  ├─ recalbox-rpi3.img.xz"
+  echo "    │  └─ boot.tar.xz"
   echo "    └─ rpi4/"
-  echo "       └─ recalbox-rpi4.img.xz"
+  echo "       ├─ recalbox-rpi4.img.xz"
+  echo "       └─ boot.tar.xz"
   echo
   exit 64
 }
@@ -33,39 +37,24 @@ function generateNoobsAssets {
 
   echo ">>> Generating assets for NOOBS (in ${destinationDir})"
 
-  # Create destination directory hierarchy
-
-  for arch in rpi1 rpi2 rpi3 rpi4; do
-    mkdir -p "${destinationDir}/${arch}"
-  done
-
-  # Gather required information from images directory
+  # Fetch generic metadata
 
   metadata[version]=${CI_COMMIT_REF_NAME}
   metadata[releaseDate]=$(date +%Y-%m-%d)
 
+  # Fetch tarball metadata
+
   for arch in rpi1 rpi2 rpi3 rpi4; do
-    local tempMountPoint=$(mktemp -d)
-    local diskImage="${params[imagesDir]}/${arch}/recalbox-${arch}.img"
-    local tarball="${destinationDir}/${arch}/boot.tar"
-    # Generate tarball of the filesystem from disk image (as `boot.tar.xz`)
-    unxz --keep "${diskImage}.xz"
-    mount -o loop,offset=$((512*2048)) "${diskImage}" "${tempMountPoint}"
-    tar -C "${tempMountPoint}" -cvf "${tarball}" . > /dev/null
-    # Fetch info regarding uncompressed tarball (before XZ compression, will be checked by NOOBS after XZ decompression)
-    metadata["${arch}UncompressedTarballSize"]=$(du -m "${tarball}" | cut -f 1)
-    # Compress tarball (will create a `.tar.xz` file and delete the `.tar`)
-    xz "${tarball}"
-    # Cleanup
-    umount "${tempMountPoint}"
-    rm "${diskImage}"
+    local tarball="${params[imagesDir]}/${arch}/boot.tar.xz"
+    local uncompressedTarballSizeInBytes=$(xz --robot --list "${tarball}" | tail -1 | cut -f 5)
+    metadata["${arch}UncompressedTarballSize"]=$((${uncompressedTarballSizeInBytes} / 1024 / 1024))
   done
 
   # Create assets in destination directory
 
-  cp -n "${templateDir}/recalbox.png" "${destinationDir}/recalbox.png"
-  cp -n "${templateDir}/marketing.tar" "${destinationDir}/marketing.tar"
-  cp -n "${templateDir}/partition_setup.sh" "${destinationDir}/partition_setup.sh"
+  cp "${templateDir}/recalbox.png" "${destinationDir}/recalbox.png"
+  cp "${templateDir}/marketing.tar" "${destinationDir}/marketing.tar"
+  cp "${templateDir}/partition_setup.sh" "${destinationDir}/partition_setup.sh"
 
   cat "${templateDir}/os.json" \
   | sed -e "s|{{version}}|${metadata[version]}|" \
@@ -73,6 +62,7 @@ function generateNoobsAssets {
   > "${destinationDir}/os.json"
 
   for arch in rpi1 rpi2 rpi3 rpi4; do
+    mkdir -p "${destinationDir}/${arch}"
     cat "${templateDir}/partitions.json" \
     | sed -e "s|{{uncompressedTarballSize}}|${metadata["${arch}UncompressedTarballSize"]}|" \
     > "${destinationDir}/${arch}/partitions.json"
@@ -92,14 +82,13 @@ function generateRaspberryPiImagerAssets {
   metadata[releaseDate]=$(date +%Y-%m-%d)
 
   for arch in rpi1 rpi2 rpi3 rpi4; do
+    local imageFile="${params[imagesDir]}/${arch}/recalbox-${arch}.img.xz"
     # Fetch info regarding image downloads (XZ-compressed Recalbox image)
-    metadata["${arch}ImageDownloadSize"]=$(stat --format=%s "${params[imagesDir]}/${arch}/recalbox-${arch}.img.xz")
-    metadata["${arch}ImageDownloadSha256"]=$(sha256sum "${params[imagesDir]}/${arch}/recalbox-${arch}.img.xz" | cut -d' ' -f1)
+    metadata["${arch}ImageDownloadSize"]=$(stat -c '%s' "${imageFile}")
+    metadata["${arch}ImageDownloadSha256"]=$(sha256sum "${imageFile}" | cut -d' ' -f1)
     # Fetch info regarding extracted images (raw Recalbox image, after XZ decompression)
-    unxz --keep "${params[imagesDir]}/${arch}/recalbox-${arch}.img.xz"
-    metadata["${arch}ExtractSize"]=$(stat --format=%s "${params[imagesDir]}/${arch}/recalbox-${arch}.img")
-    metadata["${arch}ExtractSha256"]=$(sha256sum "${params[imagesDir]}/${arch}/recalbox-${arch}.img" | cut -d' ' -f1)
-    rm "${params[imagesDir]}/${arch}/recalbox-${arch}.img"
+    metadata["${arch}ExtractSize"]=$(xz --robot --list "${imageFile}" | tail -1 | cut -f 5)
+    metadata["${arch}ExtractSha256"]=$(xz --decompress --keep --to-stdout "${imageFile}" | sha256sum - | cut -d' ' -f1)
   done
 
   # Create assets in destination directory
@@ -126,7 +115,7 @@ function generateRaspberryPiImagerAssets {
         -e "s|{{rpi3ImageDownloadSha256}}|${metadata[rpi3ImageDownloadSha256]}|" \
         -e "s|{{rpi4ImageDownloadSha256}}|${metadata[rpi4ImageDownloadSha256]}|" \
   > "${destinationDir}/os_list_imagingutility_recalbox.json"
-  cp -n "${templateDir}/recalbox.svg" "${destinationDir}/recalbox.svg"
+  cp "${templateDir}/recalbox.svg" "${destinationDir}/recalbox.svg"
 }
 
 ## PARAMETERS PARSING ##
