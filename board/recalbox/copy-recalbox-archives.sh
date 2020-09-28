@@ -86,6 +86,10 @@ case "${RECALBOX_TARGET}" in
 	generate_boot_file_list "${BINARIES_DIR}/rpi-firmware/" | \
 		grep -v -E '^(boot.lst|config.txt|recalbox-boot.conf)$' >"${BINARIES_DIR}/rpi-firmware/boot.lst"
 
+	# boot.tar.xz
+	tar -C "${BINARIES_DIR}/rpi-firmware" -cJf "${RECALBOX_BINARIES_DIR}/boot.tar.xz" . ||
+		{ echo "ERROR : unable to create boot.tar.xz" && exit 1 ; }
+
 	#recalbox.img
 	GENIMAGE_TMP="${BUILD_DIR}/genimage.tmp"
 	rm -rf "${GENIMAGE_TMP}" || exit 1
@@ -121,6 +125,10 @@ case "${RECALBOX_TARGET}" in
 	do
 	    cp "${BUILD_DIR}/uboot-xu4-odroidxu4-v2017.05/sd_fuse/${F}" "${BINARIES_DIR}/xu4-firmware/" || exit 1
 	done
+
+	# boot.tar.xz
+	tar -C "${BINARIES_DIR}/xu4-firmware" -cJf "${RECALBOX_BINARIES_DIR}/boot.tar.xz" . ||
+		{ echo "ERROR : unable to create boot.tar.xz" && exit 1 ; }
 
 	# recalbox.img
 	GENIMAGE_TMP="${BUILD_DIR}/genimage.tmp"
@@ -158,6 +166,10 @@ case "${RECALBOX_TARGET}" in
 
 	generate_boot_file_list "${BINARIES_DIR}/pc-boot/" | \
 		grep -v -E '^(boot.lst|recalbox-boot.conf)$' >"${BINARIES_DIR}/pc-boot/boot.lst"
+
+	# boot.tar.xz
+	tar -C "${BINARIES_DIR}/pc-boot" -cJf "${RECALBOX_BINARIES_DIR}/boot.tar.xz" . ||
+		{ echo "ERROR : unable to create boot.tar.xz" && exit 1 ; }
 
 	# recalbox.img
 	cp "${HOST_DIR}/usr/lib/grub/i386-pc/boot.img" "${BINARIES_DIR}/" || exit 1
