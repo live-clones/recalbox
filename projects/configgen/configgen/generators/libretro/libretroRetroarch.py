@@ -279,7 +279,7 @@ class LibretroRetroarch:
         # Shaders?
         hasShaders = self.isDefined("shaders")
         settings.setOption("video_shader_enable", self.TRUE if hasShaders else self.FALSE)
-        settings.setOption("video_shader_dir", os.path.dirname(recalbox["shaders"])  if hasShaders else "")
+        settings.setOption("video_shader_dir", os.path.dirname(recalbox["shaders"]) if hasShaders else recalboxFiles.shadersRoot)
         if hasShaders:
             settings.setOption("video_shader", os.path.basename(recalbox["shaders"]))
 

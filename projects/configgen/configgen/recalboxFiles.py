@@ -51,7 +51,7 @@ retroarchCoreCustom = retroarchRoot + "/cores/retroarch-core-options.cfg"
 retroarchInitCustomOrigin = HOME_INIT + "configs/retroarch/retroarchcustom.cfg.origin"
 
 retroarchCores = "/usr/lib/libretro/"
-shadersRoot = "/recalbox/share/shaders/presets/"
+shadersRoot = "/recalbox/share/shaders/"
 shadersExt = '.gplsp'
 libretroExt = '_libretro.so'
 screenshotsDir = "/recalbox/share/screenshots/"
