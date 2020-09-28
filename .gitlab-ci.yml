@@ -67,6 +67,8 @@ lint commits:
     - echo "${RECALBOX_VERSION}" >> "${DIST_DIR}/recalbox.version"
     - cp CHANGELOG.md "${DIST_DIR}/recalbox.changelog"
     - uploadFolderToBucket "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "recalbox-builds" "dist" "${CI_PIPELINE_ID}"
+  before_script:
+    - apk add --update-cache xz
   after_script:
     - rm -rf buildroot
   artifacts:
