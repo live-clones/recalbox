@@ -67,8 +67,6 @@ lint commits:
     - echo "${RECALBOX_VERSION}" >> "${DIST_DIR}/recalbox.version"
     - cp CHANGELOG.md "${DIST_DIR}/recalbox.changelog"
     - uploadFolderToBucket "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "recalbox-builds" "dist" "${CI_PIPELINE_ID}"
-  before_script:
-    - apk add --update-cache xz
   after_script:
     - rm -rf buildroot
   artifacts:
@@ -210,11 +208,14 @@ build odroidxu4 for test:
     BUCKET_PATH: path in the bucket
   before_script:
     - source scripts/release/functions.sh
+    - apk add --update-cache --no-cache xz bash
   script:
-    - downloadBucketFolderTo "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "recalbox-builds" "builds" "${CI_PIPELINE_ID}"
+    - downloadBucketFolderTo "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "recalbox-builds" "builds" 194858139 "${CI_PIPELINE_ID}"
     - mkdir release
+    - ls -la builds
     - ./scripts/release/generate_external_installer_assets.sh --images-dir builds --destination-dir release
     - echo "Releasing files"
+    - mv builds/* release
     - uploadFolderToBucket "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "${BUCKET}" "release" "${BUCKET_PATH}"
 
 release prod:
