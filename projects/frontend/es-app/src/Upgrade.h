@@ -47,9 +47,9 @@ class Upgrade: private Thread, private ISynchronousEvent
     static constexpr const char* sReviewDNS = "review.download.recalbox.com";
 
     //! Get remote version template URL
-    static constexpr const char* sVersionPatternUrl = "https://#DOMAIN#/stable/v2/upgrade/#ARCH#/recalbox.version?source=recalbox";
+    static constexpr const char* sVersionPatternUrl = "https://#DOMAIN#/latest/#ARCH#/recalbox.version?source=recalbox";
     //! Get file download template url
-    static constexpr const char* sDownloadPatternUrl = "https://#DOMAIN#/stable/v2/upgrade/#ARCH#/recalbox-#ARCH#.img.xz?source=recalbox";
+    static constexpr const char* sDownloadPatternUrl = "https://#DOMAIN#/latest/#ARCH#/recalbox-#ARCH#.img.xz?source=recalbox";
 
     //! Local version file
     static constexpr const char* sLocalVersionFile = "/recalbox/recalbox.version";
