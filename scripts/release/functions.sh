@@ -101,9 +101,9 @@ function uploadFolderToBucket(){
 cat >s3cfg <<EOF
 [default]
 # Endpoint
-host_base = https://s3.nl-ams.scw.cloud
-host_bucket = https://s3.nl-ams.scw.cloud
-bucket_location = nl-ams
+host_base = https://s3.fr-par.scw.cloud
+host_bucket = https://s3.fr-par.scw.cloud
+bucket_location = fr-par
 
 # Login credentials
 access_key = ${AWS_ACCESS_KEY_ID}
@@ -133,9 +133,9 @@ function downloadBucketFolderTo(){
 cat >s3cfg <<EOF
 [default]
 # Endpoint
-host_base = https://s3.nl-ams.scw.cloud
-host_bucket = https://s3.nl-ams.scw.cloud
-bucket_location = nl-ams
+host_base = https://s3.fr-par.scw.cloud
+host_bucket = https://s3.fr-par.scw.cloud
+bucket_location = fr-par
 
 # Login credentials
 access_key = ${AWS_ACCESS_KEY_ID}

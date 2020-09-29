@@ -9,7 +9,6 @@ stages:
   - lint
   - build
   - release
-  - clean
 
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
@@ -66,7 +65,7 @@ lint commits:
     - rm -rf output/
     - echo "${RECALBOX_VERSION}" >> "${DIST_DIR}/recalbox.version"
     - cp CHANGELOG.md "${DIST_DIR}/recalbox.changelog"
-    - uploadFolderToBucket "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "recalbox-builds" "dist" "${CI_PIPELINE_ID}"
+    - uploadFolderToBucket "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "recalbox-builds-artifacts" "dist" "${CI_PIPELINE_ID}"
   after_script:
     - rm -rf buildroot
   artifacts:
@@ -210,53 +209,35 @@ build odroidxu4 for test:
     - source scripts/release/functions.sh
     - apk add --update-cache --no-cache xz bash
   script:
-    - downloadBucketFolderTo "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "recalbox-builds" "builds" 194858139 "${CI_PIPELINE_ID}"
+    - downloadBucketFolderTo "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "recalbox-builds-artifacts" "builds" "${CI_PIPELINE_ID}"
     - mkdir release
     - ls -la builds
     - ./scripts/release/generate_external_installer_assets.sh --images-dir builds --destination-dir release
     - echo "Releasing files"
     - mv builds/* release
     - uploadFolderToBucket "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "${BUCKET}" "release" "${BUCKET_PATH}"
+    - if [ "${DEPLOY_TYPE}" == "prod" ];then uploadFolderToBucket "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "${BUCKET}" "release" "${CI_COMMIT_TAG}"; fi
 
 release prod:
   <<: *release_definition
   when: manual
   variables:
     DEPLOY_TYPE: prod
-    SKIP_IMAGES: 'false'
-    BUCKET: recalbox-releases
-    BUCKET_PATH: 'stable'
+    BUCKET: recalbox-archive-releases
+    BUCKET_PATH: latest
   only:
     - tags
   environment:
     name: prod
-    url: https://recalbox-releases.s3.nl-ams.scw.cloud/stable/index.html
+    url: https://download.recalbox.com
 
 release review:
   <<: *release_definition
   when: manual
   variables:
     DEPLOY_TYPE: review
-    SKIP_IMAGES: 'true'
-    BUCKET: recalbox-reviews
-    BUCKET_PATH: $CI_ENVIRONMENT_SLUG
+    BUCKET: recalbox-archive-reviews
+    BUCKET_PATH: latest
   environment:
     name: review/${CI_COMMIT_REF_SLUG}
-    url: https://recalbox-reviews.s3.nl-ams.scw.cloud/${CI_ENVIRONMENT_SLUG}/index.html
-    on_stop: clean review
-
-### Clean
-
-clean review:
-  image: registry.gitlab.com/recalbox/ops/rancher-cli:0.6.2
-  stage: clean
-  when: manual
-  dependencies: []
-  only:
-    - branches
-  script:
-    - echo "cleaning ${ARCHIVE_IMAGE} from ${REVIEW_STACK_NAME}/${CI_ENVIRONMENT_SLUG}"
-    - rancher rm "${REVIEW_STACK_NAME}/${CI_ENVIRONMENT_SLUG}"
-  environment:
-    name: review/${CI_COMMIT_REF_SLUG}
-    action: stop
+    url: https://recalbox-archive-reviews.s3.fr-par.scw.cloud${CI_ENVIRONMENT_SLUG}/index.html
