@@ -52,6 +52,7 @@ function generateNoobsAssets {
 
   # Create assets in destination directory
 
+  mkdir -p "${destinationDir}"
   cp "${templateDir}/recalbox.png" "${destinationDir}/recalbox.png"
   cp "${templateDir}/marketing.tar" "${destinationDir}/marketing.tar"
   cp "${templateDir}/partition_setup.sh" "${destinationDir}/partition_setup.sh"
