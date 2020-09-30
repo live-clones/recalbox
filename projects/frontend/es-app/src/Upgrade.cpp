@@ -100,7 +100,7 @@ std::string Upgrade::GetDomainName()
 
   // Select DNS to query
   std::string target = RecalboxConf::Instance().AsString("updates.type", "stable");
-  std::string domain(target == "stable" ? sReleaseDNS :sReviewDNS);
+  std::string domain(target == "review" ? sReviewDNS : sReleaseDNS);
 
   // Query TXT
   unsigned char buffer[4096];

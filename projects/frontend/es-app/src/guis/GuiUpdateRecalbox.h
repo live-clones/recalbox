@@ -60,6 +60,11 @@ class GuiUpdateRecalbox : public Gui, private Thread, private ISynchronousEvent,
 
     //! Url to download
     std::string mUrl;
+    //! New version
+    std::string mNewVersion;
+    // texts
+    std::string mRebootIn;
+    std::string mError;
 
     //! Time reference
     DateTime mTimeReference;

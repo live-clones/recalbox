@@ -25,6 +25,11 @@ GuiUpdateRecalbox::GuiUpdateRecalbox(Window& window, const std::string& url, con
   , mBackground(window, Path(":/frame.png"))
   , mGrid(window, Vector2i(3, 4))
 {
+  mNewVersion = newVersion;
+  mRebootIn = _("REBOOT IN %s");
+  mError = _("Error downloading Recalbox %s... Please retry later!");
+  Strings::ReplaceAllIn(mError, "%s", mNewVersion);
+
   addChild(&mBackground);
   addChild(&mGrid);
 
@@ -117,14 +122,15 @@ void GuiUpdateRecalbox::Run()
   LOG(LogDebug) << "Update: Download update file";
 
   // Set boot partition R/W
-  system("mount -o remount,rw /recalbox");
+  system("mount -o remount,rw /boot");
 
   // Get destination filename
   std::string destinationFileName = "recalbox-%.img.xz";
   Strings::ReplaceAllIn(destinationFileName, "%", Settings::Instance().Arch());
 
   // Download
-  Path destination = Path("/recalbox") / destinationFileName;
+  Path destination = Path("/boot/update") / destinationFileName;
+  LOG(LogDebug) << "Update: Target path " << destination.ToString();
   destination.Delete();
   mTimeReference = DateTime();
   mRequest.Execute(mUrl, destination, this);
@@ -164,14 +170,15 @@ void GuiUpdateRecalbox::ReceiveSyncCallback(const SDL_Event& event)
       TimeSpan elapsed = DateTime() - mTimeReference;
       TimeSpan eta((elapsed.TotalMilliseconds() * (mTotalSize - mCurrentSize)) / mCurrentSize);
 
-      std::string text = _("REBOOT IN %s");
+      std::string text = mRebootIn;
       Strings::ReplaceAllIn(text, "%s", eta.ToTimeString());
       mEta->setText(text);
     }
   }
   else if (event.user.code < 0)
   {
-    mEta->setText(_("Error downloading Recalbox %s... Please retry later!"));
+    mEta->setText(mError);
+    mGrid.onSizeChanged();
   }
 }
 
