@@ -5,24 +5,24 @@ GANDI_RECALBOX_API_URL="https://api.gandi.net/v5/livedns/domains/recalbox.com/re
 
 # Add an IP to the A records of DOMAIN.recalbox.com
 function addIpToGandiRecord(){
-  API_KEY="$1"
-  DOMAIN="$2"
-  NEW_IP="$3"
+  local API_KEY="$1"
+  local DOMAIN="$2"
+  local NEW_IP="$3"
 
-  CURRENT_IPS="$(curl -v -H "Content-Type: application/json" -H "Authorization: Apikey ${API_KEY}" "${GANDI_RECALBOX_API_URL}/${DOMAIN}" | jq -c ".[].rrset_values")"
-  IPS="$(echo "${CURRENT_IPS}" | jq ". += [\"${NEW_IP}\"]")"
+  local CURRENT_IPS="$(curl -v -H "Content-Type: application/json" -H "Authorization: Apikey ${API_KEY}" "${GANDI_RECALBOX_API_URL}/${DOMAIN}" | jq -c ".[].rrset_values")"
+  local IPS="$(echo "${CURRENT_IPS}" | jq ". += [\"${NEW_IP}\"]")"
   echo "Setting new records for ${DOMAIN} : ${IPS}"
   curl -v -X PUT -H "Content-Type: application/json" -H "Authorization: Apikey ${API_KEY}" -d "{\"rrset_values\": ${IPS}}" "${GANDI_RECALBOX_API_URL}/${DOMAIN}/A"
 }
 
 # Create a server for downloads, settings its IP in the IP global variable
 function createServer(){
-  ORGANIZATION="$1"
-  TOKEN="$2"
-  TAG="$3"
+  local ORGANIZATION="$1"
+  local TOKEN="$2"
+  local TAG="$3"
 
   scw login --token="${TOKEN}" --organization="${ORGANIZATION}" -s
-  SERVER_ID="$(scw run -e "${TAG}" --commercial-type=DEV1-S -d docker)"
+  local SERVER_ID="$(scw run -e "${TAG}" --commercial-type=DEV1-S -d docker)"
   for i in {1..10}; do
     if scw exec "${SERVER_ID}" ls; then break; fi
     sleep 10
@@ -34,11 +34,11 @@ function createServer(){
 
 # Upload a file or a directory on the server
 function uploadFilesToServer(){
-  ORGANIZATION="$1"
-  TOKEN="$2"
-  SERVER_ID="$3"
-  FROM="$4"
-  TO="$5"
+  local ORGANIZATION="$1"
+  local TOKEN="$2"
+  local SERVER_ID="$3"
+  local FROM="$4"
+  local TO="$5"
 
   scw login --token="${TOKEN}" --organization="${ORGANIZATION}" -s
   scw cp --user=root "${FROM}" "${SERVER_ID}":"${TO}"
@@ -46,29 +46,29 @@ function uploadFilesToServer(){
 
 # Upload a file or a directory on the server
 function stopServer(){
-  ORGANIZATION="$1"
-  TOKEN="$2"
-  SERVER_ID="$3"
+  local ORGANIZATION="$1"
+  local TOKEN="$2"
+  local SERVER_ID="$3"
   scw login --token="${TOKEN}" --organization="${ORGANIZATION}" -s
   scw exec "${SERVER_ID}" docker-compose stop nginx-data
 }
 
 # Upload a file or a directory on the server
 function startServer(){
-  ORGANIZATION="$1"
-  TOKEN="$2"
-  SERVER_ID="$3"
+  local ORGANIZATION="$1"
+  local TOKEN="$2"
+  local SERVER_ID="$3"
   scw login --token="${TOKEN}" --organization="${ORGANIZATION}" -s
   scw exec "${SERVER_ID}" docker-compose start
 }
 
 # Upload a file or a directory on all servers tagged with TAG
 function uploadFilesToServers(){
-  ORGANIZATION="$1"
-  TOKEN="$2"
-  TAG="$3"
-  FROM="$4"
-  TO="$5"
+  local ORGANIZATION="$1"
+  local TOKEN="$2"
+  local TAG="$3"
+  local FROM="$4"
+  local TO="$5"
   scw login --token="${TOKEN}" --organization="${ORGANIZATION}" -s
   for SERVER in $(scw ps -q -f tags="${TAG}"); do
     echo "Stopping server ${SERVER}"
@@ -92,11 +92,11 @@ function uploadFolderToBucket(){
     exit 1
   fi
 
-  AWS_ACCESS_KEY_ID="${1}"
-  AWS_SECRET_ACCESS_TOKEN="${2}"
-  BUCKET="${3}"
-  RELEASE_DIR="${4}"
-  PATH_IN_BUCKET="${5:-}"
+  local AWS_ACCESS_KEY_ID="${1}"
+  local AWS_SECRET_ACCESS_TOKEN="${2}"
+  local BUCKET="${3}"
+  local RELEASE_DIR="${4}"
+  local PATH_IN_BUCKET="${5:-}"
 
 cat >s3cfg <<EOF
 [default]
@@ -124,11 +124,11 @@ function downloadBucketFolderTo(){
     exit 1
   fi
 
-  AWS_ACCESS_KEY_ID="${1}"
-  AWS_SECRET_ACCESS_TOKEN="${2}"
-  BUCKET="${3}"
-  DEST_DIR="${4}"
-  PATH_IN_BUCKET="${5}"
+  local AWS_ACCESS_KEY_ID="${1}"
+  local AWS_SECRET_ACCESS_TOKEN="${2}"
+  local BUCKET="${3}"
+  local DEST_DIR="${4}"
+  local PATH_IN_BUCKET="${5}"
 
 cat >s3cfg <<EOF
 [default]

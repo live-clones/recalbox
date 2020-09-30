@@ -209,7 +209,7 @@ build odroidxu4 for test:
     - source scripts/release/functions.sh
     - apk add --update-cache --no-cache xz bash
   script:
-    - downloadBucketFolderTo "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "recalbox-builds-artifacts" "builds" "${CI_PIPELINE_ID}"
+    - downloadBucketFolderTo "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "recalbox-builds-artifacts" "builds" 196370336 "${CI_PIPELINE_ID}"
     - mkdir release
     - ls -la builds
     - ./scripts/release/generate_external_installer_assets.sh --images-dir builds --destination-dir release
