@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<gameList>
+	<game>
+		<path>Cogito2 (Brutal Deluxe Software).2mg</path>
+		<hash>05D0E49C</hash>
+		<lastplayed>20200929T193559</lastplayed>
+		<playcount>1</playcount>
+		<genreid>2816</genreid>
+		<genre>Puzzle-Game</genre>
+		<publisher>Brutal Deluxe Software</publisher>
+		<developer>Antoine VIGNAU &amp; Olivier ZARDINI</developer>
+		<releasedate>19980101T020000</releasedate>
+		<image>media/images/Cogito2 (Brutal Deluxe Software).png</image>
+		<desc>In this game based on Rubik's Cube concept and similar to Cubulus, you have to recreate the shape shown at the bottom of each screen by moving the column vector (Up/Down) or row vector (Left/Right). Gameplay in Cogito consists of 120 screens and 10 different shapes. The time it takes to complete each is recorded as is the number of moves. Completing the level gives you the password to start from a desired level in the future. 
+ 
+You may start a new game, or open a saved one. Speed is set to Slow, Medium, or Quick. The background themes in the game  include Alien, Planet, Happyland, and Ludyland. Your gameplay is accompanied by optional background music.</desc>
+		<rating>0.75000</rating>
+		<name>Cogito</name>
+	</game>
+	<game>
+		<path>TheTinies (Brutal Deluxe Software).2mg</path>
+		<hash>6AB8DA54</hash>
+		<lastplayed>20200929T193547</lastplayed>
+		<playcount>1</playcount>
+		<genreid>2816</genreid>
+		<genre>Puzzle-Game-Puzzle-Game / Glide</genre>
+		<publisher>Brutal Deluxe Software</publisher>
+		<developer>Antoine VIGNAU &amp; Olivier ZARDINI</developer>
+		<releasedate>19930101T020000</releasedate>
+		<image>media/images/TheTinies (Brutal Deluxe Software).png</image>
+		<desc>The Tinies was originally developed by Atried Concept, where Olivier Goguel and Olivier Bailly-Maitre of the FTA went to work after they decided to call it a day on the IIGS. I imagine they were sympathetic to Brutal Deluxe porting the game to the IIGS and releasing it as freeware. 
+The Tinies is a game of strategy and puzzle solving. You select the Tinies, personable, coloured, furry creatures, with a marquee controlled via the keyboard. With a Tiny selected, you can move them up, down, left and right but they will only stop if there's an obstacle in their way. You can also hit the action key to make the Tinies interact with various objects in the environment</desc>
+		<rating>0.90000</rating>
+		<name>The Tinies</name>
+	</game>
+</gameList>
