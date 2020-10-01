@@ -79,7 +79,7 @@ build rpi1:
   <<: *build_definition
   when: manual
   only:
-    - master    
+    - master
     - tags
   variables:
     ARCH: 'rpi1'
@@ -209,21 +209,21 @@ build odroidxu4 for test:
     - source scripts/release/functions.sh
     - apk add --update-cache --no-cache xz bash
   script:
-    - downloadBucketFolderTo "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "recalbox-builds-artifacts" "builds" 196370336 "${CI_PIPELINE_ID}"
+    - downloadBucketFolderTo "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "recalbox-builds-artifacts" "builds" "${CI_PIPELINE_ID}"
     - mkdir release
     - ls -la builds
     - ./scripts/release/generate_external_installer_assets.sh --images-dir builds --destination-dir release
     - echo "Releasing files"
     - mv builds/* release
-    - uploadFolderToBucket "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "${BUCKET}" "release" "${BUCKET_PATH}"
     - if [ "${DEPLOY_TYPE}" == "prod" ];then uploadFolderToBucket "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "${BUCKET}" "release" "${CI_COMMIT_TAG}"; fi
+    - uploadFolderToBucket "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "${BUCKET}" "release" "${BUCKET_PATH}"
 
 release prod:
   <<: *release_definition
   when: manual
   variables:
     DEPLOY_TYPE: prod
-    BUCKET: recalbox-archive-releases
+    BUCKET: recalbox-archive-stable
     BUCKET_PATH: latest
   only:
     - tags
