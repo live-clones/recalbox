@@ -12,67 +12,67 @@
               "os_name": "Recalbox - Pi0/1",
               "description": "The official retro-gaming OS! Turn your Raspberry Pi into an all-in-one and plug-n-play retro-gaming console, supporting 100+ gaming systems!",
               "nominal_size": 4096,
-              "icon": "https://download.recalbox.com/noobs/recalboxOS.png",
-              "marketing_info": "https://download.recalbox.com/noobs/marketing.tar",
-              "partition_setup": "https://download.recalbox.com/noobs/partition_setup.sh",
-              "partitions_info": "https://download.recalbox.com/noobs/rpi1/partitions.json",
-              "os_info": "https://download.recalbox.com/noobs/os.json",
+              "icon": "https://download.recalbox.com/latest/noobs/recalboxOS.png",
+              "marketing_info": "https://download.recalbox.com/latest/noobs/marketing.tar",
+              "partition_setup": "https://download.recalbox.com/latest/noobs/partition_setup.sh",
+              "partitions_info": "https://download.recalbox.com/latest/noobs/rpi1/partitions.json",
+              "os_info": "https://download.recalbox.com/latest/noobs/os.json",
               "supported_models": [
                   "Pi Model",
                   "Pi Compute Module Rev",
                   "Pi Zero"
               ],
               "tarballs": [
-                  "https://download.recalbox.com/rpi1/boot.tar.xz"
+                  "https://download.recalbox.com/latest/rpi1/boot.tar.xz"
               ]
           },
           {
               "os_name": "Recalbox - Pi2",
               "description": "The official retro-gaming OS! Turn your Raspberry Pi into an all-in-one and plug-n-play retro-gaming console, supporting 100+ gaming systems!",
               "nominal_size": 4096,
-              "icon": "https://download.recalbox.com/noobs/recalboxOS.png",
-              "marketing_info": "https://download.recalbox.com/noobs/marketing.tar",
-              "partition_setup": "https://download.recalbox.com/noobs/partition_setup.sh",
-              "partitions_info": "https://download.recalbox.com/noobs/rpi2/partitions.json",
-              "os_info": "https://download.recalbox.com/noobs/os.json",
+              "icon": "https://download.recalbox.com/latest/noobs/recalboxOS.png",
+              "marketing_info": "https://download.recalbox.com/latest/noobs/marketing.tar",
+              "partition_setup": "https://download.recalbox.com/latest/noobs/partition_setup.sh",
+              "partitions_info": "https://download.recalbox.com/latest/noobs/rpi2/partitions.json",
+              "os_info": "https://download.recalbox.com/latest/noobs/os.json",
               "supported_models": [
                   "Pi 2"
               ],
               "tarballs": [
-                  "https://download.recalbox.com/rpi2/boot.tar.xz"
+                  "https://download.recalbox.com/latest/rpi2/boot.tar.xz"
               ]
           },
           {
               "os_name": "Recalbox - Pi3",
               "description": "The official retro-gaming OS! Turn your Raspberry Pi into an all-in-one and plug-n-play retro-gaming console, supporting 100+ gaming systems!",
               "nominal_size": 4096,
-              "icon": "https://download.recalbox.com/noobs/recalboxOS.png",
-              "marketing_info": "https://download.recalbox.com/noobs/marketing.tar",
-              "partition_setup": "https://download.recalbox.com/noobs/partition_setup.sh",
-              "partitions_info": "https://download.recalbox.com/noobs/rpi3/partitions.json",
-              "os_info": "https://download.recalbox.com/noobs/os.json",
+              "icon": "https://download.recalbox.com/latest/noobs/recalboxOS.png",
+              "marketing_info": "https://download.recalbox.com/latest/noobs/marketing.tar",
+              "partition_setup": "https://download.recalbox.com/latest/noobs/partition_setup.sh",
+              "partitions_info": "https://download.recalbox.com/latest/noobs/rpi3/partitions.json",
+              "os_info": "https://download.recalbox.com/latest/noobs/os.json",
               "supported_models": [
                   "Pi 3",
                   "Pi Compute Module 3"
               ],
               "tarballs": [
-                  "https://download.recalbox.com/rpi3/boot.tar.xz"
+                  "https://download.recalbox.com/latest/rpi3/boot.tar.xz"
               ]
           },
           {
               "os_name": "Recalbox - Pi4",
               "description": "The official retro-gaming OS! Turn your Raspberry Pi into an all-in-one and plug-n-play retro-gaming console, supporting 100+ gaming systems!",
               "nominal_size": 4096,
-              "icon": "https://download.recalbox.com/noobs/recalboxOS.png",
-              "marketing_info": "https://download.recalbox.com/noobs/marketing.tar",
-              "partition_setup": "https://download.recalbox.com/noobs/partition_setup.sh",
-              "partitions_info": "https://download.recalbox.com/noobs/rpi4/partitions.json",
-              "os_info": "https://download.recalbox.com/noobs/os.json",
+              "icon": "https://download.recalbox.com/latest/noobs/recalboxOS.png",
+              "marketing_info": "https://download.recalbox.com/latest/noobs/marketing.tar",
+              "partition_setup": "https://download.recalbox.com/latest/noobs/partition_setup.sh",
+              "partitions_info": "https://download.recalbox.com/latest/noobs/rpi4/partitions.json",
+              "os_info": "https://download.recalbox.com/latest/noobs/os.json",
               "supported_models": [
                   "Pi 4"
               ],
               "tarballs": [
-                  "https://download.recalbox.com/rpi4/boot.tar.xz"
+                  "https://download.recalbox.com/latest/rpi4/boot.tar.xz"
               ]
           }
       ]
@@ -197,8 +197,8 @@ This is a [comment from NOOBS source code](https://github.com/raspberrypi/noobs/
       {
         "name": "Recalbox",
         "description": "The official retro-gaming OS! Turn your Raspberry Pi into an all-in-one and plug-n-play retro-gaming console, supporting 100+ gaming systems!",
-        "icon": "https://download.recalbox.com/raspi-imager/recalbox.svg",
-        "subitems_url": "https://download.recalbox.com/raspi-imager/os_list_imagingutility_recalbox.json"
+        "icon": "https://download.recalbox.com/latest/raspi-imager/recalbox.svg",
+        "subitems_url": "https://download.recalbox.com/latest/raspi-imager/os_list_imagingutility_recalbox.json"
       }
     ]
   }
