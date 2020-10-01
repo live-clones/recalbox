@@ -49,6 +49,7 @@ void Upgrade::Run()
       // Do we have to update?
       mRemoteVersion = GetRemoteVersion();
       mLocalVersion = Files::LoadFile(Path(sLocalVersionFile));
+      mLocalVersion = Strings::Trim(mLocalVersion, " \t\r\n");
       if (!mRemoteVersion.empty() && (mRemoteVersion != mLocalVersion))
       {
         LOG(LogInfo) << "[Update] Remote version " << mRemoteVersion << " does not match local version " << mLocalVersion << ". Update available!";
