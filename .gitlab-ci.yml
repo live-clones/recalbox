@@ -80,7 +80,6 @@ build rpi1:
   when: manual
   only:
     - master    
-    - tags
   variables:
     ARCH: 'rpi1'
 build rpi2:
@@ -88,7 +87,6 @@ build rpi2:
   when: manual
   only:
     - master
-    - tags
   variables:
     ARCH: 'rpi2'
 build rpi3:
@@ -96,7 +94,6 @@ build rpi3:
   when: manual
   only:
     - master
-    - tags
   variables:
     ARCH: 'rpi3'
 build rpi4:
@@ -104,7 +101,6 @@ build rpi4:
   when: manual
   only:
     - master
-    - tags
   variables:
     ARCH: 'rpi4'
 build x86_64:
@@ -112,7 +108,6 @@ build x86_64:
   when: manual
   only:
     - master
-    - tags
   variables:
     ARCH: 'x86_64'
 build x86:
@@ -120,7 +115,6 @@ build x86:
   when: manual
   only:
     - master
-    - tags
   variables:
     ARCH: 'x86'
 build odroidxu4:
@@ -128,7 +122,6 @@ build odroidxu4:
   when: manual
   only:
     - master
-    - tags
   variables:
     ARCH: 'odroidxu4'
 
@@ -205,11 +198,13 @@ build odroidxu4 for test:
     SKIP_IMAGES: Release or without images if true
     BUCKET: Bucket to deploy to
     BUCKET_PATH: path in the bucket
+    RELEASE_PIPELINE_ID: the pipeline to release
   before_script:
     - source scripts/release/functions.sh
     - apk add --update-cache --no-cache xz bash
   script:
-    - downloadBucketFolderTo "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "recalbox-builds-artifacts" "builds" 196370336 "${CI_PIPELINE_ID}"
+    - if [ "${RELEASE_PIPELINE_ID}" == "INJECTEDMANUALLY" ];then echo "no pipeline id found" && exit 1; fi
+    - downloadBucketFolderTo "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "recalbox-builds-artifacts" "builds" "${RELEASE_PIPELINE_ID}"
     - mkdir release
     - ls -la builds
     - ./scripts/release/generate_external_installer_assets.sh --images-dir builds --destination-dir release
@@ -223,8 +218,9 @@ release prod:
   when: manual
   variables:
     DEPLOY_TYPE: prod
-    BUCKET: recalbox-archive-releases
+    BUCKET: recalbox-archive-stable
     BUCKET_PATH: latest
+    RELEASE_PIPELINE_ID: INJECTEDMANUALLY
   only:
     - tags
   environment:
@@ -238,6 +234,7 @@ release review:
     DEPLOY_TYPE: review
     BUCKET: recalbox-archive-reviews
     BUCKET_PATH: latest
+    RELEASE_PIPELINE_ID: $CI_PIPELINE_ID
   environment:
     name: review/${CI_COMMIT_REF_SLUG}
     url: https://recalbox-archive-reviews.s3.fr-par.scw.cloud${CI_ENVIRONMENT_SLUG}/index.html
