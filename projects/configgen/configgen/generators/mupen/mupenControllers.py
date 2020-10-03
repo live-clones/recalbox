@@ -90,9 +90,6 @@ def defineControllerKeys(controller):
 
     # Big dirty hack : handle when the pad has no analog sticks. Only Start A, B L and R survive from the previous configuration
     if "X Axis" not in config and "Y Axis" not in config:
-        # map L/R Trig
-        config['L Trig'] = setControllerLine(mupenmapping, controller.inputs['leftshoulder'], "L Trig")
-        config['R Trig'] = setControllerLine(mupenmapping, controller.inputs['rightshoulder'], "R Trig")
         # remap Z Trig
         config['Z Trig'] = setControllerLine(mupenmapping, controller.inputs['x'], "Z Trig")
         # remove C Button U and R
