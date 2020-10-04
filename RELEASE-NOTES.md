@@ -1,5 +1,14 @@
 # Release notes
 
+## Version 7.0.1
+
+### News
+
+### Improvements
+- SNES default emulators pi0/1: pisnes, pi2/3: snes9x2010 & snes9x elsewhere
+
+### Fixes
+
 ## Version 7.0
 
 ### News

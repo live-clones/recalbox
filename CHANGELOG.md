@@ -1,6 +1,9 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [7.0.1]
+- Change snes default emulators: rpi0/1 - pisnes, rpi2/3 - snes9x2010 & snes9x otherwise
+
 ## [7.0]
 - Update tft-waveshare overlays (support of 3.5 rev B and rev C tft screen)
 - Add support of second mini TFT screen for OGST Case and SPI/DPI Small TFT screen on Rpis 1/2/3
