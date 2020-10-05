@@ -17,10 +17,13 @@ disable_overscan=1
 
 config_hdmi_boost=0
 
-# force hdmi while the tv can take time before sending the signal on the hdmi output
+# Force hdmi while the tv can take time before sending the signal on the hdmi output
 hdmi_force_hotplug=1
 
-# uncomment for composite PAL
+# Uncomment if you have a black screen issue
+#hdmi_ignore_hotplug=1
+
+# uncomment for composite PAL - Uncomment if you have a black screen issue
 #sdtv_mode=2
 
 # uncomment for lirc-rpi
@@ -35,7 +38,7 @@ dtoverlay=vc4-fkms-v3d
 # allow only one framebuffer (the one marked 0, closest to the power input)
 max_framebuffers=1
 
-# allow 4k 60hz
+# allow 4k 60hz - Comment if fou have a black screen
 hdmi_enable_4kp60=1
 
 # total amount of GPU memory

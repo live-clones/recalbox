@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 
 ## [7.0.1]
 - Change snes default emulators: rpi0/1 - pisnes, rpi2/3 - snes9x2010 & snes9x otherwise
+- Add options to RPI4 config.txt to fix black screen issues
 
 ## [7.0]
 - Update tft-waveshare overlays (support of 3.5 rev B and rev C tft screen)
