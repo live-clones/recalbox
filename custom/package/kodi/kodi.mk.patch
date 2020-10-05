@@ -1,12 +1,11 @@
 diff --git a/package/kodi/kodi.mk b/package/kodi/kodi.mk
-index 2f2a92a889..7ac1c51514 100644
+index d8144c0c38..44ce6de636 100644
 --- a/package/kodi/kodi.mk
 +++ b/package/kodi/kodi.mk
 @@ -6,8 +6,20 @@
  
  # When updating the version, please also update kodi-jsonschemabuilder
  # and kodi-texturepacker
--KODI_VERSION = 18.5-Leia
 +# rpi 0/1/2, xu4 and PC
 +ifeq ($(BR2_PACKAGE_KODI_FLAVOR_XBMC),y)
 +KODI_VERSION = 18.9-Leia
@@ -68,14 +67,3 @@ index 2f2a92a889..7ac1c51514 100644
  ifeq ($(BR2_PACKAGE_KODI_PLATFORM_RBPI),y)
  KODI_CONF_OPTS += -DCORE_PLATFORM_NAME=rbpi
  KODI_DEPENDENCIES += libinput libxkbcommon rpi-userland
-@@ -315,10 +357,6 @@ ifeq ($(BR2_PACKAGE_LIRC_TOOLS),y)
- KODI_DEPENDENCIES += lirc-tools
- endif
- 
--ifeq ($(BR2_PACKAGE_KODI_LIBTHEORA),y)
--KODI_DEPENDENCIES += libtheora
--endif
--
- # kodi needs libva & libva-glx
- ifeq ($(BR2_PACKAGE_KODI_LIBVA)$(BR2_PACKAGE_MESA3D_DRI_DRIVER),yy)
- KODI_DEPENDENCIES += mesa3d libva

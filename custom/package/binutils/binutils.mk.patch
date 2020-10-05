@@ -1,5 +1,5 @@
 diff --git a/package/binutils/binutils.mk b/package/binutils/binutils.mk
-index 81308e2e81..7e734383f0 100644
+index 326e6e2639..620811b958 100644
 --- a/package/binutils/binutils.mk
 +++ b/package/binutils/binutils.mk
 @@ -134,7 +134,7 @@ endif

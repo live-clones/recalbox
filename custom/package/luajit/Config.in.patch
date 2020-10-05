@@ -1,13 +1,12 @@
 diff --git a/package/luajit/Config.in b/package/luajit/Config.in
-index f4d6001586..b4d714fa79 100644
+index eb3eb01998..13e55d3692 100644
 --- a/package/luajit/Config.in
 +++ b/package/luajit/Config.in
-@@ -19,7 +19,7 @@ config BR2_PACKAGE_LUAJIT
- 	# binaries, so check if that option is supported. See
+@@ -20,7 +20,6 @@ config BR2_PACKAGE_LUAJIT
  	# luajit.mk for details.
  	select BR2_PACKAGE_HAS_LUAINTERPRETER
+ 	select BR2_PACKAGE_LUAINTERPRETER_ABI_VERSION_5_1
 -	select BR2_HOSTARCH_NEEDS_IA32_COMPILER if !BR2_ARCH_IS_64
-+	# select BR2_HOSTARCH_NEEDS_IA32_COMPILER if !BR2_ARCH_IS_64
  	help
  	  LuaJIT implements the full set of language features defined
  	  by Lua 5.1. The virtual machine (VM) is API- and
