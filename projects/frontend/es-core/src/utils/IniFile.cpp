@@ -80,8 +80,9 @@ bool IniFile::Save()
   Strings::Vector lines = Strings::Split(content, '\n');
 
   // Save new value if exists
-  for (auto& it : mConfiguration)
+  for (auto& it : mPendingWrites)
   {
+    // Write new kay/value
     std::string key = it.first;
     std::string val = it.second;
     bool lineFound = false;
@@ -93,6 +94,10 @@ bool IniFile::Save()
       }
     if (!lineFound)
       lines.push_back(key.append("=").append(val));
+
+    // Move from Pendings to regular Configuration
+    mConfiguration[key] = val;
+    mPendingWrites.erase(key);
   }
 
   // Save new
@@ -104,29 +109,28 @@ bool IniFile::Save()
 
 std::string IniFile::AsString(const std::string& name) const
 {
-  std::string* item = mConfiguration.try_get(name);
-  return (item != nullptr) ? *item : std::string();
+  return ExtractValue(name);
 }
 
 std::string IniFile::AsString(const std::string& name, const std::string& defaultValue) const
 {
-  std::string* item = mConfiguration.try_get(name);
-  return (item != nullptr) ? *item : defaultValue;
+  std::string item = ExtractValue(name);
+  return (!item.empty()) ? item : defaultValue;
 }
 
 bool IniFile::AsBool(const std::string& name, bool defaultValue) const
 {
-  std::string* item = mConfiguration.try_get(name);
-  return (item != nullptr) ? (item->size() == 1 && (*item)[0] == '1') : defaultValue;
+  std::string item = ExtractValue(name);
+  return (!item.empty()) ? (item.size() == 1 && item[0] == '1') : defaultValue;
 }
 
 unsigned int IniFile::AsUInt(const std::string& name, unsigned int defaultValue) const
 {
-  std::string* item = mConfiguration.try_get(name);
-  if (item != nullptr)
+  std::string item = ExtractValue(name);
+  if (!item.empty())
   {
-    long long int value;
-    if (Strings::ToLong(*item, value))
+    long long int value = 0;
+    if (Strings::ToLong(item, value))
       return (unsigned int)value;
   }
 
@@ -135,11 +139,11 @@ unsigned int IniFile::AsUInt(const std::string& name, unsigned int defaultValue)
 
 int IniFile::AsInt(const std::string& name, int defaultValue) const
 {
-  std::string* item = mConfiguration.try_get(name);
-  if (item != nullptr)
+  std::string item = ExtractValue(name);
+  if (!item.empty())
   {
-    int value;
-    if (Strings::ToInt(*item, value))
+    int value = 0;
+    if (Strings::ToInt(item, value))
       return value;
   }
 
@@ -148,33 +152,33 @@ int IniFile::AsInt(const std::string& name, int defaultValue) const
 
 void IniFile::SetString(const std::string& name, const std::string& value)
 {
-  mConfiguration[name] = value;
+  mPendingWrites[name] = value;
 }
 
 void IniFile::SetBool(const std::string& name, bool value)
 {
-  mConfiguration[name] = value ? "1" : "0";
+  mPendingWrites[name] = value ? "1" : "0";
 }
 
 void IniFile::SetUInt(const std::string& name, unsigned int value)
 {
-  mConfiguration[name] = Strings::ToString((long long)value);
+  mPendingWrites[name] = Strings::ToString((long long)value);
 }
 
 void IniFile::SetInt(const std::string& name, unsigned int value)
 {
-  mConfiguration[name] = Strings::ToString(value);
+  mPendingWrites[name] = Strings::ToString(value);
 }
 
 void IniFile::SetList(const std::string& name, const std::vector<std::string>& values)
 {
-  mConfiguration[name] = Strings::Join(values, ",");
+  mPendingWrites[name] = Strings::Join(values, ",");
 }
 
 bool IniFile::isInList(const std::string& name, const std::string& value) const
 {
   bool result = false;
-  if (mConfiguration.count(name) != 0u)
+  if (mConfiguration.contains(name))
   {
     std::string s = AsString(name);
     std::string delimiter = ",";
@@ -192,5 +196,12 @@ bool IniFile::isInList(const std::string& name, const std::string& value) const
       result = true;
   }
   return result;
+}
+
+std::string IniFile::ExtractValue(const std::string& key) const
+{
+  std::string* item = mPendingWrites.try_get(key);
+  if (item == nullptr) item = mConfiguration.try_get(key);
+  return (item != nullptr) ? *item : std::string();
 }
 

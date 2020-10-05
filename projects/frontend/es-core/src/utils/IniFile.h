@@ -22,6 +22,12 @@ class IniFile
      */
     explicit IniFile(const Path& confpath, const Path& fallbackpath);
 
+    //! Destructor
+    ~IniFile()
+    {
+      Save();
+    }
+
     /*!
      * @brief Save the configuration file and backup the current one
      * @return True if the operation is successful
@@ -136,8 +142,10 @@ class IniFile
     virtual void OnSave() {}
 
   private:
-    //! Configuration map: key, value
+    //! Configuration map: key, value - Read from file
     HashMap<std::string, std::string> mConfiguration;
+    //! Configuration map: key, value - Pending writes
+    HashMap<std::string, std::string> mPendingWrites;
     //! File path
     Path mFilePath;
     //! Fallback File path
@@ -150,5 +158,12 @@ class IniFile
      * @return True if a configuration file has been loaded successfully
      */
     bool Load();
+
+    /*!
+     * @brief Extract the value from the given key
+     * @param key Key
+     * @return Value or empty string if the key does not exists
+     */
+    std::string ExtractValue(const std::string& key) const;
 };
 
