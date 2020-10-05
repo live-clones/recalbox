@@ -431,7 +431,7 @@ void InputManager::FillConfiguredDevicelist(InputDeviceList& list)
 
 bool InputManager::LookupDevice(InputDeviceList& list, const std::string& guid, const std::string& name, InputDevice& output)
 {
-  for(int i = list.Count(); --i>= 0; )
+  for(int i = 0 ; i < list.Count(); ++i )
   {
     const InputDevice& device = list[i];
     if (device.IsConfigured())
@@ -447,7 +447,7 @@ bool InputManager::LookupDevice(InputDeviceList& list, const std::string& guid, 
 
 bool InputManager::LookupDevice(InputDeviceList& list, const std::string& name, InputDevice& output)
 {
-  for(int i = list.Count(); --i>= 0; )
+  for(int i = 0 ; i < list.Count(); ++i )
   {
     const InputDevice& device = list[i];
     if (device.IsConfigured())
