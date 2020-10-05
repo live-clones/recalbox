@@ -115,6 +115,8 @@ menu "Emulators"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/supermodel/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/ti99sim/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/xroar/Config.in"
+         source "$BR2_EXTERNAL_RECALBOX_PATH/package/citra-emu/Config.in"
+
 
 if BR2_PACKAGE_RETROARCH
 menu "Libretro Cores"
