@@ -22,7 +22,7 @@ class DosBoxGenerator(Generator):
            
         commandArray = [recalboxFiles.recalboxBins[system.config['emulator']], 
 			"-userconf",
-            "-fullscreen"
+            "-fullscreen",
 			"-exit", 
 			"""{}""".format(batFile),
 			"-c", """set ROOT={}""".format(gameDir),
