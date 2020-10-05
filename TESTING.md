@@ -21,6 +21,7 @@ Every case must be checked before a release.
 - [ ] Test & evaluate MelonDS on Pi4
 - [ ] Test & evaluate libretro-mupen64plus-next on odroidxu4
 - [ ] Validate libretro-mupen64plus-next compiles on all boards
+- [ ] BR2020.11 - Check hyperion still works
 
 
 ## [7.1-Reloaded]
