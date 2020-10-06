@@ -4,7 +4,7 @@ set(ES_HEADERS
         src/DemoMode.h
         src/EmulationStation.h
         src/games/FileSorts.h
-        src/ItemType.h
+        src/games/ItemType.h
         src/MameNameMapManager.h
         src/Upgrade.h
         src/systems/PlatformId.h

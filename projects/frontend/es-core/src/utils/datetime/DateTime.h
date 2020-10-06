@@ -20,25 +20,25 @@ class DateTime
 {
 private:
   //! Default timezone
-  static char _DefaultTimeZone;
+  static char sDefaultTimeZone;
 
   union
   {
     struct
     {
-      short _Millis;   //!< Milliseconds [0..999]
-      short _Year;     //!< Year    [0000..9999]
-      char  _Month;    //!< Month   [1..12]
-      char  _Day;      //!< Day     [1..31]
-      char  _Hour;     //!< Hour    [0..23]
-      char  _Minute;   //!< Minutes [0..59]
-      char  _Second;   //!< Seconds [0..59]
-      char  _TimeZone; //!< Time offset from UTC, expressed in quarter of hour
+      short mMillis;   //!< Milliseconds [0..999]
+      short mYear;     //!< Year    [0000..9999]
+      char  mMonth;    //!< Month   [1..12]
+      char  mDay;      //!< Day     [1..31]
+      char  mHour;     //!< Hour    [0..23]
+      char  mMinute;   //!< Minutes [0..59]
+      char  mSecond;   //!< Seconds [0..59]
+      char  mTimeZone; //!< Time offset from UTC, expressed in quarter of hour
     } __PACKED__;
     struct
     {
-      long long _low;  //!< low part for fast copy
-      short     _high; //!< high part for fast copy
+      long long mlow;  //!< low part for fast copy
+      short     mhigh; //!< high part for fast copy
     } __PACKED__;
   } __PACKED__;
 
@@ -73,13 +73,13 @@ private:
   long long Compact() const
   {
     DateTime utc = ToUtc();
-    long long r = (long long)(utc._Year);
-    r <<= (long long)CompactBitSize::Month;  r |= (long long)(utc._Month);
-    r <<= (long long)CompactBitSize::Day;    r |= (long long)(utc._Day);
-    r <<= (long long)CompactBitSize::Hour;   r |= (long long)(utc._Hour);
-    r <<= (long long)CompactBitSize::Minute; r |= (long long)(utc._Minute);
-    r <<= (long long)CompactBitSize::Second; r |= (long long)(utc._Second);
-    r <<= (long long)CompactBitSize::Millis; r |= (long long)(utc._Millis);
+    long long r = (long long)(utc.mYear);
+    r <<= (long long)CompactBitSize::Month;  r |= (long long)(utc.mMonth);
+    r <<= (long long)CompactBitSize::Day;    r |= (long long)(utc.mDay);
+    r <<= (long long)CompactBitSize::Hour;   r |= (long long)(utc.mHour);
+    r <<= (long long)CompactBitSize::Minute; r |= (long long)(utc.mMinute);
+    r <<= (long long)CompactBitSize::Second; r |= (long long)(utc.mSecond);
+    r <<= (long long)CompactBitSize::Millis; r |= (long long)(utc.mMillis);
     return r;
   }
 
@@ -141,7 +141,7 @@ public:
   /*!
    * Copy constructor
    */
-  DateTime(const DateTime& source) { _low = source._low; _high = source._high; }
+  DateTime(const DateTime& source) { mlow = source.mlow; mhigh = source.mhigh; }
   /*!
    * Constructor to initialize or set default datetime: 0000-01-01T00:00:00+0000
    * @param initialized True to initialize from RTC, false to set to 0000-01-01T00:00:00+0000
@@ -375,21 +375,21 @@ public:
   long long ToEpochTime() const;
 
   //! Return the Year part of the current DateTime
-  int Year() const { return _Year; }
+  int Year() const { return mYear; }
   //! Return the Month part of the current DateTime
-  int Month() const { return _Month; }
+  int Month() const { return mMonth; }
   //! Return the Day part of the current DateTime
-  int Day() const { return _Day; }
+  int Day() const { return mDay; }
   //! Return the Hour part of the current DateTime
-  int Hour() const { return _Hour; }
+  int Hour() const { return mHour; }
   //! Return the Minute part of the current DateTime
-  int Minute() const { return _Minute; }
+  int Minute() const { return mMinute; }
   //! Return the Second part of the current DateTime
-  int Second() const { return _Second; }
+  int Second() const { return mSecond; }
   //! Return the Millisecond part of the current DateTime
-  int Millisecond() const { return _Millis; }
+  int Millisecond() const { return mMillis; }
   //! Return the TimeZone part of the current DateTime in quarter of hour
-  int TimeZone() const { return _TimeZone; }
+  int TimeZone() const { return mTimeZone; }
 
   /*!
    * Return the current DateTime converted to UTC
@@ -401,8 +401,8 @@ public:
   DateTime ToUtc() const
   {
     DateTime result(*this);
-    result -= TimeSpan(_TimeZone * 15, 0, 0);
-    result._TimeZone = 0;
+    result -= TimeSpan(mTimeZone * 15, 0, 0);
+    result.mTimeZone = 0;
     return result;
   }
 
@@ -412,10 +412,10 @@ public:
    */
   DateTime ToLocal() const
   {
-    int localtz = LoadTimeZone();
+    int localtz = (unsigned char)sDefaultTimeZone;
     DateTime result(*this);
-    result += TimeSpan((localtz - _TimeZone) * 15, 0, 0);
-    result._TimeZone = (char)localtz;
+    result += TimeSpan((localtz - mTimeZone) * 15, 0, 0);
+    result.mTimeZone = (char)localtz;
     return result;
   }
 
@@ -424,32 +424,32 @@ public:
    * @param ts TimeSpan to add
    * @return The current DateTime
    */
-  DateTime& operator += (const TimeSpan& ts) { long long epochMs = (ToEpochTime() * 1000LL + _Millis) + ts.TotalMilliseconds(); FillFromEpochTime(epochMs / 1000LL); _Millis = (short)(epochMs % 1000); return *this; }
+  DateTime& operator += (const TimeSpan& ts) { long long epochMs = (ToEpochTime() * 1000LL + mMillis) + ts.TotalMilliseconds(); FillFromEpochTime(epochMs / 1000LL); mMillis = (short)(epochMs % 1000); return *this; }
   /*!
   * Substract a Timespan to the current DateTime
   * @param ts TimeSpan to substract
   * @return The current DateTime
   */
-  DateTime& operator -= (const TimeSpan& ts) { long long epochMs = (ToEpochTime() * 1000LL + _Millis) - ts.TotalMilliseconds(); FillFromEpochTime(epochMs / 1000LL); _Millis = (short)(epochMs % 1000); return *this; }
+  DateTime& operator -= (const TimeSpan& ts) { long long epochMs = (ToEpochTime() * 1000LL + mMillis) - ts.TotalMilliseconds(); FillFromEpochTime(epochMs / 1000LL); mMillis = (short)(epochMs % 1000); return *this; }
   /*!
   * Get a new DateTime representing the current DateTime plus a Timespan
   * @param ts TimeSpan to add
   * @return New DateTime
   */
-  DateTime operator + (const TimeSpan& ts) const { long long epochMs = (ToEpochTime() * 1000LL + _Millis) + ts.TotalMilliseconds(); DateTime result(epochMs / 1000LL); result._Millis = (short)(epochMs % 1000); return result; }
+  DateTime operator + (const TimeSpan& ts) const { long long epochMs = (ToEpochTime() * 1000LL + mMillis) + ts.TotalMilliseconds(); DateTime result(epochMs / 1000LL); result.mMillis = (short)(epochMs % 1000); return result; }
   /*!
   * Get a new DateTime representing the current DateTime minus a Timespan
   * @param ts TimeSpan to substract
   * @return New DateTime
   */
-  DateTime operator - (const TimeSpan& ts) const { long long epochMs = (ToEpochTime() * 1000LL + _Millis) - ts.TotalMilliseconds(); DateTime result(epochMs / 1000LL); result._Millis = (short)(epochMs % 1000); return result; }
+  DateTime operator - (const TimeSpan& ts) const { long long epochMs = (ToEpochTime() * 1000LL + mMillis) - ts.TotalMilliseconds(); DateTime result(epochMs / 1000LL); result.mMillis = (short)(epochMs % 1000); return result; }
 
   /*!
    * Substract the given DateTime to the current DateTime and return the difference as a TimeSpan
    * @param dt DateTime to substract
    * @return TimeSpan representing the signed difference
    */
-  TimeSpan operator - (const DateTime& dt) const { return TimeSpan((ToEpochTime() * 1000LL + _Millis) - (dt.ToEpochTime() * 1000LL + dt._Millis)); }
+  TimeSpan operator - (const DateTime& dt) const { return TimeSpan((ToEpochTime() * 1000LL + mMillis) - (dt.ToEpochTime() * 1000LL + dt.mMillis)); }
 
   /*!
    * Equality operator
@@ -527,13 +527,13 @@ public:
    * Return true if the current Year is a leap year
    * @return True if the Year is a leap year. False otherwise
    */
-  bool IsLeapYear() const { return ((bool)((((_Year & 3) == 0) && (_Year % 100 != 0)) || (_Year % 400 == 0))); }
+  bool IsLeapYear() const { return ((bool)((((mYear & 3) == 0) && (mYear % 100 != 0)) || (mYear % 400 == 0))); }
 
   /*!
   * Return true if the current DateTime is UTC (TimeZone = 0)
   * @return True if the current DateTime is UTC. False otherwise
   */
-  bool IsUtc() const { return _TimeZone == 0; }
+  bool IsUtc() const { return mTimeZone == 0; }
 
   /*!
    * Return the number of day in the current month.
@@ -556,24 +556,24 @@ public:
   DateTime& AddDays(int days)       { return operator +=(TimeSpan(days * 24, 0, 0, 0)); }
   DateTime& AddMonth(int month)
   {
-    month += _Month;
+    month += mMonth;
     if (month < 1)
     {
-      _Year -= (short)((--month / 12) + 1);            // Month to 0-11
-      _Month = (char)((12 + month % 12) + 1); // Month to 1-12
+      mYear -= (short)((--month / 12) + 1);            // Month to 0-11
+      mMonth = (char)((12 + month % 12) + 1); // Month to 1-12
     }
     if (month > 12)
     {
-      _Year += (short)(--month / 12);           // Month to 0-11
-      _Month = (char)((month % 12) + 1); // Month to 1-12
+      mYear += (short)(--month / 12);           // Month to 0-11
+      mMonth = (char)((month % 12) + 1); // Month to 1-12
     }
-    if (_Day > DayPerMonth(_Month, _Year)) _Day = (char)DayPerMonth(_Month, _Year);
+    if (mDay > DayPerMonth(mMonth, mYear)) mDay = (char)DayPerMonth(mMonth, mYear);
     return *this;
   }
   DateTime& AddYears(int years)
   {
-    _Year += (short)years;
-    if (_Day > DayPerMonth(_Month, _Year)) _Day = (char)DayPerMonth(_Month, _Year); // 29 february case
+    mYear += (short)years;
+    if (mDay > DayPerMonth(mMonth, mYear)) mDay = (char)DayPerMonth(mMonth, mYear); // 29 february case
     return *this;
   }
 

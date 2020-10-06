@@ -31,7 +31,7 @@ bool LoadRTCValues(short &millis, short &year, char &month, char &day, char &hou
   return true;
 }
 
-char DateTime::_DefaultTimeZone = 0;
+char DateTime::sDefaultTimeZone = LoadTimeZone();
 
 //! Day of week of the epoch day
 #define EPOCH_DAY_OF_WEEK 3
@@ -47,7 +47,7 @@ static const int MaxDayInMonth[2][13] = { { 0, 31, 28, 31, 30, 31, 30, 31, 31, 3
 
 int DateTime::DayPerMonth() const
 {
-  return MaxDayInMonth[IsLeapYear(_Year)][(int) _Month];
+  return MaxDayInMonth[IsLeapYear(mYear)][(int)(unsigned char)mMonth];
 }
 
 int DateTime::DayPerMonth(int month, int year)
@@ -87,13 +87,13 @@ int DateTime::ElapsedDayFromEpoch(int year, int month, int day)
 
 void DateTime::FillFromRtc()
 {
-  short millis;
-  short year;
-  char  month;
-  char  day;
-  char  hour;
-  char  minute;
-  char  second;
+  short millis = 0;
+  short year = 0;
+  char  month = 0;
+  char  day = 0;
+  char  hour = 0;
+  char  minute = 0;
+  char  second = 0;
 
   if (!LoadRTCValues(millis, year, month, day, hour, minute, second))
   {
@@ -101,28 +101,28 @@ void DateTime::FillFromRtc()
     return;
   }
 
-  _Year = year;
-  _Month = month;
-  _Day = day;
-  _Hour = hour;
-  _Minute = minute;
-  _Second = second;
-  _Millis = millis;
-  _TimeZone = _DefaultTimeZone;
+  mYear = year;
+  mMonth = month;
+  mDay = day;
+  mHour = hour;
+  mMinute = minute;
+  mSecond = second;
+  mMillis = millis;
+  mTimeZone = sDefaultTimeZone;
 }
 
 void DateTime::FillFromStartOfEra()
 {
-  _Year = _Millis = 0;
-  _Hour = _Minute = _Second = 0;
-  _Month = _Day = 1;
-  _TimeZone = _DefaultTimeZone;
+  mYear = mMillis = 0;
+  mHour = mMinute = mSecond = 0;
+  mMonth = mDay = 1;
+  mTimeZone = sDefaultTimeZone;
 }
 
 bool DateTime::IsZero() const
 {
-  return ((_Year | _Millis | _Hour | _Minute | _Second) == 0) &&
-    (_Month == 1) && (_Day == 1);
+  return ((mYear | mMillis | mHour | mMinute | mSecond) == 0) &&
+         (mMonth == 1) && (mDay == 1);
 }
 
 void DateTime::FillFromEpochTime(long long epochtime)
@@ -130,60 +130,60 @@ void DateTime::FillFromEpochTime(long long epochtime)
   epochtime += 24LL * 3600LL;
   long long currSec = 0;
 
-  _Year = 1970;
-  while ((currSec = (JulianDays[IsLeapYear(_Year) ? 1 : 0][12] * 24LL * 3600LL)) <= epochtime)
+  mYear = 1970;
+  while ((currSec = (JulianDays[IsLeapYear(mYear) ? 1 : 0][12] * 24LL * 3600LL)) <= epochtime)
   {
     epochtime -= currSec;
-    _Year++;
+    mYear++;
   }
 
-  _Month = 1;
-  while ((currSec = (MaxDayInMonth[IsLeapYear(_Year) ? 1 : 0][(int) _Month] * 24LL * 3600LL)) <= epochtime)
+  mMonth = 1;
+  while ((currSec = (MaxDayInMonth[IsLeapYear(mYear) ? 1 : 0][(int)(unsigned char)mMonth] * 24LL * 3600LL)) <= epochtime)
   {
     epochtime -= currSec;
-    _Month++;
+    mMonth++;
   }
 
-  _Day = (char) (epochtime / (24LL * 3600LL));
-  if (_Day == 0)
+  mDay = (char) (epochtime / (24LL * 3600LL));
+  if (mDay == 0)
   {
-    _Month -= 1;
-    if (_Month == 0) { _Year -= 1; _Month = 12; }
-    _Day = (char)MaxDayInMonth[IsLeapYear(_Year) ? 1 : 0][(int) _Month];
+    mMonth -= 1;
+    if (mMonth == 0) { mYear -= 1; mMonth = 12; }
+    mDay = (char)MaxDayInMonth[IsLeapYear(mYear) ? 1 : 0][(int)(unsigned char)mMonth];
   }
   epochtime %= 24LL * 3600LL;
-  _Hour = (char) (epochtime / 3600LL);
+  mHour = (char) (epochtime / 3600LL);
   epochtime %= 3600LL;
-  _Minute = (char) (epochtime / 60LL);
+  mMinute = (char) (epochtime / 60LL);
   epochtime %= 60LL;
-  _Second = (char) epochtime;
+  mSecond = (char) epochtime;
 
-  _Millis = 0;
-  _TimeZone = _DefaultTimeZone;
+  mMillis = 0;
+  mTimeZone = sDefaultTimeZone;
 }
 
 void DateTime::Control()
 {
   // Control date
-  if (_Year < 0) _Year = 0;
-  if (_Month <= 0) _Month = 1;
-  if (_Month > 12) _Month = 12;
-  if (_Day <= 0) _Day = 1;
-  int mdim = MaxDayInMonth[IsLeapYear(_Year)][(int) _Month];
-  if (_Day > mdim) _Day = (char)mdim;
+  if (mYear < 0) mYear = 0;
+  if (mMonth <= 0) mMonth = 1;
+  if (mMonth > 12) mMonth = 12;
+  if (mDay <= 0) mDay = 1;
+  int mdim = MaxDayInMonth[IsLeapYear(mYear)][(int) mMonth];
+  if (mDay > mdim) mDay = (char)mdim;
 
   // Time
-  if (_Hour < 0) _Hour = 0;
-  if (_Hour >= 24) _Hour %= 24;
-  if (_Minute < 0) _Minute = 0;
-  if (_Minute >= 60) _Minute %= 60;
-  if (_Second < 0) _Second = 0;
-  if (_Second >= 60) _Second %= 60;
-  if (_Millis < 0) _Millis = 0;
-  if (_Millis > 999) _Millis %= 1000;
+  if (mHour < 0) mHour = 0;
+  if (mHour >= 24) mHour %= 24;
+  if (mMinute < 0) mMinute = 0;
+  if (mMinute >= 60) mMinute %= 60;
+  if (mSecond < 0) mSecond = 0;
+  if (mSecond >= 60) mSecond %= 60;
+  if (mMillis < 0) mMillis = 0;
+  if (mMillis > 999) mMillis %= 1000;
 
   // Timezone
-  if ((_TimeZone < -25 * 4) || (_TimeZone > 25 * 4)) _TimeZone = 0;
+  if ((mTimeZone < -25 * 4) || (mTimeZone > 25 * 4)) mTimeZone = 0;
 }
 
 DateTime::DateTime()
@@ -202,62 +202,62 @@ DateTime::DateTime(bool initialized)
 DateTime::DateTime(int year, int month, int day)
 {
   FillFromStartOfEra();
-  _Year = (short)year;
-  _Month = (char)month;
-  _Day = (char)day;
+  mYear = (short)year;
+  mMonth = (char)month;
+  mDay = (char)day;
   Control();
 }
 
 DateTime::DateTime(int year, int month, int day, int hour, int minute, int second)
 {
   FillFromStartOfEra();
-  _Year = (short)year;
-  _Month = (char)month;
-  _Day = (char)day;
-  _Hour = (char)hour;
-  _Minute = (char)minute;
-  _Second = (char)second;
+  mYear = (short)year;
+  mMonth = (char)month;
+  mDay = (char)day;
+  mHour = (char)hour;
+  mMinute = (char)minute;
+  mSecond = (char)second;
   Control();
 }
 
 DateTime::DateTime(int year, int month, int day, int hour, int minute, int second, int millisecond)
 {
   FillFromStartOfEra();
-  _Year = (short)year;
-  _Month = (char)month;
-  _Day = (char)day;
-  _Hour = (char)hour;
-  _Minute = (char)minute;
-  _Second = (char)second;
-  _Millis = (short)millisecond;
+  mYear = (short)year;
+  mMonth = (char)month;
+  mDay = (char)day;
+  mHour = (char)hour;
+  mMinute = (char)minute;
+  mSecond = (char)second;
+  mMillis = (short)millisecond;
   Control();
 }
 
 DateTime::DateTime(int year, int month, int day, int hour, int minute, int second, int millisecond, int tzq)
 {
   FillFromStartOfEra();
-  _Year = (short)year;
-  _Month = (char)month;
-  _Day = (char)day;
-  _Hour = (char)hour;
-  _Minute = (char)minute;
-  _Second = (char)second;
-  _Millis = (short)millisecond;
-  _TimeZone = (char)tzq;
+  mYear = (short)year;
+  mMonth = (char)month;
+  mDay = (char)day;
+  mHour = (char)hour;
+  mMinute = (char)minute;
+  mSecond = (char)second;
+  mMillis = (short)millisecond;
+  mTimeZone = (char)tzq;
   Control();
 }
 
 DateTime::DateTime(int year, int month, int day, int hour, int minute, int second, int millisecond, int tzh, int tzm)
 {
   FillFromStartOfEra();
-  _Year = (short)year;
-  _Month = (char)month;
-  _Day = (char)day;
-  _Hour = (char)hour;
-  _Minute = (char)minute;
-  _Second = (char)second;
-  _Millis = (short)millisecond;
-  _TimeZone = (char)(tzh * 4 + tzm / 15);
+  mYear = (short)year;
+  mMonth = (char)month;
+  mDay = (char)day;
+  mHour = (char)hour;
+  mMinute = (char)minute;
+  mSecond = (char)second;
+  mMillis = (short)millisecond;
+  mTimeZone = (char)(tzh * 4 + tzm / 15);
   Control();
 }
 
@@ -319,55 +319,55 @@ std::string DateTime::ToStringFormat(const char* format) const
     {
       case 'Y':
       {
-        if (repeat == 0) result += std::to_string((int)_Year);
-        else if (repeat == 1) { result += ((char) ('0' + ((_Year / 10) % 10))); result += ((char) ('0' + (_Year % 10))); }
-        else { result += ((char) ('0' + (_Year / 1000))); result += ((char) ('0' + ((_Year / 100) % 10))); result += ((char) ('0' + ((_Year / 10) % 10))); result += ((char) ('0' + (_Year % 10))); }
+        if (repeat == 0) result += std::to_string((int)mYear);
+        else if (repeat == 1) { result += ((char) ('0' + ((mYear / 10) % 10))); result += ((char) ('0' + (mYear % 10))); }
+        else { result += ((char) ('0' + (mYear / 1000))); result += ((char) ('0' + ((mYear / 100) % 10))); result += ((char) ('0' + ((mYear / 10) % 10))); result += ((char) ('0' + (mYear % 10))); }
         break;
       }
       case 'M':
       {
-        if (repeat == 0) result += std::to_string((int)_Month);
-        else if (repeat == 1) { result += ((char) ('0' + ((_Month / 10) % 10))); result += ((char) ('0' + (_Month % 10))); }
-        else if (repeat == 2) result += (shortMonthNames[(int) _Month]);
-        else result += (longMonthNames[(int) _Month]);
+        if (repeat == 0) result += std::to_string((int)mMonth);
+        else if (repeat == 1) { result += ((char) ('0' + ((mMonth / 10) % 10))); result += ((char) ('0' + (mMonth % 10))); }
+        else if (repeat == 2) result += (shortMonthNames[(int)(unsigned char)mMonth]);
+        else result += (longMonthNames[(int)(unsigned char)mMonth]);
         break;
       }
       case 'd':
       {
-        if (repeat == 0) result += std::to_string((int)_Day);
-        else if (repeat == 1) { result += ((char) ('0' + ((_Day / 10) % 10))); result += ((char) ('0' + (_Day % 10))); }
+        if (repeat == 0) result += std::to_string((int)mDay);
+        else if (repeat == 1) { result += ((char) ('0' + ((mDay / 10) % 10))); result += ((char) ('0' + (mDay % 10))); }
         else if (repeat == 2) result += (shortDayNames[DayOfWeek()]);
         else result += (longDayNames[DayOfWeek()]);
         break;
       }
       case 'H':
       {
-        if (repeat == 0) result += std::to_string((int)_Hour);
-        else if (repeat == 1) { result += ((char) ('0' + ((_Hour / 10) % 10))); result += ((char) ('0' + (_Hour % 10))); }
+        if (repeat == 0) result += std::to_string((int)mHour);
+        else if (repeat == 1) { result += ((char) ('0' + ((mHour / 10) % 10))); result += ((char) ('0' + (mHour % 10))); }
         break;
       }
       case 'm':
       {
-        if (repeat == 0) result += std::to_string((int)_Minute);
-        else if (repeat == 1) { result += ((char) ('0' + ((_Minute / 10) % 10))); result += ((char) ('0' + (_Minute % 10))); }
+        if (repeat == 0) result += std::to_string((int)mMinute);
+        else if (repeat == 1) { result += ((char) ('0' + ((mMinute / 10) % 10))); result += ((char) ('0' + (mMinute % 10))); }
         break;
       }
       case 's':
       {
-        if (repeat == 0) result += std::to_string((int)_Second);
-        else if (repeat == 1) { result += ((char) ('0' + ((_Second / 10) % 10))); result += ((char) ('0' + (_Second % 10))); }
+        if (repeat == 0) result += std::to_string((int)mSecond);
+        else if (repeat == 1) { result += ((char) ('0' + ((mSecond / 10) % 10))); result += ((char) ('0' + (mSecond % 10))); }
         break;
       }
       case 'f':
       {
-        if (repeat == 0) result += std::to_string((int)_Millis);
-        else if (repeat == 2) { result += ((char) ('0' + ((_Millis / 100) % 10))); result += ((char) ('0' + ((_Millis / 10) % 10))); result += ((char) ('0' + (_Millis % 10))); }
+        if (repeat == 0) result += std::to_string((int)mMillis);
+        else if (repeat == 2) { result += ((char) ('0' + ((mMillis / 100) % 10))); result += ((char) ('0' + ((mMillis / 10) % 10))); result += ((char) ('0' + (mMillis % 10))); }
         break;
       }
       case 'z':
       {
-        int timeZone = _TimeZone; if (timeZone < 0) timeZone = -timeZone;
-        result += (_TimeZone < 0 ? '-' : '+');
+        int timeZone = (unsigned char)mTimeZone; if (timeZone < 0) timeZone = -timeZone;
+        result += (mTimeZone < 0 ? '-' : '+');
         if (repeat == 0) result += std::to_string(timeZone);
         else if (repeat == 1) { result += ((char) ('0' + ((timeZone / 40) % 10))); result += ((char) ('0' + ((timeZone >> 2) % 10))); }
         else
@@ -562,26 +562,26 @@ bool DateTime::ParseFromString(const char* format, const std::string& str, DateT
 
   if (ok)
   {
-    destination._Year = (short)year;
-    destination._Month = (char)month;
-    destination._Day = (char)day;
-    destination._Hour = (char)hour;
-    destination._Minute = (char)minute;
-    destination._Second = (char)second;
-    destination._Millis = (short)millisecond;
-    destination._TimeZone = (char)tz;
+    destination.mYear = (short)year;
+    destination.mMonth = (char)month;
+    destination.mDay = (char)day;
+    destination.mHour = (char)hour;
+    destination.mMinute = (char)minute;
+    destination.mSecond = (char)second;
+    destination.mMillis = (short)millisecond;
+    destination.mTimeZone = (char)tz;
     destination.Control();
   }
   else
   {
-    destination._Year = 1970;
-    destination._Month = 1;
-    destination._Day = 1;
-    destination._Hour = 0;
-    destination._Minute = 0;
-    destination._Second = 0;
-    destination._Millis = 0;
-    destination._TimeZone = 0;
+    destination.mYear = 1970;
+    destination.mMonth = 1;
+    destination.mDay = 1;
+    destination.mHour = 0;
+    destination.mMinute = 0;
+    destination.mSecond = 0;
+    destination.mMillis = 0;
+    destination.mTimeZone = 0;
   }
   return ok;
 }
@@ -591,7 +591,7 @@ long long DateTime::ToEpochTime() const
   // Static reference
   static int Reference = ElapsedDayFromEpoch(1970, 1, 1);
   // Get days from epoch
-  int days = ElapsedDayFromEpoch(_Year, _Month, _Day) - Reference;
+  int days = ElapsedDayFromEpoch(mYear, mMonth, mDay) - Reference;
   // Convert to seconds
-  return ((long long) SECONDS_PER_DAY * (long long) days) + (long long) _Hour * 3600LL + (long long) _Minute * 60LL + (long long) _Second;
+  return ((long long) SECONDS_PER_DAY * (long long) days) + (long long) mHour * 3600LL + (long long) mMinute * 60LL + (long long) mSecond;
 }
