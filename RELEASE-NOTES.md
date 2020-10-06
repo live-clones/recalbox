@@ -3,11 +3,21 @@
 ## Version 7.0.1
 
 ### News
+- Add Sigil in PORTS (https://www.romerogames.ie/si6il)
 
 ### Improvements
 - SNES default emulators pi0/1: pisnes, pi2/3: snes9x2010 & snes9x elsewhere
 
 ### Fixes
+- Fix Netflix plugin authentication (bump to v1.10.0) 
+- Fix RPI4 blackscreen issues while booting
+- Fix doom.wad required for WADs games (prboom core)
+- Fix Mupen64 L1/R1 mapping
+- Fix DosBOX not returning back to emulationstation
+- Fix pads in reversed order by default
+- Fix recalbox.conf modifications getting lost
+- Fix missing media being not updated using internal scrapper
+
 
 ## Version 7.0
 

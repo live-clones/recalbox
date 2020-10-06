@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 - Change snes default emulators: rpi0/1 - pisnes, rpi2/3 - snes9x2010 & snes9x otherwise
 - Add options to RPI4 config.txt to fix black screen issues
 - Bump kodi netflix plugin to 1.10.0
+- Fix doom.wad required for WADs games (prboom core)
+- Fix Mupen64 L1/R1
+- Fix DosBOX not exiting
+- Fix pads in reversed order
+- Fix recalbox.conf bein always overwritten by emulationstation
+- Fix missing media being not updated using internal scrapper
 
 ## [7.0]
 - Update tft-waveshare overlays (support of 3.5 rev B and rev C tft screen)
