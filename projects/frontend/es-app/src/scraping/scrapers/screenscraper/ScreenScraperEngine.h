@@ -100,7 +100,7 @@ class ScreenScraperEngine
          * @param format MEdia format (file extension)
          * @return Scrape result
          */
-        ScrapeResult DownloadMedia(const std::string& gameName, ScrappingMethod method, FileData& game,
+        ScrapeResult DownloadMedia(const std::string& gameName, FileData& game,
                                    const Path& mediaFolder, const std::string& media, const std::string& format,
                                    SetPathMethodType pathSetter);
 
