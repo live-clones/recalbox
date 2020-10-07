@@ -18,6 +18,9 @@
 - Fix recalbox.conf modifications getting lost
 - Fix missing media being not updated using internal scrapper
 - Fix outdated bios list in webmanager
+- Fix zfast and crt-pi shaders' path
+- Fix "Last Played" metadata & display in gamelist
+- Fix missing psx bios md5
 
 
 ## Version 7.0
