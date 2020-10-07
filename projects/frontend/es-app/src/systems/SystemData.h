@@ -27,6 +27,7 @@ class SystemData : private INoCopy
       Virtual    =  4, //!< This system is not a real system
       FixedSort  =  8, //!< This system has its own fixed sort
       AlwaysFlat = 16, //!< This system is presented always flat
+      Searchable = 32, //!< We can search games in this system
     };
 
 	private:
@@ -172,6 +173,9 @@ class SystemData : private INoCopy
 
     //! Is this system always flat?
     bool IsAlwaysFlat() const;
+
+    //! Is this system always flat?
+    bool IsSearchable() const;
 
     FileSorts::Sorts FixedSort() const { return mFixedSort; }
 

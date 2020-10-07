@@ -625,6 +625,11 @@ bool SystemData::IsAlwaysFlat() const
   return (mProperties & Properties::AlwaysFlat) != 0;
 }
 
+bool SystemData::IsSearchable() const
+{
+  return (mProperties & Properties::Searchable) != 0;
+}
+
 void SystemData::BuildDoppelgangerMap(FileData::StringMap& doppelganger, bool includefolder) const
 {
   mRootFolder.BuildDoppelgangerMap(doppelganger, includefolder);

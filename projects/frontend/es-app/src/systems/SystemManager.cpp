@@ -4,6 +4,7 @@
 
 #include "SystemManager.h"
 #include "SystemDescriptor.h"
+#include "SystemDeserializer.h"
 #include <utils/Log.h>
 #include <Settings.h>
 #include <RecalboxConf.h>
@@ -20,7 +21,7 @@ SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDes
   Path realPath = defaultRomsPath.IsEmpty() ? systemDescriptor.RomPath() : systemDescriptor.RomPath().ToAbsolute(defaultRomsPath);
 
   // Create system
-  SystemData* result = new SystemData(*this, systemDescriptor, RootFolderData::Ownership::All, SystemData::Properties::None);
+  SystemData* result = new SystemData(*this, systemDescriptor, RootFolderData::Ownership::All, SystemData::Properties::Searchable);
 
   // Avoid files being added more than once even through symlinks
   {
@@ -205,7 +206,9 @@ bool SystemManager::AddArcadeMetaSystem()
         }
 
       // Create meta-system
-      SystemData* arcade = CreateMetaSystem("arcade", "Arcade", "arcade", arcades, SystemData::Properties::Virtual, doppelganger);
+      SystemData::Properties properties = SystemData::Properties::Virtual;
+      if (hideOriginals) properties |= SystemData::Properties::Searchable;
+      SystemData* arcade = CreateMetaSystem("arcade", "Arcade", "arcade", arcades, properties, doppelganger);
       LOG(LogInfo) << "creating Arcade meta-system";
       int position = RecalboxConf::Instance().AsInt("emulationstation.arcade.position", 0) % (int)mVisibleSystemVector.size();
       auto it = position >= 0 ? mVisibleSystemVector.begin() + position : mVisibleSystemVector.end() + (position + 1);
@@ -245,7 +248,7 @@ bool SystemManager::AddPorts()
     }
 
     // Create meta-system
-    SystemData* portSystem = CreateMetaSystem("ports", "Ports", "ports", ports, SystemData::Properties::Virtual, doppelganger);
+    SystemData* portSystem = CreateMetaSystem("ports", "Ports", "ports", ports, SystemData::Properties::Virtual | SystemData::Properties::Searchable, doppelganger);
     LOG(LogInfo) << "creating Ports";
     // Seek defaulot position
     int position = 0;
@@ -622,7 +625,7 @@ FileData::List SystemManager::searchTextInGames(FolderData::FastSearchContext co
   FolderData::ResultList searchResults;
   searchResults.reserve(5000);
   for(auto *system : mVisibleSystemVector)
-    if (!system->IsVirtual())
+    if (system->IsSearchable())
     {
       int maximumResultPerSystem = maxpersystem;
       system->getRootFolder().FastSearch(context, lowercaseText, searchResults, maximumResultPerSystem);

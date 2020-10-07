@@ -3,7 +3,6 @@
 #include "SystemData.h"
 #include "SystemDescriptor.h"
 #include "EmulatorManager.h"
-#include "SystemDeserializer.h"
 #include <utils/os/system/IThreadPoolWorkerInterface.h>
 #include <RootFolders.h>
 #include <utils/cplusplus/INoCopy.h>
