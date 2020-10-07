@@ -9,12 +9,13 @@ All notable changes to this project will be documented in this file.
 - Fix Mupen64 L1/R1
 - Fix DosBOX not exiting
 - Fix pads in reversed order
-- Fix recalbox.conf bein always overwritten by emulationstation
+- Fix recalbox.conf being always overwritten by emulationstation
 - Fix missing media being not updated using internal scrapper
 - Fix outdated bios list in webmanager
 - Fix zfast and crt-pi shaders
 - Fix lastplayed metadata
 - Fix missing psx bios md5
+- Fix hdmi-cec not working on rpi4
 
 ## [7.0]
 - Update tft-waveshare overlays (support of 3.5 rev B and rev C tft screen)

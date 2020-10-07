@@ -21,6 +21,7 @@
 - Fix zfast and crt-pi shaders' path
 - Fix "Last Played" metadata & display in gamelist
 - Fix missing psx bios md5
+- Fix hdmi-cec not working on rpi4
 
 
 ## Version 7.0
