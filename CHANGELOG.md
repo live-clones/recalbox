@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
 - Fix pads in reversed order
 - Fix recalbox.conf bein always overwritten by emulationstation
 - Fix missing media being not updated using internal scrapper
+- Fix outdated bios list in webmanager
 
 ## [7.0]
 - Update tft-waveshare overlays (support of 3.5 rev B and rev C tft screen)

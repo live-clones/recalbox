@@ -17,6 +17,7 @@
 - Fix pads in reversed order by default
 - Fix recalbox.conf modifications getting lost
 - Fix missing media being not updated using internal scrapper
+- Fix outdated bios list in webmanager
 
 
 ## Version 7.0
