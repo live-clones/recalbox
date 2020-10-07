@@ -404,6 +404,9 @@ FileData* SystemData::LookupOrCreateGame(const Path& root, const Path& path, Ite
           doppelgangerWatcher[key] = game;
           treeNode->addChild(game, true);
         }
+        // Virtual systems use the doppleganger map in a reverse way:
+        // Game to insert are already in the map
+        // and are added as parent-less game in the virtual system
         else if (game != nullptr && isVirtual)
         {
           // Add existing game & remove from doppleganger
@@ -643,7 +646,12 @@ void SystemData::UpdateLastPlayedGame(FileData& updated)
   // Build the doppelganger map
   FileData::StringMap map;
   BuildDoppelgangerMap(map, false);
+  // If the game is already here, exit
+  if (map.contains(updated.getPath().ToString())) return;
 
-  // Add or not the updated game
+  // Prepare a one game map
+  map.clear();
+  map[updated.getPath().ToString()] = &updated;
+  // Add the virtual game
   LookupOrCreateGame(updated.getSystem()->getRootFolder().getPath(), updated.getPath(), ItemType::Game, map);
 }
