@@ -23,6 +23,8 @@
 - Fix missing psx bios md5
 - Fix hdmi-cec not working on rpi4
 - Fix PS4 pad pairing issue
+- Fix duplicated entries in "Last Played"
+- Fix Ports & aAcade virtual system not searchable
 
 
 ## Version 7.0
