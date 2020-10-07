@@ -217,7 +217,7 @@
     <bios path="scph5502.bin" md5="32736f17079d0b2b7024407c39bd3050" core="mednafen_psx,mednafen_psx_hw,duckstation" />  
     <bios path="scph101.bin"  md5="6E3735FF4C7DC899EE98981385F6F3D0" core="pcsx_rearmed" note="Recommended for better compatibility." />  
     <bios path="scph7001.bin" md5="1e68c231d0896b7eadcad1d7d8e76129" core="pcsx_rearmed" note="Recommended for better compatibility." />  
-    <bios path="scph1001.bin" md5="dc2b9bf8da62ec93e868cfd29f0d067d" core="pcsx_rearmed" note="Recommended for better compatibility." />  
+    <bios path="scph1001.bin" md5="dc2b9bf8da62ec93e868cfd29f0d067d,924e392ed05558ffdb115408c263dccf" core="pcsx_rearmed" note="Recommended for better compatibility." />  
   </system>
   <system fullname="Fairchild Channel-F" platform="channelf">
     <bios path="sl31254.bin" md5="da98f4bb3242ab80d76629021bb27585" core="freechaf" />  
