@@ -1,5 +1,5 @@
 shaders = "1"
-shader0 = "shaders_glsl/zfast/zfast_lcd_standard.glsl"
+shader0 = "lr/zfast/zfast_lcd_standard.glsl"
 filter_linear0 = "true"
 wrap_mode0 = "clamp_to_border"
 mipmap_input0 = "false"

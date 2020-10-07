@@ -1,5 +1,5 @@
 shaders = "1"
-shader0 = "shaders_glsl/crt-pi/crt-pi-barrel.glsl"
+shader0 = "lr/crt-pi/crt-pi-barrel.glsl"
 filter_linear0 = "false"
 wrap_mode0 = "clamp_to_border"
 mipmap_input0 = "false"
