@@ -16,6 +16,7 @@ All notable changes to this project will be documented in this file.
 - Fix lastplayed metadata
 - Fix missing psx bios md5
 - Fix hdmi-cec not working on rpi4
+- Fix PS4 pad pairing issue
 
 ## [7.0]
 - Update tft-waveshare overlays (support of 3.5 rev B and rev C tft screen)

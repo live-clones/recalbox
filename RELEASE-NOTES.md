@@ -22,6 +22,7 @@
 - Fix "Last Played" metadata & display in gamelist
 - Fix missing psx bios md5
 - Fix hdmi-cec not working on rpi4
+- Fix PS4 pad pairing issue
 
 
 ## Version 7.0

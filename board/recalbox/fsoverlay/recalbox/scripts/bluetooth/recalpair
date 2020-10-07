@@ -38,15 +38,6 @@ expect {
   set timeout 10
   expect "Controller"
 
-  # DS4 patch
-  if { $name == "Wireless Controller" } {
-    eval exec "recallog \"DS4 controller - connecting...\""
-    send "connect $address\r"
-    expect "Connection successful"
-    expect $prompt
-    eval exec "recallog \"Connected!\""
-  }
-
   eval exec "recallog \"Pairing...\""
   send "pair $address\r"
   expect {
