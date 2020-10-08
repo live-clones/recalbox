@@ -459,7 +459,11 @@ bool SystemManager::LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool
 
   // Add gamelist watching
   for(SystemData* system : mAllSystemVector)
-    gamelistWatcher.WatchFile(system->getGamelistPath(false));
+  {
+    Path gamelistPath = system->getGamelistPath(false);
+    if (gamelistPath.Exists())
+      gamelistWatcher.WatchFile(gamelistPath);
+  }
 
   return true;
 }
