@@ -131,7 +131,8 @@ HashMap<int, std::string> AlsaController::GetPlaybackList() const
   for(const AlsaCard& playback : mPlaybacks)
   {
     int cardIndex = playback.Identifier() << 16 | 0xFFFF;
-    result[cardIndex] = playback.Name() + " (default output)";
+    if (!playback.Name().empty())
+      result[cardIndex] = playback.Name() + " (default output)";
     for(int i = playback.DeviceCount(); --i >= 0; )
     {
       int cardDeviceIndex = (playback.Identifier() << 16) | playback.DeviceAt(i).Identifier();
