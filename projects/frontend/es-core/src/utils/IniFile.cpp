@@ -24,7 +24,7 @@ IniFile::IniFile(const Path& path)
 
 bool IniFile::IsValidKeyValue(const std::string& line, std::string& key, std::string& value)
 {
-  static std::string _allowedCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-";
+  static std::string _allowedCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-,;:/!?*+=<>()@\"'#&{}[]%$";
   if (!line.empty()) // Ignore empty line
   {
     bool comment = (line[0] == ';' || line[0] == '#');
