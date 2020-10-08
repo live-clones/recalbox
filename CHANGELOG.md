@@ -26,6 +26,7 @@ All notable changes to this project will be documented in this file.
 - Fix information popup positions
 - Fix ignored values in recalbox.conf
 - Add kubo 3 for NES (dale_coop)
+- Bump linux-firmware to 20200918
 
 ## [7.0]
 - Update tft-waveshare overlays (support of 3.5 rev B and rev C tft screen)

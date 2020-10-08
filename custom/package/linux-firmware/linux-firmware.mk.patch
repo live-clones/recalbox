@@ -1,5 +1,5 @@
 diff --git a/package/linux-firmware/linux-firmware.mk b/package/linux-firmware/linux-firmware.mk
-index 9d86ce57b2..cbad8d592a 100644
+index 9d86ce57b2..8dff2536b4 100644
 --- a/package/linux-firmware/linux-firmware.mk
 +++ b/package/linux-firmware/linux-firmware.mk
 @@ -4,7 +4,7 @@
@@ -7,7 +7,7 @@ index 9d86ce57b2..cbad8d592a 100644
  ################################################################################
  
 -LINUX_FIRMWARE_VERSION = 20190717
-+LINUX_FIRMWARE_VERSION = 20200122
++LINUX_FIRMWARE_VERSION = 20200918
  LINUX_FIRMWARE_SITE = http://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git
  LINUX_FIRMWARE_SITE_METHOD = git
  
@@ -107,7 +107,7 @@ index 9d86ce57b2..cbad8d592a 100644
  	ti-connectivity/wl127x-nvs.bin \
  	ti-connectivity/wl128x-fw-4-mr.bin \
  	ti-connectivity/wl128x-fw-4-plt.bin \
-@@ -363,18 +356,21 @@ endif
+@@ -363,18 +356,26 @@ endif
  
  # wl18xx
  ifeq ($(BR2_PACKAGE_LINUX_FIRMWARE_TI_WL18XX),y)
@@ -128,10 +128,15 @@ index 9d86ce57b2..cbad8d592a 100644
 +LINUX_FIRMWARE_ALL_LICENSE_FILES += LICENSE.QualcommAtheros_ath10k
 +endif
 +
++ifeq ($(BR2_PACKAGE_LINUX_FIRMWARE_IWLWIFI_22260),y)
++LINUX_FIRMWARE_FILES += iwlwifi-cc-a0-*.ucode
++LINUX_FIRMWARE_ALL_LICENSE_FILES += LICENCE.iwlwifi_firmware
++endif
++
  ifeq ($(BR2_PACKAGE_LINUX_FIRMWARE_IWLWIFI_3160),y)
  LINUX_FIRMWARE_FILES += iwlwifi-3160-*.ucode
  LINUX_FIRMWARE_ALL_LICENSE_FILES += LICENCE.iwlwifi_firmware
-@@ -455,6 +451,11 @@ LINUX_FIRMWARE_FILES += e100/*.bin
+@@ -455,6 +456,11 @@ LINUX_FIRMWARE_FILES += e100/*.bin
  LINUX_FIRMWARE_ALL_LICENSE_FILES += LICENCE.e100
  endif
  
@@ -143,7 +148,7 @@ index 9d86ce57b2..cbad8d592a 100644
  ifeq ($(BR2_PACKAGE_LINUX_FIRMWARE_QLOGIC_4X),y)
  LINUX_FIRMWARE_FILES += \
  	qed/qed_init_values_zipped-*.bin
-@@ -467,6 +468,9 @@ LINUX_FIRMWARE_FILES += \
+@@ -467,6 +473,9 @@ LINUX_FIRMWARE_FILES += \
  	rtl_nic/rtl8105e-1.fw \
  	rtl_nic/rtl8106e-1.fw \
  	rtl_nic/rtl8106e-2.fw \
@@ -153,7 +158,7 @@ index 9d86ce57b2..cbad8d592a 100644
  	rtl_nic/rtl8168d-1.fw \
  	rtl_nic/rtl8168d-2.fw \
  	rtl_nic/rtl8168e-1.fw \
-@@ -474,6 +478,7 @@ LINUX_FIRMWARE_FILES += \
+@@ -474,6 +483,7 @@ LINUX_FIRMWARE_FILES += \
  	rtl_nic/rtl8168e-3.fw \
  	rtl_nic/rtl8168f-1.fw \
  	rtl_nic/rtl8168f-2.fw \
@@ -161,7 +166,7 @@ index 9d86ce57b2..cbad8d592a 100644
  	rtl_nic/rtl8168g-2.fw \
  	rtl_nic/rtl8168g-3.fw \
  	rtl_nic/rtl8168h-1.fw \
-@@ -559,8 +564,7 @@ LINUX_FIRMWARE_FILES += \
+@@ -559,8 +569,7 @@ LINUX_FIRMWARE_FILES += \
  endif
  
  ifeq ($(BR2_PACKAGE_LINUX_FIRMWARE_QAT_DH895XCC),y)
@@ -171,7 +176,7 @@ index 9d86ce57b2..cbad8d592a 100644
  LINUX_FIRMWARE_ALL_LICENSE_FILES += LICENCE.qat_firmware
  endif
  
-@@ -611,10 +615,33 @@ LINUX_FIRMWARE_LICENSE_FILES = $(sort $(LINUX_FIRMWARE_ALL_LICENSE_FILES))
+@@ -611,10 +620,33 @@ LINUX_FIRMWARE_LICENSE_FILES = $(sort $(LINUX_FIRMWARE_ALL_LICENSE_FILES))
  
  endif
  
