@@ -22,6 +22,9 @@ All notable changes to this project will be documented in this file.
 - Fix empty card names in audio output device list
 - Fix no sound through jack on RPi1/2/3
 - Bump fbneo
+- Fix false error logs
+- Fix information popup positions
+- Fix ignored values in recalbox.conf
 
 ## [7.0]
 - Update tft-waveshare overlays (support of 3.5 rev B and rev C tft screen)

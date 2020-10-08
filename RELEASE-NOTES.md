@@ -28,6 +28,7 @@
 - Fix Ports & aAcade virtual system not searchable
 - Fix empty card names in audio output device list
 - Fix no sound through jack on RPi1/2/3
+- Fix information popup positions
 
 
 ## Version 7.0
