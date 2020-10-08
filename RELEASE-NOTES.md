@@ -7,6 +7,7 @@
 
 ### Improvements
 - SNES default emulators pi0/1: pisnes, pi2/3: snes9x2010 & snes9x elsewhere
+- Bump FBNeo - Emulation improvements + fix neogeo-CD audio artifects
 
 ### Fixes
 - Fix Netflix plugin authentication (bump to v1.10.0) 
