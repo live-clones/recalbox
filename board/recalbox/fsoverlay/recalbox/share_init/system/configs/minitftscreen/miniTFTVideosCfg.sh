@@ -28,9 +28,9 @@ case "${TFTESSystem}" in
     nes)            LogoFile='NES/VideoSnaps/logo.mp4' && Loop=-1  ;;
     #n64)            LogoFile='N64/VideoSnaps/logo.mp4' && Loop=-1  ;;
     n64)            LogoFile='RBvideos/introRecalboxN64.mp4' && Loop=-1  ;;
-    gba)            LogoFile='GBA/VideoSnaps/logo.mp4' && Loop=-1  ;;
-    gb)             LogoFile='GBx/VideoSnaps/logo.mp4' && Loop=-1  ;;
-    gbc)            LogoFile='GBx/VideoSnaps/logo.mp4' && Loop=-1  ;;
+    gba)            LogoFile='RBvideos/introRecalboxGBA.mp4' && Loop=-1  ;;
+    gb)             LogoFile='RBvideos/introRecalboxGB.mp4' && Loop=-1  ;;
+    gbc)            LogoFile='RBvideos/introRecalboxGBA.mp4' && Loop=-1  ;;
     fds)            LogoFile='FDS/VideoSnaps/logo.mp4' && Loop=-1  ;;
     virtualboy)     LogoFile='VB/VideoSnaps/logo.mp4' && Loop=-1  ;;
     gamecube)       LogoFile='GC/VideoSnaps/logo.mp4' && Loop=-1  ;;
