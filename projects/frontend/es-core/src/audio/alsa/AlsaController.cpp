@@ -7,6 +7,8 @@
 #include <utils/cplusplus/StaticLifeCycleControler.h>
 #include <utils/math/Misc.h>
 #include "AlsaController.h"
+#include <audio/alsa/Raspberry.h>
+#include <platform.h>
 
 void AlsaController::Initialize()
 {
@@ -259,6 +261,25 @@ void AlsaController::SetDefaultPlayback(int identifier)
     mPlaybacks[cardIndex].SwitchOn();
     // Final lof
     LOG(LogInfo) << "ALSA output set to Card #" << cardIdentifier << " (index: " << cardIndex << ") Device #" << deviceIdentifier << " 'index: " << deviceIndex << ')';
+
+    // Raspberry Pi hack
+    switch(getRaspberryVersion())
+    {
+      case RaspberryGeneration::Pi1:
+      case RaspberryGeneration::Pi2:
+      case RaspberryGeneration::Pi3:
+      case RaspberryGeneration::Pi3plus:
+      {
+        Raspberry hack;
+        hack.SetRoute(deviceIndex == 0 ? Raspberry::Output::Headphones : Raspberry::Output::HDMI);
+      }
+      case RaspberryGeneration::UndetectedYet:
+      case RaspberryGeneration::NotRaspberry:
+      case RaspberryGeneration::Pi0:
+      case RaspberryGeneration::Pi4:
+      case RaspberryGeneration::NotYetKnown:
+      default: break;
+    }
   }
   else
   {
