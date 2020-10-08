@@ -4,6 +4,7 @@
 
 ### News
 - Add Sigil in PORTS (https://www.romerogames.ie/si6il)
+- Add Kubo 3 on NES (dale_coop & seiji)
 
 ### Improvements
 - SNES default emulators pi0/1: pisnes, pi2/3: snes9x2010 & snes9x elsewhere
