@@ -19,6 +19,8 @@ All notable changes to this project will be documented in this file.
 - Fix PS4 pad pairing issue
 - Fix duplicated entries in lastplayed
 - Fix port & arcade virtual system not searchable
+- Fix empty card names in audio output device list
+- Fix no sound through jack on RPi1/2/3
 
 ## [7.0]
 - Update tft-waveshare overlays (support of 3.5 rev B and rev C tft screen)
