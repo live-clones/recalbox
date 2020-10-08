@@ -37,7 +37,7 @@ public:
 		return [this, label, help] () {
 			int dur = Settings::Instance().HelpPopupTime();
 			if (dur != 0)
-				mWindow.AddInfoPopup(new GuiInfoPopup(mWindow, label + "\n" + help, dur, GuiInfoPopup::PopupType::Help));
+        mWindow.InfoPopupAdd(new GuiInfoPopup(mWindow, label + "\n" + help, dur, GuiInfoPopup::PopupType::Help));
 			return true;
 		};
 	}

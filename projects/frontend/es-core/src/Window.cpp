@@ -373,36 +373,33 @@ void Window::InfoPopupsShrink()
     InfoPopupsRemove(0);
 }
 
-void Window::AddInfoPopup(GuiInfoPopup* infoPopup)
+void Window::InfoPopupRetarget()
 {
-  // Get target position
+  int gap = (int)(Renderer::getDisplayHeightAsFloat() * 0.01f);
+  if (gap < 2) gap = 2;
   int targetOffset = 0;
-  int offset = (int)(Renderer::getDisplayHeightAsFloat() * 0.01f);
-  if (offset < 2) offset = 2;
-  for(int i = mInfoPopups.Count(); --i >= 0;)
-    targetOffset += (int)mInfoPopups[i]->getSize().y() + offset;
-  infoPopup->SetOffset(targetOffset);
+  for(int i = 0; i < mInfoPopups.Count(); i++)
+  {
+    mInfoPopups[i]->SetOffset(targetOffset);
+    targetOffset += (int)mInfoPopups[i]->getSize().y() + gap;
+  }
+}
 
+void Window::InfoPopupAdd(GuiInfoPopup* infoPopup)
+{
   mInfoPopups.Add(infoPopup);
-
   InfoPopupsShrink();
+  InfoPopupRetarget();
 }
 
 void Window::InfoPopupsRemove(int index)
 {
   GuiInfoPopup* popup = mInfoPopups[index];
-
-  // Get current popup size
-  int size = (int)(Renderer::getDisplayHeightAsFloat() * 0.01f);
-  if (size < 2) size = 2;
-  size += (int)popup->getSize().y();
-
   mInfoPopups.Delete(index); // Delete pointer
   delete popup; // Delete object
 
   // Move other popups
-  for(int i = mInfoPopups.Count(); --i >= index;)
-    mInfoPopups[i]->SlideOffset(size);
+  InfoPopupRetarget();
 }
 
 void Window::InfoPopupsUpdate(int delta)

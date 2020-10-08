@@ -46,7 +46,7 @@ class GuiInfoPopup : public Gui
     void SetOffset(int offset) { mTargetOffset = offset; }
 
     /*!
-     * @brief Slide target offset from the givent amount of pixels
+     * @brief Slide target offset from the given amount of pixels
      * @param offset
      */
     void SlideOffset(int size);

@@ -88,7 +88,7 @@ void Upgrade::ReceiveSyncCallback(const SDL_Event& event)
   (void)event;
 
   // Volatile popup
-  mWindow.AddInfoPopup(new GuiInfoPopup(mWindow, mPopupMessage, 60, GuiInfoPopup::PopupType::Recalbox));
+  mWindow.InfoPopupAdd(new GuiInfoPopup(mWindow, mPopupMessage, 60, GuiInfoPopup::PopupType::Recalbox));
 
   // Messagebox
   if (!mMessageBoxMessage.empty())

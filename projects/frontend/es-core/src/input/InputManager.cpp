@@ -157,7 +157,7 @@ void InputManager::LoadAllJoysticksConfiguration(std::vector<InputDevice> previo
         current.erase(current.begin() + index);
 
         GuiInfoPopup* popup = new GuiInfoPopup(window, text, 10, GuiInfoPopup::PopupType::Pads);
-        window.AddInfoPopup(popup);
+        window.InfoPopupAdd(popup);
       }
     }
     else
@@ -176,7 +176,7 @@ void InputManager::LoadAllJoysticksConfiguration(std::vector<InputDevice> previo
         previous.erase(previous.begin() + index);
 
         GuiInfoPopup* popup = new GuiInfoPopup(window, text, 10, GuiInfoPopup::PopupType::Pads);
-        window.AddInfoPopup(popup);
+        window.InfoPopupAdd(popup);
       }
     }
   }

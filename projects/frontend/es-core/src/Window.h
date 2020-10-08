@@ -61,7 +61,7 @@ class Window
      * @brief Add new popup to dysplay list
      * @param infoPopup Popup to add to displayu list
      */
-    void AddInfoPopup(GuiInfoPopup* infoPopup);
+    void InfoPopupAdd(GuiInfoPopup* infoPopup);
 
     /*!
      * @brief Close all gui
@@ -153,4 +153,10 @@ class Window
      * @brief Display info popups
      */
     void InfoPopupsDisplay(Transform4x4f& transform);
+
+    /*!
+     * @brief Set all popup target position
+     */
+    void InfoPopupRetarget();
+
 };
