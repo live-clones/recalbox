@@ -428,21 +428,24 @@ bool SystemManager::LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool
     mProgressInterface->SetMaximum(count);
   threadPool.Run(-2, false);
   // Push result
+  LOG(LogInfo) << "Store visible systems";
   mVisibleSystemVector.resize(count, nullptr);
   int index = 0;
   for(SystemData* result = nullptr; threadPool.PopResult(result, index); )
     mVisibleSystemVector[index] = result;
 
   // Shrink & update weights
-  for(int i = count; --i >= 0; )
-  {
-    SystemData* system = mVisibleSystemVector[i];
-    if (system == nullptr)
-      mVisibleSystemVector.erase(mVisibleSystemVector.begin() + i);
-    else
-      weights.SetInt(system->getStartPath().ToString(), system->getRootFolder().countAll(true,
-                                                                                         system->IncludeAdultGames()));
-  }
+  LOG(LogInfo) << "Update weights";
+  std::vector<SystemData*> visibleSystem;
+  for(SystemData* system : mVisibleSystemVector)
+    if (system != nullptr)
+    {
+      visibleSystem.push_back(system);
+      weights.SetInt(system->getStartPath().ToString(),
+                     system->getRootFolder().countAll(true, system->IncludeAdultGames()));
+    }
+  mVisibleSystemVector = visibleSystem;
+  LOG(LogInfo) << "Final non-virtual visible systems: " << mVisibleSystemVector.size();
   weights.Save();
 
   DateTime stop;
