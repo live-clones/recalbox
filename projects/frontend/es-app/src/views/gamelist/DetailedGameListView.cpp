@@ -422,12 +422,12 @@ void DetailedGameListView::setFolderInfo(FolderData* folder)
 void DetailedGameListView::setGameInfo(FileData* file)
 {
   mRating.setValue(file->Metadata().RatingAsString());
-  mReleaseDate.setValue(file->Metadata().ReleaseDateAsString());
+  mReleaseDate.setValue(file->Metadata().ReleaseDate());
   mDeveloper.setValue(file->Metadata().Developer());
   mPublisher.setValue(file->Metadata().Publisher());
   mGenre.setValue(file->Metadata().Genre());
   mPlayers.setValue(file->Metadata().PlayersAsString());
-  mLastPlayed.setValue(file->Metadata().LastPlayedAsString());
+  mLastPlayed.setValue(file->Metadata().LastPlayed());
   mPlayCount.setValue(file->Metadata().PlayCountAsString());
   mFavorite.setValue(file->Metadata().FavoriteAsString());
 

@@ -24,6 +24,7 @@ public:
   }
 
 	void setValue(const std::string& val) override;
+	void setValue(DateTime dt);
 	std::string getValue() const override;
 
 	bool ProcessInput(const InputCompactEvent& event) override;

@@ -157,6 +157,12 @@ void DateTimeComponent::setValue(const std::string& val)
   }
 }
 
+void DateTimeComponent::setValue(DateTime dt)
+{
+    mTime = dt;
+    updateTextCache();
+}
+
 std::string DateTimeComponent::getValue() const
 {
 	return mTime.ToCompactISO8601();
@@ -188,17 +194,15 @@ std::string DateTimeComponent::getDisplayString(Display mode) const
     case Display::RealTime: return DateTime().ToStringFormat("%HH:%mm:%ss");
     case Display::RelativeToNow:
 		{
-			if(mTime.Year() == 0) return _("never");
-
-			TimeSpan diff = DateTime() - mTime;
-			if (diff.IsNegative() || diff.TotalDays() > 3560)
-			  diff = TimeSpan(0);
+            TimeSpan diff = DateTime() - mTime;
+            if (diff.IsNegative() || diff.TotalDays() > 3560)
+                return _("never");
 
 			if (diff.TotalSeconds() < 2) return _("just now");
-			if (diff.TotalSeconds() < 60) { snprintf(strbuf, sizeof(strbuf), _N("%i sec ago", "%i secs ago", diff.TotalSeconds()).c_str(), diff.TotalSeconds()); return strbuf; }
-			if (diff.TotalMinutes() < 60) { snprintf(strbuf, sizeof(strbuf), _N("%i min ago", "%i mins ago", diff.TotalMinutes()).c_str(), diff.TotalMinutes()); return strbuf; }
-			if (diff.TotalHours()   < 24) { snprintf(strbuf, sizeof(strbuf), _N("%i hour ago", "%i hours ago", diff.TotalHours()).c_str(), diff.TotalHours()); return strbuf; }
-			snprintf(strbuf, sizeof(strbuf), _N("%i day ago", "%i days ago", diff.TotalDays()).c_str(), diff.TotalDays());
+			if (diff.TotalSeconds() < 60) { snprintf(strbuf, sizeof(strbuf), _N("%i sec ago", "%i secs ago", diff.TotalSeconds()).c_str(), (int) diff.TotalSeconds()); return strbuf; }
+			if (diff.TotalMinutes() < 60) { snprintf(strbuf, sizeof(strbuf), _N("%i min ago", "%i mins ago", diff.TotalMinutes()).c_str(), (int) diff.TotalMinutes()); return strbuf; }
+			if (diff.TotalHours()   < 24) { snprintf(strbuf, sizeof(strbuf), _N("%i hour ago", "%i hours ago", diff.TotalHours()).c_str(), (int) diff.TotalHours()); return strbuf; }
+			snprintf(strbuf, sizeof(strbuf), _N("%i day ago", "%i days ago", diff.TotalDays()).c_str(), (int) diff.TotalDays());
 			return strbuf;
 		}
 	  default: break;
