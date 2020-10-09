@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 
 ## [7.0.1]
 - Fix Missing dat files mame, naomi(Gd), atomiswave
+- Add waveshare wm8960 audio hat support
 - Fix xarcade2jstick driver to support xarcade v2 and other keyboard encoders
 - Add raspi-gpio useful program (C written)
 - Add new intro videos

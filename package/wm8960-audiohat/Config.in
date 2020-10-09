@@ -1,0 +1,8 @@
+config BR2_PACKAGE_WM8960_AUDIOHAT
+	bool "wm8960 soundcard Kernel Module and overlay"
+	depends on BR2_LINUX_KERNEL
+	help
+	  Kernel module to support waveshare wm8960 soundcard on gpio
+
+comment "wm8960 soundcard support needs a kernel and headers"
+	depends on !BR2_LINUX_KERNEL
