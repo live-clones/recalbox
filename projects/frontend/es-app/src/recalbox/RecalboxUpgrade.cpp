@@ -10,7 +10,7 @@
 std::string RecalboxUpgrade::getVersion()
 {
   const std::string& version = Settings::Instance().VersionFile();
-  return Files::LoadFile(Path(version));
+  return Strings::Trim(Files::LoadFile(Path(version)), " \t\r\n");
 }
 
 std::string RecalboxUpgrade::getUpdateVersion()
