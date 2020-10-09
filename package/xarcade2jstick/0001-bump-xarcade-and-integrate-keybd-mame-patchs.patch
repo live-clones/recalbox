@@ -1,0 +1,288 @@
+diff -Naur Xarcade2Jstick-master/src/input_xarcade.c xarcade2jstick-d080123958dee9b2197e656e28c7859564a30893Patched/src/input_xarcade.c
+--- Xarcade2Jstick-master/src/input_xarcade.c	2019-04-05 21:18:13.000000000 +0200
++++ xarcade2jstick-d080123958dee9b2197e656e28c7859564a30893Patched/src/input_xarcade.c	2020-10-07 11:31:18.163382865 +0200
+@@ -24,11 +24,17 @@
+ int findXarcadeDevice(void);
+ 
+ // relizations ----------------------
+-int16_t input_xarcade_open(INP_XARC_DEV* const xdev, INPUT_XARC_TYPE_E type) {
++int16_t input_xarcade_open(INP_XARC_DEV* const xdev, INPUT_XARC_TYPE_E type, char* evdev) {
+ 	int result;
+ 
+ 	// TODO check input parameter type
+-	xdev->fevdev = findXarcadeDevice();
++	// Check if a device was forced to avoid scanning for an X-Arcade
++	if(evdev) {
++		xdev->fevdev = open(evdev, O_RDONLY);
++		printf("Forced %s\n", evdev);
++	} else {
++		xdev->fevdev = findXarcadeDevice();
++	}
+ 	if (xdev->fevdev != -1) {
+ 		result = ioctl(xdev->fevdev, EVIOCGRAB, 1);
+ 		return result;
+@@ -73,6 +79,7 @@
+ 
+ 	for (ctr = 0; ctr < pglob.gl_pathc; ++ctr) {
+ 		filename = pglob.gl_pathv[ctr];
++		printf("Trying %s\n", filename);
+ 		fevdev = open(filename, O_RDONLY);
+ 		if (fevdev == -1) {
+ 			printf("Failed to open event device %s.\n", filename);
+diff -Naur Xarcade2Jstick-master/src/input_xarcade.h xarcade2jstick-d080123958dee9b2197e656e28c7859564a30893Patched/src/input_xarcade.h
+--- Xarcade2Jstick-master/src/input_xarcade.h	2019-04-05 21:18:13.000000000 +0200
++++ xarcade2jstick-d080123958dee9b2197e656e28c7859564a30893Patched/src/input_xarcade.h	2020-10-07 11:31:18.163382865 +0200
+@@ -35,7 +35,7 @@
+ 	struct input_event ev[64];
+ } INP_XARC_DEV;
+ 
+-int16_t input_xarcade_open(INP_XARC_DEV* const xdev, INPUT_XARC_TYPE_E type);
++int16_t input_xarcade_open(INP_XARC_DEV* const xdev, INPUT_XARC_TYPE_E type, char* evedv);
+ int16_t input_xarcade_close(INP_XARC_DEV* const xdev);
+ int16_t input_xarcade_read(INP_XARC_DEV* const xdev);
+ 
+diff -Naur Xarcade2Jstick-master/src/main.c xarcade2jstick-d080123958dee9b2197e656e28c7859564a30893Patched/src/main.c
+--- Xarcade2Jstick-master/src/main.c	2019-04-05 21:18:13.000000000 +0200
++++ xarcade2jstick-d080123958dee9b2197e656e28c7859564a30893Patched/src/main.c	2020-10-07 11:31:18.163382865 +0200
+@@ -62,10 +62,11 @@
+ int main(int argc, char* argv[]) {
+ 	int rd, ctr, combo = 0;
+ 	char keyStates[256];
+-
++	char* evdev = NULL;
++	
+ 	int detach = 0;
+ 	int opt;
+-	while ((opt = getopt(argc, argv, "+ds")) != -1) {
++	while ((opt = getopt(argc, argv, "dse:")) != -1) {
+ 		switch (opt) {
+ 			case 'd':
+ 				detach = 1;
+@@ -73,8 +74,11 @@
+ 			case 's':
+ 				use_syslog = 1;
+ 				break;
++			case 'e':
++				evdev = optarg;
++		        break;
+ 			default:
+-				fprintf(stderr, "Usage: %s [-d] [-s]\n", argv[0]);
++				fprintf(stderr, "Usage: %s [-d] [-s] [-e eventPath]\n", argv[0]);
+ 				exit(EXIT_FAILURE);
+ 				break;
+ 		}
+@@ -84,7 +88,7 @@
+ 
+ 	printf("[Xarcade2Joystick] Getting exclusive access: ");
+ 	int retry_time=3;
+-	while ( input_xarcade_open(&xarcdev, INPUT_XARC_TYPE_TANKSTICK) != 0) {
++	while ( input_xarcade_open(&xarcdev, INPUT_XARC_TYPE_TANKSTICK, evdev) != 0) {
+ 		if (errno == 0) {
+ 			printf("Not found.\n");
+ 			SYSLOG(LOG_ERR, "Xarcade not found, exiting.");
+@@ -137,35 +141,48 @@
+ 				/* ----------------  Player 1 controls ------------------- */
+ 				/* buttons */
+ 				case KEY_LEFTCTRL:
+-				  outputKeyPress(0,BTN_A, isPressed);
++				  //outputKeyPress(0,BTN_A, isPressed);
++				  outputKeyPress(0,BTN_WEST, isPressed);
+ 					break;
+ 				case KEY_LEFTALT:
+-					outputKeyPress(0,BTN_B, isPressed);
++					//outputKeyPress(0,BTN_B, isPressed);
++					outputKeyPress(0,BTN_NORTH, isPressed);
+ 					break;
+ 				case KEY_SPACE:
+-					outputKeyPress(0,BTN_C, isPressed);
++					//outputKeyPress(0,BTN_C, isPressed);
++					outputKeyPress(0,BTN_TL, isPressed);
+ 					break;
+ 				case KEY_LEFTSHIFT:
+-					outputKeyPress(0,BTN_X, isPressed);
++					//outputKeyPress(0,BTN_X, isPressed);
++					outputKeyPress(0,BTN_SOUTH, isPressed);
+ 					break;
+ 				case KEY_Z:
+-					outputKeyPress(0,BTN_Y, isPressed);
++					//outputKeyPress(0,BTN_Y, isPressed);
++					outputKeyPress(0,BTN_EAST, isPressed);
+ 					break;
+ 				case KEY_X:
+-					outputKeyPress(0,BTN_Z, isPressed);
++					//outputKeyPress(0,BTN_Z, isPressed);
++					outputKeyPress(0,BTN_TR, isPressed);
+ 					break;
+ 				case KEY_C:
+-					outputKeyPress(0,BTN_TL, isPressed);
++					//outputKeyPress(0,BTN_TL, isPressed);
++					outputKeyPress(0,BTN_EXTRA, isPressed);
+ 					break;
++				//case KEY_5:
++					//outputKeyPress(0,BTN_TR, isPressed);
+ 				case KEY_5:
+-					outputKeyPress(0,BTN_TR, isPressed);
++					outputKeyPress(0,BTN_SELECT, isPressed);
++					break;
++				case KEY_3:
++				case KEY_V:
++					outputKeyPress(0,BTN_MODE, isPressed);
+ 					break;
+ 				case KEY_1:
+ 					outputKeyPress(0,BTN_START, isPressed);
+ 					break;
+-				case KEY_3:
+-					outputKeyPress(0,BTN_SELECT, isPressed);
+-					break;
++				//case KEY_3: //become BTN_MODE
++					//outputKeyPress(0,BTN_SELECT, isPressed);
++					//break;
+ 				case KEY_KP4:
+ 				case KEY_LEFT:
+ 					outputAxisChange(0,ABS_X, value == 0 ? 2 : 0); // center or left
+@@ -186,59 +203,73 @@
+ 					/* ----------------  Player 2 controls ------------------- */
+ 					/* buttons */
+ 				case KEY_A:
+-					outputKeyPress(1,BTN_A,	isPressed);
++					//outputKeyPress(1,BTN_A,	isPressed);
++					outputKeyPress(1,BTN_WEST,	isPressed);
+ 					break;
+ 				case KEY_S:
+-					outputKeyPress(1,BTN_B, isPressed);
++					//outputKeyPress(1,BTN_B, isPressed);
++					outputKeyPress(1,BTN_NORTH, isPressed);
+ 					break;
+ 				case KEY_Q:
+-					outputKeyPress(1,BTN_C, isPressed);
++					//outputKeyPress(1,BTN_C, isPressed);
++					outputKeyPress(1,BTN_TL, isPressed);
+ 					break;
+ 				case KEY_W:
+-					outputKeyPress(1,BTN_X, isPressed);
++					//outputKeyPress(1,BTN_X, isPressed);
++					outputKeyPress(1,BTN_SOUTH, isPressed);
+ 					break;
+ 				case KEY_E:
+-					outputKeyPress(1,BTN_Y, isPressed);
++					//outputKeyPress(1,BTN_Y, isPressed);
++					outputKeyPress(1,BTN_EAST, isPressed);
+ 					break;
+ 				case KEY_LEFTBRACE:
+-					outputKeyPress(1,BTN_Z, isPressed);
++					//outputKeyPress(1,BTN_Z, isPressed);
++					outputKeyPress(1,BTN_TR, isPressed);
+ 					break;
+ 				case KEY_RIGHTBRACE:
+-					outputKeyPress(1,BTN_TL, isPressed);
++					//outputKeyPress(1,BTN_TL, isPressed);
++					outputKeyPress(1,BTN_EXTRA, isPressed);
+ 					break;
+-				case KEY_6:
+-					outputKeyPress(1,BTN_TR, isPressed);
++				/*case KEY_6:
++					//outputKeyPress(1,BTN_TR, isPressed);
++					outputKeyPress(1,BTN_MODE, isPressed);
++					break;*/
++				case KEY_4:
++				case KEY_L:
++					outputKeyPress(1,BTN_MODE, isPressed);
+ 					break;
+ 				case KEY_2:
+ 					/* handle combination */
+-					if (keyStates[KEY_4] && xarcdev.ev[ctr].value) {
++					/*if (keyStates[KEY_6] && xarcdev.ev[ctr].value) {
+ 						uinput_kbd_write(&uinp_kbd, KEY_TAB, 1, EV_KEY);
+ 						uinput_kbd_sleep();
+ 						uinput_kbd_write(&uinp_kbd, KEY_TAB, 0, EV_KEY);
+ 						combo = 2;
+ 						continue;
+-					}
++					}*/
+ 					/* it's a key down, ignore */
+-					if (xarcdev.ev[ctr].value)
++					/*if (xarcdev.ev[ctr].value)
+ 						continue;
+ 					if (!combo) {
+ 						outputKeyPress(1,BTN_START, 1);
+ 						uinput_gpad_sleep();
+ 						outputKeyPress(1,BTN_START, 0);
+ 					} else
+-						combo--;
++						combo--;*/
++					outputKeyPress(1,BTN_START, isPressed);			
+ 					break;
+-				case KEY_4:
++				//case KEY_4:
++				case KEY_6:
+ 					/* it's a key down, ignore */
+-					if (xarcdev.ev[ctr].value)
++					/*if (xarcdev.ev[ctr].value)
+ 						continue;
+ 					if (!combo) {
+ 						outputKeyPress(1,BTN_SELECT, 1);
+ 						uinput_gpad_sleep();
+ 						outputKeyPress(1,BTN_SELECT, 0);
+ 					} else
+-						combo--;
+-
++						combo--;*/
++					outputKeyPress(1,BTN_SELECT, isPressed);			
+ 					break;
+ 
+ 					/* joystick */
+diff -Naur Xarcade2Jstick-master/src/uinput_gamepad.c xarcade2jstick-d080123958dee9b2197e656e28c7859564a30893Patched/src/uinput_gamepad.c
+--- Xarcade2Jstick-master/src/uinput_gamepad.c	2019-04-05 21:18:13.000000000 +0200
++++ xarcade2jstick-d080123958dee9b2197e656e28c7859564a30893Patched/src/uinput_gamepad.c	2020-10-07 11:31:18.163382865 +0200
+@@ -71,16 +71,22 @@
+ 	ioctl(gpad->fd, UI_SET_EVBIT, EV_REL);
+ 
+ 	// gamepad, buttons
+-	ioctl(gpad->fd, UI_SET_KEYBIT, BTN_A);
++	/*ioctl(gpad->fd, UI_SET_KEYBIT, BTN_A);
+ 	ioctl(gpad->fd, UI_SET_KEYBIT, BTN_B);
+ 	ioctl(gpad->fd, UI_SET_KEYBIT, BTN_C);
+ 	ioctl(gpad->fd, UI_SET_KEYBIT, BTN_X);
+ 	ioctl(gpad->fd, UI_SET_KEYBIT, BTN_Y);
+-	ioctl(gpad->fd, UI_SET_KEYBIT, BTN_Z);
+-	ioctl(gpad->fd, UI_SET_KEYBIT, BTN_TL);
+-	ioctl(gpad->fd, UI_SET_KEYBIT, BTN_TR);
+-	ioctl(gpad->fd, UI_SET_KEYBIT, BTN_SELECT);
+-	ioctl(gpad->fd, UI_SET_KEYBIT, BTN_START);
++	ioctl(gpad->fd, UI_SET_KEYBIT, BTN_Z);*/
++	ioctl(gpad->fd, UI_SET_KEYBIT, BTN_WEST);
++	ioctl(gpad->fd, UI_SET_KEYBIT, BTN_NORTH);
++ 	ioctl(gpad->fd, UI_SET_KEYBIT, BTN_TL);
++	ioctl(gpad->fd, UI_SET_KEYBIT, BTN_SOUTH);
++	ioctl(gpad->fd, UI_SET_KEYBIT, BTN_EAST);
++ 	ioctl(gpad->fd, UI_SET_KEYBIT, BTN_TR);
++	ioctl(gpad->fd, UI_SET_KEYBIT, BTN_EXTRA);
++	ioctl(gpad->fd, UI_SET_KEYBIT, BTN_MODE);
++ 	ioctl(gpad->fd, UI_SET_KEYBIT, BTN_SELECT);
++ 	ioctl(gpad->fd, UI_SET_KEYBIT, BTN_START);
+ 
+ 	// gamepad, directions
+ 	ioctl(gpad->fd, UI_SET_EVBIT, EV_ABS);
+diff -Naur Xarcade2Jstick-master/src/uinput_gamepad.h xarcade2jstick-d080123958dee9b2197e656e28c7859564a30893Patched/src/uinput_gamepad.h
+--- Xarcade2Jstick-master/src/uinput_gamepad.h	2019-04-05 21:18:13.000000000 +0200
++++ xarcade2jstick-d080123958dee9b2197e656e28c7859564a30893Patched/src/uinput_gamepad.h	2020-10-07 11:31:18.163382865 +0200
+@@ -19,6 +19,19 @@
+ #ifndef UINPUT_GAMEPAD_H_
+ #define UINPUT_GAMEPAD_H_
+ 
++#ifndef BTN_EAST
++#define BTN_EAST 0x131
++#endif
++#ifndef BTN_SOUTH
++#define BTN_SOUTH 0x130
++#endif
++#ifndef BTN_NORTH
++#define BTN_NORTH 0x133
++#endif
++#ifndef BTN_WEST
++#define BTN_WEST 0x134
++#endif
++
+ #include <stdint.h>
+ 
+ typedef enum {
