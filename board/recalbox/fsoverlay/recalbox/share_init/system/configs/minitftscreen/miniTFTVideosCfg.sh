@@ -33,7 +33,7 @@ case "${TFTESSystem}" in
     gbc)            LogoFile='RBvideos/introRecalboxGBA.mp4' && Loop=-1  ;;
     fds)            LogoFile='FDS/VideoSnaps/logo.mp4' && Loop=-1  ;;
     virtualboy)     LogoFile='VB/VideoSnaps/logo.mp4' && Loop=-1  ;;
-    gamecube)       LogoFile='GC/VideoSnaps/logo.mp4' && Loop=-1  ;;
+    gamecube)       LogoFile='RBvideos/introRecalboxGameCube.mp4' && Loop=-1  ;;
     wii)            LogoFile='Wii/VideoSnaps/logo.mp4' && Loop=-1  ;;
     nds)            LogoFile='NDS/VideoSnaps/logo.mp4' && Loop=-1  ;;
     pokemini)       LogoFile="${DefaultLogo}" && Loop="${DefaultLogoLoop}" ;; # tbd
