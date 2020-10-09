@@ -9,6 +9,7 @@
 ### Improvements
 - SNES default emulators pi0/1: pisnes, pi2/3: snes9x2010 & snes9x elsewhere
 - Bump FBNeo - Emulation improvements + fix neogeo-CD audio artifects
+- Bump linux-firmware to 2020.09.18
 
 ### Fixes
 - Fix Netflix plugin authentication (bump to v1.10.0) 
@@ -30,6 +31,8 @@
 - Fix empty card names in audio output device list
 - Fix no sound through jack on RPi1/2/3
 - Fix information popup positions
+- Fix Oricutron bios path
+- Fix false update message
 
 
 ## Version 7.0
