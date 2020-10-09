@@ -7,8 +7,8 @@
 <input name="y"        	     value="B Button" />
 <input name="start"    	     value="Start" />
 <input name="select"   	     value="" />
-<input name="pageup"   	     value="L Trig" />
-<input name="pagedown" 	     value="R Trig" />
+<input name="l1"   		     value="L Trig" />
+<input name="r1"	 	     value="R Trig" />
 <input name="l2"       	     value="Z Trig" />
 <input name="r2"       	     value="" />
 <input name="l3"             value="Mempak switch" />
