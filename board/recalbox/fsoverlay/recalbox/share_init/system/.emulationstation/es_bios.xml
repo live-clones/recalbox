@@ -244,16 +244,16 @@
     <bios path="bootloader-dbvz.rom"    md5="9da101cd2317830649a31f8fa46debec" core="mu" mandatory="false" />  
   </system>
   <system fullname="Tangerine Oric/Atmos" platform="oricatmos"> 
-    <bios path="basic11b.rom" md5="a330779c42ad7d0c4ac6ef9e92788ec6" core="oricutron" />  
-    <bios path="basic10.rom"  md5="ebe418ec8a6c85d5ac32956c9a96c179" core="oricutron" />  
-    <bios path="bd500.rom"    md5="2b6498fd29a0adbf1c529762c02c33ab" core="oricutron" mandatory="false" />  
-    <bios path="jasmin.rom"   md5="5136f764a7dbd1352519351fbb53a9f3" core="oricutron" /> 
-    <bios path="microdis.rom" md5="df864344d2a2091c3f952bd1c5ce1707" core="oricutron" />  
-    <bios path="pravetzt.rom" md5="8712a22e7e078de3343667d9fc1f2390" core="oricutron" />  
-    <bios path="8dos2.rom"    md5="5f3cd5a4307fed7a9dfe8faa4c044273" core="oricutron" mandatory="false" />  
-    <bios path="teleass.rom"  md5="2324c9cc227c1327a72a667c97ed2990" core="oricutron" />  
-    <bios path="hyperbas.rom" md5="364bf095e0dc4222d75354d50b8cddfc" core="oricutron" />   
-    <bios path="telmon24.rom" md5="9a432244d9ee4a49e8ddcde64af94e05" core="oricutron" />  
+    <bios path="oricutron/basic11b.rom" md5="a330779c42ad7d0c4ac6ef9e92788ec6" core="oricutron" />  
+    <bios path="oricutron/basic10.rom"  md5="ebe418ec8a6c85d5ac32956c9a96c179" core="oricutron" />  
+    <bios path="oricutron/bd500.rom"    md5="2b6498fd29a0adbf1c529762c02c33ab" core="oricutron" mandatory="false" />  
+    <bios path="oricutron/jasmin.rom"   md5="5136f764a7dbd1352519351fbb53a9f3" core="oricutron" /> 
+    <bios path="oricutron/microdis.rom" md5="df864344d2a2091c3f952bd1c5ce1707" core="oricutron" />  
+    <bios path="oricutron/pravetzt.rom" md5="8712a22e7e078de3343667d9fc1f2390" core="oricutron" />  
+    <bios path="oricutron/8dos2.rom"    md5="5f3cd5a4307fed7a9dfe8faa4c044273" core="oricutron" mandatory="false" />  
+    <bios path="oricutron/teleass.rom"  md5="2324c9cc227c1327a72a667c97ed2990" core="oricutron" />  
+    <bios path="oricutron/hyperbas.rom" md5="364bf095e0dc4222d75354d50b8cddfc" core="oricutron" />   
+    <bios path="oricutron/telmon24.rom" md5="9a432244d9ee4a49e8ddcde64af94e05" core="oricutron" />  
   </system>
   <system fullname="Spectravideo" platform="spectravideo">
     <bios path="Machines/SVI - Spectravideo SVI-318/svi318.rom"              md5="ee6ad7ea29e791b03a28a9443e622648" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip" />
