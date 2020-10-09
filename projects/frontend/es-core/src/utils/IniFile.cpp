@@ -72,6 +72,9 @@ bool IniFile::Load()
 
 bool IniFile::Save()
 {
+  // No change?
+  if (mPendingWrites.empty()) return true;
+
   // Load file
   std::string content = Files::LoadFile(mFilePath);
 
