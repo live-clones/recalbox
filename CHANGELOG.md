@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [7.0.1]
+- Fix xarcade2jstick driver to support xarcade v2 and other keyboard encoders
 - Change snes default emulators: rpi0/1 - pisnes, rpi2/3 - snes9x2010 & snes9x otherwise
 - Add options to RPI4 config.txt to fix black screen issues
 - Bump kodi netflix plugin to 1.10.0
