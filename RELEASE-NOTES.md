@@ -5,6 +5,8 @@
 ### News
 - Add Sigil in PORTS (https://www.romerogames.ie/si6il)
 - Add Kubo 3 on NES (dale_coop & seiji)
+- Add raspi-gpio to manage GPIO in scripts
+- Add new boot videos
 
 ### Improvements
 - SNES default emulators pi0/1: pisnes, pi2/3: snes9x2010 & snes9x elsewhere
@@ -33,6 +35,8 @@
 - Fix information popup positions
 - Fix Oricutron bios path
 - Fix false update message
+- Fix X-Arcade driver. Now supports v2 panels and other keyboard encoders
+- Fix ShaderSets
 
 
 ## Version 7.0
