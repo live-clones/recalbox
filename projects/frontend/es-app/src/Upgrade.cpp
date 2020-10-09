@@ -50,30 +50,35 @@ void Upgrade::Run()
       mRemoteVersion = GetRemoteVersion();
       mLocalVersion = Files::LoadFile(Path(sLocalVersionFile));
       mLocalVersion = Strings::Trim(mLocalVersion, " \t\r\n");
-      if (!mRemoteVersion.empty() && (mRemoteVersion != mLocalVersion))
+      if (ValidateVersion(mRemoteVersion))
       {
-        LOG(LogInfo) << "[Update] Remote version " << mRemoteVersion << " does not match local version " << mLocalVersion << ". Update available!";
-
-        // Popup, always shown
-        mPopupMessage = _("AN UPDATE IS AVAILABLE FOR YOUR RECALBOX");
-        mPopupMessage += "\n";
-        mPopupMessage += mRemoteVersion;
-        mPopupMessage += "\n\n";
-        mPopupMessage += _("You're strongly recommended to update your Recalbox.\nNo support will be provided for older versions!");
-
-        // Message box only if the option is on
-        if (RecalboxConf::Instance().AsBool("updates.enabled"))
+        if (mRemoteVersion != mLocalVersion)
         {
-          while (mWindow.HasGui())
-            sleep(5);
+          LOG(LogInfo) << "[Update] Remote version " << mRemoteVersion << " does not match local version " << mLocalVersion << ". Update available!";
 
-          mMessageBoxMessage = _("NEW VERSION:");
-          mMessageBoxMessage += " ";
-          mMessageBoxMessage += mRemoteVersion;
+          // Popup, always shown
+          mPopupMessage = _("AN UPDATE IS AVAILABLE FOR YOUR RECALBOX");
+          mPopupMessage += "\n";
+          mPopupMessage += mRemoteVersion;
+          mPopupMessage += "\n\n";
+          mPopupMessage += _("You're strongly recommended to update your Recalbox.\nNo support will be provided for older versions!");
+
+          // Message box only if the option is on
+          if (RecalboxConf::Instance().AsBool("updates.enabled"))
+          {
+            while (mWindow.HasGui())
+              sleep(5);
+
+            mMessageBoxMessage = _("NEW VERSION:");
+            mMessageBoxMessage += " ";
+            mMessageBoxMessage += mRemoteVersion;
+          }
+
+          mSender.Call();
         }
-
-        mSender.Call();
+        else LOG(LogInfo) << "[Update] Remote version match local version. No update.";
       }
+      else LOG(LogError) << "[Update] Invalid remote version! " << mRemoteVersion;
     }
   }
   catch(std::exception& ex)
@@ -123,16 +128,9 @@ std::string Upgrade::GetDomainName()
 
 std::string Upgrade::GetRemoteVersion()
 {
-  // Get domain
-  GetDomainName();
-
-  // Get arch
-  std::string arch = Files::LoadFile(Path(sLocalArchFile));
-  Strings::ReplaceAllIn(arch, "odroidxu4", "xu4");
-
   // Get version
-  std::string url = Strings::Replace(sVersionPatternUrl, "#DOMAIN#", mDomainName);
-  Strings::ReplaceAllIn(url, "#ARCH#", arch);
+  std::string url = ReplaceMachineParameters(sVersionPatternUrl);
+
   std::string version;
   if (!Http().Execute(url, version)) version.clear();
   version = Strings::Trim(version, " \t\r\n");
@@ -144,6 +142,17 @@ std::string Upgrade::GetRemoteVersion()
 
 std::string Upgrade::DownloadUrl()
 {
+  // Get url
+  std::string url = ReplaceMachineParameters(sDownloadPatternUrl);
+  LOG(LogDebug) << "[Update] Download url: " << url;
+
+  return url;
+}
+
+std::string Upgrade::ReplaceMachineParameters(const std::string& url)
+{
+  std::string result(url);
+
   // Get domain
   GetDomainName();
 
@@ -151,9 +160,24 @@ std::string Upgrade::DownloadUrl()
   std::string arch = Files::LoadFile(Path(sLocalArchFile));
   Strings::ReplaceAllIn(arch, "odroidxu4", "xu4");
 
-  // Get url
-  std::string url = Strings::Replace(sDownloadPatternUrl, "#DOMAIN#", mDomainName);
-  Strings::ReplaceAllIn(url, "#ARCH#", arch);
+  // Get uuid
+  std::string uuid = Strings::Trim(Files::LoadFile(Path(sLocalUUID)), " \t\r\n");
+  if (uuid.empty()) uuid = "";
 
-  return url;
+  // Replacements
+  Strings::ReplaceAllIn(result, "#DOMAIN#", mDomainName);
+  Strings::ReplaceAllIn(result, "#ARCH#", arch);
+  Strings::ReplaceAllIn(result, "#UUID#", uuid);
+
+  return result;
+}
+
+bool Upgrade::ValidateVersion(const std::string& version)
+{
+  static std::string _allowedCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-";
+  if (!version.empty())
+    if (version[0] >= '0' && version[0] <= '9')
+      return (version.find_first_not_of(_allowedCharacters) == std::string::npos);
+
+  return false;
 }

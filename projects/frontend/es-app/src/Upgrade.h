@@ -47,14 +47,16 @@ class Upgrade: private Thread, private ISynchronousEvent
     static constexpr const char* sReviewDNS = "review.download.recalbox.com";
 
     //! Get remote version template URL
-    static constexpr const char* sVersionPatternUrl = "https://#DOMAIN#/latest/#ARCH#/recalbox.version?source=recalbox";
+    static constexpr const char* sVersionPatternUrl = "https://#DOMAIN#/latesta/#ARCH#/recalbox.version?source=recalbox&uuid=#UUID#";
     //! Get file download template url
-    static constexpr const char* sDownloadPatternUrl = "https://#DOMAIN#/latest/#ARCH#/recalbox-#ARCH#.img.xz?source=recalbox";
+    static constexpr const char* sDownloadPatternUrl = "https://#DOMAIN#/latest/#ARCH#/recalbox-#ARCH#.img.xz?source=recalbox&uuid=#UUID#";
 
     //! Local version file
     static constexpr const char* sLocalVersionFile = "/recalbox/recalbox.version";
     //! Local version arch
     static constexpr const char* sLocalArchFile = "/recalbox/recalbox.arch";
+    //! Local version arch
+    static constexpr const char* sLocalUUID = "/recalbox/share/system/uuid";
 
     //! MainWindow
     Window& mWindow;
@@ -102,6 +104,20 @@ class Upgrade: private Thread, private ISynchronousEvent
      * @brief Get remote version
      */
     static std::string GetRemoteVersion();
+
+    /*!
+     * @brief Replace machine parameters parameters in the given url (Arch, uuid, domain, ...)
+     * @param url Template url
+     * @return Final url
+     */
+    static std::string ReplaceMachineParameters(const std::string& url);
+
+    /*!
+     * @brief Validate the given version
+     * @param version Version to validate
+     * @return True if the given version has been identified as valid, false otherwise
+     */
+    static bool ValidateVersion(const std::string& version);
 };
 
 
