@@ -10,7 +10,7 @@
 #previous release on github
 WM8960_AUDIOHAT_VERSION = a9aa1d0a10356fbfb56fcd8a63c7435ac80eb173
 ifeq ($(BR2_cortex_a72),y) #rpi4 last release on github
-	WM8960_AUDIOHAT_VERSION = cd5d2e01a80cce929ea64715ed73d1b91cd5ba50
+WM8960_AUDIOHAT_VERSION = cd5d2e01a80cce929ea64715ed73d1b91cd5ba50
 endif
 
 WM8960_AUDIOHAT_SITE = $(call github,waveshare,WM8960-Audio-HAT,$(WM8960_AUDIOHAT_VERSION))
