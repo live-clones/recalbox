@@ -1,0 +1,10 @@
+--- fmsx-libretro-3de916bbf15062de1ab322432d38a1fee29d5e68/Makefile.orig	2020-10-09 21:51:24.221309471 +0200
++++ fmsx-libretro-3de916bbf15062de1ab322432d38a1fee29d5e68/Makefile	2020-10-09 21:51:40.969383308 +0200
+@@ -1,6 +1,6 @@
+ include ./EMULib/Rules.gcc
+ 
+-CFLAGS += -I$(EMULIB)/Unix -I/usr/X11R6/include
++CFLAGS += -I$(EMULIB)/Unix
+ DEFINES+= -DUNIX -DMITSHM -DBPS16
+ OBJECTS+= $(EMUUNIX)
+ 

@@ -22,6 +22,7 @@ Every case must be checked before a release.
 - [ ] Test & evaluate libretro-mupen64plus-next on odroidxu4
 - [ ] Validate libretro-mupen64plus-next compiles on all boards
 - [ ] BR2020.11 - Check hyperion still works
+- [ ] BR2020.11 - Test libretro-fmsx
 
 
 ## [7.1-Reloaded]
