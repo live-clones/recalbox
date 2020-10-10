@@ -37,6 +37,7 @@
 - Fix false update message
 - Fix X-Arcade driver. Now supports v2 panels and other keyboard encoders
 - Fix ShaderSets
+- Fix mouse not working on rpi4
 
 
 ## Version 7.0

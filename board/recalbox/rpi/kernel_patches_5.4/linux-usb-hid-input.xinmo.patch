@@ -1,19 +1,26 @@
---- a/drivers/hid/hid-input.c	2015-04-14 01:05:54.000000000 +0200
-+++ b/drivers/hid/hid-input.c	2015-06-29 16:06:50.546064561 +0200
-@@ -602,11 +602,11 @@
+--- linux-b2ba07ef46c655e03ac2a869e65ed4ff7d247aac/drivers/hid/hid-input.c.orig	2020-10-10 20:45:45.639273632 +0200
++++ linux-b2ba07ef46c655e03ac2a869e65ed4ff7d247aac/drivers/hid/hid-input.c	2020-10-10 20:46:45.558487707 +0200
+@@ -703,14 +703,6 @@
+ 
+ 		switch (usage->hid) {
  		/* These usage IDs map directly to the usage codes. */
- 		case HID_GD_X: case HID_GD_Y: case HID_GD_Z:
- 		case HID_GD_RX: case HID_GD_RY: case HID_GD_RZ:
+-		case HID_GD_X: case HID_GD_Y: case HID_GD_Z:
+-		case HID_GD_RX: case HID_GD_RY: case HID_GD_RZ:
 -			if (field->flags & HID_MAIN_ITEM_RELATIVE)
 -				map_rel(usage->hid & 0xf);
 -			else
 -				map_abs_clear(usage->hid & 0xf);
 -			break;
-+//			if (field->flags & HID_MAIN_ITEM_RELATIVE)
-+//				map_rel(usage->hid & 0xf);
-+//			else
-+//				map_abs_clear(usage->hid & 0xf);
-+//			break;
- 
- 		case HID_GD_SLIDER: case HID_GD_DIAL: case HID_GD_WHEEL:
+-
+ 		case HID_GD_WHEEL:
+ 			if (field->flags & HID_MAIN_ITEM_RELATIVE) {
+ 				set_bit(REL_WHEEL, input->relbit);
+@@ -719,6 +711,8 @@
+ 				map_abs(usage->hid & 0xf);
+ 			}
+ 			break;
++		case HID_GD_X: case HID_GD_Y: case HID_GD_Z:
++		case HID_GD_RX: case HID_GD_RY: case HID_GD_RZ:
+ 		case HID_GD_SLIDER: case HID_GD_DIAL:
  			if (field->flags & HID_MAIN_ITEM_RELATIVE)
+ 				map_rel(usage->hid & 0xf);
