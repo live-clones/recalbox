@@ -1,10 +1,10 @@
 ################################################################################
 #
-# nvidia-driver version 440.31
+# nvidia-driver version 440.100
 #
 ################################################################################
 
-NVIDIA_DRIVER_440_RECALBOX_VERSION = 440.59
+NVIDIA_DRIVER_440_RECALBOX_VERSION = 440.100
 NVIDIA_DRIVER_440_RECALBOX_SUFFIX = $(if $(BR2_x86_64),_64)
 NVIDIA_DRIVER_440_RECALBOX_SITE = http://download.nvidia.com/XFree86/Linux-x86$(NVIDIA_DRIVER_440_RECALBOX_SUFFIX)/$(NVIDIA_DRIVER_440_RECALBOX_VERSION)
 NVIDIA_DRIVER_440_RECALBOX_SOURCE = NVIDIA-Linux-x86$(NVIDIA_DRIVER_440_RECALBOX_SUFFIX)-$(NVIDIA_DRIVER_440_RECALBOX_VERSION).run
