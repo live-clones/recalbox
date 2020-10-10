@@ -7,6 +7,7 @@
 - Add Kubo 3 on NES (dale_coop & seiji)
 - Add raspi-gpio to manage GPIO in scripts
 - Add new boot videos
+- Add missing bios report file (share/bios/missing_bios_file.txt)
 
 ### Improvements
 - SNES default emulators pi0/1: pisnes, pi2/3: snes9x2010 & snes9x elsewhere
@@ -38,6 +39,8 @@
 - Fix X-Arcade driver. Now supports v2 panels and other keyboard encoders
 - Fix ShaderSets
 - Fix mouse not working on rpi4
+- Fix multi-file zipped roms hash calculations (arcade)
+- Add more hard-patched xbox pads
 
 
 ## Version 7.0

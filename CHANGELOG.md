@@ -33,6 +33,10 @@ All notable changes to this project will be documented in this file.
 - Fix oricutron bios path
 - Fix false update message with xml data
 - Fix ShaderSets
+- Fix mouse not working on rpi4
+- Fix multi-file zipped roms hash calculations (arcade)
+- Add missing bios report file
+- Add more xbox pathed configurations
 
 ## [7.0]
 - Update tft-waveshare overlays (support of 3.5 rev B and rev C tft screen)
