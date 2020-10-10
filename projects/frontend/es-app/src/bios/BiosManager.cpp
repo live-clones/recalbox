@@ -5,6 +5,8 @@
 #include <RootFolders.h>
 #include <utils/Log.h>
 #include <algorithm>
+#include <utils/Files.h>
+#include <utils/datetime/DateTime.h>
 #include "BiosManager.h"
 
 BiosManager::BiosManager()
@@ -74,6 +76,9 @@ void BiosManager::Run()
 
   // Nullify interface
   mReporting = nullptr;
+
+  // Generate report
+  GenerateReport();
 }
 
 #ifndef PURE_BIOS_ONLY
@@ -110,5 +115,25 @@ const BiosList& BiosManager::SystemBios(const std::string& name)
 
   static BiosList sEmptyBiosList;
   return sEmptyBiosList;
+}
+
+void BiosManager::GenerateReport() const
+{
+  std::string report = "==============================================================\r\n"
+                       "MISSING BIOS REPORT\r\n"
+                       "Platform: #ARCH#\r\n"
+                       "Generated on #DATE#\r\n"
+                       "==============================================================\r\n\r\n";
+  Strings::ReplaceAllIn(report, "#ARCH#", Files::LoadFile(Path("/recalbox/recalbox.arch")));
+  Strings::ReplaceAllIn(report, "#DATE#", DateTime().ToLongFormat());
+
+  for(const BiosList& biosList : mSystemBiosList)
+  {
+    std::string subReport = biosList.GenerateReport();
+    if (!subReport.empty())
+      report.append(subReport);
+  }
+
+  Files::SaveFile(RootFolders::DataRootFolder / sReportPath, report);
 }
 

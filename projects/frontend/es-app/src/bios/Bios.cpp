@@ -175,7 +175,7 @@ std::vector<std::string> Bios::MD5List() const
 
 std::string Bios::Filename(bool shorten) const
 {
-  bool ok;
+  bool ok = false;
 
   // Try to make relative to the bios folder
   Path rootPath(RootFolders::DataRootFolder);
@@ -186,5 +186,46 @@ std::string Bios::Filename(bool shorten) const
       result = std::string(".../").append(mPath[0].Filename());
 
   return result;
+}
+
+std::string Bios::GenerateReport() const
+{
+  std::string report;
+
+  switch(mStatus)
+  {
+    case Status::FileNotFound:
+    case Status::HashNotMatching:
+    {
+      // Ignore No matching case when it's not required
+      if (mStatus == Status::HashNotMatching && !mHashMatchMandatory) break;
+
+      // BIOS
+      report.append("  ").append(mStatus == Status::FileNotFound ? "MISSING " : "INCORRECT ")
+            .append(mMandatory ? "REQUIRED " : "OPTIONAL ")
+            .append("BIOS: ").append(mPath[0].Filename()).append("\r\n");
+
+      // Information
+      report.append("    Path: ").append(mPath[0].ToString());
+      for(int i = sMaxBiosPath; --i >= 1; )
+        if (!mPath[i].IsEmpty()) report.append(" or ").append(mPath[i].ToString());
+      report.append("\r\n");
+      if (!mNotes.empty()) report.append("    Notes: ").append(mNotes).append("\r\n");
+      if (!mCores.empty()) report.append("    For: ").append(mCores).append("\r\n");
+
+      // MD5
+      if (mStatus == Status::HashNotMatching)
+        report.append("    Current MD5: ").append(mRealFileHash.ToString()).append("\r\n");
+      report.append("    Possible MD5 List:\r\n");
+      for(const Md5Hash& hash : mHashes)
+        report.append("      ").append(hash.ToString()).append("\r\n");
+      break;
+    }
+    case Status::Unknown:
+    case Status::HashMatching:
+    default: break;
+  }
+
+  return report;
 }
 

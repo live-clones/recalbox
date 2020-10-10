@@ -106,3 +106,20 @@ std::vector<std::string> BiosList::GetMissingBiosFileList() const
   return result;
 }
 
+std::string BiosList::GenerateReport() const
+{
+  std::string header("SYSTEM: ");
+  header.append(mSystemFullName).append("\r\n")
+        .append("---------------------------------------------\r\n\r\n");
+  std::string report;
+
+  for(const Bios& bios : mBiosList)
+  {
+    std::string subReport = bios.GenerateReport();
+    if (!subReport.empty())
+      report.append(subReport).append("\r\n");
+  }
+
+  return report.empty() ? report : header + report;
+}
+

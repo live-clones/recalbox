@@ -156,6 +156,12 @@ class Bios
      */
     bool IsForCore(const std::string& core) const;
 
+    /*!
+     * @brief Generate missing bios report
+     * @return Text Report
+     */
+    std::string GenerateReport() const;
+
     /*
      * Accessors
      */

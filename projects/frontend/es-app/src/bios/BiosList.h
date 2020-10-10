@@ -71,6 +71,12 @@ class BiosList
      */
     std::vector<std::string> GetMissingBiosFileList() const;
 
+    /*!
+     * @brief Generate missing bios report
+     * @return Text Report
+     */
+    std::string GenerateReport() const;
+
     /*
      * Accessors
      */

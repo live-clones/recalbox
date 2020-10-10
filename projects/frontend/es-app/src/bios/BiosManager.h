@@ -22,6 +22,8 @@ class BiosManager : public StaticLifeCycleControler<BiosManager>
   private:
     //! Path to bios.xml file
     static constexpr const char* sBiosFilePath = "system/.emulationstation/es_bios.xml";
+    //! Path to report file
+    static constexpr const char* sReportPath = "bios/missing_bios_report.txt";
 
     //! Bios list per system
     std::vector<BiosList> mSystemBiosList;
@@ -91,4 +93,9 @@ class BiosManager : public StaticLifeCycleControler<BiosManager>
      * @param reporting Reporting interface
      */
     void Scan(IBiosScanReporting* reporting, bool sync = false);
+
+    /*!
+     * @brief Generate missing bios report in bios root folder
+     */
+    void GenerateReport() const;
 };
