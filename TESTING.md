@@ -18,6 +18,7 @@ Every case must be checked before a release.
 + [ ] Check that mupen64plus standalone with gliden64 fully works on rpi2 and rpi3
 + [ ] Verify wm8960 audio hat works for all boards with kernel 5.4
 - [ ] BR2020.11 - Check hyperion still works
+- [ ] BR2020.11 - Test libretro-fmsx
 
 
 ## [7.1-Reloaded]
