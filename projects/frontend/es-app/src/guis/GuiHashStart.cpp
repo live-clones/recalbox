@@ -32,7 +32,7 @@ GuiHashStart::GuiHashStart(Window& window, SystemManager& systemManager)
 
   // add systems (all with a platformid specified selected)
   mSystems = std::make_shared<OptionListComponent<SystemData*> >(mWindow, _("HASH THESE SYSTEMS"), true);
-  for (auto it : mSystemManager.GetVisibleSystemList())
+  for (auto* it : mSystemManager.GetVisibleSystemList())
   {
     if (RecalboxConf::Instance().isInList("global.netplay.systems", it->getName()))
       mSystems->add(it->getFullName(), it, true);
@@ -125,7 +125,7 @@ void GuiHashStart::Start()
   bool forceAll = mFilter->getSelected() == "all";
 
   // Run through systems...
-  for (auto system : mSystems->getSelectedObjects())
+  for (auto* system : mSystems->getSelectedObjects())
   {
     // Run through games
     FileData::List games = system->getRootFolder().getAllItems(true, true);
@@ -150,6 +150,13 @@ FileData* GuiHashStart::ThreadPoolRunJob(FileData*& feed)
       Zip zip(feed->getPath());
       if (zip.Count() == 1)
         feed->Metadata().SetRomCrc32(zip.Crc32(0));
+      else
+      {
+        int crc32 = 0;
+        for (int i = 0; i < zip.Count(); ++i)
+          crc32 ^= zip.Crc32(i);
+        feed->Metadata().SetRomCrc32(crc32);
+      }
     }
     else
     {
@@ -172,8 +179,10 @@ FileData* GuiHashStart::ThreadPoolRunJob(FileData*& feed)
   }
 
   // Processed (or cancelled)
+  mMutex.Lock();
   if (--mRemaininglGames == 0)
     mState = State::Exit;
+  mMutex.UnLock();
 
   return feed;
 }
