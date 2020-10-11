@@ -38,10 +38,11 @@ All notable changes to this project will be documented in this file.
 - Add missing bios report file
 - Add more xbox pathed configurations
 - Fix idroid pad for kodi
-- Fix idroid pad for kodi
 - Fix network status in Network menu
 - Fix i18n plural forms
 - Fix video player behevior while reading invalid files
+- Fix NESPi4 cas shutdown script
+
 
 ## [7.0]
 - Update tft-waveshare overlays (support of 3.5 rev B and rev C tft screen)

@@ -45,6 +45,7 @@
 - Fix connected/disconnected status in Network menu
 - Fix i18n plural forms (Chineese language are now working)
 - Fix video player behevior while reading invalid files
+- Fix NESPi4 cas shutdown script
 
 
 ## Version 7.0
