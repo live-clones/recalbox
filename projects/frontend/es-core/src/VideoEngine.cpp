@@ -96,7 +96,10 @@ void VideoEngine::Run()
     while(IsRunning())
     {
       // Wait for a video to play
-      mState = PlayerState::Idle;
+      if(mState != PlayerState::Error)
+      {
+          mState = PlayerState::Idle;
+      }
       mSignal.WaitSignal();
       if (!IsRunning())
       {
@@ -115,6 +118,10 @@ void VideoEngine::Run()
         {
           DecodeFrames();
         }
+      }
+      else
+      {
+           mState = PlayerState::Error;
       }
       FinalizeDecoder();
     }
@@ -145,6 +152,12 @@ void VideoEngine::StopVideo(bool waitforstop)
 {
   switch(mState)
   {
+    case PlayerState::Error:
+    {
+
+        mState = PlayerState::Idle;
+        break;
+    }
     case PlayerState::Idle: break;
     case PlayerState::StartPending:
     case PlayerState::Paused:

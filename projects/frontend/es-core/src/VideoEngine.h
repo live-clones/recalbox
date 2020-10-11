@@ -33,6 +33,7 @@ class VideoEngine : public StaticLifeCycleControler<VideoEngine>, private Thread
       Playing,      // Currently playing
       Paused,       // Pause flag
       StopPending,  // Currently playing but must stop asap and return idle
+      Error,        // video is in error
     };
 
   private:
