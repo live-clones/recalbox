@@ -77,7 +77,8 @@ bool Internationalizer::HasPlural(const char* string, int length, int& newlength
       return true;
     }
 
-  return false;
+  newlength = length;
+  return true;
 }
 
 bool Internationalizer::BuildStringIndexes()
@@ -142,8 +143,11 @@ bool Internationalizer::BuildStringIndexes()
       // Add plural form
       key += keySplit + 1; keyLength -= keySplit + 1;
       translated += translatedSplit + 1; transLength -= translatedSplit + 1;
-      Hash(key, keyLength, h1, h2);
-      sStrings.push_back({key, translated, keyLength, transLength, h1, h2 });
+      if (transLength > 0)
+      {
+        Hash(key, keyLength, h1, h2);
+        sStrings.push_back({ key, translated, keyLength, transLength, h1, h2 });
+      }
     }
     else
     {
