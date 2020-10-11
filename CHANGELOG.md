@@ -45,6 +45,7 @@ All notable changes to this project will be documented in this file.
 - Fix NESPi4 cas shutdown script
 - Fix Rpi4 GPU OOM in VK
 - Fix crash while quitting gamelist menu in virtual systems
+- Bump kodi
 
 
 ## [7.0]

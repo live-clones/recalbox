@@ -8,15 +8,15 @@
 # and kodi-texturepacker
 # rpi 0/1/2, xu4 and PC
 ifeq ($(BR2_PACKAGE_KODI_FLAVOR_XBMC),y)
-KODI_VERSION = 18.7.1-Leia
+KODI_VERSION = 18.8-Leia
 KODI_SITE = $(call github,xbmc,xbmc,$(KODI_VERSION))
 else ifeq ($(BR2_PACKAGE_KODI_FLAVOR_POPCORNMIX),y)
 # rpi3
 ifeq ($(BR2_cortex_a53),y)
-KODI_VERSION = newclock5_18.7.1-Leia
+KODI_VERSION = newclock5_18.8-Leia
 # rpi4
 else ifeq ($(BR2_cortex_a72),y)
-KODI_VERSION = leia_pi4_18.7.1-Leia
+KODI_VERSION = leia_pi4_18.8-Leia
 endif
 KODI_SITE = $(call github,popcornmix,xbmc,$(KODI_VERSION))
 endif

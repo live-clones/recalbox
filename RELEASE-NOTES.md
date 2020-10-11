@@ -13,6 +13,7 @@
 - SNES default emulators pi0/1: pisnes, pi2/3: snes9x2010 & snes9x elsewhere
 - Bump FBNeo - Emulation improvements + fix neogeo-CD audio artifects
 - Bump linux-firmware to 2020.09.18
+- Bump kodi to 18.8
 
 ### Fixes
 - Fix Missing dat files mame, naomi(Gd), atomiswave

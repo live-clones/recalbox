@@ -1,5 +1,5 @@
 diff --git a/package/kodi/kodi.mk b/package/kodi/kodi.mk
-index 2f2a92a889..7e89b37c19 100644
+index 2f2a92a889..44ce6de636 100644
 --- a/package/kodi/kodi.mk
 +++ b/package/kodi/kodi.mk
 @@ -6,8 +6,20 @@
@@ -9,15 +9,15 @@ index 2f2a92a889..7e89b37c19 100644
 -KODI_VERSION = 18.5-Leia
 +# rpi 0/1/2, xu4 and PC
 +ifeq ($(BR2_PACKAGE_KODI_FLAVOR_XBMC),y)
-+KODI_VERSION = 18.7.1-Leia
++KODI_VERSION = 18.8-Leia
  KODI_SITE = $(call github,xbmc,xbmc,$(KODI_VERSION))
 +else ifeq ($(BR2_PACKAGE_KODI_FLAVOR_POPCORNMIX),y)
 +# rpi3
 +ifeq ($(BR2_cortex_a53),y)
-+KODI_VERSION = newclock5_18.7.1-Leia
++KODI_VERSION = newclock5_18.8-Leia
 +# rpi4
 +else ifeq ($(BR2_cortex_a72),y)
-+KODI_VERSION = leia_pi4_18.7.1-Leia
++KODI_VERSION = leia_pi4_18.8-Leia
 +endif
 +KODI_SITE = $(call github,popcornmix,xbmc,$(KODI_VERSION))
 +endif
