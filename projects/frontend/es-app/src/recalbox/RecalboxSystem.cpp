@@ -17,6 +17,7 @@
 #include <utils/Strings.h>
 #include <utils/Files.h>
 #include <MainRunner.h>
+#include <Upgrade.h>
 
 std::string RecalboxSystem::BuildSettingsCommand(const std::string& arguments)
 {
@@ -384,10 +385,12 @@ std::pair<std::string, int> RecalboxSystem::execute(const std::string& command)
 
 bool RecalboxSystem::ping()
 {
-  const std::string& updateserver = Settings::Instance().UpdateServer();
+  return Upgrade::NetworkReady();
+
+  /*const std::string& updateserver = Settings::Instance().UpdateServer();
   std::string s("ping -c 1 " + updateserver);
   int exitcode = system(s.c_str());
-  return exitcode == 0;
+  return exitcode == 0;*/
 }
 
 std::pair<std::string, int> RecalboxSystem::getSDLBatteryInfo()

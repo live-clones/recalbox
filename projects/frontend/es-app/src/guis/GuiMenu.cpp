@@ -1201,7 +1201,8 @@ void GuiMenu::menuSoundSettings(){
   mWindow.pushGui(s);
 }
 
-void GuiMenu::menuNetworkSettings(){
+void GuiMenu::menuNetworkSettings()
+{
   auto* s = new GuiSettings(mWindow, _("NETWORK SETTINGS"));
   auto status = std::make_shared<TextComponent>(mWindow, RecalboxSystem::ping() ? _( "CONNECTED")
       : _("NOT CONNECTED"), mMenuTheme->menuText.font, mMenuTheme->menuText.color);

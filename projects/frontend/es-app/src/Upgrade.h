@@ -40,6 +40,12 @@ class Upgrade: private Thread, private ISynchronousEvent
       return mRemoteVersion != mLocalVersion;
     }
 
+    /*!
+     * @brief Check if the network is ready
+     * @return True if the network is ready
+     */
+    static bool NetworkReady() { return !GetDomainName().empty(); }
+
   private:
     //! Release DNS
     static constexpr const char* sReleaseDNS = "stable.download.recalbox.com";
