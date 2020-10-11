@@ -41,6 +41,10 @@
 - Fix mouse not working on rpi4
 - Fix multi-file zipped roms hash calculations (arcade)
 - Add more hard-patched xbox pads
+- Fix idroid pad for kodi
+- Fix connected/disconnected status in Network menu
+- Fix i18n plural forms (Chineese language are now working)
+- Fix video player behevior while reading invalid files
 
 
 ## Version 7.0
