@@ -49,7 +49,7 @@ def writeKodiControllersConfig(controllers):
         # Determine XML file name
         nbButtons = controllerObj.nbbuttons
         nbAxis = controllerObj.getTotalAxisNumber()
-        xmlFileName = recalboxFiles.kodiJoystick + "/{}_{}b_{}a.xml".format(controllerObj.realName.strip().replace(' ', '_'), nbButtons, nbAxis)
+        xmlFileName = recalboxFiles.kodiJoystick + "/{}_{}b_{}a.xml".format(controllerObj.realName.strip().replace(' ', '_').replace(':', '_'), nbButtons, nbAxis)
         print(xmlFileName)
 
         buttonmap = ET.Element("buttonmap")
