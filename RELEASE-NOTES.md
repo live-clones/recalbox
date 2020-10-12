@@ -15,6 +15,7 @@
 - Bump linux-firmware to 2020.09.18
 
 ### Fixes
+- Fix Missing dat files mame, naomi(Gd), atomiswave
 - Fix Netflix plugin authentication (bump to v1.10.0) 
 - Fix RPI4 blackscreen issues while booting
 - Fix doom.wad required for WADs games (prboom core)
