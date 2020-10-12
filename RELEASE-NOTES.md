@@ -47,6 +47,7 @@
 - Fix video player behavior while reading invalid files
 - Fix NESPi4 case shutdown script
 - Fix VirtualKeyboard red mess on Pi4
+- Fix crash while quitting gamelist menu in virtual systems
 
 
 ## Version 7.0
