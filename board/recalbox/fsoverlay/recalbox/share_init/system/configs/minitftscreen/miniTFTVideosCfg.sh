@@ -115,7 +115,7 @@ case "${TFTESSystem}" in
     imageviewer)     LogoFile="${DefaultLogo}" && Loop="${DefaultLogoLoop}" ;; # tbd
     scummvm)         LogoFile='SCUMMVM/VideoSnaps/logo.mp4' && Loop=-1  ;;
     moonlight)       LogoFile="${DefaultLogo}" && Loop="${DefaultLogoLoop}"  ;; # tbd
-    kodi)            LogoFile='Kodi/logo.png' && Loop=-1  ;;
+    kodi)            LogoFile='RBvideos/introRecalboxKodi.mp4' && Loop=-1  ;;
     *)               LogoFile="${DefaultLogo}" && Loop="${DefaultLogoLoop}"  ;; # tbd    
 esac
 }
