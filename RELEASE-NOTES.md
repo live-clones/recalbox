@@ -44,9 +44,9 @@
 - Fix idroid pad for kodi
 - Fix connected/disconnected status in Network menu
 - Fix i18n plural forms (Chineese language are now working)
-- Fix video player behevior while reading invalid files
-- Fix NESPi4 cas shutdown script
-- Fix VirtualKeyboard red mess
+- Fix video player behavior while reading invalid files
+- Fix NESPi4 case shutdown script
+- Fix VirtualKeyboard red mess on Pi4
 
 
 ## Version 7.0
