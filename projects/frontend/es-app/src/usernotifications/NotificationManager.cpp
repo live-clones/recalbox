@@ -39,6 +39,7 @@ const char* NotificationManager::ActionToString(Notification action)
     case Notification::Quit:                 return "quit";
     case Notification::SystemBrowsing:       return "systembrowsing";
     case Notification::GamelistBrowsing:     return "gamelistbrowsing";
+    case Notification::RunKodi:              return "runkodi";
     case Notification::RunGame:              return "rungame";
     case Notification::RunDemo:              return "rundemo";
     case Notification::EndGame:              return "endgame";
@@ -66,6 +67,7 @@ Notification NotificationManager::ActionFromString(const std::string& action)
     { "quit"                , Notification::Quit                 },
     { "systembrowsing"      , Notification::SystemBrowsing       },
     { "gamelistbrowsing"    , Notification::GamelistBrowsing     },
+    { "runkodi"             , Notification::RunKodi              },
     { "rungame"             , Notification::RunGame              },
     { "rundemo"             , Notification::RunDemo              },
     { "endgame"             , Notification::EndGame              },
@@ -183,6 +185,9 @@ void NotificationManager::BuildStateCommons(std::string& output, const SystemDat
   if (system != nullptr)
     output.append("System=").append(system->getFullName()).append(eol)
           .append("SystemId=").append(system->getName()).append(eol);
+  else if (action == Notification::RunKodi)
+    output.append("System=kodi").append(eol)
+          .append("SystemId=kodi").append(eol);
   else
     output.append("System=").append(eol)
           .append("SystemId=").append(eol);
@@ -241,6 +246,7 @@ void NotificationManager::BuildStateCompatibility(std::string& output, Notificat
   output.append("State=");
   switch(action)
   {
+    case Notification::RunKodi:
     case Notification::RunGame: output.append("playing"); break;
     case Notification::RunDemo: output.append("demo"); break;
     case Notification::None:

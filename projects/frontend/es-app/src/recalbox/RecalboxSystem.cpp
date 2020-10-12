@@ -181,6 +181,8 @@ bool RecalboxSystem::launchKodi(Window& window)
 
   Window::Finalize();
 
+  NotificationManager::Instance().NotifyKodi();
+
   int exitCode = system(command.c_str());
   if (WIFEXITED(exitCode))
   {
