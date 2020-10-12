@@ -6,7 +6,7 @@
 - Add Sigil in PORTS (https://www.romerogames.ie/si6il)
 - Add Kubo 3 on NES (dale_coop & seiji)
 - Add raspi-gpio to manage GPIO in scripts
-- Add new boot videos
+- Add new boot videos (GBA & Amiga)
 - Add missing bios report file (share/bios/missing_bios_file.txt)
 
 ### Improvements
@@ -46,6 +46,7 @@
 - Fix i18n plural forms (Chineese language are now working)
 - Fix video player behevior while reading invalid files
 - Fix NESPi4 cas shutdown script
+- Fix VirtualKeyboard red mess
 
 
 ## Version 7.0

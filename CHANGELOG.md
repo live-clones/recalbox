@@ -42,6 +42,7 @@ All notable changes to this project will be documented in this file.
 - Fix i18n plural forms
 - Fix video player behevior while reading invalid files
 - Fix NESPi4 cas shutdown script
+- Fix Rpi4 GPU OOM in VK
 
 
 ## [7.0]
