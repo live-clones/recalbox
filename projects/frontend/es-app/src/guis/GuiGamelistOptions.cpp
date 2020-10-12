@@ -178,7 +178,7 @@ GuiGamelistOptions::~GuiGamelistOptions()
 	const FolderData& root = mSystem.getRootFolder();
 	if (root.countAllDisplayableItemsRecursively(false, mSystem.IncludeAdultGames()) != 0)
 	{
-		if (mListSort->getSelected() != (int)mSystem.getSortId())
+		if (mListSort && mListSort->getSelected() != (int)mSystem.getSortId())
 		{
 			// notify that the root folder has to be sorted
 			getGamelist()->onFileChanged(&mSystem.getRootFolder(), FileChangeType::Sorted);
