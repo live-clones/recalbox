@@ -238,9 +238,11 @@ void GuiMenu::menuSystem(){
   // Storage device
   auto optionsStorage = std::make_shared<OptionListComponent<std::string> >(mWindow,
       _("STORAGE DEVICE"), false);
-  if (selectedStorage == "NETWORK") {
+
+  IniFile bootConf(Path("/boot/recalbox-boot.conf"));
+  if (bootConf.HasKeyStartingWith("sharenetwork_") || bootConf.AsString("sharedevice") == "NETWORK")
     optionsStorage->add("NETWORK", "NETWORK", true);
-  }
+
   for (auto& it : availableStorage)
   {
     if (it != "RAM") {

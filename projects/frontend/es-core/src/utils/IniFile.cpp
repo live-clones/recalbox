@@ -24,7 +24,7 @@ IniFile::IniFile(const Path& path)
 
 bool IniFile::IsValidKeyValue(const std::string& line, std::string& key, std::string& value)
 {
-  static std::string _allowedCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-,;:/!?*+=<>()@\"'#&{}[]%$";
+  static std::string _allowedCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_.-";
   if (!line.empty()) // Ignore empty line
   {
     bool comment = (line[0] == ';' || line[0] == '#');
@@ -206,5 +206,18 @@ std::string IniFile::ExtractValue(const std::string& key) const
   std::string* item = mPendingWrites.try_get(key);
   if (item == nullptr) item = mConfiguration.try_get(key);
   return (item != nullptr) ? *item : std::string();
+}
+
+bool IniFile::HasKeyStartingWith(const std::string& startWidth)
+{
+  for (auto& it : mPendingWrites)
+    if (Strings::StartsWith(it.first, startWidth))
+      return true;
+
+  for (auto& it : mConfiguration)
+    if (Strings::StartsWith(it.first, startWidth))
+      return true;
+
+  return false;
 }
 
