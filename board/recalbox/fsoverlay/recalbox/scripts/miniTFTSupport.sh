@@ -219,7 +219,7 @@ do_start() {
                                 ;;
                         esac
                         ;;
-                    systembrowsing)     
+                    systembrowsing|runkodi)     
                         #get system
                         TFTESSystem="$(sed -n 's/^SystemId=\([^\r]\+\)\r\?$/\1/p' /tmp/es_state.inf)"
                         #select system video
