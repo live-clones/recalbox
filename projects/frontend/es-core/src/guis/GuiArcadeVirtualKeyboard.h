@@ -222,13 +222,13 @@ class GuiArcadeVirtualKeyboard : public Gui
       {
         case RaspberryGeneration::UndetectedYet:
         case RaspberryGeneration::NotRaspberry:
-        case RaspberryGeneration::Pi4:
         case RaspberryGeneration::NotYetKnown:break;
         case RaspberryGeneration::Pi0:
         case RaspberryGeneration::Pi1:
         case RaspberryGeneration::Pi2:
         case RaspberryGeneration::Pi3:
         case RaspberryGeneration::Pi3plus:
+        case RaspberryGeneration::Pi4:
         {
           int max = (int)(sWheelFontRatio * 800);
           if (iRatio > max)
