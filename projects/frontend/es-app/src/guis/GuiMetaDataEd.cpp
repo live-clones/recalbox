@@ -286,7 +286,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window& window,
 
   buttons.push_back(std::make_shared<ButtonComponent>(mWindow, _("CANCEL"), _("CANCEL"), [&] { Close(); }));
 
-  if (main && mActions != nullptr)
+  if (main && mActions != nullptr && !mGame.getSystem()->IsVirtual())
   {
     auto deleteFileAndSelf = [&]
     {
