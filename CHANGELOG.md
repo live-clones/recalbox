@@ -46,6 +46,8 @@ All notable changes to this project will be documented in this file.
 - Fix Rpi4 GPU OOM in VK
 - Fix crash while quitting gamelist menu in virtual systems
 - Bump kodi
+- Removed delete button from virtual systems
+- Fix main menu still accessible while it should not be.
 
 
 ## [7.0]

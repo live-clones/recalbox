@@ -50,6 +50,7 @@
 - Fix NESPi4 case shutdown script
 - Fix VirtualKeyboard red mess on Pi4
 - Fix crash while quitting gamelist menu in virtual systems
+- Fix main menu still accessible while it should not be.
 
 
 ## Version 7.0
