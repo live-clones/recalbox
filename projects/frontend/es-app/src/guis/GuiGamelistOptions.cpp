@@ -145,19 +145,22 @@ GuiGamelistOptions::GuiGamelistOptions(Window& window, SystemData& system, Syste
         mMenu.addRowWithHelp(row, _("UPDATE GAMES LISTS"), _(MENUMESSAGE_UI_UPDATE_GAMELIST_HELP_MSG));
     }
 
-  // Main menu
-  row.elements.clear();
-  row.addElement(std::make_shared<TextComponent>(mWindow, _("MAIN MENU"), menuTheme->menuText.font, menuTheme->menuText.color), true);
-  row.addElement(makeArrow(mWindow), false);
-  row.makeAcceptInputHandler([this] { mWindow.pushGui(new GuiMenu(mWindow, mSystemManager)); });
-  mMenu.addRow(row);
+	if (RecalboxConf::Instance().AsString("emulationstation.menu") != "none")
+  {
+    // Main menu
+    row.elements.clear();
+    row.addElement(std::make_shared<TextComponent>(mWindow, _("MAIN MENU"), menuTheme->menuText.font, menuTheme->menuText.color), true);
+    row.addElement(makeArrow(mWindow), false);
+    row.makeAcceptInputHandler([this] { mWindow.pushGui(new GuiMenu(mWindow, mSystemManager)); });
+    mMenu.addRow(row);
 
-  // QUIT
-  row.elements.clear();
-  row.addElement(std::make_shared<TextComponent>(mWindow, _("QUIT"), menuTheme->menuText.font, menuTheme->menuText.color), true);
-  row.addElement(makeArrow(mWindow), false);
-  row.makeAcceptInputHandler([this] { GuiQuit::PushQuitGui(mWindow); });
-  mMenu.addRow(row);
+    // QUIT
+    row.elements.clear();
+    row.addElement(std::make_shared<TextComponent>(mWindow, _("QUIT"), menuTheme->menuText.font, menuTheme->menuText.color), true);
+    row.addElement(makeArrow(mWindow), false);
+    row.makeAcceptInputHandler([this] { GuiQuit::PushQuitGui(mWindow); });
+    mMenu.addRow(row);
+  }
 
 	// center the menu
 	setSize(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
