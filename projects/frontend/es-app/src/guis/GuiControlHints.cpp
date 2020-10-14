@@ -87,7 +87,7 @@ static std::string IconTextMap(PadItems padItems, int pad)
   return result;
 }
 
-GuiControlHints::GuiControlHints(Window& window, Path romPath)
+GuiControlHints::GuiControlHints(Window& window, const Path& romPath)
   : Gui(window),
     mGrid(window, { 0, 0}),
     mBackground(window, Path(":/frame.png")),
@@ -118,14 +118,14 @@ GuiControlHints::GuiControlHints(Window& window, Path romPath)
   const float height = Math::round(font->getLetterHeight() * 1.75f);
 
   // Some calculation to adapt row/column regarding the number of items
-  float windowWidth = Renderer::getDisplayWidthAsFloat() * 0.60;
+  float windowWidth = Renderer::getDisplayWidthAsFloat() * 0.60f;
   mRows = mapping.Count();
   mColumns = 1;
-  if (height * mRows > Renderer::getDisplayHeightAsFloat() * 0.60)
+  if (height * (float)mRows > Renderer::getDisplayHeightAsFloat() * 0.60f)
   {
     mRows = (mRows + 1) / 2;
     mColumns = 2;
-    windowWidth = Renderer::getDisplayWidthAsFloat() * 0.90;
+    windowWidth = Renderer::getDisplayWidthAsFloat() * 0.90f;
   }
   mGrid.SetGridDimensions({ mColumns * 5 + 2, mRows + 3 });
 
@@ -169,7 +169,7 @@ GuiControlHints::GuiControlHints(Window& window, Path romPath)
 
   // Set Window position/size
   float titleHeight = mTitle->getFont()->getLetterHeight() * 2.6f;
-  setSize(windowWidth, mRows * (font->getLetterHeight() * 2.25f) + titleHeight + Renderer::getDisplayHeightAsFloat() * 0.04);
+  setSize(windowWidth, (float)mRows * (font->getLetterHeight() * 2.25f) + titleHeight + Renderer::getDisplayHeightAsFloat() * 0.04f);
   setPosition((Renderer::getDisplayWidthAsFloat() - mSize.x()) / 2, (Renderer::getDisplayHeightAsFloat() - mSize.y()) / 2);
 }
 
