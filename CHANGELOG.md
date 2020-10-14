@@ -51,6 +51,7 @@ All notable changes to this project will be documented in this file.
 - Fix main menu still accessible while it should not be.
 - Fix crash in p2k window
 - Fix gpi shutdown script
+- Make pc98 playable with pads/joysticks
 
 
 ## [7.0]

@@ -14,6 +14,7 @@
 - Bump FBNeo - Emulation improvements + fix neogeo-CD audio artifects
 - Bump linux-firmware to 2020.09.18
 - Bump kodi to 18.8
+- Make pc98 playable with pads/joysticks
 
 ### Fixes
 - Fix Missing dat files mame, naomi(Gd), atomiswave
