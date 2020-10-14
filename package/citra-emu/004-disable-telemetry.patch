@@ -1,0 +1,13 @@
+--- a/src/citra_qt/main.cpp	2020-01-17 01:54:46.932140313 +0100
++++ b/src/citr_qt/main.cpp	2020-01-17 01:53:19.711488000 +0100
+@@ -186,8 +186,9 @@
+     game_list->LoadCompatibilityList();
+     game_list->PopulateAsync(UISettings::values.game_dirs);
+ 
++    // recalbox disable telemetry popup on first boot  
+     // Show one-time "callout" messages to the user
+-    ShowTelemetryCallout();
++    // ShowTelemetryCallout();
+ 
+     if (UISettings::values.check_for_update_on_start) {
+         CheckForUpdates();
