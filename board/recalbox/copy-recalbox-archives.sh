@@ -82,6 +82,8 @@ case "${RECALBOX_TARGET}" in
 		|| cp "${BINARIES_DIR}/zImage" "${BINARIES_DIR}/rpi-firmware/boot/linux"
 	cp "${BINARIES_DIR}/initrd.gz" "${BINARIES_DIR}/rpi-firmware/boot" || exit 1
 	cp "${BINARIES_DIR}/rootfs.squashfs" "${BINARIES_DIR}/rpi-firmware/boot/recalbox" || exit 1
+  [[ -f ${BINARIES_DIR}/pre-upgrade.sh ]] && \
+    cp "${BINARIES_DIR}/pre-upgrade.sh" "${BINARIES_DIR}/rpi-firmware/pre-upgrade.sh"
 
 	generate_boot_file_list "${BINARIES_DIR}/rpi-firmware/" | \
 		grep -v -E '^(boot.lst|config.txt|recalbox-boot.conf)$' >"${BINARIES_DIR}/rpi-firmware/boot.lst"
@@ -117,6 +119,8 @@ case "${RECALBOX_TARGET}" in
 	cp "${BINARIES_DIR}/uInitrd" "${BINARIES_DIR}/xu4-firmware/boot/" || exit 1
 	cp "${BINARIES_DIR}/zImage" "${BINARIES_DIR}/xu4-firmware/boot/linux" || exit 1
 	cp "${BINARIES_DIR}/rootfs.squashfs" "${BINARIES_DIR}/xu4-firmware/boot/recalbox" || exit 1
+  [[ -f ${BINARIES_DIR}/pre-upgrade.sh ]] && \
+    cp "${BINARIES_DIR}/pre-upgrade.sh" "${BINARIES_DIR}/xu4-firmware/pre-upgrade.sh"
 
 	generate_boot_file_list "${BINARIES_DIR}/xu4-firmware/" | \
 		grep -v -E '^(boot.lst|boot.ini|recalbox-boot.conf)$' >"${BINARIES_DIR}/boot.lst"
@@ -152,6 +156,8 @@ case "${RECALBOX_TARGET}" in
 	cp "${BINARIES_DIR}/initrd.gz" "${BINARIES_DIR}/pc-boot/boot" || exit 1
 	cp "${BINARIES_DIR}/rootfs.squashfs" "${BINARIES_DIR}/pc-boot/boot/recalbox" || exit 1
 	cp "${BINARIES_DIR}/recalbox-boot.conf" "${BINARIES_DIR}/pc-boot/" || exit 1
+  [[ -f ${BINARIES_DIR}/pre-upgrade.sh ]] && \
+    cp "${BINARIES_DIR}/pre-upgrade.sh" "${BINARIES_DIR}/pc-boot/pre-upgrade.sh"
 
 	# get UEFI files
 	if [[ ${RECALBOX_TARGET} == "X86_64" ]] ; then

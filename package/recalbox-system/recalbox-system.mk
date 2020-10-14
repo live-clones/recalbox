@@ -58,6 +58,7 @@ define RECALBOX_SYSTEM_INSTALL_TARGET_CMDS
 	# recalbox-boot.conf
 	$(INSTALL) -D -m 0644 $(RECALBOX_SYSTEM_PKGDIR)/recalbox-boot.conf $(BINARIES_DIR)/$(RECALBOX_SYSTEM_FIRMWAREDIR)/recalbox-boot.conf
 	$(RECALBOX_SYSTEM_INSTALL_RPI_CONFIG)
+	[[ -f $(RECALBOX_SYSTEM_PKGDIR)/$(RECALBOX_SYSTEM_RECALBOX_CONF)/pre-upgrade.sh ]] && $(INSTALL) -D -m 0755 $(RECALBOX_SYSTEM_PKGDIR)/$(RECALBOX_SYSTEM_RECALBOX_CONF)/pre-upgrade.sh $(BINARIES_DIR)/pre-upgrade.sh || :
 endef
 
 $(eval $(generic-package))

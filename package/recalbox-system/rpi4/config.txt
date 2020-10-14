@@ -38,8 +38,8 @@ dtoverlay=vc4-fkms-v3d
 # allow only one framebuffer (the one marked 0, closest to the power input)
 max_framebuffers=1
 
-# allow 4k 60hz - Comment if fou have a black screen
-hdmi_enable_4kp60=1
+# disable 4k 60hz - enabling can cause random freezes
+#hdmi_enable_4kp60=0
 
 # total amount of GPU memory
 gpu_mem=448
