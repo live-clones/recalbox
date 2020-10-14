@@ -51,6 +51,7 @@
 - Fix VirtualKeyboard red mess on Pi4
 - Fix crash while quitting gamelist menu in virtual systems
 - Fix main menu still accessible while it should not be.
+- Fix crash in p2k hints with some p2k definitions
 
 
 ## Version 7.0

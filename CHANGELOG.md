@@ -49,6 +49,7 @@ All notable changes to this project will be documented in this file.
 - Bump kodi
 - Removed delete button from virtual systems
 - Fix main menu still accessible while it should not be.
+- Fix crash in p2k window
 
 
 ## [7.0]
