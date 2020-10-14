@@ -91,6 +91,9 @@ GuiUpdateRecalbox::GuiUpdateRecalbox(Window& window, const std::string& url, con
   setPosition((Renderer::getDisplayWidthAsFloat() - width) / 2,
               (Renderer::getDisplayHeightAsFloat() - height) / 2);
 
+  // Avoid sleeping!
+  mIsProcessing = true;
+
   // start the thread if not aleaady done
   Thread::Start("DLUpdate");
 }
