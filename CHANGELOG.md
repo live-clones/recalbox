@@ -50,6 +50,7 @@ All notable changes to this project will be documented in this file.
 - Removed delete button from virtual systems
 - Fix main menu still accessible while it should not be.
 - Fix crash in p2k window
+- Fix gpi shutdown script
 
 
 ## [7.0]
