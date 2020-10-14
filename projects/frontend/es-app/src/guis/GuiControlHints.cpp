@@ -41,11 +41,11 @@ static const char* IconPathMap(PadItems padItems)
       { PadItems::J1Up,              ":/help/joystick_up_L.svg" },
       { PadItems::J1Down,            ":/help/joystick_down_L.svg" },
       { PadItems::J1Left,            ":/help/joystick_left_L.svg" },
-      { PadItems::J1Down,            ":/help/joystick_right_L.svg" },
+      { PadItems::J1Right,           ":/help/joystick_right_L.svg" },
       { PadItems::J2Up,              ":/help/joystick_up_R.svg" },
       { PadItems::J2Down,            ":/help/joystick_down_R.svg" },
       { PadItems::J2Left,            ":/help/joystick_left_R.svg" },
-      { PadItems::J2Down,            ":/help/joystick_right_R.svg" },
+      { PadItems::J2Right,           ":/help/joystick_right_R.svg" },
     };
   return sIconPathMap.get_or_return_default(padItems);
 }
