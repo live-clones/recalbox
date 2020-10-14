@@ -55,6 +55,7 @@
 - Fix crash in p2k hints with some p2k definitions
 - Fix GPI case shutdown script
 - Fix screensaver triggered while downloading updates
+- Fix rpi4 random freeze
 
 
 ## Version 7.0

@@ -54,6 +54,7 @@ All notable changes to this project will be documented in this file.
 - Fix gpi shutdown script
 - Make pc98 playable with pads/joysticks
 - Fix screensaver triggered while downloading updates
+- Fix Rpi4 random freezes
 
 
 ## [7.0]
