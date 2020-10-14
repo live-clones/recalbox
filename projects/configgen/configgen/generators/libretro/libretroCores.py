@@ -32,6 +32,11 @@ class LibretroCores:
         coreSettings.setOption("parallel-n64-64dd-hardware", '"disabled"')
         coreSettings.setOption("parallel-n64-gfxplugin", '"auto"')
 
+    @staticmethod
+    # (pc98) force the "joymode" option to have automatic joystick support.
+    def configureNPKAI(coreSettings):
+        coreSettings.setOption("np2kai_joymode", '"Keypad"')
+
     #
     # System specific configurations
     #
@@ -98,7 +103,6 @@ class LibretroCores:
     def configureMsxTurboR(coreSettings):
         coreSettings.setOption("bluemsx_msxtype", '"MSXturboR"')
 
-
     # Fill cores configuration
     def fillCoresConfiguration(self):
         recalbox = self.system.config
@@ -111,6 +115,7 @@ class LibretroCores:
             "mame2003_plus": LibretroCores.configureMAME2003plus,
             "opera": LibretroCores.configureOpera,
             "parallel_n64": LibretroCores.configurePARALLELN64,
+            "np2kai" : LibretroCores.configureNPKAI,
         }
 
         # Get handler and execute
@@ -133,6 +138,7 @@ class LibretroCores:
             "msx1"         : LibretroCores.configureMsx1,
             "msx2"         : LibretroCores.configureMsx2,
             "msxturbor"    : LibretroCores.configureMsxTurboR,
+            "pc98"         : LibretroCores.configureNPKAI,
         }
 
         # Get handler and execute
