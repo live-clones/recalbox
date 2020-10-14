@@ -53,6 +53,7 @@ All notable changes to this project will be documented in this file.
 - Fix crash in p2k window
 - Fix gpi shutdown script
 - Make pc98 playable with pads/joysticks
+- Fix screensaver triggered while downloading updates
 
 
 ## [7.0]

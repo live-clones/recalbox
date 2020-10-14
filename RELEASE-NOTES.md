@@ -54,6 +54,7 @@
 - Fix main menu still accessible while it should not be.
 - Fix crash in p2k hints with some p2k definitions
 - Fix GPI case shutdown script
+- Fix screensaver triggered while downloading updates
 
 
 ## Version 7.0
