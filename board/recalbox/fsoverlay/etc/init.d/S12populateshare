@@ -47,8 +47,7 @@ done
 OLDIFS=$IFS
 IFS=','
 for DIRS in /usr/share/retroarch/assets,system/.config/retroarch/assets \
-            /overlay/bootvideos,bootvideos \
-            /boot/update,update
+            /overlay/bootvideos,bootvideos
 do
     set -- $DIRS
     TARGET=$1
