@@ -111,7 +111,7 @@ case "$1" in
     rb_gpio_configure&    # 0.9 start by the gpio while it's the longer
     rb_keyboad_lang&      # 0.7
 
-    ( rb_volume_configure ; rb_audio_configure ) &  # 1.0
+#    ( rb_volume_configure ; rb_audio_configure ) &  # 1.0
     rb_timezone&          # 0.4
     rb_hostname&          # 0.4
     wait
