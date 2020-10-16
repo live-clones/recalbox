@@ -127,9 +127,13 @@ void GuiUpdateRecalbox::Run()
   // Set boot partition R/W
   system("mount -o remount,rw /boot");
 
+  // Get arch
+  std::string arch = Files::LoadFile(Path("/recalbox/recalbox.arch"));
+  Strings::ReplaceAllIn(arch, "odroidxu4", "xu4");
+
   // Get destination filename
   std::string destinationFileName = "recalbox-%.img.xz";
-  Strings::ReplaceAllIn(destinationFileName, "%", Settings::Instance().Arch());
+  Strings::ReplaceAllIn(destinationFileName, "%", arch);
 
   // Download
   Path destination = Path("/boot/update") / destinationFileName;
