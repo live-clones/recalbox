@@ -10,6 +10,8 @@
 
 ### Fixes
 - Fix AdvanceMAME
+- Fix broken WIFI on some Intel chips
+- Bring back all firmwares
 
 
 ## Version 7.0.1

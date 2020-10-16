@@ -9,6 +9,9 @@ All notable changes to this project will be documented in this file.
 - Add .car extension support for atari800
 
 ## [7.0.1]
+- Fix Intel WIFI not working (#1363)
+
+## [7.0.1]
 - Fix resolution and fullscreen display for intro video
 - Fix Missing dat files mame, naomi(Gd), atomiswave
 - Add waveshare wm8960 audio hat support
