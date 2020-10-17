@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --system atari5200 --extension '.a52 .atr .bas .bin .car .dcm .xex .xfd .atr.gz .xfd.gz .zip' --fullname 'Atari 5200' --platform atari5200 --theme atari5200 1:libretro:atari800:BR2_PACKAGE_LIBRETRO_ATARI800
+# ./scripts/linux/empack.py --force --system atari5200 --extension '.a52 .atr .bas .bin .car .cdm .xex .xfd .atr.gz .xfd.gz .zip' --fullname 'Atari 5200' --platform atari5200 --theme atari5200 1:libretro:atari800:BR2_PACKAGE_LIBRETRO_ATARI800
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_ATARI5200_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_ATARI5200 = $(RECALBOX_ROMFS_ATARI5200_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_ATARI800),)
 define CONFIGURE_MAIN_ATARI5200_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_ATARI5200),Atari 5200,$(SYSTEM_NAME_ATARI5200),.a52 .atr .bas .bin .car .dcm .xex .xfd .atr.gz .xfd.gz .zip,atari5200,atari5200)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_ATARI5200),Atari 5200,$(SYSTEM_NAME_ATARI5200),.a52 .atr .bas .bin .car .cdm .xex .xfd .atr.gz .xfd.gz .zip,atari5200,atari5200)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_ATARI800),)
