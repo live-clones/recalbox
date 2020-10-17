@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 - Fix AdvanceMAME log output
 - Fix AdvanceMAME configgen
 - Improved NESPi4 case detection
+## [7.0.2]
+- Add .car extension support for atari800
 
 ## [7.0.1]
 - Fix resolution and fullscreen display for intro video

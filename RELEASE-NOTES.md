@@ -6,6 +6,7 @@
 
 ### Improvements
 - Improved NESPi4 case detection
+- Libretro-atari800 with .car extension support
 
 ### Fixes
 - Fix AdvanceMAME
