@@ -4,12 +4,9 @@
 #
 ################################################################################
 
-LIBRETRO_ATARI800_VERSION = 59820eb2b007a9d0e76f0380dfb0580c96bd14e8
-LIBRETRO_ATARI800_SITE = git://github.com/libretro/libretro-atari800.git
-LIBRETRO_ATARI800_SITE_METHOD=git
-LIBRETRO_ATARI800_GIT_SUBMODULES=y
+LIBRETRO_ATARI800_VERSION = 70182481ec0ce2d027ed6fb3f7296d9662c7d58e
+LIBRETRO_ATARI800_SITE = $(call github,libretro,libretro-atari800,$(LIBRETRO_ATARI800_VERSION))
 LIBRETRO_ATARI800_LICENSE = GPL
-LIBRETRO_ATARI800_DEPENDENCIES = zlib
 
 define LIBRETRO_ATARI800_BUILD_CMDS
 	$(SED) "s|-O2|-O3|g" $(@D)/Makefile
