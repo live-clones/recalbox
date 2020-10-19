@@ -75,7 +75,7 @@ lint commits:
       - build.log
     expire_in: 2 mos
 
-build rpi1:
+build rpi1: &build_rpi1
   <<: *build_definition
   when: manual
   only:
@@ -83,7 +83,7 @@ build rpi1:
     - tags
   variables:
     ARCH: 'rpi1'
-build rpi2:
+build rpi2: &build_rpi2
   <<: *build_definition
   when: manual
   only:
@@ -91,7 +91,7 @@ build rpi2:
     - tags
   variables:
     ARCH: 'rpi2'
-build rpi3:
+build rpi3: &build_rpi3
   <<: *build_definition
   when: manual
   only:
@@ -99,7 +99,7 @@ build rpi3:
     - tags
   variables:
     ARCH: 'rpi3'
-build rpi4:
+build rpi4: &build_rpi4
   <<: *build_definition
   when: manual
   only:
@@ -107,7 +107,7 @@ build rpi4:
     - tags
   variables:
     ARCH: 'rpi4'
-build x86_64:
+build x86_64: &build_x86_64
   <<: *build_definition
   when: manual
   only:
@@ -115,7 +115,7 @@ build x86_64:
     - tags
   variables:
     ARCH: 'x86_64'
-build x86:
+build x86: &build_x86
   <<: *build_definition
   when: manual
   only:
@@ -123,7 +123,7 @@ build x86:
     - tags
   variables:
     ARCH: 'x86'
-build odroidxu4:
+build odroidxu4: &build_odroidxu4
   <<: *build_definition
   when: manual
   only:
@@ -132,7 +132,7 @@ build odroidxu4:
   variables:
     ARCH: 'odroidxu4'
 
-build rpi1 for test:
+build rpi1 for test: &build_rpi1_branch
   <<: *build_definition
   when: manual
   only:
@@ -141,7 +141,7 @@ build rpi1 for test:
     - master
   variables:
     ARCH: 'rpi1'
-build rpi2 for test:
+build rpi2 for test: &build_rpi2_branch
   <<: *build_definition
   when: manual
   only:
@@ -150,7 +150,7 @@ build rpi2 for test:
     - master
   variables:
     ARCH: 'rpi2'
-build rpi3 for test:
+build rpi3 for test: &build_rpi3_branch
   <<: *build_definition
   when: manual
   only:
@@ -159,7 +159,7 @@ build rpi3 for test:
     - master
   variables:
     ARCH: 'rpi3'
-build rpi4 for test:
+build rpi4 for test: &build_rpi4_branch
   <<: *build_definition
   when: manual
   only:
@@ -168,7 +168,7 @@ build rpi4 for test:
     - master
   variables:
     ARCH: 'rpi4'
-build x86_64 for test:
+build x86_64 for test: &build_x86_64_branch
   <<: *build_definition
   when: manual
   only:
@@ -177,7 +177,7 @@ build x86_64 for test:
     - master
   variables:
     ARCH: 'x86_64'
-build x86 for test:
+build x86 for test: &build_x86_branch
   <<: *build_definition
   when: manual
   only:
@@ -186,7 +186,7 @@ build x86 for test:
     - master
   variables:
     ARCH: 'x86'
-build odroidxu4 for test:
+build odroidxu4 for test: &build_odroidxu4_branch
   <<: *build_definition
   when: manual
   only:
@@ -195,6 +195,37 @@ build odroidxu4 for test:
     - master
   variables:
     ARCH: 'odroidxu4'
+
+### Build toolchain
+
+build rpi1 toolchain for test:
+  <<: *build_rpi1_branch
+  variables:
+    PACKAGE: 'toolchain'
+build rpi2 toolchain for test:
+  <<: *build_rpi2_branch
+  variables:
+    PACKAGE: 'toolchain'
+build rpi3 toolchain for test:
+  <<: *build_rpi3_branch
+  variables:
+    PACKAGE: 'toolchain'
+build rpi4 toolchain for test:
+  <<: *build_rpi4_branch
+  variables:
+    PACKAGE: 'toolchain'
+build x86_64 toolchain for test:
+  <<: *build_x86_64_branch
+  variables:
+    PACKAGE: 'toolchain'
+build x86 toolchain for test:
+  <<: *build_x86_branch
+  variables:
+    PACKAGE: 'toolchain'
+build odroidxu4 toolchain for test:
+  <<: *build_odroidxu4_branch
+  variables:
+    PACKAGE: 'toolchain'
 
 ### Release
 
