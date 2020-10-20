@@ -42,8 +42,9 @@ All notable changes to this project will be documented in this file.
 - Fix a silent error in `copy-recalbox-archives.sh`
 - Remove duplicate directives in defconfigs
 - Fix detection of 4k screen (#1384)
-
 - Remove duplicate network wait time during boot
+- Add support for three Realtek wifi cards (rtl8189fs, rtl8821au and rtl88x2bu)
+
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots
 - Fix theme issues

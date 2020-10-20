@@ -41,6 +41,8 @@ a3dbd73130dbd41a1863ea30ebecbdcf  package/rpi-firmware/rpi-firmware.mk
 ad631da645e56f71a6c87cf8b3269b7c  package/rpi-userland/rpi-userland.mk
 fe9cec5ae979fec31bda3476ef73624b  package/rpi-wifi-firmware/rpi-wifi-firmware.hash
 5266f2bf135efa8a2a416812d71df588  package/rpi-wifi-firmware/rpi-wifi-firmware.mk
+c000be55a21b27a8f4c62c7b71479f98  package/rtl8189fs/rtl8189fs.hash
+e6ccb91b62b07c5a2ed276c24994465c  package/rtl8189fs/rtl8189fs.mk
 8bda0266f861d3e7c84daf5c81232edd  package/sdl2/sdl2.mk
 92d54b262be45808e8892ccc6214bd25  package/sdl2_mixer/sdl2_mixer.mk
 76f5941c64fe63d71fdbafde3594ba78  package/sdl_sound/Config.in
