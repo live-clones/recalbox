@@ -30,7 +30,7 @@ case "${TFTESSystem}" in
     n64)            LogoFile='RBvideos/introRecalboxN64.mp4' && Loop=-1  ;;
     gba)            LogoFile='RBvideos/introRecalboxGBA.mp4' && Loop=-1  ;;
     gb)             LogoFile='RBvideos/introRecalboxGB.mp4' && Loop=-1  ;;
-    gbc)            LogoFile='RBvideos/introRecalboxGBA.mp4' && Loop=-1  ;;
+    gbc)            LogoFile='RBvideos/introRecalboxGBC.mp4' && Loop=-1  ;;
     fds)            LogoFile='FDS/VideoSnaps/logo.mp4' && Loop=-1  ;;
     virtualboy)     LogoFile='VB/VideoSnaps/logo.mp4' && Loop=-1  ;;
     gamecube)       LogoFile='RBvideos/introRecalboxGameCube.mp4' && Loop=-1  ;;
