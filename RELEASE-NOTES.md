@@ -12,6 +12,7 @@
 - Fix AdvanceMAME
 - Fix broken WIFI on some Intel chips
 - Bring back all firmwares
+- Fix boot from SSH/HDD on rpi4
 
 
 ## Version 7.0.1

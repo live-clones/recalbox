@@ -10,6 +10,8 @@ All notable changes to this project will be documented in this file.
 
 ## [7.0.1]
 - Fix Intel WIFI not working (#1363)
+## [7.0.2]
+- Fix boot from SSH/HDD on rpi4
 
 ## [7.0.1]
 - Fix resolution and fullscreen display for intro video
