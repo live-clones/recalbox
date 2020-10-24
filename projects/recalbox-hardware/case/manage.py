@@ -32,7 +32,7 @@ def DetectGPiCase(cases):
 
 def DetectNesPi4Case(cases):
     gpiUsbPath = "2-1:1.0"
-    if read(gpiUsbPath, "modalias") == "usb:v152Dp0562d0214dc00dsc00dp00ic08isc06ip62in00":
+    if read(gpiUsbPath, "modalias") in ("usb:v152Dp0562d0214dc00dsc00dp00ic08isc06ip62in00", "usb:v152Dp0578d0209dc00dsc00dp00ic08isc06ip50in00"):
         return cases.NESPI4
 
     return cases.NONE
