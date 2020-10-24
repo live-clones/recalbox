@@ -38,6 +38,14 @@ void FolderData::removeChild(FileData* file)
     }
 }
 
+static bool IsInExtensions(const std::string& extension, const std::string& extensionList)
+{
+  size_t extensionPos = extensionList.find(extension);
+  if (extensionPos == std::string::npos) return false;
+  const char* p = extensionList.data();
+  return (extensionPos + extension.size() == extensionList.size()) || (p[extensionPos + extension.size()] == ' ');
+}
+
 void FolderData::populateRecursiveFolder(const std::string& originalFilteredExtensions, SystemData* systemData, FileData::StringMap& doppelgangerWatcher)
 {
   const Path& folderPath = getPath();
@@ -94,7 +102,7 @@ void FolderData::populateRecursiveFolder(const std::string& originalFilteredExte
     if (!filePath.IsHidden())
     {
       if ((noExtensions && filePath.IsFile()) ||
-          (!extension.empty() && filteredExtensions.find(extension) != std::string::npos))
+          (!extension.empty() && IsInExtensions(extension, filteredExtensions)))
       {
         if (isArcade)
         {

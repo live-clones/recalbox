@@ -59,6 +59,7 @@ void SystemData::RunGame(Window& window,
   Window::Finalize();
 
   std::string command = mDescriptor.Command();
+  OverrideCommand(game.getPath(), command);
 
   const std::string rom = game.getPath().MakeEscaped();
   const std::string basename = game.getPath().FilenameWithoutExtension();
@@ -167,27 +168,26 @@ bool
 SystemData::DemoRunGame(const FileData& game, const EmulatorData& emulator, int duration, int infoscreenduration, const std::string& controlersConfig)
 {
   std::string command = mDescriptor.Command();
+  OverrideCommand(game.getPath(), command);
 
   const std::string rom = game.getPath().MakeEscaped();
   const std::string basename = game.getPath().FilenameWithoutExtension();
   const std::string rom_raw = game.getPath().ToString();
 
-  command = Strings::Replace(command, "%ROM%", rom);
-  command = Strings::Replace(command, "%CONTROLLERSCONFIG%", controlersConfig);
-  command = Strings::Replace(command, "%SYSTEM%", game.getSystem()->getName());
-  command = Strings::Replace(command, "%BASENAME%", basename);
-  command = Strings::Replace(command, "%ROM_RAW%", rom_raw);
-  command = Strings::Replace(command, "%EMULATOR%", emulator.Emulator());
-  command = Strings::Replace(command, "%CORE%", emulator.Core());
-  command = Strings::Replace(command, "%RATIO%", game.Metadata().RatioAsString());
-  command = Strings::Replace(command, "%NETPLAY%", "");
+  Strings::ReplaceAllIn(command, "%ROM%", rom);
+  Strings::ReplaceAllIn(command, "%CONTROLLERSCONFIG%", controlersConfig);
+  Strings::ReplaceAllIn(command, "%SYSTEM%", game.getSystem()->getName());
+  Strings::ReplaceAllIn(command, "%BASENAME%", basename);
+  Strings::ReplaceAllIn(command, "%ROM_RAW%", rom_raw);
+  Strings::ReplaceAllIn(command, "%EMULATOR%", emulator.Emulator());
+  Strings::ReplaceAllIn(command, "%CORE%", emulator.Core());
+  Strings::ReplaceAllIn(command, "%RATIO%", game.Metadata().RatioAsString());
+  Strings::ReplaceAllIn(command, "%NETPLAY%", "");
 
   // Add demo stuff
-  command += " -demo 1";
-  command += " -demoduration ";
-  command += std::to_string(duration);
-  command += " -demoinfoduration ";
-  command += std::to_string(infoscreenduration);
+  command.append(" -demo 1");
+  command.append(" -demoduration ").append(Strings::ToString(duration));
+  command.append(" -demoinfoduration ").append(Strings::ToString(infoscreenduration));
 
   bool debug = RecalboxConf::Instance().AsBool("emulationstation.debuglogs");
   if (debug)
