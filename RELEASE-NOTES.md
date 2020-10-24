@@ -16,6 +16,7 @@
 - Fix boot from SSH/HDD on rpi4
 - Fix arcade hash calculations
 - Fix game extension filtering
+- Fix screenshots on x86/x64
 
 
 ## Version 7.0.1

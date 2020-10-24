@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file.
 - Fix arcade hash calculations
 - Fix game extension filtering
 - Check free space before downloading updates
+- Fix screenshots on x86/x64
 
 
 ## [7.0.1]
