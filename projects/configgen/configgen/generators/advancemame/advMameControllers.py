@@ -60,7 +60,7 @@ def writeConfig(system, controllers, args):
 
 	# misc options
 	finalConfig["display_vsync"] = "yes" if system.config['showFPS'] == 'true' else "no"
-	finalConfig["display_resize"] = "yes" if system.config['integerscale'] == '1' else "no"
+	finalConfig["display_resize"] = "integer" if system.config['integerscale'] == '1' else "mixed"
 
 	# Looks like advmame sets the joystick order on the eventId from /dev/input/eventX or /dev/input/jsX, not using SDL. So we should reorder that
 	orderedControllers = dict()
