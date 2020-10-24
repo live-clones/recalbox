@@ -145,20 +145,18 @@ FileData* GuiHashStart::ThreadPoolRunJob(FileData*& feed)
 {
   if (mState == State::Hashing)
   {
+    bool done = false;
     if (Strings::ToLowerASCII(feed->getPath().Extension()) == ".zip")
     {
       Zip zip(feed->getPath());
       if (zip.Count() == 1)
-        feed->Metadata().SetRomCrc32(zip.Crc32(0));
-      else
       {
-        int crc32 = 0;
-        for (int i = 0; i < zip.Count(); ++i)
-          crc32 ^= zip.Crc32(i);
-        feed->Metadata().SetRomCrc32(crc32);
+        feed->Metadata().SetRomCrc32(zip.Crc32(0));
+        done = true;
       }
     }
-    else
+
+    if (!done)
     {
       // Hash file
       unsigned int result = 0;
