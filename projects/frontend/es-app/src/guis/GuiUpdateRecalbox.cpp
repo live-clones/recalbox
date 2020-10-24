@@ -91,10 +91,20 @@ GuiUpdateRecalbox::GuiUpdateRecalbox(Window& window, const std::string& url, con
   setPosition((Renderer::getDisplayWidthAsFloat() - width) / 2,
               (Renderer::getDisplayHeightAsFloat() - height) / 2);
 
+  // Check free bytes on share partition
+  if (RecalboxSystem::isFreeSpaceLimit())
+  {
+    std::string message = _("You must have at least %dGB free on 'SHARE' partition!");
+    Strings::ReplaceAllIn(message, "%d", Strings::ToString(RecalboxSystem::GetMinimumFreeSpaceOnSharePartition() >> 30));
+    mWindow.displayMessage(message);
+    Close();
+    return;
+  }
+
   // Avoid sleeping!
   mIsProcessing = true;
 
-  // start the thread if not aleaady done
+  // start the thread if not aleady done
   Thread::Start("DLUpdate");
 }
 

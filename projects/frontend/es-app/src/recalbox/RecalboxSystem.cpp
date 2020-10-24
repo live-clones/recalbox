@@ -42,16 +42,21 @@ Strings::Vector RecalboxSystem::ExecuteSettingsCommand(const std::string& argume
   return Strings::Split(output, '\n');
 }
 
-unsigned long RecalboxSystem::getFreeSpaceGB(const std::string& mountpoint)
+unsigned long long RecalboxSystem::getFreeSpace(const std::string& mountpoint)
 {
   struct statvfs fiData {};
   const char* fnPath = mountpoint.c_str();
   unsigned long long free = 0;
   if ((statvfs(fnPath, &fiData)) >= 0)
   {
-    free = (((unsigned long long)fiData.f_bfree * (unsigned long long)fiData.f_bsize)) >> 30;
+    free = (((unsigned long long)fiData.f_bfree * (unsigned long long)fiData.f_bsize));
   }
-  return (unsigned long)free;
+  return free;
+}
+
+unsigned long RecalboxSystem::getFreeSpaceGB(const std::string& mountpoint)
+{
+  return (unsigned long)(getFreeSpace(mountpoint) >> 30);
 }
 
 std::string RecalboxSystem::SizeToString(unsigned long long size)
@@ -96,7 +101,7 @@ bool RecalboxSystem::isFreeSpaceLimit()
   std::string sharePart = Settings::Instance().SharePartition();
   if (!sharePart.empty())
   {
-    return getFreeSpaceGB(sharePart) < 2;
+    return getFreeSpace(sharePart) < GetMinimumFreeSpaceOnSharePartition();
   }
   else
   {
