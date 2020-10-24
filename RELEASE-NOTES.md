@@ -5,6 +5,7 @@
 ### News
 
 ### Improvements
+- Improved NESPi4 case detection
 
 ### Fixes
 - Fix AdvanceMAME
