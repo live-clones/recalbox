@@ -1,5 +1,15 @@
 # Release notes
 
+## Version NEXT
+
+### News
+
+### Improvements
+
+### Fixes
+- Fix AdvanceMAME
+
+
 ## Version 7.0.1
 
 ### News

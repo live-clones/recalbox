@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [Next]
+- Fix AdvanceMAME log output
+- Fix AdvanceMAME configgen
+
 ## [7.0.1]
 - Fix resolution and fullscreen display for intro video
 - Fix Missing dat files mame, naomi(Gd), atomiswave
