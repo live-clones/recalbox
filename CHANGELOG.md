@@ -5,13 +5,14 @@ All notable changes to this project will be documented in this file.
 - Fix AdvanceMAME log output
 - Fix AdvanceMAME configgen
 - Improved NESPi4 case detection
-## [7.0.2]
 - Add .car extension support for atari800
-
-## [7.0.1]
-- Fix Intel WIFI not working (#1363)
-## [7.0.2]
+- Bring back all firmwares
 - Fix boot from SSH/HDD on rpi4
+- Fix Intel WIFI not working (#1363)
+- Fix arcade hash calculations
+- Fix game extension filtering
+- Check free space before downloading updates
+
 
 ## [7.0.1]
 - Fix resolution and fullscreen display for intro video

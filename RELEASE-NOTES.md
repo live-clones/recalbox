@@ -7,12 +7,15 @@
 ### Improvements
 - Improved NESPi4 case detection
 - Libretro-atari800 with .car extension support
+- Check free space before downloading updates
 
 ### Fixes
 - Fix AdvanceMAME
 - Fix broken WIFI on some Intel chips
 - Bring back all firmwares
 - Fix boot from SSH/HDD on rpi4
+- Fix arcade hash calculations
+- Fix game extension filtering
 
 
 ## Version 7.0.1
