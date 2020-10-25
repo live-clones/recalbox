@@ -13,6 +13,7 @@ All notable changes to this project will be documented in this file.
 - Fix game extension filtering
 - Check free space before downloading updates
 - Fix screenshots on x86/x64
+- Fix lag in ScummVM/ResidualVM on Pi4
 
 
 ## [7.0.1]
