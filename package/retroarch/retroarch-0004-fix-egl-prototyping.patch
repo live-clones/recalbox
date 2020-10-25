@@ -1,6 +1,8 @@
---- a/gfx/drivers_context/vc_egl_ctx.c	2020-07-21 22:20:35.487586237 +0200
-+++ b/gfx/drivers_context/vc_egl_ctx.c2	2020-07-21 22:20:46.751708701 +0200
-@@ -78,6 +78,9 @@
+diff --git a/gfx/drivers_context/vc_egl_ctx.c b/gfx/drivers_context/vc_egl_ctx.c
+index 3c52edb96a..ac22e1e0af 100644
+--- a/gfx/drivers_context/vc_egl_ctx.c
++++ b/gfx/drivers_context/vc_egl_ctx.c
+@@ -78,6 +78,9 @@ typedef struct
     PFNEGLDESTROYIMAGEKHRPROC peglDestroyImageKHR;
  } vc_ctx_data_t;
  

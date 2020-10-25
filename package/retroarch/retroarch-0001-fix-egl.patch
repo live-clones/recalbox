@@ -1,6 +1,8 @@
+diff --git a/Makefile.common b/Makefile.common
+index cdcab25402..1322273273 100644
 --- a/Makefile.common
 +++ b/Makefile.common
-@@ -1134,7 +1134,7 @@
+@@ -1237,7 +1237,7 @@ ifeq ($(HAVE_ODROIDGO2), 1)
  else
     OBJ += gfx/drivers_context/drm_ctx.o
  endif
