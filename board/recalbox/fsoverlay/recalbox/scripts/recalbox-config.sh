@@ -422,29 +422,29 @@ if [ "$command" == "lsaudio" ];then
     fi
     # Now other embedded devices
     if [ -d /proc/asound ] ; then
-	find /proc/asound -type d -name "pcm*p" | while read fileDev ; do
-	    cardId=`echo $fileDev | sed "s+.*card\([0-9]\).*+\1+g"`
-	    deviceId=`echo $fileDev | sed "s+.*pcm\([0-9]\)p$+\1+g"`
-	    cardName=`grep " ${cardId} \[" /proc/asound/cards | cut -d ":" -f 2 | sed "s+^ ++g"`
-	    echo "$cardName" | grep -q "bcm2835" && continue # Exclude Pi3 internal audio
-	    deviceName=`cat /proc/asound/card${cardId}/pcm${deviceId}p/info | grep "^id:" | cut -d ":" -f 2 | sed "s+^ ++g"`
-	    echo "[${cardId}:${deviceId}] ${cardName} + ${deviceName}"
-	done
+    find /proc/asound -type d -name "pcm*p" | while read fileDev ; do
+        cardId=`echo $fileDev | sed "s+.*card\([0-9]\).*+\1+g"`
+        deviceId=`echo $fileDev | sed "s+.*pcm\([0-9]\)p$+\1+g"`
+        cardName=`grep " ${cardId} \[" /proc/asound/cards | cut -d ":" -f 2 | sed "s+^ ++g"`
+        echo "$cardName" | grep -q "bcm2835" && continue # Exclude Pi3 internal audio
+        deviceName=`cat /proc/asound/card${cardId}/pcm${deviceId}p/info | grep "^id:" | cut -d ":" -f 2 | sed "s+^ ++g"`
+        echo "[${cardId}:${deviceId}] ${cardName} + ${deviceName}"
+    done
     elif `which aplay > /dev/null 2>&1` ; then
-	aplay -l | grep "^card" | sed "s+^card \([0-9]\): .*\[\(.*\)\], device \([0-9]\): .*\[\(.*\)\].*+[\1:\3] \2 \4+g"
+    aplay -l | grep "^card" | sed "s+^card \([0-9]\): .*\[\(.*\)\], device \([0-9]\): .*\[\(.*\)\].*+[\1:\3] \2 \4+g"
     elif [ -d /dev/snd ] ; then
-	find /dev/snd -type c -name "pcm*p" | while read fileDev ; do
-	    devName=""
-	    cardId=`echo $fileDev | sed "s+.*pcmC\([0-9]\).*+\1+g"`
-	    deviceId=`echo $fileDev | sed "s+.*pcmC[0-9]D\([0-9]\)p$+\1+g"`
-	    for platform in /dev/snd/by-path/* ; do
-		realDev=`readlink "$platform"`
-		if [[ $realDev == "../controlC${cardId}" ]] ; then
-		    devName=`basename $platform | sed "s/platform-//g"`
-		fi
-	    done
-	    echo "[${cardId}:${deviceId}] $devName"
-	done
+    find /dev/snd -type c -name "pcm*p" | while read fileDev ; do
+        devName=""
+        cardId=`echo $fileDev | sed "s+.*pcmC\([0-9]\).*+\1+g"`
+        deviceId=`echo $fileDev | sed "s+.*pcmC[0-9]D\([0-9]\)p$+\1+g"`
+        for platform in /dev/snd/by-path/* ; do
+        realDev=`readlink "$platform"`
+        if [[ $realDev == "../controlC${cardId}" ]] ; then
+            devName=`basename $platform | sed "s/platform-//g"`
+        fi
+        done
+        echo "[${cardId}:${deviceId}] $devName"
+    done
     fi
     exit 0
 fi
@@ -502,22 +502,46 @@ if [ "$command" == "wifi" ]; then
           sed -i "s|^wifi.ssid=.*|wifi.ssid=${ssid}|g" /recalbox/share/system/recalbox.conf
           sed -i "s|^wifi.key=.*|wifi.key=${psk}|g" /recalbox/share/system/recalbox.conf
         fi
-	$systemsetting -command save -key wifi.enabled -value 1
+        $systemsetting -command save -key wifi.enabled -value 1
         sleep 1
-	/etc/init.d/S09wifi restart
-	sleep 4 # wait a bit before returning to ES
-	exit $?
+        /etc/init.d/S09wifi restart
+        sleep 4 # wait a bit before returning to ES
+        exit $?
     fi
     if [[ "$mode" == "disable" ]]; then
         recallog "disable wifi"
-	/etc/init.d/S09wifi stop
+        /etc/init.d/S09wifi stop
         exit $?
     fi
     if [[ "$mode" == "list" ]]; then
-	wpa_cli -i wlan0 scan > /dev/null || exit 1
-	sleep 3 # wait a bit until some results come in
-	wpa_cli -i wlan0 scan_results | tail -n +2 | sed -r 's/^([^ \t]*[ \t]*){4}(.*)$/\2/' | awk '!a[$0]++' || exit 1
-	exit 0
+        wpa_cli -i wlan0 scan > /dev/null || exit 1
+        sleep 5 # wait a bit until some results come in
+        wpa_cli -i wlan0 scan_results | tail -n +2 | sed -r 's/^([^ \t]*[ \t]*){4}(.*)$/\2/' | awk '!a[$0]++' || exit 1
+        exit 0
+    fi
+    if [[ "$mode" == "wps" ]]; then
+        wpa_cli wps_pbc || exit 1
+        exit 0
+    fi
+    if [[ "$mode" == "waitip" ]]; then
+        try=0
+        until [ ! $try -lt 60 ]
+        do
+            # Wait for an IP
+            if [ `ifconfig wlan0 | grep -c "inet addr"` -gt 0 ]; then
+                break; 
+            fi
+            sleep 1
+            try=`expr $try + 1`
+        done
+        exit 0
+    fi
+    if [[ "$mode" == "save" ]]; then
+        wpa_cli set update_config 1 > /dev/null || exit 1
+        mount -o remount,rw /
+        wpa_cli save_config || exit 1 # Let OK/FAIL be captured by the caller
+        mount -o remount,ro /
+        exit 0
     fi
 fi
 
