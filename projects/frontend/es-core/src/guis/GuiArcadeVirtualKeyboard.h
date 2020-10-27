@@ -5,7 +5,7 @@
 #include <resources/TextureResource.h>
 #include <utils/Strings.h>
 #include <utils/datetime/DateTime.h>
-#include <guis/GuiArcadeVirtualKeyboardInterface.h>
+#include <guis/IGuiArcadeVirtualKeyboardInterface.h>
 #include <Renderer.h>
 
 class GuiArcadeVirtualKeyboard : public Gui
@@ -159,7 +159,7 @@ class GuiArcadeVirtualKeyboard : public Gui
     bool mMoveOn;
 
     //! Validation callback
-    GuiArcadeVirtualKeyboardInterface* mValidateCallback;
+    IGuiArcadeVirtualKeyboardInterface* mValidateCallback;
 
     /*
      * UI Components
@@ -430,7 +430,7 @@ class GuiArcadeVirtualKeyboard : public Gui
      * @param okCallback Callback interface
      */
     GuiArcadeVirtualKeyboard(Window& window, const std::string& title, const std::string& initValue,
-                             GuiArcadeVirtualKeyboardInterface* okCallback);
+                             IGuiArcadeVirtualKeyboardInterface* okCallback);
 
     /*!
      * @brief Destructor

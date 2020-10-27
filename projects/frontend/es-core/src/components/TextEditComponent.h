@@ -1,6 +1,6 @@
 #pragma once
 
-#include <guis/GuiArcadeVirtualKeyboardInterface.h>
+#include <guis/IGuiArcadeVirtualKeyboardInterface.h>
 #include "components/base/Component.h"
 #include "components/NinePatchComponent.h"
 
@@ -8,7 +8,7 @@ class Font;
 class TextCache;
 
 // Used to enter text.
-class TextEditComponent : public Component, public GuiArcadeVirtualKeyboardInterface
+class TextEditComponent : public Component, public IGuiArcadeVirtualKeyboardInterface
 {
 public:
 	explicit TextEditComponent(Window&window);

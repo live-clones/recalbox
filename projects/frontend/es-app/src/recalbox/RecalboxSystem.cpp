@@ -18,6 +18,8 @@
 #include <utils/Files.h>
 #include <MainRunner.h>
 #include <Upgrade.h>
+#include <utils/locale/LocaleHelper.h>
+#include <utils/IniFile.h>
 
 std::string RecalboxSystem::BuildSettingsCommand(const std::string& arguments)
 {
@@ -112,27 +114,11 @@ bool RecalboxSystem::isFreeSpaceLimit()
 
 std::vector<std::string> RecalboxSystem::getAvailableWiFiSSID(bool activatedWifi)
 {
-  if (!activatedWifi)
-  {
-    enableWifi("", "");
-  }
+  if (!activatedWifi) enableWifi("", "");
+  std::vector<std::string> result = ExecuteSettingsCommand("wifi list");
+  if (!activatedWifi) disableWifi();
 
-  std::vector<std::string> res;
-  FILE* pipe = popen(BuildSettingsCommand("wifi list").c_str(), "r");
-  char line[1024];
-
-  if (pipe == nullptr)
-  {
-    return res;
-  }
-
-  while (fgets(line, 1024, pipe) != nullptr)
-  {
-    strtok(line, "\n");
-    res.push_back(std::string(line));
-  }
-  pclose(pipe);
-  return res;
+  return result;
 }
 
 bool RecalboxSystem::setOverscan(bool enable)
@@ -267,6 +253,40 @@ bool RecalboxSystem::disableWifi()
   }
 }
 
+bool RecalboxSystem::getWifiWps()
+{
+  bool result = false;
+  Strings::Vector lines = ExecuteSettingsCommand("wifi wps");
+  for(const std::string& line : lines)
+    if (Strings::StartsWith(line, STRING_AND_LENGTH("OK")))
+    {
+      result = true;
+      break;
+    }
+  return result;
+}
+
+bool RecalboxSystem::saveWifiWps()
+{
+  bool result = false;
+  Strings::Vector lines = ExecuteSettingsCommand("wifi save");
+  for(const std::string& line : lines)
+    if (Strings::StartsWith(line, STRING_AND_LENGTH("OK")))
+    {
+      result = true;
+      break;
+    }
+  return result;
+}
+
+bool RecalboxSystem::getWifiConfiguration(std::string& ssid, std::string& psk)
+{
+  IniFile wpaConfiguration(Path("/etc/wpa_supplicant.conf"));
+  ssid = Strings::Trim(wpaConfiguration.AsString("ssid"), " \"");
+  psk = Strings::Trim(wpaConfiguration.AsString("psk"), " \"");
+  return !ssid.empty() && !psk.empty();
+}
+
 std::string RecalboxSystem::getIpAdress()
 {
   struct ifaddrs* ifAddrStruct = nullptr;
@@ -291,6 +311,7 @@ std::string RecalboxSystem::getIpAdress()
           std::string(ifa->ifa_name).find("wlan") != std::string::npos)
       {
         result = std::string(addressBuffer);
+        break;
       }
     }
   }
@@ -313,13 +334,58 @@ std::string RecalboxSystem::getIpAdress()
         if (std::string(ifa->ifa_name).find("eth") != std::string::npos ||
             std::string(ifa->ifa_name).find("wlan") != std::string::npos)
         {
-          return std::string(addressBuffer);
+          result = std::string(addressBuffer);
+          break;
         }
       }
     }
   }
-  if (ifAddrStruct != nullptr)
-    freeifaddrs(ifAddrStruct);
+  if (ifAddrStruct != nullptr) freeifaddrs(ifAddrStruct);
+  return result;
+}
+
+bool RecalboxSystem::hasIpAdress(bool interface)
+{
+  const char* itfName = interface ? "wlan0" : "eth0";
+
+  bool result = false;
+  struct ifaddrs* ifAddrStruct = nullptr;
+  getifaddrs(&ifAddrStruct);
+
+  for (struct ifaddrs* ifa = ifAddrStruct; ifa != nullptr; ifa = ifa->ifa_next)
+  {
+    if (ifa->ifa_addr == nullptr) continue;
+    if (ifa->ifa_addr->sa_family == AF_INET)
+    {
+      void* tmpAddrPtr = &((struct sockaddr_in*) ifa->ifa_addr)->sin_addr;
+      char addressBuffer[INET_ADDRSTRLEN];
+      inet_ntop(AF_INET, tmpAddrPtr, addressBuffer, INET_ADDRSTRLEN);
+      if (strstr(ifa->ifa_name, itfName) == ifa->ifa_name)
+      {
+        result = true;
+        break;
+      }
+    }
+  }
+  // Seeking for ipv6 if no IPV4
+  if (!result)
+    for (struct ifaddrs* ifa = ifAddrStruct; ifa != nullptr; ifa = ifa->ifa_next)
+    {
+      if (ifa->ifa_addr == nullptr) continue;
+      if (ifa->ifa_addr->sa_family == AF_INET6)
+      {
+        void* tmpAddrPtr = &((struct sockaddr_in6*) ifa->ifa_addr)->sin6_addr;
+        char addressBuffer[INET6_ADDRSTRLEN];
+        inet_ntop(AF_INET6, tmpAddrPtr, addressBuffer, INET6_ADDRSTRLEN);
+        if (strstr(ifa->ifa_name, itfName) == ifa->ifa_name)
+        {
+          result = true;
+          break;
+        }
+      }
+    }
+
+  if (ifAddrStruct != nullptr) freeifaddrs(ifAddrStruct);
   return result;
 }
 

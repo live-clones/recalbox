@@ -32,6 +32,12 @@ class RecalboxSystem
 
     static std::vector<std::string> getAvailableWiFiSSID(bool activateWifi);
 
+    static bool getWifiWps();
+
+    static bool saveWifiWps();
+
+    static bool getWifiConfiguration(std::string& ssid, std::string& psk);
+
     static bool setOverscan(bool enable);
 
     static bool setOverclock(const std::string& mode);
@@ -45,6 +51,13 @@ class RecalboxSystem
     static bool enableWifi(std::string ssid, std::string key);
 
     static bool disableWifi();
+
+    /*!
+     * @brief Chech if the interface has a valid IP
+     * @param interface false = ethernet, true = WIFI
+     * @return True if the interface has a valid IP
+     */
+    static bool hasIpAdress(bool interface);
 
     static std::string getIpAdress();
 

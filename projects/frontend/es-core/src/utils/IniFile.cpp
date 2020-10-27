@@ -36,7 +36,7 @@ bool IniFile::IsValidKeyValue(const std::string& line, std::string& key, std::st
         size_t validated = line.find_first_not_of(_allowedCharacters);
         if (validated == std::string::npos || validated >= separatorPos) // Unknown characters after the = ?
         {
-          key = line.substr(0, separatorPos);
+          key = Strings::Trim(line.substr(0, separatorPos));
           value = line.substr(separatorPos + 1);
           return true;
         }

@@ -21,7 +21,7 @@ const wchar_t* const GuiArcadeVirtualKeyboard::sWheels[sWheelCount] =
 };
 
 GuiArcadeVirtualKeyboard::GuiArcadeVirtualKeyboard(Window& window, const std::string& title, const std::string& initValue,
-                                                   GuiArcadeVirtualKeyboardInterface* okCallback)
+                                                   IGuiArcadeVirtualKeyboardInterface* okCallback)
   : Gui(window),
     mSavedAngles(),
     mTitle(title),

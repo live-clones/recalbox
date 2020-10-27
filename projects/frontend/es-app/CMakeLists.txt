@@ -39,6 +39,7 @@ set(ES_HEADERS
         src/guis/GuiGamelistOptions.h
         src/guis/GuiMenu.h
         src/guis/GuiMenuArcadeVirtualSystem.h
+        src/guis/GuiMenuNetwork.h
         src/guis/GuiSettings.h
         src/guis/GuiScraperRun.h
         src/guis/GuiScraperSelect.h
@@ -57,6 +58,7 @@ set(ES_HEADERS
         src/guis/GuiQuit.h
         src/guis/GuiSearch.h
         src/guis/GuiControlHints.h
+        src/guis/GuiWaitLongExecution.h
 
         # MQTT
         src/mqtt/Countdown.h
@@ -194,6 +196,7 @@ set(ES_SOURCES
         src/guis/GuiGamelistOptions.cpp
         src/guis/GuiMenu.cpp
         src/guis/GuiMenuArcadeVirtualSystem.cpp
+        src/guis/GuiMenuNetwork.cpp
         src/guis/GuiSettings.cpp
         src/guis/GuiScraperRun.cpp
         src/guis/GuiScraperSelect.cpp
@@ -211,6 +214,7 @@ set(ES_SOURCES
         src/guis/GuiQuit.cpp
         src/guis/GuiSearch.cpp
         src/guis/GuiControlHints.cpp
+        src/guis/GuiWaitLongExecution.cpp
 
         # MQTT
         src/mqtt/MqttClient.cpp

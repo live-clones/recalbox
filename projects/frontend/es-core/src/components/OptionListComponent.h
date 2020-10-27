@@ -328,9 +328,10 @@ public:
 		return firstSelected != getSelected();
 	}
 
+  unsigned int getSelectedIndex() const { return getSelectedId(); }
 
 private:
-	unsigned int getSelectedId()
+	unsigned int getSelectedId() const
 	{
 		assert(!mMultiSelect);
 		for (unsigned int i = 0; i < mEntries.size(); i++)

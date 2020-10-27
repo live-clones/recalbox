@@ -41,6 +41,7 @@
 #include "GuiMenuArcadeVirtualSystem.h"
 #include "GuiNetPlayEditPasswords.h"
 #include "GuiUpdateRecalbox.h"
+#include "GuiMenuNetwork.h"
 
 GuiMenu::GuiMenu(Window& window, SystemManager& systemManager)
   : Gui(window),
@@ -1221,134 +1222,7 @@ void GuiMenu::menuSoundSettings(){
 
 void GuiMenu::menuNetworkSettings()
 {
-  auto* s = new GuiSettings(mWindow, _("NETWORK SETTINGS"));
-  auto status = std::make_shared<TextComponent>(mWindow, RecalboxSystem::ping() ? _( "CONNECTED")
-      : _("NOT CONNECTED"), mMenuTheme->menuText.font, mMenuTheme->menuText.color);
-  s->addWithLabel(status, _("STATUS"), _(MENUMESSAGE_NETWORK_STATUS_HELP_MSG));
-  auto ip = std::make_shared<TextComponent>(mWindow, RecalboxSystem::getIpAdress(),
-      mMenuTheme->menuText.font, mMenuTheme->menuText.color);
-  s->addWithLabel(ip, _("IP ADDRESS"), _(MENUMESSAGE_NETWORK_IP_HELP_MSG));
-
-  // Hostname
-  createInputTextRow(s, _("HOSTNAME"), "system.hostname", false, _(MENUMESSAGE_NETWORK_HOST_HELP_MSG));
-
-  // Wifi enable
-  auto enable_wifi = std::make_shared<SwitchComponent>(mWindow);
-  bool baseEnabled = RecalboxConf::Instance().AsBool("wifi.enabled");
-  enable_wifi->setState(baseEnabled);
-  s->addWithLabel(enable_wifi, _("ENABLE WIFI"), _(MENUMESSAGE_NETWORK_WIFI_HELP_MSG));
-
-  //SSID
-  std::string baseSSID = RecalboxConf::Instance().AsString("wifi.ssid");
-  auto WifiSSID = [this, baseSSID, enable_wifi, baseEnabled] (GuiSettings *gui, const std::string& title,
-      const std::string& value, const std::string& help = "") {
-
-    ComponentListRow row;
-
-    auto lbl = std::make_shared<TextComponent>(mWindow, title, mMenuTheme->menuText.font, mMenuTheme->menuText.color);
-    row.addElement(lbl, true); // label
-
-    std::shared_ptr<Component> ed;
-
-    ed = std::make_shared<TextComponent>(mWindow, value, mMenuTheme->menuText.font, mMenuTheme->menuText.color, TextAlignment::Right);
-    row.addElement(ed, true);
-
-    auto spacer = std::make_shared<Component>(mWindow);
-    spacer->setSize(Renderer::getDisplayWidthAsFloat() * 0.005f, 0);
-    row.addElement(spacer, false);
-
-    auto bracket = std::make_shared<ImageComponent>(mWindow);
-    bracket->setImage(Path(":/arrow.svg"));
-    bracket->setResize(Vector2f(0, lbl->getFont()->getLetterHeight()));
-    row.addElement(bracket, false);
-
-    auto updateVal = [ed](const std::string &newVal) {
-      ed->setValue(newVal);
-    };
-
-    row.makeAcceptInputHandler([this, updateVal, enable_wifi, baseEnabled] {
-
-      GuiSettings *SSID = new GuiSettings(mWindow, _("WIFI SSID"));
-      std::shared_ptr<Component> ed;
-      ComponentListRow row;
-      ed = std::make_shared<TextComponent>(mWindow, _("MANUAL INPUT"), mMenuTheme->menuText.font, mMenuTheme->menuText.color, TextAlignment::Left);
-      row.addElement(ed, true);
-      auto updateValue = [updateVal, SSID](const std::string &newVal) {
-        RecalboxConf::Instance().SetString("wifi.ssid", newVal);
-        updateVal(newVal);
-        SSID->Close();
-      };
-      row.makeAcceptInputHandler([this, updateValue] {
-        if (Settings::Instance().UseOSK())
-          mWindow.pushGui(new GuiTextEditPopupKeyboard(mWindow, "", "", updateValue, false));
-        else
-          mWindow.pushGui(new GuiTextEditPopup(mWindow, "", "", updateValue, false));
-      });
-      SSID->addRowWithHelp(row, _("MANUAL INPUT"), MENUMESSAGE_NETWORK_MANUAL_INPUT_HELP_MSG);
-      if (enable_wifi->getState()) {
-        std::vector<std::string> availableSSID = RecalboxSystem::getAvailableWiFiSSID(baseEnabled);
-        RecalboxConf::Instance().SetBool("wifi.enabled", true);
-        for (auto & it : availableSSID) {
-
-          if (it != "\n") {
-
-            row.elements.clear();
-            std::vector<std::string> tokens = Strings::Split(it, ' ');
-
-            if (tokens.size() >= 8) {
-              std::string vname;
-              for (unsigned int i = 0; i < 8; i++) {
-                vname += ' ';
-                vname += tokens[i];
-              }
-              ed = std::make_shared<TextComponent>(mWindow, vname, mMenuTheme->menuText.font, mMenuTheme->menuText.color, TextAlignment::Left);
-            } else {
-              ed = std::make_shared<TextComponent>(mWindow, it, mMenuTheme->menuText.font, mMenuTheme->menuText.color, TextAlignment::Left);
-            }
-            row.addElement(ed, true);
-            row.makeAcceptInputHandler([updateValue, ed] { updateValue(ed->getValue()); });
-            SSID->addRow(row);
-          }
-        }
-      }
-      mWindow.pushGui(SSID);
-    });
-
-    gui->addRowWithHelp(row, title, help);
-  };
-  WifiSSID(s, _("WIFI SSID"), baseSSID, _(MENUMESSAGE_NETWORK_SSID_HELP_MSG));
-
-  const std::string baseKEY = RecalboxConf::Instance().AsString("wifi.key");
-  createInputTextRow(s, _("WIFI KEY"), "wifi.key", true, _(MENUMESSAGE_NETWORK_KEY_HELP_MSG));
-
-  s->addSaveFunc([baseEnabled, baseSSID, baseKEY, enable_wifi, this] {
-    bool wifienabled = enable_wifi->getState();
-
-    std::string newSSID = RecalboxConf::Instance().AsString("wifi.ssid");
-    std::string newKey = RecalboxConf::Instance().AsString("wifi.key");
-
-    if (wifienabled) {
-      if (baseSSID != newSSID
-        || baseKEY != newKey
-        || !baseEnabled) {
-        if (RecalboxSystem::enableWifi(newSSID, newKey)) {
-          mWindow.pushGui(new GuiMsgBox(mWindow, _("WIFI ENABLED"))
-          );
-        } else {
-          mWindow.pushGui(new GuiMsgBox(mWindow, _("WIFI CONFIGURATION ERROR"))
-          );
-        }
-      }
-    }
-    else if (baseEnabled || RecalboxConf::Instance().AsBool("wifi.enabled")){
-      RecalboxSystem::disableWifi();
-    }
-
-    RecalboxConf::Instance().SetBool("wifi.enabled", wifienabled);
-    RecalboxConf::Instance().Save();
-    RecalboxSystem::backupRecalboxConf();
-  });
-  mWindow.pushGui(s);
+  mWindow.pushGui(new GuiMenuNetwork(mWindow));
 }
 
 void GuiMenu::menuScrapper()

@@ -15,7 +15,7 @@
 #include <MenuThemeData.h>
 #include "systems/SystemManager.h"
 
-class GuiSearch : public Gui, public GuiArcadeVirtualKeyboardInterface
+class GuiSearch : public Gui, public IGuiArcadeVirtualKeyboardInterface
 {
   public:
     GuiSearch(Window& window, SystemManager& systemManager);

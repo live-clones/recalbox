@@ -2,10 +2,10 @@
 
 class GuiArcadeVirtualKeyboard;
 
-class GuiArcadeVirtualKeyboardInterface
+class IGuiArcadeVirtualKeyboardInterface
 {
   public:
-    virtual ~GuiArcadeVirtualKeyboardInterface() = default;
+    virtual ~IGuiArcadeVirtualKeyboardInterface() = default;
 
     /*!
      * @brief Called when the VK opens

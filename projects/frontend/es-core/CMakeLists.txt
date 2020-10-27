@@ -119,7 +119,7 @@ set(CORE_HEADERS
 		src/guis/GuiTextEditPopup.h
 		src/guis/GuiTextEditPopupKeyboard.h
 		src/guis/GuiArcadeVirtualKeyboard.h
-		src/guis/GuiArcadeVirtualKeyboardInterface.h
+        src/guis/IGuiArcadeVirtualKeyboardInterface.h
 
 		# Resources
 		src/resources/Font.h

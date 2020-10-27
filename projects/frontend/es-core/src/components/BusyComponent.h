@@ -19,6 +19,9 @@ public:
 
 	void Render(const Transform4x4f& parentTrans) override;
 
+	float RealWidth() const { return mBackground.getSize().x(); }
+  float RealHeight() const { return mBackground.getSize().y(); }
+
 private:
 	NinePatchComponent mBackground;
 	ComponentGrid mGrid;

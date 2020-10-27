@@ -4,11 +4,11 @@
 #include "components/MenuComponent.h"
 #include "components/TextComponent.h"
 #include <netplay/DefaultPasswords.h>
-#include "guis/GuiArcadeVirtualKeyboardInterface.h"
+#include "guis/IGuiArcadeVirtualKeyboardInterface.h"
 
 // The starting point for a multi-game scrape.
 // Allows the user to set various parameters.
-class GuiNetPlayEditPasswords : public Gui, private GuiArcadeVirtualKeyboardInterface
+class GuiNetPlayEditPasswords : public Gui, private IGuiArcadeVirtualKeyboardInterface
 {
   public:
     explicit GuiNetPlayEditPasswords(Window& window);
