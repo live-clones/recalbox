@@ -1,0 +1,34 @@
+Change default mapping for EMI: action buttons don't work on joystick.
+According to manual: https://mocagh.org/lucasfilm/mi4-manual.pdf
+
+Signed-off-by: Laurent Merckx <laurent-merckx@skynet.be>
+
+--- a/engines/grim/grim.cpp	2020-10-17 13:40:44.774354491 +0200
++++ b/engines/grim/grim.cpp	2020-10-17 13:42:56.637132794 +0200
+@@ -575,22 +575,22 @@ Common::KeymapArray GrimEngine::initKeym
+ 	engineKeyMap->addAction(act);
+ 
+ 	act = new Action("EXAM", _("Examine/Look"));
+-	act->setKeyEvent(KeyState(KEYCODE_s, 'e'));
++	act->setKeyEvent(KeyState(KEYCODE_l, 'e'));
+ 	act->addDefaultInputMapping("JOY_X");
+ 	engineKeyMap->addAction(act);
+ 
+ 	act = new Action("BUSE", _("Use/Talk"));
+-	act->setKeyEvent(KeyState(KEYCODE_w, 'u'));
++	act->setKeyEvent(KeyState(KEYCODE_u, 'u'));
+ 	act->addDefaultInputMapping("JOY_A");
+ 	engineKeyMap->addAction(act);
+ 
+ 	act = new Action("PICK", _("Pick up/Put away"));
+-	act->setKeyEvent(KeyState(KEYCODE_a, 'p'));
++	act->setKeyEvent(KeyState(KEYCODE_KP_PLUS, 'p'));
+ 	act->addDefaultInputMapping("JOY_B");
+ 	engineKeyMap->addAction(act);
+ 
+ 	act = new Action("INVT", _("Invetory"));
+-	act->setKeyEvent(KeyState(KEYCODE_d, 'i'));
++	act->setKeyEvent(KeyState(KEYCODE_INSERT, 'i'));
+ 	act->addDefaultInputMapping("JOY_Y");
+ 	engineKeyMap->addAction(act);
+ 

@@ -1,0 +1,39 @@
+From ccc9f6634d5fd2dd175a27b47a2b94b99f646ab5 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Pawe=C5=82=20Ko=C5=82odziejski?=
+ <aquadran@users.sourceforge.net>
+Date: Sat, 24 Oct 2020 14:11:56 +0200
+Subject: [PATCH] GRIM: Remove 'Quit' key mapping to avoid conflict with
+ virtual keyboard
+
+---
+ engines/grim/grim.cpp | 10 ----------
+ 1 file changed, 10 deletions(-)
+
+diff --git a/engines/grim/grim.cpp b/engines/grim/grim.cpp
+index 9c5540c13a03..840e31a45665 100644
+--- a/engines/grim/grim.cpp
++++ b/engines/grim/grim.cpp
+@@ -516,11 +516,6 @@ Common::KeymapArray GrimEngine::initKeymapsGrim(const char *target) {
+ 	act->addDefaultInputMapping("JOY_GUIDE");
+ 	engineKeyMap->addAction(act);
+ 
+-	act = new Action("QUIT", _("Quit"));
+-	act->setKeyEvent(KeyState(KEYCODE_q, 'q'));
+-	act->addDefaultInputMapping("JOY_BACK");
+-	engineKeyMap->addAction(act);
+-
+ 	return Keymap::arrayOf(engineKeyMap);
+ }
+ 
+@@ -613,11 +608,6 @@ Common::KeymapArray GrimEngine::initKeymapsEMI(const char *target) {
+ 	act->addDefaultInputMapping("JOY_GUIDE");
+ 	engineKeyMap->addAction(act);
+ 
+-	act = new Action("QUIT", _("Quit"));
+-	act->setKeyEvent(KeyState(KEYCODE_q, 'q'));
+-	act->addDefaultInputMapping("JOY_BACK");
+-	engineKeyMap->addAction(act);
+-
+ 	return Keymap::arrayOf(engineKeyMap);
+ }
+ 

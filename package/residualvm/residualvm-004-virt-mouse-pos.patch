@@ -1,0 +1,15 @@
+Resolve a bug with virtual mouse position in a overlay when fullscreen (OPENGL/OPENGLES).
+
+Signed-off-by: Laurent Merckx <laurent-merckx@skynet.be>
+
+--- a/backends/graphics3d/openglsdl/openglsdl-graphics3d.cpp	2020-10-15 20:54:00.100930266 +0200
++++ b/backends/graphics3d/openglsdl/openglsdl-graphics3d.cpp	2020-10-15 20:54:20.676761136 +0200
+@@ -678,7 +678,7 @@ int16 OpenGLSdlGraphics3dManager::getOve
+ 
+ void OpenGLSdlGraphics3dManager::warpMouse(int x, int y) {
+ 	//ResidualVM specific
+-	if (_frameBuffer) {
++	if (!_overlayVisible && _frameBuffer) {
+ 		// Scale from game coordinates to screen coordinates
+ 		x = (x * _gameRect.getWidth() * _overlayScreen->getWidth()) / _frameBuffer->getWidth();
+ 		y = (y * _gameRect.getHeight() * _overlayScreen->getHeight()) / _frameBuffer->getHeight();

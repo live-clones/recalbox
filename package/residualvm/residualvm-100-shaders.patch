@@ -1,0 +1,1018 @@
+Simplify GRIM shaders for Raspberry 1,2,3 compatibility
+
+Signed-off-by: Laurent Merckx <laurent-merckx@skynet.be>
+
+--- a/engines/grim/emi/modelemi.cpp	2020-10-16 19:53:08.669162699 +0200
++++ b/engines/grim/emi/modelemi.cpp	2020-10-16 19:21:01.126024705 +0200
+@@ -36,10 +36,10 @@
+ namespace Grim {
+ 
+ struct Vector3int {
+-	int _x;
+-	int _y;
+-	int _z;
+-	void setVal(int x, int y, int z) {
++	uint16 _x;
++	uint16 _y;
++	uint16 _z;
++	void setVal(uint16 x, uint16 y, uint16 z) {
+ 		_x = x; _y = y; _z = z;
+ 	}
+ };
+@@ -75,13 +75,13 @@ void EMIMeshFace::loadFace(Common::Seeka
+ 	for (uint32 i = 0; i < _faceLength; i ++) {
+ 		// FIXME: Are these ever going to be < 0 ?
+ 		if (g_grim->getGamePlatform() == Common::kPlatformPS2) {
+-			x = data->readSint32LE();
+-			y = data->readSint32LE();
+-			z = data->readSint32LE();
++			x = data->readUint32LE();
++			y = data->readUint32LE();
++			z = data->readUint32LE();
+ 		} else {
+-			x = data->readSint16LE();
+-			y = data->readSint16LE();
+-			z = data->readSint16LE();
++			x = data->readUint16LE();
++			y = data->readUint16LE();
++			z = data->readUint16LE();
+ 		}
+ 		_indexes[j++].setVal(x, y, z);
+ 	}
+--- a/engines/grim/gfx_opengl.cpp	2020-10-16 19:53:08.669162699 +0200
++++ b/engines/grim/gfx_opengl.cpp	2020-10-16 19:21:01.074024552 +0200
+@@ -447,10 +447,10 @@ void GfxOpenGL::getScreenBoundingBox(con
+ 	glGetIntegerv(GL_VIEWPORT, viewPort);
+ 
+ 	for (uint i = 0; i < model->_numFaces; i++) {
+-		int *indices = (int *)model->_faces[i]._indexes;
++		uint16 *indices = (uint16 *)model->_faces[i]._indexes;
+ 
+ 		for (uint j = 0; j < model->_faces[i]._faceLength * 3; j++) {
+-			int index = indices[j];
++			uint16 index = indices[j];
+ 			Math::Vector3d obj = model->_drawVertices[index];
+ 			Math::Vector3d win;
+ 			Math::gluMathProject<GLdouble, GLint>(obj, modelView, projection, viewPort, win);
+@@ -742,7 +742,7 @@ void GfxOpenGL::set3DMode() {
+ }
+ 
+ void GfxOpenGL::drawEMIModelFace(const EMIModel *model, const EMIMeshFace *face) {
+-	int *indices = (int *)face->_indexes;
++	uint16 *indices = (uint16 *)face->_indexes;
+ 
+ 	glEnable(GL_DEPTH_TEST);
+ 	glDisable(GL_ALPHA_TEST);
+@@ -761,7 +761,7 @@ void GfxOpenGL::drawEMIModelFace(const E
+ 	}
+ 	Math::Vector3d noLighting(1.f, 1.f, 1.f);
+ 	for (uint j = 0; j < face->_faceLength * 3; j++) {
+-		int index = indices[j];
++		uint16 index = indices[j];
+ 
+ 		if (!_currentShadowArray) {
+ 			if (face->_hasTexture) {
+--- a/engines/grim/gfx_opengl_shaders.cpp	2020-10-16 19:53:08.669162699 +0200
++++ b/engines/grim/gfx_opengl_shaders.cpp	2020-10-16 19:42:49.065545983 +0200
+@@ -123,6 +123,7 @@ struct FontUserData {
+ 
+ struct EMIModelUserData {
+ 	OpenGL::ShaderGL *_shader;
++	OpenGL::ShaderGL *_shaderLights;
+ 	uint32 _texCoordsVBO;
+ 	uint32 _colorMapVBO;
+ 	uint32 _verticesVBO;
+@@ -131,6 +132,7 @@ struct EMIModelUserData {
+ 
+ struct ModelUserData {
+ 	OpenGL::ShaderGL *_shader;
++	OpenGL::ShaderGL *_shaderLights;
+ 	uint32 _meshInfoVBO;
+ };
+ 
+@@ -226,6 +228,7 @@ GfxOpenGLS::GfxOpenGLS() {
+ 	_textProgram = nullptr;
+ 	_emergProgram = nullptr;
+ 	_actorProgram = nullptr;
++	_actorLightsProgram = nullptr;
+ 	_spriteProgram = nullptr;
+ 	_primitiveProgram = nullptr;
+ 	_irisProgram = nullptr;
+@@ -250,6 +253,7 @@ GfxOpenGLS::~GfxOpenGLS() {
+ 	delete _textProgram;
+ 	delete _emergProgram;
+ 	delete _actorProgram;
++	delete _actorLightsProgram;
+ 	delete _spriteProgram;
+ 	delete _primitiveProgram;
+ 	delete _irisProgram;
+@@ -381,7 +385,8 @@ void GfxOpenGLS::setupShaders() {
+ 
+ 	static const char* actorAttributes[] = {"position", "texcoord", "color", "normal", NULL};
+ 	_actorProgram = OpenGL::ShaderGL::fromFiles(isEMI ? "emi_actor" : "grim_actor", actorAttributes);
+-	_spriteProgram = OpenGL::ShaderGL::fromFiles(isEMI ? "emi_actor" : "grim_actor", actorAttributes);
++	_actorLightsProgram = OpenGL::ShaderGL::fromFiles(isEMI ? "emi_actorlights" : "grim_actorlights", actorAttributes);
++	_spriteProgram = OpenGL::ShaderGL::fromFiles(isEMI ? "emi_sprite" : "grim_actor", actorAttributes);
+ 
+ 	static const char* primAttributes[] = { "position", NULL };
+ 	_shadowPlaneProgram = OpenGL::ShaderGL::fromFiles("grim_shadowplane", primAttributes);
+@@ -541,10 +546,10 @@ void GfxOpenGLS::getScreenBoundingBox(co
+ 	double bottom = -1000;
+ 
+ 	for (uint i = 0; i < model->_numFaces; i++) {
+-		int *indices = (int *)model->_faces[i]._indexes;
++		uint16 *indices = (uint16 *)model->_faces[i]._indexes;
+ 
+ 		for (uint j = 0; j < model->_faces[i]._faceLength * 3; j++) {
+-			int index = indices[j];
++			uint16 index = indices[j];
+ 			const Math::Vector3d &dv = model->_drawVertices[index];
+ 
+ 			Math::Vector4d v = Math::Vector4d(dv.x(), dv.y(), dv.z(), 1.0f);
+@@ -656,7 +661,6 @@ void GfxOpenGLS::getActorScreenBBox(cons
+ 
+ void GfxOpenGLS::startActorDraw(const Actor *actor) {
+ 	_currentActor = actor;
+-	_actorProgram->use();
+ 	glEnable(GL_DEPTH_TEST);
+ 
+ 	const Math::Vector3d &pos = actor->getWorldPos();
+@@ -666,6 +670,8 @@ void GfxOpenGLS::startActorDraw(const Ac
+ 	Math::Matrix4 viewMatrix = _viewMatrix;
+ 	viewMatrix.transpose();
+ 
++	OpenGL::ShaderGL *shaders[] = {_spriteProgram, _actorProgram, _actorLightsProgram};
++
+ 	if (g_grim->getGameType() == GType_MONKEY4) {
+ 		glEnable(GL_CULL_FACE);
+ 		glFrontFace(GL_CW);
+@@ -682,48 +688,25 @@ void GfxOpenGLS::startActorDraw(const Ac
+ 		normalMatrix.invertAffineOrthonormal();
+ 		modelMatrix.transpose();
+ 
+-		_actorProgram->setUniform("modelMatrix", modelMatrix);
+-		if (actor->isInOverworld()) {
+-			_actorProgram->setUniform("viewMatrix", viewMatrix);
+-			_actorProgram->setUniform("projMatrix", _overworldProjMatrix);
+-			_actorProgram->setUniform("cameraPos", Math::Vector3d(0,0,0));
+-		} else {
+-			_actorProgram->setUniform("viewMatrix", viewRot);
+-			_actorProgram->setUniform("projMatrix", _projMatrix);
+-			_actorProgram->setUniform("cameraPos", _currentPos);
+-		}
+-		_actorProgram->setUniform("normalMatrix", normalMatrix);
+-
+-		_actorProgram->setUniform("isBillboard", GL_FALSE);
+-		_actorProgram->setUniform("useVertexAlpha", GL_FALSE);
+-		_actorProgram->setUniform("uniformColor", color);
+-		_actorProgram->setUniform1f("alphaRef", 0.0f);
+-		_actorProgram->setUniform1f("meshAlpha", 1.0f);
+-
+-		// set the uniform parameter for _spriteProgram
+-		// since they are needed by emi_actor.{fragment,vertex}
+-		// in drawSprite()
+-		_spriteProgram->use();
+-		_spriteProgram->setUniform("modelMatrix", modelMatrix);
+-		if (actor->isInOverworld()) {
+-			_spriteProgram->setUniform("viewMatrix", viewMatrix);
+-			_spriteProgram->setUniform("projMatrix", _overworldProjMatrix);
+-			_spriteProgram->setUniform("cameraPos", Math::Vector3d(0,0,0));
+-		} else {
+-			_spriteProgram->setUniform("viewMatrix", viewRot);
+-			_spriteProgram->setUniform("projMatrix", _projMatrix);
+-			_spriteProgram->setUniform("cameraPos", _currentPos);
+-		}
+-		_spriteProgram->setUniform("normalMatrix", normalMatrix);
+-
+-		_spriteProgram->setUniform("actorPos", pos);
+-		_spriteProgram->setUniform("isBillboard", GL_FALSE);
+-		_spriteProgram->setUniform("useVertexAlpha", GL_FALSE);
+-		_spriteProgram->setUniform("uniformColor", color);
+-		_spriteProgram->setUniform1f("alphaRef", 0.0f);
+-		_spriteProgram->setUniform1f("meshAlpha", 1.0f);
++		for (int i=0; i < 3; i++) {
++			shaders[i]->use();
++			shaders[i]->setUniform("modelMatrix", modelMatrix);
++			if (actor->isInOverworld()) {
++				shaders[i]->setUniform("viewMatrix", viewMatrix);
++				shaders[i]->setUniform("projMatrix", _overworldProjMatrix);
++				shaders[i]->setUniform("cameraPos", Math::Vector3d(0,0,0));
++			} else {
++				shaders[i]->setUniform("viewMatrix", viewRot);
++				shaders[i]->setUniform("projMatrix", _projMatrix);
++				shaders[i]->setUniform("cameraPos", _currentPos);
++			}
++			shaders[i]->setUniform("normalMatrix", normalMatrix);
+ 
+-		_actorProgram->use();
++			shaders[i]->setUniform("useVertexAlpha", GL_FALSE);
++			shaders[i]->setUniform("uniformColor", color);
++			shaders[i]->setUniform1f("alphaRef", 0.0f);
++			shaders[i]->setUniform1f("meshAlpha", 1.0f);
++		}
+ 	} else {
+ 		Math::Matrix4 modelMatrix = quat.toMatrix();
+ 		bool hasZBuffer = g_grim->getCurrSet()->getCurrSetup()->_bkgndZBm;
+@@ -734,16 +717,19 @@ void GfxOpenGLS::startActorDraw(const Ac
+ 		modelMatrix.setPosition(pos);
+ 		modelMatrix.transpose();
+ 
+-		_actorProgram->setUniform("modelMatrix", modelMatrix);
+-		_actorProgram->setUniform("viewMatrix", _viewMatrix);
+-		_actorProgram->setUniform("projMatrix", _projMatrix);
+-		_actorProgram->setUniform("extraMatrix", extraMatrix);
+-		_actorProgram->setUniform("tex", 0);
+-		_actorProgram->setUniform("texZBuf", 1);
+-		_actorProgram->setUniform("hasZBuffer", hasZBuffer);
+-		_actorProgram->setUniform("texcropZBuf", _zBufTexCrop);
+-		_actorProgram->setUniform("screenSize", Math::Vector2d(_screenWidth, _screenHeight));
+-		_actorProgram->setUniform1f("alphaRef", 0.5f);
++		for (int i=0; i < 3; i++) {
++			shaders[i]->use();
++			shaders[i]->setUniform("modelMatrix", modelMatrix);
++			shaders[i]->setUniform("viewMatrix", _viewMatrix);
++			shaders[i]->setUniform("projMatrix", _projMatrix);
++			shaders[i]->setUniform("extraMatrix", extraMatrix);
++			shaders[i]->setUniform("tex", 0);
++			shaders[i]->setUniform("texZBuf", 1);
++			shaders[i]->setUniform("hasZBuffer", hasZBuffer);
++			shaders[i]->setUniform("texcropZBuf", _zBufTexCrop);
++			shaders[i]->setUniform("screenSize", Math::Vector2d(_screenWidth, _screenHeight));
++			shaders[i]->setUniform1f("alphaRef", 0.5f);
++		}
+ 	}
+ 
+ 	if (_currentShadowArray) {
+@@ -758,43 +744,48 @@ void GfxOpenGLS::startActorDraw(const Ac
+ 		if (!_currentShadowArray->dontNegate)
+ 			normal = -normal;
+ 
+-		_actorProgram->setUniform("shadow._active", true);
+-		_actorProgram->setUniform("shadow._color", color);
+-		_actorProgram->setUniform("shadow._light", _currentShadowArray->pos);
+-		_actorProgram->setUniform("shadow._point", shadowSector->getVertices()[0]);
+-		_actorProgram->setUniform("shadow._normal", normal);
++		for (int i=0; i < 3; i++) {
++			shaders[i]->use();
++			shaders[i]->setUniform("shadow._active", true);
++			shaders[i]->setUniform("shadow._color", color);
++			shaders[i]->setUniform("shadow._light", _currentShadowArray->pos);
++			shaders[i]->setUniform("shadow._point", shadowSector->getVertices()[0]);
++			shaders[i]->setUniform("shadow._normal", normal);
++		}
+ 
+ 		glDepthMask(GL_FALSE);
+ 		glDisable(GL_BLEND);
+ 		glEnable(GL_POLYGON_OFFSET_FILL);
+ 	}
+ 	else {
+-		_actorProgram->setUniform("shadow._active", false);
++		for (int i=0; i < 3; i++) {
++			shaders[i]->use();
++			shaders[i]->setUniform("shadow._active", false);
++		}
+ 	}
+ 
+-	_actorProgram->setUniform("lightsEnabled", _lightsEnabled);
+-	_actorProgram->setUniform("hasAmbient", _hasAmbientLight);
++	_actorLightsProgram->setUniform("hasAmbient", _hasAmbientLight);
+ 	if (_lightsEnabled) {
+ 		for (int i = 0; i < _maxLights; ++i) {
+ 			const GLSLight &l = _lights[i];
+ 			Common::String uniform;
+-			uniform = Common::String::format("lights[%u]._position", i);
++			uniform = Common::String::format("lightsPosition[%u]", i);
+ 
+-			_actorProgram->setUniform(uniform.c_str(), viewMatrix * l._position);
++			_actorLightsProgram->setUniform(uniform.c_str(), viewMatrix * l._position);
+ 
+ 			Math::Vector4d direction = l._direction;
+ 			direction.w() = 0.0;
+ 			viewMatrix.transformVector(&direction);
+ 			direction.w() = l._direction.w();
+ 
+-			uniform = Common::String::format("lights[%u]._direction", i);
+-			_actorProgram->setUniform(uniform.c_str(), direction);
++			uniform = Common::String::format("lightsDirection[%u]", i);
++			_actorLightsProgram->setUniform(uniform.c_str(), direction);
+ 
+-			uniform = Common::String::format("lights[%u]._color", i);
+-			_actorProgram->setUniform(uniform.c_str(), l._color);
++			uniform = Common::String::format("lightsColor[%u]", i);
++			_actorLightsProgram->setUniform(uniform.c_str(), l._color);
+ 
+-			uniform = Common::String::format("lights[%u]._params", i);
+-			_actorProgram->setUniform(uniform.c_str(), l._params);
++			uniform = Common::String::format("lightsParams[%u]", i);
++			_actorLightsProgram->setUniform(uniform.c_str(), l._params);
+ 		}
+ 	}
+ }
+@@ -956,17 +947,21 @@ void GfxOpenGLS::drawEMIModelFace(const
+ 	    face->_flags & EMIMeshFace::kUnknownBlend)
+ 		glEnable(GL_BLEND);
+ 	const EMIModelUserData *mud = (const EMIModelUserData *)model->_userData;
+-	mud->_shader->use();
++	OpenGL::ShaderGL *actorShader;
++	if ((face->_flags & EMIMeshFace::kNoLighting) ? false : _lightsEnabled)
++		actorShader = mud->_shaderLights;
++	else
++		actorShader = mud->_shader;
++	actorShader->use();
+ 	bool textured = face->_hasTexture && !_currentShadowArray;
+-	mud->_shader->setUniform("textured", textured ? GL_TRUE : GL_FALSE);
+-	mud->_shader->setUniform("lightsEnabled", (face->_flags & EMIMeshFace::kNoLighting) ? false : _lightsEnabled);
+-	mud->_shader->setUniform("swapRandB", _selectedTexture->_colorFormat == BM_BGRA || _selectedTexture->_colorFormat == BM_BGR888);
+-	mud->_shader->setUniform("useVertexAlpha", _selectedTexture->_colorFormat == BM_BGRA);
+-	mud->_shader->setUniform1f("meshAlpha", (model->_meshAlphaMode == Actor::AlphaReplace) ? model->_meshAlpha : 1.0f);
++	actorShader->setUniform("textured", textured ? GL_TRUE : GL_FALSE);
++	actorShader->setUniform("swapRandB", _selectedTexture->_colorFormat == BM_BGRA || _selectedTexture->_colorFormat == BM_BGR888);
++	actorShader->setUniform("useVertexAlpha", _selectedTexture->_colorFormat == BM_BGRA);
++	actorShader->setUniform1f("meshAlpha", (model->_meshAlphaMode == Actor::AlphaReplace) ? model->_meshAlpha : 1.0f);
+ 
+ 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, face->_indicesEBO);
+ 
+-	glDrawElements(GL_TRIANGLES, 3 * face->_faceLength, GL_UNSIGNED_INT, 0);
++	glDrawElements(GL_TRIANGLES, 3 * face->_faceLength, GL_UNSIGNED_SHORT, 0);
+ 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+ }
+ 
+@@ -974,11 +969,14 @@ void GfxOpenGLS::drawMesh(const Mesh *me
+ 	const ModelUserData *mud = (const ModelUserData *)mesh->_userData;
+ 	if (!mud)
+ 		return;
+-	OpenGL::ShaderGL *actorShader = mud->_shader;
++	OpenGL::ShaderGL *actorShader;
++	if (_lightsEnabled && !isShadowModeActive())
++		actorShader = mud->_shaderLights;
++	else
++		actorShader = mud->_shader;
+ 
+ 	actorShader->use();
+ 	actorShader->setUniform("extraMatrix", _matrixStack.top());
+-	actorShader->setUniform("lightsEnabled", _lightsEnabled && !isShadowModeActive());
+ 
+ 	const Material *curMaterial = NULL;
+ 	for (int i = 0; i < mesh->_numFaces;) {
+@@ -1062,8 +1060,6 @@ void GfxOpenGLS::drawSprite(const Sprite
+ 	_spriteProgram->setUniform("extraMatrix", extraMatrix);
+ 	_spriteProgram->setUniform("textured", GL_TRUE);
+ 	_spriteProgram->setUniform("swapRandB", _selectedTexture->_colorFormat == BM_BGRA || _selectedTexture->_colorFormat == BM_BGR888);
+-	_spriteProgram->setUniform("isBillboard", GL_TRUE);
+-	_spriteProgram->setUniform("lightsEnabled", false);
+ 	if (g_grim->getGameType() == GType_GRIM) {
+ 		_spriteProgram->setUniform1f("alphaRef", 0.5f);
+ 	} else if (sprite->_flags2 & Sprite::AlphaTest) {
+@@ -2019,9 +2015,16 @@ void GfxOpenGLS::createEMIModel(EMIModel
+ 	actorShader->enableVertexAttribute("color", mud->_colorMapVBO, 4, GL_UNSIGNED_BYTE, GL_TRUE, 4 * sizeof(byte), 0);
+ 	mud->_shader = actorShader;
+ 
++	actorShader = _actorLightsProgram->clone();
++	actorShader->enableVertexAttribute("position", mud->_verticesVBO, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), 0);
++	actorShader->enableVertexAttribute("normal", mud->_normalsVBO, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), 0);
++	actorShader->enableVertexAttribute("texcoord", mud->_texCoordsVBO, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
++	actorShader->enableVertexAttribute("color", mud->_colorMapVBO, 4, GL_UNSIGNED_BYTE, GL_TRUE, 4 * sizeof(byte), 0);
++	mud->_shaderLights = actorShader;
++
+ 	for (uint32 i = 0; i < model->_numFaces; ++i) {
+ 		EMIMeshFace * face = &model->_faces[i];
+-		face->_indicesEBO = OpenGL::ShaderGL::createBuffer(GL_ELEMENT_ARRAY_BUFFER, face->_faceLength * 3 * sizeof(uint32), face->_indexes, GL_STATIC_DRAW);
++		face->_indicesEBO = OpenGL::ShaderGL::createBuffer(GL_ELEMENT_ARRAY_BUFFER, face->_faceLength * 3 * sizeof(uint16), face->_indexes, GL_STATIC_DRAW);
+ 	}
+ 
+ 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+@@ -2086,12 +2089,19 @@ void GfxOpenGLS::createMesh(Mesh *mesh)
+ 
+ 	mud->_meshInfoVBO = OpenGL::ShaderGL::createBuffer(GL_ARRAY_BUFFER, meshInfo.size() * sizeof(GrimVertex), &meshInfo[0], GL_STATIC_DRAW);
+ 
+-	OpenGL::ShaderGL *shader = _actorProgram->clone();
+-	mud->_shader = shader;
+-	shader->enableVertexAttribute("position", mud->_meshInfoVBO, 3, GL_FLOAT, GL_FALSE, sizeof(GrimVertex), 0);
+-	shader->enableVertexAttribute("texcoord", mud->_meshInfoVBO, 2, GL_FLOAT, GL_FALSE, sizeof(GrimVertex), 3 * sizeof(float));
+-	shader->enableVertexAttribute("normal", mud->_meshInfoVBO, 3, GL_FLOAT, GL_FALSE, sizeof(GrimVertex), 5 * sizeof(float));
+-	shader->disableVertexAttribute("color", Math::Vector4d(1.f, 1.f, 1.f, 1.f));
++	OpenGL::ShaderGL *actorShader = _actorProgram->clone();
++	actorShader->enableVertexAttribute("position", mud->_meshInfoVBO, 3, GL_FLOAT, GL_FALSE, sizeof(GrimVertex), 0);
++	actorShader->enableVertexAttribute("texcoord", mud->_meshInfoVBO, 2, GL_FLOAT, GL_FALSE, sizeof(GrimVertex), 3 * sizeof(float));
++	actorShader->enableVertexAttribute("normal", mud->_meshInfoVBO, 3, GL_FLOAT, GL_FALSE, sizeof(GrimVertex), 5 * sizeof(float));
++	actorShader->disableVertexAttribute("color", Math::Vector4d(1.f, 1.f, 1.f, 1.f));
++	mud->_shader = actorShader;
++
++	actorShader = _actorLightsProgram->clone();
++	actorShader->enableVertexAttribute("position", mud->_meshInfoVBO, 3, GL_FLOAT, GL_FALSE, sizeof(GrimVertex), 0);
++	actorShader->enableVertexAttribute("texcoord", mud->_meshInfoVBO, 2, GL_FLOAT, GL_FALSE, sizeof(GrimVertex), 3 * sizeof(float));
++	actorShader->enableVertexAttribute("normal", mud->_meshInfoVBO, 3, GL_FLOAT, GL_FALSE, sizeof(GrimVertex), 5 * sizeof(float));
++	actorShader->disableVertexAttribute("color", Math::Vector4d(1.f, 1.f, 1.f, 1.f));
++	mud->_shaderLights = actorShader;
+ }
+ 
+ void GfxOpenGLS::destroyMesh(const Mesh *mesh) {
+--- a/engines/grim/gfx_opengl_shaders.h	2020-10-16 19:53:08.669162699 +0200
++++ b/engines/grim/gfx_opengl_shaders.h	2020-10-16 19:43:44.521349420 +0200
+@@ -226,6 +226,7 @@ private:
+ 
+ 	OpenGL::ShaderGL* _backgroundProgram;
+ 	OpenGL::ShaderGL* _actorProgram;
++	OpenGL::ShaderGL* _actorLightsProgram;
+ 	OpenGL::ShaderGL* _spriteProgram;
+ 	OpenGL::ShaderGL* _dimProgram;
+ 	OpenGL::ShaderGL* _dimPlaneProgram;
+--- a/engines/grim/gfx_tinygl.cpp	2020-10-16 19:53:08.669162699 +0200
++++ b/engines/grim/gfx_tinygl.cpp	2020-10-16 19:21:01.074024552 +0200
+@@ -329,10 +329,10 @@ void GfxTinyGL::getScreenBoundingBox(con
+ 	tglGetIntegerv(TGL_VIEWPORT, viewPort);
+ 
+ 	for (uint i = 0; i < model->_numFaces; i++) {
+-		int *indices = (int *)model->_faces[i]._indexes;
++		uint16 *indices = (uint16 *)model->_faces[i]._indexes;
+ 		
+ 		for (uint j = 0; j < model->_faces[i]._faceLength * 3; j++) {
+-			int index = indices[j];
++			uint16 index = indices[j];
+ 
+ 			Math::Vector3d obj = model->_drawVertices[index];
+ 			Math::Vector3d win;
+@@ -614,7 +614,7 @@ void GfxTinyGL::getShadowColor(byte *r,
+ }
+ 
+ void GfxTinyGL::drawEMIModelFace(const EMIModel *model, const EMIMeshFace *face) {
+-	int *indices = (int *)face->_indexes;
++	uint16 *indices = (uint16 *)face->_indexes;
+ 
+ 	tglEnable(TGL_DEPTH_TEST);
+ 	tglDisable(TGL_ALPHA_TEST);
+@@ -633,7 +633,7 @@ void GfxTinyGL::drawEMIModelFace(const E
+ 	}
+ 	Math::Vector3d noLighting(1.f, 1.f, 1.f);
+ 	for (uint j = 0; j < face->_faceLength * 3; j++) {
+-		int index = indices[j];
++		uint16 index = indices[j];
+ 
+ 		if (!_currentShadowArray) {
+ 			if (face->_hasTexture) {
+--- a/engines/grim/shaders/emi_actorlights.fragment	1970-01-01 01:00:00.000000000 +0100
++++ b/engines/grim/shaders/emi_actorlights.fragment	2020-10-16 19:21:01.106024646 +0200
+@@ -0,0 +1,26 @@
++in vec2 Texcoord;
++in vec4 Color;
++
++uniform sampler2D tex;
++uniform bool textured;
++uniform bool swapRandB;
++uniform float alphaRef;
++uniform float meshAlpha;
++
++OUTPUT
++
++void main()
++{
++	outColor = Color;
++	if (textured) {
++		vec4 texColor = texture(tex, Texcoord);
++#ifdef GL_ES
++		if (swapRandB)
++			texColor.rb = texColor.br;
++#endif
++		outColor.rgba *= texColor.rgba;
++		outColor.a *= meshAlpha;
++		if (outColor.a < alphaRef)
++			discard;
++	}
++}
+--- a/engines/grim/shaders/emi_actorlights.vertex	1970-01-01 01:00:00.000000000 +0100
++++ b/engines/grim/shaders/emi_actorlights.vertex	2020-10-16 19:21:01.106024646 +0200
+@@ -0,0 +1,116 @@
++in vec3 position;
++in vec2 texcoord;
++in vec4 color;
++in vec3 normal;
++
++uniform highp mat4 modelMatrix;
++uniform highp mat4 viewMatrix;
++uniform highp mat4 projMatrix;
++uniform highp mat4 extraMatrix;
++uniform highp mat4 normalMatrix;
++uniform highp vec3 cameraPos;
++uniform bool textured;
++uniform bool useVertexAlpha;
++uniform vec4 uniformColor;
++uniform bool hasAmbient;
++
++const int maxLights = 8;
++uniform vec4 lightsPosition[maxLights];
++uniform vec4 lightsDirection[maxLights];
++uniform vec4 lightsColor[maxLights];
++uniform vec4 lightsParams[maxLights];
++
++struct shadow_info {
++	bool _active;
++	vec3 _color;
++	vec3 _light;
++	vec3 _point;
++	vec3 _normal;
++};
++
++uniform shadow_info shadow;
++
++out vec2 Texcoord;
++out vec4 Color;
++
++void main()
++{
++	vec4 pos = vec4(position, 1.0);
++	pos = modelMatrix * pos;
++
++	// See http://en.wikipedia.org/wiki/Line-plane_intersection
++	if (shadow._active) {
++		pos /= pos.w;
++		vec3 l = pos.xyz - shadow._light;
++		float d = dot(shadow._point - shadow._light, shadow._normal) / dot(l, shadow._normal);
++		vec3 p = shadow._light + d * l;
++		pos = vec4(p, 1.0);
++	}
++
++	pos -= vec4(cameraPos * pos.w, 0.0);
++	pos = viewMatrix * pos;
++	pos /= pos.w;
++	pos.z *= -1.0;
++
++	vec4 projectedPos = projMatrix * pos;
++
++	gl_Position = projectedPos;
++
++	if (shadow._active) {
++		Color = vec4(shadow._color, 1.0);
++	} else {
++		Color = color;
++	}
++	if (!useVertexAlpha)
++		Color.a = 1.0;
++	Color *= uniformColor;
++	if (textured) {
++		Texcoord = texcoord;
++	} else {
++		Texcoord = vec2(0.0, 0.0);
++	}
++
++	vec3 light = vec3(0.0, 0.0, 0.0);
++	vec3 normalEye = normalize((normalMatrix * vec4(normal, 1.0)).xyz);
++
++	for (int i = 0; i < maxLights; ++i) {
++		float intensity = lightsColor[i].w;
++		float light_type = lightsPosition[i].w;
++		if (light_type >= 0.0) { // Not ambient
++			vec3 vertexToLight;
++			if (light_type > 0.0) { // positional light
++				float falloffNear = lightsParams[i].x;
++				float falloffFar = max(falloffNear, lightsParams[i].y);
++				vertexToLight = lightsPosition[i].xyz - pos.xyz;
++				float dist = length(vertexToLight);
++				if (falloffFar == falloffNear) {
++					intensity = 0.0;
++				} else {
++					intensity *= clamp(1.0 - (dist - falloffNear) / (falloffFar - falloffNear), 0.0, 1.0);
++				}
++				if (lightsDirection[i].w > -1.0) { // Spotlight
++					// See DirectX spotlight documentation
++					float cosAngle = -dot(normalize(vertexToLight), normalize(lightsDirection[i].xyz)); // rho
++					float cosPenumbra = clamp(lightsParams[i].w, 0.0, 1.0); // cos(theta / 2)
++					float cosUmbra = clamp(lightsParams[i].z, 0.0, cosPenumbra); // cos(phi / 2)
++					if (cosAngle <= cosPenumbra) {
++						if (cosAngle < cosUmbra || cosPenumbra == cosUmbra) {
++							intensity = 0.0;
++						} else {
++							intensity *= (cosAngle - cosUmbra) / (cosPenumbra - cosUmbra);
++						}
++					}
++				}
++			} else { // directional light
++				vertexToLight = -lightsPosition[i].xyz;
++			}
++			intensity *= max(0.0, dot(normalEye, normalize(vertexToLight)));
++		}
++		light += lightsColor[i].xyz * intensity;
++	}
++
++	if (!hasAmbient)
++		light += vec3(0.5, 0.5, 0.5);
++	light /= max(1.0, max(max(light.x, light.y), light.z));
++	Color *= vec4(light, 1.0);
++}
+--- a/engines/grim/shaders/emi_actor.vertex	2020-10-16 19:53:08.681162563 +0200
++++ b/engines/grim/shaders/emi_actor.vertex	2020-10-16 19:49:35.840027239 +0200
+@@ -10,20 +10,8 @@ uniform highp mat4 extraMatrix;
+ uniform highp mat4 normalMatrix;
+ uniform highp vec3 cameraPos;
+ uniform bool textured;
+-uniform bool isBillboard;
+ uniform bool useVertexAlpha;
+ uniform vec4 uniformColor;
+-uniform bool lightsEnabled;
+-uniform bool hasAmbient;
+-
+-struct Light {
+-	vec4 _position;
+-	vec4 _direction;
+-	vec4 _color;
+-	vec4 _params;
+-};
+-const int maxLights = 8;
+-uniform Light lights[maxLights];
+ 
+ struct shadow_info {
+ 	bool _active;
+@@ -41,34 +29,23 @@ out vec4 Color;
+ void main()
+ {
+ 	vec4 pos = vec4(position, 1.0);
+-	if (isBillboard) {
+-		vec4 offset = modelMatrix * vec4(0.0, 0.0, 0.0, 1.0);
+-		offset -= vec4(cameraPos * offset.w, 0.0);
+-		offset = viewMatrix * offset;
+-
+-		pos = extraMatrix * pos;
+-		pos += vec4(offset.xyz * pos.w, 0.0);
+-	} else {
+-		pos = modelMatrix * pos;
++	pos = modelMatrix * pos;
+ 
+-		// See http://en.wikipedia.org/wiki/Line-plane_intersection
+-		if (shadow._active) {
+-			pos /= pos.w;
+-			vec3 l = pos.xyz - shadow._light;
+-			float d = dot(shadow._point - shadow._light, shadow._normal) / dot(l, shadow._normal);
+-			vec3 p = shadow._light + d * l;
+-			pos = vec4(p, 1.0);
+-		}
++	// See http://en.wikipedia.org/wiki/Line-plane_intersection
++	if (shadow._active) {
++		pos /= pos.w;
++		vec3 l = pos.xyz - shadow._light;
++		float d = dot(shadow._point - shadow._light, shadow._normal) / dot(l, shadow._normal);
++		vec3 p = shadow._light + d * l;
++		pos = vec4(p, 1.0);
++        }
+ 
+-		pos -= vec4(cameraPos * pos.w, 0.0);
+-		pos = viewMatrix * pos;
+-	}
++	pos -= vec4(cameraPos * pos.w, 0.0);
++	pos = viewMatrix * pos;
+ 	pos /= pos.w;
+ 	pos.z *= -1.0;
+ 
+ 	vec4 projectedPos = projMatrix * pos;
+-	if (isBillboard)
+-		projectedPos.z = ROUND(projectedPos.z);
+ 
+ 	gl_Position = projectedPos;
+ 
+@@ -86,49 +63,4 @@ void main()
+ 		Texcoord = vec2(0.0, 0.0);
+ 	}
+ 
+-	if (lightsEnabled) {
+-		vec3 light = vec3(0.0, 0.0, 0.0);
+-		vec3 normalEye = normalize((normalMatrix * vec4(normal, 1.0)).xyz);
+-
+-		for (int i = 0; i < maxLights; ++i) {
+-			float intensity = lights[i]._color.w;
+-			float light_type = lights[i]._position.w;
+-			if (light_type >= 0.0) { // Not ambient
+-				vec3 vertexToLight;
+-				if (light_type > 0.0) { // positional light
+-					float falloffNear = lights[i]._params.x;
+-					float falloffFar = max(falloffNear, lights[i]._params.y);
+-					vertexToLight = lights[i]._position.xyz - pos.xyz;
+-					float dist = length(vertexToLight);
+-					if (falloffFar == falloffNear) {
+-						intensity = 0.0;
+-					} else {
+-						intensity *= clamp(1.0 - (dist - falloffNear) / (falloffFar - falloffNear), 0.0, 1.0);
+-					}
+-					if (lights[i]._direction.w > -1.0) { // Spotlight
+-						// See DirectX spotlight documentation
+-						float cosAngle = -dot(normalize(vertexToLight), normalize(lights[i]._direction.xyz)); // rho
+-						float cosPenumbra = clamp(lights[i]._params.w, 0.0, 1.0); // cos(theta / 2)
+-						float cosUmbra = clamp(lights[i]._params.z, 0.0, cosPenumbra); // cos(phi / 2)
+-						if (cosAngle <= cosPenumbra) {
+-							if (cosAngle < cosUmbra || cosPenumbra == cosUmbra) {
+-								intensity = 0.0;
+-							} else {
+-								intensity *= (cosAngle - cosUmbra) / (cosPenumbra - cosUmbra);
+-							}
+-						}
+-					}
+-				} else { // directional light
+-					vertexToLight = -lights[i]._position.xyz;
+-				}
+-				intensity *= max(0.0, dot(normalEye, normalize(vertexToLight)));
+-			}
+-			light += lights[i]._color.xyz * intensity;
+-		}
+-
+-		if (!hasAmbient)
+-			light += vec3(0.5, 0.5, 0.5);
+-		light /= max(1.0, max(max(light.x, light.y), light.z));
+-		Color *= vec4(light, 1.0);
+-	}
+ }
+--- a/engines/grim/shaders/emi_sprite.fragment	1970-01-01 01:00:00.000000000 +0100
++++ b/engines/grim/shaders/emi_sprite.fragment	2020-10-16 19:21:01.106024646 +0200
+@@ -0,0 +1,26 @@
++in vec2 Texcoord;
++in vec4 Color;
++
++uniform sampler2D tex;
++uniform bool textured;
++uniform bool swapRandB;
++uniform float alphaRef;
++uniform float meshAlpha;
++
++OUTPUT
++
++void main()
++{
++	outColor = Color;
++	if (textured) {
++		vec4 texColor = texture(tex, Texcoord);
++#ifdef GL_ES
++		if (swapRandB)
++			texColor.rb = texColor.br;
++#endif
++		outColor.rgba *= texColor.rgba;
++		outColor.a *= meshAlpha;
++		if (outColor.a < alphaRef)
++			discard;
++	}
++}
+--- a/engines/grim/shaders/emi_sprite.vertex	1970-01-01 01:00:00.000000000 +0100
++++ b/engines/grim/shaders/emi_sprite.vertex	2020-10-16 19:50:34.007145583 +0200
+@@ -0,0 +1,60 @@
++in vec3 position;
++in vec2 texcoord;
++in vec4 color;
++in vec3 normal;
++
++uniform highp mat4 modelMatrix;
++uniform highp mat4 viewMatrix;
++uniform highp mat4 projMatrix;
++uniform highp mat4 extraMatrix;
++uniform highp mat4 normalMatrix;
++uniform highp vec3 cameraPos;
++uniform bool textured;
++uniform bool useVertexAlpha;
++uniform vec4 uniformColor;
++
++struct shadow_info {
++	bool _active;
++	vec3 _color;
++	vec3 _light;
++	vec3 _point;
++	vec3 _normal;
++};
++
++uniform shadow_info shadow;
++
++out vec2 Texcoord;
++out vec4 Color;
++
++void main()
++{
++	vec4 pos = vec4(position, 1.0);
++	vec4 offset = modelMatrix * vec4(0.0, 0.0, 0.0, 1.0);
++	offset -= vec4(cameraPos * offset.w, 0.0);
++	offset = viewMatrix * offset;
++
++	pos = extraMatrix * pos;
++	pos += vec4(offset.xyz * pos.w, 0.0);
++	pos /= pos.w;
++	pos.z *= -1.0;
++
++	vec4 projectedPos = projMatrix * pos;
++	projectedPos.z = ROUND(projectedPos.z);
++
++	gl_Position = projectedPos;
++
++	if (shadow._active) {
++		Color = vec4(shadow._color, 1.0);
++	} else {
++		Color = color;
++	}
++	if (!useVertexAlpha)
++		Color.a = 1.0;
++	Color *= uniformColor;
++	if (textured) {
++		Texcoord = texcoord;
++	} else {
++		Texcoord = vec2(0.0, 0.0);
++	}
++
++}
+--- a/engines/grim/shaders/grim_actorlights.fragment	1970-01-01 01:00:00.000000000 +0100
++++ b/engines/grim/shaders/grim_actorlights.fragment	2020-10-16 19:21:01.122024693 +0200
+@@ -0,0 +1,47 @@
++in vec2 Texcoord;
++in vec4 Color;
++
++uniform sampler2D tex;
++uniform sampler2D texZBuf;
++uniform bool textured;
++uniform bool hasZBuffer;
++uniform vec2 texcropZBuf;
++uniform vec2 screenSize;
++uniform float alphaRef;
++
++//#define SGSPLUS_FIX
++#ifndef SGSPLUS_FIX
++const float offsetY = 0.0;
++#else
++// fix for bugged Samsung Galaxy S plus driver
++const float offsetY = 32.0;
++#endif
++
++OUTPUT
++
++void checkZBuffer() 
++{
++#ifndef SGSPLUS_FIX
++	vec2 zCoord = vec2((gl_FragCoord.x-0.5)/screenSize.x, 1.0-(gl_FragCoord.y-offsetY-0.5)/screenSize.y);
++#else
++	vec2 zCoord = vec2((gl_FragCoord.x-0.5)/screenSize.x, (gl_FragCoord.y-offsetY-0.5)/screenSize.y);
++#endif
++	vec2 sampled = texture(texZBuf, zCoord * texcropZBuf).ra;
++	float sceneZ = sampled.y + sampled.x / 256.0; 		
++	
++	if (gl_FragCoord.z * 1.0039 > sceneZ)
++		discard;
++}
++
++void main()
++{
++	if (hasZBuffer)
++		checkZBuffer();
++	outColor = Color;
++	if (textured) {
++		outColor *= texture(tex, Texcoord);
++	}
++
++	if (outColor.a < alphaRef)
++		discard;
++}
+--- a/engines/grim/shaders/grim_actorlights.vertex	1970-01-01 01:00:00.000000000 +0100
++++ b/engines/grim/shaders/grim_actorlights.vertex	2020-10-16 19:21:01.122024693 +0200
+@@ -0,0 +1,97 @@
++const float CONSTANT_ATTENUATION = 1.0;
++const float LINEAR_ATTENUATION = 0.0;
++const float QUADRATIC_ATTENUATION = 1.0;
++
++in vec3 position;
++in vec2 texcoord;
++in vec4 color;
++in vec3 normal;
++
++uniform highp mat4 modelMatrix;
++uniform highp mat4 viewMatrix;
++uniform highp mat4 projMatrix;
++uniform highp mat4 extraMatrix;
++uniform bool textured;
++uniform bool lightsEnabled;
++uniform highp vec2 texScale;
++
++const int maxLights = 8;
++uniform vec4 lightsPosition[maxLights];
++uniform vec4 lightsDirection[maxLights];
++uniform vec4 lightsColor[maxLights];
++uniform vec4 lightsParams[maxLights];
++
++struct shadow_info {
++	bool _active;
++	vec3 _color;
++	vec3 _light;
++	vec3 _point;
++	vec3 _normal;
++};
++
++uniform shadow_info shadow;
++
++out vec2 Texcoord;
++out vec4 Color;
++
++void main()
++{
++	vec4 pos = modelMatrix * extraMatrix * vec4(position, 1.0);
++
++	// See http://en.wikipedia.org/wiki/Line-plane_intersection
++	if (shadow._active) {
++		pos /= pos.w;
++		vec3 l = pos.xyz - shadow._light;
++		float d = dot(shadow._point - shadow._light, shadow._normal) / dot(l, shadow._normal);
++		vec3 p = shadow._light + d * l;
++		pos = vec4(p, 1.0);
++	}
++
++	vec4 positionView = viewMatrix * pos;
++	gl_Position = projMatrix * positionView;
++
++	if (shadow._active) {
++		Color = vec4(shadow._color, 1.0);
++	} else {
++		Color = color;
++	}
++
++	if (textured) {
++		Texcoord = vec2(0.0, 1.0) + (texcoord / texScale);
++	} else {
++		Texcoord = vec2(0.0, 0.0);
++	}
++
++	vec3 light = vec3(0.0, 0.0, 0.0);
++	vec3 normalEye = normalize((viewMatrix * (modelMatrix * extraMatrix * vec4(normal, 0.0))).xyz);
++
++	for (int i = 0; i < maxLights; ++i) {
++		float intensity = lightsColor[i].w;
++		float light_type = lightsPosition[i].w;
++		if (light_type >= 0.0) { // Not ambient
++			vec3 vertexToLight = lightsPosition[i].xyz;
++			if (light_type > 0.0) { // positional light
++				vertexToLight -= positionView.xyz;
++				float dist = length(vertexToLight);
++				intensity /= CONSTANT_ATTENUATION + dist * (LINEAR_ATTENUATION + dist * QUADRATIC_ATTENUATION);
++				if (lightsDirection[i].w > -1.0) { // Spotlight
++					// See DirectX spotlight documentation
++					float cosAngle = -dot(normalize(vertexToLight), normalize(lightsDirection[i].xyz)); // rho
++					float cosPenumbra = clamp(lightsParams[i].w, 0.0, 1.0); // cos(theta / 2)
++					float cosUmbra = clamp(lightsParams[i].z, 0.0, cosPenumbra); // cos(phi / 2)
++					if (cosAngle <= cosPenumbra) {
++						if (cosAngle < cosUmbra || cosPenumbra == cosUmbra) {
++							intensity = 0.0;
++						} else {
++							intensity *= (cosAngle - cosUmbra) / (cosPenumbra - cosUmbra);
++						}
++					}
++				}
++			}
++			intensity *= max(0.0, dot(normalEye, normalize(vertexToLight)));
++		}
++		light += lightsColor[i].xyz * intensity;
++	}
++	light /= max(1.0, max(max(light.x, light.y), light.z));
++	Color *= vec4(light, 1.0);
++}
+--- a/engines/grim/shaders/grim_actor.vertex	2020-10-16 19:53:08.681162563 +0200
++++ b/engines/grim/shaders/grim_actor.vertex	2020-10-16 19:21:01.122024693 +0200
+@@ -15,15 +15,6 @@ uniform bool textured;
+ uniform bool lightsEnabled;
+ uniform highp vec2 texScale;
+ 
+-struct Light {
+-	vec4 _position;
+-	vec4 _direction;
+-	vec4 _color;
+-	vec4 _params;
+-};
+-const int maxLights = 8;
+-uniform Light lights[maxLights];
+-
+ struct shadow_info {
+ 	bool _active;
+ 	vec3 _color;
+@@ -65,38 +56,4 @@ void main()
+ 		Texcoord = vec2(0.0, 0.0);
+ 	}
+ 
+-	if (lightsEnabled) {
+-		vec3 light = vec3(0.0, 0.0, 0.0);
+-		vec3 normalEye = normalize((viewMatrix * (modelMatrix * extraMatrix * vec4(normal, 0.0))).xyz);
+-
+-		for (int i = 0; i < maxLights; ++i) {
+-			float intensity = lights[i]._color.w;
+-			float light_type = lights[i]._position.w;
+-			if (light_type >= 0.0) { // Not ambient
+-				vec3 vertexToLight = lights[i]._position.xyz;
+-				if (light_type > 0.0) { // positional light
+-					vertexToLight -= positionView.xyz;
+-					float dist = length(vertexToLight);
+-					intensity /= CONSTANT_ATTENUATION + dist * (LINEAR_ATTENUATION + dist * QUADRATIC_ATTENUATION);
+-					if (lights[i]._direction.w > -1.0) { // Spotlight
+-						// See DirectX spotlight documentation
+-						float cosAngle = -dot(normalize(vertexToLight), normalize(lights[i]._direction.xyz)); // rho
+-						float cosPenumbra = clamp(lights[i]._params.w, 0.0, 1.0); // cos(theta / 2)
+-						float cosUmbra = clamp(lights[i]._params.z, 0.0, cosPenumbra); // cos(phi / 2)
+-						if (cosAngle <= cosPenumbra) {
+-							if (cosAngle < cosUmbra || cosPenumbra == cosUmbra) {
+-								intensity = 0.0;
+-							} else {
+-								intensity *= (cosAngle - cosUmbra) / (cosPenumbra - cosUmbra);
+-							}
+-						}
+-					}
+-				}
+-				intensity *= max(0.0, dot(normalEye, normalize(vertexToLight)));
+-			}
+-			light += lights[i]._color.xyz * intensity;
+-		}
+-		light /= max(1.0, max(max(light.x, light.y), light.z));
+-		Color *= vec4(light, 1.0);
+-	}
+ }

@@ -1,33 +1,32 @@
 Replace check_gamedata configuration by a "gameid".checked file in game directory.
-Allow multiple MD5 verification, also for command-line games.
+Avoid multiple MD5 verification, also for command-line games.
 
 Signed-off-by: Laurent Merckx <laurent-merckx@skynet.be>
 
 --- a/engines/grim/grim.cpp
 +++ b/engines/grim/grim.cpp
-
 @@ -32,6 +32,7 @@
  #include "common/fs.h"
  #include "common/config-manager.h"
  #include "common/translation.h"
 +#include "common/stream.h"
  
- #include "graphics/pixelbuffer.h"
- #include "graphics/renderer.h"
-@@ -306,8 +307,10 @@
+ #include "backends/keymapper/action.h"
+ #include "backends/keymapper/keymap.h"
+@@ -336,8 +337,10 @@ Common::Error GrimEngine::run() {
  		}
  	}
  
 -	ConfMan.registerDefault("check_gamedata", true);
--	if (ConfMan.getBool("check_gamedata")) {
+-	if (ConfMan.getBool("check_gamedata") && getGameFlags() != ADGF_REMASTERED) {
 +	// If this file exists, game files have already been checked
 +	Common::FSNode gameDir = Common::FSNode(ConfMan.get("path"));
 +	Common::FSNode checkFile = gameDir.getChild(ConfMan.get("gameid") + ".checked");
 +	if (!checkFile.exists()) {
  		MD5CheckDialog d;
  		if (!d.runModal()) {
- 			Common::String confirmString = Common::String::format(_(
-@@ -322,8 +325,12 @@
+ 			Common::U32String confirmString = Common::U32String::format(_(
+@@ -352,8 +355,12 @@ Common::Error GrimEngine::run() {
  			}
  		}
  

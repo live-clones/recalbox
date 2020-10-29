@@ -1,0 +1,241 @@
+From 31be074893d69119d6ac86269ef8827ab8d7661d Mon Sep 17 00:00:00 2001
+From: Cameron Cawley <ccawley2011@gmail.com>
+Date: Mon, 14 Sep 2020 13:11:57 +0100
+Subject: [PATCH] BACKENDS: Add a function to return if the overlay is visible
+
+---
+ backends/graphics/graphics.h                    | 1 +
+ backends/graphics/null/null-graphics.h          | 6 ++++--
+ backends/graphics/windowed.h                    | 2 ++
+ backends/modular-backend.cpp                    | 4 ++++
+ backends/modular-backend.h                      | 1 +
+ backends/platform/3ds/osystem.h                 | 1 +
+ backends/platform/dc/dc.h                       | 1 +
+ backends/platform/ds/arm9/source/osystem_ds.cpp | 4 ++++
+ backends/platform/ds/arm9/source/osystem_ds.h   | 1 +
+ backends/platform/ios7/ios7_osys_main.h         | 1 +
+ backends/platform/iphone/osys_main.h            | 1 +
+ backends/platform/n64/osys_n64.h                | 1 +
+ backends/platform/psp/osys_psp.cpp              | 5 +++++
+ backends/platform/psp/osys_psp.h                | 1 +
+ backends/platform/wii/osystem.h                 | 1 +
+ common/system.h                                 | 3 +++
+ 16 files changed, 32 insertions(+), 2 deletions(-)
+
+diff --git a/backends/graphics/graphics.h b/backends/graphics/graphics.h
+index 48404cdecaf2..3842922c428e 100644
+--- a/backends/graphics/graphics.h
++++ b/backends/graphics/graphics.h
+@@ -91,6 +91,7 @@ class GraphicsManager : public PaletteManager {
+ 
+ 	virtual void showOverlay() = 0;
+ 	virtual void hideOverlay() = 0;
++	virtual bool isOverlayVisible() const = 0;
+ 	virtual Graphics::PixelFormat getOverlayFormat() const = 0;
+ 	virtual void clearOverlay() = 0;
+ 	virtual void grabOverlay(void *buf, int pitch) const = 0;
+diff --git a/backends/graphics/null/null-graphics.h b/backends/graphics/null/null-graphics.h
+index 23dba1423d79..e022351da5de 100644
+--- a/backends/graphics/null/null-graphics.h
++++ b/backends/graphics/null/null-graphics.h
+@@ -72,8 +72,9 @@ class NullGraphicsManager : public GraphicsManager {
+ 	void setFocusRectangle(const Common::Rect& rect) override {}
+ 	void clearFocusRectangle() override {}
+ 
+-	void showOverlay() override {}
+-	void hideOverlay() override {}
++	void showOverlay() override { _overlayVisible = true; }
++	void hideOverlay() override { _overlayVisible = false; }
++	bool isOverlayVisible() const override { return _overlayVisible; }
+ 	Graphics::PixelFormat getOverlayFormat() const override { return Graphics::PixelFormat(2, 5, 6, 5, 0, 11, 5, 0, 0); }
+ 	void clearOverlay() override {}
+ 	void grabOverlay(void *buf, int pitch) const override {}
+@@ -89,6 +90,7 @@ class NullGraphicsManager : public GraphicsManager {
+ private:
+ 	uint _width, _height;
+ 	Graphics::PixelFormat _format;
++	bool _overlayVisible;
+ };
+ 
+ #endif
+diff --git a/backends/graphics/windowed.h b/backends/graphics/windowed.h
+index b18f85728278..0420751885cd 100644
+--- a/backends/graphics/windowed.h
++++ b/backends/graphics/windowed.h
+@@ -77,6 +77,8 @@ class WindowedGraphicsManager : virtual public GraphicsManager {
+ 		_forceRedraw = true;
+ 	}
+ 
++	virtual bool isOverlayVisible() const override { return _overlayVisible; }
++
+ 	virtual void setShakePos(int shakeXOffset, int shakeYOffset) override {
+ 		if (_gameScreenShakeXOffset != shakeXOffset || _gameScreenShakeYOffset != shakeYOffset) {
+ 			_gameScreenShakeXOffset = shakeXOffset;
+diff --git a/backends/modular-backend.cpp b/backends/modular-backend.cpp
+index a6228433c3b3..ee3d5c793f0b 100644
+--- a/backends/modular-backend.cpp
++++ b/backends/modular-backend.cpp
+@@ -202,6 +202,10 @@ void ModularGraphicsBackend::hideOverlay() {
+ 	_graphicsManager->hideOverlay();
+ }
+ 
++bool ModularGraphicsBackend::isOverlayVisible() const {
++	return _graphicsManager->isOverlayVisible();
++}
++
+ Graphics::PixelFormat ModularGraphicsBackend::getOverlayFormat() const {
+ 	return _graphicsManager->getOverlayFormat();
+ }
+diff --git a/backends/modular-backend.h b/backends/modular-backend.h
+index a8e043ff0250..8780d1a77b1a 100644
+--- a/backends/modular-backend.h
++++ b/backends/modular-backend.h
+@@ -102,6 +102,7 @@ class ModularGraphicsBackend : virtual public BaseBackend {
+ 
+ 	virtual void showOverlay() override final;
+ 	virtual void hideOverlay() override final;
++	virtual bool isOverlayVisible() const override final;
+ 	virtual Graphics::PixelFormat getOverlayFormat() const override final;
+ 	virtual void clearOverlay() override final;
+ 	virtual void grabOverlay(void *buf, int pitch) override final;
+diff --git a/backends/platform/3ds/osystem.h b/backends/platform/3ds/osystem.h
+index 5f9570c1ee85..79428f0010af 100644
+--- a/backends/platform/3ds/osystem.h
++++ b/backends/platform/3ds/osystem.h
+@@ -159,6 +159,7 @@ class OSystem_3DS : public EventsBaseBackend, public PaletteManager, public Comm
+ 	void clearFocusRectangle();
+ 	void showOverlay();
+ 	void hideOverlay();
++	bool isOverlayVisible() const { return _overlayVisible; }
+ 	Graphics::PixelFormat getOverlayFormat() const;
+ 	void clearOverlay();
+ 	void grabOverlay(void *buf, int pitch);
+diff --git a/backends/platform/dc/dc.h b/backends/platform/dc/dc.h
+index a998c2917a4d..9c1ff0451c93 100644
+--- a/backends/platform/dc/dc.h
++++ b/backends/platform/dc/dc.h
+@@ -154,6 +154,7 @@ class OSystem_Dreamcast : private DCHardware, public EventsBaseBackend, public P
+   // Overlay
+   int16 getOverlayHeight();
+   int16 getOverlayWidth();
++  bool isOverlayVisible() const { return _overlay_visible; }
+   void showOverlay();
+   void hideOverlay();
+   void clearOverlay();
+diff --git a/backends/platform/ds/arm9/source/osystem_ds.cpp b/backends/platform/ds/arm9/source/osystem_ds.cpp
+index fd3606d250db..3e80c8b6b8ff 100644
+--- a/backends/platform/ds/arm9/source/osystem_ds.cpp
++++ b/backends/platform/ds/arm9/source/osystem_ds.cpp
+@@ -486,6 +486,10 @@ void OSystem_DS::hideOverlay() {
+ 	DS::displayMode8Bit();
+ }
+ 
++bool OSystem_DS::isOverlayVisible() const {
++	return !DS::getIsDisplayMode8Bit();
++}
++
+ void OSystem_DS::clearOverlay() {
+ 	memset((u16 *) DS::get16BitBackBuffer(), 0, 512 * 256 * 2);
+ //	consolePrintf("clearovl\n");
+diff --git a/backends/platform/ds/arm9/source/osystem_ds.h b/backends/platform/ds/arm9/source/osystem_ds.h
+index e44a046df1ab..052790395bd0 100644
+--- a/backends/platform/ds/arm9/source/osystem_ds.h
++++ b/backends/platform/ds/arm9/source/osystem_ds.h
+@@ -102,6 +102,7 @@ class OSystem_DS : public EventsBaseBackend, public PaletteManager {
+ 
+ 	virtual void showOverlay();
+ 	virtual void hideOverlay();
++	virtual bool isOverlayVisible() const;
+ 	virtual void clearOverlay();
+ 	virtual void grabOverlay(void *buf, int pitch);
+ 	virtual void copyRectToOverlay(const void *buf, int pitch, int x, int y, int w, int h);
+diff --git a/backends/platform/ios7/ios7_osys_main.h b/backends/platform/ios7/ios7_osys_main.h
+index b6525d36fc9b..e0b5b55408d3 100644
+--- a/backends/platform/ios7/ios7_osys_main.h
++++ b/backends/platform/ios7/ios7_osys_main.h
+@@ -166,6 +166,7 @@ class OSystem_iOS7 : public EventsBaseBackend, public PaletteManager {
+ 
+ 	virtual void showOverlay();
+ 	virtual void hideOverlay();
++	virtual bool isOverlayVisible() const { return _videoContext->overlayVisible; }
+ 	virtual void clearOverlay();
+ 	virtual void grabOverlay(void *buf, int pitch);
+ 	virtual void copyRectToOverlay(const void *buf, int pitch, int x, int y, int w, int h);
+diff --git a/backends/platform/iphone/osys_main.h b/backends/platform/iphone/osys_main.h
+index e05e5b1bff19..a5755062bf10 100644
+--- a/backends/platform/iphone/osys_main.h
++++ b/backends/platform/iphone/osys_main.h
+@@ -154,6 +154,7 @@ class OSystem_IPHONE : public EventsBaseBackend, public PaletteManager {
+ 
+ 	virtual void showOverlay();
+ 	virtual void hideOverlay();
++	virtual bool isOverlayVisible() const { return _videoContext->overlayVisible; }
+ 	virtual void clearOverlay();
+ 	virtual void grabOverlay(void *buf, int pitch);
+ 	virtual void copyRectToOverlay(const void *buf, int pitch, int x, int y, int w, int h);
+diff --git a/backends/platform/n64/osys_n64.h b/backends/platform/n64/osys_n64.h
+index 45aef0417734..40e7e3b33e51 100644
+--- a/backends/platform/n64/osys_n64.h
++++ b/backends/platform/n64/osys_n64.h
+@@ -167,6 +167,7 @@ class OSystem_N64 : public EventsBaseBackend, public PaletteManager {
+ 
+ 	virtual void showOverlay();
+ 	virtual void hideOverlay();
++	virtual bool isOverlayVisible() const { return _overlayVisible; }
+ 	virtual void clearOverlay();
+ 	virtual void grabOverlay(void *buf, int pitch);
+ 	virtual void copyRectToOverlay(const void *buf, int pitch, int x, int y, int w, int h);
+diff --git a/backends/platform/psp/osys_psp.cpp b/backends/platform/psp/osys_psp.cpp
+index f09e8498d2ac..b5a612d41c3b 100644
+--- a/backends/platform/psp/osys_psp.cpp
++++ b/backends/platform/psp/osys_psp.cpp
+@@ -246,6 +246,11 @@ void OSystem_PSP::hideOverlay() {
+ 	_cursor.useGlobalScaler(true);	// mouse needs to be scaled with screen
+ }
+ 
++bool OSystem_PSP::isOverlayVisible() const {
++	DEBUG_ENTER_FUNC();
++	return _overlay.isVisible();
++}
++
+ void OSystem_PSP::clearOverlay() {
+ 	DEBUG_ENTER_FUNC();
+ 	_displayManager.waitUntilRenderFinished();
+diff --git a/backends/platform/psp/osys_psp.h b/backends/platform/psp/osys_psp.h
+index 73183c7c1d50..8e263e2898a3 100644
+--- a/backends/platform/psp/osys_psp.h
++++ b/backends/platform/psp/osys_psp.h
+@@ -104,6 +104,7 @@ class OSystem_PSP : public EventsBaseBackend, public PaletteManager {
+ 	// Overlay related
+ 	void showOverlay();
+ 	void hideOverlay();
++	bool isOverlayVisible() const;
+ 	void clearOverlay();
+ 	void grabOverlay(void *buf, int pitch);
+ 	void copyRectToOverlay(const void *buf, int pitch, int x, int y, int w, int h);
+diff --git a/backends/platform/wii/osystem.h b/backends/platform/wii/osystem.h
+index 16f9d7481b8d..350a3f45a037 100644
+--- a/backends/platform/wii/osystem.h
++++ b/backends/platform/wii/osystem.h
+@@ -176,6 +176,7 @@ class OSystem_Wii : public EventsBaseBackend, public PaletteManager {
+ 
+ 	virtual void showOverlay();
+ 	virtual void hideOverlay();
++	virtual bool isOverlayVisible() const { return _overlayVisible; }
+ 	virtual void clearOverlay();
+ 	virtual void grabOverlay(void *buf, int pitch);
+ 	virtual void copyRectToOverlay(const void *buf, int pitch,
+diff --git a/common/system.h b/common/system.h
+index 6f1a316fe78f..6ac9c77cf1f2 100644
+--- a/common/system.h
++++ b/common/system.h
+@@ -999,6 +999,9 @@ class OSystem : Common::NonCopyable {
+ 	/** Deactivate the overlay mode. */
+ 	virtual void hideOverlay() = 0;
+ 
++	/** Returns true if the overlay mode is activated, false otherwise. */
++	virtual bool isOverlayVisible() const = 0;
++
+ 	/**
+ 	 * Returns the pixel format description of the overlay.
+ 	 * @see Graphics::PixelFormat

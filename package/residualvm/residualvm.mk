@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-RESIDUALVM_VERSION = 015caa2313a5c9ea473dc6cf546ccedba69c7cf9
+RESIDUALVM_VERSION = 48875a1d3dbc7bdbbc3d648a55c930cd3eb30583
 RESIDUALVM_SITE = $(call github,residualvm,residualvm,$(RESIDUALVM_VERSION))
 RESIDUALVM_LICENSE = GPL2
 RESIDUALVM_DEPENDENCIES = sdl2 zlib jpeg libmpeg2 libogg libvorbis flac libmad libpng libtheora \
@@ -16,12 +16,16 @@ ifeq ($(BR2_PACKAGE_RPI_USERLAND),y)
 RESIDUALVM_ADDITIONAL_FLAGS += -lbcm_host -lvchostif
 RESIDUALVM_CONF_OPTS += --host=raspberrypi
 endif
+ifeq ($(BR2_PACKAGE_RPI_USERLAND_TOOLS),y)
+RESIDUALVM_ADDITIONAL_FLAGS += -lbcm_host -lvchostif
+RESIDUALVM_CONF_OPTS += --host=raspberrypi
+endif
 
 RESIDUALVM_CONF_ENV += RANLIB="$(TARGET_RANLIB)" STRIP="$(TARGET_STRIP)" AR="$(TARGET_AR) cru" AS="$(TARGET_AS)"
 RESIDUALVM_CONF_OPTS += --disable-debug --enable-optimizations --enable-flac --enable-mad --enable-vorbis --disable-tremor \
 	--disable-fluidsynth --disable-taskbar --disable-timidity --disable-alsa --enable-vkeybd --enable-keymapper \
 	--prefix=/usr --with-sdl-prefix="$(STAGING_DIR)/usr/bin/" --with-freetype2-prefix="$(STAGING_DIR)/usr/bin/" \
-	--enable-release --enable-opengl-shaders
+	--enable-release --enable-opengl-shaders --disable-engine=wintermute
 
 RESIDUALVM_MAKE_OPTS += RANLIB="$(TARGET_RANLIB)" STRIP="$(TARGET_STRIP)" AR="$(TARGET_AR) cru" AS="$(TARGET_AS)" LD="$(TARGET_CXX)"
 

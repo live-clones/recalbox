@@ -17,7 +17,7 @@
 - Fix arcade hash calculations
 - Fix game extension filtering
 - Fix screenshots on x86/x64
-- Fix lag in ScummVM/ResidualVM on Pi4
+- Fix multiple issues in ScummVM/ResidualVM: lag/crash on Pi4, joystick buttons, ...
 
 
 ## Version 7.0.1
