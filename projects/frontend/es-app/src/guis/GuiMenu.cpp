@@ -1347,9 +1347,9 @@ void GuiMenu::menuAdvancedSettings(){
   // Overclock choice
   auto overclock_choice = std::make_shared<OptionListComponent<std::string> >(mWindow, _("OVERCLOCK"), false);
   const std::string& currentOverclock = Settings::Instance().Overclock();
-  switch(getRaspberryVersion())
+  switch(getHardwareBoardVersion())
   {
-    case RaspberryGeneration::Pi1:
+    case BoardGeneration::Pi1:
     {
       overclock_choice->add(_("EXTREM (1100Mhz)"), "extrem", currentOverclock == "extrem");
       overclock_choice->add(_("TURBO (1000Mhz)"), "turbo", currentOverclock == "turbo");
@@ -1357,7 +1357,7 @@ void GuiMenu::menuAdvancedSettings(){
       overclock_choice->add(_("NONE"), "none", currentOverclock == "none");
       break;
     }
-    case RaspberryGeneration::Pi2:
+    case BoardGeneration::Pi2:
     {
       overclock_choice->add(_("EXTREM (1100Mhz)"), "rpi2-extrem", currentOverclock == "rpi2-extrem");
       overclock_choice->add(_("TURBO (1050Mhz)+"), "rpi2-turbo", currentOverclock == "rpi2-turbo");
@@ -1365,7 +1365,7 @@ void GuiMenu::menuAdvancedSettings(){
       overclock_choice->add(_("NONE (900Mhz)"), "none", currentOverclock == "none");
       break;
     }
-    case RaspberryGeneration::Pi3:
+    case BoardGeneration::Pi3:
     {
       overclock_choice->add(_("EXTREM (1375Mhz)"), "rpi3-extrem", currentOverclock == "rpi3-extrem");
       overclock_choice->add(_("TURBO (1350Mhz)"), "rpi3-turbo", currentOverclock == "rpi3-turbo");
@@ -1373,7 +1373,7 @@ void GuiMenu::menuAdvancedSettings(){
       overclock_choice->add(_("NONE (1200Mhz)"), "none", currentOverclock == "none");
       break;
     }
-    case RaspberryGeneration::Pi3plus:
+    case BoardGeneration::Pi3plus:
     {
       overclock_choice->add(_("EXTREM (1500Mhz)"), "rpi3plus-extrem", currentOverclock == "rpi3plus-extrem");
       overclock_choice->add(_("TURBO (1450Mhz)"), "rpi3plus-turbo", currentOverclock == "rpi3plus-turbo");
@@ -1381,7 +1381,7 @@ void GuiMenu::menuAdvancedSettings(){
       overclock_choice->add(_("NONE (1400Mhz)"), "none", currentOverclock == "none");
       break;
     }
-    case RaspberryGeneration::Pi4:
+    case BoardGeneration::Pi4:
     {
       overclock_choice->add(_("FIRE IN THE HOLE! (2150Mhz)"), "rpi4-burning", currentOverclock == "rpi4-burning");
       overclock_choice->add(_("EXTREM (2000Mhz)"), "rpi4-extrem", currentOverclock == "rpi4-extrem");
@@ -1390,10 +1390,10 @@ void GuiMenu::menuAdvancedSettings(){
       overclock_choice->add(_("NONE (1500Mhz)"), "none", currentOverclock == "none");
       break;
     }
-    case RaspberryGeneration::Pi0:
-    case RaspberryGeneration::NotRaspberry:
-    case RaspberryGeneration::NotYetKnown:
-    case RaspberryGeneration::UndetectedYet:
+    case BoardGeneration::Pi0:
+    case BoardGeneration::Unknown:
+    case BoardGeneration::UnknownPi:
+    case BoardGeneration::UndetectedYet:
     default:
     {
       overclock_choice->add(_("NONE"), "none", true);

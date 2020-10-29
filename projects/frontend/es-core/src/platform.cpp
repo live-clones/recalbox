@@ -55,7 +55,7 @@ int runSystemCommand(const std::string& cmd_utf8, bool debug)
   return exitcode;
 }
 
-RaspberryGeneration extractGeneration(unsigned int revision)
+BoardGeneration extractGeneration(unsigned int revision)
 {
   // Split - uuuuuuuuFMMMCCCCPPPPTTTTTTTTRRRR
   bool newGeneration  = ((revision >> 23) & 1) != 0;
@@ -67,30 +67,30 @@ RaspberryGeneration extractGeneration(unsigned int revision)
 
   // Old revision numbering
   if (!newGeneration)
-    return RaspberryGeneration::Pi1;
+    return BoardGeneration::Pi1;
 
   // New models
   switch ((RaspberryModel)model)
   {
     case RaspberryModel::Zero:
-    case RaspberryModel::ZeroW: return RaspberryGeneration::Pi0;
+    case RaspberryModel::ZeroW: return BoardGeneration::Pi0;
     case RaspberryModel::OneA:
     case RaspberryModel::OneAPlus:
     case RaspberryModel::OneB:
     case RaspberryModel::OneBPlus:
-    case RaspberryModel::OneCM1: return RaspberryGeneration::Pi1;
-    case RaspberryModel::TwoB: return RaspberryGeneration::Pi2;
+    case RaspberryModel::OneCM1: return BoardGeneration::Pi1;
+    case RaspberryModel::TwoB: return BoardGeneration::Pi2;
     case RaspberryModel::TreeB:
-    case RaspberryModel::TreeCM3: return RaspberryGeneration::Pi3;
+    case RaspberryModel::TreeCM3: return BoardGeneration::Pi3;
     case RaspberryModel::TreeBPlus:
     case RaspberryModel::TreeCM3Plus:
-    case RaspberryModel::TreeAPlus: return RaspberryGeneration::Pi3plus;
-    case RaspberryModel::FourB: return RaspberryGeneration::Pi4;
+    case RaspberryModel::TreeAPlus: return BoardGeneration::Pi3plus;
+    case RaspberryModel::FourB: return BoardGeneration::Pi4;
     case RaspberryModel::Alpha:
     default: break;
   }
 
-  return RaspberryGeneration::NotYetKnown;
+  return BoardGeneration::UnknownPi;
 }
 
 #define CPU_INFO_FILE   "/proc/cpuinfo"
@@ -99,14 +99,14 @@ RaspberryGeneration extractGeneration(unsigned int revision)
 
 #define SizeLitteral(x) (sizeof(x) - 1)
 
-RaspberryGeneration getRaspberryVersion()
+BoardGeneration getHardwareBoardVersion()
 {
-  static RaspberryGeneration version = RaspberryGeneration::UndetectedYet;
+  static BoardGeneration version = BoardGeneration::UndetectedYet;
   std::string hardware;
 
-  if (version == RaspberryGeneration::UndetectedYet)
+  if (version == BoardGeneration::UndetectedYet)
   {
-    version = RaspberryGeneration::NotRaspberry;
+    version = BoardGeneration::Unknown;
 
     FILE* f = fopen(CPU_INFO_FILE, "r");
     if (f != nullptr)
@@ -115,6 +115,7 @@ RaspberryGeneration getRaspberryVersion()
       std::string str; // Declared before loop to keep memory allocated
       while (fgets(line, sizeof(line) - 1, f) != nullptr)
       {
+        // Raspberry pi
         if (strncmp(line, HARDWARE_STRING, SizeLitteral(HARDWARE_STRING)) == 0)
         {
           char* colon = strchr(line, ':');
@@ -125,7 +126,6 @@ RaspberryGeneration getRaspberryVersion()
             LOG(LogInfo) << "Hardware " << hardware;
           }
         }
-
         if (strncmp(line, REVISION_STRING, SizeLitteral(REVISION_STRING)) == 0)
         {
           char* colon = strchr(line, ':');
@@ -137,6 +137,11 @@ RaspberryGeneration getRaspberryVersion()
             {
               LOG(LogInfo) << "Pi revision " << (colon + 2);
               version = extractGeneration(revision);
+            }
+            if (hardware == "Hardkernel ODROID-GO2")
+            {
+              LOG(LogInfo) << "Odroid Advance Go 2 revision " << (colon + 2);
+              version = BoardGeneration::OdroidAdvanceGo2;
             }
           }
         }

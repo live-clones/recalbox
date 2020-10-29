@@ -52,6 +52,7 @@ bool Renderer::createSurface()
   if (sDisplayHeight == 0) sDisplayHeight = dispMode.h;
   sDisplayWidthFloat = (float)sDisplayWidth;
   sDisplayHeightFloat = (float)sDisplayHeight;
+  LOG(LogInfo) << "[Video] Resolution: " << sDisplayWidth << ',' << sDisplayHeight;
 
   sSdlWindow = SDL_CreateWindow("EmulationStation",
                                 SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,

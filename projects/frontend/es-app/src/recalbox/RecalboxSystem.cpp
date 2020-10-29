@@ -437,35 +437,28 @@ std::pair<std::string, int> RecalboxSystem::getSDLBatteryInfo()
   return result;
 }
 
-std::pair<std::string, int> RecalboxSystem::getSysBatteryInfo()
+bool RecalboxSystem::getSysBatteryInfo(int& charge, int& unicodeIcon)
 {
-  std::pair<std::string, int> result;
-
   Path batteryCapacity("/sys/class/power_supply/BAT0/capacity");
   Path batteryStatus("/sys/class/power_supply/BAT0/status");
   if (!batteryCapacity.Exists())
-    return std::make_pair("", -1);
+  {
+    batteryCapacity = "/sys/class/power_supply/battery/capacity";
+    batteryStatus = "/sys/class/power_supply/battery/status";
+    if (!batteryCapacity.Exists()) return false;
+  }
 
-  int percent = 0;
-  Strings::ToInt(Files::LoadFile(batteryCapacity), percent);
-  std::string status = Files::LoadFile(batteryStatus);
+  Strings::ToInt(Strings::Trim(Files::LoadFile(batteryCapacity), "\n"), charge);
+  std::string status = Strings::Trim(Files::LoadFile(batteryStatus), "\n");
 
+  unicodeIcon = 0xf1b4;
   if (status == "Discharging")
   {
-    if (percent > 66)
-      result.first = "\uF1ba";
-    else if (percent > 33)
-      result.first = "\uF1b8";
-    else if (percent > 15)
-      result.first = "\uF1b1";
-    else
-      result.first = "\uF1b5";
+    if (charge > 66)      unicodeIcon = 0xF1ba;
+    else if (charge > 33) unicodeIcon = 0xF1b8;
+    else if (charge > 15) unicodeIcon = 0xF1b1;
+    else                  unicodeIcon = 0xF1b5;
   }
-  else
-  {
-    result.first = "\uf1b4";
-  }
-  result.second = percent;
 
-  return result;
+  return true;
 }

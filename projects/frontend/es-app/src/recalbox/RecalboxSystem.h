@@ -64,7 +64,7 @@ class RecalboxSystem
 
     static std::pair<std::string, int> getSDLBatteryInfo();
 
-    static std::pair<std::string, int> getSysBatteryInfo();
+    static bool getSysBatteryInfo(int& charge, int& unicodeIcon);
 
   private:
     static std::string BuildSettingsCommand(const std::string& arguments);

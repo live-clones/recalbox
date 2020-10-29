@@ -3,19 +3,23 @@
 #include <string>
 
 /*!
- * Raspberry generation
+ * Board model/generation
  */
-enum class RaspberryGeneration
+enum class BoardGeneration
 {
+    // Undetected
     UndetectedYet, // Not yet detected
-    NotRaspberry,  // Hardware is not a raspberry
+    Unknown,       // Unknown hardware
+    // RaspberryPi
     Pi0,           // Pi 0, 0W
     Pi1,           // Pi 1, A, B, A+, B+
     Pi2,           // Pi 2B
     Pi3,           // Pi 3B
     Pi3plus,       // Pi 3B+
     Pi4,           // Pi 4B
-    NotYetKnown,   // Unknown Pi with higher revisions
+    UnknownPi,     // Unknown Pi with higher revisions
+    // Odroid
+    OdroidAdvanceGo2, // Odroid advance go 2
 };
 
 /*!
@@ -42,4 +46,4 @@ enum class RaspberryModel
 };
 
 int runSystemCommand(const std::string& cmd_utf8, bool debug); // run a utf-8 encoded in the shell (requires wstring conversion on Windows)
-RaspberryGeneration getRaspberryVersion();
+BoardGeneration getHardwareBoardVersion();

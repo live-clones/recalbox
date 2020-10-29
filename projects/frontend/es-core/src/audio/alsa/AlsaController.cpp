@@ -264,21 +264,21 @@ void AlsaController::SetDefaultPlayback(int identifier)
     LOG(LogInfo) << "ALSA output set to Card #" << cardIdentifier << " (index: " << cardIndex << ") Device #" << deviceIdentifier << " 'index: " << deviceIndex << ')';
 
     // Raspberry Pi hack
-    switch(getRaspberryVersion())
+    switch(getHardwareBoardVersion())
     {
-      case RaspberryGeneration::Pi1:
-      case RaspberryGeneration::Pi2:
-      case RaspberryGeneration::Pi3:
-      case RaspberryGeneration::Pi3plus:
+      case BoardGeneration::Pi1:
+      case BoardGeneration::Pi2:
+      case BoardGeneration::Pi3:
+      case BoardGeneration::Pi3plus:
       {
         Raspberry hack;
         hack.SetRoute(deviceIndex == 0 ? Raspberry::Output::Headphones : Raspberry::Output::HDMI);
       }
-      case RaspberryGeneration::UndetectedYet:
-      case RaspberryGeneration::NotRaspberry:
-      case RaspberryGeneration::Pi0:
-      case RaspberryGeneration::Pi4:
-      case RaspberryGeneration::NotYetKnown:
+      case BoardGeneration::UndetectedYet:
+      case BoardGeneration::Unknown:
+      case BoardGeneration::Pi0:
+      case BoardGeneration::Pi4:
+      case BoardGeneration::UnknownPi:
       default: break;
     }
   }

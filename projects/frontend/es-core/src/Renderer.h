@@ -53,7 +53,7 @@ class Renderer
     static int getDisplayHeightAsInt() { return sDisplayHeight; }
     static float getDisplayWidthAsFloat() { return sDisplayWidthFloat; }
     static float getDisplayHeightAsFloat() { return sDisplayHeightFloat; }
-    static bool IsSmallResolution() { return sDisplayWidth <= 480 || sDisplayHeight <= 320; }
+    static bool IsSmallResolution() { return sDisplayWidth <= 480 || sDisplayHeight <= 480; }
 
     static bool IsInitialized() { return sSdlWindow != nullptr; }
 };

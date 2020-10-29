@@ -42,22 +42,20 @@ MenuComponent::MenuComponent(Window&window, const std::string& title, const std:
     headerGrid->setColWidthPerc(4, 0.02);
 
 		std::string arch = Settings::Instance().Arch();
-		if (arch == "x86" || arch == "x86_64")
-		{
-			auto batt = RecalboxSystem::getSysBatteryInfo(); // TODO: Remove ascending core=>app
-			if (batt.second != -1)
-			{
-				auto batDisplay = std::make_shared<TextComponent>(mWindow);
-				batDisplay->setFont(menuTheme->menuText.font);
-				if (batt.second <= 15)
-					batDisplay->setColor(0xFF0000FF);
-				else
-					batDisplay->setColor(menuTheme->menuText.color);
-				batDisplay->setText(" " + batt.first + " " + std::to_string(batt.second) + "%");
-				batDisplay->setHorizontalAlignment(TextAlignment::Left);
-				headerGrid->setEntry(batDisplay, Vector2i(1, 0), false);
-			}
-		}
+		int batteryCharge = 0;
+		int batteryIcon = 0;
+    if (RecalboxSystem::getSysBatteryInfo(batteryCharge, batteryIcon))
+    {
+      auto batDisplay = std::make_shared<TextComponent>(mWindow);
+      batDisplay->setFont(menuTheme->menuText.font);
+      if (batteryCharge <= 15)
+        batDisplay->setColor(0xFF0000FF);
+      else
+        batDisplay->setColor(menuTheme->menuText.color);
+      batDisplay->setText(' ' + Strings::unicode2Chars(batteryIcon) + ' ' + Strings::ToString(batteryCharge) + '%');
+      batDisplay->setHorizontalAlignment(TextAlignment::Left);
+      headerGrid->setEntry(batDisplay, Vector2i(1, 0), false);
+    }
 
 		if (Settings::Instance().ShowClock()) {
 
