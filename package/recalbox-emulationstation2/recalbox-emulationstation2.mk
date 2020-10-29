@@ -4,12 +4,12 @@
 #
 ################################################################################
 
-RECALBOX_EMULATIONSTATION2_VERSION = 656cdbd244b0384bbd857e86b96acd069e3bd711
+RECALBOX_EMULATIONSTATION2_VERSION = 56e84eb7956c7ea857631a5186851dba033a4cb9
 RECALBOX_EMULATIONSTATION2_SITE = https://gitlab.com/recalbox/recalbox-emulationstation.git
 RECALBOX_EMULATIONSTATION2_SITE_METHOD = git
 RECALBOX_EMULATIONSTATION2_LICENSE = MIT
 RECALBOX_EMULATIONSTATION2_DEPENDENCIES = sdl2 sdl2_mixer freeimage freetype alsa-lib \
-	libcurl openssl libzip ffmpeg
+	libcurl openssl libzip ffmpeg bluez5_utils bluez5_utils-headers
 
 ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_RPI3),y)
 RECALBOX_EMULATIONSTATION2_CONF_OPTS = -DRPI_VERSION=3
