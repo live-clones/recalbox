@@ -19,7 +19,6 @@ VirtualKeyboard::~VirtualKeyboard()
 
 void VirtualKeyboard::Open()
 {
-  struct uinput_setup usetup {};
   mFileDescriptor = open("/dev/uinput", O_WRONLY | O_NONBLOCK);
   if (mFileDescriptor < 0) return;
 
@@ -30,28 +29,45 @@ void VirtualKeyboard::Open()
     for (int i = 256; --i >= 0;)
       if (ioctl(mFileDescriptor, UI_SET_KEYBIT, i) != 0) { ok = false; break; }
 
-    memset(&usetup, 0, sizeof(usetup));
-    usetup.id.bustype = BUS_USB;
-    usetup.id.vendor = 0x1234; /* sample vendor */
-    usetup.id.product = 0x5678; /* sample product */
-    usetup.id.version = 1;
-    strcpy(usetup.name, "VirtualKeyboard");
+    if (ok)
+    {
+      #if defined(UI_DEV_SETUP)
+        struct uinput_setup usetup {};
+        memset(&usetup, 0, sizeof(usetup));
+        usetup.id.bustype = BUS_USB;
+        usetup.id.vendor = 0x1234; /* sample vendor */
+        usetup.id.product = 0x5678; /* sample product */
+        usetup.id.version = 1;
+        strcpy(usetup.name, "VirtualKeyboard");
+
+        ok = ioctl(mFileDescriptor, UI_DEV_SETUP, &usetup) == 0;
+      #else
+        struct uinput_user_dev udev {};
+        memset(&udev, 0, sizeof(udev));
+        udev.id.bustype = BUS_USB;
+        udev.id.vendor = 0x1234; /* sample vendor */
+        udev.id.product = 0x5678; /* sample product */
+        udev.id.version = 1;
+        strcpy(udev.name, "VirtualKeyboard");
+
+        ok = write(mFileDescriptor, &udev, sizeof(udev)) == sizeof(udev);
+      #endif
+    }
 
     if (ok)
-      if (ioctl(mFileDescriptor, UI_DEV_SETUP, &usetup) == 0)
-        ioctl(mFileDescriptor, UI_DEV_CREATE);
+      ok = ioctl(mFileDescriptor, UI_DEV_CREATE) == 0;
 
     if (!ok) Close();
   }
 }
 
-void VirtualKeyboard::Close()
+void VirtualKeyboard::Close() const
 {
   ioctl(mFileDescriptor, UI_DEV_DESTROY);
   close(mFileDescriptor);
 }
 
-void VirtualKeyboard::Emit(int type, int code, int value)
+void VirtualKeyboard::Emit(int type, int code, int value) const
 {
   struct input_event event {};
   event.type = (unsigned short)type;

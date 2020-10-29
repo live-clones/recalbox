@@ -20,7 +20,7 @@ class VirtualKeyboard
     /*!
      * @brief Close virtual keyboard
      */
-    void Close();
+    void Close() const;
 
     /*!
      * @brief Emit low level event into the virtual keyboard
@@ -28,7 +28,7 @@ class VirtualKeyboard
      * @param code Event code
      * @param value Event value
      */
-    void Emit(int type, int code, int value);
+    void Emit(int type, int code, int value) const;
 
   public:
     /*!
