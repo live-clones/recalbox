@@ -9,6 +9,12 @@ LIBRETRO_VICE_SITE = $(call github,libretro,vice-libretro,$(LIBRETRO_VICE_VERSIO
 
 LIBRETRO_VICE_SUBEMULATORS = x64 x64sc x128 xpet xplus4 xvic xcbm2 xscpu64 xcbm5x0
 
+ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_ODROIDGO2),y)
+LIBRETRO_VICE_PLATFORM = odroidgo2
+else
+LIBRETRO_VICE_PLATFORM = $(RETROARCH_LIBRETRO_PLATFORM)
+endif
+
 define LIBRETRO_VICE_BUILD_EMULATOR
 	find $(@D) -name *.o -delete; \
 	find $(@D) -name *.a -delete; \
@@ -16,7 +22,7 @@ define LIBRETRO_VICE_BUILD_EMULATOR
 		CXXFLAGS="$(TARGET_CXXFLAGS) $(COMPILER_COMMONS_CXXFLAGS_SO)" \
 		LDFLAGS="$(TARGET_LDFLAGS) $(COMPILER_COMMONS_LDFLAGS_SO)" \
 		SHARED="$(TARGET_SHARED)" \
-		$(MAKE) CXX="$(TARGET_CXX)" CC="$(TARGET_CC)" -C $(@D)/ -f Makefile platform="$(RETROARCH_LIBRETRO_PLATFORM)" EMUTYPE=$(strip $(1));
+		$(MAKE) CXX="$(TARGET_CXX)" CC="$(TARGET_CC)" -C $(@D)/ -f Makefile platform="$(LIBRETRO_VICE_PLATFORM)" EMUTYPE=$(strip $(1));
 endef
 
 define LIBRETRO_VICE_BUILD_CMDS

@@ -73,6 +73,10 @@
         <value>joystick1left</value>
         <value>joystick2up</value>
         <value>joystick2left</value>
+        <value>lum+</value>
+        <value>lum-</value>
+        <value>vol+</value>
+        <value>vol-</value>
       </choice>
     </attribute>
     <attribute name="type">

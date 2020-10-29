@@ -1,0 +1,27 @@
+#!/bin/sh
+# save/restore alsa settings
+
+. "${PM_FUNCTIONS}"
+
+alsa_save()
+{
+	alsactl -f /dev/shm/asound.state store
+	return 0
+}
+
+alsa_restore()
+{
+	alsactl -f /dev/shm/asound.state restore
+	echo "Restore alsa settings"
+}
+
+case "$1" in
+	hibernate|suspend)
+		alsa_save
+		;;
+	thaw|resume)
+		alsa_restore
+		;;
+	*) exit $NA
+		;;
+esac

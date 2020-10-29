@@ -167,4 +167,9 @@ ifeq ($(BR2_PACKAGE_XSERVER_XORG_SERVER),)
   endif
 endif
 
+# odroid go advance
+ifeq ($(BR2_PACKAGE_LIBRGA),y)
+SDL2_DEPENDENCIES += librga
+endif
+
 $(eval $(autotools-package))

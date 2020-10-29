@@ -1,0 +1,29 @@
+--- libretro-yabasanshiro-73c676680f753e10bfd53ecaf01293ac34b4a678/yabause/src/libretro/Makefile.orig	2020-10-27 22:22:29.978067591 +0100
++++ libretro-yabasanshiro-73c676680f753e10bfd53ecaf01293ac34b4a678/yabause/src/libretro/Makefile	2020-10-27 22:24:50.645746579 +0100
+@@ -168,6 +168,26 @@
+ 		FLAGS += -march=armv8-a+crc -mtune=cortex-a73.cortex-a53
+ 	endif
+ 
++else ifeq ($(platform), odroid-go2)
++	override platform += unix
++	TARGET := $(TARGET_NAME)_libretro.so
++	fpic := -fPIC
++	SHARED := -shared -Wl,--no-undefined -Wl,--version-script=link.T
++	LDFLAGS += -lpthread
++	FLAGS += -DAARCH64
++	ARCH_IS_LINUX = 1
++	HAVE_SSE = 0
++	FORCE_GLES = 1
++	USE_AARCH64_DRC = 1
++	DYNAREC_DEVMIYAX = 1
++	# ODROID-GO2
++	# clang-7 run at almost full speed, gcc is crashing
++	ifneq (, $(findstring clang,$(CC)))
++		FLAGS += -march=armv8-a+crc
++	else
++		FLAGS += -march=armv8-a+crc -mtune=cortex-a35
++	endif
++
+ else ifneq (,$(findstring odroid,$(platform)))
+ 	override platform += unix
+ 	TARGET := $(TARGET_NAME)_libretro.so

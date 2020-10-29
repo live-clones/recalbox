@@ -1,0 +1,29 @@
+--- libretro-flycast-0e10e86ea9ca0f8655c98909da7a845e7643b36f/Makefile.orig	2020-10-26 23:22:19.510142127 +0100
++++ libretro-flycast-0e10e86ea9ca0f8655c98909da7a845e7643b36f/Makefile	2020-10-26 23:26:12.100863399 +0100
+@@ -448,6 +448,26 @@
+ 	HAVE_GENERIC_JIT = 0
+ 	HAVE_LTCG = 0
+ 
++else ifeq ($(platform), odroid-go2)
++	EXT ?= so
++	TARGET := $(TARGET_NAME)_libretro.$(EXT)
++	SHARED += -shared -Wl,--version-script=link.T
++	LDFLAGS +=  -Wl,--no-undefined
++	fpic = -fPIC
++	LIBS += -lrt -lgomp
++	ARM_FLOAT_ABI_HARD = 0
++	FORCE_GLES = 1
++	SINGLE_PREC_FLAGS = 1
++	CPUFLAGS += -DHOST_CPU=0x20000006 -DTARGET_LINUX_ARMv8 -frename-registers 
++	CFLAGS += -march=armv8-a+crc+simd -mcpu=cortex-a35 -mtune=cortex-a35 -pipe -fno-plt -fdata-sections -ffunction-sections -Wl,--gc-sections -fno-stack-protector -fno-ident -fomit-frame-pointer -fmerge-all-constants -fno-math-errno -Wl,--gc-sections -falign-functions=1 -falign-jumps=1 -falign-loops=1 -fno-unwind-tables -fno-asynchronous-unwind-tables -fno-unroll-loops -fmerge-all-constants -frename-registers -funsafe-math-optimizations -ftree-vectorize $(CPUFLAGS)
++	CXXFLAGS += $(CFLAGS)
++	ASFLAGS += $(CFLAGS) -c -fno-strict-aliasing -ffast-math
++	PLATFORM_EXT := unix
++	WITH_DYNAREC=arm64
++	HAVE_GENERIC_JIT = 0
++	HAVE_LTCG = 0
++	CORE_DEFINES += -DLOW_END -DLOW_RES
++
+ # Amlogic S905/S905X/S912 (AMLGXBB/AMLGXL/AMLGXM) e.g. Khadas VIM1/2 / S905X2 (AMLG12A) & S922X/A311D (AMLG12B) e.g. Khadas VIM3 - 32-bit userspace
+ else ifneq (,$(findstring AMLG,$(platform)))
+   EXT ?= so

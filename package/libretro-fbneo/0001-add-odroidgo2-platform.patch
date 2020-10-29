@@ -1,0 +1,22 @@
+--- ./src/burner/libretro/Makefile.orig	2020-11-03 20:50:43.344641165 +0100
++++ ./src/burner/libretro/Makefile	2020-11-03 20:53:26.235852251 +0100
+@@ -106,6 +106,19 @@
+ 		endif
+ 	endif
+ 
++# odroid go advance
++else ifeq ($(platform), odroidgo2)
++	EXT ?= so
++	TARGET := $(TARGET_NAME)_libretro.$(EXT)
++	SHARED := -shared -Wl,-no-undefined -Wl,--version-script=$(VERSION_SCRIPT)
++	fpic = -fPIC
++	CFLAGS += -march=armv8-a+crc+simd -mtune=cortex-a35 -mcpu=cortex-a35 -O3 -pipe -fno-plt -fdata-sections -ffunction-sections -Wl,--gc-sections -fno-stack-protector -fno-ident -fomit-frame-pointer -fmerge-all-constants -fno-math-errno -Wl,--gc-sections -falign-functions=1 -falign-jumps=1 -falign-loops=1 -fno-unwind-tables -fno-asynchronous-unwind-tables -fno-unroll-loops -fmerge-all-constants -frename-registers -funsafe-math-optimizations -ftree-vectorize
++	CFLAGS += -flto=16 -fuse-linker-plugin
++	CXXFLAGS += $(CFLAGS) -fno-rtti -fno-exceptions
++	LDFLAGS += -flto=16 -fuse-linker-plugin
++	ARCH = arm64
++	ENDIANNESS_DEFINES := -DLSB_FIRST
++
+ # OS X
+ else ifeq ($(platform), osx)
+ 	TARGET := $(TARGET_NAME)_libretro.dylib

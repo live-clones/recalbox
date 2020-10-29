@@ -1,0 +1,20 @@
+--- ./build/gmake/Makefile.orig	2020-10-25 10:24:35.937073650 +0100
++++ ./build/gmake/Makefile	2020-10-25 10:26:37.754738076 +0100
+@@ -24,7 +24,7 @@
+   TARGETDIR  = ../..
+   TARGET     = $(TARGETDIR)/libgo2.so
+   DEFINES   += -DDEBUG
+-  INCLUDES  += -I/usr/include/libdrm
++  INCLUDES  += -I$(STAGING_DIR)/usr/include/libdrm
+   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
+   CFLAGS    += $(CPPFLAGS) $(ARCH) -g -fPIC -Wall
+   CXXFLAGS  += $(CFLAGS) 
+@@ -46,7 +46,7 @@
+   TARGETDIR  = ../..
+   TARGET     = $(TARGETDIR)/libgo2.so
+   DEFINES   += -DNDEBUG
+-  INCLUDES  += -I/usr/include/libdrm
++  INCLUDES  += -I$(STAGING_DIR)/usr/include/libdrm
+   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
+   CFLAGS    += $(CPPFLAGS) $(ARCH) -O2 -fPIC -Wall
+   CXXFLAGS  += $(CFLAGS) 

@@ -1,0 +1,51 @@
+--- openbor-668aec85293a024e1421def947494c8a7e5bdcc3/engine/Makefile.orig	2020-10-27 23:06:05.742762066 +0100
++++ openbor-668aec85293a024e1421def947494c8a7e5bdcc3/engine/Makefile	2020-10-27 23:13:38.084138608 +0100
+@@ -159,6 +159,27 @@
+ endif
+ endif
+ 
++ifdef BUILD_PANDORA64
++TARGET              = $(VERSION_NAME).elf
++TARGET_FINAL    = $(VERSION_NAME)
++TARGET_PLATFORM = PANDORA
++BUILD_LINUX     = 1
++BUILD_SDL       = 1
++BUILD_GFX       = 1
++BUILD_PTHREAD   = 1
++BUILD_SDL_IO    = 1
++BUILD_WEBM      = 1
++BUILD_VORBIS    = 1
++BUILDING        = 1
++CC              = $(PNDDEV)/bin/aarch64-none-linux-gnue-gcc
++INCLUDES        = $(PNDDEV)/include \
++                  $(PNDDEV)/include/SDL
++OBJTYPE         = elf
++LIBRARIES       = $(PNDDEV)/lib
++TARGET_ARCH     = aarch64
++ARCHFLAGS       = -mcpu=cortex-a35
++endif
++
+ ifdef BUILD_WII
+ TARGET 	        = $(VERSION_NAME).elf
+ TARGET_MAP      = $(TARGET).map
+@@ -206,6 +227,9 @@
+ ifdef BUILD_PANDORA
+ STRIP 	        = $(RECALBOXSTRIP) $(TARGET) -o $(TARGET_FINAL)
+ endif
++ifdef BUILD_PANDORA64
++STRIP 	        = $(RECALBOXSTRIP) $(TARGET) -o $(TARGET_FINAL)
++endif
+ ifdef BUILD_WII
+ STRIP           = elf2dol $< $@
+ endif
+@@ -494,6 +518,10 @@
+ CFLAGS         += -DLINUX
+ endif
+ 
++ifdef BUILD_PANDORA64
++CFLAGS         += -DLINUX
++endif
++
+ 
+ ifdef BUILD_WII
+ CFLAGS 	       += -DCACHE_BACKGROUNDS -DREVERSE_COLOR -D__ppc__ $(MACHDEP) -Wl,-Map,$(TARGET_MAP),-wrap,wiiuse_register

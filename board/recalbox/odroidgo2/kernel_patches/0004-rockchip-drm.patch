@@ -1,0 +1,919 @@
+diff -Naur ./drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c ./drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
+--- ./drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c	2020-06-25 07:36:51.000000000 +0200
++++ ./drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c	2020-11-04 22:47:16.669645064 +0100
+@@ -17,6 +17,7 @@
+ #include <linux/pm_runtime.h>
+ #include <linux/phy/phy.h>
+ 
++#include <drm/drm_atomic.h>
+ #include <drm/drm_of.h>
+ #include <drm/drmP.h>
+ #include <drm/drm_crtc_helper.h>
+@@ -338,6 +339,46 @@
+ 	}
+ };
+ 
++static const struct dw_hdmi_mpll_config rockchip_rk3288w_mpll_cfg_420[] = {
++	{
++		30666000, {
++			{ 0x00b7, 0x0000 },
++			{ 0x2157, 0x0000 },
++			{ 0x40f7, 0x0000 },
++		},
++	},  {
++		92000000, {
++			{ 0x00b7, 0x0000 },
++			{ 0x2143, 0x0001 },
++			{ 0x40a3, 0x0001 },
++		},
++	},  {
++		184000000, {
++			{ 0x0073, 0x0001 },
++			{ 0x2146, 0x0002 },
++			{ 0x4062, 0x0002 },
++		},
++	},  {
++		340000000, {
++			{ 0x0052, 0x0003 },
++			{ 0x214d, 0x0003 },
++			{ 0x4065, 0x0003 },
++		},
++	},  {
++		600000000, {
++			{ 0x0040, 0x0003 },
++			{ 0x3b4c, 0x0003 },
++			{ 0x5a65, 0x0003 },
++		},
++	},  {
++		~0UL, {
++			{ 0x0000, 0x0000 },
++			{ 0x0000, 0x0000 },
++			{ 0x0000, 0x0000 },
++		},
++	}
++};
++
+ static const struct dw_hdmi_curr_ctrl rockchip_cur_ctr[] = {
+ 	/*      pixelclk    bpp8    bpp10   bpp12 */
+ 	{
+@@ -1086,10 +1127,18 @@
+ 	} else if (property == hdmi->quant_range) {
+ 		hdmi->hdmi_quant_range = val;
+ 		return 0;
++	} else if (property == hdmi->outputmode_capacity) {
++		return -EINVAL;
++	} else if (property == hdmi->colordepth_capacity) {
++		return -EINVAL;
++	} else {
++		if (!state)
++			return drm_atomic_helper_connector_set_property(connector,
++									property, val);
++		else
++			return drm_atomic_connector_set_property(connector, state,
++								 property, val);
+ 	}
+-
+-	DRM_ERROR("failed to set rockchip hdmi connector property\n");
+-	return -EINVAL;
+ }
+ 
+ static int
+@@ -1182,6 +1231,7 @@
+ static const struct dw_hdmi_plat_data rk3288_hdmi_drv_data = {
+ 	.mode_valid = dw_hdmi_rockchip_mode_valid,
+ 	.mpll_cfg   = rockchip_mpll_cfg,
++	.mpll_cfg_420 = rockchip_rk3288w_mpll_cfg_420,
+ 	.cur_ctr    = rockchip_cur_ctr,
+ 	.phy_config = rockchip_phy_config,
+ 	.dev_type   = RK3288_HDMI,
+diff -Naur ./drivers/gpu/drm/rockchip/dw-mipi-dsi.c ./drivers/gpu/drm/rockchip/dw-mipi-dsi.c
+--- ./drivers/gpu/drm/rockchip/dw-mipi-dsi.c	2020-06-25 07:36:51.000000000 +0200
++++ ./drivers/gpu/drm/rockchip/dw-mipi-dsi.c	2020-11-04 22:47:16.669645064 +0100
+@@ -895,180 +895,6 @@
+ 	return 0;
+ }
+ 
+-static ssize_t dw_mipi_dsi_transfer(struct dw_mipi_dsi *dsi,
+-				    const struct mipi_dsi_msg *msg)
+-{
+-	struct mipi_dsi_packet packet;
+-	int ret;
+-	int val;
+-	int len = msg->tx_len;
+-
+-	if (msg->flags & MIPI_DSI_MSG_USE_LPM) {
+-		regmap_update_bits(dsi->regmap, DSI_VID_MODE_CFG,
+-				   LP_CMD_EN, LP_CMD_EN);
+-		regmap_update_bits(dsi->regmap, DSI_LPCLK_CTRL,
+-				   PHY_TXREQUESTCLKHS, 0);
+-	} else {
+-		regmap_update_bits(dsi->regmap, DSI_VID_MODE_CFG, LP_CMD_EN, 0);
+-		regmap_update_bits(dsi->regmap, DSI_LPCLK_CTRL,
+-				   PHY_TXREQUESTCLKHS, PHY_TXREQUESTCLKHS);
+-	}
+-
+-	switch (msg->type) {
+-	case MIPI_DSI_SHUTDOWN_PERIPHERAL:
+-		return dw_mipi_dsi_shutdown_peripheral(dsi);
+-	case MIPI_DSI_TURN_ON_PERIPHERAL:
+-		return dw_mipi_dsi_turn_on_peripheral(dsi);
+-	case MIPI_DSI_DCS_SHORT_WRITE:
+-		regmap_update_bits(dsi->regmap, DSI_CMD_MODE_CFG, DCS_SW_0P_TX,
+-				   msg->flags & MIPI_DSI_MSG_USE_LPM ?
+-				   DCS_SW_0P_TX : 0);
+-		break;
+-	case MIPI_DSI_DCS_SHORT_WRITE_PARAM:
+-		regmap_update_bits(dsi->regmap, DSI_CMD_MODE_CFG, DCS_SW_1P_TX,
+-				   msg->flags & MIPI_DSI_MSG_USE_LPM ?
+-				   DCS_SW_1P_TX : 0);
+-		break;
+-	case MIPI_DSI_DCS_LONG_WRITE:
+-		regmap_update_bits(dsi->regmap, DSI_CMD_MODE_CFG, DCS_LW_TX,
+-				   msg->flags & MIPI_DSI_MSG_USE_LPM ?
+-				   DCS_LW_TX : 0);
+-		break;
+-	case MIPI_DSI_DCS_READ:
+-		regmap_update_bits(dsi->regmap, DSI_CMD_MODE_CFG, DCS_SR_0P_TX,
+-				   msg->flags & MIPI_DSI_MSG_USE_LPM ?
+-				   DCS_SR_0P_TX : 0);
+-		break;
+-	case MIPI_DSI_SET_MAXIMUM_RETURN_PACKET_SIZE:
+-		regmap_update_bits(dsi->regmap, DSI_CMD_MODE_CFG,
+-				   MAX_RD_PKT_SIZE,
+-				   msg->flags & MIPI_DSI_MSG_USE_LPM ?
+-				   MAX_RD_PKT_SIZE : 0);
+-		break;
+-	case MIPI_DSI_GENERIC_SHORT_WRITE_0_PARAM:
+-		regmap_update_bits(dsi->regmap, DSI_CMD_MODE_CFG, GEN_SW_0P_TX,
+-				   msg->flags & MIPI_DSI_MSG_USE_LPM ?
+-				   GEN_SW_0P_TX : 0);
+-		break;
+-	case MIPI_DSI_GENERIC_SHORT_WRITE_1_PARAM:
+-		regmap_update_bits(dsi->regmap, DSI_CMD_MODE_CFG, GEN_SW_1P_TX,
+-				   msg->flags & MIPI_DSI_MSG_USE_LPM ?
+-				   GEN_SW_1P_TX : 0);
+-		break;
+-	case MIPI_DSI_GENERIC_SHORT_WRITE_2_PARAM:
+-		regmap_update_bits(dsi->regmap, DSI_CMD_MODE_CFG, GEN_SW_2P_TX,
+-				   msg->flags & MIPI_DSI_MSG_USE_LPM ?
+-				   GEN_SW_2P_TX : 0);
+-		break;
+-	case MIPI_DSI_GENERIC_LONG_WRITE:
+-		regmap_update_bits(dsi->regmap, DSI_CMD_MODE_CFG, GEN_LW_TX,
+-				   msg->flags & MIPI_DSI_MSG_USE_LPM ?
+-				   GEN_LW_TX : 0);
+-		break;
+-	case MIPI_DSI_GENERIC_READ_REQUEST_0_PARAM:
+-		regmap_update_bits(dsi->regmap, DSI_CMD_MODE_CFG, GEN_SR_0P_TX,
+-				   msg->flags & MIPI_DSI_MSG_USE_LPM ?
+-				   GEN_SR_0P_TX : 0);
+-		break;
+-	case MIPI_DSI_GENERIC_READ_REQUEST_1_PARAM:
+-		regmap_update_bits(dsi->regmap, DSI_CMD_MODE_CFG, GEN_SR_1P_TX,
+-				   msg->flags & MIPI_DSI_MSG_USE_LPM ?
+-				   GEN_SR_1P_TX : 0);
+-		break;
+-	case MIPI_DSI_GENERIC_READ_REQUEST_2_PARAM:
+-		regmap_update_bits(dsi->regmap, DSI_CMD_MODE_CFG, GEN_SR_2P_TX,
+-				   msg->flags & MIPI_DSI_MSG_USE_LPM ?
+-				   GEN_SR_2P_TX : 0);
+-		break;
+-	default:
+-		return -EINVAL;
+-	}
+-
+-	if (msg->flags & MIPI_DSI_MSG_REQ_ACK)
+-		regmap_update_bits(dsi->regmap, DSI_CMD_MODE_CFG,
+-				   ACK_RQST_EN, ACK_RQST_EN);
+-
+-	/* create a packet to the DSI protocol */
+-	ret = mipi_dsi_create_packet(&packet, msg);
+-	if (ret) {
+-		dev_err(dsi->dev, "failed to create packet: %d\n", ret);
+-		return ret;
+-	}
+-
+-	/* Send payload */
+-	while (DIV_ROUND_UP(packet.payload_length, 4)) {
+-		/*
+-		 * Alternatively, you can always keep the FIFO
+-		 * nearly full by monitoring the FIFO state until
+-		 * it is not full, and then writea single word of data.
+-		 * This solution is more resource consuming
+-		 * but it simultaneously avoids FIFO starvation,
+-		 * making it possible to use FIFO sizes smaller than
+-		 * the amount of data of the longest packet to be written.
+-		 */
+-		ret = genif_wait_w_pld_fifo_not_full(dsi);
+-		if (ret)
+-			return ret;
+-
+-		if (packet.payload_length < 4) {
+-			/* send residu payload */
+-			val = 0;
+-			memcpy(&val, packet.payload, packet.payload_length);
+-			regmap_write(dsi->regmap, DSI_GEN_PLD_DATA, val);
+-			packet.payload_length = 0;
+-		} else {
+-			val = get_unaligned_le32(packet.payload);
+-			regmap_write(dsi->regmap, DSI_GEN_PLD_DATA, val);
+-			packet.payload += 4;
+-			packet.payload_length -= 4;
+-		}
+-	}
+-
+-	ret = genif_wait_cmd_fifo_not_full(dsi);
+-	if (ret)
+-		return ret;
+-
+-	/* Send packet header */
+-	val = get_unaligned_le32(packet.header);
+-	regmap_write(dsi->regmap, DSI_GEN_HDR, val);
+-
+-	ret = genif_wait_write_fifo_empty(dsi);
+-	if (ret)
+-		return ret;
+-
+-	if (msg->rx_len) {
+-		ret = dw_mipi_dsi_turn_around_request(dsi);
+-		if (ret) {
+-			dev_err(dsi->dev,
+-				"failed to send turn around request\n");
+-			return ret;
+-		}
+-
+-		ret = dw_mipi_dsi_read_from_fifo(dsi, msg);
+-		if (ret < 0)
+-			return ret;
+-	}
+-
+-	if (dsi->slave)
+-		dw_mipi_dsi_transfer(dsi->slave, msg);
+-
+-	return len;
+-}
+-
+-static ssize_t dw_mipi_dsi_host_transfer(struct mipi_dsi_host *host,
+-					 const struct mipi_dsi_msg *msg)
+-{
+-	struct dw_mipi_dsi *dsi = host_to_dsi(host);
+-
+-	return dw_mipi_dsi_transfer(dsi, msg);
+-}
+-
+-static const struct mipi_dsi_host_ops dw_mipi_dsi_host_ops = {
+-	.attach = dw_mipi_dsi_host_attach,
+-	.detach = dw_mipi_dsi_host_detach,
+-	.transfer = dw_mipi_dsi_host_transfer,
+-};
+-
+ static void dw_mipi_dsi_video_mode_config(struct dw_mipi_dsi *dsi)
+ {
+ 	u32 val = LP_VACT_EN | LP_VFP_EN | LP_VBP_EN | LP_VSA_EN |
+@@ -1595,10 +1421,185 @@
+ 	.detect = dw_mipi_dsi_detect,
+ 	.destroy = dw_mipi_dsi_drm_connector_destroy,
+ 	.reset = drm_atomic_helper_connector_reset,
++	.set_property = drm_atomic_helper_connector_set_property,
+ 	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+ 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+ };
+ 
++static ssize_t dw_mipi_dsi_transfer(struct dw_mipi_dsi *dsi,
++				    const struct mipi_dsi_msg *msg)
++{
++	struct mipi_dsi_packet packet;
++	int ret;
++	int val;
++	int len = msg->tx_len;
++
++	dw_mipi_dsi_pre_enable(dsi);
++
++	if (msg->flags & MIPI_DSI_MSG_USE_LPM) {
++		regmap_update_bits(dsi->regmap, DSI_VID_MODE_CFG,
++				   LP_CMD_EN, LP_CMD_EN);
++	} else {
++		regmap_update_bits(dsi->regmap, DSI_VID_MODE_CFG, LP_CMD_EN, 0);
++		regmap_update_bits(dsi->regmap, DSI_LPCLK_CTRL,
++				   PHY_TXREQUESTCLKHS, PHY_TXREQUESTCLKHS);
++	}
++
++	switch (msg->type) {
++	case MIPI_DSI_SHUTDOWN_PERIPHERAL:
++		return dw_mipi_dsi_shutdown_peripheral(dsi);
++	case MIPI_DSI_TURN_ON_PERIPHERAL:
++		return dw_mipi_dsi_turn_on_peripheral(dsi);
++	case MIPI_DSI_DCS_SHORT_WRITE:
++		regmap_update_bits(dsi->regmap, DSI_CMD_MODE_CFG, DCS_SW_0P_TX,
++				   msg->flags & MIPI_DSI_MSG_USE_LPM ?
++				   DCS_SW_0P_TX : 0);
++		break;
++	case MIPI_DSI_DCS_SHORT_WRITE_PARAM:
++		regmap_update_bits(dsi->regmap, DSI_CMD_MODE_CFG, DCS_SW_1P_TX,
++				   msg->flags & MIPI_DSI_MSG_USE_LPM ?
++				   DCS_SW_1P_TX : 0);
++		break;
++	case MIPI_DSI_DCS_LONG_WRITE:
++		regmap_update_bits(dsi->regmap, DSI_CMD_MODE_CFG, DCS_LW_TX,
++				   msg->flags & MIPI_DSI_MSG_USE_LPM ?
++				   DCS_LW_TX : 0);
++		break;
++	case MIPI_DSI_DCS_READ:
++		regmap_update_bits(dsi->regmap, DSI_CMD_MODE_CFG, DCS_SR_0P_TX,
++				   msg->flags & MIPI_DSI_MSG_USE_LPM ?
++				   DCS_SR_0P_TX : 0);
++		break;
++	case MIPI_DSI_SET_MAXIMUM_RETURN_PACKET_SIZE:
++		regmap_update_bits(dsi->regmap, DSI_CMD_MODE_CFG,
++				   MAX_RD_PKT_SIZE,
++				   msg->flags & MIPI_DSI_MSG_USE_LPM ?
++				   MAX_RD_PKT_SIZE : 0);
++		break;
++	case MIPI_DSI_GENERIC_SHORT_WRITE_0_PARAM:
++		regmap_update_bits(dsi->regmap, DSI_CMD_MODE_CFG, GEN_SW_0P_TX,
++				   msg->flags & MIPI_DSI_MSG_USE_LPM ?
++				   GEN_SW_0P_TX : 0);
++		break;
++	case MIPI_DSI_GENERIC_SHORT_WRITE_1_PARAM:
++		regmap_update_bits(dsi->regmap, DSI_CMD_MODE_CFG, GEN_SW_1P_TX,
++				   msg->flags & MIPI_DSI_MSG_USE_LPM ?
++				   GEN_SW_1P_TX : 0);
++		break;
++	case MIPI_DSI_GENERIC_SHORT_WRITE_2_PARAM:
++		regmap_update_bits(dsi->regmap, DSI_CMD_MODE_CFG, GEN_SW_2P_TX,
++				   msg->flags & MIPI_DSI_MSG_USE_LPM ?
++				   GEN_SW_2P_TX : 0);
++		break;
++	case MIPI_DSI_GENERIC_LONG_WRITE:
++		regmap_update_bits(dsi->regmap, DSI_CMD_MODE_CFG, GEN_LW_TX,
++				   msg->flags & MIPI_DSI_MSG_USE_LPM ?
++				   GEN_LW_TX : 0);
++		break;
++	case MIPI_DSI_GENERIC_READ_REQUEST_0_PARAM:
++		regmap_update_bits(dsi->regmap, DSI_CMD_MODE_CFG, GEN_SR_0P_TX,
++				   msg->flags & MIPI_DSI_MSG_USE_LPM ?
++				   GEN_SR_0P_TX : 0);
++		break;
++	case MIPI_DSI_GENERIC_READ_REQUEST_1_PARAM:
++		regmap_update_bits(dsi->regmap, DSI_CMD_MODE_CFG, GEN_SR_1P_TX,
++				   msg->flags & MIPI_DSI_MSG_USE_LPM ?
++				   GEN_SR_1P_TX : 0);
++		break;
++	case MIPI_DSI_GENERIC_READ_REQUEST_2_PARAM:
++		regmap_update_bits(dsi->regmap, DSI_CMD_MODE_CFG, GEN_SR_2P_TX,
++				   msg->flags & MIPI_DSI_MSG_USE_LPM ?
++				   GEN_SR_2P_TX : 0);
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	if (msg->flags & MIPI_DSI_MSG_REQ_ACK)
++		regmap_update_bits(dsi->regmap, DSI_CMD_MODE_CFG,
++				   ACK_RQST_EN, ACK_RQST_EN);
++
++	/* create a packet to the DSI protocol */
++	ret = mipi_dsi_create_packet(&packet, msg);
++	if (ret) {
++		dev_err(dsi->dev, "failed to create packet: %d\n", ret);
++		return ret;
++	}
++
++	/* Send payload */
++	while (DIV_ROUND_UP(packet.payload_length, 4)) {
++		/*
++		 * Alternatively, you can always keep the FIFO
++		 * nearly full by monitoring the FIFO state until
++		 * it is not full, and then writea single word of data.
++		 * This solution is more resource consuming
++		 * but it simultaneously avoids FIFO starvation,
++		 * making it possible to use FIFO sizes smaller than
++		 * the amount of data of the longest packet to be written.
++		 */
++		ret = genif_wait_w_pld_fifo_not_full(dsi);
++		if (ret)
++			return ret;
++
++		if (packet.payload_length < 4) {
++			/* send residu payload */
++			val = 0;
++			memcpy(&val, packet.payload, packet.payload_length);
++			regmap_write(dsi->regmap, DSI_GEN_PLD_DATA, val);
++			packet.payload_length = 0;
++		} else {
++			val = get_unaligned_le32(packet.payload);
++			regmap_write(dsi->regmap, DSI_GEN_PLD_DATA, val);
++			packet.payload += 4;
++			packet.payload_length -= 4;
++		}
++	}
++
++	ret = genif_wait_cmd_fifo_not_full(dsi);
++	if (ret)
++		return ret;
++
++	/* Send packet header */
++	val = get_unaligned_le32(packet.header);
++	regmap_write(dsi->regmap, DSI_GEN_HDR, val);
++
++	ret = genif_wait_write_fifo_empty(dsi);
++	if (ret)
++		return ret;
++
++	if (msg->rx_len) {
++		ret = dw_mipi_dsi_turn_around_request(dsi);
++		if (ret) {
++			dev_err(dsi->dev,
++				"failed to send turn around request\n");
++			return ret;
++		}
++
++		ret = dw_mipi_dsi_read_from_fifo(dsi, msg);
++		if (ret < 0)
++			return ret;
++	}
++
++	if (dsi->slave)
++		dw_mipi_dsi_transfer(dsi->slave, msg);
++
++	return len;
++}
++
++static ssize_t dw_mipi_dsi_host_transfer(struct mipi_dsi_host *host,
++					 const struct mipi_dsi_msg *msg)
++{
++	struct dw_mipi_dsi *dsi = host_to_dsi(host);
++
++	return dw_mipi_dsi_transfer(dsi, msg);
++}
++
++static const struct mipi_dsi_host_ops dw_mipi_dsi_host_ops = {
++	.attach = dw_mipi_dsi_host_attach,
++	.detach = dw_mipi_dsi_host_detach,
++	.transfer = dw_mipi_dsi_host_transfer,
++};
++
+ static int dw_mipi_dsi_register(struct drm_device *drm,
+ 				      struct dw_mipi_dsi *dsi)
+ {
+@@ -1607,6 +1608,7 @@
+ 	struct device *dev = dsi->dev;
+ 	int ret;
+ 
++	encoder->port = dev->of_node;
+ 	encoder->possible_crtcs = drm_of_find_possible_crtcs(drm,
+ 							     dev->of_node);
+ 	/*
+diff -Naur ./drivers/gpu/drm/rockchip/rk618/rk618_dsi.c ./drivers/gpu/drm/rockchip/rk618/rk618_dsi.c
+--- ./drivers/gpu/drm/rockchip/rk618/rk618_dsi.c	2020-06-25 07:36:51.000000000 +0200
++++ ./drivers/gpu/drm/rockchip/rk618/rk618_dsi.c	2020-11-04 22:47:16.669645064 +0100
+@@ -293,8 +293,13 @@
+ 
+ 		bandwidth = (u64)mode->clock * 1000 * bpp;
+ 		do_div(bandwidth, lanes);
+-		bandwidth = bandwidth * 10 / 9;
+-		bandwidth = bandwidth / USEC_PER_SEC * USEC_PER_SEC;
++
++		/* take 1 / 0.9, since mbps must big than bandwidth of RGB */
++		bandwidth *= 10;
++		do_div(bandwidth, 9);
++
++		do_div(bandwidth, USEC_PER_SEC);
++		bandwidth *= USEC_PER_SEC;
+ 		fout = bandwidth;
+ 	}
+ 
+@@ -653,9 +658,6 @@
+ 	regmap_update_bits(dsi->regmap, DSI_PHY_RSTZ,
+ 			   PHY_ENABLECLK, PHY_ENABLECLK);
+ 
+-	regmap_write(dsi->regmap, DSI_INT_MSK0, 0);
+-	regmap_write(dsi->regmap, DSI_INT_MSK1, 0);
+-
+ 	regmap_update_bits(dsi->regmap, DSI_VID_MODE_CFG, EN_VIDEO_MODE, 0);
+ 	regmap_update_bits(dsi->regmap, DSI_CMD_MODE_CFG,
+ 			   EN_CMD_MODE, EN_CMD_MODE);
+@@ -1135,6 +1137,10 @@
+ 		return ret;
+ 	}
+ 
++	/* Mask all interrupts */
++	regmap_write(dsi->regmap, DSI_INT_MSK0, 0xffffffff);
++	regmap_write(dsi->regmap, DSI_INT_MSK1, 0xffffffff);
++
+ 	dsi->phy.regmap = devm_regmap_init_i2c(rk618->client,
+ 					       &rk618_dsi_phy_regmap_config);
+ 	if (IS_ERR(dsi->phy.regmap)) {
+diff -Naur ./drivers/gpu/drm/rockchip/rk618/rk618_hdmi.c ./drivers/gpu/drm/rockchip/rk618/rk618_hdmi.c
+--- ./drivers/gpu/drm/rockchip/rk618/rk618_hdmi.c	2020-06-25 07:36:51.000000000 +0200
++++ ./drivers/gpu/drm/rockchip/rk618/rk618_hdmi.c	2020-11-04 22:47:16.669645064 +0100
+@@ -554,22 +554,6 @@
+ 	regmap_update_bits(hdmi->parent->regmap, RK618_MISC_CON, mask, val);
+ }
+ 
+-static void rk618_hdmi_pol_init(struct rk618_hdmi *hdmi, int pol)
+-{
+-	u32 val;
+-
+-	if (pol)
+-		val = 0x0;
+-	else
+-		val = 0x20;
+-	regmap_update_bits(hdmi->parent->regmap, RK618_MISC_CON,
+-			   INT_ACTIVE_LOW, val);
+-
+-	regmap_update_bits(hdmi->parent->regmap,
+-			   RK618_MISC_CON, HDMI_CLK_SEL_MASK,
+-			   HDMI_CLK_SEL_VIDEO_INF0_CLK);
+-}
+-
+ static inline void hdmi_modb(struct rk618_hdmi *hdmi, u16 offset,
+ 			     u32 msk, u32 val)
+ {
+@@ -656,6 +640,10 @@
+ 	u32 val;
+ 	u32 msk;
+ 
++	regmap_update_bits(hdmi->parent->regmap,
++			   RK618_MISC_CON, HDMI_CLK_SEL_MASK,
++			   HDMI_CLK_SEL_VIDEO_INF0_CLK);
++
+ 	hdmi_modb(hdmi, HDMI_SYS_CTRL, m_RST_DIGITAL, v_NOT_RST_DIGITAL);
+ 	usleep_range(100, 110);
+ 
+@@ -1512,7 +1500,6 @@
+ 		return PTR_ERR(hdmi->clock);
+ 	}
+ 
+-	rk618_hdmi_pol_init(hdmi, 0);
+ 	rk618_hdmi_reset(hdmi);
+ 
+ 	hdmi->ddc = rk618_hdmi_i2c_adapter(hdmi);
+@@ -1540,7 +1527,7 @@
+ 
+ 	ret = devm_request_threaded_irq(dev, irq, NULL,
+ 					rk618_hdmi_irq,
+-					IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
++					IRQF_TRIGGER_HIGH | IRQF_ONESHOT,
+ 					dev_name(dev), hdmi);
+ 	if (ret) {
+ 		dev_err(dev, "failed to request hdmi irq: %d\n", ret);
+diff -Naur ./drivers/gpu/drm/rockchip/rk618/rk618_lvds.c ./drivers/gpu/drm/rockchip/rk618/rk618_lvds.c
+--- ./drivers/gpu/drm/rockchip/rk618/rk618_lvds.c	2020-06-25 07:36:51.000000000 +0200
++++ ./drivers/gpu/drm/rockchip/rk618/rk618_lvds.c	2020-11-04 22:47:16.669645064 +0100
+@@ -231,6 +231,7 @@
+ 
+ 	lvds->dev = dev;
+ 	lvds->parent = rk618;
++	lvds->regmap = rk618->regmap;
+ 	platform_set_drvdata(pdev, lvds);
+ 
+ 	ret = rk618_lvds_parse_dt(lvds);
+@@ -239,10 +240,6 @@
+ 		return ret;
+ 	}
+ 
+-	lvds->regmap = dev_get_regmap(dev->parent, NULL);
+-	if (!lvds->regmap)
+-		return -ENODEV;
+-
+ 	endpoint = of_graph_get_endpoint_by_regs(dev->of_node, 1, -1);
+ 	if (endpoint) {
+ 		struct device_node *remote;
+diff -Naur ./drivers/gpu/drm/rockchip/rk618/rk618_rgb.c ./drivers/gpu/drm/rockchip/rk618/rk618_rgb.c
+--- ./drivers/gpu/drm/rockchip/rk618/rk618_rgb.c	2020-06-25 07:36:51.000000000 +0200
++++ ./drivers/gpu/drm/rockchip/rk618/rk618_rgb.c	2020-11-04 22:47:16.669645064 +0100
+@@ -220,12 +220,9 @@
+ 
+ 	rgb->dev = dev;
+ 	rgb->parent = rk618;
++	rgb->regmap = rk618->regmap;
+ 	platform_set_drvdata(pdev, rgb);
+ 
+-	rgb->regmap = dev_get_regmap(dev->parent, NULL);
+-	if (!rgb->regmap)
+-		return -ENODEV;
+-
+ 	rgb->clock = devm_clk_get(dev, "rgb");
+ 	if (IS_ERR(rgb->clock)) {
+ 		ret = PTR_ERR(rgb->clock);
+diff -Naur ./drivers/gpu/drm/rockchip/rk618/rk618_scaler.c ./drivers/gpu/drm/rockchip/rk618/rk618_scaler.c
+--- ./drivers/gpu/drm/rockchip/rk618/rk618_scaler.c	2020-06-25 07:36:51.000000000 +0200
++++ ./drivers/gpu/drm/rockchip/rk618/rk618_scaler.c	2020-11-04 22:47:16.669645064 +0100
+@@ -296,8 +296,10 @@
+ 	dclk_rate = src->clock * 1000;
+ 	sclk_rate = (u64)dclk_rate * dst->vdisplay * dst->htotal;
+ 	do_div(sclk_rate, src->vdisplay * src->htotal);
+-	sclk_rate = sclk_rate / 1000 * 1000;
+-	dst->clock = sclk_rate / 1000;
++	do_div(sclk_rate, 1000);
++	sclk_rate = sclk_rate * 1000;
++	dst->clock = sclk_rate;
++	do_div(dst->clock, 1000);
+ 	scl->bridge->driver_private = dst;
+ 
+ 	DRM_DEV_INFO(scl->dev, "src=%s, dst=%s\n", src->name, dst->name);
+@@ -349,6 +351,7 @@
+ 
+ static int rk618_scaler_probe(struct platform_device *pdev)
+ {
++	struct rk618 *rk618 = dev_get_drvdata(pdev->dev.parent);
+ 	struct device *dev = &pdev->dev;
+ 	struct rk618_scaler *scl;
+ 	int ret;
+@@ -361,12 +364,9 @@
+ 		return -ENOMEM;
+ 
+ 	scl->dev = dev;
++	scl->regmap = rk618->regmap;
+ 	platform_set_drvdata(pdev, scl);
+ 
+-	scl->regmap = dev_get_regmap(dev->parent, NULL);
+-	if (!scl->regmap)
+-		return -ENODEV;
+-
+ 	scl->vif_clk = devm_clk_get(dev, "vif");
+ 	if (IS_ERR(scl->vif_clk)) {
+ 		ret = PTR_ERR(scl->vif_clk);
+diff -Naur ./drivers/gpu/drm/rockchip/rk618/rk618_vif.c ./drivers/gpu/drm/rockchip/rk618/rk618_vif.c
+--- ./drivers/gpu/drm/rockchip/rk618/rk618_vif.c	2020-06-25 07:36:51.000000000 +0200
++++ ./drivers/gpu/drm/rockchip/rk618/rk618_vif.c	2020-11-04 22:47:16.669645064 +0100
+@@ -197,6 +197,7 @@
+ 
+ static int rk618_vif_probe(struct platform_device *pdev)
+ {
++	struct rk618 *rk618 = dev_get_drvdata(pdev->dev.parent);
+ 	struct device *dev = &pdev->dev;
+ 	struct rk618_vif *vif;
+ 	int ret;
+@@ -209,12 +210,9 @@
+ 		return -ENOMEM;
+ 
+ 	vif->dev = dev;
++	vif->regmap = rk618->regmap;
+ 	platform_set_drvdata(pdev, vif);
+ 
+-	vif->regmap = dev_get_regmap(dev->parent, NULL);
+-	if (!vif->regmap)
+-		return -ENODEV;
+-
+ 	vif->vif_clk = devm_clk_get(dev, "vif");
+ 	if (IS_ERR(vif->vif_clk)) {
+ 		ret = PTR_ERR(vif->vif_clk);
+diff -Naur ./drivers/gpu/drm/rockchip/rockchip_drm_drv.c ./drivers/gpu/drm/rockchip/rockchip_drm_drv.c
+--- ./drivers/gpu/drm/rockchip/rockchip_drm_drv.c	2020-06-25 07:36:51.000000000 +0200
++++ ./drivers/gpu/drm/rockchip/rockchip_drm_drv.c	2020-11-04 22:47:16.672978396 +0100
+@@ -209,7 +209,9 @@
+ 	if (private->domain) {
+ 		iommu_unmap(private->domain, logo->dma_addr,
+ 			    logo->iommu_map_size);
++		mutex_lock(&private->mm_lock);
+ 		drm_mm_remove_node(&logo->mm);
++		mutex_unlock(&private->mm_lock);
+ 	} else {
+ 		dma_unmap_sg(drm->dev, logo->sgt->sgl,
+ 			     logo->sgt->nents, DMA_TO_DEVICE);
+@@ -269,9 +271,11 @@
+ 
+ 	if (private->domain) {
+ 		memset(&logo->mm, 0, sizeof(logo->mm));
++		mutex_lock(&private->mm_lock);
+ 		ret = drm_mm_insert_node_generic(&private->mm, &logo->mm,
+ 						 size, PAGE_SIZE,
+ 						 0, 0, 0);
++		mutex_unlock(&private->mm_lock);
+ 		if (ret < 0) {
+ 			DRM_ERROR("out of I/O virtual memory: %d\n", ret);
+ 			goto err_free_pages;
+@@ -349,10 +353,10 @@
+ 
+ 	switch (bpp) {
+ 	case 16:
+-		mode_cmd.pixel_format = DRM_FORMAT_BGR565;
++		mode_cmd.pixel_format = DRM_FORMAT_RGB565;
+ 		break;
+ 	case 24:
+-		mode_cmd.pixel_format = DRM_FORMAT_BGR888;
++		mode_cmd.pixel_format = DRM_FORMAT_RGB888;
+ 		break;
+ 	case 32:
+ 		mode_cmd.pixel_format = DRM_FORMAT_XRGB8888;
+diff -Naur ./drivers/gpu/drm/rockchip/rockchip_drm_vop.c ./drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+--- ./drivers/gpu/drm/rockchip/rockchip_drm_vop.c	2020-06-25 07:36:51.000000000 +0200
++++ ./drivers/gpu/drm/rockchip/rockchip_drm_vop.c	2020-11-04 22:47:16.672978396 +0100
+@@ -911,8 +911,11 @@
+ {
+ 	switch (csc_mode) {
+ 	case V4L2_COLORSPACE_SMPTE170M:
++	case V4L2_COLORSPACE_470_SYSTEM_M:
++	case V4L2_COLORSPACE_470_SYSTEM_BG:
+ 		return CSC_BT601L;
+ 	case V4L2_COLORSPACE_REC709:
++	case V4L2_COLORSPACE_SMPTE240M:
+ 	case V4L2_COLORSPACE_DEFAULT:
+ 		return CSC_BT709L;
+ 	case V4L2_COLORSPACE_JPEG:
+@@ -1001,10 +1004,15 @@
+ 				*r2r_table = csc_table->r2r_bt2020_to_bt709;
+ 			if (!is_input_yuv || *y2r_table) {
+ 				if (output_csc == V4L2_COLORSPACE_REC709 ||
++				    output_csc == V4L2_COLORSPACE_SMPTE240M ||
+ 				    output_csc == V4L2_COLORSPACE_DEFAULT)
+ 					*r2y_table = csc_table->r2y_bt709;
++				else if (output_csc == V4L2_COLORSPACE_SMPTE170M ||
++					 output_csc == V4L2_COLORSPACE_470_SYSTEM_M ||
++					 output_csc == V4L2_COLORSPACE_470_SYSTEM_BG)
++					*r2y_table = csc_table->r2y_bt601_12_235; /* bt601 limit */
+ 				else
+-					*r2y_table = csc_table->r2y_bt601;
++					*r2y_table = csc_table->r2y_bt601; /* bt601 full */
+ 			}
+ 		}
+ 	} else {
+@@ -1019,11 +1027,16 @@
+ 
+ 		if (input_csc == V4L2_COLORSPACE_BT2020)
+ 			*y2r_table = csc_table->y2r_bt2020;
+-		else if ((input_csc == V4L2_COLORSPACE_REC709) ||
+-			 (input_csc == V4L2_COLORSPACE_DEFAULT))
++		else if (input_csc == V4L2_COLORSPACE_REC709 ||
++			 input_csc == V4L2_COLORSPACE_SMPTE240M ||
++			 input_csc == V4L2_COLORSPACE_DEFAULT)
+ 			*y2r_table = csc_table->y2r_bt709;
++		else if (input_csc == V4L2_COLORSPACE_SMPTE170M ||
++			 input_csc == V4L2_COLORSPACE_470_SYSTEM_M ||
++			 input_csc == V4L2_COLORSPACE_470_SYSTEM_BG)
++			*y2r_table = csc_table->y2r_bt601_12_235; /* bt601 limit */
+ 		else
+-			*y2r_table = csc_table->y2r_bt601;
++			*y2r_table = csc_table->y2r_bt601;  /* bt601 full */
+ 
+ 		if (input_csc == V4L2_COLORSPACE_BT2020)
+ 			/*
+@@ -1754,12 +1767,10 @@
+ 
+ 	rb_swap = has_rb_swapped(fb->pixel_format);
+ 	/*
+-	 * Px30 treats rgb888 as bgr888
+-	 * so we reverse the rb swap to workaround
++	 * VOP full need to do rb swap to show rgb888/bgr888 format color correctly
+ 	 */
+-	if ((fb->pixel_format == DRM_FORMAT_RGB888 ||
+-	     fb->pixel_format == DRM_FORMAT_BGR888) &&
+-	    (VOP_MAJOR(vop->version) == 2 && VOP_MINOR(vop->version) == 6))
++	if ((fb->pixel_format == DRM_FORMAT_RGB888 || fb->pixel_format == DRM_FORMAT_BGR888) &&
++	    VOP_MAJOR(vop->version) == 3)
+ 		rb_swap = !rb_swap;
+ 	VOP_WIN_SET(vop, win, rb_swap, rb_swap);
+ 
+@@ -2416,6 +2427,23 @@
+ 	u64 bandwidth;
+ 	int i, cnt = 0, plane_num = 0;
+ 
++#if defined(CONFIG_ROCKCHIP_DRM_DEBUG)
++	struct vop_dump_list *pos, *n;
++
++	if (!crtc->vop_dump_list_init_flag) {
++		INIT_LIST_HEAD(&crtc->vop_dump_list_head);
++		crtc->vop_dump_list_init_flag = true;
++	}
++	list_for_each_entry_safe(pos, n, &crtc->vop_dump_list_head, entry) {
++		list_del(&pos->entry);
++		kfree(pos);
++	}
++	if (crtc->vop_dump_status == DUMP_KEEP ||
++	    crtc->vop_dump_times > 0) {
++		crtc->frame_count++;
++	}
++#endif
++
+ 	if (!htotal || !vdisplay)
+ 		return 0;
+ 
+@@ -2708,6 +2736,10 @@
+ 	 */
+ 	if (vop->lut_active)
+ 		vop_crtc_load_lut(crtc);
++
++	if (vop->mcu_timing.mcu_pix_total)
++		vop_mcu_mode(crtc);
++
+ 	dclk_inv = (adjusted_mode->flags & DRM_MODE_FLAG_PPIXDATA) ? 0 : 1;
+ 
+ 	VOP_CTRL_SET(vop, dclk_pol, dclk_inv);
+@@ -2841,8 +2873,6 @@
+ 
+ 	clk_set_rate(vop->dclk, adjusted_mode->crtc_clock * 1000);
+ 
+-	if (vop->mcu_timing.mcu_pix_total)
+-		vop_mcu_mode(crtc);
+ 
+ 	vop_cfg_done(vop);
+ 
+@@ -3029,23 +3059,6 @@
+ 	int dsp_layer_sel = 0;
+ 	int i, j, cnt = 0, ret = 0;
+ 
+-#if defined(CONFIG_ROCKCHIP_DRM_DEBUG)
+-	struct vop_dump_list *pos, *n;
+-
+-	if (!crtc->vop_dump_list_init_flag) {
+-		INIT_LIST_HEAD(&crtc->vop_dump_list_head);
+-		crtc->vop_dump_list_init_flag = true;
+-	}
+-	list_for_each_entry_safe(pos, n, &crtc->vop_dump_list_head, entry) {
+-		list_del(&pos->entry);
+-		kfree(pos);
+-	}
+-	if (crtc->vop_dump_status == DUMP_KEEP ||
+-	    crtc->vop_dump_times > 0) {
+-		crtc->frame_count++;
+-	}
+-#endif
+-
+ 	ret = vop_afbdc_atomic_check(crtc, crtc_state);
+ 	if (ret)
+ 		return ret;
+diff -Naur ./drivers/gpu/drm/rockchip/rockchip_lvds.c ./drivers/gpu/drm/rockchip/rockchip_lvds.c
+--- ./drivers/gpu/drm/rockchip/rockchip_lvds.c	2020-06-25 07:36:51.000000000 +0200
++++ ./drivers/gpu/drm/rockchip/rockchip_lvds.c	2020-11-04 22:47:16.672978396 +0100
+@@ -76,6 +76,8 @@
+ 	LVDS_8BIT_MODE_FORMAT_2,
+ 	LVDS_8BIT_MODE_FORMAT_3,
+ 	LVDS_6BIT_MODE,
++	LVDS_10BIT_MODE_FORMAT_1,
++	LVDS_10BIT_MODE_FORMAT_2,
+ };
+ 
+ struct rockchip_lvds;
+@@ -123,6 +125,7 @@
+ 	.fill_modes = drm_helper_probe_single_connector_modes,
+ 	.destroy = drm_connector_cleanup,
+ 	.reset = drm_atomic_helper_connector_reset,
++	.set_property = drm_atomic_helper_connector_set_property,
+ 	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+ 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+ };
+@@ -177,9 +180,15 @@
+ 	case MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA:	/* jeida-24 */
+ 		lvds->format = LVDS_8BIT_MODE_FORMAT_2;
+ 		break;
++	case MEDIA_BUS_FMT_RGB101010_1X7X5_JEIDA: /* jeida-30 */
++		lvds->format = LVDS_10BIT_MODE_FORMAT_2;
++		break;
+ 	case MEDIA_BUS_FMT_RGB666_1X7X3_SPWG:	/* vesa-18 */
+ 		lvds->format = LVDS_8BIT_MODE_FORMAT_3;
+ 		break;
++	case MEDIA_BUS_FMT_RGB101010_1X7X5_SPWG: /* vesa-30 */
++		lvds->format = LVDS_10BIT_MODE_FORMAT_1;
++		break;
+ 	case MEDIA_BUS_FMT_RGB888_1X7X4_SPWG:	/* vesa-24 */
+ 	default:
+ 		lvds->format = LVDS_8BIT_MODE_FORMAT_1;
+@@ -204,6 +213,11 @@
+ 		s->bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG;
+ 
+ 	s->output_mode = ROCKCHIP_OUT_MODE_P888;
++
++	if (s->bus_format == MEDIA_BUS_FMT_RGB101010_1X7X5_SPWG ||
++	    s->bus_format == MEDIA_BUS_FMT_RGB101010_1X7X5_JEIDA)
++		s->output_mode = ROCKCHIP_OUT_MODE_AAAA;
++
+ 	s->output_type = DRM_MODE_CONNECTOR_LVDS;
+ 	s->tv_state = &conn_state->tv;
+ 	s->eotf = TRADITIONAL_GAMMA_SDR;
+diff -Naur ./drivers/gpu/drm/rockchip/rockchip_rgb.c ./drivers/gpu/drm/rockchip/rockchip_rgb.c
+--- ./drivers/gpu/drm/rockchip/rockchip_rgb.c	2020-06-25 07:36:51.000000000 +0200
++++ ./drivers/gpu/drm/rockchip/rockchip_rgb.c	2020-11-04 22:47:16.672978396 +0100
+@@ -90,6 +90,7 @@
+ 	.fill_modes = drm_helper_probe_single_connector_modes,
+ 	.destroy = drm_connector_cleanup,
+ 	.reset = drm_atomic_helper_connector_reset,
++	.set_property = drm_atomic_helper_connector_set_property,
+ 	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+ 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+ };
+diff -Naur ./drivers/gpu/drm/rockchip/rockchip_vop_reg.c ./drivers/gpu/drm/rockchip/rockchip_vop_reg.c
+--- ./drivers/gpu/drm/rockchip/rockchip_vop_reg.c	2020-06-25 07:36:51.000000000 +0200
++++ ./drivers/gpu/drm/rockchip/rockchip_vop_reg.c	2020-11-04 22:47:16.672978396 +0100
+@@ -497,7 +497,7 @@
+ 
+ static const uint32_t vop_csc_y2r_bt601[] = {
+ 	0x00000400, 0x0400059c, 0xfd25fea0, 0x07170400,
+-	0x00000000, 0xfffecab4, 0x00087932, 0xfff1d4f2,
++	0x00000000, 0xfff4cab4, 0x00087932, 0xfff1d4f2,
+ };
+ 
+ static const uint32_t vop_csc_y2r_bt601_12_235[] = {
+@@ -1439,9 +1439,9 @@
+ 
+ static const struct vop_win_data rk3126_vop_win_data[] = {
+ 	{ .base = 0x00, .phy = &rk3036_win0_data,
+-	  .type = DRM_PLANE_TYPE_PRIMARY },
++	  .type = DRM_PLANE_TYPE_OVERLAY },
+ 	{ .base = 0x00, .phy = &rk3126_win1_data,
+-	  .type = DRM_PLANE_TYPE_CURSOR },
++	  .type = DRM_PLANE_TYPE_PRIMARY },
+ };
+ 
+ static const struct vop_data rk3126_vop = {

@@ -1,0 +1,10 @@
+--- ./drivers/net/wireless/rtl8821cu/Makefile	2020-10-25 00:53:19.256019997 +0200
++++ ./drivers/net/wireless/rtl8821cu/Makefile	2020-10-25 01:05:00.061994202 +0200
+@@ -15,6 +15,7 @@
+ EXTRA_CFLAGS += -Wno-unused
+ #EXTRA_CFLAGS += -Wno-uninitialized
+ EXTRA_CFLAGS += -Wno-implicit-fallthrough
++EXTRA_CFLAGS += -Wno-bool-operation
+ 
+ GCC_VER_49 := $(shell echo `$(CC) -dumpversion | cut -f1-2 -d.` \>= 4.9 | bc )
+ ifeq ($(GCC_VER_49),1)

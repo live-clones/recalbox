@@ -1,0 +1,7 @@
+config BR2_PACKAGE_PM_UTILS
+	bool "pm-utils"
+	help
+	  pm-utils is a small collection of scripts that handle suspend
+	  and resume on behalf of HAL.
+
+	  https://pm-utils.freedesktop.org/wiki/

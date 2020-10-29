@@ -45,6 +45,37 @@ xu4_fusing() {
     dd if=/dev/zero of="${RECALBOXIMG}" seek=$env_position count=32 bs=512 conv=notrunc || return 1
 }
 
+# GO2 SD CARD
+#
+# 0s    1           16384  24576    32768     262144
+# +-----+------------+-------+---------+--------+----------+-----------------+
+# | MBR | idbloadder | uboot |  trust  |  BOOT  |  ROOTFS  |     OVERLAY     |
+# +-----+------------+-------+---------+--------+----------+-----------------+
+# 0b 512    ~4M         4M       4M       112M
+#
+# https://wiki.odroid.com/odroid-xu4/software/partition_table
+# https://github.com/hardkernel/u-boot/blob/odroidxu4-v2017.05/sd_fuse/sd_fusing.sh
+#sudo dd if=$IDBLOADER of=$1 conv=fsync bs=512 seek=64
+#sudo dd if=$UBOOT of=$1 conv=fsync bs=512 seek=16384
+#sudo dd if=$TRUST of=$1 conv=fsync bs=512 seek=24576 
+odroidgo2_fusing() {
+    BINARIES_DIR=$1
+    RECALBOXIMG=$2
+
+    # fusing
+    idbloader_position=64
+    uboot_position=16384
+    trust_position=24576
+
+    echo "IDBLOADER fusing"
+    dd if="${BINARIES_DIR}/idbloader.img" of="${RECALBOXIMG}" seek=$idbloader_position conv=notrunc bs=512 || return 1
+
+    echo "uboot fusing"
+    dd if="${BINARIES_DIR}/uboot.img"     of="${RECALBOXIMG}" seek=$uboot_position conv=notrunc bs=512 || return 1
+
+    echo "Trust fusing"
+    dd if="${BINARIES_DIR}/trust.img"     of="${RECALBOXIMG}" seek=$trust_position conv=notrunc bs=512 || return 1
+}
 # $1 boot directory
 generate_boot_file_list() {
   pushd "$1" >/dev/null
@@ -144,6 +175,42 @@ case "${RECALBOX_TARGET}" in
 	rm -f "${BINARIES_DIR}/rootfs.tar" || exit 1
 	rm -f "${BINARIES_DIR}/rootfs.squashfs" || exit 1
 	xu4_fusing "${BINARIES_DIR}" "${RECALBOX_BINARIES_DIR}/recalbox.img" || exit 1
+	sync || exit 1
+	;;
+
+  ODROIDGO2)
+	rm -rf "${BINARIES_DIR}/odroidgo2-firmware" || exit 1
+	mkdir -p "${BINARIES_DIR}/odroidgo2-firmware/boot" || exit 1
+
+	# /boot
+	echo "generating boot"
+	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/odroidgo2/boot.ini" "${BINARIES_DIR}/odroidgo2-firmware/boot.ini" || exit 1
+	cp "${BINARIES_DIR}/rk3326-odroidgo2-linux-v11.dtb" "${BINARIES_DIR}/odroidgo2-firmware" || exit 1
+	cp "${BINARIES_DIR}/rk3326-odroidgo2-linux.dtb" "${BINARIES_DIR}/odroidgo2-firmware" || exit 1
+	cp "${BINARIES_DIR}/recalbox-boot.conf" "${BINARIES_DIR}/odroidgo2-firmware" || exit 1
+	cp "${BINARIES_DIR}/uInitrd" "${BINARIES_DIR}/odroidgo2-firmware/boot/" || exit 1
+	cp "${BINARIES_DIR}/Image" "${BINARIES_DIR}/odroidgo2-firmware/boot/linux" || exit 1
+	cp "${BINARIES_DIR}/rootfs.squashfs" "${BINARIES_DIR}/odroidgo2-firmware/boot/recalbox" || exit 1
+  [[ -f ${BINARIES_DIR}/pre-upgrade.sh ]] && \
+    cp "${BINARIES_DIR}/pre-upgrade.sh" "${BINARIES_DIR}/odroidgo2-firmware/pre-upgrade.sh"
+
+	generate_boot_file_list "${BINARIES_DIR}/odroidgo2-firmware/" | \
+		grep -v -E '^(boot.lst|boot.ini|recalbox-boot.conf)$' >"${BINARIES_DIR}/boot.lst"
+
+	# boot.tar.xz
+	tar -C "${BINARIES_DIR}/odroidgo2-firmware" -cJf "${RECALBOX_BINARIES_DIR}/boot.tar.xz" . ||
+		{ echo "ERROR : unable to create boot.tar.xz" && exit 1 ; }
+
+	# recalbox.img
+	GENIMAGE_TMP="${BUILD_DIR}/genimage.tmp"
+	rm -rf "${GENIMAGE_TMP}" || exit 1
+	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/odroidgo2/genimage.cfg" "${BINARIES_DIR}" || exit 1
+	echo "generating image"
+	genimage --rootpath="${TARGET_DIR}" --inputpath="${BINARIES_DIR}" --outputpath="${RECALBOX_BINARIES_DIR}" --config="${BINARIES_DIR}/genimage.cfg" --tmppath="${GENIMAGE_TMP}" || exit 1
+	rm -f "${RECALBOX_BINARIES_DIR}/boot.vfat" || exit 1
+	rm -f "${BINARIES_DIR}/rootfs.tar" || exit 1
+	rm -f "${BINARIES_DIR}/rootfs.squashfs" || exit 1
+	odroidgo2_fusing "${BINARIES_DIR}" "${RECALBOX_BINARIES_DIR}/recalbox.img" || exit 1
 	sync || exit 1
 	;;
 

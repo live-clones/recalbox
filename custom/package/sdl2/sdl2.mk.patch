@@ -1,5 +1,5 @@
 diff --git a/package/sdl2/sdl2.mk b/package/sdl2/sdl2.mk
-index 9ef721d287..59e7bfd4f7 100644
+index 9ef721d287..f037f7ce18 100644
 --- a/package/sdl2/sdl2.mk
 +++ b/package/sdl2/sdl2.mk
 @@ -4,7 +4,7 @@
@@ -11,7 +11,7 @@ index 9ef721d287..59e7bfd4f7 100644
  SDL2_SOURCE = SDL2-$(SDL2_VERSION).tar.gz
  SDL2_SITE = http://www.libsdl.org/release
  SDL2_LICENSE = Zlib
-@@ -161,4 +161,10 @@ else
+@@ -161,4 +161,15 @@ else
  SDL2_CONF_OPTS += --disable-video-kmsdrm
  endif
  
@@ -19,6 +19,11 @@ index 9ef721d287..59e7bfd4f7 100644
 +  ifeq ($(BR2_PACKAGE_MESA3D_OPENGL_EGL),y)
 +    TARGET_CFLAGS += -DEGL_NO_X11
 +  endif
++endif
++
++# odroid go advance
++ifeq ($(BR2_PACKAGE_LIBRGA),y)
++SDL2_DEPENDENCIES += librga
 +endif
 +
  $(eval $(autotools-package))

@@ -1,0 +1,18 @@
+--- uboot-odroidgo2-odroidgoA-v2017.09/make.sh	2020-10-13 05:55:45.000000000 +0200
++++ uboot-odroidgo2-odroidgoA-v2017.09.patched/make.sh	2020-10-28 21:25:01.889007688 +0100
+@@ -36,15 +36,10 @@
+ 
+ # User's GCC toolchain and relative path
+ ADDR2LINE_ARM32=arm-linux-gnueabihf-addr2line
+-ADDR2LINE_ARM64=aarch64-linux-gnu-addr2line
+ OBJ_ARM32=arm-linux-gnueabihf-objdump
+-OBJ_ARM64=aarch64-linux-gnu-objdump
+ GCC_ARM32=arm-linux-gnueabihf-
+-GCC_ARM64=aarch64-linux-gnu-
+ TOOLCHAIN_ARM32=../prebuilts/gcc/linux-x86/arm/gcc-linaro-6.3.1-2017.05-x86_64_arm-linux-gnueabihf/bin
+-TOOLCHAIN_ARM64=../prebuilts/gcc/linux-x86/aarch64/gcc-linaro-6.3.1-2017.05-x86_64_aarch64-linux-gnu/bin
+ TOOLCHAIN_ARM32_OPT=/opt/toolchains/gcc-linaro-6.3.1-2017.05-x86_64_arm-linux-gnueabihf/bin
+-TOOLCHAIN_ARM64_OPT=/opt/toolchains/gcc-linaro-6.3.1-2017.05-x86_64_aarch64-linux-gnu/bin
+ 
+ ########################################### User not touch #############################################
+ BIN_PATH_FIXUP="--replace tools/rk_tools/ ./"

@@ -1,0 +1,7 @@
+config BR2_PACKAGE_LIBRGA
+	bool "librga"
+	select BR2_PACKAGE_LIBDRM
+	help
+	  librga - Userspace interface to Rockchip RGA 2D accelerator
+
+	  https://github.com/rockchip-linux/linux-rga

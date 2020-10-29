@@ -1,0 +1,26 @@
+--- ./Makefile	2020-11-04 00:03:21.787935986 +0100
++++ ./Makefile	2020-11-04 00:06:46.950701352 +0100
+@@ -105,6 +105,23 @@
+    CFLAGS += -march=armv8-a
+    LDFLAGS += -static-libgcc -static-libstdc++
+ 
++else ifeq ($(platform), odroidgo2)
++   TARGET := $(TARGET_NAME)_libretro.so
++   fpic := -fPIC
++   LDFLAGS := -mcpu=cortex-a35 -flto=16 -fuse-linker-plugin -fprofile-use \
++		 -fprofile-dir=/tmp -shared -Wl,--version-script=$(CORE_DIR)/libretro/link.T  -Wl,--no-undefined
++   CFLAGS += -march=armv8-a+crc+simd -mtune=cortex-a35 -mcpu=cortex-a35 \
++						 -Ofast -pipe -fno-plt -fdata-sections -ffunction-sections \
++						 -Wl,--gc-sections -fno-stack-protector -fno-ident \
++						 -fomit-frame-pointer -fmerge-all-constants -fno-math-errno \
++						 -Wl,--gc-sections -falign-functions=1 -falign-jumps=1 \
++						 -falign-loops=1 -fno-unwind-tables -fno-asynchronous-unwind-tables \
++						 -fno-unroll-loops -fmerge-all-constants -frename-registers \
++						 -funsafe-math-optimizations -ftree-vectorize -flto=16 -fuse-linker-plugin
++   CXXFLAGS += $(CFLAGS)
++   CPPFLAGS += $(CFLAGS)
++   ASFLAGS += $(CFLAGS)
++
+ #######################################
+ # CTR (3DS)
+ else ifeq ($(platform), ctr)
