@@ -44,6 +44,7 @@ set(CORE_HEADERS
 		src/audio/alsa/AlsaVolume.h
 		src/audio/alsa/NameFiltering.h
 		src/audio/alsa/Raspberry.h
+		src/audio/alsa/OdroidAdvanceGo2.h
 
 		# Utils
 		src/utils/cplusplus/StaticLifeCycleControler.h
@@ -179,6 +180,7 @@ set(CORE_SOURCES
 		src/audio/alsa/AlsaVolume.cpp
 		src/audio/alsa/NameFiltering.cpp
 		src/audio/alsa/Raspberry.cpp
+		src/audio/alsa/OdroidAdvanceGo2.cpp
 
 		# Utils
 		src/utils/os/system/Thread.cpp

@@ -13,10 +13,7 @@ class Raspberry
       HDMI = 2,       //!< HDMI
     };
 
-    //! Constructor
-    Raspberry();
-
     //! Route sound to the given output
-    void SetRoute(Output output);
+    static void SetRoute(Output output);
 };
 

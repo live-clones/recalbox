@@ -62,10 +62,22 @@ void AlsaController::Initialize()
           LOG(LogDebug) << "  Mixer control (Volume) '" << snd_mixer_selem_id_get_name(sid) << "'," << snd_mixer_selem_id_get_index(sid);
           card.AddVolumeControl(AlsaVolume((int) snd_mixer_selem_id_get_index(sid), snd_mixer_selem_id_get_name(sid), cardNum));
         }
-        if (snd_mixer_selem_has_playback_switch(elem) != 0)
+        else if (snd_mixer_selem_has_playback_switch(elem) != 0)
         {
           LOG(LogDebug) << "  Mixer control (Switch) '" << snd_mixer_selem_id_get_name(sid) << "'," << snd_mixer_selem_id_get_index(sid);
           card.AddSwitch(AlsaSwitch((int) snd_mixer_selem_id_get_index(sid), snd_mixer_selem_id_get_name(sid), cardNum));
+        }
+        else
+        {
+          if (Board::GetBoardType() == Board::BoardType::OdroidAdvanceGo2)
+            if (snd_mixer_selem_is_enumerated(elem) != 0)
+              if (strcmp(snd_mixer_selem_id_get_name(sid), "Playback Path") == 0)
+              {
+                LOG(LogDebug) << "  Odroid Advance Go2's Path selector detected '" << snd_mixer_selem_id_get_name(sid) << "'," << snd_mixer_selem_id_get_index(sid);
+                card.AddOdroidAdvanceGo2Router(OdroidAdvanceGo2((int) snd_mixer_selem_id_get_index(sid), snd_mixer_selem_id_get_name(sid), cardNum));
+                continue;
+              }
+          LOG(LogDebug) << "  Ignored '" << snd_mixer_selem_id_get_name(sid) << "'," << snd_mixer_selem_id_get_index(sid);
         }
       }
 
@@ -107,7 +119,14 @@ void AlsaController::Initialize()
             LOG(LogDebug) << "      Subdevice " << subd << ", name `" << snd_pcm_info_get_subdevice_name(pcminfo) << "`";
         }
 
-        card.AddDevice(AlsaDevice(devNum, snd_pcm_info_get_name(pcminfo), (int)nsubd));
+        if (Board::GetBoardType() == Board::BoardType::OdroidAdvanceGo2)
+        {
+          card.AddDevice(AlsaDevice((int)OdroidAdvanceGo2::OutputPath::Off, "Mute (no sound)", 0));
+          card.AddDevice(AlsaDevice((int)OdroidAdvanceGo2::OutputPath::Speaker, "Internal Speakers", 0));
+          card.AddDevice(AlsaDevice((int)OdroidAdvanceGo2::OutputPath::Headphone, "Headphone Jack", 0));
+          card.AddDevice(AlsaDevice((int)OdroidAdvanceGo2::OutputPath::Both, "Internal Speakers + Headphone Jack", 0));
+        }
+        else card.AddDevice(AlsaDevice(devNum, snd_pcm_info_get_name(pcminfo), (int)nsubd));
       }
 
       // Add card and all its stuff :)
@@ -130,18 +149,27 @@ HashMap<int, std::string> AlsaController::GetPlaybackList() const
   result[-1] = sDefaultOutput;
   for(const AlsaCard& playback : mPlaybacks)
   {
-    int cardIndex = playback.Identifier() << 16 | 0xFFFF;
-    if (!playback.Name().empty())
-      result[cardIndex] = playback.Name() + " (default output)";
-    for(int i = playback.DeviceCount(); --i >= 0; )
+    if (Board::GetBoardType() == Board::BoardType::OdroidAdvanceGo2)
     {
-      int cardDeviceIndex = (playback.Identifier() << 16) | playback.DeviceAt(i).Identifier();
-      if (playback.Name() != playback.DeviceAt(i).Name() && !playback.Name().empty())
-        // Complete form "Card (Device)"
-        result[cardDeviceIndex] = playback.Name() + " (" + playback.DeviceAt(i).Name()+ ')';
-      else
-        // Simplified form "Card"
-        result[cardDeviceIndex] = playback.DeviceAt(i).Name();
+      result.erase(-1);
+      for (int i = playback.DeviceCount(); --i >= 0;)
+        result[playback.DeviceAt(i).Identifier()] = playback.DeviceAt(i).Name();
+    }
+    else
+    {
+      int cardIndex = playback.Identifier() << 16 | 0xFFFF;
+      if (!playback.Name().empty())
+        result[cardIndex] = playback.Name() + " (default output)";
+      for (int i = playback.DeviceCount(); --i >= 0;)
+      {
+        int cardDeviceIndex = (playback.Identifier() << 16) | playback.DeviceAt(i).Identifier();
+        if (playback.Name() != playback.DeviceAt(i).Name() && !playback.Name().empty())
+          // Complete form "Card (Device)"
+          result[cardDeviceIndex] = playback.Name() + " (" + playback.DeviceAt(i).Name() + ')';
+        else
+          // Simplified form "Card"
+          result[cardDeviceIndex] = playback.DeviceAt(i).Name();
+      }
     }
   }
 
@@ -232,6 +260,13 @@ void AlsaController::SetDefaultPlayback(int identifier)
     "        card {@CARD@}\n" \
     "}\n";
 
+  // Odroid Advance go 2 patch
+  if (Board::GetBoardType() == Board::BoardType::OdroidAdvanceGo2)
+  {
+    mPlaybacks[0].OdroidAdvanceGo2Router()->Route((OdroidAdvanceGo2::OutputPath)identifier);
+    return;
+  }
+
   // Default card & device - Let ALSA deciding
   if (identifier == -1)
   {
@@ -271,8 +306,8 @@ void AlsaController::SetDefaultPlayback(int identifier)
       case Board::BoardType::Pi3:
       case Board::BoardType::Pi3plus:
       {
-        Raspberry hack;
-        hack.SetRoute(deviceIndex == 0 ? Raspberry::Output::Headphones : Raspberry::Output::HDMI);
+        Raspberry::SetRoute(deviceIndex == 0 ? Raspberry::Output::Headphones : Raspberry::Output::HDMI);
+        break;
       }
       case Board::BoardType::UndetectedYet:
       case Board::BoardType::Unknown:

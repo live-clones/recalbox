@@ -9,15 +9,17 @@
 #include "NameFiltering.h"
 #include "AlsaVolume.h"
 #include "AlsaSwitch.h"
+#include "OdroidAdvanceGo2.h"
 
 class AlsaCard
 {
   private:
-    int mCardIdentifier;               //!< Card identifier/index in ALSA
-    std::string mCardName;             //!< Displayable Card name
-    std::vector<AlsaVolume> mVolumes;  //!< Available mixers for volume control
-    std::vector<AlsaSwitch> mSwitches; //!< Available mixers for switching output on/off
-    std::vector<AlsaDevice> mDevices;  //!< Device list
+    int mCardIdentifier;                //!< Card identifier/index in ALSA
+    std::string mCardName;              //!< Displayable Card name
+    std::vector<AlsaVolume> mVolumes;   //!< Available mixers for volume control
+    std::vector<AlsaSwitch> mSwitches;  //!< Available mixers for switching output on/off
+    std::vector<AlsaMixer>  mRawMixers; //!< Raw mixer objects
+    std::vector<AlsaDevice> mDevices;   //!< Device list
 
   public:
     /*!
@@ -35,6 +37,8 @@ class AlsaCard
     void AddVolumeControl(const AlsaVolume& mixer) { mVolumes.push_back(mixer); }
     //! Add a new mixer to the mixer list attached to the current card
     void AddSwitch(const AlsaSwitch& mixer) { mSwitches.push_back(mixer); }
+    //! Add a new mixer to the mixer list attached to the current card
+    void AddOdroidAdvanceGo2Router(const OdroidAdvanceGo2& mixer) { mRawMixers.push_back(mixer); }
 
     //! Add a new device to the device list attached to the current card
     void AddDevice(const AlsaDevice& device) { mDevices.push_back(device); }
@@ -53,6 +57,9 @@ class AlsaCard
     int SwitchesCount() const { return mSwitches.size(); }
     //! Get switch reference at position index (from 0 to SwitchCount()-1)
     const AlsaSwitch& SwitchAt(int index) const { return mSwitches[index]; }
+
+    //! Get Odroid Router
+    OdroidAdvanceGo2* OdroidAdvanceGo2Router() const;
 
     //! Get device count
     int DeviceCount() const { return mDevices.size(); }

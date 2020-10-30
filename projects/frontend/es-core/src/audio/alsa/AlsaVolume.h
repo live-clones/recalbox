@@ -4,8 +4,6 @@
 #pragma once
 
 #include <string>
-#include <alsa/asoundlib.h>
-#include "NameFiltering.h"
 #include "AlsaMixer.h"
 
 class AlsaVolume : public AlsaMixer
@@ -13,7 +11,7 @@ class AlsaVolume : public AlsaMixer
   public:
     //! Default constructor
     AlsaVolume(int id, const std::string& name, int cardReference)
-      : AlsaMixer(id, name, cardReference)
+      : AlsaMixer(id, name, cardReference, MixerType::Volume)
     {
     }
 

@@ -6,10 +6,6 @@
 #include <alsa/asoundlib.h>
 #include <utils/Log.h>
 
-Raspberry::Raspberry()
-{
-}
-
 void Raspberry::SetRoute(Raspberry::Output output)
 {
   int err = 0;

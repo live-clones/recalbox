@@ -2,9 +2,6 @@
 // Created by bkg2k on 13/08/2020.
 //
 
-#include <utils/math/Misc.h>
-#include <utils/Log.h>
-#include "AlsaMixer.h"
 #include "AlsaSwitch.h"
 
 #include <alsa/asoundlib.h>
