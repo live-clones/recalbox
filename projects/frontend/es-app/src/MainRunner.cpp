@@ -46,6 +46,9 @@ MainRunner::ExitState MainRunner::Run()
 {
   try
   {
+    // Save power for battery-powered devices
+    Board::SetCPUGovernance(Board::CPUGovernance::PowerSave);
+
     // Audio controller
     AudioController audioController;
     audioController.SetVolume(audioController.GetVolume());
@@ -78,6 +81,9 @@ MainRunner::ExitState MainRunner::Run()
       LOG(LogError) << "Window failed to initialize!";
       return ExitState::FatalError;
     }
+    // Brightness
+    if (Board::BrightnessSupport())
+      Board::SetBrightness(RecalboxConf::Instance().AsInt("emulationstation.brightness", 7));
 
     // Initialize audio manager
     AudioManager audioManager(window);

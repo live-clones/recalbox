@@ -11,9 +11,10 @@
 #define TITLE_HEIGHT (mTitle->getFont()->getLetterHeight() + TITLE_VERT_PADDING)
 
 MenuComponent::MenuComponent(Window&window, const std::string& title, const std::shared_ptr<Font>& titleFont)
-  : Component(window),
-    mBackground(window),
-    mGrid(window, Vector2i(1, 3))
+  : Component(window)
+  , mBackground(window)
+  , mGrid(window, Vector2i(1, 3))
+  , mTimeAccumulator(0)
 {
   (void)titleFont;
 
@@ -35,45 +36,38 @@ MenuComponent::MenuComponent(Window&window, const std::string& title, const std:
 
 	mGrid.setEntry(mTitle, Vector2i(0, 0), false);
 
-	//if (title == _("MAIN MENU") )
-	{
-		auto headerGrid = std::make_shared<ComponentGrid>(mWindow, Vector2i(5, 1));
-    headerGrid->setColWidthPerc(0, 0.02);
-    headerGrid->setColWidthPerc(4, 0.02);
+  auto headerGrid = std::make_shared<ComponentGrid>(mWindow, Vector2i(5, 1));
+  headerGrid->setColWidthPerc(0, 0.02);
+  headerGrid->setColWidthPerc(4, 0.02);
 
-		std::string arch = Settings::Instance().Arch();
-		int batteryCharge = 0;
-		int batteryIcon = 0;
-    if (RecalboxSystem::getSysBatteryInfo(batteryCharge, batteryIcon))
-    {
-      auto batDisplay = std::make_shared<TextComponent>(mWindow);
-      batDisplay->setFont(menuTheme->menuText.font);
-      if (batteryCharge <= 15)
-        batDisplay->setColor(0xFF0000FF);
-      else
-        batDisplay->setColor(menuTheme->menuText.color);
-      batDisplay->setText(' ' + Strings::unicode2Chars(batteryIcon) + ' ' + Strings::ToString(batteryCharge) + '%');
-      batDisplay->setHorizontalAlignment(TextAlignment::Left);
-      headerGrid->setEntry(batDisplay, Vector2i(1, 0), false);
-    }
+  int batteryCharge = 0;
+  int batteryIcon = 0;
+  if (RecalboxSystem::getSysBatteryInfo(batteryCharge, batteryIcon))
+  {
+    mBattery = std::make_shared<TextComponent>(mWindow);
+    mBattery->setFont(menuTheme->menuText.font);
+    if (batteryCharge <= 15) mBattery->setColor(0xFF0000FF);
+    else                     mBattery->setColor(menuTheme->menuText.color);
+    mBattery->setText(' ' + Strings::unicode2Chars(batteryIcon) + ' ' + Strings::ToString(batteryCharge) + '%');
+    mBattery->setHorizontalAlignment(TextAlignment::Left);
+    headerGrid->setEntry(mBattery, Vector2i(1, 0), false);
+  }
 
-		if (Settings::Instance().ShowClock()) {
+  if (Settings::Instance().ShowClock())
+  {
+    mDateTime = std::make_shared<DateTimeComponent>(mWindow);
+    mDateTime->setDisplayMode(DateTimeComponent::Display::RealTime);
+    mDateTime->setHorizontalAlignment(TextAlignment::Right);
+    mDateTime->setFont(menuTheme->menuText.font);
+    mDateTime->setColor(menuTheme->menuText.color);
+    headerGrid->setEntry(mDateTime, Vector2i(3, 0), false);
+  }
 
-			mDateTime = std::make_shared<DateTimeComponent>(mWindow);
-			mDateTime->setDisplayMode(DateTimeComponent::Display::RealTime);
-			mDateTime->setHorizontalAlignment(TextAlignment::Right);
-			mDateTime->setFont(menuTheme->menuText.font);
-			mDateTime->setColor(menuTheme->menuText.color);
-			headerGrid->setEntry(mDateTime, Vector2i(3, 0), false);
-		}
+  mGrid.setEntry(headerGrid, Vector2i(0, 0), false);
 
-		mGrid.setEntry(headerGrid, Vector2i(0, 0), false);
-	}
-
-
-    // set up list which will never change (externally, anyway)
-    mList = std::make_shared<ComponentList>(mWindow);
-    mGrid.setEntry(mList, Vector2i(0, 1), true);
+  // set up list which will never change (externally, anyway)
+  mList = std::make_shared<ComponentList>(mWindow);
+  mGrid.setEntry(mList, Vector2i(0, 1), true);
 
     /*mGrid.setUnhandledInputCallback([this](const InputCompactEvent& event) -> bool {
         if (event.DownPressed()) {
@@ -93,10 +87,28 @@ MenuComponent::MenuComponent(Window&window, const std::string& title, const std:
         return false;
     });*/
 
-    updateGrid();
-    updateSize();
+  updateGrid();
+  updateSize();
 
-    mGrid.resetCursor();
+  mGrid.resetCursor();
+}
+
+void MenuComponent::Update(int deltaTime)
+{
+  // Refresh every 2s
+  if ((mTimeAccumulator += deltaTime) > 2000)
+  {
+    int batteryCharge = 0;
+    int batteryIcon = 0;
+    if (RecalboxSystem::getSysBatteryInfo(batteryCharge, batteryIcon))
+    {
+      auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+      if (batteryCharge <= 15) mBattery->setColor(0xFF0000FF);
+      else mBattery->setColor(menuTheme->menuText.color);
+      mBattery->setText(' ' + Strings::unicode2Chars(batteryIcon) + ' ' + Strings::ToString(batteryCharge) + '%');
+    }
+    mTimeAccumulator -= 2000;
+  }
 }
 
 bool MenuComponent::ProcessInput(const InputCompactEvent& event)

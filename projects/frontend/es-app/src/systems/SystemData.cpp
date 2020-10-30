@@ -118,7 +118,9 @@ void SystemData::RunGame(Window& window,
       command.append(" -verbose");
 
     printf("==============================================\n");
-    int exitCode = WEXITSTATUS(runSystemCommand(command, debug));
+    Board::SetCPUGovernance(Board::CPUGovernance::FullSpeed);
+    int exitCode = WEXITSTATUS(Board::Run(command, debug));
+    Board::SetCPUGovernance(Board::CPUGovernance::PowerSave);
     printf("==============================================\n");
     if (exitCode != 0)
       LOG(LogWarning) << "...launch terminated with nonzero exit code " << exitCode << "!";
@@ -195,7 +197,9 @@ SystemData::DemoRunGame(const FileData& game, const EmulatorData& emulator, int 
 
   LOG(LogInfo) << "Demo command: " << command;
   NotificationManager::Instance().Notify(game, Notification::RunDemo);
-  int exitCode = WEXITSTATUS(runSystemCommand(command, debug));
+  Board::SetCPUGovernance(Board::CPUGovernance::FullSpeed);
+  int exitCode = WEXITSTATUS(Board::Run(command, debug));
+  Board::SetCPUGovernance(Board::CPUGovernance::PowerSave);
   NotificationManager::Instance().Notify(game, Notification::EndDemo);
   LOG(LogInfo) << "Demo exit code :	" << exitCode;
 

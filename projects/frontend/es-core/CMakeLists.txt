@@ -15,7 +15,7 @@ set(CORE_HEADERS
 		src/input/OrderedDevices.h
 		src/utils/Log.h
 		src/utils/locale/LocaleHelper.h
-		src/platform.h
+        src/Board.h
 		src/Renderer.h
 		src/Settings.h
 		src/RootFolders.h
@@ -154,7 +154,7 @@ set(CORE_SOURCES
 		src/input/InputManager.cpp
 		src/input/InputStack.cpp
 		src/utils/Log.cpp
-		src/platform.cpp
+        src/Board.cpp
 		src/Renderer.cpp
 		src/Settings.cpp
 		src/RootFolders.cpp

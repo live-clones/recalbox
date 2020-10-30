@@ -1,9 +1,9 @@
-#include <platform.h>
+#include <Board.h>
 #include <cstring>
 #include <utils/Log.h>
 #include <utils/Files.h>
 
-int runSystemCommand(const std::string& cmd_utf8, bool debug)
+int Board::Run(const std::string& cmd_utf8, bool debug)
 {
   static std::string output("/recalbox/share/system/logs/es_launch_stdout.log");
   static std::string outerr("/recalbox/share/system/logs/es_launch_stderr.log");
@@ -55,7 +55,7 @@ int runSystemCommand(const std::string& cmd_utf8, bool debug)
   return exitcode;
 }
 
-BoardGeneration extractGeneration(unsigned int revision)
+Board::BoardType Board::GetPiModel(unsigned int revision)
 {
   // Split - uuuuuuuuFMMMCCCCPPPPTTTTTTTTRRRR
   bool newGeneration  = ((revision >> 23) & 1) != 0;
@@ -67,30 +67,30 @@ BoardGeneration extractGeneration(unsigned int revision)
 
   // Old revision numbering
   if (!newGeneration)
-    return BoardGeneration::Pi1;
+    return BoardType::Pi1;
 
   // New models
   switch ((RaspberryModel)model)
   {
     case RaspberryModel::Zero:
-    case RaspberryModel::ZeroW: return BoardGeneration::Pi0;
+    case RaspberryModel::ZeroW: return BoardType::Pi0;
     case RaspberryModel::OneA:
     case RaspberryModel::OneAPlus:
     case RaspberryModel::OneB:
     case RaspberryModel::OneBPlus:
-    case RaspberryModel::OneCM1: return BoardGeneration::Pi1;
-    case RaspberryModel::TwoB: return BoardGeneration::Pi2;
+    case RaspberryModel::OneCM1: return BoardType::Pi1;
+    case RaspberryModel::TwoB: return BoardType::Pi2;
     case RaspberryModel::TreeB:
-    case RaspberryModel::TreeCM3: return BoardGeneration::Pi3;
+    case RaspberryModel::TreeCM3: return BoardType::Pi3;
     case RaspberryModel::TreeBPlus:
     case RaspberryModel::TreeCM3Plus:
-    case RaspberryModel::TreeAPlus: return BoardGeneration::Pi3plus;
-    case RaspberryModel::FourB: return BoardGeneration::Pi4;
+    case RaspberryModel::TreeAPlus: return BoardType::Pi3plus;
+    case RaspberryModel::FourB: return BoardType::Pi4;
     case RaspberryModel::Alpha:
     default: break;
   }
 
-  return BoardGeneration::UnknownPi;
+  return BoardType::UnknownPi;
 }
 
 #define CPU_INFO_FILE   "/proc/cpuinfo"
@@ -99,14 +99,14 @@ BoardGeneration extractGeneration(unsigned int revision)
 
 #define SizeLitteral(x) (sizeof(x) - 1)
 
-BoardGeneration getHardwareBoardVersion()
+Board::BoardType Board::GetBoardType()
 {
-  static BoardGeneration version = BoardGeneration::UndetectedYet;
+  static BoardType version = BoardType::UndetectedYet;
   std::string hardware;
 
-  if (version == BoardGeneration::UndetectedYet)
+  if (version == BoardType::UndetectedYet)
   {
-    version = BoardGeneration::Unknown;
+    version = BoardType::Unknown;
 
     FILE* f = fopen(CPU_INFO_FILE, "r");
     if (f != nullptr)
@@ -136,12 +136,12 @@ BoardGeneration getHardwareBoardVersion()
             if (hardware == "BCM2835")
             {
               LOG(LogInfo) << "Pi revision " << (colon + 2);
-              version = extractGeneration(revision);
+              version = GetPiModel(revision);
             }
             if (hardware == "Hardkernel ODROID-GO2")
             {
               LOG(LogInfo) << "Odroid Advance Go 2 revision " << (colon + 2);
-              version = BoardGeneration::OdroidAdvanceGo2;
+              version = BoardType::OdroidAdvanceGo2;
             }
           }
         }
@@ -151,4 +151,82 @@ BoardGeneration getHardwareBoardVersion()
   }
 
   return version;
+}
+
+void Board::SetBrightness(int step)
+{
+  if (step < 0) step = 0;
+  if (step > 8) step = 8;
+  switch(GetBoardType())
+  {
+    case BoardType::OdroidAdvanceGo2:
+    {
+      LOG(LogInfo) << "[Backlight] Set brightness to step " << step;
+      int value = 1 << step; if (value > 255) value = 255;
+      Files::SaveFile(Path("/sys/class/backlight/backlight/brightness"), Strings::ToString(value));
+      break;
+    }
+    case BoardType::UndetectedYet:
+    case BoardType::Unknown:
+    case BoardType::Pi0:
+    case BoardType::Pi1:
+    case BoardType::Pi2:
+    case BoardType::Pi3:
+    case BoardType::Pi3plus:
+    case BoardType::Pi4:
+    case BoardType::UnknownPi:
+    default: break;
+  }
+}
+
+bool Board::HasBattery()
+{
+  static bool sHasBattery = Path("/sys/class/power_supply/BAT0/capacity").Exists() ||
+                            Path("/sys/class/power_supply/battery/capacity").Exists();
+
+  return sHasBattery;
+}
+
+int Board::GetBatteryChargePercent()
+{
+  if (!HasBattery()) return -1;
+
+  static Path sBatteryCharge = Path("/sys/class/power_supply/BAT0/capacity").Exists()
+                             ? Path("/sys/class/power_supply/BAT0/capacity")
+                             : Path("/sys/class/power_supply/battery/capacity");
+
+  int charge = -1;
+  Strings::ToInt(Strings::Trim(Files::LoadFile(sBatteryCharge), "\n"), charge);
+  return charge;
+}
+
+bool Board::IsBatteryCharging()
+{
+  if (!HasBattery()) return false;
+
+  static Path sBatteryStatus = Path("/sys/class/power_supply/BAT0/status").Exists()
+                               ? Path("/sys/class/power_supply/BAT0/status")
+                               : Path("/sys/class/power_supply/battery/status");
+
+  return Strings::Trim(Files::LoadFile(sBatteryStatus), "\n") == "Charging";
+}
+
+void Board::SetCPUGovernance(Board::CPUGovernance cpuGovernance)
+{
+  if (!HasBattery()) return;
+
+  switch (cpuGovernance)
+  {
+    case CPUGovernance::PowerSave:
+    {
+      Files::SaveFile(Path("/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor"), "powersave");
+      break;
+    }
+    case CPUGovernance::FullSpeed:
+    {
+      Files::SaveFile(Path("/sys/class/backlight/backlight/brightness"), "ondemand");
+      break;
+    }
+    default: break;
+  }
 }

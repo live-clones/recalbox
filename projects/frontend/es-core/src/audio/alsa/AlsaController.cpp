@@ -8,7 +8,7 @@
 #include <utils/math/Misc.h>
 #include "AlsaController.h"
 #include <audio/alsa/Raspberry.h>
-#include <platform.h>
+#include <Board.h>
 
 void AlsaController::Initialize()
 {
@@ -264,21 +264,22 @@ void AlsaController::SetDefaultPlayback(int identifier)
     LOG(LogInfo) << "ALSA output set to Card #" << cardIdentifier << " (index: " << cardIndex << ") Device #" << deviceIdentifier << " 'index: " << deviceIndex << ')';
 
     // Raspberry Pi hack
-    switch(getHardwareBoardVersion())
+    switch(Board::GetBoardType())
     {
-      case BoardGeneration::Pi1:
-      case BoardGeneration::Pi2:
-      case BoardGeneration::Pi3:
-      case BoardGeneration::Pi3plus:
+      case Board::BoardType::Pi1:
+      case Board::BoardType::Pi2:
+      case Board::BoardType::Pi3:
+      case Board::BoardType::Pi3plus:
       {
         Raspberry hack;
         hack.SetRoute(deviceIndex == 0 ? Raspberry::Output::Headphones : Raspberry::Output::HDMI);
       }
-      case BoardGeneration::UndetectedYet:
-      case BoardGeneration::Unknown:
-      case BoardGeneration::Pi0:
-      case BoardGeneration::Pi4:
-      case BoardGeneration::UnknownPi:
+      case Board::BoardType::UndetectedYet:
+      case Board::BoardType::Unknown:
+      case Board::BoardType::Pi0:
+      case Board::BoardType::Pi4:
+      case Board::BoardType::UnknownPi:
+      case Board::BoardType::OdroidAdvanceGo2:
       default: break;
     }
   }

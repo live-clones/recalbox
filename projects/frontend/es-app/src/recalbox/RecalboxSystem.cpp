@@ -439,20 +439,12 @@ std::pair<std::string, int> RecalboxSystem::getSDLBatteryInfo()
 
 bool RecalboxSystem::getSysBatteryInfo(int& charge, int& unicodeIcon)
 {
-  Path batteryCapacity("/sys/class/power_supply/BAT0/capacity");
-  Path batteryStatus("/sys/class/power_supply/BAT0/status");
-  if (!batteryCapacity.Exists())
-  {
-    batteryCapacity = "/sys/class/power_supply/battery/capacity";
-    batteryStatus = "/sys/class/power_supply/battery/status";
-    if (!batteryCapacity.Exists()) return false;
-  }
+  if (!Board::HasBattery()) return false;
 
-  Strings::ToInt(Strings::Trim(Files::LoadFile(batteryCapacity), "\n"), charge);
-  std::string status = Strings::Trim(Files::LoadFile(batteryStatus), "\n");
+  charge = Board::GetBatteryChargePercent();
 
   unicodeIcon = 0xf1b4;
-  if (status == "Discharging")
+  if (!Board::IsBatteryCharging())
   {
     if (charge > 66)      unicodeIcon = 0xF1ba;
     else if (charge > 33) unicodeIcon = 0xF1b8;
