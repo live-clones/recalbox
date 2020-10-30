@@ -75,6 +75,12 @@ class Board
     static void SetBrightness(int step);
 
     /*!
+     * @brief Set lowerst brightness available or even switch off the screen
+     * @param step Step value from 0 to 8
+     */
+    static void SetLowestBrightness();
+
+    /*!
      * @brief Check if the current board has battery
      * @return
      */

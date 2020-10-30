@@ -221,7 +221,6 @@ void ComponentList::Render(const Transform4x4f& parentTrans)
 		auto& entry = mEntries[mCursor];
 		for (auto& element : entry.data.elements)
 		{
-
 			element.component->setColor(selectedColor);
 			drawAfterCursor.push_back(element.component.get());
 		}

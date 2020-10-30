@@ -784,8 +784,11 @@ void GuiMenu::menuUISettings()
     brightness->setSlider((float)RecalboxConf::Instance().AsInt("emulationstation.brightness", 7));
     brightness->setSelectedChangedCallback([](const float& newVal)
     {
-      RecalboxConf::Instance().SetInt("emulationstation.brightness", (int)newVal);
-      Board::SetBrightness((int)newVal);
+      if ((float)RecalboxConf::Instance().AsInt("emulationstation.brightness", 7) != newVal)
+      {
+        RecalboxConf::Instance().SetInt("emulationstation.brightness", (int) newVal);
+        Board::SetBrightness((int) newVal);
+      }
     });
     s->addWithLabel(brightness, _("BRIGHTNESS"));
   }

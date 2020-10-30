@@ -102,6 +102,8 @@ class Window
 
     static void renderScreenSaver();
 
+    static void exitScreenSaver();
+
     static bool KonamiCode(const InputCompactEvent& input);
 
     HelpComponent mHelp;

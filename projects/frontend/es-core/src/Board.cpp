@@ -153,6 +153,30 @@ Board::BoardType Board::GetBoardType()
   return version;
 }
 
+
+void Board::SetLowestBrightness()
+{
+  switch(GetBoardType())
+  {
+    case BoardType::OdroidAdvanceGo2:
+    {
+      LOG(LogInfo) << "[Backlight] Set lowest brightness";
+      Files::SaveFile(Path("/sys/class/backlight/backlight/brightness"), "0");
+      break;
+    }
+    case BoardType::UndetectedYet:
+    case BoardType::Unknown:
+    case BoardType::Pi0:
+    case BoardType::Pi1:
+    case BoardType::Pi2:
+    case BoardType::Pi3:
+    case BoardType::Pi3plus:
+    case BoardType::Pi4:
+    case BoardType::UnknownPi:
+    default: break;
+  }
+}
+
 void Board::SetBrightness(int step)
 {
   if (step < 0) step = 0;
@@ -219,11 +243,13 @@ void Board::SetCPUGovernance(Board::CPUGovernance cpuGovernance)
   {
     case CPUGovernance::PowerSave:
     {
+      LOG(LogInfo) << "[CPU] Set powersaving on";
       Files::SaveFile(Path("/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor"), "powersave");
       break;
     }
     case CPUGovernance::FullSpeed:
     {
+      LOG(LogInfo) << "[CPU] Set dynamic mode on";
       Files::SaveFile(Path("/sys/class/backlight/backlight/brightness"), "ondemand");
       break;
     }

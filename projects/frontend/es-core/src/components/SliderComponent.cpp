@@ -95,19 +95,21 @@ void SliderComponent::Render(const Transform4x4f& parentTrans)
 
 void SliderComponent::setSlider(float value)
 {
-	mValue = value;
-	if(mValue < mMin)
-		mValue = mMin;
-	else if(mValue > mMax)
-		mValue = mMax;
-
-	onValueChanged();
+  if (mValue != value)
+  {
+    mValue = Math::clamp(value, mMin, mMax);
+    onValueChanged();
+  }
 }
 
-void SliderComponent::setColor(unsigned int color) {
-	mColor = color;
-	mKnob.setColorShift(mColor);
-	onValueChanged();
+void SliderComponent::setColor(unsigned int color)
+{
+  if (color != mColor)
+  {
+    mColor = color;
+    mKnob.setColorShift(mColor);
+    onValueChanged();
+  }
 }
 
 void SliderComponent::onSizeChanged()

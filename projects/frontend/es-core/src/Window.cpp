@@ -290,11 +290,34 @@ bool Window::isProcessing()
   return false;
 }
 
+void Window::exitScreenSaver()
+{
+  if (Board::BrightnessSupport())
+  {
+    int brightness = RecalboxConf::Instance().AsInt("emulationstation.brightness", 7);
+    Board::SetBrightness(brightness);
+  }
+}
+
 void Window::renderScreenSaver()
 {
-  Renderer::setMatrix(Transform4x4f::Identity());
-  unsigned char opacity = Settings::Instance().ScreenSaverBehavior() == "dim" ? 0xA0 : 0xFF;
-  Renderer::drawRect(0, 0, Renderer::getDisplayWidthAsInt(), Renderer::getDisplayHeightAsInt(), 0x00000000 | opacity);
+  if (Board::BrightnessSupport())
+  {
+    int brightness = RecalboxConf::Instance().AsInt("emulationstation.brightness", 7);
+    std::string screenSaver = Settings::Instance().ScreenSaverBehavior();
+    if (screenSaver == "black") Board::SetLowestBrightness();
+    else if (screenSaver == "dim")
+    {
+      if ((brightness >>= 1) < 2) brightness = 2;
+      Board::SetBrightness(brightness);
+    }
+  }
+  else
+  {
+    Renderer::setMatrix(Transform4x4f::Identity());
+    unsigned char opacity = Settings::Instance().ScreenSaverBehavior() == "dim" ? 0xA0 : 0xFF;
+    Renderer::drawRect(0, 0, Renderer::getDisplayWidthAsInt(), Renderer::getDisplayHeightAsInt(), 0x00000000 | opacity);
+  }
 }
 
 bool Window::KonamiCode(const InputCompactEvent& input)
@@ -346,6 +369,7 @@ void Window::DoWake()
   {
     mTimeSinceLastInput = 0;
     mSleeping = false;
+    exitScreenSaver();
     NotificationManager::Instance().Notify(Notification::WakeUp, Strings::ToString(mTimeSinceLastInput));
   }
 }
